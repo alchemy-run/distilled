@@ -242,137 +242,221 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type ActionImpression = string[];
 export const ActionImpression = S.Array(S.String);
+export type Impression = string[];
 export const Impression = S.Array(S.String);
-export class ActionInteraction extends S.Class<ActionInteraction>(
-  "ActionInteraction",
-)({
-  actionId: S.String,
-  userId: S.optional(S.String),
-  sessionId: S.String,
-  timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  eventType: S.String,
-  eventId: S.optional(S.String),
-  recommendationId: S.optional(S.String),
-  impression: S.optional(ActionImpression),
-  properties: S.optional(S.String),
-}) {}
+export interface ActionInteraction {
+  actionId: string;
+  userId?: string;
+  sessionId: string;
+  timestamp: Date;
+  eventType: string;
+  eventId?: string;
+  recommendationId?: string;
+  impression?: ActionImpression;
+  properties?: string;
+}
+export const ActionInteraction = S.suspend(() =>
+  S.Struct({
+    actionId: S.String,
+    userId: S.optional(S.String),
+    sessionId: S.String,
+    timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    eventType: S.String,
+    eventId: S.optional(S.String),
+    recommendationId: S.optional(S.String),
+    impression: S.optional(ActionImpression),
+    properties: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ActionInteraction",
+}) as any as S.Schema<ActionInteraction>;
+export type ActionInteractionsList = ActionInteraction[];
 export const ActionInteractionsList = S.Array(ActionInteraction);
-export class Action extends S.Class<Action>("Action")({
-  actionId: S.String,
-  properties: S.optional(S.String),
-}) {}
+export interface Action {
+  actionId: string;
+  properties?: string;
+}
+export const Action = S.suspend(() =>
+  S.Struct({ actionId: S.String, properties: S.optional(S.String) }),
+).annotations({ identifier: "Action" }) as any as S.Schema<Action>;
+export type ActionList = Action[];
 export const ActionList = S.Array(Action);
-export class Item extends S.Class<Item>("Item")({
-  itemId: S.String,
-  properties: S.optional(S.String),
-}) {}
+export interface Item {
+  itemId: string;
+  properties?: string;
+}
+export const Item = S.suspend(() =>
+  S.Struct({ itemId: S.String, properties: S.optional(S.String) }),
+).annotations({ identifier: "Item" }) as any as S.Schema<Item>;
+export type ItemList = Item[];
 export const ItemList = S.Array(Item);
-export class User extends S.Class<User>("User")({
-  userId: S.String,
-  properties: S.optional(S.String),
-}) {}
+export interface User {
+  userId: string;
+  properties?: string;
+}
+export const User = S.suspend(() =>
+  S.Struct({ userId: S.String, properties: S.optional(S.String) }),
+).annotations({ identifier: "User" }) as any as S.Schema<User>;
+export type UserList = User[];
 export const UserList = S.Array(User);
-export class PutActionInteractionsRequest extends S.Class<PutActionInteractionsRequest>(
-  "PutActionInteractionsRequest",
-)(
-  { trackingId: S.String, actionInteractions: ActionInteractionsList },
-  T.all(
-    T.Http({ method: "POST", uri: "/action-interactions" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface PutActionInteractionsRequest {
+  trackingId: string;
+  actionInteractions: ActionInteractionsList;
+}
+export const PutActionInteractionsRequest = S.suspend(() =>
+  S.Struct({
+    trackingId: S.String,
+    actionInteractions: ActionInteractionsList,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/action-interactions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutActionInteractionsResponse extends S.Class<PutActionInteractionsResponse>(
-  "PutActionInteractionsResponse",
-)({}) {}
-export class PutActionsRequest extends S.Class<PutActionsRequest>(
-  "PutActionsRequest",
-)(
-  { datasetArn: S.String, actions: ActionList },
-  T.all(
-    T.Http({ method: "POST", uri: "/actions" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "PutActionInteractionsRequest",
+}) as any as S.Schema<PutActionInteractionsRequest>;
+export interface PutActionInteractionsResponse {}
+export const PutActionInteractionsResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "PutActionInteractionsResponse",
+}) as any as S.Schema<PutActionInteractionsResponse>;
+export interface PutActionsRequest {
+  datasetArn: string;
+  actions: ActionList;
+}
+export const PutActionsRequest = S.suspend(() =>
+  S.Struct({ datasetArn: S.String, actions: ActionList }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/actions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutActionsResponse extends S.Class<PutActionsResponse>(
-  "PutActionsResponse",
-)({}) {}
-export class PutItemsRequest extends S.Class<PutItemsRequest>(
-  "PutItemsRequest",
-)(
-  { datasetArn: S.String, items: ItemList },
-  T.all(
-    T.Http({ method: "POST", uri: "/items" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "PutActionsRequest",
+}) as any as S.Schema<PutActionsRequest>;
+export interface PutActionsResponse {}
+export const PutActionsResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "PutActionsResponse",
+}) as any as S.Schema<PutActionsResponse>;
+export interface PutItemsRequest {
+  datasetArn: string;
+  items: ItemList;
+}
+export const PutItemsRequest = S.suspend(() =>
+  S.Struct({ datasetArn: S.String, items: ItemList }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/items" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutItemsResponse extends S.Class<PutItemsResponse>(
-  "PutItemsResponse",
-)({}) {}
-export class PutUsersRequest extends S.Class<PutUsersRequest>(
-  "PutUsersRequest",
-)(
-  { datasetArn: S.String, users: UserList },
-  T.all(
-    T.Http({ method: "POST", uri: "/users" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "PutItemsRequest",
+}) as any as S.Schema<PutItemsRequest>;
+export interface PutItemsResponse {}
+export const PutItemsResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "PutItemsResponse",
+}) as any as S.Schema<PutItemsResponse>;
+export interface PutUsersRequest {
+  datasetArn: string;
+  users: UserList;
+}
+export const PutUsersRequest = S.suspend(() =>
+  S.Struct({ datasetArn: S.String, users: UserList }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/users" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutUsersResponse extends S.Class<PutUsersResponse>(
-  "PutUsersResponse",
-)({}) {}
-export class MetricAttribution extends S.Class<MetricAttribution>(
-  "MetricAttribution",
-)({ eventAttributionSource: S.String }) {}
-export class Event extends S.Class<Event>("Event")({
-  eventId: S.optional(S.String),
-  eventType: S.String,
-  eventValue: S.optional(S.Number),
-  itemId: S.optional(S.String),
-  properties: S.optional(S.String),
-  sentAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  recommendationId: S.optional(S.String),
-  impression: S.optional(Impression),
-  metricAttribution: S.optional(MetricAttribution),
-}) {}
+).annotations({
+  identifier: "PutUsersRequest",
+}) as any as S.Schema<PutUsersRequest>;
+export interface PutUsersResponse {}
+export const PutUsersResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "PutUsersResponse",
+}) as any as S.Schema<PutUsersResponse>;
+export interface MetricAttribution {
+  eventAttributionSource: string;
+}
+export const MetricAttribution = S.suspend(() =>
+  S.Struct({ eventAttributionSource: S.String }),
+).annotations({
+  identifier: "MetricAttribution",
+}) as any as S.Schema<MetricAttribution>;
+export interface Event {
+  eventId?: string;
+  eventType: string;
+  eventValue?: number;
+  itemId?: string;
+  properties?: string;
+  sentAt: Date;
+  recommendationId?: string;
+  impression?: Impression;
+  metricAttribution?: MetricAttribution;
+}
+export const Event = S.suspend(() =>
+  S.Struct({
+    eventId: S.optional(S.String),
+    eventType: S.String,
+    eventValue: S.optional(S.Number),
+    itemId: S.optional(S.String),
+    properties: S.optional(S.String),
+    sentAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    recommendationId: S.optional(S.String),
+    impression: S.optional(Impression),
+    metricAttribution: S.optional(MetricAttribution),
+  }),
+).annotations({ identifier: "Event" }) as any as S.Schema<Event>;
+export type EventList = Event[];
 export const EventList = S.Array(Event);
-export class PutEventsRequest extends S.Class<PutEventsRequest>(
-  "PutEventsRequest",
-)(
-  {
+export interface PutEventsRequest {
+  trackingId: string;
+  userId?: string;
+  sessionId: string;
+  eventList: EventList;
+}
+export const PutEventsRequest = S.suspend(() =>
+  S.Struct({
     trackingId: S.String,
     userId: S.optional(S.String),
     sessionId: S.String,
     eventList: EventList,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/events" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/events" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutEventsResponse extends S.Class<PutEventsResponse>(
-  "PutEventsResponse",
-)({}) {}
+).annotations({
+  identifier: "PutEventsRequest",
+}) as any as S.Schema<PutEventsRequest>;
+export interface PutEventsResponse {}
+export const PutEventsResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "PutEventsResponse",
+}) as any as S.Schema<PutEventsResponse>;
 
 //# Errors
 export class InvalidInputException extends S.TaggedError<InvalidInputException>()(

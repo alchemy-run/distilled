@@ -242,191 +242,327 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type WorkgroupNameList = string[];
 export const WorkgroupNameList = S.Array(S.String);
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
+export type SubnetIdList = string[];
 export const SubnetIdList = S.Array(S.String);
+export type VpcSecurityGroupIdList = string[];
 export const VpcSecurityGroupIdList = S.Array(S.String);
+export type IamRoleArnList = string[];
 export const IamRoleArnList = S.Array(S.String);
+export type LogExportList = string[];
 export const LogExportList = S.Array(S.String);
+export type SecurityGroupIdList = string[];
 export const SecurityGroupIdList = S.Array(S.String);
-export class CreateCustomDomainAssociationRequest extends S.Class<CreateCustomDomainAssociationRequest>(
-  "CreateCustomDomainAssociationRequest",
-)(
-  {
+export interface CreateCustomDomainAssociationRequest {
+  workgroupName: string;
+  customDomainName: string;
+  customDomainCertificateArn: string;
+}
+export const CreateCustomDomainAssociationRequest = S.suspend(() =>
+  S.Struct({
     workgroupName: S.String,
     customDomainName: S.String,
     customDomainCertificateArn: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteCustomDomainAssociationRequest extends S.Class<DeleteCustomDomainAssociationRequest>(
-  "DeleteCustomDomainAssociationRequest",
-)(
-  { workgroupName: S.String, customDomainName: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteCustomDomainAssociationResponse extends S.Class<DeleteCustomDomainAssociationResponse>(
-  "DeleteCustomDomainAssociationResponse",
-)({}) {}
-export class DeleteResourcePolicyRequest extends S.Class<DeleteResourcePolicyRequest>(
-  "DeleteResourcePolicyRequest",
-)(
-  { resourceArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteResourcePolicyResponse extends S.Class<DeleteResourcePolicyResponse>(
-  "DeleteResourcePolicyResponse",
-)({}) {}
-export class GetCredentialsRequest extends S.Class<GetCredentialsRequest>(
-  "GetCredentialsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateCustomDomainAssociationRequest",
+}) as any as S.Schema<CreateCustomDomainAssociationRequest>;
+export interface DeleteCustomDomainAssociationRequest {
+  workgroupName: string;
+  customDomainName: string;
+}
+export const DeleteCustomDomainAssociationRequest = S.suspend(() =>
+  S.Struct({ workgroupName: S.String, customDomainName: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteCustomDomainAssociationRequest",
+}) as any as S.Schema<DeleteCustomDomainAssociationRequest>;
+export interface DeleteCustomDomainAssociationResponse {}
+export const DeleteCustomDomainAssociationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteCustomDomainAssociationResponse",
+}) as any as S.Schema<DeleteCustomDomainAssociationResponse>;
+export interface DeleteResourcePolicyRequest {
+  resourceArn: string;
+}
+export const DeleteResourcePolicyRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteResourcePolicyRequest",
+}) as any as S.Schema<DeleteResourcePolicyRequest>;
+export interface DeleteResourcePolicyResponse {}
+export const DeleteResourcePolicyResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteResourcePolicyResponse",
+}) as any as S.Schema<DeleteResourcePolicyResponse>;
+export interface GetCredentialsRequest {
+  dbName?: string;
+  durationSeconds?: number;
+  workgroupName?: string;
+  customDomainName?: string;
+}
+export const GetCredentialsRequest = S.suspend(() =>
+  S.Struct({
     dbName: S.optional(S.String),
     durationSeconds: S.optional(S.Number),
     workgroupName: S.optional(S.String),
     customDomainName: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetCustomDomainAssociationRequest extends S.Class<GetCustomDomainAssociationRequest>(
-  "GetCustomDomainAssociationRequest",
-)(
-  { customDomainName: S.String, workgroupName: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetIdentityCenterAuthTokenRequest extends S.Class<GetIdentityCenterAuthTokenRequest>(
-  "GetIdentityCenterAuthTokenRequest",
-)(
-  { workgroupNames: WorkgroupNameList },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetResourcePolicyRequest extends S.Class<GetResourcePolicyRequest>(
-  "GetResourcePolicyRequest",
-)(
-  { resourceArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetTrackRequest extends S.Class<GetTrackRequest>(
-  "GetTrackRequest",
-)(
-  { trackName: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListCustomDomainAssociationsRequest extends S.Class<ListCustomDomainAssociationsRequest>(
-  "ListCustomDomainAssociationsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetCredentialsRequest",
+}) as any as S.Schema<GetCredentialsRequest>;
+export interface GetCustomDomainAssociationRequest {
+  customDomainName: string;
+  workgroupName: string;
+}
+export const GetCustomDomainAssociationRequest = S.suspend(() =>
+  S.Struct({ customDomainName: S.String, workgroupName: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetCustomDomainAssociationRequest",
+}) as any as S.Schema<GetCustomDomainAssociationRequest>;
+export interface GetIdentityCenterAuthTokenRequest {
+  workgroupNames: WorkgroupNameList;
+}
+export const GetIdentityCenterAuthTokenRequest = S.suspend(() =>
+  S.Struct({ workgroupNames: WorkgroupNameList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetIdentityCenterAuthTokenRequest",
+}) as any as S.Schema<GetIdentityCenterAuthTokenRequest>;
+export interface GetResourcePolicyRequest {
+  resourceArn: string;
+}
+export const GetResourcePolicyRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetResourcePolicyRequest",
+}) as any as S.Schema<GetResourcePolicyRequest>;
+export interface GetTrackRequest {
+  trackName: string;
+}
+export const GetTrackRequest = S.suspend(() =>
+  S.Struct({ trackName: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetTrackRequest",
+}) as any as S.Schema<GetTrackRequest>;
+export interface ListCustomDomainAssociationsRequest {
+  nextToken?: string;
+  maxResults?: number;
+  customDomainName?: string;
+  customDomainCertificateArn?: string;
+}
+export const ListCustomDomainAssociationsRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     customDomainName: S.optional(S.String),
     customDomainCertificateArn: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { resourceArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTracksRequest extends S.Class<ListTracksRequest>(
-  "ListTracksRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListCustomDomainAssociationsRequest",
+}) as any as S.Schema<ListCustomDomainAssociationsRequest>;
+export interface ListTagsForResourceRequest {
+  resourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface ListTracksRequest {
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListTracksRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutResourcePolicyRequest extends S.Class<PutResourcePolicyRequest>(
-  "PutResourcePolicyRequest",
-)(
-  { resourceArn: S.String, policy: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  { resourceArn: S.String, tagKeys: TagKeyList },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
-export class UpdateCustomDomainAssociationRequest extends S.Class<UpdateCustomDomainAssociationRequest>(
-  "UpdateCustomDomainAssociationRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListTracksRequest",
+}) as any as S.Schema<ListTracksRequest>;
+export interface PutResourcePolicyRequest {
+  resourceArn: string;
+  policy: string;
+}
+export const PutResourcePolicyRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String, policy: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "PutResourcePolicyRequest",
+}) as any as S.Schema<PutResourcePolicyRequest>;
+export interface UntagResourceRequest {
+  resourceArn: string;
+  tagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String, tagKeys: TagKeyList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface UpdateCustomDomainAssociationRequest {
+  workgroupName: string;
+  customDomainName: string;
+  customDomainCertificateArn: string;
+}
+export const UpdateCustomDomainAssociationRequest = S.suspend(() =>
+  S.Struct({
     workgroupName: S.String,
     customDomainName: S.String,
     customDomainCertificateArn: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateEndpointAccessRequest extends S.Class<CreateEndpointAccessRequest>(
-  "CreateEndpointAccessRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateCustomDomainAssociationRequest",
+}) as any as S.Schema<UpdateCustomDomainAssociationRequest>;
+export interface CreateEndpointAccessRequest {
+  endpointName: string;
+  subnetIds: SubnetIdList;
+  workgroupName: string;
+  vpcSecurityGroupIds?: VpcSecurityGroupIdList;
+  ownerAccount?: string;
+}
+export const CreateEndpointAccessRequest = S.suspend(() =>
+  S.Struct({
     endpointName: S.String,
     subnetIds: SubnetIdList,
     workgroupName: S.String,
     vpcSecurityGroupIds: S.optional(VpcSecurityGroupIdList),
     ownerAccount: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteEndpointAccessRequest extends S.Class<DeleteEndpointAccessRequest>(
-  "DeleteEndpointAccessRequest",
-)(
-  { endpointName: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetEndpointAccessRequest extends S.Class<GetEndpointAccessRequest>(
-  "GetEndpointAccessRequest",
-)(
-  { endpointName: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListEndpointAccessRequest extends S.Class<ListEndpointAccessRequest>(
-  "ListEndpointAccessRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateEndpointAccessRequest",
+}) as any as S.Schema<CreateEndpointAccessRequest>;
+export interface DeleteEndpointAccessRequest {
+  endpointName: string;
+}
+export const DeleteEndpointAccessRequest = S.suspend(() =>
+  S.Struct({ endpointName: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteEndpointAccessRequest",
+}) as any as S.Schema<DeleteEndpointAccessRequest>;
+export interface GetEndpointAccessRequest {
+  endpointName: string;
+}
+export const GetEndpointAccessRequest = S.suspend(() =>
+  S.Struct({ endpointName: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetEndpointAccessRequest",
+}) as any as S.Schema<GetEndpointAccessRequest>;
+export interface ListEndpointAccessRequest {
+  nextToken?: string;
+  maxResults?: number;
+  workgroupName?: string;
+  vpcId?: string;
+  ownerAccount?: string;
+}
+export const ListEndpointAccessRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     workgroupName: S.optional(S.String),
     vpcId: S.optional(S.String),
     ownerAccount: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateEndpointAccessRequest extends S.Class<UpdateEndpointAccessRequest>(
-  "UpdateEndpointAccessRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListEndpointAccessRequest",
+}) as any as S.Schema<ListEndpointAccessRequest>;
+export interface UpdateEndpointAccessRequest {
+  endpointName: string;
+  vpcSecurityGroupIds?: VpcSecurityGroupIdList;
+}
+export const UpdateEndpointAccessRequest = S.suspend(() =>
+  S.Struct({
     endpointName: S.String,
     vpcSecurityGroupIds: S.optional(VpcSecurityGroupIdList),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListManagedWorkgroupsRequest extends S.Class<ListManagedWorkgroupsRequest>(
-  "ListManagedWorkgroupsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateEndpointAccessRequest",
+}) as any as S.Schema<UpdateEndpointAccessRequest>;
+export interface ListManagedWorkgroupsRequest {
+  sourceArn?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListManagedWorkgroupsRequest = S.suspend(() =>
+  S.Struct({
     sourceArn: S.optional(S.String),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class Tag extends S.Class<Tag>("Tag")({
-  key: S.String,
-  value: S.String,
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListManagedWorkgroupsRequest",
+}) as any as S.Schema<ListManagedWorkgroupsRequest>;
+export interface Tag {
+  key: string;
+  value: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ key: S.String, value: S.String }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagList = Tag[];
 export const TagList = S.Array(Tag);
-export class CreateNamespaceRequest extends S.Class<CreateNamespaceRequest>(
-  "CreateNamespaceRequest",
-)(
-  {
+export interface CreateNamespaceRequest {
+  namespaceName: string;
+  adminUsername?: string;
+  adminUserPassword?: string;
+  dbName?: string;
+  kmsKeyId?: string;
+  defaultIamRoleArn?: string;
+  iamRoles?: IamRoleArnList;
+  logExports?: LogExportList;
+  tags?: TagList;
+  manageAdminPassword?: boolean;
+  adminPasswordSecretKmsKeyId?: string;
+  redshiftIdcApplicationArn?: string;
+}
+export const CreateNamespaceRequest = S.suspend(() =>
+  S.Struct({
     namespaceName: S.String,
     adminUsername: S.optional(S.String),
     adminUserPassword: S.optional(S.String),
@@ -439,19 +575,35 @@ export class CreateNamespaceRequest extends S.Class<CreateNamespaceRequest>(
     manageAdminPassword: S.optional(S.Boolean),
     adminPasswordSecretKmsKeyId: S.optional(S.String),
     redshiftIdcApplicationArn: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetNamespaceRequest extends S.Class<GetNamespaceRequest>(
-  "GetNamespaceRequest",
-)(
-  { namespaceName: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateNamespaceRequest extends S.Class<UpdateNamespaceRequest>(
-  "UpdateNamespaceRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateNamespaceRequest",
+}) as any as S.Schema<CreateNamespaceRequest>;
+export interface GetNamespaceRequest {
+  namespaceName: string;
+}
+export const GetNamespaceRequest = S.suspend(() =>
+  S.Struct({ namespaceName: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetNamespaceRequest",
+}) as any as S.Schema<GetNamespaceRequest>;
+export interface UpdateNamespaceRequest {
+  namespaceName: string;
+  adminUserPassword?: string;
+  adminUsername?: string;
+  kmsKeyId?: string;
+  defaultIamRoleArn?: string;
+  iamRoles?: IamRoleArnList;
+  logExports?: LogExportList;
+  manageAdminPassword?: boolean;
+  adminPasswordSecretKmsKeyId?: string;
+}
+export const UpdateNamespaceRequest = S.suspend(() =>
+  S.Struct({
     namespaceName: S.String,
     adminUserPassword: S.optional(S.String),
     adminUsername: S.optional(S.String),
@@ -461,85 +613,144 @@ export class UpdateNamespaceRequest extends S.Class<UpdateNamespaceRequest>(
     logExports: S.optional(LogExportList),
     manageAdminPassword: S.optional(S.Boolean),
     adminPasswordSecretKmsKeyId: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteNamespaceRequest extends S.Class<DeleteNamespaceRequest>(
-  "DeleteNamespaceRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateNamespaceRequest",
+}) as any as S.Schema<UpdateNamespaceRequest>;
+export interface DeleteNamespaceRequest {
+  namespaceName: string;
+  finalSnapshotName?: string;
+  finalSnapshotRetentionPeriod?: number;
+}
+export const DeleteNamespaceRequest = S.suspend(() =>
+  S.Struct({
     namespaceName: S.String,
     finalSnapshotName: S.optional(S.String),
     finalSnapshotRetentionPeriod: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListNamespacesRequest extends S.Class<ListNamespacesRequest>(
-  "ListNamespacesRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteNamespaceRequest",
+}) as any as S.Schema<DeleteNamespaceRequest>;
+export interface ListNamespacesRequest {
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListNamespacesRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateLakehouseConfigurationRequest extends S.Class<UpdateLakehouseConfigurationRequest>(
-  "UpdateLakehouseConfigurationRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListNamespacesRequest",
+}) as any as S.Schema<ListNamespacesRequest>;
+export interface UpdateLakehouseConfigurationRequest {
+  namespaceName: string;
+  lakehouseRegistration?: string;
+  catalogName?: string;
+  lakehouseIdcRegistration?: string;
+  lakehouseIdcApplicationArn?: string;
+  dryRun?: boolean;
+}
+export const UpdateLakehouseConfigurationRequest = S.suspend(() =>
+  S.Struct({
     namespaceName: S.String,
     lakehouseRegistration: S.optional(S.String),
     catalogName: S.optional(S.String),
     lakehouseIdcRegistration: S.optional(S.String),
     lakehouseIdcApplicationArn: S.optional(S.String),
     dryRun: S.optional(S.Boolean),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ConvertRecoveryPointToSnapshotRequest extends S.Class<ConvertRecoveryPointToSnapshotRequest>(
-  "ConvertRecoveryPointToSnapshotRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateLakehouseConfigurationRequest",
+}) as any as S.Schema<UpdateLakehouseConfigurationRequest>;
+export interface ConvertRecoveryPointToSnapshotRequest {
+  recoveryPointId: string;
+  snapshotName: string;
+  retentionPeriod?: number;
+  tags?: TagList;
+}
+export const ConvertRecoveryPointToSnapshotRequest = S.suspend(() =>
+  S.Struct({
     recoveryPointId: S.String,
     snapshotName: S.String,
     retentionPeriod: S.optional(S.Number),
     tags: S.optional(TagList),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetRecoveryPointRequest extends S.Class<GetRecoveryPointRequest>(
-  "GetRecoveryPointRequest",
-)(
-  { recoveryPointId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListRecoveryPointsRequest extends S.Class<ListRecoveryPointsRequest>(
-  "ListRecoveryPointsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ConvertRecoveryPointToSnapshotRequest",
+}) as any as S.Schema<ConvertRecoveryPointToSnapshotRequest>;
+export interface GetRecoveryPointRequest {
+  recoveryPointId: string;
+}
+export const GetRecoveryPointRequest = S.suspend(() =>
+  S.Struct({ recoveryPointId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetRecoveryPointRequest",
+}) as any as S.Schema<GetRecoveryPointRequest>;
+export interface ListRecoveryPointsRequest {
+  nextToken?: string;
+  maxResults?: number;
+  startTime?: Date;
+  endTime?: Date;
+  namespaceName?: string;
+  namespaceArn?: string;
+}
+export const ListRecoveryPointsRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     namespaceName: S.optional(S.String),
     namespaceArn: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class RestoreFromRecoveryPointRequest extends S.Class<RestoreFromRecoveryPointRequest>(
-  "RestoreFromRecoveryPointRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListRecoveryPointsRequest",
+}) as any as S.Schema<ListRecoveryPointsRequest>;
+export interface RestoreFromRecoveryPointRequest {
+  recoveryPointId: string;
+  namespaceName: string;
+  workgroupName: string;
+}
+export const RestoreFromRecoveryPointRequest = S.suspend(() =>
+  S.Struct({
     recoveryPointId: S.String,
     namespaceName: S.String,
     workgroupName: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class RestoreTableFromRecoveryPointRequest extends S.Class<RestoreTableFromRecoveryPointRequest>(
-  "RestoreTableFromRecoveryPointRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "RestoreFromRecoveryPointRequest",
+}) as any as S.Schema<RestoreFromRecoveryPointRequest>;
+export interface RestoreTableFromRecoveryPointRequest {
+  namespaceName: string;
+  workgroupName: string;
+  recoveryPointId: string;
+  sourceDatabaseName: string;
+  sourceSchemaName?: string;
+  sourceTableName: string;
+  targetDatabaseName?: string;
+  targetSchemaName?: string;
+  newTableName: string;
+  activateCaseSensitiveIdentifier?: boolean;
+}
+export const RestoreTableFromRecoveryPointRequest = S.suspend(() =>
+  S.Struct({
     namespaceName: S.String,
     workgroupName: S.String,
     recoveryPointId: S.String,
@@ -550,79 +761,128 @@ export class RestoreTableFromRecoveryPointRequest extends S.Class<RestoreTableFr
     targetSchemaName: S.optional(S.String),
     newTableName: S.String,
     activateCaseSensitiveIdentifier: S.optional(S.Boolean),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateReservationRequest extends S.Class<CreateReservationRequest>(
-  "CreateReservationRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "RestoreTableFromRecoveryPointRequest",
+}) as any as S.Schema<RestoreTableFromRecoveryPointRequest>;
+export interface CreateReservationRequest {
+  capacity: number;
+  offeringId: string;
+  clientToken?: string;
+}
+export const CreateReservationRequest = S.suspend(() =>
+  S.Struct({
     capacity: S.Number,
     offeringId: S.String,
     clientToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetReservationRequest extends S.Class<GetReservationRequest>(
-  "GetReservationRequest",
-)(
-  { reservationId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetReservationOfferingRequest extends S.Class<GetReservationOfferingRequest>(
-  "GetReservationOfferingRequest",
-)(
-  { offeringId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListReservationOfferingsRequest extends S.Class<ListReservationOfferingsRequest>(
-  "ListReservationOfferingsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateReservationRequest",
+}) as any as S.Schema<CreateReservationRequest>;
+export interface GetReservationRequest {
+  reservationId: string;
+}
+export const GetReservationRequest = S.suspend(() =>
+  S.Struct({ reservationId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetReservationRequest",
+}) as any as S.Schema<GetReservationRequest>;
+export interface GetReservationOfferingRequest {
+  offeringId: string;
+}
+export const GetReservationOfferingRequest = S.suspend(() =>
+  S.Struct({ offeringId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetReservationOfferingRequest",
+}) as any as S.Schema<GetReservationOfferingRequest>;
+export interface ListReservationOfferingsRequest {
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListReservationOfferingsRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListReservationsRequest extends S.Class<ListReservationsRequest>(
-  "ListReservationsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListReservationOfferingsRequest",
+}) as any as S.Schema<ListReservationOfferingsRequest>;
+export interface ListReservationsRequest {
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListReservationsRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteScheduledActionRequest extends S.Class<DeleteScheduledActionRequest>(
-  "DeleteScheduledActionRequest",
-)(
-  { scheduledActionName: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetScheduledActionRequest extends S.Class<GetScheduledActionRequest>(
-  "GetScheduledActionRequest",
-)(
-  { scheduledActionName: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListScheduledActionsRequest extends S.Class<ListScheduledActionsRequest>(
-  "ListScheduledActionsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListReservationsRequest",
+}) as any as S.Schema<ListReservationsRequest>;
+export interface DeleteScheduledActionRequest {
+  scheduledActionName: string;
+}
+export const DeleteScheduledActionRequest = S.suspend(() =>
+  S.Struct({ scheduledActionName: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteScheduledActionRequest",
+}) as any as S.Schema<DeleteScheduledActionRequest>;
+export interface GetScheduledActionRequest {
+  scheduledActionName: string;
+}
+export const GetScheduledActionRequest = S.suspend(() =>
+  S.Struct({ scheduledActionName: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetScheduledActionRequest",
+}) as any as S.Schema<GetScheduledActionRequest>;
+export interface ListScheduledActionsRequest {
+  nextToken?: string;
+  maxResults?: number;
+  namespaceName?: string;
+}
+export const ListScheduledActionsRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     namespaceName: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateSnapshotScheduleActionParameters extends S.Class<CreateSnapshotScheduleActionParameters>(
-  "CreateSnapshotScheduleActionParameters",
-)({
-  namespaceName: S.String,
-  snapshotNamePrefix: S.String,
-  retentionPeriod: S.optional(S.Number),
-  tags: S.optional(TagList),
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListScheduledActionsRequest",
+}) as any as S.Schema<ListScheduledActionsRequest>;
+export interface CreateSnapshotScheduleActionParameters {
+  namespaceName: string;
+  snapshotNamePrefix: string;
+  retentionPeriod?: number;
+  tags?: TagList;
+}
+export const CreateSnapshotScheduleActionParameters = S.suspend(() =>
+  S.Struct({
+    namespaceName: S.String,
+    snapshotNamePrefix: S.String,
+    retentionPeriod: S.optional(S.Number),
+    tags: S.optional(TagList),
+  }),
+).annotations({
+  identifier: "CreateSnapshotScheduleActionParameters",
+}) as any as S.Schema<CreateSnapshotScheduleActionParameters>;
 export const TargetAction = S.Union(
   S.Struct({ createSnapshot: CreateSnapshotScheduleActionParameters }),
 );
@@ -630,10 +890,18 @@ export const Schedule = S.Union(
   S.Struct({ at: S.Date.pipe(T.TimestampFormat("epoch-seconds")) }),
   S.Struct({ cron: S.String }),
 );
-export class UpdateScheduledActionRequest extends S.Class<UpdateScheduledActionRequest>(
-  "UpdateScheduledActionRequest",
-)(
-  {
+export interface UpdateScheduledActionRequest {
+  scheduledActionName: string;
+  targetAction?: (typeof TargetAction)["Type"];
+  schedule?: (typeof Schedule)["Type"];
+  roleArn?: string;
+  enabled?: boolean;
+  scheduledActionDescription?: string;
+  startTime?: Date;
+  endTime?: Date;
+}
+export const UpdateScheduledActionRequest = S.suspend(() =>
+  S.Struct({
     scheduledActionName: S.String,
     targetAction: S.optional(TargetAction),
     schedule: S.optional(Schedule),
@@ -642,73 +910,121 @@ export class UpdateScheduledActionRequest extends S.Class<UpdateScheduledActionR
     scheduledActionDescription: S.optional(S.String),
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateSnapshotRequest extends S.Class<CreateSnapshotRequest>(
-  "CreateSnapshotRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateScheduledActionRequest",
+}) as any as S.Schema<UpdateScheduledActionRequest>;
+export interface CreateSnapshotRequest {
+  namespaceName: string;
+  snapshotName: string;
+  retentionPeriod?: number;
+  tags?: TagList;
+}
+export const CreateSnapshotRequest = S.suspend(() =>
+  S.Struct({
     namespaceName: S.String,
     snapshotName: S.String,
     retentionPeriod: S.optional(S.Number),
     tags: S.optional(TagList),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateSnapshotCopyConfigurationRequest extends S.Class<CreateSnapshotCopyConfigurationRequest>(
-  "CreateSnapshotCopyConfigurationRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateSnapshotRequest",
+}) as any as S.Schema<CreateSnapshotRequest>;
+export interface CreateSnapshotCopyConfigurationRequest {
+  namespaceName: string;
+  destinationRegion: string;
+  snapshotRetentionPeriod?: number;
+  destinationKmsKeyId?: string;
+}
+export const CreateSnapshotCopyConfigurationRequest = S.suspend(() =>
+  S.Struct({
     namespaceName: S.String,
     destinationRegion: S.String,
     snapshotRetentionPeriod: S.optional(S.Number),
     destinationKmsKeyId: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteSnapshotRequest extends S.Class<DeleteSnapshotRequest>(
-  "DeleteSnapshotRequest",
-)(
-  { snapshotName: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteSnapshotCopyConfigurationRequest extends S.Class<DeleteSnapshotCopyConfigurationRequest>(
-  "DeleteSnapshotCopyConfigurationRequest",
-)(
-  { snapshotCopyConfigurationId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetSnapshotRequest extends S.Class<GetSnapshotRequest>(
-  "GetSnapshotRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateSnapshotCopyConfigurationRequest",
+}) as any as S.Schema<CreateSnapshotCopyConfigurationRequest>;
+export interface DeleteSnapshotRequest {
+  snapshotName: string;
+}
+export const DeleteSnapshotRequest = S.suspend(() =>
+  S.Struct({ snapshotName: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteSnapshotRequest",
+}) as any as S.Schema<DeleteSnapshotRequest>;
+export interface DeleteSnapshotCopyConfigurationRequest {
+  snapshotCopyConfigurationId: string;
+}
+export const DeleteSnapshotCopyConfigurationRequest = S.suspend(() =>
+  S.Struct({ snapshotCopyConfigurationId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteSnapshotCopyConfigurationRequest",
+}) as any as S.Schema<DeleteSnapshotCopyConfigurationRequest>;
+export interface GetSnapshotRequest {
+  snapshotName?: string;
+  ownerAccount?: string;
+  snapshotArn?: string;
+}
+export const GetSnapshotRequest = S.suspend(() =>
+  S.Struct({
     snapshotName: S.optional(S.String),
     ownerAccount: S.optional(S.String),
     snapshotArn: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetTableRestoreStatusRequest extends S.Class<GetTableRestoreStatusRequest>(
-  "GetTableRestoreStatusRequest",
-)(
-  { tableRestoreRequestId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListSnapshotCopyConfigurationsRequest extends S.Class<ListSnapshotCopyConfigurationsRequest>(
-  "ListSnapshotCopyConfigurationsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetSnapshotRequest",
+}) as any as S.Schema<GetSnapshotRequest>;
+export interface GetTableRestoreStatusRequest {
+  tableRestoreRequestId: string;
+}
+export const GetTableRestoreStatusRequest = S.suspend(() =>
+  S.Struct({ tableRestoreRequestId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetTableRestoreStatusRequest",
+}) as any as S.Schema<GetTableRestoreStatusRequest>;
+export interface ListSnapshotCopyConfigurationsRequest {
+  namespaceName?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListSnapshotCopyConfigurationsRequest = S.suspend(() =>
+  S.Struct({
     namespaceName: S.optional(S.String),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListSnapshotsRequest extends S.Class<ListSnapshotsRequest>(
-  "ListSnapshotsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListSnapshotCopyConfigurationsRequest",
+}) as any as S.Schema<ListSnapshotCopyConfigurationsRequest>;
+export interface ListSnapshotsRequest {
+  nextToken?: string;
+  maxResults?: number;
+  namespaceName?: string;
+  namespaceArn?: string;
+  ownerAccount?: string;
+  startTime?: Date;
+  endTime?: Date;
+}
+export const ListSnapshotsRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     namespaceName: S.optional(S.String),
@@ -716,24 +1032,41 @@ export class ListSnapshotsRequest extends S.Class<ListSnapshotsRequest>(
     ownerAccount: S.optional(S.String),
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTableRestoreStatusRequest extends S.Class<ListTableRestoreStatusRequest>(
-  "ListTableRestoreStatusRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListSnapshotsRequest",
+}) as any as S.Schema<ListSnapshotsRequest>;
+export interface ListTableRestoreStatusRequest {
+  nextToken?: string;
+  maxResults?: number;
+  namespaceName?: string;
+  workgroupName?: string;
+}
+export const ListTableRestoreStatusRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     namespaceName: S.optional(S.String),
     workgroupName: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class RestoreFromSnapshotRequest extends S.Class<RestoreFromSnapshotRequest>(
-  "RestoreFromSnapshotRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListTableRestoreStatusRequest",
+}) as any as S.Schema<ListTableRestoreStatusRequest>;
+export interface RestoreFromSnapshotRequest {
+  namespaceName: string;
+  workgroupName: string;
+  snapshotName?: string;
+  snapshotArn?: string;
+  ownerAccount?: string;
+  manageAdminPassword?: boolean;
+  adminPasswordSecretKmsKeyId?: string;
+}
+export const RestoreFromSnapshotRequest = S.suspend(() =>
+  S.Struct({
     namespaceName: S.String,
     workgroupName: S.String,
     snapshotName: S.optional(S.String),
@@ -741,13 +1074,26 @@ export class RestoreFromSnapshotRequest extends S.Class<RestoreFromSnapshotReque
     ownerAccount: S.optional(S.String),
     manageAdminPassword: S.optional(S.Boolean),
     adminPasswordSecretKmsKeyId: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class RestoreTableFromSnapshotRequest extends S.Class<RestoreTableFromSnapshotRequest>(
-  "RestoreTableFromSnapshotRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "RestoreFromSnapshotRequest",
+}) as any as S.Schema<RestoreFromSnapshotRequest>;
+export interface RestoreTableFromSnapshotRequest {
+  namespaceName: string;
+  workgroupName: string;
+  snapshotName: string;
+  sourceDatabaseName: string;
+  sourceSchemaName?: string;
+  sourceTableName: string;
+  targetDatabaseName?: string;
+  targetSchemaName?: string;
+  newTableName: string;
+  activateCaseSensitiveIdentifier?: boolean;
+}
+export const RestoreTableFromSnapshotRequest = S.suspend(() =>
+  S.Struct({
     namespaceName: S.String,
     workgroupName: S.String,
     snapshotName: S.String,
@@ -758,89 +1104,163 @@ export class RestoreTableFromSnapshotRequest extends S.Class<RestoreTableFromSna
     targetSchemaName: S.optional(S.String),
     newTableName: S.String,
     activateCaseSensitiveIdentifier: S.optional(S.Boolean),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateSnapshotRequest extends S.Class<UpdateSnapshotRequest>(
-  "UpdateSnapshotRequest",
-)(
-  { snapshotName: S.String, retentionPeriod: S.optional(S.Number) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateSnapshotCopyConfigurationRequest extends S.Class<UpdateSnapshotCopyConfigurationRequest>(
-  "UpdateSnapshotCopyConfigurationRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "RestoreTableFromSnapshotRequest",
+}) as any as S.Schema<RestoreTableFromSnapshotRequest>;
+export interface UpdateSnapshotRequest {
+  snapshotName: string;
+  retentionPeriod?: number;
+}
+export const UpdateSnapshotRequest = S.suspend(() =>
+  S.Struct({
+    snapshotName: S.String,
+    retentionPeriod: S.optional(S.Number),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateSnapshotRequest",
+}) as any as S.Schema<UpdateSnapshotRequest>;
+export interface UpdateSnapshotCopyConfigurationRequest {
+  snapshotCopyConfigurationId: string;
+  snapshotRetentionPeriod?: number;
+}
+export const UpdateSnapshotCopyConfigurationRequest = S.suspend(() =>
+  S.Struct({
     snapshotCopyConfigurationId: S.String,
     snapshotRetentionPeriod: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateUsageLimitRequest extends S.Class<CreateUsageLimitRequest>(
-  "CreateUsageLimitRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateSnapshotCopyConfigurationRequest",
+}) as any as S.Schema<UpdateSnapshotCopyConfigurationRequest>;
+export interface CreateUsageLimitRequest {
+  resourceArn: string;
+  usageType: string;
+  amount: number;
+  period?: string;
+  breachAction?: string;
+}
+export const CreateUsageLimitRequest = S.suspend(() =>
+  S.Struct({
     resourceArn: S.String,
     usageType: S.String,
     amount: S.Number,
     period: S.optional(S.String),
     breachAction: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteUsageLimitRequest extends S.Class<DeleteUsageLimitRequest>(
-  "DeleteUsageLimitRequest",
-)(
-  { usageLimitId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetUsageLimitRequest extends S.Class<GetUsageLimitRequest>(
-  "GetUsageLimitRequest",
-)(
-  { usageLimitId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListUsageLimitsRequest extends S.Class<ListUsageLimitsRequest>(
-  "ListUsageLimitsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateUsageLimitRequest",
+}) as any as S.Schema<CreateUsageLimitRequest>;
+export interface DeleteUsageLimitRequest {
+  usageLimitId: string;
+}
+export const DeleteUsageLimitRequest = S.suspend(() =>
+  S.Struct({ usageLimitId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteUsageLimitRequest",
+}) as any as S.Schema<DeleteUsageLimitRequest>;
+export interface GetUsageLimitRequest {
+  usageLimitId: string;
+}
+export const GetUsageLimitRequest = S.suspend(() =>
+  S.Struct({ usageLimitId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetUsageLimitRequest",
+}) as any as S.Schema<GetUsageLimitRequest>;
+export interface ListUsageLimitsRequest {
+  resourceArn?: string;
+  usageType?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListUsageLimitsRequest = S.suspend(() =>
+  S.Struct({
     resourceArn: S.optional(S.String),
     usageType: S.optional(S.String),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateUsageLimitRequest extends S.Class<UpdateUsageLimitRequest>(
-  "UpdateUsageLimitRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListUsageLimitsRequest",
+}) as any as S.Schema<ListUsageLimitsRequest>;
+export interface UpdateUsageLimitRequest {
+  usageLimitId: string;
+  amount?: number;
+  breachAction?: string;
+}
+export const UpdateUsageLimitRequest = S.suspend(() =>
+  S.Struct({
     usageLimitId: S.String,
     amount: S.optional(S.Number),
     breachAction: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetWorkgroupRequest extends S.Class<GetWorkgroupRequest>(
-  "GetWorkgroupRequest",
-)(
-  { workgroupName: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ConfigParameter extends S.Class<ConfigParameter>(
-  "ConfigParameter",
-)({
-  parameterKey: S.optional(S.String),
-  parameterValue: S.optional(S.String),
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateUsageLimitRequest",
+}) as any as S.Schema<UpdateUsageLimitRequest>;
+export interface GetWorkgroupRequest {
+  workgroupName: string;
+}
+export const GetWorkgroupRequest = S.suspend(() =>
+  S.Struct({ workgroupName: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetWorkgroupRequest",
+}) as any as S.Schema<GetWorkgroupRequest>;
+export interface ConfigParameter {
+  parameterKey?: string;
+  parameterValue?: string;
+}
+export const ConfigParameter = S.suspend(() =>
+  S.Struct({
+    parameterKey: S.optional(S.String),
+    parameterValue: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ConfigParameter",
+}) as any as S.Schema<ConfigParameter>;
+export type ConfigParameterList = ConfigParameter[];
 export const ConfigParameterList = S.Array(ConfigParameter);
-export class PerformanceTarget extends S.Class<PerformanceTarget>(
-  "PerformanceTarget",
-)({ status: S.optional(S.String), level: S.optional(S.Number) }) {}
-export class UpdateWorkgroupRequest extends S.Class<UpdateWorkgroupRequest>(
-  "UpdateWorkgroupRequest",
-)(
-  {
+export interface PerformanceTarget {
+  status?: string;
+  level?: number;
+}
+export const PerformanceTarget = S.suspend(() =>
+  S.Struct({ status: S.optional(S.String), level: S.optional(S.Number) }),
+).annotations({
+  identifier: "PerformanceTarget",
+}) as any as S.Schema<PerformanceTarget>;
+export interface UpdateWorkgroupRequest {
+  workgroupName: string;
+  baseCapacity?: number;
+  enhancedVpcRouting?: boolean;
+  configParameters?: ConfigParameterList;
+  publiclyAccessible?: boolean;
+  subnetIds?: SubnetIdList;
+  securityGroupIds?: SecurityGroupIdList;
+  port?: number;
+  maxCapacity?: number;
+  ipAddressType?: string;
+  pricePerformanceTarget?: PerformanceTarget;
+  trackName?: string;
+}
+export const UpdateWorkgroupRequest = S.suspend(() =>
+  S.Struct({
     workgroupName: S.String,
     baseCapacity: S.optional(S.Number),
     enhancedVpcRouting: S.optional(S.Boolean),
@@ -853,439 +1273,959 @@ export class UpdateWorkgroupRequest extends S.Class<UpdateWorkgroupRequest>(
     ipAddressType: S.optional(S.String),
     pricePerformanceTarget: S.optional(PerformanceTarget),
     trackName: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteWorkgroupRequest extends S.Class<DeleteWorkgroupRequest>(
-  "DeleteWorkgroupRequest",
-)(
-  { workgroupName: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListWorkgroupsRequest extends S.Class<ListWorkgroupsRequest>(
-  "ListWorkgroupsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateWorkgroupRequest",
+}) as any as S.Schema<UpdateWorkgroupRequest>;
+export interface DeleteWorkgroupRequest {
+  workgroupName: string;
+}
+export const DeleteWorkgroupRequest = S.suspend(() =>
+  S.Struct({ workgroupName: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteWorkgroupRequest",
+}) as any as S.Schema<DeleteWorkgroupRequest>;
+export interface ListWorkgroupsRequest {
+  nextToken?: string;
+  maxResults?: number;
+  ownerAccount?: string;
+}
+export const ListWorkgroupsRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     ownerAccount: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateTarget extends S.Class<UpdateTarget>("UpdateTarget")({
-  trackName: S.optional(S.String),
-  workgroupVersion: S.optional(S.String),
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListWorkgroupsRequest",
+}) as any as S.Schema<ListWorkgroupsRequest>;
+export interface UpdateTarget {
+  trackName?: string;
+  workgroupVersion?: string;
+}
+export const UpdateTarget = S.suspend(() =>
+  S.Struct({
+    trackName: S.optional(S.String),
+    workgroupVersion: S.optional(S.String),
+  }),
+).annotations({ identifier: "UpdateTarget" }) as any as S.Schema<UpdateTarget>;
+export type UpdateTargetsList = UpdateTarget[];
 export const UpdateTargetsList = S.Array(UpdateTarget);
-export class ServerlessTrack extends S.Class<ServerlessTrack>(
-  "ServerlessTrack",
-)({
-  trackName: S.optional(S.String),
-  workgroupVersion: S.optional(S.String),
-  updateTargets: S.optional(UpdateTargetsList),
-}) {}
+export interface ServerlessTrack {
+  trackName?: string;
+  workgroupVersion?: string;
+  updateTargets?: UpdateTargetsList;
+}
+export const ServerlessTrack = S.suspend(() =>
+  S.Struct({
+    trackName: S.optional(S.String),
+    workgroupVersion: S.optional(S.String),
+    updateTargets: S.optional(UpdateTargetsList),
+  }),
+).annotations({
+  identifier: "ServerlessTrack",
+}) as any as S.Schema<ServerlessTrack>;
+export type TrackList = ServerlessTrack[];
 export const TrackList = S.Array(ServerlessTrack);
-export class VpcSecurityGroupMembership extends S.Class<VpcSecurityGroupMembership>(
-  "VpcSecurityGroupMembership",
-)({ vpcSecurityGroupId: S.optional(S.String), status: S.optional(S.String) }) {}
+export interface VpcSecurityGroupMembership {
+  vpcSecurityGroupId?: string;
+  status?: string;
+}
+export const VpcSecurityGroupMembership = S.suspend(() =>
+  S.Struct({
+    vpcSecurityGroupId: S.optional(S.String),
+    status: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "VpcSecurityGroupMembership",
+}) as any as S.Schema<VpcSecurityGroupMembership>;
+export type VpcSecurityGroupMembershipList = VpcSecurityGroupMembership[];
 export const VpcSecurityGroupMembershipList = S.Array(
   VpcSecurityGroupMembership,
 );
-export class NetworkInterface extends S.Class<NetworkInterface>(
-  "NetworkInterface",
-)({
-  networkInterfaceId: S.optional(S.String),
-  subnetId: S.optional(S.String),
-  privateIpAddress: S.optional(S.String),
-  availabilityZone: S.optional(S.String),
-  ipv6Address: S.optional(S.String),
-}) {}
+export interface NetworkInterface {
+  networkInterfaceId?: string;
+  subnetId?: string;
+  privateIpAddress?: string;
+  availabilityZone?: string;
+  ipv6Address?: string;
+}
+export const NetworkInterface = S.suspend(() =>
+  S.Struct({
+    networkInterfaceId: S.optional(S.String),
+    subnetId: S.optional(S.String),
+    privateIpAddress: S.optional(S.String),
+    availabilityZone: S.optional(S.String),
+    ipv6Address: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "NetworkInterface",
+}) as any as S.Schema<NetworkInterface>;
+export type NetworkInterfaceList = NetworkInterface[];
 export const NetworkInterfaceList = S.Array(NetworkInterface);
-export class VpcEndpoint extends S.Class<VpcEndpoint>("VpcEndpoint")({
-  vpcEndpointId: S.optional(S.String),
-  vpcId: S.optional(S.String),
-  networkInterfaces: S.optional(NetworkInterfaceList),
-}) {}
-export class EndpointAccess extends S.Class<EndpointAccess>("EndpointAccess")({
-  endpointName: S.optional(S.String),
-  endpointStatus: S.optional(S.String),
-  workgroupName: S.optional(S.String),
-  endpointCreateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  port: S.optional(S.Number),
-  address: S.optional(S.String),
-  subnetIds: S.optional(SubnetIdList),
-  vpcSecurityGroups: S.optional(VpcSecurityGroupMembershipList),
-  vpcEndpoint: S.optional(VpcEndpoint),
-  endpointArn: S.optional(S.String),
-}) {}
+export interface VpcEndpoint {
+  vpcEndpointId?: string;
+  vpcId?: string;
+  networkInterfaces?: NetworkInterfaceList;
+}
+export const VpcEndpoint = S.suspend(() =>
+  S.Struct({
+    vpcEndpointId: S.optional(S.String),
+    vpcId: S.optional(S.String),
+    networkInterfaces: S.optional(NetworkInterfaceList),
+  }),
+).annotations({ identifier: "VpcEndpoint" }) as any as S.Schema<VpcEndpoint>;
+export interface EndpointAccess {
+  endpointName?: string;
+  endpointStatus?: string;
+  workgroupName?: string;
+  endpointCreateTime?: Date;
+  port?: number;
+  address?: string;
+  subnetIds?: SubnetIdList;
+  vpcSecurityGroups?: VpcSecurityGroupMembershipList;
+  vpcEndpoint?: VpcEndpoint;
+  endpointArn?: string;
+}
+export const EndpointAccess = S.suspend(() =>
+  S.Struct({
+    endpointName: S.optional(S.String),
+    endpointStatus: S.optional(S.String),
+    workgroupName: S.optional(S.String),
+    endpointCreateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    port: S.optional(S.Number),
+    address: S.optional(S.String),
+    subnetIds: S.optional(SubnetIdList),
+    vpcSecurityGroups: S.optional(VpcSecurityGroupMembershipList),
+    vpcEndpoint: S.optional(VpcEndpoint),
+    endpointArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "EndpointAccess",
+}) as any as S.Schema<EndpointAccess>;
+export type EndpointAccessList = EndpointAccess[];
 export const EndpointAccessList = S.Array(EndpointAccess);
-export class Namespace extends S.Class<Namespace>("Namespace")({
-  namespaceArn: S.optional(S.String),
-  namespaceId: S.optional(S.String),
-  namespaceName: S.optional(S.String),
-  adminUsername: S.optional(S.String),
-  dbName: S.optional(S.String),
-  kmsKeyId: S.optional(S.String),
-  defaultIamRoleArn: S.optional(S.String),
-  iamRoles: S.optional(IamRoleArnList),
-  logExports: S.optional(LogExportList),
-  status: S.optional(S.String),
-  creationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  adminPasswordSecretArn: S.optional(S.String),
-  adminPasswordSecretKmsKeyId: S.optional(S.String),
-  lakehouseRegistrationStatus: S.optional(S.String),
-  catalogArn: S.optional(S.String),
-}) {}
+export interface Namespace {
+  namespaceArn?: string;
+  namespaceId?: string;
+  namespaceName?: string;
+  adminUsername?: string;
+  dbName?: string;
+  kmsKeyId?: string;
+  defaultIamRoleArn?: string;
+  iamRoles?: IamRoleArnList;
+  logExports?: LogExportList;
+  status?: string;
+  creationDate?: Date;
+  adminPasswordSecretArn?: string;
+  adminPasswordSecretKmsKeyId?: string;
+  lakehouseRegistrationStatus?: string;
+  catalogArn?: string;
+}
+export const Namespace = S.suspend(() =>
+  S.Struct({
+    namespaceArn: S.optional(S.String),
+    namespaceId: S.optional(S.String),
+    namespaceName: S.optional(S.String),
+    adminUsername: S.optional(S.String),
+    dbName: S.optional(S.String),
+    kmsKeyId: S.optional(S.String),
+    defaultIamRoleArn: S.optional(S.String),
+    iamRoles: S.optional(IamRoleArnList),
+    logExports: S.optional(LogExportList),
+    status: S.optional(S.String),
+    creationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    adminPasswordSecretArn: S.optional(S.String),
+    adminPasswordSecretKmsKeyId: S.optional(S.String),
+    lakehouseRegistrationStatus: S.optional(S.String),
+    catalogArn: S.optional(S.String),
+  }),
+).annotations({ identifier: "Namespace" }) as any as S.Schema<Namespace>;
+export type NamespaceList = Namespace[];
 export const NamespaceList = S.Array(Namespace);
-export class RecoveryPoint extends S.Class<RecoveryPoint>("RecoveryPoint")({
-  recoveryPointId: S.optional(S.String),
-  recoveryPointCreateTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("date-time")),
-  ),
-  totalSizeInMegaBytes: S.optional(S.Number),
-  namespaceName: S.optional(S.String),
-  workgroupName: S.optional(S.String),
-  namespaceArn: S.optional(S.String),
-}) {}
+export interface RecoveryPoint {
+  recoveryPointId?: string;
+  recoveryPointCreateTime?: Date;
+  totalSizeInMegaBytes?: number;
+  namespaceName?: string;
+  workgroupName?: string;
+  namespaceArn?: string;
+}
+export const RecoveryPoint = S.suspend(() =>
+  S.Struct({
+    recoveryPointId: S.optional(S.String),
+    recoveryPointCreateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("date-time")),
+    ),
+    totalSizeInMegaBytes: S.optional(S.Number),
+    namespaceName: S.optional(S.String),
+    workgroupName: S.optional(S.String),
+    namespaceArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RecoveryPoint",
+}) as any as S.Schema<RecoveryPoint>;
+export type RecoveryPointList = RecoveryPoint[];
 export const RecoveryPointList = S.Array(RecoveryPoint);
-export class ReservationOffering extends S.Class<ReservationOffering>(
-  "ReservationOffering",
-)({
-  offeringId: S.optional(S.String),
-  duration: S.optional(S.Number),
-  upfrontCharge: S.optional(S.Number),
-  hourlyCharge: S.optional(S.Number),
-  currencyCode: S.optional(S.String),
-  offeringType: S.optional(S.String),
-}) {}
+export interface ReservationOffering {
+  offeringId?: string;
+  duration?: number;
+  upfrontCharge?: number;
+  hourlyCharge?: number;
+  currencyCode?: string;
+  offeringType?: string;
+}
+export const ReservationOffering = S.suspend(() =>
+  S.Struct({
+    offeringId: S.optional(S.String),
+    duration: S.optional(S.Number),
+    upfrontCharge: S.optional(S.Number),
+    hourlyCharge: S.optional(S.Number),
+    currencyCode: S.optional(S.String),
+    offeringType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ReservationOffering",
+}) as any as S.Schema<ReservationOffering>;
+export type ReservationOfferingsList = ReservationOffering[];
 export const ReservationOfferingsList = S.Array(ReservationOffering);
-export class Reservation extends S.Class<Reservation>("Reservation")({
-  reservationId: S.optional(S.String),
-  reservationArn: S.optional(S.String),
-  startDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  endDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  capacity: S.optional(S.Number),
-  offering: S.optional(ReservationOffering),
-  status: S.optional(S.String),
-}) {}
+export interface Reservation {
+  reservationId?: string;
+  reservationArn?: string;
+  startDate?: Date;
+  endDate?: Date;
+  capacity?: number;
+  offering?: ReservationOffering;
+  status?: string;
+}
+export const Reservation = S.suspend(() =>
+  S.Struct({
+    reservationId: S.optional(S.String),
+    reservationArn: S.optional(S.String),
+    startDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    endDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    capacity: S.optional(S.Number),
+    offering: S.optional(ReservationOffering),
+    status: S.optional(S.String),
+  }),
+).annotations({ identifier: "Reservation" }) as any as S.Schema<Reservation>;
+export type ReservationsList = Reservation[];
 export const ReservationsList = S.Array(Reservation);
-export class SnapshotCopyConfiguration extends S.Class<SnapshotCopyConfiguration>(
-  "SnapshotCopyConfiguration",
-)({
-  snapshotCopyConfigurationId: S.optional(S.String),
-  snapshotCopyConfigurationArn: S.optional(S.String),
-  namespaceName: S.optional(S.String),
-  destinationRegion: S.optional(S.String),
-  snapshotRetentionPeriod: S.optional(S.Number),
-  destinationKmsKeyId: S.optional(S.String),
-}) {}
+export interface SnapshotCopyConfiguration {
+  snapshotCopyConfigurationId?: string;
+  snapshotCopyConfigurationArn?: string;
+  namespaceName?: string;
+  destinationRegion?: string;
+  snapshotRetentionPeriod?: number;
+  destinationKmsKeyId?: string;
+}
+export const SnapshotCopyConfiguration = S.suspend(() =>
+  S.Struct({
+    snapshotCopyConfigurationId: S.optional(S.String),
+    snapshotCopyConfigurationArn: S.optional(S.String),
+    namespaceName: S.optional(S.String),
+    destinationRegion: S.optional(S.String),
+    snapshotRetentionPeriod: S.optional(S.Number),
+    destinationKmsKeyId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SnapshotCopyConfiguration",
+}) as any as S.Schema<SnapshotCopyConfiguration>;
+export type SnapshotCopyConfigurations = SnapshotCopyConfiguration[];
 export const SnapshotCopyConfigurations = S.Array(SnapshotCopyConfiguration);
+export type AccountIdList = string[];
 export const AccountIdList = S.Array(S.String);
-export class Snapshot extends S.Class<Snapshot>("Snapshot")({
-  namespaceName: S.optional(S.String),
-  namespaceArn: S.optional(S.String),
-  snapshotName: S.optional(S.String),
-  snapshotCreateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  adminUsername: S.optional(S.String),
-  status: S.optional(S.String),
-  kmsKeyId: S.optional(S.String),
-  ownerAccount: S.optional(S.String),
-  totalBackupSizeInMegaBytes: S.optional(S.Number),
-  actualIncrementalBackupSizeInMegaBytes: S.optional(S.Number),
-  backupProgressInMegaBytes: S.optional(S.Number),
-  currentBackupRateInMegaBytesPerSecond: S.optional(S.Number),
-  estimatedSecondsToCompletion: S.optional(S.Number),
-  elapsedTimeInSeconds: S.optional(S.Number),
-  snapshotRetentionPeriod: S.optional(S.Number),
-  snapshotRemainingDays: S.optional(S.Number),
-  snapshotRetentionStartTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("date-time")),
-  ),
-  snapshotArn: S.optional(S.String),
-  accountsWithRestoreAccess: S.optional(AccountIdList),
-  accountsWithProvisionedRestoreAccess: S.optional(AccountIdList),
-  adminPasswordSecretArn: S.optional(S.String),
-  adminPasswordSecretKmsKeyId: S.optional(S.String),
-}) {}
+export interface Snapshot {
+  namespaceName?: string;
+  namespaceArn?: string;
+  snapshotName?: string;
+  snapshotCreateTime?: Date;
+  adminUsername?: string;
+  status?: string;
+  kmsKeyId?: string;
+  ownerAccount?: string;
+  totalBackupSizeInMegaBytes?: number;
+  actualIncrementalBackupSizeInMegaBytes?: number;
+  backupProgressInMegaBytes?: number;
+  currentBackupRateInMegaBytesPerSecond?: number;
+  estimatedSecondsToCompletion?: number;
+  elapsedTimeInSeconds?: number;
+  snapshotRetentionPeriod?: number;
+  snapshotRemainingDays?: number;
+  snapshotRetentionStartTime?: Date;
+  snapshotArn?: string;
+  accountsWithRestoreAccess?: AccountIdList;
+  accountsWithProvisionedRestoreAccess?: AccountIdList;
+  adminPasswordSecretArn?: string;
+  adminPasswordSecretKmsKeyId?: string;
+}
+export const Snapshot = S.suspend(() =>
+  S.Struct({
+    namespaceName: S.optional(S.String),
+    namespaceArn: S.optional(S.String),
+    snapshotName: S.optional(S.String),
+    snapshotCreateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    adminUsername: S.optional(S.String),
+    status: S.optional(S.String),
+    kmsKeyId: S.optional(S.String),
+    ownerAccount: S.optional(S.String),
+    totalBackupSizeInMegaBytes: S.optional(S.Number),
+    actualIncrementalBackupSizeInMegaBytes: S.optional(S.Number),
+    backupProgressInMegaBytes: S.optional(S.Number),
+    currentBackupRateInMegaBytesPerSecond: S.optional(S.Number),
+    estimatedSecondsToCompletion: S.optional(S.Number),
+    elapsedTimeInSeconds: S.optional(S.Number),
+    snapshotRetentionPeriod: S.optional(S.Number),
+    snapshotRemainingDays: S.optional(S.Number),
+    snapshotRetentionStartTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("date-time")),
+    ),
+    snapshotArn: S.optional(S.String),
+    accountsWithRestoreAccess: S.optional(AccountIdList),
+    accountsWithProvisionedRestoreAccess: S.optional(AccountIdList),
+    adminPasswordSecretArn: S.optional(S.String),
+    adminPasswordSecretKmsKeyId: S.optional(S.String),
+  }),
+).annotations({ identifier: "Snapshot" }) as any as S.Schema<Snapshot>;
+export type SnapshotList = Snapshot[];
 export const SnapshotList = S.Array(Snapshot);
-export class TableRestoreStatus extends S.Class<TableRestoreStatus>(
-  "TableRestoreStatus",
-)({
-  tableRestoreRequestId: S.optional(S.String),
-  status: S.optional(S.String),
-  message: S.optional(S.String),
-  requestTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  namespaceName: S.optional(S.String),
-  workgroupName: S.optional(S.String),
-  snapshotName: S.optional(S.String),
-  progressInMegaBytes: S.optional(S.Number),
-  totalDataInMegaBytes: S.optional(S.Number),
-  sourceDatabaseName: S.optional(S.String),
-  sourceSchemaName: S.optional(S.String),
-  sourceTableName: S.optional(S.String),
-  targetDatabaseName: S.optional(S.String),
-  targetSchemaName: S.optional(S.String),
-  newTableName: S.optional(S.String),
-  recoveryPointId: S.optional(S.String),
-}) {}
+export interface TableRestoreStatus {
+  tableRestoreRequestId?: string;
+  status?: string;
+  message?: string;
+  requestTime?: Date;
+  namespaceName?: string;
+  workgroupName?: string;
+  snapshotName?: string;
+  progressInMegaBytes?: number;
+  totalDataInMegaBytes?: number;
+  sourceDatabaseName?: string;
+  sourceSchemaName?: string;
+  sourceTableName?: string;
+  targetDatabaseName?: string;
+  targetSchemaName?: string;
+  newTableName?: string;
+  recoveryPointId?: string;
+}
+export const TableRestoreStatus = S.suspend(() =>
+  S.Struct({
+    tableRestoreRequestId: S.optional(S.String),
+    status: S.optional(S.String),
+    message: S.optional(S.String),
+    requestTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    namespaceName: S.optional(S.String),
+    workgroupName: S.optional(S.String),
+    snapshotName: S.optional(S.String),
+    progressInMegaBytes: S.optional(S.Number),
+    totalDataInMegaBytes: S.optional(S.Number),
+    sourceDatabaseName: S.optional(S.String),
+    sourceSchemaName: S.optional(S.String),
+    sourceTableName: S.optional(S.String),
+    targetDatabaseName: S.optional(S.String),
+    targetSchemaName: S.optional(S.String),
+    newTableName: S.optional(S.String),
+    recoveryPointId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "TableRestoreStatus",
+}) as any as S.Schema<TableRestoreStatus>;
+export type TableRestoreStatusList = TableRestoreStatus[];
 export const TableRestoreStatusList = S.Array(TableRestoreStatus);
-export class UsageLimit extends S.Class<UsageLimit>("UsageLimit")({
-  usageLimitId: S.optional(S.String),
-  usageLimitArn: S.optional(S.String),
-  resourceArn: S.optional(S.String),
-  usageType: S.optional(S.String),
-  amount: S.optional(S.Number),
-  period: S.optional(S.String),
-  breachAction: S.optional(S.String),
-}) {}
+export interface UsageLimit {
+  usageLimitId?: string;
+  usageLimitArn?: string;
+  resourceArn?: string;
+  usageType?: string;
+  amount?: number;
+  period?: string;
+  breachAction?: string;
+}
+export const UsageLimit = S.suspend(() =>
+  S.Struct({
+    usageLimitId: S.optional(S.String),
+    usageLimitArn: S.optional(S.String),
+    resourceArn: S.optional(S.String),
+    usageType: S.optional(S.String),
+    amount: S.optional(S.Number),
+    period: S.optional(S.String),
+    breachAction: S.optional(S.String),
+  }),
+).annotations({ identifier: "UsageLimit" }) as any as S.Schema<UsageLimit>;
+export type UsageLimits = UsageLimit[];
 export const UsageLimits = S.Array(UsageLimit);
+export type VpcEndpointList = VpcEndpoint[];
 export const VpcEndpointList = S.Array(VpcEndpoint);
-export class Endpoint extends S.Class<Endpoint>("Endpoint")({
-  address: S.optional(S.String),
-  port: S.optional(S.Number),
-  vpcEndpoints: S.optional(VpcEndpointList),
-}) {}
+export interface Endpoint {
+  address?: string;
+  port?: number;
+  vpcEndpoints?: VpcEndpointList;
+}
+export const Endpoint = S.suspend(() =>
+  S.Struct({
+    address: S.optional(S.String),
+    port: S.optional(S.Number),
+    vpcEndpoints: S.optional(VpcEndpointList),
+  }),
+).annotations({ identifier: "Endpoint" }) as any as S.Schema<Endpoint>;
+export type VpcIds = string[];
 export const VpcIds = S.Array(S.String);
-export class Workgroup extends S.Class<Workgroup>("Workgroup")({
-  workgroupId: S.optional(S.String),
-  workgroupArn: S.optional(S.String),
-  workgroupName: S.optional(S.String),
-  namespaceName: S.optional(S.String),
-  baseCapacity: S.optional(S.Number),
-  enhancedVpcRouting: S.optional(S.Boolean),
-  configParameters: S.optional(ConfigParameterList),
-  securityGroupIds: S.optional(SecurityGroupIdList),
-  subnetIds: S.optional(SubnetIdList),
-  status: S.optional(S.String),
-  endpoint: S.optional(Endpoint),
-  publiclyAccessible: S.optional(S.Boolean),
-  creationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  port: S.optional(S.Number),
-  customDomainName: S.optional(S.String),
-  customDomainCertificateArn: S.optional(S.String),
-  customDomainCertificateExpiryTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("date-time")),
-  ),
-  workgroupVersion: S.optional(S.String),
-  patchVersion: S.optional(S.String),
-  maxCapacity: S.optional(S.Number),
-  crossAccountVpcs: S.optional(VpcIds),
-  ipAddressType: S.optional(S.String),
-  pricePerformanceTarget: S.optional(PerformanceTarget),
-  trackName: S.optional(S.String),
-  pendingTrackName: S.optional(S.String),
-}) {}
+export interface Workgroup {
+  workgroupId?: string;
+  workgroupArn?: string;
+  workgroupName?: string;
+  namespaceName?: string;
+  baseCapacity?: number;
+  enhancedVpcRouting?: boolean;
+  configParameters?: ConfigParameterList;
+  securityGroupIds?: SecurityGroupIdList;
+  subnetIds?: SubnetIdList;
+  status?: string;
+  endpoint?: Endpoint;
+  publiclyAccessible?: boolean;
+  creationDate?: Date;
+  port?: number;
+  customDomainName?: string;
+  customDomainCertificateArn?: string;
+  customDomainCertificateExpiryTime?: Date;
+  workgroupVersion?: string;
+  patchVersion?: string;
+  maxCapacity?: number;
+  crossAccountVpcs?: VpcIds;
+  ipAddressType?: string;
+  pricePerformanceTarget?: PerformanceTarget;
+  trackName?: string;
+  pendingTrackName?: string;
+}
+export const Workgroup = S.suspend(() =>
+  S.Struct({
+    workgroupId: S.optional(S.String),
+    workgroupArn: S.optional(S.String),
+    workgroupName: S.optional(S.String),
+    namespaceName: S.optional(S.String),
+    baseCapacity: S.optional(S.Number),
+    enhancedVpcRouting: S.optional(S.Boolean),
+    configParameters: S.optional(ConfigParameterList),
+    securityGroupIds: S.optional(SecurityGroupIdList),
+    subnetIds: S.optional(SubnetIdList),
+    status: S.optional(S.String),
+    endpoint: S.optional(Endpoint),
+    publiclyAccessible: S.optional(S.Boolean),
+    creationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    port: S.optional(S.Number),
+    customDomainName: S.optional(S.String),
+    customDomainCertificateArn: S.optional(S.String),
+    customDomainCertificateExpiryTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("date-time")),
+    ),
+    workgroupVersion: S.optional(S.String),
+    patchVersion: S.optional(S.String),
+    maxCapacity: S.optional(S.Number),
+    crossAccountVpcs: S.optional(VpcIds),
+    ipAddressType: S.optional(S.String),
+    pricePerformanceTarget: S.optional(PerformanceTarget),
+    trackName: S.optional(S.String),
+    pendingTrackName: S.optional(S.String),
+  }),
+).annotations({ identifier: "Workgroup" }) as any as S.Schema<Workgroup>;
+export type WorkgroupList = Workgroup[];
 export const WorkgroupList = S.Array(Workgroup);
-export class CreateCustomDomainAssociationResponse extends S.Class<CreateCustomDomainAssociationResponse>(
-  "CreateCustomDomainAssociationResponse",
-)({
-  customDomainName: S.optional(S.String),
-  workgroupName: S.optional(S.String),
-  customDomainCertificateArn: S.optional(S.String),
-  customDomainCertificateExpiryTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("date-time")),
+export interface CreateCustomDomainAssociationResponse {
+  customDomainName?: string;
+  workgroupName?: string;
+  customDomainCertificateArn?: string;
+  customDomainCertificateExpiryTime?: Date;
+}
+export const CreateCustomDomainAssociationResponse = S.suspend(() =>
+  S.Struct({
+    customDomainName: S.optional(S.String),
+    workgroupName: S.optional(S.String),
+    customDomainCertificateArn: S.optional(S.String),
+    customDomainCertificateExpiryTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("date-time")),
+    ),
+  }),
+).annotations({
+  identifier: "CreateCustomDomainAssociationResponse",
+}) as any as S.Schema<CreateCustomDomainAssociationResponse>;
+export interface GetCredentialsResponse {
+  dbUser?: string;
+  dbPassword?: string;
+  expiration?: Date;
+  nextRefreshTime?: Date;
+}
+export const GetCredentialsResponse = S.suspend(() =>
+  S.Struct({
+    dbUser: S.optional(S.String),
+    dbPassword: S.optional(S.String),
+    expiration: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    nextRefreshTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "GetCredentialsResponse",
+}) as any as S.Schema<GetCredentialsResponse>;
+export interface GetCustomDomainAssociationResponse {
+  customDomainName?: string;
+  workgroupName?: string;
+  customDomainCertificateArn?: string;
+  customDomainCertificateExpiryTime?: Date;
+}
+export const GetCustomDomainAssociationResponse = S.suspend(() =>
+  S.Struct({
+    customDomainName: S.optional(S.String),
+    workgroupName: S.optional(S.String),
+    customDomainCertificateArn: S.optional(S.String),
+    customDomainCertificateExpiryTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("date-time")),
+    ),
+  }),
+).annotations({
+  identifier: "GetCustomDomainAssociationResponse",
+}) as any as S.Schema<GetCustomDomainAssociationResponse>;
+export interface GetIdentityCenterAuthTokenResponse {
+  token?: string;
+  expirationTime?: Date;
+}
+export const GetIdentityCenterAuthTokenResponse = S.suspend(() =>
+  S.Struct({
+    token: S.optional(S.String).pipe(T.JsonName("Token")),
+    expirationTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.JsonName("ExpirationTime")),
+  }),
+).annotations({
+  identifier: "GetIdentityCenterAuthTokenResponse",
+}) as any as S.Schema<GetIdentityCenterAuthTokenResponse>;
+export interface ListTagsForResourceResponse {
+  tags?: TagList;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ tags: S.optional(TagList) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface ListTracksResponse {
+  tracks?: TrackList;
+  nextToken?: string;
+}
+export const ListTracksResponse = S.suspend(() =>
+  S.Struct({ tracks: S.optional(TrackList), nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListTracksResponse",
+}) as any as S.Schema<ListTracksResponse>;
+export interface ResourcePolicy {
+  resourceArn?: string;
+  policy?: string;
+}
+export const ResourcePolicy = S.suspend(() =>
+  S.Struct({ resourceArn: S.optional(S.String), policy: S.optional(S.String) }),
+).annotations({
+  identifier: "ResourcePolicy",
+}) as any as S.Schema<ResourcePolicy>;
+export interface PutResourcePolicyResponse {
+  resourcePolicy?: ResourcePolicy;
+}
+export const PutResourcePolicyResponse = S.suspend(() =>
+  S.Struct({ resourcePolicy: S.optional(ResourcePolicy) }),
+).annotations({
+  identifier: "PutResourcePolicyResponse",
+}) as any as S.Schema<PutResourcePolicyResponse>;
+export interface TagResourceRequest {
+  resourceArn: string;
+  tags: TagList;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String, tags: TagList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-}) {}
-export class GetCredentialsResponse extends S.Class<GetCredentialsResponse>(
-  "GetCredentialsResponse",
-)({
-  dbUser: S.optional(S.String),
-  dbPassword: S.optional(S.String),
-  expiration: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  nextRefreshTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class GetCustomDomainAssociationResponse extends S.Class<GetCustomDomainAssociationResponse>(
-  "GetCustomDomainAssociationResponse",
-)({
-  customDomainName: S.optional(S.String),
-  workgroupName: S.optional(S.String),
-  customDomainCertificateArn: S.optional(S.String),
-  customDomainCertificateExpiryTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("date-time")),
-  ),
-}) {}
-export class GetIdentityCenterAuthTokenResponse extends S.Class<GetIdentityCenterAuthTokenResponse>(
-  "GetIdentityCenterAuthTokenResponse",
-)({
-  token: S.optional(S.String).pipe(T.JsonName("Token")),
-  expirationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-    T.JsonName("ExpirationTime"),
-  ),
-}) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ tags: S.optional(TagList) }) {}
-export class ListTracksResponse extends S.Class<ListTracksResponse>(
-  "ListTracksResponse",
-)({ tracks: S.optional(TrackList), nextToken: S.optional(S.String) }) {}
-export class ResourcePolicy extends S.Class<ResourcePolicy>("ResourcePolicy")({
-  resourceArn: S.optional(S.String),
-  policy: S.optional(S.String),
-}) {}
-export class PutResourcePolicyResponse extends S.Class<PutResourcePolicyResponse>(
-  "PutResourcePolicyResponse",
-)({ resourcePolicy: S.optional(ResourcePolicy) }) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { resourceArn: S.String, tags: TagList },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class UpdateCustomDomainAssociationResponse extends S.Class<UpdateCustomDomainAssociationResponse>(
-  "UpdateCustomDomainAssociationResponse",
-)({
-  customDomainName: S.optional(S.String),
-  workgroupName: S.optional(S.String),
-  customDomainCertificateArn: S.optional(S.String),
-  customDomainCertificateExpiryTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("date-time")),
-  ),
-}) {}
-export class DeleteEndpointAccessResponse extends S.Class<DeleteEndpointAccessResponse>(
-  "DeleteEndpointAccessResponse",
-)({ endpoint: S.optional(EndpointAccess) }) {}
-export class GetEndpointAccessResponse extends S.Class<GetEndpointAccessResponse>(
-  "GetEndpointAccessResponse",
-)({ endpoint: S.optional(EndpointAccess) }) {}
-export class ListEndpointAccessResponse extends S.Class<ListEndpointAccessResponse>(
-  "ListEndpointAccessResponse",
-)({ nextToken: S.optional(S.String), endpoints: EndpointAccessList }) {}
-export class UpdateEndpointAccessResponse extends S.Class<UpdateEndpointAccessResponse>(
-  "UpdateEndpointAccessResponse",
-)({ endpoint: S.optional(EndpointAccess) }) {}
-export class GetNamespaceResponse extends S.Class<GetNamespaceResponse>(
-  "GetNamespaceResponse",
-)({ namespace: Namespace }) {}
-export class UpdateNamespaceResponse extends S.Class<UpdateNamespaceResponse>(
-  "UpdateNamespaceResponse",
-)({ namespace: Namespace }) {}
-export class DeleteNamespaceResponse extends S.Class<DeleteNamespaceResponse>(
-  "DeleteNamespaceResponse",
-)({ namespace: Namespace }) {}
-export class ListNamespacesResponse extends S.Class<ListNamespacesResponse>(
-  "ListNamespacesResponse",
-)({ nextToken: S.optional(S.String), namespaces: NamespaceList }) {}
-export class UpdateLakehouseConfigurationResponse extends S.Class<UpdateLakehouseConfigurationResponse>(
-  "UpdateLakehouseConfigurationResponse",
-)({
-  namespaceName: S.optional(S.String),
-  lakehouseIdcApplicationArn: S.optional(S.String),
-  lakehouseRegistrationStatus: S.optional(S.String),
-  catalogArn: S.optional(S.String),
-}) {}
-export class ListRecoveryPointsResponse extends S.Class<ListRecoveryPointsResponse>(
-  "ListRecoveryPointsResponse",
-)({
-  recoveryPoints: S.optional(RecoveryPointList),
-  nextToken: S.optional(S.String),
-}) {}
-export class RestoreFromRecoveryPointResponse extends S.Class<RestoreFromRecoveryPointResponse>(
-  "RestoreFromRecoveryPointResponse",
-)({
-  recoveryPointId: S.optional(S.String),
-  namespace: S.optional(Namespace),
-}) {}
-export class GetReservationResponse extends S.Class<GetReservationResponse>(
-  "GetReservationResponse",
-)({ reservation: Reservation }) {}
-export class ListReservationOfferingsResponse extends S.Class<ListReservationOfferingsResponse>(
-  "ListReservationOfferingsResponse",
-)({
-  reservationOfferingsList: ReservationOfferingsList,
-  nextToken: S.optional(S.String),
-}) {}
-export class ListReservationsResponse extends S.Class<ListReservationsResponse>(
-  "ListReservationsResponse",
-)({ reservationsList: ReservationsList, nextToken: S.optional(S.String) }) {}
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UpdateCustomDomainAssociationResponse {
+  customDomainName?: string;
+  workgroupName?: string;
+  customDomainCertificateArn?: string;
+  customDomainCertificateExpiryTime?: Date;
+}
+export const UpdateCustomDomainAssociationResponse = S.suspend(() =>
+  S.Struct({
+    customDomainName: S.optional(S.String),
+    workgroupName: S.optional(S.String),
+    customDomainCertificateArn: S.optional(S.String),
+    customDomainCertificateExpiryTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("date-time")),
+    ),
+  }),
+).annotations({
+  identifier: "UpdateCustomDomainAssociationResponse",
+}) as any as S.Schema<UpdateCustomDomainAssociationResponse>;
+export interface DeleteEndpointAccessResponse {
+  endpoint?: EndpointAccess;
+}
+export const DeleteEndpointAccessResponse = S.suspend(() =>
+  S.Struct({ endpoint: S.optional(EndpointAccess) }),
+).annotations({
+  identifier: "DeleteEndpointAccessResponse",
+}) as any as S.Schema<DeleteEndpointAccessResponse>;
+export interface GetEndpointAccessResponse {
+  endpoint?: EndpointAccess;
+}
+export const GetEndpointAccessResponse = S.suspend(() =>
+  S.Struct({ endpoint: S.optional(EndpointAccess) }),
+).annotations({
+  identifier: "GetEndpointAccessResponse",
+}) as any as S.Schema<GetEndpointAccessResponse>;
+export interface ListEndpointAccessResponse {
+  nextToken?: string;
+  endpoints: EndpointAccessList;
+}
+export const ListEndpointAccessResponse = S.suspend(() =>
+  S.Struct({ nextToken: S.optional(S.String), endpoints: EndpointAccessList }),
+).annotations({
+  identifier: "ListEndpointAccessResponse",
+}) as any as S.Schema<ListEndpointAccessResponse>;
+export interface UpdateEndpointAccessResponse {
+  endpoint?: EndpointAccess;
+}
+export const UpdateEndpointAccessResponse = S.suspend(() =>
+  S.Struct({ endpoint: S.optional(EndpointAccess) }),
+).annotations({
+  identifier: "UpdateEndpointAccessResponse",
+}) as any as S.Schema<UpdateEndpointAccessResponse>;
+export interface GetNamespaceResponse {
+  namespace: Namespace;
+}
+export const GetNamespaceResponse = S.suspend(() =>
+  S.Struct({ namespace: Namespace }),
+).annotations({
+  identifier: "GetNamespaceResponse",
+}) as any as S.Schema<GetNamespaceResponse>;
+export interface UpdateNamespaceResponse {
+  namespace: Namespace;
+}
+export const UpdateNamespaceResponse = S.suspend(() =>
+  S.Struct({ namespace: Namespace }),
+).annotations({
+  identifier: "UpdateNamespaceResponse",
+}) as any as S.Schema<UpdateNamespaceResponse>;
+export interface DeleteNamespaceResponse {
+  namespace: Namespace;
+}
+export const DeleteNamespaceResponse = S.suspend(() =>
+  S.Struct({ namespace: Namespace }),
+).annotations({
+  identifier: "DeleteNamespaceResponse",
+}) as any as S.Schema<DeleteNamespaceResponse>;
+export interface ListNamespacesResponse {
+  nextToken?: string;
+  namespaces: NamespaceList;
+}
+export const ListNamespacesResponse = S.suspend(() =>
+  S.Struct({ nextToken: S.optional(S.String), namespaces: NamespaceList }),
+).annotations({
+  identifier: "ListNamespacesResponse",
+}) as any as S.Schema<ListNamespacesResponse>;
+export interface UpdateLakehouseConfigurationResponse {
+  namespaceName?: string;
+  lakehouseIdcApplicationArn?: string;
+  lakehouseRegistrationStatus?: string;
+  catalogArn?: string;
+}
+export const UpdateLakehouseConfigurationResponse = S.suspend(() =>
+  S.Struct({
+    namespaceName: S.optional(S.String),
+    lakehouseIdcApplicationArn: S.optional(S.String),
+    lakehouseRegistrationStatus: S.optional(S.String),
+    catalogArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "UpdateLakehouseConfigurationResponse",
+}) as any as S.Schema<UpdateLakehouseConfigurationResponse>;
+export interface ListRecoveryPointsResponse {
+  recoveryPoints?: RecoveryPointList;
+  nextToken?: string;
+}
+export const ListRecoveryPointsResponse = S.suspend(() =>
+  S.Struct({
+    recoveryPoints: S.optional(RecoveryPointList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListRecoveryPointsResponse",
+}) as any as S.Schema<ListRecoveryPointsResponse>;
+export interface RestoreFromRecoveryPointResponse {
+  recoveryPointId?: string;
+  namespace?: Namespace;
+}
+export const RestoreFromRecoveryPointResponse = S.suspend(() =>
+  S.Struct({
+    recoveryPointId: S.optional(S.String),
+    namespace: S.optional(Namespace),
+  }),
+).annotations({
+  identifier: "RestoreFromRecoveryPointResponse",
+}) as any as S.Schema<RestoreFromRecoveryPointResponse>;
+export interface GetReservationResponse {
+  reservation: Reservation;
+}
+export const GetReservationResponse = S.suspend(() =>
+  S.Struct({ reservation: Reservation }),
+).annotations({
+  identifier: "GetReservationResponse",
+}) as any as S.Schema<GetReservationResponse>;
+export interface ListReservationOfferingsResponse {
+  reservationOfferingsList: ReservationOfferingsList;
+  nextToken?: string;
+}
+export const ListReservationOfferingsResponse = S.suspend(() =>
+  S.Struct({
+    reservationOfferingsList: ReservationOfferingsList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListReservationOfferingsResponse",
+}) as any as S.Schema<ListReservationOfferingsResponse>;
+export interface ListReservationsResponse {
+  reservationsList: ReservationsList;
+  nextToken?: string;
+}
+export const ListReservationsResponse = S.suspend(() =>
+  S.Struct({
+    reservationsList: ReservationsList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListReservationsResponse",
+}) as any as S.Schema<ListReservationsResponse>;
+export type NextInvocationsList = Date[];
 export const NextInvocationsList = S.Array(
   S.Date.pipe(T.TimestampFormat("epoch-seconds")),
 );
-export class ScheduledActionResponse extends S.Class<ScheduledActionResponse>(
-  "ScheduledActionResponse",
-)({
-  scheduledActionName: S.optional(S.String),
-  schedule: S.optional(Schedule),
-  scheduledActionDescription: S.optional(S.String),
-  nextInvocations: S.optional(NextInvocationsList),
-  roleArn: S.optional(S.String),
-  state: S.optional(S.String),
-  startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  targetAction: S.optional(TargetAction),
-  namespaceName: S.optional(S.String),
-  scheduledActionUuid: S.optional(S.String),
-}) {}
-export class GetScheduledActionResponse extends S.Class<GetScheduledActionResponse>(
-  "GetScheduledActionResponse",
-)({ scheduledAction: S.optional(ScheduledActionResponse) }) {}
-export class UpdateScheduledActionResponse extends S.Class<UpdateScheduledActionResponse>(
-  "UpdateScheduledActionResponse",
-)({ scheduledAction: S.optional(ScheduledActionResponse) }) {}
-export class CreateSnapshotResponse extends S.Class<CreateSnapshotResponse>(
-  "CreateSnapshotResponse",
-)({ snapshot: S.optional(Snapshot) }) {}
-export class DeleteSnapshotResponse extends S.Class<DeleteSnapshotResponse>(
-  "DeleteSnapshotResponse",
-)({ snapshot: S.optional(Snapshot) }) {}
-export class DeleteSnapshotCopyConfigurationResponse extends S.Class<DeleteSnapshotCopyConfigurationResponse>(
-  "DeleteSnapshotCopyConfigurationResponse",
-)({ snapshotCopyConfiguration: SnapshotCopyConfiguration }) {}
-export class GetSnapshotResponse extends S.Class<GetSnapshotResponse>(
-  "GetSnapshotResponse",
-)({ snapshot: S.optional(Snapshot) }) {}
-export class GetTableRestoreStatusResponse extends S.Class<GetTableRestoreStatusResponse>(
-  "GetTableRestoreStatusResponse",
-)({ tableRestoreStatus: S.optional(TableRestoreStatus) }) {}
-export class ListSnapshotCopyConfigurationsResponse extends S.Class<ListSnapshotCopyConfigurationsResponse>(
-  "ListSnapshotCopyConfigurationsResponse",
-)({
-  nextToken: S.optional(S.String),
-  snapshotCopyConfigurations: SnapshotCopyConfigurations,
-}) {}
-export class ListSnapshotsResponse extends S.Class<ListSnapshotsResponse>(
-  "ListSnapshotsResponse",
-)({ nextToken: S.optional(S.String), snapshots: S.optional(SnapshotList) }) {}
-export class ListTableRestoreStatusResponse extends S.Class<ListTableRestoreStatusResponse>(
-  "ListTableRestoreStatusResponse",
-)({
-  nextToken: S.optional(S.String),
-  tableRestoreStatuses: S.optional(TableRestoreStatusList),
-}) {}
-export class RestoreFromSnapshotResponse extends S.Class<RestoreFromSnapshotResponse>(
-  "RestoreFromSnapshotResponse",
-)({
-  snapshotName: S.optional(S.String),
-  ownerAccount: S.optional(S.String),
-  namespace: S.optional(Namespace),
-}) {}
-export class RestoreTableFromSnapshotResponse extends S.Class<RestoreTableFromSnapshotResponse>(
-  "RestoreTableFromSnapshotResponse",
-)({ tableRestoreStatus: S.optional(TableRestoreStatus) }) {}
-export class UpdateSnapshotResponse extends S.Class<UpdateSnapshotResponse>(
-  "UpdateSnapshotResponse",
-)({ snapshot: S.optional(Snapshot) }) {}
-export class UpdateSnapshotCopyConfigurationResponse extends S.Class<UpdateSnapshotCopyConfigurationResponse>(
-  "UpdateSnapshotCopyConfigurationResponse",
-)({ snapshotCopyConfiguration: SnapshotCopyConfiguration }) {}
-export class DeleteUsageLimitResponse extends S.Class<DeleteUsageLimitResponse>(
-  "DeleteUsageLimitResponse",
-)({ usageLimit: S.optional(UsageLimit) }) {}
-export class GetUsageLimitResponse extends S.Class<GetUsageLimitResponse>(
-  "GetUsageLimitResponse",
-)({ usageLimit: S.optional(UsageLimit) }) {}
-export class ListUsageLimitsResponse extends S.Class<ListUsageLimitsResponse>(
-  "ListUsageLimitsResponse",
-)({ usageLimits: S.optional(UsageLimits), nextToken: S.optional(S.String) }) {}
-export class UpdateUsageLimitResponse extends S.Class<UpdateUsageLimitResponse>(
-  "UpdateUsageLimitResponse",
-)({ usageLimit: S.optional(UsageLimit) }) {}
-export class CreateWorkgroupRequest extends S.Class<CreateWorkgroupRequest>(
-  "CreateWorkgroupRequest",
-)(
-  {
+export interface ScheduledActionResponse {
+  scheduledActionName?: string;
+  schedule?: (typeof Schedule)["Type"];
+  scheduledActionDescription?: string;
+  nextInvocations?: NextInvocationsList;
+  roleArn?: string;
+  state?: string;
+  startTime?: Date;
+  endTime?: Date;
+  targetAction?: (typeof TargetAction)["Type"];
+  namespaceName?: string;
+  scheduledActionUuid?: string;
+}
+export const ScheduledActionResponse = S.suspend(() =>
+  S.Struct({
+    scheduledActionName: S.optional(S.String),
+    schedule: S.optional(Schedule),
+    scheduledActionDescription: S.optional(S.String),
+    nextInvocations: S.optional(NextInvocationsList),
+    roleArn: S.optional(S.String),
+    state: S.optional(S.String),
+    startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    targetAction: S.optional(TargetAction),
+    namespaceName: S.optional(S.String),
+    scheduledActionUuid: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ScheduledActionResponse",
+}) as any as S.Schema<ScheduledActionResponse>;
+export interface GetScheduledActionResponse {
+  scheduledAction?: ScheduledActionResponse;
+}
+export const GetScheduledActionResponse = S.suspend(() =>
+  S.Struct({ scheduledAction: S.optional(ScheduledActionResponse) }),
+).annotations({
+  identifier: "GetScheduledActionResponse",
+}) as any as S.Schema<GetScheduledActionResponse>;
+export interface UpdateScheduledActionResponse {
+  scheduledAction?: ScheduledActionResponse;
+}
+export const UpdateScheduledActionResponse = S.suspend(() =>
+  S.Struct({ scheduledAction: S.optional(ScheduledActionResponse) }),
+).annotations({
+  identifier: "UpdateScheduledActionResponse",
+}) as any as S.Schema<UpdateScheduledActionResponse>;
+export interface CreateSnapshotResponse {
+  snapshot?: Snapshot;
+}
+export const CreateSnapshotResponse = S.suspend(() =>
+  S.Struct({ snapshot: S.optional(Snapshot) }),
+).annotations({
+  identifier: "CreateSnapshotResponse",
+}) as any as S.Schema<CreateSnapshotResponse>;
+export interface DeleteSnapshotResponse {
+  snapshot?: Snapshot;
+}
+export const DeleteSnapshotResponse = S.suspend(() =>
+  S.Struct({ snapshot: S.optional(Snapshot) }),
+).annotations({
+  identifier: "DeleteSnapshotResponse",
+}) as any as S.Schema<DeleteSnapshotResponse>;
+export interface DeleteSnapshotCopyConfigurationResponse {
+  snapshotCopyConfiguration: SnapshotCopyConfiguration;
+}
+export const DeleteSnapshotCopyConfigurationResponse = S.suspend(() =>
+  S.Struct({ snapshotCopyConfiguration: SnapshotCopyConfiguration }),
+).annotations({
+  identifier: "DeleteSnapshotCopyConfigurationResponse",
+}) as any as S.Schema<DeleteSnapshotCopyConfigurationResponse>;
+export interface GetSnapshotResponse {
+  snapshot?: Snapshot;
+}
+export const GetSnapshotResponse = S.suspend(() =>
+  S.Struct({ snapshot: S.optional(Snapshot) }),
+).annotations({
+  identifier: "GetSnapshotResponse",
+}) as any as S.Schema<GetSnapshotResponse>;
+export interface GetTableRestoreStatusResponse {
+  tableRestoreStatus?: TableRestoreStatus;
+}
+export const GetTableRestoreStatusResponse = S.suspend(() =>
+  S.Struct({ tableRestoreStatus: S.optional(TableRestoreStatus) }),
+).annotations({
+  identifier: "GetTableRestoreStatusResponse",
+}) as any as S.Schema<GetTableRestoreStatusResponse>;
+export interface ListSnapshotCopyConfigurationsResponse {
+  nextToken?: string;
+  snapshotCopyConfigurations: SnapshotCopyConfigurations;
+}
+export const ListSnapshotCopyConfigurationsResponse = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    snapshotCopyConfigurations: SnapshotCopyConfigurations,
+  }),
+).annotations({
+  identifier: "ListSnapshotCopyConfigurationsResponse",
+}) as any as S.Schema<ListSnapshotCopyConfigurationsResponse>;
+export interface ListSnapshotsResponse {
+  nextToken?: string;
+  snapshots?: SnapshotList;
+}
+export const ListSnapshotsResponse = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    snapshots: S.optional(SnapshotList),
+  }),
+).annotations({
+  identifier: "ListSnapshotsResponse",
+}) as any as S.Schema<ListSnapshotsResponse>;
+export interface ListTableRestoreStatusResponse {
+  nextToken?: string;
+  tableRestoreStatuses?: TableRestoreStatusList;
+}
+export const ListTableRestoreStatusResponse = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    tableRestoreStatuses: S.optional(TableRestoreStatusList),
+  }),
+).annotations({
+  identifier: "ListTableRestoreStatusResponse",
+}) as any as S.Schema<ListTableRestoreStatusResponse>;
+export interface RestoreFromSnapshotResponse {
+  snapshotName?: string;
+  ownerAccount?: string;
+  namespace?: Namespace;
+}
+export const RestoreFromSnapshotResponse = S.suspend(() =>
+  S.Struct({
+    snapshotName: S.optional(S.String),
+    ownerAccount: S.optional(S.String),
+    namespace: S.optional(Namespace),
+  }),
+).annotations({
+  identifier: "RestoreFromSnapshotResponse",
+}) as any as S.Schema<RestoreFromSnapshotResponse>;
+export interface RestoreTableFromSnapshotResponse {
+  tableRestoreStatus?: TableRestoreStatus;
+}
+export const RestoreTableFromSnapshotResponse = S.suspend(() =>
+  S.Struct({ tableRestoreStatus: S.optional(TableRestoreStatus) }),
+).annotations({
+  identifier: "RestoreTableFromSnapshotResponse",
+}) as any as S.Schema<RestoreTableFromSnapshotResponse>;
+export interface UpdateSnapshotResponse {
+  snapshot?: Snapshot;
+}
+export const UpdateSnapshotResponse = S.suspend(() =>
+  S.Struct({ snapshot: S.optional(Snapshot) }),
+).annotations({
+  identifier: "UpdateSnapshotResponse",
+}) as any as S.Schema<UpdateSnapshotResponse>;
+export interface UpdateSnapshotCopyConfigurationResponse {
+  snapshotCopyConfiguration: SnapshotCopyConfiguration;
+}
+export const UpdateSnapshotCopyConfigurationResponse = S.suspend(() =>
+  S.Struct({ snapshotCopyConfiguration: SnapshotCopyConfiguration }),
+).annotations({
+  identifier: "UpdateSnapshotCopyConfigurationResponse",
+}) as any as S.Schema<UpdateSnapshotCopyConfigurationResponse>;
+export interface DeleteUsageLimitResponse {
+  usageLimit?: UsageLimit;
+}
+export const DeleteUsageLimitResponse = S.suspend(() =>
+  S.Struct({ usageLimit: S.optional(UsageLimit) }),
+).annotations({
+  identifier: "DeleteUsageLimitResponse",
+}) as any as S.Schema<DeleteUsageLimitResponse>;
+export interface GetUsageLimitResponse {
+  usageLimit?: UsageLimit;
+}
+export const GetUsageLimitResponse = S.suspend(() =>
+  S.Struct({ usageLimit: S.optional(UsageLimit) }),
+).annotations({
+  identifier: "GetUsageLimitResponse",
+}) as any as S.Schema<GetUsageLimitResponse>;
+export interface ListUsageLimitsResponse {
+  usageLimits?: UsageLimits;
+  nextToken?: string;
+}
+export const ListUsageLimitsResponse = S.suspend(() =>
+  S.Struct({
+    usageLimits: S.optional(UsageLimits),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListUsageLimitsResponse",
+}) as any as S.Schema<ListUsageLimitsResponse>;
+export interface UpdateUsageLimitResponse {
+  usageLimit?: UsageLimit;
+}
+export const UpdateUsageLimitResponse = S.suspend(() =>
+  S.Struct({ usageLimit: S.optional(UsageLimit) }),
+).annotations({
+  identifier: "UpdateUsageLimitResponse",
+}) as any as S.Schema<UpdateUsageLimitResponse>;
+export interface CreateWorkgroupRequest {
+  workgroupName: string;
+  namespaceName: string;
+  baseCapacity?: number;
+  enhancedVpcRouting?: boolean;
+  configParameters?: ConfigParameterList;
+  securityGroupIds?: SecurityGroupIdList;
+  subnetIds?: SubnetIdList;
+  publiclyAccessible?: boolean;
+  tags?: TagList;
+  port?: number;
+  maxCapacity?: number;
+  pricePerformanceTarget?: PerformanceTarget;
+  ipAddressType?: string;
+  trackName?: string;
+}
+export const CreateWorkgroupRequest = S.suspend(() =>
+  S.Struct({
     workgroupName: S.String,
     namespaceName: S.String,
     baseCapacity: S.optional(S.Number),
@@ -1300,81 +2240,182 @@ export class CreateWorkgroupRequest extends S.Class<CreateWorkgroupRequest>(
     pricePerformanceTarget: S.optional(PerformanceTarget),
     ipAddressType: S.optional(S.String),
     trackName: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateWorkgroupResponse extends S.Class<UpdateWorkgroupResponse>(
-  "UpdateWorkgroupResponse",
-)({ workgroup: Workgroup }) {}
-export class DeleteWorkgroupResponse extends S.Class<DeleteWorkgroupResponse>(
-  "DeleteWorkgroupResponse",
-)({ workgroup: Workgroup }) {}
-export class ListWorkgroupsResponse extends S.Class<ListWorkgroupsResponse>(
-  "ListWorkgroupsResponse",
-)({ nextToken: S.optional(S.String), workgroups: WorkgroupList }) {}
-export class Association extends S.Class<Association>("Association")({
-  customDomainCertificateArn: S.optional(S.String),
-  customDomainCertificateExpiryTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("date-time")),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-  customDomainName: S.optional(S.String),
-  workgroupName: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "CreateWorkgroupRequest",
+}) as any as S.Schema<CreateWorkgroupRequest>;
+export interface UpdateWorkgroupResponse {
+  workgroup: Workgroup;
+}
+export const UpdateWorkgroupResponse = S.suspend(() =>
+  S.Struct({ workgroup: Workgroup }),
+).annotations({
+  identifier: "UpdateWorkgroupResponse",
+}) as any as S.Schema<UpdateWorkgroupResponse>;
+export interface DeleteWorkgroupResponse {
+  workgroup: Workgroup;
+}
+export const DeleteWorkgroupResponse = S.suspend(() =>
+  S.Struct({ workgroup: Workgroup }),
+).annotations({
+  identifier: "DeleteWorkgroupResponse",
+}) as any as S.Schema<DeleteWorkgroupResponse>;
+export interface ListWorkgroupsResponse {
+  nextToken?: string;
+  workgroups: WorkgroupList;
+}
+export const ListWorkgroupsResponse = S.suspend(() =>
+  S.Struct({ nextToken: S.optional(S.String), workgroups: WorkgroupList }),
+).annotations({
+  identifier: "ListWorkgroupsResponse",
+}) as any as S.Schema<ListWorkgroupsResponse>;
+export interface Association {
+  customDomainCertificateArn?: string;
+  customDomainCertificateExpiryTime?: Date;
+  customDomainName?: string;
+  workgroupName?: string;
+}
+export const Association = S.suspend(() =>
+  S.Struct({
+    customDomainCertificateArn: S.optional(S.String),
+    customDomainCertificateExpiryTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("date-time")),
+    ),
+    customDomainName: S.optional(S.String),
+    workgroupName: S.optional(S.String),
+  }),
+).annotations({ identifier: "Association" }) as any as S.Schema<Association>;
+export type AssociationList = Association[];
 export const AssociationList = S.Array(Association);
-export class ManagedWorkgroupListItem extends S.Class<ManagedWorkgroupListItem>(
-  "ManagedWorkgroupListItem",
-)({
-  managedWorkgroupName: S.optional(S.String),
-  managedWorkgroupId: S.optional(S.String),
-  sourceArn: S.optional(S.String),
-  status: S.optional(S.String),
-  creationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-}) {}
+export interface ManagedWorkgroupListItem {
+  managedWorkgroupName?: string;
+  managedWorkgroupId?: string;
+  sourceArn?: string;
+  status?: string;
+  creationDate?: Date;
+}
+export const ManagedWorkgroupListItem = S.suspend(() =>
+  S.Struct({
+    managedWorkgroupName: S.optional(S.String),
+    managedWorkgroupId: S.optional(S.String),
+    sourceArn: S.optional(S.String),
+    status: S.optional(S.String),
+    creationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotations({
+  identifier: "ManagedWorkgroupListItem",
+}) as any as S.Schema<ManagedWorkgroupListItem>;
+export type ManagedWorkgroups = ManagedWorkgroupListItem[];
 export const ManagedWorkgroups = S.Array(ManagedWorkgroupListItem);
-export class ScheduledActionAssociation extends S.Class<ScheduledActionAssociation>(
-  "ScheduledActionAssociation",
-)({
-  namespaceName: S.optional(S.String),
-  scheduledActionName: S.optional(S.String),
-}) {}
+export interface ScheduledActionAssociation {
+  namespaceName?: string;
+  scheduledActionName?: string;
+}
+export const ScheduledActionAssociation = S.suspend(() =>
+  S.Struct({
+    namespaceName: S.optional(S.String),
+    scheduledActionName: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ScheduledActionAssociation",
+}) as any as S.Schema<ScheduledActionAssociation>;
+export type ScheduledActionsList = ScheduledActionAssociation[];
 export const ScheduledActionsList = S.Array(ScheduledActionAssociation);
-export class GetResourcePolicyResponse extends S.Class<GetResourcePolicyResponse>(
-  "GetResourcePolicyResponse",
-)({ resourcePolicy: S.optional(ResourcePolicy) }) {}
-export class ListCustomDomainAssociationsResponse extends S.Class<ListCustomDomainAssociationsResponse>(
-  "ListCustomDomainAssociationsResponse",
-)({
-  nextToken: S.optional(S.String),
-  associations: S.optional(AssociationList),
-}) {}
-export class ListManagedWorkgroupsResponse extends S.Class<ListManagedWorkgroupsResponse>(
-  "ListManagedWorkgroupsResponse",
-)({
-  nextToken: S.optional(S.String),
-  managedWorkgroups: S.optional(ManagedWorkgroups),
-}) {}
-export class CreateNamespaceResponse extends S.Class<CreateNamespaceResponse>(
-  "CreateNamespaceResponse",
-)({ namespace: S.optional(Namespace) }) {}
-export class ConvertRecoveryPointToSnapshotResponse extends S.Class<ConvertRecoveryPointToSnapshotResponse>(
-  "ConvertRecoveryPointToSnapshotResponse",
-)({ snapshot: S.optional(Snapshot) }) {}
-export class GetRecoveryPointResponse extends S.Class<GetRecoveryPointResponse>(
-  "GetRecoveryPointResponse",
-)({ recoveryPoint: S.optional(RecoveryPoint) }) {}
-export class RestoreTableFromRecoveryPointResponse extends S.Class<RestoreTableFromRecoveryPointResponse>(
-  "RestoreTableFromRecoveryPointResponse",
-)({ tableRestoreStatus: S.optional(TableRestoreStatus) }) {}
-export class CreateReservationResponse extends S.Class<CreateReservationResponse>(
-  "CreateReservationResponse",
-)({ reservation: S.optional(Reservation) }) {}
-export class GetReservationOfferingResponse extends S.Class<GetReservationOfferingResponse>(
-  "GetReservationOfferingResponse",
-)({ reservationOffering: ReservationOffering }) {}
-export class CreateScheduledActionRequest extends S.Class<CreateScheduledActionRequest>(
-  "CreateScheduledActionRequest",
-)(
-  {
+export interface GetResourcePolicyResponse {
+  resourcePolicy?: ResourcePolicy;
+}
+export const GetResourcePolicyResponse = S.suspend(() =>
+  S.Struct({ resourcePolicy: S.optional(ResourcePolicy) }),
+).annotations({
+  identifier: "GetResourcePolicyResponse",
+}) as any as S.Schema<GetResourcePolicyResponse>;
+export interface ListCustomDomainAssociationsResponse {
+  nextToken?: string;
+  associations?: AssociationList;
+}
+export const ListCustomDomainAssociationsResponse = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    associations: S.optional(AssociationList),
+  }),
+).annotations({
+  identifier: "ListCustomDomainAssociationsResponse",
+}) as any as S.Schema<ListCustomDomainAssociationsResponse>;
+export interface ListManagedWorkgroupsResponse {
+  nextToken?: string;
+  managedWorkgroups?: ManagedWorkgroups;
+}
+export const ListManagedWorkgroupsResponse = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    managedWorkgroups: S.optional(ManagedWorkgroups),
+  }),
+).annotations({
+  identifier: "ListManagedWorkgroupsResponse",
+}) as any as S.Schema<ListManagedWorkgroupsResponse>;
+export interface CreateNamespaceResponse {
+  namespace?: Namespace;
+}
+export const CreateNamespaceResponse = S.suspend(() =>
+  S.Struct({ namespace: S.optional(Namespace) }),
+).annotations({
+  identifier: "CreateNamespaceResponse",
+}) as any as S.Schema<CreateNamespaceResponse>;
+export interface ConvertRecoveryPointToSnapshotResponse {
+  snapshot?: Snapshot;
+}
+export const ConvertRecoveryPointToSnapshotResponse = S.suspend(() =>
+  S.Struct({ snapshot: S.optional(Snapshot) }),
+).annotations({
+  identifier: "ConvertRecoveryPointToSnapshotResponse",
+}) as any as S.Schema<ConvertRecoveryPointToSnapshotResponse>;
+export interface GetRecoveryPointResponse {
+  recoveryPoint?: RecoveryPoint;
+}
+export const GetRecoveryPointResponse = S.suspend(() =>
+  S.Struct({ recoveryPoint: S.optional(RecoveryPoint) }),
+).annotations({
+  identifier: "GetRecoveryPointResponse",
+}) as any as S.Schema<GetRecoveryPointResponse>;
+export interface RestoreTableFromRecoveryPointResponse {
+  tableRestoreStatus?: TableRestoreStatus;
+}
+export const RestoreTableFromRecoveryPointResponse = S.suspend(() =>
+  S.Struct({ tableRestoreStatus: S.optional(TableRestoreStatus) }),
+).annotations({
+  identifier: "RestoreTableFromRecoveryPointResponse",
+}) as any as S.Schema<RestoreTableFromRecoveryPointResponse>;
+export interface CreateReservationResponse {
+  reservation?: Reservation;
+}
+export const CreateReservationResponse = S.suspend(() =>
+  S.Struct({ reservation: S.optional(Reservation) }),
+).annotations({
+  identifier: "CreateReservationResponse",
+}) as any as S.Schema<CreateReservationResponse>;
+export interface GetReservationOfferingResponse {
+  reservationOffering: ReservationOffering;
+}
+export const GetReservationOfferingResponse = S.suspend(() =>
+  S.Struct({ reservationOffering: ReservationOffering }),
+).annotations({
+  identifier: "GetReservationOfferingResponse",
+}) as any as S.Schema<GetReservationOfferingResponse>;
+export interface CreateScheduledActionRequest {
+  scheduledActionName: string;
+  targetAction: (typeof TargetAction)["Type"];
+  schedule: (typeof Schedule)["Type"];
+  roleArn: string;
+  namespaceName: string;
+  enabled?: boolean;
+  scheduledActionDescription?: string;
+  startTime?: Date;
+  endTime?: Date;
+}
+export const CreateScheduledActionRequest = S.suspend(() =>
+  S.Struct({
     scheduledActionName: S.String,
     targetAction: TargetAction,
     schedule: Schedule,
@@ -1384,39 +2425,88 @@ export class CreateScheduledActionRequest extends S.Class<CreateScheduledActionR
     scheduledActionDescription: S.optional(S.String),
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteScheduledActionResponse extends S.Class<DeleteScheduledActionResponse>(
-  "DeleteScheduledActionResponse",
-)({ scheduledAction: S.optional(ScheduledActionResponse) }) {}
-export class ListScheduledActionsResponse extends S.Class<ListScheduledActionsResponse>(
-  "ListScheduledActionsResponse",
-)({
-  nextToken: S.optional(S.String),
-  scheduledActions: S.optional(ScheduledActionsList),
-}) {}
-export class CreateSnapshotCopyConfigurationResponse extends S.Class<CreateSnapshotCopyConfigurationResponse>(
-  "CreateSnapshotCopyConfigurationResponse",
-)({ snapshotCopyConfiguration: SnapshotCopyConfiguration }) {}
-export class CreateUsageLimitResponse extends S.Class<CreateUsageLimitResponse>(
-  "CreateUsageLimitResponse",
-)({ usageLimit: S.optional(UsageLimit) }) {}
-export class CreateWorkgroupResponse extends S.Class<CreateWorkgroupResponse>(
-  "CreateWorkgroupResponse",
-)({ workgroup: S.optional(Workgroup) }) {}
-export class GetTrackResponse extends S.Class<GetTrackResponse>(
-  "GetTrackResponse",
-)({ track: S.optional(ServerlessTrack) }) {}
-export class CreateScheduledActionResponse extends S.Class<CreateScheduledActionResponse>(
-  "CreateScheduledActionResponse",
-)({ scheduledAction: S.optional(ScheduledActionResponse) }) {}
-export class GetWorkgroupResponse extends S.Class<GetWorkgroupResponse>(
-  "GetWorkgroupResponse",
-)({ workgroup: Workgroup }) {}
-export class CreateEndpointAccessResponse extends S.Class<CreateEndpointAccessResponse>(
-  "CreateEndpointAccessResponse",
-)({ endpoint: S.optional(EndpointAccess) }) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateScheduledActionRequest",
+}) as any as S.Schema<CreateScheduledActionRequest>;
+export interface DeleteScheduledActionResponse {
+  scheduledAction?: ScheduledActionResponse;
+}
+export const DeleteScheduledActionResponse = S.suspend(() =>
+  S.Struct({ scheduledAction: S.optional(ScheduledActionResponse) }),
+).annotations({
+  identifier: "DeleteScheduledActionResponse",
+}) as any as S.Schema<DeleteScheduledActionResponse>;
+export interface ListScheduledActionsResponse {
+  nextToken?: string;
+  scheduledActions?: ScheduledActionsList;
+}
+export const ListScheduledActionsResponse = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    scheduledActions: S.optional(ScheduledActionsList),
+  }),
+).annotations({
+  identifier: "ListScheduledActionsResponse",
+}) as any as S.Schema<ListScheduledActionsResponse>;
+export interface CreateSnapshotCopyConfigurationResponse {
+  snapshotCopyConfiguration: SnapshotCopyConfiguration;
+}
+export const CreateSnapshotCopyConfigurationResponse = S.suspend(() =>
+  S.Struct({ snapshotCopyConfiguration: SnapshotCopyConfiguration }),
+).annotations({
+  identifier: "CreateSnapshotCopyConfigurationResponse",
+}) as any as S.Schema<CreateSnapshotCopyConfigurationResponse>;
+export interface CreateUsageLimitResponse {
+  usageLimit?: UsageLimit;
+}
+export const CreateUsageLimitResponse = S.suspend(() =>
+  S.Struct({ usageLimit: S.optional(UsageLimit) }),
+).annotations({
+  identifier: "CreateUsageLimitResponse",
+}) as any as S.Schema<CreateUsageLimitResponse>;
+export interface CreateWorkgroupResponse {
+  workgroup?: Workgroup;
+}
+export const CreateWorkgroupResponse = S.suspend(() =>
+  S.Struct({ workgroup: S.optional(Workgroup) }),
+).annotations({
+  identifier: "CreateWorkgroupResponse",
+}) as any as S.Schema<CreateWorkgroupResponse>;
+export interface GetTrackResponse {
+  track?: ServerlessTrack;
+}
+export const GetTrackResponse = S.suspend(() =>
+  S.Struct({ track: S.optional(ServerlessTrack) }),
+).annotations({
+  identifier: "GetTrackResponse",
+}) as any as S.Schema<GetTrackResponse>;
+export interface CreateScheduledActionResponse {
+  scheduledAction?: ScheduledActionResponse;
+}
+export const CreateScheduledActionResponse = S.suspend(() =>
+  S.Struct({ scheduledAction: S.optional(ScheduledActionResponse) }),
+).annotations({
+  identifier: "CreateScheduledActionResponse",
+}) as any as S.Schema<CreateScheduledActionResponse>;
+export interface GetWorkgroupResponse {
+  workgroup: Workgroup;
+}
+export const GetWorkgroupResponse = S.suspend(() =>
+  S.Struct({ workgroup: Workgroup }),
+).annotations({
+  identifier: "GetWorkgroupResponse",
+}) as any as S.Schema<GetWorkgroupResponse>;
+export interface CreateEndpointAccessResponse {
+  endpoint?: EndpointAccess;
+}
+export const CreateEndpointAccessResponse = S.suspend(() =>
+  S.Struct({ endpoint: S.optional(EndpointAccess) }),
+).annotations({
+  identifier: "CreateEndpointAccessResponse",
+}) as any as S.Schema<CreateEndpointAccessResponse>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

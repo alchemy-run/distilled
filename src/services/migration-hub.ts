@@ -242,363 +242,689 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type ApplicationIds = string[];
 export const ApplicationIds = S.Array(S.String);
-export class CreateProgressUpdateStreamRequest extends S.Class<CreateProgressUpdateStreamRequest>(
-  "CreateProgressUpdateStreamRequest",
-)(
-  { ProgressUpdateStreamName: S.String, DryRun: S.optional(S.Boolean) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateProgressUpdateStreamResult extends S.Class<CreateProgressUpdateStreamResult>(
-  "CreateProgressUpdateStreamResult",
-)({}) {}
-export class DeleteProgressUpdateStreamRequest extends S.Class<DeleteProgressUpdateStreamRequest>(
-  "DeleteProgressUpdateStreamRequest",
-)(
-  { ProgressUpdateStreamName: S.String, DryRun: S.optional(S.Boolean) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteProgressUpdateStreamResult extends S.Class<DeleteProgressUpdateStreamResult>(
-  "DeleteProgressUpdateStreamResult",
-)({}) {}
-export class DescribeApplicationStateRequest extends S.Class<DescribeApplicationStateRequest>(
-  "DescribeApplicationStateRequest",
-)(
-  { ApplicationId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeMigrationTaskRequest extends S.Class<DescribeMigrationTaskRequest>(
-  "DescribeMigrationTaskRequest",
-)(
-  { ProgressUpdateStream: S.String, MigrationTaskName: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DisassociateCreatedArtifactRequest extends S.Class<DisassociateCreatedArtifactRequest>(
-  "DisassociateCreatedArtifactRequest",
-)(
-  {
+export interface CreateProgressUpdateStreamRequest {
+  ProgressUpdateStreamName: string;
+  DryRun?: boolean;
+}
+export const CreateProgressUpdateStreamRequest = S.suspend(() =>
+  S.Struct({
+    ProgressUpdateStreamName: S.String,
+    DryRun: S.optional(S.Boolean),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateProgressUpdateStreamRequest",
+}) as any as S.Schema<CreateProgressUpdateStreamRequest>;
+export interface CreateProgressUpdateStreamResult {}
+export const CreateProgressUpdateStreamResult = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "CreateProgressUpdateStreamResult",
+}) as any as S.Schema<CreateProgressUpdateStreamResult>;
+export interface DeleteProgressUpdateStreamRequest {
+  ProgressUpdateStreamName: string;
+  DryRun?: boolean;
+}
+export const DeleteProgressUpdateStreamRequest = S.suspend(() =>
+  S.Struct({
+    ProgressUpdateStreamName: S.String,
+    DryRun: S.optional(S.Boolean),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteProgressUpdateStreamRequest",
+}) as any as S.Schema<DeleteProgressUpdateStreamRequest>;
+export interface DeleteProgressUpdateStreamResult {}
+export const DeleteProgressUpdateStreamResult = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteProgressUpdateStreamResult",
+}) as any as S.Schema<DeleteProgressUpdateStreamResult>;
+export interface DescribeApplicationStateRequest {
+  ApplicationId: string;
+}
+export const DescribeApplicationStateRequest = S.suspend(() =>
+  S.Struct({ ApplicationId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeApplicationStateRequest",
+}) as any as S.Schema<DescribeApplicationStateRequest>;
+export interface DescribeMigrationTaskRequest {
+  ProgressUpdateStream: string;
+  MigrationTaskName: string;
+}
+export const DescribeMigrationTaskRequest = S.suspend(() =>
+  S.Struct({
+    ProgressUpdateStream: S.String,
+    MigrationTaskName: S.String,
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeMigrationTaskRequest",
+}) as any as S.Schema<DescribeMigrationTaskRequest>;
+export interface DisassociateCreatedArtifactRequest {
+  ProgressUpdateStream: string;
+  MigrationTaskName: string;
+  CreatedArtifactName: string;
+  DryRun?: boolean;
+}
+export const DisassociateCreatedArtifactRequest = S.suspend(() =>
+  S.Struct({
     ProgressUpdateStream: S.String,
     MigrationTaskName: S.String,
     CreatedArtifactName: S.String,
     DryRun: S.optional(S.Boolean),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DisassociateCreatedArtifactResult extends S.Class<DisassociateCreatedArtifactResult>(
-  "DisassociateCreatedArtifactResult",
-)({}) {}
-export class DisassociateDiscoveredResourceRequest extends S.Class<DisassociateDiscoveredResourceRequest>(
-  "DisassociateDiscoveredResourceRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DisassociateCreatedArtifactRequest",
+}) as any as S.Schema<DisassociateCreatedArtifactRequest>;
+export interface DisassociateCreatedArtifactResult {}
+export const DisassociateCreatedArtifactResult = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DisassociateCreatedArtifactResult",
+}) as any as S.Schema<DisassociateCreatedArtifactResult>;
+export interface DisassociateDiscoveredResourceRequest {
+  ProgressUpdateStream: string;
+  MigrationTaskName: string;
+  ConfigurationId: string;
+  DryRun?: boolean;
+}
+export const DisassociateDiscoveredResourceRequest = S.suspend(() =>
+  S.Struct({
     ProgressUpdateStream: S.String,
     MigrationTaskName: S.String,
     ConfigurationId: S.String,
     DryRun: S.optional(S.Boolean),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DisassociateDiscoveredResourceResult extends S.Class<DisassociateDiscoveredResourceResult>(
-  "DisassociateDiscoveredResourceResult",
-)({}) {}
-export class DisassociateSourceResourceRequest extends S.Class<DisassociateSourceResourceRequest>(
-  "DisassociateSourceResourceRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DisassociateDiscoveredResourceRequest",
+}) as any as S.Schema<DisassociateDiscoveredResourceRequest>;
+export interface DisassociateDiscoveredResourceResult {}
+export const DisassociateDiscoveredResourceResult = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DisassociateDiscoveredResourceResult",
+}) as any as S.Schema<DisassociateDiscoveredResourceResult>;
+export interface DisassociateSourceResourceRequest {
+  ProgressUpdateStream: string;
+  MigrationTaskName: string;
+  SourceResourceName: string;
+  DryRun?: boolean;
+}
+export const DisassociateSourceResourceRequest = S.suspend(() =>
+  S.Struct({
     ProgressUpdateStream: S.String,
     MigrationTaskName: S.String,
     SourceResourceName: S.String,
     DryRun: S.optional(S.Boolean),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DisassociateSourceResourceResult extends S.Class<DisassociateSourceResourceResult>(
-  "DisassociateSourceResourceResult",
-)({}) {}
-export class ImportMigrationTaskRequest extends S.Class<ImportMigrationTaskRequest>(
-  "ImportMigrationTaskRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DisassociateSourceResourceRequest",
+}) as any as S.Schema<DisassociateSourceResourceRequest>;
+export interface DisassociateSourceResourceResult {}
+export const DisassociateSourceResourceResult = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DisassociateSourceResourceResult",
+}) as any as S.Schema<DisassociateSourceResourceResult>;
+export interface ImportMigrationTaskRequest {
+  ProgressUpdateStream: string;
+  MigrationTaskName: string;
+  DryRun?: boolean;
+}
+export const ImportMigrationTaskRequest = S.suspend(() =>
+  S.Struct({
     ProgressUpdateStream: S.String,
     MigrationTaskName: S.String,
     DryRun: S.optional(S.Boolean),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ImportMigrationTaskResult extends S.Class<ImportMigrationTaskResult>(
-  "ImportMigrationTaskResult",
-)({}) {}
-export class ListApplicationStatesRequest extends S.Class<ListApplicationStatesRequest>(
-  "ListApplicationStatesRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ImportMigrationTaskRequest",
+}) as any as S.Schema<ImportMigrationTaskRequest>;
+export interface ImportMigrationTaskResult {}
+export const ImportMigrationTaskResult = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "ImportMigrationTaskResult",
+}) as any as S.Schema<ImportMigrationTaskResult>;
+export interface ListApplicationStatesRequest {
+  ApplicationIds?: ApplicationIds;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListApplicationStatesRequest = S.suspend(() =>
+  S.Struct({
     ApplicationIds: S.optional(ApplicationIds),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListCreatedArtifactsRequest extends S.Class<ListCreatedArtifactsRequest>(
-  "ListCreatedArtifactsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListApplicationStatesRequest",
+}) as any as S.Schema<ListApplicationStatesRequest>;
+export interface ListCreatedArtifactsRequest {
+  ProgressUpdateStream: string;
+  MigrationTaskName: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListCreatedArtifactsRequest = S.suspend(() =>
+  S.Struct({
     ProgressUpdateStream: S.String,
     MigrationTaskName: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListDiscoveredResourcesRequest extends S.Class<ListDiscoveredResourcesRequest>(
-  "ListDiscoveredResourcesRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListCreatedArtifactsRequest",
+}) as any as S.Schema<ListCreatedArtifactsRequest>;
+export interface ListDiscoveredResourcesRequest {
+  ProgressUpdateStream: string;
+  MigrationTaskName: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListDiscoveredResourcesRequest = S.suspend(() =>
+  S.Struct({
     ProgressUpdateStream: S.String,
     MigrationTaskName: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListMigrationTasksRequest extends S.Class<ListMigrationTasksRequest>(
-  "ListMigrationTasksRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListDiscoveredResourcesRequest",
+}) as any as S.Schema<ListDiscoveredResourcesRequest>;
+export interface ListMigrationTasksRequest {
+  NextToken?: string;
+  MaxResults?: number;
+  ResourceName?: string;
+}
+export const ListMigrationTasksRequest = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     ResourceName: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListMigrationTaskUpdatesRequest extends S.Class<ListMigrationTaskUpdatesRequest>(
-  "ListMigrationTaskUpdatesRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListMigrationTasksRequest",
+}) as any as S.Schema<ListMigrationTasksRequest>;
+export interface ListMigrationTaskUpdatesRequest {
+  ProgressUpdateStream: string;
+  MigrationTaskName: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListMigrationTaskUpdatesRequest = S.suspend(() =>
+  S.Struct({
     ProgressUpdateStream: S.String,
     MigrationTaskName: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListProgressUpdateStreamsRequest extends S.Class<ListProgressUpdateStreamsRequest>(
-  "ListProgressUpdateStreamsRequest",
-)(
-  { NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListSourceResourcesRequest extends S.Class<ListSourceResourcesRequest>(
-  "ListSourceResourcesRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListMigrationTaskUpdatesRequest",
+}) as any as S.Schema<ListMigrationTaskUpdatesRequest>;
+export interface ListProgressUpdateStreamsRequest {
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListProgressUpdateStreamsRequest = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListProgressUpdateStreamsRequest",
+}) as any as S.Schema<ListProgressUpdateStreamsRequest>;
+export interface ListSourceResourcesRequest {
+  ProgressUpdateStream: string;
+  MigrationTaskName: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListSourceResourcesRequest = S.suspend(() =>
+  S.Struct({
     ProgressUpdateStream: S.String,
     MigrationTaskName: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class NotifyApplicationStateRequest extends S.Class<NotifyApplicationStateRequest>(
-  "NotifyApplicationStateRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListSourceResourcesRequest",
+}) as any as S.Schema<ListSourceResourcesRequest>;
+export interface NotifyApplicationStateRequest {
+  ApplicationId: string;
+  Status: string;
+  UpdateDateTime?: Date;
+  DryRun?: boolean;
+}
+export const NotifyApplicationStateRequest = S.suspend(() =>
+  S.Struct({
     ApplicationId: S.String,
     Status: S.String,
     UpdateDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     DryRun: S.optional(S.Boolean),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class NotifyApplicationStateResult extends S.Class<NotifyApplicationStateResult>(
-  "NotifyApplicationStateResult",
-)({}) {}
-export class CreatedArtifact extends S.Class<CreatedArtifact>(
-  "CreatedArtifact",
-)({ Name: S.String, Description: S.optional(S.String) }) {}
-export class DiscoveredResource extends S.Class<DiscoveredResource>(
-  "DiscoveredResource",
-)({ ConfigurationId: S.String, Description: S.optional(S.String) }) {}
-export class SourceResource extends S.Class<SourceResource>("SourceResource")({
-  Name: S.String,
-  Description: S.optional(S.String),
-  StatusDetail: S.optional(S.String),
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "NotifyApplicationStateRequest",
+}) as any as S.Schema<NotifyApplicationStateRequest>;
+export interface NotifyApplicationStateResult {}
+export const NotifyApplicationStateResult = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "NotifyApplicationStateResult",
+}) as any as S.Schema<NotifyApplicationStateResult>;
+export interface CreatedArtifact {
+  Name: string;
+  Description?: string;
+}
+export const CreatedArtifact = S.suspend(() =>
+  S.Struct({ Name: S.String, Description: S.optional(S.String) }),
+).annotations({
+  identifier: "CreatedArtifact",
+}) as any as S.Schema<CreatedArtifact>;
+export interface DiscoveredResource {
+  ConfigurationId: string;
+  Description?: string;
+}
+export const DiscoveredResource = S.suspend(() =>
+  S.Struct({ ConfigurationId: S.String, Description: S.optional(S.String) }),
+).annotations({
+  identifier: "DiscoveredResource",
+}) as any as S.Schema<DiscoveredResource>;
+export interface SourceResource {
+  Name: string;
+  Description?: string;
+  StatusDetail?: string;
+}
+export const SourceResource = S.suspend(() =>
+  S.Struct({
+    Name: S.String,
+    Description: S.optional(S.String),
+    StatusDetail: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SourceResource",
+}) as any as S.Schema<SourceResource>;
+export type CreatedArtifactList = CreatedArtifact[];
 export const CreatedArtifactList = S.Array(CreatedArtifact);
+export type DiscoveredResourceList = DiscoveredResource[];
 export const DiscoveredResourceList = S.Array(DiscoveredResource);
+export type SourceResourceList = SourceResource[];
 export const SourceResourceList = S.Array(SourceResource);
-export class Task extends S.Class<Task>("Task")({
-  Status: S.String,
-  StatusDetail: S.optional(S.String),
-  ProgressPercent: S.optional(S.Number),
-}) {}
-export class ResourceAttribute extends S.Class<ResourceAttribute>(
-  "ResourceAttribute",
-)({ Type: S.String, Value: S.String }) {}
+export interface Task {
+  Status: string;
+  StatusDetail?: string;
+  ProgressPercent?: number;
+}
+export const Task = S.suspend(() =>
+  S.Struct({
+    Status: S.String,
+    StatusDetail: S.optional(S.String),
+    ProgressPercent: S.optional(S.Number),
+  }),
+).annotations({ identifier: "Task" }) as any as S.Schema<Task>;
+export interface ResourceAttribute {
+  Type: string;
+  Value: string;
+}
+export const ResourceAttribute = S.suspend(() =>
+  S.Struct({ Type: S.String, Value: S.String }),
+).annotations({
+  identifier: "ResourceAttribute",
+}) as any as S.Schema<ResourceAttribute>;
+export type ResourceAttributeList = ResourceAttribute[];
 export const ResourceAttributeList = S.Array(ResourceAttribute);
-export class AssociateCreatedArtifactRequest extends S.Class<AssociateCreatedArtifactRequest>(
-  "AssociateCreatedArtifactRequest",
-)(
-  {
+export interface AssociateCreatedArtifactRequest {
+  ProgressUpdateStream: string;
+  MigrationTaskName: string;
+  CreatedArtifact: CreatedArtifact;
+  DryRun?: boolean;
+}
+export const AssociateCreatedArtifactRequest = S.suspend(() =>
+  S.Struct({
     ProgressUpdateStream: S.String,
     MigrationTaskName: S.String,
     CreatedArtifact: CreatedArtifact,
     DryRun: S.optional(S.Boolean),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class AssociateCreatedArtifactResult extends S.Class<AssociateCreatedArtifactResult>(
-  "AssociateCreatedArtifactResult",
-)({}) {}
-export class AssociateDiscoveredResourceRequest extends S.Class<AssociateDiscoveredResourceRequest>(
-  "AssociateDiscoveredResourceRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "AssociateCreatedArtifactRequest",
+}) as any as S.Schema<AssociateCreatedArtifactRequest>;
+export interface AssociateCreatedArtifactResult {}
+export const AssociateCreatedArtifactResult = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "AssociateCreatedArtifactResult",
+}) as any as S.Schema<AssociateCreatedArtifactResult>;
+export interface AssociateDiscoveredResourceRequest {
+  ProgressUpdateStream: string;
+  MigrationTaskName: string;
+  DiscoveredResource: DiscoveredResource;
+  DryRun?: boolean;
+}
+export const AssociateDiscoveredResourceRequest = S.suspend(() =>
+  S.Struct({
     ProgressUpdateStream: S.String,
     MigrationTaskName: S.String,
     DiscoveredResource: DiscoveredResource,
     DryRun: S.optional(S.Boolean),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class AssociateDiscoveredResourceResult extends S.Class<AssociateDiscoveredResourceResult>(
-  "AssociateDiscoveredResourceResult",
-)({}) {}
-export class AssociateSourceResourceRequest extends S.Class<AssociateSourceResourceRequest>(
-  "AssociateSourceResourceRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "AssociateDiscoveredResourceRequest",
+}) as any as S.Schema<AssociateDiscoveredResourceRequest>;
+export interface AssociateDiscoveredResourceResult {}
+export const AssociateDiscoveredResourceResult = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "AssociateDiscoveredResourceResult",
+}) as any as S.Schema<AssociateDiscoveredResourceResult>;
+export interface AssociateSourceResourceRequest {
+  ProgressUpdateStream: string;
+  MigrationTaskName: string;
+  SourceResource: SourceResource;
+  DryRun?: boolean;
+}
+export const AssociateSourceResourceRequest = S.suspend(() =>
+  S.Struct({
     ProgressUpdateStream: S.String,
     MigrationTaskName: S.String,
     SourceResource: SourceResource,
     DryRun: S.optional(S.Boolean),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class AssociateSourceResourceResult extends S.Class<AssociateSourceResourceResult>(
-  "AssociateSourceResourceResult",
-)({}) {}
-export class DescribeApplicationStateResult extends S.Class<DescribeApplicationStateResult>(
-  "DescribeApplicationStateResult",
-)({
-  ApplicationStatus: S.optional(S.String),
-  LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class ListCreatedArtifactsResult extends S.Class<ListCreatedArtifactsResult>(
-  "ListCreatedArtifactsResult",
-)({
-  NextToken: S.optional(S.String),
-  CreatedArtifactList: S.optional(CreatedArtifactList),
-}) {}
-export class ListDiscoveredResourcesResult extends S.Class<ListDiscoveredResourcesResult>(
-  "ListDiscoveredResourcesResult",
-)({
-  NextToken: S.optional(S.String),
-  DiscoveredResourceList: S.optional(DiscoveredResourceList),
-}) {}
-export class ListSourceResourcesResult extends S.Class<ListSourceResourcesResult>(
-  "ListSourceResourcesResult",
-)({
-  NextToken: S.optional(S.String),
-  SourceResourceList: S.optional(SourceResourceList),
-}) {}
-export class NotifyMigrationTaskStateRequest extends S.Class<NotifyMigrationTaskStateRequest>(
-  "NotifyMigrationTaskStateRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "AssociateSourceResourceRequest",
+}) as any as S.Schema<AssociateSourceResourceRequest>;
+export interface AssociateSourceResourceResult {}
+export const AssociateSourceResourceResult = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "AssociateSourceResourceResult",
+}) as any as S.Schema<AssociateSourceResourceResult>;
+export interface DescribeApplicationStateResult {
+  ApplicationStatus?: string;
+  LastUpdatedTime?: Date;
+}
+export const DescribeApplicationStateResult = S.suspend(() =>
+  S.Struct({
+    ApplicationStatus: S.optional(S.String),
+    LastUpdatedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "DescribeApplicationStateResult",
+}) as any as S.Schema<DescribeApplicationStateResult>;
+export interface ListCreatedArtifactsResult {
+  NextToken?: string;
+  CreatedArtifactList?: CreatedArtifactList;
+}
+export const ListCreatedArtifactsResult = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    CreatedArtifactList: S.optional(CreatedArtifactList),
+  }),
+).annotations({
+  identifier: "ListCreatedArtifactsResult",
+}) as any as S.Schema<ListCreatedArtifactsResult>;
+export interface ListDiscoveredResourcesResult {
+  NextToken?: string;
+  DiscoveredResourceList?: DiscoveredResourceList;
+}
+export const ListDiscoveredResourcesResult = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    DiscoveredResourceList: S.optional(DiscoveredResourceList),
+  }),
+).annotations({
+  identifier: "ListDiscoveredResourcesResult",
+}) as any as S.Schema<ListDiscoveredResourcesResult>;
+export interface ListSourceResourcesResult {
+  NextToken?: string;
+  SourceResourceList?: SourceResourceList;
+}
+export const ListSourceResourcesResult = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    SourceResourceList: S.optional(SourceResourceList),
+  }),
+).annotations({
+  identifier: "ListSourceResourcesResult",
+}) as any as S.Schema<ListSourceResourcesResult>;
+export interface NotifyMigrationTaskStateRequest {
+  ProgressUpdateStream: string;
+  MigrationTaskName: string;
+  Task: Task;
+  UpdateDateTime: Date;
+  NextUpdateSeconds: number;
+  DryRun?: boolean;
+}
+export const NotifyMigrationTaskStateRequest = S.suspend(() =>
+  S.Struct({
     ProgressUpdateStream: S.String,
     MigrationTaskName: S.String,
     Task: Task,
     UpdateDateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     NextUpdateSeconds: S.Number,
     DryRun: S.optional(S.Boolean),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class NotifyMigrationTaskStateResult extends S.Class<NotifyMigrationTaskStateResult>(
-  "NotifyMigrationTaskStateResult",
-)({}) {}
-export class PutResourceAttributesRequest extends S.Class<PutResourceAttributesRequest>(
-  "PutResourceAttributesRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "NotifyMigrationTaskStateRequest",
+}) as any as S.Schema<NotifyMigrationTaskStateRequest>;
+export interface NotifyMigrationTaskStateResult {}
+export const NotifyMigrationTaskStateResult = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "NotifyMigrationTaskStateResult",
+}) as any as S.Schema<NotifyMigrationTaskStateResult>;
+export interface PutResourceAttributesRequest {
+  ProgressUpdateStream: string;
+  MigrationTaskName: string;
+  ResourceAttributeList: ResourceAttributeList;
+  DryRun?: boolean;
+}
+export const PutResourceAttributesRequest = S.suspend(() =>
+  S.Struct({
     ProgressUpdateStream: S.String,
     MigrationTaskName: S.String,
     ResourceAttributeList: ResourceAttributeList,
     DryRun: S.optional(S.Boolean),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutResourceAttributesResult extends S.Class<PutResourceAttributesResult>(
-  "PutResourceAttributesResult",
-)({}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "PutResourceAttributesRequest",
+}) as any as S.Schema<PutResourceAttributesRequest>;
+export interface PutResourceAttributesResult {}
+export const PutResourceAttributesResult = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "PutResourceAttributesResult",
+}) as any as S.Schema<PutResourceAttributesResult>;
+export type LatestResourceAttributeList = ResourceAttribute[];
 export const LatestResourceAttributeList = S.Array(ResourceAttribute);
-export class MigrationTask extends S.Class<MigrationTask>("MigrationTask")({
-  ProgressUpdateStream: S.optional(S.String),
-  MigrationTaskName: S.optional(S.String),
-  Task: S.optional(Task),
-  UpdateDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  ResourceAttributeList: S.optional(LatestResourceAttributeList),
-}) {}
-export class ApplicationState extends S.Class<ApplicationState>(
-  "ApplicationState",
-)({
-  ApplicationId: S.optional(S.String),
-  ApplicationStatus: S.optional(S.String),
-  LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface MigrationTask {
+  ProgressUpdateStream?: string;
+  MigrationTaskName?: string;
+  Task?: Task;
+  UpdateDateTime?: Date;
+  ResourceAttributeList?: LatestResourceAttributeList;
+}
+export const MigrationTask = S.suspend(() =>
+  S.Struct({
+    ProgressUpdateStream: S.optional(S.String),
+    MigrationTaskName: S.optional(S.String),
+    Task: S.optional(Task),
+    UpdateDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ResourceAttributeList: S.optional(LatestResourceAttributeList),
+  }),
+).annotations({
+  identifier: "MigrationTask",
+}) as any as S.Schema<MigrationTask>;
+export interface ApplicationState {
+  ApplicationId?: string;
+  ApplicationStatus?: string;
+  LastUpdatedTime?: Date;
+}
+export const ApplicationState = S.suspend(() =>
+  S.Struct({
+    ApplicationId: S.optional(S.String),
+    ApplicationStatus: S.optional(S.String),
+    LastUpdatedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "ApplicationState",
+}) as any as S.Schema<ApplicationState>;
+export type ApplicationStateList = ApplicationState[];
 export const ApplicationStateList = S.Array(ApplicationState);
-export class MigrationTaskSummary extends S.Class<MigrationTaskSummary>(
-  "MigrationTaskSummary",
-)({
-  ProgressUpdateStream: S.optional(S.String),
-  MigrationTaskName: S.optional(S.String),
-  Status: S.optional(S.String),
-  ProgressPercent: S.optional(S.Number),
-  StatusDetail: S.optional(S.String),
-  UpdateDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface MigrationTaskSummary {
+  ProgressUpdateStream?: string;
+  MigrationTaskName?: string;
+  Status?: string;
+  ProgressPercent?: number;
+  StatusDetail?: string;
+  UpdateDateTime?: Date;
+}
+export const MigrationTaskSummary = S.suspend(() =>
+  S.Struct({
+    ProgressUpdateStream: S.optional(S.String),
+    MigrationTaskName: S.optional(S.String),
+    Status: S.optional(S.String),
+    ProgressPercent: S.optional(S.Number),
+    StatusDetail: S.optional(S.String),
+    UpdateDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "MigrationTaskSummary",
+}) as any as S.Schema<MigrationTaskSummary>;
+export type MigrationTaskSummaryList = MigrationTaskSummary[];
 export const MigrationTaskSummaryList = S.Array(MigrationTaskSummary);
-export class MigrationTaskUpdate extends S.Class<MigrationTaskUpdate>(
-  "MigrationTaskUpdate",
-)({
-  UpdateDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  UpdateType: S.optional(S.String),
-  MigrationTaskState: S.optional(Task),
-}) {}
+export interface MigrationTaskUpdate {
+  UpdateDateTime?: Date;
+  UpdateType?: string;
+  MigrationTaskState?: Task;
+}
+export const MigrationTaskUpdate = S.suspend(() =>
+  S.Struct({
+    UpdateDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdateType: S.optional(S.String),
+    MigrationTaskState: S.optional(Task),
+  }),
+).annotations({
+  identifier: "MigrationTaskUpdate",
+}) as any as S.Schema<MigrationTaskUpdate>;
+export type MigrationTaskUpdateList = MigrationTaskUpdate[];
 export const MigrationTaskUpdateList = S.Array(MigrationTaskUpdate);
-export class ProgressUpdateStreamSummary extends S.Class<ProgressUpdateStreamSummary>(
-  "ProgressUpdateStreamSummary",
-)({ ProgressUpdateStreamName: S.optional(S.String) }) {}
+export interface ProgressUpdateStreamSummary {
+  ProgressUpdateStreamName?: string;
+}
+export const ProgressUpdateStreamSummary = S.suspend(() =>
+  S.Struct({ ProgressUpdateStreamName: S.optional(S.String) }),
+).annotations({
+  identifier: "ProgressUpdateStreamSummary",
+}) as any as S.Schema<ProgressUpdateStreamSummary>;
+export type ProgressUpdateStreamSummaryList = ProgressUpdateStreamSummary[];
 export const ProgressUpdateStreamSummaryList = S.Array(
   ProgressUpdateStreamSummary,
 );
-export class DescribeMigrationTaskResult extends S.Class<DescribeMigrationTaskResult>(
-  "DescribeMigrationTaskResult",
-)({ MigrationTask: S.optional(MigrationTask) }) {}
-export class ListApplicationStatesResult extends S.Class<ListApplicationStatesResult>(
-  "ListApplicationStatesResult",
-)({
-  ApplicationStateList: S.optional(ApplicationStateList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListMigrationTasksResult extends S.Class<ListMigrationTasksResult>(
-  "ListMigrationTasksResult",
-)({
-  NextToken: S.optional(S.String),
-  MigrationTaskSummaryList: S.optional(MigrationTaskSummaryList),
-}) {}
-export class ListMigrationTaskUpdatesResult extends S.Class<ListMigrationTaskUpdatesResult>(
-  "ListMigrationTaskUpdatesResult",
-)({
-  NextToken: S.optional(S.String),
-  MigrationTaskUpdateList: S.optional(MigrationTaskUpdateList),
-}) {}
-export class ListProgressUpdateStreamsResult extends S.Class<ListProgressUpdateStreamsResult>(
-  "ListProgressUpdateStreamsResult",
-)({
-  ProgressUpdateStreamSummaryList: S.optional(ProgressUpdateStreamSummaryList),
-  NextToken: S.optional(S.String),
-}) {}
+export interface DescribeMigrationTaskResult {
+  MigrationTask?: MigrationTask;
+}
+export const DescribeMigrationTaskResult = S.suspend(() =>
+  S.Struct({ MigrationTask: S.optional(MigrationTask) }),
+).annotations({
+  identifier: "DescribeMigrationTaskResult",
+}) as any as S.Schema<DescribeMigrationTaskResult>;
+export interface ListApplicationStatesResult {
+  ApplicationStateList?: ApplicationStateList;
+  NextToken?: string;
+}
+export const ListApplicationStatesResult = S.suspend(() =>
+  S.Struct({
+    ApplicationStateList: S.optional(ApplicationStateList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListApplicationStatesResult",
+}) as any as S.Schema<ListApplicationStatesResult>;
+export interface ListMigrationTasksResult {
+  NextToken?: string;
+  MigrationTaskSummaryList?: MigrationTaskSummaryList;
+}
+export const ListMigrationTasksResult = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    MigrationTaskSummaryList: S.optional(MigrationTaskSummaryList),
+  }),
+).annotations({
+  identifier: "ListMigrationTasksResult",
+}) as any as S.Schema<ListMigrationTasksResult>;
+export interface ListMigrationTaskUpdatesResult {
+  NextToken?: string;
+  MigrationTaskUpdateList?: MigrationTaskUpdateList;
+}
+export const ListMigrationTaskUpdatesResult = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    MigrationTaskUpdateList: S.optional(MigrationTaskUpdateList),
+  }),
+).annotations({
+  identifier: "ListMigrationTaskUpdatesResult",
+}) as any as S.Schema<ListMigrationTaskUpdatesResult>;
+export interface ListProgressUpdateStreamsResult {
+  ProgressUpdateStreamSummaryList?: ProgressUpdateStreamSummaryList;
+  NextToken?: string;
+}
+export const ListProgressUpdateStreamsResult = S.suspend(() =>
+  S.Struct({
+    ProgressUpdateStreamSummaryList: S.optional(
+      ProgressUpdateStreamSummaryList,
+    ),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListProgressUpdateStreamsResult",
+}) as any as S.Schema<ListProgressUpdateStreamsResult>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

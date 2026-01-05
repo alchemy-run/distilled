@@ -291,331 +291,526 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class S3Location extends S.Class<S3Location>("S3Location")({
-  bucketName: S.optional(S.String),
-  key: S.optional(S.String),
-}) {}
+export interface S3Location {
+  bucketName?: string;
+  key?: string;
+}
+export const S3Location = S.suspend(() =>
+  S.Struct({ bucketName: S.optional(S.String), key: S.optional(S.String) }),
+).annotations({ identifier: "S3Location" }) as any as S.Schema<S3Location>;
+export type InstructionsDocuments = S3Location[];
 export const InstructionsDocuments = S.Array(S3Location);
+export type PartnershipCapabilities = string[];
 export const PartnershipCapabilities = S.Array(S.String);
-export class GenerateMappingRequest extends S.Class<GenerateMappingRequest>(
-  "GenerateMappingRequest",
-)(
-  {
+export interface GenerateMappingRequest {
+  inputFileContent: string;
+  outputFileContent: string;
+  mappingType: string;
+}
+export const GenerateMappingRequest = S.suspend(() =>
+  S.Struct({
     inputFileContent: S.String,
     outputFileContent: S.String,
     mappingType: S.String,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/generate-mapping" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/generate-mapping" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetTransformerJobRequest extends S.Class<GetTransformerJobRequest>(
-  "GetTransformerJobRequest",
-)(
-  {
+).annotations({
+  identifier: "GenerateMappingRequest",
+}) as any as S.Schema<GenerateMappingRequest>;
+export interface GetTransformerJobRequest {
+  transformerJobId: string;
+  transformerId: string;
+}
+export const GetTransformerJobRequest = S.suspend(() =>
+  S.Struct({
     transformerJobId: S.String.pipe(T.HttpLabel("transformerJobId")),
     transformerId: S.String.pipe(T.HttpQuery("transformerId")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/transformer-jobs/{transformerJobId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/transformer-jobs/{transformerJobId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { ResourceARN: S.String.pipe(T.HttpLabel("ResourceARN")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/tags/{ResourceARN}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetTransformerJobRequest",
+}) as any as S.Schema<GetTransformerJobRequest>;
+export interface ListTagsForResourceRequest {
+  ResourceARN: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceARN: S.String.pipe(T.HttpLabel("ResourceARN")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tags/{ResourceARN}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartTransformerJobRequest extends S.Class<StartTransformerJobRequest>(
-  "StartTransformerJobRequest",
-)(
-  {
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface StartTransformerJobRequest {
+  inputFile: S3Location;
+  outputLocation: S3Location;
+  transformerId: string;
+  clientToken?: string;
+}
+export const StartTransformerJobRequest = S.suspend(() =>
+  S.Struct({
     inputFile: S3Location,
     outputLocation: S3Location,
     transformerId: S.String,
     clientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/transformer-jobs" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/transformer-jobs" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TestMappingRequest extends S.Class<TestMappingRequest>(
-  "TestMappingRequest",
-)(
-  {
+).annotations({
+  identifier: "StartTransformerJobRequest",
+}) as any as S.Schema<StartTransformerJobRequest>;
+export interface TestMappingRequest {
+  inputFileContent: string;
+  mappingTemplate: string;
+  fileFormat: string;
+}
+export const TestMappingRequest = S.suspend(() =>
+  S.Struct({
     inputFileContent: S.String,
     mappingTemplate: S.String,
     fileFormat: S.String,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/testmapping" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/testmapping" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "TestMappingRequest",
+}) as any as S.Schema<TestMappingRequest>;
+export interface UntagResourceRequest {
+  ResourceARN: string;
+  TagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
     ResourceARN: S.String.pipe(T.HttpLabel("ResourceARN")),
     TagKeys: TagKeyList.pipe(T.HttpQuery("TagKeys")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/tags/{ResourceARN}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{ResourceARN}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
-export class GetCapabilityRequest extends S.Class<GetCapabilityRequest>(
-  "GetCapabilityRequest",
-)(
-  { capabilityId: S.String.pipe(T.HttpLabel("capabilityId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/capabilities/{capabilityId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface GetCapabilityRequest {
+  capabilityId: string;
+}
+export const GetCapabilityRequest = S.suspend(() =>
+  S.Struct({ capabilityId: S.String.pipe(T.HttpLabel("capabilityId")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/capabilities/{capabilityId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class X12Details extends S.Class<X12Details>("X12Details")({
-  transactionSet: S.optional(S.String),
-  version: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "GetCapabilityRequest",
+}) as any as S.Schema<GetCapabilityRequest>;
+export interface X12Details {
+  transactionSet?: string;
+  version?: string;
+}
+export const X12Details = S.suspend(() =>
+  S.Struct({
+    transactionSet: S.optional(S.String),
+    version: S.optional(S.String),
+  }),
+).annotations({ identifier: "X12Details" }) as any as S.Schema<X12Details>;
 export const EdiType = S.Union(S.Struct({ x12Details: X12Details }));
-export class EdiConfiguration extends S.Class<EdiConfiguration>(
-  "EdiConfiguration",
-)({
-  capabilityDirection: S.optional(S.String),
-  type: EdiType,
-  inputLocation: S3Location,
-  outputLocation: S3Location,
-  transformerId: S.String,
-}) {}
+export interface EdiConfiguration {
+  capabilityDirection?: string;
+  type: (typeof EdiType)["Type"];
+  inputLocation: S3Location;
+  outputLocation: S3Location;
+  transformerId: string;
+}
+export const EdiConfiguration = S.suspend(() =>
+  S.Struct({
+    capabilityDirection: S.optional(S.String),
+    type: EdiType,
+    inputLocation: S3Location,
+    outputLocation: S3Location,
+    transformerId: S.String,
+  }),
+).annotations({
+  identifier: "EdiConfiguration",
+}) as any as S.Schema<EdiConfiguration>;
 export const CapabilityConfiguration = S.Union(
   S.Struct({ edi: EdiConfiguration }),
 );
-export class UpdateCapabilityRequest extends S.Class<UpdateCapabilityRequest>(
-  "UpdateCapabilityRequest",
-)(
-  {
+export interface UpdateCapabilityRequest {
+  capabilityId: string;
+  name?: string;
+  configuration?: (typeof CapabilityConfiguration)["Type"];
+  instructionsDocuments?: InstructionsDocuments;
+}
+export const UpdateCapabilityRequest = S.suspend(() =>
+  S.Struct({
     capabilityId: S.String.pipe(T.HttpLabel("capabilityId")),
     name: S.optional(S.String),
     configuration: S.optional(CapabilityConfiguration),
     instructionsDocuments: S.optional(InstructionsDocuments),
-  },
-  T.all(
-    T.Http({ method: "PATCH", uri: "/capabilities/{capabilityId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PATCH", uri: "/capabilities/{capabilityId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteCapabilityRequest extends S.Class<DeleteCapabilityRequest>(
-  "DeleteCapabilityRequest",
-)(
-  { capabilityId: S.String.pipe(T.HttpLabel("capabilityId")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/capabilities/{capabilityId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UpdateCapabilityRequest",
+}) as any as S.Schema<UpdateCapabilityRequest>;
+export interface DeleteCapabilityRequest {
+  capabilityId: string;
+}
+export const DeleteCapabilityRequest = S.suspend(() =>
+  S.Struct({ capabilityId: S.String.pipe(T.HttpLabel("capabilityId")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/capabilities/{capabilityId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteCapabilityResponse extends S.Class<DeleteCapabilityResponse>(
-  "DeleteCapabilityResponse",
-)({}) {}
-export class ListCapabilitiesRequest extends S.Class<ListCapabilitiesRequest>(
-  "ListCapabilitiesRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteCapabilityRequest",
+}) as any as S.Schema<DeleteCapabilityRequest>;
+export interface DeleteCapabilityResponse {}
+export const DeleteCapabilityResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteCapabilityResponse",
+}) as any as S.Schema<DeleteCapabilityResponse>;
+export interface ListCapabilitiesRequest {
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListCapabilitiesRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/capabilities" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/capabilities" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetPartnershipRequest extends S.Class<GetPartnershipRequest>(
-  "GetPartnershipRequest",
-)(
-  { partnershipId: S.String.pipe(T.HttpLabel("partnershipId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/partnerships/{partnershipId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListCapabilitiesRequest",
+}) as any as S.Schema<ListCapabilitiesRequest>;
+export interface GetPartnershipRequest {
+  partnershipId: string;
+}
+export const GetPartnershipRequest = S.suspend(() =>
+  S.Struct({ partnershipId: S.String.pipe(T.HttpLabel("partnershipId")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/partnerships/{partnershipId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class X12InterchangeControlHeaders extends S.Class<X12InterchangeControlHeaders>(
-  "X12InterchangeControlHeaders",
-)({
-  senderIdQualifier: S.optional(S.String),
-  senderId: S.optional(S.String),
-  receiverIdQualifier: S.optional(S.String),
-  receiverId: S.optional(S.String),
-  repetitionSeparator: S.optional(S.String),
-  acknowledgmentRequestedCode: S.optional(S.String),
-  usageIndicatorCode: S.optional(S.String),
-}) {}
-export class X12FunctionalGroupHeaders extends S.Class<X12FunctionalGroupHeaders>(
-  "X12FunctionalGroupHeaders",
-)({
-  applicationSenderCode: S.optional(S.String),
-  applicationReceiverCode: S.optional(S.String),
-  responsibleAgencyCode: S.optional(S.String),
-}) {}
-export class X12Delimiters extends S.Class<X12Delimiters>("X12Delimiters")({
-  componentSeparator: S.optional(S.String),
-  dataElementSeparator: S.optional(S.String),
-  segmentTerminator: S.optional(S.String),
-}) {}
-export class X12ControlNumbers extends S.Class<X12ControlNumbers>(
-  "X12ControlNumbers",
-)({
-  startingInterchangeControlNumber: S.optional(S.Number),
-  startingFunctionalGroupControlNumber: S.optional(S.Number),
-  startingTransactionSetControlNumber: S.optional(S.Number),
-}) {}
-export class X12OutboundEdiHeaders extends S.Class<X12OutboundEdiHeaders>(
-  "X12OutboundEdiHeaders",
-)({
-  interchangeControlHeaders: S.optional(X12InterchangeControlHeaders),
-  functionalGroupHeaders: S.optional(X12FunctionalGroupHeaders),
-  delimiters: S.optional(X12Delimiters),
-  validateEdi: S.optional(S.Boolean),
-  controlNumbers: S.optional(X12ControlNumbers),
-  gs05TimeFormat: S.optional(S.String),
-}) {}
-export class WrapOptions extends S.Class<WrapOptions>("WrapOptions")({
-  wrapBy: S.String,
-  lineTerminator: S.optional(S.String),
-  lineLength: S.optional(S.Number),
-}) {}
-export class X12Envelope extends S.Class<X12Envelope>("X12Envelope")({
-  common: S.optional(X12OutboundEdiHeaders),
-  wrapOptions: S.optional(WrapOptions),
-}) {}
+).annotations({
+  identifier: "GetPartnershipRequest",
+}) as any as S.Schema<GetPartnershipRequest>;
+export interface X12InterchangeControlHeaders {
+  senderIdQualifier?: string;
+  senderId?: string;
+  receiverIdQualifier?: string;
+  receiverId?: string;
+  repetitionSeparator?: string;
+  acknowledgmentRequestedCode?: string;
+  usageIndicatorCode?: string;
+}
+export const X12InterchangeControlHeaders = S.suspend(() =>
+  S.Struct({
+    senderIdQualifier: S.optional(S.String),
+    senderId: S.optional(S.String),
+    receiverIdQualifier: S.optional(S.String),
+    receiverId: S.optional(S.String),
+    repetitionSeparator: S.optional(S.String),
+    acknowledgmentRequestedCode: S.optional(S.String),
+    usageIndicatorCode: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "X12InterchangeControlHeaders",
+}) as any as S.Schema<X12InterchangeControlHeaders>;
+export interface X12FunctionalGroupHeaders {
+  applicationSenderCode?: string;
+  applicationReceiverCode?: string;
+  responsibleAgencyCode?: string;
+}
+export const X12FunctionalGroupHeaders = S.suspend(() =>
+  S.Struct({
+    applicationSenderCode: S.optional(S.String),
+    applicationReceiverCode: S.optional(S.String),
+    responsibleAgencyCode: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "X12FunctionalGroupHeaders",
+}) as any as S.Schema<X12FunctionalGroupHeaders>;
+export interface X12Delimiters {
+  componentSeparator?: string;
+  dataElementSeparator?: string;
+  segmentTerminator?: string;
+}
+export const X12Delimiters = S.suspend(() =>
+  S.Struct({
+    componentSeparator: S.optional(S.String),
+    dataElementSeparator: S.optional(S.String),
+    segmentTerminator: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "X12Delimiters",
+}) as any as S.Schema<X12Delimiters>;
+export interface X12ControlNumbers {
+  startingInterchangeControlNumber?: number;
+  startingFunctionalGroupControlNumber?: number;
+  startingTransactionSetControlNumber?: number;
+}
+export const X12ControlNumbers = S.suspend(() =>
+  S.Struct({
+    startingInterchangeControlNumber: S.optional(S.Number),
+    startingFunctionalGroupControlNumber: S.optional(S.Number),
+    startingTransactionSetControlNumber: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "X12ControlNumbers",
+}) as any as S.Schema<X12ControlNumbers>;
+export interface X12OutboundEdiHeaders {
+  interchangeControlHeaders?: X12InterchangeControlHeaders;
+  functionalGroupHeaders?: X12FunctionalGroupHeaders;
+  delimiters?: X12Delimiters;
+  validateEdi?: boolean;
+  controlNumbers?: X12ControlNumbers;
+  gs05TimeFormat?: string;
+}
+export const X12OutboundEdiHeaders = S.suspend(() =>
+  S.Struct({
+    interchangeControlHeaders: S.optional(X12InterchangeControlHeaders),
+    functionalGroupHeaders: S.optional(X12FunctionalGroupHeaders),
+    delimiters: S.optional(X12Delimiters),
+    validateEdi: S.optional(S.Boolean),
+    controlNumbers: S.optional(X12ControlNumbers),
+    gs05TimeFormat: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "X12OutboundEdiHeaders",
+}) as any as S.Schema<X12OutboundEdiHeaders>;
+export interface WrapOptions {
+  wrapBy: string;
+  lineTerminator?: string;
+  lineLength?: number;
+}
+export const WrapOptions = S.suspend(() =>
+  S.Struct({
+    wrapBy: S.String,
+    lineTerminator: S.optional(S.String),
+    lineLength: S.optional(S.Number),
+  }),
+).annotations({ identifier: "WrapOptions" }) as any as S.Schema<WrapOptions>;
+export interface X12Envelope {
+  common?: X12OutboundEdiHeaders;
+  wrapOptions?: WrapOptions;
+}
+export const X12Envelope = S.suspend(() =>
+  S.Struct({
+    common: S.optional(X12OutboundEdiHeaders),
+    wrapOptions: S.optional(WrapOptions),
+  }),
+).annotations({ identifier: "X12Envelope" }) as any as S.Schema<X12Envelope>;
 export const OutboundEdiOptions = S.Union(S.Struct({ x12: X12Envelope }));
-export class X12AcknowledgmentOptions extends S.Class<X12AcknowledgmentOptions>(
-  "X12AcknowledgmentOptions",
-)({ functionalAcknowledgment: S.String, technicalAcknowledgment: S.String }) {}
-export class X12InboundEdiOptions extends S.Class<X12InboundEdiOptions>(
-  "X12InboundEdiOptions",
-)({ acknowledgmentOptions: S.optional(X12AcknowledgmentOptions) }) {}
-export class InboundEdiOptions extends S.Class<InboundEdiOptions>(
-  "InboundEdiOptions",
-)({ x12: S.optional(X12InboundEdiOptions) }) {}
-export class CapabilityOptions extends S.Class<CapabilityOptions>(
-  "CapabilityOptions",
-)({
-  outboundEdi: S.optional(OutboundEdiOptions),
-  inboundEdi: S.optional(InboundEdiOptions),
-}) {}
-export class UpdatePartnershipRequest extends S.Class<UpdatePartnershipRequest>(
-  "UpdatePartnershipRequest",
-)(
-  {
+export interface X12AcknowledgmentOptions {
+  functionalAcknowledgment: string;
+  technicalAcknowledgment: string;
+}
+export const X12AcknowledgmentOptions = S.suspend(() =>
+  S.Struct({
+    functionalAcknowledgment: S.String,
+    technicalAcknowledgment: S.String,
+  }),
+).annotations({
+  identifier: "X12AcknowledgmentOptions",
+}) as any as S.Schema<X12AcknowledgmentOptions>;
+export interface X12InboundEdiOptions {
+  acknowledgmentOptions?: X12AcknowledgmentOptions;
+}
+export const X12InboundEdiOptions = S.suspend(() =>
+  S.Struct({ acknowledgmentOptions: S.optional(X12AcknowledgmentOptions) }),
+).annotations({
+  identifier: "X12InboundEdiOptions",
+}) as any as S.Schema<X12InboundEdiOptions>;
+export interface InboundEdiOptions {
+  x12?: X12InboundEdiOptions;
+}
+export const InboundEdiOptions = S.suspend(() =>
+  S.Struct({ x12: S.optional(X12InboundEdiOptions) }),
+).annotations({
+  identifier: "InboundEdiOptions",
+}) as any as S.Schema<InboundEdiOptions>;
+export interface CapabilityOptions {
+  outboundEdi?: (typeof OutboundEdiOptions)["Type"];
+  inboundEdi?: InboundEdiOptions;
+}
+export const CapabilityOptions = S.suspend(() =>
+  S.Struct({
+    outboundEdi: S.optional(OutboundEdiOptions),
+    inboundEdi: S.optional(InboundEdiOptions),
+  }),
+).annotations({
+  identifier: "CapabilityOptions",
+}) as any as S.Schema<CapabilityOptions>;
+export interface UpdatePartnershipRequest {
+  partnershipId: string;
+  name?: string;
+  capabilities?: PartnershipCapabilities;
+  capabilityOptions?: CapabilityOptions;
+}
+export const UpdatePartnershipRequest = S.suspend(() =>
+  S.Struct({
     partnershipId: S.String.pipe(T.HttpLabel("partnershipId")),
     name: S.optional(S.String),
     capabilities: S.optional(PartnershipCapabilities),
     capabilityOptions: S.optional(CapabilityOptions),
-  },
-  T.all(
-    T.Http({ method: "PATCH", uri: "/partnerships/{partnershipId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PATCH", uri: "/partnerships/{partnershipId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeletePartnershipRequest extends S.Class<DeletePartnershipRequest>(
-  "DeletePartnershipRequest",
-)(
-  { partnershipId: S.String.pipe(T.HttpLabel("partnershipId")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/partnerships/{partnershipId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UpdatePartnershipRequest",
+}) as any as S.Schema<UpdatePartnershipRequest>;
+export interface DeletePartnershipRequest {
+  partnershipId: string;
+}
+export const DeletePartnershipRequest = S.suspend(() =>
+  S.Struct({ partnershipId: S.String.pipe(T.HttpLabel("partnershipId")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/partnerships/{partnershipId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeletePartnershipResponse extends S.Class<DeletePartnershipResponse>(
-  "DeletePartnershipResponse",
-)({}) {}
-export class ListPartnershipsRequest extends S.Class<ListPartnershipsRequest>(
-  "ListPartnershipsRequest",
-)(
-  {
+).annotations({
+  identifier: "DeletePartnershipRequest",
+}) as any as S.Schema<DeletePartnershipRequest>;
+export interface DeletePartnershipResponse {}
+export const DeletePartnershipResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeletePartnershipResponse",
+}) as any as S.Schema<DeletePartnershipResponse>;
+export interface ListPartnershipsRequest {
+  profileId?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListPartnershipsRequest = S.suspend(() =>
+  S.Struct({
     profileId: S.optional(S.String).pipe(T.HttpQuery("profileId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/partnerships" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/partnerships" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class Tag extends S.Class<Tag>("Tag")({
-  Key: S.String,
-  Value: S.String,
-}) {}
+).annotations({
+  identifier: "ListPartnershipsRequest",
+}) as any as S.Schema<ListPartnershipsRequest>;
+export interface Tag {
+  Key: string;
+  Value: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ Key: S.String, Value: S.String }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagList = Tag[];
 export const TagList = S.Array(Tag);
-export class CreateProfileRequest extends S.Class<CreateProfileRequest>(
-  "CreateProfileRequest",
-)(
-  {
+export interface CreateProfileRequest {
+  name: string;
+  email?: string;
+  phone: string;
+  businessName: string;
+  logging: string;
+  clientToken?: string;
+  tags?: TagList;
+}
+export const CreateProfileRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     email: S.optional(S.String),
     phone: S.String,
@@ -623,111 +818,166 @@ export class CreateProfileRequest extends S.Class<CreateProfileRequest>(
     logging: S.String,
     clientToken: S.optional(S.String),
     tags: S.optional(TagList),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/profiles" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/profiles" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetProfileRequest extends S.Class<GetProfileRequest>(
-  "GetProfileRequest",
-)(
-  { profileId: S.String.pipe(T.HttpLabel("profileId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/profiles/{profileId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CreateProfileRequest",
+}) as any as S.Schema<CreateProfileRequest>;
+export interface GetProfileRequest {
+  profileId: string;
+}
+export const GetProfileRequest = S.suspend(() =>
+  S.Struct({ profileId: S.String.pipe(T.HttpLabel("profileId")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/profiles/{profileId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateProfileRequest extends S.Class<UpdateProfileRequest>(
-  "UpdateProfileRequest",
-)(
-  {
+).annotations({
+  identifier: "GetProfileRequest",
+}) as any as S.Schema<GetProfileRequest>;
+export interface UpdateProfileRequest {
+  profileId: string;
+  name?: string;
+  email?: string;
+  phone?: string;
+  businessName?: string;
+}
+export const UpdateProfileRequest = S.suspend(() =>
+  S.Struct({
     profileId: S.String.pipe(T.HttpLabel("profileId")),
     name: S.optional(S.String),
     email: S.optional(S.String),
     phone: S.optional(S.String),
     businessName: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "PATCH", uri: "/profiles/{profileId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PATCH", uri: "/profiles/{profileId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteProfileRequest extends S.Class<DeleteProfileRequest>(
-  "DeleteProfileRequest",
-)(
-  { profileId: S.String.pipe(T.HttpLabel("profileId")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/profiles/{profileId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UpdateProfileRequest",
+}) as any as S.Schema<UpdateProfileRequest>;
+export interface DeleteProfileRequest {
+  profileId: string;
+}
+export const DeleteProfileRequest = S.suspend(() =>
+  S.Struct({ profileId: S.String.pipe(T.HttpLabel("profileId")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/profiles/{profileId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteProfileResponse extends S.Class<DeleteProfileResponse>(
-  "DeleteProfileResponse",
-)({}) {}
-export class ListProfilesRequest extends S.Class<ListProfilesRequest>(
-  "ListProfilesRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteProfileRequest",
+}) as any as S.Schema<DeleteProfileRequest>;
+export interface DeleteProfileResponse {}
+export const DeleteProfileResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteProfileResponse",
+}) as any as S.Schema<DeleteProfileResponse>;
+export interface ListProfilesRequest {
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListProfilesRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/profiles" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/profiles" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetTransformerRequest extends S.Class<GetTransformerRequest>(
-  "GetTransformerRequest",
-)(
-  { transformerId: S.String.pipe(T.HttpLabel("transformerId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/transformers/{transformerId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListProfilesRequest",
+}) as any as S.Schema<ListProfilesRequest>;
+export interface GetTransformerRequest {
+  transformerId: string;
+}
+export const GetTransformerRequest = S.suspend(() =>
+  S.Struct({ transformerId: S.String.pipe(T.HttpLabel("transformerId")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/transformers/{transformerId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "GetTransformerRequest",
+}) as any as S.Schema<GetTransformerRequest>;
 export const FormatOptions = S.Union(S.Struct({ x12: X12Details }));
-export class X12SplitOptions extends S.Class<X12SplitOptions>(
-  "X12SplitOptions",
-)({ splitBy: S.String }) {}
+export interface X12SplitOptions {
+  splitBy: string;
+}
+export const X12SplitOptions = S.suspend(() =>
+  S.Struct({ splitBy: S.String }),
+).annotations({
+  identifier: "X12SplitOptions",
+}) as any as S.Schema<X12SplitOptions>;
+export type CodeList = string[];
 export const CodeList = S.Array(S.String);
-export class X12CodeListValidationRule extends S.Class<X12CodeListValidationRule>(
-  "X12CodeListValidationRule",
-)({
-  elementId: S.String,
-  codesToAdd: S.optional(CodeList),
-  codesToRemove: S.optional(CodeList),
-}) {}
-export class X12ElementLengthValidationRule extends S.Class<X12ElementLengthValidationRule>(
-  "X12ElementLengthValidationRule",
-)({ elementId: S.String, maxLength: S.Number, minLength: S.Number }) {}
-export class X12ElementRequirementValidationRule extends S.Class<X12ElementRequirementValidationRule>(
-  "X12ElementRequirementValidationRule",
-)({ elementPosition: S.String, requirement: S.String }) {}
+export interface X12CodeListValidationRule {
+  elementId: string;
+  codesToAdd?: CodeList;
+  codesToRemove?: CodeList;
+}
+export const X12CodeListValidationRule = S.suspend(() =>
+  S.Struct({
+    elementId: S.String,
+    codesToAdd: S.optional(CodeList),
+    codesToRemove: S.optional(CodeList),
+  }),
+).annotations({
+  identifier: "X12CodeListValidationRule",
+}) as any as S.Schema<X12CodeListValidationRule>;
+export interface X12ElementLengthValidationRule {
+  elementId: string;
+  maxLength: number;
+  minLength: number;
+}
+export const X12ElementLengthValidationRule = S.suspend(() =>
+  S.Struct({ elementId: S.String, maxLength: S.Number, minLength: S.Number }),
+).annotations({
+  identifier: "X12ElementLengthValidationRule",
+}) as any as S.Schema<X12ElementLengthValidationRule>;
+export interface X12ElementRequirementValidationRule {
+  elementPosition: string;
+  requirement: string;
+}
+export const X12ElementRequirementValidationRule = S.suspend(() =>
+  S.Struct({ elementPosition: S.String, requirement: S.String }),
+).annotations({
+  identifier: "X12ElementRequirementValidationRule",
+}) as any as S.Schema<X12ElementRequirementValidationRule>;
 export const X12ValidationRule = S.Union(
   S.Struct({ codeListValidationRule: X12CodeListValidationRule }),
   S.Struct({ elementLengthValidationRule: X12ElementLengthValidationRule }),
@@ -735,48 +985,106 @@ export const X12ValidationRule = S.Union(
     elementRequirementValidationRule: X12ElementRequirementValidationRule,
   }),
 );
+export type X12ValidationRules = (typeof X12ValidationRule)["Type"][];
 export const X12ValidationRules = S.Array(X12ValidationRule);
-export class X12ValidationOptions extends S.Class<X12ValidationOptions>(
-  "X12ValidationOptions",
-)({ validationRules: S.optional(X12ValidationRules) }) {}
-export class X12AdvancedOptions extends S.Class<X12AdvancedOptions>(
-  "X12AdvancedOptions",
-)({
-  splitOptions: S.optional(X12SplitOptions),
-  validationOptions: S.optional(X12ValidationOptions),
-}) {}
-export class AdvancedOptions extends S.Class<AdvancedOptions>(
-  "AdvancedOptions",
-)({ x12: S.optional(X12AdvancedOptions) }) {}
-export class InputConversion extends S.Class<InputConversion>(
-  "InputConversion",
-)({
-  fromFormat: S.String,
-  formatOptions: S.optional(FormatOptions),
-  advancedOptions: S.optional(AdvancedOptions),
-}) {}
-export class Mapping extends S.Class<Mapping>("Mapping")({
-  templateLanguage: S.String,
-  template: S.optional(S.String),
-}) {}
-export class OutputConversion extends S.Class<OutputConversion>(
-  "OutputConversion",
-)({
-  toFormat: S.String,
-  formatOptions: S.optional(FormatOptions),
-  advancedOptions: S.optional(AdvancedOptions),
-}) {}
-export class SampleDocumentKeys extends S.Class<SampleDocumentKeys>(
-  "SampleDocumentKeys",
-)({ input: S.optional(S.String), output: S.optional(S.String) }) {}
+export interface X12ValidationOptions {
+  validationRules?: X12ValidationRules;
+}
+export const X12ValidationOptions = S.suspend(() =>
+  S.Struct({ validationRules: S.optional(X12ValidationRules) }),
+).annotations({
+  identifier: "X12ValidationOptions",
+}) as any as S.Schema<X12ValidationOptions>;
+export interface X12AdvancedOptions {
+  splitOptions?: X12SplitOptions;
+  validationOptions?: X12ValidationOptions;
+}
+export const X12AdvancedOptions = S.suspend(() =>
+  S.Struct({
+    splitOptions: S.optional(X12SplitOptions),
+    validationOptions: S.optional(X12ValidationOptions),
+  }),
+).annotations({
+  identifier: "X12AdvancedOptions",
+}) as any as S.Schema<X12AdvancedOptions>;
+export interface AdvancedOptions {
+  x12?: X12AdvancedOptions;
+}
+export const AdvancedOptions = S.suspend(() =>
+  S.Struct({ x12: S.optional(X12AdvancedOptions) }),
+).annotations({
+  identifier: "AdvancedOptions",
+}) as any as S.Schema<AdvancedOptions>;
+export interface InputConversion {
+  fromFormat: string;
+  formatOptions?: (typeof FormatOptions)["Type"];
+  advancedOptions?: AdvancedOptions;
+}
+export const InputConversion = S.suspend(() =>
+  S.Struct({
+    fromFormat: S.String,
+    formatOptions: S.optional(FormatOptions),
+    advancedOptions: S.optional(AdvancedOptions),
+  }),
+).annotations({
+  identifier: "InputConversion",
+}) as any as S.Schema<InputConversion>;
+export interface Mapping {
+  templateLanguage: string;
+  template?: string;
+}
+export const Mapping = S.suspend(() =>
+  S.Struct({ templateLanguage: S.String, template: S.optional(S.String) }),
+).annotations({ identifier: "Mapping" }) as any as S.Schema<Mapping>;
+export interface OutputConversion {
+  toFormat: string;
+  formatOptions?: (typeof FormatOptions)["Type"];
+  advancedOptions?: AdvancedOptions;
+}
+export const OutputConversion = S.suspend(() =>
+  S.Struct({
+    toFormat: S.String,
+    formatOptions: S.optional(FormatOptions),
+    advancedOptions: S.optional(AdvancedOptions),
+  }),
+).annotations({
+  identifier: "OutputConversion",
+}) as any as S.Schema<OutputConversion>;
+export interface SampleDocumentKeys {
+  input?: string;
+  output?: string;
+}
+export const SampleDocumentKeys = S.suspend(() =>
+  S.Struct({ input: S.optional(S.String), output: S.optional(S.String) }),
+).annotations({
+  identifier: "SampleDocumentKeys",
+}) as any as S.Schema<SampleDocumentKeys>;
+export type KeyList = SampleDocumentKeys[];
 export const KeyList = S.Array(SampleDocumentKeys);
-export class SampleDocuments extends S.Class<SampleDocuments>(
-  "SampleDocuments",
-)({ bucketName: S.String, keys: KeyList }) {}
-export class UpdateTransformerRequest extends S.Class<UpdateTransformerRequest>(
-  "UpdateTransformerRequest",
-)(
-  {
+export interface SampleDocuments {
+  bucketName: string;
+  keys: KeyList;
+}
+export const SampleDocuments = S.suspend(() =>
+  S.Struct({ bucketName: S.String, keys: KeyList }),
+).annotations({
+  identifier: "SampleDocuments",
+}) as any as S.Schema<SampleDocuments>;
+export interface UpdateTransformerRequest {
+  transformerId: string;
+  name?: string;
+  status?: string;
+  fileFormat?: string;
+  mappingTemplate?: string;
+  ediType?: (typeof EdiType)["Type"];
+  sampleDocument?: string;
+  inputConversion?: InputConversion;
+  mapping?: Mapping;
+  outputConversion?: OutputConversion;
+  sampleDocuments?: SampleDocuments;
+}
+export const UpdateTransformerRequest = S.suspend(() =>
+  S.Struct({
     transformerId: S.String.pipe(T.HttpLabel("transformerId")),
     name: S.optional(S.String),
     status: S.optional(S.String),
@@ -788,215 +1096,402 @@ export class UpdateTransformerRequest extends S.Class<UpdateTransformerRequest>(
     mapping: S.optional(Mapping),
     outputConversion: S.optional(OutputConversion),
     sampleDocuments: S.optional(SampleDocuments),
-  },
-  T.all(
-    T.Http({ method: "PATCH", uri: "/transformers/{transformerId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PATCH", uri: "/transformers/{transformerId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteTransformerRequest extends S.Class<DeleteTransformerRequest>(
-  "DeleteTransformerRequest",
-)(
-  { transformerId: S.String.pipe(T.HttpLabel("transformerId")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/transformers/{transformerId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UpdateTransformerRequest",
+}) as any as S.Schema<UpdateTransformerRequest>;
+export interface DeleteTransformerRequest {
+  transformerId: string;
+}
+export const DeleteTransformerRequest = S.suspend(() =>
+  S.Struct({ transformerId: S.String.pipe(T.HttpLabel("transformerId")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/transformers/{transformerId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteTransformerResponse extends S.Class<DeleteTransformerResponse>(
-  "DeleteTransformerResponse",
-)({}) {}
-export class ListTransformersRequest extends S.Class<ListTransformersRequest>(
-  "ListTransformersRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteTransformerRequest",
+}) as any as S.Schema<DeleteTransformerRequest>;
+export interface DeleteTransformerResponse {}
+export const DeleteTransformerResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteTransformerResponse",
+}) as any as S.Schema<DeleteTransformerResponse>;
+export interface ListTransformersRequest {
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListTransformersRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/transformers" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/transformers" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "ListTransformersRequest",
+}) as any as S.Schema<ListTransformersRequest>;
+export type S3LocationList = S3Location[];
 export const S3LocationList = S.Array(S3Location);
-export class GenerateMappingResponse extends S.Class<GenerateMappingResponse>(
-  "GenerateMappingResponse",
-)({ mappingTemplate: S.String, mappingAccuracy: S.optional(S.Number) }) {}
-export class GetTransformerJobResponse extends S.Class<GetTransformerJobResponse>(
-  "GetTransformerJobResponse",
-)({
-  status: S.String,
-  outputFiles: S.optional(S3LocationList),
-  message: S.optional(S.String),
-}) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ Tags: S.optional(TagList) }) {}
-export class StartTransformerJobResponse extends S.Class<StartTransformerJobResponse>(
-  "StartTransformerJobResponse",
-)({ transformerJobId: S.String }) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { ResourceARN: S.String.pipe(T.HttpLabel("ResourceARN")), Tags: TagList },
-  T.all(
-    T.Http({ method: "POST", uri: "/tags/{ResourceARN}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface GenerateMappingResponse {
+  mappingTemplate: string;
+  mappingAccuracy?: number;
+}
+export const GenerateMappingResponse = S.suspend(() =>
+  S.Struct({
+    mappingTemplate: S.String,
+    mappingAccuracy: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "GenerateMappingResponse",
+}) as any as S.Schema<GenerateMappingResponse>;
+export interface GetTransformerJobResponse {
+  status: string;
+  outputFiles?: S3LocationList;
+  message?: string;
+}
+export const GetTransformerJobResponse = S.suspend(() =>
+  S.Struct({
+    status: S.String,
+    outputFiles: S.optional(S3LocationList),
+    message: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetTransformerJobResponse",
+}) as any as S.Schema<GetTransformerJobResponse>;
+export interface ListTagsForResourceResponse {
+  Tags?: TagList;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ Tags: S.optional(TagList) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface StartTransformerJobResponse {
+  transformerJobId: string;
+}
+export const StartTransformerJobResponse = S.suspend(() =>
+  S.Struct({ transformerJobId: S.String }),
+).annotations({
+  identifier: "StartTransformerJobResponse",
+}) as any as S.Schema<StartTransformerJobResponse>;
+export interface TagResourceRequest {
+  ResourceARN: string;
+  Tags: TagList;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({
+    ResourceARN: S.String.pipe(T.HttpLabel("ResourceARN")),
+    Tags: TagList,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tags/{ResourceARN}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class TestMappingResponse extends S.Class<TestMappingResponse>(
-  "TestMappingResponse",
-)({ mappedFileContent: S.String }) {}
-export class GetCapabilityResponse extends S.Class<GetCapabilityResponse>(
-  "GetCapabilityResponse",
-)({
-  capabilityId: S.String,
-  capabilityArn: S.String,
-  name: S.String,
-  type: S.String,
-  configuration: CapabilityConfiguration,
-  instructionsDocuments: S.optional(InstructionsDocuments),
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-}) {}
-export class UpdateCapabilityResponse extends S.Class<UpdateCapabilityResponse>(
-  "UpdateCapabilityResponse",
-)({
-  capabilityId: S.String,
-  capabilityArn: S.String,
-  name: S.String,
-  type: S.String,
-  configuration: CapabilityConfiguration,
-  instructionsDocuments: S.optional(InstructionsDocuments),
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-}) {}
-export class GetPartnershipResponse extends S.Class<GetPartnershipResponse>(
-  "GetPartnershipResponse",
-)({
-  profileId: S.String,
-  partnershipId: S.String,
-  partnershipArn: S.String,
-  name: S.optional(S.String),
-  email: S.optional(S.String),
-  phone: S.optional(S.String),
-  capabilities: S.optional(PartnershipCapabilities),
-  capabilityOptions: S.optional(CapabilityOptions),
-  tradingPartnerId: S.optional(S.String),
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-}) {}
-export class UpdatePartnershipResponse extends S.Class<UpdatePartnershipResponse>(
-  "UpdatePartnershipResponse",
-)({
-  profileId: S.String,
-  partnershipId: S.String,
-  partnershipArn: S.String,
-  name: S.optional(S.String),
-  email: S.optional(S.String),
-  phone: S.optional(S.String),
-  capabilities: S.optional(PartnershipCapabilities),
-  capabilityOptions: S.optional(CapabilityOptions),
-  tradingPartnerId: S.optional(S.String),
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-}) {}
-export class CreateProfileResponse extends S.Class<CreateProfileResponse>(
-  "CreateProfileResponse",
-)({
-  profileId: S.String,
-  profileArn: S.String,
-  name: S.String,
-  businessName: S.String,
-  phone: S.String,
-  email: S.optional(S.String),
-  logging: S.optional(S.String),
-  logGroupName: S.optional(S.String),
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class GetProfileResponse extends S.Class<GetProfileResponse>(
-  "GetProfileResponse",
-)({
-  profileId: S.String,
-  profileArn: S.String,
-  name: S.String,
-  email: S.optional(S.String),
-  phone: S.String,
-  businessName: S.String,
-  logging: S.optional(S.String),
-  logGroupName: S.optional(S.String),
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-}) {}
-export class UpdateProfileResponse extends S.Class<UpdateProfileResponse>(
-  "UpdateProfileResponse",
-)({
-  profileId: S.String,
-  profileArn: S.String,
-  name: S.String,
-  email: S.optional(S.String),
-  phone: S.String,
-  businessName: S.String,
-  logging: S.optional(S.String),
-  logGroupName: S.optional(S.String),
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-}) {}
-export class GetTransformerResponse extends S.Class<GetTransformerResponse>(
-  "GetTransformerResponse",
-)({
-  transformerId: S.String,
-  transformerArn: S.String,
-  name: S.String,
-  status: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  fileFormat: S.optional(S.String),
-  mappingTemplate: S.optional(S.String),
-  ediType: S.optional(EdiType),
-  sampleDocument: S.optional(S.String),
-  inputConversion: S.optional(InputConversion),
-  mapping: S.optional(Mapping),
-  outputConversion: S.optional(OutputConversion),
-  sampleDocuments: S.optional(SampleDocuments),
-}) {}
-export class UpdateTransformerResponse extends S.Class<UpdateTransformerResponse>(
-  "UpdateTransformerResponse",
-)({
-  transformerId: S.String,
-  transformerArn: S.String,
-  name: S.String,
-  status: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  modifiedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  fileFormat: S.optional(S.String),
-  mappingTemplate: S.optional(S.String),
-  ediType: S.optional(EdiType),
-  sampleDocument: S.optional(S.String),
-  inputConversion: S.optional(InputConversion),
-  mapping: S.optional(Mapping),
-  outputConversion: S.optional(OutputConversion),
-  sampleDocuments: S.optional(SampleDocuments),
-}) {}
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface TestMappingResponse {
+  mappedFileContent: string;
+}
+export const TestMappingResponse = S.suspend(() =>
+  S.Struct({ mappedFileContent: S.String }),
+).annotations({
+  identifier: "TestMappingResponse",
+}) as any as S.Schema<TestMappingResponse>;
+export interface GetCapabilityResponse {
+  capabilityId: string;
+  capabilityArn: string;
+  name: string;
+  type: string;
+  configuration: (typeof CapabilityConfiguration)["Type"];
+  instructionsDocuments?: InstructionsDocuments;
+  createdAt: Date;
+  modifiedAt?: Date;
+}
+export const GetCapabilityResponse = S.suspend(() =>
+  S.Struct({
+    capabilityId: S.String,
+    capabilityArn: S.String,
+    name: S.String,
+    type: S.String,
+    configuration: CapabilityConfiguration,
+    instructionsDocuments: S.optional(InstructionsDocuments),
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotations({
+  identifier: "GetCapabilityResponse",
+}) as any as S.Schema<GetCapabilityResponse>;
+export interface UpdateCapabilityResponse {
+  capabilityId: string;
+  capabilityArn: string;
+  name: string;
+  type: string;
+  configuration: (typeof CapabilityConfiguration)["Type"];
+  instructionsDocuments?: InstructionsDocuments;
+  createdAt: Date;
+  modifiedAt?: Date;
+}
+export const UpdateCapabilityResponse = S.suspend(() =>
+  S.Struct({
+    capabilityId: S.String,
+    capabilityArn: S.String,
+    name: S.String,
+    type: S.String,
+    configuration: CapabilityConfiguration,
+    instructionsDocuments: S.optional(InstructionsDocuments),
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotations({
+  identifier: "UpdateCapabilityResponse",
+}) as any as S.Schema<UpdateCapabilityResponse>;
+export interface GetPartnershipResponse {
+  profileId: string;
+  partnershipId: string;
+  partnershipArn: string;
+  name?: string;
+  email?: string;
+  phone?: string;
+  capabilities?: PartnershipCapabilities;
+  capabilityOptions?: CapabilityOptions;
+  tradingPartnerId?: string;
+  createdAt: Date;
+  modifiedAt?: Date;
+}
+export const GetPartnershipResponse = S.suspend(() =>
+  S.Struct({
+    profileId: S.String,
+    partnershipId: S.String,
+    partnershipArn: S.String,
+    name: S.optional(S.String),
+    email: S.optional(S.String),
+    phone: S.optional(S.String),
+    capabilities: S.optional(PartnershipCapabilities),
+    capabilityOptions: S.optional(CapabilityOptions),
+    tradingPartnerId: S.optional(S.String),
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotations({
+  identifier: "GetPartnershipResponse",
+}) as any as S.Schema<GetPartnershipResponse>;
+export interface UpdatePartnershipResponse {
+  profileId: string;
+  partnershipId: string;
+  partnershipArn: string;
+  name?: string;
+  email?: string;
+  phone?: string;
+  capabilities?: PartnershipCapabilities;
+  capabilityOptions?: CapabilityOptions;
+  tradingPartnerId?: string;
+  createdAt: Date;
+  modifiedAt?: Date;
+}
+export const UpdatePartnershipResponse = S.suspend(() =>
+  S.Struct({
+    profileId: S.String,
+    partnershipId: S.String,
+    partnershipArn: S.String,
+    name: S.optional(S.String),
+    email: S.optional(S.String),
+    phone: S.optional(S.String),
+    capabilities: S.optional(PartnershipCapabilities),
+    capabilityOptions: S.optional(CapabilityOptions),
+    tradingPartnerId: S.optional(S.String),
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotations({
+  identifier: "UpdatePartnershipResponse",
+}) as any as S.Schema<UpdatePartnershipResponse>;
+export interface CreateProfileResponse {
+  profileId: string;
+  profileArn: string;
+  name: string;
+  businessName: string;
+  phone: string;
+  email?: string;
+  logging?: string;
+  logGroupName?: string;
+  createdAt: Date;
+}
+export const CreateProfileResponse = S.suspend(() =>
+  S.Struct({
+    profileId: S.String,
+    profileArn: S.String,
+    name: S.String,
+    businessName: S.String,
+    phone: S.String,
+    email: S.optional(S.String),
+    logging: S.optional(S.String),
+    logGroupName: S.optional(S.String),
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "CreateProfileResponse",
+}) as any as S.Schema<CreateProfileResponse>;
+export interface GetProfileResponse {
+  profileId: string;
+  profileArn: string;
+  name: string;
+  email?: string;
+  phone: string;
+  businessName: string;
+  logging?: string;
+  logGroupName?: string;
+  createdAt: Date;
+  modifiedAt?: Date;
+}
+export const GetProfileResponse = S.suspend(() =>
+  S.Struct({
+    profileId: S.String,
+    profileArn: S.String,
+    name: S.String,
+    email: S.optional(S.String),
+    phone: S.String,
+    businessName: S.String,
+    logging: S.optional(S.String),
+    logGroupName: S.optional(S.String),
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotations({
+  identifier: "GetProfileResponse",
+}) as any as S.Schema<GetProfileResponse>;
+export interface UpdateProfileResponse {
+  profileId: string;
+  profileArn: string;
+  name: string;
+  email?: string;
+  phone: string;
+  businessName: string;
+  logging?: string;
+  logGroupName?: string;
+  createdAt: Date;
+  modifiedAt?: Date;
+}
+export const UpdateProfileResponse = S.suspend(() =>
+  S.Struct({
+    profileId: S.String,
+    profileArn: S.String,
+    name: S.String,
+    email: S.optional(S.String),
+    phone: S.String,
+    businessName: S.String,
+    logging: S.optional(S.String),
+    logGroupName: S.optional(S.String),
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotations({
+  identifier: "UpdateProfileResponse",
+}) as any as S.Schema<UpdateProfileResponse>;
+export interface GetTransformerResponse {
+  transformerId: string;
+  transformerArn: string;
+  name: string;
+  status: string;
+  createdAt: Date;
+  modifiedAt?: Date;
+  fileFormat?: string;
+  mappingTemplate?: string;
+  ediType?: (typeof EdiType)["Type"];
+  sampleDocument?: string;
+  inputConversion?: InputConversion;
+  mapping?: Mapping;
+  outputConversion?: OutputConversion;
+  sampleDocuments?: SampleDocuments;
+}
+export const GetTransformerResponse = S.suspend(() =>
+  S.Struct({
+    transformerId: S.String,
+    transformerArn: S.String,
+    name: S.String,
+    status: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    fileFormat: S.optional(S.String),
+    mappingTemplate: S.optional(S.String),
+    ediType: S.optional(EdiType),
+    sampleDocument: S.optional(S.String),
+    inputConversion: S.optional(InputConversion),
+    mapping: S.optional(Mapping),
+    outputConversion: S.optional(OutputConversion),
+    sampleDocuments: S.optional(SampleDocuments),
+  }),
+).annotations({
+  identifier: "GetTransformerResponse",
+}) as any as S.Schema<GetTransformerResponse>;
+export interface UpdateTransformerResponse {
+  transformerId: string;
+  transformerArn: string;
+  name: string;
+  status: string;
+  createdAt: Date;
+  modifiedAt: Date;
+  fileFormat?: string;
+  mappingTemplate?: string;
+  ediType?: (typeof EdiType)["Type"];
+  sampleDocument?: string;
+  inputConversion?: InputConversion;
+  mapping?: Mapping;
+  outputConversion?: OutputConversion;
+  sampleDocuments?: SampleDocuments;
+}
+export const UpdateTransformerResponse = S.suspend(() =>
+  S.Struct({
+    transformerId: S.String,
+    transformerArn: S.String,
+    name: S.String,
+    status: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    modifiedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    fileFormat: S.optional(S.String),
+    mappingTemplate: S.optional(S.String),
+    ediType: S.optional(EdiType),
+    sampleDocument: S.optional(S.String),
+    inputConversion: S.optional(InputConversion),
+    mapping: S.optional(Mapping),
+    outputConversion: S.optional(OutputConversion),
+    sampleDocuments: S.optional(SampleDocuments),
+  }),
+).annotations({
+  identifier: "UpdateTransformerResponse",
+}) as any as S.Schema<UpdateTransformerResponse>;
 export const InputFileSource = S.Union(S.Struct({ fileContent: S.String }));
 export const ConversionTargetFormatDetails = S.Union(
   S.Struct({ x12: X12Details }),
@@ -1005,131 +1500,249 @@ export const OutputSampleFileSource = S.Union(
   S.Struct({ fileLocation: S3Location }),
 );
 export const TemplateDetails = S.Union(S.Struct({ x12: X12Details }));
-export class ConversionSource extends S.Class<ConversionSource>(
-  "ConversionSource",
-)({ fileFormat: S.String, inputFile: InputFileSource }) {}
-export class ConversionTarget extends S.Class<ConversionTarget>(
-  "ConversionTarget",
-)({
-  fileFormat: S.String,
-  formatDetails: S.optional(ConversionTargetFormatDetails),
-  outputSampleFile: S.optional(OutputSampleFileSource),
-  advancedOptions: S.optional(AdvancedOptions),
-}) {}
-export class CapabilitySummary extends S.Class<CapabilitySummary>(
-  "CapabilitySummary",
-)({
-  capabilityId: S.String,
-  name: S.String,
-  type: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-}) {}
+export interface ConversionSource {
+  fileFormat: string;
+  inputFile: (typeof InputFileSource)["Type"];
+}
+export const ConversionSource = S.suspend(() =>
+  S.Struct({ fileFormat: S.String, inputFile: InputFileSource }),
+).annotations({
+  identifier: "ConversionSource",
+}) as any as S.Schema<ConversionSource>;
+export interface ConversionTarget {
+  fileFormat: string;
+  formatDetails?: (typeof ConversionTargetFormatDetails)["Type"];
+  outputSampleFile?: (typeof OutputSampleFileSource)["Type"];
+  advancedOptions?: AdvancedOptions;
+}
+export const ConversionTarget = S.suspend(() =>
+  S.Struct({
+    fileFormat: S.String,
+    formatDetails: S.optional(ConversionTargetFormatDetails),
+    outputSampleFile: S.optional(OutputSampleFileSource),
+    advancedOptions: S.optional(AdvancedOptions),
+  }),
+).annotations({
+  identifier: "ConversionTarget",
+}) as any as S.Schema<ConversionTarget>;
+export interface CapabilitySummary {
+  capabilityId: string;
+  name: string;
+  type: string;
+  createdAt: Date;
+  modifiedAt?: Date;
+}
+export const CapabilitySummary = S.suspend(() =>
+  S.Struct({
+    capabilityId: S.String,
+    name: S.String,
+    type: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotations({
+  identifier: "CapabilitySummary",
+}) as any as S.Schema<CapabilitySummary>;
+export type CapabilityList = CapabilitySummary[];
 export const CapabilityList = S.Array(CapabilitySummary);
-export class PartnershipSummary extends S.Class<PartnershipSummary>(
-  "PartnershipSummary",
-)({
-  profileId: S.String,
-  partnershipId: S.String,
-  name: S.optional(S.String),
-  capabilities: S.optional(PartnershipCapabilities),
-  capabilityOptions: S.optional(CapabilityOptions),
-  tradingPartnerId: S.optional(S.String),
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-}) {}
+export interface PartnershipSummary {
+  profileId: string;
+  partnershipId: string;
+  name?: string;
+  capabilities?: PartnershipCapabilities;
+  capabilityOptions?: CapabilityOptions;
+  tradingPartnerId?: string;
+  createdAt: Date;
+  modifiedAt?: Date;
+}
+export const PartnershipSummary = S.suspend(() =>
+  S.Struct({
+    profileId: S.String,
+    partnershipId: S.String,
+    name: S.optional(S.String),
+    capabilities: S.optional(PartnershipCapabilities),
+    capabilityOptions: S.optional(CapabilityOptions),
+    tradingPartnerId: S.optional(S.String),
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotations({
+  identifier: "PartnershipSummary",
+}) as any as S.Schema<PartnershipSummary>;
+export type PartnershipList = PartnershipSummary[];
 export const PartnershipList = S.Array(PartnershipSummary);
-export class ProfileSummary extends S.Class<ProfileSummary>("ProfileSummary")({
-  profileId: S.String,
-  name: S.String,
-  businessName: S.String,
-  logging: S.optional(S.String),
-  logGroupName: S.optional(S.String),
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-}) {}
+export interface ProfileSummary {
+  profileId: string;
+  name: string;
+  businessName: string;
+  logging?: string;
+  logGroupName?: string;
+  createdAt: Date;
+  modifiedAt?: Date;
+}
+export const ProfileSummary = S.suspend(() =>
+  S.Struct({
+    profileId: S.String,
+    name: S.String,
+    businessName: S.String,
+    logging: S.optional(S.String),
+    logGroupName: S.optional(S.String),
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotations({
+  identifier: "ProfileSummary",
+}) as any as S.Schema<ProfileSummary>;
+export type ProfileList = ProfileSummary[];
 export const ProfileList = S.Array(ProfileSummary);
-export class TransformerSummary extends S.Class<TransformerSummary>(
-  "TransformerSummary",
-)({
-  transformerId: S.String,
-  name: S.String,
-  status: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  fileFormat: S.optional(S.String),
-  mappingTemplate: S.optional(S.String),
-  ediType: S.optional(EdiType),
-  sampleDocument: S.optional(S.String),
-  inputConversion: S.optional(InputConversion),
-  mapping: S.optional(Mapping),
-  outputConversion: S.optional(OutputConversion),
-  sampleDocuments: S.optional(SampleDocuments),
-}) {}
+export interface TransformerSummary {
+  transformerId: string;
+  name: string;
+  status: string;
+  createdAt: Date;
+  modifiedAt?: Date;
+  fileFormat?: string;
+  mappingTemplate?: string;
+  ediType?: (typeof EdiType)["Type"];
+  sampleDocument?: string;
+  inputConversion?: InputConversion;
+  mapping?: Mapping;
+  outputConversion?: OutputConversion;
+  sampleDocuments?: SampleDocuments;
+}
+export const TransformerSummary = S.suspend(() =>
+  S.Struct({
+    transformerId: S.String,
+    name: S.String,
+    status: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    fileFormat: S.optional(S.String),
+    mappingTemplate: S.optional(S.String),
+    ediType: S.optional(EdiType),
+    sampleDocument: S.optional(S.String),
+    inputConversion: S.optional(InputConversion),
+    mapping: S.optional(Mapping),
+    outputConversion: S.optional(OutputConversion),
+    sampleDocuments: S.optional(SampleDocuments),
+  }),
+).annotations({
+  identifier: "TransformerSummary",
+}) as any as S.Schema<TransformerSummary>;
+export type TransformerList = TransformerSummary[];
 export const TransformerList = S.Array(TransformerSummary);
-export class CreateStarterMappingTemplateRequest extends S.Class<CreateStarterMappingTemplateRequest>(
-  "CreateStarterMappingTemplateRequest",
-)(
-  {
+export interface CreateStarterMappingTemplateRequest {
+  outputSampleLocation?: S3Location;
+  mappingType: string;
+  templateDetails: (typeof TemplateDetails)["Type"];
+}
+export const CreateStarterMappingTemplateRequest = S.suspend(() =>
+  S.Struct({
     outputSampleLocation: S.optional(S3Location),
     mappingType: S.String,
     templateDetails: TemplateDetails,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/createmappingstarttemplate" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/createmappingstarttemplate" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TestConversionRequest extends S.Class<TestConversionRequest>(
-  "TestConversionRequest",
-)(
-  { source: ConversionSource, target: ConversionTarget },
-  T.all(
-    T.Http({ method: "POST", uri: "/testconversion" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CreateStarterMappingTemplateRequest",
+}) as any as S.Schema<CreateStarterMappingTemplateRequest>;
+export interface TestConversionRequest {
+  source: ConversionSource;
+  target: ConversionTarget;
+}
+export const TestConversionRequest = S.suspend(() =>
+  S.Struct({ source: ConversionSource, target: ConversionTarget }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/testconversion" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateCapabilityRequest extends S.Class<CreateCapabilityRequest>(
-  "CreateCapabilityRequest",
-)(
-  {
+).annotations({
+  identifier: "TestConversionRequest",
+}) as any as S.Schema<TestConversionRequest>;
+export interface CreateCapabilityRequest {
+  name: string;
+  type: string;
+  configuration: (typeof CapabilityConfiguration)["Type"];
+  instructionsDocuments?: InstructionsDocuments;
+  clientToken?: string;
+  tags?: TagList;
+}
+export const CreateCapabilityRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     type: S.String,
     configuration: CapabilityConfiguration,
     instructionsDocuments: S.optional(InstructionsDocuments),
     clientToken: S.optional(S.String),
     tags: S.optional(TagList),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/capabilities" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/capabilities" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListCapabilitiesResponse extends S.Class<ListCapabilitiesResponse>(
-  "ListCapabilitiesResponse",
-)({ capabilities: CapabilityList, nextToken: S.optional(S.String) }) {}
-export class ListPartnershipsResponse extends S.Class<ListPartnershipsResponse>(
-  "ListPartnershipsResponse",
-)({ partnerships: PartnershipList, nextToken: S.optional(S.String) }) {}
-export class ListProfilesResponse extends S.Class<ListProfilesResponse>(
-  "ListProfilesResponse",
-)({ profiles: ProfileList, nextToken: S.optional(S.String) }) {}
-export class CreateTransformerRequest extends S.Class<CreateTransformerRequest>(
-  "CreateTransformerRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateCapabilityRequest",
+}) as any as S.Schema<CreateCapabilityRequest>;
+export interface ListCapabilitiesResponse {
+  capabilities: CapabilityList;
+  nextToken?: string;
+}
+export const ListCapabilitiesResponse = S.suspend(() =>
+  S.Struct({ capabilities: CapabilityList, nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListCapabilitiesResponse",
+}) as any as S.Schema<ListCapabilitiesResponse>;
+export interface ListPartnershipsResponse {
+  partnerships: PartnershipList;
+  nextToken?: string;
+}
+export const ListPartnershipsResponse = S.suspend(() =>
+  S.Struct({ partnerships: PartnershipList, nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListPartnershipsResponse",
+}) as any as S.Schema<ListPartnershipsResponse>;
+export interface ListProfilesResponse {
+  profiles: ProfileList;
+  nextToken?: string;
+}
+export const ListProfilesResponse = S.suspend(() =>
+  S.Struct({ profiles: ProfileList, nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListProfilesResponse",
+}) as any as S.Schema<ListProfilesResponse>;
+export interface CreateTransformerRequest {
+  name: string;
+  clientToken?: string;
+  tags?: TagList;
+  fileFormat?: string;
+  mappingTemplate?: string;
+  ediType?: (typeof EdiType)["Type"];
+  sampleDocument?: string;
+  inputConversion?: InputConversion;
+  mapping?: Mapping;
+  outputConversion?: OutputConversion;
+  sampleDocuments?: SampleDocuments;
+}
+export const CreateTransformerRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     clientToken: S.optional(S.String),
     tags: S.optional(TagList),
@@ -1141,79 +1754,143 @@ export class CreateTransformerRequest extends S.Class<CreateTransformerRequest>(
     mapping: S.optional(Mapping),
     outputConversion: S.optional(OutputConversion),
     sampleDocuments: S.optional(SampleDocuments),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/transformers" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/transformers" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTransformersResponse extends S.Class<ListTransformersResponse>(
-  "ListTransformersResponse",
-)({ transformers: TransformerList, nextToken: S.optional(S.String) }) {}
+).annotations({
+  identifier: "CreateTransformerRequest",
+}) as any as S.Schema<CreateTransformerRequest>;
+export interface ListTransformersResponse {
+  transformers: TransformerList;
+  nextToken?: string;
+}
+export const ListTransformersResponse = S.suspend(() =>
+  S.Struct({ transformers: TransformerList, nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListTransformersResponse",
+}) as any as S.Schema<ListTransformersResponse>;
+export type ValidationMessages = string[];
 export const ValidationMessages = S.Array(S.String);
-export class CreateStarterMappingTemplateResponse extends S.Class<CreateStarterMappingTemplateResponse>(
-  "CreateStarterMappingTemplateResponse",
-)({ mappingTemplate: S.String }) {}
-export class TestConversionResponse extends S.Class<TestConversionResponse>(
-  "TestConversionResponse",
-)({
-  convertedFileContent: S.String,
-  validationMessages: S.optional(ValidationMessages),
-}) {}
-export class CreateCapabilityResponse extends S.Class<CreateCapabilityResponse>(
-  "CreateCapabilityResponse",
-)({
-  capabilityId: S.String,
-  capabilityArn: S.String,
-  name: S.String,
-  type: S.String,
-  configuration: CapabilityConfiguration,
-  instructionsDocuments: S.optional(InstructionsDocuments),
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class CreateTransformerResponse extends S.Class<CreateTransformerResponse>(
-  "CreateTransformerResponse",
-)({
-  transformerId: S.String,
-  transformerArn: S.String,
-  name: S.String,
-  status: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  fileFormat: S.optional(S.String),
-  mappingTemplate: S.optional(S.String),
-  ediType: S.optional(EdiType),
-  sampleDocument: S.optional(S.String),
-  inputConversion: S.optional(InputConversion),
-  mapping: S.optional(Mapping),
-  outputConversion: S.optional(OutputConversion),
-  sampleDocuments: S.optional(SampleDocuments),
-}) {}
-export class TestParsingRequest extends S.Class<TestParsingRequest>(
-  "TestParsingRequest",
-)(
-  {
+export interface CreateStarterMappingTemplateResponse {
+  mappingTemplate: string;
+}
+export const CreateStarterMappingTemplateResponse = S.suspend(() =>
+  S.Struct({ mappingTemplate: S.String }),
+).annotations({
+  identifier: "CreateStarterMappingTemplateResponse",
+}) as any as S.Schema<CreateStarterMappingTemplateResponse>;
+export interface TestConversionResponse {
+  convertedFileContent: string;
+  validationMessages?: ValidationMessages;
+}
+export const TestConversionResponse = S.suspend(() =>
+  S.Struct({
+    convertedFileContent: S.String,
+    validationMessages: S.optional(ValidationMessages),
+  }),
+).annotations({
+  identifier: "TestConversionResponse",
+}) as any as S.Schema<TestConversionResponse>;
+export interface CreateCapabilityResponse {
+  capabilityId: string;
+  capabilityArn: string;
+  name: string;
+  type: string;
+  configuration: (typeof CapabilityConfiguration)["Type"];
+  instructionsDocuments?: InstructionsDocuments;
+  createdAt: Date;
+}
+export const CreateCapabilityResponse = S.suspend(() =>
+  S.Struct({
+    capabilityId: S.String,
+    capabilityArn: S.String,
+    name: S.String,
+    type: S.String,
+    configuration: CapabilityConfiguration,
+    instructionsDocuments: S.optional(InstructionsDocuments),
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "CreateCapabilityResponse",
+}) as any as S.Schema<CreateCapabilityResponse>;
+export interface CreateTransformerResponse {
+  transformerId: string;
+  transformerArn: string;
+  name: string;
+  status: string;
+  createdAt: Date;
+  fileFormat?: string;
+  mappingTemplate?: string;
+  ediType?: (typeof EdiType)["Type"];
+  sampleDocument?: string;
+  inputConversion?: InputConversion;
+  mapping?: Mapping;
+  outputConversion?: OutputConversion;
+  sampleDocuments?: SampleDocuments;
+}
+export const CreateTransformerResponse = S.suspend(() =>
+  S.Struct({
+    transformerId: S.String,
+    transformerArn: S.String,
+    name: S.String,
+    status: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    fileFormat: S.optional(S.String),
+    mappingTemplate: S.optional(S.String),
+    ediType: S.optional(EdiType),
+    sampleDocument: S.optional(S.String),
+    inputConversion: S.optional(InputConversion),
+    mapping: S.optional(Mapping),
+    outputConversion: S.optional(OutputConversion),
+    sampleDocuments: S.optional(SampleDocuments),
+  }),
+).annotations({
+  identifier: "CreateTransformerResponse",
+}) as any as S.Schema<CreateTransformerResponse>;
+export interface TestParsingRequest {
+  inputFile: S3Location;
+  fileFormat: string;
+  ediType: (typeof EdiType)["Type"];
+  advancedOptions?: AdvancedOptions;
+}
+export const TestParsingRequest = S.suspend(() =>
+  S.Struct({
     inputFile: S3Location,
     fileFormat: S.String,
     ediType: EdiType,
     advancedOptions: S.optional(AdvancedOptions),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/testparsing" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/testparsing" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreatePartnershipRequest extends S.Class<CreatePartnershipRequest>(
-  "CreatePartnershipRequest",
-)(
-  {
+).annotations({
+  identifier: "TestParsingRequest",
+}) as any as S.Schema<TestParsingRequest>;
+export interface CreatePartnershipRequest {
+  profileId: string;
+  name: string;
+  email: string;
+  phone?: string;
+  capabilities: PartnershipCapabilities;
+  capabilityOptions?: CapabilityOptions;
+  clientToken?: string;
+  tags?: TagList;
+}
+export const CreatePartnershipRequest = S.suspend(() =>
+  S.Struct({
     profileId: S.String,
     name: S.String,
     email: S.String,
@@ -1222,38 +1899,63 @@ export class CreatePartnershipRequest extends S.Class<CreatePartnershipRequest>(
     capabilityOptions: S.optional(CapabilityOptions),
     clientToken: S.optional(S.String),
     tags: S.optional(TagList),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/partnerships" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/partnerships" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "CreatePartnershipRequest",
+}) as any as S.Schema<CreatePartnershipRequest>;
+export type ParsedSplitFileContentsList = string[];
 export const ParsedSplitFileContentsList = S.Array(S.String);
-export class TestParsingResponse extends S.Class<TestParsingResponse>(
-  "TestParsingResponse",
-)({
-  parsedFileContent: S.String,
-  parsedSplitFileContents: S.optional(ParsedSplitFileContentsList),
-  validationMessages: S.optional(ValidationMessages),
-}) {}
-export class CreatePartnershipResponse extends S.Class<CreatePartnershipResponse>(
-  "CreatePartnershipResponse",
-)({
-  profileId: S.String,
-  partnershipId: S.String,
-  partnershipArn: S.String,
-  name: S.optional(S.String),
-  email: S.optional(S.String),
-  phone: S.optional(S.String),
-  capabilities: S.optional(PartnershipCapabilities),
-  capabilityOptions: S.optional(CapabilityOptions),
-  tradingPartnerId: S.optional(S.String),
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
+export interface TestParsingResponse {
+  parsedFileContent: string;
+  parsedSplitFileContents?: ParsedSplitFileContentsList;
+  validationMessages?: ValidationMessages;
+}
+export const TestParsingResponse = S.suspend(() =>
+  S.Struct({
+    parsedFileContent: S.String,
+    parsedSplitFileContents: S.optional(ParsedSplitFileContentsList),
+    validationMessages: S.optional(ValidationMessages),
+  }),
+).annotations({
+  identifier: "TestParsingResponse",
+}) as any as S.Schema<TestParsingResponse>;
+export interface CreatePartnershipResponse {
+  profileId: string;
+  partnershipId: string;
+  partnershipArn: string;
+  name?: string;
+  email?: string;
+  phone?: string;
+  capabilities?: PartnershipCapabilities;
+  capabilityOptions?: CapabilityOptions;
+  tradingPartnerId?: string;
+  createdAt: Date;
+}
+export const CreatePartnershipResponse = S.suspend(() =>
+  S.Struct({
+    profileId: S.String,
+    partnershipId: S.String,
+    partnershipArn: S.String,
+    name: S.optional(S.String),
+    email: S.optional(S.String),
+    phone: S.optional(S.String),
+    capabilities: S.optional(PartnershipCapabilities),
+    capabilityOptions: S.optional(CapabilityOptions),
+    tradingPartnerId: S.optional(S.String),
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "CreatePartnershipResponse",
+}) as any as S.Schema<CreatePartnershipResponse>;
 
 //# Errors
 export class InternalServerException extends S.TaggedError<InternalServerException>()(

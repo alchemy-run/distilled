@@ -242,147 +242,239 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class DeleteReportDefinitionRequest extends S.Class<DeleteReportDefinitionRequest>(
-  "DeleteReportDefinitionRequest",
-)(
-  { reportId: S.String.pipe(T.HttpLabel("reportId")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/reportDefinition/{reportId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface DeleteReportDefinitionRequest {
+  reportId: string;
+}
+export const DeleteReportDefinitionRequest = S.suspend(() =>
+  S.Struct({ reportId: S.String.pipe(T.HttpLabel("reportId")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/reportDefinition/{reportId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetReportDefinitionRequest extends S.Class<GetReportDefinitionRequest>(
-  "GetReportDefinitionRequest",
-)(
-  { reportId: S.String.pipe(T.HttpLabel("reportId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/reportDefinition/{reportId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteReportDefinitionRequest",
+}) as any as S.Schema<DeleteReportDefinitionRequest>;
+export interface GetReportDefinitionRequest {
+  reportId: string;
+}
+export const GetReportDefinitionRequest = S.suspend(() =>
+  S.Struct({ reportId: S.String.pipe(T.HttpLabel("reportId")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/reportDefinition/{reportId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListReportDefinitionsRequest extends S.Class<ListReportDefinitionsRequest>(
-  "ListReportDefinitionsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetReportDefinitionRequest",
+}) as any as S.Schema<GetReportDefinitionRequest>;
+export interface ListReportDefinitionsRequest {
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListReportDefinitionsRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/reportDefinition" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/reportDefinition" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class S3Location extends S.Class<S3Location>("S3Location")({
-  bucket: S.String,
-  prefix: S.String,
-}) {}
-export class UpdateReportDefinitionRequest extends S.Class<UpdateReportDefinitionRequest>(
-  "UpdateReportDefinitionRequest",
-)(
-  {
+).annotations({
+  identifier: "ListReportDefinitionsRequest",
+}) as any as S.Schema<ListReportDefinitionsRequest>;
+export interface S3Location {
+  bucket: string;
+  prefix: string;
+}
+export const S3Location = S.suspend(() =>
+  S.Struct({ bucket: S.String, prefix: S.String }),
+).annotations({ identifier: "S3Location" }) as any as S.Schema<S3Location>;
+export interface UpdateReportDefinitionRequest {
+  reportId: string;
+  reportDescription: string;
+  reportFrequency: string;
+  format: string;
+  destinationS3Location: S3Location;
+}
+export const UpdateReportDefinitionRequest = S.suspend(() =>
+  S.Struct({
     reportId: S.String.pipe(T.HttpLabel("reportId")),
     reportDescription: S.String,
     reportFrequency: S.String,
     format: S.String,
     destinationS3Location: S3Location,
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/reportDefinition/{reportId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/reportDefinition/{reportId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SourceS3Location extends S.Class<SourceS3Location>(
-  "SourceS3Location",
-)({ bucket: S.String, key: S.String, region: S.optional(S.String) }) {}
-export class DeleteReportDefinitionResult extends S.Class<DeleteReportDefinitionResult>(
-  "DeleteReportDefinitionResult",
-)({ reportId: S.optional(S.String) }) {}
-export class GetReportDefinitionResult extends S.Class<GetReportDefinitionResult>(
-  "GetReportDefinitionResult",
-)({
-  reportId: S.String,
-  reportDescription: S.String,
-  reportFrequency: S.String,
-  format: S.String,
-  destinationS3Location: S3Location,
-  createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  lastUpdated: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-}) {}
-export class ImportApplicationUsageRequest extends S.Class<ImportApplicationUsageRequest>(
-  "ImportApplicationUsageRequest",
-)(
-  { sourceS3Location: SourceS3Location },
-  T.all(
-    T.Http({ method: "POST", uri: "/importApplicationUsage" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-  ),
-) {}
-export class PutReportDefinitionRequest extends S.Class<PutReportDefinitionRequest>(
-  "PutReportDefinitionRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateReportDefinitionRequest",
+}) as any as S.Schema<UpdateReportDefinitionRequest>;
+export interface SourceS3Location {
+  bucket: string;
+  key: string;
+  region?: string;
+}
+export const SourceS3Location = S.suspend(() =>
+  S.Struct({ bucket: S.String, key: S.String, region: S.optional(S.String) }),
+).annotations({
+  identifier: "SourceS3Location",
+}) as any as S.Schema<SourceS3Location>;
+export interface DeleteReportDefinitionResult {
+  reportId?: string;
+}
+export const DeleteReportDefinitionResult = S.suspend(() =>
+  S.Struct({ reportId: S.optional(S.String) }),
+).annotations({
+  identifier: "DeleteReportDefinitionResult",
+}) as any as S.Schema<DeleteReportDefinitionResult>;
+export interface GetReportDefinitionResult {
+  reportId: string;
+  reportDescription: string;
+  reportFrequency: string;
+  format: string;
+  destinationS3Location: S3Location;
+  createdAt: Date;
+  lastUpdated: Date;
+}
+export const GetReportDefinitionResult = S.suspend(() =>
+  S.Struct({
     reportId: S.String,
     reportDescription: S.String,
     reportFrequency: S.String,
     format: S.String,
     destinationS3Location: S3Location,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/reportDefinition" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    lastUpdated: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotations({
+  identifier: "GetReportDefinitionResult",
+}) as any as S.Schema<GetReportDefinitionResult>;
+export interface ImportApplicationUsageRequest {
+  sourceS3Location: SourceS3Location;
+}
+export const ImportApplicationUsageRequest = S.suspend(() =>
+  S.Struct({ sourceS3Location: SourceS3Location }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/importApplicationUsage" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateReportDefinitionResult extends S.Class<UpdateReportDefinitionResult>(
-  "UpdateReportDefinitionResult",
-)({ reportId: S.optional(S.String) }) {}
-export class ReportDefinition extends S.Class<ReportDefinition>(
-  "ReportDefinition",
-)({
-  reportId: S.optional(S.String),
-  reportDescription: S.optional(S.String),
-  reportFrequency: S.optional(S.String),
-  format: S.optional(S.String),
-  destinationS3Location: S.optional(S3Location),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+).annotations({
+  identifier: "ImportApplicationUsageRequest",
+}) as any as S.Schema<ImportApplicationUsageRequest>;
+export interface PutReportDefinitionRequest {
+  reportId: string;
+  reportDescription: string;
+  reportFrequency: string;
+  format: string;
+  destinationS3Location: S3Location;
+}
+export const PutReportDefinitionRequest = S.suspend(() =>
+  S.Struct({
+    reportId: S.String,
+    reportDescription: S.String,
+    reportFrequency: S.String,
+    format: S.String,
+    destinationS3Location: S3Location,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/reportDefinition" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutReportDefinitionRequest",
+}) as any as S.Schema<PutReportDefinitionRequest>;
+export interface UpdateReportDefinitionResult {
+  reportId?: string;
+}
+export const UpdateReportDefinitionResult = S.suspend(() =>
+  S.Struct({ reportId: S.optional(S.String) }),
+).annotations({
+  identifier: "UpdateReportDefinitionResult",
+}) as any as S.Schema<UpdateReportDefinitionResult>;
+export interface ReportDefinition {
+  reportId?: string;
+  reportDescription?: string;
+  reportFrequency?: string;
+  format?: string;
+  destinationS3Location?: S3Location;
+  createdAt?: Date;
+  lastUpdatedAt?: Date;
+}
+export const ReportDefinition = S.suspend(() =>
+  S.Struct({
+    reportId: S.optional(S.String),
+    reportDescription: S.optional(S.String),
+    reportFrequency: S.optional(S.String),
+    format: S.optional(S.String),
+    destinationS3Location: S.optional(S3Location),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "ReportDefinition",
+}) as any as S.Schema<ReportDefinition>;
+export type ReportDefinitionList = ReportDefinition[];
 export const ReportDefinitionList = S.Array(ReportDefinition);
-export class ImportApplicationUsageResult extends S.Class<ImportApplicationUsageResult>(
-  "ImportApplicationUsageResult",
-)({ importId: S.String }) {}
-export class ListReportDefinitionsResult extends S.Class<ListReportDefinitionsResult>(
-  "ListReportDefinitionsResult",
-)({
-  reportDefinitions: S.optional(ReportDefinitionList),
-  nextToken: S.optional(S.String),
-}) {}
-export class PutReportDefinitionResult extends S.Class<PutReportDefinitionResult>(
-  "PutReportDefinitionResult",
-)({ reportId: S.optional(S.String) }) {}
+export interface ImportApplicationUsageResult {
+  importId: string;
+}
+export const ImportApplicationUsageResult = S.suspend(() =>
+  S.Struct({ importId: S.String }),
+).annotations({
+  identifier: "ImportApplicationUsageResult",
+}) as any as S.Schema<ImportApplicationUsageResult>;
+export interface ListReportDefinitionsResult {
+  reportDefinitions?: ReportDefinitionList;
+  nextToken?: string;
+}
+export const ListReportDefinitionsResult = S.suspend(() =>
+  S.Struct({
+    reportDefinitions: S.optional(ReportDefinitionList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListReportDefinitionsResult",
+}) as any as S.Schema<ListReportDefinitionsResult>;
+export interface PutReportDefinitionResult {
+  reportId?: string;
+}
+export const PutReportDefinitionResult = S.suspend(() =>
+  S.Struct({ reportId: S.optional(S.String) }),
+).annotations({
+  identifier: "PutReportDefinitionResult",
+}) as any as S.Schema<PutReportDefinitionResult>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

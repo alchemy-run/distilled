@@ -242,245 +242,409 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class ResourceTag extends S.Class<ResourceTag>("ResourceTag")({
-  ResourceTagKey: S.String,
-  ResourceTagValue: S.optional(S.String),
-}) {}
+export interface ResourceTag {
+  ResourceTagKey: string;
+  ResourceTagValue?: string;
+}
+export const ResourceTag = S.suspend(() =>
+  S.Struct({
+    ResourceTagKey: S.String,
+    ResourceTagValue: S.optional(S.String),
+  }),
+).annotations({ identifier: "ResourceTag" }) as any as S.Schema<ResourceTag>;
+export type ExcludeResourceTags = ResourceTag[];
 export const ExcludeResourceTags = S.Array(ResourceTag);
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class DeleteRuleRequest extends S.Class<DeleteRuleRequest>(
-  "DeleteRuleRequest",
-)(
-  { Identifier: S.String.pipe(T.HttpLabel("Identifier")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/rules/{Identifier}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface DeleteRuleRequest {
+  Identifier: string;
+}
+export const DeleteRuleRequest = S.suspend(() =>
+  S.Struct({ Identifier: S.String.pipe(T.HttpLabel("Identifier")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/rules/{Identifier}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteRuleResponse extends S.Class<DeleteRuleResponse>(
-  "DeleteRuleResponse",
-)({}) {}
-export class GetRuleRequest extends S.Class<GetRuleRequest>("GetRuleRequest")(
-  { Identifier: S.String.pipe(T.HttpLabel("Identifier")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/rules/{Identifier}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteRuleRequest",
+}) as any as S.Schema<DeleteRuleRequest>;
+export interface DeleteRuleResponse {}
+export const DeleteRuleResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteRuleResponse",
+}) as any as S.Schema<DeleteRuleResponse>;
+export interface GetRuleRequest {
+  Identifier: string;
+}
+export const GetRuleRequest = S.suspend(() =>
+  S.Struct({ Identifier: S.String.pipe(T.HttpLabel("Identifier")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/rules/{Identifier}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "GetRuleRequest",
+}) as any as S.Schema<GetRuleRequest>;
+export type ResourceTags = ResourceTag[];
 export const ResourceTags = S.Array(ResourceTag);
-export class ListRulesRequest extends S.Class<ListRulesRequest>(
-  "ListRulesRequest",
-)(
-  {
+export interface ListRulesRequest {
+  MaxResults?: number;
+  NextToken?: string;
+  ResourceType: string;
+  ResourceTags?: ResourceTags;
+  LockState?: string;
+  ExcludeResourceTags?: ExcludeResourceTags;
+}
+export const ListRulesRequest = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     ResourceType: S.String,
     ResourceTags: S.optional(ResourceTags),
     LockState: S.optional(S.String),
     ExcludeResourceTags: S.optional(ExcludeResourceTags),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/list-rules" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/list-rules" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListRulesRequest",
+}) as any as S.Schema<ListRulesRequest>;
+export interface ListTagsForResourceRequest {
+  ResourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UnlockDelay extends S.Class<UnlockDelay>("UnlockDelay")({
-  UnlockDelayValue: S.Number,
-  UnlockDelayUnit: S.String,
-}) {}
-export class LockConfiguration extends S.Class<LockConfiguration>(
-  "LockConfiguration",
-)({ UnlockDelay: UnlockDelay }) {}
-export class LockRuleRequest extends S.Class<LockRuleRequest>(
-  "LockRuleRequest",
-)(
-  {
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface UnlockDelay {
+  UnlockDelayValue: number;
+  UnlockDelayUnit: string;
+}
+export const UnlockDelay = S.suspend(() =>
+  S.Struct({ UnlockDelayValue: S.Number, UnlockDelayUnit: S.String }),
+).annotations({ identifier: "UnlockDelay" }) as any as S.Schema<UnlockDelay>;
+export interface LockConfiguration {
+  UnlockDelay: UnlockDelay;
+}
+export const LockConfiguration = S.suspend(() =>
+  S.Struct({ UnlockDelay: UnlockDelay }),
+).annotations({
+  identifier: "LockConfiguration",
+}) as any as S.Schema<LockConfiguration>;
+export interface LockRuleRequest {
+  Identifier: string;
+  LockConfiguration: LockConfiguration;
+}
+export const LockRuleRequest = S.suspend(() =>
+  S.Struct({
     Identifier: S.String.pipe(T.HttpLabel("Identifier")),
     LockConfiguration: LockConfiguration,
-  },
-  T.all(
-    T.Http({ method: "PATCH", uri: "/rules/{Identifier}/lock" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PATCH", uri: "/rules/{Identifier}/lock" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class Tag extends S.Class<Tag>("Tag")({
-  Key: S.String,
-  Value: S.String,
-}) {}
+).annotations({
+  identifier: "LockRuleRequest",
+}) as any as S.Schema<LockRuleRequest>;
+export interface Tag {
+  Key: string;
+  Value: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ Key: S.String, Value: S.String }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagList = Tag[];
 export const TagList = S.Array(Tag);
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")), Tags: TagList },
-  T.all(
-    T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface TagResourceRequest {
+  ResourceArn: string;
+  Tags: TagList;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
+    Tags: TagList,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class UnlockRuleRequest extends S.Class<UnlockRuleRequest>(
-  "UnlockRuleRequest",
-)(
-  { Identifier: S.String.pipe(T.HttpLabel("Identifier")) },
-  T.all(
-    T.Http({ method: "PATCH", uri: "/rules/{Identifier}/unlock" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UnlockRuleRequest {
+  Identifier: string;
+}
+export const UnlockRuleRequest = S.suspend(() =>
+  S.Struct({ Identifier: S.String.pipe(T.HttpLabel("Identifier")) }).pipe(
+    T.all(
+      T.Http({ method: "PATCH", uri: "/rules/{Identifier}/unlock" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "UnlockRuleRequest",
+}) as any as S.Schema<UnlockRuleRequest>;
+export interface UntagResourceRequest {
+  ResourceArn: string;
+  TagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
-export class RetentionPeriod extends S.Class<RetentionPeriod>(
-  "RetentionPeriod",
-)({ RetentionPeriodValue: S.Number, RetentionPeriodUnit: S.String }) {}
-export class UpdateRuleRequest extends S.Class<UpdateRuleRequest>(
-  "UpdateRuleRequest",
-)(
-  {
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface RetentionPeriod {
+  RetentionPeriodValue: number;
+  RetentionPeriodUnit: string;
+}
+export const RetentionPeriod = S.suspend(() =>
+  S.Struct({ RetentionPeriodValue: S.Number, RetentionPeriodUnit: S.String }),
+).annotations({
+  identifier: "RetentionPeriod",
+}) as any as S.Schema<RetentionPeriod>;
+export interface UpdateRuleRequest {
+  Identifier: string;
+  RetentionPeriod?: RetentionPeriod;
+  Description?: string;
+  ResourceType?: string;
+  ResourceTags?: ResourceTags;
+  ExcludeResourceTags?: ExcludeResourceTags;
+}
+export const UpdateRuleRequest = S.suspend(() =>
+  S.Struct({
     Identifier: S.String.pipe(T.HttpLabel("Identifier")),
     RetentionPeriod: S.optional(RetentionPeriod),
     Description: S.optional(S.String),
     ResourceType: S.optional(S.String),
     ResourceTags: S.optional(ResourceTags),
     ExcludeResourceTags: S.optional(ExcludeResourceTags),
-  },
-  T.all(
-    T.Http({ method: "PATCH", uri: "/rules/{Identifier}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PATCH", uri: "/rules/{Identifier}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetRuleResponse extends S.Class<GetRuleResponse>(
-  "GetRuleResponse",
-)({
-  Identifier: S.optional(S.String),
-  Description: S.optional(S.String),
-  ResourceType: S.optional(S.String),
-  RetentionPeriod: S.optional(RetentionPeriod),
-  ResourceTags: S.optional(ResourceTags),
-  Status: S.optional(S.String),
-  LockConfiguration: S.optional(LockConfiguration),
-  LockState: S.optional(S.String),
-  LockEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  RuleArn: S.optional(S.String),
-  ExcludeResourceTags: S.optional(ExcludeResourceTags),
-}) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ Tags: S.optional(TagList) }) {}
-export class LockRuleResponse extends S.Class<LockRuleResponse>(
-  "LockRuleResponse",
-)({
-  Identifier: S.optional(S.String),
-  Description: S.optional(S.String),
-  ResourceType: S.optional(S.String),
-  RetentionPeriod: S.optional(RetentionPeriod),
-  ResourceTags: S.optional(ResourceTags),
-  Status: S.optional(S.String),
-  LockConfiguration: S.optional(LockConfiguration),
-  LockState: S.optional(S.String),
-  RuleArn: S.optional(S.String),
-  ExcludeResourceTags: S.optional(ExcludeResourceTags),
-}) {}
-export class UnlockRuleResponse extends S.Class<UnlockRuleResponse>(
-  "UnlockRuleResponse",
-)({
-  Identifier: S.optional(S.String),
-  Description: S.optional(S.String),
-  ResourceType: S.optional(S.String),
-  RetentionPeriod: S.optional(RetentionPeriod),
-  ResourceTags: S.optional(ResourceTags),
-  Status: S.optional(S.String),
-  LockConfiguration: S.optional(LockConfiguration),
-  LockState: S.optional(S.String),
-  LockEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  RuleArn: S.optional(S.String),
-  ExcludeResourceTags: S.optional(ExcludeResourceTags),
-}) {}
-export class UpdateRuleResponse extends S.Class<UpdateRuleResponse>(
-  "UpdateRuleResponse",
-)({
-  Identifier: S.optional(S.String),
-  RetentionPeriod: S.optional(RetentionPeriod),
-  Description: S.optional(S.String),
-  ResourceType: S.optional(S.String),
-  ResourceTags: S.optional(ResourceTags),
-  Status: S.optional(S.String),
-  LockState: S.optional(S.String),
-  LockEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  RuleArn: S.optional(S.String),
-  ExcludeResourceTags: S.optional(ExcludeResourceTags),
-}) {}
-export class RuleSummary extends S.Class<RuleSummary>("RuleSummary")({
-  Identifier: S.optional(S.String),
-  Description: S.optional(S.String),
-  RetentionPeriod: S.optional(RetentionPeriod),
-  LockState: S.optional(S.String),
-  RuleArn: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "UpdateRuleRequest",
+}) as any as S.Schema<UpdateRuleRequest>;
+export interface GetRuleResponse {
+  Identifier?: string;
+  Description?: string;
+  ResourceType?: string;
+  RetentionPeriod?: RetentionPeriod;
+  ResourceTags?: ResourceTags;
+  Status?: string;
+  LockConfiguration?: LockConfiguration;
+  LockState?: string;
+  LockEndTime?: Date;
+  RuleArn?: string;
+  ExcludeResourceTags?: ExcludeResourceTags;
+}
+export const GetRuleResponse = S.suspend(() =>
+  S.Struct({
+    Identifier: S.optional(S.String),
+    Description: S.optional(S.String),
+    ResourceType: S.optional(S.String),
+    RetentionPeriod: S.optional(RetentionPeriod),
+    ResourceTags: S.optional(ResourceTags),
+    Status: S.optional(S.String),
+    LockConfiguration: S.optional(LockConfiguration),
+    LockState: S.optional(S.String),
+    LockEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    RuleArn: S.optional(S.String),
+    ExcludeResourceTags: S.optional(ExcludeResourceTags),
+  }),
+).annotations({
+  identifier: "GetRuleResponse",
+}) as any as S.Schema<GetRuleResponse>;
+export interface ListTagsForResourceResponse {
+  Tags?: TagList;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ Tags: S.optional(TagList) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface LockRuleResponse {
+  Identifier?: string;
+  Description?: string;
+  ResourceType?: string;
+  RetentionPeriod?: RetentionPeriod;
+  ResourceTags?: ResourceTags;
+  Status?: string;
+  LockConfiguration?: LockConfiguration;
+  LockState?: string;
+  RuleArn?: string;
+  ExcludeResourceTags?: ExcludeResourceTags;
+}
+export const LockRuleResponse = S.suspend(() =>
+  S.Struct({
+    Identifier: S.optional(S.String),
+    Description: S.optional(S.String),
+    ResourceType: S.optional(S.String),
+    RetentionPeriod: S.optional(RetentionPeriod),
+    ResourceTags: S.optional(ResourceTags),
+    Status: S.optional(S.String),
+    LockConfiguration: S.optional(LockConfiguration),
+    LockState: S.optional(S.String),
+    RuleArn: S.optional(S.String),
+    ExcludeResourceTags: S.optional(ExcludeResourceTags),
+  }),
+).annotations({
+  identifier: "LockRuleResponse",
+}) as any as S.Schema<LockRuleResponse>;
+export interface UnlockRuleResponse {
+  Identifier?: string;
+  Description?: string;
+  ResourceType?: string;
+  RetentionPeriod?: RetentionPeriod;
+  ResourceTags?: ResourceTags;
+  Status?: string;
+  LockConfiguration?: LockConfiguration;
+  LockState?: string;
+  LockEndTime?: Date;
+  RuleArn?: string;
+  ExcludeResourceTags?: ExcludeResourceTags;
+}
+export const UnlockRuleResponse = S.suspend(() =>
+  S.Struct({
+    Identifier: S.optional(S.String),
+    Description: S.optional(S.String),
+    ResourceType: S.optional(S.String),
+    RetentionPeriod: S.optional(RetentionPeriod),
+    ResourceTags: S.optional(ResourceTags),
+    Status: S.optional(S.String),
+    LockConfiguration: S.optional(LockConfiguration),
+    LockState: S.optional(S.String),
+    LockEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    RuleArn: S.optional(S.String),
+    ExcludeResourceTags: S.optional(ExcludeResourceTags),
+  }),
+).annotations({
+  identifier: "UnlockRuleResponse",
+}) as any as S.Schema<UnlockRuleResponse>;
+export interface UpdateRuleResponse {
+  Identifier?: string;
+  RetentionPeriod?: RetentionPeriod;
+  Description?: string;
+  ResourceType?: string;
+  ResourceTags?: ResourceTags;
+  Status?: string;
+  LockState?: string;
+  LockEndTime?: Date;
+  RuleArn?: string;
+  ExcludeResourceTags?: ExcludeResourceTags;
+}
+export const UpdateRuleResponse = S.suspend(() =>
+  S.Struct({
+    Identifier: S.optional(S.String),
+    RetentionPeriod: S.optional(RetentionPeriod),
+    Description: S.optional(S.String),
+    ResourceType: S.optional(S.String),
+    ResourceTags: S.optional(ResourceTags),
+    Status: S.optional(S.String),
+    LockState: S.optional(S.String),
+    LockEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    RuleArn: S.optional(S.String),
+    ExcludeResourceTags: S.optional(ExcludeResourceTags),
+  }),
+).annotations({
+  identifier: "UpdateRuleResponse",
+}) as any as S.Schema<UpdateRuleResponse>;
+export interface RuleSummary {
+  Identifier?: string;
+  Description?: string;
+  RetentionPeriod?: RetentionPeriod;
+  LockState?: string;
+  RuleArn?: string;
+}
+export const RuleSummary = S.suspend(() =>
+  S.Struct({
+    Identifier: S.optional(S.String),
+    Description: S.optional(S.String),
+    RetentionPeriod: S.optional(RetentionPeriod),
+    LockState: S.optional(S.String),
+    RuleArn: S.optional(S.String),
+  }),
+).annotations({ identifier: "RuleSummary" }) as any as S.Schema<RuleSummary>;
+export type RuleSummaryList = RuleSummary[];
 export const RuleSummaryList = S.Array(RuleSummary);
-export class CreateRuleRequest extends S.Class<CreateRuleRequest>(
-  "CreateRuleRequest",
-)(
-  {
+export interface CreateRuleRequest {
+  RetentionPeriod: RetentionPeriod;
+  Description?: string;
+  Tags?: TagList;
+  ResourceType: string;
+  ResourceTags?: ResourceTags;
+  LockConfiguration?: LockConfiguration;
+  ExcludeResourceTags?: ExcludeResourceTags;
+}
+export const CreateRuleRequest = S.suspend(() =>
+  S.Struct({
     RetentionPeriod: RetentionPeriod,
     Description: S.optional(S.String),
     Tags: S.optional(TagList),
@@ -488,34 +652,61 @@ export class CreateRuleRequest extends S.Class<CreateRuleRequest>(
     ResourceTags: S.optional(ResourceTags),
     LockConfiguration: S.optional(LockConfiguration),
     ExcludeResourceTags: S.optional(ExcludeResourceTags),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/rules" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/rules" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListRulesResponse extends S.Class<ListRulesResponse>(
-  "ListRulesResponse",
-)({ Rules: S.optional(RuleSummaryList), NextToken: S.optional(S.String) }) {}
-export class CreateRuleResponse extends S.Class<CreateRuleResponse>(
-  "CreateRuleResponse",
-)({
-  Identifier: S.optional(S.String),
-  RetentionPeriod: S.optional(RetentionPeriod),
-  Description: S.optional(S.String),
-  Tags: S.optional(TagList),
-  ResourceType: S.optional(S.String),
-  ResourceTags: S.optional(ResourceTags),
-  Status: S.optional(S.String),
-  LockConfiguration: S.optional(LockConfiguration),
-  LockState: S.optional(S.String),
-  RuleArn: S.optional(S.String),
-  ExcludeResourceTags: S.optional(ExcludeResourceTags),
-}) {}
+).annotations({
+  identifier: "CreateRuleRequest",
+}) as any as S.Schema<CreateRuleRequest>;
+export interface ListRulesResponse {
+  Rules?: RuleSummaryList;
+  NextToken?: string;
+}
+export const ListRulesResponse = S.suspend(() =>
+  S.Struct({
+    Rules: S.optional(RuleSummaryList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListRulesResponse",
+}) as any as S.Schema<ListRulesResponse>;
+export interface CreateRuleResponse {
+  Identifier?: string;
+  RetentionPeriod?: RetentionPeriod;
+  Description?: string;
+  Tags?: TagList;
+  ResourceType?: string;
+  ResourceTags?: ResourceTags;
+  Status?: string;
+  LockConfiguration?: LockConfiguration;
+  LockState?: string;
+  RuleArn?: string;
+  ExcludeResourceTags?: ExcludeResourceTags;
+}
+export const CreateRuleResponse = S.suspend(() =>
+  S.Struct({
+    Identifier: S.optional(S.String),
+    RetentionPeriod: S.optional(RetentionPeriod),
+    Description: S.optional(S.String),
+    Tags: S.optional(TagList),
+    ResourceType: S.optional(S.String),
+    ResourceTags: S.optional(ResourceTags),
+    Status: S.optional(S.String),
+    LockConfiguration: S.optional(LockConfiguration),
+    LockState: S.optional(S.String),
+    RuleArn: S.optional(S.String),
+    ExcludeResourceTags: S.optional(ExcludeResourceTags),
+  }),
+).annotations({
+  identifier: "CreateRuleResponse",
+}) as any as S.Schema<CreateRuleResponse>;
 
 //# Errors
 export class ConflictException extends S.TaggedError<ConflictException>()(

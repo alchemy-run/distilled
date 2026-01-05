@@ -294,27 +294,43 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type EmbeddingDomains = string[];
 export const EmbeddingDomains = S.Array(S.String);
-export class GetBuyerDashboardInput extends S.Class<GetBuyerDashboardInput>(
-  "GetBuyerDashboardInput",
-)(
-  { dashboardIdentifier: S.String, embeddingDomains: EmbeddingDomains },
-  T.all(
-    T.Http({ method: "POST", uri: "/getBuyerDashboard" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface GetBuyerDashboardInput {
+  dashboardIdentifier: string;
+  embeddingDomains: EmbeddingDomains;
+}
+export const GetBuyerDashboardInput = S.suspend(() =>
+  S.Struct({
+    dashboardIdentifier: S.String,
+    embeddingDomains: EmbeddingDomains,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/getBuyerDashboard" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetBuyerDashboardOutput extends S.Class<GetBuyerDashboardOutput>(
-  "GetBuyerDashboardOutput",
-)({
-  embedUrl: S.String,
-  dashboardIdentifier: S.String,
-  embeddingDomains: EmbeddingDomains,
-}) {}
+).annotations({
+  identifier: "GetBuyerDashboardInput",
+}) as any as S.Schema<GetBuyerDashboardInput>;
+export interface GetBuyerDashboardOutput {
+  embedUrl: string;
+  dashboardIdentifier: string;
+  embeddingDomains: EmbeddingDomains;
+}
+export const GetBuyerDashboardOutput = S.suspend(() =>
+  S.Struct({
+    embedUrl: S.String,
+    dashboardIdentifier: S.String,
+    embeddingDomains: EmbeddingDomains,
+  }),
+).annotations({
+  identifier: "GetBuyerDashboardOutput",
+}) as any as S.Schema<GetBuyerDashboardOutput>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

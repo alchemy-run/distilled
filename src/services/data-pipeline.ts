@@ -243,341 +243,784 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type idList = string[];
 export const idList = S.Array(S.String);
+export type stringList = string[];
 export const stringList = S.Array(S.String);
-export class Tag extends S.Class<Tag>("Tag")({
-  key: S.String,
-  value: S.String,
-}) {}
+export interface Tag {
+  key: string;
+  value: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ key: S.String, value: S.String }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type tagList = Tag[];
 export const tagList = S.Array(Tag);
-export class CreatePipelineInput extends S.Class<CreatePipelineInput>(
-  "CreatePipelineInput",
-)(
-  {
+export interface CreatePipelineInput {
+  name: string;
+  uniqueId: string;
+  description?: string;
+  tags?: tagList;
+}
+export const CreatePipelineInput = S.suspend(() =>
+  S.Struct({
     name: S.String,
     uniqueId: S.String,
     description: S.optional(S.String),
     tags: S.optional(tagList),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeactivatePipelineInput extends S.Class<DeactivatePipelineInput>(
-  "DeactivatePipelineInput",
-)(
-  { pipelineId: S.String, cancelActive: S.optional(S.Boolean) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeactivatePipelineOutput extends S.Class<DeactivatePipelineOutput>(
-  "DeactivatePipelineOutput",
-)({}, ns) {}
-export class DeletePipelineInput extends S.Class<DeletePipelineInput>(
-  "DeletePipelineInput",
-)(
-  { pipelineId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeletePipelineResponse extends S.Class<DeletePipelineResponse>(
-  "DeletePipelineResponse",
-)({}, ns) {}
-export class DescribeObjectsInput extends S.Class<DescribeObjectsInput>(
-  "DescribeObjectsInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreatePipelineInput",
+}) as any as S.Schema<CreatePipelineInput>;
+export interface DeactivatePipelineInput {
+  pipelineId: string;
+  cancelActive?: boolean;
+}
+export const DeactivatePipelineInput = S.suspend(() =>
+  S.Struct({ pipelineId: S.String, cancelActive: S.optional(S.Boolean) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeactivatePipelineInput",
+}) as any as S.Schema<DeactivatePipelineInput>;
+export interface DeactivatePipelineOutput {}
+export const DeactivatePipelineOutput = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeactivatePipelineOutput",
+}) as any as S.Schema<DeactivatePipelineOutput>;
+export interface DeletePipelineInput {
+  pipelineId: string;
+}
+export const DeletePipelineInput = S.suspend(() =>
+  S.Struct({ pipelineId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeletePipelineInput",
+}) as any as S.Schema<DeletePipelineInput>;
+export interface DeletePipelineResponse {}
+export const DeletePipelineResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeletePipelineResponse",
+}) as any as S.Schema<DeletePipelineResponse>;
+export interface DescribeObjectsInput {
+  pipelineId: string;
+  objectIds: idList;
+  evaluateExpressions?: boolean;
+  marker?: string;
+}
+export const DescribeObjectsInput = S.suspend(() =>
+  S.Struct({
     pipelineId: S.String,
     objectIds: idList,
     evaluateExpressions: S.optional(S.Boolean),
     marker: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribePipelinesInput extends S.Class<DescribePipelinesInput>(
-  "DescribePipelinesInput",
-)(
-  { pipelineIds: idList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class EvaluateExpressionInput extends S.Class<EvaluateExpressionInput>(
-  "EvaluateExpressionInput",
-)(
-  { pipelineId: S.String, objectId: S.String, expression: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetPipelineDefinitionInput extends S.Class<GetPipelineDefinitionInput>(
-  "GetPipelineDefinitionInput",
-)(
-  { pipelineId: S.String, version: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListPipelinesInput extends S.Class<ListPipelinesInput>(
-  "ListPipelinesInput",
-)(
-  { marker: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class RemoveTagsInput extends S.Class<RemoveTagsInput>(
-  "RemoveTagsInput",
-)(
-  { pipelineId: S.String, tagKeys: stringList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class RemoveTagsOutput extends S.Class<RemoveTagsOutput>(
-  "RemoveTagsOutput",
-)({}, ns) {}
-export class ReportTaskRunnerHeartbeatInput extends S.Class<ReportTaskRunnerHeartbeatInput>(
-  "ReportTaskRunnerHeartbeatInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeObjectsInput",
+}) as any as S.Schema<DescribeObjectsInput>;
+export interface DescribePipelinesInput {
+  pipelineIds: idList;
+}
+export const DescribePipelinesInput = S.suspend(() =>
+  S.Struct({ pipelineIds: idList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribePipelinesInput",
+}) as any as S.Schema<DescribePipelinesInput>;
+export interface EvaluateExpressionInput {
+  pipelineId: string;
+  objectId: string;
+  expression: string;
+}
+export const EvaluateExpressionInput = S.suspend(() =>
+  S.Struct({
+    pipelineId: S.String,
+    objectId: S.String,
+    expression: S.String,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "EvaluateExpressionInput",
+}) as any as S.Schema<EvaluateExpressionInput>;
+export interface GetPipelineDefinitionInput {
+  pipelineId: string;
+  version?: string;
+}
+export const GetPipelineDefinitionInput = S.suspend(() =>
+  S.Struct({ pipelineId: S.String, version: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetPipelineDefinitionInput",
+}) as any as S.Schema<GetPipelineDefinitionInput>;
+export interface ListPipelinesInput {
+  marker?: string;
+}
+export const ListPipelinesInput = S.suspend(() =>
+  S.Struct({ marker: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListPipelinesInput",
+}) as any as S.Schema<ListPipelinesInput>;
+export interface RemoveTagsInput {
+  pipelineId: string;
+  tagKeys: stringList;
+}
+export const RemoveTagsInput = S.suspend(() =>
+  S.Struct({ pipelineId: S.String, tagKeys: stringList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "RemoveTagsInput",
+}) as any as S.Schema<RemoveTagsInput>;
+export interface RemoveTagsOutput {}
+export const RemoveTagsOutput = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "RemoveTagsOutput",
+}) as any as S.Schema<RemoveTagsOutput>;
+export interface ReportTaskRunnerHeartbeatInput {
+  taskrunnerId: string;
+  workerGroup?: string;
+  hostname?: string;
+}
+export const ReportTaskRunnerHeartbeatInput = S.suspend(() =>
+  S.Struct({
     taskrunnerId: S.String,
     workerGroup: S.optional(S.String),
     hostname: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class SetStatusInput extends S.Class<SetStatusInput>("SetStatusInput")(
-  { pipelineId: S.String, objectIds: idList, status: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class SetStatusResponse extends S.Class<SetStatusResponse>(
-  "SetStatusResponse",
-)({}, ns) {}
-export class SetTaskStatusInput extends S.Class<SetTaskStatusInput>(
-  "SetTaskStatusInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ReportTaskRunnerHeartbeatInput",
+}) as any as S.Schema<ReportTaskRunnerHeartbeatInput>;
+export interface SetStatusInput {
+  pipelineId: string;
+  objectIds: idList;
+  status: string;
+}
+export const SetStatusInput = S.suspend(() =>
+  S.Struct({ pipelineId: S.String, objectIds: idList, status: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "SetStatusInput",
+}) as any as S.Schema<SetStatusInput>;
+export interface SetStatusResponse {}
+export const SetStatusResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "SetStatusResponse",
+}) as any as S.Schema<SetStatusResponse>;
+export interface SetTaskStatusInput {
+  taskId: string;
+  taskStatus: string;
+  errorId?: string;
+  errorMessage?: string;
+  errorStackTrace?: string;
+}
+export const SetTaskStatusInput = S.suspend(() =>
+  S.Struct({
     taskId: S.String,
     taskStatus: S.String,
     errorId: S.optional(S.String),
     errorMessage: S.optional(S.String),
     errorStackTrace: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class SetTaskStatusOutput extends S.Class<SetTaskStatusOutput>(
-  "SetTaskStatusOutput",
-)({}, ns) {}
-export class Field extends S.Class<Field>("Field")({
-  key: S.String,
-  stringValue: S.optional(S.String),
-  refValue: S.optional(S.String),
-}) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "SetTaskStatusInput",
+}) as any as S.Schema<SetTaskStatusInput>;
+export interface SetTaskStatusOutput {}
+export const SetTaskStatusOutput = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "SetTaskStatusOutput",
+}) as any as S.Schema<SetTaskStatusOutput>;
+export interface Field {
+  key: string;
+  stringValue?: string;
+  refValue?: string;
+}
+export const Field = S.suspend(() =>
+  S.Struct({
+    key: S.String,
+    stringValue: S.optional(S.String),
+    refValue: S.optional(S.String),
+  }),
+).annotations({ identifier: "Field" }) as any as S.Schema<Field>;
+export type fieldList = Field[];
 export const fieldList = S.Array(Field);
-export class PipelineObject extends S.Class<PipelineObject>("PipelineObject")({
-  id: S.String,
-  name: S.String,
-  fields: fieldList,
-}) {}
+export interface PipelineObject {
+  id: string;
+  name: string;
+  fields: fieldList;
+}
+export const PipelineObject = S.suspend(() =>
+  S.Struct({ id: S.String, name: S.String, fields: fieldList }),
+).annotations({
+  identifier: "PipelineObject",
+}) as any as S.Schema<PipelineObject>;
+export type PipelineObjectList = PipelineObject[];
 export const PipelineObjectList = S.Array(PipelineObject);
-export class ParameterAttribute extends S.Class<ParameterAttribute>(
-  "ParameterAttribute",
-)({ key: S.String, stringValue: S.String }) {}
+export interface ParameterAttribute {
+  key: string;
+  stringValue: string;
+}
+export const ParameterAttribute = S.suspend(() =>
+  S.Struct({ key: S.String, stringValue: S.String }),
+).annotations({
+  identifier: "ParameterAttribute",
+}) as any as S.Schema<ParameterAttribute>;
+export type ParameterAttributeList = ParameterAttribute[];
 export const ParameterAttributeList = S.Array(ParameterAttribute);
-export class ParameterObject extends S.Class<ParameterObject>(
-  "ParameterObject",
-)({ id: S.String, attributes: ParameterAttributeList }) {}
+export interface ParameterObject {
+  id: string;
+  attributes: ParameterAttributeList;
+}
+export const ParameterObject = S.suspend(() =>
+  S.Struct({ id: S.String, attributes: ParameterAttributeList }),
+).annotations({
+  identifier: "ParameterObject",
+}) as any as S.Schema<ParameterObject>;
+export type ParameterObjectList = ParameterObject[];
 export const ParameterObjectList = S.Array(ParameterObject);
-export class ParameterValue extends S.Class<ParameterValue>("ParameterValue")({
-  id: S.String,
-  stringValue: S.String,
-}) {}
+export interface ParameterValue {
+  id: string;
+  stringValue: string;
+}
+export const ParameterValue = S.suspend(() =>
+  S.Struct({ id: S.String, stringValue: S.String }),
+).annotations({
+  identifier: "ParameterValue",
+}) as any as S.Schema<ParameterValue>;
+export type ParameterValueList = ParameterValue[];
 export const ParameterValueList = S.Array(ParameterValue);
-export class ValidatePipelineDefinitionInput extends S.Class<ValidatePipelineDefinitionInput>(
-  "ValidatePipelineDefinitionInput",
-)(
-  {
+export interface ValidatePipelineDefinitionInput {
+  pipelineId: string;
+  pipelineObjects: PipelineObjectList;
+  parameterObjects?: ParameterObjectList;
+  parameterValues?: ParameterValueList;
+}
+export const ValidatePipelineDefinitionInput = S.suspend(() =>
+  S.Struct({
     pipelineId: S.String,
     pipelineObjects: PipelineObjectList,
     parameterObjects: S.optional(ParameterObjectList),
     parameterValues: S.optional(ParameterValueList),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class InstanceIdentity extends S.Class<InstanceIdentity>(
-  "InstanceIdentity",
-)({ document: S.optional(S.String), signature: S.optional(S.String) }) {}
-export class ActivatePipelineInput extends S.Class<ActivatePipelineInput>(
-  "ActivatePipelineInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ValidatePipelineDefinitionInput",
+}) as any as S.Schema<ValidatePipelineDefinitionInput>;
+export interface InstanceIdentity {
+  document?: string;
+  signature?: string;
+}
+export const InstanceIdentity = S.suspend(() =>
+  S.Struct({ document: S.optional(S.String), signature: S.optional(S.String) }),
+).annotations({
+  identifier: "InstanceIdentity",
+}) as any as S.Schema<InstanceIdentity>;
+export interface ActivatePipelineInput {
+  pipelineId: string;
+  parameterValues?: ParameterValueList;
+  startTimestamp?: Date;
+}
+export const ActivatePipelineInput = S.suspend(() =>
+  S.Struct({
     pipelineId: S.String,
     parameterValues: S.optional(ParameterValueList),
     startTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ActivatePipelineOutput extends S.Class<ActivatePipelineOutput>(
-  "ActivatePipelineOutput",
-)({}, ns) {}
-export class AddTagsInput extends S.Class<AddTagsInput>("AddTagsInput")(
-  { pipelineId: S.String, tags: tagList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class AddTagsOutput extends S.Class<AddTagsOutput>("AddTagsOutput")(
-  {},
-  ns,
-) {}
-export class CreatePipelineOutput extends S.Class<CreatePipelineOutput>(
-  "CreatePipelineOutput",
-)({ pipelineId: S.String }, ns) {}
-export class DescribeObjectsOutput extends S.Class<DescribeObjectsOutput>(
-  "DescribeObjectsOutput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ActivatePipelineInput",
+}) as any as S.Schema<ActivatePipelineInput>;
+export interface ActivatePipelineOutput {}
+export const ActivatePipelineOutput = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "ActivatePipelineOutput",
+}) as any as S.Schema<ActivatePipelineOutput>;
+export interface AddTagsInput {
+  pipelineId: string;
+  tags: tagList;
+}
+export const AddTagsInput = S.suspend(() =>
+  S.Struct({ pipelineId: S.String, tags: tagList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({ identifier: "AddTagsInput" }) as any as S.Schema<AddTagsInput>;
+export interface AddTagsOutput {}
+export const AddTagsOutput = S.suspend(() => S.Struct({}).pipe(ns)).annotations(
+  { identifier: "AddTagsOutput" },
+) as any as S.Schema<AddTagsOutput>;
+export interface CreatePipelineOutput {
+  pipelineId: string;
+}
+export const CreatePipelineOutput = S.suspend(() =>
+  S.Struct({ pipelineId: S.String }).pipe(ns),
+).annotations({
+  identifier: "CreatePipelineOutput",
+}) as any as S.Schema<CreatePipelineOutput>;
+export interface DescribeObjectsOutput {
+  pipelineObjects: PipelineObjectList;
+  marker?: string;
+  hasMoreResults?: boolean;
+}
+export const DescribeObjectsOutput = S.suspend(() =>
+  S.Struct({
     pipelineObjects: PipelineObjectList,
     marker: S.optional(S.String),
     hasMoreResults: S.optional(S.Boolean),
-  },
-  ns,
-) {}
-export class EvaluateExpressionOutput extends S.Class<EvaluateExpressionOutput>(
-  "EvaluateExpressionOutput",
-)({ evaluatedExpression: S.String }, ns) {}
-export class GetPipelineDefinitionOutput extends S.Class<GetPipelineDefinitionOutput>(
-  "GetPipelineDefinitionOutput",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeObjectsOutput",
+}) as any as S.Schema<DescribeObjectsOutput>;
+export interface EvaluateExpressionOutput {
+  evaluatedExpression: string;
+}
+export const EvaluateExpressionOutput = S.suspend(() =>
+  S.Struct({ evaluatedExpression: S.String }).pipe(ns),
+).annotations({
+  identifier: "EvaluateExpressionOutput",
+}) as any as S.Schema<EvaluateExpressionOutput>;
+export interface GetPipelineDefinitionOutput {
+  pipelineObjects?: PipelineObjectList;
+  parameterObjects?: ParameterObjectList;
+  parameterValues?: ParameterValueList;
+}
+export const GetPipelineDefinitionOutput = S.suspend(() =>
+  S.Struct({
     pipelineObjects: S.optional(PipelineObjectList),
     parameterObjects: S.optional(ParameterObjectList),
     parameterValues: S.optional(ParameterValueList),
-  },
-  ns,
-) {}
-export class PollForTaskInput extends S.Class<PollForTaskInput>(
-  "PollForTaskInput",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetPipelineDefinitionOutput",
+}) as any as S.Schema<GetPipelineDefinitionOutput>;
+export interface PollForTaskInput {
+  workerGroup: string;
+  hostname?: string;
+  instanceIdentity?: InstanceIdentity;
+}
+export const PollForTaskInput = S.suspend(() =>
+  S.Struct({
     workerGroup: S.String,
     hostname: S.optional(S.String),
     instanceIdentity: S.optional(InstanceIdentity),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ReportTaskProgressInput extends S.Class<ReportTaskProgressInput>(
-  "ReportTaskProgressInput",
-)(
-  { taskId: S.String, fields: S.optional(fieldList) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ReportTaskRunnerHeartbeatOutput extends S.Class<ReportTaskRunnerHeartbeatOutput>(
-  "ReportTaskRunnerHeartbeatOutput",
-)({ terminate: S.Boolean }, ns) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PollForTaskInput",
+}) as any as S.Schema<PollForTaskInput>;
+export interface ReportTaskProgressInput {
+  taskId: string;
+  fields?: fieldList;
+}
+export const ReportTaskProgressInput = S.suspend(() =>
+  S.Struct({ taskId: S.String, fields: S.optional(fieldList) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ReportTaskProgressInput",
+}) as any as S.Schema<ReportTaskProgressInput>;
+export interface ReportTaskRunnerHeartbeatOutput {
+  terminate: boolean;
+}
+export const ReportTaskRunnerHeartbeatOutput = S.suspend(() =>
+  S.Struct({ terminate: S.Boolean }).pipe(ns),
+).annotations({
+  identifier: "ReportTaskRunnerHeartbeatOutput",
+}) as any as S.Schema<ReportTaskRunnerHeartbeatOutput>;
+export type validationMessages = string[];
 export const validationMessages = S.Array(S.String);
-export class PipelineDescription extends S.Class<PipelineDescription>(
-  "PipelineDescription",
-)({
-  pipelineId: S.String,
-  name: S.String,
-  fields: fieldList,
-  description: S.optional(S.String),
-  tags: S.optional(tagList),
-}) {}
+export interface PipelineDescription {
+  pipelineId: string;
+  name: string;
+  fields: fieldList;
+  description?: string;
+  tags?: tagList;
+}
+export const PipelineDescription = S.suspend(() =>
+  S.Struct({
+    pipelineId: S.String,
+    name: S.String,
+    fields: fieldList,
+    description: S.optional(S.String),
+    tags: S.optional(tagList),
+  }),
+).annotations({
+  identifier: "PipelineDescription",
+}) as any as S.Schema<PipelineDescription>;
+export type PipelineDescriptionList = PipelineDescription[];
 export const PipelineDescriptionList = S.Array(PipelineDescription);
-export class PipelineIdName extends S.Class<PipelineIdName>("PipelineIdName")({
-  id: S.optional(S.String),
-  name: S.optional(S.String),
-}) {}
+export interface PipelineIdName {
+  id?: string;
+  name?: string;
+}
+export const PipelineIdName = S.suspend(() =>
+  S.Struct({ id: S.optional(S.String), name: S.optional(S.String) }),
+).annotations({
+  identifier: "PipelineIdName",
+}) as any as S.Schema<PipelineIdName>;
+export type pipelineList = PipelineIdName[];
 export const pipelineList = S.Array(PipelineIdName);
-export class ValidationError extends S.Class<ValidationError>(
-  "ValidationError",
-)({ id: S.optional(S.String), errors: S.optional(validationMessages) }) {}
+export interface ValidationError {
+  id?: string;
+  errors?: validationMessages;
+}
+export const ValidationError = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    errors: S.optional(validationMessages),
+  }),
+).annotations({
+  identifier: "ValidationError",
+}) as any as S.Schema<ValidationError>;
+export type ValidationErrors = ValidationError[];
 export const ValidationErrors = S.Array(ValidationError);
-export class ValidationWarning extends S.Class<ValidationWarning>(
-  "ValidationWarning",
-)({ id: S.optional(S.String), warnings: S.optional(validationMessages) }) {}
+export interface ValidationWarning {
+  id?: string;
+  warnings?: validationMessages;
+}
+export const ValidationWarning = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    warnings: S.optional(validationMessages),
+  }),
+).annotations({
+  identifier: "ValidationWarning",
+}) as any as S.Schema<ValidationWarning>;
+export type ValidationWarnings = ValidationWarning[];
 export const ValidationWarnings = S.Array(ValidationWarning);
-export class Operator extends S.Class<Operator>("Operator")({
-  type: S.optional(S.String),
-  values: S.optional(stringList),
-}) {}
-export class DescribePipelinesOutput extends S.Class<DescribePipelinesOutput>(
-  "DescribePipelinesOutput",
-)({ pipelineDescriptionList: PipelineDescriptionList }, ns) {}
-export class ListPipelinesOutput extends S.Class<ListPipelinesOutput>(
-  "ListPipelinesOutput",
-)(
-  {
+export interface Operator {
+  type?: string;
+  values?: stringList;
+}
+export const Operator = S.suspend(() =>
+  S.Struct({ type: S.optional(S.String), values: S.optional(stringList) }),
+).annotations({ identifier: "Operator" }) as any as S.Schema<Operator>;
+export interface DescribePipelinesOutput {
+  pipelineDescriptionList: PipelineDescriptionList;
+}
+export const DescribePipelinesOutput = S.suspend(() =>
+  S.Struct({ pipelineDescriptionList: PipelineDescriptionList }).pipe(ns),
+).annotations({
+  identifier: "DescribePipelinesOutput",
+}) as any as S.Schema<DescribePipelinesOutput>;
+export interface ListPipelinesOutput {
+  pipelineIdList: pipelineList;
+  marker?: string;
+  hasMoreResults?: boolean;
+}
+export const ListPipelinesOutput = S.suspend(() =>
+  S.Struct({
     pipelineIdList: pipelineList,
     marker: S.optional(S.String),
     hasMoreResults: S.optional(S.Boolean),
-  },
-  ns,
-) {}
-export class PutPipelineDefinitionInput extends S.Class<PutPipelineDefinitionInput>(
-  "PutPipelineDefinitionInput",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListPipelinesOutput",
+}) as any as S.Schema<ListPipelinesOutput>;
+export interface PutPipelineDefinitionInput {
+  pipelineId: string;
+  pipelineObjects: PipelineObjectList;
+  parameterObjects?: ParameterObjectList;
+  parameterValues?: ParameterValueList;
+}
+export const PutPipelineDefinitionInput = S.suspend(() =>
+  S.Struct({
     pipelineId: S.String,
     pipelineObjects: PipelineObjectList,
     parameterObjects: S.optional(ParameterObjectList),
     parameterValues: S.optional(ParameterValueList),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ReportTaskProgressOutput extends S.Class<ReportTaskProgressOutput>(
-  "ReportTaskProgressOutput",
-)({ canceled: S.Boolean }, ns) {}
-export class ValidatePipelineDefinitionOutput extends S.Class<ValidatePipelineDefinitionOutput>(
-  "ValidatePipelineDefinitionOutput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutPipelineDefinitionInput",
+}) as any as S.Schema<PutPipelineDefinitionInput>;
+export interface ReportTaskProgressOutput {
+  canceled: boolean;
+}
+export const ReportTaskProgressOutput = S.suspend(() =>
+  S.Struct({ canceled: S.Boolean }).pipe(ns),
+).annotations({
+  identifier: "ReportTaskProgressOutput",
+}) as any as S.Schema<ReportTaskProgressOutput>;
+export interface ValidatePipelineDefinitionOutput {
+  validationErrors?: ValidationErrors;
+  validationWarnings?: ValidationWarnings;
+  errored: boolean;
+}
+export const ValidatePipelineDefinitionOutput = S.suspend(() =>
+  S.Struct({
     validationErrors: S.optional(ValidationErrors),
     validationWarnings: S.optional(ValidationWarnings),
     errored: S.Boolean,
-  },
-  ns,
-) {}
-export class Selector extends S.Class<Selector>("Selector")({
-  fieldName: S.optional(S.String),
-  operator: S.optional(Operator),
-}) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "ValidatePipelineDefinitionOutput",
+}) as any as S.Schema<ValidatePipelineDefinitionOutput>;
+export interface Selector {
+  fieldName?: string;
+  operator?: Operator;
+}
+export const Selector = S.suspend(() =>
+  S.Struct({ fieldName: S.optional(S.String), operator: S.optional(Operator) }),
+).annotations({ identifier: "Selector" }) as any as S.Schema<Selector>;
+export type SelectorList = Selector[];
 export const SelectorList = S.Array(Selector);
-export class Query extends S.Class<Query>("Query")({
-  selectors: S.optional(SelectorList),
-}) {}
-export class PutPipelineDefinitionOutput extends S.Class<PutPipelineDefinitionOutput>(
-  "PutPipelineDefinitionOutput",
-)(
-  {
+export interface Query {
+  selectors?: SelectorList;
+}
+export const Query = S.suspend(() =>
+  S.Struct({ selectors: S.optional(SelectorList) }),
+).annotations({ identifier: "Query" }) as any as S.Schema<Query>;
+export interface PutPipelineDefinitionOutput {
+  validationErrors?: ValidationErrors;
+  validationWarnings?: ValidationWarnings;
+  errored: boolean;
+}
+export const PutPipelineDefinitionOutput = S.suspend(() =>
+  S.Struct({
     validationErrors: S.optional(ValidationErrors),
     validationWarnings: S.optional(ValidationWarnings),
     errored: S.Boolean,
-  },
-  ns,
-) {}
-export class QueryObjectsInput extends S.Class<QueryObjectsInput>(
-  "QueryObjectsInput",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "PutPipelineDefinitionOutput",
+}) as any as S.Schema<PutPipelineDefinitionOutput>;
+export interface QueryObjectsInput {
+  pipelineId: string;
+  query?: Query;
+  sphere: string;
+  marker?: string;
+  limit?: number;
+}
+export const QueryObjectsInput = S.suspend(() =>
+  S.Struct({
     pipelineId: S.String,
     query: S.optional(Query),
     sphere: S.String,
     marker: S.optional(S.String),
     limit: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "QueryObjectsInput",
+}) as any as S.Schema<QueryObjectsInput>;
+export type PipelineObjectMap = { [key: string]: PipelineObject };
 export const PipelineObjectMap = S.Record({
   key: S.String,
   value: PipelineObject,
 });
-export class TaskObject extends S.Class<TaskObject>("TaskObject")({
-  taskId: S.optional(S.String),
-  pipelineId: S.optional(S.String),
-  attemptId: S.optional(S.String),
-  objects: S.optional(PipelineObjectMap),
-}) {}
-export class PollForTaskOutput extends S.Class<PollForTaskOutput>(
-  "PollForTaskOutput",
-)({ taskObject: S.optional(TaskObject) }, ns) {}
-export class QueryObjectsOutput extends S.Class<QueryObjectsOutput>(
-  "QueryObjectsOutput",
-)(
-  {
+export interface TaskObject {
+  taskId?: string;
+  pipelineId?: string;
+  attemptId?: string;
+  objects?: PipelineObjectMap;
+}
+export const TaskObject = S.suspend(() =>
+  S.Struct({
+    taskId: S.optional(S.String),
+    pipelineId: S.optional(S.String),
+    attemptId: S.optional(S.String),
+    objects: S.optional(PipelineObjectMap),
+  }),
+).annotations({ identifier: "TaskObject" }) as any as S.Schema<TaskObject>;
+export interface PollForTaskOutput {
+  taskObject?: TaskObject;
+}
+export const PollForTaskOutput = S.suspend(() =>
+  S.Struct({ taskObject: S.optional(TaskObject) }).pipe(ns),
+).annotations({
+  identifier: "PollForTaskOutput",
+}) as any as S.Schema<PollForTaskOutput>;
+export interface QueryObjectsOutput {
+  ids?: idList;
+  marker?: string;
+  hasMoreResults?: boolean;
+}
+export const QueryObjectsOutput = S.suspend(() =>
+  S.Struct({
     ids: S.optional(idList),
     marker: S.optional(S.String),
     hasMoreResults: S.optional(S.Boolean),
-  },
-  ns,
-) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "QueryObjectsOutput",
+}) as any as S.Schema<QueryObjectsOutput>;
 
 //# Errors
 export class InternalServiceError extends S.TaggedError<InternalServiceError>()(

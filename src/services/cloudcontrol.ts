@@ -242,165 +242,314 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class CancelResourceRequestInput extends S.Class<CancelResourceRequestInput>(
-  "CancelResourceRequestInput",
-)(
-  { RequestToken: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateResourceInput extends S.Class<CreateResourceInput>(
-  "CreateResourceInput",
-)(
-  {
+export interface CancelResourceRequestInput {
+  RequestToken: string;
+}
+export const CancelResourceRequestInput = S.suspend(() =>
+  S.Struct({ RequestToken: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CancelResourceRequestInput",
+}) as any as S.Schema<CancelResourceRequestInput>;
+export interface CreateResourceInput {
+  TypeName: string;
+  TypeVersionId?: string;
+  RoleArn?: string;
+  ClientToken?: string;
+  DesiredState: string;
+}
+export const CreateResourceInput = S.suspend(() =>
+  S.Struct({
     TypeName: S.String,
     TypeVersionId: S.optional(S.String),
     RoleArn: S.optional(S.String),
     ClientToken: S.optional(S.String),
     DesiredState: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteResourceInput extends S.Class<DeleteResourceInput>(
-  "DeleteResourceInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateResourceInput",
+}) as any as S.Schema<CreateResourceInput>;
+export interface DeleteResourceInput {
+  TypeName: string;
+  TypeVersionId?: string;
+  RoleArn?: string;
+  ClientToken?: string;
+  Identifier: string;
+}
+export const DeleteResourceInput = S.suspend(() =>
+  S.Struct({
     TypeName: S.String,
     TypeVersionId: S.optional(S.String),
     RoleArn: S.optional(S.String),
     ClientToken: S.optional(S.String),
     Identifier: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetResourceInput extends S.Class<GetResourceInput>(
-  "GetResourceInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteResourceInput",
+}) as any as S.Schema<DeleteResourceInput>;
+export interface GetResourceInput {
+  TypeName: string;
+  TypeVersionId?: string;
+  RoleArn?: string;
+  Identifier: string;
+}
+export const GetResourceInput = S.suspend(() =>
+  S.Struct({
     TypeName: S.String,
     TypeVersionId: S.optional(S.String),
     RoleArn: S.optional(S.String),
     Identifier: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetResourceRequestStatusInput extends S.Class<GetResourceRequestStatusInput>(
-  "GetResourceRequestStatusInput",
-)(
-  { RequestToken: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListResourcesInput extends S.Class<ListResourcesInput>(
-  "ListResourcesInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetResourceInput",
+}) as any as S.Schema<GetResourceInput>;
+export interface GetResourceRequestStatusInput {
+  RequestToken: string;
+}
+export const GetResourceRequestStatusInput = S.suspend(() =>
+  S.Struct({ RequestToken: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetResourceRequestStatusInput",
+}) as any as S.Schema<GetResourceRequestStatusInput>;
+export interface ListResourcesInput {
+  TypeName: string;
+  TypeVersionId?: string;
+  RoleArn?: string;
+  NextToken?: string;
+  MaxResults?: number;
+  ResourceModel?: string;
+}
+export const ListResourcesInput = S.suspend(() =>
+  S.Struct({
     TypeName: S.String,
     TypeVersionId: S.optional(S.String),
     RoleArn: S.optional(S.String),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     ResourceModel: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateResourceInput extends S.Class<UpdateResourceInput>(
-  "UpdateResourceInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListResourcesInput",
+}) as any as S.Schema<ListResourcesInput>;
+export interface UpdateResourceInput {
+  TypeName: string;
+  TypeVersionId?: string;
+  RoleArn?: string;
+  ClientToken?: string;
+  Identifier: string;
+  PatchDocument: string;
+}
+export const UpdateResourceInput = S.suspend(() =>
+  S.Struct({
     TypeName: S.String,
     TypeVersionId: S.optional(S.String),
     RoleArn: S.optional(S.String),
     ClientToken: S.optional(S.String),
     Identifier: S.String,
     PatchDocument: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateResourceInput",
+}) as any as S.Schema<UpdateResourceInput>;
+export type Operations = string[];
 export const Operations = S.Array(S.String);
+export type OperationStatuses = string[];
 export const OperationStatuses = S.Array(S.String);
-export class ResourceRequestStatusFilter extends S.Class<ResourceRequestStatusFilter>(
-  "ResourceRequestStatusFilter",
-)({
-  Operations: S.optional(Operations),
-  OperationStatuses: S.optional(OperationStatuses),
-}) {}
-export class ResourceDescription extends S.Class<ResourceDescription>(
-  "ResourceDescription",
-)({ Identifier: S.optional(S.String), Properties: S.optional(S.String) }) {}
+export interface ResourceRequestStatusFilter {
+  Operations?: Operations;
+  OperationStatuses?: OperationStatuses;
+}
+export const ResourceRequestStatusFilter = S.suspend(() =>
+  S.Struct({
+    Operations: S.optional(Operations),
+    OperationStatuses: S.optional(OperationStatuses),
+  }),
+).annotations({
+  identifier: "ResourceRequestStatusFilter",
+}) as any as S.Schema<ResourceRequestStatusFilter>;
+export interface ResourceDescription {
+  Identifier?: string;
+  Properties?: string;
+}
+export const ResourceDescription = S.suspend(() =>
+  S.Struct({
+    Identifier: S.optional(S.String),
+    Properties: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ResourceDescription",
+}) as any as S.Schema<ResourceDescription>;
+export type ResourceDescriptions = ResourceDescription[];
 export const ResourceDescriptions = S.Array(ResourceDescription);
-export class ProgressEvent extends S.Class<ProgressEvent>("ProgressEvent")({
-  TypeName: S.optional(S.String),
-  Identifier: S.optional(S.String),
-  RequestToken: S.optional(S.String),
-  HooksRequestToken: S.optional(S.String),
-  Operation: S.optional(S.String),
-  OperationStatus: S.optional(S.String),
-  EventTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  ResourceModel: S.optional(S.String),
-  StatusMessage: S.optional(S.String),
-  ErrorCode: S.optional(S.String),
-  RetryAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class CreateResourceOutput extends S.Class<CreateResourceOutput>(
-  "CreateResourceOutput",
-)({ ProgressEvent: S.optional(ProgressEvent) }) {}
-export class DeleteResourceOutput extends S.Class<DeleteResourceOutput>(
-  "DeleteResourceOutput",
-)({ ProgressEvent: S.optional(ProgressEvent) }) {}
-export class ListResourceRequestsInput extends S.Class<ListResourceRequestsInput>(
-  "ListResourceRequestsInput",
-)(
-  {
+export interface ProgressEvent {
+  TypeName?: string;
+  Identifier?: string;
+  RequestToken?: string;
+  HooksRequestToken?: string;
+  Operation?: string;
+  OperationStatus?: string;
+  EventTime?: Date;
+  ResourceModel?: string;
+  StatusMessage?: string;
+  ErrorCode?: string;
+  RetryAfter?: Date;
+}
+export const ProgressEvent = S.suspend(() =>
+  S.Struct({
+    TypeName: S.optional(S.String),
+    Identifier: S.optional(S.String),
+    RequestToken: S.optional(S.String),
+    HooksRequestToken: S.optional(S.String),
+    Operation: S.optional(S.String),
+    OperationStatus: S.optional(S.String),
+    EventTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ResourceModel: S.optional(S.String),
+    StatusMessage: S.optional(S.String),
+    ErrorCode: S.optional(S.String),
+    RetryAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "ProgressEvent",
+}) as any as S.Schema<ProgressEvent>;
+export interface CreateResourceOutput {
+  ProgressEvent?: ProgressEvent;
+}
+export const CreateResourceOutput = S.suspend(() =>
+  S.Struct({ ProgressEvent: S.optional(ProgressEvent) }),
+).annotations({
+  identifier: "CreateResourceOutput",
+}) as any as S.Schema<CreateResourceOutput>;
+export interface DeleteResourceOutput {
+  ProgressEvent?: ProgressEvent;
+}
+export const DeleteResourceOutput = S.suspend(() =>
+  S.Struct({ ProgressEvent: S.optional(ProgressEvent) }),
+).annotations({
+  identifier: "DeleteResourceOutput",
+}) as any as S.Schema<DeleteResourceOutput>;
+export interface ListResourceRequestsInput {
+  MaxResults?: number;
+  NextToken?: string;
+  ResourceRequestStatusFilter?: ResourceRequestStatusFilter;
+}
+export const ListResourceRequestsInput = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     ResourceRequestStatusFilter: S.optional(ResourceRequestStatusFilter),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListResourcesOutput extends S.Class<ListResourcesOutput>(
-  "ListResourcesOutput",
-)({
-  TypeName: S.optional(S.String),
-  ResourceDescriptions: S.optional(ResourceDescriptions),
-  NextToken: S.optional(S.String),
-}) {}
-export class UpdateResourceOutput extends S.Class<UpdateResourceOutput>(
-  "UpdateResourceOutput",
-)({ ProgressEvent: S.optional(ProgressEvent) }) {}
-export class HookProgressEvent extends S.Class<HookProgressEvent>(
-  "HookProgressEvent",
-)({
-  HookTypeName: S.optional(S.String),
-  HookTypeVersionId: S.optional(S.String),
-  HookTypeArn: S.optional(S.String),
-  InvocationPoint: S.optional(S.String),
-  HookStatus: S.optional(S.String),
-  HookEventTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  HookStatusMessage: S.optional(S.String),
-  FailureMode: S.optional(S.String),
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListResourceRequestsInput",
+}) as any as S.Schema<ListResourceRequestsInput>;
+export interface ListResourcesOutput {
+  TypeName?: string;
+  ResourceDescriptions?: ResourceDescriptions;
+  NextToken?: string;
+}
+export const ListResourcesOutput = S.suspend(() =>
+  S.Struct({
+    TypeName: S.optional(S.String),
+    ResourceDescriptions: S.optional(ResourceDescriptions),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListResourcesOutput",
+}) as any as S.Schema<ListResourcesOutput>;
+export interface UpdateResourceOutput {
+  ProgressEvent?: ProgressEvent;
+}
+export const UpdateResourceOutput = S.suspend(() =>
+  S.Struct({ ProgressEvent: S.optional(ProgressEvent) }),
+).annotations({
+  identifier: "UpdateResourceOutput",
+}) as any as S.Schema<UpdateResourceOutput>;
+export interface HookProgressEvent {
+  HookTypeName?: string;
+  HookTypeVersionId?: string;
+  HookTypeArn?: string;
+  InvocationPoint?: string;
+  HookStatus?: string;
+  HookEventTime?: Date;
+  HookStatusMessage?: string;
+  FailureMode?: string;
+}
+export const HookProgressEvent = S.suspend(() =>
+  S.Struct({
+    HookTypeName: S.optional(S.String),
+    HookTypeVersionId: S.optional(S.String),
+    HookTypeArn: S.optional(S.String),
+    InvocationPoint: S.optional(S.String),
+    HookStatus: S.optional(S.String),
+    HookEventTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    HookStatusMessage: S.optional(S.String),
+    FailureMode: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "HookProgressEvent",
+}) as any as S.Schema<HookProgressEvent>;
+export type HooksProgressEvent = HookProgressEvent[];
 export const HooksProgressEvent = S.Array(HookProgressEvent);
+export type ResourceRequestStatusSummaries = ProgressEvent[];
 export const ResourceRequestStatusSummaries = S.Array(ProgressEvent);
-export class CancelResourceRequestOutput extends S.Class<CancelResourceRequestOutput>(
-  "CancelResourceRequestOutput",
-)({ ProgressEvent: S.optional(ProgressEvent) }) {}
-export class GetResourceOutput extends S.Class<GetResourceOutput>(
-  "GetResourceOutput",
-)({
-  TypeName: S.optional(S.String),
-  ResourceDescription: S.optional(ResourceDescription),
-}) {}
-export class GetResourceRequestStatusOutput extends S.Class<GetResourceRequestStatusOutput>(
-  "GetResourceRequestStatusOutput",
-)({
-  ProgressEvent: S.optional(ProgressEvent),
-  HooksProgressEvent: S.optional(HooksProgressEvent),
-}) {}
-export class ListResourceRequestsOutput extends S.Class<ListResourceRequestsOutput>(
-  "ListResourceRequestsOutput",
-)({
-  ResourceRequestStatusSummaries: S.optional(ResourceRequestStatusSummaries),
-  NextToken: S.optional(S.String),
-}) {}
+export interface CancelResourceRequestOutput {
+  ProgressEvent?: ProgressEvent;
+}
+export const CancelResourceRequestOutput = S.suspend(() =>
+  S.Struct({ ProgressEvent: S.optional(ProgressEvent) }),
+).annotations({
+  identifier: "CancelResourceRequestOutput",
+}) as any as S.Schema<CancelResourceRequestOutput>;
+export interface GetResourceOutput {
+  TypeName?: string;
+  ResourceDescription?: ResourceDescription;
+}
+export const GetResourceOutput = S.suspend(() =>
+  S.Struct({
+    TypeName: S.optional(S.String),
+    ResourceDescription: S.optional(ResourceDescription),
+  }),
+).annotations({
+  identifier: "GetResourceOutput",
+}) as any as S.Schema<GetResourceOutput>;
+export interface GetResourceRequestStatusOutput {
+  ProgressEvent?: ProgressEvent;
+  HooksProgressEvent?: HooksProgressEvent;
+}
+export const GetResourceRequestStatusOutput = S.suspend(() =>
+  S.Struct({
+    ProgressEvent: S.optional(ProgressEvent),
+    HooksProgressEvent: S.optional(HooksProgressEvent),
+  }),
+).annotations({
+  identifier: "GetResourceRequestStatusOutput",
+}) as any as S.Schema<GetResourceRequestStatusOutput>;
+export interface ListResourceRequestsOutput {
+  ResourceRequestStatusSummaries?: ResourceRequestStatusSummaries;
+  NextToken?: string;
+}
+export const ListResourceRequestsOutput = S.suspend(() =>
+  S.Struct({
+    ResourceRequestStatusSummaries: S.optional(ResourceRequestStatusSummaries),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListResourceRequestsOutput",
+}) as any as S.Schema<ListResourceRequestsOutput>;
 
 //# Errors
 export class AlreadyExistsException extends S.TaggedError<AlreadyExistsException>()(

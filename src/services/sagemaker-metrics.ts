@@ -262,70 +262,133 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class MetricQuery extends S.Class<MetricQuery>("MetricQuery")({
-  MetricName: S.String,
-  ResourceArn: S.String,
-  MetricStat: S.String,
-  Period: S.String,
-  XAxisType: S.String,
-  Start: S.optional(S.Number),
-  End: S.optional(S.Number),
-}) {}
+export interface MetricQuery {
+  MetricName: string;
+  ResourceArn: string;
+  MetricStat: string;
+  Period: string;
+  XAxisType: string;
+  Start?: number;
+  End?: number;
+}
+export const MetricQuery = S.suspend(() =>
+  S.Struct({
+    MetricName: S.String,
+    ResourceArn: S.String,
+    MetricStat: S.String,
+    Period: S.String,
+    XAxisType: S.String,
+    Start: S.optional(S.Number),
+    End: S.optional(S.Number),
+  }),
+).annotations({ identifier: "MetricQuery" }) as any as S.Schema<MetricQuery>;
+export type MetricQueryList = MetricQuery[];
 export const MetricQueryList = S.Array(MetricQuery);
-export class RawMetricData extends S.Class<RawMetricData>("RawMetricData")({
-  MetricName: S.String,
-  Timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  Step: S.optional(S.Number),
-  Value: S.Number,
-}) {}
+export interface RawMetricData {
+  MetricName: string;
+  Timestamp: Date;
+  Step?: number;
+  Value: number;
+}
+export const RawMetricData = S.suspend(() =>
+  S.Struct({
+    MetricName: S.String,
+    Timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    Step: S.optional(S.Number),
+    Value: S.Number,
+  }),
+).annotations({
+  identifier: "RawMetricData",
+}) as any as S.Schema<RawMetricData>;
+export type RawMetricDataList = RawMetricData[];
 export const RawMetricDataList = S.Array(RawMetricData);
-export class BatchGetMetricsRequest extends S.Class<BatchGetMetricsRequest>(
-  "BatchGetMetricsRequest",
-)(
-  { MetricQueries: MetricQueryList },
-  T.all(
-    T.Http({ method: "POST", uri: "/BatchGetMetrics" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface BatchGetMetricsRequest {
+  MetricQueries: MetricQueryList;
+}
+export const BatchGetMetricsRequest = S.suspend(() =>
+  S.Struct({ MetricQueries: MetricQueryList }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/BatchGetMetrics" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class BatchPutMetricsRequest extends S.Class<BatchPutMetricsRequest>(
-  "BatchPutMetricsRequest",
-)(
-  { TrialComponentName: S.String, MetricData: RawMetricDataList },
-  T.all(
-    T.Http({ method: "PUT", uri: "/BatchPutMetrics" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "BatchGetMetricsRequest",
+}) as any as S.Schema<BatchGetMetricsRequest>;
+export interface BatchPutMetricsRequest {
+  TrialComponentName: string;
+  MetricData: RawMetricDataList;
+}
+export const BatchPutMetricsRequest = S.suspend(() =>
+  S.Struct({
+    TrialComponentName: S.String,
+    MetricData: RawMetricDataList,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/BatchPutMetrics" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "BatchPutMetricsRequest",
+}) as any as S.Schema<BatchPutMetricsRequest>;
+export type XAxisValues = number[];
 export const XAxisValues = S.Array(S.Number);
+export type MetricValues = number[];
 export const MetricValues = S.Array(S.Number);
-export class MetricQueryResult extends S.Class<MetricQueryResult>(
-  "MetricQueryResult",
-)({
-  Status: S.String,
-  Message: S.optional(S.String),
-  XAxisValues: XAxisValues,
-  MetricValues: MetricValues,
-}) {}
+export interface MetricQueryResult {
+  Status: string;
+  Message?: string;
+  XAxisValues: XAxisValues;
+  MetricValues: MetricValues;
+}
+export const MetricQueryResult = S.suspend(() =>
+  S.Struct({
+    Status: S.String,
+    Message: S.optional(S.String),
+    XAxisValues: XAxisValues,
+    MetricValues: MetricValues,
+  }),
+).annotations({
+  identifier: "MetricQueryResult",
+}) as any as S.Schema<MetricQueryResult>;
+export type MetricQueryResultList = MetricQueryResult[];
 export const MetricQueryResultList = S.Array(MetricQueryResult);
-export class BatchPutMetricsError extends S.Class<BatchPutMetricsError>(
-  "BatchPutMetricsError",
-)({ Code: S.optional(S.String), MetricIndex: S.optional(S.Number) }) {}
+export interface BatchPutMetricsError {
+  Code?: string;
+  MetricIndex?: number;
+}
+export const BatchPutMetricsError = S.suspend(() =>
+  S.Struct({ Code: S.optional(S.String), MetricIndex: S.optional(S.Number) }),
+).annotations({
+  identifier: "BatchPutMetricsError",
+}) as any as S.Schema<BatchPutMetricsError>;
+export type BatchPutMetricsErrorList = BatchPutMetricsError[];
 export const BatchPutMetricsErrorList = S.Array(BatchPutMetricsError);
-export class BatchGetMetricsResponse extends S.Class<BatchGetMetricsResponse>(
-  "BatchGetMetricsResponse",
-)({ MetricQueryResults: S.optional(MetricQueryResultList) }) {}
-export class BatchPutMetricsResponse extends S.Class<BatchPutMetricsResponse>(
-  "BatchPutMetricsResponse",
-)({ Errors: S.optional(BatchPutMetricsErrorList) }) {}
+export interface BatchGetMetricsResponse {
+  MetricQueryResults?: MetricQueryResultList;
+}
+export const BatchGetMetricsResponse = S.suspend(() =>
+  S.Struct({ MetricQueryResults: S.optional(MetricQueryResultList) }),
+).annotations({
+  identifier: "BatchGetMetricsResponse",
+}) as any as S.Schema<BatchGetMetricsResponse>;
+export interface BatchPutMetricsResponse {
+  Errors?: BatchPutMetricsErrorList;
+}
+export const BatchPutMetricsResponse = S.suspend(() =>
+  S.Struct({ Errors: S.optional(BatchPutMetricsErrorList) }),
+).annotations({
+  identifier: "BatchPutMetricsResponse",
+}) as any as S.Schema<BatchPutMetricsResponse>;
 
 //# Errors
 

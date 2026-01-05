@@ -307,225 +307,387 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class GetAccountSettingsRequest extends S.Class<GetAccountSettingsRequest>(
-  "GetAccountSettingsRequest",
-)(
-  {},
-  T.all(
-    T.Http({ method: "GET", uri: "/v1/account-settings/get" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface GetAccountSettingsRequest {}
+export const GetAccountSettingsRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v1/account-settings/get" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutAccountSettingsRequest extends S.Class<PutAccountSettingsRequest>(
-  "PutAccountSettingsRequest",
-)(
-  { notificationSubscriptionStatus: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "PUT", uri: "/v1/account-settings/put" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetAccountSettingsRequest",
+}) as any as S.Schema<GetAccountSettingsRequest>;
+export interface PutAccountSettingsRequest {
+  notificationSubscriptionStatus?: string;
+}
+export const PutAccountSettingsRequest = S.suspend(() =>
+  S.Struct({ notificationSubscriptionStatus: S.optional(S.String) }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/v1/account-settings/put" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListCustomerAgreementsRequest extends S.Class<ListCustomerAgreementsRequest>(
-  "ListCustomerAgreementsRequest",
-)(
-  {
+).annotations({
+  identifier: "PutAccountSettingsRequest",
+}) as any as S.Schema<PutAccountSettingsRequest>;
+export interface ListCustomerAgreementsRequest {
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListCustomerAgreementsRequest = S.suspend(() =>
+  S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/v1/customer-agreement/list" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v1/customer-agreement/list" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetReportMetadataRequest extends S.Class<GetReportMetadataRequest>(
-  "GetReportMetadataRequest",
-)(
-  {
+).annotations({
+  identifier: "ListCustomerAgreementsRequest",
+}) as any as S.Schema<ListCustomerAgreementsRequest>;
+export interface GetReportMetadataRequest {
+  reportId: string;
+  reportVersion?: number;
+}
+export const GetReportMetadataRequest = S.suspend(() =>
+  S.Struct({
     reportId: S.String.pipe(T.HttpQuery("reportId")),
     reportVersion: S.optional(S.Number).pipe(T.HttpQuery("reportVersion")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/v1/report/getMetadata" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v1/report/getMetadata" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListReportsRequest extends S.Class<ListReportsRequest>(
-  "ListReportsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetReportMetadataRequest",
+}) as any as S.Schema<GetReportMetadataRequest>;
+export interface ListReportsRequest {
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListReportsRequest = S.suspend(() =>
+  S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/v1/report/list" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v1/report/list" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetReportRequest extends S.Class<GetReportRequest>(
-  "GetReportRequest",
-)(
-  {
+).annotations({
+  identifier: "ListReportsRequest",
+}) as any as S.Schema<ListReportsRequest>;
+export interface GetReportRequest {
+  reportId: string;
+  reportVersion?: number;
+  termToken: string;
+}
+export const GetReportRequest = S.suspend(() =>
+  S.Struct({
     reportId: S.String.pipe(T.HttpQuery("reportId")),
     reportVersion: S.optional(S.Number).pipe(T.HttpQuery("reportVersion")),
     termToken: S.String.pipe(T.HttpQuery("termToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/v1/report/get" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v1/report/get" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetTermForReportRequest extends S.Class<GetTermForReportRequest>(
-  "GetTermForReportRequest",
-)(
-  {
+).annotations({
+  identifier: "GetReportRequest",
+}) as any as S.Schema<GetReportRequest>;
+export interface GetTermForReportRequest {
+  reportId: string;
+  reportVersion?: number;
+}
+export const GetTermForReportRequest = S.suspend(() =>
+  S.Struct({
     reportId: S.String.pipe(T.HttpQuery("reportId")),
     reportVersion: S.optional(S.Number).pipe(T.HttpQuery("reportVersion")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/v1/report/getTermForReport" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v1/report/getTermForReport" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListReportVersionsRequest extends S.Class<ListReportVersionsRequest>(
-  "ListReportVersionsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetTermForReportRequest",
+}) as any as S.Schema<GetTermForReportRequest>;
+export interface ListReportVersionsRequest {
+  reportId: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListReportVersionsRequest = S.suspend(() =>
+  S.Struct({
     reportId: S.String.pipe(T.HttpQuery("reportId")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/v1/report/listVersions" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v1/report/listVersions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AccountSettings extends S.Class<AccountSettings>(
-  "AccountSettings",
-)({ notificationSubscriptionStatus: S.optional(S.String) }) {}
-export class GetAccountSettingsResponse extends S.Class<GetAccountSettingsResponse>(
-  "GetAccountSettingsResponse",
-)({ accountSettings: S.optional(AccountSettings) }) {}
-export class PutAccountSettingsResponse extends S.Class<PutAccountSettingsResponse>(
-  "PutAccountSettingsResponse",
-)({ accountSettings: S.optional(AccountSettings) }) {}
-export class GetReportResponse extends S.Class<GetReportResponse>(
-  "GetReportResponse",
-)({ documentPresignedUrl: S.optional(S.String) }) {}
-export class GetTermForReportResponse extends S.Class<GetTermForReportResponse>(
-  "GetTermForReportResponse",
-)({
-  documentPresignedUrl: S.optional(S.String),
-  termToken: S.optional(S.String),
-}) {}
-export class ReportSummary extends S.Class<ReportSummary>("ReportSummary")({
-  id: S.optional(S.String),
-  name: S.optional(S.String),
-  state: S.optional(S.String),
-  arn: S.optional(S.String),
-  version: S.optional(S.Number),
-  uploadState: S.optional(S.String),
-  description: S.optional(S.String),
-  periodStart: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  periodEnd: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  series: S.optional(S.String),
-  category: S.optional(S.String),
-  companyName: S.optional(S.String),
-  productName: S.optional(S.String),
-  statusMessage: S.optional(S.String),
-  acceptanceType: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "ListReportVersionsRequest",
+}) as any as S.Schema<ListReportVersionsRequest>;
+export interface AccountSettings {
+  notificationSubscriptionStatus?: string;
+}
+export const AccountSettings = S.suspend(() =>
+  S.Struct({ notificationSubscriptionStatus: S.optional(S.String) }),
+).annotations({
+  identifier: "AccountSettings",
+}) as any as S.Schema<AccountSettings>;
+export interface GetAccountSettingsResponse {
+  accountSettings?: AccountSettings;
+}
+export const GetAccountSettingsResponse = S.suspend(() =>
+  S.Struct({ accountSettings: S.optional(AccountSettings) }),
+).annotations({
+  identifier: "GetAccountSettingsResponse",
+}) as any as S.Schema<GetAccountSettingsResponse>;
+export interface PutAccountSettingsResponse {
+  accountSettings?: AccountSettings;
+}
+export const PutAccountSettingsResponse = S.suspend(() =>
+  S.Struct({ accountSettings: S.optional(AccountSettings) }),
+).annotations({
+  identifier: "PutAccountSettingsResponse",
+}) as any as S.Schema<PutAccountSettingsResponse>;
+export interface GetReportResponse {
+  documentPresignedUrl?: string;
+}
+export const GetReportResponse = S.suspend(() =>
+  S.Struct({ documentPresignedUrl: S.optional(S.String) }),
+).annotations({
+  identifier: "GetReportResponse",
+}) as any as S.Schema<GetReportResponse>;
+export interface GetTermForReportResponse {
+  documentPresignedUrl?: string;
+  termToken?: string;
+}
+export const GetTermForReportResponse = S.suspend(() =>
+  S.Struct({
+    documentPresignedUrl: S.optional(S.String),
+    termToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetTermForReportResponse",
+}) as any as S.Schema<GetTermForReportResponse>;
+export interface ReportSummary {
+  id?: string;
+  name?: string;
+  state?: string;
+  arn?: string;
+  version?: number;
+  uploadState?: string;
+  description?: string;
+  periodStart?: Date;
+  periodEnd?: Date;
+  series?: string;
+  category?: string;
+  companyName?: string;
+  productName?: string;
+  statusMessage?: string;
+  acceptanceType?: string;
+}
+export const ReportSummary = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    state: S.optional(S.String),
+    arn: S.optional(S.String),
+    version: S.optional(S.Number),
+    uploadState: S.optional(S.String),
+    description: S.optional(S.String),
+    periodStart: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    periodEnd: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    series: S.optional(S.String),
+    category: S.optional(S.String),
+    companyName: S.optional(S.String),
+    productName: S.optional(S.String),
+    statusMessage: S.optional(S.String),
+    acceptanceType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ReportSummary",
+}) as any as S.Schema<ReportSummary>;
+export type ReportsList = ReportSummary[];
 export const ReportsList = S.Array(ReportSummary);
-export class ListReportVersionsResponse extends S.Class<ListReportVersionsResponse>(
-  "ListReportVersionsResponse",
-)({ reports: ReportsList, nextToken: S.optional(S.String) }) {}
+export interface ListReportVersionsResponse {
+  reports: ReportsList;
+  nextToken?: string;
+}
+export const ListReportVersionsResponse = S.suspend(() =>
+  S.Struct({ reports: ReportsList, nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListReportVersionsResponse",
+}) as any as S.Schema<ListReportVersionsResponse>;
+export type AgreementTerms = string[];
 export const AgreementTerms = S.Array(S.String);
-export class CustomerAgreementSummary extends S.Class<CustomerAgreementSummary>(
-  "CustomerAgreementSummary",
-)({
-  name: S.optional(S.String),
-  arn: S.optional(S.String),
-  id: S.optional(S.String),
-  agreementArn: S.optional(S.String),
-  awsAccountId: S.optional(S.String),
-  organizationArn: S.optional(S.String),
-  effectiveStart: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  effectiveEnd: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  state: S.optional(S.String),
-  description: S.optional(S.String),
-  acceptanceTerms: S.optional(AgreementTerms),
-  terminateTerms: S.optional(AgreementTerms),
-  type: S.optional(S.String),
-}) {}
+export interface CustomerAgreementSummary {
+  name?: string;
+  arn?: string;
+  id?: string;
+  agreementArn?: string;
+  awsAccountId?: string;
+  organizationArn?: string;
+  effectiveStart?: Date;
+  effectiveEnd?: Date;
+  state?: string;
+  description?: string;
+  acceptanceTerms?: AgreementTerms;
+  terminateTerms?: AgreementTerms;
+  type?: string;
+}
+export const CustomerAgreementSummary = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    arn: S.optional(S.String),
+    id: S.optional(S.String),
+    agreementArn: S.optional(S.String),
+    awsAccountId: S.optional(S.String),
+    organizationArn: S.optional(S.String),
+    effectiveStart: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    effectiveEnd: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    state: S.optional(S.String),
+    description: S.optional(S.String),
+    acceptanceTerms: S.optional(AgreementTerms),
+    terminateTerms: S.optional(AgreementTerms),
+    type: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CustomerAgreementSummary",
+}) as any as S.Schema<CustomerAgreementSummary>;
+export type CustomerAgreementList = CustomerAgreementSummary[];
 export const CustomerAgreementList = S.Array(CustomerAgreementSummary);
-export class ReportDetail extends S.Class<ReportDetail>("ReportDetail")({
-  id: S.optional(S.String),
-  name: S.optional(S.String),
-  description: S.optional(S.String),
-  periodStart: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  periodEnd: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  lastModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  deletedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  state: S.optional(S.String),
-  arn: S.optional(S.String),
-  series: S.optional(S.String),
-  category: S.optional(S.String),
-  companyName: S.optional(S.String),
-  productName: S.optional(S.String),
-  termArn: S.optional(S.String),
-  version: S.optional(S.Number),
-  acceptanceType: S.optional(S.String),
-  sequenceNumber: S.optional(S.Number),
-  uploadState: S.optional(S.String),
-  statusMessage: S.optional(S.String),
-}) {}
-export class ListCustomerAgreementsResponse extends S.Class<ListCustomerAgreementsResponse>(
-  "ListCustomerAgreementsResponse",
-)({
-  customerAgreements: CustomerAgreementList,
-  nextToken: S.optional(S.String),
-}) {}
-export class GetReportMetadataResponse extends S.Class<GetReportMetadataResponse>(
-  "GetReportMetadataResponse",
-)({ reportDetails: S.optional(ReportDetail) }) {}
-export class ListReportsResponse extends S.Class<ListReportsResponse>(
-  "ListReportsResponse",
-)({ reports: S.optional(ReportsList), nextToken: S.optional(S.String) }) {}
-export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
-  "ValidationExceptionField",
-)({ name: S.String, message: S.String }) {}
+export interface ReportDetail {
+  id?: string;
+  name?: string;
+  description?: string;
+  periodStart?: Date;
+  periodEnd?: Date;
+  createdAt?: Date;
+  lastModifiedAt?: Date;
+  deletedAt?: Date;
+  state?: string;
+  arn?: string;
+  series?: string;
+  category?: string;
+  companyName?: string;
+  productName?: string;
+  termArn?: string;
+  version?: number;
+  acceptanceType?: string;
+  sequenceNumber?: number;
+  uploadState?: string;
+  statusMessage?: string;
+}
+export const ReportDetail = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    periodStart: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    periodEnd: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    lastModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    deletedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    state: S.optional(S.String),
+    arn: S.optional(S.String),
+    series: S.optional(S.String),
+    category: S.optional(S.String),
+    companyName: S.optional(S.String),
+    productName: S.optional(S.String),
+    termArn: S.optional(S.String),
+    version: S.optional(S.Number),
+    acceptanceType: S.optional(S.String),
+    sequenceNumber: S.optional(S.Number),
+    uploadState: S.optional(S.String),
+    statusMessage: S.optional(S.String),
+  }),
+).annotations({ identifier: "ReportDetail" }) as any as S.Schema<ReportDetail>;
+export interface ListCustomerAgreementsResponse {
+  customerAgreements: CustomerAgreementList;
+  nextToken?: string;
+}
+export const ListCustomerAgreementsResponse = S.suspend(() =>
+  S.Struct({
+    customerAgreements: CustomerAgreementList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListCustomerAgreementsResponse",
+}) as any as S.Schema<ListCustomerAgreementsResponse>;
+export interface GetReportMetadataResponse {
+  reportDetails?: ReportDetail;
+}
+export const GetReportMetadataResponse = S.suspend(() =>
+  S.Struct({ reportDetails: S.optional(ReportDetail) }),
+).annotations({
+  identifier: "GetReportMetadataResponse",
+}) as any as S.Schema<GetReportMetadataResponse>;
+export interface ListReportsResponse {
+  reports?: ReportsList;
+  nextToken?: string;
+}
+export const ListReportsResponse = S.suspend(() =>
+  S.Struct({
+    reports: S.optional(ReportsList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListReportsResponse",
+}) as any as S.Schema<ListReportsResponse>;
+export interface ValidationExceptionField {
+  name: string;
+  message: string;
+}
+export const ValidationExceptionField = S.suspend(() =>
+  S.Struct({ name: S.String, message: S.String }),
+).annotations({
+  identifier: "ValidationExceptionField",
+}) as any as S.Schema<ValidationExceptionField>;
+export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 
 //# Errors

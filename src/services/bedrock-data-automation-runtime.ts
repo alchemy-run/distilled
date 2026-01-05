@@ -294,130 +294,268 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { resourceARN: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  { resourceARN: S.String, tagKeys: TagKeyList },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
-export class GetDataAutomationStatusRequest extends S.Class<GetDataAutomationStatusRequest>(
-  "GetDataAutomationStatusRequest",
-)(
-  { invocationArn: S.String.pipe(T.HttpLabel("invocationArn")) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class SyncInputConfiguration extends S.Class<SyncInputConfiguration>(
-  "SyncInputConfiguration",
-)({ bytes: S.optional(T.Blob), s3Uri: S.optional(S.String) }) {}
-export class DataAutomationConfiguration extends S.Class<DataAutomationConfiguration>(
-  "DataAutomationConfiguration",
-)({ dataAutomationProjectArn: S.String, stage: S.optional(S.String) }) {}
-export class Blueprint extends S.Class<Blueprint>("Blueprint")({
-  blueprintArn: S.String,
-  version: S.optional(S.String),
-  stage: S.optional(S.String),
-}) {}
+export interface ListTagsForResourceRequest {
+  resourceARN: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ resourceARN: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface UntagResourceRequest {
+  resourceARN: string;
+  tagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({ resourceARN: S.String, tagKeys: TagKeyList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface GetDataAutomationStatusRequest {
+  invocationArn: string;
+}
+export const GetDataAutomationStatusRequest = S.suspend(() =>
+  S.Struct({ invocationArn: S.String.pipe(T.HttpLabel("invocationArn")) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetDataAutomationStatusRequest",
+}) as any as S.Schema<GetDataAutomationStatusRequest>;
+export interface SyncInputConfiguration {
+  bytes?: Uint8Array;
+  s3Uri?: string;
+}
+export const SyncInputConfiguration = S.suspend(() =>
+  S.Struct({ bytes: S.optional(T.Blob), s3Uri: S.optional(S.String) }),
+).annotations({
+  identifier: "SyncInputConfiguration",
+}) as any as S.Schema<SyncInputConfiguration>;
+export interface DataAutomationConfiguration {
+  dataAutomationProjectArn: string;
+  stage?: string;
+}
+export const DataAutomationConfiguration = S.suspend(() =>
+  S.Struct({ dataAutomationProjectArn: S.String, stage: S.optional(S.String) }),
+).annotations({
+  identifier: "DataAutomationConfiguration",
+}) as any as S.Schema<DataAutomationConfiguration>;
+export interface Blueprint {
+  blueprintArn: string;
+  version?: string;
+  stage?: string;
+}
+export const Blueprint = S.suspend(() =>
+  S.Struct({
+    blueprintArn: S.String,
+    version: S.optional(S.String),
+    stage: S.optional(S.String),
+  }),
+).annotations({ identifier: "Blueprint" }) as any as S.Schema<Blueprint>;
+export type BlueprintList = Blueprint[];
 export const BlueprintList = S.Array(Blueprint);
-export class Tag extends S.Class<Tag>("Tag")({
-  key: S.String,
-  value: S.String,
-}) {}
+export interface Tag {
+  key: string;
+  value: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ key: S.String, value: S.String }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagList = Tag[];
 export const TagList = S.Array(Tag);
-export class OutputConfiguration extends S.Class<OutputConfiguration>(
-  "OutputConfiguration",
-)({ s3Uri: S.String }) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ tags: S.optional(TagList) }) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { resourceARN: S.String, tags: TagList },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class GetDataAutomationStatusResponse extends S.Class<GetDataAutomationStatusResponse>(
-  "GetDataAutomationStatusResponse",
-)({
-  status: S.optional(S.String),
-  errorType: S.optional(S.String),
-  errorMessage: S.optional(S.String),
-  outputConfiguration: S.optional(OutputConfiguration),
-  jobSubmissionTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  jobCompletionTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  jobDurationInSeconds: S.optional(S.Number),
-}) {}
+export interface OutputConfiguration {
+  s3Uri: string;
+}
+export const OutputConfiguration = S.suspend(() =>
+  S.Struct({ s3Uri: S.String }),
+).annotations({
+  identifier: "OutputConfiguration",
+}) as any as S.Schema<OutputConfiguration>;
+export interface ListTagsForResourceResponse {
+  tags?: TagList;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ tags: S.optional(TagList) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface TagResourceRequest {
+  resourceARN: string;
+  tags: TagList;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ resourceARN: S.String, tags: TagList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface GetDataAutomationStatusResponse {
+  status?: string;
+  errorType?: string;
+  errorMessage?: string;
+  outputConfiguration?: OutputConfiguration;
+  jobSubmissionTime?: Date;
+  jobCompletionTime?: Date;
+  jobDurationInSeconds?: number;
+}
+export const GetDataAutomationStatusResponse = S.suspend(() =>
+  S.Struct({
+    status: S.optional(S.String),
+    errorType: S.optional(S.String),
+    errorMessage: S.optional(S.String),
+    outputConfiguration: S.optional(OutputConfiguration),
+    jobSubmissionTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    jobCompletionTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    jobDurationInSeconds: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "GetDataAutomationStatusResponse",
+}) as any as S.Schema<GetDataAutomationStatusResponse>;
+export type EncryptionContextMap = { [key: string]: string };
 export const EncryptionContextMap = S.Record({
   key: S.String,
   value: S.String,
 });
-export class EventBridgeConfiguration extends S.Class<EventBridgeConfiguration>(
-  "EventBridgeConfiguration",
-)({ eventBridgeEnabled: S.Boolean }) {}
-export class EncryptionConfiguration extends S.Class<EncryptionConfiguration>(
-  "EncryptionConfiguration",
-)({
-  kmsKeyId: S.String,
-  kmsEncryptionContext: S.optional(EncryptionContextMap),
-}) {}
-export class NotificationConfiguration extends S.Class<NotificationConfiguration>(
-  "NotificationConfiguration",
-)({ eventBridgeConfiguration: EventBridgeConfiguration }) {}
-export class InvokeDataAutomationRequest extends S.Class<InvokeDataAutomationRequest>(
-  "InvokeDataAutomationRequest",
-)(
-  {
+export interface EventBridgeConfiguration {
+  eventBridgeEnabled: boolean;
+}
+export const EventBridgeConfiguration = S.suspend(() =>
+  S.Struct({ eventBridgeEnabled: S.Boolean }),
+).annotations({
+  identifier: "EventBridgeConfiguration",
+}) as any as S.Schema<EventBridgeConfiguration>;
+export interface EncryptionConfiguration {
+  kmsKeyId: string;
+  kmsEncryptionContext?: EncryptionContextMap;
+}
+export const EncryptionConfiguration = S.suspend(() =>
+  S.Struct({
+    kmsKeyId: S.String,
+    kmsEncryptionContext: S.optional(EncryptionContextMap),
+  }),
+).annotations({
+  identifier: "EncryptionConfiguration",
+}) as any as S.Schema<EncryptionConfiguration>;
+export interface NotificationConfiguration {
+  eventBridgeConfiguration: EventBridgeConfiguration;
+}
+export const NotificationConfiguration = S.suspend(() =>
+  S.Struct({ eventBridgeConfiguration: EventBridgeConfiguration }),
+).annotations({
+  identifier: "NotificationConfiguration",
+}) as any as S.Schema<NotificationConfiguration>;
+export interface InvokeDataAutomationRequest {
+  inputConfiguration: SyncInputConfiguration;
+  dataAutomationConfiguration?: DataAutomationConfiguration;
+  blueprints?: BlueprintList;
+  dataAutomationProfileArn: string;
+  encryptionConfiguration?: EncryptionConfiguration;
+}
+export const InvokeDataAutomationRequest = S.suspend(() =>
+  S.Struct({
     inputConfiguration: SyncInputConfiguration,
     dataAutomationConfiguration: S.optional(DataAutomationConfiguration),
     blueprints: S.optional(BlueprintList),
     dataAutomationProfileArn: S.String,
     encryptionConfiguration: S.optional(EncryptionConfiguration),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TimestampSegment extends S.Class<TimestampSegment>(
-  "TimestampSegment",
-)({ startTimeMillis: S.Number, endTimeMillis: S.Number }) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "InvokeDataAutomationRequest",
+}) as any as S.Schema<InvokeDataAutomationRequest>;
+export interface TimestampSegment {
+  startTimeMillis: number;
+  endTimeMillis: number;
+}
+export const TimestampSegment = S.suspend(() =>
+  S.Struct({ startTimeMillis: S.Number, endTimeMillis: S.Number }),
+).annotations({
+  identifier: "TimestampSegment",
+}) as any as S.Schema<TimestampSegment>;
 export const VideoSegmentConfiguration = S.Union(
   S.Struct({ timestampSegment: TimestampSegment }),
 );
-export class OutputSegment extends S.Class<OutputSegment>("OutputSegment")({
-  customOutputStatus: S.optional(S.String),
-  customOutput: S.optional(S.String),
-  standardOutput: S.optional(S.String),
-}) {}
+export interface OutputSegment {
+  customOutputStatus?: string;
+  customOutput?: string;
+  standardOutput?: string;
+}
+export const OutputSegment = S.suspend(() =>
+  S.Struct({
+    customOutputStatus: S.optional(S.String),
+    customOutput: S.optional(S.String),
+    standardOutput: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "OutputSegment",
+}) as any as S.Schema<OutputSegment>;
+export type OutputSegmentList = OutputSegment[];
 export const OutputSegmentList = S.Array(OutputSegment);
-export class VideoAssetProcessingConfiguration extends S.Class<VideoAssetProcessingConfiguration>(
-  "VideoAssetProcessingConfiguration",
-)({ segmentConfiguration: S.optional(VideoSegmentConfiguration) }) {}
-export class InvokeDataAutomationResponse extends S.Class<InvokeDataAutomationResponse>(
-  "InvokeDataAutomationResponse",
-)({ semanticModality: S.String, outputSegments: OutputSegmentList }) {}
-export class AssetProcessingConfiguration extends S.Class<AssetProcessingConfiguration>(
-  "AssetProcessingConfiguration",
-)({ video: S.optional(VideoAssetProcessingConfiguration) }) {}
-export class InputConfiguration extends S.Class<InputConfiguration>(
-  "InputConfiguration",
-)({
-  s3Uri: S.String,
-  assetProcessingConfiguration: S.optional(AssetProcessingConfiguration),
-}) {}
-export class InvokeDataAutomationAsyncRequest extends S.Class<InvokeDataAutomationAsyncRequest>(
-  "InvokeDataAutomationAsyncRequest",
-)(
-  {
+export interface VideoAssetProcessingConfiguration {
+  segmentConfiguration?: (typeof VideoSegmentConfiguration)["Type"];
+}
+export const VideoAssetProcessingConfiguration = S.suspend(() =>
+  S.Struct({ segmentConfiguration: S.optional(VideoSegmentConfiguration) }),
+).annotations({
+  identifier: "VideoAssetProcessingConfiguration",
+}) as any as S.Schema<VideoAssetProcessingConfiguration>;
+export interface InvokeDataAutomationResponse {
+  semanticModality: string;
+  outputSegments: OutputSegmentList;
+}
+export const InvokeDataAutomationResponse = S.suspend(() =>
+  S.Struct({ semanticModality: S.String, outputSegments: OutputSegmentList }),
+).annotations({
+  identifier: "InvokeDataAutomationResponse",
+}) as any as S.Schema<InvokeDataAutomationResponse>;
+export interface AssetProcessingConfiguration {
+  video?: VideoAssetProcessingConfiguration;
+}
+export const AssetProcessingConfiguration = S.suspend(() =>
+  S.Struct({ video: S.optional(VideoAssetProcessingConfiguration) }),
+).annotations({
+  identifier: "AssetProcessingConfiguration",
+}) as any as S.Schema<AssetProcessingConfiguration>;
+export interface InputConfiguration {
+  s3Uri: string;
+  assetProcessingConfiguration?: AssetProcessingConfiguration;
+}
+export const InputConfiguration = S.suspend(() =>
+  S.Struct({
+    s3Uri: S.String,
+    assetProcessingConfiguration: S.optional(AssetProcessingConfiguration),
+  }),
+).annotations({
+  identifier: "InputConfiguration",
+}) as any as S.Schema<InputConfiguration>;
+export interface InvokeDataAutomationAsyncRequest {
+  clientToken?: string;
+  inputConfiguration: InputConfiguration;
+  outputConfiguration: OutputConfiguration;
+  dataAutomationConfiguration?: DataAutomationConfiguration;
+  encryptionConfiguration?: EncryptionConfiguration;
+  notificationConfiguration?: NotificationConfiguration;
+  blueprints?: BlueprintList;
+  dataAutomationProfileArn: string;
+  tags?: TagList;
+}
+export const InvokeDataAutomationAsyncRequest = S.suspend(() =>
+  S.Struct({
     clientToken: S.optional(S.String),
     inputConfiguration: InputConfiguration,
     outputConfiguration: OutputConfiguration,
@@ -427,12 +565,20 @@ export class InvokeDataAutomationAsyncRequest extends S.Class<InvokeDataAutomati
     blueprints: S.optional(BlueprintList),
     dataAutomationProfileArn: S.String,
     tags: S.optional(TagList),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class InvokeDataAutomationAsyncResponse extends S.Class<InvokeDataAutomationAsyncResponse>(
-  "InvokeDataAutomationAsyncResponse",
-)({ invocationArn: S.String }) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "InvokeDataAutomationAsyncRequest",
+}) as any as S.Schema<InvokeDataAutomationAsyncRequest>;
+export interface InvokeDataAutomationAsyncResponse {
+  invocationArn: string;
+}
+export const InvokeDataAutomationAsyncResponse = S.suspend(() =>
+  S.Struct({ invocationArn: S.String }),
+).annotations({
+  identifier: "InvokeDataAutomationAsyncResponse",
+}) as any as S.Schema<InvokeDataAutomationAsyncResponse>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

@@ -294,85 +294,129 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type DeleteCategoryInputList = string[];
 export const DeleteCategoryInputList = S.Array(S.String);
+export type CategoryIdList = string[];
 export const CategoryIdList = S.Array(S.String);
+export type TagKeys = string[];
 export const TagKeys = S.Array(S.String);
-export class AssociateLibraryItemReviewInput extends S.Class<AssociateLibraryItemReviewInput>(
-  "AssociateLibraryItemReviewInput",
-)(
-  {
+export interface AssociateLibraryItemReviewInput {
+  instanceId: string;
+  libraryItemId: string;
+}
+export const AssociateLibraryItemReviewInput = S.suspend(() =>
+  S.Struct({
     instanceId: S.String.pipe(T.HttpHeader("instance-id")),
     libraryItemId: S.String,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/catalog.associateItemRating" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/catalog.associateItemRating" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AssociateLibraryItemReviewResponse extends S.Class<AssociateLibraryItemReviewResponse>(
-  "AssociateLibraryItemReviewResponse",
-)({}) {}
-export class AssociateQAppWithUserInput extends S.Class<AssociateQAppWithUserInput>(
-  "AssociateQAppWithUserInput",
-)(
-  { instanceId: S.String.pipe(T.HttpHeader("instance-id")), appId: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/apps.install" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "AssociateLibraryItemReviewInput",
+}) as any as S.Schema<AssociateLibraryItemReviewInput>;
+export interface AssociateLibraryItemReviewResponse {}
+export const AssociateLibraryItemReviewResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "AssociateLibraryItemReviewResponse",
+}) as any as S.Schema<AssociateLibraryItemReviewResponse>;
+export interface AssociateQAppWithUserInput {
+  instanceId: string;
+  appId: string;
+}
+export const AssociateQAppWithUserInput = S.suspend(() =>
+  S.Struct({
+    instanceId: S.String.pipe(T.HttpHeader("instance-id")),
+    appId: S.String,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/apps.install" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AssociateQAppWithUserResponse extends S.Class<AssociateQAppWithUserResponse>(
-  "AssociateQAppWithUserResponse",
-)({}) {}
-export class BatchDeleteCategoryInput extends S.Class<BatchDeleteCategoryInput>(
-  "BatchDeleteCategoryInput",
-)(
-  {
+).annotations({
+  identifier: "AssociateQAppWithUserInput",
+}) as any as S.Schema<AssociateQAppWithUserInput>;
+export interface AssociateQAppWithUserResponse {}
+export const AssociateQAppWithUserResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "AssociateQAppWithUserResponse",
+}) as any as S.Schema<AssociateQAppWithUserResponse>;
+export interface BatchDeleteCategoryInput {
+  instanceId: string;
+  categories: DeleteCategoryInputList;
+}
+export const BatchDeleteCategoryInput = S.suspend(() =>
+  S.Struct({
     instanceId: S.String.pipe(T.HttpHeader("instance-id")),
     categories: DeleteCategoryInputList,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/catalog.deleteCategories" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/catalog.deleteCategories" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class BatchDeleteCategoryResponse extends S.Class<BatchDeleteCategoryResponse>(
-  "BatchDeleteCategoryResponse",
-)({}) {}
-export class CreateLibraryItemInput extends S.Class<CreateLibraryItemInput>(
-  "CreateLibraryItemInput",
-)(
-  {
+).annotations({
+  identifier: "BatchDeleteCategoryInput",
+}) as any as S.Schema<BatchDeleteCategoryInput>;
+export interface BatchDeleteCategoryResponse {}
+export const BatchDeleteCategoryResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "BatchDeleteCategoryResponse",
+}) as any as S.Schema<BatchDeleteCategoryResponse>;
+export interface CreateLibraryItemInput {
+  instanceId: string;
+  appId: string;
+  appVersion: number;
+  categories: CategoryIdList;
+}
+export const CreateLibraryItemInput = S.suspend(() =>
+  S.Struct({
     instanceId: S.String.pipe(T.HttpHeader("instance-id")),
     appId: S.String,
     appVersion: S.Number,
     categories: CategoryIdList,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/catalog.createItem" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/catalog.createItem" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreatePresignedUrlInput extends S.Class<CreatePresignedUrlInput>(
-  "CreatePresignedUrlInput",
-)(
-  {
+).annotations({
+  identifier: "CreateLibraryItemInput",
+}) as any as S.Schema<CreateLibraryItemInput>;
+export interface CreatePresignedUrlInput {
+  instanceId: string;
+  cardId: string;
+  appId: string;
+  fileContentsSha256: string;
+  fileName: string;
+  scope: string;
+  sessionId?: string;
+}
+export const CreatePresignedUrlInput = S.suspend(() =>
+  S.Struct({
     instanceId: S.String.pipe(T.HttpHeader("instance-id")),
     cardId: S.String,
     appId: S.String,
@@ -380,186 +424,264 @@ export class CreatePresignedUrlInput extends S.Class<CreatePresignedUrlInput>(
     fileName: S.String,
     scope: S.String,
     sessionId: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/apps.createPresignedUrl" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/apps.createPresignedUrl" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteLibraryItemInput extends S.Class<DeleteLibraryItemInput>(
-  "DeleteLibraryItemInput",
-)(
-  {
+).annotations({
+  identifier: "CreatePresignedUrlInput",
+}) as any as S.Schema<CreatePresignedUrlInput>;
+export interface DeleteLibraryItemInput {
+  instanceId: string;
+  libraryItemId: string;
+}
+export const DeleteLibraryItemInput = S.suspend(() =>
+  S.Struct({
     instanceId: S.String.pipe(T.HttpHeader("instance-id")),
     libraryItemId: S.String,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/catalog.deleteItem" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/catalog.deleteItem" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteLibraryItemResponse extends S.Class<DeleteLibraryItemResponse>(
-  "DeleteLibraryItemResponse",
-)({}) {}
-export class DeleteQAppInput extends S.Class<DeleteQAppInput>(
-  "DeleteQAppInput",
-)(
-  { instanceId: S.String.pipe(T.HttpHeader("instance-id")), appId: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/apps.delete" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteLibraryItemInput",
+}) as any as S.Schema<DeleteLibraryItemInput>;
+export interface DeleteLibraryItemResponse {}
+export const DeleteLibraryItemResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteLibraryItemResponse",
+}) as any as S.Schema<DeleteLibraryItemResponse>;
+export interface DeleteQAppInput {
+  instanceId: string;
+  appId: string;
+}
+export const DeleteQAppInput = S.suspend(() =>
+  S.Struct({
+    instanceId: S.String.pipe(T.HttpHeader("instance-id")),
+    appId: S.String,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/apps.delete" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteQAppResponse extends S.Class<DeleteQAppResponse>(
-  "DeleteQAppResponse",
-)({}) {}
-export class DescribeQAppPermissionsInput extends S.Class<DescribeQAppPermissionsInput>(
-  "DescribeQAppPermissionsInput",
-)(
-  {
+).annotations({
+  identifier: "DeleteQAppInput",
+}) as any as S.Schema<DeleteQAppInput>;
+export interface DeleteQAppResponse {}
+export const DeleteQAppResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteQAppResponse",
+}) as any as S.Schema<DeleteQAppResponse>;
+export interface DescribeQAppPermissionsInput {
+  instanceId: string;
+  appId: string;
+}
+export const DescribeQAppPermissionsInput = S.suspend(() =>
+  S.Struct({
     instanceId: S.String.pipe(T.HttpHeader("instance-id")),
     appId: S.String.pipe(T.HttpQuery("appId")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/apps.describeQAppPermissions" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/apps.describeQAppPermissions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DisassociateLibraryItemReviewInput extends S.Class<DisassociateLibraryItemReviewInput>(
-  "DisassociateLibraryItemReviewInput",
-)(
-  {
+).annotations({
+  identifier: "DescribeQAppPermissionsInput",
+}) as any as S.Schema<DescribeQAppPermissionsInput>;
+export interface DisassociateLibraryItemReviewInput {
+  instanceId: string;
+  libraryItemId: string;
+}
+export const DisassociateLibraryItemReviewInput = S.suspend(() =>
+  S.Struct({
     instanceId: S.String.pipe(T.HttpHeader("instance-id")),
     libraryItemId: S.String,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/catalog.disassociateItemRating" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/catalog.disassociateItemRating" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DisassociateLibraryItemReviewResponse extends S.Class<DisassociateLibraryItemReviewResponse>(
-  "DisassociateLibraryItemReviewResponse",
-)({}) {}
-export class DisassociateQAppFromUserInput extends S.Class<DisassociateQAppFromUserInput>(
-  "DisassociateQAppFromUserInput",
-)(
-  { instanceId: S.String.pipe(T.HttpHeader("instance-id")), appId: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/apps.uninstall" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DisassociateLibraryItemReviewInput",
+}) as any as S.Schema<DisassociateLibraryItemReviewInput>;
+export interface DisassociateLibraryItemReviewResponse {}
+export const DisassociateLibraryItemReviewResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DisassociateLibraryItemReviewResponse",
+}) as any as S.Schema<DisassociateLibraryItemReviewResponse>;
+export interface DisassociateQAppFromUserInput {
+  instanceId: string;
+  appId: string;
+}
+export const DisassociateQAppFromUserInput = S.suspend(() =>
+  S.Struct({
+    instanceId: S.String.pipe(T.HttpHeader("instance-id")),
+    appId: S.String,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/apps.uninstall" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DisassociateQAppFromUserResponse extends S.Class<DisassociateQAppFromUserResponse>(
-  "DisassociateQAppFromUserResponse",
-)({}) {}
-export class ExportQAppSessionDataInput extends S.Class<ExportQAppSessionDataInput>(
-  "ExportQAppSessionDataInput",
-)(
-  {
+).annotations({
+  identifier: "DisassociateQAppFromUserInput",
+}) as any as S.Schema<DisassociateQAppFromUserInput>;
+export interface DisassociateQAppFromUserResponse {}
+export const DisassociateQAppFromUserResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DisassociateQAppFromUserResponse",
+}) as any as S.Schema<DisassociateQAppFromUserResponse>;
+export interface ExportQAppSessionDataInput {
+  instanceId: string;
+  sessionId: string;
+}
+export const ExportQAppSessionDataInput = S.suspend(() =>
+  S.Struct({
     instanceId: S.String.pipe(T.HttpHeader("instance-id")),
     sessionId: S.String,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/runtime.exportQAppSessionData" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/runtime.exportQAppSessionData" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetLibraryItemInput extends S.Class<GetLibraryItemInput>(
-  "GetLibraryItemInput",
-)(
-  {
+).annotations({
+  identifier: "ExportQAppSessionDataInput",
+}) as any as S.Schema<ExportQAppSessionDataInput>;
+export interface GetLibraryItemInput {
+  instanceId: string;
+  libraryItemId: string;
+  appId?: string;
+}
+export const GetLibraryItemInput = S.suspend(() =>
+  S.Struct({
     instanceId: S.String.pipe(T.HttpHeader("instance-id")),
     libraryItemId: S.String.pipe(T.HttpQuery("libraryItemId")),
     appId: S.optional(S.String).pipe(T.HttpQuery("appId")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/catalog.getItem" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/catalog.getItem" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetQAppInput extends S.Class<GetQAppInput>("GetQAppInput")(
-  {
+).annotations({
+  identifier: "GetLibraryItemInput",
+}) as any as S.Schema<GetLibraryItemInput>;
+export interface GetQAppInput {
+  instanceId: string;
+  appId: string;
+  appVersion?: number;
+}
+export const GetQAppInput = S.suspend(() =>
+  S.Struct({
     instanceId: S.String.pipe(T.HttpHeader("instance-id")),
     appId: S.String.pipe(T.HttpQuery("appId")),
     appVersion: S.optional(S.Number).pipe(T.HttpQuery("appVersion")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/apps.get" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/apps.get" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetQAppSessionInput extends S.Class<GetQAppSessionInput>(
-  "GetQAppSessionInput",
-)(
-  {
+).annotations({ identifier: "GetQAppInput" }) as any as S.Schema<GetQAppInput>;
+export interface GetQAppSessionInput {
+  instanceId: string;
+  sessionId: string;
+}
+export const GetQAppSessionInput = S.suspend(() =>
+  S.Struct({
     instanceId: S.String.pipe(T.HttpHeader("instance-id")),
     sessionId: S.String.pipe(T.HttpQuery("sessionId")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/runtime.getQAppSession" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/runtime.getQAppSession" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetQAppSessionMetadataInput extends S.Class<GetQAppSessionMetadataInput>(
-  "GetQAppSessionMetadataInput",
-)(
-  {
+).annotations({
+  identifier: "GetQAppSessionInput",
+}) as any as S.Schema<GetQAppSessionInput>;
+export interface GetQAppSessionMetadataInput {
+  instanceId: string;
+  sessionId: string;
+}
+export const GetQAppSessionMetadataInput = S.suspend(() =>
+  S.Struct({
     instanceId: S.String.pipe(T.HttpHeader("instance-id")),
     sessionId: S.String.pipe(T.HttpQuery("sessionId")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/runtime.getQAppSessionMetadata" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/runtime.getQAppSessionMetadata" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ImportDocumentInput extends S.Class<ImportDocumentInput>(
-  "ImportDocumentInput",
-)(
-  {
+).annotations({
+  identifier: "GetQAppSessionMetadataInput",
+}) as any as S.Schema<GetQAppSessionMetadataInput>;
+export interface ImportDocumentInput {
+  instanceId: string;
+  cardId: string;
+  appId: string;
+  fileContentsBase64: string;
+  fileName: string;
+  scope: string;
+  sessionId?: string;
+}
+export const ImportDocumentInput = S.suspend(() =>
+  S.Struct({
     instanceId: S.String.pipe(T.HttpHeader("instance-id")),
     cardId: S.String,
     appId: S.String,
@@ -567,176 +689,247 @@ export class ImportDocumentInput extends S.Class<ImportDocumentInput>(
     fileName: S.String,
     scope: S.String,
     sessionId: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/apps.importDocument" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/apps.importDocument" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListCategoriesInput extends S.Class<ListCategoriesInput>(
-  "ListCategoriesInput",
-)(
-  { instanceId: S.String.pipe(T.HttpHeader("instance-id")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/catalog.listCategories" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ImportDocumentInput",
+}) as any as S.Schema<ImportDocumentInput>;
+export interface ListCategoriesInput {
+  instanceId: string;
+}
+export const ListCategoriesInput = S.suspend(() =>
+  S.Struct({ instanceId: S.String.pipe(T.HttpHeader("instance-id")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/catalog.listCategories" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListLibraryItemsInput extends S.Class<ListLibraryItemsInput>(
-  "ListLibraryItemsInput",
-)(
-  {
+).annotations({
+  identifier: "ListCategoriesInput",
+}) as any as S.Schema<ListCategoriesInput>;
+export interface ListLibraryItemsInput {
+  instanceId: string;
+  limit?: number;
+  nextToken?: string;
+  categoryId?: string;
+}
+export const ListLibraryItemsInput = S.suspend(() =>
+  S.Struct({
     instanceId: S.String.pipe(T.HttpHeader("instance-id")),
     limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     categoryId: S.optional(S.String).pipe(T.HttpQuery("categoryId")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/catalog.list" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/catalog.list" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListQAppsInput extends S.Class<ListQAppsInput>("ListQAppsInput")(
-  {
+).annotations({
+  identifier: "ListLibraryItemsInput",
+}) as any as S.Schema<ListLibraryItemsInput>;
+export interface ListQAppsInput {
+  instanceId: string;
+  limit?: number;
+  nextToken?: string;
+}
+export const ListQAppsInput = S.suspend(() =>
+  S.Struct({
     instanceId: S.String.pipe(T.HttpHeader("instance-id")),
     limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/apps.list" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/apps.list" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListQAppSessionDataInput extends S.Class<ListQAppSessionDataInput>(
-  "ListQAppSessionDataInput",
-)(
-  {
+).annotations({
+  identifier: "ListQAppsInput",
+}) as any as S.Schema<ListQAppsInput>;
+export interface ListQAppSessionDataInput {
+  instanceId: string;
+  sessionId: string;
+}
+export const ListQAppSessionDataInput = S.suspend(() =>
+  S.Struct({
     instanceId: S.String.pipe(T.HttpHeader("instance-id")),
     sessionId: S.String.pipe(T.HttpQuery("sessionId")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/runtime.listQAppSessionData" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/runtime.listQAppSessionData" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { resourceARN: S.String.pipe(T.HttpLabel("resourceARN")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/tags/{resourceARN}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListQAppSessionDataInput",
+}) as any as S.Schema<ListQAppSessionDataInput>;
+export interface ListTagsForResourceRequest {
+  resourceARN: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ resourceARN: S.String.pipe(T.HttpLabel("resourceARN")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tags/{resourceARN}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StopQAppSessionInput extends S.Class<StopQAppSessionInput>(
-  "StopQAppSessionInput",
-)(
-  {
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface StopQAppSessionInput {
+  instanceId: string;
+  sessionId: string;
+}
+export const StopQAppSessionInput = S.suspend(() =>
+  S.Struct({
     instanceId: S.String.pipe(T.HttpHeader("instance-id")),
     sessionId: S.String,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/runtime.deleteMiniAppRun" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/runtime.deleteMiniAppRun" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StopQAppSessionResponse extends S.Class<StopQAppSessionResponse>(
-  "StopQAppSessionResponse",
-)({}) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "StopQAppSessionInput",
+}) as any as S.Schema<StopQAppSessionInput>;
+export interface StopQAppSessionResponse {}
+export const StopQAppSessionResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "StopQAppSessionResponse",
+}) as any as S.Schema<StopQAppSessionResponse>;
+export interface UntagResourceRequest {
+  resourceARN: string;
+  tagKeys: TagKeys;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
     resourceARN: S.String.pipe(T.HttpLabel("resourceARN")),
     tagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/tags/{resourceARN}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{resourceARN}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
-export class UpdateLibraryItemInput extends S.Class<UpdateLibraryItemInput>(
-  "UpdateLibraryItemInput",
-)(
-  {
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface UpdateLibraryItemInput {
+  instanceId: string;
+  libraryItemId: string;
+  status?: string;
+  categories?: CategoryIdList;
+}
+export const UpdateLibraryItemInput = S.suspend(() =>
+  S.Struct({
     instanceId: S.String.pipe(T.HttpHeader("instance-id")),
     libraryItemId: S.String,
     status: S.optional(S.String),
     categories: S.optional(CategoryIdList),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/catalog.updateItem" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/catalog.updateItem" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateLibraryItemMetadataInput extends S.Class<UpdateLibraryItemMetadataInput>(
-  "UpdateLibraryItemMetadataInput",
-)(
-  {
+).annotations({
+  identifier: "UpdateLibraryItemInput",
+}) as any as S.Schema<UpdateLibraryItemInput>;
+export interface UpdateLibraryItemMetadataInput {
+  instanceId: string;
+  libraryItemId: string;
+  isVerified?: boolean;
+}
+export const UpdateLibraryItemMetadataInput = S.suspend(() =>
+  S.Struct({
     instanceId: S.String.pipe(T.HttpHeader("instance-id")),
     libraryItemId: S.String,
     isVerified: S.optional(S.Boolean),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/catalog.updateItemMetadata" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/catalog.updateItemMetadata" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateLibraryItemMetadataResponse extends S.Class<UpdateLibraryItemMetadataResponse>(
-  "UpdateLibraryItemMetadataResponse",
-)({}) {}
-export class TextInputCardInput extends S.Class<TextInputCardInput>(
-  "TextInputCardInput",
-)({
-  title: S.String,
-  id: S.String,
-  type: S.String,
-  placeholder: S.optional(S.String),
-  defaultValue: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "UpdateLibraryItemMetadataInput",
+}) as any as S.Schema<UpdateLibraryItemMetadataInput>;
+export interface UpdateLibraryItemMetadataResponse {}
+export const UpdateLibraryItemMetadataResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateLibraryItemMetadataResponse",
+}) as any as S.Schema<UpdateLibraryItemMetadataResponse>;
+export interface TextInputCardInput {
+  title: string;
+  id: string;
+  type: string;
+  placeholder?: string;
+  defaultValue?: string;
+}
+export const TextInputCardInput = S.suspend(() =>
+  S.Struct({
+    title: S.String,
+    id: S.String,
+    type: S.String,
+    placeholder: S.optional(S.String),
+    defaultValue: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "TextInputCardInput",
+}) as any as S.Schema<TextInputCardInput>;
+export type DocumentAttributeStringListValue = string[];
 export const DocumentAttributeStringListValue = S.Array(S.String);
 export const DocumentAttributeValue = S.Union(
   S.Struct({ stringValue: S.String }),
@@ -744,67 +937,141 @@ export const DocumentAttributeValue = S.Union(
   S.Struct({ longValue: S.Number }),
   S.Struct({ dateValue: S.Date.pipe(T.TimestampFormat("epoch-seconds")) }),
 );
-export class DocumentAttribute extends S.Class<DocumentAttribute>(
-  "DocumentAttribute",
-)({ name: S.String, value: DocumentAttributeValue }) {}
-export class AttributeFilter extends S.Class<AttributeFilter>(
-  "AttributeFilter",
-)({
-  andAllFilters: S.optional(S.suspend(() => AttributeFilters)),
-  orAllFilters: S.optional(S.suspend(() => AttributeFilters)),
-  notFilter: S.optional(
-    S.suspend((): S.Schema<AttributeFilter, any> => AttributeFilter),
-  ),
-  equalsTo: S.optional(DocumentAttribute),
-  containsAll: S.optional(DocumentAttribute),
-  containsAny: S.optional(DocumentAttribute),
-  greaterThan: S.optional(DocumentAttribute),
-  greaterThanOrEquals: S.optional(DocumentAttribute),
-  lessThan: S.optional(DocumentAttribute),
-  lessThanOrEquals: S.optional(DocumentAttribute),
-}) {}
-export class QQueryCardInput extends S.Class<QQueryCardInput>(
-  "QQueryCardInput",
-)({
-  title: S.String,
-  id: S.String,
-  type: S.String,
-  prompt: S.String,
-  outputSource: S.optional(S.String),
-  attributeFilter: S.optional(AttributeFilter),
-}) {}
-export class QPluginCardInput extends S.Class<QPluginCardInput>(
-  "QPluginCardInput",
-)({
-  title: S.String,
-  id: S.String,
-  type: S.String,
-  prompt: S.String,
-  pluginId: S.String,
-  actionIdentifier: S.optional(S.String),
-}) {}
-export class FileUploadCardInput extends S.Class<FileUploadCardInput>(
-  "FileUploadCardInput",
-)({
-  title: S.String,
-  id: S.String,
-  type: S.String,
-  filename: S.optional(S.String),
-  fileId: S.optional(S.String),
-  allowOverride: S.optional(S.Boolean),
-}) {}
-export class FormInputCardMetadata extends S.Class<FormInputCardMetadata>(
-  "FormInputCardMetadata",
-)({ schema: S.Any }) {}
-export class FormInputCardInput extends S.Class<FormInputCardInput>(
-  "FormInputCardInput",
-)({
-  title: S.String,
-  id: S.String,
-  type: S.String,
-  metadata: FormInputCardMetadata,
-  computeMode: S.optional(S.String),
-}) {}
+export interface DocumentAttribute {
+  name: string;
+  value: (typeof DocumentAttributeValue)["Type"];
+}
+export const DocumentAttribute = S.suspend(() =>
+  S.Struct({ name: S.String, value: DocumentAttributeValue }),
+).annotations({
+  identifier: "DocumentAttribute",
+}) as any as S.Schema<DocumentAttribute>;
+export interface AttributeFilter {
+  andAllFilters?: AttributeFilters;
+  orAllFilters?: AttributeFilters;
+  notFilter?: AttributeFilter;
+  equalsTo?: DocumentAttribute;
+  containsAll?: DocumentAttribute;
+  containsAny?: DocumentAttribute;
+  greaterThan?: DocumentAttribute;
+  greaterThanOrEquals?: DocumentAttribute;
+  lessThan?: DocumentAttribute;
+  lessThanOrEquals?: DocumentAttribute;
+}
+export const AttributeFilter = S.suspend(() =>
+  S.Struct({
+    andAllFilters: S.optional(
+      S.suspend(() => AttributeFilters).annotations({
+        identifier: "AttributeFilters",
+      }),
+    ),
+    orAllFilters: S.optional(
+      S.suspend(() => AttributeFilters).annotations({
+        identifier: "AttributeFilters",
+      }),
+    ),
+    notFilter: S.optional(
+      S.suspend(
+        (): S.Schema<AttributeFilter, any> => AttributeFilter,
+      ).annotations({ identifier: "AttributeFilter" }),
+    ),
+    equalsTo: S.optional(DocumentAttribute),
+    containsAll: S.optional(DocumentAttribute),
+    containsAny: S.optional(DocumentAttribute),
+    greaterThan: S.optional(DocumentAttribute),
+    greaterThanOrEquals: S.optional(DocumentAttribute),
+    lessThan: S.optional(DocumentAttribute),
+    lessThanOrEquals: S.optional(DocumentAttribute),
+  }),
+).annotations({
+  identifier: "AttributeFilter",
+}) as any as S.Schema<AttributeFilter>;
+export interface QQueryCardInput {
+  title: string;
+  id: string;
+  type: string;
+  prompt: string;
+  outputSource?: string;
+  attributeFilter?: AttributeFilter;
+}
+export const QQueryCardInput = S.suspend(() =>
+  S.Struct({
+    title: S.String,
+    id: S.String,
+    type: S.String,
+    prompt: S.String,
+    outputSource: S.optional(S.String),
+    attributeFilter: S.optional(AttributeFilter),
+  }),
+).annotations({
+  identifier: "QQueryCardInput",
+}) as any as S.Schema<QQueryCardInput>;
+export interface QPluginCardInput {
+  title: string;
+  id: string;
+  type: string;
+  prompt: string;
+  pluginId: string;
+  actionIdentifier?: string;
+}
+export const QPluginCardInput = S.suspend(() =>
+  S.Struct({
+    title: S.String,
+    id: S.String,
+    type: S.String,
+    prompt: S.String,
+    pluginId: S.String,
+    actionIdentifier: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "QPluginCardInput",
+}) as any as S.Schema<QPluginCardInput>;
+export interface FileUploadCardInput {
+  title: string;
+  id: string;
+  type: string;
+  filename?: string;
+  fileId?: string;
+  allowOverride?: boolean;
+}
+export const FileUploadCardInput = S.suspend(() =>
+  S.Struct({
+    title: S.String,
+    id: S.String,
+    type: S.String,
+    filename: S.optional(S.String),
+    fileId: S.optional(S.String),
+    allowOverride: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "FileUploadCardInput",
+}) as any as S.Schema<FileUploadCardInput>;
+export interface FormInputCardMetadata {
+  schema: any;
+}
+export const FormInputCardMetadata = S.suspend(() =>
+  S.Struct({ schema: S.Any }),
+).annotations({
+  identifier: "FormInputCardMetadata",
+}) as any as S.Schema<FormInputCardMetadata>;
+export interface FormInputCardInput {
+  title: string;
+  id: string;
+  type: string;
+  metadata: FormInputCardMetadata;
+  computeMode?: string;
+}
+export const FormInputCardInput = S.suspend(() =>
+  S.Struct({
+    title: S.String,
+    id: S.String,
+    type: S.String,
+    metadata: FormInputCardMetadata,
+    computeMode: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "FormInputCardInput",
+}) as any as S.Schema<FormInputCardInput>;
 export const CardInput = S.Union(
   S.Struct({ textInput: TextInputCardInput }),
   S.Struct({ qQuery: QQueryCardInput }),
@@ -812,474 +1079,902 @@ export const CardInput = S.Union(
   S.Struct({ fileUpload: FileUploadCardInput }),
   S.Struct({ formInput: FormInputCardInput }),
 );
+export type CardList = (typeof CardInput)["Type"][];
 export const CardList = S.Array(CardInput);
-export class AppDefinitionInput extends S.Class<AppDefinitionInput>(
-  "AppDefinitionInput",
-)({ cards: CardList, initialPrompt: S.optional(S.String) }) {}
-export class UpdateQAppInput extends S.Class<UpdateQAppInput>(
-  "UpdateQAppInput",
-)(
-  {
+export interface AppDefinitionInput {
+  cards: CardList;
+  initialPrompt?: string;
+}
+export const AppDefinitionInput = S.suspend(() =>
+  S.Struct({ cards: CardList, initialPrompt: S.optional(S.String) }),
+).annotations({
+  identifier: "AppDefinitionInput",
+}) as any as S.Schema<AppDefinitionInput>;
+export interface UpdateQAppInput {
+  instanceId: string;
+  appId: string;
+  title?: string;
+  description?: string;
+  appDefinition?: AppDefinitionInput;
+}
+export const UpdateQAppInput = S.suspend(() =>
+  S.Struct({
     instanceId: S.String.pipe(T.HttpHeader("instance-id")),
     appId: S.String,
     title: S.optional(S.String),
     description: S.optional(S.String),
     appDefinition: S.optional(AppDefinitionInput),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/apps.update" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/apps.update" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SubmissionMutation extends S.Class<SubmissionMutation>(
-  "SubmissionMutation",
-)({ submissionId: S.String, mutationType: S.String }) {}
-export class CardValue extends S.Class<CardValue>("CardValue")({
-  cardId: S.String,
-  value: S.String,
-  submissionMutation: S.optional(SubmissionMutation),
-}) {}
+).annotations({
+  identifier: "UpdateQAppInput",
+}) as any as S.Schema<UpdateQAppInput>;
+export interface SubmissionMutation {
+  submissionId: string;
+  mutationType: string;
+}
+export const SubmissionMutation = S.suspend(() =>
+  S.Struct({ submissionId: S.String, mutationType: S.String }),
+).annotations({
+  identifier: "SubmissionMutation",
+}) as any as S.Schema<SubmissionMutation>;
+export interface CardValue {
+  cardId: string;
+  value: string;
+  submissionMutation?: SubmissionMutation;
+}
+export const CardValue = S.suspend(() =>
+  S.Struct({
+    cardId: S.String,
+    value: S.String,
+    submissionMutation: S.optional(SubmissionMutation),
+  }),
+).annotations({ identifier: "CardValue" }) as any as S.Schema<CardValue>;
+export type CardValueList = CardValue[];
 export const CardValueList = S.Array(CardValue);
-export class UpdateQAppSessionInput extends S.Class<UpdateQAppSessionInput>(
-  "UpdateQAppSessionInput",
-)(
-  {
+export interface UpdateQAppSessionInput {
+  instanceId: string;
+  sessionId: string;
+  values?: CardValueList;
+}
+export const UpdateQAppSessionInput = S.suspend(() =>
+  S.Struct({
     instanceId: S.String.pipe(T.HttpHeader("instance-id")),
     sessionId: S.String,
     values: S.optional(CardValueList),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/runtime.updateQAppSession" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/runtime.updateQAppSession" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class BatchCreateCategoryInputCategory extends S.Class<BatchCreateCategoryInputCategory>(
-  "BatchCreateCategoryInputCategory",
-)({ id: S.optional(S.String), title: S.String, color: S.optional(S.String) }) {}
+).annotations({
+  identifier: "UpdateQAppSessionInput",
+}) as any as S.Schema<UpdateQAppSessionInput>;
+export interface BatchCreateCategoryInputCategory {
+  id?: string;
+  title: string;
+  color?: string;
+}
+export const BatchCreateCategoryInputCategory = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    title: S.String,
+    color: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "BatchCreateCategoryInputCategory",
+}) as any as S.Schema<BatchCreateCategoryInputCategory>;
+export type BatchCreateCategoryInputCategoryList =
+  BatchCreateCategoryInputCategory[];
 export const BatchCreateCategoryInputCategoryList = S.Array(
   BatchCreateCategoryInputCategory,
 );
-export class CategoryInput extends S.Class<CategoryInput>("CategoryInput")({
-  id: S.String,
-  title: S.String,
-  color: S.optional(S.String),
-}) {}
+export interface CategoryInput {
+  id: string;
+  title: string;
+  color?: string;
+}
+export const CategoryInput = S.suspend(() =>
+  S.Struct({ id: S.String, title: S.String, color: S.optional(S.String) }),
+).annotations({
+  identifier: "CategoryInput",
+}) as any as S.Schema<CategoryInput>;
+export type CategoryListInput = CategoryInput[];
 export const CategoryListInput = S.Array(CategoryInput);
+export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
+export type AppRequiredCapabilities = string[];
 export const AppRequiredCapabilities = S.Array(S.String);
-export class Category extends S.Class<Category>("Category")({
-  id: S.String,
-  title: S.String,
-  color: S.optional(S.String),
-  appCount: S.optional(S.Number),
-}) {}
+export interface Category {
+  id: string;
+  title: string;
+  color?: string;
+  appCount?: number;
+}
+export const Category = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    title: S.String,
+    color: S.optional(S.String),
+    appCount: S.optional(S.Number),
+  }),
+).annotations({ identifier: "Category" }) as any as S.Schema<Category>;
+export type CategoriesList = Category[];
 export const CategoriesList = S.Array(Category);
+export type Tags = { [key: string]: string };
 export const Tags = S.Record({ key: S.String, value: S.String });
-export class PermissionInput extends S.Class<PermissionInput>(
-  "PermissionInput",
-)({ action: S.String, principal: S.String }) {}
+export interface PermissionInput {
+  action: string;
+  principal: string;
+}
+export const PermissionInput = S.suspend(() =>
+  S.Struct({ action: S.String, principal: S.String }),
+).annotations({
+  identifier: "PermissionInput",
+}) as any as S.Schema<PermissionInput>;
+export type PermissionsInputList = PermissionInput[];
 export const PermissionsInputList = S.Array(PermissionInput);
-export class SessionSharingConfiguration extends S.Class<SessionSharingConfiguration>(
-  "SessionSharingConfiguration",
-)({
-  enabled: S.Boolean,
-  acceptResponses: S.optional(S.Boolean),
-  revealCards: S.optional(S.Boolean),
-}) {}
-export class BatchCreateCategoryInput extends S.Class<BatchCreateCategoryInput>(
-  "BatchCreateCategoryInput",
-)(
-  {
+export interface SessionSharingConfiguration {
+  enabled: boolean;
+  acceptResponses?: boolean;
+  revealCards?: boolean;
+}
+export const SessionSharingConfiguration = S.suspend(() =>
+  S.Struct({
+    enabled: S.Boolean,
+    acceptResponses: S.optional(S.Boolean),
+    revealCards: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "SessionSharingConfiguration",
+}) as any as S.Schema<SessionSharingConfiguration>;
+export interface BatchCreateCategoryInput {
+  instanceId: string;
+  categories: BatchCreateCategoryInputCategoryList;
+}
+export const BatchCreateCategoryInput = S.suspend(() =>
+  S.Struct({
     instanceId: S.String.pipe(T.HttpHeader("instance-id")),
     categories: BatchCreateCategoryInputCategoryList,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/catalog.createCategories" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/catalog.createCategories" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class BatchCreateCategoryResponse extends S.Class<BatchCreateCategoryResponse>(
-  "BatchCreateCategoryResponse",
-)({}) {}
-export class BatchUpdateCategoryInput extends S.Class<BatchUpdateCategoryInput>(
-  "BatchUpdateCategoryInput",
-)(
-  {
+).annotations({
+  identifier: "BatchCreateCategoryInput",
+}) as any as S.Schema<BatchCreateCategoryInput>;
+export interface BatchCreateCategoryResponse {}
+export const BatchCreateCategoryResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "BatchCreateCategoryResponse",
+}) as any as S.Schema<BatchCreateCategoryResponse>;
+export interface BatchUpdateCategoryInput {
+  instanceId: string;
+  categories: CategoryListInput;
+}
+export const BatchUpdateCategoryInput = S.suspend(() =>
+  S.Struct({
     instanceId: S.String.pipe(T.HttpHeader("instance-id")),
     categories: CategoryListInput,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/catalog.updateCategories" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/catalog.updateCategories" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class BatchUpdateCategoryResponse extends S.Class<BatchUpdateCategoryResponse>(
-  "BatchUpdateCategoryResponse",
-)({}) {}
-export class CreateLibraryItemOutput extends S.Class<CreateLibraryItemOutput>(
-  "CreateLibraryItemOutput",
-)({
-  libraryItemId: S.String,
-  status: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  createdBy: S.String,
-  updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  updatedBy: S.optional(S.String),
-  ratingCount: S.Number,
-  isVerified: S.optional(S.Boolean),
-}) {}
-export class ExportQAppSessionDataOutput extends S.Class<ExportQAppSessionDataOutput>(
-  "ExportQAppSessionDataOutput",
-)({
-  csvFileLink: S.String,
-  expiresAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  sessionArn: S.String,
-}) {}
-export class GetQAppSessionMetadataOutput extends S.Class<GetQAppSessionMetadataOutput>(
-  "GetQAppSessionMetadataOutput",
-)({
-  sessionId: S.String,
-  sessionArn: S.String,
-  sessionName: S.optional(S.String),
-  sharingConfiguration: SessionSharingConfiguration,
-  sessionOwner: S.optional(S.Boolean),
-}) {}
-export class ImportDocumentOutput extends S.Class<ImportDocumentOutput>(
-  "ImportDocumentOutput",
-)({ fileId: S.optional(S.String) }) {}
-export class ListCategoriesOutput extends S.Class<ListCategoriesOutput>(
-  "ListCategoriesOutput",
-)({ categories: S.optional(CategoriesList) }) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ tags: S.optional(Tags) }) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { resourceARN: S.String.pipe(T.HttpLabel("resourceARN")), tags: Tags },
-  T.all(
-    T.Http({ method: "POST", uri: "/tags/{resourceARN}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "BatchUpdateCategoryInput",
+}) as any as S.Schema<BatchUpdateCategoryInput>;
+export interface BatchUpdateCategoryResponse {}
+export const BatchUpdateCategoryResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "BatchUpdateCategoryResponse",
+}) as any as S.Schema<BatchUpdateCategoryResponse>;
+export interface CreateLibraryItemOutput {
+  libraryItemId: string;
+  status: string;
+  createdAt: Date;
+  createdBy: string;
+  updatedAt?: Date;
+  updatedBy?: string;
+  ratingCount: number;
+  isVerified?: boolean;
+}
+export const CreateLibraryItemOutput = S.suspend(() =>
+  S.Struct({
+    libraryItemId: S.String,
+    status: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdBy: S.String,
+    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    updatedBy: S.optional(S.String),
+    ratingCount: S.Number,
+    isVerified: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "CreateLibraryItemOutput",
+}) as any as S.Schema<CreateLibraryItemOutput>;
+export interface ExportQAppSessionDataOutput {
+  csvFileLink: string;
+  expiresAt: Date;
+  sessionArn: string;
+}
+export const ExportQAppSessionDataOutput = S.suspend(() =>
+  S.Struct({
+    csvFileLink: S.String,
+    expiresAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    sessionArn: S.String,
+  }),
+).annotations({
+  identifier: "ExportQAppSessionDataOutput",
+}) as any as S.Schema<ExportQAppSessionDataOutput>;
+export interface GetQAppSessionMetadataOutput {
+  sessionId: string;
+  sessionArn: string;
+  sessionName?: string;
+  sharingConfiguration: SessionSharingConfiguration;
+  sessionOwner?: boolean;
+}
+export const GetQAppSessionMetadataOutput = S.suspend(() =>
+  S.Struct({
+    sessionId: S.String,
+    sessionArn: S.String,
+    sessionName: S.optional(S.String),
+    sharingConfiguration: SessionSharingConfiguration,
+    sessionOwner: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "GetQAppSessionMetadataOutput",
+}) as any as S.Schema<GetQAppSessionMetadataOutput>;
+export interface ImportDocumentOutput {
+  fileId?: string;
+}
+export const ImportDocumentOutput = S.suspend(() =>
+  S.Struct({ fileId: S.optional(S.String) }),
+).annotations({
+  identifier: "ImportDocumentOutput",
+}) as any as S.Schema<ImportDocumentOutput>;
+export interface ListCategoriesOutput {
+  categories?: CategoriesList;
+}
+export const ListCategoriesOutput = S.suspend(() =>
+  S.Struct({ categories: S.optional(CategoriesList) }),
+).annotations({
+  identifier: "ListCategoriesOutput",
+}) as any as S.Schema<ListCategoriesOutput>;
+export interface ListTagsForResourceResponse {
+  tags?: Tags;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ tags: S.optional(Tags) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface TagResourceRequest {
+  resourceARN: string;
+  tags: Tags;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({
+    resourceARN: S.String.pipe(T.HttpLabel("resourceARN")),
+    tags: Tags,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tags/{resourceARN}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export type CategoryList = Category[];
 export const CategoryList = S.Array(Category);
-export class UpdateLibraryItemOutput extends S.Class<UpdateLibraryItemOutput>(
-  "UpdateLibraryItemOutput",
-)({
-  libraryItemId: S.String,
-  appId: S.String,
-  appVersion: S.Number,
-  categories: CategoryList,
-  status: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  createdBy: S.String,
-  updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  updatedBy: S.optional(S.String),
-  ratingCount: S.Number,
-  isRatedByUser: S.optional(S.Boolean),
-  userCount: S.optional(S.Number),
-  isVerified: S.optional(S.Boolean),
-}) {}
-export class UpdateQAppOutput extends S.Class<UpdateQAppOutput>(
-  "UpdateQAppOutput",
-)({
-  appId: S.String,
-  appArn: S.String,
-  title: S.String,
-  description: S.optional(S.String),
-  initialPrompt: S.optional(S.String),
-  appVersion: S.Number,
-  status: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  createdBy: S.String,
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  updatedBy: S.String,
-  requiredCapabilities: S.optional(AppRequiredCapabilities),
-}) {}
-export class UpdateQAppPermissionsInput extends S.Class<UpdateQAppPermissionsInput>(
-  "UpdateQAppPermissionsInput",
-)(
-  {
+export interface UpdateLibraryItemOutput {
+  libraryItemId: string;
+  appId: string;
+  appVersion: number;
+  categories: CategoryList;
+  status: string;
+  createdAt: Date;
+  createdBy: string;
+  updatedAt?: Date;
+  updatedBy?: string;
+  ratingCount: number;
+  isRatedByUser?: boolean;
+  userCount?: number;
+  isVerified?: boolean;
+}
+export const UpdateLibraryItemOutput = S.suspend(() =>
+  S.Struct({
+    libraryItemId: S.String,
+    appId: S.String,
+    appVersion: S.Number,
+    categories: CategoryList,
+    status: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdBy: S.String,
+    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    updatedBy: S.optional(S.String),
+    ratingCount: S.Number,
+    isRatedByUser: S.optional(S.Boolean),
+    userCount: S.optional(S.Number),
+    isVerified: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "UpdateLibraryItemOutput",
+}) as any as S.Schema<UpdateLibraryItemOutput>;
+export interface UpdateQAppOutput {
+  appId: string;
+  appArn: string;
+  title: string;
+  description?: string;
+  initialPrompt?: string;
+  appVersion: number;
+  status: string;
+  createdAt: Date;
+  createdBy: string;
+  updatedAt: Date;
+  updatedBy: string;
+  requiredCapabilities?: AppRequiredCapabilities;
+}
+export const UpdateQAppOutput = S.suspend(() =>
+  S.Struct({
+    appId: S.String,
+    appArn: S.String,
+    title: S.String,
+    description: S.optional(S.String),
+    initialPrompt: S.optional(S.String),
+    appVersion: S.Number,
+    status: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdBy: S.String,
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedBy: S.String,
+    requiredCapabilities: S.optional(AppRequiredCapabilities),
+  }),
+).annotations({
+  identifier: "UpdateQAppOutput",
+}) as any as S.Schema<UpdateQAppOutput>;
+export interface UpdateQAppPermissionsInput {
+  instanceId: string;
+  appId: string;
+  grantPermissions?: PermissionsInputList;
+  revokePermissions?: PermissionsInputList;
+}
+export const UpdateQAppPermissionsInput = S.suspend(() =>
+  S.Struct({
     instanceId: S.String.pipe(T.HttpHeader("instance-id")),
     appId: S.String,
     grantPermissions: S.optional(PermissionsInputList),
     revokePermissions: S.optional(PermissionsInputList),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/apps.updateQAppPermissions" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/apps.updateQAppPermissions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateQAppSessionOutput extends S.Class<UpdateQAppSessionOutput>(
-  "UpdateQAppSessionOutput",
-)({ sessionId: S.String, sessionArn: S.String }) {}
-export class UpdateQAppSessionMetadataInput extends S.Class<UpdateQAppSessionMetadataInput>(
-  "UpdateQAppSessionMetadataInput",
-)(
-  {
+).annotations({
+  identifier: "UpdateQAppPermissionsInput",
+}) as any as S.Schema<UpdateQAppPermissionsInput>;
+export interface UpdateQAppSessionOutput {
+  sessionId: string;
+  sessionArn: string;
+}
+export const UpdateQAppSessionOutput = S.suspend(() =>
+  S.Struct({ sessionId: S.String, sessionArn: S.String }),
+).annotations({
+  identifier: "UpdateQAppSessionOutput",
+}) as any as S.Schema<UpdateQAppSessionOutput>;
+export interface UpdateQAppSessionMetadataInput {
+  instanceId: string;
+  sessionId: string;
+  sessionName?: string;
+  sharingConfiguration: SessionSharingConfiguration;
+}
+export const UpdateQAppSessionMetadataInput = S.suspend(() =>
+  S.Struct({
     instanceId: S.String.pipe(T.HttpHeader("instance-id")),
     sessionId: S.String,
     sessionName: S.optional(S.String),
     sharingConfiguration: SessionSharingConfiguration,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/runtime.updateQAppSessionMetadata" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/runtime.updateQAppSessionMetadata" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ConversationMessage extends S.Class<ConversationMessage>(
-  "ConversationMessage",
-)({ body: S.String, type: S.String }) {}
+).annotations({
+  identifier: "UpdateQAppSessionMetadataInput",
+}) as any as S.Schema<UpdateQAppSessionMetadataInput>;
+export interface ConversationMessage {
+  body: string;
+  type: string;
+}
+export const ConversationMessage = S.suspend(() =>
+  S.Struct({ body: S.String, type: S.String }),
+).annotations({
+  identifier: "ConversationMessage",
+}) as any as S.Schema<ConversationMessage>;
+export type MessageList = ConversationMessage[];
 export const MessageList = S.Array(ConversationMessage);
+export type PresignedUrlFields = { [key: string]: string };
 export const PresignedUrlFields = S.Record({ key: S.String, value: S.String });
-export class LibraryItemMember extends S.Class<LibraryItemMember>(
-  "LibraryItemMember",
-)({
-  libraryItemId: S.String,
-  appId: S.String,
-  appVersion: S.Number,
-  categories: CategoryList,
-  status: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  createdBy: S.String,
-  updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  updatedBy: S.optional(S.String),
-  ratingCount: S.Number,
-  isRatedByUser: S.optional(S.Boolean),
-  userCount: S.optional(S.Number),
-  isVerified: S.optional(S.Boolean),
-}) {}
+export interface LibraryItemMember {
+  libraryItemId: string;
+  appId: string;
+  appVersion: number;
+  categories: CategoryList;
+  status: string;
+  createdAt: Date;
+  createdBy: string;
+  updatedAt?: Date;
+  updatedBy?: string;
+  ratingCount: number;
+  isRatedByUser?: boolean;
+  userCount?: number;
+  isVerified?: boolean;
+}
+export const LibraryItemMember = S.suspend(() =>
+  S.Struct({
+    libraryItemId: S.String,
+    appId: S.String,
+    appVersion: S.Number,
+    categories: CategoryList,
+    status: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdBy: S.String,
+    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    updatedBy: S.optional(S.String),
+    ratingCount: S.Number,
+    isRatedByUser: S.optional(S.Boolean),
+    userCount: S.optional(S.Number),
+    isVerified: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "LibraryItemMember",
+}) as any as S.Schema<LibraryItemMember>;
+export type LibraryItemList = LibraryItemMember[];
 export const LibraryItemList = S.Array(LibraryItemMember);
-export class UserAppItem extends S.Class<UserAppItem>("UserAppItem")({
-  appId: S.String,
-  appArn: S.String,
-  title: S.String,
-  description: S.optional(S.String),
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  canEdit: S.optional(S.Boolean),
-  status: S.optional(S.String),
-  isVerified: S.optional(S.Boolean),
-}) {}
+export interface UserAppItem {
+  appId: string;
+  appArn: string;
+  title: string;
+  description?: string;
+  createdAt: Date;
+  canEdit?: boolean;
+  status?: string;
+  isVerified?: boolean;
+}
+export const UserAppItem = S.suspend(() =>
+  S.Struct({
+    appId: S.String,
+    appArn: S.String,
+    title: S.String,
+    description: S.optional(S.String),
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    canEdit: S.optional(S.Boolean),
+    status: S.optional(S.String),
+    isVerified: S.optional(S.Boolean),
+  }),
+).annotations({ identifier: "UserAppItem" }) as any as S.Schema<UserAppItem>;
+export type UserAppsList = UserAppItem[];
 export const UserAppsList = S.Array(UserAppItem);
 export const PredictQAppInputOptions = S.Union(
   S.Struct({ conversation: MessageList }),
   S.Struct({ problemStatement: S.String }),
 );
-export class CreatePresignedUrlOutput extends S.Class<CreatePresignedUrlOutput>(
-  "CreatePresignedUrlOutput",
-)({
-  fileId: S.String,
-  presignedUrl: S.String,
-  presignedUrlFields: PresignedUrlFields,
-  presignedUrlExpiration: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
+export interface CreatePresignedUrlOutput {
+  fileId: string;
+  presignedUrl: string;
+  presignedUrlFields: PresignedUrlFields;
+  presignedUrlExpiration: Date;
+}
+export const CreatePresignedUrlOutput = S.suspend(() =>
+  S.Struct({
+    fileId: S.String,
+    presignedUrl: S.String,
+    presignedUrlFields: PresignedUrlFields,
+    presignedUrlExpiration: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "CreatePresignedUrlOutput",
+}) as any as S.Schema<CreatePresignedUrlOutput>;
 export type AttributeFilters = AttributeFilter[];
 export const AttributeFilters = S.Array(
-  S.suspend((): S.Schema<AttributeFilter, any> => AttributeFilter),
+  S.suspend((): S.Schema<AttributeFilter, any> => AttributeFilter).annotations({
+    identifier: "AttributeFilter",
+  }),
 ) as any as S.Schema<AttributeFilters>;
-export class GetLibraryItemOutput extends S.Class<GetLibraryItemOutput>(
-  "GetLibraryItemOutput",
-)({
-  libraryItemId: S.String,
-  appId: S.String,
-  appVersion: S.Number,
-  categories: CategoryList,
-  status: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  createdBy: S.String,
-  updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  updatedBy: S.optional(S.String),
-  ratingCount: S.Number,
-  isRatedByUser: S.optional(S.Boolean),
-  userCount: S.optional(S.Number),
-  isVerified: S.optional(S.Boolean),
-}) {}
-export class ListLibraryItemsOutput extends S.Class<ListLibraryItemsOutput>(
-  "ListLibraryItemsOutput",
-)({
-  libraryItems: S.optional(LibraryItemList),
-  nextToken: S.optional(S.String),
-}) {}
-export class ListQAppsOutput extends S.Class<ListQAppsOutput>(
-  "ListQAppsOutput",
-)({ apps: UserAppsList, nextToken: S.optional(S.String) }) {}
-export class PredictQAppInput extends S.Class<PredictQAppInput>(
-  "PredictQAppInput",
-)(
-  {
+export interface GetLibraryItemOutput {
+  libraryItemId: string;
+  appId: string;
+  appVersion: number;
+  categories: CategoryList;
+  status: string;
+  createdAt: Date;
+  createdBy: string;
+  updatedAt?: Date;
+  updatedBy?: string;
+  ratingCount: number;
+  isRatedByUser?: boolean;
+  userCount?: number;
+  isVerified?: boolean;
+}
+export const GetLibraryItemOutput = S.suspend(() =>
+  S.Struct({
+    libraryItemId: S.String,
+    appId: S.String,
+    appVersion: S.Number,
+    categories: CategoryList,
+    status: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdBy: S.String,
+    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    updatedBy: S.optional(S.String),
+    ratingCount: S.Number,
+    isRatedByUser: S.optional(S.Boolean),
+    userCount: S.optional(S.Number),
+    isVerified: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "GetLibraryItemOutput",
+}) as any as S.Schema<GetLibraryItemOutput>;
+export interface ListLibraryItemsOutput {
+  libraryItems?: LibraryItemList;
+  nextToken?: string;
+}
+export const ListLibraryItemsOutput = S.suspend(() =>
+  S.Struct({
+    libraryItems: S.optional(LibraryItemList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListLibraryItemsOutput",
+}) as any as S.Schema<ListLibraryItemsOutput>;
+export interface ListQAppsOutput {
+  apps: UserAppsList;
+  nextToken?: string;
+}
+export const ListQAppsOutput = S.suspend(() =>
+  S.Struct({ apps: UserAppsList, nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListQAppsOutput",
+}) as any as S.Schema<ListQAppsOutput>;
+export interface PredictQAppInput {
+  instanceId: string;
+  options?: (typeof PredictQAppInputOptions)["Type"];
+}
+export const PredictQAppInput = S.suspend(() =>
+  S.Struct({
     instanceId: S.String.pipe(T.HttpHeader("instance-id")),
     options: S.optional(PredictQAppInputOptions),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/apps.predictQApp" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/apps.predictQApp" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartQAppSessionInput extends S.Class<StartQAppSessionInput>(
-  "StartQAppSessionInput",
-)(
-  {
+).annotations({
+  identifier: "PredictQAppInput",
+}) as any as S.Schema<PredictQAppInput>;
+export interface StartQAppSessionInput {
+  instanceId: string;
+  appId: string;
+  appVersion: number;
+  initialValues?: CardValueList;
+  sessionId?: string;
+  tags?: TagMap;
+}
+export const StartQAppSessionInput = S.suspend(() =>
+  S.Struct({
     instanceId: S.String.pipe(T.HttpHeader("instance-id")),
     appId: S.String,
     appVersion: S.Number,
     initialValues: S.optional(CardValueList),
     sessionId: S.optional(S.String),
     tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/runtime.startQAppSession" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/runtime.startQAppSession" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PrincipalOutput extends S.Class<PrincipalOutput>(
-  "PrincipalOutput",
-)({
-  userId: S.optional(S.String),
-  userType: S.optional(S.String),
-  email: S.optional(S.String),
-}) {}
-export class PermissionOutput extends S.Class<PermissionOutput>(
-  "PermissionOutput",
-)({ action: S.String, principal: PrincipalOutput }) {}
+).annotations({
+  identifier: "StartQAppSessionInput",
+}) as any as S.Schema<StartQAppSessionInput>;
+export interface PrincipalOutput {
+  userId?: string;
+  userType?: string;
+  email?: string;
+}
+export const PrincipalOutput = S.suspend(() =>
+  S.Struct({
+    userId: S.optional(S.String),
+    userType: S.optional(S.String),
+    email: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "PrincipalOutput",
+}) as any as S.Schema<PrincipalOutput>;
+export interface PermissionOutput {
+  action: string;
+  principal: PrincipalOutput;
+}
+export const PermissionOutput = S.suspend(() =>
+  S.Struct({ action: S.String, principal: PrincipalOutput }),
+).annotations({
+  identifier: "PermissionOutput",
+}) as any as S.Schema<PermissionOutput>;
+export type PermissionsOutputList = PermissionOutput[];
 export const PermissionsOutputList = S.Array(PermissionOutput);
-export class UpdateQAppPermissionsOutput extends S.Class<UpdateQAppPermissionsOutput>(
-  "UpdateQAppPermissionsOutput",
-)({
-  resourceArn: S.optional(S.String),
-  appId: S.optional(S.String),
-  permissions: S.optional(PermissionsOutputList),
-}) {}
-export class UpdateQAppSessionMetadataOutput extends S.Class<UpdateQAppSessionMetadataOutput>(
-  "UpdateQAppSessionMetadataOutput",
-)({
-  sessionId: S.String,
-  sessionArn: S.String,
-  sessionName: S.optional(S.String),
-  sharingConfiguration: SessionSharingConfiguration,
-}) {}
-export class User extends S.Class<User>("User")({
-  userId: S.optional(S.String),
-}) {}
+export interface UpdateQAppPermissionsOutput {
+  resourceArn?: string;
+  appId?: string;
+  permissions?: PermissionsOutputList;
+}
+export const UpdateQAppPermissionsOutput = S.suspend(() =>
+  S.Struct({
+    resourceArn: S.optional(S.String),
+    appId: S.optional(S.String),
+    permissions: S.optional(PermissionsOutputList),
+  }),
+).annotations({
+  identifier: "UpdateQAppPermissionsOutput",
+}) as any as S.Schema<UpdateQAppPermissionsOutput>;
+export interface UpdateQAppSessionMetadataOutput {
+  sessionId: string;
+  sessionArn: string;
+  sessionName?: string;
+  sharingConfiguration: SessionSharingConfiguration;
+}
+export const UpdateQAppSessionMetadataOutput = S.suspend(() =>
+  S.Struct({
+    sessionId: S.String,
+    sessionArn: S.String,
+    sessionName: S.optional(S.String),
+    sharingConfiguration: SessionSharingConfiguration,
+  }),
+).annotations({
+  identifier: "UpdateQAppSessionMetadataOutput",
+}) as any as S.Schema<UpdateQAppSessionMetadataOutput>;
+export interface User {
+  userId?: string;
+}
+export const User = S.suspend(() =>
+  S.Struct({ userId: S.optional(S.String) }),
+).annotations({ identifier: "User" }) as any as S.Schema<User>;
+export type DependencyList = string[];
 export const DependencyList = S.Array(S.String);
+export type MemoryReferenceList = string[];
 export const MemoryReferenceList = S.Array(S.String);
-export class QAppSessionData extends S.Class<QAppSessionData>(
-  "QAppSessionData",
-)({
-  cardId: S.String,
-  value: S.optional(S.Any),
-  user: User,
-  submissionId: S.optional(S.String),
-  timestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-}) {}
+export interface QAppSessionData {
+  cardId: string;
+  value?: any;
+  user: User;
+  submissionId?: string;
+  timestamp?: Date;
+}
+export const QAppSessionData = S.suspend(() =>
+  S.Struct({
+    cardId: S.String,
+    value: S.optional(S.Any),
+    user: User,
+    submissionId: S.optional(S.String),
+    timestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotations({
+  identifier: "QAppSessionData",
+}) as any as S.Schema<QAppSessionData>;
+export type QAppSessionDataList = QAppSessionData[];
 export const QAppSessionDataList = S.Array(QAppSessionData);
-export class TextInputCard extends S.Class<TextInputCard>("TextInputCard")({
-  id: S.String,
-  title: S.String,
-  dependencies: DependencyList,
-  type: S.String,
-  placeholder: S.optional(S.String),
-  defaultValue: S.optional(S.String),
-}) {}
-export class QQueryCard extends S.Class<QQueryCard>("QQueryCard")({
-  id: S.String,
-  title: S.String,
-  dependencies: DependencyList,
-  type: S.String,
-  prompt: S.String,
-  outputSource: S.String,
-  attributeFilter: S.optional(AttributeFilter),
-  memoryReferences: S.optional(MemoryReferenceList),
-}) {}
-export class QPluginCard extends S.Class<QPluginCard>("QPluginCard")({
-  id: S.String,
-  title: S.String,
-  dependencies: DependencyList,
-  type: S.String,
-  prompt: S.String,
-  pluginType: S.String,
-  pluginId: S.String,
-  actionIdentifier: S.optional(S.String),
-}) {}
-export class FileUploadCard extends S.Class<FileUploadCard>("FileUploadCard")({
-  id: S.String,
-  title: S.String,
-  dependencies: DependencyList,
-  type: S.String,
-  filename: S.optional(S.String),
-  fileId: S.optional(S.String),
-  allowOverride: S.optional(S.Boolean),
-}) {}
-export class FormInputCard extends S.Class<FormInputCard>("FormInputCard")({
-  id: S.String,
-  title: S.String,
-  dependencies: DependencyList,
-  type: S.String,
-  metadata: FormInputCardMetadata,
-  computeMode: S.optional(S.String),
-}) {}
-export class Submission extends S.Class<Submission>("Submission")({
-  value: S.optional(S.Any),
-  submissionId: S.optional(S.String),
-  timestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-}) {}
+export interface TextInputCard {
+  id: string;
+  title: string;
+  dependencies: DependencyList;
+  type: string;
+  placeholder?: string;
+  defaultValue?: string;
+}
+export const TextInputCard = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    title: S.String,
+    dependencies: DependencyList,
+    type: S.String,
+    placeholder: S.optional(S.String),
+    defaultValue: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "TextInputCard",
+}) as any as S.Schema<TextInputCard>;
+export interface QQueryCard {
+  id: string;
+  title: string;
+  dependencies: DependencyList;
+  type: string;
+  prompt: string;
+  outputSource: string;
+  attributeFilter?: AttributeFilter;
+  memoryReferences?: MemoryReferenceList;
+}
+export const QQueryCard = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    title: S.String,
+    dependencies: DependencyList,
+    type: S.String,
+    prompt: S.String,
+    outputSource: S.String,
+    attributeFilter: S.optional(AttributeFilter),
+    memoryReferences: S.optional(MemoryReferenceList),
+  }),
+).annotations({ identifier: "QQueryCard" }) as any as S.Schema<QQueryCard>;
+export interface QPluginCard {
+  id: string;
+  title: string;
+  dependencies: DependencyList;
+  type: string;
+  prompt: string;
+  pluginType: string;
+  pluginId: string;
+  actionIdentifier?: string;
+}
+export const QPluginCard = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    title: S.String,
+    dependencies: DependencyList,
+    type: S.String,
+    prompt: S.String,
+    pluginType: S.String,
+    pluginId: S.String,
+    actionIdentifier: S.optional(S.String),
+  }),
+).annotations({ identifier: "QPluginCard" }) as any as S.Schema<QPluginCard>;
+export interface FileUploadCard {
+  id: string;
+  title: string;
+  dependencies: DependencyList;
+  type: string;
+  filename?: string;
+  fileId?: string;
+  allowOverride?: boolean;
+}
+export const FileUploadCard = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    title: S.String,
+    dependencies: DependencyList,
+    type: S.String,
+    filename: S.optional(S.String),
+    fileId: S.optional(S.String),
+    allowOverride: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "FileUploadCard",
+}) as any as S.Schema<FileUploadCard>;
+export interface FormInputCard {
+  id: string;
+  title: string;
+  dependencies: DependencyList;
+  type: string;
+  metadata: FormInputCardMetadata;
+  computeMode?: string;
+}
+export const FormInputCard = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    title: S.String,
+    dependencies: DependencyList,
+    type: S.String,
+    metadata: FormInputCardMetadata,
+    computeMode: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "FormInputCard",
+}) as any as S.Schema<FormInputCard>;
+export interface Submission {
+  value?: any;
+  submissionId?: string;
+  timestamp?: Date;
+}
+export const Submission = S.suspend(() =>
+  S.Struct({
+    value: S.optional(S.Any),
+    submissionId: S.optional(S.String),
+    timestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotations({ identifier: "Submission" }) as any as S.Schema<Submission>;
+export type SubmissionList = Submission[];
 export const SubmissionList = S.Array(Submission);
-export class DescribeQAppPermissionsOutput extends S.Class<DescribeQAppPermissionsOutput>(
-  "DescribeQAppPermissionsOutput",
-)({
-  resourceArn: S.optional(S.String),
-  appId: S.optional(S.String),
-  permissions: S.optional(PermissionsOutputList),
-}) {}
-export class ListQAppSessionDataOutput extends S.Class<ListQAppSessionDataOutput>(
-  "ListQAppSessionDataOutput",
-)({
-  sessionId: S.String,
-  sessionArn: S.String,
-  sessionData: S.optional(QAppSessionDataList),
-  nextToken: S.optional(S.String),
-}) {}
-export class StartQAppSessionOutput extends S.Class<StartQAppSessionOutput>(
-  "StartQAppSessionOutput",
-)({ sessionId: S.String, sessionArn: S.String }) {}
+export interface DescribeQAppPermissionsOutput {
+  resourceArn?: string;
+  appId?: string;
+  permissions?: PermissionsOutputList;
+}
+export const DescribeQAppPermissionsOutput = S.suspend(() =>
+  S.Struct({
+    resourceArn: S.optional(S.String),
+    appId: S.optional(S.String),
+    permissions: S.optional(PermissionsOutputList),
+  }),
+).annotations({
+  identifier: "DescribeQAppPermissionsOutput",
+}) as any as S.Schema<DescribeQAppPermissionsOutput>;
+export interface ListQAppSessionDataOutput {
+  sessionId: string;
+  sessionArn: string;
+  sessionData?: QAppSessionDataList;
+  nextToken?: string;
+}
+export const ListQAppSessionDataOutput = S.suspend(() =>
+  S.Struct({
+    sessionId: S.String,
+    sessionArn: S.String,
+    sessionData: S.optional(QAppSessionDataList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListQAppSessionDataOutput",
+}) as any as S.Schema<ListQAppSessionDataOutput>;
+export interface StartQAppSessionOutput {
+  sessionId: string;
+  sessionArn: string;
+}
+export const StartQAppSessionOutput = S.suspend(() =>
+  S.Struct({ sessionId: S.String, sessionArn: S.String }),
+).annotations({
+  identifier: "StartQAppSessionOutput",
+}) as any as S.Schema<StartQAppSessionOutput>;
 export const Card = S.Union(
   S.Struct({ textInput: TextInputCard }),
   S.Struct({ qQuery: QQueryCard }),
@@ -1287,90 +1982,176 @@ export const Card = S.Union(
   S.Struct({ fileUpload: FileUploadCard }),
   S.Struct({ formInput: FormInputCard }),
 );
+export type CardModelList = (typeof Card)["Type"][];
 export const CardModelList = S.Array(Card);
-export class CardStatus extends S.Class<CardStatus>("CardStatus")({
-  currentState: S.String,
-  currentValue: S.String,
-  submissions: S.optional(SubmissionList),
-}) {}
-export class AppDefinition extends S.Class<AppDefinition>("AppDefinition")({
-  appDefinitionVersion: S.String,
-  cards: CardModelList,
-  canEdit: S.optional(S.Boolean),
-}) {}
+export interface CardStatus {
+  currentState: string;
+  currentValue: string;
+  submissions?: SubmissionList;
+}
+export const CardStatus = S.suspend(() =>
+  S.Struct({
+    currentState: S.String,
+    currentValue: S.String,
+    submissions: S.optional(SubmissionList),
+  }),
+).annotations({ identifier: "CardStatus" }) as any as S.Schema<CardStatus>;
+export interface AppDefinition {
+  appDefinitionVersion: string;
+  cards: CardModelList;
+  canEdit?: boolean;
+}
+export const AppDefinition = S.suspend(() =>
+  S.Struct({
+    appDefinitionVersion: S.String,
+    cards: CardModelList,
+    canEdit: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "AppDefinition",
+}) as any as S.Schema<AppDefinition>;
+export type CardStatusMap = { [key: string]: CardStatus };
 export const CardStatusMap = S.Record({ key: S.String, value: CardStatus });
-export class PredictAppDefinition extends S.Class<PredictAppDefinition>(
-  "PredictAppDefinition",
-)({
-  title: S.String,
-  description: S.optional(S.String),
-  appDefinition: AppDefinitionInput,
-}) {}
-export class GetQAppOutput extends S.Class<GetQAppOutput>("GetQAppOutput")({
-  appId: S.String,
-  appArn: S.String,
-  title: S.String,
-  description: S.optional(S.String),
-  initialPrompt: S.optional(S.String),
-  appVersion: S.Number,
-  status: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  createdBy: S.String,
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  updatedBy: S.String,
-  requiredCapabilities: S.optional(AppRequiredCapabilities),
-  appDefinition: AppDefinition,
-}) {}
-export class GetQAppSessionOutput extends S.Class<GetQAppSessionOutput>(
-  "GetQAppSessionOutput",
-)({
-  sessionId: S.String,
-  sessionArn: S.String,
-  sessionName: S.optional(S.String),
-  appVersion: S.optional(S.Number),
-  latestPublishedAppVersion: S.optional(S.Number),
-  status: S.String,
-  cardStatus: CardStatusMap,
-  userIsHost: S.optional(S.Boolean),
-}) {}
-export class PredictQAppOutput extends S.Class<PredictQAppOutput>(
-  "PredictQAppOutput",
-)({ app: PredictAppDefinition, problemStatement: S.String }) {}
-export class CreateQAppInput extends S.Class<CreateQAppInput>(
-  "CreateQAppInput",
-)(
-  {
+export interface PredictAppDefinition {
+  title: string;
+  description?: string;
+  appDefinition: AppDefinitionInput;
+}
+export const PredictAppDefinition = S.suspend(() =>
+  S.Struct({
+    title: S.String,
+    description: S.optional(S.String),
+    appDefinition: AppDefinitionInput,
+  }),
+).annotations({
+  identifier: "PredictAppDefinition",
+}) as any as S.Schema<PredictAppDefinition>;
+export interface GetQAppOutput {
+  appId: string;
+  appArn: string;
+  title: string;
+  description?: string;
+  initialPrompt?: string;
+  appVersion: number;
+  status: string;
+  createdAt: Date;
+  createdBy: string;
+  updatedAt: Date;
+  updatedBy: string;
+  requiredCapabilities?: AppRequiredCapabilities;
+  appDefinition: AppDefinition;
+}
+export const GetQAppOutput = S.suspend(() =>
+  S.Struct({
+    appId: S.String,
+    appArn: S.String,
+    title: S.String,
+    description: S.optional(S.String),
+    initialPrompt: S.optional(S.String),
+    appVersion: S.Number,
+    status: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdBy: S.String,
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedBy: S.String,
+    requiredCapabilities: S.optional(AppRequiredCapabilities),
+    appDefinition: AppDefinition,
+  }),
+).annotations({
+  identifier: "GetQAppOutput",
+}) as any as S.Schema<GetQAppOutput>;
+export interface GetQAppSessionOutput {
+  sessionId: string;
+  sessionArn: string;
+  sessionName?: string;
+  appVersion?: number;
+  latestPublishedAppVersion?: number;
+  status: string;
+  cardStatus: CardStatusMap;
+  userIsHost?: boolean;
+}
+export const GetQAppSessionOutput = S.suspend(() =>
+  S.Struct({
+    sessionId: S.String,
+    sessionArn: S.String,
+    sessionName: S.optional(S.String),
+    appVersion: S.optional(S.Number),
+    latestPublishedAppVersion: S.optional(S.Number),
+    status: S.String,
+    cardStatus: CardStatusMap,
+    userIsHost: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "GetQAppSessionOutput",
+}) as any as S.Schema<GetQAppSessionOutput>;
+export interface PredictQAppOutput {
+  app: PredictAppDefinition;
+  problemStatement: string;
+}
+export const PredictQAppOutput = S.suspend(() =>
+  S.Struct({ app: PredictAppDefinition, problemStatement: S.String }),
+).annotations({
+  identifier: "PredictQAppOutput",
+}) as any as S.Schema<PredictQAppOutput>;
+export interface CreateQAppInput {
+  instanceId: string;
+  title: string;
+  description?: string;
+  appDefinition: AppDefinitionInput;
+  tags?: TagMap;
+}
+export const CreateQAppInput = S.suspend(() =>
+  S.Struct({
     instanceId: S.String.pipe(T.HttpHeader("instance-id")),
     title: S.String,
     description: S.optional(S.String),
     appDefinition: AppDefinitionInput,
     tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/apps.create" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/apps.create" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateQAppOutput extends S.Class<CreateQAppOutput>(
-  "CreateQAppOutput",
-)({
-  appId: S.String,
-  appArn: S.String,
-  title: S.String,
-  description: S.optional(S.String),
-  initialPrompt: S.optional(S.String),
-  appVersion: S.Number,
-  status: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  createdBy: S.String,
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  updatedBy: S.String,
-  requiredCapabilities: S.optional(AppRequiredCapabilities),
-}) {}
+).annotations({
+  identifier: "CreateQAppInput",
+}) as any as S.Schema<CreateQAppInput>;
+export interface CreateQAppOutput {
+  appId: string;
+  appArn: string;
+  title: string;
+  description?: string;
+  initialPrompt?: string;
+  appVersion: number;
+  status: string;
+  createdAt: Date;
+  createdBy: string;
+  updatedAt: Date;
+  updatedBy: string;
+  requiredCapabilities?: AppRequiredCapabilities;
+}
+export const CreateQAppOutput = S.suspend(() =>
+  S.Struct({
+    appId: S.String,
+    appArn: S.String,
+    title: S.String,
+    description: S.optional(S.String),
+    initialPrompt: S.optional(S.String),
+    appVersion: S.Number,
+    status: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdBy: S.String,
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedBy: S.String,
+    requiredCapabilities: S.optional(AppRequiredCapabilities),
+  }),
+).annotations({
+  identifier: "CreateQAppOutput",
+}) as any as S.Schema<CreateQAppOutput>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

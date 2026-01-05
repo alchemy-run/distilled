@@ -262,480 +262,802 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class GetAccountSettingsRequest extends S.Class<GetAccountSettingsRequest>(
-  "GetAccountSettingsRequest",
-)(
-  {},
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+export interface GetAccountSettingsRequest {}
+export const GetAccountSettingsRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetAccountSettingsRequest",
+}) as any as S.Schema<GetAccountSettingsRequest>;
+export type ResourceArnList = string[];
 export const ResourceArnList = S.Array(S.String);
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class CancelTagSyncTaskInput extends S.Class<CancelTagSyncTaskInput>(
-  "CancelTagSyncTaskInput",
-)(
-  { TaskArn: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/cancel-tag-sync-task" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface CancelTagSyncTaskInput {
+  TaskArn: string;
+}
+export const CancelTagSyncTaskInput = S.suspend(() =>
+  S.Struct({ TaskArn: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/cancel-tag-sync-task" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CancelTagSyncTaskResponse extends S.Class<CancelTagSyncTaskResponse>(
-  "CancelTagSyncTaskResponse",
-)({}) {}
-export class DeleteGroupInput extends S.Class<DeleteGroupInput>(
-  "DeleteGroupInput",
-)(
-  { GroupName: S.optional(S.String), Group: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/delete-group" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CancelTagSyncTaskInput",
+}) as any as S.Schema<CancelTagSyncTaskInput>;
+export interface CancelTagSyncTaskResponse {}
+export const CancelTagSyncTaskResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "CancelTagSyncTaskResponse",
+}) as any as S.Schema<CancelTagSyncTaskResponse>;
+export interface DeleteGroupInput {
+  GroupName?: string;
+  Group?: string;
+}
+export const DeleteGroupInput = S.suspend(() =>
+  S.Struct({
+    GroupName: S.optional(S.String),
+    Group: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/delete-group" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetGroupInput extends S.Class<GetGroupInput>("GetGroupInput")(
-  { GroupName: S.optional(S.String), Group: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/get-group" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteGroupInput",
+}) as any as S.Schema<DeleteGroupInput>;
+export interface GetGroupInput {
+  GroupName?: string;
+  Group?: string;
+}
+export const GetGroupInput = S.suspend(() =>
+  S.Struct({
+    GroupName: S.optional(S.String),
+    Group: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/get-group" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetGroupConfigurationInput extends S.Class<GetGroupConfigurationInput>(
-  "GetGroupConfigurationInput",
-)(
-  { Group: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/get-group-configuration" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetGroupInput",
+}) as any as S.Schema<GetGroupInput>;
+export interface GetGroupConfigurationInput {
+  Group?: string;
+}
+export const GetGroupConfigurationInput = S.suspend(() =>
+  S.Struct({ Group: S.optional(S.String) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/get-group-configuration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetGroupQueryInput extends S.Class<GetGroupQueryInput>(
-  "GetGroupQueryInput",
-)(
-  { GroupName: S.optional(S.String), Group: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/get-group-query" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetGroupConfigurationInput",
+}) as any as S.Schema<GetGroupConfigurationInput>;
+export interface GetGroupQueryInput {
+  GroupName?: string;
+  Group?: string;
+}
+export const GetGroupQueryInput = S.suspend(() =>
+  S.Struct({
+    GroupName: S.optional(S.String),
+    Group: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/get-group-query" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetTagsInput extends S.Class<GetTagsInput>("GetTagsInput")(
-  { Arn: S.String.pipe(T.HttpLabel("Arn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/resources/{Arn}/tags" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetGroupQueryInput",
+}) as any as S.Schema<GetGroupQueryInput>;
+export interface GetTagsInput {
+  Arn: string;
+}
+export const GetTagsInput = S.suspend(() =>
+  S.Struct({ Arn: S.String.pipe(T.HttpLabel("Arn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/resources/{Arn}/tags" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetTagSyncTaskInput extends S.Class<GetTagSyncTaskInput>(
-  "GetTagSyncTaskInput",
-)(
-  { TaskArn: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/get-tag-sync-task" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({ identifier: "GetTagsInput" }) as any as S.Schema<GetTagsInput>;
+export interface GetTagSyncTaskInput {
+  TaskArn: string;
+}
+export const GetTagSyncTaskInput = S.suspend(() =>
+  S.Struct({ TaskArn: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/get-tag-sync-task" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GroupResourcesInput extends S.Class<GroupResourcesInput>(
-  "GroupResourcesInput",
-)(
-  { Group: S.String, ResourceArns: ResourceArnList },
-  T.all(
-    T.Http({ method: "POST", uri: "/group-resources" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetTagSyncTaskInput",
+}) as any as S.Schema<GetTagSyncTaskInput>;
+export interface GroupResourcesInput {
+  Group: string;
+  ResourceArns: ResourceArnList;
+}
+export const GroupResourcesInput = S.suspend(() =>
+  S.Struct({ Group: S.String, ResourceArns: ResourceArnList }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/group-resources" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "GroupResourcesInput",
+}) as any as S.Schema<GroupResourcesInput>;
+export type GroupConfigurationParameterValueList = string[];
 export const GroupConfigurationParameterValueList = S.Array(S.String);
-export class GroupConfigurationParameter extends S.Class<GroupConfigurationParameter>(
-  "GroupConfigurationParameter",
-)({
-  Name: S.String,
-  Values: S.optional(GroupConfigurationParameterValueList),
-}) {}
+export interface GroupConfigurationParameter {
+  Name: string;
+  Values?: GroupConfigurationParameterValueList;
+}
+export const GroupConfigurationParameter = S.suspend(() =>
+  S.Struct({
+    Name: S.String,
+    Values: S.optional(GroupConfigurationParameterValueList),
+  }),
+).annotations({
+  identifier: "GroupConfigurationParameter",
+}) as any as S.Schema<GroupConfigurationParameter>;
+export type GroupParameterList = GroupConfigurationParameter[];
 export const GroupParameterList = S.Array(GroupConfigurationParameter);
-export class GroupConfigurationItem extends S.Class<GroupConfigurationItem>(
-  "GroupConfigurationItem",
-)({ Type: S.String, Parameters: S.optional(GroupParameterList) }) {}
+export interface GroupConfigurationItem {
+  Type: string;
+  Parameters?: GroupParameterList;
+}
+export const GroupConfigurationItem = S.suspend(() =>
+  S.Struct({ Type: S.String, Parameters: S.optional(GroupParameterList) }),
+).annotations({
+  identifier: "GroupConfigurationItem",
+}) as any as S.Schema<GroupConfigurationItem>;
+export type GroupConfigurationList = GroupConfigurationItem[];
 export const GroupConfigurationList = S.Array(GroupConfigurationItem);
-export class PutGroupConfigurationInput extends S.Class<PutGroupConfigurationInput>(
-  "PutGroupConfigurationInput",
-)(
-  {
+export interface PutGroupConfigurationInput {
+  Group?: string;
+  Configuration?: GroupConfigurationList;
+}
+export const PutGroupConfigurationInput = S.suspend(() =>
+  S.Struct({
     Group: S.optional(S.String),
     Configuration: S.optional(GroupConfigurationList),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/put-group-configuration" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/put-group-configuration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutGroupConfigurationOutput extends S.Class<PutGroupConfigurationOutput>(
-  "PutGroupConfigurationOutput",
-)({}) {}
-export class ResourceQuery extends S.Class<ResourceQuery>("ResourceQuery")({
-  Type: S.String,
-  Query: S.String,
-}) {}
-export class SearchResourcesInput extends S.Class<SearchResourcesInput>(
-  "SearchResourcesInput",
-)(
-  {
+).annotations({
+  identifier: "PutGroupConfigurationInput",
+}) as any as S.Schema<PutGroupConfigurationInput>;
+export interface PutGroupConfigurationOutput {}
+export const PutGroupConfigurationOutput = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "PutGroupConfigurationOutput",
+}) as any as S.Schema<PutGroupConfigurationOutput>;
+export interface ResourceQuery {
+  Type: string;
+  Query: string;
+}
+export const ResourceQuery = S.suspend(() =>
+  S.Struct({ Type: S.String, Query: S.String }),
+).annotations({
+  identifier: "ResourceQuery",
+}) as any as S.Schema<ResourceQuery>;
+export interface SearchResourcesInput {
+  ResourceQuery: ResourceQuery;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const SearchResourcesInput = S.suspend(() =>
+  S.Struct({
     ResourceQuery: ResourceQuery,
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/resources/search" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/resources/search" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartTagSyncTaskInput extends S.Class<StartTagSyncTaskInput>(
-  "StartTagSyncTaskInput",
-)(
-  {
+).annotations({
+  identifier: "SearchResourcesInput",
+}) as any as S.Schema<SearchResourcesInput>;
+export interface StartTagSyncTaskInput {
+  Group: string;
+  TagKey?: string;
+  TagValue?: string;
+  ResourceQuery?: ResourceQuery;
+  RoleArn: string;
+}
+export const StartTagSyncTaskInput = S.suspend(() =>
+  S.Struct({
     Group: S.String,
     TagKey: S.optional(S.String),
     TagValue: S.optional(S.String),
     ResourceQuery: S.optional(ResourceQuery),
     RoleArn: S.String,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/start-tag-sync-task" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/start-tag-sync-task" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "StartTagSyncTaskInput",
+}) as any as S.Schema<StartTagSyncTaskInput>;
+export type Tags = { [key: string]: string };
 export const Tags = S.Record({ key: S.String, value: S.String });
-export class TagInput extends S.Class<TagInput>("TagInput")(
-  { Arn: S.String.pipe(T.HttpLabel("Arn")), Tags: Tags },
-  T.all(
-    T.Http({ method: "PUT", uri: "/resources/{Arn}/tags" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface TagInput {
+  Arn: string;
+  Tags: Tags;
+}
+export const TagInput = S.suspend(() =>
+  S.Struct({ Arn: S.String.pipe(T.HttpLabel("Arn")), Tags: Tags }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/resources/{Arn}/tags" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UngroupResourcesInput extends S.Class<UngroupResourcesInput>(
-  "UngroupResourcesInput",
-)(
-  { Group: S.String, ResourceArns: ResourceArnList },
-  T.all(
-    T.Http({ method: "POST", uri: "/ungroup-resources" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({ identifier: "TagInput" }) as any as S.Schema<TagInput>;
+export interface UngroupResourcesInput {
+  Group: string;
+  ResourceArns: ResourceArnList;
+}
+export const UngroupResourcesInput = S.suspend(() =>
+  S.Struct({ Group: S.String, ResourceArns: ResourceArnList }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ungroup-resources" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagInput extends S.Class<UntagInput>("UntagInput")(
-  { Arn: S.String.pipe(T.HttpLabel("Arn")), Keys: TagKeyList },
-  T.all(
-    T.Http({ method: "PATCH", uri: "/resources/{Arn}/tags" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UngroupResourcesInput",
+}) as any as S.Schema<UngroupResourcesInput>;
+export interface UntagInput {
+  Arn: string;
+  Keys: TagKeyList;
+}
+export const UntagInput = S.suspend(() =>
+  S.Struct({ Arn: S.String.pipe(T.HttpLabel("Arn")), Keys: TagKeyList }).pipe(
+    T.all(
+      T.Http({ method: "PATCH", uri: "/resources/{Arn}/tags" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateAccountSettingsInput extends S.Class<UpdateAccountSettingsInput>(
-  "UpdateAccountSettingsInput",
-)(
-  { GroupLifecycleEventsDesiredStatus: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/update-account-settings" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({ identifier: "UntagInput" }) as any as S.Schema<UntagInput>;
+export interface UpdateAccountSettingsInput {
+  GroupLifecycleEventsDesiredStatus?: string;
+}
+export const UpdateAccountSettingsInput = S.suspend(() =>
+  S.Struct({ GroupLifecycleEventsDesiredStatus: S.optional(S.String) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/update-account-settings" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateGroupInput extends S.Class<UpdateGroupInput>(
-  "UpdateGroupInput",
-)(
-  {
+).annotations({
+  identifier: "UpdateAccountSettingsInput",
+}) as any as S.Schema<UpdateAccountSettingsInput>;
+export interface UpdateGroupInput {
+  GroupName?: string;
+  Group?: string;
+  Description?: string;
+  Criticality?: number;
+  Owner?: string;
+  DisplayName?: string;
+}
+export const UpdateGroupInput = S.suspend(() =>
+  S.Struct({
     GroupName: S.optional(S.String),
     Group: S.optional(S.String),
     Description: S.optional(S.String),
     Criticality: S.optional(S.Number),
     Owner: S.optional(S.String),
     DisplayName: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/update-group" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/update-group" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateGroupQueryInput extends S.Class<UpdateGroupQueryInput>(
-  "UpdateGroupQueryInput",
-)(
-  {
+).annotations({
+  identifier: "UpdateGroupInput",
+}) as any as S.Schema<UpdateGroupInput>;
+export interface UpdateGroupQueryInput {
+  GroupName?: string;
+  Group?: string;
+  ResourceQuery: ResourceQuery;
+}
+export const UpdateGroupQueryInput = S.suspend(() =>
+  S.Struct({
     GroupName: S.optional(S.String),
     Group: S.optional(S.String),
     ResourceQuery: ResourceQuery,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/update-group-query" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/update-group-query" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "UpdateGroupQueryInput",
+}) as any as S.Schema<UpdateGroupQueryInput>;
+export type ListGroupingStatusesFilterValues = string[];
 export const ListGroupingStatusesFilterValues = S.Array(S.String);
+export type ResourceFilterValues = string[];
 export const ResourceFilterValues = S.Array(S.String);
+export type GroupFilterValues = string[];
 export const GroupFilterValues = S.Array(S.String);
-export class AccountSettings extends S.Class<AccountSettings>(
-  "AccountSettings",
-)({
-  GroupLifecycleEventsDesiredStatus: S.optional(S.String),
-  GroupLifecycleEventsStatus: S.optional(S.String),
-  GroupLifecycleEventsStatusMessage: S.optional(S.String),
-}) {}
-export class ListGroupingStatusesFilter extends S.Class<ListGroupingStatusesFilter>(
-  "ListGroupingStatusesFilter",
-)({ Name: S.String, Values: ListGroupingStatusesFilterValues }) {}
+export interface AccountSettings {
+  GroupLifecycleEventsDesiredStatus?: string;
+  GroupLifecycleEventsStatus?: string;
+  GroupLifecycleEventsStatusMessage?: string;
+}
+export const AccountSettings = S.suspend(() =>
+  S.Struct({
+    GroupLifecycleEventsDesiredStatus: S.optional(S.String),
+    GroupLifecycleEventsStatus: S.optional(S.String),
+    GroupLifecycleEventsStatusMessage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AccountSettings",
+}) as any as S.Schema<AccountSettings>;
+export interface ListGroupingStatusesFilter {
+  Name: string;
+  Values: ListGroupingStatusesFilterValues;
+}
+export const ListGroupingStatusesFilter = S.suspend(() =>
+  S.Struct({ Name: S.String, Values: ListGroupingStatusesFilterValues }),
+).annotations({
+  identifier: "ListGroupingStatusesFilter",
+}) as any as S.Schema<ListGroupingStatusesFilter>;
+export type ListGroupingStatusesFilterList = ListGroupingStatusesFilter[];
 export const ListGroupingStatusesFilterList = S.Array(
   ListGroupingStatusesFilter,
 );
-export class ResourceFilter extends S.Class<ResourceFilter>("ResourceFilter")({
-  Name: S.String,
-  Values: ResourceFilterValues,
-}) {}
+export interface ResourceFilter {
+  Name: string;
+  Values: ResourceFilterValues;
+}
+export const ResourceFilter = S.suspend(() =>
+  S.Struct({ Name: S.String, Values: ResourceFilterValues }),
+).annotations({
+  identifier: "ResourceFilter",
+}) as any as S.Schema<ResourceFilter>;
+export type ResourceFilterList = ResourceFilter[];
 export const ResourceFilterList = S.Array(ResourceFilter);
-export class GroupFilter extends S.Class<GroupFilter>("GroupFilter")({
-  Name: S.String,
-  Values: GroupFilterValues,
-}) {}
+export interface GroupFilter {
+  Name: string;
+  Values: GroupFilterValues;
+}
+export const GroupFilter = S.suspend(() =>
+  S.Struct({ Name: S.String, Values: GroupFilterValues }),
+).annotations({ identifier: "GroupFilter" }) as any as S.Schema<GroupFilter>;
+export type GroupFilterList = GroupFilter[];
 export const GroupFilterList = S.Array(GroupFilter);
-export class ListTagSyncTasksFilter extends S.Class<ListTagSyncTasksFilter>(
-  "ListTagSyncTasksFilter",
-)({ GroupArn: S.optional(S.String), GroupName: S.optional(S.String) }) {}
+export interface ListTagSyncTasksFilter {
+  GroupArn?: string;
+  GroupName?: string;
+}
+export const ListTagSyncTasksFilter = S.suspend(() =>
+  S.Struct({ GroupArn: S.optional(S.String), GroupName: S.optional(S.String) }),
+).annotations({
+  identifier: "ListTagSyncTasksFilter",
+}) as any as S.Schema<ListTagSyncTasksFilter>;
+export type ListTagSyncTasksFilterList = ListTagSyncTasksFilter[];
 export const ListTagSyncTasksFilterList = S.Array(ListTagSyncTasksFilter);
-export class GetAccountSettingsOutput extends S.Class<GetAccountSettingsOutput>(
-  "GetAccountSettingsOutput",
-)({ AccountSettings: S.optional(AccountSettings) }) {}
+export interface GetAccountSettingsOutput {
+  AccountSettings?: AccountSettings;
+}
+export const GetAccountSettingsOutput = S.suspend(() =>
+  S.Struct({ AccountSettings: S.optional(AccountSettings) }),
+).annotations({
+  identifier: "GetAccountSettingsOutput",
+}) as any as S.Schema<GetAccountSettingsOutput>;
+export type ApplicationTag = { [key: string]: string };
 export const ApplicationTag = S.Record({ key: S.String, value: S.String });
-export class Group extends S.Class<Group>("Group")({
-  GroupArn: S.String,
-  Name: S.String,
-  Description: S.optional(S.String),
-  Criticality: S.optional(S.Number),
-  Owner: S.optional(S.String),
-  DisplayName: S.optional(S.String),
-  ApplicationTag: S.optional(ApplicationTag),
-}) {}
-export class GetGroupOutput extends S.Class<GetGroupOutput>("GetGroupOutput")({
-  Group: S.optional(Group),
-}) {}
-export class GetTagsOutput extends S.Class<GetTagsOutput>("GetTagsOutput")({
-  Arn: S.optional(S.String),
-  Tags: S.optional(Tags),
-}) {}
-export class GetTagSyncTaskOutput extends S.Class<GetTagSyncTaskOutput>(
-  "GetTagSyncTaskOutput",
-)({
-  GroupArn: S.optional(S.String),
-  GroupName: S.optional(S.String),
-  TaskArn: S.optional(S.String),
-  TagKey: S.optional(S.String),
-  TagValue: S.optional(S.String),
-  ResourceQuery: S.optional(ResourceQuery),
-  RoleArn: S.optional(S.String),
-  Status: S.optional(S.String),
-  ErrorMessage: S.optional(S.String),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class ListGroupingStatusesInput extends S.Class<ListGroupingStatusesInput>(
-  "ListGroupingStatusesInput",
-)(
-  {
+export interface Group {
+  GroupArn: string;
+  Name: string;
+  Description?: string;
+  Criticality?: number;
+  Owner?: string;
+  DisplayName?: string;
+  ApplicationTag?: ApplicationTag;
+}
+export const Group = S.suspend(() =>
+  S.Struct({
+    GroupArn: S.String,
+    Name: S.String,
+    Description: S.optional(S.String),
+    Criticality: S.optional(S.Number),
+    Owner: S.optional(S.String),
+    DisplayName: S.optional(S.String),
+    ApplicationTag: S.optional(ApplicationTag),
+  }),
+).annotations({ identifier: "Group" }) as any as S.Schema<Group>;
+export interface GetGroupOutput {
+  Group?: Group;
+}
+export const GetGroupOutput = S.suspend(() =>
+  S.Struct({ Group: S.optional(Group) }),
+).annotations({
+  identifier: "GetGroupOutput",
+}) as any as S.Schema<GetGroupOutput>;
+export interface GetTagsOutput {
+  Arn?: string;
+  Tags?: Tags;
+}
+export const GetTagsOutput = S.suspend(() =>
+  S.Struct({ Arn: S.optional(S.String), Tags: S.optional(Tags) }),
+).annotations({
+  identifier: "GetTagsOutput",
+}) as any as S.Schema<GetTagsOutput>;
+export interface GetTagSyncTaskOutput {
+  GroupArn?: string;
+  GroupName?: string;
+  TaskArn?: string;
+  TagKey?: string;
+  TagValue?: string;
+  ResourceQuery?: ResourceQuery;
+  RoleArn?: string;
+  Status?: string;
+  ErrorMessage?: string;
+  CreatedAt?: Date;
+}
+export const GetTagSyncTaskOutput = S.suspend(() =>
+  S.Struct({
+    GroupArn: S.optional(S.String),
+    GroupName: S.optional(S.String),
+    TaskArn: S.optional(S.String),
+    TagKey: S.optional(S.String),
+    TagValue: S.optional(S.String),
+    ResourceQuery: S.optional(ResourceQuery),
+    RoleArn: S.optional(S.String),
+    Status: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "GetTagSyncTaskOutput",
+}) as any as S.Schema<GetTagSyncTaskOutput>;
+export interface ListGroupingStatusesInput {
+  Group: string;
+  MaxResults?: number;
+  Filters?: ListGroupingStatusesFilterList;
+  NextToken?: string;
+}
+export const ListGroupingStatusesInput = S.suspend(() =>
+  S.Struct({
     Group: S.String,
     MaxResults: S.optional(S.Number),
     Filters: S.optional(ListGroupingStatusesFilterList),
     NextToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/list-grouping-statuses" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/list-grouping-statuses" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListGroupResourcesInput extends S.Class<ListGroupResourcesInput>(
-  "ListGroupResourcesInput",
-)(
-  {
+).annotations({
+  identifier: "ListGroupingStatusesInput",
+}) as any as S.Schema<ListGroupingStatusesInput>;
+export interface ListGroupResourcesInput {
+  GroupName?: string;
+  Group?: string;
+  Filters?: ResourceFilterList;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListGroupResourcesInput = S.suspend(() =>
+  S.Struct({
     GroupName: S.optional(S.String),
     Group: S.optional(S.String),
     Filters: S.optional(ResourceFilterList),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/list-group-resources" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/list-group-resources" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListGroupsInput extends S.Class<ListGroupsInput>(
-  "ListGroupsInput",
-)(
-  {
+).annotations({
+  identifier: "ListGroupResourcesInput",
+}) as any as S.Schema<ListGroupResourcesInput>;
+export interface ListGroupsInput {
+  Filters?: GroupFilterList;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListGroupsInput = S.suspend(() =>
+  S.Struct({
     Filters: S.optional(GroupFilterList),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/groups-list" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/groups-list" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTagSyncTasksInput extends S.Class<ListTagSyncTasksInput>(
-  "ListTagSyncTasksInput",
-)(
-  {
+).annotations({
+  identifier: "ListGroupsInput",
+}) as any as S.Schema<ListGroupsInput>;
+export interface ListTagSyncTasksInput {
+  Filters?: ListTagSyncTasksFilterList;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListTagSyncTasksInput = S.suspend(() =>
+  S.Struct({
     Filters: S.optional(ListTagSyncTasksFilterList),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/list-tag-sync-tasks" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/list-tag-sync-tasks" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartTagSyncTaskOutput extends S.Class<StartTagSyncTaskOutput>(
-  "StartTagSyncTaskOutput",
-)({
-  GroupArn: S.optional(S.String),
-  GroupName: S.optional(S.String),
-  TaskArn: S.optional(S.String),
-  TagKey: S.optional(S.String),
-  TagValue: S.optional(S.String),
-  ResourceQuery: S.optional(ResourceQuery),
-  RoleArn: S.optional(S.String),
-}) {}
-export class TagOutput extends S.Class<TagOutput>("TagOutput")({
-  Arn: S.optional(S.String),
-  Tags: S.optional(Tags),
-}) {}
-export class FailedResource extends S.Class<FailedResource>("FailedResource")({
-  ResourceArn: S.optional(S.String),
-  ErrorMessage: S.optional(S.String),
-  ErrorCode: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "ListTagSyncTasksInput",
+}) as any as S.Schema<ListTagSyncTasksInput>;
+export interface StartTagSyncTaskOutput {
+  GroupArn?: string;
+  GroupName?: string;
+  TaskArn?: string;
+  TagKey?: string;
+  TagValue?: string;
+  ResourceQuery?: ResourceQuery;
+  RoleArn?: string;
+}
+export const StartTagSyncTaskOutput = S.suspend(() =>
+  S.Struct({
+    GroupArn: S.optional(S.String),
+    GroupName: S.optional(S.String),
+    TaskArn: S.optional(S.String),
+    TagKey: S.optional(S.String),
+    TagValue: S.optional(S.String),
+    ResourceQuery: S.optional(ResourceQuery),
+    RoleArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "StartTagSyncTaskOutput",
+}) as any as S.Schema<StartTagSyncTaskOutput>;
+export interface TagOutput {
+  Arn?: string;
+  Tags?: Tags;
+}
+export const TagOutput = S.suspend(() =>
+  S.Struct({ Arn: S.optional(S.String), Tags: S.optional(Tags) }),
+).annotations({ identifier: "TagOutput" }) as any as S.Schema<TagOutput>;
+export interface FailedResource {
+  ResourceArn?: string;
+  ErrorMessage?: string;
+  ErrorCode?: string;
+}
+export const FailedResource = S.suspend(() =>
+  S.Struct({
+    ResourceArn: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
+    ErrorCode: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "FailedResource",
+}) as any as S.Schema<FailedResource>;
+export type FailedResourceList = FailedResource[];
 export const FailedResourceList = S.Array(FailedResource);
-export class PendingResource extends S.Class<PendingResource>(
-  "PendingResource",
-)({ ResourceArn: S.optional(S.String) }) {}
+export interface PendingResource {
+  ResourceArn?: string;
+}
+export const PendingResource = S.suspend(() =>
+  S.Struct({ ResourceArn: S.optional(S.String) }),
+).annotations({
+  identifier: "PendingResource",
+}) as any as S.Schema<PendingResource>;
+export type PendingResourceList = PendingResource[];
 export const PendingResourceList = S.Array(PendingResource);
-export class UngroupResourcesOutput extends S.Class<UngroupResourcesOutput>(
-  "UngroupResourcesOutput",
-)({
-  Succeeded: S.optional(ResourceArnList),
-  Failed: S.optional(FailedResourceList),
-  Pending: S.optional(PendingResourceList),
-}) {}
-export class UntagOutput extends S.Class<UntagOutput>("UntagOutput")({
-  Arn: S.optional(S.String),
-  Keys: S.optional(TagKeyList),
-}) {}
-export class UpdateAccountSettingsOutput extends S.Class<UpdateAccountSettingsOutput>(
-  "UpdateAccountSettingsOutput",
-)({ AccountSettings: S.optional(AccountSettings) }) {}
-export class UpdateGroupOutput extends S.Class<UpdateGroupOutput>(
-  "UpdateGroupOutput",
-)({ Group: S.optional(Group) }) {}
-export class GroupQuery extends S.Class<GroupQuery>("GroupQuery")({
-  GroupName: S.String,
-  ResourceQuery: ResourceQuery,
-}) {}
-export class UpdateGroupQueryOutput extends S.Class<UpdateGroupQueryOutput>(
-  "UpdateGroupQueryOutput",
-)({ GroupQuery: S.optional(GroupQuery) }) {}
-export class GroupConfiguration extends S.Class<GroupConfiguration>(
-  "GroupConfiguration",
-)({
-  Configuration: S.optional(GroupConfigurationList),
-  ProposedConfiguration: S.optional(GroupConfigurationList),
-  Status: S.optional(S.String),
-  FailureReason: S.optional(S.String),
-}) {}
+export interface UngroupResourcesOutput {
+  Succeeded?: ResourceArnList;
+  Failed?: FailedResourceList;
+  Pending?: PendingResourceList;
+}
+export const UngroupResourcesOutput = S.suspend(() =>
+  S.Struct({
+    Succeeded: S.optional(ResourceArnList),
+    Failed: S.optional(FailedResourceList),
+    Pending: S.optional(PendingResourceList),
+  }),
+).annotations({
+  identifier: "UngroupResourcesOutput",
+}) as any as S.Schema<UngroupResourcesOutput>;
+export interface UntagOutput {
+  Arn?: string;
+  Keys?: TagKeyList;
+}
+export const UntagOutput = S.suspend(() =>
+  S.Struct({ Arn: S.optional(S.String), Keys: S.optional(TagKeyList) }),
+).annotations({ identifier: "UntagOutput" }) as any as S.Schema<UntagOutput>;
+export interface UpdateAccountSettingsOutput {
+  AccountSettings?: AccountSettings;
+}
+export const UpdateAccountSettingsOutput = S.suspend(() =>
+  S.Struct({ AccountSettings: S.optional(AccountSettings) }),
+).annotations({
+  identifier: "UpdateAccountSettingsOutput",
+}) as any as S.Schema<UpdateAccountSettingsOutput>;
+export interface UpdateGroupOutput {
+  Group?: Group;
+}
+export const UpdateGroupOutput = S.suspend(() =>
+  S.Struct({ Group: S.optional(Group) }),
+).annotations({
+  identifier: "UpdateGroupOutput",
+}) as any as S.Schema<UpdateGroupOutput>;
+export interface GroupQuery {
+  GroupName: string;
+  ResourceQuery: ResourceQuery;
+}
+export const GroupQuery = S.suspend(() =>
+  S.Struct({ GroupName: S.String, ResourceQuery: ResourceQuery }),
+).annotations({ identifier: "GroupQuery" }) as any as S.Schema<GroupQuery>;
+export interface UpdateGroupQueryOutput {
+  GroupQuery?: GroupQuery;
+}
+export const UpdateGroupQueryOutput = S.suspend(() =>
+  S.Struct({ GroupQuery: S.optional(GroupQuery) }),
+).annotations({
+  identifier: "UpdateGroupQueryOutput",
+}) as any as S.Schema<UpdateGroupQueryOutput>;
+export interface GroupConfiguration {
+  Configuration?: GroupConfigurationList;
+  ProposedConfiguration?: GroupConfigurationList;
+  Status?: string;
+  FailureReason?: string;
+}
+export const GroupConfiguration = S.suspend(() =>
+  S.Struct({
+    Configuration: S.optional(GroupConfigurationList),
+    ProposedConfiguration: S.optional(GroupConfigurationList),
+    Status: S.optional(S.String),
+    FailureReason: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GroupConfiguration",
+}) as any as S.Schema<GroupConfiguration>;
+export type GroupList = Group[];
 export const GroupList = S.Array(Group);
-export class ResourceIdentifier extends S.Class<ResourceIdentifier>(
-  "ResourceIdentifier",
-)({ ResourceArn: S.optional(S.String), ResourceType: S.optional(S.String) }) {}
+export interface ResourceIdentifier {
+  ResourceArn?: string;
+  ResourceType?: string;
+}
+export const ResourceIdentifier = S.suspend(() =>
+  S.Struct({
+    ResourceArn: S.optional(S.String),
+    ResourceType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ResourceIdentifier",
+}) as any as S.Schema<ResourceIdentifier>;
+export type ResourceIdentifierList = ResourceIdentifier[];
 export const ResourceIdentifierList = S.Array(ResourceIdentifier);
-export class QueryError extends S.Class<QueryError>("QueryError")({
-  ErrorCode: S.optional(S.String),
-  Message: S.optional(S.String),
-}) {}
+export interface QueryError {
+  ErrorCode?: string;
+  Message?: string;
+}
+export const QueryError = S.suspend(() =>
+  S.Struct({ ErrorCode: S.optional(S.String), Message: S.optional(S.String) }),
+).annotations({ identifier: "QueryError" }) as any as S.Schema<QueryError>;
+export type QueryErrorList = QueryError[];
 export const QueryErrorList = S.Array(QueryError);
-export class CreateGroupInput extends S.Class<CreateGroupInput>(
-  "CreateGroupInput",
-)(
-  {
+export interface CreateGroupInput {
+  Name: string;
+  Description?: string;
+  ResourceQuery?: ResourceQuery;
+  Tags?: Tags;
+  Configuration?: GroupConfigurationList;
+  Criticality?: number;
+  Owner?: string;
+  DisplayName?: string;
+}
+export const CreateGroupInput = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     Description: S.optional(S.String),
     ResourceQuery: S.optional(ResourceQuery),
@@ -744,122 +1066,239 @@ export class CreateGroupInput extends S.Class<CreateGroupInput>(
     Criticality: S.optional(S.Number),
     Owner: S.optional(S.String),
     DisplayName: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/groups" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/groups" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetGroupConfigurationOutput extends S.Class<GetGroupConfigurationOutput>(
-  "GetGroupConfigurationOutput",
-)({ GroupConfiguration: S.optional(GroupConfiguration) }) {}
-export class GetGroupQueryOutput extends S.Class<GetGroupQueryOutput>(
-  "GetGroupQueryOutput",
-)({ GroupQuery: S.optional(GroupQuery) }) {}
-export class GroupResourcesOutput extends S.Class<GroupResourcesOutput>(
-  "GroupResourcesOutput",
-)({
-  Succeeded: S.optional(ResourceArnList),
-  Failed: S.optional(FailedResourceList),
-  Pending: S.optional(PendingResourceList),
-}) {}
-export class SearchResourcesOutput extends S.Class<SearchResourcesOutput>(
-  "SearchResourcesOutput",
-)({
-  ResourceIdentifiers: S.optional(ResourceIdentifierList),
-  NextToken: S.optional(S.String),
-  QueryErrors: S.optional(QueryErrorList),
-}) {}
-export class GroupingStatusesItem extends S.Class<GroupingStatusesItem>(
-  "GroupingStatusesItem",
-)({
-  ResourceArn: S.optional(S.String),
-  Action: S.optional(S.String),
-  Status: S.optional(S.String),
-  ErrorMessage: S.optional(S.String),
-  ErrorCode: S.optional(S.String),
-  UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+).annotations({
+  identifier: "CreateGroupInput",
+}) as any as S.Schema<CreateGroupInput>;
+export interface GetGroupConfigurationOutput {
+  GroupConfiguration?: GroupConfiguration;
+}
+export const GetGroupConfigurationOutput = S.suspend(() =>
+  S.Struct({ GroupConfiguration: S.optional(GroupConfiguration) }),
+).annotations({
+  identifier: "GetGroupConfigurationOutput",
+}) as any as S.Schema<GetGroupConfigurationOutput>;
+export interface GetGroupQueryOutput {
+  GroupQuery?: GroupQuery;
+}
+export const GetGroupQueryOutput = S.suspend(() =>
+  S.Struct({ GroupQuery: S.optional(GroupQuery) }),
+).annotations({
+  identifier: "GetGroupQueryOutput",
+}) as any as S.Schema<GetGroupQueryOutput>;
+export interface GroupResourcesOutput {
+  Succeeded?: ResourceArnList;
+  Failed?: FailedResourceList;
+  Pending?: PendingResourceList;
+}
+export const GroupResourcesOutput = S.suspend(() =>
+  S.Struct({
+    Succeeded: S.optional(ResourceArnList),
+    Failed: S.optional(FailedResourceList),
+    Pending: S.optional(PendingResourceList),
+  }),
+).annotations({
+  identifier: "GroupResourcesOutput",
+}) as any as S.Schema<GroupResourcesOutput>;
+export interface SearchResourcesOutput {
+  ResourceIdentifiers?: ResourceIdentifierList;
+  NextToken?: string;
+  QueryErrors?: QueryErrorList;
+}
+export const SearchResourcesOutput = S.suspend(() =>
+  S.Struct({
+    ResourceIdentifiers: S.optional(ResourceIdentifierList),
+    NextToken: S.optional(S.String),
+    QueryErrors: S.optional(QueryErrorList),
+  }),
+).annotations({
+  identifier: "SearchResourcesOutput",
+}) as any as S.Schema<SearchResourcesOutput>;
+export interface GroupingStatusesItem {
+  ResourceArn?: string;
+  Action?: string;
+  Status?: string;
+  ErrorMessage?: string;
+  ErrorCode?: string;
+  UpdatedAt?: Date;
+}
+export const GroupingStatusesItem = S.suspend(() =>
+  S.Struct({
+    ResourceArn: S.optional(S.String),
+    Action: S.optional(S.String),
+    Status: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
+    ErrorCode: S.optional(S.String),
+    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "GroupingStatusesItem",
+}) as any as S.Schema<GroupingStatusesItem>;
+export type GroupingStatusesList = GroupingStatusesItem[];
 export const GroupingStatusesList = S.Array(GroupingStatusesItem);
-export class GroupIdentifier extends S.Class<GroupIdentifier>(
-  "GroupIdentifier",
-)({
-  GroupName: S.optional(S.String),
-  GroupArn: S.optional(S.String),
-  Description: S.optional(S.String),
-  Criticality: S.optional(S.Number),
-  Owner: S.optional(S.String),
-  DisplayName: S.optional(S.String),
-}) {}
+export interface GroupIdentifier {
+  GroupName?: string;
+  GroupArn?: string;
+  Description?: string;
+  Criticality?: number;
+  Owner?: string;
+  DisplayName?: string;
+}
+export const GroupIdentifier = S.suspend(() =>
+  S.Struct({
+    GroupName: S.optional(S.String),
+    GroupArn: S.optional(S.String),
+    Description: S.optional(S.String),
+    Criticality: S.optional(S.Number),
+    Owner: S.optional(S.String),
+    DisplayName: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GroupIdentifier",
+}) as any as S.Schema<GroupIdentifier>;
+export type GroupIdentifierList = GroupIdentifier[];
 export const GroupIdentifierList = S.Array(GroupIdentifier);
-export class TagSyncTaskItem extends S.Class<TagSyncTaskItem>(
-  "TagSyncTaskItem",
-)({
-  GroupArn: S.optional(S.String),
-  GroupName: S.optional(S.String),
-  TaskArn: S.optional(S.String),
-  TagKey: S.optional(S.String),
-  TagValue: S.optional(S.String),
-  ResourceQuery: S.optional(ResourceQuery),
-  RoleArn: S.optional(S.String),
-  Status: S.optional(S.String),
-  ErrorMessage: S.optional(S.String),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface TagSyncTaskItem {
+  GroupArn?: string;
+  GroupName?: string;
+  TaskArn?: string;
+  TagKey?: string;
+  TagValue?: string;
+  ResourceQuery?: ResourceQuery;
+  RoleArn?: string;
+  Status?: string;
+  ErrorMessage?: string;
+  CreatedAt?: Date;
+}
+export const TagSyncTaskItem = S.suspend(() =>
+  S.Struct({
+    GroupArn: S.optional(S.String),
+    GroupName: S.optional(S.String),
+    TaskArn: S.optional(S.String),
+    TagKey: S.optional(S.String),
+    TagValue: S.optional(S.String),
+    ResourceQuery: S.optional(ResourceQuery),
+    RoleArn: S.optional(S.String),
+    Status: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "TagSyncTaskItem",
+}) as any as S.Schema<TagSyncTaskItem>;
+export type TagSyncTaskList = TagSyncTaskItem[];
 export const TagSyncTaskList = S.Array(TagSyncTaskItem);
-export class CreateGroupOutput extends S.Class<CreateGroupOutput>(
-  "CreateGroupOutput",
-)({
-  Group: S.optional(Group),
-  ResourceQuery: S.optional(ResourceQuery),
-  Tags: S.optional(Tags),
-  GroupConfiguration: S.optional(GroupConfiguration),
-}) {}
-export class DeleteGroupOutput extends S.Class<DeleteGroupOutput>(
-  "DeleteGroupOutput",
-)({ Group: S.optional(Group) }) {}
-export class ListGroupingStatusesOutput extends S.Class<ListGroupingStatusesOutput>(
-  "ListGroupingStatusesOutput",
-)({
-  Group: S.optional(S.String),
-  GroupingStatuses: S.optional(GroupingStatusesList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListGroupsOutput extends S.Class<ListGroupsOutput>(
-  "ListGroupsOutput",
-)({
-  GroupIdentifiers: S.optional(GroupIdentifierList),
-  Groups: S.optional(GroupList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListTagSyncTasksOutput extends S.Class<ListTagSyncTasksOutput>(
-  "ListTagSyncTasksOutput",
-)({
-  TagSyncTasks: S.optional(TagSyncTaskList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ResourceStatus extends S.Class<ResourceStatus>("ResourceStatus")({
-  Name: S.optional(S.String),
-}) {}
-export class ListGroupResourcesItem extends S.Class<ListGroupResourcesItem>(
-  "ListGroupResourcesItem",
-)({
-  Identifier: S.optional(ResourceIdentifier),
-  Status: S.optional(ResourceStatus),
-}) {}
+export interface CreateGroupOutput {
+  Group?: Group;
+  ResourceQuery?: ResourceQuery;
+  Tags?: Tags;
+  GroupConfiguration?: GroupConfiguration;
+}
+export const CreateGroupOutput = S.suspend(() =>
+  S.Struct({
+    Group: S.optional(Group),
+    ResourceQuery: S.optional(ResourceQuery),
+    Tags: S.optional(Tags),
+    GroupConfiguration: S.optional(GroupConfiguration),
+  }),
+).annotations({
+  identifier: "CreateGroupOutput",
+}) as any as S.Schema<CreateGroupOutput>;
+export interface DeleteGroupOutput {
+  Group?: Group;
+}
+export const DeleteGroupOutput = S.suspend(() =>
+  S.Struct({ Group: S.optional(Group) }),
+).annotations({
+  identifier: "DeleteGroupOutput",
+}) as any as S.Schema<DeleteGroupOutput>;
+export interface ListGroupingStatusesOutput {
+  Group?: string;
+  GroupingStatuses?: GroupingStatusesList;
+  NextToken?: string;
+}
+export const ListGroupingStatusesOutput = S.suspend(() =>
+  S.Struct({
+    Group: S.optional(S.String),
+    GroupingStatuses: S.optional(GroupingStatusesList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListGroupingStatusesOutput",
+}) as any as S.Schema<ListGroupingStatusesOutput>;
+export interface ListGroupsOutput {
+  GroupIdentifiers?: GroupIdentifierList;
+  Groups?: GroupList;
+  NextToken?: string;
+}
+export const ListGroupsOutput = S.suspend(() =>
+  S.Struct({
+    GroupIdentifiers: S.optional(GroupIdentifierList),
+    Groups: S.optional(GroupList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListGroupsOutput",
+}) as any as S.Schema<ListGroupsOutput>;
+export interface ListTagSyncTasksOutput {
+  TagSyncTasks?: TagSyncTaskList;
+  NextToken?: string;
+}
+export const ListTagSyncTasksOutput = S.suspend(() =>
+  S.Struct({
+    TagSyncTasks: S.optional(TagSyncTaskList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListTagSyncTasksOutput",
+}) as any as S.Schema<ListTagSyncTasksOutput>;
+export interface ResourceStatus {
+  Name?: string;
+}
+export const ResourceStatus = S.suspend(() =>
+  S.Struct({ Name: S.optional(S.String) }),
+).annotations({
+  identifier: "ResourceStatus",
+}) as any as S.Schema<ResourceStatus>;
+export interface ListGroupResourcesItem {
+  Identifier?: ResourceIdentifier;
+  Status?: ResourceStatus;
+}
+export const ListGroupResourcesItem = S.suspend(() =>
+  S.Struct({
+    Identifier: S.optional(ResourceIdentifier),
+    Status: S.optional(ResourceStatus),
+  }),
+).annotations({
+  identifier: "ListGroupResourcesItem",
+}) as any as S.Schema<ListGroupResourcesItem>;
+export type ListGroupResourcesItemList = ListGroupResourcesItem[];
 export const ListGroupResourcesItemList = S.Array(ListGroupResourcesItem);
-export class ListGroupResourcesOutput extends S.Class<ListGroupResourcesOutput>(
-  "ListGroupResourcesOutput",
-)({
-  Resources: S.optional(ListGroupResourcesItemList),
-  ResourceIdentifiers: S.optional(ResourceIdentifierList),
-  NextToken: S.optional(S.String),
-  QueryErrors: S.optional(QueryErrorList),
-}) {}
+export interface ListGroupResourcesOutput {
+  Resources?: ListGroupResourcesItemList;
+  ResourceIdentifiers?: ResourceIdentifierList;
+  NextToken?: string;
+  QueryErrors?: QueryErrorList;
+}
+export const ListGroupResourcesOutput = S.suspend(() =>
+  S.Struct({
+    Resources: S.optional(ListGroupResourcesItemList),
+    ResourceIdentifiers: S.optional(ResourceIdentifierList),
+    NextToken: S.optional(S.String),
+    QueryErrors: S.optional(QueryErrorList),
+  }),
+).annotations({
+  identifier: "ListGroupResourcesOutput",
+}) as any as S.Schema<ListGroupResourcesOutput>;
 
 //# Errors
 export class BadRequestException extends S.TaggedError<BadRequestException>()(

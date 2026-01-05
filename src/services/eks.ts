@@ -282,15 +282,27 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type StringList = string[];
 export const StringList = S.Array(S.String);
+export type IncludeClustersList = string[];
 export const IncludeClustersList = S.Array(S.String);
+export type EksAnywhereSubscriptionStatusValues = string[];
 export const EksAnywhereSubscriptionStatusValues = S.Array(S.String);
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
+export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
-export class CreateAccessEntryRequest extends S.Class<CreateAccessEntryRequest>(
-  "CreateAccessEntryRequest",
-)(
-  {
+export interface CreateAccessEntryRequest {
+  clusterName: string;
+  principalArn: string;
+  kubernetesGroups?: StringList;
+  tags?: TagMap;
+  clientRequestToken?: string;
+  username?: string;
+  type?: string;
+}
+export const CreateAccessEntryRequest = S.suspend(() =>
+  S.Struct({
     clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     principalArn: S.String,
     kubernetesGroups: S.optional(StringList),
@@ -298,20 +310,31 @@ export class CreateAccessEntryRequest extends S.Class<CreateAccessEntryRequest>(
     clientRequestToken: S.optional(S.String),
     username: S.optional(S.String),
     type: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/clusters/{clusterName}/access-entries" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/clusters/{clusterName}/access-entries" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreatePodIdentityAssociationRequest extends S.Class<CreatePodIdentityAssociationRequest>(
-  "CreatePodIdentityAssociationRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateAccessEntryRequest",
+}) as any as S.Schema<CreateAccessEntryRequest>;
+export interface CreatePodIdentityAssociationRequest {
+  clusterName: string;
+  namespace: string;
+  serviceAccount: string;
+  roleArn: string;
+  clientRequestToken?: string;
+  tags?: TagMap;
+  disableSessionTags?: boolean;
+  targetRoleArn?: string;
+}
+export const CreatePodIdentityAssociationRequest = S.suspend(() =>
+  S.Struct({
     clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     namespace: S.String,
     serviceAccount: S.String,
@@ -320,234 +343,305 @@ export class CreatePodIdentityAssociationRequest extends S.Class<CreatePodIdenti
     tags: S.optional(TagMap),
     disableSessionTags: S.optional(S.Boolean),
     targetRoleArn: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/clusters/{clusterName}/pod-identity-associations",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/clusters/{clusterName}/pod-identity-associations",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAccessEntryRequest extends S.Class<DeleteAccessEntryRequest>(
-  "DeleteAccessEntryRequest",
-)(
-  {
+).annotations({
+  identifier: "CreatePodIdentityAssociationRequest",
+}) as any as S.Schema<CreatePodIdentityAssociationRequest>;
+export interface DeleteAccessEntryRequest {
+  clusterName: string;
+  principalArn: string;
+}
+export const DeleteAccessEntryRequest = S.suspend(() =>
+  S.Struct({
     clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     principalArn: S.String.pipe(T.HttpLabel("principalArn")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/clusters/{clusterName}/access-entries/{principalArn}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/clusters/{clusterName}/access-entries/{principalArn}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAccessEntryResponse extends S.Class<DeleteAccessEntryResponse>(
-  "DeleteAccessEntryResponse",
-)({}) {}
-export class DeleteAddonRequest extends S.Class<DeleteAddonRequest>(
-  "DeleteAddonRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteAccessEntryRequest",
+}) as any as S.Schema<DeleteAccessEntryRequest>;
+export interface DeleteAccessEntryResponse {}
+export const DeleteAccessEntryResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteAccessEntryResponse",
+}) as any as S.Schema<DeleteAccessEntryResponse>;
+export interface DeleteAddonRequest {
+  clusterName: string;
+  addonName: string;
+  preserve?: boolean;
+}
+export const DeleteAddonRequest = S.suspend(() =>
+  S.Struct({
     clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     addonName: S.String.pipe(T.HttpLabel("addonName")),
     preserve: S.optional(S.Boolean).pipe(T.HttpQuery("preserve")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/clusters/{clusterName}/addons/{addonName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/clusters/{clusterName}/addons/{addonName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteCapabilityRequest extends S.Class<DeleteCapabilityRequest>(
-  "DeleteCapabilityRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteAddonRequest",
+}) as any as S.Schema<DeleteAddonRequest>;
+export interface DeleteCapabilityRequest {
+  clusterName: string;
+  capabilityName: string;
+}
+export const DeleteCapabilityRequest = S.suspend(() =>
+  S.Struct({
     clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     capabilityName: S.String.pipe(T.HttpLabel("capabilityName")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/clusters/{clusterName}/capabilities/{capabilityName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/clusters/{clusterName}/capabilities/{capabilityName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteClusterRequest extends S.Class<DeleteClusterRequest>(
-  "DeleteClusterRequest",
-)(
-  { name: S.String.pipe(T.HttpLabel("name")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/clusters/{name}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteCapabilityRequest",
+}) as any as S.Schema<DeleteCapabilityRequest>;
+export interface DeleteClusterRequest {
+  name: string;
+}
+export const DeleteClusterRequest = S.suspend(() =>
+  S.Struct({ name: S.String.pipe(T.HttpLabel("name")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/clusters/{name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteEksAnywhereSubscriptionRequest extends S.Class<DeleteEksAnywhereSubscriptionRequest>(
-  "DeleteEksAnywhereSubscriptionRequest",
-)(
-  { id: S.String.pipe(T.HttpLabel("id")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/eks-anywhere-subscriptions/{id}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteClusterRequest",
+}) as any as S.Schema<DeleteClusterRequest>;
+export interface DeleteEksAnywhereSubscriptionRequest {
+  id: string;
+}
+export const DeleteEksAnywhereSubscriptionRequest = S.suspend(() =>
+  S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/eks-anywhere-subscriptions/{id}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteFargateProfileRequest extends S.Class<DeleteFargateProfileRequest>(
-  "DeleteFargateProfileRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteEksAnywhereSubscriptionRequest",
+}) as any as S.Schema<DeleteEksAnywhereSubscriptionRequest>;
+export interface DeleteFargateProfileRequest {
+  clusterName: string;
+  fargateProfileName: string;
+}
+export const DeleteFargateProfileRequest = S.suspend(() =>
+  S.Struct({
     clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     fargateProfileName: S.String.pipe(T.HttpLabel("fargateProfileName")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/clusters/{clusterName}/fargate-profiles/{fargateProfileName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/clusters/{clusterName}/fargate-profiles/{fargateProfileName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteNodegroupRequest extends S.Class<DeleteNodegroupRequest>(
-  "DeleteNodegroupRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteFargateProfileRequest",
+}) as any as S.Schema<DeleteFargateProfileRequest>;
+export interface DeleteNodegroupRequest {
+  clusterName: string;
+  nodegroupName: string;
+}
+export const DeleteNodegroupRequest = S.suspend(() =>
+  S.Struct({
     clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     nodegroupName: S.String.pipe(T.HttpLabel("nodegroupName")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/clusters/{clusterName}/node-groups/{nodegroupName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/clusters/{clusterName}/node-groups/{nodegroupName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeletePodIdentityAssociationRequest extends S.Class<DeletePodIdentityAssociationRequest>(
-  "DeletePodIdentityAssociationRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteNodegroupRequest",
+}) as any as S.Schema<DeleteNodegroupRequest>;
+export interface DeletePodIdentityAssociationRequest {
+  clusterName: string;
+  associationId: string;
+}
+export const DeletePodIdentityAssociationRequest = S.suspend(() =>
+  S.Struct({
     clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     associationId: S.String.pipe(T.HttpLabel("associationId")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/clusters/{clusterName}/pod-identity-associations/{associationId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/clusters/{clusterName}/pod-identity-associations/{associationId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeregisterClusterRequest extends S.Class<DeregisterClusterRequest>(
-  "DeregisterClusterRequest",
-)(
-  { name: S.String.pipe(T.HttpLabel("name")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/cluster-registrations/{name}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeletePodIdentityAssociationRequest",
+}) as any as S.Schema<DeletePodIdentityAssociationRequest>;
+export interface DeregisterClusterRequest {
+  name: string;
+}
+export const DeregisterClusterRequest = S.suspend(() =>
+  S.Struct({ name: S.String.pipe(T.HttpLabel("name")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/cluster-registrations/{name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeAccessEntryRequest extends S.Class<DescribeAccessEntryRequest>(
-  "DescribeAccessEntryRequest",
-)(
-  {
+).annotations({
+  identifier: "DeregisterClusterRequest",
+}) as any as S.Schema<DeregisterClusterRequest>;
+export interface DescribeAccessEntryRequest {
+  clusterName: string;
+  principalArn: string;
+}
+export const DescribeAccessEntryRequest = S.suspend(() =>
+  S.Struct({
     clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     principalArn: S.String.pipe(T.HttpLabel("principalArn")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/clusters/{clusterName}/access-entries/{principalArn}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/clusters/{clusterName}/access-entries/{principalArn}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeAddonRequest extends S.Class<DescribeAddonRequest>(
-  "DescribeAddonRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeAccessEntryRequest",
+}) as any as S.Schema<DescribeAccessEntryRequest>;
+export interface DescribeAddonRequest {
+  clusterName: string;
+  addonName: string;
+}
+export const DescribeAddonRequest = S.suspend(() =>
+  S.Struct({
     clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     addonName: S.String.pipe(T.HttpLabel("addonName")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/clusters/{clusterName}/addons/{addonName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/clusters/{clusterName}/addons/{addonName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeAddonConfigurationRequest extends S.Class<DescribeAddonConfigurationRequest>(
-  "DescribeAddonConfigurationRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeAddonRequest",
+}) as any as S.Schema<DescribeAddonRequest>;
+export interface DescribeAddonConfigurationRequest {
+  addonName: string;
+  addonVersion: string;
+}
+export const DescribeAddonConfigurationRequest = S.suspend(() =>
+  S.Struct({
     addonName: S.String.pipe(T.HttpQuery("addonName")),
     addonVersion: S.String.pipe(T.HttpQuery("addonVersion")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/addons/configuration-schemas" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/addons/configuration-schemas" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeAddonVersionsRequest extends S.Class<DescribeAddonVersionsRequest>(
-  "DescribeAddonVersionsRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeAddonConfigurationRequest",
+}) as any as S.Schema<DescribeAddonConfigurationRequest>;
+export interface DescribeAddonVersionsRequest {
+  kubernetesVersion?: string;
+  maxResults?: number;
+  nextToken?: string;
+  addonName?: string;
+  types?: StringList;
+  publishers?: StringList;
+  owners?: StringList;
+}
+export const DescribeAddonVersionsRequest = S.suspend(() =>
+  S.Struct({
     kubernetesVersion: S.optional(S.String).pipe(
       T.HttpQuery("kubernetesVersion"),
     ),
@@ -557,52 +651,72 @@ export class DescribeAddonVersionsRequest extends S.Class<DescribeAddonVersionsR
     types: S.optional(StringList).pipe(T.HttpQuery("types")),
     publishers: S.optional(StringList).pipe(T.HttpQuery("publishers")),
     owners: S.optional(StringList).pipe(T.HttpQuery("owners")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/addons/supported-versions" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/addons/supported-versions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeCapabilityRequest extends S.Class<DescribeCapabilityRequest>(
-  "DescribeCapabilityRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeAddonVersionsRequest",
+}) as any as S.Schema<DescribeAddonVersionsRequest>;
+export interface DescribeCapabilityRequest {
+  clusterName: string;
+  capabilityName: string;
+}
+export const DescribeCapabilityRequest = S.suspend(() =>
+  S.Struct({
     clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     capabilityName: S.String.pipe(T.HttpLabel("capabilityName")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/clusters/{clusterName}/capabilities/{capabilityName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/clusters/{clusterName}/capabilities/{capabilityName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeClusterRequest extends S.Class<DescribeClusterRequest>(
-  "DescribeClusterRequest",
-)(
-  { name: S.String.pipe(T.HttpLabel("name")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/clusters/{name}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DescribeCapabilityRequest",
+}) as any as S.Schema<DescribeCapabilityRequest>;
+export interface DescribeClusterRequest {
+  name: string;
+}
+export const DescribeClusterRequest = S.suspend(() =>
+  S.Struct({ name: S.String.pipe(T.HttpLabel("name")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/clusters/{name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeClusterVersionsRequest extends S.Class<DescribeClusterVersionsRequest>(
-  "DescribeClusterVersionsRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeClusterRequest",
+}) as any as S.Schema<DescribeClusterRequest>;
+export interface DescribeClusterVersionsRequest {
+  clusterType?: string;
+  maxResults?: number;
+  nextToken?: string;
+  defaultOnly?: boolean;
+  includeAll?: boolean;
+  clusterVersions?: StringList;
+  status?: string;
+  versionStatus?: string;
+}
+export const DescribeClusterVersionsRequest = S.suspend(() =>
+  S.Struct({
     clusterType: S.optional(S.String).pipe(T.HttpQuery("clusterType")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
@@ -613,496 +727,689 @@ export class DescribeClusterVersionsRequest extends S.Class<DescribeClusterVersi
     ),
     status: S.optional(S.String).pipe(T.HttpQuery("status")),
     versionStatus: S.optional(S.String).pipe(T.HttpQuery("versionStatus")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/cluster-versions" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/cluster-versions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeEksAnywhereSubscriptionRequest extends S.Class<DescribeEksAnywhereSubscriptionRequest>(
-  "DescribeEksAnywhereSubscriptionRequest",
-)(
-  { id: S.String.pipe(T.HttpLabel("id")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/eks-anywhere-subscriptions/{id}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DescribeClusterVersionsRequest",
+}) as any as S.Schema<DescribeClusterVersionsRequest>;
+export interface DescribeEksAnywhereSubscriptionRequest {
+  id: string;
+}
+export const DescribeEksAnywhereSubscriptionRequest = S.suspend(() =>
+  S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/eks-anywhere-subscriptions/{id}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeFargateProfileRequest extends S.Class<DescribeFargateProfileRequest>(
-  "DescribeFargateProfileRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeEksAnywhereSubscriptionRequest",
+}) as any as S.Schema<DescribeEksAnywhereSubscriptionRequest>;
+export interface DescribeFargateProfileRequest {
+  clusterName: string;
+  fargateProfileName: string;
+}
+export const DescribeFargateProfileRequest = S.suspend(() =>
+  S.Struct({
     clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     fargateProfileName: S.String.pipe(T.HttpLabel("fargateProfileName")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/clusters/{clusterName}/fargate-profiles/{fargateProfileName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/clusters/{clusterName}/fargate-profiles/{fargateProfileName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeInsightRequest extends S.Class<DescribeInsightRequest>(
-  "DescribeInsightRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeFargateProfileRequest",
+}) as any as S.Schema<DescribeFargateProfileRequest>;
+export interface DescribeInsightRequest {
+  clusterName: string;
+  id: string;
+}
+export const DescribeInsightRequest = S.suspend(() =>
+  S.Struct({
     clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     id: S.String.pipe(T.HttpLabel("id")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/clusters/{clusterName}/insights/{id}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/clusters/{clusterName}/insights/{id}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeInsightsRefreshRequest extends S.Class<DescribeInsightsRefreshRequest>(
-  "DescribeInsightsRefreshRequest",
-)(
-  { clusterName: S.String.pipe(T.HttpLabel("clusterName")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/clusters/{clusterName}/insights-refresh" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DescribeInsightRequest",
+}) as any as S.Schema<DescribeInsightRequest>;
+export interface DescribeInsightsRefreshRequest {
+  clusterName: string;
+}
+export const DescribeInsightsRefreshRequest = S.suspend(() =>
+  S.Struct({ clusterName: S.String.pipe(T.HttpLabel("clusterName")) }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/clusters/{clusterName}/insights-refresh",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeNodegroupRequest extends S.Class<DescribeNodegroupRequest>(
-  "DescribeNodegroupRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeInsightsRefreshRequest",
+}) as any as S.Schema<DescribeInsightsRefreshRequest>;
+export interface DescribeNodegroupRequest {
+  clusterName: string;
+  nodegroupName: string;
+}
+export const DescribeNodegroupRequest = S.suspend(() =>
+  S.Struct({
     clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     nodegroupName: S.String.pipe(T.HttpLabel("nodegroupName")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/clusters/{clusterName}/node-groups/{nodegroupName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/clusters/{clusterName}/node-groups/{nodegroupName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribePodIdentityAssociationRequest extends S.Class<DescribePodIdentityAssociationRequest>(
-  "DescribePodIdentityAssociationRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeNodegroupRequest",
+}) as any as S.Schema<DescribeNodegroupRequest>;
+export interface DescribePodIdentityAssociationRequest {
+  clusterName: string;
+  associationId: string;
+}
+export const DescribePodIdentityAssociationRequest = S.suspend(() =>
+  S.Struct({
     clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     associationId: S.String.pipe(T.HttpLabel("associationId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/clusters/{clusterName}/pod-identity-associations/{associationId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/clusters/{clusterName}/pod-identity-associations/{associationId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeUpdateRequest extends S.Class<DescribeUpdateRequest>(
-  "DescribeUpdateRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribePodIdentityAssociationRequest",
+}) as any as S.Schema<DescribePodIdentityAssociationRequest>;
+export interface DescribeUpdateRequest {
+  name: string;
+  updateId: string;
+  nodegroupName?: string;
+  addonName?: string;
+  capabilityName?: string;
+}
+export const DescribeUpdateRequest = S.suspend(() =>
+  S.Struct({
     name: S.String.pipe(T.HttpLabel("name")),
     updateId: S.String.pipe(T.HttpLabel("updateId")),
     nodegroupName: S.optional(S.String).pipe(T.HttpQuery("nodegroupName")),
     addonName: S.optional(S.String).pipe(T.HttpQuery("addonName")),
     capabilityName: S.optional(S.String).pipe(T.HttpQuery("capabilityName")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/clusters/{name}/updates/{updateId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/clusters/{name}/updates/{updateId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DisassociateAccessPolicyRequest extends S.Class<DisassociateAccessPolicyRequest>(
-  "DisassociateAccessPolicyRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeUpdateRequest",
+}) as any as S.Schema<DescribeUpdateRequest>;
+export interface DisassociateAccessPolicyRequest {
+  clusterName: string;
+  principalArn: string;
+  policyArn: string;
+}
+export const DisassociateAccessPolicyRequest = S.suspend(() =>
+  S.Struct({
     clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     principalArn: S.String.pipe(T.HttpLabel("principalArn")),
     policyArn: S.String.pipe(T.HttpLabel("policyArn")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/clusters/{clusterName}/access-entries/{principalArn}/access-policies/{policyArn}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/clusters/{clusterName}/access-entries/{principalArn}/access-policies/{policyArn}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DisassociateAccessPolicyResponse extends S.Class<DisassociateAccessPolicyResponse>(
-  "DisassociateAccessPolicyResponse",
-)({}) {}
-export class IdentityProviderConfig extends S.Class<IdentityProviderConfig>(
-  "IdentityProviderConfig",
-)({ type: S.String, name: S.String }) {}
-export class DisassociateIdentityProviderConfigRequest extends S.Class<DisassociateIdentityProviderConfigRequest>(
-  "DisassociateIdentityProviderConfigRequest",
-)(
-  {
+).annotations({
+  identifier: "DisassociateAccessPolicyRequest",
+}) as any as S.Schema<DisassociateAccessPolicyRequest>;
+export interface DisassociateAccessPolicyResponse {}
+export const DisassociateAccessPolicyResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DisassociateAccessPolicyResponse",
+}) as any as S.Schema<DisassociateAccessPolicyResponse>;
+export interface IdentityProviderConfig {
+  type: string;
+  name: string;
+}
+export const IdentityProviderConfig = S.suspend(() =>
+  S.Struct({ type: S.String, name: S.String }),
+).annotations({
+  identifier: "IdentityProviderConfig",
+}) as any as S.Schema<IdentityProviderConfig>;
+export interface DisassociateIdentityProviderConfigRequest {
+  clusterName: string;
+  identityProviderConfig: IdentityProviderConfig;
+  clientRequestToken?: string;
+}
+export const DisassociateIdentityProviderConfigRequest = S.suspend(() =>
+  S.Struct({
     clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     identityProviderConfig: IdentityProviderConfig,
     clientRequestToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/clusters/{clusterName}/identity-provider-configs/disassociate",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/clusters/{clusterName}/identity-provider-configs/disassociate",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListAccessEntriesRequest extends S.Class<ListAccessEntriesRequest>(
-  "ListAccessEntriesRequest",
-)(
-  {
+).annotations({
+  identifier: "DisassociateIdentityProviderConfigRequest",
+}) as any as S.Schema<DisassociateIdentityProviderConfigRequest>;
+export interface ListAccessEntriesRequest {
+  clusterName: string;
+  associatedPolicyArn?: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListAccessEntriesRequest = S.suspend(() =>
+  S.Struct({
     clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     associatedPolicyArn: S.optional(S.String).pipe(
       T.HttpQuery("associatedPolicyArn"),
     ),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/clusters/{clusterName}/access-entries" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/clusters/{clusterName}/access-entries" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListAccessPoliciesRequest extends S.Class<ListAccessPoliciesRequest>(
-  "ListAccessPoliciesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListAccessEntriesRequest",
+}) as any as S.Schema<ListAccessEntriesRequest>;
+export interface ListAccessPoliciesRequest {
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListAccessPoliciesRequest = S.suspend(() =>
+  S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/access-policies" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/access-policies" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListAddonsRequest extends S.Class<ListAddonsRequest>(
-  "ListAddonsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListAccessPoliciesRequest",
+}) as any as S.Schema<ListAccessPoliciesRequest>;
+export interface ListAddonsRequest {
+  clusterName: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListAddonsRequest = S.suspend(() =>
+  S.Struct({
     clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/clusters/{clusterName}/addons" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/clusters/{clusterName}/addons" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListAssociatedAccessPoliciesRequest extends S.Class<ListAssociatedAccessPoliciesRequest>(
-  "ListAssociatedAccessPoliciesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListAddonsRequest",
+}) as any as S.Schema<ListAddonsRequest>;
+export interface ListAssociatedAccessPoliciesRequest {
+  clusterName: string;
+  principalArn: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListAssociatedAccessPoliciesRequest = S.suspend(() =>
+  S.Struct({
     clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     principalArn: S.String.pipe(T.HttpLabel("principalArn")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/clusters/{clusterName}/access-entries/{principalArn}/access-policies",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/clusters/{clusterName}/access-entries/{principalArn}/access-policies",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListCapabilitiesRequest extends S.Class<ListCapabilitiesRequest>(
-  "ListCapabilitiesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListAssociatedAccessPoliciesRequest",
+}) as any as S.Schema<ListAssociatedAccessPoliciesRequest>;
+export interface ListCapabilitiesRequest {
+  clusterName: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListCapabilitiesRequest = S.suspend(() =>
+  S.Struct({
     clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/clusters/{clusterName}/capabilities" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/clusters/{clusterName}/capabilities" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListClustersRequest extends S.Class<ListClustersRequest>(
-  "ListClustersRequest",
-)(
-  {
+).annotations({
+  identifier: "ListCapabilitiesRequest",
+}) as any as S.Schema<ListCapabilitiesRequest>;
+export interface ListClustersRequest {
+  maxResults?: number;
+  nextToken?: string;
+  include?: IncludeClustersList;
+}
+export const ListClustersRequest = S.suspend(() =>
+  S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     include: S.optional(IncludeClustersList).pipe(T.HttpQuery("include")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/clusters" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/clusters" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListEksAnywhereSubscriptionsRequest extends S.Class<ListEksAnywhereSubscriptionsRequest>(
-  "ListEksAnywhereSubscriptionsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListClustersRequest",
+}) as any as S.Schema<ListClustersRequest>;
+export interface ListEksAnywhereSubscriptionsRequest {
+  maxResults?: number;
+  nextToken?: string;
+  includeStatus?: EksAnywhereSubscriptionStatusValues;
+}
+export const ListEksAnywhereSubscriptionsRequest = S.suspend(() =>
+  S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     includeStatus: S.optional(EksAnywhereSubscriptionStatusValues).pipe(
       T.HttpQuery("includeStatus"),
     ),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/eks-anywhere-subscriptions" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/eks-anywhere-subscriptions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListFargateProfilesRequest extends S.Class<ListFargateProfilesRequest>(
-  "ListFargateProfilesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListEksAnywhereSubscriptionsRequest",
+}) as any as S.Schema<ListEksAnywhereSubscriptionsRequest>;
+export interface ListFargateProfilesRequest {
+  clusterName: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListFargateProfilesRequest = S.suspend(() =>
+  S.Struct({
     clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/clusters/{clusterName}/fargate-profiles" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/clusters/{clusterName}/fargate-profiles",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListIdentityProviderConfigsRequest extends S.Class<ListIdentityProviderConfigsRequest>(
-  "ListIdentityProviderConfigsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListFargateProfilesRequest",
+}) as any as S.Schema<ListFargateProfilesRequest>;
+export interface ListIdentityProviderConfigsRequest {
+  clusterName: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListIdentityProviderConfigsRequest = S.suspend(() =>
+  S.Struct({
     clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/clusters/{clusterName}/identity-provider-configs",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/clusters/{clusterName}/identity-provider-configs",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListNodegroupsRequest extends S.Class<ListNodegroupsRequest>(
-  "ListNodegroupsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListIdentityProviderConfigsRequest",
+}) as any as S.Schema<ListIdentityProviderConfigsRequest>;
+export interface ListNodegroupsRequest {
+  clusterName: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListNodegroupsRequest = S.suspend(() =>
+  S.Struct({
     clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/clusters/{clusterName}/node-groups" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/clusters/{clusterName}/node-groups" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListPodIdentityAssociationsRequest extends S.Class<ListPodIdentityAssociationsRequest>(
-  "ListPodIdentityAssociationsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListNodegroupsRequest",
+}) as any as S.Schema<ListNodegroupsRequest>;
+export interface ListPodIdentityAssociationsRequest {
+  clusterName: string;
+  namespace?: string;
+  serviceAccount?: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListPodIdentityAssociationsRequest = S.suspend(() =>
+  S.Struct({
     clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     namespace: S.optional(S.String).pipe(T.HttpQuery("namespace")),
     serviceAccount: S.optional(S.String).pipe(T.HttpQuery("serviceAccount")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/clusters/{clusterName}/pod-identity-associations",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/clusters/{clusterName}/pod-identity-associations",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListPodIdentityAssociationsRequest",
+}) as any as S.Schema<ListPodIdentityAssociationsRequest>;
+export interface ListTagsForResourceRequest {
+  resourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListUpdatesRequest extends S.Class<ListUpdatesRequest>(
-  "ListUpdatesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface ListUpdatesRequest {
+  name: string;
+  nodegroupName?: string;
+  addonName?: string;
+  capabilityName?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListUpdatesRequest = S.suspend(() =>
+  S.Struct({
     name: S.String.pipe(T.HttpLabel("name")),
     nodegroupName: S.optional(S.String).pipe(T.HttpQuery("nodegroupName")),
     addonName: S.optional(S.String).pipe(T.HttpQuery("addonName")),
     capabilityName: S.optional(S.String).pipe(T.HttpQuery("capabilityName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/clusters/{name}/updates" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/clusters/{name}/updates" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartInsightsRefreshRequest extends S.Class<StartInsightsRefreshRequest>(
-  "StartInsightsRefreshRequest",
-)(
-  { clusterName: S.String.pipe(T.HttpLabel("clusterName")) },
-  T.all(
-    T.Http({ method: "POST", uri: "/clusters/{clusterName}/insights-refresh" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListUpdatesRequest",
+}) as any as S.Schema<ListUpdatesRequest>;
+export interface StartInsightsRefreshRequest {
+  clusterName: string;
+}
+export const StartInsightsRefreshRequest = S.suspend(() =>
+  S.Struct({ clusterName: S.String.pipe(T.HttpLabel("clusterName")) }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/clusters/{clusterName}/insights-refresh",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap },
-  T.all(
-    T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "StartInsightsRefreshRequest",
+}) as any as S.Schema<StartInsightsRefreshRequest>;
+export interface TagResourceRequest {
+  resourceArn: string;
+  tags: TagMap;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+    tags: TagMap,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UntagResourceRequest {
+  resourceArn: string;
+  tagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
-export class UpdateAccessEntryRequest extends S.Class<UpdateAccessEntryRequest>(
-  "UpdateAccessEntryRequest",
-)(
-  {
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface UpdateAccessEntryRequest {
+  clusterName: string;
+  principalArn: string;
+  kubernetesGroups?: StringList;
+  clientRequestToken?: string;
+  username?: string;
+}
+export const UpdateAccessEntryRequest = S.suspend(() =>
+  S.Struct({
     clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     principalArn: S.String.pipe(T.HttpLabel("principalArn")),
     kubernetesGroups: S.optional(StringList),
     clientRequestToken: S.optional(S.String),
     username: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/clusters/{clusterName}/access-entries/{principalArn}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/clusters/{clusterName}/access-entries/{principalArn}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AddonPodIdentityAssociations extends S.Class<AddonPodIdentityAssociations>(
-  "AddonPodIdentityAssociations",
-)({ serviceAccount: S.String, roleArn: S.String }) {}
+).annotations({
+  identifier: "UpdateAccessEntryRequest",
+}) as any as S.Schema<UpdateAccessEntryRequest>;
+export interface AddonPodIdentityAssociations {
+  serviceAccount: string;
+  roleArn: string;
+}
+export const AddonPodIdentityAssociations = S.suspend(() =>
+  S.Struct({ serviceAccount: S.String, roleArn: S.String }),
+).annotations({
+  identifier: "AddonPodIdentityAssociations",
+}) as any as S.Schema<AddonPodIdentityAssociations>;
+export type AddonPodIdentityAssociationsList = AddonPodIdentityAssociations[];
 export const AddonPodIdentityAssociationsList = S.Array(
   AddonPodIdentityAssociations,
 );
-export class UpdateAddonRequest extends S.Class<UpdateAddonRequest>(
-  "UpdateAddonRequest",
-)(
-  {
+export interface UpdateAddonRequest {
+  clusterName: string;
+  addonName: string;
+  addonVersion?: string;
+  serviceAccountRoleArn?: string;
+  resolveConflicts?: string;
+  clientRequestToken?: string;
+  configurationValues?: string;
+  podIdentityAssociations?: AddonPodIdentityAssociationsList;
+}
+export const UpdateAddonRequest = S.suspend(() =>
+  S.Struct({
     clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     addonName: S.String.pipe(T.HttpLabel("addonName")),
     addonVersion: S.optional(S.String),
@@ -1111,65 +1418,95 @@ export class UpdateAddonRequest extends S.Class<UpdateAddonRequest>(
     clientRequestToken: S.optional(S.String),
     configurationValues: S.optional(S.String),
     podIdentityAssociations: S.optional(AddonPodIdentityAssociationsList),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/clusters/{clusterName}/addons/{addonName}/update",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/clusters/{clusterName}/addons/{addonName}/update",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateClusterVersionRequest extends S.Class<UpdateClusterVersionRequest>(
-  "UpdateClusterVersionRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateAddonRequest",
+}) as any as S.Schema<UpdateAddonRequest>;
+export interface UpdateClusterVersionRequest {
+  name: string;
+  version: string;
+  clientRequestToken?: string;
+  force?: boolean;
+}
+export const UpdateClusterVersionRequest = S.suspend(() =>
+  S.Struct({
     name: S.String.pipe(T.HttpLabel("name")),
     version: S.String,
     clientRequestToken: S.optional(S.String),
     force: S.optional(S.Boolean),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/clusters/{name}/updates" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/clusters/{name}/updates" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateEksAnywhereSubscriptionRequest extends S.Class<UpdateEksAnywhereSubscriptionRequest>(
-  "UpdateEksAnywhereSubscriptionRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateClusterVersionRequest",
+}) as any as S.Schema<UpdateClusterVersionRequest>;
+export interface UpdateEksAnywhereSubscriptionRequest {
+  id: string;
+  autoRenew: boolean;
+  clientRequestToken?: string;
+}
+export const UpdateEksAnywhereSubscriptionRequest = S.suspend(() =>
+  S.Struct({
     id: S.String.pipe(T.HttpLabel("id")),
     autoRenew: S.Boolean,
     clientRequestToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/eks-anywhere-subscriptions/{id}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/eks-anywhere-subscriptions/{id}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class LaunchTemplateSpecification extends S.Class<LaunchTemplateSpecification>(
-  "LaunchTemplateSpecification",
-)({
-  name: S.optional(S.String),
-  version: S.optional(S.String),
-  id: S.optional(S.String),
-}) {}
-export class UpdateNodegroupVersionRequest extends S.Class<UpdateNodegroupVersionRequest>(
-  "UpdateNodegroupVersionRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateEksAnywhereSubscriptionRequest",
+}) as any as S.Schema<UpdateEksAnywhereSubscriptionRequest>;
+export interface LaunchTemplateSpecification {
+  name?: string;
+  version?: string;
+  id?: string;
+}
+export const LaunchTemplateSpecification = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    version: S.optional(S.String),
+    id: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "LaunchTemplateSpecification",
+}) as any as S.Schema<LaunchTemplateSpecification>;
+export interface UpdateNodegroupVersionRequest {
+  clusterName: string;
+  nodegroupName: string;
+  version?: string;
+  releaseVersion?: string;
+  launchTemplate?: LaunchTemplateSpecification;
+  force?: boolean;
+  clientRequestToken?: string;
+}
+export const UpdateNodegroupVersionRequest = S.suspend(() =>
+  S.Struct({
     clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     nodegroupName: S.String.pipe(T.HttpLabel("nodegroupName")),
     version: S.optional(S.String),
@@ -1177,186 +1514,354 @@ export class UpdateNodegroupVersionRequest extends S.Class<UpdateNodegroupVersio
     launchTemplate: S.optional(LaunchTemplateSpecification),
     force: S.optional(S.Boolean),
     clientRequestToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/clusters/{clusterName}/node-groups/{nodegroupName}/update-version",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/clusters/{clusterName}/node-groups/{nodegroupName}/update-version",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdatePodIdentityAssociationRequest extends S.Class<UpdatePodIdentityAssociationRequest>(
-  "UpdatePodIdentityAssociationRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateNodegroupVersionRequest",
+}) as any as S.Schema<UpdateNodegroupVersionRequest>;
+export interface UpdatePodIdentityAssociationRequest {
+  clusterName: string;
+  associationId: string;
+  roleArn?: string;
+  clientRequestToken?: string;
+  disableSessionTags?: boolean;
+  targetRoleArn?: string;
+}
+export const UpdatePodIdentityAssociationRequest = S.suspend(() =>
+  S.Struct({
     clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     associationId: S.String.pipe(T.HttpLabel("associationId")),
     roleArn: S.optional(S.String),
     clientRequestToken: S.optional(S.String),
     disableSessionTags: S.optional(S.Boolean),
     targetRoleArn: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/clusters/{clusterName}/pod-identity-associations/{associationId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/clusters/{clusterName}/pod-identity-associations/{associationId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "UpdatePodIdentityAssociationRequest",
+}) as any as S.Schema<UpdatePodIdentityAssociationRequest>;
+export type CategoryList = string[];
 export const CategoryList = S.Array(S.String);
+export type InsightStatusValueList = string[];
 export const InsightStatusValueList = S.Array(S.String);
+export type labelsKeyList = string[];
 export const labelsKeyList = S.Array(S.String);
-export class AccessScope extends S.Class<AccessScope>("AccessScope")({
-  type: S.optional(S.String),
-  namespaces: S.optional(StringList),
-}) {}
-export class AddonNamespaceConfigRequest extends S.Class<AddonNamespaceConfigRequest>(
-  "AddonNamespaceConfigRequest",
-)({ namespace: S.optional(S.String) }) {}
-export class VpcConfigRequest extends S.Class<VpcConfigRequest>(
-  "VpcConfigRequest",
-)({
-  subnetIds: S.optional(StringList),
-  securityGroupIds: S.optional(StringList),
-  endpointPublicAccess: S.optional(S.Boolean),
-  endpointPrivateAccess: S.optional(S.Boolean),
-  publicAccessCidrs: S.optional(StringList),
-}) {}
-export class CreateAccessConfigRequest extends S.Class<CreateAccessConfigRequest>(
-  "CreateAccessConfigRequest",
-)({
-  bootstrapClusterCreatorAdminPermissions: S.optional(S.Boolean),
-  authenticationMode: S.optional(S.String),
-}) {}
-export class UpgradePolicyRequest extends S.Class<UpgradePolicyRequest>(
-  "UpgradePolicyRequest",
-)({ supportType: S.optional(S.String) }) {}
-export class ZonalShiftConfigRequest extends S.Class<ZonalShiftConfigRequest>(
-  "ZonalShiftConfigRequest",
-)({ enabled: S.optional(S.Boolean) }) {}
-export class ComputeConfigRequest extends S.Class<ComputeConfigRequest>(
-  "ComputeConfigRequest",
-)({
-  enabled: S.optional(S.Boolean),
-  nodePools: S.optional(StringList),
-  nodeRoleArn: S.optional(S.String),
-}) {}
-export class ControlPlaneScalingConfig extends S.Class<ControlPlaneScalingConfig>(
-  "ControlPlaneScalingConfig",
-)({ tier: S.optional(S.String) }) {}
-export class EksAnywhereSubscriptionTerm extends S.Class<EksAnywhereSubscriptionTerm>(
-  "EksAnywhereSubscriptionTerm",
-)({ duration: S.optional(S.Number), unit: S.optional(S.String) }) {}
-export class NodegroupScalingConfig extends S.Class<NodegroupScalingConfig>(
-  "NodegroupScalingConfig",
-)({
-  minSize: S.optional(S.Number),
-  maxSize: S.optional(S.Number),
-  desiredSize: S.optional(S.Number),
-}) {}
-export class RemoteAccessConfig extends S.Class<RemoteAccessConfig>(
-  "RemoteAccessConfig",
-)({
-  ec2SshKey: S.optional(S.String),
-  sourceSecurityGroups: S.optional(StringList),
-}) {}
+export interface AccessScope {
+  type?: string;
+  namespaces?: StringList;
+}
+export const AccessScope = S.suspend(() =>
+  S.Struct({ type: S.optional(S.String), namespaces: S.optional(StringList) }),
+).annotations({ identifier: "AccessScope" }) as any as S.Schema<AccessScope>;
+export interface AddonNamespaceConfigRequest {
+  namespace?: string;
+}
+export const AddonNamespaceConfigRequest = S.suspend(() =>
+  S.Struct({ namespace: S.optional(S.String) }),
+).annotations({
+  identifier: "AddonNamespaceConfigRequest",
+}) as any as S.Schema<AddonNamespaceConfigRequest>;
+export interface VpcConfigRequest {
+  subnetIds?: StringList;
+  securityGroupIds?: StringList;
+  endpointPublicAccess?: boolean;
+  endpointPrivateAccess?: boolean;
+  publicAccessCidrs?: StringList;
+}
+export const VpcConfigRequest = S.suspend(() =>
+  S.Struct({
+    subnetIds: S.optional(StringList),
+    securityGroupIds: S.optional(StringList),
+    endpointPublicAccess: S.optional(S.Boolean),
+    endpointPrivateAccess: S.optional(S.Boolean),
+    publicAccessCidrs: S.optional(StringList),
+  }),
+).annotations({
+  identifier: "VpcConfigRequest",
+}) as any as S.Schema<VpcConfigRequest>;
+export interface CreateAccessConfigRequest {
+  bootstrapClusterCreatorAdminPermissions?: boolean;
+  authenticationMode?: string;
+}
+export const CreateAccessConfigRequest = S.suspend(() =>
+  S.Struct({
+    bootstrapClusterCreatorAdminPermissions: S.optional(S.Boolean),
+    authenticationMode: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CreateAccessConfigRequest",
+}) as any as S.Schema<CreateAccessConfigRequest>;
+export interface UpgradePolicyRequest {
+  supportType?: string;
+}
+export const UpgradePolicyRequest = S.suspend(() =>
+  S.Struct({ supportType: S.optional(S.String) }),
+).annotations({
+  identifier: "UpgradePolicyRequest",
+}) as any as S.Schema<UpgradePolicyRequest>;
+export interface ZonalShiftConfigRequest {
+  enabled?: boolean;
+}
+export const ZonalShiftConfigRequest = S.suspend(() =>
+  S.Struct({ enabled: S.optional(S.Boolean) }),
+).annotations({
+  identifier: "ZonalShiftConfigRequest",
+}) as any as S.Schema<ZonalShiftConfigRequest>;
+export interface ComputeConfigRequest {
+  enabled?: boolean;
+  nodePools?: StringList;
+  nodeRoleArn?: string;
+}
+export const ComputeConfigRequest = S.suspend(() =>
+  S.Struct({
+    enabled: S.optional(S.Boolean),
+    nodePools: S.optional(StringList),
+    nodeRoleArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ComputeConfigRequest",
+}) as any as S.Schema<ComputeConfigRequest>;
+export interface ControlPlaneScalingConfig {
+  tier?: string;
+}
+export const ControlPlaneScalingConfig = S.suspend(() =>
+  S.Struct({ tier: S.optional(S.String) }),
+).annotations({
+  identifier: "ControlPlaneScalingConfig",
+}) as any as S.Schema<ControlPlaneScalingConfig>;
+export interface EksAnywhereSubscriptionTerm {
+  duration?: number;
+  unit?: string;
+}
+export const EksAnywhereSubscriptionTerm = S.suspend(() =>
+  S.Struct({ duration: S.optional(S.Number), unit: S.optional(S.String) }),
+).annotations({
+  identifier: "EksAnywhereSubscriptionTerm",
+}) as any as S.Schema<EksAnywhereSubscriptionTerm>;
+export interface NodegroupScalingConfig {
+  minSize?: number;
+  maxSize?: number;
+  desiredSize?: number;
+}
+export const NodegroupScalingConfig = S.suspend(() =>
+  S.Struct({
+    minSize: S.optional(S.Number),
+    maxSize: S.optional(S.Number),
+    desiredSize: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "NodegroupScalingConfig",
+}) as any as S.Schema<NodegroupScalingConfig>;
+export interface RemoteAccessConfig {
+  ec2SshKey?: string;
+  sourceSecurityGroups?: StringList;
+}
+export const RemoteAccessConfig = S.suspend(() =>
+  S.Struct({
+    ec2SshKey: S.optional(S.String),
+    sourceSecurityGroups: S.optional(StringList),
+  }),
+).annotations({
+  identifier: "RemoteAccessConfig",
+}) as any as S.Schema<RemoteAccessConfig>;
+export type labelsMap = { [key: string]: string };
 export const labelsMap = S.Record({ key: S.String, value: S.String });
-export class Taint extends S.Class<Taint>("Taint")({
-  key: S.optional(S.String),
-  value: S.optional(S.String),
-  effect: S.optional(S.String),
-}) {}
+export interface Taint {
+  key?: string;
+  value?: string;
+  effect?: string;
+}
+export const Taint = S.suspend(() =>
+  S.Struct({
+    key: S.optional(S.String),
+    value: S.optional(S.String),
+    effect: S.optional(S.String),
+  }),
+).annotations({ identifier: "Taint" }) as any as S.Schema<Taint>;
+export type taintsList = Taint[];
 export const taintsList = S.Array(Taint);
-export class NodegroupUpdateConfig extends S.Class<NodegroupUpdateConfig>(
-  "NodegroupUpdateConfig",
-)({
-  maxUnavailable: S.optional(S.Number),
-  maxUnavailablePercentage: S.optional(S.Number),
-  updateStrategy: S.optional(S.String),
-}) {}
-export class License extends S.Class<License>("License")({
-  id: S.optional(S.String),
-  token: S.optional(S.String),
-}) {}
+export interface NodegroupUpdateConfig {
+  maxUnavailable?: number;
+  maxUnavailablePercentage?: number;
+  updateStrategy?: string;
+}
+export const NodegroupUpdateConfig = S.suspend(() =>
+  S.Struct({
+    maxUnavailable: S.optional(S.Number),
+    maxUnavailablePercentage: S.optional(S.Number),
+    updateStrategy: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "NodegroupUpdateConfig",
+}) as any as S.Schema<NodegroupUpdateConfig>;
+export interface License {
+  id?: string;
+  token?: string;
+}
+export const License = S.suspend(() =>
+  S.Struct({ id: S.optional(S.String), token: S.optional(S.String) }),
+).annotations({ identifier: "License" }) as any as S.Schema<License>;
+export type LicenseList = License[];
 export const LicenseList = S.Array(License);
-export class EksAnywhereSubscription extends S.Class<EksAnywhereSubscription>(
-  "EksAnywhereSubscription",
-)({
-  id: S.optional(S.String),
-  arn: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  effectiveDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  expirationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  licenseQuantity: S.optional(S.Number),
-  licenseType: S.optional(S.String),
-  term: S.optional(EksAnywhereSubscriptionTerm),
-  status: S.optional(S.String),
-  autoRenew: S.optional(S.Boolean),
-  licenseArns: S.optional(StringList),
-  licenses: S.optional(LicenseList),
-  tags: S.optional(TagMap),
-}) {}
+export interface EksAnywhereSubscription {
+  id?: string;
+  arn?: string;
+  createdAt?: Date;
+  effectiveDate?: Date;
+  expirationDate?: Date;
+  licenseQuantity?: number;
+  licenseType?: string;
+  term?: EksAnywhereSubscriptionTerm;
+  status?: string;
+  autoRenew?: boolean;
+  licenseArns?: StringList;
+  licenses?: LicenseList;
+  tags?: TagMap;
+}
+export const EksAnywhereSubscription = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    arn: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    effectiveDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    expirationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    licenseQuantity: S.optional(S.Number),
+    licenseType: S.optional(S.String),
+    term: S.optional(EksAnywhereSubscriptionTerm),
+    status: S.optional(S.String),
+    autoRenew: S.optional(S.Boolean),
+    licenseArns: S.optional(StringList),
+    licenses: S.optional(LicenseList),
+    tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "EksAnywhereSubscription",
+}) as any as S.Schema<EksAnywhereSubscription>;
+export type EksAnywhereSubscriptionList = EksAnywhereSubscription[];
 export const EksAnywhereSubscriptionList = S.Array(EksAnywhereSubscription);
+export type IdentityProviderConfigs = IdentityProviderConfig[];
 export const IdentityProviderConfigs = S.Array(IdentityProviderConfig);
-export class InsightsFilter extends S.Class<InsightsFilter>("InsightsFilter")({
-  categories: S.optional(CategoryList),
-  kubernetesVersions: S.optional(StringList),
-  statuses: S.optional(InsightStatusValueList),
-}) {}
-export class ConnectorConfigRequest extends S.Class<ConnectorConfigRequest>(
-  "ConnectorConfigRequest",
-)({ roleArn: S.String, provider: S.String }) {}
-export class UpdateAccessConfigRequest extends S.Class<UpdateAccessConfigRequest>(
-  "UpdateAccessConfigRequest",
-)({ authenticationMode: S.optional(S.String) }) {}
-export class UpdateLabelsPayload extends S.Class<UpdateLabelsPayload>(
-  "UpdateLabelsPayload",
-)({
-  addOrUpdateLabels: S.optional(labelsMap),
-  removeLabels: S.optional(labelsKeyList),
-}) {}
-export class UpdateTaintsPayload extends S.Class<UpdateTaintsPayload>(
-  "UpdateTaintsPayload",
-)({
-  addOrUpdateTaints: S.optional(taintsList),
-  removeTaints: S.optional(taintsList),
-}) {}
+export interface InsightsFilter {
+  categories?: CategoryList;
+  kubernetesVersions?: StringList;
+  statuses?: InsightStatusValueList;
+}
+export const InsightsFilter = S.suspend(() =>
+  S.Struct({
+    categories: S.optional(CategoryList),
+    kubernetesVersions: S.optional(StringList),
+    statuses: S.optional(InsightStatusValueList),
+  }),
+).annotations({
+  identifier: "InsightsFilter",
+}) as any as S.Schema<InsightsFilter>;
+export interface ConnectorConfigRequest {
+  roleArn: string;
+  provider: string;
+}
+export const ConnectorConfigRequest = S.suspend(() =>
+  S.Struct({ roleArn: S.String, provider: S.String }),
+).annotations({
+  identifier: "ConnectorConfigRequest",
+}) as any as S.Schema<ConnectorConfigRequest>;
+export interface UpdateAccessConfigRequest {
+  authenticationMode?: string;
+}
+export const UpdateAccessConfigRequest = S.suspend(() =>
+  S.Struct({ authenticationMode: S.optional(S.String) }),
+).annotations({
+  identifier: "UpdateAccessConfigRequest",
+}) as any as S.Schema<UpdateAccessConfigRequest>;
+export interface UpdateLabelsPayload {
+  addOrUpdateLabels?: labelsMap;
+  removeLabels?: labelsKeyList;
+}
+export const UpdateLabelsPayload = S.suspend(() =>
+  S.Struct({
+    addOrUpdateLabels: S.optional(labelsMap),
+    removeLabels: S.optional(labelsKeyList),
+  }),
+).annotations({
+  identifier: "UpdateLabelsPayload",
+}) as any as S.Schema<UpdateLabelsPayload>;
+export interface UpdateTaintsPayload {
+  addOrUpdateTaints?: taintsList;
+  removeTaints?: taintsList;
+}
+export const UpdateTaintsPayload = S.suspend(() =>
+  S.Struct({
+    addOrUpdateTaints: S.optional(taintsList),
+    removeTaints: S.optional(taintsList),
+  }),
+).annotations({
+  identifier: "UpdateTaintsPayload",
+}) as any as S.Schema<UpdateTaintsPayload>;
+export type LogTypes = string[];
 export const LogTypes = S.Array(S.String);
-export class AssociateAccessPolicyRequest extends S.Class<AssociateAccessPolicyRequest>(
-  "AssociateAccessPolicyRequest",
-)(
-  {
+export interface AssociateAccessPolicyRequest {
+  clusterName: string;
+  principalArn: string;
+  policyArn: string;
+  accessScope: AccessScope;
+}
+export const AssociateAccessPolicyRequest = S.suspend(() =>
+  S.Struct({
     clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     principalArn: S.String.pipe(T.HttpLabel("principalArn")),
     policyArn: S.String,
     accessScope: AccessScope,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/clusters/{clusterName}/access-entries/{principalArn}/access-policies",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/clusters/{clusterName}/access-entries/{principalArn}/access-policies",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateAddonRequest extends S.Class<CreateAddonRequest>(
-  "CreateAddonRequest",
-)(
-  {
+).annotations({
+  identifier: "AssociateAccessPolicyRequest",
+}) as any as S.Schema<AssociateAccessPolicyRequest>;
+export interface CreateAddonRequest {
+  clusterName: string;
+  addonName: string;
+  addonVersion?: string;
+  serviceAccountRoleArn?: string;
+  resolveConflicts?: string;
+  clientRequestToken?: string;
+  tags?: TagMap;
+  configurationValues?: string;
+  podIdentityAssociations?: AddonPodIdentityAssociationsList;
+  namespaceConfig?: AddonNamespaceConfigRequest;
+}
+export const CreateAddonRequest = S.suspend(() =>
+  S.Struct({
     clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     addonName: S.String,
     addonVersion: S.optional(S.String),
@@ -1367,20 +1872,30 @@ export class CreateAddonRequest extends S.Class<CreateAddonRequest>(
     configurationValues: S.optional(S.String),
     podIdentityAssociations: S.optional(AddonPodIdentityAssociationsList),
     namespaceConfig: S.optional(AddonNamespaceConfigRequest),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/clusters/{clusterName}/addons" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/clusters/{clusterName}/addons" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateEksAnywhereSubscriptionRequest extends S.Class<CreateEksAnywhereSubscriptionRequest>(
-  "CreateEksAnywhereSubscriptionRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateAddonRequest",
+}) as any as S.Schema<CreateAddonRequest>;
+export interface CreateEksAnywhereSubscriptionRequest {
+  name: string;
+  term: EksAnywhereSubscriptionTerm;
+  licenseQuantity?: number;
+  licenseType?: string;
+  autoRenew?: boolean;
+  clientRequestToken?: string;
+  tags?: TagMap;
+}
+export const CreateEksAnywhereSubscriptionRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     term: EksAnywhereSubscriptionTerm,
     licenseQuantity: S.optional(S.Number),
@@ -1388,548 +1903,1187 @@ export class CreateEksAnywhereSubscriptionRequest extends S.Class<CreateEksAnywh
     autoRenew: S.optional(S.Boolean),
     clientRequestToken: S.optional(S.String),
     tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/eks-anywhere-subscriptions" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/eks-anywhere-subscriptions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PodIdentityAssociation extends S.Class<PodIdentityAssociation>(
-  "PodIdentityAssociation",
-)({
-  clusterName: S.optional(S.String),
-  namespace: S.optional(S.String),
-  serviceAccount: S.optional(S.String),
-  roleArn: S.optional(S.String),
-  associationArn: S.optional(S.String),
-  associationId: S.optional(S.String),
-  tags: S.optional(TagMap),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  ownerArn: S.optional(S.String),
-  disableSessionTags: S.optional(S.Boolean),
-  targetRoleArn: S.optional(S.String),
-  externalId: S.optional(S.String),
-}) {}
-export class DeletePodIdentityAssociationResponse extends S.Class<DeletePodIdentityAssociationResponse>(
-  "DeletePodIdentityAssociationResponse",
-)({ association: S.optional(PodIdentityAssociation) }) {}
-export class VpcConfigResponse extends S.Class<VpcConfigResponse>(
-  "VpcConfigResponse",
-)({
-  subnetIds: S.optional(StringList),
-  securityGroupIds: S.optional(StringList),
-  clusterSecurityGroupId: S.optional(S.String),
-  vpcId: S.optional(S.String),
-  endpointPublicAccess: S.optional(S.Boolean),
-  endpointPrivateAccess: S.optional(S.Boolean),
-  publicAccessCidrs: S.optional(StringList),
-}) {}
-export class ElasticLoadBalancing extends S.Class<ElasticLoadBalancing>(
-  "ElasticLoadBalancing",
-)({ enabled: S.optional(S.Boolean) }) {}
-export class KubernetesNetworkConfigResponse extends S.Class<KubernetesNetworkConfigResponse>(
-  "KubernetesNetworkConfigResponse",
-)({
-  serviceIpv4Cidr: S.optional(S.String),
-  serviceIpv6Cidr: S.optional(S.String),
-  ipFamily: S.optional(S.String),
-  elasticLoadBalancing: S.optional(ElasticLoadBalancing),
-}) {}
-export class LogSetup extends S.Class<LogSetup>("LogSetup")({
-  types: S.optional(LogTypes),
-  enabled: S.optional(S.Boolean),
-}) {}
+).annotations({
+  identifier: "CreateEksAnywhereSubscriptionRequest",
+}) as any as S.Schema<CreateEksAnywhereSubscriptionRequest>;
+export interface PodIdentityAssociation {
+  clusterName?: string;
+  namespace?: string;
+  serviceAccount?: string;
+  roleArn?: string;
+  associationArn?: string;
+  associationId?: string;
+  tags?: TagMap;
+  createdAt?: Date;
+  modifiedAt?: Date;
+  ownerArn?: string;
+  disableSessionTags?: boolean;
+  targetRoleArn?: string;
+  externalId?: string;
+}
+export const PodIdentityAssociation = S.suspend(() =>
+  S.Struct({
+    clusterName: S.optional(S.String),
+    namespace: S.optional(S.String),
+    serviceAccount: S.optional(S.String),
+    roleArn: S.optional(S.String),
+    associationArn: S.optional(S.String),
+    associationId: S.optional(S.String),
+    tags: S.optional(TagMap),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ownerArn: S.optional(S.String),
+    disableSessionTags: S.optional(S.Boolean),
+    targetRoleArn: S.optional(S.String),
+    externalId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "PodIdentityAssociation",
+}) as any as S.Schema<PodIdentityAssociation>;
+export interface DeletePodIdentityAssociationResponse {
+  association?: PodIdentityAssociation;
+}
+export const DeletePodIdentityAssociationResponse = S.suspend(() =>
+  S.Struct({ association: S.optional(PodIdentityAssociation) }),
+).annotations({
+  identifier: "DeletePodIdentityAssociationResponse",
+}) as any as S.Schema<DeletePodIdentityAssociationResponse>;
+export interface VpcConfigResponse {
+  subnetIds?: StringList;
+  securityGroupIds?: StringList;
+  clusterSecurityGroupId?: string;
+  vpcId?: string;
+  endpointPublicAccess?: boolean;
+  endpointPrivateAccess?: boolean;
+  publicAccessCidrs?: StringList;
+}
+export const VpcConfigResponse = S.suspend(() =>
+  S.Struct({
+    subnetIds: S.optional(StringList),
+    securityGroupIds: S.optional(StringList),
+    clusterSecurityGroupId: S.optional(S.String),
+    vpcId: S.optional(S.String),
+    endpointPublicAccess: S.optional(S.Boolean),
+    endpointPrivateAccess: S.optional(S.Boolean),
+    publicAccessCidrs: S.optional(StringList),
+  }),
+).annotations({
+  identifier: "VpcConfigResponse",
+}) as any as S.Schema<VpcConfigResponse>;
+export interface ElasticLoadBalancing {
+  enabled?: boolean;
+}
+export const ElasticLoadBalancing = S.suspend(() =>
+  S.Struct({ enabled: S.optional(S.Boolean) }),
+).annotations({
+  identifier: "ElasticLoadBalancing",
+}) as any as S.Schema<ElasticLoadBalancing>;
+export interface KubernetesNetworkConfigResponse {
+  serviceIpv4Cidr?: string;
+  serviceIpv6Cidr?: string;
+  ipFamily?: string;
+  elasticLoadBalancing?: ElasticLoadBalancing;
+}
+export const KubernetesNetworkConfigResponse = S.suspend(() =>
+  S.Struct({
+    serviceIpv4Cidr: S.optional(S.String),
+    serviceIpv6Cidr: S.optional(S.String),
+    ipFamily: S.optional(S.String),
+    elasticLoadBalancing: S.optional(ElasticLoadBalancing),
+  }),
+).annotations({
+  identifier: "KubernetesNetworkConfigResponse",
+}) as any as S.Schema<KubernetesNetworkConfigResponse>;
+export interface LogSetup {
+  types?: LogTypes;
+  enabled?: boolean;
+}
+export const LogSetup = S.suspend(() =>
+  S.Struct({ types: S.optional(LogTypes), enabled: S.optional(S.Boolean) }),
+).annotations({ identifier: "LogSetup" }) as any as S.Schema<LogSetup>;
+export type LogSetups = LogSetup[];
 export const LogSetups = S.Array(LogSetup);
-export class Logging extends S.Class<Logging>("Logging")({
-  clusterLogging: S.optional(LogSetups),
-}) {}
-export class OIDC extends S.Class<OIDC>("OIDC")({
-  issuer: S.optional(S.String),
-}) {}
-export class Identity extends S.Class<Identity>("Identity")({
-  oidc: S.optional(OIDC),
-}) {}
-export class Certificate extends S.Class<Certificate>("Certificate")({
-  data: S.optional(S.String),
-}) {}
-export class Provider extends S.Class<Provider>("Provider")({
-  keyArn: S.optional(S.String),
-}) {}
-export class EncryptionConfig extends S.Class<EncryptionConfig>(
-  "EncryptionConfig",
-)({ resources: S.optional(StringList), provider: S.optional(Provider) }) {}
+export interface Logging {
+  clusterLogging?: LogSetups;
+}
+export const Logging = S.suspend(() =>
+  S.Struct({ clusterLogging: S.optional(LogSetups) }),
+).annotations({ identifier: "Logging" }) as any as S.Schema<Logging>;
+export interface OIDC {
+  issuer?: string;
+}
+export const OIDC = S.suspend(() =>
+  S.Struct({ issuer: S.optional(S.String) }),
+).annotations({ identifier: "OIDC" }) as any as S.Schema<OIDC>;
+export interface Identity {
+  oidc?: OIDC;
+}
+export const Identity = S.suspend(() =>
+  S.Struct({ oidc: S.optional(OIDC) }),
+).annotations({ identifier: "Identity" }) as any as S.Schema<Identity>;
+export interface Certificate {
+  data?: string;
+}
+export const Certificate = S.suspend(() =>
+  S.Struct({ data: S.optional(S.String) }),
+).annotations({ identifier: "Certificate" }) as any as S.Schema<Certificate>;
+export interface Provider {
+  keyArn?: string;
+}
+export const Provider = S.suspend(() =>
+  S.Struct({ keyArn: S.optional(S.String) }),
+).annotations({ identifier: "Provider" }) as any as S.Schema<Provider>;
+export interface EncryptionConfig {
+  resources?: StringList;
+  provider?: Provider;
+}
+export const EncryptionConfig = S.suspend(() =>
+  S.Struct({
+    resources: S.optional(StringList),
+    provider: S.optional(Provider),
+  }),
+).annotations({
+  identifier: "EncryptionConfig",
+}) as any as S.Schema<EncryptionConfig>;
+export type EncryptionConfigList = EncryptionConfig[];
 export const EncryptionConfigList = S.Array(EncryptionConfig);
-export class ConnectorConfigResponse extends S.Class<ConnectorConfigResponse>(
-  "ConnectorConfigResponse",
-)({
-  activationId: S.optional(S.String),
-  activationCode: S.optional(S.String),
-  activationExpiry: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  provider: S.optional(S.String),
-  roleArn: S.optional(S.String),
-}) {}
-export class ClusterIssue extends S.Class<ClusterIssue>("ClusterIssue")({
-  code: S.optional(S.String),
-  message: S.optional(S.String),
-  resourceIds: S.optional(StringList),
-}) {}
+export interface ConnectorConfigResponse {
+  activationId?: string;
+  activationCode?: string;
+  activationExpiry?: Date;
+  provider?: string;
+  roleArn?: string;
+}
+export const ConnectorConfigResponse = S.suspend(() =>
+  S.Struct({
+    activationId: S.optional(S.String),
+    activationCode: S.optional(S.String),
+    activationExpiry: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    provider: S.optional(S.String),
+    roleArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ConnectorConfigResponse",
+}) as any as S.Schema<ConnectorConfigResponse>;
+export interface ClusterIssue {
+  code?: string;
+  message?: string;
+  resourceIds?: StringList;
+}
+export const ClusterIssue = S.suspend(() =>
+  S.Struct({
+    code: S.optional(S.String),
+    message: S.optional(S.String),
+    resourceIds: S.optional(StringList),
+  }),
+).annotations({ identifier: "ClusterIssue" }) as any as S.Schema<ClusterIssue>;
+export type ClusterIssueList = ClusterIssue[];
 export const ClusterIssueList = S.Array(ClusterIssue);
-export class ClusterHealth extends S.Class<ClusterHealth>("ClusterHealth")({
-  issues: S.optional(ClusterIssueList),
-}) {}
-export class ControlPlanePlacementResponse extends S.Class<ControlPlanePlacementResponse>(
-  "ControlPlanePlacementResponse",
-)({ groupName: S.optional(S.String) }) {}
-export class OutpostConfigResponse extends S.Class<OutpostConfigResponse>(
-  "OutpostConfigResponse",
-)({
-  outpostArns: StringList,
-  controlPlaneInstanceType: S.String,
-  controlPlanePlacement: S.optional(ControlPlanePlacementResponse),
-}) {}
-export class AccessConfigResponse extends S.Class<AccessConfigResponse>(
-  "AccessConfigResponse",
-)({
-  bootstrapClusterCreatorAdminPermissions: S.optional(S.Boolean),
-  authenticationMode: S.optional(S.String),
-}) {}
-export class UpgradePolicyResponse extends S.Class<UpgradePolicyResponse>(
-  "UpgradePolicyResponse",
-)({ supportType: S.optional(S.String) }) {}
-export class ZonalShiftConfigResponse extends S.Class<ZonalShiftConfigResponse>(
-  "ZonalShiftConfigResponse",
-)({ enabled: S.optional(S.Boolean) }) {}
-export class RemoteNodeNetwork extends S.Class<RemoteNodeNetwork>(
-  "RemoteNodeNetwork",
-)({ cidrs: S.optional(StringList) }) {}
+export interface ClusterHealth {
+  issues?: ClusterIssueList;
+}
+export const ClusterHealth = S.suspend(() =>
+  S.Struct({ issues: S.optional(ClusterIssueList) }),
+).annotations({
+  identifier: "ClusterHealth",
+}) as any as S.Schema<ClusterHealth>;
+export interface ControlPlanePlacementResponse {
+  groupName?: string;
+}
+export const ControlPlanePlacementResponse = S.suspend(() =>
+  S.Struct({ groupName: S.optional(S.String) }),
+).annotations({
+  identifier: "ControlPlanePlacementResponse",
+}) as any as S.Schema<ControlPlanePlacementResponse>;
+export interface OutpostConfigResponse {
+  outpostArns: StringList;
+  controlPlaneInstanceType: string;
+  controlPlanePlacement?: ControlPlanePlacementResponse;
+}
+export const OutpostConfigResponse = S.suspend(() =>
+  S.Struct({
+    outpostArns: StringList,
+    controlPlaneInstanceType: S.String,
+    controlPlanePlacement: S.optional(ControlPlanePlacementResponse),
+  }),
+).annotations({
+  identifier: "OutpostConfigResponse",
+}) as any as S.Schema<OutpostConfigResponse>;
+export interface AccessConfigResponse {
+  bootstrapClusterCreatorAdminPermissions?: boolean;
+  authenticationMode?: string;
+}
+export const AccessConfigResponse = S.suspend(() =>
+  S.Struct({
+    bootstrapClusterCreatorAdminPermissions: S.optional(S.Boolean),
+    authenticationMode: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AccessConfigResponse",
+}) as any as S.Schema<AccessConfigResponse>;
+export interface UpgradePolicyResponse {
+  supportType?: string;
+}
+export const UpgradePolicyResponse = S.suspend(() =>
+  S.Struct({ supportType: S.optional(S.String) }),
+).annotations({
+  identifier: "UpgradePolicyResponse",
+}) as any as S.Schema<UpgradePolicyResponse>;
+export interface ZonalShiftConfigResponse {
+  enabled?: boolean;
+}
+export const ZonalShiftConfigResponse = S.suspend(() =>
+  S.Struct({ enabled: S.optional(S.Boolean) }),
+).annotations({
+  identifier: "ZonalShiftConfigResponse",
+}) as any as S.Schema<ZonalShiftConfigResponse>;
+export interface RemoteNodeNetwork {
+  cidrs?: StringList;
+}
+export const RemoteNodeNetwork = S.suspend(() =>
+  S.Struct({ cidrs: S.optional(StringList) }),
+).annotations({
+  identifier: "RemoteNodeNetwork",
+}) as any as S.Schema<RemoteNodeNetwork>;
+export type RemoteNodeNetworkList = RemoteNodeNetwork[];
 export const RemoteNodeNetworkList = S.Array(RemoteNodeNetwork);
-export class RemotePodNetwork extends S.Class<RemotePodNetwork>(
-  "RemotePodNetwork",
-)({ cidrs: S.optional(StringList) }) {}
+export interface RemotePodNetwork {
+  cidrs?: StringList;
+}
+export const RemotePodNetwork = S.suspend(() =>
+  S.Struct({ cidrs: S.optional(StringList) }),
+).annotations({
+  identifier: "RemotePodNetwork",
+}) as any as S.Schema<RemotePodNetwork>;
+export type RemotePodNetworkList = RemotePodNetwork[];
 export const RemotePodNetworkList = S.Array(RemotePodNetwork);
-export class RemoteNetworkConfigResponse extends S.Class<RemoteNetworkConfigResponse>(
-  "RemoteNetworkConfigResponse",
-)({
-  remoteNodeNetworks: S.optional(RemoteNodeNetworkList),
-  remotePodNetworks: S.optional(RemotePodNetworkList),
-}) {}
-export class ComputeConfigResponse extends S.Class<ComputeConfigResponse>(
-  "ComputeConfigResponse",
-)({
-  enabled: S.optional(S.Boolean),
-  nodePools: S.optional(StringList),
-  nodeRoleArn: S.optional(S.String),
-}) {}
-export class BlockStorage extends S.Class<BlockStorage>("BlockStorage")({
-  enabled: S.optional(S.Boolean),
-}) {}
-export class StorageConfigResponse extends S.Class<StorageConfigResponse>(
-  "StorageConfigResponse",
-)({ blockStorage: S.optional(BlockStorage) }) {}
-export class Cluster extends S.Class<Cluster>("Cluster")({
-  name: S.optional(S.String),
-  arn: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  version: S.optional(S.String),
-  endpoint: S.optional(S.String),
-  roleArn: S.optional(S.String),
-  resourcesVpcConfig: S.optional(VpcConfigResponse),
-  kubernetesNetworkConfig: S.optional(KubernetesNetworkConfigResponse),
-  logging: S.optional(Logging),
-  identity: S.optional(Identity),
-  status: S.optional(S.String),
-  certificateAuthority: S.optional(Certificate),
-  clientRequestToken: S.optional(S.String),
-  platformVersion: S.optional(S.String),
-  tags: S.optional(TagMap),
-  encryptionConfig: S.optional(EncryptionConfigList),
-  connectorConfig: S.optional(ConnectorConfigResponse),
-  id: S.optional(S.String),
-  health: S.optional(ClusterHealth),
-  outpostConfig: S.optional(OutpostConfigResponse),
-  accessConfig: S.optional(AccessConfigResponse),
-  upgradePolicy: S.optional(UpgradePolicyResponse),
-  zonalShiftConfig: S.optional(ZonalShiftConfigResponse),
-  remoteNetworkConfig: S.optional(RemoteNetworkConfigResponse),
-  computeConfig: S.optional(ComputeConfigResponse),
-  storageConfig: S.optional(StorageConfigResponse),
-  deletionProtection: S.optional(S.Boolean),
-  controlPlaneScalingConfig: S.optional(ControlPlaneScalingConfig),
-}) {}
-export class DeregisterClusterResponse extends S.Class<DeregisterClusterResponse>(
-  "DeregisterClusterResponse",
-)({ cluster: S.optional(Cluster) }) {}
-export class AccessEntry extends S.Class<AccessEntry>("AccessEntry")({
-  clusterName: S.optional(S.String),
-  principalArn: S.optional(S.String),
-  kubernetesGroups: S.optional(StringList),
-  accessEntryArn: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  tags: S.optional(TagMap),
-  username: S.optional(S.String),
-  type: S.optional(S.String),
-}) {}
-export class DescribeAccessEntryResponse extends S.Class<DescribeAccessEntryResponse>(
-  "DescribeAccessEntryResponse",
-)({ accessEntry: S.optional(AccessEntry) }) {}
-export class AddonIssue extends S.Class<AddonIssue>("AddonIssue")({
-  code: S.optional(S.String),
-  message: S.optional(S.String),
-  resourceIds: S.optional(StringList),
-}) {}
+export interface RemoteNetworkConfigResponse {
+  remoteNodeNetworks?: RemoteNodeNetworkList;
+  remotePodNetworks?: RemotePodNetworkList;
+}
+export const RemoteNetworkConfigResponse = S.suspend(() =>
+  S.Struct({
+    remoteNodeNetworks: S.optional(RemoteNodeNetworkList),
+    remotePodNetworks: S.optional(RemotePodNetworkList),
+  }),
+).annotations({
+  identifier: "RemoteNetworkConfigResponse",
+}) as any as S.Schema<RemoteNetworkConfigResponse>;
+export interface ComputeConfigResponse {
+  enabled?: boolean;
+  nodePools?: StringList;
+  nodeRoleArn?: string;
+}
+export const ComputeConfigResponse = S.suspend(() =>
+  S.Struct({
+    enabled: S.optional(S.Boolean),
+    nodePools: S.optional(StringList),
+    nodeRoleArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ComputeConfigResponse",
+}) as any as S.Schema<ComputeConfigResponse>;
+export interface BlockStorage {
+  enabled?: boolean;
+}
+export const BlockStorage = S.suspend(() =>
+  S.Struct({ enabled: S.optional(S.Boolean) }),
+).annotations({ identifier: "BlockStorage" }) as any as S.Schema<BlockStorage>;
+export interface StorageConfigResponse {
+  blockStorage?: BlockStorage;
+}
+export const StorageConfigResponse = S.suspend(() =>
+  S.Struct({ blockStorage: S.optional(BlockStorage) }),
+).annotations({
+  identifier: "StorageConfigResponse",
+}) as any as S.Schema<StorageConfigResponse>;
+export interface Cluster {
+  name?: string;
+  arn?: string;
+  createdAt?: Date;
+  version?: string;
+  endpoint?: string;
+  roleArn?: string;
+  resourcesVpcConfig?: VpcConfigResponse;
+  kubernetesNetworkConfig?: KubernetesNetworkConfigResponse;
+  logging?: Logging;
+  identity?: Identity;
+  status?: string;
+  certificateAuthority?: Certificate;
+  clientRequestToken?: string;
+  platformVersion?: string;
+  tags?: TagMap;
+  encryptionConfig?: EncryptionConfigList;
+  connectorConfig?: ConnectorConfigResponse;
+  id?: string;
+  health?: ClusterHealth;
+  outpostConfig?: OutpostConfigResponse;
+  accessConfig?: AccessConfigResponse;
+  upgradePolicy?: UpgradePolicyResponse;
+  zonalShiftConfig?: ZonalShiftConfigResponse;
+  remoteNetworkConfig?: RemoteNetworkConfigResponse;
+  computeConfig?: ComputeConfigResponse;
+  storageConfig?: StorageConfigResponse;
+  deletionProtection?: boolean;
+  controlPlaneScalingConfig?: ControlPlaneScalingConfig;
+}
+export const Cluster = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    arn: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    version: S.optional(S.String),
+    endpoint: S.optional(S.String),
+    roleArn: S.optional(S.String),
+    resourcesVpcConfig: S.optional(VpcConfigResponse),
+    kubernetesNetworkConfig: S.optional(KubernetesNetworkConfigResponse),
+    logging: S.optional(Logging),
+    identity: S.optional(Identity),
+    status: S.optional(S.String),
+    certificateAuthority: S.optional(Certificate),
+    clientRequestToken: S.optional(S.String),
+    platformVersion: S.optional(S.String),
+    tags: S.optional(TagMap),
+    encryptionConfig: S.optional(EncryptionConfigList),
+    connectorConfig: S.optional(ConnectorConfigResponse),
+    id: S.optional(S.String),
+    health: S.optional(ClusterHealth),
+    outpostConfig: S.optional(OutpostConfigResponse),
+    accessConfig: S.optional(AccessConfigResponse),
+    upgradePolicy: S.optional(UpgradePolicyResponse),
+    zonalShiftConfig: S.optional(ZonalShiftConfigResponse),
+    remoteNetworkConfig: S.optional(RemoteNetworkConfigResponse),
+    computeConfig: S.optional(ComputeConfigResponse),
+    storageConfig: S.optional(StorageConfigResponse),
+    deletionProtection: S.optional(S.Boolean),
+    controlPlaneScalingConfig: S.optional(ControlPlaneScalingConfig),
+  }),
+).annotations({ identifier: "Cluster" }) as any as S.Schema<Cluster>;
+export interface DeregisterClusterResponse {
+  cluster?: Cluster;
+}
+export const DeregisterClusterResponse = S.suspend(() =>
+  S.Struct({ cluster: S.optional(Cluster) }),
+).annotations({
+  identifier: "DeregisterClusterResponse",
+}) as any as S.Schema<DeregisterClusterResponse>;
+export interface AccessEntry {
+  clusterName?: string;
+  principalArn?: string;
+  kubernetesGroups?: StringList;
+  accessEntryArn?: string;
+  createdAt?: Date;
+  modifiedAt?: Date;
+  tags?: TagMap;
+  username?: string;
+  type?: string;
+}
+export const AccessEntry = S.suspend(() =>
+  S.Struct({
+    clusterName: S.optional(S.String),
+    principalArn: S.optional(S.String),
+    kubernetesGroups: S.optional(StringList),
+    accessEntryArn: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    tags: S.optional(TagMap),
+    username: S.optional(S.String),
+    type: S.optional(S.String),
+  }),
+).annotations({ identifier: "AccessEntry" }) as any as S.Schema<AccessEntry>;
+export interface DescribeAccessEntryResponse {
+  accessEntry?: AccessEntry;
+}
+export const DescribeAccessEntryResponse = S.suspend(() =>
+  S.Struct({ accessEntry: S.optional(AccessEntry) }),
+).annotations({
+  identifier: "DescribeAccessEntryResponse",
+}) as any as S.Schema<DescribeAccessEntryResponse>;
+export interface AddonIssue {
+  code?: string;
+  message?: string;
+  resourceIds?: StringList;
+}
+export const AddonIssue = S.suspend(() =>
+  S.Struct({
+    code: S.optional(S.String),
+    message: S.optional(S.String),
+    resourceIds: S.optional(StringList),
+  }),
+).annotations({ identifier: "AddonIssue" }) as any as S.Schema<AddonIssue>;
+export type AddonIssueList = AddonIssue[];
 export const AddonIssueList = S.Array(AddonIssue);
-export class AddonHealth extends S.Class<AddonHealth>("AddonHealth")({
-  issues: S.optional(AddonIssueList),
-}) {}
-export class MarketplaceInformation extends S.Class<MarketplaceInformation>(
-  "MarketplaceInformation",
-)({ productId: S.optional(S.String), productUrl: S.optional(S.String) }) {}
-export class AddonNamespaceConfigResponse extends S.Class<AddonNamespaceConfigResponse>(
-  "AddonNamespaceConfigResponse",
-)({ namespace: S.optional(S.String) }) {}
-export class Addon extends S.Class<Addon>("Addon")({
-  addonName: S.optional(S.String),
-  clusterName: S.optional(S.String),
-  status: S.optional(S.String),
-  addonVersion: S.optional(S.String),
-  health: S.optional(AddonHealth),
-  addonArn: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  serviceAccountRoleArn: S.optional(S.String),
-  tags: S.optional(TagMap),
-  publisher: S.optional(S.String),
-  owner: S.optional(S.String),
-  marketplaceInformation: S.optional(MarketplaceInformation),
-  configurationValues: S.optional(S.String),
-  podIdentityAssociations: S.optional(StringList),
-  namespaceConfig: S.optional(AddonNamespaceConfigResponse),
-}) {}
-export class DescribeAddonResponse extends S.Class<DescribeAddonResponse>(
-  "DescribeAddonResponse",
-)({ addon: S.optional(Addon) }) {}
-export class ArgoCdAwsIdcConfigResponse extends S.Class<ArgoCdAwsIdcConfigResponse>(
-  "ArgoCdAwsIdcConfigResponse",
-)({
-  idcInstanceArn: S.optional(S.String),
-  idcRegion: S.optional(S.String),
-  idcManagedApplicationArn: S.optional(S.String),
-}) {}
-export class SsoIdentity extends S.Class<SsoIdentity>("SsoIdentity")({
-  id: S.String,
-  type: S.String,
-}) {}
+export interface AddonHealth {
+  issues?: AddonIssueList;
+}
+export const AddonHealth = S.suspend(() =>
+  S.Struct({ issues: S.optional(AddonIssueList) }),
+).annotations({ identifier: "AddonHealth" }) as any as S.Schema<AddonHealth>;
+export interface MarketplaceInformation {
+  productId?: string;
+  productUrl?: string;
+}
+export const MarketplaceInformation = S.suspend(() =>
+  S.Struct({
+    productId: S.optional(S.String),
+    productUrl: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "MarketplaceInformation",
+}) as any as S.Schema<MarketplaceInformation>;
+export interface AddonNamespaceConfigResponse {
+  namespace?: string;
+}
+export const AddonNamespaceConfigResponse = S.suspend(() =>
+  S.Struct({ namespace: S.optional(S.String) }),
+).annotations({
+  identifier: "AddonNamespaceConfigResponse",
+}) as any as S.Schema<AddonNamespaceConfigResponse>;
+export interface Addon {
+  addonName?: string;
+  clusterName?: string;
+  status?: string;
+  addonVersion?: string;
+  health?: AddonHealth;
+  addonArn?: string;
+  createdAt?: Date;
+  modifiedAt?: Date;
+  serviceAccountRoleArn?: string;
+  tags?: TagMap;
+  publisher?: string;
+  owner?: string;
+  marketplaceInformation?: MarketplaceInformation;
+  configurationValues?: string;
+  podIdentityAssociations?: StringList;
+  namespaceConfig?: AddonNamespaceConfigResponse;
+}
+export const Addon = S.suspend(() =>
+  S.Struct({
+    addonName: S.optional(S.String),
+    clusterName: S.optional(S.String),
+    status: S.optional(S.String),
+    addonVersion: S.optional(S.String),
+    health: S.optional(AddonHealth),
+    addonArn: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    serviceAccountRoleArn: S.optional(S.String),
+    tags: S.optional(TagMap),
+    publisher: S.optional(S.String),
+    owner: S.optional(S.String),
+    marketplaceInformation: S.optional(MarketplaceInformation),
+    configurationValues: S.optional(S.String),
+    podIdentityAssociations: S.optional(StringList),
+    namespaceConfig: S.optional(AddonNamespaceConfigResponse),
+  }),
+).annotations({ identifier: "Addon" }) as any as S.Schema<Addon>;
+export interface DescribeAddonResponse {
+  addon?: Addon;
+}
+export const DescribeAddonResponse = S.suspend(() =>
+  S.Struct({ addon: S.optional(Addon) }),
+).annotations({
+  identifier: "DescribeAddonResponse",
+}) as any as S.Schema<DescribeAddonResponse>;
+export interface ArgoCdAwsIdcConfigResponse {
+  idcInstanceArn?: string;
+  idcRegion?: string;
+  idcManagedApplicationArn?: string;
+}
+export const ArgoCdAwsIdcConfigResponse = S.suspend(() =>
+  S.Struct({
+    idcInstanceArn: S.optional(S.String),
+    idcRegion: S.optional(S.String),
+    idcManagedApplicationArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ArgoCdAwsIdcConfigResponse",
+}) as any as S.Schema<ArgoCdAwsIdcConfigResponse>;
+export interface SsoIdentity {
+  id: string;
+  type: string;
+}
+export const SsoIdentity = S.suspend(() =>
+  S.Struct({ id: S.String, type: S.String }),
+).annotations({ identifier: "SsoIdentity" }) as any as S.Schema<SsoIdentity>;
+export type SsoIdentityList = SsoIdentity[];
 export const SsoIdentityList = S.Array(SsoIdentity);
-export class ArgoCdRoleMapping extends S.Class<ArgoCdRoleMapping>(
-  "ArgoCdRoleMapping",
-)({ role: S.String, identities: SsoIdentityList }) {}
+export interface ArgoCdRoleMapping {
+  role: string;
+  identities: SsoIdentityList;
+}
+export const ArgoCdRoleMapping = S.suspend(() =>
+  S.Struct({ role: S.String, identities: SsoIdentityList }),
+).annotations({
+  identifier: "ArgoCdRoleMapping",
+}) as any as S.Schema<ArgoCdRoleMapping>;
+export type ArgoCdRoleMappingList = ArgoCdRoleMapping[];
 export const ArgoCdRoleMappingList = S.Array(ArgoCdRoleMapping);
-export class ArgoCdNetworkAccessConfigResponse extends S.Class<ArgoCdNetworkAccessConfigResponse>(
-  "ArgoCdNetworkAccessConfigResponse",
-)({ vpceIds: S.optional(StringList) }) {}
-export class ArgoCdConfigResponse extends S.Class<ArgoCdConfigResponse>(
-  "ArgoCdConfigResponse",
-)({
-  namespace: S.optional(S.String),
-  awsIdc: S.optional(ArgoCdAwsIdcConfigResponse),
-  rbacRoleMappings: S.optional(ArgoCdRoleMappingList),
-  networkAccess: S.optional(ArgoCdNetworkAccessConfigResponse),
-  serverUrl: S.optional(S.String),
-}) {}
-export class CapabilityConfigurationResponse extends S.Class<CapabilityConfigurationResponse>(
-  "CapabilityConfigurationResponse",
-)({ argoCd: S.optional(ArgoCdConfigResponse) }) {}
-export class CapabilityIssue extends S.Class<CapabilityIssue>(
-  "CapabilityIssue",
-)({ code: S.optional(S.String), message: S.optional(S.String) }) {}
+export interface ArgoCdNetworkAccessConfigResponse {
+  vpceIds?: StringList;
+}
+export const ArgoCdNetworkAccessConfigResponse = S.suspend(() =>
+  S.Struct({ vpceIds: S.optional(StringList) }),
+).annotations({
+  identifier: "ArgoCdNetworkAccessConfigResponse",
+}) as any as S.Schema<ArgoCdNetworkAccessConfigResponse>;
+export interface ArgoCdConfigResponse {
+  namespace?: string;
+  awsIdc?: ArgoCdAwsIdcConfigResponse;
+  rbacRoleMappings?: ArgoCdRoleMappingList;
+  networkAccess?: ArgoCdNetworkAccessConfigResponse;
+  serverUrl?: string;
+}
+export const ArgoCdConfigResponse = S.suspend(() =>
+  S.Struct({
+    namespace: S.optional(S.String),
+    awsIdc: S.optional(ArgoCdAwsIdcConfigResponse),
+    rbacRoleMappings: S.optional(ArgoCdRoleMappingList),
+    networkAccess: S.optional(ArgoCdNetworkAccessConfigResponse),
+    serverUrl: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ArgoCdConfigResponse",
+}) as any as S.Schema<ArgoCdConfigResponse>;
+export interface CapabilityConfigurationResponse {
+  argoCd?: ArgoCdConfigResponse;
+}
+export const CapabilityConfigurationResponse = S.suspend(() =>
+  S.Struct({ argoCd: S.optional(ArgoCdConfigResponse) }),
+).annotations({
+  identifier: "CapabilityConfigurationResponse",
+}) as any as S.Schema<CapabilityConfigurationResponse>;
+export interface CapabilityIssue {
+  code?: string;
+  message?: string;
+}
+export const CapabilityIssue = S.suspend(() =>
+  S.Struct({ code: S.optional(S.String), message: S.optional(S.String) }),
+).annotations({
+  identifier: "CapabilityIssue",
+}) as any as S.Schema<CapabilityIssue>;
+export type CapabilityIssueList = CapabilityIssue[];
 export const CapabilityIssueList = S.Array(CapabilityIssue);
-export class CapabilityHealth extends S.Class<CapabilityHealth>(
-  "CapabilityHealth",
-)({ issues: S.optional(CapabilityIssueList) }) {}
-export class Capability extends S.Class<Capability>("Capability")({
-  capabilityName: S.optional(S.String),
-  arn: S.optional(S.String),
-  clusterName: S.optional(S.String),
-  type: S.optional(S.String),
-  roleArn: S.optional(S.String),
-  status: S.optional(S.String),
-  version: S.optional(S.String),
-  configuration: S.optional(CapabilityConfigurationResponse),
-  tags: S.optional(TagMap),
-  health: S.optional(CapabilityHealth),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  deletePropagationPolicy: S.optional(S.String),
-}) {}
-export class DescribeCapabilityResponse extends S.Class<DescribeCapabilityResponse>(
-  "DescribeCapabilityResponse",
-)({ capability: S.optional(Capability) }) {}
-export class DescribeClusterResponse extends S.Class<DescribeClusterResponse>(
-  "DescribeClusterResponse",
-)({ cluster: S.optional(Cluster) }) {}
-export class DescribeEksAnywhereSubscriptionResponse extends S.Class<DescribeEksAnywhereSubscriptionResponse>(
-  "DescribeEksAnywhereSubscriptionResponse",
-)({ subscription: S.optional(EksAnywhereSubscription) }) {}
+export interface CapabilityHealth {
+  issues?: CapabilityIssueList;
+}
+export const CapabilityHealth = S.suspend(() =>
+  S.Struct({ issues: S.optional(CapabilityIssueList) }),
+).annotations({
+  identifier: "CapabilityHealth",
+}) as any as S.Schema<CapabilityHealth>;
+export interface Capability {
+  capabilityName?: string;
+  arn?: string;
+  clusterName?: string;
+  type?: string;
+  roleArn?: string;
+  status?: string;
+  version?: string;
+  configuration?: CapabilityConfigurationResponse;
+  tags?: TagMap;
+  health?: CapabilityHealth;
+  createdAt?: Date;
+  modifiedAt?: Date;
+  deletePropagationPolicy?: string;
+}
+export const Capability = S.suspend(() =>
+  S.Struct({
+    capabilityName: S.optional(S.String),
+    arn: S.optional(S.String),
+    clusterName: S.optional(S.String),
+    type: S.optional(S.String),
+    roleArn: S.optional(S.String),
+    status: S.optional(S.String),
+    version: S.optional(S.String),
+    configuration: S.optional(CapabilityConfigurationResponse),
+    tags: S.optional(TagMap),
+    health: S.optional(CapabilityHealth),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    deletePropagationPolicy: S.optional(S.String),
+  }),
+).annotations({ identifier: "Capability" }) as any as S.Schema<Capability>;
+export interface DescribeCapabilityResponse {
+  capability?: Capability;
+}
+export const DescribeCapabilityResponse = S.suspend(() =>
+  S.Struct({ capability: S.optional(Capability) }),
+).annotations({
+  identifier: "DescribeCapabilityResponse",
+}) as any as S.Schema<DescribeCapabilityResponse>;
+export interface DescribeClusterResponse {
+  cluster?: Cluster;
+}
+export const DescribeClusterResponse = S.suspend(() =>
+  S.Struct({ cluster: S.optional(Cluster) }),
+).annotations({
+  identifier: "DescribeClusterResponse",
+}) as any as S.Schema<DescribeClusterResponse>;
+export interface DescribeEksAnywhereSubscriptionResponse {
+  subscription?: EksAnywhereSubscription;
+}
+export const DescribeEksAnywhereSubscriptionResponse = S.suspend(() =>
+  S.Struct({ subscription: S.optional(EksAnywhereSubscription) }),
+).annotations({
+  identifier: "DescribeEksAnywhereSubscriptionResponse",
+}) as any as S.Schema<DescribeEksAnywhereSubscriptionResponse>;
+export type FargateProfileLabel = { [key: string]: string };
 export const FargateProfileLabel = S.Record({ key: S.String, value: S.String });
-export class FargateProfileSelector extends S.Class<FargateProfileSelector>(
-  "FargateProfileSelector",
-)({
-  namespace: S.optional(S.String),
-  labels: S.optional(FargateProfileLabel),
-}) {}
+export interface FargateProfileSelector {
+  namespace?: string;
+  labels?: FargateProfileLabel;
+}
+export const FargateProfileSelector = S.suspend(() =>
+  S.Struct({
+    namespace: S.optional(S.String),
+    labels: S.optional(FargateProfileLabel),
+  }),
+).annotations({
+  identifier: "FargateProfileSelector",
+}) as any as S.Schema<FargateProfileSelector>;
+export type FargateProfileSelectors = FargateProfileSelector[];
 export const FargateProfileSelectors = S.Array(FargateProfileSelector);
-export class FargateProfileIssue extends S.Class<FargateProfileIssue>(
-  "FargateProfileIssue",
-)({
-  code: S.optional(S.String),
-  message: S.optional(S.String),
-  resourceIds: S.optional(StringList),
-}) {}
+export interface FargateProfileIssue {
+  code?: string;
+  message?: string;
+  resourceIds?: StringList;
+}
+export const FargateProfileIssue = S.suspend(() =>
+  S.Struct({
+    code: S.optional(S.String),
+    message: S.optional(S.String),
+    resourceIds: S.optional(StringList),
+  }),
+).annotations({
+  identifier: "FargateProfileIssue",
+}) as any as S.Schema<FargateProfileIssue>;
+export type FargateProfileIssueList = FargateProfileIssue[];
 export const FargateProfileIssueList = S.Array(FargateProfileIssue);
-export class FargateProfileHealth extends S.Class<FargateProfileHealth>(
-  "FargateProfileHealth",
-)({ issues: S.optional(FargateProfileIssueList) }) {}
-export class FargateProfile extends S.Class<FargateProfile>("FargateProfile")({
-  fargateProfileName: S.optional(S.String),
-  fargateProfileArn: S.optional(S.String),
-  clusterName: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  podExecutionRoleArn: S.optional(S.String),
-  subnets: S.optional(StringList),
-  selectors: S.optional(FargateProfileSelectors),
-  status: S.optional(S.String),
-  tags: S.optional(TagMap),
-  health: S.optional(FargateProfileHealth),
-}) {}
-export class DescribeFargateProfileResponse extends S.Class<DescribeFargateProfileResponse>(
-  "DescribeFargateProfileResponse",
-)({ fargateProfile: S.optional(FargateProfile) }) {}
-export class DescribeIdentityProviderConfigRequest extends S.Class<DescribeIdentityProviderConfigRequest>(
-  "DescribeIdentityProviderConfigRequest",
-)(
-  {
+export interface FargateProfileHealth {
+  issues?: FargateProfileIssueList;
+}
+export const FargateProfileHealth = S.suspend(() =>
+  S.Struct({ issues: S.optional(FargateProfileIssueList) }),
+).annotations({
+  identifier: "FargateProfileHealth",
+}) as any as S.Schema<FargateProfileHealth>;
+export interface FargateProfile {
+  fargateProfileName?: string;
+  fargateProfileArn?: string;
+  clusterName?: string;
+  createdAt?: Date;
+  podExecutionRoleArn?: string;
+  subnets?: StringList;
+  selectors?: FargateProfileSelectors;
+  status?: string;
+  tags?: TagMap;
+  health?: FargateProfileHealth;
+}
+export const FargateProfile = S.suspend(() =>
+  S.Struct({
+    fargateProfileName: S.optional(S.String),
+    fargateProfileArn: S.optional(S.String),
+    clusterName: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    podExecutionRoleArn: S.optional(S.String),
+    subnets: S.optional(StringList),
+    selectors: S.optional(FargateProfileSelectors),
+    status: S.optional(S.String),
+    tags: S.optional(TagMap),
+    health: S.optional(FargateProfileHealth),
+  }),
+).annotations({
+  identifier: "FargateProfile",
+}) as any as S.Schema<FargateProfile>;
+export interface DescribeFargateProfileResponse {
+  fargateProfile?: FargateProfile;
+}
+export const DescribeFargateProfileResponse = S.suspend(() =>
+  S.Struct({ fargateProfile: S.optional(FargateProfile) }),
+).annotations({
+  identifier: "DescribeFargateProfileResponse",
+}) as any as S.Schema<DescribeFargateProfileResponse>;
+export interface DescribeIdentityProviderConfigRequest {
+  clusterName: string;
+  identityProviderConfig: IdentityProviderConfig;
+}
+export const DescribeIdentityProviderConfigRequest = S.suspend(() =>
+  S.Struct({
     clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     identityProviderConfig: IdentityProviderConfig,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/clusters/{clusterName}/identity-provider-configs/describe",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/clusters/{clusterName}/identity-provider-configs/describe",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeInsightsRefreshResponse extends S.Class<DescribeInsightsRefreshResponse>(
-  "DescribeInsightsRefreshResponse",
-)({
-  message: S.optional(S.String),
-  status: S.optional(S.String),
-  startedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  endedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class AutoScalingGroup extends S.Class<AutoScalingGroup>(
-  "AutoScalingGroup",
-)({ name: S.optional(S.String) }) {}
+).annotations({
+  identifier: "DescribeIdentityProviderConfigRequest",
+}) as any as S.Schema<DescribeIdentityProviderConfigRequest>;
+export interface DescribeInsightsRefreshResponse {
+  message?: string;
+  status?: string;
+  startedAt?: Date;
+  endedAt?: Date;
+}
+export const DescribeInsightsRefreshResponse = S.suspend(() =>
+  S.Struct({
+    message: S.optional(S.String),
+    status: S.optional(S.String),
+    startedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    endedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "DescribeInsightsRefreshResponse",
+}) as any as S.Schema<DescribeInsightsRefreshResponse>;
+export interface AutoScalingGroup {
+  name?: string;
+}
+export const AutoScalingGroup = S.suspend(() =>
+  S.Struct({ name: S.optional(S.String) }),
+).annotations({
+  identifier: "AutoScalingGroup",
+}) as any as S.Schema<AutoScalingGroup>;
+export type AutoScalingGroupList = AutoScalingGroup[];
 export const AutoScalingGroupList = S.Array(AutoScalingGroup);
-export class NodegroupResources extends S.Class<NodegroupResources>(
-  "NodegroupResources",
-)({
-  autoScalingGroups: S.optional(AutoScalingGroupList),
-  remoteAccessSecurityGroup: S.optional(S.String),
-}) {}
-export class Issue extends S.Class<Issue>("Issue")({
-  code: S.optional(S.String),
-  message: S.optional(S.String),
-  resourceIds: S.optional(StringList),
-}) {}
+export interface NodegroupResources {
+  autoScalingGroups?: AutoScalingGroupList;
+  remoteAccessSecurityGroup?: string;
+}
+export const NodegroupResources = S.suspend(() =>
+  S.Struct({
+    autoScalingGroups: S.optional(AutoScalingGroupList),
+    remoteAccessSecurityGroup: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "NodegroupResources",
+}) as any as S.Schema<NodegroupResources>;
+export interface Issue {
+  code?: string;
+  message?: string;
+  resourceIds?: StringList;
+}
+export const Issue = S.suspend(() =>
+  S.Struct({
+    code: S.optional(S.String),
+    message: S.optional(S.String),
+    resourceIds: S.optional(StringList),
+  }),
+).annotations({ identifier: "Issue" }) as any as S.Schema<Issue>;
+export type IssueList = Issue[];
 export const IssueList = S.Array(Issue);
-export class NodegroupHealth extends S.Class<NodegroupHealth>(
-  "NodegroupHealth",
-)({ issues: S.optional(IssueList) }) {}
-export class NodeRepairConfigOverrides extends S.Class<NodeRepairConfigOverrides>(
-  "NodeRepairConfigOverrides",
-)({
-  nodeMonitoringCondition: S.optional(S.String),
-  nodeUnhealthyReason: S.optional(S.String),
-  minRepairWaitTimeMins: S.optional(S.Number),
-  repairAction: S.optional(S.String),
-}) {}
+export interface NodegroupHealth {
+  issues?: IssueList;
+}
+export const NodegroupHealth = S.suspend(() =>
+  S.Struct({ issues: S.optional(IssueList) }),
+).annotations({
+  identifier: "NodegroupHealth",
+}) as any as S.Schema<NodegroupHealth>;
+export interface NodeRepairConfigOverrides {
+  nodeMonitoringCondition?: string;
+  nodeUnhealthyReason?: string;
+  minRepairWaitTimeMins?: number;
+  repairAction?: string;
+}
+export const NodeRepairConfigOverrides = S.suspend(() =>
+  S.Struct({
+    nodeMonitoringCondition: S.optional(S.String),
+    nodeUnhealthyReason: S.optional(S.String),
+    minRepairWaitTimeMins: S.optional(S.Number),
+    repairAction: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "NodeRepairConfigOverrides",
+}) as any as S.Schema<NodeRepairConfigOverrides>;
+export type NodeRepairConfigOverridesList = NodeRepairConfigOverrides[];
 export const NodeRepairConfigOverridesList = S.Array(NodeRepairConfigOverrides);
-export class NodeRepairConfig extends S.Class<NodeRepairConfig>(
-  "NodeRepairConfig",
-)({
-  enabled: S.optional(S.Boolean),
-  maxUnhealthyNodeThresholdCount: S.optional(S.Number),
-  maxUnhealthyNodeThresholdPercentage: S.optional(S.Number),
-  maxParallelNodesRepairedCount: S.optional(S.Number),
-  maxParallelNodesRepairedPercentage: S.optional(S.Number),
-  nodeRepairConfigOverrides: S.optional(NodeRepairConfigOverridesList),
-}) {}
-export class Nodegroup extends S.Class<Nodegroup>("Nodegroup")({
-  nodegroupName: S.optional(S.String),
-  nodegroupArn: S.optional(S.String),
-  clusterName: S.optional(S.String),
-  version: S.optional(S.String),
-  releaseVersion: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  status: S.optional(S.String),
-  capacityType: S.optional(S.String),
-  scalingConfig: S.optional(NodegroupScalingConfig),
-  instanceTypes: S.optional(StringList),
-  subnets: S.optional(StringList),
-  remoteAccess: S.optional(RemoteAccessConfig),
-  amiType: S.optional(S.String),
-  nodeRole: S.optional(S.String),
-  labels: S.optional(labelsMap),
-  taints: S.optional(taintsList),
-  resources: S.optional(NodegroupResources),
-  diskSize: S.optional(S.Number),
-  health: S.optional(NodegroupHealth),
-  updateConfig: S.optional(NodegroupUpdateConfig),
-  nodeRepairConfig: S.optional(NodeRepairConfig),
-  launchTemplate: S.optional(LaunchTemplateSpecification),
-  tags: S.optional(TagMap),
-}) {}
-export class DescribeNodegroupResponse extends S.Class<DescribeNodegroupResponse>(
-  "DescribeNodegroupResponse",
-)({ nodegroup: S.optional(Nodegroup) }) {}
-export class DescribePodIdentityAssociationResponse extends S.Class<DescribePodIdentityAssociationResponse>(
-  "DescribePodIdentityAssociationResponse",
-)({ association: S.optional(PodIdentityAssociation) }) {}
-export class UpdateParam extends S.Class<UpdateParam>("UpdateParam")({
-  type: S.optional(S.String),
-  value: S.optional(S.String),
-}) {}
+export interface NodeRepairConfig {
+  enabled?: boolean;
+  maxUnhealthyNodeThresholdCount?: number;
+  maxUnhealthyNodeThresholdPercentage?: number;
+  maxParallelNodesRepairedCount?: number;
+  maxParallelNodesRepairedPercentage?: number;
+  nodeRepairConfigOverrides?: NodeRepairConfigOverridesList;
+}
+export const NodeRepairConfig = S.suspend(() =>
+  S.Struct({
+    enabled: S.optional(S.Boolean),
+    maxUnhealthyNodeThresholdCount: S.optional(S.Number),
+    maxUnhealthyNodeThresholdPercentage: S.optional(S.Number),
+    maxParallelNodesRepairedCount: S.optional(S.Number),
+    maxParallelNodesRepairedPercentage: S.optional(S.Number),
+    nodeRepairConfigOverrides: S.optional(NodeRepairConfigOverridesList),
+  }),
+).annotations({
+  identifier: "NodeRepairConfig",
+}) as any as S.Schema<NodeRepairConfig>;
+export interface Nodegroup {
+  nodegroupName?: string;
+  nodegroupArn?: string;
+  clusterName?: string;
+  version?: string;
+  releaseVersion?: string;
+  createdAt?: Date;
+  modifiedAt?: Date;
+  status?: string;
+  capacityType?: string;
+  scalingConfig?: NodegroupScalingConfig;
+  instanceTypes?: StringList;
+  subnets?: StringList;
+  remoteAccess?: RemoteAccessConfig;
+  amiType?: string;
+  nodeRole?: string;
+  labels?: labelsMap;
+  taints?: taintsList;
+  resources?: NodegroupResources;
+  diskSize?: number;
+  health?: NodegroupHealth;
+  updateConfig?: NodegroupUpdateConfig;
+  nodeRepairConfig?: NodeRepairConfig;
+  launchTemplate?: LaunchTemplateSpecification;
+  tags?: TagMap;
+}
+export const Nodegroup = S.suspend(() =>
+  S.Struct({
+    nodegroupName: S.optional(S.String),
+    nodegroupArn: S.optional(S.String),
+    clusterName: S.optional(S.String),
+    version: S.optional(S.String),
+    releaseVersion: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    status: S.optional(S.String),
+    capacityType: S.optional(S.String),
+    scalingConfig: S.optional(NodegroupScalingConfig),
+    instanceTypes: S.optional(StringList),
+    subnets: S.optional(StringList),
+    remoteAccess: S.optional(RemoteAccessConfig),
+    amiType: S.optional(S.String),
+    nodeRole: S.optional(S.String),
+    labels: S.optional(labelsMap),
+    taints: S.optional(taintsList),
+    resources: S.optional(NodegroupResources),
+    diskSize: S.optional(S.Number),
+    health: S.optional(NodegroupHealth),
+    updateConfig: S.optional(NodegroupUpdateConfig),
+    nodeRepairConfig: S.optional(NodeRepairConfig),
+    launchTemplate: S.optional(LaunchTemplateSpecification),
+    tags: S.optional(TagMap),
+  }),
+).annotations({ identifier: "Nodegroup" }) as any as S.Schema<Nodegroup>;
+export interface DescribeNodegroupResponse {
+  nodegroup?: Nodegroup;
+}
+export const DescribeNodegroupResponse = S.suspend(() =>
+  S.Struct({ nodegroup: S.optional(Nodegroup) }),
+).annotations({
+  identifier: "DescribeNodegroupResponse",
+}) as any as S.Schema<DescribeNodegroupResponse>;
+export interface DescribePodIdentityAssociationResponse {
+  association?: PodIdentityAssociation;
+}
+export const DescribePodIdentityAssociationResponse = S.suspend(() =>
+  S.Struct({ association: S.optional(PodIdentityAssociation) }),
+).annotations({
+  identifier: "DescribePodIdentityAssociationResponse",
+}) as any as S.Schema<DescribePodIdentityAssociationResponse>;
+export interface UpdateParam {
+  type?: string;
+  value?: string;
+}
+export const UpdateParam = S.suspend(() =>
+  S.Struct({ type: S.optional(S.String), value: S.optional(S.String) }),
+).annotations({ identifier: "UpdateParam" }) as any as S.Schema<UpdateParam>;
+export type UpdateParams = UpdateParam[];
 export const UpdateParams = S.Array(UpdateParam);
-export class ErrorDetail extends S.Class<ErrorDetail>("ErrorDetail")({
-  errorCode: S.optional(S.String),
-  errorMessage: S.optional(S.String),
-  resourceIds: S.optional(StringList),
-}) {}
+export interface ErrorDetail {
+  errorCode?: string;
+  errorMessage?: string;
+  resourceIds?: StringList;
+}
+export const ErrorDetail = S.suspend(() =>
+  S.Struct({
+    errorCode: S.optional(S.String),
+    errorMessage: S.optional(S.String),
+    resourceIds: S.optional(StringList),
+  }),
+).annotations({ identifier: "ErrorDetail" }) as any as S.Schema<ErrorDetail>;
+export type ErrorDetails = ErrorDetail[];
 export const ErrorDetails = S.Array(ErrorDetail);
-export class Update extends S.Class<Update>("Update")({
-  id: S.optional(S.String),
-  status: S.optional(S.String),
-  type: S.optional(S.String),
-  params: S.optional(UpdateParams),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  errors: S.optional(ErrorDetails),
-}) {}
-export class DisassociateIdentityProviderConfigResponse extends S.Class<DisassociateIdentityProviderConfigResponse>(
-  "DisassociateIdentityProviderConfigResponse",
-)({ update: S.optional(Update) }) {}
-export class ListAccessEntriesResponse extends S.Class<ListAccessEntriesResponse>(
-  "ListAccessEntriesResponse",
-)({ accessEntries: S.optional(StringList), nextToken: S.optional(S.String) }) {}
-export class ListAddonsResponse extends S.Class<ListAddonsResponse>(
-  "ListAddonsResponse",
-)({ addons: S.optional(StringList), nextToken: S.optional(S.String) }) {}
-export class ListClustersResponse extends S.Class<ListClustersResponse>(
-  "ListClustersResponse",
-)({ clusters: S.optional(StringList), nextToken: S.optional(S.String) }) {}
-export class ListEksAnywhereSubscriptionsResponse extends S.Class<ListEksAnywhereSubscriptionsResponse>(
-  "ListEksAnywhereSubscriptionsResponse",
-)({
-  subscriptions: S.optional(EksAnywhereSubscriptionList),
-  nextToken: S.optional(S.String),
-}) {}
-export class ListFargateProfilesResponse extends S.Class<ListFargateProfilesResponse>(
-  "ListFargateProfilesResponse",
-)({
-  fargateProfileNames: S.optional(StringList),
-  nextToken: S.optional(S.String),
-}) {}
-export class ListIdentityProviderConfigsResponse extends S.Class<ListIdentityProviderConfigsResponse>(
-  "ListIdentityProviderConfigsResponse",
-)({
-  identityProviderConfigs: S.optional(IdentityProviderConfigs),
-  nextToken: S.optional(S.String),
-}) {}
-export class ListInsightsRequest extends S.Class<ListInsightsRequest>(
-  "ListInsightsRequest",
-)(
-  {
+export interface Update {
+  id?: string;
+  status?: string;
+  type?: string;
+  params?: UpdateParams;
+  createdAt?: Date;
+  errors?: ErrorDetails;
+}
+export const Update = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    status: S.optional(S.String),
+    type: S.optional(S.String),
+    params: S.optional(UpdateParams),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    errors: S.optional(ErrorDetails),
+  }),
+).annotations({ identifier: "Update" }) as any as S.Schema<Update>;
+export interface DisassociateIdentityProviderConfigResponse {
+  update?: Update;
+}
+export const DisassociateIdentityProviderConfigResponse = S.suspend(() =>
+  S.Struct({ update: S.optional(Update) }),
+).annotations({
+  identifier: "DisassociateIdentityProviderConfigResponse",
+}) as any as S.Schema<DisassociateIdentityProviderConfigResponse>;
+export interface ListAccessEntriesResponse {
+  accessEntries?: StringList;
+  nextToken?: string;
+}
+export const ListAccessEntriesResponse = S.suspend(() =>
+  S.Struct({
+    accessEntries: S.optional(StringList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListAccessEntriesResponse",
+}) as any as S.Schema<ListAccessEntriesResponse>;
+export interface ListAddonsResponse {
+  addons?: StringList;
+  nextToken?: string;
+}
+export const ListAddonsResponse = S.suspend(() =>
+  S.Struct({ addons: S.optional(StringList), nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListAddonsResponse",
+}) as any as S.Schema<ListAddonsResponse>;
+export interface ListClustersResponse {
+  clusters?: StringList;
+  nextToken?: string;
+}
+export const ListClustersResponse = S.suspend(() =>
+  S.Struct({
+    clusters: S.optional(StringList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListClustersResponse",
+}) as any as S.Schema<ListClustersResponse>;
+export interface ListEksAnywhereSubscriptionsResponse {
+  subscriptions?: EksAnywhereSubscriptionList;
+  nextToken?: string;
+}
+export const ListEksAnywhereSubscriptionsResponse = S.suspend(() =>
+  S.Struct({
+    subscriptions: S.optional(EksAnywhereSubscriptionList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListEksAnywhereSubscriptionsResponse",
+}) as any as S.Schema<ListEksAnywhereSubscriptionsResponse>;
+export interface ListFargateProfilesResponse {
+  fargateProfileNames?: StringList;
+  nextToken?: string;
+}
+export const ListFargateProfilesResponse = S.suspend(() =>
+  S.Struct({
+    fargateProfileNames: S.optional(StringList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListFargateProfilesResponse",
+}) as any as S.Schema<ListFargateProfilesResponse>;
+export interface ListIdentityProviderConfigsResponse {
+  identityProviderConfigs?: IdentityProviderConfigs;
+  nextToken?: string;
+}
+export const ListIdentityProviderConfigsResponse = S.suspend(() =>
+  S.Struct({
+    identityProviderConfigs: S.optional(IdentityProviderConfigs),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListIdentityProviderConfigsResponse",
+}) as any as S.Schema<ListIdentityProviderConfigsResponse>;
+export interface ListInsightsRequest {
+  clusterName: string;
+  filter?: InsightsFilter;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListInsightsRequest = S.suspend(() =>
+  S.Struct({
     clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     filter: S.optional(InsightsFilter),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/clusters/{clusterName}/insights" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/clusters/{clusterName}/insights" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListNodegroupsResponse extends S.Class<ListNodegroupsResponse>(
-  "ListNodegroupsResponse",
-)({ nodegroups: S.optional(StringList), nextToken: S.optional(S.String) }) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ tags: S.optional(TagMap) }) {}
-export class ListUpdatesResponse extends S.Class<ListUpdatesResponse>(
-  "ListUpdatesResponse",
-)({ updateIds: S.optional(StringList), nextToken: S.optional(S.String) }) {}
-export class RegisterClusterRequest extends S.Class<RegisterClusterRequest>(
-  "RegisterClusterRequest",
-)(
-  {
+).annotations({
+  identifier: "ListInsightsRequest",
+}) as any as S.Schema<ListInsightsRequest>;
+export interface ListNodegroupsResponse {
+  nodegroups?: StringList;
+  nextToken?: string;
+}
+export const ListNodegroupsResponse = S.suspend(() =>
+  S.Struct({
+    nodegroups: S.optional(StringList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListNodegroupsResponse",
+}) as any as S.Schema<ListNodegroupsResponse>;
+export interface ListTagsForResourceResponse {
+  tags?: TagMap;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ tags: S.optional(TagMap) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface ListUpdatesResponse {
+  updateIds?: StringList;
+  nextToken?: string;
+}
+export const ListUpdatesResponse = S.suspend(() =>
+  S.Struct({
+    updateIds: S.optional(StringList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListUpdatesResponse",
+}) as any as S.Schema<ListUpdatesResponse>;
+export interface RegisterClusterRequest {
+  name: string;
+  connectorConfig: ConnectorConfigRequest;
+  clientRequestToken?: string;
+  tags?: TagMap;
+}
+export const RegisterClusterRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     connectorConfig: ConnectorConfigRequest,
     clientRequestToken: S.optional(S.String),
     tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/cluster-registrations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/cluster-registrations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartInsightsRefreshResponse extends S.Class<StartInsightsRefreshResponse>(
-  "StartInsightsRefreshResponse",
-)({ message: S.optional(S.String), status: S.optional(S.String) }) {}
-export class UpdateAccessEntryResponse extends S.Class<UpdateAccessEntryResponse>(
-  "UpdateAccessEntryResponse",
-)({ accessEntry: S.optional(AccessEntry) }) {}
-export class UpdateAddonResponse extends S.Class<UpdateAddonResponse>(
-  "UpdateAddonResponse",
-)({ update: S.optional(Update) }) {}
-export class KubernetesNetworkConfigRequest extends S.Class<KubernetesNetworkConfigRequest>(
-  "KubernetesNetworkConfigRequest",
-)({
-  serviceIpv4Cidr: S.optional(S.String),
-  ipFamily: S.optional(S.String),
-  elasticLoadBalancing: S.optional(ElasticLoadBalancing),
-}) {}
-export class StorageConfigRequest extends S.Class<StorageConfigRequest>(
-  "StorageConfigRequest",
-)({ blockStorage: S.optional(BlockStorage) }) {}
-export class RemoteNetworkConfigRequest extends S.Class<RemoteNetworkConfigRequest>(
-  "RemoteNetworkConfigRequest",
-)({
-  remoteNodeNetworks: S.optional(RemoteNodeNetworkList),
-  remotePodNetworks: S.optional(RemotePodNetworkList),
-}) {}
-export class UpdateClusterConfigRequest extends S.Class<UpdateClusterConfigRequest>(
-  "UpdateClusterConfigRequest",
-)(
-  {
+).annotations({
+  identifier: "RegisterClusterRequest",
+}) as any as S.Schema<RegisterClusterRequest>;
+export interface StartInsightsRefreshResponse {
+  message?: string;
+  status?: string;
+}
+export const StartInsightsRefreshResponse = S.suspend(() =>
+  S.Struct({ message: S.optional(S.String), status: S.optional(S.String) }),
+).annotations({
+  identifier: "StartInsightsRefreshResponse",
+}) as any as S.Schema<StartInsightsRefreshResponse>;
+export interface UpdateAccessEntryResponse {
+  accessEntry?: AccessEntry;
+}
+export const UpdateAccessEntryResponse = S.suspend(() =>
+  S.Struct({ accessEntry: S.optional(AccessEntry) }),
+).annotations({
+  identifier: "UpdateAccessEntryResponse",
+}) as any as S.Schema<UpdateAccessEntryResponse>;
+export interface UpdateAddonResponse {
+  update?: Update;
+}
+export const UpdateAddonResponse = S.suspend(() =>
+  S.Struct({ update: S.optional(Update) }),
+).annotations({
+  identifier: "UpdateAddonResponse",
+}) as any as S.Schema<UpdateAddonResponse>;
+export interface KubernetesNetworkConfigRequest {
+  serviceIpv4Cidr?: string;
+  ipFamily?: string;
+  elasticLoadBalancing?: ElasticLoadBalancing;
+}
+export const KubernetesNetworkConfigRequest = S.suspend(() =>
+  S.Struct({
+    serviceIpv4Cidr: S.optional(S.String),
+    ipFamily: S.optional(S.String),
+    elasticLoadBalancing: S.optional(ElasticLoadBalancing),
+  }),
+).annotations({
+  identifier: "KubernetesNetworkConfigRequest",
+}) as any as S.Schema<KubernetesNetworkConfigRequest>;
+export interface StorageConfigRequest {
+  blockStorage?: BlockStorage;
+}
+export const StorageConfigRequest = S.suspend(() =>
+  S.Struct({ blockStorage: S.optional(BlockStorage) }),
+).annotations({
+  identifier: "StorageConfigRequest",
+}) as any as S.Schema<StorageConfigRequest>;
+export interface RemoteNetworkConfigRequest {
+  remoteNodeNetworks?: RemoteNodeNetworkList;
+  remotePodNetworks?: RemotePodNetworkList;
+}
+export const RemoteNetworkConfigRequest = S.suspend(() =>
+  S.Struct({
+    remoteNodeNetworks: S.optional(RemoteNodeNetworkList),
+    remotePodNetworks: S.optional(RemotePodNetworkList),
+  }),
+).annotations({
+  identifier: "RemoteNetworkConfigRequest",
+}) as any as S.Schema<RemoteNetworkConfigRequest>;
+export interface UpdateClusterConfigRequest {
+  name: string;
+  resourcesVpcConfig?: VpcConfigRequest;
+  logging?: Logging;
+  clientRequestToken?: string;
+  accessConfig?: UpdateAccessConfigRequest;
+  upgradePolicy?: UpgradePolicyRequest;
+  zonalShiftConfig?: ZonalShiftConfigRequest;
+  computeConfig?: ComputeConfigRequest;
+  kubernetesNetworkConfig?: KubernetesNetworkConfigRequest;
+  storageConfig?: StorageConfigRequest;
+  remoteNetworkConfig?: RemoteNetworkConfigRequest;
+  deletionProtection?: boolean;
+  controlPlaneScalingConfig?: ControlPlaneScalingConfig;
+}
+export const UpdateClusterConfigRequest = S.suspend(() =>
+  S.Struct({
     name: S.String.pipe(T.HttpLabel("name")),
     resourcesVpcConfig: S.optional(VpcConfigRequest),
     logging: S.optional(Logging),
@@ -1943,26 +3097,47 @@ export class UpdateClusterConfigRequest extends S.Class<UpdateClusterConfigReque
     remoteNetworkConfig: S.optional(RemoteNetworkConfigRequest),
     deletionProtection: S.optional(S.Boolean),
     controlPlaneScalingConfig: S.optional(ControlPlaneScalingConfig),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/clusters/{name}/update-config" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/clusters/{name}/update-config" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateClusterVersionResponse extends S.Class<UpdateClusterVersionResponse>(
-  "UpdateClusterVersionResponse",
-)({ update: S.optional(Update) }) {}
-export class UpdateEksAnywhereSubscriptionResponse extends S.Class<UpdateEksAnywhereSubscriptionResponse>(
-  "UpdateEksAnywhereSubscriptionResponse",
-)({ subscription: S.optional(EksAnywhereSubscription) }) {}
-export class UpdateNodegroupConfigRequest extends S.Class<UpdateNodegroupConfigRequest>(
-  "UpdateNodegroupConfigRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateClusterConfigRequest",
+}) as any as S.Schema<UpdateClusterConfigRequest>;
+export interface UpdateClusterVersionResponse {
+  update?: Update;
+}
+export const UpdateClusterVersionResponse = S.suspend(() =>
+  S.Struct({ update: S.optional(Update) }),
+).annotations({
+  identifier: "UpdateClusterVersionResponse",
+}) as any as S.Schema<UpdateClusterVersionResponse>;
+export interface UpdateEksAnywhereSubscriptionResponse {
+  subscription?: EksAnywhereSubscription;
+}
+export const UpdateEksAnywhereSubscriptionResponse = S.suspend(() =>
+  S.Struct({ subscription: S.optional(EksAnywhereSubscription) }),
+).annotations({
+  identifier: "UpdateEksAnywhereSubscriptionResponse",
+}) as any as S.Schema<UpdateEksAnywhereSubscriptionResponse>;
+export interface UpdateNodegroupConfigRequest {
+  clusterName: string;
+  nodegroupName: string;
+  labels?: UpdateLabelsPayload;
+  taints?: UpdateTaintsPayload;
+  scalingConfig?: NodegroupScalingConfig;
+  updateConfig?: NodegroupUpdateConfig;
+  nodeRepairConfig?: NodeRepairConfig;
+  clientRequestToken?: string;
+}
+export const UpdateNodegroupConfigRequest = S.suspend(() =>
+  S.Struct({
     clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     nodegroupName: S.String.pipe(T.HttpLabel("nodegroupName")),
     labels: S.optional(UpdateLabelsPayload),
@@ -1971,185 +3146,347 @@ export class UpdateNodegroupConfigRequest extends S.Class<UpdateNodegroupConfigR
     updateConfig: S.optional(NodegroupUpdateConfig),
     nodeRepairConfig: S.optional(NodeRepairConfig),
     clientRequestToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/clusters/{clusterName}/node-groups/{nodegroupName}/update-config",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/clusters/{clusterName}/node-groups/{nodegroupName}/update-config",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateNodegroupVersionResponse extends S.Class<UpdateNodegroupVersionResponse>(
-  "UpdateNodegroupVersionResponse",
-)({ update: S.optional(Update) }) {}
-export class UpdatePodIdentityAssociationResponse extends S.Class<UpdatePodIdentityAssociationResponse>(
-  "UpdatePodIdentityAssociationResponse",
-)({ association: S.optional(PodIdentityAssociation) }) {}
+).annotations({
+  identifier: "UpdateNodegroupConfigRequest",
+}) as any as S.Schema<UpdateNodegroupConfigRequest>;
+export interface UpdateNodegroupVersionResponse {
+  update?: Update;
+}
+export const UpdateNodegroupVersionResponse = S.suspend(() =>
+  S.Struct({ update: S.optional(Update) }),
+).annotations({
+  identifier: "UpdateNodegroupVersionResponse",
+}) as any as S.Schema<UpdateNodegroupVersionResponse>;
+export interface UpdatePodIdentityAssociationResponse {
+  association?: PodIdentityAssociation;
+}
+export const UpdatePodIdentityAssociationResponse = S.suspend(() =>
+  S.Struct({ association: S.optional(PodIdentityAssociation) }),
+).annotations({
+  identifier: "UpdatePodIdentityAssociationResponse",
+}) as any as S.Schema<UpdatePodIdentityAssociationResponse>;
+export type requiredClaimsMap = { [key: string]: string };
 export const requiredClaimsMap = S.Record({ key: S.String, value: S.String });
-export class ControlPlanePlacementRequest extends S.Class<ControlPlanePlacementRequest>(
-  "ControlPlanePlacementRequest",
-)({ groupName: S.optional(S.String) }) {}
-export class OidcIdentityProviderConfigRequest extends S.Class<OidcIdentityProviderConfigRequest>(
-  "OidcIdentityProviderConfigRequest",
-)({
-  identityProviderConfigName: S.String,
-  issuerUrl: S.String,
-  clientId: S.String,
-  usernameClaim: S.optional(S.String),
-  usernamePrefix: S.optional(S.String),
-  groupsClaim: S.optional(S.String),
-  groupsPrefix: S.optional(S.String),
-  requiredClaims: S.optional(requiredClaimsMap),
-}) {}
-export class OutpostConfigRequest extends S.Class<OutpostConfigRequest>(
-  "OutpostConfigRequest",
-)({
-  outpostArns: StringList,
-  controlPlaneInstanceType: S.String,
-  controlPlanePlacement: S.optional(ControlPlanePlacementRequest),
-}) {}
-export class AddonPodIdentityConfiguration extends S.Class<AddonPodIdentityConfiguration>(
-  "AddonPodIdentityConfiguration",
-)({
-  serviceAccount: S.optional(S.String),
-  recommendedManagedPolicies: S.optional(StringList),
-}) {}
+export interface ControlPlanePlacementRequest {
+  groupName?: string;
+}
+export const ControlPlanePlacementRequest = S.suspend(() =>
+  S.Struct({ groupName: S.optional(S.String) }),
+).annotations({
+  identifier: "ControlPlanePlacementRequest",
+}) as any as S.Schema<ControlPlanePlacementRequest>;
+export interface OidcIdentityProviderConfigRequest {
+  identityProviderConfigName: string;
+  issuerUrl: string;
+  clientId: string;
+  usernameClaim?: string;
+  usernamePrefix?: string;
+  groupsClaim?: string;
+  groupsPrefix?: string;
+  requiredClaims?: requiredClaimsMap;
+}
+export const OidcIdentityProviderConfigRequest = S.suspend(() =>
+  S.Struct({
+    identityProviderConfigName: S.String,
+    issuerUrl: S.String,
+    clientId: S.String,
+    usernameClaim: S.optional(S.String),
+    usernamePrefix: S.optional(S.String),
+    groupsClaim: S.optional(S.String),
+    groupsPrefix: S.optional(S.String),
+    requiredClaims: S.optional(requiredClaimsMap),
+  }),
+).annotations({
+  identifier: "OidcIdentityProviderConfigRequest",
+}) as any as S.Schema<OidcIdentityProviderConfigRequest>;
+export interface OutpostConfigRequest {
+  outpostArns: StringList;
+  controlPlaneInstanceType: string;
+  controlPlanePlacement?: ControlPlanePlacementRequest;
+}
+export const OutpostConfigRequest = S.suspend(() =>
+  S.Struct({
+    outpostArns: StringList,
+    controlPlaneInstanceType: S.String,
+    controlPlanePlacement: S.optional(ControlPlanePlacementRequest),
+  }),
+).annotations({
+  identifier: "OutpostConfigRequest",
+}) as any as S.Schema<OutpostConfigRequest>;
+export interface AddonPodIdentityConfiguration {
+  serviceAccount?: string;
+  recommendedManagedPolicies?: StringList;
+}
+export const AddonPodIdentityConfiguration = S.suspend(() =>
+  S.Struct({
+    serviceAccount: S.optional(S.String),
+    recommendedManagedPolicies: S.optional(StringList),
+  }),
+).annotations({
+  identifier: "AddonPodIdentityConfiguration",
+}) as any as S.Schema<AddonPodIdentityConfiguration>;
+export type AddonPodIdentityConfigurationList = AddonPodIdentityConfiguration[];
 export const AddonPodIdentityConfigurationList = S.Array(
   AddonPodIdentityConfiguration,
 );
-export class ClusterVersionInformation extends S.Class<ClusterVersionInformation>(
-  "ClusterVersionInformation",
-)({
-  clusterVersion: S.optional(S.String),
-  clusterType: S.optional(S.String),
-  defaultPlatformVersion: S.optional(S.String),
-  defaultVersion: S.optional(S.Boolean),
-  releaseDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  endOfStandardSupportDate: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  endOfExtendedSupportDate: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  status: S.optional(S.String),
-  versionStatus: S.optional(S.String),
-  kubernetesPatchVersion: S.optional(S.String),
-}) {}
+export interface ClusterVersionInformation {
+  clusterVersion?: string;
+  clusterType?: string;
+  defaultPlatformVersion?: string;
+  defaultVersion?: boolean;
+  releaseDate?: Date;
+  endOfStandardSupportDate?: Date;
+  endOfExtendedSupportDate?: Date;
+  status?: string;
+  versionStatus?: string;
+  kubernetesPatchVersion?: string;
+}
+export const ClusterVersionInformation = S.suspend(() =>
+  S.Struct({
+    clusterVersion: S.optional(S.String),
+    clusterType: S.optional(S.String),
+    defaultPlatformVersion: S.optional(S.String),
+    defaultVersion: S.optional(S.Boolean),
+    releaseDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    endOfStandardSupportDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    endOfExtendedSupportDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    status: S.optional(S.String),
+    versionStatus: S.optional(S.String),
+    kubernetesPatchVersion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ClusterVersionInformation",
+}) as any as S.Schema<ClusterVersionInformation>;
+export type ClusterVersionList = ClusterVersionInformation[];
 export const ClusterVersionList = S.Array(ClusterVersionInformation);
-export class AccessPolicy extends S.Class<AccessPolicy>("AccessPolicy")({
-  name: S.optional(S.String),
-  arn: S.optional(S.String),
-}) {}
+export interface AccessPolicy {
+  name?: string;
+  arn?: string;
+}
+export const AccessPolicy = S.suspend(() =>
+  S.Struct({ name: S.optional(S.String), arn: S.optional(S.String) }),
+).annotations({ identifier: "AccessPolicy" }) as any as S.Schema<AccessPolicy>;
+export type AccessPoliciesList = AccessPolicy[];
 export const AccessPoliciesList = S.Array(AccessPolicy);
-export class AssociatedAccessPolicy extends S.Class<AssociatedAccessPolicy>(
-  "AssociatedAccessPolicy",
-)({
-  policyArn: S.optional(S.String),
-  accessScope: S.optional(AccessScope),
-  associatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface AssociatedAccessPolicy {
+  policyArn?: string;
+  accessScope?: AccessScope;
+  associatedAt?: Date;
+  modifiedAt?: Date;
+}
+export const AssociatedAccessPolicy = S.suspend(() =>
+  S.Struct({
+    policyArn: S.optional(S.String),
+    accessScope: S.optional(AccessScope),
+    associatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "AssociatedAccessPolicy",
+}) as any as S.Schema<AssociatedAccessPolicy>;
+export type AssociatedAccessPoliciesList = AssociatedAccessPolicy[];
 export const AssociatedAccessPoliciesList = S.Array(AssociatedAccessPolicy);
-export class CapabilitySummary extends S.Class<CapabilitySummary>(
-  "CapabilitySummary",
-)({
-  capabilityName: S.optional(S.String),
-  arn: S.optional(S.String),
-  type: S.optional(S.String),
-  status: S.optional(S.String),
-  version: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface CapabilitySummary {
+  capabilityName?: string;
+  arn?: string;
+  type?: string;
+  status?: string;
+  version?: string;
+  createdAt?: Date;
+  modifiedAt?: Date;
+}
+export const CapabilitySummary = S.suspend(() =>
+  S.Struct({
+    capabilityName: S.optional(S.String),
+    arn: S.optional(S.String),
+    type: S.optional(S.String),
+    status: S.optional(S.String),
+    version: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "CapabilitySummary",
+}) as any as S.Schema<CapabilitySummary>;
+export type CapabilitySummaryList = CapabilitySummary[];
 export const CapabilitySummaryList = S.Array(CapabilitySummary);
-export class PodIdentityAssociationSummary extends S.Class<PodIdentityAssociationSummary>(
-  "PodIdentityAssociationSummary",
-)({
-  clusterName: S.optional(S.String),
-  namespace: S.optional(S.String),
-  serviceAccount: S.optional(S.String),
-  associationArn: S.optional(S.String),
-  associationId: S.optional(S.String),
-  ownerArn: S.optional(S.String),
-}) {}
+export interface PodIdentityAssociationSummary {
+  clusterName?: string;
+  namespace?: string;
+  serviceAccount?: string;
+  associationArn?: string;
+  associationId?: string;
+  ownerArn?: string;
+}
+export const PodIdentityAssociationSummary = S.suspend(() =>
+  S.Struct({
+    clusterName: S.optional(S.String),
+    namespace: S.optional(S.String),
+    serviceAccount: S.optional(S.String),
+    associationArn: S.optional(S.String),
+    associationId: S.optional(S.String),
+    ownerArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "PodIdentityAssociationSummary",
+}) as any as S.Schema<PodIdentityAssociationSummary>;
+export type PodIdentityAssociationSummaries = PodIdentityAssociationSummary[];
 export const PodIdentityAssociationSummaries = S.Array(
   PodIdentityAssociationSummary,
 );
-export class ArgoCdAwsIdcConfigRequest extends S.Class<ArgoCdAwsIdcConfigRequest>(
-  "ArgoCdAwsIdcConfigRequest",
-)({ idcInstanceArn: S.String, idcRegion: S.optional(S.String) }) {}
-export class ArgoCdNetworkAccessConfigRequest extends S.Class<ArgoCdNetworkAccessConfigRequest>(
-  "ArgoCdNetworkAccessConfigRequest",
-)({ vpceIds: S.optional(StringList) }) {}
-export class UpdateRoleMappings extends S.Class<UpdateRoleMappings>(
-  "UpdateRoleMappings",
-)({
-  addOrUpdateRoleMappings: S.optional(ArgoCdRoleMappingList),
-  removeRoleMappings: S.optional(ArgoCdRoleMappingList),
-}) {}
-export class AssociateAccessPolicyResponse extends S.Class<AssociateAccessPolicyResponse>(
-  "AssociateAccessPolicyResponse",
-)({
-  clusterName: S.optional(S.String),
-  principalArn: S.optional(S.String),
-  associatedAccessPolicy: S.optional(AssociatedAccessPolicy),
-}) {}
-export class AssociateEncryptionConfigRequest extends S.Class<AssociateEncryptionConfigRequest>(
-  "AssociateEncryptionConfigRequest",
-)(
-  {
+export interface ArgoCdAwsIdcConfigRequest {
+  idcInstanceArn: string;
+  idcRegion?: string;
+}
+export const ArgoCdAwsIdcConfigRequest = S.suspend(() =>
+  S.Struct({ idcInstanceArn: S.String, idcRegion: S.optional(S.String) }),
+).annotations({
+  identifier: "ArgoCdAwsIdcConfigRequest",
+}) as any as S.Schema<ArgoCdAwsIdcConfigRequest>;
+export interface ArgoCdNetworkAccessConfigRequest {
+  vpceIds?: StringList;
+}
+export const ArgoCdNetworkAccessConfigRequest = S.suspend(() =>
+  S.Struct({ vpceIds: S.optional(StringList) }),
+).annotations({
+  identifier: "ArgoCdNetworkAccessConfigRequest",
+}) as any as S.Schema<ArgoCdNetworkAccessConfigRequest>;
+export interface UpdateRoleMappings {
+  addOrUpdateRoleMappings?: ArgoCdRoleMappingList;
+  removeRoleMappings?: ArgoCdRoleMappingList;
+}
+export const UpdateRoleMappings = S.suspend(() =>
+  S.Struct({
+    addOrUpdateRoleMappings: S.optional(ArgoCdRoleMappingList),
+    removeRoleMappings: S.optional(ArgoCdRoleMappingList),
+  }),
+).annotations({
+  identifier: "UpdateRoleMappings",
+}) as any as S.Schema<UpdateRoleMappings>;
+export interface AssociateAccessPolicyResponse {
+  clusterName?: string;
+  principalArn?: string;
+  associatedAccessPolicy?: AssociatedAccessPolicy;
+}
+export const AssociateAccessPolicyResponse = S.suspend(() =>
+  S.Struct({
+    clusterName: S.optional(S.String),
+    principalArn: S.optional(S.String),
+    associatedAccessPolicy: S.optional(AssociatedAccessPolicy),
+  }),
+).annotations({
+  identifier: "AssociateAccessPolicyResponse",
+}) as any as S.Schema<AssociateAccessPolicyResponse>;
+export interface AssociateEncryptionConfigRequest {
+  clusterName: string;
+  encryptionConfig: EncryptionConfigList;
+  clientRequestToken?: string;
+}
+export const AssociateEncryptionConfigRequest = S.suspend(() =>
+  S.Struct({
     clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     encryptionConfig: EncryptionConfigList,
     clientRequestToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/clusters/{clusterName}/encryption-config/associate",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/clusters/{clusterName}/encryption-config/associate",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AssociateIdentityProviderConfigRequest extends S.Class<AssociateIdentityProviderConfigRequest>(
-  "AssociateIdentityProviderConfigRequest",
-)(
-  {
+).annotations({
+  identifier: "AssociateEncryptionConfigRequest",
+}) as any as S.Schema<AssociateEncryptionConfigRequest>;
+export interface AssociateIdentityProviderConfigRequest {
+  clusterName: string;
+  oidc: OidcIdentityProviderConfigRequest;
+  tags?: TagMap;
+  clientRequestToken?: string;
+}
+export const AssociateIdentityProviderConfigRequest = S.suspend(() =>
+  S.Struct({
     clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     oidc: OidcIdentityProviderConfigRequest,
     tags: S.optional(TagMap),
     clientRequestToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/clusters/{clusterName}/identity-provider-configs/associate",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/clusters/{clusterName}/identity-provider-configs/associate",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateAccessEntryResponse extends S.Class<CreateAccessEntryResponse>(
-  "CreateAccessEntryResponse",
-)({ accessEntry: S.optional(AccessEntry) }) {}
-export class CreateAddonResponse extends S.Class<CreateAddonResponse>(
-  "CreateAddonResponse",
-)({ addon: S.optional(Addon) }) {}
-export class CreateClusterRequest extends S.Class<CreateClusterRequest>(
-  "CreateClusterRequest",
-)(
-  {
+).annotations({
+  identifier: "AssociateIdentityProviderConfigRequest",
+}) as any as S.Schema<AssociateIdentityProviderConfigRequest>;
+export interface CreateAccessEntryResponse {
+  accessEntry?: AccessEntry;
+}
+export const CreateAccessEntryResponse = S.suspend(() =>
+  S.Struct({ accessEntry: S.optional(AccessEntry) }),
+).annotations({
+  identifier: "CreateAccessEntryResponse",
+}) as any as S.Schema<CreateAccessEntryResponse>;
+export interface CreateAddonResponse {
+  addon?: Addon;
+}
+export const CreateAddonResponse = S.suspend(() =>
+  S.Struct({ addon: S.optional(Addon) }),
+).annotations({
+  identifier: "CreateAddonResponse",
+}) as any as S.Schema<CreateAddonResponse>;
+export interface CreateClusterRequest {
+  name: string;
+  version?: string;
+  roleArn: string;
+  resourcesVpcConfig: VpcConfigRequest;
+  kubernetesNetworkConfig?: KubernetesNetworkConfigRequest;
+  logging?: Logging;
+  clientRequestToken?: string;
+  tags?: TagMap;
+  encryptionConfig?: EncryptionConfigList;
+  outpostConfig?: OutpostConfigRequest;
+  accessConfig?: CreateAccessConfigRequest;
+  bootstrapSelfManagedAddons?: boolean;
+  upgradePolicy?: UpgradePolicyRequest;
+  zonalShiftConfig?: ZonalShiftConfigRequest;
+  remoteNetworkConfig?: RemoteNetworkConfigRequest;
+  computeConfig?: ComputeConfigRequest;
+  storageConfig?: StorageConfigRequest;
+  deletionProtection?: boolean;
+  controlPlaneScalingConfig?: ControlPlaneScalingConfig;
+}
+export const CreateClusterRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     version: S.optional(S.String),
     roleArn: S.String,
@@ -2169,23 +3506,38 @@ export class CreateClusterRequest extends S.Class<CreateClusterRequest>(
     storageConfig: S.optional(StorageConfigRequest),
     deletionProtection: S.optional(S.Boolean),
     controlPlaneScalingConfig: S.optional(ControlPlaneScalingConfig),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/clusters" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/clusters" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateEksAnywhereSubscriptionResponse extends S.Class<CreateEksAnywhereSubscriptionResponse>(
-  "CreateEksAnywhereSubscriptionResponse",
-)({ subscription: S.optional(EksAnywhereSubscription) }) {}
-export class CreateFargateProfileRequest extends S.Class<CreateFargateProfileRequest>(
-  "CreateFargateProfileRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateClusterRequest",
+}) as any as S.Schema<CreateClusterRequest>;
+export interface CreateEksAnywhereSubscriptionResponse {
+  subscription?: EksAnywhereSubscription;
+}
+export const CreateEksAnywhereSubscriptionResponse = S.suspend(() =>
+  S.Struct({ subscription: S.optional(EksAnywhereSubscription) }),
+).annotations({
+  identifier: "CreateEksAnywhereSubscriptionResponse",
+}) as any as S.Schema<CreateEksAnywhereSubscriptionResponse>;
+export interface CreateFargateProfileRequest {
+  fargateProfileName: string;
+  clusterName: string;
+  podExecutionRoleArn: string;
+  subnets?: StringList;
+  selectors?: FargateProfileSelectors;
+  clientRequestToken?: string;
+  tags?: TagMap;
+}
+export const CreateFargateProfileRequest = S.suspend(() =>
+  S.Struct({
     fargateProfileName: S.String,
     clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     podExecutionRoleArn: S.String,
@@ -2193,20 +3545,45 @@ export class CreateFargateProfileRequest extends S.Class<CreateFargateProfileReq
     selectors: S.optional(FargateProfileSelectors),
     clientRequestToken: S.optional(S.String),
     tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/clusters/{clusterName}/fargate-profiles" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/clusters/{clusterName}/fargate-profiles",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateNodegroupRequest extends S.Class<CreateNodegroupRequest>(
-  "CreateNodegroupRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateFargateProfileRequest",
+}) as any as S.Schema<CreateFargateProfileRequest>;
+export interface CreateNodegroupRequest {
+  clusterName: string;
+  nodegroupName: string;
+  scalingConfig?: NodegroupScalingConfig;
+  diskSize?: number;
+  subnets: StringList;
+  instanceTypes?: StringList;
+  amiType?: string;
+  remoteAccess?: RemoteAccessConfig;
+  nodeRole: string;
+  labels?: labelsMap;
+  taints?: taintsList;
+  tags?: TagMap;
+  clientRequestToken?: string;
+  launchTemplate?: LaunchTemplateSpecification;
+  updateConfig?: NodegroupUpdateConfig;
+  nodeRepairConfig?: NodeRepairConfig;
+  capacityType?: string;
+  version?: string;
+  releaseVersion?: string;
+}
+export const CreateNodegroupRequest = S.suspend(() =>
+  S.Struct({
     clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     nodegroupName: S.String,
     scalingConfig: S.optional(NodegroupScalingConfig),
@@ -2226,234 +3603,495 @@ export class CreateNodegroupRequest extends S.Class<CreateNodegroupRequest>(
     capacityType: S.optional(S.String),
     version: S.optional(S.String),
     releaseVersion: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/clusters/{clusterName}/node-groups" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/clusters/{clusterName}/node-groups" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreatePodIdentityAssociationResponse extends S.Class<CreatePodIdentityAssociationResponse>(
-  "CreatePodIdentityAssociationResponse",
-)({ association: S.optional(PodIdentityAssociation) }) {}
-export class DescribeAddonConfigurationResponse extends S.Class<DescribeAddonConfigurationResponse>(
-  "DescribeAddonConfigurationResponse",
-)({
-  addonName: S.optional(S.String),
-  addonVersion: S.optional(S.String),
-  configurationSchema: S.optional(S.String),
-  podIdentityConfiguration: S.optional(AddonPodIdentityConfigurationList),
-}) {}
-export class DescribeClusterVersionsResponse extends S.Class<DescribeClusterVersionsResponse>(
-  "DescribeClusterVersionsResponse",
-)({
-  nextToken: S.optional(S.String),
-  clusterVersions: S.optional(ClusterVersionList),
-}) {}
-export class ListAccessPoliciesResponse extends S.Class<ListAccessPoliciesResponse>(
-  "ListAccessPoliciesResponse",
-)({
-  accessPolicies: S.optional(AccessPoliciesList),
-  nextToken: S.optional(S.String),
-}) {}
-export class ListAssociatedAccessPoliciesResponse extends S.Class<ListAssociatedAccessPoliciesResponse>(
-  "ListAssociatedAccessPoliciesResponse",
-)({
-  clusterName: S.optional(S.String),
-  principalArn: S.optional(S.String),
-  nextToken: S.optional(S.String),
-  associatedAccessPolicies: S.optional(AssociatedAccessPoliciesList),
-}) {}
-export class ListCapabilitiesResponse extends S.Class<ListCapabilitiesResponse>(
-  "ListCapabilitiesResponse",
-)({
-  capabilities: S.optional(CapabilitySummaryList),
-  nextToken: S.optional(S.String),
-}) {}
-export class ListPodIdentityAssociationsResponse extends S.Class<ListPodIdentityAssociationsResponse>(
-  "ListPodIdentityAssociationsResponse",
-)({
-  associations: S.optional(PodIdentityAssociationSummaries),
-  nextToken: S.optional(S.String),
-}) {}
-export class RegisterClusterResponse extends S.Class<RegisterClusterResponse>(
-  "RegisterClusterResponse",
-)({ cluster: S.optional(Cluster) }) {}
-export class UpdateClusterConfigResponse extends S.Class<UpdateClusterConfigResponse>(
-  "UpdateClusterConfigResponse",
-)({ update: S.optional(Update) }) {}
-export class UpdateNodegroupConfigResponse extends S.Class<UpdateNodegroupConfigResponse>(
-  "UpdateNodegroupConfigResponse",
-)({ update: S.optional(Update) }) {}
-export class InsightStatus extends S.Class<InsightStatus>("InsightStatus")({
-  status: S.optional(S.String),
-  reason: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "CreateNodegroupRequest",
+}) as any as S.Schema<CreateNodegroupRequest>;
+export interface CreatePodIdentityAssociationResponse {
+  association?: PodIdentityAssociation;
+}
+export const CreatePodIdentityAssociationResponse = S.suspend(() =>
+  S.Struct({ association: S.optional(PodIdentityAssociation) }),
+).annotations({
+  identifier: "CreatePodIdentityAssociationResponse",
+}) as any as S.Schema<CreatePodIdentityAssociationResponse>;
+export interface DescribeAddonConfigurationResponse {
+  addonName?: string;
+  addonVersion?: string;
+  configurationSchema?: string;
+  podIdentityConfiguration?: AddonPodIdentityConfigurationList;
+}
+export const DescribeAddonConfigurationResponse = S.suspend(() =>
+  S.Struct({
+    addonName: S.optional(S.String),
+    addonVersion: S.optional(S.String),
+    configurationSchema: S.optional(S.String),
+    podIdentityConfiguration: S.optional(AddonPodIdentityConfigurationList),
+  }),
+).annotations({
+  identifier: "DescribeAddonConfigurationResponse",
+}) as any as S.Schema<DescribeAddonConfigurationResponse>;
+export interface DescribeClusterVersionsResponse {
+  nextToken?: string;
+  clusterVersions?: ClusterVersionList;
+}
+export const DescribeClusterVersionsResponse = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    clusterVersions: S.optional(ClusterVersionList),
+  }),
+).annotations({
+  identifier: "DescribeClusterVersionsResponse",
+}) as any as S.Schema<DescribeClusterVersionsResponse>;
+export interface ListAccessPoliciesResponse {
+  accessPolicies?: AccessPoliciesList;
+  nextToken?: string;
+}
+export const ListAccessPoliciesResponse = S.suspend(() =>
+  S.Struct({
+    accessPolicies: S.optional(AccessPoliciesList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListAccessPoliciesResponse",
+}) as any as S.Schema<ListAccessPoliciesResponse>;
+export interface ListAssociatedAccessPoliciesResponse {
+  clusterName?: string;
+  principalArn?: string;
+  nextToken?: string;
+  associatedAccessPolicies?: AssociatedAccessPoliciesList;
+}
+export const ListAssociatedAccessPoliciesResponse = S.suspend(() =>
+  S.Struct({
+    clusterName: S.optional(S.String),
+    principalArn: S.optional(S.String),
+    nextToken: S.optional(S.String),
+    associatedAccessPolicies: S.optional(AssociatedAccessPoliciesList),
+  }),
+).annotations({
+  identifier: "ListAssociatedAccessPoliciesResponse",
+}) as any as S.Schema<ListAssociatedAccessPoliciesResponse>;
+export interface ListCapabilitiesResponse {
+  capabilities?: CapabilitySummaryList;
+  nextToken?: string;
+}
+export const ListCapabilitiesResponse = S.suspend(() =>
+  S.Struct({
+    capabilities: S.optional(CapabilitySummaryList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListCapabilitiesResponse",
+}) as any as S.Schema<ListCapabilitiesResponse>;
+export interface ListPodIdentityAssociationsResponse {
+  associations?: PodIdentityAssociationSummaries;
+  nextToken?: string;
+}
+export const ListPodIdentityAssociationsResponse = S.suspend(() =>
+  S.Struct({
+    associations: S.optional(PodIdentityAssociationSummaries),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListPodIdentityAssociationsResponse",
+}) as any as S.Schema<ListPodIdentityAssociationsResponse>;
+export interface RegisterClusterResponse {
+  cluster?: Cluster;
+}
+export const RegisterClusterResponse = S.suspend(() =>
+  S.Struct({ cluster: S.optional(Cluster) }),
+).annotations({
+  identifier: "RegisterClusterResponse",
+}) as any as S.Schema<RegisterClusterResponse>;
+export interface UpdateClusterConfigResponse {
+  update?: Update;
+}
+export const UpdateClusterConfigResponse = S.suspend(() =>
+  S.Struct({ update: S.optional(Update) }),
+).annotations({
+  identifier: "UpdateClusterConfigResponse",
+}) as any as S.Schema<UpdateClusterConfigResponse>;
+export interface UpdateNodegroupConfigResponse {
+  update?: Update;
+}
+export const UpdateNodegroupConfigResponse = S.suspend(() =>
+  S.Struct({ update: S.optional(Update) }),
+).annotations({
+  identifier: "UpdateNodegroupConfigResponse",
+}) as any as S.Schema<UpdateNodegroupConfigResponse>;
+export interface InsightStatus {
+  status?: string;
+  reason?: string;
+}
+export const InsightStatus = S.suspend(() =>
+  S.Struct({ status: S.optional(S.String), reason: S.optional(S.String) }),
+).annotations({
+  identifier: "InsightStatus",
+}) as any as S.Schema<InsightStatus>;
+export type AdditionalInfoMap = { [key: string]: string };
 export const AdditionalInfoMap = S.Record({ key: S.String, value: S.String });
-export class InsightResourceDetail extends S.Class<InsightResourceDetail>(
-  "InsightResourceDetail",
-)({
-  insightStatus: S.optional(InsightStatus),
-  kubernetesResourceUri: S.optional(S.String),
-  arn: S.optional(S.String),
-}) {}
+export interface InsightResourceDetail {
+  insightStatus?: InsightStatus;
+  kubernetesResourceUri?: string;
+  arn?: string;
+}
+export const InsightResourceDetail = S.suspend(() =>
+  S.Struct({
+    insightStatus: S.optional(InsightStatus),
+    kubernetesResourceUri: S.optional(S.String),
+    arn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "InsightResourceDetail",
+}) as any as S.Schema<InsightResourceDetail>;
+export type InsightResourceDetails = InsightResourceDetail[];
 export const InsightResourceDetails = S.Array(InsightResourceDetail);
-export class UpdateArgoCdConfig extends S.Class<UpdateArgoCdConfig>(
-  "UpdateArgoCdConfig",
-)({
-  rbacRoleMappings: S.optional(UpdateRoleMappings),
-  networkAccess: S.optional(ArgoCdNetworkAccessConfigRequest),
-}) {}
-export class InsightSummary extends S.Class<InsightSummary>("InsightSummary")({
-  id: S.optional(S.String),
-  name: S.optional(S.String),
-  category: S.optional(S.String),
-  kubernetesVersion: S.optional(S.String),
-  lastRefreshTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastTransitionTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  description: S.optional(S.String),
-  insightStatus: S.optional(InsightStatus),
-}) {}
+export interface UpdateArgoCdConfig {
+  rbacRoleMappings?: UpdateRoleMappings;
+  networkAccess?: ArgoCdNetworkAccessConfigRequest;
+}
+export const UpdateArgoCdConfig = S.suspend(() =>
+  S.Struct({
+    rbacRoleMappings: S.optional(UpdateRoleMappings),
+    networkAccess: S.optional(ArgoCdNetworkAccessConfigRequest),
+  }),
+).annotations({
+  identifier: "UpdateArgoCdConfig",
+}) as any as S.Schema<UpdateArgoCdConfig>;
+export interface InsightSummary {
+  id?: string;
+  name?: string;
+  category?: string;
+  kubernetesVersion?: string;
+  lastRefreshTime?: Date;
+  lastTransitionTime?: Date;
+  description?: string;
+  insightStatus?: InsightStatus;
+}
+export const InsightSummary = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    category: S.optional(S.String),
+    kubernetesVersion: S.optional(S.String),
+    lastRefreshTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    lastTransitionTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    description: S.optional(S.String),
+    insightStatus: S.optional(InsightStatus),
+  }),
+).annotations({
+  identifier: "InsightSummary",
+}) as any as S.Schema<InsightSummary>;
+export type InsightSummaries = InsightSummary[];
 export const InsightSummaries = S.Array(InsightSummary);
-export class UpdateCapabilityConfiguration extends S.Class<UpdateCapabilityConfiguration>(
-  "UpdateCapabilityConfiguration",
-)({ argoCd: S.optional(UpdateArgoCdConfig) }) {}
-export class Compatibility extends S.Class<Compatibility>("Compatibility")({
-  clusterVersion: S.optional(S.String),
-  platformVersions: S.optional(StringList),
-  defaultVersion: S.optional(S.Boolean),
-}) {}
+export interface UpdateCapabilityConfiguration {
+  argoCd?: UpdateArgoCdConfig;
+}
+export const UpdateCapabilityConfiguration = S.suspend(() =>
+  S.Struct({ argoCd: S.optional(UpdateArgoCdConfig) }),
+).annotations({
+  identifier: "UpdateCapabilityConfiguration",
+}) as any as S.Schema<UpdateCapabilityConfiguration>;
+export interface Compatibility {
+  clusterVersion?: string;
+  platformVersions?: StringList;
+  defaultVersion?: boolean;
+}
+export const Compatibility = S.suspend(() =>
+  S.Struct({
+    clusterVersion: S.optional(S.String),
+    platformVersions: S.optional(StringList),
+    defaultVersion: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "Compatibility",
+}) as any as S.Schema<Compatibility>;
+export type Compatibilities = Compatibility[];
 export const Compatibilities = S.Array(Compatibility);
-export class AddonCompatibilityDetail extends S.Class<AddonCompatibilityDetail>(
-  "AddonCompatibilityDetail",
-)({ name: S.optional(S.String), compatibleVersions: S.optional(StringList) }) {}
+export interface AddonCompatibilityDetail {
+  name?: string;
+  compatibleVersions?: StringList;
+}
+export const AddonCompatibilityDetail = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    compatibleVersions: S.optional(StringList),
+  }),
+).annotations({
+  identifier: "AddonCompatibilityDetail",
+}) as any as S.Schema<AddonCompatibilityDetail>;
+export type AddonCompatibilityDetails = AddonCompatibilityDetail[];
 export const AddonCompatibilityDetails = S.Array(AddonCompatibilityDetail);
-export class AssociateEncryptionConfigResponse extends S.Class<AssociateEncryptionConfigResponse>(
-  "AssociateEncryptionConfigResponse",
-)({ update: S.optional(Update) }) {}
-export class AssociateIdentityProviderConfigResponse extends S.Class<AssociateIdentityProviderConfigResponse>(
-  "AssociateIdentityProviderConfigResponse",
-)({ update: S.optional(Update), tags: S.optional(TagMap) }) {}
-export class CreateClusterResponse extends S.Class<CreateClusterResponse>(
-  "CreateClusterResponse",
-)({ cluster: S.optional(Cluster) }) {}
-export class CreateFargateProfileResponse extends S.Class<CreateFargateProfileResponse>(
-  "CreateFargateProfileResponse",
-)({ fargateProfile: S.optional(FargateProfile) }) {}
-export class CreateNodegroupResponse extends S.Class<CreateNodegroupResponse>(
-  "CreateNodegroupResponse",
-)({ nodegroup: S.optional(Nodegroup) }) {}
-export class DeleteEksAnywhereSubscriptionResponse extends S.Class<DeleteEksAnywhereSubscriptionResponse>(
-  "DeleteEksAnywhereSubscriptionResponse",
-)({ subscription: S.optional(EksAnywhereSubscription) }) {}
-export class DescribeUpdateResponse extends S.Class<DescribeUpdateResponse>(
-  "DescribeUpdateResponse",
-)({ update: S.optional(Update) }) {}
-export class ListInsightsResponse extends S.Class<ListInsightsResponse>(
-  "ListInsightsResponse",
-)({
-  insights: S.optional(InsightSummaries),
-  nextToken: S.optional(S.String),
-}) {}
-export class UpdateCapabilityRequest extends S.Class<UpdateCapabilityRequest>(
-  "UpdateCapabilityRequest",
-)(
-  {
+export interface AssociateEncryptionConfigResponse {
+  update?: Update;
+}
+export const AssociateEncryptionConfigResponse = S.suspend(() =>
+  S.Struct({ update: S.optional(Update) }),
+).annotations({
+  identifier: "AssociateEncryptionConfigResponse",
+}) as any as S.Schema<AssociateEncryptionConfigResponse>;
+export interface AssociateIdentityProviderConfigResponse {
+  update?: Update;
+  tags?: TagMap;
+}
+export const AssociateIdentityProviderConfigResponse = S.suspend(() =>
+  S.Struct({ update: S.optional(Update), tags: S.optional(TagMap) }),
+).annotations({
+  identifier: "AssociateIdentityProviderConfigResponse",
+}) as any as S.Schema<AssociateIdentityProviderConfigResponse>;
+export interface CreateClusterResponse {
+  cluster?: Cluster;
+}
+export const CreateClusterResponse = S.suspend(() =>
+  S.Struct({ cluster: S.optional(Cluster) }),
+).annotations({
+  identifier: "CreateClusterResponse",
+}) as any as S.Schema<CreateClusterResponse>;
+export interface CreateFargateProfileResponse {
+  fargateProfile?: FargateProfile;
+}
+export const CreateFargateProfileResponse = S.suspend(() =>
+  S.Struct({ fargateProfile: S.optional(FargateProfile) }),
+).annotations({
+  identifier: "CreateFargateProfileResponse",
+}) as any as S.Schema<CreateFargateProfileResponse>;
+export interface CreateNodegroupResponse {
+  nodegroup?: Nodegroup;
+}
+export const CreateNodegroupResponse = S.suspend(() =>
+  S.Struct({ nodegroup: S.optional(Nodegroup) }),
+).annotations({
+  identifier: "CreateNodegroupResponse",
+}) as any as S.Schema<CreateNodegroupResponse>;
+export interface DeleteEksAnywhereSubscriptionResponse {
+  subscription?: EksAnywhereSubscription;
+}
+export const DeleteEksAnywhereSubscriptionResponse = S.suspend(() =>
+  S.Struct({ subscription: S.optional(EksAnywhereSubscription) }),
+).annotations({
+  identifier: "DeleteEksAnywhereSubscriptionResponse",
+}) as any as S.Schema<DeleteEksAnywhereSubscriptionResponse>;
+export interface DescribeUpdateResponse {
+  update?: Update;
+}
+export const DescribeUpdateResponse = S.suspend(() =>
+  S.Struct({ update: S.optional(Update) }),
+).annotations({
+  identifier: "DescribeUpdateResponse",
+}) as any as S.Schema<DescribeUpdateResponse>;
+export interface ListInsightsResponse {
+  insights?: InsightSummaries;
+  nextToken?: string;
+}
+export const ListInsightsResponse = S.suspend(() =>
+  S.Struct({
+    insights: S.optional(InsightSummaries),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListInsightsResponse",
+}) as any as S.Schema<ListInsightsResponse>;
+export interface UpdateCapabilityRequest {
+  clusterName: string;
+  capabilityName: string;
+  roleArn?: string;
+  configuration?: UpdateCapabilityConfiguration;
+  clientRequestToken?: string;
+  deletePropagationPolicy?: string;
+}
+export const UpdateCapabilityRequest = S.suspend(() =>
+  S.Struct({
     clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     capabilityName: S.String.pipe(T.HttpLabel("capabilityName")),
     roleArn: S.optional(S.String),
     configuration: S.optional(UpdateCapabilityConfiguration),
     clientRequestToken: S.optional(S.String),
     deletePropagationPolicy: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/clusters/{clusterName}/capabilities/{capabilityName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/clusters/{clusterName}/capabilities/{capabilityName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ArgoCdConfigRequest extends S.Class<ArgoCdConfigRequest>(
-  "ArgoCdConfigRequest",
-)({
-  namespace: S.optional(S.String),
-  awsIdc: ArgoCdAwsIdcConfigRequest,
-  rbacRoleMappings: S.optional(ArgoCdRoleMappingList),
-  networkAccess: S.optional(ArgoCdNetworkAccessConfigRequest),
-}) {}
-export class AddonVersionInfo extends S.Class<AddonVersionInfo>(
-  "AddonVersionInfo",
-)({
-  addonVersion: S.optional(S.String),
-  architecture: S.optional(StringList),
-  computeTypes: S.optional(StringList),
-  compatibilities: S.optional(Compatibilities),
-  requiresConfiguration: S.optional(S.Boolean),
-  requiresIamPermissions: S.optional(S.Boolean),
-}) {}
+).annotations({
+  identifier: "UpdateCapabilityRequest",
+}) as any as S.Schema<UpdateCapabilityRequest>;
+export interface ArgoCdConfigRequest {
+  namespace?: string;
+  awsIdc: ArgoCdAwsIdcConfigRequest;
+  rbacRoleMappings?: ArgoCdRoleMappingList;
+  networkAccess?: ArgoCdNetworkAccessConfigRequest;
+}
+export const ArgoCdConfigRequest = S.suspend(() =>
+  S.Struct({
+    namespace: S.optional(S.String),
+    awsIdc: ArgoCdAwsIdcConfigRequest,
+    rbacRoleMappings: S.optional(ArgoCdRoleMappingList),
+    networkAccess: S.optional(ArgoCdNetworkAccessConfigRequest),
+  }),
+).annotations({
+  identifier: "ArgoCdConfigRequest",
+}) as any as S.Schema<ArgoCdConfigRequest>;
+export interface AddonVersionInfo {
+  addonVersion?: string;
+  architecture?: StringList;
+  computeTypes?: StringList;
+  compatibilities?: Compatibilities;
+  requiresConfiguration?: boolean;
+  requiresIamPermissions?: boolean;
+}
+export const AddonVersionInfo = S.suspend(() =>
+  S.Struct({
+    addonVersion: S.optional(S.String),
+    architecture: S.optional(StringList),
+    computeTypes: S.optional(StringList),
+    compatibilities: S.optional(Compatibilities),
+    requiresConfiguration: S.optional(S.Boolean),
+    requiresIamPermissions: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "AddonVersionInfo",
+}) as any as S.Schema<AddonVersionInfo>;
+export type AddonVersionInfoList = AddonVersionInfo[];
 export const AddonVersionInfoList = S.Array(AddonVersionInfo);
-export class OidcIdentityProviderConfig extends S.Class<OidcIdentityProviderConfig>(
-  "OidcIdentityProviderConfig",
-)({
-  identityProviderConfigName: S.optional(S.String),
-  identityProviderConfigArn: S.optional(S.String),
-  clusterName: S.optional(S.String),
-  issuerUrl: S.optional(S.String),
-  clientId: S.optional(S.String),
-  usernameClaim: S.optional(S.String),
-  usernamePrefix: S.optional(S.String),
-  groupsClaim: S.optional(S.String),
-  groupsPrefix: S.optional(S.String),
-  requiredClaims: S.optional(requiredClaimsMap),
-  tags: S.optional(TagMap),
-  status: S.optional(S.String),
-}) {}
-export class ClientStat extends S.Class<ClientStat>("ClientStat")({
-  userAgent: S.optional(S.String),
-  numberOfRequestsLast30Days: S.optional(S.Number),
-  lastRequestTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface OidcIdentityProviderConfig {
+  identityProviderConfigName?: string;
+  identityProviderConfigArn?: string;
+  clusterName?: string;
+  issuerUrl?: string;
+  clientId?: string;
+  usernameClaim?: string;
+  usernamePrefix?: string;
+  groupsClaim?: string;
+  groupsPrefix?: string;
+  requiredClaims?: requiredClaimsMap;
+  tags?: TagMap;
+  status?: string;
+}
+export const OidcIdentityProviderConfig = S.suspend(() =>
+  S.Struct({
+    identityProviderConfigName: S.optional(S.String),
+    identityProviderConfigArn: S.optional(S.String),
+    clusterName: S.optional(S.String),
+    issuerUrl: S.optional(S.String),
+    clientId: S.optional(S.String),
+    usernameClaim: S.optional(S.String),
+    usernamePrefix: S.optional(S.String),
+    groupsClaim: S.optional(S.String),
+    groupsPrefix: S.optional(S.String),
+    requiredClaims: S.optional(requiredClaimsMap),
+    tags: S.optional(TagMap),
+    status: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "OidcIdentityProviderConfig",
+}) as any as S.Schema<OidcIdentityProviderConfig>;
+export interface ClientStat {
+  userAgent?: string;
+  numberOfRequestsLast30Days?: number;
+  lastRequestTime?: Date;
+}
+export const ClientStat = S.suspend(() =>
+  S.Struct({
+    userAgent: S.optional(S.String),
+    numberOfRequestsLast30Days: S.optional(S.Number),
+    lastRequestTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({ identifier: "ClientStat" }) as any as S.Schema<ClientStat>;
+export type ClientStats = ClientStat[];
 export const ClientStats = S.Array(ClientStat);
-export class CapabilityConfigurationRequest extends S.Class<CapabilityConfigurationRequest>(
-  "CapabilityConfigurationRequest",
-)({ argoCd: S.optional(ArgoCdConfigRequest) }) {}
-export class AddonInfo extends S.Class<AddonInfo>("AddonInfo")({
-  addonName: S.optional(S.String),
-  type: S.optional(S.String),
-  addonVersions: S.optional(AddonVersionInfoList),
-  publisher: S.optional(S.String),
-  owner: S.optional(S.String),
-  marketplaceInformation: S.optional(MarketplaceInformation),
-  defaultNamespace: S.optional(S.String),
-}) {}
+export interface CapabilityConfigurationRequest {
+  argoCd?: ArgoCdConfigRequest;
+}
+export const CapabilityConfigurationRequest = S.suspend(() =>
+  S.Struct({ argoCd: S.optional(ArgoCdConfigRequest) }),
+).annotations({
+  identifier: "CapabilityConfigurationRequest",
+}) as any as S.Schema<CapabilityConfigurationRequest>;
+export interface AddonInfo {
+  addonName?: string;
+  type?: string;
+  addonVersions?: AddonVersionInfoList;
+  publisher?: string;
+  owner?: string;
+  marketplaceInformation?: MarketplaceInformation;
+  defaultNamespace?: string;
+}
+export const AddonInfo = S.suspend(() =>
+  S.Struct({
+    addonName: S.optional(S.String),
+    type: S.optional(S.String),
+    addonVersions: S.optional(AddonVersionInfoList),
+    publisher: S.optional(S.String),
+    owner: S.optional(S.String),
+    marketplaceInformation: S.optional(MarketplaceInformation),
+    defaultNamespace: S.optional(S.String),
+  }),
+).annotations({ identifier: "AddonInfo" }) as any as S.Schema<AddonInfo>;
+export type Addons = AddonInfo[];
 export const Addons = S.Array(AddonInfo);
-export class IdentityProviderConfigResponse extends S.Class<IdentityProviderConfigResponse>(
-  "IdentityProviderConfigResponse",
-)({ oidc: S.optional(OidcIdentityProviderConfig) }) {}
-export class DeprecationDetail extends S.Class<DeprecationDetail>(
-  "DeprecationDetail",
-)({
-  usage: S.optional(S.String),
-  replacedWith: S.optional(S.String),
-  stopServingVersion: S.optional(S.String),
-  startServingReplacementVersion: S.optional(S.String),
-  clientStats: S.optional(ClientStats),
-}) {}
+export interface IdentityProviderConfigResponse {
+  oidc?: OidcIdentityProviderConfig;
+}
+export const IdentityProviderConfigResponse = S.suspend(() =>
+  S.Struct({ oidc: S.optional(OidcIdentityProviderConfig) }),
+).annotations({
+  identifier: "IdentityProviderConfigResponse",
+}) as any as S.Schema<IdentityProviderConfigResponse>;
+export interface DeprecationDetail {
+  usage?: string;
+  replacedWith?: string;
+  stopServingVersion?: string;
+  startServingReplacementVersion?: string;
+  clientStats?: ClientStats;
+}
+export const DeprecationDetail = S.suspend(() =>
+  S.Struct({
+    usage: S.optional(S.String),
+    replacedWith: S.optional(S.String),
+    stopServingVersion: S.optional(S.String),
+    startServingReplacementVersion: S.optional(S.String),
+    clientStats: S.optional(ClientStats),
+  }),
+).annotations({
+  identifier: "DeprecationDetail",
+}) as any as S.Schema<DeprecationDetail>;
+export type DeprecationDetails = DeprecationDetail[];
 export const DeprecationDetails = S.Array(DeprecationDetail);
-export class CreateCapabilityRequest extends S.Class<CreateCapabilityRequest>(
-  "CreateCapabilityRequest",
-)(
-  {
+export interface CreateCapabilityRequest {
+  capabilityName: string;
+  clusterName: string;
+  clientRequestToken?: string;
+  type: string;
+  roleArn: string;
+  configuration?: CapabilityConfigurationRequest;
+  tags?: TagMap;
+  deletePropagationPolicy: string;
+}
+export const CreateCapabilityRequest = S.suspend(() =>
+  S.Struct({
     capabilityName: S.String,
     clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     clientRequestToken: S.optional(S.String),
@@ -2462,68 +4100,148 @@ export class CreateCapabilityRequest extends S.Class<CreateCapabilityRequest>(
     configuration: S.optional(CapabilityConfigurationRequest),
     tags: S.optional(TagMap),
     deletePropagationPolicy: S.String,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/clusters/{clusterName}/capabilities" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/clusters/{clusterName}/capabilities" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAddonResponse extends S.Class<DeleteAddonResponse>(
-  "DeleteAddonResponse",
-)({ addon: S.optional(Addon) }) {}
-export class DeleteClusterResponse extends S.Class<DeleteClusterResponse>(
-  "DeleteClusterResponse",
-)({ cluster: S.optional(Cluster) }) {}
-export class DeleteFargateProfileResponse extends S.Class<DeleteFargateProfileResponse>(
-  "DeleteFargateProfileResponse",
-)({ fargateProfile: S.optional(FargateProfile) }) {}
-export class DeleteNodegroupResponse extends S.Class<DeleteNodegroupResponse>(
-  "DeleteNodegroupResponse",
-)({ nodegroup: S.optional(Nodegroup) }) {}
-export class DescribeAddonVersionsResponse extends S.Class<DescribeAddonVersionsResponse>(
-  "DescribeAddonVersionsResponse",
-)({ addons: S.optional(Addons), nextToken: S.optional(S.String) }) {}
-export class DescribeIdentityProviderConfigResponse extends S.Class<DescribeIdentityProviderConfigResponse>(
-  "DescribeIdentityProviderConfigResponse",
-)({ identityProviderConfig: S.optional(IdentityProviderConfigResponse) }) {}
-export class UpdateCapabilityResponse extends S.Class<UpdateCapabilityResponse>(
-  "UpdateCapabilityResponse",
-)({ update: S.optional(Update) }) {}
-export class InsightCategorySpecificSummary extends S.Class<InsightCategorySpecificSummary>(
-  "InsightCategorySpecificSummary",
-)({
-  deprecationDetails: S.optional(DeprecationDetails),
-  addonCompatibilityDetails: S.optional(AddonCompatibilityDetails),
-}) {}
-export class Insight extends S.Class<Insight>("Insight")({
-  id: S.optional(S.String),
-  name: S.optional(S.String),
-  category: S.optional(S.String),
-  kubernetesVersion: S.optional(S.String),
-  lastRefreshTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastTransitionTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  description: S.optional(S.String),
-  insightStatus: S.optional(InsightStatus),
-  recommendation: S.optional(S.String),
-  additionalInfo: S.optional(AdditionalInfoMap),
-  resources: S.optional(InsightResourceDetails),
-  categorySpecificSummary: S.optional(InsightCategorySpecificSummary),
-}) {}
-export class CreateCapabilityResponse extends S.Class<CreateCapabilityResponse>(
-  "CreateCapabilityResponse",
-)({ capability: S.optional(Capability) }) {}
-export class DeleteCapabilityResponse extends S.Class<DeleteCapabilityResponse>(
-  "DeleteCapabilityResponse",
-)({ capability: S.optional(Capability) }) {}
-export class DescribeInsightResponse extends S.Class<DescribeInsightResponse>(
-  "DescribeInsightResponse",
-)({ insight: S.optional(Insight) }) {}
+).annotations({
+  identifier: "CreateCapabilityRequest",
+}) as any as S.Schema<CreateCapabilityRequest>;
+export interface DeleteAddonResponse {
+  addon?: Addon;
+}
+export const DeleteAddonResponse = S.suspend(() =>
+  S.Struct({ addon: S.optional(Addon) }),
+).annotations({
+  identifier: "DeleteAddonResponse",
+}) as any as S.Schema<DeleteAddonResponse>;
+export interface DeleteClusterResponse {
+  cluster?: Cluster;
+}
+export const DeleteClusterResponse = S.suspend(() =>
+  S.Struct({ cluster: S.optional(Cluster) }),
+).annotations({
+  identifier: "DeleteClusterResponse",
+}) as any as S.Schema<DeleteClusterResponse>;
+export interface DeleteFargateProfileResponse {
+  fargateProfile?: FargateProfile;
+}
+export const DeleteFargateProfileResponse = S.suspend(() =>
+  S.Struct({ fargateProfile: S.optional(FargateProfile) }),
+).annotations({
+  identifier: "DeleteFargateProfileResponse",
+}) as any as S.Schema<DeleteFargateProfileResponse>;
+export interface DeleteNodegroupResponse {
+  nodegroup?: Nodegroup;
+}
+export const DeleteNodegroupResponse = S.suspend(() =>
+  S.Struct({ nodegroup: S.optional(Nodegroup) }),
+).annotations({
+  identifier: "DeleteNodegroupResponse",
+}) as any as S.Schema<DeleteNodegroupResponse>;
+export interface DescribeAddonVersionsResponse {
+  addons?: Addons;
+  nextToken?: string;
+}
+export const DescribeAddonVersionsResponse = S.suspend(() =>
+  S.Struct({ addons: S.optional(Addons), nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "DescribeAddonVersionsResponse",
+}) as any as S.Schema<DescribeAddonVersionsResponse>;
+export interface DescribeIdentityProviderConfigResponse {
+  identityProviderConfig?: IdentityProviderConfigResponse;
+}
+export const DescribeIdentityProviderConfigResponse = S.suspend(() =>
+  S.Struct({
+    identityProviderConfig: S.optional(IdentityProviderConfigResponse),
+  }),
+).annotations({
+  identifier: "DescribeIdentityProviderConfigResponse",
+}) as any as S.Schema<DescribeIdentityProviderConfigResponse>;
+export interface UpdateCapabilityResponse {
+  update?: Update;
+}
+export const UpdateCapabilityResponse = S.suspend(() =>
+  S.Struct({ update: S.optional(Update) }),
+).annotations({
+  identifier: "UpdateCapabilityResponse",
+}) as any as S.Schema<UpdateCapabilityResponse>;
+export interface InsightCategorySpecificSummary {
+  deprecationDetails?: DeprecationDetails;
+  addonCompatibilityDetails?: AddonCompatibilityDetails;
+}
+export const InsightCategorySpecificSummary = S.suspend(() =>
+  S.Struct({
+    deprecationDetails: S.optional(DeprecationDetails),
+    addonCompatibilityDetails: S.optional(AddonCompatibilityDetails),
+  }),
+).annotations({
+  identifier: "InsightCategorySpecificSummary",
+}) as any as S.Schema<InsightCategorySpecificSummary>;
+export interface Insight {
+  id?: string;
+  name?: string;
+  category?: string;
+  kubernetesVersion?: string;
+  lastRefreshTime?: Date;
+  lastTransitionTime?: Date;
+  description?: string;
+  insightStatus?: InsightStatus;
+  recommendation?: string;
+  additionalInfo?: AdditionalInfoMap;
+  resources?: InsightResourceDetails;
+  categorySpecificSummary?: InsightCategorySpecificSummary;
+}
+export const Insight = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    category: S.optional(S.String),
+    kubernetesVersion: S.optional(S.String),
+    lastRefreshTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    lastTransitionTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    description: S.optional(S.String),
+    insightStatus: S.optional(InsightStatus),
+    recommendation: S.optional(S.String),
+    additionalInfo: S.optional(AdditionalInfoMap),
+    resources: S.optional(InsightResourceDetails),
+    categorySpecificSummary: S.optional(InsightCategorySpecificSummary),
+  }),
+).annotations({ identifier: "Insight" }) as any as S.Schema<Insight>;
+export interface CreateCapabilityResponse {
+  capability?: Capability;
+}
+export const CreateCapabilityResponse = S.suspend(() =>
+  S.Struct({ capability: S.optional(Capability) }),
+).annotations({
+  identifier: "CreateCapabilityResponse",
+}) as any as S.Schema<CreateCapabilityResponse>;
+export interface DeleteCapabilityResponse {
+  capability?: Capability;
+}
+export const DeleteCapabilityResponse = S.suspend(() =>
+  S.Struct({ capability: S.optional(Capability) }),
+).annotations({
+  identifier: "DeleteCapabilityResponse",
+}) as any as S.Schema<DeleteCapabilityResponse>;
+export interface DescribeInsightResponse {
+  insight?: Insight;
+}
+export const DescribeInsightResponse = S.suspend(() =>
+  S.Struct({ insight: S.optional(Insight) }),
+).annotations({
+  identifier: "DescribeInsightResponse",
+}) as any as S.Schema<DescribeInsightResponse>;
 
 //# Errors
 export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(

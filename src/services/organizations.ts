@@ -483,934 +483,2263 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class DeleteOrganizationRequest extends S.Class<DeleteOrganizationRequest>(
-  "DeleteOrganizationRequest",
-)(
-  {},
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteOrganizationResponse extends S.Class<DeleteOrganizationResponse>(
-  "DeleteOrganizationResponse",
-)({}, ns) {}
-export class DeleteResourcePolicyRequest extends S.Class<DeleteResourcePolicyRequest>(
-  "DeleteResourcePolicyRequest",
-)(
-  {},
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteResourcePolicyResponse extends S.Class<DeleteResourcePolicyResponse>(
-  "DeleteResourcePolicyResponse",
-)({}, ns) {}
-export class DescribeOrganizationRequest extends S.Class<DescribeOrganizationRequest>(
-  "DescribeOrganizationRequest",
-)(
-  {},
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeResourcePolicyRequest extends S.Class<DescribeResourcePolicyRequest>(
-  "DescribeResourcePolicyRequest",
-)(
-  {},
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class EnableAllFeaturesRequest extends S.Class<EnableAllFeaturesRequest>(
-  "EnableAllFeaturesRequest",
-)(
-  {},
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class LeaveOrganizationRequest extends S.Class<LeaveOrganizationRequest>(
-  "LeaveOrganizationRequest",
-)(
-  {},
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class LeaveOrganizationResponse extends S.Class<LeaveOrganizationResponse>(
-  "LeaveOrganizationResponse",
-)({}, ns) {}
+export interface DeleteOrganizationRequest {}
+export const DeleteOrganizationRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteOrganizationRequest",
+}) as any as S.Schema<DeleteOrganizationRequest>;
+export interface DeleteOrganizationResponse {}
+export const DeleteOrganizationResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteOrganizationResponse",
+}) as any as S.Schema<DeleteOrganizationResponse>;
+export interface DeleteResourcePolicyRequest {}
+export const DeleteResourcePolicyRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteResourcePolicyRequest",
+}) as any as S.Schema<DeleteResourcePolicyRequest>;
+export interface DeleteResourcePolicyResponse {}
+export const DeleteResourcePolicyResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteResourcePolicyResponse",
+}) as any as S.Schema<DeleteResourcePolicyResponse>;
+export interface DescribeOrganizationRequest {}
+export const DescribeOrganizationRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeOrganizationRequest",
+}) as any as S.Schema<DescribeOrganizationRequest>;
+export interface DescribeResourcePolicyRequest {}
+export const DescribeResourcePolicyRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeResourcePolicyRequest",
+}) as any as S.Schema<DescribeResourcePolicyRequest>;
+export interface EnableAllFeaturesRequest {}
+export const EnableAllFeaturesRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "EnableAllFeaturesRequest",
+}) as any as S.Schema<EnableAllFeaturesRequest>;
+export interface LeaveOrganizationRequest {}
+export const LeaveOrganizationRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "LeaveOrganizationRequest",
+}) as any as S.Schema<LeaveOrganizationRequest>;
+export interface LeaveOrganizationResponse {}
+export const LeaveOrganizationResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "LeaveOrganizationResponse",
+}) as any as S.Schema<LeaveOrganizationResponse>;
+export type CreateAccountStates = string[];
 export const CreateAccountStates = S.Array(S.String);
+export type TagKeys = string[];
 export const TagKeys = S.Array(S.String);
-export class AcceptHandshakeRequest extends S.Class<AcceptHandshakeRequest>(
-  "AcceptHandshakeRequest",
-)(
-  { HandshakeId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class AttachPolicyRequest extends S.Class<AttachPolicyRequest>(
-  "AttachPolicyRequest",
-)(
-  { PolicyId: S.String, TargetId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class AttachPolicyResponse extends S.Class<AttachPolicyResponse>(
-  "AttachPolicyResponse",
-)({}, ns) {}
-export class CancelHandshakeRequest extends S.Class<CancelHandshakeRequest>(
-  "CancelHandshakeRequest",
-)(
-  { HandshakeId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CloseAccountRequest extends S.Class<CloseAccountRequest>(
-  "CloseAccountRequest",
-)(
-  { AccountId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CloseAccountResponse extends S.Class<CloseAccountResponse>(
-  "CloseAccountResponse",
-)({}, ns) {}
-export class Tag extends S.Class<Tag>("Tag")({
-  Key: S.String,
-  Value: S.String,
-}) {}
+export interface AcceptHandshakeRequest {
+  HandshakeId: string;
+}
+export const AcceptHandshakeRequest = S.suspend(() =>
+  S.Struct({ HandshakeId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "AcceptHandshakeRequest",
+}) as any as S.Schema<AcceptHandshakeRequest>;
+export interface AttachPolicyRequest {
+  PolicyId: string;
+  TargetId: string;
+}
+export const AttachPolicyRequest = S.suspend(() =>
+  S.Struct({ PolicyId: S.String, TargetId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "AttachPolicyRequest",
+}) as any as S.Schema<AttachPolicyRequest>;
+export interface AttachPolicyResponse {}
+export const AttachPolicyResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "AttachPolicyResponse",
+}) as any as S.Schema<AttachPolicyResponse>;
+export interface CancelHandshakeRequest {
+  HandshakeId: string;
+}
+export const CancelHandshakeRequest = S.suspend(() =>
+  S.Struct({ HandshakeId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CancelHandshakeRequest",
+}) as any as S.Schema<CancelHandshakeRequest>;
+export interface CloseAccountRequest {
+  AccountId: string;
+}
+export const CloseAccountRequest = S.suspend(() =>
+  S.Struct({ AccountId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CloseAccountRequest",
+}) as any as S.Schema<CloseAccountRequest>;
+export interface CloseAccountResponse {}
+export const CloseAccountResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "CloseAccountResponse",
+}) as any as S.Schema<CloseAccountResponse>;
+export interface Tag {
+  Key: string;
+  Value: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ Key: S.String, Value: S.String }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type Tags = Tag[];
 export const Tags = S.Array(Tag);
-export class CreateGovCloudAccountRequest extends S.Class<CreateGovCloudAccountRequest>(
-  "CreateGovCloudAccountRequest",
-)(
-  {
+export interface CreateGovCloudAccountRequest {
+  Email: string;
+  AccountName: string;
+  RoleName?: string;
+  IamUserAccessToBilling?: string;
+  Tags?: Tags;
+}
+export const CreateGovCloudAccountRequest = S.suspend(() =>
+  S.Struct({
     Email: S.String,
     AccountName: S.String,
     RoleName: S.optional(S.String),
     IamUserAccessToBilling: S.optional(S.String),
     Tags: S.optional(Tags),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateOrganizationRequest extends S.Class<CreateOrganizationRequest>(
-  "CreateOrganizationRequest",
-)(
-  { FeatureSet: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateOrganizationalUnitRequest extends S.Class<CreateOrganizationalUnitRequest>(
-  "CreateOrganizationalUnitRequest",
-)(
-  { ParentId: S.String, Name: S.String, Tags: S.optional(Tags) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreatePolicyRequest extends S.Class<CreatePolicyRequest>(
-  "CreatePolicyRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateGovCloudAccountRequest",
+}) as any as S.Schema<CreateGovCloudAccountRequest>;
+export interface CreateOrganizationRequest {
+  FeatureSet?: string;
+}
+export const CreateOrganizationRequest = S.suspend(() =>
+  S.Struct({ FeatureSet: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateOrganizationRequest",
+}) as any as S.Schema<CreateOrganizationRequest>;
+export interface CreateOrganizationalUnitRequest {
+  ParentId: string;
+  Name: string;
+  Tags?: Tags;
+}
+export const CreateOrganizationalUnitRequest = S.suspend(() =>
+  S.Struct({ ParentId: S.String, Name: S.String, Tags: S.optional(Tags) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateOrganizationalUnitRequest",
+}) as any as S.Schema<CreateOrganizationalUnitRequest>;
+export interface CreatePolicyRequest {
+  Content: string;
+  Description: string;
+  Name: string;
+  Type: string;
+  Tags?: Tags;
+}
+export const CreatePolicyRequest = S.suspend(() =>
+  S.Struct({
     Content: S.String,
     Description: S.String,
     Name: S.String,
     Type: S.String,
     Tags: S.optional(Tags),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeclineHandshakeRequest extends S.Class<DeclineHandshakeRequest>(
-  "DeclineHandshakeRequest",
-)(
-  { HandshakeId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteOrganizationalUnitRequest extends S.Class<DeleteOrganizationalUnitRequest>(
-  "DeleteOrganizationalUnitRequest",
-)(
-  { OrganizationalUnitId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteOrganizationalUnitResponse extends S.Class<DeleteOrganizationalUnitResponse>(
-  "DeleteOrganizationalUnitResponse",
-)({}, ns) {}
-export class DeletePolicyRequest extends S.Class<DeletePolicyRequest>(
-  "DeletePolicyRequest",
-)(
-  { PolicyId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeletePolicyResponse extends S.Class<DeletePolicyResponse>(
-  "DeletePolicyResponse",
-)({}, ns) {}
-export class DeregisterDelegatedAdministratorRequest extends S.Class<DeregisterDelegatedAdministratorRequest>(
-  "DeregisterDelegatedAdministratorRequest",
-)(
-  { AccountId: S.String, ServicePrincipal: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeregisterDelegatedAdministratorResponse extends S.Class<DeregisterDelegatedAdministratorResponse>(
-  "DeregisterDelegatedAdministratorResponse",
-)({}, ns) {}
-export class DescribeAccountRequest extends S.Class<DescribeAccountRequest>(
-  "DescribeAccountRequest",
-)(
-  { AccountId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeCreateAccountStatusRequest extends S.Class<DescribeCreateAccountStatusRequest>(
-  "DescribeCreateAccountStatusRequest",
-)(
-  { CreateAccountRequestId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeEffectivePolicyRequest extends S.Class<DescribeEffectivePolicyRequest>(
-  "DescribeEffectivePolicyRequest",
-)(
-  { PolicyType: S.String, TargetId: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeHandshakeRequest extends S.Class<DescribeHandshakeRequest>(
-  "DescribeHandshakeRequest",
-)(
-  { HandshakeId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeOrganizationalUnitRequest extends S.Class<DescribeOrganizationalUnitRequest>(
-  "DescribeOrganizationalUnitRequest",
-)(
-  { OrganizationalUnitId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribePolicyRequest extends S.Class<DescribePolicyRequest>(
-  "DescribePolicyRequest",
-)(
-  { PolicyId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeResponsibilityTransferRequest extends S.Class<DescribeResponsibilityTransferRequest>(
-  "DescribeResponsibilityTransferRequest",
-)(
-  { Id: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DetachPolicyRequest extends S.Class<DetachPolicyRequest>(
-  "DetachPolicyRequest",
-)(
-  { PolicyId: S.String, TargetId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DetachPolicyResponse extends S.Class<DetachPolicyResponse>(
-  "DetachPolicyResponse",
-)({}, ns) {}
-export class DisableAWSServiceAccessRequest extends S.Class<DisableAWSServiceAccessRequest>(
-  "DisableAWSServiceAccessRequest",
-)(
-  { ServicePrincipal: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DisableAWSServiceAccessResponse extends S.Class<DisableAWSServiceAccessResponse>(
-  "DisableAWSServiceAccessResponse",
-)({}, ns) {}
-export class DisablePolicyTypeRequest extends S.Class<DisablePolicyTypeRequest>(
-  "DisablePolicyTypeRequest",
-)(
-  { RootId: S.String, PolicyType: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class EnableAWSServiceAccessRequest extends S.Class<EnableAWSServiceAccessRequest>(
-  "EnableAWSServiceAccessRequest",
-)(
-  { ServicePrincipal: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class EnableAWSServiceAccessResponse extends S.Class<EnableAWSServiceAccessResponse>(
-  "EnableAWSServiceAccessResponse",
-)({}, ns) {}
-export class EnablePolicyTypeRequest extends S.Class<EnablePolicyTypeRequest>(
-  "EnablePolicyTypeRequest",
-)(
-  { RootId: S.String, PolicyType: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class HandshakeParty extends S.Class<HandshakeParty>("HandshakeParty")({
-  Id: S.String,
-  Type: S.String,
-}) {}
-export class InviteOrganizationToTransferResponsibilityRequest extends S.Class<InviteOrganizationToTransferResponsibilityRequest>(
-  "InviteOrganizationToTransferResponsibilityRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreatePolicyRequest",
+}) as any as S.Schema<CreatePolicyRequest>;
+export interface DeclineHandshakeRequest {
+  HandshakeId: string;
+}
+export const DeclineHandshakeRequest = S.suspend(() =>
+  S.Struct({ HandshakeId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeclineHandshakeRequest",
+}) as any as S.Schema<DeclineHandshakeRequest>;
+export interface DeleteOrganizationalUnitRequest {
+  OrganizationalUnitId: string;
+}
+export const DeleteOrganizationalUnitRequest = S.suspend(() =>
+  S.Struct({ OrganizationalUnitId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteOrganizationalUnitRequest",
+}) as any as S.Schema<DeleteOrganizationalUnitRequest>;
+export interface DeleteOrganizationalUnitResponse {}
+export const DeleteOrganizationalUnitResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteOrganizationalUnitResponse",
+}) as any as S.Schema<DeleteOrganizationalUnitResponse>;
+export interface DeletePolicyRequest {
+  PolicyId: string;
+}
+export const DeletePolicyRequest = S.suspend(() =>
+  S.Struct({ PolicyId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeletePolicyRequest",
+}) as any as S.Schema<DeletePolicyRequest>;
+export interface DeletePolicyResponse {}
+export const DeletePolicyResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeletePolicyResponse",
+}) as any as S.Schema<DeletePolicyResponse>;
+export interface DeregisterDelegatedAdministratorRequest {
+  AccountId: string;
+  ServicePrincipal: string;
+}
+export const DeregisterDelegatedAdministratorRequest = S.suspend(() =>
+  S.Struct({ AccountId: S.String, ServicePrincipal: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeregisterDelegatedAdministratorRequest",
+}) as any as S.Schema<DeregisterDelegatedAdministratorRequest>;
+export interface DeregisterDelegatedAdministratorResponse {}
+export const DeregisterDelegatedAdministratorResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeregisterDelegatedAdministratorResponse",
+}) as any as S.Schema<DeregisterDelegatedAdministratorResponse>;
+export interface DescribeAccountRequest {
+  AccountId: string;
+}
+export const DescribeAccountRequest = S.suspend(() =>
+  S.Struct({ AccountId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeAccountRequest",
+}) as any as S.Schema<DescribeAccountRequest>;
+export interface DescribeCreateAccountStatusRequest {
+  CreateAccountRequestId: string;
+}
+export const DescribeCreateAccountStatusRequest = S.suspend(() =>
+  S.Struct({ CreateAccountRequestId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeCreateAccountStatusRequest",
+}) as any as S.Schema<DescribeCreateAccountStatusRequest>;
+export interface DescribeEffectivePolicyRequest {
+  PolicyType: string;
+  TargetId?: string;
+}
+export const DescribeEffectivePolicyRequest = S.suspend(() =>
+  S.Struct({ PolicyType: S.String, TargetId: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeEffectivePolicyRequest",
+}) as any as S.Schema<DescribeEffectivePolicyRequest>;
+export interface DescribeHandshakeRequest {
+  HandshakeId: string;
+}
+export const DescribeHandshakeRequest = S.suspend(() =>
+  S.Struct({ HandshakeId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeHandshakeRequest",
+}) as any as S.Schema<DescribeHandshakeRequest>;
+export interface DescribeOrganizationalUnitRequest {
+  OrganizationalUnitId: string;
+}
+export const DescribeOrganizationalUnitRequest = S.suspend(() =>
+  S.Struct({ OrganizationalUnitId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeOrganizationalUnitRequest",
+}) as any as S.Schema<DescribeOrganizationalUnitRequest>;
+export interface DescribePolicyRequest {
+  PolicyId: string;
+}
+export const DescribePolicyRequest = S.suspend(() =>
+  S.Struct({ PolicyId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribePolicyRequest",
+}) as any as S.Schema<DescribePolicyRequest>;
+export interface DescribeResponsibilityTransferRequest {
+  Id: string;
+}
+export const DescribeResponsibilityTransferRequest = S.suspend(() =>
+  S.Struct({ Id: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeResponsibilityTransferRequest",
+}) as any as S.Schema<DescribeResponsibilityTransferRequest>;
+export interface DetachPolicyRequest {
+  PolicyId: string;
+  TargetId: string;
+}
+export const DetachPolicyRequest = S.suspend(() =>
+  S.Struct({ PolicyId: S.String, TargetId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DetachPolicyRequest",
+}) as any as S.Schema<DetachPolicyRequest>;
+export interface DetachPolicyResponse {}
+export const DetachPolicyResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DetachPolicyResponse",
+}) as any as S.Schema<DetachPolicyResponse>;
+export interface DisableAWSServiceAccessRequest {
+  ServicePrincipal: string;
+}
+export const DisableAWSServiceAccessRequest = S.suspend(() =>
+  S.Struct({ ServicePrincipal: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DisableAWSServiceAccessRequest",
+}) as any as S.Schema<DisableAWSServiceAccessRequest>;
+export interface DisableAWSServiceAccessResponse {}
+export const DisableAWSServiceAccessResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DisableAWSServiceAccessResponse",
+}) as any as S.Schema<DisableAWSServiceAccessResponse>;
+export interface DisablePolicyTypeRequest {
+  RootId: string;
+  PolicyType: string;
+}
+export const DisablePolicyTypeRequest = S.suspend(() =>
+  S.Struct({ RootId: S.String, PolicyType: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DisablePolicyTypeRequest",
+}) as any as S.Schema<DisablePolicyTypeRequest>;
+export interface EnableAWSServiceAccessRequest {
+  ServicePrincipal: string;
+}
+export const EnableAWSServiceAccessRequest = S.suspend(() =>
+  S.Struct({ ServicePrincipal: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "EnableAWSServiceAccessRequest",
+}) as any as S.Schema<EnableAWSServiceAccessRequest>;
+export interface EnableAWSServiceAccessResponse {}
+export const EnableAWSServiceAccessResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "EnableAWSServiceAccessResponse",
+}) as any as S.Schema<EnableAWSServiceAccessResponse>;
+export interface EnablePolicyTypeRequest {
+  RootId: string;
+  PolicyType: string;
+}
+export const EnablePolicyTypeRequest = S.suspend(() =>
+  S.Struct({ RootId: S.String, PolicyType: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "EnablePolicyTypeRequest",
+}) as any as S.Schema<EnablePolicyTypeRequest>;
+export interface HandshakeParty {
+  Id: string;
+  Type: string;
+}
+export const HandshakeParty = S.suspend(() =>
+  S.Struct({ Id: S.String, Type: S.String }),
+).annotations({
+  identifier: "HandshakeParty",
+}) as any as S.Schema<HandshakeParty>;
+export interface InviteOrganizationToTransferResponsibilityRequest {
+  Type: string;
+  Target: HandshakeParty;
+  Notes?: string;
+  StartTimestamp: Date;
+  SourceName: string;
+  Tags?: Tags;
+}
+export const InviteOrganizationToTransferResponsibilityRequest = S.suspend(() =>
+  S.Struct({
     Type: S.String,
     Target: HandshakeParty,
     Notes: S.optional(S.String),
     StartTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     SourceName: S.String,
     Tags: S.optional(Tags),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListAccountsRequest extends S.Class<ListAccountsRequest>(
-  "ListAccountsRequest",
-)(
-  { NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListAccountsForParentRequest extends S.Class<ListAccountsForParentRequest>(
-  "ListAccountsForParentRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "InviteOrganizationToTransferResponsibilityRequest",
+}) as any as S.Schema<InviteOrganizationToTransferResponsibilityRequest>;
+export interface ListAccountsRequest {
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListAccountsRequest = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListAccountsRequest",
+}) as any as S.Schema<ListAccountsRequest>;
+export interface ListAccountsForParentRequest {
+  ParentId: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListAccountsForParentRequest = S.suspend(() =>
+  S.Struct({
     ParentId: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListAccountsWithInvalidEffectivePolicyRequest extends S.Class<ListAccountsWithInvalidEffectivePolicyRequest>(
-  "ListAccountsWithInvalidEffectivePolicyRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListAccountsForParentRequest",
+}) as any as S.Schema<ListAccountsForParentRequest>;
+export interface ListAccountsWithInvalidEffectivePolicyRequest {
+  PolicyType: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListAccountsWithInvalidEffectivePolicyRequest = S.suspend(() =>
+  S.Struct({
     PolicyType: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListAWSServiceAccessForOrganizationRequest extends S.Class<ListAWSServiceAccessForOrganizationRequest>(
-  "ListAWSServiceAccessForOrganizationRequest",
-)(
-  { NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListChildrenRequest extends S.Class<ListChildrenRequest>(
-  "ListChildrenRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListAccountsWithInvalidEffectivePolicyRequest",
+}) as any as S.Schema<ListAccountsWithInvalidEffectivePolicyRequest>;
+export interface ListAWSServiceAccessForOrganizationRequest {
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListAWSServiceAccessForOrganizationRequest = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListAWSServiceAccessForOrganizationRequest",
+}) as any as S.Schema<ListAWSServiceAccessForOrganizationRequest>;
+export interface ListChildrenRequest {
+  ParentId: string;
+  ChildType: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListChildrenRequest = S.suspend(() =>
+  S.Struct({
     ParentId: S.String,
     ChildType: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListCreateAccountStatusRequest extends S.Class<ListCreateAccountStatusRequest>(
-  "ListCreateAccountStatusRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListChildrenRequest",
+}) as any as S.Schema<ListChildrenRequest>;
+export interface ListCreateAccountStatusRequest {
+  States?: CreateAccountStates;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListCreateAccountStatusRequest = S.suspend(() =>
+  S.Struct({
     States: S.optional(CreateAccountStates),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListDelegatedAdministratorsRequest extends S.Class<ListDelegatedAdministratorsRequest>(
-  "ListDelegatedAdministratorsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListCreateAccountStatusRequest",
+}) as any as S.Schema<ListCreateAccountStatusRequest>;
+export interface ListDelegatedAdministratorsRequest {
+  ServicePrincipal?: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListDelegatedAdministratorsRequest = S.suspend(() =>
+  S.Struct({
     ServicePrincipal: S.optional(S.String),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListDelegatedServicesForAccountRequest extends S.Class<ListDelegatedServicesForAccountRequest>(
-  "ListDelegatedServicesForAccountRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListDelegatedAdministratorsRequest",
+}) as any as S.Schema<ListDelegatedAdministratorsRequest>;
+export interface ListDelegatedServicesForAccountRequest {
+  AccountId: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListDelegatedServicesForAccountRequest = S.suspend(() =>
+  S.Struct({
     AccountId: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListEffectivePolicyValidationErrorsRequest extends S.Class<ListEffectivePolicyValidationErrorsRequest>(
-  "ListEffectivePolicyValidationErrorsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListDelegatedServicesForAccountRequest",
+}) as any as S.Schema<ListDelegatedServicesForAccountRequest>;
+export interface ListEffectivePolicyValidationErrorsRequest {
+  AccountId: string;
+  PolicyType: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListEffectivePolicyValidationErrorsRequest = S.suspend(() =>
+  S.Struct({
     AccountId: S.String,
     PolicyType: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class HandshakeFilter extends S.Class<HandshakeFilter>(
-  "HandshakeFilter",
-)({
-  ActionType: S.optional(S.String),
-  ParentHandshakeId: S.optional(S.String),
-}) {}
-export class ListHandshakesForOrganizationRequest extends S.Class<ListHandshakesForOrganizationRequest>(
-  "ListHandshakesForOrganizationRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListEffectivePolicyValidationErrorsRequest",
+}) as any as S.Schema<ListEffectivePolicyValidationErrorsRequest>;
+export interface HandshakeFilter {
+  ActionType?: string;
+  ParentHandshakeId?: string;
+}
+export const HandshakeFilter = S.suspend(() =>
+  S.Struct({
+    ActionType: S.optional(S.String),
+    ParentHandshakeId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "HandshakeFilter",
+}) as any as S.Schema<HandshakeFilter>;
+export interface ListHandshakesForOrganizationRequest {
+  Filter?: HandshakeFilter;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListHandshakesForOrganizationRequest = S.suspend(() =>
+  S.Struct({
     Filter: S.optional(HandshakeFilter),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListInboundResponsibilityTransfersRequest extends S.Class<ListInboundResponsibilityTransfersRequest>(
-  "ListInboundResponsibilityTransfersRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListHandshakesForOrganizationRequest",
+}) as any as S.Schema<ListHandshakesForOrganizationRequest>;
+export interface ListInboundResponsibilityTransfersRequest {
+  Type: string;
+  Id?: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListInboundResponsibilityTransfersRequest = S.suspend(() =>
+  S.Struct({
     Type: S.String,
     Id: S.optional(S.String),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListOrganizationalUnitsForParentRequest extends S.Class<ListOrganizationalUnitsForParentRequest>(
-  "ListOrganizationalUnitsForParentRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListInboundResponsibilityTransfersRequest",
+}) as any as S.Schema<ListInboundResponsibilityTransfersRequest>;
+export interface ListOrganizationalUnitsForParentRequest {
+  ParentId: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListOrganizationalUnitsForParentRequest = S.suspend(() =>
+  S.Struct({
     ParentId: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListOutboundResponsibilityTransfersRequest extends S.Class<ListOutboundResponsibilityTransfersRequest>(
-  "ListOutboundResponsibilityTransfersRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListOrganizationalUnitsForParentRequest",
+}) as any as S.Schema<ListOrganizationalUnitsForParentRequest>;
+export interface ListOutboundResponsibilityTransfersRequest {
+  Type: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListOutboundResponsibilityTransfersRequest = S.suspend(() =>
+  S.Struct({
     Type: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListParentsRequest extends S.Class<ListParentsRequest>(
-  "ListParentsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListOutboundResponsibilityTransfersRequest",
+}) as any as S.Schema<ListOutboundResponsibilityTransfersRequest>;
+export interface ListParentsRequest {
+  ChildId: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListParentsRequest = S.suspend(() =>
+  S.Struct({
     ChildId: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListPoliciesRequest extends S.Class<ListPoliciesRequest>(
-  "ListPoliciesRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListParentsRequest",
+}) as any as S.Schema<ListParentsRequest>;
+export interface ListPoliciesRequest {
+  Filter: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListPoliciesRequest = S.suspend(() =>
+  S.Struct({
     Filter: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListPoliciesForTargetRequest extends S.Class<ListPoliciesForTargetRequest>(
-  "ListPoliciesForTargetRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListPoliciesRequest",
+}) as any as S.Schema<ListPoliciesRequest>;
+export interface ListPoliciesForTargetRequest {
+  TargetId: string;
+  Filter: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListPoliciesForTargetRequest = S.suspend(() =>
+  S.Struct({
     TargetId: S.String,
     Filter: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListRootsRequest extends S.Class<ListRootsRequest>(
-  "ListRootsRequest",
-)(
-  { NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { ResourceId: S.String, NextToken: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTargetsForPolicyRequest extends S.Class<ListTargetsForPolicyRequest>(
-  "ListTargetsForPolicyRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListPoliciesForTargetRequest",
+}) as any as S.Schema<ListPoliciesForTargetRequest>;
+export interface ListRootsRequest {
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListRootsRequest = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListRootsRequest",
+}) as any as S.Schema<ListRootsRequest>;
+export interface ListTagsForResourceRequest {
+  ResourceId: string;
+  NextToken?: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceId: S.String, NextToken: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface ListTargetsForPolicyRequest {
+  PolicyId: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListTargetsForPolicyRequest = S.suspend(() =>
+  S.Struct({
     PolicyId: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class MoveAccountRequest extends S.Class<MoveAccountRequest>(
-  "MoveAccountRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListTargetsForPolicyRequest",
+}) as any as S.Schema<ListTargetsForPolicyRequest>;
+export interface MoveAccountRequest {
+  AccountId: string;
+  SourceParentId: string;
+  DestinationParentId: string;
+}
+export const MoveAccountRequest = S.suspend(() =>
+  S.Struct({
     AccountId: S.String,
     SourceParentId: S.String,
     DestinationParentId: S.String,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class MoveAccountResponse extends S.Class<MoveAccountResponse>(
-  "MoveAccountResponse",
-)({}, ns) {}
-export class PutResourcePolicyRequest extends S.Class<PutResourcePolicyRequest>(
-  "PutResourcePolicyRequest",
-)(
-  { Content: S.String, Tags: S.optional(Tags) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class RegisterDelegatedAdministratorRequest extends S.Class<RegisterDelegatedAdministratorRequest>(
-  "RegisterDelegatedAdministratorRequest",
-)(
-  { AccountId: S.String, ServicePrincipal: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class RegisterDelegatedAdministratorResponse extends S.Class<RegisterDelegatedAdministratorResponse>(
-  "RegisterDelegatedAdministratorResponse",
-)({}, ns) {}
-export class RemoveAccountFromOrganizationRequest extends S.Class<RemoveAccountFromOrganizationRequest>(
-  "RemoveAccountFromOrganizationRequest",
-)(
-  { AccountId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class RemoveAccountFromOrganizationResponse extends S.Class<RemoveAccountFromOrganizationResponse>(
-  "RemoveAccountFromOrganizationResponse",
-)({}, ns) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { ResourceId: S.String, Tags: Tags },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}, ns) {}
-export class TerminateResponsibilityTransferRequest extends S.Class<TerminateResponsibilityTransferRequest>(
-  "TerminateResponsibilityTransferRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "MoveAccountRequest",
+}) as any as S.Schema<MoveAccountRequest>;
+export interface MoveAccountResponse {}
+export const MoveAccountResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "MoveAccountResponse",
+}) as any as S.Schema<MoveAccountResponse>;
+export interface PutResourcePolicyRequest {
+  Content: string;
+  Tags?: Tags;
+}
+export const PutResourcePolicyRequest = S.suspend(() =>
+  S.Struct({ Content: S.String, Tags: S.optional(Tags) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutResourcePolicyRequest",
+}) as any as S.Schema<PutResourcePolicyRequest>;
+export interface RegisterDelegatedAdministratorRequest {
+  AccountId: string;
+  ServicePrincipal: string;
+}
+export const RegisterDelegatedAdministratorRequest = S.suspend(() =>
+  S.Struct({ AccountId: S.String, ServicePrincipal: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "RegisterDelegatedAdministratorRequest",
+}) as any as S.Schema<RegisterDelegatedAdministratorRequest>;
+export interface RegisterDelegatedAdministratorResponse {}
+export const RegisterDelegatedAdministratorResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "RegisterDelegatedAdministratorResponse",
+}) as any as S.Schema<RegisterDelegatedAdministratorResponse>;
+export interface RemoveAccountFromOrganizationRequest {
+  AccountId: string;
+}
+export const RemoveAccountFromOrganizationRequest = S.suspend(() =>
+  S.Struct({ AccountId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "RemoveAccountFromOrganizationRequest",
+}) as any as S.Schema<RemoveAccountFromOrganizationRequest>;
+export interface RemoveAccountFromOrganizationResponse {}
+export const RemoveAccountFromOrganizationResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "RemoveAccountFromOrganizationResponse",
+}) as any as S.Schema<RemoveAccountFromOrganizationResponse>;
+export interface TagResourceRequest {
+  ResourceId: string;
+  Tags: Tags;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceId: S.String, Tags: Tags }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface TerminateResponsibilityTransferRequest {
+  Id: string;
+  EndTimestamp?: Date;
+}
+export const TerminateResponsibilityTransferRequest = S.suspend(() =>
+  S.Struct({
     Id: S.String,
     EndTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  { ResourceId: S.String, TagKeys: TagKeys },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}, ns) {}
-export class UpdateOrganizationalUnitRequest extends S.Class<UpdateOrganizationalUnitRequest>(
-  "UpdateOrganizationalUnitRequest",
-)(
-  { OrganizationalUnitId: S.String, Name: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdatePolicyRequest extends S.Class<UpdatePolicyRequest>(
-  "UpdatePolicyRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "TerminateResponsibilityTransferRequest",
+}) as any as S.Schema<TerminateResponsibilityTransferRequest>;
+export interface UntagResourceRequest {
+  ResourceId: string;
+  TagKeys: TagKeys;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceId: S.String, TagKeys: TagKeys }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface UpdateOrganizationalUnitRequest {
+  OrganizationalUnitId: string;
+  Name?: string;
+}
+export const UpdateOrganizationalUnitRequest = S.suspend(() =>
+  S.Struct({ OrganizationalUnitId: S.String, Name: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateOrganizationalUnitRequest",
+}) as any as S.Schema<UpdateOrganizationalUnitRequest>;
+export interface UpdatePolicyRequest {
+  PolicyId: string;
+  Name?: string;
+  Description?: string;
+  Content?: string;
+}
+export const UpdatePolicyRequest = S.suspend(() =>
+  S.Struct({
     PolicyId: S.String,
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     Content: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateResponsibilityTransferRequest extends S.Class<UpdateResponsibilityTransferRequest>(
-  "UpdateResponsibilityTransferRequest",
-)(
-  { Id: S.String, Name: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdatePolicyRequest",
+}) as any as S.Schema<UpdatePolicyRequest>;
+export interface UpdateResponsibilityTransferRequest {
+  Id: string;
+  Name: string;
+}
+export const UpdateResponsibilityTransferRequest = S.suspend(() =>
+  S.Struct({ Id: S.String, Name: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateResponsibilityTransferRequest",
+}) as any as S.Schema<UpdateResponsibilityTransferRequest>;
+export type HandshakeParties = HandshakeParty[];
 export const HandshakeParties = S.Array(HandshakeParty);
-export class Account extends S.Class<Account>("Account")({
-  Id: S.optional(S.String),
-  Arn: S.optional(S.String),
-  Email: S.optional(S.String),
-  Name: S.optional(S.String),
-  Status: S.optional(S.String),
-  State: S.optional(S.String),
-  JoinedMethod: S.optional(S.String),
-  JoinedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface Account {
+  Id?: string;
+  Arn?: string;
+  Email?: string;
+  Name?: string;
+  Status?: string;
+  State?: string;
+  JoinedMethod?: string;
+  JoinedTimestamp?: Date;
+}
+export const Account = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Arn: S.optional(S.String),
+    Email: S.optional(S.String),
+    Name: S.optional(S.String),
+    Status: S.optional(S.String),
+    State: S.optional(S.String),
+    JoinedMethod: S.optional(S.String),
+    JoinedTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({ identifier: "Account" }) as any as S.Schema<Account>;
+export type Accounts = Account[];
 export const Accounts = S.Array(Account);
-export class CreateAccountStatus extends S.Class<CreateAccountStatus>(
-  "CreateAccountStatus",
-)({
-  Id: S.optional(S.String),
-  AccountName: S.optional(S.String),
-  State: S.optional(S.String),
-  RequestedTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  CompletedTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  AccountId: S.optional(S.String),
-  GovCloudAccountId: S.optional(S.String),
-  FailureReason: S.optional(S.String),
-}) {}
+export interface CreateAccountStatus {
+  Id?: string;
+  AccountName?: string;
+  State?: string;
+  RequestedTimestamp?: Date;
+  CompletedTimestamp?: Date;
+  AccountId?: string;
+  GovCloudAccountId?: string;
+  FailureReason?: string;
+}
+export const CreateAccountStatus = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    AccountName: S.optional(S.String),
+    State: S.optional(S.String),
+    RequestedTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    CompletedTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    AccountId: S.optional(S.String),
+    GovCloudAccountId: S.optional(S.String),
+    FailureReason: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CreateAccountStatus",
+}) as any as S.Schema<CreateAccountStatus>;
+export type CreateAccountStatuses = CreateAccountStatus[];
 export const CreateAccountStatuses = S.Array(CreateAccountStatus);
 export type HandshakeResources = HandshakeResource[];
 export const HandshakeResources = S.Array(
-  S.suspend((): S.Schema<HandshakeResource, any> => HandshakeResource),
+  S.suspend(
+    (): S.Schema<HandshakeResource, any> => HandshakeResource,
+  ).annotations({ identifier: "HandshakeResource" }),
 ) as any as S.Schema<HandshakeResources>;
-export class Handshake extends S.Class<Handshake>("Handshake")({
-  Id: S.optional(S.String),
-  Arn: S.optional(S.String),
-  Parties: S.optional(HandshakeParties),
-  State: S.optional(S.String),
-  RequestedTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  ExpirationTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  Action: S.optional(S.String),
-  Resources: S.optional(HandshakeResources),
-}) {}
+export interface Handshake {
+  Id?: string;
+  Arn?: string;
+  Parties?: HandshakeParties;
+  State?: string;
+  RequestedTimestamp?: Date;
+  ExpirationTimestamp?: Date;
+  Action?: string;
+  Resources?: HandshakeResources;
+}
+export const Handshake = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Arn: S.optional(S.String),
+    Parties: S.optional(HandshakeParties),
+    State: S.optional(S.String),
+    RequestedTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    ExpirationTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    Action: S.optional(S.String),
+    Resources: S.optional(HandshakeResources),
+  }),
+).annotations({ identifier: "Handshake" }) as any as S.Schema<Handshake>;
+export type Handshakes = Handshake[];
 export const Handshakes = S.Array(Handshake);
-export class TransferParticipant extends S.Class<TransferParticipant>(
-  "TransferParticipant",
-)({
-  ManagementAccountId: S.optional(S.String),
-  ManagementAccountEmail: S.optional(S.String),
-}) {}
-export class ResponsibilityTransfer extends S.Class<ResponsibilityTransfer>(
-  "ResponsibilityTransfer",
-)({
-  Arn: S.optional(S.String),
-  Name: S.optional(S.String),
-  Id: S.optional(S.String),
-  Type: S.optional(S.String),
-  Status: S.optional(S.String),
-  Source: S.optional(TransferParticipant),
-  Target: S.optional(TransferParticipant),
-  StartTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  EndTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  ActiveHandshakeId: S.optional(S.String),
-}) {}
+export interface TransferParticipant {
+  ManagementAccountId?: string;
+  ManagementAccountEmail?: string;
+}
+export const TransferParticipant = S.suspend(() =>
+  S.Struct({
+    ManagementAccountId: S.optional(S.String),
+    ManagementAccountEmail: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "TransferParticipant",
+}) as any as S.Schema<TransferParticipant>;
+export interface ResponsibilityTransfer {
+  Arn?: string;
+  Name?: string;
+  Id?: string;
+  Type?: string;
+  Status?: string;
+  Source?: TransferParticipant;
+  Target?: TransferParticipant;
+  StartTimestamp?: Date;
+  EndTimestamp?: Date;
+  ActiveHandshakeId?: string;
+}
+export const ResponsibilityTransfer = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    Name: S.optional(S.String),
+    Id: S.optional(S.String),
+    Type: S.optional(S.String),
+    Status: S.optional(S.String),
+    Source: S.optional(TransferParticipant),
+    Target: S.optional(TransferParticipant),
+    StartTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EndTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ActiveHandshakeId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ResponsibilityTransfer",
+}) as any as S.Schema<ResponsibilityTransfer>;
+export type ResponsibilityTransfers = ResponsibilityTransfer[];
 export const ResponsibilityTransfers = S.Array(ResponsibilityTransfer);
-export class OrganizationalUnit extends S.Class<OrganizationalUnit>(
-  "OrganizationalUnit",
-)({
-  Id: S.optional(S.String),
-  Arn: S.optional(S.String),
-  Name: S.optional(S.String),
-}) {}
+export interface OrganizationalUnit {
+  Id?: string;
+  Arn?: string;
+  Name?: string;
+}
+export const OrganizationalUnit = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Arn: S.optional(S.String),
+    Name: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "OrganizationalUnit",
+}) as any as S.Schema<OrganizationalUnit>;
+export type OrganizationalUnits = OrganizationalUnit[];
 export const OrganizationalUnits = S.Array(OrganizationalUnit);
-export class PolicyTypeSummary extends S.Class<PolicyTypeSummary>(
-  "PolicyTypeSummary",
-)({ Type: S.optional(S.String), Status: S.optional(S.String) }) {}
+export interface PolicyTypeSummary {
+  Type?: string;
+  Status?: string;
+}
+export const PolicyTypeSummary = S.suspend(() =>
+  S.Struct({ Type: S.optional(S.String), Status: S.optional(S.String) }),
+).annotations({
+  identifier: "PolicyTypeSummary",
+}) as any as S.Schema<PolicyTypeSummary>;
+export type PolicyTypes = PolicyTypeSummary[];
 export const PolicyTypes = S.Array(PolicyTypeSummary);
-export class Root extends S.Class<Root>("Root")({
-  Id: S.optional(S.String),
-  Arn: S.optional(S.String),
-  Name: S.optional(S.String),
-  PolicyTypes: S.optional(PolicyTypes),
-}) {}
+export interface Root {
+  Id?: string;
+  Arn?: string;
+  Name?: string;
+  PolicyTypes?: PolicyTypes;
+}
+export const Root = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Arn: S.optional(S.String),
+    Name: S.optional(S.String),
+    PolicyTypes: S.optional(PolicyTypes),
+  }),
+).annotations({ identifier: "Root" }) as any as S.Schema<Root>;
+export type Roots = Root[];
 export const Roots = S.Array(Root);
-export class AcceptHandshakeResponse extends S.Class<AcceptHandshakeResponse>(
-  "AcceptHandshakeResponse",
-)({ Handshake: S.optional(Handshake) }, ns) {}
-export class CancelHandshakeResponse extends S.Class<CancelHandshakeResponse>(
-  "CancelHandshakeResponse",
-)({ Handshake: S.optional(Handshake) }, ns) {}
-export class CreateAccountRequest extends S.Class<CreateAccountRequest>(
-  "CreateAccountRequest",
-)(
-  {
+export interface AcceptHandshakeResponse {
+  Handshake?: Handshake;
+}
+export const AcceptHandshakeResponse = S.suspend(() =>
+  S.Struct({ Handshake: S.optional(Handshake) }).pipe(ns),
+).annotations({
+  identifier: "AcceptHandshakeResponse",
+}) as any as S.Schema<AcceptHandshakeResponse>;
+export interface CancelHandshakeResponse {
+  Handshake?: Handshake;
+}
+export const CancelHandshakeResponse = S.suspend(() =>
+  S.Struct({ Handshake: S.optional(Handshake) }).pipe(ns),
+).annotations({
+  identifier: "CancelHandshakeResponse",
+}) as any as S.Schema<CancelHandshakeResponse>;
+export interface CreateAccountRequest {
+  Email: string;
+  AccountName: string;
+  RoleName?: string;
+  IamUserAccessToBilling?: string;
+  Tags?: Tags;
+}
+export const CreateAccountRequest = S.suspend(() =>
+  S.Struct({
     Email: S.String,
     AccountName: S.String,
     RoleName: S.optional(S.String),
     IamUserAccessToBilling: S.optional(S.String),
     Tags: S.optional(Tags),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class Organization extends S.Class<Organization>("Organization")({
-  Id: S.optional(S.String),
-  Arn: S.optional(S.String),
-  FeatureSet: S.optional(S.String),
-  MasterAccountArn: S.optional(S.String),
-  MasterAccountId: S.optional(S.String),
-  MasterAccountEmail: S.optional(S.String),
-  AvailablePolicyTypes: S.optional(PolicyTypes),
-}) {}
-export class CreateOrganizationResponse extends S.Class<CreateOrganizationResponse>(
-  "CreateOrganizationResponse",
-)({ Organization: S.optional(Organization) }, ns) {}
-export class DeclineHandshakeResponse extends S.Class<DeclineHandshakeResponse>(
-  "DeclineHandshakeResponse",
-)({ Handshake: S.optional(Handshake) }, ns) {}
-export class DescribeCreateAccountStatusResponse extends S.Class<DescribeCreateAccountStatusResponse>(
-  "DescribeCreateAccountStatusResponse",
-)({ CreateAccountStatus: S.optional(CreateAccountStatus) }, ns) {}
-export class DescribeHandshakeResponse extends S.Class<DescribeHandshakeResponse>(
-  "DescribeHandshakeResponse",
-)({ Handshake: S.optional(Handshake) }, ns) {}
-export class DescribeOrganizationalUnitResponse extends S.Class<DescribeOrganizationalUnitResponse>(
-  "DescribeOrganizationalUnitResponse",
-)({ OrganizationalUnit: S.optional(OrganizationalUnit) }, ns) {}
-export class PolicySummary extends S.Class<PolicySummary>("PolicySummary")({
-  Id: S.optional(S.String),
-  Arn: S.optional(S.String),
-  Name: S.optional(S.String),
-  Description: S.optional(S.String),
-  Type: S.optional(S.String),
-  AwsManaged: S.optional(S.Boolean),
-}) {}
-export class Policy extends S.Class<Policy>("Policy")({
-  PolicySummary: S.optional(PolicySummary),
-  Content: S.optional(S.String),
-}) {}
-export class DescribePolicyResponse extends S.Class<DescribePolicyResponse>(
-  "DescribePolicyResponse",
-)({ Policy: S.optional(Policy) }, ns) {}
-export class EnablePolicyTypeResponse extends S.Class<EnablePolicyTypeResponse>(
-  "EnablePolicyTypeResponse",
-)({ Root: S.optional(Root) }, ns) {}
-export class InviteAccountToOrganizationRequest extends S.Class<InviteAccountToOrganizationRequest>(
-  "InviteAccountToOrganizationRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateAccountRequest",
+}) as any as S.Schema<CreateAccountRequest>;
+export interface Organization {
+  Id?: string;
+  Arn?: string;
+  FeatureSet?: string;
+  MasterAccountArn?: string;
+  MasterAccountId?: string;
+  MasterAccountEmail?: string;
+  AvailablePolicyTypes?: PolicyTypes;
+}
+export const Organization = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Arn: S.optional(S.String),
+    FeatureSet: S.optional(S.String),
+    MasterAccountArn: S.optional(S.String),
+    MasterAccountId: S.optional(S.String),
+    MasterAccountEmail: S.optional(S.String),
+    AvailablePolicyTypes: S.optional(PolicyTypes),
+  }),
+).annotations({ identifier: "Organization" }) as any as S.Schema<Organization>;
+export interface CreateOrganizationResponse {
+  Organization?: Organization;
+}
+export const CreateOrganizationResponse = S.suspend(() =>
+  S.Struct({ Organization: S.optional(Organization) }).pipe(ns),
+).annotations({
+  identifier: "CreateOrganizationResponse",
+}) as any as S.Schema<CreateOrganizationResponse>;
+export interface DeclineHandshakeResponse {
+  Handshake?: Handshake;
+}
+export const DeclineHandshakeResponse = S.suspend(() =>
+  S.Struct({ Handshake: S.optional(Handshake) }).pipe(ns),
+).annotations({
+  identifier: "DeclineHandshakeResponse",
+}) as any as S.Schema<DeclineHandshakeResponse>;
+export interface DescribeCreateAccountStatusResponse {
+  CreateAccountStatus?: CreateAccountStatus;
+}
+export const DescribeCreateAccountStatusResponse = S.suspend(() =>
+  S.Struct({ CreateAccountStatus: S.optional(CreateAccountStatus) }).pipe(ns),
+).annotations({
+  identifier: "DescribeCreateAccountStatusResponse",
+}) as any as S.Schema<DescribeCreateAccountStatusResponse>;
+export interface DescribeHandshakeResponse {
+  Handshake?: Handshake;
+}
+export const DescribeHandshakeResponse = S.suspend(() =>
+  S.Struct({ Handshake: S.optional(Handshake) }).pipe(ns),
+).annotations({
+  identifier: "DescribeHandshakeResponse",
+}) as any as S.Schema<DescribeHandshakeResponse>;
+export interface DescribeOrganizationalUnitResponse {
+  OrganizationalUnit?: OrganizationalUnit;
+}
+export const DescribeOrganizationalUnitResponse = S.suspend(() =>
+  S.Struct({ OrganizationalUnit: S.optional(OrganizationalUnit) }).pipe(ns),
+).annotations({
+  identifier: "DescribeOrganizationalUnitResponse",
+}) as any as S.Schema<DescribeOrganizationalUnitResponse>;
+export interface PolicySummary {
+  Id?: string;
+  Arn?: string;
+  Name?: string;
+  Description?: string;
+  Type?: string;
+  AwsManaged?: boolean;
+}
+export const PolicySummary = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Arn: S.optional(S.String),
+    Name: S.optional(S.String),
+    Description: S.optional(S.String),
+    Type: S.optional(S.String),
+    AwsManaged: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "PolicySummary",
+}) as any as S.Schema<PolicySummary>;
+export interface Policy {
+  PolicySummary?: PolicySummary;
+  Content?: string;
+}
+export const Policy = S.suspend(() =>
+  S.Struct({
+    PolicySummary: S.optional(PolicySummary),
+    Content: S.optional(S.String),
+  }),
+).annotations({ identifier: "Policy" }) as any as S.Schema<Policy>;
+export interface DescribePolicyResponse {
+  Policy?: Policy;
+}
+export const DescribePolicyResponse = S.suspend(() =>
+  S.Struct({ Policy: S.optional(Policy) }).pipe(ns),
+).annotations({
+  identifier: "DescribePolicyResponse",
+}) as any as S.Schema<DescribePolicyResponse>;
+export interface EnablePolicyTypeResponse {
+  Root?: Root;
+}
+export const EnablePolicyTypeResponse = S.suspend(() =>
+  S.Struct({ Root: S.optional(Root) }).pipe(ns),
+).annotations({
+  identifier: "EnablePolicyTypeResponse",
+}) as any as S.Schema<EnablePolicyTypeResponse>;
+export interface InviteAccountToOrganizationRequest {
+  Target: HandshakeParty;
+  Notes?: string;
+  Tags?: Tags;
+}
+export const InviteAccountToOrganizationRequest = S.suspend(() =>
+  S.Struct({
     Target: HandshakeParty,
     Notes: S.optional(S.String),
     Tags: S.optional(Tags),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class InviteOrganizationToTransferResponsibilityResponse extends S.Class<InviteOrganizationToTransferResponsibilityResponse>(
-  "InviteOrganizationToTransferResponsibilityResponse",
-)({ Handshake: S.optional(Handshake) }, ns) {}
-export class ListAccountsResponse extends S.Class<ListAccountsResponse>(
-  "ListAccountsResponse",
-)({ Accounts: S.optional(Accounts), NextToken: S.optional(S.String) }, ns) {}
-export class ListAccountsForParentResponse extends S.Class<ListAccountsForParentResponse>(
-  "ListAccountsForParentResponse",
-)({ Accounts: S.optional(Accounts), NextToken: S.optional(S.String) }, ns) {}
-export class ListAccountsWithInvalidEffectivePolicyResponse extends S.Class<ListAccountsWithInvalidEffectivePolicyResponse>(
-  "ListAccountsWithInvalidEffectivePolicyResponse",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "InviteAccountToOrganizationRequest",
+}) as any as S.Schema<InviteAccountToOrganizationRequest>;
+export interface InviteOrganizationToTransferResponsibilityResponse {
+  Handshake?: Handshake;
+}
+export const InviteOrganizationToTransferResponsibilityResponse = S.suspend(
+  () => S.Struct({ Handshake: S.optional(Handshake) }).pipe(ns),
+).annotations({
+  identifier: "InviteOrganizationToTransferResponsibilityResponse",
+}) as any as S.Schema<InviteOrganizationToTransferResponsibilityResponse>;
+export interface ListAccountsResponse {
+  Accounts?: Accounts;
+  NextToken?: string;
+}
+export const ListAccountsResponse = S.suspend(() =>
+  S.Struct({
+    Accounts: S.optional(Accounts),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListAccountsResponse",
+}) as any as S.Schema<ListAccountsResponse>;
+export interface ListAccountsForParentResponse {
+  Accounts?: Accounts;
+  NextToken?: string;
+}
+export const ListAccountsForParentResponse = S.suspend(() =>
+  S.Struct({
+    Accounts: S.optional(Accounts),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListAccountsForParentResponse",
+}) as any as S.Schema<ListAccountsForParentResponse>;
+export interface ListAccountsWithInvalidEffectivePolicyResponse {
+  Accounts?: Accounts;
+  PolicyType?: string;
+  NextToken?: string;
+}
+export const ListAccountsWithInvalidEffectivePolicyResponse = S.suspend(() =>
+  S.Struct({
     Accounts: S.optional(Accounts),
     PolicyType: S.optional(S.String),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListCreateAccountStatusResponse extends S.Class<ListCreateAccountStatusResponse>(
-  "ListCreateAccountStatusResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListAccountsWithInvalidEffectivePolicyResponse",
+}) as any as S.Schema<ListAccountsWithInvalidEffectivePolicyResponse>;
+export interface ListCreateAccountStatusResponse {
+  CreateAccountStatuses?: CreateAccountStatuses;
+  NextToken?: string;
+}
+export const ListCreateAccountStatusResponse = S.suspend(() =>
+  S.Struct({
     CreateAccountStatuses: S.optional(CreateAccountStatuses),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListHandshakesForAccountRequest extends S.Class<ListHandshakesForAccountRequest>(
-  "ListHandshakesForAccountRequest",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListCreateAccountStatusResponse",
+}) as any as S.Schema<ListCreateAccountStatusResponse>;
+export interface ListHandshakesForAccountRequest {
+  Filter?: HandshakeFilter;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListHandshakesForAccountRequest = S.suspend(() =>
+  S.Struct({
     Filter: S.optional(HandshakeFilter),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListHandshakesForOrganizationResponse extends S.Class<ListHandshakesForOrganizationResponse>(
-  "ListHandshakesForOrganizationResponse",
-)(
-  { Handshakes: S.optional(Handshakes), NextToken: S.optional(S.String) },
-  ns,
-) {}
-export class ListInboundResponsibilityTransfersResponse extends S.Class<ListInboundResponsibilityTransfersResponse>(
-  "ListInboundResponsibilityTransfersResponse",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListHandshakesForAccountRequest",
+}) as any as S.Schema<ListHandshakesForAccountRequest>;
+export interface ListHandshakesForOrganizationResponse {
+  Handshakes?: Handshakes;
+  NextToken?: string;
+}
+export const ListHandshakesForOrganizationResponse = S.suspend(() =>
+  S.Struct({
+    Handshakes: S.optional(Handshakes),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListHandshakesForOrganizationResponse",
+}) as any as S.Schema<ListHandshakesForOrganizationResponse>;
+export interface ListInboundResponsibilityTransfersResponse {
+  ResponsibilityTransfers?: ResponsibilityTransfers;
+  NextToken?: string;
+}
+export const ListInboundResponsibilityTransfersResponse = S.suspend(() =>
+  S.Struct({
     ResponsibilityTransfers: S.optional(ResponsibilityTransfers),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListOrganizationalUnitsForParentResponse extends S.Class<ListOrganizationalUnitsForParentResponse>(
-  "ListOrganizationalUnitsForParentResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListInboundResponsibilityTransfersResponse",
+}) as any as S.Schema<ListInboundResponsibilityTransfersResponse>;
+export interface ListOrganizationalUnitsForParentResponse {
+  OrganizationalUnits?: OrganizationalUnits;
+  NextToken?: string;
+}
+export const ListOrganizationalUnitsForParentResponse = S.suspend(() =>
+  S.Struct({
     OrganizationalUnits: S.optional(OrganizationalUnits),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListOutboundResponsibilityTransfersResponse extends S.Class<ListOutboundResponsibilityTransfersResponse>(
-  "ListOutboundResponsibilityTransfersResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListOrganizationalUnitsForParentResponse",
+}) as any as S.Schema<ListOrganizationalUnitsForParentResponse>;
+export interface ListOutboundResponsibilityTransfersResponse {
+  ResponsibilityTransfers?: ResponsibilityTransfers;
+  NextToken?: string;
+}
+export const ListOutboundResponsibilityTransfersResponse = S.suspend(() =>
+  S.Struct({
     ResponsibilityTransfers: S.optional(ResponsibilityTransfers),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "ListOutboundResponsibilityTransfersResponse",
+}) as any as S.Schema<ListOutboundResponsibilityTransfersResponse>;
+export type Policies = PolicySummary[];
 export const Policies = S.Array(PolicySummary);
-export class ListPoliciesForTargetResponse extends S.Class<ListPoliciesForTargetResponse>(
-  "ListPoliciesForTargetResponse",
-)({ Policies: S.optional(Policies), NextToken: S.optional(S.String) }, ns) {}
-export class ListRootsResponse extends S.Class<ListRootsResponse>(
-  "ListRootsResponse",
-)({ Roots: S.optional(Roots), NextToken: S.optional(S.String) }, ns) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ Tags: S.optional(Tags), NextToken: S.optional(S.String) }, ns) {}
-export class ResourcePolicySummary extends S.Class<ResourcePolicySummary>(
-  "ResourcePolicySummary",
-)({ Id: S.optional(S.String), Arn: S.optional(S.String) }) {}
-export class ResourcePolicy extends S.Class<ResourcePolicy>("ResourcePolicy")({
-  ResourcePolicySummary: S.optional(ResourcePolicySummary),
-  Content: S.optional(S.String),
-}) {}
-export class PutResourcePolicyResponse extends S.Class<PutResourcePolicyResponse>(
-  "PutResourcePolicyResponse",
-)({ ResourcePolicy: S.optional(ResourcePolicy) }, ns) {}
-export class TerminateResponsibilityTransferResponse extends S.Class<TerminateResponsibilityTransferResponse>(
-  "TerminateResponsibilityTransferResponse",
-)({ ResponsibilityTransfer: S.optional(ResponsibilityTransfer) }, ns) {}
-export class UpdateOrganizationalUnitResponse extends S.Class<UpdateOrganizationalUnitResponse>(
-  "UpdateOrganizationalUnitResponse",
-)({ OrganizationalUnit: S.optional(OrganizationalUnit) }, ns) {}
-export class UpdatePolicyResponse extends S.Class<UpdatePolicyResponse>(
-  "UpdatePolicyResponse",
-)({ Policy: S.optional(Policy) }, ns) {}
-export class UpdateResponsibilityTransferResponse extends S.Class<UpdateResponsibilityTransferResponse>(
-  "UpdateResponsibilityTransferResponse",
-)({ ResponsibilityTransfer: S.optional(ResponsibilityTransfer) }, ns) {}
-export class HandshakeResource extends S.Class<HandshakeResource>(
-  "HandshakeResource",
-)({
-  Value: S.optional(S.String),
-  Type: S.optional(S.String),
-  Resources: S.optional(S.suspend(() => HandshakeResources)),
-}) {}
+export interface ListPoliciesForTargetResponse {
+  Policies?: Policies;
+  NextToken?: string;
+}
+export const ListPoliciesForTargetResponse = S.suspend(() =>
+  S.Struct({
+    Policies: S.optional(Policies),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListPoliciesForTargetResponse",
+}) as any as S.Schema<ListPoliciesForTargetResponse>;
+export interface ListRootsResponse {
+  Roots?: Roots;
+  NextToken?: string;
+}
+export const ListRootsResponse = S.suspend(() =>
+  S.Struct({ Roots: S.optional(Roots), NextToken: S.optional(S.String) }).pipe(
+    ns,
+  ),
+).annotations({
+  identifier: "ListRootsResponse",
+}) as any as S.Schema<ListRootsResponse>;
+export interface ListTagsForResourceResponse {
+  Tags?: Tags;
+  NextToken?: string;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ Tags: S.optional(Tags), NextToken: S.optional(S.String) }).pipe(
+    ns,
+  ),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface ResourcePolicySummary {
+  Id?: string;
+  Arn?: string;
+}
+export const ResourcePolicySummary = S.suspend(() =>
+  S.Struct({ Id: S.optional(S.String), Arn: S.optional(S.String) }),
+).annotations({
+  identifier: "ResourcePolicySummary",
+}) as any as S.Schema<ResourcePolicySummary>;
+export interface ResourcePolicy {
+  ResourcePolicySummary?: ResourcePolicySummary;
+  Content?: string;
+}
+export const ResourcePolicy = S.suspend(() =>
+  S.Struct({
+    ResourcePolicySummary: S.optional(ResourcePolicySummary),
+    Content: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ResourcePolicy",
+}) as any as S.Schema<ResourcePolicy>;
+export interface PutResourcePolicyResponse {
+  ResourcePolicy?: ResourcePolicy;
+}
+export const PutResourcePolicyResponse = S.suspend(() =>
+  S.Struct({ ResourcePolicy: S.optional(ResourcePolicy) }).pipe(ns),
+).annotations({
+  identifier: "PutResourcePolicyResponse",
+}) as any as S.Schema<PutResourcePolicyResponse>;
+export interface TerminateResponsibilityTransferResponse {
+  ResponsibilityTransfer?: ResponsibilityTransfer;
+}
+export const TerminateResponsibilityTransferResponse = S.suspend(() =>
+  S.Struct({ ResponsibilityTransfer: S.optional(ResponsibilityTransfer) }).pipe(
+    ns,
+  ),
+).annotations({
+  identifier: "TerminateResponsibilityTransferResponse",
+}) as any as S.Schema<TerminateResponsibilityTransferResponse>;
+export interface UpdateOrganizationalUnitResponse {
+  OrganizationalUnit?: OrganizationalUnit;
+}
+export const UpdateOrganizationalUnitResponse = S.suspend(() =>
+  S.Struct({ OrganizationalUnit: S.optional(OrganizationalUnit) }).pipe(ns),
+).annotations({
+  identifier: "UpdateOrganizationalUnitResponse",
+}) as any as S.Schema<UpdateOrganizationalUnitResponse>;
+export interface UpdatePolicyResponse {
+  Policy?: Policy;
+}
+export const UpdatePolicyResponse = S.suspend(() =>
+  S.Struct({ Policy: S.optional(Policy) }).pipe(ns),
+).annotations({
+  identifier: "UpdatePolicyResponse",
+}) as any as S.Schema<UpdatePolicyResponse>;
+export interface UpdateResponsibilityTransferResponse {
+  ResponsibilityTransfer?: ResponsibilityTransfer;
+}
+export const UpdateResponsibilityTransferResponse = S.suspend(() =>
+  S.Struct({ ResponsibilityTransfer: S.optional(ResponsibilityTransfer) }).pipe(
+    ns,
+  ),
+).annotations({
+  identifier: "UpdateResponsibilityTransferResponse",
+}) as any as S.Schema<UpdateResponsibilityTransferResponse>;
+export interface HandshakeResource {
+  Value?: string;
+  Type?: string;
+  Resources?: HandshakeResources;
+}
+export const HandshakeResource = S.suspend(() =>
+  S.Struct({
+    Value: S.optional(S.String),
+    Type: S.optional(S.String),
+    Resources: S.optional(
+      S.suspend(() => HandshakeResources).annotations({
+        identifier: "HandshakeResources",
+      }),
+    ),
+  }),
+).annotations({
+  identifier: "HandshakeResource",
+}) as any as S.Schema<HandshakeResource>;
+export type PolicyIds = string[];
 export const PolicyIds = S.Array(S.String);
-export class EffectivePolicy extends S.Class<EffectivePolicy>(
-  "EffectivePolicy",
-)({
-  PolicyContent: S.optional(S.String),
-  LastUpdatedTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  TargetId: S.optional(S.String),
-  PolicyType: S.optional(S.String),
-}) {}
-export class EnabledServicePrincipal extends S.Class<EnabledServicePrincipal>(
-  "EnabledServicePrincipal",
-)({
-  ServicePrincipal: S.optional(S.String),
-  DateEnabled: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface EffectivePolicy {
+  PolicyContent?: string;
+  LastUpdatedTimestamp?: Date;
+  TargetId?: string;
+  PolicyType?: string;
+}
+export const EffectivePolicy = S.suspend(() =>
+  S.Struct({
+    PolicyContent: S.optional(S.String),
+    LastUpdatedTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    TargetId: S.optional(S.String),
+    PolicyType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "EffectivePolicy",
+}) as any as S.Schema<EffectivePolicy>;
+export interface EnabledServicePrincipal {
+  ServicePrincipal?: string;
+  DateEnabled?: Date;
+}
+export const EnabledServicePrincipal = S.suspend(() =>
+  S.Struct({
+    ServicePrincipal: S.optional(S.String),
+    DateEnabled: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "EnabledServicePrincipal",
+}) as any as S.Schema<EnabledServicePrincipal>;
+export type EnabledServicePrincipals = EnabledServicePrincipal[];
 export const EnabledServicePrincipals = S.Array(EnabledServicePrincipal);
-export class Child extends S.Class<Child>("Child")({
-  Id: S.optional(S.String),
-  Type: S.optional(S.String),
-}) {}
+export interface Child {
+  Id?: string;
+  Type?: string;
+}
+export const Child = S.suspend(() =>
+  S.Struct({ Id: S.optional(S.String), Type: S.optional(S.String) }),
+).annotations({ identifier: "Child" }) as any as S.Schema<Child>;
+export type Children = Child[];
 export const Children = S.Array(Child);
-export class DelegatedAdministrator extends S.Class<DelegatedAdministrator>(
-  "DelegatedAdministrator",
-)({
-  Id: S.optional(S.String),
-  Arn: S.optional(S.String),
-  Email: S.optional(S.String),
-  Name: S.optional(S.String),
-  Status: S.optional(S.String),
-  State: S.optional(S.String),
-  JoinedMethod: S.optional(S.String),
-  JoinedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  DelegationEnabledDate: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
+export interface DelegatedAdministrator {
+  Id?: string;
+  Arn?: string;
+  Email?: string;
+  Name?: string;
+  Status?: string;
+  State?: string;
+  JoinedMethod?: string;
+  JoinedTimestamp?: Date;
+  DelegationEnabledDate?: Date;
+}
+export const DelegatedAdministrator = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Arn: S.optional(S.String),
+    Email: S.optional(S.String),
+    Name: S.optional(S.String),
+    Status: S.optional(S.String),
+    State: S.optional(S.String),
+    JoinedMethod: S.optional(S.String),
+    JoinedTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    DelegationEnabledDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "DelegatedAdministrator",
+}) as any as S.Schema<DelegatedAdministrator>;
+export type DelegatedAdministrators = DelegatedAdministrator[];
 export const DelegatedAdministrators = S.Array(DelegatedAdministrator);
-export class DelegatedService extends S.Class<DelegatedService>(
-  "DelegatedService",
-)({
-  ServicePrincipal: S.optional(S.String),
-  DelegationEnabledDate: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
+export interface DelegatedService {
+  ServicePrincipal?: string;
+  DelegationEnabledDate?: Date;
+}
+export const DelegatedService = S.suspend(() =>
+  S.Struct({
+    ServicePrincipal: S.optional(S.String),
+    DelegationEnabledDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "DelegatedService",
+}) as any as S.Schema<DelegatedService>;
+export type DelegatedServices = DelegatedService[];
 export const DelegatedServices = S.Array(DelegatedService);
-export class EffectivePolicyValidationError extends S.Class<EffectivePolicyValidationError>(
-  "EffectivePolicyValidationError",
-)({
-  ErrorCode: S.optional(S.String),
-  ErrorMessage: S.optional(S.String),
-  PathToError: S.optional(S.String),
-  ContributingPolicies: S.optional(PolicyIds),
-}) {}
+export interface EffectivePolicyValidationError {
+  ErrorCode?: string;
+  ErrorMessage?: string;
+  PathToError?: string;
+  ContributingPolicies?: PolicyIds;
+}
+export const EffectivePolicyValidationError = S.suspend(() =>
+  S.Struct({
+    ErrorCode: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
+    PathToError: S.optional(S.String),
+    ContributingPolicies: S.optional(PolicyIds),
+  }),
+).annotations({
+  identifier: "EffectivePolicyValidationError",
+}) as any as S.Schema<EffectivePolicyValidationError>;
+export type EffectivePolicyValidationErrors = EffectivePolicyValidationError[];
 export const EffectivePolicyValidationErrors = S.Array(
   EffectivePolicyValidationError,
 );
-export class Parent extends S.Class<Parent>("Parent")({
-  Id: S.optional(S.String),
-  Type: S.optional(S.String),
-}) {}
+export interface Parent {
+  Id?: string;
+  Type?: string;
+}
+export const Parent = S.suspend(() =>
+  S.Struct({ Id: S.optional(S.String), Type: S.optional(S.String) }),
+).annotations({ identifier: "Parent" }) as any as S.Schema<Parent>;
+export type Parents = Parent[];
 export const Parents = S.Array(Parent);
-export class PolicyTargetSummary extends S.Class<PolicyTargetSummary>(
-  "PolicyTargetSummary",
-)({
-  TargetId: S.optional(S.String),
-  Arn: S.optional(S.String),
-  Name: S.optional(S.String),
-  Type: S.optional(S.String),
-}) {}
+export interface PolicyTargetSummary {
+  TargetId?: string;
+  Arn?: string;
+  Name?: string;
+  Type?: string;
+}
+export const PolicyTargetSummary = S.suspend(() =>
+  S.Struct({
+    TargetId: S.optional(S.String),
+    Arn: S.optional(S.String),
+    Name: S.optional(S.String),
+    Type: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "PolicyTargetSummary",
+}) as any as S.Schema<PolicyTargetSummary>;
+export type PolicyTargets = PolicyTargetSummary[];
 export const PolicyTargets = S.Array(PolicyTargetSummary);
-export class CreateAccountResponse extends S.Class<CreateAccountResponse>(
-  "CreateAccountResponse",
-)({ CreateAccountStatus: S.optional(CreateAccountStatus) }, ns) {}
-export class CreateGovCloudAccountResponse extends S.Class<CreateGovCloudAccountResponse>(
-  "CreateGovCloudAccountResponse",
-)({ CreateAccountStatus: S.optional(CreateAccountStatus) }, ns) {}
-export class CreateOrganizationalUnitResponse extends S.Class<CreateOrganizationalUnitResponse>(
-  "CreateOrganizationalUnitResponse",
-)({ OrganizationalUnit: S.optional(OrganizationalUnit) }, ns) {}
-export class CreatePolicyResponse extends S.Class<CreatePolicyResponse>(
-  "CreatePolicyResponse",
-)({ Policy: S.optional(Policy) }, ns) {}
-export class DescribeAccountResponse extends S.Class<DescribeAccountResponse>(
-  "DescribeAccountResponse",
-)({ Account: S.optional(Account) }, ns) {}
-export class DescribeEffectivePolicyResponse extends S.Class<DescribeEffectivePolicyResponse>(
-  "DescribeEffectivePolicyResponse",
-)({ EffectivePolicy: S.optional(EffectivePolicy) }, ns) {}
-export class DescribeOrganizationResponse extends S.Class<DescribeOrganizationResponse>(
-  "DescribeOrganizationResponse",
-)({ Organization: S.optional(Organization) }, ns) {}
-export class DescribeResourcePolicyResponse extends S.Class<DescribeResourcePolicyResponse>(
-  "DescribeResourcePolicyResponse",
-)({ ResourcePolicy: S.optional(ResourcePolicy) }, ns) {}
-export class DisablePolicyTypeResponse extends S.Class<DisablePolicyTypeResponse>(
-  "DisablePolicyTypeResponse",
-)({ Root: S.optional(Root) }, ns) {}
-export class EnableAllFeaturesResponse extends S.Class<EnableAllFeaturesResponse>(
-  "EnableAllFeaturesResponse",
-)({ Handshake: S.optional(Handshake) }, ns) {}
-export class InviteAccountToOrganizationResponse extends S.Class<InviteAccountToOrganizationResponse>(
-  "InviteAccountToOrganizationResponse",
-)({ Handshake: S.optional(Handshake) }, ns) {}
-export class ListAWSServiceAccessForOrganizationResponse extends S.Class<ListAWSServiceAccessForOrganizationResponse>(
-  "ListAWSServiceAccessForOrganizationResponse",
-)(
-  {
+export interface CreateAccountResponse {
+  CreateAccountStatus?: CreateAccountStatus;
+}
+export const CreateAccountResponse = S.suspend(() =>
+  S.Struct({ CreateAccountStatus: S.optional(CreateAccountStatus) }).pipe(ns),
+).annotations({
+  identifier: "CreateAccountResponse",
+}) as any as S.Schema<CreateAccountResponse>;
+export interface CreateGovCloudAccountResponse {
+  CreateAccountStatus?: CreateAccountStatus;
+}
+export const CreateGovCloudAccountResponse = S.suspend(() =>
+  S.Struct({ CreateAccountStatus: S.optional(CreateAccountStatus) }).pipe(ns),
+).annotations({
+  identifier: "CreateGovCloudAccountResponse",
+}) as any as S.Schema<CreateGovCloudAccountResponse>;
+export interface CreateOrganizationalUnitResponse {
+  OrganizationalUnit?: OrganizationalUnit;
+}
+export const CreateOrganizationalUnitResponse = S.suspend(() =>
+  S.Struct({ OrganizationalUnit: S.optional(OrganizationalUnit) }).pipe(ns),
+).annotations({
+  identifier: "CreateOrganizationalUnitResponse",
+}) as any as S.Schema<CreateOrganizationalUnitResponse>;
+export interface CreatePolicyResponse {
+  Policy?: Policy;
+}
+export const CreatePolicyResponse = S.suspend(() =>
+  S.Struct({ Policy: S.optional(Policy) }).pipe(ns),
+).annotations({
+  identifier: "CreatePolicyResponse",
+}) as any as S.Schema<CreatePolicyResponse>;
+export interface DescribeAccountResponse {
+  Account?: Account;
+}
+export const DescribeAccountResponse = S.suspend(() =>
+  S.Struct({ Account: S.optional(Account) }).pipe(ns),
+).annotations({
+  identifier: "DescribeAccountResponse",
+}) as any as S.Schema<DescribeAccountResponse>;
+export interface DescribeEffectivePolicyResponse {
+  EffectivePolicy?: EffectivePolicy;
+}
+export const DescribeEffectivePolicyResponse = S.suspend(() =>
+  S.Struct({ EffectivePolicy: S.optional(EffectivePolicy) }).pipe(ns),
+).annotations({
+  identifier: "DescribeEffectivePolicyResponse",
+}) as any as S.Schema<DescribeEffectivePolicyResponse>;
+export interface DescribeOrganizationResponse {
+  Organization?: Organization;
+}
+export const DescribeOrganizationResponse = S.suspend(() =>
+  S.Struct({ Organization: S.optional(Organization) }).pipe(ns),
+).annotations({
+  identifier: "DescribeOrganizationResponse",
+}) as any as S.Schema<DescribeOrganizationResponse>;
+export interface DescribeResourcePolicyResponse {
+  ResourcePolicy?: ResourcePolicy;
+}
+export const DescribeResourcePolicyResponse = S.suspend(() =>
+  S.Struct({ ResourcePolicy: S.optional(ResourcePolicy) }).pipe(ns),
+).annotations({
+  identifier: "DescribeResourcePolicyResponse",
+}) as any as S.Schema<DescribeResourcePolicyResponse>;
+export interface DisablePolicyTypeResponse {
+  Root?: Root;
+}
+export const DisablePolicyTypeResponse = S.suspend(() =>
+  S.Struct({ Root: S.optional(Root) }).pipe(ns),
+).annotations({
+  identifier: "DisablePolicyTypeResponse",
+}) as any as S.Schema<DisablePolicyTypeResponse>;
+export interface EnableAllFeaturesResponse {
+  Handshake?: Handshake;
+}
+export const EnableAllFeaturesResponse = S.suspend(() =>
+  S.Struct({ Handshake: S.optional(Handshake) }).pipe(ns),
+).annotations({
+  identifier: "EnableAllFeaturesResponse",
+}) as any as S.Schema<EnableAllFeaturesResponse>;
+export interface InviteAccountToOrganizationResponse {
+  Handshake?: Handshake;
+}
+export const InviteAccountToOrganizationResponse = S.suspend(() =>
+  S.Struct({ Handshake: S.optional(Handshake) }).pipe(ns),
+).annotations({
+  identifier: "InviteAccountToOrganizationResponse",
+}) as any as S.Schema<InviteAccountToOrganizationResponse>;
+export interface ListAWSServiceAccessForOrganizationResponse {
+  EnabledServicePrincipals?: EnabledServicePrincipals;
+  NextToken?: string;
+}
+export const ListAWSServiceAccessForOrganizationResponse = S.suspend(() =>
+  S.Struct({
     EnabledServicePrincipals: S.optional(EnabledServicePrincipals),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListChildrenResponse extends S.Class<ListChildrenResponse>(
-  "ListChildrenResponse",
-)({ Children: S.optional(Children), NextToken: S.optional(S.String) }, ns) {}
-export class ListDelegatedAdministratorsResponse extends S.Class<ListDelegatedAdministratorsResponse>(
-  "ListDelegatedAdministratorsResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListAWSServiceAccessForOrganizationResponse",
+}) as any as S.Schema<ListAWSServiceAccessForOrganizationResponse>;
+export interface ListChildrenResponse {
+  Children?: Children;
+  NextToken?: string;
+}
+export const ListChildrenResponse = S.suspend(() =>
+  S.Struct({
+    Children: S.optional(Children),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListChildrenResponse",
+}) as any as S.Schema<ListChildrenResponse>;
+export interface ListDelegatedAdministratorsResponse {
+  DelegatedAdministrators?: DelegatedAdministrators;
+  NextToken?: string;
+}
+export const ListDelegatedAdministratorsResponse = S.suspend(() =>
+  S.Struct({
     DelegatedAdministrators: S.optional(DelegatedAdministrators),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListDelegatedServicesForAccountResponse extends S.Class<ListDelegatedServicesForAccountResponse>(
-  "ListDelegatedServicesForAccountResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListDelegatedAdministratorsResponse",
+}) as any as S.Schema<ListDelegatedAdministratorsResponse>;
+export interface ListDelegatedServicesForAccountResponse {
+  DelegatedServices?: DelegatedServices;
+  NextToken?: string;
+}
+export const ListDelegatedServicesForAccountResponse = S.suspend(() =>
+  S.Struct({
     DelegatedServices: S.optional(DelegatedServices),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListEffectivePolicyValidationErrorsResponse extends S.Class<ListEffectivePolicyValidationErrorsResponse>(
-  "ListEffectivePolicyValidationErrorsResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListDelegatedServicesForAccountResponse",
+}) as any as S.Schema<ListDelegatedServicesForAccountResponse>;
+export interface ListEffectivePolicyValidationErrorsResponse {
+  AccountId?: string;
+  PolicyType?: string;
+  Path?: string;
+  EvaluationTimestamp?: Date;
+  NextToken?: string;
+  EffectivePolicyValidationErrors?: EffectivePolicyValidationErrors;
+}
+export const ListEffectivePolicyValidationErrorsResponse = S.suspend(() =>
+  S.Struct({
     AccountId: S.optional(S.String),
     PolicyType: S.optional(S.String),
     Path: S.optional(S.String),
@@ -1421,30 +2750,68 @@ export class ListEffectivePolicyValidationErrorsResponse extends S.Class<ListEff
     EffectivePolicyValidationErrors: S.optional(
       EffectivePolicyValidationErrors,
     ),
-  },
-  ns,
-) {}
-export class ListHandshakesForAccountResponse extends S.Class<ListHandshakesForAccountResponse>(
-  "ListHandshakesForAccountResponse",
-)(
-  { Handshakes: S.optional(Handshakes), NextToken: S.optional(S.String) },
-  ns,
-) {}
-export class ListParentsResponse extends S.Class<ListParentsResponse>(
-  "ListParentsResponse",
-)({ Parents: S.optional(Parents), NextToken: S.optional(S.String) }, ns) {}
-export class ListPoliciesResponse extends S.Class<ListPoliciesResponse>(
-  "ListPoliciesResponse",
-)({ Policies: S.optional(Policies), NextToken: S.optional(S.String) }, ns) {}
-export class ListTargetsForPolicyResponse extends S.Class<ListTargetsForPolicyResponse>(
-  "ListTargetsForPolicyResponse",
-)(
-  { Targets: S.optional(PolicyTargets), NextToken: S.optional(S.String) },
-  ns,
-) {}
-export class DescribeResponsibilityTransferResponse extends S.Class<DescribeResponsibilityTransferResponse>(
-  "DescribeResponsibilityTransferResponse",
-)({ ResponsibilityTransfer: S.optional(ResponsibilityTransfer) }, ns) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "ListEffectivePolicyValidationErrorsResponse",
+}) as any as S.Schema<ListEffectivePolicyValidationErrorsResponse>;
+export interface ListHandshakesForAccountResponse {
+  Handshakes?: Handshakes;
+  NextToken?: string;
+}
+export const ListHandshakesForAccountResponse = S.suspend(() =>
+  S.Struct({
+    Handshakes: S.optional(Handshakes),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListHandshakesForAccountResponse",
+}) as any as S.Schema<ListHandshakesForAccountResponse>;
+export interface ListParentsResponse {
+  Parents?: Parents;
+  NextToken?: string;
+}
+export const ListParentsResponse = S.suspend(() =>
+  S.Struct({
+    Parents: S.optional(Parents),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListParentsResponse",
+}) as any as S.Schema<ListParentsResponse>;
+export interface ListPoliciesResponse {
+  Policies?: Policies;
+  NextToken?: string;
+}
+export const ListPoliciesResponse = S.suspend(() =>
+  S.Struct({
+    Policies: S.optional(Policies),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListPoliciesResponse",
+}) as any as S.Schema<ListPoliciesResponse>;
+export interface ListTargetsForPolicyResponse {
+  Targets?: PolicyTargets;
+  NextToken?: string;
+}
+export const ListTargetsForPolicyResponse = S.suspend(() =>
+  S.Struct({
+    Targets: S.optional(PolicyTargets),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListTargetsForPolicyResponse",
+}) as any as S.Schema<ListTargetsForPolicyResponse>;
+export interface DescribeResponsibilityTransferResponse {
+  ResponsibilityTransfer?: ResponsibilityTransfer;
+}
+export const DescribeResponsibilityTransferResponse = S.suspend(() =>
+  S.Struct({ ResponsibilityTransfer: S.optional(ResponsibilityTransfer) }).pipe(
+    ns,
+  ),
+).annotations({
+  identifier: "DescribeResponsibilityTransferResponse",
+}) as any as S.Schema<DescribeResponsibilityTransferResponse>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

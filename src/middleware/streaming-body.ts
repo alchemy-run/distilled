@@ -160,6 +160,11 @@ const checkIsEventStream = (ast: AST.AST): boolean => {
  * and if it requires length.
  */
 const getStreamingPayloadInfo = (ast: AST.AST): StreamingPayloadInfo => {
+  // For Suspend (S.suspend), unwrap and recurse
+  if (ast._tag === "Suspend") {
+    return getStreamingPayloadInfo((ast as AST.Suspend).f());
+  }
+
   // For TypeLiteral (struct), check property signatures
   if (ast._tag === "TypeLiteral") {
     for (const prop of ast.propertySignatures) {

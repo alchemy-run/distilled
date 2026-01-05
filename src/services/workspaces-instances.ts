@@ -106,116 +106,218 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type ProvisionStates = string[];
 export const ProvisionStates = S.Array(S.String);
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class AssociateVolumeRequest extends S.Class<AssociateVolumeRequest>(
-  "AssociateVolumeRequest",
-)(
-  { WorkspaceInstanceId: S.String, VolumeId: S.String, Device: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class AssociateVolumeResponse extends S.Class<AssociateVolumeResponse>(
-  "AssociateVolumeResponse",
-)({}) {}
-export class DeleteVolumeRequest extends S.Class<DeleteVolumeRequest>(
-  "DeleteVolumeRequest",
-)(
-  { VolumeId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteVolumeResponse extends S.Class<DeleteVolumeResponse>(
-  "DeleteVolumeResponse",
-)({}) {}
-export class DeleteWorkspaceInstanceRequest extends S.Class<DeleteWorkspaceInstanceRequest>(
-  "DeleteWorkspaceInstanceRequest",
-)(
-  { WorkspaceInstanceId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteWorkspaceInstanceResponse extends S.Class<DeleteWorkspaceInstanceResponse>(
-  "DeleteWorkspaceInstanceResponse",
-)({}) {}
-export class DisassociateVolumeRequest extends S.Class<DisassociateVolumeRequest>(
-  "DisassociateVolumeRequest",
-)(
-  {
+export interface AssociateVolumeRequest {
+  WorkspaceInstanceId: string;
+  VolumeId: string;
+  Device: string;
+}
+export const AssociateVolumeRequest = S.suspend(() =>
+  S.Struct({
+    WorkspaceInstanceId: S.String,
+    VolumeId: S.String,
+    Device: S.String,
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "AssociateVolumeRequest",
+}) as any as S.Schema<AssociateVolumeRequest>;
+export interface AssociateVolumeResponse {}
+export const AssociateVolumeResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "AssociateVolumeResponse",
+}) as any as S.Schema<AssociateVolumeResponse>;
+export interface DeleteVolumeRequest {
+  VolumeId: string;
+}
+export const DeleteVolumeRequest = S.suspend(() =>
+  S.Struct({ VolumeId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteVolumeRequest",
+}) as any as S.Schema<DeleteVolumeRequest>;
+export interface DeleteVolumeResponse {}
+export const DeleteVolumeResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteVolumeResponse",
+}) as any as S.Schema<DeleteVolumeResponse>;
+export interface DeleteWorkspaceInstanceRequest {
+  WorkspaceInstanceId: string;
+}
+export const DeleteWorkspaceInstanceRequest = S.suspend(() =>
+  S.Struct({ WorkspaceInstanceId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteWorkspaceInstanceRequest",
+}) as any as S.Schema<DeleteWorkspaceInstanceRequest>;
+export interface DeleteWorkspaceInstanceResponse {}
+export const DeleteWorkspaceInstanceResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteWorkspaceInstanceResponse",
+}) as any as S.Schema<DeleteWorkspaceInstanceResponse>;
+export interface DisassociateVolumeRequest {
+  WorkspaceInstanceId: string;
+  VolumeId: string;
+  Device?: string;
+  DisassociateMode?: string;
+}
+export const DisassociateVolumeRequest = S.suspend(() =>
+  S.Struct({
     WorkspaceInstanceId: S.String,
     VolumeId: S.String,
     Device: S.optional(S.String),
     DisassociateMode: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DisassociateVolumeResponse extends S.Class<DisassociateVolumeResponse>(
-  "DisassociateVolumeResponse",
-)({}) {}
-export class GetWorkspaceInstanceRequest extends S.Class<GetWorkspaceInstanceRequest>(
-  "GetWorkspaceInstanceRequest",
-)(
-  { WorkspaceInstanceId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListInstanceTypesRequest extends S.Class<ListInstanceTypesRequest>(
-  "ListInstanceTypesRequest",
-)(
-  { MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListRegionsRequest extends S.Class<ListRegionsRequest>(
-  "ListRegionsRequest",
-)(
-  { MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { WorkspaceInstanceId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListWorkspaceInstancesRequest extends S.Class<ListWorkspaceInstancesRequest>(
-  "ListWorkspaceInstancesRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DisassociateVolumeRequest",
+}) as any as S.Schema<DisassociateVolumeRequest>;
+export interface DisassociateVolumeResponse {}
+export const DisassociateVolumeResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DisassociateVolumeResponse",
+}) as any as S.Schema<DisassociateVolumeResponse>;
+export interface GetWorkspaceInstanceRequest {
+  WorkspaceInstanceId: string;
+}
+export const GetWorkspaceInstanceRequest = S.suspend(() =>
+  S.Struct({ WorkspaceInstanceId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetWorkspaceInstanceRequest",
+}) as any as S.Schema<GetWorkspaceInstanceRequest>;
+export interface ListInstanceTypesRequest {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListInstanceTypesRequest = S.suspend(() =>
+  S.Struct({
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListInstanceTypesRequest",
+}) as any as S.Schema<ListInstanceTypesRequest>;
+export interface ListRegionsRequest {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListRegionsRequest = S.suspend(() =>
+  S.Struct({
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListRegionsRequest",
+}) as any as S.Schema<ListRegionsRequest>;
+export interface ListTagsForResourceRequest {
+  WorkspaceInstanceId: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ WorkspaceInstanceId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface ListWorkspaceInstancesRequest {
+  ProvisionStates?: ProvisionStates;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListWorkspaceInstancesRequest = S.suspend(() =>
+  S.Struct({
     ProvisionStates: S.optional(ProvisionStates),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class Tag extends S.Class<Tag>("Tag")({
-  Key: S.optional(S.String),
-  Value: S.optional(S.String),
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListWorkspaceInstancesRequest",
+}) as any as S.Schema<ListWorkspaceInstancesRequest>;
+export interface Tag {
+  Key?: string;
+  Value?: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ Key: S.optional(S.String), Value: S.optional(S.String) }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagList = Tag[];
 export const TagList = S.Array(Tag);
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { WorkspaceInstanceId: S.String, Tags: TagList },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  { WorkspaceInstanceId: S.String, TagKeys: TagKeyList },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
+export interface TagResourceRequest {
+  WorkspaceInstanceId: string;
+  Tags: TagList;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ WorkspaceInstanceId: S.String, Tags: TagList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UntagResourceRequest {
+  WorkspaceInstanceId: string;
+  TagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({ WorkspaceInstanceId: S.String, TagKeys: TagKeyList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export type SecurityGroupIds = string[];
 export const SecurityGroupIds = S.Array(S.String);
+export type SecurityGroupNames = string[];
 export const SecurityGroupNames = S.Array(S.String);
-export class TagSpecification extends S.Class<TagSpecification>(
-  "TagSpecification",
-)({ ResourceType: S.optional(S.String), Tags: S.optional(TagList) }) {}
+export interface TagSpecification {
+  ResourceType?: string;
+  Tags?: TagList;
+}
+export const TagSpecification = S.suspend(() =>
+  S.Struct({ ResourceType: S.optional(S.String), Tags: S.optional(TagList) }),
+).annotations({
+  identifier: "TagSpecification",
+}) as any as S.Schema<TagSpecification>;
+export type TagSpecifications = TagSpecification[];
 export const TagSpecifications = S.Array(TagSpecification);
-export class CreateVolumeRequest extends S.Class<CreateVolumeRequest>(
-  "CreateVolumeRequest",
-)(
-  {
+export interface CreateVolumeRequest {
+  AvailabilityZone: string;
+  ClientToken?: string;
+  Encrypted?: boolean;
+  Iops?: number;
+  KmsKeyId?: string;
+  SizeInGB?: number;
+  SnapshotId?: string;
+  TagSpecifications?: TagSpecifications;
+  Throughput?: number;
+  VolumeType?: string;
+}
+export const CreateVolumeRequest = S.suspend(() =>
+  S.Struct({
     AvailabilityZone: S.String,
     ClientToken: S.optional(S.String),
     Encrypted: S.optional(S.Boolean),
@@ -226,289 +328,623 @@ export class CreateVolumeRequest extends S.Class<CreateVolumeRequest>(
     TagSpecifications: S.optional(TagSpecifications),
     Throughput: S.optional(S.Number),
     VolumeType: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ Tags: S.optional(TagList) }) {}
-export class CpuOptionsRequest extends S.Class<CpuOptionsRequest>(
-  "CpuOptionsRequest",
-)({
-  AmdSevSnp: S.optional(S.String),
-  CoreCount: S.optional(S.Number),
-  ThreadsPerCore: S.optional(S.Number),
-}) {}
-export class CreditSpecificationRequest extends S.Class<CreditSpecificationRequest>(
-  "CreditSpecificationRequest",
-)({ CpuCredits: S.optional(S.String) }) {}
-export class EnclaveOptionsRequest extends S.Class<EnclaveOptionsRequest>(
-  "EnclaveOptionsRequest",
-)({ Enabled: S.optional(S.Boolean) }) {}
-export class HibernationOptionsRequest extends S.Class<HibernationOptionsRequest>(
-  "HibernationOptionsRequest",
-)({ Configured: S.optional(S.Boolean) }) {}
-export class IamInstanceProfileSpecification extends S.Class<IamInstanceProfileSpecification>(
-  "IamInstanceProfileSpecification",
-)({ Arn: S.optional(S.String), Name: S.optional(S.String) }) {}
-export class InstanceIpv6Address extends S.Class<InstanceIpv6Address>(
-  "InstanceIpv6Address",
-)({
-  Ipv6Address: S.optional(S.String),
-  IsPrimaryIpv6: S.optional(S.Boolean),
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateVolumeRequest",
+}) as any as S.Schema<CreateVolumeRequest>;
+export interface ListTagsForResourceResponse {
+  Tags?: TagList;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ Tags: S.optional(TagList) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface CpuOptionsRequest {
+  AmdSevSnp?: string;
+  CoreCount?: number;
+  ThreadsPerCore?: number;
+}
+export const CpuOptionsRequest = S.suspend(() =>
+  S.Struct({
+    AmdSevSnp: S.optional(S.String),
+    CoreCount: S.optional(S.Number),
+    ThreadsPerCore: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "CpuOptionsRequest",
+}) as any as S.Schema<CpuOptionsRequest>;
+export interface CreditSpecificationRequest {
+  CpuCredits?: string;
+}
+export const CreditSpecificationRequest = S.suspend(() =>
+  S.Struct({ CpuCredits: S.optional(S.String) }),
+).annotations({
+  identifier: "CreditSpecificationRequest",
+}) as any as S.Schema<CreditSpecificationRequest>;
+export interface EnclaveOptionsRequest {
+  Enabled?: boolean;
+}
+export const EnclaveOptionsRequest = S.suspend(() =>
+  S.Struct({ Enabled: S.optional(S.Boolean) }),
+).annotations({
+  identifier: "EnclaveOptionsRequest",
+}) as any as S.Schema<EnclaveOptionsRequest>;
+export interface HibernationOptionsRequest {
+  Configured?: boolean;
+}
+export const HibernationOptionsRequest = S.suspend(() =>
+  S.Struct({ Configured: S.optional(S.Boolean) }),
+).annotations({
+  identifier: "HibernationOptionsRequest",
+}) as any as S.Schema<HibernationOptionsRequest>;
+export interface IamInstanceProfileSpecification {
+  Arn?: string;
+  Name?: string;
+}
+export const IamInstanceProfileSpecification = S.suspend(() =>
+  S.Struct({ Arn: S.optional(S.String), Name: S.optional(S.String) }),
+).annotations({
+  identifier: "IamInstanceProfileSpecification",
+}) as any as S.Schema<IamInstanceProfileSpecification>;
+export interface InstanceIpv6Address {
+  Ipv6Address?: string;
+  IsPrimaryIpv6?: boolean;
+}
+export const InstanceIpv6Address = S.suspend(() =>
+  S.Struct({
+    Ipv6Address: S.optional(S.String),
+    IsPrimaryIpv6: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "InstanceIpv6Address",
+}) as any as S.Schema<InstanceIpv6Address>;
+export type Ipv6Addresses = InstanceIpv6Address[];
 export const Ipv6Addresses = S.Array(InstanceIpv6Address);
-export class LicenseConfigurationRequest extends S.Class<LicenseConfigurationRequest>(
-  "LicenseConfigurationRequest",
-)({ LicenseConfigurationArn: S.optional(S.String) }) {}
+export interface LicenseConfigurationRequest {
+  LicenseConfigurationArn?: string;
+}
+export const LicenseConfigurationRequest = S.suspend(() =>
+  S.Struct({ LicenseConfigurationArn: S.optional(S.String) }),
+).annotations({
+  identifier: "LicenseConfigurationRequest",
+}) as any as S.Schema<LicenseConfigurationRequest>;
+export type LicenseSpecifications = LicenseConfigurationRequest[];
 export const LicenseSpecifications = S.Array(LicenseConfigurationRequest);
-export class InstanceMaintenanceOptionsRequest extends S.Class<InstanceMaintenanceOptionsRequest>(
-  "InstanceMaintenanceOptionsRequest",
-)({ AutoRecovery: S.optional(S.String) }) {}
-export class InstanceMetadataOptionsRequest extends S.Class<InstanceMetadataOptionsRequest>(
-  "InstanceMetadataOptionsRequest",
-)({
-  HttpEndpoint: S.optional(S.String),
-  HttpProtocolIpv6: S.optional(S.String),
-  HttpPutResponseHopLimit: S.optional(S.Number),
-  HttpTokens: S.optional(S.String),
-  InstanceMetadataTags: S.optional(S.String),
-}) {}
-export class RunInstancesMonitoringEnabled extends S.Class<RunInstancesMonitoringEnabled>(
-  "RunInstancesMonitoringEnabled",
-)({ Enabled: S.optional(S.Boolean) }) {}
-export class InstanceNetworkPerformanceOptionsRequest extends S.Class<InstanceNetworkPerformanceOptionsRequest>(
-  "InstanceNetworkPerformanceOptionsRequest",
-)({ BandwidthWeighting: S.optional(S.String) }) {}
-export class Placement extends S.Class<Placement>("Placement")({
-  Affinity: S.optional(S.String),
-  AvailabilityZone: S.optional(S.String),
-  GroupId: S.optional(S.String),
-  GroupName: S.optional(S.String),
-  HostId: S.optional(S.String),
-  HostResourceGroupArn: S.optional(S.String),
-  PartitionNumber: S.optional(S.Number),
-  Tenancy: S.optional(S.String),
-}) {}
-export class PrivateDnsNameOptionsRequest extends S.Class<PrivateDnsNameOptionsRequest>(
-  "PrivateDnsNameOptionsRequest",
-)({
-  HostnameType: S.optional(S.String),
-  EnableResourceNameDnsARecord: S.optional(S.Boolean),
-  EnableResourceNameDnsAAAARecord: S.optional(S.Boolean),
-}) {}
-export class WorkspaceInstanceError extends S.Class<WorkspaceInstanceError>(
-  "WorkspaceInstanceError",
-)({ ErrorCode: S.optional(S.String), ErrorMessage: S.optional(S.String) }) {}
+export interface InstanceMaintenanceOptionsRequest {
+  AutoRecovery?: string;
+}
+export const InstanceMaintenanceOptionsRequest = S.suspend(() =>
+  S.Struct({ AutoRecovery: S.optional(S.String) }),
+).annotations({
+  identifier: "InstanceMaintenanceOptionsRequest",
+}) as any as S.Schema<InstanceMaintenanceOptionsRequest>;
+export interface InstanceMetadataOptionsRequest {
+  HttpEndpoint?: string;
+  HttpProtocolIpv6?: string;
+  HttpPutResponseHopLimit?: number;
+  HttpTokens?: string;
+  InstanceMetadataTags?: string;
+}
+export const InstanceMetadataOptionsRequest = S.suspend(() =>
+  S.Struct({
+    HttpEndpoint: S.optional(S.String),
+    HttpProtocolIpv6: S.optional(S.String),
+    HttpPutResponseHopLimit: S.optional(S.Number),
+    HttpTokens: S.optional(S.String),
+    InstanceMetadataTags: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "InstanceMetadataOptionsRequest",
+}) as any as S.Schema<InstanceMetadataOptionsRequest>;
+export interface RunInstancesMonitoringEnabled {
+  Enabled?: boolean;
+}
+export const RunInstancesMonitoringEnabled = S.suspend(() =>
+  S.Struct({ Enabled: S.optional(S.Boolean) }),
+).annotations({
+  identifier: "RunInstancesMonitoringEnabled",
+}) as any as S.Schema<RunInstancesMonitoringEnabled>;
+export interface InstanceNetworkPerformanceOptionsRequest {
+  BandwidthWeighting?: string;
+}
+export const InstanceNetworkPerformanceOptionsRequest = S.suspend(() =>
+  S.Struct({ BandwidthWeighting: S.optional(S.String) }),
+).annotations({
+  identifier: "InstanceNetworkPerformanceOptionsRequest",
+}) as any as S.Schema<InstanceNetworkPerformanceOptionsRequest>;
+export interface Placement {
+  Affinity?: string;
+  AvailabilityZone?: string;
+  GroupId?: string;
+  GroupName?: string;
+  HostId?: string;
+  HostResourceGroupArn?: string;
+  PartitionNumber?: number;
+  Tenancy?: string;
+}
+export const Placement = S.suspend(() =>
+  S.Struct({
+    Affinity: S.optional(S.String),
+    AvailabilityZone: S.optional(S.String),
+    GroupId: S.optional(S.String),
+    GroupName: S.optional(S.String),
+    HostId: S.optional(S.String),
+    HostResourceGroupArn: S.optional(S.String),
+    PartitionNumber: S.optional(S.Number),
+    Tenancy: S.optional(S.String),
+  }),
+).annotations({ identifier: "Placement" }) as any as S.Schema<Placement>;
+export interface PrivateDnsNameOptionsRequest {
+  HostnameType?: string;
+  EnableResourceNameDnsARecord?: boolean;
+  EnableResourceNameDnsAAAARecord?: boolean;
+}
+export const PrivateDnsNameOptionsRequest = S.suspend(() =>
+  S.Struct({
+    HostnameType: S.optional(S.String),
+    EnableResourceNameDnsARecord: S.optional(S.Boolean),
+    EnableResourceNameDnsAAAARecord: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "PrivateDnsNameOptionsRequest",
+}) as any as S.Schema<PrivateDnsNameOptionsRequest>;
+export interface WorkspaceInstanceError {
+  ErrorCode?: string;
+  ErrorMessage?: string;
+}
+export const WorkspaceInstanceError = S.suspend(() =>
+  S.Struct({
+    ErrorCode: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "WorkspaceInstanceError",
+}) as any as S.Schema<WorkspaceInstanceError>;
+export type WorkspaceInstanceErrors = WorkspaceInstanceError[];
 export const WorkspaceInstanceErrors = S.Array(WorkspaceInstanceError);
-export class EC2InstanceError extends S.Class<EC2InstanceError>(
-  "EC2InstanceError",
-)({
-  EC2ErrorCode: S.optional(S.String),
-  EC2ExceptionType: S.optional(S.String),
-  EC2ErrorMessage: S.optional(S.String),
-}) {}
+export interface EC2InstanceError {
+  EC2ErrorCode?: string;
+  EC2ExceptionType?: string;
+  EC2ErrorMessage?: string;
+}
+export const EC2InstanceError = S.suspend(() =>
+  S.Struct({
+    EC2ErrorCode: S.optional(S.String),
+    EC2ExceptionType: S.optional(S.String),
+    EC2ErrorMessage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "EC2InstanceError",
+}) as any as S.Schema<EC2InstanceError>;
+export type EC2InstanceErrors = EC2InstanceError[];
 export const EC2InstanceErrors = S.Array(EC2InstanceError);
-export class EC2ManagedInstance extends S.Class<EC2ManagedInstance>(
-  "EC2ManagedInstance",
-)({ InstanceId: S.optional(S.String) }) {}
-export class InstanceTypeInfo extends S.Class<InstanceTypeInfo>(
-  "InstanceTypeInfo",
-)({ InstanceType: S.optional(S.String) }) {}
+export interface EC2ManagedInstance {
+  InstanceId?: string;
+}
+export const EC2ManagedInstance = S.suspend(() =>
+  S.Struct({ InstanceId: S.optional(S.String) }),
+).annotations({
+  identifier: "EC2ManagedInstance",
+}) as any as S.Schema<EC2ManagedInstance>;
+export interface InstanceTypeInfo {
+  InstanceType?: string;
+}
+export const InstanceTypeInfo = S.suspend(() =>
+  S.Struct({ InstanceType: S.optional(S.String) }),
+).annotations({
+  identifier: "InstanceTypeInfo",
+}) as any as S.Schema<InstanceTypeInfo>;
+export type InstanceTypes = InstanceTypeInfo[];
 export const InstanceTypes = S.Array(InstanceTypeInfo);
-export class Region extends S.Class<Region>("Region")({
-  RegionName: S.optional(S.String),
-}) {}
+export interface Region {
+  RegionName?: string;
+}
+export const Region = S.suspend(() =>
+  S.Struct({ RegionName: S.optional(S.String) }),
+).annotations({ identifier: "Region" }) as any as S.Schema<Region>;
+export type RegionList = Region[];
 export const RegionList = S.Array(Region);
-export class WorkspaceInstance extends S.Class<WorkspaceInstance>(
-  "WorkspaceInstance",
-)({
-  ProvisionState: S.optional(S.String),
-  WorkspaceInstanceId: S.optional(S.String),
-  EC2ManagedInstance: S.optional(EC2ManagedInstance),
-}) {}
+export interface WorkspaceInstance {
+  ProvisionState?: string;
+  WorkspaceInstanceId?: string;
+  EC2ManagedInstance?: EC2ManagedInstance;
+}
+export const WorkspaceInstance = S.suspend(() =>
+  S.Struct({
+    ProvisionState: S.optional(S.String),
+    WorkspaceInstanceId: S.optional(S.String),
+    EC2ManagedInstance: S.optional(EC2ManagedInstance),
+  }),
+).annotations({
+  identifier: "WorkspaceInstance",
+}) as any as S.Schema<WorkspaceInstance>;
+export type WorkspaceInstances = WorkspaceInstance[];
 export const WorkspaceInstances = S.Array(WorkspaceInstance);
-export class EbsBlockDevice extends S.Class<EbsBlockDevice>("EbsBlockDevice")({
-  VolumeType: S.optional(S.String),
-  Encrypted: S.optional(S.Boolean),
-  KmsKeyId: S.optional(S.String),
-  Iops: S.optional(S.Number),
-  Throughput: S.optional(S.Number),
-  VolumeSize: S.optional(S.Number),
-}) {}
-export class CapacityReservationTarget extends S.Class<CapacityReservationTarget>(
-  "CapacityReservationTarget",
-)({
-  CapacityReservationId: S.optional(S.String),
-  CapacityReservationResourceGroupArn: S.optional(S.String),
-}) {}
-export class SpotMarketOptions extends S.Class<SpotMarketOptions>(
-  "SpotMarketOptions",
-)({
-  BlockDurationMinutes: S.optional(S.Number),
-  InstanceInterruptionBehavior: S.optional(S.String),
-  MaxPrice: S.optional(S.String),
-  SpotInstanceType: S.optional(S.String),
-  ValidUntilUtc: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class ConnectionTrackingSpecificationRequest extends S.Class<ConnectionTrackingSpecificationRequest>(
-  "ConnectionTrackingSpecificationRequest",
-)({
-  TcpEstablishedTimeout: S.optional(S.Number),
-  UdpStreamTimeout: S.optional(S.Number),
-  UdpTimeout: S.optional(S.Number),
-}) {}
-export class Ipv4PrefixSpecificationRequest extends S.Class<Ipv4PrefixSpecificationRequest>(
-  "Ipv4PrefixSpecificationRequest",
-)({ Ipv4Prefix: S.optional(S.String) }) {}
+export interface EbsBlockDevice {
+  VolumeType?: string;
+  Encrypted?: boolean;
+  KmsKeyId?: string;
+  Iops?: number;
+  Throughput?: number;
+  VolumeSize?: number;
+}
+export const EbsBlockDevice = S.suspend(() =>
+  S.Struct({
+    VolumeType: S.optional(S.String),
+    Encrypted: S.optional(S.Boolean),
+    KmsKeyId: S.optional(S.String),
+    Iops: S.optional(S.Number),
+    Throughput: S.optional(S.Number),
+    VolumeSize: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "EbsBlockDevice",
+}) as any as S.Schema<EbsBlockDevice>;
+export interface CapacityReservationTarget {
+  CapacityReservationId?: string;
+  CapacityReservationResourceGroupArn?: string;
+}
+export const CapacityReservationTarget = S.suspend(() =>
+  S.Struct({
+    CapacityReservationId: S.optional(S.String),
+    CapacityReservationResourceGroupArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CapacityReservationTarget",
+}) as any as S.Schema<CapacityReservationTarget>;
+export interface SpotMarketOptions {
+  BlockDurationMinutes?: number;
+  InstanceInterruptionBehavior?: string;
+  MaxPrice?: string;
+  SpotInstanceType?: string;
+  ValidUntilUtc?: Date;
+}
+export const SpotMarketOptions = S.suspend(() =>
+  S.Struct({
+    BlockDurationMinutes: S.optional(S.Number),
+    InstanceInterruptionBehavior: S.optional(S.String),
+    MaxPrice: S.optional(S.String),
+    SpotInstanceType: S.optional(S.String),
+    ValidUntilUtc: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "SpotMarketOptions",
+}) as any as S.Schema<SpotMarketOptions>;
+export interface ConnectionTrackingSpecificationRequest {
+  TcpEstablishedTimeout?: number;
+  UdpStreamTimeout?: number;
+  UdpTimeout?: number;
+}
+export const ConnectionTrackingSpecificationRequest = S.suspend(() =>
+  S.Struct({
+    TcpEstablishedTimeout: S.optional(S.Number),
+    UdpStreamTimeout: S.optional(S.Number),
+    UdpTimeout: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "ConnectionTrackingSpecificationRequest",
+}) as any as S.Schema<ConnectionTrackingSpecificationRequest>;
+export interface Ipv4PrefixSpecificationRequest {
+  Ipv4Prefix?: string;
+}
+export const Ipv4PrefixSpecificationRequest = S.suspend(() =>
+  S.Struct({ Ipv4Prefix: S.optional(S.String) }),
+).annotations({
+  identifier: "Ipv4PrefixSpecificationRequest",
+}) as any as S.Schema<Ipv4PrefixSpecificationRequest>;
+export type Ipv4Prefixes = Ipv4PrefixSpecificationRequest[];
 export const Ipv4Prefixes = S.Array(Ipv4PrefixSpecificationRequest);
-export class Ipv6PrefixSpecificationRequest extends S.Class<Ipv6PrefixSpecificationRequest>(
-  "Ipv6PrefixSpecificationRequest",
-)({ Ipv6Prefix: S.optional(S.String) }) {}
+export interface Ipv6PrefixSpecificationRequest {
+  Ipv6Prefix?: string;
+}
+export const Ipv6PrefixSpecificationRequest = S.suspend(() =>
+  S.Struct({ Ipv6Prefix: S.optional(S.String) }),
+).annotations({
+  identifier: "Ipv6PrefixSpecificationRequest",
+}) as any as S.Schema<Ipv6PrefixSpecificationRequest>;
+export type Ipv6Prefixes = Ipv6PrefixSpecificationRequest[];
 export const Ipv6Prefixes = S.Array(Ipv6PrefixSpecificationRequest);
-export class PrivateIpAddressSpecification extends S.Class<PrivateIpAddressSpecification>(
-  "PrivateIpAddressSpecification",
-)({ Primary: S.optional(S.Boolean), PrivateIpAddress: S.optional(S.String) }) {}
+export interface PrivateIpAddressSpecification {
+  Primary?: boolean;
+  PrivateIpAddress?: string;
+}
+export const PrivateIpAddressSpecification = S.suspend(() =>
+  S.Struct({
+    Primary: S.optional(S.Boolean),
+    PrivateIpAddress: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "PrivateIpAddressSpecification",
+}) as any as S.Schema<PrivateIpAddressSpecification>;
+export type PrivateIpAddresses = PrivateIpAddressSpecification[];
 export const PrivateIpAddresses = S.Array(PrivateIpAddressSpecification);
-export class CreateVolumeResponse extends S.Class<CreateVolumeResponse>(
-  "CreateVolumeResponse",
-)({ VolumeId: S.optional(S.String) }) {}
-export class GetWorkspaceInstanceResponse extends S.Class<GetWorkspaceInstanceResponse>(
-  "GetWorkspaceInstanceResponse",
-)({
-  WorkspaceInstanceErrors: S.optional(WorkspaceInstanceErrors),
-  EC2InstanceErrors: S.optional(EC2InstanceErrors),
-  ProvisionState: S.optional(S.String),
-  WorkspaceInstanceId: S.optional(S.String),
-  EC2ManagedInstance: S.optional(EC2ManagedInstance),
-}) {}
-export class ListInstanceTypesResponse extends S.Class<ListInstanceTypesResponse>(
-  "ListInstanceTypesResponse",
-)({ InstanceTypes: InstanceTypes, NextToken: S.optional(S.String) }) {}
-export class ListRegionsResponse extends S.Class<ListRegionsResponse>(
-  "ListRegionsResponse",
-)({ Regions: RegionList, NextToken: S.optional(S.String) }) {}
-export class ListWorkspaceInstancesResponse extends S.Class<ListWorkspaceInstancesResponse>(
-  "ListWorkspaceInstancesResponse",
-)({
-  WorkspaceInstances: WorkspaceInstances,
-  NextToken: S.optional(S.String),
-}) {}
-export class BlockDeviceMappingRequest extends S.Class<BlockDeviceMappingRequest>(
-  "BlockDeviceMappingRequest",
-)({
-  DeviceName: S.optional(S.String),
-  Ebs: S.optional(EbsBlockDevice),
-  NoDevice: S.optional(S.String),
-  VirtualName: S.optional(S.String),
-}) {}
+export interface CreateVolumeResponse {
+  VolumeId?: string;
+}
+export const CreateVolumeResponse = S.suspend(() =>
+  S.Struct({ VolumeId: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateVolumeResponse",
+}) as any as S.Schema<CreateVolumeResponse>;
+export interface GetWorkspaceInstanceResponse {
+  WorkspaceInstanceErrors?: WorkspaceInstanceErrors;
+  EC2InstanceErrors?: EC2InstanceErrors;
+  ProvisionState?: string;
+  WorkspaceInstanceId?: string;
+  EC2ManagedInstance?: EC2ManagedInstance;
+}
+export const GetWorkspaceInstanceResponse = S.suspend(() =>
+  S.Struct({
+    WorkspaceInstanceErrors: S.optional(WorkspaceInstanceErrors),
+    EC2InstanceErrors: S.optional(EC2InstanceErrors),
+    ProvisionState: S.optional(S.String),
+    WorkspaceInstanceId: S.optional(S.String),
+    EC2ManagedInstance: S.optional(EC2ManagedInstance),
+  }),
+).annotations({
+  identifier: "GetWorkspaceInstanceResponse",
+}) as any as S.Schema<GetWorkspaceInstanceResponse>;
+export interface ListInstanceTypesResponse {
+  InstanceTypes: InstanceTypes;
+  NextToken?: string;
+}
+export const ListInstanceTypesResponse = S.suspend(() =>
+  S.Struct({ InstanceTypes: InstanceTypes, NextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListInstanceTypesResponse",
+}) as any as S.Schema<ListInstanceTypesResponse>;
+export interface ListRegionsResponse {
+  Regions: RegionList;
+  NextToken?: string;
+}
+export const ListRegionsResponse = S.suspend(() =>
+  S.Struct({ Regions: RegionList, NextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListRegionsResponse",
+}) as any as S.Schema<ListRegionsResponse>;
+export interface ListWorkspaceInstancesResponse {
+  WorkspaceInstances: WorkspaceInstances;
+  NextToken?: string;
+}
+export const ListWorkspaceInstancesResponse = S.suspend(() =>
+  S.Struct({
+    WorkspaceInstances: WorkspaceInstances,
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListWorkspaceInstancesResponse",
+}) as any as S.Schema<ListWorkspaceInstancesResponse>;
+export interface BlockDeviceMappingRequest {
+  DeviceName?: string;
+  Ebs?: EbsBlockDevice;
+  NoDevice?: string;
+  VirtualName?: string;
+}
+export const BlockDeviceMappingRequest = S.suspend(() =>
+  S.Struct({
+    DeviceName: S.optional(S.String),
+    Ebs: S.optional(EbsBlockDevice),
+    NoDevice: S.optional(S.String),
+    VirtualName: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "BlockDeviceMappingRequest",
+}) as any as S.Schema<BlockDeviceMappingRequest>;
+export type BlockDeviceMappings = BlockDeviceMappingRequest[];
 export const BlockDeviceMappings = S.Array(BlockDeviceMappingRequest);
-export class CapacityReservationSpecification extends S.Class<CapacityReservationSpecification>(
-  "CapacityReservationSpecification",
-)({
-  CapacityReservationPreference: S.optional(S.String),
-  CapacityReservationTarget: S.optional(CapacityReservationTarget),
-}) {}
-export class InstanceMarketOptionsRequest extends S.Class<InstanceMarketOptionsRequest>(
-  "InstanceMarketOptionsRequest",
-)({
-  MarketType: S.optional(S.String),
-  SpotOptions: S.optional(SpotMarketOptions),
-}) {}
-export class EnaSrdUdpSpecificationRequest extends S.Class<EnaSrdUdpSpecificationRequest>(
-  "EnaSrdUdpSpecificationRequest",
-)({ EnaSrdUdpEnabled: S.optional(S.Boolean) }) {}
-export class EnaSrdSpecificationRequest extends S.Class<EnaSrdSpecificationRequest>(
-  "EnaSrdSpecificationRequest",
-)({
-  EnaSrdEnabled: S.optional(S.Boolean),
-  EnaSrdUdpSpecification: S.optional(EnaSrdUdpSpecificationRequest),
-}) {}
-export class InstanceNetworkInterfaceSpecification extends S.Class<InstanceNetworkInterfaceSpecification>(
-  "InstanceNetworkInterfaceSpecification",
-)({
-  AssociateCarrierIpAddress: S.optional(S.Boolean),
-  AssociatePublicIpAddress: S.optional(S.Boolean),
-  ConnectionTrackingSpecification: S.optional(
-    ConnectionTrackingSpecificationRequest,
-  ),
-  Description: S.optional(S.String),
-  DeviceIndex: S.optional(S.Number),
-  EnaSrdSpecification: S.optional(EnaSrdSpecificationRequest),
-  InterfaceType: S.optional(S.String),
-  Ipv4Prefixes: S.optional(Ipv4Prefixes),
-  Ipv4PrefixCount: S.optional(S.Number),
-  Ipv6AddressCount: S.optional(S.Number),
-  Ipv6Addresses: S.optional(Ipv6Addresses),
-  Ipv6Prefixes: S.optional(Ipv6Prefixes),
-  Ipv6PrefixCount: S.optional(S.Number),
-  NetworkCardIndex: S.optional(S.Number),
-  NetworkInterfaceId: S.optional(S.String),
-  PrimaryIpv6: S.optional(S.Boolean),
-  PrivateIpAddress: S.optional(S.String),
-  PrivateIpAddresses: S.optional(PrivateIpAddresses),
-  SecondaryPrivateIpAddressCount: S.optional(S.Number),
-  Groups: S.optional(SecurityGroupIds),
-  SubnetId: S.optional(S.String),
-}) {}
+export interface CapacityReservationSpecification {
+  CapacityReservationPreference?: string;
+  CapacityReservationTarget?: CapacityReservationTarget;
+}
+export const CapacityReservationSpecification = S.suspend(() =>
+  S.Struct({
+    CapacityReservationPreference: S.optional(S.String),
+    CapacityReservationTarget: S.optional(CapacityReservationTarget),
+  }),
+).annotations({
+  identifier: "CapacityReservationSpecification",
+}) as any as S.Schema<CapacityReservationSpecification>;
+export interface InstanceMarketOptionsRequest {
+  MarketType?: string;
+  SpotOptions?: SpotMarketOptions;
+}
+export const InstanceMarketOptionsRequest = S.suspend(() =>
+  S.Struct({
+    MarketType: S.optional(S.String),
+    SpotOptions: S.optional(SpotMarketOptions),
+  }),
+).annotations({
+  identifier: "InstanceMarketOptionsRequest",
+}) as any as S.Schema<InstanceMarketOptionsRequest>;
+export interface EnaSrdUdpSpecificationRequest {
+  EnaSrdUdpEnabled?: boolean;
+}
+export const EnaSrdUdpSpecificationRequest = S.suspend(() =>
+  S.Struct({ EnaSrdUdpEnabled: S.optional(S.Boolean) }),
+).annotations({
+  identifier: "EnaSrdUdpSpecificationRequest",
+}) as any as S.Schema<EnaSrdUdpSpecificationRequest>;
+export interface EnaSrdSpecificationRequest {
+  EnaSrdEnabled?: boolean;
+  EnaSrdUdpSpecification?: EnaSrdUdpSpecificationRequest;
+}
+export const EnaSrdSpecificationRequest = S.suspend(() =>
+  S.Struct({
+    EnaSrdEnabled: S.optional(S.Boolean),
+    EnaSrdUdpSpecification: S.optional(EnaSrdUdpSpecificationRequest),
+  }),
+).annotations({
+  identifier: "EnaSrdSpecificationRequest",
+}) as any as S.Schema<EnaSrdSpecificationRequest>;
+export interface InstanceNetworkInterfaceSpecification {
+  AssociateCarrierIpAddress?: boolean;
+  AssociatePublicIpAddress?: boolean;
+  ConnectionTrackingSpecification?: ConnectionTrackingSpecificationRequest;
+  Description?: string;
+  DeviceIndex?: number;
+  EnaSrdSpecification?: EnaSrdSpecificationRequest;
+  InterfaceType?: string;
+  Ipv4Prefixes?: Ipv4Prefixes;
+  Ipv4PrefixCount?: number;
+  Ipv6AddressCount?: number;
+  Ipv6Addresses?: Ipv6Addresses;
+  Ipv6Prefixes?: Ipv6Prefixes;
+  Ipv6PrefixCount?: number;
+  NetworkCardIndex?: number;
+  NetworkInterfaceId?: string;
+  PrimaryIpv6?: boolean;
+  PrivateIpAddress?: string;
+  PrivateIpAddresses?: PrivateIpAddresses;
+  SecondaryPrivateIpAddressCount?: number;
+  Groups?: SecurityGroupIds;
+  SubnetId?: string;
+}
+export const InstanceNetworkInterfaceSpecification = S.suspend(() =>
+  S.Struct({
+    AssociateCarrierIpAddress: S.optional(S.Boolean),
+    AssociatePublicIpAddress: S.optional(S.Boolean),
+    ConnectionTrackingSpecification: S.optional(
+      ConnectionTrackingSpecificationRequest,
+    ),
+    Description: S.optional(S.String),
+    DeviceIndex: S.optional(S.Number),
+    EnaSrdSpecification: S.optional(EnaSrdSpecificationRequest),
+    InterfaceType: S.optional(S.String),
+    Ipv4Prefixes: S.optional(Ipv4Prefixes),
+    Ipv4PrefixCount: S.optional(S.Number),
+    Ipv6AddressCount: S.optional(S.Number),
+    Ipv6Addresses: S.optional(Ipv6Addresses),
+    Ipv6Prefixes: S.optional(Ipv6Prefixes),
+    Ipv6PrefixCount: S.optional(S.Number),
+    NetworkCardIndex: S.optional(S.Number),
+    NetworkInterfaceId: S.optional(S.String),
+    PrimaryIpv6: S.optional(S.Boolean),
+    PrivateIpAddress: S.optional(S.String),
+    PrivateIpAddresses: S.optional(PrivateIpAddresses),
+    SecondaryPrivateIpAddressCount: S.optional(S.Number),
+    Groups: S.optional(SecurityGroupIds),
+    SubnetId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "InstanceNetworkInterfaceSpecification",
+}) as any as S.Schema<InstanceNetworkInterfaceSpecification>;
+export type NetworkInterfaces = InstanceNetworkInterfaceSpecification[];
 export const NetworkInterfaces = S.Array(InstanceNetworkInterfaceSpecification);
-export class ManagedInstanceRequest extends S.Class<ManagedInstanceRequest>(
-  "ManagedInstanceRequest",
-)({
-  BlockDeviceMappings: S.optional(BlockDeviceMappings),
-  CapacityReservationSpecification: S.optional(
-    CapacityReservationSpecification,
-  ),
-  CpuOptions: S.optional(CpuOptionsRequest),
-  CreditSpecification: S.optional(CreditSpecificationRequest),
-  DisableApiStop: S.optional(S.Boolean),
-  EbsOptimized: S.optional(S.Boolean),
-  EnablePrimaryIpv6: S.optional(S.Boolean),
-  EnclaveOptions: S.optional(EnclaveOptionsRequest),
-  HibernationOptions: S.optional(HibernationOptionsRequest),
-  IamInstanceProfile: S.optional(IamInstanceProfileSpecification),
-  ImageId: S.optional(S.String),
-  InstanceMarketOptions: S.optional(InstanceMarketOptionsRequest),
-  InstanceType: S.optional(S.String),
-  Ipv6Addresses: S.optional(Ipv6Addresses),
-  Ipv6AddressCount: S.optional(S.Number),
-  KernelId: S.optional(S.String),
-  KeyName: S.optional(S.String),
-  LicenseSpecifications: S.optional(LicenseSpecifications),
-  MaintenanceOptions: S.optional(InstanceMaintenanceOptionsRequest),
-  MetadataOptions: S.optional(InstanceMetadataOptionsRequest),
-  Monitoring: S.optional(RunInstancesMonitoringEnabled),
-  NetworkInterfaces: S.optional(NetworkInterfaces),
-  NetworkPerformanceOptions: S.optional(
-    InstanceNetworkPerformanceOptionsRequest,
-  ),
-  Placement: S.optional(Placement),
-  PrivateDnsNameOptions: S.optional(PrivateDnsNameOptionsRequest),
-  PrivateIpAddress: S.optional(S.String),
-  RamdiskId: S.optional(S.String),
-  SecurityGroupIds: S.optional(SecurityGroupIds),
-  SecurityGroups: S.optional(SecurityGroupNames),
-  SubnetId: S.optional(S.String),
-  TagSpecifications: S.optional(TagSpecifications),
-  UserData: S.optional(S.String),
-}) {}
-export class CreateWorkspaceInstanceRequest extends S.Class<CreateWorkspaceInstanceRequest>(
-  "CreateWorkspaceInstanceRequest",
-)(
-  {
+export interface ManagedInstanceRequest {
+  BlockDeviceMappings?: BlockDeviceMappings;
+  CapacityReservationSpecification?: CapacityReservationSpecification;
+  CpuOptions?: CpuOptionsRequest;
+  CreditSpecification?: CreditSpecificationRequest;
+  DisableApiStop?: boolean;
+  EbsOptimized?: boolean;
+  EnablePrimaryIpv6?: boolean;
+  EnclaveOptions?: EnclaveOptionsRequest;
+  HibernationOptions?: HibernationOptionsRequest;
+  IamInstanceProfile?: IamInstanceProfileSpecification;
+  ImageId?: string;
+  InstanceMarketOptions?: InstanceMarketOptionsRequest;
+  InstanceType?: string;
+  Ipv6Addresses?: Ipv6Addresses;
+  Ipv6AddressCount?: number;
+  KernelId?: string;
+  KeyName?: string;
+  LicenseSpecifications?: LicenseSpecifications;
+  MaintenanceOptions?: InstanceMaintenanceOptionsRequest;
+  MetadataOptions?: InstanceMetadataOptionsRequest;
+  Monitoring?: RunInstancesMonitoringEnabled;
+  NetworkInterfaces?: NetworkInterfaces;
+  NetworkPerformanceOptions?: InstanceNetworkPerformanceOptionsRequest;
+  Placement?: Placement;
+  PrivateDnsNameOptions?: PrivateDnsNameOptionsRequest;
+  PrivateIpAddress?: string;
+  RamdiskId?: string;
+  SecurityGroupIds?: SecurityGroupIds;
+  SecurityGroups?: SecurityGroupNames;
+  SubnetId?: string;
+  TagSpecifications?: TagSpecifications;
+  UserData?: string;
+}
+export const ManagedInstanceRequest = S.suspend(() =>
+  S.Struct({
+    BlockDeviceMappings: S.optional(BlockDeviceMappings),
+    CapacityReservationSpecification: S.optional(
+      CapacityReservationSpecification,
+    ),
+    CpuOptions: S.optional(CpuOptionsRequest),
+    CreditSpecification: S.optional(CreditSpecificationRequest),
+    DisableApiStop: S.optional(S.Boolean),
+    EbsOptimized: S.optional(S.Boolean),
+    EnablePrimaryIpv6: S.optional(S.Boolean),
+    EnclaveOptions: S.optional(EnclaveOptionsRequest),
+    HibernationOptions: S.optional(HibernationOptionsRequest),
+    IamInstanceProfile: S.optional(IamInstanceProfileSpecification),
+    ImageId: S.optional(S.String),
+    InstanceMarketOptions: S.optional(InstanceMarketOptionsRequest),
+    InstanceType: S.optional(S.String),
+    Ipv6Addresses: S.optional(Ipv6Addresses),
+    Ipv6AddressCount: S.optional(S.Number),
+    KernelId: S.optional(S.String),
+    KeyName: S.optional(S.String),
+    LicenseSpecifications: S.optional(LicenseSpecifications),
+    MaintenanceOptions: S.optional(InstanceMaintenanceOptionsRequest),
+    MetadataOptions: S.optional(InstanceMetadataOptionsRequest),
+    Monitoring: S.optional(RunInstancesMonitoringEnabled),
+    NetworkInterfaces: S.optional(NetworkInterfaces),
+    NetworkPerformanceOptions: S.optional(
+      InstanceNetworkPerformanceOptionsRequest,
+    ),
+    Placement: S.optional(Placement),
+    PrivateDnsNameOptions: S.optional(PrivateDnsNameOptionsRequest),
+    PrivateIpAddress: S.optional(S.String),
+    RamdiskId: S.optional(S.String),
+    SecurityGroupIds: S.optional(SecurityGroupIds),
+    SecurityGroups: S.optional(SecurityGroupNames),
+    SubnetId: S.optional(S.String),
+    TagSpecifications: S.optional(TagSpecifications),
+    UserData: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ManagedInstanceRequest",
+}) as any as S.Schema<ManagedInstanceRequest>;
+export interface CreateWorkspaceInstanceRequest {
+  ClientToken?: string;
+  Tags?: TagList;
+  ManagedInstance: ManagedInstanceRequest;
+}
+export const CreateWorkspaceInstanceRequest = S.suspend(() =>
+  S.Struct({
     ClientToken: S.optional(S.String),
     Tags: S.optional(TagList),
     ManagedInstance: ManagedInstanceRequest,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
-  "ValidationExceptionField",
-)({ Name: S.String, Reason: S.String, Message: S.String }) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateWorkspaceInstanceRequest",
+}) as any as S.Schema<CreateWorkspaceInstanceRequest>;
+export interface ValidationExceptionField {
+  Name: string;
+  Reason: string;
+  Message: string;
+}
+export const ValidationExceptionField = S.suspend(() =>
+  S.Struct({ Name: S.String, Reason: S.String, Message: S.String }),
+).annotations({
+  identifier: "ValidationExceptionField",
+}) as any as S.Schema<ValidationExceptionField>;
+export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
-export class CreateWorkspaceInstanceResponse extends S.Class<CreateWorkspaceInstanceResponse>(
-  "CreateWorkspaceInstanceResponse",
-)({ WorkspaceInstanceId: S.optional(S.String) }) {}
+export interface CreateWorkspaceInstanceResponse {
+  WorkspaceInstanceId?: string;
+}
+export const CreateWorkspaceInstanceResponse = S.suspend(() =>
+  S.Struct({ WorkspaceInstanceId: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateWorkspaceInstanceResponse",
+}) as any as S.Schema<CreateWorkspaceInstanceResponse>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

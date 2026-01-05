@@ -242,39 +242,56 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class DeleteHumanLoopRequest extends S.Class<DeleteHumanLoopRequest>(
-  "DeleteHumanLoopRequest",
-)(
-  { HumanLoopName: S.String.pipe(T.HttpLabel("HumanLoopName")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/human-loops/{HumanLoopName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface DeleteHumanLoopRequest {
+  HumanLoopName: string;
+}
+export const DeleteHumanLoopRequest = S.suspend(() =>
+  S.Struct({ HumanLoopName: S.String.pipe(T.HttpLabel("HumanLoopName")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/human-loops/{HumanLoopName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteHumanLoopResponse extends S.Class<DeleteHumanLoopResponse>(
-  "DeleteHumanLoopResponse",
-)({}) {}
-export class DescribeHumanLoopRequest extends S.Class<DescribeHumanLoopRequest>(
-  "DescribeHumanLoopRequest",
-)(
-  { HumanLoopName: S.String.pipe(T.HttpLabel("HumanLoopName")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/human-loops/{HumanLoopName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteHumanLoopRequest",
+}) as any as S.Schema<DeleteHumanLoopRequest>;
+export interface DeleteHumanLoopResponse {}
+export const DeleteHumanLoopResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteHumanLoopResponse",
+}) as any as S.Schema<DeleteHumanLoopResponse>;
+export interface DescribeHumanLoopRequest {
+  HumanLoopName: string;
+}
+export const DescribeHumanLoopRequest = S.suspend(() =>
+  S.Struct({ HumanLoopName: S.String.pipe(T.HttpLabel("HumanLoopName")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/human-loops/{HumanLoopName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListHumanLoopsRequest extends S.Class<ListHumanLoopsRequest>(
-  "ListHumanLoopsRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeHumanLoopRequest",
+}) as any as S.Schema<DescribeHumanLoopRequest>;
+export interface ListHumanLoopsRequest {
+  CreationTimeAfter?: Date;
+  CreationTimeBefore?: Date;
+  FlowDefinitionArn: string;
+  SortOrder?: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListHumanLoopsRequest = S.suspend(() =>
+  S.Struct({
     CreationTimeAfter: S.optional(
       S.Date.pipe(T.TimestampFormat("date-time")),
     ).pipe(T.HttpQuery("CreationTimeAfter")),
@@ -285,91 +302,155 @@ export class ListHumanLoopsRequest extends S.Class<ListHumanLoopsRequest>(
     SortOrder: S.optional(S.String).pipe(T.HttpQuery("SortOrder")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/human-loops" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/human-loops" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StopHumanLoopRequest extends S.Class<StopHumanLoopRequest>(
-  "StopHumanLoopRequest",
-)(
-  { HumanLoopName: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/human-loops/stop" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListHumanLoopsRequest",
+}) as any as S.Schema<ListHumanLoopsRequest>;
+export interface StopHumanLoopRequest {
+  HumanLoopName: string;
+}
+export const StopHumanLoopRequest = S.suspend(() =>
+  S.Struct({ HumanLoopName: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/human-loops/stop" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StopHumanLoopResponse extends S.Class<StopHumanLoopResponse>(
-  "StopHumanLoopResponse",
-)({}) {}
+).annotations({
+  identifier: "StopHumanLoopRequest",
+}) as any as S.Schema<StopHumanLoopRequest>;
+export interface StopHumanLoopResponse {}
+export const StopHumanLoopResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "StopHumanLoopResponse",
+}) as any as S.Schema<StopHumanLoopResponse>;
+export type ContentClassifiers = string[];
 export const ContentClassifiers = S.Array(S.String);
-export class HumanLoopInput extends S.Class<HumanLoopInput>("HumanLoopInput")({
-  InputContent: S.String,
-}) {}
-export class HumanLoopDataAttributes extends S.Class<HumanLoopDataAttributes>(
-  "HumanLoopDataAttributes",
-)({ ContentClassifiers: ContentClassifiers }) {}
-export class StartHumanLoopRequest extends S.Class<StartHumanLoopRequest>(
-  "StartHumanLoopRequest",
-)(
-  {
+export interface HumanLoopInput {
+  InputContent: string;
+}
+export const HumanLoopInput = S.suspend(() =>
+  S.Struct({ InputContent: S.String }),
+).annotations({
+  identifier: "HumanLoopInput",
+}) as any as S.Schema<HumanLoopInput>;
+export interface HumanLoopDataAttributes {
+  ContentClassifiers: ContentClassifiers;
+}
+export const HumanLoopDataAttributes = S.suspend(() =>
+  S.Struct({ ContentClassifiers: ContentClassifiers }),
+).annotations({
+  identifier: "HumanLoopDataAttributes",
+}) as any as S.Schema<HumanLoopDataAttributes>;
+export interface StartHumanLoopRequest {
+  HumanLoopName: string;
+  FlowDefinitionArn: string;
+  HumanLoopInput: HumanLoopInput;
+  DataAttributes?: HumanLoopDataAttributes;
+}
+export const StartHumanLoopRequest = S.suspend(() =>
+  S.Struct({
     HumanLoopName: S.String,
     FlowDefinitionArn: S.String,
     HumanLoopInput: HumanLoopInput,
     DataAttributes: S.optional(HumanLoopDataAttributes),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/human-loops" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/human-loops" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class HumanLoopOutput extends S.Class<HumanLoopOutput>(
-  "HumanLoopOutput",
-)({ OutputS3Uri: S.String }) {}
-export class HumanLoopSummary extends S.Class<HumanLoopSummary>(
-  "HumanLoopSummary",
-)({
-  HumanLoopName: S.optional(S.String),
-  HumanLoopStatus: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  FailureReason: S.optional(S.String),
-  FlowDefinitionArn: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "StartHumanLoopRequest",
+}) as any as S.Schema<StartHumanLoopRequest>;
+export interface HumanLoopOutput {
+  OutputS3Uri: string;
+}
+export const HumanLoopOutput = S.suspend(() =>
+  S.Struct({ OutputS3Uri: S.String }),
+).annotations({
+  identifier: "HumanLoopOutput",
+}) as any as S.Schema<HumanLoopOutput>;
+export interface HumanLoopSummary {
+  HumanLoopName?: string;
+  HumanLoopStatus?: string;
+  CreationTime?: Date;
+  FailureReason?: string;
+  FlowDefinitionArn?: string;
+}
+export const HumanLoopSummary = S.suspend(() =>
+  S.Struct({
+    HumanLoopName: S.optional(S.String),
+    HumanLoopStatus: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    FailureReason: S.optional(S.String),
+    FlowDefinitionArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "HumanLoopSummary",
+}) as any as S.Schema<HumanLoopSummary>;
+export type HumanLoopSummaries = HumanLoopSummary[];
 export const HumanLoopSummaries = S.Array(HumanLoopSummary);
-export class DescribeHumanLoopResponse extends S.Class<DescribeHumanLoopResponse>(
-  "DescribeHumanLoopResponse",
-)({
-  CreationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  FailureReason: S.optional(S.String),
-  FailureCode: S.optional(S.String),
-  HumanLoopStatus: S.String,
-  HumanLoopName: S.String,
-  HumanLoopArn: S.String,
-  FlowDefinitionArn: S.String,
-  HumanLoopOutput: S.optional(HumanLoopOutput),
-}) {}
-export class ListHumanLoopsResponse extends S.Class<ListHumanLoopsResponse>(
-  "ListHumanLoopsResponse",
-)({
-  HumanLoopSummaries: HumanLoopSummaries,
-  NextToken: S.optional(S.String),
-}) {}
-export class StartHumanLoopResponse extends S.Class<StartHumanLoopResponse>(
-  "StartHumanLoopResponse",
-)({ HumanLoopArn: S.optional(S.String) }) {}
+export interface DescribeHumanLoopResponse {
+  CreationTime: Date;
+  FailureReason?: string;
+  FailureCode?: string;
+  HumanLoopStatus: string;
+  HumanLoopName: string;
+  HumanLoopArn: string;
+  FlowDefinitionArn: string;
+  HumanLoopOutput?: HumanLoopOutput;
+}
+export const DescribeHumanLoopResponse = S.suspend(() =>
+  S.Struct({
+    CreationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    FailureReason: S.optional(S.String),
+    FailureCode: S.optional(S.String),
+    HumanLoopStatus: S.String,
+    HumanLoopName: S.String,
+    HumanLoopArn: S.String,
+    FlowDefinitionArn: S.String,
+    HumanLoopOutput: S.optional(HumanLoopOutput),
+  }),
+).annotations({
+  identifier: "DescribeHumanLoopResponse",
+}) as any as S.Schema<DescribeHumanLoopResponse>;
+export interface ListHumanLoopsResponse {
+  HumanLoopSummaries: HumanLoopSummaries;
+  NextToken?: string;
+}
+export const ListHumanLoopsResponse = S.suspend(() =>
+  S.Struct({
+    HumanLoopSummaries: HumanLoopSummaries,
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListHumanLoopsResponse",
+}) as any as S.Schema<ListHumanLoopsResponse>;
+export interface StartHumanLoopResponse {
+  HumanLoopArn?: string;
+}
+export const StartHumanLoopResponse = S.suspend(() =>
+  S.Struct({ HumanLoopArn: S.optional(S.String) }),
+).annotations({
+  identifier: "StartHumanLoopResponse",
+}) as any as S.Schema<StartHumanLoopResponse>;
 
 //# Errors
 export class InternalServerException extends S.TaggedError<InternalServerException>()(

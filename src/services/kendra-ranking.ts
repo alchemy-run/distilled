@@ -198,201 +198,338 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class DeleteRescoreExecutionPlanRequest extends S.Class<DeleteRescoreExecutionPlanRequest>(
-  "DeleteRescoreExecutionPlanRequest",
-)(
-  { Id: S.String.pipe(T.HttpLabel("Id")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/rescore-execution-plans/{Id}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface DeleteRescoreExecutionPlanRequest {
+  Id: string;
+}
+export const DeleteRescoreExecutionPlanRequest = S.suspend(() =>
+  S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/rescore-execution-plans/{Id}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteRescoreExecutionPlanResponse extends S.Class<DeleteRescoreExecutionPlanResponse>(
-  "DeleteRescoreExecutionPlanResponse",
-)({}) {}
-export class DescribeRescoreExecutionPlanRequest extends S.Class<DescribeRescoreExecutionPlanRequest>(
-  "DescribeRescoreExecutionPlanRequest",
-)(
-  { Id: S.String.pipe(T.HttpLabel("Id")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/rescore-execution-plans/{Id}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteRescoreExecutionPlanRequest",
+}) as any as S.Schema<DeleteRescoreExecutionPlanRequest>;
+export interface DeleteRescoreExecutionPlanResponse {}
+export const DeleteRescoreExecutionPlanResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteRescoreExecutionPlanResponse",
+}) as any as S.Schema<DeleteRescoreExecutionPlanResponse>;
+export interface DescribeRescoreExecutionPlanRequest {
+  Id: string;
+}
+export const DescribeRescoreExecutionPlanRequest = S.suspend(() =>
+  S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/rescore-execution-plans/{Id}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListRescoreExecutionPlansRequest extends S.Class<ListRescoreExecutionPlansRequest>(
-  "ListRescoreExecutionPlansRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeRescoreExecutionPlanRequest",
+}) as any as S.Schema<DescribeRescoreExecutionPlanRequest>;
+export interface ListRescoreExecutionPlansRequest {
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListRescoreExecutionPlansRequest = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/rescore-execution-plans" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/rescore-execution-plans" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { ResourceARN: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class Tag extends S.Class<Tag>("Tag")({
-  Key: S.String,
-  Value: S.String,
-}) {}
+).annotations({
+  identifier: "ListRescoreExecutionPlansRequest",
+}) as any as S.Schema<ListRescoreExecutionPlansRequest>;
+export interface ListTagsForResourceRequest {
+  ResourceARN: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceARN: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface Tag {
+  Key: string;
+  Value: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ Key: S.String, Value: S.String }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagList = Tag[];
 export const TagList = S.Array(Tag);
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { ResourceARN: S.String, Tags: TagList },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  { ResourceARN: S.String, TagKeys: TagKeyList },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
-export class CapacityUnitsConfiguration extends S.Class<CapacityUnitsConfiguration>(
-  "CapacityUnitsConfiguration",
-)({ RescoreCapacityUnits: S.Number }) {}
-export class UpdateRescoreExecutionPlanRequest extends S.Class<UpdateRescoreExecutionPlanRequest>(
-  "UpdateRescoreExecutionPlanRequest",
-)(
-  {
+export interface TagResourceRequest {
+  ResourceARN: string;
+  Tags: TagList;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceARN: S.String, Tags: TagList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UntagResourceRequest {
+  ResourceARN: string;
+  TagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceARN: S.String, TagKeys: TagKeyList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface CapacityUnitsConfiguration {
+  RescoreCapacityUnits: number;
+}
+export const CapacityUnitsConfiguration = S.suspend(() =>
+  S.Struct({ RescoreCapacityUnits: S.Number }),
+).annotations({
+  identifier: "CapacityUnitsConfiguration",
+}) as any as S.Schema<CapacityUnitsConfiguration>;
+export interface UpdateRescoreExecutionPlanRequest {
+  Id: string;
+  Name?: string;
+  Description?: string;
+  CapacityUnits?: CapacityUnitsConfiguration;
+}
+export const UpdateRescoreExecutionPlanRequest = S.suspend(() =>
+  S.Struct({
     Id: S.String.pipe(T.HttpLabel("Id")),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     CapacityUnits: S.optional(CapacityUnitsConfiguration),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/rescore-execution-plans/{Id}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/rescore-execution-plans/{Id}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateRescoreExecutionPlanResponse extends S.Class<UpdateRescoreExecutionPlanResponse>(
-  "UpdateRescoreExecutionPlanResponse",
-)({}) {}
+).annotations({
+  identifier: "UpdateRescoreExecutionPlanRequest",
+}) as any as S.Schema<UpdateRescoreExecutionPlanRequest>;
+export interface UpdateRescoreExecutionPlanResponse {}
+export const UpdateRescoreExecutionPlanResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateRescoreExecutionPlanResponse",
+}) as any as S.Schema<UpdateRescoreExecutionPlanResponse>;
+export type TitleTokensList = string[];
 export const TitleTokensList = S.Array(S.String);
+export type BodyTokensList = string[];
 export const BodyTokensList = S.Array(S.String);
-export class Document extends S.Class<Document>("Document")({
-  Id: S.String,
-  GroupId: S.optional(S.String),
-  Title: S.optional(S.String),
-  Body: S.optional(S.String),
-  TokenizedTitle: S.optional(TitleTokensList),
-  TokenizedBody: S.optional(BodyTokensList),
-  OriginalScore: S.Number,
-}) {}
+export interface Document {
+  Id: string;
+  GroupId?: string;
+  Title?: string;
+  Body?: string;
+  TokenizedTitle?: TitleTokensList;
+  TokenizedBody?: BodyTokensList;
+  OriginalScore: number;
+}
+export const Document = S.suspend(() =>
+  S.Struct({
+    Id: S.String,
+    GroupId: S.optional(S.String),
+    Title: S.optional(S.String),
+    Body: S.optional(S.String),
+    TokenizedTitle: S.optional(TitleTokensList),
+    TokenizedBody: S.optional(BodyTokensList),
+    OriginalScore: S.Number,
+  }),
+).annotations({ identifier: "Document" }) as any as S.Schema<Document>;
+export type DocumentList = Document[];
 export const DocumentList = S.Array(Document);
-export class CreateRescoreExecutionPlanRequest extends S.Class<CreateRescoreExecutionPlanRequest>(
-  "CreateRescoreExecutionPlanRequest",
-)(
-  {
+export interface CreateRescoreExecutionPlanRequest {
+  Name: string;
+  Description?: string;
+  CapacityUnits?: CapacityUnitsConfiguration;
+  Tags?: TagList;
+  ClientToken?: string;
+}
+export const CreateRescoreExecutionPlanRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     Description: S.optional(S.String),
     CapacityUnits: S.optional(CapacityUnitsConfiguration),
     Tags: S.optional(TagList),
     ClientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/rescore-execution-plans" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/rescore-execution-plans" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeRescoreExecutionPlanResponse extends S.Class<DescribeRescoreExecutionPlanResponse>(
-  "DescribeRescoreExecutionPlanResponse",
-)({
-  Id: S.optional(S.String),
-  Arn: S.optional(S.String),
-  Name: S.optional(S.String),
-  Description: S.optional(S.String),
-  CapacityUnits: S.optional(CapacityUnitsConfiguration),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Status: S.optional(S.String),
-  ErrorMessage: S.optional(S.String),
-}) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ Tags: S.optional(TagList) }) {}
-export class RescoreRequest extends S.Class<RescoreRequest>("RescoreRequest")(
-  {
+).annotations({
+  identifier: "CreateRescoreExecutionPlanRequest",
+}) as any as S.Schema<CreateRescoreExecutionPlanRequest>;
+export interface DescribeRescoreExecutionPlanResponse {
+  Id?: string;
+  Arn?: string;
+  Name?: string;
+  Description?: string;
+  CapacityUnits?: CapacityUnitsConfiguration;
+  CreatedAt?: Date;
+  UpdatedAt?: Date;
+  Status?: string;
+  ErrorMessage?: string;
+}
+export const DescribeRescoreExecutionPlanResponse = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Arn: S.optional(S.String),
+    Name: S.optional(S.String),
+    Description: S.optional(S.String),
+    CapacityUnits: S.optional(CapacityUnitsConfiguration),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Status: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DescribeRescoreExecutionPlanResponse",
+}) as any as S.Schema<DescribeRescoreExecutionPlanResponse>;
+export interface ListTagsForResourceResponse {
+  Tags?: TagList;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ Tags: S.optional(TagList) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface RescoreRequest {
+  RescoreExecutionPlanId: string;
+  SearchQuery: string;
+  Documents: DocumentList;
+}
+export const RescoreRequest = S.suspend(() =>
+  S.Struct({
     RescoreExecutionPlanId: S.String.pipe(
       T.HttpLabel("RescoreExecutionPlanId"),
     ),
     SearchQuery: S.String,
     Documents: DocumentList,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/rescore-execution-plans/{RescoreExecutionPlanId}/rescore",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/rescore-execution-plans/{RescoreExecutionPlanId}/rescore",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class RescoreExecutionPlanSummary extends S.Class<RescoreExecutionPlanSummary>(
-  "RescoreExecutionPlanSummary",
-)({
-  Name: S.optional(S.String),
-  Id: S.optional(S.String),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Status: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "RescoreRequest",
+}) as any as S.Schema<RescoreRequest>;
+export interface RescoreExecutionPlanSummary {
+  Name?: string;
+  Id?: string;
+  CreatedAt?: Date;
+  UpdatedAt?: Date;
+  Status?: string;
+}
+export const RescoreExecutionPlanSummary = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Id: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Status: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RescoreExecutionPlanSummary",
+}) as any as S.Schema<RescoreExecutionPlanSummary>;
+export type RescoreExecutionPlanSummaryList = RescoreExecutionPlanSummary[];
 export const RescoreExecutionPlanSummaryList = S.Array(
   RescoreExecutionPlanSummary,
 );
-export class CreateRescoreExecutionPlanResponse extends S.Class<CreateRescoreExecutionPlanResponse>(
-  "CreateRescoreExecutionPlanResponse",
-)({ Id: S.String, Arn: S.String }) {}
-export class ListRescoreExecutionPlansResponse extends S.Class<ListRescoreExecutionPlansResponse>(
-  "ListRescoreExecutionPlansResponse",
-)({
-  SummaryItems: S.optional(RescoreExecutionPlanSummaryList),
-  NextToken: S.optional(S.String),
-}) {}
-export class RescoreResultItem extends S.Class<RescoreResultItem>(
-  "RescoreResultItem",
-)({ DocumentId: S.optional(S.String), Score: S.optional(S.Number) }) {}
+export interface CreateRescoreExecutionPlanResponse {
+  Id: string;
+  Arn: string;
+}
+export const CreateRescoreExecutionPlanResponse = S.suspend(() =>
+  S.Struct({ Id: S.String, Arn: S.String }),
+).annotations({
+  identifier: "CreateRescoreExecutionPlanResponse",
+}) as any as S.Schema<CreateRescoreExecutionPlanResponse>;
+export interface ListRescoreExecutionPlansResponse {
+  SummaryItems?: RescoreExecutionPlanSummaryList;
+  NextToken?: string;
+}
+export const ListRescoreExecutionPlansResponse = S.suspend(() =>
+  S.Struct({
+    SummaryItems: S.optional(RescoreExecutionPlanSummaryList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListRescoreExecutionPlansResponse",
+}) as any as S.Schema<ListRescoreExecutionPlansResponse>;
+export interface RescoreResultItem {
+  DocumentId?: string;
+  Score?: number;
+}
+export const RescoreResultItem = S.suspend(() =>
+  S.Struct({ DocumentId: S.optional(S.String), Score: S.optional(S.Number) }),
+).annotations({
+  identifier: "RescoreResultItem",
+}) as any as S.Schema<RescoreResultItem>;
+export type RescoreResultItemList = RescoreResultItem[];
 export const RescoreResultItemList = S.Array(RescoreResultItem);
-export class RescoreResult extends S.Class<RescoreResult>("RescoreResult")({
-  RescoreId: S.optional(S.String),
-  ResultItems: S.optional(RescoreResultItemList),
-}) {}
+export interface RescoreResult {
+  RescoreId?: string;
+  ResultItems?: RescoreResultItemList;
+}
+export const RescoreResult = S.suspend(() =>
+  S.Struct({
+    RescoreId: S.optional(S.String),
+    ResultItems: S.optional(RescoreResultItemList),
+  }),
+).annotations({
+  identifier: "RescoreResult",
+}) as any as S.Schema<RescoreResult>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

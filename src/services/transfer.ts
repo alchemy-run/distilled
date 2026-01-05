@@ -242,268 +242,468 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type FilePaths = string[];
 export const FilePaths = S.Array(S.String);
+export type TagKeys = string[];
 export const TagKeys = S.Array(S.String);
+export type CertificateIds = string[];
 export const CertificateIds = S.Array(S.String);
+export type Protocols = string[];
 export const Protocols = S.Array(S.String);
+export type StructuredLogDestinations = string[];
 export const StructuredLogDestinations = S.Array(S.String);
-export class DeleteAccessRequest extends S.Class<DeleteAccessRequest>(
-  "DeleteAccessRequest",
-)(
-  { ServerId: S.String, ExternalId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteAccessResponse extends S.Class<DeleteAccessResponse>(
-  "DeleteAccessResponse",
-)({}) {}
-export class DeleteHostKeyRequest extends S.Class<DeleteHostKeyRequest>(
-  "DeleteHostKeyRequest",
-)(
-  { ServerId: S.String, HostKeyId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteHostKeyResponse extends S.Class<DeleteHostKeyResponse>(
-  "DeleteHostKeyResponse",
-)({}) {}
-export class DeleteSshPublicKeyRequest extends S.Class<DeleteSshPublicKeyRequest>(
-  "DeleteSshPublicKeyRequest",
-)(
-  { ServerId: S.String, SshPublicKeyId: S.String, UserName: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteSshPublicKeyResponse extends S.Class<DeleteSshPublicKeyResponse>(
-  "DeleteSshPublicKeyResponse",
-)({}) {}
-export class DescribeAccessRequest extends S.Class<DescribeAccessRequest>(
-  "DescribeAccessRequest",
-)(
-  { ServerId: S.String, ExternalId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeExecutionRequest extends S.Class<DescribeExecutionRequest>(
-  "DescribeExecutionRequest",
-)(
-  { ExecutionId: S.String, WorkflowId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeHostKeyRequest extends S.Class<DescribeHostKeyRequest>(
-  "DescribeHostKeyRequest",
-)(
-  { ServerId: S.String, HostKeyId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeSecurityPolicyRequest extends S.Class<DescribeSecurityPolicyRequest>(
-  "DescribeSecurityPolicyRequest",
-)(
-  { SecurityPolicyName: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ImportSshPublicKeyRequest extends S.Class<ImportSshPublicKeyRequest>(
-  "ImportSshPublicKeyRequest",
-)(
-  { ServerId: S.String, SshPublicKeyBody: S.String, UserName: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListAccessesRequest extends S.Class<ListAccessesRequest>(
-  "ListAccessesRequest",
-)(
-  {
+export interface DeleteAccessRequest {
+  ServerId: string;
+  ExternalId: string;
+}
+export const DeleteAccessRequest = S.suspend(() =>
+  S.Struct({ ServerId: S.String, ExternalId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteAccessRequest",
+}) as any as S.Schema<DeleteAccessRequest>;
+export interface DeleteAccessResponse {}
+export const DeleteAccessResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteAccessResponse",
+}) as any as S.Schema<DeleteAccessResponse>;
+export interface DeleteHostKeyRequest {
+  ServerId: string;
+  HostKeyId: string;
+}
+export const DeleteHostKeyRequest = S.suspend(() =>
+  S.Struct({ ServerId: S.String, HostKeyId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteHostKeyRequest",
+}) as any as S.Schema<DeleteHostKeyRequest>;
+export interface DeleteHostKeyResponse {}
+export const DeleteHostKeyResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteHostKeyResponse",
+}) as any as S.Schema<DeleteHostKeyResponse>;
+export interface DeleteSshPublicKeyRequest {
+  ServerId: string;
+  SshPublicKeyId: string;
+  UserName: string;
+}
+export const DeleteSshPublicKeyRequest = S.suspend(() =>
+  S.Struct({
+    ServerId: S.String,
+    SshPublicKeyId: S.String,
+    UserName: S.String,
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteSshPublicKeyRequest",
+}) as any as S.Schema<DeleteSshPublicKeyRequest>;
+export interface DeleteSshPublicKeyResponse {}
+export const DeleteSshPublicKeyResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteSshPublicKeyResponse",
+}) as any as S.Schema<DeleteSshPublicKeyResponse>;
+export interface DescribeAccessRequest {
+  ServerId: string;
+  ExternalId: string;
+}
+export const DescribeAccessRequest = S.suspend(() =>
+  S.Struct({ ServerId: S.String, ExternalId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeAccessRequest",
+}) as any as S.Schema<DescribeAccessRequest>;
+export interface DescribeExecutionRequest {
+  ExecutionId: string;
+  WorkflowId: string;
+}
+export const DescribeExecutionRequest = S.suspend(() =>
+  S.Struct({ ExecutionId: S.String, WorkflowId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeExecutionRequest",
+}) as any as S.Schema<DescribeExecutionRequest>;
+export interface DescribeHostKeyRequest {
+  ServerId: string;
+  HostKeyId: string;
+}
+export const DescribeHostKeyRequest = S.suspend(() =>
+  S.Struct({ ServerId: S.String, HostKeyId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeHostKeyRequest",
+}) as any as S.Schema<DescribeHostKeyRequest>;
+export interface DescribeSecurityPolicyRequest {
+  SecurityPolicyName: string;
+}
+export const DescribeSecurityPolicyRequest = S.suspend(() =>
+  S.Struct({ SecurityPolicyName: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeSecurityPolicyRequest",
+}) as any as S.Schema<DescribeSecurityPolicyRequest>;
+export interface ImportSshPublicKeyRequest {
+  ServerId: string;
+  SshPublicKeyBody: string;
+  UserName: string;
+}
+export const ImportSshPublicKeyRequest = S.suspend(() =>
+  S.Struct({
+    ServerId: S.String,
+    SshPublicKeyBody: S.String,
+    UserName: S.String,
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ImportSshPublicKeyRequest",
+}) as any as S.Schema<ImportSshPublicKeyRequest>;
+export interface ListAccessesRequest {
+  MaxResults?: number;
+  NextToken?: string;
+  ServerId: string;
+}
+export const ListAccessesRequest = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     ServerId: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListExecutionsRequest extends S.Class<ListExecutionsRequest>(
-  "ListExecutionsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListAccessesRequest",
+}) as any as S.Schema<ListAccessesRequest>;
+export interface ListExecutionsRequest {
+  MaxResults?: number;
+  NextToken?: string;
+  WorkflowId: string;
+}
+export const ListExecutionsRequest = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     WorkflowId: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListFileTransferResultsRequest extends S.Class<ListFileTransferResultsRequest>(
-  "ListFileTransferResultsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListExecutionsRequest",
+}) as any as S.Schema<ListExecutionsRequest>;
+export interface ListFileTransferResultsRequest {
+  ConnectorId: string;
+  TransferId: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListFileTransferResultsRequest = S.suspend(() =>
+  S.Struct({
     ConnectorId: S.String,
     TransferId: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/listFileTransferResults" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/listFileTransferResults" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListHostKeysRequest extends S.Class<ListHostKeysRequest>(
-  "ListHostKeysRequest",
-)(
-  {
+).annotations({
+  identifier: "ListFileTransferResultsRequest",
+}) as any as S.Schema<ListFileTransferResultsRequest>;
+export interface ListHostKeysRequest {
+  MaxResults?: number;
+  NextToken?: string;
+  ServerId: string;
+}
+export const ListHostKeysRequest = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     ServerId: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListSecurityPoliciesRequest extends S.Class<ListSecurityPoliciesRequest>(
-  "ListSecurityPoliciesRequest",
-)(
-  { MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListHostKeysRequest",
+}) as any as S.Schema<ListHostKeysRequest>;
+export interface ListSecurityPoliciesRequest {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListSecurityPoliciesRequest = S.suspend(() =>
+  S.Struct({
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListSecurityPoliciesRequest",
+}) as any as S.Schema<ListSecurityPoliciesRequest>;
+export interface ListTagsForResourceRequest {
+  Arn: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({
     Arn: S.String,
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class SendWorkflowStepStateRequest extends S.Class<SendWorkflowStepStateRequest>(
-  "SendWorkflowStepStateRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface SendWorkflowStepStateRequest {
+  WorkflowId: string;
+  ExecutionId: string;
+  Token: string;
+  Status: string;
+}
+export const SendWorkflowStepStateRequest = S.suspend(() =>
+  S.Struct({
     WorkflowId: S.String,
     ExecutionId: S.String,
     Token: S.String,
     Status: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class SendWorkflowStepStateResponse extends S.Class<SendWorkflowStepStateResponse>(
-  "SendWorkflowStepStateResponse",
-)({}) {}
-export class StartDirectoryListingRequest extends S.Class<StartDirectoryListingRequest>(
-  "StartDirectoryListingRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "SendWorkflowStepStateRequest",
+}) as any as S.Schema<SendWorkflowStepStateRequest>;
+export interface SendWorkflowStepStateResponse {}
+export const SendWorkflowStepStateResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "SendWorkflowStepStateResponse",
+}) as any as S.Schema<SendWorkflowStepStateResponse>;
+export interface StartDirectoryListingRequest {
+  ConnectorId: string;
+  RemoteDirectoryPath: string;
+  MaxItems?: number;
+  OutputDirectoryPath: string;
+}
+export const StartDirectoryListingRequest = S.suspend(() =>
+  S.Struct({
     ConnectorId: S.String,
     RemoteDirectoryPath: S.String,
     MaxItems: S.optional(S.Number),
     OutputDirectoryPath: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StartFileTransferRequest extends S.Class<StartFileTransferRequest>(
-  "StartFileTransferRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StartDirectoryListingRequest",
+}) as any as S.Schema<StartDirectoryListingRequest>;
+export interface StartFileTransferRequest {
+  ConnectorId: string;
+  SendFilePaths?: FilePaths;
+  RetrieveFilePaths?: FilePaths;
+  LocalDirectoryPath?: string;
+  RemoteDirectoryPath?: string;
+}
+export const StartFileTransferRequest = S.suspend(() =>
+  S.Struct({
     ConnectorId: S.String,
     SendFilePaths: S.optional(FilePaths),
     RetrieveFilePaths: S.optional(FilePaths),
     LocalDirectoryPath: S.optional(S.String),
     RemoteDirectoryPath: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StartRemoteDeleteRequest extends S.Class<StartRemoteDeleteRequest>(
-  "StartRemoteDeleteRequest",
-)(
-  { ConnectorId: S.String, DeletePath: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/startRemoteDelete" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-) {}
-export class StartRemoteMoveRequest extends S.Class<StartRemoteMoveRequest>(
-  "StartRemoteMoveRequest",
-)(
-  { ConnectorId: S.String, SourcePath: S.String, TargetPath: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/startRemoteMove" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "StartFileTransferRequest",
+}) as any as S.Schema<StartFileTransferRequest>;
+export interface StartRemoteDeleteRequest {
+  ConnectorId: string;
+  DeletePath: string;
+}
+export const StartRemoteDeleteRequest = S.suspend(() =>
+  S.Struct({ ConnectorId: S.String, DeletePath: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/startRemoteDelete" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartServerRequest extends S.Class<StartServerRequest>(
-  "StartServerRequest",
-)(
-  { ServerId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StartServerResponse extends S.Class<StartServerResponse>(
-  "StartServerResponse",
-)({}) {}
-export class StopServerRequest extends S.Class<StopServerRequest>(
-  "StopServerRequest",
-)(
-  { ServerId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StopServerResponse extends S.Class<StopServerResponse>(
-  "StopServerResponse",
-)({}) {}
-export class Tag extends S.Class<Tag>("Tag")({
-  Key: S.String,
-  Value: S.String,
-}) {}
+).annotations({
+  identifier: "StartRemoteDeleteRequest",
+}) as any as S.Schema<StartRemoteDeleteRequest>;
+export interface StartRemoteMoveRequest {
+  ConnectorId: string;
+  SourcePath: string;
+  TargetPath: string;
+}
+export const StartRemoteMoveRequest = S.suspend(() =>
+  S.Struct({
+    ConnectorId: S.String,
+    SourcePath: S.String,
+    TargetPath: S.String,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/startRemoteMove" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "StartRemoteMoveRequest",
+}) as any as S.Schema<StartRemoteMoveRequest>;
+export interface StartServerRequest {
+  ServerId: string;
+}
+export const StartServerRequest = S.suspend(() =>
+  S.Struct({ ServerId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StartServerRequest",
+}) as any as S.Schema<StartServerRequest>;
+export interface StartServerResponse {}
+export const StartServerResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "StartServerResponse",
+}) as any as S.Schema<StartServerResponse>;
+export interface StopServerRequest {
+  ServerId: string;
+}
+export const StopServerRequest = S.suspend(() =>
+  S.Struct({ ServerId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StopServerRequest",
+}) as any as S.Schema<StopServerRequest>;
+export interface StopServerResponse {}
+export const StopServerResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "StopServerResponse",
+}) as any as S.Schema<StopServerResponse>;
+export interface Tag {
+  Key: string;
+  Value: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ Key: S.String, Value: S.String }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type Tags = Tag[];
 export const Tags = S.Array(Tag);
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { Arn: S.String, Tags: Tags },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class TestConnectionRequest extends S.Class<TestConnectionRequest>(
-  "TestConnectionRequest",
-)(
-  { ConnectorId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TestIdentityProviderRequest extends S.Class<TestIdentityProviderRequest>(
-  "TestIdentityProviderRequest",
-)(
-  {
+export interface TagResourceRequest {
+  Arn: string;
+  Tags: Tags;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ Arn: S.String, Tags: Tags }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface TestConnectionRequest {
+  ConnectorId: string;
+}
+export const TestConnectionRequest = S.suspend(() =>
+  S.Struct({ ConnectorId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "TestConnectionRequest",
+}) as any as S.Schema<TestConnectionRequest>;
+export interface TestIdentityProviderRequest {
+  ServerId: string;
+  ServerProtocol?: string;
+  SourceIp?: string;
+  UserName: string;
+  UserPassword?: string;
+}
+export const TestIdentityProviderRequest = S.suspend(() =>
+  S.Struct({
     ServerId: S.String,
     ServerProtocol: S.optional(S.String),
     SourceIp: S.optional(S.String),
     UserName: S.String,
     UserPassword: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  { Arn: S.String, TagKeys: TagKeys },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
-export class HomeDirectoryMapEntry extends S.Class<HomeDirectoryMapEntry>(
-  "HomeDirectoryMapEntry",
-)({ Entry: S.String, Target: S.String, Type: S.optional(S.String) }) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "TestIdentityProviderRequest",
+}) as any as S.Schema<TestIdentityProviderRequest>;
+export interface UntagResourceRequest {
+  Arn: string;
+  TagKeys: TagKeys;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({ Arn: S.String, TagKeys: TagKeys }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface HomeDirectoryMapEntry {
+  Entry: string;
+  Target: string;
+  Type?: string;
+}
+export const HomeDirectoryMapEntry = S.suspend(() =>
+  S.Struct({ Entry: S.String, Target: S.String, Type: S.optional(S.String) }),
+).annotations({
+  identifier: "HomeDirectoryMapEntry",
+}) as any as S.Schema<HomeDirectoryMapEntry>;
+export type HomeDirectoryMappings = HomeDirectoryMapEntry[];
 export const HomeDirectoryMappings = S.Array(HomeDirectoryMapEntry);
+export type SecondaryGids = number[];
 export const SecondaryGids = S.Array(S.Number);
-export class PosixProfile extends S.Class<PosixProfile>("PosixProfile")({
-  Uid: S.Number,
-  Gid: S.Number,
-  SecondaryGids: S.optional(SecondaryGids),
-}) {}
-export class UpdateAccessRequest extends S.Class<UpdateAccessRequest>(
-  "UpdateAccessRequest",
-)(
-  {
+export interface PosixProfile {
+  Uid: number;
+  Gid: number;
+  SecondaryGids?: SecondaryGids;
+}
+export const PosixProfile = S.suspend(() =>
+  S.Struct({
+    Uid: S.Number,
+    Gid: S.Number,
+    SecondaryGids: S.optional(SecondaryGids),
+  }),
+).annotations({ identifier: "PosixProfile" }) as any as S.Schema<PosixProfile>;
+export interface UpdateAccessRequest {
+  HomeDirectory?: string;
+  HomeDirectoryType?: string;
+  HomeDirectoryMappings?: HomeDirectoryMappings;
+  Policy?: string;
+  PosixProfile?: PosixProfile;
+  Role?: string;
+  ServerId: string;
+  ExternalId: string;
+}
+export const UpdateAccessRequest = S.suspend(() =>
+  S.Struct({
     HomeDirectory: S.optional(S.String),
     HomeDirectoryType: S.optional(S.String),
     HomeDirectoryMappings: S.optional(HomeDirectoryMappings),
@@ -512,34 +712,72 @@ export class UpdateAccessRequest extends S.Class<UpdateAccessRequest>(
     Role: S.optional(S.String),
     ServerId: S.String,
     ExternalId: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateHostKeyRequest extends S.Class<UpdateHostKeyRequest>(
-  "UpdateHostKeyRequest",
-)(
-  { ServerId: S.String, HostKeyId: S.String, Description: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeAgreementRequest extends S.Class<DescribeAgreementRequest>(
-  "DescribeAgreementRequest",
-)(
-  { AgreementId: S.String, ServerId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CustomDirectoriesType extends S.Class<CustomDirectoriesType>(
-  "CustomDirectoriesType",
-)({
-  FailedFilesDirectory: S.String,
-  MdnFilesDirectory: S.String,
-  PayloadFilesDirectory: S.String,
-  StatusFilesDirectory: S.String,
-  TemporaryFilesDirectory: S.String,
-}) {}
-export class UpdateAgreementRequest extends S.Class<UpdateAgreementRequest>(
-  "UpdateAgreementRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateAccessRequest",
+}) as any as S.Schema<UpdateAccessRequest>;
+export interface UpdateHostKeyRequest {
+  ServerId: string;
+  HostKeyId: string;
+  Description: string;
+}
+export const UpdateHostKeyRequest = S.suspend(() =>
+  S.Struct({
+    ServerId: S.String,
+    HostKeyId: S.String,
+    Description: S.String,
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateHostKeyRequest",
+}) as any as S.Schema<UpdateHostKeyRequest>;
+export interface DescribeAgreementRequest {
+  AgreementId: string;
+  ServerId: string;
+}
+export const DescribeAgreementRequest = S.suspend(() =>
+  S.Struct({ AgreementId: S.String, ServerId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeAgreementRequest",
+}) as any as S.Schema<DescribeAgreementRequest>;
+export interface CustomDirectoriesType {
+  FailedFilesDirectory: string;
+  MdnFilesDirectory: string;
+  PayloadFilesDirectory: string;
+  StatusFilesDirectory: string;
+  TemporaryFilesDirectory: string;
+}
+export const CustomDirectoriesType = S.suspend(() =>
+  S.Struct({
+    FailedFilesDirectory: S.String,
+    MdnFilesDirectory: S.String,
+    PayloadFilesDirectory: S.String,
+    StatusFilesDirectory: S.String,
+    TemporaryFilesDirectory: S.String,
+  }),
+).annotations({
+  identifier: "CustomDirectoriesType",
+}) as any as S.Schema<CustomDirectoriesType>;
+export interface UpdateAgreementRequest {
+  AgreementId: string;
+  ServerId: string;
+  Description?: string;
+  Status?: string;
+  LocalProfileId?: string;
+  PartnerProfileId?: string;
+  BaseDirectory?: string;
+  AccessRole?: string;
+  PreserveFilename?: string;
+  EnforceMessageSigning?: string;
+  CustomDirectories?: CustomDirectoriesType;
+}
+export const UpdateAgreementRequest = S.suspend(() =>
+  S.Struct({
     AgreementId: S.String,
     ServerId: S.String,
     Description: S.optional(S.String),
@@ -551,32 +789,57 @@ export class UpdateAgreementRequest extends S.Class<UpdateAgreementRequest>(
     PreserveFilename: S.optional(S.String),
     EnforceMessageSigning: S.optional(S.String),
     CustomDirectories: S.optional(CustomDirectoriesType),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteAgreementRequest extends S.Class<DeleteAgreementRequest>(
-  "DeleteAgreementRequest",
-)(
-  { AgreementId: S.String, ServerId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteAgreementResponse extends S.Class<DeleteAgreementResponse>(
-  "DeleteAgreementResponse",
-)({}) {}
-export class ListAgreementsRequest extends S.Class<ListAgreementsRequest>(
-  "ListAgreementsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateAgreementRequest",
+}) as any as S.Schema<UpdateAgreementRequest>;
+export interface DeleteAgreementRequest {
+  AgreementId: string;
+  ServerId: string;
+}
+export const DeleteAgreementRequest = S.suspend(() =>
+  S.Struct({ AgreementId: S.String, ServerId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteAgreementRequest",
+}) as any as S.Schema<DeleteAgreementRequest>;
+export interface DeleteAgreementResponse {}
+export const DeleteAgreementResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteAgreementResponse",
+}) as any as S.Schema<DeleteAgreementResponse>;
+export interface ListAgreementsRequest {
+  MaxResults?: number;
+  NextToken?: string;
+  ServerId: string;
+}
+export const ListAgreementsRequest = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     ServerId: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ImportCertificateRequest extends S.Class<ImportCertificateRequest>(
-  "ImportCertificateRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListAgreementsRequest",
+}) as any as S.Schema<ListAgreementsRequest>;
+export interface ImportCertificateRequest {
+  Usage: string;
+  Certificate: string;
+  CertificateChain?: string;
+  PrivateKey?: string;
+  ActiveDate?: Date;
+  InactiveDate?: Date;
+  Description?: string;
+  Tags?: Tags;
+}
+export const ImportCertificateRequest = S.suspend(() =>
+  S.Struct({
     Usage: S.String,
     Certificate: S.String,
     CertificateChain: S.optional(S.String),
@@ -585,159 +848,306 @@ export class ImportCertificateRequest extends S.Class<ImportCertificateRequest>(
     InactiveDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Description: S.optional(S.String),
     Tags: S.optional(Tags),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeCertificateRequest extends S.Class<DescribeCertificateRequest>(
-  "DescribeCertificateRequest",
-)(
-  { CertificateId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateCertificateRequest extends S.Class<UpdateCertificateRequest>(
-  "UpdateCertificateRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ImportCertificateRequest",
+}) as any as S.Schema<ImportCertificateRequest>;
+export interface DescribeCertificateRequest {
+  CertificateId: string;
+}
+export const DescribeCertificateRequest = S.suspend(() =>
+  S.Struct({ CertificateId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeCertificateRequest",
+}) as any as S.Schema<DescribeCertificateRequest>;
+export interface UpdateCertificateRequest {
+  CertificateId: string;
+  ActiveDate?: Date;
+  InactiveDate?: Date;
+  Description?: string;
+}
+export const UpdateCertificateRequest = S.suspend(() =>
+  S.Struct({
     CertificateId: S.String,
     ActiveDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     InactiveDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Description: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteCertificateRequest extends S.Class<DeleteCertificateRequest>(
-  "DeleteCertificateRequest",
-)(
-  { CertificateId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteCertificateResponse extends S.Class<DeleteCertificateResponse>(
-  "DeleteCertificateResponse",
-)({}) {}
-export class ListCertificatesRequest extends S.Class<ListCertificatesRequest>(
-  "ListCertificatesRequest",
-)(
-  { MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeConnectorRequest extends S.Class<DescribeConnectorRequest>(
-  "DescribeConnectorRequest",
-)(
-  { ConnectorId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteConnectorRequest extends S.Class<DeleteConnectorRequest>(
-  "DeleteConnectorRequest",
-)(
-  { ConnectorId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteConnectorResponse extends S.Class<DeleteConnectorResponse>(
-  "DeleteConnectorResponse",
-)({}) {}
-export class ListConnectorsRequest extends S.Class<ListConnectorsRequest>(
-  "ListConnectorsRequest",
-)(
-  { MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateProfileRequest extends S.Class<CreateProfileRequest>(
-  "CreateProfileRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateCertificateRequest",
+}) as any as S.Schema<UpdateCertificateRequest>;
+export interface DeleteCertificateRequest {
+  CertificateId: string;
+}
+export const DeleteCertificateRequest = S.suspend(() =>
+  S.Struct({ CertificateId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteCertificateRequest",
+}) as any as S.Schema<DeleteCertificateRequest>;
+export interface DeleteCertificateResponse {}
+export const DeleteCertificateResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteCertificateResponse",
+}) as any as S.Schema<DeleteCertificateResponse>;
+export interface ListCertificatesRequest {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListCertificatesRequest = S.suspend(() =>
+  S.Struct({
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListCertificatesRequest",
+}) as any as S.Schema<ListCertificatesRequest>;
+export interface DescribeConnectorRequest {
+  ConnectorId: string;
+}
+export const DescribeConnectorRequest = S.suspend(() =>
+  S.Struct({ ConnectorId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeConnectorRequest",
+}) as any as S.Schema<DescribeConnectorRequest>;
+export interface DeleteConnectorRequest {
+  ConnectorId: string;
+}
+export const DeleteConnectorRequest = S.suspend(() =>
+  S.Struct({ ConnectorId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteConnectorRequest",
+}) as any as S.Schema<DeleteConnectorRequest>;
+export interface DeleteConnectorResponse {}
+export const DeleteConnectorResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteConnectorResponse",
+}) as any as S.Schema<DeleteConnectorResponse>;
+export interface ListConnectorsRequest {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListConnectorsRequest = S.suspend(() =>
+  S.Struct({
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListConnectorsRequest",
+}) as any as S.Schema<ListConnectorsRequest>;
+export interface CreateProfileRequest {
+  As2Id: string;
+  ProfileType: string;
+  CertificateIds?: CertificateIds;
+  Tags?: Tags;
+}
+export const CreateProfileRequest = S.suspend(() =>
+  S.Struct({
     As2Id: S.String,
     ProfileType: S.String,
     CertificateIds: S.optional(CertificateIds),
     Tags: S.optional(Tags),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeProfileRequest extends S.Class<DescribeProfileRequest>(
-  "DescribeProfileRequest",
-)(
-  { ProfileId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateProfileRequest extends S.Class<UpdateProfileRequest>(
-  "UpdateProfileRequest",
-)(
-  { ProfileId: S.String, CertificateIds: S.optional(CertificateIds) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteProfileRequest extends S.Class<DeleteProfileRequest>(
-  "DeleteProfileRequest",
-)(
-  { ProfileId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteProfileResponse extends S.Class<DeleteProfileResponse>(
-  "DeleteProfileResponse",
-)({}) {}
-export class ListProfilesRequest extends S.Class<ListProfilesRequest>(
-  "ListProfilesRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateProfileRequest",
+}) as any as S.Schema<CreateProfileRequest>;
+export interface DescribeProfileRequest {
+  ProfileId: string;
+}
+export const DescribeProfileRequest = S.suspend(() =>
+  S.Struct({ ProfileId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeProfileRequest",
+}) as any as S.Schema<DescribeProfileRequest>;
+export interface UpdateProfileRequest {
+  ProfileId: string;
+  CertificateIds?: CertificateIds;
+}
+export const UpdateProfileRequest = S.suspend(() =>
+  S.Struct({
+    ProfileId: S.String,
+    CertificateIds: S.optional(CertificateIds),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateProfileRequest",
+}) as any as S.Schema<UpdateProfileRequest>;
+export interface DeleteProfileRequest {
+  ProfileId: string;
+}
+export const DeleteProfileRequest = S.suspend(() =>
+  S.Struct({ ProfileId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteProfileRequest",
+}) as any as S.Schema<DeleteProfileRequest>;
+export interface DeleteProfileResponse {}
+export const DeleteProfileResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteProfileResponse",
+}) as any as S.Schema<DeleteProfileResponse>;
+export interface ListProfilesRequest {
+  MaxResults?: number;
+  NextToken?: string;
+  ProfileType?: string;
+}
+export const ListProfilesRequest = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     ProfileType: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeServerRequest extends S.Class<DescribeServerRequest>(
-  "DescribeServerRequest",
-)(
-  { ServerId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListProfilesRequest",
+}) as any as S.Schema<ListProfilesRequest>;
+export interface DescribeServerRequest {
+  ServerId: string;
+}
+export const DescribeServerRequest = S.suspend(() =>
+  S.Struct({ ServerId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeServerRequest",
+}) as any as S.Schema<DescribeServerRequest>;
+export type As2Transports = string[];
 export const As2Transports = S.Array(S.String);
-export class ProtocolDetails extends S.Class<ProtocolDetails>(
-  "ProtocolDetails",
-)({
-  PassiveIp: S.optional(S.String),
-  TlsSessionResumptionMode: S.optional(S.String),
-  SetStatOption: S.optional(S.String),
-  As2Transports: S.optional(As2Transports),
-}) {}
+export interface ProtocolDetails {
+  PassiveIp?: string;
+  TlsSessionResumptionMode?: string;
+  SetStatOption?: string;
+  As2Transports?: As2Transports;
+}
+export const ProtocolDetails = S.suspend(() =>
+  S.Struct({
+    PassiveIp: S.optional(S.String),
+    TlsSessionResumptionMode: S.optional(S.String),
+    SetStatOption: S.optional(S.String),
+    As2Transports: S.optional(As2Transports),
+  }),
+).annotations({
+  identifier: "ProtocolDetails",
+}) as any as S.Schema<ProtocolDetails>;
+export type AddressAllocationIds = string[];
 export const AddressAllocationIds = S.Array(S.String);
+export type SubnetIds = string[];
 export const SubnetIds = S.Array(S.String);
+export type SecurityGroupIds = string[];
 export const SecurityGroupIds = S.Array(S.String);
-export class EndpointDetails extends S.Class<EndpointDetails>(
-  "EndpointDetails",
-)({
-  AddressAllocationIds: S.optional(AddressAllocationIds),
-  SubnetIds: S.optional(SubnetIds),
-  VpcEndpointId: S.optional(S.String),
-  VpcId: S.optional(S.String),
-  SecurityGroupIds: S.optional(SecurityGroupIds),
-}) {}
-export class IdentityProviderDetails extends S.Class<IdentityProviderDetails>(
-  "IdentityProviderDetails",
-)({
-  Url: S.optional(S.String),
-  InvocationRole: S.optional(S.String),
-  DirectoryId: S.optional(S.String),
-  Function: S.optional(S.String),
-  SftpAuthenticationMethods: S.optional(S.String),
-}) {}
-export class WorkflowDetail extends S.Class<WorkflowDetail>("WorkflowDetail")({
-  WorkflowId: S.String,
-  ExecutionRole: S.String,
-}) {}
+export interface EndpointDetails {
+  AddressAllocationIds?: AddressAllocationIds;
+  SubnetIds?: SubnetIds;
+  VpcEndpointId?: string;
+  VpcId?: string;
+  SecurityGroupIds?: SecurityGroupIds;
+}
+export const EndpointDetails = S.suspend(() =>
+  S.Struct({
+    AddressAllocationIds: S.optional(AddressAllocationIds),
+    SubnetIds: S.optional(SubnetIds),
+    VpcEndpointId: S.optional(S.String),
+    VpcId: S.optional(S.String),
+    SecurityGroupIds: S.optional(SecurityGroupIds),
+  }),
+).annotations({
+  identifier: "EndpointDetails",
+}) as any as S.Schema<EndpointDetails>;
+export interface IdentityProviderDetails {
+  Url?: string;
+  InvocationRole?: string;
+  DirectoryId?: string;
+  Function?: string;
+  SftpAuthenticationMethods?: string;
+}
+export const IdentityProviderDetails = S.suspend(() =>
+  S.Struct({
+    Url: S.optional(S.String),
+    InvocationRole: S.optional(S.String),
+    DirectoryId: S.optional(S.String),
+    Function: S.optional(S.String),
+    SftpAuthenticationMethods: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "IdentityProviderDetails",
+}) as any as S.Schema<IdentityProviderDetails>;
+export interface WorkflowDetail {
+  WorkflowId: string;
+  ExecutionRole: string;
+}
+export const WorkflowDetail = S.suspend(() =>
+  S.Struct({ WorkflowId: S.String, ExecutionRole: S.String }),
+).annotations({
+  identifier: "WorkflowDetail",
+}) as any as S.Schema<WorkflowDetail>;
+export type OnUploadWorkflowDetails = WorkflowDetail[];
 export const OnUploadWorkflowDetails = S.Array(WorkflowDetail);
+export type OnPartialUploadWorkflowDetails = WorkflowDetail[];
 export const OnPartialUploadWorkflowDetails = S.Array(WorkflowDetail);
-export class WorkflowDetails extends S.Class<WorkflowDetails>(
-  "WorkflowDetails",
-)({
-  OnUpload: S.optional(OnUploadWorkflowDetails),
-  OnPartialUpload: S.optional(OnPartialUploadWorkflowDetails),
-}) {}
-export class S3StorageOptions extends S.Class<S3StorageOptions>(
-  "S3StorageOptions",
-)({ DirectoryListingOptimization: S.optional(S.String) }) {}
-export class UpdateServerRequest extends S.Class<UpdateServerRequest>(
-  "UpdateServerRequest",
-)(
-  {
+export interface WorkflowDetails {
+  OnUpload?: OnUploadWorkflowDetails;
+  OnPartialUpload?: OnPartialUploadWorkflowDetails;
+}
+export const WorkflowDetails = S.suspend(() =>
+  S.Struct({
+    OnUpload: S.optional(OnUploadWorkflowDetails),
+    OnPartialUpload: S.optional(OnPartialUploadWorkflowDetails),
+  }),
+).annotations({
+  identifier: "WorkflowDetails",
+}) as any as S.Schema<WorkflowDetails>;
+export interface S3StorageOptions {
+  DirectoryListingOptimization?: string;
+}
+export const S3StorageOptions = S.suspend(() =>
+  S.Struct({ DirectoryListingOptimization: S.optional(S.String) }),
+).annotations({
+  identifier: "S3StorageOptions",
+}) as any as S.Schema<S3StorageOptions>;
+export interface UpdateServerRequest {
+  Certificate?: string;
+  ProtocolDetails?: ProtocolDetails;
+  EndpointDetails?: EndpointDetails;
+  EndpointType?: string;
+  HostKey?: string;
+  IdentityProviderDetails?: IdentityProviderDetails;
+  LoggingRole?: string;
+  PostAuthenticationLoginBanner?: string;
+  PreAuthenticationLoginBanner?: string;
+  Protocols?: Protocols;
+  SecurityPolicyName?: string;
+  ServerId: string;
+  WorkflowDetails?: WorkflowDetails;
+  StructuredLogDestinations?: StructuredLogDestinations;
+  S3StorageOptions?: S3StorageOptions;
+  IpAddressType?: string;
+  IdentityProviderType?: string;
+}
+export const UpdateServerRequest = S.suspend(() =>
+  S.Struct({
     Certificate: S.optional(S.String),
     ProtocolDetails: S.optional(ProtocolDetails),
     EndpointDetails: S.optional(EndpointDetails),
@@ -755,28 +1165,54 @@ export class UpdateServerRequest extends S.Class<UpdateServerRequest>(
     S3StorageOptions: S.optional(S3StorageOptions),
     IpAddressType: S.optional(S.String),
     IdentityProviderType: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteServerRequest extends S.Class<DeleteServerRequest>(
-  "DeleteServerRequest",
-)(
-  { ServerId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteServerResponse extends S.Class<DeleteServerResponse>(
-  "DeleteServerResponse",
-)({}) {}
-export class ListServersRequest extends S.Class<ListServersRequest>(
-  "ListServersRequest",
-)(
-  { MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateUserRequest extends S.Class<CreateUserRequest>(
-  "CreateUserRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateServerRequest",
+}) as any as S.Schema<UpdateServerRequest>;
+export interface DeleteServerRequest {
+  ServerId: string;
+}
+export const DeleteServerRequest = S.suspend(() =>
+  S.Struct({ ServerId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteServerRequest",
+}) as any as S.Schema<DeleteServerRequest>;
+export interface DeleteServerResponse {}
+export const DeleteServerResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteServerResponse",
+}) as any as S.Schema<DeleteServerResponse>;
+export interface ListServersRequest {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListServersRequest = S.suspend(() =>
+  S.Struct({
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListServersRequest",
+}) as any as S.Schema<ListServersRequest>;
+export interface CreateUserRequest {
+  HomeDirectory?: string;
+  HomeDirectoryType?: string;
+  HomeDirectoryMappings?: HomeDirectoryMappings;
+  Policy?: string;
+  PosixProfile?: PosixProfile;
+  Role: string;
+  ServerId: string;
+  SshPublicKeyBody?: string;
+  Tags?: Tags;
+  UserName: string;
+}
+export const CreateUserRequest = S.suspend(() =>
+  S.Struct({
     HomeDirectory: S.optional(S.String),
     HomeDirectoryType: S.optional(S.String),
     HomeDirectoryMappings: S.optional(HomeDirectoryMappings),
@@ -787,19 +1223,35 @@ export class CreateUserRequest extends S.Class<CreateUserRequest>(
     SshPublicKeyBody: S.optional(S.String),
     Tags: S.optional(Tags),
     UserName: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeUserRequest extends S.Class<DescribeUserRequest>(
-  "DescribeUserRequest",
-)(
-  { ServerId: S.String, UserName: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateUserRequest extends S.Class<UpdateUserRequest>(
-  "UpdateUserRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateUserRequest",
+}) as any as S.Schema<CreateUserRequest>;
+export interface DescribeUserRequest {
+  ServerId: string;
+  UserName: string;
+}
+export const DescribeUserRequest = S.suspend(() =>
+  S.Struct({ ServerId: S.String, UserName: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeUserRequest",
+}) as any as S.Schema<DescribeUserRequest>;
+export interface UpdateUserRequest {
+  HomeDirectory?: string;
+  HomeDirectoryType?: string;
+  HomeDirectoryMappings?: HomeDirectoryMappings;
+  Policy?: string;
+  PosixProfile?: PosixProfile;
+  Role?: string;
+  ServerId: string;
+  UserName: string;
+}
+export const UpdateUserRequest = S.suspend(() =>
+  S.Struct({
     HomeDirectory: S.optional(S.String),
     HomeDirectoryType: S.optional(S.String),
     HomeDirectoryMappings: S.optional(HomeDirectoryMappings),
@@ -808,166 +1260,264 @@ export class UpdateUserRequest extends S.Class<UpdateUserRequest>(
     Role: S.optional(S.String),
     ServerId: S.String,
     UserName: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteUserRequest extends S.Class<DeleteUserRequest>(
-  "DeleteUserRequest",
-)(
-  { ServerId: S.String, UserName: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteUserResponse extends S.Class<DeleteUserResponse>(
-  "DeleteUserResponse",
-)({}) {}
-export class ListUsersRequest extends S.Class<ListUsersRequest>(
-  "ListUsersRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateUserRequest",
+}) as any as S.Schema<UpdateUserRequest>;
+export interface DeleteUserRequest {
+  ServerId: string;
+  UserName: string;
+}
+export const DeleteUserRequest = S.suspend(() =>
+  S.Struct({ ServerId: S.String, UserName: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteUserRequest",
+}) as any as S.Schema<DeleteUserRequest>;
+export interface DeleteUserResponse {}
+export const DeleteUserResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteUserResponse",
+}) as any as S.Schema<DeleteUserResponse>;
+export interface ListUsersRequest {
+  MaxResults?: number;
+  NextToken?: string;
+  ServerId: string;
+}
+export const ListUsersRequest = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     ServerId: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeWebAppCustomizationRequest extends S.Class<DescribeWebAppCustomizationRequest>(
-  "DescribeWebAppCustomizationRequest",
-)(
-  { WebAppId: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/describeWebAppCustomization" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-) {}
-export class UpdateWebAppCustomizationRequest extends S.Class<UpdateWebAppCustomizationRequest>(
-  "UpdateWebAppCustomizationRequest",
-)(
-  {
+).annotations({
+  identifier: "ListUsersRequest",
+}) as any as S.Schema<ListUsersRequest>;
+export interface DescribeWebAppCustomizationRequest {
+  WebAppId: string;
+}
+export const DescribeWebAppCustomizationRequest = S.suspend(() =>
+  S.Struct({ WebAppId: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/describeWebAppCustomization" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeWebAppCustomizationRequest",
+}) as any as S.Schema<DescribeWebAppCustomizationRequest>;
+export interface UpdateWebAppCustomizationRequest {
+  WebAppId: string;
+  Title?: string;
+  LogoFile?: Uint8Array;
+  FaviconFile?: Uint8Array;
+}
+export const UpdateWebAppCustomizationRequest = S.suspend(() =>
+  S.Struct({
     WebAppId: S.String,
     Title: S.optional(S.String),
     LogoFile: S.optional(T.Blob),
     FaviconFile: S.optional(T.Blob),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/updateWebAppCustomization" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/updateWebAppCustomization" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteWebAppCustomizationRequest extends S.Class<DeleteWebAppCustomizationRequest>(
-  "DeleteWebAppCustomizationRequest",
-)(
-  { WebAppId: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/deleteWebAppCustomization" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UpdateWebAppCustomizationRequest",
+}) as any as S.Schema<UpdateWebAppCustomizationRequest>;
+export interface DeleteWebAppCustomizationRequest {
+  WebAppId: string;
+}
+export const DeleteWebAppCustomizationRequest = S.suspend(() =>
+  S.Struct({ WebAppId: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/deleteWebAppCustomization" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteWebAppCustomizationResponse extends S.Class<DeleteWebAppCustomizationResponse>(
-  "DeleteWebAppCustomizationResponse",
-)({}) {}
-export class DescribeWebAppRequest extends S.Class<DescribeWebAppRequest>(
-  "DescribeWebAppRequest",
-)(
-  { WebAppId: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/describeWebApp" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteWebAppCustomizationRequest",
+}) as any as S.Schema<DeleteWebAppCustomizationRequest>;
+export interface DeleteWebAppCustomizationResponse {}
+export const DeleteWebAppCustomizationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteWebAppCustomizationResponse",
+}) as any as S.Schema<DeleteWebAppCustomizationResponse>;
+export interface DescribeWebAppRequest {
+  WebAppId: string;
+}
+export const DescribeWebAppRequest = S.suspend(() =>
+  S.Struct({ WebAppId: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/describeWebApp" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteWebAppRequest extends S.Class<DeleteWebAppRequest>(
-  "DeleteWebAppRequest",
-)(
-  { WebAppId: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/deleteWebApp" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DescribeWebAppRequest",
+}) as any as S.Schema<DescribeWebAppRequest>;
+export interface DeleteWebAppRequest {
+  WebAppId: string;
+}
+export const DeleteWebAppRequest = S.suspend(() =>
+  S.Struct({ WebAppId: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/deleteWebApp" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteWebAppResponse extends S.Class<DeleteWebAppResponse>(
-  "DeleteWebAppResponse",
-)({}) {}
-export class ListWebAppsRequest extends S.Class<ListWebAppsRequest>(
-  "ListWebAppsRequest",
-)(
-  { MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/listWebApps" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteWebAppRequest",
+}) as any as S.Schema<DeleteWebAppRequest>;
+export interface DeleteWebAppResponse {}
+export const DeleteWebAppResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteWebAppResponse",
+}) as any as S.Schema<DeleteWebAppResponse>;
+export interface ListWebAppsRequest {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListWebAppsRequest = S.suspend(() =>
+  S.Struct({
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/listWebApps" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeWorkflowRequest extends S.Class<DescribeWorkflowRequest>(
-  "DescribeWorkflowRequest",
-)(
-  { WorkflowId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteWorkflowRequest extends S.Class<DeleteWorkflowRequest>(
-  "DeleteWorkflowRequest",
-)(
-  { WorkflowId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteWorkflowResponse extends S.Class<DeleteWorkflowResponse>(
-  "DeleteWorkflowResponse",
-)({}) {}
-export class ListWorkflowsRequest extends S.Class<ListWorkflowsRequest>(
-  "ListWorkflowsRequest",
-)(
-  { MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+).annotations({
+  identifier: "ListWebAppsRequest",
+}) as any as S.Schema<ListWebAppsRequest>;
+export interface DescribeWorkflowRequest {
+  WorkflowId: string;
+}
+export const DescribeWorkflowRequest = S.suspend(() =>
+  S.Struct({ WorkflowId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeWorkflowRequest",
+}) as any as S.Schema<DescribeWorkflowRequest>;
+export interface DeleteWorkflowRequest {
+  WorkflowId: string;
+}
+export const DeleteWorkflowRequest = S.suspend(() =>
+  S.Struct({ WorkflowId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteWorkflowRequest",
+}) as any as S.Schema<DeleteWorkflowRequest>;
+export interface DeleteWorkflowResponse {}
+export const DeleteWorkflowResponse = S.suspend(() => S.Struct({})).annotations(
+  { identifier: "DeleteWorkflowResponse" },
+) as any as S.Schema<DeleteWorkflowResponse>;
+export interface ListWorkflowsRequest {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListWorkflowsRequest = S.suspend(() =>
+  S.Struct({
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListWorkflowsRequest",
+}) as any as S.Schema<ListWorkflowsRequest>;
+export type SftpConnectorTrustedHostKeyList = string[];
 export const SftpConnectorTrustedHostKeyList = S.Array(S.String);
+export type SecurityPolicyNames = string[];
 export const SecurityPolicyNames = S.Array(S.String);
-export class As2ConnectorConfig extends S.Class<As2ConnectorConfig>(
-  "As2ConnectorConfig",
-)({
-  LocalProfileId: S.optional(S.String),
-  PartnerProfileId: S.optional(S.String),
-  MessageSubject: S.optional(S.String),
-  Compression: S.optional(S.String),
-  EncryptionAlgorithm: S.optional(S.String),
-  SigningAlgorithm: S.optional(S.String),
-  MdnSigningAlgorithm: S.optional(S.String),
-  MdnResponse: S.optional(S.String),
-  BasicAuthSecretId: S.optional(S.String),
-  PreserveContentType: S.optional(S.String),
-}) {}
-export class SftpConnectorConfig extends S.Class<SftpConnectorConfig>(
-  "SftpConnectorConfig",
-)({
-  UserSecretId: S.optional(S.String),
-  TrustedHostKeys: S.optional(SftpConnectorTrustedHostKeyList),
-  MaxConcurrentConnections: S.optional(S.Number),
-}) {}
+export interface As2ConnectorConfig {
+  LocalProfileId?: string;
+  PartnerProfileId?: string;
+  MessageSubject?: string;
+  Compression?: string;
+  EncryptionAlgorithm?: string;
+  SigningAlgorithm?: string;
+  MdnSigningAlgorithm?: string;
+  MdnResponse?: string;
+  BasicAuthSecretId?: string;
+  PreserveContentType?: string;
+}
+export const As2ConnectorConfig = S.suspend(() =>
+  S.Struct({
+    LocalProfileId: S.optional(S.String),
+    PartnerProfileId: S.optional(S.String),
+    MessageSubject: S.optional(S.String),
+    Compression: S.optional(S.String),
+    EncryptionAlgorithm: S.optional(S.String),
+    SigningAlgorithm: S.optional(S.String),
+    MdnSigningAlgorithm: S.optional(S.String),
+    MdnResponse: S.optional(S.String),
+    BasicAuthSecretId: S.optional(S.String),
+    PreserveContentType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "As2ConnectorConfig",
+}) as any as S.Schema<As2ConnectorConfig>;
+export interface SftpConnectorConfig {
+  UserSecretId?: string;
+  TrustedHostKeys?: SftpConnectorTrustedHostKeyList;
+  MaxConcurrentConnections?: number;
+}
+export const SftpConnectorConfig = S.suspend(() =>
+  S.Struct({
+    UserSecretId: S.optional(S.String),
+    TrustedHostKeys: S.optional(SftpConnectorTrustedHostKeyList),
+    MaxConcurrentConnections: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "SftpConnectorConfig",
+}) as any as S.Schema<SftpConnectorConfig>;
 export const WebAppUnits = S.Union(S.Struct({ Provisioned: S.Number }));
-export class CreateAccessRequest extends S.Class<CreateAccessRequest>(
-  "CreateAccessRequest",
-)(
-  {
+export interface CreateAccessRequest {
+  HomeDirectory?: string;
+  HomeDirectoryType?: string;
+  HomeDirectoryMappings?: HomeDirectoryMappings;
+  Policy?: string;
+  PosixProfile?: PosixProfile;
+  Role: string;
+  ServerId: string;
+  ExternalId: string;
+}
+export const CreateAccessRequest = S.suspend(() =>
+  S.Struct({
     HomeDirectory: S.optional(S.String),
     HomeDirectoryType: S.optional(S.String),
     HomeDirectoryMappings: S.optional(HomeDirectoryMappings),
@@ -976,66 +1526,152 @@ export class CreateAccessRequest extends S.Class<CreateAccessRequest>(
     Role: S.String,
     ServerId: S.String,
     ExternalId: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ImportHostKeyRequest extends S.Class<ImportHostKeyRequest>(
-  "ImportHostKeyRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateAccessRequest",
+}) as any as S.Schema<CreateAccessRequest>;
+export interface ImportHostKeyRequest {
+  ServerId: string;
+  HostKeyBody: string;
+  Description?: string;
+  Tags?: Tags;
+}
+export const ImportHostKeyRequest = S.suspend(() =>
+  S.Struct({
     ServerId: S.String,
     HostKeyBody: S.String,
     Description: S.optional(S.String),
     Tags: S.optional(Tags),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ImportSshPublicKeyResponse extends S.Class<ImportSshPublicKeyResponse>(
-  "ImportSshPublicKeyResponse",
-)({ ServerId: S.String, SshPublicKeyId: S.String, UserName: S.String }) {}
-export class ListSecurityPoliciesResponse extends S.Class<ListSecurityPoliciesResponse>(
-  "ListSecurityPoliciesResponse",
-)({
-  NextToken: S.optional(S.String),
-  SecurityPolicyNames: SecurityPolicyNames,
-}) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({
-  Arn: S.optional(S.String),
-  NextToken: S.optional(S.String),
-  Tags: S.optional(Tags),
-}) {}
-export class StartDirectoryListingResponse extends S.Class<StartDirectoryListingResponse>(
-  "StartDirectoryListingResponse",
-)({ ListingId: S.String, OutputFileName: S.String }) {}
-export class StartFileTransferResponse extends S.Class<StartFileTransferResponse>(
-  "StartFileTransferResponse",
-)({ TransferId: S.String }) {}
-export class StartRemoteDeleteResponse extends S.Class<StartRemoteDeleteResponse>(
-  "StartRemoteDeleteResponse",
-)({ DeleteId: S.String }) {}
-export class StartRemoteMoveResponse extends S.Class<StartRemoteMoveResponse>(
-  "StartRemoteMoveResponse",
-)({ MoveId: S.String }) {}
-export class TestIdentityProviderResponse extends S.Class<TestIdentityProviderResponse>(
-  "TestIdentityProviderResponse",
-)({
-  Response: S.optional(S.String),
-  StatusCode: S.Number,
-  Message: S.optional(S.String),
-  Url: S.String,
-}) {}
-export class UpdateAccessResponse extends S.Class<UpdateAccessResponse>(
-  "UpdateAccessResponse",
-)({ ServerId: S.String, ExternalId: S.String }) {}
-export class UpdateHostKeyResponse extends S.Class<UpdateHostKeyResponse>(
-  "UpdateHostKeyResponse",
-)({ ServerId: S.String, HostKeyId: S.String }) {}
-export class CreateAgreementRequest extends S.Class<CreateAgreementRequest>(
-  "CreateAgreementRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ImportHostKeyRequest",
+}) as any as S.Schema<ImportHostKeyRequest>;
+export interface ImportSshPublicKeyResponse {
+  ServerId: string;
+  SshPublicKeyId: string;
+  UserName: string;
+}
+export const ImportSshPublicKeyResponse = S.suspend(() =>
+  S.Struct({
+    ServerId: S.String,
+    SshPublicKeyId: S.String,
+    UserName: S.String,
+  }),
+).annotations({
+  identifier: "ImportSshPublicKeyResponse",
+}) as any as S.Schema<ImportSshPublicKeyResponse>;
+export interface ListSecurityPoliciesResponse {
+  NextToken?: string;
+  SecurityPolicyNames: SecurityPolicyNames;
+}
+export const ListSecurityPoliciesResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    SecurityPolicyNames: SecurityPolicyNames,
+  }),
+).annotations({
+  identifier: "ListSecurityPoliciesResponse",
+}) as any as S.Schema<ListSecurityPoliciesResponse>;
+export interface ListTagsForResourceResponse {
+  Arn?: string;
+  NextToken?: string;
+  Tags?: Tags;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    NextToken: S.optional(S.String),
+    Tags: S.optional(Tags),
+  }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface StartDirectoryListingResponse {
+  ListingId: string;
+  OutputFileName: string;
+}
+export const StartDirectoryListingResponse = S.suspend(() =>
+  S.Struct({ ListingId: S.String, OutputFileName: S.String }),
+).annotations({
+  identifier: "StartDirectoryListingResponse",
+}) as any as S.Schema<StartDirectoryListingResponse>;
+export interface StartFileTransferResponse {
+  TransferId: string;
+}
+export const StartFileTransferResponse = S.suspend(() =>
+  S.Struct({ TransferId: S.String }),
+).annotations({
+  identifier: "StartFileTransferResponse",
+}) as any as S.Schema<StartFileTransferResponse>;
+export interface StartRemoteDeleteResponse {
+  DeleteId: string;
+}
+export const StartRemoteDeleteResponse = S.suspend(() =>
+  S.Struct({ DeleteId: S.String }),
+).annotations({
+  identifier: "StartRemoteDeleteResponse",
+}) as any as S.Schema<StartRemoteDeleteResponse>;
+export interface StartRemoteMoveResponse {
+  MoveId: string;
+}
+export const StartRemoteMoveResponse = S.suspend(() =>
+  S.Struct({ MoveId: S.String }),
+).annotations({
+  identifier: "StartRemoteMoveResponse",
+}) as any as S.Schema<StartRemoteMoveResponse>;
+export interface TestIdentityProviderResponse {
+  Response?: string;
+  StatusCode: number;
+  Message?: string;
+  Url: string;
+}
+export const TestIdentityProviderResponse = S.suspend(() =>
+  S.Struct({
+    Response: S.optional(S.String),
+    StatusCode: S.Number,
+    Message: S.optional(S.String),
+    Url: S.String,
+  }),
+).annotations({
+  identifier: "TestIdentityProviderResponse",
+}) as any as S.Schema<TestIdentityProviderResponse>;
+export interface UpdateAccessResponse {
+  ServerId: string;
+  ExternalId: string;
+}
+export const UpdateAccessResponse = S.suspend(() =>
+  S.Struct({ ServerId: S.String, ExternalId: S.String }),
+).annotations({
+  identifier: "UpdateAccessResponse",
+}) as any as S.Schema<UpdateAccessResponse>;
+export interface UpdateHostKeyResponse {
+  ServerId: string;
+  HostKeyId: string;
+}
+export const UpdateHostKeyResponse = S.suspend(() =>
+  S.Struct({ ServerId: S.String, HostKeyId: S.String }),
+).annotations({
+  identifier: "UpdateHostKeyResponse",
+}) as any as S.Schema<UpdateHostKeyResponse>;
+export interface CreateAgreementRequest {
+  Description?: string;
+  ServerId: string;
+  LocalProfileId: string;
+  PartnerProfileId: string;
+  BaseDirectory?: string;
+  AccessRole: string;
+  Status?: string;
+  Tags?: Tags;
+  PreserveFilename?: string;
+  EnforceMessageSigning?: string;
+  CustomDirectories?: CustomDirectoriesType;
+}
+export const CreateAgreementRequest = S.suspend(() =>
+  S.Struct({
     Description: S.optional(S.String),
     ServerId: S.String,
     LocalProfileId: S.String,
@@ -1047,247 +1683,550 @@ export class CreateAgreementRequest extends S.Class<CreateAgreementRequest>(
     PreserveFilename: S.optional(S.String),
     EnforceMessageSigning: S.optional(S.String),
     CustomDirectories: S.optional(CustomDirectoriesType),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateAgreementResponse extends S.Class<UpdateAgreementResponse>(
-  "UpdateAgreementResponse",
-)({ AgreementId: S.String }) {}
-export class ImportCertificateResponse extends S.Class<ImportCertificateResponse>(
-  "ImportCertificateResponse",
-)({ CertificateId: S.String }) {}
-export class UpdateCertificateResponse extends S.Class<UpdateCertificateResponse>(
-  "UpdateCertificateResponse",
-)({ CertificateId: S.String }) {}
-export class CreateProfileResponse extends S.Class<CreateProfileResponse>(
-  "CreateProfileResponse",
-)({ ProfileId: S.String }) {}
-export class UpdateProfileResponse extends S.Class<UpdateProfileResponse>(
-  "UpdateProfileResponse",
-)({ ProfileId: S.String }) {}
-export class UpdateServerResponse extends S.Class<UpdateServerResponse>(
-  "UpdateServerResponse",
-)({ ServerId: S.String }) {}
-export class CreateUserResponse extends S.Class<CreateUserResponse>(
-  "CreateUserResponse",
-)({ ServerId: S.String, UserName: S.String }) {}
-export class UpdateUserResponse extends S.Class<UpdateUserResponse>(
-  "UpdateUserResponse",
-)({ ServerId: S.String, UserName: S.String }) {}
-export class UpdateWebAppCustomizationResponse extends S.Class<UpdateWebAppCustomizationResponse>(
-  "UpdateWebAppCustomizationResponse",
-)({ WebAppId: S.String }) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateAgreementRequest",
+}) as any as S.Schema<CreateAgreementRequest>;
+export interface UpdateAgreementResponse {
+  AgreementId: string;
+}
+export const UpdateAgreementResponse = S.suspend(() =>
+  S.Struct({ AgreementId: S.String }),
+).annotations({
+  identifier: "UpdateAgreementResponse",
+}) as any as S.Schema<UpdateAgreementResponse>;
+export interface ImportCertificateResponse {
+  CertificateId: string;
+}
+export const ImportCertificateResponse = S.suspend(() =>
+  S.Struct({ CertificateId: S.String }),
+).annotations({
+  identifier: "ImportCertificateResponse",
+}) as any as S.Schema<ImportCertificateResponse>;
+export interface UpdateCertificateResponse {
+  CertificateId: string;
+}
+export const UpdateCertificateResponse = S.suspend(() =>
+  S.Struct({ CertificateId: S.String }),
+).annotations({
+  identifier: "UpdateCertificateResponse",
+}) as any as S.Schema<UpdateCertificateResponse>;
+export interface CreateProfileResponse {
+  ProfileId: string;
+}
+export const CreateProfileResponse = S.suspend(() =>
+  S.Struct({ ProfileId: S.String }),
+).annotations({
+  identifier: "CreateProfileResponse",
+}) as any as S.Schema<CreateProfileResponse>;
+export interface UpdateProfileResponse {
+  ProfileId: string;
+}
+export const UpdateProfileResponse = S.suspend(() =>
+  S.Struct({ ProfileId: S.String }),
+).annotations({
+  identifier: "UpdateProfileResponse",
+}) as any as S.Schema<UpdateProfileResponse>;
+export interface UpdateServerResponse {
+  ServerId: string;
+}
+export const UpdateServerResponse = S.suspend(() =>
+  S.Struct({ ServerId: S.String }),
+).annotations({
+  identifier: "UpdateServerResponse",
+}) as any as S.Schema<UpdateServerResponse>;
+export interface CreateUserResponse {
+  ServerId: string;
+  UserName: string;
+}
+export const CreateUserResponse = S.suspend(() =>
+  S.Struct({ ServerId: S.String, UserName: S.String }),
+).annotations({
+  identifier: "CreateUserResponse",
+}) as any as S.Schema<CreateUserResponse>;
+export interface UpdateUserResponse {
+  ServerId: string;
+  UserName: string;
+}
+export const UpdateUserResponse = S.suspend(() =>
+  S.Struct({ ServerId: S.String, UserName: S.String }),
+).annotations({
+  identifier: "UpdateUserResponse",
+}) as any as S.Schema<UpdateUserResponse>;
+export interface UpdateWebAppCustomizationResponse {
+  WebAppId: string;
+}
+export const UpdateWebAppCustomizationResponse = S.suspend(() =>
+  S.Struct({ WebAppId: S.String }),
+).annotations({
+  identifier: "UpdateWebAppCustomizationResponse",
+}) as any as S.Schema<UpdateWebAppCustomizationResponse>;
+export type SecurityPolicyOptions = string[];
 export const SecurityPolicyOptions = S.Array(S.String);
+export type SecurityPolicyProtocols = string[];
 export const SecurityPolicyProtocols = S.Array(S.String);
-export class ConnectorVpcLatticeEgressConfig extends S.Class<ConnectorVpcLatticeEgressConfig>(
-  "ConnectorVpcLatticeEgressConfig",
-)({ ResourceConfigurationArn: S.String, PortNumber: S.optional(S.Number) }) {}
+export interface ConnectorVpcLatticeEgressConfig {
+  ResourceConfigurationArn: string;
+  PortNumber?: number;
+}
+export const ConnectorVpcLatticeEgressConfig = S.suspend(() =>
+  S.Struct({
+    ResourceConfigurationArn: S.String,
+    PortNumber: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "ConnectorVpcLatticeEgressConfig",
+}) as any as S.Schema<ConnectorVpcLatticeEgressConfig>;
+export type ServiceManagedEgressIpAddresses = string[];
 export const ServiceManagedEgressIpAddresses = S.Array(S.String);
-export class UpdateConnectorVpcLatticeEgressConfig extends S.Class<UpdateConnectorVpcLatticeEgressConfig>(
-  "UpdateConnectorVpcLatticeEgressConfig",
-)({
-  ResourceConfigurationArn: S.optional(S.String),
-  PortNumber: S.optional(S.Number),
-}) {}
-export class IdentityCenterConfig extends S.Class<IdentityCenterConfig>(
-  "IdentityCenterConfig",
-)({ InstanceArn: S.optional(S.String), Role: S.optional(S.String) }) {}
-export class WebAppVpcConfig extends S.Class<WebAppVpcConfig>(
-  "WebAppVpcConfig",
-)({
-  SubnetIds: S.optional(SubnetIds),
-  VpcId: S.optional(S.String),
-  SecurityGroupIds: S.optional(SecurityGroupIds),
-}) {}
-export class UpdateWebAppIdentityCenterConfig extends S.Class<UpdateWebAppIdentityCenterConfig>(
-  "UpdateWebAppIdentityCenterConfig",
-)({ Role: S.optional(S.String) }) {}
-export class UpdateWebAppVpcConfig extends S.Class<UpdateWebAppVpcConfig>(
-  "UpdateWebAppVpcConfig",
-)({ SubnetIds: S.optional(SubnetIds) }) {}
-export class CustomStepDetails extends S.Class<CustomStepDetails>(
-  "CustomStepDetails",
-)({
-  Name: S.optional(S.String),
-  Target: S.optional(S.String),
-  TimeoutSeconds: S.optional(S.Number),
-  SourceFileLocation: S.optional(S.String),
-}) {}
-export class DeleteStepDetails extends S.Class<DeleteStepDetails>(
-  "DeleteStepDetails",
-)({ Name: S.optional(S.String), SourceFileLocation: S.optional(S.String) }) {}
-export class S3InputFileLocation extends S.Class<S3InputFileLocation>(
-  "S3InputFileLocation",
-)({ Bucket: S.optional(S.String), Key: S.optional(S.String) }) {}
-export class EfsFileLocation extends S.Class<EfsFileLocation>(
-  "EfsFileLocation",
-)({ FileSystemId: S.optional(S.String), Path: S.optional(S.String) }) {}
-export class InputFileLocation extends S.Class<InputFileLocation>(
-  "InputFileLocation",
-)({
-  S3FileLocation: S.optional(S3InputFileLocation),
-  EfsFileLocation: S.optional(EfsFileLocation),
-}) {}
-export class DecryptStepDetails extends S.Class<DecryptStepDetails>(
-  "DecryptStepDetails",
-)({
-  Name: S.optional(S.String),
-  Type: S.String,
-  SourceFileLocation: S.optional(S.String),
-  OverwriteExisting: S.optional(S.String),
-  DestinationFileLocation: InputFileLocation,
-}) {}
-export class DescribedAccess extends S.Class<DescribedAccess>(
-  "DescribedAccess",
-)({
-  HomeDirectory: S.optional(S.String),
-  HomeDirectoryMappings: S.optional(HomeDirectoryMappings),
-  HomeDirectoryType: S.optional(S.String),
-  Policy: S.optional(S.String),
-  PosixProfile: S.optional(PosixProfile),
-  Role: S.optional(S.String),
-  ExternalId: S.optional(S.String),
-}) {}
-export class DescribedHostKey extends S.Class<DescribedHostKey>(
-  "DescribedHostKey",
-)({
-  Arn: S.String,
-  HostKeyId: S.optional(S.String),
-  HostKeyFingerprint: S.optional(S.String),
-  Description: S.optional(S.String),
-  Type: S.optional(S.String),
-  DateImported: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Tags: S.optional(Tags),
-}) {}
-export class DescribedSecurityPolicy extends S.Class<DescribedSecurityPolicy>(
-  "DescribedSecurityPolicy",
-)({
-  Fips: S.optional(S.Boolean),
-  SecurityPolicyName: S.String,
-  SshCiphers: S.optional(SecurityPolicyOptions),
-  SshKexs: S.optional(SecurityPolicyOptions),
-  SshMacs: S.optional(SecurityPolicyOptions),
-  TlsCiphers: S.optional(SecurityPolicyOptions),
-  SshHostKeyAlgorithms: S.optional(SecurityPolicyOptions),
-  Type: S.optional(S.String),
-  Protocols: S.optional(SecurityPolicyProtocols),
-}) {}
-export class ListedAccess extends S.Class<ListedAccess>("ListedAccess")({
-  HomeDirectory: S.optional(S.String),
-  HomeDirectoryType: S.optional(S.String),
-  Role: S.optional(S.String),
-  ExternalId: S.optional(S.String),
-}) {}
+export interface UpdateConnectorVpcLatticeEgressConfig {
+  ResourceConfigurationArn?: string;
+  PortNumber?: number;
+}
+export const UpdateConnectorVpcLatticeEgressConfig = S.suspend(() =>
+  S.Struct({
+    ResourceConfigurationArn: S.optional(S.String),
+    PortNumber: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "UpdateConnectorVpcLatticeEgressConfig",
+}) as any as S.Schema<UpdateConnectorVpcLatticeEgressConfig>;
+export interface IdentityCenterConfig {
+  InstanceArn?: string;
+  Role?: string;
+}
+export const IdentityCenterConfig = S.suspend(() =>
+  S.Struct({ InstanceArn: S.optional(S.String), Role: S.optional(S.String) }),
+).annotations({
+  identifier: "IdentityCenterConfig",
+}) as any as S.Schema<IdentityCenterConfig>;
+export interface WebAppVpcConfig {
+  SubnetIds?: SubnetIds;
+  VpcId?: string;
+  SecurityGroupIds?: SecurityGroupIds;
+}
+export const WebAppVpcConfig = S.suspend(() =>
+  S.Struct({
+    SubnetIds: S.optional(SubnetIds),
+    VpcId: S.optional(S.String),
+    SecurityGroupIds: S.optional(SecurityGroupIds),
+  }),
+).annotations({
+  identifier: "WebAppVpcConfig",
+}) as any as S.Schema<WebAppVpcConfig>;
+export interface UpdateWebAppIdentityCenterConfig {
+  Role?: string;
+}
+export const UpdateWebAppIdentityCenterConfig = S.suspend(() =>
+  S.Struct({ Role: S.optional(S.String) }),
+).annotations({
+  identifier: "UpdateWebAppIdentityCenterConfig",
+}) as any as S.Schema<UpdateWebAppIdentityCenterConfig>;
+export interface UpdateWebAppVpcConfig {
+  SubnetIds?: SubnetIds;
+}
+export const UpdateWebAppVpcConfig = S.suspend(() =>
+  S.Struct({ SubnetIds: S.optional(SubnetIds) }),
+).annotations({
+  identifier: "UpdateWebAppVpcConfig",
+}) as any as S.Schema<UpdateWebAppVpcConfig>;
+export interface CustomStepDetails {
+  Name?: string;
+  Target?: string;
+  TimeoutSeconds?: number;
+  SourceFileLocation?: string;
+}
+export const CustomStepDetails = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Target: S.optional(S.String),
+    TimeoutSeconds: S.optional(S.Number),
+    SourceFileLocation: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CustomStepDetails",
+}) as any as S.Schema<CustomStepDetails>;
+export interface DeleteStepDetails {
+  Name?: string;
+  SourceFileLocation?: string;
+}
+export const DeleteStepDetails = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    SourceFileLocation: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DeleteStepDetails",
+}) as any as S.Schema<DeleteStepDetails>;
+export interface S3InputFileLocation {
+  Bucket?: string;
+  Key?: string;
+}
+export const S3InputFileLocation = S.suspend(() =>
+  S.Struct({ Bucket: S.optional(S.String), Key: S.optional(S.String) }),
+).annotations({
+  identifier: "S3InputFileLocation",
+}) as any as S.Schema<S3InputFileLocation>;
+export interface EfsFileLocation {
+  FileSystemId?: string;
+  Path?: string;
+}
+export const EfsFileLocation = S.suspend(() =>
+  S.Struct({ FileSystemId: S.optional(S.String), Path: S.optional(S.String) }),
+).annotations({
+  identifier: "EfsFileLocation",
+}) as any as S.Schema<EfsFileLocation>;
+export interface InputFileLocation {
+  S3FileLocation?: S3InputFileLocation;
+  EfsFileLocation?: EfsFileLocation;
+}
+export const InputFileLocation = S.suspend(() =>
+  S.Struct({
+    S3FileLocation: S.optional(S3InputFileLocation),
+    EfsFileLocation: S.optional(EfsFileLocation),
+  }),
+).annotations({
+  identifier: "InputFileLocation",
+}) as any as S.Schema<InputFileLocation>;
+export interface DecryptStepDetails {
+  Name?: string;
+  Type: string;
+  SourceFileLocation?: string;
+  OverwriteExisting?: string;
+  DestinationFileLocation: InputFileLocation;
+}
+export const DecryptStepDetails = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Type: S.String,
+    SourceFileLocation: S.optional(S.String),
+    OverwriteExisting: S.optional(S.String),
+    DestinationFileLocation: InputFileLocation,
+  }),
+).annotations({
+  identifier: "DecryptStepDetails",
+}) as any as S.Schema<DecryptStepDetails>;
+export interface DescribedAccess {
+  HomeDirectory?: string;
+  HomeDirectoryMappings?: HomeDirectoryMappings;
+  HomeDirectoryType?: string;
+  Policy?: string;
+  PosixProfile?: PosixProfile;
+  Role?: string;
+  ExternalId?: string;
+}
+export const DescribedAccess = S.suspend(() =>
+  S.Struct({
+    HomeDirectory: S.optional(S.String),
+    HomeDirectoryMappings: S.optional(HomeDirectoryMappings),
+    HomeDirectoryType: S.optional(S.String),
+    Policy: S.optional(S.String),
+    PosixProfile: S.optional(PosixProfile),
+    Role: S.optional(S.String),
+    ExternalId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DescribedAccess",
+}) as any as S.Schema<DescribedAccess>;
+export interface DescribedHostKey {
+  Arn: string;
+  HostKeyId?: string;
+  HostKeyFingerprint?: string;
+  Description?: string;
+  Type?: string;
+  DateImported?: Date;
+  Tags?: Tags;
+}
+export const DescribedHostKey = S.suspend(() =>
+  S.Struct({
+    Arn: S.String,
+    HostKeyId: S.optional(S.String),
+    HostKeyFingerprint: S.optional(S.String),
+    Description: S.optional(S.String),
+    Type: S.optional(S.String),
+    DateImported: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Tags: S.optional(Tags),
+  }),
+).annotations({
+  identifier: "DescribedHostKey",
+}) as any as S.Schema<DescribedHostKey>;
+export interface DescribedSecurityPolicy {
+  Fips?: boolean;
+  SecurityPolicyName: string;
+  SshCiphers?: SecurityPolicyOptions;
+  SshKexs?: SecurityPolicyOptions;
+  SshMacs?: SecurityPolicyOptions;
+  TlsCiphers?: SecurityPolicyOptions;
+  SshHostKeyAlgorithms?: SecurityPolicyOptions;
+  Type?: string;
+  Protocols?: SecurityPolicyProtocols;
+}
+export const DescribedSecurityPolicy = S.suspend(() =>
+  S.Struct({
+    Fips: S.optional(S.Boolean),
+    SecurityPolicyName: S.String,
+    SshCiphers: S.optional(SecurityPolicyOptions),
+    SshKexs: S.optional(SecurityPolicyOptions),
+    SshMacs: S.optional(SecurityPolicyOptions),
+    TlsCiphers: S.optional(SecurityPolicyOptions),
+    SshHostKeyAlgorithms: S.optional(SecurityPolicyOptions),
+    Type: S.optional(S.String),
+    Protocols: S.optional(SecurityPolicyProtocols),
+  }),
+).annotations({
+  identifier: "DescribedSecurityPolicy",
+}) as any as S.Schema<DescribedSecurityPolicy>;
+export interface ListedAccess {
+  HomeDirectory?: string;
+  HomeDirectoryType?: string;
+  Role?: string;
+  ExternalId?: string;
+}
+export const ListedAccess = S.suspend(() =>
+  S.Struct({
+    HomeDirectory: S.optional(S.String),
+    HomeDirectoryType: S.optional(S.String),
+    Role: S.optional(S.String),
+    ExternalId: S.optional(S.String),
+  }),
+).annotations({ identifier: "ListedAccess" }) as any as S.Schema<ListedAccess>;
+export type ListedAccesses = ListedAccess[];
 export const ListedAccesses = S.Array(ListedAccess);
-export class S3FileLocation extends S.Class<S3FileLocation>("S3FileLocation")({
-  Bucket: S.optional(S.String),
-  Key: S.optional(S.String),
-  VersionId: S.optional(S.String),
-  Etag: S.optional(S.String),
-}) {}
-export class FileLocation extends S.Class<FileLocation>("FileLocation")({
-  S3FileLocation: S.optional(S3FileLocation),
-  EfsFileLocation: S.optional(EfsFileLocation),
-}) {}
-export class UserDetails extends S.Class<UserDetails>("UserDetails")({
-  UserName: S.String,
-  ServerId: S.String,
-  SessionId: S.optional(S.String),
-}) {}
-export class ServiceMetadata extends S.Class<ServiceMetadata>(
-  "ServiceMetadata",
-)({ UserDetails: UserDetails }) {}
-export class ListedExecution extends S.Class<ListedExecution>(
-  "ListedExecution",
-)({
-  ExecutionId: S.optional(S.String),
-  InitialFileLocation: S.optional(FileLocation),
-  ServiceMetadata: S.optional(ServiceMetadata),
-  Status: S.optional(S.String),
-}) {}
+export interface S3FileLocation {
+  Bucket?: string;
+  Key?: string;
+  VersionId?: string;
+  Etag?: string;
+}
+export const S3FileLocation = S.suspend(() =>
+  S.Struct({
+    Bucket: S.optional(S.String),
+    Key: S.optional(S.String),
+    VersionId: S.optional(S.String),
+    Etag: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "S3FileLocation",
+}) as any as S.Schema<S3FileLocation>;
+export interface FileLocation {
+  S3FileLocation?: S3FileLocation;
+  EfsFileLocation?: EfsFileLocation;
+}
+export const FileLocation = S.suspend(() =>
+  S.Struct({
+    S3FileLocation: S.optional(S3FileLocation),
+    EfsFileLocation: S.optional(EfsFileLocation),
+  }),
+).annotations({ identifier: "FileLocation" }) as any as S.Schema<FileLocation>;
+export interface UserDetails {
+  UserName: string;
+  ServerId: string;
+  SessionId?: string;
+}
+export const UserDetails = S.suspend(() =>
+  S.Struct({
+    UserName: S.String,
+    ServerId: S.String,
+    SessionId: S.optional(S.String),
+  }),
+).annotations({ identifier: "UserDetails" }) as any as S.Schema<UserDetails>;
+export interface ServiceMetadata {
+  UserDetails: UserDetails;
+}
+export const ServiceMetadata = S.suspend(() =>
+  S.Struct({ UserDetails: UserDetails }),
+).annotations({
+  identifier: "ServiceMetadata",
+}) as any as S.Schema<ServiceMetadata>;
+export interface ListedExecution {
+  ExecutionId?: string;
+  InitialFileLocation?: FileLocation;
+  ServiceMetadata?: ServiceMetadata;
+  Status?: string;
+}
+export const ListedExecution = S.suspend(() =>
+  S.Struct({
+    ExecutionId: S.optional(S.String),
+    InitialFileLocation: S.optional(FileLocation),
+    ServiceMetadata: S.optional(ServiceMetadata),
+    Status: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListedExecution",
+}) as any as S.Schema<ListedExecution>;
+export type ListedExecutions = ListedExecution[];
 export const ListedExecutions = S.Array(ListedExecution);
-export class ConnectorFileTransferResult extends S.Class<ConnectorFileTransferResult>(
-  "ConnectorFileTransferResult",
-)({
-  FilePath: S.String,
-  StatusCode: S.String,
-  FailureCode: S.optional(S.String),
-  FailureMessage: S.optional(S.String),
-}) {}
+export interface ConnectorFileTransferResult {
+  FilePath: string;
+  StatusCode: string;
+  FailureCode?: string;
+  FailureMessage?: string;
+}
+export const ConnectorFileTransferResult = S.suspend(() =>
+  S.Struct({
+    FilePath: S.String,
+    StatusCode: S.String,
+    FailureCode: S.optional(S.String),
+    FailureMessage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ConnectorFileTransferResult",
+}) as any as S.Schema<ConnectorFileTransferResult>;
+export type ConnectorFileTransferResults = ConnectorFileTransferResult[];
 export const ConnectorFileTransferResults = S.Array(
   ConnectorFileTransferResult,
 );
-export class ListedHostKey extends S.Class<ListedHostKey>("ListedHostKey")({
-  Arn: S.String,
-  HostKeyId: S.optional(S.String),
-  Fingerprint: S.optional(S.String),
-  Description: S.optional(S.String),
-  Type: S.optional(S.String),
-  DateImported: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface ListedHostKey {
+  Arn: string;
+  HostKeyId?: string;
+  Fingerprint?: string;
+  Description?: string;
+  Type?: string;
+  DateImported?: Date;
+}
+export const ListedHostKey = S.suspend(() =>
+  S.Struct({
+    Arn: S.String,
+    HostKeyId: S.optional(S.String),
+    Fingerprint: S.optional(S.String),
+    Description: S.optional(S.String),
+    Type: S.optional(S.String),
+    DateImported: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "ListedHostKey",
+}) as any as S.Schema<ListedHostKey>;
+export type ListedHostKeys = ListedHostKey[];
 export const ListedHostKeys = S.Array(ListedHostKey);
-export class SftpConnectorConnectionDetails extends S.Class<SftpConnectorConnectionDetails>(
-  "SftpConnectorConnectionDetails",
-)({ HostKey: S.optional(S.String) }) {}
-export class DescribedAgreement extends S.Class<DescribedAgreement>(
-  "DescribedAgreement",
-)({
-  Arn: S.String,
-  AgreementId: S.optional(S.String),
-  Description: S.optional(S.String),
-  Status: S.optional(S.String),
-  ServerId: S.optional(S.String),
-  LocalProfileId: S.optional(S.String),
-  PartnerProfileId: S.optional(S.String),
-  BaseDirectory: S.optional(S.String),
-  AccessRole: S.optional(S.String),
-  Tags: S.optional(Tags),
-  PreserveFilename: S.optional(S.String),
-  EnforceMessageSigning: S.optional(S.String),
-  CustomDirectories: S.optional(CustomDirectoriesType),
-}) {}
-export class ListedAgreement extends S.Class<ListedAgreement>(
-  "ListedAgreement",
-)({
-  Arn: S.optional(S.String),
-  AgreementId: S.optional(S.String),
-  Description: S.optional(S.String),
-  Status: S.optional(S.String),
-  ServerId: S.optional(S.String),
-  LocalProfileId: S.optional(S.String),
-  PartnerProfileId: S.optional(S.String),
-}) {}
+export interface SftpConnectorConnectionDetails {
+  HostKey?: string;
+}
+export const SftpConnectorConnectionDetails = S.suspend(() =>
+  S.Struct({ HostKey: S.optional(S.String) }),
+).annotations({
+  identifier: "SftpConnectorConnectionDetails",
+}) as any as S.Schema<SftpConnectorConnectionDetails>;
+export interface DescribedAgreement {
+  Arn: string;
+  AgreementId?: string;
+  Description?: string;
+  Status?: string;
+  ServerId?: string;
+  LocalProfileId?: string;
+  PartnerProfileId?: string;
+  BaseDirectory?: string;
+  AccessRole?: string;
+  Tags?: Tags;
+  PreserveFilename?: string;
+  EnforceMessageSigning?: string;
+  CustomDirectories?: CustomDirectoriesType;
+}
+export const DescribedAgreement = S.suspend(() =>
+  S.Struct({
+    Arn: S.String,
+    AgreementId: S.optional(S.String),
+    Description: S.optional(S.String),
+    Status: S.optional(S.String),
+    ServerId: S.optional(S.String),
+    LocalProfileId: S.optional(S.String),
+    PartnerProfileId: S.optional(S.String),
+    BaseDirectory: S.optional(S.String),
+    AccessRole: S.optional(S.String),
+    Tags: S.optional(Tags),
+    PreserveFilename: S.optional(S.String),
+    EnforceMessageSigning: S.optional(S.String),
+    CustomDirectories: S.optional(CustomDirectoriesType),
+  }),
+).annotations({
+  identifier: "DescribedAgreement",
+}) as any as S.Schema<DescribedAgreement>;
+export interface ListedAgreement {
+  Arn?: string;
+  AgreementId?: string;
+  Description?: string;
+  Status?: string;
+  ServerId?: string;
+  LocalProfileId?: string;
+  PartnerProfileId?: string;
+}
+export const ListedAgreement = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    AgreementId: S.optional(S.String),
+    Description: S.optional(S.String),
+    Status: S.optional(S.String),
+    ServerId: S.optional(S.String),
+    LocalProfileId: S.optional(S.String),
+    PartnerProfileId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListedAgreement",
+}) as any as S.Schema<ListedAgreement>;
+export type ListedAgreements = ListedAgreement[];
 export const ListedAgreements = S.Array(ListedAgreement);
-export class DescribedCertificate extends S.Class<DescribedCertificate>(
-  "DescribedCertificate",
-)({
-  Arn: S.String,
-  CertificateId: S.optional(S.String),
-  Usage: S.optional(S.String),
-  Status: S.optional(S.String),
-  Certificate: S.optional(S.String),
-  CertificateChain: S.optional(S.String),
-  ActiveDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  InactiveDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Serial: S.optional(S.String),
-  NotBeforeDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  NotAfterDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Type: S.optional(S.String),
-  Description: S.optional(S.String),
-  Tags: S.optional(Tags),
-}) {}
-export class ListedCertificate extends S.Class<ListedCertificate>(
-  "ListedCertificate",
-)({
-  Arn: S.optional(S.String),
-  CertificateId: S.optional(S.String),
-  Usage: S.optional(S.String),
-  Status: S.optional(S.String),
-  ActiveDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  InactiveDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Type: S.optional(S.String),
-  Description: S.optional(S.String),
-}) {}
+export interface DescribedCertificate {
+  Arn: string;
+  CertificateId?: string;
+  Usage?: string;
+  Status?: string;
+  Certificate?: string;
+  CertificateChain?: string;
+  ActiveDate?: Date;
+  InactiveDate?: Date;
+  Serial?: string;
+  NotBeforeDate?: Date;
+  NotAfterDate?: Date;
+  Type?: string;
+  Description?: string;
+  Tags?: Tags;
+}
+export const DescribedCertificate = S.suspend(() =>
+  S.Struct({
+    Arn: S.String,
+    CertificateId: S.optional(S.String),
+    Usage: S.optional(S.String),
+    Status: S.optional(S.String),
+    Certificate: S.optional(S.String),
+    CertificateChain: S.optional(S.String),
+    ActiveDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    InactiveDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Serial: S.optional(S.String),
+    NotBeforeDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    NotAfterDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Type: S.optional(S.String),
+    Description: S.optional(S.String),
+    Tags: S.optional(Tags),
+  }),
+).annotations({
+  identifier: "DescribedCertificate",
+}) as any as S.Schema<DescribedCertificate>;
+export interface ListedCertificate {
+  Arn?: string;
+  CertificateId?: string;
+  Usage?: string;
+  Status?: string;
+  ActiveDate?: Date;
+  InactiveDate?: Date;
+  Type?: string;
+  Description?: string;
+}
+export const ListedCertificate = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    CertificateId: S.optional(S.String),
+    Usage: S.optional(S.String),
+    Status: S.optional(S.String),
+    ActiveDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    InactiveDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Type: S.optional(S.String),
+    Description: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListedCertificate",
+}) as any as S.Schema<ListedCertificate>;
+export type ListedCertificates = ListedCertificate[];
 export const ListedCertificates = S.Array(ListedCertificate);
 export const ConnectorEgressConfig = S.Union(
   S.Struct({ VpcLattice: ConnectorVpcLatticeEgressConfig }),
@@ -1295,89 +2234,178 @@ export const ConnectorEgressConfig = S.Union(
 export const UpdateConnectorEgressConfig = S.Union(
   S.Struct({ VpcLattice: UpdateConnectorVpcLatticeEgressConfig }),
 );
-export class ListedConnector extends S.Class<ListedConnector>(
-  "ListedConnector",
-)({
-  Arn: S.optional(S.String),
-  ConnectorId: S.optional(S.String),
-  Url: S.optional(S.String),
-}) {}
+export interface ListedConnector {
+  Arn?: string;
+  ConnectorId?: string;
+  Url?: string;
+}
+export const ListedConnector = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    ConnectorId: S.optional(S.String),
+    Url: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListedConnector",
+}) as any as S.Schema<ListedConnector>;
+export type ListedConnectors = ListedConnector[];
 export const ListedConnectors = S.Array(ListedConnector);
-export class DescribedProfile extends S.Class<DescribedProfile>(
-  "DescribedProfile",
-)({
-  Arn: S.String,
-  ProfileId: S.optional(S.String),
-  ProfileType: S.optional(S.String),
-  As2Id: S.optional(S.String),
-  CertificateIds: S.optional(CertificateIds),
-  Tags: S.optional(Tags),
-}) {}
-export class ListedProfile extends S.Class<ListedProfile>("ListedProfile")({
-  Arn: S.optional(S.String),
-  ProfileId: S.optional(S.String),
-  As2Id: S.optional(S.String),
-  ProfileType: S.optional(S.String),
-}) {}
+export interface DescribedProfile {
+  Arn: string;
+  ProfileId?: string;
+  ProfileType?: string;
+  As2Id?: string;
+  CertificateIds?: CertificateIds;
+  Tags?: Tags;
+}
+export const DescribedProfile = S.suspend(() =>
+  S.Struct({
+    Arn: S.String,
+    ProfileId: S.optional(S.String),
+    ProfileType: S.optional(S.String),
+    As2Id: S.optional(S.String),
+    CertificateIds: S.optional(CertificateIds),
+    Tags: S.optional(Tags),
+  }),
+).annotations({
+  identifier: "DescribedProfile",
+}) as any as S.Schema<DescribedProfile>;
+export interface ListedProfile {
+  Arn?: string;
+  ProfileId?: string;
+  As2Id?: string;
+  ProfileType?: string;
+}
+export const ListedProfile = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    ProfileId: S.optional(S.String),
+    As2Id: S.optional(S.String),
+    ProfileType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListedProfile",
+}) as any as S.Schema<ListedProfile>;
+export type ListedProfiles = ListedProfile[];
 export const ListedProfiles = S.Array(ListedProfile);
-export class DescribedServer extends S.Class<DescribedServer>(
-  "DescribedServer",
-)({
-  Arn: S.String,
-  Certificate: S.optional(S.String),
-  ProtocolDetails: S.optional(ProtocolDetails),
-  Domain: S.optional(S.String),
-  EndpointDetails: S.optional(EndpointDetails),
-  EndpointType: S.optional(S.String),
-  HostKeyFingerprint: S.optional(S.String),
-  IdentityProviderDetails: S.optional(IdentityProviderDetails),
-  IdentityProviderType: S.optional(S.String),
-  LoggingRole: S.optional(S.String),
-  PostAuthenticationLoginBanner: S.optional(S.String),
-  PreAuthenticationLoginBanner: S.optional(S.String),
-  Protocols: S.optional(Protocols),
-  SecurityPolicyName: S.optional(S.String),
-  ServerId: S.optional(S.String),
-  State: S.optional(S.String),
-  Tags: S.optional(Tags),
-  UserCount: S.optional(S.Number),
-  WorkflowDetails: S.optional(WorkflowDetails),
-  StructuredLogDestinations: S.optional(StructuredLogDestinations),
-  S3StorageOptions: S.optional(S3StorageOptions),
-  As2ServiceManagedEgressIpAddresses: S.optional(
-    ServiceManagedEgressIpAddresses,
-  ),
-  IpAddressType: S.optional(S.String),
-}) {}
-export class ListedServer extends S.Class<ListedServer>("ListedServer")({
-  Arn: S.String,
-  Domain: S.optional(S.String),
-  IdentityProviderType: S.optional(S.String),
-  EndpointType: S.optional(S.String),
-  LoggingRole: S.optional(S.String),
-  ServerId: S.optional(S.String),
-  State: S.optional(S.String),
-  UserCount: S.optional(S.Number),
-}) {}
+export interface DescribedServer {
+  Arn: string;
+  Certificate?: string;
+  ProtocolDetails?: ProtocolDetails;
+  Domain?: string;
+  EndpointDetails?: EndpointDetails;
+  EndpointType?: string;
+  HostKeyFingerprint?: string;
+  IdentityProviderDetails?: IdentityProviderDetails;
+  IdentityProviderType?: string;
+  LoggingRole?: string;
+  PostAuthenticationLoginBanner?: string;
+  PreAuthenticationLoginBanner?: string;
+  Protocols?: Protocols;
+  SecurityPolicyName?: string;
+  ServerId?: string;
+  State?: string;
+  Tags?: Tags;
+  UserCount?: number;
+  WorkflowDetails?: WorkflowDetails;
+  StructuredLogDestinations?: StructuredLogDestinations;
+  S3StorageOptions?: S3StorageOptions;
+  As2ServiceManagedEgressIpAddresses?: ServiceManagedEgressIpAddresses;
+  IpAddressType?: string;
+}
+export const DescribedServer = S.suspend(() =>
+  S.Struct({
+    Arn: S.String,
+    Certificate: S.optional(S.String),
+    ProtocolDetails: S.optional(ProtocolDetails),
+    Domain: S.optional(S.String),
+    EndpointDetails: S.optional(EndpointDetails),
+    EndpointType: S.optional(S.String),
+    HostKeyFingerprint: S.optional(S.String),
+    IdentityProviderDetails: S.optional(IdentityProviderDetails),
+    IdentityProviderType: S.optional(S.String),
+    LoggingRole: S.optional(S.String),
+    PostAuthenticationLoginBanner: S.optional(S.String),
+    PreAuthenticationLoginBanner: S.optional(S.String),
+    Protocols: S.optional(Protocols),
+    SecurityPolicyName: S.optional(S.String),
+    ServerId: S.optional(S.String),
+    State: S.optional(S.String),
+    Tags: S.optional(Tags),
+    UserCount: S.optional(S.Number),
+    WorkflowDetails: S.optional(WorkflowDetails),
+    StructuredLogDestinations: S.optional(StructuredLogDestinations),
+    S3StorageOptions: S.optional(S3StorageOptions),
+    As2ServiceManagedEgressIpAddresses: S.optional(
+      ServiceManagedEgressIpAddresses,
+    ),
+    IpAddressType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DescribedServer",
+}) as any as S.Schema<DescribedServer>;
+export interface ListedServer {
+  Arn: string;
+  Domain?: string;
+  IdentityProviderType?: string;
+  EndpointType?: string;
+  LoggingRole?: string;
+  ServerId?: string;
+  State?: string;
+  UserCount?: number;
+}
+export const ListedServer = S.suspend(() =>
+  S.Struct({
+    Arn: S.String,
+    Domain: S.optional(S.String),
+    IdentityProviderType: S.optional(S.String),
+    EndpointType: S.optional(S.String),
+    LoggingRole: S.optional(S.String),
+    ServerId: S.optional(S.String),
+    State: S.optional(S.String),
+    UserCount: S.optional(S.Number),
+  }),
+).annotations({ identifier: "ListedServer" }) as any as S.Schema<ListedServer>;
+export type ListedServers = ListedServer[];
 export const ListedServers = S.Array(ListedServer);
-export class ListedUser extends S.Class<ListedUser>("ListedUser")({
-  Arn: S.String,
-  HomeDirectory: S.optional(S.String),
-  HomeDirectoryType: S.optional(S.String),
-  Role: S.optional(S.String),
-  SshPublicKeyCount: S.optional(S.Number),
-  UserName: S.optional(S.String),
-}) {}
+export interface ListedUser {
+  Arn: string;
+  HomeDirectory?: string;
+  HomeDirectoryType?: string;
+  Role?: string;
+  SshPublicKeyCount?: number;
+  UserName?: string;
+}
+export const ListedUser = S.suspend(() =>
+  S.Struct({
+    Arn: S.String,
+    HomeDirectory: S.optional(S.String),
+    HomeDirectoryType: S.optional(S.String),
+    Role: S.optional(S.String),
+    SshPublicKeyCount: S.optional(S.Number),
+    UserName: S.optional(S.String),
+  }),
+).annotations({ identifier: "ListedUser" }) as any as S.Schema<ListedUser>;
+export type ListedUsers = ListedUser[];
 export const ListedUsers = S.Array(ListedUser);
-export class DescribedWebAppCustomization extends S.Class<DescribedWebAppCustomization>(
-  "DescribedWebAppCustomization",
-)({
-  Arn: S.String,
-  WebAppId: S.String,
-  Title: S.optional(S.String),
-  LogoFile: S.optional(T.Blob),
-  FaviconFile: S.optional(T.Blob),
-}) {}
+export interface DescribedWebAppCustomization {
+  Arn: string;
+  WebAppId: string;
+  Title?: string;
+  LogoFile?: Uint8Array;
+  FaviconFile?: Uint8Array;
+}
+export const DescribedWebAppCustomization = S.suspend(() =>
+  S.Struct({
+    Arn: S.String,
+    WebAppId: S.String,
+    Title: S.optional(S.String),
+    LogoFile: S.optional(T.Blob),
+    FaviconFile: S.optional(T.Blob),
+  }),
+).annotations({
+  identifier: "DescribedWebAppCustomization",
+}) as any as S.Schema<DescribedWebAppCustomization>;
 export const WebAppIdentityProviderDetails = S.Union(
   S.Struct({ IdentityCenterConfig: IdentityCenterConfig }),
 );
@@ -1390,126 +2418,289 @@ export const UpdateWebAppIdentityProviderDetails = S.Union(
 export const UpdateWebAppEndpointDetails = S.Union(
   S.Struct({ Vpc: UpdateWebAppVpcConfig }),
 );
-export class ListedWebApp extends S.Class<ListedWebApp>("ListedWebApp")({
-  Arn: S.String,
-  WebAppId: S.String,
-  AccessEndpoint: S.optional(S.String),
-  WebAppEndpoint: S.optional(S.String),
-  EndpointType: S.optional(S.String),
-}) {}
+export interface ListedWebApp {
+  Arn: string;
+  WebAppId: string;
+  AccessEndpoint?: string;
+  WebAppEndpoint?: string;
+  EndpointType?: string;
+}
+export const ListedWebApp = S.suspend(() =>
+  S.Struct({
+    Arn: S.String,
+    WebAppId: S.String,
+    AccessEndpoint: S.optional(S.String),
+    WebAppEndpoint: S.optional(S.String),
+    EndpointType: S.optional(S.String),
+  }),
+).annotations({ identifier: "ListedWebApp" }) as any as S.Schema<ListedWebApp>;
+export type ListedWebApps = ListedWebApp[];
 export const ListedWebApps = S.Array(ListedWebApp);
-export class CopyStepDetails extends S.Class<CopyStepDetails>(
-  "CopyStepDetails",
-)({
-  Name: S.optional(S.String),
-  DestinationFileLocation: S.optional(InputFileLocation),
-  OverwriteExisting: S.optional(S.String),
-  SourceFileLocation: S.optional(S.String),
-}) {}
-export class S3Tag extends S.Class<S3Tag>("S3Tag")({
-  Key: S.String,
-  Value: S.String,
-}) {}
+export interface CopyStepDetails {
+  Name?: string;
+  DestinationFileLocation?: InputFileLocation;
+  OverwriteExisting?: string;
+  SourceFileLocation?: string;
+}
+export const CopyStepDetails = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    DestinationFileLocation: S.optional(InputFileLocation),
+    OverwriteExisting: S.optional(S.String),
+    SourceFileLocation: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CopyStepDetails",
+}) as any as S.Schema<CopyStepDetails>;
+export interface S3Tag {
+  Key: string;
+  Value: string;
+}
+export const S3Tag = S.suspend(() =>
+  S.Struct({ Key: S.String, Value: S.String }),
+).annotations({ identifier: "S3Tag" }) as any as S.Schema<S3Tag>;
+export type S3Tags = S3Tag[];
 export const S3Tags = S.Array(S3Tag);
-export class TagStepDetails extends S.Class<TagStepDetails>("TagStepDetails")({
-  Name: S.optional(S.String),
-  Tags: S.optional(S3Tags),
-  SourceFileLocation: S.optional(S.String),
-}) {}
-export class WorkflowStep extends S.Class<WorkflowStep>("WorkflowStep")({
-  Type: S.optional(S.String),
-  CopyStepDetails: S.optional(CopyStepDetails),
-  CustomStepDetails: S.optional(CustomStepDetails),
-  DeleteStepDetails: S.optional(DeleteStepDetails),
-  TagStepDetails: S.optional(TagStepDetails),
-  DecryptStepDetails: S.optional(DecryptStepDetails),
-}) {}
+export interface TagStepDetails {
+  Name?: string;
+  Tags?: S3Tags;
+  SourceFileLocation?: string;
+}
+export const TagStepDetails = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Tags: S.optional(S3Tags),
+    SourceFileLocation: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "TagStepDetails",
+}) as any as S.Schema<TagStepDetails>;
+export interface WorkflowStep {
+  Type?: string;
+  CopyStepDetails?: CopyStepDetails;
+  CustomStepDetails?: CustomStepDetails;
+  DeleteStepDetails?: DeleteStepDetails;
+  TagStepDetails?: TagStepDetails;
+  DecryptStepDetails?: DecryptStepDetails;
+}
+export const WorkflowStep = S.suspend(() =>
+  S.Struct({
+    Type: S.optional(S.String),
+    CopyStepDetails: S.optional(CopyStepDetails),
+    CustomStepDetails: S.optional(CustomStepDetails),
+    DeleteStepDetails: S.optional(DeleteStepDetails),
+    TagStepDetails: S.optional(TagStepDetails),
+    DecryptStepDetails: S.optional(DecryptStepDetails),
+  }),
+).annotations({ identifier: "WorkflowStep" }) as any as S.Schema<WorkflowStep>;
+export type WorkflowSteps = WorkflowStep[];
 export const WorkflowSteps = S.Array(WorkflowStep);
-export class DescribedWorkflow extends S.Class<DescribedWorkflow>(
-  "DescribedWorkflow",
-)({
-  Arn: S.String,
-  Description: S.optional(S.String),
-  Steps: S.optional(WorkflowSteps),
-  OnExceptionSteps: S.optional(WorkflowSteps),
-  WorkflowId: S.optional(S.String),
-  Tags: S.optional(Tags),
-}) {}
-export class ListedWorkflow extends S.Class<ListedWorkflow>("ListedWorkflow")({
-  WorkflowId: S.optional(S.String),
-  Description: S.optional(S.String),
-  Arn: S.optional(S.String),
-}) {}
+export interface DescribedWorkflow {
+  Arn: string;
+  Description?: string;
+  Steps?: WorkflowSteps;
+  OnExceptionSteps?: WorkflowSteps;
+  WorkflowId?: string;
+  Tags?: Tags;
+}
+export const DescribedWorkflow = S.suspend(() =>
+  S.Struct({
+    Arn: S.String,
+    Description: S.optional(S.String),
+    Steps: S.optional(WorkflowSteps),
+    OnExceptionSteps: S.optional(WorkflowSteps),
+    WorkflowId: S.optional(S.String),
+    Tags: S.optional(Tags),
+  }),
+).annotations({
+  identifier: "DescribedWorkflow",
+}) as any as S.Schema<DescribedWorkflow>;
+export interface ListedWorkflow {
+  WorkflowId?: string;
+  Description?: string;
+  Arn?: string;
+}
+export const ListedWorkflow = S.suspend(() =>
+  S.Struct({
+    WorkflowId: S.optional(S.String),
+    Description: S.optional(S.String),
+    Arn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListedWorkflow",
+}) as any as S.Schema<ListedWorkflow>;
+export type ListedWorkflows = ListedWorkflow[];
 export const ListedWorkflows = S.Array(ListedWorkflow);
-export class CreateAccessResponse extends S.Class<CreateAccessResponse>(
-  "CreateAccessResponse",
-)({ ServerId: S.String, ExternalId: S.String }) {}
-export class DescribeAccessResponse extends S.Class<DescribeAccessResponse>(
-  "DescribeAccessResponse",
-)({ ServerId: S.String, Access: DescribedAccess }) {}
-export class DescribeHostKeyResponse extends S.Class<DescribeHostKeyResponse>(
-  "DescribeHostKeyResponse",
-)({ HostKey: DescribedHostKey }) {}
-export class DescribeSecurityPolicyResponse extends S.Class<DescribeSecurityPolicyResponse>(
-  "DescribeSecurityPolicyResponse",
-)({ SecurityPolicy: DescribedSecurityPolicy }) {}
-export class ImportHostKeyResponse extends S.Class<ImportHostKeyResponse>(
-  "ImportHostKeyResponse",
-)({ ServerId: S.String, HostKeyId: S.String }) {}
-export class ListAccessesResponse extends S.Class<ListAccessesResponse>(
-  "ListAccessesResponse",
-)({
-  NextToken: S.optional(S.String),
-  ServerId: S.String,
-  Accesses: ListedAccesses,
-}) {}
-export class ListExecutionsResponse extends S.Class<ListExecutionsResponse>(
-  "ListExecutionsResponse",
-)({
-  NextToken: S.optional(S.String),
-  WorkflowId: S.String,
-  Executions: ListedExecutions,
-}) {}
-export class ListFileTransferResultsResponse extends S.Class<ListFileTransferResultsResponse>(
-  "ListFileTransferResultsResponse",
-)({
-  FileTransferResults: ConnectorFileTransferResults,
-  NextToken: S.optional(S.String),
-}) {}
-export class ListHostKeysResponse extends S.Class<ListHostKeysResponse>(
-  "ListHostKeysResponse",
-)({
-  NextToken: S.optional(S.String),
-  ServerId: S.String,
-  HostKeys: ListedHostKeys,
-}) {}
-export class TestConnectionResponse extends S.Class<TestConnectionResponse>(
-  "TestConnectionResponse",
-)({
-  ConnectorId: S.optional(S.String),
-  Status: S.optional(S.String),
-  StatusMessage: S.optional(S.String),
-  SftpConnectionDetails: S.optional(SftpConnectorConnectionDetails),
-}) {}
-export class CreateAgreementResponse extends S.Class<CreateAgreementResponse>(
-  "CreateAgreementResponse",
-)({ AgreementId: S.String }) {}
-export class DescribeAgreementResponse extends S.Class<DescribeAgreementResponse>(
-  "DescribeAgreementResponse",
-)({ Agreement: DescribedAgreement }) {}
-export class ListAgreementsResponse extends S.Class<ListAgreementsResponse>(
-  "ListAgreementsResponse",
-)({ NextToken: S.optional(S.String), Agreements: ListedAgreements }) {}
-export class DescribeCertificateResponse extends S.Class<DescribeCertificateResponse>(
-  "DescribeCertificateResponse",
-)({ Certificate: DescribedCertificate }) {}
-export class ListCertificatesResponse extends S.Class<ListCertificatesResponse>(
-  "ListCertificatesResponse",
-)({ NextToken: S.optional(S.String), Certificates: ListedCertificates }) {}
-export class CreateConnectorRequest extends S.Class<CreateConnectorRequest>(
-  "CreateConnectorRequest",
-)(
-  {
+export interface CreateAccessResponse {
+  ServerId: string;
+  ExternalId: string;
+}
+export const CreateAccessResponse = S.suspend(() =>
+  S.Struct({ ServerId: S.String, ExternalId: S.String }),
+).annotations({
+  identifier: "CreateAccessResponse",
+}) as any as S.Schema<CreateAccessResponse>;
+export interface DescribeAccessResponse {
+  ServerId: string;
+  Access: DescribedAccess;
+}
+export const DescribeAccessResponse = S.suspend(() =>
+  S.Struct({ ServerId: S.String, Access: DescribedAccess }),
+).annotations({
+  identifier: "DescribeAccessResponse",
+}) as any as S.Schema<DescribeAccessResponse>;
+export interface DescribeHostKeyResponse {
+  HostKey: DescribedHostKey;
+}
+export const DescribeHostKeyResponse = S.suspend(() =>
+  S.Struct({ HostKey: DescribedHostKey }),
+).annotations({
+  identifier: "DescribeHostKeyResponse",
+}) as any as S.Schema<DescribeHostKeyResponse>;
+export interface DescribeSecurityPolicyResponse {
+  SecurityPolicy: DescribedSecurityPolicy;
+}
+export const DescribeSecurityPolicyResponse = S.suspend(() =>
+  S.Struct({ SecurityPolicy: DescribedSecurityPolicy }),
+).annotations({
+  identifier: "DescribeSecurityPolicyResponse",
+}) as any as S.Schema<DescribeSecurityPolicyResponse>;
+export interface ImportHostKeyResponse {
+  ServerId: string;
+  HostKeyId: string;
+}
+export const ImportHostKeyResponse = S.suspend(() =>
+  S.Struct({ ServerId: S.String, HostKeyId: S.String }),
+).annotations({
+  identifier: "ImportHostKeyResponse",
+}) as any as S.Schema<ImportHostKeyResponse>;
+export interface ListAccessesResponse {
+  NextToken?: string;
+  ServerId: string;
+  Accesses: ListedAccesses;
+}
+export const ListAccessesResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    ServerId: S.String,
+    Accesses: ListedAccesses,
+  }),
+).annotations({
+  identifier: "ListAccessesResponse",
+}) as any as S.Schema<ListAccessesResponse>;
+export interface ListExecutionsResponse {
+  NextToken?: string;
+  WorkflowId: string;
+  Executions: ListedExecutions;
+}
+export const ListExecutionsResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    WorkflowId: S.String,
+    Executions: ListedExecutions,
+  }),
+).annotations({
+  identifier: "ListExecutionsResponse",
+}) as any as S.Schema<ListExecutionsResponse>;
+export interface ListFileTransferResultsResponse {
+  FileTransferResults: ConnectorFileTransferResults;
+  NextToken?: string;
+}
+export const ListFileTransferResultsResponse = S.suspend(() =>
+  S.Struct({
+    FileTransferResults: ConnectorFileTransferResults,
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListFileTransferResultsResponse",
+}) as any as S.Schema<ListFileTransferResultsResponse>;
+export interface ListHostKeysResponse {
+  NextToken?: string;
+  ServerId: string;
+  HostKeys: ListedHostKeys;
+}
+export const ListHostKeysResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    ServerId: S.String,
+    HostKeys: ListedHostKeys,
+  }),
+).annotations({
+  identifier: "ListHostKeysResponse",
+}) as any as S.Schema<ListHostKeysResponse>;
+export interface TestConnectionResponse {
+  ConnectorId?: string;
+  Status?: string;
+  StatusMessage?: string;
+  SftpConnectionDetails?: SftpConnectorConnectionDetails;
+}
+export const TestConnectionResponse = S.suspend(() =>
+  S.Struct({
+    ConnectorId: S.optional(S.String),
+    Status: S.optional(S.String),
+    StatusMessage: S.optional(S.String),
+    SftpConnectionDetails: S.optional(SftpConnectorConnectionDetails),
+  }),
+).annotations({
+  identifier: "TestConnectionResponse",
+}) as any as S.Schema<TestConnectionResponse>;
+export interface CreateAgreementResponse {
+  AgreementId: string;
+}
+export const CreateAgreementResponse = S.suspend(() =>
+  S.Struct({ AgreementId: S.String }),
+).annotations({
+  identifier: "CreateAgreementResponse",
+}) as any as S.Schema<CreateAgreementResponse>;
+export interface DescribeAgreementResponse {
+  Agreement: DescribedAgreement;
+}
+export const DescribeAgreementResponse = S.suspend(() =>
+  S.Struct({ Agreement: DescribedAgreement }),
+).annotations({
+  identifier: "DescribeAgreementResponse",
+}) as any as S.Schema<DescribeAgreementResponse>;
+export interface ListAgreementsResponse {
+  NextToken?: string;
+  Agreements: ListedAgreements;
+}
+export const ListAgreementsResponse = S.suspend(() =>
+  S.Struct({ NextToken: S.optional(S.String), Agreements: ListedAgreements }),
+).annotations({
+  identifier: "ListAgreementsResponse",
+}) as any as S.Schema<ListAgreementsResponse>;
+export interface DescribeCertificateResponse {
+  Certificate: DescribedCertificate;
+}
+export const DescribeCertificateResponse = S.suspend(() =>
+  S.Struct({ Certificate: DescribedCertificate }),
+).annotations({
+  identifier: "DescribeCertificateResponse",
+}) as any as S.Schema<DescribeCertificateResponse>;
+export interface ListCertificatesResponse {
+  NextToken?: string;
+  Certificates: ListedCertificates;
+}
+export const ListCertificatesResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    Certificates: ListedCertificates,
+  }),
+).annotations({
+  identifier: "ListCertificatesResponse",
+}) as any as S.Schema<ListCertificatesResponse>;
+export interface CreateConnectorRequest {
+  Url?: string;
+  As2Config?: As2ConnectorConfig;
+  AccessRole: string;
+  LoggingRole?: string;
+  Tags?: Tags;
+  SftpConfig?: SftpConnectorConfig;
+  SecurityPolicyName?: string;
+  EgressConfig?: (typeof ConnectorEgressConfig)["Type"];
+}
+export const CreateConnectorRequest = S.suspend(() =>
+  S.Struct({
     Url: S.optional(S.String),
     As2Config: S.optional(As2ConnectorConfig),
     AccessRole: S.String,
@@ -1518,13 +2709,24 @@ export class CreateConnectorRequest extends S.Class<CreateConnectorRequest>(
     SftpConfig: S.optional(SftpConnectorConfig),
     SecurityPolicyName: S.optional(S.String),
     EgressConfig: S.optional(ConnectorEgressConfig),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateConnectorRequest extends S.Class<UpdateConnectorRequest>(
-  "UpdateConnectorRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateConnectorRequest",
+}) as any as S.Schema<CreateConnectorRequest>;
+export interface UpdateConnectorRequest {
+  ConnectorId: string;
+  Url?: string;
+  As2Config?: As2ConnectorConfig;
+  AccessRole?: string;
+  LoggingRole?: string;
+  SftpConfig?: SftpConnectorConfig;
+  SecurityPolicyName?: string;
+  EgressConfig?: (typeof UpdateConnectorEgressConfig)["Type"];
+}
+export const UpdateConnectorRequest = S.suspend(() =>
+  S.Struct({
     ConnectorId: S.String,
     Url: S.optional(S.String),
     As2Config: S.optional(As2ConnectorConfig),
@@ -1533,22 +2735,60 @@ export class UpdateConnectorRequest extends S.Class<UpdateConnectorRequest>(
     SftpConfig: S.optional(SftpConnectorConfig),
     SecurityPolicyName: S.optional(S.String),
     EgressConfig: S.optional(UpdateConnectorEgressConfig),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListConnectorsResponse extends S.Class<ListConnectorsResponse>(
-  "ListConnectorsResponse",
-)({ NextToken: S.optional(S.String), Connectors: ListedConnectors }) {}
-export class DescribeProfileResponse extends S.Class<DescribeProfileResponse>(
-  "DescribeProfileResponse",
-)({ Profile: DescribedProfile }) {}
-export class ListProfilesResponse extends S.Class<ListProfilesResponse>(
-  "ListProfilesResponse",
-)({ NextToken: S.optional(S.String), Profiles: ListedProfiles }) {}
-export class CreateServerRequest extends S.Class<CreateServerRequest>(
-  "CreateServerRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateConnectorRequest",
+}) as any as S.Schema<UpdateConnectorRequest>;
+export interface ListConnectorsResponse {
+  NextToken?: string;
+  Connectors: ListedConnectors;
+}
+export const ListConnectorsResponse = S.suspend(() =>
+  S.Struct({ NextToken: S.optional(S.String), Connectors: ListedConnectors }),
+).annotations({
+  identifier: "ListConnectorsResponse",
+}) as any as S.Schema<ListConnectorsResponse>;
+export interface DescribeProfileResponse {
+  Profile: DescribedProfile;
+}
+export const DescribeProfileResponse = S.suspend(() =>
+  S.Struct({ Profile: DescribedProfile }),
+).annotations({
+  identifier: "DescribeProfileResponse",
+}) as any as S.Schema<DescribeProfileResponse>;
+export interface ListProfilesResponse {
+  NextToken?: string;
+  Profiles: ListedProfiles;
+}
+export const ListProfilesResponse = S.suspend(() =>
+  S.Struct({ NextToken: S.optional(S.String), Profiles: ListedProfiles }),
+).annotations({
+  identifier: "ListProfilesResponse",
+}) as any as S.Schema<ListProfilesResponse>;
+export interface CreateServerRequest {
+  Certificate?: string;
+  Domain?: string;
+  EndpointDetails?: EndpointDetails;
+  EndpointType?: string;
+  HostKey?: string;
+  IdentityProviderDetails?: IdentityProviderDetails;
+  IdentityProviderType?: string;
+  LoggingRole?: string;
+  PostAuthenticationLoginBanner?: string;
+  PreAuthenticationLoginBanner?: string;
+  Protocols?: Protocols;
+  ProtocolDetails?: ProtocolDetails;
+  SecurityPolicyName?: string;
+  Tags?: Tags;
+  WorkflowDetails?: WorkflowDetails;
+  StructuredLogDestinations?: StructuredLogDestinations;
+  S3StorageOptions?: S3StorageOptions;
+  IpAddressType?: string;
+}
+export const CreateServerRequest = S.suspend(() =>
+  S.Struct({
     Certificate: S.optional(S.String),
     Domain: S.optional(S.String),
     EndpointDetails: S.optional(EndpointDetails),
@@ -1567,129 +2807,276 @@ export class CreateServerRequest extends S.Class<CreateServerRequest>(
     StructuredLogDestinations: S.optional(StructuredLogDestinations),
     S3StorageOptions: S.optional(S3StorageOptions),
     IpAddressType: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeServerResponse extends S.Class<DescribeServerResponse>(
-  "DescribeServerResponse",
-)({ Server: DescribedServer }) {}
-export class ListServersResponse extends S.Class<ListServersResponse>(
-  "ListServersResponse",
-)({ NextToken: S.optional(S.String), Servers: ListedServers }) {}
-export class ListUsersResponse extends S.Class<ListUsersResponse>(
-  "ListUsersResponse",
-)({
-  NextToken: S.optional(S.String),
-  ServerId: S.String,
-  Users: ListedUsers,
-}) {}
-export class DescribeWebAppCustomizationResponse extends S.Class<DescribeWebAppCustomizationResponse>(
-  "DescribeWebAppCustomizationResponse",
-)({ WebAppCustomization: DescribedWebAppCustomization }) {}
-export class CreateWebAppRequest extends S.Class<CreateWebAppRequest>(
-  "CreateWebAppRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateServerRequest",
+}) as any as S.Schema<CreateServerRequest>;
+export interface DescribeServerResponse {
+  Server: DescribedServer;
+}
+export const DescribeServerResponse = S.suspend(() =>
+  S.Struct({ Server: DescribedServer }),
+).annotations({
+  identifier: "DescribeServerResponse",
+}) as any as S.Schema<DescribeServerResponse>;
+export interface ListServersResponse {
+  NextToken?: string;
+  Servers: ListedServers;
+}
+export const ListServersResponse = S.suspend(() =>
+  S.Struct({ NextToken: S.optional(S.String), Servers: ListedServers }),
+).annotations({
+  identifier: "ListServersResponse",
+}) as any as S.Schema<ListServersResponse>;
+export interface ListUsersResponse {
+  NextToken?: string;
+  ServerId: string;
+  Users: ListedUsers;
+}
+export const ListUsersResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    ServerId: S.String,
+    Users: ListedUsers,
+  }),
+).annotations({
+  identifier: "ListUsersResponse",
+}) as any as S.Schema<ListUsersResponse>;
+export interface DescribeWebAppCustomizationResponse {
+  WebAppCustomization: DescribedWebAppCustomization;
+}
+export const DescribeWebAppCustomizationResponse = S.suspend(() =>
+  S.Struct({ WebAppCustomization: DescribedWebAppCustomization }),
+).annotations({
+  identifier: "DescribeWebAppCustomizationResponse",
+}) as any as S.Schema<DescribeWebAppCustomizationResponse>;
+export interface CreateWebAppRequest {
+  IdentityProviderDetails: (typeof WebAppIdentityProviderDetails)["Type"];
+  AccessEndpoint?: string;
+  WebAppUnits?: (typeof WebAppUnits)["Type"];
+  Tags?: Tags;
+  WebAppEndpointPolicy?: string;
+  EndpointDetails?: (typeof WebAppEndpointDetails)["Type"];
+}
+export const CreateWebAppRequest = S.suspend(() =>
+  S.Struct({
     IdentityProviderDetails: WebAppIdentityProviderDetails,
     AccessEndpoint: S.optional(S.String),
     WebAppUnits: S.optional(WebAppUnits),
     Tags: S.optional(Tags),
     WebAppEndpointPolicy: S.optional(S.String),
     EndpointDetails: S.optional(WebAppEndpointDetails),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/createWebApp" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/createWebApp" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateWebAppRequest extends S.Class<UpdateWebAppRequest>(
-  "UpdateWebAppRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateWebAppRequest",
+}) as any as S.Schema<CreateWebAppRequest>;
+export interface UpdateWebAppRequest {
+  WebAppId: string;
+  IdentityProviderDetails?: (typeof UpdateWebAppIdentityProviderDetails)["Type"];
+  AccessEndpoint?: string;
+  WebAppUnits?: (typeof WebAppUnits)["Type"];
+  EndpointDetails?: (typeof UpdateWebAppEndpointDetails)["Type"];
+}
+export const UpdateWebAppRequest = S.suspend(() =>
+  S.Struct({
     WebAppId: S.String,
     IdentityProviderDetails: S.optional(UpdateWebAppIdentityProviderDetails),
     AccessEndpoint: S.optional(S.String),
     WebAppUnits: S.optional(WebAppUnits),
     EndpointDetails: S.optional(UpdateWebAppEndpointDetails),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/updateWebApp" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/updateWebApp" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListWebAppsResponse extends S.Class<ListWebAppsResponse>(
-  "ListWebAppsResponse",
-)({ NextToken: S.optional(S.String), WebApps: ListedWebApps }) {}
-export class DescribeWorkflowResponse extends S.Class<DescribeWorkflowResponse>(
-  "DescribeWorkflowResponse",
-)({ Workflow: DescribedWorkflow }) {}
-export class ListWorkflowsResponse extends S.Class<ListWorkflowsResponse>(
-  "ListWorkflowsResponse",
-)({ NextToken: S.optional(S.String), Workflows: ListedWorkflows }) {}
-export class LoggingConfiguration extends S.Class<LoggingConfiguration>(
-  "LoggingConfiguration",
-)({ LoggingRole: S.optional(S.String), LogGroupName: S.optional(S.String) }) {}
-export class SshPublicKey extends S.Class<SshPublicKey>("SshPublicKey")({
-  DateImported: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  SshPublicKeyBody: S.String,
-  SshPublicKeyId: S.String,
-}) {}
+).annotations({
+  identifier: "UpdateWebAppRequest",
+}) as any as S.Schema<UpdateWebAppRequest>;
+export interface ListWebAppsResponse {
+  NextToken?: string;
+  WebApps: ListedWebApps;
+}
+export const ListWebAppsResponse = S.suspend(() =>
+  S.Struct({ NextToken: S.optional(S.String), WebApps: ListedWebApps }),
+).annotations({
+  identifier: "ListWebAppsResponse",
+}) as any as S.Schema<ListWebAppsResponse>;
+export interface DescribeWorkflowResponse {
+  Workflow: DescribedWorkflow;
+}
+export const DescribeWorkflowResponse = S.suspend(() =>
+  S.Struct({ Workflow: DescribedWorkflow }),
+).annotations({
+  identifier: "DescribeWorkflowResponse",
+}) as any as S.Schema<DescribeWorkflowResponse>;
+export interface ListWorkflowsResponse {
+  NextToken?: string;
+  Workflows: ListedWorkflows;
+}
+export const ListWorkflowsResponse = S.suspend(() =>
+  S.Struct({ NextToken: S.optional(S.String), Workflows: ListedWorkflows }),
+).annotations({
+  identifier: "ListWorkflowsResponse",
+}) as any as S.Schema<ListWorkflowsResponse>;
+export interface LoggingConfiguration {
+  LoggingRole?: string;
+  LogGroupName?: string;
+}
+export const LoggingConfiguration = S.suspend(() =>
+  S.Struct({
+    LoggingRole: S.optional(S.String),
+    LogGroupName: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "LoggingConfiguration",
+}) as any as S.Schema<LoggingConfiguration>;
+export interface SshPublicKey {
+  DateImported: Date;
+  SshPublicKeyBody: string;
+  SshPublicKeyId: string;
+}
+export const SshPublicKey = S.suspend(() =>
+  S.Struct({
+    DateImported: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    SshPublicKeyBody: S.String,
+    SshPublicKeyId: S.String,
+  }),
+).annotations({ identifier: "SshPublicKey" }) as any as S.Schema<SshPublicKey>;
+export type SshPublicKeys = SshPublicKey[];
 export const SshPublicKeys = S.Array(SshPublicKey);
-export class DescribedUser extends S.Class<DescribedUser>("DescribedUser")({
-  Arn: S.String,
-  HomeDirectory: S.optional(S.String),
-  HomeDirectoryMappings: S.optional(HomeDirectoryMappings),
-  HomeDirectoryType: S.optional(S.String),
-  Policy: S.optional(S.String),
-  PosixProfile: S.optional(PosixProfile),
-  Role: S.optional(S.String),
-  SshPublicKeys: S.optional(SshPublicKeys),
-  Tags: S.optional(Tags),
-  UserName: S.optional(S.String),
-}) {}
-export class DescribedConnectorVpcLatticeEgressConfig extends S.Class<DescribedConnectorVpcLatticeEgressConfig>(
-  "DescribedConnectorVpcLatticeEgressConfig",
-)({ ResourceConfigurationArn: S.String, PortNumber: S.optional(S.Number) }) {}
-export class DescribedIdentityCenterConfig extends S.Class<DescribedIdentityCenterConfig>(
-  "DescribedIdentityCenterConfig",
-)({
-  ApplicationArn: S.optional(S.String),
-  InstanceArn: S.optional(S.String),
-  Role: S.optional(S.String),
-}) {}
-export class DescribedWebAppVpcConfig extends S.Class<DescribedWebAppVpcConfig>(
-  "DescribedWebAppVpcConfig",
-)({
-  SubnetIds: S.optional(SubnetIds),
-  VpcId: S.optional(S.String),
-  VpcEndpointId: S.optional(S.String),
-}) {}
-export class CreateConnectorResponse extends S.Class<CreateConnectorResponse>(
-  "CreateConnectorResponse",
-)({ ConnectorId: S.String }) {}
-export class UpdateConnectorResponse extends S.Class<UpdateConnectorResponse>(
-  "UpdateConnectorResponse",
-)({ ConnectorId: S.String }) {}
-export class CreateServerResponse extends S.Class<CreateServerResponse>(
-  "CreateServerResponse",
-)({ ServerId: S.String }) {}
-export class DescribeUserResponse extends S.Class<DescribeUserResponse>(
-  "DescribeUserResponse",
-)({ ServerId: S.String, User: DescribedUser }) {}
-export class CreateWebAppResponse extends S.Class<CreateWebAppResponse>(
-  "CreateWebAppResponse",
-)({ WebAppId: S.String }) {}
-export class UpdateWebAppResponse extends S.Class<UpdateWebAppResponse>(
-  "UpdateWebAppResponse",
-)({ WebAppId: S.String }) {}
+export interface DescribedUser {
+  Arn: string;
+  HomeDirectory?: string;
+  HomeDirectoryMappings?: HomeDirectoryMappings;
+  HomeDirectoryType?: string;
+  Policy?: string;
+  PosixProfile?: PosixProfile;
+  Role?: string;
+  SshPublicKeys?: SshPublicKeys;
+  Tags?: Tags;
+  UserName?: string;
+}
+export const DescribedUser = S.suspend(() =>
+  S.Struct({
+    Arn: S.String,
+    HomeDirectory: S.optional(S.String),
+    HomeDirectoryMappings: S.optional(HomeDirectoryMappings),
+    HomeDirectoryType: S.optional(S.String),
+    Policy: S.optional(S.String),
+    PosixProfile: S.optional(PosixProfile),
+    Role: S.optional(S.String),
+    SshPublicKeys: S.optional(SshPublicKeys),
+    Tags: S.optional(Tags),
+    UserName: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DescribedUser",
+}) as any as S.Schema<DescribedUser>;
+export interface DescribedConnectorVpcLatticeEgressConfig {
+  ResourceConfigurationArn: string;
+  PortNumber?: number;
+}
+export const DescribedConnectorVpcLatticeEgressConfig = S.suspend(() =>
+  S.Struct({
+    ResourceConfigurationArn: S.String,
+    PortNumber: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "DescribedConnectorVpcLatticeEgressConfig",
+}) as any as S.Schema<DescribedConnectorVpcLatticeEgressConfig>;
+export interface DescribedIdentityCenterConfig {
+  ApplicationArn?: string;
+  InstanceArn?: string;
+  Role?: string;
+}
+export const DescribedIdentityCenterConfig = S.suspend(() =>
+  S.Struct({
+    ApplicationArn: S.optional(S.String),
+    InstanceArn: S.optional(S.String),
+    Role: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DescribedIdentityCenterConfig",
+}) as any as S.Schema<DescribedIdentityCenterConfig>;
+export interface DescribedWebAppVpcConfig {
+  SubnetIds?: SubnetIds;
+  VpcId?: string;
+  VpcEndpointId?: string;
+}
+export const DescribedWebAppVpcConfig = S.suspend(() =>
+  S.Struct({
+    SubnetIds: S.optional(SubnetIds),
+    VpcId: S.optional(S.String),
+    VpcEndpointId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DescribedWebAppVpcConfig",
+}) as any as S.Schema<DescribedWebAppVpcConfig>;
+export interface CreateConnectorResponse {
+  ConnectorId: string;
+}
+export const CreateConnectorResponse = S.suspend(() =>
+  S.Struct({ ConnectorId: S.String }),
+).annotations({
+  identifier: "CreateConnectorResponse",
+}) as any as S.Schema<CreateConnectorResponse>;
+export interface UpdateConnectorResponse {
+  ConnectorId: string;
+}
+export const UpdateConnectorResponse = S.suspend(() =>
+  S.Struct({ ConnectorId: S.String }),
+).annotations({
+  identifier: "UpdateConnectorResponse",
+}) as any as S.Schema<UpdateConnectorResponse>;
+export interface CreateServerResponse {
+  ServerId: string;
+}
+export const CreateServerResponse = S.suspend(() =>
+  S.Struct({ ServerId: S.String }),
+).annotations({
+  identifier: "CreateServerResponse",
+}) as any as S.Schema<CreateServerResponse>;
+export interface DescribeUserResponse {
+  ServerId: string;
+  User: DescribedUser;
+}
+export const DescribeUserResponse = S.suspend(() =>
+  S.Struct({ ServerId: S.String, User: DescribedUser }),
+).annotations({
+  identifier: "DescribeUserResponse",
+}) as any as S.Schema<DescribeUserResponse>;
+export interface CreateWebAppResponse {
+  WebAppId: string;
+}
+export const CreateWebAppResponse = S.suspend(() =>
+  S.Struct({ WebAppId: S.String }),
+).annotations({
+  identifier: "CreateWebAppResponse",
+}) as any as S.Schema<CreateWebAppResponse>;
+export interface UpdateWebAppResponse {
+  WebAppId: string;
+}
+export const UpdateWebAppResponse = S.suspend(() =>
+  S.Struct({ WebAppId: S.String }),
+).annotations({
+  identifier: "UpdateWebAppResponse",
+}) as any as S.Schema<UpdateWebAppResponse>;
 export const DescribedConnectorEgressConfig = S.Union(
   S.Struct({ VpcLattice: DescribedConnectorVpcLatticeEgressConfig }),
 );
@@ -1699,93 +3086,186 @@ export const DescribedWebAppIdentityProviderDetails = S.Union(
 export const DescribedWebAppEndpointDetails = S.Union(
   S.Struct({ Vpc: DescribedWebAppVpcConfig }),
 );
-export class ExecutionError extends S.Class<ExecutionError>("ExecutionError")({
-  Type: S.String,
-  Message: S.String,
-}) {}
-export class DescribedConnector extends S.Class<DescribedConnector>(
-  "DescribedConnector",
-)({
-  Arn: S.String,
-  ConnectorId: S.optional(S.String),
-  Url: S.optional(S.String),
-  As2Config: S.optional(As2ConnectorConfig),
-  AccessRole: S.optional(S.String),
-  LoggingRole: S.optional(S.String),
-  Tags: S.optional(Tags),
-  SftpConfig: S.optional(SftpConnectorConfig),
-  ServiceManagedEgressIpAddresses: S.optional(ServiceManagedEgressIpAddresses),
-  SecurityPolicyName: S.optional(S.String),
-  EgressConfig: S.optional(DescribedConnectorEgressConfig),
-  EgressType: S.String,
-  ErrorMessage: S.optional(S.String),
-  Status: S.String,
-}) {}
-export class DescribedWebApp extends S.Class<DescribedWebApp>(
-  "DescribedWebApp",
-)({
-  Arn: S.String,
-  WebAppId: S.String,
-  DescribedIdentityProviderDetails: S.optional(
-    DescribedWebAppIdentityProviderDetails,
-  ),
-  AccessEndpoint: S.optional(S.String),
-  WebAppEndpoint: S.optional(S.String),
-  WebAppUnits: S.optional(WebAppUnits),
-  Tags: S.optional(Tags),
-  WebAppEndpointPolicy: S.optional(S.String),
-  EndpointType: S.optional(S.String),
-  DescribedEndpointDetails: S.optional(DescribedWebAppEndpointDetails),
-}) {}
-export class ExecutionStepResult extends S.Class<ExecutionStepResult>(
-  "ExecutionStepResult",
-)({
-  StepType: S.optional(S.String),
-  Outputs: S.optional(S.String),
-  Error: S.optional(ExecutionError),
-}) {}
+export interface ExecutionError {
+  Type: string;
+  Message: string;
+}
+export const ExecutionError = S.suspend(() =>
+  S.Struct({ Type: S.String, Message: S.String }),
+).annotations({
+  identifier: "ExecutionError",
+}) as any as S.Schema<ExecutionError>;
+export interface DescribedConnector {
+  Arn: string;
+  ConnectorId?: string;
+  Url?: string;
+  As2Config?: As2ConnectorConfig;
+  AccessRole?: string;
+  LoggingRole?: string;
+  Tags?: Tags;
+  SftpConfig?: SftpConnectorConfig;
+  ServiceManagedEgressIpAddresses?: ServiceManagedEgressIpAddresses;
+  SecurityPolicyName?: string;
+  EgressConfig?: (typeof DescribedConnectorEgressConfig)["Type"];
+  EgressType: string;
+  ErrorMessage?: string;
+  Status: string;
+}
+export const DescribedConnector = S.suspend(() =>
+  S.Struct({
+    Arn: S.String,
+    ConnectorId: S.optional(S.String),
+    Url: S.optional(S.String),
+    As2Config: S.optional(As2ConnectorConfig),
+    AccessRole: S.optional(S.String),
+    LoggingRole: S.optional(S.String),
+    Tags: S.optional(Tags),
+    SftpConfig: S.optional(SftpConnectorConfig),
+    ServiceManagedEgressIpAddresses: S.optional(
+      ServiceManagedEgressIpAddresses,
+    ),
+    SecurityPolicyName: S.optional(S.String),
+    EgressConfig: S.optional(DescribedConnectorEgressConfig),
+    EgressType: S.String,
+    ErrorMessage: S.optional(S.String),
+    Status: S.String,
+  }),
+).annotations({
+  identifier: "DescribedConnector",
+}) as any as S.Schema<DescribedConnector>;
+export interface DescribedWebApp {
+  Arn: string;
+  WebAppId: string;
+  DescribedIdentityProviderDetails?: (typeof DescribedWebAppIdentityProviderDetails)["Type"];
+  AccessEndpoint?: string;
+  WebAppEndpoint?: string;
+  WebAppUnits?: (typeof WebAppUnits)["Type"];
+  Tags?: Tags;
+  WebAppEndpointPolicy?: string;
+  EndpointType?: string;
+  DescribedEndpointDetails?: (typeof DescribedWebAppEndpointDetails)["Type"];
+}
+export const DescribedWebApp = S.suspend(() =>
+  S.Struct({
+    Arn: S.String,
+    WebAppId: S.String,
+    DescribedIdentityProviderDetails: S.optional(
+      DescribedWebAppIdentityProviderDetails,
+    ),
+    AccessEndpoint: S.optional(S.String),
+    WebAppEndpoint: S.optional(S.String),
+    WebAppUnits: S.optional(WebAppUnits),
+    Tags: S.optional(Tags),
+    WebAppEndpointPolicy: S.optional(S.String),
+    EndpointType: S.optional(S.String),
+    DescribedEndpointDetails: S.optional(DescribedWebAppEndpointDetails),
+  }),
+).annotations({
+  identifier: "DescribedWebApp",
+}) as any as S.Schema<DescribedWebApp>;
+export interface ExecutionStepResult {
+  StepType?: string;
+  Outputs?: string;
+  Error?: ExecutionError;
+}
+export const ExecutionStepResult = S.suspend(() =>
+  S.Struct({
+    StepType: S.optional(S.String),
+    Outputs: S.optional(S.String),
+    Error: S.optional(ExecutionError),
+  }),
+).annotations({
+  identifier: "ExecutionStepResult",
+}) as any as S.Schema<ExecutionStepResult>;
+export type ExecutionStepResults = ExecutionStepResult[];
 export const ExecutionStepResults = S.Array(ExecutionStepResult);
-export class DescribeConnectorResponse extends S.Class<DescribeConnectorResponse>(
-  "DescribeConnectorResponse",
-)({ Connector: DescribedConnector }) {}
-export class DescribeWebAppResponse extends S.Class<DescribeWebAppResponse>(
-  "DescribeWebAppResponse",
-)({ WebApp: DescribedWebApp }) {}
-export class CreateWorkflowRequest extends S.Class<CreateWorkflowRequest>(
-  "CreateWorkflowRequest",
-)(
-  {
+export interface DescribeConnectorResponse {
+  Connector: DescribedConnector;
+}
+export const DescribeConnectorResponse = S.suspend(() =>
+  S.Struct({ Connector: DescribedConnector }),
+).annotations({
+  identifier: "DescribeConnectorResponse",
+}) as any as S.Schema<DescribeConnectorResponse>;
+export interface DescribeWebAppResponse {
+  WebApp: DescribedWebApp;
+}
+export const DescribeWebAppResponse = S.suspend(() =>
+  S.Struct({ WebApp: DescribedWebApp }),
+).annotations({
+  identifier: "DescribeWebAppResponse",
+}) as any as S.Schema<DescribeWebAppResponse>;
+export interface CreateWorkflowRequest {
+  Description?: string;
+  Steps: WorkflowSteps;
+  OnExceptionSteps?: WorkflowSteps;
+  Tags?: Tags;
+}
+export const CreateWorkflowRequest = S.suspend(() =>
+  S.Struct({
     Description: S.optional(S.String),
     Steps: WorkflowSteps,
     OnExceptionSteps: S.optional(WorkflowSteps),
     Tags: S.optional(Tags),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ExecutionResults extends S.Class<ExecutionResults>(
-  "ExecutionResults",
-)({
-  Steps: S.optional(ExecutionStepResults),
-  OnExceptionSteps: S.optional(ExecutionStepResults),
-}) {}
-export class DescribedExecution extends S.Class<DescribedExecution>(
-  "DescribedExecution",
-)({
-  ExecutionId: S.optional(S.String),
-  InitialFileLocation: S.optional(FileLocation),
-  ServiceMetadata: S.optional(ServiceMetadata),
-  ExecutionRole: S.optional(S.String),
-  LoggingConfiguration: S.optional(LoggingConfiguration),
-  PosixProfile: S.optional(PosixProfile),
-  Status: S.optional(S.String),
-  Results: S.optional(ExecutionResults),
-}) {}
-export class DescribeExecutionResponse extends S.Class<DescribeExecutionResponse>(
-  "DescribeExecutionResponse",
-)({ WorkflowId: S.String, Execution: DescribedExecution }) {}
-export class CreateWorkflowResponse extends S.Class<CreateWorkflowResponse>(
-  "CreateWorkflowResponse",
-)({ WorkflowId: S.String }) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateWorkflowRequest",
+}) as any as S.Schema<CreateWorkflowRequest>;
+export interface ExecutionResults {
+  Steps?: ExecutionStepResults;
+  OnExceptionSteps?: ExecutionStepResults;
+}
+export const ExecutionResults = S.suspend(() =>
+  S.Struct({
+    Steps: S.optional(ExecutionStepResults),
+    OnExceptionSteps: S.optional(ExecutionStepResults),
+  }),
+).annotations({
+  identifier: "ExecutionResults",
+}) as any as S.Schema<ExecutionResults>;
+export interface DescribedExecution {
+  ExecutionId?: string;
+  InitialFileLocation?: FileLocation;
+  ServiceMetadata?: ServiceMetadata;
+  ExecutionRole?: string;
+  LoggingConfiguration?: LoggingConfiguration;
+  PosixProfile?: PosixProfile;
+  Status?: string;
+  Results?: ExecutionResults;
+}
+export const DescribedExecution = S.suspend(() =>
+  S.Struct({
+    ExecutionId: S.optional(S.String),
+    InitialFileLocation: S.optional(FileLocation),
+    ServiceMetadata: S.optional(ServiceMetadata),
+    ExecutionRole: S.optional(S.String),
+    LoggingConfiguration: S.optional(LoggingConfiguration),
+    PosixProfile: S.optional(PosixProfile),
+    Status: S.optional(S.String),
+    Results: S.optional(ExecutionResults),
+  }),
+).annotations({
+  identifier: "DescribedExecution",
+}) as any as S.Schema<DescribedExecution>;
+export interface DescribeExecutionResponse {
+  WorkflowId: string;
+  Execution: DescribedExecution;
+}
+export const DescribeExecutionResponse = S.suspend(() =>
+  S.Struct({ WorkflowId: S.String, Execution: DescribedExecution }),
+).annotations({
+  identifier: "DescribeExecutionResponse",
+}) as any as S.Schema<DescribeExecutionResponse>;
+export interface CreateWorkflowResponse {
+  WorkflowId: string;
+}
+export const CreateWorkflowResponse = S.suspend(() =>
+  S.Struct({ WorkflowId: S.String }),
+).annotations({
+  identifier: "CreateWorkflowResponse",
+}) as any as S.Schema<CreateWorkflowResponse>;
 
 //# Errors
 export class InternalServiceError extends S.TaggedError<InternalServiceError>()(

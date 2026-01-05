@@ -294,38 +294,53 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class JoinStorageSessionInput extends S.Class<JoinStorageSessionInput>(
-  "JoinStorageSessionInput",
-)(
-  { channelArn: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/joinStorageSession" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface JoinStorageSessionInput {
+  channelArn: string;
+}
+export const JoinStorageSessionInput = S.suspend(() =>
+  S.Struct({ channelArn: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/joinStorageSession" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class JoinStorageSessionResponse extends S.Class<JoinStorageSessionResponse>(
-  "JoinStorageSessionResponse",
-)({}) {}
-export class JoinStorageSessionAsViewerInput extends S.Class<JoinStorageSessionAsViewerInput>(
-  "JoinStorageSessionAsViewerInput",
-)(
-  { channelArn: S.String, clientId: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/joinStorageSessionAsViewer" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "JoinStorageSessionInput",
+}) as any as S.Schema<JoinStorageSessionInput>;
+export interface JoinStorageSessionResponse {}
+export const JoinStorageSessionResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "JoinStorageSessionResponse",
+}) as any as S.Schema<JoinStorageSessionResponse>;
+export interface JoinStorageSessionAsViewerInput {
+  channelArn: string;
+  clientId: string;
+}
+export const JoinStorageSessionAsViewerInput = S.suspend(() =>
+  S.Struct({ channelArn: S.String, clientId: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/joinStorageSessionAsViewer" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class JoinStorageSessionAsViewerResponse extends S.Class<JoinStorageSessionAsViewerResponse>(
-  "JoinStorageSessionAsViewerResponse",
-)({}) {}
+).annotations({
+  identifier: "JoinStorageSessionAsViewerInput",
+}) as any as S.Schema<JoinStorageSessionAsViewerInput>;
+export interface JoinStorageSessionAsViewerResponse {}
+export const JoinStorageSessionAsViewerResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "JoinStorageSessionAsViewerResponse",
+}) as any as S.Schema<JoinStorageSessionAsViewerResponse>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

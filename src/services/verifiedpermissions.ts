@@ -294,67 +294,128 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class ListTagsForResourceInput extends S.Class<ListTagsForResourceInput>(
-  "ListTagsForResourceInput",
-)(
-  { resourceArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UntagResourceInput extends S.Class<UntagResourceInput>(
-  "UntagResourceInput",
-)(
-  { resourceArn: S.String, tagKeys: TagKeyList },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UntagResourceOutput extends S.Class<UntagResourceOutput>(
-  "UntagResourceOutput",
-)({}) {}
-export class GetPolicyStoreInput extends S.Class<GetPolicyStoreInput>(
-  "GetPolicyStoreInput",
-)(
-  { policyStoreId: S.String, tags: S.optional(S.Boolean) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ValidationSettings extends S.Class<ValidationSettings>(
-  "ValidationSettings",
-)({ mode: S.String }) {}
-export class UpdatePolicyStoreInput extends S.Class<UpdatePolicyStoreInput>(
-  "UpdatePolicyStoreInput",
-)(
-  {
+export interface ListTagsForResourceInput {
+  resourceArn: string;
+}
+export const ListTagsForResourceInput = S.suspend(() =>
+  S.Struct({ resourceArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListTagsForResourceInput",
+}) as any as S.Schema<ListTagsForResourceInput>;
+export interface UntagResourceInput {
+  resourceArn: string;
+  tagKeys: TagKeyList;
+}
+export const UntagResourceInput = S.suspend(() =>
+  S.Struct({ resourceArn: S.String, tagKeys: TagKeyList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UntagResourceInput",
+}) as any as S.Schema<UntagResourceInput>;
+export interface UntagResourceOutput {}
+export const UntagResourceOutput = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceOutput",
+}) as any as S.Schema<UntagResourceOutput>;
+export interface GetPolicyStoreInput {
+  policyStoreId: string;
+  tags?: boolean;
+}
+export const GetPolicyStoreInput = S.suspend(() =>
+  S.Struct({ policyStoreId: S.String, tags: S.optional(S.Boolean) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetPolicyStoreInput",
+}) as any as S.Schema<GetPolicyStoreInput>;
+export interface ValidationSettings {
+  mode: string;
+}
+export const ValidationSettings = S.suspend(() =>
+  S.Struct({ mode: S.String }),
+).annotations({
+  identifier: "ValidationSettings",
+}) as any as S.Schema<ValidationSettings>;
+export interface UpdatePolicyStoreInput {
+  policyStoreId: string;
+  validationSettings: ValidationSettings;
+  deletionProtection?: string;
+  description?: string;
+}
+export const UpdatePolicyStoreInput = S.suspend(() =>
+  S.Struct({
     policyStoreId: S.String,
     validationSettings: ValidationSettings,
     deletionProtection: S.optional(S.String),
     description: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeletePolicyStoreInput extends S.Class<DeletePolicyStoreInput>(
-  "DeletePolicyStoreInput",
-)(
-  { policyStoreId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeletePolicyStoreOutput extends S.Class<DeletePolicyStoreOutput>(
-  "DeletePolicyStoreOutput",
-)({}) {}
-export class ListPolicyStoresInput extends S.Class<ListPolicyStoresInput>(
-  "ListPolicyStoresInput",
-)(
-  { nextToken: S.optional(S.String), maxResults: S.optional(S.Number) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetSchemaInput extends S.Class<GetSchemaInput>("GetSchemaInput")(
-  { policyStoreId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ActionIdentifier extends S.Class<ActionIdentifier>(
-  "ActionIdentifier",
-)({ actionType: S.String, actionId: S.String }) {}
-export class EntityIdentifier extends S.Class<EntityIdentifier>(
-  "EntityIdentifier",
-)({ entityType: S.String, entityId: S.String }) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdatePolicyStoreInput",
+}) as any as S.Schema<UpdatePolicyStoreInput>;
+export interface DeletePolicyStoreInput {
+  policyStoreId: string;
+}
+export const DeletePolicyStoreInput = S.suspend(() =>
+  S.Struct({ policyStoreId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeletePolicyStoreInput",
+}) as any as S.Schema<DeletePolicyStoreInput>;
+export interface DeletePolicyStoreOutput {}
+export const DeletePolicyStoreOutput = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeletePolicyStoreOutput",
+}) as any as S.Schema<DeletePolicyStoreOutput>;
+export interface ListPolicyStoresInput {
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListPolicyStoresInput = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    maxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListPolicyStoresInput",
+}) as any as S.Schema<ListPolicyStoresInput>;
+export interface GetSchemaInput {
+  policyStoreId: string;
+}
+export const GetSchemaInput = S.suspend(() =>
+  S.Struct({ policyStoreId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetSchemaInput",
+}) as any as S.Schema<GetSchemaInput>;
+export interface ActionIdentifier {
+  actionType: string;
+  actionId: string;
+}
+export const ActionIdentifier = S.suspend(() =>
+  S.Struct({ actionType: S.String, actionId: S.String }),
+).annotations({
+  identifier: "ActionIdentifier",
+}) as any as S.Schema<ActionIdentifier>;
+export interface EntityIdentifier {
+  entityType: string;
+  entityId: string;
+}
+export const EntityIdentifier = S.suspend(() =>
+  S.Struct({ entityType: S.String, entityId: S.String }),
+).annotations({
+  identifier: "EntityIdentifier",
+}) as any as S.Schema<EntityIdentifier>;
 export type AttributeValue =
   | { boolean: boolean }
   | { entityIdentifier: EntityIdentifier }
@@ -371,25 +432,40 @@ export const AttributeValue = S.Union(
   S.Struct({ entityIdentifier: EntityIdentifier }),
   S.Struct({ long: S.Number }),
   S.Struct({ string: S.String }),
-  S.Struct({ set: S.suspend(() => SetAttribute) }),
-  S.Struct({ record: S.suspend(() => RecordAttribute) }),
+  S.Struct({
+    set: S.suspend(() => SetAttribute).annotations({
+      identifier: "SetAttribute",
+    }),
+  }),
+  S.Struct({
+    record: S.suspend(() => RecordAttribute).annotations({
+      identifier: "RecordAttribute",
+    }),
+  }),
   S.Struct({ ipaddr: S.String }),
   S.Struct({ decimal: S.String }),
   S.Struct({ datetime: S.String }),
   S.Struct({ duration: S.String }),
 ) as any as S.Schema<AttributeValue>;
+export type ContextMap = { [key: string]: AttributeValue };
 export const ContextMap = S.Record({
   key: S.String,
-  value: S.suspend(() => AttributeValue),
+  value: S.suspend(() => AttributeValue).annotations({
+    identifier: "AttributeValue",
+  }),
 });
 export const ContextDefinition = S.Union(
   S.Struct({ contextMap: ContextMap }),
   S.Struct({ cedarJson: S.String }),
 );
+export type EntityAttributes = { [key: string]: AttributeValue };
 export const EntityAttributes = S.Record({
   key: S.String,
-  value: S.suspend(() => AttributeValue),
+  value: S.suspend(() => AttributeValue).annotations({
+    identifier: "AttributeValue",
+  }),
 });
+export type ParentList = EntityIdentifier[];
 export const ParentList = S.Array(EntityIdentifier);
 export type CedarTagValue =
   | { boolean: boolean }
@@ -407,32 +483,59 @@ export const CedarTagValue = S.Union(
   S.Struct({ entityIdentifier: EntityIdentifier }),
   S.Struct({ long: S.Number }),
   S.Struct({ string: S.String }),
-  S.Struct({ set: S.suspend(() => CedarTagSetAttribute) }),
-  S.Struct({ record: S.suspend(() => CedarTagRecordAttribute) }),
+  S.Struct({
+    set: S.suspend(() => CedarTagSetAttribute).annotations({
+      identifier: "CedarTagSetAttribute",
+    }),
+  }),
+  S.Struct({
+    record: S.suspend(() => CedarTagRecordAttribute).annotations({
+      identifier: "CedarTagRecordAttribute",
+    }),
+  }),
   S.Struct({ ipaddr: S.String }),
   S.Struct({ decimal: S.String }),
   S.Struct({ datetime: S.String }),
   S.Struct({ duration: S.String }),
 ) as any as S.Schema<CedarTagValue>;
+export type EntityCedarTags = { [key: string]: CedarTagValue };
 export const EntityCedarTags = S.Record({
   key: S.String,
-  value: S.suspend(() => CedarTagValue),
+  value: S.suspend(() => CedarTagValue).annotations({
+    identifier: "CedarTagValue",
+  }),
 });
-export class EntityItem extends S.Class<EntityItem>("EntityItem")({
-  identifier: EntityIdentifier,
-  attributes: S.optional(EntityAttributes),
-  parents: S.optional(ParentList),
-  tags: S.optional(EntityCedarTags),
-}) {}
+export interface EntityItem {
+  identifier: EntityIdentifier;
+  attributes?: EntityAttributes;
+  parents?: ParentList;
+  tags?: EntityCedarTags;
+}
+export const EntityItem = S.suspend(() =>
+  S.Struct({
+    identifier: EntityIdentifier,
+    attributes: S.optional(EntityAttributes),
+    parents: S.optional(ParentList),
+    tags: S.optional(EntityCedarTags),
+  }),
+).annotations({ identifier: "EntityItem" }) as any as S.Schema<EntityItem>;
+export type EntityList = EntityItem[];
 export const EntityList = S.Array(EntityItem);
 export const EntitiesDefinition = S.Union(
   S.Struct({ entityList: EntityList }),
   S.Struct({ cedarJson: S.String }),
 );
-export class IsAuthorizedWithTokenInput extends S.Class<IsAuthorizedWithTokenInput>(
-  "IsAuthorizedWithTokenInput",
-)(
-  {
+export interface IsAuthorizedWithTokenInput {
+  policyStoreId: string;
+  identityToken?: string;
+  accessToken?: string;
+  action?: ActionIdentifier;
+  resource?: EntityIdentifier;
+  context?: (typeof ContextDefinition)["Type"];
+  entities?: (typeof EntitiesDefinition)["Type"];
+}
+export const IsAuthorizedWithTokenInput = S.suspend(() =>
+  S.Struct({
     policyStoreId: S.String,
     identityToken: S.optional(S.String),
     accessToken: S.optional(S.String),
@@ -440,279 +543,533 @@ export class IsAuthorizedWithTokenInput extends S.Class<IsAuthorizedWithTokenInp
     resource: S.optional(EntityIdentifier),
     context: S.optional(ContextDefinition),
     entities: S.optional(EntitiesDefinition),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetIdentitySourceInput extends S.Class<GetIdentitySourceInput>(
-  "GetIdentitySourceInput",
-)(
-  { policyStoreId: S.String, identitySourceId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteIdentitySourceInput extends S.Class<DeleteIdentitySourceInput>(
-  "DeleteIdentitySourceInput",
-)(
-  { policyStoreId: S.String, identitySourceId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteIdentitySourceOutput extends S.Class<DeleteIdentitySourceOutput>(
-  "DeleteIdentitySourceOutput",
-)({}) {}
-export class GetPolicyInput extends S.Class<GetPolicyInput>("GetPolicyInput")(
-  { policyStoreId: S.String, policyId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeletePolicyInput extends S.Class<DeletePolicyInput>(
-  "DeletePolicyInput",
-)(
-  { policyStoreId: S.String, policyId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeletePolicyOutput extends S.Class<DeletePolicyOutput>(
-  "DeletePolicyOutput",
-)({}) {}
-export class CreatePolicyTemplateInput extends S.Class<CreatePolicyTemplateInput>(
-  "CreatePolicyTemplateInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "IsAuthorizedWithTokenInput",
+}) as any as S.Schema<IsAuthorizedWithTokenInput>;
+export interface GetIdentitySourceInput {
+  policyStoreId: string;
+  identitySourceId: string;
+}
+export const GetIdentitySourceInput = S.suspend(() =>
+  S.Struct({ policyStoreId: S.String, identitySourceId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetIdentitySourceInput",
+}) as any as S.Schema<GetIdentitySourceInput>;
+export interface DeleteIdentitySourceInput {
+  policyStoreId: string;
+  identitySourceId: string;
+}
+export const DeleteIdentitySourceInput = S.suspend(() =>
+  S.Struct({ policyStoreId: S.String, identitySourceId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteIdentitySourceInput",
+}) as any as S.Schema<DeleteIdentitySourceInput>;
+export interface DeleteIdentitySourceOutput {}
+export const DeleteIdentitySourceOutput = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteIdentitySourceOutput",
+}) as any as S.Schema<DeleteIdentitySourceOutput>;
+export interface GetPolicyInput {
+  policyStoreId: string;
+  policyId: string;
+}
+export const GetPolicyInput = S.suspend(() =>
+  S.Struct({ policyStoreId: S.String, policyId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetPolicyInput",
+}) as any as S.Schema<GetPolicyInput>;
+export interface DeletePolicyInput {
+  policyStoreId: string;
+  policyId: string;
+}
+export const DeletePolicyInput = S.suspend(() =>
+  S.Struct({ policyStoreId: S.String, policyId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeletePolicyInput",
+}) as any as S.Schema<DeletePolicyInput>;
+export interface DeletePolicyOutput {}
+export const DeletePolicyOutput = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeletePolicyOutput",
+}) as any as S.Schema<DeletePolicyOutput>;
+export interface CreatePolicyTemplateInput {
+  clientToken?: string;
+  policyStoreId: string;
+  description?: string;
+  statement: string;
+}
+export const CreatePolicyTemplateInput = S.suspend(() =>
+  S.Struct({
     clientToken: S.optional(S.String),
     policyStoreId: S.String,
     description: S.optional(S.String),
     statement: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetPolicyTemplateInput extends S.Class<GetPolicyTemplateInput>(
-  "GetPolicyTemplateInput",
-)(
-  { policyStoreId: S.String, policyTemplateId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdatePolicyTemplateInput extends S.Class<UpdatePolicyTemplateInput>(
-  "UpdatePolicyTemplateInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreatePolicyTemplateInput",
+}) as any as S.Schema<CreatePolicyTemplateInput>;
+export interface GetPolicyTemplateInput {
+  policyStoreId: string;
+  policyTemplateId: string;
+}
+export const GetPolicyTemplateInput = S.suspend(() =>
+  S.Struct({ policyStoreId: S.String, policyTemplateId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetPolicyTemplateInput",
+}) as any as S.Schema<GetPolicyTemplateInput>;
+export interface UpdatePolicyTemplateInput {
+  policyStoreId: string;
+  policyTemplateId: string;
+  description?: string;
+  statement: string;
+}
+export const UpdatePolicyTemplateInput = S.suspend(() =>
+  S.Struct({
     policyStoreId: S.String,
     policyTemplateId: S.String,
     description: S.optional(S.String),
     statement: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeletePolicyTemplateInput extends S.Class<DeletePolicyTemplateInput>(
-  "DeletePolicyTemplateInput",
-)(
-  { policyStoreId: S.String, policyTemplateId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeletePolicyTemplateOutput extends S.Class<DeletePolicyTemplateOutput>(
-  "DeletePolicyTemplateOutput",
-)({}) {}
-export class ListPolicyTemplatesInput extends S.Class<ListPolicyTemplatesInput>(
-  "ListPolicyTemplatesInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdatePolicyTemplateInput",
+}) as any as S.Schema<UpdatePolicyTemplateInput>;
+export interface DeletePolicyTemplateInput {
+  policyStoreId: string;
+  policyTemplateId: string;
+}
+export const DeletePolicyTemplateInput = S.suspend(() =>
+  S.Struct({ policyStoreId: S.String, policyTemplateId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeletePolicyTemplateInput",
+}) as any as S.Schema<DeletePolicyTemplateInput>;
+export interface DeletePolicyTemplateOutput {}
+export const DeletePolicyTemplateOutput = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeletePolicyTemplateOutput",
+}) as any as S.Schema<DeletePolicyTemplateOutput>;
+export interface ListPolicyTemplatesInput {
+  policyStoreId: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListPolicyTemplatesInput = S.suspend(() =>
+  S.Struct({
     policyStoreId: S.String,
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListPolicyTemplatesInput",
+}) as any as S.Schema<ListPolicyTemplatesInput>;
+export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
-export class BatchIsAuthorizedInputItem extends S.Class<BatchIsAuthorizedInputItem>(
-  "BatchIsAuthorizedInputItem",
-)({
-  principal: S.optional(EntityIdentifier),
-  action: S.optional(ActionIdentifier),
-  resource: S.optional(EntityIdentifier),
-  context: S.optional(ContextDefinition),
-}) {}
+export interface BatchIsAuthorizedInputItem {
+  principal?: EntityIdentifier;
+  action?: ActionIdentifier;
+  resource?: EntityIdentifier;
+  context?: (typeof ContextDefinition)["Type"];
+}
+export const BatchIsAuthorizedInputItem = S.suspend(() =>
+  S.Struct({
+    principal: S.optional(EntityIdentifier),
+    action: S.optional(ActionIdentifier),
+    resource: S.optional(EntityIdentifier),
+    context: S.optional(ContextDefinition),
+  }),
+).annotations({
+  identifier: "BatchIsAuthorizedInputItem",
+}) as any as S.Schema<BatchIsAuthorizedInputItem>;
+export type BatchIsAuthorizedInputList = BatchIsAuthorizedInputItem[];
 export const BatchIsAuthorizedInputList = S.Array(BatchIsAuthorizedInputItem);
-export class BatchIsAuthorizedWithTokenInputItem extends S.Class<BatchIsAuthorizedWithTokenInputItem>(
-  "BatchIsAuthorizedWithTokenInputItem",
-)({
-  action: S.optional(ActionIdentifier),
-  resource: S.optional(EntityIdentifier),
-  context: S.optional(ContextDefinition),
-}) {}
+export interface BatchIsAuthorizedWithTokenInputItem {
+  action?: ActionIdentifier;
+  resource?: EntityIdentifier;
+  context?: (typeof ContextDefinition)["Type"];
+}
+export const BatchIsAuthorizedWithTokenInputItem = S.suspend(() =>
+  S.Struct({
+    action: S.optional(ActionIdentifier),
+    resource: S.optional(EntityIdentifier),
+    context: S.optional(ContextDefinition),
+  }),
+).annotations({
+  identifier: "BatchIsAuthorizedWithTokenInputItem",
+}) as any as S.Schema<BatchIsAuthorizedWithTokenInputItem>;
+export type BatchIsAuthorizedWithTokenInputList =
+  BatchIsAuthorizedWithTokenInputItem[];
 export const BatchIsAuthorizedWithTokenInputList = S.Array(
   BatchIsAuthorizedWithTokenInputItem,
 );
+export type NamespaceList = string[];
 export const NamespaceList = S.Array(S.String);
 export const SchemaDefinition = S.Union(S.Struct({ cedarJson: S.String }));
-export class BatchGetPolicyInputItem extends S.Class<BatchGetPolicyInputItem>(
-  "BatchGetPolicyInputItem",
-)({ policyStoreId: S.String, policyId: S.String }) {}
+export interface BatchGetPolicyInputItem {
+  policyStoreId: string;
+  policyId: string;
+}
+export const BatchGetPolicyInputItem = S.suspend(() =>
+  S.Struct({ policyStoreId: S.String, policyId: S.String }),
+).annotations({
+  identifier: "BatchGetPolicyInputItem",
+}) as any as S.Schema<BatchGetPolicyInputItem>;
+export type BatchGetPolicyInputList = BatchGetPolicyInputItem[];
 export const BatchGetPolicyInputList = S.Array(BatchGetPolicyInputItem);
-export class IdentitySourceFilter extends S.Class<IdentitySourceFilter>(
-  "IdentitySourceFilter",
-)({ principalEntityType: S.optional(S.String) }) {}
+export interface IdentitySourceFilter {
+  principalEntityType?: string;
+}
+export const IdentitySourceFilter = S.suspend(() =>
+  S.Struct({ principalEntityType: S.optional(S.String) }),
+).annotations({
+  identifier: "IdentitySourceFilter",
+}) as any as S.Schema<IdentitySourceFilter>;
+export type IdentitySourceFilters = IdentitySourceFilter[];
 export const IdentitySourceFilters = S.Array(IdentitySourceFilter);
+export type ActionIdentifierList = ActionIdentifier[];
 export const ActionIdentifierList = S.Array(ActionIdentifier);
+export type ClientIds = string[];
 export const ClientIds = S.Array(S.String);
-export class ListTagsForResourceOutput extends S.Class<ListTagsForResourceOutput>(
-  "ListTagsForResourceOutput",
-)({ tags: S.optional(TagMap) }) {}
-export class TagResourceInput extends S.Class<TagResourceInput>(
-  "TagResourceInput",
-)(
-  { resourceArn: S.String, tags: TagMap },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TagResourceOutput extends S.Class<TagResourceOutput>(
-  "TagResourceOutput",
-)({}) {}
-export class CreatePolicyStoreInput extends S.Class<CreatePolicyStoreInput>(
-  "CreatePolicyStoreInput",
-)(
-  {
+export interface ListTagsForResourceOutput {
+  tags?: TagMap;
+}
+export const ListTagsForResourceOutput = S.suspend(() =>
+  S.Struct({ tags: S.optional(TagMap) }),
+).annotations({
+  identifier: "ListTagsForResourceOutput",
+}) as any as S.Schema<ListTagsForResourceOutput>;
+export interface TagResourceInput {
+  resourceArn: string;
+  tags: TagMap;
+}
+export const TagResourceInput = S.suspend(() =>
+  S.Struct({ resourceArn: S.String, tags: TagMap }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "TagResourceInput",
+}) as any as S.Schema<TagResourceInput>;
+export interface TagResourceOutput {}
+export const TagResourceOutput = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceOutput",
+}) as any as S.Schema<TagResourceOutput>;
+export interface CreatePolicyStoreInput {
+  clientToken?: string;
+  validationSettings: ValidationSettings;
+  description?: string;
+  deletionProtection?: string;
+  tags?: TagMap;
+}
+export const CreatePolicyStoreInput = S.suspend(() =>
+  S.Struct({
     clientToken: S.optional(S.String),
     validationSettings: ValidationSettings,
     description: S.optional(S.String),
     deletionProtection: S.optional(S.String),
     tags: S.optional(TagMap),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetPolicyStoreOutput extends S.Class<GetPolicyStoreOutput>(
-  "GetPolicyStoreOutput",
-)({
-  policyStoreId: S.String,
-  arn: S.String,
-  validationSettings: ValidationSettings,
-  createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
-  lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
-  description: S.optional(S.String),
-  deletionProtection: S.optional(S.String),
-  cedarVersion: S.optional(S.String),
-  tags: S.optional(TagMap),
-}) {}
-export class UpdatePolicyStoreOutput extends S.Class<UpdatePolicyStoreOutput>(
-  "UpdatePolicyStoreOutput",
-)({
-  policyStoreId: S.String,
-  arn: S.String,
-  createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
-  lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class BatchIsAuthorizedWithTokenInput extends S.Class<BatchIsAuthorizedWithTokenInput>(
-  "BatchIsAuthorizedWithTokenInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreatePolicyStoreInput",
+}) as any as S.Schema<CreatePolicyStoreInput>;
+export interface GetPolicyStoreOutput {
+  policyStoreId: string;
+  arn: string;
+  validationSettings: ValidationSettings;
+  createdDate: Date;
+  lastUpdatedDate: Date;
+  description?: string;
+  deletionProtection?: string;
+  cedarVersion?: string;
+  tags?: TagMap;
+}
+export const GetPolicyStoreOutput = S.suspend(() =>
+  S.Struct({
+    policyStoreId: S.String,
+    arn: S.String,
+    validationSettings: ValidationSettings,
+    createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    description: S.optional(S.String),
+    deletionProtection: S.optional(S.String),
+    cedarVersion: S.optional(S.String),
+    tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "GetPolicyStoreOutput",
+}) as any as S.Schema<GetPolicyStoreOutput>;
+export interface UpdatePolicyStoreOutput {
+  policyStoreId: string;
+  arn: string;
+  createdDate: Date;
+  lastUpdatedDate: Date;
+}
+export const UpdatePolicyStoreOutput = S.suspend(() =>
+  S.Struct({
+    policyStoreId: S.String,
+    arn: S.String,
+    createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "UpdatePolicyStoreOutput",
+}) as any as S.Schema<UpdatePolicyStoreOutput>;
+export interface BatchIsAuthorizedWithTokenInput {
+  policyStoreId: string;
+  identityToken?: string;
+  accessToken?: string;
+  entities?: (typeof EntitiesDefinition)["Type"];
+  requests: BatchIsAuthorizedWithTokenInputList;
+}
+export const BatchIsAuthorizedWithTokenInput = S.suspend(() =>
+  S.Struct({
     policyStoreId: S.String,
     identityToken: S.optional(S.String),
     accessToken: S.optional(S.String),
     entities: S.optional(EntitiesDefinition),
     requests: BatchIsAuthorizedWithTokenInputList,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetSchemaOutput extends S.Class<GetSchemaOutput>(
-  "GetSchemaOutput",
-)({
-  policyStoreId: S.String,
-  schema: S.String,
-  createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
-  lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
-  namespaces: S.optional(NamespaceList),
-}) {}
-export class PutSchemaInput extends S.Class<PutSchemaInput>("PutSchemaInput")(
-  { policyStoreId: S.String, definition: SchemaDefinition },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class BatchGetPolicyInput extends S.Class<BatchGetPolicyInput>(
-  "BatchGetPolicyInput",
-)(
-  { requests: BatchGetPolicyInputList },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListIdentitySourcesInput extends S.Class<ListIdentitySourcesInput>(
-  "ListIdentitySourcesInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "BatchIsAuthorizedWithTokenInput",
+}) as any as S.Schema<BatchIsAuthorizedWithTokenInput>;
+export interface GetSchemaOutput {
+  policyStoreId: string;
+  schema: string;
+  createdDate: Date;
+  lastUpdatedDate: Date;
+  namespaces?: NamespaceList;
+}
+export const GetSchemaOutput = S.suspend(() =>
+  S.Struct({
+    policyStoreId: S.String,
+    schema: S.String,
+    createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    namespaces: S.optional(NamespaceList),
+  }),
+).annotations({
+  identifier: "GetSchemaOutput",
+}) as any as S.Schema<GetSchemaOutput>;
+export interface PutSchemaInput {
+  policyStoreId: string;
+  definition: (typeof SchemaDefinition)["Type"];
+}
+export const PutSchemaInput = S.suspend(() =>
+  S.Struct({ policyStoreId: S.String, definition: SchemaDefinition }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "PutSchemaInput",
+}) as any as S.Schema<PutSchemaInput>;
+export interface BatchGetPolicyInput {
+  requests: BatchGetPolicyInputList;
+}
+export const BatchGetPolicyInput = S.suspend(() =>
+  S.Struct({ requests: BatchGetPolicyInputList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "BatchGetPolicyInput",
+}) as any as S.Schema<BatchGetPolicyInput>;
+export interface ListIdentitySourcesInput {
+  policyStoreId: string;
+  nextToken?: string;
+  maxResults?: number;
+  filters?: IdentitySourceFilters;
+}
+export const ListIdentitySourcesInput = S.suspend(() =>
+  S.Struct({
     policyStoreId: S.String,
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
     filters: S.optional(IdentitySourceFilters),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreatePolicyTemplateOutput extends S.Class<CreatePolicyTemplateOutput>(
-  "CreatePolicyTemplateOutput",
-)({
-  policyStoreId: S.String,
-  policyTemplateId: S.String,
-  createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
-  lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class GetPolicyTemplateOutput extends S.Class<GetPolicyTemplateOutput>(
-  "GetPolicyTemplateOutput",
-)({
-  policyStoreId: S.String,
-  policyTemplateId: S.String,
-  description: S.optional(S.String),
-  statement: S.String,
-  createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
-  lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class UpdatePolicyTemplateOutput extends S.Class<UpdatePolicyTemplateOutput>(
-  "UpdatePolicyTemplateOutput",
-)({
-  policyStoreId: S.String,
-  policyTemplateId: S.String,
-  createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
-  lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class StaticPolicyDefinition extends S.Class<StaticPolicyDefinition>(
-  "StaticPolicyDefinition",
-)({ description: S.optional(S.String), statement: S.String }) {}
-export class TemplateLinkedPolicyDefinition extends S.Class<TemplateLinkedPolicyDefinition>(
-  "TemplateLinkedPolicyDefinition",
-)({
-  policyTemplateId: S.String,
-  principal: S.optional(EntityIdentifier),
-  resource: S.optional(EntityIdentifier),
-}) {}
-export class UpdateStaticPolicyDefinition extends S.Class<UpdateStaticPolicyDefinition>(
-  "UpdateStaticPolicyDefinition",
-)({ description: S.optional(S.String), statement: S.String }) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListIdentitySourcesInput",
+}) as any as S.Schema<ListIdentitySourcesInput>;
+export interface CreatePolicyTemplateOutput {
+  policyStoreId: string;
+  policyTemplateId: string;
+  createdDate: Date;
+  lastUpdatedDate: Date;
+}
+export const CreatePolicyTemplateOutput = S.suspend(() =>
+  S.Struct({
+    policyStoreId: S.String,
+    policyTemplateId: S.String,
+    createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "CreatePolicyTemplateOutput",
+}) as any as S.Schema<CreatePolicyTemplateOutput>;
+export interface GetPolicyTemplateOutput {
+  policyStoreId: string;
+  policyTemplateId: string;
+  description?: string;
+  statement: string;
+  createdDate: Date;
+  lastUpdatedDate: Date;
+}
+export const GetPolicyTemplateOutput = S.suspend(() =>
+  S.Struct({
+    policyStoreId: S.String,
+    policyTemplateId: S.String,
+    description: S.optional(S.String),
+    statement: S.String,
+    createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "GetPolicyTemplateOutput",
+}) as any as S.Schema<GetPolicyTemplateOutput>;
+export interface UpdatePolicyTemplateOutput {
+  policyStoreId: string;
+  policyTemplateId: string;
+  createdDate: Date;
+  lastUpdatedDate: Date;
+}
+export const UpdatePolicyTemplateOutput = S.suspend(() =>
+  S.Struct({
+    policyStoreId: S.String,
+    policyTemplateId: S.String,
+    createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "UpdatePolicyTemplateOutput",
+}) as any as S.Schema<UpdatePolicyTemplateOutput>;
+export interface StaticPolicyDefinition {
+  description?: string;
+  statement: string;
+}
+export const StaticPolicyDefinition = S.suspend(() =>
+  S.Struct({ description: S.optional(S.String), statement: S.String }),
+).annotations({
+  identifier: "StaticPolicyDefinition",
+}) as any as S.Schema<StaticPolicyDefinition>;
+export interface TemplateLinkedPolicyDefinition {
+  policyTemplateId: string;
+  principal?: EntityIdentifier;
+  resource?: EntityIdentifier;
+}
+export const TemplateLinkedPolicyDefinition = S.suspend(() =>
+  S.Struct({
+    policyTemplateId: S.String,
+    principal: S.optional(EntityIdentifier),
+    resource: S.optional(EntityIdentifier),
+  }),
+).annotations({
+  identifier: "TemplateLinkedPolicyDefinition",
+}) as any as S.Schema<TemplateLinkedPolicyDefinition>;
+export interface UpdateStaticPolicyDefinition {
+  description?: string;
+  statement: string;
+}
+export const UpdateStaticPolicyDefinition = S.suspend(() =>
+  S.Struct({ description: S.optional(S.String), statement: S.String }),
+).annotations({
+  identifier: "UpdateStaticPolicyDefinition",
+}) as any as S.Schema<UpdateStaticPolicyDefinition>;
 export const EntityReference = S.Union(
   S.Struct({ unspecified: S.Boolean }),
   S.Struct({ identifier: EntityIdentifier }),
 );
 export type SetAttribute = AttributeValue[];
 export const SetAttribute = S.Array(
-  S.suspend(() => AttributeValue),
+  S.suspend(() => AttributeValue).annotations({ identifier: "AttributeValue" }),
 ) as any as S.Schema<SetAttribute>;
-export class PolicyStoreItem extends S.Class<PolicyStoreItem>(
-  "PolicyStoreItem",
-)({
-  policyStoreId: S.String,
-  arn: S.String,
-  createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
-  lastUpdatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  description: S.optional(S.String),
-}) {}
+export interface PolicyStoreItem {
+  policyStoreId: string;
+  arn: string;
+  createdDate: Date;
+  lastUpdatedDate?: Date;
+  description?: string;
+}
+export const PolicyStoreItem = S.suspend(() =>
+  S.Struct({
+    policyStoreId: S.String,
+    arn: S.String,
+    createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    description: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "PolicyStoreItem",
+}) as any as S.Schema<PolicyStoreItem>;
+export type PolicyStoreList = PolicyStoreItem[];
 export const PolicyStoreList = S.Array(PolicyStoreItem);
-export class DeterminingPolicyItem extends S.Class<DeterminingPolicyItem>(
-  "DeterminingPolicyItem",
-)({ policyId: S.String }) {}
+export interface DeterminingPolicyItem {
+  policyId: string;
+}
+export const DeterminingPolicyItem = S.suspend(() =>
+  S.Struct({ policyId: S.String }),
+).annotations({
+  identifier: "DeterminingPolicyItem",
+}) as any as S.Schema<DeterminingPolicyItem>;
+export type DeterminingPolicyList = DeterminingPolicyItem[];
 export const DeterminingPolicyList = S.Array(DeterminingPolicyItem);
-export class EvaluationErrorItem extends S.Class<EvaluationErrorItem>(
-  "EvaluationErrorItem",
-)({ errorDescription: S.String }) {}
+export interface EvaluationErrorItem {
+  errorDescription: string;
+}
+export const EvaluationErrorItem = S.suspend(() =>
+  S.Struct({ errorDescription: S.String }),
+).annotations({
+  identifier: "EvaluationErrorItem",
+}) as any as S.Schema<EvaluationErrorItem>;
+export type EvaluationErrorList = EvaluationErrorItem[];
 export const EvaluationErrorList = S.Array(EvaluationErrorItem);
-export class IdentitySourceDetails extends S.Class<IdentitySourceDetails>(
-  "IdentitySourceDetails",
-)({
-  clientIds: S.optional(ClientIds),
-  userPoolArn: S.optional(S.String),
-  discoveryUrl: S.optional(S.String),
-  openIdIssuer: S.optional(S.String),
-}) {}
-export class ResourceConflict extends S.Class<ResourceConflict>(
-  "ResourceConflict",
-)({ resourceId: S.String, resourceType: S.String }) {}
+export interface IdentitySourceDetails {
+  clientIds?: ClientIds;
+  userPoolArn?: string;
+  discoveryUrl?: string;
+  openIdIssuer?: string;
+}
+export const IdentitySourceDetails = S.suspend(() =>
+  S.Struct({
+    clientIds: S.optional(ClientIds),
+    userPoolArn: S.optional(S.String),
+    discoveryUrl: S.optional(S.String),
+    openIdIssuer: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "IdentitySourceDetails",
+}) as any as S.Schema<IdentitySourceDetails>;
+export interface ResourceConflict {
+  resourceId: string;
+  resourceType: string;
+}
+export const ResourceConflict = S.suspend(() =>
+  S.Struct({ resourceId: S.String, resourceType: S.String }),
+).annotations({
+  identifier: "ResourceConflict",
+}) as any as S.Schema<ResourceConflict>;
+export type ResourceConflictList = ResourceConflict[];
 export const ResourceConflictList = S.Array(ResourceConflict);
 export const PolicyDefinition = S.Union(
   S.Struct({ static: StaticPolicyDefinition }),
@@ -721,161 +1078,323 @@ export const PolicyDefinition = S.Union(
 export const UpdatePolicyDefinition = S.Union(
   S.Struct({ static: UpdateStaticPolicyDefinition }),
 );
-export class PolicyFilter extends S.Class<PolicyFilter>("PolicyFilter")({
-  principal: S.optional(EntityReference),
-  resource: S.optional(EntityReference),
-  policyType: S.optional(S.String),
-  policyTemplateId: S.optional(S.String),
-}) {}
-export class PolicyTemplateItem extends S.Class<PolicyTemplateItem>(
-  "PolicyTemplateItem",
-)({
-  policyStoreId: S.String,
-  policyTemplateId: S.String,
-  description: S.optional(S.String),
-  createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
-  lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
+export interface PolicyFilter {
+  principal?: (typeof EntityReference)["Type"];
+  resource?: (typeof EntityReference)["Type"];
+  policyType?: string;
+  policyTemplateId?: string;
+}
+export const PolicyFilter = S.suspend(() =>
+  S.Struct({
+    principal: S.optional(EntityReference),
+    resource: S.optional(EntityReference),
+    policyType: S.optional(S.String),
+    policyTemplateId: S.optional(S.String),
+  }),
+).annotations({ identifier: "PolicyFilter" }) as any as S.Schema<PolicyFilter>;
+export interface PolicyTemplateItem {
+  policyStoreId: string;
+  policyTemplateId: string;
+  description?: string;
+  createdDate: Date;
+  lastUpdatedDate: Date;
+}
+export const PolicyTemplateItem = S.suspend(() =>
+  S.Struct({
+    policyStoreId: S.String,
+    policyTemplateId: S.String,
+    description: S.optional(S.String),
+    createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "PolicyTemplateItem",
+}) as any as S.Schema<PolicyTemplateItem>;
+export type PolicyTemplatesList = PolicyTemplateItem[];
 export const PolicyTemplatesList = S.Array(PolicyTemplateItem);
-export class CognitoGroupConfiguration extends S.Class<CognitoGroupConfiguration>(
-  "CognitoGroupConfiguration",
-)({ groupEntityType: S.String }) {}
-export class OpenIdConnectGroupConfiguration extends S.Class<OpenIdConnectGroupConfiguration>(
-  "OpenIdConnectGroupConfiguration",
-)({ groupClaim: S.String, groupEntityType: S.String }) {}
-export class UpdateCognitoGroupConfiguration extends S.Class<UpdateCognitoGroupConfiguration>(
-  "UpdateCognitoGroupConfiguration",
-)({ groupEntityType: S.String }) {}
-export class UpdateOpenIdConnectGroupConfiguration extends S.Class<UpdateOpenIdConnectGroupConfiguration>(
-  "UpdateOpenIdConnectGroupConfiguration",
-)({ groupClaim: S.String, groupEntityType: S.String }) {}
-export class CreatePolicyStoreOutput extends S.Class<CreatePolicyStoreOutput>(
-  "CreatePolicyStoreOutput",
-)({
-  policyStoreId: S.String,
-  arn: S.String,
-  createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
-  lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class ListPolicyStoresOutput extends S.Class<ListPolicyStoresOutput>(
-  "ListPolicyStoresOutput",
-)({ nextToken: S.optional(S.String), policyStores: PolicyStoreList }) {}
+export interface CognitoGroupConfiguration {
+  groupEntityType: string;
+}
+export const CognitoGroupConfiguration = S.suspend(() =>
+  S.Struct({ groupEntityType: S.String }),
+).annotations({
+  identifier: "CognitoGroupConfiguration",
+}) as any as S.Schema<CognitoGroupConfiguration>;
+export interface OpenIdConnectGroupConfiguration {
+  groupClaim: string;
+  groupEntityType: string;
+}
+export const OpenIdConnectGroupConfiguration = S.suspend(() =>
+  S.Struct({ groupClaim: S.String, groupEntityType: S.String }),
+).annotations({
+  identifier: "OpenIdConnectGroupConfiguration",
+}) as any as S.Schema<OpenIdConnectGroupConfiguration>;
+export interface UpdateCognitoGroupConfiguration {
+  groupEntityType: string;
+}
+export const UpdateCognitoGroupConfiguration = S.suspend(() =>
+  S.Struct({ groupEntityType: S.String }),
+).annotations({
+  identifier: "UpdateCognitoGroupConfiguration",
+}) as any as S.Schema<UpdateCognitoGroupConfiguration>;
+export interface UpdateOpenIdConnectGroupConfiguration {
+  groupClaim: string;
+  groupEntityType: string;
+}
+export const UpdateOpenIdConnectGroupConfiguration = S.suspend(() =>
+  S.Struct({ groupClaim: S.String, groupEntityType: S.String }),
+).annotations({
+  identifier: "UpdateOpenIdConnectGroupConfiguration",
+}) as any as S.Schema<UpdateOpenIdConnectGroupConfiguration>;
+export interface CreatePolicyStoreOutput {
+  policyStoreId: string;
+  arn: string;
+  createdDate: Date;
+  lastUpdatedDate: Date;
+}
+export const CreatePolicyStoreOutput = S.suspend(() =>
+  S.Struct({
+    policyStoreId: S.String,
+    arn: S.String,
+    createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "CreatePolicyStoreOutput",
+}) as any as S.Schema<CreatePolicyStoreOutput>;
+export interface ListPolicyStoresOutput {
+  nextToken?: string;
+  policyStores: PolicyStoreList;
+}
+export const ListPolicyStoresOutput = S.suspend(() =>
+  S.Struct({ nextToken: S.optional(S.String), policyStores: PolicyStoreList }),
+).annotations({
+  identifier: "ListPolicyStoresOutput",
+}) as any as S.Schema<ListPolicyStoresOutput>;
 export type CedarTagSetAttribute = CedarTagValue[];
 export const CedarTagSetAttribute = S.Array(
-  S.suspend(() => CedarTagValue),
+  S.suspend(() => CedarTagValue).annotations({ identifier: "CedarTagValue" }),
 ) as any as S.Schema<CedarTagSetAttribute>;
-export class IsAuthorizedWithTokenOutput extends S.Class<IsAuthorizedWithTokenOutput>(
-  "IsAuthorizedWithTokenOutput",
-)({
-  decision: S.String,
-  determiningPolicies: DeterminingPolicyList,
-  errors: EvaluationErrorList,
-  principal: S.optional(EntityIdentifier),
-}) {}
-export class PutSchemaOutput extends S.Class<PutSchemaOutput>(
-  "PutSchemaOutput",
-)({
-  policyStoreId: S.String,
-  namespaces: NamespaceList,
-  createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
-  lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
+export interface IsAuthorizedWithTokenOutput {
+  decision: string;
+  determiningPolicies: DeterminingPolicyList;
+  errors: EvaluationErrorList;
+  principal?: EntityIdentifier;
+}
+export const IsAuthorizedWithTokenOutput = S.suspend(() =>
+  S.Struct({
+    decision: S.String,
+    determiningPolicies: DeterminingPolicyList,
+    errors: EvaluationErrorList,
+    principal: S.optional(EntityIdentifier),
+  }),
+).annotations({
+  identifier: "IsAuthorizedWithTokenOutput",
+}) as any as S.Schema<IsAuthorizedWithTokenOutput>;
+export interface PutSchemaOutput {
+  policyStoreId: string;
+  namespaces: NamespaceList;
+  createdDate: Date;
+  lastUpdatedDate: Date;
+}
+export const PutSchemaOutput = S.suspend(() =>
+  S.Struct({
+    policyStoreId: S.String,
+    namespaces: NamespaceList,
+    createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "PutSchemaOutput",
+}) as any as S.Schema<PutSchemaOutput>;
+export type Audiences = string[];
 export const Audiences = S.Array(S.String);
-export class CreatePolicyInput extends S.Class<CreatePolicyInput>(
-  "CreatePolicyInput",
-)(
-  {
+export interface CreatePolicyInput {
+  clientToken?: string;
+  policyStoreId: string;
+  definition: (typeof PolicyDefinition)["Type"];
+}
+export const CreatePolicyInput = S.suspend(() =>
+  S.Struct({
     clientToken: S.optional(S.String),
     policyStoreId: S.String,
     definition: PolicyDefinition,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdatePolicyInput extends S.Class<UpdatePolicyInput>(
-  "UpdatePolicyInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreatePolicyInput",
+}) as any as S.Schema<CreatePolicyInput>;
+export interface UpdatePolicyInput {
+  policyStoreId: string;
+  policyId: string;
+  definition: (typeof UpdatePolicyDefinition)["Type"];
+}
+export const UpdatePolicyInput = S.suspend(() =>
+  S.Struct({
     policyStoreId: S.String,
     policyId: S.String,
     definition: UpdatePolicyDefinition,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListPoliciesInput extends S.Class<ListPoliciesInput>(
-  "ListPoliciesInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdatePolicyInput",
+}) as any as S.Schema<UpdatePolicyInput>;
+export interface ListPoliciesInput {
+  policyStoreId: string;
+  nextToken?: string;
+  maxResults?: number;
+  filter?: PolicyFilter;
+}
+export const ListPoliciesInput = S.suspend(() =>
+  S.Struct({
     policyStoreId: S.String,
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
     filter: S.optional(PolicyFilter),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListPolicyTemplatesOutput extends S.Class<ListPolicyTemplatesOutput>(
-  "ListPolicyTemplatesOutput",
-)({ nextToken: S.optional(S.String), policyTemplates: PolicyTemplatesList }) {}
-export class CognitoUserPoolConfiguration extends S.Class<CognitoUserPoolConfiguration>(
-  "CognitoUserPoolConfiguration",
-)({
-  userPoolArn: S.String,
-  clientIds: S.optional(ClientIds),
-  groupConfiguration: S.optional(CognitoGroupConfiguration),
-}) {}
-export class UpdateCognitoUserPoolConfiguration extends S.Class<UpdateCognitoUserPoolConfiguration>(
-  "UpdateCognitoUserPoolConfiguration",
-)({
-  userPoolArn: S.String,
-  clientIds: S.optional(ClientIds),
-  groupConfiguration: S.optional(UpdateCognitoGroupConfiguration),
-}) {}
-export class StaticPolicyDefinitionDetail extends S.Class<StaticPolicyDefinitionDetail>(
-  "StaticPolicyDefinitionDetail",
-)({ description: S.optional(S.String), statement: S.String }) {}
-export class TemplateLinkedPolicyDefinitionDetail extends S.Class<TemplateLinkedPolicyDefinitionDetail>(
-  "TemplateLinkedPolicyDefinitionDetail",
-)({
-  policyTemplateId: S.String,
-  principal: S.optional(EntityIdentifier),
-  resource: S.optional(EntityIdentifier),
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListPoliciesInput",
+}) as any as S.Schema<ListPoliciesInput>;
+export interface ListPolicyTemplatesOutput {
+  nextToken?: string;
+  policyTemplates: PolicyTemplatesList;
+}
+export const ListPolicyTemplatesOutput = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    policyTemplates: PolicyTemplatesList,
+  }),
+).annotations({
+  identifier: "ListPolicyTemplatesOutput",
+}) as any as S.Schema<ListPolicyTemplatesOutput>;
+export interface CognitoUserPoolConfiguration {
+  userPoolArn: string;
+  clientIds?: ClientIds;
+  groupConfiguration?: CognitoGroupConfiguration;
+}
+export const CognitoUserPoolConfiguration = S.suspend(() =>
+  S.Struct({
+    userPoolArn: S.String,
+    clientIds: S.optional(ClientIds),
+    groupConfiguration: S.optional(CognitoGroupConfiguration),
+  }),
+).annotations({
+  identifier: "CognitoUserPoolConfiguration",
+}) as any as S.Schema<CognitoUserPoolConfiguration>;
+export interface UpdateCognitoUserPoolConfiguration {
+  userPoolArn: string;
+  clientIds?: ClientIds;
+  groupConfiguration?: UpdateCognitoGroupConfiguration;
+}
+export const UpdateCognitoUserPoolConfiguration = S.suspend(() =>
+  S.Struct({
+    userPoolArn: S.String,
+    clientIds: S.optional(ClientIds),
+    groupConfiguration: S.optional(UpdateCognitoGroupConfiguration),
+  }),
+).annotations({
+  identifier: "UpdateCognitoUserPoolConfiguration",
+}) as any as S.Schema<UpdateCognitoUserPoolConfiguration>;
+export interface StaticPolicyDefinitionDetail {
+  description?: string;
+  statement: string;
+}
+export const StaticPolicyDefinitionDetail = S.suspend(() =>
+  S.Struct({ description: S.optional(S.String), statement: S.String }),
+).annotations({
+  identifier: "StaticPolicyDefinitionDetail",
+}) as any as S.Schema<StaticPolicyDefinitionDetail>;
+export interface TemplateLinkedPolicyDefinitionDetail {
+  policyTemplateId: string;
+  principal?: EntityIdentifier;
+  resource?: EntityIdentifier;
+}
+export const TemplateLinkedPolicyDefinitionDetail = S.suspend(() =>
+  S.Struct({
+    policyTemplateId: S.String,
+    principal: S.optional(EntityIdentifier),
+    resource: S.optional(EntityIdentifier),
+  }),
+).annotations({
+  identifier: "TemplateLinkedPolicyDefinitionDetail",
+}) as any as S.Schema<TemplateLinkedPolicyDefinitionDetail>;
 export type RecordAttribute = { [key: string]: AttributeValue };
 export const RecordAttribute = S.Record({
   key: S.String,
-  value: S.suspend(() => AttributeValue),
+  value: S.suspend(() => AttributeValue).annotations({
+    identifier: "AttributeValue",
+  }),
 }) as any as S.Schema<RecordAttribute>;
-export class OpenIdConnectAccessTokenConfiguration extends S.Class<OpenIdConnectAccessTokenConfiguration>(
-  "OpenIdConnectAccessTokenConfiguration",
-)({
-  principalIdClaim: S.optional(S.String),
-  audiences: S.optional(Audiences),
-}) {}
-export class OpenIdConnectIdentityTokenConfiguration extends S.Class<OpenIdConnectIdentityTokenConfiguration>(
-  "OpenIdConnectIdentityTokenConfiguration",
-)({
-  principalIdClaim: S.optional(S.String),
-  clientIds: S.optional(ClientIds),
-}) {}
-export class UpdateOpenIdConnectAccessTokenConfiguration extends S.Class<UpdateOpenIdConnectAccessTokenConfiguration>(
-  "UpdateOpenIdConnectAccessTokenConfiguration",
-)({
-  principalIdClaim: S.optional(S.String),
-  audiences: S.optional(Audiences),
-}) {}
-export class UpdateOpenIdConnectIdentityTokenConfiguration extends S.Class<UpdateOpenIdConnectIdentityTokenConfiguration>(
-  "UpdateOpenIdConnectIdentityTokenConfiguration",
-)({
-  principalIdClaim: S.optional(S.String),
-  clientIds: S.optional(ClientIds),
-}) {}
-export class BatchIsAuthorizedWithTokenOutputItem extends S.Class<BatchIsAuthorizedWithTokenOutputItem>(
-  "BatchIsAuthorizedWithTokenOutputItem",
-)({
-  request: BatchIsAuthorizedWithTokenInputItem,
-  decision: S.String,
-  determiningPolicies: DeterminingPolicyList,
-  errors: EvaluationErrorList,
-}) {}
+export interface OpenIdConnectAccessTokenConfiguration {
+  principalIdClaim?: string;
+  audiences?: Audiences;
+}
+export const OpenIdConnectAccessTokenConfiguration = S.suspend(() =>
+  S.Struct({
+    principalIdClaim: S.optional(S.String),
+    audiences: S.optional(Audiences),
+  }),
+).annotations({
+  identifier: "OpenIdConnectAccessTokenConfiguration",
+}) as any as S.Schema<OpenIdConnectAccessTokenConfiguration>;
+export interface OpenIdConnectIdentityTokenConfiguration {
+  principalIdClaim?: string;
+  clientIds?: ClientIds;
+}
+export const OpenIdConnectIdentityTokenConfiguration = S.suspend(() =>
+  S.Struct({
+    principalIdClaim: S.optional(S.String),
+    clientIds: S.optional(ClientIds),
+  }),
+).annotations({
+  identifier: "OpenIdConnectIdentityTokenConfiguration",
+}) as any as S.Schema<OpenIdConnectIdentityTokenConfiguration>;
+export interface UpdateOpenIdConnectAccessTokenConfiguration {
+  principalIdClaim?: string;
+  audiences?: Audiences;
+}
+export const UpdateOpenIdConnectAccessTokenConfiguration = S.suspend(() =>
+  S.Struct({
+    principalIdClaim: S.optional(S.String),
+    audiences: S.optional(Audiences),
+  }),
+).annotations({
+  identifier: "UpdateOpenIdConnectAccessTokenConfiguration",
+}) as any as S.Schema<UpdateOpenIdConnectAccessTokenConfiguration>;
+export interface UpdateOpenIdConnectIdentityTokenConfiguration {
+  principalIdClaim?: string;
+  clientIds?: ClientIds;
+}
+export const UpdateOpenIdConnectIdentityTokenConfiguration = S.suspend(() =>
+  S.Struct({
+    principalIdClaim: S.optional(S.String),
+    clientIds: S.optional(ClientIds),
+  }),
+).annotations({
+  identifier: "UpdateOpenIdConnectIdentityTokenConfiguration",
+}) as any as S.Schema<UpdateOpenIdConnectIdentityTokenConfiguration>;
+export interface BatchIsAuthorizedWithTokenOutputItem {
+  request: BatchIsAuthorizedWithTokenInputItem;
+  decision: string;
+  determiningPolicies: DeterminingPolicyList;
+  errors: EvaluationErrorList;
+}
+export const BatchIsAuthorizedWithTokenOutputItem = S.suspend(() =>
+  S.Struct({
+    request: BatchIsAuthorizedWithTokenInputItem,
+    decision: S.String,
+    determiningPolicies: DeterminingPolicyList,
+    errors: EvaluationErrorList,
+  }),
+).annotations({
+  identifier: "BatchIsAuthorizedWithTokenOutputItem",
+}) as any as S.Schema<BatchIsAuthorizedWithTokenOutputItem>;
+export type BatchIsAuthorizedWithTokenOutputList =
+  BatchIsAuthorizedWithTokenOutputItem[];
 export const BatchIsAuthorizedWithTokenOutputList = S.Array(
   BatchIsAuthorizedWithTokenOutputItem,
 );
@@ -883,36 +1402,67 @@ export const PolicyDefinitionDetail = S.Union(
   S.Struct({ static: StaticPolicyDefinitionDetail }),
   S.Struct({ templateLinked: TemplateLinkedPolicyDefinitionDetail }),
 );
-export class BatchGetPolicyOutputItem extends S.Class<BatchGetPolicyOutputItem>(
-  "BatchGetPolicyOutputItem",
-)({
-  policyStoreId: S.String,
-  policyId: S.String,
-  policyType: S.String,
-  definition: PolicyDefinitionDetail,
-  createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
-  lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
+export interface BatchGetPolicyOutputItem {
+  policyStoreId: string;
+  policyId: string;
+  policyType: string;
+  definition: (typeof PolicyDefinitionDetail)["Type"];
+  createdDate: Date;
+  lastUpdatedDate: Date;
+}
+export const BatchGetPolicyOutputItem = S.suspend(() =>
+  S.Struct({
+    policyStoreId: S.String,
+    policyId: S.String,
+    policyType: S.String,
+    definition: PolicyDefinitionDetail,
+    createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "BatchGetPolicyOutputItem",
+}) as any as S.Schema<BatchGetPolicyOutputItem>;
+export type BatchGetPolicyOutputList = BatchGetPolicyOutputItem[];
 export const BatchGetPolicyOutputList = S.Array(BatchGetPolicyOutputItem);
-export class BatchGetPolicyErrorItem extends S.Class<BatchGetPolicyErrorItem>(
-  "BatchGetPolicyErrorItem",
-)({
-  code: S.String,
-  policyStoreId: S.String,
-  policyId: S.String,
-  message: S.String,
-}) {}
+export interface BatchGetPolicyErrorItem {
+  code: string;
+  policyStoreId: string;
+  policyId: string;
+  message: string;
+}
+export const BatchGetPolicyErrorItem = S.suspend(() =>
+  S.Struct({
+    code: S.String,
+    policyStoreId: S.String,
+    policyId: S.String,
+    message: S.String,
+  }),
+).annotations({
+  identifier: "BatchGetPolicyErrorItem",
+}) as any as S.Schema<BatchGetPolicyErrorItem>;
+export type BatchGetPolicyErrorList = BatchGetPolicyErrorItem[];
 export const BatchGetPolicyErrorList = S.Array(BatchGetPolicyErrorItem);
 export const OpenIdConnectTokenSelection = S.Union(
   S.Struct({ accessTokenOnly: OpenIdConnectAccessTokenConfiguration }),
   S.Struct({ identityTokenOnly: OpenIdConnectIdentityTokenConfiguration }),
 );
-export class CognitoGroupConfigurationDetail extends S.Class<CognitoGroupConfigurationDetail>(
-  "CognitoGroupConfigurationDetail",
-)({ groupEntityType: S.optional(S.String) }) {}
-export class OpenIdConnectGroupConfigurationDetail extends S.Class<OpenIdConnectGroupConfigurationDetail>(
-  "OpenIdConnectGroupConfigurationDetail",
-)({ groupClaim: S.String, groupEntityType: S.String }) {}
+export interface CognitoGroupConfigurationDetail {
+  groupEntityType?: string;
+}
+export const CognitoGroupConfigurationDetail = S.suspend(() =>
+  S.Struct({ groupEntityType: S.optional(S.String) }),
+).annotations({
+  identifier: "CognitoGroupConfigurationDetail",
+}) as any as S.Schema<CognitoGroupConfigurationDetail>;
+export interface OpenIdConnectGroupConfigurationDetail {
+  groupClaim: string;
+  groupEntityType: string;
+}
+export const OpenIdConnectGroupConfigurationDetail = S.suspend(() =>
+  S.Struct({ groupClaim: S.String, groupEntityType: S.String }),
+).annotations({
+  identifier: "OpenIdConnectGroupConfigurationDetail",
+}) as any as S.Schema<OpenIdConnectGroupConfigurationDetail>;
 export const UpdateOpenIdConnectTokenSelection = S.Union(
   S.Struct({ accessTokenOnly: UpdateOpenIdConnectAccessTokenConfiguration }),
   S.Struct({
@@ -922,101 +1472,202 @@ export const UpdateOpenIdConnectTokenSelection = S.Union(
 export type CedarTagRecordAttribute = { [key: string]: CedarTagValue };
 export const CedarTagRecordAttribute = S.Record({
   key: S.String,
-  value: S.suspend(() => CedarTagValue),
+  value: S.suspend(() => CedarTagValue).annotations({
+    identifier: "CedarTagValue",
+  }),
 }) as any as S.Schema<CedarTagRecordAttribute>;
-export class BatchIsAuthorizedWithTokenOutput extends S.Class<BatchIsAuthorizedWithTokenOutput>(
-  "BatchIsAuthorizedWithTokenOutput",
-)({
-  principal: S.optional(EntityIdentifier),
-  results: BatchIsAuthorizedWithTokenOutputList,
-}) {}
-export class BatchGetPolicyOutput extends S.Class<BatchGetPolicyOutput>(
-  "BatchGetPolicyOutput",
-)({ results: BatchGetPolicyOutputList, errors: BatchGetPolicyErrorList }) {}
-export class CreatePolicyOutput extends S.Class<CreatePolicyOutput>(
-  "CreatePolicyOutput",
-)({
-  policyStoreId: S.String,
-  policyId: S.String,
-  policyType: S.String,
-  principal: S.optional(EntityIdentifier),
-  resource: S.optional(EntityIdentifier),
-  actions: S.optional(ActionIdentifierList),
-  createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
-  lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
-  effect: S.optional(S.String),
-}) {}
-export class GetPolicyOutput extends S.Class<GetPolicyOutput>(
-  "GetPolicyOutput",
-)({
-  policyStoreId: S.String,
-  policyId: S.String,
-  policyType: S.String,
-  principal: S.optional(EntityIdentifier),
-  resource: S.optional(EntityIdentifier),
-  actions: S.optional(ActionIdentifierList),
-  definition: PolicyDefinitionDetail,
-  createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
-  lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
-  effect: S.optional(S.String),
-}) {}
-export class UpdatePolicyOutput extends S.Class<UpdatePolicyOutput>(
-  "UpdatePolicyOutput",
-)({
-  policyStoreId: S.String,
-  policyId: S.String,
-  policyType: S.String,
-  principal: S.optional(EntityIdentifier),
-  resource: S.optional(EntityIdentifier),
-  actions: S.optional(ActionIdentifierList),
-  createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
-  lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
-  effect: S.optional(S.String),
-}) {}
-export class OpenIdConnectConfiguration extends S.Class<OpenIdConnectConfiguration>(
-  "OpenIdConnectConfiguration",
-)({
-  issuer: S.String,
-  entityIdPrefix: S.optional(S.String),
-  groupConfiguration: S.optional(OpenIdConnectGroupConfiguration),
-  tokenSelection: OpenIdConnectTokenSelection,
-}) {}
-export class CognitoUserPoolConfigurationDetail extends S.Class<CognitoUserPoolConfigurationDetail>(
-  "CognitoUserPoolConfigurationDetail",
-)({
-  userPoolArn: S.String,
-  clientIds: ClientIds,
-  issuer: S.String,
-  groupConfiguration: S.optional(CognitoGroupConfigurationDetail),
-}) {}
-export class UpdateOpenIdConnectConfiguration extends S.Class<UpdateOpenIdConnectConfiguration>(
-  "UpdateOpenIdConnectConfiguration",
-)({
-  issuer: S.String,
-  entityIdPrefix: S.optional(S.String),
-  groupConfiguration: S.optional(UpdateOpenIdConnectGroupConfiguration),
-  tokenSelection: UpdateOpenIdConnectTokenSelection,
-}) {}
-export class IdentitySourceItemDetails extends S.Class<IdentitySourceItemDetails>(
-  "IdentitySourceItemDetails",
-)({
-  clientIds: S.optional(ClientIds),
-  userPoolArn: S.optional(S.String),
-  discoveryUrl: S.optional(S.String),
-  openIdIssuer: S.optional(S.String),
-}) {}
-export class OpenIdConnectAccessTokenConfigurationDetail extends S.Class<OpenIdConnectAccessTokenConfigurationDetail>(
-  "OpenIdConnectAccessTokenConfigurationDetail",
-)({
-  principalIdClaim: S.optional(S.String),
-  audiences: S.optional(Audiences),
-}) {}
-export class OpenIdConnectIdentityTokenConfigurationDetail extends S.Class<OpenIdConnectIdentityTokenConfigurationDetail>(
-  "OpenIdConnectIdentityTokenConfigurationDetail",
-)({
-  principalIdClaim: S.optional(S.String),
-  clientIds: S.optional(ClientIds),
-}) {}
+export interface BatchIsAuthorizedWithTokenOutput {
+  principal?: EntityIdentifier;
+  results: BatchIsAuthorizedWithTokenOutputList;
+}
+export const BatchIsAuthorizedWithTokenOutput = S.suspend(() =>
+  S.Struct({
+    principal: S.optional(EntityIdentifier),
+    results: BatchIsAuthorizedWithTokenOutputList,
+  }),
+).annotations({
+  identifier: "BatchIsAuthorizedWithTokenOutput",
+}) as any as S.Schema<BatchIsAuthorizedWithTokenOutput>;
+export interface BatchGetPolicyOutput {
+  results: BatchGetPolicyOutputList;
+  errors: BatchGetPolicyErrorList;
+}
+export const BatchGetPolicyOutput = S.suspend(() =>
+  S.Struct({
+    results: BatchGetPolicyOutputList,
+    errors: BatchGetPolicyErrorList,
+  }),
+).annotations({
+  identifier: "BatchGetPolicyOutput",
+}) as any as S.Schema<BatchGetPolicyOutput>;
+export interface CreatePolicyOutput {
+  policyStoreId: string;
+  policyId: string;
+  policyType: string;
+  principal?: EntityIdentifier;
+  resource?: EntityIdentifier;
+  actions?: ActionIdentifierList;
+  createdDate: Date;
+  lastUpdatedDate: Date;
+  effect?: string;
+}
+export const CreatePolicyOutput = S.suspend(() =>
+  S.Struct({
+    policyStoreId: S.String,
+    policyId: S.String,
+    policyType: S.String,
+    principal: S.optional(EntityIdentifier),
+    resource: S.optional(EntityIdentifier),
+    actions: S.optional(ActionIdentifierList),
+    createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    effect: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CreatePolicyOutput",
+}) as any as S.Schema<CreatePolicyOutput>;
+export interface GetPolicyOutput {
+  policyStoreId: string;
+  policyId: string;
+  policyType: string;
+  principal?: EntityIdentifier;
+  resource?: EntityIdentifier;
+  actions?: ActionIdentifierList;
+  definition: (typeof PolicyDefinitionDetail)["Type"];
+  createdDate: Date;
+  lastUpdatedDate: Date;
+  effect?: string;
+}
+export const GetPolicyOutput = S.suspend(() =>
+  S.Struct({
+    policyStoreId: S.String,
+    policyId: S.String,
+    policyType: S.String,
+    principal: S.optional(EntityIdentifier),
+    resource: S.optional(EntityIdentifier),
+    actions: S.optional(ActionIdentifierList),
+    definition: PolicyDefinitionDetail,
+    createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    effect: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetPolicyOutput",
+}) as any as S.Schema<GetPolicyOutput>;
+export interface UpdatePolicyOutput {
+  policyStoreId: string;
+  policyId: string;
+  policyType: string;
+  principal?: EntityIdentifier;
+  resource?: EntityIdentifier;
+  actions?: ActionIdentifierList;
+  createdDate: Date;
+  lastUpdatedDate: Date;
+  effect?: string;
+}
+export const UpdatePolicyOutput = S.suspend(() =>
+  S.Struct({
+    policyStoreId: S.String,
+    policyId: S.String,
+    policyType: S.String,
+    principal: S.optional(EntityIdentifier),
+    resource: S.optional(EntityIdentifier),
+    actions: S.optional(ActionIdentifierList),
+    createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    effect: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "UpdatePolicyOutput",
+}) as any as S.Schema<UpdatePolicyOutput>;
+export interface OpenIdConnectConfiguration {
+  issuer: string;
+  entityIdPrefix?: string;
+  groupConfiguration?: OpenIdConnectGroupConfiguration;
+  tokenSelection: (typeof OpenIdConnectTokenSelection)["Type"];
+}
+export const OpenIdConnectConfiguration = S.suspend(() =>
+  S.Struct({
+    issuer: S.String,
+    entityIdPrefix: S.optional(S.String),
+    groupConfiguration: S.optional(OpenIdConnectGroupConfiguration),
+    tokenSelection: OpenIdConnectTokenSelection,
+  }),
+).annotations({
+  identifier: "OpenIdConnectConfiguration",
+}) as any as S.Schema<OpenIdConnectConfiguration>;
+export interface CognitoUserPoolConfigurationDetail {
+  userPoolArn: string;
+  clientIds: ClientIds;
+  issuer: string;
+  groupConfiguration?: CognitoGroupConfigurationDetail;
+}
+export const CognitoUserPoolConfigurationDetail = S.suspend(() =>
+  S.Struct({
+    userPoolArn: S.String,
+    clientIds: ClientIds,
+    issuer: S.String,
+    groupConfiguration: S.optional(CognitoGroupConfigurationDetail),
+  }),
+).annotations({
+  identifier: "CognitoUserPoolConfigurationDetail",
+}) as any as S.Schema<CognitoUserPoolConfigurationDetail>;
+export interface UpdateOpenIdConnectConfiguration {
+  issuer: string;
+  entityIdPrefix?: string;
+  groupConfiguration?: UpdateOpenIdConnectGroupConfiguration;
+  tokenSelection: (typeof UpdateOpenIdConnectTokenSelection)["Type"];
+}
+export const UpdateOpenIdConnectConfiguration = S.suspend(() =>
+  S.Struct({
+    issuer: S.String,
+    entityIdPrefix: S.optional(S.String),
+    groupConfiguration: S.optional(UpdateOpenIdConnectGroupConfiguration),
+    tokenSelection: UpdateOpenIdConnectTokenSelection,
+  }),
+).annotations({
+  identifier: "UpdateOpenIdConnectConfiguration",
+}) as any as S.Schema<UpdateOpenIdConnectConfiguration>;
+export interface IdentitySourceItemDetails {
+  clientIds?: ClientIds;
+  userPoolArn?: string;
+  discoveryUrl?: string;
+  openIdIssuer?: string;
+}
+export const IdentitySourceItemDetails = S.suspend(() =>
+  S.Struct({
+    clientIds: S.optional(ClientIds),
+    userPoolArn: S.optional(S.String),
+    discoveryUrl: S.optional(S.String),
+    openIdIssuer: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "IdentitySourceItemDetails",
+}) as any as S.Schema<IdentitySourceItemDetails>;
+export interface OpenIdConnectAccessTokenConfigurationDetail {
+  principalIdClaim?: string;
+  audiences?: Audiences;
+}
+export const OpenIdConnectAccessTokenConfigurationDetail = S.suspend(() =>
+  S.Struct({
+    principalIdClaim: S.optional(S.String),
+    audiences: S.optional(Audiences),
+  }),
+).annotations({
+  identifier: "OpenIdConnectAccessTokenConfigurationDetail",
+}) as any as S.Schema<OpenIdConnectAccessTokenConfigurationDetail>;
+export interface OpenIdConnectIdentityTokenConfigurationDetail {
+  principalIdClaim?: string;
+  clientIds?: ClientIds;
+}
+export const OpenIdConnectIdentityTokenConfigurationDetail = S.suspend(() =>
+  S.Struct({
+    principalIdClaim: S.optional(S.String),
+    clientIds: S.optional(ClientIds),
+  }),
+).annotations({
+  identifier: "OpenIdConnectIdentityTokenConfigurationDetail",
+}) as any as S.Schema<OpenIdConnectIdentityTokenConfigurationDetail>;
 export const Configuration = S.Union(
   S.Struct({ cognitoUserPoolConfiguration: CognitoUserPoolConfiguration }),
   S.Struct({ openIdConnectConfiguration: OpenIdConnectConfiguration }),
@@ -1033,135 +1684,249 @@ export const OpenIdConnectTokenSelectionDetail = S.Union(
     identityTokenOnly: OpenIdConnectIdentityTokenConfigurationDetail,
   }),
 );
-export class IsAuthorizedInput extends S.Class<IsAuthorizedInput>(
-  "IsAuthorizedInput",
-)(
-  {
+export interface IsAuthorizedInput {
+  policyStoreId: string;
+  principal?: EntityIdentifier;
+  action?: ActionIdentifier;
+  resource?: EntityIdentifier;
+  context?: (typeof ContextDefinition)["Type"];
+  entities?: (typeof EntitiesDefinition)["Type"];
+}
+export const IsAuthorizedInput = S.suspend(() =>
+  S.Struct({
     policyStoreId: S.String,
     principal: S.optional(EntityIdentifier),
     action: S.optional(ActionIdentifier),
     resource: S.optional(EntityIdentifier),
     context: S.optional(ContextDefinition),
     entities: S.optional(EntitiesDefinition),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateIdentitySourceInput extends S.Class<CreateIdentitySourceInput>(
-  "CreateIdentitySourceInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "IsAuthorizedInput",
+}) as any as S.Schema<IsAuthorizedInput>;
+export interface CreateIdentitySourceInput {
+  clientToken?: string;
+  policyStoreId: string;
+  configuration: (typeof Configuration)["Type"];
+  principalEntityType?: string;
+}
+export const CreateIdentitySourceInput = S.suspend(() =>
+  S.Struct({
     clientToken: S.optional(S.String),
     policyStoreId: S.String,
     configuration: Configuration,
     principalEntityType: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateIdentitySourceInput extends S.Class<UpdateIdentitySourceInput>(
-  "UpdateIdentitySourceInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateIdentitySourceInput",
+}) as any as S.Schema<CreateIdentitySourceInput>;
+export interface UpdateIdentitySourceInput {
+  policyStoreId: string;
+  identitySourceId: string;
+  updateConfiguration: (typeof UpdateConfiguration)["Type"];
+  principalEntityType?: string;
+}
+export const UpdateIdentitySourceInput = S.suspend(() =>
+  S.Struct({
     policyStoreId: S.String,
     identitySourceId: S.String,
     updateConfiguration: UpdateConfiguration,
     principalEntityType: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class OpenIdConnectConfigurationDetail extends S.Class<OpenIdConnectConfigurationDetail>(
-  "OpenIdConnectConfigurationDetail",
-)({
-  issuer: S.String,
-  entityIdPrefix: S.optional(S.String),
-  groupConfiguration: S.optional(OpenIdConnectGroupConfigurationDetail),
-  tokenSelection: OpenIdConnectTokenSelectionDetail,
-}) {}
-export class CognitoGroupConfigurationItem extends S.Class<CognitoGroupConfigurationItem>(
-  "CognitoGroupConfigurationItem",
-)({ groupEntityType: S.optional(S.String) }) {}
-export class OpenIdConnectGroupConfigurationItem extends S.Class<OpenIdConnectGroupConfigurationItem>(
-  "OpenIdConnectGroupConfigurationItem",
-)({ groupClaim: S.String, groupEntityType: S.String }) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateIdentitySourceInput",
+}) as any as S.Schema<UpdateIdentitySourceInput>;
+export interface OpenIdConnectConfigurationDetail {
+  issuer: string;
+  entityIdPrefix?: string;
+  groupConfiguration?: OpenIdConnectGroupConfigurationDetail;
+  tokenSelection: (typeof OpenIdConnectTokenSelectionDetail)["Type"];
+}
+export const OpenIdConnectConfigurationDetail = S.suspend(() =>
+  S.Struct({
+    issuer: S.String,
+    entityIdPrefix: S.optional(S.String),
+    groupConfiguration: S.optional(OpenIdConnectGroupConfigurationDetail),
+    tokenSelection: OpenIdConnectTokenSelectionDetail,
+  }),
+).annotations({
+  identifier: "OpenIdConnectConfigurationDetail",
+}) as any as S.Schema<OpenIdConnectConfigurationDetail>;
+export interface CognitoGroupConfigurationItem {
+  groupEntityType?: string;
+}
+export const CognitoGroupConfigurationItem = S.suspend(() =>
+  S.Struct({ groupEntityType: S.optional(S.String) }),
+).annotations({
+  identifier: "CognitoGroupConfigurationItem",
+}) as any as S.Schema<CognitoGroupConfigurationItem>;
+export interface OpenIdConnectGroupConfigurationItem {
+  groupClaim: string;
+  groupEntityType: string;
+}
+export const OpenIdConnectGroupConfigurationItem = S.suspend(() =>
+  S.Struct({ groupClaim: S.String, groupEntityType: S.String }),
+).annotations({
+  identifier: "OpenIdConnectGroupConfigurationItem",
+}) as any as S.Schema<OpenIdConnectGroupConfigurationItem>;
 export const ConfigurationDetail = S.Union(
   S.Struct({
     cognitoUserPoolConfiguration: CognitoUserPoolConfigurationDetail,
   }),
   S.Struct({ openIdConnectConfiguration: OpenIdConnectConfigurationDetail }),
 );
-export class CognitoUserPoolConfigurationItem extends S.Class<CognitoUserPoolConfigurationItem>(
-  "CognitoUserPoolConfigurationItem",
-)({
-  userPoolArn: S.String,
-  clientIds: ClientIds,
-  issuer: S.String,
-  groupConfiguration: S.optional(CognitoGroupConfigurationItem),
-}) {}
-export class StaticPolicyDefinitionItem extends S.Class<StaticPolicyDefinitionItem>(
-  "StaticPolicyDefinitionItem",
-)({ description: S.optional(S.String) }) {}
-export class TemplateLinkedPolicyDefinitionItem extends S.Class<TemplateLinkedPolicyDefinitionItem>(
-  "TemplateLinkedPolicyDefinitionItem",
-)({
-  policyTemplateId: S.String,
-  principal: S.optional(EntityIdentifier),
-  resource: S.optional(EntityIdentifier),
-}) {}
-export class BatchIsAuthorizedInput extends S.Class<BatchIsAuthorizedInput>(
-  "BatchIsAuthorizedInput",
-)(
-  {
+export interface CognitoUserPoolConfigurationItem {
+  userPoolArn: string;
+  clientIds: ClientIds;
+  issuer: string;
+  groupConfiguration?: CognitoGroupConfigurationItem;
+}
+export const CognitoUserPoolConfigurationItem = S.suspend(() =>
+  S.Struct({
+    userPoolArn: S.String,
+    clientIds: ClientIds,
+    issuer: S.String,
+    groupConfiguration: S.optional(CognitoGroupConfigurationItem),
+  }),
+).annotations({
+  identifier: "CognitoUserPoolConfigurationItem",
+}) as any as S.Schema<CognitoUserPoolConfigurationItem>;
+export interface StaticPolicyDefinitionItem {
+  description?: string;
+}
+export const StaticPolicyDefinitionItem = S.suspend(() =>
+  S.Struct({ description: S.optional(S.String) }),
+).annotations({
+  identifier: "StaticPolicyDefinitionItem",
+}) as any as S.Schema<StaticPolicyDefinitionItem>;
+export interface TemplateLinkedPolicyDefinitionItem {
+  policyTemplateId: string;
+  principal?: EntityIdentifier;
+  resource?: EntityIdentifier;
+}
+export const TemplateLinkedPolicyDefinitionItem = S.suspend(() =>
+  S.Struct({
+    policyTemplateId: S.String,
+    principal: S.optional(EntityIdentifier),
+    resource: S.optional(EntityIdentifier),
+  }),
+).annotations({
+  identifier: "TemplateLinkedPolicyDefinitionItem",
+}) as any as S.Schema<TemplateLinkedPolicyDefinitionItem>;
+export interface BatchIsAuthorizedInput {
+  policyStoreId: string;
+  entities?: (typeof EntitiesDefinition)["Type"];
+  requests: BatchIsAuthorizedInputList;
+}
+export const BatchIsAuthorizedInput = S.suspend(() =>
+  S.Struct({
     policyStoreId: S.String,
     entities: S.optional(EntitiesDefinition),
     requests: BatchIsAuthorizedInputList,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class IsAuthorizedOutput extends S.Class<IsAuthorizedOutput>(
-  "IsAuthorizedOutput",
-)({
-  decision: S.String,
-  determiningPolicies: DeterminingPolicyList,
-  errors: EvaluationErrorList,
-}) {}
-export class CreateIdentitySourceOutput extends S.Class<CreateIdentitySourceOutput>(
-  "CreateIdentitySourceOutput",
-)({
-  createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
-  identitySourceId: S.String,
-  lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
-  policyStoreId: S.String,
-}) {}
-export class GetIdentitySourceOutput extends S.Class<GetIdentitySourceOutput>(
-  "GetIdentitySourceOutput",
-)({
-  createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
-  details: S.optional(IdentitySourceDetails),
-  identitySourceId: S.String,
-  lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
-  policyStoreId: S.String,
-  principalEntityType: S.String,
-  configuration: S.optional(ConfigurationDetail),
-}) {}
-export class UpdateIdentitySourceOutput extends S.Class<UpdateIdentitySourceOutput>(
-  "UpdateIdentitySourceOutput",
-)({
-  createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
-  identitySourceId: S.String,
-  lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
-  policyStoreId: S.String,
-}) {}
-export class OpenIdConnectAccessTokenConfigurationItem extends S.Class<OpenIdConnectAccessTokenConfigurationItem>(
-  "OpenIdConnectAccessTokenConfigurationItem",
-)({
-  principalIdClaim: S.optional(S.String),
-  audiences: S.optional(Audiences),
-}) {}
-export class OpenIdConnectIdentityTokenConfigurationItem extends S.Class<OpenIdConnectIdentityTokenConfigurationItem>(
-  "OpenIdConnectIdentityTokenConfigurationItem",
-)({
-  principalIdClaim: S.optional(S.String),
-  clientIds: S.optional(ClientIds),
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "BatchIsAuthorizedInput",
+}) as any as S.Schema<BatchIsAuthorizedInput>;
+export interface IsAuthorizedOutput {
+  decision: string;
+  determiningPolicies: DeterminingPolicyList;
+  errors: EvaluationErrorList;
+}
+export const IsAuthorizedOutput = S.suspend(() =>
+  S.Struct({
+    decision: S.String,
+    determiningPolicies: DeterminingPolicyList,
+    errors: EvaluationErrorList,
+  }),
+).annotations({
+  identifier: "IsAuthorizedOutput",
+}) as any as S.Schema<IsAuthorizedOutput>;
+export interface CreateIdentitySourceOutput {
+  createdDate: Date;
+  identitySourceId: string;
+  lastUpdatedDate: Date;
+  policyStoreId: string;
+}
+export const CreateIdentitySourceOutput = S.suspend(() =>
+  S.Struct({
+    createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    identitySourceId: S.String,
+    lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    policyStoreId: S.String,
+  }),
+).annotations({
+  identifier: "CreateIdentitySourceOutput",
+}) as any as S.Schema<CreateIdentitySourceOutput>;
+export interface GetIdentitySourceOutput {
+  createdDate: Date;
+  details?: IdentitySourceDetails;
+  identitySourceId: string;
+  lastUpdatedDate: Date;
+  policyStoreId: string;
+  principalEntityType: string;
+  configuration?: (typeof ConfigurationDetail)["Type"];
+}
+export const GetIdentitySourceOutput = S.suspend(() =>
+  S.Struct({
+    createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    details: S.optional(IdentitySourceDetails),
+    identitySourceId: S.String,
+    lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    policyStoreId: S.String,
+    principalEntityType: S.String,
+    configuration: S.optional(ConfigurationDetail),
+  }),
+).annotations({
+  identifier: "GetIdentitySourceOutput",
+}) as any as S.Schema<GetIdentitySourceOutput>;
+export interface UpdateIdentitySourceOutput {
+  createdDate: Date;
+  identitySourceId: string;
+  lastUpdatedDate: Date;
+  policyStoreId: string;
+}
+export const UpdateIdentitySourceOutput = S.suspend(() =>
+  S.Struct({
+    createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    identitySourceId: S.String,
+    lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    policyStoreId: S.String,
+  }),
+).annotations({
+  identifier: "UpdateIdentitySourceOutput",
+}) as any as S.Schema<UpdateIdentitySourceOutput>;
+export interface OpenIdConnectAccessTokenConfigurationItem {
+  principalIdClaim?: string;
+  audiences?: Audiences;
+}
+export const OpenIdConnectAccessTokenConfigurationItem = S.suspend(() =>
+  S.Struct({
+    principalIdClaim: S.optional(S.String),
+    audiences: S.optional(Audiences),
+  }),
+).annotations({
+  identifier: "OpenIdConnectAccessTokenConfigurationItem",
+}) as any as S.Schema<OpenIdConnectAccessTokenConfigurationItem>;
+export interface OpenIdConnectIdentityTokenConfigurationItem {
+  principalIdClaim?: string;
+  clientIds?: ClientIds;
+}
+export const OpenIdConnectIdentityTokenConfigurationItem = S.suspend(() =>
+  S.Struct({
+    principalIdClaim: S.optional(S.String),
+    clientIds: S.optional(ClientIds),
+  }),
+).annotations({
+  identifier: "OpenIdConnectIdentityTokenConfigurationItem",
+}) as any as S.Schema<OpenIdConnectIdentityTokenConfigurationItem>;
 export const PolicyDefinitionItem = S.Union(
   S.Struct({ static: StaticPolicyDefinitionItem }),
   S.Struct({ templateLinked: TemplateLinkedPolicyDefinitionItem }),
@@ -1170,61 +1935,125 @@ export const OpenIdConnectTokenSelectionItem = S.Union(
   S.Struct({ accessTokenOnly: OpenIdConnectAccessTokenConfigurationItem }),
   S.Struct({ identityTokenOnly: OpenIdConnectIdentityTokenConfigurationItem }),
 );
-export class PolicyItem extends S.Class<PolicyItem>("PolicyItem")({
-  policyStoreId: S.String,
-  policyId: S.String,
-  policyType: S.String,
-  principal: S.optional(EntityIdentifier),
-  resource: S.optional(EntityIdentifier),
-  actions: S.optional(ActionIdentifierList),
-  definition: PolicyDefinitionItem,
-  createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
-  lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
-  effect: S.optional(S.String),
-}) {}
+export interface PolicyItem {
+  policyStoreId: string;
+  policyId: string;
+  policyType: string;
+  principal?: EntityIdentifier;
+  resource?: EntityIdentifier;
+  actions?: ActionIdentifierList;
+  definition: (typeof PolicyDefinitionItem)["Type"];
+  createdDate: Date;
+  lastUpdatedDate: Date;
+  effect?: string;
+}
+export const PolicyItem = S.suspend(() =>
+  S.Struct({
+    policyStoreId: S.String,
+    policyId: S.String,
+    policyType: S.String,
+    principal: S.optional(EntityIdentifier),
+    resource: S.optional(EntityIdentifier),
+    actions: S.optional(ActionIdentifierList),
+    definition: PolicyDefinitionItem,
+    createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    effect: S.optional(S.String),
+  }),
+).annotations({ identifier: "PolicyItem" }) as any as S.Schema<PolicyItem>;
+export type PolicyList = PolicyItem[];
 export const PolicyList = S.Array(PolicyItem);
-export class OpenIdConnectConfigurationItem extends S.Class<OpenIdConnectConfigurationItem>(
-  "OpenIdConnectConfigurationItem",
-)({
-  issuer: S.String,
-  entityIdPrefix: S.optional(S.String),
-  groupConfiguration: S.optional(OpenIdConnectGroupConfigurationItem),
-  tokenSelection: OpenIdConnectTokenSelectionItem,
-}) {}
-export class ListPoliciesOutput extends S.Class<ListPoliciesOutput>(
-  "ListPoliciesOutput",
-)({ nextToken: S.optional(S.String), policies: PolicyList }) {}
+export interface OpenIdConnectConfigurationItem {
+  issuer: string;
+  entityIdPrefix?: string;
+  groupConfiguration?: OpenIdConnectGroupConfigurationItem;
+  tokenSelection: (typeof OpenIdConnectTokenSelectionItem)["Type"];
+}
+export const OpenIdConnectConfigurationItem = S.suspend(() =>
+  S.Struct({
+    issuer: S.String,
+    entityIdPrefix: S.optional(S.String),
+    groupConfiguration: S.optional(OpenIdConnectGroupConfigurationItem),
+    tokenSelection: OpenIdConnectTokenSelectionItem,
+  }),
+).annotations({
+  identifier: "OpenIdConnectConfigurationItem",
+}) as any as S.Schema<OpenIdConnectConfigurationItem>;
+export interface ListPoliciesOutput {
+  nextToken?: string;
+  policies: PolicyList;
+}
+export const ListPoliciesOutput = S.suspend(() =>
+  S.Struct({ nextToken: S.optional(S.String), policies: PolicyList }),
+).annotations({
+  identifier: "ListPoliciesOutput",
+}) as any as S.Schema<ListPoliciesOutput>;
 export const ConfigurationItem = S.Union(
   S.Struct({ cognitoUserPoolConfiguration: CognitoUserPoolConfigurationItem }),
   S.Struct({ openIdConnectConfiguration: OpenIdConnectConfigurationItem }),
 );
-export class BatchIsAuthorizedOutputItem extends S.Class<BatchIsAuthorizedOutputItem>(
-  "BatchIsAuthorizedOutputItem",
-)({
-  request: BatchIsAuthorizedInputItem,
-  decision: S.String,
-  determiningPolicies: DeterminingPolicyList,
-  errors: EvaluationErrorList,
-}) {}
+export interface BatchIsAuthorizedOutputItem {
+  request: BatchIsAuthorizedInputItem;
+  decision: string;
+  determiningPolicies: DeterminingPolicyList;
+  errors: EvaluationErrorList;
+}
+export const BatchIsAuthorizedOutputItem = S.suspend(() =>
+  S.Struct({
+    request: BatchIsAuthorizedInputItem,
+    decision: S.String,
+    determiningPolicies: DeterminingPolicyList,
+    errors: EvaluationErrorList,
+  }),
+).annotations({
+  identifier: "BatchIsAuthorizedOutputItem",
+}) as any as S.Schema<BatchIsAuthorizedOutputItem>;
+export type BatchIsAuthorizedOutputList = BatchIsAuthorizedOutputItem[];
 export const BatchIsAuthorizedOutputList = S.Array(BatchIsAuthorizedOutputItem);
-export class IdentitySourceItem extends S.Class<IdentitySourceItem>(
-  "IdentitySourceItem",
-)({
-  createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
-  details: S.optional(IdentitySourceItemDetails),
-  identitySourceId: S.String,
-  lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
-  policyStoreId: S.String,
-  principalEntityType: S.String,
-  configuration: S.optional(ConfigurationItem),
-}) {}
+export interface IdentitySourceItem {
+  createdDate: Date;
+  details?: IdentitySourceItemDetails;
+  identitySourceId: string;
+  lastUpdatedDate: Date;
+  policyStoreId: string;
+  principalEntityType: string;
+  configuration?: (typeof ConfigurationItem)["Type"];
+}
+export const IdentitySourceItem = S.suspend(() =>
+  S.Struct({
+    createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    details: S.optional(IdentitySourceItemDetails),
+    identitySourceId: S.String,
+    lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    policyStoreId: S.String,
+    principalEntityType: S.String,
+    configuration: S.optional(ConfigurationItem),
+  }),
+).annotations({
+  identifier: "IdentitySourceItem",
+}) as any as S.Schema<IdentitySourceItem>;
+export type IdentitySources = IdentitySourceItem[];
 export const IdentitySources = S.Array(IdentitySourceItem);
-export class BatchIsAuthorizedOutput extends S.Class<BatchIsAuthorizedOutput>(
-  "BatchIsAuthorizedOutput",
-)({ results: BatchIsAuthorizedOutputList }) {}
-export class ListIdentitySourcesOutput extends S.Class<ListIdentitySourcesOutput>(
-  "ListIdentitySourcesOutput",
-)({ nextToken: S.optional(S.String), identitySources: IdentitySources }) {}
+export interface BatchIsAuthorizedOutput {
+  results: BatchIsAuthorizedOutputList;
+}
+export const BatchIsAuthorizedOutput = S.suspend(() =>
+  S.Struct({ results: BatchIsAuthorizedOutputList }),
+).annotations({
+  identifier: "BatchIsAuthorizedOutput",
+}) as any as S.Schema<BatchIsAuthorizedOutput>;
+export interface ListIdentitySourcesOutput {
+  nextToken?: string;
+  identitySources: IdentitySources;
+}
+export const ListIdentitySourcesOutput = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    identitySources: IdentitySources,
+  }),
+).annotations({
+  identifier: "ListIdentitySourcesOutput",
+}) as any as S.Schema<ListIdentitySourcesOutput>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

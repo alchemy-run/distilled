@@ -242,857 +242,1392 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type __listOf__string = string[];
 export const __listOf__string = S.Array(S.String);
-export class CreateCrossAccountAuthorizationRequest extends S.Class<CreateCrossAccountAuthorizationRequest>(
-  "CreateCrossAccountAuthorizationRequest",
-)(
-  {
+export interface CreateCrossAccountAuthorizationRequest {
+  CrossAccountAuthorization: string;
+}
+export const CreateCrossAccountAuthorizationRequest = S.suspend(() =>
+  S.Struct({
     CrossAccountAuthorization: S.String.pipe(
       T.JsonName("crossAccountAuthorization"),
     ),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/crossaccountauthorizations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/crossaccountauthorizations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "CreateCrossAccountAuthorizationRequest",
+}) as any as S.Schema<CreateCrossAccountAuthorizationRequest>;
+export type Tags = { [key: string]: string };
 export const Tags = S.Record({ key: S.String, value: S.String });
-export class CreateReadinessCheckRequest extends S.Class<CreateReadinessCheckRequest>(
-  "CreateReadinessCheckRequest",
-)(
-  {
+export interface CreateReadinessCheckRequest {
+  ReadinessCheckName: string;
+  ResourceSetName: string;
+  Tags?: Tags;
+}
+export const CreateReadinessCheckRequest = S.suspend(() =>
+  S.Struct({
     ReadinessCheckName: S.String.pipe(T.JsonName("readinessCheckName")),
     ResourceSetName: S.String.pipe(T.JsonName("resourceSetName")),
     Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/readinesschecks" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/readinesschecks" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateRecoveryGroupRequest extends S.Class<CreateRecoveryGroupRequest>(
-  "CreateRecoveryGroupRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateReadinessCheckRequest",
+}) as any as S.Schema<CreateReadinessCheckRequest>;
+export interface CreateRecoveryGroupRequest {
+  Cells?: __listOf__string;
+  RecoveryGroupName: string;
+  Tags?: Tags;
+}
+export const CreateRecoveryGroupRequest = S.suspend(() =>
+  S.Struct({
     Cells: S.optional(__listOf__string).pipe(T.JsonName("cells")),
     RecoveryGroupName: S.String.pipe(T.JsonName("recoveryGroupName")),
     Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/recoverygroups" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/recoverygroups" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteCellRequest extends S.Class<DeleteCellRequest>(
-  "DeleteCellRequest",
-)(
-  { CellName: S.String.pipe(T.HttpLabel("CellName")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/cells/{CellName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CreateRecoveryGroupRequest",
+}) as any as S.Schema<CreateRecoveryGroupRequest>;
+export interface DeleteCellRequest {
+  CellName: string;
+}
+export const DeleteCellRequest = S.suspend(() =>
+  S.Struct({ CellName: S.String.pipe(T.HttpLabel("CellName")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/cells/{CellName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteCellResponse extends S.Class<DeleteCellResponse>(
-  "DeleteCellResponse",
-)({}) {}
-export class DeleteCrossAccountAuthorizationRequest extends S.Class<DeleteCrossAccountAuthorizationRequest>(
-  "DeleteCrossAccountAuthorizationRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteCellRequest",
+}) as any as S.Schema<DeleteCellRequest>;
+export interface DeleteCellResponse {}
+export const DeleteCellResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteCellResponse",
+}) as any as S.Schema<DeleteCellResponse>;
+export interface DeleteCrossAccountAuthorizationRequest {
+  CrossAccountAuthorization: string;
+}
+export const DeleteCrossAccountAuthorizationRequest = S.suspend(() =>
+  S.Struct({
     CrossAccountAuthorization: S.String.pipe(
       T.HttpLabel("CrossAccountAuthorization"),
     ),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/crossaccountauthorizations/{CrossAccountAuthorization}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/crossaccountauthorizations/{CrossAccountAuthorization}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteCrossAccountAuthorizationResponse extends S.Class<DeleteCrossAccountAuthorizationResponse>(
-  "DeleteCrossAccountAuthorizationResponse",
-)({}) {}
-export class DeleteReadinessCheckRequest extends S.Class<DeleteReadinessCheckRequest>(
-  "DeleteReadinessCheckRequest",
-)(
-  { ReadinessCheckName: S.String.pipe(T.HttpLabel("ReadinessCheckName")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/readinesschecks/{ReadinessCheckName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteCrossAccountAuthorizationRequest",
+}) as any as S.Schema<DeleteCrossAccountAuthorizationRequest>;
+export interface DeleteCrossAccountAuthorizationResponse {}
+export const DeleteCrossAccountAuthorizationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteCrossAccountAuthorizationResponse",
+}) as any as S.Schema<DeleteCrossAccountAuthorizationResponse>;
+export interface DeleteReadinessCheckRequest {
+  ReadinessCheckName: string;
+}
+export const DeleteReadinessCheckRequest = S.suspend(() =>
+  S.Struct({
+    ReadinessCheckName: S.String.pipe(T.HttpLabel("ReadinessCheckName")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/readinesschecks/{ReadinessCheckName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteReadinessCheckResponse extends S.Class<DeleteReadinessCheckResponse>(
-  "DeleteReadinessCheckResponse",
-)({}) {}
-export class DeleteRecoveryGroupRequest extends S.Class<DeleteRecoveryGroupRequest>(
-  "DeleteRecoveryGroupRequest",
-)(
-  { RecoveryGroupName: S.String.pipe(T.HttpLabel("RecoveryGroupName")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/recoverygroups/{RecoveryGroupName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteReadinessCheckRequest",
+}) as any as S.Schema<DeleteReadinessCheckRequest>;
+export interface DeleteReadinessCheckResponse {}
+export const DeleteReadinessCheckResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteReadinessCheckResponse",
+}) as any as S.Schema<DeleteReadinessCheckResponse>;
+export interface DeleteRecoveryGroupRequest {
+  RecoveryGroupName: string;
+}
+export const DeleteRecoveryGroupRequest = S.suspend(() =>
+  S.Struct({
+    RecoveryGroupName: S.String.pipe(T.HttpLabel("RecoveryGroupName")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/recoverygroups/{RecoveryGroupName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteRecoveryGroupResponse extends S.Class<DeleteRecoveryGroupResponse>(
-  "DeleteRecoveryGroupResponse",
-)({}) {}
-export class DeleteResourceSetRequest extends S.Class<DeleteResourceSetRequest>(
-  "DeleteResourceSetRequest",
-)(
-  { ResourceSetName: S.String.pipe(T.HttpLabel("ResourceSetName")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/resourcesets/{ResourceSetName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteRecoveryGroupRequest",
+}) as any as S.Schema<DeleteRecoveryGroupRequest>;
+export interface DeleteRecoveryGroupResponse {}
+export const DeleteRecoveryGroupResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteRecoveryGroupResponse",
+}) as any as S.Schema<DeleteRecoveryGroupResponse>;
+export interface DeleteResourceSetRequest {
+  ResourceSetName: string;
+}
+export const DeleteResourceSetRequest = S.suspend(() =>
+  S.Struct({
+    ResourceSetName: S.String.pipe(T.HttpLabel("ResourceSetName")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/resourcesets/{ResourceSetName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteResourceSetResponse extends S.Class<DeleteResourceSetResponse>(
-  "DeleteResourceSetResponse",
-)({}) {}
-export class GetArchitectureRecommendationsRequest extends S.Class<GetArchitectureRecommendationsRequest>(
-  "GetArchitectureRecommendationsRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteResourceSetRequest",
+}) as any as S.Schema<DeleteResourceSetRequest>;
+export interface DeleteResourceSetResponse {}
+export const DeleteResourceSetResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteResourceSetResponse",
+}) as any as S.Schema<DeleteResourceSetResponse>;
+export interface GetArchitectureRecommendationsRequest {
+  MaxResults?: number;
+  NextToken?: string;
+  RecoveryGroupName: string;
+}
+export const GetArchitectureRecommendationsRequest = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     RecoveryGroupName: S.String.pipe(T.HttpLabel("RecoveryGroupName")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/recoverygroups/{RecoveryGroupName}/architectureRecommendations",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/recoverygroups/{RecoveryGroupName}/architectureRecommendations",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetCellRequest extends S.Class<GetCellRequest>("GetCellRequest")(
-  { CellName: S.String.pipe(T.HttpLabel("CellName")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/cells/{CellName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetArchitectureRecommendationsRequest",
+}) as any as S.Schema<GetArchitectureRecommendationsRequest>;
+export interface GetCellRequest {
+  CellName: string;
+}
+export const GetCellRequest = S.suspend(() =>
+  S.Struct({ CellName: S.String.pipe(T.HttpLabel("CellName")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/cells/{CellName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetCellReadinessSummaryRequest extends S.Class<GetCellReadinessSummaryRequest>(
-  "GetCellReadinessSummaryRequest",
-)(
-  {
+).annotations({
+  identifier: "GetCellRequest",
+}) as any as S.Schema<GetCellRequest>;
+export interface GetCellReadinessSummaryRequest {
+  CellName: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const GetCellReadinessSummaryRequest = S.suspend(() =>
+  S.Struct({
     CellName: S.String.pipe(T.HttpLabel("CellName")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/cellreadiness/{CellName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/cellreadiness/{CellName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetReadinessCheckRequest extends S.Class<GetReadinessCheckRequest>(
-  "GetReadinessCheckRequest",
-)(
-  { ReadinessCheckName: S.String.pipe(T.HttpLabel("ReadinessCheckName")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/readinesschecks/{ReadinessCheckName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetCellReadinessSummaryRequest",
+}) as any as S.Schema<GetCellReadinessSummaryRequest>;
+export interface GetReadinessCheckRequest {
+  ReadinessCheckName: string;
+}
+export const GetReadinessCheckRequest = S.suspend(() =>
+  S.Struct({
+    ReadinessCheckName: S.String.pipe(T.HttpLabel("ReadinessCheckName")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/readinesschecks/{ReadinessCheckName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetReadinessCheckResourceStatusRequest extends S.Class<GetReadinessCheckResourceStatusRequest>(
-  "GetReadinessCheckResourceStatusRequest",
-)(
-  {
+).annotations({
+  identifier: "GetReadinessCheckRequest",
+}) as any as S.Schema<GetReadinessCheckRequest>;
+export interface GetReadinessCheckResourceStatusRequest {
+  MaxResults?: number;
+  NextToken?: string;
+  ReadinessCheckName: string;
+  ResourceIdentifier: string;
+}
+export const GetReadinessCheckResourceStatusRequest = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     ReadinessCheckName: S.String.pipe(T.HttpLabel("ReadinessCheckName")),
     ResourceIdentifier: S.String.pipe(T.HttpLabel("ResourceIdentifier")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/readinesschecks/{ReadinessCheckName}/resource/{ResourceIdentifier}/status",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/readinesschecks/{ReadinessCheckName}/resource/{ResourceIdentifier}/status",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetReadinessCheckStatusRequest extends S.Class<GetReadinessCheckStatusRequest>(
-  "GetReadinessCheckStatusRequest",
-)(
-  {
+).annotations({
+  identifier: "GetReadinessCheckResourceStatusRequest",
+}) as any as S.Schema<GetReadinessCheckResourceStatusRequest>;
+export interface GetReadinessCheckStatusRequest {
+  MaxResults?: number;
+  NextToken?: string;
+  ReadinessCheckName: string;
+}
+export const GetReadinessCheckStatusRequest = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     ReadinessCheckName: S.String.pipe(T.HttpLabel("ReadinessCheckName")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/readinesschecks/{ReadinessCheckName}/status",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/readinesschecks/{ReadinessCheckName}/status",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetRecoveryGroupRequest extends S.Class<GetRecoveryGroupRequest>(
-  "GetRecoveryGroupRequest",
-)(
-  { RecoveryGroupName: S.String.pipe(T.HttpLabel("RecoveryGroupName")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/recoverygroups/{RecoveryGroupName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetReadinessCheckStatusRequest",
+}) as any as S.Schema<GetReadinessCheckStatusRequest>;
+export interface GetRecoveryGroupRequest {
+  RecoveryGroupName: string;
+}
+export const GetRecoveryGroupRequest = S.suspend(() =>
+  S.Struct({
+    RecoveryGroupName: S.String.pipe(T.HttpLabel("RecoveryGroupName")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/recoverygroups/{RecoveryGroupName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetRecoveryGroupReadinessSummaryRequest extends S.Class<GetRecoveryGroupReadinessSummaryRequest>(
-  "GetRecoveryGroupReadinessSummaryRequest",
-)(
-  {
+).annotations({
+  identifier: "GetRecoveryGroupRequest",
+}) as any as S.Schema<GetRecoveryGroupRequest>;
+export interface GetRecoveryGroupReadinessSummaryRequest {
+  MaxResults?: number;
+  NextToken?: string;
+  RecoveryGroupName: string;
+}
+export const GetRecoveryGroupReadinessSummaryRequest = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     RecoveryGroupName: S.String.pipe(T.HttpLabel("RecoveryGroupName")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/recoverygroupreadiness/{RecoveryGroupName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/recoverygroupreadiness/{RecoveryGroupName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetResourceSetRequest extends S.Class<GetResourceSetRequest>(
-  "GetResourceSetRequest",
-)(
-  { ResourceSetName: S.String.pipe(T.HttpLabel("ResourceSetName")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/resourcesets/{ResourceSetName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetRecoveryGroupReadinessSummaryRequest",
+}) as any as S.Schema<GetRecoveryGroupReadinessSummaryRequest>;
+export interface GetResourceSetRequest {
+  ResourceSetName: string;
+}
+export const GetResourceSetRequest = S.suspend(() =>
+  S.Struct({
+    ResourceSetName: S.String.pipe(T.HttpLabel("ResourceSetName")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/resourcesets/{ResourceSetName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListCellsRequest extends S.Class<ListCellsRequest>(
-  "ListCellsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetResourceSetRequest",
+}) as any as S.Schema<GetResourceSetRequest>;
+export interface ListCellsRequest {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListCellsRequest = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(T.Http({ method: "GET", uri: "/cells" }), svc, auth, proto, ver, rules),
-) {}
-export class ListCrossAccountAuthorizationsRequest extends S.Class<ListCrossAccountAuthorizationsRequest>(
-  "ListCrossAccountAuthorizationsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/cells" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListCellsRequest",
+}) as any as S.Schema<ListCellsRequest>;
+export interface ListCrossAccountAuthorizationsRequest {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListCrossAccountAuthorizationsRequest = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/crossaccountauthorizations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/crossaccountauthorizations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListReadinessChecksRequest extends S.Class<ListReadinessChecksRequest>(
-  "ListReadinessChecksRequest",
-)(
-  {
+).annotations({
+  identifier: "ListCrossAccountAuthorizationsRequest",
+}) as any as S.Schema<ListCrossAccountAuthorizationsRequest>;
+export interface ListReadinessChecksRequest {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListReadinessChecksRequest = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/readinesschecks" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/readinesschecks" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListRecoveryGroupsRequest extends S.Class<ListRecoveryGroupsRequest>(
-  "ListRecoveryGroupsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListReadinessChecksRequest",
+}) as any as S.Schema<ListReadinessChecksRequest>;
+export interface ListRecoveryGroupsRequest {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListRecoveryGroupsRequest = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/recoverygroups" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/recoverygroups" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListResourceSetsRequest extends S.Class<ListResourceSetsRequest>(
-  "ListResourceSetsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListRecoveryGroupsRequest",
+}) as any as S.Schema<ListRecoveryGroupsRequest>;
+export interface ListResourceSetsRequest {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListResourceSetsRequest = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/resourcesets" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/resourcesets" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListRulesRequest extends S.Class<ListRulesRequest>(
-  "ListRulesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListResourceSetsRequest",
+}) as any as S.Schema<ListResourceSetsRequest>;
+export interface ListRulesRequest {
+  MaxResults?: number;
+  NextToken?: string;
+  ResourceType?: string;
+}
+export const ListRulesRequest = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     ResourceType: S.optional(S.String).pipe(T.HttpQuery("resourceType")),
-  },
-  T.all(T.Http({ method: "GET", uri: "/rules" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTagsForResourcesRequest extends S.Class<ListTagsForResourcesRequest>(
-  "ListTagsForResourcesRequest",
-)(
-  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/rules" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "ListRulesRequest",
+}) as any as S.Schema<ListRulesRequest>;
+export interface ListTagsForResourcesRequest {
+  ResourceArn: string;
+}
+export const ListTagsForResourcesRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListTagsForResourcesRequest",
+}) as any as S.Schema<ListTagsForResourcesRequest>;
+export interface TagResourceRequest {
+  ResourceArn: string;
+  Tags: Tags;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     Tags: Tags.pipe(T.JsonName("tags")),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UntagResourceRequest {
+  ResourceArn: string;
+  TagKeys: __listOf__string;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: __listOf__string.pipe(T.HttpQuery("tagKeys")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
-export class UpdateCellRequest extends S.Class<UpdateCellRequest>(
-  "UpdateCellRequest",
-)(
-  {
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface UpdateCellRequest {
+  CellName: string;
+  Cells: __listOf__string;
+}
+export const UpdateCellRequest = S.suspend(() =>
+  S.Struct({
     CellName: S.String.pipe(T.HttpLabel("CellName")),
     Cells: __listOf__string.pipe(T.JsonName("cells")),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/cells/{CellName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/cells/{CellName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateReadinessCheckRequest extends S.Class<UpdateReadinessCheckRequest>(
-  "UpdateReadinessCheckRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateCellRequest",
+}) as any as S.Schema<UpdateCellRequest>;
+export interface UpdateReadinessCheckRequest {
+  ReadinessCheckName: string;
+  ResourceSetName: string;
+}
+export const UpdateReadinessCheckRequest = S.suspend(() =>
+  S.Struct({
     ReadinessCheckName: S.String.pipe(T.HttpLabel("ReadinessCheckName")),
     ResourceSetName: S.String.pipe(T.JsonName("resourceSetName")),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/readinesschecks/{ReadinessCheckName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/readinesschecks/{ReadinessCheckName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateRecoveryGroupRequest extends S.Class<UpdateRecoveryGroupRequest>(
-  "UpdateRecoveryGroupRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateReadinessCheckRequest",
+}) as any as S.Schema<UpdateReadinessCheckRequest>;
+export interface UpdateRecoveryGroupRequest {
+  Cells: __listOf__string;
+  RecoveryGroupName: string;
+}
+export const UpdateRecoveryGroupRequest = S.suspend(() =>
+  S.Struct({
     Cells: __listOf__string.pipe(T.JsonName("cells")),
     RecoveryGroupName: S.String.pipe(T.HttpLabel("RecoveryGroupName")),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/recoverygroups/{RecoveryGroupName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/recoverygroups/{RecoveryGroupName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class NLBResource extends S.Class<NLBResource>("NLBResource")({
-  Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-}) {}
-export class R53ResourceRecord extends S.Class<R53ResourceRecord>(
-  "R53ResourceRecord",
-)({
-  DomainName: S.optional(S.String).pipe(T.JsonName("domainName")),
-  RecordSetId: S.optional(S.String).pipe(T.JsonName("recordSetId")),
-}) {}
-export class TargetResource extends S.Class<TargetResource>("TargetResource")({
-  NLBResource: S.optional(NLBResource).pipe(T.JsonName("nLBResource")),
-  R53Resource: S.optional(R53ResourceRecord).pipe(T.JsonName("r53Resource")),
-}) {}
-export class DNSTargetResource extends S.Class<DNSTargetResource>(
-  "DNSTargetResource",
-)({
-  DomainName: S.optional(S.String).pipe(T.JsonName("domainName")),
-  HostedZoneArn: S.optional(S.String).pipe(T.JsonName("hostedZoneArn")),
-  RecordSetId: S.optional(S.String).pipe(T.JsonName("recordSetId")),
-  RecordType: S.optional(S.String).pipe(T.JsonName("recordType")),
-  TargetResource: S.optional(TargetResource).pipe(T.JsonName("targetResource")),
-}) {}
-export class Resource extends S.Class<Resource>("Resource")({
-  ComponentId: S.optional(S.String).pipe(T.JsonName("componentId")),
-  DnsTargetResource: S.optional(DNSTargetResource).pipe(
-    T.JsonName("dnsTargetResource"),
-  ),
-  ReadinessScopes: S.optional(__listOf__string).pipe(
-    T.JsonName("readinessScopes"),
-  ),
-  ResourceArn: S.optional(S.String).pipe(T.JsonName("resourceArn")),
-}) {}
+).annotations({
+  identifier: "UpdateRecoveryGroupRequest",
+}) as any as S.Schema<UpdateRecoveryGroupRequest>;
+export interface NLBResource {
+  Arn?: string;
+}
+export const NLBResource = S.suspend(() =>
+  S.Struct({ Arn: S.optional(S.String).pipe(T.JsonName("arn")) }),
+).annotations({ identifier: "NLBResource" }) as any as S.Schema<NLBResource>;
+export interface R53ResourceRecord {
+  DomainName?: string;
+  RecordSetId?: string;
+}
+export const R53ResourceRecord = S.suspend(() =>
+  S.Struct({
+    DomainName: S.optional(S.String).pipe(T.JsonName("domainName")),
+    RecordSetId: S.optional(S.String).pipe(T.JsonName("recordSetId")),
+  }),
+).annotations({
+  identifier: "R53ResourceRecord",
+}) as any as S.Schema<R53ResourceRecord>;
+export interface TargetResource {
+  NLBResource?: NLBResource;
+  R53Resource?: R53ResourceRecord;
+}
+export const TargetResource = S.suspend(() =>
+  S.Struct({
+    NLBResource: S.optional(NLBResource)
+      .pipe(T.JsonName("nLBResource"))
+      .annotations({ identifier: "NLBResource" }),
+    R53Resource: S.optional(R53ResourceRecord)
+      .pipe(T.JsonName("r53Resource"))
+      .annotations({ identifier: "R53ResourceRecord" }),
+  }),
+).annotations({
+  identifier: "TargetResource",
+}) as any as S.Schema<TargetResource>;
+export interface DNSTargetResource {
+  DomainName?: string;
+  HostedZoneArn?: string;
+  RecordSetId?: string;
+  RecordType?: string;
+  TargetResource?: TargetResource;
+}
+export const DNSTargetResource = S.suspend(() =>
+  S.Struct({
+    DomainName: S.optional(S.String).pipe(T.JsonName("domainName")),
+    HostedZoneArn: S.optional(S.String).pipe(T.JsonName("hostedZoneArn")),
+    RecordSetId: S.optional(S.String).pipe(T.JsonName("recordSetId")),
+    RecordType: S.optional(S.String).pipe(T.JsonName("recordType")),
+    TargetResource: S.optional(TargetResource)
+      .pipe(T.JsonName("targetResource"))
+      .annotations({ identifier: "TargetResource" }),
+  }),
+).annotations({
+  identifier: "DNSTargetResource",
+}) as any as S.Schema<DNSTargetResource>;
+export interface Resource {
+  ComponentId?: string;
+  DnsTargetResource?: DNSTargetResource;
+  ReadinessScopes?: __listOf__string;
+  ResourceArn?: string;
+}
+export const Resource = S.suspend(() =>
+  S.Struct({
+    ComponentId: S.optional(S.String).pipe(T.JsonName("componentId")),
+    DnsTargetResource: S.optional(DNSTargetResource)
+      .pipe(T.JsonName("dnsTargetResource"))
+      .annotations({ identifier: "DNSTargetResource" }),
+    ReadinessScopes: S.optional(__listOf__string).pipe(
+      T.JsonName("readinessScopes"),
+    ),
+    ResourceArn: S.optional(S.String).pipe(T.JsonName("resourceArn")),
+  }),
+).annotations({ identifier: "Resource" }) as any as S.Schema<Resource>;
+export type __listOfResource = Resource[];
 export const __listOfResource = S.Array(Resource);
-export class UpdateResourceSetRequest extends S.Class<UpdateResourceSetRequest>(
-  "UpdateResourceSetRequest",
-)(
-  {
+export interface UpdateResourceSetRequest {
+  ResourceSetName: string;
+  ResourceSetType: string;
+  Resources: __listOfResource;
+}
+export const UpdateResourceSetRequest = S.suspend(() =>
+  S.Struct({
     ResourceSetName: S.String.pipe(T.HttpLabel("ResourceSetName")),
     ResourceSetType: S.String.pipe(T.JsonName("resourceSetType")),
     Resources: __listOfResource.pipe(T.JsonName("resources")),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/resourcesets/{ResourceSetName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/resourcesets/{ResourceSetName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "UpdateResourceSetRequest",
+}) as any as S.Schema<UpdateResourceSetRequest>;
+export type __listOfCrossAccountAuthorization = string[];
 export const __listOfCrossAccountAuthorization = S.Array(S.String);
-export class CreateCellRequest extends S.Class<CreateCellRequest>(
-  "CreateCellRequest",
-)(
-  {
+export interface CreateCellRequest {
+  CellName: string;
+  Cells?: __listOf__string;
+  Tags?: Tags;
+}
+export const CreateCellRequest = S.suspend(() =>
+  S.Struct({
     CellName: S.String.pipe(T.JsonName("cellName")),
     Cells: S.optional(__listOf__string).pipe(T.JsonName("cells")),
     Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/cells" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/cells" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateCrossAccountAuthorizationResponse extends S.Class<CreateCrossAccountAuthorizationResponse>(
-  "CreateCrossAccountAuthorizationResponse",
-)({
-  CrossAccountAuthorization: S.optional(S.String).pipe(
-    T.JsonName("crossAccountAuthorization"),
-  ),
-}) {}
-export class CreateReadinessCheckResponse extends S.Class<CreateReadinessCheckResponse>(
-  "CreateReadinessCheckResponse",
-)({
-  ReadinessCheckArn: S.optional(S.String).pipe(T.JsonName("readinessCheckArn")),
-  ReadinessCheckName: S.optional(S.String).pipe(
-    T.JsonName("readinessCheckName"),
-  ),
-  ResourceSet: S.optional(S.String).pipe(T.JsonName("resourceSet")),
-  Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-}) {}
-export class CreateRecoveryGroupResponse extends S.Class<CreateRecoveryGroupResponse>(
-  "CreateRecoveryGroupResponse",
-)({
-  Cells: S.optional(__listOf__string).pipe(T.JsonName("cells")),
-  RecoveryGroupArn: S.optional(S.String).pipe(T.JsonName("recoveryGroupArn")),
-  RecoveryGroupName: S.optional(S.String).pipe(T.JsonName("recoveryGroupName")),
-  Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-}) {}
-export class GetCellResponse extends S.Class<GetCellResponse>(
-  "GetCellResponse",
-)({
-  CellArn: S.optional(S.String).pipe(T.JsonName("cellArn")),
-  CellName: S.optional(S.String).pipe(T.JsonName("cellName")),
-  Cells: S.optional(__listOf__string).pipe(T.JsonName("cells")),
-  ParentReadinessScopes: S.optional(__listOf__string).pipe(
-    T.JsonName("parentReadinessScopes"),
-  ),
-  Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-}) {}
-export class GetReadinessCheckResponse extends S.Class<GetReadinessCheckResponse>(
-  "GetReadinessCheckResponse",
-)({
-  ReadinessCheckArn: S.optional(S.String).pipe(T.JsonName("readinessCheckArn")),
-  ReadinessCheckName: S.optional(S.String).pipe(
-    T.JsonName("readinessCheckName"),
-  ),
-  ResourceSet: S.optional(S.String).pipe(T.JsonName("resourceSet")),
-  Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-}) {}
-export class GetRecoveryGroupResponse extends S.Class<GetRecoveryGroupResponse>(
-  "GetRecoveryGroupResponse",
-)({
-  Cells: S.optional(__listOf__string).pipe(T.JsonName("cells")),
-  RecoveryGroupArn: S.optional(S.String).pipe(T.JsonName("recoveryGroupArn")),
-  RecoveryGroupName: S.optional(S.String).pipe(T.JsonName("recoveryGroupName")),
-  Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-}) {}
-export class ReadinessCheckSummary extends S.Class<ReadinessCheckSummary>(
-  "ReadinessCheckSummary",
-)({
-  Readiness: S.optional(S.String).pipe(T.JsonName("readiness")),
-  ReadinessCheckName: S.optional(S.String).pipe(
-    T.JsonName("readinessCheckName"),
-  ),
-}) {}
+).annotations({
+  identifier: "CreateCellRequest",
+}) as any as S.Schema<CreateCellRequest>;
+export interface CreateCrossAccountAuthorizationResponse {
+  CrossAccountAuthorization?: string;
+}
+export const CreateCrossAccountAuthorizationResponse = S.suspend(() =>
+  S.Struct({
+    CrossAccountAuthorization: S.optional(S.String).pipe(
+      T.JsonName("crossAccountAuthorization"),
+    ),
+  }),
+).annotations({
+  identifier: "CreateCrossAccountAuthorizationResponse",
+}) as any as S.Schema<CreateCrossAccountAuthorizationResponse>;
+export interface CreateReadinessCheckResponse {
+  ReadinessCheckArn?: string;
+  ReadinessCheckName?: string;
+  ResourceSet?: string;
+  Tags?: Tags;
+}
+export const CreateReadinessCheckResponse = S.suspend(() =>
+  S.Struct({
+    ReadinessCheckArn: S.optional(S.String).pipe(
+      T.JsonName("readinessCheckArn"),
+    ),
+    ReadinessCheckName: S.optional(S.String).pipe(
+      T.JsonName("readinessCheckName"),
+    ),
+    ResourceSet: S.optional(S.String).pipe(T.JsonName("resourceSet")),
+    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
+  }),
+).annotations({
+  identifier: "CreateReadinessCheckResponse",
+}) as any as S.Schema<CreateReadinessCheckResponse>;
+export interface CreateRecoveryGroupResponse {
+  Cells?: __listOf__string;
+  RecoveryGroupArn?: string;
+  RecoveryGroupName?: string;
+  Tags?: Tags;
+}
+export const CreateRecoveryGroupResponse = S.suspend(() =>
+  S.Struct({
+    Cells: S.optional(__listOf__string).pipe(T.JsonName("cells")),
+    RecoveryGroupArn: S.optional(S.String).pipe(T.JsonName("recoveryGroupArn")),
+    RecoveryGroupName: S.optional(S.String).pipe(
+      T.JsonName("recoveryGroupName"),
+    ),
+    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
+  }),
+).annotations({
+  identifier: "CreateRecoveryGroupResponse",
+}) as any as S.Schema<CreateRecoveryGroupResponse>;
+export interface GetCellResponse {
+  CellArn?: string;
+  CellName?: string;
+  Cells?: __listOf__string;
+  ParentReadinessScopes?: __listOf__string;
+  Tags?: Tags;
+}
+export const GetCellResponse = S.suspend(() =>
+  S.Struct({
+    CellArn: S.optional(S.String).pipe(T.JsonName("cellArn")),
+    CellName: S.optional(S.String).pipe(T.JsonName("cellName")),
+    Cells: S.optional(__listOf__string).pipe(T.JsonName("cells")),
+    ParentReadinessScopes: S.optional(__listOf__string).pipe(
+      T.JsonName("parentReadinessScopes"),
+    ),
+    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
+  }),
+).annotations({
+  identifier: "GetCellResponse",
+}) as any as S.Schema<GetCellResponse>;
+export interface GetReadinessCheckResponse {
+  ReadinessCheckArn?: string;
+  ReadinessCheckName?: string;
+  ResourceSet?: string;
+  Tags?: Tags;
+}
+export const GetReadinessCheckResponse = S.suspend(() =>
+  S.Struct({
+    ReadinessCheckArn: S.optional(S.String).pipe(
+      T.JsonName("readinessCheckArn"),
+    ),
+    ReadinessCheckName: S.optional(S.String).pipe(
+      T.JsonName("readinessCheckName"),
+    ),
+    ResourceSet: S.optional(S.String).pipe(T.JsonName("resourceSet")),
+    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
+  }),
+).annotations({
+  identifier: "GetReadinessCheckResponse",
+}) as any as S.Schema<GetReadinessCheckResponse>;
+export interface GetRecoveryGroupResponse {
+  Cells?: __listOf__string;
+  RecoveryGroupArn?: string;
+  RecoveryGroupName?: string;
+  Tags?: Tags;
+}
+export const GetRecoveryGroupResponse = S.suspend(() =>
+  S.Struct({
+    Cells: S.optional(__listOf__string).pipe(T.JsonName("cells")),
+    RecoveryGroupArn: S.optional(S.String).pipe(T.JsonName("recoveryGroupArn")),
+    RecoveryGroupName: S.optional(S.String).pipe(
+      T.JsonName("recoveryGroupName"),
+    ),
+    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
+  }),
+).annotations({
+  identifier: "GetRecoveryGroupResponse",
+}) as any as S.Schema<GetRecoveryGroupResponse>;
+export interface ReadinessCheckSummary {
+  Readiness?: string;
+  ReadinessCheckName?: string;
+}
+export const ReadinessCheckSummary = S.suspend(() =>
+  S.Struct({
+    Readiness: S.optional(S.String).pipe(T.JsonName("readiness")),
+    ReadinessCheckName: S.optional(S.String).pipe(
+      T.JsonName("readinessCheckName"),
+    ),
+  }),
+).annotations({
+  identifier: "ReadinessCheckSummary",
+}) as any as S.Schema<ReadinessCheckSummary>;
+export type __listOfReadinessCheckSummary = ReadinessCheckSummary[];
 export const __listOfReadinessCheckSummary = S.Array(ReadinessCheckSummary);
-export class GetRecoveryGroupReadinessSummaryResponse extends S.Class<GetRecoveryGroupReadinessSummaryResponse>(
-  "GetRecoveryGroupReadinessSummaryResponse",
-)({
-  NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  Readiness: S.optional(S.String).pipe(T.JsonName("readiness")),
-  ReadinessChecks: S.optional(__listOfReadinessCheckSummary).pipe(
-    T.JsonName("readinessChecks"),
-  ),
-}) {}
-export class GetResourceSetResponse extends S.Class<GetResourceSetResponse>(
-  "GetResourceSetResponse",
-)({
-  ResourceSetArn: S.optional(S.String).pipe(T.JsonName("resourceSetArn")),
-  ResourceSetName: S.optional(S.String).pipe(T.JsonName("resourceSetName")),
-  ResourceSetType: S.optional(S.String).pipe(T.JsonName("resourceSetType")),
-  Resources: S.optional(__listOfResource).pipe(T.JsonName("resources")),
-  Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-}) {}
-export class ListCrossAccountAuthorizationsResponse extends S.Class<ListCrossAccountAuthorizationsResponse>(
-  "ListCrossAccountAuthorizationsResponse",
-)({
-  CrossAccountAuthorizations: S.optional(
-    __listOfCrossAccountAuthorization,
-  ).pipe(T.JsonName("crossAccountAuthorizations")),
-  NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-}) {}
-export class ListTagsForResourcesResponse extends S.Class<ListTagsForResourcesResponse>(
-  "ListTagsForResourcesResponse",
-)({ Tags: S.optional(Tags).pipe(T.JsonName("tags")) }) {}
-export class UpdateCellResponse extends S.Class<UpdateCellResponse>(
-  "UpdateCellResponse",
-)({
-  CellArn: S.optional(S.String).pipe(T.JsonName("cellArn")),
-  CellName: S.optional(S.String).pipe(T.JsonName("cellName")),
-  Cells: S.optional(__listOf__string).pipe(T.JsonName("cells")),
-  ParentReadinessScopes: S.optional(__listOf__string).pipe(
-    T.JsonName("parentReadinessScopes"),
-  ),
-  Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-}) {}
-export class UpdateReadinessCheckResponse extends S.Class<UpdateReadinessCheckResponse>(
-  "UpdateReadinessCheckResponse",
-)({
-  ReadinessCheckArn: S.optional(S.String).pipe(T.JsonName("readinessCheckArn")),
-  ReadinessCheckName: S.optional(S.String).pipe(
-    T.JsonName("readinessCheckName"),
-  ),
-  ResourceSet: S.optional(S.String).pipe(T.JsonName("resourceSet")),
-  Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-}) {}
-export class UpdateRecoveryGroupResponse extends S.Class<UpdateRecoveryGroupResponse>(
-  "UpdateRecoveryGroupResponse",
-)({
-  Cells: S.optional(__listOf__string).pipe(T.JsonName("cells")),
-  RecoveryGroupArn: S.optional(S.String).pipe(T.JsonName("recoveryGroupArn")),
-  RecoveryGroupName: S.optional(S.String).pipe(T.JsonName("recoveryGroupName")),
-  Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-}) {}
-export class UpdateResourceSetResponse extends S.Class<UpdateResourceSetResponse>(
-  "UpdateResourceSetResponse",
-)({
-  ResourceSetArn: S.optional(S.String).pipe(T.JsonName("resourceSetArn")),
-  ResourceSetName: S.optional(S.String).pipe(T.JsonName("resourceSetName")),
-  ResourceSetType: S.optional(S.String).pipe(T.JsonName("resourceSetType")),
-  Resources: S.optional(__listOfResource).pipe(T.JsonName("resources")),
-  Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-}) {}
-export class Recommendation extends S.Class<Recommendation>("Recommendation")({
-  RecommendationText: S.String.pipe(T.JsonName("recommendationText")),
-}) {}
+export interface GetRecoveryGroupReadinessSummaryResponse {
+  NextToken?: string;
+  Readiness?: string;
+  ReadinessChecks?: __listOfReadinessCheckSummary;
+}
+export const GetRecoveryGroupReadinessSummaryResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
+    Readiness: S.optional(S.String).pipe(T.JsonName("readiness")),
+    ReadinessChecks: S.optional(__listOfReadinessCheckSummary).pipe(
+      T.JsonName("readinessChecks"),
+    ),
+  }),
+).annotations({
+  identifier: "GetRecoveryGroupReadinessSummaryResponse",
+}) as any as S.Schema<GetRecoveryGroupReadinessSummaryResponse>;
+export interface GetResourceSetResponse {
+  ResourceSetArn?: string;
+  ResourceSetName?: string;
+  ResourceSetType?: string;
+  Resources?: __listOfResource;
+  Tags?: Tags;
+}
+export const GetResourceSetResponse = S.suspend(() =>
+  S.Struct({
+    ResourceSetArn: S.optional(S.String).pipe(T.JsonName("resourceSetArn")),
+    ResourceSetName: S.optional(S.String).pipe(T.JsonName("resourceSetName")),
+    ResourceSetType: S.optional(S.String).pipe(T.JsonName("resourceSetType")),
+    Resources: S.optional(__listOfResource).pipe(T.JsonName("resources")),
+    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
+  }),
+).annotations({
+  identifier: "GetResourceSetResponse",
+}) as any as S.Schema<GetResourceSetResponse>;
+export interface ListCrossAccountAuthorizationsResponse {
+  CrossAccountAuthorizations?: __listOfCrossAccountAuthorization;
+  NextToken?: string;
+}
+export const ListCrossAccountAuthorizationsResponse = S.suspend(() =>
+  S.Struct({
+    CrossAccountAuthorizations: S.optional(
+      __listOfCrossAccountAuthorization,
+    ).pipe(T.JsonName("crossAccountAuthorizations")),
+    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
+  }),
+).annotations({
+  identifier: "ListCrossAccountAuthorizationsResponse",
+}) as any as S.Schema<ListCrossAccountAuthorizationsResponse>;
+export interface ListTagsForResourcesResponse {
+  Tags?: Tags;
+}
+export const ListTagsForResourcesResponse = S.suspend(() =>
+  S.Struct({ Tags: S.optional(Tags).pipe(T.JsonName("tags")) }),
+).annotations({
+  identifier: "ListTagsForResourcesResponse",
+}) as any as S.Schema<ListTagsForResourcesResponse>;
+export interface UpdateCellResponse {
+  CellArn?: string;
+  CellName?: string;
+  Cells?: __listOf__string;
+  ParentReadinessScopes?: __listOf__string;
+  Tags?: Tags;
+}
+export const UpdateCellResponse = S.suspend(() =>
+  S.Struct({
+    CellArn: S.optional(S.String).pipe(T.JsonName("cellArn")),
+    CellName: S.optional(S.String).pipe(T.JsonName("cellName")),
+    Cells: S.optional(__listOf__string).pipe(T.JsonName("cells")),
+    ParentReadinessScopes: S.optional(__listOf__string).pipe(
+      T.JsonName("parentReadinessScopes"),
+    ),
+    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
+  }),
+).annotations({
+  identifier: "UpdateCellResponse",
+}) as any as S.Schema<UpdateCellResponse>;
+export interface UpdateReadinessCheckResponse {
+  ReadinessCheckArn?: string;
+  ReadinessCheckName?: string;
+  ResourceSet?: string;
+  Tags?: Tags;
+}
+export const UpdateReadinessCheckResponse = S.suspend(() =>
+  S.Struct({
+    ReadinessCheckArn: S.optional(S.String).pipe(
+      T.JsonName("readinessCheckArn"),
+    ),
+    ReadinessCheckName: S.optional(S.String).pipe(
+      T.JsonName("readinessCheckName"),
+    ),
+    ResourceSet: S.optional(S.String).pipe(T.JsonName("resourceSet")),
+    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
+  }),
+).annotations({
+  identifier: "UpdateReadinessCheckResponse",
+}) as any as S.Schema<UpdateReadinessCheckResponse>;
+export interface UpdateRecoveryGroupResponse {
+  Cells?: __listOf__string;
+  RecoveryGroupArn?: string;
+  RecoveryGroupName?: string;
+  Tags?: Tags;
+}
+export const UpdateRecoveryGroupResponse = S.suspend(() =>
+  S.Struct({
+    Cells: S.optional(__listOf__string).pipe(T.JsonName("cells")),
+    RecoveryGroupArn: S.optional(S.String).pipe(T.JsonName("recoveryGroupArn")),
+    RecoveryGroupName: S.optional(S.String).pipe(
+      T.JsonName("recoveryGroupName"),
+    ),
+    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
+  }),
+).annotations({
+  identifier: "UpdateRecoveryGroupResponse",
+}) as any as S.Schema<UpdateRecoveryGroupResponse>;
+export interface UpdateResourceSetResponse {
+  ResourceSetArn?: string;
+  ResourceSetName?: string;
+  ResourceSetType?: string;
+  Resources?: __listOfResource;
+  Tags?: Tags;
+}
+export const UpdateResourceSetResponse = S.suspend(() =>
+  S.Struct({
+    ResourceSetArn: S.optional(S.String).pipe(T.JsonName("resourceSetArn")),
+    ResourceSetName: S.optional(S.String).pipe(T.JsonName("resourceSetName")),
+    ResourceSetType: S.optional(S.String).pipe(T.JsonName("resourceSetType")),
+    Resources: S.optional(__listOfResource).pipe(T.JsonName("resources")),
+    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
+  }),
+).annotations({
+  identifier: "UpdateResourceSetResponse",
+}) as any as S.Schema<UpdateResourceSetResponse>;
+export interface Recommendation {
+  RecommendationText: string;
+}
+export const Recommendation = S.suspend(() =>
+  S.Struct({
+    RecommendationText: S.String.pipe(T.JsonName("recommendationText")),
+  }),
+).annotations({
+  identifier: "Recommendation",
+}) as any as S.Schema<Recommendation>;
+export type __listOfRecommendation = Recommendation[];
 export const __listOfRecommendation = S.Array(Recommendation);
-export class Message extends S.Class<Message>("Message")({
-  MessageText: S.optional(S.String).pipe(T.JsonName("messageText")),
-}) {}
+export interface Message {
+  MessageText?: string;
+}
+export const Message = S.suspend(() =>
+  S.Struct({
+    MessageText: S.optional(S.String).pipe(T.JsonName("messageText")),
+  }),
+).annotations({ identifier: "Message" }) as any as S.Schema<Message>;
+export type __listOfMessage = Message[];
 export const __listOfMessage = S.Array(Message);
-export class RuleResult extends S.Class<RuleResult>("RuleResult")({
-  LastCheckedTimestamp: S.Date.pipe(T.TimestampFormat("date-time")).pipe(
-    T.JsonName("lastCheckedTimestamp"),
-  ),
-  Messages: __listOfMessage.pipe(T.JsonName("messages")),
-  Readiness: S.String.pipe(T.JsonName("readiness")),
-  RuleId: S.String.pipe(T.JsonName("ruleId")),
-}) {}
+export interface RuleResult {
+  LastCheckedTimestamp: Date;
+  Messages: __listOfMessage;
+  Readiness: string;
+  RuleId: string;
+}
+export const RuleResult = S.suspend(() =>
+  S.Struct({
+    LastCheckedTimestamp: S.Date.pipe(T.TimestampFormat("date-time")).pipe(
+      T.JsonName("lastCheckedTimestamp"),
+    ),
+    Messages: __listOfMessage.pipe(T.JsonName("messages")),
+    Readiness: S.String.pipe(T.JsonName("readiness")),
+    RuleId: S.String.pipe(T.JsonName("ruleId")),
+  }),
+).annotations({ identifier: "RuleResult" }) as any as S.Schema<RuleResult>;
+export type __listOfRuleResult = RuleResult[];
 export const __listOfRuleResult = S.Array(RuleResult);
-export class ResourceResult extends S.Class<ResourceResult>("ResourceResult")({
-  ComponentId: S.optional(S.String).pipe(T.JsonName("componentId")),
-  LastCheckedTimestamp: S.Date.pipe(T.TimestampFormat("date-time")).pipe(
-    T.JsonName("lastCheckedTimestamp"),
-  ),
-  Readiness: S.String.pipe(T.JsonName("readiness")),
-  ResourceArn: S.optional(S.String).pipe(T.JsonName("resourceArn")),
-}) {}
+export interface ResourceResult {
+  ComponentId?: string;
+  LastCheckedTimestamp: Date;
+  Readiness: string;
+  ResourceArn?: string;
+}
+export const ResourceResult = S.suspend(() =>
+  S.Struct({
+    ComponentId: S.optional(S.String).pipe(T.JsonName("componentId")),
+    LastCheckedTimestamp: S.Date.pipe(T.TimestampFormat("date-time")).pipe(
+      T.JsonName("lastCheckedTimestamp"),
+    ),
+    Readiness: S.String.pipe(T.JsonName("readiness")),
+    ResourceArn: S.optional(S.String).pipe(T.JsonName("resourceArn")),
+  }),
+).annotations({
+  identifier: "ResourceResult",
+}) as any as S.Schema<ResourceResult>;
+export type __listOfResourceResult = ResourceResult[];
 export const __listOfResourceResult = S.Array(ResourceResult);
-export class CellOutput extends S.Class<CellOutput>("CellOutput")({
-  CellArn: S.String.pipe(T.JsonName("cellArn")),
-  CellName: S.String.pipe(T.JsonName("cellName")),
-  Cells: __listOf__string.pipe(T.JsonName("cells")),
-  ParentReadinessScopes: __listOf__string.pipe(
-    T.JsonName("parentReadinessScopes"),
-  ),
-  Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-}) {}
+export interface CellOutput {
+  CellArn: string;
+  CellName: string;
+  Cells: __listOf__string;
+  ParentReadinessScopes: __listOf__string;
+  Tags?: Tags;
+}
+export const CellOutput = S.suspend(() =>
+  S.Struct({
+    CellArn: S.String.pipe(T.JsonName("cellArn")),
+    CellName: S.String.pipe(T.JsonName("cellName")),
+    Cells: __listOf__string.pipe(T.JsonName("cells")),
+    ParentReadinessScopes: __listOf__string.pipe(
+      T.JsonName("parentReadinessScopes"),
+    ),
+    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
+  }),
+).annotations({ identifier: "CellOutput" }) as any as S.Schema<CellOutput>;
+export type __listOfCellOutput = CellOutput[];
 export const __listOfCellOutput = S.Array(CellOutput);
-export class ReadinessCheckOutput extends S.Class<ReadinessCheckOutput>(
-  "ReadinessCheckOutput",
-)({
-  ReadinessCheckArn: S.String.pipe(T.JsonName("readinessCheckArn")),
-  ReadinessCheckName: S.optional(S.String).pipe(
-    T.JsonName("readinessCheckName"),
-  ),
-  ResourceSet: S.String.pipe(T.JsonName("resourceSet")),
-  Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-}) {}
+export interface ReadinessCheckOutput {
+  ReadinessCheckArn: string;
+  ReadinessCheckName?: string;
+  ResourceSet: string;
+  Tags?: Tags;
+}
+export const ReadinessCheckOutput = S.suspend(() =>
+  S.Struct({
+    ReadinessCheckArn: S.String.pipe(T.JsonName("readinessCheckArn")),
+    ReadinessCheckName: S.optional(S.String).pipe(
+      T.JsonName("readinessCheckName"),
+    ),
+    ResourceSet: S.String.pipe(T.JsonName("resourceSet")),
+    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
+  }),
+).annotations({
+  identifier: "ReadinessCheckOutput",
+}) as any as S.Schema<ReadinessCheckOutput>;
+export type __listOfReadinessCheckOutput = ReadinessCheckOutput[];
 export const __listOfReadinessCheckOutput = S.Array(ReadinessCheckOutput);
-export class RecoveryGroupOutput extends S.Class<RecoveryGroupOutput>(
-  "RecoveryGroupOutput",
-)({
-  Cells: __listOf__string.pipe(T.JsonName("cells")),
-  RecoveryGroupArn: S.String.pipe(T.JsonName("recoveryGroupArn")),
-  RecoveryGroupName: S.String.pipe(T.JsonName("recoveryGroupName")),
-  Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-}) {}
+export interface RecoveryGroupOutput {
+  Cells: __listOf__string;
+  RecoveryGroupArn: string;
+  RecoveryGroupName: string;
+  Tags?: Tags;
+}
+export const RecoveryGroupOutput = S.suspend(() =>
+  S.Struct({
+    Cells: __listOf__string.pipe(T.JsonName("cells")),
+    RecoveryGroupArn: S.String.pipe(T.JsonName("recoveryGroupArn")),
+    RecoveryGroupName: S.String.pipe(T.JsonName("recoveryGroupName")),
+    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
+  }),
+).annotations({
+  identifier: "RecoveryGroupOutput",
+}) as any as S.Schema<RecoveryGroupOutput>;
+export type __listOfRecoveryGroupOutput = RecoveryGroupOutput[];
 export const __listOfRecoveryGroupOutput = S.Array(RecoveryGroupOutput);
-export class ResourceSetOutput extends S.Class<ResourceSetOutput>(
-  "ResourceSetOutput",
-)({
-  ResourceSetArn: S.String.pipe(T.JsonName("resourceSetArn")),
-  ResourceSetName: S.String.pipe(T.JsonName("resourceSetName")),
-  ResourceSetType: S.String.pipe(T.JsonName("resourceSetType")),
-  Resources: __listOfResource.pipe(T.JsonName("resources")),
-  Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-}) {}
-export const __listOfResourceSetOutput = S.Array(ResourceSetOutput);
-export class ListRulesOutput extends S.Class<ListRulesOutput>(
-  "ListRulesOutput",
-)({
-  ResourceType: S.String.pipe(T.JsonName("resourceType")),
-  RuleDescription: S.String.pipe(T.JsonName("ruleDescription")),
-  RuleId: S.String.pipe(T.JsonName("ruleId")),
-}) {}
-export const __listOfListRulesOutput = S.Array(ListRulesOutput);
-export class CreateCellResponse extends S.Class<CreateCellResponse>(
-  "CreateCellResponse",
-)({
-  CellArn: S.optional(S.String).pipe(T.JsonName("cellArn")),
-  CellName: S.optional(S.String).pipe(T.JsonName("cellName")),
-  Cells: S.optional(__listOf__string).pipe(T.JsonName("cells")),
-  ParentReadinessScopes: S.optional(__listOf__string).pipe(
-    T.JsonName("parentReadinessScopes"),
-  ),
-  Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-}) {}
-export class GetArchitectureRecommendationsResponse extends S.Class<GetArchitectureRecommendationsResponse>(
-  "GetArchitectureRecommendationsResponse",
-)({
-  LastAuditTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("date-time")),
-  ).pipe(T.JsonName("lastAuditTimestamp")),
-  NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  Recommendations: S.optional(__listOfRecommendation).pipe(
-    T.JsonName("recommendations"),
-  ),
-}) {}
-export class GetCellReadinessSummaryResponse extends S.Class<GetCellReadinessSummaryResponse>(
-  "GetCellReadinessSummaryResponse",
-)({
-  NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  Readiness: S.optional(S.String).pipe(T.JsonName("readiness")),
-  ReadinessChecks: S.optional(__listOfReadinessCheckSummary).pipe(
-    T.JsonName("readinessChecks"),
-  ),
-}) {}
-export class GetReadinessCheckResourceStatusResponse extends S.Class<GetReadinessCheckResourceStatusResponse>(
-  "GetReadinessCheckResourceStatusResponse",
-)({
-  NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  Readiness: S.optional(S.String).pipe(T.JsonName("readiness")),
-  Rules: S.optional(__listOfRuleResult).pipe(T.JsonName("rules")),
-}) {}
-export class GetReadinessCheckStatusResponse extends S.Class<GetReadinessCheckStatusResponse>(
-  "GetReadinessCheckStatusResponse",
-)({
-  Messages: S.optional(__listOfMessage).pipe(T.JsonName("messages")),
-  NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  Readiness: S.optional(S.String).pipe(T.JsonName("readiness")),
-  Resources: S.optional(__listOfResourceResult).pipe(T.JsonName("resources")),
-}) {}
-export class ListCellsResponse extends S.Class<ListCellsResponse>(
-  "ListCellsResponse",
-)({
-  Cells: S.optional(__listOfCellOutput).pipe(T.JsonName("cells")),
-  NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-}) {}
-export class ListReadinessChecksResponse extends S.Class<ListReadinessChecksResponse>(
-  "ListReadinessChecksResponse",
-)({
-  NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  ReadinessChecks: S.optional(__listOfReadinessCheckOutput).pipe(
-    T.JsonName("readinessChecks"),
-  ),
-}) {}
-export class ListRecoveryGroupsResponse extends S.Class<ListRecoveryGroupsResponse>(
-  "ListRecoveryGroupsResponse",
-)({
-  NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  RecoveryGroups: S.optional(__listOfRecoveryGroupOutput).pipe(
-    T.JsonName("recoveryGroups"),
-  ),
-}) {}
-export class ListResourceSetsResponse extends S.Class<ListResourceSetsResponse>(
-  "ListResourceSetsResponse",
-)({
-  NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  ResourceSets: S.optional(__listOfResourceSetOutput).pipe(
-    T.JsonName("resourceSets"),
-  ),
-}) {}
-export class ListRulesResponse extends S.Class<ListRulesResponse>(
-  "ListRulesResponse",
-)({
-  NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  Rules: S.optional(__listOfListRulesOutput).pipe(T.JsonName("rules")),
-}) {}
-export class CreateResourceSetRequest extends S.Class<CreateResourceSetRequest>(
-  "CreateResourceSetRequest",
-)(
-  {
+export interface ResourceSetOutput {
+  ResourceSetArn: string;
+  ResourceSetName: string;
+  ResourceSetType: string;
+  Resources: __listOfResource;
+  Tags?: Tags;
+}
+export const ResourceSetOutput = S.suspend(() =>
+  S.Struct({
+    ResourceSetArn: S.String.pipe(T.JsonName("resourceSetArn")),
     ResourceSetName: S.String.pipe(T.JsonName("resourceSetName")),
     ResourceSetType: S.String.pipe(T.JsonName("resourceSetType")),
     Resources: __listOfResource.pipe(T.JsonName("resources")),
     Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/resourcesets" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }),
+).annotations({
+  identifier: "ResourceSetOutput",
+}) as any as S.Schema<ResourceSetOutput>;
+export type __listOfResourceSetOutput = ResourceSetOutput[];
+export const __listOfResourceSetOutput = S.Array(ResourceSetOutput);
+export interface ListRulesOutput {
+  ResourceType: string;
+  RuleDescription: string;
+  RuleId: string;
+}
+export const ListRulesOutput = S.suspend(() =>
+  S.Struct({
+    ResourceType: S.String.pipe(T.JsonName("resourceType")),
+    RuleDescription: S.String.pipe(T.JsonName("ruleDescription")),
+    RuleId: S.String.pipe(T.JsonName("ruleId")),
+  }),
+).annotations({
+  identifier: "ListRulesOutput",
+}) as any as S.Schema<ListRulesOutput>;
+export type __listOfListRulesOutput = ListRulesOutput[];
+export const __listOfListRulesOutput = S.Array(ListRulesOutput);
+export interface CreateCellResponse {
+  CellArn?: string;
+  CellName?: string;
+  Cells?: __listOf__string;
+  ParentReadinessScopes?: __listOf__string;
+  Tags?: Tags;
+}
+export const CreateCellResponse = S.suspend(() =>
+  S.Struct({
+    CellArn: S.optional(S.String).pipe(T.JsonName("cellArn")),
+    CellName: S.optional(S.String).pipe(T.JsonName("cellName")),
+    Cells: S.optional(__listOf__string).pipe(T.JsonName("cells")),
+    ParentReadinessScopes: S.optional(__listOf__string).pipe(
+      T.JsonName("parentReadinessScopes"),
+    ),
+    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
+  }),
+).annotations({
+  identifier: "CreateCellResponse",
+}) as any as S.Schema<CreateCellResponse>;
+export interface GetArchitectureRecommendationsResponse {
+  LastAuditTimestamp?: Date;
+  NextToken?: string;
+  Recommendations?: __listOfRecommendation;
+}
+export const GetArchitectureRecommendationsResponse = S.suspend(() =>
+  S.Struct({
+    LastAuditTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.JsonName("lastAuditTimestamp")),
+    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
+    Recommendations: S.optional(__listOfRecommendation).pipe(
+      T.JsonName("recommendations"),
+    ),
+  }),
+).annotations({
+  identifier: "GetArchitectureRecommendationsResponse",
+}) as any as S.Schema<GetArchitectureRecommendationsResponse>;
+export interface GetCellReadinessSummaryResponse {
+  NextToken?: string;
+  Readiness?: string;
+  ReadinessChecks?: __listOfReadinessCheckSummary;
+}
+export const GetCellReadinessSummaryResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
+    Readiness: S.optional(S.String).pipe(T.JsonName("readiness")),
+    ReadinessChecks: S.optional(__listOfReadinessCheckSummary).pipe(
+      T.JsonName("readinessChecks"),
+    ),
+  }),
+).annotations({
+  identifier: "GetCellReadinessSummaryResponse",
+}) as any as S.Schema<GetCellReadinessSummaryResponse>;
+export interface GetReadinessCheckResourceStatusResponse {
+  NextToken?: string;
+  Readiness?: string;
+  Rules?: __listOfRuleResult;
+}
+export const GetReadinessCheckResourceStatusResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
+    Readiness: S.optional(S.String).pipe(T.JsonName("readiness")),
+    Rules: S.optional(__listOfRuleResult).pipe(T.JsonName("rules")),
+  }),
+).annotations({
+  identifier: "GetReadinessCheckResourceStatusResponse",
+}) as any as S.Schema<GetReadinessCheckResourceStatusResponse>;
+export interface GetReadinessCheckStatusResponse {
+  Messages?: __listOfMessage;
+  NextToken?: string;
+  Readiness?: string;
+  Resources?: __listOfResourceResult;
+}
+export const GetReadinessCheckStatusResponse = S.suspend(() =>
+  S.Struct({
+    Messages: S.optional(__listOfMessage).pipe(T.JsonName("messages")),
+    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
+    Readiness: S.optional(S.String).pipe(T.JsonName("readiness")),
+    Resources: S.optional(__listOfResourceResult).pipe(T.JsonName("resources")),
+  }),
+).annotations({
+  identifier: "GetReadinessCheckStatusResponse",
+}) as any as S.Schema<GetReadinessCheckStatusResponse>;
+export interface ListCellsResponse {
+  Cells?: __listOfCellOutput;
+  NextToken?: string;
+}
+export const ListCellsResponse = S.suspend(() =>
+  S.Struct({
+    Cells: S.optional(__listOfCellOutput).pipe(T.JsonName("cells")),
+    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
+  }),
+).annotations({
+  identifier: "ListCellsResponse",
+}) as any as S.Schema<ListCellsResponse>;
+export interface ListReadinessChecksResponse {
+  NextToken?: string;
+  ReadinessChecks?: __listOfReadinessCheckOutput;
+}
+export const ListReadinessChecksResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
+    ReadinessChecks: S.optional(__listOfReadinessCheckOutput).pipe(
+      T.JsonName("readinessChecks"),
+    ),
+  }),
+).annotations({
+  identifier: "ListReadinessChecksResponse",
+}) as any as S.Schema<ListReadinessChecksResponse>;
+export interface ListRecoveryGroupsResponse {
+  NextToken?: string;
+  RecoveryGroups?: __listOfRecoveryGroupOutput;
+}
+export const ListRecoveryGroupsResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
+    RecoveryGroups: S.optional(__listOfRecoveryGroupOutput).pipe(
+      T.JsonName("recoveryGroups"),
+    ),
+  }),
+).annotations({
+  identifier: "ListRecoveryGroupsResponse",
+}) as any as S.Schema<ListRecoveryGroupsResponse>;
+export interface ListResourceSetsResponse {
+  NextToken?: string;
+  ResourceSets?: __listOfResourceSetOutput;
+}
+export const ListResourceSetsResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
+    ResourceSets: S.optional(__listOfResourceSetOutput).pipe(
+      T.JsonName("resourceSets"),
+    ),
+  }),
+).annotations({
+  identifier: "ListResourceSetsResponse",
+}) as any as S.Schema<ListResourceSetsResponse>;
+export interface ListRulesResponse {
+  NextToken?: string;
+  Rules?: __listOfListRulesOutput;
+}
+export const ListRulesResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
+    Rules: S.optional(__listOfListRulesOutput).pipe(T.JsonName("rules")),
+  }),
+).annotations({
+  identifier: "ListRulesResponse",
+}) as any as S.Schema<ListRulesResponse>;
+export interface CreateResourceSetRequest {
+  ResourceSetName: string;
+  ResourceSetType: string;
+  Resources: __listOfResource;
+  Tags?: Tags;
+}
+export const CreateResourceSetRequest = S.suspend(() =>
+  S.Struct({
+    ResourceSetName: S.String.pipe(T.JsonName("resourceSetName")),
+    ResourceSetType: S.String.pipe(T.JsonName("resourceSetType")),
+    Resources: __listOfResource.pipe(T.JsonName("resources")),
+    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/resourcesets" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateResourceSetResponse extends S.Class<CreateResourceSetResponse>(
-  "CreateResourceSetResponse",
-)({
-  ResourceSetArn: S.optional(S.String).pipe(T.JsonName("resourceSetArn")),
-  ResourceSetName: S.optional(S.String).pipe(T.JsonName("resourceSetName")),
-  ResourceSetType: S.optional(S.String).pipe(T.JsonName("resourceSetType")),
-  Resources: S.optional(__listOfResource).pipe(T.JsonName("resources")),
-  Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-}) {}
+).annotations({
+  identifier: "CreateResourceSetRequest",
+}) as any as S.Schema<CreateResourceSetRequest>;
+export interface CreateResourceSetResponse {
+  ResourceSetArn?: string;
+  ResourceSetName?: string;
+  ResourceSetType?: string;
+  Resources?: __listOfResource;
+  Tags?: Tags;
+}
+export const CreateResourceSetResponse = S.suspend(() =>
+  S.Struct({
+    ResourceSetArn: S.optional(S.String).pipe(T.JsonName("resourceSetArn")),
+    ResourceSetName: S.optional(S.String).pipe(T.JsonName("resourceSetName")),
+    ResourceSetType: S.optional(S.String).pipe(T.JsonName("resourceSetType")),
+    Resources: S.optional(__listOfResource).pipe(T.JsonName("resources")),
+    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
+  }),
+).annotations({
+  identifier: "CreateResourceSetResponse",
+}) as any as S.Schema<CreateResourceSetResponse>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

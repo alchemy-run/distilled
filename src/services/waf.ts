@@ -303,1188 +303,3012 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class GetChangeTokenRequest extends S.Class<GetChangeTokenRequest>(
-  "GetChangeTokenRequest",
-)(
-  {},
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+export interface GetChangeTokenRequest {}
+export const GetChangeTokenRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetChangeTokenRequest",
+}) as any as S.Schema<GetChangeTokenRequest>;
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class CreateByteMatchSetRequest extends S.Class<CreateByteMatchSetRequest>(
-  "CreateByteMatchSetRequest",
-)(
-  { Name: S.String, ChangeToken: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateGeoMatchSetRequest extends S.Class<CreateGeoMatchSetRequest>(
-  "CreateGeoMatchSetRequest",
-)(
-  { Name: S.String, ChangeToken: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateIPSetRequest extends S.Class<CreateIPSetRequest>(
-  "CreateIPSetRequest",
-)(
-  { Name: S.String, ChangeToken: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateRegexMatchSetRequest extends S.Class<CreateRegexMatchSetRequest>(
-  "CreateRegexMatchSetRequest",
-)(
-  { Name: S.String, ChangeToken: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateRegexPatternSetRequest extends S.Class<CreateRegexPatternSetRequest>(
-  "CreateRegexPatternSetRequest",
-)(
-  { Name: S.String, ChangeToken: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class Tag extends S.Class<Tag>("Tag")({
-  Key: S.String,
-  Value: S.String,
-}) {}
+export interface CreateByteMatchSetRequest {
+  Name: string;
+  ChangeToken: string;
+}
+export const CreateByteMatchSetRequest = S.suspend(() =>
+  S.Struct({ Name: S.String, ChangeToken: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateByteMatchSetRequest",
+}) as any as S.Schema<CreateByteMatchSetRequest>;
+export interface CreateGeoMatchSetRequest {
+  Name: string;
+  ChangeToken: string;
+}
+export const CreateGeoMatchSetRequest = S.suspend(() =>
+  S.Struct({ Name: S.String, ChangeToken: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateGeoMatchSetRequest",
+}) as any as S.Schema<CreateGeoMatchSetRequest>;
+export interface CreateIPSetRequest {
+  Name: string;
+  ChangeToken: string;
+}
+export const CreateIPSetRequest = S.suspend(() =>
+  S.Struct({ Name: S.String, ChangeToken: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateIPSetRequest",
+}) as any as S.Schema<CreateIPSetRequest>;
+export interface CreateRegexMatchSetRequest {
+  Name: string;
+  ChangeToken: string;
+}
+export const CreateRegexMatchSetRequest = S.suspend(() =>
+  S.Struct({ Name: S.String, ChangeToken: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateRegexMatchSetRequest",
+}) as any as S.Schema<CreateRegexMatchSetRequest>;
+export interface CreateRegexPatternSetRequest {
+  Name: string;
+  ChangeToken: string;
+}
+export const CreateRegexPatternSetRequest = S.suspend(() =>
+  S.Struct({ Name: S.String, ChangeToken: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateRegexPatternSetRequest",
+}) as any as S.Schema<CreateRegexPatternSetRequest>;
+export interface Tag {
+  Key: string;
+  Value: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ Key: S.String, Value: S.String }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagList = Tag[];
 export const TagList = S.Array(Tag);
-export class CreateRuleRequest extends S.Class<CreateRuleRequest>(
-  "CreateRuleRequest",
-)(
-  {
+export interface CreateRuleRequest {
+  Name: string;
+  MetricName: string;
+  ChangeToken: string;
+  Tags?: TagList;
+}
+export const CreateRuleRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     MetricName: S.String,
     ChangeToken: S.String,
     Tags: S.optional(TagList),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateRuleGroupRequest extends S.Class<CreateRuleGroupRequest>(
-  "CreateRuleGroupRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateRuleRequest",
+}) as any as S.Schema<CreateRuleRequest>;
+export interface CreateRuleGroupRequest {
+  Name: string;
+  MetricName: string;
+  ChangeToken: string;
+  Tags?: TagList;
+}
+export const CreateRuleGroupRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     MetricName: S.String,
     ChangeToken: S.String,
     Tags: S.optional(TagList),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateSizeConstraintSetRequest extends S.Class<CreateSizeConstraintSetRequest>(
-  "CreateSizeConstraintSetRequest",
-)(
-  { Name: S.String, ChangeToken: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateSqlInjectionMatchSetRequest extends S.Class<CreateSqlInjectionMatchSetRequest>(
-  "CreateSqlInjectionMatchSetRequest",
-)(
-  { Name: S.String, ChangeToken: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateWebACLMigrationStackRequest extends S.Class<CreateWebACLMigrationStackRequest>(
-  "CreateWebACLMigrationStackRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateRuleGroupRequest",
+}) as any as S.Schema<CreateRuleGroupRequest>;
+export interface CreateSizeConstraintSetRequest {
+  Name: string;
+  ChangeToken: string;
+}
+export const CreateSizeConstraintSetRequest = S.suspend(() =>
+  S.Struct({ Name: S.String, ChangeToken: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateSizeConstraintSetRequest",
+}) as any as S.Schema<CreateSizeConstraintSetRequest>;
+export interface CreateSqlInjectionMatchSetRequest {
+  Name: string;
+  ChangeToken: string;
+}
+export const CreateSqlInjectionMatchSetRequest = S.suspend(() =>
+  S.Struct({ Name: S.String, ChangeToken: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateSqlInjectionMatchSetRequest",
+}) as any as S.Schema<CreateSqlInjectionMatchSetRequest>;
+export interface CreateWebACLMigrationStackRequest {
+  WebACLId: string;
+  S3BucketName: string;
+  IgnoreUnsupportedType: boolean;
+}
+export const CreateWebACLMigrationStackRequest = S.suspend(() =>
+  S.Struct({
     WebACLId: S.String,
     S3BucketName: S.String,
     IgnoreUnsupportedType: S.Boolean,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateXssMatchSetRequest extends S.Class<CreateXssMatchSetRequest>(
-  "CreateXssMatchSetRequest",
-)(
-  { Name: S.String, ChangeToken: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteByteMatchSetRequest extends S.Class<DeleteByteMatchSetRequest>(
-  "DeleteByteMatchSetRequest",
-)(
-  { ByteMatchSetId: S.String, ChangeToken: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteGeoMatchSetRequest extends S.Class<DeleteGeoMatchSetRequest>(
-  "DeleteGeoMatchSetRequest",
-)(
-  { GeoMatchSetId: S.String, ChangeToken: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteIPSetRequest extends S.Class<DeleteIPSetRequest>(
-  "DeleteIPSetRequest",
-)(
-  { IPSetId: S.String, ChangeToken: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteLoggingConfigurationRequest extends S.Class<DeleteLoggingConfigurationRequest>(
-  "DeleteLoggingConfigurationRequest",
-)(
-  { ResourceArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteLoggingConfigurationResponse extends S.Class<DeleteLoggingConfigurationResponse>(
-  "DeleteLoggingConfigurationResponse",
-)({}, ns) {}
-export class DeletePermissionPolicyRequest extends S.Class<DeletePermissionPolicyRequest>(
-  "DeletePermissionPolicyRequest",
-)(
-  { ResourceArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeletePermissionPolicyResponse extends S.Class<DeletePermissionPolicyResponse>(
-  "DeletePermissionPolicyResponse",
-)({}, ns) {}
-export class DeleteRateBasedRuleRequest extends S.Class<DeleteRateBasedRuleRequest>(
-  "DeleteRateBasedRuleRequest",
-)(
-  { RuleId: S.String, ChangeToken: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteRegexMatchSetRequest extends S.Class<DeleteRegexMatchSetRequest>(
-  "DeleteRegexMatchSetRequest",
-)(
-  { RegexMatchSetId: S.String, ChangeToken: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteRegexPatternSetRequest extends S.Class<DeleteRegexPatternSetRequest>(
-  "DeleteRegexPatternSetRequest",
-)(
-  { RegexPatternSetId: S.String, ChangeToken: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteRuleRequest extends S.Class<DeleteRuleRequest>(
-  "DeleteRuleRequest",
-)(
-  { RuleId: S.String, ChangeToken: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteRuleGroupRequest extends S.Class<DeleteRuleGroupRequest>(
-  "DeleteRuleGroupRequest",
-)(
-  { RuleGroupId: S.String, ChangeToken: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteSizeConstraintSetRequest extends S.Class<DeleteSizeConstraintSetRequest>(
-  "DeleteSizeConstraintSetRequest",
-)(
-  { SizeConstraintSetId: S.String, ChangeToken: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteSqlInjectionMatchSetRequest extends S.Class<DeleteSqlInjectionMatchSetRequest>(
-  "DeleteSqlInjectionMatchSetRequest",
-)(
-  { SqlInjectionMatchSetId: S.String, ChangeToken: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteWebACLRequest extends S.Class<DeleteWebACLRequest>(
-  "DeleteWebACLRequest",
-)(
-  { WebACLId: S.String, ChangeToken: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteXssMatchSetRequest extends S.Class<DeleteXssMatchSetRequest>(
-  "DeleteXssMatchSetRequest",
-)(
-  { XssMatchSetId: S.String, ChangeToken: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetByteMatchSetRequest extends S.Class<GetByteMatchSetRequest>(
-  "GetByteMatchSetRequest",
-)(
-  { ByteMatchSetId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetChangeTokenResponse extends S.Class<GetChangeTokenResponse>(
-  "GetChangeTokenResponse",
-)({ ChangeToken: S.optional(S.String) }, ns) {}
-export class GetChangeTokenStatusRequest extends S.Class<GetChangeTokenStatusRequest>(
-  "GetChangeTokenStatusRequest",
-)(
-  { ChangeToken: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetGeoMatchSetRequest extends S.Class<GetGeoMatchSetRequest>(
-  "GetGeoMatchSetRequest",
-)(
-  { GeoMatchSetId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetIPSetRequest extends S.Class<GetIPSetRequest>(
-  "GetIPSetRequest",
-)(
-  { IPSetId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetLoggingConfigurationRequest extends S.Class<GetLoggingConfigurationRequest>(
-  "GetLoggingConfigurationRequest",
-)(
-  { ResourceArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetPermissionPolicyRequest extends S.Class<GetPermissionPolicyRequest>(
-  "GetPermissionPolicyRequest",
-)(
-  { ResourceArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetRateBasedRuleRequest extends S.Class<GetRateBasedRuleRequest>(
-  "GetRateBasedRuleRequest",
-)(
-  { RuleId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetRateBasedRuleManagedKeysRequest extends S.Class<GetRateBasedRuleManagedKeysRequest>(
-  "GetRateBasedRuleManagedKeysRequest",
-)(
-  { RuleId: S.String, NextMarker: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetRegexMatchSetRequest extends S.Class<GetRegexMatchSetRequest>(
-  "GetRegexMatchSetRequest",
-)(
-  { RegexMatchSetId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetRegexPatternSetRequest extends S.Class<GetRegexPatternSetRequest>(
-  "GetRegexPatternSetRequest",
-)(
-  { RegexPatternSetId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetRuleRequest extends S.Class<GetRuleRequest>("GetRuleRequest")(
-  { RuleId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetRuleGroupRequest extends S.Class<GetRuleGroupRequest>(
-  "GetRuleGroupRequest",
-)(
-  { RuleGroupId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetSizeConstraintSetRequest extends S.Class<GetSizeConstraintSetRequest>(
-  "GetSizeConstraintSetRequest",
-)(
-  { SizeConstraintSetId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetSqlInjectionMatchSetRequest extends S.Class<GetSqlInjectionMatchSetRequest>(
-  "GetSqlInjectionMatchSetRequest",
-)(
-  { SqlInjectionMatchSetId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetWebACLRequest extends S.Class<GetWebACLRequest>(
-  "GetWebACLRequest",
-)(
-  { WebACLId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetXssMatchSetRequest extends S.Class<GetXssMatchSetRequest>(
-  "GetXssMatchSetRequest",
-)(
-  { XssMatchSetId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListActivatedRulesInRuleGroupRequest extends S.Class<ListActivatedRulesInRuleGroupRequest>(
-  "ListActivatedRulesInRuleGroupRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateWebACLMigrationStackRequest",
+}) as any as S.Schema<CreateWebACLMigrationStackRequest>;
+export interface CreateXssMatchSetRequest {
+  Name: string;
+  ChangeToken: string;
+}
+export const CreateXssMatchSetRequest = S.suspend(() =>
+  S.Struct({ Name: S.String, ChangeToken: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateXssMatchSetRequest",
+}) as any as S.Schema<CreateXssMatchSetRequest>;
+export interface DeleteByteMatchSetRequest {
+  ByteMatchSetId: string;
+  ChangeToken: string;
+}
+export const DeleteByteMatchSetRequest = S.suspend(() =>
+  S.Struct({ ByteMatchSetId: S.String, ChangeToken: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteByteMatchSetRequest",
+}) as any as S.Schema<DeleteByteMatchSetRequest>;
+export interface DeleteGeoMatchSetRequest {
+  GeoMatchSetId: string;
+  ChangeToken: string;
+}
+export const DeleteGeoMatchSetRequest = S.suspend(() =>
+  S.Struct({ GeoMatchSetId: S.String, ChangeToken: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteGeoMatchSetRequest",
+}) as any as S.Schema<DeleteGeoMatchSetRequest>;
+export interface DeleteIPSetRequest {
+  IPSetId: string;
+  ChangeToken: string;
+}
+export const DeleteIPSetRequest = S.suspend(() =>
+  S.Struct({ IPSetId: S.String, ChangeToken: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteIPSetRequest",
+}) as any as S.Schema<DeleteIPSetRequest>;
+export interface DeleteLoggingConfigurationRequest {
+  ResourceArn: string;
+}
+export const DeleteLoggingConfigurationRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteLoggingConfigurationRequest",
+}) as any as S.Schema<DeleteLoggingConfigurationRequest>;
+export interface DeleteLoggingConfigurationResponse {}
+export const DeleteLoggingConfigurationResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteLoggingConfigurationResponse",
+}) as any as S.Schema<DeleteLoggingConfigurationResponse>;
+export interface DeletePermissionPolicyRequest {
+  ResourceArn: string;
+}
+export const DeletePermissionPolicyRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeletePermissionPolicyRequest",
+}) as any as S.Schema<DeletePermissionPolicyRequest>;
+export interface DeletePermissionPolicyResponse {}
+export const DeletePermissionPolicyResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeletePermissionPolicyResponse",
+}) as any as S.Schema<DeletePermissionPolicyResponse>;
+export interface DeleteRateBasedRuleRequest {
+  RuleId: string;
+  ChangeToken: string;
+}
+export const DeleteRateBasedRuleRequest = S.suspend(() =>
+  S.Struct({ RuleId: S.String, ChangeToken: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteRateBasedRuleRequest",
+}) as any as S.Schema<DeleteRateBasedRuleRequest>;
+export interface DeleteRegexMatchSetRequest {
+  RegexMatchSetId: string;
+  ChangeToken: string;
+}
+export const DeleteRegexMatchSetRequest = S.suspend(() =>
+  S.Struct({ RegexMatchSetId: S.String, ChangeToken: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteRegexMatchSetRequest",
+}) as any as S.Schema<DeleteRegexMatchSetRequest>;
+export interface DeleteRegexPatternSetRequest {
+  RegexPatternSetId: string;
+  ChangeToken: string;
+}
+export const DeleteRegexPatternSetRequest = S.suspend(() =>
+  S.Struct({ RegexPatternSetId: S.String, ChangeToken: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteRegexPatternSetRequest",
+}) as any as S.Schema<DeleteRegexPatternSetRequest>;
+export interface DeleteRuleRequest {
+  RuleId: string;
+  ChangeToken: string;
+}
+export const DeleteRuleRequest = S.suspend(() =>
+  S.Struct({ RuleId: S.String, ChangeToken: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteRuleRequest",
+}) as any as S.Schema<DeleteRuleRequest>;
+export interface DeleteRuleGroupRequest {
+  RuleGroupId: string;
+  ChangeToken: string;
+}
+export const DeleteRuleGroupRequest = S.suspend(() =>
+  S.Struct({ RuleGroupId: S.String, ChangeToken: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteRuleGroupRequest",
+}) as any as S.Schema<DeleteRuleGroupRequest>;
+export interface DeleteSizeConstraintSetRequest {
+  SizeConstraintSetId: string;
+  ChangeToken: string;
+}
+export const DeleteSizeConstraintSetRequest = S.suspend(() =>
+  S.Struct({ SizeConstraintSetId: S.String, ChangeToken: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteSizeConstraintSetRequest",
+}) as any as S.Schema<DeleteSizeConstraintSetRequest>;
+export interface DeleteSqlInjectionMatchSetRequest {
+  SqlInjectionMatchSetId: string;
+  ChangeToken: string;
+}
+export const DeleteSqlInjectionMatchSetRequest = S.suspend(() =>
+  S.Struct({ SqlInjectionMatchSetId: S.String, ChangeToken: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteSqlInjectionMatchSetRequest",
+}) as any as S.Schema<DeleteSqlInjectionMatchSetRequest>;
+export interface DeleteWebACLRequest {
+  WebACLId: string;
+  ChangeToken: string;
+}
+export const DeleteWebACLRequest = S.suspend(() =>
+  S.Struct({ WebACLId: S.String, ChangeToken: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteWebACLRequest",
+}) as any as S.Schema<DeleteWebACLRequest>;
+export interface DeleteXssMatchSetRequest {
+  XssMatchSetId: string;
+  ChangeToken: string;
+}
+export const DeleteXssMatchSetRequest = S.suspend(() =>
+  S.Struct({ XssMatchSetId: S.String, ChangeToken: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteXssMatchSetRequest",
+}) as any as S.Schema<DeleteXssMatchSetRequest>;
+export interface GetByteMatchSetRequest {
+  ByteMatchSetId: string;
+}
+export const GetByteMatchSetRequest = S.suspend(() =>
+  S.Struct({ ByteMatchSetId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetByteMatchSetRequest",
+}) as any as S.Schema<GetByteMatchSetRequest>;
+export interface GetChangeTokenResponse {
+  ChangeToken?: string;
+}
+export const GetChangeTokenResponse = S.suspend(() =>
+  S.Struct({ ChangeToken: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "GetChangeTokenResponse",
+}) as any as S.Schema<GetChangeTokenResponse>;
+export interface GetChangeTokenStatusRequest {
+  ChangeToken: string;
+}
+export const GetChangeTokenStatusRequest = S.suspend(() =>
+  S.Struct({ ChangeToken: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetChangeTokenStatusRequest",
+}) as any as S.Schema<GetChangeTokenStatusRequest>;
+export interface GetGeoMatchSetRequest {
+  GeoMatchSetId: string;
+}
+export const GetGeoMatchSetRequest = S.suspend(() =>
+  S.Struct({ GeoMatchSetId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetGeoMatchSetRequest",
+}) as any as S.Schema<GetGeoMatchSetRequest>;
+export interface GetIPSetRequest {
+  IPSetId: string;
+}
+export const GetIPSetRequest = S.suspend(() =>
+  S.Struct({ IPSetId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetIPSetRequest",
+}) as any as S.Schema<GetIPSetRequest>;
+export interface GetLoggingConfigurationRequest {
+  ResourceArn: string;
+}
+export const GetLoggingConfigurationRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetLoggingConfigurationRequest",
+}) as any as S.Schema<GetLoggingConfigurationRequest>;
+export interface GetPermissionPolicyRequest {
+  ResourceArn: string;
+}
+export const GetPermissionPolicyRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetPermissionPolicyRequest",
+}) as any as S.Schema<GetPermissionPolicyRequest>;
+export interface GetRateBasedRuleRequest {
+  RuleId: string;
+}
+export const GetRateBasedRuleRequest = S.suspend(() =>
+  S.Struct({ RuleId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetRateBasedRuleRequest",
+}) as any as S.Schema<GetRateBasedRuleRequest>;
+export interface GetRateBasedRuleManagedKeysRequest {
+  RuleId: string;
+  NextMarker?: string;
+}
+export const GetRateBasedRuleManagedKeysRequest = S.suspend(() =>
+  S.Struct({ RuleId: S.String, NextMarker: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetRateBasedRuleManagedKeysRequest",
+}) as any as S.Schema<GetRateBasedRuleManagedKeysRequest>;
+export interface GetRegexMatchSetRequest {
+  RegexMatchSetId: string;
+}
+export const GetRegexMatchSetRequest = S.suspend(() =>
+  S.Struct({ RegexMatchSetId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetRegexMatchSetRequest",
+}) as any as S.Schema<GetRegexMatchSetRequest>;
+export interface GetRegexPatternSetRequest {
+  RegexPatternSetId: string;
+}
+export const GetRegexPatternSetRequest = S.suspend(() =>
+  S.Struct({ RegexPatternSetId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetRegexPatternSetRequest",
+}) as any as S.Schema<GetRegexPatternSetRequest>;
+export interface GetRuleRequest {
+  RuleId: string;
+}
+export const GetRuleRequest = S.suspend(() =>
+  S.Struct({ RuleId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetRuleRequest",
+}) as any as S.Schema<GetRuleRequest>;
+export interface GetRuleGroupRequest {
+  RuleGroupId: string;
+}
+export const GetRuleGroupRequest = S.suspend(() =>
+  S.Struct({ RuleGroupId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetRuleGroupRequest",
+}) as any as S.Schema<GetRuleGroupRequest>;
+export interface GetSizeConstraintSetRequest {
+  SizeConstraintSetId: string;
+}
+export const GetSizeConstraintSetRequest = S.suspend(() =>
+  S.Struct({ SizeConstraintSetId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetSizeConstraintSetRequest",
+}) as any as S.Schema<GetSizeConstraintSetRequest>;
+export interface GetSqlInjectionMatchSetRequest {
+  SqlInjectionMatchSetId: string;
+}
+export const GetSqlInjectionMatchSetRequest = S.suspend(() =>
+  S.Struct({ SqlInjectionMatchSetId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetSqlInjectionMatchSetRequest",
+}) as any as S.Schema<GetSqlInjectionMatchSetRequest>;
+export interface GetWebACLRequest {
+  WebACLId: string;
+}
+export const GetWebACLRequest = S.suspend(() =>
+  S.Struct({ WebACLId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetWebACLRequest",
+}) as any as S.Schema<GetWebACLRequest>;
+export interface GetXssMatchSetRequest {
+  XssMatchSetId: string;
+}
+export const GetXssMatchSetRequest = S.suspend(() =>
+  S.Struct({ XssMatchSetId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetXssMatchSetRequest",
+}) as any as S.Schema<GetXssMatchSetRequest>;
+export interface ListActivatedRulesInRuleGroupRequest {
+  RuleGroupId?: string;
+  NextMarker?: string;
+  Limit?: number;
+}
+export const ListActivatedRulesInRuleGroupRequest = S.suspend(() =>
+  S.Struct({
     RuleGroupId: S.optional(S.String),
     NextMarker: S.optional(S.String),
     Limit: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListByteMatchSetsRequest extends S.Class<ListByteMatchSetsRequest>(
-  "ListByteMatchSetsRequest",
-)(
-  { NextMarker: S.optional(S.String), Limit: S.optional(S.Number) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListGeoMatchSetsRequest extends S.Class<ListGeoMatchSetsRequest>(
-  "ListGeoMatchSetsRequest",
-)(
-  { NextMarker: S.optional(S.String), Limit: S.optional(S.Number) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListIPSetsRequest extends S.Class<ListIPSetsRequest>(
-  "ListIPSetsRequest",
-)(
-  { NextMarker: S.optional(S.String), Limit: S.optional(S.Number) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListLoggingConfigurationsRequest extends S.Class<ListLoggingConfigurationsRequest>(
-  "ListLoggingConfigurationsRequest",
-)(
-  { NextMarker: S.optional(S.String), Limit: S.optional(S.Number) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListRateBasedRulesRequest extends S.Class<ListRateBasedRulesRequest>(
-  "ListRateBasedRulesRequest",
-)(
-  { NextMarker: S.optional(S.String), Limit: S.optional(S.Number) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListRegexMatchSetsRequest extends S.Class<ListRegexMatchSetsRequest>(
-  "ListRegexMatchSetsRequest",
-)(
-  { NextMarker: S.optional(S.String), Limit: S.optional(S.Number) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListRegexPatternSetsRequest extends S.Class<ListRegexPatternSetsRequest>(
-  "ListRegexPatternSetsRequest",
-)(
-  { NextMarker: S.optional(S.String), Limit: S.optional(S.Number) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListRuleGroupsRequest extends S.Class<ListRuleGroupsRequest>(
-  "ListRuleGroupsRequest",
-)(
-  { NextMarker: S.optional(S.String), Limit: S.optional(S.Number) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListRulesRequest extends S.Class<ListRulesRequest>(
-  "ListRulesRequest",
-)(
-  { NextMarker: S.optional(S.String), Limit: S.optional(S.Number) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListSizeConstraintSetsRequest extends S.Class<ListSizeConstraintSetsRequest>(
-  "ListSizeConstraintSetsRequest",
-)(
-  { NextMarker: S.optional(S.String), Limit: S.optional(S.Number) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListSqlInjectionMatchSetsRequest extends S.Class<ListSqlInjectionMatchSetsRequest>(
-  "ListSqlInjectionMatchSetsRequest",
-)(
-  { NextMarker: S.optional(S.String), Limit: S.optional(S.Number) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListSubscribedRuleGroupsRequest extends S.Class<ListSubscribedRuleGroupsRequest>(
-  "ListSubscribedRuleGroupsRequest",
-)(
-  { NextMarker: S.optional(S.String), Limit: S.optional(S.Number) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListActivatedRulesInRuleGroupRequest",
+}) as any as S.Schema<ListActivatedRulesInRuleGroupRequest>;
+export interface ListByteMatchSetsRequest {
+  NextMarker?: string;
+  Limit?: number;
+}
+export const ListByteMatchSetsRequest = S.suspend(() =>
+  S.Struct({
+    NextMarker: S.optional(S.String),
+    Limit: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListByteMatchSetsRequest",
+}) as any as S.Schema<ListByteMatchSetsRequest>;
+export interface ListGeoMatchSetsRequest {
+  NextMarker?: string;
+  Limit?: number;
+}
+export const ListGeoMatchSetsRequest = S.suspend(() =>
+  S.Struct({
+    NextMarker: S.optional(S.String),
+    Limit: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListGeoMatchSetsRequest",
+}) as any as S.Schema<ListGeoMatchSetsRequest>;
+export interface ListIPSetsRequest {
+  NextMarker?: string;
+  Limit?: number;
+}
+export const ListIPSetsRequest = S.suspend(() =>
+  S.Struct({
+    NextMarker: S.optional(S.String),
+    Limit: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListIPSetsRequest",
+}) as any as S.Schema<ListIPSetsRequest>;
+export interface ListLoggingConfigurationsRequest {
+  NextMarker?: string;
+  Limit?: number;
+}
+export const ListLoggingConfigurationsRequest = S.suspend(() =>
+  S.Struct({
+    NextMarker: S.optional(S.String),
+    Limit: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListLoggingConfigurationsRequest",
+}) as any as S.Schema<ListLoggingConfigurationsRequest>;
+export interface ListRateBasedRulesRequest {
+  NextMarker?: string;
+  Limit?: number;
+}
+export const ListRateBasedRulesRequest = S.suspend(() =>
+  S.Struct({
+    NextMarker: S.optional(S.String),
+    Limit: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListRateBasedRulesRequest",
+}) as any as S.Schema<ListRateBasedRulesRequest>;
+export interface ListRegexMatchSetsRequest {
+  NextMarker?: string;
+  Limit?: number;
+}
+export const ListRegexMatchSetsRequest = S.suspend(() =>
+  S.Struct({
+    NextMarker: S.optional(S.String),
+    Limit: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListRegexMatchSetsRequest",
+}) as any as S.Schema<ListRegexMatchSetsRequest>;
+export interface ListRegexPatternSetsRequest {
+  NextMarker?: string;
+  Limit?: number;
+}
+export const ListRegexPatternSetsRequest = S.suspend(() =>
+  S.Struct({
+    NextMarker: S.optional(S.String),
+    Limit: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListRegexPatternSetsRequest",
+}) as any as S.Schema<ListRegexPatternSetsRequest>;
+export interface ListRuleGroupsRequest {
+  NextMarker?: string;
+  Limit?: number;
+}
+export const ListRuleGroupsRequest = S.suspend(() =>
+  S.Struct({
+    NextMarker: S.optional(S.String),
+    Limit: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListRuleGroupsRequest",
+}) as any as S.Schema<ListRuleGroupsRequest>;
+export interface ListRulesRequest {
+  NextMarker?: string;
+  Limit?: number;
+}
+export const ListRulesRequest = S.suspend(() =>
+  S.Struct({
+    NextMarker: S.optional(S.String),
+    Limit: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListRulesRequest",
+}) as any as S.Schema<ListRulesRequest>;
+export interface ListSizeConstraintSetsRequest {
+  NextMarker?: string;
+  Limit?: number;
+}
+export const ListSizeConstraintSetsRequest = S.suspend(() =>
+  S.Struct({
+    NextMarker: S.optional(S.String),
+    Limit: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListSizeConstraintSetsRequest",
+}) as any as S.Schema<ListSizeConstraintSetsRequest>;
+export interface ListSqlInjectionMatchSetsRequest {
+  NextMarker?: string;
+  Limit?: number;
+}
+export const ListSqlInjectionMatchSetsRequest = S.suspend(() =>
+  S.Struct({
+    NextMarker: S.optional(S.String),
+    Limit: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListSqlInjectionMatchSetsRequest",
+}) as any as S.Schema<ListSqlInjectionMatchSetsRequest>;
+export interface ListSubscribedRuleGroupsRequest {
+  NextMarker?: string;
+  Limit?: number;
+}
+export const ListSubscribedRuleGroupsRequest = S.suspend(() =>
+  S.Struct({
+    NextMarker: S.optional(S.String),
+    Limit: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListSubscribedRuleGroupsRequest",
+}) as any as S.Schema<ListSubscribedRuleGroupsRequest>;
+export interface ListTagsForResourceRequest {
+  NextMarker?: string;
+  Limit?: number;
+  ResourceARN: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({
     NextMarker: S.optional(S.String),
     Limit: S.optional(S.Number),
     ResourceARN: S.String,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListWebACLsRequest extends S.Class<ListWebACLsRequest>(
-  "ListWebACLsRequest",
-)(
-  { NextMarker: S.optional(S.String), Limit: S.optional(S.Number) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListXssMatchSetsRequest extends S.Class<ListXssMatchSetsRequest>(
-  "ListXssMatchSetsRequest",
-)(
-  { NextMarker: S.optional(S.String), Limit: S.optional(S.Number) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutPermissionPolicyRequest extends S.Class<PutPermissionPolicyRequest>(
-  "PutPermissionPolicyRequest",
-)(
-  { ResourceArn: S.String, Policy: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutPermissionPolicyResponse extends S.Class<PutPermissionPolicyResponse>(
-  "PutPermissionPolicyResponse",
-)({}, ns) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { ResourceARN: S.String, Tags: TagList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}, ns) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  { ResourceARN: S.String, TagKeys: TagKeyList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}, ns) {}
-export class Predicate extends S.Class<Predicate>("Predicate")({
-  Negated: S.Boolean,
-  Type: S.String,
-  DataId: S.String,
-}) {}
-export class RuleUpdate extends S.Class<RuleUpdate>("RuleUpdate")({
-  Action: S.String,
-  Predicate: Predicate,
-}) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface ListWebACLsRequest {
+  NextMarker?: string;
+  Limit?: number;
+}
+export const ListWebACLsRequest = S.suspend(() =>
+  S.Struct({
+    NextMarker: S.optional(S.String),
+    Limit: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListWebACLsRequest",
+}) as any as S.Schema<ListWebACLsRequest>;
+export interface ListXssMatchSetsRequest {
+  NextMarker?: string;
+  Limit?: number;
+}
+export const ListXssMatchSetsRequest = S.suspend(() =>
+  S.Struct({
+    NextMarker: S.optional(S.String),
+    Limit: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListXssMatchSetsRequest",
+}) as any as S.Schema<ListXssMatchSetsRequest>;
+export interface PutPermissionPolicyRequest {
+  ResourceArn: string;
+  Policy: string;
+}
+export const PutPermissionPolicyRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String, Policy: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutPermissionPolicyRequest",
+}) as any as S.Schema<PutPermissionPolicyRequest>;
+export interface PutPermissionPolicyResponse {}
+export const PutPermissionPolicyResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "PutPermissionPolicyResponse",
+}) as any as S.Schema<PutPermissionPolicyResponse>;
+export interface TagResourceRequest {
+  ResourceARN: string;
+  Tags: TagList;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceARN: S.String, Tags: TagList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UntagResourceRequest {
+  ResourceARN: string;
+  TagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceARN: S.String, TagKeys: TagKeyList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface Predicate {
+  Negated: boolean;
+  Type: string;
+  DataId: string;
+}
+export const Predicate = S.suspend(() =>
+  S.Struct({ Negated: S.Boolean, Type: S.String, DataId: S.String }),
+).annotations({ identifier: "Predicate" }) as any as S.Schema<Predicate>;
+export interface RuleUpdate {
+  Action: string;
+  Predicate: Predicate;
+}
+export const RuleUpdate = S.suspend(() =>
+  S.Struct({ Action: S.String, Predicate: Predicate }),
+).annotations({ identifier: "RuleUpdate" }) as any as S.Schema<RuleUpdate>;
+export type RuleUpdates = RuleUpdate[];
 export const RuleUpdates = S.Array(RuleUpdate);
-export class UpdateRuleRequest extends S.Class<UpdateRuleRequest>(
-  "UpdateRuleRequest",
-)(
-  { RuleId: S.String, ChangeToken: S.String, Updates: RuleUpdates },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+export interface UpdateRuleRequest {
+  RuleId: string;
+  ChangeToken: string;
+  Updates: RuleUpdates;
+}
+export const UpdateRuleRequest = S.suspend(() =>
+  S.Struct({
+    RuleId: S.String,
+    ChangeToken: S.String,
+    Updates: RuleUpdates,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateRuleRequest",
+}) as any as S.Schema<UpdateRuleRequest>;
+export type LogDestinationConfigs = string[];
 export const LogDestinationConfigs = S.Array(S.String);
-export class WafAction extends S.Class<WafAction>("WafAction")({
-  Type: S.String,
-}) {}
+export interface WafAction {
+  Type: string;
+}
+export const WafAction = S.suspend(() =>
+  S.Struct({ Type: S.String }),
+).annotations({ identifier: "WafAction" }) as any as S.Schema<WafAction>;
+export type ManagedKeys = string[];
 export const ManagedKeys = S.Array(S.String);
-export class TimeWindow extends S.Class<TimeWindow>("TimeWindow")({
-  StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-}) {}
-export class WafOverrideAction extends S.Class<WafOverrideAction>(
-  "WafOverrideAction",
-)({ Type: S.String }) {}
-export class ExcludedRule extends S.Class<ExcludedRule>("ExcludedRule")({
-  RuleId: S.String,
-}) {}
+export interface TimeWindow {
+  StartTime: Date;
+  EndTime: Date;
+}
+export const TimeWindow = S.suspend(() =>
+  S.Struct({
+    StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotations({ identifier: "TimeWindow" }) as any as S.Schema<TimeWindow>;
+export interface WafOverrideAction {
+  Type: string;
+}
+export const WafOverrideAction = S.suspend(() =>
+  S.Struct({ Type: S.String }),
+).annotations({
+  identifier: "WafOverrideAction",
+}) as any as S.Schema<WafOverrideAction>;
+export interface ExcludedRule {
+  RuleId: string;
+}
+export const ExcludedRule = S.suspend(() =>
+  S.Struct({ RuleId: S.String }),
+).annotations({ identifier: "ExcludedRule" }) as any as S.Schema<ExcludedRule>;
+export type ExcludedRules = ExcludedRule[];
 export const ExcludedRules = S.Array(ExcludedRule);
-export class ActivatedRule extends S.Class<ActivatedRule>("ActivatedRule")({
-  Priority: S.Number,
-  RuleId: S.String,
-  Action: S.optional(WafAction),
-  OverrideAction: S.optional(WafOverrideAction),
-  Type: S.optional(S.String),
-  ExcludedRules: S.optional(ExcludedRules),
-}) {}
+export interface ActivatedRule {
+  Priority: number;
+  RuleId: string;
+  Action?: WafAction;
+  OverrideAction?: WafOverrideAction;
+  Type?: string;
+  ExcludedRules?: ExcludedRules;
+}
+export const ActivatedRule = S.suspend(() =>
+  S.Struct({
+    Priority: S.Number,
+    RuleId: S.String,
+    Action: S.optional(WafAction),
+    OverrideAction: S.optional(WafOverrideAction),
+    Type: S.optional(S.String),
+    ExcludedRules: S.optional(ExcludedRules),
+  }),
+).annotations({
+  identifier: "ActivatedRule",
+}) as any as S.Schema<ActivatedRule>;
+export type ActivatedRules = ActivatedRule[];
 export const ActivatedRules = S.Array(ActivatedRule);
-export class FieldToMatch extends S.Class<FieldToMatch>("FieldToMatch")({
-  Type: S.String,
-  Data: S.optional(S.String),
-}) {}
+export interface FieldToMatch {
+  Type: string;
+  Data?: string;
+}
+export const FieldToMatch = S.suspend(() =>
+  S.Struct({ Type: S.String, Data: S.optional(S.String) }),
+).annotations({ identifier: "FieldToMatch" }) as any as S.Schema<FieldToMatch>;
+export type RedactedFields = FieldToMatch[];
 export const RedactedFields = S.Array(FieldToMatch);
-export class LoggingConfiguration extends S.Class<LoggingConfiguration>(
-  "LoggingConfiguration",
-)({
-  ResourceArn: S.String,
-  LogDestinationConfigs: LogDestinationConfigs,
-  RedactedFields: S.optional(RedactedFields),
-}) {}
+export interface LoggingConfiguration {
+  ResourceArn: string;
+  LogDestinationConfigs: LogDestinationConfigs;
+  RedactedFields?: RedactedFields;
+}
+export const LoggingConfiguration = S.suspend(() =>
+  S.Struct({
+    ResourceArn: S.String,
+    LogDestinationConfigs: LogDestinationConfigs,
+    RedactedFields: S.optional(RedactedFields),
+  }),
+).annotations({
+  identifier: "LoggingConfiguration",
+}) as any as S.Schema<LoggingConfiguration>;
+export type LoggingConfigurations = LoggingConfiguration[];
 export const LoggingConfigurations = S.Array(LoggingConfiguration);
-export class RegexPatternSetUpdate extends S.Class<RegexPatternSetUpdate>(
-  "RegexPatternSetUpdate",
-)({ Action: S.String, RegexPatternString: S.String }) {}
+export interface RegexPatternSetUpdate {
+  Action: string;
+  RegexPatternString: string;
+}
+export const RegexPatternSetUpdate = S.suspend(() =>
+  S.Struct({ Action: S.String, RegexPatternString: S.String }),
+).annotations({
+  identifier: "RegexPatternSetUpdate",
+}) as any as S.Schema<RegexPatternSetUpdate>;
+export type RegexPatternSetUpdates = RegexPatternSetUpdate[];
 export const RegexPatternSetUpdates = S.Array(RegexPatternSetUpdate);
-export class WebACLUpdate extends S.Class<WebACLUpdate>("WebACLUpdate")({
-  Action: S.String,
-  ActivatedRule: ActivatedRule,
-}) {}
+export interface WebACLUpdate {
+  Action: string;
+  ActivatedRule: ActivatedRule;
+}
+export const WebACLUpdate = S.suspend(() =>
+  S.Struct({ Action: S.String, ActivatedRule: ActivatedRule }),
+).annotations({ identifier: "WebACLUpdate" }) as any as S.Schema<WebACLUpdate>;
+export type WebACLUpdates = WebACLUpdate[];
 export const WebACLUpdates = S.Array(WebACLUpdate);
-export class CreateRateBasedRuleRequest extends S.Class<CreateRateBasedRuleRequest>(
-  "CreateRateBasedRuleRequest",
-)(
-  {
+export interface CreateRateBasedRuleRequest {
+  Name: string;
+  MetricName: string;
+  RateKey: string;
+  RateLimit: number;
+  ChangeToken: string;
+  Tags?: TagList;
+}
+export const CreateRateBasedRuleRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     MetricName: S.String,
     RateKey: S.String,
     RateLimit: S.Number,
     ChangeToken: S.String,
     Tags: S.optional(TagList),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateWebACLRequest extends S.Class<CreateWebACLRequest>(
-  "CreateWebACLRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateRateBasedRuleRequest",
+}) as any as S.Schema<CreateRateBasedRuleRequest>;
+export interface CreateWebACLRequest {
+  Name: string;
+  MetricName: string;
+  DefaultAction: WafAction;
+  ChangeToken: string;
+  Tags?: TagList;
+}
+export const CreateWebACLRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     MetricName: S.String,
     DefaultAction: WafAction,
     ChangeToken: S.String,
     Tags: S.optional(TagList),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateWebACLMigrationStackResponse extends S.Class<CreateWebACLMigrationStackResponse>(
-  "CreateWebACLMigrationStackResponse",
-)({ S3ObjectUrl: S.String }, ns) {}
-export class DeleteByteMatchSetResponse extends S.Class<DeleteByteMatchSetResponse>(
-  "DeleteByteMatchSetResponse",
-)({ ChangeToken: S.optional(S.String) }, ns) {}
-export class DeleteGeoMatchSetResponse extends S.Class<DeleteGeoMatchSetResponse>(
-  "DeleteGeoMatchSetResponse",
-)({ ChangeToken: S.optional(S.String) }, ns) {}
-export class DeleteIPSetResponse extends S.Class<DeleteIPSetResponse>(
-  "DeleteIPSetResponse",
-)({ ChangeToken: S.optional(S.String) }, ns) {}
-export class DeleteRateBasedRuleResponse extends S.Class<DeleteRateBasedRuleResponse>(
-  "DeleteRateBasedRuleResponse",
-)({ ChangeToken: S.optional(S.String) }, ns) {}
-export class DeleteRegexMatchSetResponse extends S.Class<DeleteRegexMatchSetResponse>(
-  "DeleteRegexMatchSetResponse",
-)({ ChangeToken: S.optional(S.String) }, ns) {}
-export class DeleteRegexPatternSetResponse extends S.Class<DeleteRegexPatternSetResponse>(
-  "DeleteRegexPatternSetResponse",
-)({ ChangeToken: S.optional(S.String) }, ns) {}
-export class DeleteRuleResponse extends S.Class<DeleteRuleResponse>(
-  "DeleteRuleResponse",
-)({ ChangeToken: S.optional(S.String) }, ns) {}
-export class DeleteRuleGroupResponse extends S.Class<DeleteRuleGroupResponse>(
-  "DeleteRuleGroupResponse",
-)({ ChangeToken: S.optional(S.String) }, ns) {}
-export class DeleteSizeConstraintSetResponse extends S.Class<DeleteSizeConstraintSetResponse>(
-  "DeleteSizeConstraintSetResponse",
-)({ ChangeToken: S.optional(S.String) }, ns) {}
-export class DeleteSqlInjectionMatchSetResponse extends S.Class<DeleteSqlInjectionMatchSetResponse>(
-  "DeleteSqlInjectionMatchSetResponse",
-)({ ChangeToken: S.optional(S.String) }, ns) {}
-export class DeleteWebACLResponse extends S.Class<DeleteWebACLResponse>(
-  "DeleteWebACLResponse",
-)({ ChangeToken: S.optional(S.String) }, ns) {}
-export class DeleteXssMatchSetResponse extends S.Class<DeleteXssMatchSetResponse>(
-  "DeleteXssMatchSetResponse",
-)({ ChangeToken: S.optional(S.String) }, ns) {}
-export class ByteMatchTuple extends S.Class<ByteMatchTuple>("ByteMatchTuple")({
-  FieldToMatch: FieldToMatch,
-  TargetString: T.Blob,
-  TextTransformation: S.String,
-  PositionalConstraint: S.String,
-}) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateWebACLRequest",
+}) as any as S.Schema<CreateWebACLRequest>;
+export interface CreateWebACLMigrationStackResponse {
+  S3ObjectUrl: string;
+}
+export const CreateWebACLMigrationStackResponse = S.suspend(() =>
+  S.Struct({ S3ObjectUrl: S.String }).pipe(ns),
+).annotations({
+  identifier: "CreateWebACLMigrationStackResponse",
+}) as any as S.Schema<CreateWebACLMigrationStackResponse>;
+export interface DeleteByteMatchSetResponse {
+  ChangeToken?: string;
+}
+export const DeleteByteMatchSetResponse = S.suspend(() =>
+  S.Struct({ ChangeToken: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "DeleteByteMatchSetResponse",
+}) as any as S.Schema<DeleteByteMatchSetResponse>;
+export interface DeleteGeoMatchSetResponse {
+  ChangeToken?: string;
+}
+export const DeleteGeoMatchSetResponse = S.suspend(() =>
+  S.Struct({ ChangeToken: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "DeleteGeoMatchSetResponse",
+}) as any as S.Schema<DeleteGeoMatchSetResponse>;
+export interface DeleteIPSetResponse {
+  ChangeToken?: string;
+}
+export const DeleteIPSetResponse = S.suspend(() =>
+  S.Struct({ ChangeToken: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "DeleteIPSetResponse",
+}) as any as S.Schema<DeleteIPSetResponse>;
+export interface DeleteRateBasedRuleResponse {
+  ChangeToken?: string;
+}
+export const DeleteRateBasedRuleResponse = S.suspend(() =>
+  S.Struct({ ChangeToken: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "DeleteRateBasedRuleResponse",
+}) as any as S.Schema<DeleteRateBasedRuleResponse>;
+export interface DeleteRegexMatchSetResponse {
+  ChangeToken?: string;
+}
+export const DeleteRegexMatchSetResponse = S.suspend(() =>
+  S.Struct({ ChangeToken: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "DeleteRegexMatchSetResponse",
+}) as any as S.Schema<DeleteRegexMatchSetResponse>;
+export interface DeleteRegexPatternSetResponse {
+  ChangeToken?: string;
+}
+export const DeleteRegexPatternSetResponse = S.suspend(() =>
+  S.Struct({ ChangeToken: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "DeleteRegexPatternSetResponse",
+}) as any as S.Schema<DeleteRegexPatternSetResponse>;
+export interface DeleteRuleResponse {
+  ChangeToken?: string;
+}
+export const DeleteRuleResponse = S.suspend(() =>
+  S.Struct({ ChangeToken: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "DeleteRuleResponse",
+}) as any as S.Schema<DeleteRuleResponse>;
+export interface DeleteRuleGroupResponse {
+  ChangeToken?: string;
+}
+export const DeleteRuleGroupResponse = S.suspend(() =>
+  S.Struct({ ChangeToken: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "DeleteRuleGroupResponse",
+}) as any as S.Schema<DeleteRuleGroupResponse>;
+export interface DeleteSizeConstraintSetResponse {
+  ChangeToken?: string;
+}
+export const DeleteSizeConstraintSetResponse = S.suspend(() =>
+  S.Struct({ ChangeToken: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "DeleteSizeConstraintSetResponse",
+}) as any as S.Schema<DeleteSizeConstraintSetResponse>;
+export interface DeleteSqlInjectionMatchSetResponse {
+  ChangeToken?: string;
+}
+export const DeleteSqlInjectionMatchSetResponse = S.suspend(() =>
+  S.Struct({ ChangeToken: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "DeleteSqlInjectionMatchSetResponse",
+}) as any as S.Schema<DeleteSqlInjectionMatchSetResponse>;
+export interface DeleteWebACLResponse {
+  ChangeToken?: string;
+}
+export const DeleteWebACLResponse = S.suspend(() =>
+  S.Struct({ ChangeToken: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "DeleteWebACLResponse",
+}) as any as S.Schema<DeleteWebACLResponse>;
+export interface DeleteXssMatchSetResponse {
+  ChangeToken?: string;
+}
+export const DeleteXssMatchSetResponse = S.suspend(() =>
+  S.Struct({ ChangeToken: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "DeleteXssMatchSetResponse",
+}) as any as S.Schema<DeleteXssMatchSetResponse>;
+export interface ByteMatchTuple {
+  FieldToMatch: FieldToMatch;
+  TargetString: Uint8Array;
+  TextTransformation: string;
+  PositionalConstraint: string;
+}
+export const ByteMatchTuple = S.suspend(() =>
+  S.Struct({
+    FieldToMatch: FieldToMatch,
+    TargetString: T.Blob,
+    TextTransformation: S.String,
+    PositionalConstraint: S.String,
+  }),
+).annotations({
+  identifier: "ByteMatchTuple",
+}) as any as S.Schema<ByteMatchTuple>;
+export type ByteMatchTuples = ByteMatchTuple[];
 export const ByteMatchTuples = S.Array(ByteMatchTuple);
-export class ByteMatchSet extends S.Class<ByteMatchSet>("ByteMatchSet")({
-  ByteMatchSetId: S.String,
-  Name: S.optional(S.String),
-  ByteMatchTuples: ByteMatchTuples,
-}) {}
-export class GetByteMatchSetResponse extends S.Class<GetByteMatchSetResponse>(
-  "GetByteMatchSetResponse",
-)({ ByteMatchSet: S.optional(ByteMatchSet) }, ns) {}
-export class GetChangeTokenStatusResponse extends S.Class<GetChangeTokenStatusResponse>(
-  "GetChangeTokenStatusResponse",
-)({ ChangeTokenStatus: S.optional(S.String) }, ns) {}
-export class GeoMatchConstraint extends S.Class<GeoMatchConstraint>(
-  "GeoMatchConstraint",
-)({ Type: S.String, Value: S.String }) {}
+export interface ByteMatchSet {
+  ByteMatchSetId: string;
+  Name?: string;
+  ByteMatchTuples: ByteMatchTuples;
+}
+export const ByteMatchSet = S.suspend(() =>
+  S.Struct({
+    ByteMatchSetId: S.String,
+    Name: S.optional(S.String),
+    ByteMatchTuples: ByteMatchTuples,
+  }),
+).annotations({ identifier: "ByteMatchSet" }) as any as S.Schema<ByteMatchSet>;
+export interface GetByteMatchSetResponse {
+  ByteMatchSet?: ByteMatchSet;
+}
+export const GetByteMatchSetResponse = S.suspend(() =>
+  S.Struct({ ByteMatchSet: S.optional(ByteMatchSet) }).pipe(ns),
+).annotations({
+  identifier: "GetByteMatchSetResponse",
+}) as any as S.Schema<GetByteMatchSetResponse>;
+export interface GetChangeTokenStatusResponse {
+  ChangeTokenStatus?: string;
+}
+export const GetChangeTokenStatusResponse = S.suspend(() =>
+  S.Struct({ ChangeTokenStatus: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "GetChangeTokenStatusResponse",
+}) as any as S.Schema<GetChangeTokenStatusResponse>;
+export interface GeoMatchConstraint {
+  Type: string;
+  Value: string;
+}
+export const GeoMatchConstraint = S.suspend(() =>
+  S.Struct({ Type: S.String, Value: S.String }),
+).annotations({
+  identifier: "GeoMatchConstraint",
+}) as any as S.Schema<GeoMatchConstraint>;
+export type GeoMatchConstraints = GeoMatchConstraint[];
 export const GeoMatchConstraints = S.Array(GeoMatchConstraint);
-export class GeoMatchSet extends S.Class<GeoMatchSet>("GeoMatchSet")({
-  GeoMatchSetId: S.String,
-  Name: S.optional(S.String),
-  GeoMatchConstraints: GeoMatchConstraints,
-}) {}
-export class GetGeoMatchSetResponse extends S.Class<GetGeoMatchSetResponse>(
-  "GetGeoMatchSetResponse",
-)({ GeoMatchSet: S.optional(GeoMatchSet) }, ns) {}
-export class IPSetDescriptor extends S.Class<IPSetDescriptor>(
-  "IPSetDescriptor",
-)({ Type: S.String, Value: S.String }) {}
+export interface GeoMatchSet {
+  GeoMatchSetId: string;
+  Name?: string;
+  GeoMatchConstraints: GeoMatchConstraints;
+}
+export const GeoMatchSet = S.suspend(() =>
+  S.Struct({
+    GeoMatchSetId: S.String,
+    Name: S.optional(S.String),
+    GeoMatchConstraints: GeoMatchConstraints,
+  }),
+).annotations({ identifier: "GeoMatchSet" }) as any as S.Schema<GeoMatchSet>;
+export interface GetGeoMatchSetResponse {
+  GeoMatchSet?: GeoMatchSet;
+}
+export const GetGeoMatchSetResponse = S.suspend(() =>
+  S.Struct({ GeoMatchSet: S.optional(GeoMatchSet) }).pipe(ns),
+).annotations({
+  identifier: "GetGeoMatchSetResponse",
+}) as any as S.Schema<GetGeoMatchSetResponse>;
+export interface IPSetDescriptor {
+  Type: string;
+  Value: string;
+}
+export const IPSetDescriptor = S.suspend(() =>
+  S.Struct({ Type: S.String, Value: S.String }),
+).annotations({
+  identifier: "IPSetDescriptor",
+}) as any as S.Schema<IPSetDescriptor>;
+export type IPSetDescriptors = IPSetDescriptor[];
 export const IPSetDescriptors = S.Array(IPSetDescriptor);
-export class IPSet extends S.Class<IPSet>("IPSet")({
-  IPSetId: S.String,
-  Name: S.optional(S.String),
-  IPSetDescriptors: IPSetDescriptors,
-}) {}
-export class GetIPSetResponse extends S.Class<GetIPSetResponse>(
-  "GetIPSetResponse",
-)({ IPSet: S.optional(IPSet) }, ns) {}
-export class GetLoggingConfigurationResponse extends S.Class<GetLoggingConfigurationResponse>(
-  "GetLoggingConfigurationResponse",
-)({ LoggingConfiguration: S.optional(LoggingConfiguration) }, ns) {}
-export class GetPermissionPolicyResponse extends S.Class<GetPermissionPolicyResponse>(
-  "GetPermissionPolicyResponse",
-)({ Policy: S.optional(S.String) }, ns) {}
-export class GetRateBasedRuleManagedKeysResponse extends S.Class<GetRateBasedRuleManagedKeysResponse>(
-  "GetRateBasedRuleManagedKeysResponse",
-)(
-  { ManagedKeys: S.optional(ManagedKeys), NextMarker: S.optional(S.String) },
-  ns,
-) {}
-export class RegexMatchTuple extends S.Class<RegexMatchTuple>(
-  "RegexMatchTuple",
-)({
-  FieldToMatch: FieldToMatch,
-  TextTransformation: S.String,
-  RegexPatternSetId: S.String,
-}) {}
+export interface IPSet {
+  IPSetId: string;
+  Name?: string;
+  IPSetDescriptors: IPSetDescriptors;
+}
+export const IPSet = S.suspend(() =>
+  S.Struct({
+    IPSetId: S.String,
+    Name: S.optional(S.String),
+    IPSetDescriptors: IPSetDescriptors,
+  }),
+).annotations({ identifier: "IPSet" }) as any as S.Schema<IPSet>;
+export interface GetIPSetResponse {
+  IPSet?: IPSet;
+}
+export const GetIPSetResponse = S.suspend(() =>
+  S.Struct({ IPSet: S.optional(IPSet) }).pipe(ns),
+).annotations({
+  identifier: "GetIPSetResponse",
+}) as any as S.Schema<GetIPSetResponse>;
+export interface GetLoggingConfigurationResponse {
+  LoggingConfiguration?: LoggingConfiguration;
+}
+export const GetLoggingConfigurationResponse = S.suspend(() =>
+  S.Struct({ LoggingConfiguration: S.optional(LoggingConfiguration) }).pipe(ns),
+).annotations({
+  identifier: "GetLoggingConfigurationResponse",
+}) as any as S.Schema<GetLoggingConfigurationResponse>;
+export interface GetPermissionPolicyResponse {
+  Policy?: string;
+}
+export const GetPermissionPolicyResponse = S.suspend(() =>
+  S.Struct({ Policy: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "GetPermissionPolicyResponse",
+}) as any as S.Schema<GetPermissionPolicyResponse>;
+export interface GetRateBasedRuleManagedKeysResponse {
+  ManagedKeys?: ManagedKeys;
+  NextMarker?: string;
+}
+export const GetRateBasedRuleManagedKeysResponse = S.suspend(() =>
+  S.Struct({
+    ManagedKeys: S.optional(ManagedKeys),
+    NextMarker: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "GetRateBasedRuleManagedKeysResponse",
+}) as any as S.Schema<GetRateBasedRuleManagedKeysResponse>;
+export interface RegexMatchTuple {
+  FieldToMatch: FieldToMatch;
+  TextTransformation: string;
+  RegexPatternSetId: string;
+}
+export const RegexMatchTuple = S.suspend(() =>
+  S.Struct({
+    FieldToMatch: FieldToMatch,
+    TextTransformation: S.String,
+    RegexPatternSetId: S.String,
+  }),
+).annotations({
+  identifier: "RegexMatchTuple",
+}) as any as S.Schema<RegexMatchTuple>;
+export type RegexMatchTuples = RegexMatchTuple[];
 export const RegexMatchTuples = S.Array(RegexMatchTuple);
-export class RegexMatchSet extends S.Class<RegexMatchSet>("RegexMatchSet")({
-  RegexMatchSetId: S.optional(S.String),
-  Name: S.optional(S.String),
-  RegexMatchTuples: S.optional(RegexMatchTuples),
-}) {}
-export class GetRegexMatchSetResponse extends S.Class<GetRegexMatchSetResponse>(
-  "GetRegexMatchSetResponse",
-)({ RegexMatchSet: S.optional(RegexMatchSet) }, ns) {}
+export interface RegexMatchSet {
+  RegexMatchSetId?: string;
+  Name?: string;
+  RegexMatchTuples?: RegexMatchTuples;
+}
+export const RegexMatchSet = S.suspend(() =>
+  S.Struct({
+    RegexMatchSetId: S.optional(S.String),
+    Name: S.optional(S.String),
+    RegexMatchTuples: S.optional(RegexMatchTuples),
+  }),
+).annotations({
+  identifier: "RegexMatchSet",
+}) as any as S.Schema<RegexMatchSet>;
+export interface GetRegexMatchSetResponse {
+  RegexMatchSet?: RegexMatchSet;
+}
+export const GetRegexMatchSetResponse = S.suspend(() =>
+  S.Struct({ RegexMatchSet: S.optional(RegexMatchSet) }).pipe(ns),
+).annotations({
+  identifier: "GetRegexMatchSetResponse",
+}) as any as S.Schema<GetRegexMatchSetResponse>;
+export type RegexPatternStrings = string[];
 export const RegexPatternStrings = S.Array(S.String);
-export class RegexPatternSet extends S.Class<RegexPatternSet>(
-  "RegexPatternSet",
-)({
-  RegexPatternSetId: S.String,
-  Name: S.optional(S.String),
-  RegexPatternStrings: RegexPatternStrings,
-}) {}
-export class GetRegexPatternSetResponse extends S.Class<GetRegexPatternSetResponse>(
-  "GetRegexPatternSetResponse",
-)({ RegexPatternSet: S.optional(RegexPatternSet) }, ns) {}
+export interface RegexPatternSet {
+  RegexPatternSetId: string;
+  Name?: string;
+  RegexPatternStrings: RegexPatternStrings;
+}
+export const RegexPatternSet = S.suspend(() =>
+  S.Struct({
+    RegexPatternSetId: S.String,
+    Name: S.optional(S.String),
+    RegexPatternStrings: RegexPatternStrings,
+  }),
+).annotations({
+  identifier: "RegexPatternSet",
+}) as any as S.Schema<RegexPatternSet>;
+export interface GetRegexPatternSetResponse {
+  RegexPatternSet?: RegexPatternSet;
+}
+export const GetRegexPatternSetResponse = S.suspend(() =>
+  S.Struct({ RegexPatternSet: S.optional(RegexPatternSet) }).pipe(ns),
+).annotations({
+  identifier: "GetRegexPatternSetResponse",
+}) as any as S.Schema<GetRegexPatternSetResponse>;
+export type Predicates = Predicate[];
 export const Predicates = S.Array(Predicate);
-export class Rule extends S.Class<Rule>("Rule")({
-  RuleId: S.String,
-  Name: S.optional(S.String),
-  MetricName: S.optional(S.String),
-  Predicates: Predicates,
-}) {}
-export class GetRuleResponse extends S.Class<GetRuleResponse>(
-  "GetRuleResponse",
-)({ Rule: S.optional(Rule) }, ns) {}
-export class RuleGroup extends S.Class<RuleGroup>("RuleGroup")({
-  RuleGroupId: S.String,
-  Name: S.optional(S.String),
-  MetricName: S.optional(S.String),
-}) {}
-export class GetRuleGroupResponse extends S.Class<GetRuleGroupResponse>(
-  "GetRuleGroupResponse",
-)({ RuleGroup: S.optional(RuleGroup) }, ns) {}
-export class GetSampledRequestsRequest extends S.Class<GetSampledRequestsRequest>(
-  "GetSampledRequestsRequest",
-)(
-  {
+export interface Rule {
+  RuleId: string;
+  Name?: string;
+  MetricName?: string;
+  Predicates: Predicates;
+}
+export const Rule = S.suspend(() =>
+  S.Struct({
+    RuleId: S.String,
+    Name: S.optional(S.String),
+    MetricName: S.optional(S.String),
+    Predicates: Predicates,
+  }),
+).annotations({ identifier: "Rule" }) as any as S.Schema<Rule>;
+export interface GetRuleResponse {
+  Rule?: Rule;
+}
+export const GetRuleResponse = S.suspend(() =>
+  S.Struct({ Rule: S.optional(Rule) }).pipe(ns),
+).annotations({
+  identifier: "GetRuleResponse",
+}) as any as S.Schema<GetRuleResponse>;
+export interface RuleGroup {
+  RuleGroupId: string;
+  Name?: string;
+  MetricName?: string;
+}
+export const RuleGroup = S.suspend(() =>
+  S.Struct({
+    RuleGroupId: S.String,
+    Name: S.optional(S.String),
+    MetricName: S.optional(S.String),
+  }),
+).annotations({ identifier: "RuleGroup" }) as any as S.Schema<RuleGroup>;
+export interface GetRuleGroupResponse {
+  RuleGroup?: RuleGroup;
+}
+export const GetRuleGroupResponse = S.suspend(() =>
+  S.Struct({ RuleGroup: S.optional(RuleGroup) }).pipe(ns),
+).annotations({
+  identifier: "GetRuleGroupResponse",
+}) as any as S.Schema<GetRuleGroupResponse>;
+export interface GetSampledRequestsRequest {
+  WebAclId: string;
+  RuleId: string;
+  TimeWindow: TimeWindow;
+  MaxItems: number;
+}
+export const GetSampledRequestsRequest = S.suspend(() =>
+  S.Struct({
     WebAclId: S.String,
     RuleId: S.String,
     TimeWindow: TimeWindow,
     MaxItems: S.Number,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class SizeConstraint extends S.Class<SizeConstraint>("SizeConstraint")({
-  FieldToMatch: FieldToMatch,
-  TextTransformation: S.String,
-  ComparisonOperator: S.String,
-  Size: S.Number,
-}) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetSampledRequestsRequest",
+}) as any as S.Schema<GetSampledRequestsRequest>;
+export interface SizeConstraint {
+  FieldToMatch: FieldToMatch;
+  TextTransformation: string;
+  ComparisonOperator: string;
+  Size: number;
+}
+export const SizeConstraint = S.suspend(() =>
+  S.Struct({
+    FieldToMatch: FieldToMatch,
+    TextTransformation: S.String,
+    ComparisonOperator: S.String,
+    Size: S.Number,
+  }),
+).annotations({
+  identifier: "SizeConstraint",
+}) as any as S.Schema<SizeConstraint>;
+export type SizeConstraints = SizeConstraint[];
 export const SizeConstraints = S.Array(SizeConstraint);
-export class SizeConstraintSet extends S.Class<SizeConstraintSet>(
-  "SizeConstraintSet",
-)({
-  SizeConstraintSetId: S.String,
-  Name: S.optional(S.String),
-  SizeConstraints: SizeConstraints,
-}) {}
-export class GetSizeConstraintSetResponse extends S.Class<GetSizeConstraintSetResponse>(
-  "GetSizeConstraintSetResponse",
-)({ SizeConstraintSet: S.optional(SizeConstraintSet) }, ns) {}
-export class SqlInjectionMatchTuple extends S.Class<SqlInjectionMatchTuple>(
-  "SqlInjectionMatchTuple",
-)({ FieldToMatch: FieldToMatch, TextTransformation: S.String }) {}
+export interface SizeConstraintSet {
+  SizeConstraintSetId: string;
+  Name?: string;
+  SizeConstraints: SizeConstraints;
+}
+export const SizeConstraintSet = S.suspend(() =>
+  S.Struct({
+    SizeConstraintSetId: S.String,
+    Name: S.optional(S.String),
+    SizeConstraints: SizeConstraints,
+  }),
+).annotations({
+  identifier: "SizeConstraintSet",
+}) as any as S.Schema<SizeConstraintSet>;
+export interface GetSizeConstraintSetResponse {
+  SizeConstraintSet?: SizeConstraintSet;
+}
+export const GetSizeConstraintSetResponse = S.suspend(() =>
+  S.Struct({ SizeConstraintSet: S.optional(SizeConstraintSet) }).pipe(ns),
+).annotations({
+  identifier: "GetSizeConstraintSetResponse",
+}) as any as S.Schema<GetSizeConstraintSetResponse>;
+export interface SqlInjectionMatchTuple {
+  FieldToMatch: FieldToMatch;
+  TextTransformation: string;
+}
+export const SqlInjectionMatchTuple = S.suspend(() =>
+  S.Struct({ FieldToMatch: FieldToMatch, TextTransformation: S.String }),
+).annotations({
+  identifier: "SqlInjectionMatchTuple",
+}) as any as S.Schema<SqlInjectionMatchTuple>;
+export type SqlInjectionMatchTuples = SqlInjectionMatchTuple[];
 export const SqlInjectionMatchTuples = S.Array(SqlInjectionMatchTuple);
-export class SqlInjectionMatchSet extends S.Class<SqlInjectionMatchSet>(
-  "SqlInjectionMatchSet",
-)({
-  SqlInjectionMatchSetId: S.String,
-  Name: S.optional(S.String),
-  SqlInjectionMatchTuples: SqlInjectionMatchTuples,
-}) {}
-export class GetSqlInjectionMatchSetResponse extends S.Class<GetSqlInjectionMatchSetResponse>(
-  "GetSqlInjectionMatchSetResponse",
-)({ SqlInjectionMatchSet: S.optional(SqlInjectionMatchSet) }, ns) {}
-export class XssMatchTuple extends S.Class<XssMatchTuple>("XssMatchTuple")({
-  FieldToMatch: FieldToMatch,
-  TextTransformation: S.String,
-}) {}
+export interface SqlInjectionMatchSet {
+  SqlInjectionMatchSetId: string;
+  Name?: string;
+  SqlInjectionMatchTuples: SqlInjectionMatchTuples;
+}
+export const SqlInjectionMatchSet = S.suspend(() =>
+  S.Struct({
+    SqlInjectionMatchSetId: S.String,
+    Name: S.optional(S.String),
+    SqlInjectionMatchTuples: SqlInjectionMatchTuples,
+  }),
+).annotations({
+  identifier: "SqlInjectionMatchSet",
+}) as any as S.Schema<SqlInjectionMatchSet>;
+export interface GetSqlInjectionMatchSetResponse {
+  SqlInjectionMatchSet?: SqlInjectionMatchSet;
+}
+export const GetSqlInjectionMatchSetResponse = S.suspend(() =>
+  S.Struct({ SqlInjectionMatchSet: S.optional(SqlInjectionMatchSet) }).pipe(ns),
+).annotations({
+  identifier: "GetSqlInjectionMatchSetResponse",
+}) as any as S.Schema<GetSqlInjectionMatchSetResponse>;
+export interface XssMatchTuple {
+  FieldToMatch: FieldToMatch;
+  TextTransformation: string;
+}
+export const XssMatchTuple = S.suspend(() =>
+  S.Struct({ FieldToMatch: FieldToMatch, TextTransformation: S.String }),
+).annotations({
+  identifier: "XssMatchTuple",
+}) as any as S.Schema<XssMatchTuple>;
+export type XssMatchTuples = XssMatchTuple[];
 export const XssMatchTuples = S.Array(XssMatchTuple);
-export class XssMatchSet extends S.Class<XssMatchSet>("XssMatchSet")({
-  XssMatchSetId: S.String,
-  Name: S.optional(S.String),
-  XssMatchTuples: XssMatchTuples,
-}) {}
-export class GetXssMatchSetResponse extends S.Class<GetXssMatchSetResponse>(
-  "GetXssMatchSetResponse",
-)({ XssMatchSet: S.optional(XssMatchSet) }, ns) {}
-export class ListActivatedRulesInRuleGroupResponse extends S.Class<ListActivatedRulesInRuleGroupResponse>(
-  "ListActivatedRulesInRuleGroupResponse",
-)(
-  {
+export interface XssMatchSet {
+  XssMatchSetId: string;
+  Name?: string;
+  XssMatchTuples: XssMatchTuples;
+}
+export const XssMatchSet = S.suspend(() =>
+  S.Struct({
+    XssMatchSetId: S.String,
+    Name: S.optional(S.String),
+    XssMatchTuples: XssMatchTuples,
+  }),
+).annotations({ identifier: "XssMatchSet" }) as any as S.Schema<XssMatchSet>;
+export interface GetXssMatchSetResponse {
+  XssMatchSet?: XssMatchSet;
+}
+export const GetXssMatchSetResponse = S.suspend(() =>
+  S.Struct({ XssMatchSet: S.optional(XssMatchSet) }).pipe(ns),
+).annotations({
+  identifier: "GetXssMatchSetResponse",
+}) as any as S.Schema<GetXssMatchSetResponse>;
+export interface ListActivatedRulesInRuleGroupResponse {
+  NextMarker?: string;
+  ActivatedRules?: ActivatedRules;
+}
+export const ListActivatedRulesInRuleGroupResponse = S.suspend(() =>
+  S.Struct({
     NextMarker: S.optional(S.String),
     ActivatedRules: S.optional(ActivatedRules),
-  },
-  ns,
-) {}
-export class ListLoggingConfigurationsResponse extends S.Class<ListLoggingConfigurationsResponse>(
-  "ListLoggingConfigurationsResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListActivatedRulesInRuleGroupResponse",
+}) as any as S.Schema<ListActivatedRulesInRuleGroupResponse>;
+export interface ListLoggingConfigurationsResponse {
+  LoggingConfigurations?: LoggingConfigurations;
+  NextMarker?: string;
+}
+export const ListLoggingConfigurationsResponse = S.suspend(() =>
+  S.Struct({
     LoggingConfigurations: S.optional(LoggingConfigurations),
     NextMarker: S.optional(S.String),
-  },
-  ns,
-) {}
-export class RuleSummary extends S.Class<RuleSummary>("RuleSummary")({
-  RuleId: S.String,
-  Name: S.String,
-}) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "ListLoggingConfigurationsResponse",
+}) as any as S.Schema<ListLoggingConfigurationsResponse>;
+export interface RuleSummary {
+  RuleId: string;
+  Name: string;
+}
+export const RuleSummary = S.suspend(() =>
+  S.Struct({ RuleId: S.String, Name: S.String }),
+).annotations({ identifier: "RuleSummary" }) as any as S.Schema<RuleSummary>;
+export type RuleSummaries = RuleSummary[];
 export const RuleSummaries = S.Array(RuleSummary);
-export class ListRulesResponse extends S.Class<ListRulesResponse>(
-  "ListRulesResponse",
-)({ NextMarker: S.optional(S.String), Rules: S.optional(RuleSummaries) }, ns) {}
-export class UpdateRegexPatternSetRequest extends S.Class<UpdateRegexPatternSetRequest>(
-  "UpdateRegexPatternSetRequest",
-)(
-  {
+export interface ListRulesResponse {
+  NextMarker?: string;
+  Rules?: RuleSummaries;
+}
+export const ListRulesResponse = S.suspend(() =>
+  S.Struct({
+    NextMarker: S.optional(S.String),
+    Rules: S.optional(RuleSummaries),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListRulesResponse",
+}) as any as S.Schema<ListRulesResponse>;
+export interface UpdateRegexPatternSetRequest {
+  RegexPatternSetId: string;
+  Updates: RegexPatternSetUpdates;
+  ChangeToken: string;
+}
+export const UpdateRegexPatternSetRequest = S.suspend(() =>
+  S.Struct({
     RegexPatternSetId: S.String,
     Updates: RegexPatternSetUpdates,
     ChangeToken: S.String,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateRuleResponse extends S.Class<UpdateRuleResponse>(
-  "UpdateRuleResponse",
-)({ ChangeToken: S.optional(S.String) }, ns) {}
-export class UpdateWebACLRequest extends S.Class<UpdateWebACLRequest>(
-  "UpdateWebACLRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateRegexPatternSetRequest",
+}) as any as S.Schema<UpdateRegexPatternSetRequest>;
+export interface UpdateRuleResponse {
+  ChangeToken?: string;
+}
+export const UpdateRuleResponse = S.suspend(() =>
+  S.Struct({ ChangeToken: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "UpdateRuleResponse",
+}) as any as S.Schema<UpdateRuleResponse>;
+export interface UpdateWebACLRequest {
+  WebACLId: string;
+  ChangeToken: string;
+  Updates?: WebACLUpdates;
+  DefaultAction?: WafAction;
+}
+export const UpdateWebACLRequest = S.suspend(() =>
+  S.Struct({
     WebACLId: S.String,
     ChangeToken: S.String,
     Updates: S.optional(WebACLUpdates),
     DefaultAction: S.optional(WafAction),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class RateBasedRule extends S.Class<RateBasedRule>("RateBasedRule")({
-  RuleId: S.String,
-  Name: S.optional(S.String),
-  MetricName: S.optional(S.String),
-  MatchPredicates: Predicates,
-  RateKey: S.String,
-  RateLimit: S.Number,
-}) {}
-export class WebACL extends S.Class<WebACL>("WebACL")({
-  WebACLId: S.String,
-  Name: S.optional(S.String),
-  MetricName: S.optional(S.String),
-  DefaultAction: WafAction,
-  Rules: ActivatedRules,
-  WebACLArn: S.optional(S.String),
-}) {}
-export class ByteMatchSetSummary extends S.Class<ByteMatchSetSummary>(
-  "ByteMatchSetSummary",
-)({ ByteMatchSetId: S.String, Name: S.String }) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateWebACLRequest",
+}) as any as S.Schema<UpdateWebACLRequest>;
+export interface RateBasedRule {
+  RuleId: string;
+  Name?: string;
+  MetricName?: string;
+  MatchPredicates: Predicates;
+  RateKey: string;
+  RateLimit: number;
+}
+export const RateBasedRule = S.suspend(() =>
+  S.Struct({
+    RuleId: S.String,
+    Name: S.optional(S.String),
+    MetricName: S.optional(S.String),
+    MatchPredicates: Predicates,
+    RateKey: S.String,
+    RateLimit: S.Number,
+  }),
+).annotations({
+  identifier: "RateBasedRule",
+}) as any as S.Schema<RateBasedRule>;
+export interface WebACL {
+  WebACLId: string;
+  Name?: string;
+  MetricName?: string;
+  DefaultAction: WafAction;
+  Rules: ActivatedRules;
+  WebACLArn?: string;
+}
+export const WebACL = S.suspend(() =>
+  S.Struct({
+    WebACLId: S.String,
+    Name: S.optional(S.String),
+    MetricName: S.optional(S.String),
+    DefaultAction: WafAction,
+    Rules: ActivatedRules,
+    WebACLArn: S.optional(S.String),
+  }),
+).annotations({ identifier: "WebACL" }) as any as S.Schema<WebACL>;
+export interface ByteMatchSetSummary {
+  ByteMatchSetId: string;
+  Name: string;
+}
+export const ByteMatchSetSummary = S.suspend(() =>
+  S.Struct({ ByteMatchSetId: S.String, Name: S.String }),
+).annotations({
+  identifier: "ByteMatchSetSummary",
+}) as any as S.Schema<ByteMatchSetSummary>;
+export type ByteMatchSetSummaries = ByteMatchSetSummary[];
 export const ByteMatchSetSummaries = S.Array(ByteMatchSetSummary);
-export class GeoMatchSetSummary extends S.Class<GeoMatchSetSummary>(
-  "GeoMatchSetSummary",
-)({ GeoMatchSetId: S.String, Name: S.String }) {}
+export interface GeoMatchSetSummary {
+  GeoMatchSetId: string;
+  Name: string;
+}
+export const GeoMatchSetSummary = S.suspend(() =>
+  S.Struct({ GeoMatchSetId: S.String, Name: S.String }),
+).annotations({
+  identifier: "GeoMatchSetSummary",
+}) as any as S.Schema<GeoMatchSetSummary>;
+export type GeoMatchSetSummaries = GeoMatchSetSummary[];
 export const GeoMatchSetSummaries = S.Array(GeoMatchSetSummary);
-export class IPSetSummary extends S.Class<IPSetSummary>("IPSetSummary")({
-  IPSetId: S.String,
-  Name: S.String,
-}) {}
+export interface IPSetSummary {
+  IPSetId: string;
+  Name: string;
+}
+export const IPSetSummary = S.suspend(() =>
+  S.Struct({ IPSetId: S.String, Name: S.String }),
+).annotations({ identifier: "IPSetSummary" }) as any as S.Schema<IPSetSummary>;
+export type IPSetSummaries = IPSetSummary[];
 export const IPSetSummaries = S.Array(IPSetSummary);
-export class RegexMatchSetSummary extends S.Class<RegexMatchSetSummary>(
-  "RegexMatchSetSummary",
-)({ RegexMatchSetId: S.String, Name: S.String }) {}
+export interface RegexMatchSetSummary {
+  RegexMatchSetId: string;
+  Name: string;
+}
+export const RegexMatchSetSummary = S.suspend(() =>
+  S.Struct({ RegexMatchSetId: S.String, Name: S.String }),
+).annotations({
+  identifier: "RegexMatchSetSummary",
+}) as any as S.Schema<RegexMatchSetSummary>;
+export type RegexMatchSetSummaries = RegexMatchSetSummary[];
 export const RegexMatchSetSummaries = S.Array(RegexMatchSetSummary);
-export class RegexPatternSetSummary extends S.Class<RegexPatternSetSummary>(
-  "RegexPatternSetSummary",
-)({ RegexPatternSetId: S.String, Name: S.String }) {}
+export interface RegexPatternSetSummary {
+  RegexPatternSetId: string;
+  Name: string;
+}
+export const RegexPatternSetSummary = S.suspend(() =>
+  S.Struct({ RegexPatternSetId: S.String, Name: S.String }),
+).annotations({
+  identifier: "RegexPatternSetSummary",
+}) as any as S.Schema<RegexPatternSetSummary>;
+export type RegexPatternSetSummaries = RegexPatternSetSummary[];
 export const RegexPatternSetSummaries = S.Array(RegexPatternSetSummary);
-export class RuleGroupSummary extends S.Class<RuleGroupSummary>(
-  "RuleGroupSummary",
-)({ RuleGroupId: S.String, Name: S.String }) {}
+export interface RuleGroupSummary {
+  RuleGroupId: string;
+  Name: string;
+}
+export const RuleGroupSummary = S.suspend(() =>
+  S.Struct({ RuleGroupId: S.String, Name: S.String }),
+).annotations({
+  identifier: "RuleGroupSummary",
+}) as any as S.Schema<RuleGroupSummary>;
+export type RuleGroupSummaries = RuleGroupSummary[];
 export const RuleGroupSummaries = S.Array(RuleGroupSummary);
-export class SizeConstraintSetSummary extends S.Class<SizeConstraintSetSummary>(
-  "SizeConstraintSetSummary",
-)({ SizeConstraintSetId: S.String, Name: S.String }) {}
+export interface SizeConstraintSetSummary {
+  SizeConstraintSetId: string;
+  Name: string;
+}
+export const SizeConstraintSetSummary = S.suspend(() =>
+  S.Struct({ SizeConstraintSetId: S.String, Name: S.String }),
+).annotations({
+  identifier: "SizeConstraintSetSummary",
+}) as any as S.Schema<SizeConstraintSetSummary>;
+export type SizeConstraintSetSummaries = SizeConstraintSetSummary[];
 export const SizeConstraintSetSummaries = S.Array(SizeConstraintSetSummary);
-export class SqlInjectionMatchSetSummary extends S.Class<SqlInjectionMatchSetSummary>(
-  "SqlInjectionMatchSetSummary",
-)({ SqlInjectionMatchSetId: S.String, Name: S.String }) {}
+export interface SqlInjectionMatchSetSummary {
+  SqlInjectionMatchSetId: string;
+  Name: string;
+}
+export const SqlInjectionMatchSetSummary = S.suspend(() =>
+  S.Struct({ SqlInjectionMatchSetId: S.String, Name: S.String }),
+).annotations({
+  identifier: "SqlInjectionMatchSetSummary",
+}) as any as S.Schema<SqlInjectionMatchSetSummary>;
+export type SqlInjectionMatchSetSummaries = SqlInjectionMatchSetSummary[];
 export const SqlInjectionMatchSetSummaries = S.Array(
   SqlInjectionMatchSetSummary,
 );
-export class SubscribedRuleGroupSummary extends S.Class<SubscribedRuleGroupSummary>(
-  "SubscribedRuleGroupSummary",
-)({ RuleGroupId: S.String, Name: S.String, MetricName: S.String }) {}
+export interface SubscribedRuleGroupSummary {
+  RuleGroupId: string;
+  Name: string;
+  MetricName: string;
+}
+export const SubscribedRuleGroupSummary = S.suspend(() =>
+  S.Struct({ RuleGroupId: S.String, Name: S.String, MetricName: S.String }),
+).annotations({
+  identifier: "SubscribedRuleGroupSummary",
+}) as any as S.Schema<SubscribedRuleGroupSummary>;
+export type SubscribedRuleGroupSummaries = SubscribedRuleGroupSummary[];
 export const SubscribedRuleGroupSummaries = S.Array(SubscribedRuleGroupSummary);
-export class TagInfoForResource extends S.Class<TagInfoForResource>(
-  "TagInfoForResource",
-)({ ResourceARN: S.optional(S.String), TagList: S.optional(TagList) }) {}
-export class WebACLSummary extends S.Class<WebACLSummary>("WebACLSummary")({
-  WebACLId: S.String,
-  Name: S.String,
-}) {}
+export interface TagInfoForResource {
+  ResourceARN?: string;
+  TagList?: TagList;
+}
+export const TagInfoForResource = S.suspend(() =>
+  S.Struct({ ResourceARN: S.optional(S.String), TagList: S.optional(TagList) }),
+).annotations({
+  identifier: "TagInfoForResource",
+}) as any as S.Schema<TagInfoForResource>;
+export interface WebACLSummary {
+  WebACLId: string;
+  Name: string;
+}
+export const WebACLSummary = S.suspend(() =>
+  S.Struct({ WebACLId: S.String, Name: S.String }),
+).annotations({
+  identifier: "WebACLSummary",
+}) as any as S.Schema<WebACLSummary>;
+export type WebACLSummaries = WebACLSummary[];
 export const WebACLSummaries = S.Array(WebACLSummary);
-export class XssMatchSetSummary extends S.Class<XssMatchSetSummary>(
-  "XssMatchSetSummary",
-)({ XssMatchSetId: S.String, Name: S.String }) {}
+export interface XssMatchSetSummary {
+  XssMatchSetId: string;
+  Name: string;
+}
+export const XssMatchSetSummary = S.suspend(() =>
+  S.Struct({ XssMatchSetId: S.String, Name: S.String }),
+).annotations({
+  identifier: "XssMatchSetSummary",
+}) as any as S.Schema<XssMatchSetSummary>;
+export type XssMatchSetSummaries = XssMatchSetSummary[];
 export const XssMatchSetSummaries = S.Array(XssMatchSetSummary);
-export class ByteMatchSetUpdate extends S.Class<ByteMatchSetUpdate>(
-  "ByteMatchSetUpdate",
-)({ Action: S.String, ByteMatchTuple: ByteMatchTuple }) {}
+export interface ByteMatchSetUpdate {
+  Action: string;
+  ByteMatchTuple: ByteMatchTuple;
+}
+export const ByteMatchSetUpdate = S.suspend(() =>
+  S.Struct({ Action: S.String, ByteMatchTuple: ByteMatchTuple }),
+).annotations({
+  identifier: "ByteMatchSetUpdate",
+}) as any as S.Schema<ByteMatchSetUpdate>;
+export type ByteMatchSetUpdates = ByteMatchSetUpdate[];
 export const ByteMatchSetUpdates = S.Array(ByteMatchSetUpdate);
-export class GeoMatchSetUpdate extends S.Class<GeoMatchSetUpdate>(
-  "GeoMatchSetUpdate",
-)({ Action: S.String, GeoMatchConstraint: GeoMatchConstraint }) {}
+export interface GeoMatchSetUpdate {
+  Action: string;
+  GeoMatchConstraint: GeoMatchConstraint;
+}
+export const GeoMatchSetUpdate = S.suspend(() =>
+  S.Struct({ Action: S.String, GeoMatchConstraint: GeoMatchConstraint }),
+).annotations({
+  identifier: "GeoMatchSetUpdate",
+}) as any as S.Schema<GeoMatchSetUpdate>;
+export type GeoMatchSetUpdates = GeoMatchSetUpdate[];
 export const GeoMatchSetUpdates = S.Array(GeoMatchSetUpdate);
-export class IPSetUpdate extends S.Class<IPSetUpdate>("IPSetUpdate")({
-  Action: S.String,
-  IPSetDescriptor: IPSetDescriptor,
-}) {}
+export interface IPSetUpdate {
+  Action: string;
+  IPSetDescriptor: IPSetDescriptor;
+}
+export const IPSetUpdate = S.suspend(() =>
+  S.Struct({ Action: S.String, IPSetDescriptor: IPSetDescriptor }),
+).annotations({ identifier: "IPSetUpdate" }) as any as S.Schema<IPSetUpdate>;
+export type IPSetUpdates = IPSetUpdate[];
 export const IPSetUpdates = S.Array(IPSetUpdate);
-export class RegexMatchSetUpdate extends S.Class<RegexMatchSetUpdate>(
-  "RegexMatchSetUpdate",
-)({ Action: S.String, RegexMatchTuple: RegexMatchTuple }) {}
+export interface RegexMatchSetUpdate {
+  Action: string;
+  RegexMatchTuple: RegexMatchTuple;
+}
+export const RegexMatchSetUpdate = S.suspend(() =>
+  S.Struct({ Action: S.String, RegexMatchTuple: RegexMatchTuple }),
+).annotations({
+  identifier: "RegexMatchSetUpdate",
+}) as any as S.Schema<RegexMatchSetUpdate>;
+export type RegexMatchSetUpdates = RegexMatchSetUpdate[];
 export const RegexMatchSetUpdates = S.Array(RegexMatchSetUpdate);
-export class SizeConstraintSetUpdate extends S.Class<SizeConstraintSetUpdate>(
-  "SizeConstraintSetUpdate",
-)({ Action: S.String, SizeConstraint: SizeConstraint }) {}
+export interface SizeConstraintSetUpdate {
+  Action: string;
+  SizeConstraint: SizeConstraint;
+}
+export const SizeConstraintSetUpdate = S.suspend(() =>
+  S.Struct({ Action: S.String, SizeConstraint: SizeConstraint }),
+).annotations({
+  identifier: "SizeConstraintSetUpdate",
+}) as any as S.Schema<SizeConstraintSetUpdate>;
+export type SizeConstraintSetUpdates = SizeConstraintSetUpdate[];
 export const SizeConstraintSetUpdates = S.Array(SizeConstraintSetUpdate);
-export class SqlInjectionMatchSetUpdate extends S.Class<SqlInjectionMatchSetUpdate>(
-  "SqlInjectionMatchSetUpdate",
-)({ Action: S.String, SqlInjectionMatchTuple: SqlInjectionMatchTuple }) {}
+export interface SqlInjectionMatchSetUpdate {
+  Action: string;
+  SqlInjectionMatchTuple: SqlInjectionMatchTuple;
+}
+export const SqlInjectionMatchSetUpdate = S.suspend(() =>
+  S.Struct({
+    Action: S.String,
+    SqlInjectionMatchTuple: SqlInjectionMatchTuple,
+  }),
+).annotations({
+  identifier: "SqlInjectionMatchSetUpdate",
+}) as any as S.Schema<SqlInjectionMatchSetUpdate>;
+export type SqlInjectionMatchSetUpdates = SqlInjectionMatchSetUpdate[];
 export const SqlInjectionMatchSetUpdates = S.Array(SqlInjectionMatchSetUpdate);
-export class XssMatchSetUpdate extends S.Class<XssMatchSetUpdate>(
-  "XssMatchSetUpdate",
-)({ Action: S.String, XssMatchTuple: XssMatchTuple }) {}
+export interface XssMatchSetUpdate {
+  Action: string;
+  XssMatchTuple: XssMatchTuple;
+}
+export const XssMatchSetUpdate = S.suspend(() =>
+  S.Struct({ Action: S.String, XssMatchTuple: XssMatchTuple }),
+).annotations({
+  identifier: "XssMatchSetUpdate",
+}) as any as S.Schema<XssMatchSetUpdate>;
+export type XssMatchSetUpdates = XssMatchSetUpdate[];
 export const XssMatchSetUpdates = S.Array(XssMatchSetUpdate);
-export class CreateByteMatchSetResponse extends S.Class<CreateByteMatchSetResponse>(
-  "CreateByteMatchSetResponse",
-)(
-  { ByteMatchSet: S.optional(ByteMatchSet), ChangeToken: S.optional(S.String) },
-  ns,
-) {}
-export class CreateGeoMatchSetResponse extends S.Class<CreateGeoMatchSetResponse>(
-  "CreateGeoMatchSetResponse",
-)(
-  { GeoMatchSet: S.optional(GeoMatchSet), ChangeToken: S.optional(S.String) },
-  ns,
-) {}
-export class CreateIPSetResponse extends S.Class<CreateIPSetResponse>(
-  "CreateIPSetResponse",
-)({ IPSet: S.optional(IPSet), ChangeToken: S.optional(S.String) }, ns) {}
-export class CreateRateBasedRuleResponse extends S.Class<CreateRateBasedRuleResponse>(
-  "CreateRateBasedRuleResponse",
-)({ Rule: S.optional(RateBasedRule), ChangeToken: S.optional(S.String) }, ns) {}
-export class CreateRegexMatchSetResponse extends S.Class<CreateRegexMatchSetResponse>(
-  "CreateRegexMatchSetResponse",
-)(
-  {
+export interface CreateByteMatchSetResponse {
+  ByteMatchSet?: ByteMatchSet;
+  ChangeToken?: string;
+}
+export const CreateByteMatchSetResponse = S.suspend(() =>
+  S.Struct({
+    ByteMatchSet: S.optional(ByteMatchSet),
+    ChangeToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "CreateByteMatchSetResponse",
+}) as any as S.Schema<CreateByteMatchSetResponse>;
+export interface CreateGeoMatchSetResponse {
+  GeoMatchSet?: GeoMatchSet;
+  ChangeToken?: string;
+}
+export const CreateGeoMatchSetResponse = S.suspend(() =>
+  S.Struct({
+    GeoMatchSet: S.optional(GeoMatchSet),
+    ChangeToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "CreateGeoMatchSetResponse",
+}) as any as S.Schema<CreateGeoMatchSetResponse>;
+export interface CreateIPSetResponse {
+  IPSet?: IPSet;
+  ChangeToken?: string;
+}
+export const CreateIPSetResponse = S.suspend(() =>
+  S.Struct({
+    IPSet: S.optional(IPSet),
+    ChangeToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "CreateIPSetResponse",
+}) as any as S.Schema<CreateIPSetResponse>;
+export interface CreateRateBasedRuleResponse {
+  Rule?: RateBasedRule;
+  ChangeToken?: string;
+}
+export const CreateRateBasedRuleResponse = S.suspend(() =>
+  S.Struct({
+    Rule: S.optional(RateBasedRule),
+    ChangeToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "CreateRateBasedRuleResponse",
+}) as any as S.Schema<CreateRateBasedRuleResponse>;
+export interface CreateRegexMatchSetResponse {
+  RegexMatchSet?: RegexMatchSet;
+  ChangeToken?: string;
+}
+export const CreateRegexMatchSetResponse = S.suspend(() =>
+  S.Struct({
     RegexMatchSet: S.optional(RegexMatchSet),
     ChangeToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class CreateRegexPatternSetResponse extends S.Class<CreateRegexPatternSetResponse>(
-  "CreateRegexPatternSetResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "CreateRegexMatchSetResponse",
+}) as any as S.Schema<CreateRegexMatchSetResponse>;
+export interface CreateRegexPatternSetResponse {
+  RegexPatternSet?: RegexPatternSet;
+  ChangeToken?: string;
+}
+export const CreateRegexPatternSetResponse = S.suspend(() =>
+  S.Struct({
     RegexPatternSet: S.optional(RegexPatternSet),
     ChangeToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class CreateRuleResponse extends S.Class<CreateRuleResponse>(
-  "CreateRuleResponse",
-)({ Rule: S.optional(Rule), ChangeToken: S.optional(S.String) }, ns) {}
-export class CreateRuleGroupResponse extends S.Class<CreateRuleGroupResponse>(
-  "CreateRuleGroupResponse",
-)(
-  { RuleGroup: S.optional(RuleGroup), ChangeToken: S.optional(S.String) },
-  ns,
-) {}
-export class CreateSizeConstraintSetResponse extends S.Class<CreateSizeConstraintSetResponse>(
-  "CreateSizeConstraintSetResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "CreateRegexPatternSetResponse",
+}) as any as S.Schema<CreateRegexPatternSetResponse>;
+export interface CreateRuleResponse {
+  Rule?: Rule;
+  ChangeToken?: string;
+}
+export const CreateRuleResponse = S.suspend(() =>
+  S.Struct({ Rule: S.optional(Rule), ChangeToken: S.optional(S.String) }).pipe(
+    ns,
+  ),
+).annotations({
+  identifier: "CreateRuleResponse",
+}) as any as S.Schema<CreateRuleResponse>;
+export interface CreateRuleGroupResponse {
+  RuleGroup?: RuleGroup;
+  ChangeToken?: string;
+}
+export const CreateRuleGroupResponse = S.suspend(() =>
+  S.Struct({
+    RuleGroup: S.optional(RuleGroup),
+    ChangeToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "CreateRuleGroupResponse",
+}) as any as S.Schema<CreateRuleGroupResponse>;
+export interface CreateSizeConstraintSetResponse {
+  SizeConstraintSet?: SizeConstraintSet;
+  ChangeToken?: string;
+}
+export const CreateSizeConstraintSetResponse = S.suspend(() =>
+  S.Struct({
     SizeConstraintSet: S.optional(SizeConstraintSet),
     ChangeToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class CreateSqlInjectionMatchSetResponse extends S.Class<CreateSqlInjectionMatchSetResponse>(
-  "CreateSqlInjectionMatchSetResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "CreateSizeConstraintSetResponse",
+}) as any as S.Schema<CreateSizeConstraintSetResponse>;
+export interface CreateSqlInjectionMatchSetResponse {
+  SqlInjectionMatchSet?: SqlInjectionMatchSet;
+  ChangeToken?: string;
+}
+export const CreateSqlInjectionMatchSetResponse = S.suspend(() =>
+  S.Struct({
     SqlInjectionMatchSet: S.optional(SqlInjectionMatchSet),
     ChangeToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class CreateWebACLResponse extends S.Class<CreateWebACLResponse>(
-  "CreateWebACLResponse",
-)({ WebACL: S.optional(WebACL), ChangeToken: S.optional(S.String) }, ns) {}
-export class CreateXssMatchSetResponse extends S.Class<CreateXssMatchSetResponse>(
-  "CreateXssMatchSetResponse",
-)(
-  { XssMatchSet: S.optional(XssMatchSet), ChangeToken: S.optional(S.String) },
-  ns,
-) {}
-export class GetRateBasedRuleResponse extends S.Class<GetRateBasedRuleResponse>(
-  "GetRateBasedRuleResponse",
-)({ Rule: S.optional(RateBasedRule) }, ns) {}
-export class GetWebACLResponse extends S.Class<GetWebACLResponse>(
-  "GetWebACLResponse",
-)({ WebACL: S.optional(WebACL) }, ns) {}
-export class ListByteMatchSetsResponse extends S.Class<ListByteMatchSetsResponse>(
-  "ListByteMatchSetsResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "CreateSqlInjectionMatchSetResponse",
+}) as any as S.Schema<CreateSqlInjectionMatchSetResponse>;
+export interface CreateWebACLResponse {
+  WebACL?: WebACL;
+  ChangeToken?: string;
+}
+export const CreateWebACLResponse = S.suspend(() =>
+  S.Struct({
+    WebACL: S.optional(WebACL),
+    ChangeToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "CreateWebACLResponse",
+}) as any as S.Schema<CreateWebACLResponse>;
+export interface CreateXssMatchSetResponse {
+  XssMatchSet?: XssMatchSet;
+  ChangeToken?: string;
+}
+export const CreateXssMatchSetResponse = S.suspend(() =>
+  S.Struct({
+    XssMatchSet: S.optional(XssMatchSet),
+    ChangeToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "CreateXssMatchSetResponse",
+}) as any as S.Schema<CreateXssMatchSetResponse>;
+export interface GetRateBasedRuleResponse {
+  Rule?: RateBasedRule;
+}
+export const GetRateBasedRuleResponse = S.suspend(() =>
+  S.Struct({ Rule: S.optional(RateBasedRule) }).pipe(ns),
+).annotations({
+  identifier: "GetRateBasedRuleResponse",
+}) as any as S.Schema<GetRateBasedRuleResponse>;
+export interface GetWebACLResponse {
+  WebACL?: WebACL;
+}
+export const GetWebACLResponse = S.suspend(() =>
+  S.Struct({ WebACL: S.optional(WebACL) }).pipe(ns),
+).annotations({
+  identifier: "GetWebACLResponse",
+}) as any as S.Schema<GetWebACLResponse>;
+export interface ListByteMatchSetsResponse {
+  NextMarker?: string;
+  ByteMatchSets?: ByteMatchSetSummaries;
+}
+export const ListByteMatchSetsResponse = S.suspend(() =>
+  S.Struct({
     NextMarker: S.optional(S.String),
     ByteMatchSets: S.optional(ByteMatchSetSummaries),
-  },
-  ns,
-) {}
-export class ListGeoMatchSetsResponse extends S.Class<ListGeoMatchSetsResponse>(
-  "ListGeoMatchSetsResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListByteMatchSetsResponse",
+}) as any as S.Schema<ListByteMatchSetsResponse>;
+export interface ListGeoMatchSetsResponse {
+  NextMarker?: string;
+  GeoMatchSets?: GeoMatchSetSummaries;
+}
+export const ListGeoMatchSetsResponse = S.suspend(() =>
+  S.Struct({
     NextMarker: S.optional(S.String),
     GeoMatchSets: S.optional(GeoMatchSetSummaries),
-  },
-  ns,
-) {}
-export class ListIPSetsResponse extends S.Class<ListIPSetsResponse>(
-  "ListIPSetsResponse",
-)(
-  { NextMarker: S.optional(S.String), IPSets: S.optional(IPSetSummaries) },
-  ns,
-) {}
-export class ListRateBasedRulesResponse extends S.Class<ListRateBasedRulesResponse>(
-  "ListRateBasedRulesResponse",
-)({ NextMarker: S.optional(S.String), Rules: S.optional(RuleSummaries) }, ns) {}
-export class ListRegexMatchSetsResponse extends S.Class<ListRegexMatchSetsResponse>(
-  "ListRegexMatchSetsResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListGeoMatchSetsResponse",
+}) as any as S.Schema<ListGeoMatchSetsResponse>;
+export interface ListIPSetsResponse {
+  NextMarker?: string;
+  IPSets?: IPSetSummaries;
+}
+export const ListIPSetsResponse = S.suspend(() =>
+  S.Struct({
+    NextMarker: S.optional(S.String),
+    IPSets: S.optional(IPSetSummaries),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListIPSetsResponse",
+}) as any as S.Schema<ListIPSetsResponse>;
+export interface ListRateBasedRulesResponse {
+  NextMarker?: string;
+  Rules?: RuleSummaries;
+}
+export const ListRateBasedRulesResponse = S.suspend(() =>
+  S.Struct({
+    NextMarker: S.optional(S.String),
+    Rules: S.optional(RuleSummaries),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListRateBasedRulesResponse",
+}) as any as S.Schema<ListRateBasedRulesResponse>;
+export interface ListRegexMatchSetsResponse {
+  NextMarker?: string;
+  RegexMatchSets?: RegexMatchSetSummaries;
+}
+export const ListRegexMatchSetsResponse = S.suspend(() =>
+  S.Struct({
     NextMarker: S.optional(S.String),
     RegexMatchSets: S.optional(RegexMatchSetSummaries),
-  },
-  ns,
-) {}
-export class ListRegexPatternSetsResponse extends S.Class<ListRegexPatternSetsResponse>(
-  "ListRegexPatternSetsResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListRegexMatchSetsResponse",
+}) as any as S.Schema<ListRegexMatchSetsResponse>;
+export interface ListRegexPatternSetsResponse {
+  NextMarker?: string;
+  RegexPatternSets?: RegexPatternSetSummaries;
+}
+export const ListRegexPatternSetsResponse = S.suspend(() =>
+  S.Struct({
     NextMarker: S.optional(S.String),
     RegexPatternSets: S.optional(RegexPatternSetSummaries),
-  },
-  ns,
-) {}
-export class ListRuleGroupsResponse extends S.Class<ListRuleGroupsResponse>(
-  "ListRuleGroupsResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListRegexPatternSetsResponse",
+}) as any as S.Schema<ListRegexPatternSetsResponse>;
+export interface ListRuleGroupsResponse {
+  NextMarker?: string;
+  RuleGroups?: RuleGroupSummaries;
+}
+export const ListRuleGroupsResponse = S.suspend(() =>
+  S.Struct({
     NextMarker: S.optional(S.String),
     RuleGroups: S.optional(RuleGroupSummaries),
-  },
-  ns,
-) {}
-export class ListSizeConstraintSetsResponse extends S.Class<ListSizeConstraintSetsResponse>(
-  "ListSizeConstraintSetsResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListRuleGroupsResponse",
+}) as any as S.Schema<ListRuleGroupsResponse>;
+export interface ListSizeConstraintSetsResponse {
+  NextMarker?: string;
+  SizeConstraintSets?: SizeConstraintSetSummaries;
+}
+export const ListSizeConstraintSetsResponse = S.suspend(() =>
+  S.Struct({
     NextMarker: S.optional(S.String),
     SizeConstraintSets: S.optional(SizeConstraintSetSummaries),
-  },
-  ns,
-) {}
-export class ListSqlInjectionMatchSetsResponse extends S.Class<ListSqlInjectionMatchSetsResponse>(
-  "ListSqlInjectionMatchSetsResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListSizeConstraintSetsResponse",
+}) as any as S.Schema<ListSizeConstraintSetsResponse>;
+export interface ListSqlInjectionMatchSetsResponse {
+  NextMarker?: string;
+  SqlInjectionMatchSets?: SqlInjectionMatchSetSummaries;
+}
+export const ListSqlInjectionMatchSetsResponse = S.suspend(() =>
+  S.Struct({
     NextMarker: S.optional(S.String),
     SqlInjectionMatchSets: S.optional(SqlInjectionMatchSetSummaries),
-  },
-  ns,
-) {}
-export class ListSubscribedRuleGroupsResponse extends S.Class<ListSubscribedRuleGroupsResponse>(
-  "ListSubscribedRuleGroupsResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListSqlInjectionMatchSetsResponse",
+}) as any as S.Schema<ListSqlInjectionMatchSetsResponse>;
+export interface ListSubscribedRuleGroupsResponse {
+  NextMarker?: string;
+  RuleGroups?: SubscribedRuleGroupSummaries;
+}
+export const ListSubscribedRuleGroupsResponse = S.suspend(() =>
+  S.Struct({
     NextMarker: S.optional(S.String),
     RuleGroups: S.optional(SubscribedRuleGroupSummaries),
-  },
-  ns,
-) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListSubscribedRuleGroupsResponse",
+}) as any as S.Schema<ListSubscribedRuleGroupsResponse>;
+export interface ListTagsForResourceResponse {
+  NextMarker?: string;
+  TagInfoForResource?: TagInfoForResource;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({
     NextMarker: S.optional(S.String),
     TagInfoForResource: S.optional(TagInfoForResource),
-  },
-  ns,
-) {}
-export class ListWebACLsResponse extends S.Class<ListWebACLsResponse>(
-  "ListWebACLsResponse",
-)(
-  { NextMarker: S.optional(S.String), WebACLs: S.optional(WebACLSummaries) },
-  ns,
-) {}
-export class ListXssMatchSetsResponse extends S.Class<ListXssMatchSetsResponse>(
-  "ListXssMatchSetsResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface ListWebACLsResponse {
+  NextMarker?: string;
+  WebACLs?: WebACLSummaries;
+}
+export const ListWebACLsResponse = S.suspend(() =>
+  S.Struct({
+    NextMarker: S.optional(S.String),
+    WebACLs: S.optional(WebACLSummaries),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListWebACLsResponse",
+}) as any as S.Schema<ListWebACLsResponse>;
+export interface ListXssMatchSetsResponse {
+  NextMarker?: string;
+  XssMatchSets?: XssMatchSetSummaries;
+}
+export const ListXssMatchSetsResponse = S.suspend(() =>
+  S.Struct({
     NextMarker: S.optional(S.String),
     XssMatchSets: S.optional(XssMatchSetSummaries),
-  },
-  ns,
-) {}
-export class PutLoggingConfigurationRequest extends S.Class<PutLoggingConfigurationRequest>(
-  "PutLoggingConfigurationRequest",
-)(
-  { LoggingConfiguration: LoggingConfiguration },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateByteMatchSetRequest extends S.Class<UpdateByteMatchSetRequest>(
-  "UpdateByteMatchSetRequest",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListXssMatchSetsResponse",
+}) as any as S.Schema<ListXssMatchSetsResponse>;
+export interface PutLoggingConfigurationRequest {
+  LoggingConfiguration: LoggingConfiguration;
+}
+export const PutLoggingConfigurationRequest = S.suspend(() =>
+  S.Struct({ LoggingConfiguration: LoggingConfiguration }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutLoggingConfigurationRequest",
+}) as any as S.Schema<PutLoggingConfigurationRequest>;
+export interface UpdateByteMatchSetRequest {
+  ByteMatchSetId: string;
+  ChangeToken: string;
+  Updates: ByteMatchSetUpdates;
+}
+export const UpdateByteMatchSetRequest = S.suspend(() =>
+  S.Struct({
     ByteMatchSetId: S.String,
     ChangeToken: S.String,
     Updates: ByteMatchSetUpdates,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateGeoMatchSetRequest extends S.Class<UpdateGeoMatchSetRequest>(
-  "UpdateGeoMatchSetRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateByteMatchSetRequest",
+}) as any as S.Schema<UpdateByteMatchSetRequest>;
+export interface UpdateGeoMatchSetRequest {
+  GeoMatchSetId: string;
+  ChangeToken: string;
+  Updates: GeoMatchSetUpdates;
+}
+export const UpdateGeoMatchSetRequest = S.suspend(() =>
+  S.Struct({
     GeoMatchSetId: S.String,
     ChangeToken: S.String,
     Updates: GeoMatchSetUpdates,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateIPSetRequest extends S.Class<UpdateIPSetRequest>(
-  "UpdateIPSetRequest",
-)(
-  { IPSetId: S.String, ChangeToken: S.String, Updates: IPSetUpdates },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateRateBasedRuleRequest extends S.Class<UpdateRateBasedRuleRequest>(
-  "UpdateRateBasedRuleRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateGeoMatchSetRequest",
+}) as any as S.Schema<UpdateGeoMatchSetRequest>;
+export interface UpdateIPSetRequest {
+  IPSetId: string;
+  ChangeToken: string;
+  Updates: IPSetUpdates;
+}
+export const UpdateIPSetRequest = S.suspend(() =>
+  S.Struct({
+    IPSetId: S.String,
+    ChangeToken: S.String,
+    Updates: IPSetUpdates,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateIPSetRequest",
+}) as any as S.Schema<UpdateIPSetRequest>;
+export interface UpdateRateBasedRuleRequest {
+  RuleId: string;
+  ChangeToken: string;
+  Updates: RuleUpdates;
+  RateLimit: number;
+}
+export const UpdateRateBasedRuleRequest = S.suspend(() =>
+  S.Struct({
     RuleId: S.String,
     ChangeToken: S.String,
     Updates: RuleUpdates,
     RateLimit: S.Number,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateRegexMatchSetRequest extends S.Class<UpdateRegexMatchSetRequest>(
-  "UpdateRegexMatchSetRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateRateBasedRuleRequest",
+}) as any as S.Schema<UpdateRateBasedRuleRequest>;
+export interface UpdateRegexMatchSetRequest {
+  RegexMatchSetId: string;
+  Updates: RegexMatchSetUpdates;
+  ChangeToken: string;
+}
+export const UpdateRegexMatchSetRequest = S.suspend(() =>
+  S.Struct({
     RegexMatchSetId: S.String,
     Updates: RegexMatchSetUpdates,
     ChangeToken: S.String,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateRegexPatternSetResponse extends S.Class<UpdateRegexPatternSetResponse>(
-  "UpdateRegexPatternSetResponse",
-)({ ChangeToken: S.optional(S.String) }, ns) {}
-export class UpdateSizeConstraintSetRequest extends S.Class<UpdateSizeConstraintSetRequest>(
-  "UpdateSizeConstraintSetRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateRegexMatchSetRequest",
+}) as any as S.Schema<UpdateRegexMatchSetRequest>;
+export interface UpdateRegexPatternSetResponse {
+  ChangeToken?: string;
+}
+export const UpdateRegexPatternSetResponse = S.suspend(() =>
+  S.Struct({ ChangeToken: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "UpdateRegexPatternSetResponse",
+}) as any as S.Schema<UpdateRegexPatternSetResponse>;
+export interface UpdateSizeConstraintSetRequest {
+  SizeConstraintSetId: string;
+  ChangeToken: string;
+  Updates: SizeConstraintSetUpdates;
+}
+export const UpdateSizeConstraintSetRequest = S.suspend(() =>
+  S.Struct({
     SizeConstraintSetId: S.String,
     ChangeToken: S.String,
     Updates: SizeConstraintSetUpdates,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateSqlInjectionMatchSetRequest extends S.Class<UpdateSqlInjectionMatchSetRequest>(
-  "UpdateSqlInjectionMatchSetRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateSizeConstraintSetRequest",
+}) as any as S.Schema<UpdateSizeConstraintSetRequest>;
+export interface UpdateSqlInjectionMatchSetRequest {
+  SqlInjectionMatchSetId: string;
+  ChangeToken: string;
+  Updates: SqlInjectionMatchSetUpdates;
+}
+export const UpdateSqlInjectionMatchSetRequest = S.suspend(() =>
+  S.Struct({
     SqlInjectionMatchSetId: S.String,
     ChangeToken: S.String,
     Updates: SqlInjectionMatchSetUpdates,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateWebACLResponse extends S.Class<UpdateWebACLResponse>(
-  "UpdateWebACLResponse",
-)({ ChangeToken: S.optional(S.String) }, ns) {}
-export class UpdateXssMatchSetRequest extends S.Class<UpdateXssMatchSetRequest>(
-  "UpdateXssMatchSetRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateSqlInjectionMatchSetRequest",
+}) as any as S.Schema<UpdateSqlInjectionMatchSetRequest>;
+export interface UpdateWebACLResponse {
+  ChangeToken?: string;
+}
+export const UpdateWebACLResponse = S.suspend(() =>
+  S.Struct({ ChangeToken: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "UpdateWebACLResponse",
+}) as any as S.Schema<UpdateWebACLResponse>;
+export interface UpdateXssMatchSetRequest {
+  XssMatchSetId: string;
+  ChangeToken: string;
+  Updates: XssMatchSetUpdates;
+}
+export const UpdateXssMatchSetRequest = S.suspend(() =>
+  S.Struct({
     XssMatchSetId: S.String,
     ChangeToken: S.String,
     Updates: XssMatchSetUpdates,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class RuleGroupUpdate extends S.Class<RuleGroupUpdate>(
-  "RuleGroupUpdate",
-)({ Action: S.String, ActivatedRule: ActivatedRule }) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateXssMatchSetRequest",
+}) as any as S.Schema<UpdateXssMatchSetRequest>;
+export interface RuleGroupUpdate {
+  Action: string;
+  ActivatedRule: ActivatedRule;
+}
+export const RuleGroupUpdate = S.suspend(() =>
+  S.Struct({ Action: S.String, ActivatedRule: ActivatedRule }),
+).annotations({
+  identifier: "RuleGroupUpdate",
+}) as any as S.Schema<RuleGroupUpdate>;
+export type RuleGroupUpdates = RuleGroupUpdate[];
 export const RuleGroupUpdates = S.Array(RuleGroupUpdate);
-export class PutLoggingConfigurationResponse extends S.Class<PutLoggingConfigurationResponse>(
-  "PutLoggingConfigurationResponse",
-)({ LoggingConfiguration: S.optional(LoggingConfiguration) }, ns) {}
-export class UpdateByteMatchSetResponse extends S.Class<UpdateByteMatchSetResponse>(
-  "UpdateByteMatchSetResponse",
-)({ ChangeToken: S.optional(S.String) }, ns) {}
-export class UpdateGeoMatchSetResponse extends S.Class<UpdateGeoMatchSetResponse>(
-  "UpdateGeoMatchSetResponse",
-)({ ChangeToken: S.optional(S.String) }, ns) {}
-export class UpdateIPSetResponse extends S.Class<UpdateIPSetResponse>(
-  "UpdateIPSetResponse",
-)({ ChangeToken: S.optional(S.String) }, ns) {}
-export class UpdateRateBasedRuleResponse extends S.Class<UpdateRateBasedRuleResponse>(
-  "UpdateRateBasedRuleResponse",
-)({ ChangeToken: S.optional(S.String) }, ns) {}
-export class UpdateRegexMatchSetResponse extends S.Class<UpdateRegexMatchSetResponse>(
-  "UpdateRegexMatchSetResponse",
-)({ ChangeToken: S.optional(S.String) }, ns) {}
-export class UpdateRuleGroupRequest extends S.Class<UpdateRuleGroupRequest>(
-  "UpdateRuleGroupRequest",
-)(
-  { RuleGroupId: S.String, Updates: RuleGroupUpdates, ChangeToken: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateSizeConstraintSetResponse extends S.Class<UpdateSizeConstraintSetResponse>(
-  "UpdateSizeConstraintSetResponse",
-)({ ChangeToken: S.optional(S.String) }, ns) {}
-export class UpdateSqlInjectionMatchSetResponse extends S.Class<UpdateSqlInjectionMatchSetResponse>(
-  "UpdateSqlInjectionMatchSetResponse",
-)({ ChangeToken: S.optional(S.String) }, ns) {}
-export class UpdateXssMatchSetResponse extends S.Class<UpdateXssMatchSetResponse>(
-  "UpdateXssMatchSetResponse",
-)({ ChangeToken: S.optional(S.String) }, ns) {}
-export class HTTPHeader extends S.Class<HTTPHeader>("HTTPHeader")({
-  Name: S.optional(S.String),
-  Value: S.optional(S.String),
-}) {}
+export interface PutLoggingConfigurationResponse {
+  LoggingConfiguration?: LoggingConfiguration;
+}
+export const PutLoggingConfigurationResponse = S.suspend(() =>
+  S.Struct({ LoggingConfiguration: S.optional(LoggingConfiguration) }).pipe(ns),
+).annotations({
+  identifier: "PutLoggingConfigurationResponse",
+}) as any as S.Schema<PutLoggingConfigurationResponse>;
+export interface UpdateByteMatchSetResponse {
+  ChangeToken?: string;
+}
+export const UpdateByteMatchSetResponse = S.suspend(() =>
+  S.Struct({ ChangeToken: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "UpdateByteMatchSetResponse",
+}) as any as S.Schema<UpdateByteMatchSetResponse>;
+export interface UpdateGeoMatchSetResponse {
+  ChangeToken?: string;
+}
+export const UpdateGeoMatchSetResponse = S.suspend(() =>
+  S.Struct({ ChangeToken: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "UpdateGeoMatchSetResponse",
+}) as any as S.Schema<UpdateGeoMatchSetResponse>;
+export interface UpdateIPSetResponse {
+  ChangeToken?: string;
+}
+export const UpdateIPSetResponse = S.suspend(() =>
+  S.Struct({ ChangeToken: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "UpdateIPSetResponse",
+}) as any as S.Schema<UpdateIPSetResponse>;
+export interface UpdateRateBasedRuleResponse {
+  ChangeToken?: string;
+}
+export const UpdateRateBasedRuleResponse = S.suspend(() =>
+  S.Struct({ ChangeToken: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "UpdateRateBasedRuleResponse",
+}) as any as S.Schema<UpdateRateBasedRuleResponse>;
+export interface UpdateRegexMatchSetResponse {
+  ChangeToken?: string;
+}
+export const UpdateRegexMatchSetResponse = S.suspend(() =>
+  S.Struct({ ChangeToken: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "UpdateRegexMatchSetResponse",
+}) as any as S.Schema<UpdateRegexMatchSetResponse>;
+export interface UpdateRuleGroupRequest {
+  RuleGroupId: string;
+  Updates: RuleGroupUpdates;
+  ChangeToken: string;
+}
+export const UpdateRuleGroupRequest = S.suspend(() =>
+  S.Struct({
+    RuleGroupId: S.String,
+    Updates: RuleGroupUpdates,
+    ChangeToken: S.String,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateRuleGroupRequest",
+}) as any as S.Schema<UpdateRuleGroupRequest>;
+export interface UpdateSizeConstraintSetResponse {
+  ChangeToken?: string;
+}
+export const UpdateSizeConstraintSetResponse = S.suspend(() =>
+  S.Struct({ ChangeToken: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "UpdateSizeConstraintSetResponse",
+}) as any as S.Schema<UpdateSizeConstraintSetResponse>;
+export interface UpdateSqlInjectionMatchSetResponse {
+  ChangeToken?: string;
+}
+export const UpdateSqlInjectionMatchSetResponse = S.suspend(() =>
+  S.Struct({ ChangeToken: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "UpdateSqlInjectionMatchSetResponse",
+}) as any as S.Schema<UpdateSqlInjectionMatchSetResponse>;
+export interface UpdateXssMatchSetResponse {
+  ChangeToken?: string;
+}
+export const UpdateXssMatchSetResponse = S.suspend(() =>
+  S.Struct({ ChangeToken: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "UpdateXssMatchSetResponse",
+}) as any as S.Schema<UpdateXssMatchSetResponse>;
+export interface HTTPHeader {
+  Name?: string;
+  Value?: string;
+}
+export const HTTPHeader = S.suspend(() =>
+  S.Struct({ Name: S.optional(S.String), Value: S.optional(S.String) }),
+).annotations({ identifier: "HTTPHeader" }) as any as S.Schema<HTTPHeader>;
+export type HTTPHeaders = HTTPHeader[];
 export const HTTPHeaders = S.Array(HTTPHeader);
-export class UpdateRuleGroupResponse extends S.Class<UpdateRuleGroupResponse>(
-  "UpdateRuleGroupResponse",
-)({ ChangeToken: S.optional(S.String) }, ns) {}
-export class HTTPRequest extends S.Class<HTTPRequest>("HTTPRequest")({
-  ClientIP: S.optional(S.String),
-  Country: S.optional(S.String),
-  URI: S.optional(S.String),
-  Method: S.optional(S.String),
-  HTTPVersion: S.optional(S.String),
-  Headers: S.optional(HTTPHeaders),
-}) {}
-export class SampledHTTPRequest extends S.Class<SampledHTTPRequest>(
-  "SampledHTTPRequest",
-)({
-  Request: HTTPRequest,
-  Weight: S.Number,
-  Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Action: S.optional(S.String),
-  RuleWithinRuleGroup: S.optional(S.String),
-}) {}
+export interface UpdateRuleGroupResponse {
+  ChangeToken?: string;
+}
+export const UpdateRuleGroupResponse = S.suspend(() =>
+  S.Struct({ ChangeToken: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "UpdateRuleGroupResponse",
+}) as any as S.Schema<UpdateRuleGroupResponse>;
+export interface HTTPRequest {
+  ClientIP?: string;
+  Country?: string;
+  URI?: string;
+  Method?: string;
+  HTTPVersion?: string;
+  Headers?: HTTPHeaders;
+}
+export const HTTPRequest = S.suspend(() =>
+  S.Struct({
+    ClientIP: S.optional(S.String),
+    Country: S.optional(S.String),
+    URI: S.optional(S.String),
+    Method: S.optional(S.String),
+    HTTPVersion: S.optional(S.String),
+    Headers: S.optional(HTTPHeaders),
+  }),
+).annotations({ identifier: "HTTPRequest" }) as any as S.Schema<HTTPRequest>;
+export interface SampledHTTPRequest {
+  Request: HTTPRequest;
+  Weight: number;
+  Timestamp?: Date;
+  Action?: string;
+  RuleWithinRuleGroup?: string;
+}
+export const SampledHTTPRequest = S.suspend(() =>
+  S.Struct({
+    Request: HTTPRequest,
+    Weight: S.Number,
+    Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Action: S.optional(S.String),
+    RuleWithinRuleGroup: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SampledHTTPRequest",
+}) as any as S.Schema<SampledHTTPRequest>;
+export type SampledHTTPRequests = SampledHTTPRequest[];
 export const SampledHTTPRequests = S.Array(SampledHTTPRequest);
-export class GetSampledRequestsResponse extends S.Class<GetSampledRequestsResponse>(
-  "GetSampledRequestsResponse",
-)(
-  {
+export interface GetSampledRequestsResponse {
+  SampledRequests?: SampledHTTPRequests;
+  PopulationSize?: number;
+  TimeWindow?: TimeWindow;
+}
+export const GetSampledRequestsResponse = S.suspend(() =>
+  S.Struct({
     SampledRequests: S.optional(SampledHTTPRequests),
     PopulationSize: S.optional(S.Number),
     TimeWindow: S.optional(TimeWindow),
-  },
-  ns,
-) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "GetSampledRequestsResponse",
+}) as any as S.Schema<GetSampledRequestsResponse>;
 
 //# Errors
 export class WAFInternalErrorException extends S.TaggedError<WAFInternalErrorException>()(

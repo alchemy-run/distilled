@@ -271,30 +271,65 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type TrailNameList = string[];
 export const TrailNameList = S.Array(S.String);
+export type EventDataStoreList = string[];
 export const EventDataStoreList = S.Array(S.String);
+export type ResourceIdList = string[];
 export const ResourceIdList = S.Array(S.String);
+export type ImportDestinations = string[];
 export const ImportDestinations = S.Array(S.String);
+export type QueryParameters = string[];
 export const QueryParameters = S.Array(S.String);
-export class CancelQueryRequest extends S.Class<CancelQueryRequest>(
-  "CancelQueryRequest",
-)(
-  {
+export interface CancelQueryRequest {
+  EventDataStore?: string;
+  QueryId: string;
+  EventDataStoreOwnerAccountId?: string;
+}
+export const CancelQueryRequest = S.suspend(() =>
+  S.Struct({
     EventDataStore: S.optional(S.String),
     QueryId: S.String,
     EventDataStoreOwnerAccountId: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class Tag extends S.Class<Tag>("Tag")({
-  Key: S.String,
-  Value: S.optional(S.String),
-}) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CancelQueryRequest",
+}) as any as S.Schema<CancelQueryRequest>;
+export interface Tag {
+  Key: string;
+  Value?: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ Key: S.String, Value: S.optional(S.String) }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagsList = Tag[];
 export const TagsList = S.Array(Tag);
-export class CreateTrailRequest extends S.Class<CreateTrailRequest>(
-  "CreateTrailRequest",
-)(
-  {
+export interface CreateTrailRequest {
+  Name: string;
+  S3BucketName: string;
+  S3KeyPrefix?: string;
+  SnsTopicName?: string;
+  IncludeGlobalServiceEvents?: boolean;
+  IsMultiRegionTrail?: boolean;
+  EnableLogFileValidation?: boolean;
+  CloudWatchLogsLogGroupArn?: string;
+  CloudWatchLogsRoleArn?: string;
+  KmsKeyId?: string;
+  IsOrganizationTrail?: boolean;
+  TagsList?: TagsList;
+}
+export const CreateTrailRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     S3BucketName: S.String,
     S3KeyPrefix: S.optional(S.String),
@@ -307,222 +342,621 @@ export class CreateTrailRequest extends S.Class<CreateTrailRequest>(
     KmsKeyId: S.optional(S.String),
     IsOrganizationTrail: S.optional(S.Boolean),
     TagsList: S.optional(TagsList),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteChannelRequest extends S.Class<DeleteChannelRequest>(
-  "DeleteChannelRequest",
-)(
-  { Channel: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteChannelResponse extends S.Class<DeleteChannelResponse>(
-  "DeleteChannelResponse",
-)({}, ns) {}
-export class DeleteDashboardRequest extends S.Class<DeleteDashboardRequest>(
-  "DeleteDashboardRequest",
-)(
-  { DashboardId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteDashboardResponse extends S.Class<DeleteDashboardResponse>(
-  "DeleteDashboardResponse",
-)({}, ns) {}
-export class DeleteEventDataStoreRequest extends S.Class<DeleteEventDataStoreRequest>(
-  "DeleteEventDataStoreRequest",
-)(
-  { EventDataStore: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteEventDataStoreResponse extends S.Class<DeleteEventDataStoreResponse>(
-  "DeleteEventDataStoreResponse",
-)({}, ns) {}
-export class DeleteResourcePolicyRequest extends S.Class<DeleteResourcePolicyRequest>(
-  "DeleteResourcePolicyRequest",
-)(
-  { ResourceArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteResourcePolicyResponse extends S.Class<DeleteResourcePolicyResponse>(
-  "DeleteResourcePolicyResponse",
-)({}, ns) {}
-export class DeleteTrailRequest extends S.Class<DeleteTrailRequest>(
-  "DeleteTrailRequest",
-)(
-  { Name: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteTrailResponse extends S.Class<DeleteTrailResponse>(
-  "DeleteTrailResponse",
-)({}, ns) {}
-export class DeregisterOrganizationDelegatedAdminRequest extends S.Class<DeregisterOrganizationDelegatedAdminRequest>(
-  "DeregisterOrganizationDelegatedAdminRequest",
-)(
-  { DelegatedAdminAccountId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeregisterOrganizationDelegatedAdminResponse extends S.Class<DeregisterOrganizationDelegatedAdminResponse>(
-  "DeregisterOrganizationDelegatedAdminResponse",
-)({}, ns) {}
-export class DescribeQueryRequest extends S.Class<DescribeQueryRequest>(
-  "DescribeQueryRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateTrailRequest",
+}) as any as S.Schema<CreateTrailRequest>;
+export interface DeleteChannelRequest {
+  Channel: string;
+}
+export const DeleteChannelRequest = S.suspend(() =>
+  S.Struct({ Channel: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteChannelRequest",
+}) as any as S.Schema<DeleteChannelRequest>;
+export interface DeleteChannelResponse {}
+export const DeleteChannelResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteChannelResponse",
+}) as any as S.Schema<DeleteChannelResponse>;
+export interface DeleteDashboardRequest {
+  DashboardId: string;
+}
+export const DeleteDashboardRequest = S.suspend(() =>
+  S.Struct({ DashboardId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteDashboardRequest",
+}) as any as S.Schema<DeleteDashboardRequest>;
+export interface DeleteDashboardResponse {}
+export const DeleteDashboardResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteDashboardResponse",
+}) as any as S.Schema<DeleteDashboardResponse>;
+export interface DeleteEventDataStoreRequest {
+  EventDataStore: string;
+}
+export const DeleteEventDataStoreRequest = S.suspend(() =>
+  S.Struct({ EventDataStore: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteEventDataStoreRequest",
+}) as any as S.Schema<DeleteEventDataStoreRequest>;
+export interface DeleteEventDataStoreResponse {}
+export const DeleteEventDataStoreResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteEventDataStoreResponse",
+}) as any as S.Schema<DeleteEventDataStoreResponse>;
+export interface DeleteResourcePolicyRequest {
+  ResourceArn: string;
+}
+export const DeleteResourcePolicyRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteResourcePolicyRequest",
+}) as any as S.Schema<DeleteResourcePolicyRequest>;
+export interface DeleteResourcePolicyResponse {}
+export const DeleteResourcePolicyResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteResourcePolicyResponse",
+}) as any as S.Schema<DeleteResourcePolicyResponse>;
+export interface DeleteTrailRequest {
+  Name: string;
+}
+export const DeleteTrailRequest = S.suspend(() =>
+  S.Struct({ Name: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteTrailRequest",
+}) as any as S.Schema<DeleteTrailRequest>;
+export interface DeleteTrailResponse {}
+export const DeleteTrailResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteTrailResponse",
+}) as any as S.Schema<DeleteTrailResponse>;
+export interface DeregisterOrganizationDelegatedAdminRequest {
+  DelegatedAdminAccountId: string;
+}
+export const DeregisterOrganizationDelegatedAdminRequest = S.suspend(() =>
+  S.Struct({ DelegatedAdminAccountId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeregisterOrganizationDelegatedAdminRequest",
+}) as any as S.Schema<DeregisterOrganizationDelegatedAdminRequest>;
+export interface DeregisterOrganizationDelegatedAdminResponse {}
+export const DeregisterOrganizationDelegatedAdminResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeregisterOrganizationDelegatedAdminResponse",
+}) as any as S.Schema<DeregisterOrganizationDelegatedAdminResponse>;
+export interface DescribeQueryRequest {
+  EventDataStore?: string;
+  QueryId?: string;
+  QueryAlias?: string;
+  RefreshId?: string;
+  EventDataStoreOwnerAccountId?: string;
+}
+export const DescribeQueryRequest = S.suspend(() =>
+  S.Struct({
     EventDataStore: S.optional(S.String),
     QueryId: S.optional(S.String),
     QueryAlias: S.optional(S.String),
     RefreshId: S.optional(S.String),
     EventDataStoreOwnerAccountId: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeTrailsRequest extends S.Class<DescribeTrailsRequest>(
-  "DescribeTrailsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeQueryRequest",
+}) as any as S.Schema<DescribeQueryRequest>;
+export interface DescribeTrailsRequest {
+  trailNameList?: TrailNameList;
+  includeShadowTrails?: boolean;
+}
+export const DescribeTrailsRequest = S.suspend(() =>
+  S.Struct({
     trailNameList: S.optional(TrailNameList),
     includeShadowTrails: S.optional(S.Boolean),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DisableFederationRequest extends S.Class<DisableFederationRequest>(
-  "DisableFederationRequest",
-)(
-  { EventDataStore: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class EnableFederationRequest extends S.Class<EnableFederationRequest>(
-  "EnableFederationRequest",
-)(
-  { EventDataStore: S.String, FederationRoleArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GenerateQueryRequest extends S.Class<GenerateQueryRequest>(
-  "GenerateQueryRequest",
-)(
-  { EventDataStores: EventDataStoreList, Prompt: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetChannelRequest extends S.Class<GetChannelRequest>(
-  "GetChannelRequest",
-)(
-  { Channel: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetDashboardRequest extends S.Class<GetDashboardRequest>(
-  "GetDashboardRequest",
-)(
-  { DashboardId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetEventConfigurationRequest extends S.Class<GetEventConfigurationRequest>(
-  "GetEventConfigurationRequest",
-)(
-  { TrailName: S.optional(S.String), EventDataStore: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetEventDataStoreRequest extends S.Class<GetEventDataStoreRequest>(
-  "GetEventDataStoreRequest",
-)(
-  { EventDataStore: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetEventSelectorsRequest extends S.Class<GetEventSelectorsRequest>(
-  "GetEventSelectorsRequest",
-)(
-  { TrailName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetImportRequest extends S.Class<GetImportRequest>(
-  "GetImportRequest",
-)(
-  { ImportId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetInsightSelectorsRequest extends S.Class<GetInsightSelectorsRequest>(
-  "GetInsightSelectorsRequest",
-)(
-  { TrailName: S.optional(S.String), EventDataStore: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetQueryResultsRequest extends S.Class<GetQueryResultsRequest>(
-  "GetQueryResultsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeTrailsRequest",
+}) as any as S.Schema<DescribeTrailsRequest>;
+export interface DisableFederationRequest {
+  EventDataStore: string;
+}
+export const DisableFederationRequest = S.suspend(() =>
+  S.Struct({ EventDataStore: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DisableFederationRequest",
+}) as any as S.Schema<DisableFederationRequest>;
+export interface EnableFederationRequest {
+  EventDataStore: string;
+  FederationRoleArn: string;
+}
+export const EnableFederationRequest = S.suspend(() =>
+  S.Struct({ EventDataStore: S.String, FederationRoleArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "EnableFederationRequest",
+}) as any as S.Schema<EnableFederationRequest>;
+export interface GenerateQueryRequest {
+  EventDataStores: EventDataStoreList;
+  Prompt: string;
+}
+export const GenerateQueryRequest = S.suspend(() =>
+  S.Struct({ EventDataStores: EventDataStoreList, Prompt: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GenerateQueryRequest",
+}) as any as S.Schema<GenerateQueryRequest>;
+export interface GetChannelRequest {
+  Channel: string;
+}
+export const GetChannelRequest = S.suspend(() =>
+  S.Struct({ Channel: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetChannelRequest",
+}) as any as S.Schema<GetChannelRequest>;
+export interface GetDashboardRequest {
+  DashboardId: string;
+}
+export const GetDashboardRequest = S.suspend(() =>
+  S.Struct({ DashboardId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetDashboardRequest",
+}) as any as S.Schema<GetDashboardRequest>;
+export interface GetEventConfigurationRequest {
+  TrailName?: string;
+  EventDataStore?: string;
+}
+export const GetEventConfigurationRequest = S.suspend(() =>
+  S.Struct({
+    TrailName: S.optional(S.String),
+    EventDataStore: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetEventConfigurationRequest",
+}) as any as S.Schema<GetEventConfigurationRequest>;
+export interface GetEventDataStoreRequest {
+  EventDataStore: string;
+}
+export const GetEventDataStoreRequest = S.suspend(() =>
+  S.Struct({ EventDataStore: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetEventDataStoreRequest",
+}) as any as S.Schema<GetEventDataStoreRequest>;
+export interface GetEventSelectorsRequest {
+  TrailName: string;
+}
+export const GetEventSelectorsRequest = S.suspend(() =>
+  S.Struct({ TrailName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetEventSelectorsRequest",
+}) as any as S.Schema<GetEventSelectorsRequest>;
+export interface GetImportRequest {
+  ImportId: string;
+}
+export const GetImportRequest = S.suspend(() =>
+  S.Struct({ ImportId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetImportRequest",
+}) as any as S.Schema<GetImportRequest>;
+export interface GetInsightSelectorsRequest {
+  TrailName?: string;
+  EventDataStore?: string;
+}
+export const GetInsightSelectorsRequest = S.suspend(() =>
+  S.Struct({
+    TrailName: S.optional(S.String),
+    EventDataStore: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetInsightSelectorsRequest",
+}) as any as S.Schema<GetInsightSelectorsRequest>;
+export interface GetQueryResultsRequest {
+  EventDataStore?: string;
+  QueryId: string;
+  NextToken?: string;
+  MaxQueryResults?: number;
+  EventDataStoreOwnerAccountId?: string;
+}
+export const GetQueryResultsRequest = S.suspend(() =>
+  S.Struct({
     EventDataStore: S.optional(S.String),
     QueryId: S.String,
     NextToken: S.optional(S.String),
     MaxQueryResults: S.optional(S.Number),
     EventDataStoreOwnerAccountId: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetResourcePolicyRequest extends S.Class<GetResourcePolicyRequest>(
-  "GetResourcePolicyRequest",
-)(
-  { ResourceArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetTrailRequest extends S.Class<GetTrailRequest>(
-  "GetTrailRequest",
-)(
-  { Name: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetTrailStatusRequest extends S.Class<GetTrailStatusRequest>(
-  "GetTrailStatusRequest",
-)(
-  { Name: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListChannelsRequest extends S.Class<ListChannelsRequest>(
-  "ListChannelsRequest",
-)(
-  { MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListDashboardsRequest extends S.Class<ListDashboardsRequest>(
-  "ListDashboardsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetQueryResultsRequest",
+}) as any as S.Schema<GetQueryResultsRequest>;
+export interface GetResourcePolicyRequest {
+  ResourceArn: string;
+}
+export const GetResourcePolicyRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetResourcePolicyRequest",
+}) as any as S.Schema<GetResourcePolicyRequest>;
+export interface GetTrailRequest {
+  Name: string;
+}
+export const GetTrailRequest = S.suspend(() =>
+  S.Struct({ Name: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetTrailRequest",
+}) as any as S.Schema<GetTrailRequest>;
+export interface GetTrailStatusRequest {
+  Name: string;
+}
+export const GetTrailStatusRequest = S.suspend(() =>
+  S.Struct({ Name: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetTrailStatusRequest",
+}) as any as S.Schema<GetTrailStatusRequest>;
+export interface ListChannelsRequest {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListChannelsRequest = S.suspend(() =>
+  S.Struct({
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListChannelsRequest",
+}) as any as S.Schema<ListChannelsRequest>;
+export interface ListDashboardsRequest {
+  NamePrefix?: string;
+  Type?: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListDashboardsRequest = S.suspend(() =>
+  S.Struct({
     NamePrefix: S.optional(S.String),
     Type: S.optional(S.String),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListEventDataStoresRequest extends S.Class<ListEventDataStoresRequest>(
-  "ListEventDataStoresRequest",
-)(
-  { NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListImportFailuresRequest extends S.Class<ListImportFailuresRequest>(
-  "ListImportFailuresRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListDashboardsRequest",
+}) as any as S.Schema<ListDashboardsRequest>;
+export interface ListEventDataStoresRequest {
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListEventDataStoresRequest = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListEventDataStoresRequest",
+}) as any as S.Schema<ListEventDataStoresRequest>;
+export interface ListImportFailuresRequest {
+  ImportId: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListImportFailuresRequest = S.suspend(() =>
+  S.Struct({
     ImportId: S.String,
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListImportsRequest extends S.Class<ListImportsRequest>(
-  "ListImportsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListImportFailuresRequest",
+}) as any as S.Schema<ListImportFailuresRequest>;
+export interface ListImportsRequest {
+  MaxResults?: number;
+  Destination?: string;
+  ImportStatus?: string;
+  NextToken?: string;
+}
+export const ListImportsRequest = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.Number),
     Destination: S.optional(S.String),
     ImportStatus: S.optional(S.String),
     NextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListInsightsMetricDataRequest extends S.Class<ListInsightsMetricDataRequest>(
-  "ListInsightsMetricDataRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListImportsRequest",
+}) as any as S.Schema<ListImportsRequest>;
+export interface ListInsightsMetricDataRequest {
+  TrailName?: string;
+  EventSource: string;
+  EventName: string;
+  InsightType: string;
+  ErrorCode?: string;
+  StartTime?: Date;
+  EndTime?: Date;
+  Period?: number;
+  DataType?: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListInsightsMetricDataRequest = S.suspend(() =>
+  S.Struct({
     TrailName: S.optional(S.String),
     EventSource: S.String,
     EventName: S.String,
@@ -534,202 +968,519 @@ export class ListInsightsMetricDataRequest extends S.Class<ListInsightsMetricDat
     DataType: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListPublicKeysRequest extends S.Class<ListPublicKeysRequest>(
-  "ListPublicKeysRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListInsightsMetricDataRequest",
+}) as any as S.Schema<ListInsightsMetricDataRequest>;
+export interface ListPublicKeysRequest {
+  StartTime?: Date;
+  EndTime?: Date;
+  NextToken?: string;
+}
+export const ListPublicKeysRequest = S.suspend(() =>
+  S.Struct({
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     NextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListQueriesRequest extends S.Class<ListQueriesRequest>(
-  "ListQueriesRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListPublicKeysRequest",
+}) as any as S.Schema<ListPublicKeysRequest>;
+export interface ListQueriesRequest {
+  EventDataStore: string;
+  NextToken?: string;
+  MaxResults?: number;
+  StartTime?: Date;
+  EndTime?: Date;
+  QueryStatus?: string;
+}
+export const ListQueriesRequest = S.suspend(() =>
+  S.Struct({
     EventDataStore: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     QueryStatus: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTagsRequest extends S.Class<ListTagsRequest>(
-  "ListTagsRequest",
-)(
-  { ResourceIdList: ResourceIdList, NextToken: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTrailsRequest extends S.Class<ListTrailsRequest>(
-  "ListTrailsRequest",
-)(
-  { NextToken: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutResourcePolicyRequest extends S.Class<PutResourcePolicyRequest>(
-  "PutResourcePolicyRequest",
-)(
-  { ResourceArn: S.String, ResourcePolicy: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class RegisterOrganizationDelegatedAdminRequest extends S.Class<RegisterOrganizationDelegatedAdminRequest>(
-  "RegisterOrganizationDelegatedAdminRequest",
-)(
-  { MemberAccountId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class RegisterOrganizationDelegatedAdminResponse extends S.Class<RegisterOrganizationDelegatedAdminResponse>(
-  "RegisterOrganizationDelegatedAdminResponse",
-)({}, ns) {}
-export class RemoveTagsRequest extends S.Class<RemoveTagsRequest>(
-  "RemoveTagsRequest",
-)(
-  { ResourceId: S.String, TagsList: TagsList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class RemoveTagsResponse extends S.Class<RemoveTagsResponse>(
-  "RemoveTagsResponse",
-)({}, ns) {}
-export class RestoreEventDataStoreRequest extends S.Class<RestoreEventDataStoreRequest>(
-  "RestoreEventDataStoreRequest",
-)(
-  { EventDataStore: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class SearchSampleQueriesRequest extends S.Class<SearchSampleQueriesRequest>(
-  "SearchSampleQueriesRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListQueriesRequest",
+}) as any as S.Schema<ListQueriesRequest>;
+export interface ListTagsRequest {
+  ResourceIdList: ResourceIdList;
+  NextToken?: string;
+}
+export const ListTagsRequest = S.suspend(() =>
+  S.Struct({
+    ResourceIdList: ResourceIdList,
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListTagsRequest",
+}) as any as S.Schema<ListTagsRequest>;
+export interface ListTrailsRequest {
+  NextToken?: string;
+}
+export const ListTrailsRequest = S.suspend(() =>
+  S.Struct({ NextToken: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListTrailsRequest",
+}) as any as S.Schema<ListTrailsRequest>;
+export interface PutResourcePolicyRequest {
+  ResourceArn: string;
+  ResourcePolicy: string;
+}
+export const PutResourcePolicyRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String, ResourcePolicy: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutResourcePolicyRequest",
+}) as any as S.Schema<PutResourcePolicyRequest>;
+export interface RegisterOrganizationDelegatedAdminRequest {
+  MemberAccountId: string;
+}
+export const RegisterOrganizationDelegatedAdminRequest = S.suspend(() =>
+  S.Struct({ MemberAccountId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "RegisterOrganizationDelegatedAdminRequest",
+}) as any as S.Schema<RegisterOrganizationDelegatedAdminRequest>;
+export interface RegisterOrganizationDelegatedAdminResponse {}
+export const RegisterOrganizationDelegatedAdminResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "RegisterOrganizationDelegatedAdminResponse",
+}) as any as S.Schema<RegisterOrganizationDelegatedAdminResponse>;
+export interface RemoveTagsRequest {
+  ResourceId: string;
+  TagsList: TagsList;
+}
+export const RemoveTagsRequest = S.suspend(() =>
+  S.Struct({ ResourceId: S.String, TagsList: TagsList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "RemoveTagsRequest",
+}) as any as S.Schema<RemoveTagsRequest>;
+export interface RemoveTagsResponse {}
+export const RemoveTagsResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "RemoveTagsResponse",
+}) as any as S.Schema<RemoveTagsResponse>;
+export interface RestoreEventDataStoreRequest {
+  EventDataStore: string;
+}
+export const RestoreEventDataStoreRequest = S.suspend(() =>
+  S.Struct({ EventDataStore: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "RestoreEventDataStoreRequest",
+}) as any as S.Schema<RestoreEventDataStoreRequest>;
+export interface SearchSampleQueriesRequest {
+  SearchPhrase: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const SearchSampleQueriesRequest = S.suspend(() =>
+  S.Struct({
     SearchPhrase: S.String,
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StartEventDataStoreIngestionRequest extends S.Class<StartEventDataStoreIngestionRequest>(
-  "StartEventDataStoreIngestionRequest",
-)(
-  { EventDataStore: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StartEventDataStoreIngestionResponse extends S.Class<StartEventDataStoreIngestionResponse>(
-  "StartEventDataStoreIngestionResponse",
-)({}, ns) {}
-export class StartLoggingRequest extends S.Class<StartLoggingRequest>(
-  "StartLoggingRequest",
-)(
-  { Name: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StartLoggingResponse extends S.Class<StartLoggingResponse>(
-  "StartLoggingResponse",
-)({}, ns) {}
-export class StartQueryRequest extends S.Class<StartQueryRequest>(
-  "StartQueryRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "SearchSampleQueriesRequest",
+}) as any as S.Schema<SearchSampleQueriesRequest>;
+export interface StartEventDataStoreIngestionRequest {
+  EventDataStore: string;
+}
+export const StartEventDataStoreIngestionRequest = S.suspend(() =>
+  S.Struct({ EventDataStore: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "StartEventDataStoreIngestionRequest",
+}) as any as S.Schema<StartEventDataStoreIngestionRequest>;
+export interface StartEventDataStoreIngestionResponse {}
+export const StartEventDataStoreIngestionResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "StartEventDataStoreIngestionResponse",
+}) as any as S.Schema<StartEventDataStoreIngestionResponse>;
+export interface StartLoggingRequest {
+  Name: string;
+}
+export const StartLoggingRequest = S.suspend(() =>
+  S.Struct({ Name: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "StartLoggingRequest",
+}) as any as S.Schema<StartLoggingRequest>;
+export interface StartLoggingResponse {}
+export const StartLoggingResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "StartLoggingResponse",
+}) as any as S.Schema<StartLoggingResponse>;
+export interface StartQueryRequest {
+  QueryStatement?: string;
+  DeliveryS3Uri?: string;
+  QueryAlias?: string;
+  QueryParameters?: QueryParameters;
+  EventDataStoreOwnerAccountId?: string;
+}
+export const StartQueryRequest = S.suspend(() =>
+  S.Struct({
     QueryStatement: S.optional(S.String),
     DeliveryS3Uri: S.optional(S.String),
     QueryAlias: S.optional(S.String),
     QueryParameters: S.optional(QueryParameters),
     EventDataStoreOwnerAccountId: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StopEventDataStoreIngestionRequest extends S.Class<StopEventDataStoreIngestionRequest>(
-  "StopEventDataStoreIngestionRequest",
-)(
-  { EventDataStore: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StopEventDataStoreIngestionResponse extends S.Class<StopEventDataStoreIngestionResponse>(
-  "StopEventDataStoreIngestionResponse",
-)({}, ns) {}
-export class StopImportRequest extends S.Class<StopImportRequest>(
-  "StopImportRequest",
-)(
-  { ImportId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StopLoggingRequest extends S.Class<StopLoggingRequest>(
-  "StopLoggingRequest",
-)(
-  { Name: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StopLoggingResponse extends S.Class<StopLoggingResponse>(
-  "StopLoggingResponse",
-)({}, ns) {}
-export class Destination extends S.Class<Destination>("Destination")({
-  Type: S.String,
-  Location: S.String,
-}) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "StartQueryRequest",
+}) as any as S.Schema<StartQueryRequest>;
+export interface StopEventDataStoreIngestionRequest {
+  EventDataStore: string;
+}
+export const StopEventDataStoreIngestionRequest = S.suspend(() =>
+  S.Struct({ EventDataStore: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "StopEventDataStoreIngestionRequest",
+}) as any as S.Schema<StopEventDataStoreIngestionRequest>;
+export interface StopEventDataStoreIngestionResponse {}
+export const StopEventDataStoreIngestionResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "StopEventDataStoreIngestionResponse",
+}) as any as S.Schema<StopEventDataStoreIngestionResponse>;
+export interface StopImportRequest {
+  ImportId: string;
+}
+export const StopImportRequest = S.suspend(() =>
+  S.Struct({ ImportId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "StopImportRequest",
+}) as any as S.Schema<StopImportRequest>;
+export interface StopLoggingRequest {
+  Name: string;
+}
+export const StopLoggingRequest = S.suspend(() =>
+  S.Struct({ Name: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "StopLoggingRequest",
+}) as any as S.Schema<StopLoggingRequest>;
+export interface StopLoggingResponse {}
+export const StopLoggingResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "StopLoggingResponse",
+}) as any as S.Schema<StopLoggingResponse>;
+export interface Destination {
+  Type: string;
+  Location: string;
+}
+export const Destination = S.suspend(() =>
+  S.Struct({ Type: S.String, Location: S.String }),
+).annotations({ identifier: "Destination" }) as any as S.Schema<Destination>;
+export type Destinations = Destination[];
 export const Destinations = S.Array(Destination);
-export class UpdateChannelRequest extends S.Class<UpdateChannelRequest>(
-  "UpdateChannelRequest",
-)(
-  {
+export interface UpdateChannelRequest {
+  Channel: string;
+  Destinations?: Destinations;
+  Name?: string;
+}
+export const UpdateChannelRequest = S.suspend(() =>
+  S.Struct({
     Channel: S.String,
     Destinations: S.optional(Destinations),
     Name: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateChannelRequest",
+}) as any as S.Schema<UpdateChannelRequest>;
+export type ViewPropertiesMap = { [key: string]: string };
 export const ViewPropertiesMap = S.Record({ key: S.String, value: S.String });
-export class RequestWidget extends S.Class<RequestWidget>("RequestWidget")({
-  QueryStatement: S.String,
-  QueryParameters: S.optional(QueryParameters),
-  ViewProperties: ViewPropertiesMap,
-}) {}
+export interface RequestWidget {
+  QueryStatement: string;
+  QueryParameters?: QueryParameters;
+  ViewProperties: ViewPropertiesMap;
+}
+export const RequestWidget = S.suspend(() =>
+  S.Struct({
+    QueryStatement: S.String,
+    QueryParameters: S.optional(QueryParameters),
+    ViewProperties: ViewPropertiesMap,
+  }),
+).annotations({
+  identifier: "RequestWidget",
+}) as any as S.Schema<RequestWidget>;
+export type RequestWidgetList = RequestWidget[];
 export const RequestWidgetList = S.Array(RequestWidget);
-export class RefreshScheduleFrequency extends S.Class<RefreshScheduleFrequency>(
-  "RefreshScheduleFrequency",
-)({ Unit: S.optional(S.String), Value: S.optional(S.Number) }) {}
-export class RefreshSchedule extends S.Class<RefreshSchedule>(
-  "RefreshSchedule",
-)({
-  Frequency: S.optional(RefreshScheduleFrequency),
-  Status: S.optional(S.String),
-  TimeOfDay: S.optional(S.String),
-}) {}
-export class UpdateDashboardRequest extends S.Class<UpdateDashboardRequest>(
-  "UpdateDashboardRequest",
-)(
-  {
+export interface RefreshScheduleFrequency {
+  Unit?: string;
+  Value?: number;
+}
+export const RefreshScheduleFrequency = S.suspend(() =>
+  S.Struct({ Unit: S.optional(S.String), Value: S.optional(S.Number) }),
+).annotations({
+  identifier: "RefreshScheduleFrequency",
+}) as any as S.Schema<RefreshScheduleFrequency>;
+export interface RefreshSchedule {
+  Frequency?: RefreshScheduleFrequency;
+  Status?: string;
+  TimeOfDay?: string;
+}
+export const RefreshSchedule = S.suspend(() =>
+  S.Struct({
+    Frequency: S.optional(RefreshScheduleFrequency),
+    Status: S.optional(S.String),
+    TimeOfDay: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RefreshSchedule",
+}) as any as S.Schema<RefreshSchedule>;
+export interface UpdateDashboardRequest {
+  DashboardId: string;
+  Widgets?: RequestWidgetList;
+  RefreshSchedule?: RefreshSchedule;
+  TerminationProtectionEnabled?: boolean;
+}
+export const UpdateDashboardRequest = S.suspend(() =>
+  S.Struct({
     DashboardId: S.String,
     Widgets: S.optional(RequestWidgetList),
     RefreshSchedule: S.optional(RefreshSchedule),
     TerminationProtectionEnabled: S.optional(S.Boolean),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateDashboardRequest",
+}) as any as S.Schema<UpdateDashboardRequest>;
+export type Operator = string[];
 export const Operator = S.Array(S.String);
-export class AdvancedFieldSelector extends S.Class<AdvancedFieldSelector>(
-  "AdvancedFieldSelector",
-)({
-  Field: S.String,
-  Equals: S.optional(Operator),
-  StartsWith: S.optional(Operator),
-  EndsWith: S.optional(Operator),
-  NotEquals: S.optional(Operator),
-  NotStartsWith: S.optional(Operator),
-  NotEndsWith: S.optional(Operator),
-}) {}
+export interface AdvancedFieldSelector {
+  Field: string;
+  Equals?: Operator;
+  StartsWith?: Operator;
+  EndsWith?: Operator;
+  NotEquals?: Operator;
+  NotStartsWith?: Operator;
+  NotEndsWith?: Operator;
+}
+export const AdvancedFieldSelector = S.suspend(() =>
+  S.Struct({
+    Field: S.String,
+    Equals: S.optional(Operator),
+    StartsWith: S.optional(Operator),
+    EndsWith: S.optional(Operator),
+    NotEquals: S.optional(Operator),
+    NotStartsWith: S.optional(Operator),
+    NotEndsWith: S.optional(Operator),
+  }),
+).annotations({
+  identifier: "AdvancedFieldSelector",
+}) as any as S.Schema<AdvancedFieldSelector>;
+export type AdvancedFieldSelectors = AdvancedFieldSelector[];
 export const AdvancedFieldSelectors = S.Array(AdvancedFieldSelector);
-export class AdvancedEventSelector extends S.Class<AdvancedEventSelector>(
-  "AdvancedEventSelector",
-)({ Name: S.optional(S.String), FieldSelectors: AdvancedFieldSelectors }) {}
+export interface AdvancedEventSelector {
+  Name?: string;
+  FieldSelectors: AdvancedFieldSelectors;
+}
+export const AdvancedEventSelector = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    FieldSelectors: AdvancedFieldSelectors,
+  }),
+).annotations({
+  identifier: "AdvancedEventSelector",
+}) as any as S.Schema<AdvancedEventSelector>;
+export type AdvancedEventSelectors = AdvancedEventSelector[];
 export const AdvancedEventSelectors = S.Array(AdvancedEventSelector);
-export class UpdateEventDataStoreRequest extends S.Class<UpdateEventDataStoreRequest>(
-  "UpdateEventDataStoreRequest",
-)(
-  {
+export interface UpdateEventDataStoreRequest {
+  EventDataStore: string;
+  Name?: string;
+  AdvancedEventSelectors?: AdvancedEventSelectors;
+  MultiRegionEnabled?: boolean;
+  OrganizationEnabled?: boolean;
+  RetentionPeriod?: number;
+  TerminationProtectionEnabled?: boolean;
+  KmsKeyId?: string;
+  BillingMode?: string;
+}
+export const UpdateEventDataStoreRequest = S.suspend(() =>
+  S.Struct({
     EventDataStore: S.String,
     Name: S.optional(S.String),
     AdvancedEventSelectors: S.optional(AdvancedEventSelectors),
@@ -739,13 +1490,35 @@ export class UpdateEventDataStoreRequest extends S.Class<UpdateEventDataStoreReq
     TerminationProtectionEnabled: S.optional(S.Boolean),
     KmsKeyId: S.optional(S.String),
     BillingMode: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateTrailRequest extends S.Class<UpdateTrailRequest>(
-  "UpdateTrailRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateEventDataStoreRequest",
+}) as any as S.Schema<UpdateEventDataStoreRequest>;
+export interface UpdateTrailRequest {
+  Name: string;
+  S3BucketName?: string;
+  S3KeyPrefix?: string;
+  SnsTopicName?: string;
+  IncludeGlobalServiceEvents?: boolean;
+  IsMultiRegionTrail?: boolean;
+  EnableLogFileValidation?: boolean;
+  CloudWatchLogsLogGroupArn?: string;
+  CloudWatchLogsRoleArn?: string;
+  KmsKeyId?: string;
+  IsOrganizationTrail?: boolean;
+}
+export const UpdateTrailRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     S3BucketName: S.optional(S.String),
     S3KeyPrefix: S.optional(S.String),
@@ -757,77 +1530,175 @@ export class UpdateTrailRequest extends S.Class<UpdateTrailRequest>(
     CloudWatchLogsRoleArn: S.optional(S.String),
     KmsKeyId: S.optional(S.String),
     IsOrganizationTrail: S.optional(S.Boolean),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateTrailRequest",
+}) as any as S.Schema<UpdateTrailRequest>;
+export type OperatorTargetList = string[];
 export const OperatorTargetList = S.Array(S.String);
+export type Templates = string[];
 export const Templates = S.Array(S.String);
+export type ExcludeManagementEventSources = string[];
 export const ExcludeManagementEventSources = S.Array(S.String);
+export type SourceEventCategories = string[];
 export const SourceEventCategories = S.Array(S.String);
+export type ListInsightsDataDimensions = { [key: string]: string };
 export const ListInsightsDataDimensions = S.Record({
   key: S.String,
   value: S.String,
 });
+export type Timestamps = Date[];
 export const Timestamps = S.Array(
   S.Date.pipe(T.TimestampFormat("epoch-seconds")),
 );
+export type InsightsMetricValues = number[];
 export const InsightsMetricValues = S.Array(S.Number);
-export class LookupAttribute extends S.Class<LookupAttribute>(
-  "LookupAttribute",
-)({ AttributeKey: S.String, AttributeValue: S.String }) {}
+export interface LookupAttribute {
+  AttributeKey: string;
+  AttributeValue: string;
+}
+export const LookupAttribute = S.suspend(() =>
+  S.Struct({ AttributeKey: S.String, AttributeValue: S.String }),
+).annotations({
+  identifier: "LookupAttribute",
+}) as any as S.Schema<LookupAttribute>;
+export type LookupAttributesList = LookupAttribute[];
 export const LookupAttributesList = S.Array(LookupAttribute);
-export class ContextKeySelector extends S.Class<ContextKeySelector>(
-  "ContextKeySelector",
-)({ Type: S.String, Equals: OperatorTargetList }) {}
+export interface ContextKeySelector {
+  Type: string;
+  Equals: OperatorTargetList;
+}
+export const ContextKeySelector = S.suspend(() =>
+  S.Struct({ Type: S.String, Equals: OperatorTargetList }),
+).annotations({
+  identifier: "ContextKeySelector",
+}) as any as S.Schema<ContextKeySelector>;
+export type ContextKeySelectors = ContextKeySelector[];
 export const ContextKeySelectors = S.Array(ContextKeySelector);
-export class AggregationConfiguration extends S.Class<AggregationConfiguration>(
-  "AggregationConfiguration",
-)({ Templates: Templates, EventCategory: S.String }) {}
+export interface AggregationConfiguration {
+  Templates: Templates;
+  EventCategory: string;
+}
+export const AggregationConfiguration = S.suspend(() =>
+  S.Struct({ Templates: Templates, EventCategory: S.String }),
+).annotations({
+  identifier: "AggregationConfiguration",
+}) as any as S.Schema<AggregationConfiguration>;
+export type AggregationConfigurations = AggregationConfiguration[];
 export const AggregationConfigurations = S.Array(AggregationConfiguration);
-export class InsightSelector extends S.Class<InsightSelector>(
-  "InsightSelector",
-)({
-  InsightType: S.optional(S.String),
-  EventCategories: S.optional(SourceEventCategories),
-}) {}
+export interface InsightSelector {
+  InsightType?: string;
+  EventCategories?: SourceEventCategories;
+}
+export const InsightSelector = S.suspend(() =>
+  S.Struct({
+    InsightType: S.optional(S.String),
+    EventCategories: S.optional(SourceEventCategories),
+  }),
+).annotations({
+  identifier: "InsightSelector",
+}) as any as S.Schema<InsightSelector>;
+export type InsightSelectors = InsightSelector[];
 export const InsightSelectors = S.Array(InsightSelector);
+export type QueryParameterValues = { [key: string]: string };
 export const QueryParameterValues = S.Record({
   key: S.String,
   value: S.String,
 });
+export type DataResourceValues = string[];
 export const DataResourceValues = S.Array(S.String);
-export class AddTagsRequest extends S.Class<AddTagsRequest>("AddTagsRequest")(
-  { ResourceId: S.String, TagsList: TagsList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class AddTagsResponse extends S.Class<AddTagsResponse>(
-  "AddTagsResponse",
-)({}, ns) {}
-export class CancelQueryResponse extends S.Class<CancelQueryResponse>(
-  "CancelQueryResponse",
-)(
-  {
+export interface AddTagsRequest {
+  ResourceId: string;
+  TagsList: TagsList;
+}
+export const AddTagsRequest = S.suspend(() =>
+  S.Struct({ ResourceId: S.String, TagsList: TagsList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "AddTagsRequest",
+}) as any as S.Schema<AddTagsRequest>;
+export interface AddTagsResponse {}
+export const AddTagsResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "AddTagsResponse",
+}) as any as S.Schema<AddTagsResponse>;
+export interface CancelQueryResponse {
+  QueryId: string;
+  QueryStatus: string;
+  EventDataStoreOwnerAccountId?: string;
+}
+export const CancelQueryResponse = S.suspend(() =>
+  S.Struct({
     QueryId: S.String,
     QueryStatus: S.String,
     EventDataStoreOwnerAccountId: S.optional(S.String),
-  },
-  ns,
-) {}
-export class CreateChannelRequest extends S.Class<CreateChannelRequest>(
-  "CreateChannelRequest",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "CancelQueryResponse",
+}) as any as S.Schema<CancelQueryResponse>;
+export interface CreateChannelRequest {
+  Name: string;
+  Source: string;
+  Destinations: Destinations;
+  Tags?: TagsList;
+}
+export const CreateChannelRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     Source: S.String,
     Destinations: Destinations,
     Tags: S.optional(TagsList),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateTrailResponse extends S.Class<CreateTrailResponse>(
-  "CreateTrailResponse",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateChannelRequest",
+}) as any as S.Schema<CreateChannelRequest>;
+export interface CreateTrailResponse {
+  Name?: string;
+  S3BucketName?: string;
+  S3KeyPrefix?: string;
+  SnsTopicName?: string;
+  SnsTopicARN?: string;
+  IncludeGlobalServiceEvents?: boolean;
+  IsMultiRegionTrail?: boolean;
+  TrailARN?: string;
+  LogFileValidationEnabled?: boolean;
+  CloudWatchLogsLogGroupArn?: string;
+  CloudWatchLogsRoleArn?: string;
+  KmsKeyId?: string;
+  IsOrganizationTrail?: boolean;
+}
+export const CreateTrailResponse = S.suspend(() =>
+  S.Struct({
     Name: S.optional(S.String),
     S3BucketName: S.optional(S.String),
     S3KeyPrefix: S.optional(S.String),
@@ -841,118 +1712,209 @@ export class CreateTrailResponse extends S.Class<CreateTrailResponse>(
     CloudWatchLogsRoleArn: S.optional(S.String),
     KmsKeyId: S.optional(S.String),
     IsOrganizationTrail: S.optional(S.Boolean),
-  },
-  ns,
-) {}
-export class DisableFederationResponse extends S.Class<DisableFederationResponse>(
-  "DisableFederationResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "CreateTrailResponse",
+}) as any as S.Schema<CreateTrailResponse>;
+export interface DisableFederationResponse {
+  EventDataStoreArn?: string;
+  FederationStatus?: string;
+}
+export const DisableFederationResponse = S.suspend(() =>
+  S.Struct({
     EventDataStoreArn: S.optional(S.String),
     FederationStatus: S.optional(S.String),
-  },
-  ns,
-) {}
-export class EnableFederationResponse extends S.Class<EnableFederationResponse>(
-  "EnableFederationResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DisableFederationResponse",
+}) as any as S.Schema<DisableFederationResponse>;
+export interface EnableFederationResponse {
+  EventDataStoreArn?: string;
+  FederationStatus?: string;
+  FederationRoleArn?: string;
+}
+export const EnableFederationResponse = S.suspend(() =>
+  S.Struct({
     EventDataStoreArn: S.optional(S.String),
     FederationStatus: S.optional(S.String),
     FederationRoleArn: S.optional(S.String),
-  },
-  ns,
-) {}
-export class GenerateQueryResponse extends S.Class<GenerateQueryResponse>(
-  "GenerateQueryResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "EnableFederationResponse",
+}) as any as S.Schema<EnableFederationResponse>;
+export interface GenerateQueryResponse {
+  QueryStatement?: string;
+  QueryAlias?: string;
+  EventDataStoreOwnerAccountId?: string;
+}
+export const GenerateQueryResponse = S.suspend(() =>
+  S.Struct({
     QueryStatement: S.optional(S.String),
     QueryAlias: S.optional(S.String),
     EventDataStoreOwnerAccountId: S.optional(S.String),
-  },
-  ns,
-) {}
-export class GetEventConfigurationResponse extends S.Class<GetEventConfigurationResponse>(
-  "GetEventConfigurationResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GenerateQueryResponse",
+}) as any as S.Schema<GenerateQueryResponse>;
+export interface GetEventConfigurationResponse {
+  TrailARN?: string;
+  EventDataStoreArn?: string;
+  MaxEventSize?: string;
+  ContextKeySelectors?: ContextKeySelectors;
+  AggregationConfigurations?: AggregationConfigurations;
+}
+export const GetEventConfigurationResponse = S.suspend(() =>
+  S.Struct({
     TrailARN: S.optional(S.String),
     EventDataStoreArn: S.optional(S.String),
     MaxEventSize: S.optional(S.String),
     ContextKeySelectors: S.optional(ContextKeySelectors),
     AggregationConfigurations: S.optional(AggregationConfigurations),
-  },
-  ns,
-) {}
-export class DataResource extends S.Class<DataResource>("DataResource")({
-  Type: S.optional(S.String),
-  Values: S.optional(DataResourceValues),
-}) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "GetEventConfigurationResponse",
+}) as any as S.Schema<GetEventConfigurationResponse>;
+export interface DataResource {
+  Type?: string;
+  Values?: DataResourceValues;
+}
+export const DataResource = S.suspend(() =>
+  S.Struct({
+    Type: S.optional(S.String),
+    Values: S.optional(DataResourceValues),
+  }),
+).annotations({ identifier: "DataResource" }) as any as S.Schema<DataResource>;
+export type DataResources = DataResource[];
 export const DataResources = S.Array(DataResource);
-export class EventSelector extends S.Class<EventSelector>("EventSelector")({
-  ReadWriteType: S.optional(S.String),
-  IncludeManagementEvents: S.optional(S.Boolean),
-  DataResources: S.optional(DataResources),
-  ExcludeManagementEventSources: S.optional(ExcludeManagementEventSources),
-}) {}
+export interface EventSelector {
+  ReadWriteType?: string;
+  IncludeManagementEvents?: boolean;
+  DataResources?: DataResources;
+  ExcludeManagementEventSources?: ExcludeManagementEventSources;
+}
+export const EventSelector = S.suspend(() =>
+  S.Struct({
+    ReadWriteType: S.optional(S.String),
+    IncludeManagementEvents: S.optional(S.Boolean),
+    DataResources: S.optional(DataResources),
+    ExcludeManagementEventSources: S.optional(ExcludeManagementEventSources),
+  }),
+).annotations({
+  identifier: "EventSelector",
+}) as any as S.Schema<EventSelector>;
+export type EventSelectors = EventSelector[];
 export const EventSelectors = S.Array(EventSelector);
-export class GetEventSelectorsResponse extends S.Class<GetEventSelectorsResponse>(
-  "GetEventSelectorsResponse",
-)(
-  {
+export interface GetEventSelectorsResponse {
+  TrailARN?: string;
+  EventSelectors?: EventSelectors;
+  AdvancedEventSelectors?: AdvancedEventSelectors;
+}
+export const GetEventSelectorsResponse = S.suspend(() =>
+  S.Struct({
     TrailARN: S.optional(S.String),
     EventSelectors: S.optional(EventSelectors),
     AdvancedEventSelectors: S.optional(AdvancedEventSelectors),
-  },
-  ns,
-) {}
-export class GetInsightSelectorsResponse extends S.Class<GetInsightSelectorsResponse>(
-  "GetInsightSelectorsResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetEventSelectorsResponse",
+}) as any as S.Schema<GetEventSelectorsResponse>;
+export interface GetInsightSelectorsResponse {
+  TrailARN?: string;
+  InsightSelectors?: InsightSelectors;
+  EventDataStoreArn?: string;
+  InsightsDestination?: string;
+}
+export const GetInsightSelectorsResponse = S.suspend(() =>
+  S.Struct({
     TrailARN: S.optional(S.String),
     InsightSelectors: S.optional(InsightSelectors),
     EventDataStoreArn: S.optional(S.String),
     InsightsDestination: S.optional(S.String),
-  },
-  ns,
-) {}
-export class GetResourcePolicyResponse extends S.Class<GetResourcePolicyResponse>(
-  "GetResourcePolicyResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetInsightSelectorsResponse",
+}) as any as S.Schema<GetInsightSelectorsResponse>;
+export interface GetResourcePolicyResponse {
+  ResourceArn?: string;
+  ResourcePolicy?: string;
+  DelegatedAdminResourcePolicy?: string;
+}
+export const GetResourcePolicyResponse = S.suspend(() =>
+  S.Struct({
     ResourceArn: S.optional(S.String),
     ResourcePolicy: S.optional(S.String),
     DelegatedAdminResourcePolicy: S.optional(S.String),
-  },
-  ns,
-) {}
-export class Trail extends S.Class<Trail>("Trail")({
-  Name: S.optional(S.String),
-  S3BucketName: S.optional(S.String),
-  S3KeyPrefix: S.optional(S.String),
-  SnsTopicName: S.optional(S.String),
-  SnsTopicARN: S.optional(S.String),
-  IncludeGlobalServiceEvents: S.optional(S.Boolean),
-  IsMultiRegionTrail: S.optional(S.Boolean),
-  HomeRegion: S.optional(S.String),
-  TrailARN: S.optional(S.String),
-  LogFileValidationEnabled: S.optional(S.Boolean),
-  CloudWatchLogsLogGroupArn: S.optional(S.String),
-  CloudWatchLogsRoleArn: S.optional(S.String),
-  KmsKeyId: S.optional(S.String),
-  HasCustomEventSelectors: S.optional(S.Boolean),
-  HasInsightSelectors: S.optional(S.Boolean),
-  IsOrganizationTrail: S.optional(S.Boolean),
-}) {}
-export class GetTrailResponse extends S.Class<GetTrailResponse>(
-  "GetTrailResponse",
-)({ Trail: S.optional(Trail) }, ns) {}
-export class GetTrailStatusResponse extends S.Class<GetTrailStatusResponse>(
-  "GetTrailStatusResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetResourcePolicyResponse",
+}) as any as S.Schema<GetResourcePolicyResponse>;
+export interface Trail {
+  Name?: string;
+  S3BucketName?: string;
+  S3KeyPrefix?: string;
+  SnsTopicName?: string;
+  SnsTopicARN?: string;
+  IncludeGlobalServiceEvents?: boolean;
+  IsMultiRegionTrail?: boolean;
+  HomeRegion?: string;
+  TrailARN?: string;
+  LogFileValidationEnabled?: boolean;
+  CloudWatchLogsLogGroupArn?: string;
+  CloudWatchLogsRoleArn?: string;
+  KmsKeyId?: string;
+  HasCustomEventSelectors?: boolean;
+  HasInsightSelectors?: boolean;
+  IsOrganizationTrail?: boolean;
+}
+export const Trail = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    S3BucketName: S.optional(S.String),
+    S3KeyPrefix: S.optional(S.String),
+    SnsTopicName: S.optional(S.String),
+    SnsTopicARN: S.optional(S.String),
+    IncludeGlobalServiceEvents: S.optional(S.Boolean),
+    IsMultiRegionTrail: S.optional(S.Boolean),
+    HomeRegion: S.optional(S.String),
+    TrailARN: S.optional(S.String),
+    LogFileValidationEnabled: S.optional(S.Boolean),
+    CloudWatchLogsLogGroupArn: S.optional(S.String),
+    CloudWatchLogsRoleArn: S.optional(S.String),
+    KmsKeyId: S.optional(S.String),
+    HasCustomEventSelectors: S.optional(S.Boolean),
+    HasInsightSelectors: S.optional(S.Boolean),
+    IsOrganizationTrail: S.optional(S.Boolean),
+  }),
+).annotations({ identifier: "Trail" }) as any as S.Schema<Trail>;
+export interface GetTrailResponse {
+  Trail?: Trail;
+}
+export const GetTrailResponse = S.suspend(() =>
+  S.Struct({ Trail: S.optional(Trail) }).pipe(ns),
+).annotations({
+  identifier: "GetTrailResponse",
+}) as any as S.Schema<GetTrailResponse>;
+export interface GetTrailStatusResponse {
+  IsLogging?: boolean;
+  LatestDeliveryError?: string;
+  LatestNotificationError?: string;
+  LatestDeliveryTime?: Date;
+  LatestNotificationTime?: Date;
+  StartLoggingTime?: Date;
+  StopLoggingTime?: Date;
+  LatestCloudWatchLogsDeliveryError?: string;
+  LatestCloudWatchLogsDeliveryTime?: Date;
+  LatestDigestDeliveryTime?: Date;
+  LatestDigestDeliveryError?: string;
+  LatestDeliveryAttemptTime?: string;
+  LatestNotificationAttemptTime?: string;
+  LatestNotificationAttemptSucceeded?: string;
+  LatestDeliveryAttemptSucceeded?: string;
+  TimeLoggingStarted?: string;
+  TimeLoggingStopped?: string;
+}
+export const GetTrailStatusResponse = S.suspend(() =>
+  S.Struct({
     IsLogging: S.optional(S.Boolean),
     LatestDeliveryError: S.optional(S.String),
     LatestNotificationError: S.optional(S.String),
@@ -982,13 +1944,21 @@ export class GetTrailStatusResponse extends S.Class<GetTrailStatusResponse>(
     LatestDeliveryAttemptSucceeded: S.optional(S.String),
     TimeLoggingStarted: S.optional(S.String),
     TimeLoggingStopped: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListInsightsDataRequest extends S.Class<ListInsightsDataRequest>(
-  "ListInsightsDataRequest",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetTrailStatusResponse",
+}) as any as S.Schema<GetTrailStatusResponse>;
+export interface ListInsightsDataRequest {
+  InsightSource: string;
+  DataType: string;
+  Dimensions?: ListInsightsDataDimensions;
+  StartTime?: Date;
+  EndTime?: Date;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListInsightsDataRequest = S.suspend(() =>
+  S.Struct({
     InsightSource: S.String,
     DataType: S.String,
     Dimensions: S.optional(ListInsightsDataDimensions),
@@ -996,13 +1966,32 @@ export class ListInsightsDataRequest extends S.Class<ListInsightsDataRequest>(
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListInsightsMetricDataResponse extends S.Class<ListInsightsMetricDataResponse>(
-  "ListInsightsMetricDataResponse",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListInsightsDataRequest",
+}) as any as S.Schema<ListInsightsDataRequest>;
+export interface ListInsightsMetricDataResponse {
+  TrailARN?: string;
+  EventSource?: string;
+  EventName?: string;
+  InsightType?: string;
+  ErrorCode?: string;
+  Timestamps?: Timestamps;
+  Values?: InsightsMetricValues;
+  NextToken?: string;
+}
+export const ListInsightsMetricDataResponse = S.suspend(() =>
+  S.Struct({
     TrailARN: S.optional(S.String),
     EventSource: S.optional(S.String),
     EventName: S.optional(S.String),
@@ -1011,59 +2000,124 @@ export class ListInsightsMetricDataResponse extends S.Class<ListInsightsMetricDa
     Timestamps: S.optional(Timestamps),
     Values: S.optional(InsightsMetricValues),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class LookupEventsRequest extends S.Class<LookupEventsRequest>(
-  "LookupEventsRequest",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListInsightsMetricDataResponse",
+}) as any as S.Schema<ListInsightsMetricDataResponse>;
+export interface LookupEventsRequest {
+  LookupAttributes?: LookupAttributesList;
+  StartTime?: Date;
+  EndTime?: Date;
+  EventCategory?: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const LookupEventsRequest = S.suspend(() =>
+  S.Struct({
     LookupAttributes: S.optional(LookupAttributesList),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EventCategory: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutEventConfigurationRequest extends S.Class<PutEventConfigurationRequest>(
-  "PutEventConfigurationRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "LookupEventsRequest",
+}) as any as S.Schema<LookupEventsRequest>;
+export interface PutEventConfigurationRequest {
+  TrailName?: string;
+  EventDataStore?: string;
+  MaxEventSize?: string;
+  ContextKeySelectors?: ContextKeySelectors;
+  AggregationConfigurations?: AggregationConfigurations;
+}
+export const PutEventConfigurationRequest = S.suspend(() =>
+  S.Struct({
     TrailName: S.optional(S.String),
     EventDataStore: S.optional(S.String),
     MaxEventSize: S.optional(S.String),
     ContextKeySelectors: S.optional(ContextKeySelectors),
     AggregationConfigurations: S.optional(AggregationConfigurations),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutInsightSelectorsRequest extends S.Class<PutInsightSelectorsRequest>(
-  "PutInsightSelectorsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutEventConfigurationRequest",
+}) as any as S.Schema<PutEventConfigurationRequest>;
+export interface PutInsightSelectorsRequest {
+  TrailName?: string;
+  InsightSelectors: InsightSelectors;
+  EventDataStore?: string;
+  InsightsDestination?: string;
+}
+export const PutInsightSelectorsRequest = S.suspend(() =>
+  S.Struct({
     TrailName: S.optional(S.String),
     InsightSelectors: InsightSelectors,
     EventDataStore: S.optional(S.String),
     InsightsDestination: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutResourcePolicyResponse extends S.Class<PutResourcePolicyResponse>(
-  "PutResourcePolicyResponse",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutInsightSelectorsRequest",
+}) as any as S.Schema<PutInsightSelectorsRequest>;
+export interface PutResourcePolicyResponse {
+  ResourceArn?: string;
+  ResourcePolicy?: string;
+  DelegatedAdminResourcePolicy?: string;
+}
+export const PutResourcePolicyResponse = S.suspend(() =>
+  S.Struct({
     ResourceArn: S.optional(S.String),
     ResourcePolicy: S.optional(S.String),
     DelegatedAdminResourcePolicy: S.optional(S.String),
-  },
-  ns,
-) {}
-export class RestoreEventDataStoreResponse extends S.Class<RestoreEventDataStoreResponse>(
-  "RestoreEventDataStoreResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "PutResourcePolicyResponse",
+}) as any as S.Schema<PutResourcePolicyResponse>;
+export interface RestoreEventDataStoreResponse {
+  EventDataStoreArn?: string;
+  Name?: string;
+  Status?: string;
+  AdvancedEventSelectors?: AdvancedEventSelectors;
+  MultiRegionEnabled?: boolean;
+  OrganizationEnabled?: boolean;
+  RetentionPeriod?: number;
+  TerminationProtectionEnabled?: boolean;
+  CreatedTimestamp?: Date;
+  UpdatedTimestamp?: Date;
+  KmsKeyId?: string;
+  BillingMode?: string;
+}
+export const RestoreEventDataStoreResponse = S.suspend(() =>
+  S.Struct({
     EventDataStoreArn: S.optional(S.String),
     Name: S.optional(S.String),
     Status: S.optional(S.String),
@@ -1080,48 +2134,95 @@ export class RestoreEventDataStoreResponse extends S.Class<RestoreEventDataStore
     ),
     KmsKeyId: S.optional(S.String),
     BillingMode: S.optional(S.String),
-  },
-  ns,
-) {}
-export class StartDashboardRefreshRequest extends S.Class<StartDashboardRefreshRequest>(
-  "StartDashboardRefreshRequest",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "RestoreEventDataStoreResponse",
+}) as any as S.Schema<RestoreEventDataStoreResponse>;
+export interface StartDashboardRefreshRequest {
+  DashboardId: string;
+  QueryParameterValues?: QueryParameterValues;
+}
+export const StartDashboardRefreshRequest = S.suspend(() =>
+  S.Struct({
     DashboardId: S.String,
     QueryParameterValues: S.optional(QueryParameterValues),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StartQueryResponse extends S.Class<StartQueryResponse>(
-  "StartQueryResponse",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "StartDashboardRefreshRequest",
+}) as any as S.Schema<StartDashboardRefreshRequest>;
+export interface StartQueryResponse {
+  QueryId?: string;
+  EventDataStoreOwnerAccountId?: string;
+}
+export const StartQueryResponse = S.suspend(() =>
+  S.Struct({
     QueryId: S.optional(S.String),
     EventDataStoreOwnerAccountId: S.optional(S.String),
-  },
-  ns,
-) {}
-export class S3ImportSource extends S.Class<S3ImportSource>("S3ImportSource")({
-  S3LocationUri: S.String,
-  S3BucketRegion: S.String,
-  S3BucketAccessRoleArn: S.String,
-}) {}
-export class ImportSource extends S.Class<ImportSource>("ImportSource")({
-  S3: S3ImportSource,
-}) {}
-export class ImportStatistics extends S.Class<ImportStatistics>(
-  "ImportStatistics",
-)({
-  PrefixesFound: S.optional(S.Number),
-  PrefixesCompleted: S.optional(S.Number),
-  FilesCompleted: S.optional(S.Number),
-  EventsCompleted: S.optional(S.Number),
-  FailedEntries: S.optional(S.Number),
-}) {}
-export class StopImportResponse extends S.Class<StopImportResponse>(
-  "StopImportResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "StartQueryResponse",
+}) as any as S.Schema<StartQueryResponse>;
+export interface S3ImportSource {
+  S3LocationUri: string;
+  S3BucketRegion: string;
+  S3BucketAccessRoleArn: string;
+}
+export const S3ImportSource = S.suspend(() =>
+  S.Struct({
+    S3LocationUri: S.String,
+    S3BucketRegion: S.String,
+    S3BucketAccessRoleArn: S.String,
+  }),
+).annotations({
+  identifier: "S3ImportSource",
+}) as any as S.Schema<S3ImportSource>;
+export interface ImportSource {
+  S3: S3ImportSource;
+}
+export const ImportSource = S.suspend(() =>
+  S.Struct({ S3: S3ImportSource }),
+).annotations({ identifier: "ImportSource" }) as any as S.Schema<ImportSource>;
+export interface ImportStatistics {
+  PrefixesFound?: number;
+  PrefixesCompleted?: number;
+  FilesCompleted?: number;
+  EventsCompleted?: number;
+  FailedEntries?: number;
+}
+export const ImportStatistics = S.suspend(() =>
+  S.Struct({
+    PrefixesFound: S.optional(S.Number),
+    PrefixesCompleted: S.optional(S.Number),
+    FilesCompleted: S.optional(S.Number),
+    EventsCompleted: S.optional(S.Number),
+    FailedEntries: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "ImportStatistics",
+}) as any as S.Schema<ImportStatistics>;
+export interface StopImportResponse {
+  ImportId?: string;
+  ImportSource?: ImportSource;
+  Destinations?: ImportDestinations;
+  ImportStatus?: string;
+  CreatedTimestamp?: Date;
+  UpdatedTimestamp?: Date;
+  StartEventTime?: Date;
+  EndEventTime?: Date;
+  ImportStatistics?: ImportStatistics;
+}
+export const StopImportResponse = S.suspend(() =>
+  S.Struct({
     ImportId: S.optional(S.String),
     ImportSource: S.optional(ImportSource),
     Destinations: S.optional(ImportDestinations),
@@ -1135,31 +2236,54 @@ export class StopImportResponse extends S.Class<StopImportResponse>(
     StartEventTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndEventTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ImportStatistics: S.optional(ImportStatistics),
-  },
-  ns,
-) {}
-export class UpdateChannelResponse extends S.Class<UpdateChannelResponse>(
-  "UpdateChannelResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "StopImportResponse",
+}) as any as S.Schema<StopImportResponse>;
+export interface UpdateChannelResponse {
+  ChannelArn?: string;
+  Name?: string;
+  Source?: string;
+  Destinations?: Destinations;
+}
+export const UpdateChannelResponse = S.suspend(() =>
+  S.Struct({
     ChannelArn: S.optional(S.String),
     Name: S.optional(S.String),
     Source: S.optional(S.String),
     Destinations: S.optional(Destinations),
-  },
-  ns,
-) {}
-export class Widget extends S.Class<Widget>("Widget")({
-  QueryAlias: S.optional(S.String),
-  QueryStatement: S.optional(S.String),
-  QueryParameters: S.optional(QueryParameters),
-  ViewProperties: S.optional(ViewPropertiesMap),
-}) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "UpdateChannelResponse",
+}) as any as S.Schema<UpdateChannelResponse>;
+export interface Widget {
+  QueryAlias?: string;
+  QueryStatement?: string;
+  QueryParameters?: QueryParameters;
+  ViewProperties?: ViewPropertiesMap;
+}
+export const Widget = S.suspend(() =>
+  S.Struct({
+    QueryAlias: S.optional(S.String),
+    QueryStatement: S.optional(S.String),
+    QueryParameters: S.optional(QueryParameters),
+    ViewProperties: S.optional(ViewPropertiesMap),
+  }),
+).annotations({ identifier: "Widget" }) as any as S.Schema<Widget>;
+export type WidgetList = Widget[];
 export const WidgetList = S.Array(Widget);
-export class UpdateDashboardResponse extends S.Class<UpdateDashboardResponse>(
-  "UpdateDashboardResponse",
-)(
-  {
+export interface UpdateDashboardResponse {
+  DashboardArn?: string;
+  Name?: string;
+  Type?: string;
+  Widgets?: WidgetList;
+  RefreshSchedule?: RefreshSchedule;
+  TerminationProtectionEnabled?: boolean;
+  CreatedTimestamp?: Date;
+  UpdatedTimestamp?: Date;
+}
+export const UpdateDashboardResponse = S.suspend(() =>
+  S.Struct({
     DashboardArn: S.optional(S.String),
     Name: S.optional(S.String),
     Type: S.optional(S.String),
@@ -1172,13 +2296,28 @@ export class UpdateDashboardResponse extends S.Class<UpdateDashboardResponse>(
     UpdatedTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-  },
-  ns,
-) {}
-export class UpdateEventDataStoreResponse extends S.Class<UpdateEventDataStoreResponse>(
-  "UpdateEventDataStoreResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "UpdateDashboardResponse",
+}) as any as S.Schema<UpdateDashboardResponse>;
+export interface UpdateEventDataStoreResponse {
+  EventDataStoreArn?: string;
+  Name?: string;
+  Status?: string;
+  AdvancedEventSelectors?: AdvancedEventSelectors;
+  MultiRegionEnabled?: boolean;
+  OrganizationEnabled?: boolean;
+  RetentionPeriod?: number;
+  TerminationProtectionEnabled?: boolean;
+  CreatedTimestamp?: Date;
+  UpdatedTimestamp?: Date;
+  KmsKeyId?: string;
+  BillingMode?: string;
+  FederationStatus?: string;
+  FederationRoleArn?: string;
+}
+export const UpdateEventDataStoreResponse = S.suspend(() =>
+  S.Struct({
     EventDataStoreArn: S.optional(S.String),
     Name: S.optional(S.String),
     Status: S.optional(S.String),
@@ -1197,13 +2336,27 @@ export class UpdateEventDataStoreResponse extends S.Class<UpdateEventDataStoreRe
     BillingMode: S.optional(S.String),
     FederationStatus: S.optional(S.String),
     FederationRoleArn: S.optional(S.String),
-  },
-  ns,
-) {}
-export class UpdateTrailResponse extends S.Class<UpdateTrailResponse>(
-  "UpdateTrailResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "UpdateEventDataStoreResponse",
+}) as any as S.Schema<UpdateEventDataStoreResponse>;
+export interface UpdateTrailResponse {
+  Name?: string;
+  S3BucketName?: string;
+  S3KeyPrefix?: string;
+  SnsTopicName?: string;
+  SnsTopicARN?: string;
+  IncludeGlobalServiceEvents?: boolean;
+  IsMultiRegionTrail?: boolean;
+  TrailARN?: string;
+  LogFileValidationEnabled?: boolean;
+  CloudWatchLogsLogGroupArn?: string;
+  CloudWatchLogsRoleArn?: string;
+  KmsKeyId?: string;
+  IsOrganizationTrail?: boolean;
+}
+export const UpdateTrailResponse = S.suspend(() =>
+  S.Struct({
     Name: S.optional(S.String),
     S3BucketName: S.optional(S.String),
     S3KeyPrefix: S.optional(S.String),
@@ -1217,158 +2370,332 @@ export class UpdateTrailResponse extends S.Class<UpdateTrailResponse>(
     CloudWatchLogsRoleArn: S.optional(S.String),
     KmsKeyId: S.optional(S.String),
     IsOrganizationTrail: S.optional(S.Boolean),
-  },
-  ns,
-) {}
-export class QueryStatisticsForDescribeQuery extends S.Class<QueryStatisticsForDescribeQuery>(
-  "QueryStatisticsForDescribeQuery",
-)({
-  EventsMatched: S.optional(S.Number),
-  EventsScanned: S.optional(S.Number),
-  BytesScanned: S.optional(S.Number),
-  ExecutionTimeInMillis: S.optional(S.Number),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "UpdateTrailResponse",
+}) as any as S.Schema<UpdateTrailResponse>;
+export interface QueryStatisticsForDescribeQuery {
+  EventsMatched?: number;
+  EventsScanned?: number;
+  BytesScanned?: number;
+  ExecutionTimeInMillis?: number;
+  CreationTime?: Date;
+}
+export const QueryStatisticsForDescribeQuery = S.suspend(() =>
+  S.Struct({
+    EventsMatched: S.optional(S.Number),
+    EventsScanned: S.optional(S.Number),
+    BytesScanned: S.optional(S.Number),
+    ExecutionTimeInMillis: S.optional(S.Number),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "QueryStatisticsForDescribeQuery",
+}) as any as S.Schema<QueryStatisticsForDescribeQuery>;
+export type TrailList = Trail[];
 export const TrailList = S.Array(Trail);
-export class SourceConfig extends S.Class<SourceConfig>("SourceConfig")({
-  ApplyToAllRegions: S.optional(S.Boolean),
-  AdvancedEventSelectors: S.optional(AdvancedEventSelectors),
-}) {}
-export class IngestionStatus extends S.Class<IngestionStatus>(
-  "IngestionStatus",
-)({
-  LatestIngestionSuccessTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  LatestIngestionSuccessEventID: S.optional(S.String),
-  LatestIngestionErrorCode: S.optional(S.String),
-  LatestIngestionAttemptTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  LatestIngestionAttemptEventID: S.optional(S.String),
-}) {}
-export class PartitionKey extends S.Class<PartitionKey>("PartitionKey")({
-  Name: S.String,
-  Type: S.String,
-}) {}
+export interface SourceConfig {
+  ApplyToAllRegions?: boolean;
+  AdvancedEventSelectors?: AdvancedEventSelectors;
+}
+export const SourceConfig = S.suspend(() =>
+  S.Struct({
+    ApplyToAllRegions: S.optional(S.Boolean),
+    AdvancedEventSelectors: S.optional(AdvancedEventSelectors),
+  }),
+).annotations({ identifier: "SourceConfig" }) as any as S.Schema<SourceConfig>;
+export interface IngestionStatus {
+  LatestIngestionSuccessTime?: Date;
+  LatestIngestionSuccessEventID?: string;
+  LatestIngestionErrorCode?: string;
+  LatestIngestionAttemptTime?: Date;
+  LatestIngestionAttemptEventID?: string;
+}
+export const IngestionStatus = S.suspend(() =>
+  S.Struct({
+    LatestIngestionSuccessTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LatestIngestionSuccessEventID: S.optional(S.String),
+    LatestIngestionErrorCode: S.optional(S.String),
+    LatestIngestionAttemptTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LatestIngestionAttemptEventID: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "IngestionStatus",
+}) as any as S.Schema<IngestionStatus>;
+export interface PartitionKey {
+  Name: string;
+  Type: string;
+}
+export const PartitionKey = S.suspend(() =>
+  S.Struct({ Name: S.String, Type: S.String }),
+).annotations({ identifier: "PartitionKey" }) as any as S.Schema<PartitionKey>;
+export type PartitionKeyList = PartitionKey[];
 export const PartitionKeyList = S.Array(PartitionKey);
-export class QueryStatistics extends S.Class<QueryStatistics>(
-  "QueryStatistics",
-)({
-  ResultsCount: S.optional(S.Number),
-  TotalResultsCount: S.optional(S.Number),
-  BytesScanned: S.optional(S.Number),
-}) {}
+export interface QueryStatistics {
+  ResultsCount?: number;
+  TotalResultsCount?: number;
+  BytesScanned?: number;
+}
+export const QueryStatistics = S.suspend(() =>
+  S.Struct({
+    ResultsCount: S.optional(S.Number),
+    TotalResultsCount: S.optional(S.Number),
+    BytesScanned: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "QueryStatistics",
+}) as any as S.Schema<QueryStatistics>;
+export type QueryResultColumn = { [key: string]: string };
 export const QueryResultColumn = S.Record({ key: S.String, value: S.String });
+export type QueryResultRow = QueryResultColumn[];
 export const QueryResultRow = S.Array(QueryResultColumn);
+export type QueryResultRows = QueryResultRow[];
 export const QueryResultRows = S.Array(QueryResultRow);
-export class Channel extends S.Class<Channel>("Channel")({
-  ChannelArn: S.optional(S.String),
-  Name: S.optional(S.String),
-}) {}
+export interface Channel {
+  ChannelArn?: string;
+  Name?: string;
+}
+export const Channel = S.suspend(() =>
+  S.Struct({ ChannelArn: S.optional(S.String), Name: S.optional(S.String) }),
+).annotations({ identifier: "Channel" }) as any as S.Schema<Channel>;
+export type Channels = Channel[];
 export const Channels = S.Array(Channel);
-export class DashboardDetail extends S.Class<DashboardDetail>(
-  "DashboardDetail",
-)({ DashboardArn: S.optional(S.String), Type: S.optional(S.String) }) {}
+export interface DashboardDetail {
+  DashboardArn?: string;
+  Type?: string;
+}
+export const DashboardDetail = S.suspend(() =>
+  S.Struct({ DashboardArn: S.optional(S.String), Type: S.optional(S.String) }),
+).annotations({
+  identifier: "DashboardDetail",
+}) as any as S.Schema<DashboardDetail>;
+export type Dashboards = DashboardDetail[];
 export const Dashboards = S.Array(DashboardDetail);
-export class EventDataStore extends S.Class<EventDataStore>("EventDataStore")({
-  EventDataStoreArn: S.optional(S.String),
-  Name: S.optional(S.String),
-  TerminationProtectionEnabled: S.optional(S.Boolean),
-  Status: S.optional(S.String),
-  AdvancedEventSelectors: S.optional(AdvancedEventSelectors),
-  MultiRegionEnabled: S.optional(S.Boolean),
-  OrganizationEnabled: S.optional(S.Boolean),
-  RetentionPeriod: S.optional(S.Number),
-  CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface EventDataStore {
+  EventDataStoreArn?: string;
+  Name?: string;
+  TerminationProtectionEnabled?: boolean;
+  Status?: string;
+  AdvancedEventSelectors?: AdvancedEventSelectors;
+  MultiRegionEnabled?: boolean;
+  OrganizationEnabled?: boolean;
+  RetentionPeriod?: number;
+  CreatedTimestamp?: Date;
+  UpdatedTimestamp?: Date;
+}
+export const EventDataStore = S.suspend(() =>
+  S.Struct({
+    EventDataStoreArn: S.optional(S.String),
+    Name: S.optional(S.String),
+    TerminationProtectionEnabled: S.optional(S.Boolean),
+    Status: S.optional(S.String),
+    AdvancedEventSelectors: S.optional(AdvancedEventSelectors),
+    MultiRegionEnabled: S.optional(S.Boolean),
+    OrganizationEnabled: S.optional(S.Boolean),
+    RetentionPeriod: S.optional(S.Number),
+    CreatedTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    UpdatedTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "EventDataStore",
+}) as any as S.Schema<EventDataStore>;
+export type EventDataStores = EventDataStore[];
 export const EventDataStores = S.Array(EventDataStore);
-export class ImportFailureListItem extends S.Class<ImportFailureListItem>(
-  "ImportFailureListItem",
-)({
-  Location: S.optional(S.String),
-  Status: S.optional(S.String),
-  ErrorType: S.optional(S.String),
-  ErrorMessage: S.optional(S.String),
-  LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface ImportFailureListItem {
+  Location?: string;
+  Status?: string;
+  ErrorType?: string;
+  ErrorMessage?: string;
+  LastUpdatedTime?: Date;
+}
+export const ImportFailureListItem = S.suspend(() =>
+  S.Struct({
+    Location: S.optional(S.String),
+    Status: S.optional(S.String),
+    ErrorType: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
+    LastUpdatedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "ImportFailureListItem",
+}) as any as S.Schema<ImportFailureListItem>;
+export type ImportFailureList = ImportFailureListItem[];
 export const ImportFailureList = S.Array(ImportFailureListItem);
-export class ImportsListItem extends S.Class<ImportsListItem>(
-  "ImportsListItem",
-)({
-  ImportId: S.optional(S.String),
-  ImportStatus: S.optional(S.String),
-  Destinations: S.optional(ImportDestinations),
-  CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface ImportsListItem {
+  ImportId?: string;
+  ImportStatus?: string;
+  Destinations?: ImportDestinations;
+  CreatedTimestamp?: Date;
+  UpdatedTimestamp?: Date;
+}
+export const ImportsListItem = S.suspend(() =>
+  S.Struct({
+    ImportId: S.optional(S.String),
+    ImportStatus: S.optional(S.String),
+    Destinations: S.optional(ImportDestinations),
+    CreatedTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    UpdatedTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "ImportsListItem",
+}) as any as S.Schema<ImportsListItem>;
+export type ImportsList = ImportsListItem[];
 export const ImportsList = S.Array(ImportsListItem);
-export class PublicKey extends S.Class<PublicKey>("PublicKey")({
-  Value: S.optional(T.Blob),
-  ValidityStartTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  ValidityEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Fingerprint: S.optional(S.String),
-}) {}
+export interface PublicKey {
+  Value?: Uint8Array;
+  ValidityStartTime?: Date;
+  ValidityEndTime?: Date;
+  Fingerprint?: string;
+}
+export const PublicKey = S.suspend(() =>
+  S.Struct({
+    Value: S.optional(T.Blob),
+    ValidityStartTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    ValidityEndTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    Fingerprint: S.optional(S.String),
+  }),
+).annotations({ identifier: "PublicKey" }) as any as S.Schema<PublicKey>;
+export type PublicKeyList = PublicKey[];
 export const PublicKeyList = S.Array(PublicKey);
-export class Query extends S.Class<Query>("Query")({
-  QueryId: S.optional(S.String),
-  QueryStatus: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface Query {
+  QueryId?: string;
+  QueryStatus?: string;
+  CreationTime?: Date;
+}
+export const Query = S.suspend(() =>
+  S.Struct({
+    QueryId: S.optional(S.String),
+    QueryStatus: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({ identifier: "Query" }) as any as S.Schema<Query>;
+export type Queries = Query[];
 export const Queries = S.Array(Query);
-export class ResourceTag extends S.Class<ResourceTag>("ResourceTag")({
-  ResourceId: S.optional(S.String),
-  TagsList: S.optional(TagsList),
-}) {}
+export interface ResourceTag {
+  ResourceId?: string;
+  TagsList?: TagsList;
+}
+export const ResourceTag = S.suspend(() =>
+  S.Struct({
+    ResourceId: S.optional(S.String),
+    TagsList: S.optional(TagsList),
+  }),
+).annotations({ identifier: "ResourceTag" }) as any as S.Schema<ResourceTag>;
+export type ResourceTagList = ResourceTag[];
 export const ResourceTagList = S.Array(ResourceTag);
-export class TrailInfo extends S.Class<TrailInfo>("TrailInfo")({
-  TrailARN: S.optional(S.String),
-  Name: S.optional(S.String),
-  HomeRegion: S.optional(S.String),
-}) {}
+export interface TrailInfo {
+  TrailARN?: string;
+  Name?: string;
+  HomeRegion?: string;
+}
+export const TrailInfo = S.suspend(() =>
+  S.Struct({
+    TrailARN: S.optional(S.String),
+    Name: S.optional(S.String),
+    HomeRegion: S.optional(S.String),
+  }),
+).annotations({ identifier: "TrailInfo" }) as any as S.Schema<TrailInfo>;
+export type Trails = TrailInfo[];
 export const Trails = S.Array(TrailInfo);
-export class SearchSampleQueriesSearchResult extends S.Class<SearchSampleQueriesSearchResult>(
-  "SearchSampleQueriesSearchResult",
-)({
-  Name: S.optional(S.String),
-  Description: S.optional(S.String),
-  SQL: S.optional(S.String),
-  Relevance: S.optional(S.Number),
-}) {}
+export interface SearchSampleQueriesSearchResult {
+  Name?: string;
+  Description?: string;
+  SQL?: string;
+  Relevance?: number;
+}
+export const SearchSampleQueriesSearchResult = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Description: S.optional(S.String),
+    SQL: S.optional(S.String),
+    Relevance: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "SearchSampleQueriesSearchResult",
+}) as any as S.Schema<SearchSampleQueriesSearchResult>;
+export type SearchSampleQueriesSearchResults =
+  SearchSampleQueriesSearchResult[];
 export const SearchSampleQueriesSearchResults = S.Array(
   SearchSampleQueriesSearchResult,
 );
-export class CreateChannelResponse extends S.Class<CreateChannelResponse>(
-  "CreateChannelResponse",
-)(
-  {
+export interface CreateChannelResponse {
+  ChannelArn?: string;
+  Name?: string;
+  Source?: string;
+  Destinations?: Destinations;
+  Tags?: TagsList;
+}
+export const CreateChannelResponse = S.suspend(() =>
+  S.Struct({
     ChannelArn: S.optional(S.String),
     Name: S.optional(S.String),
     Source: S.optional(S.String),
     Destinations: S.optional(Destinations),
     Tags: S.optional(TagsList),
-  },
-  ns,
-) {}
-export class CreateDashboardRequest extends S.Class<CreateDashboardRequest>(
-  "CreateDashboardRequest",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "CreateChannelResponse",
+}) as any as S.Schema<CreateChannelResponse>;
+export interface CreateDashboardRequest {
+  Name: string;
+  RefreshSchedule?: RefreshSchedule;
+  TagsList?: TagsList;
+  TerminationProtectionEnabled?: boolean;
+  Widgets?: RequestWidgetList;
+}
+export const CreateDashboardRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     RefreshSchedule: S.optional(RefreshSchedule),
     TagsList: S.optional(TagsList),
     TerminationProtectionEnabled: S.optional(S.Boolean),
     Widgets: S.optional(RequestWidgetList),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateEventDataStoreRequest extends S.Class<CreateEventDataStoreRequest>(
-  "CreateEventDataStoreRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateDashboardRequest",
+}) as any as S.Schema<CreateDashboardRequest>;
+export interface CreateEventDataStoreRequest {
+  Name: string;
+  AdvancedEventSelectors?: AdvancedEventSelectors;
+  MultiRegionEnabled?: boolean;
+  OrganizationEnabled?: boolean;
+  RetentionPeriod?: number;
+  TerminationProtectionEnabled?: boolean;
+  TagsList?: TagsList;
+  KmsKeyId?: string;
+  StartIngestion?: boolean;
+  BillingMode?: string;
+}
+export const CreateEventDataStoreRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     AdvancedEventSelectors: S.optional(AdvancedEventSelectors),
     MultiRegionEnabled: S.optional(S.Boolean),
@@ -1379,13 +2706,33 @@ export class CreateEventDataStoreRequest extends S.Class<CreateEventDataStoreReq
     KmsKeyId: S.optional(S.String),
     StartIngestion: S.optional(S.Boolean),
     BillingMode: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeQueryResponse extends S.Class<DescribeQueryResponse>(
-  "DescribeQueryResponse",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateEventDataStoreRequest",
+}) as any as S.Schema<CreateEventDataStoreRequest>;
+export interface DescribeQueryResponse {
+  QueryId?: string;
+  QueryString?: string;
+  QueryStatus?: string;
+  QueryStatistics?: QueryStatisticsForDescribeQuery;
+  ErrorMessage?: string;
+  DeliveryS3Uri?: string;
+  DeliveryStatus?: string;
+  Prompt?: string;
+  EventDataStoreOwnerAccountId?: string;
+}
+export const DescribeQueryResponse = S.suspend(() =>
+  S.Struct({
     QueryId: S.optional(S.String),
     QueryString: S.optional(S.String),
     QueryStatus: S.optional(S.String),
@@ -1395,29 +2742,52 @@ export class DescribeQueryResponse extends S.Class<DescribeQueryResponse>(
     DeliveryStatus: S.optional(S.String),
     Prompt: S.optional(S.String),
     EventDataStoreOwnerAccountId: S.optional(S.String),
-  },
-  ns,
-) {}
-export class DescribeTrailsResponse extends S.Class<DescribeTrailsResponse>(
-  "DescribeTrailsResponse",
-)({ trailList: S.optional(TrailList) }, ns) {}
-export class GetChannelResponse extends S.Class<GetChannelResponse>(
-  "GetChannelResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeQueryResponse",
+}) as any as S.Schema<DescribeQueryResponse>;
+export interface DescribeTrailsResponse {
+  trailList?: TrailList;
+}
+export const DescribeTrailsResponse = S.suspend(() =>
+  S.Struct({ trailList: S.optional(TrailList) }).pipe(ns),
+).annotations({
+  identifier: "DescribeTrailsResponse",
+}) as any as S.Schema<DescribeTrailsResponse>;
+export interface GetChannelResponse {
+  ChannelArn?: string;
+  Name?: string;
+  Source?: string;
+  SourceConfig?: SourceConfig;
+  Destinations?: Destinations;
+  IngestionStatus?: IngestionStatus;
+}
+export const GetChannelResponse = S.suspend(() =>
+  S.Struct({
     ChannelArn: S.optional(S.String),
     Name: S.optional(S.String),
     Source: S.optional(S.String),
     SourceConfig: S.optional(SourceConfig),
     Destinations: S.optional(Destinations),
     IngestionStatus: S.optional(IngestionStatus),
-  },
-  ns,
-) {}
-export class GetDashboardResponse extends S.Class<GetDashboardResponse>(
-  "GetDashboardResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetChannelResponse",
+}) as any as S.Schema<GetChannelResponse>;
+export interface GetDashboardResponse {
+  DashboardArn?: string;
+  Type?: string;
+  Status?: string;
+  Widgets?: WidgetList;
+  RefreshSchedule?: RefreshSchedule;
+  CreatedTimestamp?: Date;
+  UpdatedTimestamp?: Date;
+  LastRefreshId?: string;
+  LastRefreshFailureReason?: string;
+  TerminationProtectionEnabled?: boolean;
+}
+export const GetDashboardResponse = S.suspend(() =>
+  S.Struct({
     DashboardArn: S.optional(S.String),
     Type: S.optional(S.String),
     Status: S.optional(S.String),
@@ -1432,13 +2802,29 @@ export class GetDashboardResponse extends S.Class<GetDashboardResponse>(
     LastRefreshId: S.optional(S.String),
     LastRefreshFailureReason: S.optional(S.String),
     TerminationProtectionEnabled: S.optional(S.Boolean),
-  },
-  ns,
-) {}
-export class GetEventDataStoreResponse extends S.Class<GetEventDataStoreResponse>(
-  "GetEventDataStoreResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetDashboardResponse",
+}) as any as S.Schema<GetDashboardResponse>;
+export interface GetEventDataStoreResponse {
+  EventDataStoreArn?: string;
+  Name?: string;
+  Status?: string;
+  AdvancedEventSelectors?: AdvancedEventSelectors;
+  MultiRegionEnabled?: boolean;
+  OrganizationEnabled?: boolean;
+  RetentionPeriod?: number;
+  TerminationProtectionEnabled?: boolean;
+  CreatedTimestamp?: Date;
+  UpdatedTimestamp?: Date;
+  KmsKeyId?: string;
+  BillingMode?: string;
+  FederationStatus?: string;
+  FederationRoleArn?: string;
+  PartitionKeys?: PartitionKeyList;
+}
+export const GetEventDataStoreResponse = S.suspend(() =>
+  S.Struct({
     EventDataStoreArn: S.optional(S.String),
     Name: S.optional(S.String),
     Status: S.optional(S.String),
@@ -1458,13 +2844,23 @@ export class GetEventDataStoreResponse extends S.Class<GetEventDataStoreResponse
     FederationStatus: S.optional(S.String),
     FederationRoleArn: S.optional(S.String),
     PartitionKeys: S.optional(PartitionKeyList),
-  },
-  ns,
-) {}
-export class GetImportResponse extends S.Class<GetImportResponse>(
-  "GetImportResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetEventDataStoreResponse",
+}) as any as S.Schema<GetEventDataStoreResponse>;
+export interface GetImportResponse {
+  ImportId?: string;
+  Destinations?: ImportDestinations;
+  ImportSource?: ImportSource;
+  StartEventTime?: Date;
+  EndEventTime?: Date;
+  ImportStatus?: string;
+  CreatedTimestamp?: Date;
+  UpdatedTimestamp?: Date;
+  ImportStatistics?: ImportStatistics;
+}
+export const GetImportResponse = S.suspend(() =>
+  S.Struct({
     ImportId: S.optional(S.String),
     Destinations: S.optional(ImportDestinations),
     ImportSource: S.optional(ImportSource),
@@ -1478,150 +2874,303 @@ export class GetImportResponse extends S.Class<GetImportResponse>(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     ImportStatistics: S.optional(ImportStatistics),
-  },
-  ns,
-) {}
-export class GetQueryResultsResponse extends S.Class<GetQueryResultsResponse>(
-  "GetQueryResultsResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetImportResponse",
+}) as any as S.Schema<GetImportResponse>;
+export interface GetQueryResultsResponse {
+  QueryStatus?: string;
+  QueryStatistics?: QueryStatistics;
+  QueryResultRows?: QueryResultRows;
+  NextToken?: string;
+  ErrorMessage?: string;
+}
+export const GetQueryResultsResponse = S.suspend(() =>
+  S.Struct({
     QueryStatus: S.optional(S.String),
     QueryStatistics: S.optional(QueryStatistics),
     QueryResultRows: S.optional(QueryResultRows),
     NextToken: S.optional(S.String),
     ErrorMessage: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListChannelsResponse extends S.Class<ListChannelsResponse>(
-  "ListChannelsResponse",
-)({ Channels: S.optional(Channels), NextToken: S.optional(S.String) }, ns) {}
-export class ListDashboardsResponse extends S.Class<ListDashboardsResponse>(
-  "ListDashboardsResponse",
-)(
-  { Dashboards: S.optional(Dashboards), NextToken: S.optional(S.String) },
-  ns,
-) {}
-export class ListEventDataStoresResponse extends S.Class<ListEventDataStoresResponse>(
-  "ListEventDataStoresResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetQueryResultsResponse",
+}) as any as S.Schema<GetQueryResultsResponse>;
+export interface ListChannelsResponse {
+  Channels?: Channels;
+  NextToken?: string;
+}
+export const ListChannelsResponse = S.suspend(() =>
+  S.Struct({
+    Channels: S.optional(Channels),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListChannelsResponse",
+}) as any as S.Schema<ListChannelsResponse>;
+export interface ListDashboardsResponse {
+  Dashboards?: Dashboards;
+  NextToken?: string;
+}
+export const ListDashboardsResponse = S.suspend(() =>
+  S.Struct({
+    Dashboards: S.optional(Dashboards),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListDashboardsResponse",
+}) as any as S.Schema<ListDashboardsResponse>;
+export interface ListEventDataStoresResponse {
+  EventDataStores?: EventDataStores;
+  NextToken?: string;
+}
+export const ListEventDataStoresResponse = S.suspend(() =>
+  S.Struct({
     EventDataStores: S.optional(EventDataStores),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListImportFailuresResponse extends S.Class<ListImportFailuresResponse>(
-  "ListImportFailuresResponse",
-)(
-  { Failures: S.optional(ImportFailureList), NextToken: S.optional(S.String) },
-  ns,
-) {}
-export class ListImportsResponse extends S.Class<ListImportsResponse>(
-  "ListImportsResponse",
-)({ Imports: S.optional(ImportsList), NextToken: S.optional(S.String) }, ns) {}
-export class ListPublicKeysResponse extends S.Class<ListPublicKeysResponse>(
-  "ListPublicKeysResponse",
-)(
-  { PublicKeyList: S.optional(PublicKeyList), NextToken: S.optional(S.String) },
-  ns,
-) {}
-export class ListQueriesResponse extends S.Class<ListQueriesResponse>(
-  "ListQueriesResponse",
-)({ Queries: S.optional(Queries), NextToken: S.optional(S.String) }, ns) {}
-export class ListTagsResponse extends S.Class<ListTagsResponse>(
-  "ListTagsResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListEventDataStoresResponse",
+}) as any as S.Schema<ListEventDataStoresResponse>;
+export interface ListImportFailuresResponse {
+  Failures?: ImportFailureList;
+  NextToken?: string;
+}
+export const ListImportFailuresResponse = S.suspend(() =>
+  S.Struct({
+    Failures: S.optional(ImportFailureList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListImportFailuresResponse",
+}) as any as S.Schema<ListImportFailuresResponse>;
+export interface ListImportsResponse {
+  Imports?: ImportsList;
+  NextToken?: string;
+}
+export const ListImportsResponse = S.suspend(() =>
+  S.Struct({
+    Imports: S.optional(ImportsList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListImportsResponse",
+}) as any as S.Schema<ListImportsResponse>;
+export interface ListPublicKeysResponse {
+  PublicKeyList?: PublicKeyList;
+  NextToken?: string;
+}
+export const ListPublicKeysResponse = S.suspend(() =>
+  S.Struct({
+    PublicKeyList: S.optional(PublicKeyList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListPublicKeysResponse",
+}) as any as S.Schema<ListPublicKeysResponse>;
+export interface ListQueriesResponse {
+  Queries?: Queries;
+  NextToken?: string;
+}
+export const ListQueriesResponse = S.suspend(() =>
+  S.Struct({
+    Queries: S.optional(Queries),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListQueriesResponse",
+}) as any as S.Schema<ListQueriesResponse>;
+export interface ListTagsResponse {
+  ResourceTagList?: ResourceTagList;
+  NextToken?: string;
+}
+export const ListTagsResponse = S.suspend(() =>
+  S.Struct({
     ResourceTagList: S.optional(ResourceTagList),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListTrailsResponse extends S.Class<ListTrailsResponse>(
-  "ListTrailsResponse",
-)({ Trails: S.optional(Trails), NextToken: S.optional(S.String) }, ns) {}
-export class Resource extends S.Class<Resource>("Resource")({
-  ResourceType: S.optional(S.String),
-  ResourceName: S.optional(S.String),
-}) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "ListTagsResponse",
+}) as any as S.Schema<ListTagsResponse>;
+export interface ListTrailsResponse {
+  Trails?: Trails;
+  NextToken?: string;
+}
+export const ListTrailsResponse = S.suspend(() =>
+  S.Struct({
+    Trails: S.optional(Trails),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListTrailsResponse",
+}) as any as S.Schema<ListTrailsResponse>;
+export interface Resource {
+  ResourceType?: string;
+  ResourceName?: string;
+}
+export const Resource = S.suspend(() =>
+  S.Struct({
+    ResourceType: S.optional(S.String),
+    ResourceName: S.optional(S.String),
+  }),
+).annotations({ identifier: "Resource" }) as any as S.Schema<Resource>;
+export type ResourceList = Resource[];
 export const ResourceList = S.Array(Resource);
-export class Event extends S.Class<Event>("Event")({
-  EventId: S.optional(S.String),
-  EventName: S.optional(S.String),
-  ReadOnly: S.optional(S.String),
-  AccessKeyId: S.optional(S.String),
-  EventTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  EventSource: S.optional(S.String),
-  Username: S.optional(S.String),
-  Resources: S.optional(ResourceList),
-  CloudTrailEvent: S.optional(S.String),
-}) {}
+export interface Event {
+  EventId?: string;
+  EventName?: string;
+  ReadOnly?: string;
+  AccessKeyId?: string;
+  EventTime?: Date;
+  EventSource?: string;
+  Username?: string;
+  Resources?: ResourceList;
+  CloudTrailEvent?: string;
+}
+export const Event = S.suspend(() =>
+  S.Struct({
+    EventId: S.optional(S.String),
+    EventName: S.optional(S.String),
+    ReadOnly: S.optional(S.String),
+    AccessKeyId: S.optional(S.String),
+    EventTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EventSource: S.optional(S.String),
+    Username: S.optional(S.String),
+    Resources: S.optional(ResourceList),
+    CloudTrailEvent: S.optional(S.String),
+  }),
+).annotations({ identifier: "Event" }) as any as S.Schema<Event>;
+export type EventsList = Event[];
 export const EventsList = S.Array(Event);
-export class LookupEventsResponse extends S.Class<LookupEventsResponse>(
-  "LookupEventsResponse",
-)({ Events: S.optional(EventsList), NextToken: S.optional(S.String) }, ns) {}
-export class PutEventConfigurationResponse extends S.Class<PutEventConfigurationResponse>(
-  "PutEventConfigurationResponse",
-)(
-  {
+export interface LookupEventsResponse {
+  Events?: EventsList;
+  NextToken?: string;
+}
+export const LookupEventsResponse = S.suspend(() =>
+  S.Struct({
+    Events: S.optional(EventsList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "LookupEventsResponse",
+}) as any as S.Schema<LookupEventsResponse>;
+export interface PutEventConfigurationResponse {
+  TrailARN?: string;
+  EventDataStoreArn?: string;
+  MaxEventSize?: string;
+  ContextKeySelectors?: ContextKeySelectors;
+  AggregationConfigurations?: AggregationConfigurations;
+}
+export const PutEventConfigurationResponse = S.suspend(() =>
+  S.Struct({
     TrailARN: S.optional(S.String),
     EventDataStoreArn: S.optional(S.String),
     MaxEventSize: S.optional(S.String),
     ContextKeySelectors: S.optional(ContextKeySelectors),
     AggregationConfigurations: S.optional(AggregationConfigurations),
-  },
-  ns,
-) {}
-export class PutEventSelectorsRequest extends S.Class<PutEventSelectorsRequest>(
-  "PutEventSelectorsRequest",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "PutEventConfigurationResponse",
+}) as any as S.Schema<PutEventConfigurationResponse>;
+export interface PutEventSelectorsRequest {
+  TrailName: string;
+  EventSelectors?: EventSelectors;
+  AdvancedEventSelectors?: AdvancedEventSelectors;
+}
+export const PutEventSelectorsRequest = S.suspend(() =>
+  S.Struct({
     TrailName: S.String,
     EventSelectors: S.optional(EventSelectors),
     AdvancedEventSelectors: S.optional(AdvancedEventSelectors),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutInsightSelectorsResponse extends S.Class<PutInsightSelectorsResponse>(
-  "PutInsightSelectorsResponse",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutEventSelectorsRequest",
+}) as any as S.Schema<PutEventSelectorsRequest>;
+export interface PutInsightSelectorsResponse {
+  TrailARN?: string;
+  InsightSelectors?: InsightSelectors;
+  EventDataStoreArn?: string;
+  InsightsDestination?: string;
+}
+export const PutInsightSelectorsResponse = S.suspend(() =>
+  S.Struct({
     TrailARN: S.optional(S.String),
     InsightSelectors: S.optional(InsightSelectors),
     EventDataStoreArn: S.optional(S.String),
     InsightsDestination: S.optional(S.String),
-  },
-  ns,
-) {}
-export class SearchSampleQueriesResponse extends S.Class<SearchSampleQueriesResponse>(
-  "SearchSampleQueriesResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "PutInsightSelectorsResponse",
+}) as any as S.Schema<PutInsightSelectorsResponse>;
+export interface SearchSampleQueriesResponse {
+  SearchResults?: SearchSampleQueriesSearchResults;
+  NextToken?: string;
+}
+export const SearchSampleQueriesResponse = S.suspend(() =>
+  S.Struct({
     SearchResults: S.optional(SearchSampleQueriesSearchResults),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class StartDashboardRefreshResponse extends S.Class<StartDashboardRefreshResponse>(
-  "StartDashboardRefreshResponse",
-)({ RefreshId: S.optional(S.String) }, ns) {}
-export class StartImportRequest extends S.Class<StartImportRequest>(
-  "StartImportRequest",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "SearchSampleQueriesResponse",
+}) as any as S.Schema<SearchSampleQueriesResponse>;
+export interface StartDashboardRefreshResponse {
+  RefreshId?: string;
+}
+export const StartDashboardRefreshResponse = S.suspend(() =>
+  S.Struct({ RefreshId: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "StartDashboardRefreshResponse",
+}) as any as S.Schema<StartDashboardRefreshResponse>;
+export interface StartImportRequest {
+  Destinations?: ImportDestinations;
+  ImportSource?: ImportSource;
+  StartEventTime?: Date;
+  EndEventTime?: Date;
+  ImportId?: string;
+}
+export const StartImportRequest = S.suspend(() =>
+  S.Struct({
     Destinations: S.optional(ImportDestinations),
     ImportSource: S.optional(ImportSource),
     StartEventTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndEventTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ImportId: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateDashboardResponse extends S.Class<CreateDashboardResponse>(
-  "CreateDashboardResponse",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "StartImportRequest",
+}) as any as S.Schema<StartImportRequest>;
+export interface CreateDashboardResponse {
+  DashboardArn?: string;
+  Name?: string;
+  Type?: string;
+  Widgets?: WidgetList;
+  TagsList?: TagsList;
+  RefreshSchedule?: RefreshSchedule;
+  TerminationProtectionEnabled?: boolean;
+}
+export const CreateDashboardResponse = S.suspend(() =>
+  S.Struct({
     DashboardArn: S.optional(S.String),
     Name: S.optional(S.String),
     Type: S.optional(S.String),
@@ -1629,13 +3178,27 @@ export class CreateDashboardResponse extends S.Class<CreateDashboardResponse>(
     TagsList: S.optional(TagsList),
     RefreshSchedule: S.optional(RefreshSchedule),
     TerminationProtectionEnabled: S.optional(S.Boolean),
-  },
-  ns,
-) {}
-export class CreateEventDataStoreResponse extends S.Class<CreateEventDataStoreResponse>(
-  "CreateEventDataStoreResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "CreateDashboardResponse",
+}) as any as S.Schema<CreateDashboardResponse>;
+export interface CreateEventDataStoreResponse {
+  EventDataStoreArn?: string;
+  Name?: string;
+  Status?: string;
+  AdvancedEventSelectors?: AdvancedEventSelectors;
+  MultiRegionEnabled?: boolean;
+  OrganizationEnabled?: boolean;
+  RetentionPeriod?: number;
+  TerminationProtectionEnabled?: boolean;
+  TagsList?: TagsList;
+  CreatedTimestamp?: Date;
+  UpdatedTimestamp?: Date;
+  KmsKeyId?: string;
+  BillingMode?: string;
+}
+export const CreateEventDataStoreResponse = S.suspend(() =>
+  S.Struct({
     EventDataStoreArn: S.optional(S.String),
     Name: S.optional(S.String),
     Status: S.optional(S.String),
@@ -1653,23 +3216,36 @@ export class CreateEventDataStoreResponse extends S.Class<CreateEventDataStoreRe
     ),
     KmsKeyId: S.optional(S.String),
     BillingMode: S.optional(S.String),
-  },
-  ns,
-) {}
-export class PutEventSelectorsResponse extends S.Class<PutEventSelectorsResponse>(
-  "PutEventSelectorsResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "CreateEventDataStoreResponse",
+}) as any as S.Schema<CreateEventDataStoreResponse>;
+export interface PutEventSelectorsResponse {
+  TrailARN?: string;
+  EventSelectors?: EventSelectors;
+  AdvancedEventSelectors?: AdvancedEventSelectors;
+}
+export const PutEventSelectorsResponse = S.suspend(() =>
+  S.Struct({
     TrailARN: S.optional(S.String),
     EventSelectors: S.optional(EventSelectors),
     AdvancedEventSelectors: S.optional(AdvancedEventSelectors),
-  },
-  ns,
-) {}
-export class StartImportResponse extends S.Class<StartImportResponse>(
-  "StartImportResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "PutEventSelectorsResponse",
+}) as any as S.Schema<PutEventSelectorsResponse>;
+export interface StartImportResponse {
+  ImportId?: string;
+  Destinations?: ImportDestinations;
+  ImportSource?: ImportSource;
+  StartEventTime?: Date;
+  EndEventTime?: Date;
+  ImportStatus?: string;
+  CreatedTimestamp?: Date;
+  UpdatedTimestamp?: Date;
+}
+export const StartImportResponse = S.suspend(() =>
+  S.Struct({
     ImportId: S.optional(S.String),
     Destinations: S.optional(ImportDestinations),
     ImportSource: S.optional(ImportSource),
@@ -1682,12 +3258,22 @@ export class StartImportResponse extends S.Class<StartImportResponse>(
     UpdatedTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-  },
-  ns,
-) {}
-export class ListInsightsDataResponse extends S.Class<ListInsightsDataResponse>(
-  "ListInsightsDataResponse",
-)({ Events: S.optional(EventsList), NextToken: S.optional(S.String) }, ns) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "StartImportResponse",
+}) as any as S.Schema<StartImportResponse>;
+export interface ListInsightsDataResponse {
+  Events?: EventsList;
+  NextToken?: string;
+}
+export const ListInsightsDataResponse = S.suspend(() =>
+  S.Struct({
+    Events: S.optional(EventsList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListInsightsDataResponse",
+}) as any as S.Schema<ListInsightsDataResponse>;
 
 //# Errors
 export class ChannelARNInvalidException extends S.TaggedError<ChannelARNInvalidException>()(

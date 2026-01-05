@@ -6,19 +6,19 @@ Build scripts and utilities. Code generation, cleanup, testing infrastructure.
 
 ## FILES
 
-| Script | Purpose |
-|--------|---------|
-| `generate-clients.ts` | **Main codegen** — Smithy models → TypeScript clients |
-| `model-schema.ts` | Effect schemas for parsing Smithy JSON models |
-| `service-patches.ts` | Service-specific codegen patches |
-| `find-errors.ts` | Runs AI agent to discover undocumented AWS errors |
-| `aws-clean.ts` | Cleanup AWS resources (S3, Lambda, DynamoDB, etc.) |
-| `localstack.ts` | LocalStack container management |
-| `localstack-clean.ts` | Cleanup LocalStack resources |
-| `bundle-size-report.ts` | Analyze bundle sizes |
-| `setup.ts` | Project setup |
-| `symlink.ts` | Symlink utilities |
-| `test.ts` | Test runner wrapper |
+| Script                  | Purpose                                               |
+| ----------------------- | ----------------------------------------------------- |
+| `generate-clients.ts`   | **Main codegen** — Smithy models → TypeScript clients |
+| `model-schema.ts`       | Effect schemas for parsing Smithy JSON models         |
+| `service-patches.ts`    | Service-specific codegen patches                      |
+| `find-errors.ts`        | Runs AI agent to discover undocumented AWS errors     |
+| `aws-clean.ts`          | Cleanup AWS resources (S3, Lambda, DynamoDB, etc.)    |
+| `localstack.ts`         | LocalStack container management                       |
+| `localstack-clean.ts`   | Cleanup LocalStack resources                          |
+| `bundle-size-report.ts` | Analyze bundle sizes                                  |
+| `setup.ts`              | Project setup                                         |
+| `symlink.ts`            | Symlink utilities                                     |
+| `test.ts`               | Test runner wrapper                                   |
 
 ## CODE GENERATOR
 
@@ -31,6 +31,7 @@ Build scripts and utilities. Code generation, cleanup, testing infrastructure.
 5. Outputs to `src/services/{service}.ts`
 
 **Key concepts:**
+
 - `convertShapeToSchema` — Transforms Smithy shapes to Effect schemas
 - `collectSerializationTraits` — Extracts HTTP bindings, XML names, etc.
 - `topologicalSortWithCycles` — Orders schemas so dependencies come first
@@ -64,4 +65,3 @@ console.log(Object.keys(model.shapes).slice(0, 20));
 - `src/services/*.ts` — Generated output (DO NOT EDIT)
 - `src/patch/discover-errors.ts` — AI agent for error discovery
 - `spec/*.json` — Error patches discovered by find-errors
-

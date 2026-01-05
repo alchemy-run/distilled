@@ -294,74 +294,99 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class DeleteAgentActionGroupRequest extends S.Class<DeleteAgentActionGroupRequest>(
-  "DeleteAgentActionGroupRequest",
-)(
-  {
+export interface DeleteAgentActionGroupRequest {
+  agentId: string;
+  agentVersion: string;
+  actionGroupId: string;
+  skipResourceInUseCheck?: boolean;
+}
+export const DeleteAgentActionGroupRequest = S.suspend(() =>
+  S.Struct({
     agentId: S.String.pipe(T.HttpLabel("agentId")),
     agentVersion: S.String.pipe(T.HttpLabel("agentVersion")),
     actionGroupId: S.String.pipe(T.HttpLabel("actionGroupId")),
     skipResourceInUseCheck: S.optional(S.Boolean).pipe(
       T.HttpQuery("skipResourceInUseCheck"),
     ),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/agents/{agentId}/agentversions/{agentVersion}/actiongroups/{actionGroupId}/",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/agents/{agentId}/agentversions/{agentVersion}/actiongroups/{actionGroupId}/",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAgentActionGroupResponse extends S.Class<DeleteAgentActionGroupResponse>(
-  "DeleteAgentActionGroupResponse",
-)({}) {}
-export class GetAgentActionGroupRequest extends S.Class<GetAgentActionGroupRequest>(
-  "GetAgentActionGroupRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteAgentActionGroupRequest",
+}) as any as S.Schema<DeleteAgentActionGroupRequest>;
+export interface DeleteAgentActionGroupResponse {}
+export const DeleteAgentActionGroupResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteAgentActionGroupResponse",
+}) as any as S.Schema<DeleteAgentActionGroupResponse>;
+export interface GetAgentActionGroupRequest {
+  agentId: string;
+  agentVersion: string;
+  actionGroupId: string;
+}
+export const GetAgentActionGroupRequest = S.suspend(() =>
+  S.Struct({
     agentId: S.String.pipe(T.HttpLabel("agentId")),
     agentVersion: S.String.pipe(T.HttpLabel("agentVersion")),
     actionGroupId: S.String.pipe(T.HttpLabel("actionGroupId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/agents/{agentId}/agentversions/{agentVersion}/actiongroups/{actionGroupId}/",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/agents/{agentId}/agentversions/{agentVersion}/actiongroups/{actionGroupId}/",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListAgentActionGroupsRequest extends S.Class<ListAgentActionGroupsRequest>(
-  "ListAgentActionGroupsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetAgentActionGroupRequest",
+}) as any as S.Schema<GetAgentActionGroupRequest>;
+export interface ListAgentActionGroupsRequest {
+  agentId: string;
+  agentVersion: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListAgentActionGroupsRequest = S.suspend(() =>
+  S.Struct({
     agentId: S.String.pipe(T.HttpLabel("agentId")),
     agentVersion: S.String.pipe(T.HttpLabel("agentVersion")),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/agents/{agentId}/agentversions/{agentVersion}/actiongroups/",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/agents/{agentId}/agentversions/{agentVersion}/actiongroups/",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "ListAgentActionGroupsRequest",
+}) as any as S.Schema<ListAgentActionGroupsRequest>;
+export type ActionGroupSignatureParams = { [key: string]: string };
 export const ActionGroupSignatureParams = S.Record({
   key: S.String,
   value: S.String,
@@ -370,34 +395,68 @@ export const ActionGroupExecutor = S.Union(
   S.Struct({ lambda: S.String }),
   S.Struct({ customControl: S.String }),
 );
-export class S3Identifier extends S.Class<S3Identifier>("S3Identifier")({
-  s3BucketName: S.optional(S.String),
-  s3ObjectKey: S.optional(S.String),
-}) {}
+export interface S3Identifier {
+  s3BucketName?: string;
+  s3ObjectKey?: string;
+}
+export const S3Identifier = S.suspend(() =>
+  S.Struct({
+    s3BucketName: S.optional(S.String),
+    s3ObjectKey: S.optional(S.String),
+  }),
+).annotations({ identifier: "S3Identifier" }) as any as S.Schema<S3Identifier>;
 export const APISchema = S.Union(
   S.Struct({ s3: S3Identifier }),
   S.Struct({ payload: S.String }),
 );
-export class ParameterDetail extends S.Class<ParameterDetail>(
-  "ParameterDetail",
-)({
-  description: S.optional(S.String),
-  type: S.String,
-  required: S.optional(S.Boolean),
-}) {}
+export interface ParameterDetail {
+  description?: string;
+  type: string;
+  required?: boolean;
+}
+export const ParameterDetail = S.suspend(() =>
+  S.Struct({
+    description: S.optional(S.String),
+    type: S.String,
+    required: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "ParameterDetail",
+}) as any as S.Schema<ParameterDetail>;
+export type ParameterMap = { [key: string]: ParameterDetail };
 export const ParameterMap = S.Record({ key: S.String, value: ParameterDetail });
-export class Function extends S.Class<Function>("Function")({
-  name: S.String,
-  description: S.optional(S.String),
-  parameters: S.optional(ParameterMap),
-  requireConfirmation: S.optional(S.String),
-}) {}
+export interface Function {
+  name: string;
+  description?: string;
+  parameters?: ParameterMap;
+  requireConfirmation?: string;
+}
+export const Function = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    description: S.optional(S.String),
+    parameters: S.optional(ParameterMap),
+    requireConfirmation: S.optional(S.String),
+  }),
+).annotations({ identifier: "Function" }) as any as S.Schema<Function>;
+export type Functions = Function[];
 export const Functions = S.Array(Function);
 export const FunctionSchema = S.Union(S.Struct({ functions: Functions }));
-export class UpdateAgentActionGroupRequest extends S.Class<UpdateAgentActionGroupRequest>(
-  "UpdateAgentActionGroupRequest",
-)(
-  {
+export interface UpdateAgentActionGroupRequest {
+  agentId: string;
+  agentVersion: string;
+  actionGroupId: string;
+  actionGroupName: string;
+  description?: string;
+  parentActionGroupSignature?: string;
+  parentActionGroupSignatureParams?: ActionGroupSignatureParams;
+  actionGroupExecutor?: (typeof ActionGroupExecutor)["Type"];
+  actionGroupState?: string;
+  apiSchema?: (typeof APISchema)["Type"];
+  functionSchema?: (typeof FunctionSchema)["Type"];
+}
+export const UpdateAgentActionGroupRequest = S.suspend(() =>
+  S.Struct({
     agentId: S.String.pipe(T.HttpLabel("agentId")),
     agentVersion: S.String.pipe(T.HttpLabel("agentVersion")),
     actionGroupId: S.String.pipe(T.HttpLabel("actionGroupId")),
@@ -409,90 +468,127 @@ export class UpdateAgentActionGroupRequest extends S.Class<UpdateAgentActionGrou
     actionGroupState: S.optional(S.String),
     apiSchema: S.optional(APISchema),
     functionSchema: S.optional(FunctionSchema),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/agents/{agentId}/agentversions/{agentVersion}/actiongroups/{actionGroupId}/",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/agents/{agentId}/agentversions/{agentVersion}/actiongroups/{actionGroupId}/",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DisassociateAgentCollaboratorRequest extends S.Class<DisassociateAgentCollaboratorRequest>(
-  "DisassociateAgentCollaboratorRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateAgentActionGroupRequest",
+}) as any as S.Schema<UpdateAgentActionGroupRequest>;
+export interface DisassociateAgentCollaboratorRequest {
+  agentId: string;
+  agentVersion: string;
+  collaboratorId: string;
+}
+export const DisassociateAgentCollaboratorRequest = S.suspend(() =>
+  S.Struct({
     agentId: S.String.pipe(T.HttpLabel("agentId")),
     agentVersion: S.String.pipe(T.HttpLabel("agentVersion")),
     collaboratorId: S.String.pipe(T.HttpLabel("collaboratorId")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/agents/{agentId}/agentversions/{agentVersion}/agentcollaborators/{collaboratorId}/",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/agents/{agentId}/agentversions/{agentVersion}/agentcollaborators/{collaboratorId}/",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DisassociateAgentCollaboratorResponse extends S.Class<DisassociateAgentCollaboratorResponse>(
-  "DisassociateAgentCollaboratorResponse",
-)({}) {}
-export class GetAgentCollaboratorRequest extends S.Class<GetAgentCollaboratorRequest>(
-  "GetAgentCollaboratorRequest",
-)(
-  {
+).annotations({
+  identifier: "DisassociateAgentCollaboratorRequest",
+}) as any as S.Schema<DisassociateAgentCollaboratorRequest>;
+export interface DisassociateAgentCollaboratorResponse {}
+export const DisassociateAgentCollaboratorResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DisassociateAgentCollaboratorResponse",
+}) as any as S.Schema<DisassociateAgentCollaboratorResponse>;
+export interface GetAgentCollaboratorRequest {
+  agentId: string;
+  agentVersion: string;
+  collaboratorId: string;
+}
+export const GetAgentCollaboratorRequest = S.suspend(() =>
+  S.Struct({
     agentId: S.String.pipe(T.HttpLabel("agentId")),
     agentVersion: S.String.pipe(T.HttpLabel("agentVersion")),
     collaboratorId: S.String.pipe(T.HttpLabel("collaboratorId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/agents/{agentId}/agentversions/{agentVersion}/agentcollaborators/{collaboratorId}/",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/agents/{agentId}/agentversions/{agentVersion}/agentcollaborators/{collaboratorId}/",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListAgentCollaboratorsRequest extends S.Class<ListAgentCollaboratorsRequest>(
-  "ListAgentCollaboratorsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetAgentCollaboratorRequest",
+}) as any as S.Schema<GetAgentCollaboratorRequest>;
+export interface ListAgentCollaboratorsRequest {
+  agentId: string;
+  agentVersion: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListAgentCollaboratorsRequest = S.suspend(() =>
+  S.Struct({
     agentId: S.String.pipe(T.HttpLabel("agentId")),
     agentVersion: S.String.pipe(T.HttpLabel("agentVersion")),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/agents/{agentId}/agentversions/{agentVersion}/agentcollaborators/",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/agents/{agentId}/agentversions/{agentVersion}/agentcollaborators/",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AgentDescriptor extends S.Class<AgentDescriptor>(
-  "AgentDescriptor",
-)({ aliasArn: S.optional(S.String) }) {}
-export class UpdateAgentCollaboratorRequest extends S.Class<UpdateAgentCollaboratorRequest>(
-  "UpdateAgentCollaboratorRequest",
-)(
-  {
+).annotations({
+  identifier: "ListAgentCollaboratorsRequest",
+}) as any as S.Schema<ListAgentCollaboratorsRequest>;
+export interface AgentDescriptor {
+  aliasArn?: string;
+}
+export const AgentDescriptor = S.suspend(() =>
+  S.Struct({ aliasArn: S.optional(S.String) }),
+).annotations({
+  identifier: "AgentDescriptor",
+}) as any as S.Schema<AgentDescriptor>;
+export interface UpdateAgentCollaboratorRequest {
+  agentId: string;
+  agentVersion: string;
+  collaboratorId: string;
+  agentDescriptor: AgentDescriptor;
+  collaboratorName: string;
+  collaborationInstruction: string;
+  relayConversationHistory?: string;
+}
+export const UpdateAgentCollaboratorRequest = S.suspend(() =>
+  S.Struct({
     agentId: S.String.pipe(T.HttpLabel("agentId")),
     agentVersion: S.String.pipe(T.HttpLabel("agentVersion")),
     collaboratorId: S.String.pipe(T.HttpLabel("collaboratorId")),
@@ -500,130 +596,221 @@ export class UpdateAgentCollaboratorRequest extends S.Class<UpdateAgentCollabora
     collaboratorName: S.String,
     collaborationInstruction: S.String,
     relayConversationHistory: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/agents/{agentId}/agentversions/{agentVersion}/agentcollaborators/{collaboratorId}/",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/agents/{agentId}/agentversions/{agentVersion}/agentcollaborators/{collaboratorId}/",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAgentRequest extends S.Class<DeleteAgentRequest>(
-  "DeleteAgentRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateAgentCollaboratorRequest",
+}) as any as S.Schema<UpdateAgentCollaboratorRequest>;
+export interface DeleteAgentRequest {
+  agentId: string;
+  skipResourceInUseCheck?: boolean;
+}
+export const DeleteAgentRequest = S.suspend(() =>
+  S.Struct({
     agentId: S.String.pipe(T.HttpLabel("agentId")),
     skipResourceInUseCheck: S.optional(S.Boolean).pipe(
       T.HttpQuery("skipResourceInUseCheck"),
     ),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/agents/{agentId}/" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/agents/{agentId}/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetAgentRequest extends S.Class<GetAgentRequest>(
-  "GetAgentRequest",
-)(
-  { agentId: S.String.pipe(T.HttpLabel("agentId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/agents/{agentId}/" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteAgentRequest",
+}) as any as S.Schema<DeleteAgentRequest>;
+export interface GetAgentRequest {
+  agentId: string;
+}
+export const GetAgentRequest = S.suspend(() =>
+  S.Struct({ agentId: S.String.pipe(T.HttpLabel("agentId")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/agents/{agentId}/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListAgentsRequest extends S.Class<ListAgentsRequest>(
-  "ListAgentsRequest",
-)(
-  { maxResults: S.optional(S.Number), nextToken: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/agents/" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetAgentRequest",
+}) as any as S.Schema<GetAgentRequest>;
+export interface ListAgentsRequest {
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListAgentsRequest = S.suspend(() =>
+  S.Struct({
+    maxResults: S.optional(S.Number),
+    nextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/agents/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PrepareAgentRequest extends S.Class<PrepareAgentRequest>(
-  "PrepareAgentRequest",
-)(
-  { agentId: S.String.pipe(T.HttpLabel("agentId")) },
-  T.all(
-    T.Http({ method: "POST", uri: "/agents/{agentId}/" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListAgentsRequest",
+}) as any as S.Schema<ListAgentsRequest>;
+export interface PrepareAgentRequest {
+  agentId: string;
+}
+export const PrepareAgentRequest = S.suspend(() =>
+  S.Struct({ agentId: S.String.pipe(T.HttpLabel("agentId")) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/agents/{agentId}/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "PrepareAgentRequest",
+}) as any as S.Schema<PrepareAgentRequest>;
 export const OrchestrationExecutor = S.Union(S.Struct({ lambda: S.String }));
-export class CustomOrchestration extends S.Class<CustomOrchestration>(
-  "CustomOrchestration",
-)({ executor: S.optional(OrchestrationExecutor) }) {}
+export interface CustomOrchestration {
+  executor?: (typeof OrchestrationExecutor)["Type"];
+}
+export const CustomOrchestration = S.suspend(() =>
+  S.Struct({ executor: S.optional(OrchestrationExecutor) }),
+).annotations({
+  identifier: "CustomOrchestration",
+}) as any as S.Schema<CustomOrchestration>;
+export type StopSequences = string[];
 export const StopSequences = S.Array(S.String);
-export class InferenceConfiguration extends S.Class<InferenceConfiguration>(
-  "InferenceConfiguration",
-)({
-  temperature: S.optional(S.Number),
-  topP: S.optional(S.Number),
-  topK: S.optional(S.Number),
-  maximumLength: S.optional(S.Number),
-  stopSequences: S.optional(StopSequences),
-}) {}
-export class PromptConfiguration extends S.Class<PromptConfiguration>(
-  "PromptConfiguration",
-)({
-  promptType: S.optional(S.String),
-  promptCreationMode: S.optional(S.String),
-  promptState: S.optional(S.String),
-  basePromptTemplate: S.optional(S.String),
-  inferenceConfiguration: S.optional(InferenceConfiguration),
-  parserMode: S.optional(S.String),
-  foundationModel: S.optional(S.String),
-  additionalModelRequestFields: S.optional(S.Any),
-}) {}
+export interface InferenceConfiguration {
+  temperature?: number;
+  topP?: number;
+  topK?: number;
+  maximumLength?: number;
+  stopSequences?: StopSequences;
+}
+export const InferenceConfiguration = S.suspend(() =>
+  S.Struct({
+    temperature: S.optional(S.Number),
+    topP: S.optional(S.Number),
+    topK: S.optional(S.Number),
+    maximumLength: S.optional(S.Number),
+    stopSequences: S.optional(StopSequences),
+  }),
+).annotations({
+  identifier: "InferenceConfiguration",
+}) as any as S.Schema<InferenceConfiguration>;
+export interface PromptConfiguration {
+  promptType?: string;
+  promptCreationMode?: string;
+  promptState?: string;
+  basePromptTemplate?: string;
+  inferenceConfiguration?: InferenceConfiguration;
+  parserMode?: string;
+  foundationModel?: string;
+  additionalModelRequestFields?: any;
+}
+export const PromptConfiguration = S.suspend(() =>
+  S.Struct({
+    promptType: S.optional(S.String),
+    promptCreationMode: S.optional(S.String),
+    promptState: S.optional(S.String),
+    basePromptTemplate: S.optional(S.String),
+    inferenceConfiguration: S.optional(InferenceConfiguration),
+    parserMode: S.optional(S.String),
+    foundationModel: S.optional(S.String),
+    additionalModelRequestFields: S.optional(S.Any),
+  }),
+).annotations({
+  identifier: "PromptConfiguration",
+}) as any as S.Schema<PromptConfiguration>;
+export type PromptConfigurations = PromptConfiguration[];
 export const PromptConfigurations = S.Array(PromptConfiguration);
-export class PromptOverrideConfiguration extends S.Class<PromptOverrideConfiguration>(
-  "PromptOverrideConfiguration",
-)({
-  promptConfigurations: PromptConfigurations,
-  overrideLambda: S.optional(S.String),
-}) {}
-export class GuardrailConfiguration extends S.Class<GuardrailConfiguration>(
-  "GuardrailConfiguration",
-)({
-  guardrailIdentifier: S.optional(S.String),
-  guardrailVersion: S.optional(S.String),
-}) {}
+export interface PromptOverrideConfiguration {
+  promptConfigurations: PromptConfigurations;
+  overrideLambda?: string;
+}
+export const PromptOverrideConfiguration = S.suspend(() =>
+  S.Struct({
+    promptConfigurations: PromptConfigurations,
+    overrideLambda: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "PromptOverrideConfiguration",
+}) as any as S.Schema<PromptOverrideConfiguration>;
+export interface GuardrailConfiguration {
+  guardrailIdentifier?: string;
+  guardrailVersion?: string;
+}
+export const GuardrailConfiguration = S.suspend(() =>
+  S.Struct({
+    guardrailIdentifier: S.optional(S.String),
+    guardrailVersion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GuardrailConfiguration",
+}) as any as S.Schema<GuardrailConfiguration>;
+export type EnabledMemoryTypes = string[];
 export const EnabledMemoryTypes = S.Array(S.String);
-export class SessionSummaryConfiguration extends S.Class<SessionSummaryConfiguration>(
-  "SessionSummaryConfiguration",
-)({ maxRecentSessions: S.optional(S.Number) }) {}
-export class MemoryConfiguration extends S.Class<MemoryConfiguration>(
-  "MemoryConfiguration",
-)({
-  enabledMemoryTypes: EnabledMemoryTypes,
-  storageDays: S.optional(S.Number),
-  sessionSummaryConfiguration: S.optional(SessionSummaryConfiguration),
-}) {}
-export class UpdateAgentRequest extends S.Class<UpdateAgentRequest>(
-  "UpdateAgentRequest",
-)(
-  {
+export interface SessionSummaryConfiguration {
+  maxRecentSessions?: number;
+}
+export const SessionSummaryConfiguration = S.suspend(() =>
+  S.Struct({ maxRecentSessions: S.optional(S.Number) }),
+).annotations({
+  identifier: "SessionSummaryConfiguration",
+}) as any as S.Schema<SessionSummaryConfiguration>;
+export interface MemoryConfiguration {
+  enabledMemoryTypes: EnabledMemoryTypes;
+  storageDays?: number;
+  sessionSummaryConfiguration?: SessionSummaryConfiguration;
+}
+export const MemoryConfiguration = S.suspend(() =>
+  S.Struct({
+    enabledMemoryTypes: EnabledMemoryTypes,
+    storageDays: S.optional(S.Number),
+    sessionSummaryConfiguration: S.optional(SessionSummaryConfiguration),
+  }),
+).annotations({
+  identifier: "MemoryConfiguration",
+}) as any as S.Schema<MemoryConfiguration>;
+export interface UpdateAgentRequest {
+  agentId: string;
+  agentName: string;
+  instruction?: string;
+  foundationModel: string;
+  description?: string;
+  orchestrationType?: string;
+  customOrchestration?: CustomOrchestration;
+  idleSessionTTLInSeconds?: number;
+  agentResourceRoleArn: string;
+  customerEncryptionKeyArn?: string;
+  promptOverrideConfiguration?: PromptOverrideConfiguration;
+  guardrailConfiguration?: GuardrailConfiguration;
+  memoryConfiguration?: MemoryConfiguration;
+  agentCollaboration?: string;
+}
+export const UpdateAgentRequest = S.suspend(() =>
+  S.Struct({
     agentId: S.String.pipe(T.HttpLabel("agentId")),
     agentName: S.String,
     instruction: S.optional(S.String),
@@ -638,388 +825,709 @@ export class UpdateAgentRequest extends S.Class<UpdateAgentRequest>(
     guardrailConfiguration: S.optional(GuardrailConfiguration),
     memoryConfiguration: S.optional(MemoryConfiguration),
     agentCollaboration: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/agents/{agentId}/" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/agents/{agentId}/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAgentAliasRequest extends S.Class<DeleteAgentAliasRequest>(
-  "DeleteAgentAliasRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateAgentRequest",
+}) as any as S.Schema<UpdateAgentRequest>;
+export interface DeleteAgentAliasRequest {
+  agentId: string;
+  agentAliasId: string;
+}
+export const DeleteAgentAliasRequest = S.suspend(() =>
+  S.Struct({
     agentId: S.String.pipe(T.HttpLabel("agentId")),
     agentAliasId: S.String.pipe(T.HttpLabel("agentAliasId")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/agents/{agentId}/agentaliases/{agentAliasId}/",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/agents/{agentId}/agentaliases/{agentAliasId}/",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetAgentAliasRequest extends S.Class<GetAgentAliasRequest>(
-  "GetAgentAliasRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteAgentAliasRequest",
+}) as any as S.Schema<DeleteAgentAliasRequest>;
+export interface GetAgentAliasRequest {
+  agentId: string;
+  agentAliasId: string;
+}
+export const GetAgentAliasRequest = S.suspend(() =>
+  S.Struct({
     agentId: S.String.pipe(T.HttpLabel("agentId")),
     agentAliasId: S.String.pipe(T.HttpLabel("agentAliasId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/agents/{agentId}/agentaliases/{agentAliasId}/",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/agents/{agentId}/agentaliases/{agentAliasId}/",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListAgentAliasesRequest extends S.Class<ListAgentAliasesRequest>(
-  "ListAgentAliasesRequest",
-)(
-  {
+).annotations({
+  identifier: "GetAgentAliasRequest",
+}) as any as S.Schema<GetAgentAliasRequest>;
+export interface ListAgentAliasesRequest {
+  agentId: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListAgentAliasesRequest = S.suspend(() =>
+  S.Struct({
     agentId: S.String.pipe(T.HttpLabel("agentId")),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/agents/{agentId}/agentaliases/" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/agents/{agentId}/agentaliases/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AgentAliasRoutingConfigurationListItem extends S.Class<AgentAliasRoutingConfigurationListItem>(
-  "AgentAliasRoutingConfigurationListItem",
-)({
-  agentVersion: S.optional(S.String),
-  provisionedThroughput: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "ListAgentAliasesRequest",
+}) as any as S.Schema<ListAgentAliasesRequest>;
+export interface AgentAliasRoutingConfigurationListItem {
+  agentVersion?: string;
+  provisionedThroughput?: string;
+}
+export const AgentAliasRoutingConfigurationListItem = S.suspend(() =>
+  S.Struct({
+    agentVersion: S.optional(S.String),
+    provisionedThroughput: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AgentAliasRoutingConfigurationListItem",
+}) as any as S.Schema<AgentAliasRoutingConfigurationListItem>;
+export type AgentAliasRoutingConfiguration =
+  AgentAliasRoutingConfigurationListItem[];
 export const AgentAliasRoutingConfiguration = S.Array(
   AgentAliasRoutingConfigurationListItem,
 );
-export class UpdateAgentAliasRequest extends S.Class<UpdateAgentAliasRequest>(
-  "UpdateAgentAliasRequest",
-)(
-  {
+export interface UpdateAgentAliasRequest {
+  agentId: string;
+  agentAliasId: string;
+  agentAliasName: string;
+  description?: string;
+  routingConfiguration?: AgentAliasRoutingConfiguration;
+  aliasInvocationState?: string;
+}
+export const UpdateAgentAliasRequest = S.suspend(() =>
+  S.Struct({
     agentId: S.String.pipe(T.HttpLabel("agentId")),
     agentAliasId: S.String.pipe(T.HttpLabel("agentAliasId")),
     agentAliasName: S.String,
     description: S.optional(S.String),
     routingConfiguration: S.optional(AgentAliasRoutingConfiguration),
     aliasInvocationState: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/agents/{agentId}/agentaliases/{agentAliasId}/",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/agents/{agentId}/agentaliases/{agentAliasId}/",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteDataSourceRequest extends S.Class<DeleteDataSourceRequest>(
-  "DeleteDataSourceRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateAgentAliasRequest",
+}) as any as S.Schema<UpdateAgentAliasRequest>;
+export interface DeleteDataSourceRequest {
+  knowledgeBaseId: string;
+  dataSourceId: string;
+}
+export const DeleteDataSourceRequest = S.suspend(() =>
+  S.Struct({
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     dataSourceId: S.String.pipe(T.HttpLabel("dataSourceId")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/knowledgebases/{knowledgeBaseId}/datasources/{dataSourceId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/knowledgebases/{knowledgeBaseId}/datasources/{dataSourceId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetDataSourceRequest extends S.Class<GetDataSourceRequest>(
-  "GetDataSourceRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteDataSourceRequest",
+}) as any as S.Schema<DeleteDataSourceRequest>;
+export interface GetDataSourceRequest {
+  knowledgeBaseId: string;
+  dataSourceId: string;
+}
+export const GetDataSourceRequest = S.suspend(() =>
+  S.Struct({
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     dataSourceId: S.String.pipe(T.HttpLabel("dataSourceId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/knowledgebases/{knowledgeBaseId}/datasources/{dataSourceId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/knowledgebases/{knowledgeBaseId}/datasources/{dataSourceId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListDataSourcesRequest extends S.Class<ListDataSourcesRequest>(
-  "ListDataSourcesRequest",
-)(
-  {
+).annotations({
+  identifier: "GetDataSourceRequest",
+}) as any as S.Schema<GetDataSourceRequest>;
+export interface ListDataSourcesRequest {
+  knowledgeBaseId: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListDataSourcesRequest = S.suspend(() =>
+  S.Struct({
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/knowledgebases/{knowledgeBaseId}/datasources/",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/knowledgebases/{knowledgeBaseId}/datasources/",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "ListDataSourcesRequest",
+}) as any as S.Schema<ListDataSourcesRequest>;
+export type S3Prefixes = string[];
 export const S3Prefixes = S.Array(S.String);
-export class S3DataSourceConfiguration extends S.Class<S3DataSourceConfiguration>(
-  "S3DataSourceConfiguration",
-)({
-  bucketArn: S.String,
-  inclusionPrefixes: S.optional(S3Prefixes),
-  bucketOwnerAccountId: S.optional(S.String),
-}) {}
-export class SeedUrl extends S.Class<SeedUrl>("SeedUrl")({
-  url: S.optional(S.String),
-}) {}
+export interface S3DataSourceConfiguration {
+  bucketArn: string;
+  inclusionPrefixes?: S3Prefixes;
+  bucketOwnerAccountId?: string;
+}
+export const S3DataSourceConfiguration = S.suspend(() =>
+  S.Struct({
+    bucketArn: S.String,
+    inclusionPrefixes: S.optional(S3Prefixes),
+    bucketOwnerAccountId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "S3DataSourceConfiguration",
+}) as any as S.Schema<S3DataSourceConfiguration>;
+export interface SeedUrl {
+  url?: string;
+}
+export const SeedUrl = S.suspend(() =>
+  S.Struct({ url: S.optional(S.String) }),
+).annotations({ identifier: "SeedUrl" }) as any as S.Schema<SeedUrl>;
+export type SeedUrls = SeedUrl[];
 export const SeedUrls = S.Array(SeedUrl);
-export class UrlConfiguration extends S.Class<UrlConfiguration>(
-  "UrlConfiguration",
-)({ seedUrls: S.optional(SeedUrls) }) {}
-export class WebSourceConfiguration extends S.Class<WebSourceConfiguration>(
-  "WebSourceConfiguration",
-)({ urlConfiguration: UrlConfiguration }) {}
-export class WebCrawlerLimits extends S.Class<WebCrawlerLimits>(
-  "WebCrawlerLimits",
-)({ rateLimit: S.optional(S.Number), maxPages: S.optional(S.Number) }) {}
+export interface UrlConfiguration {
+  seedUrls?: SeedUrls;
+}
+export const UrlConfiguration = S.suspend(() =>
+  S.Struct({ seedUrls: S.optional(SeedUrls) }),
+).annotations({
+  identifier: "UrlConfiguration",
+}) as any as S.Schema<UrlConfiguration>;
+export interface WebSourceConfiguration {
+  urlConfiguration: UrlConfiguration;
+}
+export const WebSourceConfiguration = S.suspend(() =>
+  S.Struct({ urlConfiguration: UrlConfiguration }),
+).annotations({
+  identifier: "WebSourceConfiguration",
+}) as any as S.Schema<WebSourceConfiguration>;
+export interface WebCrawlerLimits {
+  rateLimit?: number;
+  maxPages?: number;
+}
+export const WebCrawlerLimits = S.suspend(() =>
+  S.Struct({ rateLimit: S.optional(S.Number), maxPages: S.optional(S.Number) }),
+).annotations({
+  identifier: "WebCrawlerLimits",
+}) as any as S.Schema<WebCrawlerLimits>;
+export type FilterList = string[];
 export const FilterList = S.Array(S.String);
-export class WebCrawlerConfiguration extends S.Class<WebCrawlerConfiguration>(
-  "WebCrawlerConfiguration",
-)({
-  crawlerLimits: S.optional(WebCrawlerLimits),
-  inclusionFilters: S.optional(FilterList),
-  exclusionFilters: S.optional(FilterList),
-  scope: S.optional(S.String),
-  userAgent: S.optional(S.String),
-  userAgentHeader: S.optional(S.String),
-}) {}
-export class WebDataSourceConfiguration extends S.Class<WebDataSourceConfiguration>(
-  "WebDataSourceConfiguration",
-)({
-  sourceConfiguration: WebSourceConfiguration,
-  crawlerConfiguration: S.optional(WebCrawlerConfiguration),
-}) {}
-export class ConfluenceSourceConfiguration extends S.Class<ConfluenceSourceConfiguration>(
-  "ConfluenceSourceConfiguration",
-)({
-  hostUrl: S.String,
-  hostType: S.String,
-  authType: S.String,
-  credentialsSecretArn: S.String,
-}) {}
-export class PatternObjectFilter extends S.Class<PatternObjectFilter>(
-  "PatternObjectFilter",
-)({
-  objectType: S.String,
-  inclusionFilters: S.optional(FilterList),
-  exclusionFilters: S.optional(FilterList),
-}) {}
+export interface WebCrawlerConfiguration {
+  crawlerLimits?: WebCrawlerLimits;
+  inclusionFilters?: FilterList;
+  exclusionFilters?: FilterList;
+  scope?: string;
+  userAgent?: string;
+  userAgentHeader?: string;
+}
+export const WebCrawlerConfiguration = S.suspend(() =>
+  S.Struct({
+    crawlerLimits: S.optional(WebCrawlerLimits),
+    inclusionFilters: S.optional(FilterList),
+    exclusionFilters: S.optional(FilterList),
+    scope: S.optional(S.String),
+    userAgent: S.optional(S.String),
+    userAgentHeader: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "WebCrawlerConfiguration",
+}) as any as S.Schema<WebCrawlerConfiguration>;
+export interface WebDataSourceConfiguration {
+  sourceConfiguration: WebSourceConfiguration;
+  crawlerConfiguration?: WebCrawlerConfiguration;
+}
+export const WebDataSourceConfiguration = S.suspend(() =>
+  S.Struct({
+    sourceConfiguration: WebSourceConfiguration,
+    crawlerConfiguration: S.optional(WebCrawlerConfiguration),
+  }),
+).annotations({
+  identifier: "WebDataSourceConfiguration",
+}) as any as S.Schema<WebDataSourceConfiguration>;
+export interface ConfluenceSourceConfiguration {
+  hostUrl: string;
+  hostType: string;
+  authType: string;
+  credentialsSecretArn: string;
+}
+export const ConfluenceSourceConfiguration = S.suspend(() =>
+  S.Struct({
+    hostUrl: S.String,
+    hostType: S.String,
+    authType: S.String,
+    credentialsSecretArn: S.String,
+  }),
+).annotations({
+  identifier: "ConfluenceSourceConfiguration",
+}) as any as S.Schema<ConfluenceSourceConfiguration>;
+export interface PatternObjectFilter {
+  objectType: string;
+  inclusionFilters?: FilterList;
+  exclusionFilters?: FilterList;
+}
+export const PatternObjectFilter = S.suspend(() =>
+  S.Struct({
+    objectType: S.String,
+    inclusionFilters: S.optional(FilterList),
+    exclusionFilters: S.optional(FilterList),
+  }),
+).annotations({
+  identifier: "PatternObjectFilter",
+}) as any as S.Schema<PatternObjectFilter>;
+export type PatternObjectFilterList = PatternObjectFilter[];
 export const PatternObjectFilterList = S.Array(PatternObjectFilter);
-export class PatternObjectFilterConfiguration extends S.Class<PatternObjectFilterConfiguration>(
-  "PatternObjectFilterConfiguration",
-)({ filters: PatternObjectFilterList }) {}
-export class CrawlFilterConfiguration extends S.Class<CrawlFilterConfiguration>(
-  "CrawlFilterConfiguration",
-)({
-  type: S.String,
-  patternObjectFilter: S.optional(PatternObjectFilterConfiguration),
-}) {}
-export class ConfluenceCrawlerConfiguration extends S.Class<ConfluenceCrawlerConfiguration>(
-  "ConfluenceCrawlerConfiguration",
-)({ filterConfiguration: S.optional(CrawlFilterConfiguration) }) {}
-export class ConfluenceDataSourceConfiguration extends S.Class<ConfluenceDataSourceConfiguration>(
-  "ConfluenceDataSourceConfiguration",
-)({
-  sourceConfiguration: ConfluenceSourceConfiguration,
-  crawlerConfiguration: S.optional(ConfluenceCrawlerConfiguration),
-}) {}
-export class SalesforceSourceConfiguration extends S.Class<SalesforceSourceConfiguration>(
-  "SalesforceSourceConfiguration",
-)({ hostUrl: S.String, authType: S.String, credentialsSecretArn: S.String }) {}
-export class SalesforceCrawlerConfiguration extends S.Class<SalesforceCrawlerConfiguration>(
-  "SalesforceCrawlerConfiguration",
-)({ filterConfiguration: S.optional(CrawlFilterConfiguration) }) {}
-export class SalesforceDataSourceConfiguration extends S.Class<SalesforceDataSourceConfiguration>(
-  "SalesforceDataSourceConfiguration",
-)({
-  sourceConfiguration: SalesforceSourceConfiguration,
-  crawlerConfiguration: S.optional(SalesforceCrawlerConfiguration),
-}) {}
+export interface PatternObjectFilterConfiguration {
+  filters: PatternObjectFilterList;
+}
+export const PatternObjectFilterConfiguration = S.suspend(() =>
+  S.Struct({ filters: PatternObjectFilterList }),
+).annotations({
+  identifier: "PatternObjectFilterConfiguration",
+}) as any as S.Schema<PatternObjectFilterConfiguration>;
+export interface CrawlFilterConfiguration {
+  type: string;
+  patternObjectFilter?: PatternObjectFilterConfiguration;
+}
+export const CrawlFilterConfiguration = S.suspend(() =>
+  S.Struct({
+    type: S.String,
+    patternObjectFilter: S.optional(PatternObjectFilterConfiguration),
+  }),
+).annotations({
+  identifier: "CrawlFilterConfiguration",
+}) as any as S.Schema<CrawlFilterConfiguration>;
+export interface ConfluenceCrawlerConfiguration {
+  filterConfiguration?: CrawlFilterConfiguration;
+}
+export const ConfluenceCrawlerConfiguration = S.suspend(() =>
+  S.Struct({ filterConfiguration: S.optional(CrawlFilterConfiguration) }),
+).annotations({
+  identifier: "ConfluenceCrawlerConfiguration",
+}) as any as S.Schema<ConfluenceCrawlerConfiguration>;
+export interface ConfluenceDataSourceConfiguration {
+  sourceConfiguration: ConfluenceSourceConfiguration;
+  crawlerConfiguration?: ConfluenceCrawlerConfiguration;
+}
+export const ConfluenceDataSourceConfiguration = S.suspend(() =>
+  S.Struct({
+    sourceConfiguration: ConfluenceSourceConfiguration,
+    crawlerConfiguration: S.optional(ConfluenceCrawlerConfiguration),
+  }),
+).annotations({
+  identifier: "ConfluenceDataSourceConfiguration",
+}) as any as S.Schema<ConfluenceDataSourceConfiguration>;
+export interface SalesforceSourceConfiguration {
+  hostUrl: string;
+  authType: string;
+  credentialsSecretArn: string;
+}
+export const SalesforceSourceConfiguration = S.suspend(() =>
+  S.Struct({
+    hostUrl: S.String,
+    authType: S.String,
+    credentialsSecretArn: S.String,
+  }),
+).annotations({
+  identifier: "SalesforceSourceConfiguration",
+}) as any as S.Schema<SalesforceSourceConfiguration>;
+export interface SalesforceCrawlerConfiguration {
+  filterConfiguration?: CrawlFilterConfiguration;
+}
+export const SalesforceCrawlerConfiguration = S.suspend(() =>
+  S.Struct({ filterConfiguration: S.optional(CrawlFilterConfiguration) }),
+).annotations({
+  identifier: "SalesforceCrawlerConfiguration",
+}) as any as S.Schema<SalesforceCrawlerConfiguration>;
+export interface SalesforceDataSourceConfiguration {
+  sourceConfiguration: SalesforceSourceConfiguration;
+  crawlerConfiguration?: SalesforceCrawlerConfiguration;
+}
+export const SalesforceDataSourceConfiguration = S.suspend(() =>
+  S.Struct({
+    sourceConfiguration: SalesforceSourceConfiguration,
+    crawlerConfiguration: S.optional(SalesforceCrawlerConfiguration),
+  }),
+).annotations({
+  identifier: "SalesforceDataSourceConfiguration",
+}) as any as S.Schema<SalesforceDataSourceConfiguration>;
+export type SharePointSiteUrls = string[];
 export const SharePointSiteUrls = S.Array(S.String);
-export class SharePointSourceConfiguration extends S.Class<SharePointSourceConfiguration>(
-  "SharePointSourceConfiguration",
-)({
-  tenantId: S.optional(S.String),
-  domain: S.String,
-  siteUrls: SharePointSiteUrls,
-  hostType: S.String,
-  authType: S.String,
-  credentialsSecretArn: S.String,
-}) {}
-export class SharePointCrawlerConfiguration extends S.Class<SharePointCrawlerConfiguration>(
-  "SharePointCrawlerConfiguration",
-)({ filterConfiguration: S.optional(CrawlFilterConfiguration) }) {}
-export class SharePointDataSourceConfiguration extends S.Class<SharePointDataSourceConfiguration>(
-  "SharePointDataSourceConfiguration",
-)({
-  sourceConfiguration: SharePointSourceConfiguration,
-  crawlerConfiguration: S.optional(SharePointCrawlerConfiguration),
-}) {}
-export class DataSourceConfiguration extends S.Class<DataSourceConfiguration>(
-  "DataSourceConfiguration",
-)({
-  type: S.String,
-  s3Configuration: S.optional(S3DataSourceConfiguration),
-  webConfiguration: S.optional(WebDataSourceConfiguration),
-  confluenceConfiguration: S.optional(ConfluenceDataSourceConfiguration),
-  salesforceConfiguration: S.optional(SalesforceDataSourceConfiguration),
-  sharePointConfiguration: S.optional(SharePointDataSourceConfiguration),
-}) {}
-export class ServerSideEncryptionConfiguration extends S.Class<ServerSideEncryptionConfiguration>(
-  "ServerSideEncryptionConfiguration",
-)({ kmsKeyArn: S.optional(S.String) }) {}
-export class FixedSizeChunkingConfiguration extends S.Class<FixedSizeChunkingConfiguration>(
-  "FixedSizeChunkingConfiguration",
-)({ maxTokens: S.Number, overlapPercentage: S.Number }) {}
-export class HierarchicalChunkingLevelConfiguration extends S.Class<HierarchicalChunkingLevelConfiguration>(
-  "HierarchicalChunkingLevelConfiguration",
-)({ maxTokens: S.Number }) {}
+export interface SharePointSourceConfiguration {
+  tenantId?: string;
+  domain: string;
+  siteUrls: SharePointSiteUrls;
+  hostType: string;
+  authType: string;
+  credentialsSecretArn: string;
+}
+export const SharePointSourceConfiguration = S.suspend(() =>
+  S.Struct({
+    tenantId: S.optional(S.String),
+    domain: S.String,
+    siteUrls: SharePointSiteUrls,
+    hostType: S.String,
+    authType: S.String,
+    credentialsSecretArn: S.String,
+  }),
+).annotations({
+  identifier: "SharePointSourceConfiguration",
+}) as any as S.Schema<SharePointSourceConfiguration>;
+export interface SharePointCrawlerConfiguration {
+  filterConfiguration?: CrawlFilterConfiguration;
+}
+export const SharePointCrawlerConfiguration = S.suspend(() =>
+  S.Struct({ filterConfiguration: S.optional(CrawlFilterConfiguration) }),
+).annotations({
+  identifier: "SharePointCrawlerConfiguration",
+}) as any as S.Schema<SharePointCrawlerConfiguration>;
+export interface SharePointDataSourceConfiguration {
+  sourceConfiguration: SharePointSourceConfiguration;
+  crawlerConfiguration?: SharePointCrawlerConfiguration;
+}
+export const SharePointDataSourceConfiguration = S.suspend(() =>
+  S.Struct({
+    sourceConfiguration: SharePointSourceConfiguration,
+    crawlerConfiguration: S.optional(SharePointCrawlerConfiguration),
+  }),
+).annotations({
+  identifier: "SharePointDataSourceConfiguration",
+}) as any as S.Schema<SharePointDataSourceConfiguration>;
+export interface DataSourceConfiguration {
+  type: string;
+  s3Configuration?: S3DataSourceConfiguration;
+  webConfiguration?: WebDataSourceConfiguration;
+  confluenceConfiguration?: ConfluenceDataSourceConfiguration;
+  salesforceConfiguration?: SalesforceDataSourceConfiguration;
+  sharePointConfiguration?: SharePointDataSourceConfiguration;
+}
+export const DataSourceConfiguration = S.suspend(() =>
+  S.Struct({
+    type: S.String,
+    s3Configuration: S.optional(S3DataSourceConfiguration),
+    webConfiguration: S.optional(WebDataSourceConfiguration),
+    confluenceConfiguration: S.optional(ConfluenceDataSourceConfiguration),
+    salesforceConfiguration: S.optional(SalesforceDataSourceConfiguration),
+    sharePointConfiguration: S.optional(SharePointDataSourceConfiguration),
+  }),
+).annotations({
+  identifier: "DataSourceConfiguration",
+}) as any as S.Schema<DataSourceConfiguration>;
+export interface ServerSideEncryptionConfiguration {
+  kmsKeyArn?: string;
+}
+export const ServerSideEncryptionConfiguration = S.suspend(() =>
+  S.Struct({ kmsKeyArn: S.optional(S.String) }),
+).annotations({
+  identifier: "ServerSideEncryptionConfiguration",
+}) as any as S.Schema<ServerSideEncryptionConfiguration>;
+export interface FixedSizeChunkingConfiguration {
+  maxTokens: number;
+  overlapPercentage: number;
+}
+export const FixedSizeChunkingConfiguration = S.suspend(() =>
+  S.Struct({ maxTokens: S.Number, overlapPercentage: S.Number }),
+).annotations({
+  identifier: "FixedSizeChunkingConfiguration",
+}) as any as S.Schema<FixedSizeChunkingConfiguration>;
+export interface HierarchicalChunkingLevelConfiguration {
+  maxTokens: number;
+}
+export const HierarchicalChunkingLevelConfiguration = S.suspend(() =>
+  S.Struct({ maxTokens: S.Number }),
+).annotations({
+  identifier: "HierarchicalChunkingLevelConfiguration",
+}) as any as S.Schema<HierarchicalChunkingLevelConfiguration>;
+export type HierarchicalChunkingLevelConfigurations =
+  HierarchicalChunkingLevelConfiguration[];
 export const HierarchicalChunkingLevelConfigurations = S.Array(
   HierarchicalChunkingLevelConfiguration,
 );
-export class HierarchicalChunkingConfiguration extends S.Class<HierarchicalChunkingConfiguration>(
-  "HierarchicalChunkingConfiguration",
-)({
-  levelConfigurations: HierarchicalChunkingLevelConfigurations,
-  overlapTokens: S.Number,
-}) {}
-export class SemanticChunkingConfiguration extends S.Class<SemanticChunkingConfiguration>(
-  "SemanticChunkingConfiguration",
-)({
-  maxTokens: S.Number,
-  bufferSize: S.Number,
-  breakpointPercentileThreshold: S.Number,
-}) {}
-export class ChunkingConfiguration extends S.Class<ChunkingConfiguration>(
-  "ChunkingConfiguration",
-)({
-  chunkingStrategy: S.String,
-  fixedSizeChunkingConfiguration: S.optional(FixedSizeChunkingConfiguration),
-  hierarchicalChunkingConfiguration: S.optional(
-    HierarchicalChunkingConfiguration,
-  ),
-  semanticChunkingConfiguration: S.optional(SemanticChunkingConfiguration),
-}) {}
-export class S3Location extends S.Class<S3Location>("S3Location")({
-  uri: S.String,
-}) {}
-export class IntermediateStorage extends S.Class<IntermediateStorage>(
-  "IntermediateStorage",
-)({ s3Location: S3Location }) {}
-export class TransformationLambdaConfiguration extends S.Class<TransformationLambdaConfiguration>(
-  "TransformationLambdaConfiguration",
-)({ lambdaArn: S.String }) {}
-export class TransformationFunction extends S.Class<TransformationFunction>(
-  "TransformationFunction",
-)({ transformationLambdaConfiguration: TransformationLambdaConfiguration }) {}
-export class Transformation extends S.Class<Transformation>("Transformation")({
-  transformationFunction: TransformationFunction,
-  stepToApply: S.String,
-}) {}
+export interface HierarchicalChunkingConfiguration {
+  levelConfigurations: HierarchicalChunkingLevelConfigurations;
+  overlapTokens: number;
+}
+export const HierarchicalChunkingConfiguration = S.suspend(() =>
+  S.Struct({
+    levelConfigurations: HierarchicalChunkingLevelConfigurations,
+    overlapTokens: S.Number,
+  }),
+).annotations({
+  identifier: "HierarchicalChunkingConfiguration",
+}) as any as S.Schema<HierarchicalChunkingConfiguration>;
+export interface SemanticChunkingConfiguration {
+  maxTokens: number;
+  bufferSize: number;
+  breakpointPercentileThreshold: number;
+}
+export const SemanticChunkingConfiguration = S.suspend(() =>
+  S.Struct({
+    maxTokens: S.Number,
+    bufferSize: S.Number,
+    breakpointPercentileThreshold: S.Number,
+  }),
+).annotations({
+  identifier: "SemanticChunkingConfiguration",
+}) as any as S.Schema<SemanticChunkingConfiguration>;
+export interface ChunkingConfiguration {
+  chunkingStrategy: string;
+  fixedSizeChunkingConfiguration?: FixedSizeChunkingConfiguration;
+  hierarchicalChunkingConfiguration?: HierarchicalChunkingConfiguration;
+  semanticChunkingConfiguration?: SemanticChunkingConfiguration;
+}
+export const ChunkingConfiguration = S.suspend(() =>
+  S.Struct({
+    chunkingStrategy: S.String,
+    fixedSizeChunkingConfiguration: S.optional(FixedSizeChunkingConfiguration),
+    hierarchicalChunkingConfiguration: S.optional(
+      HierarchicalChunkingConfiguration,
+    ),
+    semanticChunkingConfiguration: S.optional(SemanticChunkingConfiguration),
+  }),
+).annotations({
+  identifier: "ChunkingConfiguration",
+}) as any as S.Schema<ChunkingConfiguration>;
+export interface S3Location {
+  uri: string;
+}
+export const S3Location = S.suspend(() =>
+  S.Struct({ uri: S.String }),
+).annotations({ identifier: "S3Location" }) as any as S.Schema<S3Location>;
+export interface IntermediateStorage {
+  s3Location: S3Location;
+}
+export const IntermediateStorage = S.suspend(() =>
+  S.Struct({ s3Location: S3Location }),
+).annotations({
+  identifier: "IntermediateStorage",
+}) as any as S.Schema<IntermediateStorage>;
+export interface TransformationLambdaConfiguration {
+  lambdaArn: string;
+}
+export const TransformationLambdaConfiguration = S.suspend(() =>
+  S.Struct({ lambdaArn: S.String }),
+).annotations({
+  identifier: "TransformationLambdaConfiguration",
+}) as any as S.Schema<TransformationLambdaConfiguration>;
+export interface TransformationFunction {
+  transformationLambdaConfiguration: TransformationLambdaConfiguration;
+}
+export const TransformationFunction = S.suspend(() =>
+  S.Struct({
+    transformationLambdaConfiguration: TransformationLambdaConfiguration,
+  }),
+).annotations({
+  identifier: "TransformationFunction",
+}) as any as S.Schema<TransformationFunction>;
+export interface Transformation {
+  transformationFunction: TransformationFunction;
+  stepToApply: string;
+}
+export const Transformation = S.suspend(() =>
+  S.Struct({
+    transformationFunction: TransformationFunction,
+    stepToApply: S.String,
+  }),
+).annotations({
+  identifier: "Transformation",
+}) as any as S.Schema<Transformation>;
+export type Transformations = Transformation[];
 export const Transformations = S.Array(Transformation);
-export class CustomTransformationConfiguration extends S.Class<CustomTransformationConfiguration>(
-  "CustomTransformationConfiguration",
-)({
-  intermediateStorage: IntermediateStorage,
-  transformations: Transformations,
-}) {}
-export class ParsingPrompt extends S.Class<ParsingPrompt>("ParsingPrompt")({
-  parsingPromptText: S.String,
-}) {}
-export class BedrockFoundationModelConfiguration extends S.Class<BedrockFoundationModelConfiguration>(
-  "BedrockFoundationModelConfiguration",
-)({
-  modelArn: S.String,
-  parsingPrompt: S.optional(ParsingPrompt),
-  parsingModality: S.optional(S.String),
-}) {}
-export class BedrockDataAutomationConfiguration extends S.Class<BedrockDataAutomationConfiguration>(
-  "BedrockDataAutomationConfiguration",
-)({ parsingModality: S.optional(S.String) }) {}
-export class ParsingConfiguration extends S.Class<ParsingConfiguration>(
-  "ParsingConfiguration",
-)({
-  parsingStrategy: S.String,
-  bedrockFoundationModelConfiguration: S.optional(
-    BedrockFoundationModelConfiguration,
-  ),
-  bedrockDataAutomationConfiguration: S.optional(
-    BedrockDataAutomationConfiguration,
-  ),
-}) {}
-export class EnrichmentStrategyConfiguration extends S.Class<EnrichmentStrategyConfiguration>(
-  "EnrichmentStrategyConfiguration",
-)({ method: S.String }) {}
-export class BedrockFoundationModelContextEnrichmentConfiguration extends S.Class<BedrockFoundationModelContextEnrichmentConfiguration>(
-  "BedrockFoundationModelContextEnrichmentConfiguration",
-)({
-  enrichmentStrategyConfiguration: EnrichmentStrategyConfiguration,
-  modelArn: S.String,
-}) {}
-export class ContextEnrichmentConfiguration extends S.Class<ContextEnrichmentConfiguration>(
-  "ContextEnrichmentConfiguration",
-)({
-  type: S.String,
-  bedrockFoundationModelConfiguration: S.optional(
-    BedrockFoundationModelContextEnrichmentConfiguration,
-  ),
-}) {}
-export class VectorIngestionConfiguration extends S.Class<VectorIngestionConfiguration>(
-  "VectorIngestionConfiguration",
-)({
-  chunkingConfiguration: S.optional(ChunkingConfiguration),
-  customTransformationConfiguration: S.optional(
-    CustomTransformationConfiguration,
-  ),
-  parsingConfiguration: S.optional(ParsingConfiguration),
-  contextEnrichmentConfiguration: S.optional(ContextEnrichmentConfiguration),
-}) {}
-export class UpdateDataSourceRequest extends S.Class<UpdateDataSourceRequest>(
-  "UpdateDataSourceRequest",
-)(
-  {
+export interface CustomTransformationConfiguration {
+  intermediateStorage: IntermediateStorage;
+  transformations: Transformations;
+}
+export const CustomTransformationConfiguration = S.suspend(() =>
+  S.Struct({
+    intermediateStorage: IntermediateStorage,
+    transformations: Transformations,
+  }),
+).annotations({
+  identifier: "CustomTransformationConfiguration",
+}) as any as S.Schema<CustomTransformationConfiguration>;
+export interface ParsingPrompt {
+  parsingPromptText: string;
+}
+export const ParsingPrompt = S.suspend(() =>
+  S.Struct({ parsingPromptText: S.String }),
+).annotations({
+  identifier: "ParsingPrompt",
+}) as any as S.Schema<ParsingPrompt>;
+export interface BedrockFoundationModelConfiguration {
+  modelArn: string;
+  parsingPrompt?: ParsingPrompt;
+  parsingModality?: string;
+}
+export const BedrockFoundationModelConfiguration = S.suspend(() =>
+  S.Struct({
+    modelArn: S.String,
+    parsingPrompt: S.optional(ParsingPrompt),
+    parsingModality: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "BedrockFoundationModelConfiguration",
+}) as any as S.Schema<BedrockFoundationModelConfiguration>;
+export interface BedrockDataAutomationConfiguration {
+  parsingModality?: string;
+}
+export const BedrockDataAutomationConfiguration = S.suspend(() =>
+  S.Struct({ parsingModality: S.optional(S.String) }),
+).annotations({
+  identifier: "BedrockDataAutomationConfiguration",
+}) as any as S.Schema<BedrockDataAutomationConfiguration>;
+export interface ParsingConfiguration {
+  parsingStrategy: string;
+  bedrockFoundationModelConfiguration?: BedrockFoundationModelConfiguration;
+  bedrockDataAutomationConfiguration?: BedrockDataAutomationConfiguration;
+}
+export const ParsingConfiguration = S.suspend(() =>
+  S.Struct({
+    parsingStrategy: S.String,
+    bedrockFoundationModelConfiguration: S.optional(
+      BedrockFoundationModelConfiguration,
+    ),
+    bedrockDataAutomationConfiguration: S.optional(
+      BedrockDataAutomationConfiguration,
+    ),
+  }),
+).annotations({
+  identifier: "ParsingConfiguration",
+}) as any as S.Schema<ParsingConfiguration>;
+export interface EnrichmentStrategyConfiguration {
+  method: string;
+}
+export const EnrichmentStrategyConfiguration = S.suspend(() =>
+  S.Struct({ method: S.String }),
+).annotations({
+  identifier: "EnrichmentStrategyConfiguration",
+}) as any as S.Schema<EnrichmentStrategyConfiguration>;
+export interface BedrockFoundationModelContextEnrichmentConfiguration {
+  enrichmentStrategyConfiguration: EnrichmentStrategyConfiguration;
+  modelArn: string;
+}
+export const BedrockFoundationModelContextEnrichmentConfiguration = S.suspend(
+  () =>
+    S.Struct({
+      enrichmentStrategyConfiguration: EnrichmentStrategyConfiguration,
+      modelArn: S.String,
+    }),
+).annotations({
+  identifier: "BedrockFoundationModelContextEnrichmentConfiguration",
+}) as any as S.Schema<BedrockFoundationModelContextEnrichmentConfiguration>;
+export interface ContextEnrichmentConfiguration {
+  type: string;
+  bedrockFoundationModelConfiguration?: BedrockFoundationModelContextEnrichmentConfiguration;
+}
+export const ContextEnrichmentConfiguration = S.suspend(() =>
+  S.Struct({
+    type: S.String,
+    bedrockFoundationModelConfiguration: S.optional(
+      BedrockFoundationModelContextEnrichmentConfiguration,
+    ),
+  }),
+).annotations({
+  identifier: "ContextEnrichmentConfiguration",
+}) as any as S.Schema<ContextEnrichmentConfiguration>;
+export interface VectorIngestionConfiguration {
+  chunkingConfiguration?: ChunkingConfiguration;
+  customTransformationConfiguration?: CustomTransformationConfiguration;
+  parsingConfiguration?: ParsingConfiguration;
+  contextEnrichmentConfiguration?: ContextEnrichmentConfiguration;
+}
+export const VectorIngestionConfiguration = S.suspend(() =>
+  S.Struct({
+    chunkingConfiguration: S.optional(ChunkingConfiguration),
+    customTransformationConfiguration: S.optional(
+      CustomTransformationConfiguration,
+    ),
+    parsingConfiguration: S.optional(ParsingConfiguration),
+    contextEnrichmentConfiguration: S.optional(ContextEnrichmentConfiguration),
+  }),
+).annotations({
+  identifier: "VectorIngestionConfiguration",
+}) as any as S.Schema<VectorIngestionConfiguration>;
+export interface UpdateDataSourceRequest {
+  knowledgeBaseId: string;
+  dataSourceId: string;
+  name: string;
+  description?: string;
+  dataSourceConfiguration: DataSourceConfiguration;
+  dataDeletionPolicy?: string;
+  serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
+  vectorIngestionConfiguration?: VectorIngestionConfiguration;
+}
+export const UpdateDataSourceRequest = S.suspend(() =>
+  S.Struct({
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     dataSourceId: S.String.pipe(T.HttpLabel("dataSourceId")),
     name: S.String,
@@ -1030,46 +1538,90 @@ export class UpdateDataSourceRequest extends S.Class<UpdateDataSourceRequest>(
       ServerSideEncryptionConfiguration,
     ),
     vectorIngestionConfiguration: S.optional(VectorIngestionConfiguration),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/knowledgebases/{knowledgeBaseId}/datasources/{dataSourceId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/knowledgebases/{knowledgeBaseId}/datasources/{dataSourceId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class FlowDataConnectionConfiguration extends S.Class<FlowDataConnectionConfiguration>(
-  "FlowDataConnectionConfiguration",
-)({ sourceOutput: S.String, targetInput: S.String }) {}
-export class FlowConditionalConnectionConfiguration extends S.Class<FlowConditionalConnectionConfiguration>(
-  "FlowConditionalConnectionConfiguration",
-)({ condition: S.String }) {}
+).annotations({
+  identifier: "UpdateDataSourceRequest",
+}) as any as S.Schema<UpdateDataSourceRequest>;
+export interface FlowDataConnectionConfiguration {
+  sourceOutput: string;
+  targetInput: string;
+}
+export const FlowDataConnectionConfiguration = S.suspend(() =>
+  S.Struct({ sourceOutput: S.String, targetInput: S.String }),
+).annotations({
+  identifier: "FlowDataConnectionConfiguration",
+}) as any as S.Schema<FlowDataConnectionConfiguration>;
+export interface FlowConditionalConnectionConfiguration {
+  condition: string;
+}
+export const FlowConditionalConnectionConfiguration = S.suspend(() =>
+  S.Struct({ condition: S.String }),
+).annotations({
+  identifier: "FlowConditionalConnectionConfiguration",
+}) as any as S.Schema<FlowConditionalConnectionConfiguration>;
 export const FlowConnectionConfiguration = S.Union(
   S.Struct({ data: FlowDataConnectionConfiguration }),
   S.Struct({ conditional: FlowConditionalConnectionConfiguration }),
 );
-export class FlowConnection extends S.Class<FlowConnection>("FlowConnection")({
-  type: S.String,
-  name: S.String,
-  source: S.String,
-  target: S.String,
-  configuration: S.optional(FlowConnectionConfiguration),
-}) {}
+export interface FlowConnection {
+  type: string;
+  name: string;
+  source: string;
+  target: string;
+  configuration?: (typeof FlowConnectionConfiguration)["Type"];
+}
+export const FlowConnection = S.suspend(() =>
+  S.Struct({
+    type: S.String,
+    name: S.String,
+    source: S.String,
+    target: S.String,
+    configuration: S.optional(FlowConnectionConfiguration),
+  }),
+).annotations({
+  identifier: "FlowConnection",
+}) as any as S.Schema<FlowConnection>;
+export type FlowConnections = FlowConnection[];
 export const FlowConnections = S.Array(FlowConnection);
-export class FlowDefinition extends S.Class<FlowDefinition>("FlowDefinition")({
-  nodes: S.optional(S.suspend(() => FlowNodes)),
-  connections: S.optional(FlowConnections),
-}) {}
+export interface FlowDefinition {
+  nodes?: FlowNodes;
+  connections?: FlowConnections;
+}
+export const FlowDefinition = S.suspend(() =>
+  S.Struct({
+    nodes: S.optional(
+      S.suspend(() => FlowNodes).annotations({ identifier: "FlowNodes" }),
+    ),
+    connections: S.optional(FlowConnections),
+  }),
+).annotations({
+  identifier: "FlowDefinition",
+}) as any as S.Schema<FlowDefinition>;
+export type TagsMap = { [key: string]: string };
 export const TagsMap = S.Record({ key: S.String, value: S.String });
-export class CreateFlowRequest extends S.Class<CreateFlowRequest>(
-  "CreateFlowRequest",
-)(
-  {
+export interface CreateFlowRequest {
+  name: string;
+  description?: string;
+  executionRoleArn: string;
+  customerEncryptionKeyArn?: string;
+  definition?: FlowDefinition;
+  clientToken?: string;
+  tags?: TagsMap;
+}
+export const CreateFlowRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     description: S.optional(S.String),
     executionRoleArn: S.String,
@@ -1077,1138 +1629,1857 @@ export class CreateFlowRequest extends S.Class<CreateFlowRequest>(
     definition: S.optional(FlowDefinition),
     clientToken: S.optional(S.String),
     tags: S.optional(TagsMap),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/flows/" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/flows/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetFlowRequest extends S.Class<GetFlowRequest>("GetFlowRequest")(
-  { flowIdentifier: S.String.pipe(T.HttpLabel("flowIdentifier")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/flows/{flowIdentifier}/" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CreateFlowRequest",
+}) as any as S.Schema<CreateFlowRequest>;
+export interface GetFlowRequest {
+  flowIdentifier: string;
+}
+export const GetFlowRequest = S.suspend(() =>
+  S.Struct({
+    flowIdentifier: S.String.pipe(T.HttpLabel("flowIdentifier")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/flows/{flowIdentifier}/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateFlowRequest extends S.Class<UpdateFlowRequest>(
-  "UpdateFlowRequest",
-)(
-  {
+).annotations({
+  identifier: "GetFlowRequest",
+}) as any as S.Schema<GetFlowRequest>;
+export interface UpdateFlowRequest {
+  name: string;
+  description?: string;
+  executionRoleArn: string;
+  customerEncryptionKeyArn?: string;
+  definition?: FlowDefinition;
+  flowIdentifier: string;
+}
+export const UpdateFlowRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     description: S.optional(S.String),
     executionRoleArn: S.String,
     customerEncryptionKeyArn: S.optional(S.String),
     definition: S.optional(FlowDefinition),
     flowIdentifier: S.String.pipe(T.HttpLabel("flowIdentifier")),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/flows/{flowIdentifier}/" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/flows/{flowIdentifier}/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteFlowRequest extends S.Class<DeleteFlowRequest>(
-  "DeleteFlowRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateFlowRequest",
+}) as any as S.Schema<UpdateFlowRequest>;
+export interface DeleteFlowRequest {
+  flowIdentifier: string;
+  skipResourceInUseCheck?: boolean;
+}
+export const DeleteFlowRequest = S.suspend(() =>
+  S.Struct({
     flowIdentifier: S.String.pipe(T.HttpLabel("flowIdentifier")),
     skipResourceInUseCheck: S.optional(S.Boolean).pipe(
       T.HttpQuery("skipResourceInUseCheck"),
     ),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/flows/{flowIdentifier}/" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/flows/{flowIdentifier}/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListFlowsRequest extends S.Class<ListFlowsRequest>(
-  "ListFlowsRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteFlowRequest",
+}) as any as S.Schema<DeleteFlowRequest>;
+export interface ListFlowsRequest {
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListFlowsRequest = S.suspend(() =>
+  S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/flows/" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/flows/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PrepareFlowRequest extends S.Class<PrepareFlowRequest>(
-  "PrepareFlowRequest",
-)(
-  { flowIdentifier: S.String.pipe(T.HttpLabel("flowIdentifier")) },
-  T.all(
-    T.Http({ method: "POST", uri: "/flows/{flowIdentifier}/" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListFlowsRequest",
+}) as any as S.Schema<ListFlowsRequest>;
+export interface PrepareFlowRequest {
+  flowIdentifier: string;
+}
+export const PrepareFlowRequest = S.suspend(() =>
+  S.Struct({
+    flowIdentifier: S.String.pipe(T.HttpLabel("flowIdentifier")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/flows/{flowIdentifier}/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetFlowAliasRequest extends S.Class<GetFlowAliasRequest>(
-  "GetFlowAliasRequest",
-)(
-  {
+).annotations({
+  identifier: "PrepareFlowRequest",
+}) as any as S.Schema<PrepareFlowRequest>;
+export interface GetFlowAliasRequest {
+  flowIdentifier: string;
+  aliasIdentifier: string;
+}
+export const GetFlowAliasRequest = S.suspend(() =>
+  S.Struct({
     flowIdentifier: S.String.pipe(T.HttpLabel("flowIdentifier")),
     aliasIdentifier: S.String.pipe(T.HttpLabel("aliasIdentifier")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/flows/{flowIdentifier}/aliases/{aliasIdentifier}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/flows/{flowIdentifier}/aliases/{aliasIdentifier}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class FlowAliasRoutingConfigurationListItem extends S.Class<FlowAliasRoutingConfigurationListItem>(
-  "FlowAliasRoutingConfigurationListItem",
-)({ flowVersion: S.optional(S.String) }) {}
+).annotations({
+  identifier: "GetFlowAliasRequest",
+}) as any as S.Schema<GetFlowAliasRequest>;
+export interface FlowAliasRoutingConfigurationListItem {
+  flowVersion?: string;
+}
+export const FlowAliasRoutingConfigurationListItem = S.suspend(() =>
+  S.Struct({ flowVersion: S.optional(S.String) }),
+).annotations({
+  identifier: "FlowAliasRoutingConfigurationListItem",
+}) as any as S.Schema<FlowAliasRoutingConfigurationListItem>;
+export type FlowAliasRoutingConfiguration =
+  FlowAliasRoutingConfigurationListItem[];
 export const FlowAliasRoutingConfiguration = S.Array(
   FlowAliasRoutingConfigurationListItem,
 );
-export class FlowAliasConcurrencyConfiguration extends S.Class<FlowAliasConcurrencyConfiguration>(
-  "FlowAliasConcurrencyConfiguration",
-)({ type: S.String, maxConcurrency: S.optional(S.Number) }) {}
-export class UpdateFlowAliasRequest extends S.Class<UpdateFlowAliasRequest>(
-  "UpdateFlowAliasRequest",
-)(
-  {
+export interface FlowAliasConcurrencyConfiguration {
+  type: string;
+  maxConcurrency?: number;
+}
+export const FlowAliasConcurrencyConfiguration = S.suspend(() =>
+  S.Struct({ type: S.String, maxConcurrency: S.optional(S.Number) }),
+).annotations({
+  identifier: "FlowAliasConcurrencyConfiguration",
+}) as any as S.Schema<FlowAliasConcurrencyConfiguration>;
+export interface UpdateFlowAliasRequest {
+  name: string;
+  description?: string;
+  routingConfiguration: FlowAliasRoutingConfiguration;
+  concurrencyConfiguration?: FlowAliasConcurrencyConfiguration;
+  flowIdentifier: string;
+  aliasIdentifier: string;
+}
+export const UpdateFlowAliasRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     description: S.optional(S.String),
     routingConfiguration: FlowAliasRoutingConfiguration,
     concurrencyConfiguration: S.optional(FlowAliasConcurrencyConfiguration),
     flowIdentifier: S.String.pipe(T.HttpLabel("flowIdentifier")),
     aliasIdentifier: S.String.pipe(T.HttpLabel("aliasIdentifier")),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/flows/{flowIdentifier}/aliases/{aliasIdentifier}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/flows/{flowIdentifier}/aliases/{aliasIdentifier}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteFlowAliasRequest extends S.Class<DeleteFlowAliasRequest>(
-  "DeleteFlowAliasRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateFlowAliasRequest",
+}) as any as S.Schema<UpdateFlowAliasRequest>;
+export interface DeleteFlowAliasRequest {
+  flowIdentifier: string;
+  aliasIdentifier: string;
+}
+export const DeleteFlowAliasRequest = S.suspend(() =>
+  S.Struct({
     flowIdentifier: S.String.pipe(T.HttpLabel("flowIdentifier")),
     aliasIdentifier: S.String.pipe(T.HttpLabel("aliasIdentifier")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/flows/{flowIdentifier}/aliases/{aliasIdentifier}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/flows/{flowIdentifier}/aliases/{aliasIdentifier}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListFlowAliasesRequest extends S.Class<ListFlowAliasesRequest>(
-  "ListFlowAliasesRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteFlowAliasRequest",
+}) as any as S.Schema<DeleteFlowAliasRequest>;
+export interface ListFlowAliasesRequest {
+  flowIdentifier: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListFlowAliasesRequest = S.suspend(() =>
+  S.Struct({
     flowIdentifier: S.String.pipe(T.HttpLabel("flowIdentifier")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/flows/{flowIdentifier}/aliases" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/flows/{flowIdentifier}/aliases" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateFlowVersionRequest extends S.Class<CreateFlowVersionRequest>(
-  "CreateFlowVersionRequest",
-)(
-  {
+).annotations({
+  identifier: "ListFlowAliasesRequest",
+}) as any as S.Schema<ListFlowAliasesRequest>;
+export interface CreateFlowVersionRequest {
+  flowIdentifier: string;
+  description?: string;
+  clientToken?: string;
+}
+export const CreateFlowVersionRequest = S.suspend(() =>
+  S.Struct({
     flowIdentifier: S.String.pipe(T.HttpLabel("flowIdentifier")),
     description: S.optional(S.String),
     clientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/flows/{flowIdentifier}/versions" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/flows/{flowIdentifier}/versions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetFlowVersionRequest extends S.Class<GetFlowVersionRequest>(
-  "GetFlowVersionRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateFlowVersionRequest",
+}) as any as S.Schema<CreateFlowVersionRequest>;
+export interface GetFlowVersionRequest {
+  flowIdentifier: string;
+  flowVersion: string;
+}
+export const GetFlowVersionRequest = S.suspend(() =>
+  S.Struct({
     flowIdentifier: S.String.pipe(T.HttpLabel("flowIdentifier")),
     flowVersion: S.String.pipe(T.HttpLabel("flowVersion")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/flows/{flowIdentifier}/versions/{flowVersion}/",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/flows/{flowIdentifier}/versions/{flowVersion}/",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteFlowVersionRequest extends S.Class<DeleteFlowVersionRequest>(
-  "DeleteFlowVersionRequest",
-)(
-  {
+).annotations({
+  identifier: "GetFlowVersionRequest",
+}) as any as S.Schema<GetFlowVersionRequest>;
+export interface DeleteFlowVersionRequest {
+  flowIdentifier: string;
+  flowVersion: string;
+  skipResourceInUseCheck?: boolean;
+}
+export const DeleteFlowVersionRequest = S.suspend(() =>
+  S.Struct({
     flowIdentifier: S.String.pipe(T.HttpLabel("flowIdentifier")),
     flowVersion: S.String.pipe(T.HttpLabel("flowVersion")),
     skipResourceInUseCheck: S.optional(S.Boolean).pipe(
       T.HttpQuery("skipResourceInUseCheck"),
     ),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/flows/{flowIdentifier}/versions/{flowVersion}/",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/flows/{flowIdentifier}/versions/{flowVersion}/",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListFlowVersionsRequest extends S.Class<ListFlowVersionsRequest>(
-  "ListFlowVersionsRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteFlowVersionRequest",
+}) as any as S.Schema<DeleteFlowVersionRequest>;
+export interface ListFlowVersionsRequest {
+  flowIdentifier: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListFlowVersionsRequest = S.suspend(() =>
+  S.Struct({
     flowIdentifier: S.String.pipe(T.HttpLabel("flowIdentifier")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/flows/{flowIdentifier}/versions" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/flows/{flowIdentifier}/versions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetIngestionJobRequest extends S.Class<GetIngestionJobRequest>(
-  "GetIngestionJobRequest",
-)(
-  {
+).annotations({
+  identifier: "ListFlowVersionsRequest",
+}) as any as S.Schema<ListFlowVersionsRequest>;
+export interface GetIngestionJobRequest {
+  knowledgeBaseId: string;
+  dataSourceId: string;
+  ingestionJobId: string;
+}
+export const GetIngestionJobRequest = S.suspend(() =>
+  S.Struct({
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     dataSourceId: S.String.pipe(T.HttpLabel("dataSourceId")),
     ingestionJobId: S.String.pipe(T.HttpLabel("ingestionJobId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/knowledgebases/{knowledgeBaseId}/datasources/{dataSourceId}/ingestionjobs/{ingestionJobId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/knowledgebases/{knowledgeBaseId}/datasources/{dataSourceId}/ingestionjobs/{ingestionJobId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartIngestionJobRequest extends S.Class<StartIngestionJobRequest>(
-  "StartIngestionJobRequest",
-)(
-  {
+).annotations({
+  identifier: "GetIngestionJobRequest",
+}) as any as S.Schema<GetIngestionJobRequest>;
+export interface StartIngestionJobRequest {
+  knowledgeBaseId: string;
+  dataSourceId: string;
+  clientToken?: string;
+  description?: string;
+}
+export const StartIngestionJobRequest = S.suspend(() =>
+  S.Struct({
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     dataSourceId: S.String.pipe(T.HttpLabel("dataSourceId")),
     clientToken: S.optional(S.String),
     description: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/knowledgebases/{knowledgeBaseId}/datasources/{dataSourceId}/ingestionjobs/",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/knowledgebases/{knowledgeBaseId}/datasources/{dataSourceId}/ingestionjobs/",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StopIngestionJobRequest extends S.Class<StopIngestionJobRequest>(
-  "StopIngestionJobRequest",
-)(
-  {
+).annotations({
+  identifier: "StartIngestionJobRequest",
+}) as any as S.Schema<StartIngestionJobRequest>;
+export interface StopIngestionJobRequest {
+  knowledgeBaseId: string;
+  dataSourceId: string;
+  ingestionJobId: string;
+}
+export const StopIngestionJobRequest = S.suspend(() =>
+  S.Struct({
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     dataSourceId: S.String.pipe(T.HttpLabel("dataSourceId")),
     ingestionJobId: S.String.pipe(T.HttpLabel("ingestionJobId")),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/knowledgebases/{knowledgeBaseId}/datasources/{dataSourceId}/ingestionjobs/{ingestionJobId}/stop",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/knowledgebases/{knowledgeBaseId}/datasources/{dataSourceId}/ingestionjobs/{ingestionJobId}/stop",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CustomDocumentIdentifier extends S.Class<CustomDocumentIdentifier>(
-  "CustomDocumentIdentifier",
-)({ id: S.String }) {}
-export class DocumentIdentifier extends S.Class<DocumentIdentifier>(
-  "DocumentIdentifier",
-)({
-  dataSourceType: S.String,
-  s3: S.optional(S3Location),
-  custom: S.optional(CustomDocumentIdentifier),
-}) {}
+).annotations({
+  identifier: "StopIngestionJobRequest",
+}) as any as S.Schema<StopIngestionJobRequest>;
+export interface CustomDocumentIdentifier {
+  id: string;
+}
+export const CustomDocumentIdentifier = S.suspend(() =>
+  S.Struct({ id: S.String }),
+).annotations({
+  identifier: "CustomDocumentIdentifier",
+}) as any as S.Schema<CustomDocumentIdentifier>;
+export interface DocumentIdentifier {
+  dataSourceType: string;
+  s3?: S3Location;
+  custom?: CustomDocumentIdentifier;
+}
+export const DocumentIdentifier = S.suspend(() =>
+  S.Struct({
+    dataSourceType: S.String,
+    s3: S.optional(S3Location),
+    custom: S.optional(CustomDocumentIdentifier),
+  }),
+).annotations({
+  identifier: "DocumentIdentifier",
+}) as any as S.Schema<DocumentIdentifier>;
+export type DocumentIdentifiers = DocumentIdentifier[];
 export const DocumentIdentifiers = S.Array(DocumentIdentifier);
-export class GetKnowledgeBaseDocumentsRequest extends S.Class<GetKnowledgeBaseDocumentsRequest>(
-  "GetKnowledgeBaseDocumentsRequest",
-)(
-  {
+export interface GetKnowledgeBaseDocumentsRequest {
+  knowledgeBaseId: string;
+  dataSourceId: string;
+  documentIdentifiers: DocumentIdentifiers;
+}
+export const GetKnowledgeBaseDocumentsRequest = S.suspend(() =>
+  S.Struct({
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     dataSourceId: S.String.pipe(T.HttpLabel("dataSourceId")),
     documentIdentifiers: DocumentIdentifiers,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/knowledgebases/{knowledgeBaseId}/datasources/{dataSourceId}/documents/getDocuments",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/knowledgebases/{knowledgeBaseId}/datasources/{dataSourceId}/documents/getDocuments",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListKnowledgeBaseDocumentsRequest extends S.Class<ListKnowledgeBaseDocumentsRequest>(
-  "ListKnowledgeBaseDocumentsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetKnowledgeBaseDocumentsRequest",
+}) as any as S.Schema<GetKnowledgeBaseDocumentsRequest>;
+export interface ListKnowledgeBaseDocumentsRequest {
+  knowledgeBaseId: string;
+  dataSourceId: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListKnowledgeBaseDocumentsRequest = S.suspend(() =>
+  S.Struct({
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     dataSourceId: S.String.pipe(T.HttpLabel("dataSourceId")),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/knowledgebases/{knowledgeBaseId}/datasources/{dataSourceId}/documents",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/knowledgebases/{knowledgeBaseId}/datasources/{dataSourceId}/documents",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AssociateAgentKnowledgeBaseRequest extends S.Class<AssociateAgentKnowledgeBaseRequest>(
-  "AssociateAgentKnowledgeBaseRequest",
-)(
-  {
+).annotations({
+  identifier: "ListKnowledgeBaseDocumentsRequest",
+}) as any as S.Schema<ListKnowledgeBaseDocumentsRequest>;
+export interface AssociateAgentKnowledgeBaseRequest {
+  agentId: string;
+  agentVersion: string;
+  knowledgeBaseId: string;
+  description: string;
+  knowledgeBaseState?: string;
+}
+export const AssociateAgentKnowledgeBaseRequest = S.suspend(() =>
+  S.Struct({
     agentId: S.String.pipe(T.HttpLabel("agentId")),
     agentVersion: S.String.pipe(T.HttpLabel("agentVersion")),
     knowledgeBaseId: S.String,
     description: S.String,
     knowledgeBaseState: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/agents/{agentId}/agentversions/{agentVersion}/knowledgebases/",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/agents/{agentId}/agentversions/{agentVersion}/knowledgebases/",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteKnowledgeBaseRequest extends S.Class<DeleteKnowledgeBaseRequest>(
-  "DeleteKnowledgeBaseRequest",
-)(
-  { knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/knowledgebases/{knowledgeBaseId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "AssociateAgentKnowledgeBaseRequest",
+}) as any as S.Schema<AssociateAgentKnowledgeBaseRequest>;
+export interface DeleteKnowledgeBaseRequest {
+  knowledgeBaseId: string;
+}
+export const DeleteKnowledgeBaseRequest = S.suspend(() =>
+  S.Struct({
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/knowledgebases/{knowledgeBaseId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DisassociateAgentKnowledgeBaseRequest extends S.Class<DisassociateAgentKnowledgeBaseRequest>(
-  "DisassociateAgentKnowledgeBaseRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteKnowledgeBaseRequest",
+}) as any as S.Schema<DeleteKnowledgeBaseRequest>;
+export interface DisassociateAgentKnowledgeBaseRequest {
+  agentId: string;
+  agentVersion: string;
+  knowledgeBaseId: string;
+}
+export const DisassociateAgentKnowledgeBaseRequest = S.suspend(() =>
+  S.Struct({
     agentId: S.String.pipe(T.HttpLabel("agentId")),
     agentVersion: S.String.pipe(T.HttpLabel("agentVersion")),
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/agents/{agentId}/agentversions/{agentVersion}/knowledgebases/{knowledgeBaseId}/",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/agents/{agentId}/agentversions/{agentVersion}/knowledgebases/{knowledgeBaseId}/",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DisassociateAgentKnowledgeBaseResponse extends S.Class<DisassociateAgentKnowledgeBaseResponse>(
-  "DisassociateAgentKnowledgeBaseResponse",
-)({}) {}
-export class GetAgentKnowledgeBaseRequest extends S.Class<GetAgentKnowledgeBaseRequest>(
-  "GetAgentKnowledgeBaseRequest",
-)(
-  {
+).annotations({
+  identifier: "DisassociateAgentKnowledgeBaseRequest",
+}) as any as S.Schema<DisassociateAgentKnowledgeBaseRequest>;
+export interface DisassociateAgentKnowledgeBaseResponse {}
+export const DisassociateAgentKnowledgeBaseResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DisassociateAgentKnowledgeBaseResponse",
+}) as any as S.Schema<DisassociateAgentKnowledgeBaseResponse>;
+export interface GetAgentKnowledgeBaseRequest {
+  agentId: string;
+  agentVersion: string;
+  knowledgeBaseId: string;
+}
+export const GetAgentKnowledgeBaseRequest = S.suspend(() =>
+  S.Struct({
     agentId: S.String.pipe(T.HttpLabel("agentId")),
     agentVersion: S.String.pipe(T.HttpLabel("agentVersion")),
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/agents/{agentId}/agentversions/{agentVersion}/knowledgebases/{knowledgeBaseId}/",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/agents/{agentId}/agentversions/{agentVersion}/knowledgebases/{knowledgeBaseId}/",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetKnowledgeBaseRequest extends S.Class<GetKnowledgeBaseRequest>(
-  "GetKnowledgeBaseRequest",
-)(
-  { knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/knowledgebases/{knowledgeBaseId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetAgentKnowledgeBaseRequest",
+}) as any as S.Schema<GetAgentKnowledgeBaseRequest>;
+export interface GetKnowledgeBaseRequest {
+  knowledgeBaseId: string;
+}
+export const GetKnowledgeBaseRequest = S.suspend(() =>
+  S.Struct({
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/knowledgebases/{knowledgeBaseId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListAgentKnowledgeBasesRequest extends S.Class<ListAgentKnowledgeBasesRequest>(
-  "ListAgentKnowledgeBasesRequest",
-)(
-  {
+).annotations({
+  identifier: "GetKnowledgeBaseRequest",
+}) as any as S.Schema<GetKnowledgeBaseRequest>;
+export interface ListAgentKnowledgeBasesRequest {
+  agentId: string;
+  agentVersion: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListAgentKnowledgeBasesRequest = S.suspend(() =>
+  S.Struct({
     agentId: S.String.pipe(T.HttpLabel("agentId")),
     agentVersion: S.String.pipe(T.HttpLabel("agentVersion")),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/agents/{agentId}/agentversions/{agentVersion}/knowledgebases/",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/agents/{agentId}/agentversions/{agentVersion}/knowledgebases/",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListKnowledgeBasesRequest extends S.Class<ListKnowledgeBasesRequest>(
-  "ListKnowledgeBasesRequest",
-)(
-  { maxResults: S.optional(S.Number), nextToken: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/knowledgebases/" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListAgentKnowledgeBasesRequest",
+}) as any as S.Schema<ListAgentKnowledgeBasesRequest>;
+export interface ListKnowledgeBasesRequest {
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListKnowledgeBasesRequest = S.suspend(() =>
+  S.Struct({
+    maxResults: S.optional(S.Number),
+    nextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/knowledgebases/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateAgentKnowledgeBaseRequest extends S.Class<UpdateAgentKnowledgeBaseRequest>(
-  "UpdateAgentKnowledgeBaseRequest",
-)(
-  {
+).annotations({
+  identifier: "ListKnowledgeBasesRequest",
+}) as any as S.Schema<ListKnowledgeBasesRequest>;
+export interface UpdateAgentKnowledgeBaseRequest {
+  agentId: string;
+  agentVersion: string;
+  knowledgeBaseId: string;
+  description?: string;
+  knowledgeBaseState?: string;
+}
+export const UpdateAgentKnowledgeBaseRequest = S.suspend(() =>
+  S.Struct({
     agentId: S.String.pipe(T.HttpLabel("agentId")),
     agentVersion: S.String.pipe(T.HttpLabel("agentVersion")),
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     description: S.optional(S.String),
     knowledgeBaseState: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/agents/{agentId}/agentversions/{agentVersion}/knowledgebases/{knowledgeBaseId}/",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/agents/{agentId}/agentversions/{agentVersion}/knowledgebases/{knowledgeBaseId}/",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AudioSegmentationConfiguration extends S.Class<AudioSegmentationConfiguration>(
-  "AudioSegmentationConfiguration",
-)({ fixedLengthDuration: S.Number }) {}
-export class AudioConfiguration extends S.Class<AudioConfiguration>(
-  "AudioConfiguration",
-)({ segmentationConfiguration: AudioSegmentationConfiguration }) {}
+).annotations({
+  identifier: "UpdateAgentKnowledgeBaseRequest",
+}) as any as S.Schema<UpdateAgentKnowledgeBaseRequest>;
+export interface AudioSegmentationConfiguration {
+  fixedLengthDuration: number;
+}
+export const AudioSegmentationConfiguration = S.suspend(() =>
+  S.Struct({ fixedLengthDuration: S.Number }),
+).annotations({
+  identifier: "AudioSegmentationConfiguration",
+}) as any as S.Schema<AudioSegmentationConfiguration>;
+export interface AudioConfiguration {
+  segmentationConfiguration: AudioSegmentationConfiguration;
+}
+export const AudioConfiguration = S.suspend(() =>
+  S.Struct({ segmentationConfiguration: AudioSegmentationConfiguration }),
+).annotations({
+  identifier: "AudioConfiguration",
+}) as any as S.Schema<AudioConfiguration>;
+export type AudioConfigurations = AudioConfiguration[];
 export const AudioConfigurations = S.Array(AudioConfiguration);
-export class VideoSegmentationConfiguration extends S.Class<VideoSegmentationConfiguration>(
-  "VideoSegmentationConfiguration",
-)({ fixedLengthDuration: S.Number }) {}
-export class VideoConfiguration extends S.Class<VideoConfiguration>(
-  "VideoConfiguration",
-)({ segmentationConfiguration: VideoSegmentationConfiguration }) {}
+export interface VideoSegmentationConfiguration {
+  fixedLengthDuration: number;
+}
+export const VideoSegmentationConfiguration = S.suspend(() =>
+  S.Struct({ fixedLengthDuration: S.Number }),
+).annotations({
+  identifier: "VideoSegmentationConfiguration",
+}) as any as S.Schema<VideoSegmentationConfiguration>;
+export interface VideoConfiguration {
+  segmentationConfiguration: VideoSegmentationConfiguration;
+}
+export const VideoConfiguration = S.suspend(() =>
+  S.Struct({ segmentationConfiguration: VideoSegmentationConfiguration }),
+).annotations({
+  identifier: "VideoConfiguration",
+}) as any as S.Schema<VideoConfiguration>;
+export type VideoConfigurations = VideoConfiguration[];
 export const VideoConfigurations = S.Array(VideoConfiguration);
-export class BedrockEmbeddingModelConfiguration extends S.Class<BedrockEmbeddingModelConfiguration>(
-  "BedrockEmbeddingModelConfiguration",
-)({
-  dimensions: S.optional(S.Number),
-  embeddingDataType: S.optional(S.String),
-  audio: S.optional(AudioConfigurations),
-  video: S.optional(VideoConfigurations),
-}) {}
-export class EmbeddingModelConfiguration extends S.Class<EmbeddingModelConfiguration>(
-  "EmbeddingModelConfiguration",
-)({
-  bedrockEmbeddingModelConfiguration: S.optional(
-    BedrockEmbeddingModelConfiguration,
-  ),
-}) {}
-export class SupplementalDataStorageLocation extends S.Class<SupplementalDataStorageLocation>(
-  "SupplementalDataStorageLocation",
-)({ type: S.String, s3Location: S.optional(S3Location) }) {}
+export interface BedrockEmbeddingModelConfiguration {
+  dimensions?: number;
+  embeddingDataType?: string;
+  audio?: AudioConfigurations;
+  video?: VideoConfigurations;
+}
+export const BedrockEmbeddingModelConfiguration = S.suspend(() =>
+  S.Struct({
+    dimensions: S.optional(S.Number),
+    embeddingDataType: S.optional(S.String),
+    audio: S.optional(AudioConfigurations),
+    video: S.optional(VideoConfigurations),
+  }),
+).annotations({
+  identifier: "BedrockEmbeddingModelConfiguration",
+}) as any as S.Schema<BedrockEmbeddingModelConfiguration>;
+export interface EmbeddingModelConfiguration {
+  bedrockEmbeddingModelConfiguration?: BedrockEmbeddingModelConfiguration;
+}
+export const EmbeddingModelConfiguration = S.suspend(() =>
+  S.Struct({
+    bedrockEmbeddingModelConfiguration: S.optional(
+      BedrockEmbeddingModelConfiguration,
+    ),
+  }),
+).annotations({
+  identifier: "EmbeddingModelConfiguration",
+}) as any as S.Schema<EmbeddingModelConfiguration>;
+export interface SupplementalDataStorageLocation {
+  type: string;
+  s3Location?: S3Location;
+}
+export const SupplementalDataStorageLocation = S.suspend(() =>
+  S.Struct({ type: S.String, s3Location: S.optional(S3Location) }),
+).annotations({
+  identifier: "SupplementalDataStorageLocation",
+}) as any as S.Schema<SupplementalDataStorageLocation>;
+export type SupplementalDataStorageLocations =
+  SupplementalDataStorageLocation[];
 export const SupplementalDataStorageLocations = S.Array(
   SupplementalDataStorageLocation,
 );
-export class SupplementalDataStorageConfiguration extends S.Class<SupplementalDataStorageConfiguration>(
-  "SupplementalDataStorageConfiguration",
-)({ storageLocations: SupplementalDataStorageLocations }) {}
-export class VectorKnowledgeBaseConfiguration extends S.Class<VectorKnowledgeBaseConfiguration>(
-  "VectorKnowledgeBaseConfiguration",
-)({
-  embeddingModelArn: S.String,
-  embeddingModelConfiguration: S.optional(EmbeddingModelConfiguration),
-  supplementalDataStorageConfiguration: S.optional(
-    SupplementalDataStorageConfiguration,
-  ),
-}) {}
-export class KendraKnowledgeBaseConfiguration extends S.Class<KendraKnowledgeBaseConfiguration>(
-  "KendraKnowledgeBaseConfiguration",
-)({ kendraIndexArn: S.String }) {}
+export interface SupplementalDataStorageConfiguration {
+  storageLocations: SupplementalDataStorageLocations;
+}
+export const SupplementalDataStorageConfiguration = S.suspend(() =>
+  S.Struct({ storageLocations: SupplementalDataStorageLocations }),
+).annotations({
+  identifier: "SupplementalDataStorageConfiguration",
+}) as any as S.Schema<SupplementalDataStorageConfiguration>;
+export interface VectorKnowledgeBaseConfiguration {
+  embeddingModelArn: string;
+  embeddingModelConfiguration?: EmbeddingModelConfiguration;
+  supplementalDataStorageConfiguration?: SupplementalDataStorageConfiguration;
+}
+export const VectorKnowledgeBaseConfiguration = S.suspend(() =>
+  S.Struct({
+    embeddingModelArn: S.String,
+    embeddingModelConfiguration: S.optional(EmbeddingModelConfiguration),
+    supplementalDataStorageConfiguration: S.optional(
+      SupplementalDataStorageConfiguration,
+    ),
+  }),
+).annotations({
+  identifier: "VectorKnowledgeBaseConfiguration",
+}) as any as S.Schema<VectorKnowledgeBaseConfiguration>;
+export interface KendraKnowledgeBaseConfiguration {
+  kendraIndexArn: string;
+}
+export const KendraKnowledgeBaseConfiguration = S.suspend(() =>
+  S.Struct({ kendraIndexArn: S.String }),
+).annotations({
+  identifier: "KendraKnowledgeBaseConfiguration",
+}) as any as S.Schema<KendraKnowledgeBaseConfiguration>;
+export type AwsDataCatalogTableNames = string[];
 export const AwsDataCatalogTableNames = S.Array(S.String);
-export class RedshiftQueryEngineAwsDataCatalogStorageConfiguration extends S.Class<RedshiftQueryEngineAwsDataCatalogStorageConfiguration>(
-  "RedshiftQueryEngineAwsDataCatalogStorageConfiguration",
-)({ tableNames: AwsDataCatalogTableNames }) {}
-export class RedshiftQueryEngineRedshiftStorageConfiguration extends S.Class<RedshiftQueryEngineRedshiftStorageConfiguration>(
-  "RedshiftQueryEngineRedshiftStorageConfiguration",
-)({ databaseName: S.String }) {}
-export class RedshiftQueryEngineStorageConfiguration extends S.Class<RedshiftQueryEngineStorageConfiguration>(
-  "RedshiftQueryEngineStorageConfiguration",
-)({
-  type: S.String,
-  awsDataCatalogConfiguration: S.optional(
-    RedshiftQueryEngineAwsDataCatalogStorageConfiguration,
-  ),
-  redshiftConfiguration: S.optional(
-    RedshiftQueryEngineRedshiftStorageConfiguration,
-  ),
-}) {}
+export interface RedshiftQueryEngineAwsDataCatalogStorageConfiguration {
+  tableNames: AwsDataCatalogTableNames;
+}
+export const RedshiftQueryEngineAwsDataCatalogStorageConfiguration = S.suspend(
+  () => S.Struct({ tableNames: AwsDataCatalogTableNames }),
+).annotations({
+  identifier: "RedshiftQueryEngineAwsDataCatalogStorageConfiguration",
+}) as any as S.Schema<RedshiftQueryEngineAwsDataCatalogStorageConfiguration>;
+export interface RedshiftQueryEngineRedshiftStorageConfiguration {
+  databaseName: string;
+}
+export const RedshiftQueryEngineRedshiftStorageConfiguration = S.suspend(() =>
+  S.Struct({ databaseName: S.String }),
+).annotations({
+  identifier: "RedshiftQueryEngineRedshiftStorageConfiguration",
+}) as any as S.Schema<RedshiftQueryEngineRedshiftStorageConfiguration>;
+export interface RedshiftQueryEngineStorageConfiguration {
+  type: string;
+  awsDataCatalogConfiguration?: RedshiftQueryEngineAwsDataCatalogStorageConfiguration;
+  redshiftConfiguration?: RedshiftQueryEngineRedshiftStorageConfiguration;
+}
+export const RedshiftQueryEngineStorageConfiguration = S.suspend(() =>
+  S.Struct({
+    type: S.String,
+    awsDataCatalogConfiguration: S.optional(
+      RedshiftQueryEngineAwsDataCatalogStorageConfiguration,
+    ),
+    redshiftConfiguration: S.optional(
+      RedshiftQueryEngineRedshiftStorageConfiguration,
+    ),
+  }),
+).annotations({
+  identifier: "RedshiftQueryEngineStorageConfiguration",
+}) as any as S.Schema<RedshiftQueryEngineStorageConfiguration>;
+export type RedshiftQueryEngineStorageConfigurations =
+  RedshiftQueryEngineStorageConfiguration[];
 export const RedshiftQueryEngineStorageConfigurations = S.Array(
   RedshiftQueryEngineStorageConfiguration,
 );
-export class RedshiftServerlessAuthConfiguration extends S.Class<RedshiftServerlessAuthConfiguration>(
-  "RedshiftServerlessAuthConfiguration",
-)({ type: S.String, usernamePasswordSecretArn: S.optional(S.String) }) {}
-export class RedshiftServerlessConfiguration extends S.Class<RedshiftServerlessConfiguration>(
-  "RedshiftServerlessConfiguration",
-)({
-  workgroupArn: S.String,
-  authConfiguration: RedshiftServerlessAuthConfiguration,
-}) {}
-export class RedshiftProvisionedAuthConfiguration extends S.Class<RedshiftProvisionedAuthConfiguration>(
-  "RedshiftProvisionedAuthConfiguration",
-)({
-  type: S.String,
-  databaseUser: S.optional(S.String),
-  usernamePasswordSecretArn: S.optional(S.String),
-}) {}
-export class RedshiftProvisionedConfiguration extends S.Class<RedshiftProvisionedConfiguration>(
-  "RedshiftProvisionedConfiguration",
-)({
-  clusterIdentifier: S.String,
-  authConfiguration: RedshiftProvisionedAuthConfiguration,
-}) {}
-export class RedshiftQueryEngineConfiguration extends S.Class<RedshiftQueryEngineConfiguration>(
-  "RedshiftQueryEngineConfiguration",
-)({
-  type: S.String,
-  serverlessConfiguration: S.optional(RedshiftServerlessConfiguration),
-  provisionedConfiguration: S.optional(RedshiftProvisionedConfiguration),
-}) {}
-export class QueryGenerationColumn extends S.Class<QueryGenerationColumn>(
-  "QueryGenerationColumn",
-)({
-  name: S.optional(S.String),
-  description: S.optional(S.String),
-  inclusion: S.optional(S.String),
-}) {}
+export interface RedshiftServerlessAuthConfiguration {
+  type: string;
+  usernamePasswordSecretArn?: string;
+}
+export const RedshiftServerlessAuthConfiguration = S.suspend(() =>
+  S.Struct({ type: S.String, usernamePasswordSecretArn: S.optional(S.String) }),
+).annotations({
+  identifier: "RedshiftServerlessAuthConfiguration",
+}) as any as S.Schema<RedshiftServerlessAuthConfiguration>;
+export interface RedshiftServerlessConfiguration {
+  workgroupArn: string;
+  authConfiguration: RedshiftServerlessAuthConfiguration;
+}
+export const RedshiftServerlessConfiguration = S.suspend(() =>
+  S.Struct({
+    workgroupArn: S.String,
+    authConfiguration: RedshiftServerlessAuthConfiguration,
+  }),
+).annotations({
+  identifier: "RedshiftServerlessConfiguration",
+}) as any as S.Schema<RedshiftServerlessConfiguration>;
+export interface RedshiftProvisionedAuthConfiguration {
+  type: string;
+  databaseUser?: string;
+  usernamePasswordSecretArn?: string;
+}
+export const RedshiftProvisionedAuthConfiguration = S.suspend(() =>
+  S.Struct({
+    type: S.String,
+    databaseUser: S.optional(S.String),
+    usernamePasswordSecretArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RedshiftProvisionedAuthConfiguration",
+}) as any as S.Schema<RedshiftProvisionedAuthConfiguration>;
+export interface RedshiftProvisionedConfiguration {
+  clusterIdentifier: string;
+  authConfiguration: RedshiftProvisionedAuthConfiguration;
+}
+export const RedshiftProvisionedConfiguration = S.suspend(() =>
+  S.Struct({
+    clusterIdentifier: S.String,
+    authConfiguration: RedshiftProvisionedAuthConfiguration,
+  }),
+).annotations({
+  identifier: "RedshiftProvisionedConfiguration",
+}) as any as S.Schema<RedshiftProvisionedConfiguration>;
+export interface RedshiftQueryEngineConfiguration {
+  type: string;
+  serverlessConfiguration?: RedshiftServerlessConfiguration;
+  provisionedConfiguration?: RedshiftProvisionedConfiguration;
+}
+export const RedshiftQueryEngineConfiguration = S.suspend(() =>
+  S.Struct({
+    type: S.String,
+    serverlessConfiguration: S.optional(RedshiftServerlessConfiguration),
+    provisionedConfiguration: S.optional(RedshiftProvisionedConfiguration),
+  }),
+).annotations({
+  identifier: "RedshiftQueryEngineConfiguration",
+}) as any as S.Schema<RedshiftQueryEngineConfiguration>;
+export interface QueryGenerationColumn {
+  name?: string;
+  description?: string;
+  inclusion?: string;
+}
+export const QueryGenerationColumn = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    inclusion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "QueryGenerationColumn",
+}) as any as S.Schema<QueryGenerationColumn>;
+export type QueryGenerationColumns = QueryGenerationColumn[];
 export const QueryGenerationColumns = S.Array(QueryGenerationColumn);
-export class QueryGenerationTable extends S.Class<QueryGenerationTable>(
-  "QueryGenerationTable",
-)({
-  name: S.String,
-  description: S.optional(S.String),
-  inclusion: S.optional(S.String),
-  columns: S.optional(QueryGenerationColumns),
-}) {}
+export interface QueryGenerationTable {
+  name: string;
+  description?: string;
+  inclusion?: string;
+  columns?: QueryGenerationColumns;
+}
+export const QueryGenerationTable = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    description: S.optional(S.String),
+    inclusion: S.optional(S.String),
+    columns: S.optional(QueryGenerationColumns),
+  }),
+).annotations({
+  identifier: "QueryGenerationTable",
+}) as any as S.Schema<QueryGenerationTable>;
+export type QueryGenerationTables = QueryGenerationTable[];
 export const QueryGenerationTables = S.Array(QueryGenerationTable);
-export class CuratedQuery extends S.Class<CuratedQuery>("CuratedQuery")({
-  naturalLanguage: S.String,
-  sql: S.String,
-}) {}
+export interface CuratedQuery {
+  naturalLanguage: string;
+  sql: string;
+}
+export const CuratedQuery = S.suspend(() =>
+  S.Struct({ naturalLanguage: S.String, sql: S.String }),
+).annotations({ identifier: "CuratedQuery" }) as any as S.Schema<CuratedQuery>;
+export type CuratedQueries = CuratedQuery[];
 export const CuratedQueries = S.Array(CuratedQuery);
-export class QueryGenerationContext extends S.Class<QueryGenerationContext>(
-  "QueryGenerationContext",
-)({
-  tables: S.optional(QueryGenerationTables),
-  curatedQueries: S.optional(CuratedQueries),
-}) {}
-export class QueryGenerationConfiguration extends S.Class<QueryGenerationConfiguration>(
-  "QueryGenerationConfiguration",
-)({
-  executionTimeoutSeconds: S.optional(S.Number),
-  generationContext: S.optional(QueryGenerationContext),
-}) {}
-export class RedshiftConfiguration extends S.Class<RedshiftConfiguration>(
-  "RedshiftConfiguration",
-)({
-  storageConfigurations: RedshiftQueryEngineStorageConfigurations,
-  queryEngineConfiguration: RedshiftQueryEngineConfiguration,
-  queryGenerationConfiguration: S.optional(QueryGenerationConfiguration),
-}) {}
-export class SqlKnowledgeBaseConfiguration extends S.Class<SqlKnowledgeBaseConfiguration>(
-  "SqlKnowledgeBaseConfiguration",
-)({
-  type: S.String,
-  redshiftConfiguration: S.optional(RedshiftConfiguration),
-}) {}
-export class KnowledgeBaseConfiguration extends S.Class<KnowledgeBaseConfiguration>(
-  "KnowledgeBaseConfiguration",
-)({
-  type: S.String,
-  vectorKnowledgeBaseConfiguration: S.optional(
-    VectorKnowledgeBaseConfiguration,
-  ),
-  kendraKnowledgeBaseConfiguration: S.optional(
-    KendraKnowledgeBaseConfiguration,
-  ),
-  sqlKnowledgeBaseConfiguration: S.optional(SqlKnowledgeBaseConfiguration),
-}) {}
-export class OpenSearchServerlessFieldMapping extends S.Class<OpenSearchServerlessFieldMapping>(
-  "OpenSearchServerlessFieldMapping",
-)({ vectorField: S.String, textField: S.String, metadataField: S.String }) {}
-export class OpenSearchServerlessConfiguration extends S.Class<OpenSearchServerlessConfiguration>(
-  "OpenSearchServerlessConfiguration",
-)({
-  collectionArn: S.String,
-  vectorIndexName: S.String,
-  fieldMapping: OpenSearchServerlessFieldMapping,
-}) {}
-export class OpenSearchManagedClusterFieldMapping extends S.Class<OpenSearchManagedClusterFieldMapping>(
-  "OpenSearchManagedClusterFieldMapping",
-)({ vectorField: S.String, textField: S.String, metadataField: S.String }) {}
-export class OpenSearchManagedClusterConfiguration extends S.Class<OpenSearchManagedClusterConfiguration>(
-  "OpenSearchManagedClusterConfiguration",
-)({
-  domainEndpoint: S.String,
-  domainArn: S.String,
-  vectorIndexName: S.String,
-  fieldMapping: OpenSearchManagedClusterFieldMapping,
-}) {}
-export class PineconeFieldMapping extends S.Class<PineconeFieldMapping>(
-  "PineconeFieldMapping",
-)({ textField: S.String, metadataField: S.String }) {}
-export class PineconeConfiguration extends S.Class<PineconeConfiguration>(
-  "PineconeConfiguration",
-)({
-  connectionString: S.String,
-  credentialsSecretArn: S.String,
-  namespace: S.optional(S.String),
-  fieldMapping: PineconeFieldMapping,
-}) {}
-export class RedisEnterpriseCloudFieldMapping extends S.Class<RedisEnterpriseCloudFieldMapping>(
-  "RedisEnterpriseCloudFieldMapping",
-)({ vectorField: S.String, textField: S.String, metadataField: S.String }) {}
-export class RedisEnterpriseCloudConfiguration extends S.Class<RedisEnterpriseCloudConfiguration>(
-  "RedisEnterpriseCloudConfiguration",
-)({
-  endpoint: S.String,
-  vectorIndexName: S.String,
-  credentialsSecretArn: S.String,
-  fieldMapping: RedisEnterpriseCloudFieldMapping,
-}) {}
-export class RdsFieldMapping extends S.Class<RdsFieldMapping>(
-  "RdsFieldMapping",
-)({
-  primaryKeyField: S.String,
-  vectorField: S.String,
-  textField: S.String,
-  metadataField: S.String,
-  customMetadataField: S.optional(S.String),
-}) {}
-export class RdsConfiguration extends S.Class<RdsConfiguration>(
-  "RdsConfiguration",
-)({
-  resourceArn: S.String,
-  credentialsSecretArn: S.String,
-  databaseName: S.String,
-  tableName: S.String,
-  fieldMapping: RdsFieldMapping,
-}) {}
-export class MongoDbAtlasFieldMapping extends S.Class<MongoDbAtlasFieldMapping>(
-  "MongoDbAtlasFieldMapping",
-)({ vectorField: S.String, textField: S.String, metadataField: S.String }) {}
-export class MongoDbAtlasConfiguration extends S.Class<MongoDbAtlasConfiguration>(
-  "MongoDbAtlasConfiguration",
-)({
-  endpoint: S.String,
-  databaseName: S.String,
-  collectionName: S.String,
-  vectorIndexName: S.String,
-  credentialsSecretArn: S.String,
-  fieldMapping: MongoDbAtlasFieldMapping,
-  endpointServiceName: S.optional(S.String),
-  textIndexName: S.optional(S.String),
-}) {}
-export class NeptuneAnalyticsFieldMapping extends S.Class<NeptuneAnalyticsFieldMapping>(
-  "NeptuneAnalyticsFieldMapping",
-)({ textField: S.String, metadataField: S.String }) {}
-export class NeptuneAnalyticsConfiguration extends S.Class<NeptuneAnalyticsConfiguration>(
-  "NeptuneAnalyticsConfiguration",
-)({ graphArn: S.String, fieldMapping: NeptuneAnalyticsFieldMapping }) {}
-export class S3VectorsConfiguration extends S.Class<S3VectorsConfiguration>(
-  "S3VectorsConfiguration",
-)({
-  vectorBucketArn: S.optional(S.String),
-  indexArn: S.optional(S.String),
-  indexName: S.optional(S.String),
-}) {}
-export class StorageConfiguration extends S.Class<StorageConfiguration>(
-  "StorageConfiguration",
-)({
-  type: S.String,
-  opensearchServerlessConfiguration: S.optional(
-    OpenSearchServerlessConfiguration,
-  ),
-  opensearchManagedClusterConfiguration: S.optional(
-    OpenSearchManagedClusterConfiguration,
-  ),
-  pineconeConfiguration: S.optional(PineconeConfiguration),
-  redisEnterpriseCloudConfiguration: S.optional(
-    RedisEnterpriseCloudConfiguration,
-  ),
-  rdsConfiguration: S.optional(RdsConfiguration),
-  mongoDbAtlasConfiguration: S.optional(MongoDbAtlasConfiguration),
-  neptuneAnalyticsConfiguration: S.optional(NeptuneAnalyticsConfiguration),
-  s3VectorsConfiguration: S.optional(S3VectorsConfiguration),
-}) {}
-export class UpdateKnowledgeBaseRequest extends S.Class<UpdateKnowledgeBaseRequest>(
-  "UpdateKnowledgeBaseRequest",
-)(
-  {
+export interface QueryGenerationContext {
+  tables?: QueryGenerationTables;
+  curatedQueries?: CuratedQueries;
+}
+export const QueryGenerationContext = S.suspend(() =>
+  S.Struct({
+    tables: S.optional(QueryGenerationTables),
+    curatedQueries: S.optional(CuratedQueries),
+  }),
+).annotations({
+  identifier: "QueryGenerationContext",
+}) as any as S.Schema<QueryGenerationContext>;
+export interface QueryGenerationConfiguration {
+  executionTimeoutSeconds?: number;
+  generationContext?: QueryGenerationContext;
+}
+export const QueryGenerationConfiguration = S.suspend(() =>
+  S.Struct({
+    executionTimeoutSeconds: S.optional(S.Number),
+    generationContext: S.optional(QueryGenerationContext),
+  }),
+).annotations({
+  identifier: "QueryGenerationConfiguration",
+}) as any as S.Schema<QueryGenerationConfiguration>;
+export interface RedshiftConfiguration {
+  storageConfigurations: RedshiftQueryEngineStorageConfigurations;
+  queryEngineConfiguration: RedshiftQueryEngineConfiguration;
+  queryGenerationConfiguration?: QueryGenerationConfiguration;
+}
+export const RedshiftConfiguration = S.suspend(() =>
+  S.Struct({
+    storageConfigurations: RedshiftQueryEngineStorageConfigurations,
+    queryEngineConfiguration: RedshiftQueryEngineConfiguration,
+    queryGenerationConfiguration: S.optional(QueryGenerationConfiguration),
+  }),
+).annotations({
+  identifier: "RedshiftConfiguration",
+}) as any as S.Schema<RedshiftConfiguration>;
+export interface SqlKnowledgeBaseConfiguration {
+  type: string;
+  redshiftConfiguration?: RedshiftConfiguration;
+}
+export const SqlKnowledgeBaseConfiguration = S.suspend(() =>
+  S.Struct({
+    type: S.String,
+    redshiftConfiguration: S.optional(RedshiftConfiguration),
+  }),
+).annotations({
+  identifier: "SqlKnowledgeBaseConfiguration",
+}) as any as S.Schema<SqlKnowledgeBaseConfiguration>;
+export interface KnowledgeBaseConfiguration {
+  type: string;
+  vectorKnowledgeBaseConfiguration?: VectorKnowledgeBaseConfiguration;
+  kendraKnowledgeBaseConfiguration?: KendraKnowledgeBaseConfiguration;
+  sqlKnowledgeBaseConfiguration?: SqlKnowledgeBaseConfiguration;
+}
+export const KnowledgeBaseConfiguration = S.suspend(() =>
+  S.Struct({
+    type: S.String,
+    vectorKnowledgeBaseConfiguration: S.optional(
+      VectorKnowledgeBaseConfiguration,
+    ),
+    kendraKnowledgeBaseConfiguration: S.optional(
+      KendraKnowledgeBaseConfiguration,
+    ),
+    sqlKnowledgeBaseConfiguration: S.optional(SqlKnowledgeBaseConfiguration),
+  }),
+).annotations({
+  identifier: "KnowledgeBaseConfiguration",
+}) as any as S.Schema<KnowledgeBaseConfiguration>;
+export interface OpenSearchServerlessFieldMapping {
+  vectorField: string;
+  textField: string;
+  metadataField: string;
+}
+export const OpenSearchServerlessFieldMapping = S.suspend(() =>
+  S.Struct({
+    vectorField: S.String,
+    textField: S.String,
+    metadataField: S.String,
+  }),
+).annotations({
+  identifier: "OpenSearchServerlessFieldMapping",
+}) as any as S.Schema<OpenSearchServerlessFieldMapping>;
+export interface OpenSearchServerlessConfiguration {
+  collectionArn: string;
+  vectorIndexName: string;
+  fieldMapping: OpenSearchServerlessFieldMapping;
+}
+export const OpenSearchServerlessConfiguration = S.suspend(() =>
+  S.Struct({
+    collectionArn: S.String,
+    vectorIndexName: S.String,
+    fieldMapping: OpenSearchServerlessFieldMapping,
+  }),
+).annotations({
+  identifier: "OpenSearchServerlessConfiguration",
+}) as any as S.Schema<OpenSearchServerlessConfiguration>;
+export interface OpenSearchManagedClusterFieldMapping {
+  vectorField: string;
+  textField: string;
+  metadataField: string;
+}
+export const OpenSearchManagedClusterFieldMapping = S.suspend(() =>
+  S.Struct({
+    vectorField: S.String,
+    textField: S.String,
+    metadataField: S.String,
+  }),
+).annotations({
+  identifier: "OpenSearchManagedClusterFieldMapping",
+}) as any as S.Schema<OpenSearchManagedClusterFieldMapping>;
+export interface OpenSearchManagedClusterConfiguration {
+  domainEndpoint: string;
+  domainArn: string;
+  vectorIndexName: string;
+  fieldMapping: OpenSearchManagedClusterFieldMapping;
+}
+export const OpenSearchManagedClusterConfiguration = S.suspend(() =>
+  S.Struct({
+    domainEndpoint: S.String,
+    domainArn: S.String,
+    vectorIndexName: S.String,
+    fieldMapping: OpenSearchManagedClusterFieldMapping,
+  }),
+).annotations({
+  identifier: "OpenSearchManagedClusterConfiguration",
+}) as any as S.Schema<OpenSearchManagedClusterConfiguration>;
+export interface PineconeFieldMapping {
+  textField: string;
+  metadataField: string;
+}
+export const PineconeFieldMapping = S.suspend(() =>
+  S.Struct({ textField: S.String, metadataField: S.String }),
+).annotations({
+  identifier: "PineconeFieldMapping",
+}) as any as S.Schema<PineconeFieldMapping>;
+export interface PineconeConfiguration {
+  connectionString: string;
+  credentialsSecretArn: string;
+  namespace?: string;
+  fieldMapping: PineconeFieldMapping;
+}
+export const PineconeConfiguration = S.suspend(() =>
+  S.Struct({
+    connectionString: S.String,
+    credentialsSecretArn: S.String,
+    namespace: S.optional(S.String),
+    fieldMapping: PineconeFieldMapping,
+  }),
+).annotations({
+  identifier: "PineconeConfiguration",
+}) as any as S.Schema<PineconeConfiguration>;
+export interface RedisEnterpriseCloudFieldMapping {
+  vectorField: string;
+  textField: string;
+  metadataField: string;
+}
+export const RedisEnterpriseCloudFieldMapping = S.suspend(() =>
+  S.Struct({
+    vectorField: S.String,
+    textField: S.String,
+    metadataField: S.String,
+  }),
+).annotations({
+  identifier: "RedisEnterpriseCloudFieldMapping",
+}) as any as S.Schema<RedisEnterpriseCloudFieldMapping>;
+export interface RedisEnterpriseCloudConfiguration {
+  endpoint: string;
+  vectorIndexName: string;
+  credentialsSecretArn: string;
+  fieldMapping: RedisEnterpriseCloudFieldMapping;
+}
+export const RedisEnterpriseCloudConfiguration = S.suspend(() =>
+  S.Struct({
+    endpoint: S.String,
+    vectorIndexName: S.String,
+    credentialsSecretArn: S.String,
+    fieldMapping: RedisEnterpriseCloudFieldMapping,
+  }),
+).annotations({
+  identifier: "RedisEnterpriseCloudConfiguration",
+}) as any as S.Schema<RedisEnterpriseCloudConfiguration>;
+export interface RdsFieldMapping {
+  primaryKeyField: string;
+  vectorField: string;
+  textField: string;
+  metadataField: string;
+  customMetadataField?: string;
+}
+export const RdsFieldMapping = S.suspend(() =>
+  S.Struct({
+    primaryKeyField: S.String,
+    vectorField: S.String,
+    textField: S.String,
+    metadataField: S.String,
+    customMetadataField: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RdsFieldMapping",
+}) as any as S.Schema<RdsFieldMapping>;
+export interface RdsConfiguration {
+  resourceArn: string;
+  credentialsSecretArn: string;
+  databaseName: string;
+  tableName: string;
+  fieldMapping: RdsFieldMapping;
+}
+export const RdsConfiguration = S.suspend(() =>
+  S.Struct({
+    resourceArn: S.String,
+    credentialsSecretArn: S.String,
+    databaseName: S.String,
+    tableName: S.String,
+    fieldMapping: RdsFieldMapping,
+  }),
+).annotations({
+  identifier: "RdsConfiguration",
+}) as any as S.Schema<RdsConfiguration>;
+export interface MongoDbAtlasFieldMapping {
+  vectorField: string;
+  textField: string;
+  metadataField: string;
+}
+export const MongoDbAtlasFieldMapping = S.suspend(() =>
+  S.Struct({
+    vectorField: S.String,
+    textField: S.String,
+    metadataField: S.String,
+  }),
+).annotations({
+  identifier: "MongoDbAtlasFieldMapping",
+}) as any as S.Schema<MongoDbAtlasFieldMapping>;
+export interface MongoDbAtlasConfiguration {
+  endpoint: string;
+  databaseName: string;
+  collectionName: string;
+  vectorIndexName: string;
+  credentialsSecretArn: string;
+  fieldMapping: MongoDbAtlasFieldMapping;
+  endpointServiceName?: string;
+  textIndexName?: string;
+}
+export const MongoDbAtlasConfiguration = S.suspend(() =>
+  S.Struct({
+    endpoint: S.String,
+    databaseName: S.String,
+    collectionName: S.String,
+    vectorIndexName: S.String,
+    credentialsSecretArn: S.String,
+    fieldMapping: MongoDbAtlasFieldMapping,
+    endpointServiceName: S.optional(S.String),
+    textIndexName: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "MongoDbAtlasConfiguration",
+}) as any as S.Schema<MongoDbAtlasConfiguration>;
+export interface NeptuneAnalyticsFieldMapping {
+  textField: string;
+  metadataField: string;
+}
+export const NeptuneAnalyticsFieldMapping = S.suspend(() =>
+  S.Struct({ textField: S.String, metadataField: S.String }),
+).annotations({
+  identifier: "NeptuneAnalyticsFieldMapping",
+}) as any as S.Schema<NeptuneAnalyticsFieldMapping>;
+export interface NeptuneAnalyticsConfiguration {
+  graphArn: string;
+  fieldMapping: NeptuneAnalyticsFieldMapping;
+}
+export const NeptuneAnalyticsConfiguration = S.suspend(() =>
+  S.Struct({ graphArn: S.String, fieldMapping: NeptuneAnalyticsFieldMapping }),
+).annotations({
+  identifier: "NeptuneAnalyticsConfiguration",
+}) as any as S.Schema<NeptuneAnalyticsConfiguration>;
+export interface S3VectorsConfiguration {
+  vectorBucketArn?: string;
+  indexArn?: string;
+  indexName?: string;
+}
+export const S3VectorsConfiguration = S.suspend(() =>
+  S.Struct({
+    vectorBucketArn: S.optional(S.String),
+    indexArn: S.optional(S.String),
+    indexName: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "S3VectorsConfiguration",
+}) as any as S.Schema<S3VectorsConfiguration>;
+export interface StorageConfiguration {
+  type: string;
+  opensearchServerlessConfiguration?: OpenSearchServerlessConfiguration;
+  opensearchManagedClusterConfiguration?: OpenSearchManagedClusterConfiguration;
+  pineconeConfiguration?: PineconeConfiguration;
+  redisEnterpriseCloudConfiguration?: RedisEnterpriseCloudConfiguration;
+  rdsConfiguration?: RdsConfiguration;
+  mongoDbAtlasConfiguration?: MongoDbAtlasConfiguration;
+  neptuneAnalyticsConfiguration?: NeptuneAnalyticsConfiguration;
+  s3VectorsConfiguration?: S3VectorsConfiguration;
+}
+export const StorageConfiguration = S.suspend(() =>
+  S.Struct({
+    type: S.String,
+    opensearchServerlessConfiguration: S.optional(
+      OpenSearchServerlessConfiguration,
+    ),
+    opensearchManagedClusterConfiguration: S.optional(
+      OpenSearchManagedClusterConfiguration,
+    ),
+    pineconeConfiguration: S.optional(PineconeConfiguration),
+    redisEnterpriseCloudConfiguration: S.optional(
+      RedisEnterpriseCloudConfiguration,
+    ),
+    rdsConfiguration: S.optional(RdsConfiguration),
+    mongoDbAtlasConfiguration: S.optional(MongoDbAtlasConfiguration),
+    neptuneAnalyticsConfiguration: S.optional(NeptuneAnalyticsConfiguration),
+    s3VectorsConfiguration: S.optional(S3VectorsConfiguration),
+  }),
+).annotations({
+  identifier: "StorageConfiguration",
+}) as any as S.Schema<StorageConfiguration>;
+export interface UpdateKnowledgeBaseRequest {
+  knowledgeBaseId: string;
+  name: string;
+  description?: string;
+  roleArn: string;
+  knowledgeBaseConfiguration: KnowledgeBaseConfiguration;
+  storageConfiguration?: StorageConfiguration;
+}
+export const UpdateKnowledgeBaseRequest = S.suspend(() =>
+  S.Struct({
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     name: S.String,
     description: S.optional(S.String),
     roleArn: S.String,
     knowledgeBaseConfiguration: KnowledgeBaseConfiguration,
     storageConfiguration: S.optional(StorageConfiguration),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/knowledgebases/{knowledgeBaseId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/knowledgebases/{knowledgeBaseId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetPromptRequest extends S.Class<GetPromptRequest>(
-  "GetPromptRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateKnowledgeBaseRequest",
+}) as any as S.Schema<UpdateKnowledgeBaseRequest>;
+export interface GetPromptRequest {
+  promptIdentifier: string;
+  promptVersion?: string;
+}
+export const GetPromptRequest = S.suspend(() =>
+  S.Struct({
     promptIdentifier: S.String.pipe(T.HttpLabel("promptIdentifier")),
     promptVersion: S.optional(S.String).pipe(T.HttpQuery("promptVersion")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/prompts/{promptIdentifier}/" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/prompts/{promptIdentifier}/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CachePointBlock extends S.Class<CachePointBlock>(
-  "CachePointBlock",
-)({ type: S.String }) {}
-export class PromptInputVariable extends S.Class<PromptInputVariable>(
-  "PromptInputVariable",
-)({ name: S.optional(S.String) }) {}
+).annotations({
+  identifier: "GetPromptRequest",
+}) as any as S.Schema<GetPromptRequest>;
+export interface CachePointBlock {
+  type: string;
+}
+export const CachePointBlock = S.suspend(() =>
+  S.Struct({ type: S.String }),
+).annotations({
+  identifier: "CachePointBlock",
+}) as any as S.Schema<CachePointBlock>;
+export interface PromptInputVariable {
+  name?: string;
+}
+export const PromptInputVariable = S.suspend(() =>
+  S.Struct({ name: S.optional(S.String) }),
+).annotations({
+  identifier: "PromptInputVariable",
+}) as any as S.Schema<PromptInputVariable>;
+export type PromptInputVariablesList = PromptInputVariable[];
 export const PromptInputVariablesList = S.Array(PromptInputVariable);
-export class TextPromptTemplateConfiguration extends S.Class<TextPromptTemplateConfiguration>(
-  "TextPromptTemplateConfiguration",
-)({
-  text: S.String,
-  cachePoint: S.optional(CachePointBlock),
-  inputVariables: S.optional(PromptInputVariablesList),
-}) {}
+export interface TextPromptTemplateConfiguration {
+  text: string;
+  cachePoint?: CachePointBlock;
+  inputVariables?: PromptInputVariablesList;
+}
+export const TextPromptTemplateConfiguration = S.suspend(() =>
+  S.Struct({
+    text: S.String,
+    cachePoint: S.optional(CachePointBlock),
+    inputVariables: S.optional(PromptInputVariablesList),
+  }),
+).annotations({
+  identifier: "TextPromptTemplateConfiguration",
+}) as any as S.Schema<TextPromptTemplateConfiguration>;
 export const ContentBlock = S.Union(
   S.Struct({ text: S.String }),
   S.Struct({ cachePoint: CachePointBlock }),
 );
+export type ContentBlocks = (typeof ContentBlock)["Type"][];
 export const ContentBlocks = S.Array(ContentBlock);
-export class Message extends S.Class<Message>("Message")({
-  role: S.String,
-  content: ContentBlocks,
-}) {}
+export interface Message {
+  role: string;
+  content: ContentBlocks;
+}
+export const Message = S.suspend(() =>
+  S.Struct({ role: S.String, content: ContentBlocks }),
+).annotations({ identifier: "Message" }) as any as S.Schema<Message>;
+export type Messages = Message[];
 export const Messages = S.Array(Message);
 export const SystemContentBlock = S.Union(
   S.Struct({ text: S.String }),
   S.Struct({ cachePoint: CachePointBlock }),
 );
+export type SystemContentBlocks = (typeof SystemContentBlock)["Type"][];
 export const SystemContentBlocks = S.Array(SystemContentBlock);
 export const ToolInputSchema = S.Union(S.Struct({ json: S.Any }));
-export class ToolSpecification extends S.Class<ToolSpecification>(
-  "ToolSpecification",
-)({
-  name: S.String,
-  description: S.optional(S.String),
-  inputSchema: ToolInputSchema,
-}) {}
+export interface ToolSpecification {
+  name: string;
+  description?: string;
+  inputSchema: (typeof ToolInputSchema)["Type"];
+}
+export const ToolSpecification = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    description: S.optional(S.String),
+    inputSchema: ToolInputSchema,
+  }),
+).annotations({
+  identifier: "ToolSpecification",
+}) as any as S.Schema<ToolSpecification>;
 export const Tool = S.Union(
   S.Struct({ toolSpec: ToolSpecification }),
   S.Struct({ cachePoint: CachePointBlock }),
 );
+export type Tools = (typeof Tool)["Type"][];
 export const Tools = S.Array(Tool);
-export class AutoToolChoice extends S.Class<AutoToolChoice>("AutoToolChoice")(
-  {},
-) {}
-export class AnyToolChoice extends S.Class<AnyToolChoice>("AnyToolChoice")(
-  {},
-) {}
-export class SpecificToolChoice extends S.Class<SpecificToolChoice>(
-  "SpecificToolChoice",
-)({ name: S.String }) {}
+export interface AutoToolChoice {}
+export const AutoToolChoice = S.suspend(() => S.Struct({})).annotations({
+  identifier: "AutoToolChoice",
+}) as any as S.Schema<AutoToolChoice>;
+export interface AnyToolChoice {}
+export const AnyToolChoice = S.suspend(() => S.Struct({})).annotations({
+  identifier: "AnyToolChoice",
+}) as any as S.Schema<AnyToolChoice>;
+export interface SpecificToolChoice {
+  name: string;
+}
+export const SpecificToolChoice = S.suspend(() =>
+  S.Struct({ name: S.String }),
+).annotations({
+  identifier: "SpecificToolChoice",
+}) as any as S.Schema<SpecificToolChoice>;
 export const ToolChoice = S.Union(
   S.Struct({ auto: AutoToolChoice }),
   S.Struct({ any: AnyToolChoice }),
   S.Struct({ tool: SpecificToolChoice }),
 );
-export class ToolConfiguration extends S.Class<ToolConfiguration>(
-  "ToolConfiguration",
-)({ tools: Tools, toolChoice: S.optional(ToolChoice) }) {}
-export class ChatPromptTemplateConfiguration extends S.Class<ChatPromptTemplateConfiguration>(
-  "ChatPromptTemplateConfiguration",
-)({
-  messages: Messages,
-  system: S.optional(SystemContentBlocks),
-  inputVariables: S.optional(PromptInputVariablesList),
-  toolConfiguration: S.optional(ToolConfiguration),
-}) {}
+export interface ToolConfiguration {
+  tools: Tools;
+  toolChoice?: (typeof ToolChoice)["Type"];
+}
+export const ToolConfiguration = S.suspend(() =>
+  S.Struct({ tools: Tools, toolChoice: S.optional(ToolChoice) }),
+).annotations({
+  identifier: "ToolConfiguration",
+}) as any as S.Schema<ToolConfiguration>;
+export interface ChatPromptTemplateConfiguration {
+  messages: Messages;
+  system?: SystemContentBlocks;
+  inputVariables?: PromptInputVariablesList;
+  toolConfiguration?: ToolConfiguration;
+}
+export const ChatPromptTemplateConfiguration = S.suspend(() =>
+  S.Struct({
+    messages: Messages,
+    system: S.optional(SystemContentBlocks),
+    inputVariables: S.optional(PromptInputVariablesList),
+    toolConfiguration: S.optional(ToolConfiguration),
+  }),
+).annotations({
+  identifier: "ChatPromptTemplateConfiguration",
+}) as any as S.Schema<ChatPromptTemplateConfiguration>;
 export const PromptTemplateConfiguration = S.Union(
   S.Struct({ text: TextPromptTemplateConfiguration }),
   S.Struct({ chat: ChatPromptTemplateConfiguration }),
 );
-export class PromptModelInferenceConfiguration extends S.Class<PromptModelInferenceConfiguration>(
-  "PromptModelInferenceConfiguration",
-)({
-  temperature: S.optional(S.Number),
-  topP: S.optional(S.Number),
-  maxTokens: S.optional(S.Number),
-  stopSequences: S.optional(StopSequences),
-}) {}
+export interface PromptModelInferenceConfiguration {
+  temperature?: number;
+  topP?: number;
+  maxTokens?: number;
+  stopSequences?: StopSequences;
+}
+export const PromptModelInferenceConfiguration = S.suspend(() =>
+  S.Struct({
+    temperature: S.optional(S.Number),
+    topP: S.optional(S.Number),
+    maxTokens: S.optional(S.Number),
+    stopSequences: S.optional(StopSequences),
+  }),
+).annotations({
+  identifier: "PromptModelInferenceConfiguration",
+}) as any as S.Schema<PromptModelInferenceConfiguration>;
 export const PromptInferenceConfiguration = S.Union(
   S.Struct({ text: PromptModelInferenceConfiguration }),
 );
-export class PromptMetadataEntry extends S.Class<PromptMetadataEntry>(
-  "PromptMetadataEntry",
-)({ key: S.String, value: S.String }) {}
+export interface PromptMetadataEntry {
+  key: string;
+  value: string;
+}
+export const PromptMetadataEntry = S.suspend(() =>
+  S.Struct({ key: S.String, value: S.String }),
+).annotations({
+  identifier: "PromptMetadataEntry",
+}) as any as S.Schema<PromptMetadataEntry>;
+export type PromptMetadataList = PromptMetadataEntry[];
 export const PromptMetadataList = S.Array(PromptMetadataEntry);
-export class PromptAgentResource extends S.Class<PromptAgentResource>(
-  "PromptAgentResource",
-)({ agentIdentifier: S.String }) {}
+export interface PromptAgentResource {
+  agentIdentifier: string;
+}
+export const PromptAgentResource = S.suspend(() =>
+  S.Struct({ agentIdentifier: S.String }),
+).annotations({
+  identifier: "PromptAgentResource",
+}) as any as S.Schema<PromptAgentResource>;
 export const PromptGenAiResource = S.Union(
   S.Struct({ agent: PromptAgentResource }),
 );
-export class PromptVariant extends S.Class<PromptVariant>("PromptVariant")({
-  name: S.String,
-  templateType: S.String,
-  templateConfiguration: PromptTemplateConfiguration,
-  modelId: S.optional(S.String),
-  inferenceConfiguration: S.optional(PromptInferenceConfiguration),
-  metadata: S.optional(PromptMetadataList),
-  additionalModelRequestFields: S.optional(S.Any),
-  genAiResource: S.optional(PromptGenAiResource),
-}) {}
+export interface PromptVariant {
+  name: string;
+  templateType: string;
+  templateConfiguration: (typeof PromptTemplateConfiguration)["Type"];
+  modelId?: string;
+  inferenceConfiguration?: (typeof PromptInferenceConfiguration)["Type"];
+  metadata?: PromptMetadataList;
+  additionalModelRequestFields?: any;
+  genAiResource?: (typeof PromptGenAiResource)["Type"];
+}
+export const PromptVariant = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    templateType: S.String,
+    templateConfiguration: PromptTemplateConfiguration,
+    modelId: S.optional(S.String),
+    inferenceConfiguration: S.optional(PromptInferenceConfiguration),
+    metadata: S.optional(PromptMetadataList),
+    additionalModelRequestFields: S.optional(S.Any),
+    genAiResource: S.optional(PromptGenAiResource),
+  }),
+).annotations({
+  identifier: "PromptVariant",
+}) as any as S.Schema<PromptVariant>;
+export type PromptVariantList = PromptVariant[];
 export const PromptVariantList = S.Array(PromptVariant);
-export class UpdatePromptRequest extends S.Class<UpdatePromptRequest>(
-  "UpdatePromptRequest",
-)(
-  {
+export interface UpdatePromptRequest {
+  name: string;
+  description?: string;
+  customerEncryptionKeyArn?: string;
+  defaultVariant?: string;
+  variants?: PromptVariantList;
+  promptIdentifier: string;
+}
+export const UpdatePromptRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     description: S.optional(S.String),
     customerEncryptionKeyArn: S.optional(S.String),
     defaultVariant: S.optional(S.String),
     variants: S.optional(PromptVariantList),
     promptIdentifier: S.String.pipe(T.HttpLabel("promptIdentifier")),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/prompts/{promptIdentifier}/" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/prompts/{promptIdentifier}/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeletePromptRequest extends S.Class<DeletePromptRequest>(
-  "DeletePromptRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdatePromptRequest",
+}) as any as S.Schema<UpdatePromptRequest>;
+export interface DeletePromptRequest {
+  promptIdentifier: string;
+  promptVersion?: string;
+}
+export const DeletePromptRequest = S.suspend(() =>
+  S.Struct({
     promptIdentifier: S.String.pipe(T.HttpLabel("promptIdentifier")),
     promptVersion: S.optional(S.String).pipe(T.HttpQuery("promptVersion")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/prompts/{promptIdentifier}/" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/prompts/{promptIdentifier}/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListPromptsRequest extends S.Class<ListPromptsRequest>(
-  "ListPromptsRequest",
-)(
-  {
+).annotations({
+  identifier: "DeletePromptRequest",
+}) as any as S.Schema<DeletePromptRequest>;
+export interface ListPromptsRequest {
+  promptIdentifier?: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListPromptsRequest = S.suspend(() =>
+  S.Struct({
     promptIdentifier: S.optional(S.String).pipe(
       T.HttpQuery("promptIdentifier"),
     ),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/prompts/" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/prompts/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreatePromptVersionRequest extends S.Class<CreatePromptVersionRequest>(
-  "CreatePromptVersionRequest",
-)(
-  {
+).annotations({
+  identifier: "ListPromptsRequest",
+}) as any as S.Schema<ListPromptsRequest>;
+export interface CreatePromptVersionRequest {
+  promptIdentifier: string;
+  description?: string;
+  clientToken?: string;
+  tags?: TagsMap;
+}
+export const CreatePromptVersionRequest = S.suspend(() =>
+  S.Struct({
     promptIdentifier: S.String.pipe(T.HttpLabel("promptIdentifier")),
     description: S.optional(S.String),
     clientToken: S.optional(S.String),
     tags: S.optional(TagsMap),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/prompts/{promptIdentifier}/versions" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/prompts/{promptIdentifier}/versions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CreatePromptVersionRequest",
+}) as any as S.Schema<CreatePromptVersionRequest>;
+export interface ListTagsForResourceRequest {
+  resourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagsMap },
-  T.all(
-    T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface TagResourceRequest {
+  resourceArn: string;
+  tags: TagsMap;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+    tags: TagsMap,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UntagResourceRequest {
+  resourceArn: string;
+  tagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
-export class DeleteAgentVersionRequest extends S.Class<DeleteAgentVersionRequest>(
-  "DeleteAgentVersionRequest",
-)(
-  {
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface DeleteAgentVersionRequest {
+  agentId: string;
+  agentVersion: string;
+  skipResourceInUseCheck?: boolean;
+}
+export const DeleteAgentVersionRequest = S.suspend(() =>
+  S.Struct({
     agentId: S.String.pipe(T.HttpLabel("agentId")),
     agentVersion: S.String.pipe(T.HttpLabel("agentVersion")),
     skipResourceInUseCheck: S.optional(S.Boolean).pipe(
       T.HttpQuery("skipResourceInUseCheck"),
     ),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/agents/{agentId}/agentversions/{agentVersion}/",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/agents/{agentId}/agentversions/{agentVersion}/",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetAgentVersionRequest extends S.Class<GetAgentVersionRequest>(
-  "GetAgentVersionRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteAgentVersionRequest",
+}) as any as S.Schema<DeleteAgentVersionRequest>;
+export interface GetAgentVersionRequest {
+  agentId: string;
+  agentVersion: string;
+}
+export const GetAgentVersionRequest = S.suspend(() =>
+  S.Struct({
     agentId: S.String.pipe(T.HttpLabel("agentId")),
     agentVersion: S.String.pipe(T.HttpLabel("agentVersion")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/agents/{agentId}/agentversions/{agentVersion}/",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/agents/{agentId}/agentversions/{agentVersion}/",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListAgentVersionsRequest extends S.Class<ListAgentVersionsRequest>(
-  "ListAgentVersionsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetAgentVersionRequest",
+}) as any as S.Schema<GetAgentVersionRequest>;
+export interface ListAgentVersionsRequest {
+  agentId: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListAgentVersionsRequest = S.suspend(() =>
+  S.Struct({
     agentId: S.String.pipe(T.HttpLabel("agentId")),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/agents/{agentId}/agentversions/" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/agents/{agentId}/agentversions/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "ListAgentVersionsRequest",
+}) as any as S.Schema<ListAgentVersionsRequest>;
+export type IngestionJobFilterValues = string[];
 export const IngestionJobFilterValues = S.Array(S.String);
-export class IngestionJobFilter extends S.Class<IngestionJobFilter>(
-  "IngestionJobFilter",
-)({
-  attribute: S.String,
-  operator: S.String,
-  values: IngestionJobFilterValues,
-}) {}
+export interface IngestionJobFilter {
+  attribute: string;
+  operator: string;
+  values: IngestionJobFilterValues;
+}
+export const IngestionJobFilter = S.suspend(() =>
+  S.Struct({
+    attribute: S.String,
+    operator: S.String,
+    values: IngestionJobFilterValues,
+  }),
+).annotations({
+  identifier: "IngestionJobFilter",
+}) as any as S.Schema<IngestionJobFilter>;
+export type IngestionJobFilters = IngestionJobFilter[];
 export const IngestionJobFilters = S.Array(IngestionJobFilter);
-export class IngestionJobSortBy extends S.Class<IngestionJobSortBy>(
-  "IngestionJobSortBy",
-)({ attribute: S.String, order: S.String }) {}
-export class AgentActionGroup extends S.Class<AgentActionGroup>(
-  "AgentActionGroup",
-)({
-  agentId: S.String,
-  agentVersion: S.String,
-  actionGroupId: S.String,
-  actionGroupName: S.String,
-  clientToken: S.optional(S.String),
-  description: S.optional(S.String),
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  parentActionSignature: S.optional(S.String),
-  parentActionGroupSignatureParams: S.optional(ActionGroupSignatureParams),
-  actionGroupExecutor: S.optional(ActionGroupExecutor),
-  apiSchema: S.optional(APISchema),
-  functionSchema: S.optional(FunctionSchema),
-  actionGroupState: S.String,
-}) {}
-export class UpdateAgentActionGroupResponse extends S.Class<UpdateAgentActionGroupResponse>(
-  "UpdateAgentActionGroupResponse",
-)({ agentActionGroup: AgentActionGroup }) {}
-export class AssociateAgentCollaboratorRequest extends S.Class<AssociateAgentCollaboratorRequest>(
-  "AssociateAgentCollaboratorRequest",
-)(
-  {
+export interface IngestionJobSortBy {
+  attribute: string;
+  order: string;
+}
+export const IngestionJobSortBy = S.suspend(() =>
+  S.Struct({ attribute: S.String, order: S.String }),
+).annotations({
+  identifier: "IngestionJobSortBy",
+}) as any as S.Schema<IngestionJobSortBy>;
+export interface AgentActionGroup {
+  agentId: string;
+  agentVersion: string;
+  actionGroupId: string;
+  actionGroupName: string;
+  clientToken?: string;
+  description?: string;
+  createdAt: Date;
+  updatedAt: Date;
+  parentActionSignature?: string;
+  parentActionGroupSignatureParams?: ActionGroupSignatureParams;
+  actionGroupExecutor?: (typeof ActionGroupExecutor)["Type"];
+  apiSchema?: (typeof APISchema)["Type"];
+  functionSchema?: (typeof FunctionSchema)["Type"];
+  actionGroupState: string;
+}
+export const AgentActionGroup = S.suspend(() =>
+  S.Struct({
+    agentId: S.String,
+    agentVersion: S.String,
+    actionGroupId: S.String,
+    actionGroupName: S.String,
+    clientToken: S.optional(S.String),
+    description: S.optional(S.String),
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    parentActionSignature: S.optional(S.String),
+    parentActionGroupSignatureParams: S.optional(ActionGroupSignatureParams),
+    actionGroupExecutor: S.optional(ActionGroupExecutor),
+    apiSchema: S.optional(APISchema),
+    functionSchema: S.optional(FunctionSchema),
+    actionGroupState: S.String,
+  }),
+).annotations({
+  identifier: "AgentActionGroup",
+}) as any as S.Schema<AgentActionGroup>;
+export interface UpdateAgentActionGroupResponse {
+  agentActionGroup: AgentActionGroup;
+}
+export const UpdateAgentActionGroupResponse = S.suspend(() =>
+  S.Struct({ agentActionGroup: AgentActionGroup }),
+).annotations({
+  identifier: "UpdateAgentActionGroupResponse",
+}) as any as S.Schema<UpdateAgentActionGroupResponse>;
+export interface AssociateAgentCollaboratorRequest {
+  agentId: string;
+  agentVersion: string;
+  agentDescriptor: AgentDescriptor;
+  collaboratorName: string;
+  collaborationInstruction: string;
+  relayConversationHistory?: string;
+  clientToken?: string;
+}
+export const AssociateAgentCollaboratorRequest = S.suspend(() =>
+  S.Struct({
     agentId: S.String.pipe(T.HttpLabel("agentId")),
     agentVersion: S.String.pipe(T.HttpLabel("agentVersion")),
     agentDescriptor: AgentDescriptor,
@@ -2216,188 +3487,388 @@ export class AssociateAgentCollaboratorRequest extends S.Class<AssociateAgentCol
     collaborationInstruction: S.String,
     relayConversationHistory: S.optional(S.String),
     clientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/agents/{agentId}/agentversions/{agentVersion}/agentcollaborators/",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/agents/{agentId}/agentversions/{agentVersion}/agentcollaborators/",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AgentCollaborator extends S.Class<AgentCollaborator>(
-  "AgentCollaborator",
-)({
-  agentId: S.String,
-  agentVersion: S.String,
-  agentDescriptor: AgentDescriptor,
-  collaboratorId: S.String,
-  collaborationInstruction: S.String,
-  collaboratorName: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  lastUpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  relayConversationHistory: S.optional(S.String),
-  clientToken: S.optional(S.String),
-}) {}
-export class UpdateAgentCollaboratorResponse extends S.Class<UpdateAgentCollaboratorResponse>(
-  "UpdateAgentCollaboratorResponse",
-)({ agentCollaborator: AgentCollaborator }) {}
-export class DeleteAgentResponse extends S.Class<DeleteAgentResponse>(
-  "DeleteAgentResponse",
-)({ agentId: S.String, agentStatus: S.String }) {}
-export class PrepareAgentResponse extends S.Class<PrepareAgentResponse>(
-  "PrepareAgentResponse",
-)({
-  agentId: S.String,
-  agentStatus: S.String,
-  agentVersion: S.String,
-  preparedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
+).annotations({
+  identifier: "AssociateAgentCollaboratorRequest",
+}) as any as S.Schema<AssociateAgentCollaboratorRequest>;
+export interface AgentCollaborator {
+  agentId: string;
+  agentVersion: string;
+  agentDescriptor: AgentDescriptor;
+  collaboratorId: string;
+  collaborationInstruction: string;
+  collaboratorName: string;
+  createdAt: Date;
+  lastUpdatedAt: Date;
+  relayConversationHistory?: string;
+  clientToken?: string;
+}
+export const AgentCollaborator = S.suspend(() =>
+  S.Struct({
+    agentId: S.String,
+    agentVersion: S.String,
+    agentDescriptor: AgentDescriptor,
+    collaboratorId: S.String,
+    collaborationInstruction: S.String,
+    collaboratorName: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    relayConversationHistory: S.optional(S.String),
+    clientToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AgentCollaborator",
+}) as any as S.Schema<AgentCollaborator>;
+export interface UpdateAgentCollaboratorResponse {
+  agentCollaborator: AgentCollaborator;
+}
+export const UpdateAgentCollaboratorResponse = S.suspend(() =>
+  S.Struct({ agentCollaborator: AgentCollaborator }),
+).annotations({
+  identifier: "UpdateAgentCollaboratorResponse",
+}) as any as S.Schema<UpdateAgentCollaboratorResponse>;
+export interface DeleteAgentResponse {
+  agentId: string;
+  agentStatus: string;
+}
+export const DeleteAgentResponse = S.suspend(() =>
+  S.Struct({ agentId: S.String, agentStatus: S.String }),
+).annotations({
+  identifier: "DeleteAgentResponse",
+}) as any as S.Schema<DeleteAgentResponse>;
+export interface PrepareAgentResponse {
+  agentId: string;
+  agentStatus: string;
+  agentVersion: string;
+  preparedAt: Date;
+}
+export const PrepareAgentResponse = S.suspend(() =>
+  S.Struct({
+    agentId: S.String,
+    agentStatus: S.String,
+    agentVersion: S.String,
+    preparedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "PrepareAgentResponse",
+}) as any as S.Schema<PrepareAgentResponse>;
+export type FailureReasons = string[];
 export const FailureReasons = S.Array(S.String);
+export type RecommendedActions = string[];
 export const RecommendedActions = S.Array(S.String);
-export class Agent extends S.Class<Agent>("Agent")({
-  agentId: S.String,
-  agentName: S.String,
-  agentArn: S.String,
-  agentVersion: S.String,
-  clientToken: S.optional(S.String),
-  instruction: S.optional(S.String),
-  agentStatus: S.String,
-  foundationModel: S.optional(S.String),
-  description: S.optional(S.String),
-  orchestrationType: S.optional(S.String),
-  customOrchestration: S.optional(CustomOrchestration),
-  idleSessionTTLInSeconds: S.Number,
-  agentResourceRoleArn: S.String,
-  customerEncryptionKeyArn: S.optional(S.String),
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  preparedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  failureReasons: S.optional(FailureReasons),
-  recommendedActions: S.optional(RecommendedActions),
-  promptOverrideConfiguration: S.optional(PromptOverrideConfiguration),
-  guardrailConfiguration: S.optional(GuardrailConfiguration),
-  memoryConfiguration: S.optional(MemoryConfiguration),
-  agentCollaboration: S.optional(S.String),
-}) {}
-export class UpdateAgentResponse extends S.Class<UpdateAgentResponse>(
-  "UpdateAgentResponse",
-)({ agent: Agent }) {}
-export class CreateAgentAliasRequest extends S.Class<CreateAgentAliasRequest>(
-  "CreateAgentAliasRequest",
-)(
-  {
+export interface Agent {
+  agentId: string;
+  agentName: string;
+  agentArn: string;
+  agentVersion: string;
+  clientToken?: string;
+  instruction?: string;
+  agentStatus: string;
+  foundationModel?: string;
+  description?: string;
+  orchestrationType?: string;
+  customOrchestration?: CustomOrchestration;
+  idleSessionTTLInSeconds: number;
+  agentResourceRoleArn: string;
+  customerEncryptionKeyArn?: string;
+  createdAt: Date;
+  updatedAt: Date;
+  preparedAt?: Date;
+  failureReasons?: FailureReasons;
+  recommendedActions?: RecommendedActions;
+  promptOverrideConfiguration?: PromptOverrideConfiguration;
+  guardrailConfiguration?: GuardrailConfiguration;
+  memoryConfiguration?: MemoryConfiguration;
+  agentCollaboration?: string;
+}
+export const Agent = S.suspend(() =>
+  S.Struct({
+    agentId: S.String,
+    agentName: S.String,
+    agentArn: S.String,
+    agentVersion: S.String,
+    clientToken: S.optional(S.String),
+    instruction: S.optional(S.String),
+    agentStatus: S.String,
+    foundationModel: S.optional(S.String),
+    description: S.optional(S.String),
+    orchestrationType: S.optional(S.String),
+    customOrchestration: S.optional(CustomOrchestration),
+    idleSessionTTLInSeconds: S.Number,
+    agentResourceRoleArn: S.String,
+    customerEncryptionKeyArn: S.optional(S.String),
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    preparedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    failureReasons: S.optional(FailureReasons),
+    recommendedActions: S.optional(RecommendedActions),
+    promptOverrideConfiguration: S.optional(PromptOverrideConfiguration),
+    guardrailConfiguration: S.optional(GuardrailConfiguration),
+    memoryConfiguration: S.optional(MemoryConfiguration),
+    agentCollaboration: S.optional(S.String),
+  }),
+).annotations({ identifier: "Agent" }) as any as S.Schema<Agent>;
+export interface UpdateAgentResponse {
+  agent: Agent;
+}
+export const UpdateAgentResponse = S.suspend(() =>
+  S.Struct({ agent: Agent }),
+).annotations({
+  identifier: "UpdateAgentResponse",
+}) as any as S.Schema<UpdateAgentResponse>;
+export interface CreateAgentAliasRequest {
+  agentId: string;
+  agentAliasName: string;
+  clientToken?: string;
+  description?: string;
+  routingConfiguration?: AgentAliasRoutingConfiguration;
+  tags?: TagsMap;
+}
+export const CreateAgentAliasRequest = S.suspend(() =>
+  S.Struct({
     agentId: S.String.pipe(T.HttpLabel("agentId")),
     agentAliasName: S.String,
     clientToken: S.optional(S.String),
     description: S.optional(S.String),
     routingConfiguration: S.optional(AgentAliasRoutingConfiguration),
     tags: S.optional(TagsMap),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/agents/{agentId}/agentaliases/" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/agents/{agentId}/agentaliases/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAgentAliasResponse extends S.Class<DeleteAgentAliasResponse>(
-  "DeleteAgentAliasResponse",
-)({ agentId: S.String, agentAliasId: S.String, agentAliasStatus: S.String }) {}
-export class AgentAliasHistoryEvent extends S.Class<AgentAliasHistoryEvent>(
-  "AgentAliasHistoryEvent",
-)({
-  routingConfiguration: S.optional(AgentAliasRoutingConfiguration),
-  endDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  startDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-}) {}
+).annotations({
+  identifier: "CreateAgentAliasRequest",
+}) as any as S.Schema<CreateAgentAliasRequest>;
+export interface DeleteAgentAliasResponse {
+  agentId: string;
+  agentAliasId: string;
+  agentAliasStatus: string;
+}
+export const DeleteAgentAliasResponse = S.suspend(() =>
+  S.Struct({
+    agentId: S.String,
+    agentAliasId: S.String,
+    agentAliasStatus: S.String,
+  }),
+).annotations({
+  identifier: "DeleteAgentAliasResponse",
+}) as any as S.Schema<DeleteAgentAliasResponse>;
+export interface AgentAliasHistoryEvent {
+  routingConfiguration?: AgentAliasRoutingConfiguration;
+  endDate?: Date;
+  startDate?: Date;
+}
+export const AgentAliasHistoryEvent = S.suspend(() =>
+  S.Struct({
+    routingConfiguration: S.optional(AgentAliasRoutingConfiguration),
+    endDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    startDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotations({
+  identifier: "AgentAliasHistoryEvent",
+}) as any as S.Schema<AgentAliasHistoryEvent>;
+export type AgentAliasHistoryEvents = AgentAliasHistoryEvent[];
 export const AgentAliasHistoryEvents = S.Array(AgentAliasHistoryEvent);
-export class AgentAlias extends S.Class<AgentAlias>("AgentAlias")({
-  agentId: S.String,
-  agentAliasId: S.String,
-  agentAliasName: S.String,
-  agentAliasArn: S.String,
-  clientToken: S.optional(S.String),
-  description: S.optional(S.String),
-  routingConfiguration: AgentAliasRoutingConfiguration,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  agentAliasHistoryEvents: S.optional(AgentAliasHistoryEvents),
-  agentAliasStatus: S.String,
-  failureReasons: S.optional(FailureReasons),
-  aliasInvocationState: S.optional(S.String),
-}) {}
-export class UpdateAgentAliasResponse extends S.Class<UpdateAgentAliasResponse>(
-  "UpdateAgentAliasResponse",
-)({ agentAlias: AgentAlias }) {}
-export class DeleteDataSourceResponse extends S.Class<DeleteDataSourceResponse>(
-  "DeleteDataSourceResponse",
-)({ knowledgeBaseId: S.String, dataSourceId: S.String, status: S.String }) {}
-export class DataSource extends S.Class<DataSource>("DataSource")({
-  knowledgeBaseId: S.String,
-  dataSourceId: S.String,
-  name: S.String,
-  status: S.String,
-  description: S.optional(S.String),
-  dataSourceConfiguration: DataSourceConfiguration,
-  serverSideEncryptionConfiguration: S.optional(
-    ServerSideEncryptionConfiguration,
-  ),
-  vectorIngestionConfiguration: S.optional(VectorIngestionConfiguration),
-  dataDeletionPolicy: S.optional(S.String),
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  failureReasons: S.optional(FailureReasons),
-}) {}
-export class UpdateDataSourceResponse extends S.Class<UpdateDataSourceResponse>(
-  "UpdateDataSourceResponse",
-)({ dataSource: DataSource }) {}
-export class CreateFlowResponse extends S.Class<CreateFlowResponse>(
-  "CreateFlowResponse",
-)({
-  name: S.String,
-  description: S.optional(S.String),
-  executionRoleArn: S.String,
-  customerEncryptionKeyArn: S.optional(S.String),
-  id: S.String,
-  arn: S.String,
-  status: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  version: S.String,
-  definition: S.optional(FlowDefinition),
-}) {}
-export class UpdateFlowResponse extends S.Class<UpdateFlowResponse>(
-  "UpdateFlowResponse",
-)({
-  name: S.String,
-  description: S.optional(S.String),
-  executionRoleArn: S.String,
-  customerEncryptionKeyArn: S.optional(S.String),
-  id: S.String,
-  arn: S.String,
-  status: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  version: S.String,
-  definition: S.optional(FlowDefinition),
-}) {}
-export class DeleteFlowResponse extends S.Class<DeleteFlowResponse>(
-  "DeleteFlowResponse",
-)({ id: S.String }) {}
-export class PrepareFlowResponse extends S.Class<PrepareFlowResponse>(
-  "PrepareFlowResponse",
-)({ id: S.String, status: S.String }) {}
-export class CreateFlowAliasRequest extends S.Class<CreateFlowAliasRequest>(
-  "CreateFlowAliasRequest",
-)(
-  {
+export interface AgentAlias {
+  agentId: string;
+  agentAliasId: string;
+  agentAliasName: string;
+  agentAliasArn: string;
+  clientToken?: string;
+  description?: string;
+  routingConfiguration: AgentAliasRoutingConfiguration;
+  createdAt: Date;
+  updatedAt: Date;
+  agentAliasHistoryEvents?: AgentAliasHistoryEvents;
+  agentAliasStatus: string;
+  failureReasons?: FailureReasons;
+  aliasInvocationState?: string;
+}
+export const AgentAlias = S.suspend(() =>
+  S.Struct({
+    agentId: S.String,
+    agentAliasId: S.String,
+    agentAliasName: S.String,
+    agentAliasArn: S.String,
+    clientToken: S.optional(S.String),
+    description: S.optional(S.String),
+    routingConfiguration: AgentAliasRoutingConfiguration,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    agentAliasHistoryEvents: S.optional(AgentAliasHistoryEvents),
+    agentAliasStatus: S.String,
+    failureReasons: S.optional(FailureReasons),
+    aliasInvocationState: S.optional(S.String),
+  }),
+).annotations({ identifier: "AgentAlias" }) as any as S.Schema<AgentAlias>;
+export interface UpdateAgentAliasResponse {
+  agentAlias: AgentAlias;
+}
+export const UpdateAgentAliasResponse = S.suspend(() =>
+  S.Struct({ agentAlias: AgentAlias }),
+).annotations({
+  identifier: "UpdateAgentAliasResponse",
+}) as any as S.Schema<UpdateAgentAliasResponse>;
+export interface DeleteDataSourceResponse {
+  knowledgeBaseId: string;
+  dataSourceId: string;
+  status: string;
+}
+export const DeleteDataSourceResponse = S.suspend(() =>
+  S.Struct({
+    knowledgeBaseId: S.String,
+    dataSourceId: S.String,
+    status: S.String,
+  }),
+).annotations({
+  identifier: "DeleteDataSourceResponse",
+}) as any as S.Schema<DeleteDataSourceResponse>;
+export interface DataSource {
+  knowledgeBaseId: string;
+  dataSourceId: string;
+  name: string;
+  status: string;
+  description?: string;
+  dataSourceConfiguration: DataSourceConfiguration;
+  serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
+  vectorIngestionConfiguration?: VectorIngestionConfiguration;
+  dataDeletionPolicy?: string;
+  createdAt: Date;
+  updatedAt: Date;
+  failureReasons?: FailureReasons;
+}
+export const DataSource = S.suspend(() =>
+  S.Struct({
+    knowledgeBaseId: S.String,
+    dataSourceId: S.String,
+    name: S.String,
+    status: S.String,
+    description: S.optional(S.String),
+    dataSourceConfiguration: DataSourceConfiguration,
+    serverSideEncryptionConfiguration: S.optional(
+      ServerSideEncryptionConfiguration,
+    ),
+    vectorIngestionConfiguration: S.optional(VectorIngestionConfiguration),
+    dataDeletionPolicy: S.optional(S.String),
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    failureReasons: S.optional(FailureReasons),
+  }),
+).annotations({ identifier: "DataSource" }) as any as S.Schema<DataSource>;
+export interface UpdateDataSourceResponse {
+  dataSource: DataSource;
+}
+export const UpdateDataSourceResponse = S.suspend(() =>
+  S.Struct({ dataSource: DataSource }),
+).annotations({
+  identifier: "UpdateDataSourceResponse",
+}) as any as S.Schema<UpdateDataSourceResponse>;
+export interface CreateFlowResponse {
+  name: string;
+  description?: string;
+  executionRoleArn: string;
+  customerEncryptionKeyArn?: string;
+  id: string;
+  arn: string;
+  status: string;
+  createdAt: Date;
+  updatedAt: Date;
+  version: string;
+  definition?: FlowDefinition;
+}
+export const CreateFlowResponse = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    description: S.optional(S.String),
+    executionRoleArn: S.String,
+    customerEncryptionKeyArn: S.optional(S.String),
+    id: S.String,
+    arn: S.String,
+    status: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    version: S.String,
+    definition: S.optional(FlowDefinition),
+  }),
+).annotations({
+  identifier: "CreateFlowResponse",
+}) as any as S.Schema<CreateFlowResponse>;
+export interface UpdateFlowResponse {
+  name: string;
+  description?: string;
+  executionRoleArn: string;
+  customerEncryptionKeyArn?: string;
+  id: string;
+  arn: string;
+  status: string;
+  createdAt: Date;
+  updatedAt: Date;
+  version: string;
+  definition?: FlowDefinition;
+}
+export const UpdateFlowResponse = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    description: S.optional(S.String),
+    executionRoleArn: S.String,
+    customerEncryptionKeyArn: S.optional(S.String),
+    id: S.String,
+    arn: S.String,
+    status: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    version: S.String,
+    definition: S.optional(FlowDefinition),
+  }),
+).annotations({
+  identifier: "UpdateFlowResponse",
+}) as any as S.Schema<UpdateFlowResponse>;
+export interface DeleteFlowResponse {
+  id: string;
+}
+export const DeleteFlowResponse = S.suspend(() =>
+  S.Struct({ id: S.String }),
+).annotations({
+  identifier: "DeleteFlowResponse",
+}) as any as S.Schema<DeleteFlowResponse>;
+export interface PrepareFlowResponse {
+  id: string;
+  status: string;
+}
+export const PrepareFlowResponse = S.suspend(() =>
+  S.Struct({ id: S.String, status: S.String }),
+).annotations({
+  identifier: "PrepareFlowResponse",
+}) as any as S.Schema<PrepareFlowResponse>;
+export interface CreateFlowAliasRequest {
+  name: string;
+  description?: string;
+  routingConfiguration: FlowAliasRoutingConfiguration;
+  concurrencyConfiguration?: FlowAliasConcurrencyConfiguration;
+  flowIdentifier: string;
+  clientToken?: string;
+  tags?: TagsMap;
+}
+export const CreateFlowAliasRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     description: S.optional(S.String),
     routingConfiguration: FlowAliasRoutingConfiguration,
@@ -2405,710 +3876,1576 @@ export class CreateFlowAliasRequest extends S.Class<CreateFlowAliasRequest>(
     flowIdentifier: S.String.pipe(T.HttpLabel("flowIdentifier")),
     clientToken: S.optional(S.String),
     tags: S.optional(TagsMap),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/flows/{flowIdentifier}/aliases" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/flows/{flowIdentifier}/aliases" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetFlowAliasResponse extends S.Class<GetFlowAliasResponse>(
-  "GetFlowAliasResponse",
-)({
-  name: S.String,
-  description: S.optional(S.String),
-  routingConfiguration: FlowAliasRoutingConfiguration,
-  concurrencyConfiguration: S.optional(FlowAliasConcurrencyConfiguration),
-  flowId: S.String,
-  id: S.String,
-  arn: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class UpdateFlowAliasResponse extends S.Class<UpdateFlowAliasResponse>(
-  "UpdateFlowAliasResponse",
-)({
-  name: S.String,
-  description: S.optional(S.String),
-  routingConfiguration: FlowAliasRoutingConfiguration,
-  concurrencyConfiguration: S.optional(FlowAliasConcurrencyConfiguration),
-  flowId: S.String,
-  id: S.String,
-  arn: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class DeleteFlowAliasResponse extends S.Class<DeleteFlowAliasResponse>(
-  "DeleteFlowAliasResponse",
-)({ flowId: S.String, id: S.String }) {}
-export class CreateFlowVersionResponse extends S.Class<CreateFlowVersionResponse>(
-  "CreateFlowVersionResponse",
-)({
-  name: S.String,
-  description: S.optional(S.String),
-  executionRoleArn: S.String,
-  customerEncryptionKeyArn: S.optional(S.String),
-  id: S.String,
-  arn: S.String,
-  status: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  version: S.String,
-  definition: S.optional(FlowDefinition),
-}) {}
-export class GetFlowVersionResponse extends S.Class<GetFlowVersionResponse>(
-  "GetFlowVersionResponse",
-)({
-  name: S.String,
-  description: S.optional(S.String),
-  executionRoleArn: S.String,
-  customerEncryptionKeyArn: S.optional(S.String),
-  id: S.String,
-  arn: S.String,
-  status: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  version: S.String,
-  definition: S.optional(FlowDefinition),
-}) {}
-export class DeleteFlowVersionResponse extends S.Class<DeleteFlowVersionResponse>(
-  "DeleteFlowVersionResponse",
-)({ id: S.String, version: S.String }) {}
-export class ListIngestionJobsRequest extends S.Class<ListIngestionJobsRequest>(
-  "ListIngestionJobsRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateFlowAliasRequest",
+}) as any as S.Schema<CreateFlowAliasRequest>;
+export interface GetFlowAliasResponse {
+  name: string;
+  description?: string;
+  routingConfiguration: FlowAliasRoutingConfiguration;
+  concurrencyConfiguration?: FlowAliasConcurrencyConfiguration;
+  flowId: string;
+  id: string;
+  arn: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+export const GetFlowAliasResponse = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    description: S.optional(S.String),
+    routingConfiguration: FlowAliasRoutingConfiguration,
+    concurrencyConfiguration: S.optional(FlowAliasConcurrencyConfiguration),
+    flowId: S.String,
+    id: S.String,
+    arn: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "GetFlowAliasResponse",
+}) as any as S.Schema<GetFlowAliasResponse>;
+export interface UpdateFlowAliasResponse {
+  name: string;
+  description?: string;
+  routingConfiguration: FlowAliasRoutingConfiguration;
+  concurrencyConfiguration?: FlowAliasConcurrencyConfiguration;
+  flowId: string;
+  id: string;
+  arn: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+export const UpdateFlowAliasResponse = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    description: S.optional(S.String),
+    routingConfiguration: FlowAliasRoutingConfiguration,
+    concurrencyConfiguration: S.optional(FlowAliasConcurrencyConfiguration),
+    flowId: S.String,
+    id: S.String,
+    arn: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "UpdateFlowAliasResponse",
+}) as any as S.Schema<UpdateFlowAliasResponse>;
+export interface DeleteFlowAliasResponse {
+  flowId: string;
+  id: string;
+}
+export const DeleteFlowAliasResponse = S.suspend(() =>
+  S.Struct({ flowId: S.String, id: S.String }),
+).annotations({
+  identifier: "DeleteFlowAliasResponse",
+}) as any as S.Schema<DeleteFlowAliasResponse>;
+export interface CreateFlowVersionResponse {
+  name: string;
+  description?: string;
+  executionRoleArn: string;
+  customerEncryptionKeyArn?: string;
+  id: string;
+  arn: string;
+  status: string;
+  createdAt: Date;
+  version: string;
+  definition?: FlowDefinition;
+}
+export const CreateFlowVersionResponse = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    description: S.optional(S.String),
+    executionRoleArn: S.String,
+    customerEncryptionKeyArn: S.optional(S.String),
+    id: S.String,
+    arn: S.String,
+    status: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    version: S.String,
+    definition: S.optional(FlowDefinition),
+  }),
+).annotations({
+  identifier: "CreateFlowVersionResponse",
+}) as any as S.Schema<CreateFlowVersionResponse>;
+export interface GetFlowVersionResponse {
+  name: string;
+  description?: string;
+  executionRoleArn: string;
+  customerEncryptionKeyArn?: string;
+  id: string;
+  arn: string;
+  status: string;
+  createdAt: Date;
+  version: string;
+  definition?: FlowDefinition;
+}
+export const GetFlowVersionResponse = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    description: S.optional(S.String),
+    executionRoleArn: S.String,
+    customerEncryptionKeyArn: S.optional(S.String),
+    id: S.String,
+    arn: S.String,
+    status: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    version: S.String,
+    definition: S.optional(FlowDefinition),
+  }),
+).annotations({
+  identifier: "GetFlowVersionResponse",
+}) as any as S.Schema<GetFlowVersionResponse>;
+export interface DeleteFlowVersionResponse {
+  id: string;
+  version: string;
+}
+export const DeleteFlowVersionResponse = S.suspend(() =>
+  S.Struct({ id: S.String, version: S.String }),
+).annotations({
+  identifier: "DeleteFlowVersionResponse",
+}) as any as S.Schema<DeleteFlowVersionResponse>;
+export interface ListIngestionJobsRequest {
+  knowledgeBaseId: string;
+  dataSourceId: string;
+  filters?: IngestionJobFilters;
+  sortBy?: IngestionJobSortBy;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListIngestionJobsRequest = S.suspend(() =>
+  S.Struct({
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     dataSourceId: S.String.pipe(T.HttpLabel("dataSourceId")),
     filters: S.optional(IngestionJobFilters),
     sortBy: S.optional(IngestionJobSortBy),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/knowledgebases/{knowledgeBaseId}/datasources/{dataSourceId}/ingestionjobs/",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/knowledgebases/{knowledgeBaseId}/datasources/{dataSourceId}/ingestionjobs/",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class IngestionJobStatistics extends S.Class<IngestionJobStatistics>(
-  "IngestionJobStatistics",
-)({
-  numberOfDocumentsScanned: S.optional(S.Number),
-  numberOfMetadataDocumentsScanned: S.optional(S.Number),
-  numberOfNewDocumentsIndexed: S.optional(S.Number),
-  numberOfModifiedDocumentsIndexed: S.optional(S.Number),
-  numberOfMetadataDocumentsModified: S.optional(S.Number),
-  numberOfDocumentsDeleted: S.optional(S.Number),
-  numberOfDocumentsFailed: S.optional(S.Number),
-}) {}
-export class IngestionJob extends S.Class<IngestionJob>("IngestionJob")({
-  knowledgeBaseId: S.String,
-  dataSourceId: S.String,
-  ingestionJobId: S.String,
-  description: S.optional(S.String),
-  status: S.String,
-  statistics: S.optional(IngestionJobStatistics),
-  failureReasons: S.optional(FailureReasons),
-  startedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class StartIngestionJobResponse extends S.Class<StartIngestionJobResponse>(
-  "StartIngestionJobResponse",
-)({ ingestionJob: IngestionJob }) {}
-export class StopIngestionJobResponse extends S.Class<StopIngestionJobResponse>(
-  "StopIngestionJobResponse",
-)({ ingestionJob: IngestionJob }) {}
-export class KnowledgeBaseDocumentDetail extends S.Class<KnowledgeBaseDocumentDetail>(
-  "KnowledgeBaseDocumentDetail",
-)({
-  knowledgeBaseId: S.String,
-  dataSourceId: S.String,
-  status: S.String,
-  identifier: DocumentIdentifier,
-  statusReason: S.optional(S.String),
-  updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-}) {}
+).annotations({
+  identifier: "ListIngestionJobsRequest",
+}) as any as S.Schema<ListIngestionJobsRequest>;
+export interface IngestionJobStatistics {
+  numberOfDocumentsScanned?: number;
+  numberOfMetadataDocumentsScanned?: number;
+  numberOfNewDocumentsIndexed?: number;
+  numberOfModifiedDocumentsIndexed?: number;
+  numberOfMetadataDocumentsModified?: number;
+  numberOfDocumentsDeleted?: number;
+  numberOfDocumentsFailed?: number;
+}
+export const IngestionJobStatistics = S.suspend(() =>
+  S.Struct({
+    numberOfDocumentsScanned: S.optional(S.Number),
+    numberOfMetadataDocumentsScanned: S.optional(S.Number),
+    numberOfNewDocumentsIndexed: S.optional(S.Number),
+    numberOfModifiedDocumentsIndexed: S.optional(S.Number),
+    numberOfMetadataDocumentsModified: S.optional(S.Number),
+    numberOfDocumentsDeleted: S.optional(S.Number),
+    numberOfDocumentsFailed: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "IngestionJobStatistics",
+}) as any as S.Schema<IngestionJobStatistics>;
+export interface IngestionJob {
+  knowledgeBaseId: string;
+  dataSourceId: string;
+  ingestionJobId: string;
+  description?: string;
+  status: string;
+  statistics?: IngestionJobStatistics;
+  failureReasons?: FailureReasons;
+  startedAt: Date;
+  updatedAt: Date;
+}
+export const IngestionJob = S.suspend(() =>
+  S.Struct({
+    knowledgeBaseId: S.String,
+    dataSourceId: S.String,
+    ingestionJobId: S.String,
+    description: S.optional(S.String),
+    status: S.String,
+    statistics: S.optional(IngestionJobStatistics),
+    failureReasons: S.optional(FailureReasons),
+    startedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({ identifier: "IngestionJob" }) as any as S.Schema<IngestionJob>;
+export interface StartIngestionJobResponse {
+  ingestionJob: IngestionJob;
+}
+export const StartIngestionJobResponse = S.suspend(() =>
+  S.Struct({ ingestionJob: IngestionJob }),
+).annotations({
+  identifier: "StartIngestionJobResponse",
+}) as any as S.Schema<StartIngestionJobResponse>;
+export interface StopIngestionJobResponse {
+  ingestionJob: IngestionJob;
+}
+export const StopIngestionJobResponse = S.suspend(() =>
+  S.Struct({ ingestionJob: IngestionJob }),
+).annotations({
+  identifier: "StopIngestionJobResponse",
+}) as any as S.Schema<StopIngestionJobResponse>;
+export interface KnowledgeBaseDocumentDetail {
+  knowledgeBaseId: string;
+  dataSourceId: string;
+  status: string;
+  identifier: DocumentIdentifier;
+  statusReason?: string;
+  updatedAt?: Date;
+}
+export const KnowledgeBaseDocumentDetail = S.suspend(() =>
+  S.Struct({
+    knowledgeBaseId: S.String,
+    dataSourceId: S.String,
+    status: S.String,
+    identifier: DocumentIdentifier,
+    statusReason: S.optional(S.String),
+    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotations({
+  identifier: "KnowledgeBaseDocumentDetail",
+}) as any as S.Schema<KnowledgeBaseDocumentDetail>;
+export type KnowledgeBaseDocumentDetails = KnowledgeBaseDocumentDetail[];
 export const KnowledgeBaseDocumentDetails = S.Array(
   KnowledgeBaseDocumentDetail,
 );
-export class ListKnowledgeBaseDocumentsResponse extends S.Class<ListKnowledgeBaseDocumentsResponse>(
-  "ListKnowledgeBaseDocumentsResponse",
-)({
-  documentDetails: KnowledgeBaseDocumentDetails,
-  nextToken: S.optional(S.String),
-}) {}
-export class DeleteKnowledgeBaseResponse extends S.Class<DeleteKnowledgeBaseResponse>(
-  "DeleteKnowledgeBaseResponse",
-)({ knowledgeBaseId: S.String, status: S.String }) {}
-export class AgentKnowledgeBase extends S.Class<AgentKnowledgeBase>(
-  "AgentKnowledgeBase",
-)({
-  agentId: S.String,
-  agentVersion: S.String,
-  knowledgeBaseId: S.String,
-  description: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  knowledgeBaseState: S.String,
-}) {}
-export class GetAgentKnowledgeBaseResponse extends S.Class<GetAgentKnowledgeBaseResponse>(
-  "GetAgentKnowledgeBaseResponse",
-)({ agentKnowledgeBase: AgentKnowledgeBase }) {}
-export class UpdateAgentKnowledgeBaseResponse extends S.Class<UpdateAgentKnowledgeBaseResponse>(
-  "UpdateAgentKnowledgeBaseResponse",
-)({ agentKnowledgeBase: AgentKnowledgeBase }) {}
-export class KnowledgeBase extends S.Class<KnowledgeBase>("KnowledgeBase")({
-  knowledgeBaseId: S.String,
-  name: S.String,
-  knowledgeBaseArn: S.String,
-  description: S.optional(S.String),
-  roleArn: S.String,
-  knowledgeBaseConfiguration: KnowledgeBaseConfiguration,
-  storageConfiguration: S.optional(StorageConfiguration),
-  status: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  failureReasons: S.optional(FailureReasons),
-}) {}
-export class UpdateKnowledgeBaseResponse extends S.Class<UpdateKnowledgeBaseResponse>(
-  "UpdateKnowledgeBaseResponse",
-)({ knowledgeBase: KnowledgeBase }) {}
-export class GetPromptResponse extends S.Class<GetPromptResponse>(
-  "GetPromptResponse",
-)({
-  name: S.String,
-  description: S.optional(S.String),
-  customerEncryptionKeyArn: S.optional(S.String),
-  defaultVariant: S.optional(S.String),
-  variants: S.optional(PromptVariantList),
-  id: S.String,
-  arn: S.String,
-  version: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class UpdatePromptResponse extends S.Class<UpdatePromptResponse>(
-  "UpdatePromptResponse",
-)({
-  name: S.String,
-  description: S.optional(S.String),
-  customerEncryptionKeyArn: S.optional(S.String),
-  defaultVariant: S.optional(S.String),
-  variants: S.optional(PromptVariantList),
-  id: S.String,
-  arn: S.String,
-  version: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class DeletePromptResponse extends S.Class<DeletePromptResponse>(
-  "DeletePromptResponse",
-)({ id: S.String, version: S.optional(S.String) }) {}
-export class CreatePromptVersionResponse extends S.Class<CreatePromptVersionResponse>(
-  "CreatePromptVersionResponse",
-)({
-  name: S.String,
-  description: S.optional(S.String),
-  customerEncryptionKeyArn: S.optional(S.String),
-  defaultVariant: S.optional(S.String),
-  variants: S.optional(PromptVariantList),
-  id: S.String,
-  arn: S.String,
-  version: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ tags: S.optional(TagsMap) }) {}
-export class DeleteAgentVersionResponse extends S.Class<DeleteAgentVersionResponse>(
-  "DeleteAgentVersionResponse",
-)({ agentId: S.String, agentVersion: S.String, agentStatus: S.String }) {}
-export class InputFlowNodeConfiguration extends S.Class<InputFlowNodeConfiguration>(
-  "InputFlowNodeConfiguration",
-)({}) {}
-export class OutputFlowNodeConfiguration extends S.Class<OutputFlowNodeConfiguration>(
-  "OutputFlowNodeConfiguration",
-)({}) {}
-export class IteratorFlowNodeConfiguration extends S.Class<IteratorFlowNodeConfiguration>(
-  "IteratorFlowNodeConfiguration",
-)({}) {}
-export class CollectorFlowNodeConfiguration extends S.Class<CollectorFlowNodeConfiguration>(
-  "CollectorFlowNodeConfiguration",
-)({}) {}
-export class LoopInputFlowNodeConfiguration extends S.Class<LoopInputFlowNodeConfiguration>(
-  "LoopInputFlowNodeConfiguration",
-)({}) {}
-export class ActionGroupSummary extends S.Class<ActionGroupSummary>(
-  "ActionGroupSummary",
-)({
-  actionGroupId: S.String,
-  actionGroupName: S.String,
-  actionGroupState: S.String,
-  description: S.optional(S.String),
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
+export interface ListKnowledgeBaseDocumentsResponse {
+  documentDetails: KnowledgeBaseDocumentDetails;
+  nextToken?: string;
+}
+export const ListKnowledgeBaseDocumentsResponse = S.suspend(() =>
+  S.Struct({
+    documentDetails: KnowledgeBaseDocumentDetails,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListKnowledgeBaseDocumentsResponse",
+}) as any as S.Schema<ListKnowledgeBaseDocumentsResponse>;
+export interface DeleteKnowledgeBaseResponse {
+  knowledgeBaseId: string;
+  status: string;
+}
+export const DeleteKnowledgeBaseResponse = S.suspend(() =>
+  S.Struct({ knowledgeBaseId: S.String, status: S.String }),
+).annotations({
+  identifier: "DeleteKnowledgeBaseResponse",
+}) as any as S.Schema<DeleteKnowledgeBaseResponse>;
+export interface AgentKnowledgeBase {
+  agentId: string;
+  agentVersion: string;
+  knowledgeBaseId: string;
+  description: string;
+  createdAt: Date;
+  updatedAt: Date;
+  knowledgeBaseState: string;
+}
+export const AgentKnowledgeBase = S.suspend(() =>
+  S.Struct({
+    agentId: S.String,
+    agentVersion: S.String,
+    knowledgeBaseId: S.String,
+    description: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    knowledgeBaseState: S.String,
+  }),
+).annotations({
+  identifier: "AgentKnowledgeBase",
+}) as any as S.Schema<AgentKnowledgeBase>;
+export interface GetAgentKnowledgeBaseResponse {
+  agentKnowledgeBase: AgentKnowledgeBase;
+}
+export const GetAgentKnowledgeBaseResponse = S.suspend(() =>
+  S.Struct({ agentKnowledgeBase: AgentKnowledgeBase }),
+).annotations({
+  identifier: "GetAgentKnowledgeBaseResponse",
+}) as any as S.Schema<GetAgentKnowledgeBaseResponse>;
+export interface UpdateAgentKnowledgeBaseResponse {
+  agentKnowledgeBase: AgentKnowledgeBase;
+}
+export const UpdateAgentKnowledgeBaseResponse = S.suspend(() =>
+  S.Struct({ agentKnowledgeBase: AgentKnowledgeBase }),
+).annotations({
+  identifier: "UpdateAgentKnowledgeBaseResponse",
+}) as any as S.Schema<UpdateAgentKnowledgeBaseResponse>;
+export interface KnowledgeBase {
+  knowledgeBaseId: string;
+  name: string;
+  knowledgeBaseArn: string;
+  description?: string;
+  roleArn: string;
+  knowledgeBaseConfiguration: KnowledgeBaseConfiguration;
+  storageConfiguration?: StorageConfiguration;
+  status: string;
+  createdAt: Date;
+  updatedAt: Date;
+  failureReasons?: FailureReasons;
+}
+export const KnowledgeBase = S.suspend(() =>
+  S.Struct({
+    knowledgeBaseId: S.String,
+    name: S.String,
+    knowledgeBaseArn: S.String,
+    description: S.optional(S.String),
+    roleArn: S.String,
+    knowledgeBaseConfiguration: KnowledgeBaseConfiguration,
+    storageConfiguration: S.optional(StorageConfiguration),
+    status: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    failureReasons: S.optional(FailureReasons),
+  }),
+).annotations({
+  identifier: "KnowledgeBase",
+}) as any as S.Schema<KnowledgeBase>;
+export interface UpdateKnowledgeBaseResponse {
+  knowledgeBase: KnowledgeBase;
+}
+export const UpdateKnowledgeBaseResponse = S.suspend(() =>
+  S.Struct({ knowledgeBase: KnowledgeBase }),
+).annotations({
+  identifier: "UpdateKnowledgeBaseResponse",
+}) as any as S.Schema<UpdateKnowledgeBaseResponse>;
+export interface GetPromptResponse {
+  name: string;
+  description?: string;
+  customerEncryptionKeyArn?: string;
+  defaultVariant?: string;
+  variants?: PromptVariantList;
+  id: string;
+  arn: string;
+  version: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+export const GetPromptResponse = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    description: S.optional(S.String),
+    customerEncryptionKeyArn: S.optional(S.String),
+    defaultVariant: S.optional(S.String),
+    variants: S.optional(PromptVariantList),
+    id: S.String,
+    arn: S.String,
+    version: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "GetPromptResponse",
+}) as any as S.Schema<GetPromptResponse>;
+export interface UpdatePromptResponse {
+  name: string;
+  description?: string;
+  customerEncryptionKeyArn?: string;
+  defaultVariant?: string;
+  variants?: PromptVariantList;
+  id: string;
+  arn: string;
+  version: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+export const UpdatePromptResponse = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    description: S.optional(S.String),
+    customerEncryptionKeyArn: S.optional(S.String),
+    defaultVariant: S.optional(S.String),
+    variants: S.optional(PromptVariantList),
+    id: S.String,
+    arn: S.String,
+    version: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "UpdatePromptResponse",
+}) as any as S.Schema<UpdatePromptResponse>;
+export interface DeletePromptResponse {
+  id: string;
+  version?: string;
+}
+export const DeletePromptResponse = S.suspend(() =>
+  S.Struct({ id: S.String, version: S.optional(S.String) }),
+).annotations({
+  identifier: "DeletePromptResponse",
+}) as any as S.Schema<DeletePromptResponse>;
+export interface CreatePromptVersionResponse {
+  name: string;
+  description?: string;
+  customerEncryptionKeyArn?: string;
+  defaultVariant?: string;
+  variants?: PromptVariantList;
+  id: string;
+  arn: string;
+  version: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+export const CreatePromptVersionResponse = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    description: S.optional(S.String),
+    customerEncryptionKeyArn: S.optional(S.String),
+    defaultVariant: S.optional(S.String),
+    variants: S.optional(PromptVariantList),
+    id: S.String,
+    arn: S.String,
+    version: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "CreatePromptVersionResponse",
+}) as any as S.Schema<CreatePromptVersionResponse>;
+export interface ListTagsForResourceResponse {
+  tags?: TagsMap;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ tags: S.optional(TagsMap) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface DeleteAgentVersionResponse {
+  agentId: string;
+  agentVersion: string;
+  agentStatus: string;
+}
+export const DeleteAgentVersionResponse = S.suspend(() =>
+  S.Struct({
+    agentId: S.String,
+    agentVersion: S.String,
+    agentStatus: S.String,
+  }),
+).annotations({
+  identifier: "DeleteAgentVersionResponse",
+}) as any as S.Schema<DeleteAgentVersionResponse>;
+export interface InputFlowNodeConfiguration {}
+export const InputFlowNodeConfiguration = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "InputFlowNodeConfiguration",
+}) as any as S.Schema<InputFlowNodeConfiguration>;
+export interface OutputFlowNodeConfiguration {}
+export const OutputFlowNodeConfiguration = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "OutputFlowNodeConfiguration",
+}) as any as S.Schema<OutputFlowNodeConfiguration>;
+export interface IteratorFlowNodeConfiguration {}
+export const IteratorFlowNodeConfiguration = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "IteratorFlowNodeConfiguration",
+}) as any as S.Schema<IteratorFlowNodeConfiguration>;
+export interface CollectorFlowNodeConfiguration {}
+export const CollectorFlowNodeConfiguration = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "CollectorFlowNodeConfiguration",
+}) as any as S.Schema<CollectorFlowNodeConfiguration>;
+export interface LoopInputFlowNodeConfiguration {}
+export const LoopInputFlowNodeConfiguration = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "LoopInputFlowNodeConfiguration",
+}) as any as S.Schema<LoopInputFlowNodeConfiguration>;
+export interface ActionGroupSummary {
+  actionGroupId: string;
+  actionGroupName: string;
+  actionGroupState: string;
+  description?: string;
+  updatedAt: Date;
+}
+export const ActionGroupSummary = S.suspend(() =>
+  S.Struct({
+    actionGroupId: S.String,
+    actionGroupName: S.String,
+    actionGroupState: S.String,
+    description: S.optional(S.String),
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "ActionGroupSummary",
+}) as any as S.Schema<ActionGroupSummary>;
+export type ActionGroupSummaries = ActionGroupSummary[];
 export const ActionGroupSummaries = S.Array(ActionGroupSummary);
-export class AgentCollaboratorSummary extends S.Class<AgentCollaboratorSummary>(
-  "AgentCollaboratorSummary",
-)({
-  agentId: S.String,
-  agentVersion: S.String,
-  collaboratorId: S.String,
-  agentDescriptor: AgentDescriptor,
-  collaborationInstruction: S.String,
-  relayConversationHistory: S.String,
-  collaboratorName: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  lastUpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
+export interface AgentCollaboratorSummary {
+  agentId: string;
+  agentVersion: string;
+  collaboratorId: string;
+  agentDescriptor: AgentDescriptor;
+  collaborationInstruction: string;
+  relayConversationHistory: string;
+  collaboratorName: string;
+  createdAt: Date;
+  lastUpdatedAt: Date;
+}
+export const AgentCollaboratorSummary = S.suspend(() =>
+  S.Struct({
+    agentId: S.String,
+    agentVersion: S.String,
+    collaboratorId: S.String,
+    agentDescriptor: AgentDescriptor,
+    collaborationInstruction: S.String,
+    relayConversationHistory: S.String,
+    collaboratorName: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "AgentCollaboratorSummary",
+}) as any as S.Schema<AgentCollaboratorSummary>;
+export type AgentCollaboratorSummaries = AgentCollaboratorSummary[];
 export const AgentCollaboratorSummaries = S.Array(AgentCollaboratorSummary);
-export class AgentSummary extends S.Class<AgentSummary>("AgentSummary")({
-  agentId: S.String,
-  agentName: S.String,
-  agentStatus: S.String,
-  description: S.optional(S.String),
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  latestAgentVersion: S.optional(S.String),
-  guardrailConfiguration: S.optional(GuardrailConfiguration),
-}) {}
+export interface AgentSummary {
+  agentId: string;
+  agentName: string;
+  agentStatus: string;
+  description?: string;
+  updatedAt: Date;
+  latestAgentVersion?: string;
+  guardrailConfiguration?: GuardrailConfiguration;
+}
+export const AgentSummary = S.suspend(() =>
+  S.Struct({
+    agentId: S.String,
+    agentName: S.String,
+    agentStatus: S.String,
+    description: S.optional(S.String),
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    latestAgentVersion: S.optional(S.String),
+    guardrailConfiguration: S.optional(GuardrailConfiguration),
+  }),
+).annotations({ identifier: "AgentSummary" }) as any as S.Schema<AgentSummary>;
+export type AgentSummaries = AgentSummary[];
 export const AgentSummaries = S.Array(AgentSummary);
-export class AgentAliasSummary extends S.Class<AgentAliasSummary>(
-  "AgentAliasSummary",
-)({
-  agentAliasId: S.String,
-  agentAliasName: S.String,
-  description: S.optional(S.String),
-  routingConfiguration: S.optional(AgentAliasRoutingConfiguration),
-  agentAliasStatus: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  aliasInvocationState: S.optional(S.String),
-}) {}
+export interface AgentAliasSummary {
+  agentAliasId: string;
+  agentAliasName: string;
+  description?: string;
+  routingConfiguration?: AgentAliasRoutingConfiguration;
+  agentAliasStatus: string;
+  createdAt: Date;
+  updatedAt: Date;
+  aliasInvocationState?: string;
+}
+export const AgentAliasSummary = S.suspend(() =>
+  S.Struct({
+    agentAliasId: S.String,
+    agentAliasName: S.String,
+    description: S.optional(S.String),
+    routingConfiguration: S.optional(AgentAliasRoutingConfiguration),
+    agentAliasStatus: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    aliasInvocationState: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AgentAliasSummary",
+}) as any as S.Schema<AgentAliasSummary>;
+export type AgentAliasSummaries = AgentAliasSummary[];
 export const AgentAliasSummaries = S.Array(AgentAliasSummary);
-export class DataSourceSummary extends S.Class<DataSourceSummary>(
-  "DataSourceSummary",
-)({
-  knowledgeBaseId: S.String,
-  dataSourceId: S.String,
-  name: S.String,
-  status: S.String,
-  description: S.optional(S.String),
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
+export interface DataSourceSummary {
+  knowledgeBaseId: string;
+  dataSourceId: string;
+  name: string;
+  status: string;
+  description?: string;
+  updatedAt: Date;
+}
+export const DataSourceSummary = S.suspend(() =>
+  S.Struct({
+    knowledgeBaseId: S.String,
+    dataSourceId: S.String,
+    name: S.String,
+    status: S.String,
+    description: S.optional(S.String),
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "DataSourceSummary",
+}) as any as S.Schema<DataSourceSummary>;
+export type DataSourceSummaries = DataSourceSummary[];
 export const DataSourceSummaries = S.Array(DataSourceSummary);
-export class FlowSummary extends S.Class<FlowSummary>("FlowSummary")({
-  name: S.String,
-  description: S.optional(S.String),
-  id: S.String,
-  arn: S.String,
-  status: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  version: S.String,
-}) {}
+export interface FlowSummary {
+  name: string;
+  description?: string;
+  id: string;
+  arn: string;
+  status: string;
+  createdAt: Date;
+  updatedAt: Date;
+  version: string;
+}
+export const FlowSummary = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    description: S.optional(S.String),
+    id: S.String,
+    arn: S.String,
+    status: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    version: S.String,
+  }),
+).annotations({ identifier: "FlowSummary" }) as any as S.Schema<FlowSummary>;
+export type FlowSummaries = FlowSummary[];
 export const FlowSummaries = S.Array(FlowSummary);
-export class FlowAliasSummary extends S.Class<FlowAliasSummary>(
-  "FlowAliasSummary",
-)({
-  name: S.String,
-  description: S.optional(S.String),
-  routingConfiguration: FlowAliasRoutingConfiguration,
-  concurrencyConfiguration: S.optional(FlowAliasConcurrencyConfiguration),
-  flowId: S.String,
-  id: S.String,
-  arn: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
+export interface FlowAliasSummary {
+  name: string;
+  description?: string;
+  routingConfiguration: FlowAliasRoutingConfiguration;
+  concurrencyConfiguration?: FlowAliasConcurrencyConfiguration;
+  flowId: string;
+  id: string;
+  arn: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+export const FlowAliasSummary = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    description: S.optional(S.String),
+    routingConfiguration: FlowAliasRoutingConfiguration,
+    concurrencyConfiguration: S.optional(FlowAliasConcurrencyConfiguration),
+    flowId: S.String,
+    id: S.String,
+    arn: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "FlowAliasSummary",
+}) as any as S.Schema<FlowAliasSummary>;
+export type FlowAliasSummaries = FlowAliasSummary[];
 export const FlowAliasSummaries = S.Array(FlowAliasSummary);
-export class FlowVersionSummary extends S.Class<FlowVersionSummary>(
-  "FlowVersionSummary",
-)({
-  id: S.String,
-  arn: S.String,
-  status: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  version: S.String,
-}) {}
+export interface FlowVersionSummary {
+  id: string;
+  arn: string;
+  status: string;
+  createdAt: Date;
+  version: string;
+}
+export const FlowVersionSummary = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    arn: S.String,
+    status: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    version: S.String,
+  }),
+).annotations({
+  identifier: "FlowVersionSummary",
+}) as any as S.Schema<FlowVersionSummary>;
+export type FlowVersionSummaries = FlowVersionSummary[];
 export const FlowVersionSummaries = S.Array(FlowVersionSummary);
-export class AgentKnowledgeBaseSummary extends S.Class<AgentKnowledgeBaseSummary>(
-  "AgentKnowledgeBaseSummary",
-)({
-  knowledgeBaseId: S.String,
-  description: S.optional(S.String),
-  knowledgeBaseState: S.String,
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
+export interface AgentKnowledgeBaseSummary {
+  knowledgeBaseId: string;
+  description?: string;
+  knowledgeBaseState: string;
+  updatedAt: Date;
+}
+export const AgentKnowledgeBaseSummary = S.suspend(() =>
+  S.Struct({
+    knowledgeBaseId: S.String,
+    description: S.optional(S.String),
+    knowledgeBaseState: S.String,
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "AgentKnowledgeBaseSummary",
+}) as any as S.Schema<AgentKnowledgeBaseSummary>;
+export type AgentKnowledgeBaseSummaries = AgentKnowledgeBaseSummary[];
 export const AgentKnowledgeBaseSummaries = S.Array(AgentKnowledgeBaseSummary);
-export class KnowledgeBaseSummary extends S.Class<KnowledgeBaseSummary>(
-  "KnowledgeBaseSummary",
-)({
-  knowledgeBaseId: S.String,
-  name: S.String,
-  description: S.optional(S.String),
-  status: S.String,
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
+export interface KnowledgeBaseSummary {
+  knowledgeBaseId: string;
+  name: string;
+  description?: string;
+  status: string;
+  updatedAt: Date;
+}
+export const KnowledgeBaseSummary = S.suspend(() =>
+  S.Struct({
+    knowledgeBaseId: S.String,
+    name: S.String,
+    description: S.optional(S.String),
+    status: S.String,
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "KnowledgeBaseSummary",
+}) as any as S.Schema<KnowledgeBaseSummary>;
+export type KnowledgeBaseSummaries = KnowledgeBaseSummary[];
 export const KnowledgeBaseSummaries = S.Array(KnowledgeBaseSummary);
-export class PromptSummary extends S.Class<PromptSummary>("PromptSummary")({
-  name: S.String,
-  description: S.optional(S.String),
-  id: S.String,
-  arn: S.String,
-  version: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
+export interface PromptSummary {
+  name: string;
+  description?: string;
+  id: string;
+  arn: string;
+  version: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+export const PromptSummary = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    description: S.optional(S.String),
+    id: S.String,
+    arn: S.String,
+    version: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "PromptSummary",
+}) as any as S.Schema<PromptSummary>;
+export type PromptSummaries = PromptSummary[];
 export const PromptSummaries = S.Array(PromptSummary);
-export class AgentVersion extends S.Class<AgentVersion>("AgentVersion")({
-  agentId: S.String,
-  agentName: S.String,
-  agentArn: S.String,
-  version: S.String,
-  instruction: S.optional(S.String),
-  agentStatus: S.String,
-  foundationModel: S.optional(S.String),
-  description: S.optional(S.String),
-  idleSessionTTLInSeconds: S.Number,
-  agentResourceRoleArn: S.String,
-  customerEncryptionKeyArn: S.optional(S.String),
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  failureReasons: S.optional(FailureReasons),
-  recommendedActions: S.optional(RecommendedActions),
-  promptOverrideConfiguration: S.optional(PromptOverrideConfiguration),
-  guardrailConfiguration: S.optional(GuardrailConfiguration),
-  memoryConfiguration: S.optional(MemoryConfiguration),
-  agentCollaboration: S.optional(S.String),
-}) {}
-export class AgentVersionSummary extends S.Class<AgentVersionSummary>(
-  "AgentVersionSummary",
-)({
-  agentName: S.String,
-  agentStatus: S.String,
-  agentVersion: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  description: S.optional(S.String),
-  guardrailConfiguration: S.optional(GuardrailConfiguration),
-}) {}
+export interface AgentVersion {
+  agentId: string;
+  agentName: string;
+  agentArn: string;
+  version: string;
+  instruction?: string;
+  agentStatus: string;
+  foundationModel?: string;
+  description?: string;
+  idleSessionTTLInSeconds: number;
+  agentResourceRoleArn: string;
+  customerEncryptionKeyArn?: string;
+  createdAt: Date;
+  updatedAt: Date;
+  failureReasons?: FailureReasons;
+  recommendedActions?: RecommendedActions;
+  promptOverrideConfiguration?: PromptOverrideConfiguration;
+  guardrailConfiguration?: GuardrailConfiguration;
+  memoryConfiguration?: MemoryConfiguration;
+  agentCollaboration?: string;
+}
+export const AgentVersion = S.suspend(() =>
+  S.Struct({
+    agentId: S.String,
+    agentName: S.String,
+    agentArn: S.String,
+    version: S.String,
+    instruction: S.optional(S.String),
+    agentStatus: S.String,
+    foundationModel: S.optional(S.String),
+    description: S.optional(S.String),
+    idleSessionTTLInSeconds: S.Number,
+    agentResourceRoleArn: S.String,
+    customerEncryptionKeyArn: S.optional(S.String),
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    failureReasons: S.optional(FailureReasons),
+    recommendedActions: S.optional(RecommendedActions),
+    promptOverrideConfiguration: S.optional(PromptOverrideConfiguration),
+    guardrailConfiguration: S.optional(GuardrailConfiguration),
+    memoryConfiguration: S.optional(MemoryConfiguration),
+    agentCollaboration: S.optional(S.String),
+  }),
+).annotations({ identifier: "AgentVersion" }) as any as S.Schema<AgentVersion>;
+export interface AgentVersionSummary {
+  agentName: string;
+  agentStatus: string;
+  agentVersion: string;
+  createdAt: Date;
+  updatedAt: Date;
+  description?: string;
+  guardrailConfiguration?: GuardrailConfiguration;
+}
+export const AgentVersionSummary = S.suspend(() =>
+  S.Struct({
+    agentName: S.String,
+    agentStatus: S.String,
+    agentVersion: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    description: S.optional(S.String),
+    guardrailConfiguration: S.optional(GuardrailConfiguration),
+  }),
+).annotations({
+  identifier: "AgentVersionSummary",
+}) as any as S.Schema<AgentVersionSummary>;
+export type AgentVersionSummaries = AgentVersionSummary[];
 export const AgentVersionSummaries = S.Array(AgentVersionSummary);
-export class FlowNodeInput extends S.Class<FlowNodeInput>("FlowNodeInput")({
-  name: S.String,
-  type: S.String,
-  expression: S.String,
-  category: S.optional(S.String),
-}) {}
+export interface FlowNodeInput {
+  name: string;
+  type: string;
+  expression: string;
+  category?: string;
+}
+export const FlowNodeInput = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    type: S.String,
+    expression: S.String,
+    category: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "FlowNodeInput",
+}) as any as S.Schema<FlowNodeInput>;
+export type FlowNodeInputs = FlowNodeInput[];
 export const FlowNodeInputs = S.Array(FlowNodeInput);
-export class FlowNodeOutput extends S.Class<FlowNodeOutput>("FlowNodeOutput")({
-  name: S.String,
-  type: S.String,
-}) {}
+export interface FlowNodeOutput {
+  name: string;
+  type: string;
+}
+export const FlowNodeOutput = S.suspend(() =>
+  S.Struct({ name: S.String, type: S.String }),
+).annotations({
+  identifier: "FlowNodeOutput",
+}) as any as S.Schema<FlowNodeOutput>;
+export type FlowNodeOutputs = FlowNodeOutput[];
 export const FlowNodeOutputs = S.Array(FlowNodeOutput);
-export class MissingEndingNodesFlowValidationDetails extends S.Class<MissingEndingNodesFlowValidationDetails>(
-  "MissingEndingNodesFlowValidationDetails",
-)({}) {}
-export class MissingStartingNodesFlowValidationDetails extends S.Class<MissingStartingNodesFlowValidationDetails>(
-  "MissingStartingNodesFlowValidationDetails",
-)({}) {}
-export class UnspecifiedFlowValidationDetails extends S.Class<UnspecifiedFlowValidationDetails>(
-  "UnspecifiedFlowValidationDetails",
-)({}) {}
-export class CustomS3Location extends S.Class<CustomS3Location>(
-  "CustomS3Location",
-)({ uri: S.String, bucketOwnerAccountId: S.optional(S.String) }) {}
-export class S3Content extends S.Class<S3Content>("S3Content")({
-  s3Location: S3Location,
-}) {}
-export class GetAgentActionGroupResponse extends S.Class<GetAgentActionGroupResponse>(
-  "GetAgentActionGroupResponse",
-)({ agentActionGroup: AgentActionGroup }) {}
-export class ListAgentActionGroupsResponse extends S.Class<ListAgentActionGroupsResponse>(
-  "ListAgentActionGroupsResponse",
-)({
-  actionGroupSummaries: ActionGroupSummaries,
-  nextToken: S.optional(S.String),
-}) {}
-export class AssociateAgentCollaboratorResponse extends S.Class<AssociateAgentCollaboratorResponse>(
-  "AssociateAgentCollaboratorResponse",
-)({ agentCollaborator: AgentCollaborator }) {}
-export class GetAgentCollaboratorResponse extends S.Class<GetAgentCollaboratorResponse>(
-  "GetAgentCollaboratorResponse",
-)({ agentCollaborator: AgentCollaborator }) {}
-export class ListAgentCollaboratorsResponse extends S.Class<ListAgentCollaboratorsResponse>(
-  "ListAgentCollaboratorsResponse",
-)({
-  agentCollaboratorSummaries: AgentCollaboratorSummaries,
-  nextToken: S.optional(S.String),
-}) {}
-export class GetAgentResponse extends S.Class<GetAgentResponse>(
-  "GetAgentResponse",
-)({ agent: Agent }) {}
-export class ListAgentsResponse extends S.Class<ListAgentsResponse>(
-  "ListAgentsResponse",
-)({ agentSummaries: AgentSummaries, nextToken: S.optional(S.String) }) {}
-export class CreateAgentAliasResponse extends S.Class<CreateAgentAliasResponse>(
-  "CreateAgentAliasResponse",
-)({ agentAlias: AgentAlias }) {}
-export class ListAgentAliasesResponse extends S.Class<ListAgentAliasesResponse>(
-  "ListAgentAliasesResponse",
-)({
-  agentAliasSummaries: AgentAliasSummaries,
-  nextToken: S.optional(S.String),
-}) {}
-export class GetDataSourceResponse extends S.Class<GetDataSourceResponse>(
-  "GetDataSourceResponse",
-)({ dataSource: DataSource }) {}
-export class ListDataSourcesResponse extends S.Class<ListDataSourcesResponse>(
-  "ListDataSourcesResponse",
-)({
-  dataSourceSummaries: DataSourceSummaries,
-  nextToken: S.optional(S.String),
-}) {}
-export class ListFlowsResponse extends S.Class<ListFlowsResponse>(
-  "ListFlowsResponse",
-)({ flowSummaries: FlowSummaries, nextToken: S.optional(S.String) }) {}
-export class CreateFlowAliasResponse extends S.Class<CreateFlowAliasResponse>(
-  "CreateFlowAliasResponse",
-)({
-  name: S.String,
-  description: S.optional(S.String),
-  routingConfiguration: FlowAliasRoutingConfiguration,
-  concurrencyConfiguration: S.optional(FlowAliasConcurrencyConfiguration),
-  flowId: S.String,
-  id: S.String,
-  arn: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class ListFlowAliasesResponse extends S.Class<ListFlowAliasesResponse>(
-  "ListFlowAliasesResponse",
-)({
-  flowAliasSummaries: FlowAliasSummaries,
-  nextToken: S.optional(S.String),
-}) {}
-export class ListFlowVersionsResponse extends S.Class<ListFlowVersionsResponse>(
-  "ListFlowVersionsResponse",
-)({
-  flowVersionSummaries: FlowVersionSummaries,
-  nextToken: S.optional(S.String),
-}) {}
-export class DeleteKnowledgeBaseDocumentsRequest extends S.Class<DeleteKnowledgeBaseDocumentsRequest>(
-  "DeleteKnowledgeBaseDocumentsRequest",
-)(
-  {
+export interface MissingEndingNodesFlowValidationDetails {}
+export const MissingEndingNodesFlowValidationDetails = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "MissingEndingNodesFlowValidationDetails",
+}) as any as S.Schema<MissingEndingNodesFlowValidationDetails>;
+export interface MissingStartingNodesFlowValidationDetails {}
+export const MissingStartingNodesFlowValidationDetails = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "MissingStartingNodesFlowValidationDetails",
+}) as any as S.Schema<MissingStartingNodesFlowValidationDetails>;
+export interface UnspecifiedFlowValidationDetails {}
+export const UnspecifiedFlowValidationDetails = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UnspecifiedFlowValidationDetails",
+}) as any as S.Schema<UnspecifiedFlowValidationDetails>;
+export interface CustomS3Location {
+  uri: string;
+  bucketOwnerAccountId?: string;
+}
+export const CustomS3Location = S.suspend(() =>
+  S.Struct({ uri: S.String, bucketOwnerAccountId: S.optional(S.String) }),
+).annotations({
+  identifier: "CustomS3Location",
+}) as any as S.Schema<CustomS3Location>;
+export interface S3Content {
+  s3Location: S3Location;
+}
+export const S3Content = S.suspend(() =>
+  S.Struct({ s3Location: S3Location }),
+).annotations({ identifier: "S3Content" }) as any as S.Schema<S3Content>;
+export interface GetAgentActionGroupResponse {
+  agentActionGroup: AgentActionGroup;
+}
+export const GetAgentActionGroupResponse = S.suspend(() =>
+  S.Struct({ agentActionGroup: AgentActionGroup }),
+).annotations({
+  identifier: "GetAgentActionGroupResponse",
+}) as any as S.Schema<GetAgentActionGroupResponse>;
+export interface ListAgentActionGroupsResponse {
+  actionGroupSummaries: ActionGroupSummaries;
+  nextToken?: string;
+}
+export const ListAgentActionGroupsResponse = S.suspend(() =>
+  S.Struct({
+    actionGroupSummaries: ActionGroupSummaries,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListAgentActionGroupsResponse",
+}) as any as S.Schema<ListAgentActionGroupsResponse>;
+export interface AssociateAgentCollaboratorResponse {
+  agentCollaborator: AgentCollaborator;
+}
+export const AssociateAgentCollaboratorResponse = S.suspend(() =>
+  S.Struct({ agentCollaborator: AgentCollaborator }),
+).annotations({
+  identifier: "AssociateAgentCollaboratorResponse",
+}) as any as S.Schema<AssociateAgentCollaboratorResponse>;
+export interface GetAgentCollaboratorResponse {
+  agentCollaborator: AgentCollaborator;
+}
+export const GetAgentCollaboratorResponse = S.suspend(() =>
+  S.Struct({ agentCollaborator: AgentCollaborator }),
+).annotations({
+  identifier: "GetAgentCollaboratorResponse",
+}) as any as S.Schema<GetAgentCollaboratorResponse>;
+export interface ListAgentCollaboratorsResponse {
+  agentCollaboratorSummaries: AgentCollaboratorSummaries;
+  nextToken?: string;
+}
+export const ListAgentCollaboratorsResponse = S.suspend(() =>
+  S.Struct({
+    agentCollaboratorSummaries: AgentCollaboratorSummaries,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListAgentCollaboratorsResponse",
+}) as any as S.Schema<ListAgentCollaboratorsResponse>;
+export interface GetAgentResponse {
+  agent: Agent;
+}
+export const GetAgentResponse = S.suspend(() =>
+  S.Struct({ agent: Agent }),
+).annotations({
+  identifier: "GetAgentResponse",
+}) as any as S.Schema<GetAgentResponse>;
+export interface ListAgentsResponse {
+  agentSummaries: AgentSummaries;
+  nextToken?: string;
+}
+export const ListAgentsResponse = S.suspend(() =>
+  S.Struct({ agentSummaries: AgentSummaries, nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListAgentsResponse",
+}) as any as S.Schema<ListAgentsResponse>;
+export interface CreateAgentAliasResponse {
+  agentAlias: AgentAlias;
+}
+export const CreateAgentAliasResponse = S.suspend(() =>
+  S.Struct({ agentAlias: AgentAlias }),
+).annotations({
+  identifier: "CreateAgentAliasResponse",
+}) as any as S.Schema<CreateAgentAliasResponse>;
+export interface ListAgentAliasesResponse {
+  agentAliasSummaries: AgentAliasSummaries;
+  nextToken?: string;
+}
+export const ListAgentAliasesResponse = S.suspend(() =>
+  S.Struct({
+    agentAliasSummaries: AgentAliasSummaries,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListAgentAliasesResponse",
+}) as any as S.Schema<ListAgentAliasesResponse>;
+export interface GetDataSourceResponse {
+  dataSource: DataSource;
+}
+export const GetDataSourceResponse = S.suspend(() =>
+  S.Struct({ dataSource: DataSource }),
+).annotations({
+  identifier: "GetDataSourceResponse",
+}) as any as S.Schema<GetDataSourceResponse>;
+export interface ListDataSourcesResponse {
+  dataSourceSummaries: DataSourceSummaries;
+  nextToken?: string;
+}
+export const ListDataSourcesResponse = S.suspend(() =>
+  S.Struct({
+    dataSourceSummaries: DataSourceSummaries,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListDataSourcesResponse",
+}) as any as S.Schema<ListDataSourcesResponse>;
+export interface ListFlowsResponse {
+  flowSummaries: FlowSummaries;
+  nextToken?: string;
+}
+export const ListFlowsResponse = S.suspend(() =>
+  S.Struct({ flowSummaries: FlowSummaries, nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListFlowsResponse",
+}) as any as S.Schema<ListFlowsResponse>;
+export interface CreateFlowAliasResponse {
+  name: string;
+  description?: string;
+  routingConfiguration: FlowAliasRoutingConfiguration;
+  concurrencyConfiguration?: FlowAliasConcurrencyConfiguration;
+  flowId: string;
+  id: string;
+  arn: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+export const CreateFlowAliasResponse = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    description: S.optional(S.String),
+    routingConfiguration: FlowAliasRoutingConfiguration,
+    concurrencyConfiguration: S.optional(FlowAliasConcurrencyConfiguration),
+    flowId: S.String,
+    id: S.String,
+    arn: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "CreateFlowAliasResponse",
+}) as any as S.Schema<CreateFlowAliasResponse>;
+export interface ListFlowAliasesResponse {
+  flowAliasSummaries: FlowAliasSummaries;
+  nextToken?: string;
+}
+export const ListFlowAliasesResponse = S.suspend(() =>
+  S.Struct({
+    flowAliasSummaries: FlowAliasSummaries,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListFlowAliasesResponse",
+}) as any as S.Schema<ListFlowAliasesResponse>;
+export interface ListFlowVersionsResponse {
+  flowVersionSummaries: FlowVersionSummaries;
+  nextToken?: string;
+}
+export const ListFlowVersionsResponse = S.suspend(() =>
+  S.Struct({
+    flowVersionSummaries: FlowVersionSummaries,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListFlowVersionsResponse",
+}) as any as S.Schema<ListFlowVersionsResponse>;
+export interface DeleteKnowledgeBaseDocumentsRequest {
+  knowledgeBaseId: string;
+  dataSourceId: string;
+  clientToken?: string;
+  documentIdentifiers: DocumentIdentifiers;
+}
+export const DeleteKnowledgeBaseDocumentsRequest = S.suspend(() =>
+  S.Struct({
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     dataSourceId: S.String.pipe(T.HttpLabel("dataSourceId")),
     clientToken: S.optional(S.String),
     documentIdentifiers: DocumentIdentifiers,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/knowledgebases/{knowledgeBaseId}/datasources/{dataSourceId}/documents/deleteDocuments",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/knowledgebases/{knowledgeBaseId}/datasources/{dataSourceId}/documents/deleteDocuments",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetKnowledgeBaseDocumentsResponse extends S.Class<GetKnowledgeBaseDocumentsResponse>(
-  "GetKnowledgeBaseDocumentsResponse",
-)({ documentDetails: S.optional(KnowledgeBaseDocumentDetails) }) {}
+).annotations({
+  identifier: "DeleteKnowledgeBaseDocumentsRequest",
+}) as any as S.Schema<DeleteKnowledgeBaseDocumentsRequest>;
+export interface GetKnowledgeBaseDocumentsResponse {
+  documentDetails?: KnowledgeBaseDocumentDetails;
+}
+export const GetKnowledgeBaseDocumentsResponse = S.suspend(() =>
+  S.Struct({ documentDetails: S.optional(KnowledgeBaseDocumentDetails) }),
+).annotations({
+  identifier: "GetKnowledgeBaseDocumentsResponse",
+}) as any as S.Schema<GetKnowledgeBaseDocumentsResponse>;
+export type StringListValue = string[];
 export const StringListValue = S.Array(S.String);
-export class AssociateAgentKnowledgeBaseResponse extends S.Class<AssociateAgentKnowledgeBaseResponse>(
-  "AssociateAgentKnowledgeBaseResponse",
-)({ agentKnowledgeBase: AgentKnowledgeBase }) {}
-export class GetKnowledgeBaseResponse extends S.Class<GetKnowledgeBaseResponse>(
-  "GetKnowledgeBaseResponse",
-)({ knowledgeBase: KnowledgeBase }) {}
-export class ListAgentKnowledgeBasesResponse extends S.Class<ListAgentKnowledgeBasesResponse>(
-  "ListAgentKnowledgeBasesResponse",
-)({
-  agentKnowledgeBaseSummaries: AgentKnowledgeBaseSummaries,
-  nextToken: S.optional(S.String),
-}) {}
-export class ListKnowledgeBasesResponse extends S.Class<ListKnowledgeBasesResponse>(
-  "ListKnowledgeBasesResponse",
-)({
-  knowledgeBaseSummaries: KnowledgeBaseSummaries,
-  nextToken: S.optional(S.String),
-}) {}
-export class ListPromptsResponse extends S.Class<ListPromptsResponse>(
-  "ListPromptsResponse",
-)({ promptSummaries: PromptSummaries, nextToken: S.optional(S.String) }) {}
-export class GetAgentVersionResponse extends S.Class<GetAgentVersionResponse>(
-  "GetAgentVersionResponse",
-)({ agentVersion: AgentVersion }) {}
-export class ListAgentVersionsResponse extends S.Class<ListAgentVersionsResponse>(
-  "ListAgentVersionsResponse",
-)({
-  agentVersionSummaries: AgentVersionSummaries,
-  nextToken: S.optional(S.String),
-}) {}
-export class LexFlowNodeConfiguration extends S.Class<LexFlowNodeConfiguration>(
-  "LexFlowNodeConfiguration",
-)({ botAliasArn: S.String, localeId: S.String }) {}
-export class LambdaFunctionFlowNodeConfiguration extends S.Class<LambdaFunctionFlowNodeConfiguration>(
-  "LambdaFunctionFlowNodeConfiguration",
-)({ lambdaArn: S.String }) {}
-export class AgentFlowNodeConfiguration extends S.Class<AgentFlowNodeConfiguration>(
-  "AgentFlowNodeConfiguration",
-)({ agentAliasArn: S.String }) {}
-export class InlineCodeFlowNodeConfiguration extends S.Class<InlineCodeFlowNodeConfiguration>(
-  "InlineCodeFlowNodeConfiguration",
-)({ code: S.String, language: S.String }) {}
-export class LoopFlowNodeConfiguration extends S.Class<LoopFlowNodeConfiguration>(
-  "LoopFlowNodeConfiguration",
-)({
-  definition: S.suspend((): S.Schema<FlowDefinition, any> => FlowDefinition),
-}) {}
-export class FlowCondition extends S.Class<FlowCondition>("FlowCondition")({
-  name: S.String,
-  expression: S.optional(S.String),
-}) {}
-export class LoopControllerFlowNodeConfiguration extends S.Class<LoopControllerFlowNodeConfiguration>(
-  "LoopControllerFlowNodeConfiguration",
-)({ continueCondition: FlowCondition, maxIterations: S.optional(S.Number) }) {}
-export class MetadataAttributeValue extends S.Class<MetadataAttributeValue>(
-  "MetadataAttributeValue",
-)({
-  type: S.String,
-  numberValue: S.optional(S.Number),
-  booleanValue: S.optional(S.Boolean),
-  stringValue: S.optional(S.String),
-  stringListValue: S.optional(StringListValue),
-}) {}
-export class IngestionJobSummary extends S.Class<IngestionJobSummary>(
-  "IngestionJobSummary",
-)({
-  knowledgeBaseId: S.String,
-  dataSourceId: S.String,
-  ingestionJobId: S.String,
-  description: S.optional(S.String),
-  status: S.String,
-  startedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  statistics: S.optional(IngestionJobStatistics),
-}) {}
+export interface AssociateAgentKnowledgeBaseResponse {
+  agentKnowledgeBase: AgentKnowledgeBase;
+}
+export const AssociateAgentKnowledgeBaseResponse = S.suspend(() =>
+  S.Struct({ agentKnowledgeBase: AgentKnowledgeBase }),
+).annotations({
+  identifier: "AssociateAgentKnowledgeBaseResponse",
+}) as any as S.Schema<AssociateAgentKnowledgeBaseResponse>;
+export interface GetKnowledgeBaseResponse {
+  knowledgeBase: KnowledgeBase;
+}
+export const GetKnowledgeBaseResponse = S.suspend(() =>
+  S.Struct({ knowledgeBase: KnowledgeBase }),
+).annotations({
+  identifier: "GetKnowledgeBaseResponse",
+}) as any as S.Schema<GetKnowledgeBaseResponse>;
+export interface ListAgentKnowledgeBasesResponse {
+  agentKnowledgeBaseSummaries: AgentKnowledgeBaseSummaries;
+  nextToken?: string;
+}
+export const ListAgentKnowledgeBasesResponse = S.suspend(() =>
+  S.Struct({
+    agentKnowledgeBaseSummaries: AgentKnowledgeBaseSummaries,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListAgentKnowledgeBasesResponse",
+}) as any as S.Schema<ListAgentKnowledgeBasesResponse>;
+export interface ListKnowledgeBasesResponse {
+  knowledgeBaseSummaries: KnowledgeBaseSummaries;
+  nextToken?: string;
+}
+export const ListKnowledgeBasesResponse = S.suspend(() =>
+  S.Struct({
+    knowledgeBaseSummaries: KnowledgeBaseSummaries,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListKnowledgeBasesResponse",
+}) as any as S.Schema<ListKnowledgeBasesResponse>;
+export interface ListPromptsResponse {
+  promptSummaries: PromptSummaries;
+  nextToken?: string;
+}
+export const ListPromptsResponse = S.suspend(() =>
+  S.Struct({
+    promptSummaries: PromptSummaries,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListPromptsResponse",
+}) as any as S.Schema<ListPromptsResponse>;
+export interface GetAgentVersionResponse {
+  agentVersion: AgentVersion;
+}
+export const GetAgentVersionResponse = S.suspend(() =>
+  S.Struct({ agentVersion: AgentVersion }),
+).annotations({
+  identifier: "GetAgentVersionResponse",
+}) as any as S.Schema<GetAgentVersionResponse>;
+export interface ListAgentVersionsResponse {
+  agentVersionSummaries: AgentVersionSummaries;
+  nextToken?: string;
+}
+export const ListAgentVersionsResponse = S.suspend(() =>
+  S.Struct({
+    agentVersionSummaries: AgentVersionSummaries,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListAgentVersionsResponse",
+}) as any as S.Schema<ListAgentVersionsResponse>;
+export interface LexFlowNodeConfiguration {
+  botAliasArn: string;
+  localeId: string;
+}
+export const LexFlowNodeConfiguration = S.suspend(() =>
+  S.Struct({ botAliasArn: S.String, localeId: S.String }),
+).annotations({
+  identifier: "LexFlowNodeConfiguration",
+}) as any as S.Schema<LexFlowNodeConfiguration>;
+export interface LambdaFunctionFlowNodeConfiguration {
+  lambdaArn: string;
+}
+export const LambdaFunctionFlowNodeConfiguration = S.suspend(() =>
+  S.Struct({ lambdaArn: S.String }),
+).annotations({
+  identifier: "LambdaFunctionFlowNodeConfiguration",
+}) as any as S.Schema<LambdaFunctionFlowNodeConfiguration>;
+export interface AgentFlowNodeConfiguration {
+  agentAliasArn: string;
+}
+export const AgentFlowNodeConfiguration = S.suspend(() =>
+  S.Struct({ agentAliasArn: S.String }),
+).annotations({
+  identifier: "AgentFlowNodeConfiguration",
+}) as any as S.Schema<AgentFlowNodeConfiguration>;
+export interface InlineCodeFlowNodeConfiguration {
+  code: string;
+  language: string;
+}
+export const InlineCodeFlowNodeConfiguration = S.suspend(() =>
+  S.Struct({ code: S.String, language: S.String }),
+).annotations({
+  identifier: "InlineCodeFlowNodeConfiguration",
+}) as any as S.Schema<InlineCodeFlowNodeConfiguration>;
+export interface LoopFlowNodeConfiguration {
+  definition: FlowDefinition;
+}
+export const LoopFlowNodeConfiguration = S.suspend(() =>
+  S.Struct({
+    definition: S.suspend(
+      (): S.Schema<FlowDefinition, any> => FlowDefinition,
+    ).annotations({ identifier: "FlowDefinition" }),
+  }),
+).annotations({
+  identifier: "LoopFlowNodeConfiguration",
+}) as any as S.Schema<LoopFlowNodeConfiguration>;
+export interface FlowCondition {
+  name: string;
+  expression?: string;
+}
+export const FlowCondition = S.suspend(() =>
+  S.Struct({ name: S.String, expression: S.optional(S.String) }),
+).annotations({
+  identifier: "FlowCondition",
+}) as any as S.Schema<FlowCondition>;
+export interface LoopControllerFlowNodeConfiguration {
+  continueCondition: FlowCondition;
+  maxIterations?: number;
+}
+export const LoopControllerFlowNodeConfiguration = S.suspend(() =>
+  S.Struct({
+    continueCondition: FlowCondition,
+    maxIterations: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "LoopControllerFlowNodeConfiguration",
+}) as any as S.Schema<LoopControllerFlowNodeConfiguration>;
+export interface MetadataAttributeValue {
+  type: string;
+  numberValue?: number;
+  booleanValue?: boolean;
+  stringValue?: string;
+  stringListValue?: StringListValue;
+}
+export const MetadataAttributeValue = S.suspend(() =>
+  S.Struct({
+    type: S.String,
+    numberValue: S.optional(S.Number),
+    booleanValue: S.optional(S.Boolean),
+    stringValue: S.optional(S.String),
+    stringListValue: S.optional(StringListValue),
+  }),
+).annotations({
+  identifier: "MetadataAttributeValue",
+}) as any as S.Schema<MetadataAttributeValue>;
+export interface IngestionJobSummary {
+  knowledgeBaseId: string;
+  dataSourceId: string;
+  ingestionJobId: string;
+  description?: string;
+  status: string;
+  startedAt: Date;
+  updatedAt: Date;
+  statistics?: IngestionJobStatistics;
+}
+export const IngestionJobSummary = S.suspend(() =>
+  S.Struct({
+    knowledgeBaseId: S.String,
+    dataSourceId: S.String,
+    ingestionJobId: S.String,
+    description: S.optional(S.String),
+    status: S.String,
+    startedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    statistics: S.optional(IngestionJobStatistics),
+  }),
+).annotations({
+  identifier: "IngestionJobSummary",
+}) as any as S.Schema<IngestionJobSummary>;
+export type IngestionJobSummaries = IngestionJobSummary[];
 export const IngestionJobSummaries = S.Array(IngestionJobSummary);
-export class CyclicConnectionFlowValidationDetails extends S.Class<CyclicConnectionFlowValidationDetails>(
-  "CyclicConnectionFlowValidationDetails",
-)({ connection: S.String }) {}
-export class DuplicateConnectionsFlowValidationDetails extends S.Class<DuplicateConnectionsFlowValidationDetails>(
-  "DuplicateConnectionsFlowValidationDetails",
-)({ source: S.String, target: S.String }) {}
-export class DuplicateConditionExpressionFlowValidationDetails extends S.Class<DuplicateConditionExpressionFlowValidationDetails>(
-  "DuplicateConditionExpressionFlowValidationDetails",
-)({ node: S.String, expression: S.String }) {}
-export class UnreachableNodeFlowValidationDetails extends S.Class<UnreachableNodeFlowValidationDetails>(
-  "UnreachableNodeFlowValidationDetails",
-)({ node: S.String }) {}
-export class UnknownConnectionSourceFlowValidationDetails extends S.Class<UnknownConnectionSourceFlowValidationDetails>(
-  "UnknownConnectionSourceFlowValidationDetails",
-)({ connection: S.String }) {}
-export class UnknownConnectionSourceOutputFlowValidationDetails extends S.Class<UnknownConnectionSourceOutputFlowValidationDetails>(
-  "UnknownConnectionSourceOutputFlowValidationDetails",
-)({ connection: S.String }) {}
-export class UnknownConnectionTargetFlowValidationDetails extends S.Class<UnknownConnectionTargetFlowValidationDetails>(
-  "UnknownConnectionTargetFlowValidationDetails",
-)({ connection: S.String }) {}
-export class UnknownConnectionTargetInputFlowValidationDetails extends S.Class<UnknownConnectionTargetInputFlowValidationDetails>(
-  "UnknownConnectionTargetInputFlowValidationDetails",
-)({ connection: S.String }) {}
-export class UnknownConnectionConditionFlowValidationDetails extends S.Class<UnknownConnectionConditionFlowValidationDetails>(
-  "UnknownConnectionConditionFlowValidationDetails",
-)({ connection: S.String }) {}
-export class MalformedConditionExpressionFlowValidationDetails extends S.Class<MalformedConditionExpressionFlowValidationDetails>(
-  "MalformedConditionExpressionFlowValidationDetails",
-)({ node: S.String, condition: S.String, cause: S.String }) {}
-export class MalformedNodeInputExpressionFlowValidationDetails extends S.Class<MalformedNodeInputExpressionFlowValidationDetails>(
-  "MalformedNodeInputExpressionFlowValidationDetails",
-)({ node: S.String, input: S.String, cause: S.String }) {}
-export class MismatchedNodeInputTypeFlowValidationDetails extends S.Class<MismatchedNodeInputTypeFlowValidationDetails>(
-  "MismatchedNodeInputTypeFlowValidationDetails",
-)({ node: S.String, input: S.String, expectedType: S.String }) {}
-export class MismatchedNodeOutputTypeFlowValidationDetails extends S.Class<MismatchedNodeOutputTypeFlowValidationDetails>(
-  "MismatchedNodeOutputTypeFlowValidationDetails",
-)({ node: S.String, output: S.String, expectedType: S.String }) {}
-export class IncompatibleConnectionDataTypeFlowValidationDetails extends S.Class<IncompatibleConnectionDataTypeFlowValidationDetails>(
-  "IncompatibleConnectionDataTypeFlowValidationDetails",
-)({ connection: S.String }) {}
-export class MissingConnectionConfigurationFlowValidationDetails extends S.Class<MissingConnectionConfigurationFlowValidationDetails>(
-  "MissingConnectionConfigurationFlowValidationDetails",
-)({ connection: S.String }) {}
-export class MissingDefaultConditionFlowValidationDetails extends S.Class<MissingDefaultConditionFlowValidationDetails>(
-  "MissingDefaultConditionFlowValidationDetails",
-)({ node: S.String }) {}
-export class MissingNodeConfigurationFlowValidationDetails extends S.Class<MissingNodeConfigurationFlowValidationDetails>(
-  "MissingNodeConfigurationFlowValidationDetails",
-)({ node: S.String }) {}
-export class MissingNodeInputFlowValidationDetails extends S.Class<MissingNodeInputFlowValidationDetails>(
-  "MissingNodeInputFlowValidationDetails",
-)({ node: S.String, input: S.String }) {}
-export class MissingNodeOutputFlowValidationDetails extends S.Class<MissingNodeOutputFlowValidationDetails>(
-  "MissingNodeOutputFlowValidationDetails",
-)({ node: S.String, output: S.String }) {}
-export class MultipleNodeInputConnectionsFlowValidationDetails extends S.Class<MultipleNodeInputConnectionsFlowValidationDetails>(
-  "MultipleNodeInputConnectionsFlowValidationDetails",
-)({ node: S.String, input: S.String }) {}
-export class UnfulfilledNodeInputFlowValidationDetails extends S.Class<UnfulfilledNodeInputFlowValidationDetails>(
-  "UnfulfilledNodeInputFlowValidationDetails",
-)({ node: S.String, input: S.String }) {}
-export class UnsatisfiedConnectionConditionsFlowValidationDetails extends S.Class<UnsatisfiedConnectionConditionsFlowValidationDetails>(
-  "UnsatisfiedConnectionConditionsFlowValidationDetails",
-)({ connection: S.String }) {}
-export class UnknownNodeInputFlowValidationDetails extends S.Class<UnknownNodeInputFlowValidationDetails>(
-  "UnknownNodeInputFlowValidationDetails",
-)({ node: S.String, input: S.String }) {}
-export class UnknownNodeOutputFlowValidationDetails extends S.Class<UnknownNodeOutputFlowValidationDetails>(
-  "UnknownNodeOutputFlowValidationDetails",
-)({ node: S.String, output: S.String }) {}
-export class MissingLoopInputNodeFlowValidationDetails extends S.Class<MissingLoopInputNodeFlowValidationDetails>(
-  "MissingLoopInputNodeFlowValidationDetails",
-)({ loopNode: S.String }) {}
-export class MissingLoopControllerNodeFlowValidationDetails extends S.Class<MissingLoopControllerNodeFlowValidationDetails>(
-  "MissingLoopControllerNodeFlowValidationDetails",
-)({ loopNode: S.String }) {}
-export class MultipleLoopInputNodesFlowValidationDetails extends S.Class<MultipleLoopInputNodesFlowValidationDetails>(
-  "MultipleLoopInputNodesFlowValidationDetails",
-)({ loopNode: S.String }) {}
-export class MultipleLoopControllerNodesFlowValidationDetails extends S.Class<MultipleLoopControllerNodesFlowValidationDetails>(
-  "MultipleLoopControllerNodesFlowValidationDetails",
-)({ loopNode: S.String }) {}
-export class LoopIncompatibleNodeTypeFlowValidationDetails extends S.Class<LoopIncompatibleNodeTypeFlowValidationDetails>(
-  "LoopIncompatibleNodeTypeFlowValidationDetails",
-)({
-  node: S.String,
-  incompatibleNodeType: S.String,
-  incompatibleNodeName: S.String,
-}) {}
-export class InvalidLoopBoundaryFlowValidationDetails extends S.Class<InvalidLoopBoundaryFlowValidationDetails>(
-  "InvalidLoopBoundaryFlowValidationDetails",
-)({ connection: S.String, source: S.String, target: S.String }) {}
-export class MetadataAttribute extends S.Class<MetadataAttribute>(
-  "MetadataAttribute",
-)({ key: S.String, value: MetadataAttributeValue }) {}
+export interface CyclicConnectionFlowValidationDetails {
+  connection: string;
+}
+export const CyclicConnectionFlowValidationDetails = S.suspend(() =>
+  S.Struct({ connection: S.String }),
+).annotations({
+  identifier: "CyclicConnectionFlowValidationDetails",
+}) as any as S.Schema<CyclicConnectionFlowValidationDetails>;
+export interface DuplicateConnectionsFlowValidationDetails {
+  source: string;
+  target: string;
+}
+export const DuplicateConnectionsFlowValidationDetails = S.suspend(() =>
+  S.Struct({ source: S.String, target: S.String }),
+).annotations({
+  identifier: "DuplicateConnectionsFlowValidationDetails",
+}) as any as S.Schema<DuplicateConnectionsFlowValidationDetails>;
+export interface DuplicateConditionExpressionFlowValidationDetails {
+  node: string;
+  expression: string;
+}
+export const DuplicateConditionExpressionFlowValidationDetails = S.suspend(() =>
+  S.Struct({ node: S.String, expression: S.String }),
+).annotations({
+  identifier: "DuplicateConditionExpressionFlowValidationDetails",
+}) as any as S.Schema<DuplicateConditionExpressionFlowValidationDetails>;
+export interface UnreachableNodeFlowValidationDetails {
+  node: string;
+}
+export const UnreachableNodeFlowValidationDetails = S.suspend(() =>
+  S.Struct({ node: S.String }),
+).annotations({
+  identifier: "UnreachableNodeFlowValidationDetails",
+}) as any as S.Schema<UnreachableNodeFlowValidationDetails>;
+export interface UnknownConnectionSourceFlowValidationDetails {
+  connection: string;
+}
+export const UnknownConnectionSourceFlowValidationDetails = S.suspend(() =>
+  S.Struct({ connection: S.String }),
+).annotations({
+  identifier: "UnknownConnectionSourceFlowValidationDetails",
+}) as any as S.Schema<UnknownConnectionSourceFlowValidationDetails>;
+export interface UnknownConnectionSourceOutputFlowValidationDetails {
+  connection: string;
+}
+export const UnknownConnectionSourceOutputFlowValidationDetails = S.suspend(
+  () => S.Struct({ connection: S.String }),
+).annotations({
+  identifier: "UnknownConnectionSourceOutputFlowValidationDetails",
+}) as any as S.Schema<UnknownConnectionSourceOutputFlowValidationDetails>;
+export interface UnknownConnectionTargetFlowValidationDetails {
+  connection: string;
+}
+export const UnknownConnectionTargetFlowValidationDetails = S.suspend(() =>
+  S.Struct({ connection: S.String }),
+).annotations({
+  identifier: "UnknownConnectionTargetFlowValidationDetails",
+}) as any as S.Schema<UnknownConnectionTargetFlowValidationDetails>;
+export interface UnknownConnectionTargetInputFlowValidationDetails {
+  connection: string;
+}
+export const UnknownConnectionTargetInputFlowValidationDetails = S.suspend(() =>
+  S.Struct({ connection: S.String }),
+).annotations({
+  identifier: "UnknownConnectionTargetInputFlowValidationDetails",
+}) as any as S.Schema<UnknownConnectionTargetInputFlowValidationDetails>;
+export interface UnknownConnectionConditionFlowValidationDetails {
+  connection: string;
+}
+export const UnknownConnectionConditionFlowValidationDetails = S.suspend(() =>
+  S.Struct({ connection: S.String }),
+).annotations({
+  identifier: "UnknownConnectionConditionFlowValidationDetails",
+}) as any as S.Schema<UnknownConnectionConditionFlowValidationDetails>;
+export interface MalformedConditionExpressionFlowValidationDetails {
+  node: string;
+  condition: string;
+  cause: string;
+}
+export const MalformedConditionExpressionFlowValidationDetails = S.suspend(() =>
+  S.Struct({ node: S.String, condition: S.String, cause: S.String }),
+).annotations({
+  identifier: "MalformedConditionExpressionFlowValidationDetails",
+}) as any as S.Schema<MalformedConditionExpressionFlowValidationDetails>;
+export interface MalformedNodeInputExpressionFlowValidationDetails {
+  node: string;
+  input: string;
+  cause: string;
+}
+export const MalformedNodeInputExpressionFlowValidationDetails = S.suspend(() =>
+  S.Struct({ node: S.String, input: S.String, cause: S.String }),
+).annotations({
+  identifier: "MalformedNodeInputExpressionFlowValidationDetails",
+}) as any as S.Schema<MalformedNodeInputExpressionFlowValidationDetails>;
+export interface MismatchedNodeInputTypeFlowValidationDetails {
+  node: string;
+  input: string;
+  expectedType: string;
+}
+export const MismatchedNodeInputTypeFlowValidationDetails = S.suspend(() =>
+  S.Struct({ node: S.String, input: S.String, expectedType: S.String }),
+).annotations({
+  identifier: "MismatchedNodeInputTypeFlowValidationDetails",
+}) as any as S.Schema<MismatchedNodeInputTypeFlowValidationDetails>;
+export interface MismatchedNodeOutputTypeFlowValidationDetails {
+  node: string;
+  output: string;
+  expectedType: string;
+}
+export const MismatchedNodeOutputTypeFlowValidationDetails = S.suspend(() =>
+  S.Struct({ node: S.String, output: S.String, expectedType: S.String }),
+).annotations({
+  identifier: "MismatchedNodeOutputTypeFlowValidationDetails",
+}) as any as S.Schema<MismatchedNodeOutputTypeFlowValidationDetails>;
+export interface IncompatibleConnectionDataTypeFlowValidationDetails {
+  connection: string;
+}
+export const IncompatibleConnectionDataTypeFlowValidationDetails = S.suspend(
+  () => S.Struct({ connection: S.String }),
+).annotations({
+  identifier: "IncompatibleConnectionDataTypeFlowValidationDetails",
+}) as any as S.Schema<IncompatibleConnectionDataTypeFlowValidationDetails>;
+export interface MissingConnectionConfigurationFlowValidationDetails {
+  connection: string;
+}
+export const MissingConnectionConfigurationFlowValidationDetails = S.suspend(
+  () => S.Struct({ connection: S.String }),
+).annotations({
+  identifier: "MissingConnectionConfigurationFlowValidationDetails",
+}) as any as S.Schema<MissingConnectionConfigurationFlowValidationDetails>;
+export interface MissingDefaultConditionFlowValidationDetails {
+  node: string;
+}
+export const MissingDefaultConditionFlowValidationDetails = S.suspend(() =>
+  S.Struct({ node: S.String }),
+).annotations({
+  identifier: "MissingDefaultConditionFlowValidationDetails",
+}) as any as S.Schema<MissingDefaultConditionFlowValidationDetails>;
+export interface MissingNodeConfigurationFlowValidationDetails {
+  node: string;
+}
+export const MissingNodeConfigurationFlowValidationDetails = S.suspend(() =>
+  S.Struct({ node: S.String }),
+).annotations({
+  identifier: "MissingNodeConfigurationFlowValidationDetails",
+}) as any as S.Schema<MissingNodeConfigurationFlowValidationDetails>;
+export interface MissingNodeInputFlowValidationDetails {
+  node: string;
+  input: string;
+}
+export const MissingNodeInputFlowValidationDetails = S.suspend(() =>
+  S.Struct({ node: S.String, input: S.String }),
+).annotations({
+  identifier: "MissingNodeInputFlowValidationDetails",
+}) as any as S.Schema<MissingNodeInputFlowValidationDetails>;
+export interface MissingNodeOutputFlowValidationDetails {
+  node: string;
+  output: string;
+}
+export const MissingNodeOutputFlowValidationDetails = S.suspend(() =>
+  S.Struct({ node: S.String, output: S.String }),
+).annotations({
+  identifier: "MissingNodeOutputFlowValidationDetails",
+}) as any as S.Schema<MissingNodeOutputFlowValidationDetails>;
+export interface MultipleNodeInputConnectionsFlowValidationDetails {
+  node: string;
+  input: string;
+}
+export const MultipleNodeInputConnectionsFlowValidationDetails = S.suspend(() =>
+  S.Struct({ node: S.String, input: S.String }),
+).annotations({
+  identifier: "MultipleNodeInputConnectionsFlowValidationDetails",
+}) as any as S.Schema<MultipleNodeInputConnectionsFlowValidationDetails>;
+export interface UnfulfilledNodeInputFlowValidationDetails {
+  node: string;
+  input: string;
+}
+export const UnfulfilledNodeInputFlowValidationDetails = S.suspend(() =>
+  S.Struct({ node: S.String, input: S.String }),
+).annotations({
+  identifier: "UnfulfilledNodeInputFlowValidationDetails",
+}) as any as S.Schema<UnfulfilledNodeInputFlowValidationDetails>;
+export interface UnsatisfiedConnectionConditionsFlowValidationDetails {
+  connection: string;
+}
+export const UnsatisfiedConnectionConditionsFlowValidationDetails = S.suspend(
+  () => S.Struct({ connection: S.String }),
+).annotations({
+  identifier: "UnsatisfiedConnectionConditionsFlowValidationDetails",
+}) as any as S.Schema<UnsatisfiedConnectionConditionsFlowValidationDetails>;
+export interface UnknownNodeInputFlowValidationDetails {
+  node: string;
+  input: string;
+}
+export const UnknownNodeInputFlowValidationDetails = S.suspend(() =>
+  S.Struct({ node: S.String, input: S.String }),
+).annotations({
+  identifier: "UnknownNodeInputFlowValidationDetails",
+}) as any as S.Schema<UnknownNodeInputFlowValidationDetails>;
+export interface UnknownNodeOutputFlowValidationDetails {
+  node: string;
+  output: string;
+}
+export const UnknownNodeOutputFlowValidationDetails = S.suspend(() =>
+  S.Struct({ node: S.String, output: S.String }),
+).annotations({
+  identifier: "UnknownNodeOutputFlowValidationDetails",
+}) as any as S.Schema<UnknownNodeOutputFlowValidationDetails>;
+export interface MissingLoopInputNodeFlowValidationDetails {
+  loopNode: string;
+}
+export const MissingLoopInputNodeFlowValidationDetails = S.suspend(() =>
+  S.Struct({ loopNode: S.String }),
+).annotations({
+  identifier: "MissingLoopInputNodeFlowValidationDetails",
+}) as any as S.Schema<MissingLoopInputNodeFlowValidationDetails>;
+export interface MissingLoopControllerNodeFlowValidationDetails {
+  loopNode: string;
+}
+export const MissingLoopControllerNodeFlowValidationDetails = S.suspend(() =>
+  S.Struct({ loopNode: S.String }),
+).annotations({
+  identifier: "MissingLoopControllerNodeFlowValidationDetails",
+}) as any as S.Schema<MissingLoopControllerNodeFlowValidationDetails>;
+export interface MultipleLoopInputNodesFlowValidationDetails {
+  loopNode: string;
+}
+export const MultipleLoopInputNodesFlowValidationDetails = S.suspend(() =>
+  S.Struct({ loopNode: S.String }),
+).annotations({
+  identifier: "MultipleLoopInputNodesFlowValidationDetails",
+}) as any as S.Schema<MultipleLoopInputNodesFlowValidationDetails>;
+export interface MultipleLoopControllerNodesFlowValidationDetails {
+  loopNode: string;
+}
+export const MultipleLoopControllerNodesFlowValidationDetails = S.suspend(() =>
+  S.Struct({ loopNode: S.String }),
+).annotations({
+  identifier: "MultipleLoopControllerNodesFlowValidationDetails",
+}) as any as S.Schema<MultipleLoopControllerNodesFlowValidationDetails>;
+export interface LoopIncompatibleNodeTypeFlowValidationDetails {
+  node: string;
+  incompatibleNodeType: string;
+  incompatibleNodeName: string;
+}
+export const LoopIncompatibleNodeTypeFlowValidationDetails = S.suspend(() =>
+  S.Struct({
+    node: S.String,
+    incompatibleNodeType: S.String,
+    incompatibleNodeName: S.String,
+  }),
+).annotations({
+  identifier: "LoopIncompatibleNodeTypeFlowValidationDetails",
+}) as any as S.Schema<LoopIncompatibleNodeTypeFlowValidationDetails>;
+export interface InvalidLoopBoundaryFlowValidationDetails {
+  connection: string;
+  source: string;
+  target: string;
+}
+export const InvalidLoopBoundaryFlowValidationDetails = S.suspend(() =>
+  S.Struct({ connection: S.String, source: S.String, target: S.String }),
+).annotations({
+  identifier: "InvalidLoopBoundaryFlowValidationDetails",
+}) as any as S.Schema<InvalidLoopBoundaryFlowValidationDetails>;
+export interface MetadataAttribute {
+  key: string;
+  value: MetadataAttributeValue;
+}
+export const MetadataAttribute = S.suspend(() =>
+  S.Struct({ key: S.String, value: MetadataAttributeValue }),
+).annotations({
+  identifier: "MetadataAttribute",
+}) as any as S.Schema<MetadataAttribute>;
+export type MetadataAttributes = MetadataAttribute[];
 export const MetadataAttributes = S.Array(MetadataAttribute);
-export class KnowledgeBasePromptTemplate extends S.Class<KnowledgeBasePromptTemplate>(
-  "KnowledgeBasePromptTemplate",
-)({ textPromptTemplate: S.optional(S.String) }) {}
+export interface KnowledgeBasePromptTemplate {
+  textPromptTemplate?: string;
+}
+export const KnowledgeBasePromptTemplate = S.suspend(() =>
+  S.Struct({ textPromptTemplate: S.optional(S.String) }),
+).annotations({
+  identifier: "KnowledgeBasePromptTemplate",
+}) as any as S.Schema<KnowledgeBasePromptTemplate>;
+export type FlowConditions = FlowCondition[];
 export const FlowConditions = S.Array(FlowCondition);
-export class CreateAgentRequest extends S.Class<CreateAgentRequest>(
-  "CreateAgentRequest",
-)(
-  {
+export interface CreateAgentRequest {
+  agentName: string;
+  clientToken?: string;
+  instruction?: string;
+  foundationModel?: string;
+  description?: string;
+  orchestrationType?: string;
+  customOrchestration?: CustomOrchestration;
+  idleSessionTTLInSeconds?: number;
+  agentResourceRoleArn?: string;
+  customerEncryptionKeyArn?: string;
+  tags?: TagsMap;
+  promptOverrideConfiguration?: PromptOverrideConfiguration;
+  guardrailConfiguration?: GuardrailConfiguration;
+  memoryConfiguration?: MemoryConfiguration;
+  agentCollaboration?: string;
+}
+export const CreateAgentRequest = S.suspend(() =>
+  S.Struct({
     agentName: S.String,
     clientToken: S.optional(S.String),
     instruction: S.optional(S.String),
@@ -3124,38 +5461,72 @@ export class CreateAgentRequest extends S.Class<CreateAgentRequest>(
     guardrailConfiguration: S.optional(GuardrailConfiguration),
     memoryConfiguration: S.optional(MemoryConfiguration),
     agentCollaboration: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/agents/" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/agents/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetAgentAliasResponse extends S.Class<GetAgentAliasResponse>(
-  "GetAgentAliasResponse",
-)({ agentAlias: AgentAlias }) {}
-export class GetIngestionJobResponse extends S.Class<GetIngestionJobResponse>(
-  "GetIngestionJobResponse",
-)({ ingestionJob: IngestionJob }) {}
-export class ListIngestionJobsResponse extends S.Class<ListIngestionJobsResponse>(
-  "ListIngestionJobsResponse",
-)({
-  ingestionJobSummaries: IngestionJobSummaries,
-  nextToken: S.optional(S.String),
-}) {}
-export class DeleteKnowledgeBaseDocumentsResponse extends S.Class<DeleteKnowledgeBaseDocumentsResponse>(
-  "DeleteKnowledgeBaseDocumentsResponse",
-)({ documentDetails: S.optional(KnowledgeBaseDocumentDetails) }) {}
-export class ByteContentDoc extends S.Class<ByteContentDoc>("ByteContentDoc")({
-  mimeType: S.String,
-  data: T.Blob,
-}) {}
-export class TextContentDoc extends S.Class<TextContentDoc>("TextContentDoc")({
-  data: S.String,
-}) {}
+).annotations({
+  identifier: "CreateAgentRequest",
+}) as any as S.Schema<CreateAgentRequest>;
+export interface GetAgentAliasResponse {
+  agentAlias: AgentAlias;
+}
+export const GetAgentAliasResponse = S.suspend(() =>
+  S.Struct({ agentAlias: AgentAlias }),
+).annotations({
+  identifier: "GetAgentAliasResponse",
+}) as any as S.Schema<GetAgentAliasResponse>;
+export interface GetIngestionJobResponse {
+  ingestionJob: IngestionJob;
+}
+export const GetIngestionJobResponse = S.suspend(() =>
+  S.Struct({ ingestionJob: IngestionJob }),
+).annotations({
+  identifier: "GetIngestionJobResponse",
+}) as any as S.Schema<GetIngestionJobResponse>;
+export interface ListIngestionJobsResponse {
+  ingestionJobSummaries: IngestionJobSummaries;
+  nextToken?: string;
+}
+export const ListIngestionJobsResponse = S.suspend(() =>
+  S.Struct({
+    ingestionJobSummaries: IngestionJobSummaries,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListIngestionJobsResponse",
+}) as any as S.Schema<ListIngestionJobsResponse>;
+export interface DeleteKnowledgeBaseDocumentsResponse {
+  documentDetails?: KnowledgeBaseDocumentDetails;
+}
+export const DeleteKnowledgeBaseDocumentsResponse = S.suspend(() =>
+  S.Struct({ documentDetails: S.optional(KnowledgeBaseDocumentDetails) }),
+).annotations({
+  identifier: "DeleteKnowledgeBaseDocumentsResponse",
+}) as any as S.Schema<DeleteKnowledgeBaseDocumentsResponse>;
+export interface ByteContentDoc {
+  mimeType: string;
+  data: Uint8Array;
+}
+export const ByteContentDoc = S.suspend(() =>
+  S.Struct({ mimeType: S.String, data: T.Blob }),
+).annotations({
+  identifier: "ByteContentDoc",
+}) as any as S.Schema<ByteContentDoc>;
+export interface TextContentDoc {
+  data: string;
+}
+export const TextContentDoc = S.suspend(() =>
+  S.Struct({ data: S.String }),
+).annotations({
+  identifier: "TextContentDoc",
+}) as any as S.Schema<TextContentDoc>;
 export const FlowValidationDetails = S.Union(
   S.Struct({ cyclicConnection: CyclicConnectionFlowValidationDetails }),
   S.Struct({ duplicateConnections: DuplicateConnectionsFlowValidationDetails }),
@@ -3241,67 +5612,147 @@ export const FlowValidationDetails = S.Union(
   }),
   S.Struct({ invalidLoopBoundary: InvalidLoopBoundaryFlowValidationDetails }),
 );
-export class DocumentMetadata extends S.Class<DocumentMetadata>(
-  "DocumentMetadata",
-)({
-  type: S.String,
-  inlineAttributes: S.optional(MetadataAttributes),
-  s3Location: S.optional(CustomS3Location),
-}) {}
-export class ConditionFlowNodeConfiguration extends S.Class<ConditionFlowNodeConfiguration>(
-  "ConditionFlowNodeConfiguration",
-)({ conditions: FlowConditions }) {}
-export class InlineContent extends S.Class<InlineContent>("InlineContent")({
-  type: S.String,
-  byteContent: S.optional(ByteContentDoc),
-  textContent: S.optional(TextContentDoc),
-}) {}
+export interface DocumentMetadata {
+  type: string;
+  inlineAttributes?: MetadataAttributes;
+  s3Location?: CustomS3Location;
+}
+export const DocumentMetadata = S.suspend(() =>
+  S.Struct({
+    type: S.String,
+    inlineAttributes: S.optional(MetadataAttributes),
+    s3Location: S.optional(CustomS3Location),
+  }),
+).annotations({
+  identifier: "DocumentMetadata",
+}) as any as S.Schema<DocumentMetadata>;
+export interface ConditionFlowNodeConfiguration {
+  conditions: FlowConditions;
+}
+export const ConditionFlowNodeConfiguration = S.suspend(() =>
+  S.Struct({ conditions: FlowConditions }),
+).annotations({
+  identifier: "ConditionFlowNodeConfiguration",
+}) as any as S.Schema<ConditionFlowNodeConfiguration>;
+export interface InlineContent {
+  type: string;
+  byteContent?: ByteContentDoc;
+  textContent?: TextContentDoc;
+}
+export const InlineContent = S.suspend(() =>
+  S.Struct({
+    type: S.String,
+    byteContent: S.optional(ByteContentDoc),
+    textContent: S.optional(TextContentDoc),
+  }),
+).annotations({
+  identifier: "InlineContent",
+}) as any as S.Schema<InlineContent>;
+export type AdditionalModelRequestFields = { [key: string]: any };
 export const AdditionalModelRequestFields = S.Record({
   key: S.String,
   value: S.Any,
 });
-export class PerformanceConfiguration extends S.Class<PerformanceConfiguration>(
-  "PerformanceConfiguration",
-)({ latency: S.optional(S.String) }) {}
-export class PromptFlowNodeResourceConfiguration extends S.Class<PromptFlowNodeResourceConfiguration>(
-  "PromptFlowNodeResourceConfiguration",
-)({ promptArn: S.String }) {}
-export class PromptFlowNodeInlineConfiguration extends S.Class<PromptFlowNodeInlineConfiguration>(
-  "PromptFlowNodeInlineConfiguration",
-)({
-  templateType: S.String,
-  templateConfiguration: PromptTemplateConfiguration,
-  modelId: S.String,
-  inferenceConfiguration: S.optional(PromptInferenceConfiguration),
-  additionalModelRequestFields: S.optional(S.Any),
-}) {}
-export class StorageFlowNodeS3Configuration extends S.Class<StorageFlowNodeS3Configuration>(
-  "StorageFlowNodeS3Configuration",
-)({ bucketName: S.String }) {}
-export class RetrievalFlowNodeS3Configuration extends S.Class<RetrievalFlowNodeS3Configuration>(
-  "RetrievalFlowNodeS3Configuration",
-)({ bucketName: S.String }) {}
-export class FlowValidation extends S.Class<FlowValidation>("FlowValidation")({
-  message: S.String,
-  severity: S.String,
-  details: S.optional(FlowValidationDetails),
-  type: S.optional(S.String),
-}) {}
+export interface PerformanceConfiguration {
+  latency?: string;
+}
+export const PerformanceConfiguration = S.suspend(() =>
+  S.Struct({ latency: S.optional(S.String) }),
+).annotations({
+  identifier: "PerformanceConfiguration",
+}) as any as S.Schema<PerformanceConfiguration>;
+export interface PromptFlowNodeResourceConfiguration {
+  promptArn: string;
+}
+export const PromptFlowNodeResourceConfiguration = S.suspend(() =>
+  S.Struct({ promptArn: S.String }),
+).annotations({
+  identifier: "PromptFlowNodeResourceConfiguration",
+}) as any as S.Schema<PromptFlowNodeResourceConfiguration>;
+export interface PromptFlowNodeInlineConfiguration {
+  templateType: string;
+  templateConfiguration: (typeof PromptTemplateConfiguration)["Type"];
+  modelId: string;
+  inferenceConfiguration?: (typeof PromptInferenceConfiguration)["Type"];
+  additionalModelRequestFields?: any;
+}
+export const PromptFlowNodeInlineConfiguration = S.suspend(() =>
+  S.Struct({
+    templateType: S.String,
+    templateConfiguration: PromptTemplateConfiguration,
+    modelId: S.String,
+    inferenceConfiguration: S.optional(PromptInferenceConfiguration),
+    additionalModelRequestFields: S.optional(S.Any),
+  }),
+).annotations({
+  identifier: "PromptFlowNodeInlineConfiguration",
+}) as any as S.Schema<PromptFlowNodeInlineConfiguration>;
+export interface StorageFlowNodeS3Configuration {
+  bucketName: string;
+}
+export const StorageFlowNodeS3Configuration = S.suspend(() =>
+  S.Struct({ bucketName: S.String }),
+).annotations({
+  identifier: "StorageFlowNodeS3Configuration",
+}) as any as S.Schema<StorageFlowNodeS3Configuration>;
+export interface RetrievalFlowNodeS3Configuration {
+  bucketName: string;
+}
+export const RetrievalFlowNodeS3Configuration = S.suspend(() =>
+  S.Struct({ bucketName: S.String }),
+).annotations({
+  identifier: "RetrievalFlowNodeS3Configuration",
+}) as any as S.Schema<RetrievalFlowNodeS3Configuration>;
+export interface FlowValidation {
+  message: string;
+  severity: string;
+  details?: (typeof FlowValidationDetails)["Type"];
+  type?: string;
+}
+export const FlowValidation = S.suspend(() =>
+  S.Struct({
+    message: S.String,
+    severity: S.String,
+    details: S.optional(FlowValidationDetails),
+    type: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "FlowValidation",
+}) as any as S.Schema<FlowValidation>;
+export type FlowValidations = FlowValidation[];
 export const FlowValidations = S.Array(FlowValidation);
-export class CustomContent extends S.Class<CustomContent>("CustomContent")({
-  customDocumentIdentifier: CustomDocumentIdentifier,
-  sourceType: S.String,
-  s3Location: S.optional(CustomS3Location),
-  inlineContent: S.optional(InlineContent),
-}) {}
-export class KnowledgeBaseOrchestrationConfiguration extends S.Class<KnowledgeBaseOrchestrationConfiguration>(
-  "KnowledgeBaseOrchestrationConfiguration",
-)({
-  promptTemplate: S.optional(KnowledgeBasePromptTemplate),
-  inferenceConfig: S.optional(PromptInferenceConfiguration),
-  additionalModelRequestFields: S.optional(AdditionalModelRequestFields),
-  performanceConfig: S.optional(PerformanceConfiguration),
-}) {}
+export interface CustomContent {
+  customDocumentIdentifier: CustomDocumentIdentifier;
+  sourceType: string;
+  s3Location?: CustomS3Location;
+  inlineContent?: InlineContent;
+}
+export const CustomContent = S.suspend(() =>
+  S.Struct({
+    customDocumentIdentifier: CustomDocumentIdentifier,
+    sourceType: S.String,
+    s3Location: S.optional(CustomS3Location),
+    inlineContent: S.optional(InlineContent),
+  }),
+).annotations({
+  identifier: "CustomContent",
+}) as any as S.Schema<CustomContent>;
+export interface KnowledgeBaseOrchestrationConfiguration {
+  promptTemplate?: KnowledgeBasePromptTemplate;
+  inferenceConfig?: (typeof PromptInferenceConfiguration)["Type"];
+  additionalModelRequestFields?: AdditionalModelRequestFields;
+  performanceConfig?: PerformanceConfiguration;
+}
+export const KnowledgeBaseOrchestrationConfiguration = S.suspend(() =>
+  S.Struct({
+    promptTemplate: S.optional(KnowledgeBasePromptTemplate),
+    inferenceConfig: S.optional(PromptInferenceConfiguration),
+    additionalModelRequestFields: S.optional(AdditionalModelRequestFields),
+    performanceConfig: S.optional(PerformanceConfiguration),
+  }),
+).annotations({
+  identifier: "KnowledgeBaseOrchestrationConfiguration",
+}) as any as S.Schema<KnowledgeBaseOrchestrationConfiguration>;
 export const PromptFlowNodeSourceConfiguration = S.Union(
   S.Struct({ resource: PromptFlowNodeResourceConfiguration }),
   S.Struct({ inline: PromptFlowNodeInlineConfiguration }),
@@ -3312,10 +5763,21 @@ export const StorageFlowNodeServiceConfiguration = S.Union(
 export const RetrievalFlowNodeServiceConfiguration = S.Union(
   S.Struct({ s3: RetrievalFlowNodeS3Configuration }),
 );
-export class CreateAgentActionGroupRequest extends S.Class<CreateAgentActionGroupRequest>(
-  "CreateAgentActionGroupRequest",
-)(
-  {
+export interface CreateAgentActionGroupRequest {
+  agentId: string;
+  agentVersion: string;
+  actionGroupName: string;
+  clientToken?: string;
+  description?: string;
+  parentActionGroupSignature?: string;
+  parentActionGroupSignatureParams?: ActionGroupSignatureParams;
+  actionGroupExecutor?: (typeof ActionGroupExecutor)["Type"];
+  apiSchema?: (typeof APISchema)["Type"];
+  actionGroupState?: string;
+  functionSchema?: (typeof FunctionSchema)["Type"];
+}
+export const CreateAgentActionGroupRequest = S.suspend(() =>
+  S.Struct({
     agentId: S.String.pipe(T.HttpLabel("agentId")),
     agentVersion: S.String.pipe(T.HttpLabel("agentVersion")),
     actionGroupName: S.String,
@@ -3327,107 +5789,203 @@ export class CreateAgentActionGroupRequest extends S.Class<CreateAgentActionGrou
     apiSchema: S.optional(APISchema),
     actionGroupState: S.optional(S.String),
     functionSchema: S.optional(FunctionSchema),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/agents/{agentId}/agentversions/{agentVersion}/actiongroups/",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/agents/{agentId}/agentversions/{agentVersion}/actiongroups/",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateAgentResponse extends S.Class<CreateAgentResponse>(
-  "CreateAgentResponse",
-)({ agent: Agent }) {}
-export class GetFlowResponse extends S.Class<GetFlowResponse>(
-  "GetFlowResponse",
-)({
-  name: S.String,
-  description: S.optional(S.String),
-  executionRoleArn: S.String,
-  customerEncryptionKeyArn: S.optional(S.String),
-  id: S.String,
-  arn: S.String,
-  status: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  version: S.String,
-  definition: S.optional(FlowDefinition),
-  validations: S.optional(FlowValidations),
-}) {}
-export class VectorSearchBedrockRerankingModelConfiguration extends S.Class<VectorSearchBedrockRerankingModelConfiguration>(
-  "VectorSearchBedrockRerankingModelConfiguration",
-)({
-  modelArn: S.String,
-  additionalModelRequestFields: S.optional(AdditionalModelRequestFields),
-}) {}
-export class DocumentContent extends S.Class<DocumentContent>(
-  "DocumentContent",
-)({
-  dataSourceType: S.String,
-  custom: S.optional(CustomContent),
-  s3: S.optional(S3Content),
-}) {}
-export class PromptFlowNodeConfiguration extends S.Class<PromptFlowNodeConfiguration>(
-  "PromptFlowNodeConfiguration",
-)({
-  sourceConfiguration: PromptFlowNodeSourceConfiguration,
-  guardrailConfiguration: S.optional(GuardrailConfiguration),
-}) {}
-export class StorageFlowNodeConfiguration extends S.Class<StorageFlowNodeConfiguration>(
-  "StorageFlowNodeConfiguration",
-)({ serviceConfiguration: StorageFlowNodeServiceConfiguration }) {}
-export class RetrievalFlowNodeConfiguration extends S.Class<RetrievalFlowNodeConfiguration>(
-  "RetrievalFlowNodeConfiguration",
-)({ serviceConfiguration: RetrievalFlowNodeServiceConfiguration }) {}
-export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
-  "ValidationExceptionField",
-)({ name: S.String, message: S.String }) {}
+).annotations({
+  identifier: "CreateAgentActionGroupRequest",
+}) as any as S.Schema<CreateAgentActionGroupRequest>;
+export interface CreateAgentResponse {
+  agent: Agent;
+}
+export const CreateAgentResponse = S.suspend(() =>
+  S.Struct({ agent: Agent }),
+).annotations({
+  identifier: "CreateAgentResponse",
+}) as any as S.Schema<CreateAgentResponse>;
+export interface GetFlowResponse {
+  name: string;
+  description?: string;
+  executionRoleArn: string;
+  customerEncryptionKeyArn?: string;
+  id: string;
+  arn: string;
+  status: string;
+  createdAt: Date;
+  updatedAt: Date;
+  version: string;
+  definition?: FlowDefinition;
+  validations?: FlowValidations;
+}
+export const GetFlowResponse = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    description: S.optional(S.String),
+    executionRoleArn: S.String,
+    customerEncryptionKeyArn: S.optional(S.String),
+    id: S.String,
+    arn: S.String,
+    status: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    version: S.String,
+    definition: S.optional(FlowDefinition),
+    validations: S.optional(FlowValidations),
+  }),
+).annotations({
+  identifier: "GetFlowResponse",
+}) as any as S.Schema<GetFlowResponse>;
+export interface VectorSearchBedrockRerankingModelConfiguration {
+  modelArn: string;
+  additionalModelRequestFields?: AdditionalModelRequestFields;
+}
+export const VectorSearchBedrockRerankingModelConfiguration = S.suspend(() =>
+  S.Struct({
+    modelArn: S.String,
+    additionalModelRequestFields: S.optional(AdditionalModelRequestFields),
+  }),
+).annotations({
+  identifier: "VectorSearchBedrockRerankingModelConfiguration",
+}) as any as S.Schema<VectorSearchBedrockRerankingModelConfiguration>;
+export interface DocumentContent {
+  dataSourceType: string;
+  custom?: CustomContent;
+  s3?: S3Content;
+}
+export const DocumentContent = S.suspend(() =>
+  S.Struct({
+    dataSourceType: S.String,
+    custom: S.optional(CustomContent),
+    s3: S.optional(S3Content),
+  }),
+).annotations({
+  identifier: "DocumentContent",
+}) as any as S.Schema<DocumentContent>;
+export interface PromptFlowNodeConfiguration {
+  sourceConfiguration: (typeof PromptFlowNodeSourceConfiguration)["Type"];
+  guardrailConfiguration?: GuardrailConfiguration;
+}
+export const PromptFlowNodeConfiguration = S.suspend(() =>
+  S.Struct({
+    sourceConfiguration: PromptFlowNodeSourceConfiguration,
+    guardrailConfiguration: S.optional(GuardrailConfiguration),
+  }),
+).annotations({
+  identifier: "PromptFlowNodeConfiguration",
+}) as any as S.Schema<PromptFlowNodeConfiguration>;
+export interface StorageFlowNodeConfiguration {
+  serviceConfiguration: (typeof StorageFlowNodeServiceConfiguration)["Type"];
+}
+export const StorageFlowNodeConfiguration = S.suspend(() =>
+  S.Struct({ serviceConfiguration: StorageFlowNodeServiceConfiguration }),
+).annotations({
+  identifier: "StorageFlowNodeConfiguration",
+}) as any as S.Schema<StorageFlowNodeConfiguration>;
+export interface RetrievalFlowNodeConfiguration {
+  serviceConfiguration: (typeof RetrievalFlowNodeServiceConfiguration)["Type"];
+}
+export const RetrievalFlowNodeConfiguration = S.suspend(() =>
+  S.Struct({ serviceConfiguration: RetrievalFlowNodeServiceConfiguration }),
+).annotations({
+  identifier: "RetrievalFlowNodeConfiguration",
+}) as any as S.Schema<RetrievalFlowNodeConfiguration>;
+export interface ValidationExceptionField {
+  name: string;
+  message: string;
+}
+export const ValidationExceptionField = S.suspend(() =>
+  S.Struct({ name: S.String, message: S.String }),
+).annotations({
+  identifier: "ValidationExceptionField",
+}) as any as S.Schema<ValidationExceptionField>;
+export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
-export class KnowledgeBaseDocument extends S.Class<KnowledgeBaseDocument>(
-  "KnowledgeBaseDocument",
-)({ metadata: S.optional(DocumentMetadata), content: DocumentContent }) {}
+export interface KnowledgeBaseDocument {
+  metadata?: DocumentMetadata;
+  content: DocumentContent;
+}
+export const KnowledgeBaseDocument = S.suspend(() =>
+  S.Struct({
+    metadata: S.optional(DocumentMetadata),
+    content: DocumentContent,
+  }),
+).annotations({
+  identifier: "KnowledgeBaseDocument",
+}) as any as S.Schema<KnowledgeBaseDocument>;
+export type KnowledgeBaseDocuments = KnowledgeBaseDocument[];
 export const KnowledgeBaseDocuments = S.Array(KnowledgeBaseDocument);
-export class CreateAgentActionGroupResponse extends S.Class<CreateAgentActionGroupResponse>(
-  "CreateAgentActionGroupResponse",
-)({ agentActionGroup: AgentActionGroup }) {}
-export class IngestKnowledgeBaseDocumentsRequest extends S.Class<IngestKnowledgeBaseDocumentsRequest>(
-  "IngestKnowledgeBaseDocumentsRequest",
-)(
-  {
+export interface CreateAgentActionGroupResponse {
+  agentActionGroup: AgentActionGroup;
+}
+export const CreateAgentActionGroupResponse = S.suspend(() =>
+  S.Struct({ agentActionGroup: AgentActionGroup }),
+).annotations({
+  identifier: "CreateAgentActionGroupResponse",
+}) as any as S.Schema<CreateAgentActionGroupResponse>;
+export interface IngestKnowledgeBaseDocumentsRequest {
+  knowledgeBaseId: string;
+  dataSourceId: string;
+  clientToken?: string;
+  documents: KnowledgeBaseDocuments;
+}
+export const IngestKnowledgeBaseDocumentsRequest = S.suspend(() =>
+  S.Struct({
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     dataSourceId: S.String.pipe(T.HttpLabel("dataSourceId")),
     clientToken: S.optional(S.String),
     documents: KnowledgeBaseDocuments,
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/knowledgebases/{knowledgeBaseId}/datasources/{dataSourceId}/documents",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/knowledgebases/{knowledgeBaseId}/datasources/{dataSourceId}/documents",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class FieldForReranking extends S.Class<FieldForReranking>(
-  "FieldForReranking",
-)({ fieldName: S.String }) {}
+).annotations({
+  identifier: "IngestKnowledgeBaseDocumentsRequest",
+}) as any as S.Schema<IngestKnowledgeBaseDocumentsRequest>;
+export interface FieldForReranking {
+  fieldName: string;
+}
+export const FieldForReranking = S.suspend(() =>
+  S.Struct({ fieldName: S.String }),
+).annotations({
+  identifier: "FieldForReranking",
+}) as any as S.Schema<FieldForReranking>;
+export type FieldsForReranking = FieldForReranking[];
 export const FieldsForReranking = S.Array(FieldForReranking);
 export const RerankingMetadataSelectiveModeConfiguration = S.Union(
   S.Struct({ fieldsToInclude: FieldsForReranking }),
   S.Struct({ fieldsToExclude: FieldsForReranking }),
 );
-export class CreateDataSourceRequest extends S.Class<CreateDataSourceRequest>(
-  "CreateDataSourceRequest",
-)(
-  {
+export interface CreateDataSourceRequest {
+  knowledgeBaseId: string;
+  clientToken?: string;
+  name: string;
+  description?: string;
+  dataSourceConfiguration: DataSourceConfiguration;
+  dataDeletionPolicy?: string;
+  serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
+  vectorIngestionConfiguration?: VectorIngestionConfiguration;
+}
+export const CreateDataSourceRequest = S.suspend(() =>
+  S.Struct({
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     clientToken: S.optional(S.String),
     name: S.String,
@@ -3438,52 +5996,91 @@ export class CreateDataSourceRequest extends S.Class<CreateDataSourceRequest>(
       ServerSideEncryptionConfiguration,
     ),
     vectorIngestionConfiguration: S.optional(VectorIngestionConfiguration),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/knowledgebases/{knowledgeBaseId}/datasources/",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/knowledgebases/{knowledgeBaseId}/datasources/",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class IngestKnowledgeBaseDocumentsResponse extends S.Class<IngestKnowledgeBaseDocumentsResponse>(
-  "IngestKnowledgeBaseDocumentsResponse",
-)({ documentDetails: S.optional(KnowledgeBaseDocumentDetails) }) {}
-export class MetadataConfigurationForReranking extends S.Class<MetadataConfigurationForReranking>(
-  "MetadataConfigurationForReranking",
-)({
-  selectionMode: S.String,
-  selectiveModeConfiguration: S.optional(
-    RerankingMetadataSelectiveModeConfiguration,
-  ),
-}) {}
-export class VectorSearchBedrockRerankingConfiguration extends S.Class<VectorSearchBedrockRerankingConfiguration>(
-  "VectorSearchBedrockRerankingConfiguration",
-)({
-  modelConfiguration: VectorSearchBedrockRerankingModelConfiguration,
-  numberOfRerankedResults: S.optional(S.Number),
-  metadataConfiguration: S.optional(MetadataConfigurationForReranking),
-}) {}
-export class VectorSearchRerankingConfiguration extends S.Class<VectorSearchRerankingConfiguration>(
-  "VectorSearchRerankingConfiguration",
-)({
-  type: S.String,
-  bedrockRerankingConfiguration: S.optional(
-    VectorSearchBedrockRerankingConfiguration,
-  ),
-}) {}
-export class CreateDataSourceResponse extends S.Class<CreateDataSourceResponse>(
-  "CreateDataSourceResponse",
-)({ dataSource: DataSource }) {}
-export class CreateKnowledgeBaseRequest extends S.Class<CreateKnowledgeBaseRequest>(
-  "CreateKnowledgeBaseRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateDataSourceRequest",
+}) as any as S.Schema<CreateDataSourceRequest>;
+export interface IngestKnowledgeBaseDocumentsResponse {
+  documentDetails?: KnowledgeBaseDocumentDetails;
+}
+export const IngestKnowledgeBaseDocumentsResponse = S.suspend(() =>
+  S.Struct({ documentDetails: S.optional(KnowledgeBaseDocumentDetails) }),
+).annotations({
+  identifier: "IngestKnowledgeBaseDocumentsResponse",
+}) as any as S.Schema<IngestKnowledgeBaseDocumentsResponse>;
+export interface MetadataConfigurationForReranking {
+  selectionMode: string;
+  selectiveModeConfiguration?: (typeof RerankingMetadataSelectiveModeConfiguration)["Type"];
+}
+export const MetadataConfigurationForReranking = S.suspend(() =>
+  S.Struct({
+    selectionMode: S.String,
+    selectiveModeConfiguration: S.optional(
+      RerankingMetadataSelectiveModeConfiguration,
+    ),
+  }),
+).annotations({
+  identifier: "MetadataConfigurationForReranking",
+}) as any as S.Schema<MetadataConfigurationForReranking>;
+export interface VectorSearchBedrockRerankingConfiguration {
+  modelConfiguration: VectorSearchBedrockRerankingModelConfiguration;
+  numberOfRerankedResults?: number;
+  metadataConfiguration?: MetadataConfigurationForReranking;
+}
+export const VectorSearchBedrockRerankingConfiguration = S.suspend(() =>
+  S.Struct({
+    modelConfiguration: VectorSearchBedrockRerankingModelConfiguration,
+    numberOfRerankedResults: S.optional(S.Number),
+    metadataConfiguration: S.optional(MetadataConfigurationForReranking),
+  }),
+).annotations({
+  identifier: "VectorSearchBedrockRerankingConfiguration",
+}) as any as S.Schema<VectorSearchBedrockRerankingConfiguration>;
+export interface VectorSearchRerankingConfiguration {
+  type: string;
+  bedrockRerankingConfiguration?: VectorSearchBedrockRerankingConfiguration;
+}
+export const VectorSearchRerankingConfiguration = S.suspend(() =>
+  S.Struct({
+    type: S.String,
+    bedrockRerankingConfiguration: S.optional(
+      VectorSearchBedrockRerankingConfiguration,
+    ),
+  }),
+).annotations({
+  identifier: "VectorSearchRerankingConfiguration",
+}) as any as S.Schema<VectorSearchRerankingConfiguration>;
+export interface CreateDataSourceResponse {
+  dataSource: DataSource;
+}
+export const CreateDataSourceResponse = S.suspend(() =>
+  S.Struct({ dataSource: DataSource }),
+).annotations({
+  identifier: "CreateDataSourceResponse",
+}) as any as S.Schema<CreateDataSourceResponse>;
+export interface CreateKnowledgeBaseRequest {
+  clientToken?: string;
+  name: string;
+  description?: string;
+  roleArn: string;
+  knowledgeBaseConfiguration: KnowledgeBaseConfiguration;
+  storageConfiguration?: StorageConfiguration;
+  tags?: TagsMap;
+}
+export const CreateKnowledgeBaseRequest = S.suspend(() =>
+  S.Struct({
     clientToken: S.optional(S.String),
     name: S.String,
     description: S.optional(S.String),
@@ -3491,20 +6088,30 @@ export class CreateKnowledgeBaseRequest extends S.Class<CreateKnowledgeBaseReque
     knowledgeBaseConfiguration: KnowledgeBaseConfiguration,
     storageConfiguration: S.optional(StorageConfiguration),
     tags: S.optional(TagsMap),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/knowledgebases/" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/knowledgebases/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreatePromptRequest extends S.Class<CreatePromptRequest>(
-  "CreatePromptRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateKnowledgeBaseRequest",
+}) as any as S.Schema<CreateKnowledgeBaseRequest>;
+export interface CreatePromptRequest {
+  name: string;
+  description?: string;
+  customerEncryptionKeyArn?: string;
+  defaultVariant?: string;
+  variants?: PromptVariantList;
+  clientToken?: string;
+  tags?: TagsMap;
+}
+export const CreatePromptRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     description: S.optional(S.String),
     customerEncryptionKeyArn: S.optional(S.String),
@@ -3512,30 +6119,45 @@ export class CreatePromptRequest extends S.Class<CreatePromptRequest>(
     variants: S.optional(PromptVariantList),
     clientToken: S.optional(S.String),
     tags: S.optional(TagsMap),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/prompts/" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/prompts/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class KnowledgeBaseFlowNodeConfiguration extends S.Class<KnowledgeBaseFlowNodeConfiguration>(
-  "KnowledgeBaseFlowNodeConfiguration",
-)({
-  knowledgeBaseId: S.String,
-  modelId: S.optional(S.String),
-  guardrailConfiguration: S.optional(GuardrailConfiguration),
-  numberOfResults: S.optional(S.Number),
-  promptTemplate: S.optional(KnowledgeBasePromptTemplate),
-  inferenceConfiguration: S.optional(PromptInferenceConfiguration),
-  rerankingConfiguration: S.optional(VectorSearchRerankingConfiguration),
-  orchestrationConfiguration: S.optional(
-    KnowledgeBaseOrchestrationConfiguration,
-  ),
-}) {}
+).annotations({
+  identifier: "CreatePromptRequest",
+}) as any as S.Schema<CreatePromptRequest>;
+export interface KnowledgeBaseFlowNodeConfiguration {
+  knowledgeBaseId: string;
+  modelId?: string;
+  guardrailConfiguration?: GuardrailConfiguration;
+  numberOfResults?: number;
+  promptTemplate?: KnowledgeBasePromptTemplate;
+  inferenceConfiguration?: (typeof PromptInferenceConfiguration)["Type"];
+  rerankingConfiguration?: VectorSearchRerankingConfiguration;
+  orchestrationConfiguration?: KnowledgeBaseOrchestrationConfiguration;
+}
+export const KnowledgeBaseFlowNodeConfiguration = S.suspend(() =>
+  S.Struct({
+    knowledgeBaseId: S.String,
+    modelId: S.optional(S.String),
+    guardrailConfiguration: S.optional(GuardrailConfiguration),
+    numberOfResults: S.optional(S.Number),
+    promptTemplate: S.optional(KnowledgeBasePromptTemplate),
+    inferenceConfiguration: S.optional(PromptInferenceConfiguration),
+    rerankingConfiguration: S.optional(VectorSearchRerankingConfiguration),
+    orchestrationConfiguration: S.optional(
+      KnowledgeBaseOrchestrationConfiguration,
+    ),
+  }),
+).annotations({
+  identifier: "KnowledgeBaseFlowNodeConfiguration",
+}) as any as S.Schema<KnowledgeBaseFlowNodeConfiguration>;
 export type FlowNodeConfiguration =
   | { input: InputFlowNodeConfiguration }
   | { output: OutputFlowNodeConfiguration }
@@ -3570,55 +6192,98 @@ export const FlowNodeConfiguration = S.Union(
   S.Struct({
     loop: S.suspend(
       (): S.Schema<LoopFlowNodeConfiguration, any> => LoopFlowNodeConfiguration,
-    ),
+    ).annotations({ identifier: "LoopFlowNodeConfiguration" }),
   }),
   S.Struct({ loopInput: LoopInputFlowNodeConfiguration }),
   S.Struct({ loopController: LoopControllerFlowNodeConfiguration }),
 ) as any as S.Schema<FlowNodeConfiguration>;
-export class CreateKnowledgeBaseResponse extends S.Class<CreateKnowledgeBaseResponse>(
-  "CreateKnowledgeBaseResponse",
-)({ knowledgeBase: KnowledgeBase }) {}
-export class CreatePromptResponse extends S.Class<CreatePromptResponse>(
-  "CreatePromptResponse",
-)({
-  name: S.String,
-  description: S.optional(S.String),
-  customerEncryptionKeyArn: S.optional(S.String),
-  defaultVariant: S.optional(S.String),
-  variants: S.optional(PromptVariantList),
-  id: S.String,
-  arn: S.String,
-  version: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class FlowNode extends S.Class<FlowNode>("FlowNode")({
-  name: S.String,
-  type: S.String,
-  configuration: S.optional(S.suspend(() => FlowNodeConfiguration)),
-  inputs: S.optional(FlowNodeInputs),
-  outputs: S.optional(FlowNodeOutputs),
-}) {}
+export interface CreateKnowledgeBaseResponse {
+  knowledgeBase: KnowledgeBase;
+}
+export const CreateKnowledgeBaseResponse = S.suspend(() =>
+  S.Struct({ knowledgeBase: KnowledgeBase }),
+).annotations({
+  identifier: "CreateKnowledgeBaseResponse",
+}) as any as S.Schema<CreateKnowledgeBaseResponse>;
+export interface CreatePromptResponse {
+  name: string;
+  description?: string;
+  customerEncryptionKeyArn?: string;
+  defaultVariant?: string;
+  variants?: PromptVariantList;
+  id: string;
+  arn: string;
+  version: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+export const CreatePromptResponse = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    description: S.optional(S.String),
+    customerEncryptionKeyArn: S.optional(S.String),
+    defaultVariant: S.optional(S.String),
+    variants: S.optional(PromptVariantList),
+    id: S.String,
+    arn: S.String,
+    version: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "CreatePromptResponse",
+}) as any as S.Schema<CreatePromptResponse>;
+export interface FlowNode {
+  name: string;
+  type: string;
+  configuration?: FlowNodeConfiguration;
+  inputs?: FlowNodeInputs;
+  outputs?: FlowNodeOutputs;
+}
+export const FlowNode = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    type: S.String,
+    configuration: S.optional(
+      S.suspend(() => FlowNodeConfiguration).annotations({
+        identifier: "FlowNodeConfiguration",
+      }),
+    ),
+    inputs: S.optional(FlowNodeInputs),
+    outputs: S.optional(FlowNodeOutputs),
+  }),
+).annotations({ identifier: "FlowNode" }) as any as S.Schema<FlowNode>;
 export type FlowNodes = FlowNode[];
 export const FlowNodes = S.Array(
-  S.suspend((): S.Schema<FlowNode, any> => FlowNode),
+  S.suspend((): S.Schema<FlowNode, any> => FlowNode).annotations({
+    identifier: "FlowNode",
+  }),
 ) as any as S.Schema<FlowNodes>;
-export class ValidateFlowDefinitionRequest extends S.Class<ValidateFlowDefinitionRequest>(
-  "ValidateFlowDefinitionRequest",
-)(
-  { definition: FlowDefinition },
-  T.all(
-    T.Http({ method: "POST", uri: "/flows/validate-definition" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface ValidateFlowDefinitionRequest {
+  definition: FlowDefinition;
+}
+export const ValidateFlowDefinitionRequest = S.suspend(() =>
+  S.Struct({ definition: FlowDefinition }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/flows/validate-definition" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ValidateFlowDefinitionResponse extends S.Class<ValidateFlowDefinitionResponse>(
-  "ValidateFlowDefinitionResponse",
-)({ validations: FlowValidations }) {}
+).annotations({
+  identifier: "ValidateFlowDefinitionRequest",
+}) as any as S.Schema<ValidateFlowDefinitionRequest>;
+export interface ValidateFlowDefinitionResponse {
+  validations: FlowValidations;
+}
+export const ValidateFlowDefinitionResponse = S.suspend(() =>
+  S.Struct({ validations: FlowValidations }),
+).annotations({
+  identifier: "ValidateFlowDefinitionResponse",
+}) as any as S.Schema<ValidateFlowDefinitionResponse>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

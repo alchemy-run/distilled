@@ -256,621 +256,967 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type RecipeVersionList = string[];
 export const RecipeVersionList = S.Array(S.String);
+export type JobNameList = string[];
 export const JobNameList = S.Array(S.String);
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class BatchDeleteRecipeVersionRequest extends S.Class<BatchDeleteRecipeVersionRequest>(
-  "BatchDeleteRecipeVersionRequest",
-)(
-  {
+export interface BatchDeleteRecipeVersionRequest {
+  Name: string;
+  RecipeVersions: RecipeVersionList;
+}
+export const BatchDeleteRecipeVersionRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String.pipe(T.HttpLabel("Name")),
     RecipeVersions: RecipeVersionList,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/recipes/{Name}/batchDeleteRecipeVersion" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/recipes/{Name}/batchDeleteRecipeVersion",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "BatchDeleteRecipeVersionRequest",
+}) as any as S.Schema<BatchDeleteRecipeVersionRequest>;
+export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
-export class CreateScheduleRequest extends S.Class<CreateScheduleRequest>(
-  "CreateScheduleRequest",
-)(
-  {
+export interface CreateScheduleRequest {
+  JobNames?: JobNameList;
+  CronExpression: string;
+  Tags?: TagMap;
+  Name: string;
+}
+export const CreateScheduleRequest = S.suspend(() =>
+  S.Struct({
     JobNames: S.optional(JobNameList),
     CronExpression: S.String,
     Tags: S.optional(TagMap),
     Name: S.String,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/schedules" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/schedules" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteDatasetRequest extends S.Class<DeleteDatasetRequest>(
-  "DeleteDatasetRequest",
-)(
-  { Name: S.String.pipe(T.HttpLabel("Name")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/datasets/{Name}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CreateScheduleRequest",
+}) as any as S.Schema<CreateScheduleRequest>;
+export interface DeleteDatasetRequest {
+  Name: string;
+}
+export const DeleteDatasetRequest = S.suspend(() =>
+  S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/datasets/{Name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteJobRequest extends S.Class<DeleteJobRequest>(
-  "DeleteJobRequest",
-)(
-  { Name: S.String.pipe(T.HttpLabel("Name")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/jobs/{Name}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteDatasetRequest",
+}) as any as S.Schema<DeleteDatasetRequest>;
+export interface DeleteJobRequest {
+  Name: string;
+}
+export const DeleteJobRequest = S.suspend(() =>
+  S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/jobs/{Name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteProjectRequest extends S.Class<DeleteProjectRequest>(
-  "DeleteProjectRequest",
-)(
-  { Name: S.String.pipe(T.HttpLabel("Name")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/projects/{Name}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteJobRequest",
+}) as any as S.Schema<DeleteJobRequest>;
+export interface DeleteProjectRequest {
+  Name: string;
+}
+export const DeleteProjectRequest = S.suspend(() =>
+  S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/projects/{Name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteRecipeVersionRequest extends S.Class<DeleteRecipeVersionRequest>(
-  "DeleteRecipeVersionRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteProjectRequest",
+}) as any as S.Schema<DeleteProjectRequest>;
+export interface DeleteRecipeVersionRequest {
+  Name: string;
+  RecipeVersion: string;
+}
+export const DeleteRecipeVersionRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String.pipe(T.HttpLabel("Name")),
     RecipeVersion: S.String.pipe(T.HttpLabel("RecipeVersion")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/recipes/{Name}/recipeVersion/{RecipeVersion}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/recipes/{Name}/recipeVersion/{RecipeVersion}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteRulesetRequest extends S.Class<DeleteRulesetRequest>(
-  "DeleteRulesetRequest",
-)(
-  { Name: S.String.pipe(T.HttpLabel("Name")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/rulesets/{Name}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteRecipeVersionRequest",
+}) as any as S.Schema<DeleteRecipeVersionRequest>;
+export interface DeleteRulesetRequest {
+  Name: string;
+}
+export const DeleteRulesetRequest = S.suspend(() =>
+  S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/rulesets/{Name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteScheduleRequest extends S.Class<DeleteScheduleRequest>(
-  "DeleteScheduleRequest",
-)(
-  { Name: S.String.pipe(T.HttpLabel("Name")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/schedules/{Name}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteRulesetRequest",
+}) as any as S.Schema<DeleteRulesetRequest>;
+export interface DeleteScheduleRequest {
+  Name: string;
+}
+export const DeleteScheduleRequest = S.suspend(() =>
+  S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/schedules/{Name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeDatasetRequest extends S.Class<DescribeDatasetRequest>(
-  "DescribeDatasetRequest",
-)(
-  { Name: S.String.pipe(T.HttpLabel("Name")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/datasets/{Name}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteScheduleRequest",
+}) as any as S.Schema<DeleteScheduleRequest>;
+export interface DescribeDatasetRequest {
+  Name: string;
+}
+export const DescribeDatasetRequest = S.suspend(() =>
+  S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/datasets/{Name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeJobRequest extends S.Class<DescribeJobRequest>(
-  "DescribeJobRequest",
-)(
-  { Name: S.String.pipe(T.HttpLabel("Name")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/jobs/{Name}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DescribeDatasetRequest",
+}) as any as S.Schema<DescribeDatasetRequest>;
+export interface DescribeJobRequest {
+  Name: string;
+}
+export const DescribeJobRequest = S.suspend(() =>
+  S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/jobs/{Name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeJobRunRequest extends S.Class<DescribeJobRunRequest>(
-  "DescribeJobRunRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeJobRequest",
+}) as any as S.Schema<DescribeJobRequest>;
+export interface DescribeJobRunRequest {
+  Name: string;
+  RunId: string;
+}
+export const DescribeJobRunRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String.pipe(T.HttpLabel("Name")),
     RunId: S.String.pipe(T.HttpLabel("RunId")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/jobs/{Name}/jobRun/{RunId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/jobs/{Name}/jobRun/{RunId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeProjectRequest extends S.Class<DescribeProjectRequest>(
-  "DescribeProjectRequest",
-)(
-  { Name: S.String.pipe(T.HttpLabel("Name")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/projects/{Name}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DescribeJobRunRequest",
+}) as any as S.Schema<DescribeJobRunRequest>;
+export interface DescribeProjectRequest {
+  Name: string;
+}
+export const DescribeProjectRequest = S.suspend(() =>
+  S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/projects/{Name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeRecipeRequest extends S.Class<DescribeRecipeRequest>(
-  "DescribeRecipeRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeProjectRequest",
+}) as any as S.Schema<DescribeProjectRequest>;
+export interface DescribeRecipeRequest {
+  Name: string;
+  RecipeVersion?: string;
+}
+export const DescribeRecipeRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String.pipe(T.HttpLabel("Name")),
     RecipeVersion: S.optional(S.String).pipe(T.HttpQuery("recipeVersion")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/recipes/{Name}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/recipes/{Name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeRulesetRequest extends S.Class<DescribeRulesetRequest>(
-  "DescribeRulesetRequest",
-)(
-  { Name: S.String.pipe(T.HttpLabel("Name")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/rulesets/{Name}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DescribeRecipeRequest",
+}) as any as S.Schema<DescribeRecipeRequest>;
+export interface DescribeRulesetRequest {
+  Name: string;
+}
+export const DescribeRulesetRequest = S.suspend(() =>
+  S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/rulesets/{Name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeScheduleRequest extends S.Class<DescribeScheduleRequest>(
-  "DescribeScheduleRequest",
-)(
-  { Name: S.String.pipe(T.HttpLabel("Name")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/schedules/{Name}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DescribeRulesetRequest",
+}) as any as S.Schema<DescribeRulesetRequest>;
+export interface DescribeScheduleRequest {
+  Name: string;
+}
+export const DescribeScheduleRequest = S.suspend(() =>
+  S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/schedules/{Name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListDatasetsRequest extends S.Class<ListDatasetsRequest>(
-  "ListDatasetsRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeScheduleRequest",
+}) as any as S.Schema<DescribeScheduleRequest>;
+export interface ListDatasetsRequest {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListDatasetsRequest = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/datasets" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/datasets" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListJobRunsRequest extends S.Class<ListJobRunsRequest>(
-  "ListJobRunsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListDatasetsRequest",
+}) as any as S.Schema<ListDatasetsRequest>;
+export interface ListJobRunsRequest {
+  Name: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListJobRunsRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String.pipe(T.HttpLabel("Name")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/jobs/{Name}/jobRuns" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/jobs/{Name}/jobRuns" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListJobsRequest extends S.Class<ListJobsRequest>(
-  "ListJobsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListJobRunsRequest",
+}) as any as S.Schema<ListJobRunsRequest>;
+export interface ListJobsRequest {
+  DatasetName?: string;
+  MaxResults?: number;
+  NextToken?: string;
+  ProjectName?: string;
+}
+export const ListJobsRequest = S.suspend(() =>
+  S.Struct({
     DatasetName: S.optional(S.String).pipe(T.HttpQuery("datasetName")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     ProjectName: S.optional(S.String).pipe(T.HttpQuery("projectName")),
-  },
-  T.all(T.Http({ method: "GET", uri: "/jobs" }), svc, auth, proto, ver, rules),
-) {}
-export class ListProjectsRequest extends S.Class<ListProjectsRequest>(
-  "ListProjectsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/jobs" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListJobsRequest",
+}) as any as S.Schema<ListJobsRequest>;
+export interface ListProjectsRequest {
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListProjectsRequest = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/projects" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/projects" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListRecipesRequest extends S.Class<ListRecipesRequest>(
-  "ListRecipesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListProjectsRequest",
+}) as any as S.Schema<ListProjectsRequest>;
+export interface ListRecipesRequest {
+  MaxResults?: number;
+  NextToken?: string;
+  RecipeVersion?: string;
+}
+export const ListRecipesRequest = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     RecipeVersion: S.optional(S.String).pipe(T.HttpQuery("recipeVersion")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/recipes" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/recipes" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListRecipeVersionsRequest extends S.Class<ListRecipeVersionsRequest>(
-  "ListRecipeVersionsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListRecipesRequest",
+}) as any as S.Schema<ListRecipesRequest>;
+export interface ListRecipeVersionsRequest {
+  MaxResults?: number;
+  NextToken?: string;
+  Name: string;
+}
+export const ListRecipeVersionsRequest = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     Name: S.String.pipe(T.HttpQuery("name")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/recipeVersions" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/recipeVersions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListRulesetsRequest extends S.Class<ListRulesetsRequest>(
-  "ListRulesetsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListRecipeVersionsRequest",
+}) as any as S.Schema<ListRecipeVersionsRequest>;
+export interface ListRulesetsRequest {
+  TargetArn?: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListRulesetsRequest = S.suspend(() =>
+  S.Struct({
     TargetArn: S.optional(S.String).pipe(T.HttpQuery("targetArn")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/rulesets" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/rulesets" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListSchedulesRequest extends S.Class<ListSchedulesRequest>(
-  "ListSchedulesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListRulesetsRequest",
+}) as any as S.Schema<ListRulesetsRequest>;
+export interface ListSchedulesRequest {
+  JobName?: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListSchedulesRequest = S.suspend(() =>
+  S.Struct({
     JobName: S.optional(S.String).pipe(T.HttpQuery("jobName")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/schedules" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/schedules" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListSchedulesRequest",
+}) as any as S.Schema<ListSchedulesRequest>;
+export interface ListTagsForResourceRequest {
+  ResourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PublishRecipeRequest extends S.Class<PublishRecipeRequest>(
-  "PublishRecipeRequest",
-)(
-  {
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface PublishRecipeRequest {
+  Description?: string;
+  Name: string;
+}
+export const PublishRecipeRequest = S.suspend(() =>
+  S.Struct({
     Description: S.optional(S.String),
     Name: S.String.pipe(T.HttpLabel("Name")),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/recipes/{Name}/publishRecipe" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/recipes/{Name}/publishRecipe" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartJobRunRequest extends S.Class<StartJobRunRequest>(
-  "StartJobRunRequest",
-)(
-  { Name: S.String.pipe(T.HttpLabel("Name")) },
-  T.all(
-    T.Http({ method: "POST", uri: "/jobs/{Name}/startJobRun" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "PublishRecipeRequest",
+}) as any as S.Schema<PublishRecipeRequest>;
+export interface StartJobRunRequest {
+  Name: string;
+}
+export const StartJobRunRequest = S.suspend(() =>
+  S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/jobs/{Name}/startJobRun" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartProjectSessionRequest extends S.Class<StartProjectSessionRequest>(
-  "StartProjectSessionRequest",
-)(
-  {
+).annotations({
+  identifier: "StartJobRunRequest",
+}) as any as S.Schema<StartJobRunRequest>;
+export interface StartProjectSessionRequest {
+  Name: string;
+  AssumeControl?: boolean;
+}
+export const StartProjectSessionRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String.pipe(T.HttpLabel("Name")),
     AssumeControl: S.optional(S.Boolean),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/projects/{Name}/startProjectSession" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/projects/{Name}/startProjectSession" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StopJobRunRequest extends S.Class<StopJobRunRequest>(
-  "StopJobRunRequest",
-)(
-  {
+).annotations({
+  identifier: "StartProjectSessionRequest",
+}) as any as S.Schema<StartProjectSessionRequest>;
+export interface StopJobRunRequest {
+  Name: string;
+  RunId: string;
+}
+export const StopJobRunRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String.pipe(T.HttpLabel("Name")),
     RunId: S.String.pipe(T.HttpLabel("RunId")),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/jobs/{Name}/jobRun/{RunId}/stopJobRun" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/jobs/{Name}/jobRun/{RunId}/stopJobRun" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")), Tags: TagMap },
-  T.all(
-    T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "StopJobRunRequest",
+}) as any as S.Schema<StopJobRunRequest>;
+export interface TagResourceRequest {
+  ResourceArn: string;
+  Tags: TagMap;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
+    Tags: TagMap,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UntagResourceRequest {
+  ResourceArn: string;
+  TagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
-export class JsonOptions extends S.Class<JsonOptions>("JsonOptions")({
-  MultiLine: S.optional(S.Boolean),
-}) {}
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface JsonOptions {
+  MultiLine?: boolean;
+}
+export const JsonOptions = S.suspend(() =>
+  S.Struct({ MultiLine: S.optional(S.Boolean) }),
+).annotations({ identifier: "JsonOptions" }) as any as S.Schema<JsonOptions>;
+export type SheetNameList = string[];
 export const SheetNameList = S.Array(S.String);
+export type SheetIndexList = number[];
 export const SheetIndexList = S.Array(S.Number);
-export class ExcelOptions extends S.Class<ExcelOptions>("ExcelOptions")({
-  SheetNames: S.optional(SheetNameList),
-  SheetIndexes: S.optional(SheetIndexList),
-  HeaderRow: S.optional(S.Boolean),
-}) {}
-export class CsvOptions extends S.Class<CsvOptions>("CsvOptions")({
-  Delimiter: S.optional(S.String),
-  HeaderRow: S.optional(S.Boolean),
-}) {}
-export class FormatOptions extends S.Class<FormatOptions>("FormatOptions")({
-  Json: S.optional(JsonOptions),
-  Excel: S.optional(ExcelOptions),
-  Csv: S.optional(CsvOptions),
-}) {}
-export class S3Location extends S.Class<S3Location>("S3Location")({
-  Bucket: S.String,
-  Key: S.optional(S.String),
-  BucketOwner: S.optional(S.String),
-}) {}
-export class DataCatalogInputDefinition extends S.Class<DataCatalogInputDefinition>(
-  "DataCatalogInputDefinition",
-)({
-  CatalogId: S.optional(S.String),
-  DatabaseName: S.String,
-  TableName: S.String,
-  TempDirectory: S.optional(S3Location),
-}) {}
-export class DatabaseInputDefinition extends S.Class<DatabaseInputDefinition>(
-  "DatabaseInputDefinition",
-)({
-  GlueConnectionName: S.String,
-  DatabaseTableName: S.optional(S.String),
-  TempDirectory: S.optional(S3Location),
-  QueryString: S.optional(S.String),
-}) {}
-export class Metadata extends S.Class<Metadata>("Metadata")({
-  SourceArn: S.optional(S.String),
-}) {}
-export class Input extends S.Class<Input>("Input")({
-  S3InputDefinition: S.optional(S3Location),
-  DataCatalogInputDefinition: S.optional(DataCatalogInputDefinition),
-  DatabaseInputDefinition: S.optional(DatabaseInputDefinition),
-  Metadata: S.optional(Metadata),
-}) {}
+export interface ExcelOptions {
+  SheetNames?: SheetNameList;
+  SheetIndexes?: SheetIndexList;
+  HeaderRow?: boolean;
+}
+export const ExcelOptions = S.suspend(() =>
+  S.Struct({
+    SheetNames: S.optional(SheetNameList),
+    SheetIndexes: S.optional(SheetIndexList),
+    HeaderRow: S.optional(S.Boolean),
+  }),
+).annotations({ identifier: "ExcelOptions" }) as any as S.Schema<ExcelOptions>;
+export interface CsvOptions {
+  Delimiter?: string;
+  HeaderRow?: boolean;
+}
+export const CsvOptions = S.suspend(() =>
+  S.Struct({
+    Delimiter: S.optional(S.String),
+    HeaderRow: S.optional(S.Boolean),
+  }),
+).annotations({ identifier: "CsvOptions" }) as any as S.Schema<CsvOptions>;
+export interface FormatOptions {
+  Json?: JsonOptions;
+  Excel?: ExcelOptions;
+  Csv?: CsvOptions;
+}
+export const FormatOptions = S.suspend(() =>
+  S.Struct({
+    Json: S.optional(JsonOptions),
+    Excel: S.optional(ExcelOptions),
+    Csv: S.optional(CsvOptions),
+  }),
+).annotations({
+  identifier: "FormatOptions",
+}) as any as S.Schema<FormatOptions>;
+export interface S3Location {
+  Bucket: string;
+  Key?: string;
+  BucketOwner?: string;
+}
+export const S3Location = S.suspend(() =>
+  S.Struct({
+    Bucket: S.String,
+    Key: S.optional(S.String),
+    BucketOwner: S.optional(S.String),
+  }),
+).annotations({ identifier: "S3Location" }) as any as S.Schema<S3Location>;
+export interface DataCatalogInputDefinition {
+  CatalogId?: string;
+  DatabaseName: string;
+  TableName: string;
+  TempDirectory?: S3Location;
+}
+export const DataCatalogInputDefinition = S.suspend(() =>
+  S.Struct({
+    CatalogId: S.optional(S.String),
+    DatabaseName: S.String,
+    TableName: S.String,
+    TempDirectory: S.optional(S3Location),
+  }),
+).annotations({
+  identifier: "DataCatalogInputDefinition",
+}) as any as S.Schema<DataCatalogInputDefinition>;
+export interface DatabaseInputDefinition {
+  GlueConnectionName: string;
+  DatabaseTableName?: string;
+  TempDirectory?: S3Location;
+  QueryString?: string;
+}
+export const DatabaseInputDefinition = S.suspend(() =>
+  S.Struct({
+    GlueConnectionName: S.String,
+    DatabaseTableName: S.optional(S.String),
+    TempDirectory: S.optional(S3Location),
+    QueryString: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DatabaseInputDefinition",
+}) as any as S.Schema<DatabaseInputDefinition>;
+export interface Metadata {
+  SourceArn?: string;
+}
+export const Metadata = S.suspend(() =>
+  S.Struct({ SourceArn: S.optional(S.String) }),
+).annotations({ identifier: "Metadata" }) as any as S.Schema<Metadata>;
+export interface Input {
+  S3InputDefinition?: S3Location;
+  DataCatalogInputDefinition?: DataCatalogInputDefinition;
+  DatabaseInputDefinition?: DatabaseInputDefinition;
+  Metadata?: Metadata;
+}
+export const Input = S.suspend(() =>
+  S.Struct({
+    S3InputDefinition: S.optional(S3Location),
+    DataCatalogInputDefinition: S.optional(DataCatalogInputDefinition),
+    DatabaseInputDefinition: S.optional(DatabaseInputDefinition),
+    Metadata: S.optional(Metadata),
+  }),
+).annotations({ identifier: "Input" }) as any as S.Schema<Input>;
+export type ValuesMap = { [key: string]: string };
 export const ValuesMap = S.Record({ key: S.String, value: S.String });
-export class FilterExpression extends S.Class<FilterExpression>(
-  "FilterExpression",
-)({ Expression: S.String, ValuesMap: ValuesMap }) {}
-export class FilesLimit extends S.Class<FilesLimit>("FilesLimit")({
-  MaxFiles: S.Number,
-  OrderedBy: S.optional(S.String),
-  Order: S.optional(S.String),
-}) {}
-export class DatetimeOptions extends S.Class<DatetimeOptions>(
-  "DatetimeOptions",
-)({
-  Format: S.String,
-  TimezoneOffset: S.optional(S.String),
-  LocaleCode: S.optional(S.String),
-}) {}
-export class DatasetParameter extends S.Class<DatasetParameter>(
-  "DatasetParameter",
-)({
-  Name: S.String,
-  Type: S.String,
-  DatetimeOptions: S.optional(DatetimeOptions),
-  CreateColumn: S.optional(S.Boolean),
-  Filter: S.optional(FilterExpression),
-}) {}
+export interface FilterExpression {
+  Expression: string;
+  ValuesMap: ValuesMap;
+}
+export const FilterExpression = S.suspend(() =>
+  S.Struct({ Expression: S.String, ValuesMap: ValuesMap }),
+).annotations({
+  identifier: "FilterExpression",
+}) as any as S.Schema<FilterExpression>;
+export interface FilesLimit {
+  MaxFiles: number;
+  OrderedBy?: string;
+  Order?: string;
+}
+export const FilesLimit = S.suspend(() =>
+  S.Struct({
+    MaxFiles: S.Number,
+    OrderedBy: S.optional(S.String),
+    Order: S.optional(S.String),
+  }),
+).annotations({ identifier: "FilesLimit" }) as any as S.Schema<FilesLimit>;
+export interface DatetimeOptions {
+  Format: string;
+  TimezoneOffset?: string;
+  LocaleCode?: string;
+}
+export const DatetimeOptions = S.suspend(() =>
+  S.Struct({
+    Format: S.String,
+    TimezoneOffset: S.optional(S.String),
+    LocaleCode: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DatetimeOptions",
+}) as any as S.Schema<DatetimeOptions>;
+export interface DatasetParameter {
+  Name: string;
+  Type: string;
+  DatetimeOptions?: DatetimeOptions;
+  CreateColumn?: boolean;
+  Filter?: FilterExpression;
+}
+export const DatasetParameter = S.suspend(() =>
+  S.Struct({
+    Name: S.String,
+    Type: S.String,
+    DatetimeOptions: S.optional(DatetimeOptions),
+    CreateColumn: S.optional(S.Boolean),
+    Filter: S.optional(FilterExpression),
+  }),
+).annotations({
+  identifier: "DatasetParameter",
+}) as any as S.Schema<DatasetParameter>;
+export type PathParametersMap = { [key: string]: DatasetParameter };
 export const PathParametersMap = S.Record({
   key: S.String,
   value: DatasetParameter,
 });
-export class PathOptions extends S.Class<PathOptions>("PathOptions")({
-  LastModifiedDateCondition: S.optional(FilterExpression),
-  FilesLimit: S.optional(FilesLimit),
-  Parameters: S.optional(PathParametersMap),
-}) {}
-export class UpdateDatasetRequest extends S.Class<UpdateDatasetRequest>(
-  "UpdateDatasetRequest",
-)(
-  {
+export interface PathOptions {
+  LastModifiedDateCondition?: FilterExpression;
+  FilesLimit?: FilesLimit;
+  Parameters?: PathParametersMap;
+}
+export const PathOptions = S.suspend(() =>
+  S.Struct({
+    LastModifiedDateCondition: S.optional(FilterExpression),
+    FilesLimit: S.optional(FilesLimit),
+    Parameters: S.optional(PathParametersMap),
+  }),
+).annotations({ identifier: "PathOptions" }) as any as S.Schema<PathOptions>;
+export interface UpdateDatasetRequest {
+  Name: string;
+  Format?: string;
+  FormatOptions?: FormatOptions;
+  Input: Input;
+  PathOptions?: PathOptions;
+}
+export const UpdateDatasetRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String.pipe(T.HttpLabel("Name")),
     Format: S.optional(S.String),
     FormatOptions: S.optional(FormatOptions),
     Input: Input,
     PathOptions: S.optional(PathOptions),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/datasets/{Name}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/datasets/{Name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "UpdateDatasetRequest",
+}) as any as S.Schema<UpdateDatasetRequest>;
+export type StatisticList = string[];
 export const StatisticList = S.Array(S.String);
+export type ParameterMap = { [key: string]: string };
 export const ParameterMap = S.Record({ key: S.String, value: S.String });
-export class StatisticOverride extends S.Class<StatisticOverride>(
-  "StatisticOverride",
-)({ Statistic: S.String, Parameters: ParameterMap }) {}
+export interface StatisticOverride {
+  Statistic: string;
+  Parameters: ParameterMap;
+}
+export const StatisticOverride = S.suspend(() =>
+  S.Struct({ Statistic: S.String, Parameters: ParameterMap }),
+).annotations({
+  identifier: "StatisticOverride",
+}) as any as S.Schema<StatisticOverride>;
+export type StatisticOverrideList = StatisticOverride[];
 export const StatisticOverrideList = S.Array(StatisticOverride);
-export class StatisticsConfiguration extends S.Class<StatisticsConfiguration>(
-  "StatisticsConfiguration",
-)({
-  IncludedStatistics: S.optional(StatisticList),
-  Overrides: S.optional(StatisticOverrideList),
-}) {}
-export class ColumnSelector extends S.Class<ColumnSelector>("ColumnSelector")({
-  Regex: S.optional(S.String),
-  Name: S.optional(S.String),
-}) {}
+export interface StatisticsConfiguration {
+  IncludedStatistics?: StatisticList;
+  Overrides?: StatisticOverrideList;
+}
+export const StatisticsConfiguration = S.suspend(() =>
+  S.Struct({
+    IncludedStatistics: S.optional(StatisticList),
+    Overrides: S.optional(StatisticOverrideList),
+  }),
+).annotations({
+  identifier: "StatisticsConfiguration",
+}) as any as S.Schema<StatisticsConfiguration>;
+export interface ColumnSelector {
+  Regex?: string;
+  Name?: string;
+}
+export const ColumnSelector = S.suspend(() =>
+  S.Struct({ Regex: S.optional(S.String), Name: S.optional(S.String) }),
+).annotations({
+  identifier: "ColumnSelector",
+}) as any as S.Schema<ColumnSelector>;
+export type ColumnSelectorList = ColumnSelector[];
 export const ColumnSelectorList = S.Array(ColumnSelector);
-export class ColumnStatisticsConfiguration extends S.Class<ColumnStatisticsConfiguration>(
-  "ColumnStatisticsConfiguration",
-)({
-  Selectors: S.optional(ColumnSelectorList),
-  Statistics: StatisticsConfiguration,
-}) {}
+export interface ColumnStatisticsConfiguration {
+  Selectors?: ColumnSelectorList;
+  Statistics: StatisticsConfiguration;
+}
+export const ColumnStatisticsConfiguration = S.suspend(() =>
+  S.Struct({
+    Selectors: S.optional(ColumnSelectorList),
+    Statistics: StatisticsConfiguration,
+  }),
+).annotations({
+  identifier: "ColumnStatisticsConfiguration",
+}) as any as S.Schema<ColumnStatisticsConfiguration>;
+export type ColumnStatisticsConfigurationList = ColumnStatisticsConfiguration[];
 export const ColumnStatisticsConfigurationList = S.Array(
   ColumnStatisticsConfiguration,
 );
+export type EntityTypeList = string[];
 export const EntityTypeList = S.Array(S.String);
-export class AllowedStatistics extends S.Class<AllowedStatistics>(
-  "AllowedStatistics",
-)({ Statistics: StatisticList }) {}
+export interface AllowedStatistics {
+  Statistics: StatisticList;
+}
+export const AllowedStatistics = S.suspend(() =>
+  S.Struct({ Statistics: StatisticList }),
+).annotations({
+  identifier: "AllowedStatistics",
+}) as any as S.Schema<AllowedStatistics>;
+export type AllowedStatisticList = AllowedStatistics[];
 export const AllowedStatisticList = S.Array(AllowedStatistics);
-export class EntityDetectorConfiguration extends S.Class<EntityDetectorConfiguration>(
-  "EntityDetectorConfiguration",
-)({
-  EntityTypes: EntityTypeList,
-  AllowedStatistics: S.optional(AllowedStatisticList),
-}) {}
-export class ProfileConfiguration extends S.Class<ProfileConfiguration>(
-  "ProfileConfiguration",
-)({
-  DatasetStatisticsConfiguration: S.optional(StatisticsConfiguration),
-  ProfileColumns: S.optional(ColumnSelectorList),
-  ColumnStatisticsConfigurations: S.optional(ColumnStatisticsConfigurationList),
-  EntityDetectorConfiguration: S.optional(EntityDetectorConfiguration),
-}) {}
-export class ValidationConfiguration extends S.Class<ValidationConfiguration>(
-  "ValidationConfiguration",
-)({ RulesetArn: S.String, ValidationMode: S.optional(S.String) }) {}
+export interface EntityDetectorConfiguration {
+  EntityTypes: EntityTypeList;
+  AllowedStatistics?: AllowedStatisticList;
+}
+export const EntityDetectorConfiguration = S.suspend(() =>
+  S.Struct({
+    EntityTypes: EntityTypeList,
+    AllowedStatistics: S.optional(AllowedStatisticList),
+  }),
+).annotations({
+  identifier: "EntityDetectorConfiguration",
+}) as any as S.Schema<EntityDetectorConfiguration>;
+export interface ProfileConfiguration {
+  DatasetStatisticsConfiguration?: StatisticsConfiguration;
+  ProfileColumns?: ColumnSelectorList;
+  ColumnStatisticsConfigurations?: ColumnStatisticsConfigurationList;
+  EntityDetectorConfiguration?: EntityDetectorConfiguration;
+}
+export const ProfileConfiguration = S.suspend(() =>
+  S.Struct({
+    DatasetStatisticsConfiguration: S.optional(StatisticsConfiguration),
+    ProfileColumns: S.optional(ColumnSelectorList),
+    ColumnStatisticsConfigurations: S.optional(
+      ColumnStatisticsConfigurationList,
+    ),
+    EntityDetectorConfiguration: S.optional(EntityDetectorConfiguration),
+  }),
+).annotations({
+  identifier: "ProfileConfiguration",
+}) as any as S.Schema<ProfileConfiguration>;
+export interface ValidationConfiguration {
+  RulesetArn: string;
+  ValidationMode?: string;
+}
+export const ValidationConfiguration = S.suspend(() =>
+  S.Struct({ RulesetArn: S.String, ValidationMode: S.optional(S.String) }),
+).annotations({
+  identifier: "ValidationConfiguration",
+}) as any as S.Schema<ValidationConfiguration>;
+export type ValidationConfigurationList = ValidationConfiguration[];
 export const ValidationConfigurationList = S.Array(ValidationConfiguration);
-export class JobSample extends S.Class<JobSample>("JobSample")({
-  Mode: S.optional(S.String),
-  Size: S.optional(S.Number),
-}) {}
-export class UpdateProfileJobRequest extends S.Class<UpdateProfileJobRequest>(
-  "UpdateProfileJobRequest",
-)(
-  {
+export interface JobSample {
+  Mode?: string;
+  Size?: number;
+}
+export const JobSample = S.suspend(() =>
+  S.Struct({ Mode: S.optional(S.String), Size: S.optional(S.Number) }),
+).annotations({ identifier: "JobSample" }) as any as S.Schema<JobSample>;
+export interface UpdateProfileJobRequest {
+  Configuration?: ProfileConfiguration;
+  EncryptionKeyArn?: string;
+  EncryptionMode?: string;
+  Name: string;
+  LogSubscription?: string;
+  MaxCapacity?: number;
+  MaxRetries?: number;
+  OutputLocation: S3Location;
+  ValidationConfigurations?: ValidationConfigurationList;
+  RoleArn: string;
+  Timeout?: number;
+  JobSample?: JobSample;
+}
+export const UpdateProfileJobRequest = S.suspend(() =>
+  S.Struct({
     Configuration: S.optional(ProfileConfiguration),
     EncryptionKeyArn: S.optional(S.String),
     EncryptionMode: S.optional(S.String),
@@ -883,115 +1229,217 @@ export class UpdateProfileJobRequest extends S.Class<UpdateProfileJobRequest>(
     RoleArn: S.String,
     Timeout: S.optional(S.Number),
     JobSample: S.optional(JobSample),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/profileJobs/{Name}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/profileJobs/{Name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class Sample extends S.Class<Sample>("Sample")({
-  Size: S.optional(S.Number),
-  Type: S.String,
-}) {}
-export class UpdateProjectRequest extends S.Class<UpdateProjectRequest>(
-  "UpdateProjectRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateProfileJobRequest",
+}) as any as S.Schema<UpdateProfileJobRequest>;
+export interface Sample {
+  Size?: number;
+  Type: string;
+}
+export const Sample = S.suspend(() =>
+  S.Struct({ Size: S.optional(S.Number), Type: S.String }),
+).annotations({ identifier: "Sample" }) as any as S.Schema<Sample>;
+export interface UpdateProjectRequest {
+  Sample?: Sample;
+  RoleArn: string;
+  Name: string;
+}
+export const UpdateProjectRequest = S.suspend(() =>
+  S.Struct({
     Sample: S.optional(Sample),
     RoleArn: S.String,
     Name: S.String.pipe(T.HttpLabel("Name")),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/projects/{Name}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/projects/{Name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class RecipeAction extends S.Class<RecipeAction>("RecipeAction")({
-  Operation: S.String,
-  Parameters: S.optional(ParameterMap),
-}) {}
-export class ConditionExpression extends S.Class<ConditionExpression>(
-  "ConditionExpression",
-)({
-  Condition: S.String,
-  Value: S.optional(S.String),
-  TargetColumn: S.String,
-}) {}
+).annotations({
+  identifier: "UpdateProjectRequest",
+}) as any as S.Schema<UpdateProjectRequest>;
+export interface RecipeAction {
+  Operation: string;
+  Parameters?: ParameterMap;
+}
+export const RecipeAction = S.suspend(() =>
+  S.Struct({ Operation: S.String, Parameters: S.optional(ParameterMap) }),
+).annotations({ identifier: "RecipeAction" }) as any as S.Schema<RecipeAction>;
+export interface ConditionExpression {
+  Condition: string;
+  Value?: string;
+  TargetColumn: string;
+}
+export const ConditionExpression = S.suspend(() =>
+  S.Struct({
+    Condition: S.String,
+    Value: S.optional(S.String),
+    TargetColumn: S.String,
+  }),
+).annotations({
+  identifier: "ConditionExpression",
+}) as any as S.Schema<ConditionExpression>;
+export type ConditionExpressionList = ConditionExpression[];
 export const ConditionExpressionList = S.Array(ConditionExpression);
-export class RecipeStep extends S.Class<RecipeStep>("RecipeStep")({
-  Action: RecipeAction,
-  ConditionExpressions: S.optional(ConditionExpressionList),
-}) {}
+export interface RecipeStep {
+  Action: RecipeAction;
+  ConditionExpressions?: ConditionExpressionList;
+}
+export const RecipeStep = S.suspend(() =>
+  S.Struct({
+    Action: RecipeAction,
+    ConditionExpressions: S.optional(ConditionExpressionList),
+  }),
+).annotations({ identifier: "RecipeStep" }) as any as S.Schema<RecipeStep>;
+export type RecipeStepList = RecipeStep[];
 export const RecipeStepList = S.Array(RecipeStep);
-export class UpdateRecipeRequest extends S.Class<UpdateRecipeRequest>(
-  "UpdateRecipeRequest",
-)(
-  {
+export interface UpdateRecipeRequest {
+  Description?: string;
+  Name: string;
+  Steps?: RecipeStepList;
+}
+export const UpdateRecipeRequest = S.suspend(() =>
+  S.Struct({
     Description: S.optional(S.String),
     Name: S.String.pipe(T.HttpLabel("Name")),
     Steps: S.optional(RecipeStepList),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/recipes/{Name}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/recipes/{Name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "UpdateRecipeRequest",
+}) as any as S.Schema<UpdateRecipeRequest>;
+export type ColumnNameList = string[];
 export const ColumnNameList = S.Array(S.String);
-export class CsvOutputOptions extends S.Class<CsvOutputOptions>(
-  "CsvOutputOptions",
-)({ Delimiter: S.optional(S.String) }) {}
-export class OutputFormatOptions extends S.Class<OutputFormatOptions>(
-  "OutputFormatOptions",
-)({ Csv: S.optional(CsvOutputOptions) }) {}
-export class Output extends S.Class<Output>("Output")({
-  CompressionFormat: S.optional(S.String),
-  Format: S.optional(S.String),
-  PartitionColumns: S.optional(ColumnNameList),
-  Location: S3Location,
-  Overwrite: S.optional(S.Boolean),
-  FormatOptions: S.optional(OutputFormatOptions),
-  MaxOutputFiles: S.optional(S.Number),
-}) {}
+export interface CsvOutputOptions {
+  Delimiter?: string;
+}
+export const CsvOutputOptions = S.suspend(() =>
+  S.Struct({ Delimiter: S.optional(S.String) }),
+).annotations({
+  identifier: "CsvOutputOptions",
+}) as any as S.Schema<CsvOutputOptions>;
+export interface OutputFormatOptions {
+  Csv?: CsvOutputOptions;
+}
+export const OutputFormatOptions = S.suspend(() =>
+  S.Struct({ Csv: S.optional(CsvOutputOptions) }),
+).annotations({
+  identifier: "OutputFormatOptions",
+}) as any as S.Schema<OutputFormatOptions>;
+export interface Output {
+  CompressionFormat?: string;
+  Format?: string;
+  PartitionColumns?: ColumnNameList;
+  Location: S3Location;
+  Overwrite?: boolean;
+  FormatOptions?: OutputFormatOptions;
+  MaxOutputFiles?: number;
+}
+export const Output = S.suspend(() =>
+  S.Struct({
+    CompressionFormat: S.optional(S.String),
+    Format: S.optional(S.String),
+    PartitionColumns: S.optional(ColumnNameList),
+    Location: S3Location,
+    Overwrite: S.optional(S.Boolean),
+    FormatOptions: S.optional(OutputFormatOptions),
+    MaxOutputFiles: S.optional(S.Number),
+  }),
+).annotations({ identifier: "Output" }) as any as S.Schema<Output>;
+export type OutputList = Output[];
 export const OutputList = S.Array(Output);
-export class S3TableOutputOptions extends S.Class<S3TableOutputOptions>(
-  "S3TableOutputOptions",
-)({ Location: S3Location }) {}
-export class DatabaseTableOutputOptions extends S.Class<DatabaseTableOutputOptions>(
-  "DatabaseTableOutputOptions",
-)({ TempDirectory: S.optional(S3Location), TableName: S.String }) {}
-export class DataCatalogOutput extends S.Class<DataCatalogOutput>(
-  "DataCatalogOutput",
-)({
-  CatalogId: S.optional(S.String),
-  DatabaseName: S.String,
-  TableName: S.String,
-  S3Options: S.optional(S3TableOutputOptions),
-  DatabaseOptions: S.optional(DatabaseTableOutputOptions),
-  Overwrite: S.optional(S.Boolean),
-}) {}
+export interface S3TableOutputOptions {
+  Location: S3Location;
+}
+export const S3TableOutputOptions = S.suspend(() =>
+  S.Struct({ Location: S3Location }),
+).annotations({
+  identifier: "S3TableOutputOptions",
+}) as any as S.Schema<S3TableOutputOptions>;
+export interface DatabaseTableOutputOptions {
+  TempDirectory?: S3Location;
+  TableName: string;
+}
+export const DatabaseTableOutputOptions = S.suspend(() =>
+  S.Struct({ TempDirectory: S.optional(S3Location), TableName: S.String }),
+).annotations({
+  identifier: "DatabaseTableOutputOptions",
+}) as any as S.Schema<DatabaseTableOutputOptions>;
+export interface DataCatalogOutput {
+  CatalogId?: string;
+  DatabaseName: string;
+  TableName: string;
+  S3Options?: S3TableOutputOptions;
+  DatabaseOptions?: DatabaseTableOutputOptions;
+  Overwrite?: boolean;
+}
+export const DataCatalogOutput = S.suspend(() =>
+  S.Struct({
+    CatalogId: S.optional(S.String),
+    DatabaseName: S.String,
+    TableName: S.String,
+    S3Options: S.optional(S3TableOutputOptions),
+    DatabaseOptions: S.optional(DatabaseTableOutputOptions),
+    Overwrite: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "DataCatalogOutput",
+}) as any as S.Schema<DataCatalogOutput>;
+export type DataCatalogOutputList = DataCatalogOutput[];
 export const DataCatalogOutputList = S.Array(DataCatalogOutput);
-export class DatabaseOutput extends S.Class<DatabaseOutput>("DatabaseOutput")({
-  GlueConnectionName: S.String,
-  DatabaseOptions: DatabaseTableOutputOptions,
-  DatabaseOutputMode: S.optional(S.String),
-}) {}
+export interface DatabaseOutput {
+  GlueConnectionName: string;
+  DatabaseOptions: DatabaseTableOutputOptions;
+  DatabaseOutputMode?: string;
+}
+export const DatabaseOutput = S.suspend(() =>
+  S.Struct({
+    GlueConnectionName: S.String,
+    DatabaseOptions: DatabaseTableOutputOptions,
+    DatabaseOutputMode: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DatabaseOutput",
+}) as any as S.Schema<DatabaseOutput>;
+export type DatabaseOutputList = DatabaseOutput[];
 export const DatabaseOutputList = S.Array(DatabaseOutput);
-export class UpdateRecipeJobRequest extends S.Class<UpdateRecipeJobRequest>(
-  "UpdateRecipeJobRequest",
-)(
-  {
+export interface UpdateRecipeJobRequest {
+  EncryptionKeyArn?: string;
+  EncryptionMode?: string;
+  Name: string;
+  LogSubscription?: string;
+  MaxCapacity?: number;
+  MaxRetries?: number;
+  Outputs?: OutputList;
+  DataCatalogOutputs?: DataCatalogOutputList;
+  DatabaseOutputs?: DatabaseOutputList;
+  RoleArn: string;
+  Timeout?: number;
+}
+export const UpdateRecipeJobRequest = S.suspend(() =>
+  S.Struct({
     EncryptionKeyArn: S.optional(S.String),
     EncryptionMode: S.optional(S.String),
     Name: S.String.pipe(T.HttpLabel("Name")),
@@ -1003,497 +1451,1055 @@ export class UpdateRecipeJobRequest extends S.Class<UpdateRecipeJobRequest>(
     DatabaseOutputs: S.optional(DatabaseOutputList),
     RoleArn: S.String,
     Timeout: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/recipeJobs/{Name}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/recipeJobs/{Name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class Threshold extends S.Class<Threshold>("Threshold")({
-  Value: S.Number,
-  Type: S.optional(S.String),
-  Unit: S.optional(S.String),
-}) {}
-export class Rule extends S.Class<Rule>("Rule")({
-  Name: S.String,
-  Disabled: S.optional(S.Boolean),
-  CheckExpression: S.String,
-  SubstitutionMap: S.optional(ValuesMap),
-  Threshold: S.optional(Threshold),
-  ColumnSelectors: S.optional(ColumnSelectorList),
-}) {}
+).annotations({
+  identifier: "UpdateRecipeJobRequest",
+}) as any as S.Schema<UpdateRecipeJobRequest>;
+export interface Threshold {
+  Value: number;
+  Type?: string;
+  Unit?: string;
+}
+export const Threshold = S.suspend(() =>
+  S.Struct({
+    Value: S.Number,
+    Type: S.optional(S.String),
+    Unit: S.optional(S.String),
+  }),
+).annotations({ identifier: "Threshold" }) as any as S.Schema<Threshold>;
+export interface Rule {
+  Name: string;
+  Disabled?: boolean;
+  CheckExpression: string;
+  SubstitutionMap?: ValuesMap;
+  Threshold?: Threshold;
+  ColumnSelectors?: ColumnSelectorList;
+}
+export const Rule = S.suspend(() =>
+  S.Struct({
+    Name: S.String,
+    Disabled: S.optional(S.Boolean),
+    CheckExpression: S.String,
+    SubstitutionMap: S.optional(ValuesMap),
+    Threshold: S.optional(Threshold),
+    ColumnSelectors: S.optional(ColumnSelectorList),
+  }),
+).annotations({ identifier: "Rule" }) as any as S.Schema<Rule>;
+export type RuleList = Rule[];
 export const RuleList = S.Array(Rule);
-export class UpdateRulesetRequest extends S.Class<UpdateRulesetRequest>(
-  "UpdateRulesetRequest",
-)(
-  {
+export interface UpdateRulesetRequest {
+  Name: string;
+  Description?: string;
+  Rules: RuleList;
+}
+export const UpdateRulesetRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String.pipe(T.HttpLabel("Name")),
     Description: S.optional(S.String),
     Rules: RuleList,
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/rulesets/{Name}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/rulesets/{Name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateScheduleRequest extends S.Class<UpdateScheduleRequest>(
-  "UpdateScheduleRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateRulesetRequest",
+}) as any as S.Schema<UpdateRulesetRequest>;
+export interface UpdateScheduleRequest {
+  JobNames?: JobNameList;
+  CronExpression: string;
+  Name: string;
+}
+export const UpdateScheduleRequest = S.suspend(() =>
+  S.Struct({
     JobNames: S.optional(JobNameList),
     CronExpression: S.String,
     Name: S.String.pipe(T.HttpLabel("Name")),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/schedules/{Name}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/schedules/{Name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "UpdateScheduleRequest",
+}) as any as S.Schema<UpdateScheduleRequest>;
+export type HiddenColumnList = string[];
 export const HiddenColumnList = S.Array(S.String);
-export class RecipeReference extends S.Class<RecipeReference>(
-  "RecipeReference",
-)({ Name: S.String, RecipeVersion: S.optional(S.String) }) {}
-export class ViewFrame extends S.Class<ViewFrame>("ViewFrame")({
-  StartColumnIndex: S.Number,
-  ColumnRange: S.optional(S.Number),
-  HiddenColumns: S.optional(HiddenColumnList),
-  StartRowIndex: S.optional(S.Number),
-  RowRange: S.optional(S.Number),
-  Analytics: S.optional(S.String),
-}) {}
-export class CreateProjectRequest extends S.Class<CreateProjectRequest>(
-  "CreateProjectRequest",
-)(
-  {
+export interface RecipeReference {
+  Name: string;
+  RecipeVersion?: string;
+}
+export const RecipeReference = S.suspend(() =>
+  S.Struct({ Name: S.String, RecipeVersion: S.optional(S.String) }),
+).annotations({
+  identifier: "RecipeReference",
+}) as any as S.Schema<RecipeReference>;
+export interface ViewFrame {
+  StartColumnIndex: number;
+  ColumnRange?: number;
+  HiddenColumns?: HiddenColumnList;
+  StartRowIndex?: number;
+  RowRange?: number;
+  Analytics?: string;
+}
+export const ViewFrame = S.suspend(() =>
+  S.Struct({
+    StartColumnIndex: S.Number,
+    ColumnRange: S.optional(S.Number),
+    HiddenColumns: S.optional(HiddenColumnList),
+    StartRowIndex: S.optional(S.Number),
+    RowRange: S.optional(S.Number),
+    Analytics: S.optional(S.String),
+  }),
+).annotations({ identifier: "ViewFrame" }) as any as S.Schema<ViewFrame>;
+export interface CreateProjectRequest {
+  DatasetName: string;
+  Name: string;
+  RecipeName: string;
+  Sample?: Sample;
+  RoleArn: string;
+  Tags?: TagMap;
+}
+export const CreateProjectRequest = S.suspend(() =>
+  S.Struct({
     DatasetName: S.String,
     Name: S.String,
     RecipeName: S.String,
     Sample: S.optional(Sample),
     RoleArn: S.String,
     Tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/projects" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/projects" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateScheduleResponse extends S.Class<CreateScheduleResponse>(
-  "CreateScheduleResponse",
-)({ Name: S.String }) {}
-export class DeleteDatasetResponse extends S.Class<DeleteDatasetResponse>(
-  "DeleteDatasetResponse",
-)({ Name: S.String }) {}
-export class DeleteJobResponse extends S.Class<DeleteJobResponse>(
-  "DeleteJobResponse",
-)({ Name: S.String }) {}
-export class DeleteProjectResponse extends S.Class<DeleteProjectResponse>(
-  "DeleteProjectResponse",
-)({ Name: S.String }) {}
-export class DeleteRecipeVersionResponse extends S.Class<DeleteRecipeVersionResponse>(
-  "DeleteRecipeVersionResponse",
-)({ Name: S.String, RecipeVersion: S.String }) {}
-export class DeleteRulesetResponse extends S.Class<DeleteRulesetResponse>(
-  "DeleteRulesetResponse",
-)({ Name: S.String }) {}
-export class DeleteScheduleResponse extends S.Class<DeleteScheduleResponse>(
-  "DeleteScheduleResponse",
-)({ Name: S.String }) {}
-export class DescribeDatasetResponse extends S.Class<DescribeDatasetResponse>(
-  "DescribeDatasetResponse",
-)({
-  CreatedBy: S.optional(S.String),
-  CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Name: S.String,
-  Format: S.optional(S.String),
-  FormatOptions: S.optional(FormatOptions),
-  Input: Input,
-  LastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedBy: S.optional(S.String),
-  Source: S.optional(S.String),
-  PathOptions: S.optional(PathOptions),
-  Tags: S.optional(TagMap),
-  ResourceArn: S.optional(S.String),
-}) {}
-export class DescribeJobResponse extends S.Class<DescribeJobResponse>(
-  "DescribeJobResponse",
-)({
-  CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  CreatedBy: S.optional(S.String),
-  DatasetName: S.optional(S.String),
-  EncryptionKeyArn: S.optional(S.String),
-  EncryptionMode: S.optional(S.String),
-  Name: S.String,
-  Type: S.optional(S.String),
-  LastModifiedBy: S.optional(S.String),
-  LastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LogSubscription: S.optional(S.String),
-  MaxCapacity: S.optional(S.Number),
-  MaxRetries: S.optional(S.Number),
-  Outputs: S.optional(OutputList),
-  DataCatalogOutputs: S.optional(DataCatalogOutputList),
-  DatabaseOutputs: S.optional(DatabaseOutputList),
-  ProjectName: S.optional(S.String),
-  ProfileConfiguration: S.optional(ProfileConfiguration),
-  ValidationConfigurations: S.optional(ValidationConfigurationList),
-  RecipeReference: S.optional(RecipeReference),
-  ResourceArn: S.optional(S.String),
-  RoleArn: S.optional(S.String),
-  Tags: S.optional(TagMap),
-  Timeout: S.optional(S.Number),
-  JobSample: S.optional(JobSample),
-}) {}
-export class DescribeJobRunResponse extends S.Class<DescribeJobRunResponse>(
-  "DescribeJobRunResponse",
-)({
-  Attempt: S.optional(S.Number),
-  CompletedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  DatasetName: S.optional(S.String),
-  ErrorMessage: S.optional(S.String),
-  ExecutionTime: S.optional(S.Number),
-  JobName: S.String,
-  ProfileConfiguration: S.optional(ProfileConfiguration),
-  ValidationConfigurations: S.optional(ValidationConfigurationList),
-  RunId: S.optional(S.String),
-  State: S.optional(S.String),
-  LogSubscription: S.optional(S.String),
-  LogGroupName: S.optional(S.String),
-  Outputs: S.optional(OutputList),
-  DataCatalogOutputs: S.optional(DataCatalogOutputList),
-  DatabaseOutputs: S.optional(DatabaseOutputList),
-  RecipeReference: S.optional(RecipeReference),
-  StartedBy: S.optional(S.String),
-  StartedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  JobSample: S.optional(JobSample),
-}) {}
-export class DescribeProjectResponse extends S.Class<DescribeProjectResponse>(
-  "DescribeProjectResponse",
-)({
-  CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  CreatedBy: S.optional(S.String),
-  DatasetName: S.optional(S.String),
-  LastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedBy: S.optional(S.String),
-  Name: S.String,
-  RecipeName: S.optional(S.String),
-  ResourceArn: S.optional(S.String),
-  Sample: S.optional(Sample),
-  RoleArn: S.optional(S.String),
-  Tags: S.optional(TagMap),
-  SessionStatus: S.optional(S.String),
-  OpenedBy: S.optional(S.String),
-  OpenDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class DescribeRecipeResponse extends S.Class<DescribeRecipeResponse>(
-  "DescribeRecipeResponse",
-)({
-  CreatedBy: S.optional(S.String),
-  CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedBy: S.optional(S.String),
-  LastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  ProjectName: S.optional(S.String),
-  PublishedBy: S.optional(S.String),
-  PublishedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Description: S.optional(S.String),
-  Name: S.String,
-  Steps: S.optional(RecipeStepList),
-  Tags: S.optional(TagMap),
-  ResourceArn: S.optional(S.String),
-  RecipeVersion: S.optional(S.String),
-}) {}
-export class DescribeRulesetResponse extends S.Class<DescribeRulesetResponse>(
-  "DescribeRulesetResponse",
-)({
-  Name: S.String,
-  Description: S.optional(S.String),
-  TargetArn: S.optional(S.String),
-  Rules: S.optional(RuleList),
-  CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  CreatedBy: S.optional(S.String),
-  LastModifiedBy: S.optional(S.String),
-  LastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  ResourceArn: S.optional(S.String),
-  Tags: S.optional(TagMap),
-}) {}
-export class DescribeScheduleResponse extends S.Class<DescribeScheduleResponse>(
-  "DescribeScheduleResponse",
-)({
-  CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  CreatedBy: S.optional(S.String),
-  JobNames: S.optional(JobNameList),
-  LastModifiedBy: S.optional(S.String),
-  LastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  ResourceArn: S.optional(S.String),
-  CronExpression: S.optional(S.String),
-  Tags: S.optional(TagMap),
-  Name: S.String,
-}) {}
-export class Recipe extends S.Class<Recipe>("Recipe")({
-  CreatedBy: S.optional(S.String),
-  CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedBy: S.optional(S.String),
-  LastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  ProjectName: S.optional(S.String),
-  PublishedBy: S.optional(S.String),
-  PublishedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Description: S.optional(S.String),
-  Name: S.String,
-  ResourceArn: S.optional(S.String),
-  Steps: S.optional(RecipeStepList),
-  Tags: S.optional(TagMap),
-  RecipeVersion: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "CreateProjectRequest",
+}) as any as S.Schema<CreateProjectRequest>;
+export interface CreateScheduleResponse {
+  Name: string;
+}
+export const CreateScheduleResponse = S.suspend(() =>
+  S.Struct({ Name: S.String }),
+).annotations({
+  identifier: "CreateScheduleResponse",
+}) as any as S.Schema<CreateScheduleResponse>;
+export interface DeleteDatasetResponse {
+  Name: string;
+}
+export const DeleteDatasetResponse = S.suspend(() =>
+  S.Struct({ Name: S.String }),
+).annotations({
+  identifier: "DeleteDatasetResponse",
+}) as any as S.Schema<DeleteDatasetResponse>;
+export interface DeleteJobResponse {
+  Name: string;
+}
+export const DeleteJobResponse = S.suspend(() =>
+  S.Struct({ Name: S.String }),
+).annotations({
+  identifier: "DeleteJobResponse",
+}) as any as S.Schema<DeleteJobResponse>;
+export interface DeleteProjectResponse {
+  Name: string;
+}
+export const DeleteProjectResponse = S.suspend(() =>
+  S.Struct({ Name: S.String }),
+).annotations({
+  identifier: "DeleteProjectResponse",
+}) as any as S.Schema<DeleteProjectResponse>;
+export interface DeleteRecipeVersionResponse {
+  Name: string;
+  RecipeVersion: string;
+}
+export const DeleteRecipeVersionResponse = S.suspend(() =>
+  S.Struct({ Name: S.String, RecipeVersion: S.String }),
+).annotations({
+  identifier: "DeleteRecipeVersionResponse",
+}) as any as S.Schema<DeleteRecipeVersionResponse>;
+export interface DeleteRulesetResponse {
+  Name: string;
+}
+export const DeleteRulesetResponse = S.suspend(() =>
+  S.Struct({ Name: S.String }),
+).annotations({
+  identifier: "DeleteRulesetResponse",
+}) as any as S.Schema<DeleteRulesetResponse>;
+export interface DeleteScheduleResponse {
+  Name: string;
+}
+export const DeleteScheduleResponse = S.suspend(() =>
+  S.Struct({ Name: S.String }),
+).annotations({
+  identifier: "DeleteScheduleResponse",
+}) as any as S.Schema<DeleteScheduleResponse>;
+export interface DescribeDatasetResponse {
+  CreatedBy?: string;
+  CreateDate?: Date;
+  Name: string;
+  Format?: string;
+  FormatOptions?: FormatOptions;
+  Input: Input;
+  LastModifiedDate?: Date;
+  LastModifiedBy?: string;
+  Source?: string;
+  PathOptions?: PathOptions;
+  Tags?: TagMap;
+  ResourceArn?: string;
+}
+export const DescribeDatasetResponse = S.suspend(() =>
+  S.Struct({
+    CreatedBy: S.optional(S.String),
+    CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Name: S.String,
+    Format: S.optional(S.String),
+    FormatOptions: S.optional(FormatOptions),
+    Input: Input,
+    LastModifiedDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastModifiedBy: S.optional(S.String),
+    Source: S.optional(S.String),
+    PathOptions: S.optional(PathOptions),
+    Tags: S.optional(TagMap),
+    ResourceArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DescribeDatasetResponse",
+}) as any as S.Schema<DescribeDatasetResponse>;
+export interface DescribeJobResponse {
+  CreateDate?: Date;
+  CreatedBy?: string;
+  DatasetName?: string;
+  EncryptionKeyArn?: string;
+  EncryptionMode?: string;
+  Name: string;
+  Type?: string;
+  LastModifiedBy?: string;
+  LastModifiedDate?: Date;
+  LogSubscription?: string;
+  MaxCapacity?: number;
+  MaxRetries?: number;
+  Outputs?: OutputList;
+  DataCatalogOutputs?: DataCatalogOutputList;
+  DatabaseOutputs?: DatabaseOutputList;
+  ProjectName?: string;
+  ProfileConfiguration?: ProfileConfiguration;
+  ValidationConfigurations?: ValidationConfigurationList;
+  RecipeReference?: RecipeReference;
+  ResourceArn?: string;
+  RoleArn?: string;
+  Tags?: TagMap;
+  Timeout?: number;
+  JobSample?: JobSample;
+}
+export const DescribeJobResponse = S.suspend(() =>
+  S.Struct({
+    CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    CreatedBy: S.optional(S.String),
+    DatasetName: S.optional(S.String),
+    EncryptionKeyArn: S.optional(S.String),
+    EncryptionMode: S.optional(S.String),
+    Name: S.String,
+    Type: S.optional(S.String),
+    LastModifiedBy: S.optional(S.String),
+    LastModifiedDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LogSubscription: S.optional(S.String),
+    MaxCapacity: S.optional(S.Number),
+    MaxRetries: S.optional(S.Number),
+    Outputs: S.optional(OutputList),
+    DataCatalogOutputs: S.optional(DataCatalogOutputList),
+    DatabaseOutputs: S.optional(DatabaseOutputList),
+    ProjectName: S.optional(S.String),
+    ProfileConfiguration: S.optional(ProfileConfiguration),
+    ValidationConfigurations: S.optional(ValidationConfigurationList),
+    RecipeReference: S.optional(RecipeReference),
+    ResourceArn: S.optional(S.String),
+    RoleArn: S.optional(S.String),
+    Tags: S.optional(TagMap),
+    Timeout: S.optional(S.Number),
+    JobSample: S.optional(JobSample),
+  }),
+).annotations({
+  identifier: "DescribeJobResponse",
+}) as any as S.Schema<DescribeJobResponse>;
+export interface DescribeJobRunResponse {
+  Attempt?: number;
+  CompletedOn?: Date;
+  DatasetName?: string;
+  ErrorMessage?: string;
+  ExecutionTime?: number;
+  JobName: string;
+  ProfileConfiguration?: ProfileConfiguration;
+  ValidationConfigurations?: ValidationConfigurationList;
+  RunId?: string;
+  State?: string;
+  LogSubscription?: string;
+  LogGroupName?: string;
+  Outputs?: OutputList;
+  DataCatalogOutputs?: DataCatalogOutputList;
+  DatabaseOutputs?: DatabaseOutputList;
+  RecipeReference?: RecipeReference;
+  StartedBy?: string;
+  StartedOn?: Date;
+  JobSample?: JobSample;
+}
+export const DescribeJobRunResponse = S.suspend(() =>
+  S.Struct({
+    Attempt: S.optional(S.Number),
+    CompletedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    DatasetName: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
+    ExecutionTime: S.optional(S.Number),
+    JobName: S.String,
+    ProfileConfiguration: S.optional(ProfileConfiguration),
+    ValidationConfigurations: S.optional(ValidationConfigurationList),
+    RunId: S.optional(S.String),
+    State: S.optional(S.String),
+    LogSubscription: S.optional(S.String),
+    LogGroupName: S.optional(S.String),
+    Outputs: S.optional(OutputList),
+    DataCatalogOutputs: S.optional(DataCatalogOutputList),
+    DatabaseOutputs: S.optional(DatabaseOutputList),
+    RecipeReference: S.optional(RecipeReference),
+    StartedBy: S.optional(S.String),
+    StartedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    JobSample: S.optional(JobSample),
+  }),
+).annotations({
+  identifier: "DescribeJobRunResponse",
+}) as any as S.Schema<DescribeJobRunResponse>;
+export interface DescribeProjectResponse {
+  CreateDate?: Date;
+  CreatedBy?: string;
+  DatasetName?: string;
+  LastModifiedDate?: Date;
+  LastModifiedBy?: string;
+  Name: string;
+  RecipeName?: string;
+  ResourceArn?: string;
+  Sample?: Sample;
+  RoleArn?: string;
+  Tags?: TagMap;
+  SessionStatus?: string;
+  OpenedBy?: string;
+  OpenDate?: Date;
+}
+export const DescribeProjectResponse = S.suspend(() =>
+  S.Struct({
+    CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    CreatedBy: S.optional(S.String),
+    DatasetName: S.optional(S.String),
+    LastModifiedDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastModifiedBy: S.optional(S.String),
+    Name: S.String,
+    RecipeName: S.optional(S.String),
+    ResourceArn: S.optional(S.String),
+    Sample: S.optional(Sample),
+    RoleArn: S.optional(S.String),
+    Tags: S.optional(TagMap),
+    SessionStatus: S.optional(S.String),
+    OpenedBy: S.optional(S.String),
+    OpenDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "DescribeProjectResponse",
+}) as any as S.Schema<DescribeProjectResponse>;
+export interface DescribeRecipeResponse {
+  CreatedBy?: string;
+  CreateDate?: Date;
+  LastModifiedBy?: string;
+  LastModifiedDate?: Date;
+  ProjectName?: string;
+  PublishedBy?: string;
+  PublishedDate?: Date;
+  Description?: string;
+  Name: string;
+  Steps?: RecipeStepList;
+  Tags?: TagMap;
+  ResourceArn?: string;
+  RecipeVersion?: string;
+}
+export const DescribeRecipeResponse = S.suspend(() =>
+  S.Struct({
+    CreatedBy: S.optional(S.String),
+    CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModifiedBy: S.optional(S.String),
+    LastModifiedDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    ProjectName: S.optional(S.String),
+    PublishedBy: S.optional(S.String),
+    PublishedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Description: S.optional(S.String),
+    Name: S.String,
+    Steps: S.optional(RecipeStepList),
+    Tags: S.optional(TagMap),
+    ResourceArn: S.optional(S.String),
+    RecipeVersion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DescribeRecipeResponse",
+}) as any as S.Schema<DescribeRecipeResponse>;
+export interface DescribeRulesetResponse {
+  Name: string;
+  Description?: string;
+  TargetArn?: string;
+  Rules?: RuleList;
+  CreateDate?: Date;
+  CreatedBy?: string;
+  LastModifiedBy?: string;
+  LastModifiedDate?: Date;
+  ResourceArn?: string;
+  Tags?: TagMap;
+}
+export const DescribeRulesetResponse = S.suspend(() =>
+  S.Struct({
+    Name: S.String,
+    Description: S.optional(S.String),
+    TargetArn: S.optional(S.String),
+    Rules: S.optional(RuleList),
+    CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    CreatedBy: S.optional(S.String),
+    LastModifiedBy: S.optional(S.String),
+    LastModifiedDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    ResourceArn: S.optional(S.String),
+    Tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "DescribeRulesetResponse",
+}) as any as S.Schema<DescribeRulesetResponse>;
+export interface DescribeScheduleResponse {
+  CreateDate?: Date;
+  CreatedBy?: string;
+  JobNames?: JobNameList;
+  LastModifiedBy?: string;
+  LastModifiedDate?: Date;
+  ResourceArn?: string;
+  CronExpression?: string;
+  Tags?: TagMap;
+  Name: string;
+}
+export const DescribeScheduleResponse = S.suspend(() =>
+  S.Struct({
+    CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    CreatedBy: S.optional(S.String),
+    JobNames: S.optional(JobNameList),
+    LastModifiedBy: S.optional(S.String),
+    LastModifiedDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    ResourceArn: S.optional(S.String),
+    CronExpression: S.optional(S.String),
+    Tags: S.optional(TagMap),
+    Name: S.String,
+  }),
+).annotations({
+  identifier: "DescribeScheduleResponse",
+}) as any as S.Schema<DescribeScheduleResponse>;
+export interface Recipe {
+  CreatedBy?: string;
+  CreateDate?: Date;
+  LastModifiedBy?: string;
+  LastModifiedDate?: Date;
+  ProjectName?: string;
+  PublishedBy?: string;
+  PublishedDate?: Date;
+  Description?: string;
+  Name: string;
+  ResourceArn?: string;
+  Steps?: RecipeStepList;
+  Tags?: TagMap;
+  RecipeVersion?: string;
+}
+export const Recipe = S.suspend(() =>
+  S.Struct({
+    CreatedBy: S.optional(S.String),
+    CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModifiedBy: S.optional(S.String),
+    LastModifiedDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    ProjectName: S.optional(S.String),
+    PublishedBy: S.optional(S.String),
+    PublishedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Description: S.optional(S.String),
+    Name: S.String,
+    ResourceArn: S.optional(S.String),
+    Steps: S.optional(RecipeStepList),
+    Tags: S.optional(TagMap),
+    RecipeVersion: S.optional(S.String),
+  }),
+).annotations({ identifier: "Recipe" }) as any as S.Schema<Recipe>;
+export type RecipeList = Recipe[];
 export const RecipeList = S.Array(Recipe);
-export class ListRecipeVersionsResponse extends S.Class<ListRecipeVersionsResponse>(
-  "ListRecipeVersionsResponse",
-)({ NextToken: S.optional(S.String), Recipes: RecipeList }) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ Tags: S.optional(TagMap) }) {}
-export class PublishRecipeResponse extends S.Class<PublishRecipeResponse>(
-  "PublishRecipeResponse",
-)({ Name: S.String }) {}
-export class SendProjectSessionActionRequest extends S.Class<SendProjectSessionActionRequest>(
-  "SendProjectSessionActionRequest",
-)(
-  {
+export interface ListRecipeVersionsResponse {
+  NextToken?: string;
+  Recipes: RecipeList;
+}
+export const ListRecipeVersionsResponse = S.suspend(() =>
+  S.Struct({ NextToken: S.optional(S.String), Recipes: RecipeList }),
+).annotations({
+  identifier: "ListRecipeVersionsResponse",
+}) as any as S.Schema<ListRecipeVersionsResponse>;
+export interface ListTagsForResourceResponse {
+  Tags?: TagMap;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ Tags: S.optional(TagMap) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface PublishRecipeResponse {
+  Name: string;
+}
+export const PublishRecipeResponse = S.suspend(() =>
+  S.Struct({ Name: S.String }),
+).annotations({
+  identifier: "PublishRecipeResponse",
+}) as any as S.Schema<PublishRecipeResponse>;
+export interface SendProjectSessionActionRequest {
+  Preview?: boolean;
+  Name: string;
+  RecipeStep?: RecipeStep;
+  StepIndex?: number;
+  ClientSessionId?: string;
+  ViewFrame?: ViewFrame;
+}
+export const SendProjectSessionActionRequest = S.suspend(() =>
+  S.Struct({
     Preview: S.optional(S.Boolean),
     Name: S.String.pipe(T.HttpLabel("Name")),
     RecipeStep: S.optional(RecipeStep),
     StepIndex: S.optional(S.Number),
     ClientSessionId: S.optional(S.String),
     ViewFrame: S.optional(ViewFrame),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/projects/{Name}/sendProjectSessionAction" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/projects/{Name}/sendProjectSessionAction",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartJobRunResponse extends S.Class<StartJobRunResponse>(
-  "StartJobRunResponse",
-)({ RunId: S.String }) {}
-export class StartProjectSessionResponse extends S.Class<StartProjectSessionResponse>(
-  "StartProjectSessionResponse",
-)({ Name: S.String, ClientSessionId: S.optional(S.String) }) {}
-export class StopJobRunResponse extends S.Class<StopJobRunResponse>(
-  "StopJobRunResponse",
-)({ RunId: S.String }) {}
-export class UpdateDatasetResponse extends S.Class<UpdateDatasetResponse>(
-  "UpdateDatasetResponse",
-)({ Name: S.String }) {}
-export class UpdateProfileJobResponse extends S.Class<UpdateProfileJobResponse>(
-  "UpdateProfileJobResponse",
-)({ Name: S.String }) {}
-export class UpdateProjectResponse extends S.Class<UpdateProjectResponse>(
-  "UpdateProjectResponse",
-)({
-  LastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Name: S.String,
-}) {}
-export class UpdateRecipeResponse extends S.Class<UpdateRecipeResponse>(
-  "UpdateRecipeResponse",
-)({ Name: S.String }) {}
-export class UpdateRecipeJobResponse extends S.Class<UpdateRecipeJobResponse>(
-  "UpdateRecipeJobResponse",
-)({ Name: S.String }) {}
-export class UpdateRulesetResponse extends S.Class<UpdateRulesetResponse>(
-  "UpdateRulesetResponse",
-)({ Name: S.String }) {}
-export class UpdateScheduleResponse extends S.Class<UpdateScheduleResponse>(
-  "UpdateScheduleResponse",
-)({ Name: S.String }) {}
-export class RecipeVersionErrorDetail extends S.Class<RecipeVersionErrorDetail>(
-  "RecipeVersionErrorDetail",
-)({
-  ErrorCode: S.optional(S.String),
-  ErrorMessage: S.optional(S.String),
-  RecipeVersion: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "SendProjectSessionActionRequest",
+}) as any as S.Schema<SendProjectSessionActionRequest>;
+export interface StartJobRunResponse {
+  RunId: string;
+}
+export const StartJobRunResponse = S.suspend(() =>
+  S.Struct({ RunId: S.String }),
+).annotations({
+  identifier: "StartJobRunResponse",
+}) as any as S.Schema<StartJobRunResponse>;
+export interface StartProjectSessionResponse {
+  Name: string;
+  ClientSessionId?: string;
+}
+export const StartProjectSessionResponse = S.suspend(() =>
+  S.Struct({ Name: S.String, ClientSessionId: S.optional(S.String) }),
+).annotations({
+  identifier: "StartProjectSessionResponse",
+}) as any as S.Schema<StartProjectSessionResponse>;
+export interface StopJobRunResponse {
+  RunId: string;
+}
+export const StopJobRunResponse = S.suspend(() =>
+  S.Struct({ RunId: S.String }),
+).annotations({
+  identifier: "StopJobRunResponse",
+}) as any as S.Schema<StopJobRunResponse>;
+export interface UpdateDatasetResponse {
+  Name: string;
+}
+export const UpdateDatasetResponse = S.suspend(() =>
+  S.Struct({ Name: S.String }),
+).annotations({
+  identifier: "UpdateDatasetResponse",
+}) as any as S.Schema<UpdateDatasetResponse>;
+export interface UpdateProfileJobResponse {
+  Name: string;
+}
+export const UpdateProfileJobResponse = S.suspend(() =>
+  S.Struct({ Name: S.String }),
+).annotations({
+  identifier: "UpdateProfileJobResponse",
+}) as any as S.Schema<UpdateProfileJobResponse>;
+export interface UpdateProjectResponse {
+  LastModifiedDate?: Date;
+  Name: string;
+}
+export const UpdateProjectResponse = S.suspend(() =>
+  S.Struct({
+    LastModifiedDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    Name: S.String,
+  }),
+).annotations({
+  identifier: "UpdateProjectResponse",
+}) as any as S.Schema<UpdateProjectResponse>;
+export interface UpdateRecipeResponse {
+  Name: string;
+}
+export const UpdateRecipeResponse = S.suspend(() =>
+  S.Struct({ Name: S.String }),
+).annotations({
+  identifier: "UpdateRecipeResponse",
+}) as any as S.Schema<UpdateRecipeResponse>;
+export interface UpdateRecipeJobResponse {
+  Name: string;
+}
+export const UpdateRecipeJobResponse = S.suspend(() =>
+  S.Struct({ Name: S.String }),
+).annotations({
+  identifier: "UpdateRecipeJobResponse",
+}) as any as S.Schema<UpdateRecipeJobResponse>;
+export interface UpdateRulesetResponse {
+  Name: string;
+}
+export const UpdateRulesetResponse = S.suspend(() =>
+  S.Struct({ Name: S.String }),
+).annotations({
+  identifier: "UpdateRulesetResponse",
+}) as any as S.Schema<UpdateRulesetResponse>;
+export interface UpdateScheduleResponse {
+  Name: string;
+}
+export const UpdateScheduleResponse = S.suspend(() =>
+  S.Struct({ Name: S.String }),
+).annotations({
+  identifier: "UpdateScheduleResponse",
+}) as any as S.Schema<UpdateScheduleResponse>;
+export interface RecipeVersionErrorDetail {
+  ErrorCode?: string;
+  ErrorMessage?: string;
+  RecipeVersion?: string;
+}
+export const RecipeVersionErrorDetail = S.suspend(() =>
+  S.Struct({
+    ErrorCode: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
+    RecipeVersion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RecipeVersionErrorDetail",
+}) as any as S.Schema<RecipeVersionErrorDetail>;
+export type RecipeErrorList = RecipeVersionErrorDetail[];
 export const RecipeErrorList = S.Array(RecipeVersionErrorDetail);
-export class Dataset extends S.Class<Dataset>("Dataset")({
-  AccountId: S.optional(S.String),
-  CreatedBy: S.optional(S.String),
-  CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Name: S.String,
-  Format: S.optional(S.String),
-  FormatOptions: S.optional(FormatOptions),
-  Input: Input,
-  LastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedBy: S.optional(S.String),
-  Source: S.optional(S.String),
-  PathOptions: S.optional(PathOptions),
-  Tags: S.optional(TagMap),
-  ResourceArn: S.optional(S.String),
-}) {}
+export interface Dataset {
+  AccountId?: string;
+  CreatedBy?: string;
+  CreateDate?: Date;
+  Name: string;
+  Format?: string;
+  FormatOptions?: FormatOptions;
+  Input: Input;
+  LastModifiedDate?: Date;
+  LastModifiedBy?: string;
+  Source?: string;
+  PathOptions?: PathOptions;
+  Tags?: TagMap;
+  ResourceArn?: string;
+}
+export const Dataset = S.suspend(() =>
+  S.Struct({
+    AccountId: S.optional(S.String),
+    CreatedBy: S.optional(S.String),
+    CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Name: S.String,
+    Format: S.optional(S.String),
+    FormatOptions: S.optional(FormatOptions),
+    Input: Input,
+    LastModifiedDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastModifiedBy: S.optional(S.String),
+    Source: S.optional(S.String),
+    PathOptions: S.optional(PathOptions),
+    Tags: S.optional(TagMap),
+    ResourceArn: S.optional(S.String),
+  }),
+).annotations({ identifier: "Dataset" }) as any as S.Schema<Dataset>;
+export type DatasetList = Dataset[];
 export const DatasetList = S.Array(Dataset);
-export class JobRun extends S.Class<JobRun>("JobRun")({
-  Attempt: S.optional(S.Number),
-  CompletedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  DatasetName: S.optional(S.String),
-  ErrorMessage: S.optional(S.String),
-  ExecutionTime: S.optional(S.Number),
-  JobName: S.optional(S.String),
-  RunId: S.optional(S.String),
-  State: S.optional(S.String),
-  LogSubscription: S.optional(S.String),
-  LogGroupName: S.optional(S.String),
-  Outputs: S.optional(OutputList),
-  DataCatalogOutputs: S.optional(DataCatalogOutputList),
-  DatabaseOutputs: S.optional(DatabaseOutputList),
-  RecipeReference: S.optional(RecipeReference),
-  StartedBy: S.optional(S.String),
-  StartedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  JobSample: S.optional(JobSample),
-  ValidationConfigurations: S.optional(ValidationConfigurationList),
-}) {}
+export interface JobRun {
+  Attempt?: number;
+  CompletedOn?: Date;
+  DatasetName?: string;
+  ErrorMessage?: string;
+  ExecutionTime?: number;
+  JobName?: string;
+  RunId?: string;
+  State?: string;
+  LogSubscription?: string;
+  LogGroupName?: string;
+  Outputs?: OutputList;
+  DataCatalogOutputs?: DataCatalogOutputList;
+  DatabaseOutputs?: DatabaseOutputList;
+  RecipeReference?: RecipeReference;
+  StartedBy?: string;
+  StartedOn?: Date;
+  JobSample?: JobSample;
+  ValidationConfigurations?: ValidationConfigurationList;
+}
+export const JobRun = S.suspend(() =>
+  S.Struct({
+    Attempt: S.optional(S.Number),
+    CompletedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    DatasetName: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
+    ExecutionTime: S.optional(S.Number),
+    JobName: S.optional(S.String),
+    RunId: S.optional(S.String),
+    State: S.optional(S.String),
+    LogSubscription: S.optional(S.String),
+    LogGroupName: S.optional(S.String),
+    Outputs: S.optional(OutputList),
+    DataCatalogOutputs: S.optional(DataCatalogOutputList),
+    DatabaseOutputs: S.optional(DatabaseOutputList),
+    RecipeReference: S.optional(RecipeReference),
+    StartedBy: S.optional(S.String),
+    StartedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    JobSample: S.optional(JobSample),
+    ValidationConfigurations: S.optional(ValidationConfigurationList),
+  }),
+).annotations({ identifier: "JobRun" }) as any as S.Schema<JobRun>;
+export type JobRunList = JobRun[];
 export const JobRunList = S.Array(JobRun);
-export class Job extends S.Class<Job>("Job")({
-  AccountId: S.optional(S.String),
-  CreatedBy: S.optional(S.String),
-  CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  DatasetName: S.optional(S.String),
-  EncryptionKeyArn: S.optional(S.String),
-  EncryptionMode: S.optional(S.String),
-  Name: S.String,
-  Type: S.optional(S.String),
-  LastModifiedBy: S.optional(S.String),
-  LastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LogSubscription: S.optional(S.String),
-  MaxCapacity: S.optional(S.Number),
-  MaxRetries: S.optional(S.Number),
-  Outputs: S.optional(OutputList),
-  DataCatalogOutputs: S.optional(DataCatalogOutputList),
-  DatabaseOutputs: S.optional(DatabaseOutputList),
-  ProjectName: S.optional(S.String),
-  RecipeReference: S.optional(RecipeReference),
-  ResourceArn: S.optional(S.String),
-  RoleArn: S.optional(S.String),
-  Timeout: S.optional(S.Number),
-  Tags: S.optional(TagMap),
-  JobSample: S.optional(JobSample),
-  ValidationConfigurations: S.optional(ValidationConfigurationList),
-}) {}
+export interface Job {
+  AccountId?: string;
+  CreatedBy?: string;
+  CreateDate?: Date;
+  DatasetName?: string;
+  EncryptionKeyArn?: string;
+  EncryptionMode?: string;
+  Name: string;
+  Type?: string;
+  LastModifiedBy?: string;
+  LastModifiedDate?: Date;
+  LogSubscription?: string;
+  MaxCapacity?: number;
+  MaxRetries?: number;
+  Outputs?: OutputList;
+  DataCatalogOutputs?: DataCatalogOutputList;
+  DatabaseOutputs?: DatabaseOutputList;
+  ProjectName?: string;
+  RecipeReference?: RecipeReference;
+  ResourceArn?: string;
+  RoleArn?: string;
+  Timeout?: number;
+  Tags?: TagMap;
+  JobSample?: JobSample;
+  ValidationConfigurations?: ValidationConfigurationList;
+}
+export const Job = S.suspend(() =>
+  S.Struct({
+    AccountId: S.optional(S.String),
+    CreatedBy: S.optional(S.String),
+    CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    DatasetName: S.optional(S.String),
+    EncryptionKeyArn: S.optional(S.String),
+    EncryptionMode: S.optional(S.String),
+    Name: S.String,
+    Type: S.optional(S.String),
+    LastModifiedBy: S.optional(S.String),
+    LastModifiedDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LogSubscription: S.optional(S.String),
+    MaxCapacity: S.optional(S.Number),
+    MaxRetries: S.optional(S.Number),
+    Outputs: S.optional(OutputList),
+    DataCatalogOutputs: S.optional(DataCatalogOutputList),
+    DatabaseOutputs: S.optional(DatabaseOutputList),
+    ProjectName: S.optional(S.String),
+    RecipeReference: S.optional(RecipeReference),
+    ResourceArn: S.optional(S.String),
+    RoleArn: S.optional(S.String),
+    Timeout: S.optional(S.Number),
+    Tags: S.optional(TagMap),
+    JobSample: S.optional(JobSample),
+    ValidationConfigurations: S.optional(ValidationConfigurationList),
+  }),
+).annotations({ identifier: "Job" }) as any as S.Schema<Job>;
+export type JobList = Job[];
 export const JobList = S.Array(Job);
-export class Project extends S.Class<Project>("Project")({
-  AccountId: S.optional(S.String),
-  CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  CreatedBy: S.optional(S.String),
-  DatasetName: S.optional(S.String),
-  LastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedBy: S.optional(S.String),
-  Name: S.String,
-  RecipeName: S.String,
-  ResourceArn: S.optional(S.String),
-  Sample: S.optional(Sample),
-  Tags: S.optional(TagMap),
-  RoleArn: S.optional(S.String),
-  OpenedBy: S.optional(S.String),
-  OpenDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface Project {
+  AccountId?: string;
+  CreateDate?: Date;
+  CreatedBy?: string;
+  DatasetName?: string;
+  LastModifiedDate?: Date;
+  LastModifiedBy?: string;
+  Name: string;
+  RecipeName: string;
+  ResourceArn?: string;
+  Sample?: Sample;
+  Tags?: TagMap;
+  RoleArn?: string;
+  OpenedBy?: string;
+  OpenDate?: Date;
+}
+export const Project = S.suspend(() =>
+  S.Struct({
+    AccountId: S.optional(S.String),
+    CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    CreatedBy: S.optional(S.String),
+    DatasetName: S.optional(S.String),
+    LastModifiedDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastModifiedBy: S.optional(S.String),
+    Name: S.String,
+    RecipeName: S.String,
+    ResourceArn: S.optional(S.String),
+    Sample: S.optional(Sample),
+    Tags: S.optional(TagMap),
+    RoleArn: S.optional(S.String),
+    OpenedBy: S.optional(S.String),
+    OpenDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({ identifier: "Project" }) as any as S.Schema<Project>;
+export type ProjectList = Project[];
 export const ProjectList = S.Array(Project);
-export class RulesetItem extends S.Class<RulesetItem>("RulesetItem")({
-  AccountId: S.optional(S.String),
-  CreatedBy: S.optional(S.String),
-  CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Description: S.optional(S.String),
-  LastModifiedBy: S.optional(S.String),
-  LastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Name: S.String,
-  ResourceArn: S.optional(S.String),
-  RuleCount: S.optional(S.Number),
-  Tags: S.optional(TagMap),
-  TargetArn: S.String,
-}) {}
+export interface RulesetItem {
+  AccountId?: string;
+  CreatedBy?: string;
+  CreateDate?: Date;
+  Description?: string;
+  LastModifiedBy?: string;
+  LastModifiedDate?: Date;
+  Name: string;
+  ResourceArn?: string;
+  RuleCount?: number;
+  Tags?: TagMap;
+  TargetArn: string;
+}
+export const RulesetItem = S.suspend(() =>
+  S.Struct({
+    AccountId: S.optional(S.String),
+    CreatedBy: S.optional(S.String),
+    CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Description: S.optional(S.String),
+    LastModifiedBy: S.optional(S.String),
+    LastModifiedDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    Name: S.String,
+    ResourceArn: S.optional(S.String),
+    RuleCount: S.optional(S.Number),
+    Tags: S.optional(TagMap),
+    TargetArn: S.String,
+  }),
+).annotations({ identifier: "RulesetItem" }) as any as S.Schema<RulesetItem>;
+export type RulesetItemList = RulesetItem[];
 export const RulesetItemList = S.Array(RulesetItem);
-export class Schedule extends S.Class<Schedule>("Schedule")({
-  AccountId: S.optional(S.String),
-  CreatedBy: S.optional(S.String),
-  CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  JobNames: S.optional(JobNameList),
-  LastModifiedBy: S.optional(S.String),
-  LastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  ResourceArn: S.optional(S.String),
-  CronExpression: S.optional(S.String),
-  Tags: S.optional(TagMap),
-  Name: S.String,
-}) {}
+export interface Schedule {
+  AccountId?: string;
+  CreatedBy?: string;
+  CreateDate?: Date;
+  JobNames?: JobNameList;
+  LastModifiedBy?: string;
+  LastModifiedDate?: Date;
+  ResourceArn?: string;
+  CronExpression?: string;
+  Tags?: TagMap;
+  Name: string;
+}
+export const Schedule = S.suspend(() =>
+  S.Struct({
+    AccountId: S.optional(S.String),
+    CreatedBy: S.optional(S.String),
+    CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    JobNames: S.optional(JobNameList),
+    LastModifiedBy: S.optional(S.String),
+    LastModifiedDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    ResourceArn: S.optional(S.String),
+    CronExpression: S.optional(S.String),
+    Tags: S.optional(TagMap),
+    Name: S.String,
+  }),
+).annotations({ identifier: "Schedule" }) as any as S.Schema<Schedule>;
+export type ScheduleList = Schedule[];
 export const ScheduleList = S.Array(Schedule);
-export class BatchDeleteRecipeVersionResponse extends S.Class<BatchDeleteRecipeVersionResponse>(
-  "BatchDeleteRecipeVersionResponse",
-)({ Name: S.String, Errors: S.optional(RecipeErrorList) }) {}
-export class CreateProjectResponse extends S.Class<CreateProjectResponse>(
-  "CreateProjectResponse",
-)({ Name: S.String }) {}
-export class CreateRulesetRequest extends S.Class<CreateRulesetRequest>(
-  "CreateRulesetRequest",
-)(
-  {
+export interface BatchDeleteRecipeVersionResponse {
+  Name: string;
+  Errors?: RecipeErrorList;
+}
+export const BatchDeleteRecipeVersionResponse = S.suspend(() =>
+  S.Struct({ Name: S.String, Errors: S.optional(RecipeErrorList) }),
+).annotations({
+  identifier: "BatchDeleteRecipeVersionResponse",
+}) as any as S.Schema<BatchDeleteRecipeVersionResponse>;
+export interface CreateProjectResponse {
+  Name: string;
+}
+export const CreateProjectResponse = S.suspend(() =>
+  S.Struct({ Name: S.String }),
+).annotations({
+  identifier: "CreateProjectResponse",
+}) as any as S.Schema<CreateProjectResponse>;
+export interface CreateRulesetRequest {
+  Name: string;
+  Description?: string;
+  TargetArn: string;
+  Rules: RuleList;
+  Tags?: TagMap;
+}
+export const CreateRulesetRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     Description: S.optional(S.String),
     TargetArn: S.String,
     Rules: RuleList,
     Tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/rulesets" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/rulesets" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListDatasetsResponse extends S.Class<ListDatasetsResponse>(
-  "ListDatasetsResponse",
-)({ Datasets: DatasetList, NextToken: S.optional(S.String) }) {}
-export class ListJobRunsResponse extends S.Class<ListJobRunsResponse>(
-  "ListJobRunsResponse",
-)({ JobRuns: JobRunList, NextToken: S.optional(S.String) }) {}
-export class ListJobsResponse extends S.Class<ListJobsResponse>(
-  "ListJobsResponse",
-)({ Jobs: JobList, NextToken: S.optional(S.String) }) {}
-export class ListProjectsResponse extends S.Class<ListProjectsResponse>(
-  "ListProjectsResponse",
-)({ Projects: ProjectList, NextToken: S.optional(S.String) }) {}
-export class ListRecipesResponse extends S.Class<ListRecipesResponse>(
-  "ListRecipesResponse",
-)({ Recipes: RecipeList, NextToken: S.optional(S.String) }) {}
-export class ListRulesetsResponse extends S.Class<ListRulesetsResponse>(
-  "ListRulesetsResponse",
-)({ Rulesets: RulesetItemList, NextToken: S.optional(S.String) }) {}
-export class ListSchedulesResponse extends S.Class<ListSchedulesResponse>(
-  "ListSchedulesResponse",
-)({ Schedules: ScheduleList, NextToken: S.optional(S.String) }) {}
-export class SendProjectSessionActionResponse extends S.Class<SendProjectSessionActionResponse>(
-  "SendProjectSessionActionResponse",
-)({
-  Result: S.optional(S.String),
-  Name: S.String,
-  ActionId: S.optional(S.Number),
-}) {}
-export class CreateProfileJobRequest extends S.Class<CreateProfileJobRequest>(
-  "CreateProfileJobRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateRulesetRequest",
+}) as any as S.Schema<CreateRulesetRequest>;
+export interface ListDatasetsResponse {
+  Datasets: DatasetList;
+  NextToken?: string;
+}
+export const ListDatasetsResponse = S.suspend(() =>
+  S.Struct({ Datasets: DatasetList, NextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListDatasetsResponse",
+}) as any as S.Schema<ListDatasetsResponse>;
+export interface ListJobRunsResponse {
+  JobRuns: JobRunList;
+  NextToken?: string;
+}
+export const ListJobRunsResponse = S.suspend(() =>
+  S.Struct({ JobRuns: JobRunList, NextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListJobRunsResponse",
+}) as any as S.Schema<ListJobRunsResponse>;
+export interface ListJobsResponse {
+  Jobs: JobList;
+  NextToken?: string;
+}
+export const ListJobsResponse = S.suspend(() =>
+  S.Struct({ Jobs: JobList, NextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListJobsResponse",
+}) as any as S.Schema<ListJobsResponse>;
+export interface ListProjectsResponse {
+  Projects: ProjectList;
+  NextToken?: string;
+}
+export const ListProjectsResponse = S.suspend(() =>
+  S.Struct({ Projects: ProjectList, NextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListProjectsResponse",
+}) as any as S.Schema<ListProjectsResponse>;
+export interface ListRecipesResponse {
+  Recipes: RecipeList;
+  NextToken?: string;
+}
+export const ListRecipesResponse = S.suspend(() =>
+  S.Struct({ Recipes: RecipeList, NextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListRecipesResponse",
+}) as any as S.Schema<ListRecipesResponse>;
+export interface ListRulesetsResponse {
+  Rulesets: RulesetItemList;
+  NextToken?: string;
+}
+export const ListRulesetsResponse = S.suspend(() =>
+  S.Struct({ Rulesets: RulesetItemList, NextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListRulesetsResponse",
+}) as any as S.Schema<ListRulesetsResponse>;
+export interface ListSchedulesResponse {
+  Schedules: ScheduleList;
+  NextToken?: string;
+}
+export const ListSchedulesResponse = S.suspend(() =>
+  S.Struct({ Schedules: ScheduleList, NextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListSchedulesResponse",
+}) as any as S.Schema<ListSchedulesResponse>;
+export interface SendProjectSessionActionResponse {
+  Result?: string;
+  Name: string;
+  ActionId?: number;
+}
+export const SendProjectSessionActionResponse = S.suspend(() =>
+  S.Struct({
+    Result: S.optional(S.String),
+    Name: S.String,
+    ActionId: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "SendProjectSessionActionResponse",
+}) as any as S.Schema<SendProjectSessionActionResponse>;
+export interface CreateProfileJobRequest {
+  DatasetName: string;
+  EncryptionKeyArn?: string;
+  EncryptionMode?: string;
+  Name: string;
+  LogSubscription?: string;
+  MaxCapacity?: number;
+  MaxRetries?: number;
+  OutputLocation: S3Location;
+  Configuration?: ProfileConfiguration;
+  ValidationConfigurations?: ValidationConfigurationList;
+  RoleArn: string;
+  Tags?: TagMap;
+  Timeout?: number;
+  JobSample?: JobSample;
+}
+export const CreateProfileJobRequest = S.suspend(() =>
+  S.Struct({
     DatasetName: S.String,
     EncryptionKeyArn: S.optional(S.String),
     EncryptionMode: S.optional(S.String),
@@ -1508,38 +2514,63 @@ export class CreateProfileJobRequest extends S.Class<CreateProfileJobRequest>(
     Tags: S.optional(TagMap),
     Timeout: S.optional(S.Number),
     JobSample: S.optional(JobSample),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/profileJobs" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/profileJobs" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateRecipeRequest extends S.Class<CreateRecipeRequest>(
-  "CreateRecipeRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateProfileJobRequest",
+}) as any as S.Schema<CreateProfileJobRequest>;
+export interface CreateRecipeRequest {
+  Description?: string;
+  Name: string;
+  Steps: RecipeStepList;
+  Tags?: TagMap;
+}
+export const CreateRecipeRequest = S.suspend(() =>
+  S.Struct({
     Description: S.optional(S.String),
     Name: S.String,
     Steps: RecipeStepList,
     Tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/recipes" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/recipes" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateRecipeJobRequest extends S.Class<CreateRecipeJobRequest>(
-  "CreateRecipeJobRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateRecipeRequest",
+}) as any as S.Schema<CreateRecipeRequest>;
+export interface CreateRecipeJobRequest {
+  DatasetName?: string;
+  EncryptionKeyArn?: string;
+  EncryptionMode?: string;
+  Name: string;
+  LogSubscription?: string;
+  MaxCapacity?: number;
+  MaxRetries?: number;
+  Outputs?: OutputList;
+  DataCatalogOutputs?: DataCatalogOutputList;
+  DatabaseOutputs?: DatabaseOutputList;
+  ProjectName?: string;
+  RecipeReference?: RecipeReference;
+  RoleArn: string;
+  Tags?: TagMap;
+  Timeout?: number;
+}
+export const CreateRecipeJobRequest = S.suspend(() =>
+  S.Struct({
     DatasetName: S.optional(S.String),
     EncryptionKeyArn: S.optional(S.String),
     EncryptionMode: S.optional(S.String),
@@ -1555,51 +2586,88 @@ export class CreateRecipeJobRequest extends S.Class<CreateRecipeJobRequest>(
     RoleArn: S.String,
     Tags: S.optional(TagMap),
     Timeout: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/recipeJobs" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/recipeJobs" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateRulesetResponse extends S.Class<CreateRulesetResponse>(
-  "CreateRulesetResponse",
-)({ Name: S.String }) {}
-export class CreateDatasetRequest extends S.Class<CreateDatasetRequest>(
-  "CreateDatasetRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateRecipeJobRequest",
+}) as any as S.Schema<CreateRecipeJobRequest>;
+export interface CreateRulesetResponse {
+  Name: string;
+}
+export const CreateRulesetResponse = S.suspend(() =>
+  S.Struct({ Name: S.String }),
+).annotations({
+  identifier: "CreateRulesetResponse",
+}) as any as S.Schema<CreateRulesetResponse>;
+export interface CreateDatasetRequest {
+  Name: string;
+  Format?: string;
+  FormatOptions?: FormatOptions;
+  Input: Input;
+  PathOptions?: PathOptions;
+  Tags?: TagMap;
+}
+export const CreateDatasetRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     Format: S.optional(S.String),
     FormatOptions: S.optional(FormatOptions),
     Input: Input,
     PathOptions: S.optional(PathOptions),
     Tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/datasets" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/datasets" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateProfileJobResponse extends S.Class<CreateProfileJobResponse>(
-  "CreateProfileJobResponse",
-)({ Name: S.String }) {}
-export class CreateRecipeResponse extends S.Class<CreateRecipeResponse>(
-  "CreateRecipeResponse",
-)({ Name: S.String }) {}
-export class CreateRecipeJobResponse extends S.Class<CreateRecipeJobResponse>(
-  "CreateRecipeJobResponse",
-)({ Name: S.String }) {}
-export class CreateDatasetResponse extends S.Class<CreateDatasetResponse>(
-  "CreateDatasetResponse",
-)({ Name: S.String }) {}
+).annotations({
+  identifier: "CreateDatasetRequest",
+}) as any as S.Schema<CreateDatasetRequest>;
+export interface CreateProfileJobResponse {
+  Name: string;
+}
+export const CreateProfileJobResponse = S.suspend(() =>
+  S.Struct({ Name: S.String }),
+).annotations({
+  identifier: "CreateProfileJobResponse",
+}) as any as S.Schema<CreateProfileJobResponse>;
+export interface CreateRecipeResponse {
+  Name: string;
+}
+export const CreateRecipeResponse = S.suspend(() =>
+  S.Struct({ Name: S.String }),
+).annotations({
+  identifier: "CreateRecipeResponse",
+}) as any as S.Schema<CreateRecipeResponse>;
+export interface CreateRecipeJobResponse {
+  Name: string;
+}
+export const CreateRecipeJobResponse = S.suspend(() =>
+  S.Struct({ Name: S.String }),
+).annotations({
+  identifier: "CreateRecipeJobResponse",
+}) as any as S.Schema<CreateRecipeJobResponse>;
+export interface CreateDatasetResponse {
+  Name: string;
+}
+export const CreateDatasetResponse = S.suspend(() =>
+  S.Struct({ Name: S.String }),
+).annotations({
+  identifier: "CreateDatasetResponse",
+}) as any as S.Schema<CreateDatasetResponse>;
 
 //# Errors
 export class InternalServerException extends S.TaggedError<InternalServerException>()(

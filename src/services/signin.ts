@@ -347,46 +347,91 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class CreateOAuth2TokenRequestBody extends S.Class<CreateOAuth2TokenRequestBody>(
-  "CreateOAuth2TokenRequestBody",
-)({
-  clientId: S.String.pipe(T.JsonName("clientId")),
-  grantType: S.String.pipe(T.JsonName("grantType")),
-  code: S.optional(S.String),
-  redirectUri: S.optional(S.String).pipe(T.JsonName("redirectUri")),
-  codeVerifier: S.optional(S.String).pipe(T.JsonName("codeVerifier")),
-  refreshToken: S.optional(S.String).pipe(T.JsonName("refreshToken")),
-}) {}
-export class CreateOAuth2TokenRequest extends S.Class<CreateOAuth2TokenRequest>(
-  "CreateOAuth2TokenRequest",
-)(
-  { tokenInput: CreateOAuth2TokenRequestBody.pipe(T.HttpPayload()) },
-  T.all(
-    T.Http({ method: "POST", uri: "/v1/token" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface CreateOAuth2TokenRequestBody {
+  clientId: string;
+  grantType: string;
+  code?: string;
+  redirectUri?: string;
+  codeVerifier?: string;
+  refreshToken?: string;
+}
+export const CreateOAuth2TokenRequestBody = S.suspend(() =>
+  S.Struct({
+    clientId: S.String.pipe(T.JsonName("clientId")),
+    grantType: S.String.pipe(T.JsonName("grantType")),
+    code: S.optional(S.String),
+    redirectUri: S.optional(S.String).pipe(T.JsonName("redirectUri")),
+    codeVerifier: S.optional(S.String).pipe(T.JsonName("codeVerifier")),
+    refreshToken: S.optional(S.String).pipe(T.JsonName("refreshToken")),
+  }),
+).annotations({
+  identifier: "CreateOAuth2TokenRequestBody",
+}) as any as S.Schema<CreateOAuth2TokenRequestBody>;
+export interface CreateOAuth2TokenRequest {
+  tokenInput: CreateOAuth2TokenRequestBody;
+}
+export const CreateOAuth2TokenRequest = S.suspend(() =>
+  S.Struct({
+    tokenInput: CreateOAuth2TokenRequestBody.pipe(T.HttpPayload()).annotations({
+      identifier: "CreateOAuth2TokenRequestBody",
+    }),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v1/token" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AccessToken extends S.Class<AccessToken>("AccessToken")({
-  accessKeyId: S.String.pipe(T.JsonName("accessKeyId")),
-  secretAccessKey: S.String.pipe(T.JsonName("secretAccessKey")),
-  sessionToken: S.String.pipe(T.JsonName("sessionToken")),
-}) {}
-export class CreateOAuth2TokenResponseBody extends S.Class<CreateOAuth2TokenResponseBody>(
-  "CreateOAuth2TokenResponseBody",
-)({
-  accessToken: AccessToken.pipe(T.JsonName("accessToken")),
-  tokenType: S.String.pipe(T.JsonName("tokenType")),
-  expiresIn: S.Number.pipe(T.JsonName("expiresIn")),
-  refreshToken: S.String.pipe(T.JsonName("refreshToken")),
-  idToken: S.optional(S.String).pipe(T.JsonName("idToken")),
-}) {}
-export class CreateOAuth2TokenResponse extends S.Class<CreateOAuth2TokenResponse>(
-  "CreateOAuth2TokenResponse",
-)({ tokenOutput: CreateOAuth2TokenResponseBody.pipe(T.HttpPayload()) }) {}
+).annotations({
+  identifier: "CreateOAuth2TokenRequest",
+}) as any as S.Schema<CreateOAuth2TokenRequest>;
+export interface AccessToken {
+  accessKeyId: string;
+  secretAccessKey: string;
+  sessionToken: string;
+}
+export const AccessToken = S.suspend(() =>
+  S.Struct({
+    accessKeyId: S.String.pipe(T.JsonName("accessKeyId")),
+    secretAccessKey: S.String.pipe(T.JsonName("secretAccessKey")),
+    sessionToken: S.String.pipe(T.JsonName("sessionToken")),
+  }),
+).annotations({ identifier: "AccessToken" }) as any as S.Schema<AccessToken>;
+export interface CreateOAuth2TokenResponseBody {
+  accessToken: AccessToken;
+  tokenType: string;
+  expiresIn: number;
+  refreshToken: string;
+  idToken?: string;
+}
+export const CreateOAuth2TokenResponseBody = S.suspend(() =>
+  S.Struct({
+    accessToken: AccessToken.pipe(T.JsonName("accessToken")).annotations({
+      identifier: "AccessToken",
+    }),
+    tokenType: S.String.pipe(T.JsonName("tokenType")),
+    expiresIn: S.Number.pipe(T.JsonName("expiresIn")),
+    refreshToken: S.String.pipe(T.JsonName("refreshToken")),
+    idToken: S.optional(S.String).pipe(T.JsonName("idToken")),
+  }),
+).annotations({
+  identifier: "CreateOAuth2TokenResponseBody",
+}) as any as S.Schema<CreateOAuth2TokenResponseBody>;
+export interface CreateOAuth2TokenResponse {
+  tokenOutput: CreateOAuth2TokenResponseBody;
+}
+export const CreateOAuth2TokenResponse = S.suspend(() =>
+  S.Struct({
+    tokenOutput: CreateOAuth2TokenResponseBody.pipe(
+      T.HttpPayload(),
+    ).annotations({ identifier: "CreateOAuth2TokenResponseBody" }),
+  }),
+).annotations({
+  identifier: "CreateOAuth2TokenResponse",
+}) as any as S.Schema<CreateOAuth2TokenResponse>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

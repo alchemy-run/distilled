@@ -294,70 +294,107 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type StringList = string[];
 export const StringList = S.Array(S.String);
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface ListTagsForResourceRequest {
+  resourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface UntagResourceRequest {
+  resourceArn: string;
+  tagKeys: StringList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: StringList.pipe(T.HttpQuery("tagKeys")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export type Tags = { [key: string]: string };
 export const Tags = S.Record({ key: S.String, value: S.String });
-export class DeploymentParameterInput extends S.Class<DeploymentParameterInput>(
-  "DeploymentParameterInput",
-)({ name: S.String, secretString: S.String }) {}
+export interface DeploymentParameterInput {
+  name: string;
+  secretString: string;
+}
+export const DeploymentParameterInput = S.suspend(() =>
+  S.Struct({ name: S.String, secretString: S.String }),
+).annotations({
+  identifier: "DeploymentParameterInput",
+}) as any as S.Schema<DeploymentParameterInput>;
+export type TagsMap = { [key: string]: string };
 export const TagsMap = S.Record({ key: S.String, value: S.String });
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ tags: S.optional(Tags) }) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  {
+export interface ListTagsForResourceResponse {
+  tags?: Tags;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ tags: S.optional(Tags) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface TagResourceRequest {
+  resourceArn: string;
+  tags?: Tags;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tags: S.optional(Tags),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class PutDeploymentParameterRequest extends S.Class<PutDeploymentParameterRequest>(
-  "PutDeploymentParameterRequest",
-)(
-  {
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface PutDeploymentParameterRequest {
+  catalog: string;
+  productId: string;
+  agreementId: string;
+  deploymentParameter: DeploymentParameterInput;
+  tags?: TagsMap;
+  expirationDate?: Date;
+  clientToken?: string;
+}
+export const PutDeploymentParameterRequest = S.suspend(() =>
+  S.Struct({
     catalog: S.String.pipe(T.HttpLabel("catalog")),
     productId: S.String.pipe(T.HttpLabel("productId")),
     agreementId: S.String,
@@ -365,27 +402,38 @@ export class PutDeploymentParameterRequest extends S.Class<PutDeploymentParamete
     tags: S.optional(TagsMap),
     expirationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     clientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/catalogs/{catalog}/products/{productId}/deployment-parameters",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/catalogs/{catalog}/products/{productId}/deployment-parameters",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutDeploymentParameterResponse extends S.Class<PutDeploymentParameterResponse>(
-  "PutDeploymentParameterResponse",
-)({
-  resourceArn: S.String,
-  agreementId: S.String,
-  deploymentParameterId: S.String,
-  tags: S.optional(TagsMap),
-}) {}
+).annotations({
+  identifier: "PutDeploymentParameterRequest",
+}) as any as S.Schema<PutDeploymentParameterRequest>;
+export interface PutDeploymentParameterResponse {
+  resourceArn: string;
+  agreementId: string;
+  deploymentParameterId: string;
+  tags?: TagsMap;
+}
+export const PutDeploymentParameterResponse = S.suspend(() =>
+  S.Struct({
+    resourceArn: S.String,
+    agreementId: S.String,
+    deploymentParameterId: S.String,
+    tags: S.optional(TagsMap),
+  }),
+).annotations({
+  identifier: "PutDeploymentParameterResponse",
+}) as any as S.Schema<PutDeploymentParameterResponse>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

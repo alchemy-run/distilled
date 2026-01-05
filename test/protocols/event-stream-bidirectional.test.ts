@@ -249,11 +249,14 @@ describe("Transcribe Streaming Schema Integration", () => {
   it.effect("should create AudioEvent instances with correct structure", () =>
     Effect.gen(function* () {
       const audioData = new Uint8Array([0, 1, 2, 3, 4, 5, 6, 7]);
-      const audioEvent = new AudioEvent({ AudioChunk: audioData });
+      // AudioEvent is now a schema, not a class, so use plain objects
+      const audioEvent: AudioEvent = { AudioChunk: audioData };
 
-      // Verify the AudioEvent class creates the right structure
+      // Verify the AudioEvent has the right structure
       expect(audioEvent.AudioChunk).toEqual(audioData);
-      expect(audioEvent).toBeInstanceOf(AudioEvent);
+      // Since AudioEvent is now a schema interface (not a class), verify the type works
+      expect(audioEvent).toHaveProperty("AudioChunk");
+      expect(audioEvent.AudioChunk).toBeInstanceOf(Uint8Array);
     }),
   );
 

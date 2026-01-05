@@ -240,454 +240,611 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type AutoBranchCreationPatterns = string[];
 export const AutoBranchCreationPatterns = S.Array(S.String);
+export type AutoSubDomainCreationPatterns = string[];
 export const AutoSubDomainCreationPatterns = S.Array(S.String);
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class CreateBackendEnvironmentRequest extends S.Class<CreateBackendEnvironmentRequest>(
-  "CreateBackendEnvironmentRequest",
-)(
-  {
+export interface CreateBackendEnvironmentRequest {
+  appId: string;
+  environmentName: string;
+  stackName?: string;
+  deploymentArtifacts?: string;
+}
+export const CreateBackendEnvironmentRequest = S.suspend(() =>
+  S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     environmentName: S.String,
     stackName: S.optional(S.String),
     deploymentArtifacts: S.optional(S.String),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/apps/{appId}/backendenvironments" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/apps/{appId}/backendenvironments" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateWebhookRequest extends S.Class<CreateWebhookRequest>(
-  "CreateWebhookRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateBackendEnvironmentRequest",
+}) as any as S.Schema<CreateBackendEnvironmentRequest>;
+export interface CreateWebhookRequest {
+  appId: string;
+  branchName: string;
+  description?: string;
+}
+export const CreateWebhookRequest = S.suspend(() =>
+  S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     branchName: S.String,
     description: S.optional(S.String),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/apps/{appId}/webhooks" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/apps/{appId}/webhooks" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAppRequest extends S.Class<DeleteAppRequest>(
-  "DeleteAppRequest",
-)(
-  { appId: S.String.pipe(T.HttpLabel("appId")) },
-  T.all(
-    ns,
-    T.Http({ method: "DELETE", uri: "/apps/{appId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CreateWebhookRequest",
+}) as any as S.Schema<CreateWebhookRequest>;
+export interface DeleteAppRequest {
+  appId: string;
+}
+export const DeleteAppRequest = S.suspend(() =>
+  S.Struct({ appId: S.String.pipe(T.HttpLabel("appId")) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "DELETE", uri: "/apps/{appId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteBackendEnvironmentRequest extends S.Class<DeleteBackendEnvironmentRequest>(
-  "DeleteBackendEnvironmentRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteAppRequest",
+}) as any as S.Schema<DeleteAppRequest>;
+export interface DeleteBackendEnvironmentRequest {
+  appId: string;
+  environmentName: string;
+}
+export const DeleteBackendEnvironmentRequest = S.suspend(() =>
+  S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     environmentName: S.String.pipe(T.HttpLabel("environmentName")),
-  },
-  T.all(
-    ns,
-    T.Http({
-      method: "DELETE",
-      uri: "/apps/{appId}/backendenvironments/{environmentName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "DELETE",
+        uri: "/apps/{appId}/backendenvironments/{environmentName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteBranchRequest extends S.Class<DeleteBranchRequest>(
-  "DeleteBranchRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteBackendEnvironmentRequest",
+}) as any as S.Schema<DeleteBackendEnvironmentRequest>;
+export interface DeleteBranchRequest {
+  appId: string;
+  branchName: string;
+}
+export const DeleteBranchRequest = S.suspend(() =>
+  S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     branchName: S.String.pipe(T.HttpLabel("branchName")),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "DELETE", uri: "/apps/{appId}/branches/{branchName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "DELETE", uri: "/apps/{appId}/branches/{branchName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteDomainAssociationRequest extends S.Class<DeleteDomainAssociationRequest>(
-  "DeleteDomainAssociationRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteBranchRequest",
+}) as any as S.Schema<DeleteBranchRequest>;
+export interface DeleteDomainAssociationRequest {
+  appId: string;
+  domainName: string;
+}
+export const DeleteDomainAssociationRequest = S.suspend(() =>
+  S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     domainName: S.String.pipe(T.HttpLabel("domainName")),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "DELETE", uri: "/apps/{appId}/domains/{domainName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "DELETE", uri: "/apps/{appId}/domains/{domainName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteJobRequest extends S.Class<DeleteJobRequest>(
-  "DeleteJobRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteDomainAssociationRequest",
+}) as any as S.Schema<DeleteDomainAssociationRequest>;
+export interface DeleteJobRequest {
+  appId: string;
+  branchName: string;
+  jobId: string;
+}
+export const DeleteJobRequest = S.suspend(() =>
+  S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     branchName: S.String.pipe(T.HttpLabel("branchName")),
     jobId: S.String.pipe(T.HttpLabel("jobId")),
-  },
-  T.all(
-    ns,
-    T.Http({
-      method: "DELETE",
-      uri: "/apps/{appId}/branches/{branchName}/jobs/{jobId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "DELETE",
+        uri: "/apps/{appId}/branches/{branchName}/jobs/{jobId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteWebhookRequest extends S.Class<DeleteWebhookRequest>(
-  "DeleteWebhookRequest",
-)(
-  { webhookId: S.String.pipe(T.HttpLabel("webhookId")) },
-  T.all(
-    ns,
-    T.Http({ method: "DELETE", uri: "/webhooks/{webhookId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteJobRequest",
+}) as any as S.Schema<DeleteJobRequest>;
+export interface DeleteWebhookRequest {
+  webhookId: string;
+}
+export const DeleteWebhookRequest = S.suspend(() =>
+  S.Struct({ webhookId: S.String.pipe(T.HttpLabel("webhookId")) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "DELETE", uri: "/webhooks/{webhookId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GenerateAccessLogsRequest extends S.Class<GenerateAccessLogsRequest>(
-  "GenerateAccessLogsRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteWebhookRequest",
+}) as any as S.Schema<DeleteWebhookRequest>;
+export interface GenerateAccessLogsRequest {
+  startTime?: Date;
+  endTime?: Date;
+  domainName: string;
+  appId: string;
+}
+export const GenerateAccessLogsRequest = S.suspend(() =>
+  S.Struct({
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     domainName: S.String,
     appId: S.String.pipe(T.HttpLabel("appId")),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/apps/{appId}/accesslogs" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/apps/{appId}/accesslogs" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetAppRequest extends S.Class<GetAppRequest>("GetAppRequest")(
-  { appId: S.String.pipe(T.HttpLabel("appId")) },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/apps/{appId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GenerateAccessLogsRequest",
+}) as any as S.Schema<GenerateAccessLogsRequest>;
+export interface GetAppRequest {
+  appId: string;
+}
+export const GetAppRequest = S.suspend(() =>
+  S.Struct({ appId: S.String.pipe(T.HttpLabel("appId")) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/apps/{appId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetArtifactUrlRequest extends S.Class<GetArtifactUrlRequest>(
-  "GetArtifactUrlRequest",
-)(
-  { artifactId: S.String.pipe(T.HttpLabel("artifactId")) },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/artifacts/{artifactId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetAppRequest",
+}) as any as S.Schema<GetAppRequest>;
+export interface GetArtifactUrlRequest {
+  artifactId: string;
+}
+export const GetArtifactUrlRequest = S.suspend(() =>
+  S.Struct({ artifactId: S.String.pipe(T.HttpLabel("artifactId")) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/artifacts/{artifactId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetBackendEnvironmentRequest extends S.Class<GetBackendEnvironmentRequest>(
-  "GetBackendEnvironmentRequest",
-)(
-  {
+).annotations({
+  identifier: "GetArtifactUrlRequest",
+}) as any as S.Schema<GetArtifactUrlRequest>;
+export interface GetBackendEnvironmentRequest {
+  appId: string;
+  environmentName: string;
+}
+export const GetBackendEnvironmentRequest = S.suspend(() =>
+  S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     environmentName: S.String.pipe(T.HttpLabel("environmentName")),
-  },
-  T.all(
-    ns,
-    T.Http({
-      method: "GET",
-      uri: "/apps/{appId}/backendenvironments/{environmentName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "GET",
+        uri: "/apps/{appId}/backendenvironments/{environmentName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetBranchRequest extends S.Class<GetBranchRequest>(
-  "GetBranchRequest",
-)(
-  {
+).annotations({
+  identifier: "GetBackendEnvironmentRequest",
+}) as any as S.Schema<GetBackendEnvironmentRequest>;
+export interface GetBranchRequest {
+  appId: string;
+  branchName: string;
+}
+export const GetBranchRequest = S.suspend(() =>
+  S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     branchName: S.String.pipe(T.HttpLabel("branchName")),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/apps/{appId}/branches/{branchName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/apps/{appId}/branches/{branchName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetDomainAssociationRequest extends S.Class<GetDomainAssociationRequest>(
-  "GetDomainAssociationRequest",
-)(
-  {
+).annotations({
+  identifier: "GetBranchRequest",
+}) as any as S.Schema<GetBranchRequest>;
+export interface GetDomainAssociationRequest {
+  appId: string;
+  domainName: string;
+}
+export const GetDomainAssociationRequest = S.suspend(() =>
+  S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     domainName: S.String.pipe(T.HttpLabel("domainName")),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/apps/{appId}/domains/{domainName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/apps/{appId}/domains/{domainName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetJobRequest extends S.Class<GetJobRequest>("GetJobRequest")(
-  {
+).annotations({
+  identifier: "GetDomainAssociationRequest",
+}) as any as S.Schema<GetDomainAssociationRequest>;
+export interface GetJobRequest {
+  appId: string;
+  branchName: string;
+  jobId: string;
+}
+export const GetJobRequest = S.suspend(() =>
+  S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     branchName: S.String.pipe(T.HttpLabel("branchName")),
     jobId: S.String.pipe(T.HttpLabel("jobId")),
-  },
-  T.all(
-    ns,
-    T.Http({
-      method: "GET",
-      uri: "/apps/{appId}/branches/{branchName}/jobs/{jobId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "GET",
+        uri: "/apps/{appId}/branches/{branchName}/jobs/{jobId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetWebhookRequest extends S.Class<GetWebhookRequest>(
-  "GetWebhookRequest",
-)(
-  { webhookId: S.String.pipe(T.HttpLabel("webhookId")) },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/webhooks/{webhookId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetJobRequest",
+}) as any as S.Schema<GetJobRequest>;
+export interface GetWebhookRequest {
+  webhookId: string;
+}
+export const GetWebhookRequest = S.suspend(() =>
+  S.Struct({ webhookId: S.String.pipe(T.HttpLabel("webhookId")) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/webhooks/{webhookId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListAppsRequest extends S.Class<ListAppsRequest>(
-  "ListAppsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetWebhookRequest",
+}) as any as S.Schema<GetWebhookRequest>;
+export interface ListAppsRequest {
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListAppsRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/apps" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/apps" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListArtifactsRequest extends S.Class<ListArtifactsRequest>(
-  "ListArtifactsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListAppsRequest",
+}) as any as S.Schema<ListAppsRequest>;
+export interface ListArtifactsRequest {
+  appId: string;
+  branchName: string;
+  jobId: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListArtifactsRequest = S.suspend(() =>
+  S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     branchName: S.String.pipe(T.HttpLabel("branchName")),
     jobId: S.String.pipe(T.HttpLabel("jobId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    ns,
-    T.Http({
-      method: "GET",
-      uri: "/apps/{appId}/branches/{branchName}/jobs/{jobId}/artifacts",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "GET",
+        uri: "/apps/{appId}/branches/{branchName}/jobs/{jobId}/artifacts",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListBackendEnvironmentsRequest extends S.Class<ListBackendEnvironmentsRequest>(
-  "ListBackendEnvironmentsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListArtifactsRequest",
+}) as any as S.Schema<ListArtifactsRequest>;
+export interface ListBackendEnvironmentsRequest {
+  appId: string;
+  environmentName?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListBackendEnvironmentsRequest = S.suspend(() =>
+  S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     environmentName: S.optional(S.String).pipe(T.HttpQuery("environmentName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/apps/{appId}/backendenvironments" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/apps/{appId}/backendenvironments" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListBranchesRequest extends S.Class<ListBranchesRequest>(
-  "ListBranchesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListBackendEnvironmentsRequest",
+}) as any as S.Schema<ListBackendEnvironmentsRequest>;
+export interface ListBranchesRequest {
+  appId: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListBranchesRequest = S.suspend(() =>
+  S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/apps/{appId}/branches" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/apps/{appId}/branches" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListDomainAssociationsRequest extends S.Class<ListDomainAssociationsRequest>(
-  "ListDomainAssociationsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListBranchesRequest",
+}) as any as S.Schema<ListBranchesRequest>;
+export interface ListDomainAssociationsRequest {
+  appId: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListDomainAssociationsRequest = S.suspend(() =>
+  S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/apps/{appId}/domains" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/apps/{appId}/domains" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListJobsRequest extends S.Class<ListJobsRequest>(
-  "ListJobsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListDomainAssociationsRequest",
+}) as any as S.Schema<ListDomainAssociationsRequest>;
+export interface ListJobsRequest {
+  appId: string;
+  branchName: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListJobsRequest = S.suspend(() =>
+  S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     branchName: S.String.pipe(T.HttpLabel("branchName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/apps/{appId}/branches/{branchName}/jobs" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "GET",
+        uri: "/apps/{appId}/branches/{branchName}/jobs",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListJobsRequest",
+}) as any as S.Schema<ListJobsRequest>;
+export interface ListTagsForResourceRequest {
+  resourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListWebhooksRequest extends S.Class<ListWebhooksRequest>(
-  "ListWebhooksRequest",
-)(
-  {
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface ListWebhooksRequest {
+  appId: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListWebhooksRequest = S.suspend(() =>
+  S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/apps/{appId}/webhooks" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/apps/{appId}/webhooks" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartDeploymentRequest extends S.Class<StartDeploymentRequest>(
-  "StartDeploymentRequest",
-)(
-  {
+).annotations({
+  identifier: "ListWebhooksRequest",
+}) as any as S.Schema<ListWebhooksRequest>;
+export interface StartDeploymentRequest {
+  appId: string;
+  branchName: string;
+  jobId?: string;
+  sourceUrl?: string;
+  sourceUrlType?: string;
+}
+export const StartDeploymentRequest = S.suspend(() =>
+  S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     branchName: S.String.pipe(T.HttpLabel("branchName")),
     jobId: S.optional(S.String),
     sourceUrl: S.optional(S.String),
     sourceUrlType: S.optional(S.String),
-  },
-  T.all(
-    ns,
-    T.Http({
-      method: "POST",
-      uri: "/apps/{appId}/branches/{branchName}/deployments/start",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "POST",
+        uri: "/apps/{appId}/branches/{branchName}/deployments/start",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartJobRequest extends S.Class<StartJobRequest>(
-  "StartJobRequest",
-)(
-  {
+).annotations({
+  identifier: "StartDeploymentRequest",
+}) as any as S.Schema<StartDeploymentRequest>;
+export interface StartJobRequest {
+  appId: string;
+  branchName: string;
+  jobId?: string;
+  jobType: string;
+  jobReason?: string;
+  commitId?: string;
+  commitMessage?: string;
+  commitTime?: Date;
+}
+export const StartJobRequest = S.suspend(() =>
+  S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     branchName: S.String.pipe(T.HttpLabel("branchName")),
     jobId: S.optional(S.String),
@@ -696,109 +853,195 @@ export class StartJobRequest extends S.Class<StartJobRequest>(
     commitId: S.optional(S.String),
     commitMessage: S.optional(S.String),
     commitTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/apps/{appId}/branches/{branchName}/jobs" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "POST",
+        uri: "/apps/{appId}/branches/{branchName}/jobs",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StopJobRequest extends S.Class<StopJobRequest>("StopJobRequest")(
-  {
+).annotations({
+  identifier: "StartJobRequest",
+}) as any as S.Schema<StartJobRequest>;
+export interface StopJobRequest {
+  appId: string;
+  branchName: string;
+  jobId: string;
+}
+export const StopJobRequest = S.suspend(() =>
+  S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     branchName: S.String.pipe(T.HttpLabel("branchName")),
     jobId: S.String.pipe(T.HttpLabel("jobId")),
-  },
-  T.all(
-    ns,
-    T.Http({
-      method: "DELETE",
-      uri: "/apps/{appId}/branches/{branchName}/jobs/{jobId}/stop",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "DELETE",
+        uri: "/apps/{appId}/branches/{branchName}/jobs/{jobId}/stop",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "StopJobRequest",
+}) as any as S.Schema<StopJobRequest>;
+export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface TagResourceRequest {
+  resourceArn: string;
+  tags: TagMap;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+    tags: TagMap,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}, ns) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UntagResourceRequest {
+  resourceArn: string;
+  tagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}, ns) {}
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export type EnvironmentVariables = { [key: string]: string };
 export const EnvironmentVariables = S.Record({
   key: S.String,
   value: S.String,
 });
-export class CustomRule extends S.Class<CustomRule>("CustomRule")({
-  source: S.String,
-  target: S.String,
-  status: S.optional(S.String),
-  condition: S.optional(S.String),
-}) {}
+export interface CustomRule {
+  source: string;
+  target: string;
+  status?: string;
+  condition?: string;
+}
+export const CustomRule = S.suspend(() =>
+  S.Struct({
+    source: S.String,
+    target: S.String,
+    status: S.optional(S.String),
+    condition: S.optional(S.String),
+  }),
+).annotations({ identifier: "CustomRule" }) as any as S.Schema<CustomRule>;
+export type CustomRules = CustomRule[];
 export const CustomRules = S.Array(CustomRule);
-export class AutoBranchCreationConfig extends S.Class<AutoBranchCreationConfig>(
-  "AutoBranchCreationConfig",
-)({
-  stage: S.optional(S.String),
-  framework: S.optional(S.String),
-  enableAutoBuild: S.optional(S.Boolean),
-  environmentVariables: S.optional(EnvironmentVariables),
-  basicAuthCredentials: S.optional(S.String),
-  enableBasicAuth: S.optional(S.Boolean),
-  enablePerformanceMode: S.optional(S.Boolean),
-  buildSpec: S.optional(S.String),
-  enablePullRequestPreview: S.optional(S.Boolean),
-  pullRequestEnvironmentName: S.optional(S.String),
-}) {}
-export class JobConfig extends S.Class<JobConfig>("JobConfig")({
-  buildComputeType: S.String,
-}) {}
-export class CacheConfig extends S.Class<CacheConfig>("CacheConfig")({
-  type: S.String,
-}) {}
-export class UpdateAppRequest extends S.Class<UpdateAppRequest>(
-  "UpdateAppRequest",
-)(
-  {
+export interface AutoBranchCreationConfig {
+  stage?: string;
+  framework?: string;
+  enableAutoBuild?: boolean;
+  environmentVariables?: EnvironmentVariables;
+  basicAuthCredentials?: string;
+  enableBasicAuth?: boolean;
+  enablePerformanceMode?: boolean;
+  buildSpec?: string;
+  enablePullRequestPreview?: boolean;
+  pullRequestEnvironmentName?: string;
+}
+export const AutoBranchCreationConfig = S.suspend(() =>
+  S.Struct({
+    stage: S.optional(S.String),
+    framework: S.optional(S.String),
+    enableAutoBuild: S.optional(S.Boolean),
+    environmentVariables: S.optional(EnvironmentVariables),
+    basicAuthCredentials: S.optional(S.String),
+    enableBasicAuth: S.optional(S.Boolean),
+    enablePerformanceMode: S.optional(S.Boolean),
+    buildSpec: S.optional(S.String),
+    enablePullRequestPreview: S.optional(S.Boolean),
+    pullRequestEnvironmentName: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AutoBranchCreationConfig",
+}) as any as S.Schema<AutoBranchCreationConfig>;
+export interface JobConfig {
+  buildComputeType: string;
+}
+export const JobConfig = S.suspend(() =>
+  S.Struct({ buildComputeType: S.String }),
+).annotations({ identifier: "JobConfig" }) as any as S.Schema<JobConfig>;
+export interface CacheConfig {
+  type: string;
+}
+export const CacheConfig = S.suspend(() =>
+  S.Struct({ type: S.String }),
+).annotations({ identifier: "CacheConfig" }) as any as S.Schema<CacheConfig>;
+export interface UpdateAppRequest {
+  appId: string;
+  name?: string;
+  description?: string;
+  platform?: string;
+  computeRoleArn?: string;
+  iamServiceRoleArn?: string;
+  environmentVariables?: EnvironmentVariables;
+  enableBranchAutoBuild?: boolean;
+  enableBranchAutoDeletion?: boolean;
+  enableBasicAuth?: boolean;
+  basicAuthCredentials?: string;
+  customRules?: CustomRules;
+  buildSpec?: string;
+  customHeaders?: string;
+  enableAutoBranchCreation?: boolean;
+  autoBranchCreationPatterns?: AutoBranchCreationPatterns;
+  autoBranchCreationConfig?: AutoBranchCreationConfig;
+  repository?: string;
+  oauthToken?: string;
+  accessToken?: string;
+  jobConfig?: JobConfig;
+  cacheConfig?: CacheConfig;
+}
+export const UpdateAppRequest = S.suspend(() =>
+  S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     name: S.optional(S.String),
     description: S.optional(S.String),
@@ -821,24 +1064,50 @@ export class UpdateAppRequest extends S.Class<UpdateAppRequest>(
     accessToken: S.optional(S.String),
     jobConfig: S.optional(JobConfig),
     cacheConfig: S.optional(CacheConfig),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/apps/{appId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/apps/{appId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class Backend extends S.Class<Backend>("Backend")({
-  stackArn: S.optional(S.String),
-}) {}
-export class UpdateBranchRequest extends S.Class<UpdateBranchRequest>(
-  "UpdateBranchRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateAppRequest",
+}) as any as S.Schema<UpdateAppRequest>;
+export interface Backend {
+  stackArn?: string;
+}
+export const Backend = S.suspend(() =>
+  S.Struct({ stackArn: S.optional(S.String) }),
+).annotations({ identifier: "Backend" }) as any as S.Schema<Backend>;
+export interface UpdateBranchRequest {
+  appId: string;
+  branchName: string;
+  description?: string;
+  framework?: string;
+  stage?: string;
+  enableNotification?: boolean;
+  enableAutoBuild?: boolean;
+  enableSkewProtection?: boolean;
+  environmentVariables?: EnvironmentVariables;
+  basicAuthCredentials?: string;
+  enableBasicAuth?: boolean;
+  enablePerformanceMode?: boolean;
+  buildSpec?: string;
+  ttl?: string;
+  displayName?: string;
+  enablePullRequestPreview?: boolean;
+  pullRequestEnvironmentName?: string;
+  backendEnvironmentArn?: string;
+  backend?: Backend;
+  computeRoleArn?: string;
+}
+export const UpdateBranchRequest = S.suspend(() =>
+  S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     branchName: S.String.pipe(T.HttpLabel("branchName")),
     description: S.optional(S.String),
@@ -859,28 +1128,51 @@ export class UpdateBranchRequest extends S.Class<UpdateBranchRequest>(
     backendEnvironmentArn: S.optional(S.String),
     backend: S.optional(Backend),
     computeRoleArn: S.optional(S.String),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/apps/{appId}/branches/{branchName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/apps/{appId}/branches/{branchName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SubDomainSetting extends S.Class<SubDomainSetting>(
-  "SubDomainSetting",
-)({ prefix: S.String, branchName: S.String }) {}
+).annotations({
+  identifier: "UpdateBranchRequest",
+}) as any as S.Schema<UpdateBranchRequest>;
+export interface SubDomainSetting {
+  prefix: string;
+  branchName: string;
+}
+export const SubDomainSetting = S.suspend(() =>
+  S.Struct({ prefix: S.String, branchName: S.String }),
+).annotations({
+  identifier: "SubDomainSetting",
+}) as any as S.Schema<SubDomainSetting>;
+export type SubDomainSettings = SubDomainSetting[];
 export const SubDomainSettings = S.Array(SubDomainSetting);
-export class CertificateSettings extends S.Class<CertificateSettings>(
-  "CertificateSettings",
-)({ type: S.String, customCertificateArn: S.optional(S.String) }) {}
-export class UpdateDomainAssociationRequest extends S.Class<UpdateDomainAssociationRequest>(
-  "UpdateDomainAssociationRequest",
-)(
-  {
+export interface CertificateSettings {
+  type: string;
+  customCertificateArn?: string;
+}
+export const CertificateSettings = S.suspend(() =>
+  S.Struct({ type: S.String, customCertificateArn: S.optional(S.String) }),
+).annotations({
+  identifier: "CertificateSettings",
+}) as any as S.Schema<CertificateSettings>;
+export interface UpdateDomainAssociationRequest {
+  appId: string;
+  domainName: string;
+  enableAutoSubDomain?: boolean;
+  subDomainSettings?: SubDomainSettings;
+  autoSubDomainCreationPatterns?: AutoSubDomainCreationPatterns;
+  autoSubDomainIAMRole?: string;
+  certificateSettings?: CertificateSettings;
+}
+export const UpdateDomainAssociationRequest = S.suspend(() =>
+  S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     domainName: S.String.pipe(T.HttpLabel("domainName")),
     enableAutoSubDomain: S.optional(S.Boolean),
@@ -888,187 +1180,376 @@ export class UpdateDomainAssociationRequest extends S.Class<UpdateDomainAssociat
     autoSubDomainCreationPatterns: S.optional(AutoSubDomainCreationPatterns),
     autoSubDomainIAMRole: S.optional(S.String),
     certificateSettings: S.optional(CertificateSettings),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/apps/{appId}/domains/{domainName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/apps/{appId}/domains/{domainName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateWebhookRequest extends S.Class<UpdateWebhookRequest>(
-  "UpdateWebhookRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateDomainAssociationRequest",
+}) as any as S.Schema<UpdateDomainAssociationRequest>;
+export interface UpdateWebhookRequest {
+  webhookId: string;
+  branchName?: string;
+  description?: string;
+}
+export const UpdateWebhookRequest = S.suspend(() =>
+  S.Struct({
     webhookId: S.String.pipe(T.HttpLabel("webhookId")),
     branchName: S.optional(S.String),
     description: S.optional(S.String),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/webhooks/{webhookId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/webhooks/{webhookId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "UpdateWebhookRequest",
+}) as any as S.Schema<UpdateWebhookRequest>;
+export type FileMap = { [key: string]: string };
 export const FileMap = S.Record({ key: S.String, value: S.String });
-export class ProductionBranch extends S.Class<ProductionBranch>(
-  "ProductionBranch",
-)({
-  lastDeployTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  status: S.optional(S.String),
-  thumbnailUrl: S.optional(S.String),
-  branchName: S.optional(S.String),
-}) {}
-export class WafConfiguration extends S.Class<WafConfiguration>(
-  "WafConfiguration",
-)({
-  webAclArn: S.optional(S.String),
-  wafStatus: S.optional(S.String),
-  statusReason: S.optional(S.String),
-}) {}
-export class App extends S.Class<App>("App")({
-  appId: S.String,
-  appArn: S.String,
-  name: S.String,
-  tags: S.optional(TagMap),
-  description: S.String,
-  repository: S.String,
-  platform: S.String,
-  createTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  updateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  computeRoleArn: S.optional(S.String),
-  iamServiceRoleArn: S.optional(S.String),
-  environmentVariables: EnvironmentVariables,
-  defaultDomain: S.String,
-  enableBranchAutoBuild: S.Boolean,
-  enableBranchAutoDeletion: S.optional(S.Boolean),
-  enableBasicAuth: S.Boolean,
-  basicAuthCredentials: S.optional(S.String),
-  customRules: S.optional(CustomRules),
-  productionBranch: S.optional(ProductionBranch),
-  buildSpec: S.optional(S.String),
-  customHeaders: S.optional(S.String),
-  enableAutoBranchCreation: S.optional(S.Boolean),
-  autoBranchCreationPatterns: S.optional(AutoBranchCreationPatterns),
-  autoBranchCreationConfig: S.optional(AutoBranchCreationConfig),
-  repositoryCloneMethod: S.optional(S.String),
-  cacheConfig: S.optional(CacheConfig),
-  webhookCreateTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  wafConfiguration: S.optional(WafConfiguration),
-  jobConfig: S.optional(JobConfig),
-}) {}
+export interface ProductionBranch {
+  lastDeployTime?: Date;
+  status?: string;
+  thumbnailUrl?: string;
+  branchName?: string;
+}
+export const ProductionBranch = S.suspend(() =>
+  S.Struct({
+    lastDeployTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    status: S.optional(S.String),
+    thumbnailUrl: S.optional(S.String),
+    branchName: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ProductionBranch",
+}) as any as S.Schema<ProductionBranch>;
+export interface WafConfiguration {
+  webAclArn?: string;
+  wafStatus?: string;
+  statusReason?: string;
+}
+export const WafConfiguration = S.suspend(() =>
+  S.Struct({
+    webAclArn: S.optional(S.String),
+    wafStatus: S.optional(S.String),
+    statusReason: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "WafConfiguration",
+}) as any as S.Schema<WafConfiguration>;
+export interface App {
+  appId: string;
+  appArn: string;
+  name: string;
+  tags?: TagMap;
+  description: string;
+  repository: string;
+  platform: string;
+  createTime: Date;
+  updateTime: Date;
+  computeRoleArn?: string;
+  iamServiceRoleArn?: string;
+  environmentVariables: EnvironmentVariables;
+  defaultDomain: string;
+  enableBranchAutoBuild: boolean;
+  enableBranchAutoDeletion?: boolean;
+  enableBasicAuth: boolean;
+  basicAuthCredentials?: string;
+  customRules?: CustomRules;
+  productionBranch?: ProductionBranch;
+  buildSpec?: string;
+  customHeaders?: string;
+  enableAutoBranchCreation?: boolean;
+  autoBranchCreationPatterns?: AutoBranchCreationPatterns;
+  autoBranchCreationConfig?: AutoBranchCreationConfig;
+  repositoryCloneMethod?: string;
+  cacheConfig?: CacheConfig;
+  webhookCreateTime?: Date;
+  wafConfiguration?: WafConfiguration;
+  jobConfig?: JobConfig;
+}
+export const App = S.suspend(() =>
+  S.Struct({
+    appId: S.String,
+    appArn: S.String,
+    name: S.String,
+    tags: S.optional(TagMap),
+    description: S.String,
+    repository: S.String,
+    platform: S.String,
+    createTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    updateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    computeRoleArn: S.optional(S.String),
+    iamServiceRoleArn: S.optional(S.String),
+    environmentVariables: EnvironmentVariables,
+    defaultDomain: S.String,
+    enableBranchAutoBuild: S.Boolean,
+    enableBranchAutoDeletion: S.optional(S.Boolean),
+    enableBasicAuth: S.Boolean,
+    basicAuthCredentials: S.optional(S.String),
+    customRules: S.optional(CustomRules),
+    productionBranch: S.optional(ProductionBranch),
+    buildSpec: S.optional(S.String),
+    customHeaders: S.optional(S.String),
+    enableAutoBranchCreation: S.optional(S.Boolean),
+    autoBranchCreationPatterns: S.optional(AutoBranchCreationPatterns),
+    autoBranchCreationConfig: S.optional(AutoBranchCreationConfig),
+    repositoryCloneMethod: S.optional(S.String),
+    cacheConfig: S.optional(CacheConfig),
+    webhookCreateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    wafConfiguration: S.optional(WafConfiguration),
+    jobConfig: S.optional(JobConfig),
+  }),
+).annotations({ identifier: "App" }) as any as S.Schema<App>;
+export type Apps = App[];
 export const Apps = S.Array(App);
-export class BackendEnvironment extends S.Class<BackendEnvironment>(
-  "BackendEnvironment",
-)({
-  backendEnvironmentArn: S.String,
-  environmentName: S.String,
-  stackName: S.optional(S.String),
-  deploymentArtifacts: S.optional(S.String),
-  createTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  updateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-}) {}
+export interface BackendEnvironment {
+  backendEnvironmentArn: string;
+  environmentName: string;
+  stackName?: string;
+  deploymentArtifacts?: string;
+  createTime: Date;
+  updateTime: Date;
+}
+export const BackendEnvironment = S.suspend(() =>
+  S.Struct({
+    backendEnvironmentArn: S.String,
+    environmentName: S.String,
+    stackName: S.optional(S.String),
+    deploymentArtifacts: S.optional(S.String),
+    createTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    updateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotations({
+  identifier: "BackendEnvironment",
+}) as any as S.Schema<BackendEnvironment>;
+export type BackendEnvironments = BackendEnvironment[];
 export const BackendEnvironments = S.Array(BackendEnvironment);
+export type CustomDomains = string[];
 export const CustomDomains = S.Array(S.String);
+export type AssociatedResources = string[];
 export const AssociatedResources = S.Array(S.String);
-export class Branch extends S.Class<Branch>("Branch")({
-  branchArn: S.String,
-  branchName: S.String,
-  description: S.String,
-  tags: S.optional(TagMap),
-  stage: S.String,
-  displayName: S.String,
-  enableNotification: S.Boolean,
-  createTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  updateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  environmentVariables: EnvironmentVariables,
-  enableAutoBuild: S.Boolean,
-  enableSkewProtection: S.optional(S.Boolean),
-  customDomains: CustomDomains,
-  framework: S.String,
-  activeJobId: S.String,
-  totalNumberOfJobs: S.String,
-  enableBasicAuth: S.Boolean,
-  enablePerformanceMode: S.optional(S.Boolean),
-  thumbnailUrl: S.optional(S.String),
-  basicAuthCredentials: S.optional(S.String),
-  buildSpec: S.optional(S.String),
-  ttl: S.String,
-  associatedResources: S.optional(AssociatedResources),
-  enablePullRequestPreview: S.Boolean,
-  pullRequestEnvironmentName: S.optional(S.String),
-  destinationBranch: S.optional(S.String),
-  sourceBranch: S.optional(S.String),
-  backendEnvironmentArn: S.optional(S.String),
-  backend: S.optional(Backend),
-  computeRoleArn: S.optional(S.String),
-}) {}
+export interface Branch {
+  branchArn: string;
+  branchName: string;
+  description: string;
+  tags?: TagMap;
+  stage: string;
+  displayName: string;
+  enableNotification: boolean;
+  createTime: Date;
+  updateTime: Date;
+  environmentVariables: EnvironmentVariables;
+  enableAutoBuild: boolean;
+  enableSkewProtection?: boolean;
+  customDomains: CustomDomains;
+  framework: string;
+  activeJobId: string;
+  totalNumberOfJobs: string;
+  enableBasicAuth: boolean;
+  enablePerformanceMode?: boolean;
+  thumbnailUrl?: string;
+  basicAuthCredentials?: string;
+  buildSpec?: string;
+  ttl: string;
+  associatedResources?: AssociatedResources;
+  enablePullRequestPreview: boolean;
+  pullRequestEnvironmentName?: string;
+  destinationBranch?: string;
+  sourceBranch?: string;
+  backendEnvironmentArn?: string;
+  backend?: Backend;
+  computeRoleArn?: string;
+}
+export const Branch = S.suspend(() =>
+  S.Struct({
+    branchArn: S.String,
+    branchName: S.String,
+    description: S.String,
+    tags: S.optional(TagMap),
+    stage: S.String,
+    displayName: S.String,
+    enableNotification: S.Boolean,
+    createTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    updateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    environmentVariables: EnvironmentVariables,
+    enableAutoBuild: S.Boolean,
+    enableSkewProtection: S.optional(S.Boolean),
+    customDomains: CustomDomains,
+    framework: S.String,
+    activeJobId: S.String,
+    totalNumberOfJobs: S.String,
+    enableBasicAuth: S.Boolean,
+    enablePerformanceMode: S.optional(S.Boolean),
+    thumbnailUrl: S.optional(S.String),
+    basicAuthCredentials: S.optional(S.String),
+    buildSpec: S.optional(S.String),
+    ttl: S.String,
+    associatedResources: S.optional(AssociatedResources),
+    enablePullRequestPreview: S.Boolean,
+    pullRequestEnvironmentName: S.optional(S.String),
+    destinationBranch: S.optional(S.String),
+    sourceBranch: S.optional(S.String),
+    backendEnvironmentArn: S.optional(S.String),
+    backend: S.optional(Backend),
+    computeRoleArn: S.optional(S.String),
+  }),
+).annotations({ identifier: "Branch" }) as any as S.Schema<Branch>;
+export type Branches = Branch[];
 export const Branches = S.Array(Branch);
-export class SubDomain extends S.Class<SubDomain>("SubDomain")({
-  subDomainSetting: SubDomainSetting,
-  verified: S.Boolean,
-  dnsRecord: S.String,
-}) {}
+export interface SubDomain {
+  subDomainSetting: SubDomainSetting;
+  verified: boolean;
+  dnsRecord: string;
+}
+export const SubDomain = S.suspend(() =>
+  S.Struct({
+    subDomainSetting: SubDomainSetting,
+    verified: S.Boolean,
+    dnsRecord: S.String,
+  }),
+).annotations({ identifier: "SubDomain" }) as any as S.Schema<SubDomain>;
+export type SubDomains = SubDomain[];
 export const SubDomains = S.Array(SubDomain);
-export class Certificate extends S.Class<Certificate>("Certificate")({
-  type: S.String,
-  customCertificateArn: S.optional(S.String),
-  certificateVerificationDNSRecord: S.optional(S.String),
-}) {}
-export class DomainAssociation extends S.Class<DomainAssociation>(
-  "DomainAssociation",
-)({
-  domainAssociationArn: S.String,
-  domainName: S.String,
-  enableAutoSubDomain: S.Boolean,
-  autoSubDomainCreationPatterns: S.optional(AutoSubDomainCreationPatterns),
-  autoSubDomainIAMRole: S.optional(S.String),
-  domainStatus: S.String,
-  updateStatus: S.optional(S.String),
-  statusReason: S.String,
-  certificateVerificationDNSRecord: S.optional(S.String),
-  subDomains: SubDomains,
-  certificate: S.optional(Certificate),
-}) {}
+export interface Certificate {
+  type: string;
+  customCertificateArn?: string;
+  certificateVerificationDNSRecord?: string;
+}
+export const Certificate = S.suspend(() =>
+  S.Struct({
+    type: S.String,
+    customCertificateArn: S.optional(S.String),
+    certificateVerificationDNSRecord: S.optional(S.String),
+  }),
+).annotations({ identifier: "Certificate" }) as any as S.Schema<Certificate>;
+export interface DomainAssociation {
+  domainAssociationArn: string;
+  domainName: string;
+  enableAutoSubDomain: boolean;
+  autoSubDomainCreationPatterns?: AutoSubDomainCreationPatterns;
+  autoSubDomainIAMRole?: string;
+  domainStatus: string;
+  updateStatus?: string;
+  statusReason: string;
+  certificateVerificationDNSRecord?: string;
+  subDomains: SubDomains;
+  certificate?: Certificate;
+}
+export const DomainAssociation = S.suspend(() =>
+  S.Struct({
+    domainAssociationArn: S.String,
+    domainName: S.String,
+    enableAutoSubDomain: S.Boolean,
+    autoSubDomainCreationPatterns: S.optional(AutoSubDomainCreationPatterns),
+    autoSubDomainIAMRole: S.optional(S.String),
+    domainStatus: S.String,
+    updateStatus: S.optional(S.String),
+    statusReason: S.String,
+    certificateVerificationDNSRecord: S.optional(S.String),
+    subDomains: SubDomains,
+    certificate: S.optional(Certificate),
+  }),
+).annotations({
+  identifier: "DomainAssociation",
+}) as any as S.Schema<DomainAssociation>;
+export type DomainAssociations = DomainAssociation[];
 export const DomainAssociations = S.Array(DomainAssociation);
-export class JobSummary extends S.Class<JobSummary>("JobSummary")({
-  jobArn: S.String,
-  jobId: S.String,
-  commitId: S.String,
-  commitMessage: S.String,
-  commitTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  status: S.String,
-  endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  jobType: S.String,
-  sourceUrl: S.optional(S.String),
-  sourceUrlType: S.optional(S.String),
-}) {}
+export interface JobSummary {
+  jobArn: string;
+  jobId: string;
+  commitId: string;
+  commitMessage: string;
+  commitTime: Date;
+  startTime: Date;
+  status: string;
+  endTime?: Date;
+  jobType: string;
+  sourceUrl?: string;
+  sourceUrlType?: string;
+}
+export const JobSummary = S.suspend(() =>
+  S.Struct({
+    jobArn: S.String,
+    jobId: S.String,
+    commitId: S.String,
+    commitMessage: S.String,
+    commitTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    status: S.String,
+    endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    jobType: S.String,
+    sourceUrl: S.optional(S.String),
+    sourceUrlType: S.optional(S.String),
+  }),
+).annotations({ identifier: "JobSummary" }) as any as S.Schema<JobSummary>;
+export type JobSummaries = JobSummary[];
 export const JobSummaries = S.Array(JobSummary);
-export class Webhook extends S.Class<Webhook>("Webhook")({
-  webhookArn: S.String,
-  webhookId: S.String,
-  webhookUrl: S.String,
-  appId: S.optional(S.String),
-  branchName: S.String,
-  description: S.String,
-  createTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  updateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-}) {}
+export interface Webhook {
+  webhookArn: string;
+  webhookId: string;
+  webhookUrl: string;
+  appId?: string;
+  branchName: string;
+  description: string;
+  createTime: Date;
+  updateTime: Date;
+}
+export const Webhook = S.suspend(() =>
+  S.Struct({
+    webhookArn: S.String,
+    webhookId: S.String,
+    webhookUrl: S.String,
+    appId: S.optional(S.String),
+    branchName: S.String,
+    description: S.String,
+    createTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    updateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotations({ identifier: "Webhook" }) as any as S.Schema<Webhook>;
+export type Webhooks = Webhook[];
 export const Webhooks = S.Array(Webhook);
-export class CreateAppRequest extends S.Class<CreateAppRequest>(
-  "CreateAppRequest",
-)(
-  {
+export interface CreateAppRequest {
+  name: string;
+  description?: string;
+  repository?: string;
+  platform?: string;
+  computeRoleArn?: string;
+  iamServiceRoleArn?: string;
+  oauthToken?: string;
+  accessToken?: string;
+  environmentVariables?: EnvironmentVariables;
+  enableBranchAutoBuild?: boolean;
+  enableBranchAutoDeletion?: boolean;
+  enableBasicAuth?: boolean;
+  basicAuthCredentials?: string;
+  customRules?: CustomRules;
+  tags?: TagMap;
+  buildSpec?: string;
+  customHeaders?: string;
+  enableAutoBranchCreation?: boolean;
+  autoBranchCreationPatterns?: AutoBranchCreationPatterns;
+  autoBranchCreationConfig?: AutoBranchCreationConfig;
+  jobConfig?: JobConfig;
+  cacheConfig?: CacheConfig;
+}
+export const CreateAppRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     description: S.optional(S.String),
     repository: S.optional(S.String),
@@ -1091,21 +1572,45 @@ export class CreateAppRequest extends S.Class<CreateAppRequest>(
     autoBranchCreationConfig: S.optional(AutoBranchCreationConfig),
     jobConfig: S.optional(JobConfig),
     cacheConfig: S.optional(CacheConfig),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/apps" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/apps" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateBranchRequest extends S.Class<CreateBranchRequest>(
-  "CreateBranchRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateAppRequest",
+}) as any as S.Schema<CreateAppRequest>;
+export interface CreateBranchRequest {
+  appId: string;
+  branchName: string;
+  description?: string;
+  stage?: string;
+  framework?: string;
+  enableNotification?: boolean;
+  enableAutoBuild?: boolean;
+  enableSkewProtection?: boolean;
+  environmentVariables?: EnvironmentVariables;
+  basicAuthCredentials?: string;
+  enableBasicAuth?: boolean;
+  enablePerformanceMode?: boolean;
+  tags?: TagMap;
+  buildSpec?: string;
+  ttl?: string;
+  displayName?: string;
+  enablePullRequestPreview?: boolean;
+  pullRequestEnvironmentName?: string;
+  backendEnvironmentArn?: string;
+  backend?: Backend;
+  computeRoleArn?: string;
+}
+export const CreateBranchRequest = S.suspend(() =>
+  S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     branchName: S.String,
     description: S.optional(S.String),
@@ -1127,42 +1632,58 @@ export class CreateBranchRequest extends S.Class<CreateBranchRequest>(
     backendEnvironmentArn: S.optional(S.String),
     backend: S.optional(Backend),
     computeRoleArn: S.optional(S.String),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/apps/{appId}/branches" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/apps/{appId}/branches" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateDeploymentRequest extends S.Class<CreateDeploymentRequest>(
-  "CreateDeploymentRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateBranchRequest",
+}) as any as S.Schema<CreateBranchRequest>;
+export interface CreateDeploymentRequest {
+  appId: string;
+  branchName: string;
+  fileMap?: FileMap;
+}
+export const CreateDeploymentRequest = S.suspend(() =>
+  S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     branchName: S.String.pipe(T.HttpLabel("branchName")),
     fileMap: S.optional(FileMap),
-  },
-  T.all(
-    ns,
-    T.Http({
-      method: "POST",
-      uri: "/apps/{appId}/branches/{branchName}/deployments",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "POST",
+        uri: "/apps/{appId}/branches/{branchName}/deployments",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateDomainAssociationRequest extends S.Class<CreateDomainAssociationRequest>(
-  "CreateDomainAssociationRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateDeploymentRequest",
+}) as any as S.Schema<CreateDeploymentRequest>;
+export interface CreateDomainAssociationRequest {
+  appId: string;
+  domainName: string;
+  enableAutoSubDomain?: boolean;
+  subDomainSettings: SubDomainSettings;
+  autoSubDomainCreationPatterns?: AutoSubDomainCreationPatterns;
+  autoSubDomainIAMRole?: string;
+  certificateSettings?: CertificateSettings;
+}
+export const CreateDomainAssociationRequest = S.suspend(() =>
+  S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     domainName: S.String,
     enableAutoSubDomain: S.optional(S.Boolean),
@@ -1170,166 +1691,369 @@ export class CreateDomainAssociationRequest extends S.Class<CreateDomainAssociat
     autoSubDomainCreationPatterns: S.optional(AutoSubDomainCreationPatterns),
     autoSubDomainIAMRole: S.optional(S.String),
     certificateSettings: S.optional(CertificateSettings),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/apps/{appId}/domains" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/apps/{appId}/domains" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteBackendEnvironmentResult extends S.Class<DeleteBackendEnvironmentResult>(
-  "DeleteBackendEnvironmentResult",
-)({ backendEnvironment: BackendEnvironment }, ns) {}
-export class DeleteWebhookResult extends S.Class<DeleteWebhookResult>(
-  "DeleteWebhookResult",
-)({ webhook: Webhook }, ns) {}
-export class GenerateAccessLogsResult extends S.Class<GenerateAccessLogsResult>(
-  "GenerateAccessLogsResult",
-)({ logUrl: S.optional(S.String) }, ns) {}
-export class GetAppResult extends S.Class<GetAppResult>("GetAppResult")(
-  { app: App },
-  ns,
-) {}
-export class GetArtifactUrlResult extends S.Class<GetArtifactUrlResult>(
-  "GetArtifactUrlResult",
-)({ artifactId: S.String, artifactUrl: S.String }, ns) {}
-export class GetBackendEnvironmentResult extends S.Class<GetBackendEnvironmentResult>(
-  "GetBackendEnvironmentResult",
-)({ backendEnvironment: BackendEnvironment }, ns) {}
-export class GetBranchResult extends S.Class<GetBranchResult>(
-  "GetBranchResult",
-)({ branch: Branch }, ns) {}
-export class GetDomainAssociationResult extends S.Class<GetDomainAssociationResult>(
-  "GetDomainAssociationResult",
-)({ domainAssociation: DomainAssociation }, ns) {}
-export class GetWebhookResult extends S.Class<GetWebhookResult>(
-  "GetWebhookResult",
-)({ webhook: Webhook }, ns) {}
-export class ListAppsResult extends S.Class<ListAppsResult>("ListAppsResult")(
-  { apps: Apps, nextToken: S.optional(S.String) },
-  ns,
-) {}
-export class ListBackendEnvironmentsResult extends S.Class<ListBackendEnvironmentsResult>(
-  "ListBackendEnvironmentsResult",
-)(
-  { backendEnvironments: BackendEnvironments, nextToken: S.optional(S.String) },
-  ns,
-) {}
-export class ListBranchesResult extends S.Class<ListBranchesResult>(
-  "ListBranchesResult",
-)({ branches: Branches, nextToken: S.optional(S.String) }, ns) {}
-export class ListDomainAssociationsResult extends S.Class<ListDomainAssociationsResult>(
-  "ListDomainAssociationsResult",
-)(
-  { domainAssociations: DomainAssociations, nextToken: S.optional(S.String) },
-  ns,
-) {}
-export class ListJobsResult extends S.Class<ListJobsResult>("ListJobsResult")(
-  { jobSummaries: JobSummaries, nextToken: S.optional(S.String) },
-  ns,
-) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ tags: S.optional(TagMap) }, ns) {}
-export class ListWebhooksResult extends S.Class<ListWebhooksResult>(
-  "ListWebhooksResult",
-)({ webhooks: Webhooks, nextToken: S.optional(S.String) }, ns) {}
-export class StartDeploymentResult extends S.Class<StartDeploymentResult>(
-  "StartDeploymentResult",
-)({ jobSummary: JobSummary }, ns) {}
-export class StartJobResult extends S.Class<StartJobResult>("StartJobResult")(
-  { jobSummary: JobSummary },
-  ns,
-) {}
-export class StopJobResult extends S.Class<StopJobResult>("StopJobResult")(
-  { jobSummary: JobSummary },
-  ns,
-) {}
-export class UpdateAppResult extends S.Class<UpdateAppResult>(
-  "UpdateAppResult",
-)({ app: App }, ns) {}
-export class UpdateBranchResult extends S.Class<UpdateBranchResult>(
-  "UpdateBranchResult",
-)({ branch: Branch }, ns) {}
-export class UpdateDomainAssociationResult extends S.Class<UpdateDomainAssociationResult>(
-  "UpdateDomainAssociationResult",
-)({ domainAssociation: DomainAssociation }, ns) {}
-export class UpdateWebhookResult extends S.Class<UpdateWebhookResult>(
-  "UpdateWebhookResult",
-)({ webhook: Webhook }, ns) {}
-export class Artifact extends S.Class<Artifact>("Artifact")({
-  artifactFileName: S.String,
-  artifactId: S.String,
-}) {}
+).annotations({
+  identifier: "CreateDomainAssociationRequest",
+}) as any as S.Schema<CreateDomainAssociationRequest>;
+export interface DeleteBackendEnvironmentResult {
+  backendEnvironment: BackendEnvironment;
+}
+export const DeleteBackendEnvironmentResult = S.suspend(() =>
+  S.Struct({ backendEnvironment: BackendEnvironment }).pipe(ns),
+).annotations({
+  identifier: "DeleteBackendEnvironmentResult",
+}) as any as S.Schema<DeleteBackendEnvironmentResult>;
+export interface DeleteWebhookResult {
+  webhook: Webhook;
+}
+export const DeleteWebhookResult = S.suspend(() =>
+  S.Struct({ webhook: Webhook }).pipe(ns),
+).annotations({
+  identifier: "DeleteWebhookResult",
+}) as any as S.Schema<DeleteWebhookResult>;
+export interface GenerateAccessLogsResult {
+  logUrl?: string;
+}
+export const GenerateAccessLogsResult = S.suspend(() =>
+  S.Struct({ logUrl: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "GenerateAccessLogsResult",
+}) as any as S.Schema<GenerateAccessLogsResult>;
+export interface GetAppResult {
+  app: App;
+}
+export const GetAppResult = S.suspend(() =>
+  S.Struct({ app: App }).pipe(ns),
+).annotations({ identifier: "GetAppResult" }) as any as S.Schema<GetAppResult>;
+export interface GetArtifactUrlResult {
+  artifactId: string;
+  artifactUrl: string;
+}
+export const GetArtifactUrlResult = S.suspend(() =>
+  S.Struct({ artifactId: S.String, artifactUrl: S.String }).pipe(ns),
+).annotations({
+  identifier: "GetArtifactUrlResult",
+}) as any as S.Schema<GetArtifactUrlResult>;
+export interface GetBackendEnvironmentResult {
+  backendEnvironment: BackendEnvironment;
+}
+export const GetBackendEnvironmentResult = S.suspend(() =>
+  S.Struct({ backendEnvironment: BackendEnvironment }).pipe(ns),
+).annotations({
+  identifier: "GetBackendEnvironmentResult",
+}) as any as S.Schema<GetBackendEnvironmentResult>;
+export interface GetBranchResult {
+  branch: Branch;
+}
+export const GetBranchResult = S.suspend(() =>
+  S.Struct({ branch: Branch }).pipe(ns),
+).annotations({
+  identifier: "GetBranchResult",
+}) as any as S.Schema<GetBranchResult>;
+export interface GetDomainAssociationResult {
+  domainAssociation: DomainAssociation;
+}
+export const GetDomainAssociationResult = S.suspend(() =>
+  S.Struct({ domainAssociation: DomainAssociation }).pipe(ns),
+).annotations({
+  identifier: "GetDomainAssociationResult",
+}) as any as S.Schema<GetDomainAssociationResult>;
+export interface GetWebhookResult {
+  webhook: Webhook;
+}
+export const GetWebhookResult = S.suspend(() =>
+  S.Struct({ webhook: Webhook }).pipe(ns),
+).annotations({
+  identifier: "GetWebhookResult",
+}) as any as S.Schema<GetWebhookResult>;
+export interface ListAppsResult {
+  apps: Apps;
+  nextToken?: string;
+}
+export const ListAppsResult = S.suspend(() =>
+  S.Struct({ apps: Apps, nextToken: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "ListAppsResult",
+}) as any as S.Schema<ListAppsResult>;
+export interface ListBackendEnvironmentsResult {
+  backendEnvironments: BackendEnvironments;
+  nextToken?: string;
+}
+export const ListBackendEnvironmentsResult = S.suspend(() =>
+  S.Struct({
+    backendEnvironments: BackendEnvironments,
+    nextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListBackendEnvironmentsResult",
+}) as any as S.Schema<ListBackendEnvironmentsResult>;
+export interface ListBranchesResult {
+  branches: Branches;
+  nextToken?: string;
+}
+export const ListBranchesResult = S.suspend(() =>
+  S.Struct({ branches: Branches, nextToken: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "ListBranchesResult",
+}) as any as S.Schema<ListBranchesResult>;
+export interface ListDomainAssociationsResult {
+  domainAssociations: DomainAssociations;
+  nextToken?: string;
+}
+export const ListDomainAssociationsResult = S.suspend(() =>
+  S.Struct({
+    domainAssociations: DomainAssociations,
+    nextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListDomainAssociationsResult",
+}) as any as S.Schema<ListDomainAssociationsResult>;
+export interface ListJobsResult {
+  jobSummaries: JobSummaries;
+  nextToken?: string;
+}
+export const ListJobsResult = S.suspend(() =>
+  S.Struct({
+    jobSummaries: JobSummaries,
+    nextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListJobsResult",
+}) as any as S.Schema<ListJobsResult>;
+export interface ListTagsForResourceResponse {
+  tags?: TagMap;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ tags: S.optional(TagMap) }).pipe(ns),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface ListWebhooksResult {
+  webhooks: Webhooks;
+  nextToken?: string;
+}
+export const ListWebhooksResult = S.suspend(() =>
+  S.Struct({ webhooks: Webhooks, nextToken: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "ListWebhooksResult",
+}) as any as S.Schema<ListWebhooksResult>;
+export interface StartDeploymentResult {
+  jobSummary: JobSummary;
+}
+export const StartDeploymentResult = S.suspend(() =>
+  S.Struct({ jobSummary: JobSummary }).pipe(ns),
+).annotations({
+  identifier: "StartDeploymentResult",
+}) as any as S.Schema<StartDeploymentResult>;
+export interface StartJobResult {
+  jobSummary: JobSummary;
+}
+export const StartJobResult = S.suspend(() =>
+  S.Struct({ jobSummary: JobSummary }).pipe(ns),
+).annotations({
+  identifier: "StartJobResult",
+}) as any as S.Schema<StartJobResult>;
+export interface StopJobResult {
+  jobSummary: JobSummary;
+}
+export const StopJobResult = S.suspend(() =>
+  S.Struct({ jobSummary: JobSummary }).pipe(ns),
+).annotations({
+  identifier: "StopJobResult",
+}) as any as S.Schema<StopJobResult>;
+export interface UpdateAppResult {
+  app: App;
+}
+export const UpdateAppResult = S.suspend(() =>
+  S.Struct({ app: App }).pipe(ns),
+).annotations({
+  identifier: "UpdateAppResult",
+}) as any as S.Schema<UpdateAppResult>;
+export interface UpdateBranchResult {
+  branch: Branch;
+}
+export const UpdateBranchResult = S.suspend(() =>
+  S.Struct({ branch: Branch }).pipe(ns),
+).annotations({
+  identifier: "UpdateBranchResult",
+}) as any as S.Schema<UpdateBranchResult>;
+export interface UpdateDomainAssociationResult {
+  domainAssociation: DomainAssociation;
+}
+export const UpdateDomainAssociationResult = S.suspend(() =>
+  S.Struct({ domainAssociation: DomainAssociation }).pipe(ns),
+).annotations({
+  identifier: "UpdateDomainAssociationResult",
+}) as any as S.Schema<UpdateDomainAssociationResult>;
+export interface UpdateWebhookResult {
+  webhook: Webhook;
+}
+export const UpdateWebhookResult = S.suspend(() =>
+  S.Struct({ webhook: Webhook }).pipe(ns),
+).annotations({
+  identifier: "UpdateWebhookResult",
+}) as any as S.Schema<UpdateWebhookResult>;
+export interface Artifact {
+  artifactFileName: string;
+  artifactId: string;
+}
+export const Artifact = S.suspend(() =>
+  S.Struct({ artifactFileName: S.String, artifactId: S.String }),
+).annotations({ identifier: "Artifact" }) as any as S.Schema<Artifact>;
+export type Artifacts = Artifact[];
 export const Artifacts = S.Array(Artifact);
-export class CreateAppResult extends S.Class<CreateAppResult>(
-  "CreateAppResult",
-)({ app: App }, ns) {}
-export class CreateBackendEnvironmentResult extends S.Class<CreateBackendEnvironmentResult>(
-  "CreateBackendEnvironmentResult",
-)({ backendEnvironment: BackendEnvironment }, ns) {}
-export class CreateBranchResult extends S.Class<CreateBranchResult>(
-  "CreateBranchResult",
-)({ branch: Branch }, ns) {}
-export class CreateDomainAssociationResult extends S.Class<CreateDomainAssociationResult>(
-  "CreateDomainAssociationResult",
-)({ domainAssociation: DomainAssociation }, ns) {}
-export class CreateWebhookResult extends S.Class<CreateWebhookResult>(
-  "CreateWebhookResult",
-)({ webhook: Webhook }, ns) {}
-export class DeleteBranchResult extends S.Class<DeleteBranchResult>(
-  "DeleteBranchResult",
-)({ branch: Branch }, ns) {}
-export class DeleteJobResult extends S.Class<DeleteJobResult>(
-  "DeleteJobResult",
-)({ jobSummary: JobSummary }, ns) {}
-export class ListArtifactsResult extends S.Class<ListArtifactsResult>(
-  "ListArtifactsResult",
-)({ artifacts: Artifacts, nextToken: S.optional(S.String) }, ns) {}
+export interface CreateAppResult {
+  app: App;
+}
+export const CreateAppResult = S.suspend(() =>
+  S.Struct({ app: App }).pipe(ns),
+).annotations({
+  identifier: "CreateAppResult",
+}) as any as S.Schema<CreateAppResult>;
+export interface CreateBackendEnvironmentResult {
+  backendEnvironment: BackendEnvironment;
+}
+export const CreateBackendEnvironmentResult = S.suspend(() =>
+  S.Struct({ backendEnvironment: BackendEnvironment }).pipe(ns),
+).annotations({
+  identifier: "CreateBackendEnvironmentResult",
+}) as any as S.Schema<CreateBackendEnvironmentResult>;
+export interface CreateBranchResult {
+  branch: Branch;
+}
+export const CreateBranchResult = S.suspend(() =>
+  S.Struct({ branch: Branch }).pipe(ns),
+).annotations({
+  identifier: "CreateBranchResult",
+}) as any as S.Schema<CreateBranchResult>;
+export interface CreateDomainAssociationResult {
+  domainAssociation: DomainAssociation;
+}
+export const CreateDomainAssociationResult = S.suspend(() =>
+  S.Struct({ domainAssociation: DomainAssociation }).pipe(ns),
+).annotations({
+  identifier: "CreateDomainAssociationResult",
+}) as any as S.Schema<CreateDomainAssociationResult>;
+export interface CreateWebhookResult {
+  webhook: Webhook;
+}
+export const CreateWebhookResult = S.suspend(() =>
+  S.Struct({ webhook: Webhook }).pipe(ns),
+).annotations({
+  identifier: "CreateWebhookResult",
+}) as any as S.Schema<CreateWebhookResult>;
+export interface DeleteBranchResult {
+  branch: Branch;
+}
+export const DeleteBranchResult = S.suspend(() =>
+  S.Struct({ branch: Branch }).pipe(ns),
+).annotations({
+  identifier: "DeleteBranchResult",
+}) as any as S.Schema<DeleteBranchResult>;
+export interface DeleteJobResult {
+  jobSummary: JobSummary;
+}
+export const DeleteJobResult = S.suspend(() =>
+  S.Struct({ jobSummary: JobSummary }).pipe(ns),
+).annotations({
+  identifier: "DeleteJobResult",
+}) as any as S.Schema<DeleteJobResult>;
+export interface ListArtifactsResult {
+  artifacts: Artifacts;
+  nextToken?: string;
+}
+export const ListArtifactsResult = S.suspend(() =>
+  S.Struct({ artifacts: Artifacts, nextToken: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "ListArtifactsResult",
+}) as any as S.Schema<ListArtifactsResult>;
+export type FileUploadUrls = { [key: string]: string };
 export const FileUploadUrls = S.Record({ key: S.String, value: S.String });
+export type Screenshots = { [key: string]: string };
 export const Screenshots = S.Record({ key: S.String, value: S.String });
-export class CreateDeploymentResult extends S.Class<CreateDeploymentResult>(
-  "CreateDeploymentResult",
-)(
-  {
+export interface CreateDeploymentResult {
+  jobId?: string;
+  fileUploadUrls: FileUploadUrls;
+  zipUploadUrl: string;
+}
+export const CreateDeploymentResult = S.suspend(() =>
+  S.Struct({
     jobId: S.optional(S.String),
     fileUploadUrls: FileUploadUrls,
     zipUploadUrl: S.String,
-  },
-  ns,
-) {}
-export class DeleteAppResult extends S.Class<DeleteAppResult>(
-  "DeleteAppResult",
-)({ app: App }, ns) {}
-export class DeleteDomainAssociationResult extends S.Class<DeleteDomainAssociationResult>(
-  "DeleteDomainAssociationResult",
-)({ domainAssociation: DomainAssociation }, ns) {}
-export class Step extends S.Class<Step>("Step")({
-  stepName: S.String,
-  startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  status: S.String,
-  endTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  logUrl: S.optional(S.String),
-  artifactsUrl: S.optional(S.String),
-  testArtifactsUrl: S.optional(S.String),
-  testConfigUrl: S.optional(S.String),
-  screenshots: S.optional(Screenshots),
-  statusReason: S.optional(S.String),
-  context: S.optional(S.String),
-}) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "CreateDeploymentResult",
+}) as any as S.Schema<CreateDeploymentResult>;
+export interface DeleteAppResult {
+  app: App;
+}
+export const DeleteAppResult = S.suspend(() =>
+  S.Struct({ app: App }).pipe(ns),
+).annotations({
+  identifier: "DeleteAppResult",
+}) as any as S.Schema<DeleteAppResult>;
+export interface DeleteDomainAssociationResult {
+  domainAssociation: DomainAssociation;
+}
+export const DeleteDomainAssociationResult = S.suspend(() =>
+  S.Struct({ domainAssociation: DomainAssociation }).pipe(ns),
+).annotations({
+  identifier: "DeleteDomainAssociationResult",
+}) as any as S.Schema<DeleteDomainAssociationResult>;
+export interface Step {
+  stepName: string;
+  startTime: Date;
+  status: string;
+  endTime: Date;
+  logUrl?: string;
+  artifactsUrl?: string;
+  testArtifactsUrl?: string;
+  testConfigUrl?: string;
+  screenshots?: Screenshots;
+  statusReason?: string;
+  context?: string;
+}
+export const Step = S.suspend(() =>
+  S.Struct({
+    stepName: S.String,
+    startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    status: S.String,
+    endTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    logUrl: S.optional(S.String),
+    artifactsUrl: S.optional(S.String),
+    testArtifactsUrl: S.optional(S.String),
+    testConfigUrl: S.optional(S.String),
+    screenshots: S.optional(Screenshots),
+    statusReason: S.optional(S.String),
+    context: S.optional(S.String),
+  }),
+).annotations({ identifier: "Step" }) as any as S.Schema<Step>;
+export type Steps = Step[];
 export const Steps = S.Array(Step);
-export class Job extends S.Class<Job>("Job")({
-  summary: JobSummary,
-  steps: Steps,
-}) {}
-export class GetJobResult extends S.Class<GetJobResult>("GetJobResult")(
-  { job: Job },
-  ns,
-) {}
+export interface Job {
+  summary: JobSummary;
+  steps: Steps;
+}
+export const Job = S.suspend(() =>
+  S.Struct({ summary: JobSummary, steps: Steps }),
+).annotations({ identifier: "Job" }) as any as S.Schema<Job>;
+export interface GetJobResult {
+  job: Job;
+}
+export const GetJobResult = S.suspend(() =>
+  S.Struct({ job: Job }).pipe(ns),
+).annotations({ identifier: "GetJobResult" }) as any as S.Schema<GetJobResult>;
 
 //# Errors
 export class BadRequestException extends S.TaggedError<BadRequestException>()(

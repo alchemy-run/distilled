@@ -294,231 +294,341 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class ListTagsForResourceInput extends S.Class<ListTagsForResourceInput>(
-  "ListTagsForResourceInput",
-)(
-  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface ListTagsForResourceInput {
+  ResourceArn: string;
+}
+export const ListTagsForResourceInput = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceInput extends S.Class<UntagResourceInput>(
-  "UntagResourceInput",
-)(
-  {
+).annotations({
+  identifier: "ListTagsForResourceInput",
+}) as any as S.Schema<ListTagsForResourceInput>;
+export interface UntagResourceInput {
+  ResourceArn: string;
+  TagKeys: TagKeyList;
+}
+export const UntagResourceInput = S.suspend(() =>
+  S.Struct({
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceOutput extends S.Class<UntagResourceOutput>(
-  "UntagResourceOutput",
-)({}) {}
-export class DescribeSimulationInput extends S.Class<DescribeSimulationInput>(
-  "DescribeSimulationInput",
-)(
-  { Simulation: S.String.pipe(T.HttpQuery("simulation")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/describesimulation" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UntagResourceInput",
+}) as any as S.Schema<UntagResourceInput>;
+export interface UntagResourceOutput {}
+export const UntagResourceOutput = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceOutput",
+}) as any as S.Schema<UntagResourceOutput>;
+export interface DescribeSimulationInput {
+  Simulation: string;
+}
+export const DescribeSimulationInput = S.suspend(() =>
+  S.Struct({ Simulation: S.String.pipe(T.HttpQuery("simulation")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/describesimulation" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StopSimulationInput extends S.Class<StopSimulationInput>(
-  "StopSimulationInput",
-)(
-  { Simulation: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/stopsimulation" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DescribeSimulationInput",
+}) as any as S.Schema<DescribeSimulationInput>;
+export interface StopSimulationInput {
+  Simulation: string;
+}
+export const StopSimulationInput = S.suspend(() =>
+  S.Struct({ Simulation: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/stopsimulation" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StopSimulationOutput extends S.Class<StopSimulationOutput>(
-  "StopSimulationOutput",
-)({}) {}
-export class DeleteSimulationInput extends S.Class<DeleteSimulationInput>(
-  "DeleteSimulationInput",
-)(
-  { Simulation: S.String.pipe(T.HttpQuery("simulation")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/deletesimulation" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "StopSimulationInput",
+}) as any as S.Schema<StopSimulationInput>;
+export interface StopSimulationOutput {}
+export const StopSimulationOutput = S.suspend(() => S.Struct({})).annotations({
+  identifier: "StopSimulationOutput",
+}) as any as S.Schema<StopSimulationOutput>;
+export interface DeleteSimulationInput {
+  Simulation: string;
+}
+export const DeleteSimulationInput = S.suspend(() =>
+  S.Struct({ Simulation: S.String.pipe(T.HttpQuery("simulation")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/deletesimulation" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteSimulationOutput extends S.Class<DeleteSimulationOutput>(
-  "DeleteSimulationOutput",
-)({}) {}
-export class ListSimulationsInput extends S.Class<ListSimulationsInput>(
-  "ListSimulationsInput",
-)(
-  {
+).annotations({
+  identifier: "DeleteSimulationInput",
+}) as any as S.Schema<DeleteSimulationInput>;
+export interface DeleteSimulationOutput {}
+export const DeleteSimulationOutput = S.suspend(() => S.Struct({})).annotations(
+  { identifier: "DeleteSimulationOutput" },
+) as any as S.Schema<DeleteSimulationOutput>;
+export interface ListSimulationsInput {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListSimulationsInput = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/listsimulations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/listsimulations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAppInput extends S.Class<DeleteAppInput>("DeleteAppInput")(
-  {
+).annotations({
+  identifier: "ListSimulationsInput",
+}) as any as S.Schema<ListSimulationsInput>;
+export interface DeleteAppInput {
+  Simulation: string;
+  Domain: string;
+  App: string;
+}
+export const DeleteAppInput = S.suspend(() =>
+  S.Struct({
     Simulation: S.String.pipe(T.HttpQuery("simulation")),
     Domain: S.String.pipe(T.HttpQuery("domain")),
     App: S.String.pipe(T.HttpQuery("app")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/deleteapp" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/deleteapp" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAppOutput extends S.Class<DeleteAppOutput>(
-  "DeleteAppOutput",
-)({}) {}
-export class DescribeAppInput extends S.Class<DescribeAppInput>(
-  "DescribeAppInput",
-)(
-  {
+).annotations({
+  identifier: "DeleteAppInput",
+}) as any as S.Schema<DeleteAppInput>;
+export interface DeleteAppOutput {}
+export const DeleteAppOutput = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteAppOutput",
+}) as any as S.Schema<DeleteAppOutput>;
+export interface DescribeAppInput {
+  Simulation: string;
+  Domain: string;
+  App: string;
+}
+export const DescribeAppInput = S.suspend(() =>
+  S.Struct({
     Simulation: S.String.pipe(T.HttpQuery("simulation")),
     Domain: S.String.pipe(T.HttpQuery("domain")),
     App: S.String.pipe(T.HttpQuery("app")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/describeapp" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/describeapp" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListAppsInput extends S.Class<ListAppsInput>("ListAppsInput")(
-  {
+).annotations({
+  identifier: "DescribeAppInput",
+}) as any as S.Schema<DescribeAppInput>;
+export interface ListAppsInput {
+  Simulation: string;
+  Domain?: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListAppsInput = S.suspend(() =>
+  S.Struct({
     Simulation: S.String.pipe(T.HttpQuery("simulation")),
     Domain: S.optional(S.String).pipe(T.HttpQuery("domain")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/listapps" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/listapps" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartClockInput extends S.Class<StartClockInput>(
-  "StartClockInput",
-)(
-  { Simulation: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/startclock" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListAppsInput",
+}) as any as S.Schema<ListAppsInput>;
+export interface StartClockInput {
+  Simulation: string;
+}
+export const StartClockInput = S.suspend(() =>
+  S.Struct({ Simulation: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/startclock" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartClockOutput extends S.Class<StartClockOutput>(
-  "StartClockOutput",
-)({}) {}
-export class StopAppInput extends S.Class<StopAppInput>("StopAppInput")(
-  { Simulation: S.String, Domain: S.String, App: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/stopapp" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "StartClockInput",
+}) as any as S.Schema<StartClockInput>;
+export interface StartClockOutput {}
+export const StartClockOutput = S.suspend(() => S.Struct({})).annotations({
+  identifier: "StartClockOutput",
+}) as any as S.Schema<StartClockOutput>;
+export interface StopAppInput {
+  Simulation: string;
+  Domain: string;
+  App: string;
+}
+export const StopAppInput = S.suspend(() =>
+  S.Struct({ Simulation: S.String, Domain: S.String, App: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/stopapp" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StopAppOutput extends S.Class<StopAppOutput>("StopAppOutput")(
-  {},
-) {}
-export class StopClockInput extends S.Class<StopClockInput>("StopClockInput")(
-  { Simulation: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/stopclock" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({ identifier: "StopAppInput" }) as any as S.Schema<StopAppInput>;
+export interface StopAppOutput {}
+export const StopAppOutput = S.suspend(() => S.Struct({})).annotations({
+  identifier: "StopAppOutput",
+}) as any as S.Schema<StopAppOutput>;
+export interface StopClockInput {
+  Simulation: string;
+}
+export const StopClockInput = S.suspend(() =>
+  S.Struct({ Simulation: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/stopclock" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StopClockOutput extends S.Class<StopClockOutput>(
-  "StopClockOutput",
-)({}) {}
+).annotations({
+  identifier: "StopClockInput",
+}) as any as S.Schema<StopClockInput>;
+export interface StopClockOutput {}
+export const StopClockOutput = S.suspend(() => S.Struct({})).annotations({
+  identifier: "StopClockOutput",
+}) as any as S.Schema<StopClockOutput>;
+export type LaunchCommandList = string[];
 export const LaunchCommandList = S.Array(S.String);
+export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
-export class S3Location extends S.Class<S3Location>("S3Location")({
-  BucketName: S.String,
-  ObjectKey: S.String,
-}) {}
-export class S3Destination extends S.Class<S3Destination>("S3Destination")({
-  BucketName: S.String,
-  ObjectKeyPrefix: S.optional(S.String),
-}) {}
-export class LaunchOverrides extends S.Class<LaunchOverrides>(
-  "LaunchOverrides",
-)({ LaunchCommands: S.optional(LaunchCommandList) }) {}
-export class ListTagsForResourceOutput extends S.Class<ListTagsForResourceOutput>(
-  "ListTagsForResourceOutput",
-)({ Tags: S.optional(TagMap) }) {}
-export class TagResourceInput extends S.Class<TagResourceInput>(
-  "TagResourceInput",
-)(
-  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")), Tags: TagMap },
-  T.all(
-    T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface S3Location {
+  BucketName: string;
+  ObjectKey: string;
+}
+export const S3Location = S.suspend(() =>
+  S.Struct({ BucketName: S.String, ObjectKey: S.String }),
+).annotations({ identifier: "S3Location" }) as any as S.Schema<S3Location>;
+export interface S3Destination {
+  BucketName: string;
+  ObjectKeyPrefix?: string;
+}
+export const S3Destination = S.suspend(() =>
+  S.Struct({ BucketName: S.String, ObjectKeyPrefix: S.optional(S.String) }),
+).annotations({
+  identifier: "S3Destination",
+}) as any as S.Schema<S3Destination>;
+export interface LaunchOverrides {
+  LaunchCommands?: LaunchCommandList;
+}
+export const LaunchOverrides = S.suspend(() =>
+  S.Struct({ LaunchCommands: S.optional(LaunchCommandList) }),
+).annotations({
+  identifier: "LaunchOverrides",
+}) as any as S.Schema<LaunchOverrides>;
+export interface ListTagsForResourceOutput {
+  Tags?: TagMap;
+}
+export const ListTagsForResourceOutput = S.suspend(() =>
+  S.Struct({ Tags: S.optional(TagMap) }),
+).annotations({
+  identifier: "ListTagsForResourceOutput",
+}) as any as S.Schema<ListTagsForResourceOutput>;
+export interface TagResourceInput {
+  ResourceArn: string;
+  Tags: TagMap;
+}
+export const TagResourceInput = S.suspend(() =>
+  S.Struct({
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
+    Tags: TagMap,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceOutput extends S.Class<TagResourceOutput>(
-  "TagResourceOutput",
-)({}) {}
-export class StartSimulationInput extends S.Class<StartSimulationInput>(
-  "StartSimulationInput",
-)(
-  {
+).annotations({
+  identifier: "TagResourceInput",
+}) as any as S.Schema<TagResourceInput>;
+export interface TagResourceOutput {}
+export const TagResourceOutput = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceOutput",
+}) as any as S.Schema<TagResourceOutput>;
+export interface StartSimulationInput {
+  ClientToken?: string;
+  Name: string;
+  Description?: string;
+  RoleArn: string;
+  SchemaS3Location?: S3Location;
+  MaximumDuration?: string;
+  Tags?: TagMap;
+  SnapshotS3Location?: S3Location;
+}
+export const StartSimulationInput = S.suspend(() =>
+  S.Struct({
     ClientToken: S.optional(S.String),
     Name: S.String,
     Description: S.optional(S.String),
@@ -527,158 +637,308 @@ export class StartSimulationInput extends S.Class<StartSimulationInput>(
     MaximumDuration: S.optional(S.String),
     Tags: S.optional(TagMap),
     SnapshotS3Location: S.optional(S3Location),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/startsimulation" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/startsimulation" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateSnapshotInput extends S.Class<CreateSnapshotInput>(
-  "CreateSnapshotInput",
-)(
-  { Simulation: S.String, Destination: S3Destination },
-  T.all(
-    T.Http({ method: "POST", uri: "/createsnapshot" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "StartSimulationInput",
+}) as any as S.Schema<StartSimulationInput>;
+export interface CreateSnapshotInput {
+  Simulation: string;
+  Destination: S3Destination;
+}
+export const CreateSnapshotInput = S.suspend(() =>
+  S.Struct({ Simulation: S.String, Destination: S3Destination }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/createsnapshot" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateSnapshotOutput extends S.Class<CreateSnapshotOutput>(
-  "CreateSnapshotOutput",
-)({}) {}
-export class StartAppInput extends S.Class<StartAppInput>("StartAppInput")(
-  {
+).annotations({
+  identifier: "CreateSnapshotInput",
+}) as any as S.Schema<CreateSnapshotInput>;
+export interface CreateSnapshotOutput {}
+export const CreateSnapshotOutput = S.suspend(() => S.Struct({})).annotations({
+  identifier: "CreateSnapshotOutput",
+}) as any as S.Schema<CreateSnapshotOutput>;
+export interface StartAppInput {
+  ClientToken?: string;
+  Simulation: string;
+  Domain: string;
+  Name: string;
+  Description?: string;
+  LaunchOverrides?: LaunchOverrides;
+}
+export const StartAppInput = S.suspend(() =>
+  S.Struct({
     ClientToken: S.optional(S.String),
     Simulation: S.String,
     Domain: S.String,
     Name: S.String,
     Description: S.optional(S.String),
     LaunchOverrides: S.optional(LaunchOverrides),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/startapp" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/startapp" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SimulationMetadata extends S.Class<SimulationMetadata>(
-  "SimulationMetadata",
-)({
-  Name: S.optional(S.String),
-  Arn: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Status: S.optional(S.String),
-  TargetStatus: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "StartAppInput",
+}) as any as S.Schema<StartAppInput>;
+export interface SimulationMetadata {
+  Name?: string;
+  Arn?: string;
+  CreationTime?: Date;
+  Status?: string;
+  TargetStatus?: string;
+}
+export const SimulationMetadata = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Arn: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Status: S.optional(S.String),
+    TargetStatus: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SimulationMetadata",
+}) as any as S.Schema<SimulationMetadata>;
+export type SimulationList = SimulationMetadata[];
 export const SimulationList = S.Array(SimulationMetadata);
-export class SimulationAppMetadata extends S.Class<SimulationAppMetadata>(
-  "SimulationAppMetadata",
-)({
-  Name: S.optional(S.String),
-  Simulation: S.optional(S.String),
-  Domain: S.optional(S.String),
-  Status: S.optional(S.String),
-  TargetStatus: S.optional(S.String),
-}) {}
+export interface SimulationAppMetadata {
+  Name?: string;
+  Simulation?: string;
+  Domain?: string;
+  Status?: string;
+  TargetStatus?: string;
+}
+export const SimulationAppMetadata = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Simulation: S.optional(S.String),
+    Domain: S.optional(S.String),
+    Status: S.optional(S.String),
+    TargetStatus: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SimulationAppMetadata",
+}) as any as S.Schema<SimulationAppMetadata>;
+export type SimulationAppList = SimulationAppMetadata[];
 export const SimulationAppList = S.Array(SimulationAppMetadata);
-export class StartSimulationOutput extends S.Class<StartSimulationOutput>(
-  "StartSimulationOutput",
-)({
-  Arn: S.optional(S.String),
-  ExecutionId: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class ListSimulationsOutput extends S.Class<ListSimulationsOutput>(
-  "ListSimulationsOutput",
-)({
-  Simulations: S.optional(SimulationList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListAppsOutput extends S.Class<ListAppsOutput>("ListAppsOutput")({
-  Apps: S.optional(SimulationAppList),
-  NextToken: S.optional(S.String),
-}) {}
-export class StartAppOutput extends S.Class<StartAppOutput>("StartAppOutput")({
-  Name: S.optional(S.String),
-  Domain: S.optional(S.String),
-  Simulation: S.optional(S.String),
-}) {}
-export class Domain extends S.Class<Domain>("Domain")({
-  Name: S.optional(S.String),
-  Lifecycle: S.optional(S.String),
-}) {}
+export interface StartSimulationOutput {
+  Arn?: string;
+  ExecutionId?: string;
+  CreationTime?: Date;
+}
+export const StartSimulationOutput = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    ExecutionId: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "StartSimulationOutput",
+}) as any as S.Schema<StartSimulationOutput>;
+export interface ListSimulationsOutput {
+  Simulations?: SimulationList;
+  NextToken?: string;
+}
+export const ListSimulationsOutput = S.suspend(() =>
+  S.Struct({
+    Simulations: S.optional(SimulationList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListSimulationsOutput",
+}) as any as S.Schema<ListSimulationsOutput>;
+export interface ListAppsOutput {
+  Apps?: SimulationAppList;
+  NextToken?: string;
+}
+export const ListAppsOutput = S.suspend(() =>
+  S.Struct({
+    Apps: S.optional(SimulationAppList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListAppsOutput",
+}) as any as S.Schema<ListAppsOutput>;
+export interface StartAppOutput {
+  Name?: string;
+  Domain?: string;
+  Simulation?: string;
+}
+export const StartAppOutput = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Domain: S.optional(S.String),
+    Simulation: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "StartAppOutput",
+}) as any as S.Schema<StartAppOutput>;
+export interface Domain {
+  Name?: string;
+  Lifecycle?: string;
+}
+export const Domain = S.suspend(() =>
+  S.Struct({ Name: S.optional(S.String), Lifecycle: S.optional(S.String) }),
+).annotations({ identifier: "Domain" }) as any as S.Schema<Domain>;
+export type DomainList = Domain[];
 export const DomainList = S.Array(Domain);
-export class SimulationClock extends S.Class<SimulationClock>(
-  "SimulationClock",
-)({ Status: S.optional(S.String), TargetStatus: S.optional(S.String) }) {}
+export interface SimulationClock {
+  Status?: string;
+  TargetStatus?: string;
+}
+export const SimulationClock = S.suspend(() =>
+  S.Struct({
+    Status: S.optional(S.String),
+    TargetStatus: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SimulationClock",
+}) as any as S.Schema<SimulationClock>;
+export type SimulationClockList = SimulationClock[];
 export const SimulationClockList = S.Array(SimulationClock);
-export class SimulationAppPortMapping extends S.Class<SimulationAppPortMapping>(
-  "SimulationAppPortMapping",
-)({ Declared: S.optional(S.Number), Actual: S.optional(S.Number) }) {}
+export interface SimulationAppPortMapping {
+  Declared?: number;
+  Actual?: number;
+}
+export const SimulationAppPortMapping = S.suspend(() =>
+  S.Struct({ Declared: S.optional(S.Number), Actual: S.optional(S.Number) }),
+).annotations({
+  identifier: "SimulationAppPortMapping",
+}) as any as S.Schema<SimulationAppPortMapping>;
+export type AppPortMappings = SimulationAppPortMapping[];
 export const AppPortMappings = S.Array(SimulationAppPortMapping);
-export class LiveSimulationState extends S.Class<LiveSimulationState>(
-  "LiveSimulationState",
-)({
-  Domains: S.optional(DomainList),
-  Clocks: S.optional(SimulationClockList),
-}) {}
-export class SimulationAppEndpointInfo extends S.Class<SimulationAppEndpointInfo>(
-  "SimulationAppEndpointInfo",
-)({
-  Address: S.optional(S.String),
-  IngressPortMappings: S.optional(AppPortMappings),
-}) {}
-export class CloudWatchLogsLogGroup extends S.Class<CloudWatchLogsLogGroup>(
-  "CloudWatchLogsLogGroup",
-)({ LogGroupArn: S.optional(S.String) }) {}
-export class DescribeAppOutput extends S.Class<DescribeAppOutput>(
-  "DescribeAppOutput",
-)({
-  Name: S.optional(S.String),
-  Simulation: S.optional(S.String),
-  Domain: S.optional(S.String),
-  Status: S.optional(S.String),
-  TargetStatus: S.optional(S.String),
-  LaunchOverrides: S.optional(LaunchOverrides),
-  Description: S.optional(S.String),
-  EndpointInfo: S.optional(SimulationAppEndpointInfo),
-}) {}
-export class LogDestination extends S.Class<LogDestination>("LogDestination")({
-  CloudWatchLogsLogGroup: S.optional(CloudWatchLogsLogGroup),
-}) {}
+export interface LiveSimulationState {
+  Domains?: DomainList;
+  Clocks?: SimulationClockList;
+}
+export const LiveSimulationState = S.suspend(() =>
+  S.Struct({
+    Domains: S.optional(DomainList),
+    Clocks: S.optional(SimulationClockList),
+  }),
+).annotations({
+  identifier: "LiveSimulationState",
+}) as any as S.Schema<LiveSimulationState>;
+export interface SimulationAppEndpointInfo {
+  Address?: string;
+  IngressPortMappings?: AppPortMappings;
+}
+export const SimulationAppEndpointInfo = S.suspend(() =>
+  S.Struct({
+    Address: S.optional(S.String),
+    IngressPortMappings: S.optional(AppPortMappings),
+  }),
+).annotations({
+  identifier: "SimulationAppEndpointInfo",
+}) as any as S.Schema<SimulationAppEndpointInfo>;
+export interface CloudWatchLogsLogGroup {
+  LogGroupArn?: string;
+}
+export const CloudWatchLogsLogGroup = S.suspend(() =>
+  S.Struct({ LogGroupArn: S.optional(S.String) }),
+).annotations({
+  identifier: "CloudWatchLogsLogGroup",
+}) as any as S.Schema<CloudWatchLogsLogGroup>;
+export interface DescribeAppOutput {
+  Name?: string;
+  Simulation?: string;
+  Domain?: string;
+  Status?: string;
+  TargetStatus?: string;
+  LaunchOverrides?: LaunchOverrides;
+  Description?: string;
+  EndpointInfo?: SimulationAppEndpointInfo;
+}
+export const DescribeAppOutput = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Simulation: S.optional(S.String),
+    Domain: S.optional(S.String),
+    Status: S.optional(S.String),
+    TargetStatus: S.optional(S.String),
+    LaunchOverrides: S.optional(LaunchOverrides),
+    Description: S.optional(S.String),
+    EndpointInfo: S.optional(SimulationAppEndpointInfo),
+  }),
+).annotations({
+  identifier: "DescribeAppOutput",
+}) as any as S.Schema<DescribeAppOutput>;
+export interface LogDestination {
+  CloudWatchLogsLogGroup?: CloudWatchLogsLogGroup;
+}
+export const LogDestination = S.suspend(() =>
+  S.Struct({ CloudWatchLogsLogGroup: S.optional(CloudWatchLogsLogGroup) }),
+).annotations({
+  identifier: "LogDestination",
+}) as any as S.Schema<LogDestination>;
+export type LogDestinations = LogDestination[];
 export const LogDestinations = S.Array(LogDestination);
-export class LoggingConfiguration extends S.Class<LoggingConfiguration>(
-  "LoggingConfiguration",
-)({ Destinations: S.optional(LogDestinations) }) {}
-export class DescribeSimulationOutput extends S.Class<DescribeSimulationOutput>(
-  "DescribeSimulationOutput",
-)({
-  Name: S.optional(S.String),
-  ExecutionId: S.optional(S.String),
-  Arn: S.optional(S.String),
-  Description: S.optional(S.String),
-  RoleArn: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Status: S.optional(S.String),
-  TargetStatus: S.optional(S.String),
-  SchemaS3Location: S.optional(S3Location),
-  SchemaError: S.optional(S.String),
-  LoggingConfiguration: S.optional(LoggingConfiguration),
-  LiveSimulationState: S.optional(LiveSimulationState),
-  MaximumDuration: S.optional(S.String),
-  SnapshotS3Location: S.optional(S3Location),
-  StartError: S.optional(S.String),
-}) {}
+export interface LoggingConfiguration {
+  Destinations?: LogDestinations;
+}
+export const LoggingConfiguration = S.suspend(() =>
+  S.Struct({ Destinations: S.optional(LogDestinations) }),
+).annotations({
+  identifier: "LoggingConfiguration",
+}) as any as S.Schema<LoggingConfiguration>;
+export interface DescribeSimulationOutput {
+  Name?: string;
+  ExecutionId?: string;
+  Arn?: string;
+  Description?: string;
+  RoleArn?: string;
+  CreationTime?: Date;
+  Status?: string;
+  TargetStatus?: string;
+  SchemaS3Location?: S3Location;
+  SchemaError?: string;
+  LoggingConfiguration?: LoggingConfiguration;
+  LiveSimulationState?: LiveSimulationState;
+  MaximumDuration?: string;
+  SnapshotS3Location?: S3Location;
+  StartError?: string;
+}
+export const DescribeSimulationOutput = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    ExecutionId: S.optional(S.String),
+    Arn: S.optional(S.String),
+    Description: S.optional(S.String),
+    RoleArn: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Status: S.optional(S.String),
+    TargetStatus: S.optional(S.String),
+    SchemaS3Location: S.optional(S3Location),
+    SchemaError: S.optional(S.String),
+    LoggingConfiguration: S.optional(LoggingConfiguration),
+    LiveSimulationState: S.optional(LiveSimulationState),
+    MaximumDuration: S.optional(S.String),
+    SnapshotS3Location: S.optional(S3Location),
+    StartError: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DescribeSimulationOutput",
+}) as any as S.Schema<DescribeSimulationOutput>;
 
 //# Errors
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(

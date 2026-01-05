@@ -243,693 +243,1742 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type APIKeyTokenDomains = string[];
 export const APIKeyTokenDomains = S.Array(S.String);
+export type IPAddresses = string[];
 export const IPAddresses = S.Array(S.String);
+export type TokenDomains = string[];
 export const TokenDomains = S.Array(S.String);
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class AssociateWebACLRequest extends S.Class<AssociateWebACLRequest>(
-  "AssociateWebACLRequest",
-)(
-  { WebACLArn: S.String, ResourceArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class AssociateWebACLResponse extends S.Class<AssociateWebACLResponse>(
-  "AssociateWebACLResponse",
-)({}, ns) {}
-export class CreateAPIKeyRequest extends S.Class<CreateAPIKeyRequest>(
-  "CreateAPIKeyRequest",
-)(
-  { Scope: S.String, TokenDomains: APIKeyTokenDomains },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteAPIKeyRequest extends S.Class<DeleteAPIKeyRequest>(
-  "DeleteAPIKeyRequest",
-)(
-  { Scope: S.String, APIKey: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteAPIKeyResponse extends S.Class<DeleteAPIKeyResponse>(
-  "DeleteAPIKeyResponse",
-)({}, ns) {}
-export class DeleteFirewallManagerRuleGroupsRequest extends S.Class<DeleteFirewallManagerRuleGroupsRequest>(
-  "DeleteFirewallManagerRuleGroupsRequest",
-)(
-  { WebACLArn: S.String, WebACLLockToken: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteIPSetRequest extends S.Class<DeleteIPSetRequest>(
-  "DeleteIPSetRequest",
-)(
-  { Name: S.String, Scope: S.String, Id: S.String, LockToken: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteIPSetResponse extends S.Class<DeleteIPSetResponse>(
-  "DeleteIPSetResponse",
-)({}, ns) {}
-export class DeleteLoggingConfigurationRequest extends S.Class<DeleteLoggingConfigurationRequest>(
-  "DeleteLoggingConfigurationRequest",
-)(
-  {
+export interface AssociateWebACLRequest {
+  WebACLArn: string;
+  ResourceArn: string;
+}
+export const AssociateWebACLRequest = S.suspend(() =>
+  S.Struct({ WebACLArn: S.String, ResourceArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "AssociateWebACLRequest",
+}) as any as S.Schema<AssociateWebACLRequest>;
+export interface AssociateWebACLResponse {}
+export const AssociateWebACLResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "AssociateWebACLResponse",
+}) as any as S.Schema<AssociateWebACLResponse>;
+export interface CreateAPIKeyRequest {
+  Scope: string;
+  TokenDomains: APIKeyTokenDomains;
+}
+export const CreateAPIKeyRequest = S.suspend(() =>
+  S.Struct({ Scope: S.String, TokenDomains: APIKeyTokenDomains }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateAPIKeyRequest",
+}) as any as S.Schema<CreateAPIKeyRequest>;
+export interface DeleteAPIKeyRequest {
+  Scope: string;
+  APIKey: string;
+}
+export const DeleteAPIKeyRequest = S.suspend(() =>
+  S.Struct({ Scope: S.String, APIKey: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteAPIKeyRequest",
+}) as any as S.Schema<DeleteAPIKeyRequest>;
+export interface DeleteAPIKeyResponse {}
+export const DeleteAPIKeyResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteAPIKeyResponse",
+}) as any as S.Schema<DeleteAPIKeyResponse>;
+export interface DeleteFirewallManagerRuleGroupsRequest {
+  WebACLArn: string;
+  WebACLLockToken: string;
+}
+export const DeleteFirewallManagerRuleGroupsRequest = S.suspend(() =>
+  S.Struct({ WebACLArn: S.String, WebACLLockToken: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteFirewallManagerRuleGroupsRequest",
+}) as any as S.Schema<DeleteFirewallManagerRuleGroupsRequest>;
+export interface DeleteIPSetRequest {
+  Name: string;
+  Scope: string;
+  Id: string;
+  LockToken: string;
+}
+export const DeleteIPSetRequest = S.suspend(() =>
+  S.Struct({
+    Name: S.String,
+    Scope: S.String,
+    Id: S.String,
+    LockToken: S.String,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteIPSetRequest",
+}) as any as S.Schema<DeleteIPSetRequest>;
+export interface DeleteIPSetResponse {}
+export const DeleteIPSetResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteIPSetResponse",
+}) as any as S.Schema<DeleteIPSetResponse>;
+export interface DeleteLoggingConfigurationRequest {
+  ResourceArn: string;
+  LogType?: string;
+  LogScope?: string;
+}
+export const DeleteLoggingConfigurationRequest = S.suspend(() =>
+  S.Struct({
     ResourceArn: S.String,
     LogType: S.optional(S.String),
     LogScope: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteLoggingConfigurationResponse extends S.Class<DeleteLoggingConfigurationResponse>(
-  "DeleteLoggingConfigurationResponse",
-)({}, ns) {}
-export class DeletePermissionPolicyRequest extends S.Class<DeletePermissionPolicyRequest>(
-  "DeletePermissionPolicyRequest",
-)(
-  { ResourceArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeletePermissionPolicyResponse extends S.Class<DeletePermissionPolicyResponse>(
-  "DeletePermissionPolicyResponse",
-)({}, ns) {}
-export class DeleteRegexPatternSetRequest extends S.Class<DeleteRegexPatternSetRequest>(
-  "DeleteRegexPatternSetRequest",
-)(
-  { Name: S.String, Scope: S.String, Id: S.String, LockToken: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteRegexPatternSetResponse extends S.Class<DeleteRegexPatternSetResponse>(
-  "DeleteRegexPatternSetResponse",
-)({}, ns) {}
-export class DeleteRuleGroupRequest extends S.Class<DeleteRuleGroupRequest>(
-  "DeleteRuleGroupRequest",
-)(
-  { Name: S.String, Scope: S.String, Id: S.String, LockToken: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteRuleGroupResponse extends S.Class<DeleteRuleGroupResponse>(
-  "DeleteRuleGroupResponse",
-)({}, ns) {}
-export class DeleteWebACLRequest extends S.Class<DeleteWebACLRequest>(
-  "DeleteWebACLRequest",
-)(
-  { Name: S.String, Scope: S.String, Id: S.String, LockToken: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteWebACLResponse extends S.Class<DeleteWebACLResponse>(
-  "DeleteWebACLResponse",
-)({}, ns) {}
-export class DescribeAllManagedProductsRequest extends S.Class<DescribeAllManagedProductsRequest>(
-  "DescribeAllManagedProductsRequest",
-)(
-  { Scope: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeManagedProductsByVendorRequest extends S.Class<DescribeManagedProductsByVendorRequest>(
-  "DescribeManagedProductsByVendorRequest",
-)(
-  { VendorName: S.String, Scope: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeManagedRuleGroupRequest extends S.Class<DescribeManagedRuleGroupRequest>(
-  "DescribeManagedRuleGroupRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteLoggingConfigurationRequest",
+}) as any as S.Schema<DeleteLoggingConfigurationRequest>;
+export interface DeleteLoggingConfigurationResponse {}
+export const DeleteLoggingConfigurationResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteLoggingConfigurationResponse",
+}) as any as S.Schema<DeleteLoggingConfigurationResponse>;
+export interface DeletePermissionPolicyRequest {
+  ResourceArn: string;
+}
+export const DeletePermissionPolicyRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeletePermissionPolicyRequest",
+}) as any as S.Schema<DeletePermissionPolicyRequest>;
+export interface DeletePermissionPolicyResponse {}
+export const DeletePermissionPolicyResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeletePermissionPolicyResponse",
+}) as any as S.Schema<DeletePermissionPolicyResponse>;
+export interface DeleteRegexPatternSetRequest {
+  Name: string;
+  Scope: string;
+  Id: string;
+  LockToken: string;
+}
+export const DeleteRegexPatternSetRequest = S.suspend(() =>
+  S.Struct({
+    Name: S.String,
+    Scope: S.String,
+    Id: S.String,
+    LockToken: S.String,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteRegexPatternSetRequest",
+}) as any as S.Schema<DeleteRegexPatternSetRequest>;
+export interface DeleteRegexPatternSetResponse {}
+export const DeleteRegexPatternSetResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteRegexPatternSetResponse",
+}) as any as S.Schema<DeleteRegexPatternSetResponse>;
+export interface DeleteRuleGroupRequest {
+  Name: string;
+  Scope: string;
+  Id: string;
+  LockToken: string;
+}
+export const DeleteRuleGroupRequest = S.suspend(() =>
+  S.Struct({
+    Name: S.String,
+    Scope: S.String,
+    Id: S.String,
+    LockToken: S.String,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteRuleGroupRequest",
+}) as any as S.Schema<DeleteRuleGroupRequest>;
+export interface DeleteRuleGroupResponse {}
+export const DeleteRuleGroupResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteRuleGroupResponse",
+}) as any as S.Schema<DeleteRuleGroupResponse>;
+export interface DeleteWebACLRequest {
+  Name: string;
+  Scope: string;
+  Id: string;
+  LockToken: string;
+}
+export const DeleteWebACLRequest = S.suspend(() =>
+  S.Struct({
+    Name: S.String,
+    Scope: S.String,
+    Id: S.String,
+    LockToken: S.String,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteWebACLRequest",
+}) as any as S.Schema<DeleteWebACLRequest>;
+export interface DeleteWebACLResponse {}
+export const DeleteWebACLResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteWebACLResponse",
+}) as any as S.Schema<DeleteWebACLResponse>;
+export interface DescribeAllManagedProductsRequest {
+  Scope: string;
+}
+export const DescribeAllManagedProductsRequest = S.suspend(() =>
+  S.Struct({ Scope: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeAllManagedProductsRequest",
+}) as any as S.Schema<DescribeAllManagedProductsRequest>;
+export interface DescribeManagedProductsByVendorRequest {
+  VendorName: string;
+  Scope: string;
+}
+export const DescribeManagedProductsByVendorRequest = S.suspend(() =>
+  S.Struct({ VendorName: S.String, Scope: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeManagedProductsByVendorRequest",
+}) as any as S.Schema<DescribeManagedProductsByVendorRequest>;
+export interface DescribeManagedRuleGroupRequest {
+  VendorName: string;
+  Name: string;
+  Scope: string;
+  VersionName?: string;
+}
+export const DescribeManagedRuleGroupRequest = S.suspend(() =>
+  S.Struct({
     VendorName: S.String,
     Name: S.String,
     Scope: S.String,
     VersionName: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DisassociateWebACLRequest extends S.Class<DisassociateWebACLRequest>(
-  "DisassociateWebACLRequest",
-)(
-  { ResourceArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DisassociateWebACLResponse extends S.Class<DisassociateWebACLResponse>(
-  "DisassociateWebACLResponse",
-)({}, ns) {}
-export class GenerateMobileSdkReleaseUrlRequest extends S.Class<GenerateMobileSdkReleaseUrlRequest>(
-  "GenerateMobileSdkReleaseUrlRequest",
-)(
-  { Platform: S.String, ReleaseVersion: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetDecryptedAPIKeyRequest extends S.Class<GetDecryptedAPIKeyRequest>(
-  "GetDecryptedAPIKeyRequest",
-)(
-  { Scope: S.String, APIKey: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetIPSetRequest extends S.Class<GetIPSetRequest>(
-  "GetIPSetRequest",
-)(
-  { Name: S.String, Scope: S.String, Id: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetLoggingConfigurationRequest extends S.Class<GetLoggingConfigurationRequest>(
-  "GetLoggingConfigurationRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeManagedRuleGroupRequest",
+}) as any as S.Schema<DescribeManagedRuleGroupRequest>;
+export interface DisassociateWebACLRequest {
+  ResourceArn: string;
+}
+export const DisassociateWebACLRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DisassociateWebACLRequest",
+}) as any as S.Schema<DisassociateWebACLRequest>;
+export interface DisassociateWebACLResponse {}
+export const DisassociateWebACLResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DisassociateWebACLResponse",
+}) as any as S.Schema<DisassociateWebACLResponse>;
+export interface GenerateMobileSdkReleaseUrlRequest {
+  Platform: string;
+  ReleaseVersion: string;
+}
+export const GenerateMobileSdkReleaseUrlRequest = S.suspend(() =>
+  S.Struct({ Platform: S.String, ReleaseVersion: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GenerateMobileSdkReleaseUrlRequest",
+}) as any as S.Schema<GenerateMobileSdkReleaseUrlRequest>;
+export interface GetDecryptedAPIKeyRequest {
+  Scope: string;
+  APIKey: string;
+}
+export const GetDecryptedAPIKeyRequest = S.suspend(() =>
+  S.Struct({ Scope: S.String, APIKey: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetDecryptedAPIKeyRequest",
+}) as any as S.Schema<GetDecryptedAPIKeyRequest>;
+export interface GetIPSetRequest {
+  Name: string;
+  Scope: string;
+  Id: string;
+}
+export const GetIPSetRequest = S.suspend(() =>
+  S.Struct({ Name: S.String, Scope: S.String, Id: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetIPSetRequest",
+}) as any as S.Schema<GetIPSetRequest>;
+export interface GetLoggingConfigurationRequest {
+  ResourceArn: string;
+  LogType?: string;
+  LogScope?: string;
+}
+export const GetLoggingConfigurationRequest = S.suspend(() =>
+  S.Struct({
     ResourceArn: S.String,
     LogType: S.optional(S.String),
     LogScope: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetManagedRuleSetRequest extends S.Class<GetManagedRuleSetRequest>(
-  "GetManagedRuleSetRequest",
-)(
-  { Name: S.String, Scope: S.String, Id: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetMobileSdkReleaseRequest extends S.Class<GetMobileSdkReleaseRequest>(
-  "GetMobileSdkReleaseRequest",
-)(
-  { Platform: S.String, ReleaseVersion: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetPermissionPolicyRequest extends S.Class<GetPermissionPolicyRequest>(
-  "GetPermissionPolicyRequest",
-)(
-  { ResourceArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetRateBasedStatementManagedKeysRequest extends S.Class<GetRateBasedStatementManagedKeysRequest>(
-  "GetRateBasedStatementManagedKeysRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetLoggingConfigurationRequest",
+}) as any as S.Schema<GetLoggingConfigurationRequest>;
+export interface GetManagedRuleSetRequest {
+  Name: string;
+  Scope: string;
+  Id: string;
+}
+export const GetManagedRuleSetRequest = S.suspend(() =>
+  S.Struct({ Name: S.String, Scope: S.String, Id: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetManagedRuleSetRequest",
+}) as any as S.Schema<GetManagedRuleSetRequest>;
+export interface GetMobileSdkReleaseRequest {
+  Platform: string;
+  ReleaseVersion: string;
+}
+export const GetMobileSdkReleaseRequest = S.suspend(() =>
+  S.Struct({ Platform: S.String, ReleaseVersion: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetMobileSdkReleaseRequest",
+}) as any as S.Schema<GetMobileSdkReleaseRequest>;
+export interface GetPermissionPolicyRequest {
+  ResourceArn: string;
+}
+export const GetPermissionPolicyRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetPermissionPolicyRequest",
+}) as any as S.Schema<GetPermissionPolicyRequest>;
+export interface GetRateBasedStatementManagedKeysRequest {
+  Scope: string;
+  WebACLName: string;
+  WebACLId: string;
+  RuleGroupRuleName?: string;
+  RuleName: string;
+}
+export const GetRateBasedStatementManagedKeysRequest = S.suspend(() =>
+  S.Struct({
     Scope: S.String,
     WebACLName: S.String,
     WebACLId: S.String,
     RuleGroupRuleName: S.optional(S.String),
     RuleName: S.String,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetRegexPatternSetRequest extends S.Class<GetRegexPatternSetRequest>(
-  "GetRegexPatternSetRequest",
-)(
-  { Name: S.String, Scope: S.String, Id: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetRuleGroupRequest extends S.Class<GetRuleGroupRequest>(
-  "GetRuleGroupRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetRateBasedStatementManagedKeysRequest",
+}) as any as S.Schema<GetRateBasedStatementManagedKeysRequest>;
+export interface GetRegexPatternSetRequest {
+  Name: string;
+  Scope: string;
+  Id: string;
+}
+export const GetRegexPatternSetRequest = S.suspend(() =>
+  S.Struct({ Name: S.String, Scope: S.String, Id: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetRegexPatternSetRequest",
+}) as any as S.Schema<GetRegexPatternSetRequest>;
+export interface GetRuleGroupRequest {
+  Name?: string;
+  Scope?: string;
+  Id?: string;
+  ARN?: string;
+}
+export const GetRuleGroupRequest = S.suspend(() =>
+  S.Struct({
     Name: S.optional(S.String),
     Scope: S.optional(S.String),
     Id: S.optional(S.String),
     ARN: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetWebACLRequest extends S.Class<GetWebACLRequest>(
-  "GetWebACLRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetRuleGroupRequest",
+}) as any as S.Schema<GetRuleGroupRequest>;
+export interface GetWebACLRequest {
+  Name?: string;
+  Scope?: string;
+  Id?: string;
+  ARN?: string;
+}
+export const GetWebACLRequest = S.suspend(() =>
+  S.Struct({
     Name: S.optional(S.String),
     Scope: S.optional(S.String),
     Id: S.optional(S.String),
     ARN: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetWebACLForResourceRequest extends S.Class<GetWebACLForResourceRequest>(
-  "GetWebACLForResourceRequest",
-)(
-  { ResourceArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListAPIKeysRequest extends S.Class<ListAPIKeysRequest>(
-  "ListAPIKeysRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetWebACLRequest",
+}) as any as S.Schema<GetWebACLRequest>;
+export interface GetWebACLForResourceRequest {
+  ResourceArn: string;
+}
+export const GetWebACLForResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetWebACLForResourceRequest",
+}) as any as S.Schema<GetWebACLForResourceRequest>;
+export interface ListAPIKeysRequest {
+  Scope: string;
+  NextMarker?: string;
+  Limit?: number;
+}
+export const ListAPIKeysRequest = S.suspend(() =>
+  S.Struct({
     Scope: S.String,
     NextMarker: S.optional(S.String),
     Limit: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListAvailableManagedRuleGroupsRequest extends S.Class<ListAvailableManagedRuleGroupsRequest>(
-  "ListAvailableManagedRuleGroupsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListAPIKeysRequest",
+}) as any as S.Schema<ListAPIKeysRequest>;
+export interface ListAvailableManagedRuleGroupsRequest {
+  Scope: string;
+  NextMarker?: string;
+  Limit?: number;
+}
+export const ListAvailableManagedRuleGroupsRequest = S.suspend(() =>
+  S.Struct({
     Scope: S.String,
     NextMarker: S.optional(S.String),
     Limit: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListAvailableManagedRuleGroupVersionsRequest extends S.Class<ListAvailableManagedRuleGroupVersionsRequest>(
-  "ListAvailableManagedRuleGroupVersionsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListAvailableManagedRuleGroupsRequest",
+}) as any as S.Schema<ListAvailableManagedRuleGroupsRequest>;
+export interface ListAvailableManagedRuleGroupVersionsRequest {
+  VendorName: string;
+  Name: string;
+  Scope: string;
+  NextMarker?: string;
+  Limit?: number;
+}
+export const ListAvailableManagedRuleGroupVersionsRequest = S.suspend(() =>
+  S.Struct({
     VendorName: S.String,
     Name: S.String,
     Scope: S.String,
     NextMarker: S.optional(S.String),
     Limit: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListIPSetsRequest extends S.Class<ListIPSetsRequest>(
-  "ListIPSetsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListAvailableManagedRuleGroupVersionsRequest",
+}) as any as S.Schema<ListAvailableManagedRuleGroupVersionsRequest>;
+export interface ListIPSetsRequest {
+  Scope: string;
+  NextMarker?: string;
+  Limit?: number;
+}
+export const ListIPSetsRequest = S.suspend(() =>
+  S.Struct({
     Scope: S.String,
     NextMarker: S.optional(S.String),
     Limit: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListLoggingConfigurationsRequest extends S.Class<ListLoggingConfigurationsRequest>(
-  "ListLoggingConfigurationsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListIPSetsRequest",
+}) as any as S.Schema<ListIPSetsRequest>;
+export interface ListLoggingConfigurationsRequest {
+  Scope: string;
+  NextMarker?: string;
+  Limit?: number;
+  LogScope?: string;
+}
+export const ListLoggingConfigurationsRequest = S.suspend(() =>
+  S.Struct({
     Scope: S.String,
     NextMarker: S.optional(S.String),
     Limit: S.optional(S.Number),
     LogScope: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListManagedRuleSetsRequest extends S.Class<ListManagedRuleSetsRequest>(
-  "ListManagedRuleSetsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListLoggingConfigurationsRequest",
+}) as any as S.Schema<ListLoggingConfigurationsRequest>;
+export interface ListManagedRuleSetsRequest {
+  Scope: string;
+  NextMarker?: string;
+  Limit?: number;
+}
+export const ListManagedRuleSetsRequest = S.suspend(() =>
+  S.Struct({
     Scope: S.String,
     NextMarker: S.optional(S.String),
     Limit: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListMobileSdkReleasesRequest extends S.Class<ListMobileSdkReleasesRequest>(
-  "ListMobileSdkReleasesRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListManagedRuleSetsRequest",
+}) as any as S.Schema<ListManagedRuleSetsRequest>;
+export interface ListMobileSdkReleasesRequest {
+  Platform: string;
+  NextMarker?: string;
+  Limit?: number;
+}
+export const ListMobileSdkReleasesRequest = S.suspend(() =>
+  S.Struct({
     Platform: S.String,
     NextMarker: S.optional(S.String),
     Limit: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListRegexPatternSetsRequest extends S.Class<ListRegexPatternSetsRequest>(
-  "ListRegexPatternSetsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListMobileSdkReleasesRequest",
+}) as any as S.Schema<ListMobileSdkReleasesRequest>;
+export interface ListRegexPatternSetsRequest {
+  Scope: string;
+  NextMarker?: string;
+  Limit?: number;
+}
+export const ListRegexPatternSetsRequest = S.suspend(() =>
+  S.Struct({
     Scope: S.String,
     NextMarker: S.optional(S.String),
     Limit: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListResourcesForWebACLRequest extends S.Class<ListResourcesForWebACLRequest>(
-  "ListResourcesForWebACLRequest",
-)(
-  { WebACLArn: S.String, ResourceType: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListRuleGroupsRequest extends S.Class<ListRuleGroupsRequest>(
-  "ListRuleGroupsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListRegexPatternSetsRequest",
+}) as any as S.Schema<ListRegexPatternSetsRequest>;
+export interface ListResourcesForWebACLRequest {
+  WebACLArn: string;
+  ResourceType?: string;
+}
+export const ListResourcesForWebACLRequest = S.suspend(() =>
+  S.Struct({ WebACLArn: S.String, ResourceType: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListResourcesForWebACLRequest",
+}) as any as S.Schema<ListResourcesForWebACLRequest>;
+export interface ListRuleGroupsRequest {
+  Scope: string;
+  NextMarker?: string;
+  Limit?: number;
+}
+export const ListRuleGroupsRequest = S.suspend(() =>
+  S.Struct({
     Scope: S.String,
     NextMarker: S.optional(S.String),
     Limit: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListRuleGroupsRequest",
+}) as any as S.Schema<ListRuleGroupsRequest>;
+export interface ListTagsForResourceRequest {
+  NextMarker?: string;
+  Limit?: number;
+  ResourceARN: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({
     NextMarker: S.optional(S.String),
     Limit: S.optional(S.Number),
     ResourceARN: S.String,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListWebACLsRequest extends S.Class<ListWebACLsRequest>(
-  "ListWebACLsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface ListWebACLsRequest {
+  Scope: string;
+  NextMarker?: string;
+  Limit?: number;
+}
+export const ListWebACLsRequest = S.suspend(() =>
+  S.Struct({
     Scope: S.String,
     NextMarker: S.optional(S.String),
     Limit: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutPermissionPolicyRequest extends S.Class<PutPermissionPolicyRequest>(
-  "PutPermissionPolicyRequest",
-)(
-  { ResourceArn: S.String, Policy: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutPermissionPolicyResponse extends S.Class<PutPermissionPolicyResponse>(
-  "PutPermissionPolicyResponse",
-)({}, ns) {}
-export class Tag extends S.Class<Tag>("Tag")({
-  Key: S.String,
-  Value: S.String,
-}) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListWebACLsRequest",
+}) as any as S.Schema<ListWebACLsRequest>;
+export interface PutPermissionPolicyRequest {
+  ResourceArn: string;
+  Policy: string;
+}
+export const PutPermissionPolicyRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String, Policy: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutPermissionPolicyRequest",
+}) as any as S.Schema<PutPermissionPolicyRequest>;
+export interface PutPermissionPolicyResponse {}
+export const PutPermissionPolicyResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "PutPermissionPolicyResponse",
+}) as any as S.Schema<PutPermissionPolicyResponse>;
+export interface Tag {
+  Key: string;
+  Value: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ Key: S.String, Value: S.String }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagList = Tag[];
 export const TagList = S.Array(Tag);
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { ResourceARN: S.String, Tags: TagList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}, ns) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  { ResourceARN: S.String, TagKeys: TagKeyList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}, ns) {}
-export class UpdateIPSetRequest extends S.Class<UpdateIPSetRequest>(
-  "UpdateIPSetRequest",
-)(
-  {
+export interface TagResourceRequest {
+  ResourceARN: string;
+  Tags: TagList;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceARN: S.String, Tags: TagList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UntagResourceRequest {
+  ResourceARN: string;
+  TagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceARN: S.String, TagKeys: TagKeyList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface UpdateIPSetRequest {
+  Name: string;
+  Scope: string;
+  Id: string;
+  Description?: string;
+  Addresses: IPAddresses;
+  LockToken: string;
+}
+export const UpdateIPSetRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     Scope: S.String,
     Id: S.String,
     Description: S.optional(S.String),
     Addresses: IPAddresses,
     LockToken: S.String,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateManagedRuleSetVersionExpiryDateRequest extends S.Class<UpdateManagedRuleSetVersionExpiryDateRequest>(
-  "UpdateManagedRuleSetVersionExpiryDateRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateIPSetRequest",
+}) as any as S.Schema<UpdateIPSetRequest>;
+export interface UpdateManagedRuleSetVersionExpiryDateRequest {
+  Name: string;
+  Scope: string;
+  Id: string;
+  LockToken: string;
+  VersionToExpire: string;
+  ExpiryTimestamp: Date;
+}
+export const UpdateManagedRuleSetVersionExpiryDateRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     Scope: S.String,
     Id: S.String,
     LockToken: S.String,
     VersionToExpire: S.String,
     ExpiryTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class Regex extends S.Class<Regex>("Regex")({
-  RegexString: S.optional(S.String),
-}) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateManagedRuleSetVersionExpiryDateRequest",
+}) as any as S.Schema<UpdateManagedRuleSetVersionExpiryDateRequest>;
+export interface Regex {
+  RegexString?: string;
+}
+export const Regex = S.suspend(() =>
+  S.Struct({ RegexString: S.optional(S.String) }),
+).annotations({ identifier: "Regex" }) as any as S.Schema<Regex>;
+export type RegularExpressionList = Regex[];
 export const RegularExpressionList = S.Array(Regex);
-export class UpdateRegexPatternSetRequest extends S.Class<UpdateRegexPatternSetRequest>(
-  "UpdateRegexPatternSetRequest",
-)(
-  {
+export interface UpdateRegexPatternSetRequest {
+  Name: string;
+  Scope: string;
+  Id: string;
+  Description?: string;
+  RegularExpressionList: RegularExpressionList;
+  LockToken: string;
+}
+export const UpdateRegexPatternSetRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     Scope: S.String,
     Id: S.String,
     Description: S.optional(S.String),
     RegularExpressionList: RegularExpressionList,
     LockToken: S.String,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class SingleHeader extends S.Class<SingleHeader>("SingleHeader")({
-  Name: S.String,
-}) {}
-export class SingleQueryArgument extends S.Class<SingleQueryArgument>(
-  "SingleQueryArgument",
-)({ Name: S.String }) {}
-export class AllQueryArguments extends S.Class<AllQueryArguments>(
-  "AllQueryArguments",
-)({}) {}
-export class UriPath extends S.Class<UriPath>("UriPath")({}) {}
-export class QueryString extends S.Class<QueryString>("QueryString")({}) {}
-export class Body extends S.Class<Body>("Body")({
-  OversizeHandling: S.optional(S.String),
-}) {}
-export class Method extends S.Class<Method>("Method")({}) {}
-export class All extends S.Class<All>("All")({}) {}
-export const JsonPointerPaths = S.Array(S.String);
-export class JsonMatchPattern extends S.Class<JsonMatchPattern>(
-  "JsonMatchPattern",
-)({ All: S.optional(All), IncludedPaths: S.optional(JsonPointerPaths) }) {}
-export class JsonBody extends S.Class<JsonBody>("JsonBody")({
-  MatchPattern: JsonMatchPattern,
-  MatchScope: S.String,
-  InvalidFallbackBehavior: S.optional(S.String),
-  OversizeHandling: S.optional(S.String),
-}) {}
-export const HeaderNames = S.Array(S.String);
-export class HeaderMatchPattern extends S.Class<HeaderMatchPattern>(
-  "HeaderMatchPattern",
-)({
-  All: S.optional(All),
-  IncludedHeaders: S.optional(HeaderNames),
-  ExcludedHeaders: S.optional(HeaderNames),
-}) {}
-export class Headers extends S.Class<Headers>("Headers")({
-  MatchPattern: HeaderMatchPattern,
-  MatchScope: S.String,
-  OversizeHandling: S.String,
-}) {}
-export const CookieNames = S.Array(S.String);
-export class CookieMatchPattern extends S.Class<CookieMatchPattern>(
-  "CookieMatchPattern",
-)({
-  All: S.optional(All),
-  IncludedCookies: S.optional(CookieNames),
-  ExcludedCookies: S.optional(CookieNames),
-}) {}
-export class Cookies extends S.Class<Cookies>("Cookies")({
-  MatchPattern: CookieMatchPattern,
-  MatchScope: S.String,
-  OversizeHandling: S.String,
-}) {}
-export class HeaderOrder extends S.Class<HeaderOrder>("HeaderOrder")({
-  OversizeHandling: S.String,
-}) {}
-export class JA3Fingerprint extends S.Class<JA3Fingerprint>("JA3Fingerprint")({
-  FallbackBehavior: S.String,
-}) {}
-export class JA4Fingerprint extends S.Class<JA4Fingerprint>("JA4Fingerprint")({
-  FallbackBehavior: S.String,
-}) {}
-export class UriFragment extends S.Class<UriFragment>("UriFragment")({
-  FallbackBehavior: S.optional(S.String),
-}) {}
-export class FieldToMatch extends S.Class<FieldToMatch>("FieldToMatch")({
-  SingleHeader: S.optional(SingleHeader),
-  SingleQueryArgument: S.optional(SingleQueryArgument),
-  AllQueryArguments: S.optional(AllQueryArguments),
-  UriPath: S.optional(UriPath),
-  QueryString: S.optional(QueryString),
-  Body: S.optional(Body),
-  Method: S.optional(Method),
-  JsonBody: S.optional(JsonBody),
-  Headers: S.optional(Headers),
-  Cookies: S.optional(Cookies),
-  HeaderOrder: S.optional(HeaderOrder),
-  JA3Fingerprint: S.optional(JA3Fingerprint),
-  JA4Fingerprint: S.optional(JA4Fingerprint),
-  UriFragment: S.optional(UriFragment),
-}) {}
-export class TextTransformation extends S.Class<TextTransformation>(
-  "TextTransformation",
-)({ Priority: S.Number, Type: S.String }) {}
-export const TextTransformations = S.Array(TextTransformation);
-export class ByteMatchStatement extends S.Class<ByteMatchStatement>(
-  "ByteMatchStatement",
-)({
-  SearchString: T.Blob,
-  FieldToMatch: FieldToMatch,
-  TextTransformations: TextTransformations,
-  PositionalConstraint: S.String,
-}) {}
-export class SqliMatchStatement extends S.Class<SqliMatchStatement>(
-  "SqliMatchStatement",
-)({
-  FieldToMatch: FieldToMatch,
-  TextTransformations: TextTransformations,
-  SensitivityLevel: S.optional(S.String),
-}) {}
-export class XssMatchStatement extends S.Class<XssMatchStatement>(
-  "XssMatchStatement",
-)({ FieldToMatch: FieldToMatch, TextTransformations: TextTransformations }) {}
-export class SizeConstraintStatement extends S.Class<SizeConstraintStatement>(
-  "SizeConstraintStatement",
-)({
-  FieldToMatch: FieldToMatch,
-  ComparisonOperator: S.String,
-  Size: S.Number,
-  TextTransformations: TextTransformations,
-}) {}
-export const CountryCodes = S.Array(S.String);
-export class ForwardedIPConfig extends S.Class<ForwardedIPConfig>(
-  "ForwardedIPConfig",
-)({ HeaderName: S.String, FallbackBehavior: S.String }) {}
-export class GeoMatchStatement extends S.Class<GeoMatchStatement>(
-  "GeoMatchStatement",
-)({
-  CountryCodes: S.optional(CountryCodes),
-  ForwardedIPConfig: S.optional(ForwardedIPConfig),
-}) {}
-export class ExcludedRule extends S.Class<ExcludedRule>("ExcludedRule")({
-  Name: S.String,
-}) {}
-export const ExcludedRules = S.Array(ExcludedRule);
-export class CustomHTTPHeader extends S.Class<CustomHTTPHeader>(
-  "CustomHTTPHeader",
-)({ Name: S.String, Value: S.String }) {}
-export const CustomHTTPHeaders = S.Array(CustomHTTPHeader);
-export class CustomResponse extends S.Class<CustomResponse>("CustomResponse")({
-  ResponseCode: S.Number,
-  CustomResponseBodyKey: S.optional(S.String),
-  ResponseHeaders: S.optional(CustomHTTPHeaders),
-}) {}
-export class BlockAction extends S.Class<BlockAction>("BlockAction")({
-  CustomResponse: S.optional(CustomResponse),
-}) {}
-export class CustomRequestHandling extends S.Class<CustomRequestHandling>(
-  "CustomRequestHandling",
-)({ InsertHeaders: CustomHTTPHeaders }) {}
-export class AllowAction extends S.Class<AllowAction>("AllowAction")({
-  CustomRequestHandling: S.optional(CustomRequestHandling),
-}) {}
-export class CountAction extends S.Class<CountAction>("CountAction")({
-  CustomRequestHandling: S.optional(CustomRequestHandling),
-}) {}
-export class CaptchaAction extends S.Class<CaptchaAction>("CaptchaAction")({
-  CustomRequestHandling: S.optional(CustomRequestHandling),
-}) {}
-export class ChallengeAction extends S.Class<ChallengeAction>(
-  "ChallengeAction",
-)({ CustomRequestHandling: S.optional(CustomRequestHandling) }) {}
-export class RuleAction extends S.Class<RuleAction>("RuleAction")({
-  Block: S.optional(BlockAction),
-  Allow: S.optional(AllowAction),
-  Count: S.optional(CountAction),
-  Captcha: S.optional(CaptchaAction),
-  Challenge: S.optional(ChallengeAction),
-}) {}
-export class RuleActionOverride extends S.Class<RuleActionOverride>(
-  "RuleActionOverride",
-)({ Name: S.String, ActionToUse: RuleAction }) {}
-export const RuleActionOverrides = S.Array(RuleActionOverride);
-export class RuleGroupReferenceStatement extends S.Class<RuleGroupReferenceStatement>(
-  "RuleGroupReferenceStatement",
-)({
-  ARN: S.String,
-  ExcludedRules: S.optional(ExcludedRules),
-  RuleActionOverrides: S.optional(RuleActionOverrides),
-}) {}
-export class IPSetForwardedIPConfig extends S.Class<IPSetForwardedIPConfig>(
-  "IPSetForwardedIPConfig",
-)({ HeaderName: S.String, FallbackBehavior: S.String, Position: S.String }) {}
-export class IPSetReferenceStatement extends S.Class<IPSetReferenceStatement>(
-  "IPSetReferenceStatement",
-)({
-  ARN: S.String,
-  IPSetForwardedIPConfig: S.optional(IPSetForwardedIPConfig),
-}) {}
-export class RegexPatternSetReferenceStatement extends S.Class<RegexPatternSetReferenceStatement>(
-  "RegexPatternSetReferenceStatement",
-)({
-  ARN: S.String,
-  FieldToMatch: FieldToMatch,
-  TextTransformations: TextTransformations,
-}) {}
-export class LabelMatchStatement extends S.Class<LabelMatchStatement>(
-  "LabelMatchStatement",
-)({ Scope: S.String, Key: S.String }) {}
-export class RegexMatchStatement extends S.Class<RegexMatchStatement>(
-  "RegexMatchStatement",
-)({
-  RegexString: S.String,
-  FieldToMatch: FieldToMatch,
-  TextTransformations: TextTransformations,
-}) {}
-export const AsnList = S.Array(S.Number);
-export class AsnMatchStatement extends S.Class<AsnMatchStatement>(
-  "AsnMatchStatement",
-)({ AsnList: AsnList, ForwardedIPConfig: S.optional(ForwardedIPConfig) }) {}
-export class Statement extends S.Class<Statement>("Statement")({
-  ByteMatchStatement: S.optional(ByteMatchStatement),
-  SqliMatchStatement: S.optional(SqliMatchStatement),
-  XssMatchStatement: S.optional(XssMatchStatement),
-  SizeConstraintStatement: S.optional(SizeConstraintStatement),
-  GeoMatchStatement: S.optional(GeoMatchStatement),
-  RuleGroupReferenceStatement: S.optional(RuleGroupReferenceStatement),
-  IPSetReferenceStatement: S.optional(IPSetReferenceStatement),
-  RegexPatternSetReferenceStatement: S.optional(
-    RegexPatternSetReferenceStatement,
-  ),
-  RateBasedStatement: S.optional(
-    S.suspend((): S.Schema<RateBasedStatement, any> => RateBasedStatement),
-  ),
-  AndStatement: S.optional(
-    S.suspend((): S.Schema<AndStatement, any> => AndStatement),
-  ),
-  OrStatement: S.optional(
-    S.suspend((): S.Schema<OrStatement, any> => OrStatement),
-  ),
-  NotStatement: S.optional(
-    S.suspend((): S.Schema<NotStatement, any> => NotStatement),
-  ),
-  ManagedRuleGroupStatement: S.optional(
-    S.suspend(
-      (): S.Schema<ManagedRuleGroupStatement, any> => ManagedRuleGroupStatement,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
   ),
-  LabelMatchStatement: S.optional(LabelMatchStatement),
-  RegexMatchStatement: S.optional(RegexMatchStatement),
-  AsnMatchStatement: S.optional(AsnMatchStatement),
-}) {}
-export class NoneAction extends S.Class<NoneAction>("NoneAction")({}) {}
-export class OverrideAction extends S.Class<OverrideAction>("OverrideAction")({
-  Count: S.optional(CountAction),
-  None: S.optional(NoneAction),
-}) {}
-export class Label extends S.Class<Label>("Label")({ Name: S.String }) {}
+).annotations({
+  identifier: "UpdateRegexPatternSetRequest",
+}) as any as S.Schema<UpdateRegexPatternSetRequest>;
+export interface SingleHeader {
+  Name: string;
+}
+export const SingleHeader = S.suspend(() =>
+  S.Struct({ Name: S.String }),
+).annotations({ identifier: "SingleHeader" }) as any as S.Schema<SingleHeader>;
+export interface SingleQueryArgument {
+  Name: string;
+}
+export const SingleQueryArgument = S.suspend(() =>
+  S.Struct({ Name: S.String }),
+).annotations({
+  identifier: "SingleQueryArgument",
+}) as any as S.Schema<SingleQueryArgument>;
+export interface AllQueryArguments {}
+export const AllQueryArguments = S.suspend(() => S.Struct({})).annotations({
+  identifier: "AllQueryArguments",
+}) as any as S.Schema<AllQueryArguments>;
+export interface UriPath {}
+export const UriPath = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UriPath",
+}) as any as S.Schema<UriPath>;
+export interface QueryString {}
+export const QueryString = S.suspend(() => S.Struct({})).annotations({
+  identifier: "QueryString",
+}) as any as S.Schema<QueryString>;
+export interface Body {
+  OversizeHandling?: string;
+}
+export const Body = S.suspend(() =>
+  S.Struct({ OversizeHandling: S.optional(S.String) }),
+).annotations({ identifier: "Body" }) as any as S.Schema<Body>;
+export interface Method {}
+export const Method = S.suspend(() => S.Struct({})).annotations({
+  identifier: "Method",
+}) as any as S.Schema<Method>;
+export interface All {}
+export const All = S.suspend(() => S.Struct({})).annotations({
+  identifier: "All",
+}) as any as S.Schema<All>;
+export type JsonPointerPaths = string[];
+export const JsonPointerPaths = S.Array(S.String);
+export interface JsonMatchPattern {
+  All?: All;
+  IncludedPaths?: JsonPointerPaths;
+}
+export const JsonMatchPattern = S.suspend(() =>
+  S.Struct({
+    All: S.optional(All),
+    IncludedPaths: S.optional(JsonPointerPaths),
+  }),
+).annotations({
+  identifier: "JsonMatchPattern",
+}) as any as S.Schema<JsonMatchPattern>;
+export interface JsonBody {
+  MatchPattern: JsonMatchPattern;
+  MatchScope: string;
+  InvalidFallbackBehavior?: string;
+  OversizeHandling?: string;
+}
+export const JsonBody = S.suspend(() =>
+  S.Struct({
+    MatchPattern: JsonMatchPattern,
+    MatchScope: S.String,
+    InvalidFallbackBehavior: S.optional(S.String),
+    OversizeHandling: S.optional(S.String),
+  }),
+).annotations({ identifier: "JsonBody" }) as any as S.Schema<JsonBody>;
+export type HeaderNames = string[];
+export const HeaderNames = S.Array(S.String);
+export interface HeaderMatchPattern {
+  All?: All;
+  IncludedHeaders?: HeaderNames;
+  ExcludedHeaders?: HeaderNames;
+}
+export const HeaderMatchPattern = S.suspend(() =>
+  S.Struct({
+    All: S.optional(All),
+    IncludedHeaders: S.optional(HeaderNames),
+    ExcludedHeaders: S.optional(HeaderNames),
+  }),
+).annotations({
+  identifier: "HeaderMatchPattern",
+}) as any as S.Schema<HeaderMatchPattern>;
+export interface Headers {
+  MatchPattern: HeaderMatchPattern;
+  MatchScope: string;
+  OversizeHandling: string;
+}
+export const Headers = S.suspend(() =>
+  S.Struct({
+    MatchPattern: HeaderMatchPattern,
+    MatchScope: S.String,
+    OversizeHandling: S.String,
+  }),
+).annotations({ identifier: "Headers" }) as any as S.Schema<Headers>;
+export type CookieNames = string[];
+export const CookieNames = S.Array(S.String);
+export interface CookieMatchPattern {
+  All?: All;
+  IncludedCookies?: CookieNames;
+  ExcludedCookies?: CookieNames;
+}
+export const CookieMatchPattern = S.suspend(() =>
+  S.Struct({
+    All: S.optional(All),
+    IncludedCookies: S.optional(CookieNames),
+    ExcludedCookies: S.optional(CookieNames),
+  }),
+).annotations({
+  identifier: "CookieMatchPattern",
+}) as any as S.Schema<CookieMatchPattern>;
+export interface Cookies {
+  MatchPattern: CookieMatchPattern;
+  MatchScope: string;
+  OversizeHandling: string;
+}
+export const Cookies = S.suspend(() =>
+  S.Struct({
+    MatchPattern: CookieMatchPattern,
+    MatchScope: S.String,
+    OversizeHandling: S.String,
+  }),
+).annotations({ identifier: "Cookies" }) as any as S.Schema<Cookies>;
+export interface HeaderOrder {
+  OversizeHandling: string;
+}
+export const HeaderOrder = S.suspend(() =>
+  S.Struct({ OversizeHandling: S.String }),
+).annotations({ identifier: "HeaderOrder" }) as any as S.Schema<HeaderOrder>;
+export interface JA3Fingerprint {
+  FallbackBehavior: string;
+}
+export const JA3Fingerprint = S.suspend(() =>
+  S.Struct({ FallbackBehavior: S.String }),
+).annotations({
+  identifier: "JA3Fingerprint",
+}) as any as S.Schema<JA3Fingerprint>;
+export interface JA4Fingerprint {
+  FallbackBehavior: string;
+}
+export const JA4Fingerprint = S.suspend(() =>
+  S.Struct({ FallbackBehavior: S.String }),
+).annotations({
+  identifier: "JA4Fingerprint",
+}) as any as S.Schema<JA4Fingerprint>;
+export interface UriFragment {
+  FallbackBehavior?: string;
+}
+export const UriFragment = S.suspend(() =>
+  S.Struct({ FallbackBehavior: S.optional(S.String) }),
+).annotations({ identifier: "UriFragment" }) as any as S.Schema<UriFragment>;
+export interface FieldToMatch {
+  SingleHeader?: SingleHeader;
+  SingleQueryArgument?: SingleQueryArgument;
+  AllQueryArguments?: AllQueryArguments;
+  UriPath?: UriPath;
+  QueryString?: QueryString;
+  Body?: Body;
+  Method?: Method;
+  JsonBody?: JsonBody;
+  Headers?: Headers;
+  Cookies?: Cookies;
+  HeaderOrder?: HeaderOrder;
+  JA3Fingerprint?: JA3Fingerprint;
+  JA4Fingerprint?: JA4Fingerprint;
+  UriFragment?: UriFragment;
+}
+export const FieldToMatch = S.suspend(() =>
+  S.Struct({
+    SingleHeader: S.optional(SingleHeader),
+    SingleQueryArgument: S.optional(SingleQueryArgument),
+    AllQueryArguments: S.optional(AllQueryArguments),
+    UriPath: S.optional(UriPath),
+    QueryString: S.optional(QueryString),
+    Body: S.optional(Body),
+    Method: S.optional(Method),
+    JsonBody: S.optional(JsonBody),
+    Headers: S.optional(Headers),
+    Cookies: S.optional(Cookies),
+    HeaderOrder: S.optional(HeaderOrder),
+    JA3Fingerprint: S.optional(JA3Fingerprint),
+    JA4Fingerprint: S.optional(JA4Fingerprint),
+    UriFragment: S.optional(UriFragment),
+  }),
+).annotations({ identifier: "FieldToMatch" }) as any as S.Schema<FieldToMatch>;
+export interface TextTransformation {
+  Priority: number;
+  Type: string;
+}
+export const TextTransformation = S.suspend(() =>
+  S.Struct({ Priority: S.Number, Type: S.String }),
+).annotations({
+  identifier: "TextTransformation",
+}) as any as S.Schema<TextTransformation>;
+export type TextTransformations = TextTransformation[];
+export const TextTransformations = S.Array(TextTransformation);
+export interface ByteMatchStatement {
+  SearchString: Uint8Array;
+  FieldToMatch: FieldToMatch;
+  TextTransformations: TextTransformations;
+  PositionalConstraint: string;
+}
+export const ByteMatchStatement = S.suspend(() =>
+  S.Struct({
+    SearchString: T.Blob,
+    FieldToMatch: FieldToMatch,
+    TextTransformations: TextTransformations,
+    PositionalConstraint: S.String,
+  }),
+).annotations({
+  identifier: "ByteMatchStatement",
+}) as any as S.Schema<ByteMatchStatement>;
+export interface SqliMatchStatement {
+  FieldToMatch: FieldToMatch;
+  TextTransformations: TextTransformations;
+  SensitivityLevel?: string;
+}
+export const SqliMatchStatement = S.suspend(() =>
+  S.Struct({
+    FieldToMatch: FieldToMatch,
+    TextTransformations: TextTransformations,
+    SensitivityLevel: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SqliMatchStatement",
+}) as any as S.Schema<SqliMatchStatement>;
+export interface XssMatchStatement {
+  FieldToMatch: FieldToMatch;
+  TextTransformations: TextTransformations;
+}
+export const XssMatchStatement = S.suspend(() =>
+  S.Struct({
+    FieldToMatch: FieldToMatch,
+    TextTransformations: TextTransformations,
+  }),
+).annotations({
+  identifier: "XssMatchStatement",
+}) as any as S.Schema<XssMatchStatement>;
+export interface SizeConstraintStatement {
+  FieldToMatch: FieldToMatch;
+  ComparisonOperator: string;
+  Size: number;
+  TextTransformations: TextTransformations;
+}
+export const SizeConstraintStatement = S.suspend(() =>
+  S.Struct({
+    FieldToMatch: FieldToMatch,
+    ComparisonOperator: S.String,
+    Size: S.Number,
+    TextTransformations: TextTransformations,
+  }),
+).annotations({
+  identifier: "SizeConstraintStatement",
+}) as any as S.Schema<SizeConstraintStatement>;
+export type CountryCodes = string[];
+export const CountryCodes = S.Array(S.String);
+export interface ForwardedIPConfig {
+  HeaderName: string;
+  FallbackBehavior: string;
+}
+export const ForwardedIPConfig = S.suspend(() =>
+  S.Struct({ HeaderName: S.String, FallbackBehavior: S.String }),
+).annotations({
+  identifier: "ForwardedIPConfig",
+}) as any as S.Schema<ForwardedIPConfig>;
+export interface GeoMatchStatement {
+  CountryCodes?: CountryCodes;
+  ForwardedIPConfig?: ForwardedIPConfig;
+}
+export const GeoMatchStatement = S.suspend(() =>
+  S.Struct({
+    CountryCodes: S.optional(CountryCodes),
+    ForwardedIPConfig: S.optional(ForwardedIPConfig),
+  }),
+).annotations({
+  identifier: "GeoMatchStatement",
+}) as any as S.Schema<GeoMatchStatement>;
+export interface ExcludedRule {
+  Name: string;
+}
+export const ExcludedRule = S.suspend(() =>
+  S.Struct({ Name: S.String }),
+).annotations({ identifier: "ExcludedRule" }) as any as S.Schema<ExcludedRule>;
+export type ExcludedRules = ExcludedRule[];
+export const ExcludedRules = S.Array(ExcludedRule);
+export interface CustomHTTPHeader {
+  Name: string;
+  Value: string;
+}
+export const CustomHTTPHeader = S.suspend(() =>
+  S.Struct({ Name: S.String, Value: S.String }),
+).annotations({
+  identifier: "CustomHTTPHeader",
+}) as any as S.Schema<CustomHTTPHeader>;
+export type CustomHTTPHeaders = CustomHTTPHeader[];
+export const CustomHTTPHeaders = S.Array(CustomHTTPHeader);
+export interface CustomResponse {
+  ResponseCode: number;
+  CustomResponseBodyKey?: string;
+  ResponseHeaders?: CustomHTTPHeaders;
+}
+export const CustomResponse = S.suspend(() =>
+  S.Struct({
+    ResponseCode: S.Number,
+    CustomResponseBodyKey: S.optional(S.String),
+    ResponseHeaders: S.optional(CustomHTTPHeaders),
+  }),
+).annotations({
+  identifier: "CustomResponse",
+}) as any as S.Schema<CustomResponse>;
+export interface BlockAction {
+  CustomResponse?: CustomResponse;
+}
+export const BlockAction = S.suspend(() =>
+  S.Struct({ CustomResponse: S.optional(CustomResponse) }),
+).annotations({ identifier: "BlockAction" }) as any as S.Schema<BlockAction>;
+export interface CustomRequestHandling {
+  InsertHeaders: CustomHTTPHeaders;
+}
+export const CustomRequestHandling = S.suspend(() =>
+  S.Struct({ InsertHeaders: CustomHTTPHeaders }),
+).annotations({
+  identifier: "CustomRequestHandling",
+}) as any as S.Schema<CustomRequestHandling>;
+export interface AllowAction {
+  CustomRequestHandling?: CustomRequestHandling;
+}
+export const AllowAction = S.suspend(() =>
+  S.Struct({ CustomRequestHandling: S.optional(CustomRequestHandling) }),
+).annotations({ identifier: "AllowAction" }) as any as S.Schema<AllowAction>;
+export interface CountAction {
+  CustomRequestHandling?: CustomRequestHandling;
+}
+export const CountAction = S.suspend(() =>
+  S.Struct({ CustomRequestHandling: S.optional(CustomRequestHandling) }),
+).annotations({ identifier: "CountAction" }) as any as S.Schema<CountAction>;
+export interface CaptchaAction {
+  CustomRequestHandling?: CustomRequestHandling;
+}
+export const CaptchaAction = S.suspend(() =>
+  S.Struct({ CustomRequestHandling: S.optional(CustomRequestHandling) }),
+).annotations({
+  identifier: "CaptchaAction",
+}) as any as S.Schema<CaptchaAction>;
+export interface ChallengeAction {
+  CustomRequestHandling?: CustomRequestHandling;
+}
+export const ChallengeAction = S.suspend(() =>
+  S.Struct({ CustomRequestHandling: S.optional(CustomRequestHandling) }),
+).annotations({
+  identifier: "ChallengeAction",
+}) as any as S.Schema<ChallengeAction>;
+export interface RuleAction {
+  Block?: BlockAction;
+  Allow?: AllowAction;
+  Count?: CountAction;
+  Captcha?: CaptchaAction;
+  Challenge?: ChallengeAction;
+}
+export const RuleAction = S.suspend(() =>
+  S.Struct({
+    Block: S.optional(BlockAction),
+    Allow: S.optional(AllowAction),
+    Count: S.optional(CountAction),
+    Captcha: S.optional(CaptchaAction),
+    Challenge: S.optional(ChallengeAction),
+  }),
+).annotations({ identifier: "RuleAction" }) as any as S.Schema<RuleAction>;
+export interface RuleActionOverride {
+  Name: string;
+  ActionToUse: RuleAction;
+}
+export const RuleActionOverride = S.suspend(() =>
+  S.Struct({ Name: S.String, ActionToUse: RuleAction }),
+).annotations({
+  identifier: "RuleActionOverride",
+}) as any as S.Schema<RuleActionOverride>;
+export type RuleActionOverrides = RuleActionOverride[];
+export const RuleActionOverrides = S.Array(RuleActionOverride);
+export interface RuleGroupReferenceStatement {
+  ARN: string;
+  ExcludedRules?: ExcludedRules;
+  RuleActionOverrides?: RuleActionOverrides;
+}
+export const RuleGroupReferenceStatement = S.suspend(() =>
+  S.Struct({
+    ARN: S.String,
+    ExcludedRules: S.optional(ExcludedRules),
+    RuleActionOverrides: S.optional(RuleActionOverrides),
+  }),
+).annotations({
+  identifier: "RuleGroupReferenceStatement",
+}) as any as S.Schema<RuleGroupReferenceStatement>;
+export interface IPSetForwardedIPConfig {
+  HeaderName: string;
+  FallbackBehavior: string;
+  Position: string;
+}
+export const IPSetForwardedIPConfig = S.suspend(() =>
+  S.Struct({
+    HeaderName: S.String,
+    FallbackBehavior: S.String,
+    Position: S.String,
+  }),
+).annotations({
+  identifier: "IPSetForwardedIPConfig",
+}) as any as S.Schema<IPSetForwardedIPConfig>;
+export interface IPSetReferenceStatement {
+  ARN: string;
+  IPSetForwardedIPConfig?: IPSetForwardedIPConfig;
+}
+export const IPSetReferenceStatement = S.suspend(() =>
+  S.Struct({
+    ARN: S.String,
+    IPSetForwardedIPConfig: S.optional(IPSetForwardedIPConfig),
+  }),
+).annotations({
+  identifier: "IPSetReferenceStatement",
+}) as any as S.Schema<IPSetReferenceStatement>;
+export interface RegexPatternSetReferenceStatement {
+  ARN: string;
+  FieldToMatch: FieldToMatch;
+  TextTransformations: TextTransformations;
+}
+export const RegexPatternSetReferenceStatement = S.suspend(() =>
+  S.Struct({
+    ARN: S.String,
+    FieldToMatch: FieldToMatch,
+    TextTransformations: TextTransformations,
+  }),
+).annotations({
+  identifier: "RegexPatternSetReferenceStatement",
+}) as any as S.Schema<RegexPatternSetReferenceStatement>;
+export interface LabelMatchStatement {
+  Scope: string;
+  Key: string;
+}
+export const LabelMatchStatement = S.suspend(() =>
+  S.Struct({ Scope: S.String, Key: S.String }),
+).annotations({
+  identifier: "LabelMatchStatement",
+}) as any as S.Schema<LabelMatchStatement>;
+export interface RegexMatchStatement {
+  RegexString: string;
+  FieldToMatch: FieldToMatch;
+  TextTransformations: TextTransformations;
+}
+export const RegexMatchStatement = S.suspend(() =>
+  S.Struct({
+    RegexString: S.String,
+    FieldToMatch: FieldToMatch,
+    TextTransformations: TextTransformations,
+  }),
+).annotations({
+  identifier: "RegexMatchStatement",
+}) as any as S.Schema<RegexMatchStatement>;
+export type AsnList = number[];
+export const AsnList = S.Array(S.Number);
+export interface AsnMatchStatement {
+  AsnList: AsnList;
+  ForwardedIPConfig?: ForwardedIPConfig;
+}
+export const AsnMatchStatement = S.suspend(() =>
+  S.Struct({
+    AsnList: AsnList,
+    ForwardedIPConfig: S.optional(ForwardedIPConfig),
+  }),
+).annotations({
+  identifier: "AsnMatchStatement",
+}) as any as S.Schema<AsnMatchStatement>;
+export interface Statement {
+  ByteMatchStatement?: ByteMatchStatement;
+  SqliMatchStatement?: SqliMatchStatement;
+  XssMatchStatement?: XssMatchStatement;
+  SizeConstraintStatement?: SizeConstraintStatement;
+  GeoMatchStatement?: GeoMatchStatement;
+  RuleGroupReferenceStatement?: RuleGroupReferenceStatement;
+  IPSetReferenceStatement?: IPSetReferenceStatement;
+  RegexPatternSetReferenceStatement?: RegexPatternSetReferenceStatement;
+  RateBasedStatement?: RateBasedStatement;
+  AndStatement?: AndStatement;
+  OrStatement?: OrStatement;
+  NotStatement?: NotStatement;
+  ManagedRuleGroupStatement?: ManagedRuleGroupStatement;
+  LabelMatchStatement?: LabelMatchStatement;
+  RegexMatchStatement?: RegexMatchStatement;
+  AsnMatchStatement?: AsnMatchStatement;
+}
+export const Statement = S.suspend(() =>
+  S.Struct({
+    ByteMatchStatement: S.optional(ByteMatchStatement),
+    SqliMatchStatement: S.optional(SqliMatchStatement),
+    XssMatchStatement: S.optional(XssMatchStatement),
+    SizeConstraintStatement: S.optional(SizeConstraintStatement),
+    GeoMatchStatement: S.optional(GeoMatchStatement),
+    RuleGroupReferenceStatement: S.optional(RuleGroupReferenceStatement),
+    IPSetReferenceStatement: S.optional(IPSetReferenceStatement),
+    RegexPatternSetReferenceStatement: S.optional(
+      RegexPatternSetReferenceStatement,
+    ),
+    RateBasedStatement: S.optional(
+      S.suspend(
+        (): S.Schema<RateBasedStatement, any> => RateBasedStatement,
+      ).annotations({ identifier: "RateBasedStatement" }),
+    ),
+    AndStatement: S.optional(
+      S.suspend((): S.Schema<AndStatement, any> => AndStatement).annotations({
+        identifier: "AndStatement",
+      }),
+    ),
+    OrStatement: S.optional(
+      S.suspend((): S.Schema<OrStatement, any> => OrStatement).annotations({
+        identifier: "OrStatement",
+      }),
+    ),
+    NotStatement: S.optional(
+      S.suspend((): S.Schema<NotStatement, any> => NotStatement).annotations({
+        identifier: "NotStatement",
+      }),
+    ),
+    ManagedRuleGroupStatement: S.optional(
+      S.suspend(
+        (): S.Schema<ManagedRuleGroupStatement, any> =>
+          ManagedRuleGroupStatement,
+      ).annotations({ identifier: "ManagedRuleGroupStatement" }),
+    ),
+    LabelMatchStatement: S.optional(LabelMatchStatement),
+    RegexMatchStatement: S.optional(RegexMatchStatement),
+    AsnMatchStatement: S.optional(AsnMatchStatement),
+  }),
+).annotations({ identifier: "Statement" }) as any as S.Schema<Statement>;
+export interface NoneAction {}
+export const NoneAction = S.suspend(() => S.Struct({})).annotations({
+  identifier: "NoneAction",
+}) as any as S.Schema<NoneAction>;
+export interface OverrideAction {
+  Count?: CountAction;
+  None?: NoneAction;
+}
+export const OverrideAction = S.suspend(() =>
+  S.Struct({ Count: S.optional(CountAction), None: S.optional(NoneAction) }),
+).annotations({
+  identifier: "OverrideAction",
+}) as any as S.Schema<OverrideAction>;
+export interface Label {
+  Name: string;
+}
+export const Label = S.suspend(() => S.Struct({ Name: S.String })).annotations({
+  identifier: "Label",
+}) as any as S.Schema<Label>;
+export type Labels = Label[];
 export const Labels = S.Array(Label);
-export class VisibilityConfig extends S.Class<VisibilityConfig>(
-  "VisibilityConfig",
-)({
-  SampledRequestsEnabled: S.Boolean,
-  CloudWatchMetricsEnabled: S.Boolean,
-  MetricName: S.String,
-}) {}
-export class ImmunityTimeProperty extends S.Class<ImmunityTimeProperty>(
-  "ImmunityTimeProperty",
-)({ ImmunityTime: S.Number }) {}
-export class CaptchaConfig extends S.Class<CaptchaConfig>("CaptchaConfig")({
-  ImmunityTimeProperty: S.optional(ImmunityTimeProperty),
-}) {}
-export class ChallengeConfig extends S.Class<ChallengeConfig>(
-  "ChallengeConfig",
-)({ ImmunityTimeProperty: S.optional(ImmunityTimeProperty) }) {}
-export class Rule extends S.Class<Rule>("Rule")({
-  Name: S.String,
-  Priority: S.Number,
-  Statement: Statement,
-  Action: S.optional(RuleAction),
-  OverrideAction: S.optional(OverrideAction),
-  RuleLabels: S.optional(Labels),
-  VisibilityConfig: VisibilityConfig,
-  CaptchaConfig: S.optional(CaptchaConfig),
-  ChallengeConfig: S.optional(ChallengeConfig),
-}) {}
+export interface VisibilityConfig {
+  SampledRequestsEnabled: boolean;
+  CloudWatchMetricsEnabled: boolean;
+  MetricName: string;
+}
+export const VisibilityConfig = S.suspend(() =>
+  S.Struct({
+    SampledRequestsEnabled: S.Boolean,
+    CloudWatchMetricsEnabled: S.Boolean,
+    MetricName: S.String,
+  }),
+).annotations({
+  identifier: "VisibilityConfig",
+}) as any as S.Schema<VisibilityConfig>;
+export interface ImmunityTimeProperty {
+  ImmunityTime: number;
+}
+export const ImmunityTimeProperty = S.suspend(() =>
+  S.Struct({ ImmunityTime: S.Number }),
+).annotations({
+  identifier: "ImmunityTimeProperty",
+}) as any as S.Schema<ImmunityTimeProperty>;
+export interface CaptchaConfig {
+  ImmunityTimeProperty?: ImmunityTimeProperty;
+}
+export const CaptchaConfig = S.suspend(() =>
+  S.Struct({ ImmunityTimeProperty: S.optional(ImmunityTimeProperty) }),
+).annotations({
+  identifier: "CaptchaConfig",
+}) as any as S.Schema<CaptchaConfig>;
+export interface ChallengeConfig {
+  ImmunityTimeProperty?: ImmunityTimeProperty;
+}
+export const ChallengeConfig = S.suspend(() =>
+  S.Struct({ ImmunityTimeProperty: S.optional(ImmunityTimeProperty) }),
+).annotations({
+  identifier: "ChallengeConfig",
+}) as any as S.Schema<ChallengeConfig>;
+export interface Rule {
+  Name: string;
+  Priority: number;
+  Statement: Statement;
+  Action?: RuleAction;
+  OverrideAction?: OverrideAction;
+  RuleLabels?: Labels;
+  VisibilityConfig: VisibilityConfig;
+  CaptchaConfig?: CaptchaConfig;
+  ChallengeConfig?: ChallengeConfig;
+}
+export const Rule = S.suspend(() =>
+  S.Struct({
+    Name: S.String,
+    Priority: S.Number,
+    Statement: Statement,
+    Action: S.optional(RuleAction),
+    OverrideAction: S.optional(OverrideAction),
+    RuleLabels: S.optional(Labels),
+    VisibilityConfig: VisibilityConfig,
+    CaptchaConfig: S.optional(CaptchaConfig),
+    ChallengeConfig: S.optional(ChallengeConfig),
+  }),
+).annotations({ identifier: "Rule" }) as any as S.Schema<Rule>;
+export type Rules = Rule[];
 export const Rules = S.Array(Rule);
-export class CustomResponseBody extends S.Class<CustomResponseBody>(
-  "CustomResponseBody",
-)({ ContentType: S.String, Content: S.String }) {}
+export interface CustomResponseBody {
+  ContentType: string;
+  Content: string;
+}
+export const CustomResponseBody = S.suspend(() =>
+  S.Struct({ ContentType: S.String, Content: S.String }),
+).annotations({
+  identifier: "CustomResponseBody",
+}) as any as S.Schema<CustomResponseBody>;
+export type CustomResponseBodies = { [key: string]: CustomResponseBody };
 export const CustomResponseBodies = S.Record({
   key: S.String,
   value: CustomResponseBody,
 });
-export class UpdateRuleGroupRequest extends S.Class<UpdateRuleGroupRequest>(
-  "UpdateRuleGroupRequest",
-)(
-  {
+export interface UpdateRuleGroupRequest {
+  Name: string;
+  Scope: string;
+  Id: string;
+  Description?: string;
+  Rules?: Rules;
+  VisibilityConfig: VisibilityConfig;
+  LockToken: string;
+  CustomResponseBodies?: CustomResponseBodies;
+}
+export const UpdateRuleGroupRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     Scope: S.String,
     Id: S.String,
@@ -938,53 +1987,138 @@ export class UpdateRuleGroupRequest extends S.Class<UpdateRuleGroupRequest>(
     VisibilityConfig: VisibilityConfig,
     LockToken: S.String,
     CustomResponseBodies: S.optional(CustomResponseBodies),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DefaultAction extends S.Class<DefaultAction>("DefaultAction")({
-  Block: S.optional(BlockAction),
-  Allow: S.optional(AllowAction),
-}) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateRuleGroupRequest",
+}) as any as S.Schema<UpdateRuleGroupRequest>;
+export interface DefaultAction {
+  Block?: BlockAction;
+  Allow?: AllowAction;
+}
+export const DefaultAction = S.suspend(() =>
+  S.Struct({ Block: S.optional(BlockAction), Allow: S.optional(AllowAction) }),
+).annotations({
+  identifier: "DefaultAction",
+}) as any as S.Schema<DefaultAction>;
+export type FieldToProtectKeys = string[];
 export const FieldToProtectKeys = S.Array(S.String);
-export class FieldToProtect extends S.Class<FieldToProtect>("FieldToProtect")({
-  FieldType: S.String,
-  FieldKeys: S.optional(FieldToProtectKeys),
-}) {}
-export class DataProtection extends S.Class<DataProtection>("DataProtection")({
-  Field: FieldToProtect,
-  Action: S.String,
-  ExcludeRuleMatchDetails: S.optional(S.Boolean),
-  ExcludeRateBasedDetails: S.optional(S.Boolean),
-}) {}
+export interface FieldToProtect {
+  FieldType: string;
+  FieldKeys?: FieldToProtectKeys;
+}
+export const FieldToProtect = S.suspend(() =>
+  S.Struct({ FieldType: S.String, FieldKeys: S.optional(FieldToProtectKeys) }),
+).annotations({
+  identifier: "FieldToProtect",
+}) as any as S.Schema<FieldToProtect>;
+export interface DataProtection {
+  Field: FieldToProtect;
+  Action: string;
+  ExcludeRuleMatchDetails?: boolean;
+  ExcludeRateBasedDetails?: boolean;
+}
+export const DataProtection = S.suspend(() =>
+  S.Struct({
+    Field: FieldToProtect,
+    Action: S.String,
+    ExcludeRuleMatchDetails: S.optional(S.Boolean),
+    ExcludeRateBasedDetails: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "DataProtection",
+}) as any as S.Schema<DataProtection>;
+export type DataProtections = DataProtection[];
 export const DataProtections = S.Array(DataProtection);
-export class DataProtectionConfig extends S.Class<DataProtectionConfig>(
-  "DataProtectionConfig",
-)({ DataProtections: DataProtections }) {}
-export class RequestBodyAssociatedResourceTypeConfig extends S.Class<RequestBodyAssociatedResourceTypeConfig>(
-  "RequestBodyAssociatedResourceTypeConfig",
-)({ DefaultSizeInspectionLimit: S.String }) {}
+export interface DataProtectionConfig {
+  DataProtections: DataProtections;
+}
+export const DataProtectionConfig = S.suspend(() =>
+  S.Struct({ DataProtections: DataProtections }),
+).annotations({
+  identifier: "DataProtectionConfig",
+}) as any as S.Schema<DataProtectionConfig>;
+export interface RequestBodyAssociatedResourceTypeConfig {
+  DefaultSizeInspectionLimit: string;
+}
+export const RequestBodyAssociatedResourceTypeConfig = S.suspend(() =>
+  S.Struct({ DefaultSizeInspectionLimit: S.String }),
+).annotations({
+  identifier: "RequestBodyAssociatedResourceTypeConfig",
+}) as any as S.Schema<RequestBodyAssociatedResourceTypeConfig>;
+export type RequestBody = {
+  [key: string]: RequestBodyAssociatedResourceTypeConfig;
+};
 export const RequestBody = S.Record({
   key: S.String,
   value: RequestBodyAssociatedResourceTypeConfig,
 });
-export class AssociationConfig extends S.Class<AssociationConfig>(
-  "AssociationConfig",
-)({ RequestBody: S.optional(RequestBody) }) {}
-export class OnSourceDDoSProtectionConfig extends S.Class<OnSourceDDoSProtectionConfig>(
-  "OnSourceDDoSProtectionConfig",
-)({ ALBLowReputationMode: S.String }) {}
+export interface AssociationConfig {
+  RequestBody?: RequestBody;
+}
+export const AssociationConfig = S.suspend(() =>
+  S.Struct({ RequestBody: S.optional(RequestBody) }),
+).annotations({
+  identifier: "AssociationConfig",
+}) as any as S.Schema<AssociationConfig>;
+export interface OnSourceDDoSProtectionConfig {
+  ALBLowReputationMode: string;
+}
+export const OnSourceDDoSProtectionConfig = S.suspend(() =>
+  S.Struct({ ALBLowReputationMode: S.String }),
+).annotations({
+  identifier: "OnSourceDDoSProtectionConfig",
+}) as any as S.Schema<OnSourceDDoSProtectionConfig>;
+export type AttributeValues = string[];
 export const AttributeValues = S.Array(S.String);
-export class ApplicationAttribute extends S.Class<ApplicationAttribute>(
-  "ApplicationAttribute",
-)({ Name: S.optional(S.String), Values: S.optional(AttributeValues) }) {}
+export interface ApplicationAttribute {
+  Name?: string;
+  Values?: AttributeValues;
+}
+export const ApplicationAttribute = S.suspend(() =>
+  S.Struct({ Name: S.optional(S.String), Values: S.optional(AttributeValues) }),
+).annotations({
+  identifier: "ApplicationAttribute",
+}) as any as S.Schema<ApplicationAttribute>;
+export type ApplicationAttributes = ApplicationAttribute[];
 export const ApplicationAttributes = S.Array(ApplicationAttribute);
-export class ApplicationConfig extends S.Class<ApplicationConfig>(
-  "ApplicationConfig",
-)({ Attributes: S.optional(ApplicationAttributes) }) {}
-export class UpdateWebACLRequest extends S.Class<UpdateWebACLRequest>(
-  "UpdateWebACLRequest",
-)(
-  {
+export interface ApplicationConfig {
+  Attributes?: ApplicationAttributes;
+}
+export const ApplicationConfig = S.suspend(() =>
+  S.Struct({ Attributes: S.optional(ApplicationAttributes) }),
+).annotations({
+  identifier: "ApplicationConfig",
+}) as any as S.Schema<ApplicationConfig>;
+export interface UpdateWebACLRequest {
+  Name: string;
+  Scope: string;
+  Id: string;
+  DefaultAction: DefaultAction;
+  Description?: string;
+  Rules?: Rules;
+  VisibilityConfig: VisibilityConfig;
+  DataProtectionConfig?: DataProtectionConfig;
+  LockToken: string;
+  CustomResponseBodies?: CustomResponseBodies;
+  CaptchaConfig?: CaptchaConfig;
+  ChallengeConfig?: ChallengeConfig;
+  TokenDomains?: TokenDomains;
+  AssociationConfig?: AssociationConfig;
+  OnSourceDDoSProtectionConfig?: OnSourceDDoSProtectionConfig;
+  ApplicationConfig?: ApplicationConfig;
+}
+export const UpdateWebACLRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     Scope: S.String,
     Id: S.String,
@@ -1001,533 +2135,1132 @@ export class UpdateWebACLRequest extends S.Class<UpdateWebACLRequest>(
     AssociationConfig: S.optional(AssociationConfig),
     OnSourceDDoSProtectionConfig: S.optional(OnSourceDDoSProtectionConfig),
     ApplicationConfig: S.optional(ApplicationConfig),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateWebACLRequest",
+}) as any as S.Schema<UpdateWebACLRequest>;
+export type LogDestinationConfigs = string[];
 export const LogDestinationConfigs = S.Array(S.String);
-export class TimeWindow extends S.Class<TimeWindow>("TimeWindow")({
-  StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-}) {}
+export interface TimeWindow {
+  StartTime: Date;
+  EndTime: Date;
+}
+export const TimeWindow = S.suspend(() =>
+  S.Struct({
+    StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotations({ identifier: "TimeWindow" }) as any as S.Schema<TimeWindow>;
+export type RedactedFields = FieldToMatch[];
 export const RedactedFields = S.Array(FieldToMatch);
-export class ActionCondition extends S.Class<ActionCondition>(
-  "ActionCondition",
-)({ Action: S.String }) {}
-export class LabelNameCondition extends S.Class<LabelNameCondition>(
-  "LabelNameCondition",
-)({ LabelName: S.String }) {}
-export class Condition extends S.Class<Condition>("Condition")({
-  ActionCondition: S.optional(ActionCondition),
-  LabelNameCondition: S.optional(LabelNameCondition),
-}) {}
+export interface ActionCondition {
+  Action: string;
+}
+export const ActionCondition = S.suspend(() =>
+  S.Struct({ Action: S.String }),
+).annotations({
+  identifier: "ActionCondition",
+}) as any as S.Schema<ActionCondition>;
+export interface LabelNameCondition {
+  LabelName: string;
+}
+export const LabelNameCondition = S.suspend(() =>
+  S.Struct({ LabelName: S.String }),
+).annotations({
+  identifier: "LabelNameCondition",
+}) as any as S.Schema<LabelNameCondition>;
+export interface Condition {
+  ActionCondition?: ActionCondition;
+  LabelNameCondition?: LabelNameCondition;
+}
+export const Condition = S.suspend(() =>
+  S.Struct({
+    ActionCondition: S.optional(ActionCondition),
+    LabelNameCondition: S.optional(LabelNameCondition),
+  }),
+).annotations({ identifier: "Condition" }) as any as S.Schema<Condition>;
+export type Conditions = Condition[];
 export const Conditions = S.Array(Condition);
-export class Filter extends S.Class<Filter>("Filter")({
-  Behavior: S.String,
-  Requirement: S.String,
-  Conditions: Conditions,
-}) {}
+export interface Filter {
+  Behavior: string;
+  Requirement: string;
+  Conditions: Conditions;
+}
+export const Filter = S.suspend(() =>
+  S.Struct({
+    Behavior: S.String,
+    Requirement: S.String,
+    Conditions: Conditions,
+  }),
+).annotations({ identifier: "Filter" }) as any as S.Schema<Filter>;
+export type Filters = Filter[];
 export const Filters = S.Array(Filter);
-export class LoggingFilter extends S.Class<LoggingFilter>("LoggingFilter")({
-  Filters: Filters,
-  DefaultBehavior: S.String,
-}) {}
-export class LoggingConfiguration extends S.Class<LoggingConfiguration>(
-  "LoggingConfiguration",
-)({
-  ResourceArn: S.String,
-  LogDestinationConfigs: LogDestinationConfigs,
-  RedactedFields: S.optional(RedactedFields),
-  ManagedByFirewallManager: S.optional(S.Boolean),
-  LoggingFilter: S.optional(LoggingFilter),
-  LogType: S.optional(S.String),
-  LogScope: S.optional(S.String),
-}) {}
+export interface LoggingFilter {
+  Filters: Filters;
+  DefaultBehavior: string;
+}
+export const LoggingFilter = S.suspend(() =>
+  S.Struct({ Filters: Filters, DefaultBehavior: S.String }),
+).annotations({
+  identifier: "LoggingFilter",
+}) as any as S.Schema<LoggingFilter>;
+export interface LoggingConfiguration {
+  ResourceArn: string;
+  LogDestinationConfigs: LogDestinationConfigs;
+  RedactedFields?: RedactedFields;
+  ManagedByFirewallManager?: boolean;
+  LoggingFilter?: LoggingFilter;
+  LogType?: string;
+  LogScope?: string;
+}
+export const LoggingConfiguration = S.suspend(() =>
+  S.Struct({
+    ResourceArn: S.String,
+    LogDestinationConfigs: LogDestinationConfigs,
+    RedactedFields: S.optional(RedactedFields),
+    ManagedByFirewallManager: S.optional(S.Boolean),
+    LoggingFilter: S.optional(LoggingFilter),
+    LogType: S.optional(S.String),
+    LogScope: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "LoggingConfiguration",
+}) as any as S.Schema<LoggingConfiguration>;
+export type LoggingConfigurations = LoggingConfiguration[];
 export const LoggingConfigurations = S.Array(LoggingConfiguration);
+export type ResourceArns = string[];
 export const ResourceArns = S.Array(S.String);
-export class CreateAPIKeyResponse extends S.Class<CreateAPIKeyResponse>(
-  "CreateAPIKeyResponse",
-)({ APIKey: S.optional(S.String) }, ns) {}
-export class CreateIPSetRequest extends S.Class<CreateIPSetRequest>(
-  "CreateIPSetRequest",
-)(
-  {
+export interface CreateAPIKeyResponse {
+  APIKey?: string;
+}
+export const CreateAPIKeyResponse = S.suspend(() =>
+  S.Struct({ APIKey: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "CreateAPIKeyResponse",
+}) as any as S.Schema<CreateAPIKeyResponse>;
+export interface CreateIPSetRequest {
+  Name: string;
+  Scope: string;
+  Description?: string;
+  IPAddressVersion: string;
+  Addresses: IPAddresses;
+  Tags?: TagList;
+}
+export const CreateIPSetRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     Scope: S.String,
     Description: S.optional(S.String),
     IPAddressVersion: S.String,
     Addresses: IPAddresses,
     Tags: S.optional(TagList),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateRegexPatternSetRequest extends S.Class<CreateRegexPatternSetRequest>(
-  "CreateRegexPatternSetRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateIPSetRequest",
+}) as any as S.Schema<CreateIPSetRequest>;
+export interface CreateRegexPatternSetRequest {
+  Name: string;
+  Scope: string;
+  Description?: string;
+  RegularExpressionList: RegularExpressionList;
+  Tags?: TagList;
+}
+export const CreateRegexPatternSetRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     Scope: S.String,
     Description: S.optional(S.String),
     RegularExpressionList: RegularExpressionList,
     Tags: S.optional(TagList),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteFirewallManagerRuleGroupsResponse extends S.Class<DeleteFirewallManagerRuleGroupsResponse>(
-  "DeleteFirewallManagerRuleGroupsResponse",
-)({ NextWebACLLockToken: S.optional(S.String) }, ns) {}
-export class ManagedProductDescriptor extends S.Class<ManagedProductDescriptor>(
-  "ManagedProductDescriptor",
-)({
-  VendorName: S.optional(S.String),
-  ManagedRuleSetName: S.optional(S.String),
-  ProductId: S.optional(S.String),
-  ProductLink: S.optional(S.String),
-  ProductTitle: S.optional(S.String),
-  ProductDescription: S.optional(S.String),
-  SnsTopicArn: S.optional(S.String),
-  IsVersioningSupported: S.optional(S.Boolean),
-  IsAdvancedManagedRuleSet: S.optional(S.Boolean),
-}) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateRegexPatternSetRequest",
+}) as any as S.Schema<CreateRegexPatternSetRequest>;
+export interface DeleteFirewallManagerRuleGroupsResponse {
+  NextWebACLLockToken?: string;
+}
+export const DeleteFirewallManagerRuleGroupsResponse = S.suspend(() =>
+  S.Struct({ NextWebACLLockToken: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "DeleteFirewallManagerRuleGroupsResponse",
+}) as any as S.Schema<DeleteFirewallManagerRuleGroupsResponse>;
+export interface ManagedProductDescriptor {
+  VendorName?: string;
+  ManagedRuleSetName?: string;
+  ProductId?: string;
+  ProductLink?: string;
+  ProductTitle?: string;
+  ProductDescription?: string;
+  SnsTopicArn?: string;
+  IsVersioningSupported?: boolean;
+  IsAdvancedManagedRuleSet?: boolean;
+}
+export const ManagedProductDescriptor = S.suspend(() =>
+  S.Struct({
+    VendorName: S.optional(S.String),
+    ManagedRuleSetName: S.optional(S.String),
+    ProductId: S.optional(S.String),
+    ProductLink: S.optional(S.String),
+    ProductTitle: S.optional(S.String),
+    ProductDescription: S.optional(S.String),
+    SnsTopicArn: S.optional(S.String),
+    IsVersioningSupported: S.optional(S.Boolean),
+    IsAdvancedManagedRuleSet: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "ManagedProductDescriptor",
+}) as any as S.Schema<ManagedProductDescriptor>;
+export type ManagedProductDescriptors = ManagedProductDescriptor[];
 export const ManagedProductDescriptors = S.Array(ManagedProductDescriptor);
-export class DescribeManagedProductsByVendorResponse extends S.Class<DescribeManagedProductsByVendorResponse>(
-  "DescribeManagedProductsByVendorResponse",
-)({ ManagedProducts: S.optional(ManagedProductDescriptors) }, ns) {}
-export class GenerateMobileSdkReleaseUrlResponse extends S.Class<GenerateMobileSdkReleaseUrlResponse>(
-  "GenerateMobileSdkReleaseUrlResponse",
-)({ Url: S.optional(S.String) }, ns) {}
-export class GetDecryptedAPIKeyResponse extends S.Class<GetDecryptedAPIKeyResponse>(
-  "GetDecryptedAPIKeyResponse",
-)(
-  {
+export interface DescribeManagedProductsByVendorResponse {
+  ManagedProducts?: ManagedProductDescriptors;
+}
+export const DescribeManagedProductsByVendorResponse = S.suspend(() =>
+  S.Struct({ ManagedProducts: S.optional(ManagedProductDescriptors) }).pipe(ns),
+).annotations({
+  identifier: "DescribeManagedProductsByVendorResponse",
+}) as any as S.Schema<DescribeManagedProductsByVendorResponse>;
+export interface GenerateMobileSdkReleaseUrlResponse {
+  Url?: string;
+}
+export const GenerateMobileSdkReleaseUrlResponse = S.suspend(() =>
+  S.Struct({ Url: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "GenerateMobileSdkReleaseUrlResponse",
+}) as any as S.Schema<GenerateMobileSdkReleaseUrlResponse>;
+export interface GetDecryptedAPIKeyResponse {
+  TokenDomains?: TokenDomains;
+  CreationTimestamp?: Date;
+}
+export const GetDecryptedAPIKeyResponse = S.suspend(() =>
+  S.Struct({
     TokenDomains: S.optional(TokenDomains),
     CreationTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-  },
-  ns,
-) {}
-export class GetLoggingConfigurationResponse extends S.Class<GetLoggingConfigurationResponse>(
-  "GetLoggingConfigurationResponse",
-)({ LoggingConfiguration: S.optional(LoggingConfiguration) }, ns) {}
-export class GetPermissionPolicyResponse extends S.Class<GetPermissionPolicyResponse>(
-  "GetPermissionPolicyResponse",
-)({ Policy: S.optional(S.String) }, ns) {}
-export class GetSampledRequestsRequest extends S.Class<GetSampledRequestsRequest>(
-  "GetSampledRequestsRequest",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetDecryptedAPIKeyResponse",
+}) as any as S.Schema<GetDecryptedAPIKeyResponse>;
+export interface GetLoggingConfigurationResponse {
+  LoggingConfiguration?: LoggingConfiguration;
+}
+export const GetLoggingConfigurationResponse = S.suspend(() =>
+  S.Struct({ LoggingConfiguration: S.optional(LoggingConfiguration) }).pipe(ns),
+).annotations({
+  identifier: "GetLoggingConfigurationResponse",
+}) as any as S.Schema<GetLoggingConfigurationResponse>;
+export interface GetPermissionPolicyResponse {
+  Policy?: string;
+}
+export const GetPermissionPolicyResponse = S.suspend(() =>
+  S.Struct({ Policy: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "GetPermissionPolicyResponse",
+}) as any as S.Schema<GetPermissionPolicyResponse>;
+export interface GetSampledRequestsRequest {
+  WebAclArn: string;
+  RuleMetricName: string;
+  Scope: string;
+  TimeWindow: TimeWindow;
+  MaxItems: number;
+}
+export const GetSampledRequestsRequest = S.suspend(() =>
+  S.Struct({
     WebAclArn: S.String,
     RuleMetricName: S.String,
     Scope: S.String,
     TimeWindow: TimeWindow,
     MaxItems: S.Number,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UsernameField extends S.Class<UsernameField>("UsernameField")({
-  Identifier: S.String,
-}) {}
-export class PasswordField extends S.Class<PasswordField>("PasswordField")({
-  Identifier: S.String,
-}) {}
-export class AWSManagedRulesBotControlRuleSet extends S.Class<AWSManagedRulesBotControlRuleSet>(
-  "AWSManagedRulesBotControlRuleSet",
-)({
-  InspectionLevel: S.String,
-  EnableMachineLearning: S.optional(S.Boolean),
-}) {}
-export class RequestInspection extends S.Class<RequestInspection>(
-  "RequestInspection",
-)({
-  PayloadType: S.String,
-  UsernameField: UsernameField,
-  PasswordField: PasswordField,
-}) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetSampledRequestsRequest",
+}) as any as S.Schema<GetSampledRequestsRequest>;
+export interface UsernameField {
+  Identifier: string;
+}
+export const UsernameField = S.suspend(() =>
+  S.Struct({ Identifier: S.String }),
+).annotations({
+  identifier: "UsernameField",
+}) as any as S.Schema<UsernameField>;
+export interface PasswordField {
+  Identifier: string;
+}
+export const PasswordField = S.suspend(() =>
+  S.Struct({ Identifier: S.String }),
+).annotations({
+  identifier: "PasswordField",
+}) as any as S.Schema<PasswordField>;
+export interface AWSManagedRulesBotControlRuleSet {
+  InspectionLevel: string;
+  EnableMachineLearning?: boolean;
+}
+export const AWSManagedRulesBotControlRuleSet = S.suspend(() =>
+  S.Struct({
+    InspectionLevel: S.String,
+    EnableMachineLearning: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "AWSManagedRulesBotControlRuleSet",
+}) as any as S.Schema<AWSManagedRulesBotControlRuleSet>;
+export interface RequestInspection {
+  PayloadType: string;
+  UsernameField: UsernameField;
+  PasswordField: PasswordField;
+}
+export const RequestInspection = S.suspend(() =>
+  S.Struct({
+    PayloadType: S.String,
+    UsernameField: UsernameField,
+    PasswordField: PasswordField,
+  }),
+).annotations({
+  identifier: "RequestInspection",
+}) as any as S.Schema<RequestInspection>;
+export type ResponseInspectionStatusCodeSuccessCodes = number[];
 export const ResponseInspectionStatusCodeSuccessCodes = S.Array(S.Number);
+export type ResponseInspectionStatusCodeFailureCodes = number[];
 export const ResponseInspectionStatusCodeFailureCodes = S.Array(S.Number);
-export class ResponseInspectionStatusCode extends S.Class<ResponseInspectionStatusCode>(
-  "ResponseInspectionStatusCode",
-)({
-  SuccessCodes: ResponseInspectionStatusCodeSuccessCodes,
-  FailureCodes: ResponseInspectionStatusCodeFailureCodes,
-}) {}
+export interface ResponseInspectionStatusCode {
+  SuccessCodes: ResponseInspectionStatusCodeSuccessCodes;
+  FailureCodes: ResponseInspectionStatusCodeFailureCodes;
+}
+export const ResponseInspectionStatusCode = S.suspend(() =>
+  S.Struct({
+    SuccessCodes: ResponseInspectionStatusCodeSuccessCodes,
+    FailureCodes: ResponseInspectionStatusCodeFailureCodes,
+  }),
+).annotations({
+  identifier: "ResponseInspectionStatusCode",
+}) as any as S.Schema<ResponseInspectionStatusCode>;
+export type ResponseInspectionHeaderSuccessValues = string[];
 export const ResponseInspectionHeaderSuccessValues = S.Array(S.String);
+export type ResponseInspectionHeaderFailureValues = string[];
 export const ResponseInspectionHeaderFailureValues = S.Array(S.String);
-export class ResponseInspectionHeader extends S.Class<ResponseInspectionHeader>(
-  "ResponseInspectionHeader",
-)({
-  Name: S.String,
-  SuccessValues: ResponseInspectionHeaderSuccessValues,
-  FailureValues: ResponseInspectionHeaderFailureValues,
-}) {}
+export interface ResponseInspectionHeader {
+  Name: string;
+  SuccessValues: ResponseInspectionHeaderSuccessValues;
+  FailureValues: ResponseInspectionHeaderFailureValues;
+}
+export const ResponseInspectionHeader = S.suspend(() =>
+  S.Struct({
+    Name: S.String,
+    SuccessValues: ResponseInspectionHeaderSuccessValues,
+    FailureValues: ResponseInspectionHeaderFailureValues,
+  }),
+).annotations({
+  identifier: "ResponseInspectionHeader",
+}) as any as S.Schema<ResponseInspectionHeader>;
+export type ResponseInspectionBodyContainsSuccessStrings = string[];
 export const ResponseInspectionBodyContainsSuccessStrings = S.Array(S.String);
+export type ResponseInspectionBodyContainsFailureStrings = string[];
 export const ResponseInspectionBodyContainsFailureStrings = S.Array(S.String);
-export class ResponseInspectionBodyContains extends S.Class<ResponseInspectionBodyContains>(
-  "ResponseInspectionBodyContains",
-)({
-  SuccessStrings: ResponseInspectionBodyContainsSuccessStrings,
-  FailureStrings: ResponseInspectionBodyContainsFailureStrings,
-}) {}
+export interface ResponseInspectionBodyContains {
+  SuccessStrings: ResponseInspectionBodyContainsSuccessStrings;
+  FailureStrings: ResponseInspectionBodyContainsFailureStrings;
+}
+export const ResponseInspectionBodyContains = S.suspend(() =>
+  S.Struct({
+    SuccessStrings: ResponseInspectionBodyContainsSuccessStrings,
+    FailureStrings: ResponseInspectionBodyContainsFailureStrings,
+  }),
+).annotations({
+  identifier: "ResponseInspectionBodyContains",
+}) as any as S.Schema<ResponseInspectionBodyContains>;
+export type ResponseInspectionJsonSuccessValues = string[];
 export const ResponseInspectionJsonSuccessValues = S.Array(S.String);
+export type ResponseInspectionJsonFailureValues = string[];
 export const ResponseInspectionJsonFailureValues = S.Array(S.String);
-export class ResponseInspectionJson extends S.Class<ResponseInspectionJson>(
-  "ResponseInspectionJson",
-)({
-  Identifier: S.String,
-  SuccessValues: ResponseInspectionJsonSuccessValues,
-  FailureValues: ResponseInspectionJsonFailureValues,
-}) {}
-export class ResponseInspection extends S.Class<ResponseInspection>(
-  "ResponseInspection",
-)({
-  StatusCode: S.optional(ResponseInspectionStatusCode),
-  Header: S.optional(ResponseInspectionHeader),
-  BodyContains: S.optional(ResponseInspectionBodyContains),
-  Json: S.optional(ResponseInspectionJson),
-}) {}
-export class AWSManagedRulesATPRuleSet extends S.Class<AWSManagedRulesATPRuleSet>(
-  "AWSManagedRulesATPRuleSet",
-)({
-  LoginPath: S.String,
-  RequestInspection: S.optional(RequestInspection),
-  ResponseInspection: S.optional(ResponseInspection),
-  EnableRegexInPath: S.optional(S.Boolean),
-}) {}
-export class EmailField extends S.Class<EmailField>("EmailField")({
-  Identifier: S.String,
-}) {}
-export class PhoneNumberField extends S.Class<PhoneNumberField>(
-  "PhoneNumberField",
-)({ Identifier: S.String }) {}
+export interface ResponseInspectionJson {
+  Identifier: string;
+  SuccessValues: ResponseInspectionJsonSuccessValues;
+  FailureValues: ResponseInspectionJsonFailureValues;
+}
+export const ResponseInspectionJson = S.suspend(() =>
+  S.Struct({
+    Identifier: S.String,
+    SuccessValues: ResponseInspectionJsonSuccessValues,
+    FailureValues: ResponseInspectionJsonFailureValues,
+  }),
+).annotations({
+  identifier: "ResponseInspectionJson",
+}) as any as S.Schema<ResponseInspectionJson>;
+export interface ResponseInspection {
+  StatusCode?: ResponseInspectionStatusCode;
+  Header?: ResponseInspectionHeader;
+  BodyContains?: ResponseInspectionBodyContains;
+  Json?: ResponseInspectionJson;
+}
+export const ResponseInspection = S.suspend(() =>
+  S.Struct({
+    StatusCode: S.optional(ResponseInspectionStatusCode),
+    Header: S.optional(ResponseInspectionHeader),
+    BodyContains: S.optional(ResponseInspectionBodyContains),
+    Json: S.optional(ResponseInspectionJson),
+  }),
+).annotations({
+  identifier: "ResponseInspection",
+}) as any as S.Schema<ResponseInspection>;
+export interface AWSManagedRulesATPRuleSet {
+  LoginPath: string;
+  RequestInspection?: RequestInspection;
+  ResponseInspection?: ResponseInspection;
+  EnableRegexInPath?: boolean;
+}
+export const AWSManagedRulesATPRuleSet = S.suspend(() =>
+  S.Struct({
+    LoginPath: S.String,
+    RequestInspection: S.optional(RequestInspection),
+    ResponseInspection: S.optional(ResponseInspection),
+    EnableRegexInPath: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "AWSManagedRulesATPRuleSet",
+}) as any as S.Schema<AWSManagedRulesATPRuleSet>;
+export interface EmailField {
+  Identifier: string;
+}
+export const EmailField = S.suspend(() =>
+  S.Struct({ Identifier: S.String }),
+).annotations({ identifier: "EmailField" }) as any as S.Schema<EmailField>;
+export interface PhoneNumberField {
+  Identifier: string;
+}
+export const PhoneNumberField = S.suspend(() =>
+  S.Struct({ Identifier: S.String }),
+).annotations({
+  identifier: "PhoneNumberField",
+}) as any as S.Schema<PhoneNumberField>;
+export type PhoneNumberFields = PhoneNumberField[];
 export const PhoneNumberFields = S.Array(PhoneNumberField);
-export class AddressField extends S.Class<AddressField>("AddressField")({
-  Identifier: S.String,
-}) {}
+export interface AddressField {
+  Identifier: string;
+}
+export const AddressField = S.suspend(() =>
+  S.Struct({ Identifier: S.String }),
+).annotations({ identifier: "AddressField" }) as any as S.Schema<AddressField>;
+export type AddressFields = AddressField[];
 export const AddressFields = S.Array(AddressField);
-export class RequestInspectionACFP extends S.Class<RequestInspectionACFP>(
-  "RequestInspectionACFP",
-)({
-  PayloadType: S.String,
-  UsernameField: S.optional(UsernameField),
-  PasswordField: S.optional(PasswordField),
-  EmailField: S.optional(EmailField),
-  PhoneNumberFields: S.optional(PhoneNumberFields),
-  AddressFields: S.optional(AddressFields),
-}) {}
-export class AWSManagedRulesACFPRuleSet extends S.Class<AWSManagedRulesACFPRuleSet>(
-  "AWSManagedRulesACFPRuleSet",
-)({
-  CreationPath: S.String,
-  RegistrationPagePath: S.String,
-  RequestInspection: RequestInspectionACFP,
-  ResponseInspection: S.optional(ResponseInspection),
-  EnableRegexInPath: S.optional(S.Boolean),
-}) {}
-export class ClientSideAction extends S.Class<ClientSideAction>(
-  "ClientSideAction",
-)({
-  UsageOfAction: S.String,
-  Sensitivity: S.optional(S.String),
-  ExemptUriRegularExpressions: S.optional(RegularExpressionList),
-}) {}
-export class ClientSideActionConfig extends S.Class<ClientSideActionConfig>(
-  "ClientSideActionConfig",
-)({ Challenge: ClientSideAction }) {}
-export class AWSManagedRulesAntiDDoSRuleSet extends S.Class<AWSManagedRulesAntiDDoSRuleSet>(
-  "AWSManagedRulesAntiDDoSRuleSet",
-)({
-  ClientSideActionConfig: ClientSideActionConfig,
-  SensitivityToBlock: S.optional(S.String),
-}) {}
-export class ManagedRuleGroupConfig extends S.Class<ManagedRuleGroupConfig>(
-  "ManagedRuleGroupConfig",
-)({
-  LoginPath: S.optional(S.String),
-  PayloadType: S.optional(S.String),
-  UsernameField: S.optional(UsernameField),
-  PasswordField: S.optional(PasswordField),
-  AWSManagedRulesBotControlRuleSet: S.optional(
-    AWSManagedRulesBotControlRuleSet,
-  ),
-  AWSManagedRulesATPRuleSet: S.optional(AWSManagedRulesATPRuleSet),
-  AWSManagedRulesACFPRuleSet: S.optional(AWSManagedRulesACFPRuleSet),
-  AWSManagedRulesAntiDDoSRuleSet: S.optional(AWSManagedRulesAntiDDoSRuleSet),
-}) {}
+export interface RequestInspectionACFP {
+  PayloadType: string;
+  UsernameField?: UsernameField;
+  PasswordField?: PasswordField;
+  EmailField?: EmailField;
+  PhoneNumberFields?: PhoneNumberFields;
+  AddressFields?: AddressFields;
+}
+export const RequestInspectionACFP = S.suspend(() =>
+  S.Struct({
+    PayloadType: S.String,
+    UsernameField: S.optional(UsernameField),
+    PasswordField: S.optional(PasswordField),
+    EmailField: S.optional(EmailField),
+    PhoneNumberFields: S.optional(PhoneNumberFields),
+    AddressFields: S.optional(AddressFields),
+  }),
+).annotations({
+  identifier: "RequestInspectionACFP",
+}) as any as S.Schema<RequestInspectionACFP>;
+export interface AWSManagedRulesACFPRuleSet {
+  CreationPath: string;
+  RegistrationPagePath: string;
+  RequestInspection: RequestInspectionACFP;
+  ResponseInspection?: ResponseInspection;
+  EnableRegexInPath?: boolean;
+}
+export const AWSManagedRulesACFPRuleSet = S.suspend(() =>
+  S.Struct({
+    CreationPath: S.String,
+    RegistrationPagePath: S.String,
+    RequestInspection: RequestInspectionACFP,
+    ResponseInspection: S.optional(ResponseInspection),
+    EnableRegexInPath: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "AWSManagedRulesACFPRuleSet",
+}) as any as S.Schema<AWSManagedRulesACFPRuleSet>;
+export interface ClientSideAction {
+  UsageOfAction: string;
+  Sensitivity?: string;
+  ExemptUriRegularExpressions?: RegularExpressionList;
+}
+export const ClientSideAction = S.suspend(() =>
+  S.Struct({
+    UsageOfAction: S.String,
+    Sensitivity: S.optional(S.String),
+    ExemptUriRegularExpressions: S.optional(RegularExpressionList),
+  }),
+).annotations({
+  identifier: "ClientSideAction",
+}) as any as S.Schema<ClientSideAction>;
+export interface ClientSideActionConfig {
+  Challenge: ClientSideAction;
+}
+export const ClientSideActionConfig = S.suspend(() =>
+  S.Struct({ Challenge: ClientSideAction }),
+).annotations({
+  identifier: "ClientSideActionConfig",
+}) as any as S.Schema<ClientSideActionConfig>;
+export interface AWSManagedRulesAntiDDoSRuleSet {
+  ClientSideActionConfig: ClientSideActionConfig;
+  SensitivityToBlock?: string;
+}
+export const AWSManagedRulesAntiDDoSRuleSet = S.suspend(() =>
+  S.Struct({
+    ClientSideActionConfig: ClientSideActionConfig,
+    SensitivityToBlock: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AWSManagedRulesAntiDDoSRuleSet",
+}) as any as S.Schema<AWSManagedRulesAntiDDoSRuleSet>;
+export interface ManagedRuleGroupConfig {
+  LoginPath?: string;
+  PayloadType?: string;
+  UsernameField?: UsernameField;
+  PasswordField?: PasswordField;
+  AWSManagedRulesBotControlRuleSet?: AWSManagedRulesBotControlRuleSet;
+  AWSManagedRulesATPRuleSet?: AWSManagedRulesATPRuleSet;
+  AWSManagedRulesACFPRuleSet?: AWSManagedRulesACFPRuleSet;
+  AWSManagedRulesAntiDDoSRuleSet?: AWSManagedRulesAntiDDoSRuleSet;
+}
+export const ManagedRuleGroupConfig = S.suspend(() =>
+  S.Struct({
+    LoginPath: S.optional(S.String),
+    PayloadType: S.optional(S.String),
+    UsernameField: S.optional(UsernameField),
+    PasswordField: S.optional(PasswordField),
+    AWSManagedRulesBotControlRuleSet: S.optional(
+      AWSManagedRulesBotControlRuleSet,
+    ),
+    AWSManagedRulesATPRuleSet: S.optional(AWSManagedRulesATPRuleSet),
+    AWSManagedRulesACFPRuleSet: S.optional(AWSManagedRulesACFPRuleSet),
+    AWSManagedRulesAntiDDoSRuleSet: S.optional(AWSManagedRulesAntiDDoSRuleSet),
+  }),
+).annotations({
+  identifier: "ManagedRuleGroupConfig",
+}) as any as S.Schema<ManagedRuleGroupConfig>;
+export type ManagedRuleGroupConfigs = ManagedRuleGroupConfig[];
 export const ManagedRuleGroupConfigs = S.Array(ManagedRuleGroupConfig);
-export class ManagedRuleGroupStatement extends S.Class<ManagedRuleGroupStatement>(
-  "ManagedRuleGroupStatement",
-)({
-  VendorName: S.String,
-  Name: S.String,
-  Version: S.optional(S.String),
-  ExcludedRules: S.optional(ExcludedRules),
-  ScopeDownStatement: S.optional(
-    S.suspend((): S.Schema<Statement, any> => Statement),
-  ),
-  ManagedRuleGroupConfigs: S.optional(ManagedRuleGroupConfigs),
-  RuleActionOverrides: S.optional(RuleActionOverrides),
-}) {}
-export class FirewallManagerStatement extends S.Class<FirewallManagerStatement>(
-  "FirewallManagerStatement",
-)({
-  ManagedRuleGroupStatement: S.optional(ManagedRuleGroupStatement),
-  RuleGroupReferenceStatement: S.optional(RuleGroupReferenceStatement),
-}) {}
-export class FirewallManagerRuleGroup extends S.Class<FirewallManagerRuleGroup>(
-  "FirewallManagerRuleGroup",
-)({
-  Name: S.String,
-  Priority: S.Number,
-  FirewallManagerStatement: FirewallManagerStatement,
-  OverrideAction: OverrideAction,
-  VisibilityConfig: VisibilityConfig,
-}) {}
+export interface ManagedRuleGroupStatement {
+  VendorName: string;
+  Name: string;
+  Version?: string;
+  ExcludedRules?: ExcludedRules;
+  ScopeDownStatement?: Statement;
+  ManagedRuleGroupConfigs?: ManagedRuleGroupConfigs;
+  RuleActionOverrides?: RuleActionOverrides;
+}
+export const ManagedRuleGroupStatement = S.suspend(() =>
+  S.Struct({
+    VendorName: S.String,
+    Name: S.String,
+    Version: S.optional(S.String),
+    ExcludedRules: S.optional(ExcludedRules),
+    ScopeDownStatement: S.optional(
+      S.suspend((): S.Schema<Statement, any> => Statement).annotations({
+        identifier: "Statement",
+      }),
+    ),
+    ManagedRuleGroupConfigs: S.optional(ManagedRuleGroupConfigs),
+    RuleActionOverrides: S.optional(RuleActionOverrides),
+  }),
+).annotations({
+  identifier: "ManagedRuleGroupStatement",
+}) as any as S.Schema<ManagedRuleGroupStatement>;
+export interface FirewallManagerStatement {
+  ManagedRuleGroupStatement?: ManagedRuleGroupStatement;
+  RuleGroupReferenceStatement?: RuleGroupReferenceStatement;
+}
+export const FirewallManagerStatement = S.suspend(() =>
+  S.Struct({
+    ManagedRuleGroupStatement: S.optional(ManagedRuleGroupStatement),
+    RuleGroupReferenceStatement: S.optional(RuleGroupReferenceStatement),
+  }),
+).annotations({
+  identifier: "FirewallManagerStatement",
+}) as any as S.Schema<FirewallManagerStatement>;
+export interface FirewallManagerRuleGroup {
+  Name: string;
+  Priority: number;
+  FirewallManagerStatement: FirewallManagerStatement;
+  OverrideAction: OverrideAction;
+  VisibilityConfig: VisibilityConfig;
+}
+export const FirewallManagerRuleGroup = S.suspend(() =>
+  S.Struct({
+    Name: S.String,
+    Priority: S.Number,
+    FirewallManagerStatement: FirewallManagerStatement,
+    OverrideAction: OverrideAction,
+    VisibilityConfig: VisibilityConfig,
+  }),
+).annotations({
+  identifier: "FirewallManagerRuleGroup",
+}) as any as S.Schema<FirewallManagerRuleGroup>;
+export type FirewallManagerRuleGroups = FirewallManagerRuleGroup[];
 export const FirewallManagerRuleGroups = S.Array(FirewallManagerRuleGroup);
-export class WebACL extends S.Class<WebACL>("WebACL")({
-  Name: S.String,
-  Id: S.String,
-  ARN: S.String,
-  DefaultAction: DefaultAction,
-  Description: S.optional(S.String),
-  Rules: S.optional(Rules),
-  VisibilityConfig: VisibilityConfig,
-  DataProtectionConfig: S.optional(DataProtectionConfig),
-  Capacity: S.optional(S.Number),
-  PreProcessFirewallManagerRuleGroups: S.optional(FirewallManagerRuleGroups),
-  PostProcessFirewallManagerRuleGroups: S.optional(FirewallManagerRuleGroups),
-  ManagedByFirewallManager: S.optional(S.Boolean),
-  LabelNamespace: S.optional(S.String),
-  CustomResponseBodies: S.optional(CustomResponseBodies),
-  CaptchaConfig: S.optional(CaptchaConfig),
-  ChallengeConfig: S.optional(ChallengeConfig),
-  TokenDomains: S.optional(TokenDomains),
-  AssociationConfig: S.optional(AssociationConfig),
-  RetrofittedByFirewallManager: S.optional(S.Boolean),
-  OnSourceDDoSProtectionConfig: S.optional(OnSourceDDoSProtectionConfig),
-  ApplicationConfig: S.optional(ApplicationConfig),
-}) {}
-export class GetWebACLForResourceResponse extends S.Class<GetWebACLForResourceResponse>(
-  "GetWebACLForResourceResponse",
-)({ WebACL: S.optional(WebACL) }, ns) {}
-export class ListLoggingConfigurationsResponse extends S.Class<ListLoggingConfigurationsResponse>(
-  "ListLoggingConfigurationsResponse",
-)(
-  {
+export interface WebACL {
+  Name: string;
+  Id: string;
+  ARN: string;
+  DefaultAction: DefaultAction;
+  Description?: string;
+  Rules?: Rules;
+  VisibilityConfig: VisibilityConfig;
+  DataProtectionConfig?: DataProtectionConfig;
+  Capacity?: number;
+  PreProcessFirewallManagerRuleGroups?: FirewallManagerRuleGroups;
+  PostProcessFirewallManagerRuleGroups?: FirewallManagerRuleGroups;
+  ManagedByFirewallManager?: boolean;
+  LabelNamespace?: string;
+  CustomResponseBodies?: CustomResponseBodies;
+  CaptchaConfig?: CaptchaConfig;
+  ChallengeConfig?: ChallengeConfig;
+  TokenDomains?: TokenDomains;
+  AssociationConfig?: AssociationConfig;
+  RetrofittedByFirewallManager?: boolean;
+  OnSourceDDoSProtectionConfig?: OnSourceDDoSProtectionConfig;
+  ApplicationConfig?: ApplicationConfig;
+}
+export const WebACL = S.suspend(() =>
+  S.Struct({
+    Name: S.String,
+    Id: S.String,
+    ARN: S.String,
+    DefaultAction: DefaultAction,
+    Description: S.optional(S.String),
+    Rules: S.optional(Rules),
+    VisibilityConfig: VisibilityConfig,
+    DataProtectionConfig: S.optional(DataProtectionConfig),
+    Capacity: S.optional(S.Number),
+    PreProcessFirewallManagerRuleGroups: S.optional(FirewallManagerRuleGroups),
+    PostProcessFirewallManagerRuleGroups: S.optional(FirewallManagerRuleGroups),
+    ManagedByFirewallManager: S.optional(S.Boolean),
+    LabelNamespace: S.optional(S.String),
+    CustomResponseBodies: S.optional(CustomResponseBodies),
+    CaptchaConfig: S.optional(CaptchaConfig),
+    ChallengeConfig: S.optional(ChallengeConfig),
+    TokenDomains: S.optional(TokenDomains),
+    AssociationConfig: S.optional(AssociationConfig),
+    RetrofittedByFirewallManager: S.optional(S.Boolean),
+    OnSourceDDoSProtectionConfig: S.optional(OnSourceDDoSProtectionConfig),
+    ApplicationConfig: S.optional(ApplicationConfig),
+  }),
+).annotations({ identifier: "WebACL" }) as any as S.Schema<WebACL>;
+export interface GetWebACLForResourceResponse {
+  WebACL?: WebACL;
+}
+export const GetWebACLForResourceResponse = S.suspend(() =>
+  S.Struct({ WebACL: S.optional(WebACL) }).pipe(ns),
+).annotations({
+  identifier: "GetWebACLForResourceResponse",
+}) as any as S.Schema<GetWebACLForResourceResponse>;
+export interface ListLoggingConfigurationsResponse {
+  LoggingConfigurations?: LoggingConfigurations;
+  NextMarker?: string;
+}
+export const ListLoggingConfigurationsResponse = S.suspend(() =>
+  S.Struct({
     LoggingConfigurations: S.optional(LoggingConfigurations),
     NextMarker: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListResourcesForWebACLResponse extends S.Class<ListResourcesForWebACLResponse>(
-  "ListResourcesForWebACLResponse",
-)({ ResourceArns: S.optional(ResourceArns) }, ns) {}
-export class UpdateIPSetResponse extends S.Class<UpdateIPSetResponse>(
-  "UpdateIPSetResponse",
-)({ NextLockToken: S.optional(S.String) }, ns) {}
-export class UpdateManagedRuleSetVersionExpiryDateResponse extends S.Class<UpdateManagedRuleSetVersionExpiryDateResponse>(
-  "UpdateManagedRuleSetVersionExpiryDateResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListLoggingConfigurationsResponse",
+}) as any as S.Schema<ListLoggingConfigurationsResponse>;
+export interface ListResourcesForWebACLResponse {
+  ResourceArns?: ResourceArns;
+}
+export const ListResourcesForWebACLResponse = S.suspend(() =>
+  S.Struct({ ResourceArns: S.optional(ResourceArns) }).pipe(ns),
+).annotations({
+  identifier: "ListResourcesForWebACLResponse",
+}) as any as S.Schema<ListResourcesForWebACLResponse>;
+export interface UpdateIPSetResponse {
+  NextLockToken?: string;
+}
+export const UpdateIPSetResponse = S.suspend(() =>
+  S.Struct({ NextLockToken: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "UpdateIPSetResponse",
+}) as any as S.Schema<UpdateIPSetResponse>;
+export interface UpdateManagedRuleSetVersionExpiryDateResponse {
+  ExpiringVersion?: string;
+  ExpiryTimestamp?: Date;
+  NextLockToken?: string;
+}
+export const UpdateManagedRuleSetVersionExpiryDateResponse = S.suspend(() =>
+  S.Struct({
     ExpiringVersion: S.optional(S.String),
     ExpiryTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     NextLockToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class UpdateRegexPatternSetResponse extends S.Class<UpdateRegexPatternSetResponse>(
-  "UpdateRegexPatternSetResponse",
-)({ NextLockToken: S.optional(S.String) }, ns) {}
-export class UpdateRuleGroupResponse extends S.Class<UpdateRuleGroupResponse>(
-  "UpdateRuleGroupResponse",
-)({ NextLockToken: S.optional(S.String) }, ns) {}
-export class UpdateWebACLResponse extends S.Class<UpdateWebACLResponse>(
-  "UpdateWebACLResponse",
-)({ NextLockToken: S.optional(S.String) }, ns) {}
-export class VersionToPublish extends S.Class<VersionToPublish>(
-  "VersionToPublish",
-)({
-  AssociatedRuleGroupArn: S.optional(S.String),
-  ForecastedLifetime: S.optional(S.Number),
-}) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "UpdateManagedRuleSetVersionExpiryDateResponse",
+}) as any as S.Schema<UpdateManagedRuleSetVersionExpiryDateResponse>;
+export interface UpdateRegexPatternSetResponse {
+  NextLockToken?: string;
+}
+export const UpdateRegexPatternSetResponse = S.suspend(() =>
+  S.Struct({ NextLockToken: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "UpdateRegexPatternSetResponse",
+}) as any as S.Schema<UpdateRegexPatternSetResponse>;
+export interface UpdateRuleGroupResponse {
+  NextLockToken?: string;
+}
+export const UpdateRuleGroupResponse = S.suspend(() =>
+  S.Struct({ NextLockToken: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "UpdateRuleGroupResponse",
+}) as any as S.Schema<UpdateRuleGroupResponse>;
+export interface UpdateWebACLResponse {
+  NextLockToken?: string;
+}
+export const UpdateWebACLResponse = S.suspend(() =>
+  S.Struct({ NextLockToken: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "UpdateWebACLResponse",
+}) as any as S.Schema<UpdateWebACLResponse>;
+export interface VersionToPublish {
+  AssociatedRuleGroupArn?: string;
+  ForecastedLifetime?: number;
+}
+export const VersionToPublish = S.suspend(() =>
+  S.Struct({
+    AssociatedRuleGroupArn: S.optional(S.String),
+    ForecastedLifetime: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "VersionToPublish",
+}) as any as S.Schema<VersionToPublish>;
 export type Statements = Statement[];
 export const Statements = S.Array(
-  S.suspend((): S.Schema<Statement, any> => Statement),
+  S.suspend((): S.Schema<Statement, any> => Statement).annotations({
+    identifier: "Statement",
+  }),
 ) as any as S.Schema<Statements>;
-export class DisallowedFeature extends S.Class<DisallowedFeature>(
-  "DisallowedFeature",
-)({
-  Feature: S.optional(S.String),
-  RequiredPricingPlan: S.optional(S.String),
-}) {}
+export interface DisallowedFeature {
+  Feature?: string;
+  RequiredPricingPlan?: string;
+}
+export const DisallowedFeature = S.suspend(() =>
+  S.Struct({
+    Feature: S.optional(S.String),
+    RequiredPricingPlan: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DisallowedFeature",
+}) as any as S.Schema<DisallowedFeature>;
+export type DisallowedFeatures = DisallowedFeature[];
 export const DisallowedFeatures = S.Array(DisallowedFeature);
-export class RuleSummary extends S.Class<RuleSummary>("RuleSummary")({
-  Name: S.optional(S.String),
-  Action: S.optional(RuleAction),
-}) {}
+export interface RuleSummary {
+  Name?: string;
+  Action?: RuleAction;
+}
+export const RuleSummary = S.suspend(() =>
+  S.Struct({ Name: S.optional(S.String), Action: S.optional(RuleAction) }),
+).annotations({ identifier: "RuleSummary" }) as any as S.Schema<RuleSummary>;
+export type RuleSummaries = RuleSummary[];
 export const RuleSummaries = S.Array(RuleSummary);
-export class LabelSummary extends S.Class<LabelSummary>("LabelSummary")({
-  Name: S.optional(S.String),
-}) {}
+export interface LabelSummary {
+  Name?: string;
+}
+export const LabelSummary = S.suspend(() =>
+  S.Struct({ Name: S.optional(S.String) }),
+).annotations({ identifier: "LabelSummary" }) as any as S.Schema<LabelSummary>;
+export type LabelSummaries = LabelSummary[];
 export const LabelSummaries = S.Array(LabelSummary);
-export class IPSet extends S.Class<IPSet>("IPSet")({
-  Name: S.String,
-  Id: S.String,
-  ARN: S.String,
-  Description: S.optional(S.String),
-  IPAddressVersion: S.String,
-  Addresses: IPAddresses,
-}) {}
-export class MobileSdkRelease extends S.Class<MobileSdkRelease>(
-  "MobileSdkRelease",
-)({
-  ReleaseVersion: S.optional(S.String),
-  Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  ReleaseNotes: S.optional(S.String),
-  Tags: S.optional(TagList),
-}) {}
-export class RateBasedStatementManagedKeysIPSet extends S.Class<RateBasedStatementManagedKeysIPSet>(
-  "RateBasedStatementManagedKeysIPSet",
-)({
-  IPAddressVersion: S.optional(S.String),
-  Addresses: S.optional(IPAddresses),
-}) {}
-export class RegexPatternSet extends S.Class<RegexPatternSet>(
-  "RegexPatternSet",
-)({
-  Name: S.optional(S.String),
-  Id: S.optional(S.String),
-  ARN: S.optional(S.String),
-  Description: S.optional(S.String),
-  RegularExpressionList: S.optional(RegularExpressionList),
-}) {}
-export class RuleGroup extends S.Class<RuleGroup>("RuleGroup")({
-  Name: S.String,
-  Id: S.String,
-  Capacity: S.Number,
-  ARN: S.String,
-  Description: S.optional(S.String),
-  Rules: S.optional(Rules),
-  VisibilityConfig: VisibilityConfig,
-  LabelNamespace: S.optional(S.String),
-  CustomResponseBodies: S.optional(CustomResponseBodies),
-  AvailableLabels: S.optional(LabelSummaries),
-  ConsumedLabels: S.optional(LabelSummaries),
-}) {}
-export class APIKeySummary extends S.Class<APIKeySummary>("APIKeySummary")({
-  TokenDomains: S.optional(TokenDomains),
-  APIKey: S.optional(S.String),
-  CreationTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  Version: S.optional(S.Number),
-}) {}
+export interface IPSet {
+  Name: string;
+  Id: string;
+  ARN: string;
+  Description?: string;
+  IPAddressVersion: string;
+  Addresses: IPAddresses;
+}
+export const IPSet = S.suspend(() =>
+  S.Struct({
+    Name: S.String,
+    Id: S.String,
+    ARN: S.String,
+    Description: S.optional(S.String),
+    IPAddressVersion: S.String,
+    Addresses: IPAddresses,
+  }),
+).annotations({ identifier: "IPSet" }) as any as S.Schema<IPSet>;
+export interface MobileSdkRelease {
+  ReleaseVersion?: string;
+  Timestamp?: Date;
+  ReleaseNotes?: string;
+  Tags?: TagList;
+}
+export const MobileSdkRelease = S.suspend(() =>
+  S.Struct({
+    ReleaseVersion: S.optional(S.String),
+    Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ReleaseNotes: S.optional(S.String),
+    Tags: S.optional(TagList),
+  }),
+).annotations({
+  identifier: "MobileSdkRelease",
+}) as any as S.Schema<MobileSdkRelease>;
+export interface RateBasedStatementManagedKeysIPSet {
+  IPAddressVersion?: string;
+  Addresses?: IPAddresses;
+}
+export const RateBasedStatementManagedKeysIPSet = S.suspend(() =>
+  S.Struct({
+    IPAddressVersion: S.optional(S.String),
+    Addresses: S.optional(IPAddresses),
+  }),
+).annotations({
+  identifier: "RateBasedStatementManagedKeysIPSet",
+}) as any as S.Schema<RateBasedStatementManagedKeysIPSet>;
+export interface RegexPatternSet {
+  Name?: string;
+  Id?: string;
+  ARN?: string;
+  Description?: string;
+  RegularExpressionList?: RegularExpressionList;
+}
+export const RegexPatternSet = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Id: S.optional(S.String),
+    ARN: S.optional(S.String),
+    Description: S.optional(S.String),
+    RegularExpressionList: S.optional(RegularExpressionList),
+  }),
+).annotations({
+  identifier: "RegexPatternSet",
+}) as any as S.Schema<RegexPatternSet>;
+export interface RuleGroup {
+  Name: string;
+  Id: string;
+  Capacity: number;
+  ARN: string;
+  Description?: string;
+  Rules?: Rules;
+  VisibilityConfig: VisibilityConfig;
+  LabelNamespace?: string;
+  CustomResponseBodies?: CustomResponseBodies;
+  AvailableLabels?: LabelSummaries;
+  ConsumedLabels?: LabelSummaries;
+}
+export const RuleGroup = S.suspend(() =>
+  S.Struct({
+    Name: S.String,
+    Id: S.String,
+    Capacity: S.Number,
+    ARN: S.String,
+    Description: S.optional(S.String),
+    Rules: S.optional(Rules),
+    VisibilityConfig: VisibilityConfig,
+    LabelNamespace: S.optional(S.String),
+    CustomResponseBodies: S.optional(CustomResponseBodies),
+    AvailableLabels: S.optional(LabelSummaries),
+    ConsumedLabels: S.optional(LabelSummaries),
+  }),
+).annotations({ identifier: "RuleGroup" }) as any as S.Schema<RuleGroup>;
+export interface APIKeySummary {
+  TokenDomains?: TokenDomains;
+  APIKey?: string;
+  CreationTimestamp?: Date;
+  Version?: number;
+}
+export const APIKeySummary = S.suspend(() =>
+  S.Struct({
+    TokenDomains: S.optional(TokenDomains),
+    APIKey: S.optional(S.String),
+    CreationTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    Version: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "APIKeySummary",
+}) as any as S.Schema<APIKeySummary>;
+export type APIKeySummaries = APIKeySummary[];
 export const APIKeySummaries = S.Array(APIKeySummary);
-export class ManagedRuleGroupSummary extends S.Class<ManagedRuleGroupSummary>(
-  "ManagedRuleGroupSummary",
-)({
-  VendorName: S.optional(S.String),
-  Name: S.optional(S.String),
-  VersioningSupported: S.optional(S.Boolean),
-  Description: S.optional(S.String),
-}) {}
+export interface ManagedRuleGroupSummary {
+  VendorName?: string;
+  Name?: string;
+  VersioningSupported?: boolean;
+  Description?: string;
+}
+export const ManagedRuleGroupSummary = S.suspend(() =>
+  S.Struct({
+    VendorName: S.optional(S.String),
+    Name: S.optional(S.String),
+    VersioningSupported: S.optional(S.Boolean),
+    Description: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ManagedRuleGroupSummary",
+}) as any as S.Schema<ManagedRuleGroupSummary>;
+export type ManagedRuleGroupSummaries = ManagedRuleGroupSummary[];
 export const ManagedRuleGroupSummaries = S.Array(ManagedRuleGroupSummary);
-export class ManagedRuleGroupVersion extends S.Class<ManagedRuleGroupVersion>(
-  "ManagedRuleGroupVersion",
-)({
-  Name: S.optional(S.String),
-  LastUpdateTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
+export interface ManagedRuleGroupVersion {
+  Name?: string;
+  LastUpdateTimestamp?: Date;
+}
+export const ManagedRuleGroupVersion = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    LastUpdateTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "ManagedRuleGroupVersion",
+}) as any as S.Schema<ManagedRuleGroupVersion>;
+export type ManagedRuleGroupVersions = ManagedRuleGroupVersion[];
 export const ManagedRuleGroupVersions = S.Array(ManagedRuleGroupVersion);
-export class IPSetSummary extends S.Class<IPSetSummary>("IPSetSummary")({
-  Name: S.optional(S.String),
-  Id: S.optional(S.String),
-  Description: S.optional(S.String),
-  LockToken: S.optional(S.String),
-  ARN: S.optional(S.String),
-}) {}
+export interface IPSetSummary {
+  Name?: string;
+  Id?: string;
+  Description?: string;
+  LockToken?: string;
+  ARN?: string;
+}
+export const IPSetSummary = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Id: S.optional(S.String),
+    Description: S.optional(S.String),
+    LockToken: S.optional(S.String),
+    ARN: S.optional(S.String),
+  }),
+).annotations({ identifier: "IPSetSummary" }) as any as S.Schema<IPSetSummary>;
+export type IPSetSummaries = IPSetSummary[];
 export const IPSetSummaries = S.Array(IPSetSummary);
-export class ManagedRuleSetSummary extends S.Class<ManagedRuleSetSummary>(
-  "ManagedRuleSetSummary",
-)({
-  Name: S.optional(S.String),
-  Id: S.optional(S.String),
-  Description: S.optional(S.String),
-  LockToken: S.optional(S.String),
-  ARN: S.optional(S.String),
-  LabelNamespace: S.optional(S.String),
-}) {}
+export interface ManagedRuleSetSummary {
+  Name?: string;
+  Id?: string;
+  Description?: string;
+  LockToken?: string;
+  ARN?: string;
+  LabelNamespace?: string;
+}
+export const ManagedRuleSetSummary = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Id: S.optional(S.String),
+    Description: S.optional(S.String),
+    LockToken: S.optional(S.String),
+    ARN: S.optional(S.String),
+    LabelNamespace: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ManagedRuleSetSummary",
+}) as any as S.Schema<ManagedRuleSetSummary>;
+export type ManagedRuleSetSummaries = ManagedRuleSetSummary[];
 export const ManagedRuleSetSummaries = S.Array(ManagedRuleSetSummary);
-export class ReleaseSummary extends S.Class<ReleaseSummary>("ReleaseSummary")({
-  ReleaseVersion: S.optional(S.String),
-  Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface ReleaseSummary {
+  ReleaseVersion?: string;
+  Timestamp?: Date;
+}
+export const ReleaseSummary = S.suspend(() =>
+  S.Struct({
+    ReleaseVersion: S.optional(S.String),
+    Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "ReleaseSummary",
+}) as any as S.Schema<ReleaseSummary>;
+export type ReleaseSummaries = ReleaseSummary[];
 export const ReleaseSummaries = S.Array(ReleaseSummary);
-export class RegexPatternSetSummary extends S.Class<RegexPatternSetSummary>(
-  "RegexPatternSetSummary",
-)({
-  Name: S.optional(S.String),
-  Id: S.optional(S.String),
-  Description: S.optional(S.String),
-  LockToken: S.optional(S.String),
-  ARN: S.optional(S.String),
-}) {}
+export interface RegexPatternSetSummary {
+  Name?: string;
+  Id?: string;
+  Description?: string;
+  LockToken?: string;
+  ARN?: string;
+}
+export const RegexPatternSetSummary = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Id: S.optional(S.String),
+    Description: S.optional(S.String),
+    LockToken: S.optional(S.String),
+    ARN: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RegexPatternSetSummary",
+}) as any as S.Schema<RegexPatternSetSummary>;
+export type RegexPatternSetSummaries = RegexPatternSetSummary[];
 export const RegexPatternSetSummaries = S.Array(RegexPatternSetSummary);
-export class RuleGroupSummary extends S.Class<RuleGroupSummary>(
-  "RuleGroupSummary",
-)({
-  Name: S.optional(S.String),
-  Id: S.optional(S.String),
-  Description: S.optional(S.String),
-  LockToken: S.optional(S.String),
-  ARN: S.optional(S.String),
-}) {}
+export interface RuleGroupSummary {
+  Name?: string;
+  Id?: string;
+  Description?: string;
+  LockToken?: string;
+  ARN?: string;
+}
+export const RuleGroupSummary = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Id: S.optional(S.String),
+    Description: S.optional(S.String),
+    LockToken: S.optional(S.String),
+    ARN: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RuleGroupSummary",
+}) as any as S.Schema<RuleGroupSummary>;
+export type RuleGroupSummaries = RuleGroupSummary[];
 export const RuleGroupSummaries = S.Array(RuleGroupSummary);
-export class TagInfoForResource extends S.Class<TagInfoForResource>(
-  "TagInfoForResource",
-)({ ResourceARN: S.optional(S.String), TagList: S.optional(TagList) }) {}
-export class WebACLSummary extends S.Class<WebACLSummary>("WebACLSummary")({
-  Name: S.optional(S.String),
-  Id: S.optional(S.String),
-  Description: S.optional(S.String),
-  LockToken: S.optional(S.String),
-  ARN: S.optional(S.String),
-}) {}
+export interface TagInfoForResource {
+  ResourceARN?: string;
+  TagList?: TagList;
+}
+export const TagInfoForResource = S.suspend(() =>
+  S.Struct({ ResourceARN: S.optional(S.String), TagList: S.optional(TagList) }),
+).annotations({
+  identifier: "TagInfoForResource",
+}) as any as S.Schema<TagInfoForResource>;
+export interface WebACLSummary {
+  Name?: string;
+  Id?: string;
+  Description?: string;
+  LockToken?: string;
+  ARN?: string;
+}
+export const WebACLSummary = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Id: S.optional(S.String),
+    Description: S.optional(S.String),
+    LockToken: S.optional(S.String),
+    ARN: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "WebACLSummary",
+}) as any as S.Schema<WebACLSummary>;
+export type WebACLSummaries = WebACLSummary[];
 export const WebACLSummaries = S.Array(WebACLSummary);
+export type VersionsToPublish = { [key: string]: VersionToPublish };
 export const VersionsToPublish = S.Record({
   key: S.String,
   value: VersionToPublish,
 });
-export class AndStatement extends S.Class<AndStatement>("AndStatement")({
-  Statements: S.suspend(() => Statements),
-}) {}
-export class OrStatement extends S.Class<OrStatement>("OrStatement")({
-  Statements: S.suspend(() => Statements),
-}) {}
-export class NotStatement extends S.Class<NotStatement>("NotStatement")({
-  Statement: S.suspend((): S.Schema<Statement, any> => Statement),
-}) {}
-export class RateLimitHTTPMethod extends S.Class<RateLimitHTTPMethod>(
-  "RateLimitHTTPMethod",
-)({}) {}
-export class RateLimitForwardedIP extends S.Class<RateLimitForwardedIP>(
-  "RateLimitForwardedIP",
-)({}) {}
-export class RateLimitIP extends S.Class<RateLimitIP>("RateLimitIP")({}) {}
-export class RateLimitAsn extends S.Class<RateLimitAsn>("RateLimitAsn")({}) {}
-export class CreateIPSetResponse extends S.Class<CreateIPSetResponse>(
-  "CreateIPSetResponse",
-)({ Summary: S.optional(IPSetSummary) }, ns) {}
-export class CreateRegexPatternSetResponse extends S.Class<CreateRegexPatternSetResponse>(
-  "CreateRegexPatternSetResponse",
-)({ Summary: S.optional(RegexPatternSetSummary) }, ns) {}
-export class CreateRuleGroupRequest extends S.Class<CreateRuleGroupRequest>(
-  "CreateRuleGroupRequest",
-)(
-  {
+export interface AndStatement {
+  Statements: Statements;
+}
+export const AndStatement = S.suspend(() =>
+  S.Struct({
+    Statements: S.suspend(() => Statements).annotations({
+      identifier: "Statements",
+    }),
+  }),
+).annotations({ identifier: "AndStatement" }) as any as S.Schema<AndStatement>;
+export interface OrStatement {
+  Statements: Statements;
+}
+export const OrStatement = S.suspend(() =>
+  S.Struct({
+    Statements: S.suspend(() => Statements).annotations({
+      identifier: "Statements",
+    }),
+  }),
+).annotations({ identifier: "OrStatement" }) as any as S.Schema<OrStatement>;
+export interface NotStatement {
+  Statement: Statement;
+}
+export const NotStatement = S.suspend(() =>
+  S.Struct({
+    Statement: S.suspend((): S.Schema<Statement, any> => Statement).annotations(
+      { identifier: "Statement" },
+    ),
+  }),
+).annotations({ identifier: "NotStatement" }) as any as S.Schema<NotStatement>;
+export interface RateLimitHTTPMethod {}
+export const RateLimitHTTPMethod = S.suspend(() => S.Struct({})).annotations({
+  identifier: "RateLimitHTTPMethod",
+}) as any as S.Schema<RateLimitHTTPMethod>;
+export interface RateLimitForwardedIP {}
+export const RateLimitForwardedIP = S.suspend(() => S.Struct({})).annotations({
+  identifier: "RateLimitForwardedIP",
+}) as any as S.Schema<RateLimitForwardedIP>;
+export interface RateLimitIP {}
+export const RateLimitIP = S.suspend(() => S.Struct({})).annotations({
+  identifier: "RateLimitIP",
+}) as any as S.Schema<RateLimitIP>;
+export interface RateLimitAsn {}
+export const RateLimitAsn = S.suspend(() => S.Struct({})).annotations({
+  identifier: "RateLimitAsn",
+}) as any as S.Schema<RateLimitAsn>;
+export interface CreateIPSetResponse {
+  Summary?: IPSetSummary;
+}
+export const CreateIPSetResponse = S.suspend(() =>
+  S.Struct({ Summary: S.optional(IPSetSummary) }).pipe(ns),
+).annotations({
+  identifier: "CreateIPSetResponse",
+}) as any as S.Schema<CreateIPSetResponse>;
+export interface CreateRegexPatternSetResponse {
+  Summary?: RegexPatternSetSummary;
+}
+export const CreateRegexPatternSetResponse = S.suspend(() =>
+  S.Struct({ Summary: S.optional(RegexPatternSetSummary) }).pipe(ns),
+).annotations({
+  identifier: "CreateRegexPatternSetResponse",
+}) as any as S.Schema<CreateRegexPatternSetResponse>;
+export interface CreateRuleGroupRequest {
+  Name: string;
+  Scope: string;
+  Capacity: number;
+  Description?: string;
+  Rules?: Rules;
+  VisibilityConfig: VisibilityConfig;
+  Tags?: TagList;
+  CustomResponseBodies?: CustomResponseBodies;
+}
+export const CreateRuleGroupRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     Scope: S.String,
     Capacity: S.Number,
@@ -1536,16 +3269,39 @@ export class CreateRuleGroupRequest extends S.Class<CreateRuleGroupRequest>(
     VisibilityConfig: VisibilityConfig,
     Tags: S.optional(TagList),
     CustomResponseBodies: S.optional(CustomResponseBodies),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeAllManagedProductsResponse extends S.Class<DescribeAllManagedProductsResponse>(
-  "DescribeAllManagedProductsResponse",
-)({ ManagedProducts: S.optional(ManagedProductDescriptors) }, ns) {}
-export class DescribeManagedRuleGroupResponse extends S.Class<DescribeManagedRuleGroupResponse>(
-  "DescribeManagedRuleGroupResponse",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateRuleGroupRequest",
+}) as any as S.Schema<CreateRuleGroupRequest>;
+export interface DescribeAllManagedProductsResponse {
+  ManagedProducts?: ManagedProductDescriptors;
+}
+export const DescribeAllManagedProductsResponse = S.suspend(() =>
+  S.Struct({ ManagedProducts: S.optional(ManagedProductDescriptors) }).pipe(ns),
+).annotations({
+  identifier: "DescribeAllManagedProductsResponse",
+}) as any as S.Schema<DescribeAllManagedProductsResponse>;
+export interface DescribeManagedRuleGroupResponse {
+  VersionName?: string;
+  SnsTopicArn?: string;
+  Capacity?: number;
+  Rules?: RuleSummaries;
+  LabelNamespace?: string;
+  AvailableLabels?: LabelSummaries;
+  ConsumedLabels?: LabelSummaries;
+}
+export const DescribeManagedRuleGroupResponse = S.suspend(() =>
+  S.Struct({
     VersionName: S.optional(S.String),
     SnsTopicArn: S.optional(S.String),
     Capacity: S.optional(S.Number),
@@ -1553,268 +3309,521 @@ export class DescribeManagedRuleGroupResponse extends S.Class<DescribeManagedRul
     LabelNamespace: S.optional(S.String),
     AvailableLabels: S.optional(LabelSummaries),
     ConsumedLabels: S.optional(LabelSummaries),
-  },
-  ns,
-) {}
-export class GetIPSetResponse extends S.Class<GetIPSetResponse>(
-  "GetIPSetResponse",
-)({ IPSet: S.optional(IPSet), LockToken: S.optional(S.String) }, ns) {}
-export class GetMobileSdkReleaseResponse extends S.Class<GetMobileSdkReleaseResponse>(
-  "GetMobileSdkReleaseResponse",
-)({ MobileSdkRelease: S.optional(MobileSdkRelease) }, ns) {}
-export class GetRateBasedStatementManagedKeysResponse extends S.Class<GetRateBasedStatementManagedKeysResponse>(
-  "GetRateBasedStatementManagedKeysResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeManagedRuleGroupResponse",
+}) as any as S.Schema<DescribeManagedRuleGroupResponse>;
+export interface GetIPSetResponse {
+  IPSet?: IPSet;
+  LockToken?: string;
+}
+export const GetIPSetResponse = S.suspend(() =>
+  S.Struct({ IPSet: S.optional(IPSet), LockToken: S.optional(S.String) }).pipe(
+    ns,
+  ),
+).annotations({
+  identifier: "GetIPSetResponse",
+}) as any as S.Schema<GetIPSetResponse>;
+export interface GetMobileSdkReleaseResponse {
+  MobileSdkRelease?: MobileSdkRelease;
+}
+export const GetMobileSdkReleaseResponse = S.suspend(() =>
+  S.Struct({ MobileSdkRelease: S.optional(MobileSdkRelease) }).pipe(ns),
+).annotations({
+  identifier: "GetMobileSdkReleaseResponse",
+}) as any as S.Schema<GetMobileSdkReleaseResponse>;
+export interface GetRateBasedStatementManagedKeysResponse {
+  ManagedKeysIPV4?: RateBasedStatementManagedKeysIPSet;
+  ManagedKeysIPV6?: RateBasedStatementManagedKeysIPSet;
+}
+export const GetRateBasedStatementManagedKeysResponse = S.suspend(() =>
+  S.Struct({
     ManagedKeysIPV4: S.optional(RateBasedStatementManagedKeysIPSet),
     ManagedKeysIPV6: S.optional(RateBasedStatementManagedKeysIPSet),
-  },
-  ns,
-) {}
-export class GetRegexPatternSetResponse extends S.Class<GetRegexPatternSetResponse>(
-  "GetRegexPatternSetResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetRateBasedStatementManagedKeysResponse",
+}) as any as S.Schema<GetRateBasedStatementManagedKeysResponse>;
+export interface GetRegexPatternSetResponse {
+  RegexPatternSet?: RegexPatternSet;
+  LockToken?: string;
+}
+export const GetRegexPatternSetResponse = S.suspend(() =>
+  S.Struct({
     RegexPatternSet: S.optional(RegexPatternSet),
     LockToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class GetRuleGroupResponse extends S.Class<GetRuleGroupResponse>(
-  "GetRuleGroupResponse",
-)({ RuleGroup: S.optional(RuleGroup), LockToken: S.optional(S.String) }, ns) {}
-export class ListAPIKeysResponse extends S.Class<ListAPIKeysResponse>(
-  "ListAPIKeysResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetRegexPatternSetResponse",
+}) as any as S.Schema<GetRegexPatternSetResponse>;
+export interface GetRuleGroupResponse {
+  RuleGroup?: RuleGroup;
+  LockToken?: string;
+}
+export const GetRuleGroupResponse = S.suspend(() =>
+  S.Struct({
+    RuleGroup: S.optional(RuleGroup),
+    LockToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "GetRuleGroupResponse",
+}) as any as S.Schema<GetRuleGroupResponse>;
+export interface ListAPIKeysResponse {
+  NextMarker?: string;
+  APIKeySummaries?: APIKeySummaries;
+  ApplicationIntegrationURL?: string;
+}
+export const ListAPIKeysResponse = S.suspend(() =>
+  S.Struct({
     NextMarker: S.optional(S.String),
     APIKeySummaries: S.optional(APIKeySummaries),
     ApplicationIntegrationURL: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListAvailableManagedRuleGroupsResponse extends S.Class<ListAvailableManagedRuleGroupsResponse>(
-  "ListAvailableManagedRuleGroupsResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListAPIKeysResponse",
+}) as any as S.Schema<ListAPIKeysResponse>;
+export interface ListAvailableManagedRuleGroupsResponse {
+  NextMarker?: string;
+  ManagedRuleGroups?: ManagedRuleGroupSummaries;
+}
+export const ListAvailableManagedRuleGroupsResponse = S.suspend(() =>
+  S.Struct({
     NextMarker: S.optional(S.String),
     ManagedRuleGroups: S.optional(ManagedRuleGroupSummaries),
-  },
-  ns,
-) {}
-export class ListAvailableManagedRuleGroupVersionsResponse extends S.Class<ListAvailableManagedRuleGroupVersionsResponse>(
-  "ListAvailableManagedRuleGroupVersionsResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListAvailableManagedRuleGroupsResponse",
+}) as any as S.Schema<ListAvailableManagedRuleGroupsResponse>;
+export interface ListAvailableManagedRuleGroupVersionsResponse {
+  NextMarker?: string;
+  Versions?: ManagedRuleGroupVersions;
+  CurrentDefaultVersion?: string;
+}
+export const ListAvailableManagedRuleGroupVersionsResponse = S.suspend(() =>
+  S.Struct({
     NextMarker: S.optional(S.String),
     Versions: S.optional(ManagedRuleGroupVersions),
     CurrentDefaultVersion: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListIPSetsResponse extends S.Class<ListIPSetsResponse>(
-  "ListIPSetsResponse",
-)(
-  { NextMarker: S.optional(S.String), IPSets: S.optional(IPSetSummaries) },
-  ns,
-) {}
-export class ListManagedRuleSetsResponse extends S.Class<ListManagedRuleSetsResponse>(
-  "ListManagedRuleSetsResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListAvailableManagedRuleGroupVersionsResponse",
+}) as any as S.Schema<ListAvailableManagedRuleGroupVersionsResponse>;
+export interface ListIPSetsResponse {
+  NextMarker?: string;
+  IPSets?: IPSetSummaries;
+}
+export const ListIPSetsResponse = S.suspend(() =>
+  S.Struct({
+    NextMarker: S.optional(S.String),
+    IPSets: S.optional(IPSetSummaries),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListIPSetsResponse",
+}) as any as S.Schema<ListIPSetsResponse>;
+export interface ListManagedRuleSetsResponse {
+  NextMarker?: string;
+  ManagedRuleSets?: ManagedRuleSetSummaries;
+}
+export const ListManagedRuleSetsResponse = S.suspend(() =>
+  S.Struct({
     NextMarker: S.optional(S.String),
     ManagedRuleSets: S.optional(ManagedRuleSetSummaries),
-  },
-  ns,
-) {}
-export class ListMobileSdkReleasesResponse extends S.Class<ListMobileSdkReleasesResponse>(
-  "ListMobileSdkReleasesResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListManagedRuleSetsResponse",
+}) as any as S.Schema<ListManagedRuleSetsResponse>;
+export interface ListMobileSdkReleasesResponse {
+  ReleaseSummaries?: ReleaseSummaries;
+  NextMarker?: string;
+}
+export const ListMobileSdkReleasesResponse = S.suspend(() =>
+  S.Struct({
     ReleaseSummaries: S.optional(ReleaseSummaries),
     NextMarker: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListRegexPatternSetsResponse extends S.Class<ListRegexPatternSetsResponse>(
-  "ListRegexPatternSetsResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListMobileSdkReleasesResponse",
+}) as any as S.Schema<ListMobileSdkReleasesResponse>;
+export interface ListRegexPatternSetsResponse {
+  NextMarker?: string;
+  RegexPatternSets?: RegexPatternSetSummaries;
+}
+export const ListRegexPatternSetsResponse = S.suspend(() =>
+  S.Struct({
     NextMarker: S.optional(S.String),
     RegexPatternSets: S.optional(RegexPatternSetSummaries),
-  },
-  ns,
-) {}
-export class ListRuleGroupsResponse extends S.Class<ListRuleGroupsResponse>(
-  "ListRuleGroupsResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListRegexPatternSetsResponse",
+}) as any as S.Schema<ListRegexPatternSetsResponse>;
+export interface ListRuleGroupsResponse {
+  NextMarker?: string;
+  RuleGroups?: RuleGroupSummaries;
+}
+export const ListRuleGroupsResponse = S.suspend(() =>
+  S.Struct({
     NextMarker: S.optional(S.String),
     RuleGroups: S.optional(RuleGroupSummaries),
-  },
-  ns,
-) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListRuleGroupsResponse",
+}) as any as S.Schema<ListRuleGroupsResponse>;
+export interface ListTagsForResourceResponse {
+  NextMarker?: string;
+  TagInfoForResource?: TagInfoForResource;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({
     NextMarker: S.optional(S.String),
     TagInfoForResource: S.optional(TagInfoForResource),
-  },
-  ns,
-) {}
-export class ListWebACLsResponse extends S.Class<ListWebACLsResponse>(
-  "ListWebACLsResponse",
-)(
-  { NextMarker: S.optional(S.String), WebACLs: S.optional(WebACLSummaries) },
-  ns,
-) {}
-export class PutManagedRuleSetVersionsRequest extends S.Class<PutManagedRuleSetVersionsRequest>(
-  "PutManagedRuleSetVersionsRequest",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface ListWebACLsResponse {
+  NextMarker?: string;
+  WebACLs?: WebACLSummaries;
+}
+export const ListWebACLsResponse = S.suspend(() =>
+  S.Struct({
+    NextMarker: S.optional(S.String),
+    WebACLs: S.optional(WebACLSummaries),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListWebACLsResponse",
+}) as any as S.Schema<ListWebACLsResponse>;
+export interface PutManagedRuleSetVersionsRequest {
+  Name: string;
+  Scope: string;
+  Id: string;
+  LockToken: string;
+  RecommendedVersion?: string;
+  VersionsToPublish?: VersionsToPublish;
+}
+export const PutManagedRuleSetVersionsRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     Scope: S.String,
     Id: S.String,
     LockToken: S.String,
     RecommendedVersion: S.optional(S.String),
     VersionsToPublish: S.optional(VersionsToPublish),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ManagedRuleSetVersion extends S.Class<ManagedRuleSetVersion>(
-  "ManagedRuleSetVersion",
-)({
-  AssociatedRuleGroupArn: S.optional(S.String),
-  Capacity: S.optional(S.Number),
-  ForecastedLifetime: S.optional(S.Number),
-  PublishTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastUpdateTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-  ExpiryTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class RateLimitHeader extends S.Class<RateLimitHeader>(
-  "RateLimitHeader",
-)({ Name: S.String, TextTransformations: TextTransformations }) {}
-export class RateLimitCookie extends S.Class<RateLimitCookie>(
-  "RateLimitCookie",
-)({ Name: S.String, TextTransformations: TextTransformations }) {}
-export class RateLimitQueryArgument extends S.Class<RateLimitQueryArgument>(
-  "RateLimitQueryArgument",
-)({ Name: S.String, TextTransformations: TextTransformations }) {}
-export class RateLimitQueryString extends S.Class<RateLimitQueryString>(
-  "RateLimitQueryString",
-)({ TextTransformations: TextTransformations }) {}
-export class RateLimitLabelNamespace extends S.Class<RateLimitLabelNamespace>(
-  "RateLimitLabelNamespace",
-)({ Namespace: S.String }) {}
-export class RateLimitUriPath extends S.Class<RateLimitUriPath>(
-  "RateLimitUriPath",
-)({ TextTransformations: TextTransformations }) {}
-export class RateLimitJA3Fingerprint extends S.Class<RateLimitJA3Fingerprint>(
-  "RateLimitJA3Fingerprint",
-)({ FallbackBehavior: S.String }) {}
-export class RateLimitJA4Fingerprint extends S.Class<RateLimitJA4Fingerprint>(
-  "RateLimitJA4Fingerprint",
-)({ FallbackBehavior: S.String }) {}
-export class CreateRuleGroupResponse extends S.Class<CreateRuleGroupResponse>(
-  "CreateRuleGroupResponse",
-)({ Summary: S.optional(RuleGroupSummary) }, ns) {}
-export class PutManagedRuleSetVersionsResponse extends S.Class<PutManagedRuleSetVersionsResponse>(
-  "PutManagedRuleSetVersionsResponse",
-)({ NextLockToken: S.optional(S.String) }, ns) {}
+).annotations({
+  identifier: "PutManagedRuleSetVersionsRequest",
+}) as any as S.Schema<PutManagedRuleSetVersionsRequest>;
+export interface ManagedRuleSetVersion {
+  AssociatedRuleGroupArn?: string;
+  Capacity?: number;
+  ForecastedLifetime?: number;
+  PublishTimestamp?: Date;
+  LastUpdateTimestamp?: Date;
+  ExpiryTimestamp?: Date;
+}
+export const ManagedRuleSetVersion = S.suspend(() =>
+  S.Struct({
+    AssociatedRuleGroupArn: S.optional(S.String),
+    Capacity: S.optional(S.Number),
+    ForecastedLifetime: S.optional(S.Number),
+    PublishTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastUpdateTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    ExpiryTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "ManagedRuleSetVersion",
+}) as any as S.Schema<ManagedRuleSetVersion>;
+export interface RateLimitHeader {
+  Name: string;
+  TextTransformations: TextTransformations;
+}
+export const RateLimitHeader = S.suspend(() =>
+  S.Struct({ Name: S.String, TextTransformations: TextTransformations }),
+).annotations({
+  identifier: "RateLimitHeader",
+}) as any as S.Schema<RateLimitHeader>;
+export interface RateLimitCookie {
+  Name: string;
+  TextTransformations: TextTransformations;
+}
+export const RateLimitCookie = S.suspend(() =>
+  S.Struct({ Name: S.String, TextTransformations: TextTransformations }),
+).annotations({
+  identifier: "RateLimitCookie",
+}) as any as S.Schema<RateLimitCookie>;
+export interface RateLimitQueryArgument {
+  Name: string;
+  TextTransformations: TextTransformations;
+}
+export const RateLimitQueryArgument = S.suspend(() =>
+  S.Struct({ Name: S.String, TextTransformations: TextTransformations }),
+).annotations({
+  identifier: "RateLimitQueryArgument",
+}) as any as S.Schema<RateLimitQueryArgument>;
+export interface RateLimitQueryString {
+  TextTransformations: TextTransformations;
+}
+export const RateLimitQueryString = S.suspend(() =>
+  S.Struct({ TextTransformations: TextTransformations }),
+).annotations({
+  identifier: "RateLimitQueryString",
+}) as any as S.Schema<RateLimitQueryString>;
+export interface RateLimitLabelNamespace {
+  Namespace: string;
+}
+export const RateLimitLabelNamespace = S.suspend(() =>
+  S.Struct({ Namespace: S.String }),
+).annotations({
+  identifier: "RateLimitLabelNamespace",
+}) as any as S.Schema<RateLimitLabelNamespace>;
+export interface RateLimitUriPath {
+  TextTransformations: TextTransformations;
+}
+export const RateLimitUriPath = S.suspend(() =>
+  S.Struct({ TextTransformations: TextTransformations }),
+).annotations({
+  identifier: "RateLimitUriPath",
+}) as any as S.Schema<RateLimitUriPath>;
+export interface RateLimitJA3Fingerprint {
+  FallbackBehavior: string;
+}
+export const RateLimitJA3Fingerprint = S.suspend(() =>
+  S.Struct({ FallbackBehavior: S.String }),
+).annotations({
+  identifier: "RateLimitJA3Fingerprint",
+}) as any as S.Schema<RateLimitJA3Fingerprint>;
+export interface RateLimitJA4Fingerprint {
+  FallbackBehavior: string;
+}
+export const RateLimitJA4Fingerprint = S.suspend(() =>
+  S.Struct({ FallbackBehavior: S.String }),
+).annotations({
+  identifier: "RateLimitJA4Fingerprint",
+}) as any as S.Schema<RateLimitJA4Fingerprint>;
+export interface CreateRuleGroupResponse {
+  Summary?: RuleGroupSummary;
+}
+export const CreateRuleGroupResponse = S.suspend(() =>
+  S.Struct({ Summary: S.optional(RuleGroupSummary) }).pipe(ns),
+).annotations({
+  identifier: "CreateRuleGroupResponse",
+}) as any as S.Schema<CreateRuleGroupResponse>;
+export interface PutManagedRuleSetVersionsResponse {
+  NextLockToken?: string;
+}
+export const PutManagedRuleSetVersionsResponse = S.suspend(() =>
+  S.Struct({ NextLockToken: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "PutManagedRuleSetVersionsResponse",
+}) as any as S.Schema<PutManagedRuleSetVersionsResponse>;
+export type PublishedVersions = { [key: string]: ManagedRuleSetVersion };
 export const PublishedVersions = S.Record({
   key: S.String,
   value: ManagedRuleSetVersion,
 });
-export class HTTPHeader extends S.Class<HTTPHeader>("HTTPHeader")({
-  Name: S.optional(S.String),
-  Value: S.optional(S.String),
-}) {}
+export interface HTTPHeader {
+  Name?: string;
+  Value?: string;
+}
+export const HTTPHeader = S.suspend(() =>
+  S.Struct({ Name: S.optional(S.String), Value: S.optional(S.String) }),
+).annotations({ identifier: "HTTPHeader" }) as any as S.Schema<HTTPHeader>;
+export type HTTPHeaders = HTTPHeader[];
 export const HTTPHeaders = S.Array(HTTPHeader);
-export class HTTPRequest extends S.Class<HTTPRequest>("HTTPRequest")({
-  ClientIP: S.optional(S.String),
-  Country: S.optional(S.String),
-  URI: S.optional(S.String),
-  Method: S.optional(S.String),
-  HTTPVersion: S.optional(S.String),
-  Headers: S.optional(HTTPHeaders),
-}) {}
-export class CaptchaResponse extends S.Class<CaptchaResponse>(
-  "CaptchaResponse",
-)({
-  ResponseCode: S.optional(S.Number),
-  SolveTimestamp: S.optional(S.Number),
-  FailureReason: S.optional(S.String),
-}) {}
-export class ChallengeResponse extends S.Class<ChallengeResponse>(
-  "ChallengeResponse",
-)({
-  ResponseCode: S.optional(S.Number),
-  SolveTimestamp: S.optional(S.Number),
-  FailureReason: S.optional(S.String),
-}) {}
-export class RateBasedStatementCustomKey extends S.Class<RateBasedStatementCustomKey>(
-  "RateBasedStatementCustomKey",
-)({
-  Header: S.optional(RateLimitHeader),
-  Cookie: S.optional(RateLimitCookie),
-  QueryArgument: S.optional(RateLimitQueryArgument),
-  QueryString: S.optional(RateLimitQueryString),
-  HTTPMethod: S.optional(RateLimitHTTPMethod),
-  ForwardedIP: S.optional(RateLimitForwardedIP),
-  IP: S.optional(RateLimitIP),
-  LabelNamespace: S.optional(RateLimitLabelNamespace),
-  UriPath: S.optional(RateLimitUriPath),
-  JA3Fingerprint: S.optional(RateLimitJA3Fingerprint),
-  JA4Fingerprint: S.optional(RateLimitJA4Fingerprint),
-  ASN: S.optional(RateLimitAsn),
-}) {}
+export interface HTTPRequest {
+  ClientIP?: string;
+  Country?: string;
+  URI?: string;
+  Method?: string;
+  HTTPVersion?: string;
+  Headers?: HTTPHeaders;
+}
+export const HTTPRequest = S.suspend(() =>
+  S.Struct({
+    ClientIP: S.optional(S.String),
+    Country: S.optional(S.String),
+    URI: S.optional(S.String),
+    Method: S.optional(S.String),
+    HTTPVersion: S.optional(S.String),
+    Headers: S.optional(HTTPHeaders),
+  }),
+).annotations({ identifier: "HTTPRequest" }) as any as S.Schema<HTTPRequest>;
+export interface CaptchaResponse {
+  ResponseCode?: number;
+  SolveTimestamp?: number;
+  FailureReason?: string;
+}
+export const CaptchaResponse = S.suspend(() =>
+  S.Struct({
+    ResponseCode: S.optional(S.Number),
+    SolveTimestamp: S.optional(S.Number),
+    FailureReason: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CaptchaResponse",
+}) as any as S.Schema<CaptchaResponse>;
+export interface ChallengeResponse {
+  ResponseCode?: number;
+  SolveTimestamp?: number;
+  FailureReason?: string;
+}
+export const ChallengeResponse = S.suspend(() =>
+  S.Struct({
+    ResponseCode: S.optional(S.Number),
+    SolveTimestamp: S.optional(S.Number),
+    FailureReason: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ChallengeResponse",
+}) as any as S.Schema<ChallengeResponse>;
+export interface RateBasedStatementCustomKey {
+  Header?: RateLimitHeader;
+  Cookie?: RateLimitCookie;
+  QueryArgument?: RateLimitQueryArgument;
+  QueryString?: RateLimitQueryString;
+  HTTPMethod?: RateLimitHTTPMethod;
+  ForwardedIP?: RateLimitForwardedIP;
+  IP?: RateLimitIP;
+  LabelNamespace?: RateLimitLabelNamespace;
+  UriPath?: RateLimitUriPath;
+  JA3Fingerprint?: RateLimitJA3Fingerprint;
+  JA4Fingerprint?: RateLimitJA4Fingerprint;
+  ASN?: RateLimitAsn;
+}
+export const RateBasedStatementCustomKey = S.suspend(() =>
+  S.Struct({
+    Header: S.optional(RateLimitHeader),
+    Cookie: S.optional(RateLimitCookie),
+    QueryArgument: S.optional(RateLimitQueryArgument),
+    QueryString: S.optional(RateLimitQueryString),
+    HTTPMethod: S.optional(RateLimitHTTPMethod),
+    ForwardedIP: S.optional(RateLimitForwardedIP),
+    IP: S.optional(RateLimitIP),
+    LabelNamespace: S.optional(RateLimitLabelNamespace),
+    UriPath: S.optional(RateLimitUriPath),
+    JA3Fingerprint: S.optional(RateLimitJA3Fingerprint),
+    JA4Fingerprint: S.optional(RateLimitJA4Fingerprint),
+    ASN: S.optional(RateLimitAsn),
+  }),
+).annotations({
+  identifier: "RateBasedStatementCustomKey",
+}) as any as S.Schema<RateBasedStatementCustomKey>;
+export type RateBasedStatementCustomKeys = RateBasedStatementCustomKey[];
 export const RateBasedStatementCustomKeys = S.Array(
   RateBasedStatementCustomKey,
 );
-export class ManagedRuleSet extends S.Class<ManagedRuleSet>("ManagedRuleSet")({
-  Name: S.String,
-  Id: S.String,
-  ARN: S.String,
-  Description: S.optional(S.String),
-  PublishedVersions: S.optional(PublishedVersions),
-  RecommendedVersion: S.optional(S.String),
-  LabelNamespace: S.optional(S.String),
-}) {}
-export class SampledHTTPRequest extends S.Class<SampledHTTPRequest>(
-  "SampledHTTPRequest",
-)({
-  Request: HTTPRequest,
-  Weight: S.Number,
-  Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Action: S.optional(S.String),
-  RuleNameWithinRuleGroup: S.optional(S.String),
-  RequestHeadersInserted: S.optional(HTTPHeaders),
-  ResponseCodeSent: S.optional(S.Number),
-  Labels: S.optional(Labels),
-  CaptchaResponse: S.optional(CaptchaResponse),
-  ChallengeResponse: S.optional(ChallengeResponse),
-  OverriddenAction: S.optional(S.String),
-}) {}
+export interface ManagedRuleSet {
+  Name: string;
+  Id: string;
+  ARN: string;
+  Description?: string;
+  PublishedVersions?: PublishedVersions;
+  RecommendedVersion?: string;
+  LabelNamespace?: string;
+}
+export const ManagedRuleSet = S.suspend(() =>
+  S.Struct({
+    Name: S.String,
+    Id: S.String,
+    ARN: S.String,
+    Description: S.optional(S.String),
+    PublishedVersions: S.optional(PublishedVersions),
+    RecommendedVersion: S.optional(S.String),
+    LabelNamespace: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ManagedRuleSet",
+}) as any as S.Schema<ManagedRuleSet>;
+export interface SampledHTTPRequest {
+  Request: HTTPRequest;
+  Weight: number;
+  Timestamp?: Date;
+  Action?: string;
+  RuleNameWithinRuleGroup?: string;
+  RequestHeadersInserted?: HTTPHeaders;
+  ResponseCodeSent?: number;
+  Labels?: Labels;
+  CaptchaResponse?: CaptchaResponse;
+  ChallengeResponse?: ChallengeResponse;
+  OverriddenAction?: string;
+}
+export const SampledHTTPRequest = S.suspend(() =>
+  S.Struct({
+    Request: HTTPRequest,
+    Weight: S.Number,
+    Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Action: S.optional(S.String),
+    RuleNameWithinRuleGroup: S.optional(S.String),
+    RequestHeadersInserted: S.optional(HTTPHeaders),
+    ResponseCodeSent: S.optional(S.Number),
+    Labels: S.optional(Labels),
+    CaptchaResponse: S.optional(CaptchaResponse),
+    ChallengeResponse: S.optional(ChallengeResponse),
+    OverriddenAction: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SampledHTTPRequest",
+}) as any as S.Schema<SampledHTTPRequest>;
+export type SampledHTTPRequests = SampledHTTPRequest[];
 export const SampledHTTPRequests = S.Array(SampledHTTPRequest);
-export class RateBasedStatement extends S.Class<RateBasedStatement>(
-  "RateBasedStatement",
-)({
-  Limit: S.Number,
-  EvaluationWindowSec: S.optional(S.Number),
-  AggregateKeyType: S.String,
-  ScopeDownStatement: S.optional(
-    S.suspend((): S.Schema<Statement, any> => Statement),
-  ),
-  ForwardedIPConfig: S.optional(ForwardedIPConfig),
-  CustomKeys: S.optional(RateBasedStatementCustomKeys),
-}) {}
-export class CreateWebACLRequest extends S.Class<CreateWebACLRequest>(
-  "CreateWebACLRequest",
-)(
-  {
+export interface RateBasedStatement {
+  Limit: number;
+  EvaluationWindowSec?: number;
+  AggregateKeyType: string;
+  ScopeDownStatement?: Statement;
+  ForwardedIPConfig?: ForwardedIPConfig;
+  CustomKeys?: RateBasedStatementCustomKeys;
+}
+export const RateBasedStatement = S.suspend(() =>
+  S.Struct({
+    Limit: S.Number,
+    EvaluationWindowSec: S.optional(S.Number),
+    AggregateKeyType: S.String,
+    ScopeDownStatement: S.optional(
+      S.suspend((): S.Schema<Statement, any> => Statement).annotations({
+        identifier: "Statement",
+      }),
+    ),
+    ForwardedIPConfig: S.optional(ForwardedIPConfig),
+    CustomKeys: S.optional(RateBasedStatementCustomKeys),
+  }),
+).annotations({
+  identifier: "RateBasedStatement",
+}) as any as S.Schema<RateBasedStatement>;
+export interface CreateWebACLRequest {
+  Name: string;
+  Scope: string;
+  DefaultAction: DefaultAction;
+  Description?: string;
+  Rules?: Rules;
+  VisibilityConfig: VisibilityConfig;
+  DataProtectionConfig?: DataProtectionConfig;
+  Tags?: TagList;
+  CustomResponseBodies?: CustomResponseBodies;
+  CaptchaConfig?: CaptchaConfig;
+  ChallengeConfig?: ChallengeConfig;
+  TokenDomains?: TokenDomains;
+  AssociationConfig?: AssociationConfig;
+  OnSourceDDoSProtectionConfig?: OnSourceDDoSProtectionConfig;
+  ApplicationConfig?: ApplicationConfig;
+}
+export const CreateWebACLRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     Scope: S.String,
     DefaultAction: DefaultAction,
@@ -1830,59 +3839,121 @@ export class CreateWebACLRequest extends S.Class<CreateWebACLRequest>(
     AssociationConfig: S.optional(AssociationConfig),
     OnSourceDDoSProtectionConfig: S.optional(OnSourceDDoSProtectionConfig),
     ApplicationConfig: S.optional(ApplicationConfig),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetManagedRuleSetResponse extends S.Class<GetManagedRuleSetResponse>(
-  "GetManagedRuleSetResponse",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateWebACLRequest",
+}) as any as S.Schema<CreateWebACLRequest>;
+export interface GetManagedRuleSetResponse {
+  ManagedRuleSet?: ManagedRuleSet;
+  LockToken?: string;
+}
+export const GetManagedRuleSetResponse = S.suspend(() =>
+  S.Struct({
     ManagedRuleSet: S.optional(ManagedRuleSet),
     LockToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class GetSampledRequestsResponse extends S.Class<GetSampledRequestsResponse>(
-  "GetSampledRequestsResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetManagedRuleSetResponse",
+}) as any as S.Schema<GetManagedRuleSetResponse>;
+export interface GetSampledRequestsResponse {
+  SampledRequests?: SampledHTTPRequests;
+  PopulationSize?: number;
+  TimeWindow?: TimeWindow;
+}
+export const GetSampledRequestsResponse = S.suspend(() =>
+  S.Struct({
     SampledRequests: S.optional(SampledHTTPRequests),
     PopulationSize: S.optional(S.Number),
     TimeWindow: S.optional(TimeWindow),
-  },
-  ns,
-) {}
-export class GetWebACLResponse extends S.Class<GetWebACLResponse>(
-  "GetWebACLResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetSampledRequestsResponse",
+}) as any as S.Schema<GetSampledRequestsResponse>;
+export interface GetWebACLResponse {
+  WebACL?: WebACL;
+  LockToken?: string;
+  ApplicationIntegrationURL?: string;
+}
+export const GetWebACLResponse = S.suspend(() =>
+  S.Struct({
     WebACL: S.optional(WebACL),
     LockToken: S.optional(S.String),
     ApplicationIntegrationURL: S.optional(S.String),
-  },
-  ns,
-) {}
-export class CreateWebACLResponse extends S.Class<CreateWebACLResponse>(
-  "CreateWebACLResponse",
-)({ Summary: S.optional(WebACLSummary) }, ns) {}
-export class PutLoggingConfigurationRequest extends S.Class<PutLoggingConfigurationRequest>(
-  "PutLoggingConfigurationRequest",
-)(
-  { LoggingConfiguration: LoggingConfiguration },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutLoggingConfigurationResponse extends S.Class<PutLoggingConfigurationResponse>(
-  "PutLoggingConfigurationResponse",
-)({ LoggingConfiguration: S.optional(LoggingConfiguration) }, ns) {}
-export class CheckCapacityRequest extends S.Class<CheckCapacityRequest>(
-  "CheckCapacityRequest",
-)(
-  { Scope: S.String, Rules: Rules },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CheckCapacityResponse extends S.Class<CheckCapacityResponse>(
-  "CheckCapacityResponse",
-)({ Capacity: S.optional(S.Number) }, ns) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "GetWebACLResponse",
+}) as any as S.Schema<GetWebACLResponse>;
+export interface CreateWebACLResponse {
+  Summary?: WebACLSummary;
+}
+export const CreateWebACLResponse = S.suspend(() =>
+  S.Struct({ Summary: S.optional(WebACLSummary) }).pipe(ns),
+).annotations({
+  identifier: "CreateWebACLResponse",
+}) as any as S.Schema<CreateWebACLResponse>;
+export interface PutLoggingConfigurationRequest {
+  LoggingConfiguration: LoggingConfiguration;
+}
+export const PutLoggingConfigurationRequest = S.suspend(() =>
+  S.Struct({ LoggingConfiguration: LoggingConfiguration }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutLoggingConfigurationRequest",
+}) as any as S.Schema<PutLoggingConfigurationRequest>;
+export interface PutLoggingConfigurationResponse {
+  LoggingConfiguration?: LoggingConfiguration;
+}
+export const PutLoggingConfigurationResponse = S.suspend(() =>
+  S.Struct({ LoggingConfiguration: S.optional(LoggingConfiguration) }).pipe(ns),
+).annotations({
+  identifier: "PutLoggingConfigurationResponse",
+}) as any as S.Schema<PutLoggingConfigurationResponse>;
+export interface CheckCapacityRequest {
+  Scope: string;
+  Rules: Rules;
+}
+export const CheckCapacityRequest = S.suspend(() =>
+  S.Struct({ Scope: S.String, Rules: Rules }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CheckCapacityRequest",
+}) as any as S.Schema<CheckCapacityRequest>;
+export interface CheckCapacityResponse {
+  Capacity?: number;
+}
+export const CheckCapacityResponse = S.suspend(() =>
+  S.Struct({ Capacity: S.optional(S.Number) }).pipe(ns),
+).annotations({
+  identifier: "CheckCapacityResponse",
+}) as any as S.Schema<CheckCapacityResponse>;
 
 //# Errors
 export class WAFInternalErrorException extends S.TaggedError<WAFInternalErrorException>()(

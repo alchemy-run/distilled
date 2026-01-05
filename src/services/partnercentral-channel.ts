@@ -185,257 +185,397 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
+export type HandshakeStatusList = string[];
 export const HandshakeStatusList = S.Array(S.String);
+export type AssociatedResourceIdentifierList = string[];
 export const AssociatedResourceIdentifierList = S.Array(S.String);
+export type ProgramManagementAccountDisplayNameList = string[];
 export const ProgramManagementAccountDisplayNameList = S.Array(S.String);
+export type ProgramList = string[];
 export const ProgramList = S.Array(S.String);
+export type AccountIdList = string[];
 export const AccountIdList = S.Array(S.String);
+export type ProgramManagementAccountStatusList = string[];
 export const ProgramManagementAccountStatusList = S.Array(S.String);
+export type AssociationTypeList = string[];
 export const AssociationTypeList = S.Array(S.String);
+export type RelationshipDisplayNameList = string[];
 export const RelationshipDisplayNameList = S.Array(S.String);
+export type ProgramManagementAccountIdentifierList = string[];
 export const ProgramManagementAccountIdentifierList = S.Array(S.String);
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { resourceArn: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/ListTagsForResource" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface ListTagsForResourceRequest {
+  resourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ListTagsForResource" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  { resourceArn: S.String, tagKeys: TagKeyList },
-  T.all(
-    T.Http({ method: "POST", uri: "/UntagResource" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface UntagResourceRequest {
+  resourceArn: string;
+  tagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String, tagKeys: TagKeyList }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/UntagResource" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
-export class AcceptChannelHandshakeRequest extends S.Class<AcceptChannelHandshakeRequest>(
-  "AcceptChannelHandshakeRequest",
-)(
-  { catalog: S.String, identifier: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/AcceptChannelHandshake" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface AcceptChannelHandshakeRequest {
+  catalog: string;
+  identifier: string;
+}
+export const AcceptChannelHandshakeRequest = S.suspend(() =>
+  S.Struct({ catalog: S.String, identifier: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/AcceptChannelHandshake" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CancelChannelHandshakeRequest extends S.Class<CancelChannelHandshakeRequest>(
-  "CancelChannelHandshakeRequest",
-)(
-  { catalog: S.String, identifier: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/CancelChannelHandshake" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "AcceptChannelHandshakeRequest",
+}) as any as S.Schema<AcceptChannelHandshakeRequest>;
+export interface CancelChannelHandshakeRequest {
+  catalog: string;
+  identifier: string;
+}
+export const CancelChannelHandshakeRequest = S.suspend(() =>
+  S.Struct({ catalog: S.String, identifier: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/CancelChannelHandshake" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class RejectChannelHandshakeRequest extends S.Class<RejectChannelHandshakeRequest>(
-  "RejectChannelHandshakeRequest",
-)(
-  { catalog: S.String, identifier: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/RejectChannelHandshake" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CancelChannelHandshakeRequest",
+}) as any as S.Schema<CancelChannelHandshakeRequest>;
+export interface RejectChannelHandshakeRequest {
+  catalog: string;
+  identifier: string;
+}
+export const RejectChannelHandshakeRequest = S.suspend(() =>
+  S.Struct({ catalog: S.String, identifier: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/RejectChannelHandshake" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class Tag extends S.Class<Tag>("Tag")({
-  key: S.String,
-  value: S.String,
-}) {}
+).annotations({
+  identifier: "RejectChannelHandshakeRequest",
+}) as any as S.Schema<RejectChannelHandshakeRequest>;
+export interface Tag {
+  key: string;
+  value: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ key: S.String, value: S.String }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagList = Tag[];
 export const TagList = S.Array(Tag);
-export class CreateProgramManagementAccountRequest extends S.Class<CreateProgramManagementAccountRequest>(
-  "CreateProgramManagementAccountRequest",
-)(
-  {
+export interface CreateProgramManagementAccountRequest {
+  catalog: string;
+  program: string;
+  displayName: string;
+  accountId: string;
+  clientToken?: string;
+  tags?: TagList;
+}
+export const CreateProgramManagementAccountRequest = S.suspend(() =>
+  S.Struct({
     catalog: S.String,
     program: S.String,
     displayName: S.String,
     accountId: S.String,
     clientToken: S.optional(S.String),
     tags: S.optional(TagList),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/CreateProgramManagementAccount" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/CreateProgramManagementAccount" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateProgramManagementAccountRequest extends S.Class<UpdateProgramManagementAccountRequest>(
-  "UpdateProgramManagementAccountRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateProgramManagementAccountRequest",
+}) as any as S.Schema<CreateProgramManagementAccountRequest>;
+export interface UpdateProgramManagementAccountRequest {
+  catalog: string;
+  identifier: string;
+  revision?: string;
+  displayName?: string;
+}
+export const UpdateProgramManagementAccountRequest = S.suspend(() =>
+  S.Struct({
     catalog: S.String,
     identifier: S.String,
     revision: S.optional(S.String),
     displayName: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/UpdateProgramManagementAccount" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/UpdateProgramManagementAccount" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteProgramManagementAccountRequest extends S.Class<DeleteProgramManagementAccountRequest>(
-  "DeleteProgramManagementAccountRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateProgramManagementAccountRequest",
+}) as any as S.Schema<UpdateProgramManagementAccountRequest>;
+export interface DeleteProgramManagementAccountRequest {
+  catalog: string;
+  identifier: string;
+  clientToken?: string;
+}
+export const DeleteProgramManagementAccountRequest = S.suspend(() =>
+  S.Struct({
     catalog: S.String,
     identifier: S.String,
     clientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/DeleteProgramManagementAccount" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/DeleteProgramManagementAccount" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteProgramManagementAccountResponse extends S.Class<DeleteProgramManagementAccountResponse>(
-  "DeleteProgramManagementAccountResponse",
-)({}) {}
-export class GetRelationshipRequest extends S.Class<GetRelationshipRequest>(
-  "GetRelationshipRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteProgramManagementAccountRequest",
+}) as any as S.Schema<DeleteProgramManagementAccountRequest>;
+export interface DeleteProgramManagementAccountResponse {}
+export const DeleteProgramManagementAccountResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteProgramManagementAccountResponse",
+}) as any as S.Schema<DeleteProgramManagementAccountResponse>;
+export interface GetRelationshipRequest {
+  catalog: string;
+  programManagementAccountIdentifier: string;
+  identifier: string;
+}
+export const GetRelationshipRequest = S.suspend(() =>
+  S.Struct({
     catalog: S.String,
     programManagementAccountIdentifier: S.String,
     identifier: S.String,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/GetRelationship" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/GetRelationship" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ResoldBusiness extends S.Class<ResoldBusiness>("ResoldBusiness")({
-  coverage: S.String,
-}) {}
-export class ResoldEnterprise extends S.Class<ResoldEnterprise>(
-  "ResoldEnterprise",
-)({
-  coverage: S.String,
-  tamLocation: S.String,
-  chargeAccountId: S.optional(S.String),
-}) {}
-export class PartnerLedSupport extends S.Class<PartnerLedSupport>(
-  "PartnerLedSupport",
-)({
-  coverage: S.String,
-  provider: S.optional(S.String),
-  tamLocation: S.String,
-}) {}
+).annotations({
+  identifier: "GetRelationshipRequest",
+}) as any as S.Schema<GetRelationshipRequest>;
+export interface ResoldBusiness {
+  coverage: string;
+}
+export const ResoldBusiness = S.suspend(() =>
+  S.Struct({ coverage: S.String }),
+).annotations({
+  identifier: "ResoldBusiness",
+}) as any as S.Schema<ResoldBusiness>;
+export interface ResoldEnterprise {
+  coverage: string;
+  tamLocation: string;
+  chargeAccountId?: string;
+}
+export const ResoldEnterprise = S.suspend(() =>
+  S.Struct({
+    coverage: S.String,
+    tamLocation: S.String,
+    chargeAccountId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ResoldEnterprise",
+}) as any as S.Schema<ResoldEnterprise>;
+export interface PartnerLedSupport {
+  coverage: string;
+  provider?: string;
+  tamLocation: string;
+}
+export const PartnerLedSupport = S.suspend(() =>
+  S.Struct({
+    coverage: S.String,
+    provider: S.optional(S.String),
+    tamLocation: S.String,
+  }),
+).annotations({
+  identifier: "PartnerLedSupport",
+}) as any as S.Schema<PartnerLedSupport>;
 export const SupportPlan = S.Union(
   S.Struct({ resoldBusiness: ResoldBusiness }),
   S.Struct({ resoldEnterprise: ResoldEnterprise }),
   S.Struct({ partnerLedSupport: PartnerLedSupport }),
 );
-export class UpdateRelationshipRequest extends S.Class<UpdateRelationshipRequest>(
-  "UpdateRelationshipRequest",
-)(
-  {
+export interface UpdateRelationshipRequest {
+  catalog: string;
+  identifier: string;
+  programManagementAccountIdentifier: string;
+  revision?: string;
+  displayName?: string;
+  requestedSupportPlan?: (typeof SupportPlan)["Type"];
+}
+export const UpdateRelationshipRequest = S.suspend(() =>
+  S.Struct({
     catalog: S.String,
     identifier: S.String,
     programManagementAccountIdentifier: S.String,
     revision: S.optional(S.String),
     displayName: S.optional(S.String),
     requestedSupportPlan: S.optional(SupportPlan),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/UpdateRelationship" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/UpdateRelationship" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteRelationshipRequest extends S.Class<DeleteRelationshipRequest>(
-  "DeleteRelationshipRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateRelationshipRequest",
+}) as any as S.Schema<UpdateRelationshipRequest>;
+export interface DeleteRelationshipRequest {
+  catalog: string;
+  identifier: string;
+  programManagementAccountIdentifier: string;
+  clientToken?: string;
+}
+export const DeleteRelationshipRequest = S.suspend(() =>
+  S.Struct({
     catalog: S.String,
     identifier: S.String,
     programManagementAccountIdentifier: S.String,
     clientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/DeleteRelationship" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/DeleteRelationship" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteRelationshipResponse extends S.Class<DeleteRelationshipResponse>(
-  "DeleteRelationshipResponse",
-)({}) {}
-export class ListProgramManagementAccountsSortBase extends S.Class<ListProgramManagementAccountsSortBase>(
-  "ListProgramManagementAccountsSortBase",
-)({ sortOrder: S.String, sortBy: S.String }) {}
-export class ListRelationshipsSortBase extends S.Class<ListRelationshipsSortBase>(
-  "ListRelationshipsSortBase",
-)({ sortOrder: S.String, sortBy: S.String }) {}
+).annotations({
+  identifier: "DeleteRelationshipRequest",
+}) as any as S.Schema<DeleteRelationshipRequest>;
+export interface DeleteRelationshipResponse {}
+export const DeleteRelationshipResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteRelationshipResponse",
+}) as any as S.Schema<DeleteRelationshipResponse>;
+export interface ListProgramManagementAccountsSortBase {
+  sortOrder: string;
+  sortBy: string;
+}
+export const ListProgramManagementAccountsSortBase = S.suspend(() =>
+  S.Struct({ sortOrder: S.String, sortBy: S.String }),
+).annotations({
+  identifier: "ListProgramManagementAccountsSortBase",
+}) as any as S.Schema<ListProgramManagementAccountsSortBase>;
+export interface ListRelationshipsSortBase {
+  sortOrder: string;
+  sortBy: string;
+}
+export const ListRelationshipsSortBase = S.suspend(() =>
+  S.Struct({ sortOrder: S.String, sortBy: S.String }),
+).annotations({
+  identifier: "ListRelationshipsSortBase",
+}) as any as S.Schema<ListRelationshipsSortBase>;
+export type ServicePeriodTypeList = string[];
 export const ServicePeriodTypeList = S.Array(S.String);
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ tags: S.optional(TagList) }) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { resourceArn: S.String, tags: TagList },
-  T.all(
-    T.Http({ method: "POST", uri: "/TagResource" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface ListTagsForResourceResponse {
+  tags?: TagList;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ tags: S.optional(TagList) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface TagResourceRequest {
+  resourceArn: string;
+  tags: TagList;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String, tags: TagList }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/TagResource" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class ListProgramManagementAccountsRequest extends S.Class<ListProgramManagementAccountsRequest>(
-  "ListProgramManagementAccountsRequest",
-)(
-  {
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface ListProgramManagementAccountsRequest {
+  catalog: string;
+  maxResults?: number;
+  displayNames?: ProgramManagementAccountDisplayNameList;
+  programs?: ProgramList;
+  accountIds?: AccountIdList;
+  statuses?: ProgramManagementAccountStatusList;
+  sort?: ListProgramManagementAccountsSortBase;
+  nextToken?: string;
+}
+export const ListProgramManagementAccountsRequest = S.suspend(() =>
+  S.Struct({
     catalog: S.String,
     maxResults: S.optional(S.Number),
     displayNames: S.optional(ProgramManagementAccountDisplayNameList),
@@ -444,20 +584,31 @@ export class ListProgramManagementAccountsRequest extends S.Class<ListProgramMan
     statuses: S.optional(ProgramManagementAccountStatusList),
     sort: S.optional(ListProgramManagementAccountsSortBase),
     nextToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/ListProgramManagementAccounts" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ListProgramManagementAccounts" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListRelationshipsRequest extends S.Class<ListRelationshipsRequest>(
-  "ListRelationshipsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListProgramManagementAccountsRequest",
+}) as any as S.Schema<ListProgramManagementAccountsRequest>;
+export interface ListRelationshipsRequest {
+  catalog: string;
+  maxResults?: number;
+  associatedAccountIds?: AccountIdList;
+  associationTypes?: AssociationTypeList;
+  displayNames?: RelationshipDisplayNameList;
+  programManagementAccountIdentifiers?: ProgramManagementAccountIdentifierList;
+  sort?: ListRelationshipsSortBase;
+  nextToken?: string;
+}
+export const ListRelationshipsRequest = S.suspend(() =>
+  S.Struct({
     catalog: S.String,
     maxResults: S.optional(S.Number),
     associatedAccountIds: S.optional(AccountIdList),
@@ -468,49 +619,100 @@ export class ListRelationshipsRequest extends S.Class<ListRelationshipsRequest>(
     ),
     sort: S.optional(ListRelationshipsSortBase),
     nextToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/ListRelationships" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ListRelationships" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartServicePeriodPayload extends S.Class<StartServicePeriodPayload>(
-  "StartServicePeriodPayload",
-)({
-  programManagementAccountIdentifier: S.String,
-  note: S.optional(S.String),
-  servicePeriodType: S.String,
-  minimumNoticeDays: S.optional(S.String),
-  endDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-}) {}
-export class RevokeServicePeriodPayload extends S.Class<RevokeServicePeriodPayload>(
-  "RevokeServicePeriodPayload",
-)({
-  programManagementAccountIdentifier: S.String,
-  note: S.optional(S.String),
-}) {}
-export class StartServicePeriodTypeFilters extends S.Class<StartServicePeriodTypeFilters>(
-  "StartServicePeriodTypeFilters",
-)({ servicePeriodTypes: S.optional(ServicePeriodTypeList) }) {}
-export class RevokeServicePeriodTypeFilters extends S.Class<RevokeServicePeriodTypeFilters>(
-  "RevokeServicePeriodTypeFilters",
-)({ servicePeriodTypes: S.optional(ServicePeriodTypeList) }) {}
-export class ProgramManagementAccountTypeFilters extends S.Class<ProgramManagementAccountTypeFilters>(
-  "ProgramManagementAccountTypeFilters",
-)({ programs: S.optional(ProgramList) }) {}
-export class StartServicePeriodTypeSort extends S.Class<StartServicePeriodTypeSort>(
-  "StartServicePeriodTypeSort",
-)({ sortOrder: S.String, sortBy: S.String }) {}
-export class RevokeServicePeriodTypeSort extends S.Class<RevokeServicePeriodTypeSort>(
-  "RevokeServicePeriodTypeSort",
-)({ sortOrder: S.String, sortBy: S.String }) {}
-export class ProgramManagementAccountTypeSort extends S.Class<ProgramManagementAccountTypeSort>(
-  "ProgramManagementAccountTypeSort",
-)({ sortOrder: S.String, sortBy: S.String }) {}
+).annotations({
+  identifier: "ListRelationshipsRequest",
+}) as any as S.Schema<ListRelationshipsRequest>;
+export interface StartServicePeriodPayload {
+  programManagementAccountIdentifier: string;
+  note?: string;
+  servicePeriodType: string;
+  minimumNoticeDays?: string;
+  endDate?: Date;
+}
+export const StartServicePeriodPayload = S.suspend(() =>
+  S.Struct({
+    programManagementAccountIdentifier: S.String,
+    note: S.optional(S.String),
+    servicePeriodType: S.String,
+    minimumNoticeDays: S.optional(S.String),
+    endDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotations({
+  identifier: "StartServicePeriodPayload",
+}) as any as S.Schema<StartServicePeriodPayload>;
+export interface RevokeServicePeriodPayload {
+  programManagementAccountIdentifier: string;
+  note?: string;
+}
+export const RevokeServicePeriodPayload = S.suspend(() =>
+  S.Struct({
+    programManagementAccountIdentifier: S.String,
+    note: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RevokeServicePeriodPayload",
+}) as any as S.Schema<RevokeServicePeriodPayload>;
+export interface StartServicePeriodTypeFilters {
+  servicePeriodTypes?: ServicePeriodTypeList;
+}
+export const StartServicePeriodTypeFilters = S.suspend(() =>
+  S.Struct({ servicePeriodTypes: S.optional(ServicePeriodTypeList) }),
+).annotations({
+  identifier: "StartServicePeriodTypeFilters",
+}) as any as S.Schema<StartServicePeriodTypeFilters>;
+export interface RevokeServicePeriodTypeFilters {
+  servicePeriodTypes?: ServicePeriodTypeList;
+}
+export const RevokeServicePeriodTypeFilters = S.suspend(() =>
+  S.Struct({ servicePeriodTypes: S.optional(ServicePeriodTypeList) }),
+).annotations({
+  identifier: "RevokeServicePeriodTypeFilters",
+}) as any as S.Schema<RevokeServicePeriodTypeFilters>;
+export interface ProgramManagementAccountTypeFilters {
+  programs?: ProgramList;
+}
+export const ProgramManagementAccountTypeFilters = S.suspend(() =>
+  S.Struct({ programs: S.optional(ProgramList) }),
+).annotations({
+  identifier: "ProgramManagementAccountTypeFilters",
+}) as any as S.Schema<ProgramManagementAccountTypeFilters>;
+export interface StartServicePeriodTypeSort {
+  sortOrder: string;
+  sortBy: string;
+}
+export const StartServicePeriodTypeSort = S.suspend(() =>
+  S.Struct({ sortOrder: S.String, sortBy: S.String }),
+).annotations({
+  identifier: "StartServicePeriodTypeSort",
+}) as any as S.Schema<StartServicePeriodTypeSort>;
+export interface RevokeServicePeriodTypeSort {
+  sortOrder: string;
+  sortBy: string;
+}
+export const RevokeServicePeriodTypeSort = S.suspend(() =>
+  S.Struct({ sortOrder: S.String, sortBy: S.String }),
+).annotations({
+  identifier: "RevokeServicePeriodTypeSort",
+}) as any as S.Schema<RevokeServicePeriodTypeSort>;
+export interface ProgramManagementAccountTypeSort {
+  sortOrder: string;
+  sortBy: string;
+}
+export const ProgramManagementAccountTypeSort = S.suspend(() =>
+  S.Struct({ sortOrder: S.String, sortBy: S.String }),
+).annotations({
+  identifier: "ProgramManagementAccountTypeSort",
+}) as any as S.Schema<ProgramManagementAccountTypeSort>;
 export const ChannelHandshakePayload = S.Union(
   S.Struct({ startServicePeriodPayload: StartServicePeriodPayload }),
   S.Struct({ revokeServicePeriodPayload: RevokeServicePeriodPayload }),
@@ -529,87 +731,165 @@ export const ListChannelHandshakesTypeSort = S.Union(
     programManagementAccountTypeSort: ProgramManagementAccountTypeSort,
   }),
 );
-export class AcceptChannelHandshakeDetail extends S.Class<AcceptChannelHandshakeDetail>(
-  "AcceptChannelHandshakeDetail",
-)({
-  id: S.optional(S.String),
-  arn: S.optional(S.String),
-  status: S.optional(S.String),
-}) {}
-export class CancelChannelHandshakeDetail extends S.Class<CancelChannelHandshakeDetail>(
-  "CancelChannelHandshakeDetail",
-)({
-  id: S.optional(S.String),
-  arn: S.optional(S.String),
-  status: S.optional(S.String),
-}) {}
-export class RejectChannelHandshakeDetail extends S.Class<RejectChannelHandshakeDetail>(
-  "RejectChannelHandshakeDetail",
-)({
-  id: S.optional(S.String),
-  arn: S.optional(S.String),
-  status: S.optional(S.String),
-}) {}
-export class CreateProgramManagementAccountDetail extends S.Class<CreateProgramManagementAccountDetail>(
-  "CreateProgramManagementAccountDetail",
-)({ id: S.optional(S.String), arn: S.optional(S.String) }) {}
-export class UpdateProgramManagementAccountDetail extends S.Class<UpdateProgramManagementAccountDetail>(
-  "UpdateProgramManagementAccountDetail",
-)({
-  id: S.optional(S.String),
-  arn: S.optional(S.String),
-  revision: S.optional(S.String),
-  displayName: S.optional(S.String),
-}) {}
-export class RelationshipDetail extends S.Class<RelationshipDetail>(
-  "RelationshipDetail",
-)({
-  arn: S.optional(S.String),
-  id: S.optional(S.String),
-  revision: S.optional(S.String),
-  catalog: S.optional(S.String),
-  associationType: S.optional(S.String),
-  programManagementAccountId: S.optional(S.String),
-  associatedAccountId: S.optional(S.String),
-  displayName: S.optional(S.String),
-  resaleAccountModel: S.optional(S.String),
-  sector: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  startDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-}) {}
-export class UpdateRelationshipDetail extends S.Class<UpdateRelationshipDetail>(
-  "UpdateRelationshipDetail",
-)({
-  arn: S.optional(S.String),
-  id: S.optional(S.String),
-  revision: S.optional(S.String),
-  displayName: S.optional(S.String),
-}) {}
-export class CreateChannelHandshakeRequest extends S.Class<CreateChannelHandshakeRequest>(
-  "CreateChannelHandshakeRequest",
-)(
-  {
+export interface AcceptChannelHandshakeDetail {
+  id?: string;
+  arn?: string;
+  status?: string;
+}
+export const AcceptChannelHandshakeDetail = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    arn: S.optional(S.String),
+    status: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AcceptChannelHandshakeDetail",
+}) as any as S.Schema<AcceptChannelHandshakeDetail>;
+export interface CancelChannelHandshakeDetail {
+  id?: string;
+  arn?: string;
+  status?: string;
+}
+export const CancelChannelHandshakeDetail = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    arn: S.optional(S.String),
+    status: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CancelChannelHandshakeDetail",
+}) as any as S.Schema<CancelChannelHandshakeDetail>;
+export interface RejectChannelHandshakeDetail {
+  id?: string;
+  arn?: string;
+  status?: string;
+}
+export const RejectChannelHandshakeDetail = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    arn: S.optional(S.String),
+    status: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RejectChannelHandshakeDetail",
+}) as any as S.Schema<RejectChannelHandshakeDetail>;
+export interface CreateProgramManagementAccountDetail {
+  id?: string;
+  arn?: string;
+}
+export const CreateProgramManagementAccountDetail = S.suspend(() =>
+  S.Struct({ id: S.optional(S.String), arn: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateProgramManagementAccountDetail",
+}) as any as S.Schema<CreateProgramManagementAccountDetail>;
+export interface UpdateProgramManagementAccountDetail {
+  id?: string;
+  arn?: string;
+  revision?: string;
+  displayName?: string;
+}
+export const UpdateProgramManagementAccountDetail = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    arn: S.optional(S.String),
+    revision: S.optional(S.String),
+    displayName: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "UpdateProgramManagementAccountDetail",
+}) as any as S.Schema<UpdateProgramManagementAccountDetail>;
+export interface RelationshipDetail {
+  arn?: string;
+  id?: string;
+  revision?: string;
+  catalog?: string;
+  associationType?: string;
+  programManagementAccountId?: string;
+  associatedAccountId?: string;
+  displayName?: string;
+  resaleAccountModel?: string;
+  sector?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+  startDate?: Date;
+}
+export const RelationshipDetail = S.suspend(() =>
+  S.Struct({
+    arn: S.optional(S.String),
+    id: S.optional(S.String),
+    revision: S.optional(S.String),
+    catalog: S.optional(S.String),
+    associationType: S.optional(S.String),
+    programManagementAccountId: S.optional(S.String),
+    associatedAccountId: S.optional(S.String),
+    displayName: S.optional(S.String),
+    resaleAccountModel: S.optional(S.String),
+    sector: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    startDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotations({
+  identifier: "RelationshipDetail",
+}) as any as S.Schema<RelationshipDetail>;
+export interface UpdateRelationshipDetail {
+  arn?: string;
+  id?: string;
+  revision?: string;
+  displayName?: string;
+}
+export const UpdateRelationshipDetail = S.suspend(() =>
+  S.Struct({
+    arn: S.optional(S.String),
+    id: S.optional(S.String),
+    revision: S.optional(S.String),
+    displayName: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "UpdateRelationshipDetail",
+}) as any as S.Schema<UpdateRelationshipDetail>;
+export interface CreateChannelHandshakeRequest {
+  handshakeType: string;
+  catalog: string;
+  associatedResourceIdentifier: string;
+  payload?: (typeof ChannelHandshakePayload)["Type"];
+  clientToken?: string;
+  tags?: TagList;
+}
+export const CreateChannelHandshakeRequest = S.suspend(() =>
+  S.Struct({
     handshakeType: S.String,
     catalog: S.String,
     associatedResourceIdentifier: S.String,
     payload: S.optional(ChannelHandshakePayload),
     clientToken: S.optional(S.String),
     tags: S.optional(TagList),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/CreateChannelHandshake" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/CreateChannelHandshake" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListChannelHandshakesRequest extends S.Class<ListChannelHandshakesRequest>(
-  "ListChannelHandshakesRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateChannelHandshakeRequest",
+}) as any as S.Schema<CreateChannelHandshakeRequest>;
+export interface ListChannelHandshakesRequest {
+  handshakeType: string;
+  catalog: string;
+  participantType: string;
+  maxResults?: number;
+  statuses?: HandshakeStatusList;
+  associatedResourceIdentifiers?: AssociatedResourceIdentifierList;
+  handshakeTypeFilters?: (typeof ListChannelHandshakesTypeFilters)["Type"];
+  handshakeTypeSort?: (typeof ListChannelHandshakesTypeSort)["Type"];
+  nextToken?: string;
+}
+export const ListChannelHandshakesRequest = S.suspend(() =>
+  S.Struct({
     handshakeType: S.String,
     catalog: S.String,
     participantType: S.String,
@@ -619,43 +899,87 @@ export class ListChannelHandshakesRequest extends S.Class<ListChannelHandshakesR
     handshakeTypeFilters: S.optional(ListChannelHandshakesTypeFilters),
     handshakeTypeSort: S.optional(ListChannelHandshakesTypeSort),
     nextToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/ListChannelHandshakes" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ListChannelHandshakes" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AcceptChannelHandshakeResponse extends S.Class<AcceptChannelHandshakeResponse>(
-  "AcceptChannelHandshakeResponse",
-)({ channelHandshakeDetail: S.optional(AcceptChannelHandshakeDetail) }) {}
-export class CancelChannelHandshakeResponse extends S.Class<CancelChannelHandshakeResponse>(
-  "CancelChannelHandshakeResponse",
-)({ channelHandshakeDetail: S.optional(CancelChannelHandshakeDetail) }) {}
-export class RejectChannelHandshakeResponse extends S.Class<RejectChannelHandshakeResponse>(
-  "RejectChannelHandshakeResponse",
-)({ channelHandshakeDetail: S.optional(RejectChannelHandshakeDetail) }) {}
-export class CreateProgramManagementAccountResponse extends S.Class<CreateProgramManagementAccountResponse>(
-  "CreateProgramManagementAccountResponse",
-)({
-  programManagementAccountDetail: S.optional(
-    CreateProgramManagementAccountDetail,
-  ),
-}) {}
-export class UpdateProgramManagementAccountResponse extends S.Class<UpdateProgramManagementAccountResponse>(
-  "UpdateProgramManagementAccountResponse",
-)({
-  programManagementAccountDetail: S.optional(
-    UpdateProgramManagementAccountDetail,
-  ),
-}) {}
-export class CreateRelationshipRequest extends S.Class<CreateRelationshipRequest>(
-  "CreateRelationshipRequest",
-)(
-  {
+).annotations({
+  identifier: "ListChannelHandshakesRequest",
+}) as any as S.Schema<ListChannelHandshakesRequest>;
+export interface AcceptChannelHandshakeResponse {
+  channelHandshakeDetail?: AcceptChannelHandshakeDetail;
+}
+export const AcceptChannelHandshakeResponse = S.suspend(() =>
+  S.Struct({
+    channelHandshakeDetail: S.optional(AcceptChannelHandshakeDetail),
+  }),
+).annotations({
+  identifier: "AcceptChannelHandshakeResponse",
+}) as any as S.Schema<AcceptChannelHandshakeResponse>;
+export interface CancelChannelHandshakeResponse {
+  channelHandshakeDetail?: CancelChannelHandshakeDetail;
+}
+export const CancelChannelHandshakeResponse = S.suspend(() =>
+  S.Struct({
+    channelHandshakeDetail: S.optional(CancelChannelHandshakeDetail),
+  }),
+).annotations({
+  identifier: "CancelChannelHandshakeResponse",
+}) as any as S.Schema<CancelChannelHandshakeResponse>;
+export interface RejectChannelHandshakeResponse {
+  channelHandshakeDetail?: RejectChannelHandshakeDetail;
+}
+export const RejectChannelHandshakeResponse = S.suspend(() =>
+  S.Struct({
+    channelHandshakeDetail: S.optional(RejectChannelHandshakeDetail),
+  }),
+).annotations({
+  identifier: "RejectChannelHandshakeResponse",
+}) as any as S.Schema<RejectChannelHandshakeResponse>;
+export interface CreateProgramManagementAccountResponse {
+  programManagementAccountDetail?: CreateProgramManagementAccountDetail;
+}
+export const CreateProgramManagementAccountResponse = S.suspend(() =>
+  S.Struct({
+    programManagementAccountDetail: S.optional(
+      CreateProgramManagementAccountDetail,
+    ),
+  }),
+).annotations({
+  identifier: "CreateProgramManagementAccountResponse",
+}) as any as S.Schema<CreateProgramManagementAccountResponse>;
+export interface UpdateProgramManagementAccountResponse {
+  programManagementAccountDetail?: UpdateProgramManagementAccountDetail;
+}
+export const UpdateProgramManagementAccountResponse = S.suspend(() =>
+  S.Struct({
+    programManagementAccountDetail: S.optional(
+      UpdateProgramManagementAccountDetail,
+    ),
+  }),
+).annotations({
+  identifier: "UpdateProgramManagementAccountResponse",
+}) as any as S.Schema<UpdateProgramManagementAccountResponse>;
+export interface CreateRelationshipRequest {
+  catalog: string;
+  associationType: string;
+  programManagementAccountIdentifier: string;
+  associatedAccountId: string;
+  displayName: string;
+  resaleAccountModel?: string;
+  sector: string;
+  clientToken?: string;
+  tags?: TagList;
+  requestedSupportPlan?: (typeof SupportPlan)["Type"];
+}
+export const CreateRelationshipRequest = S.suspend(() =>
+  S.Struct({
     catalog: S.String,
     associationType: S.String,
     programManagementAccountIdentifier: S.String,
@@ -666,102 +990,208 @@ export class CreateRelationshipRequest extends S.Class<CreateRelationshipRequest
     clientToken: S.optional(S.String),
     tags: S.optional(TagList),
     requestedSupportPlan: S.optional(SupportPlan),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/CreateRelationship" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/CreateRelationship" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetRelationshipResponse extends S.Class<GetRelationshipResponse>(
-  "GetRelationshipResponse",
-)({ relationshipDetail: S.optional(RelationshipDetail) }) {}
-export class UpdateRelationshipResponse extends S.Class<UpdateRelationshipResponse>(
-  "UpdateRelationshipResponse",
-)({ relationshipDetail: S.optional(UpdateRelationshipDetail) }) {}
-export class ProgramManagementAccountSummary extends S.Class<ProgramManagementAccountSummary>(
-  "ProgramManagementAccountSummary",
-)({
-  id: S.optional(S.String),
-  revision: S.optional(S.String),
-  catalog: S.optional(S.String),
-  program: S.optional(S.String),
-  displayName: S.optional(S.String),
-  accountId: S.optional(S.String),
-  arn: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  startDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  status: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "CreateRelationshipRequest",
+}) as any as S.Schema<CreateRelationshipRequest>;
+export interface GetRelationshipResponse {
+  relationshipDetail?: RelationshipDetail;
+}
+export const GetRelationshipResponse = S.suspend(() =>
+  S.Struct({ relationshipDetail: S.optional(RelationshipDetail) }),
+).annotations({
+  identifier: "GetRelationshipResponse",
+}) as any as S.Schema<GetRelationshipResponse>;
+export interface UpdateRelationshipResponse {
+  relationshipDetail?: UpdateRelationshipDetail;
+}
+export const UpdateRelationshipResponse = S.suspend(() =>
+  S.Struct({ relationshipDetail: S.optional(UpdateRelationshipDetail) }),
+).annotations({
+  identifier: "UpdateRelationshipResponse",
+}) as any as S.Schema<UpdateRelationshipResponse>;
+export interface ProgramManagementAccountSummary {
+  id?: string;
+  revision?: string;
+  catalog?: string;
+  program?: string;
+  displayName?: string;
+  accountId?: string;
+  arn?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+  startDate?: Date;
+  status?: string;
+}
+export const ProgramManagementAccountSummary = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    revision: S.optional(S.String),
+    catalog: S.optional(S.String),
+    program: S.optional(S.String),
+    displayName: S.optional(S.String),
+    accountId: S.optional(S.String),
+    arn: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    startDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    status: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ProgramManagementAccountSummary",
+}) as any as S.Schema<ProgramManagementAccountSummary>;
+export type ProgramManagementAccountSummaries =
+  ProgramManagementAccountSummary[];
 export const ProgramManagementAccountSummaries = S.Array(
   ProgramManagementAccountSummary,
 );
-export class RelationshipSummary extends S.Class<RelationshipSummary>(
-  "RelationshipSummary",
-)({
-  arn: S.optional(S.String),
-  id: S.optional(S.String),
-  revision: S.optional(S.String),
-  catalog: S.optional(S.String),
-  associationType: S.optional(S.String),
-  programManagementAccountId: S.optional(S.String),
-  associatedAccountId: S.optional(S.String),
-  displayName: S.optional(S.String),
-  sector: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  startDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-}) {}
+export interface RelationshipSummary {
+  arn?: string;
+  id?: string;
+  revision?: string;
+  catalog?: string;
+  associationType?: string;
+  programManagementAccountId?: string;
+  associatedAccountId?: string;
+  displayName?: string;
+  sector?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+  startDate?: Date;
+}
+export const RelationshipSummary = S.suspend(() =>
+  S.Struct({
+    arn: S.optional(S.String),
+    id: S.optional(S.String),
+    revision: S.optional(S.String),
+    catalog: S.optional(S.String),
+    associationType: S.optional(S.String),
+    programManagementAccountId: S.optional(S.String),
+    associatedAccountId: S.optional(S.String),
+    displayName: S.optional(S.String),
+    sector: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    startDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotations({
+  identifier: "RelationshipSummary",
+}) as any as S.Schema<RelationshipSummary>;
+export type RelationshipSummaries = RelationshipSummary[];
 export const RelationshipSummaries = S.Array(RelationshipSummary);
-export class ListProgramManagementAccountsResponse extends S.Class<ListProgramManagementAccountsResponse>(
-  "ListProgramManagementAccountsResponse",
-)({
-  items: S.optional(ProgramManagementAccountSummaries),
-  nextToken: S.optional(S.String),
-}) {}
-export class ListRelationshipsResponse extends S.Class<ListRelationshipsResponse>(
-  "ListRelationshipsResponse",
-)({
-  items: S.optional(RelationshipSummaries),
-  nextToken: S.optional(S.String),
-}) {}
-export class CreateChannelHandshakeDetail extends S.Class<CreateChannelHandshakeDetail>(
-  "CreateChannelHandshakeDetail",
-)({ id: S.optional(S.String), arn: S.optional(S.String) }) {}
-export class CreateRelationshipDetail extends S.Class<CreateRelationshipDetail>(
-  "CreateRelationshipDetail",
-)({ arn: S.optional(S.String), id: S.optional(S.String) }) {}
-export class CreateChannelHandshakeResponse extends S.Class<CreateChannelHandshakeResponse>(
-  "CreateChannelHandshakeResponse",
-)({ channelHandshakeDetail: S.optional(CreateChannelHandshakeDetail) }) {}
-export class CreateRelationshipResponse extends S.Class<CreateRelationshipResponse>(
-  "CreateRelationshipResponse",
-)({ relationshipDetail: S.optional(CreateRelationshipDetail) }) {}
-export class StartServicePeriodHandshakeDetail extends S.Class<StartServicePeriodHandshakeDetail>(
-  "StartServicePeriodHandshakeDetail",
-)({
-  note: S.optional(S.String),
-  servicePeriodType: S.optional(S.String),
-  minimumNoticeDays: S.optional(S.String),
-  startDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  endDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-}) {}
-export class RevokeServicePeriodHandshakeDetail extends S.Class<RevokeServicePeriodHandshakeDetail>(
-  "RevokeServicePeriodHandshakeDetail",
-)({
-  note: S.optional(S.String),
-  servicePeriodType: S.optional(S.String),
-  minimumNoticeDays: S.optional(S.String),
-  startDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  endDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-}) {}
-export class ProgramManagementAccountHandshakeDetail extends S.Class<ProgramManagementAccountHandshakeDetail>(
-  "ProgramManagementAccountHandshakeDetail",
-)({ program: S.optional(S.String) }) {}
+export interface ListProgramManagementAccountsResponse {
+  items?: ProgramManagementAccountSummaries;
+  nextToken?: string;
+}
+export const ListProgramManagementAccountsResponse = S.suspend(() =>
+  S.Struct({
+    items: S.optional(ProgramManagementAccountSummaries),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListProgramManagementAccountsResponse",
+}) as any as S.Schema<ListProgramManagementAccountsResponse>;
+export interface ListRelationshipsResponse {
+  items?: RelationshipSummaries;
+  nextToken?: string;
+}
+export const ListRelationshipsResponse = S.suspend(() =>
+  S.Struct({
+    items: S.optional(RelationshipSummaries),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListRelationshipsResponse",
+}) as any as S.Schema<ListRelationshipsResponse>;
+export interface CreateChannelHandshakeDetail {
+  id?: string;
+  arn?: string;
+}
+export const CreateChannelHandshakeDetail = S.suspend(() =>
+  S.Struct({ id: S.optional(S.String), arn: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateChannelHandshakeDetail",
+}) as any as S.Schema<CreateChannelHandshakeDetail>;
+export interface CreateRelationshipDetail {
+  arn?: string;
+  id?: string;
+}
+export const CreateRelationshipDetail = S.suspend(() =>
+  S.Struct({ arn: S.optional(S.String), id: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateRelationshipDetail",
+}) as any as S.Schema<CreateRelationshipDetail>;
+export interface CreateChannelHandshakeResponse {
+  channelHandshakeDetail?: CreateChannelHandshakeDetail;
+}
+export const CreateChannelHandshakeResponse = S.suspend(() =>
+  S.Struct({
+    channelHandshakeDetail: S.optional(CreateChannelHandshakeDetail),
+  }),
+).annotations({
+  identifier: "CreateChannelHandshakeResponse",
+}) as any as S.Schema<CreateChannelHandshakeResponse>;
+export interface CreateRelationshipResponse {
+  relationshipDetail?: CreateRelationshipDetail;
+}
+export const CreateRelationshipResponse = S.suspend(() =>
+  S.Struct({ relationshipDetail: S.optional(CreateRelationshipDetail) }),
+).annotations({
+  identifier: "CreateRelationshipResponse",
+}) as any as S.Schema<CreateRelationshipResponse>;
+export interface StartServicePeriodHandshakeDetail {
+  note?: string;
+  servicePeriodType?: string;
+  minimumNoticeDays?: string;
+  startDate?: Date;
+  endDate?: Date;
+}
+export const StartServicePeriodHandshakeDetail = S.suspend(() =>
+  S.Struct({
+    note: S.optional(S.String),
+    servicePeriodType: S.optional(S.String),
+    minimumNoticeDays: S.optional(S.String),
+    startDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    endDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotations({
+  identifier: "StartServicePeriodHandshakeDetail",
+}) as any as S.Schema<StartServicePeriodHandshakeDetail>;
+export interface RevokeServicePeriodHandshakeDetail {
+  note?: string;
+  servicePeriodType?: string;
+  minimumNoticeDays?: string;
+  startDate?: Date;
+  endDate?: Date;
+}
+export const RevokeServicePeriodHandshakeDetail = S.suspend(() =>
+  S.Struct({
+    note: S.optional(S.String),
+    servicePeriodType: S.optional(S.String),
+    minimumNoticeDays: S.optional(S.String),
+    startDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    endDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotations({
+  identifier: "RevokeServicePeriodHandshakeDetail",
+}) as any as S.Schema<RevokeServicePeriodHandshakeDetail>;
+export interface ProgramManagementAccountHandshakeDetail {
+  program?: string;
+}
+export const ProgramManagementAccountHandshakeDetail = S.suspend(() =>
+  S.Struct({ program: S.optional(S.String) }),
+).annotations({
+  identifier: "ProgramManagementAccountHandshakeDetail",
+}) as any as S.Schema<ProgramManagementAccountHandshakeDetail>;
 export const HandshakeDetail = S.Union(
   S.Struct({
     startServicePeriodHandshakeDetail: StartServicePeriodHandshakeDetail,
@@ -774,34 +1204,66 @@ export const HandshakeDetail = S.Union(
       ProgramManagementAccountHandshakeDetail,
   }),
 );
-export class ChannelHandshakeSummary extends S.Class<ChannelHandshakeSummary>(
-  "ChannelHandshakeSummary",
-)({
-  id: S.optional(S.String),
-  arn: S.optional(S.String),
-  catalog: S.optional(S.String),
-  handshakeType: S.optional(S.String),
-  ownerAccountId: S.optional(S.String),
-  senderAccountId: S.optional(S.String),
-  senderDisplayName: S.optional(S.String),
-  receiverAccountId: S.optional(S.String),
-  associatedResourceId: S.optional(S.String),
-  detail: S.optional(HandshakeDetail),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  status: S.optional(S.String),
-}) {}
+export interface ChannelHandshakeSummary {
+  id?: string;
+  arn?: string;
+  catalog?: string;
+  handshakeType?: string;
+  ownerAccountId?: string;
+  senderAccountId?: string;
+  senderDisplayName?: string;
+  receiverAccountId?: string;
+  associatedResourceId?: string;
+  detail?: (typeof HandshakeDetail)["Type"];
+  createdAt?: Date;
+  updatedAt?: Date;
+  status?: string;
+}
+export const ChannelHandshakeSummary = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    arn: S.optional(S.String),
+    catalog: S.optional(S.String),
+    handshakeType: S.optional(S.String),
+    ownerAccountId: S.optional(S.String),
+    senderAccountId: S.optional(S.String),
+    senderDisplayName: S.optional(S.String),
+    receiverAccountId: S.optional(S.String),
+    associatedResourceId: S.optional(S.String),
+    detail: S.optional(HandshakeDetail),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    status: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ChannelHandshakeSummary",
+}) as any as S.Schema<ChannelHandshakeSummary>;
+export type ChannelHandshakeSummaries = ChannelHandshakeSummary[];
 export const ChannelHandshakeSummaries = S.Array(ChannelHandshakeSummary);
-export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
-  "ValidationExceptionField",
-)({ name: S.String, code: S.String, message: S.String }) {}
+export interface ValidationExceptionField {
+  name: string;
+  code: string;
+  message: string;
+}
+export const ValidationExceptionField = S.suspend(() =>
+  S.Struct({ name: S.String, code: S.String, message: S.String }),
+).annotations({
+  identifier: "ValidationExceptionField",
+}) as any as S.Schema<ValidationExceptionField>;
+export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
-export class ListChannelHandshakesResponse extends S.Class<ListChannelHandshakesResponse>(
-  "ListChannelHandshakesResponse",
-)({
-  items: S.optional(ChannelHandshakeSummaries),
-  nextToken: S.optional(S.String),
-}) {}
+export interface ListChannelHandshakesResponse {
+  items?: ChannelHandshakeSummaries;
+  nextToken?: string;
+}
+export const ListChannelHandshakesResponse = S.suspend(() =>
+  S.Struct({
+    items: S.optional(ChannelHandshakeSummaries),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListChannelHandshakesResponse",
+}) as any as S.Schema<ListChannelHandshakesResponse>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

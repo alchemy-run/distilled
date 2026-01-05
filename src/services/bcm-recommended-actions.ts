@@ -122,50 +122,94 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type FilterValues = string[];
 export const FilterValues = S.Array(S.String);
-export class ActionFilter extends S.Class<ActionFilter>("ActionFilter")({
-  key: S.String,
-  matchOption: S.String,
-  values: FilterValues,
-}) {}
+export interface ActionFilter {
+  key: string;
+  matchOption: string;
+  values: FilterValues;
+}
+export const ActionFilter = S.suspend(() =>
+  S.Struct({ key: S.String, matchOption: S.String, values: FilterValues }),
+).annotations({ identifier: "ActionFilter" }) as any as S.Schema<ActionFilter>;
+export type ActionFilterList = ActionFilter[];
 export const ActionFilterList = S.Array(ActionFilter);
-export class RequestFilter extends S.Class<RequestFilter>("RequestFilter")({
-  actions: S.optional(ActionFilterList),
-}) {}
-export class ListRecommendedActionsRequest extends S.Class<ListRecommendedActionsRequest>(
-  "ListRecommendedActionsRequest",
-)(
-  {
+export interface RequestFilter {
+  actions?: ActionFilterList;
+}
+export const RequestFilter = S.suspend(() =>
+  S.Struct({ actions: S.optional(ActionFilterList) }),
+).annotations({
+  identifier: "RequestFilter",
+}) as any as S.Schema<RequestFilter>;
+export interface ListRecommendedActionsRequest {
+  filter?: RequestFilter;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListRecommendedActionsRequest = S.suspend(() =>
+  S.Struct({
     filter: S.optional(RequestFilter),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListRecommendedActionsRequest",
+}) as any as S.Schema<ListRecommendedActionsRequest>;
+export type NextSteps = string[];
 export const NextSteps = S.Array(S.String);
+export type Context = { [key: string]: string };
 export const Context = S.Record({ key: S.String, value: S.String });
-export class RecommendedAction extends S.Class<RecommendedAction>(
-  "RecommendedAction",
-)({
-  id: S.optional(S.String),
-  type: S.optional(S.String),
-  accountId: S.optional(S.String),
-  severity: S.optional(S.String),
-  feature: S.optional(S.String),
-  context: S.optional(Context),
-  nextSteps: S.optional(NextSteps),
-  lastUpdatedTimeStamp: S.optional(S.String),
-}) {}
+export interface RecommendedAction {
+  id?: string;
+  type?: string;
+  accountId?: string;
+  severity?: string;
+  feature?: string;
+  context?: Context;
+  nextSteps?: NextSteps;
+  lastUpdatedTimeStamp?: string;
+}
+export const RecommendedAction = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    type: S.optional(S.String),
+    accountId: S.optional(S.String),
+    severity: S.optional(S.String),
+    feature: S.optional(S.String),
+    context: S.optional(Context),
+    nextSteps: S.optional(NextSteps),
+    lastUpdatedTimeStamp: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RecommendedAction",
+}) as any as S.Schema<RecommendedAction>;
+export type RecommendedActions = RecommendedAction[];
 export const RecommendedActions = S.Array(RecommendedAction);
-export class ListRecommendedActionsResponse extends S.Class<ListRecommendedActionsResponse>(
-  "ListRecommendedActionsResponse",
-)({
-  recommendedActions: RecommendedActions,
-  nextToken: S.optional(S.String),
-}) {}
-export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
-  "ValidationExceptionField",
-)({ name: S.String, message: S.String }) {}
+export interface ListRecommendedActionsResponse {
+  recommendedActions: RecommendedActions;
+  nextToken?: string;
+}
+export const ListRecommendedActionsResponse = S.suspend(() =>
+  S.Struct({
+    recommendedActions: RecommendedActions,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListRecommendedActionsResponse",
+}) as any as S.Schema<ListRecommendedActionsResponse>;
+export interface ValidationExceptionField {
+  name: string;
+  message: string;
+}
+export const ValidationExceptionField = S.suspend(() =>
+  S.Struct({ name: S.String, message: S.String }),
+).annotations({
+  identifier: "ValidationExceptionField",
+}) as any as S.Schema<ValidationExceptionField>;
+export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 
 //# Errors

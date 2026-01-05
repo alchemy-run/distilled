@@ -294,570 +294,811 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
+export type InstanceNameList = string[];
 export const InstanceNameList = S.Array(S.String);
+export type InstanceStateList = string[];
 export const InstanceStateList = S.Array(S.String);
-export class GetDataIntegrationEventRequest extends S.Class<GetDataIntegrationEventRequest>(
-  "GetDataIntegrationEventRequest",
-)(
-  {
+export interface GetDataIntegrationEventRequest {
+  instanceId: string;
+  eventId: string;
+}
+export const GetDataIntegrationEventRequest = S.suspend(() =>
+  S.Struct({
     instanceId: S.String.pipe(T.HttpLabel("instanceId")),
     eventId: S.String.pipe(T.HttpLabel("eventId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/api-data/data-integration/instance/{instanceId}/data-integration-events/{eventId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/api-data/data-integration/instance/{instanceId}/data-integration-events/{eventId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetDataIntegrationFlowExecutionRequest extends S.Class<GetDataIntegrationFlowExecutionRequest>(
-  "GetDataIntegrationFlowExecutionRequest",
-)(
-  {
+).annotations({
+  identifier: "GetDataIntegrationEventRequest",
+}) as any as S.Schema<GetDataIntegrationEventRequest>;
+export interface GetDataIntegrationFlowExecutionRequest {
+  instanceId: string;
+  flowName: string;
+  executionId: string;
+}
+export const GetDataIntegrationFlowExecutionRequest = S.suspend(() =>
+  S.Struct({
     instanceId: S.String.pipe(T.HttpLabel("instanceId")),
     flowName: S.String.pipe(T.HttpLabel("flowName")),
     executionId: S.String.pipe(T.HttpLabel("executionId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/api-data/data-integration/instance/{instanceId}/data-integration-flows/{flowName}/executions/{executionId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/api-data/data-integration/instance/{instanceId}/data-integration-flows/{flowName}/executions/{executionId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListDataIntegrationEventsRequest extends S.Class<ListDataIntegrationEventsRequest>(
-  "ListDataIntegrationEventsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetDataIntegrationFlowExecutionRequest",
+}) as any as S.Schema<GetDataIntegrationFlowExecutionRequest>;
+export interface ListDataIntegrationEventsRequest {
+  instanceId: string;
+  eventType?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListDataIntegrationEventsRequest = S.suspend(() =>
+  S.Struct({
     instanceId: S.String.pipe(T.HttpLabel("instanceId")),
     eventType: S.optional(S.String).pipe(T.HttpQuery("eventType")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/api-data/data-integration/instance/{instanceId}/data-integration-events",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/api-data/data-integration/instance/{instanceId}/data-integration-events",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListDataIntegrationFlowExecutionsRequest extends S.Class<ListDataIntegrationFlowExecutionsRequest>(
-  "ListDataIntegrationFlowExecutionsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListDataIntegrationEventsRequest",
+}) as any as S.Schema<ListDataIntegrationEventsRequest>;
+export interface ListDataIntegrationFlowExecutionsRequest {
+  instanceId: string;
+  flowName: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListDataIntegrationFlowExecutionsRequest = S.suspend(() =>
+  S.Struct({
     instanceId: S.String.pipe(T.HttpLabel("instanceId")),
     flowName: S.String.pipe(T.HttpLabel("flowName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/api-data/data-integration/instance/{instanceId}/data-integration-flows/{flowName}/executions",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/api-data/data-integration/instance/{instanceId}/data-integration-flows/{flowName}/executions",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/api/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListDataIntegrationFlowExecutionsRequest",
+}) as any as S.Schema<ListDataIntegrationFlowExecutionsRequest>;
+export interface ListTagsForResourceRequest {
+  resourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/api/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface UntagResourceRequest {
+  resourceArn: string;
+  tagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/api/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/api/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
-export class CreateBillOfMaterialsImportJobRequest extends S.Class<CreateBillOfMaterialsImportJobRequest>(
-  "CreateBillOfMaterialsImportJobRequest",
-)(
-  {
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface CreateBillOfMaterialsImportJobRequest {
+  instanceId: string;
+  s3uri: string;
+  clientToken?: string;
+}
+export const CreateBillOfMaterialsImportJobRequest = S.suspend(() =>
+  S.Struct({
     instanceId: S.String.pipe(T.HttpLabel("instanceId")),
     s3uri: S.String,
     clientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/api/configuration/instances/{instanceId}/bill-of-materials-import-jobs",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/api/configuration/instances/{instanceId}/bill-of-materials-import-jobs",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetBillOfMaterialsImportJobRequest extends S.Class<GetBillOfMaterialsImportJobRequest>(
-  "GetBillOfMaterialsImportJobRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateBillOfMaterialsImportJobRequest",
+}) as any as S.Schema<CreateBillOfMaterialsImportJobRequest>;
+export interface GetBillOfMaterialsImportJobRequest {
+  instanceId: string;
+  jobId: string;
+}
+export const GetBillOfMaterialsImportJobRequest = S.suspend(() =>
+  S.Struct({
     instanceId: S.String.pipe(T.HttpLabel("instanceId")),
     jobId: S.String.pipe(T.HttpLabel("jobId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/api/configuration/instances/{instanceId}/bill-of-materials-import-jobs/{jobId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/api/configuration/instances/{instanceId}/bill-of-materials-import-jobs/{jobId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetDataIntegrationFlowRequest extends S.Class<GetDataIntegrationFlowRequest>(
-  "GetDataIntegrationFlowRequest",
-)(
-  {
+).annotations({
+  identifier: "GetBillOfMaterialsImportJobRequest",
+}) as any as S.Schema<GetBillOfMaterialsImportJobRequest>;
+export interface GetDataIntegrationFlowRequest {
+  instanceId: string;
+  name: string;
+}
+export const GetDataIntegrationFlowRequest = S.suspend(() =>
+  S.Struct({
     instanceId: S.String.pipe(T.HttpLabel("instanceId")),
     name: S.String.pipe(T.HttpLabel("name")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/api/data-integration/instance/{instanceId}/data-integration-flows/{name}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/api/data-integration/instance/{instanceId}/data-integration-flows/{name}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DataIntegrationFlowS3Options extends S.Class<DataIntegrationFlowS3Options>(
-  "DataIntegrationFlowS3Options",
-)({ fileType: S.optional(S.String) }) {}
-export class DataIntegrationFlowS3SourceConfiguration extends S.Class<DataIntegrationFlowS3SourceConfiguration>(
-  "DataIntegrationFlowS3SourceConfiguration",
-)({
-  bucketName: S.String,
-  prefix: S.String,
-  options: S.optional(DataIntegrationFlowS3Options),
-}) {}
-export class DataIntegrationFlowFieldPriorityDedupeField extends S.Class<DataIntegrationFlowFieldPriorityDedupeField>(
-  "DataIntegrationFlowFieldPriorityDedupeField",
-)({ name: S.String, sortOrder: S.String }) {}
+).annotations({
+  identifier: "GetDataIntegrationFlowRequest",
+}) as any as S.Schema<GetDataIntegrationFlowRequest>;
+export interface DataIntegrationFlowS3Options {
+  fileType?: string;
+}
+export const DataIntegrationFlowS3Options = S.suspend(() =>
+  S.Struct({ fileType: S.optional(S.String) }),
+).annotations({
+  identifier: "DataIntegrationFlowS3Options",
+}) as any as S.Schema<DataIntegrationFlowS3Options>;
+export interface DataIntegrationFlowS3SourceConfiguration {
+  bucketName: string;
+  prefix: string;
+  options?: DataIntegrationFlowS3Options;
+}
+export const DataIntegrationFlowS3SourceConfiguration = S.suspend(() =>
+  S.Struct({
+    bucketName: S.String,
+    prefix: S.String,
+    options: S.optional(DataIntegrationFlowS3Options),
+  }),
+).annotations({
+  identifier: "DataIntegrationFlowS3SourceConfiguration",
+}) as any as S.Schema<DataIntegrationFlowS3SourceConfiguration>;
+export interface DataIntegrationFlowFieldPriorityDedupeField {
+  name: string;
+  sortOrder: string;
+}
+export const DataIntegrationFlowFieldPriorityDedupeField = S.suspend(() =>
+  S.Struct({ name: S.String, sortOrder: S.String }),
+).annotations({
+  identifier: "DataIntegrationFlowFieldPriorityDedupeField",
+}) as any as S.Schema<DataIntegrationFlowFieldPriorityDedupeField>;
+export type DataIntegrationFlowFieldPriorityDedupeFieldList =
+  DataIntegrationFlowFieldPriorityDedupeField[];
 export const DataIntegrationFlowFieldPriorityDedupeFieldList = S.Array(
   DataIntegrationFlowFieldPriorityDedupeField,
 );
-export class DataIntegrationFlowFieldPriorityDedupeStrategyConfiguration extends S.Class<DataIntegrationFlowFieldPriorityDedupeStrategyConfiguration>(
-  "DataIntegrationFlowFieldPriorityDedupeStrategyConfiguration",
-)({ fields: DataIntegrationFlowFieldPriorityDedupeFieldList }) {}
-export class DataIntegrationFlowDedupeStrategy extends S.Class<DataIntegrationFlowDedupeStrategy>(
-  "DataIntegrationFlowDedupeStrategy",
-)({
-  type: S.String,
-  fieldPriority: S.optional(
-    DataIntegrationFlowFieldPriorityDedupeStrategyConfiguration,
-  ),
-}) {}
-export class DataIntegrationFlowDatasetOptions extends S.Class<DataIntegrationFlowDatasetOptions>(
-  "DataIntegrationFlowDatasetOptions",
-)({
-  loadType: S.optional(S.String),
-  dedupeRecords: S.optional(S.Boolean),
-  dedupeStrategy: S.optional(DataIntegrationFlowDedupeStrategy),
-}) {}
-export class DataIntegrationFlowDatasetSourceConfiguration extends S.Class<DataIntegrationFlowDatasetSourceConfiguration>(
-  "DataIntegrationFlowDatasetSourceConfiguration",
-)({
-  datasetIdentifier: S.String,
-  options: S.optional(DataIntegrationFlowDatasetOptions),
-}) {}
-export class DataIntegrationFlowSource extends S.Class<DataIntegrationFlowSource>(
-  "DataIntegrationFlowSource",
-)({
-  sourceType: S.String,
-  sourceName: S.String,
-  s3Source: S.optional(DataIntegrationFlowS3SourceConfiguration),
-  datasetSource: S.optional(DataIntegrationFlowDatasetSourceConfiguration),
-}) {}
+export interface DataIntegrationFlowFieldPriorityDedupeStrategyConfiguration {
+  fields: DataIntegrationFlowFieldPriorityDedupeFieldList;
+}
+export const DataIntegrationFlowFieldPriorityDedupeStrategyConfiguration =
+  S.suspend(() =>
+    S.Struct({ fields: DataIntegrationFlowFieldPriorityDedupeFieldList }),
+  ).annotations({
+    identifier: "DataIntegrationFlowFieldPriorityDedupeStrategyConfiguration",
+  }) as any as S.Schema<DataIntegrationFlowFieldPriorityDedupeStrategyConfiguration>;
+export interface DataIntegrationFlowDedupeStrategy {
+  type: string;
+  fieldPriority?: DataIntegrationFlowFieldPriorityDedupeStrategyConfiguration;
+}
+export const DataIntegrationFlowDedupeStrategy = S.suspend(() =>
+  S.Struct({
+    type: S.String,
+    fieldPriority: S.optional(
+      DataIntegrationFlowFieldPriorityDedupeStrategyConfiguration,
+    ),
+  }),
+).annotations({
+  identifier: "DataIntegrationFlowDedupeStrategy",
+}) as any as S.Schema<DataIntegrationFlowDedupeStrategy>;
+export interface DataIntegrationFlowDatasetOptions {
+  loadType?: string;
+  dedupeRecords?: boolean;
+  dedupeStrategy?: DataIntegrationFlowDedupeStrategy;
+}
+export const DataIntegrationFlowDatasetOptions = S.suspend(() =>
+  S.Struct({
+    loadType: S.optional(S.String),
+    dedupeRecords: S.optional(S.Boolean),
+    dedupeStrategy: S.optional(DataIntegrationFlowDedupeStrategy),
+  }),
+).annotations({
+  identifier: "DataIntegrationFlowDatasetOptions",
+}) as any as S.Schema<DataIntegrationFlowDatasetOptions>;
+export interface DataIntegrationFlowDatasetSourceConfiguration {
+  datasetIdentifier: string;
+  options?: DataIntegrationFlowDatasetOptions;
+}
+export const DataIntegrationFlowDatasetSourceConfiguration = S.suspend(() =>
+  S.Struct({
+    datasetIdentifier: S.String,
+    options: S.optional(DataIntegrationFlowDatasetOptions),
+  }),
+).annotations({
+  identifier: "DataIntegrationFlowDatasetSourceConfiguration",
+}) as any as S.Schema<DataIntegrationFlowDatasetSourceConfiguration>;
+export interface DataIntegrationFlowSource {
+  sourceType: string;
+  sourceName: string;
+  s3Source?: DataIntegrationFlowS3SourceConfiguration;
+  datasetSource?: DataIntegrationFlowDatasetSourceConfiguration;
+}
+export const DataIntegrationFlowSource = S.suspend(() =>
+  S.Struct({
+    sourceType: S.String,
+    sourceName: S.String,
+    s3Source: S.optional(DataIntegrationFlowS3SourceConfiguration),
+    datasetSource: S.optional(DataIntegrationFlowDatasetSourceConfiguration),
+  }),
+).annotations({
+  identifier: "DataIntegrationFlowSource",
+}) as any as S.Schema<DataIntegrationFlowSource>;
+export type DataIntegrationFlowSourceList = DataIntegrationFlowSource[];
 export const DataIntegrationFlowSourceList = S.Array(DataIntegrationFlowSource);
-export class DataIntegrationFlowSQLTransformationConfiguration extends S.Class<DataIntegrationFlowSQLTransformationConfiguration>(
-  "DataIntegrationFlowSQLTransformationConfiguration",
-)({ query: S.String }) {}
-export class DataIntegrationFlowTransformation extends S.Class<DataIntegrationFlowTransformation>(
-  "DataIntegrationFlowTransformation",
-)({
-  transformationType: S.String,
-  sqlTransformation: S.optional(
-    DataIntegrationFlowSQLTransformationConfiguration,
-  ),
-}) {}
-export class DataIntegrationFlowS3TargetConfiguration extends S.Class<DataIntegrationFlowS3TargetConfiguration>(
-  "DataIntegrationFlowS3TargetConfiguration",
-)({
-  bucketName: S.String,
-  prefix: S.String,
-  options: S.optional(DataIntegrationFlowS3Options),
-}) {}
-export class DataIntegrationFlowDatasetTargetConfiguration extends S.Class<DataIntegrationFlowDatasetTargetConfiguration>(
-  "DataIntegrationFlowDatasetTargetConfiguration",
-)({
-  datasetIdentifier: S.String,
-  options: S.optional(DataIntegrationFlowDatasetOptions),
-}) {}
-export class DataIntegrationFlowTarget extends S.Class<DataIntegrationFlowTarget>(
-  "DataIntegrationFlowTarget",
-)({
-  targetType: S.String,
-  s3Target: S.optional(DataIntegrationFlowS3TargetConfiguration),
-  datasetTarget: S.optional(DataIntegrationFlowDatasetTargetConfiguration),
-}) {}
-export class UpdateDataIntegrationFlowRequest extends S.Class<UpdateDataIntegrationFlowRequest>(
-  "UpdateDataIntegrationFlowRequest",
-)(
-  {
+export interface DataIntegrationFlowSQLTransformationConfiguration {
+  query: string;
+}
+export const DataIntegrationFlowSQLTransformationConfiguration = S.suspend(() =>
+  S.Struct({ query: S.String }),
+).annotations({
+  identifier: "DataIntegrationFlowSQLTransformationConfiguration",
+}) as any as S.Schema<DataIntegrationFlowSQLTransformationConfiguration>;
+export interface DataIntegrationFlowTransformation {
+  transformationType: string;
+  sqlTransformation?: DataIntegrationFlowSQLTransformationConfiguration;
+}
+export const DataIntegrationFlowTransformation = S.suspend(() =>
+  S.Struct({
+    transformationType: S.String,
+    sqlTransformation: S.optional(
+      DataIntegrationFlowSQLTransformationConfiguration,
+    ),
+  }),
+).annotations({
+  identifier: "DataIntegrationFlowTransformation",
+}) as any as S.Schema<DataIntegrationFlowTransformation>;
+export interface DataIntegrationFlowS3TargetConfiguration {
+  bucketName: string;
+  prefix: string;
+  options?: DataIntegrationFlowS3Options;
+}
+export const DataIntegrationFlowS3TargetConfiguration = S.suspend(() =>
+  S.Struct({
+    bucketName: S.String,
+    prefix: S.String,
+    options: S.optional(DataIntegrationFlowS3Options),
+  }),
+).annotations({
+  identifier: "DataIntegrationFlowS3TargetConfiguration",
+}) as any as S.Schema<DataIntegrationFlowS3TargetConfiguration>;
+export interface DataIntegrationFlowDatasetTargetConfiguration {
+  datasetIdentifier: string;
+  options?: DataIntegrationFlowDatasetOptions;
+}
+export const DataIntegrationFlowDatasetTargetConfiguration = S.suspend(() =>
+  S.Struct({
+    datasetIdentifier: S.String,
+    options: S.optional(DataIntegrationFlowDatasetOptions),
+  }),
+).annotations({
+  identifier: "DataIntegrationFlowDatasetTargetConfiguration",
+}) as any as S.Schema<DataIntegrationFlowDatasetTargetConfiguration>;
+export interface DataIntegrationFlowTarget {
+  targetType: string;
+  s3Target?: DataIntegrationFlowS3TargetConfiguration;
+  datasetTarget?: DataIntegrationFlowDatasetTargetConfiguration;
+}
+export const DataIntegrationFlowTarget = S.suspend(() =>
+  S.Struct({
+    targetType: S.String,
+    s3Target: S.optional(DataIntegrationFlowS3TargetConfiguration),
+    datasetTarget: S.optional(DataIntegrationFlowDatasetTargetConfiguration),
+  }),
+).annotations({
+  identifier: "DataIntegrationFlowTarget",
+}) as any as S.Schema<DataIntegrationFlowTarget>;
+export interface UpdateDataIntegrationFlowRequest {
+  instanceId: string;
+  name: string;
+  sources?: DataIntegrationFlowSourceList;
+  transformation?: DataIntegrationFlowTransformation;
+  target?: DataIntegrationFlowTarget;
+}
+export const UpdateDataIntegrationFlowRequest = S.suspend(() =>
+  S.Struct({
     instanceId: S.String.pipe(T.HttpLabel("instanceId")),
     name: S.String.pipe(T.HttpLabel("name")),
     sources: S.optional(DataIntegrationFlowSourceList),
     transformation: S.optional(DataIntegrationFlowTransformation),
     target: S.optional(DataIntegrationFlowTarget),
-  },
-  T.all(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/data-integration/instance/{instanceId}/data-integration-flows/{name}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/api/data-integration/instance/{instanceId}/data-integration-flows/{name}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteDataIntegrationFlowRequest extends S.Class<DeleteDataIntegrationFlowRequest>(
-  "DeleteDataIntegrationFlowRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateDataIntegrationFlowRequest",
+}) as any as S.Schema<UpdateDataIntegrationFlowRequest>;
+export interface DeleteDataIntegrationFlowRequest {
+  instanceId: string;
+  name: string;
+}
+export const DeleteDataIntegrationFlowRequest = S.suspend(() =>
+  S.Struct({
     instanceId: S.String.pipe(T.HttpLabel("instanceId")),
     name: S.String.pipe(T.HttpLabel("name")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/data-integration/instance/{instanceId}/data-integration-flows/{name}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/api/data-integration/instance/{instanceId}/data-integration-flows/{name}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListDataIntegrationFlowsRequest extends S.Class<ListDataIntegrationFlowsRequest>(
-  "ListDataIntegrationFlowsRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteDataIntegrationFlowRequest",
+}) as any as S.Schema<DeleteDataIntegrationFlowRequest>;
+export interface ListDataIntegrationFlowsRequest {
+  instanceId: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListDataIntegrationFlowsRequest = S.suspend(() =>
+  S.Struct({
     instanceId: S.String.pipe(T.HttpLabel("instanceId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/api/data-integration/instance/{instanceId}/data-integration-flows",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/api/data-integration/instance/{instanceId}/data-integration-flows",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetDataLakeDatasetRequest extends S.Class<GetDataLakeDatasetRequest>(
-  "GetDataLakeDatasetRequest",
-)(
-  {
+).annotations({
+  identifier: "ListDataIntegrationFlowsRequest",
+}) as any as S.Schema<ListDataIntegrationFlowsRequest>;
+export interface GetDataLakeDatasetRequest {
+  instanceId: string;
+  namespace: string;
+  name: string;
+}
+export const GetDataLakeDatasetRequest = S.suspend(() =>
+  S.Struct({
     instanceId: S.String.pipe(T.HttpLabel("instanceId")),
     namespace: S.String.pipe(T.HttpLabel("namespace")),
     name: S.String.pipe(T.HttpLabel("name")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/api/datalake/instance/{instanceId}/namespaces/{namespace}/datasets/{name}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/api/datalake/instance/{instanceId}/namespaces/{namespace}/datasets/{name}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateDataLakeDatasetRequest extends S.Class<UpdateDataLakeDatasetRequest>(
-  "UpdateDataLakeDatasetRequest",
-)(
-  {
+).annotations({
+  identifier: "GetDataLakeDatasetRequest",
+}) as any as S.Schema<GetDataLakeDatasetRequest>;
+export interface UpdateDataLakeDatasetRequest {
+  instanceId: string;
+  namespace: string;
+  name: string;
+  description?: string;
+}
+export const UpdateDataLakeDatasetRequest = S.suspend(() =>
+  S.Struct({
     instanceId: S.String.pipe(T.HttpLabel("instanceId")),
     namespace: S.String.pipe(T.HttpLabel("namespace")),
     name: S.String.pipe(T.HttpLabel("name")),
     description: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/datalake/instance/{instanceId}/namespaces/{namespace}/datasets/{name}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/api/datalake/instance/{instanceId}/namespaces/{namespace}/datasets/{name}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteDataLakeDatasetRequest extends S.Class<DeleteDataLakeDatasetRequest>(
-  "DeleteDataLakeDatasetRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateDataLakeDatasetRequest",
+}) as any as S.Schema<UpdateDataLakeDatasetRequest>;
+export interface DeleteDataLakeDatasetRequest {
+  instanceId: string;
+  namespace: string;
+  name: string;
+}
+export const DeleteDataLakeDatasetRequest = S.suspend(() =>
+  S.Struct({
     instanceId: S.String.pipe(T.HttpLabel("instanceId")),
     namespace: S.String.pipe(T.HttpLabel("namespace")),
     name: S.String.pipe(T.HttpLabel("name")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/datalake/instance/{instanceId}/namespaces/{namespace}/datasets/{name}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/api/datalake/instance/{instanceId}/namespaces/{namespace}/datasets/{name}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListDataLakeDatasetsRequest extends S.Class<ListDataLakeDatasetsRequest>(
-  "ListDataLakeDatasetsRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteDataLakeDatasetRequest",
+}) as any as S.Schema<DeleteDataLakeDatasetRequest>;
+export interface ListDataLakeDatasetsRequest {
+  instanceId: string;
+  namespace: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListDataLakeDatasetsRequest = S.suspend(() =>
+  S.Struct({
     instanceId: S.String.pipe(T.HttpLabel("instanceId")),
     namespace: S.String.pipe(T.HttpLabel("namespace")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/api/datalake/instance/{instanceId}/namespaces/{namespace}/datasets",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/api/datalake/instance/{instanceId}/namespaces/{namespace}/datasets",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "ListDataLakeDatasetsRequest",
+}) as any as S.Schema<ListDataLakeDatasetsRequest>;
+export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
-export class CreateDataLakeNamespaceRequest extends S.Class<CreateDataLakeNamespaceRequest>(
-  "CreateDataLakeNamespaceRequest",
-)(
-  {
+export interface CreateDataLakeNamespaceRequest {
+  instanceId: string;
+  name: string;
+  description?: string;
+  tags?: TagMap;
+}
+export const CreateDataLakeNamespaceRequest = S.suspend(() =>
+  S.Struct({
     instanceId: S.String.pipe(T.HttpLabel("instanceId")),
     name: S.String.pipe(T.HttpLabel("name")),
     description: S.optional(S.String),
     tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/api/datalake/instance/{instanceId}/namespaces/{name}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/api/datalake/instance/{instanceId}/namespaces/{name}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetDataLakeNamespaceRequest extends S.Class<GetDataLakeNamespaceRequest>(
-  "GetDataLakeNamespaceRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateDataLakeNamespaceRequest",
+}) as any as S.Schema<CreateDataLakeNamespaceRequest>;
+export interface GetDataLakeNamespaceRequest {
+  instanceId: string;
+  name: string;
+}
+export const GetDataLakeNamespaceRequest = S.suspend(() =>
+  S.Struct({
     instanceId: S.String.pipe(T.HttpLabel("instanceId")),
     name: S.String.pipe(T.HttpLabel("name")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/api/datalake/instance/{instanceId}/namespaces/{name}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/api/datalake/instance/{instanceId}/namespaces/{name}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateDataLakeNamespaceRequest extends S.Class<UpdateDataLakeNamespaceRequest>(
-  "UpdateDataLakeNamespaceRequest",
-)(
-  {
+).annotations({
+  identifier: "GetDataLakeNamespaceRequest",
+}) as any as S.Schema<GetDataLakeNamespaceRequest>;
+export interface UpdateDataLakeNamespaceRequest {
+  instanceId: string;
+  name: string;
+  description?: string;
+}
+export const UpdateDataLakeNamespaceRequest = S.suspend(() =>
+  S.Struct({
     instanceId: S.String.pipe(T.HttpLabel("instanceId")),
     name: S.String.pipe(T.HttpLabel("name")),
     description: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/datalake/instance/{instanceId}/namespaces/{name}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/api/datalake/instance/{instanceId}/namespaces/{name}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteDataLakeNamespaceRequest extends S.Class<DeleteDataLakeNamespaceRequest>(
-  "DeleteDataLakeNamespaceRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateDataLakeNamespaceRequest",
+}) as any as S.Schema<UpdateDataLakeNamespaceRequest>;
+export interface DeleteDataLakeNamespaceRequest {
+  instanceId: string;
+  name: string;
+}
+export const DeleteDataLakeNamespaceRequest = S.suspend(() =>
+  S.Struct({
     instanceId: S.String.pipe(T.HttpLabel("instanceId")),
     name: S.String.pipe(T.HttpLabel("name")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/datalake/instance/{instanceId}/namespaces/{name}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/api/datalake/instance/{instanceId}/namespaces/{name}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListDataLakeNamespacesRequest extends S.Class<ListDataLakeNamespacesRequest>(
-  "ListDataLakeNamespacesRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteDataLakeNamespaceRequest",
+}) as any as S.Schema<DeleteDataLakeNamespaceRequest>;
+export interface ListDataLakeNamespacesRequest {
+  instanceId: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListDataLakeNamespacesRequest = S.suspend(() =>
+  S.Struct({
     instanceId: S.String.pipe(T.HttpLabel("instanceId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/api/datalake/instance/{instanceId}/namespaces",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/api/datalake/instance/{instanceId}/namespaces",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateInstanceRequest extends S.Class<CreateInstanceRequest>(
-  "CreateInstanceRequest",
-)(
-  {
+).annotations({
+  identifier: "ListDataLakeNamespacesRequest",
+}) as any as S.Schema<ListDataLakeNamespacesRequest>;
+export interface CreateInstanceRequest {
+  instanceName?: string;
+  instanceDescription?: string;
+  kmsKeyArn?: string;
+  webAppDnsDomain?: string;
+  tags?: TagMap;
+  clientToken?: string;
+}
+export const CreateInstanceRequest = S.suspend(() =>
+  S.Struct({
     instanceName: S.optional(S.String),
     instanceDescription: S.optional(S.String),
     kmsKeyArn: S.optional(S.String),
     webAppDnsDomain: S.optional(S.String),
     tags: S.optional(TagMap),
     clientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/api/instance" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/api/instance" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetInstanceRequest extends S.Class<GetInstanceRequest>(
-  "GetInstanceRequest",
-)(
-  { instanceId: S.String.pipe(T.HttpLabel("instanceId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/api/instance/{instanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CreateInstanceRequest",
+}) as any as S.Schema<CreateInstanceRequest>;
+export interface GetInstanceRequest {
+  instanceId: string;
+}
+export const GetInstanceRequest = S.suspend(() =>
+  S.Struct({ instanceId: S.String.pipe(T.HttpLabel("instanceId")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/api/instance/{instanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateInstanceRequest extends S.Class<UpdateInstanceRequest>(
-  "UpdateInstanceRequest",
-)(
-  {
+).annotations({
+  identifier: "GetInstanceRequest",
+}) as any as S.Schema<GetInstanceRequest>;
+export interface UpdateInstanceRequest {
+  instanceId: string;
+  instanceName?: string;
+  instanceDescription?: string;
+}
+export const UpdateInstanceRequest = S.suspend(() =>
+  S.Struct({
     instanceId: S.String.pipe(T.HttpLabel("instanceId")),
     instanceName: S.optional(S.String),
     instanceDescription: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "PATCH", uri: "/api/instance/{instanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PATCH", uri: "/api/instance/{instanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteInstanceRequest extends S.Class<DeleteInstanceRequest>(
-  "DeleteInstanceRequest",
-)(
-  { instanceId: S.String.pipe(T.HttpLabel("instanceId")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/api/instance/{instanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UpdateInstanceRequest",
+}) as any as S.Schema<UpdateInstanceRequest>;
+export interface DeleteInstanceRequest {
+  instanceId: string;
+}
+export const DeleteInstanceRequest = S.suspend(() =>
+  S.Struct({ instanceId: S.String.pipe(T.HttpLabel("instanceId")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/api/instance/{instanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListInstancesRequest extends S.Class<ListInstancesRequest>(
-  "ListInstancesRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteInstanceRequest",
+}) as any as S.Schema<DeleteInstanceRequest>;
+export interface ListInstancesRequest {
+  nextToken?: string;
+  maxResults?: number;
+  instanceNameFilter?: InstanceNameList;
+  instanceStateFilter?: InstanceStateList;
+}
+export const ListInstancesRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     instanceNameFilter: S.optional(InstanceNameList).pipe(
@@ -866,170 +1107,364 @@ export class ListInstancesRequest extends S.Class<ListInstancesRequest>(
     instanceStateFilter: S.optional(InstanceStateList).pipe(
       T.HttpQuery("instanceStateFilter"),
     ),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/api/instance" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/api/instance" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DataIntegrationEventDatasetLoadExecutionDetails extends S.Class<DataIntegrationEventDatasetLoadExecutionDetails>(
-  "DataIntegrationEventDatasetLoadExecutionDetails",
-)({ status: S.String, message: S.optional(S.String) }) {}
-export class DataIntegrationEventDatasetTargetDetails extends S.Class<DataIntegrationEventDatasetTargetDetails>(
-  "DataIntegrationEventDatasetTargetDetails",
-)({
-  datasetIdentifier: S.String,
-  operationType: S.String,
-  datasetLoadExecution: DataIntegrationEventDatasetLoadExecutionDetails,
-}) {}
-export class DataIntegrationEvent extends S.Class<DataIntegrationEvent>(
-  "DataIntegrationEvent",
-)({
-  instanceId: S.String,
-  eventId: S.String,
-  eventType: S.String,
-  eventGroupId: S.String,
-  eventTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  datasetTargetDetails: S.optional(DataIntegrationEventDatasetTargetDetails),
-}) {}
+).annotations({
+  identifier: "ListInstancesRequest",
+}) as any as S.Schema<ListInstancesRequest>;
+export interface DataIntegrationEventDatasetLoadExecutionDetails {
+  status: string;
+  message?: string;
+}
+export const DataIntegrationEventDatasetLoadExecutionDetails = S.suspend(() =>
+  S.Struct({ status: S.String, message: S.optional(S.String) }),
+).annotations({
+  identifier: "DataIntegrationEventDatasetLoadExecutionDetails",
+}) as any as S.Schema<DataIntegrationEventDatasetLoadExecutionDetails>;
+export interface DataIntegrationEventDatasetTargetDetails {
+  datasetIdentifier: string;
+  operationType: string;
+  datasetLoadExecution: DataIntegrationEventDatasetLoadExecutionDetails;
+}
+export const DataIntegrationEventDatasetTargetDetails = S.suspend(() =>
+  S.Struct({
+    datasetIdentifier: S.String,
+    operationType: S.String,
+    datasetLoadExecution: DataIntegrationEventDatasetLoadExecutionDetails,
+  }),
+).annotations({
+  identifier: "DataIntegrationEventDatasetTargetDetails",
+}) as any as S.Schema<DataIntegrationEventDatasetTargetDetails>;
+export interface DataIntegrationEvent {
+  instanceId: string;
+  eventId: string;
+  eventType: string;
+  eventGroupId: string;
+  eventTimestamp: Date;
+  datasetTargetDetails?: DataIntegrationEventDatasetTargetDetails;
+}
+export const DataIntegrationEvent = S.suspend(() =>
+  S.Struct({
+    instanceId: S.String,
+    eventId: S.String,
+    eventType: S.String,
+    eventGroupId: S.String,
+    eventTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    datasetTargetDetails: S.optional(DataIntegrationEventDatasetTargetDetails),
+  }),
+).annotations({
+  identifier: "DataIntegrationEvent",
+}) as any as S.Schema<DataIntegrationEvent>;
+export type DataIntegrationEventList = DataIntegrationEvent[];
 export const DataIntegrationEventList = S.Array(DataIntegrationEvent);
-export class DataIntegrationFlowS3Source extends S.Class<DataIntegrationFlowS3Source>(
-  "DataIntegrationFlowS3Source",
-)({ bucketName: S.String, key: S.String }) {}
-export class DataIntegrationFlowDatasetSource extends S.Class<DataIntegrationFlowDatasetSource>(
-  "DataIntegrationFlowDatasetSource",
-)({ datasetIdentifier: S.String }) {}
-export class DataIntegrationFlowExecutionSourceInfo extends S.Class<DataIntegrationFlowExecutionSourceInfo>(
-  "DataIntegrationFlowExecutionSourceInfo",
-)({
-  sourceType: S.String,
-  s3Source: S.optional(DataIntegrationFlowS3Source),
-  datasetSource: S.optional(DataIntegrationFlowDatasetSource),
-}) {}
-export class DataIntegrationFlowExecutionOutputMetadata extends S.Class<DataIntegrationFlowExecutionOutputMetadata>(
-  "DataIntegrationFlowExecutionOutputMetadata",
-)({ diagnosticReportsRootS3URI: S.optional(S.String) }) {}
-export class DataIntegrationFlowExecution extends S.Class<DataIntegrationFlowExecution>(
-  "DataIntegrationFlowExecution",
-)({
-  instanceId: S.String,
-  flowName: S.String,
-  executionId: S.String,
-  status: S.optional(S.String),
-  sourceInfo: S.optional(DataIntegrationFlowExecutionSourceInfo),
-  message: S.optional(S.String),
-  startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  outputMetadata: S.optional(DataIntegrationFlowExecutionOutputMetadata),
-}) {}
+export interface DataIntegrationFlowS3Source {
+  bucketName: string;
+  key: string;
+}
+export const DataIntegrationFlowS3Source = S.suspend(() =>
+  S.Struct({ bucketName: S.String, key: S.String }),
+).annotations({
+  identifier: "DataIntegrationFlowS3Source",
+}) as any as S.Schema<DataIntegrationFlowS3Source>;
+export interface DataIntegrationFlowDatasetSource {
+  datasetIdentifier: string;
+}
+export const DataIntegrationFlowDatasetSource = S.suspend(() =>
+  S.Struct({ datasetIdentifier: S.String }),
+).annotations({
+  identifier: "DataIntegrationFlowDatasetSource",
+}) as any as S.Schema<DataIntegrationFlowDatasetSource>;
+export interface DataIntegrationFlowExecutionSourceInfo {
+  sourceType: string;
+  s3Source?: DataIntegrationFlowS3Source;
+  datasetSource?: DataIntegrationFlowDatasetSource;
+}
+export const DataIntegrationFlowExecutionSourceInfo = S.suspend(() =>
+  S.Struct({
+    sourceType: S.String,
+    s3Source: S.optional(DataIntegrationFlowS3Source),
+    datasetSource: S.optional(DataIntegrationFlowDatasetSource),
+  }),
+).annotations({
+  identifier: "DataIntegrationFlowExecutionSourceInfo",
+}) as any as S.Schema<DataIntegrationFlowExecutionSourceInfo>;
+export interface DataIntegrationFlowExecutionOutputMetadata {
+  diagnosticReportsRootS3URI?: string;
+}
+export const DataIntegrationFlowExecutionOutputMetadata = S.suspend(() =>
+  S.Struct({ diagnosticReportsRootS3URI: S.optional(S.String) }),
+).annotations({
+  identifier: "DataIntegrationFlowExecutionOutputMetadata",
+}) as any as S.Schema<DataIntegrationFlowExecutionOutputMetadata>;
+export interface DataIntegrationFlowExecution {
+  instanceId: string;
+  flowName: string;
+  executionId: string;
+  status?: string;
+  sourceInfo?: DataIntegrationFlowExecutionSourceInfo;
+  message?: string;
+  startTime?: Date;
+  endTime?: Date;
+  outputMetadata?: DataIntegrationFlowExecutionOutputMetadata;
+}
+export const DataIntegrationFlowExecution = S.suspend(() =>
+  S.Struct({
+    instanceId: S.String,
+    flowName: S.String,
+    executionId: S.String,
+    status: S.optional(S.String),
+    sourceInfo: S.optional(DataIntegrationFlowExecutionSourceInfo),
+    message: S.optional(S.String),
+    startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    outputMetadata: S.optional(DataIntegrationFlowExecutionOutputMetadata),
+  }),
+).annotations({
+  identifier: "DataIntegrationFlowExecution",
+}) as any as S.Schema<DataIntegrationFlowExecution>;
+export type DataIntegrationFlowExecutionList = DataIntegrationFlowExecution[];
 export const DataIntegrationFlowExecutionList = S.Array(
   DataIntegrationFlowExecution,
 );
-export class DataIntegrationEventDatasetTargetConfiguration extends S.Class<DataIntegrationEventDatasetTargetConfiguration>(
-  "DataIntegrationEventDatasetTargetConfiguration",
-)({ datasetIdentifier: S.String, operationType: S.String }) {}
-export class DataIntegrationFlow extends S.Class<DataIntegrationFlow>(
-  "DataIntegrationFlow",
-)({
-  instanceId: S.String,
-  name: S.String,
-  sources: DataIntegrationFlowSourceList,
-  transformation: DataIntegrationFlowTransformation,
-  target: DataIntegrationFlowTarget,
-  createdTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  lastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-}) {}
+export interface DataIntegrationEventDatasetTargetConfiguration {
+  datasetIdentifier: string;
+  operationType: string;
+}
+export const DataIntegrationEventDatasetTargetConfiguration = S.suspend(() =>
+  S.Struct({ datasetIdentifier: S.String, operationType: S.String }),
+).annotations({
+  identifier: "DataIntegrationEventDatasetTargetConfiguration",
+}) as any as S.Schema<DataIntegrationEventDatasetTargetConfiguration>;
+export interface DataIntegrationFlow {
+  instanceId: string;
+  name: string;
+  sources: DataIntegrationFlowSourceList;
+  transformation: DataIntegrationFlowTransformation;
+  target: DataIntegrationFlowTarget;
+  createdTime: Date;
+  lastModifiedTime: Date;
+}
+export const DataIntegrationFlow = S.suspend(() =>
+  S.Struct({
+    instanceId: S.String,
+    name: S.String,
+    sources: DataIntegrationFlowSourceList,
+    transformation: DataIntegrationFlowTransformation,
+    target: DataIntegrationFlowTarget,
+    createdTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    lastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotations({
+  identifier: "DataIntegrationFlow",
+}) as any as S.Schema<DataIntegrationFlow>;
+export type DataIntegrationFlowList = DataIntegrationFlow[];
 export const DataIntegrationFlowList = S.Array(DataIntegrationFlow);
-export class DataLakeDatasetSchemaField extends S.Class<DataLakeDatasetSchemaField>(
-  "DataLakeDatasetSchemaField",
-)({ name: S.String, type: S.String, isRequired: S.Boolean }) {}
+export interface DataLakeDatasetSchemaField {
+  name: string;
+  type: string;
+  isRequired: boolean;
+}
+export const DataLakeDatasetSchemaField = S.suspend(() =>
+  S.Struct({ name: S.String, type: S.String, isRequired: S.Boolean }),
+).annotations({
+  identifier: "DataLakeDatasetSchemaField",
+}) as any as S.Schema<DataLakeDatasetSchemaField>;
+export type DataLakeDatasetSchemaFieldList = DataLakeDatasetSchemaField[];
 export const DataLakeDatasetSchemaFieldList = S.Array(
   DataLakeDatasetSchemaField,
 );
-export class DataLakeDatasetPrimaryKeyField extends S.Class<DataLakeDatasetPrimaryKeyField>(
-  "DataLakeDatasetPrimaryKeyField",
-)({ name: S.String }) {}
+export interface DataLakeDatasetPrimaryKeyField {
+  name: string;
+}
+export const DataLakeDatasetPrimaryKeyField = S.suspend(() =>
+  S.Struct({ name: S.String }),
+).annotations({
+  identifier: "DataLakeDatasetPrimaryKeyField",
+}) as any as S.Schema<DataLakeDatasetPrimaryKeyField>;
+export type DataLakeDatasetPrimaryKeyFieldList =
+  DataLakeDatasetPrimaryKeyField[];
 export const DataLakeDatasetPrimaryKeyFieldList = S.Array(
   DataLakeDatasetPrimaryKeyField,
 );
-export class DataLakeDatasetSchema extends S.Class<DataLakeDatasetSchema>(
-  "DataLakeDatasetSchema",
-)({
-  name: S.String,
-  fields: DataLakeDatasetSchemaFieldList,
-  primaryKeys: S.optional(DataLakeDatasetPrimaryKeyFieldList),
-}) {}
-export class DataLakeDatasetPartitionFieldTransform extends S.Class<DataLakeDatasetPartitionFieldTransform>(
-  "DataLakeDatasetPartitionFieldTransform",
-)({ type: S.String }) {}
-export class DataLakeDatasetPartitionField extends S.Class<DataLakeDatasetPartitionField>(
-  "DataLakeDatasetPartitionField",
-)({ name: S.String, transform: DataLakeDatasetPartitionFieldTransform }) {}
+export interface DataLakeDatasetSchema {
+  name: string;
+  fields: DataLakeDatasetSchemaFieldList;
+  primaryKeys?: DataLakeDatasetPrimaryKeyFieldList;
+}
+export const DataLakeDatasetSchema = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    fields: DataLakeDatasetSchemaFieldList,
+    primaryKeys: S.optional(DataLakeDatasetPrimaryKeyFieldList),
+  }),
+).annotations({
+  identifier: "DataLakeDatasetSchema",
+}) as any as S.Schema<DataLakeDatasetSchema>;
+export interface DataLakeDatasetPartitionFieldTransform {
+  type: string;
+}
+export const DataLakeDatasetPartitionFieldTransform = S.suspend(() =>
+  S.Struct({ type: S.String }),
+).annotations({
+  identifier: "DataLakeDatasetPartitionFieldTransform",
+}) as any as S.Schema<DataLakeDatasetPartitionFieldTransform>;
+export interface DataLakeDatasetPartitionField {
+  name: string;
+  transform: DataLakeDatasetPartitionFieldTransform;
+}
+export const DataLakeDatasetPartitionField = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    transform: DataLakeDatasetPartitionFieldTransform,
+  }),
+).annotations({
+  identifier: "DataLakeDatasetPartitionField",
+}) as any as S.Schema<DataLakeDatasetPartitionField>;
+export type DataLakeDatasetPartitionFieldList = DataLakeDatasetPartitionField[];
 export const DataLakeDatasetPartitionFieldList = S.Array(
   DataLakeDatasetPartitionField,
 );
-export class DataLakeDatasetPartitionSpec extends S.Class<DataLakeDatasetPartitionSpec>(
-  "DataLakeDatasetPartitionSpec",
-)({ fields: DataLakeDatasetPartitionFieldList }) {}
-export class DataLakeDataset extends S.Class<DataLakeDataset>(
-  "DataLakeDataset",
-)({
-  instanceId: S.String,
-  namespace: S.String,
-  name: S.String,
-  arn: S.String,
-  schema: DataLakeDatasetSchema,
-  description: S.optional(S.String),
-  partitionSpec: S.optional(DataLakeDatasetPartitionSpec),
-  createdTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  lastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-}) {}
+export interface DataLakeDatasetPartitionSpec {
+  fields: DataLakeDatasetPartitionFieldList;
+}
+export const DataLakeDatasetPartitionSpec = S.suspend(() =>
+  S.Struct({ fields: DataLakeDatasetPartitionFieldList }),
+).annotations({
+  identifier: "DataLakeDatasetPartitionSpec",
+}) as any as S.Schema<DataLakeDatasetPartitionSpec>;
+export interface DataLakeDataset {
+  instanceId: string;
+  namespace: string;
+  name: string;
+  arn: string;
+  schema: DataLakeDatasetSchema;
+  description?: string;
+  partitionSpec?: DataLakeDatasetPartitionSpec;
+  createdTime: Date;
+  lastModifiedTime: Date;
+}
+export const DataLakeDataset = S.suspend(() =>
+  S.Struct({
+    instanceId: S.String,
+    namespace: S.String,
+    name: S.String,
+    arn: S.String,
+    schema: DataLakeDatasetSchema,
+    description: S.optional(S.String),
+    partitionSpec: S.optional(DataLakeDatasetPartitionSpec),
+    createdTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    lastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotations({
+  identifier: "DataLakeDataset",
+}) as any as S.Schema<DataLakeDataset>;
+export type DataLakeDatasetList = DataLakeDataset[];
 export const DataLakeDatasetList = S.Array(DataLakeDataset);
-export class DataLakeNamespace extends S.Class<DataLakeNamespace>(
-  "DataLakeNamespace",
-)({
-  instanceId: S.String,
-  name: S.String,
-  arn: S.String,
-  description: S.optional(S.String),
-  createdTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  lastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-}) {}
+export interface DataLakeNamespace {
+  instanceId: string;
+  name: string;
+  arn: string;
+  description?: string;
+  createdTime: Date;
+  lastModifiedTime: Date;
+}
+export const DataLakeNamespace = S.suspend(() =>
+  S.Struct({
+    instanceId: S.String,
+    name: S.String,
+    arn: S.String,
+    description: S.optional(S.String),
+    createdTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    lastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotations({
+  identifier: "DataLakeNamespace",
+}) as any as S.Schema<DataLakeNamespace>;
+export type DataLakeNamespaceList = DataLakeNamespace[];
 export const DataLakeNamespaceList = S.Array(DataLakeNamespace);
-export class Instance extends S.Class<Instance>("Instance")({
-  instanceId: S.String,
-  awsAccountId: S.String,
-  state: S.String,
-  errorMessage: S.optional(S.String),
-  webAppDnsDomain: S.optional(S.String),
-  createdTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  instanceName: S.optional(S.String),
-  instanceDescription: S.optional(S.String),
-  kmsKeyArn: S.optional(S.String),
-  versionNumber: S.optional(S.Number),
-}) {}
+export interface Instance {
+  instanceId: string;
+  awsAccountId: string;
+  state: string;
+  errorMessage?: string;
+  webAppDnsDomain?: string;
+  createdTime?: Date;
+  lastModifiedTime?: Date;
+  instanceName?: string;
+  instanceDescription?: string;
+  kmsKeyArn?: string;
+  versionNumber?: number;
+}
+export const Instance = S.suspend(() =>
+  S.Struct({
+    instanceId: S.String,
+    awsAccountId: S.String,
+    state: S.String,
+    errorMessage: S.optional(S.String),
+    webAppDnsDomain: S.optional(S.String),
+    createdTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    instanceName: S.optional(S.String),
+    instanceDescription: S.optional(S.String),
+    kmsKeyArn: S.optional(S.String),
+    versionNumber: S.optional(S.Number),
+  }),
+).annotations({ identifier: "Instance" }) as any as S.Schema<Instance>;
+export type InstanceList = Instance[];
 export const InstanceList = S.Array(Instance);
-export class ListDataIntegrationEventsResponse extends S.Class<ListDataIntegrationEventsResponse>(
-  "ListDataIntegrationEventsResponse",
-)({ events: DataIntegrationEventList, nextToken: S.optional(S.String) }) {}
-export class ListDataIntegrationFlowExecutionsResponse extends S.Class<ListDataIntegrationFlowExecutionsResponse>(
-  "ListDataIntegrationFlowExecutionsResponse",
-)({
-  flowExecutions: DataIntegrationFlowExecutionList,
-  nextToken: S.optional(S.String),
-}) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ tags: TagMap }) {}
-export class SendDataIntegrationEventRequest extends S.Class<SendDataIntegrationEventRequest>(
-  "SendDataIntegrationEventRequest",
-)(
-  {
+export interface ListDataIntegrationEventsResponse {
+  events: DataIntegrationEventList;
+  nextToken?: string;
+}
+export const ListDataIntegrationEventsResponse = S.suspend(() =>
+  S.Struct({
+    events: DataIntegrationEventList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListDataIntegrationEventsResponse",
+}) as any as S.Schema<ListDataIntegrationEventsResponse>;
+export interface ListDataIntegrationFlowExecutionsResponse {
+  flowExecutions: DataIntegrationFlowExecutionList;
+  nextToken?: string;
+}
+export const ListDataIntegrationFlowExecutionsResponse = S.suspend(() =>
+  S.Struct({
+    flowExecutions: DataIntegrationFlowExecutionList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListDataIntegrationFlowExecutionsResponse",
+}) as any as S.Schema<ListDataIntegrationFlowExecutionsResponse>;
+export interface ListTagsForResourceResponse {
+  tags: TagMap;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ tags: TagMap }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface SendDataIntegrationEventRequest {
+  instanceId: string;
+  eventType: string;
+  data: string;
+  eventGroupId: string;
+  eventTimestamp?: Date;
+  clientToken?: string;
+  datasetTarget?: DataIntegrationEventDatasetTargetConfiguration;
+}
+export const SendDataIntegrationEventRequest = S.suspend(() =>
+  S.Struct({
     instanceId: S.String.pipe(T.HttpLabel("instanceId")),
     eventType: S.String,
     data: S.String,
@@ -1037,111 +1472,255 @@ export class SendDataIntegrationEventRequest extends S.Class<SendDataIntegration
     eventTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     clientToken: S.optional(S.String),
     datasetTarget: S.optional(DataIntegrationEventDatasetTargetConfiguration),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/api-data/data-integration/instance/{instanceId}/data-integration-events",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/api-data/data-integration/instance/{instanceId}/data-integration-events",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap },
-  T.all(
-    T.Http({ method: "POST", uri: "/api/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "SendDataIntegrationEventRequest",
+}) as any as S.Schema<SendDataIntegrationEventRequest>;
+export interface TagResourceRequest {
+  resourceArn: string;
+  tags: TagMap;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+    tags: TagMap,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/api/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class CreateBillOfMaterialsImportJobResponse extends S.Class<CreateBillOfMaterialsImportJobResponse>(
-  "CreateBillOfMaterialsImportJobResponse",
-)({ jobId: S.String }) {}
-export class UpdateDataIntegrationFlowResponse extends S.Class<UpdateDataIntegrationFlowResponse>(
-  "UpdateDataIntegrationFlowResponse",
-)({ flow: DataIntegrationFlow }) {}
-export class DeleteDataIntegrationFlowResponse extends S.Class<DeleteDataIntegrationFlowResponse>(
-  "DeleteDataIntegrationFlowResponse",
-)({ instanceId: S.String, name: S.String }) {}
-export class ListDataIntegrationFlowsResponse extends S.Class<ListDataIntegrationFlowsResponse>(
-  "ListDataIntegrationFlowsResponse",
-)({ flows: DataIntegrationFlowList, nextToken: S.optional(S.String) }) {}
-export class UpdateDataLakeDatasetResponse extends S.Class<UpdateDataLakeDatasetResponse>(
-  "UpdateDataLakeDatasetResponse",
-)({ dataset: DataLakeDataset }) {}
-export class DeleteDataLakeDatasetResponse extends S.Class<DeleteDataLakeDatasetResponse>(
-  "DeleteDataLakeDatasetResponse",
-)({ instanceId: S.String, namespace: S.String, name: S.String }) {}
-export class ListDataLakeDatasetsResponse extends S.Class<ListDataLakeDatasetsResponse>(
-  "ListDataLakeDatasetsResponse",
-)({ datasets: DataLakeDatasetList, nextToken: S.optional(S.String) }) {}
-export class GetDataLakeNamespaceResponse extends S.Class<GetDataLakeNamespaceResponse>(
-  "GetDataLakeNamespaceResponse",
-)({ namespace: DataLakeNamespace }) {}
-export class UpdateDataLakeNamespaceResponse extends S.Class<UpdateDataLakeNamespaceResponse>(
-  "UpdateDataLakeNamespaceResponse",
-)({ namespace: DataLakeNamespace }) {}
-export class DeleteDataLakeNamespaceResponse extends S.Class<DeleteDataLakeNamespaceResponse>(
-  "DeleteDataLakeNamespaceResponse",
-)({ instanceId: S.String, name: S.String }) {}
-export class ListDataLakeNamespacesResponse extends S.Class<ListDataLakeNamespacesResponse>(
-  "ListDataLakeNamespacesResponse",
-)({ namespaces: DataLakeNamespaceList, nextToken: S.optional(S.String) }) {}
-export class GetInstanceResponse extends S.Class<GetInstanceResponse>(
-  "GetInstanceResponse",
-)({ instance: Instance }) {}
-export class UpdateInstanceResponse extends S.Class<UpdateInstanceResponse>(
-  "UpdateInstanceResponse",
-)({ instance: Instance }) {}
-export class DeleteInstanceResponse extends S.Class<DeleteInstanceResponse>(
-  "DeleteInstanceResponse",
-)({ instance: Instance }) {}
-export class ListInstancesResponse extends S.Class<ListInstancesResponse>(
-  "ListInstancesResponse",
-)({ instances: InstanceList, nextToken: S.optional(S.String) }) {}
-export class BillOfMaterialsImportJob extends S.Class<BillOfMaterialsImportJob>(
-  "BillOfMaterialsImportJob",
-)({
-  instanceId: S.String,
-  jobId: S.String,
-  status: S.String,
-  s3uri: S.String,
-  message: S.optional(S.String),
-}) {}
-export class SendDataIntegrationEventResponse extends S.Class<SendDataIntegrationEventResponse>(
-  "SendDataIntegrationEventResponse",
-)({ eventId: S.String }) {}
-export class GetBillOfMaterialsImportJobResponse extends S.Class<GetBillOfMaterialsImportJobResponse>(
-  "GetBillOfMaterialsImportJobResponse",
-)({ job: BillOfMaterialsImportJob }) {}
-export class GetDataIntegrationFlowResponse extends S.Class<GetDataIntegrationFlowResponse>(
-  "GetDataIntegrationFlowResponse",
-)({ flow: DataIntegrationFlow }) {}
-export class GetDataLakeDatasetResponse extends S.Class<GetDataLakeDatasetResponse>(
-  "GetDataLakeDatasetResponse",
-)({ dataset: DataLakeDataset }) {}
-export class CreateDataLakeNamespaceResponse extends S.Class<CreateDataLakeNamespaceResponse>(
-  "CreateDataLakeNamespaceResponse",
-)({ namespace: DataLakeNamespace }) {}
-export class CreateInstanceResponse extends S.Class<CreateInstanceResponse>(
-  "CreateInstanceResponse",
-)({ instance: Instance }) {}
-export class CreateDataLakeDatasetRequest extends S.Class<CreateDataLakeDatasetRequest>(
-  "CreateDataLakeDatasetRequest",
-)(
-  {
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface CreateBillOfMaterialsImportJobResponse {
+  jobId: string;
+}
+export const CreateBillOfMaterialsImportJobResponse = S.suspend(() =>
+  S.Struct({ jobId: S.String }),
+).annotations({
+  identifier: "CreateBillOfMaterialsImportJobResponse",
+}) as any as S.Schema<CreateBillOfMaterialsImportJobResponse>;
+export interface UpdateDataIntegrationFlowResponse {
+  flow: DataIntegrationFlow;
+}
+export const UpdateDataIntegrationFlowResponse = S.suspend(() =>
+  S.Struct({ flow: DataIntegrationFlow }),
+).annotations({
+  identifier: "UpdateDataIntegrationFlowResponse",
+}) as any as S.Schema<UpdateDataIntegrationFlowResponse>;
+export interface DeleteDataIntegrationFlowResponse {
+  instanceId: string;
+  name: string;
+}
+export const DeleteDataIntegrationFlowResponse = S.suspend(() =>
+  S.Struct({ instanceId: S.String, name: S.String }),
+).annotations({
+  identifier: "DeleteDataIntegrationFlowResponse",
+}) as any as S.Schema<DeleteDataIntegrationFlowResponse>;
+export interface ListDataIntegrationFlowsResponse {
+  flows: DataIntegrationFlowList;
+  nextToken?: string;
+}
+export const ListDataIntegrationFlowsResponse = S.suspend(() =>
+  S.Struct({ flows: DataIntegrationFlowList, nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListDataIntegrationFlowsResponse",
+}) as any as S.Schema<ListDataIntegrationFlowsResponse>;
+export interface UpdateDataLakeDatasetResponse {
+  dataset: DataLakeDataset;
+}
+export const UpdateDataLakeDatasetResponse = S.suspend(() =>
+  S.Struct({ dataset: DataLakeDataset }),
+).annotations({
+  identifier: "UpdateDataLakeDatasetResponse",
+}) as any as S.Schema<UpdateDataLakeDatasetResponse>;
+export interface DeleteDataLakeDatasetResponse {
+  instanceId: string;
+  namespace: string;
+  name: string;
+}
+export const DeleteDataLakeDatasetResponse = S.suspend(() =>
+  S.Struct({ instanceId: S.String, namespace: S.String, name: S.String }),
+).annotations({
+  identifier: "DeleteDataLakeDatasetResponse",
+}) as any as S.Schema<DeleteDataLakeDatasetResponse>;
+export interface ListDataLakeDatasetsResponse {
+  datasets: DataLakeDatasetList;
+  nextToken?: string;
+}
+export const ListDataLakeDatasetsResponse = S.suspend(() =>
+  S.Struct({ datasets: DataLakeDatasetList, nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListDataLakeDatasetsResponse",
+}) as any as S.Schema<ListDataLakeDatasetsResponse>;
+export interface GetDataLakeNamespaceResponse {
+  namespace: DataLakeNamespace;
+}
+export const GetDataLakeNamespaceResponse = S.suspend(() =>
+  S.Struct({ namespace: DataLakeNamespace }),
+).annotations({
+  identifier: "GetDataLakeNamespaceResponse",
+}) as any as S.Schema<GetDataLakeNamespaceResponse>;
+export interface UpdateDataLakeNamespaceResponse {
+  namespace: DataLakeNamespace;
+}
+export const UpdateDataLakeNamespaceResponse = S.suspend(() =>
+  S.Struct({ namespace: DataLakeNamespace }),
+).annotations({
+  identifier: "UpdateDataLakeNamespaceResponse",
+}) as any as S.Schema<UpdateDataLakeNamespaceResponse>;
+export interface DeleteDataLakeNamespaceResponse {
+  instanceId: string;
+  name: string;
+}
+export const DeleteDataLakeNamespaceResponse = S.suspend(() =>
+  S.Struct({ instanceId: S.String, name: S.String }),
+).annotations({
+  identifier: "DeleteDataLakeNamespaceResponse",
+}) as any as S.Schema<DeleteDataLakeNamespaceResponse>;
+export interface ListDataLakeNamespacesResponse {
+  namespaces: DataLakeNamespaceList;
+  nextToken?: string;
+}
+export const ListDataLakeNamespacesResponse = S.suspend(() =>
+  S.Struct({
+    namespaces: DataLakeNamespaceList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListDataLakeNamespacesResponse",
+}) as any as S.Schema<ListDataLakeNamespacesResponse>;
+export interface GetInstanceResponse {
+  instance: Instance;
+}
+export const GetInstanceResponse = S.suspend(() =>
+  S.Struct({ instance: Instance }),
+).annotations({
+  identifier: "GetInstanceResponse",
+}) as any as S.Schema<GetInstanceResponse>;
+export interface UpdateInstanceResponse {
+  instance: Instance;
+}
+export const UpdateInstanceResponse = S.suspend(() =>
+  S.Struct({ instance: Instance }),
+).annotations({
+  identifier: "UpdateInstanceResponse",
+}) as any as S.Schema<UpdateInstanceResponse>;
+export interface DeleteInstanceResponse {
+  instance: Instance;
+}
+export const DeleteInstanceResponse = S.suspend(() =>
+  S.Struct({ instance: Instance }),
+).annotations({
+  identifier: "DeleteInstanceResponse",
+}) as any as S.Schema<DeleteInstanceResponse>;
+export interface ListInstancesResponse {
+  instances: InstanceList;
+  nextToken?: string;
+}
+export const ListInstancesResponse = S.suspend(() =>
+  S.Struct({ instances: InstanceList, nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListInstancesResponse",
+}) as any as S.Schema<ListInstancesResponse>;
+export interface BillOfMaterialsImportJob {
+  instanceId: string;
+  jobId: string;
+  status: string;
+  s3uri: string;
+  message?: string;
+}
+export const BillOfMaterialsImportJob = S.suspend(() =>
+  S.Struct({
+    instanceId: S.String,
+    jobId: S.String,
+    status: S.String,
+    s3uri: S.String,
+    message: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "BillOfMaterialsImportJob",
+}) as any as S.Schema<BillOfMaterialsImportJob>;
+export interface SendDataIntegrationEventResponse {
+  eventId: string;
+}
+export const SendDataIntegrationEventResponse = S.suspend(() =>
+  S.Struct({ eventId: S.String }),
+).annotations({
+  identifier: "SendDataIntegrationEventResponse",
+}) as any as S.Schema<SendDataIntegrationEventResponse>;
+export interface GetBillOfMaterialsImportJobResponse {
+  job: BillOfMaterialsImportJob;
+}
+export const GetBillOfMaterialsImportJobResponse = S.suspend(() =>
+  S.Struct({ job: BillOfMaterialsImportJob }),
+).annotations({
+  identifier: "GetBillOfMaterialsImportJobResponse",
+}) as any as S.Schema<GetBillOfMaterialsImportJobResponse>;
+export interface GetDataIntegrationFlowResponse {
+  flow: DataIntegrationFlow;
+}
+export const GetDataIntegrationFlowResponse = S.suspend(() =>
+  S.Struct({ flow: DataIntegrationFlow }),
+).annotations({
+  identifier: "GetDataIntegrationFlowResponse",
+}) as any as S.Schema<GetDataIntegrationFlowResponse>;
+export interface GetDataLakeDatasetResponse {
+  dataset: DataLakeDataset;
+}
+export const GetDataLakeDatasetResponse = S.suspend(() =>
+  S.Struct({ dataset: DataLakeDataset }),
+).annotations({
+  identifier: "GetDataLakeDatasetResponse",
+}) as any as S.Schema<GetDataLakeDatasetResponse>;
+export interface CreateDataLakeNamespaceResponse {
+  namespace: DataLakeNamespace;
+}
+export const CreateDataLakeNamespaceResponse = S.suspend(() =>
+  S.Struct({ namespace: DataLakeNamespace }),
+).annotations({
+  identifier: "CreateDataLakeNamespaceResponse",
+}) as any as S.Schema<CreateDataLakeNamespaceResponse>;
+export interface CreateInstanceResponse {
+  instance: Instance;
+}
+export const CreateInstanceResponse = S.suspend(() =>
+  S.Struct({ instance: Instance }),
+).annotations({
+  identifier: "CreateInstanceResponse",
+}) as any as S.Schema<CreateInstanceResponse>;
+export interface CreateDataLakeDatasetRequest {
+  instanceId: string;
+  namespace: string;
+  name: string;
+  schema?: DataLakeDatasetSchema;
+  description?: string;
+  partitionSpec?: DataLakeDatasetPartitionSpec;
+  tags?: TagMap;
+}
+export const CreateDataLakeDatasetRequest = S.suspend(() =>
+  S.Struct({
     instanceId: S.String.pipe(T.HttpLabel("instanceId")),
     namespace: S.String.pipe(T.HttpLabel("namespace")),
     name: S.String.pipe(T.HttpLabel("name")),
@@ -1149,54 +1728,87 @@ export class CreateDataLakeDatasetRequest extends S.Class<CreateDataLakeDatasetR
     description: S.optional(S.String),
     partitionSpec: S.optional(DataLakeDatasetPartitionSpec),
     tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/api/datalake/instance/{instanceId}/namespaces/{namespace}/datasets/{name}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/api/datalake/instance/{instanceId}/namespaces/{namespace}/datasets/{name}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetDataIntegrationEventResponse extends S.Class<GetDataIntegrationEventResponse>(
-  "GetDataIntegrationEventResponse",
-)({ event: DataIntegrationEvent }) {}
-export class GetDataIntegrationFlowExecutionResponse extends S.Class<GetDataIntegrationFlowExecutionResponse>(
-  "GetDataIntegrationFlowExecutionResponse",
-)({ flowExecution: DataIntegrationFlowExecution }) {}
-export class CreateDataLakeDatasetResponse extends S.Class<CreateDataLakeDatasetResponse>(
-  "CreateDataLakeDatasetResponse",
-)({ dataset: DataLakeDataset }) {}
-export class CreateDataIntegrationFlowRequest extends S.Class<CreateDataIntegrationFlowRequest>(
-  "CreateDataIntegrationFlowRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateDataLakeDatasetRequest",
+}) as any as S.Schema<CreateDataLakeDatasetRequest>;
+export interface GetDataIntegrationEventResponse {
+  event: DataIntegrationEvent;
+}
+export const GetDataIntegrationEventResponse = S.suspend(() =>
+  S.Struct({ event: DataIntegrationEvent }),
+).annotations({
+  identifier: "GetDataIntegrationEventResponse",
+}) as any as S.Schema<GetDataIntegrationEventResponse>;
+export interface GetDataIntegrationFlowExecutionResponse {
+  flowExecution: DataIntegrationFlowExecution;
+}
+export const GetDataIntegrationFlowExecutionResponse = S.suspend(() =>
+  S.Struct({ flowExecution: DataIntegrationFlowExecution }),
+).annotations({
+  identifier: "GetDataIntegrationFlowExecutionResponse",
+}) as any as S.Schema<GetDataIntegrationFlowExecutionResponse>;
+export interface CreateDataLakeDatasetResponse {
+  dataset: DataLakeDataset;
+}
+export const CreateDataLakeDatasetResponse = S.suspend(() =>
+  S.Struct({ dataset: DataLakeDataset }),
+).annotations({
+  identifier: "CreateDataLakeDatasetResponse",
+}) as any as S.Schema<CreateDataLakeDatasetResponse>;
+export interface CreateDataIntegrationFlowRequest {
+  instanceId: string;
+  name: string;
+  sources: DataIntegrationFlowSourceList;
+  transformation: DataIntegrationFlowTransformation;
+  target: DataIntegrationFlowTarget;
+  tags?: TagMap;
+}
+export const CreateDataIntegrationFlowRequest = S.suspend(() =>
+  S.Struct({
     instanceId: S.String.pipe(T.HttpLabel("instanceId")),
     name: S.String.pipe(T.HttpLabel("name")),
     sources: DataIntegrationFlowSourceList,
     transformation: DataIntegrationFlowTransformation,
     target: DataIntegrationFlowTarget,
     tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/api/data-integration/instance/{instanceId}/data-integration-flows/{name}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/api/data-integration/instance/{instanceId}/data-integration-flows/{name}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateDataIntegrationFlowResponse extends S.Class<CreateDataIntegrationFlowResponse>(
-  "CreateDataIntegrationFlowResponse",
-)({ instanceId: S.String, name: S.String }) {}
+).annotations({
+  identifier: "CreateDataIntegrationFlowRequest",
+}) as any as S.Schema<CreateDataIntegrationFlowRequest>;
+export interface CreateDataIntegrationFlowResponse {
+  instanceId: string;
+  name: string;
+}
+export const CreateDataIntegrationFlowResponse = S.suspend(() =>
+  S.Struct({ instanceId: S.String, name: S.String }),
+).annotations({
+  identifier: "CreateDataIntegrationFlowResponse",
+}) as any as S.Schema<CreateDataIntegrationFlowResponse>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

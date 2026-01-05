@@ -198,47 +198,87 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class AssumeRoleForPodIdentityRequest extends S.Class<AssumeRoleForPodIdentityRequest>(
-  "AssumeRoleForPodIdentityRequest",
-)(
-  { clusterName: S.String.pipe(T.HttpLabel("clusterName")), token: S.String },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/clusters/{clusterName}/assume-role-for-pod-identity",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface AssumeRoleForPodIdentityRequest {
+  clusterName: string;
+  token: string;
+}
+export const AssumeRoleForPodIdentityRequest = S.suspend(() =>
+  S.Struct({
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
+    token: S.String,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/clusters/{clusterName}/assume-role-for-pod-identity",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class Subject extends S.Class<Subject>("Subject")({
-  namespace: S.String,
-  serviceAccount: S.String,
-}) {}
-export class PodIdentityAssociation extends S.Class<PodIdentityAssociation>(
-  "PodIdentityAssociation",
-)({ associationArn: S.String, associationId: S.String }) {}
-export class AssumedRoleUser extends S.Class<AssumedRoleUser>(
-  "AssumedRoleUser",
-)({ arn: S.String, assumeRoleId: S.String }) {}
-export class Credentials extends S.Class<Credentials>("Credentials")({
-  sessionToken: S.String,
-  secretAccessKey: S.String,
-  accessKeyId: S.String,
-  expiration: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-}) {}
-export class AssumeRoleForPodIdentityResponse extends S.Class<AssumeRoleForPodIdentityResponse>(
-  "AssumeRoleForPodIdentityResponse",
-)({
-  subject: Subject,
-  audience: S.String,
-  podIdentityAssociation: PodIdentityAssociation,
-  assumedRoleUser: AssumedRoleUser,
-  credentials: Credentials,
-}) {}
+).annotations({
+  identifier: "AssumeRoleForPodIdentityRequest",
+}) as any as S.Schema<AssumeRoleForPodIdentityRequest>;
+export interface Subject {
+  namespace: string;
+  serviceAccount: string;
+}
+export const Subject = S.suspend(() =>
+  S.Struct({ namespace: S.String, serviceAccount: S.String }),
+).annotations({ identifier: "Subject" }) as any as S.Schema<Subject>;
+export interface PodIdentityAssociation {
+  associationArn: string;
+  associationId: string;
+}
+export const PodIdentityAssociation = S.suspend(() =>
+  S.Struct({ associationArn: S.String, associationId: S.String }),
+).annotations({
+  identifier: "PodIdentityAssociation",
+}) as any as S.Schema<PodIdentityAssociation>;
+export interface AssumedRoleUser {
+  arn: string;
+  assumeRoleId: string;
+}
+export const AssumedRoleUser = S.suspend(() =>
+  S.Struct({ arn: S.String, assumeRoleId: S.String }),
+).annotations({
+  identifier: "AssumedRoleUser",
+}) as any as S.Schema<AssumedRoleUser>;
+export interface Credentials {
+  sessionToken: string;
+  secretAccessKey: string;
+  accessKeyId: string;
+  expiration: Date;
+}
+export const Credentials = S.suspend(() =>
+  S.Struct({
+    sessionToken: S.String,
+    secretAccessKey: S.String,
+    accessKeyId: S.String,
+    expiration: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotations({ identifier: "Credentials" }) as any as S.Schema<Credentials>;
+export interface AssumeRoleForPodIdentityResponse {
+  subject: Subject;
+  audience: string;
+  podIdentityAssociation: PodIdentityAssociation;
+  assumedRoleUser: AssumedRoleUser;
+  credentials: Credentials;
+}
+export const AssumeRoleForPodIdentityResponse = S.suspend(() =>
+  S.Struct({
+    subject: Subject,
+    audience: S.String,
+    podIdentityAssociation: PodIdentityAssociation,
+    assumedRoleUser: AssumedRoleUser,
+    credentials: Credentials,
+  }),
+).annotations({
+  identifier: "AssumeRoleForPodIdentityResponse",
+}) as any as S.Schema<AssumeRoleForPodIdentityResponse>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

@@ -243,53 +243,81 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class AssociateApiRequest extends S.Class<AssociateApiRequest>(
-  "AssociateApiRequest",
-)(
-  { domainName: S.String.pipe(T.HttpLabel("domainName")), apiId: S.String },
-  T.all(
-    ns,
-    T.Http({
-      method: "POST",
-      uri: "/v1/domainnames/{domainName}/apiassociation",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface AssociateApiRequest {
+  domainName: string;
+  apiId: string;
+}
+export const AssociateApiRequest = S.suspend(() =>
+  S.Struct({
+    domainName: S.String.pipe(T.HttpLabel("domainName")),
+    apiId: S.String,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "POST",
+        uri: "/v1/domainnames/{domainName}/apiassociation",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SourceApiAssociationConfig extends S.Class<SourceApiAssociationConfig>(
-  "SourceApiAssociationConfig",
-)({ mergeType: S.optional(S.String) }) {}
-export class AssociateSourceGraphqlApiRequest extends S.Class<AssociateSourceGraphqlApiRequest>(
-  "AssociateSourceGraphqlApiRequest",
-)(
-  {
+).annotations({
+  identifier: "AssociateApiRequest",
+}) as any as S.Schema<AssociateApiRequest>;
+export interface SourceApiAssociationConfig {
+  mergeType?: string;
+}
+export const SourceApiAssociationConfig = S.suspend(() =>
+  S.Struct({ mergeType: S.optional(S.String) }),
+).annotations({
+  identifier: "SourceApiAssociationConfig",
+}) as any as S.Schema<SourceApiAssociationConfig>;
+export interface AssociateSourceGraphqlApiRequest {
+  mergedApiIdentifier: string;
+  sourceApiIdentifier: string;
+  description?: string;
+  sourceApiAssociationConfig?: SourceApiAssociationConfig;
+}
+export const AssociateSourceGraphqlApiRequest = S.suspend(() =>
+  S.Struct({
     mergedApiIdentifier: S.String.pipe(T.HttpLabel("mergedApiIdentifier")),
     sourceApiIdentifier: S.String,
     description: S.optional(S.String),
     sourceApiAssociationConfig: S.optional(SourceApiAssociationConfig),
-  },
-  T.all(
-    ns,
-    T.Http({
-      method: "POST",
-      uri: "/v1/mergedApis/{mergedApiIdentifier}/sourceApiAssociations",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "POST",
+        uri: "/v1/mergedApis/{mergedApiIdentifier}/sourceApiAssociations",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateApiCacheRequest extends S.Class<CreateApiCacheRequest>(
-  "CreateApiCacheRequest",
-)(
-  {
+).annotations({
+  identifier: "AssociateSourceGraphqlApiRequest",
+}) as any as S.Schema<AssociateSourceGraphqlApiRequest>;
+export interface CreateApiCacheRequest {
+  apiId: string;
+  ttl: number;
+  transitEncryptionEnabled?: boolean;
+  atRestEncryptionEnabled?: boolean;
+  apiCachingBehavior: string;
+  type: string;
+  healthMetricsConfig?: string;
+}
+export const CreateApiCacheRequest = S.suspend(() =>
+  S.Struct({
     apiId: S.String.pipe(T.HttpLabel("apiId")),
     ttl: S.Number,
     transitEncryptionEnabled: S.optional(S.Boolean),
@@ -297,1149 +325,1673 @@ export class CreateApiCacheRequest extends S.Class<CreateApiCacheRequest>(
     apiCachingBehavior: S.String,
     type: S.String,
     healthMetricsConfig: S.optional(S.String),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/v1/apis/{apiId}/ApiCaches" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/v1/apis/{apiId}/ApiCaches" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateApiKeyRequest extends S.Class<CreateApiKeyRequest>(
-  "CreateApiKeyRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateApiCacheRequest",
+}) as any as S.Schema<CreateApiCacheRequest>;
+export interface CreateApiKeyRequest {
+  apiId: string;
+  description?: string;
+  expires?: number;
+}
+export const CreateApiKeyRequest = S.suspend(() =>
+  S.Struct({
     apiId: S.String.pipe(T.HttpLabel("apiId")),
     description: S.optional(S.String),
     expires: S.optional(S.Number),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/v1/apis/{apiId}/apikeys" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/v1/apis/{apiId}/apikeys" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "CreateApiKeyRequest",
+}) as any as S.Schema<CreateApiKeyRequest>;
+export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
-export class CreateDomainNameRequest extends S.Class<CreateDomainNameRequest>(
-  "CreateDomainNameRequest",
-)(
-  {
+export interface CreateDomainNameRequest {
+  domainName: string;
+  certificateArn: string;
+  description?: string;
+  tags?: TagMap;
+}
+export const CreateDomainNameRequest = S.suspend(() =>
+  S.Struct({
     domainName: S.String,
     certificateArn: S.String,
     description: S.optional(S.String),
     tags: S.optional(TagMap),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/v1/domainnames" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/v1/domainnames" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateTypeRequest extends S.Class<CreateTypeRequest>(
-  "CreateTypeRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateDomainNameRequest",
+}) as any as S.Schema<CreateDomainNameRequest>;
+export interface CreateTypeRequest {
+  apiId: string;
+  definition: string;
+  format: string;
+}
+export const CreateTypeRequest = S.suspend(() =>
+  S.Struct({
     apiId: S.String.pipe(T.HttpLabel("apiId")),
     definition: S.String,
     format: S.String,
-  },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/v1/apis/{apiId}/types" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/v1/apis/{apiId}/types" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteApiRequest extends S.Class<DeleteApiRequest>(
-  "DeleteApiRequest",
-)(
-  { apiId: S.String.pipe(T.HttpLabel("apiId")) },
-  T.all(
-    ns,
-    T.Http({ method: "DELETE", uri: "/v2/apis/{apiId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CreateTypeRequest",
+}) as any as S.Schema<CreateTypeRequest>;
+export interface DeleteApiRequest {
+  apiId: string;
+}
+export const DeleteApiRequest = S.suspend(() =>
+  S.Struct({ apiId: S.String.pipe(T.HttpLabel("apiId")) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "DELETE", uri: "/v2/apis/{apiId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteApiResponse extends S.Class<DeleteApiResponse>(
-  "DeleteApiResponse",
-)({}, ns) {}
-export class DeleteApiCacheRequest extends S.Class<DeleteApiCacheRequest>(
-  "DeleteApiCacheRequest",
-)(
-  { apiId: S.String.pipe(T.HttpLabel("apiId")) },
-  T.all(
-    ns,
-    T.Http({ method: "DELETE", uri: "/v1/apis/{apiId}/ApiCaches" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteApiRequest",
+}) as any as S.Schema<DeleteApiRequest>;
+export interface DeleteApiResponse {}
+export const DeleteApiResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteApiResponse",
+}) as any as S.Schema<DeleteApiResponse>;
+export interface DeleteApiCacheRequest {
+  apiId: string;
+}
+export const DeleteApiCacheRequest = S.suspend(() =>
+  S.Struct({ apiId: S.String.pipe(T.HttpLabel("apiId")) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "DELETE", uri: "/v1/apis/{apiId}/ApiCaches" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteApiCacheResponse extends S.Class<DeleteApiCacheResponse>(
-  "DeleteApiCacheResponse",
-)({}, ns) {}
-export class DeleteApiKeyRequest extends S.Class<DeleteApiKeyRequest>(
-  "DeleteApiKeyRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteApiCacheRequest",
+}) as any as S.Schema<DeleteApiCacheRequest>;
+export interface DeleteApiCacheResponse {}
+export const DeleteApiCacheResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteApiCacheResponse",
+}) as any as S.Schema<DeleteApiCacheResponse>;
+export interface DeleteApiKeyRequest {
+  apiId: string;
+  id: string;
+}
+export const DeleteApiKeyRequest = S.suspend(() =>
+  S.Struct({
     apiId: S.String.pipe(T.HttpLabel("apiId")),
     id: S.String.pipe(T.HttpLabel("id")),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "DELETE", uri: "/v1/apis/{apiId}/apikeys/{id}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "DELETE", uri: "/v1/apis/{apiId}/apikeys/{id}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteApiKeyResponse extends S.Class<DeleteApiKeyResponse>(
-  "DeleteApiKeyResponse",
-)({}, ns) {}
-export class DeleteChannelNamespaceRequest extends S.Class<DeleteChannelNamespaceRequest>(
-  "DeleteChannelNamespaceRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteApiKeyRequest",
+}) as any as S.Schema<DeleteApiKeyRequest>;
+export interface DeleteApiKeyResponse {}
+export const DeleteApiKeyResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteApiKeyResponse",
+}) as any as S.Schema<DeleteApiKeyResponse>;
+export interface DeleteChannelNamespaceRequest {
+  apiId: string;
+  name: string;
+}
+export const DeleteChannelNamespaceRequest = S.suspend(() =>
+  S.Struct({
     apiId: S.String.pipe(T.HttpLabel("apiId")),
     name: S.String.pipe(T.HttpLabel("name")),
-  },
-  T.all(
-    ns,
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/apis/{apiId}/channelNamespaces/{name}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "DELETE",
+        uri: "/v2/apis/{apiId}/channelNamespaces/{name}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteChannelNamespaceResponse extends S.Class<DeleteChannelNamespaceResponse>(
-  "DeleteChannelNamespaceResponse",
-)({}, ns) {}
-export class DeleteDataSourceRequest extends S.Class<DeleteDataSourceRequest>(
-  "DeleteDataSourceRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteChannelNamespaceRequest",
+}) as any as S.Schema<DeleteChannelNamespaceRequest>;
+export interface DeleteChannelNamespaceResponse {}
+export const DeleteChannelNamespaceResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteChannelNamespaceResponse",
+}) as any as S.Schema<DeleteChannelNamespaceResponse>;
+export interface DeleteDataSourceRequest {
+  apiId: string;
+  name: string;
+}
+export const DeleteDataSourceRequest = S.suspend(() =>
+  S.Struct({
     apiId: S.String.pipe(T.HttpLabel("apiId")),
     name: S.String.pipe(T.HttpLabel("name")),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "DELETE", uri: "/v1/apis/{apiId}/datasources/{name}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "DELETE", uri: "/v1/apis/{apiId}/datasources/{name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteDataSourceResponse extends S.Class<DeleteDataSourceResponse>(
-  "DeleteDataSourceResponse",
-)({}, ns) {}
-export class DeleteDomainNameRequest extends S.Class<DeleteDomainNameRequest>(
-  "DeleteDomainNameRequest",
-)(
-  { domainName: S.String.pipe(T.HttpLabel("domainName")) },
-  T.all(
-    ns,
-    T.Http({ method: "DELETE", uri: "/v1/domainnames/{domainName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteDataSourceRequest",
+}) as any as S.Schema<DeleteDataSourceRequest>;
+export interface DeleteDataSourceResponse {}
+export const DeleteDataSourceResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteDataSourceResponse",
+}) as any as S.Schema<DeleteDataSourceResponse>;
+export interface DeleteDomainNameRequest {
+  domainName: string;
+}
+export const DeleteDomainNameRequest = S.suspend(() =>
+  S.Struct({ domainName: S.String.pipe(T.HttpLabel("domainName")) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "DELETE", uri: "/v1/domainnames/{domainName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteDomainNameResponse extends S.Class<DeleteDomainNameResponse>(
-  "DeleteDomainNameResponse",
-)({}, ns) {}
-export class DeleteFunctionRequest extends S.Class<DeleteFunctionRequest>(
-  "DeleteFunctionRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteDomainNameRequest",
+}) as any as S.Schema<DeleteDomainNameRequest>;
+export interface DeleteDomainNameResponse {}
+export const DeleteDomainNameResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteDomainNameResponse",
+}) as any as S.Schema<DeleteDomainNameResponse>;
+export interface DeleteFunctionRequest {
+  apiId: string;
+  functionId: string;
+}
+export const DeleteFunctionRequest = S.suspend(() =>
+  S.Struct({
     apiId: S.String.pipe(T.HttpLabel("apiId")),
     functionId: S.String.pipe(T.HttpLabel("functionId")),
-  },
-  T.all(
-    ns,
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/apis/{apiId}/functions/{functionId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "DELETE",
+        uri: "/v1/apis/{apiId}/functions/{functionId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteFunctionResponse extends S.Class<DeleteFunctionResponse>(
-  "DeleteFunctionResponse",
-)({}, ns) {}
-export class DeleteGraphqlApiRequest extends S.Class<DeleteGraphqlApiRequest>(
-  "DeleteGraphqlApiRequest",
-)(
-  { apiId: S.String.pipe(T.HttpLabel("apiId")) },
-  T.all(
-    ns,
-    T.Http({ method: "DELETE", uri: "/v1/apis/{apiId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteFunctionRequest",
+}) as any as S.Schema<DeleteFunctionRequest>;
+export interface DeleteFunctionResponse {}
+export const DeleteFunctionResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteFunctionResponse",
+}) as any as S.Schema<DeleteFunctionResponse>;
+export interface DeleteGraphqlApiRequest {
+  apiId: string;
+}
+export const DeleteGraphqlApiRequest = S.suspend(() =>
+  S.Struct({ apiId: S.String.pipe(T.HttpLabel("apiId")) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "DELETE", uri: "/v1/apis/{apiId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteGraphqlApiResponse extends S.Class<DeleteGraphqlApiResponse>(
-  "DeleteGraphqlApiResponse",
-)({}, ns) {}
-export class DeleteResolverRequest extends S.Class<DeleteResolverRequest>(
-  "DeleteResolverRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteGraphqlApiRequest",
+}) as any as S.Schema<DeleteGraphqlApiRequest>;
+export interface DeleteGraphqlApiResponse {}
+export const DeleteGraphqlApiResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteGraphqlApiResponse",
+}) as any as S.Schema<DeleteGraphqlApiResponse>;
+export interface DeleteResolverRequest {
+  apiId: string;
+  typeName: string;
+  fieldName: string;
+}
+export const DeleteResolverRequest = S.suspend(() =>
+  S.Struct({
     apiId: S.String.pipe(T.HttpLabel("apiId")),
     typeName: S.String.pipe(T.HttpLabel("typeName")),
     fieldName: S.String.pipe(T.HttpLabel("fieldName")),
-  },
-  T.all(
-    ns,
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/apis/{apiId}/types/{typeName}/resolvers/{fieldName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "DELETE",
+        uri: "/v1/apis/{apiId}/types/{typeName}/resolvers/{fieldName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteResolverResponse extends S.Class<DeleteResolverResponse>(
-  "DeleteResolverResponse",
-)({}, ns) {}
-export class DeleteTypeRequest extends S.Class<DeleteTypeRequest>(
-  "DeleteTypeRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteResolverRequest",
+}) as any as S.Schema<DeleteResolverRequest>;
+export interface DeleteResolverResponse {}
+export const DeleteResolverResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteResolverResponse",
+}) as any as S.Schema<DeleteResolverResponse>;
+export interface DeleteTypeRequest {
+  apiId: string;
+  typeName: string;
+}
+export const DeleteTypeRequest = S.suspend(() =>
+  S.Struct({
     apiId: S.String.pipe(T.HttpLabel("apiId")),
     typeName: S.String.pipe(T.HttpLabel("typeName")),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "DELETE", uri: "/v1/apis/{apiId}/types/{typeName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "DELETE", uri: "/v1/apis/{apiId}/types/{typeName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteTypeResponse extends S.Class<DeleteTypeResponse>(
-  "DeleteTypeResponse",
-)({}, ns) {}
-export class DisassociateApiRequest extends S.Class<DisassociateApiRequest>(
-  "DisassociateApiRequest",
-)(
-  { domainName: S.String.pipe(T.HttpLabel("domainName")) },
-  T.all(
-    ns,
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/domainnames/{domainName}/apiassociation",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteTypeRequest",
+}) as any as S.Schema<DeleteTypeRequest>;
+export interface DeleteTypeResponse {}
+export const DeleteTypeResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteTypeResponse",
+}) as any as S.Schema<DeleteTypeResponse>;
+export interface DisassociateApiRequest {
+  domainName: string;
+}
+export const DisassociateApiRequest = S.suspend(() =>
+  S.Struct({ domainName: S.String.pipe(T.HttpLabel("domainName")) }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "DELETE",
+        uri: "/v1/domainnames/{domainName}/apiassociation",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DisassociateApiResponse extends S.Class<DisassociateApiResponse>(
-  "DisassociateApiResponse",
-)({}, ns) {}
-export class DisassociateMergedGraphqlApiRequest extends S.Class<DisassociateMergedGraphqlApiRequest>(
-  "DisassociateMergedGraphqlApiRequest",
-)(
-  {
+).annotations({
+  identifier: "DisassociateApiRequest",
+}) as any as S.Schema<DisassociateApiRequest>;
+export interface DisassociateApiResponse {}
+export const DisassociateApiResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DisassociateApiResponse",
+}) as any as S.Schema<DisassociateApiResponse>;
+export interface DisassociateMergedGraphqlApiRequest {
+  sourceApiIdentifier: string;
+  associationId: string;
+}
+export const DisassociateMergedGraphqlApiRequest = S.suspend(() =>
+  S.Struct({
     sourceApiIdentifier: S.String.pipe(T.HttpLabel("sourceApiIdentifier")),
     associationId: S.String.pipe(T.HttpLabel("associationId")),
-  },
-  T.all(
-    ns,
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/sourceApis/{sourceApiIdentifier}/mergedApiAssociations/{associationId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "DELETE",
+        uri: "/v1/sourceApis/{sourceApiIdentifier}/mergedApiAssociations/{associationId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DisassociateSourceGraphqlApiRequest extends S.Class<DisassociateSourceGraphqlApiRequest>(
-  "DisassociateSourceGraphqlApiRequest",
-)(
-  {
+).annotations({
+  identifier: "DisassociateMergedGraphqlApiRequest",
+}) as any as S.Schema<DisassociateMergedGraphqlApiRequest>;
+export interface DisassociateSourceGraphqlApiRequest {
+  mergedApiIdentifier: string;
+  associationId: string;
+}
+export const DisassociateSourceGraphqlApiRequest = S.suspend(() =>
+  S.Struct({
     mergedApiIdentifier: S.String.pipe(T.HttpLabel("mergedApiIdentifier")),
     associationId: S.String.pipe(T.HttpLabel("associationId")),
-  },
-  T.all(
-    ns,
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/mergedApis/{mergedApiIdentifier}/sourceApiAssociations/{associationId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "DELETE",
+        uri: "/v1/mergedApis/{mergedApiIdentifier}/sourceApiAssociations/{associationId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AppSyncRuntime extends S.Class<AppSyncRuntime>("AppSyncRuntime")({
-  name: S.String,
-  runtimeVersion: S.String,
-}) {}
-export class EvaluateCodeRequest extends S.Class<EvaluateCodeRequest>(
-  "EvaluateCodeRequest",
-)(
-  {
+).annotations({
+  identifier: "DisassociateSourceGraphqlApiRequest",
+}) as any as S.Schema<DisassociateSourceGraphqlApiRequest>;
+export interface AppSyncRuntime {
+  name: string;
+  runtimeVersion: string;
+}
+export const AppSyncRuntime = S.suspend(() =>
+  S.Struct({ name: S.String, runtimeVersion: S.String }),
+).annotations({
+  identifier: "AppSyncRuntime",
+}) as any as S.Schema<AppSyncRuntime>;
+export interface EvaluateCodeRequest {
+  runtime: AppSyncRuntime;
+  code: string;
+  context: string;
+  function?: string;
+}
+export const EvaluateCodeRequest = S.suspend(() =>
+  S.Struct({
     runtime: AppSyncRuntime,
     code: S.String,
     context: S.String,
     function: S.optional(S.String),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/v1/dataplane-evaluatecode" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/v1/dataplane-evaluatecode" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class EvaluateMappingTemplateRequest extends S.Class<EvaluateMappingTemplateRequest>(
-  "EvaluateMappingTemplateRequest",
-)(
-  { template: S.String, context: S.String },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/v1/dataplane-evaluatetemplate" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "EvaluateCodeRequest",
+}) as any as S.Schema<EvaluateCodeRequest>;
+export interface EvaluateMappingTemplateRequest {
+  template: string;
+  context: string;
+}
+export const EvaluateMappingTemplateRequest = S.suspend(() =>
+  S.Struct({ template: S.String, context: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/v1/dataplane-evaluatetemplate" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class FlushApiCacheRequest extends S.Class<FlushApiCacheRequest>(
-  "FlushApiCacheRequest",
-)(
-  { apiId: S.String.pipe(T.HttpLabel("apiId")) },
-  T.all(
-    ns,
-    T.Http({ method: "DELETE", uri: "/v1/apis/{apiId}/FlushCache" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "EvaluateMappingTemplateRequest",
+}) as any as S.Schema<EvaluateMappingTemplateRequest>;
+export interface FlushApiCacheRequest {
+  apiId: string;
+}
+export const FlushApiCacheRequest = S.suspend(() =>
+  S.Struct({ apiId: S.String.pipe(T.HttpLabel("apiId")) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "DELETE", uri: "/v1/apis/{apiId}/FlushCache" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class FlushApiCacheResponse extends S.Class<FlushApiCacheResponse>(
-  "FlushApiCacheResponse",
-)({}, ns) {}
-export class GetApiRequest extends S.Class<GetApiRequest>("GetApiRequest")(
-  { apiId: S.String.pipe(T.HttpLabel("apiId")) },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/v2/apis/{apiId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "FlushApiCacheRequest",
+}) as any as S.Schema<FlushApiCacheRequest>;
+export interface FlushApiCacheResponse {}
+export const FlushApiCacheResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "FlushApiCacheResponse",
+}) as any as S.Schema<FlushApiCacheResponse>;
+export interface GetApiRequest {
+  apiId: string;
+}
+export const GetApiRequest = S.suspend(() =>
+  S.Struct({ apiId: S.String.pipe(T.HttpLabel("apiId")) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/v2/apis/{apiId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetApiAssociationRequest extends S.Class<GetApiAssociationRequest>(
-  "GetApiAssociationRequest",
-)(
-  { domainName: S.String.pipe(T.HttpLabel("domainName")) },
-  T.all(
-    ns,
-    T.Http({
-      method: "GET",
-      uri: "/v1/domainnames/{domainName}/apiassociation",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetApiRequest",
+}) as any as S.Schema<GetApiRequest>;
+export interface GetApiAssociationRequest {
+  domainName: string;
+}
+export const GetApiAssociationRequest = S.suspend(() =>
+  S.Struct({ domainName: S.String.pipe(T.HttpLabel("domainName")) }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "GET",
+        uri: "/v1/domainnames/{domainName}/apiassociation",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetApiCacheRequest extends S.Class<GetApiCacheRequest>(
-  "GetApiCacheRequest",
-)(
-  { apiId: S.String.pipe(T.HttpLabel("apiId")) },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/v1/apis/{apiId}/ApiCaches" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetApiAssociationRequest",
+}) as any as S.Schema<GetApiAssociationRequest>;
+export interface GetApiCacheRequest {
+  apiId: string;
+}
+export const GetApiCacheRequest = S.suspend(() =>
+  S.Struct({ apiId: S.String.pipe(T.HttpLabel("apiId")) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/v1/apis/{apiId}/ApiCaches" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetChannelNamespaceRequest extends S.Class<GetChannelNamespaceRequest>(
-  "GetChannelNamespaceRequest",
-)(
-  {
+).annotations({
+  identifier: "GetApiCacheRequest",
+}) as any as S.Schema<GetApiCacheRequest>;
+export interface GetChannelNamespaceRequest {
+  apiId: string;
+  name: string;
+}
+export const GetChannelNamespaceRequest = S.suspend(() =>
+  S.Struct({
     apiId: S.String.pipe(T.HttpLabel("apiId")),
     name: S.String.pipe(T.HttpLabel("name")),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/v2/apis/{apiId}/channelNamespaces/{name}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "GET",
+        uri: "/v2/apis/{apiId}/channelNamespaces/{name}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetDataSourceRequest extends S.Class<GetDataSourceRequest>(
-  "GetDataSourceRequest",
-)(
-  {
+).annotations({
+  identifier: "GetChannelNamespaceRequest",
+}) as any as S.Schema<GetChannelNamespaceRequest>;
+export interface GetDataSourceRequest {
+  apiId: string;
+  name: string;
+}
+export const GetDataSourceRequest = S.suspend(() =>
+  S.Struct({
     apiId: S.String.pipe(T.HttpLabel("apiId")),
     name: S.String.pipe(T.HttpLabel("name")),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/v1/apis/{apiId}/datasources/{name}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/v1/apis/{apiId}/datasources/{name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetDataSourceIntrospectionRequest extends S.Class<GetDataSourceIntrospectionRequest>(
-  "GetDataSourceIntrospectionRequest",
-)(
-  {
+).annotations({
+  identifier: "GetDataSourceRequest",
+}) as any as S.Schema<GetDataSourceRequest>;
+export interface GetDataSourceIntrospectionRequest {
+  introspectionId: string;
+  includeModelsSDL?: boolean;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const GetDataSourceIntrospectionRequest = S.suspend(() =>
+  S.Struct({
     introspectionId: S.String.pipe(T.HttpLabel("introspectionId")),
     includeModelsSDL: S.optional(S.Boolean).pipe(
       T.HttpQuery("includeModelsSDL"),
     ),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    ns,
-    T.Http({
-      method: "GET",
-      uri: "/v1/datasources/introspections/{introspectionId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "GET",
+        uri: "/v1/datasources/introspections/{introspectionId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetDomainNameRequest extends S.Class<GetDomainNameRequest>(
-  "GetDomainNameRequest",
-)(
-  { domainName: S.String.pipe(T.HttpLabel("domainName")) },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/v1/domainnames/{domainName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetDataSourceIntrospectionRequest",
+}) as any as S.Schema<GetDataSourceIntrospectionRequest>;
+export interface GetDomainNameRequest {
+  domainName: string;
+}
+export const GetDomainNameRequest = S.suspend(() =>
+  S.Struct({ domainName: S.String.pipe(T.HttpLabel("domainName")) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/v1/domainnames/{domainName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetFunctionRequest extends S.Class<GetFunctionRequest>(
-  "GetFunctionRequest",
-)(
-  {
+).annotations({
+  identifier: "GetDomainNameRequest",
+}) as any as S.Schema<GetDomainNameRequest>;
+export interface GetFunctionRequest {
+  apiId: string;
+  functionId: string;
+}
+export const GetFunctionRequest = S.suspend(() =>
+  S.Struct({
     apiId: S.String.pipe(T.HttpLabel("apiId")),
     functionId: S.String.pipe(T.HttpLabel("functionId")),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/v1/apis/{apiId}/functions/{functionId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/v1/apis/{apiId}/functions/{functionId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetGraphqlApiRequest extends S.Class<GetGraphqlApiRequest>(
-  "GetGraphqlApiRequest",
-)(
-  { apiId: S.String.pipe(T.HttpLabel("apiId")) },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/v1/apis/{apiId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetFunctionRequest",
+}) as any as S.Schema<GetFunctionRequest>;
+export interface GetGraphqlApiRequest {
+  apiId: string;
+}
+export const GetGraphqlApiRequest = S.suspend(() =>
+  S.Struct({ apiId: S.String.pipe(T.HttpLabel("apiId")) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/v1/apis/{apiId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetGraphqlApiEnvironmentVariablesRequest extends S.Class<GetGraphqlApiEnvironmentVariablesRequest>(
-  "GetGraphqlApiEnvironmentVariablesRequest",
-)(
-  { apiId: S.String.pipe(T.HttpLabel("apiId")) },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/v1/apis/{apiId}/environmentVariables" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetGraphqlApiRequest",
+}) as any as S.Schema<GetGraphqlApiRequest>;
+export interface GetGraphqlApiEnvironmentVariablesRequest {
+  apiId: string;
+}
+export const GetGraphqlApiEnvironmentVariablesRequest = S.suspend(() =>
+  S.Struct({ apiId: S.String.pipe(T.HttpLabel("apiId")) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/v1/apis/{apiId}/environmentVariables" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetIntrospectionSchemaRequest extends S.Class<GetIntrospectionSchemaRequest>(
-  "GetIntrospectionSchemaRequest",
-)(
-  {
+).annotations({
+  identifier: "GetGraphqlApiEnvironmentVariablesRequest",
+}) as any as S.Schema<GetGraphqlApiEnvironmentVariablesRequest>;
+export interface GetIntrospectionSchemaRequest {
+  apiId: string;
+  format: string;
+  includeDirectives?: boolean;
+}
+export const GetIntrospectionSchemaRequest = S.suspend(() =>
+  S.Struct({
     apiId: S.String.pipe(T.HttpLabel("apiId")),
     format: S.String.pipe(T.HttpQuery("format")),
     includeDirectives: S.optional(S.Boolean).pipe(
       T.HttpQuery("includeDirectives"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/v1/apis/{apiId}/schema" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/v1/apis/{apiId}/schema" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetResolverRequest extends S.Class<GetResolverRequest>(
-  "GetResolverRequest",
-)(
-  {
+).annotations({
+  identifier: "GetIntrospectionSchemaRequest",
+}) as any as S.Schema<GetIntrospectionSchemaRequest>;
+export interface GetResolverRequest {
+  apiId: string;
+  typeName: string;
+  fieldName: string;
+}
+export const GetResolverRequest = S.suspend(() =>
+  S.Struct({
     apiId: S.String.pipe(T.HttpLabel("apiId")),
     typeName: S.String.pipe(T.HttpLabel("typeName")),
     fieldName: S.String.pipe(T.HttpLabel("fieldName")),
-  },
-  T.all(
-    ns,
-    T.Http({
-      method: "GET",
-      uri: "/v1/apis/{apiId}/types/{typeName}/resolvers/{fieldName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "GET",
+        uri: "/v1/apis/{apiId}/types/{typeName}/resolvers/{fieldName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetSchemaCreationStatusRequest extends S.Class<GetSchemaCreationStatusRequest>(
-  "GetSchemaCreationStatusRequest",
-)(
-  { apiId: S.String.pipe(T.HttpLabel("apiId")) },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/v1/apis/{apiId}/schemacreation" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetResolverRequest",
+}) as any as S.Schema<GetResolverRequest>;
+export interface GetSchemaCreationStatusRequest {
+  apiId: string;
+}
+export const GetSchemaCreationStatusRequest = S.suspend(() =>
+  S.Struct({ apiId: S.String.pipe(T.HttpLabel("apiId")) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/v1/apis/{apiId}/schemacreation" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetSourceApiAssociationRequest extends S.Class<GetSourceApiAssociationRequest>(
-  "GetSourceApiAssociationRequest",
-)(
-  {
+).annotations({
+  identifier: "GetSchemaCreationStatusRequest",
+}) as any as S.Schema<GetSchemaCreationStatusRequest>;
+export interface GetSourceApiAssociationRequest {
+  mergedApiIdentifier: string;
+  associationId: string;
+}
+export const GetSourceApiAssociationRequest = S.suspend(() =>
+  S.Struct({
     mergedApiIdentifier: S.String.pipe(T.HttpLabel("mergedApiIdentifier")),
     associationId: S.String.pipe(T.HttpLabel("associationId")),
-  },
-  T.all(
-    ns,
-    T.Http({
-      method: "GET",
-      uri: "/v1/mergedApis/{mergedApiIdentifier}/sourceApiAssociations/{associationId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "GET",
+        uri: "/v1/mergedApis/{mergedApiIdentifier}/sourceApiAssociations/{associationId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetTypeRequest extends S.Class<GetTypeRequest>("GetTypeRequest")(
-  {
+).annotations({
+  identifier: "GetSourceApiAssociationRequest",
+}) as any as S.Schema<GetSourceApiAssociationRequest>;
+export interface GetTypeRequest {
+  apiId: string;
+  typeName: string;
+  format: string;
+}
+export const GetTypeRequest = S.suspend(() =>
+  S.Struct({
     apiId: S.String.pipe(T.HttpLabel("apiId")),
     typeName: S.String.pipe(T.HttpLabel("typeName")),
     format: S.String.pipe(T.HttpQuery("format")),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/v1/apis/{apiId}/types/{typeName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/v1/apis/{apiId}/types/{typeName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListApiKeysRequest extends S.Class<ListApiKeysRequest>(
-  "ListApiKeysRequest",
-)(
-  {
+).annotations({
+  identifier: "GetTypeRequest",
+}) as any as S.Schema<GetTypeRequest>;
+export interface ListApiKeysRequest {
+  apiId: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListApiKeysRequest = S.suspend(() =>
+  S.Struct({
     apiId: S.String.pipe(T.HttpLabel("apiId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/v1/apis/{apiId}/apikeys" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/v1/apis/{apiId}/apikeys" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListApisRequest extends S.Class<ListApisRequest>(
-  "ListApisRequest",
-)(
-  {
+).annotations({
+  identifier: "ListApiKeysRequest",
+}) as any as S.Schema<ListApiKeysRequest>;
+export interface ListApisRequest {
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListApisRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/v2/apis" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/v2/apis" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListChannelNamespacesRequest extends S.Class<ListChannelNamespacesRequest>(
-  "ListChannelNamespacesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListApisRequest",
+}) as any as S.Schema<ListApisRequest>;
+export interface ListChannelNamespacesRequest {
+  apiId: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListChannelNamespacesRequest = S.suspend(() =>
+  S.Struct({
     apiId: S.String.pipe(T.HttpLabel("apiId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/v2/apis/{apiId}/channelNamespaces" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/v2/apis/{apiId}/channelNamespaces" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListDataSourcesRequest extends S.Class<ListDataSourcesRequest>(
-  "ListDataSourcesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListChannelNamespacesRequest",
+}) as any as S.Schema<ListChannelNamespacesRequest>;
+export interface ListDataSourcesRequest {
+  apiId: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListDataSourcesRequest = S.suspend(() =>
+  S.Struct({
     apiId: S.String.pipe(T.HttpLabel("apiId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/v1/apis/{apiId}/datasources" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/v1/apis/{apiId}/datasources" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListDomainNamesRequest extends S.Class<ListDomainNamesRequest>(
-  "ListDomainNamesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListDataSourcesRequest",
+}) as any as S.Schema<ListDataSourcesRequest>;
+export interface ListDomainNamesRequest {
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListDomainNamesRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/v1/domainnames" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/v1/domainnames" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListFunctionsRequest extends S.Class<ListFunctionsRequest>(
-  "ListFunctionsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListDomainNamesRequest",
+}) as any as S.Schema<ListDomainNamesRequest>;
+export interface ListFunctionsRequest {
+  apiId: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListFunctionsRequest = S.suspend(() =>
+  S.Struct({
     apiId: S.String.pipe(T.HttpLabel("apiId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/v1/apis/{apiId}/functions" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/v1/apis/{apiId}/functions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListGraphqlApisRequest extends S.Class<ListGraphqlApisRequest>(
-  "ListGraphqlApisRequest",
-)(
-  {
+).annotations({
+  identifier: "ListFunctionsRequest",
+}) as any as S.Schema<ListFunctionsRequest>;
+export interface ListGraphqlApisRequest {
+  nextToken?: string;
+  maxResults?: number;
+  apiType?: string;
+  owner?: string;
+}
+export const ListGraphqlApisRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     apiType: S.optional(S.String).pipe(T.HttpQuery("apiType")),
     owner: S.optional(S.String).pipe(T.HttpQuery("owner")),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/v1/apis" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/v1/apis" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListResolversRequest extends S.Class<ListResolversRequest>(
-  "ListResolversRequest",
-)(
-  {
+).annotations({
+  identifier: "ListGraphqlApisRequest",
+}) as any as S.Schema<ListGraphqlApisRequest>;
+export interface ListResolversRequest {
+  apiId: string;
+  typeName: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListResolversRequest = S.suspend(() =>
+  S.Struct({
     apiId: S.String.pipe(T.HttpLabel("apiId")),
     typeName: S.String.pipe(T.HttpLabel("typeName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    ns,
-    T.Http({
-      method: "GET",
-      uri: "/v1/apis/{apiId}/types/{typeName}/resolvers",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "GET",
+        uri: "/v1/apis/{apiId}/types/{typeName}/resolvers",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListResolversByFunctionRequest extends S.Class<ListResolversByFunctionRequest>(
-  "ListResolversByFunctionRequest",
-)(
-  {
+).annotations({
+  identifier: "ListResolversRequest",
+}) as any as S.Schema<ListResolversRequest>;
+export interface ListResolversByFunctionRequest {
+  apiId: string;
+  functionId: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListResolversByFunctionRequest = S.suspend(() =>
+  S.Struct({
     apiId: S.String.pipe(T.HttpLabel("apiId")),
     functionId: S.String.pipe(T.HttpLabel("functionId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    ns,
-    T.Http({
-      method: "GET",
-      uri: "/v1/apis/{apiId}/functions/{functionId}/resolvers",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "GET",
+        uri: "/v1/apis/{apiId}/functions/{functionId}/resolvers",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListSourceApiAssociationsRequest extends S.Class<ListSourceApiAssociationsRequest>(
-  "ListSourceApiAssociationsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListResolversByFunctionRequest",
+}) as any as S.Schema<ListResolversByFunctionRequest>;
+export interface ListSourceApiAssociationsRequest {
+  apiId: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListSourceApiAssociationsRequest = S.suspend(() =>
+  S.Struct({
     apiId: S.String.pipe(T.HttpLabel("apiId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/v1/apis/{apiId}/sourceApiAssociations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/v1/apis/{apiId}/sourceApiAssociations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/v1/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListSourceApiAssociationsRequest",
+}) as any as S.Schema<ListSourceApiAssociationsRequest>;
+export interface ListTagsForResourceRequest {
+  resourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/v1/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTypesRequest extends S.Class<ListTypesRequest>(
-  "ListTypesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface ListTypesRequest {
+  apiId: string;
+  format: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListTypesRequest = S.suspend(() =>
+  S.Struct({
     apiId: S.String.pipe(T.HttpLabel("apiId")),
     format: S.String.pipe(T.HttpQuery("format")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/v1/apis/{apiId}/types" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/v1/apis/{apiId}/types" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTypesByAssociationRequest extends S.Class<ListTypesByAssociationRequest>(
-  "ListTypesByAssociationRequest",
-)(
-  {
+).annotations({
+  identifier: "ListTypesRequest",
+}) as any as S.Schema<ListTypesRequest>;
+export interface ListTypesByAssociationRequest {
+  mergedApiIdentifier: string;
+  associationId: string;
+  format: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListTypesByAssociationRequest = S.suspend(() =>
+  S.Struct({
     mergedApiIdentifier: S.String.pipe(T.HttpLabel("mergedApiIdentifier")),
     associationId: S.String.pipe(T.HttpLabel("associationId")),
     format: S.String.pipe(T.HttpQuery("format")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    ns,
-    T.Http({
-      method: "GET",
-      uri: "/v1/mergedApis/{mergedApiIdentifier}/sourceApiAssociations/{associationId}/types",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "GET",
+        uri: "/v1/mergedApis/{mergedApiIdentifier}/sourceApiAssociations/{associationId}/types",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartSchemaCreationRequest extends S.Class<StartSchemaCreationRequest>(
-  "StartSchemaCreationRequest",
-)(
-  { apiId: S.String.pipe(T.HttpLabel("apiId")), definition: T.Blob },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/v1/apis/{apiId}/schemacreation" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListTypesByAssociationRequest",
+}) as any as S.Schema<ListTypesByAssociationRequest>;
+export interface StartSchemaCreationRequest {
+  apiId: string;
+  definition: Uint8Array;
+}
+export const StartSchemaCreationRequest = S.suspend(() =>
+  S.Struct({
+    apiId: S.String.pipe(T.HttpLabel("apiId")),
+    definition: T.Blob,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/v1/apis/{apiId}/schemacreation" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartSchemaMergeRequest extends S.Class<StartSchemaMergeRequest>(
-  "StartSchemaMergeRequest",
-)(
-  {
+).annotations({
+  identifier: "StartSchemaCreationRequest",
+}) as any as S.Schema<StartSchemaCreationRequest>;
+export interface StartSchemaMergeRequest {
+  associationId: string;
+  mergedApiIdentifier: string;
+}
+export const StartSchemaMergeRequest = S.suspend(() =>
+  S.Struct({
     associationId: S.String.pipe(T.HttpLabel("associationId")),
     mergedApiIdentifier: S.String.pipe(T.HttpLabel("mergedApiIdentifier")),
-  },
-  T.all(
-    ns,
-    T.Http({
-      method: "POST",
-      uri: "/v1/mergedApis/{mergedApiIdentifier}/sourceApiAssociations/{associationId}/merge",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "POST",
+        uri: "/v1/mergedApis/{mergedApiIdentifier}/sourceApiAssociations/{associationId}/merge",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/v1/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "StartSchemaMergeRequest",
+}) as any as S.Schema<StartSchemaMergeRequest>;
+export interface TagResourceRequest {
+  resourceArn: string;
+  tags: TagMap;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+    tags: TagMap,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/v1/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}, ns) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UntagResourceRequest {
+  resourceArn: string;
+  tagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "DELETE", uri: "/v1/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "DELETE", uri: "/v1/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}, ns) {}
-export class CognitoConfig extends S.Class<CognitoConfig>("CognitoConfig")({
-  userPoolId: S.String,
-  awsRegion: S.String,
-  appIdClientRegex: S.optional(S.String),
-}) {}
-export class OpenIDConnectConfig extends S.Class<OpenIDConnectConfig>(
-  "OpenIDConnectConfig",
-)({
-  issuer: S.String,
-  clientId: S.optional(S.String),
-  iatTTL: S.optional(S.Number),
-  authTTL: S.optional(S.Number),
-}) {}
-export class LambdaAuthorizerConfig extends S.Class<LambdaAuthorizerConfig>(
-  "LambdaAuthorizerConfig",
-)({
-  authorizerResultTtlInSeconds: S.optional(S.Number),
-  authorizerUri: S.String,
-  identityValidationExpression: S.optional(S.String),
-}) {}
-export class AuthProvider extends S.Class<AuthProvider>("AuthProvider")({
-  authType: S.String,
-  cognitoConfig: S.optional(CognitoConfig),
-  openIDConnectConfig: S.optional(OpenIDConnectConfig),
-  lambdaAuthorizerConfig: S.optional(LambdaAuthorizerConfig),
-}) {}
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface CognitoConfig {
+  userPoolId: string;
+  awsRegion: string;
+  appIdClientRegex?: string;
+}
+export const CognitoConfig = S.suspend(() =>
+  S.Struct({
+    userPoolId: S.String,
+    awsRegion: S.String,
+    appIdClientRegex: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CognitoConfig",
+}) as any as S.Schema<CognitoConfig>;
+export interface OpenIDConnectConfig {
+  issuer: string;
+  clientId?: string;
+  iatTTL?: number;
+  authTTL?: number;
+}
+export const OpenIDConnectConfig = S.suspend(() =>
+  S.Struct({
+    issuer: S.String,
+    clientId: S.optional(S.String),
+    iatTTL: S.optional(S.Number),
+    authTTL: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "OpenIDConnectConfig",
+}) as any as S.Schema<OpenIDConnectConfig>;
+export interface LambdaAuthorizerConfig {
+  authorizerResultTtlInSeconds?: number;
+  authorizerUri: string;
+  identityValidationExpression?: string;
+}
+export const LambdaAuthorizerConfig = S.suspend(() =>
+  S.Struct({
+    authorizerResultTtlInSeconds: S.optional(S.Number),
+    authorizerUri: S.String,
+    identityValidationExpression: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "LambdaAuthorizerConfig",
+}) as any as S.Schema<LambdaAuthorizerConfig>;
+export interface AuthProvider {
+  authType: string;
+  cognitoConfig?: CognitoConfig;
+  openIDConnectConfig?: OpenIDConnectConfig;
+  lambdaAuthorizerConfig?: LambdaAuthorizerConfig;
+}
+export const AuthProvider = S.suspend(() =>
+  S.Struct({
+    authType: S.String,
+    cognitoConfig: S.optional(CognitoConfig),
+    openIDConnectConfig: S.optional(OpenIDConnectConfig),
+    lambdaAuthorizerConfig: S.optional(LambdaAuthorizerConfig),
+  }),
+).annotations({ identifier: "AuthProvider" }) as any as S.Schema<AuthProvider>;
+export type AuthProviders = AuthProvider[];
 export const AuthProviders = S.Array(AuthProvider);
-export class AuthMode extends S.Class<AuthMode>("AuthMode")({
-  authType: S.String,
-}) {}
+export interface AuthMode {
+  authType: string;
+}
+export const AuthMode = S.suspend(() =>
+  S.Struct({ authType: S.String }),
+).annotations({ identifier: "AuthMode" }) as any as S.Schema<AuthMode>;
+export type AuthModes = AuthMode[];
 export const AuthModes = S.Array(AuthMode);
-export class EventLogConfig extends S.Class<EventLogConfig>("EventLogConfig")({
-  logLevel: S.String,
-  cloudWatchLogsRoleArn: S.String,
-}) {}
-export class EventConfig extends S.Class<EventConfig>("EventConfig")({
-  authProviders: AuthProviders,
-  connectionAuthModes: AuthModes,
-  defaultPublishAuthModes: AuthModes,
-  defaultSubscribeAuthModes: AuthModes,
-  logConfig: S.optional(EventLogConfig),
-}) {}
-export class UpdateApiRequest extends S.Class<UpdateApiRequest>(
-  "UpdateApiRequest",
-)(
-  {
+export interface EventLogConfig {
+  logLevel: string;
+  cloudWatchLogsRoleArn: string;
+}
+export const EventLogConfig = S.suspend(() =>
+  S.Struct({ logLevel: S.String, cloudWatchLogsRoleArn: S.String }),
+).annotations({
+  identifier: "EventLogConfig",
+}) as any as S.Schema<EventLogConfig>;
+export interface EventConfig {
+  authProviders: AuthProviders;
+  connectionAuthModes: AuthModes;
+  defaultPublishAuthModes: AuthModes;
+  defaultSubscribeAuthModes: AuthModes;
+  logConfig?: EventLogConfig;
+}
+export const EventConfig = S.suspend(() =>
+  S.Struct({
+    authProviders: AuthProviders,
+    connectionAuthModes: AuthModes,
+    defaultPublishAuthModes: AuthModes,
+    defaultSubscribeAuthModes: AuthModes,
+    logConfig: S.optional(EventLogConfig),
+  }),
+).annotations({ identifier: "EventConfig" }) as any as S.Schema<EventConfig>;
+export interface UpdateApiRequest {
+  apiId: string;
+  name: string;
+  ownerContact?: string;
+  eventConfig: EventConfig;
+}
+export const UpdateApiRequest = S.suspend(() =>
+  S.Struct({
     apiId: S.String.pipe(T.HttpLabel("apiId")),
     name: S.String,
     ownerContact: S.optional(S.String),
     eventConfig: EventConfig,
-  },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/v2/apis/{apiId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/v2/apis/{apiId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateApiCacheRequest extends S.Class<UpdateApiCacheRequest>(
-  "UpdateApiCacheRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateApiRequest",
+}) as any as S.Schema<UpdateApiRequest>;
+export interface UpdateApiCacheRequest {
+  apiId: string;
+  ttl: number;
+  apiCachingBehavior: string;
+  type: string;
+  healthMetricsConfig?: string;
+}
+export const UpdateApiCacheRequest = S.suspend(() =>
+  S.Struct({
     apiId: S.String.pipe(T.HttpLabel("apiId")),
     ttl: S.Number,
     apiCachingBehavior: S.String,
     type: S.String,
     healthMetricsConfig: S.optional(S.String),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/v1/apis/{apiId}/ApiCaches/update" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/v1/apis/{apiId}/ApiCaches/update" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateApiKeyRequest extends S.Class<UpdateApiKeyRequest>(
-  "UpdateApiKeyRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateApiCacheRequest",
+}) as any as S.Schema<UpdateApiCacheRequest>;
+export interface UpdateApiKeyRequest {
+  apiId: string;
+  id: string;
+  description?: string;
+  expires?: number;
+}
+export const UpdateApiKeyRequest = S.suspend(() =>
+  S.Struct({
     apiId: S.String.pipe(T.HttpLabel("apiId")),
     id: S.String.pipe(T.HttpLabel("id")),
     description: S.optional(S.String),
     expires: S.optional(S.Number),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/v1/apis/{apiId}/apikeys/{id}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/v1/apis/{apiId}/apikeys/{id}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class LambdaConfig extends S.Class<LambdaConfig>("LambdaConfig")({
-  invokeType: S.optional(S.String),
-}) {}
-export class Integration extends S.Class<Integration>("Integration")({
-  dataSourceName: S.String,
-  lambdaConfig: S.optional(LambdaConfig),
-}) {}
-export class HandlerConfig extends S.Class<HandlerConfig>("HandlerConfig")({
-  behavior: S.String,
-  integration: Integration,
-}) {}
-export class HandlerConfigs extends S.Class<HandlerConfigs>("HandlerConfigs")({
-  onPublish: S.optional(HandlerConfig),
-  onSubscribe: S.optional(HandlerConfig),
-}) {}
-export class UpdateChannelNamespaceRequest extends S.Class<UpdateChannelNamespaceRequest>(
-  "UpdateChannelNamespaceRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateApiKeyRequest",
+}) as any as S.Schema<UpdateApiKeyRequest>;
+export interface LambdaConfig {
+  invokeType?: string;
+}
+export const LambdaConfig = S.suspend(() =>
+  S.Struct({ invokeType: S.optional(S.String) }),
+).annotations({ identifier: "LambdaConfig" }) as any as S.Schema<LambdaConfig>;
+export interface Integration {
+  dataSourceName: string;
+  lambdaConfig?: LambdaConfig;
+}
+export const Integration = S.suspend(() =>
+  S.Struct({
+    dataSourceName: S.String,
+    lambdaConfig: S.optional(LambdaConfig),
+  }),
+).annotations({ identifier: "Integration" }) as any as S.Schema<Integration>;
+export interface HandlerConfig {
+  behavior: string;
+  integration: Integration;
+}
+export const HandlerConfig = S.suspend(() =>
+  S.Struct({ behavior: S.String, integration: Integration }),
+).annotations({
+  identifier: "HandlerConfig",
+}) as any as S.Schema<HandlerConfig>;
+export interface HandlerConfigs {
+  onPublish?: HandlerConfig;
+  onSubscribe?: HandlerConfig;
+}
+export const HandlerConfigs = S.suspend(() =>
+  S.Struct({
+    onPublish: S.optional(HandlerConfig),
+    onSubscribe: S.optional(HandlerConfig),
+  }),
+).annotations({
+  identifier: "HandlerConfigs",
+}) as any as S.Schema<HandlerConfigs>;
+export interface UpdateChannelNamespaceRequest {
+  apiId: string;
+  name: string;
+  subscribeAuthModes?: AuthModes;
+  publishAuthModes?: AuthModes;
+  codeHandlers?: string;
+  handlerConfigs?: HandlerConfigs;
+}
+export const UpdateChannelNamespaceRequest = S.suspend(() =>
+  S.Struct({
     apiId: S.String.pipe(T.HttpLabel("apiId")),
     name: S.String.pipe(T.HttpLabel("name")),
     subscribeAuthModes: S.optional(AuthModes),
     publishAuthModes: S.optional(AuthModes),
     codeHandlers: S.optional(S.String),
     handlerConfigs: S.optional(HandlerConfigs),
-  },
-  T.all(
-    ns,
-    T.Http({
-      method: "POST",
-      uri: "/v2/apis/{apiId}/channelNamespaces/{name}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "POST",
+        uri: "/v2/apis/{apiId}/channelNamespaces/{name}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeltaSyncConfig extends S.Class<DeltaSyncConfig>(
-  "DeltaSyncConfig",
-)({
-  baseTableTTL: S.optional(S.Number),
-  deltaSyncTableName: S.optional(S.String),
-  deltaSyncTableTTL: S.optional(S.Number),
-}) {}
-export class DynamodbDataSourceConfig extends S.Class<DynamodbDataSourceConfig>(
-  "DynamodbDataSourceConfig",
-)({
-  tableName: S.String,
-  awsRegion: S.String,
-  useCallerCredentials: S.optional(S.Boolean),
-  deltaSyncConfig: S.optional(DeltaSyncConfig),
-  versioned: S.optional(S.Boolean),
-}) {}
-export class LambdaDataSourceConfig extends S.Class<LambdaDataSourceConfig>(
-  "LambdaDataSourceConfig",
-)({ lambdaFunctionArn: S.String }) {}
-export class ElasticsearchDataSourceConfig extends S.Class<ElasticsearchDataSourceConfig>(
-  "ElasticsearchDataSourceConfig",
-)({ endpoint: S.String, awsRegion: S.String }) {}
-export class OpenSearchServiceDataSourceConfig extends S.Class<OpenSearchServiceDataSourceConfig>(
-  "OpenSearchServiceDataSourceConfig",
-)({ endpoint: S.String, awsRegion: S.String }) {}
-export class AwsIamConfig extends S.Class<AwsIamConfig>("AwsIamConfig")({
-  signingRegion: S.optional(S.String),
-  signingServiceName: S.optional(S.String),
-}) {}
-export class AuthorizationConfig extends S.Class<AuthorizationConfig>(
-  "AuthorizationConfig",
-)({ authorizationType: S.String, awsIamConfig: S.optional(AwsIamConfig) }) {}
-export class HttpDataSourceConfig extends S.Class<HttpDataSourceConfig>(
-  "HttpDataSourceConfig",
-)({
-  endpoint: S.optional(S.String),
-  authorizationConfig: S.optional(AuthorizationConfig),
-}) {}
-export class RdsHttpEndpointConfig extends S.Class<RdsHttpEndpointConfig>(
-  "RdsHttpEndpointConfig",
-)({
-  awsRegion: S.optional(S.String),
-  dbClusterIdentifier: S.optional(S.String),
-  databaseName: S.optional(S.String),
-  schema: S.optional(S.String),
-  awsSecretStoreArn: S.optional(S.String),
-}) {}
-export class RelationalDatabaseDataSourceConfig extends S.Class<RelationalDatabaseDataSourceConfig>(
-  "RelationalDatabaseDataSourceConfig",
-)({
-  relationalDatabaseSourceType: S.optional(S.String),
-  rdsHttpEndpointConfig: S.optional(RdsHttpEndpointConfig),
-}) {}
-export class EventBridgeDataSourceConfig extends S.Class<EventBridgeDataSourceConfig>(
-  "EventBridgeDataSourceConfig",
-)({ eventBusArn: S.String }) {}
-export class UpdateDataSourceRequest extends S.Class<UpdateDataSourceRequest>(
-  "UpdateDataSourceRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateChannelNamespaceRequest",
+}) as any as S.Schema<UpdateChannelNamespaceRequest>;
+export interface DeltaSyncConfig {
+  baseTableTTL?: number;
+  deltaSyncTableName?: string;
+  deltaSyncTableTTL?: number;
+}
+export const DeltaSyncConfig = S.suspend(() =>
+  S.Struct({
+    baseTableTTL: S.optional(S.Number),
+    deltaSyncTableName: S.optional(S.String),
+    deltaSyncTableTTL: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "DeltaSyncConfig",
+}) as any as S.Schema<DeltaSyncConfig>;
+export interface DynamodbDataSourceConfig {
+  tableName: string;
+  awsRegion: string;
+  useCallerCredentials?: boolean;
+  deltaSyncConfig?: DeltaSyncConfig;
+  versioned?: boolean;
+}
+export const DynamodbDataSourceConfig = S.suspend(() =>
+  S.Struct({
+    tableName: S.String,
+    awsRegion: S.String,
+    useCallerCredentials: S.optional(S.Boolean),
+    deltaSyncConfig: S.optional(DeltaSyncConfig),
+    versioned: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "DynamodbDataSourceConfig",
+}) as any as S.Schema<DynamodbDataSourceConfig>;
+export interface LambdaDataSourceConfig {
+  lambdaFunctionArn: string;
+}
+export const LambdaDataSourceConfig = S.suspend(() =>
+  S.Struct({ lambdaFunctionArn: S.String }),
+).annotations({
+  identifier: "LambdaDataSourceConfig",
+}) as any as S.Schema<LambdaDataSourceConfig>;
+export interface ElasticsearchDataSourceConfig {
+  endpoint: string;
+  awsRegion: string;
+}
+export const ElasticsearchDataSourceConfig = S.suspend(() =>
+  S.Struct({ endpoint: S.String, awsRegion: S.String }),
+).annotations({
+  identifier: "ElasticsearchDataSourceConfig",
+}) as any as S.Schema<ElasticsearchDataSourceConfig>;
+export interface OpenSearchServiceDataSourceConfig {
+  endpoint: string;
+  awsRegion: string;
+}
+export const OpenSearchServiceDataSourceConfig = S.suspend(() =>
+  S.Struct({ endpoint: S.String, awsRegion: S.String }),
+).annotations({
+  identifier: "OpenSearchServiceDataSourceConfig",
+}) as any as S.Schema<OpenSearchServiceDataSourceConfig>;
+export interface AwsIamConfig {
+  signingRegion?: string;
+  signingServiceName?: string;
+}
+export const AwsIamConfig = S.suspend(() =>
+  S.Struct({
+    signingRegion: S.optional(S.String),
+    signingServiceName: S.optional(S.String),
+  }),
+).annotations({ identifier: "AwsIamConfig" }) as any as S.Schema<AwsIamConfig>;
+export interface AuthorizationConfig {
+  authorizationType: string;
+  awsIamConfig?: AwsIamConfig;
+}
+export const AuthorizationConfig = S.suspend(() =>
+  S.Struct({
+    authorizationType: S.String,
+    awsIamConfig: S.optional(AwsIamConfig),
+  }),
+).annotations({
+  identifier: "AuthorizationConfig",
+}) as any as S.Schema<AuthorizationConfig>;
+export interface HttpDataSourceConfig {
+  endpoint?: string;
+  authorizationConfig?: AuthorizationConfig;
+}
+export const HttpDataSourceConfig = S.suspend(() =>
+  S.Struct({
+    endpoint: S.optional(S.String),
+    authorizationConfig: S.optional(AuthorizationConfig),
+  }),
+).annotations({
+  identifier: "HttpDataSourceConfig",
+}) as any as S.Schema<HttpDataSourceConfig>;
+export interface RdsHttpEndpointConfig {
+  awsRegion?: string;
+  dbClusterIdentifier?: string;
+  databaseName?: string;
+  schema?: string;
+  awsSecretStoreArn?: string;
+}
+export const RdsHttpEndpointConfig = S.suspend(() =>
+  S.Struct({
+    awsRegion: S.optional(S.String),
+    dbClusterIdentifier: S.optional(S.String),
+    databaseName: S.optional(S.String),
+    schema: S.optional(S.String),
+    awsSecretStoreArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RdsHttpEndpointConfig",
+}) as any as S.Schema<RdsHttpEndpointConfig>;
+export interface RelationalDatabaseDataSourceConfig {
+  relationalDatabaseSourceType?: string;
+  rdsHttpEndpointConfig?: RdsHttpEndpointConfig;
+}
+export const RelationalDatabaseDataSourceConfig = S.suspend(() =>
+  S.Struct({
+    relationalDatabaseSourceType: S.optional(S.String),
+    rdsHttpEndpointConfig: S.optional(RdsHttpEndpointConfig),
+  }),
+).annotations({
+  identifier: "RelationalDatabaseDataSourceConfig",
+}) as any as S.Schema<RelationalDatabaseDataSourceConfig>;
+export interface EventBridgeDataSourceConfig {
+  eventBusArn: string;
+}
+export const EventBridgeDataSourceConfig = S.suspend(() =>
+  S.Struct({ eventBusArn: S.String }),
+).annotations({
+  identifier: "EventBridgeDataSourceConfig",
+}) as any as S.Schema<EventBridgeDataSourceConfig>;
+export interface UpdateDataSourceRequest {
+  apiId: string;
+  name: string;
+  description?: string;
+  type: string;
+  serviceRoleArn?: string;
+  dynamodbConfig?: DynamodbDataSourceConfig;
+  lambdaConfig?: LambdaDataSourceConfig;
+  elasticsearchConfig?: ElasticsearchDataSourceConfig;
+  openSearchServiceConfig?: OpenSearchServiceDataSourceConfig;
+  httpConfig?: HttpDataSourceConfig;
+  relationalDatabaseConfig?: RelationalDatabaseDataSourceConfig;
+  eventBridgeConfig?: EventBridgeDataSourceConfig;
+  metricsConfig?: string;
+}
+export const UpdateDataSourceRequest = S.suspend(() =>
+  S.Struct({
     apiId: S.String.pipe(T.HttpLabel("apiId")),
     name: S.String.pipe(T.HttpLabel("name")),
     description: S.optional(S.String),
@@ -1453,46 +2005,78 @@ export class UpdateDataSourceRequest extends S.Class<UpdateDataSourceRequest>(
     relationalDatabaseConfig: S.optional(RelationalDatabaseDataSourceConfig),
     eventBridgeConfig: S.optional(EventBridgeDataSourceConfig),
     metricsConfig: S.optional(S.String),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/v1/apis/{apiId}/datasources/{name}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/v1/apis/{apiId}/datasources/{name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateDomainNameRequest extends S.Class<UpdateDomainNameRequest>(
-  "UpdateDomainNameRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateDataSourceRequest",
+}) as any as S.Schema<UpdateDataSourceRequest>;
+export interface UpdateDomainNameRequest {
+  domainName: string;
+  description?: string;
+}
+export const UpdateDomainNameRequest = S.suspend(() =>
+  S.Struct({
     domainName: S.String.pipe(T.HttpLabel("domainName")),
     description: S.optional(S.String),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/v1/domainnames/{domainName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/v1/domainnames/{domainName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class LambdaConflictHandlerConfig extends S.Class<LambdaConflictHandlerConfig>(
-  "LambdaConflictHandlerConfig",
-)({ lambdaConflictHandlerArn: S.optional(S.String) }) {}
-export class SyncConfig extends S.Class<SyncConfig>("SyncConfig")({
-  conflictHandler: S.optional(S.String),
-  conflictDetection: S.optional(S.String),
-  lambdaConflictHandlerConfig: S.optional(LambdaConflictHandlerConfig),
-}) {}
-export class UpdateFunctionRequest extends S.Class<UpdateFunctionRequest>(
-  "UpdateFunctionRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateDomainNameRequest",
+}) as any as S.Schema<UpdateDomainNameRequest>;
+export interface LambdaConflictHandlerConfig {
+  lambdaConflictHandlerArn?: string;
+}
+export const LambdaConflictHandlerConfig = S.suspend(() =>
+  S.Struct({ lambdaConflictHandlerArn: S.optional(S.String) }),
+).annotations({
+  identifier: "LambdaConflictHandlerConfig",
+}) as any as S.Schema<LambdaConflictHandlerConfig>;
+export interface SyncConfig {
+  conflictHandler?: string;
+  conflictDetection?: string;
+  lambdaConflictHandlerConfig?: LambdaConflictHandlerConfig;
+}
+export const SyncConfig = S.suspend(() =>
+  S.Struct({
+    conflictHandler: S.optional(S.String),
+    conflictDetection: S.optional(S.String),
+    lambdaConflictHandlerConfig: S.optional(LambdaConflictHandlerConfig),
+  }),
+).annotations({ identifier: "SyncConfig" }) as any as S.Schema<SyncConfig>;
+export interface UpdateFunctionRequest {
+  apiId: string;
+  name: string;
+  description?: string;
+  functionId: string;
+  dataSourceName: string;
+  requestMappingTemplate?: string;
+  responseMappingTemplate?: string;
+  functionVersion?: string;
+  syncConfig?: SyncConfig;
+  maxBatchSize?: number;
+  runtime?: AppSyncRuntime;
+  code?: string;
+}
+export const UpdateFunctionRequest = S.suspend(() =>
+  S.Struct({
     apiId: S.String.pipe(T.HttpLabel("apiId")),
     name: S.String,
     description: S.optional(S.String),
@@ -1505,57 +2089,119 @@ export class UpdateFunctionRequest extends S.Class<UpdateFunctionRequest>(
     maxBatchSize: S.optional(S.Number),
     runtime: S.optional(AppSyncRuntime),
     code: S.optional(S.String),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/v1/apis/{apiId}/functions/{functionId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "POST",
+        uri: "/v1/apis/{apiId}/functions/{functionId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class LogConfig extends S.Class<LogConfig>("LogConfig")({
-  fieldLogLevel: S.String,
-  cloudWatchLogsRoleArn: S.String,
-  excludeVerboseContent: S.optional(S.Boolean),
-}) {}
-export class UserPoolConfig extends S.Class<UserPoolConfig>("UserPoolConfig")({
-  userPoolId: S.String,
-  awsRegion: S.String,
-  defaultAction: S.String,
-  appIdClientRegex: S.optional(S.String),
-}) {}
-export class CognitoUserPoolConfig extends S.Class<CognitoUserPoolConfig>(
-  "CognitoUserPoolConfig",
-)({
-  userPoolId: S.String,
-  awsRegion: S.String,
-  appIdClientRegex: S.optional(S.String),
-}) {}
-export class AdditionalAuthenticationProvider extends S.Class<AdditionalAuthenticationProvider>(
-  "AdditionalAuthenticationProvider",
-)({
-  authenticationType: S.optional(S.String),
-  openIDConnectConfig: S.optional(OpenIDConnectConfig),
-  userPoolConfig: S.optional(CognitoUserPoolConfig),
-  lambdaAuthorizerConfig: S.optional(LambdaAuthorizerConfig),
-}) {}
+).annotations({
+  identifier: "UpdateFunctionRequest",
+}) as any as S.Schema<UpdateFunctionRequest>;
+export interface LogConfig {
+  fieldLogLevel: string;
+  cloudWatchLogsRoleArn: string;
+  excludeVerboseContent?: boolean;
+}
+export const LogConfig = S.suspend(() =>
+  S.Struct({
+    fieldLogLevel: S.String,
+    cloudWatchLogsRoleArn: S.String,
+    excludeVerboseContent: S.optional(S.Boolean),
+  }),
+).annotations({ identifier: "LogConfig" }) as any as S.Schema<LogConfig>;
+export interface UserPoolConfig {
+  userPoolId: string;
+  awsRegion: string;
+  defaultAction: string;
+  appIdClientRegex?: string;
+}
+export const UserPoolConfig = S.suspend(() =>
+  S.Struct({
+    userPoolId: S.String,
+    awsRegion: S.String,
+    defaultAction: S.String,
+    appIdClientRegex: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "UserPoolConfig",
+}) as any as S.Schema<UserPoolConfig>;
+export interface CognitoUserPoolConfig {
+  userPoolId: string;
+  awsRegion: string;
+  appIdClientRegex?: string;
+}
+export const CognitoUserPoolConfig = S.suspend(() =>
+  S.Struct({
+    userPoolId: S.String,
+    awsRegion: S.String,
+    appIdClientRegex: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CognitoUserPoolConfig",
+}) as any as S.Schema<CognitoUserPoolConfig>;
+export interface AdditionalAuthenticationProvider {
+  authenticationType?: string;
+  openIDConnectConfig?: OpenIDConnectConfig;
+  userPoolConfig?: CognitoUserPoolConfig;
+  lambdaAuthorizerConfig?: LambdaAuthorizerConfig;
+}
+export const AdditionalAuthenticationProvider = S.suspend(() =>
+  S.Struct({
+    authenticationType: S.optional(S.String),
+    openIDConnectConfig: S.optional(OpenIDConnectConfig),
+    userPoolConfig: S.optional(CognitoUserPoolConfig),
+    lambdaAuthorizerConfig: S.optional(LambdaAuthorizerConfig),
+  }),
+).annotations({
+  identifier: "AdditionalAuthenticationProvider",
+}) as any as S.Schema<AdditionalAuthenticationProvider>;
+export type AdditionalAuthenticationProviders =
+  AdditionalAuthenticationProvider[];
 export const AdditionalAuthenticationProviders = S.Array(
   AdditionalAuthenticationProvider,
 );
-export class EnhancedMetricsConfig extends S.Class<EnhancedMetricsConfig>(
-  "EnhancedMetricsConfig",
-)({
-  resolverLevelMetricsBehavior: S.String,
-  dataSourceLevelMetricsBehavior: S.String,
-  operationLevelMetricsConfig: S.String,
-}) {}
-export class UpdateGraphqlApiRequest extends S.Class<UpdateGraphqlApiRequest>(
-  "UpdateGraphqlApiRequest",
-)(
-  {
+export interface EnhancedMetricsConfig {
+  resolverLevelMetricsBehavior: string;
+  dataSourceLevelMetricsBehavior: string;
+  operationLevelMetricsConfig: string;
+}
+export const EnhancedMetricsConfig = S.suspend(() =>
+  S.Struct({
+    resolverLevelMetricsBehavior: S.String,
+    dataSourceLevelMetricsBehavior: S.String,
+    operationLevelMetricsConfig: S.String,
+  }),
+).annotations({
+  identifier: "EnhancedMetricsConfig",
+}) as any as S.Schema<EnhancedMetricsConfig>;
+export interface UpdateGraphqlApiRequest {
+  apiId: string;
+  name: string;
+  logConfig?: LogConfig;
+  authenticationType: string;
+  userPoolConfig?: UserPoolConfig;
+  openIDConnectConfig?: OpenIDConnectConfig;
+  additionalAuthenticationProviders?: AdditionalAuthenticationProviders;
+  xrayEnabled?: boolean;
+  lambdaAuthorizerConfig?: LambdaAuthorizerConfig;
+  mergedApiExecutionRoleArn?: string;
+  ownerContact?: string;
+  introspectionConfig?: string;
+  queryDepthLimit?: number;
+  resolverCountLimit?: number;
+  enhancedMetricsConfig?: EnhancedMetricsConfig;
+}
+export const UpdateGraphqlApiRequest = S.suspend(() =>
+  S.Struct({
     apiId: S.String.pipe(T.HttpLabel("apiId")),
     name: S.String,
     logConfig: S.optional(LogConfig),
@@ -1573,30 +2219,59 @@ export class UpdateGraphqlApiRequest extends S.Class<UpdateGraphqlApiRequest>(
     queryDepthLimit: S.optional(S.Number),
     resolverCountLimit: S.optional(S.Number),
     enhancedMetricsConfig: S.optional(EnhancedMetricsConfig),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/v1/apis/{apiId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/v1/apis/{apiId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "UpdateGraphqlApiRequest",
+}) as any as S.Schema<UpdateGraphqlApiRequest>;
+export type FunctionsIds = string[];
 export const FunctionsIds = S.Array(S.String);
-export class PipelineConfig extends S.Class<PipelineConfig>("PipelineConfig")({
-  functions: S.optional(FunctionsIds),
-}) {}
+export interface PipelineConfig {
+  functions?: FunctionsIds;
+}
+export const PipelineConfig = S.suspend(() =>
+  S.Struct({ functions: S.optional(FunctionsIds) }),
+).annotations({
+  identifier: "PipelineConfig",
+}) as any as S.Schema<PipelineConfig>;
+export type CachingKeys = string[];
 export const CachingKeys = S.Array(S.String);
-export class CachingConfig extends S.Class<CachingConfig>("CachingConfig")({
-  ttl: S.Number,
-  cachingKeys: S.optional(CachingKeys),
-}) {}
-export class UpdateResolverRequest extends S.Class<UpdateResolverRequest>(
-  "UpdateResolverRequest",
-)(
-  {
+export interface CachingConfig {
+  ttl: number;
+  cachingKeys?: CachingKeys;
+}
+export const CachingConfig = S.suspend(() =>
+  S.Struct({ ttl: S.Number, cachingKeys: S.optional(CachingKeys) }),
+).annotations({
+  identifier: "CachingConfig",
+}) as any as S.Schema<CachingConfig>;
+export interface UpdateResolverRequest {
+  apiId: string;
+  typeName: string;
+  fieldName: string;
+  dataSourceName?: string;
+  requestMappingTemplate?: string;
+  responseMappingTemplate?: string;
+  kind?: string;
+  pipelineConfig?: PipelineConfig;
+  syncConfig?: SyncConfig;
+  cachingConfig?: CachingConfig;
+  maxBatchSize?: number;
+  runtime?: AppSyncRuntime;
+  code?: string;
+  metricsConfig?: string;
+}
+export const UpdateResolverRequest = S.suspend(() =>
+  S.Struct({
     apiId: S.String.pipe(T.HttpLabel("apiId")),
     typeName: S.String.pipe(T.HttpLabel("typeName")),
     fieldName: S.String.pipe(T.HttpLabel("fieldName")),
@@ -1611,229 +2286,424 @@ export class UpdateResolverRequest extends S.Class<UpdateResolverRequest>(
     runtime: S.optional(AppSyncRuntime),
     code: S.optional(S.String),
     metricsConfig: S.optional(S.String),
-  },
-  T.all(
-    ns,
-    T.Http({
-      method: "POST",
-      uri: "/v1/apis/{apiId}/types/{typeName}/resolvers/{fieldName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "POST",
+        uri: "/v1/apis/{apiId}/types/{typeName}/resolvers/{fieldName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateSourceApiAssociationRequest extends S.Class<UpdateSourceApiAssociationRequest>(
-  "UpdateSourceApiAssociationRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateResolverRequest",
+}) as any as S.Schema<UpdateResolverRequest>;
+export interface UpdateSourceApiAssociationRequest {
+  associationId: string;
+  mergedApiIdentifier: string;
+  description?: string;
+  sourceApiAssociationConfig?: SourceApiAssociationConfig;
+}
+export const UpdateSourceApiAssociationRequest = S.suspend(() =>
+  S.Struct({
     associationId: S.String.pipe(T.HttpLabel("associationId")),
     mergedApiIdentifier: S.String.pipe(T.HttpLabel("mergedApiIdentifier")),
     description: S.optional(S.String),
     sourceApiAssociationConfig: S.optional(SourceApiAssociationConfig),
-  },
-  T.all(
-    ns,
-    T.Http({
-      method: "POST",
-      uri: "/v1/mergedApis/{mergedApiIdentifier}/sourceApiAssociations/{associationId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "POST",
+        uri: "/v1/mergedApis/{mergedApiIdentifier}/sourceApiAssociations/{associationId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateTypeRequest extends S.Class<UpdateTypeRequest>(
-  "UpdateTypeRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateSourceApiAssociationRequest",
+}) as any as S.Schema<UpdateSourceApiAssociationRequest>;
+export interface UpdateTypeRequest {
+  apiId: string;
+  typeName: string;
+  definition?: string;
+  format: string;
+}
+export const UpdateTypeRequest = S.suspend(() =>
+  S.Struct({
     apiId: S.String.pipe(T.HttpLabel("apiId")),
     typeName: S.String.pipe(T.HttpLabel("typeName")),
     definition: S.optional(S.String),
     format: S.String,
-  },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/v1/apis/{apiId}/types/{typeName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/v1/apis/{apiId}/types/{typeName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "UpdateTypeRequest",
+}) as any as S.Schema<UpdateTypeRequest>;
+export type Logs = string[];
 export const Logs = S.Array(S.String);
-export class ApiKey extends S.Class<ApiKey>("ApiKey")({
-  id: S.optional(S.String),
-  description: S.optional(S.String),
-  expires: S.optional(S.Number),
-  deletes: S.optional(S.Number),
-}) {}
+export interface ApiKey {
+  id?: string;
+  description?: string;
+  expires?: number;
+  deletes?: number;
+}
+export const ApiKey = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    description: S.optional(S.String),
+    expires: S.optional(S.Number),
+    deletes: S.optional(S.Number),
+  }),
+).annotations({ identifier: "ApiKey" }) as any as S.Schema<ApiKey>;
+export type ApiKeys = ApiKey[];
 export const ApiKeys = S.Array(ApiKey);
+export type MapOfStringToString = { [key: string]: string };
 export const MapOfStringToString = S.Record({ key: S.String, value: S.String });
-export class Api extends S.Class<Api>("Api")({
-  apiId: S.optional(S.String),
-  name: S.optional(S.String),
-  ownerContact: S.optional(S.String),
-  tags: S.optional(TagMap),
-  dns: S.optional(MapOfStringToString),
-  apiArn: S.optional(S.String),
-  created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  xrayEnabled: S.optional(S.Boolean),
-  wafWebAclArn: S.optional(S.String),
-  eventConfig: S.optional(EventConfig),
-}) {}
+export interface Api {
+  apiId?: string;
+  name?: string;
+  ownerContact?: string;
+  tags?: TagMap;
+  dns?: MapOfStringToString;
+  apiArn?: string;
+  created?: Date;
+  xrayEnabled?: boolean;
+  wafWebAclArn?: string;
+  eventConfig?: EventConfig;
+}
+export const Api = S.suspend(() =>
+  S.Struct({
+    apiId: S.optional(S.String),
+    name: S.optional(S.String),
+    ownerContact: S.optional(S.String),
+    tags: S.optional(TagMap),
+    dns: S.optional(MapOfStringToString),
+    apiArn: S.optional(S.String),
+    created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    xrayEnabled: S.optional(S.Boolean),
+    wafWebAclArn: S.optional(S.String),
+    eventConfig: S.optional(EventConfig),
+  }),
+).annotations({ identifier: "Api" }) as any as S.Schema<Api>;
+export type Apis = Api[];
 export const Apis = S.Array(Api);
-export class ChannelNamespace extends S.Class<ChannelNamespace>(
-  "ChannelNamespace",
-)({
-  apiId: S.optional(S.String),
-  name: S.optional(S.String),
-  subscribeAuthModes: S.optional(AuthModes),
-  publishAuthModes: S.optional(AuthModes),
-  codeHandlers: S.optional(S.String),
-  tags: S.optional(TagMap),
-  channelNamespaceArn: S.optional(S.String),
-  created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastModified: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  handlerConfigs: S.optional(HandlerConfigs),
-}) {}
+export interface ChannelNamespace {
+  apiId?: string;
+  name?: string;
+  subscribeAuthModes?: AuthModes;
+  publishAuthModes?: AuthModes;
+  codeHandlers?: string;
+  tags?: TagMap;
+  channelNamespaceArn?: string;
+  created?: Date;
+  lastModified?: Date;
+  handlerConfigs?: HandlerConfigs;
+}
+export const ChannelNamespace = S.suspend(() =>
+  S.Struct({
+    apiId: S.optional(S.String),
+    name: S.optional(S.String),
+    subscribeAuthModes: S.optional(AuthModes),
+    publishAuthModes: S.optional(AuthModes),
+    codeHandlers: S.optional(S.String),
+    tags: S.optional(TagMap),
+    channelNamespaceArn: S.optional(S.String),
+    created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastModified: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    handlerConfigs: S.optional(HandlerConfigs),
+  }),
+).annotations({
+  identifier: "ChannelNamespace",
+}) as any as S.Schema<ChannelNamespace>;
+export type ChannelNamespaces = ChannelNamespace[];
 export const ChannelNamespaces = S.Array(ChannelNamespace);
-export class DataSource extends S.Class<DataSource>("DataSource")({
-  dataSourceArn: S.optional(S.String),
-  name: S.optional(S.String),
-  description: S.optional(S.String),
-  type: S.optional(S.String),
-  serviceRoleArn: S.optional(S.String),
-  dynamodbConfig: S.optional(DynamodbDataSourceConfig),
-  lambdaConfig: S.optional(LambdaDataSourceConfig),
-  elasticsearchConfig: S.optional(ElasticsearchDataSourceConfig),
-  openSearchServiceConfig: S.optional(OpenSearchServiceDataSourceConfig),
-  httpConfig: S.optional(HttpDataSourceConfig),
-  relationalDatabaseConfig: S.optional(RelationalDatabaseDataSourceConfig),
-  eventBridgeConfig: S.optional(EventBridgeDataSourceConfig),
-  metricsConfig: S.optional(S.String),
-}) {}
+export interface DataSource {
+  dataSourceArn?: string;
+  name?: string;
+  description?: string;
+  type?: string;
+  serviceRoleArn?: string;
+  dynamodbConfig?: DynamodbDataSourceConfig;
+  lambdaConfig?: LambdaDataSourceConfig;
+  elasticsearchConfig?: ElasticsearchDataSourceConfig;
+  openSearchServiceConfig?: OpenSearchServiceDataSourceConfig;
+  httpConfig?: HttpDataSourceConfig;
+  relationalDatabaseConfig?: RelationalDatabaseDataSourceConfig;
+  eventBridgeConfig?: EventBridgeDataSourceConfig;
+  metricsConfig?: string;
+}
+export const DataSource = S.suspend(() =>
+  S.Struct({
+    dataSourceArn: S.optional(S.String),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    type: S.optional(S.String),
+    serviceRoleArn: S.optional(S.String),
+    dynamodbConfig: S.optional(DynamodbDataSourceConfig),
+    lambdaConfig: S.optional(LambdaDataSourceConfig),
+    elasticsearchConfig: S.optional(ElasticsearchDataSourceConfig),
+    openSearchServiceConfig: S.optional(OpenSearchServiceDataSourceConfig),
+    httpConfig: S.optional(HttpDataSourceConfig),
+    relationalDatabaseConfig: S.optional(RelationalDatabaseDataSourceConfig),
+    eventBridgeConfig: S.optional(EventBridgeDataSourceConfig),
+    metricsConfig: S.optional(S.String),
+  }),
+).annotations({ identifier: "DataSource" }) as any as S.Schema<DataSource>;
+export type DataSources = DataSource[];
 export const DataSources = S.Array(DataSource);
-export class DomainNameConfig extends S.Class<DomainNameConfig>(
-  "DomainNameConfig",
-)({
-  domainName: S.optional(S.String),
-  description: S.optional(S.String),
-  certificateArn: S.optional(S.String),
-  appsyncDomainName: S.optional(S.String),
-  hostedZoneId: S.optional(S.String),
-  tags: S.optional(TagMap),
-  domainNameArn: S.optional(S.String),
-}) {}
+export interface DomainNameConfig {
+  domainName?: string;
+  description?: string;
+  certificateArn?: string;
+  appsyncDomainName?: string;
+  hostedZoneId?: string;
+  tags?: TagMap;
+  domainNameArn?: string;
+}
+export const DomainNameConfig = S.suspend(() =>
+  S.Struct({
+    domainName: S.optional(S.String),
+    description: S.optional(S.String),
+    certificateArn: S.optional(S.String),
+    appsyncDomainName: S.optional(S.String),
+    hostedZoneId: S.optional(S.String),
+    tags: S.optional(TagMap),
+    domainNameArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DomainNameConfig",
+}) as any as S.Schema<DomainNameConfig>;
+export type DomainNameConfigs = DomainNameConfig[];
 export const DomainNameConfigs = S.Array(DomainNameConfig);
-export class FunctionConfiguration extends S.Class<FunctionConfiguration>(
-  "FunctionConfiguration",
-)({
-  functionId: S.optional(S.String),
-  functionArn: S.optional(S.String),
-  name: S.optional(S.String),
-  description: S.optional(S.String),
-  dataSourceName: S.optional(S.String),
-  requestMappingTemplate: S.optional(S.String),
-  responseMappingTemplate: S.optional(S.String),
-  functionVersion: S.optional(S.String),
-  syncConfig: S.optional(SyncConfig),
-  maxBatchSize: S.optional(S.Number),
-  runtime: S.optional(AppSyncRuntime),
-  code: S.optional(S.String),
-}) {}
+export interface FunctionConfiguration {
+  functionId?: string;
+  functionArn?: string;
+  name?: string;
+  description?: string;
+  dataSourceName?: string;
+  requestMappingTemplate?: string;
+  responseMappingTemplate?: string;
+  functionVersion?: string;
+  syncConfig?: SyncConfig;
+  maxBatchSize?: number;
+  runtime?: AppSyncRuntime;
+  code?: string;
+}
+export const FunctionConfiguration = S.suspend(() =>
+  S.Struct({
+    functionId: S.optional(S.String),
+    functionArn: S.optional(S.String),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    dataSourceName: S.optional(S.String),
+    requestMappingTemplate: S.optional(S.String),
+    responseMappingTemplate: S.optional(S.String),
+    functionVersion: S.optional(S.String),
+    syncConfig: S.optional(SyncConfig),
+    maxBatchSize: S.optional(S.Number),
+    runtime: S.optional(AppSyncRuntime),
+    code: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "FunctionConfiguration",
+}) as any as S.Schema<FunctionConfiguration>;
+export type Functions = FunctionConfiguration[];
 export const Functions = S.Array(FunctionConfiguration);
-export class GraphqlApi extends S.Class<GraphqlApi>("GraphqlApi")({
-  name: S.optional(S.String),
-  apiId: S.optional(S.String),
-  authenticationType: S.optional(S.String),
-  logConfig: S.optional(LogConfig),
-  userPoolConfig: S.optional(UserPoolConfig),
-  openIDConnectConfig: S.optional(OpenIDConnectConfig),
-  arn: S.optional(S.String),
-  uris: S.optional(MapOfStringToString),
-  tags: S.optional(TagMap),
-  additionalAuthenticationProviders: S.optional(
-    AdditionalAuthenticationProviders,
-  ),
-  xrayEnabled: S.optional(S.Boolean),
-  wafWebAclArn: S.optional(S.String),
-  lambdaAuthorizerConfig: S.optional(LambdaAuthorizerConfig),
-  dns: S.optional(MapOfStringToString),
-  visibility: S.optional(S.String),
-  apiType: S.optional(S.String),
-  mergedApiExecutionRoleArn: S.optional(S.String),
-  owner: S.optional(S.String),
-  ownerContact: S.optional(S.String),
-  introspectionConfig: S.optional(S.String),
-  queryDepthLimit: S.optional(S.Number),
-  resolverCountLimit: S.optional(S.Number),
-  enhancedMetricsConfig: S.optional(EnhancedMetricsConfig),
-}) {}
+export interface GraphqlApi {
+  name?: string;
+  apiId?: string;
+  authenticationType?: string;
+  logConfig?: LogConfig;
+  userPoolConfig?: UserPoolConfig;
+  openIDConnectConfig?: OpenIDConnectConfig;
+  arn?: string;
+  uris?: MapOfStringToString;
+  tags?: TagMap;
+  additionalAuthenticationProviders?: AdditionalAuthenticationProviders;
+  xrayEnabled?: boolean;
+  wafWebAclArn?: string;
+  lambdaAuthorizerConfig?: LambdaAuthorizerConfig;
+  dns?: MapOfStringToString;
+  visibility?: string;
+  apiType?: string;
+  mergedApiExecutionRoleArn?: string;
+  owner?: string;
+  ownerContact?: string;
+  introspectionConfig?: string;
+  queryDepthLimit?: number;
+  resolverCountLimit?: number;
+  enhancedMetricsConfig?: EnhancedMetricsConfig;
+}
+export const GraphqlApi = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    apiId: S.optional(S.String),
+    authenticationType: S.optional(S.String),
+    logConfig: S.optional(LogConfig),
+    userPoolConfig: S.optional(UserPoolConfig),
+    openIDConnectConfig: S.optional(OpenIDConnectConfig),
+    arn: S.optional(S.String),
+    uris: S.optional(MapOfStringToString),
+    tags: S.optional(TagMap),
+    additionalAuthenticationProviders: S.optional(
+      AdditionalAuthenticationProviders,
+    ),
+    xrayEnabled: S.optional(S.Boolean),
+    wafWebAclArn: S.optional(S.String),
+    lambdaAuthorizerConfig: S.optional(LambdaAuthorizerConfig),
+    dns: S.optional(MapOfStringToString),
+    visibility: S.optional(S.String),
+    apiType: S.optional(S.String),
+    mergedApiExecutionRoleArn: S.optional(S.String),
+    owner: S.optional(S.String),
+    ownerContact: S.optional(S.String),
+    introspectionConfig: S.optional(S.String),
+    queryDepthLimit: S.optional(S.Number),
+    resolverCountLimit: S.optional(S.Number),
+    enhancedMetricsConfig: S.optional(EnhancedMetricsConfig),
+  }),
+).annotations({ identifier: "GraphqlApi" }) as any as S.Schema<GraphqlApi>;
+export type GraphqlApis = GraphqlApi[];
 export const GraphqlApis = S.Array(GraphqlApi);
-export class Resolver extends S.Class<Resolver>("Resolver")({
-  typeName: S.optional(S.String),
-  fieldName: S.optional(S.String),
-  dataSourceName: S.optional(S.String),
-  resolverArn: S.optional(S.String),
-  requestMappingTemplate: S.optional(S.String),
-  responseMappingTemplate: S.optional(S.String),
-  kind: S.optional(S.String),
-  pipelineConfig: S.optional(PipelineConfig),
-  syncConfig: S.optional(SyncConfig),
-  cachingConfig: S.optional(CachingConfig),
-  maxBatchSize: S.optional(S.Number),
-  runtime: S.optional(AppSyncRuntime),
-  code: S.optional(S.String),
-  metricsConfig: S.optional(S.String),
-}) {}
+export interface Resolver {
+  typeName?: string;
+  fieldName?: string;
+  dataSourceName?: string;
+  resolverArn?: string;
+  requestMappingTemplate?: string;
+  responseMappingTemplate?: string;
+  kind?: string;
+  pipelineConfig?: PipelineConfig;
+  syncConfig?: SyncConfig;
+  cachingConfig?: CachingConfig;
+  maxBatchSize?: number;
+  runtime?: AppSyncRuntime;
+  code?: string;
+  metricsConfig?: string;
+}
+export const Resolver = S.suspend(() =>
+  S.Struct({
+    typeName: S.optional(S.String),
+    fieldName: S.optional(S.String),
+    dataSourceName: S.optional(S.String),
+    resolverArn: S.optional(S.String),
+    requestMappingTemplate: S.optional(S.String),
+    responseMappingTemplate: S.optional(S.String),
+    kind: S.optional(S.String),
+    pipelineConfig: S.optional(PipelineConfig),
+    syncConfig: S.optional(SyncConfig),
+    cachingConfig: S.optional(CachingConfig),
+    maxBatchSize: S.optional(S.Number),
+    runtime: S.optional(AppSyncRuntime),
+    code: S.optional(S.String),
+    metricsConfig: S.optional(S.String),
+  }),
+).annotations({ identifier: "Resolver" }) as any as S.Schema<Resolver>;
+export type Resolvers = Resolver[];
 export const Resolvers = S.Array(Resolver);
-export class Type extends S.Class<Type>("Type")({
-  name: S.optional(S.String),
-  description: S.optional(S.String),
-  arn: S.optional(S.String),
-  definition: S.optional(S.String),
-  format: S.optional(S.String),
-}) {}
+export interface Type {
+  name?: string;
+  description?: string;
+  arn?: string;
+  definition?: string;
+  format?: string;
+}
+export const Type = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    arn: S.optional(S.String),
+    definition: S.optional(S.String),
+    format: S.optional(S.String),
+  }),
+).annotations({ identifier: "Type" }) as any as S.Schema<Type>;
+export type TypeList = Type[];
 export const TypeList = S.Array(Type);
+export type EnvironmentVariableMap = { [key: string]: string };
 export const EnvironmentVariableMap = S.Record({
   key: S.String,
   value: S.String,
 });
-export class RdsDataApiConfig extends S.Class<RdsDataApiConfig>(
-  "RdsDataApiConfig",
-)({ resourceArn: S.String, secretArn: S.String, databaseName: S.String }) {}
-export class AssociateMergedGraphqlApiRequest extends S.Class<AssociateMergedGraphqlApiRequest>(
-  "AssociateMergedGraphqlApiRequest",
-)(
-  {
+export interface RdsDataApiConfig {
+  resourceArn: string;
+  secretArn: string;
+  databaseName: string;
+}
+export const RdsDataApiConfig = S.suspend(() =>
+  S.Struct({
+    resourceArn: S.String,
+    secretArn: S.String,
+    databaseName: S.String,
+  }),
+).annotations({
+  identifier: "RdsDataApiConfig",
+}) as any as S.Schema<RdsDataApiConfig>;
+export interface AssociateMergedGraphqlApiRequest {
+  sourceApiIdentifier: string;
+  mergedApiIdentifier: string;
+  description?: string;
+  sourceApiAssociationConfig?: SourceApiAssociationConfig;
+}
+export const AssociateMergedGraphqlApiRequest = S.suspend(() =>
+  S.Struct({
     sourceApiIdentifier: S.String.pipe(T.HttpLabel("sourceApiIdentifier")),
     mergedApiIdentifier: S.String,
     description: S.optional(S.String),
     sourceApiAssociationConfig: S.optional(SourceApiAssociationConfig),
-  },
-  T.all(
-    ns,
-    T.Http({
-      method: "POST",
-      uri: "/v1/sourceApis/{sourceApiIdentifier}/mergedApiAssociations",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "POST",
+        uri: "/v1/sourceApis/{sourceApiIdentifier}/mergedApiAssociations",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateResolverRequest extends S.Class<CreateResolverRequest>(
-  "CreateResolverRequest",
-)(
-  {
+).annotations({
+  identifier: "AssociateMergedGraphqlApiRequest",
+}) as any as S.Schema<AssociateMergedGraphqlApiRequest>;
+export interface CreateResolverRequest {
+  apiId: string;
+  typeName: string;
+  fieldName: string;
+  dataSourceName?: string;
+  requestMappingTemplate?: string;
+  responseMappingTemplate?: string;
+  kind?: string;
+  pipelineConfig?: PipelineConfig;
+  syncConfig?: SyncConfig;
+  cachingConfig?: CachingConfig;
+  maxBatchSize?: number;
+  runtime?: AppSyncRuntime;
+  code?: string;
+  metricsConfig?: string;
+}
+export const CreateResolverRequest = S.suspend(() =>
+  S.Struct({
     apiId: S.String.pipe(T.HttpLabel("apiId")),
     typeName: S.String.pipe(T.HttpLabel("typeName")),
     fieldName: S.String,
@@ -1848,271 +2718,618 @@ export class CreateResolverRequest extends S.Class<CreateResolverRequest>(
     runtime: S.optional(AppSyncRuntime),
     code: S.optional(S.String),
     metricsConfig: S.optional(S.String),
-  },
-  T.all(
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "POST",
+        uri: "/v1/apis/{apiId}/types/{typeName}/resolvers",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateResolverRequest",
+}) as any as S.Schema<CreateResolverRequest>;
+export interface DisassociateMergedGraphqlApiResponse {
+  sourceApiAssociationStatus?: string;
+}
+export const DisassociateMergedGraphqlApiResponse = S.suspend(() =>
+  S.Struct({ sourceApiAssociationStatus: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "DisassociateMergedGraphqlApiResponse",
+}) as any as S.Schema<DisassociateMergedGraphqlApiResponse>;
+export interface DisassociateSourceGraphqlApiResponse {
+  sourceApiAssociationStatus?: string;
+}
+export const DisassociateSourceGraphqlApiResponse = S.suspend(() =>
+  S.Struct({ sourceApiAssociationStatus: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "DisassociateSourceGraphqlApiResponse",
+}) as any as S.Schema<DisassociateSourceGraphqlApiResponse>;
+export interface ApiAssociation {
+  domainName?: string;
+  apiId?: string;
+  associationStatus?: string;
+  deploymentDetail?: string;
+}
+export const ApiAssociation = S.suspend(() =>
+  S.Struct({
+    domainName: S.optional(S.String),
+    apiId: S.optional(S.String),
+    associationStatus: S.optional(S.String),
+    deploymentDetail: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ApiAssociation",
+}) as any as S.Schema<ApiAssociation>;
+export interface GetApiAssociationResponse {
+  apiAssociation?: ApiAssociation;
+}
+export const GetApiAssociationResponse = S.suspend(() =>
+  S.Struct({ apiAssociation: S.optional(ApiAssociation) }).pipe(ns),
+).annotations({
+  identifier: "GetApiAssociationResponse",
+}) as any as S.Schema<GetApiAssociationResponse>;
+export interface ApiCache {
+  ttl?: number;
+  apiCachingBehavior?: string;
+  transitEncryptionEnabled?: boolean;
+  atRestEncryptionEnabled?: boolean;
+  type?: string;
+  status?: string;
+  healthMetricsConfig?: string;
+}
+export const ApiCache = S.suspend(() =>
+  S.Struct({
+    ttl: S.optional(S.Number),
+    apiCachingBehavior: S.optional(S.String),
+    transitEncryptionEnabled: S.optional(S.Boolean),
+    atRestEncryptionEnabled: S.optional(S.Boolean),
+    type: S.optional(S.String),
+    status: S.optional(S.String),
+    healthMetricsConfig: S.optional(S.String),
+  }),
+).annotations({ identifier: "ApiCache" }) as any as S.Schema<ApiCache>;
+export interface GetApiCacheResponse {
+  apiCache?: ApiCache;
+}
+export const GetApiCacheResponse = S.suspend(() =>
+  S.Struct({ apiCache: S.optional(ApiCache) }).pipe(ns),
+).annotations({
+  identifier: "GetApiCacheResponse",
+}) as any as S.Schema<GetApiCacheResponse>;
+export interface GetDomainNameResponse {
+  domainNameConfig?: DomainNameConfig;
+}
+export const GetDomainNameResponse = S.suspend(() =>
+  S.Struct({ domainNameConfig: S.optional(DomainNameConfig) }).pipe(ns),
+).annotations({
+  identifier: "GetDomainNameResponse",
+}) as any as S.Schema<GetDomainNameResponse>;
+export interface GetGraphqlApiEnvironmentVariablesResponse {
+  environmentVariables?: EnvironmentVariableMap;
+}
+export const GetGraphqlApiEnvironmentVariablesResponse = S.suspend(() =>
+  S.Struct({ environmentVariables: S.optional(EnvironmentVariableMap) }).pipe(
     ns,
-    T.Http({
-      method: "POST",
-      uri: "/v1/apis/{apiId}/types/{typeName}/resolvers",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
   ),
-) {}
-export class DisassociateMergedGraphqlApiResponse extends S.Class<DisassociateMergedGraphqlApiResponse>(
-  "DisassociateMergedGraphqlApiResponse",
-)({ sourceApiAssociationStatus: S.optional(S.String) }, ns) {}
-export class DisassociateSourceGraphqlApiResponse extends S.Class<DisassociateSourceGraphqlApiResponse>(
-  "DisassociateSourceGraphqlApiResponse",
-)({ sourceApiAssociationStatus: S.optional(S.String) }, ns) {}
-export class ApiAssociation extends S.Class<ApiAssociation>("ApiAssociation")({
-  domainName: S.optional(S.String),
-  apiId: S.optional(S.String),
-  associationStatus: S.optional(S.String),
-  deploymentDetail: S.optional(S.String),
-}) {}
-export class GetApiAssociationResponse extends S.Class<GetApiAssociationResponse>(
-  "GetApiAssociationResponse",
-)({ apiAssociation: S.optional(ApiAssociation) }, ns) {}
-export class ApiCache extends S.Class<ApiCache>("ApiCache")({
-  ttl: S.optional(S.Number),
-  apiCachingBehavior: S.optional(S.String),
-  transitEncryptionEnabled: S.optional(S.Boolean),
-  atRestEncryptionEnabled: S.optional(S.Boolean),
-  type: S.optional(S.String),
-  status: S.optional(S.String),
-  healthMetricsConfig: S.optional(S.String),
-}) {}
-export class GetApiCacheResponse extends S.Class<GetApiCacheResponse>(
-  "GetApiCacheResponse",
-)({ apiCache: S.optional(ApiCache) }, ns) {}
-export class GetDomainNameResponse extends S.Class<GetDomainNameResponse>(
-  "GetDomainNameResponse",
-)({ domainNameConfig: S.optional(DomainNameConfig) }, ns) {}
-export class GetGraphqlApiEnvironmentVariablesResponse extends S.Class<GetGraphqlApiEnvironmentVariablesResponse>(
-  "GetGraphqlApiEnvironmentVariablesResponse",
-)({ environmentVariables: S.optional(EnvironmentVariableMap) }, ns) {}
-export class GetIntrospectionSchemaResponse extends S.Class<GetIntrospectionSchemaResponse>(
-  "GetIntrospectionSchemaResponse",
-)({ schema: S.optional(T.StreamingOutput).pipe(T.HttpPayload()) }, ns) {}
-export class GetSchemaCreationStatusResponse extends S.Class<GetSchemaCreationStatusResponse>(
-  "GetSchemaCreationStatusResponse",
-)({ status: S.optional(S.String), details: S.optional(S.String) }, ns) {}
-export class SourceApiAssociation extends S.Class<SourceApiAssociation>(
-  "SourceApiAssociation",
-)({
-  associationId: S.optional(S.String),
-  associationArn: S.optional(S.String),
-  sourceApiId: S.optional(S.String),
-  sourceApiArn: S.optional(S.String),
-  mergedApiArn: S.optional(S.String),
-  mergedApiId: S.optional(S.String),
-  description: S.optional(S.String),
-  sourceApiAssociationConfig: S.optional(SourceApiAssociationConfig),
-  sourceApiAssociationStatus: S.optional(S.String),
-  sourceApiAssociationStatusDetail: S.optional(S.String),
-  lastSuccessfulMergeDate: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+).annotations({
+  identifier: "GetGraphqlApiEnvironmentVariablesResponse",
+}) as any as S.Schema<GetGraphqlApiEnvironmentVariablesResponse>;
+export interface GetIntrospectionSchemaResponse {
+  schema?: T.StreamingOutputBody;
+}
+export const GetIntrospectionSchemaResponse = S.suspend(() =>
+  S.Struct({
+    schema: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
+  }).pipe(ns),
+).annotations({
+  identifier: "GetIntrospectionSchemaResponse",
+}) as any as S.Schema<GetIntrospectionSchemaResponse>;
+export interface GetSchemaCreationStatusResponse {
+  status?: string;
+  details?: string;
+}
+export const GetSchemaCreationStatusResponse = S.suspend(() =>
+  S.Struct({
+    status: S.optional(S.String),
+    details: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "GetSchemaCreationStatusResponse",
+}) as any as S.Schema<GetSchemaCreationStatusResponse>;
+export interface SourceApiAssociation {
+  associationId?: string;
+  associationArn?: string;
+  sourceApiId?: string;
+  sourceApiArn?: string;
+  mergedApiArn?: string;
+  mergedApiId?: string;
+  description?: string;
+  sourceApiAssociationConfig?: SourceApiAssociationConfig;
+  sourceApiAssociationStatus?: string;
+  sourceApiAssociationStatusDetail?: string;
+  lastSuccessfulMergeDate?: Date;
+}
+export const SourceApiAssociation = S.suspend(() =>
+  S.Struct({
+    associationId: S.optional(S.String),
+    associationArn: S.optional(S.String),
+    sourceApiId: S.optional(S.String),
+    sourceApiArn: S.optional(S.String),
+    mergedApiArn: S.optional(S.String),
+    mergedApiId: S.optional(S.String),
+    description: S.optional(S.String),
+    sourceApiAssociationConfig: S.optional(SourceApiAssociationConfig),
+    sourceApiAssociationStatus: S.optional(S.String),
+    sourceApiAssociationStatusDetail: S.optional(S.String),
+    lastSuccessfulMergeDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "SourceApiAssociation",
+}) as any as S.Schema<SourceApiAssociation>;
+export interface GetSourceApiAssociationResponse {
+  sourceApiAssociation?: SourceApiAssociation;
+}
+export const GetSourceApiAssociationResponse = S.suspend(() =>
+  S.Struct({ sourceApiAssociation: S.optional(SourceApiAssociation) }).pipe(ns),
+).annotations({
+  identifier: "GetSourceApiAssociationResponse",
+}) as any as S.Schema<GetSourceApiAssociationResponse>;
+export interface GetTypeResponse {
+  type?: Type;
+}
+export const GetTypeResponse = S.suspend(() =>
+  S.Struct({ type: S.optional(Type) }).pipe(ns),
+).annotations({
+  identifier: "GetTypeResponse",
+}) as any as S.Schema<GetTypeResponse>;
+export interface ListApiKeysResponse {
+  apiKeys?: ApiKeys;
+  nextToken?: string;
+}
+export const ListApiKeysResponse = S.suspend(() =>
+  S.Struct({
+    apiKeys: S.optional(ApiKeys),
+    nextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListApiKeysResponse",
+}) as any as S.Schema<ListApiKeysResponse>;
+export interface ListApisResponse {
+  apis?: Apis;
+  nextToken?: string;
+}
+export const ListApisResponse = S.suspend(() =>
+  S.Struct({ apis: S.optional(Apis), nextToken: S.optional(S.String) }).pipe(
+    ns,
   ),
-}) {}
-export class GetSourceApiAssociationResponse extends S.Class<GetSourceApiAssociationResponse>(
-  "GetSourceApiAssociationResponse",
-)({ sourceApiAssociation: S.optional(SourceApiAssociation) }, ns) {}
-export class GetTypeResponse extends S.Class<GetTypeResponse>(
-  "GetTypeResponse",
-)({ type: S.optional(Type) }, ns) {}
-export class ListApiKeysResponse extends S.Class<ListApiKeysResponse>(
-  "ListApiKeysResponse",
-)({ apiKeys: S.optional(ApiKeys), nextToken: S.optional(S.String) }, ns) {}
-export class ListApisResponse extends S.Class<ListApisResponse>(
-  "ListApisResponse",
-)({ apis: S.optional(Apis), nextToken: S.optional(S.String) }, ns) {}
-export class ListChannelNamespacesResponse extends S.Class<ListChannelNamespacesResponse>(
-  "ListChannelNamespacesResponse",
-)(
-  {
+).annotations({
+  identifier: "ListApisResponse",
+}) as any as S.Schema<ListApisResponse>;
+export interface ListChannelNamespacesResponse {
+  channelNamespaces?: ChannelNamespaces;
+  nextToken?: string;
+}
+export const ListChannelNamespacesResponse = S.suspend(() =>
+  S.Struct({
     channelNamespaces: S.optional(ChannelNamespaces),
     nextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListDataSourcesResponse extends S.Class<ListDataSourcesResponse>(
-  "ListDataSourcesResponse",
-)(
-  { dataSources: S.optional(DataSources), nextToken: S.optional(S.String) },
-  ns,
-) {}
-export class ListDomainNamesResponse extends S.Class<ListDomainNamesResponse>(
-  "ListDomainNamesResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListChannelNamespacesResponse",
+}) as any as S.Schema<ListChannelNamespacesResponse>;
+export interface ListDataSourcesResponse {
+  dataSources?: DataSources;
+  nextToken?: string;
+}
+export const ListDataSourcesResponse = S.suspend(() =>
+  S.Struct({
+    dataSources: S.optional(DataSources),
+    nextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListDataSourcesResponse",
+}) as any as S.Schema<ListDataSourcesResponse>;
+export interface ListDomainNamesResponse {
+  domainNameConfigs?: DomainNameConfigs;
+  nextToken?: string;
+}
+export const ListDomainNamesResponse = S.suspend(() =>
+  S.Struct({
     domainNameConfigs: S.optional(DomainNameConfigs),
     nextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListFunctionsResponse extends S.Class<ListFunctionsResponse>(
-  "ListFunctionsResponse",
-)({ functions: S.optional(Functions), nextToken: S.optional(S.String) }, ns) {}
-export class ListGraphqlApisResponse extends S.Class<ListGraphqlApisResponse>(
-  "ListGraphqlApisResponse",
-)(
-  { graphqlApis: S.optional(GraphqlApis), nextToken: S.optional(S.String) },
-  ns,
-) {}
-export class ListResolversResponse extends S.Class<ListResolversResponse>(
-  "ListResolversResponse",
-)({ resolvers: S.optional(Resolvers), nextToken: S.optional(S.String) }, ns) {}
-export class ListResolversByFunctionResponse extends S.Class<ListResolversByFunctionResponse>(
-  "ListResolversByFunctionResponse",
-)({ resolvers: S.optional(Resolvers), nextToken: S.optional(S.String) }, ns) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ tags: S.optional(TagMap) }, ns) {}
-export class ListTypesResponse extends S.Class<ListTypesResponse>(
-  "ListTypesResponse",
-)({ types: S.optional(TypeList), nextToken: S.optional(S.String) }, ns) {}
-export class ListTypesByAssociationResponse extends S.Class<ListTypesByAssociationResponse>(
-  "ListTypesByAssociationResponse",
-)({ types: S.optional(TypeList), nextToken: S.optional(S.String) }, ns) {}
-export class PutGraphqlApiEnvironmentVariablesRequest extends S.Class<PutGraphqlApiEnvironmentVariablesRequest>(
-  "PutGraphqlApiEnvironmentVariablesRequest",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListDomainNamesResponse",
+}) as any as S.Schema<ListDomainNamesResponse>;
+export interface ListFunctionsResponse {
+  functions?: Functions;
+  nextToken?: string;
+}
+export const ListFunctionsResponse = S.suspend(() =>
+  S.Struct({
+    functions: S.optional(Functions),
+    nextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListFunctionsResponse",
+}) as any as S.Schema<ListFunctionsResponse>;
+export interface ListGraphqlApisResponse {
+  graphqlApis?: GraphqlApis;
+  nextToken?: string;
+}
+export const ListGraphqlApisResponse = S.suspend(() =>
+  S.Struct({
+    graphqlApis: S.optional(GraphqlApis),
+    nextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListGraphqlApisResponse",
+}) as any as S.Schema<ListGraphqlApisResponse>;
+export interface ListResolversResponse {
+  resolvers?: Resolvers;
+  nextToken?: string;
+}
+export const ListResolversResponse = S.suspend(() =>
+  S.Struct({
+    resolvers: S.optional(Resolvers),
+    nextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListResolversResponse",
+}) as any as S.Schema<ListResolversResponse>;
+export interface ListResolversByFunctionResponse {
+  resolvers?: Resolvers;
+  nextToken?: string;
+}
+export const ListResolversByFunctionResponse = S.suspend(() =>
+  S.Struct({
+    resolvers: S.optional(Resolvers),
+    nextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListResolversByFunctionResponse",
+}) as any as S.Schema<ListResolversByFunctionResponse>;
+export interface ListTagsForResourceResponse {
+  tags?: TagMap;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ tags: S.optional(TagMap) }).pipe(ns),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface ListTypesResponse {
+  types?: TypeList;
+  nextToken?: string;
+}
+export const ListTypesResponse = S.suspend(() =>
+  S.Struct({
+    types: S.optional(TypeList),
+    nextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListTypesResponse",
+}) as any as S.Schema<ListTypesResponse>;
+export interface ListTypesByAssociationResponse {
+  types?: TypeList;
+  nextToken?: string;
+}
+export const ListTypesByAssociationResponse = S.suspend(() =>
+  S.Struct({
+    types: S.optional(TypeList),
+    nextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListTypesByAssociationResponse",
+}) as any as S.Schema<ListTypesByAssociationResponse>;
+export interface PutGraphqlApiEnvironmentVariablesRequest {
+  apiId: string;
+  environmentVariables: EnvironmentVariableMap;
+}
+export const PutGraphqlApiEnvironmentVariablesRequest = S.suspend(() =>
+  S.Struct({
     apiId: S.String.pipe(T.HttpLabel("apiId")),
     environmentVariables: EnvironmentVariableMap,
-  },
-  T.all(
-    ns,
-    T.Http({ method: "PUT", uri: "/v1/apis/{apiId}/environmentVariables" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "PUT", uri: "/v1/apis/{apiId}/environmentVariables" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartDataSourceIntrospectionRequest extends S.Class<StartDataSourceIntrospectionRequest>(
-  "StartDataSourceIntrospectionRequest",
-)(
-  { rdsDataApiConfig: S.optional(RdsDataApiConfig) },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/v1/datasources/introspections" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "PutGraphqlApiEnvironmentVariablesRequest",
+}) as any as S.Schema<PutGraphqlApiEnvironmentVariablesRequest>;
+export interface StartDataSourceIntrospectionRequest {
+  rdsDataApiConfig?: RdsDataApiConfig;
+}
+export const StartDataSourceIntrospectionRequest = S.suspend(() =>
+  S.Struct({ rdsDataApiConfig: S.optional(RdsDataApiConfig) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/v1/datasources/introspections" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartSchemaCreationResponse extends S.Class<StartSchemaCreationResponse>(
-  "StartSchemaCreationResponse",
-)({ status: S.optional(S.String) }, ns) {}
-export class StartSchemaMergeResponse extends S.Class<StartSchemaMergeResponse>(
-  "StartSchemaMergeResponse",
-)({ sourceApiAssociationStatus: S.optional(S.String) }, ns) {}
-export class UpdateApiResponse extends S.Class<UpdateApiResponse>(
-  "UpdateApiResponse",
-)({ api: S.optional(Api) }, ns) {}
-export class UpdateApiCacheResponse extends S.Class<UpdateApiCacheResponse>(
-  "UpdateApiCacheResponse",
-)({ apiCache: S.optional(ApiCache) }, ns) {}
-export class UpdateApiKeyResponse extends S.Class<UpdateApiKeyResponse>(
-  "UpdateApiKeyResponse",
-)({ apiKey: S.optional(ApiKey) }, ns) {}
-export class UpdateChannelNamespaceResponse extends S.Class<UpdateChannelNamespaceResponse>(
-  "UpdateChannelNamespaceResponse",
-)({ channelNamespace: S.optional(ChannelNamespace) }, ns) {}
-export class UpdateDataSourceResponse extends S.Class<UpdateDataSourceResponse>(
-  "UpdateDataSourceResponse",
-)({ dataSource: S.optional(DataSource) }, ns) {}
-export class UpdateDomainNameResponse extends S.Class<UpdateDomainNameResponse>(
-  "UpdateDomainNameResponse",
-)({ domainNameConfig: S.optional(DomainNameConfig) }, ns) {}
-export class UpdateFunctionResponse extends S.Class<UpdateFunctionResponse>(
-  "UpdateFunctionResponse",
-)({ functionConfiguration: S.optional(FunctionConfiguration) }, ns) {}
-export class UpdateGraphqlApiResponse extends S.Class<UpdateGraphqlApiResponse>(
-  "UpdateGraphqlApiResponse",
-)({ graphqlApi: S.optional(GraphqlApi) }, ns) {}
-export class UpdateResolverResponse extends S.Class<UpdateResolverResponse>(
-  "UpdateResolverResponse",
-)({ resolver: S.optional(Resolver) }, ns) {}
-export class UpdateSourceApiAssociationResponse extends S.Class<UpdateSourceApiAssociationResponse>(
-  "UpdateSourceApiAssociationResponse",
-)({ sourceApiAssociation: S.optional(SourceApiAssociation) }, ns) {}
-export class UpdateTypeResponse extends S.Class<UpdateTypeResponse>(
-  "UpdateTypeResponse",
-)({ type: S.optional(Type) }, ns) {}
-export class CodeErrorLocation extends S.Class<CodeErrorLocation>(
-  "CodeErrorLocation",
-)({
-  line: S.optional(S.Number),
-  column: S.optional(S.Number),
-  span: S.optional(S.Number),
-}) {}
-export class CodeError extends S.Class<CodeError>("CodeError")({
-  errorType: S.optional(S.String),
-  value: S.optional(S.String),
-  location: S.optional(CodeErrorLocation),
-}) {}
+).annotations({
+  identifier: "StartDataSourceIntrospectionRequest",
+}) as any as S.Schema<StartDataSourceIntrospectionRequest>;
+export interface StartSchemaCreationResponse {
+  status?: string;
+}
+export const StartSchemaCreationResponse = S.suspend(() =>
+  S.Struct({ status: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "StartSchemaCreationResponse",
+}) as any as S.Schema<StartSchemaCreationResponse>;
+export interface StartSchemaMergeResponse {
+  sourceApiAssociationStatus?: string;
+}
+export const StartSchemaMergeResponse = S.suspend(() =>
+  S.Struct({ sourceApiAssociationStatus: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "StartSchemaMergeResponse",
+}) as any as S.Schema<StartSchemaMergeResponse>;
+export interface UpdateApiResponse {
+  api?: Api;
+}
+export const UpdateApiResponse = S.suspend(() =>
+  S.Struct({ api: S.optional(Api) }).pipe(ns),
+).annotations({
+  identifier: "UpdateApiResponse",
+}) as any as S.Schema<UpdateApiResponse>;
+export interface UpdateApiCacheResponse {
+  apiCache?: ApiCache;
+}
+export const UpdateApiCacheResponse = S.suspend(() =>
+  S.Struct({ apiCache: S.optional(ApiCache) }).pipe(ns),
+).annotations({
+  identifier: "UpdateApiCacheResponse",
+}) as any as S.Schema<UpdateApiCacheResponse>;
+export interface UpdateApiKeyResponse {
+  apiKey?: ApiKey;
+}
+export const UpdateApiKeyResponse = S.suspend(() =>
+  S.Struct({ apiKey: S.optional(ApiKey) }).pipe(ns),
+).annotations({
+  identifier: "UpdateApiKeyResponse",
+}) as any as S.Schema<UpdateApiKeyResponse>;
+export interface UpdateChannelNamespaceResponse {
+  channelNamespace?: ChannelNamespace;
+}
+export const UpdateChannelNamespaceResponse = S.suspend(() =>
+  S.Struct({ channelNamespace: S.optional(ChannelNamespace) }).pipe(ns),
+).annotations({
+  identifier: "UpdateChannelNamespaceResponse",
+}) as any as S.Schema<UpdateChannelNamespaceResponse>;
+export interface UpdateDataSourceResponse {
+  dataSource?: DataSource;
+}
+export const UpdateDataSourceResponse = S.suspend(() =>
+  S.Struct({ dataSource: S.optional(DataSource) }).pipe(ns),
+).annotations({
+  identifier: "UpdateDataSourceResponse",
+}) as any as S.Schema<UpdateDataSourceResponse>;
+export interface UpdateDomainNameResponse {
+  domainNameConfig?: DomainNameConfig;
+}
+export const UpdateDomainNameResponse = S.suspend(() =>
+  S.Struct({ domainNameConfig: S.optional(DomainNameConfig) }).pipe(ns),
+).annotations({
+  identifier: "UpdateDomainNameResponse",
+}) as any as S.Schema<UpdateDomainNameResponse>;
+export interface UpdateFunctionResponse {
+  functionConfiguration?: FunctionConfiguration;
+}
+export const UpdateFunctionResponse = S.suspend(() =>
+  S.Struct({ functionConfiguration: S.optional(FunctionConfiguration) }).pipe(
+    ns,
+  ),
+).annotations({
+  identifier: "UpdateFunctionResponse",
+}) as any as S.Schema<UpdateFunctionResponse>;
+export interface UpdateGraphqlApiResponse {
+  graphqlApi?: GraphqlApi;
+}
+export const UpdateGraphqlApiResponse = S.suspend(() =>
+  S.Struct({ graphqlApi: S.optional(GraphqlApi) }).pipe(ns),
+).annotations({
+  identifier: "UpdateGraphqlApiResponse",
+}) as any as S.Schema<UpdateGraphqlApiResponse>;
+export interface UpdateResolverResponse {
+  resolver?: Resolver;
+}
+export const UpdateResolverResponse = S.suspend(() =>
+  S.Struct({ resolver: S.optional(Resolver) }).pipe(ns),
+).annotations({
+  identifier: "UpdateResolverResponse",
+}) as any as S.Schema<UpdateResolverResponse>;
+export interface UpdateSourceApiAssociationResponse {
+  sourceApiAssociation?: SourceApiAssociation;
+}
+export const UpdateSourceApiAssociationResponse = S.suspend(() =>
+  S.Struct({ sourceApiAssociation: S.optional(SourceApiAssociation) }).pipe(ns),
+).annotations({
+  identifier: "UpdateSourceApiAssociationResponse",
+}) as any as S.Schema<UpdateSourceApiAssociationResponse>;
+export interface UpdateTypeResponse {
+  type?: Type;
+}
+export const UpdateTypeResponse = S.suspend(() =>
+  S.Struct({ type: S.optional(Type) }).pipe(ns),
+).annotations({
+  identifier: "UpdateTypeResponse",
+}) as any as S.Schema<UpdateTypeResponse>;
+export interface CodeErrorLocation {
+  line?: number;
+  column?: number;
+  span?: number;
+}
+export const CodeErrorLocation = S.suspend(() =>
+  S.Struct({
+    line: S.optional(S.Number),
+    column: S.optional(S.Number),
+    span: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "CodeErrorLocation",
+}) as any as S.Schema<CodeErrorLocation>;
+export interface CodeError {
+  errorType?: string;
+  value?: string;
+  location?: CodeErrorLocation;
+}
+export const CodeError = S.suspend(() =>
+  S.Struct({
+    errorType: S.optional(S.String),
+    value: S.optional(S.String),
+    location: S.optional(CodeErrorLocation),
+  }),
+).annotations({ identifier: "CodeError" }) as any as S.Schema<CodeError>;
+export type CodeErrors = CodeError[];
 export const CodeErrors = S.Array(CodeError);
-export class EvaluateCodeErrorDetail extends S.Class<EvaluateCodeErrorDetail>(
-  "EvaluateCodeErrorDetail",
-)({ message: S.optional(S.String), codeErrors: S.optional(CodeErrors) }) {}
-export class ErrorDetail extends S.Class<ErrorDetail>("ErrorDetail")({
-  message: S.optional(S.String),
-}) {}
-export class SourceApiAssociationSummary extends S.Class<SourceApiAssociationSummary>(
-  "SourceApiAssociationSummary",
-)({
-  associationId: S.optional(S.String),
-  associationArn: S.optional(S.String),
-  sourceApiId: S.optional(S.String),
-  sourceApiArn: S.optional(S.String),
-  mergedApiId: S.optional(S.String),
-  mergedApiArn: S.optional(S.String),
-  description: S.optional(S.String),
-}) {}
+export interface EvaluateCodeErrorDetail {
+  message?: string;
+  codeErrors?: CodeErrors;
+}
+export const EvaluateCodeErrorDetail = S.suspend(() =>
+  S.Struct({
+    message: S.optional(S.String),
+    codeErrors: S.optional(CodeErrors),
+  }),
+).annotations({
+  identifier: "EvaluateCodeErrorDetail",
+}) as any as S.Schema<EvaluateCodeErrorDetail>;
+export interface ErrorDetail {
+  message?: string;
+}
+export const ErrorDetail = S.suspend(() =>
+  S.Struct({ message: S.optional(S.String) }),
+).annotations({ identifier: "ErrorDetail" }) as any as S.Schema<ErrorDetail>;
+export interface SourceApiAssociationSummary {
+  associationId?: string;
+  associationArn?: string;
+  sourceApiId?: string;
+  sourceApiArn?: string;
+  mergedApiId?: string;
+  mergedApiArn?: string;
+  description?: string;
+}
+export const SourceApiAssociationSummary = S.suspend(() =>
+  S.Struct({
+    associationId: S.optional(S.String),
+    associationArn: S.optional(S.String),
+    sourceApiId: S.optional(S.String),
+    sourceApiArn: S.optional(S.String),
+    mergedApiId: S.optional(S.String),
+    mergedApiArn: S.optional(S.String),
+    description: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SourceApiAssociationSummary",
+}) as any as S.Schema<SourceApiAssociationSummary>;
+export type SourceApiAssociationSummaryList = SourceApiAssociationSummary[];
 export const SourceApiAssociationSummaryList = S.Array(
   SourceApiAssociationSummary,
 );
+export type DataSourceIntrospectionModelIndexFields = string[];
 export const DataSourceIntrospectionModelIndexFields = S.Array(S.String);
-export class DataSourceIntrospectionModelIndex extends S.Class<DataSourceIntrospectionModelIndex>(
-  "DataSourceIntrospectionModelIndex",
-)({
-  name: S.optional(S.String),
-  fields: S.optional(DataSourceIntrospectionModelIndexFields),
-}) {}
+export interface DataSourceIntrospectionModelIndex {
+  name?: string;
+  fields?: DataSourceIntrospectionModelIndexFields;
+}
+export const DataSourceIntrospectionModelIndex = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    fields: S.optional(DataSourceIntrospectionModelIndexFields),
+  }),
+).annotations({
+  identifier: "DataSourceIntrospectionModelIndex",
+}) as any as S.Schema<DataSourceIntrospectionModelIndex>;
+export type DataSourceIntrospectionModelIndexes =
+  DataSourceIntrospectionModelIndex[];
 export const DataSourceIntrospectionModelIndexes = S.Array(
   DataSourceIntrospectionModelIndex,
 );
-export class AssociateApiResponse extends S.Class<AssociateApiResponse>(
-  "AssociateApiResponse",
-)({ apiAssociation: S.optional(ApiAssociation) }, ns) {}
-export class AssociateMergedGraphqlApiResponse extends S.Class<AssociateMergedGraphqlApiResponse>(
-  "AssociateMergedGraphqlApiResponse",
-)({ sourceApiAssociation: S.optional(SourceApiAssociation) }, ns) {}
-export class AssociateSourceGraphqlApiResponse extends S.Class<AssociateSourceGraphqlApiResponse>(
-  "AssociateSourceGraphqlApiResponse",
-)({ sourceApiAssociation: S.optional(SourceApiAssociation) }, ns) {}
-export class CreateApiCacheResponse extends S.Class<CreateApiCacheResponse>(
-  "CreateApiCacheResponse",
-)({ apiCache: S.optional(ApiCache) }, ns) {}
-export class CreateApiKeyResponse extends S.Class<CreateApiKeyResponse>(
-  "CreateApiKeyResponse",
-)({ apiKey: S.optional(ApiKey) }, ns) {}
-export class CreateDomainNameResponse extends S.Class<CreateDomainNameResponse>(
-  "CreateDomainNameResponse",
-)({ domainNameConfig: S.optional(DomainNameConfig) }, ns) {}
-export class CreateFunctionRequest extends S.Class<CreateFunctionRequest>(
-  "CreateFunctionRequest",
-)(
-  {
+export interface AssociateApiResponse {
+  apiAssociation?: ApiAssociation;
+}
+export const AssociateApiResponse = S.suspend(() =>
+  S.Struct({ apiAssociation: S.optional(ApiAssociation) }).pipe(ns),
+).annotations({
+  identifier: "AssociateApiResponse",
+}) as any as S.Schema<AssociateApiResponse>;
+export interface AssociateMergedGraphqlApiResponse {
+  sourceApiAssociation?: SourceApiAssociation;
+}
+export const AssociateMergedGraphqlApiResponse = S.suspend(() =>
+  S.Struct({ sourceApiAssociation: S.optional(SourceApiAssociation) }).pipe(ns),
+).annotations({
+  identifier: "AssociateMergedGraphqlApiResponse",
+}) as any as S.Schema<AssociateMergedGraphqlApiResponse>;
+export interface AssociateSourceGraphqlApiResponse {
+  sourceApiAssociation?: SourceApiAssociation;
+}
+export const AssociateSourceGraphqlApiResponse = S.suspend(() =>
+  S.Struct({ sourceApiAssociation: S.optional(SourceApiAssociation) }).pipe(ns),
+).annotations({
+  identifier: "AssociateSourceGraphqlApiResponse",
+}) as any as S.Schema<AssociateSourceGraphqlApiResponse>;
+export interface CreateApiCacheResponse {
+  apiCache?: ApiCache;
+}
+export const CreateApiCacheResponse = S.suspend(() =>
+  S.Struct({ apiCache: S.optional(ApiCache) }).pipe(ns),
+).annotations({
+  identifier: "CreateApiCacheResponse",
+}) as any as S.Schema<CreateApiCacheResponse>;
+export interface CreateApiKeyResponse {
+  apiKey?: ApiKey;
+}
+export const CreateApiKeyResponse = S.suspend(() =>
+  S.Struct({ apiKey: S.optional(ApiKey) }).pipe(ns),
+).annotations({
+  identifier: "CreateApiKeyResponse",
+}) as any as S.Schema<CreateApiKeyResponse>;
+export interface CreateDomainNameResponse {
+  domainNameConfig?: DomainNameConfig;
+}
+export const CreateDomainNameResponse = S.suspend(() =>
+  S.Struct({ domainNameConfig: S.optional(DomainNameConfig) }).pipe(ns),
+).annotations({
+  identifier: "CreateDomainNameResponse",
+}) as any as S.Schema<CreateDomainNameResponse>;
+export interface CreateFunctionRequest {
+  apiId: string;
+  name: string;
+  description?: string;
+  dataSourceName: string;
+  requestMappingTemplate?: string;
+  responseMappingTemplate?: string;
+  functionVersion?: string;
+  syncConfig?: SyncConfig;
+  maxBatchSize?: number;
+  runtime?: AppSyncRuntime;
+  code?: string;
+}
+export const CreateFunctionRequest = S.suspend(() =>
+  S.Struct({
     apiId: S.String.pipe(T.HttpLabel("apiId")),
     name: S.String,
     description: S.optional(S.String),
@@ -2124,21 +3341,41 @@ export class CreateFunctionRequest extends S.Class<CreateFunctionRequest>(
     maxBatchSize: S.optional(S.Number),
     runtime: S.optional(AppSyncRuntime),
     code: S.optional(S.String),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/v1/apis/{apiId}/functions" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/v1/apis/{apiId}/functions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateGraphqlApiRequest extends S.Class<CreateGraphqlApiRequest>(
-  "CreateGraphqlApiRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateFunctionRequest",
+}) as any as S.Schema<CreateFunctionRequest>;
+export interface CreateGraphqlApiRequest {
+  name: string;
+  logConfig?: LogConfig;
+  authenticationType: string;
+  userPoolConfig?: UserPoolConfig;
+  openIDConnectConfig?: OpenIDConnectConfig;
+  tags?: TagMap;
+  additionalAuthenticationProviders?: AdditionalAuthenticationProviders;
+  xrayEnabled?: boolean;
+  lambdaAuthorizerConfig?: LambdaAuthorizerConfig;
+  apiType?: string;
+  mergedApiExecutionRoleArn?: string;
+  visibility?: string;
+  ownerContact?: string;
+  introspectionConfig?: string;
+  queryDepthLimit?: number;
+  resolverCountLimit?: number;
+  enhancedMetricsConfig?: EnhancedMetricsConfig;
+}
+export const CreateGraphqlApiRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     logConfig: S.optional(LogConfig),
     authenticationType: S.String,
@@ -2158,107 +3395,193 @@ export class CreateGraphqlApiRequest extends S.Class<CreateGraphqlApiRequest>(
     queryDepthLimit: S.optional(S.Number),
     resolverCountLimit: S.optional(S.Number),
     enhancedMetricsConfig: S.optional(EnhancedMetricsConfig),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/v1/apis" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/v1/apis" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateResolverResponse extends S.Class<CreateResolverResponse>(
-  "CreateResolverResponse",
-)({ resolver: S.optional(Resolver) }, ns) {}
-export class CreateTypeResponse extends S.Class<CreateTypeResponse>(
-  "CreateTypeResponse",
-)({ type: S.optional(Type) }, ns) {}
-export class EvaluateCodeResponse extends S.Class<EvaluateCodeResponse>(
-  "EvaluateCodeResponse",
-)(
-  {
+).annotations({
+  identifier: "CreateGraphqlApiRequest",
+}) as any as S.Schema<CreateGraphqlApiRequest>;
+export interface CreateResolverResponse {
+  resolver?: Resolver;
+}
+export const CreateResolverResponse = S.suspend(() =>
+  S.Struct({ resolver: S.optional(Resolver) }).pipe(ns),
+).annotations({
+  identifier: "CreateResolverResponse",
+}) as any as S.Schema<CreateResolverResponse>;
+export interface CreateTypeResponse {
+  type?: Type;
+}
+export const CreateTypeResponse = S.suspend(() =>
+  S.Struct({ type: S.optional(Type) }).pipe(ns),
+).annotations({
+  identifier: "CreateTypeResponse",
+}) as any as S.Schema<CreateTypeResponse>;
+export interface EvaluateCodeResponse {
+  evaluationResult?: string;
+  error?: EvaluateCodeErrorDetail;
+  logs?: Logs;
+  stash?: string;
+  outErrors?: string;
+}
+export const EvaluateCodeResponse = S.suspend(() =>
+  S.Struct({
     evaluationResult: S.optional(S.String),
     error: S.optional(EvaluateCodeErrorDetail),
     logs: S.optional(Logs),
     stash: S.optional(S.String),
     outErrors: S.optional(S.String),
-  },
-  ns,
-) {}
-export class EvaluateMappingTemplateResponse extends S.Class<EvaluateMappingTemplateResponse>(
-  "EvaluateMappingTemplateResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "EvaluateCodeResponse",
+}) as any as S.Schema<EvaluateCodeResponse>;
+export interface EvaluateMappingTemplateResponse {
+  evaluationResult?: string;
+  error?: ErrorDetail;
+  logs?: Logs;
+  stash?: string;
+  outErrors?: string;
+}
+export const EvaluateMappingTemplateResponse = S.suspend(() =>
+  S.Struct({
     evaluationResult: S.optional(S.String),
     error: S.optional(ErrorDetail),
     logs: S.optional(Logs),
     stash: S.optional(S.String),
     outErrors: S.optional(S.String),
-  },
-  ns,
-) {}
-export class GetChannelNamespaceResponse extends S.Class<GetChannelNamespaceResponse>(
-  "GetChannelNamespaceResponse",
-)({ channelNamespace: S.optional(ChannelNamespace) }, ns) {}
-export class GetDataSourceResponse extends S.Class<GetDataSourceResponse>(
-  "GetDataSourceResponse",
-)({ dataSource: S.optional(DataSource) }, ns) {}
-export class GetFunctionResponse extends S.Class<GetFunctionResponse>(
-  "GetFunctionResponse",
-)({ functionConfiguration: S.optional(FunctionConfiguration) }, ns) {}
-export class GetGraphqlApiResponse extends S.Class<GetGraphqlApiResponse>(
-  "GetGraphqlApiResponse",
-)({ graphqlApi: S.optional(GraphqlApi) }, ns) {}
-export class GetResolverResponse extends S.Class<GetResolverResponse>(
-  "GetResolverResponse",
-)({ resolver: S.optional(Resolver) }, ns) {}
-export class ListSourceApiAssociationsResponse extends S.Class<ListSourceApiAssociationsResponse>(
-  "ListSourceApiAssociationsResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "EvaluateMappingTemplateResponse",
+}) as any as S.Schema<EvaluateMappingTemplateResponse>;
+export interface GetChannelNamespaceResponse {
+  channelNamespace?: ChannelNamespace;
+}
+export const GetChannelNamespaceResponse = S.suspend(() =>
+  S.Struct({ channelNamespace: S.optional(ChannelNamespace) }).pipe(ns),
+).annotations({
+  identifier: "GetChannelNamespaceResponse",
+}) as any as S.Schema<GetChannelNamespaceResponse>;
+export interface GetDataSourceResponse {
+  dataSource?: DataSource;
+}
+export const GetDataSourceResponse = S.suspend(() =>
+  S.Struct({ dataSource: S.optional(DataSource) }).pipe(ns),
+).annotations({
+  identifier: "GetDataSourceResponse",
+}) as any as S.Schema<GetDataSourceResponse>;
+export interface GetFunctionResponse {
+  functionConfiguration?: FunctionConfiguration;
+}
+export const GetFunctionResponse = S.suspend(() =>
+  S.Struct({ functionConfiguration: S.optional(FunctionConfiguration) }).pipe(
+    ns,
+  ),
+).annotations({
+  identifier: "GetFunctionResponse",
+}) as any as S.Schema<GetFunctionResponse>;
+export interface GetGraphqlApiResponse {
+  graphqlApi?: GraphqlApi;
+}
+export const GetGraphqlApiResponse = S.suspend(() =>
+  S.Struct({ graphqlApi: S.optional(GraphqlApi) }).pipe(ns),
+).annotations({
+  identifier: "GetGraphqlApiResponse",
+}) as any as S.Schema<GetGraphqlApiResponse>;
+export interface GetResolverResponse {
+  resolver?: Resolver;
+}
+export const GetResolverResponse = S.suspend(() =>
+  S.Struct({ resolver: S.optional(Resolver) }).pipe(ns),
+).annotations({
+  identifier: "GetResolverResponse",
+}) as any as S.Schema<GetResolverResponse>;
+export interface ListSourceApiAssociationsResponse {
+  sourceApiAssociationSummaries?: SourceApiAssociationSummaryList;
+  nextToken?: string;
+}
+export const ListSourceApiAssociationsResponse = S.suspend(() =>
+  S.Struct({
     sourceApiAssociationSummaries: S.optional(SourceApiAssociationSummaryList),
     nextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class PutGraphqlApiEnvironmentVariablesResponse extends S.Class<PutGraphqlApiEnvironmentVariablesResponse>(
-  "PutGraphqlApiEnvironmentVariablesResponse",
-)({ environmentVariables: S.optional(EnvironmentVariableMap) }, ns) {}
-export class StartDataSourceIntrospectionResponse extends S.Class<StartDataSourceIntrospectionResponse>(
-  "StartDataSourceIntrospectionResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListSourceApiAssociationsResponse",
+}) as any as S.Schema<ListSourceApiAssociationsResponse>;
+export interface PutGraphqlApiEnvironmentVariablesResponse {
+  environmentVariables?: EnvironmentVariableMap;
+}
+export const PutGraphqlApiEnvironmentVariablesResponse = S.suspend(() =>
+  S.Struct({ environmentVariables: S.optional(EnvironmentVariableMap) }).pipe(
+    ns,
+  ),
+).annotations({
+  identifier: "PutGraphqlApiEnvironmentVariablesResponse",
+}) as any as S.Schema<PutGraphqlApiEnvironmentVariablesResponse>;
+export interface StartDataSourceIntrospectionResponse {
+  introspectionId?: string;
+  introspectionStatus?: string;
+  introspectionStatusDetail?: string;
+}
+export const StartDataSourceIntrospectionResponse = S.suspend(() =>
+  S.Struct({
     introspectionId: S.optional(S.String),
     introspectionStatus: S.optional(S.String),
     introspectionStatusDetail: S.optional(S.String),
-  },
-  ns,
-) {}
-export class CreateApiRequest extends S.Class<CreateApiRequest>(
-  "CreateApiRequest",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "StartDataSourceIntrospectionResponse",
+}) as any as S.Schema<StartDataSourceIntrospectionResponse>;
+export interface CreateApiRequest {
+  name: string;
+  ownerContact?: string;
+  tags?: TagMap;
+  eventConfig: EventConfig;
+}
+export const CreateApiRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     ownerContact: S.optional(S.String),
     tags: S.optional(TagMap),
     eventConfig: EventConfig,
-  },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/v2/apis" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/v2/apis" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateDataSourceRequest extends S.Class<CreateDataSourceRequest>(
-  "CreateDataSourceRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateApiRequest",
+}) as any as S.Schema<CreateApiRequest>;
+export interface CreateDataSourceRequest {
+  apiId: string;
+  name: string;
+  description?: string;
+  type: string;
+  serviceRoleArn?: string;
+  dynamodbConfig?: DynamodbDataSourceConfig;
+  lambdaConfig?: LambdaDataSourceConfig;
+  elasticsearchConfig?: ElasticsearchDataSourceConfig;
+  openSearchServiceConfig?: OpenSearchServiceDataSourceConfig;
+  httpConfig?: HttpDataSourceConfig;
+  relationalDatabaseConfig?: RelationalDatabaseDataSourceConfig;
+  eventBridgeConfig?: EventBridgeDataSourceConfig;
+  metricsConfig?: string;
+}
+export const CreateDataSourceRequest = S.suspend(() =>
+  S.Struct({
     apiId: S.String.pipe(T.HttpLabel("apiId")),
     name: S.String,
     description: S.optional(S.String),
@@ -2272,61 +3595,115 @@ export class CreateDataSourceRequest extends S.Class<CreateDataSourceRequest>(
     relationalDatabaseConfig: S.optional(RelationalDatabaseDataSourceConfig),
     eventBridgeConfig: S.optional(EventBridgeDataSourceConfig),
     metricsConfig: S.optional(S.String),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/v1/apis/{apiId}/datasources" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-  ),
-) {}
-export class CreateFunctionResponse extends S.Class<CreateFunctionResponse>(
-  "CreateFunctionResponse",
-)({ functionConfiguration: S.optional(FunctionConfiguration) }, ns) {}
-export class CreateGraphqlApiResponse extends S.Class<CreateGraphqlApiResponse>(
-  "CreateGraphqlApiResponse",
-)({ graphqlApi: S.optional(GraphqlApi) }, ns) {}
-export class GetApiResponse extends S.Class<GetApiResponse>("GetApiResponse")(
-  { api: S.optional(Api) },
-  ns,
-) {}
-export const DataSourceIntrospectionModelFieldTypeValues = S.Array(S.String);
-export class DataSourceIntrospectionModelFieldType extends S.Class<DataSourceIntrospectionModelFieldType>(
-  "DataSourceIntrospectionModelFieldType",
-)({
-  kind: S.optional(S.String),
-  name: S.optional(S.String),
-  type: S.optional(
-    S.suspend(
-      (): S.Schema<DataSourceIntrospectionModelFieldType, any> =>
-        DataSourceIntrospectionModelFieldType,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/v1/apis/{apiId}/datasources" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
   ),
-  values: S.optional(DataSourceIntrospectionModelFieldTypeValues),
-}) {}
-export class BadRequestDetail extends S.Class<BadRequestDetail>(
-  "BadRequestDetail",
-)({ codeErrors: S.optional(CodeErrors) }) {}
-export class DataSourceIntrospectionModelField extends S.Class<DataSourceIntrospectionModelField>(
-  "DataSourceIntrospectionModelField",
-)({
-  name: S.optional(S.String),
-  type: S.optional(DataSourceIntrospectionModelFieldType),
-  length: S.optional(S.Number),
-}) {}
+).annotations({
+  identifier: "CreateDataSourceRequest",
+}) as any as S.Schema<CreateDataSourceRequest>;
+export interface CreateFunctionResponse {
+  functionConfiguration?: FunctionConfiguration;
+}
+export const CreateFunctionResponse = S.suspend(() =>
+  S.Struct({ functionConfiguration: S.optional(FunctionConfiguration) }).pipe(
+    ns,
+  ),
+).annotations({
+  identifier: "CreateFunctionResponse",
+}) as any as S.Schema<CreateFunctionResponse>;
+export interface CreateGraphqlApiResponse {
+  graphqlApi?: GraphqlApi;
+}
+export const CreateGraphqlApiResponse = S.suspend(() =>
+  S.Struct({ graphqlApi: S.optional(GraphqlApi) }).pipe(ns),
+).annotations({
+  identifier: "CreateGraphqlApiResponse",
+}) as any as S.Schema<CreateGraphqlApiResponse>;
+export interface GetApiResponse {
+  api?: Api;
+}
+export const GetApiResponse = S.suspend(() =>
+  S.Struct({ api: S.optional(Api) }).pipe(ns),
+).annotations({
+  identifier: "GetApiResponse",
+}) as any as S.Schema<GetApiResponse>;
+export type DataSourceIntrospectionModelFieldTypeValues = string[];
+export const DataSourceIntrospectionModelFieldTypeValues = S.Array(S.String);
+export interface DataSourceIntrospectionModelFieldType {
+  kind?: string;
+  name?: string;
+  type?: DataSourceIntrospectionModelFieldType;
+  values?: DataSourceIntrospectionModelFieldTypeValues;
+}
+export const DataSourceIntrospectionModelFieldType = S.suspend(() =>
+  S.Struct({
+    kind: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(
+      S.suspend(
+        (): S.Schema<DataSourceIntrospectionModelFieldType, any> =>
+          DataSourceIntrospectionModelFieldType,
+      ).annotations({ identifier: "DataSourceIntrospectionModelFieldType" }),
+    ),
+    values: S.optional(DataSourceIntrospectionModelFieldTypeValues),
+  }),
+).annotations({
+  identifier: "DataSourceIntrospectionModelFieldType",
+}) as any as S.Schema<DataSourceIntrospectionModelFieldType>;
+export interface BadRequestDetail {
+  codeErrors?: CodeErrors;
+}
+export const BadRequestDetail = S.suspend(() =>
+  S.Struct({ codeErrors: S.optional(CodeErrors) }),
+).annotations({
+  identifier: "BadRequestDetail",
+}) as any as S.Schema<BadRequestDetail>;
+export interface DataSourceIntrospectionModelField {
+  name?: string;
+  type?: DataSourceIntrospectionModelFieldType;
+  length?: number;
+}
+export const DataSourceIntrospectionModelField = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    type: S.optional(DataSourceIntrospectionModelFieldType),
+    length: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "DataSourceIntrospectionModelField",
+}) as any as S.Schema<DataSourceIntrospectionModelField>;
+export type DataSourceIntrospectionModelFields =
+  DataSourceIntrospectionModelField[];
 export const DataSourceIntrospectionModelFields = S.Array(
   DataSourceIntrospectionModelField,
 );
-export class CreateApiResponse extends S.Class<CreateApiResponse>(
-  "CreateApiResponse",
-)({ api: S.optional(Api) }, ns) {}
-export class CreateChannelNamespaceRequest extends S.Class<CreateChannelNamespaceRequest>(
-  "CreateChannelNamespaceRequest",
-)(
-  {
+export interface CreateApiResponse {
+  api?: Api;
+}
+export const CreateApiResponse = S.suspend(() =>
+  S.Struct({ api: S.optional(Api) }).pipe(ns),
+).annotations({
+  identifier: "CreateApiResponse",
+}) as any as S.Schema<CreateApiResponse>;
+export interface CreateChannelNamespaceRequest {
+  apiId: string;
+  name: string;
+  subscribeAuthModes?: AuthModes;
+  publishAuthModes?: AuthModes;
+  codeHandlers?: string;
+  tags?: TagMap;
+  handlerConfigs?: HandlerConfigs;
+}
+export const CreateChannelNamespaceRequest = S.suspend(() =>
+  S.Struct({
     apiId: S.String.pipe(T.HttpLabel("apiId")),
     name: S.String,
     subscribeAuthModes: S.optional(AuthModes),
@@ -2334,52 +3711,86 @@ export class CreateChannelNamespaceRequest extends S.Class<CreateChannelNamespac
     codeHandlers: S.optional(S.String),
     tags: S.optional(TagMap),
     handlerConfigs: S.optional(HandlerConfigs),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/v2/apis/{apiId}/channelNamespaces" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/v2/apis/{apiId}/channelNamespaces" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateDataSourceResponse extends S.Class<CreateDataSourceResponse>(
-  "CreateDataSourceResponse",
-)({ dataSource: S.optional(DataSource) }, ns) {}
-export class DataSourceIntrospectionModel extends S.Class<DataSourceIntrospectionModel>(
-  "DataSourceIntrospectionModel",
-)({
-  name: S.optional(S.String),
-  fields: S.optional(DataSourceIntrospectionModelFields),
-  primaryKey: S.optional(DataSourceIntrospectionModelIndex),
-  indexes: S.optional(DataSourceIntrospectionModelIndexes),
-  sdl: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "CreateChannelNamespaceRequest",
+}) as any as S.Schema<CreateChannelNamespaceRequest>;
+export interface CreateDataSourceResponse {
+  dataSource?: DataSource;
+}
+export const CreateDataSourceResponse = S.suspend(() =>
+  S.Struct({ dataSource: S.optional(DataSource) }).pipe(ns),
+).annotations({
+  identifier: "CreateDataSourceResponse",
+}) as any as S.Schema<CreateDataSourceResponse>;
+export interface DataSourceIntrospectionModel {
+  name?: string;
+  fields?: DataSourceIntrospectionModelFields;
+  primaryKey?: DataSourceIntrospectionModelIndex;
+  indexes?: DataSourceIntrospectionModelIndexes;
+  sdl?: string;
+}
+export const DataSourceIntrospectionModel = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    fields: S.optional(DataSourceIntrospectionModelFields),
+    primaryKey: S.optional(DataSourceIntrospectionModelIndex),
+    indexes: S.optional(DataSourceIntrospectionModelIndexes),
+    sdl: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DataSourceIntrospectionModel",
+}) as any as S.Schema<DataSourceIntrospectionModel>;
+export type DataSourceIntrospectionModels = DataSourceIntrospectionModel[];
 export const DataSourceIntrospectionModels = S.Array(
   DataSourceIntrospectionModel,
 );
-export class DataSourceIntrospectionResult extends S.Class<DataSourceIntrospectionResult>(
-  "DataSourceIntrospectionResult",
-)({
-  models: S.optional(DataSourceIntrospectionModels),
-  nextToken: S.optional(S.String),
-}) {}
-export class CreateChannelNamespaceResponse extends S.Class<CreateChannelNamespaceResponse>(
-  "CreateChannelNamespaceResponse",
-)({ channelNamespace: S.optional(ChannelNamespace) }, ns) {}
-export class GetDataSourceIntrospectionResponse extends S.Class<GetDataSourceIntrospectionResponse>(
-  "GetDataSourceIntrospectionResponse",
-)(
-  {
+export interface DataSourceIntrospectionResult {
+  models?: DataSourceIntrospectionModels;
+  nextToken?: string;
+}
+export const DataSourceIntrospectionResult = S.suspend(() =>
+  S.Struct({
+    models: S.optional(DataSourceIntrospectionModels),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DataSourceIntrospectionResult",
+}) as any as S.Schema<DataSourceIntrospectionResult>;
+export interface CreateChannelNamespaceResponse {
+  channelNamespace?: ChannelNamespace;
+}
+export const CreateChannelNamespaceResponse = S.suspend(() =>
+  S.Struct({ channelNamespace: S.optional(ChannelNamespace) }).pipe(ns),
+).annotations({
+  identifier: "CreateChannelNamespaceResponse",
+}) as any as S.Schema<CreateChannelNamespaceResponse>;
+export interface GetDataSourceIntrospectionResponse {
+  introspectionId?: string;
+  introspectionStatus?: string;
+  introspectionStatusDetail?: string;
+  introspectionResult?: DataSourceIntrospectionResult;
+}
+export const GetDataSourceIntrospectionResponse = S.suspend(() =>
+  S.Struct({
     introspectionId: S.optional(S.String),
     introspectionStatus: S.optional(S.String),
     introspectionStatusDetail: S.optional(S.String),
     introspectionResult: S.optional(DataSourceIntrospectionResult),
-  },
-  ns,
-) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "GetDataSourceIntrospectionResponse",
+}) as any as S.Schema<GetDataSourceIntrospectionResponse>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

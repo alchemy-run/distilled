@@ -106,247 +106,350 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
+export type DeleteVectorsInputList = string[];
 export const DeleteVectorsInputList = S.Array(S.String);
+export type GetVectorsInputList = string[];
 export const GetVectorsInputList = S.Array(S.String);
-export class ListTagsForResourceInput extends S.Class<ListTagsForResourceInput>(
-  "ListTagsForResourceInput",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface ListTagsForResourceInput {
+  resourceArn: string;
+}
+export const ListTagsForResourceInput = S.suspend(() =>
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceInput extends S.Class<UntagResourceInput>(
-  "UntagResourceInput",
-)(
-  {
+).annotations({
+  identifier: "ListTagsForResourceInput",
+}) as any as S.Schema<ListTagsForResourceInput>;
+export interface UntagResourceInput {
+  resourceArn: string;
+  tagKeys: TagKeyList;
+}
+export const UntagResourceInput = S.suspend(() =>
+  S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceOutput extends S.Class<UntagResourceOutput>(
-  "UntagResourceOutput",
-)({}) {}
-export class DeleteVectorBucketInput extends S.Class<DeleteVectorBucketInput>(
-  "DeleteVectorBucketInput",
-)(
-  {
+).annotations({
+  identifier: "UntagResourceInput",
+}) as any as S.Schema<UntagResourceInput>;
+export interface UntagResourceOutput {}
+export const UntagResourceOutput = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceOutput",
+}) as any as S.Schema<UntagResourceOutput>;
+export interface DeleteVectorBucketInput {
+  vectorBucketName?: string;
+  vectorBucketArn?: string;
+}
+export const DeleteVectorBucketInput = S.suspend(() =>
+  S.Struct({
     vectorBucketName: S.optional(S.String),
     vectorBucketArn: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/DeleteVectorBucket" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/DeleteVectorBucket" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteVectorBucketOutput extends S.Class<DeleteVectorBucketOutput>(
-  "DeleteVectorBucketOutput",
-)({}) {}
-export class DeleteVectorBucketPolicyInput extends S.Class<DeleteVectorBucketPolicyInput>(
-  "DeleteVectorBucketPolicyInput",
-)(
-  {
+).annotations({
+  identifier: "DeleteVectorBucketInput",
+}) as any as S.Schema<DeleteVectorBucketInput>;
+export interface DeleteVectorBucketOutput {}
+export const DeleteVectorBucketOutput = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteVectorBucketOutput",
+}) as any as S.Schema<DeleteVectorBucketOutput>;
+export interface DeleteVectorBucketPolicyInput {
+  vectorBucketName?: string;
+  vectorBucketArn?: string;
+}
+export const DeleteVectorBucketPolicyInput = S.suspend(() =>
+  S.Struct({
     vectorBucketName: S.optional(S.String),
     vectorBucketArn: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/DeleteVectorBucketPolicy" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/DeleteVectorBucketPolicy" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteVectorBucketPolicyOutput extends S.Class<DeleteVectorBucketPolicyOutput>(
-  "DeleteVectorBucketPolicyOutput",
-)({}) {}
-export class GetVectorBucketInput extends S.Class<GetVectorBucketInput>(
-  "GetVectorBucketInput",
-)(
-  {
+).annotations({
+  identifier: "DeleteVectorBucketPolicyInput",
+}) as any as S.Schema<DeleteVectorBucketPolicyInput>;
+export interface DeleteVectorBucketPolicyOutput {}
+export const DeleteVectorBucketPolicyOutput = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteVectorBucketPolicyOutput",
+}) as any as S.Schema<DeleteVectorBucketPolicyOutput>;
+export interface GetVectorBucketInput {
+  vectorBucketName?: string;
+  vectorBucketArn?: string;
+}
+export const GetVectorBucketInput = S.suspend(() =>
+  S.Struct({
     vectorBucketName: S.optional(S.String),
     vectorBucketArn: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/GetVectorBucket" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/GetVectorBucket" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetVectorBucketPolicyInput extends S.Class<GetVectorBucketPolicyInput>(
-  "GetVectorBucketPolicyInput",
-)(
-  {
+).annotations({
+  identifier: "GetVectorBucketInput",
+}) as any as S.Schema<GetVectorBucketInput>;
+export interface GetVectorBucketPolicyInput {
+  vectorBucketName?: string;
+  vectorBucketArn?: string;
+}
+export const GetVectorBucketPolicyInput = S.suspend(() =>
+  S.Struct({
     vectorBucketName: S.optional(S.String),
     vectorBucketArn: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/GetVectorBucketPolicy" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/GetVectorBucketPolicy" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListVectorBucketsInput extends S.Class<ListVectorBucketsInput>(
-  "ListVectorBucketsInput",
-)(
-  {
+).annotations({
+  identifier: "GetVectorBucketPolicyInput",
+}) as any as S.Schema<GetVectorBucketPolicyInput>;
+export interface ListVectorBucketsInput {
+  maxResults?: number;
+  nextToken?: string;
+  prefix?: string;
+}
+export const ListVectorBucketsInput = S.suspend(() =>
+  S.Struct({
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
     prefix: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/ListVectorBuckets" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ListVectorBuckets" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutVectorBucketPolicyInput extends S.Class<PutVectorBucketPolicyInput>(
-  "PutVectorBucketPolicyInput",
-)(
-  {
+).annotations({
+  identifier: "ListVectorBucketsInput",
+}) as any as S.Schema<ListVectorBucketsInput>;
+export interface PutVectorBucketPolicyInput {
+  vectorBucketName?: string;
+  vectorBucketArn?: string;
+  policy: string;
+}
+export const PutVectorBucketPolicyInput = S.suspend(() =>
+  S.Struct({
     vectorBucketName: S.optional(S.String),
     vectorBucketArn: S.optional(S.String),
     policy: S.String,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/PutVectorBucketPolicy" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/PutVectorBucketPolicy" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutVectorBucketPolicyOutput extends S.Class<PutVectorBucketPolicyOutput>(
-  "PutVectorBucketPolicyOutput",
-)({}) {}
-export class DeleteIndexInput extends S.Class<DeleteIndexInput>(
-  "DeleteIndexInput",
-)(
-  {
+).annotations({
+  identifier: "PutVectorBucketPolicyInput",
+}) as any as S.Schema<PutVectorBucketPolicyInput>;
+export interface PutVectorBucketPolicyOutput {}
+export const PutVectorBucketPolicyOutput = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "PutVectorBucketPolicyOutput",
+}) as any as S.Schema<PutVectorBucketPolicyOutput>;
+export interface DeleteIndexInput {
+  vectorBucketName?: string;
+  indexName?: string;
+  indexArn?: string;
+}
+export const DeleteIndexInput = S.suspend(() =>
+  S.Struct({
     vectorBucketName: S.optional(S.String),
     indexName: S.optional(S.String),
     indexArn: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/DeleteIndex" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/DeleteIndex" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteIndexOutput extends S.Class<DeleteIndexOutput>(
-  "DeleteIndexOutput",
-)({}) {}
-export class GetIndexInput extends S.Class<GetIndexInput>("GetIndexInput")(
-  {
+).annotations({
+  identifier: "DeleteIndexInput",
+}) as any as S.Schema<DeleteIndexInput>;
+export interface DeleteIndexOutput {}
+export const DeleteIndexOutput = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteIndexOutput",
+}) as any as S.Schema<DeleteIndexOutput>;
+export interface GetIndexInput {
+  vectorBucketName?: string;
+  indexName?: string;
+  indexArn?: string;
+}
+export const GetIndexInput = S.suspend(() =>
+  S.Struct({
     vectorBucketName: S.optional(S.String),
     indexName: S.optional(S.String),
     indexArn: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/GetIndex" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/GetIndex" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListIndexesInput extends S.Class<ListIndexesInput>(
-  "ListIndexesInput",
-)(
-  {
+).annotations({
+  identifier: "GetIndexInput",
+}) as any as S.Schema<GetIndexInput>;
+export interface ListIndexesInput {
+  vectorBucketName?: string;
+  vectorBucketArn?: string;
+  maxResults?: number;
+  nextToken?: string;
+  prefix?: string;
+}
+export const ListIndexesInput = S.suspend(() =>
+  S.Struct({
     vectorBucketName: S.optional(S.String),
     vectorBucketArn: S.optional(S.String),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
     prefix: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/ListIndexes" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ListIndexes" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteVectorsInput extends S.Class<DeleteVectorsInput>(
-  "DeleteVectorsInput",
-)(
-  {
+).annotations({
+  identifier: "ListIndexesInput",
+}) as any as S.Schema<ListIndexesInput>;
+export interface DeleteVectorsInput {
+  vectorBucketName?: string;
+  indexName?: string;
+  indexArn?: string;
+  keys: DeleteVectorsInputList;
+}
+export const DeleteVectorsInput = S.suspend(() =>
+  S.Struct({
     vectorBucketName: S.optional(S.String),
     indexName: S.optional(S.String),
     indexArn: S.optional(S.String),
     keys: DeleteVectorsInputList,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/DeleteVectors" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/DeleteVectors" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteVectorsOutput extends S.Class<DeleteVectorsOutput>(
-  "DeleteVectorsOutput",
-)({}) {}
-export class GetVectorsInput extends S.Class<GetVectorsInput>(
-  "GetVectorsInput",
-)(
-  {
+).annotations({
+  identifier: "DeleteVectorsInput",
+}) as any as S.Schema<DeleteVectorsInput>;
+export interface DeleteVectorsOutput {}
+export const DeleteVectorsOutput = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteVectorsOutput",
+}) as any as S.Schema<DeleteVectorsOutput>;
+export interface GetVectorsInput {
+  vectorBucketName?: string;
+  indexName?: string;
+  indexArn?: string;
+  keys: GetVectorsInputList;
+  returnData?: boolean;
+  returnMetadata?: boolean;
+}
+export const GetVectorsInput = S.suspend(() =>
+  S.Struct({
     vectorBucketName: S.optional(S.String),
     indexName: S.optional(S.String),
     indexArn: S.optional(S.String),
     keys: GetVectorsInputList,
     returnData: S.optional(S.Boolean),
     returnMetadata: S.optional(S.Boolean),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/GetVectors" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/GetVectors" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListVectorsInput extends S.Class<ListVectorsInput>(
-  "ListVectorsInput",
-)(
-  {
+).annotations({
+  identifier: "GetVectorsInput",
+}) as any as S.Schema<GetVectorsInput>;
+export interface ListVectorsInput {
+  vectorBucketName?: string;
+  indexName?: string;
+  indexArn?: string;
+  maxResults?: number;
+  nextToken?: string;
+  segmentCount?: number;
+  segmentIndex?: number;
+  returnData?: boolean;
+  returnMetadata?: boolean;
+}
+export const ListVectorsInput = S.suspend(() =>
+  S.Struct({
     vectorBucketName: S.optional(S.String),
     indexName: S.optional(S.String),
     indexArn: S.optional(S.String),
@@ -356,75 +459,132 @@ export class ListVectorsInput extends S.Class<ListVectorsInput>(
     segmentIndex: S.optional(S.Number),
     returnData: S.optional(S.Boolean),
     returnMetadata: S.optional(S.Boolean),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/ListVectors" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ListVectors" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "ListVectorsInput",
+}) as any as S.Schema<ListVectorsInput>;
+export type NonFilterableMetadataKeys = string[];
 export const NonFilterableMetadataKeys = S.Array(S.String);
+export type Float32VectorData = number[];
 export const Float32VectorData = S.Array(S.Number);
+export type TagsMap = { [key: string]: string };
 export const TagsMap = S.Record({ key: S.String, value: S.String });
-export class EncryptionConfiguration extends S.Class<EncryptionConfiguration>(
-  "EncryptionConfiguration",
-)({ sseType: S.optional(S.String), kmsKeyArn: S.optional(S.String) }) {}
-export class MetadataConfiguration extends S.Class<MetadataConfiguration>(
-  "MetadataConfiguration",
-)({ nonFilterableMetadataKeys: NonFilterableMetadataKeys }) {}
+export interface EncryptionConfiguration {
+  sseType?: string;
+  kmsKeyArn?: string;
+}
+export const EncryptionConfiguration = S.suspend(() =>
+  S.Struct({ sseType: S.optional(S.String), kmsKeyArn: S.optional(S.String) }),
+).annotations({
+  identifier: "EncryptionConfiguration",
+}) as any as S.Schema<EncryptionConfiguration>;
+export interface MetadataConfiguration {
+  nonFilterableMetadataKeys: NonFilterableMetadataKeys;
+}
+export const MetadataConfiguration = S.suspend(() =>
+  S.Struct({ nonFilterableMetadataKeys: NonFilterableMetadataKeys }),
+).annotations({
+  identifier: "MetadataConfiguration",
+}) as any as S.Schema<MetadataConfiguration>;
 export const VectorData = S.Union(S.Struct({ float32: Float32VectorData }));
-export class PutInputVector extends S.Class<PutInputVector>("PutInputVector")({
-  key: S.String,
-  data: VectorData,
-  metadata: S.optional(S.Any),
-}) {}
+export interface PutInputVector {
+  key: string;
+  data: (typeof VectorData)["Type"];
+  metadata?: any;
+}
+export const PutInputVector = S.suspend(() =>
+  S.Struct({ key: S.String, data: VectorData, metadata: S.optional(S.Any) }),
+).annotations({
+  identifier: "PutInputVector",
+}) as any as S.Schema<PutInputVector>;
+export type PutVectorsInputList = PutInputVector[];
 export const PutVectorsInputList = S.Array(PutInputVector);
-export class ListTagsForResourceOutput extends S.Class<ListTagsForResourceOutput>(
-  "ListTagsForResourceOutput",
-)({ tags: TagsMap }) {}
-export class TagResourceInput extends S.Class<TagResourceInput>(
-  "TagResourceInput",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagsMap },
-  T.all(
-    T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface ListTagsForResourceOutput {
+  tags: TagsMap;
+}
+export const ListTagsForResourceOutput = S.suspend(() =>
+  S.Struct({ tags: TagsMap }),
+).annotations({
+  identifier: "ListTagsForResourceOutput",
+}) as any as S.Schema<ListTagsForResourceOutput>;
+export interface TagResourceInput {
+  resourceArn: string;
+  tags: TagsMap;
+}
+export const TagResourceInput = S.suspend(() =>
+  S.Struct({
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+    tags: TagsMap,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceOutput extends S.Class<TagResourceOutput>(
-  "TagResourceOutput",
-)({}) {}
-export class CreateVectorBucketInput extends S.Class<CreateVectorBucketInput>(
-  "CreateVectorBucketInput",
-)(
-  {
+).annotations({
+  identifier: "TagResourceInput",
+}) as any as S.Schema<TagResourceInput>;
+export interface TagResourceOutput {}
+export const TagResourceOutput = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceOutput",
+}) as any as S.Schema<TagResourceOutput>;
+export interface CreateVectorBucketInput {
+  vectorBucketName: string;
+  encryptionConfiguration?: EncryptionConfiguration;
+  tags?: TagsMap;
+}
+export const CreateVectorBucketInput = S.suspend(() =>
+  S.Struct({
     vectorBucketName: S.String,
     encryptionConfiguration: S.optional(EncryptionConfiguration),
     tags: S.optional(TagsMap),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/CreateVectorBucket" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/CreateVectorBucket" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetVectorBucketPolicyOutput extends S.Class<GetVectorBucketPolicyOutput>(
-  "GetVectorBucketPolicyOutput",
-)({ policy: S.optional(S.String) }) {}
-export class CreateIndexInput extends S.Class<CreateIndexInput>(
-  "CreateIndexInput",
-)(
-  {
+).annotations({
+  identifier: "CreateVectorBucketInput",
+}) as any as S.Schema<CreateVectorBucketInput>;
+export interface GetVectorBucketPolicyOutput {
+  policy?: string;
+}
+export const GetVectorBucketPolicyOutput = S.suspend(() =>
+  S.Struct({ policy: S.optional(S.String) }),
+).annotations({
+  identifier: "GetVectorBucketPolicyOutput",
+}) as any as S.Schema<GetVectorBucketPolicyOutput>;
+export interface CreateIndexInput {
+  vectorBucketName?: string;
+  vectorBucketArn?: string;
+  indexName: string;
+  dataType: string;
+  dimension: number;
+  distanceMetric: string;
+  metadataConfiguration?: MetadataConfiguration;
+  encryptionConfiguration?: EncryptionConfiguration;
+  tags?: TagsMap;
+}
+export const CreateIndexInput = S.suspend(() =>
+  S.Struct({
     vectorBucketName: S.optional(S.String),
     vectorBucketArn: S.optional(S.String),
     indexName: S.String,
@@ -434,41 +594,60 @@ export class CreateIndexInput extends S.Class<CreateIndexInput>(
     metadataConfiguration: S.optional(MetadataConfiguration),
     encryptionConfiguration: S.optional(EncryptionConfiguration),
     tags: S.optional(TagsMap),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/CreateIndex" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/CreateIndex" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutVectorsInput extends S.Class<PutVectorsInput>(
-  "PutVectorsInput",
-)(
-  {
+).annotations({
+  identifier: "CreateIndexInput",
+}) as any as S.Schema<CreateIndexInput>;
+export interface PutVectorsInput {
+  vectorBucketName?: string;
+  indexName?: string;
+  indexArn?: string;
+  vectors: PutVectorsInputList;
+}
+export const PutVectorsInput = S.suspend(() =>
+  S.Struct({
     vectorBucketName: S.optional(S.String),
     indexName: S.optional(S.String),
     indexArn: S.optional(S.String),
     vectors: PutVectorsInputList,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/PutVectors" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/PutVectors" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutVectorsOutput extends S.Class<PutVectorsOutput>(
-  "PutVectorsOutput",
-)({}) {}
-export class QueryVectorsInput extends S.Class<QueryVectorsInput>(
-  "QueryVectorsInput",
-)(
-  {
+).annotations({
+  identifier: "PutVectorsInput",
+}) as any as S.Schema<PutVectorsInput>;
+export interface PutVectorsOutput {}
+export const PutVectorsOutput = S.suspend(() => S.Struct({})).annotations({
+  identifier: "PutVectorsOutput",
+}) as any as S.Schema<PutVectorsOutput>;
+export interface QueryVectorsInput {
+  vectorBucketName?: string;
+  indexName?: string;
+  indexArn?: string;
+  topK: number;
+  queryVector: (typeof VectorData)["Type"];
+  filter?: any;
+  returnMetadata?: boolean;
+  returnDistance?: boolean;
+}
+export const QueryVectorsInput = S.suspend(() =>
+  S.Struct({
     vectorBucketName: S.optional(S.String),
     indexName: S.optional(S.String),
     indexArn: S.optional(S.String),
@@ -477,102 +656,216 @@ export class QueryVectorsInput extends S.Class<QueryVectorsInput>(
     filter: S.optional(S.Any),
     returnMetadata: S.optional(S.Boolean),
     returnDistance: S.optional(S.Boolean),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/QueryVectors" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/QueryVectors" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class VectorBucket extends S.Class<VectorBucket>("VectorBucket")({
-  vectorBucketName: S.String,
-  vectorBucketArn: S.String,
-  creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  encryptionConfiguration: S.optional(EncryptionConfiguration),
-}) {}
-export class VectorBucketSummary extends S.Class<VectorBucketSummary>(
-  "VectorBucketSummary",
-)({
-  vectorBucketName: S.String,
-  vectorBucketArn: S.String,
-  creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-}) {}
+).annotations({
+  identifier: "QueryVectorsInput",
+}) as any as S.Schema<QueryVectorsInput>;
+export interface VectorBucket {
+  vectorBucketName: string;
+  vectorBucketArn: string;
+  creationTime: Date;
+  encryptionConfiguration?: EncryptionConfiguration;
+}
+export const VectorBucket = S.suspend(() =>
+  S.Struct({
+    vectorBucketName: S.String,
+    vectorBucketArn: S.String,
+    creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    encryptionConfiguration: S.optional(EncryptionConfiguration),
+  }),
+).annotations({ identifier: "VectorBucket" }) as any as S.Schema<VectorBucket>;
+export interface VectorBucketSummary {
+  vectorBucketName: string;
+  vectorBucketArn: string;
+  creationTime: Date;
+}
+export const VectorBucketSummary = S.suspend(() =>
+  S.Struct({
+    vectorBucketName: S.String,
+    vectorBucketArn: S.String,
+    creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotations({
+  identifier: "VectorBucketSummary",
+}) as any as S.Schema<VectorBucketSummary>;
+export type ListVectorBucketsOutputList = VectorBucketSummary[];
 export const ListVectorBucketsOutputList = S.Array(VectorBucketSummary);
-export class Index extends S.Class<Index>("Index")({
-  vectorBucketName: S.String,
-  indexName: S.String,
-  indexArn: S.String,
-  creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  dataType: S.String,
-  dimension: S.Number,
-  distanceMetric: S.String,
-  metadataConfiguration: S.optional(MetadataConfiguration),
-  encryptionConfiguration: S.optional(EncryptionConfiguration),
-}) {}
-export class IndexSummary extends S.Class<IndexSummary>("IndexSummary")({
-  vectorBucketName: S.String,
-  indexName: S.String,
-  indexArn: S.String,
-  creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-}) {}
+export interface Index {
+  vectorBucketName: string;
+  indexName: string;
+  indexArn: string;
+  creationTime: Date;
+  dataType: string;
+  dimension: number;
+  distanceMetric: string;
+  metadataConfiguration?: MetadataConfiguration;
+  encryptionConfiguration?: EncryptionConfiguration;
+}
+export const Index = S.suspend(() =>
+  S.Struct({
+    vectorBucketName: S.String,
+    indexName: S.String,
+    indexArn: S.String,
+    creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    dataType: S.String,
+    dimension: S.Number,
+    distanceMetric: S.String,
+    metadataConfiguration: S.optional(MetadataConfiguration),
+    encryptionConfiguration: S.optional(EncryptionConfiguration),
+  }),
+).annotations({ identifier: "Index" }) as any as S.Schema<Index>;
+export interface IndexSummary {
+  vectorBucketName: string;
+  indexName: string;
+  indexArn: string;
+  creationTime: Date;
+}
+export const IndexSummary = S.suspend(() =>
+  S.Struct({
+    vectorBucketName: S.String,
+    indexName: S.String,
+    indexArn: S.String,
+    creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotations({ identifier: "IndexSummary" }) as any as S.Schema<IndexSummary>;
+export type ListIndexesOutputList = IndexSummary[];
 export const ListIndexesOutputList = S.Array(IndexSummary);
-export class GetOutputVector extends S.Class<GetOutputVector>(
-  "GetOutputVector",
-)({
-  key: S.String,
-  data: S.optional(VectorData),
-  metadata: S.optional(S.Any),
-}) {}
+export interface GetOutputVector {
+  key: string;
+  data?: (typeof VectorData)["Type"];
+  metadata?: any;
+}
+export const GetOutputVector = S.suspend(() =>
+  S.Struct({
+    key: S.String,
+    data: S.optional(VectorData),
+    metadata: S.optional(S.Any),
+  }),
+).annotations({
+  identifier: "GetOutputVector",
+}) as any as S.Schema<GetOutputVector>;
+export type GetVectorsOutputList = GetOutputVector[];
 export const GetVectorsOutputList = S.Array(GetOutputVector);
-export class ListOutputVector extends S.Class<ListOutputVector>(
-  "ListOutputVector",
-)({
-  key: S.String,
-  data: S.optional(VectorData),
-  metadata: S.optional(S.Any),
-}) {}
+export interface ListOutputVector {
+  key: string;
+  data?: (typeof VectorData)["Type"];
+  metadata?: any;
+}
+export const ListOutputVector = S.suspend(() =>
+  S.Struct({
+    key: S.String,
+    data: S.optional(VectorData),
+    metadata: S.optional(S.Any),
+  }),
+).annotations({
+  identifier: "ListOutputVector",
+}) as any as S.Schema<ListOutputVector>;
+export type ListVectorsOutputList = ListOutputVector[];
 export const ListVectorsOutputList = S.Array(ListOutputVector);
-export class CreateVectorBucketOutput extends S.Class<CreateVectorBucketOutput>(
-  "CreateVectorBucketOutput",
-)({ vectorBucketArn: S.String }) {}
-export class GetVectorBucketOutput extends S.Class<GetVectorBucketOutput>(
-  "GetVectorBucketOutput",
-)({ vectorBucket: VectorBucket }) {}
-export class ListVectorBucketsOutput extends S.Class<ListVectorBucketsOutput>(
-  "ListVectorBucketsOutput",
-)({
-  nextToken: S.optional(S.String),
-  vectorBuckets: ListVectorBucketsOutputList,
-}) {}
-export class CreateIndexOutput extends S.Class<CreateIndexOutput>(
-  "CreateIndexOutput",
-)({ indexArn: S.String }) {}
-export class GetIndexOutput extends S.Class<GetIndexOutput>("GetIndexOutput")({
-  index: Index,
-}) {}
-export class ListIndexesOutput extends S.Class<ListIndexesOutput>(
-  "ListIndexesOutput",
-)({ nextToken: S.optional(S.String), indexes: ListIndexesOutputList }) {}
-export class GetVectorsOutput extends S.Class<GetVectorsOutput>(
-  "GetVectorsOutput",
-)({ vectors: GetVectorsOutputList }) {}
-export class ListVectorsOutput extends S.Class<ListVectorsOutput>(
-  "ListVectorsOutput",
-)({ nextToken: S.optional(S.String), vectors: ListVectorsOutputList }) {}
-export class QueryOutputVector extends S.Class<QueryOutputVector>(
-  "QueryOutputVector",
-)({
-  distance: S.optional(S.Number),
-  key: S.String,
-  metadata: S.optional(S.Any),
-}) {}
+export interface CreateVectorBucketOutput {
+  vectorBucketArn: string;
+}
+export const CreateVectorBucketOutput = S.suspend(() =>
+  S.Struct({ vectorBucketArn: S.String }),
+).annotations({
+  identifier: "CreateVectorBucketOutput",
+}) as any as S.Schema<CreateVectorBucketOutput>;
+export interface GetVectorBucketOutput {
+  vectorBucket: VectorBucket;
+}
+export const GetVectorBucketOutput = S.suspend(() =>
+  S.Struct({ vectorBucket: VectorBucket }),
+).annotations({
+  identifier: "GetVectorBucketOutput",
+}) as any as S.Schema<GetVectorBucketOutput>;
+export interface ListVectorBucketsOutput {
+  nextToken?: string;
+  vectorBuckets: ListVectorBucketsOutputList;
+}
+export const ListVectorBucketsOutput = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    vectorBuckets: ListVectorBucketsOutputList,
+  }),
+).annotations({
+  identifier: "ListVectorBucketsOutput",
+}) as any as S.Schema<ListVectorBucketsOutput>;
+export interface CreateIndexOutput {
+  indexArn: string;
+}
+export const CreateIndexOutput = S.suspend(() =>
+  S.Struct({ indexArn: S.String }),
+).annotations({
+  identifier: "CreateIndexOutput",
+}) as any as S.Schema<CreateIndexOutput>;
+export interface GetIndexOutput {
+  index: Index;
+}
+export const GetIndexOutput = S.suspend(() =>
+  S.Struct({ index: Index }),
+).annotations({
+  identifier: "GetIndexOutput",
+}) as any as S.Schema<GetIndexOutput>;
+export interface ListIndexesOutput {
+  nextToken?: string;
+  indexes: ListIndexesOutputList;
+}
+export const ListIndexesOutput = S.suspend(() =>
+  S.Struct({ nextToken: S.optional(S.String), indexes: ListIndexesOutputList }),
+).annotations({
+  identifier: "ListIndexesOutput",
+}) as any as S.Schema<ListIndexesOutput>;
+export interface GetVectorsOutput {
+  vectors: GetVectorsOutputList;
+}
+export const GetVectorsOutput = S.suspend(() =>
+  S.Struct({ vectors: GetVectorsOutputList }),
+).annotations({
+  identifier: "GetVectorsOutput",
+}) as any as S.Schema<GetVectorsOutput>;
+export interface ListVectorsOutput {
+  nextToken?: string;
+  vectors: ListVectorsOutputList;
+}
+export const ListVectorsOutput = S.suspend(() =>
+  S.Struct({ nextToken: S.optional(S.String), vectors: ListVectorsOutputList }),
+).annotations({
+  identifier: "ListVectorsOutput",
+}) as any as S.Schema<ListVectorsOutput>;
+export interface QueryOutputVector {
+  distance?: number;
+  key: string;
+  metadata?: any;
+}
+export const QueryOutputVector = S.suspend(() =>
+  S.Struct({
+    distance: S.optional(S.Number),
+    key: S.String,
+    metadata: S.optional(S.Any),
+  }),
+).annotations({
+  identifier: "QueryOutputVector",
+}) as any as S.Schema<QueryOutputVector>;
+export type QueryVectorsOutputList = QueryOutputVector[];
 export const QueryVectorsOutputList = S.Array(QueryOutputVector);
-export class QueryVectorsOutput extends S.Class<QueryVectorsOutput>(
-  "QueryVectorsOutput",
-)({ vectors: QueryVectorsOutputList, distanceMetric: S.String }) {}
+export interface QueryVectorsOutput {
+  vectors: QueryVectorsOutputList;
+  distanceMetric: string;
+}
+export const QueryVectorsOutput = S.suspend(() =>
+  S.Struct({ vectors: QueryVectorsOutputList, distanceMetric: S.String }),
+).annotations({
+  identifier: "QueryVectorsOutput",
+}) as any as S.Schema<QueryVectorsOutput>;
 
 //# Errors
 export class ConflictException extends S.TaggedError<ConflictException>()(

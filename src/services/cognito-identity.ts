@@ -321,179 +321,468 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type OIDCProviderList = string[];
 export const OIDCProviderList = S.Array(S.String);
+export type SAMLProviderList = string[];
 export const SAMLProviderList = S.Array(S.String);
+export type IdentityIdList = string[];
 export const IdentityIdList = S.Array(S.String);
+export type LoginsList = string[];
 export const LoginsList = S.Array(S.String);
+export type IdentityPoolTagsListType = string[];
 export const IdentityPoolTagsListType = S.Array(S.String);
-export class DeleteIdentitiesInput extends S.Class<DeleteIdentitiesInput>(
-  "DeleteIdentitiesInput",
-)(
-  { IdentityIdsToDelete: IdentityIdList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteIdentityPoolInput extends S.Class<DeleteIdentityPoolInput>(
-  "DeleteIdentityPoolInput",
-)(
-  { IdentityPoolId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteIdentityPoolResponse extends S.Class<DeleteIdentityPoolResponse>(
-  "DeleteIdentityPoolResponse",
-)({}, ns) {}
-export class DescribeIdentityInput extends S.Class<DescribeIdentityInput>(
-  "DescribeIdentityInput",
-)(
-  { IdentityId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeIdentityPoolInput extends S.Class<DescribeIdentityPoolInput>(
-  "DescribeIdentityPoolInput",
-)(
-  { IdentityPoolId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+export interface DeleteIdentitiesInput {
+  IdentityIdsToDelete: IdentityIdList;
+}
+export const DeleteIdentitiesInput = S.suspend(() =>
+  S.Struct({ IdentityIdsToDelete: IdentityIdList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteIdentitiesInput",
+}) as any as S.Schema<DeleteIdentitiesInput>;
+export interface DeleteIdentityPoolInput {
+  IdentityPoolId: string;
+}
+export const DeleteIdentityPoolInput = S.suspend(() =>
+  S.Struct({ IdentityPoolId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteIdentityPoolInput",
+}) as any as S.Schema<DeleteIdentityPoolInput>;
+export interface DeleteIdentityPoolResponse {}
+export const DeleteIdentityPoolResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteIdentityPoolResponse",
+}) as any as S.Schema<DeleteIdentityPoolResponse>;
+export interface DescribeIdentityInput {
+  IdentityId: string;
+}
+export const DescribeIdentityInput = S.suspend(() =>
+  S.Struct({ IdentityId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeIdentityInput",
+}) as any as S.Schema<DescribeIdentityInput>;
+export interface DescribeIdentityPoolInput {
+  IdentityPoolId: string;
+}
+export const DescribeIdentityPoolInput = S.suspend(() =>
+  S.Struct({ IdentityPoolId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeIdentityPoolInput",
+}) as any as S.Schema<DescribeIdentityPoolInput>;
+export type LoginsMap = { [key: string]: string };
 export const LoginsMap = S.Record({ key: S.String, value: S.String });
-export class GetIdInput extends S.Class<GetIdInput>("GetIdInput")(
-  {
+export interface GetIdInput {
+  AccountId?: string;
+  IdentityPoolId: string;
+  Logins?: LoginsMap;
+}
+export const GetIdInput = S.suspend(() =>
+  S.Struct({
     AccountId: S.optional(S.String),
     IdentityPoolId: S.String,
     Logins: S.optional(LoginsMap),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetIdentityPoolRolesInput extends S.Class<GetIdentityPoolRolesInput>(
-  "GetIdentityPoolRolesInput",
-)(
-  { IdentityPoolId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetOpenIdTokenInput extends S.Class<GetOpenIdTokenInput>(
-  "GetOpenIdTokenInput",
-)(
-  { IdentityId: S.String, Logins: S.optional(LoginsMap) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetPrincipalTagAttributeMapInput extends S.Class<GetPrincipalTagAttributeMapInput>(
-  "GetPrincipalTagAttributeMapInput",
-)(
-  { IdentityPoolId: S.String, IdentityProviderName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListIdentitiesInput extends S.Class<ListIdentitiesInput>(
-  "ListIdentitiesInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({ identifier: "GetIdInput" }) as any as S.Schema<GetIdInput>;
+export interface GetIdentityPoolRolesInput {
+  IdentityPoolId: string;
+}
+export const GetIdentityPoolRolesInput = S.suspend(() =>
+  S.Struct({ IdentityPoolId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetIdentityPoolRolesInput",
+}) as any as S.Schema<GetIdentityPoolRolesInput>;
+export interface GetOpenIdTokenInput {
+  IdentityId: string;
+  Logins?: LoginsMap;
+}
+export const GetOpenIdTokenInput = S.suspend(() =>
+  S.Struct({ IdentityId: S.String, Logins: S.optional(LoginsMap) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetOpenIdTokenInput",
+}) as any as S.Schema<GetOpenIdTokenInput>;
+export interface GetPrincipalTagAttributeMapInput {
+  IdentityPoolId: string;
+  IdentityProviderName: string;
+}
+export const GetPrincipalTagAttributeMapInput = S.suspend(() =>
+  S.Struct({ IdentityPoolId: S.String, IdentityProviderName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetPrincipalTagAttributeMapInput",
+}) as any as S.Schema<GetPrincipalTagAttributeMapInput>;
+export interface ListIdentitiesInput {
+  IdentityPoolId: string;
+  MaxResults: number;
+  NextToken?: string;
+  HideDisabled?: boolean;
+}
+export const ListIdentitiesInput = S.suspend(() =>
+  S.Struct({
     IdentityPoolId: S.String,
     MaxResults: S.Number,
     NextToken: S.optional(S.String),
     HideDisabled: S.optional(S.Boolean),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListIdentityPoolsInput extends S.Class<ListIdentityPoolsInput>(
-  "ListIdentityPoolsInput",
-)(
-  { MaxResults: S.Number, NextToken: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTagsForResourceInput extends S.Class<ListTagsForResourceInput>(
-  "ListTagsForResourceInput",
-)(
-  { ResourceArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class LookupDeveloperIdentityInput extends S.Class<LookupDeveloperIdentityInput>(
-  "LookupDeveloperIdentityInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListIdentitiesInput",
+}) as any as S.Schema<ListIdentitiesInput>;
+export interface ListIdentityPoolsInput {
+  MaxResults: number;
+  NextToken?: string;
+}
+export const ListIdentityPoolsInput = S.suspend(() =>
+  S.Struct({ MaxResults: S.Number, NextToken: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListIdentityPoolsInput",
+}) as any as S.Schema<ListIdentityPoolsInput>;
+export interface ListTagsForResourceInput {
+  ResourceArn: string;
+}
+export const ListTagsForResourceInput = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListTagsForResourceInput",
+}) as any as S.Schema<ListTagsForResourceInput>;
+export interface LookupDeveloperIdentityInput {
+  IdentityPoolId: string;
+  IdentityId?: string;
+  DeveloperUserIdentifier?: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const LookupDeveloperIdentityInput = S.suspend(() =>
+  S.Struct({
     IdentityPoolId: S.String,
     IdentityId: S.optional(S.String),
     DeveloperUserIdentifier: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class MergeDeveloperIdentitiesInput extends S.Class<MergeDeveloperIdentitiesInput>(
-  "MergeDeveloperIdentitiesInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "LookupDeveloperIdentityInput",
+}) as any as S.Schema<LookupDeveloperIdentityInput>;
+export interface MergeDeveloperIdentitiesInput {
+  SourceUserIdentifier: string;
+  DestinationUserIdentifier: string;
+  DeveloperProviderName: string;
+  IdentityPoolId: string;
+}
+export const MergeDeveloperIdentitiesInput = S.suspend(() =>
+  S.Struct({
     SourceUserIdentifier: S.String,
     DestinationUserIdentifier: S.String,
     DeveloperProviderName: S.String,
     IdentityPoolId: S.String,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "MergeDeveloperIdentitiesInput",
+}) as any as S.Schema<MergeDeveloperIdentitiesInput>;
+export type PrincipalTags = { [key: string]: string };
 export const PrincipalTags = S.Record({ key: S.String, value: S.String });
-export class SetPrincipalTagAttributeMapInput extends S.Class<SetPrincipalTagAttributeMapInput>(
-  "SetPrincipalTagAttributeMapInput",
-)(
-  {
+export interface SetPrincipalTagAttributeMapInput {
+  IdentityPoolId: string;
+  IdentityProviderName: string;
+  UseDefaults?: boolean;
+  PrincipalTags?: PrincipalTags;
+}
+export const SetPrincipalTagAttributeMapInput = S.suspend(() =>
+  S.Struct({
     IdentityPoolId: S.String,
     IdentityProviderName: S.String,
     UseDefaults: S.optional(S.Boolean),
     PrincipalTags: S.optional(PrincipalTags),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "SetPrincipalTagAttributeMapInput",
+}) as any as S.Schema<SetPrincipalTagAttributeMapInput>;
+export type IdentityPoolTagsType = { [key: string]: string };
 export const IdentityPoolTagsType = S.Record({
   key: S.String,
   value: S.String,
 });
-export class TagResourceInput extends S.Class<TagResourceInput>(
-  "TagResourceInput",
-)(
-  { ResourceArn: S.String, Tags: IdentityPoolTagsType },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}, ns) {}
-export class UnlinkDeveloperIdentityInput extends S.Class<UnlinkDeveloperIdentityInput>(
-  "UnlinkDeveloperIdentityInput",
-)(
-  {
+export interface TagResourceInput {
+  ResourceArn: string;
+  Tags: IdentityPoolTagsType;
+}
+export const TagResourceInput = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String, Tags: IdentityPoolTagsType }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "TagResourceInput",
+}) as any as S.Schema<TagResourceInput>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UnlinkDeveloperIdentityInput {
+  IdentityId: string;
+  IdentityPoolId: string;
+  DeveloperProviderName: string;
+  DeveloperUserIdentifier: string;
+}
+export const UnlinkDeveloperIdentityInput = S.suspend(() =>
+  S.Struct({
     IdentityId: S.String,
     IdentityPoolId: S.String,
     DeveloperProviderName: S.String,
     DeveloperUserIdentifier: S.String,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UnlinkDeveloperIdentityResponse extends S.Class<UnlinkDeveloperIdentityResponse>(
-  "UnlinkDeveloperIdentityResponse",
-)({}, ns) {}
-export class UnlinkIdentityInput extends S.Class<UnlinkIdentityInput>(
-  "UnlinkIdentityInput",
-)(
-  { IdentityId: S.String, Logins: LoginsMap, LoginsToRemove: LoginsList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UnlinkIdentityResponse extends S.Class<UnlinkIdentityResponse>(
-  "UnlinkIdentityResponse",
-)({}, ns) {}
-export class UntagResourceInput extends S.Class<UntagResourceInput>(
-  "UntagResourceInput",
-)(
-  { ResourceArn: S.String, TagKeys: IdentityPoolTagsListType },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}, ns) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UnlinkDeveloperIdentityInput",
+}) as any as S.Schema<UnlinkDeveloperIdentityInput>;
+export interface UnlinkDeveloperIdentityResponse {}
+export const UnlinkDeveloperIdentityResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "UnlinkDeveloperIdentityResponse",
+}) as any as S.Schema<UnlinkDeveloperIdentityResponse>;
+export interface UnlinkIdentityInput {
+  IdentityId: string;
+  Logins: LoginsMap;
+  LoginsToRemove: LoginsList;
+}
+export const UnlinkIdentityInput = S.suspend(() =>
+  S.Struct({
+    IdentityId: S.String,
+    Logins: LoginsMap,
+    LoginsToRemove: LoginsList,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UnlinkIdentityInput",
+}) as any as S.Schema<UnlinkIdentityInput>;
+export interface UnlinkIdentityResponse {}
+export const UnlinkIdentityResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "UnlinkIdentityResponse",
+}) as any as S.Schema<UnlinkIdentityResponse>;
+export interface UntagResourceInput {
+  ResourceArn: string;
+  TagKeys: IdentityPoolTagsListType;
+}
+export const UntagResourceInput = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String, TagKeys: IdentityPoolTagsListType }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UntagResourceInput",
+}) as any as S.Schema<UntagResourceInput>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export type IdentityProviders = { [key: string]: string };
 export const IdentityProviders = S.Record({ key: S.String, value: S.String });
-export class CognitoIdentityProvider extends S.Class<CognitoIdentityProvider>(
-  "CognitoIdentityProvider",
-)({
-  ProviderName: S.optional(S.String),
-  ClientId: S.optional(S.String),
-  ServerSideTokenCheck: S.optional(S.Boolean),
-}) {}
+export interface CognitoIdentityProvider {
+  ProviderName?: string;
+  ClientId?: string;
+  ServerSideTokenCheck?: boolean;
+}
+export const CognitoIdentityProvider = S.suspend(() =>
+  S.Struct({
+    ProviderName: S.optional(S.String),
+    ClientId: S.optional(S.String),
+    ServerSideTokenCheck: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "CognitoIdentityProvider",
+}) as any as S.Schema<CognitoIdentityProvider>;
+export type CognitoIdentityProviderList = CognitoIdentityProvider[];
 export const CognitoIdentityProviderList = S.Array(CognitoIdentityProvider);
-export class IdentityPool extends S.Class<IdentityPool>("IdentityPool")(
-  {
+export interface IdentityPool {
+  IdentityPoolId: string;
+  IdentityPoolName: string;
+  AllowUnauthenticatedIdentities: boolean;
+  AllowClassicFlow?: boolean;
+  SupportedLoginProviders?: IdentityProviders;
+  DeveloperProviderName?: string;
+  OpenIdConnectProviderARNs?: OIDCProviderList;
+  CognitoIdentityProviders?: CognitoIdentityProviderList;
+  SamlProviderARNs?: SAMLProviderList;
+  IdentityPoolTags?: IdentityPoolTagsType;
+}
+export const IdentityPool = S.suspend(() =>
+  S.Struct({
     IdentityPoolId: S.String,
     IdentityPoolName: S.String,
     AllowUnauthenticatedIdentities: S.Boolean,
@@ -504,29 +793,55 @@ export class IdentityPool extends S.Class<IdentityPool>("IdentityPool")(
     CognitoIdentityProviders: S.optional(CognitoIdentityProviderList),
     SamlProviderARNs: S.optional(SAMLProviderList),
     IdentityPoolTags: S.optional(IdentityPoolTagsType),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class IdentityDescription extends S.Class<IdentityDescription>(
-  "IdentityDescription",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({ identifier: "IdentityPool" }) as any as S.Schema<IdentityPool>;
+export interface IdentityDescription {
+  IdentityId?: string;
+  Logins?: LoginsList;
+  CreationDate?: Date;
+  LastModifiedDate?: Date;
+}
+export const IdentityDescription = S.suspend(() =>
+  S.Struct({
     IdentityId: S.optional(S.String),
     Logins: S.optional(LoginsList),
     CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastModifiedDate: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-  },
-  ns,
-) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "IdentityDescription",
+}) as any as S.Schema<IdentityDescription>;
+export type IdentitiesList = IdentityDescription[];
 export const IdentitiesList = S.Array(IdentityDescription);
+export type DeveloperUserIdentifierList = string[];
 export const DeveloperUserIdentifierList = S.Array(S.String);
+export type RolesMap = { [key: string]: string };
 export const RolesMap = S.Record({ key: S.String, value: S.String });
-export class CreateIdentityPoolInput extends S.Class<CreateIdentityPoolInput>(
-  "CreateIdentityPoolInput",
-)(
-  {
+export interface CreateIdentityPoolInput {
+  IdentityPoolName: string;
+  AllowUnauthenticatedIdentities: boolean;
+  AllowClassicFlow?: boolean;
+  SupportedLoginProviders?: IdentityProviders;
+  DeveloperProviderName?: string;
+  OpenIdConnectProviderARNs?: OIDCProviderList;
+  CognitoIdentityProviders?: CognitoIdentityProviderList;
+  SamlProviderARNs?: SAMLProviderList;
+  IdentityPoolTags?: IdentityPoolTagsType;
+}
+export const CreateIdentityPoolInput = S.suspend(() =>
+  S.Struct({
     IdentityPoolName: S.String,
     AllowUnauthenticatedIdentities: S.Boolean,
     AllowClassicFlow: S.optional(S.Boolean),
@@ -536,163 +851,338 @@ export class CreateIdentityPoolInput extends S.Class<CreateIdentityPoolInput>(
     CognitoIdentityProviders: S.optional(CognitoIdentityProviderList),
     SamlProviderARNs: S.optional(SAMLProviderList),
     IdentityPoolTags: S.optional(IdentityPoolTagsType),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetCredentialsForIdentityInput extends S.Class<GetCredentialsForIdentityInput>(
-  "GetCredentialsForIdentityInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateIdentityPoolInput",
+}) as any as S.Schema<CreateIdentityPoolInput>;
+export interface GetCredentialsForIdentityInput {
+  IdentityId: string;
+  Logins?: LoginsMap;
+  CustomRoleArn?: string;
+}
+export const GetCredentialsForIdentityInput = S.suspend(() =>
+  S.Struct({
     IdentityId: S.String,
     Logins: S.optional(LoginsMap),
     CustomRoleArn: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetIdResponse extends S.Class<GetIdResponse>("GetIdResponse")(
-  { IdentityId: S.optional(S.String) },
-  ns,
-) {}
-export class MappingRule extends S.Class<MappingRule>("MappingRule")({
-  Claim: S.String,
-  MatchType: S.String,
-  Value: S.String,
-  RoleARN: S.String,
-}) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetCredentialsForIdentityInput",
+}) as any as S.Schema<GetCredentialsForIdentityInput>;
+export interface GetIdResponse {
+  IdentityId?: string;
+}
+export const GetIdResponse = S.suspend(() =>
+  S.Struct({ IdentityId: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "GetIdResponse",
+}) as any as S.Schema<GetIdResponse>;
+export interface MappingRule {
+  Claim: string;
+  MatchType: string;
+  Value: string;
+  RoleARN: string;
+}
+export const MappingRule = S.suspend(() =>
+  S.Struct({
+    Claim: S.String,
+    MatchType: S.String,
+    Value: S.String,
+    RoleARN: S.String,
+  }),
+).annotations({ identifier: "MappingRule" }) as any as S.Schema<MappingRule>;
+export type MappingRulesList = MappingRule[];
 export const MappingRulesList = S.Array(MappingRule);
-export class RulesConfigurationType extends S.Class<RulesConfigurationType>(
-  "RulesConfigurationType",
-)({ Rules: MappingRulesList }) {}
-export class RoleMapping extends S.Class<RoleMapping>("RoleMapping")({
-  Type: S.String,
-  AmbiguousRoleResolution: S.optional(S.String),
-  RulesConfiguration: S.optional(RulesConfigurationType),
-}) {}
+export interface RulesConfigurationType {
+  Rules: MappingRulesList;
+}
+export const RulesConfigurationType = S.suspend(() =>
+  S.Struct({ Rules: MappingRulesList }),
+).annotations({
+  identifier: "RulesConfigurationType",
+}) as any as S.Schema<RulesConfigurationType>;
+export interface RoleMapping {
+  Type: string;
+  AmbiguousRoleResolution?: string;
+  RulesConfiguration?: RulesConfigurationType;
+}
+export const RoleMapping = S.suspend(() =>
+  S.Struct({
+    Type: S.String,
+    AmbiguousRoleResolution: S.optional(S.String),
+    RulesConfiguration: S.optional(RulesConfigurationType),
+  }),
+).annotations({ identifier: "RoleMapping" }) as any as S.Schema<RoleMapping>;
+export type RoleMappingMap = { [key: string]: RoleMapping };
 export const RoleMappingMap = S.Record({ key: S.String, value: RoleMapping });
-export class GetIdentityPoolRolesResponse extends S.Class<GetIdentityPoolRolesResponse>(
-  "GetIdentityPoolRolesResponse",
-)(
-  {
+export interface GetIdentityPoolRolesResponse {
+  IdentityPoolId?: string;
+  Roles?: RolesMap;
+  RoleMappings?: RoleMappingMap;
+}
+export const GetIdentityPoolRolesResponse = S.suspend(() =>
+  S.Struct({
     IdentityPoolId: S.optional(S.String),
     Roles: S.optional(RolesMap),
     RoleMappings: S.optional(RoleMappingMap),
-  },
-  ns,
-) {}
-export class GetOpenIdTokenResponse extends S.Class<GetOpenIdTokenResponse>(
-  "GetOpenIdTokenResponse",
-)({ IdentityId: S.optional(S.String), Token: S.optional(S.String) }, ns) {}
-export class GetOpenIdTokenForDeveloperIdentityInput extends S.Class<GetOpenIdTokenForDeveloperIdentityInput>(
-  "GetOpenIdTokenForDeveloperIdentityInput",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetIdentityPoolRolesResponse",
+}) as any as S.Schema<GetIdentityPoolRolesResponse>;
+export interface GetOpenIdTokenResponse {
+  IdentityId?: string;
+  Token?: string;
+}
+export const GetOpenIdTokenResponse = S.suspend(() =>
+  S.Struct({
+    IdentityId: S.optional(S.String),
+    Token: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "GetOpenIdTokenResponse",
+}) as any as S.Schema<GetOpenIdTokenResponse>;
+export interface GetOpenIdTokenForDeveloperIdentityInput {
+  IdentityPoolId: string;
+  IdentityId?: string;
+  Logins: LoginsMap;
+  PrincipalTags?: PrincipalTags;
+  TokenDuration?: number;
+}
+export const GetOpenIdTokenForDeveloperIdentityInput = S.suspend(() =>
+  S.Struct({
     IdentityPoolId: S.String,
     IdentityId: S.optional(S.String),
     Logins: LoginsMap,
     PrincipalTags: S.optional(PrincipalTags),
     TokenDuration: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetPrincipalTagAttributeMapResponse extends S.Class<GetPrincipalTagAttributeMapResponse>(
-  "GetPrincipalTagAttributeMapResponse",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetOpenIdTokenForDeveloperIdentityInput",
+}) as any as S.Schema<GetOpenIdTokenForDeveloperIdentityInput>;
+export interface GetPrincipalTagAttributeMapResponse {
+  IdentityPoolId?: string;
+  IdentityProviderName?: string;
+  UseDefaults?: boolean;
+  PrincipalTags?: PrincipalTags;
+}
+export const GetPrincipalTagAttributeMapResponse = S.suspend(() =>
+  S.Struct({
     IdentityPoolId: S.optional(S.String),
     IdentityProviderName: S.optional(S.String),
     UseDefaults: S.optional(S.Boolean),
     PrincipalTags: S.optional(PrincipalTags),
-  },
-  ns,
-) {}
-export class ListIdentitiesResponse extends S.Class<ListIdentitiesResponse>(
-  "ListIdentitiesResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetPrincipalTagAttributeMapResponse",
+}) as any as S.Schema<GetPrincipalTagAttributeMapResponse>;
+export interface ListIdentitiesResponse {
+  IdentityPoolId?: string;
+  Identities?: IdentitiesList;
+  NextToken?: string;
+}
+export const ListIdentitiesResponse = S.suspend(() =>
+  S.Struct({
     IdentityPoolId: S.optional(S.String),
     Identities: S.optional(IdentitiesList),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ Tags: S.optional(IdentityPoolTagsType) }, ns) {}
-export class LookupDeveloperIdentityResponse extends S.Class<LookupDeveloperIdentityResponse>(
-  "LookupDeveloperIdentityResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListIdentitiesResponse",
+}) as any as S.Schema<ListIdentitiesResponse>;
+export interface ListTagsForResourceResponse {
+  Tags?: IdentityPoolTagsType;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ Tags: S.optional(IdentityPoolTagsType) }).pipe(ns),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface LookupDeveloperIdentityResponse {
+  IdentityId?: string;
+  DeveloperUserIdentifierList?: DeveloperUserIdentifierList;
+  NextToken?: string;
+}
+export const LookupDeveloperIdentityResponse = S.suspend(() =>
+  S.Struct({
     IdentityId: S.optional(S.String),
     DeveloperUserIdentifierList: S.optional(DeveloperUserIdentifierList),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class MergeDeveloperIdentitiesResponse extends S.Class<MergeDeveloperIdentitiesResponse>(
-  "MergeDeveloperIdentitiesResponse",
-)({ IdentityId: S.optional(S.String) }, ns) {}
-export class SetPrincipalTagAttributeMapResponse extends S.Class<SetPrincipalTagAttributeMapResponse>(
-  "SetPrincipalTagAttributeMapResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "LookupDeveloperIdentityResponse",
+}) as any as S.Schema<LookupDeveloperIdentityResponse>;
+export interface MergeDeveloperIdentitiesResponse {
+  IdentityId?: string;
+}
+export const MergeDeveloperIdentitiesResponse = S.suspend(() =>
+  S.Struct({ IdentityId: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "MergeDeveloperIdentitiesResponse",
+}) as any as S.Schema<MergeDeveloperIdentitiesResponse>;
+export interface SetPrincipalTagAttributeMapResponse {
+  IdentityPoolId?: string;
+  IdentityProviderName?: string;
+  UseDefaults?: boolean;
+  PrincipalTags?: PrincipalTags;
+}
+export const SetPrincipalTagAttributeMapResponse = S.suspend(() =>
+  S.Struct({
     IdentityPoolId: S.optional(S.String),
     IdentityProviderName: S.optional(S.String),
     UseDefaults: S.optional(S.Boolean),
     PrincipalTags: S.optional(PrincipalTags),
-  },
-  ns,
-) {}
-export class UnprocessedIdentityId extends S.Class<UnprocessedIdentityId>(
-  "UnprocessedIdentityId",
-)({ IdentityId: S.optional(S.String), ErrorCode: S.optional(S.String) }) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "SetPrincipalTagAttributeMapResponse",
+}) as any as S.Schema<SetPrincipalTagAttributeMapResponse>;
+export interface UnprocessedIdentityId {
+  IdentityId?: string;
+  ErrorCode?: string;
+}
+export const UnprocessedIdentityId = S.suspend(() =>
+  S.Struct({
+    IdentityId: S.optional(S.String),
+    ErrorCode: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "UnprocessedIdentityId",
+}) as any as S.Schema<UnprocessedIdentityId>;
+export type UnprocessedIdentityIdList = UnprocessedIdentityId[];
 export const UnprocessedIdentityIdList = S.Array(UnprocessedIdentityId);
-export class IdentityPoolShortDescription extends S.Class<IdentityPoolShortDescription>(
-  "IdentityPoolShortDescription",
-)({
-  IdentityPoolId: S.optional(S.String),
-  IdentityPoolName: S.optional(S.String),
-}) {}
+export interface IdentityPoolShortDescription {
+  IdentityPoolId?: string;
+  IdentityPoolName?: string;
+}
+export const IdentityPoolShortDescription = S.suspend(() =>
+  S.Struct({
+    IdentityPoolId: S.optional(S.String),
+    IdentityPoolName: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "IdentityPoolShortDescription",
+}) as any as S.Schema<IdentityPoolShortDescription>;
+export type IdentityPoolsList = IdentityPoolShortDescription[];
 export const IdentityPoolsList = S.Array(IdentityPoolShortDescription);
-export class DeleteIdentitiesResponse extends S.Class<DeleteIdentitiesResponse>(
-  "DeleteIdentitiesResponse",
-)({ UnprocessedIdentityIds: S.optional(UnprocessedIdentityIdList) }, ns) {}
-export class GetOpenIdTokenForDeveloperIdentityResponse extends S.Class<GetOpenIdTokenForDeveloperIdentityResponse>(
-  "GetOpenIdTokenForDeveloperIdentityResponse",
-)({ IdentityId: S.optional(S.String), Token: S.optional(S.String) }, ns) {}
-export class ListIdentityPoolsResponse extends S.Class<ListIdentityPoolsResponse>(
-  "ListIdentityPoolsResponse",
-)(
-  {
+export interface DeleteIdentitiesResponse {
+  UnprocessedIdentityIds?: UnprocessedIdentityIdList;
+}
+export const DeleteIdentitiesResponse = S.suspend(() =>
+  S.Struct({
+    UnprocessedIdentityIds: S.optional(UnprocessedIdentityIdList),
+  }).pipe(ns),
+).annotations({
+  identifier: "DeleteIdentitiesResponse",
+}) as any as S.Schema<DeleteIdentitiesResponse>;
+export interface GetOpenIdTokenForDeveloperIdentityResponse {
+  IdentityId?: string;
+  Token?: string;
+}
+export const GetOpenIdTokenForDeveloperIdentityResponse = S.suspend(() =>
+  S.Struct({
+    IdentityId: S.optional(S.String),
+    Token: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "GetOpenIdTokenForDeveloperIdentityResponse",
+}) as any as S.Schema<GetOpenIdTokenForDeveloperIdentityResponse>;
+export interface ListIdentityPoolsResponse {
+  IdentityPools?: IdentityPoolsList;
+  NextToken?: string;
+}
+export const ListIdentityPoolsResponse = S.suspend(() =>
+  S.Struct({
     IdentityPools: S.optional(IdentityPoolsList),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class Credentials extends S.Class<Credentials>("Credentials")({
-  AccessKeyId: S.optional(S.String),
-  SecretKey: S.optional(S.String),
-  SessionToken: S.optional(S.String),
-  Expiration: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class GetCredentialsForIdentityResponse extends S.Class<GetCredentialsForIdentityResponse>(
-  "GetCredentialsForIdentityResponse",
-)(
-  { IdentityId: S.optional(S.String), Credentials: S.optional(Credentials) },
-  ns,
-) {}
-export class SetIdentityPoolRolesInput extends S.Class<SetIdentityPoolRolesInput>(
-  "SetIdentityPoolRolesInput",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListIdentityPoolsResponse",
+}) as any as S.Schema<ListIdentityPoolsResponse>;
+export interface Credentials {
+  AccessKeyId?: string;
+  SecretKey?: string;
+  SessionToken?: string;
+  Expiration?: Date;
+}
+export const Credentials = S.suspend(() =>
+  S.Struct({
+    AccessKeyId: S.optional(S.String),
+    SecretKey: S.optional(S.String),
+    SessionToken: S.optional(S.String),
+    Expiration: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({ identifier: "Credentials" }) as any as S.Schema<Credentials>;
+export interface GetCredentialsForIdentityResponse {
+  IdentityId?: string;
+  Credentials?: Credentials;
+}
+export const GetCredentialsForIdentityResponse = S.suspend(() =>
+  S.Struct({
+    IdentityId: S.optional(S.String),
+    Credentials: S.optional(Credentials),
+  }).pipe(ns),
+).annotations({
+  identifier: "GetCredentialsForIdentityResponse",
+}) as any as S.Schema<GetCredentialsForIdentityResponse>;
+export interface SetIdentityPoolRolesInput {
+  IdentityPoolId: string;
+  Roles: RolesMap;
+  RoleMappings?: RoleMappingMap;
+}
+export const SetIdentityPoolRolesInput = S.suspend(() =>
+  S.Struct({
     IdentityPoolId: S.String,
     Roles: RolesMap,
     RoleMappings: S.optional(RoleMappingMap),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class SetIdentityPoolRolesResponse extends S.Class<SetIdentityPoolRolesResponse>(
-  "SetIdentityPoolRolesResponse",
-)({}, ns) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "SetIdentityPoolRolesInput",
+}) as any as S.Schema<SetIdentityPoolRolesInput>;
+export interface SetIdentityPoolRolesResponse {}
+export const SetIdentityPoolRolesResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "SetIdentityPoolRolesResponse",
+}) as any as S.Schema<SetIdentityPoolRolesResponse>;
 
 //# Errors
 export class InternalErrorException extends S.TaggedError<InternalErrorException>()(

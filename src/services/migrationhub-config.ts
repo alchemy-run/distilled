@@ -242,64 +242,119 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class GetHomeRegionRequest extends S.Class<GetHomeRegionRequest>(
-  "GetHomeRegionRequest",
-)(
-  {},
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteHomeRegionControlRequest extends S.Class<DeleteHomeRegionControlRequest>(
-  "DeleteHomeRegionControlRequest",
-)(
-  { ControlId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteHomeRegionControlResult extends S.Class<DeleteHomeRegionControlResult>(
-  "DeleteHomeRegionControlResult",
-)({}) {}
-export class Target extends S.Class<Target>("Target")({
-  Type: S.String,
-  Id: S.optional(S.String),
-}) {}
-export class DescribeHomeRegionControlsRequest extends S.Class<DescribeHomeRegionControlsRequest>(
-  "DescribeHomeRegionControlsRequest",
-)(
-  {
+export interface GetHomeRegionRequest {}
+export const GetHomeRegionRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetHomeRegionRequest",
+}) as any as S.Schema<GetHomeRegionRequest>;
+export interface DeleteHomeRegionControlRequest {
+  ControlId: string;
+}
+export const DeleteHomeRegionControlRequest = S.suspend(() =>
+  S.Struct({ ControlId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteHomeRegionControlRequest",
+}) as any as S.Schema<DeleteHomeRegionControlRequest>;
+export interface DeleteHomeRegionControlResult {}
+export const DeleteHomeRegionControlResult = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteHomeRegionControlResult",
+}) as any as S.Schema<DeleteHomeRegionControlResult>;
+export interface Target {
+  Type: string;
+  Id?: string;
+}
+export const Target = S.suspend(() =>
+  S.Struct({ Type: S.String, Id: S.optional(S.String) }),
+).annotations({ identifier: "Target" }) as any as S.Schema<Target>;
+export interface DescribeHomeRegionControlsRequest {
+  ControlId?: string;
+  HomeRegion?: string;
+  Target?: Target;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const DescribeHomeRegionControlsRequest = S.suspend(() =>
+  S.Struct({
     ControlId: S.optional(S.String),
     HomeRegion: S.optional(S.String),
     Target: S.optional(Target),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetHomeRegionResult extends S.Class<GetHomeRegionResult>(
-  "GetHomeRegionResult",
-)({ HomeRegion: S.optional(S.String) }) {}
-export class CreateHomeRegionControlRequest extends S.Class<CreateHomeRegionControlRequest>(
-  "CreateHomeRegionControlRequest",
-)(
-  { HomeRegion: S.String, Target: Target, DryRun: S.optional(S.Boolean) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class HomeRegionControl extends S.Class<HomeRegionControl>(
-  "HomeRegionControl",
-)({
-  ControlId: S.optional(S.String),
-  HomeRegion: S.optional(S.String),
-  Target: S.optional(Target),
-  RequestedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeHomeRegionControlsRequest",
+}) as any as S.Schema<DescribeHomeRegionControlsRequest>;
+export interface GetHomeRegionResult {
+  HomeRegion?: string;
+}
+export const GetHomeRegionResult = S.suspend(() =>
+  S.Struct({ HomeRegion: S.optional(S.String) }),
+).annotations({
+  identifier: "GetHomeRegionResult",
+}) as any as S.Schema<GetHomeRegionResult>;
+export interface CreateHomeRegionControlRequest {
+  HomeRegion: string;
+  Target: Target;
+  DryRun?: boolean;
+}
+export const CreateHomeRegionControlRequest = S.suspend(() =>
+  S.Struct({
+    HomeRegion: S.String,
+    Target: Target,
+    DryRun: S.optional(S.Boolean),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateHomeRegionControlRequest",
+}) as any as S.Schema<CreateHomeRegionControlRequest>;
+export interface HomeRegionControl {
+  ControlId?: string;
+  HomeRegion?: string;
+  Target?: Target;
+  RequestedTime?: Date;
+}
+export const HomeRegionControl = S.suspend(() =>
+  S.Struct({
+    ControlId: S.optional(S.String),
+    HomeRegion: S.optional(S.String),
+    Target: S.optional(Target),
+    RequestedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "HomeRegionControl",
+}) as any as S.Schema<HomeRegionControl>;
+export type HomeRegionControls = HomeRegionControl[];
 export const HomeRegionControls = S.Array(HomeRegionControl);
-export class CreateHomeRegionControlResult extends S.Class<CreateHomeRegionControlResult>(
-  "CreateHomeRegionControlResult",
-)({ HomeRegionControl: S.optional(HomeRegionControl) }) {}
-export class DescribeHomeRegionControlsResult extends S.Class<DescribeHomeRegionControlsResult>(
-  "DescribeHomeRegionControlsResult",
-)({
-  HomeRegionControls: S.optional(HomeRegionControls),
-  NextToken: S.optional(S.String),
-}) {}
+export interface CreateHomeRegionControlResult {
+  HomeRegionControl?: HomeRegionControl;
+}
+export const CreateHomeRegionControlResult = S.suspend(() =>
+  S.Struct({ HomeRegionControl: S.optional(HomeRegionControl) }),
+).annotations({
+  identifier: "CreateHomeRegionControlResult",
+}) as any as S.Schema<CreateHomeRegionControlResult>;
+export interface DescribeHomeRegionControlsResult {
+  HomeRegionControls?: HomeRegionControls;
+  NextToken?: string;
+}
+export const DescribeHomeRegionControlsResult = S.suspend(() =>
+  S.Struct({
+    HomeRegionControls: S.optional(HomeRegionControls),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DescribeHomeRegionControlsResult",
+}) as any as S.Schema<DescribeHomeRegionControlsResult>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

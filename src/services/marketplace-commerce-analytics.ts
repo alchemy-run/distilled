@@ -242,14 +242,22 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type CustomerDefinedValues = { [key: string]: string };
 export const CustomerDefinedValues = S.Record({
   key: S.String,
   value: S.String,
 });
-export class StartSupportDataExportRequest extends S.Class<StartSupportDataExportRequest>(
-  "StartSupportDataExportRequest",
-)(
-  {
+export interface StartSupportDataExportRequest {
+  dataSetType: string;
+  fromDate: Date;
+  roleNameArn: string;
+  destinationS3BucketName: string;
+  destinationS3Prefix?: string;
+  snsTopicArn: string;
+  customerDefinedValues?: CustomerDefinedValues;
+}
+export const StartSupportDataExportRequest = S.suspend(() =>
+  S.Struct({
     dataSetType: S.String,
     fromDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     roleNameArn: S.String,
@@ -257,13 +265,23 @@ export class StartSupportDataExportRequest extends S.Class<StartSupportDataExpor
     destinationS3Prefix: S.optional(S.String),
     snsTopicArn: S.String,
     customerDefinedValues: S.optional(CustomerDefinedValues),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GenerateDataSetRequest extends S.Class<GenerateDataSetRequest>(
-  "GenerateDataSetRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StartSupportDataExportRequest",
+}) as any as S.Schema<StartSupportDataExportRequest>;
+export interface GenerateDataSetRequest {
+  dataSetType: string;
+  dataSetPublicationDate: Date;
+  roleNameArn: string;
+  destinationS3BucketName: string;
+  destinationS3Prefix?: string;
+  snsTopicArn: string;
+  customerDefinedValues?: CustomerDefinedValues;
+}
+export const GenerateDataSetRequest = S.suspend(() =>
+  S.Struct({
     dataSetType: S.String,
     dataSetPublicationDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     roleNameArn: S.String,
@@ -271,15 +289,28 @@ export class GenerateDataSetRequest extends S.Class<GenerateDataSetRequest>(
     destinationS3Prefix: S.optional(S.String),
     snsTopicArn: S.String,
     customerDefinedValues: S.optional(CustomerDefinedValues),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StartSupportDataExportResult extends S.Class<StartSupportDataExportResult>(
-  "StartSupportDataExportResult",
-)({ dataSetRequestId: S.optional(S.String) }) {}
-export class GenerateDataSetResult extends S.Class<GenerateDataSetResult>(
-  "GenerateDataSetResult",
-)({ dataSetRequestId: S.optional(S.String) }) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GenerateDataSetRequest",
+}) as any as S.Schema<GenerateDataSetRequest>;
+export interface StartSupportDataExportResult {
+  dataSetRequestId?: string;
+}
+export const StartSupportDataExportResult = S.suspend(() =>
+  S.Struct({ dataSetRequestId: S.optional(S.String) }),
+).annotations({
+  identifier: "StartSupportDataExportResult",
+}) as any as S.Schema<StartSupportDataExportResult>;
+export interface GenerateDataSetResult {
+  dataSetRequestId?: string;
+}
+export const GenerateDataSetResult = S.suspend(() =>
+  S.Struct({ dataSetRequestId: S.optional(S.String) }),
+).annotations({
+  identifier: "GenerateDataSetResult",
+}) as any as S.Schema<GenerateDataSetResult>;
 
 //# Errors
 export class MarketplaceCommerceAnalyticsException extends S.TaggedError<MarketplaceCommerceAnalyticsException>()(

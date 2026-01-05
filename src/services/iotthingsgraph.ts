@@ -262,333 +262,587 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class DeleteNamespaceRequest extends S.Class<DeleteNamespaceRequest>(
-  "DeleteNamespaceRequest",
-)(
-  {},
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetNamespaceDeletionStatusRequest extends S.Class<GetNamespaceDeletionStatusRequest>(
-  "GetNamespaceDeletionStatusRequest",
-)(
-  {},
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+export interface DeleteNamespaceRequest {}
+export const DeleteNamespaceRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteNamespaceRequest",
+}) as any as S.Schema<DeleteNamespaceRequest>;
+export interface GetNamespaceDeletionStatusRequest {}
+export const GetNamespaceDeletionStatusRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetNamespaceDeletionStatusRequest",
+}) as any as S.Schema<GetNamespaceDeletionStatusRequest>;
+export type Urns = string[];
 export const Urns = S.Array(S.String);
+export type EntityTypes = string[];
 export const EntityTypes = S.Array(S.String);
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class AssociateEntityToThingRequest extends S.Class<AssociateEntityToThingRequest>(
-  "AssociateEntityToThingRequest",
-)(
-  {
+export interface AssociateEntityToThingRequest {
+  thingName: string;
+  entityId: string;
+  namespaceVersion?: number;
+}
+export const AssociateEntityToThingRequest = S.suspend(() =>
+  S.Struct({
     thingName: S.String,
     entityId: S.String,
     namespaceVersion: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class AssociateEntityToThingResponse extends S.Class<AssociateEntityToThingResponse>(
-  "AssociateEntityToThingResponse",
-)({}) {}
-export class DefinitionDocument extends S.Class<DefinitionDocument>(
-  "DefinitionDocument",
-)({ language: S.String, text: S.String }) {}
-export class CreateSystemTemplateRequest extends S.Class<CreateSystemTemplateRequest>(
-  "CreateSystemTemplateRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "AssociateEntityToThingRequest",
+}) as any as S.Schema<AssociateEntityToThingRequest>;
+export interface AssociateEntityToThingResponse {}
+export const AssociateEntityToThingResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "AssociateEntityToThingResponse",
+}) as any as S.Schema<AssociateEntityToThingResponse>;
+export interface DefinitionDocument {
+  language: string;
+  text: string;
+}
+export const DefinitionDocument = S.suspend(() =>
+  S.Struct({ language: S.String, text: S.String }),
+).annotations({
+  identifier: "DefinitionDocument",
+}) as any as S.Schema<DefinitionDocument>;
+export interface CreateSystemTemplateRequest {
+  definition: DefinitionDocument;
+  compatibleNamespaceVersion?: number;
+}
+export const CreateSystemTemplateRequest = S.suspend(() =>
+  S.Struct({
     definition: DefinitionDocument,
     compatibleNamespaceVersion: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteFlowTemplateRequest extends S.Class<DeleteFlowTemplateRequest>(
-  "DeleteFlowTemplateRequest",
-)(
-  { id: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteFlowTemplateResponse extends S.Class<DeleteFlowTemplateResponse>(
-  "DeleteFlowTemplateResponse",
-)({}) {}
-export class DeleteNamespaceResponse extends S.Class<DeleteNamespaceResponse>(
-  "DeleteNamespaceResponse",
-)({
-  namespaceArn: S.optional(S.String),
-  namespaceName: S.optional(S.String),
-}) {}
-export class DeleteSystemInstanceRequest extends S.Class<DeleteSystemInstanceRequest>(
-  "DeleteSystemInstanceRequest",
-)(
-  { id: S.optional(S.String) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteSystemInstanceResponse extends S.Class<DeleteSystemInstanceResponse>(
-  "DeleteSystemInstanceResponse",
-)({}) {}
-export class DeleteSystemTemplateRequest extends S.Class<DeleteSystemTemplateRequest>(
-  "DeleteSystemTemplateRequest",
-)(
-  { id: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteSystemTemplateResponse extends S.Class<DeleteSystemTemplateResponse>(
-  "DeleteSystemTemplateResponse",
-)({}) {}
-export class DeploySystemInstanceRequest extends S.Class<DeploySystemInstanceRequest>(
-  "DeploySystemInstanceRequest",
-)(
-  { id: S.optional(S.String) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeprecateFlowTemplateRequest extends S.Class<DeprecateFlowTemplateRequest>(
-  "DeprecateFlowTemplateRequest",
-)(
-  { id: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeprecateFlowTemplateResponse extends S.Class<DeprecateFlowTemplateResponse>(
-  "DeprecateFlowTemplateResponse",
-)({}) {}
-export class DeprecateSystemTemplateRequest extends S.Class<DeprecateSystemTemplateRequest>(
-  "DeprecateSystemTemplateRequest",
-)(
-  { id: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeprecateSystemTemplateResponse extends S.Class<DeprecateSystemTemplateResponse>(
-  "DeprecateSystemTemplateResponse",
-)({}) {}
-export class DescribeNamespaceRequest extends S.Class<DescribeNamespaceRequest>(
-  "DescribeNamespaceRequest",
-)(
-  { namespaceName: S.optional(S.String) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DissociateEntityFromThingRequest extends S.Class<DissociateEntityFromThingRequest>(
-  "DissociateEntityFromThingRequest",
-)(
-  { thingName: S.String, entityType: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DissociateEntityFromThingResponse extends S.Class<DissociateEntityFromThingResponse>(
-  "DissociateEntityFromThingResponse",
-)({}) {}
-export class GetEntitiesRequest extends S.Class<GetEntitiesRequest>(
-  "GetEntitiesRequest",
-)(
-  { ids: Urns, namespaceVersion: S.optional(S.Number) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetFlowTemplateRequest extends S.Class<GetFlowTemplateRequest>(
-  "GetFlowTemplateRequest",
-)(
-  { id: S.String, revisionNumber: S.optional(S.Number) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetFlowTemplateRevisionsRequest extends S.Class<GetFlowTemplateRevisionsRequest>(
-  "GetFlowTemplateRevisionsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateSystemTemplateRequest",
+}) as any as S.Schema<CreateSystemTemplateRequest>;
+export interface DeleteFlowTemplateRequest {
+  id: string;
+}
+export const DeleteFlowTemplateRequest = S.suspend(() =>
+  S.Struct({ id: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteFlowTemplateRequest",
+}) as any as S.Schema<DeleteFlowTemplateRequest>;
+export interface DeleteFlowTemplateResponse {}
+export const DeleteFlowTemplateResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteFlowTemplateResponse",
+}) as any as S.Schema<DeleteFlowTemplateResponse>;
+export interface DeleteNamespaceResponse {
+  namespaceArn?: string;
+  namespaceName?: string;
+}
+export const DeleteNamespaceResponse = S.suspend(() =>
+  S.Struct({
+    namespaceArn: S.optional(S.String),
+    namespaceName: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DeleteNamespaceResponse",
+}) as any as S.Schema<DeleteNamespaceResponse>;
+export interface DeleteSystemInstanceRequest {
+  id?: string;
+}
+export const DeleteSystemInstanceRequest = S.suspend(() =>
+  S.Struct({ id: S.optional(S.String) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteSystemInstanceRequest",
+}) as any as S.Schema<DeleteSystemInstanceRequest>;
+export interface DeleteSystemInstanceResponse {}
+export const DeleteSystemInstanceResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteSystemInstanceResponse",
+}) as any as S.Schema<DeleteSystemInstanceResponse>;
+export interface DeleteSystemTemplateRequest {
+  id: string;
+}
+export const DeleteSystemTemplateRequest = S.suspend(() =>
+  S.Struct({ id: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteSystemTemplateRequest",
+}) as any as S.Schema<DeleteSystemTemplateRequest>;
+export interface DeleteSystemTemplateResponse {}
+export const DeleteSystemTemplateResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteSystemTemplateResponse",
+}) as any as S.Schema<DeleteSystemTemplateResponse>;
+export interface DeploySystemInstanceRequest {
+  id?: string;
+}
+export const DeploySystemInstanceRequest = S.suspend(() =>
+  S.Struct({ id: S.optional(S.String) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeploySystemInstanceRequest",
+}) as any as S.Schema<DeploySystemInstanceRequest>;
+export interface DeprecateFlowTemplateRequest {
+  id: string;
+}
+export const DeprecateFlowTemplateRequest = S.suspend(() =>
+  S.Struct({ id: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeprecateFlowTemplateRequest",
+}) as any as S.Schema<DeprecateFlowTemplateRequest>;
+export interface DeprecateFlowTemplateResponse {}
+export const DeprecateFlowTemplateResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeprecateFlowTemplateResponse",
+}) as any as S.Schema<DeprecateFlowTemplateResponse>;
+export interface DeprecateSystemTemplateRequest {
+  id: string;
+}
+export const DeprecateSystemTemplateRequest = S.suspend(() =>
+  S.Struct({ id: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeprecateSystemTemplateRequest",
+}) as any as S.Schema<DeprecateSystemTemplateRequest>;
+export interface DeprecateSystemTemplateResponse {}
+export const DeprecateSystemTemplateResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeprecateSystemTemplateResponse",
+}) as any as S.Schema<DeprecateSystemTemplateResponse>;
+export interface DescribeNamespaceRequest {
+  namespaceName?: string;
+}
+export const DescribeNamespaceRequest = S.suspend(() =>
+  S.Struct({ namespaceName: S.optional(S.String) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeNamespaceRequest",
+}) as any as S.Schema<DescribeNamespaceRequest>;
+export interface DissociateEntityFromThingRequest {
+  thingName: string;
+  entityType: string;
+}
+export const DissociateEntityFromThingRequest = S.suspend(() =>
+  S.Struct({ thingName: S.String, entityType: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DissociateEntityFromThingRequest",
+}) as any as S.Schema<DissociateEntityFromThingRequest>;
+export interface DissociateEntityFromThingResponse {}
+export const DissociateEntityFromThingResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DissociateEntityFromThingResponse",
+}) as any as S.Schema<DissociateEntityFromThingResponse>;
+export interface GetEntitiesRequest {
+  ids: Urns;
+  namespaceVersion?: number;
+}
+export const GetEntitiesRequest = S.suspend(() =>
+  S.Struct({ ids: Urns, namespaceVersion: S.optional(S.Number) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetEntitiesRequest",
+}) as any as S.Schema<GetEntitiesRequest>;
+export interface GetFlowTemplateRequest {
+  id: string;
+  revisionNumber?: number;
+}
+export const GetFlowTemplateRequest = S.suspend(() =>
+  S.Struct({ id: S.String, revisionNumber: S.optional(S.Number) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetFlowTemplateRequest",
+}) as any as S.Schema<GetFlowTemplateRequest>;
+export interface GetFlowTemplateRevisionsRequest {
+  id: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const GetFlowTemplateRevisionsRequest = S.suspend(() =>
+  S.Struct({
     id: S.String,
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetNamespaceDeletionStatusResponse extends S.Class<GetNamespaceDeletionStatusResponse>(
-  "GetNamespaceDeletionStatusResponse",
-)({
-  namespaceArn: S.optional(S.String),
-  namespaceName: S.optional(S.String),
-  status: S.optional(S.String),
-  errorCode: S.optional(S.String),
-  errorMessage: S.optional(S.String),
-}) {}
-export class GetSystemInstanceRequest extends S.Class<GetSystemInstanceRequest>(
-  "GetSystemInstanceRequest",
-)(
-  { id: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetSystemTemplateRequest extends S.Class<GetSystemTemplateRequest>(
-  "GetSystemTemplateRequest",
-)(
-  { id: S.String, revisionNumber: S.optional(S.Number) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetSystemTemplateRevisionsRequest extends S.Class<GetSystemTemplateRevisionsRequest>(
-  "GetSystemTemplateRevisionsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetFlowTemplateRevisionsRequest",
+}) as any as S.Schema<GetFlowTemplateRevisionsRequest>;
+export interface GetNamespaceDeletionStatusResponse {
+  namespaceArn?: string;
+  namespaceName?: string;
+  status?: string;
+  errorCode?: string;
+  errorMessage?: string;
+}
+export const GetNamespaceDeletionStatusResponse = S.suspend(() =>
+  S.Struct({
+    namespaceArn: S.optional(S.String),
+    namespaceName: S.optional(S.String),
+    status: S.optional(S.String),
+    errorCode: S.optional(S.String),
+    errorMessage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetNamespaceDeletionStatusResponse",
+}) as any as S.Schema<GetNamespaceDeletionStatusResponse>;
+export interface GetSystemInstanceRequest {
+  id: string;
+}
+export const GetSystemInstanceRequest = S.suspend(() =>
+  S.Struct({ id: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetSystemInstanceRequest",
+}) as any as S.Schema<GetSystemInstanceRequest>;
+export interface GetSystemTemplateRequest {
+  id: string;
+  revisionNumber?: number;
+}
+export const GetSystemTemplateRequest = S.suspend(() =>
+  S.Struct({ id: S.String, revisionNumber: S.optional(S.Number) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetSystemTemplateRequest",
+}) as any as S.Schema<GetSystemTemplateRequest>;
+export interface GetSystemTemplateRevisionsRequest {
+  id: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const GetSystemTemplateRevisionsRequest = S.suspend(() =>
+  S.Struct({
     id: S.String,
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetUploadStatusRequest extends S.Class<GetUploadStatusRequest>(
-  "GetUploadStatusRequest",
-)(
-  { uploadId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListFlowExecutionMessagesRequest extends S.Class<ListFlowExecutionMessagesRequest>(
-  "ListFlowExecutionMessagesRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetSystemTemplateRevisionsRequest",
+}) as any as S.Schema<GetSystemTemplateRevisionsRequest>;
+export interface GetUploadStatusRequest {
+  uploadId: string;
+}
+export const GetUploadStatusRequest = S.suspend(() =>
+  S.Struct({ uploadId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetUploadStatusRequest",
+}) as any as S.Schema<GetUploadStatusRequest>;
+export interface ListFlowExecutionMessagesRequest {
+  flowExecutionId: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListFlowExecutionMessagesRequest = S.suspend(() =>
+  S.Struct({
     flowExecutionId: S.String,
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListFlowExecutionMessagesRequest",
+}) as any as S.Schema<ListFlowExecutionMessagesRequest>;
+export interface ListTagsForResourceRequest {
+  maxResults?: number;
+  resourceArn: string;
+  nextToken?: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({
     maxResults: S.optional(S.Number),
     resourceArn: S.String,
     nextToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class SearchFlowExecutionsRequest extends S.Class<SearchFlowExecutionsRequest>(
-  "SearchFlowExecutionsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface SearchFlowExecutionsRequest {
+  systemInstanceId: string;
+  flowExecutionId?: string;
+  startTime?: Date;
+  endTime?: Date;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const SearchFlowExecutionsRequest = S.suspend(() =>
+  S.Struct({
     systemInstanceId: S.String,
     flowExecutionId: S.optional(S.String),
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class SearchThingsRequest extends S.Class<SearchThingsRequest>(
-  "SearchThingsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "SearchFlowExecutionsRequest",
+}) as any as S.Schema<SearchFlowExecutionsRequest>;
+export interface SearchThingsRequest {
+  entityId: string;
+  nextToken?: string;
+  maxResults?: number;
+  namespaceVersion?: number;
+}
+export const SearchThingsRequest = S.suspend(() =>
+  S.Struct({
     entityId: S.String,
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
     namespaceVersion: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class Tag extends S.Class<Tag>("Tag")({
-  key: S.String,
-  value: S.String,
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "SearchThingsRequest",
+}) as any as S.Schema<SearchThingsRequest>;
+export interface Tag {
+  key: string;
+  value: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ key: S.String, value: S.String }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagList = Tag[];
 export const TagList = S.Array(Tag);
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { resourceArn: S.String, tags: TagList },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class UndeploySystemInstanceRequest extends S.Class<UndeploySystemInstanceRequest>(
-  "UndeploySystemInstanceRequest",
-)(
-  { id: S.optional(S.String) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  { resourceArn: S.String, tagKeys: TagKeyList },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
-export class UpdateFlowTemplateRequest extends S.Class<UpdateFlowTemplateRequest>(
-  "UpdateFlowTemplateRequest",
-)(
-  {
+export interface TagResourceRequest {
+  resourceArn: string;
+  tags: TagList;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String, tags: TagList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UndeploySystemInstanceRequest {
+  id?: string;
+}
+export const UndeploySystemInstanceRequest = S.suspend(() =>
+  S.Struct({ id: S.optional(S.String) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UndeploySystemInstanceRequest",
+}) as any as S.Schema<UndeploySystemInstanceRequest>;
+export interface UntagResourceRequest {
+  resourceArn: string;
+  tagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String, tagKeys: TagKeyList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface UpdateFlowTemplateRequest {
+  id: string;
+  definition: DefinitionDocument;
+  compatibleNamespaceVersion?: number;
+}
+export const UpdateFlowTemplateRequest = S.suspend(() =>
+  S.Struct({
     id: S.String,
     definition: DefinitionDocument,
     compatibleNamespaceVersion: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateSystemTemplateRequest extends S.Class<UpdateSystemTemplateRequest>(
-  "UpdateSystemTemplateRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateFlowTemplateRequest",
+}) as any as S.Schema<UpdateFlowTemplateRequest>;
+export interface UpdateSystemTemplateRequest {
+  id: string;
+  definition: DefinitionDocument;
+  compatibleNamespaceVersion?: number;
+}
+export const UpdateSystemTemplateRequest = S.suspend(() =>
+  S.Struct({
     id: S.String,
     definition: DefinitionDocument,
     compatibleNamespaceVersion: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UploadEntityDefinitionsRequest extends S.Class<UploadEntityDefinitionsRequest>(
-  "UploadEntityDefinitionsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateSystemTemplateRequest",
+}) as any as S.Schema<UpdateSystemTemplateRequest>;
+export interface UploadEntityDefinitionsRequest {
+  document?: DefinitionDocument;
+  syncWithPublicNamespace?: boolean;
+  deprecateExistingEntities?: boolean;
+}
+export const UploadEntityDefinitionsRequest = S.suspend(() =>
+  S.Struct({
     document: S.optional(DefinitionDocument),
     syncWithPublicNamespace: S.optional(S.Boolean),
     deprecateExistingEntities: S.optional(S.Boolean),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UploadEntityDefinitionsRequest",
+}) as any as S.Schema<UploadEntityDefinitionsRequest>;
+export type EntityFilterValues = string[];
 export const EntityFilterValues = S.Array(S.String);
+export type FlowTemplateFilterValues = string[];
 export const FlowTemplateFilterValues = S.Array(S.String);
+export type SystemInstanceFilterValues = string[];
 export const SystemInstanceFilterValues = S.Array(S.String);
+export type SystemTemplateFilterValues = string[];
 export const SystemTemplateFilterValues = S.Array(S.String);
-export class MetricsConfiguration extends S.Class<MetricsConfiguration>(
-  "MetricsConfiguration",
-)({
-  cloudMetricEnabled: S.optional(S.Boolean),
-  metricRuleRoleArn: S.optional(S.String),
-}) {}
-export class SystemTemplateSummary extends S.Class<SystemTemplateSummary>(
-  "SystemTemplateSummary",
-)({
-  id: S.optional(S.String),
-  arn: S.optional(S.String),
-  revisionNumber: S.optional(S.Number),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface MetricsConfiguration {
+  cloudMetricEnabled?: boolean;
+  metricRuleRoleArn?: string;
+}
+export const MetricsConfiguration = S.suspend(() =>
+  S.Struct({
+    cloudMetricEnabled: S.optional(S.Boolean),
+    metricRuleRoleArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "MetricsConfiguration",
+}) as any as S.Schema<MetricsConfiguration>;
+export interface SystemTemplateSummary {
+  id?: string;
+  arn?: string;
+  revisionNumber?: number;
+  createdAt?: Date;
+}
+export const SystemTemplateSummary = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    arn: S.optional(S.String),
+    revisionNumber: S.optional(S.Number),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "SystemTemplateSummary",
+}) as any as S.Schema<SystemTemplateSummary>;
+export type SystemTemplateSummaries = SystemTemplateSummary[];
 export const SystemTemplateSummaries = S.Array(SystemTemplateSummary);
+export type StringList = string[];
 export const StringList = S.Array(S.String);
-export class EntityFilter extends S.Class<EntityFilter>("EntityFilter")({
-  name: S.optional(S.String),
-  value: S.optional(EntityFilterValues),
-}) {}
+export interface EntityFilter {
+  name?: string;
+  value?: EntityFilterValues;
+}
+export const EntityFilter = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    value: S.optional(EntityFilterValues),
+  }),
+).annotations({ identifier: "EntityFilter" }) as any as S.Schema<EntityFilter>;
+export type EntityFilters = EntityFilter[];
 export const EntityFilters = S.Array(EntityFilter);
-export class FlowTemplateFilter extends S.Class<FlowTemplateFilter>(
-  "FlowTemplateFilter",
-)({ name: S.String, value: FlowTemplateFilterValues }) {}
+export interface FlowTemplateFilter {
+  name: string;
+  value: FlowTemplateFilterValues;
+}
+export const FlowTemplateFilter = S.suspend(() =>
+  S.Struct({ name: S.String, value: FlowTemplateFilterValues }),
+).annotations({
+  identifier: "FlowTemplateFilter",
+}) as any as S.Schema<FlowTemplateFilter>;
+export type FlowTemplateFilters = FlowTemplateFilter[];
 export const FlowTemplateFilters = S.Array(FlowTemplateFilter);
-export class SystemInstanceFilter extends S.Class<SystemInstanceFilter>(
-  "SystemInstanceFilter",
-)({
-  name: S.optional(S.String),
-  value: S.optional(SystemInstanceFilterValues),
-}) {}
+export interface SystemInstanceFilter {
+  name?: string;
+  value?: SystemInstanceFilterValues;
+}
+export const SystemInstanceFilter = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    value: S.optional(SystemInstanceFilterValues),
+  }),
+).annotations({
+  identifier: "SystemInstanceFilter",
+}) as any as S.Schema<SystemInstanceFilter>;
+export type SystemInstanceFilters = SystemInstanceFilter[];
 export const SystemInstanceFilters = S.Array(SystemInstanceFilter);
-export class SystemTemplateFilter extends S.Class<SystemTemplateFilter>(
-  "SystemTemplateFilter",
-)({ name: S.String, value: SystemTemplateFilterValues }) {}
+export interface SystemTemplateFilter {
+  name: string;
+  value: SystemTemplateFilterValues;
+}
+export const SystemTemplateFilter = S.suspend(() =>
+  S.Struct({ name: S.String, value: SystemTemplateFilterValues }),
+).annotations({
+  identifier: "SystemTemplateFilter",
+}) as any as S.Schema<SystemTemplateFilter>;
+export type SystemTemplateFilters = SystemTemplateFilter[];
 export const SystemTemplateFilters = S.Array(SystemTemplateFilter);
-export class CreateFlowTemplateRequest extends S.Class<CreateFlowTemplateRequest>(
-  "CreateFlowTemplateRequest",
-)(
-  {
+export interface CreateFlowTemplateRequest {
+  definition: DefinitionDocument;
+  compatibleNamespaceVersion?: number;
+}
+export const CreateFlowTemplateRequest = S.suspend(() =>
+  S.Struct({
     definition: DefinitionDocument,
     compatibleNamespaceVersion: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateSystemInstanceRequest extends S.Class<CreateSystemInstanceRequest>(
-  "CreateSystemInstanceRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateFlowTemplateRequest",
+}) as any as S.Schema<CreateFlowTemplateRequest>;
+export interface CreateSystemInstanceRequest {
+  tags?: TagList;
+  definition: DefinitionDocument;
+  target: string;
+  greengrassGroupName?: string;
+  s3BucketName?: string;
+  metricsConfiguration?: MetricsConfiguration;
+  flowActionsRoleArn?: string;
+}
+export const CreateSystemInstanceRequest = S.suspend(() =>
+  S.Struct({
     tags: S.optional(TagList),
     definition: DefinitionDocument,
     target: S.String,
@@ -596,251 +850,510 @@ export class CreateSystemInstanceRequest extends S.Class<CreateSystemInstanceReq
     s3BucketName: S.optional(S.String),
     metricsConfiguration: S.optional(MetricsConfiguration),
     flowActionsRoleArn: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeNamespaceResponse extends S.Class<DescribeNamespaceResponse>(
-  "DescribeNamespaceResponse",
-)({
-  namespaceArn: S.optional(S.String),
-  namespaceName: S.optional(S.String),
-  trackingNamespaceName: S.optional(S.String),
-  trackingNamespaceVersion: S.optional(S.Number),
-  namespaceVersion: S.optional(S.Number),
-}) {}
-export class GetSystemTemplateRevisionsResponse extends S.Class<GetSystemTemplateRevisionsResponse>(
-  "GetSystemTemplateRevisionsResponse",
-)({
-  summaries: S.optional(SystemTemplateSummaries),
-  nextToken: S.optional(S.String),
-}) {}
-export class GetUploadStatusResponse extends S.Class<GetUploadStatusResponse>(
-  "GetUploadStatusResponse",
-)({
-  uploadId: S.String,
-  uploadStatus: S.String,
-  namespaceArn: S.optional(S.String),
-  namespaceName: S.optional(S.String),
-  namespaceVersion: S.optional(S.Number),
-  failureReason: S.optional(StringList),
-  createdDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-}) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ tags: S.optional(TagList), nextToken: S.optional(S.String) }) {}
-export class SearchEntitiesRequest extends S.Class<SearchEntitiesRequest>(
-  "SearchEntitiesRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateSystemInstanceRequest",
+}) as any as S.Schema<CreateSystemInstanceRequest>;
+export interface DescribeNamespaceResponse {
+  namespaceArn?: string;
+  namespaceName?: string;
+  trackingNamespaceName?: string;
+  trackingNamespaceVersion?: number;
+  namespaceVersion?: number;
+}
+export const DescribeNamespaceResponse = S.suspend(() =>
+  S.Struct({
+    namespaceArn: S.optional(S.String),
+    namespaceName: S.optional(S.String),
+    trackingNamespaceName: S.optional(S.String),
+    trackingNamespaceVersion: S.optional(S.Number),
+    namespaceVersion: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "DescribeNamespaceResponse",
+}) as any as S.Schema<DescribeNamespaceResponse>;
+export interface GetSystemTemplateRevisionsResponse {
+  summaries?: SystemTemplateSummaries;
+  nextToken?: string;
+}
+export const GetSystemTemplateRevisionsResponse = S.suspend(() =>
+  S.Struct({
+    summaries: S.optional(SystemTemplateSummaries),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetSystemTemplateRevisionsResponse",
+}) as any as S.Schema<GetSystemTemplateRevisionsResponse>;
+export interface GetUploadStatusResponse {
+  uploadId: string;
+  uploadStatus: string;
+  namespaceArn?: string;
+  namespaceName?: string;
+  namespaceVersion?: number;
+  failureReason?: StringList;
+  createdDate: Date;
+}
+export const GetUploadStatusResponse = S.suspend(() =>
+  S.Struct({
+    uploadId: S.String,
+    uploadStatus: S.String,
+    namespaceArn: S.optional(S.String),
+    namespaceName: S.optional(S.String),
+    namespaceVersion: S.optional(S.Number),
+    failureReason: S.optional(StringList),
+    createdDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotations({
+  identifier: "GetUploadStatusResponse",
+}) as any as S.Schema<GetUploadStatusResponse>;
+export interface ListTagsForResourceResponse {
+  tags?: TagList;
+  nextToken?: string;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ tags: S.optional(TagList), nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface SearchEntitiesRequest {
+  entityTypes: EntityTypes;
+  filters?: EntityFilters;
+  nextToken?: string;
+  maxResults?: number;
+  namespaceVersion?: number;
+}
+export const SearchEntitiesRequest = S.suspend(() =>
+  S.Struct({
     entityTypes: EntityTypes,
     filters: S.optional(EntityFilters),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
     namespaceVersion: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class SearchFlowTemplatesRequest extends S.Class<SearchFlowTemplatesRequest>(
-  "SearchFlowTemplatesRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "SearchEntitiesRequest",
+}) as any as S.Schema<SearchEntitiesRequest>;
+export interface SearchFlowTemplatesRequest {
+  filters?: FlowTemplateFilters;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const SearchFlowTemplatesRequest = S.suspend(() =>
+  S.Struct({
     filters: S.optional(FlowTemplateFilters),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class SearchSystemInstancesRequest extends S.Class<SearchSystemInstancesRequest>(
-  "SearchSystemInstancesRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "SearchFlowTemplatesRequest",
+}) as any as S.Schema<SearchFlowTemplatesRequest>;
+export interface SearchSystemInstancesRequest {
+  filters?: SystemInstanceFilters;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const SearchSystemInstancesRequest = S.suspend(() =>
+  S.Struct({
     filters: S.optional(SystemInstanceFilters),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class SearchSystemTemplatesRequest extends S.Class<SearchSystemTemplatesRequest>(
-  "SearchSystemTemplatesRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "SearchSystemInstancesRequest",
+}) as any as S.Schema<SearchSystemInstancesRequest>;
+export interface SearchSystemTemplatesRequest {
+  filters?: SystemTemplateFilters;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const SearchSystemTemplatesRequest = S.suspend(() =>
+  S.Struct({
     filters: S.optional(SystemTemplateFilters),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class SystemInstanceSummary extends S.Class<SystemInstanceSummary>(
-  "SystemInstanceSummary",
-)({
-  id: S.optional(S.String),
-  arn: S.optional(S.String),
-  status: S.optional(S.String),
-  target: S.optional(S.String),
-  greengrassGroupName: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  greengrassGroupId: S.optional(S.String),
-  greengrassGroupVersionId: S.optional(S.String),
-}) {}
-export class UndeploySystemInstanceResponse extends S.Class<UndeploySystemInstanceResponse>(
-  "UndeploySystemInstanceResponse",
-)({ summary: S.optional(SystemInstanceSummary) }) {}
-export class FlowTemplateSummary extends S.Class<FlowTemplateSummary>(
-  "FlowTemplateSummary",
-)({
-  id: S.optional(S.String),
-  arn: S.optional(S.String),
-  revisionNumber: S.optional(S.Number),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class UpdateFlowTemplateResponse extends S.Class<UpdateFlowTemplateResponse>(
-  "UpdateFlowTemplateResponse",
-)({ summary: S.optional(FlowTemplateSummary) }) {}
-export class UpdateSystemTemplateResponse extends S.Class<UpdateSystemTemplateResponse>(
-  "UpdateSystemTemplateResponse",
-)({ summary: S.optional(SystemTemplateSummary) }) {}
-export class UploadEntityDefinitionsResponse extends S.Class<UploadEntityDefinitionsResponse>(
-  "UploadEntityDefinitionsResponse",
-)({ uploadId: S.String }) {}
-export class EntityDescription extends S.Class<EntityDescription>(
-  "EntityDescription",
-)({
-  id: S.optional(S.String),
-  arn: S.optional(S.String),
-  type: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  definition: S.optional(DefinitionDocument),
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "SearchSystemTemplatesRequest",
+}) as any as S.Schema<SearchSystemTemplatesRequest>;
+export interface SystemInstanceSummary {
+  id?: string;
+  arn?: string;
+  status?: string;
+  target?: string;
+  greengrassGroupName?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+  greengrassGroupId?: string;
+  greengrassGroupVersionId?: string;
+}
+export const SystemInstanceSummary = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    arn: S.optional(S.String),
+    status: S.optional(S.String),
+    target: S.optional(S.String),
+    greengrassGroupName: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    greengrassGroupId: S.optional(S.String),
+    greengrassGroupVersionId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SystemInstanceSummary",
+}) as any as S.Schema<SystemInstanceSummary>;
+export interface UndeploySystemInstanceResponse {
+  summary?: SystemInstanceSummary;
+}
+export const UndeploySystemInstanceResponse = S.suspend(() =>
+  S.Struct({ summary: S.optional(SystemInstanceSummary) }),
+).annotations({
+  identifier: "UndeploySystemInstanceResponse",
+}) as any as S.Schema<UndeploySystemInstanceResponse>;
+export interface FlowTemplateSummary {
+  id?: string;
+  arn?: string;
+  revisionNumber?: number;
+  createdAt?: Date;
+}
+export const FlowTemplateSummary = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    arn: S.optional(S.String),
+    revisionNumber: S.optional(S.Number),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "FlowTemplateSummary",
+}) as any as S.Schema<FlowTemplateSummary>;
+export interface UpdateFlowTemplateResponse {
+  summary?: FlowTemplateSummary;
+}
+export const UpdateFlowTemplateResponse = S.suspend(() =>
+  S.Struct({ summary: S.optional(FlowTemplateSummary) }),
+).annotations({
+  identifier: "UpdateFlowTemplateResponse",
+}) as any as S.Schema<UpdateFlowTemplateResponse>;
+export interface UpdateSystemTemplateResponse {
+  summary?: SystemTemplateSummary;
+}
+export const UpdateSystemTemplateResponse = S.suspend(() =>
+  S.Struct({ summary: S.optional(SystemTemplateSummary) }),
+).annotations({
+  identifier: "UpdateSystemTemplateResponse",
+}) as any as S.Schema<UpdateSystemTemplateResponse>;
+export interface UploadEntityDefinitionsResponse {
+  uploadId: string;
+}
+export const UploadEntityDefinitionsResponse = S.suspend(() =>
+  S.Struct({ uploadId: S.String }),
+).annotations({
+  identifier: "UploadEntityDefinitionsResponse",
+}) as any as S.Schema<UploadEntityDefinitionsResponse>;
+export interface EntityDescription {
+  id?: string;
+  arn?: string;
+  type?: string;
+  createdAt?: Date;
+  definition?: DefinitionDocument;
+}
+export const EntityDescription = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    arn: S.optional(S.String),
+    type: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    definition: S.optional(DefinitionDocument),
+  }),
+).annotations({
+  identifier: "EntityDescription",
+}) as any as S.Schema<EntityDescription>;
+export type EntityDescriptions = EntityDescription[];
 export const EntityDescriptions = S.Array(EntityDescription);
-export class FlowTemplateDescription extends S.Class<FlowTemplateDescription>(
-  "FlowTemplateDescription",
-)({
-  summary: S.optional(FlowTemplateSummary),
-  definition: S.optional(DefinitionDocument),
-  validatedNamespaceVersion: S.optional(S.Number),
-}) {}
+export interface FlowTemplateDescription {
+  summary?: FlowTemplateSummary;
+  definition?: DefinitionDocument;
+  validatedNamespaceVersion?: number;
+}
+export const FlowTemplateDescription = S.suspend(() =>
+  S.Struct({
+    summary: S.optional(FlowTemplateSummary),
+    definition: S.optional(DefinitionDocument),
+    validatedNamespaceVersion: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "FlowTemplateDescription",
+}) as any as S.Schema<FlowTemplateDescription>;
+export type FlowTemplateSummaries = FlowTemplateSummary[];
 export const FlowTemplateSummaries = S.Array(FlowTemplateSummary);
-export class SystemTemplateDescription extends S.Class<SystemTemplateDescription>(
-  "SystemTemplateDescription",
-)({
-  summary: S.optional(SystemTemplateSummary),
-  definition: S.optional(DefinitionDocument),
-  validatedNamespaceVersion: S.optional(S.Number),
-}) {}
-export class FlowExecutionMessage extends S.Class<FlowExecutionMessage>(
-  "FlowExecutionMessage",
-)({
-  messageId: S.optional(S.String),
-  eventType: S.optional(S.String),
-  timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  payload: S.optional(S.String),
-}) {}
+export interface SystemTemplateDescription {
+  summary?: SystemTemplateSummary;
+  definition?: DefinitionDocument;
+  validatedNamespaceVersion?: number;
+}
+export const SystemTemplateDescription = S.suspend(() =>
+  S.Struct({
+    summary: S.optional(SystemTemplateSummary),
+    definition: S.optional(DefinitionDocument),
+    validatedNamespaceVersion: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "SystemTemplateDescription",
+}) as any as S.Schema<SystemTemplateDescription>;
+export interface FlowExecutionMessage {
+  messageId?: string;
+  eventType?: string;
+  timestamp?: Date;
+  payload?: string;
+}
+export const FlowExecutionMessage = S.suspend(() =>
+  S.Struct({
+    messageId: S.optional(S.String),
+    eventType: S.optional(S.String),
+    timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    payload: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "FlowExecutionMessage",
+}) as any as S.Schema<FlowExecutionMessage>;
+export type FlowExecutionMessages = FlowExecutionMessage[];
 export const FlowExecutionMessages = S.Array(FlowExecutionMessage);
-export class FlowExecutionSummary extends S.Class<FlowExecutionSummary>(
-  "FlowExecutionSummary",
-)({
-  flowExecutionId: S.optional(S.String),
-  status: S.optional(S.String),
-  systemInstanceId: S.optional(S.String),
-  flowTemplateId: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface FlowExecutionSummary {
+  flowExecutionId?: string;
+  status?: string;
+  systemInstanceId?: string;
+  flowTemplateId?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+export const FlowExecutionSummary = S.suspend(() =>
+  S.Struct({
+    flowExecutionId: S.optional(S.String),
+    status: S.optional(S.String),
+    systemInstanceId: S.optional(S.String),
+    flowTemplateId: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "FlowExecutionSummary",
+}) as any as S.Schema<FlowExecutionSummary>;
+export type FlowExecutionSummaries = FlowExecutionSummary[];
 export const FlowExecutionSummaries = S.Array(FlowExecutionSummary);
+export type SystemInstanceSummaries = SystemInstanceSummary[];
 export const SystemInstanceSummaries = S.Array(SystemInstanceSummary);
-export class Thing extends S.Class<Thing>("Thing")({
-  thingArn: S.optional(S.String),
-  thingName: S.optional(S.String),
-}) {}
+export interface Thing {
+  thingArn?: string;
+  thingName?: string;
+}
+export const Thing = S.suspend(() =>
+  S.Struct({ thingArn: S.optional(S.String), thingName: S.optional(S.String) }),
+).annotations({ identifier: "Thing" }) as any as S.Schema<Thing>;
+export type Things = Thing[];
 export const Things = S.Array(Thing);
-export class CreateFlowTemplateResponse extends S.Class<CreateFlowTemplateResponse>(
-  "CreateFlowTemplateResponse",
-)({ summary: S.optional(FlowTemplateSummary) }) {}
-export class CreateSystemInstanceResponse extends S.Class<CreateSystemInstanceResponse>(
-  "CreateSystemInstanceResponse",
-)({ summary: S.optional(SystemInstanceSummary) }) {}
-export class CreateSystemTemplateResponse extends S.Class<CreateSystemTemplateResponse>(
-  "CreateSystemTemplateResponse",
-)({ summary: S.optional(SystemTemplateSummary) }) {}
-export class DeploySystemInstanceResponse extends S.Class<DeploySystemInstanceResponse>(
-  "DeploySystemInstanceResponse",
-)({
-  summary: SystemInstanceSummary,
-  greengrassDeploymentId: S.optional(S.String),
-}) {}
-export class GetEntitiesResponse extends S.Class<GetEntitiesResponse>(
-  "GetEntitiesResponse",
-)({ descriptions: S.optional(EntityDescriptions) }) {}
-export class GetFlowTemplateResponse extends S.Class<GetFlowTemplateResponse>(
-  "GetFlowTemplateResponse",
-)({ description: S.optional(FlowTemplateDescription) }) {}
-export class GetFlowTemplateRevisionsResponse extends S.Class<GetFlowTemplateRevisionsResponse>(
-  "GetFlowTemplateRevisionsResponse",
-)({
-  summaries: S.optional(FlowTemplateSummaries),
-  nextToken: S.optional(S.String),
-}) {}
-export class GetSystemTemplateResponse extends S.Class<GetSystemTemplateResponse>(
-  "GetSystemTemplateResponse",
-)({ description: S.optional(SystemTemplateDescription) }) {}
-export class ListFlowExecutionMessagesResponse extends S.Class<ListFlowExecutionMessagesResponse>(
-  "ListFlowExecutionMessagesResponse",
-)({
-  messages: S.optional(FlowExecutionMessages),
-  nextToken: S.optional(S.String),
-}) {}
-export class SearchEntitiesResponse extends S.Class<SearchEntitiesResponse>(
-  "SearchEntitiesResponse",
-)({
-  descriptions: S.optional(EntityDescriptions),
-  nextToken: S.optional(S.String),
-}) {}
-export class SearchFlowExecutionsResponse extends S.Class<SearchFlowExecutionsResponse>(
-  "SearchFlowExecutionsResponse",
-)({
-  summaries: S.optional(FlowExecutionSummaries),
-  nextToken: S.optional(S.String),
-}) {}
-export class SearchFlowTemplatesResponse extends S.Class<SearchFlowTemplatesResponse>(
-  "SearchFlowTemplatesResponse",
-)({
-  summaries: S.optional(FlowTemplateSummaries),
-  nextToken: S.optional(S.String),
-}) {}
-export class SearchSystemInstancesResponse extends S.Class<SearchSystemInstancesResponse>(
-  "SearchSystemInstancesResponse",
-)({
-  summaries: S.optional(SystemInstanceSummaries),
-  nextToken: S.optional(S.String),
-}) {}
-export class SearchSystemTemplatesResponse extends S.Class<SearchSystemTemplatesResponse>(
-  "SearchSystemTemplatesResponse",
-)({
-  summaries: S.optional(SystemTemplateSummaries),
-  nextToken: S.optional(S.String),
-}) {}
-export class SearchThingsResponse extends S.Class<SearchThingsResponse>(
-  "SearchThingsResponse",
-)({ things: S.optional(Things), nextToken: S.optional(S.String) }) {}
-export class DependencyRevision extends S.Class<DependencyRevision>(
-  "DependencyRevision",
-)({ id: S.optional(S.String), revisionNumber: S.optional(S.Number) }) {}
+export interface CreateFlowTemplateResponse {
+  summary?: FlowTemplateSummary;
+}
+export const CreateFlowTemplateResponse = S.suspend(() =>
+  S.Struct({ summary: S.optional(FlowTemplateSummary) }),
+).annotations({
+  identifier: "CreateFlowTemplateResponse",
+}) as any as S.Schema<CreateFlowTemplateResponse>;
+export interface CreateSystemInstanceResponse {
+  summary?: SystemInstanceSummary;
+}
+export const CreateSystemInstanceResponse = S.suspend(() =>
+  S.Struct({ summary: S.optional(SystemInstanceSummary) }),
+).annotations({
+  identifier: "CreateSystemInstanceResponse",
+}) as any as S.Schema<CreateSystemInstanceResponse>;
+export interface CreateSystemTemplateResponse {
+  summary?: SystemTemplateSummary;
+}
+export const CreateSystemTemplateResponse = S.suspend(() =>
+  S.Struct({ summary: S.optional(SystemTemplateSummary) }),
+).annotations({
+  identifier: "CreateSystemTemplateResponse",
+}) as any as S.Schema<CreateSystemTemplateResponse>;
+export interface DeploySystemInstanceResponse {
+  summary: SystemInstanceSummary;
+  greengrassDeploymentId?: string;
+}
+export const DeploySystemInstanceResponse = S.suspend(() =>
+  S.Struct({
+    summary: SystemInstanceSummary,
+    greengrassDeploymentId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DeploySystemInstanceResponse",
+}) as any as S.Schema<DeploySystemInstanceResponse>;
+export interface GetEntitiesResponse {
+  descriptions?: EntityDescriptions;
+}
+export const GetEntitiesResponse = S.suspend(() =>
+  S.Struct({ descriptions: S.optional(EntityDescriptions) }),
+).annotations({
+  identifier: "GetEntitiesResponse",
+}) as any as S.Schema<GetEntitiesResponse>;
+export interface GetFlowTemplateResponse {
+  description?: FlowTemplateDescription;
+}
+export const GetFlowTemplateResponse = S.suspend(() =>
+  S.Struct({ description: S.optional(FlowTemplateDescription) }),
+).annotations({
+  identifier: "GetFlowTemplateResponse",
+}) as any as S.Schema<GetFlowTemplateResponse>;
+export interface GetFlowTemplateRevisionsResponse {
+  summaries?: FlowTemplateSummaries;
+  nextToken?: string;
+}
+export const GetFlowTemplateRevisionsResponse = S.suspend(() =>
+  S.Struct({
+    summaries: S.optional(FlowTemplateSummaries),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetFlowTemplateRevisionsResponse",
+}) as any as S.Schema<GetFlowTemplateRevisionsResponse>;
+export interface GetSystemTemplateResponse {
+  description?: SystemTemplateDescription;
+}
+export const GetSystemTemplateResponse = S.suspend(() =>
+  S.Struct({ description: S.optional(SystemTemplateDescription) }),
+).annotations({
+  identifier: "GetSystemTemplateResponse",
+}) as any as S.Schema<GetSystemTemplateResponse>;
+export interface ListFlowExecutionMessagesResponse {
+  messages?: FlowExecutionMessages;
+  nextToken?: string;
+}
+export const ListFlowExecutionMessagesResponse = S.suspend(() =>
+  S.Struct({
+    messages: S.optional(FlowExecutionMessages),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListFlowExecutionMessagesResponse",
+}) as any as S.Schema<ListFlowExecutionMessagesResponse>;
+export interface SearchEntitiesResponse {
+  descriptions?: EntityDescriptions;
+  nextToken?: string;
+}
+export const SearchEntitiesResponse = S.suspend(() =>
+  S.Struct({
+    descriptions: S.optional(EntityDescriptions),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SearchEntitiesResponse",
+}) as any as S.Schema<SearchEntitiesResponse>;
+export interface SearchFlowExecutionsResponse {
+  summaries?: FlowExecutionSummaries;
+  nextToken?: string;
+}
+export const SearchFlowExecutionsResponse = S.suspend(() =>
+  S.Struct({
+    summaries: S.optional(FlowExecutionSummaries),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SearchFlowExecutionsResponse",
+}) as any as S.Schema<SearchFlowExecutionsResponse>;
+export interface SearchFlowTemplatesResponse {
+  summaries?: FlowTemplateSummaries;
+  nextToken?: string;
+}
+export const SearchFlowTemplatesResponse = S.suspend(() =>
+  S.Struct({
+    summaries: S.optional(FlowTemplateSummaries),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SearchFlowTemplatesResponse",
+}) as any as S.Schema<SearchFlowTemplatesResponse>;
+export interface SearchSystemInstancesResponse {
+  summaries?: SystemInstanceSummaries;
+  nextToken?: string;
+}
+export const SearchSystemInstancesResponse = S.suspend(() =>
+  S.Struct({
+    summaries: S.optional(SystemInstanceSummaries),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SearchSystemInstancesResponse",
+}) as any as S.Schema<SearchSystemInstancesResponse>;
+export interface SearchSystemTemplatesResponse {
+  summaries?: SystemTemplateSummaries;
+  nextToken?: string;
+}
+export const SearchSystemTemplatesResponse = S.suspend(() =>
+  S.Struct({
+    summaries: S.optional(SystemTemplateSummaries),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SearchSystemTemplatesResponse",
+}) as any as S.Schema<SearchSystemTemplatesResponse>;
+export interface SearchThingsResponse {
+  things?: Things;
+  nextToken?: string;
+}
+export const SearchThingsResponse = S.suspend(() =>
+  S.Struct({ things: S.optional(Things), nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "SearchThingsResponse",
+}) as any as S.Schema<SearchThingsResponse>;
+export interface DependencyRevision {
+  id?: string;
+  revisionNumber?: number;
+}
+export const DependencyRevision = S.suspend(() =>
+  S.Struct({ id: S.optional(S.String), revisionNumber: S.optional(S.Number) }),
+).annotations({
+  identifier: "DependencyRevision",
+}) as any as S.Schema<DependencyRevision>;
+export type DependencyRevisions = DependencyRevision[];
 export const DependencyRevisions = S.Array(DependencyRevision);
-export class SystemInstanceDescription extends S.Class<SystemInstanceDescription>(
-  "SystemInstanceDescription",
-)({
-  summary: S.optional(SystemInstanceSummary),
-  definition: S.optional(DefinitionDocument),
-  s3BucketName: S.optional(S.String),
-  metricsConfiguration: S.optional(MetricsConfiguration),
-  validatedNamespaceVersion: S.optional(S.Number),
-  validatedDependencyRevisions: S.optional(DependencyRevisions),
-  flowActionsRoleArn: S.optional(S.String),
-}) {}
-export class GetSystemInstanceResponse extends S.Class<GetSystemInstanceResponse>(
-  "GetSystemInstanceResponse",
-)({ description: S.optional(SystemInstanceDescription) }) {}
+export interface SystemInstanceDescription {
+  summary?: SystemInstanceSummary;
+  definition?: DefinitionDocument;
+  s3BucketName?: string;
+  metricsConfiguration?: MetricsConfiguration;
+  validatedNamespaceVersion?: number;
+  validatedDependencyRevisions?: DependencyRevisions;
+  flowActionsRoleArn?: string;
+}
+export const SystemInstanceDescription = S.suspend(() =>
+  S.Struct({
+    summary: S.optional(SystemInstanceSummary),
+    definition: S.optional(DefinitionDocument),
+    s3BucketName: S.optional(S.String),
+    metricsConfiguration: S.optional(MetricsConfiguration),
+    validatedNamespaceVersion: S.optional(S.Number),
+    validatedDependencyRevisions: S.optional(DependencyRevisions),
+    flowActionsRoleArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SystemInstanceDescription",
+}) as any as S.Schema<SystemInstanceDescription>;
+export interface GetSystemInstanceResponse {
+  description?: SystemInstanceDescription;
+}
+export const GetSystemInstanceResponse = S.suspend(() =>
+  S.Struct({ description: S.optional(SystemInstanceDescription) }),
+).annotations({
+  identifier: "GetSystemInstanceResponse",
+}) as any as S.Schema<GetSystemInstanceResponse>;
 
 //# Errors
 export class InternalFailureException extends S.TaggedError<InternalFailureException>()(

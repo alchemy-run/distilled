@@ -167,6 +167,32 @@ test(
 // Alias Tests
 // ============================================================================
 
+const retrySchedule = Schedule.spaced("1 second").pipe(
+  Schedule.intersect(Schedule.recurs(30)),
+);
+
+const waitForAlias = (keyId: string, aliasName: string) =>
+  listAliases({ KeyId: keyId }).pipe(
+    Effect.flatMap((result) => {
+      const alias = result.Aliases?.find((a) => a.AliasName === aliasName);
+      return alias
+        ? Effect.succeed(alias)
+        : Effect.fail(new Error("Alias not yet visible"));
+    }),
+    Effect.retry({ schedule: retrySchedule }),
+  );
+
+const waitForAliasDeleted = (keyId: string, aliasName: string) =>
+  listAliases({ KeyId: keyId }).pipe(
+    Effect.flatMap((result) => {
+      const alias = result.Aliases?.find((a) => a.AliasName === aliasName);
+      return alias
+        ? Effect.fail(new Error("Alias still visible after deletion"))
+        : Effect.succeed(undefined);
+    }),
+    Effect.retry({ schedule: retrySchedule }),
+  );
+
 test(
   "create alias, list aliases, and delete alias",
   { timeout: 300_000 },
@@ -189,11 +215,8 @@ test(
         TargetKeyId: keyId!,
       });
 
-      // List aliases and verify our alias is there
-      const listResult = yield* listAliases({ KeyId: keyId! });
-      const foundAlias = listResult.Aliases?.find(
-        (a) => a.AliasName === aliasName,
-      );
+      // Wait for alias to appear (eventual consistency)
+      const foundAlias = yield* waitForAlias(keyId!, aliasName);
       expect(foundAlias).toBeDefined();
       expect(foundAlias?.TargetKeyId).toEqual(keyId);
 
@@ -204,12 +227,8 @@ test(
       // Delete alias
       yield* deleteAlias({ AliasName: aliasName });
 
-      // Verify alias is gone
-      const listAfterDelete = yield* listAliases({ KeyId: keyId! });
-      const aliasAfterDelete = listAfterDelete.Aliases?.find(
-        (a) => a.AliasName === aliasName,
-      );
-      expect(aliasAfterDelete).toBeUndefined();
+      // Wait for alias to disappear (eventual consistency)
+      yield* waitForAliasDeleted(keyId!, aliasName);
     } finally {
       // Clean up alias if it still exists
       yield* deleteAlias({ AliasName: aliasName }).pipe(Effect.ignore);

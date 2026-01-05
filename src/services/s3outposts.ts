@@ -242,136 +242,231 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class CreateEndpointRequest extends S.Class<CreateEndpointRequest>(
-  "CreateEndpointRequest",
-)(
-  {
+export interface CreateEndpointRequest {
+  OutpostId: string;
+  SubnetId: string;
+  SecurityGroupId: string;
+  AccessType?: string;
+  CustomerOwnedIpv4Pool?: string;
+}
+export const CreateEndpointRequest = S.suspend(() =>
+  S.Struct({
     OutpostId: S.String,
     SubnetId: S.String,
     SecurityGroupId: S.String,
     AccessType: S.optional(S.String),
     CustomerOwnedIpv4Pool: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/S3Outposts/CreateEndpoint" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/S3Outposts/CreateEndpoint" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteEndpointRequest extends S.Class<DeleteEndpointRequest>(
-  "DeleteEndpointRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateEndpointRequest",
+}) as any as S.Schema<CreateEndpointRequest>;
+export interface DeleteEndpointRequest {
+  EndpointId: string;
+  OutpostId: string;
+}
+export const DeleteEndpointRequest = S.suspend(() =>
+  S.Struct({
     EndpointId: S.String.pipe(T.HttpQuery("endpointId")),
     OutpostId: S.String.pipe(T.HttpQuery("outpostId")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/S3Outposts/DeleteEndpoint" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/S3Outposts/DeleteEndpoint" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteEndpointResponse extends S.Class<DeleteEndpointResponse>(
-  "DeleteEndpointResponse",
-)({}) {}
-export class ListEndpointsRequest extends S.Class<ListEndpointsRequest>(
-  "ListEndpointsRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteEndpointRequest",
+}) as any as S.Schema<DeleteEndpointRequest>;
+export interface DeleteEndpointResponse {}
+export const DeleteEndpointResponse = S.suspend(() => S.Struct({})).annotations(
+  { identifier: "DeleteEndpointResponse" },
+) as any as S.Schema<DeleteEndpointResponse>;
+export interface ListEndpointsRequest {
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListEndpointsRequest = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/S3Outposts/ListEndpoints" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/S3Outposts/ListEndpoints" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListOutpostsWithS3Request extends S.Class<ListOutpostsWithS3Request>(
-  "ListOutpostsWithS3Request",
-)(
-  {
+).annotations({
+  identifier: "ListEndpointsRequest",
+}) as any as S.Schema<ListEndpointsRequest>;
+export interface ListOutpostsWithS3Request {
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListOutpostsWithS3Request = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/S3Outposts/ListOutpostsWithS3" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/S3Outposts/ListOutpostsWithS3" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListSharedEndpointsRequest extends S.Class<ListSharedEndpointsRequest>(
-  "ListSharedEndpointsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListOutpostsWithS3Request",
+}) as any as S.Schema<ListOutpostsWithS3Request>;
+export interface ListSharedEndpointsRequest {
+  NextToken?: string;
+  MaxResults?: number;
+  OutpostId: string;
+}
+export const ListSharedEndpointsRequest = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     OutpostId: S.String.pipe(T.HttpQuery("outpostId")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/S3Outposts/ListSharedEndpoints" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/S3Outposts/ListSharedEndpoints" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateEndpointResult extends S.Class<CreateEndpointResult>(
-  "CreateEndpointResult",
-)({ EndpointArn: S.optional(S.String) }) {}
-export class NetworkInterface extends S.Class<NetworkInterface>(
-  "NetworkInterface",
-)({ NetworkInterfaceId: S.optional(S.String) }) {}
+).annotations({
+  identifier: "ListSharedEndpointsRequest",
+}) as any as S.Schema<ListSharedEndpointsRequest>;
+export interface CreateEndpointResult {
+  EndpointArn?: string;
+}
+export const CreateEndpointResult = S.suspend(() =>
+  S.Struct({ EndpointArn: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateEndpointResult",
+}) as any as S.Schema<CreateEndpointResult>;
+export interface NetworkInterface {
+  NetworkInterfaceId?: string;
+}
+export const NetworkInterface = S.suspend(() =>
+  S.Struct({ NetworkInterfaceId: S.optional(S.String) }),
+).annotations({
+  identifier: "NetworkInterface",
+}) as any as S.Schema<NetworkInterface>;
+export type NetworkInterfaces = NetworkInterface[];
 export const NetworkInterfaces = S.Array(NetworkInterface);
-export class FailedReason extends S.Class<FailedReason>("FailedReason")({
-  ErrorCode: S.optional(S.String),
-  Message: S.optional(S.String),
-}) {}
-export class Endpoint extends S.Class<Endpoint>("Endpoint")({
-  EndpointArn: S.optional(S.String),
-  OutpostsId: S.optional(S.String),
-  CidrBlock: S.optional(S.String),
-  Status: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  NetworkInterfaces: S.optional(NetworkInterfaces),
-  VpcId: S.optional(S.String),
-  SubnetId: S.optional(S.String),
-  SecurityGroupId: S.optional(S.String),
-  AccessType: S.optional(S.String),
-  CustomerOwnedIpv4Pool: S.optional(S.String),
-  FailedReason: S.optional(FailedReason),
-}) {}
+export interface FailedReason {
+  ErrorCode?: string;
+  Message?: string;
+}
+export const FailedReason = S.suspend(() =>
+  S.Struct({ ErrorCode: S.optional(S.String), Message: S.optional(S.String) }),
+).annotations({ identifier: "FailedReason" }) as any as S.Schema<FailedReason>;
+export interface Endpoint {
+  EndpointArn?: string;
+  OutpostsId?: string;
+  CidrBlock?: string;
+  Status?: string;
+  CreationTime?: Date;
+  NetworkInterfaces?: NetworkInterfaces;
+  VpcId?: string;
+  SubnetId?: string;
+  SecurityGroupId?: string;
+  AccessType?: string;
+  CustomerOwnedIpv4Pool?: string;
+  FailedReason?: FailedReason;
+}
+export const Endpoint = S.suspend(() =>
+  S.Struct({
+    EndpointArn: S.optional(S.String),
+    OutpostsId: S.optional(S.String),
+    CidrBlock: S.optional(S.String),
+    Status: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    NetworkInterfaces: S.optional(NetworkInterfaces),
+    VpcId: S.optional(S.String),
+    SubnetId: S.optional(S.String),
+    SecurityGroupId: S.optional(S.String),
+    AccessType: S.optional(S.String),
+    CustomerOwnedIpv4Pool: S.optional(S.String),
+    FailedReason: S.optional(FailedReason),
+  }),
+).annotations({ identifier: "Endpoint" }) as any as S.Schema<Endpoint>;
+export type Endpoints = Endpoint[];
 export const Endpoints = S.Array(Endpoint);
-export class ListSharedEndpointsResult extends S.Class<ListSharedEndpointsResult>(
-  "ListSharedEndpointsResult",
-)({ Endpoints: S.optional(Endpoints), NextToken: S.optional(S.String) }) {}
-export class Outpost extends S.Class<Outpost>("Outpost")({
-  OutpostArn: S.optional(S.String),
-  S3OutpostArn: S.optional(S.String),
-  OutpostId: S.optional(S.String),
-  OwnerId: S.optional(S.String),
-  CapacityInBytes: S.optional(S.Number),
-}) {}
+export interface ListSharedEndpointsResult {
+  Endpoints?: Endpoints;
+  NextToken?: string;
+}
+export const ListSharedEndpointsResult = S.suspend(() =>
+  S.Struct({
+    Endpoints: S.optional(Endpoints),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListSharedEndpointsResult",
+}) as any as S.Schema<ListSharedEndpointsResult>;
+export interface Outpost {
+  OutpostArn?: string;
+  S3OutpostArn?: string;
+  OutpostId?: string;
+  OwnerId?: string;
+  CapacityInBytes?: number;
+}
+export const Outpost = S.suspend(() =>
+  S.Struct({
+    OutpostArn: S.optional(S.String),
+    S3OutpostArn: S.optional(S.String),
+    OutpostId: S.optional(S.String),
+    OwnerId: S.optional(S.String),
+    CapacityInBytes: S.optional(S.Number),
+  }),
+).annotations({ identifier: "Outpost" }) as any as S.Schema<Outpost>;
+export type Outposts = Outpost[];
 export const Outposts = S.Array(Outpost);
-export class ListOutpostsWithS3Result extends S.Class<ListOutpostsWithS3Result>(
-  "ListOutpostsWithS3Result",
-)({ Outposts: S.optional(Outposts), NextToken: S.optional(S.String) }) {}
-export class ListEndpointsResult extends S.Class<ListEndpointsResult>(
-  "ListEndpointsResult",
-)({ Endpoints: S.optional(Endpoints), NextToken: S.optional(S.String) }) {}
+export interface ListOutpostsWithS3Result {
+  Outposts?: Outposts;
+  NextToken?: string;
+}
+export const ListOutpostsWithS3Result = S.suspend(() =>
+  S.Struct({ Outposts: S.optional(Outposts), NextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListOutpostsWithS3Result",
+}) as any as S.Schema<ListOutpostsWithS3Result>;
+export interface ListEndpointsResult {
+  Endpoints?: Endpoints;
+  NextToken?: string;
+}
+export const ListEndpointsResult = S.suspend(() =>
+  S.Struct({
+    Endpoints: S.optional(Endpoints),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListEndpointsResult",
+}) as any as S.Schema<ListEndpointsResult>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

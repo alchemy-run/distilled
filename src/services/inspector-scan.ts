@@ -294,25 +294,42 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class ScanSbomRequest extends S.Class<ScanSbomRequest>(
-  "ScanSbomRequest",
-)(
-  { sbom: S.Any, outputFormat: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/scan/sbom" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface ScanSbomRequest {
+  sbom: any;
+  outputFormat?: string;
+}
+export const ScanSbomRequest = S.suspend(() =>
+  S.Struct({ sbom: S.Any, outputFormat: S.optional(S.String) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/scan/sbom" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ScanSbomResponse extends S.Class<ScanSbomResponse>(
-  "ScanSbomResponse",
-)({ sbom: S.optional(S.Any) }) {}
-export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
-  "ValidationExceptionField",
-)({ name: S.String, message: S.String }) {}
+).annotations({
+  identifier: "ScanSbomRequest",
+}) as any as S.Schema<ScanSbomRequest>;
+export interface ScanSbomResponse {
+  sbom?: any;
+}
+export const ScanSbomResponse = S.suspend(() =>
+  S.Struct({ sbom: S.optional(S.Any) }),
+).annotations({
+  identifier: "ScanSbomResponse",
+}) as any as S.Schema<ScanSbomResponse>;
+export interface ValidationExceptionField {
+  name: string;
+  message: string;
+}
+export const ValidationExceptionField = S.suspend(() =>
+  S.Struct({ name: S.String, message: S.String }),
+).annotations({
+  identifier: "ValidationExceptionField",
+}) as any as S.Schema<ValidationExceptionField>;
+export type ValidationExceptionFields = ValidationExceptionField[];
 export const ValidationExceptionFields = S.Array(ValidationExceptionField);
 
 //# Errors

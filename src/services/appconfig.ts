@@ -270,18 +270,30 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class GetAccountSettingsRequest extends S.Class<GetAccountSettingsRequest>(
-  "GetAccountSettingsRequest",
-)(
-  {},
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+export interface GetAccountSettingsRequest {}
+export const GetAccountSettingsRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetAccountSettingsRequest",
+}) as any as S.Schema<GetAccountSettingsRequest>;
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
+export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
-export class CreateDeploymentStrategyRequest extends S.Class<CreateDeploymentStrategyRequest>(
-  "CreateDeploymentStrategyRequest",
-)(
-  {
+export interface CreateDeploymentStrategyRequest {
+  Name: string;
+  Description?: string;
+  DeploymentDurationInMinutes: number;
+  FinalBakeTimeInMinutes?: number;
+  GrowthFactor: number;
+  GrowthType?: string;
+  ReplicateTo?: string;
+  Tags?: TagMap;
+}
+export const CreateDeploymentStrategyRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     Description: S.optional(S.String),
     DeploymentDurationInMinutes: S.Number,
@@ -290,20 +302,30 @@ export class CreateDeploymentStrategyRequest extends S.Class<CreateDeploymentStr
     GrowthType: S.optional(S.String),
     ReplicateTo: S.optional(S.String),
     Tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/deploymentstrategies" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/deploymentstrategies" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateHostedConfigurationVersionRequest extends S.Class<CreateHostedConfigurationVersionRequest>(
-  "CreateHostedConfigurationVersionRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateDeploymentStrategyRequest",
+}) as any as S.Schema<CreateDeploymentStrategyRequest>;
+export interface CreateHostedConfigurationVersionRequest {
+  ApplicationId: string;
+  ConfigurationProfileId: string;
+  Description?: string;
+  Content: T.StreamingInputBody;
+  ContentType: string;
+  LatestVersionNumber?: number;
+  VersionLabel?: string;
+}
+export const CreateHostedConfigurationVersionRequest = S.suspend(() =>
+  S.Struct({
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
     ConfigurationProfileId: S.String.pipe(
       T.HttpLabel("ConfigurationProfileId"),
@@ -315,39 +337,52 @@ export class CreateHostedConfigurationVersionRequest extends S.Class<CreateHoste
       T.HttpHeader("Latest-Version-Number"),
     ),
     VersionLabel: S.optional(S.String).pipe(T.HttpHeader("VersionLabel")),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/hostedconfigurationversions",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/hostedconfigurationversions",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteApplicationRequest extends S.Class<DeleteApplicationRequest>(
-  "DeleteApplicationRequest",
-)(
-  { ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/applications/{ApplicationId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CreateHostedConfigurationVersionRequest",
+}) as any as S.Schema<CreateHostedConfigurationVersionRequest>;
+export interface DeleteApplicationRequest {
+  ApplicationId: string;
+}
+export const DeleteApplicationRequest = S.suspend(() =>
+  S.Struct({ ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/applications/{ApplicationId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteApplicationResponse extends S.Class<DeleteApplicationResponse>(
-  "DeleteApplicationResponse",
-)({}) {}
-export class DeleteConfigurationProfileRequest extends S.Class<DeleteConfigurationProfileRequest>(
-  "DeleteConfigurationProfileRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteApplicationRequest",
+}) as any as S.Schema<DeleteApplicationRequest>;
+export interface DeleteApplicationResponse {}
+export const DeleteApplicationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteApplicationResponse",
+}) as any as S.Schema<DeleteApplicationResponse>;
+export interface DeleteConfigurationProfileRequest {
+  ApplicationId: string;
+  ConfigurationProfileId: string;
+  DeletionProtectionCheck?: string;
+}
+export const DeleteConfigurationProfileRequest = S.suspend(() =>
+  S.Struct({
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
     ConfigurationProfileId: S.String.pipe(
       T.HttpLabel("ConfigurationProfileId"),
@@ -355,150 +390,207 @@ export class DeleteConfigurationProfileRequest extends S.Class<DeleteConfigurati
     DeletionProtectionCheck: S.optional(S.String).pipe(
       T.HttpHeader("x-amzn-deletion-protection-check"),
     ),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteConfigurationProfileResponse extends S.Class<DeleteConfigurationProfileResponse>(
-  "DeleteConfigurationProfileResponse",
-)({}) {}
-export class DeleteDeploymentStrategyRequest extends S.Class<DeleteDeploymentStrategyRequest>(
-  "DeleteDeploymentStrategyRequest",
-)(
-  { DeploymentStrategyId: S.String.pipe(T.HttpLabel("DeploymentStrategyId")) },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/deployementstrategies/{DeploymentStrategyId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteConfigurationProfileRequest",
+}) as any as S.Schema<DeleteConfigurationProfileRequest>;
+export interface DeleteConfigurationProfileResponse {}
+export const DeleteConfigurationProfileResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteConfigurationProfileResponse",
+}) as any as S.Schema<DeleteConfigurationProfileResponse>;
+export interface DeleteDeploymentStrategyRequest {
+  DeploymentStrategyId: string;
+}
+export const DeleteDeploymentStrategyRequest = S.suspend(() =>
+  S.Struct({
+    DeploymentStrategyId: S.String.pipe(T.HttpLabel("DeploymentStrategyId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/deployementstrategies/{DeploymentStrategyId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteDeploymentStrategyResponse extends S.Class<DeleteDeploymentStrategyResponse>(
-  "DeleteDeploymentStrategyResponse",
-)({}) {}
-export class DeleteEnvironmentRequest extends S.Class<DeleteEnvironmentRequest>(
-  "DeleteEnvironmentRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteDeploymentStrategyRequest",
+}) as any as S.Schema<DeleteDeploymentStrategyRequest>;
+export interface DeleteDeploymentStrategyResponse {}
+export const DeleteDeploymentStrategyResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteDeploymentStrategyResponse",
+}) as any as S.Schema<DeleteDeploymentStrategyResponse>;
+export interface DeleteEnvironmentRequest {
+  EnvironmentId: string;
+  ApplicationId: string;
+  DeletionProtectionCheck?: string;
+}
+export const DeleteEnvironmentRequest = S.suspend(() =>
+  S.Struct({
     EnvironmentId: S.String.pipe(T.HttpLabel("EnvironmentId")),
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
     DeletionProtectionCheck: S.optional(S.String).pipe(
       T.HttpHeader("x-amzn-deletion-protection-check"),
     ),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/applications/{ApplicationId}/environments/{EnvironmentId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/applications/{ApplicationId}/environments/{EnvironmentId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteEnvironmentResponse extends S.Class<DeleteEnvironmentResponse>(
-  "DeleteEnvironmentResponse",
-)({}) {}
-export class DeleteExtensionRequest extends S.Class<DeleteExtensionRequest>(
-  "DeleteExtensionRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteEnvironmentRequest",
+}) as any as S.Schema<DeleteEnvironmentRequest>;
+export interface DeleteEnvironmentResponse {}
+export const DeleteEnvironmentResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteEnvironmentResponse",
+}) as any as S.Schema<DeleteEnvironmentResponse>;
+export interface DeleteExtensionRequest {
+  ExtensionIdentifier: string;
+  VersionNumber?: number;
+}
+export const DeleteExtensionRequest = S.suspend(() =>
+  S.Struct({
     ExtensionIdentifier: S.String.pipe(T.HttpLabel("ExtensionIdentifier")),
     VersionNumber: S.optional(S.Number).pipe(T.HttpQuery("version")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/extensions/{ExtensionIdentifier}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/extensions/{ExtensionIdentifier}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteExtensionResponse extends S.Class<DeleteExtensionResponse>(
-  "DeleteExtensionResponse",
-)({}) {}
-export class DeleteExtensionAssociationRequest extends S.Class<DeleteExtensionAssociationRequest>(
-  "DeleteExtensionAssociationRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteExtensionRequest",
+}) as any as S.Schema<DeleteExtensionRequest>;
+export interface DeleteExtensionResponse {}
+export const DeleteExtensionResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteExtensionResponse",
+}) as any as S.Schema<DeleteExtensionResponse>;
+export interface DeleteExtensionAssociationRequest {
+  ExtensionAssociationId: string;
+}
+export const DeleteExtensionAssociationRequest = S.suspend(() =>
+  S.Struct({
     ExtensionAssociationId: S.String.pipe(
       T.HttpLabel("ExtensionAssociationId"),
     ),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/extensionassociations/{ExtensionAssociationId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/extensionassociations/{ExtensionAssociationId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteExtensionAssociationResponse extends S.Class<DeleteExtensionAssociationResponse>(
-  "DeleteExtensionAssociationResponse",
-)({}) {}
-export class DeleteHostedConfigurationVersionRequest extends S.Class<DeleteHostedConfigurationVersionRequest>(
-  "DeleteHostedConfigurationVersionRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteExtensionAssociationRequest",
+}) as any as S.Schema<DeleteExtensionAssociationRequest>;
+export interface DeleteExtensionAssociationResponse {}
+export const DeleteExtensionAssociationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteExtensionAssociationResponse",
+}) as any as S.Schema<DeleteExtensionAssociationResponse>;
+export interface DeleteHostedConfigurationVersionRequest {
+  ApplicationId: string;
+  ConfigurationProfileId: string;
+  VersionNumber: number;
+}
+export const DeleteHostedConfigurationVersionRequest = S.suspend(() =>
+  S.Struct({
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
     ConfigurationProfileId: S.String.pipe(
       T.HttpLabel("ConfigurationProfileId"),
     ),
     VersionNumber: S.Number.pipe(T.HttpLabel("VersionNumber")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/hostedconfigurationversions/{VersionNumber}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/hostedconfigurationversions/{VersionNumber}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteHostedConfigurationVersionResponse extends S.Class<DeleteHostedConfigurationVersionResponse>(
-  "DeleteHostedConfigurationVersionResponse",
-)({}) {}
-export class GetApplicationRequest extends S.Class<GetApplicationRequest>(
-  "GetApplicationRequest",
-)(
-  { ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/applications/{ApplicationId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteHostedConfigurationVersionRequest",
+}) as any as S.Schema<DeleteHostedConfigurationVersionRequest>;
+export interface DeleteHostedConfigurationVersionResponse {}
+export const DeleteHostedConfigurationVersionResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteHostedConfigurationVersionResponse",
+}) as any as S.Schema<DeleteHostedConfigurationVersionResponse>;
+export interface GetApplicationRequest {
+  ApplicationId: string;
+}
+export const GetApplicationRequest = S.suspend(() =>
+  S.Struct({ ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/applications/{ApplicationId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetConfigurationRequest extends S.Class<GetConfigurationRequest>(
-  "GetConfigurationRequest",
-)(
-  {
+).annotations({
+  identifier: "GetApplicationRequest",
+}) as any as S.Schema<GetApplicationRequest>;
+export interface GetConfigurationRequest {
+  Application: string;
+  Environment: string;
+  Configuration: string;
+  ClientId: string;
+  ClientConfigurationVersion?: string;
+}
+export const GetConfigurationRequest = S.suspend(() =>
+  S.Struct({
     Application: S.String.pipe(T.HttpLabel("Application")),
     Environment: S.String.pipe(T.HttpLabel("Environment")),
     Configuration: S.String.pipe(T.HttpLabel("Configuration")),
@@ -506,251 +598,326 @@ export class GetConfigurationRequest extends S.Class<GetConfigurationRequest>(
     ClientConfigurationVersion: S.optional(S.String).pipe(
       T.HttpQuery("client_configuration_version"),
     ),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/applications/{Application}/environments/{Environment}/configurations/{Configuration}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/applications/{Application}/environments/{Environment}/configurations/{Configuration}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetConfigurationProfileRequest extends S.Class<GetConfigurationProfileRequest>(
-  "GetConfigurationProfileRequest",
-)(
-  {
+).annotations({
+  identifier: "GetConfigurationRequest",
+}) as any as S.Schema<GetConfigurationRequest>;
+export interface GetConfigurationProfileRequest {
+  ApplicationId: string;
+  ConfigurationProfileId: string;
+}
+export const GetConfigurationProfileRequest = S.suspend(() =>
+  S.Struct({
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
     ConfigurationProfileId: S.String.pipe(
       T.HttpLabel("ConfigurationProfileId"),
     ),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetDeploymentRequest extends S.Class<GetDeploymentRequest>(
-  "GetDeploymentRequest",
-)(
-  {
+).annotations({
+  identifier: "GetConfigurationProfileRequest",
+}) as any as S.Schema<GetConfigurationProfileRequest>;
+export interface GetDeploymentRequest {
+  ApplicationId: string;
+  EnvironmentId: string;
+  DeploymentNumber: number;
+}
+export const GetDeploymentRequest = S.suspend(() =>
+  S.Struct({
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
     EnvironmentId: S.String.pipe(T.HttpLabel("EnvironmentId")),
     DeploymentNumber: S.Number.pipe(T.HttpLabel("DeploymentNumber")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/applications/{ApplicationId}/environments/{EnvironmentId}/deployments/{DeploymentNumber}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/applications/{ApplicationId}/environments/{EnvironmentId}/deployments/{DeploymentNumber}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetDeploymentStrategyRequest extends S.Class<GetDeploymentStrategyRequest>(
-  "GetDeploymentStrategyRequest",
-)(
-  { DeploymentStrategyId: S.String.pipe(T.HttpLabel("DeploymentStrategyId")) },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/deploymentstrategies/{DeploymentStrategyId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetDeploymentRequest",
+}) as any as S.Schema<GetDeploymentRequest>;
+export interface GetDeploymentStrategyRequest {
+  DeploymentStrategyId: string;
+}
+export const GetDeploymentStrategyRequest = S.suspend(() =>
+  S.Struct({
+    DeploymentStrategyId: S.String.pipe(T.HttpLabel("DeploymentStrategyId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/deploymentstrategies/{DeploymentStrategyId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetEnvironmentRequest extends S.Class<GetEnvironmentRequest>(
-  "GetEnvironmentRequest",
-)(
-  {
+).annotations({
+  identifier: "GetDeploymentStrategyRequest",
+}) as any as S.Schema<GetDeploymentStrategyRequest>;
+export interface GetEnvironmentRequest {
+  ApplicationId: string;
+  EnvironmentId: string;
+}
+export const GetEnvironmentRequest = S.suspend(() =>
+  S.Struct({
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
     EnvironmentId: S.String.pipe(T.HttpLabel("EnvironmentId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/applications/{ApplicationId}/environments/{EnvironmentId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/applications/{ApplicationId}/environments/{EnvironmentId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetExtensionRequest extends S.Class<GetExtensionRequest>(
-  "GetExtensionRequest",
-)(
-  {
+).annotations({
+  identifier: "GetEnvironmentRequest",
+}) as any as S.Schema<GetEnvironmentRequest>;
+export interface GetExtensionRequest {
+  ExtensionIdentifier: string;
+  VersionNumber?: number;
+}
+export const GetExtensionRequest = S.suspend(() =>
+  S.Struct({
     ExtensionIdentifier: S.String.pipe(T.HttpLabel("ExtensionIdentifier")),
     VersionNumber: S.optional(S.Number).pipe(T.HttpQuery("version_number")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/extensions/{ExtensionIdentifier}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/extensions/{ExtensionIdentifier}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetExtensionAssociationRequest extends S.Class<GetExtensionAssociationRequest>(
-  "GetExtensionAssociationRequest",
-)(
-  {
+).annotations({
+  identifier: "GetExtensionRequest",
+}) as any as S.Schema<GetExtensionRequest>;
+export interface GetExtensionAssociationRequest {
+  ExtensionAssociationId: string;
+}
+export const GetExtensionAssociationRequest = S.suspend(() =>
+  S.Struct({
     ExtensionAssociationId: S.String.pipe(
       T.HttpLabel("ExtensionAssociationId"),
     ),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/extensionassociations/{ExtensionAssociationId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/extensionassociations/{ExtensionAssociationId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetHostedConfigurationVersionRequest extends S.Class<GetHostedConfigurationVersionRequest>(
-  "GetHostedConfigurationVersionRequest",
-)(
-  {
+).annotations({
+  identifier: "GetExtensionAssociationRequest",
+}) as any as S.Schema<GetExtensionAssociationRequest>;
+export interface GetHostedConfigurationVersionRequest {
+  ApplicationId: string;
+  ConfigurationProfileId: string;
+  VersionNumber: number;
+}
+export const GetHostedConfigurationVersionRequest = S.suspend(() =>
+  S.Struct({
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
     ConfigurationProfileId: S.String.pipe(
       T.HttpLabel("ConfigurationProfileId"),
     ),
     VersionNumber: S.Number.pipe(T.HttpLabel("VersionNumber")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/hostedconfigurationversions/{VersionNumber}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/hostedconfigurationversions/{VersionNumber}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListApplicationsRequest extends S.Class<ListApplicationsRequest>(
-  "ListApplicationsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetHostedConfigurationVersionRequest",
+}) as any as S.Schema<GetHostedConfigurationVersionRequest>;
+export interface ListApplicationsRequest {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListApplicationsRequest = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max_results")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next_token")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/applications" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/applications" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListConfigurationProfilesRequest extends S.Class<ListConfigurationProfilesRequest>(
-  "ListConfigurationProfilesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListApplicationsRequest",
+}) as any as S.Schema<ListApplicationsRequest>;
+export interface ListConfigurationProfilesRequest {
+  ApplicationId: string;
+  MaxResults?: number;
+  NextToken?: string;
+  Type?: string;
+}
+export const ListConfigurationProfilesRequest = S.suspend(() =>
+  S.Struct({
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max_results")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next_token")),
     Type: S.optional(S.String).pipe(T.HttpQuery("type")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/applications/{ApplicationId}/configurationprofiles",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/applications/{ApplicationId}/configurationprofiles",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListDeploymentsRequest extends S.Class<ListDeploymentsRequest>(
-  "ListDeploymentsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListConfigurationProfilesRequest",
+}) as any as S.Schema<ListConfigurationProfilesRequest>;
+export interface ListDeploymentsRequest {
+  ApplicationId: string;
+  EnvironmentId: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListDeploymentsRequest = S.suspend(() =>
+  S.Struct({
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
     EnvironmentId: S.String.pipe(T.HttpLabel("EnvironmentId")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max_results")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next_token")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/applications/{ApplicationId}/environments/{EnvironmentId}/deployments",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/applications/{ApplicationId}/environments/{EnvironmentId}/deployments",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListDeploymentStrategiesRequest extends S.Class<ListDeploymentStrategiesRequest>(
-  "ListDeploymentStrategiesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListDeploymentsRequest",
+}) as any as S.Schema<ListDeploymentsRequest>;
+export interface ListDeploymentStrategiesRequest {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListDeploymentStrategiesRequest = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max_results")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next_token")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/deploymentstrategies" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/deploymentstrategies" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListEnvironmentsRequest extends S.Class<ListEnvironmentsRequest>(
-  "ListEnvironmentsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListDeploymentStrategiesRequest",
+}) as any as S.Schema<ListDeploymentStrategiesRequest>;
+export interface ListEnvironmentsRequest {
+  ApplicationId: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListEnvironmentsRequest = S.suspend(() =>
+  S.Struct({
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max_results")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next_token")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/applications/{ApplicationId}/environments",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/applications/{ApplicationId}/environments",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListExtensionAssociationsRequest extends S.Class<ListExtensionAssociationsRequest>(
-  "ListExtensionAssociationsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListEnvironmentsRequest",
+}) as any as S.Schema<ListEnvironmentsRequest>;
+export interface ListExtensionAssociationsRequest {
+  ResourceIdentifier?: string;
+  ExtensionIdentifier?: string;
+  ExtensionVersionNumber?: number;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListExtensionAssociationsRequest = S.suspend(() =>
+  S.Struct({
     ResourceIdentifier: S.optional(S.String).pipe(
       T.HttpQuery("resource_identifier"),
     ),
@@ -762,37 +929,51 @@ export class ListExtensionAssociationsRequest extends S.Class<ListExtensionAssoc
     ),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max_results")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next_token")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/extensionassociations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/extensionassociations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListExtensionsRequest extends S.Class<ListExtensionsRequest>(
-  "ListExtensionsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListExtensionAssociationsRequest",
+}) as any as S.Schema<ListExtensionAssociationsRequest>;
+export interface ListExtensionsRequest {
+  MaxResults?: number;
+  NextToken?: string;
+  Name?: string;
+}
+export const ListExtensionsRequest = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max_results")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next_token")),
     Name: S.optional(S.String).pipe(T.HttpQuery("name")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/extensions" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/extensions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListHostedConfigurationVersionsRequest extends S.Class<ListHostedConfigurationVersionsRequest>(
-  "ListHostedConfigurationVersionsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListExtensionsRequest",
+}) as any as S.Schema<ListExtensionsRequest>;
+export interface ListHostedConfigurationVersionsRequest {
+  ApplicationId: string;
+  ConfigurationProfileId: string;
+  MaxResults?: number;
+  NextToken?: string;
+  VersionLabel?: string;
+}
+export const ListHostedConfigurationVersionsRequest = S.suspend(() =>
+  S.Struct({
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
     ConfigurationProfileId: S.String.pipe(
       T.HttpLabel("ConfigurationProfileId"),
@@ -800,133 +981,189 @@ export class ListHostedConfigurationVersionsRequest extends S.Class<ListHostedCo
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max_results")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next_token")),
     VersionLabel: S.optional(S.String).pipe(T.HttpQuery("version_label")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/hostedconfigurationversions",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/hostedconfigurationversions",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListHostedConfigurationVersionsRequest",
+}) as any as S.Schema<ListHostedConfigurationVersionsRequest>;
+export interface ListTagsForResourceRequest {
+  ResourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StopDeploymentRequest extends S.Class<StopDeploymentRequest>(
-  "StopDeploymentRequest",
-)(
-  {
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface StopDeploymentRequest {
+  ApplicationId: string;
+  EnvironmentId: string;
+  DeploymentNumber: number;
+  AllowRevert?: boolean;
+}
+export const StopDeploymentRequest = S.suspend(() =>
+  S.Struct({
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
     EnvironmentId: S.String.pipe(T.HttpLabel("EnvironmentId")),
     DeploymentNumber: S.Number.pipe(T.HttpLabel("DeploymentNumber")),
     AllowRevert: S.optional(S.Boolean).pipe(T.HttpHeader("Allow-Revert")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/applications/{ApplicationId}/environments/{EnvironmentId}/deployments/{DeploymentNumber}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/applications/{ApplicationId}/environments/{EnvironmentId}/deployments/{DeploymentNumber}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")), Tags: TagMap },
-  T.all(
-    T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "StopDeploymentRequest",
+}) as any as S.Schema<StopDeploymentRequest>;
+export interface TagResourceRequest {
+  ResourceArn: string;
+  Tags: TagMap;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
+    Tags: TagMap,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UntagResourceRequest {
+  ResourceArn: string;
+  TagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
-export class DeletionProtectionSettings extends S.Class<DeletionProtectionSettings>(
-  "DeletionProtectionSettings",
-)({
-  Enabled: S.optional(S.Boolean),
-  ProtectionPeriodInMinutes: S.optional(S.Number),
-}) {}
-export class UpdateAccountSettingsRequest extends S.Class<UpdateAccountSettingsRequest>(
-  "UpdateAccountSettingsRequest",
-)(
-  { DeletionProtection: S.optional(DeletionProtectionSettings) },
-  T.all(
-    T.Http({ method: "PATCH", uri: "/settings" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface DeletionProtectionSettings {
+  Enabled?: boolean;
+  ProtectionPeriodInMinutes?: number;
+}
+export const DeletionProtectionSettings = S.suspend(() =>
+  S.Struct({
+    Enabled: S.optional(S.Boolean),
+    ProtectionPeriodInMinutes: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "DeletionProtectionSettings",
+}) as any as S.Schema<DeletionProtectionSettings>;
+export interface UpdateAccountSettingsRequest {
+  DeletionProtection?: DeletionProtectionSettings;
+}
+export const UpdateAccountSettingsRequest = S.suspend(() =>
+  S.Struct({ DeletionProtection: S.optional(DeletionProtectionSettings) }).pipe(
+    T.all(
+      T.Http({ method: "PATCH", uri: "/settings" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateApplicationRequest extends S.Class<UpdateApplicationRequest>(
-  "UpdateApplicationRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateAccountSettingsRequest",
+}) as any as S.Schema<UpdateAccountSettingsRequest>;
+export interface UpdateApplicationRequest {
+  ApplicationId: string;
+  Name?: string;
+  Description?: string;
+}
+export const UpdateApplicationRequest = S.suspend(() =>
+  S.Struct({
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "PATCH", uri: "/applications/{ApplicationId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PATCH", uri: "/applications/{ApplicationId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class Validator extends S.Class<Validator>("Validator")({
-  Type: S.String,
-  Content: S.String,
-}) {}
+).annotations({
+  identifier: "UpdateApplicationRequest",
+}) as any as S.Schema<UpdateApplicationRequest>;
+export interface Validator {
+  Type: string;
+  Content: string;
+}
+export const Validator = S.suspend(() =>
+  S.Struct({ Type: S.String, Content: S.String }),
+).annotations({ identifier: "Validator" }) as any as S.Schema<Validator>;
+export type ValidatorList = Validator[];
 export const ValidatorList = S.Array(Validator);
-export class UpdateConfigurationProfileRequest extends S.Class<UpdateConfigurationProfileRequest>(
-  "UpdateConfigurationProfileRequest",
-)(
-  {
+export interface UpdateConfigurationProfileRequest {
+  ApplicationId: string;
+  ConfigurationProfileId: string;
+  Name?: string;
+  Description?: string;
+  RetrievalRoleArn?: string;
+  Validators?: ValidatorList;
+  KmsKeyIdentifier?: string;
+}
+export const UpdateConfigurationProfileRequest = S.suspend(() =>
+  S.Struct({
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
     ConfigurationProfileId: S.String.pipe(
       T.HttpLabel("ConfigurationProfileId"),
@@ -936,199 +1173,312 @@ export class UpdateConfigurationProfileRequest extends S.Class<UpdateConfigurati
     RetrievalRoleArn: S.optional(S.String),
     Validators: S.optional(ValidatorList),
     KmsKeyIdentifier: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "PATCH",
-      uri: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateDeploymentStrategyRequest extends S.Class<UpdateDeploymentStrategyRequest>(
-  "UpdateDeploymentStrategyRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateConfigurationProfileRequest",
+}) as any as S.Schema<UpdateConfigurationProfileRequest>;
+export interface UpdateDeploymentStrategyRequest {
+  DeploymentStrategyId: string;
+  Description?: string;
+  DeploymentDurationInMinutes?: number;
+  FinalBakeTimeInMinutes?: number;
+  GrowthFactor?: number;
+  GrowthType?: string;
+}
+export const UpdateDeploymentStrategyRequest = S.suspend(() =>
+  S.Struct({
     DeploymentStrategyId: S.String.pipe(T.HttpLabel("DeploymentStrategyId")),
     Description: S.optional(S.String),
     DeploymentDurationInMinutes: S.optional(S.Number),
     FinalBakeTimeInMinutes: S.optional(S.Number),
     GrowthFactor: S.optional(S.Number),
     GrowthType: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "PATCH",
-      uri: "/deploymentstrategies/{DeploymentStrategyId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/deploymentstrategies/{DeploymentStrategyId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class Monitor extends S.Class<Monitor>("Monitor")({
-  AlarmArn: S.String,
-  AlarmRoleArn: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "UpdateDeploymentStrategyRequest",
+}) as any as S.Schema<UpdateDeploymentStrategyRequest>;
+export interface Monitor {
+  AlarmArn: string;
+  AlarmRoleArn?: string;
+}
+export const Monitor = S.suspend(() =>
+  S.Struct({ AlarmArn: S.String, AlarmRoleArn: S.optional(S.String) }),
+).annotations({ identifier: "Monitor" }) as any as S.Schema<Monitor>;
+export type MonitorList = Monitor[];
 export const MonitorList = S.Array(Monitor);
-export class UpdateEnvironmentRequest extends S.Class<UpdateEnvironmentRequest>(
-  "UpdateEnvironmentRequest",
-)(
-  {
+export interface UpdateEnvironmentRequest {
+  ApplicationId: string;
+  EnvironmentId: string;
+  Name?: string;
+  Description?: string;
+  Monitors?: MonitorList;
+}
+export const UpdateEnvironmentRequest = S.suspend(() =>
+  S.Struct({
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
     EnvironmentId: S.String.pipe(T.HttpLabel("EnvironmentId")),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     Monitors: S.optional(MonitorList),
-  },
-  T.all(
-    T.Http({
-      method: "PATCH",
-      uri: "/applications/{ApplicationId}/environments/{EnvironmentId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/applications/{ApplicationId}/environments/{EnvironmentId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class Action extends S.Class<Action>("Action")({
-  Name: S.optional(S.String),
-  Description: S.optional(S.String),
-  Uri: S.optional(S.String),
-  RoleArn: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "UpdateEnvironmentRequest",
+}) as any as S.Schema<UpdateEnvironmentRequest>;
+export interface Action {
+  Name?: string;
+  Description?: string;
+  Uri?: string;
+  RoleArn?: string;
+}
+export const Action = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Description: S.optional(S.String),
+    Uri: S.optional(S.String),
+    RoleArn: S.optional(S.String),
+  }),
+).annotations({ identifier: "Action" }) as any as S.Schema<Action>;
+export type ActionList = Action[];
 export const ActionList = S.Array(Action);
+export type ActionsMap = { [key: string]: ActionList };
 export const ActionsMap = S.Record({ key: S.String, value: ActionList });
-export class Parameter extends S.Class<Parameter>("Parameter")({
-  Description: S.optional(S.String),
-  Required: S.optional(S.Boolean),
-  Dynamic: S.optional(S.Boolean),
-}) {}
+export interface Parameter {
+  Description?: string;
+  Required?: boolean;
+  Dynamic?: boolean;
+}
+export const Parameter = S.suspend(() =>
+  S.Struct({
+    Description: S.optional(S.String),
+    Required: S.optional(S.Boolean),
+    Dynamic: S.optional(S.Boolean),
+  }),
+).annotations({ identifier: "Parameter" }) as any as S.Schema<Parameter>;
+export type ParameterMap = { [key: string]: Parameter };
 export const ParameterMap = S.Record({ key: S.String, value: Parameter });
-export class UpdateExtensionRequest extends S.Class<UpdateExtensionRequest>(
-  "UpdateExtensionRequest",
-)(
-  {
+export interface UpdateExtensionRequest {
+  ExtensionIdentifier: string;
+  Description?: string;
+  Actions?: ActionsMap;
+  Parameters?: ParameterMap;
+  VersionNumber?: number;
+}
+export const UpdateExtensionRequest = S.suspend(() =>
+  S.Struct({
     ExtensionIdentifier: S.String.pipe(T.HttpLabel("ExtensionIdentifier")),
     Description: S.optional(S.String),
     Actions: S.optional(ActionsMap),
     Parameters: S.optional(ParameterMap),
     VersionNumber: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "PATCH", uri: "/extensions/{ExtensionIdentifier}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PATCH", uri: "/extensions/{ExtensionIdentifier}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "UpdateExtensionRequest",
+}) as any as S.Schema<UpdateExtensionRequest>;
+export type ParameterValueMap = { [key: string]: string };
 export const ParameterValueMap = S.Record({ key: S.String, value: S.String });
-export class UpdateExtensionAssociationRequest extends S.Class<UpdateExtensionAssociationRequest>(
-  "UpdateExtensionAssociationRequest",
-)(
-  {
+export interface UpdateExtensionAssociationRequest {
+  ExtensionAssociationId: string;
+  Parameters?: ParameterValueMap;
+}
+export const UpdateExtensionAssociationRequest = S.suspend(() =>
+  S.Struct({
     ExtensionAssociationId: S.String.pipe(
       T.HttpLabel("ExtensionAssociationId"),
     ),
     Parameters: S.optional(ParameterValueMap),
-  },
-  T.all(
-    T.Http({
-      method: "PATCH",
-      uri: "/extensionassociations/{ExtensionAssociationId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/extensionassociations/{ExtensionAssociationId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ValidateConfigurationRequest extends S.Class<ValidateConfigurationRequest>(
-  "ValidateConfigurationRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateExtensionAssociationRequest",
+}) as any as S.Schema<UpdateExtensionAssociationRequest>;
+export interface ValidateConfigurationRequest {
+  ApplicationId: string;
+  ConfigurationProfileId: string;
+  ConfigurationVersion: string;
+}
+export const ValidateConfigurationRequest = S.suspend(() =>
+  S.Struct({
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
     ConfigurationProfileId: S.String.pipe(
       T.HttpLabel("ConfigurationProfileId"),
     ),
     ConfigurationVersion: S.String.pipe(T.HttpQuery("configuration_version")),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/validators",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/validators",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ValidateConfigurationResponse extends S.Class<ValidateConfigurationResponse>(
-  "ValidateConfigurationResponse",
-)({}) {}
-export class Application extends S.Class<Application>("Application")({
-  Id: S.optional(S.String),
-  Name: S.optional(S.String),
-  Description: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "ValidateConfigurationRequest",
+}) as any as S.Schema<ValidateConfigurationRequest>;
+export interface ValidateConfigurationResponse {}
+export const ValidateConfigurationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "ValidateConfigurationResponse",
+}) as any as S.Schema<ValidateConfigurationResponse>;
+export interface Application {
+  Id?: string;
+  Name?: string;
+  Description?: string;
+}
+export const Application = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Name: S.optional(S.String),
+    Description: S.optional(S.String),
+  }),
+).annotations({ identifier: "Application" }) as any as S.Schema<Application>;
+export type ApplicationList = Application[];
 export const ApplicationList = S.Array(Application);
-export class DeploymentStrategy extends S.Class<DeploymentStrategy>(
-  "DeploymentStrategy",
-)({
-  Id: S.optional(S.String),
-  Name: S.optional(S.String),
-  Description: S.optional(S.String),
-  DeploymentDurationInMinutes: S.optional(S.Number),
-  GrowthType: S.optional(S.String),
-  GrowthFactor: S.optional(S.Number),
-  FinalBakeTimeInMinutes: S.optional(S.Number),
-  ReplicateTo: S.optional(S.String),
-}) {}
+export interface DeploymentStrategy {
+  Id?: string;
+  Name?: string;
+  Description?: string;
+  DeploymentDurationInMinutes?: number;
+  GrowthType?: string;
+  GrowthFactor?: number;
+  FinalBakeTimeInMinutes?: number;
+  ReplicateTo?: string;
+}
+export const DeploymentStrategy = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Name: S.optional(S.String),
+    Description: S.optional(S.String),
+    DeploymentDurationInMinutes: S.optional(S.Number),
+    GrowthType: S.optional(S.String),
+    GrowthFactor: S.optional(S.Number),
+    FinalBakeTimeInMinutes: S.optional(S.Number),
+    ReplicateTo: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DeploymentStrategy",
+}) as any as S.Schema<DeploymentStrategy>;
+export type DeploymentStrategyList = DeploymentStrategy[];
 export const DeploymentStrategyList = S.Array(DeploymentStrategy);
-export class Environment extends S.Class<Environment>("Environment")({
-  ApplicationId: S.optional(S.String),
-  Id: S.optional(S.String),
-  Name: S.optional(S.String),
-  Description: S.optional(S.String),
-  State: S.optional(S.String),
-  Monitors: S.optional(MonitorList),
-}) {}
+export interface Environment {
+  ApplicationId?: string;
+  Id?: string;
+  Name?: string;
+  Description?: string;
+  State?: string;
+  Monitors?: MonitorList;
+}
+export const Environment = S.suspend(() =>
+  S.Struct({
+    ApplicationId: S.optional(S.String),
+    Id: S.optional(S.String),
+    Name: S.optional(S.String),
+    Description: S.optional(S.String),
+    State: S.optional(S.String),
+    Monitors: S.optional(MonitorList),
+  }),
+).annotations({ identifier: "Environment" }) as any as S.Schema<Environment>;
+export type EnvironmentList = Environment[];
 export const EnvironmentList = S.Array(Environment);
+export type DynamicParameterMap = { [key: string]: string };
 export const DynamicParameterMap = S.Record({ key: S.String, value: S.String });
-export class CreateApplicationRequest extends S.Class<CreateApplicationRequest>(
-  "CreateApplicationRequest",
-)(
-  {
+export interface CreateApplicationRequest {
+  Name: string;
+  Description?: string;
+  Tags?: TagMap;
+}
+export const CreateApplicationRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     Description: S.optional(S.String),
     Tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/applications" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/applications" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateConfigurationProfileRequest extends S.Class<CreateConfigurationProfileRequest>(
-  "CreateConfigurationProfileRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateApplicationRequest",
+}) as any as S.Schema<CreateApplicationRequest>;
+export interface CreateConfigurationProfileRequest {
+  ApplicationId: string;
+  Name: string;
+  Description?: string;
+  LocationUri: string;
+  RetrievalRoleArn?: string;
+  Validators?: ValidatorList;
+  Tags?: TagMap;
+  Type?: string;
+  KmsKeyIdentifier?: string;
+}
+export const CreateConfigurationProfileRequest = S.suspend(() =>
+  S.Struct({
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
     Name: S.String,
     Description: S.optional(S.String),
@@ -1138,138 +1488,248 @@ export class CreateConfigurationProfileRequest extends S.Class<CreateConfigurati
     Tags: S.optional(TagMap),
     Type: S.optional(S.String),
     KmsKeyIdentifier: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/applications/{ApplicationId}/configurationprofiles",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/applications/{ApplicationId}/configurationprofiles",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateEnvironmentRequest extends S.Class<CreateEnvironmentRequest>(
-  "CreateEnvironmentRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateConfigurationProfileRequest",
+}) as any as S.Schema<CreateConfigurationProfileRequest>;
+export interface CreateEnvironmentRequest {
+  ApplicationId: string;
+  Name: string;
+  Description?: string;
+  Monitors?: MonitorList;
+  Tags?: TagMap;
+}
+export const CreateEnvironmentRequest = S.suspend(() =>
+  S.Struct({
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
     Name: S.String,
     Description: S.optional(S.String),
     Monitors: S.optional(MonitorList),
     Tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/applications/{ApplicationId}/environments",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/applications/{ApplicationId}/environments",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateExtensionAssociationRequest extends S.Class<CreateExtensionAssociationRequest>(
-  "CreateExtensionAssociationRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateEnvironmentRequest",
+}) as any as S.Schema<CreateEnvironmentRequest>;
+export interface CreateExtensionAssociationRequest {
+  ExtensionIdentifier: string;
+  ExtensionVersionNumber?: number;
+  ResourceIdentifier: string;
+  Parameters?: ParameterValueMap;
+  Tags?: TagMap;
+}
+export const CreateExtensionAssociationRequest = S.suspend(() =>
+  S.Struct({
     ExtensionIdentifier: S.String,
     ExtensionVersionNumber: S.optional(S.Number),
     ResourceIdentifier: S.String,
     Parameters: S.optional(ParameterValueMap),
     Tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/extensionassociations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/extensionassociations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class HostedConfigurationVersion extends S.Class<HostedConfigurationVersion>(
-  "HostedConfigurationVersion",
-)({
-  ApplicationId: S.optional(S.String).pipe(T.HttpHeader("Application-Id")),
-  ConfigurationProfileId: S.optional(S.String).pipe(
-    T.HttpHeader("Configuration-Profile-Id"),
-  ),
-  VersionNumber: S.optional(S.Number).pipe(T.HttpHeader("Version-Number")),
-  Description: S.optional(S.String).pipe(T.HttpHeader("Description")),
-  Content: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
-  ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-  VersionLabel: S.optional(S.String).pipe(T.HttpHeader("VersionLabel")),
-  KmsKeyArn: S.optional(S.String).pipe(T.HttpHeader("KmsKeyArn")),
-}) {}
-export class AccountSettings extends S.Class<AccountSettings>(
-  "AccountSettings",
-)({ DeletionProtection: S.optional(DeletionProtectionSettings) }) {}
-export class Configuration extends S.Class<Configuration>("Configuration")({
-  Content: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
-  ConfigurationVersion: S.optional(S.String).pipe(
-    T.HttpHeader("Configuration-Version"),
-  ),
-  ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-}) {}
-export class ConfigurationProfile extends S.Class<ConfigurationProfile>(
-  "ConfigurationProfile",
-)({
-  ApplicationId: S.optional(S.String),
-  Id: S.optional(S.String),
-  Name: S.optional(S.String),
-  Description: S.optional(S.String),
-  LocationUri: S.optional(S.String),
-  RetrievalRoleArn: S.optional(S.String),
-  Validators: S.optional(ValidatorList),
-  Type: S.optional(S.String),
-  KmsKeyArn: S.optional(S.String),
-  KmsKeyIdentifier: S.optional(S.String),
-}) {}
-export class Extension extends S.Class<Extension>("Extension")({
-  Id: S.optional(S.String),
-  Name: S.optional(S.String),
-  VersionNumber: S.optional(S.Number),
-  Arn: S.optional(S.String),
-  Description: S.optional(S.String),
-  Actions: S.optional(ActionsMap),
-  Parameters: S.optional(ParameterMap),
-}) {}
-export class ExtensionAssociation extends S.Class<ExtensionAssociation>(
-  "ExtensionAssociation",
-)({
-  Id: S.optional(S.String),
-  ExtensionArn: S.optional(S.String),
-  ResourceArn: S.optional(S.String),
-  Arn: S.optional(S.String),
-  Parameters: S.optional(ParameterValueMap),
-  ExtensionVersionNumber: S.optional(S.Number),
-}) {}
-export class Applications extends S.Class<Applications>("Applications")({
-  Items: S.optional(ApplicationList),
-  NextToken: S.optional(S.String),
-}) {}
-export class DeploymentStrategies extends S.Class<DeploymentStrategies>(
-  "DeploymentStrategies",
-)({
-  Items: S.optional(DeploymentStrategyList),
-  NextToken: S.optional(S.String),
-}) {}
-export class Environments extends S.Class<Environments>("Environments")({
-  Items: S.optional(EnvironmentList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ResourceTags extends S.Class<ResourceTags>("ResourceTags")({
-  Tags: S.optional(TagMap),
-}) {}
-export class StartDeploymentRequest extends S.Class<StartDeploymentRequest>(
-  "StartDeploymentRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateExtensionAssociationRequest",
+}) as any as S.Schema<CreateExtensionAssociationRequest>;
+export interface HostedConfigurationVersion {
+  ApplicationId?: string;
+  ConfigurationProfileId?: string;
+  VersionNumber?: number;
+  Description?: string;
+  Content?: T.StreamingOutputBody;
+  ContentType?: string;
+  VersionLabel?: string;
+  KmsKeyArn?: string;
+}
+export const HostedConfigurationVersion = S.suspend(() =>
+  S.Struct({
+    ApplicationId: S.optional(S.String).pipe(T.HttpHeader("Application-Id")),
+    ConfigurationProfileId: S.optional(S.String).pipe(
+      T.HttpHeader("Configuration-Profile-Id"),
+    ),
+    VersionNumber: S.optional(S.Number).pipe(T.HttpHeader("Version-Number")),
+    Description: S.optional(S.String).pipe(T.HttpHeader("Description")),
+    Content: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
+    ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
+    VersionLabel: S.optional(S.String).pipe(T.HttpHeader("VersionLabel")),
+    KmsKeyArn: S.optional(S.String).pipe(T.HttpHeader("KmsKeyArn")),
+  }),
+).annotations({
+  identifier: "HostedConfigurationVersion",
+}) as any as S.Schema<HostedConfigurationVersion>;
+export interface AccountSettings {
+  DeletionProtection?: DeletionProtectionSettings;
+}
+export const AccountSettings = S.suspend(() =>
+  S.Struct({ DeletionProtection: S.optional(DeletionProtectionSettings) }),
+).annotations({
+  identifier: "AccountSettings",
+}) as any as S.Schema<AccountSettings>;
+export interface Configuration {
+  Content?: T.StreamingOutputBody;
+  ConfigurationVersion?: string;
+  ContentType?: string;
+}
+export const Configuration = S.suspend(() =>
+  S.Struct({
+    Content: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
+    ConfigurationVersion: S.optional(S.String).pipe(
+      T.HttpHeader("Configuration-Version"),
+    ),
+    ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
+  }),
+).annotations({
+  identifier: "Configuration",
+}) as any as S.Schema<Configuration>;
+export interface ConfigurationProfile {
+  ApplicationId?: string;
+  Id?: string;
+  Name?: string;
+  Description?: string;
+  LocationUri?: string;
+  RetrievalRoleArn?: string;
+  Validators?: ValidatorList;
+  Type?: string;
+  KmsKeyArn?: string;
+  KmsKeyIdentifier?: string;
+}
+export const ConfigurationProfile = S.suspend(() =>
+  S.Struct({
+    ApplicationId: S.optional(S.String),
+    Id: S.optional(S.String),
+    Name: S.optional(S.String),
+    Description: S.optional(S.String),
+    LocationUri: S.optional(S.String),
+    RetrievalRoleArn: S.optional(S.String),
+    Validators: S.optional(ValidatorList),
+    Type: S.optional(S.String),
+    KmsKeyArn: S.optional(S.String),
+    KmsKeyIdentifier: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ConfigurationProfile",
+}) as any as S.Schema<ConfigurationProfile>;
+export interface Extension {
+  Id?: string;
+  Name?: string;
+  VersionNumber?: number;
+  Arn?: string;
+  Description?: string;
+  Actions?: ActionsMap;
+  Parameters?: ParameterMap;
+}
+export const Extension = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Name: S.optional(S.String),
+    VersionNumber: S.optional(S.Number),
+    Arn: S.optional(S.String),
+    Description: S.optional(S.String),
+    Actions: S.optional(ActionsMap),
+    Parameters: S.optional(ParameterMap),
+  }),
+).annotations({ identifier: "Extension" }) as any as S.Schema<Extension>;
+export interface ExtensionAssociation {
+  Id?: string;
+  ExtensionArn?: string;
+  ResourceArn?: string;
+  Arn?: string;
+  Parameters?: ParameterValueMap;
+  ExtensionVersionNumber?: number;
+}
+export const ExtensionAssociation = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    ExtensionArn: S.optional(S.String),
+    ResourceArn: S.optional(S.String),
+    Arn: S.optional(S.String),
+    Parameters: S.optional(ParameterValueMap),
+    ExtensionVersionNumber: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "ExtensionAssociation",
+}) as any as S.Schema<ExtensionAssociation>;
+export interface Applications {
+  Items?: ApplicationList;
+  NextToken?: string;
+}
+export const Applications = S.suspend(() =>
+  S.Struct({
+    Items: S.optional(ApplicationList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({ identifier: "Applications" }) as any as S.Schema<Applications>;
+export interface DeploymentStrategies {
+  Items?: DeploymentStrategyList;
+  NextToken?: string;
+}
+export const DeploymentStrategies = S.suspend(() =>
+  S.Struct({
+    Items: S.optional(DeploymentStrategyList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DeploymentStrategies",
+}) as any as S.Schema<DeploymentStrategies>;
+export interface Environments {
+  Items?: EnvironmentList;
+  NextToken?: string;
+}
+export const Environments = S.suspend(() =>
+  S.Struct({
+    Items: S.optional(EnvironmentList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({ identifier: "Environments" }) as any as S.Schema<Environments>;
+export interface ResourceTags {
+  Tags?: TagMap;
+}
+export const ResourceTags = S.suspend(() =>
+  S.Struct({ Tags: S.optional(TagMap) }),
+).annotations({ identifier: "ResourceTags" }) as any as S.Schema<ResourceTags>;
+export interface StartDeploymentRequest {
+  ApplicationId: string;
+  EnvironmentId: string;
+  DeploymentStrategyId: string;
+  ConfigurationProfileId: string;
+  ConfigurationVersion: string;
+  Description?: string;
+  Tags?: TagMap;
+  KmsKeyIdentifier?: string;
+  DynamicExtensionParameters?: DynamicParameterMap;
+}
+export const StartDeploymentRequest = S.suspend(() =>
+  S.Struct({
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
     EnvironmentId: S.String.pipe(T.HttpLabel("EnvironmentId")),
     DeploymentStrategyId: S.String,
@@ -1279,97 +1739,175 @@ export class StartDeploymentRequest extends S.Class<StartDeploymentRequest>(
     Tags: S.optional(TagMap),
     KmsKeyIdentifier: S.optional(S.String),
     DynamicExtensionParameters: S.optional(DynamicParameterMap),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/applications/{ApplicationId}/environments/{EnvironmentId}/deployments",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/applications/{ApplicationId}/environments/{EnvironmentId}/deployments",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "StartDeploymentRequest",
+}) as any as S.Schema<StartDeploymentRequest>;
+export type ValidatorTypeList = string[];
 export const ValidatorTypeList = S.Array(S.String);
-export class AppliedExtension extends S.Class<AppliedExtension>(
-  "AppliedExtension",
-)({
-  ExtensionId: S.optional(S.String),
-  ExtensionAssociationId: S.optional(S.String),
-  VersionNumber: S.optional(S.Number),
-  Parameters: S.optional(ParameterValueMap),
-}) {}
+export interface AppliedExtension {
+  ExtensionId?: string;
+  ExtensionAssociationId?: string;
+  VersionNumber?: number;
+  Parameters?: ParameterValueMap;
+}
+export const AppliedExtension = S.suspend(() =>
+  S.Struct({
+    ExtensionId: S.optional(S.String),
+    ExtensionAssociationId: S.optional(S.String),
+    VersionNumber: S.optional(S.Number),
+    Parameters: S.optional(ParameterValueMap),
+  }),
+).annotations({
+  identifier: "AppliedExtension",
+}) as any as S.Schema<AppliedExtension>;
+export type AppliedExtensions = AppliedExtension[];
 export const AppliedExtensions = S.Array(AppliedExtension);
-export class ConfigurationProfileSummary extends S.Class<ConfigurationProfileSummary>(
-  "ConfigurationProfileSummary",
-)({
-  ApplicationId: S.optional(S.String),
-  Id: S.optional(S.String),
-  Name: S.optional(S.String),
-  LocationUri: S.optional(S.String),
-  ValidatorTypes: S.optional(ValidatorTypeList),
-  Type: S.optional(S.String),
-}) {}
+export interface ConfigurationProfileSummary {
+  ApplicationId?: string;
+  Id?: string;
+  Name?: string;
+  LocationUri?: string;
+  ValidatorTypes?: ValidatorTypeList;
+  Type?: string;
+}
+export const ConfigurationProfileSummary = S.suspend(() =>
+  S.Struct({
+    ApplicationId: S.optional(S.String),
+    Id: S.optional(S.String),
+    Name: S.optional(S.String),
+    LocationUri: S.optional(S.String),
+    ValidatorTypes: S.optional(ValidatorTypeList),
+    Type: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ConfigurationProfileSummary",
+}) as any as S.Schema<ConfigurationProfileSummary>;
+export type ConfigurationProfileSummaryList = ConfigurationProfileSummary[];
 export const ConfigurationProfileSummaryList = S.Array(
   ConfigurationProfileSummary,
 );
-export class DeploymentSummary extends S.Class<DeploymentSummary>(
-  "DeploymentSummary",
-)({
-  DeploymentNumber: S.optional(S.Number),
-  ConfigurationName: S.optional(S.String),
-  ConfigurationVersion: S.optional(S.String),
-  DeploymentDurationInMinutes: S.optional(S.Number),
-  GrowthType: S.optional(S.String),
-  GrowthFactor: S.optional(S.Number),
-  FinalBakeTimeInMinutes: S.optional(S.Number),
-  State: S.optional(S.String),
-  PercentageComplete: S.optional(S.Number),
-  StartedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  CompletedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  VersionLabel: S.optional(S.String),
-}) {}
+export interface DeploymentSummary {
+  DeploymentNumber?: number;
+  ConfigurationName?: string;
+  ConfigurationVersion?: string;
+  DeploymentDurationInMinutes?: number;
+  GrowthType?: string;
+  GrowthFactor?: number;
+  FinalBakeTimeInMinutes?: number;
+  State?: string;
+  PercentageComplete?: number;
+  StartedAt?: Date;
+  CompletedAt?: Date;
+  VersionLabel?: string;
+}
+export const DeploymentSummary = S.suspend(() =>
+  S.Struct({
+    DeploymentNumber: S.optional(S.Number),
+    ConfigurationName: S.optional(S.String),
+    ConfigurationVersion: S.optional(S.String),
+    DeploymentDurationInMinutes: S.optional(S.Number),
+    GrowthType: S.optional(S.String),
+    GrowthFactor: S.optional(S.Number),
+    FinalBakeTimeInMinutes: S.optional(S.Number),
+    State: S.optional(S.String),
+    PercentageComplete: S.optional(S.Number),
+    StartedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CompletedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    VersionLabel: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DeploymentSummary",
+}) as any as S.Schema<DeploymentSummary>;
+export type DeploymentList = DeploymentSummary[];
 export const DeploymentList = S.Array(DeploymentSummary);
-export class ExtensionAssociationSummary extends S.Class<ExtensionAssociationSummary>(
-  "ExtensionAssociationSummary",
-)({
-  Id: S.optional(S.String),
-  ExtensionArn: S.optional(S.String),
-  ResourceArn: S.optional(S.String),
-}) {}
+export interface ExtensionAssociationSummary {
+  Id?: string;
+  ExtensionArn?: string;
+  ResourceArn?: string;
+}
+export const ExtensionAssociationSummary = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    ExtensionArn: S.optional(S.String),
+    ResourceArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ExtensionAssociationSummary",
+}) as any as S.Schema<ExtensionAssociationSummary>;
+export type ExtensionAssociationSummaries = ExtensionAssociationSummary[];
 export const ExtensionAssociationSummaries = S.Array(
   ExtensionAssociationSummary,
 );
-export class ExtensionSummary extends S.Class<ExtensionSummary>(
-  "ExtensionSummary",
-)({
-  Id: S.optional(S.String),
-  Name: S.optional(S.String),
-  VersionNumber: S.optional(S.Number),
-  Arn: S.optional(S.String),
-  Description: S.optional(S.String),
-}) {}
+export interface ExtensionSummary {
+  Id?: string;
+  Name?: string;
+  VersionNumber?: number;
+  Arn?: string;
+  Description?: string;
+}
+export const ExtensionSummary = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Name: S.optional(S.String),
+    VersionNumber: S.optional(S.Number),
+    Arn: S.optional(S.String),
+    Description: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ExtensionSummary",
+}) as any as S.Schema<ExtensionSummary>;
+export type ExtensionSummaries = ExtensionSummary[];
 export const ExtensionSummaries = S.Array(ExtensionSummary);
-export class HostedConfigurationVersionSummary extends S.Class<HostedConfigurationVersionSummary>(
-  "HostedConfigurationVersionSummary",
-)({
-  ApplicationId: S.optional(S.String),
-  ConfigurationProfileId: S.optional(S.String),
-  VersionNumber: S.optional(S.Number),
-  Description: S.optional(S.String),
-  ContentType: S.optional(S.String),
-  VersionLabel: S.optional(S.String),
-  KmsKeyArn: S.optional(S.String),
-}) {}
+export interface HostedConfigurationVersionSummary {
+  ApplicationId?: string;
+  ConfigurationProfileId?: string;
+  VersionNumber?: number;
+  Description?: string;
+  ContentType?: string;
+  VersionLabel?: string;
+  KmsKeyArn?: string;
+}
+export const HostedConfigurationVersionSummary = S.suspend(() =>
+  S.Struct({
+    ApplicationId: S.optional(S.String),
+    ConfigurationProfileId: S.optional(S.String),
+    VersionNumber: S.optional(S.Number),
+    Description: S.optional(S.String),
+    ContentType: S.optional(S.String),
+    VersionLabel: S.optional(S.String),
+    KmsKeyArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "HostedConfigurationVersionSummary",
+}) as any as S.Schema<HostedConfigurationVersionSummary>;
+export type HostedConfigurationVersionSummaryList =
+  HostedConfigurationVersionSummary[];
 export const HostedConfigurationVersionSummaryList = S.Array(
   HostedConfigurationVersionSummary,
 );
-export class CreateExtensionRequest extends S.Class<CreateExtensionRequest>(
-  "CreateExtensionRequest",
-)(
-  {
+export interface CreateExtensionRequest {
+  Name: string;
+  Description?: string;
+  Actions: ActionsMap;
+  Parameters?: ParameterMap;
+  Tags?: TagMap;
+  LatestVersionNumber?: number;
+}
+export const CreateExtensionRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     Description: S.optional(S.String),
     Actions: ActionsMap,
@@ -1378,103 +1916,194 @@ export class CreateExtensionRequest extends S.Class<CreateExtensionRequest>(
     LatestVersionNumber: S.optional(S.Number).pipe(
       T.HttpHeader("Latest-Version-Number"),
     ),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/extensions" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/extensions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ConfigurationProfiles extends S.Class<ConfigurationProfiles>(
-  "ConfigurationProfiles",
-)({
-  Items: S.optional(ConfigurationProfileSummaryList),
-  NextToken: S.optional(S.String),
-}) {}
-export class Deployments extends S.Class<Deployments>("Deployments")({
-  Items: S.optional(DeploymentList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ExtensionAssociations extends S.Class<ExtensionAssociations>(
-  "ExtensionAssociations",
-)({
-  Items: S.optional(ExtensionAssociationSummaries),
-  NextToken: S.optional(S.String),
-}) {}
-export class Extensions extends S.Class<Extensions>("Extensions")({
-  Items: S.optional(ExtensionSummaries),
-  NextToken: S.optional(S.String),
-}) {}
-export class HostedConfigurationVersions extends S.Class<HostedConfigurationVersions>(
-  "HostedConfigurationVersions",
-)({
-  Items: S.optional(HostedConfigurationVersionSummaryList),
-  NextToken: S.optional(S.String),
-}) {}
-export class InvalidConfigurationDetail extends S.Class<InvalidConfigurationDetail>(
-  "InvalidConfigurationDetail",
-)({
-  Constraint: S.optional(S.String),
-  Location: S.optional(S.String),
-  Reason: S.optional(S.String),
-  Type: S.optional(S.String),
-  Value: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "CreateExtensionRequest",
+}) as any as S.Schema<CreateExtensionRequest>;
+export interface ConfigurationProfiles {
+  Items?: ConfigurationProfileSummaryList;
+  NextToken?: string;
+}
+export const ConfigurationProfiles = S.suspend(() =>
+  S.Struct({
+    Items: S.optional(ConfigurationProfileSummaryList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ConfigurationProfiles",
+}) as any as S.Schema<ConfigurationProfiles>;
+export interface Deployments {
+  Items?: DeploymentList;
+  NextToken?: string;
+}
+export const Deployments = S.suspend(() =>
+  S.Struct({
+    Items: S.optional(DeploymentList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({ identifier: "Deployments" }) as any as S.Schema<Deployments>;
+export interface ExtensionAssociations {
+  Items?: ExtensionAssociationSummaries;
+  NextToken?: string;
+}
+export const ExtensionAssociations = S.suspend(() =>
+  S.Struct({
+    Items: S.optional(ExtensionAssociationSummaries),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ExtensionAssociations",
+}) as any as S.Schema<ExtensionAssociations>;
+export interface Extensions {
+  Items?: ExtensionSummaries;
+  NextToken?: string;
+}
+export const Extensions = S.suspend(() =>
+  S.Struct({
+    Items: S.optional(ExtensionSummaries),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({ identifier: "Extensions" }) as any as S.Schema<Extensions>;
+export interface HostedConfigurationVersions {
+  Items?: HostedConfigurationVersionSummaryList;
+  NextToken?: string;
+}
+export const HostedConfigurationVersions = S.suspend(() =>
+  S.Struct({
+    Items: S.optional(HostedConfigurationVersionSummaryList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "HostedConfigurationVersions",
+}) as any as S.Schema<HostedConfigurationVersions>;
+export interface InvalidConfigurationDetail {
+  Constraint?: string;
+  Location?: string;
+  Reason?: string;
+  Type?: string;
+  Value?: string;
+}
+export const InvalidConfigurationDetail = S.suspend(() =>
+  S.Struct({
+    Constraint: S.optional(S.String),
+    Location: S.optional(S.String),
+    Reason: S.optional(S.String),
+    Type: S.optional(S.String),
+    Value: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "InvalidConfigurationDetail",
+}) as any as S.Schema<InvalidConfigurationDetail>;
+export type InvalidConfigurationDetailList = InvalidConfigurationDetail[];
 export const InvalidConfigurationDetailList = S.Array(
   InvalidConfigurationDetail,
 );
-export class ActionInvocation extends S.Class<ActionInvocation>(
-  "ActionInvocation",
-)({
-  ExtensionIdentifier: S.optional(S.String),
-  ActionName: S.optional(S.String),
-  Uri: S.optional(S.String),
-  RoleArn: S.optional(S.String),
-  ErrorMessage: S.optional(S.String),
-  ErrorCode: S.optional(S.String),
-  InvocationId: S.optional(S.String),
-}) {}
+export interface ActionInvocation {
+  ExtensionIdentifier?: string;
+  ActionName?: string;
+  Uri?: string;
+  RoleArn?: string;
+  ErrorMessage?: string;
+  ErrorCode?: string;
+  InvocationId?: string;
+}
+export const ActionInvocation = S.suspend(() =>
+  S.Struct({
+    ExtensionIdentifier: S.optional(S.String),
+    ActionName: S.optional(S.String),
+    Uri: S.optional(S.String),
+    RoleArn: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
+    ErrorCode: S.optional(S.String),
+    InvocationId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ActionInvocation",
+}) as any as S.Schema<ActionInvocation>;
+export type ActionInvocations = ActionInvocation[];
 export const ActionInvocations = S.Array(ActionInvocation);
 export const BadRequestDetails = S.Union(
   S.Struct({ InvalidConfiguration: InvalidConfigurationDetailList }),
 );
-export class DeploymentEvent extends S.Class<DeploymentEvent>(
-  "DeploymentEvent",
-)({
-  EventType: S.optional(S.String),
-  TriggeredBy: S.optional(S.String),
-  Description: S.optional(S.String),
-  ActionInvocations: S.optional(ActionInvocations),
-  OccurredAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-}) {}
+export interface DeploymentEvent {
+  EventType?: string;
+  TriggeredBy?: string;
+  Description?: string;
+  ActionInvocations?: ActionInvocations;
+  OccurredAt?: Date;
+}
+export const DeploymentEvent = S.suspend(() =>
+  S.Struct({
+    EventType: S.optional(S.String),
+    TriggeredBy: S.optional(S.String),
+    Description: S.optional(S.String),
+    ActionInvocations: S.optional(ActionInvocations),
+    OccurredAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotations({
+  identifier: "DeploymentEvent",
+}) as any as S.Schema<DeploymentEvent>;
+export type DeploymentEvents = DeploymentEvent[];
 export const DeploymentEvents = S.Array(DeploymentEvent);
-export class Deployment extends S.Class<Deployment>("Deployment")({
-  ApplicationId: S.optional(S.String),
-  EnvironmentId: S.optional(S.String),
-  DeploymentStrategyId: S.optional(S.String),
-  ConfigurationProfileId: S.optional(S.String),
-  DeploymentNumber: S.optional(S.Number),
-  ConfigurationName: S.optional(S.String),
-  ConfigurationLocationUri: S.optional(S.String),
-  ConfigurationVersion: S.optional(S.String),
-  Description: S.optional(S.String),
-  DeploymentDurationInMinutes: S.optional(S.Number),
-  GrowthType: S.optional(S.String),
-  GrowthFactor: S.optional(S.Number),
-  FinalBakeTimeInMinutes: S.optional(S.Number),
-  State: S.optional(S.String),
-  EventLog: S.optional(DeploymentEvents),
-  PercentageComplete: S.optional(S.Number),
-  StartedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  CompletedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  AppliedExtensions: S.optional(AppliedExtensions),
-  KmsKeyArn: S.optional(S.String),
-  KmsKeyIdentifier: S.optional(S.String),
-  VersionLabel: S.optional(S.String),
-}) {}
+export interface Deployment {
+  ApplicationId?: string;
+  EnvironmentId?: string;
+  DeploymentStrategyId?: string;
+  ConfigurationProfileId?: string;
+  DeploymentNumber?: number;
+  ConfigurationName?: string;
+  ConfigurationLocationUri?: string;
+  ConfigurationVersion?: string;
+  Description?: string;
+  DeploymentDurationInMinutes?: number;
+  GrowthType?: string;
+  GrowthFactor?: number;
+  FinalBakeTimeInMinutes?: number;
+  State?: string;
+  EventLog?: DeploymentEvents;
+  PercentageComplete?: number;
+  StartedAt?: Date;
+  CompletedAt?: Date;
+  AppliedExtensions?: AppliedExtensions;
+  KmsKeyArn?: string;
+  KmsKeyIdentifier?: string;
+  VersionLabel?: string;
+}
+export const Deployment = S.suspend(() =>
+  S.Struct({
+    ApplicationId: S.optional(S.String),
+    EnvironmentId: S.optional(S.String),
+    DeploymentStrategyId: S.optional(S.String),
+    ConfigurationProfileId: S.optional(S.String),
+    DeploymentNumber: S.optional(S.Number),
+    ConfigurationName: S.optional(S.String),
+    ConfigurationLocationUri: S.optional(S.String),
+    ConfigurationVersion: S.optional(S.String),
+    Description: S.optional(S.String),
+    DeploymentDurationInMinutes: S.optional(S.Number),
+    GrowthType: S.optional(S.String),
+    GrowthFactor: S.optional(S.Number),
+    FinalBakeTimeInMinutes: S.optional(S.Number),
+    State: S.optional(S.String),
+    EventLog: S.optional(DeploymentEvents),
+    PercentageComplete: S.optional(S.Number),
+    StartedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CompletedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    AppliedExtensions: S.optional(AppliedExtensions),
+    KmsKeyArn: S.optional(S.String),
+    KmsKeyIdentifier: S.optional(S.String),
+    VersionLabel: S.optional(S.String),
+  }),
+).annotations({ identifier: "Deployment" }) as any as S.Schema<Deployment>;
 
 //# Errors
 export class BadRequestException extends S.TaggedError<BadRequestException>()(

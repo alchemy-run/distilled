@@ -240,79 +240,205 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type AvailabilityZoneList = string[];
 export const AvailabilityZoneList = S.Array(S.String);
+export type SecurityGroupIdentifierList = string[];
 export const SecurityGroupIdentifierList = S.Array(S.String);
+export type SubnetIdentifierList = string[];
 export const SubnetIdentifierList = S.Array(S.String);
+export type NodeIdentifierList = string[];
 export const NodeIdentifierList = S.Array(S.String);
+export type ClusterNameList = string[];
 export const ClusterNameList = S.Array(S.String);
+export type ParameterGroupNameList = string[];
 export const ParameterGroupNameList = S.Array(S.String);
+export type SubnetGroupNameList = string[];
 export const SubnetGroupNameList = S.Array(S.String);
+export type KeyList = string[];
 export const KeyList = S.Array(S.String);
-export class CreateParameterGroupRequest extends S.Class<CreateParameterGroupRequest>(
-  "CreateParameterGroupRequest",
-)(
-  { ParameterGroupName: S.String, Description: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateSubnetGroupRequest extends S.Class<CreateSubnetGroupRequest>(
-  "CreateSubnetGroupRequest",
-)(
-  {
+export interface CreateParameterGroupRequest {
+  ParameterGroupName: string;
+  Description?: string;
+}
+export const CreateParameterGroupRequest = S.suspend(() =>
+  S.Struct({
+    ParameterGroupName: S.String,
+    Description: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateParameterGroupRequest",
+}) as any as S.Schema<CreateParameterGroupRequest>;
+export interface CreateSubnetGroupRequest {
+  SubnetGroupName: string;
+  Description?: string;
+  SubnetIds: SubnetIdentifierList;
+}
+export const CreateSubnetGroupRequest = S.suspend(() =>
+  S.Struct({
     SubnetGroupName: S.String,
     Description: S.optional(S.String),
     SubnetIds: SubnetIdentifierList,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DecreaseReplicationFactorRequest extends S.Class<DecreaseReplicationFactorRequest>(
-  "DecreaseReplicationFactorRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateSubnetGroupRequest",
+}) as any as S.Schema<CreateSubnetGroupRequest>;
+export interface DecreaseReplicationFactorRequest {
+  ClusterName: string;
+  NewReplicationFactor: number;
+  AvailabilityZones?: AvailabilityZoneList;
+  NodeIdsToRemove?: NodeIdentifierList;
+}
+export const DecreaseReplicationFactorRequest = S.suspend(() =>
+  S.Struct({
     ClusterName: S.String,
     NewReplicationFactor: S.Number,
     AvailabilityZones: S.optional(AvailabilityZoneList),
     NodeIdsToRemove: S.optional(NodeIdentifierList),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteClusterRequest extends S.Class<DeleteClusterRequest>(
-  "DeleteClusterRequest",
-)(
-  { ClusterName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteParameterGroupRequest extends S.Class<DeleteParameterGroupRequest>(
-  "DeleteParameterGroupRequest",
-)(
-  { ParameterGroupName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteSubnetGroupRequest extends S.Class<DeleteSubnetGroupRequest>(
-  "DeleteSubnetGroupRequest",
-)(
-  { SubnetGroupName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeClustersRequest extends S.Class<DescribeClustersRequest>(
-  "DescribeClustersRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DecreaseReplicationFactorRequest",
+}) as any as S.Schema<DecreaseReplicationFactorRequest>;
+export interface DeleteClusterRequest {
+  ClusterName: string;
+}
+export const DeleteClusterRequest = S.suspend(() =>
+  S.Struct({ ClusterName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteClusterRequest",
+}) as any as S.Schema<DeleteClusterRequest>;
+export interface DeleteParameterGroupRequest {
+  ParameterGroupName: string;
+}
+export const DeleteParameterGroupRequest = S.suspend(() =>
+  S.Struct({ ParameterGroupName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteParameterGroupRequest",
+}) as any as S.Schema<DeleteParameterGroupRequest>;
+export interface DeleteSubnetGroupRequest {
+  SubnetGroupName: string;
+}
+export const DeleteSubnetGroupRequest = S.suspend(() =>
+  S.Struct({ SubnetGroupName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteSubnetGroupRequest",
+}) as any as S.Schema<DeleteSubnetGroupRequest>;
+export interface DescribeClustersRequest {
+  ClusterNames?: ClusterNameList;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const DescribeClustersRequest = S.suspend(() =>
+  S.Struct({
     ClusterNames: S.optional(ClusterNameList),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeDefaultParametersRequest extends S.Class<DescribeDefaultParametersRequest>(
-  "DescribeDefaultParametersRequest",
-)(
-  { MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeEventsRequest extends S.Class<DescribeEventsRequest>(
-  "DescribeEventsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeClustersRequest",
+}) as any as S.Schema<DescribeClustersRequest>;
+export interface DescribeDefaultParametersRequest {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const DescribeDefaultParametersRequest = S.suspend(() =>
+  S.Struct({
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeDefaultParametersRequest",
+}) as any as S.Schema<DescribeDefaultParametersRequest>;
+export interface DescribeEventsRequest {
+  SourceName?: string;
+  SourceType?: string;
+  StartTime?: Date;
+  EndTime?: Date;
+  Duration?: number;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const DescribeEventsRequest = S.suspend(() =>
+  S.Struct({
     SourceName: S.optional(S.String),
     SourceType: S.optional(S.String),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -320,83 +446,214 @@ export class DescribeEventsRequest extends S.Class<DescribeEventsRequest>(
     Duration: S.optional(S.Number),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeParameterGroupsRequest extends S.Class<DescribeParameterGroupsRequest>(
-  "DescribeParameterGroupsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeEventsRequest",
+}) as any as S.Schema<DescribeEventsRequest>;
+export interface DescribeParameterGroupsRequest {
+  ParameterGroupNames?: ParameterGroupNameList;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const DescribeParameterGroupsRequest = S.suspend(() =>
+  S.Struct({
     ParameterGroupNames: S.optional(ParameterGroupNameList),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeParametersRequest extends S.Class<DescribeParametersRequest>(
-  "DescribeParametersRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeParameterGroupsRequest",
+}) as any as S.Schema<DescribeParameterGroupsRequest>;
+export interface DescribeParametersRequest {
+  ParameterGroupName: string;
+  Source?: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const DescribeParametersRequest = S.suspend(() =>
+  S.Struct({
     ParameterGroupName: S.String,
     Source: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeSubnetGroupsRequest extends S.Class<DescribeSubnetGroupsRequest>(
-  "DescribeSubnetGroupsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeParametersRequest",
+}) as any as S.Schema<DescribeParametersRequest>;
+export interface DescribeSubnetGroupsRequest {
+  SubnetGroupNames?: SubnetGroupNameList;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const DescribeSubnetGroupsRequest = S.suspend(() =>
+  S.Struct({
     SubnetGroupNames: S.optional(SubnetGroupNameList),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class IncreaseReplicationFactorRequest extends S.Class<IncreaseReplicationFactorRequest>(
-  "IncreaseReplicationFactorRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeSubnetGroupsRequest",
+}) as any as S.Schema<DescribeSubnetGroupsRequest>;
+export interface IncreaseReplicationFactorRequest {
+  ClusterName: string;
+  NewReplicationFactor: number;
+  AvailabilityZones?: AvailabilityZoneList;
+}
+export const IncreaseReplicationFactorRequest = S.suspend(() =>
+  S.Struct({
     ClusterName: S.String,
     NewReplicationFactor: S.Number,
     AvailabilityZones: S.optional(AvailabilityZoneList),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTagsRequest extends S.Class<ListTagsRequest>(
-  "ListTagsRequest",
-)(
-  { ResourceName: S.String, NextToken: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class RebootNodeRequest extends S.Class<RebootNodeRequest>(
-  "RebootNodeRequest",
-)(
-  { ClusterName: S.String, NodeId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class Tag extends S.Class<Tag>("Tag")({
-  Key: S.optional(S.String),
-  Value: S.optional(S.String),
-}) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "IncreaseReplicationFactorRequest",
+}) as any as S.Schema<IncreaseReplicationFactorRequest>;
+export interface ListTagsRequest {
+  ResourceName: string;
+  NextToken?: string;
+}
+export const ListTagsRequest = S.suspend(() =>
+  S.Struct({ ResourceName: S.String, NextToken: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListTagsRequest",
+}) as any as S.Schema<ListTagsRequest>;
+export interface RebootNodeRequest {
+  ClusterName: string;
+  NodeId: string;
+}
+export const RebootNodeRequest = S.suspend(() =>
+  S.Struct({ ClusterName: S.String, NodeId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "RebootNodeRequest",
+}) as any as S.Schema<RebootNodeRequest>;
+export interface Tag {
+  Key?: string;
+  Value?: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ Key: S.optional(S.String), Value: S.optional(S.String) }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagList = Tag[];
 export const TagList = S.Array(Tag);
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { ResourceName: S.String, Tags: TagList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  { ResourceName: S.String, TagKeys: KeyList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateClusterRequest extends S.Class<UpdateClusterRequest>(
-  "UpdateClusterRequest",
-)(
-  {
+export interface TagResourceRequest {
+  ResourceName: string;
+  Tags: TagList;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceName: S.String, Tags: TagList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface UntagResourceRequest {
+  ResourceName: string;
+  TagKeys: KeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceName: S.String, TagKeys: KeyList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UpdateClusterRequest {
+  ClusterName: string;
+  Description?: string;
+  PreferredMaintenanceWindow?: string;
+  NotificationTopicArn?: string;
+  NotificationTopicStatus?: string;
+  ParameterGroupName?: string;
+  SecurityGroupIds?: SecurityGroupIdentifierList;
+}
+export const UpdateClusterRequest = S.suspend(() =>
+  S.Struct({
     ClusterName: S.String,
     Description: S.optional(S.String),
     PreferredMaintenanceWindow: S.optional(S.String),
@@ -404,109 +661,259 @@ export class UpdateClusterRequest extends S.Class<UpdateClusterRequest>(
     NotificationTopicStatus: S.optional(S.String),
     ParameterGroupName: S.optional(S.String),
     SecurityGroupIds: S.optional(SecurityGroupIdentifierList),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateSubnetGroupRequest extends S.Class<UpdateSubnetGroupRequest>(
-  "UpdateSubnetGroupRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateClusterRequest",
+}) as any as S.Schema<UpdateClusterRequest>;
+export interface UpdateSubnetGroupRequest {
+  SubnetGroupName: string;
+  Description?: string;
+  SubnetIds?: SubnetIdentifierList;
+}
+export const UpdateSubnetGroupRequest = S.suspend(() =>
+  S.Struct({
     SubnetGroupName: S.String,
     Description: S.optional(S.String),
     SubnetIds: S.optional(SubnetIdentifierList),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class SSESpecification extends S.Class<SSESpecification>(
-  "SSESpecification",
-)({ Enabled: S.Boolean }) {}
-export class Endpoint extends S.Class<Endpoint>("Endpoint")({
-  Address: S.optional(S.String),
-  Port: S.optional(S.Number),
-  URL: S.optional(S.String),
-}) {}
-export class Node extends S.Class<Node>("Node")({
-  NodeId: S.optional(S.String),
-  Endpoint: S.optional(Endpoint),
-  NodeCreateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  AvailabilityZone: S.optional(S.String),
-  NodeStatus: S.optional(S.String),
-  ParameterGroupStatus: S.optional(S.String),
-}) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateSubnetGroupRequest",
+}) as any as S.Schema<UpdateSubnetGroupRequest>;
+export interface SSESpecification {
+  Enabled: boolean;
+}
+export const SSESpecification = S.suspend(() =>
+  S.Struct({ Enabled: S.Boolean }),
+).annotations({
+  identifier: "SSESpecification",
+}) as any as S.Schema<SSESpecification>;
+export interface Endpoint {
+  Address?: string;
+  Port?: number;
+  URL?: string;
+}
+export const Endpoint = S.suspend(() =>
+  S.Struct({
+    Address: S.optional(S.String),
+    Port: S.optional(S.Number),
+    URL: S.optional(S.String),
+  }),
+).annotations({ identifier: "Endpoint" }) as any as S.Schema<Endpoint>;
+export interface Node {
+  NodeId?: string;
+  Endpoint?: Endpoint;
+  NodeCreateTime?: Date;
+  AvailabilityZone?: string;
+  NodeStatus?: string;
+  ParameterGroupStatus?: string;
+}
+export const Node = S.suspend(() =>
+  S.Struct({
+    NodeId: S.optional(S.String),
+    Endpoint: S.optional(Endpoint),
+    NodeCreateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    AvailabilityZone: S.optional(S.String),
+    NodeStatus: S.optional(S.String),
+    ParameterGroupStatus: S.optional(S.String),
+  }),
+).annotations({ identifier: "Node" }) as any as S.Schema<Node>;
+export type NodeList = Node[];
 export const NodeList = S.Array(Node);
-export class NotificationConfiguration extends S.Class<NotificationConfiguration>(
-  "NotificationConfiguration",
-)({ TopicArn: S.optional(S.String), TopicStatus: S.optional(S.String) }) {}
-export class SecurityGroupMembership extends S.Class<SecurityGroupMembership>(
-  "SecurityGroupMembership",
-)({
-  SecurityGroupIdentifier: S.optional(S.String),
-  Status: S.optional(S.String),
-}) {}
+export interface NotificationConfiguration {
+  TopicArn?: string;
+  TopicStatus?: string;
+}
+export const NotificationConfiguration = S.suspend(() =>
+  S.Struct({
+    TopicArn: S.optional(S.String),
+    TopicStatus: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "NotificationConfiguration",
+}) as any as S.Schema<NotificationConfiguration>;
+export interface SecurityGroupMembership {
+  SecurityGroupIdentifier?: string;
+  Status?: string;
+}
+export const SecurityGroupMembership = S.suspend(() =>
+  S.Struct({
+    SecurityGroupIdentifier: S.optional(S.String),
+    Status: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SecurityGroupMembership",
+}) as any as S.Schema<SecurityGroupMembership>;
+export type SecurityGroupMembershipList = SecurityGroupMembership[];
 export const SecurityGroupMembershipList = S.Array(SecurityGroupMembership);
-export class ParameterGroupStatus extends S.Class<ParameterGroupStatus>(
-  "ParameterGroupStatus",
-)({
-  ParameterGroupName: S.optional(S.String),
-  ParameterApplyStatus: S.optional(S.String),
-  NodeIdsToReboot: S.optional(NodeIdentifierList),
-}) {}
-export class SSEDescription extends S.Class<SSEDescription>("SSEDescription")({
-  Status: S.optional(S.String),
-}) {}
-export class Cluster extends S.Class<Cluster>("Cluster")({
-  ClusterName: S.optional(S.String),
-  Description: S.optional(S.String),
-  ClusterArn: S.optional(S.String),
-  TotalNodes: S.optional(S.Number),
-  ActiveNodes: S.optional(S.Number),
-  NodeType: S.optional(S.String),
-  Status: S.optional(S.String),
-  ClusterDiscoveryEndpoint: S.optional(Endpoint),
-  NodeIdsToRemove: S.optional(NodeIdentifierList),
-  Nodes: S.optional(NodeList),
-  PreferredMaintenanceWindow: S.optional(S.String),
-  NotificationConfiguration: S.optional(NotificationConfiguration),
-  SubnetGroup: S.optional(S.String),
-  SecurityGroups: S.optional(SecurityGroupMembershipList),
-  IamRoleArn: S.optional(S.String),
-  ParameterGroup: S.optional(ParameterGroupStatus),
-  SSEDescription: S.optional(SSEDescription),
-  ClusterEndpointEncryptionType: S.optional(S.String),
-  NetworkType: S.optional(S.String),
-}) {}
+export interface ParameterGroupStatus {
+  ParameterGroupName?: string;
+  ParameterApplyStatus?: string;
+  NodeIdsToReboot?: NodeIdentifierList;
+}
+export const ParameterGroupStatus = S.suspend(() =>
+  S.Struct({
+    ParameterGroupName: S.optional(S.String),
+    ParameterApplyStatus: S.optional(S.String),
+    NodeIdsToReboot: S.optional(NodeIdentifierList),
+  }),
+).annotations({
+  identifier: "ParameterGroupStatus",
+}) as any as S.Schema<ParameterGroupStatus>;
+export interface SSEDescription {
+  Status?: string;
+}
+export const SSEDescription = S.suspend(() =>
+  S.Struct({ Status: S.optional(S.String) }),
+).annotations({
+  identifier: "SSEDescription",
+}) as any as S.Schema<SSEDescription>;
+export interface Cluster {
+  ClusterName?: string;
+  Description?: string;
+  ClusterArn?: string;
+  TotalNodes?: number;
+  ActiveNodes?: number;
+  NodeType?: string;
+  Status?: string;
+  ClusterDiscoveryEndpoint?: Endpoint;
+  NodeIdsToRemove?: NodeIdentifierList;
+  Nodes?: NodeList;
+  PreferredMaintenanceWindow?: string;
+  NotificationConfiguration?: NotificationConfiguration;
+  SubnetGroup?: string;
+  SecurityGroups?: SecurityGroupMembershipList;
+  IamRoleArn?: string;
+  ParameterGroup?: ParameterGroupStatus;
+  SSEDescription?: SSEDescription;
+  ClusterEndpointEncryptionType?: string;
+  NetworkType?: string;
+}
+export const Cluster = S.suspend(() =>
+  S.Struct({
+    ClusterName: S.optional(S.String),
+    Description: S.optional(S.String),
+    ClusterArn: S.optional(S.String),
+    TotalNodes: S.optional(S.Number),
+    ActiveNodes: S.optional(S.Number),
+    NodeType: S.optional(S.String),
+    Status: S.optional(S.String),
+    ClusterDiscoveryEndpoint: S.optional(Endpoint),
+    NodeIdsToRemove: S.optional(NodeIdentifierList),
+    Nodes: S.optional(NodeList),
+    PreferredMaintenanceWindow: S.optional(S.String),
+    NotificationConfiguration: S.optional(NotificationConfiguration),
+    SubnetGroup: S.optional(S.String),
+    SecurityGroups: S.optional(SecurityGroupMembershipList),
+    IamRoleArn: S.optional(S.String),
+    ParameterGroup: S.optional(ParameterGroupStatus),
+    SSEDescription: S.optional(SSEDescription),
+    ClusterEndpointEncryptionType: S.optional(S.String),
+    NetworkType: S.optional(S.String),
+  }),
+).annotations({ identifier: "Cluster" }) as any as S.Schema<Cluster>;
+export type ClusterList = Cluster[];
 export const ClusterList = S.Array(Cluster);
-export class ParameterGroup extends S.Class<ParameterGroup>("ParameterGroup")({
-  ParameterGroupName: S.optional(S.String),
-  Description: S.optional(S.String),
-}) {}
+export interface ParameterGroup {
+  ParameterGroupName?: string;
+  Description?: string;
+}
+export const ParameterGroup = S.suspend(() =>
+  S.Struct({
+    ParameterGroupName: S.optional(S.String),
+    Description: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ParameterGroup",
+}) as any as S.Schema<ParameterGroup>;
+export type ParameterGroupList = ParameterGroup[];
 export const ParameterGroupList = S.Array(ParameterGroup);
+export type NetworkTypeList = string[];
 export const NetworkTypeList = S.Array(S.String);
-export class Subnet extends S.Class<Subnet>("Subnet")({
-  SubnetIdentifier: S.optional(S.String),
-  SubnetAvailabilityZone: S.optional(S.String),
-  SupportedNetworkTypes: S.optional(NetworkTypeList),
-}) {}
+export interface Subnet {
+  SubnetIdentifier?: string;
+  SubnetAvailabilityZone?: string;
+  SupportedNetworkTypes?: NetworkTypeList;
+}
+export const Subnet = S.suspend(() =>
+  S.Struct({
+    SubnetIdentifier: S.optional(S.String),
+    SubnetAvailabilityZone: S.optional(S.String),
+    SupportedNetworkTypes: S.optional(NetworkTypeList),
+  }),
+).annotations({ identifier: "Subnet" }) as any as S.Schema<Subnet>;
+export type SubnetList = Subnet[];
 export const SubnetList = S.Array(Subnet);
-export class SubnetGroup extends S.Class<SubnetGroup>("SubnetGroup")({
-  SubnetGroupName: S.optional(S.String),
-  Description: S.optional(S.String),
-  VpcId: S.optional(S.String),
-  Subnets: S.optional(SubnetList),
-  SupportedNetworkTypes: S.optional(NetworkTypeList),
-}) {}
+export interface SubnetGroup {
+  SubnetGroupName?: string;
+  Description?: string;
+  VpcId?: string;
+  Subnets?: SubnetList;
+  SupportedNetworkTypes?: NetworkTypeList;
+}
+export const SubnetGroup = S.suspend(() =>
+  S.Struct({
+    SubnetGroupName: S.optional(S.String),
+    Description: S.optional(S.String),
+    VpcId: S.optional(S.String),
+    Subnets: S.optional(SubnetList),
+    SupportedNetworkTypes: S.optional(NetworkTypeList),
+  }),
+).annotations({ identifier: "SubnetGroup" }) as any as S.Schema<SubnetGroup>;
+export type SubnetGroupList = SubnetGroup[];
 export const SubnetGroupList = S.Array(SubnetGroup);
-export class ParameterNameValue extends S.Class<ParameterNameValue>(
-  "ParameterNameValue",
-)({
-  ParameterName: S.optional(S.String),
-  ParameterValue: S.optional(S.String),
-}) {}
+export interface ParameterNameValue {
+  ParameterName?: string;
+  ParameterValue?: string;
+}
+export const ParameterNameValue = S.suspend(() =>
+  S.Struct({
+    ParameterName: S.optional(S.String),
+    ParameterValue: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ParameterNameValue",
+}) as any as S.Schema<ParameterNameValue>;
+export type ParameterNameValueList = ParameterNameValue[];
 export const ParameterNameValueList = S.Array(ParameterNameValue);
-export class CreateClusterRequest extends S.Class<CreateClusterRequest>(
-  "CreateClusterRequest",
-)(
-  {
+export interface CreateClusterRequest {
+  ClusterName: string;
+  NodeType: string;
+  Description?: string;
+  ReplicationFactor: number;
+  AvailabilityZones?: AvailabilityZoneList;
+  SubnetGroupName?: string;
+  SecurityGroupIds?: SecurityGroupIdentifierList;
+  PreferredMaintenanceWindow?: string;
+  NotificationTopicArn?: string;
+  IamRoleArn: string;
+  ParameterGroupName?: string;
+  Tags?: TagList;
+  SSESpecification?: SSESpecification;
+  ClusterEndpointEncryptionType?: string;
+  NetworkType?: string;
+}
+export const CreateClusterRequest = S.suspend(() =>
+  S.Struct({
     ClusterName: S.String,
     NodeType: S.String,
     Description: S.optional(S.String),
@@ -522,120 +929,292 @@ export class CreateClusterRequest extends S.Class<CreateClusterRequest>(
     SSESpecification: S.optional(SSESpecification),
     ClusterEndpointEncryptionType: S.optional(S.String),
     NetworkType: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteClusterResponse extends S.Class<DeleteClusterResponse>(
-  "DeleteClusterResponse",
-)({ Cluster: S.optional(Cluster) }, ns) {}
-export class DeleteParameterGroupResponse extends S.Class<DeleteParameterGroupResponse>(
-  "DeleteParameterGroupResponse",
-)({ DeletionMessage: S.optional(S.String) }, ns) {}
-export class DeleteSubnetGroupResponse extends S.Class<DeleteSubnetGroupResponse>(
-  "DeleteSubnetGroupResponse",
-)({ DeletionMessage: S.optional(S.String) }, ns) {}
-export class DescribeClustersResponse extends S.Class<DescribeClustersResponse>(
-  "DescribeClustersResponse",
-)({ NextToken: S.optional(S.String), Clusters: S.optional(ClusterList) }, ns) {}
-export class DescribeParameterGroupsResponse extends S.Class<DescribeParameterGroupsResponse>(
-  "DescribeParameterGroupsResponse",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateClusterRequest",
+}) as any as S.Schema<CreateClusterRequest>;
+export interface DeleteClusterResponse {
+  Cluster?: Cluster;
+}
+export const DeleteClusterResponse = S.suspend(() =>
+  S.Struct({ Cluster: S.optional(Cluster) }).pipe(ns),
+).annotations({
+  identifier: "DeleteClusterResponse",
+}) as any as S.Schema<DeleteClusterResponse>;
+export interface DeleteParameterGroupResponse {
+  DeletionMessage?: string;
+}
+export const DeleteParameterGroupResponse = S.suspend(() =>
+  S.Struct({ DeletionMessage: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "DeleteParameterGroupResponse",
+}) as any as S.Schema<DeleteParameterGroupResponse>;
+export interface DeleteSubnetGroupResponse {
+  DeletionMessage?: string;
+}
+export const DeleteSubnetGroupResponse = S.suspend(() =>
+  S.Struct({ DeletionMessage: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "DeleteSubnetGroupResponse",
+}) as any as S.Schema<DeleteSubnetGroupResponse>;
+export interface DescribeClustersResponse {
+  NextToken?: string;
+  Clusters?: ClusterList;
+}
+export const DescribeClustersResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    Clusters: S.optional(ClusterList),
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeClustersResponse",
+}) as any as S.Schema<DescribeClustersResponse>;
+export interface DescribeParameterGroupsResponse {
+  NextToken?: string;
+  ParameterGroups?: ParameterGroupList;
+}
+export const DescribeParameterGroupsResponse = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String),
     ParameterGroups: S.optional(ParameterGroupList),
-  },
-  ns,
-) {}
-export class NodeTypeSpecificValue extends S.Class<NodeTypeSpecificValue>(
-  "NodeTypeSpecificValue",
-)({ NodeType: S.optional(S.String), Value: S.optional(S.String) }) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeParameterGroupsResponse",
+}) as any as S.Schema<DescribeParameterGroupsResponse>;
+export interface NodeTypeSpecificValue {
+  NodeType?: string;
+  Value?: string;
+}
+export const NodeTypeSpecificValue = S.suspend(() =>
+  S.Struct({ NodeType: S.optional(S.String), Value: S.optional(S.String) }),
+).annotations({
+  identifier: "NodeTypeSpecificValue",
+}) as any as S.Schema<NodeTypeSpecificValue>;
+export type NodeTypeSpecificValueList = NodeTypeSpecificValue[];
 export const NodeTypeSpecificValueList = S.Array(NodeTypeSpecificValue);
-export class Parameter extends S.Class<Parameter>("Parameter")({
-  ParameterName: S.optional(S.String),
-  ParameterType: S.optional(S.String),
-  ParameterValue: S.optional(S.String),
-  NodeTypeSpecificValues: S.optional(NodeTypeSpecificValueList),
-  Description: S.optional(S.String),
-  Source: S.optional(S.String),
-  DataType: S.optional(S.String),
-  AllowedValues: S.optional(S.String),
-  IsModifiable: S.optional(S.String),
-  ChangeType: S.optional(S.String),
-}) {}
+export interface Parameter {
+  ParameterName?: string;
+  ParameterType?: string;
+  ParameterValue?: string;
+  NodeTypeSpecificValues?: NodeTypeSpecificValueList;
+  Description?: string;
+  Source?: string;
+  DataType?: string;
+  AllowedValues?: string;
+  IsModifiable?: string;
+  ChangeType?: string;
+}
+export const Parameter = S.suspend(() =>
+  S.Struct({
+    ParameterName: S.optional(S.String),
+    ParameterType: S.optional(S.String),
+    ParameterValue: S.optional(S.String),
+    NodeTypeSpecificValues: S.optional(NodeTypeSpecificValueList),
+    Description: S.optional(S.String),
+    Source: S.optional(S.String),
+    DataType: S.optional(S.String),
+    AllowedValues: S.optional(S.String),
+    IsModifiable: S.optional(S.String),
+    ChangeType: S.optional(S.String),
+  }),
+).annotations({ identifier: "Parameter" }) as any as S.Schema<Parameter>;
+export type ParameterList = Parameter[];
 export const ParameterList = S.Array(Parameter);
-export class DescribeParametersResponse extends S.Class<DescribeParametersResponse>(
-  "DescribeParametersResponse",
-)(
-  { NextToken: S.optional(S.String), Parameters: S.optional(ParameterList) },
-  ns,
-) {}
-export class DescribeSubnetGroupsResponse extends S.Class<DescribeSubnetGroupsResponse>(
-  "DescribeSubnetGroupsResponse",
-)(
-  {
+export interface DescribeParametersResponse {
+  NextToken?: string;
+  Parameters?: ParameterList;
+}
+export const DescribeParametersResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    Parameters: S.optional(ParameterList),
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeParametersResponse",
+}) as any as S.Schema<DescribeParametersResponse>;
+export interface DescribeSubnetGroupsResponse {
+  NextToken?: string;
+  SubnetGroups?: SubnetGroupList;
+}
+export const DescribeSubnetGroupsResponse = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String),
     SubnetGroups: S.optional(SubnetGroupList),
-  },
-  ns,
-) {}
-export class IncreaseReplicationFactorResponse extends S.Class<IncreaseReplicationFactorResponse>(
-  "IncreaseReplicationFactorResponse",
-)({ Cluster: S.optional(Cluster) }, ns) {}
-export class ListTagsResponse extends S.Class<ListTagsResponse>(
-  "ListTagsResponse",
-)({ Tags: S.optional(TagList), NextToken: S.optional(S.String) }, ns) {}
-export class RebootNodeResponse extends S.Class<RebootNodeResponse>(
-  "RebootNodeResponse",
-)({ Cluster: S.optional(Cluster) }, ns) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({ Tags: S.optional(TagList) }, ns) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({ Tags: S.optional(TagList) }, ns) {}
-export class UpdateClusterResponse extends S.Class<UpdateClusterResponse>(
-  "UpdateClusterResponse",
-)({ Cluster: S.optional(Cluster) }, ns) {}
-export class UpdateParameterGroupRequest extends S.Class<UpdateParameterGroupRequest>(
-  "UpdateParameterGroupRequest",
-)(
-  { ParameterGroupName: S.String, ParameterNameValues: ParameterNameValueList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateSubnetGroupResponse extends S.Class<UpdateSubnetGroupResponse>(
-  "UpdateSubnetGroupResponse",
-)({ SubnetGroup: S.optional(SubnetGroup) }, ns) {}
-export class Event extends S.Class<Event>("Event")({
-  SourceName: S.optional(S.String),
-  SourceType: S.optional(S.String),
-  Message: S.optional(S.String),
-  Date: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeSubnetGroupsResponse",
+}) as any as S.Schema<DescribeSubnetGroupsResponse>;
+export interface IncreaseReplicationFactorResponse {
+  Cluster?: Cluster;
+}
+export const IncreaseReplicationFactorResponse = S.suspend(() =>
+  S.Struct({ Cluster: S.optional(Cluster) }).pipe(ns),
+).annotations({
+  identifier: "IncreaseReplicationFactorResponse",
+}) as any as S.Schema<IncreaseReplicationFactorResponse>;
+export interface ListTagsResponse {
+  Tags?: TagList;
+  NextToken?: string;
+}
+export const ListTagsResponse = S.suspend(() =>
+  S.Struct({ Tags: S.optional(TagList), NextToken: S.optional(S.String) }).pipe(
+    ns,
+  ),
+).annotations({
+  identifier: "ListTagsResponse",
+}) as any as S.Schema<ListTagsResponse>;
+export interface RebootNodeResponse {
+  Cluster?: Cluster;
+}
+export const RebootNodeResponse = S.suspend(() =>
+  S.Struct({ Cluster: S.optional(Cluster) }).pipe(ns),
+).annotations({
+  identifier: "RebootNodeResponse",
+}) as any as S.Schema<RebootNodeResponse>;
+export interface TagResourceResponse {
+  Tags?: TagList;
+}
+export const TagResourceResponse = S.suspend(() =>
+  S.Struct({ Tags: S.optional(TagList) }).pipe(ns),
+).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UntagResourceResponse {
+  Tags?: TagList;
+}
+export const UntagResourceResponse = S.suspend(() =>
+  S.Struct({ Tags: S.optional(TagList) }).pipe(ns),
+).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface UpdateClusterResponse {
+  Cluster?: Cluster;
+}
+export const UpdateClusterResponse = S.suspend(() =>
+  S.Struct({ Cluster: S.optional(Cluster) }).pipe(ns),
+).annotations({
+  identifier: "UpdateClusterResponse",
+}) as any as S.Schema<UpdateClusterResponse>;
+export interface UpdateParameterGroupRequest {
+  ParameterGroupName: string;
+  ParameterNameValues: ParameterNameValueList;
+}
+export const UpdateParameterGroupRequest = S.suspend(() =>
+  S.Struct({
+    ParameterGroupName: S.String,
+    ParameterNameValues: ParameterNameValueList,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateParameterGroupRequest",
+}) as any as S.Schema<UpdateParameterGroupRequest>;
+export interface UpdateSubnetGroupResponse {
+  SubnetGroup?: SubnetGroup;
+}
+export const UpdateSubnetGroupResponse = S.suspend(() =>
+  S.Struct({ SubnetGroup: S.optional(SubnetGroup) }).pipe(ns),
+).annotations({
+  identifier: "UpdateSubnetGroupResponse",
+}) as any as S.Schema<UpdateSubnetGroupResponse>;
+export interface Event {
+  SourceName?: string;
+  SourceType?: string;
+  Message?: string;
+  Date?: Date;
+}
+export const Event = S.suspend(() =>
+  S.Struct({
+    SourceName: S.optional(S.String),
+    SourceType: S.optional(S.String),
+    Message: S.optional(S.String),
+    Date: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({ identifier: "Event" }) as any as S.Schema<Event>;
+export type EventList = Event[];
 export const EventList = S.Array(Event);
-export class CreateClusterResponse extends S.Class<CreateClusterResponse>(
-  "CreateClusterResponse",
-)({ Cluster: S.optional(Cluster) }, ns) {}
-export class CreateParameterGroupResponse extends S.Class<CreateParameterGroupResponse>(
-  "CreateParameterGroupResponse",
-)({ ParameterGroup: S.optional(ParameterGroup) }, ns) {}
-export class DescribeEventsResponse extends S.Class<DescribeEventsResponse>(
-  "DescribeEventsResponse",
-)({ NextToken: S.optional(S.String), Events: S.optional(EventList) }, ns) {}
-export class UpdateParameterGroupResponse extends S.Class<UpdateParameterGroupResponse>(
-  "UpdateParameterGroupResponse",
-)({ ParameterGroup: S.optional(ParameterGroup) }, ns) {}
-export class CreateSubnetGroupResponse extends S.Class<CreateSubnetGroupResponse>(
-  "CreateSubnetGroupResponse",
-)({ SubnetGroup: S.optional(SubnetGroup) }, ns) {}
-export class DecreaseReplicationFactorResponse extends S.Class<DecreaseReplicationFactorResponse>(
-  "DecreaseReplicationFactorResponse",
-)({ Cluster: S.optional(Cluster) }, ns) {}
-export class DescribeDefaultParametersResponse extends S.Class<DescribeDefaultParametersResponse>(
-  "DescribeDefaultParametersResponse",
-)(
-  { NextToken: S.optional(S.String), Parameters: S.optional(ParameterList) },
-  ns,
-) {}
+export interface CreateClusterResponse {
+  Cluster?: Cluster;
+}
+export const CreateClusterResponse = S.suspend(() =>
+  S.Struct({ Cluster: S.optional(Cluster) }).pipe(ns),
+).annotations({
+  identifier: "CreateClusterResponse",
+}) as any as S.Schema<CreateClusterResponse>;
+export interface CreateParameterGroupResponse {
+  ParameterGroup?: ParameterGroup;
+}
+export const CreateParameterGroupResponse = S.suspend(() =>
+  S.Struct({ ParameterGroup: S.optional(ParameterGroup) }).pipe(ns),
+).annotations({
+  identifier: "CreateParameterGroupResponse",
+}) as any as S.Schema<CreateParameterGroupResponse>;
+export interface DescribeEventsResponse {
+  NextToken?: string;
+  Events?: EventList;
+}
+export const DescribeEventsResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    Events: S.optional(EventList),
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeEventsResponse",
+}) as any as S.Schema<DescribeEventsResponse>;
+export interface UpdateParameterGroupResponse {
+  ParameterGroup?: ParameterGroup;
+}
+export const UpdateParameterGroupResponse = S.suspend(() =>
+  S.Struct({ ParameterGroup: S.optional(ParameterGroup) }).pipe(ns),
+).annotations({
+  identifier: "UpdateParameterGroupResponse",
+}) as any as S.Schema<UpdateParameterGroupResponse>;
+export interface CreateSubnetGroupResponse {
+  SubnetGroup?: SubnetGroup;
+}
+export const CreateSubnetGroupResponse = S.suspend(() =>
+  S.Struct({ SubnetGroup: S.optional(SubnetGroup) }).pipe(ns),
+).annotations({
+  identifier: "CreateSubnetGroupResponse",
+}) as any as S.Schema<CreateSubnetGroupResponse>;
+export interface DecreaseReplicationFactorResponse {
+  Cluster?: Cluster;
+}
+export const DecreaseReplicationFactorResponse = S.suspend(() =>
+  S.Struct({ Cluster: S.optional(Cluster) }).pipe(ns),
+).annotations({
+  identifier: "DecreaseReplicationFactorResponse",
+}) as any as S.Schema<DecreaseReplicationFactorResponse>;
+export interface DescribeDefaultParametersResponse {
+  NextToken?: string;
+  Parameters?: ParameterList;
+}
+export const DescribeDefaultParametersResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    Parameters: S.optional(ParameterList),
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeDefaultParametersResponse",
+}) as any as S.Schema<DescribeDefaultParametersResponse>;
 
 //# Errors
 export class ClusterNotFoundFault extends S.TaggedError<ClusterNotFoundFault>()(

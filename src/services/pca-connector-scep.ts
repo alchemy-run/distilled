@@ -294,286 +294,470 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface ListTagsForResourceRequest {
+  ResourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface UntagResourceRequest {
+  ResourceArn: string;
+  TagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export type Tags = { [key: string]: string };
 export const Tags = S.Record({ key: S.String, value: S.String });
-export class CreateChallengeRequest extends S.Class<CreateChallengeRequest>(
-  "CreateChallengeRequest",
-)(
-  {
+export interface CreateChallengeRequest {
+  ConnectorArn: string;
+  ClientToken?: string;
+  Tags?: Tags;
+}
+export const CreateChallengeRequest = S.suspend(() =>
+  S.Struct({
     ConnectorArn: S.String,
     ClientToken: S.optional(S.String),
     Tags: S.optional(Tags),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/challenges" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/challenges" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetChallengeMetadataRequest extends S.Class<GetChallengeMetadataRequest>(
-  "GetChallengeMetadataRequest",
-)(
-  { ChallengeArn: S.String.pipe(T.HttpLabel("ChallengeArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/challengeMetadata/{ChallengeArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CreateChallengeRequest",
+}) as any as S.Schema<CreateChallengeRequest>;
+export interface GetChallengeMetadataRequest {
+  ChallengeArn: string;
+}
+export const GetChallengeMetadataRequest = S.suspend(() =>
+  S.Struct({ ChallengeArn: S.String.pipe(T.HttpLabel("ChallengeArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/challengeMetadata/{ChallengeArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteChallengeRequest extends S.Class<DeleteChallengeRequest>(
-  "DeleteChallengeRequest",
-)(
-  { ChallengeArn: S.String.pipe(T.HttpLabel("ChallengeArn")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/challenges/{ChallengeArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetChallengeMetadataRequest",
+}) as any as S.Schema<GetChallengeMetadataRequest>;
+export interface DeleteChallengeRequest {
+  ChallengeArn: string;
+}
+export const DeleteChallengeRequest = S.suspend(() =>
+  S.Struct({ ChallengeArn: S.String.pipe(T.HttpLabel("ChallengeArn")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/challenges/{ChallengeArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteChallengeResponse extends S.Class<DeleteChallengeResponse>(
-  "DeleteChallengeResponse",
-)({}) {}
-export class ListChallengeMetadataRequest extends S.Class<ListChallengeMetadataRequest>(
-  "ListChallengeMetadataRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteChallengeRequest",
+}) as any as S.Schema<DeleteChallengeRequest>;
+export interface DeleteChallengeResponse {}
+export const DeleteChallengeResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteChallengeResponse",
+}) as any as S.Schema<DeleteChallengeResponse>;
+export interface ListChallengeMetadataRequest {
+  MaxResults?: number;
+  NextToken?: string;
+  ConnectorArn: string;
+}
+export const ListChallengeMetadataRequest = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     ConnectorArn: S.String.pipe(T.HttpQuery("ConnectorArn")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/challengeMetadata" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/challengeMetadata" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetChallengePasswordRequest extends S.Class<GetChallengePasswordRequest>(
-  "GetChallengePasswordRequest",
-)(
-  { ChallengeArn: S.String.pipe(T.HttpLabel("ChallengeArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/challengePasswords/{ChallengeArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListChallengeMetadataRequest",
+}) as any as S.Schema<ListChallengeMetadataRequest>;
+export interface GetChallengePasswordRequest {
+  ChallengeArn: string;
+}
+export const GetChallengePasswordRequest = S.suspend(() =>
+  S.Struct({ ChallengeArn: S.String.pipe(T.HttpLabel("ChallengeArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/challengePasswords/{ChallengeArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetConnectorRequest extends S.Class<GetConnectorRequest>(
-  "GetConnectorRequest",
-)(
-  { ConnectorArn: S.String.pipe(T.HttpLabel("ConnectorArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/connectors/{ConnectorArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetChallengePasswordRequest",
+}) as any as S.Schema<GetChallengePasswordRequest>;
+export interface GetConnectorRequest {
+  ConnectorArn: string;
+}
+export const GetConnectorRequest = S.suspend(() =>
+  S.Struct({ ConnectorArn: S.String.pipe(T.HttpLabel("ConnectorArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/connectors/{ConnectorArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteConnectorRequest extends S.Class<DeleteConnectorRequest>(
-  "DeleteConnectorRequest",
-)(
-  { ConnectorArn: S.String.pipe(T.HttpLabel("ConnectorArn")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/connectors/{ConnectorArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetConnectorRequest",
+}) as any as S.Schema<GetConnectorRequest>;
+export interface DeleteConnectorRequest {
+  ConnectorArn: string;
+}
+export const DeleteConnectorRequest = S.suspend(() =>
+  S.Struct({ ConnectorArn: S.String.pipe(T.HttpLabel("ConnectorArn")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/connectors/{ConnectorArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteConnectorResponse extends S.Class<DeleteConnectorResponse>(
-  "DeleteConnectorResponse",
-)({}) {}
-export class ListConnectorsRequest extends S.Class<ListConnectorsRequest>(
-  "ListConnectorsRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteConnectorRequest",
+}) as any as S.Schema<DeleteConnectorRequest>;
+export interface DeleteConnectorResponse {}
+export const DeleteConnectorResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteConnectorResponse",
+}) as any as S.Schema<DeleteConnectorResponse>;
+export interface ListConnectorsRequest {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListConnectorsRequest = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/connectors" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/connectors" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ Tags: S.optional(Tags) }) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")), Tags: Tags },
-  T.all(
-    T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListConnectorsRequest",
+}) as any as S.Schema<ListConnectorsRequest>;
+export interface ListTagsForResourceResponse {
+  Tags?: Tags;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ Tags: S.optional(Tags) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface TagResourceRequest {
+  ResourceArn: string;
+  Tags: Tags;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
+    Tags: Tags,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class GetChallengePasswordResponse extends S.Class<GetChallengePasswordResponse>(
-  "GetChallengePasswordResponse",
-)({ Password: S.optional(S.String) }) {}
-export class IntuneConfiguration extends S.Class<IntuneConfiguration>(
-  "IntuneConfiguration",
-)({ AzureApplicationId: S.String, Domain: S.String }) {}
-export class Challenge extends S.Class<Challenge>("Challenge")({
-  Arn: S.optional(S.String),
-  ConnectorArn: S.optional(S.String),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Password: S.optional(S.String),
-}) {}
-export class ChallengeMetadata extends S.Class<ChallengeMetadata>(
-  "ChallengeMetadata",
-)({
-  Arn: S.optional(S.String),
-  ConnectorArn: S.optional(S.String),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class ChallengeMetadataSummary extends S.Class<ChallengeMetadataSummary>(
-  "ChallengeMetadataSummary",
-)({
-  Arn: S.optional(S.String),
-  ConnectorArn: S.optional(S.String),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface GetChallengePasswordResponse {
+  Password?: string;
+}
+export const GetChallengePasswordResponse = S.suspend(() =>
+  S.Struct({ Password: S.optional(S.String) }),
+).annotations({
+  identifier: "GetChallengePasswordResponse",
+}) as any as S.Schema<GetChallengePasswordResponse>;
+export interface IntuneConfiguration {
+  AzureApplicationId: string;
+  Domain: string;
+}
+export const IntuneConfiguration = S.suspend(() =>
+  S.Struct({ AzureApplicationId: S.String, Domain: S.String }),
+).annotations({
+  identifier: "IntuneConfiguration",
+}) as any as S.Schema<IntuneConfiguration>;
+export interface Challenge {
+  Arn?: string;
+  ConnectorArn?: string;
+  CreatedAt?: Date;
+  UpdatedAt?: Date;
+  Password?: string;
+}
+export const Challenge = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    ConnectorArn: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Password: S.optional(S.String),
+  }),
+).annotations({ identifier: "Challenge" }) as any as S.Schema<Challenge>;
+export interface ChallengeMetadata {
+  Arn?: string;
+  ConnectorArn?: string;
+  CreatedAt?: Date;
+  UpdatedAt?: Date;
+}
+export const ChallengeMetadata = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    ConnectorArn: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "ChallengeMetadata",
+}) as any as S.Schema<ChallengeMetadata>;
+export interface ChallengeMetadataSummary {
+  Arn?: string;
+  ConnectorArn?: string;
+  CreatedAt?: Date;
+  UpdatedAt?: Date;
+}
+export const ChallengeMetadataSummary = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    ConnectorArn: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "ChallengeMetadataSummary",
+}) as any as S.Schema<ChallengeMetadataSummary>;
+export type ChallengeMetadataList = ChallengeMetadataSummary[];
 export const ChallengeMetadataList = S.Array(ChallengeMetadataSummary);
 export const MobileDeviceManagement = S.Union(
   S.Struct({ Intune: IntuneConfiguration }),
 );
-export class OpenIdConfiguration extends S.Class<OpenIdConfiguration>(
-  "OpenIdConfiguration",
-)({
-  Issuer: S.optional(S.String),
-  Subject: S.optional(S.String),
-  Audience: S.optional(S.String),
-}) {}
-export class ConnectorSummary extends S.Class<ConnectorSummary>(
-  "ConnectorSummary",
-)({
-  Arn: S.optional(S.String),
-  CertificateAuthorityArn: S.optional(S.String),
-  Type: S.optional(S.String),
-  MobileDeviceManagement: S.optional(MobileDeviceManagement),
-  OpenIdConfiguration: S.optional(OpenIdConfiguration),
-  Status: S.optional(S.String),
-  StatusReason: S.optional(S.String),
-  Endpoint: S.optional(S.String),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface OpenIdConfiguration {
+  Issuer?: string;
+  Subject?: string;
+  Audience?: string;
+}
+export const OpenIdConfiguration = S.suspend(() =>
+  S.Struct({
+    Issuer: S.optional(S.String),
+    Subject: S.optional(S.String),
+    Audience: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "OpenIdConfiguration",
+}) as any as S.Schema<OpenIdConfiguration>;
+export interface ConnectorSummary {
+  Arn?: string;
+  CertificateAuthorityArn?: string;
+  Type?: string;
+  MobileDeviceManagement?: (typeof MobileDeviceManagement)["Type"];
+  OpenIdConfiguration?: OpenIdConfiguration;
+  Status?: string;
+  StatusReason?: string;
+  Endpoint?: string;
+  CreatedAt?: Date;
+  UpdatedAt?: Date;
+}
+export const ConnectorSummary = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    CertificateAuthorityArn: S.optional(S.String),
+    Type: S.optional(S.String),
+    MobileDeviceManagement: S.optional(MobileDeviceManagement),
+    OpenIdConfiguration: S.optional(OpenIdConfiguration),
+    Status: S.optional(S.String),
+    StatusReason: S.optional(S.String),
+    Endpoint: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "ConnectorSummary",
+}) as any as S.Schema<ConnectorSummary>;
+export type ConnectorList = ConnectorSummary[];
 export const ConnectorList = S.Array(ConnectorSummary);
-export class CreateChallengeResponse extends S.Class<CreateChallengeResponse>(
-  "CreateChallengeResponse",
-)({ Challenge: S.optional(Challenge) }) {}
-export class GetChallengeMetadataResponse extends S.Class<GetChallengeMetadataResponse>(
-  "GetChallengeMetadataResponse",
-)({ ChallengeMetadata: S.optional(ChallengeMetadata) }) {}
-export class ListChallengeMetadataResponse extends S.Class<ListChallengeMetadataResponse>(
-  "ListChallengeMetadataResponse",
-)({
-  Challenges: S.optional(ChallengeMetadataList),
-  NextToken: S.optional(S.String),
-}) {}
-export class CreateConnectorRequest extends S.Class<CreateConnectorRequest>(
-  "CreateConnectorRequest",
-)(
-  {
+export interface CreateChallengeResponse {
+  Challenge?: Challenge;
+}
+export const CreateChallengeResponse = S.suspend(() =>
+  S.Struct({ Challenge: S.optional(Challenge) }),
+).annotations({
+  identifier: "CreateChallengeResponse",
+}) as any as S.Schema<CreateChallengeResponse>;
+export interface GetChallengeMetadataResponse {
+  ChallengeMetadata?: ChallengeMetadata;
+}
+export const GetChallengeMetadataResponse = S.suspend(() =>
+  S.Struct({ ChallengeMetadata: S.optional(ChallengeMetadata) }),
+).annotations({
+  identifier: "GetChallengeMetadataResponse",
+}) as any as S.Schema<GetChallengeMetadataResponse>;
+export interface ListChallengeMetadataResponse {
+  Challenges?: ChallengeMetadataList;
+  NextToken?: string;
+}
+export const ListChallengeMetadataResponse = S.suspend(() =>
+  S.Struct({
+    Challenges: S.optional(ChallengeMetadataList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListChallengeMetadataResponse",
+}) as any as S.Schema<ListChallengeMetadataResponse>;
+export interface CreateConnectorRequest {
+  CertificateAuthorityArn: string;
+  MobileDeviceManagement?: (typeof MobileDeviceManagement)["Type"];
+  ClientToken?: string;
+  Tags?: Tags;
+}
+export const CreateConnectorRequest = S.suspend(() =>
+  S.Struct({
     CertificateAuthorityArn: S.String,
     MobileDeviceManagement: S.optional(MobileDeviceManagement),
     ClientToken: S.optional(S.String),
     Tags: S.optional(Tags),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/connectors" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/connectors" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListConnectorsResponse extends S.Class<ListConnectorsResponse>(
-  "ListConnectorsResponse",
-)({ Connectors: S.optional(ConnectorList), NextToken: S.optional(S.String) }) {}
-export class Connector extends S.Class<Connector>("Connector")({
-  Arn: S.optional(S.String),
-  CertificateAuthorityArn: S.optional(S.String),
-  Type: S.optional(S.String),
-  MobileDeviceManagement: S.optional(MobileDeviceManagement),
-  OpenIdConfiguration: S.optional(OpenIdConfiguration),
-  Status: S.optional(S.String),
-  StatusReason: S.optional(S.String),
-  Endpoint: S.optional(S.String),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class CreateConnectorResponse extends S.Class<CreateConnectorResponse>(
-  "CreateConnectorResponse",
-)({ ConnectorArn: S.optional(S.String) }) {}
-export class GetConnectorResponse extends S.Class<GetConnectorResponse>(
-  "GetConnectorResponse",
-)({ Connector: S.optional(Connector) }) {}
+).annotations({
+  identifier: "CreateConnectorRequest",
+}) as any as S.Schema<CreateConnectorRequest>;
+export interface ListConnectorsResponse {
+  Connectors?: ConnectorList;
+  NextToken?: string;
+}
+export const ListConnectorsResponse = S.suspend(() =>
+  S.Struct({
+    Connectors: S.optional(ConnectorList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListConnectorsResponse",
+}) as any as S.Schema<ListConnectorsResponse>;
+export interface Connector {
+  Arn?: string;
+  CertificateAuthorityArn?: string;
+  Type?: string;
+  MobileDeviceManagement?: (typeof MobileDeviceManagement)["Type"];
+  OpenIdConfiguration?: OpenIdConfiguration;
+  Status?: string;
+  StatusReason?: string;
+  Endpoint?: string;
+  CreatedAt?: Date;
+  UpdatedAt?: Date;
+}
+export const Connector = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    CertificateAuthorityArn: S.optional(S.String),
+    Type: S.optional(S.String),
+    MobileDeviceManagement: S.optional(MobileDeviceManagement),
+    OpenIdConfiguration: S.optional(OpenIdConfiguration),
+    Status: S.optional(S.String),
+    StatusReason: S.optional(S.String),
+    Endpoint: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({ identifier: "Connector" }) as any as S.Schema<Connector>;
+export interface CreateConnectorResponse {
+  ConnectorArn?: string;
+}
+export const CreateConnectorResponse = S.suspend(() =>
+  S.Struct({ ConnectorArn: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateConnectorResponse",
+}) as any as S.Schema<CreateConnectorResponse>;
+export interface GetConnectorResponse {
+  Connector?: Connector;
+}
+export const GetConnectorResponse = S.suspend(() =>
+  S.Struct({ Connector: S.optional(Connector) }),
+).annotations({
+  identifier: "GetConnectorResponse",
+}) as any as S.Schema<GetConnectorResponse>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

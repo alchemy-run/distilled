@@ -152,7 +152,10 @@ export const restXmlProtocol: Protocol = (
         isEventStream: isOutputEventStream(prop.type),
         isRawString:
           unwrapped._tag === "Union" || unwrapped._tag === "StringKeyword",
-        xmlName: getXmlNameFromAST(prop.type) ?? getIdentifier(prop.type),
+        // Use property name as fallback when type annotations aren't preserved
+        // (e.g., when using Schema.pipe to add HttpPayload annotation)
+        xmlName:
+          getXmlNameFromAST(prop.type) ?? getIdentifier(prop.type) ?? name,
       };
     }
   }
@@ -314,6 +317,19 @@ export const restXmlProtocol: Protocol = (
         return yield* new ParseError({ message: "Empty error response body" });
       }
 
+      // Check if this is an HTML error response (e.g., S3 503 Slow Down)
+      // Format: <html>...<li>Code: SlowDown</li><li>Message: ...</li>...</html>
+      if (bodyText.trimStart().toLowerCase().startsWith("<html")) {
+        const htmlError = parseHtmlError(bodyText);
+        if (htmlError) {
+          return htmlError;
+        }
+        // HTML response without parseable error - don't try XML parsing
+        return yield* new ParseError({
+          message: `Could not parse HTML error response: ${bodyText}`,
+        });
+      }
+
       // Parse XML body
       const parsed = parseXml(bodyText);
 
@@ -463,6 +479,15 @@ function serializeObject(
 function deserializeValue(ast: AST.AST, value: unknown): unknown {
   if (value == null || value === "") return undefined;
 
+  // Handle empty objects (from empty XML elements) - treat as undefined
+  if (
+    typeof value === "object" &&
+    !Array.isArray(value) &&
+    Object.keys(value as object).length === 0
+  ) {
+    return undefined;
+  }
+
   if (isArrayAST(ast)) {
     const elAST = getArrayElementAST(ast);
     if (!elAST) return Array.isArray(value) ? value : [value];
@@ -545,9 +570,41 @@ function deserializeObject(
       const items = Array.isArray(propValue) ? propValue : [propValue];
       result[key] = items.map((item) => deserializeValue(elAST, item));
     } else {
-      result[key] = deserializeValue(prop.type, propValue);
+      const deserialized = deserializeValue(prop.type, propValue);
+      // Only assign if not undefined (empty XML elements become undefined)
+      if (deserialized !== undefined) {
+        result[key] = deserialized;
+      }
     }
   }
 
   return result;
+}
+
+/**
+ * Parse HTML error responses (e.g., S3 503 Slow Down rate limiting).
+ * Format: <html>...<li>Code: SlowDown</li><li>Message: ...</li>...</html>
+ */
+function parseHtmlError(
+  html: string,
+): { errorCode: string; data: Record<string, unknown> } | undefined {
+  // Extract <li>Key: Value</li> pairs
+  const liPattern = /<li>([^:]+):\s*([^<]*)<\/li>/gi;
+  const data: Record<string, string> = {};
+  let errorCode: string | undefined;
+
+  let match: RegExpExecArray | null;
+  while ((match = liPattern.exec(html)) !== null) {
+    const key = match[1].trim();
+    const value = match[2].trim();
+    if (key === "Code") {
+      errorCode = sanitizeErrorCode(value);
+    } else {
+      data[key] = value;
+    }
+  }
+
+  if (!errorCode) return undefined;
+
+  return { errorCode, data };
 }

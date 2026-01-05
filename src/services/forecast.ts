@@ -242,547 +242,969 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type ForecastTypes = string[];
 export const ForecastTypes = S.Array(S.String);
+export type ForecastDimensions = string[];
 export const ForecastDimensions = S.Array(S.String);
+export type ArnList = string[];
 export const ArnList = S.Array(S.String);
+export type WhatIfForecastArnListForExport = string[];
 export const WhatIfForecastArnListForExport = S.Array(S.String);
+export type TagKeys = string[];
 export const TagKeys = S.Array(S.String);
-export class Tag extends S.Class<Tag>("Tag")({
-  Key: S.String,
-  Value: S.String,
-}) {}
+export interface Tag {
+  Key: string;
+  Value: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ Key: S.String, Value: S.String }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type Tags = Tag[];
 export const Tags = S.Array(Tag);
-export class CreateDatasetGroupRequest extends S.Class<CreateDatasetGroupRequest>(
-  "CreateDatasetGroupRequest",
-)(
-  {
+export interface CreateDatasetGroupRequest {
+  DatasetGroupName: string;
+  Domain: string;
+  DatasetArns?: ArnList;
+  Tags?: Tags;
+}
+export const CreateDatasetGroupRequest = S.suspend(() =>
+  S.Struct({
     DatasetGroupName: S.String,
     Domain: S.String,
     DatasetArns: S.optional(ArnList),
     Tags: S.optional(Tags),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class S3Config extends S.Class<S3Config>("S3Config")({
-  Path: S.String,
-  RoleArn: S.String,
-  KMSKeyArn: S.optional(S.String),
-}) {}
-export class DataDestination extends S.Class<DataDestination>(
-  "DataDestination",
-)({ S3Config: S3Config }) {}
-export class CreateForecastExportJobRequest extends S.Class<CreateForecastExportJobRequest>(
-  "CreateForecastExportJobRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateDatasetGroupRequest",
+}) as any as S.Schema<CreateDatasetGroupRequest>;
+export interface S3Config {
+  Path: string;
+  RoleArn: string;
+  KMSKeyArn?: string;
+}
+export const S3Config = S.suspend(() =>
+  S.Struct({
+    Path: S.String,
+    RoleArn: S.String,
+    KMSKeyArn: S.optional(S.String),
+  }),
+).annotations({ identifier: "S3Config" }) as any as S.Schema<S3Config>;
+export interface DataDestination {
+  S3Config: S3Config;
+}
+export const DataDestination = S.suspend(() =>
+  S.Struct({ S3Config: S3Config }),
+).annotations({
+  identifier: "DataDestination",
+}) as any as S.Schema<DataDestination>;
+export interface CreateForecastExportJobRequest {
+  ForecastExportJobName: string;
+  ForecastArn: string;
+  Destination: DataDestination;
+  Tags?: Tags;
+  Format?: string;
+}
+export const CreateForecastExportJobRequest = S.suspend(() =>
+  S.Struct({
     ForecastExportJobName: S.String,
     ForecastArn: S.String,
     Destination: DataDestination,
     Tags: S.optional(Tags),
     Format: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateMonitorRequest extends S.Class<CreateMonitorRequest>(
-  "CreateMonitorRequest",
-)(
-  { MonitorName: S.String, ResourceArn: S.String, Tags: S.optional(Tags) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreatePredictorBacktestExportJobRequest extends S.Class<CreatePredictorBacktestExportJobRequest>(
-  "CreatePredictorBacktestExportJobRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateForecastExportJobRequest",
+}) as any as S.Schema<CreateForecastExportJobRequest>;
+export interface CreateMonitorRequest {
+  MonitorName: string;
+  ResourceArn: string;
+  Tags?: Tags;
+}
+export const CreateMonitorRequest = S.suspend(() =>
+  S.Struct({
+    MonitorName: S.String,
+    ResourceArn: S.String,
+    Tags: S.optional(Tags),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateMonitorRequest",
+}) as any as S.Schema<CreateMonitorRequest>;
+export interface CreatePredictorBacktestExportJobRequest {
+  PredictorBacktestExportJobName: string;
+  PredictorArn: string;
+  Destination: DataDestination;
+  Tags?: Tags;
+  Format?: string;
+}
+export const CreatePredictorBacktestExportJobRequest = S.suspend(() =>
+  S.Struct({
     PredictorBacktestExportJobName: S.String,
     PredictorArn: S.String,
     Destination: DataDestination,
     Tags: S.optional(Tags),
     Format: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DataSource extends S.Class<DataSource>("DataSource")({
-  S3Config: S3Config,
-}) {}
-export class SchemaAttribute extends S.Class<SchemaAttribute>(
-  "SchemaAttribute",
-)({
-  AttributeName: S.optional(S.String),
-  AttributeType: S.optional(S.String),
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreatePredictorBacktestExportJobRequest",
+}) as any as S.Schema<CreatePredictorBacktestExportJobRequest>;
+export interface DataSource {
+  S3Config: S3Config;
+}
+export const DataSource = S.suspend(() =>
+  S.Struct({ S3Config: S3Config }),
+).annotations({ identifier: "DataSource" }) as any as S.Schema<DataSource>;
+export interface SchemaAttribute {
+  AttributeName?: string;
+  AttributeType?: string;
+}
+export const SchemaAttribute = S.suspend(() =>
+  S.Struct({
+    AttributeName: S.optional(S.String),
+    AttributeType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SchemaAttribute",
+}) as any as S.Schema<SchemaAttribute>;
+export type SchemaAttributes = SchemaAttribute[];
 export const SchemaAttributes = S.Array(SchemaAttribute);
-export class Schema extends S.Class<Schema>("Schema")({
-  Attributes: S.optional(SchemaAttributes),
-}) {}
-export class TimeSeriesIdentifiers extends S.Class<TimeSeriesIdentifiers>(
-  "TimeSeriesIdentifiers",
-)({
-  DataSource: S.optional(DataSource),
-  Schema: S.optional(Schema),
-  Format: S.optional(S.String),
-}) {}
-export class TimeSeriesSelector extends S.Class<TimeSeriesSelector>(
-  "TimeSeriesSelector",
-)({ TimeSeriesIdentifiers: S.optional(TimeSeriesIdentifiers) }) {}
-export class CreateWhatIfAnalysisRequest extends S.Class<CreateWhatIfAnalysisRequest>(
-  "CreateWhatIfAnalysisRequest",
-)(
-  {
+export interface Schema {
+  Attributes?: SchemaAttributes;
+}
+export const Schema = S.suspend(() =>
+  S.Struct({ Attributes: S.optional(SchemaAttributes) }),
+).annotations({ identifier: "Schema" }) as any as S.Schema<Schema>;
+export interface TimeSeriesIdentifiers {
+  DataSource?: DataSource;
+  Schema?: Schema;
+  Format?: string;
+}
+export const TimeSeriesIdentifiers = S.suspend(() =>
+  S.Struct({
+    DataSource: S.optional(DataSource),
+    Schema: S.optional(Schema),
+    Format: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "TimeSeriesIdentifiers",
+}) as any as S.Schema<TimeSeriesIdentifiers>;
+export interface TimeSeriesSelector {
+  TimeSeriesIdentifiers?: TimeSeriesIdentifiers;
+}
+export const TimeSeriesSelector = S.suspend(() =>
+  S.Struct({ TimeSeriesIdentifiers: S.optional(TimeSeriesIdentifiers) }),
+).annotations({
+  identifier: "TimeSeriesSelector",
+}) as any as S.Schema<TimeSeriesSelector>;
+export interface CreateWhatIfAnalysisRequest {
+  WhatIfAnalysisName: string;
+  ForecastArn: string;
+  TimeSeriesSelector?: TimeSeriesSelector;
+  Tags?: Tags;
+}
+export const CreateWhatIfAnalysisRequest = S.suspend(() =>
+  S.Struct({
     WhatIfAnalysisName: S.String,
     ForecastArn: S.String,
     TimeSeriesSelector: S.optional(TimeSeriesSelector),
     Tags: S.optional(Tags),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateWhatIfForecastExportRequest extends S.Class<CreateWhatIfForecastExportRequest>(
-  "CreateWhatIfForecastExportRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateWhatIfAnalysisRequest",
+}) as any as S.Schema<CreateWhatIfAnalysisRequest>;
+export interface CreateWhatIfForecastExportRequest {
+  WhatIfForecastExportName: string;
+  WhatIfForecastArns: WhatIfForecastArnListForExport;
+  Destination: DataDestination;
+  Tags?: Tags;
+  Format?: string;
+}
+export const CreateWhatIfForecastExportRequest = S.suspend(() =>
+  S.Struct({
     WhatIfForecastExportName: S.String,
     WhatIfForecastArns: WhatIfForecastArnListForExport,
     Destination: DataDestination,
     Tags: S.optional(Tags),
     Format: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteDatasetRequest extends S.Class<DeleteDatasetRequest>(
-  "DeleteDatasetRequest",
-)(
-  { DatasetArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteDatasetResponse extends S.Class<DeleteDatasetResponse>(
-  "DeleteDatasetResponse",
-)({}) {}
-export class DeleteDatasetGroupRequest extends S.Class<DeleteDatasetGroupRequest>(
-  "DeleteDatasetGroupRequest",
-)(
-  { DatasetGroupArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteDatasetGroupResponse extends S.Class<DeleteDatasetGroupResponse>(
-  "DeleteDatasetGroupResponse",
-)({}) {}
-export class DeleteDatasetImportJobRequest extends S.Class<DeleteDatasetImportJobRequest>(
-  "DeleteDatasetImportJobRequest",
-)(
-  { DatasetImportJobArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteDatasetImportJobResponse extends S.Class<DeleteDatasetImportJobResponse>(
-  "DeleteDatasetImportJobResponse",
-)({}) {}
-export class DeleteExplainabilityRequest extends S.Class<DeleteExplainabilityRequest>(
-  "DeleteExplainabilityRequest",
-)(
-  { ExplainabilityArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteExplainabilityResponse extends S.Class<DeleteExplainabilityResponse>(
-  "DeleteExplainabilityResponse",
-)({}) {}
-export class DeleteExplainabilityExportRequest extends S.Class<DeleteExplainabilityExportRequest>(
-  "DeleteExplainabilityExportRequest",
-)(
-  { ExplainabilityExportArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteExplainabilityExportResponse extends S.Class<DeleteExplainabilityExportResponse>(
-  "DeleteExplainabilityExportResponse",
-)({}) {}
-export class DeleteForecastRequest extends S.Class<DeleteForecastRequest>(
-  "DeleteForecastRequest",
-)(
-  { ForecastArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteForecastResponse extends S.Class<DeleteForecastResponse>(
-  "DeleteForecastResponse",
-)({}) {}
-export class DeleteForecastExportJobRequest extends S.Class<DeleteForecastExportJobRequest>(
-  "DeleteForecastExportJobRequest",
-)(
-  { ForecastExportJobArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteForecastExportJobResponse extends S.Class<DeleteForecastExportJobResponse>(
-  "DeleteForecastExportJobResponse",
-)({}) {}
-export class DeleteMonitorRequest extends S.Class<DeleteMonitorRequest>(
-  "DeleteMonitorRequest",
-)(
-  { MonitorArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteMonitorResponse extends S.Class<DeleteMonitorResponse>(
-  "DeleteMonitorResponse",
-)({}) {}
-export class DeletePredictorRequest extends S.Class<DeletePredictorRequest>(
-  "DeletePredictorRequest",
-)(
-  { PredictorArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeletePredictorResponse extends S.Class<DeletePredictorResponse>(
-  "DeletePredictorResponse",
-)({}) {}
-export class DeletePredictorBacktestExportJobRequest extends S.Class<DeletePredictorBacktestExportJobRequest>(
-  "DeletePredictorBacktestExportJobRequest",
-)(
-  { PredictorBacktestExportJobArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeletePredictorBacktestExportJobResponse extends S.Class<DeletePredictorBacktestExportJobResponse>(
-  "DeletePredictorBacktestExportJobResponse",
-)({}) {}
-export class DeleteResourceTreeRequest extends S.Class<DeleteResourceTreeRequest>(
-  "DeleteResourceTreeRequest",
-)(
-  { ResourceArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteResourceTreeResponse extends S.Class<DeleteResourceTreeResponse>(
-  "DeleteResourceTreeResponse",
-)({}) {}
-export class DeleteWhatIfAnalysisRequest extends S.Class<DeleteWhatIfAnalysisRequest>(
-  "DeleteWhatIfAnalysisRequest",
-)(
-  { WhatIfAnalysisArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteWhatIfAnalysisResponse extends S.Class<DeleteWhatIfAnalysisResponse>(
-  "DeleteWhatIfAnalysisResponse",
-)({}) {}
-export class DeleteWhatIfForecastRequest extends S.Class<DeleteWhatIfForecastRequest>(
-  "DeleteWhatIfForecastRequest",
-)(
-  { WhatIfForecastArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteWhatIfForecastResponse extends S.Class<DeleteWhatIfForecastResponse>(
-  "DeleteWhatIfForecastResponse",
-)({}) {}
-export class DeleteWhatIfForecastExportRequest extends S.Class<DeleteWhatIfForecastExportRequest>(
-  "DeleteWhatIfForecastExportRequest",
-)(
-  { WhatIfForecastExportArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteWhatIfForecastExportResponse extends S.Class<DeleteWhatIfForecastExportResponse>(
-  "DeleteWhatIfForecastExportResponse",
-)({}) {}
-export class DescribeAutoPredictorRequest extends S.Class<DescribeAutoPredictorRequest>(
-  "DescribeAutoPredictorRequest",
-)(
-  { PredictorArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeDatasetRequest extends S.Class<DescribeDatasetRequest>(
-  "DescribeDatasetRequest",
-)(
-  { DatasetArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeDatasetGroupRequest extends S.Class<DescribeDatasetGroupRequest>(
-  "DescribeDatasetGroupRequest",
-)(
-  { DatasetGroupArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeDatasetImportJobRequest extends S.Class<DescribeDatasetImportJobRequest>(
-  "DescribeDatasetImportJobRequest",
-)(
-  { DatasetImportJobArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeExplainabilityRequest extends S.Class<DescribeExplainabilityRequest>(
-  "DescribeExplainabilityRequest",
-)(
-  { ExplainabilityArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeExplainabilityExportRequest extends S.Class<DescribeExplainabilityExportRequest>(
-  "DescribeExplainabilityExportRequest",
-)(
-  { ExplainabilityExportArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeForecastRequest extends S.Class<DescribeForecastRequest>(
-  "DescribeForecastRequest",
-)(
-  { ForecastArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeForecastExportJobRequest extends S.Class<DescribeForecastExportJobRequest>(
-  "DescribeForecastExportJobRequest",
-)(
-  { ForecastExportJobArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeMonitorRequest extends S.Class<DescribeMonitorRequest>(
-  "DescribeMonitorRequest",
-)(
-  { MonitorArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribePredictorRequest extends S.Class<DescribePredictorRequest>(
-  "DescribePredictorRequest",
-)(
-  { PredictorArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribePredictorBacktestExportJobRequest extends S.Class<DescribePredictorBacktestExportJobRequest>(
-  "DescribePredictorBacktestExportJobRequest",
-)(
-  { PredictorBacktestExportJobArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeWhatIfAnalysisRequest extends S.Class<DescribeWhatIfAnalysisRequest>(
-  "DescribeWhatIfAnalysisRequest",
-)(
-  { WhatIfAnalysisArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeWhatIfForecastRequest extends S.Class<DescribeWhatIfForecastRequest>(
-  "DescribeWhatIfForecastRequest",
-)(
-  { WhatIfForecastArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeWhatIfForecastExportRequest extends S.Class<DescribeWhatIfForecastExportRequest>(
-  "DescribeWhatIfForecastExportRequest",
-)(
-  { WhatIfForecastExportArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetAccuracyMetricsRequest extends S.Class<GetAccuracyMetricsRequest>(
-  "GetAccuracyMetricsRequest",
-)(
-  { PredictorArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListDatasetGroupsRequest extends S.Class<ListDatasetGroupsRequest>(
-  "ListDatasetGroupsRequest",
-)(
-  { NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListDatasetsRequest extends S.Class<ListDatasetsRequest>(
-  "ListDatasetsRequest",
-)(
-  { NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class Filter extends S.Class<Filter>("Filter")({
-  Key: S.String,
-  Value: S.String,
-  Condition: S.String,
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateWhatIfForecastExportRequest",
+}) as any as S.Schema<CreateWhatIfForecastExportRequest>;
+export interface DeleteDatasetRequest {
+  DatasetArn: string;
+}
+export const DeleteDatasetRequest = S.suspend(() =>
+  S.Struct({ DatasetArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteDatasetRequest",
+}) as any as S.Schema<DeleteDatasetRequest>;
+export interface DeleteDatasetResponse {}
+export const DeleteDatasetResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteDatasetResponse",
+}) as any as S.Schema<DeleteDatasetResponse>;
+export interface DeleteDatasetGroupRequest {
+  DatasetGroupArn: string;
+}
+export const DeleteDatasetGroupRequest = S.suspend(() =>
+  S.Struct({ DatasetGroupArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteDatasetGroupRequest",
+}) as any as S.Schema<DeleteDatasetGroupRequest>;
+export interface DeleteDatasetGroupResponse {}
+export const DeleteDatasetGroupResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteDatasetGroupResponse",
+}) as any as S.Schema<DeleteDatasetGroupResponse>;
+export interface DeleteDatasetImportJobRequest {
+  DatasetImportJobArn: string;
+}
+export const DeleteDatasetImportJobRequest = S.suspend(() =>
+  S.Struct({ DatasetImportJobArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteDatasetImportJobRequest",
+}) as any as S.Schema<DeleteDatasetImportJobRequest>;
+export interface DeleteDatasetImportJobResponse {}
+export const DeleteDatasetImportJobResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteDatasetImportJobResponse",
+}) as any as S.Schema<DeleteDatasetImportJobResponse>;
+export interface DeleteExplainabilityRequest {
+  ExplainabilityArn: string;
+}
+export const DeleteExplainabilityRequest = S.suspend(() =>
+  S.Struct({ ExplainabilityArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteExplainabilityRequest",
+}) as any as S.Schema<DeleteExplainabilityRequest>;
+export interface DeleteExplainabilityResponse {}
+export const DeleteExplainabilityResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteExplainabilityResponse",
+}) as any as S.Schema<DeleteExplainabilityResponse>;
+export interface DeleteExplainabilityExportRequest {
+  ExplainabilityExportArn: string;
+}
+export const DeleteExplainabilityExportRequest = S.suspend(() =>
+  S.Struct({ ExplainabilityExportArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteExplainabilityExportRequest",
+}) as any as S.Schema<DeleteExplainabilityExportRequest>;
+export interface DeleteExplainabilityExportResponse {}
+export const DeleteExplainabilityExportResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteExplainabilityExportResponse",
+}) as any as S.Schema<DeleteExplainabilityExportResponse>;
+export interface DeleteForecastRequest {
+  ForecastArn: string;
+}
+export const DeleteForecastRequest = S.suspend(() =>
+  S.Struct({ ForecastArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteForecastRequest",
+}) as any as S.Schema<DeleteForecastRequest>;
+export interface DeleteForecastResponse {}
+export const DeleteForecastResponse = S.suspend(() => S.Struct({})).annotations(
+  { identifier: "DeleteForecastResponse" },
+) as any as S.Schema<DeleteForecastResponse>;
+export interface DeleteForecastExportJobRequest {
+  ForecastExportJobArn: string;
+}
+export const DeleteForecastExportJobRequest = S.suspend(() =>
+  S.Struct({ ForecastExportJobArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteForecastExportJobRequest",
+}) as any as S.Schema<DeleteForecastExportJobRequest>;
+export interface DeleteForecastExportJobResponse {}
+export const DeleteForecastExportJobResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteForecastExportJobResponse",
+}) as any as S.Schema<DeleteForecastExportJobResponse>;
+export interface DeleteMonitorRequest {
+  MonitorArn: string;
+}
+export const DeleteMonitorRequest = S.suspend(() =>
+  S.Struct({ MonitorArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteMonitorRequest",
+}) as any as S.Schema<DeleteMonitorRequest>;
+export interface DeleteMonitorResponse {}
+export const DeleteMonitorResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteMonitorResponse",
+}) as any as S.Schema<DeleteMonitorResponse>;
+export interface DeletePredictorRequest {
+  PredictorArn: string;
+}
+export const DeletePredictorRequest = S.suspend(() =>
+  S.Struct({ PredictorArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeletePredictorRequest",
+}) as any as S.Schema<DeletePredictorRequest>;
+export interface DeletePredictorResponse {}
+export const DeletePredictorResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeletePredictorResponse",
+}) as any as S.Schema<DeletePredictorResponse>;
+export interface DeletePredictorBacktestExportJobRequest {
+  PredictorBacktestExportJobArn: string;
+}
+export const DeletePredictorBacktestExportJobRequest = S.suspend(() =>
+  S.Struct({ PredictorBacktestExportJobArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeletePredictorBacktestExportJobRequest",
+}) as any as S.Schema<DeletePredictorBacktestExportJobRequest>;
+export interface DeletePredictorBacktestExportJobResponse {}
+export const DeletePredictorBacktestExportJobResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeletePredictorBacktestExportJobResponse",
+}) as any as S.Schema<DeletePredictorBacktestExportJobResponse>;
+export interface DeleteResourceTreeRequest {
+  ResourceArn: string;
+}
+export const DeleteResourceTreeRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteResourceTreeRequest",
+}) as any as S.Schema<DeleteResourceTreeRequest>;
+export interface DeleteResourceTreeResponse {}
+export const DeleteResourceTreeResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteResourceTreeResponse",
+}) as any as S.Schema<DeleteResourceTreeResponse>;
+export interface DeleteWhatIfAnalysisRequest {
+  WhatIfAnalysisArn: string;
+}
+export const DeleteWhatIfAnalysisRequest = S.suspend(() =>
+  S.Struct({ WhatIfAnalysisArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteWhatIfAnalysisRequest",
+}) as any as S.Schema<DeleteWhatIfAnalysisRequest>;
+export interface DeleteWhatIfAnalysisResponse {}
+export const DeleteWhatIfAnalysisResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteWhatIfAnalysisResponse",
+}) as any as S.Schema<DeleteWhatIfAnalysisResponse>;
+export interface DeleteWhatIfForecastRequest {
+  WhatIfForecastArn: string;
+}
+export const DeleteWhatIfForecastRequest = S.suspend(() =>
+  S.Struct({ WhatIfForecastArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteWhatIfForecastRequest",
+}) as any as S.Schema<DeleteWhatIfForecastRequest>;
+export interface DeleteWhatIfForecastResponse {}
+export const DeleteWhatIfForecastResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteWhatIfForecastResponse",
+}) as any as S.Schema<DeleteWhatIfForecastResponse>;
+export interface DeleteWhatIfForecastExportRequest {
+  WhatIfForecastExportArn: string;
+}
+export const DeleteWhatIfForecastExportRequest = S.suspend(() =>
+  S.Struct({ WhatIfForecastExportArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteWhatIfForecastExportRequest",
+}) as any as S.Schema<DeleteWhatIfForecastExportRequest>;
+export interface DeleteWhatIfForecastExportResponse {}
+export const DeleteWhatIfForecastExportResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteWhatIfForecastExportResponse",
+}) as any as S.Schema<DeleteWhatIfForecastExportResponse>;
+export interface DescribeAutoPredictorRequest {
+  PredictorArn: string;
+}
+export const DescribeAutoPredictorRequest = S.suspend(() =>
+  S.Struct({ PredictorArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeAutoPredictorRequest",
+}) as any as S.Schema<DescribeAutoPredictorRequest>;
+export interface DescribeDatasetRequest {
+  DatasetArn: string;
+}
+export const DescribeDatasetRequest = S.suspend(() =>
+  S.Struct({ DatasetArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeDatasetRequest",
+}) as any as S.Schema<DescribeDatasetRequest>;
+export interface DescribeDatasetGroupRequest {
+  DatasetGroupArn: string;
+}
+export const DescribeDatasetGroupRequest = S.suspend(() =>
+  S.Struct({ DatasetGroupArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeDatasetGroupRequest",
+}) as any as S.Schema<DescribeDatasetGroupRequest>;
+export interface DescribeDatasetImportJobRequest {
+  DatasetImportJobArn: string;
+}
+export const DescribeDatasetImportJobRequest = S.suspend(() =>
+  S.Struct({ DatasetImportJobArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeDatasetImportJobRequest",
+}) as any as S.Schema<DescribeDatasetImportJobRequest>;
+export interface DescribeExplainabilityRequest {
+  ExplainabilityArn: string;
+}
+export const DescribeExplainabilityRequest = S.suspend(() =>
+  S.Struct({ ExplainabilityArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeExplainabilityRequest",
+}) as any as S.Schema<DescribeExplainabilityRequest>;
+export interface DescribeExplainabilityExportRequest {
+  ExplainabilityExportArn: string;
+}
+export const DescribeExplainabilityExportRequest = S.suspend(() =>
+  S.Struct({ ExplainabilityExportArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeExplainabilityExportRequest",
+}) as any as S.Schema<DescribeExplainabilityExportRequest>;
+export interface DescribeForecastRequest {
+  ForecastArn: string;
+}
+export const DescribeForecastRequest = S.suspend(() =>
+  S.Struct({ ForecastArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeForecastRequest",
+}) as any as S.Schema<DescribeForecastRequest>;
+export interface DescribeForecastExportJobRequest {
+  ForecastExportJobArn: string;
+}
+export const DescribeForecastExportJobRequest = S.suspend(() =>
+  S.Struct({ ForecastExportJobArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeForecastExportJobRequest",
+}) as any as S.Schema<DescribeForecastExportJobRequest>;
+export interface DescribeMonitorRequest {
+  MonitorArn: string;
+}
+export const DescribeMonitorRequest = S.suspend(() =>
+  S.Struct({ MonitorArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeMonitorRequest",
+}) as any as S.Schema<DescribeMonitorRequest>;
+export interface DescribePredictorRequest {
+  PredictorArn: string;
+}
+export const DescribePredictorRequest = S.suspend(() =>
+  S.Struct({ PredictorArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribePredictorRequest",
+}) as any as S.Schema<DescribePredictorRequest>;
+export interface DescribePredictorBacktestExportJobRequest {
+  PredictorBacktestExportJobArn: string;
+}
+export const DescribePredictorBacktestExportJobRequest = S.suspend(() =>
+  S.Struct({ PredictorBacktestExportJobArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribePredictorBacktestExportJobRequest",
+}) as any as S.Schema<DescribePredictorBacktestExportJobRequest>;
+export interface DescribeWhatIfAnalysisRequest {
+  WhatIfAnalysisArn: string;
+}
+export const DescribeWhatIfAnalysisRequest = S.suspend(() =>
+  S.Struct({ WhatIfAnalysisArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeWhatIfAnalysisRequest",
+}) as any as S.Schema<DescribeWhatIfAnalysisRequest>;
+export interface DescribeWhatIfForecastRequest {
+  WhatIfForecastArn: string;
+}
+export const DescribeWhatIfForecastRequest = S.suspend(() =>
+  S.Struct({ WhatIfForecastArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeWhatIfForecastRequest",
+}) as any as S.Schema<DescribeWhatIfForecastRequest>;
+export interface DescribeWhatIfForecastExportRequest {
+  WhatIfForecastExportArn: string;
+}
+export const DescribeWhatIfForecastExportRequest = S.suspend(() =>
+  S.Struct({ WhatIfForecastExportArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeWhatIfForecastExportRequest",
+}) as any as S.Schema<DescribeWhatIfForecastExportRequest>;
+export interface GetAccuracyMetricsRequest {
+  PredictorArn: string;
+}
+export const GetAccuracyMetricsRequest = S.suspend(() =>
+  S.Struct({ PredictorArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetAccuracyMetricsRequest",
+}) as any as S.Schema<GetAccuracyMetricsRequest>;
+export interface ListDatasetGroupsRequest {
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListDatasetGroupsRequest = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListDatasetGroupsRequest",
+}) as any as S.Schema<ListDatasetGroupsRequest>;
+export interface ListDatasetsRequest {
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListDatasetsRequest = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListDatasetsRequest",
+}) as any as S.Schema<ListDatasetsRequest>;
+export interface Filter {
+  Key: string;
+  Value: string;
+  Condition: string;
+}
+export const Filter = S.suspend(() =>
+  S.Struct({ Key: S.String, Value: S.String, Condition: S.String }),
+).annotations({ identifier: "Filter" }) as any as S.Schema<Filter>;
+export type Filters = Filter[];
 export const Filters = S.Array(Filter);
-export class ListExplainabilitiesRequest extends S.Class<ListExplainabilitiesRequest>(
-  "ListExplainabilitiesRequest",
-)(
-  {
+export interface ListExplainabilitiesRequest {
+  NextToken?: string;
+  MaxResults?: number;
+  Filters?: Filters;
+}
+export const ListExplainabilitiesRequest = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     Filters: S.optional(Filters),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListExplainabilityExportsRequest extends S.Class<ListExplainabilityExportsRequest>(
-  "ListExplainabilityExportsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListExplainabilitiesRequest",
+}) as any as S.Schema<ListExplainabilitiesRequest>;
+export interface ListExplainabilityExportsRequest {
+  NextToken?: string;
+  MaxResults?: number;
+  Filters?: Filters;
+}
+export const ListExplainabilityExportsRequest = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     Filters: S.optional(Filters),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListForecastExportJobsRequest extends S.Class<ListForecastExportJobsRequest>(
-  "ListForecastExportJobsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListExplainabilityExportsRequest",
+}) as any as S.Schema<ListExplainabilityExportsRequest>;
+export interface ListForecastExportJobsRequest {
+  NextToken?: string;
+  MaxResults?: number;
+  Filters?: Filters;
+}
+export const ListForecastExportJobsRequest = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     Filters: S.optional(Filters),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListForecastsRequest extends S.Class<ListForecastsRequest>(
-  "ListForecastsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListForecastExportJobsRequest",
+}) as any as S.Schema<ListForecastExportJobsRequest>;
+export interface ListForecastsRequest {
+  NextToken?: string;
+  MaxResults?: number;
+  Filters?: Filters;
+}
+export const ListForecastsRequest = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     Filters: S.optional(Filters),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListMonitorEvaluationsRequest extends S.Class<ListMonitorEvaluationsRequest>(
-  "ListMonitorEvaluationsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListForecastsRequest",
+}) as any as S.Schema<ListForecastsRequest>;
+export interface ListMonitorEvaluationsRequest {
+  NextToken?: string;
+  MaxResults?: number;
+  MonitorArn: string;
+  Filters?: Filters;
+}
+export const ListMonitorEvaluationsRequest = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     MonitorArn: S.String,
     Filters: S.optional(Filters),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListMonitorsRequest extends S.Class<ListMonitorsRequest>(
-  "ListMonitorsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListMonitorEvaluationsRequest",
+}) as any as S.Schema<ListMonitorEvaluationsRequest>;
+export interface ListMonitorsRequest {
+  NextToken?: string;
+  MaxResults?: number;
+  Filters?: Filters;
+}
+export const ListMonitorsRequest = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     Filters: S.optional(Filters),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListPredictorBacktestExportJobsRequest extends S.Class<ListPredictorBacktestExportJobsRequest>(
-  "ListPredictorBacktestExportJobsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListMonitorsRequest",
+}) as any as S.Schema<ListMonitorsRequest>;
+export interface ListPredictorBacktestExportJobsRequest {
+  NextToken?: string;
+  MaxResults?: number;
+  Filters?: Filters;
+}
+export const ListPredictorBacktestExportJobsRequest = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     Filters: S.optional(Filters),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListPredictorsRequest extends S.Class<ListPredictorsRequest>(
-  "ListPredictorsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListPredictorBacktestExportJobsRequest",
+}) as any as S.Schema<ListPredictorBacktestExportJobsRequest>;
+export interface ListPredictorsRequest {
+  NextToken?: string;
+  MaxResults?: number;
+  Filters?: Filters;
+}
+export const ListPredictorsRequest = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     Filters: S.optional(Filters),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { ResourceArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListWhatIfAnalysesRequest extends S.Class<ListWhatIfAnalysesRequest>(
-  "ListWhatIfAnalysesRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListPredictorsRequest",
+}) as any as S.Schema<ListPredictorsRequest>;
+export interface ListTagsForResourceRequest {
+  ResourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface ListWhatIfAnalysesRequest {
+  NextToken?: string;
+  MaxResults?: number;
+  Filters?: Filters;
+}
+export const ListWhatIfAnalysesRequest = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     Filters: S.optional(Filters),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListWhatIfForecastExportsRequest extends S.Class<ListWhatIfForecastExportsRequest>(
-  "ListWhatIfForecastExportsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListWhatIfAnalysesRequest",
+}) as any as S.Schema<ListWhatIfAnalysesRequest>;
+export interface ListWhatIfForecastExportsRequest {
+  NextToken?: string;
+  MaxResults?: number;
+  Filters?: Filters;
+}
+export const ListWhatIfForecastExportsRequest = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     Filters: S.optional(Filters),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListWhatIfForecastsRequest extends S.Class<ListWhatIfForecastsRequest>(
-  "ListWhatIfForecastsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListWhatIfForecastExportsRequest",
+}) as any as S.Schema<ListWhatIfForecastExportsRequest>;
+export interface ListWhatIfForecastsRequest {
+  NextToken?: string;
+  MaxResults?: number;
+  Filters?: Filters;
+}
+export const ListWhatIfForecastsRequest = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     Filters: S.optional(Filters),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ResumeResourceRequest extends S.Class<ResumeResourceRequest>(
-  "ResumeResourceRequest",
-)(
-  { ResourceArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ResumeResourceResponse extends S.Class<ResumeResourceResponse>(
-  "ResumeResourceResponse",
-)({}) {}
-export class StopResourceRequest extends S.Class<StopResourceRequest>(
-  "StopResourceRequest",
-)(
-  { ResourceArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StopResourceResponse extends S.Class<StopResourceResponse>(
-  "StopResourceResponse",
-)({}) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { ResourceArn: S.String, Tags: Tags },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  { ResourceArn: S.String, TagKeys: TagKeys },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
-export class UpdateDatasetGroupRequest extends S.Class<UpdateDatasetGroupRequest>(
-  "UpdateDatasetGroupRequest",
-)(
-  { DatasetGroupArn: S.String, DatasetArns: ArnList },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateDatasetGroupResponse extends S.Class<UpdateDatasetGroupResponse>(
-  "UpdateDatasetGroupResponse",
-)({}) {}
-export class EncryptionConfig extends S.Class<EncryptionConfig>(
-  "EncryptionConfig",
-)({ RoleArn: S.String, KMSKeyArn: S.String }) {}
-export class MonitorConfig extends S.Class<MonitorConfig>("MonitorConfig")({
-  MonitorName: S.String,
-}) {}
-export class TimeAlignmentBoundary extends S.Class<TimeAlignmentBoundary>(
-  "TimeAlignmentBoundary",
-)({
-  Month: S.optional(S.String),
-  DayOfMonth: S.optional(S.Number),
-  DayOfWeek: S.optional(S.String),
-  Hour: S.optional(S.Number),
-}) {}
-export class ExplainabilityConfig extends S.Class<ExplainabilityConfig>(
-  "ExplainabilityConfig",
-)({ TimeSeriesGranularity: S.String, TimePointGranularity: S.String }) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListWhatIfForecastsRequest",
+}) as any as S.Schema<ListWhatIfForecastsRequest>;
+export interface ResumeResourceRequest {
+  ResourceArn: string;
+}
+export const ResumeResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ResumeResourceRequest",
+}) as any as S.Schema<ResumeResourceRequest>;
+export interface ResumeResourceResponse {}
+export const ResumeResourceResponse = S.suspend(() => S.Struct({})).annotations(
+  { identifier: "ResumeResourceResponse" },
+) as any as S.Schema<ResumeResourceResponse>;
+export interface StopResourceRequest {
+  ResourceArn: string;
+}
+export const StopResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StopResourceRequest",
+}) as any as S.Schema<StopResourceRequest>;
+export interface StopResourceResponse {}
+export const StopResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "StopResourceResponse",
+}) as any as S.Schema<StopResourceResponse>;
+export interface TagResourceRequest {
+  ResourceArn: string;
+  Tags: Tags;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String, Tags: Tags }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UntagResourceRequest {
+  ResourceArn: string;
+  TagKeys: TagKeys;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String, TagKeys: TagKeys }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface UpdateDatasetGroupRequest {
+  DatasetGroupArn: string;
+  DatasetArns: ArnList;
+}
+export const UpdateDatasetGroupRequest = S.suspend(() =>
+  S.Struct({ DatasetGroupArn: S.String, DatasetArns: ArnList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateDatasetGroupRequest",
+}) as any as S.Schema<UpdateDatasetGroupRequest>;
+export interface UpdateDatasetGroupResponse {}
+export const UpdateDatasetGroupResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateDatasetGroupResponse",
+}) as any as S.Schema<UpdateDatasetGroupResponse>;
+export interface EncryptionConfig {
+  RoleArn: string;
+  KMSKeyArn: string;
+}
+export const EncryptionConfig = S.suspend(() =>
+  S.Struct({ RoleArn: S.String, KMSKeyArn: S.String }),
+).annotations({
+  identifier: "EncryptionConfig",
+}) as any as S.Schema<EncryptionConfig>;
+export interface MonitorConfig {
+  MonitorName: string;
+}
+export const MonitorConfig = S.suspend(() =>
+  S.Struct({ MonitorName: S.String }),
+).annotations({
+  identifier: "MonitorConfig",
+}) as any as S.Schema<MonitorConfig>;
+export interface TimeAlignmentBoundary {
+  Month?: string;
+  DayOfMonth?: number;
+  DayOfWeek?: string;
+  Hour?: number;
+}
+export const TimeAlignmentBoundary = S.suspend(() =>
+  S.Struct({
+    Month: S.optional(S.String),
+    DayOfMonth: S.optional(S.Number),
+    DayOfWeek: S.optional(S.String),
+    Hour: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "TimeAlignmentBoundary",
+}) as any as S.Schema<TimeAlignmentBoundary>;
+export interface ExplainabilityConfig {
+  TimeSeriesGranularity: string;
+  TimePointGranularity: string;
+}
+export const ExplainabilityConfig = S.suspend(() =>
+  S.Struct({ TimeSeriesGranularity: S.String, TimePointGranularity: S.String }),
+).annotations({
+  identifier: "ExplainabilityConfig",
+}) as any as S.Schema<ExplainabilityConfig>;
+export type TrainingParameters = { [key: string]: string };
 export const TrainingParameters = S.Record({ key: S.String, value: S.String });
-export class EvaluationParameters extends S.Class<EvaluationParameters>(
-  "EvaluationParameters",
-)({
-  NumberOfBacktestWindows: S.optional(S.Number),
-  BackTestWindowOffset: S.optional(S.Number),
-}) {}
-export class TimeSeriesReplacementsDataSource extends S.Class<TimeSeriesReplacementsDataSource>(
-  "TimeSeriesReplacementsDataSource",
-)({
-  S3Config: S3Config,
-  Schema: Schema,
-  Format: S.optional(S.String),
-  TimestampFormat: S.optional(S.String),
-}) {}
+export interface EvaluationParameters {
+  NumberOfBacktestWindows?: number;
+  BackTestWindowOffset?: number;
+}
+export const EvaluationParameters = S.suspend(() =>
+  S.Struct({
+    NumberOfBacktestWindows: S.optional(S.Number),
+    BackTestWindowOffset: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "EvaluationParameters",
+}) as any as S.Schema<EvaluationParameters>;
+export interface TimeSeriesReplacementsDataSource {
+  S3Config: S3Config;
+  Schema: Schema;
+  Format?: string;
+  TimestampFormat?: string;
+}
+export const TimeSeriesReplacementsDataSource = S.suspend(() =>
+  S.Struct({
+    S3Config: S3Config,
+    Schema: Schema,
+    Format: S.optional(S.String),
+    TimestampFormat: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "TimeSeriesReplacementsDataSource",
+}) as any as S.Schema<TimeSeriesReplacementsDataSource>;
+export type LongArnList = string[];
 export const LongArnList = S.Array(S.String);
-export class CreateDatasetGroupResponse extends S.Class<CreateDatasetGroupResponse>(
-  "CreateDatasetGroupResponse",
-)({ DatasetGroupArn: S.optional(S.String) }) {}
-export class CreateExplainabilityRequest extends S.Class<CreateExplainabilityRequest>(
-  "CreateExplainabilityRequest",
-)(
-  {
+export interface CreateDatasetGroupResponse {
+  DatasetGroupArn?: string;
+}
+export const CreateDatasetGroupResponse = S.suspend(() =>
+  S.Struct({ DatasetGroupArn: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateDatasetGroupResponse",
+}) as any as S.Schema<CreateDatasetGroupResponse>;
+export interface CreateExplainabilityRequest {
+  ExplainabilityName: string;
+  ResourceArn: string;
+  ExplainabilityConfig: ExplainabilityConfig;
+  DataSource?: DataSource;
+  Schema?: Schema;
+  EnableVisualization?: boolean;
+  StartDateTime?: string;
+  EndDateTime?: string;
+  Tags?: Tags;
+}
+export const CreateExplainabilityRequest = S.suspend(() =>
+  S.Struct({
     ExplainabilityName: S.String,
     ResourceArn: S.String,
     ExplainabilityConfig: ExplainabilityConfig,
@@ -792,442 +1214,865 @@ export class CreateExplainabilityRequest extends S.Class<CreateExplainabilityReq
     StartDateTime: S.optional(S.String),
     EndDateTime: S.optional(S.String),
     Tags: S.optional(Tags),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateExplainabilityExportRequest extends S.Class<CreateExplainabilityExportRequest>(
-  "CreateExplainabilityExportRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateExplainabilityRequest",
+}) as any as S.Schema<CreateExplainabilityRequest>;
+export interface CreateExplainabilityExportRequest {
+  ExplainabilityExportName: string;
+  ExplainabilityArn: string;
+  Destination: DataDestination;
+  Tags?: Tags;
+  Format?: string;
+}
+export const CreateExplainabilityExportRequest = S.suspend(() =>
+  S.Struct({
     ExplainabilityExportName: S.String,
     ExplainabilityArn: S.String,
     Destination: DataDestination,
     Tags: S.optional(Tags),
     Format: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateForecastExportJobResponse extends S.Class<CreateForecastExportJobResponse>(
-  "CreateForecastExportJobResponse",
-)({ ForecastExportJobArn: S.optional(S.String) }) {}
-export class CreateMonitorResponse extends S.Class<CreateMonitorResponse>(
-  "CreateMonitorResponse",
-)({ MonitorArn: S.optional(S.String) }) {}
-export class CreatePredictorBacktestExportJobResponse extends S.Class<CreatePredictorBacktestExportJobResponse>(
-  "CreatePredictorBacktestExportJobResponse",
-)({ PredictorBacktestExportJobArn: S.optional(S.String) }) {}
-export class CreateWhatIfAnalysisResponse extends S.Class<CreateWhatIfAnalysisResponse>(
-  "CreateWhatIfAnalysisResponse",
-)({ WhatIfAnalysisArn: S.optional(S.String) }) {}
-export class CreateWhatIfForecastExportResponse extends S.Class<CreateWhatIfForecastExportResponse>(
-  "CreateWhatIfForecastExportResponse",
-)({ WhatIfForecastExportArn: S.optional(S.String) }) {}
-export class DescribeDatasetResponse extends S.Class<DescribeDatasetResponse>(
-  "DescribeDatasetResponse",
-)({
-  DatasetArn: S.optional(S.String),
-  DatasetName: S.optional(S.String),
-  Domain: S.optional(S.String),
-  DatasetType: S.optional(S.String),
-  DataFrequency: S.optional(S.String),
-  Schema: S.optional(Schema),
-  EncryptionConfig: S.optional(EncryptionConfig),
-  Status: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModificationTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-}) {}
-export class DescribeDatasetGroupResponse extends S.Class<DescribeDatasetGroupResponse>(
-  "DescribeDatasetGroupResponse",
-)({
-  DatasetGroupName: S.optional(S.String),
-  DatasetGroupArn: S.optional(S.String),
-  DatasetArns: S.optional(ArnList),
-  Domain: S.optional(S.String),
-  Status: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModificationTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
-export class DescribeExplainabilityResponse extends S.Class<DescribeExplainabilityResponse>(
-  "DescribeExplainabilityResponse",
-)({
-  ExplainabilityArn: S.optional(S.String),
-  ExplainabilityName: S.optional(S.String),
-  ResourceArn: S.optional(S.String),
-  ExplainabilityConfig: S.optional(ExplainabilityConfig),
-  EnableVisualization: S.optional(S.Boolean),
-  DataSource: S.optional(DataSource),
-  Schema: S.optional(Schema),
-  StartDateTime: S.optional(S.String),
-  EndDateTime: S.optional(S.String),
-  EstimatedTimeRemainingInMinutes: S.optional(S.Number),
-  Message: S.optional(S.String),
-  Status: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModificationTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
-export class DescribeExplainabilityExportResponse extends S.Class<DescribeExplainabilityExportResponse>(
-  "DescribeExplainabilityExportResponse",
-)({
-  ExplainabilityExportArn: S.optional(S.String),
-  ExplainabilityExportName: S.optional(S.String),
-  ExplainabilityArn: S.optional(S.String),
-  Destination: S.optional(DataDestination),
-  Message: S.optional(S.String),
-  Status: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModificationTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  Format: S.optional(S.String),
-}) {}
-export class DescribeForecastResponse extends S.Class<DescribeForecastResponse>(
-  "DescribeForecastResponse",
-)({
-  ForecastArn: S.optional(S.String),
-  ForecastName: S.optional(S.String),
-  ForecastTypes: S.optional(ForecastTypes),
-  PredictorArn: S.optional(S.String),
-  DatasetGroupArn: S.optional(S.String),
-  EstimatedTimeRemainingInMinutes: S.optional(S.Number),
-  Status: S.optional(S.String),
-  Message: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModificationTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  TimeSeriesSelector: S.optional(TimeSeriesSelector),
-}) {}
-export class DescribeForecastExportJobResponse extends S.Class<DescribeForecastExportJobResponse>(
-  "DescribeForecastExportJobResponse",
-)({
-  ForecastExportJobArn: S.optional(S.String),
-  ForecastExportJobName: S.optional(S.String),
-  ForecastArn: S.optional(S.String),
-  Destination: S.optional(DataDestination),
-  Message: S.optional(S.String),
-  Status: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModificationTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  Format: S.optional(S.String),
-}) {}
-export class DescribePredictorBacktestExportJobResponse extends S.Class<DescribePredictorBacktestExportJobResponse>(
-  "DescribePredictorBacktestExportJobResponse",
-)({
-  PredictorBacktestExportJobArn: S.optional(S.String),
-  PredictorBacktestExportJobName: S.optional(S.String),
-  PredictorArn: S.optional(S.String),
-  Destination: S.optional(DataDestination),
-  Message: S.optional(S.String),
-  Status: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModificationTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  Format: S.optional(S.String),
-}) {}
-export class DescribeWhatIfAnalysisResponse extends S.Class<DescribeWhatIfAnalysisResponse>(
-  "DescribeWhatIfAnalysisResponse",
-)({
-  WhatIfAnalysisName: S.optional(S.String),
-  WhatIfAnalysisArn: S.optional(S.String),
-  ForecastArn: S.optional(S.String),
-  EstimatedTimeRemainingInMinutes: S.optional(S.Number),
-  Status: S.optional(S.String),
-  Message: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModificationTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  TimeSeriesSelector: S.optional(TimeSeriesSelector),
-}) {}
-export class Action extends S.Class<Action>("Action")({
-  AttributeName: S.String,
-  Operation: S.String,
-  Value: S.Number,
-}) {}
-export class TimeSeriesCondition extends S.Class<TimeSeriesCondition>(
-  "TimeSeriesCondition",
-)({ AttributeName: S.String, AttributeValue: S.String, Condition: S.String }) {}
+).annotations({
+  identifier: "CreateExplainabilityExportRequest",
+}) as any as S.Schema<CreateExplainabilityExportRequest>;
+export interface CreateForecastExportJobResponse {
+  ForecastExportJobArn?: string;
+}
+export const CreateForecastExportJobResponse = S.suspend(() =>
+  S.Struct({ ForecastExportJobArn: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateForecastExportJobResponse",
+}) as any as S.Schema<CreateForecastExportJobResponse>;
+export interface CreateMonitorResponse {
+  MonitorArn?: string;
+}
+export const CreateMonitorResponse = S.suspend(() =>
+  S.Struct({ MonitorArn: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateMonitorResponse",
+}) as any as S.Schema<CreateMonitorResponse>;
+export interface CreatePredictorBacktestExportJobResponse {
+  PredictorBacktestExportJobArn?: string;
+}
+export const CreatePredictorBacktestExportJobResponse = S.suspend(() =>
+  S.Struct({ PredictorBacktestExportJobArn: S.optional(S.String) }),
+).annotations({
+  identifier: "CreatePredictorBacktestExportJobResponse",
+}) as any as S.Schema<CreatePredictorBacktestExportJobResponse>;
+export interface CreateWhatIfAnalysisResponse {
+  WhatIfAnalysisArn?: string;
+}
+export const CreateWhatIfAnalysisResponse = S.suspend(() =>
+  S.Struct({ WhatIfAnalysisArn: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateWhatIfAnalysisResponse",
+}) as any as S.Schema<CreateWhatIfAnalysisResponse>;
+export interface CreateWhatIfForecastExportResponse {
+  WhatIfForecastExportArn?: string;
+}
+export const CreateWhatIfForecastExportResponse = S.suspend(() =>
+  S.Struct({ WhatIfForecastExportArn: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateWhatIfForecastExportResponse",
+}) as any as S.Schema<CreateWhatIfForecastExportResponse>;
+export interface DescribeDatasetResponse {
+  DatasetArn?: string;
+  DatasetName?: string;
+  Domain?: string;
+  DatasetType?: string;
+  DataFrequency?: string;
+  Schema?: Schema;
+  EncryptionConfig?: EncryptionConfig;
+  Status?: string;
+  CreationTime?: Date;
+  LastModificationTime?: Date;
+}
+export const DescribeDatasetResponse = S.suspend(() =>
+  S.Struct({
+    DatasetArn: S.optional(S.String),
+    DatasetName: S.optional(S.String),
+    Domain: S.optional(S.String),
+    DatasetType: S.optional(S.String),
+    DataFrequency: S.optional(S.String),
+    Schema: S.optional(Schema),
+    EncryptionConfig: S.optional(EncryptionConfig),
+    Status: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModificationTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "DescribeDatasetResponse",
+}) as any as S.Schema<DescribeDatasetResponse>;
+export interface DescribeDatasetGroupResponse {
+  DatasetGroupName?: string;
+  DatasetGroupArn?: string;
+  DatasetArns?: ArnList;
+  Domain?: string;
+  Status?: string;
+  CreationTime?: Date;
+  LastModificationTime?: Date;
+}
+export const DescribeDatasetGroupResponse = S.suspend(() =>
+  S.Struct({
+    DatasetGroupName: S.optional(S.String),
+    DatasetGroupArn: S.optional(S.String),
+    DatasetArns: S.optional(ArnList),
+    Domain: S.optional(S.String),
+    Status: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModificationTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "DescribeDatasetGroupResponse",
+}) as any as S.Schema<DescribeDatasetGroupResponse>;
+export interface DescribeExplainabilityResponse {
+  ExplainabilityArn?: string;
+  ExplainabilityName?: string;
+  ResourceArn?: string;
+  ExplainabilityConfig?: ExplainabilityConfig;
+  EnableVisualization?: boolean;
+  DataSource?: DataSource;
+  Schema?: Schema;
+  StartDateTime?: string;
+  EndDateTime?: string;
+  EstimatedTimeRemainingInMinutes?: number;
+  Message?: string;
+  Status?: string;
+  CreationTime?: Date;
+  LastModificationTime?: Date;
+}
+export const DescribeExplainabilityResponse = S.suspend(() =>
+  S.Struct({
+    ExplainabilityArn: S.optional(S.String),
+    ExplainabilityName: S.optional(S.String),
+    ResourceArn: S.optional(S.String),
+    ExplainabilityConfig: S.optional(ExplainabilityConfig),
+    EnableVisualization: S.optional(S.Boolean),
+    DataSource: S.optional(DataSource),
+    Schema: S.optional(Schema),
+    StartDateTime: S.optional(S.String),
+    EndDateTime: S.optional(S.String),
+    EstimatedTimeRemainingInMinutes: S.optional(S.Number),
+    Message: S.optional(S.String),
+    Status: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModificationTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "DescribeExplainabilityResponse",
+}) as any as S.Schema<DescribeExplainabilityResponse>;
+export interface DescribeExplainabilityExportResponse {
+  ExplainabilityExportArn?: string;
+  ExplainabilityExportName?: string;
+  ExplainabilityArn?: string;
+  Destination?: DataDestination;
+  Message?: string;
+  Status?: string;
+  CreationTime?: Date;
+  LastModificationTime?: Date;
+  Format?: string;
+}
+export const DescribeExplainabilityExportResponse = S.suspend(() =>
+  S.Struct({
+    ExplainabilityExportArn: S.optional(S.String),
+    ExplainabilityExportName: S.optional(S.String),
+    ExplainabilityArn: S.optional(S.String),
+    Destination: S.optional(DataDestination),
+    Message: S.optional(S.String),
+    Status: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModificationTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    Format: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DescribeExplainabilityExportResponse",
+}) as any as S.Schema<DescribeExplainabilityExportResponse>;
+export interface DescribeForecastResponse {
+  ForecastArn?: string;
+  ForecastName?: string;
+  ForecastTypes?: ForecastTypes;
+  PredictorArn?: string;
+  DatasetGroupArn?: string;
+  EstimatedTimeRemainingInMinutes?: number;
+  Status?: string;
+  Message?: string;
+  CreationTime?: Date;
+  LastModificationTime?: Date;
+  TimeSeriesSelector?: TimeSeriesSelector;
+}
+export const DescribeForecastResponse = S.suspend(() =>
+  S.Struct({
+    ForecastArn: S.optional(S.String),
+    ForecastName: S.optional(S.String),
+    ForecastTypes: S.optional(ForecastTypes),
+    PredictorArn: S.optional(S.String),
+    DatasetGroupArn: S.optional(S.String),
+    EstimatedTimeRemainingInMinutes: S.optional(S.Number),
+    Status: S.optional(S.String),
+    Message: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModificationTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    TimeSeriesSelector: S.optional(TimeSeriesSelector),
+  }),
+).annotations({
+  identifier: "DescribeForecastResponse",
+}) as any as S.Schema<DescribeForecastResponse>;
+export interface DescribeForecastExportJobResponse {
+  ForecastExportJobArn?: string;
+  ForecastExportJobName?: string;
+  ForecastArn?: string;
+  Destination?: DataDestination;
+  Message?: string;
+  Status?: string;
+  CreationTime?: Date;
+  LastModificationTime?: Date;
+  Format?: string;
+}
+export const DescribeForecastExportJobResponse = S.suspend(() =>
+  S.Struct({
+    ForecastExportJobArn: S.optional(S.String),
+    ForecastExportJobName: S.optional(S.String),
+    ForecastArn: S.optional(S.String),
+    Destination: S.optional(DataDestination),
+    Message: S.optional(S.String),
+    Status: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModificationTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    Format: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DescribeForecastExportJobResponse",
+}) as any as S.Schema<DescribeForecastExportJobResponse>;
+export interface DescribePredictorBacktestExportJobResponse {
+  PredictorBacktestExportJobArn?: string;
+  PredictorBacktestExportJobName?: string;
+  PredictorArn?: string;
+  Destination?: DataDestination;
+  Message?: string;
+  Status?: string;
+  CreationTime?: Date;
+  LastModificationTime?: Date;
+  Format?: string;
+}
+export const DescribePredictorBacktestExportJobResponse = S.suspend(() =>
+  S.Struct({
+    PredictorBacktestExportJobArn: S.optional(S.String),
+    PredictorBacktestExportJobName: S.optional(S.String),
+    PredictorArn: S.optional(S.String),
+    Destination: S.optional(DataDestination),
+    Message: S.optional(S.String),
+    Status: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModificationTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    Format: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DescribePredictorBacktestExportJobResponse",
+}) as any as S.Schema<DescribePredictorBacktestExportJobResponse>;
+export interface DescribeWhatIfAnalysisResponse {
+  WhatIfAnalysisName?: string;
+  WhatIfAnalysisArn?: string;
+  ForecastArn?: string;
+  EstimatedTimeRemainingInMinutes?: number;
+  Status?: string;
+  Message?: string;
+  CreationTime?: Date;
+  LastModificationTime?: Date;
+  TimeSeriesSelector?: TimeSeriesSelector;
+}
+export const DescribeWhatIfAnalysisResponse = S.suspend(() =>
+  S.Struct({
+    WhatIfAnalysisName: S.optional(S.String),
+    WhatIfAnalysisArn: S.optional(S.String),
+    ForecastArn: S.optional(S.String),
+    EstimatedTimeRemainingInMinutes: S.optional(S.Number),
+    Status: S.optional(S.String),
+    Message: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModificationTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    TimeSeriesSelector: S.optional(TimeSeriesSelector),
+  }),
+).annotations({
+  identifier: "DescribeWhatIfAnalysisResponse",
+}) as any as S.Schema<DescribeWhatIfAnalysisResponse>;
+export interface Action {
+  AttributeName: string;
+  Operation: string;
+  Value: number;
+}
+export const Action = S.suspend(() =>
+  S.Struct({ AttributeName: S.String, Operation: S.String, Value: S.Number }),
+).annotations({ identifier: "Action" }) as any as S.Schema<Action>;
+export interface TimeSeriesCondition {
+  AttributeName: string;
+  AttributeValue: string;
+  Condition: string;
+}
+export const TimeSeriesCondition = S.suspend(() =>
+  S.Struct({
+    AttributeName: S.String,
+    AttributeValue: S.String,
+    Condition: S.String,
+  }),
+).annotations({
+  identifier: "TimeSeriesCondition",
+}) as any as S.Schema<TimeSeriesCondition>;
+export type TimeSeriesConditions = TimeSeriesCondition[];
 export const TimeSeriesConditions = S.Array(TimeSeriesCondition);
-export class TimeSeriesTransformation extends S.Class<TimeSeriesTransformation>(
-  "TimeSeriesTransformation",
-)({
-  Action: S.optional(Action),
-  TimeSeriesConditions: S.optional(TimeSeriesConditions),
-}) {}
+export interface TimeSeriesTransformation {
+  Action?: Action;
+  TimeSeriesConditions?: TimeSeriesConditions;
+}
+export const TimeSeriesTransformation = S.suspend(() =>
+  S.Struct({
+    Action: S.optional(Action),
+    TimeSeriesConditions: S.optional(TimeSeriesConditions),
+  }),
+).annotations({
+  identifier: "TimeSeriesTransformation",
+}) as any as S.Schema<TimeSeriesTransformation>;
+export type TimeSeriesTransformations = TimeSeriesTransformation[];
 export const TimeSeriesTransformations = S.Array(TimeSeriesTransformation);
-export class DescribeWhatIfForecastResponse extends S.Class<DescribeWhatIfForecastResponse>(
-  "DescribeWhatIfForecastResponse",
-)({
-  WhatIfForecastName: S.optional(S.String),
-  WhatIfForecastArn: S.optional(S.String),
-  WhatIfAnalysisArn: S.optional(S.String),
-  EstimatedTimeRemainingInMinutes: S.optional(S.Number),
-  Status: S.optional(S.String),
-  Message: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModificationTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  TimeSeriesTransformations: S.optional(TimeSeriesTransformations),
-  TimeSeriesReplacementsDataSource: S.optional(
-    TimeSeriesReplacementsDataSource,
-  ),
-  ForecastTypes: S.optional(ForecastTypes),
-}) {}
-export class DescribeWhatIfForecastExportResponse extends S.Class<DescribeWhatIfForecastExportResponse>(
-  "DescribeWhatIfForecastExportResponse",
-)({
-  WhatIfForecastExportArn: S.optional(S.String),
-  WhatIfForecastExportName: S.optional(S.String),
-  WhatIfForecastArns: S.optional(LongArnList),
-  Destination: S.optional(DataDestination),
-  Message: S.optional(S.String),
-  Status: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  EstimatedTimeRemainingInMinutes: S.optional(S.Number),
-  LastModificationTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  Format: S.optional(S.String),
-}) {}
-export class ListDatasetImportJobsRequest extends S.Class<ListDatasetImportJobsRequest>(
-  "ListDatasetImportJobsRequest",
-)(
-  {
+export interface DescribeWhatIfForecastResponse {
+  WhatIfForecastName?: string;
+  WhatIfForecastArn?: string;
+  WhatIfAnalysisArn?: string;
+  EstimatedTimeRemainingInMinutes?: number;
+  Status?: string;
+  Message?: string;
+  CreationTime?: Date;
+  LastModificationTime?: Date;
+  TimeSeriesTransformations?: TimeSeriesTransformations;
+  TimeSeriesReplacementsDataSource?: TimeSeriesReplacementsDataSource;
+  ForecastTypes?: ForecastTypes;
+}
+export const DescribeWhatIfForecastResponse = S.suspend(() =>
+  S.Struct({
+    WhatIfForecastName: S.optional(S.String),
+    WhatIfForecastArn: S.optional(S.String),
+    WhatIfAnalysisArn: S.optional(S.String),
+    EstimatedTimeRemainingInMinutes: S.optional(S.Number),
+    Status: S.optional(S.String),
+    Message: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModificationTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    TimeSeriesTransformations: S.optional(TimeSeriesTransformations),
+    TimeSeriesReplacementsDataSource: S.optional(
+      TimeSeriesReplacementsDataSource,
+    ),
+    ForecastTypes: S.optional(ForecastTypes),
+  }),
+).annotations({
+  identifier: "DescribeWhatIfForecastResponse",
+}) as any as S.Schema<DescribeWhatIfForecastResponse>;
+export interface DescribeWhatIfForecastExportResponse {
+  WhatIfForecastExportArn?: string;
+  WhatIfForecastExportName?: string;
+  WhatIfForecastArns?: LongArnList;
+  Destination?: DataDestination;
+  Message?: string;
+  Status?: string;
+  CreationTime?: Date;
+  EstimatedTimeRemainingInMinutes?: number;
+  LastModificationTime?: Date;
+  Format?: string;
+}
+export const DescribeWhatIfForecastExportResponse = S.suspend(() =>
+  S.Struct({
+    WhatIfForecastExportArn: S.optional(S.String),
+    WhatIfForecastExportName: S.optional(S.String),
+    WhatIfForecastArns: S.optional(LongArnList),
+    Destination: S.optional(DataDestination),
+    Message: S.optional(S.String),
+    Status: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EstimatedTimeRemainingInMinutes: S.optional(S.Number),
+    LastModificationTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    Format: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DescribeWhatIfForecastExportResponse",
+}) as any as S.Schema<DescribeWhatIfForecastExportResponse>;
+export interface ListDatasetImportJobsRequest {
+  NextToken?: string;
+  MaxResults?: number;
+  Filters?: Filters;
+}
+export const ListDatasetImportJobsRequest = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     Filters: S.optional(Filters),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ Tags: S.optional(Tags) }) {}
-export class SupplementaryFeature extends S.Class<SupplementaryFeature>(
-  "SupplementaryFeature",
-)({ Name: S.String, Value: S.String }) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListDatasetImportJobsRequest",
+}) as any as S.Schema<ListDatasetImportJobsRequest>;
+export interface ListTagsForResourceResponse {
+  Tags?: Tags;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ Tags: S.optional(Tags) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface SupplementaryFeature {
+  Name: string;
+  Value: string;
+}
+export const SupplementaryFeature = S.suspend(() =>
+  S.Struct({ Name: S.String, Value: S.String }),
+).annotations({
+  identifier: "SupplementaryFeature",
+}) as any as S.Schema<SupplementaryFeature>;
+export type SupplementaryFeatures = SupplementaryFeature[];
 export const SupplementaryFeatures = S.Array(SupplementaryFeature);
+export type Values = string[];
 export const Values = S.Array(S.String);
-export class InputDataConfig extends S.Class<InputDataConfig>(
-  "InputDataConfig",
-)({
-  DatasetGroupArn: S.String,
-  SupplementaryFeatures: S.optional(SupplementaryFeatures),
-}) {}
-export class ReferencePredictorSummary extends S.Class<ReferencePredictorSummary>(
-  "ReferencePredictorSummary",
-)({ Arn: S.optional(S.String), State: S.optional(S.String) }) {}
-export class ExplainabilityInfo extends S.Class<ExplainabilityInfo>(
-  "ExplainabilityInfo",
-)({ ExplainabilityArn: S.optional(S.String), Status: S.optional(S.String) }) {}
-export class MonitorInfo extends S.Class<MonitorInfo>("MonitorInfo")({
-  MonitorArn: S.optional(S.String),
-  Status: S.optional(S.String),
-}) {}
-export class DatasetGroupSummary extends S.Class<DatasetGroupSummary>(
-  "DatasetGroupSummary",
-)({
-  DatasetGroupArn: S.optional(S.String),
-  DatasetGroupName: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModificationTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
+export interface InputDataConfig {
+  DatasetGroupArn: string;
+  SupplementaryFeatures?: SupplementaryFeatures;
+}
+export const InputDataConfig = S.suspend(() =>
+  S.Struct({
+    DatasetGroupArn: S.String,
+    SupplementaryFeatures: S.optional(SupplementaryFeatures),
+  }),
+).annotations({
+  identifier: "InputDataConfig",
+}) as any as S.Schema<InputDataConfig>;
+export interface ReferencePredictorSummary {
+  Arn?: string;
+  State?: string;
+}
+export const ReferencePredictorSummary = S.suspend(() =>
+  S.Struct({ Arn: S.optional(S.String), State: S.optional(S.String) }),
+).annotations({
+  identifier: "ReferencePredictorSummary",
+}) as any as S.Schema<ReferencePredictorSummary>;
+export interface ExplainabilityInfo {
+  ExplainabilityArn?: string;
+  Status?: string;
+}
+export const ExplainabilityInfo = S.suspend(() =>
+  S.Struct({
+    ExplainabilityArn: S.optional(S.String),
+    Status: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ExplainabilityInfo",
+}) as any as S.Schema<ExplainabilityInfo>;
+export interface MonitorInfo {
+  MonitorArn?: string;
+  Status?: string;
+}
+export const MonitorInfo = S.suspend(() =>
+  S.Struct({ MonitorArn: S.optional(S.String), Status: S.optional(S.String) }),
+).annotations({ identifier: "MonitorInfo" }) as any as S.Schema<MonitorInfo>;
+export interface DatasetGroupSummary {
+  DatasetGroupArn?: string;
+  DatasetGroupName?: string;
+  CreationTime?: Date;
+  LastModificationTime?: Date;
+}
+export const DatasetGroupSummary = S.suspend(() =>
+  S.Struct({
+    DatasetGroupArn: S.optional(S.String),
+    DatasetGroupName: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModificationTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "DatasetGroupSummary",
+}) as any as S.Schema<DatasetGroupSummary>;
+export type DatasetGroups = DatasetGroupSummary[];
 export const DatasetGroups = S.Array(DatasetGroupSummary);
-export class DatasetSummary extends S.Class<DatasetSummary>("DatasetSummary")({
-  DatasetArn: S.optional(S.String),
-  DatasetName: S.optional(S.String),
-  DatasetType: S.optional(S.String),
-  Domain: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModificationTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
+export interface DatasetSummary {
+  DatasetArn?: string;
+  DatasetName?: string;
+  DatasetType?: string;
+  Domain?: string;
+  CreationTime?: Date;
+  LastModificationTime?: Date;
+}
+export const DatasetSummary = S.suspend(() =>
+  S.Struct({
+    DatasetArn: S.optional(S.String),
+    DatasetName: S.optional(S.String),
+    DatasetType: S.optional(S.String),
+    Domain: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModificationTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "DatasetSummary",
+}) as any as S.Schema<DatasetSummary>;
+export type Datasets = DatasetSummary[];
 export const Datasets = S.Array(DatasetSummary);
-export class ExplainabilitySummary extends S.Class<ExplainabilitySummary>(
-  "ExplainabilitySummary",
-)({
-  ExplainabilityArn: S.optional(S.String),
-  ExplainabilityName: S.optional(S.String),
-  ResourceArn: S.optional(S.String),
-  ExplainabilityConfig: S.optional(ExplainabilityConfig),
-  Status: S.optional(S.String),
-  Message: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModificationTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
+export interface ExplainabilitySummary {
+  ExplainabilityArn?: string;
+  ExplainabilityName?: string;
+  ResourceArn?: string;
+  ExplainabilityConfig?: ExplainabilityConfig;
+  Status?: string;
+  Message?: string;
+  CreationTime?: Date;
+  LastModificationTime?: Date;
+}
+export const ExplainabilitySummary = S.suspend(() =>
+  S.Struct({
+    ExplainabilityArn: S.optional(S.String),
+    ExplainabilityName: S.optional(S.String),
+    ResourceArn: S.optional(S.String),
+    ExplainabilityConfig: S.optional(ExplainabilityConfig),
+    Status: S.optional(S.String),
+    Message: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModificationTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "ExplainabilitySummary",
+}) as any as S.Schema<ExplainabilitySummary>;
+export type Explainabilities = ExplainabilitySummary[];
 export const Explainabilities = S.Array(ExplainabilitySummary);
-export class ExplainabilityExportSummary extends S.Class<ExplainabilityExportSummary>(
-  "ExplainabilityExportSummary",
-)({
-  ExplainabilityExportArn: S.optional(S.String),
-  ExplainabilityExportName: S.optional(S.String),
-  Destination: S.optional(DataDestination),
-  Status: S.optional(S.String),
-  Message: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModificationTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
+export interface ExplainabilityExportSummary {
+  ExplainabilityExportArn?: string;
+  ExplainabilityExportName?: string;
+  Destination?: DataDestination;
+  Status?: string;
+  Message?: string;
+  CreationTime?: Date;
+  LastModificationTime?: Date;
+}
+export const ExplainabilityExportSummary = S.suspend(() =>
+  S.Struct({
+    ExplainabilityExportArn: S.optional(S.String),
+    ExplainabilityExportName: S.optional(S.String),
+    Destination: S.optional(DataDestination),
+    Status: S.optional(S.String),
+    Message: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModificationTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "ExplainabilityExportSummary",
+}) as any as S.Schema<ExplainabilityExportSummary>;
+export type ExplainabilityExports = ExplainabilityExportSummary[];
 export const ExplainabilityExports = S.Array(ExplainabilityExportSummary);
-export class ForecastExportJobSummary extends S.Class<ForecastExportJobSummary>(
-  "ForecastExportJobSummary",
-)({
-  ForecastExportJobArn: S.optional(S.String),
-  ForecastExportJobName: S.optional(S.String),
-  Destination: S.optional(DataDestination),
-  Status: S.optional(S.String),
-  Message: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModificationTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
+export interface ForecastExportJobSummary {
+  ForecastExportJobArn?: string;
+  ForecastExportJobName?: string;
+  Destination?: DataDestination;
+  Status?: string;
+  Message?: string;
+  CreationTime?: Date;
+  LastModificationTime?: Date;
+}
+export const ForecastExportJobSummary = S.suspend(() =>
+  S.Struct({
+    ForecastExportJobArn: S.optional(S.String),
+    ForecastExportJobName: S.optional(S.String),
+    Destination: S.optional(DataDestination),
+    Status: S.optional(S.String),
+    Message: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModificationTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "ForecastExportJobSummary",
+}) as any as S.Schema<ForecastExportJobSummary>;
+export type ForecastExportJobs = ForecastExportJobSummary[];
 export const ForecastExportJobs = S.Array(ForecastExportJobSummary);
-export class ForecastSummary extends S.Class<ForecastSummary>(
-  "ForecastSummary",
-)({
-  ForecastArn: S.optional(S.String),
-  ForecastName: S.optional(S.String),
-  PredictorArn: S.optional(S.String),
-  CreatedUsingAutoPredictor: S.optional(S.Boolean),
-  DatasetGroupArn: S.optional(S.String),
-  Status: S.optional(S.String),
-  Message: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModificationTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
+export interface ForecastSummary {
+  ForecastArn?: string;
+  ForecastName?: string;
+  PredictorArn?: string;
+  CreatedUsingAutoPredictor?: boolean;
+  DatasetGroupArn?: string;
+  Status?: string;
+  Message?: string;
+  CreationTime?: Date;
+  LastModificationTime?: Date;
+}
+export const ForecastSummary = S.suspend(() =>
+  S.Struct({
+    ForecastArn: S.optional(S.String),
+    ForecastName: S.optional(S.String),
+    PredictorArn: S.optional(S.String),
+    CreatedUsingAutoPredictor: S.optional(S.Boolean),
+    DatasetGroupArn: S.optional(S.String),
+    Status: S.optional(S.String),
+    Message: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModificationTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "ForecastSummary",
+}) as any as S.Schema<ForecastSummary>;
+export type Forecasts = ForecastSummary[];
 export const Forecasts = S.Array(ForecastSummary);
-export class MonitorSummary extends S.Class<MonitorSummary>("MonitorSummary")({
-  MonitorArn: S.optional(S.String),
-  MonitorName: S.optional(S.String),
-  ResourceArn: S.optional(S.String),
-  Status: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModificationTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
+export interface MonitorSummary {
+  MonitorArn?: string;
+  MonitorName?: string;
+  ResourceArn?: string;
+  Status?: string;
+  CreationTime?: Date;
+  LastModificationTime?: Date;
+}
+export const MonitorSummary = S.suspend(() =>
+  S.Struct({
+    MonitorArn: S.optional(S.String),
+    MonitorName: S.optional(S.String),
+    ResourceArn: S.optional(S.String),
+    Status: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModificationTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "MonitorSummary",
+}) as any as S.Schema<MonitorSummary>;
+export type Monitors = MonitorSummary[];
 export const Monitors = S.Array(MonitorSummary);
-export class PredictorBacktestExportJobSummary extends S.Class<PredictorBacktestExportJobSummary>(
-  "PredictorBacktestExportJobSummary",
-)({
-  PredictorBacktestExportJobArn: S.optional(S.String),
-  PredictorBacktestExportJobName: S.optional(S.String),
-  Destination: S.optional(DataDestination),
-  Status: S.optional(S.String),
-  Message: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModificationTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
+export interface PredictorBacktestExportJobSummary {
+  PredictorBacktestExportJobArn?: string;
+  PredictorBacktestExportJobName?: string;
+  Destination?: DataDestination;
+  Status?: string;
+  Message?: string;
+  CreationTime?: Date;
+  LastModificationTime?: Date;
+}
+export const PredictorBacktestExportJobSummary = S.suspend(() =>
+  S.Struct({
+    PredictorBacktestExportJobArn: S.optional(S.String),
+    PredictorBacktestExportJobName: S.optional(S.String),
+    Destination: S.optional(DataDestination),
+    Status: S.optional(S.String),
+    Message: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModificationTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "PredictorBacktestExportJobSummary",
+}) as any as S.Schema<PredictorBacktestExportJobSummary>;
+export type PredictorBacktestExportJobs = PredictorBacktestExportJobSummary[];
 export const PredictorBacktestExportJobs = S.Array(
   PredictorBacktestExportJobSummary,
 );
-export class PredictorSummary extends S.Class<PredictorSummary>(
-  "PredictorSummary",
-)({
-  PredictorArn: S.optional(S.String),
-  PredictorName: S.optional(S.String),
-  DatasetGroupArn: S.optional(S.String),
-  IsAutoPredictor: S.optional(S.Boolean),
-  ReferencePredictorSummary: S.optional(ReferencePredictorSummary),
-  Status: S.optional(S.String),
-  Message: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModificationTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
+export interface PredictorSummary {
+  PredictorArn?: string;
+  PredictorName?: string;
+  DatasetGroupArn?: string;
+  IsAutoPredictor?: boolean;
+  ReferencePredictorSummary?: ReferencePredictorSummary;
+  Status?: string;
+  Message?: string;
+  CreationTime?: Date;
+  LastModificationTime?: Date;
+}
+export const PredictorSummary = S.suspend(() =>
+  S.Struct({
+    PredictorArn: S.optional(S.String),
+    PredictorName: S.optional(S.String),
+    DatasetGroupArn: S.optional(S.String),
+    IsAutoPredictor: S.optional(S.Boolean),
+    ReferencePredictorSummary: S.optional(ReferencePredictorSummary),
+    Status: S.optional(S.String),
+    Message: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModificationTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "PredictorSummary",
+}) as any as S.Schema<PredictorSummary>;
+export type Predictors = PredictorSummary[];
 export const Predictors = S.Array(PredictorSummary);
-export class WhatIfAnalysisSummary extends S.Class<WhatIfAnalysisSummary>(
-  "WhatIfAnalysisSummary",
-)({
-  WhatIfAnalysisArn: S.optional(S.String),
-  WhatIfAnalysisName: S.optional(S.String),
-  ForecastArn: S.optional(S.String),
-  Status: S.optional(S.String),
-  Message: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModificationTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
+export interface WhatIfAnalysisSummary {
+  WhatIfAnalysisArn?: string;
+  WhatIfAnalysisName?: string;
+  ForecastArn?: string;
+  Status?: string;
+  Message?: string;
+  CreationTime?: Date;
+  LastModificationTime?: Date;
+}
+export const WhatIfAnalysisSummary = S.suspend(() =>
+  S.Struct({
+    WhatIfAnalysisArn: S.optional(S.String),
+    WhatIfAnalysisName: S.optional(S.String),
+    ForecastArn: S.optional(S.String),
+    Status: S.optional(S.String),
+    Message: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModificationTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "WhatIfAnalysisSummary",
+}) as any as S.Schema<WhatIfAnalysisSummary>;
+export type WhatIfAnalyses = WhatIfAnalysisSummary[];
 export const WhatIfAnalyses = S.Array(WhatIfAnalysisSummary);
-export class WhatIfForecastExportSummary extends S.Class<WhatIfForecastExportSummary>(
-  "WhatIfForecastExportSummary",
-)({
-  WhatIfForecastExportArn: S.optional(S.String),
-  WhatIfForecastArns: S.optional(WhatIfForecastArnListForExport),
-  WhatIfForecastExportName: S.optional(S.String),
-  Destination: S.optional(DataDestination),
-  Status: S.optional(S.String),
-  Message: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModificationTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
+export interface WhatIfForecastExportSummary {
+  WhatIfForecastExportArn?: string;
+  WhatIfForecastArns?: WhatIfForecastArnListForExport;
+  WhatIfForecastExportName?: string;
+  Destination?: DataDestination;
+  Status?: string;
+  Message?: string;
+  CreationTime?: Date;
+  LastModificationTime?: Date;
+}
+export const WhatIfForecastExportSummary = S.suspend(() =>
+  S.Struct({
+    WhatIfForecastExportArn: S.optional(S.String),
+    WhatIfForecastArns: S.optional(WhatIfForecastArnListForExport),
+    WhatIfForecastExportName: S.optional(S.String),
+    Destination: S.optional(DataDestination),
+    Status: S.optional(S.String),
+    Message: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModificationTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "WhatIfForecastExportSummary",
+}) as any as S.Schema<WhatIfForecastExportSummary>;
+export type WhatIfForecastExports = WhatIfForecastExportSummary[];
 export const WhatIfForecastExports = S.Array(WhatIfForecastExportSummary);
-export class WhatIfForecastSummary extends S.Class<WhatIfForecastSummary>(
-  "WhatIfForecastSummary",
-)({
-  WhatIfForecastArn: S.optional(S.String),
-  WhatIfForecastName: S.optional(S.String),
-  WhatIfAnalysisArn: S.optional(S.String),
-  Status: S.optional(S.String),
-  Message: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModificationTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
+export interface WhatIfForecastSummary {
+  WhatIfForecastArn?: string;
+  WhatIfForecastName?: string;
+  WhatIfAnalysisArn?: string;
+  Status?: string;
+  Message?: string;
+  CreationTime?: Date;
+  LastModificationTime?: Date;
+}
+export const WhatIfForecastSummary = S.suspend(() =>
+  S.Struct({
+    WhatIfForecastArn: S.optional(S.String),
+    WhatIfForecastName: S.optional(S.String),
+    WhatIfAnalysisArn: S.optional(S.String),
+    Status: S.optional(S.String),
+    Message: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModificationTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "WhatIfForecastSummary",
+}) as any as S.Schema<WhatIfForecastSummary>;
+export type WhatIfForecasts = WhatIfForecastSummary[];
 export const WhatIfForecasts = S.Array(WhatIfForecastSummary);
+export type Transformations = { [key: string]: string };
 export const Transformations = S.Record({ key: S.String, value: S.String });
+export type Configuration = { [key: string]: Values };
 export const Configuration = S.Record({ key: S.String, value: Values });
-export class CategoricalParameterRange extends S.Class<CategoricalParameterRange>(
-  "CategoricalParameterRange",
-)({ Name: S.String, Values: Values }) {}
+export interface CategoricalParameterRange {
+  Name: string;
+  Values: Values;
+}
+export const CategoricalParameterRange = S.suspend(() =>
+  S.Struct({ Name: S.String, Values: Values }),
+).annotations({
+  identifier: "CategoricalParameterRange",
+}) as any as S.Schema<CategoricalParameterRange>;
+export type CategoricalParameterRanges = CategoricalParameterRange[];
 export const CategoricalParameterRanges = S.Array(CategoricalParameterRange);
-export class ContinuousParameterRange extends S.Class<ContinuousParameterRange>(
-  "ContinuousParameterRange",
-)({
-  Name: S.String,
-  MaxValue: S.Number,
-  MinValue: S.Number,
-  ScalingType: S.optional(S.String),
-}) {}
+export interface ContinuousParameterRange {
+  Name: string;
+  MaxValue: number;
+  MinValue: number;
+  ScalingType?: string;
+}
+export const ContinuousParameterRange = S.suspend(() =>
+  S.Struct({
+    Name: S.String,
+    MaxValue: S.Number,
+    MinValue: S.Number,
+    ScalingType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ContinuousParameterRange",
+}) as any as S.Schema<ContinuousParameterRange>;
+export type ContinuousParameterRanges = ContinuousParameterRange[];
 export const ContinuousParameterRanges = S.Array(ContinuousParameterRange);
-export class IntegerParameterRange extends S.Class<IntegerParameterRange>(
-  "IntegerParameterRange",
-)({
-  Name: S.String,
-  MaxValue: S.Number,
-  MinValue: S.Number,
-  ScalingType: S.optional(S.String),
-}) {}
+export interface IntegerParameterRange {
+  Name: string;
+  MaxValue: number;
+  MinValue: number;
+  ScalingType?: string;
+}
+export const IntegerParameterRange = S.suspend(() =>
+  S.Struct({
+    Name: S.String,
+    MaxValue: S.Number,
+    MinValue: S.Number,
+    ScalingType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "IntegerParameterRange",
+}) as any as S.Schema<IntegerParameterRange>;
+export type IntegerParameterRanges = IntegerParameterRange[];
 export const IntegerParameterRanges = S.Array(IntegerParameterRange);
-export class CreateDatasetRequest extends S.Class<CreateDatasetRequest>(
-  "CreateDatasetRequest",
-)(
-  {
+export interface CreateDatasetRequest {
+  DatasetName: string;
+  Domain: string;
+  DatasetType: string;
+  DataFrequency?: string;
+  Schema: Schema;
+  EncryptionConfig?: EncryptionConfig;
+  Tags?: Tags;
+}
+export const CreateDatasetRequest = S.suspend(() =>
+  S.Struct({
     DatasetName: S.String,
     Domain: S.String,
     DatasetType: S.String,
@@ -1235,13 +2080,26 @@ export class CreateDatasetRequest extends S.Class<CreateDatasetRequest>(
     Schema: Schema,
     EncryptionConfig: S.optional(EncryptionConfig),
     Tags: S.optional(Tags),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateDatasetImportJobRequest extends S.Class<CreateDatasetImportJobRequest>(
-  "CreateDatasetImportJobRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateDatasetRequest",
+}) as any as S.Schema<CreateDatasetRequest>;
+export interface CreateDatasetImportJobRequest {
+  DatasetImportJobName: string;
+  DatasetArn: string;
+  DataSource: DataSource;
+  TimestampFormat?: string;
+  TimeZone?: string;
+  UseGeolocationForTimeZone?: boolean;
+  GeolocationFormat?: string;
+  Tags?: Tags;
+  Format?: string;
+  ImportMode?: string;
+}
+export const CreateDatasetImportJobRequest = S.suspend(() =>
+  S.Struct({
     DatasetImportJobName: S.String,
     DatasetArn: S.String,
     DataSource: DataSource,
@@ -1252,31 +2110,57 @@ export class CreateDatasetImportJobRequest extends S.Class<CreateDatasetImportJo
     Tags: S.optional(Tags),
     Format: S.optional(S.String),
     ImportMode: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateExplainabilityResponse extends S.Class<CreateExplainabilityResponse>(
-  "CreateExplainabilityResponse",
-)({ ExplainabilityArn: S.optional(S.String) }) {}
-export class CreateExplainabilityExportResponse extends S.Class<CreateExplainabilityExportResponse>(
-  "CreateExplainabilityExportResponse",
-)({ ExplainabilityExportArn: S.optional(S.String) }) {}
-export class CreateForecastRequest extends S.Class<CreateForecastRequest>(
-  "CreateForecastRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateDatasetImportJobRequest",
+}) as any as S.Schema<CreateDatasetImportJobRequest>;
+export interface CreateExplainabilityResponse {
+  ExplainabilityArn?: string;
+}
+export const CreateExplainabilityResponse = S.suspend(() =>
+  S.Struct({ ExplainabilityArn: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateExplainabilityResponse",
+}) as any as S.Schema<CreateExplainabilityResponse>;
+export interface CreateExplainabilityExportResponse {
+  ExplainabilityExportArn?: string;
+}
+export const CreateExplainabilityExportResponse = S.suspend(() =>
+  S.Struct({ ExplainabilityExportArn: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateExplainabilityExportResponse",
+}) as any as S.Schema<CreateExplainabilityExportResponse>;
+export interface CreateForecastRequest {
+  ForecastName: string;
+  PredictorArn: string;
+  ForecastTypes?: ForecastTypes;
+  Tags?: Tags;
+  TimeSeriesSelector?: TimeSeriesSelector;
+}
+export const CreateForecastRequest = S.suspend(() =>
+  S.Struct({
     ForecastName: S.String,
     PredictorArn: S.String,
     ForecastTypes: S.optional(ForecastTypes),
     Tags: S.optional(Tags),
     TimeSeriesSelector: S.optional(TimeSeriesSelector),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateWhatIfForecastRequest extends S.Class<CreateWhatIfForecastRequest>(
-  "CreateWhatIfForecastRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateForecastRequest",
+}) as any as S.Schema<CreateForecastRequest>;
+export interface CreateWhatIfForecastRequest {
+  WhatIfForecastName: string;
+  WhatIfAnalysisArn: string;
+  TimeSeriesTransformations?: TimeSeriesTransformations;
+  TimeSeriesReplacementsDataSource?: TimeSeriesReplacementsDataSource;
+  Tags?: Tags;
+}
+export const CreateWhatIfForecastRequest = S.suspend(() =>
+  S.Struct({
     WhatIfForecastName: S.String,
     WhatIfAnalysisArn: S.String,
     TimeSeriesTransformations: S.optional(TimeSeriesTransformations),
@@ -1284,212 +2168,455 @@ export class CreateWhatIfForecastRequest extends S.Class<CreateWhatIfForecastReq
       TimeSeriesReplacementsDataSource,
     ),
     Tags: S.optional(Tags),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class AttributeConfig extends S.Class<AttributeConfig>(
-  "AttributeConfig",
-)({ AttributeName: S.String, Transformations: Transformations }) {}
-export const AttributeConfigs = S.Array(AttributeConfig);
-export class AdditionalDataset extends S.Class<AdditionalDataset>(
-  "AdditionalDataset",
-)({ Name: S.String, Configuration: S.optional(Configuration) }) {}
-export const AdditionalDatasets = S.Array(AdditionalDataset);
-export class DataConfig extends S.Class<DataConfig>("DataConfig")({
-  DatasetGroupArn: S.String,
-  AttributeConfigs: S.optional(AttributeConfigs),
-  AdditionalDatasets: S.optional(AdditionalDatasets),
-}) {}
-export class DescribeAutoPredictorResponse extends S.Class<DescribeAutoPredictorResponse>(
-  "DescribeAutoPredictorResponse",
-)({
-  PredictorArn: S.optional(S.String),
-  PredictorName: S.optional(S.String),
-  ForecastHorizon: S.optional(S.Number),
-  ForecastTypes: S.optional(ForecastTypes),
-  ForecastFrequency: S.optional(S.String),
-  ForecastDimensions: S.optional(ForecastDimensions),
-  DatasetImportJobArns: S.optional(ArnList),
-  DataConfig: S.optional(DataConfig),
-  EncryptionConfig: S.optional(EncryptionConfig),
-  ReferencePredictorSummary: S.optional(ReferencePredictorSummary),
-  EstimatedTimeRemainingInMinutes: S.optional(S.Number),
-  Status: S.optional(S.String),
-  Message: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModificationTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-  OptimizationMetric: S.optional(S.String),
-  ExplainabilityInfo: S.optional(ExplainabilityInfo),
-  MonitorInfo: S.optional(MonitorInfo),
-  TimeAlignmentBoundary: S.optional(TimeAlignmentBoundary),
-}) {}
-export class ListDatasetGroupsResponse extends S.Class<ListDatasetGroupsResponse>(
-  "ListDatasetGroupsResponse",
-)({
-  DatasetGroups: S.optional(DatasetGroups),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListDatasetsResponse extends S.Class<ListDatasetsResponse>(
-  "ListDatasetsResponse",
-)({ Datasets: S.optional(Datasets), NextToken: S.optional(S.String) }) {}
-export class ListExplainabilitiesResponse extends S.Class<ListExplainabilitiesResponse>(
-  "ListExplainabilitiesResponse",
-)({
-  Explainabilities: S.optional(Explainabilities),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListExplainabilityExportsResponse extends S.Class<ListExplainabilityExportsResponse>(
-  "ListExplainabilityExportsResponse",
-)({
-  ExplainabilityExports: S.optional(ExplainabilityExports),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListForecastExportJobsResponse extends S.Class<ListForecastExportJobsResponse>(
-  "ListForecastExportJobsResponse",
-)({
-  ForecastExportJobs: S.optional(ForecastExportJobs),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListForecastsResponse extends S.Class<ListForecastsResponse>(
-  "ListForecastsResponse",
-)({ Forecasts: S.optional(Forecasts), NextToken: S.optional(S.String) }) {}
-export class ListMonitorsResponse extends S.Class<ListMonitorsResponse>(
-  "ListMonitorsResponse",
-)({ Monitors: S.optional(Monitors), NextToken: S.optional(S.String) }) {}
-export class ListPredictorBacktestExportJobsResponse extends S.Class<ListPredictorBacktestExportJobsResponse>(
-  "ListPredictorBacktestExportJobsResponse",
-)({
-  PredictorBacktestExportJobs: S.optional(PredictorBacktestExportJobs),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListPredictorsResponse extends S.Class<ListPredictorsResponse>(
-  "ListPredictorsResponse",
-)({ Predictors: S.optional(Predictors), NextToken: S.optional(S.String) }) {}
-export class ListWhatIfAnalysesResponse extends S.Class<ListWhatIfAnalysesResponse>(
-  "ListWhatIfAnalysesResponse",
-)({
-  WhatIfAnalyses: S.optional(WhatIfAnalyses),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListWhatIfForecastExportsResponse extends S.Class<ListWhatIfForecastExportsResponse>(
-  "ListWhatIfForecastExportsResponse",
-)({
-  WhatIfForecastExports: S.optional(WhatIfForecastExports),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListWhatIfForecastsResponse extends S.Class<ListWhatIfForecastsResponse>(
-  "ListWhatIfForecastsResponse",
-)({
-  WhatIfForecasts: S.optional(WhatIfForecasts),
-  NextToken: S.optional(S.String),
-}) {}
-export class ParameterRanges extends S.Class<ParameterRanges>(
-  "ParameterRanges",
-)({
-  CategoricalParameterRanges: S.optional(CategoricalParameterRanges),
-  ContinuousParameterRanges: S.optional(ContinuousParameterRanges),
-  IntegerParameterRanges: S.optional(IntegerParameterRanges),
-}) {}
-export class Statistics extends S.Class<Statistics>("Statistics")({
-  Count: S.optional(S.Number),
-  CountDistinct: S.optional(S.Number),
-  CountNull: S.optional(S.Number),
-  CountNan: S.optional(S.Number),
-  Min: S.optional(S.String),
-  Max: S.optional(S.String),
-  Avg: S.optional(S.Number),
-  Stddev: S.optional(S.Number),
-  CountLong: S.optional(S.Number),
-  CountDistinctLong: S.optional(S.Number),
-  CountNullLong: S.optional(S.Number),
-  CountNanLong: S.optional(S.Number),
-}) {}
-export class PredictorEvent extends S.Class<PredictorEvent>("PredictorEvent")({
-  Detail: S.optional(S.String),
-  Datetime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class MonitorDataSource extends S.Class<MonitorDataSource>(
-  "MonitorDataSource",
-)({
-  DatasetImportJobArn: S.optional(S.String),
-  ForecastArn: S.optional(S.String),
-  PredictorArn: S.optional(S.String),
-}) {}
-export class MetricResult extends S.Class<MetricResult>("MetricResult")({
-  MetricName: S.optional(S.String),
-  MetricValue: S.optional(S.Number),
-}) {}
+).annotations({
+  identifier: "CreateWhatIfForecastRequest",
+}) as any as S.Schema<CreateWhatIfForecastRequest>;
+export interface AttributeConfig {
+  AttributeName: string;
+  Transformations: Transformations;
+}
+export const AttributeConfig = S.suspend(() =>
+  S.Struct({ AttributeName: S.String, Transformations: Transformations }),
+).annotations({
+  identifier: "AttributeConfig",
+}) as any as S.Schema<AttributeConfig>;
+export type AttributeConfigs = AttributeConfig[];
+export const AttributeConfigs = S.Array(AttributeConfig);
+export interface AdditionalDataset {
+  Name: string;
+  Configuration?: Configuration;
+}
+export const AdditionalDataset = S.suspend(() =>
+  S.Struct({ Name: S.String, Configuration: S.optional(Configuration) }),
+).annotations({
+  identifier: "AdditionalDataset",
+}) as any as S.Schema<AdditionalDataset>;
+export type AdditionalDatasets = AdditionalDataset[];
+export const AdditionalDatasets = S.Array(AdditionalDataset);
+export interface DataConfig {
+  DatasetGroupArn: string;
+  AttributeConfigs?: AttributeConfigs;
+  AdditionalDatasets?: AdditionalDatasets;
+}
+export const DataConfig = S.suspend(() =>
+  S.Struct({
+    DatasetGroupArn: S.String,
+    AttributeConfigs: S.optional(AttributeConfigs),
+    AdditionalDatasets: S.optional(AdditionalDatasets),
+  }),
+).annotations({ identifier: "DataConfig" }) as any as S.Schema<DataConfig>;
+export interface DescribeAutoPredictorResponse {
+  PredictorArn?: string;
+  PredictorName?: string;
+  ForecastHorizon?: number;
+  ForecastTypes?: ForecastTypes;
+  ForecastFrequency?: string;
+  ForecastDimensions?: ForecastDimensions;
+  DatasetImportJobArns?: ArnList;
+  DataConfig?: DataConfig;
+  EncryptionConfig?: EncryptionConfig;
+  ReferencePredictorSummary?: ReferencePredictorSummary;
+  EstimatedTimeRemainingInMinutes?: number;
+  Status?: string;
+  Message?: string;
+  CreationTime?: Date;
+  LastModificationTime?: Date;
+  OptimizationMetric?: string;
+  ExplainabilityInfo?: ExplainabilityInfo;
+  MonitorInfo?: MonitorInfo;
+  TimeAlignmentBoundary?: TimeAlignmentBoundary;
+}
+export const DescribeAutoPredictorResponse = S.suspend(() =>
+  S.Struct({
+    PredictorArn: S.optional(S.String),
+    PredictorName: S.optional(S.String),
+    ForecastHorizon: S.optional(S.Number),
+    ForecastTypes: S.optional(ForecastTypes),
+    ForecastFrequency: S.optional(S.String),
+    ForecastDimensions: S.optional(ForecastDimensions),
+    DatasetImportJobArns: S.optional(ArnList),
+    DataConfig: S.optional(DataConfig),
+    EncryptionConfig: S.optional(EncryptionConfig),
+    ReferencePredictorSummary: S.optional(ReferencePredictorSummary),
+    EstimatedTimeRemainingInMinutes: S.optional(S.Number),
+    Status: S.optional(S.String),
+    Message: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModificationTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    OptimizationMetric: S.optional(S.String),
+    ExplainabilityInfo: S.optional(ExplainabilityInfo),
+    MonitorInfo: S.optional(MonitorInfo),
+    TimeAlignmentBoundary: S.optional(TimeAlignmentBoundary),
+  }),
+).annotations({
+  identifier: "DescribeAutoPredictorResponse",
+}) as any as S.Schema<DescribeAutoPredictorResponse>;
+export interface ListDatasetGroupsResponse {
+  DatasetGroups?: DatasetGroups;
+  NextToken?: string;
+}
+export const ListDatasetGroupsResponse = S.suspend(() =>
+  S.Struct({
+    DatasetGroups: S.optional(DatasetGroups),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListDatasetGroupsResponse",
+}) as any as S.Schema<ListDatasetGroupsResponse>;
+export interface ListDatasetsResponse {
+  Datasets?: Datasets;
+  NextToken?: string;
+}
+export const ListDatasetsResponse = S.suspend(() =>
+  S.Struct({ Datasets: S.optional(Datasets), NextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListDatasetsResponse",
+}) as any as S.Schema<ListDatasetsResponse>;
+export interface ListExplainabilitiesResponse {
+  Explainabilities?: Explainabilities;
+  NextToken?: string;
+}
+export const ListExplainabilitiesResponse = S.suspend(() =>
+  S.Struct({
+    Explainabilities: S.optional(Explainabilities),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListExplainabilitiesResponse",
+}) as any as S.Schema<ListExplainabilitiesResponse>;
+export interface ListExplainabilityExportsResponse {
+  ExplainabilityExports?: ExplainabilityExports;
+  NextToken?: string;
+}
+export const ListExplainabilityExportsResponse = S.suspend(() =>
+  S.Struct({
+    ExplainabilityExports: S.optional(ExplainabilityExports),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListExplainabilityExportsResponse",
+}) as any as S.Schema<ListExplainabilityExportsResponse>;
+export interface ListForecastExportJobsResponse {
+  ForecastExportJobs?: ForecastExportJobs;
+  NextToken?: string;
+}
+export const ListForecastExportJobsResponse = S.suspend(() =>
+  S.Struct({
+    ForecastExportJobs: S.optional(ForecastExportJobs),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListForecastExportJobsResponse",
+}) as any as S.Schema<ListForecastExportJobsResponse>;
+export interface ListForecastsResponse {
+  Forecasts?: Forecasts;
+  NextToken?: string;
+}
+export const ListForecastsResponse = S.suspend(() =>
+  S.Struct({
+    Forecasts: S.optional(Forecasts),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListForecastsResponse",
+}) as any as S.Schema<ListForecastsResponse>;
+export interface ListMonitorsResponse {
+  Monitors?: Monitors;
+  NextToken?: string;
+}
+export const ListMonitorsResponse = S.suspend(() =>
+  S.Struct({ Monitors: S.optional(Monitors), NextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListMonitorsResponse",
+}) as any as S.Schema<ListMonitorsResponse>;
+export interface ListPredictorBacktestExportJobsResponse {
+  PredictorBacktestExportJobs?: PredictorBacktestExportJobs;
+  NextToken?: string;
+}
+export const ListPredictorBacktestExportJobsResponse = S.suspend(() =>
+  S.Struct({
+    PredictorBacktestExportJobs: S.optional(PredictorBacktestExportJobs),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListPredictorBacktestExportJobsResponse",
+}) as any as S.Schema<ListPredictorBacktestExportJobsResponse>;
+export interface ListPredictorsResponse {
+  Predictors?: Predictors;
+  NextToken?: string;
+}
+export const ListPredictorsResponse = S.suspend(() =>
+  S.Struct({
+    Predictors: S.optional(Predictors),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListPredictorsResponse",
+}) as any as S.Schema<ListPredictorsResponse>;
+export interface ListWhatIfAnalysesResponse {
+  WhatIfAnalyses?: WhatIfAnalyses;
+  NextToken?: string;
+}
+export const ListWhatIfAnalysesResponse = S.suspend(() =>
+  S.Struct({
+    WhatIfAnalyses: S.optional(WhatIfAnalyses),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListWhatIfAnalysesResponse",
+}) as any as S.Schema<ListWhatIfAnalysesResponse>;
+export interface ListWhatIfForecastExportsResponse {
+  WhatIfForecastExports?: WhatIfForecastExports;
+  NextToken?: string;
+}
+export const ListWhatIfForecastExportsResponse = S.suspend(() =>
+  S.Struct({
+    WhatIfForecastExports: S.optional(WhatIfForecastExports),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListWhatIfForecastExportsResponse",
+}) as any as S.Schema<ListWhatIfForecastExportsResponse>;
+export interface ListWhatIfForecastsResponse {
+  WhatIfForecasts?: WhatIfForecasts;
+  NextToken?: string;
+}
+export const ListWhatIfForecastsResponse = S.suspend(() =>
+  S.Struct({
+    WhatIfForecasts: S.optional(WhatIfForecasts),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListWhatIfForecastsResponse",
+}) as any as S.Schema<ListWhatIfForecastsResponse>;
+export interface ParameterRanges {
+  CategoricalParameterRanges?: CategoricalParameterRanges;
+  ContinuousParameterRanges?: ContinuousParameterRanges;
+  IntegerParameterRanges?: IntegerParameterRanges;
+}
+export const ParameterRanges = S.suspend(() =>
+  S.Struct({
+    CategoricalParameterRanges: S.optional(CategoricalParameterRanges),
+    ContinuousParameterRanges: S.optional(ContinuousParameterRanges),
+    IntegerParameterRanges: S.optional(IntegerParameterRanges),
+  }),
+).annotations({
+  identifier: "ParameterRanges",
+}) as any as S.Schema<ParameterRanges>;
+export interface Statistics {
+  Count?: number;
+  CountDistinct?: number;
+  CountNull?: number;
+  CountNan?: number;
+  Min?: string;
+  Max?: string;
+  Avg?: number;
+  Stddev?: number;
+  CountLong?: number;
+  CountDistinctLong?: number;
+  CountNullLong?: number;
+  CountNanLong?: number;
+}
+export const Statistics = S.suspend(() =>
+  S.Struct({
+    Count: S.optional(S.Number),
+    CountDistinct: S.optional(S.Number),
+    CountNull: S.optional(S.Number),
+    CountNan: S.optional(S.Number),
+    Min: S.optional(S.String),
+    Max: S.optional(S.String),
+    Avg: S.optional(S.Number),
+    Stddev: S.optional(S.Number),
+    CountLong: S.optional(S.Number),
+    CountDistinctLong: S.optional(S.Number),
+    CountNullLong: S.optional(S.Number),
+    CountNanLong: S.optional(S.Number),
+  }),
+).annotations({ identifier: "Statistics" }) as any as S.Schema<Statistics>;
+export interface PredictorEvent {
+  Detail?: string;
+  Datetime?: Date;
+}
+export const PredictorEvent = S.suspend(() =>
+  S.Struct({
+    Detail: S.optional(S.String),
+    Datetime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "PredictorEvent",
+}) as any as S.Schema<PredictorEvent>;
+export interface MonitorDataSource {
+  DatasetImportJobArn?: string;
+  ForecastArn?: string;
+  PredictorArn?: string;
+}
+export const MonitorDataSource = S.suspend(() =>
+  S.Struct({
+    DatasetImportJobArn: S.optional(S.String),
+    ForecastArn: S.optional(S.String),
+    PredictorArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "MonitorDataSource",
+}) as any as S.Schema<MonitorDataSource>;
+export interface MetricResult {
+  MetricName?: string;
+  MetricValue?: number;
+}
+export const MetricResult = S.suspend(() =>
+  S.Struct({
+    MetricName: S.optional(S.String),
+    MetricValue: S.optional(S.Number),
+  }),
+).annotations({ identifier: "MetricResult" }) as any as S.Schema<MetricResult>;
+export type MetricResults = MetricResult[];
 export const MetricResults = S.Array(MetricResult);
+export type FeaturizationMethodParameters = { [key: string]: string };
 export const FeaturizationMethodParameters = S.Record({
   key: S.String,
   value: S.String,
 });
-export class HyperParameterTuningJobConfig extends S.Class<HyperParameterTuningJobConfig>(
-  "HyperParameterTuningJobConfig",
-)({ ParameterRanges: S.optional(ParameterRanges) }) {}
+export interface HyperParameterTuningJobConfig {
+  ParameterRanges?: ParameterRanges;
+}
+export const HyperParameterTuningJobConfig = S.suspend(() =>
+  S.Struct({ ParameterRanges: S.optional(ParameterRanges) }),
+).annotations({
+  identifier: "HyperParameterTuningJobConfig",
+}) as any as S.Schema<HyperParameterTuningJobConfig>;
+export type FieldStatistics = { [key: string]: Statistics };
 export const FieldStatistics = S.Record({ key: S.String, value: Statistics });
-export class DatasetImportJobSummary extends S.Class<DatasetImportJobSummary>(
-  "DatasetImportJobSummary",
-)({
-  DatasetImportJobArn: S.optional(S.String),
-  DatasetImportJobName: S.optional(S.String),
-  DataSource: S.optional(DataSource),
-  Status: S.optional(S.String),
-  Message: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModificationTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  ImportMode: S.optional(S.String),
-}) {}
+export interface DatasetImportJobSummary {
+  DatasetImportJobArn?: string;
+  DatasetImportJobName?: string;
+  DataSource?: DataSource;
+  Status?: string;
+  Message?: string;
+  CreationTime?: Date;
+  LastModificationTime?: Date;
+  ImportMode?: string;
+}
+export const DatasetImportJobSummary = S.suspend(() =>
+  S.Struct({
+    DatasetImportJobArn: S.optional(S.String),
+    DatasetImportJobName: S.optional(S.String),
+    DataSource: S.optional(DataSource),
+    Status: S.optional(S.String),
+    Message: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModificationTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    ImportMode: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DatasetImportJobSummary",
+}) as any as S.Schema<DatasetImportJobSummary>;
+export type DatasetImportJobs = DatasetImportJobSummary[];
 export const DatasetImportJobs = S.Array(DatasetImportJobSummary);
-export class PredictorMonitorEvaluation extends S.Class<PredictorMonitorEvaluation>(
-  "PredictorMonitorEvaluation",
-)({
-  ResourceArn: S.optional(S.String),
-  MonitorArn: S.optional(S.String),
-  EvaluationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  EvaluationState: S.optional(S.String),
-  WindowStartDatetime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  WindowEndDatetime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  PredictorEvent: S.optional(PredictorEvent),
-  MonitorDataSource: S.optional(MonitorDataSource),
-  MetricResults: S.optional(MetricResults),
-  NumItemsEvaluated: S.optional(S.Number),
-  Message: S.optional(S.String),
-}) {}
+export interface PredictorMonitorEvaluation {
+  ResourceArn?: string;
+  MonitorArn?: string;
+  EvaluationTime?: Date;
+  EvaluationState?: string;
+  WindowStartDatetime?: Date;
+  WindowEndDatetime?: Date;
+  PredictorEvent?: PredictorEvent;
+  MonitorDataSource?: MonitorDataSource;
+  MetricResults?: MetricResults;
+  NumItemsEvaluated?: number;
+  Message?: string;
+}
+export const PredictorMonitorEvaluation = S.suspend(() =>
+  S.Struct({
+    ResourceArn: S.optional(S.String),
+    MonitorArn: S.optional(S.String),
+    EvaluationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EvaluationState: S.optional(S.String),
+    WindowStartDatetime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    WindowEndDatetime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    PredictorEvent: S.optional(PredictorEvent),
+    MonitorDataSource: S.optional(MonitorDataSource),
+    MetricResults: S.optional(MetricResults),
+    NumItemsEvaluated: S.optional(S.Number),
+    Message: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "PredictorMonitorEvaluation",
+}) as any as S.Schema<PredictorMonitorEvaluation>;
+export type PredictorMonitorEvaluations = PredictorMonitorEvaluation[];
 export const PredictorMonitorEvaluations = S.Array(PredictorMonitorEvaluation);
-export class FeaturizationMethod extends S.Class<FeaturizationMethod>(
-  "FeaturizationMethod",
-)({
-  FeaturizationMethodName: S.String,
-  FeaturizationMethodParameters: S.optional(FeaturizationMethodParameters),
-}) {}
+export interface FeaturizationMethod {
+  FeaturizationMethodName: string;
+  FeaturizationMethodParameters?: FeaturizationMethodParameters;
+}
+export const FeaturizationMethod = S.suspend(() =>
+  S.Struct({
+    FeaturizationMethodName: S.String,
+    FeaturizationMethodParameters: S.optional(FeaturizationMethodParameters),
+  }),
+).annotations({
+  identifier: "FeaturizationMethod",
+}) as any as S.Schema<FeaturizationMethod>;
+export type FeaturizationPipeline = FeaturizationMethod[];
 export const FeaturizationPipeline = S.Array(FeaturizationMethod);
-export class BaselineMetric extends S.Class<BaselineMetric>("BaselineMetric")({
-  Name: S.optional(S.String),
-  Value: S.optional(S.Number),
-}) {}
+export interface BaselineMetric {
+  Name?: string;
+  Value?: number;
+}
+export const BaselineMetric = S.suspend(() =>
+  S.Struct({ Name: S.optional(S.String), Value: S.optional(S.Number) }),
+).annotations({
+  identifier: "BaselineMetric",
+}) as any as S.Schema<BaselineMetric>;
+export type BaselineMetrics = BaselineMetric[];
 export const BaselineMetrics = S.Array(BaselineMetric);
-export class TestWindowSummary extends S.Class<TestWindowSummary>(
-  "TestWindowSummary",
-)({
-  TestWindowStart: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  TestWindowEnd: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Status: S.optional(S.String),
-  Message: S.optional(S.String),
-}) {}
+export interface TestWindowSummary {
+  TestWindowStart?: Date;
+  TestWindowEnd?: Date;
+  Status?: string;
+  Message?: string;
+}
+export const TestWindowSummary = S.suspend(() =>
+  S.Struct({
+    TestWindowStart: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    TestWindowEnd: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Status: S.optional(S.String),
+    Message: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "TestWindowSummary",
+}) as any as S.Schema<TestWindowSummary>;
+export type TestWindowDetails = TestWindowSummary[];
 export const TestWindowDetails = S.Array(TestWindowSummary);
-export class CreateAutoPredictorRequest extends S.Class<CreateAutoPredictorRequest>(
-  "CreateAutoPredictorRequest",
-)(
-  {
+export interface CreateAutoPredictorRequest {
+  PredictorName: string;
+  ForecastHorizon?: number;
+  ForecastTypes?: ForecastTypes;
+  ForecastDimensions?: ForecastDimensions;
+  ForecastFrequency?: string;
+  DataConfig?: DataConfig;
+  EncryptionConfig?: EncryptionConfig;
+  ReferencePredictorArn?: string;
+  OptimizationMetric?: string;
+  ExplainPredictor?: boolean;
+  Tags?: Tags;
+  MonitorConfig?: MonitorConfig;
+  TimeAlignmentBoundary?: TimeAlignmentBoundary;
+}
+export const CreateAutoPredictorRequest = S.suspend(() =>
+  S.Struct({
     PredictorName: S.String,
     ForecastHorizon: S.optional(S.Number),
     ForecastTypes: S.optional(ForecastTypes),
@@ -1503,109 +2630,246 @@ export class CreateAutoPredictorRequest extends S.Class<CreateAutoPredictorReque
     Tags: S.optional(Tags),
     MonitorConfig: S.optional(MonitorConfig),
     TimeAlignmentBoundary: S.optional(TimeAlignmentBoundary),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateDatasetResponse extends S.Class<CreateDatasetResponse>(
-  "CreateDatasetResponse",
-)({ DatasetArn: S.optional(S.String) }) {}
-export class CreateDatasetImportJobResponse extends S.Class<CreateDatasetImportJobResponse>(
-  "CreateDatasetImportJobResponse",
-)({ DatasetImportJobArn: S.optional(S.String) }) {}
-export class CreateForecastResponse extends S.Class<CreateForecastResponse>(
-  "CreateForecastResponse",
-)({ ForecastArn: S.optional(S.String) }) {}
-export class CreateWhatIfForecastResponse extends S.Class<CreateWhatIfForecastResponse>(
-  "CreateWhatIfForecastResponse",
-)({ WhatIfForecastArn: S.optional(S.String) }) {}
-export class DescribeDatasetImportJobResponse extends S.Class<DescribeDatasetImportJobResponse>(
-  "DescribeDatasetImportJobResponse",
-)({
-  DatasetImportJobName: S.optional(S.String),
-  DatasetImportJobArn: S.optional(S.String),
-  DatasetArn: S.optional(S.String),
-  TimestampFormat: S.optional(S.String),
-  TimeZone: S.optional(S.String),
-  UseGeolocationForTimeZone: S.optional(S.Boolean),
-  GeolocationFormat: S.optional(S.String),
-  DataSource: S.optional(DataSource),
-  EstimatedTimeRemainingInMinutes: S.optional(S.Number),
-  FieldStatistics: S.optional(FieldStatistics),
-  DataSize: S.optional(S.Number),
-  Status: S.optional(S.String),
-  Message: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModificationTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-  Format: S.optional(S.String),
-  ImportMode: S.optional(S.String),
-}) {}
-export class ListDatasetImportJobsResponse extends S.Class<ListDatasetImportJobsResponse>(
-  "ListDatasetImportJobsResponse",
-)({
-  DatasetImportJobs: S.optional(DatasetImportJobs),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListMonitorEvaluationsResponse extends S.Class<ListMonitorEvaluationsResponse>(
-  "ListMonitorEvaluationsResponse",
-)({
-  NextToken: S.optional(S.String),
-  PredictorMonitorEvaluations: S.optional(PredictorMonitorEvaluations),
-}) {}
-export class Featurization extends S.Class<Featurization>("Featurization")({
-  AttributeName: S.String,
-  FeaturizationPipeline: S.optional(FeaturizationPipeline),
-}) {}
+).annotations({
+  identifier: "CreateAutoPredictorRequest",
+}) as any as S.Schema<CreateAutoPredictorRequest>;
+export interface CreateDatasetResponse {
+  DatasetArn?: string;
+}
+export const CreateDatasetResponse = S.suspend(() =>
+  S.Struct({ DatasetArn: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateDatasetResponse",
+}) as any as S.Schema<CreateDatasetResponse>;
+export interface CreateDatasetImportJobResponse {
+  DatasetImportJobArn?: string;
+}
+export const CreateDatasetImportJobResponse = S.suspend(() =>
+  S.Struct({ DatasetImportJobArn: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateDatasetImportJobResponse",
+}) as any as S.Schema<CreateDatasetImportJobResponse>;
+export interface CreateForecastResponse {
+  ForecastArn?: string;
+}
+export const CreateForecastResponse = S.suspend(() =>
+  S.Struct({ ForecastArn: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateForecastResponse",
+}) as any as S.Schema<CreateForecastResponse>;
+export interface CreateWhatIfForecastResponse {
+  WhatIfForecastArn?: string;
+}
+export const CreateWhatIfForecastResponse = S.suspend(() =>
+  S.Struct({ WhatIfForecastArn: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateWhatIfForecastResponse",
+}) as any as S.Schema<CreateWhatIfForecastResponse>;
+export interface DescribeDatasetImportJobResponse {
+  DatasetImportJobName?: string;
+  DatasetImportJobArn?: string;
+  DatasetArn?: string;
+  TimestampFormat?: string;
+  TimeZone?: string;
+  UseGeolocationForTimeZone?: boolean;
+  GeolocationFormat?: string;
+  DataSource?: DataSource;
+  EstimatedTimeRemainingInMinutes?: number;
+  FieldStatistics?: FieldStatistics;
+  DataSize?: number;
+  Status?: string;
+  Message?: string;
+  CreationTime?: Date;
+  LastModificationTime?: Date;
+  Format?: string;
+  ImportMode?: string;
+}
+export const DescribeDatasetImportJobResponse = S.suspend(() =>
+  S.Struct({
+    DatasetImportJobName: S.optional(S.String),
+    DatasetImportJobArn: S.optional(S.String),
+    DatasetArn: S.optional(S.String),
+    TimestampFormat: S.optional(S.String),
+    TimeZone: S.optional(S.String),
+    UseGeolocationForTimeZone: S.optional(S.Boolean),
+    GeolocationFormat: S.optional(S.String),
+    DataSource: S.optional(DataSource),
+    EstimatedTimeRemainingInMinutes: S.optional(S.Number),
+    FieldStatistics: S.optional(FieldStatistics),
+    DataSize: S.optional(S.Number),
+    Status: S.optional(S.String),
+    Message: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModificationTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    Format: S.optional(S.String),
+    ImportMode: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DescribeDatasetImportJobResponse",
+}) as any as S.Schema<DescribeDatasetImportJobResponse>;
+export interface ListDatasetImportJobsResponse {
+  DatasetImportJobs?: DatasetImportJobs;
+  NextToken?: string;
+}
+export const ListDatasetImportJobsResponse = S.suspend(() =>
+  S.Struct({
+    DatasetImportJobs: S.optional(DatasetImportJobs),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListDatasetImportJobsResponse",
+}) as any as S.Schema<ListDatasetImportJobsResponse>;
+export interface ListMonitorEvaluationsResponse {
+  NextToken?: string;
+  PredictorMonitorEvaluations?: PredictorMonitorEvaluations;
+}
+export const ListMonitorEvaluationsResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    PredictorMonitorEvaluations: S.optional(PredictorMonitorEvaluations),
+  }),
+).annotations({
+  identifier: "ListMonitorEvaluationsResponse",
+}) as any as S.Schema<ListMonitorEvaluationsResponse>;
+export interface Featurization {
+  AttributeName: string;
+  FeaturizationPipeline?: FeaturizationPipeline;
+}
+export const Featurization = S.suspend(() =>
+  S.Struct({
+    AttributeName: S.String,
+    FeaturizationPipeline: S.optional(FeaturizationPipeline),
+  }),
+).annotations({
+  identifier: "Featurization",
+}) as any as S.Schema<Featurization>;
+export type Featurizations = Featurization[];
 export const Featurizations = S.Array(Featurization);
-export class PredictorBaseline extends S.Class<PredictorBaseline>(
-  "PredictorBaseline",
-)({ BaselineMetrics: S.optional(BaselineMetrics) }) {}
-export class PredictorExecution extends S.Class<PredictorExecution>(
-  "PredictorExecution",
-)({
-  AlgorithmArn: S.optional(S.String),
-  TestWindows: S.optional(TestWindowDetails),
-}) {}
+export interface PredictorBaseline {
+  BaselineMetrics?: BaselineMetrics;
+}
+export const PredictorBaseline = S.suspend(() =>
+  S.Struct({ BaselineMetrics: S.optional(BaselineMetrics) }),
+).annotations({
+  identifier: "PredictorBaseline",
+}) as any as S.Schema<PredictorBaseline>;
+export interface PredictorExecution {
+  AlgorithmArn?: string;
+  TestWindows?: TestWindowDetails;
+}
+export const PredictorExecution = S.suspend(() =>
+  S.Struct({
+    AlgorithmArn: S.optional(S.String),
+    TestWindows: S.optional(TestWindowDetails),
+  }),
+).annotations({
+  identifier: "PredictorExecution",
+}) as any as S.Schema<PredictorExecution>;
+export type PredictorExecutions = PredictorExecution[];
 export const PredictorExecutions = S.Array(PredictorExecution);
-export class WeightedQuantileLoss extends S.Class<WeightedQuantileLoss>(
-  "WeightedQuantileLoss",
-)({ Quantile: S.optional(S.Number), LossValue: S.optional(S.Number) }) {}
+export interface WeightedQuantileLoss {
+  Quantile?: number;
+  LossValue?: number;
+}
+export const WeightedQuantileLoss = S.suspend(() =>
+  S.Struct({ Quantile: S.optional(S.Number), LossValue: S.optional(S.Number) }),
+).annotations({
+  identifier: "WeightedQuantileLoss",
+}) as any as S.Schema<WeightedQuantileLoss>;
+export type WeightedQuantileLosses = WeightedQuantileLoss[];
 export const WeightedQuantileLosses = S.Array(WeightedQuantileLoss);
-export class ErrorMetric extends S.Class<ErrorMetric>("ErrorMetric")({
-  ForecastType: S.optional(S.String),
-  WAPE: S.optional(S.Number),
-  RMSE: S.optional(S.Number),
-  MASE: S.optional(S.Number),
-  MAPE: S.optional(S.Number),
-}) {}
+export interface ErrorMetric {
+  ForecastType?: string;
+  WAPE?: number;
+  RMSE?: number;
+  MASE?: number;
+  MAPE?: number;
+}
+export const ErrorMetric = S.suspend(() =>
+  S.Struct({
+    ForecastType: S.optional(S.String),
+    WAPE: S.optional(S.Number),
+    RMSE: S.optional(S.Number),
+    MASE: S.optional(S.Number),
+    MAPE: S.optional(S.Number),
+  }),
+).annotations({ identifier: "ErrorMetric" }) as any as S.Schema<ErrorMetric>;
+export type ErrorMetrics = ErrorMetric[];
 export const ErrorMetrics = S.Array(ErrorMetric);
-export class FeaturizationConfig extends S.Class<FeaturizationConfig>(
-  "FeaturizationConfig",
-)({
-  ForecastFrequency: S.String,
-  ForecastDimensions: S.optional(ForecastDimensions),
-  Featurizations: S.optional(Featurizations),
-}) {}
-export class Baseline extends S.Class<Baseline>("Baseline")({
-  PredictorBaseline: S.optional(PredictorBaseline),
-}) {}
-export class PredictorExecutionDetails extends S.Class<PredictorExecutionDetails>(
-  "PredictorExecutionDetails",
-)({ PredictorExecutions: S.optional(PredictorExecutions) }) {}
-export class Metrics extends S.Class<Metrics>("Metrics")({
-  RMSE: S.optional(S.Number),
-  WeightedQuantileLosses: S.optional(WeightedQuantileLosses),
-  ErrorMetrics: S.optional(ErrorMetrics),
-  AverageWeightedQuantileLoss: S.optional(S.Number),
-}) {}
-export class CreateAutoPredictorResponse extends S.Class<CreateAutoPredictorResponse>(
-  "CreateAutoPredictorResponse",
-)({ PredictorArn: S.optional(S.String) }) {}
-export class CreatePredictorRequest extends S.Class<CreatePredictorRequest>(
-  "CreatePredictorRequest",
-)(
-  {
+export interface FeaturizationConfig {
+  ForecastFrequency: string;
+  ForecastDimensions?: ForecastDimensions;
+  Featurizations?: Featurizations;
+}
+export const FeaturizationConfig = S.suspend(() =>
+  S.Struct({
+    ForecastFrequency: S.String,
+    ForecastDimensions: S.optional(ForecastDimensions),
+    Featurizations: S.optional(Featurizations),
+  }),
+).annotations({
+  identifier: "FeaturizationConfig",
+}) as any as S.Schema<FeaturizationConfig>;
+export interface Baseline {
+  PredictorBaseline?: PredictorBaseline;
+}
+export const Baseline = S.suspend(() =>
+  S.Struct({ PredictorBaseline: S.optional(PredictorBaseline) }),
+).annotations({ identifier: "Baseline" }) as any as S.Schema<Baseline>;
+export interface PredictorExecutionDetails {
+  PredictorExecutions?: PredictorExecutions;
+}
+export const PredictorExecutionDetails = S.suspend(() =>
+  S.Struct({ PredictorExecutions: S.optional(PredictorExecutions) }),
+).annotations({
+  identifier: "PredictorExecutionDetails",
+}) as any as S.Schema<PredictorExecutionDetails>;
+export interface Metrics {
+  RMSE?: number;
+  WeightedQuantileLosses?: WeightedQuantileLosses;
+  ErrorMetrics?: ErrorMetrics;
+  AverageWeightedQuantileLoss?: number;
+}
+export const Metrics = S.suspend(() =>
+  S.Struct({
+    RMSE: S.optional(S.Number),
+    WeightedQuantileLosses: S.optional(WeightedQuantileLosses),
+    ErrorMetrics: S.optional(ErrorMetrics),
+    AverageWeightedQuantileLoss: S.optional(S.Number),
+  }),
+).annotations({ identifier: "Metrics" }) as any as S.Schema<Metrics>;
+export interface CreateAutoPredictorResponse {
+  PredictorArn?: string;
+}
+export const CreateAutoPredictorResponse = S.suspend(() =>
+  S.Struct({ PredictorArn: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateAutoPredictorResponse",
+}) as any as S.Schema<CreateAutoPredictorResponse>;
+export interface CreatePredictorRequest {
+  PredictorName: string;
+  AlgorithmArn?: string;
+  ForecastHorizon: number;
+  ForecastTypes?: ForecastTypes;
+  PerformAutoML?: boolean;
+  AutoMLOverrideStrategy?: string;
+  PerformHPO?: boolean;
+  TrainingParameters?: TrainingParameters;
+  EvaluationParameters?: EvaluationParameters;
+  HPOConfig?: HyperParameterTuningJobConfig;
+  InputDataConfig: InputDataConfig;
+  FeaturizationConfig: FeaturizationConfig;
+  EncryptionConfig?: EncryptionConfig;
+  Tags?: Tags;
+  OptimizationMetric?: string;
+}
+export const CreatePredictorRequest = S.suspend(() =>
+  S.Struct({
     PredictorName: S.String,
     AlgorithmArn: S.optional(S.String),
     ForecastHorizon: S.Number,
@@ -1621,84 +2885,164 @@ export class CreatePredictorRequest extends S.Class<CreatePredictorRequest>(
     EncryptionConfig: S.optional(EncryptionConfig),
     Tags: S.optional(Tags),
     OptimizationMetric: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeMonitorResponse extends S.Class<DescribeMonitorResponse>(
-  "DescribeMonitorResponse",
-)({
-  MonitorName: S.optional(S.String),
-  MonitorArn: S.optional(S.String),
-  ResourceArn: S.optional(S.String),
-  Status: S.optional(S.String),
-  LastEvaluationTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-  LastEvaluationState: S.optional(S.String),
-  Baseline: S.optional(Baseline),
-  Message: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModificationTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  EstimatedEvaluationTimeRemainingInMinutes: S.optional(S.Number),
-}) {}
-export class DescribePredictorResponse extends S.Class<DescribePredictorResponse>(
-  "DescribePredictorResponse",
-)({
-  PredictorArn: S.optional(S.String),
-  PredictorName: S.optional(S.String),
-  AlgorithmArn: S.optional(S.String),
-  AutoMLAlgorithmArns: S.optional(ArnList),
-  ForecastHorizon: S.optional(S.Number),
-  ForecastTypes: S.optional(ForecastTypes),
-  PerformAutoML: S.optional(S.Boolean),
-  AutoMLOverrideStrategy: S.optional(S.String),
-  PerformHPO: S.optional(S.Boolean),
-  TrainingParameters: S.optional(TrainingParameters),
-  EvaluationParameters: S.optional(EvaluationParameters),
-  HPOConfig: S.optional(HyperParameterTuningJobConfig),
-  InputDataConfig: S.optional(InputDataConfig),
-  FeaturizationConfig: S.optional(FeaturizationConfig),
-  EncryptionConfig: S.optional(EncryptionConfig),
-  PredictorExecutionDetails: S.optional(PredictorExecutionDetails),
-  EstimatedTimeRemainingInMinutes: S.optional(S.Number),
-  IsAutoPredictor: S.optional(S.Boolean),
-  DatasetImportJobArns: S.optional(ArnList),
-  Status: S.optional(S.String),
-  Message: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModificationTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  OptimizationMetric: S.optional(S.String),
-}) {}
-export class WindowSummary extends S.Class<WindowSummary>("WindowSummary")({
-  TestWindowStart: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  TestWindowEnd: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  ItemCount: S.optional(S.Number),
-  EvaluationType: S.optional(S.String),
-  Metrics: S.optional(Metrics),
-}) {}
+).annotations({
+  identifier: "CreatePredictorRequest",
+}) as any as S.Schema<CreatePredictorRequest>;
+export interface DescribeMonitorResponse {
+  MonitorName?: string;
+  MonitorArn?: string;
+  ResourceArn?: string;
+  Status?: string;
+  LastEvaluationTime?: Date;
+  LastEvaluationState?: string;
+  Baseline?: Baseline;
+  Message?: string;
+  CreationTime?: Date;
+  LastModificationTime?: Date;
+  EstimatedEvaluationTimeRemainingInMinutes?: number;
+}
+export const DescribeMonitorResponse = S.suspend(() =>
+  S.Struct({
+    MonitorName: S.optional(S.String),
+    MonitorArn: S.optional(S.String),
+    ResourceArn: S.optional(S.String),
+    Status: S.optional(S.String),
+    LastEvaluationTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastEvaluationState: S.optional(S.String),
+    Baseline: S.optional(Baseline),
+    Message: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModificationTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    EstimatedEvaluationTimeRemainingInMinutes: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "DescribeMonitorResponse",
+}) as any as S.Schema<DescribeMonitorResponse>;
+export interface DescribePredictorResponse {
+  PredictorArn?: string;
+  PredictorName?: string;
+  AlgorithmArn?: string;
+  AutoMLAlgorithmArns?: ArnList;
+  ForecastHorizon?: number;
+  ForecastTypes?: ForecastTypes;
+  PerformAutoML?: boolean;
+  AutoMLOverrideStrategy?: string;
+  PerformHPO?: boolean;
+  TrainingParameters?: TrainingParameters;
+  EvaluationParameters?: EvaluationParameters;
+  HPOConfig?: HyperParameterTuningJobConfig;
+  InputDataConfig?: InputDataConfig;
+  FeaturizationConfig?: FeaturizationConfig;
+  EncryptionConfig?: EncryptionConfig;
+  PredictorExecutionDetails?: PredictorExecutionDetails;
+  EstimatedTimeRemainingInMinutes?: number;
+  IsAutoPredictor?: boolean;
+  DatasetImportJobArns?: ArnList;
+  Status?: string;
+  Message?: string;
+  CreationTime?: Date;
+  LastModificationTime?: Date;
+  OptimizationMetric?: string;
+}
+export const DescribePredictorResponse = S.suspend(() =>
+  S.Struct({
+    PredictorArn: S.optional(S.String),
+    PredictorName: S.optional(S.String),
+    AlgorithmArn: S.optional(S.String),
+    AutoMLAlgorithmArns: S.optional(ArnList),
+    ForecastHorizon: S.optional(S.Number),
+    ForecastTypes: S.optional(ForecastTypes),
+    PerformAutoML: S.optional(S.Boolean),
+    AutoMLOverrideStrategy: S.optional(S.String),
+    PerformHPO: S.optional(S.Boolean),
+    TrainingParameters: S.optional(TrainingParameters),
+    EvaluationParameters: S.optional(EvaluationParameters),
+    HPOConfig: S.optional(HyperParameterTuningJobConfig),
+    InputDataConfig: S.optional(InputDataConfig),
+    FeaturizationConfig: S.optional(FeaturizationConfig),
+    EncryptionConfig: S.optional(EncryptionConfig),
+    PredictorExecutionDetails: S.optional(PredictorExecutionDetails),
+    EstimatedTimeRemainingInMinutes: S.optional(S.Number),
+    IsAutoPredictor: S.optional(S.Boolean),
+    DatasetImportJobArns: S.optional(ArnList),
+    Status: S.optional(S.String),
+    Message: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModificationTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    OptimizationMetric: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DescribePredictorResponse",
+}) as any as S.Schema<DescribePredictorResponse>;
+export interface WindowSummary {
+  TestWindowStart?: Date;
+  TestWindowEnd?: Date;
+  ItemCount?: number;
+  EvaluationType?: string;
+  Metrics?: Metrics;
+}
+export const WindowSummary = S.suspend(() =>
+  S.Struct({
+    TestWindowStart: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    TestWindowEnd: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ItemCount: S.optional(S.Number),
+    EvaluationType: S.optional(S.String),
+    Metrics: S.optional(Metrics),
+  }),
+).annotations({
+  identifier: "WindowSummary",
+}) as any as S.Schema<WindowSummary>;
+export type TestWindows = WindowSummary[];
 export const TestWindows = S.Array(WindowSummary);
-export class EvaluationResult extends S.Class<EvaluationResult>(
-  "EvaluationResult",
-)({
-  AlgorithmArn: S.optional(S.String),
-  TestWindows: S.optional(TestWindows),
-}) {}
+export interface EvaluationResult {
+  AlgorithmArn?: string;
+  TestWindows?: TestWindows;
+}
+export const EvaluationResult = S.suspend(() =>
+  S.Struct({
+    AlgorithmArn: S.optional(S.String),
+    TestWindows: S.optional(TestWindows),
+  }),
+).annotations({
+  identifier: "EvaluationResult",
+}) as any as S.Schema<EvaluationResult>;
+export type PredictorEvaluationResults = EvaluationResult[];
 export const PredictorEvaluationResults = S.Array(EvaluationResult);
-export class CreatePredictorResponse extends S.Class<CreatePredictorResponse>(
-  "CreatePredictorResponse",
-)({ PredictorArn: S.optional(S.String) }) {}
-export class GetAccuracyMetricsResponse extends S.Class<GetAccuracyMetricsResponse>(
-  "GetAccuracyMetricsResponse",
-)({
-  PredictorEvaluationResults: S.optional(PredictorEvaluationResults),
-  IsAutoPredictor: S.optional(S.Boolean),
-  AutoMLOverrideStrategy: S.optional(S.String),
-  OptimizationMetric: S.optional(S.String),
-}) {}
+export interface CreatePredictorResponse {
+  PredictorArn?: string;
+}
+export const CreatePredictorResponse = S.suspend(() =>
+  S.Struct({ PredictorArn: S.optional(S.String) }),
+).annotations({
+  identifier: "CreatePredictorResponse",
+}) as any as S.Schema<CreatePredictorResponse>;
+export interface GetAccuracyMetricsResponse {
+  PredictorEvaluationResults?: PredictorEvaluationResults;
+  IsAutoPredictor?: boolean;
+  AutoMLOverrideStrategy?: string;
+  OptimizationMetric?: string;
+}
+export const GetAccuracyMetricsResponse = S.suspend(() =>
+  S.Struct({
+    PredictorEvaluationResults: S.optional(PredictorEvaluationResults),
+    IsAutoPredictor: S.optional(S.Boolean),
+    AutoMLOverrideStrategy: S.optional(S.String),
+    OptimizationMetric: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetAccuracyMetricsResponse",
+}) as any as S.Schema<GetAccuracyMetricsResponse>;
 
 //# Errors
 export class InvalidInputException extends S.TaggedError<InvalidInputException>()(

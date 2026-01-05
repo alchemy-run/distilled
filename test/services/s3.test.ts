@@ -584,6 +584,34 @@ test(
   "bucket lifecycle: test various rule configurations",
   withBucket("itty-s3-lifecycle-rules", (bucket) =>
     Effect.gen(function* () {
+      // Helper to wait for lifecycle configuration with eventual consistency
+      const waitForLifecycle = <T>(
+        check: (
+          result: Awaited<
+            ReturnType<typeof getBucketLifecycleConfiguration>
+          > extends Effect.Effect<infer A, any, any>
+            ? A
+            : never,
+        ) => T | undefined,
+      ) =>
+        Effect.gen(function* () {
+          const result = yield* getBucketLifecycleConfiguration({
+            Bucket: bucket,
+          });
+          const value = check(result);
+          if (value === undefined) {
+            return yield* Effect.fail("not ready yet" as const);
+          }
+          return value;
+        }).pipe(
+          Effect.retry({
+            while: (err) => err === "not ready yet",
+            schedule: Schedule.spaced("500 millis").pipe(
+              Schedule.intersect(Schedule.recurs(10)),
+            ),
+          }),
+        );
+
       // Test 1: Simple rule with Filter and Transitions (like AWS example)
       yield* putBucketLifecycleConfiguration({
         Bucket: bucket,
@@ -606,11 +634,9 @@ test(
         },
       });
 
-      // Verify it was set correctly
-      let lifecycleResult = yield* getBucketLifecycleConfiguration({
-        Bucket: bucket,
-      });
-      expect(lifecycleResult.Rules?.length).toEqual(1);
+      // Verify it was set correctly (with eventual consistency)
+      const rulesCount = yield* waitForLifecycle((r) => r.Rules?.length);
+      expect(rulesCount).toEqual(1);
 
       // Test 2: Rule with Expiration and Filter
       yield* putBucketLifecycleConfiguration({
@@ -631,10 +657,10 @@ test(
         },
       });
 
-      lifecycleResult = yield* getBucketLifecycleConfiguration({
-        Bucket: bucket,
-      });
-      expect(lifecycleResult.Rules?.[0]?.Expiration?.Days).toEqual(7);
+      const expirationDays = yield* waitForLifecycle(
+        (r) => r.Rules?.[0]?.Expiration?.Days,
+      );
+      expect(expirationDays).toEqual(7);
 
       // Test 3: Complete rule with ID, Filter, Expiration, and Transitions (like AWS smithy example)
       yield* putBucketLifecycleConfiguration({
@@ -661,10 +687,10 @@ test(
         },
       });
 
-      lifecycleResult = yield* getBucketLifecycleConfiguration({
-        Bucket: bucket,
-      });
-      expect(lifecycleResult.Rules?.[0]?.ID).toEqual("TestComplete");
+      const ruleId = yield* waitForLifecycle((r) =>
+        r.Rules?.[0]?.ID === "TestComplete" ? r.Rules[0].ID : undefined,
+      );
+      expect(ruleId).toEqual("TestComplete");
 
       // Test 4: Empty Filter prefix (applies to all objects)
       yield* putBucketLifecycleConfiguration({
@@ -685,24 +711,11 @@ test(
         },
       });
 
-      // Retry to handle eventual consistency - use conditional check, not assertion
-      yield* Effect.gen(function* () {
-        const result = yield* getBucketLifecycleConfiguration({
-          Bucket: bucket,
-        });
-        const rule = result.Rules?.[0];
-        const days = rule?.AbortIncompleteMultipartUpload?.DaysAfterInitiation;
-        if (days !== 1) {
-          return yield* Effect.fail("not ready yet" as const);
-        }
-      }).pipe(
-        Effect.retry({
-          while: (err) => err === "not ready yet",
-          schedule: Schedule.spaced("1 second").pipe(
-            Schedule.intersect(Schedule.recurs(10)),
-          ),
-        }),
+      const abortDays = yield* waitForLifecycle(
+        (r) =>
+          r.Rules?.[0]?.AbortIncompleteMultipartUpload?.DaysAfterInitiation,
       );
+      expect(abortDays).toEqual(1);
 
       // Cleanup
       yield* deleteBucketLifecycle({ Bucket: bucket });

@@ -628,35 +628,77 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class GetCallerIdentityRequest extends S.Class<GetCallerIdentityRequest>(
-  "GetCallerIdentityRequest",
-)(
-  {},
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+export interface GetCallerIdentityRequest {}
+export const GetCallerIdentityRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetCallerIdentityRequest",
+}) as any as S.Schema<GetCallerIdentityRequest>;
+export type tagKeyListType = string[];
 export const tagKeyListType = S.Array(S.String);
+export type webIdentityTokenAudienceListType = string[];
 export const webIdentityTokenAudienceListType = S.Array(S.String);
-export class PolicyDescriptorType extends S.Class<PolicyDescriptorType>(
-  "PolicyDescriptorType",
-)({ arn: S.optional(S.String) }) {}
+export interface PolicyDescriptorType {
+  arn?: string;
+}
+export const PolicyDescriptorType = S.suspend(() =>
+  S.Struct({ arn: S.optional(S.String) }),
+).annotations({
+  identifier: "PolicyDescriptorType",
+}) as any as S.Schema<PolicyDescriptorType>;
+export type policyDescriptorListType = PolicyDescriptorType[];
 export const policyDescriptorListType = S.Array(PolicyDescriptorType);
-export class AssumeRoleWithSAMLRequest extends S.Class<AssumeRoleWithSAMLRequest>(
-  "AssumeRoleWithSAMLRequest",
-)(
-  {
+export interface AssumeRoleWithSAMLRequest {
+  RoleArn: string;
+  PrincipalArn: string;
+  SAMLAssertion: string;
+  PolicyArns?: policyDescriptorListType;
+  Policy?: string;
+  DurationSeconds?: number;
+}
+export const AssumeRoleWithSAMLRequest = S.suspend(() =>
+  S.Struct({
     RoleArn: S.String,
     PrincipalArn: S.String,
     SAMLAssertion: S.String,
     PolicyArns: S.optional(policyDescriptorListType),
     Policy: S.optional(S.String),
     DurationSeconds: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class AssumeRoleWithWebIdentityRequest extends S.Class<AssumeRoleWithWebIdentityRequest>(
-  "AssumeRoleWithWebIdentityRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "AssumeRoleWithSAMLRequest",
+}) as any as S.Schema<AssumeRoleWithSAMLRequest>;
+export interface AssumeRoleWithWebIdentityRequest {
+  RoleArn: string;
+  RoleSessionName: string;
+  WebIdentityToken: string;
+  ProviderId?: string;
+  PolicyArns?: policyDescriptorListType;
+  Policy?: string;
+  DurationSeconds?: number;
+}
+export const AssumeRoleWithWebIdentityRequest = S.suspend(() =>
+  S.Struct({
     RoleArn: S.String,
     RoleSessionName: S.String,
     WebIdentityToken: S.String,
@@ -664,96 +706,229 @@ export class AssumeRoleWithWebIdentityRequest extends S.Class<AssumeRoleWithWebI
     PolicyArns: S.optional(policyDescriptorListType),
     Policy: S.optional(S.String),
     DurationSeconds: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class AssumeRootRequest extends S.Class<AssumeRootRequest>(
-  "AssumeRootRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "AssumeRoleWithWebIdentityRequest",
+}) as any as S.Schema<AssumeRoleWithWebIdentityRequest>;
+export interface AssumeRootRequest {
+  TargetPrincipal: string;
+  TaskPolicyArn: PolicyDescriptorType;
+  DurationSeconds?: number;
+}
+export const AssumeRootRequest = S.suspend(() =>
+  S.Struct({
     TargetPrincipal: S.String,
     TaskPolicyArn: PolicyDescriptorType,
     DurationSeconds: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DecodeAuthorizationMessageRequest extends S.Class<DecodeAuthorizationMessageRequest>(
-  "DecodeAuthorizationMessageRequest",
-)(
-  { EncodedMessage: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetAccessKeyInfoRequest extends S.Class<GetAccessKeyInfoRequest>(
-  "GetAccessKeyInfoRequest",
-)(
-  { AccessKeyId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetCallerIdentityResponse extends S.Class<GetCallerIdentityResponse>(
-  "GetCallerIdentityResponse",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "AssumeRootRequest",
+}) as any as S.Schema<AssumeRootRequest>;
+export interface DecodeAuthorizationMessageRequest {
+  EncodedMessage: string;
+}
+export const DecodeAuthorizationMessageRequest = S.suspend(() =>
+  S.Struct({ EncodedMessage: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DecodeAuthorizationMessageRequest",
+}) as any as S.Schema<DecodeAuthorizationMessageRequest>;
+export interface GetAccessKeyInfoRequest {
+  AccessKeyId: string;
+}
+export const GetAccessKeyInfoRequest = S.suspend(() =>
+  S.Struct({ AccessKeyId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetAccessKeyInfoRequest",
+}) as any as S.Schema<GetAccessKeyInfoRequest>;
+export interface GetCallerIdentityResponse {
+  UserId?: string;
+  Account?: string;
+  Arn?: string;
+}
+export const GetCallerIdentityResponse = S.suspend(() =>
+  S.Struct({
     UserId: S.optional(S.String),
     Account: S.optional(S.String),
     Arn: S.optional(S.String),
-  },
-  ns,
-) {}
-export class GetDelegatedAccessTokenRequest extends S.Class<GetDelegatedAccessTokenRequest>(
-  "GetDelegatedAccessTokenRequest",
-)(
-  { TradeInToken: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class Tag extends S.Class<Tag>("Tag")({
-  Key: S.String,
-  Value: S.String,
-}) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "GetCallerIdentityResponse",
+}) as any as S.Schema<GetCallerIdentityResponse>;
+export interface GetDelegatedAccessTokenRequest {
+  TradeInToken: string;
+}
+export const GetDelegatedAccessTokenRequest = S.suspend(() =>
+  S.Struct({ TradeInToken: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetDelegatedAccessTokenRequest",
+}) as any as S.Schema<GetDelegatedAccessTokenRequest>;
+export interface Tag {
+  Key: string;
+  Value: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ Key: S.String, Value: S.String }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type tagListType = Tag[];
 export const tagListType = S.Array(Tag);
-export class GetFederationTokenRequest extends S.Class<GetFederationTokenRequest>(
-  "GetFederationTokenRequest",
-)(
-  {
+export interface GetFederationTokenRequest {
+  Name: string;
+  Policy?: string;
+  PolicyArns?: policyDescriptorListType;
+  DurationSeconds?: number;
+  Tags?: tagListType;
+}
+export const GetFederationTokenRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     Policy: S.optional(S.String),
     PolicyArns: S.optional(policyDescriptorListType),
     DurationSeconds: S.optional(S.Number),
     Tags: S.optional(tagListType),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetSessionTokenRequest extends S.Class<GetSessionTokenRequest>(
-  "GetSessionTokenRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetFederationTokenRequest",
+}) as any as S.Schema<GetFederationTokenRequest>;
+export interface GetSessionTokenRequest {
+  DurationSeconds?: number;
+  SerialNumber?: string;
+  TokenCode?: string;
+}
+export const GetSessionTokenRequest = S.suspend(() =>
+  S.Struct({
     DurationSeconds: S.optional(S.Number),
     SerialNumber: S.optional(S.String),
     TokenCode: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetWebIdentityTokenRequest extends S.Class<GetWebIdentityTokenRequest>(
-  "GetWebIdentityTokenRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetSessionTokenRequest",
+}) as any as S.Schema<GetSessionTokenRequest>;
+export interface GetWebIdentityTokenRequest {
+  Audience: webIdentityTokenAudienceListType;
+  DurationSeconds?: number;
+  SigningAlgorithm: string;
+  Tags?: tagListType;
+}
+export const GetWebIdentityTokenRequest = S.suspend(() =>
+  S.Struct({
     Audience: webIdentityTokenAudienceListType,
     DurationSeconds: S.optional(S.Number),
     SigningAlgorithm: S.String,
     Tags: S.optional(tagListType),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ProvidedContext extends S.Class<ProvidedContext>(
-  "ProvidedContext",
-)({
-  ProviderArn: S.optional(S.String),
-  ContextAssertion: S.optional(S.String),
-}) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetWebIdentityTokenRequest",
+}) as any as S.Schema<GetWebIdentityTokenRequest>;
+export interface ProvidedContext {
+  ProviderArn?: string;
+  ContextAssertion?: string;
+}
+export const ProvidedContext = S.suspend(() =>
+  S.Struct({
+    ProviderArn: S.optional(S.String),
+    ContextAssertion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ProvidedContext",
+}) as any as S.Schema<ProvidedContext>;
+export type ProvidedContextsListType = ProvidedContext[];
 export const ProvidedContextsListType = S.Array(ProvidedContext);
-export class AssumeRoleRequest extends S.Class<AssumeRoleRequest>(
-  "AssumeRoleRequest",
-)(
-  {
+export interface AssumeRoleRequest {
+  RoleArn: string;
+  RoleSessionName: string;
+  PolicyArns?: policyDescriptorListType;
+  Policy?: string;
+  DurationSeconds?: number;
+  Tags?: tagListType;
+  TransitiveTagKeys?: tagKeyListType;
+  ExternalId?: string;
+  SerialNumber?: string;
+  TokenCode?: string;
+  SourceIdentity?: string;
+  ProvidedContexts?: ProvidedContextsListType;
+}
+export const AssumeRoleRequest = S.suspend(() =>
+  S.Struct({
     RoleArn: S.String,
     RoleSessionName: S.String,
     PolicyArns: S.optional(policyDescriptorListType),
@@ -766,22 +941,54 @@ export class AssumeRoleRequest extends S.Class<AssumeRoleRequest>(
     TokenCode: S.optional(S.String),
     SourceIdentity: S.optional(S.String),
     ProvidedContexts: S.optional(ProvidedContextsListType),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class Credentials extends S.Class<Credentials>("Credentials")({
-  AccessKeyId: S.String,
-  SecretAccessKey: S.String,
-  SessionToken: S.String,
-  Expiration: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class AssumedRoleUser extends S.Class<AssumedRoleUser>(
-  "AssumedRoleUser",
-)({ AssumedRoleId: S.String, Arn: S.String }) {}
-export class AssumeRoleWithWebIdentityResponse extends S.Class<AssumeRoleWithWebIdentityResponse>(
-  "AssumeRoleWithWebIdentityResponse",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "AssumeRoleRequest",
+}) as any as S.Schema<AssumeRoleRequest>;
+export interface Credentials {
+  AccessKeyId: string;
+  SecretAccessKey: string;
+  SessionToken: string;
+  Expiration: Date;
+}
+export const Credentials = S.suspend(() =>
+  S.Struct({
+    AccessKeyId: S.String,
+    SecretAccessKey: S.String,
+    SessionToken: S.String,
+    Expiration: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({ identifier: "Credentials" }) as any as S.Schema<Credentials>;
+export interface AssumedRoleUser {
+  AssumedRoleId: string;
+  Arn: string;
+}
+export const AssumedRoleUser = S.suspend(() =>
+  S.Struct({ AssumedRoleId: S.String, Arn: S.String }),
+).annotations({
+  identifier: "AssumedRoleUser",
+}) as any as S.Schema<AssumedRoleUser>;
+export interface AssumeRoleWithWebIdentityResponse {
+  Credentials?: Credentials;
+  SubjectFromWebIdentityToken?: string;
+  AssumedRoleUser?: AssumedRoleUser;
+  PackedPolicySize?: number;
+  Provider?: string;
+  Audience?: string;
+  SourceIdentity?: string;
+}
+export const AssumeRoleWithWebIdentityResponse = S.suspend(() =>
+  S.Struct({
     Credentials: S.optional(Credentials),
     SubjectFromWebIdentityToken: S.optional(S.String),
     AssumedRoleUser: S.optional(AssumedRoleUser),
@@ -789,65 +996,110 @@ export class AssumeRoleWithWebIdentityResponse extends S.Class<AssumeRoleWithWeb
     Provider: S.optional(S.String),
     Audience: S.optional(S.String),
     SourceIdentity: S.optional(S.String),
-  },
-  ns,
-) {}
-export class AssumeRootResponse extends S.Class<AssumeRootResponse>(
-  "AssumeRootResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "AssumeRoleWithWebIdentityResponse",
+}) as any as S.Schema<AssumeRoleWithWebIdentityResponse>;
+export interface AssumeRootResponse {
+  Credentials?: Credentials;
+  SourceIdentity?: string;
+}
+export const AssumeRootResponse = S.suspend(() =>
+  S.Struct({
     Credentials: S.optional(Credentials),
     SourceIdentity: S.optional(S.String),
-  },
-  ns,
-) {}
-export class DecodeAuthorizationMessageResponse extends S.Class<DecodeAuthorizationMessageResponse>(
-  "DecodeAuthorizationMessageResponse",
-)({ DecodedMessage: S.optional(S.String) }, ns) {}
-export class GetAccessKeyInfoResponse extends S.Class<GetAccessKeyInfoResponse>(
-  "GetAccessKeyInfoResponse",
-)({ Account: S.optional(S.String) }, ns) {}
-export class GetDelegatedAccessTokenResponse extends S.Class<GetDelegatedAccessTokenResponse>(
-  "GetDelegatedAccessTokenResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "AssumeRootResponse",
+}) as any as S.Schema<AssumeRootResponse>;
+export interface DecodeAuthorizationMessageResponse {
+  DecodedMessage?: string;
+}
+export const DecodeAuthorizationMessageResponse = S.suspend(() =>
+  S.Struct({ DecodedMessage: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "DecodeAuthorizationMessageResponse",
+}) as any as S.Schema<DecodeAuthorizationMessageResponse>;
+export interface GetAccessKeyInfoResponse {
+  Account?: string;
+}
+export const GetAccessKeyInfoResponse = S.suspend(() =>
+  S.Struct({ Account: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "GetAccessKeyInfoResponse",
+}) as any as S.Schema<GetAccessKeyInfoResponse>;
+export interface GetDelegatedAccessTokenResponse {
+  Credentials?: Credentials;
+  PackedPolicySize?: number;
+  AssumedPrincipal?: string;
+}
+export const GetDelegatedAccessTokenResponse = S.suspend(() =>
+  S.Struct({
     Credentials: S.optional(Credentials),
     PackedPolicySize: S.optional(S.Number),
     AssumedPrincipal: S.optional(S.String),
-  },
-  ns,
-) {}
-export class GetSessionTokenResponse extends S.Class<GetSessionTokenResponse>(
-  "GetSessionTokenResponse",
-)({ Credentials: S.optional(Credentials) }, ns) {}
-export class GetWebIdentityTokenResponse extends S.Class<GetWebIdentityTokenResponse>(
-  "GetWebIdentityTokenResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetDelegatedAccessTokenResponse",
+}) as any as S.Schema<GetDelegatedAccessTokenResponse>;
+export interface GetSessionTokenResponse {
+  Credentials?: Credentials;
+}
+export const GetSessionTokenResponse = S.suspend(() =>
+  S.Struct({ Credentials: S.optional(Credentials) }).pipe(ns),
+).annotations({
+  identifier: "GetSessionTokenResponse",
+}) as any as S.Schema<GetSessionTokenResponse>;
+export interface GetWebIdentityTokenResponse {
+  WebIdentityToken?: string;
+  Expiration?: Date;
+}
+export const GetWebIdentityTokenResponse = S.suspend(() =>
+  S.Struct({
     WebIdentityToken: S.optional(S.String),
     Expiration: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  },
-  ns,
-) {}
-export class FederatedUser extends S.Class<FederatedUser>("FederatedUser")({
-  FederatedUserId: S.String,
-  Arn: S.String,
-}) {}
-export class AssumeRoleResponse extends S.Class<AssumeRoleResponse>(
-  "AssumeRoleResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetWebIdentityTokenResponse",
+}) as any as S.Schema<GetWebIdentityTokenResponse>;
+export interface FederatedUser {
+  FederatedUserId: string;
+  Arn: string;
+}
+export const FederatedUser = S.suspend(() =>
+  S.Struct({ FederatedUserId: S.String, Arn: S.String }),
+).annotations({
+  identifier: "FederatedUser",
+}) as any as S.Schema<FederatedUser>;
+export interface AssumeRoleResponse {
+  Credentials?: Credentials;
+  AssumedRoleUser?: AssumedRoleUser;
+  PackedPolicySize?: number;
+  SourceIdentity?: string;
+}
+export const AssumeRoleResponse = S.suspend(() =>
+  S.Struct({
     Credentials: S.optional(Credentials),
     AssumedRoleUser: S.optional(AssumedRoleUser),
     PackedPolicySize: S.optional(S.Number),
     SourceIdentity: S.optional(S.String),
-  },
-  ns,
-) {}
-export class AssumeRoleWithSAMLResponse extends S.Class<AssumeRoleWithSAMLResponse>(
-  "AssumeRoleWithSAMLResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "AssumeRoleResponse",
+}) as any as S.Schema<AssumeRoleResponse>;
+export interface AssumeRoleWithSAMLResponse {
+  Credentials?: Credentials;
+  AssumedRoleUser?: AssumedRoleUser;
+  PackedPolicySize?: number;
+  Subject?: string;
+  SubjectType?: string;
+  Issuer?: string;
+  Audience?: string;
+  NameQualifier?: string;
+  SourceIdentity?: string;
+}
+export const AssumeRoleWithSAMLResponse = S.suspend(() =>
+  S.Struct({
     Credentials: S.optional(Credentials),
     AssumedRoleUser: S.optional(AssumedRoleUser),
     PackedPolicySize: S.optional(S.Number),
@@ -857,19 +1109,24 @@ export class AssumeRoleWithSAMLResponse extends S.Class<AssumeRoleWithSAMLRespon
     Audience: S.optional(S.String),
     NameQualifier: S.optional(S.String),
     SourceIdentity: S.optional(S.String),
-  },
-  ns,
-) {}
-export class GetFederationTokenResponse extends S.Class<GetFederationTokenResponse>(
-  "GetFederationTokenResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "AssumeRoleWithSAMLResponse",
+}) as any as S.Schema<AssumeRoleWithSAMLResponse>;
+export interface GetFederationTokenResponse {
+  Credentials?: Credentials;
+  FederatedUser?: FederatedUser;
+  PackedPolicySize?: number;
+}
+export const GetFederationTokenResponse = S.suspend(() =>
+  S.Struct({
     Credentials: S.optional(Credentials),
     FederatedUser: S.optional(FederatedUser),
     PackedPolicySize: S.optional(S.Number),
-  },
-  ns,
-) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "GetFederationTokenResponse",
+}) as any as S.Schema<GetFederationTokenResponse>;
 
 //# Errors
 export class ExpiredTokenException extends S.TaggedError<ExpiredTokenException>()(

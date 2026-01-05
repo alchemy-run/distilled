@@ -423,25 +423,53 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type CcEmailAddressList = string[];
 export const CcEmailAddressList = S.Array(S.String);
+export type CaseIdList = string[];
 export const CaseIdList = S.Array(S.String);
+export type ServiceCodeList = string[];
 export const ServiceCodeList = S.Array(S.String);
+export type StringList = string[];
 export const StringList = S.Array(S.String).pipe(T.Sparse());
-export class AddCommunicationToCaseRequest extends S.Class<AddCommunicationToCaseRequest>(
-  "AddCommunicationToCaseRequest",
-)(
-  {
+export interface AddCommunicationToCaseRequest {
+  caseId?: string;
+  communicationBody: string;
+  ccEmailAddresses?: CcEmailAddressList;
+  attachmentSetId?: string;
+}
+export const AddCommunicationToCaseRequest = S.suspend(() =>
+  S.Struct({
     caseId: S.optional(S.String),
     communicationBody: S.String,
     ccEmailAddresses: S.optional(CcEmailAddressList),
     attachmentSetId: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateCaseRequest extends S.Class<CreateCaseRequest>(
-  "CreateCaseRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "AddCommunicationToCaseRequest",
+}) as any as S.Schema<AddCommunicationToCaseRequest>;
+export interface CreateCaseRequest {
+  subject: string;
+  serviceCode?: string;
+  severityCode?: string;
+  categoryCode?: string;
+  communicationBody: string;
+  ccEmailAddresses?: CcEmailAddressList;
+  language?: string;
+  issueType?: string;
+  attachmentSetId?: string;
+}
+export const CreateCaseRequest = S.suspend(() =>
+  S.Struct({
     subject: S.String,
     serviceCode: S.optional(S.String),
     severityCode: S.optional(S.String),
@@ -451,19 +479,51 @@ export class CreateCaseRequest extends S.Class<CreateCaseRequest>(
     language: S.optional(S.String),
     issueType: S.optional(S.String),
     attachmentSetId: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeAttachmentRequest extends S.Class<DescribeAttachmentRequest>(
-  "DescribeAttachmentRequest",
-)(
-  { attachmentId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeCasesRequest extends S.Class<DescribeCasesRequest>(
-  "DescribeCasesRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateCaseRequest",
+}) as any as S.Schema<CreateCaseRequest>;
+export interface DescribeAttachmentRequest {
+  attachmentId: string;
+}
+export const DescribeAttachmentRequest = S.suspend(() =>
+  S.Struct({ attachmentId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeAttachmentRequest",
+}) as any as S.Schema<DescribeAttachmentRequest>;
+export interface DescribeCasesRequest {
+  caseIdList?: CaseIdList;
+  displayId?: string;
+  afterTime?: string;
+  beforeTime?: string;
+  includeResolvedCases?: boolean;
+  nextToken?: string;
+  maxResults?: number;
+  language?: string;
+  includeCommunications?: boolean;
+}
+export const DescribeCasesRequest = S.suspend(() =>
+  S.Struct({
     caseIdList: S.optional(CaseIdList),
     displayId: S.optional(S.String),
     afterTime: S.optional(S.String),
@@ -473,316 +533,734 @@ export class DescribeCasesRequest extends S.Class<DescribeCasesRequest>(
     maxResults: S.optional(S.Number),
     language: S.optional(S.String),
     includeCommunications: S.optional(S.Boolean),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeCommunicationsRequest extends S.Class<DescribeCommunicationsRequest>(
-  "DescribeCommunicationsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeCasesRequest",
+}) as any as S.Schema<DescribeCasesRequest>;
+export interface DescribeCommunicationsRequest {
+  caseId: string;
+  beforeTime?: string;
+  afterTime?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const DescribeCommunicationsRequest = S.suspend(() =>
+  S.Struct({
     caseId: S.String,
     beforeTime: S.optional(S.String),
     afterTime: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeCreateCaseOptionsRequest extends S.Class<DescribeCreateCaseOptionsRequest>(
-  "DescribeCreateCaseOptionsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeCommunicationsRequest",
+}) as any as S.Schema<DescribeCommunicationsRequest>;
+export interface DescribeCreateCaseOptionsRequest {
+  issueType: string;
+  serviceCode: string;
+  language: string;
+  categoryCode: string;
+}
+export const DescribeCreateCaseOptionsRequest = S.suspend(() =>
+  S.Struct({
     issueType: S.String,
     serviceCode: S.String,
     language: S.String,
     categoryCode: S.String,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeServicesRequest extends S.Class<DescribeServicesRequest>(
-  "DescribeServicesRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeCreateCaseOptionsRequest",
+}) as any as S.Schema<DescribeCreateCaseOptionsRequest>;
+export interface DescribeServicesRequest {
+  serviceCodeList?: ServiceCodeList;
+  language?: string;
+}
+export const DescribeServicesRequest = S.suspend(() =>
+  S.Struct({
     serviceCodeList: S.optional(ServiceCodeList),
     language: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeSeverityLevelsRequest extends S.Class<DescribeSeverityLevelsRequest>(
-  "DescribeSeverityLevelsRequest",
-)(
-  { language: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeSupportedLanguagesRequest extends S.Class<DescribeSupportedLanguagesRequest>(
-  "DescribeSupportedLanguagesRequest",
-)(
-  { issueType: S.String, serviceCode: S.String, categoryCode: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeTrustedAdvisorCheckRefreshStatusesRequest extends S.Class<DescribeTrustedAdvisorCheckRefreshStatusesRequest>(
-  "DescribeTrustedAdvisorCheckRefreshStatusesRequest",
-)(
-  { checkIds: StringList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeTrustedAdvisorCheckResultRequest extends S.Class<DescribeTrustedAdvisorCheckResultRequest>(
-  "DescribeTrustedAdvisorCheckResultRequest",
-)(
-  { checkId: S.String, language: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeTrustedAdvisorChecksRequest extends S.Class<DescribeTrustedAdvisorChecksRequest>(
-  "DescribeTrustedAdvisorChecksRequest",
-)(
-  { language: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeTrustedAdvisorCheckSummariesRequest extends S.Class<DescribeTrustedAdvisorCheckSummariesRequest>(
-  "DescribeTrustedAdvisorCheckSummariesRequest",
-)(
-  { checkIds: StringList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class RefreshTrustedAdvisorCheckRequest extends S.Class<RefreshTrustedAdvisorCheckRequest>(
-  "RefreshTrustedAdvisorCheckRequest",
-)(
-  { checkId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ResolveCaseRequest extends S.Class<ResolveCaseRequest>(
-  "ResolveCaseRequest",
-)(
-  { caseId: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class Attachment extends S.Class<Attachment>("Attachment")({
-  fileName: S.optional(S.String),
-  data: S.optional(T.Blob),
-}) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeServicesRequest",
+}) as any as S.Schema<DescribeServicesRequest>;
+export interface DescribeSeverityLevelsRequest {
+  language?: string;
+}
+export const DescribeSeverityLevelsRequest = S.suspend(() =>
+  S.Struct({ language: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeSeverityLevelsRequest",
+}) as any as S.Schema<DescribeSeverityLevelsRequest>;
+export interface DescribeSupportedLanguagesRequest {
+  issueType: string;
+  serviceCode: string;
+  categoryCode: string;
+}
+export const DescribeSupportedLanguagesRequest = S.suspend(() =>
+  S.Struct({
+    issueType: S.String,
+    serviceCode: S.String,
+    categoryCode: S.String,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeSupportedLanguagesRequest",
+}) as any as S.Schema<DescribeSupportedLanguagesRequest>;
+export interface DescribeTrustedAdvisorCheckRefreshStatusesRequest {
+  checkIds: StringList;
+}
+export const DescribeTrustedAdvisorCheckRefreshStatusesRequest = S.suspend(() =>
+  S.Struct({ checkIds: StringList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeTrustedAdvisorCheckRefreshStatusesRequest",
+}) as any as S.Schema<DescribeTrustedAdvisorCheckRefreshStatusesRequest>;
+export interface DescribeTrustedAdvisorCheckResultRequest {
+  checkId: string;
+  language?: string;
+}
+export const DescribeTrustedAdvisorCheckResultRequest = S.suspend(() =>
+  S.Struct({ checkId: S.String, language: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeTrustedAdvisorCheckResultRequest",
+}) as any as S.Schema<DescribeTrustedAdvisorCheckResultRequest>;
+export interface DescribeTrustedAdvisorChecksRequest {
+  language: string;
+}
+export const DescribeTrustedAdvisorChecksRequest = S.suspend(() =>
+  S.Struct({ language: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeTrustedAdvisorChecksRequest",
+}) as any as S.Schema<DescribeTrustedAdvisorChecksRequest>;
+export interface DescribeTrustedAdvisorCheckSummariesRequest {
+  checkIds: StringList;
+}
+export const DescribeTrustedAdvisorCheckSummariesRequest = S.suspend(() =>
+  S.Struct({ checkIds: StringList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeTrustedAdvisorCheckSummariesRequest",
+}) as any as S.Schema<DescribeTrustedAdvisorCheckSummariesRequest>;
+export interface RefreshTrustedAdvisorCheckRequest {
+  checkId: string;
+}
+export const RefreshTrustedAdvisorCheckRequest = S.suspend(() =>
+  S.Struct({ checkId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "RefreshTrustedAdvisorCheckRequest",
+}) as any as S.Schema<RefreshTrustedAdvisorCheckRequest>;
+export interface ResolveCaseRequest {
+  caseId?: string;
+}
+export const ResolveCaseRequest = S.suspend(() =>
+  S.Struct({ caseId: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ResolveCaseRequest",
+}) as any as S.Schema<ResolveCaseRequest>;
+export interface Attachment {
+  fileName?: string;
+  data?: Uint8Array;
+}
+export const Attachment = S.suspend(() =>
+  S.Struct({ fileName: S.optional(S.String), data: S.optional(T.Blob) }),
+).annotations({ identifier: "Attachment" }) as any as S.Schema<Attachment>;
+export type Attachments = Attachment[];
 export const Attachments = S.Array(Attachment);
-export class AddAttachmentsToSetRequest extends S.Class<AddAttachmentsToSetRequest>(
-  "AddAttachmentsToSetRequest",
-)(
-  { attachmentSetId: S.optional(S.String), attachments: Attachments },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class AddCommunicationToCaseResponse extends S.Class<AddCommunicationToCaseResponse>(
-  "AddCommunicationToCaseResponse",
-)({ result: S.optional(S.Boolean) }, ns) {}
-export class CreateCaseResponse extends S.Class<CreateCaseResponse>(
-  "CreateCaseResponse",
-)({ caseId: S.optional(S.String) }, ns) {}
-export class DescribeAttachmentResponse extends S.Class<DescribeAttachmentResponse>(
-  "DescribeAttachmentResponse",
-)({ attachment: S.optional(Attachment) }, ns) {}
-export class TrustedAdvisorCheckRefreshStatus extends S.Class<TrustedAdvisorCheckRefreshStatus>(
-  "TrustedAdvisorCheckRefreshStatus",
-)({
-  checkId: S.String,
-  status: S.String,
-  millisUntilNextRefreshable: S.Number,
-}) {}
-export class RefreshTrustedAdvisorCheckResponse extends S.Class<RefreshTrustedAdvisorCheckResponse>(
-  "RefreshTrustedAdvisorCheckResponse",
-)({ status: TrustedAdvisorCheckRefreshStatus }, ns) {}
-export class ResolveCaseResponse extends S.Class<ResolveCaseResponse>(
-  "ResolveCaseResponse",
-)(
-  {
+export interface AddAttachmentsToSetRequest {
+  attachmentSetId?: string;
+  attachments: Attachments;
+}
+export const AddAttachmentsToSetRequest = S.suspend(() =>
+  S.Struct({
+    attachmentSetId: S.optional(S.String),
+    attachments: Attachments,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "AddAttachmentsToSetRequest",
+}) as any as S.Schema<AddAttachmentsToSetRequest>;
+export interface AddCommunicationToCaseResponse {
+  result?: boolean;
+}
+export const AddCommunicationToCaseResponse = S.suspend(() =>
+  S.Struct({ result: S.optional(S.Boolean) }).pipe(ns),
+).annotations({
+  identifier: "AddCommunicationToCaseResponse",
+}) as any as S.Schema<AddCommunicationToCaseResponse>;
+export interface CreateCaseResponse {
+  caseId?: string;
+}
+export const CreateCaseResponse = S.suspend(() =>
+  S.Struct({ caseId: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "CreateCaseResponse",
+}) as any as S.Schema<CreateCaseResponse>;
+export interface DescribeAttachmentResponse {
+  attachment?: Attachment;
+}
+export const DescribeAttachmentResponse = S.suspend(() =>
+  S.Struct({ attachment: S.optional(Attachment) }).pipe(ns),
+).annotations({
+  identifier: "DescribeAttachmentResponse",
+}) as any as S.Schema<DescribeAttachmentResponse>;
+export interface TrustedAdvisorCheckRefreshStatus {
+  checkId: string;
+  status: string;
+  millisUntilNextRefreshable: number;
+}
+export const TrustedAdvisorCheckRefreshStatus = S.suspend(() =>
+  S.Struct({
+    checkId: S.String,
+    status: S.String,
+    millisUntilNextRefreshable: S.Number,
+  }),
+).annotations({
+  identifier: "TrustedAdvisorCheckRefreshStatus",
+}) as any as S.Schema<TrustedAdvisorCheckRefreshStatus>;
+export interface RefreshTrustedAdvisorCheckResponse {
+  status: TrustedAdvisorCheckRefreshStatus;
+}
+export const RefreshTrustedAdvisorCheckResponse = S.suspend(() =>
+  S.Struct({ status: TrustedAdvisorCheckRefreshStatus }).pipe(ns),
+).annotations({
+  identifier: "RefreshTrustedAdvisorCheckResponse",
+}) as any as S.Schema<RefreshTrustedAdvisorCheckResponse>;
+export interface ResolveCaseResponse {
+  initialCaseStatus?: string;
+  finalCaseStatus?: string;
+}
+export const ResolveCaseResponse = S.suspend(() =>
+  S.Struct({
     initialCaseStatus: S.optional(S.String),
     finalCaseStatus: S.optional(S.String),
-  },
-  ns,
-) {}
-export class SeverityLevel extends S.Class<SeverityLevel>("SeverityLevel")({
-  code: S.optional(S.String),
-  name: S.optional(S.String),
-}) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "ResolveCaseResponse",
+}) as any as S.Schema<ResolveCaseResponse>;
+export interface SeverityLevel {
+  code?: string;
+  name?: string;
+}
+export const SeverityLevel = S.suspend(() =>
+  S.Struct({ code: S.optional(S.String), name: S.optional(S.String) }),
+).annotations({
+  identifier: "SeverityLevel",
+}) as any as S.Schema<SeverityLevel>;
+export type SeverityLevelsList = SeverityLevel[];
 export const SeverityLevelsList = S.Array(SeverityLevel);
-export class SupportedLanguage extends S.Class<SupportedLanguage>(
-  "SupportedLanguage",
-)({
-  code: S.optional(S.String),
-  language: S.optional(S.String),
-  display: S.optional(S.String),
-}) {}
+export interface SupportedLanguage {
+  code?: string;
+  language?: string;
+  display?: string;
+}
+export const SupportedLanguage = S.suspend(() =>
+  S.Struct({
+    code: S.optional(S.String),
+    language: S.optional(S.String),
+    display: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SupportedLanguage",
+}) as any as S.Schema<SupportedLanguage>;
+export type SupportedLanguagesList = SupportedLanguage[];
 export const SupportedLanguagesList = S.Array(SupportedLanguage);
+export type TrustedAdvisorCheckRefreshStatusList =
+  TrustedAdvisorCheckRefreshStatus[];
 export const TrustedAdvisorCheckRefreshStatusList = S.Array(
   TrustedAdvisorCheckRefreshStatus,
 );
-export class TrustedAdvisorCheckDescription extends S.Class<TrustedAdvisorCheckDescription>(
-  "TrustedAdvisorCheckDescription",
-)({
-  id: S.String,
-  name: S.String,
-  description: S.String,
-  category: S.String,
-  metadata: StringList,
-}) {}
+export interface TrustedAdvisorCheckDescription {
+  id: string;
+  name: string;
+  description: string;
+  category: string;
+  metadata: StringList;
+}
+export const TrustedAdvisorCheckDescription = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    name: S.String,
+    description: S.String,
+    category: S.String,
+    metadata: StringList,
+  }),
+).annotations({
+  identifier: "TrustedAdvisorCheckDescription",
+}) as any as S.Schema<TrustedAdvisorCheckDescription>;
+export type TrustedAdvisorCheckList = TrustedAdvisorCheckDescription[];
 export const TrustedAdvisorCheckList = S.Array(TrustedAdvisorCheckDescription);
-export class TrustedAdvisorResourcesSummary extends S.Class<TrustedAdvisorResourcesSummary>(
-  "TrustedAdvisorResourcesSummary",
-)({
-  resourcesProcessed: S.Number,
-  resourcesFlagged: S.Number,
-  resourcesIgnored: S.Number,
-  resourcesSuppressed: S.Number,
-}) {}
-export class TrustedAdvisorCostOptimizingSummary extends S.Class<TrustedAdvisorCostOptimizingSummary>(
-  "TrustedAdvisorCostOptimizingSummary",
-)({
-  estimatedMonthlySavings: S.Number,
-  estimatedPercentMonthlySavings: S.Number,
-}) {}
-export class TrustedAdvisorCategorySpecificSummary extends S.Class<TrustedAdvisorCategorySpecificSummary>(
-  "TrustedAdvisorCategorySpecificSummary",
-)({ costOptimizing: S.optional(TrustedAdvisorCostOptimizingSummary) }) {}
-export class TrustedAdvisorCheckSummary extends S.Class<TrustedAdvisorCheckSummary>(
-  "TrustedAdvisorCheckSummary",
-)({
-  checkId: S.String,
-  timestamp: S.String,
-  status: S.String,
-  hasFlaggedResources: S.optional(S.Boolean),
-  resourcesSummary: TrustedAdvisorResourcesSummary,
-  categorySpecificSummary: TrustedAdvisorCategorySpecificSummary,
-}) {}
+export interface TrustedAdvisorResourcesSummary {
+  resourcesProcessed: number;
+  resourcesFlagged: number;
+  resourcesIgnored: number;
+  resourcesSuppressed: number;
+}
+export const TrustedAdvisorResourcesSummary = S.suspend(() =>
+  S.Struct({
+    resourcesProcessed: S.Number,
+    resourcesFlagged: S.Number,
+    resourcesIgnored: S.Number,
+    resourcesSuppressed: S.Number,
+  }),
+).annotations({
+  identifier: "TrustedAdvisorResourcesSummary",
+}) as any as S.Schema<TrustedAdvisorResourcesSummary>;
+export interface TrustedAdvisorCostOptimizingSummary {
+  estimatedMonthlySavings: number;
+  estimatedPercentMonthlySavings: number;
+}
+export const TrustedAdvisorCostOptimizingSummary = S.suspend(() =>
+  S.Struct({
+    estimatedMonthlySavings: S.Number,
+    estimatedPercentMonthlySavings: S.Number,
+  }),
+).annotations({
+  identifier: "TrustedAdvisorCostOptimizingSummary",
+}) as any as S.Schema<TrustedAdvisorCostOptimizingSummary>;
+export interface TrustedAdvisorCategorySpecificSummary {
+  costOptimizing?: TrustedAdvisorCostOptimizingSummary;
+}
+export const TrustedAdvisorCategorySpecificSummary = S.suspend(() =>
+  S.Struct({ costOptimizing: S.optional(TrustedAdvisorCostOptimizingSummary) }),
+).annotations({
+  identifier: "TrustedAdvisorCategorySpecificSummary",
+}) as any as S.Schema<TrustedAdvisorCategorySpecificSummary>;
+export interface TrustedAdvisorCheckSummary {
+  checkId: string;
+  timestamp: string;
+  status: string;
+  hasFlaggedResources?: boolean;
+  resourcesSummary: TrustedAdvisorResourcesSummary;
+  categorySpecificSummary: TrustedAdvisorCategorySpecificSummary;
+}
+export const TrustedAdvisorCheckSummary = S.suspend(() =>
+  S.Struct({
+    checkId: S.String,
+    timestamp: S.String,
+    status: S.String,
+    hasFlaggedResources: S.optional(S.Boolean),
+    resourcesSummary: TrustedAdvisorResourcesSummary,
+    categorySpecificSummary: TrustedAdvisorCategorySpecificSummary,
+  }),
+).annotations({
+  identifier: "TrustedAdvisorCheckSummary",
+}) as any as S.Schema<TrustedAdvisorCheckSummary>;
+export type TrustedAdvisorCheckSummaryList = TrustedAdvisorCheckSummary[];
 export const TrustedAdvisorCheckSummaryList = S.Array(
   TrustedAdvisorCheckSummary,
 );
-export class AddAttachmentsToSetResponse extends S.Class<AddAttachmentsToSetResponse>(
-  "AddAttachmentsToSetResponse",
-)(
-  { attachmentSetId: S.optional(S.String), expiryTime: S.optional(S.String) },
-  ns,
-) {}
-export class DescribeSeverityLevelsResponse extends S.Class<DescribeSeverityLevelsResponse>(
-  "DescribeSeverityLevelsResponse",
-)({ severityLevels: S.optional(SeverityLevelsList) }, ns) {}
-export class DescribeSupportedLanguagesResponse extends S.Class<DescribeSupportedLanguagesResponse>(
-  "DescribeSupportedLanguagesResponse",
-)({ supportedLanguages: S.optional(SupportedLanguagesList) }, ns) {}
-export class DescribeTrustedAdvisorCheckRefreshStatusesResponse extends S.Class<DescribeTrustedAdvisorCheckRefreshStatusesResponse>(
-  "DescribeTrustedAdvisorCheckRefreshStatusesResponse",
-)({ statuses: TrustedAdvisorCheckRefreshStatusList }, ns) {}
-export class DescribeTrustedAdvisorChecksResponse extends S.Class<DescribeTrustedAdvisorChecksResponse>(
-  "DescribeTrustedAdvisorChecksResponse",
-)({ checks: TrustedAdvisorCheckList }, ns) {}
-export class DescribeTrustedAdvisorCheckSummariesResponse extends S.Class<DescribeTrustedAdvisorCheckSummariesResponse>(
-  "DescribeTrustedAdvisorCheckSummariesResponse",
-)({ summaries: TrustedAdvisorCheckSummaryList }, ns) {}
-export class AttachmentDetails extends S.Class<AttachmentDetails>(
-  "AttachmentDetails",
-)({ attachmentId: S.optional(S.String), fileName: S.optional(S.String) }) {}
+export interface AddAttachmentsToSetResponse {
+  attachmentSetId?: string;
+  expiryTime?: string;
+}
+export const AddAttachmentsToSetResponse = S.suspend(() =>
+  S.Struct({
+    attachmentSetId: S.optional(S.String),
+    expiryTime: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "AddAttachmentsToSetResponse",
+}) as any as S.Schema<AddAttachmentsToSetResponse>;
+export interface DescribeSeverityLevelsResponse {
+  severityLevels?: SeverityLevelsList;
+}
+export const DescribeSeverityLevelsResponse = S.suspend(() =>
+  S.Struct({ severityLevels: S.optional(SeverityLevelsList) }).pipe(ns),
+).annotations({
+  identifier: "DescribeSeverityLevelsResponse",
+}) as any as S.Schema<DescribeSeverityLevelsResponse>;
+export interface DescribeSupportedLanguagesResponse {
+  supportedLanguages?: SupportedLanguagesList;
+}
+export const DescribeSupportedLanguagesResponse = S.suspend(() =>
+  S.Struct({ supportedLanguages: S.optional(SupportedLanguagesList) }).pipe(ns),
+).annotations({
+  identifier: "DescribeSupportedLanguagesResponse",
+}) as any as S.Schema<DescribeSupportedLanguagesResponse>;
+export interface DescribeTrustedAdvisorCheckRefreshStatusesResponse {
+  statuses: TrustedAdvisorCheckRefreshStatusList;
+}
+export const DescribeTrustedAdvisorCheckRefreshStatusesResponse = S.suspend(
+  () => S.Struct({ statuses: TrustedAdvisorCheckRefreshStatusList }).pipe(ns),
+).annotations({
+  identifier: "DescribeTrustedAdvisorCheckRefreshStatusesResponse",
+}) as any as S.Schema<DescribeTrustedAdvisorCheckRefreshStatusesResponse>;
+export interface DescribeTrustedAdvisorChecksResponse {
+  checks: TrustedAdvisorCheckList;
+}
+export const DescribeTrustedAdvisorChecksResponse = S.suspend(() =>
+  S.Struct({ checks: TrustedAdvisorCheckList }).pipe(ns),
+).annotations({
+  identifier: "DescribeTrustedAdvisorChecksResponse",
+}) as any as S.Schema<DescribeTrustedAdvisorChecksResponse>;
+export interface DescribeTrustedAdvisorCheckSummariesResponse {
+  summaries: TrustedAdvisorCheckSummaryList;
+}
+export const DescribeTrustedAdvisorCheckSummariesResponse = S.suspend(() =>
+  S.Struct({ summaries: TrustedAdvisorCheckSummaryList }).pipe(ns),
+).annotations({
+  identifier: "DescribeTrustedAdvisorCheckSummariesResponse",
+}) as any as S.Schema<DescribeTrustedAdvisorCheckSummariesResponse>;
+export interface AttachmentDetails {
+  attachmentId?: string;
+  fileName?: string;
+}
+export const AttachmentDetails = S.suspend(() =>
+  S.Struct({
+    attachmentId: S.optional(S.String),
+    fileName: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AttachmentDetails",
+}) as any as S.Schema<AttachmentDetails>;
+export type AttachmentSet = AttachmentDetails[];
 export const AttachmentSet = S.Array(AttachmentDetails);
-export class Communication extends S.Class<Communication>("Communication")({
-  caseId: S.optional(S.String),
-  body: S.optional(S.String),
-  submittedBy: S.optional(S.String),
-  timeCreated: S.optional(S.String),
-  attachmentSet: S.optional(AttachmentSet),
-}) {}
+export interface Communication {
+  caseId?: string;
+  body?: string;
+  submittedBy?: string;
+  timeCreated?: string;
+  attachmentSet?: AttachmentSet;
+}
+export const Communication = S.suspend(() =>
+  S.Struct({
+    caseId: S.optional(S.String),
+    body: S.optional(S.String),
+    submittedBy: S.optional(S.String),
+    timeCreated: S.optional(S.String),
+    attachmentSet: S.optional(AttachmentSet),
+  }),
+).annotations({
+  identifier: "Communication",
+}) as any as S.Schema<Communication>;
+export type CommunicationList = Communication[];
 export const CommunicationList = S.Array(Communication);
-export class RecentCaseCommunications extends S.Class<RecentCaseCommunications>(
-  "RecentCaseCommunications",
-)({
-  communications: S.optional(CommunicationList),
-  nextToken: S.optional(S.String),
-}) {}
-export class SupportedHour extends S.Class<SupportedHour>("SupportedHour")({
-  startTime: S.optional(S.String),
-  endTime: S.optional(S.String),
-}) {}
+export interface RecentCaseCommunications {
+  communications?: CommunicationList;
+  nextToken?: string;
+}
+export const RecentCaseCommunications = S.suspend(() =>
+  S.Struct({
+    communications: S.optional(CommunicationList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RecentCaseCommunications",
+}) as any as S.Schema<RecentCaseCommunications>;
+export interface SupportedHour {
+  startTime?: string;
+  endTime?: string;
+}
+export const SupportedHour = S.suspend(() =>
+  S.Struct({ startTime: S.optional(S.String), endTime: S.optional(S.String) }),
+).annotations({
+  identifier: "SupportedHour",
+}) as any as S.Schema<SupportedHour>;
+export type SupportedHoursList = SupportedHour[];
 export const SupportedHoursList = S.Array(SupportedHour);
-export class DateInterval extends S.Class<DateInterval>("DateInterval")({
-  startDateTime: S.optional(S.String),
-  endDateTime: S.optional(S.String),
-}) {}
+export interface DateInterval {
+  startDateTime?: string;
+  endDateTime?: string;
+}
+export const DateInterval = S.suspend(() =>
+  S.Struct({
+    startDateTime: S.optional(S.String),
+    endDateTime: S.optional(S.String),
+  }),
+).annotations({ identifier: "DateInterval" }) as any as S.Schema<DateInterval>;
+export type DatesWithoutSupportList = DateInterval[];
 export const DatesWithoutSupportList = S.Array(DateInterval);
-export class Category extends S.Class<Category>("Category")({
-  code: S.optional(S.String),
-  name: S.optional(S.String),
-}) {}
+export interface Category {
+  code?: string;
+  name?: string;
+}
+export const Category = S.suspend(() =>
+  S.Struct({ code: S.optional(S.String), name: S.optional(S.String) }),
+).annotations({ identifier: "Category" }) as any as S.Schema<Category>;
+export type CategoryList = Category[];
 export const CategoryList = S.Array(Category);
-export class TrustedAdvisorResourceDetail extends S.Class<TrustedAdvisorResourceDetail>(
-  "TrustedAdvisorResourceDetail",
-)({
-  status: S.String,
-  region: S.optional(S.String),
-  resourceId: S.String,
-  isSuppressed: S.optional(S.Boolean),
-  metadata: StringList,
-}) {}
+export interface TrustedAdvisorResourceDetail {
+  status: string;
+  region?: string;
+  resourceId: string;
+  isSuppressed?: boolean;
+  metadata: StringList;
+}
+export const TrustedAdvisorResourceDetail = S.suspend(() =>
+  S.Struct({
+    status: S.String,
+    region: S.optional(S.String),
+    resourceId: S.String,
+    isSuppressed: S.optional(S.Boolean),
+    metadata: StringList,
+  }),
+).annotations({
+  identifier: "TrustedAdvisorResourceDetail",
+}) as any as S.Schema<TrustedAdvisorResourceDetail>;
+export type TrustedAdvisorResourceDetailList = TrustedAdvisorResourceDetail[];
 export const TrustedAdvisorResourceDetailList = S.Array(
   TrustedAdvisorResourceDetail,
 );
-export class CaseDetails extends S.Class<CaseDetails>("CaseDetails")({
-  caseId: S.optional(S.String),
-  displayId: S.optional(S.String),
-  subject: S.optional(S.String),
-  status: S.optional(S.String),
-  serviceCode: S.optional(S.String),
-  categoryCode: S.optional(S.String),
-  severityCode: S.optional(S.String),
-  submittedBy: S.optional(S.String),
-  timeCreated: S.optional(S.String),
-  recentCommunications: S.optional(RecentCaseCommunications),
-  ccEmailAddresses: S.optional(CcEmailAddressList),
-  language: S.optional(S.String),
-}) {}
+export interface CaseDetails {
+  caseId?: string;
+  displayId?: string;
+  subject?: string;
+  status?: string;
+  serviceCode?: string;
+  categoryCode?: string;
+  severityCode?: string;
+  submittedBy?: string;
+  timeCreated?: string;
+  recentCommunications?: RecentCaseCommunications;
+  ccEmailAddresses?: CcEmailAddressList;
+  language?: string;
+}
+export const CaseDetails = S.suspend(() =>
+  S.Struct({
+    caseId: S.optional(S.String),
+    displayId: S.optional(S.String),
+    subject: S.optional(S.String),
+    status: S.optional(S.String),
+    serviceCode: S.optional(S.String),
+    categoryCode: S.optional(S.String),
+    severityCode: S.optional(S.String),
+    submittedBy: S.optional(S.String),
+    timeCreated: S.optional(S.String),
+    recentCommunications: S.optional(RecentCaseCommunications),
+    ccEmailAddresses: S.optional(CcEmailAddressList),
+    language: S.optional(S.String),
+  }),
+).annotations({ identifier: "CaseDetails" }) as any as S.Schema<CaseDetails>;
+export type CaseList = CaseDetails[];
 export const CaseList = S.Array(CaseDetails);
-export class CommunicationTypeOptions extends S.Class<CommunicationTypeOptions>(
-  "CommunicationTypeOptions",
-)({
-  type: S.optional(S.String),
-  supportedHours: S.optional(SupportedHoursList),
-  datesWithoutSupport: S.optional(DatesWithoutSupportList),
-}) {}
+export interface CommunicationTypeOptions {
+  type?: string;
+  supportedHours?: SupportedHoursList;
+  datesWithoutSupport?: DatesWithoutSupportList;
+}
+export const CommunicationTypeOptions = S.suspend(() =>
+  S.Struct({
+    type: S.optional(S.String),
+    supportedHours: S.optional(SupportedHoursList),
+    datesWithoutSupport: S.optional(DatesWithoutSupportList),
+  }),
+).annotations({
+  identifier: "CommunicationTypeOptions",
+}) as any as S.Schema<CommunicationTypeOptions>;
+export type CommunicationTypeOptionsList = CommunicationTypeOptions[];
 export const CommunicationTypeOptionsList = S.Array(CommunicationTypeOptions);
-export class Service extends S.Class<Service>("Service")({
-  code: S.optional(S.String),
-  name: S.optional(S.String),
-  categories: S.optional(CategoryList),
-}) {}
+export interface Service {
+  code?: string;
+  name?: string;
+  categories?: CategoryList;
+}
+export const Service = S.suspend(() =>
+  S.Struct({
+    code: S.optional(S.String),
+    name: S.optional(S.String),
+    categories: S.optional(CategoryList),
+  }),
+).annotations({ identifier: "Service" }) as any as S.Schema<Service>;
+export type ServiceList = Service[];
 export const ServiceList = S.Array(Service);
-export class DescribeCasesResponse extends S.Class<DescribeCasesResponse>(
-  "DescribeCasesResponse",
-)({ cases: S.optional(CaseList), nextToken: S.optional(S.String) }, ns) {}
-export class DescribeCommunicationsResponse extends S.Class<DescribeCommunicationsResponse>(
-  "DescribeCommunicationsResponse",
-)(
-  {
+export interface DescribeCasesResponse {
+  cases?: CaseList;
+  nextToken?: string;
+}
+export const DescribeCasesResponse = S.suspend(() =>
+  S.Struct({
+    cases: S.optional(CaseList),
+    nextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeCasesResponse",
+}) as any as S.Schema<DescribeCasesResponse>;
+export interface DescribeCommunicationsResponse {
+  communications?: CommunicationList;
+  nextToken?: string;
+}
+export const DescribeCommunicationsResponse = S.suspend(() =>
+  S.Struct({
     communications: S.optional(CommunicationList),
     nextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class DescribeCreateCaseOptionsResponse extends S.Class<DescribeCreateCaseOptionsResponse>(
-  "DescribeCreateCaseOptionsResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeCommunicationsResponse",
+}) as any as S.Schema<DescribeCommunicationsResponse>;
+export interface DescribeCreateCaseOptionsResponse {
+  languageAvailability?: string;
+  communicationTypes?: CommunicationTypeOptionsList;
+}
+export const DescribeCreateCaseOptionsResponse = S.suspend(() =>
+  S.Struct({
     languageAvailability: S.optional(S.String),
     communicationTypes: S.optional(CommunicationTypeOptionsList),
-  },
-  ns,
-) {}
-export class DescribeServicesResponse extends S.Class<DescribeServicesResponse>(
-  "DescribeServicesResponse",
-)({ services: S.optional(ServiceList) }, ns) {}
-export class TrustedAdvisorCheckResult extends S.Class<TrustedAdvisorCheckResult>(
-  "TrustedAdvisorCheckResult",
-)({
-  checkId: S.String,
-  timestamp: S.String,
-  status: S.String,
-  resourcesSummary: TrustedAdvisorResourcesSummary,
-  categorySpecificSummary: TrustedAdvisorCategorySpecificSummary,
-  flaggedResources: TrustedAdvisorResourceDetailList,
-}) {}
-export class DescribeTrustedAdvisorCheckResultResponse extends S.Class<DescribeTrustedAdvisorCheckResultResponse>(
-  "DescribeTrustedAdvisorCheckResultResponse",
-)({ result: S.optional(TrustedAdvisorCheckResult) }, ns) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeCreateCaseOptionsResponse",
+}) as any as S.Schema<DescribeCreateCaseOptionsResponse>;
+export interface DescribeServicesResponse {
+  services?: ServiceList;
+}
+export const DescribeServicesResponse = S.suspend(() =>
+  S.Struct({ services: S.optional(ServiceList) }).pipe(ns),
+).annotations({
+  identifier: "DescribeServicesResponse",
+}) as any as S.Schema<DescribeServicesResponse>;
+export interface TrustedAdvisorCheckResult {
+  checkId: string;
+  timestamp: string;
+  status: string;
+  resourcesSummary: TrustedAdvisorResourcesSummary;
+  categorySpecificSummary: TrustedAdvisorCategorySpecificSummary;
+  flaggedResources: TrustedAdvisorResourceDetailList;
+}
+export const TrustedAdvisorCheckResult = S.suspend(() =>
+  S.Struct({
+    checkId: S.String,
+    timestamp: S.String,
+    status: S.String,
+    resourcesSummary: TrustedAdvisorResourcesSummary,
+    categorySpecificSummary: TrustedAdvisorCategorySpecificSummary,
+    flaggedResources: TrustedAdvisorResourceDetailList,
+  }),
+).annotations({
+  identifier: "TrustedAdvisorCheckResult",
+}) as any as S.Schema<TrustedAdvisorCheckResult>;
+export interface DescribeTrustedAdvisorCheckResultResponse {
+  result?: TrustedAdvisorCheckResult;
+}
+export const DescribeTrustedAdvisorCheckResultResponse = S.suspend(() =>
+  S.Struct({ result: S.optional(TrustedAdvisorCheckResult) }).pipe(ns),
+).annotations({
+  identifier: "DescribeTrustedAdvisorCheckResultResponse",
+}) as any as S.Schema<DescribeTrustedAdvisorCheckResultResponse>;
 
 //# Errors
 export class AttachmentSetExpired extends S.TaggedError<AttachmentSetExpired>()(

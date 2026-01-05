@@ -242,334 +242,565 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type UserFaceIdList = string[];
 export const UserFaceIdList = S.Array(S.String);
+export type FaceIdList = string[];
 export const FaceIdList = S.Array(S.String);
+export type ProjectNames = string[];
 export const ProjectNames = S.Array(S.String);
+export type CustomizationFeatures = string[];
 export const CustomizationFeatures = S.Array(S.String);
+export type VersionNames = string[];
 export const VersionNames = S.Array(S.String);
+export type Attributes = string[];
 export const Attributes = S.Array(S.String);
+export type DetectLabelsFeatureList = string[];
 export const DetectLabelsFeatureList = S.Array(S.String);
+export type DatasetLabels = string[];
 export const DatasetLabels = S.Array(S.String);
+export type LabelDetectionFeatureList = string[];
 export const LabelDetectionFeatureList = S.Array(S.String);
+export type SegmentTypes = string[];
 export const SegmentTypes = S.Array(S.String);
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
+export type StreamProcessorParametersToDelete = string[];
 export const StreamProcessorParametersToDelete = S.Array(S.String);
-export class AssociateFacesRequest extends S.Class<AssociateFacesRequest>(
-  "AssociateFacesRequest",
-)(
-  {
+export interface AssociateFacesRequest {
+  CollectionId: string;
+  UserId: string;
+  FaceIds: UserFaceIdList;
+  UserMatchThreshold?: number;
+  ClientRequestToken?: string;
+}
+export const AssociateFacesRequest = S.suspend(() =>
+  S.Struct({
     CollectionId: S.String,
     UserId: S.String,
     FaceIds: UserFaceIdList,
     UserMatchThreshold: S.optional(S.Number),
     ClientRequestToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "AssociateFacesRequest",
+}) as any as S.Schema<AssociateFacesRequest>;
+export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
-export class CreateCollectionRequest extends S.Class<CreateCollectionRequest>(
-  "CreateCollectionRequest",
-)(
-  { CollectionId: S.String, Tags: S.optional(TagMap) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateProjectRequest extends S.Class<CreateProjectRequest>(
-  "CreateProjectRequest",
-)(
-  {
+export interface CreateCollectionRequest {
+  CollectionId: string;
+  Tags?: TagMap;
+}
+export const CreateCollectionRequest = S.suspend(() =>
+  S.Struct({ CollectionId: S.String, Tags: S.optional(TagMap) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateCollectionRequest",
+}) as any as S.Schema<CreateCollectionRequest>;
+export interface CreateProjectRequest {
+  ProjectName: string;
+  Feature?: string;
+  AutoUpdate?: string;
+  Tags?: TagMap;
+}
+export const CreateProjectRequest = S.suspend(() =>
+  S.Struct({
     ProjectName: S.String,
     Feature: S.optional(S.String),
     AutoUpdate: S.optional(S.String),
     Tags: S.optional(TagMap),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateUserRequest extends S.Class<CreateUserRequest>(
-  "CreateUserRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateProjectRequest",
+}) as any as S.Schema<CreateProjectRequest>;
+export interface CreateUserRequest {
+  CollectionId: string;
+  UserId: string;
+  ClientRequestToken?: string;
+}
+export const CreateUserRequest = S.suspend(() =>
+  S.Struct({
     CollectionId: S.String,
     UserId: S.String,
     ClientRequestToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateUserResponse extends S.Class<CreateUserResponse>(
-  "CreateUserResponse",
-)({}) {}
-export class DeleteCollectionRequest extends S.Class<DeleteCollectionRequest>(
-  "DeleteCollectionRequest",
-)(
-  { CollectionId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteDatasetRequest extends S.Class<DeleteDatasetRequest>(
-  "DeleteDatasetRequest",
-)(
-  { DatasetArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteDatasetResponse extends S.Class<DeleteDatasetResponse>(
-  "DeleteDatasetResponse",
-)({}) {}
-export class DeleteFacesRequest extends S.Class<DeleteFacesRequest>(
-  "DeleteFacesRequest",
-)(
-  { CollectionId: S.String, FaceIds: FaceIdList },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteProjectRequest extends S.Class<DeleteProjectRequest>(
-  "DeleteProjectRequest",
-)(
-  { ProjectArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteProjectPolicyRequest extends S.Class<DeleteProjectPolicyRequest>(
-  "DeleteProjectPolicyRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateUserRequest",
+}) as any as S.Schema<CreateUserRequest>;
+export interface CreateUserResponse {}
+export const CreateUserResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "CreateUserResponse",
+}) as any as S.Schema<CreateUserResponse>;
+export interface DeleteCollectionRequest {
+  CollectionId: string;
+}
+export const DeleteCollectionRequest = S.suspend(() =>
+  S.Struct({ CollectionId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteCollectionRequest",
+}) as any as S.Schema<DeleteCollectionRequest>;
+export interface DeleteDatasetRequest {
+  DatasetArn: string;
+}
+export const DeleteDatasetRequest = S.suspend(() =>
+  S.Struct({ DatasetArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteDatasetRequest",
+}) as any as S.Schema<DeleteDatasetRequest>;
+export interface DeleteDatasetResponse {}
+export const DeleteDatasetResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteDatasetResponse",
+}) as any as S.Schema<DeleteDatasetResponse>;
+export interface DeleteFacesRequest {
+  CollectionId: string;
+  FaceIds: FaceIdList;
+}
+export const DeleteFacesRequest = S.suspend(() =>
+  S.Struct({ CollectionId: S.String, FaceIds: FaceIdList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteFacesRequest",
+}) as any as S.Schema<DeleteFacesRequest>;
+export interface DeleteProjectRequest {
+  ProjectArn: string;
+}
+export const DeleteProjectRequest = S.suspend(() =>
+  S.Struct({ ProjectArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteProjectRequest",
+}) as any as S.Schema<DeleteProjectRequest>;
+export interface DeleteProjectPolicyRequest {
+  ProjectArn: string;
+  PolicyName: string;
+  PolicyRevisionId?: string;
+}
+export const DeleteProjectPolicyRequest = S.suspend(() =>
+  S.Struct({
     ProjectArn: S.String,
     PolicyName: S.String,
     PolicyRevisionId: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteProjectPolicyResponse extends S.Class<DeleteProjectPolicyResponse>(
-  "DeleteProjectPolicyResponse",
-)({}) {}
-export class DeleteProjectVersionRequest extends S.Class<DeleteProjectVersionRequest>(
-  "DeleteProjectVersionRequest",
-)(
-  { ProjectVersionArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteStreamProcessorRequest extends S.Class<DeleteStreamProcessorRequest>(
-  "DeleteStreamProcessorRequest",
-)(
-  { Name: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteStreamProcessorResponse extends S.Class<DeleteStreamProcessorResponse>(
-  "DeleteStreamProcessorResponse",
-)({}) {}
-export class DeleteUserRequest extends S.Class<DeleteUserRequest>(
-  "DeleteUserRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteProjectPolicyRequest",
+}) as any as S.Schema<DeleteProjectPolicyRequest>;
+export interface DeleteProjectPolicyResponse {}
+export const DeleteProjectPolicyResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteProjectPolicyResponse",
+}) as any as S.Schema<DeleteProjectPolicyResponse>;
+export interface DeleteProjectVersionRequest {
+  ProjectVersionArn: string;
+}
+export const DeleteProjectVersionRequest = S.suspend(() =>
+  S.Struct({ ProjectVersionArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteProjectVersionRequest",
+}) as any as S.Schema<DeleteProjectVersionRequest>;
+export interface DeleteStreamProcessorRequest {
+  Name: string;
+}
+export const DeleteStreamProcessorRequest = S.suspend(() =>
+  S.Struct({ Name: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteStreamProcessorRequest",
+}) as any as S.Schema<DeleteStreamProcessorRequest>;
+export interface DeleteStreamProcessorResponse {}
+export const DeleteStreamProcessorResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteStreamProcessorResponse",
+}) as any as S.Schema<DeleteStreamProcessorResponse>;
+export interface DeleteUserRequest {
+  CollectionId: string;
+  UserId: string;
+  ClientRequestToken?: string;
+}
+export const DeleteUserRequest = S.suspend(() =>
+  S.Struct({
     CollectionId: S.String,
     UserId: S.String,
     ClientRequestToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteUserResponse extends S.Class<DeleteUserResponse>(
-  "DeleteUserResponse",
-)({}) {}
-export class DescribeCollectionRequest extends S.Class<DescribeCollectionRequest>(
-  "DescribeCollectionRequest",
-)(
-  { CollectionId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeDatasetRequest extends S.Class<DescribeDatasetRequest>(
-  "DescribeDatasetRequest",
-)(
-  { DatasetArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeProjectsRequest extends S.Class<DescribeProjectsRequest>(
-  "DescribeProjectsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteUserRequest",
+}) as any as S.Schema<DeleteUserRequest>;
+export interface DeleteUserResponse {}
+export const DeleteUserResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteUserResponse",
+}) as any as S.Schema<DeleteUserResponse>;
+export interface DescribeCollectionRequest {
+  CollectionId: string;
+}
+export const DescribeCollectionRequest = S.suspend(() =>
+  S.Struct({ CollectionId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeCollectionRequest",
+}) as any as S.Schema<DescribeCollectionRequest>;
+export interface DescribeDatasetRequest {
+  DatasetArn: string;
+}
+export const DescribeDatasetRequest = S.suspend(() =>
+  S.Struct({ DatasetArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeDatasetRequest",
+}) as any as S.Schema<DescribeDatasetRequest>;
+export interface DescribeProjectsRequest {
+  NextToken?: string;
+  MaxResults?: number;
+  ProjectNames?: ProjectNames;
+  Features?: CustomizationFeatures;
+}
+export const DescribeProjectsRequest = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     ProjectNames: S.optional(ProjectNames),
     Features: S.optional(CustomizationFeatures),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeProjectVersionsRequest extends S.Class<DescribeProjectVersionsRequest>(
-  "DescribeProjectVersionsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeProjectsRequest",
+}) as any as S.Schema<DescribeProjectsRequest>;
+export interface DescribeProjectVersionsRequest {
+  ProjectArn: string;
+  VersionNames?: VersionNames;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const DescribeProjectVersionsRequest = S.suspend(() =>
+  S.Struct({
     ProjectArn: S.String,
     VersionNames: S.optional(VersionNames),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeStreamProcessorRequest extends S.Class<DescribeStreamProcessorRequest>(
-  "DescribeStreamProcessorRequest",
-)(
-  { Name: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class S3Object extends S.Class<S3Object>("S3Object")({
-  Bucket: S.optional(S.String),
-  Name: S.optional(S.String),
-  Version: S.optional(S.String),
-}) {}
-export class Image extends S.Class<Image>("Image")({
-  Bytes: S.optional(T.Blob),
-  S3Object: S.optional(S3Object),
-}) {}
-export class DetectCustomLabelsRequest extends S.Class<DetectCustomLabelsRequest>(
-  "DetectCustomLabelsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeProjectVersionsRequest",
+}) as any as S.Schema<DescribeProjectVersionsRequest>;
+export interface DescribeStreamProcessorRequest {
+  Name: string;
+}
+export const DescribeStreamProcessorRequest = S.suspend(() =>
+  S.Struct({ Name: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeStreamProcessorRequest",
+}) as any as S.Schema<DescribeStreamProcessorRequest>;
+export interface S3Object {
+  Bucket?: string;
+  Name?: string;
+  Version?: string;
+}
+export const S3Object = S.suspend(() =>
+  S.Struct({
+    Bucket: S.optional(S.String),
+    Name: S.optional(S.String),
+    Version: S.optional(S.String),
+  }),
+).annotations({ identifier: "S3Object" }) as any as S.Schema<S3Object>;
+export interface Image {
+  Bytes?: Uint8Array;
+  S3Object?: S3Object;
+}
+export const Image = S.suspend(() =>
+  S.Struct({ Bytes: S.optional(T.Blob), S3Object: S.optional(S3Object) }),
+).annotations({ identifier: "Image" }) as any as S.Schema<Image>;
+export interface DetectCustomLabelsRequest {
+  ProjectVersionArn: string;
+  Image: Image;
+  MaxResults?: number;
+  MinConfidence?: number;
+}
+export const DetectCustomLabelsRequest = S.suspend(() =>
+  S.Struct({
     ProjectVersionArn: S.String,
     Image: Image,
     MaxResults: S.optional(S.Number),
     MinConfidence: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DetectFacesRequest extends S.Class<DetectFacesRequest>(
-  "DetectFacesRequest",
-)(
-  { Image: Image, Attributes: S.optional(Attributes) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DisassociateFacesRequest extends S.Class<DisassociateFacesRequest>(
-  "DisassociateFacesRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DetectCustomLabelsRequest",
+}) as any as S.Schema<DetectCustomLabelsRequest>;
+export interface DetectFacesRequest {
+  Image: Image;
+  Attributes?: Attributes;
+}
+export const DetectFacesRequest = S.suspend(() =>
+  S.Struct({ Image: Image, Attributes: S.optional(Attributes) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DetectFacesRequest",
+}) as any as S.Schema<DetectFacesRequest>;
+export interface DisassociateFacesRequest {
+  CollectionId: string;
+  UserId: string;
+  ClientRequestToken?: string;
+  FaceIds: UserFaceIdList;
+}
+export const DisassociateFacesRequest = S.suspend(() =>
+  S.Struct({
     CollectionId: S.String,
     UserId: S.String,
     ClientRequestToken: S.optional(S.String),
     FaceIds: UserFaceIdList,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetCelebrityInfoRequest extends S.Class<GetCelebrityInfoRequest>(
-  "GetCelebrityInfoRequest",
-)(
-  { Id: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetCelebrityRecognitionRequest extends S.Class<GetCelebrityRecognitionRequest>(
-  "GetCelebrityRecognitionRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DisassociateFacesRequest",
+}) as any as S.Schema<DisassociateFacesRequest>;
+export interface GetCelebrityInfoRequest {
+  Id: string;
+}
+export const GetCelebrityInfoRequest = S.suspend(() =>
+  S.Struct({ Id: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetCelebrityInfoRequest",
+}) as any as S.Schema<GetCelebrityInfoRequest>;
+export interface GetCelebrityRecognitionRequest {
+  JobId: string;
+  MaxResults?: number;
+  NextToken?: string;
+  SortBy?: string;
+}
+export const GetCelebrityRecognitionRequest = S.suspend(() =>
+  S.Struct({
     JobId: S.String,
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     SortBy: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetContentModerationRequest extends S.Class<GetContentModerationRequest>(
-  "GetContentModerationRequest",
-)(
-  {
-    JobId: S.String,
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-    SortBy: S.optional(S.String),
-    AggregateBy: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetFaceDetectionRequest extends S.Class<GetFaceDetectionRequest>(
-  "GetFaceDetectionRequest",
-)(
-  {
-    JobId: S.String,
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetFaceLivenessSessionResultsRequest extends S.Class<GetFaceLivenessSessionResultsRequest>(
-  "GetFaceLivenessSessionResultsRequest",
-)(
-  { SessionId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetFaceSearchRequest extends S.Class<GetFaceSearchRequest>(
-  "GetFaceSearchRequest",
-)(
-  {
-    JobId: S.String,
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-    SortBy: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetLabelDetectionRequest extends S.Class<GetLabelDetectionRequest>(
-  "GetLabelDetectionRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetCelebrityRecognitionRequest",
+}) as any as S.Schema<GetCelebrityRecognitionRequest>;
+export interface GetContentModerationRequest {
+  JobId: string;
+  MaxResults?: number;
+  NextToken?: string;
+  SortBy?: string;
+  AggregateBy?: string;
+}
+export const GetContentModerationRequest = S.suspend(() =>
+  S.Struct({
     JobId: S.String,
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     SortBy: S.optional(S.String),
     AggregateBy: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetMediaAnalysisJobRequest extends S.Class<GetMediaAnalysisJobRequest>(
-  "GetMediaAnalysisJobRequest",
-)(
-  { JobId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetPersonTrackingRequest extends S.Class<GetPersonTrackingRequest>(
-  "GetPersonTrackingRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetContentModerationRequest",
+}) as any as S.Schema<GetContentModerationRequest>;
+export interface GetFaceDetectionRequest {
+  JobId: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const GetFaceDetectionRequest = S.suspend(() =>
+  S.Struct({
+    JobId: S.String,
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetFaceDetectionRequest",
+}) as any as S.Schema<GetFaceDetectionRequest>;
+export interface GetFaceLivenessSessionResultsRequest {
+  SessionId: string;
+}
+export const GetFaceLivenessSessionResultsRequest = S.suspend(() =>
+  S.Struct({ SessionId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetFaceLivenessSessionResultsRequest",
+}) as any as S.Schema<GetFaceLivenessSessionResultsRequest>;
+export interface GetFaceSearchRequest {
+  JobId: string;
+  MaxResults?: number;
+  NextToken?: string;
+  SortBy?: string;
+}
+export const GetFaceSearchRequest = S.suspend(() =>
+  S.Struct({
     JobId: S.String,
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     SortBy: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetSegmentDetectionRequest extends S.Class<GetSegmentDetectionRequest>(
-  "GetSegmentDetectionRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetFaceSearchRequest",
+}) as any as S.Schema<GetFaceSearchRequest>;
+export interface GetLabelDetectionRequest {
+  JobId: string;
+  MaxResults?: number;
+  NextToken?: string;
+  SortBy?: string;
+  AggregateBy?: string;
+}
+export const GetLabelDetectionRequest = S.suspend(() =>
+  S.Struct({
     JobId: S.String,
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetTextDetectionRequest extends S.Class<GetTextDetectionRequest>(
-  "GetTextDetectionRequest",
-)(
-  {
+    SortBy: S.optional(S.String),
+    AggregateBy: S.optional(S.String),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetLabelDetectionRequest",
+}) as any as S.Schema<GetLabelDetectionRequest>;
+export interface GetMediaAnalysisJobRequest {
+  JobId: string;
+}
+export const GetMediaAnalysisJobRequest = S.suspend(() =>
+  S.Struct({ JobId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetMediaAnalysisJobRequest",
+}) as any as S.Schema<GetMediaAnalysisJobRequest>;
+export interface GetPersonTrackingRequest {
+  JobId: string;
+  MaxResults?: number;
+  NextToken?: string;
+  SortBy?: string;
+}
+export const GetPersonTrackingRequest = S.suspend(() =>
+  S.Struct({
     JobId: S.String,
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class IndexFacesRequest extends S.Class<IndexFacesRequest>(
-  "IndexFacesRequest",
-)(
-  {
+    SortBy: S.optional(S.String),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetPersonTrackingRequest",
+}) as any as S.Schema<GetPersonTrackingRequest>;
+export interface GetSegmentDetectionRequest {
+  JobId: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const GetSegmentDetectionRequest = S.suspend(() =>
+  S.Struct({
+    JobId: S.String,
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetSegmentDetectionRequest",
+}) as any as S.Schema<GetSegmentDetectionRequest>;
+export interface GetTextDetectionRequest {
+  JobId: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const GetTextDetectionRequest = S.suspend(() =>
+  S.Struct({
+    JobId: S.String,
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetTextDetectionRequest",
+}) as any as S.Schema<GetTextDetectionRequest>;
+export interface IndexFacesRequest {
+  CollectionId: string;
+  Image: Image;
+  ExternalImageId?: string;
+  DetectionAttributes?: Attributes;
+  MaxFaces?: number;
+  QualityFilter?: string;
+}
+export const IndexFacesRequest = S.suspend(() =>
+  S.Struct({
     CollectionId: S.String,
     Image: Image,
     ExternalImageId: S.optional(S.String),
     DetectionAttributes: S.optional(Attributes),
     MaxFaces: S.optional(S.Number),
     QualityFilter: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListCollectionsRequest extends S.Class<ListCollectionsRequest>(
-  "ListCollectionsRequest",
-)(
-  { NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListDatasetEntriesRequest extends S.Class<ListDatasetEntriesRequest>(
-  "ListDatasetEntriesRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "IndexFacesRequest",
+}) as any as S.Schema<IndexFacesRequest>;
+export interface ListCollectionsRequest {
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListCollectionsRequest = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListCollectionsRequest",
+}) as any as S.Schema<ListCollectionsRequest>;
+export interface ListDatasetEntriesRequest {
+  DatasetArn: string;
+  ContainsLabels?: DatasetLabels;
+  Labeled?: boolean;
+  SourceRefContains?: string;
+  HasErrors?: boolean;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListDatasetEntriesRequest = S.suspend(() =>
+  S.Struct({
     DatasetArn: S.String,
     ContainsLabels: S.optional(DatasetLabels),
     Labeled: S.optional(S.Boolean),
@@ -577,340 +808,647 @@ export class ListDatasetEntriesRequest extends S.Class<ListDatasetEntriesRequest
     HasErrors: S.optional(S.Boolean),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListDatasetLabelsRequest extends S.Class<ListDatasetLabelsRequest>(
-  "ListDatasetLabelsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListDatasetEntriesRequest",
+}) as any as S.Schema<ListDatasetEntriesRequest>;
+export interface ListDatasetLabelsRequest {
+  DatasetArn: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListDatasetLabelsRequest = S.suspend(() =>
+  S.Struct({
     DatasetArn: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListFacesRequest extends S.Class<ListFacesRequest>(
-  "ListFacesRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListDatasetLabelsRequest",
+}) as any as S.Schema<ListDatasetLabelsRequest>;
+export interface ListFacesRequest {
+  CollectionId: string;
+  NextToken?: string;
+  MaxResults?: number;
+  UserId?: string;
+  FaceIds?: FaceIdList;
+}
+export const ListFacesRequest = S.suspend(() =>
+  S.Struct({
     CollectionId: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     UserId: S.optional(S.String),
     FaceIds: S.optional(FaceIdList),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListMediaAnalysisJobsRequest extends S.Class<ListMediaAnalysisJobsRequest>(
-  "ListMediaAnalysisJobsRequest",
-)(
-  { NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListProjectPoliciesRequest extends S.Class<ListProjectPoliciesRequest>(
-  "ListProjectPoliciesRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListFacesRequest",
+}) as any as S.Schema<ListFacesRequest>;
+export interface ListMediaAnalysisJobsRequest {
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListMediaAnalysisJobsRequest = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListMediaAnalysisJobsRequest",
+}) as any as S.Schema<ListMediaAnalysisJobsRequest>;
+export interface ListProjectPoliciesRequest {
+  ProjectArn: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListProjectPoliciesRequest = S.suspend(() =>
+  S.Struct({
     ProjectArn: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListStreamProcessorsRequest extends S.Class<ListStreamProcessorsRequest>(
-  "ListStreamProcessorsRequest",
-)(
-  { NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { ResourceArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListUsersRequest extends S.Class<ListUsersRequest>(
-  "ListUsersRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListProjectPoliciesRequest",
+}) as any as S.Schema<ListProjectPoliciesRequest>;
+export interface ListStreamProcessorsRequest {
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListStreamProcessorsRequest = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListStreamProcessorsRequest",
+}) as any as S.Schema<ListStreamProcessorsRequest>;
+export interface ListTagsForResourceRequest {
+  ResourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface ListUsersRequest {
+  CollectionId: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListUsersRequest = S.suspend(() =>
+  S.Struct({
     CollectionId: S.String,
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutProjectPolicyRequest extends S.Class<PutProjectPolicyRequest>(
-  "PutProjectPolicyRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListUsersRequest",
+}) as any as S.Schema<ListUsersRequest>;
+export interface PutProjectPolicyRequest {
+  ProjectArn: string;
+  PolicyName: string;
+  PolicyRevisionId?: string;
+  PolicyDocument: string;
+}
+export const PutProjectPolicyRequest = S.suspend(() =>
+  S.Struct({
     ProjectArn: S.String,
     PolicyName: S.String,
     PolicyRevisionId: S.optional(S.String),
     PolicyDocument: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class RecognizeCelebritiesRequest extends S.Class<RecognizeCelebritiesRequest>(
-  "RecognizeCelebritiesRequest",
-)(
-  { Image: Image },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class SearchFacesRequest extends S.Class<SearchFacesRequest>(
-  "SearchFacesRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "PutProjectPolicyRequest",
+}) as any as S.Schema<PutProjectPolicyRequest>;
+export interface RecognizeCelebritiesRequest {
+  Image: Image;
+}
+export const RecognizeCelebritiesRequest = S.suspend(() =>
+  S.Struct({ Image: Image }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "RecognizeCelebritiesRequest",
+}) as any as S.Schema<RecognizeCelebritiesRequest>;
+export interface SearchFacesRequest {
+  CollectionId: string;
+  FaceId: string;
+  MaxFaces?: number;
+  FaceMatchThreshold?: number;
+}
+export const SearchFacesRequest = S.suspend(() =>
+  S.Struct({
     CollectionId: S.String,
     FaceId: S.String,
     MaxFaces: S.optional(S.Number),
     FaceMatchThreshold: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class SearchFacesByImageRequest extends S.Class<SearchFacesByImageRequest>(
-  "SearchFacesByImageRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "SearchFacesRequest",
+}) as any as S.Schema<SearchFacesRequest>;
+export interface SearchFacesByImageRequest {
+  CollectionId: string;
+  Image: Image;
+  MaxFaces?: number;
+  FaceMatchThreshold?: number;
+  QualityFilter?: string;
+}
+export const SearchFacesByImageRequest = S.suspend(() =>
+  S.Struct({
     CollectionId: S.String,
     Image: Image,
     MaxFaces: S.optional(S.Number),
     FaceMatchThreshold: S.optional(S.Number),
     QualityFilter: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class SearchUsersRequest extends S.Class<SearchUsersRequest>(
-  "SearchUsersRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "SearchFacesByImageRequest",
+}) as any as S.Schema<SearchFacesByImageRequest>;
+export interface SearchUsersRequest {
+  CollectionId: string;
+  UserId?: string;
+  FaceId?: string;
+  UserMatchThreshold?: number;
+  MaxUsers?: number;
+}
+export const SearchUsersRequest = S.suspend(() =>
+  S.Struct({
     CollectionId: S.String,
     UserId: S.optional(S.String),
     FaceId: S.optional(S.String),
     UserMatchThreshold: S.optional(S.Number),
     MaxUsers: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class SearchUsersByImageRequest extends S.Class<SearchUsersByImageRequest>(
-  "SearchUsersByImageRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "SearchUsersRequest",
+}) as any as S.Schema<SearchUsersRequest>;
+export interface SearchUsersByImageRequest {
+  CollectionId: string;
+  Image: Image;
+  UserMatchThreshold?: number;
+  MaxUsers?: number;
+  QualityFilter?: string;
+}
+export const SearchUsersByImageRequest = S.suspend(() =>
+  S.Struct({
     CollectionId: S.String,
     Image: Image,
     UserMatchThreshold: S.optional(S.Number),
     MaxUsers: S.optional(S.Number),
     QualityFilter: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class Video extends S.Class<Video>("Video")({
-  S3Object: S.optional(S3Object),
-}) {}
-export class NotificationChannel extends S.Class<NotificationChannel>(
-  "NotificationChannel",
-)({ SNSTopicArn: S.String, RoleArn: S.String }) {}
-export class StartContentModerationRequest extends S.Class<StartContentModerationRequest>(
-  "StartContentModerationRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "SearchUsersByImageRequest",
+}) as any as S.Schema<SearchUsersByImageRequest>;
+export interface Video {
+  S3Object?: S3Object;
+}
+export const Video = S.suspend(() =>
+  S.Struct({ S3Object: S.optional(S3Object) }),
+).annotations({ identifier: "Video" }) as any as S.Schema<Video>;
+export interface NotificationChannel {
+  SNSTopicArn: string;
+  RoleArn: string;
+}
+export const NotificationChannel = S.suspend(() =>
+  S.Struct({ SNSTopicArn: S.String, RoleArn: S.String }),
+).annotations({
+  identifier: "NotificationChannel",
+}) as any as S.Schema<NotificationChannel>;
+export interface StartContentModerationRequest {
+  Video: Video;
+  MinConfidence?: number;
+  ClientRequestToken?: string;
+  NotificationChannel?: NotificationChannel;
+  JobTag?: string;
+}
+export const StartContentModerationRequest = S.suspend(() =>
+  S.Struct({
     Video: Video,
     MinConfidence: S.optional(S.Number),
     ClientRequestToken: S.optional(S.String),
     NotificationChannel: S.optional(NotificationChannel),
     JobTag: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StartFaceDetectionRequest extends S.Class<StartFaceDetectionRequest>(
-  "StartFaceDetectionRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StartContentModerationRequest",
+}) as any as S.Schema<StartContentModerationRequest>;
+export interface StartFaceDetectionRequest {
+  Video: Video;
+  ClientRequestToken?: string;
+  NotificationChannel?: NotificationChannel;
+  FaceAttributes?: string;
+  JobTag?: string;
+}
+export const StartFaceDetectionRequest = S.suspend(() =>
+  S.Struct({
     Video: Video,
     ClientRequestToken: S.optional(S.String),
     NotificationChannel: S.optional(NotificationChannel),
     FaceAttributes: S.optional(S.String),
     JobTag: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StartFaceSearchRequest extends S.Class<StartFaceSearchRequest>(
-  "StartFaceSearchRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StartFaceDetectionRequest",
+}) as any as S.Schema<StartFaceDetectionRequest>;
+export interface StartFaceSearchRequest {
+  Video: Video;
+  ClientRequestToken?: string;
+  FaceMatchThreshold?: number;
+  CollectionId: string;
+  NotificationChannel?: NotificationChannel;
+  JobTag?: string;
+}
+export const StartFaceSearchRequest = S.suspend(() =>
+  S.Struct({
     Video: Video,
     ClientRequestToken: S.optional(S.String),
     FaceMatchThreshold: S.optional(S.Number),
     CollectionId: S.String,
     NotificationChannel: S.optional(NotificationChannel),
     JobTag: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StartPersonTrackingRequest extends S.Class<StartPersonTrackingRequest>(
-  "StartPersonTrackingRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StartFaceSearchRequest",
+}) as any as S.Schema<StartFaceSearchRequest>;
+export interface StartPersonTrackingRequest {
+  Video: Video;
+  ClientRequestToken?: string;
+  NotificationChannel?: NotificationChannel;
+  JobTag?: string;
+}
+export const StartPersonTrackingRequest = S.suspend(() =>
+  S.Struct({
     Video: Video,
     ClientRequestToken: S.optional(S.String),
     NotificationChannel: S.optional(NotificationChannel),
     JobTag: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StartProjectVersionRequest extends S.Class<StartProjectVersionRequest>(
-  "StartProjectVersionRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StartPersonTrackingRequest",
+}) as any as S.Schema<StartPersonTrackingRequest>;
+export interface StartProjectVersionRequest {
+  ProjectVersionArn: string;
+  MinInferenceUnits: number;
+  MaxInferenceUnits?: number;
+}
+export const StartProjectVersionRequest = S.suspend(() =>
+  S.Struct({
     ProjectVersionArn: S.String,
     MinInferenceUnits: S.Number,
     MaxInferenceUnits: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StopProjectVersionRequest extends S.Class<StopProjectVersionRequest>(
-  "StopProjectVersionRequest",
-)(
-  { ProjectVersionArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StopStreamProcessorRequest extends S.Class<StopStreamProcessorRequest>(
-  "StopStreamProcessorRequest",
-)(
-  { Name: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StopStreamProcessorResponse extends S.Class<StopStreamProcessorResponse>(
-  "StopStreamProcessorResponse",
-)({}) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { ResourceArn: S.String, Tags: TagMap },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  { ResourceArn: S.String, TagKeys: TagKeyList },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StartProjectVersionRequest",
+}) as any as S.Schema<StartProjectVersionRequest>;
+export interface StopProjectVersionRequest {
+  ProjectVersionArn: string;
+}
+export const StopProjectVersionRequest = S.suspend(() =>
+  S.Struct({ ProjectVersionArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StopProjectVersionRequest",
+}) as any as S.Schema<StopProjectVersionRequest>;
+export interface StopStreamProcessorRequest {
+  Name: string;
+}
+export const StopStreamProcessorRequest = S.suspend(() =>
+  S.Struct({ Name: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StopStreamProcessorRequest",
+}) as any as S.Schema<StopStreamProcessorRequest>;
+export interface StopStreamProcessorResponse {}
+export const StopStreamProcessorResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "StopStreamProcessorResponse",
+}) as any as S.Schema<StopStreamProcessorResponse>;
+export interface TagResourceRequest {
+  ResourceArn: string;
+  Tags: TagMap;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String, Tags: TagMap }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UntagResourceRequest {
+  ResourceArn: string;
+  TagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String, TagKeys: TagKeyList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export type ProtectiveEquipmentTypes = string[];
 export const ProtectiveEquipmentTypes = S.Array(S.String);
-export class OutputConfig extends S.Class<OutputConfig>("OutputConfig")({
-  S3Bucket: S.optional(S.String),
-  S3KeyPrefix: S.optional(S.String),
-}) {}
-export class GroundTruthManifest extends S.Class<GroundTruthManifest>(
-  "GroundTruthManifest",
-)({ S3Object: S.optional(S3Object) }) {}
-export class Asset extends S.Class<Asset>("Asset")({
-  GroundTruthManifest: S.optional(GroundTruthManifest),
-}) {}
+export interface OutputConfig {
+  S3Bucket?: string;
+  S3KeyPrefix?: string;
+}
+export const OutputConfig = S.suspend(() =>
+  S.Struct({
+    S3Bucket: S.optional(S.String),
+    S3KeyPrefix: S.optional(S.String),
+  }),
+).annotations({ identifier: "OutputConfig" }) as any as S.Schema<OutputConfig>;
+export interface GroundTruthManifest {
+  S3Object?: S3Object;
+}
+export const GroundTruthManifest = S.suspend(() =>
+  S.Struct({ S3Object: S.optional(S3Object) }),
+).annotations({
+  identifier: "GroundTruthManifest",
+}) as any as S.Schema<GroundTruthManifest>;
+export interface Asset {
+  GroundTruthManifest?: GroundTruthManifest;
+}
+export const Asset = S.suspend(() =>
+  S.Struct({ GroundTruthManifest: S.optional(GroundTruthManifest) }),
+).annotations({ identifier: "Asset" }) as any as S.Schema<Asset>;
+export type Assets = Asset[];
 export const Assets = S.Array(Asset);
-export class TestingData extends S.Class<TestingData>("TestingData")({
-  Assets: S.optional(Assets),
-  AutoCreate: S.optional(S.Boolean),
-}) {}
-export class StreamProcessorNotificationChannel extends S.Class<StreamProcessorNotificationChannel>(
-  "StreamProcessorNotificationChannel",
-)({ SNSTopicArn: S.String }) {}
-export class StreamProcessorDataSharingPreference extends S.Class<StreamProcessorDataSharingPreference>(
-  "StreamProcessorDataSharingPreference",
-)({ OptIn: S.Boolean }) {}
-export class ProtectiveEquipmentSummarizationAttributes extends S.Class<ProtectiveEquipmentSummarizationAttributes>(
-  "ProtectiveEquipmentSummarizationAttributes",
-)({
-  MinConfidence: S.Number,
-  RequiredEquipmentTypes: ProtectiveEquipmentTypes,
-}) {}
-export class DistributeDataset extends S.Class<DistributeDataset>(
-  "DistributeDataset",
-)({ Arn: S.String }) {}
+export interface TestingData {
+  Assets?: Assets;
+  AutoCreate?: boolean;
+}
+export const TestingData = S.suspend(() =>
+  S.Struct({ Assets: S.optional(Assets), AutoCreate: S.optional(S.Boolean) }),
+).annotations({ identifier: "TestingData" }) as any as S.Schema<TestingData>;
+export interface StreamProcessorNotificationChannel {
+  SNSTopicArn: string;
+}
+export const StreamProcessorNotificationChannel = S.suspend(() =>
+  S.Struct({ SNSTopicArn: S.String }),
+).annotations({
+  identifier: "StreamProcessorNotificationChannel",
+}) as any as S.Schema<StreamProcessorNotificationChannel>;
+export interface StreamProcessorDataSharingPreference {
+  OptIn: boolean;
+}
+export const StreamProcessorDataSharingPreference = S.suspend(() =>
+  S.Struct({ OptIn: S.Boolean }),
+).annotations({
+  identifier: "StreamProcessorDataSharingPreference",
+}) as any as S.Schema<StreamProcessorDataSharingPreference>;
+export interface ProtectiveEquipmentSummarizationAttributes {
+  MinConfidence: number;
+  RequiredEquipmentTypes: ProtectiveEquipmentTypes;
+}
+export const ProtectiveEquipmentSummarizationAttributes = S.suspend(() =>
+  S.Struct({
+    MinConfidence: S.Number,
+    RequiredEquipmentTypes: ProtectiveEquipmentTypes,
+  }),
+).annotations({
+  identifier: "ProtectiveEquipmentSummarizationAttributes",
+}) as any as S.Schema<ProtectiveEquipmentSummarizationAttributes>;
+export interface DistributeDataset {
+  Arn: string;
+}
+export const DistributeDataset = S.suspend(() =>
+  S.Struct({ Arn: S.String }),
+).annotations({
+  identifier: "DistributeDataset",
+}) as any as S.Schema<DistributeDataset>;
+export type DistributeDatasetMetadataList = DistributeDataset[];
 export const DistributeDatasetMetadataList = S.Array(DistributeDataset);
+export type Urls = string[];
 export const Urls = S.Array(S.String);
-export class BoundingBox extends S.Class<BoundingBox>("BoundingBox")({
-  Width: S.optional(S.Number),
-  Height: S.optional(S.Number),
-  Left: S.optional(S.Number),
-  Top: S.optional(S.Number),
-}) {}
-export class AuditImage extends S.Class<AuditImage>("AuditImage")({
-  Bytes: S.optional(T.Blob),
-  S3Object: S.optional(S3Object),
-  BoundingBox: S.optional(BoundingBox),
-}) {}
+export interface BoundingBox {
+  Width?: number;
+  Height?: number;
+  Left?: number;
+  Top?: number;
+}
+export const BoundingBox = S.suspend(() =>
+  S.Struct({
+    Width: S.optional(S.Number),
+    Height: S.optional(S.Number),
+    Left: S.optional(S.Number),
+    Top: S.optional(S.Number),
+  }),
+).annotations({ identifier: "BoundingBox" }) as any as S.Schema<BoundingBox>;
+export interface AuditImage {
+  Bytes?: Uint8Array;
+  S3Object?: S3Object;
+  BoundingBox?: BoundingBox;
+}
+export const AuditImage = S.suspend(() =>
+  S.Struct({
+    Bytes: S.optional(T.Blob),
+    S3Object: S.optional(S3Object),
+    BoundingBox: S.optional(BoundingBox),
+  }),
+).annotations({ identifier: "AuditImage" }) as any as S.Schema<AuditImage>;
+export type AuditImages = AuditImage[];
 export const AuditImages = S.Array(AuditImage);
-export class VideoMetadata extends S.Class<VideoMetadata>("VideoMetadata")({
-  Codec: S.optional(S.String),
-  DurationMillis: S.optional(S.Number),
-  Format: S.optional(S.String),
-  FrameRate: S.optional(S.Number),
-  FrameHeight: S.optional(S.Number),
-  FrameWidth: S.optional(S.Number),
-  ColorRange: S.optional(S.String),
-}) {}
+export interface VideoMetadata {
+  Codec?: string;
+  DurationMillis?: number;
+  Format?: string;
+  FrameRate?: number;
+  FrameHeight?: number;
+  FrameWidth?: number;
+  ColorRange?: string;
+}
+export const VideoMetadata = S.suspend(() =>
+  S.Struct({
+    Codec: S.optional(S.String),
+    DurationMillis: S.optional(S.Number),
+    Format: S.optional(S.String),
+    FrameRate: S.optional(S.Number),
+    FrameHeight: S.optional(S.Number),
+    FrameWidth: S.optional(S.Number),
+    ColorRange: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "VideoMetadata",
+}) as any as S.Schema<VideoMetadata>;
+export type VideoMetadataList = VideoMetadata[];
 export const VideoMetadataList = S.Array(VideoMetadata);
+export type CollectionIdList = string[];
 export const CollectionIdList = S.Array(S.String);
+export type FaceModelVersionList = string[];
 export const FaceModelVersionList = S.Array(S.String);
+export type DatasetEntries = string[];
 export const DatasetEntries = S.Array(S.String);
+export type GeneralLabelsFilterList = string[];
 export const GeneralLabelsFilterList = S.Array(S.String);
-export class GeneralLabelsSettings extends S.Class<GeneralLabelsSettings>(
-  "GeneralLabelsSettings",
-)({
-  LabelInclusionFilters: S.optional(GeneralLabelsFilterList),
-  LabelExclusionFilters: S.optional(GeneralLabelsFilterList),
-  LabelCategoryInclusionFilters: S.optional(GeneralLabelsFilterList),
-  LabelCategoryExclusionFilters: S.optional(GeneralLabelsFilterList),
-}) {}
-export class LabelDetectionSettings extends S.Class<LabelDetectionSettings>(
-  "LabelDetectionSettings",
-)({ GeneralLabels: S.optional(GeneralLabelsSettings) }) {}
-export class MediaAnalysisInput extends S.Class<MediaAnalysisInput>(
-  "MediaAnalysisInput",
-)({ S3Object: S3Object }) {}
-export class MediaAnalysisOutputConfig extends S.Class<MediaAnalysisOutputConfig>(
-  "MediaAnalysisOutputConfig",
-)({ S3Bucket: S.String, S3KeyPrefix: S.optional(S.String) }) {}
-export class StreamProcessingStopSelector extends S.Class<StreamProcessingStopSelector>(
-  "StreamProcessingStopSelector",
-)({ MaxDurationInSeconds: S.optional(S.Number) }) {}
-export class DetectionFilter extends S.Class<DetectionFilter>(
-  "DetectionFilter",
-)({
-  MinConfidence: S.optional(S.Number),
-  MinBoundingBoxHeight: S.optional(S.Number),
-  MinBoundingBoxWidth: S.optional(S.Number),
-}) {}
-export class Point extends S.Class<Point>("Point")({
-  X: S.optional(S.Number),
-  Y: S.optional(S.Number),
-}) {}
+export interface GeneralLabelsSettings {
+  LabelInclusionFilters?: GeneralLabelsFilterList;
+  LabelExclusionFilters?: GeneralLabelsFilterList;
+  LabelCategoryInclusionFilters?: GeneralLabelsFilterList;
+  LabelCategoryExclusionFilters?: GeneralLabelsFilterList;
+}
+export const GeneralLabelsSettings = S.suspend(() =>
+  S.Struct({
+    LabelInclusionFilters: S.optional(GeneralLabelsFilterList),
+    LabelExclusionFilters: S.optional(GeneralLabelsFilterList),
+    LabelCategoryInclusionFilters: S.optional(GeneralLabelsFilterList),
+    LabelCategoryExclusionFilters: S.optional(GeneralLabelsFilterList),
+  }),
+).annotations({
+  identifier: "GeneralLabelsSettings",
+}) as any as S.Schema<GeneralLabelsSettings>;
+export interface LabelDetectionSettings {
+  GeneralLabels?: GeneralLabelsSettings;
+}
+export const LabelDetectionSettings = S.suspend(() =>
+  S.Struct({ GeneralLabels: S.optional(GeneralLabelsSettings) }),
+).annotations({
+  identifier: "LabelDetectionSettings",
+}) as any as S.Schema<LabelDetectionSettings>;
+export interface MediaAnalysisInput {
+  S3Object: S3Object;
+}
+export const MediaAnalysisInput = S.suspend(() =>
+  S.Struct({ S3Object: S3Object }),
+).annotations({
+  identifier: "MediaAnalysisInput",
+}) as any as S.Schema<MediaAnalysisInput>;
+export interface MediaAnalysisOutputConfig {
+  S3Bucket: string;
+  S3KeyPrefix?: string;
+}
+export const MediaAnalysisOutputConfig = S.suspend(() =>
+  S.Struct({ S3Bucket: S.String, S3KeyPrefix: S.optional(S.String) }),
+).annotations({
+  identifier: "MediaAnalysisOutputConfig",
+}) as any as S.Schema<MediaAnalysisOutputConfig>;
+export interface StreamProcessingStopSelector {
+  MaxDurationInSeconds?: number;
+}
+export const StreamProcessingStopSelector = S.suspend(() =>
+  S.Struct({ MaxDurationInSeconds: S.optional(S.Number) }),
+).annotations({
+  identifier: "StreamProcessingStopSelector",
+}) as any as S.Schema<StreamProcessingStopSelector>;
+export interface DetectionFilter {
+  MinConfidence?: number;
+  MinBoundingBoxHeight?: number;
+  MinBoundingBoxWidth?: number;
+}
+export const DetectionFilter = S.suspend(() =>
+  S.Struct({
+    MinConfidence: S.optional(S.Number),
+    MinBoundingBoxHeight: S.optional(S.Number),
+    MinBoundingBoxWidth: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "DetectionFilter",
+}) as any as S.Schema<DetectionFilter>;
+export interface Point {
+  X?: number;
+  Y?: number;
+}
+export const Point = S.suspend(() =>
+  S.Struct({ X: S.optional(S.Number), Y: S.optional(S.Number) }),
+).annotations({ identifier: "Point" }) as any as S.Schema<Point>;
+export type Polygon = Point[];
 export const Polygon = S.Array(Point);
-export class RegionOfInterest extends S.Class<RegionOfInterest>(
-  "RegionOfInterest",
-)({ BoundingBox: S.optional(BoundingBox), Polygon: S.optional(Polygon) }) {}
+export interface RegionOfInterest {
+  BoundingBox?: BoundingBox;
+  Polygon?: Polygon;
+}
+export const RegionOfInterest = S.suspend(() =>
+  S.Struct({
+    BoundingBox: S.optional(BoundingBox),
+    Polygon: S.optional(Polygon),
+  }),
+).annotations({
+  identifier: "RegionOfInterest",
+}) as any as S.Schema<RegionOfInterest>;
+export type RegionsOfInterest = RegionOfInterest[];
 export const RegionsOfInterest = S.Array(RegionOfInterest);
-export class StartTextDetectionFilters extends S.Class<StartTextDetectionFilters>(
-  "StartTextDetectionFilters",
-)({
-  WordFilter: S.optional(DetectionFilter),
-  RegionsOfInterest: S.optional(RegionsOfInterest),
-}) {}
-export class DatasetChanges extends S.Class<DatasetChanges>("DatasetChanges")({
-  GroundTruth: T.Blob,
-}) {}
+export interface StartTextDetectionFilters {
+  WordFilter?: DetectionFilter;
+  RegionsOfInterest?: RegionsOfInterest;
+}
+export const StartTextDetectionFilters = S.suspend(() =>
+  S.Struct({
+    WordFilter: S.optional(DetectionFilter),
+    RegionsOfInterest: S.optional(RegionsOfInterest),
+  }),
+).annotations({
+  identifier: "StartTextDetectionFilters",
+}) as any as S.Schema<StartTextDetectionFilters>;
+export interface DatasetChanges {
+  GroundTruth: Uint8Array;
+}
+export const DatasetChanges = S.suspend(() =>
+  S.Struct({ GroundTruth: T.Blob }),
+).annotations({
+  identifier: "DatasetChanges",
+}) as any as S.Schema<DatasetChanges>;
+export type ConnectedHomeLabels = string[];
 export const ConnectedHomeLabels = S.Array(S.String);
+export type ContentClassifiers = string[];
 export const ContentClassifiers = S.Array(S.String);
-export class CopyProjectVersionRequest extends S.Class<CopyProjectVersionRequest>(
-  "CopyProjectVersionRequest",
-)(
-  {
+export interface CopyProjectVersionRequest {
+  SourceProjectArn: string;
+  SourceProjectVersionArn: string;
+  DestinationProjectArn: string;
+  VersionName: string;
+  OutputConfig: OutputConfig;
+  Tags?: TagMap;
+  KmsKeyId?: string;
+}
+export const CopyProjectVersionRequest = S.suspend(() =>
+  S.Struct({
     SourceProjectArn: S.String,
     SourceProjectVersionArn: S.String,
     DestinationProjectArn: S.String,
@@ -918,180 +1456,371 @@ export class CopyProjectVersionRequest extends S.Class<CopyProjectVersionRequest
     OutputConfig: OutputConfig,
     Tags: S.optional(TagMap),
     KmsKeyId: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateCollectionResponse extends S.Class<CreateCollectionResponse>(
-  "CreateCollectionResponse",
-)({
-  StatusCode: S.optional(S.Number),
-  CollectionArn: S.optional(S.String),
-  FaceModelVersion: S.optional(S.String),
-}) {}
-export class CreateProjectResponse extends S.Class<CreateProjectResponse>(
-  "CreateProjectResponse",
-)({ ProjectArn: S.optional(S.String) }) {}
-export class DeleteCollectionResponse extends S.Class<DeleteCollectionResponse>(
-  "DeleteCollectionResponse",
-)({ StatusCode: S.optional(S.Number) }) {}
-export class DeleteProjectResponse extends S.Class<DeleteProjectResponse>(
-  "DeleteProjectResponse",
-)({ Status: S.optional(S.String) }) {}
-export class DeleteProjectVersionResponse extends S.Class<DeleteProjectVersionResponse>(
-  "DeleteProjectVersionResponse",
-)({ Status: S.optional(S.String) }) {}
-export class DescribeCollectionResponse extends S.Class<DescribeCollectionResponse>(
-  "DescribeCollectionResponse",
-)({
-  FaceCount: S.optional(S.Number),
-  FaceModelVersion: S.optional(S.String),
-  CollectionARN: S.optional(S.String),
-  CreationTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-  UserCount: S.optional(S.Number),
-}) {}
-export class KinesisVideoStream extends S.Class<KinesisVideoStream>(
-  "KinesisVideoStream",
-)({ Arn: S.optional(S.String) }) {}
-export class StreamProcessorInput extends S.Class<StreamProcessorInput>(
-  "StreamProcessorInput",
-)({ KinesisVideoStream: S.optional(KinesisVideoStream) }) {}
-export class KinesisDataStream extends S.Class<KinesisDataStream>(
-  "KinesisDataStream",
-)({ Arn: S.optional(S.String) }) {}
-export class S3Destination extends S.Class<S3Destination>("S3Destination")({
-  Bucket: S.optional(S.String),
-  KeyPrefix: S.optional(S.String),
-}) {}
-export class StreamProcessorOutput extends S.Class<StreamProcessorOutput>(
-  "StreamProcessorOutput",
-)({
-  KinesisDataStream: S.optional(KinesisDataStream),
-  S3Destination: S.optional(S3Destination),
-}) {}
-export class FaceSearchSettings extends S.Class<FaceSearchSettings>(
-  "FaceSearchSettings",
-)({
-  CollectionId: S.optional(S.String),
-  FaceMatchThreshold: S.optional(S.Number),
-}) {}
-export class ConnectedHomeSettings extends S.Class<ConnectedHomeSettings>(
-  "ConnectedHomeSettings",
-)({ Labels: ConnectedHomeLabels, MinConfidence: S.optional(S.Number) }) {}
-export class StreamProcessorSettings extends S.Class<StreamProcessorSettings>(
-  "StreamProcessorSettings",
-)({
-  FaceSearch: S.optional(FaceSearchSettings),
-  ConnectedHome: S.optional(ConnectedHomeSettings),
-}) {}
-export class DescribeStreamProcessorResponse extends S.Class<DescribeStreamProcessorResponse>(
-  "DescribeStreamProcessorResponse",
-)({
-  Name: S.optional(S.String),
-  StreamProcessorArn: S.optional(S.String),
-  Status: S.optional(S.String),
-  StatusMessage: S.optional(S.String),
-  CreationTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  LastUpdateTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  Input: S.optional(StreamProcessorInput),
-  Output: S.optional(StreamProcessorOutput),
-  RoleArn: S.optional(S.String),
-  Settings: S.optional(StreamProcessorSettings),
-  NotificationChannel: S.optional(StreamProcessorNotificationChannel),
-  KmsKeyId: S.optional(S.String),
-  RegionsOfInterest: S.optional(RegionsOfInterest),
-  DataSharingPreference: S.optional(StreamProcessorDataSharingPreference),
-}) {}
-export class DetectProtectiveEquipmentRequest extends S.Class<DetectProtectiveEquipmentRequest>(
-  "DetectProtectiveEquipmentRequest",
-)(
-  {
+).annotations({
+  identifier: "CopyProjectVersionRequest",
+}) as any as S.Schema<CopyProjectVersionRequest>;
+export interface CreateCollectionResponse {
+  StatusCode?: number;
+  CollectionArn?: string;
+  FaceModelVersion?: string;
+}
+export const CreateCollectionResponse = S.suspend(() =>
+  S.Struct({
+    StatusCode: S.optional(S.Number),
+    CollectionArn: S.optional(S.String),
+    FaceModelVersion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CreateCollectionResponse",
+}) as any as S.Schema<CreateCollectionResponse>;
+export interface CreateProjectResponse {
+  ProjectArn?: string;
+}
+export const CreateProjectResponse = S.suspend(() =>
+  S.Struct({ ProjectArn: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateProjectResponse",
+}) as any as S.Schema<CreateProjectResponse>;
+export interface DeleteCollectionResponse {
+  StatusCode?: number;
+}
+export const DeleteCollectionResponse = S.suspend(() =>
+  S.Struct({ StatusCode: S.optional(S.Number) }),
+).annotations({
+  identifier: "DeleteCollectionResponse",
+}) as any as S.Schema<DeleteCollectionResponse>;
+export interface DeleteProjectResponse {
+  Status?: string;
+}
+export const DeleteProjectResponse = S.suspend(() =>
+  S.Struct({ Status: S.optional(S.String) }),
+).annotations({
+  identifier: "DeleteProjectResponse",
+}) as any as S.Schema<DeleteProjectResponse>;
+export interface DeleteProjectVersionResponse {
+  Status?: string;
+}
+export const DeleteProjectVersionResponse = S.suspend(() =>
+  S.Struct({ Status: S.optional(S.String) }),
+).annotations({
+  identifier: "DeleteProjectVersionResponse",
+}) as any as S.Schema<DeleteProjectVersionResponse>;
+export interface DescribeCollectionResponse {
+  FaceCount?: number;
+  FaceModelVersion?: string;
+  CollectionARN?: string;
+  CreationTimestamp?: Date;
+  UserCount?: number;
+}
+export const DescribeCollectionResponse = S.suspend(() =>
+  S.Struct({
+    FaceCount: S.optional(S.Number),
+    FaceModelVersion: S.optional(S.String),
+    CollectionARN: S.optional(S.String),
+    CreationTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    UserCount: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "DescribeCollectionResponse",
+}) as any as S.Schema<DescribeCollectionResponse>;
+export interface KinesisVideoStream {
+  Arn?: string;
+}
+export const KinesisVideoStream = S.suspend(() =>
+  S.Struct({ Arn: S.optional(S.String) }),
+).annotations({
+  identifier: "KinesisVideoStream",
+}) as any as S.Schema<KinesisVideoStream>;
+export interface StreamProcessorInput {
+  KinesisVideoStream?: KinesisVideoStream;
+}
+export const StreamProcessorInput = S.suspend(() =>
+  S.Struct({ KinesisVideoStream: S.optional(KinesisVideoStream) }),
+).annotations({
+  identifier: "StreamProcessorInput",
+}) as any as S.Schema<StreamProcessorInput>;
+export interface KinesisDataStream {
+  Arn?: string;
+}
+export const KinesisDataStream = S.suspend(() =>
+  S.Struct({ Arn: S.optional(S.String) }),
+).annotations({
+  identifier: "KinesisDataStream",
+}) as any as S.Schema<KinesisDataStream>;
+export interface S3Destination {
+  Bucket?: string;
+  KeyPrefix?: string;
+}
+export const S3Destination = S.suspend(() =>
+  S.Struct({ Bucket: S.optional(S.String), KeyPrefix: S.optional(S.String) }),
+).annotations({
+  identifier: "S3Destination",
+}) as any as S.Schema<S3Destination>;
+export interface StreamProcessorOutput {
+  KinesisDataStream?: KinesisDataStream;
+  S3Destination?: S3Destination;
+}
+export const StreamProcessorOutput = S.suspend(() =>
+  S.Struct({
+    KinesisDataStream: S.optional(KinesisDataStream),
+    S3Destination: S.optional(S3Destination),
+  }),
+).annotations({
+  identifier: "StreamProcessorOutput",
+}) as any as S.Schema<StreamProcessorOutput>;
+export interface FaceSearchSettings {
+  CollectionId?: string;
+  FaceMatchThreshold?: number;
+}
+export const FaceSearchSettings = S.suspend(() =>
+  S.Struct({
+    CollectionId: S.optional(S.String),
+    FaceMatchThreshold: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "FaceSearchSettings",
+}) as any as S.Schema<FaceSearchSettings>;
+export interface ConnectedHomeSettings {
+  Labels: ConnectedHomeLabels;
+  MinConfidence?: number;
+}
+export const ConnectedHomeSettings = S.suspend(() =>
+  S.Struct({
+    Labels: ConnectedHomeLabels,
+    MinConfidence: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "ConnectedHomeSettings",
+}) as any as S.Schema<ConnectedHomeSettings>;
+export interface StreamProcessorSettings {
+  FaceSearch?: FaceSearchSettings;
+  ConnectedHome?: ConnectedHomeSettings;
+}
+export const StreamProcessorSettings = S.suspend(() =>
+  S.Struct({
+    FaceSearch: S.optional(FaceSearchSettings),
+    ConnectedHome: S.optional(ConnectedHomeSettings),
+  }),
+).annotations({
+  identifier: "StreamProcessorSettings",
+}) as any as S.Schema<StreamProcessorSettings>;
+export interface DescribeStreamProcessorResponse {
+  Name?: string;
+  StreamProcessorArn?: string;
+  Status?: string;
+  StatusMessage?: string;
+  CreationTimestamp?: Date;
+  LastUpdateTimestamp?: Date;
+  Input?: StreamProcessorInput;
+  Output?: StreamProcessorOutput;
+  RoleArn?: string;
+  Settings?: StreamProcessorSettings;
+  NotificationChannel?: StreamProcessorNotificationChannel;
+  KmsKeyId?: string;
+  RegionsOfInterest?: RegionsOfInterest;
+  DataSharingPreference?: StreamProcessorDataSharingPreference;
+}
+export const DescribeStreamProcessorResponse = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    StreamProcessorArn: S.optional(S.String),
+    Status: S.optional(S.String),
+    StatusMessage: S.optional(S.String),
+    CreationTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastUpdateTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    Input: S.optional(StreamProcessorInput),
+    Output: S.optional(StreamProcessorOutput),
+    RoleArn: S.optional(S.String),
+    Settings: S.optional(StreamProcessorSettings),
+    NotificationChannel: S.optional(StreamProcessorNotificationChannel),
+    KmsKeyId: S.optional(S.String),
+    RegionsOfInterest: S.optional(RegionsOfInterest),
+    DataSharingPreference: S.optional(StreamProcessorDataSharingPreference),
+  }),
+).annotations({
+  identifier: "DescribeStreamProcessorResponse",
+}) as any as S.Schema<DescribeStreamProcessorResponse>;
+export interface DetectProtectiveEquipmentRequest {
+  Image: Image;
+  SummarizationAttributes?: ProtectiveEquipmentSummarizationAttributes;
+}
+export const DetectProtectiveEquipmentRequest = S.suspend(() =>
+  S.Struct({
     Image: Image,
     SummarizationAttributes: S.optional(
       ProtectiveEquipmentSummarizationAttributes,
     ),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DistributeDatasetEntriesRequest extends S.Class<DistributeDatasetEntriesRequest>(
-  "DistributeDatasetEntriesRequest",
-)(
-  { Datasets: DistributeDatasetMetadataList },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DistributeDatasetEntriesResponse extends S.Class<DistributeDatasetEntriesResponse>(
-  "DistributeDatasetEntriesResponse",
-)({}) {}
-export class ListCollectionsResponse extends S.Class<ListCollectionsResponse>(
-  "ListCollectionsResponse",
-)({
-  CollectionIds: S.optional(CollectionIdList),
-  NextToken: S.optional(S.String),
-  FaceModelVersions: S.optional(FaceModelVersionList),
-}) {}
-export class ListDatasetEntriesResponse extends S.Class<ListDatasetEntriesResponse>(
-  "ListDatasetEntriesResponse",
-)({
-  DatasetEntries: S.optional(DatasetEntries),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ Tags: S.optional(TagMap) }) {}
-export class PutProjectPolicyResponse extends S.Class<PutProjectPolicyResponse>(
-  "PutProjectPolicyResponse",
-)({ PolicyRevisionId: S.optional(S.String) }) {}
-export class Face extends S.Class<Face>("Face")({
-  FaceId: S.optional(S.String),
-  BoundingBox: S.optional(BoundingBox),
-  ImageId: S.optional(S.String),
-  ExternalImageId: S.optional(S.String),
-  Confidence: S.optional(S.Number),
-  IndexFacesModelVersion: S.optional(S.String),
-  UserId: S.optional(S.String),
-}) {}
-export class FaceMatch extends S.Class<FaceMatch>("FaceMatch")({
-  Similarity: S.optional(S.Number),
-  Face: S.optional(Face),
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DetectProtectiveEquipmentRequest",
+}) as any as S.Schema<DetectProtectiveEquipmentRequest>;
+export interface DistributeDatasetEntriesRequest {
+  Datasets: DistributeDatasetMetadataList;
+}
+export const DistributeDatasetEntriesRequest = S.suspend(() =>
+  S.Struct({ Datasets: DistributeDatasetMetadataList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DistributeDatasetEntriesRequest",
+}) as any as S.Schema<DistributeDatasetEntriesRequest>;
+export interface DistributeDatasetEntriesResponse {}
+export const DistributeDatasetEntriesResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DistributeDatasetEntriesResponse",
+}) as any as S.Schema<DistributeDatasetEntriesResponse>;
+export interface ListCollectionsResponse {
+  CollectionIds?: CollectionIdList;
+  NextToken?: string;
+  FaceModelVersions?: FaceModelVersionList;
+}
+export const ListCollectionsResponse = S.suspend(() =>
+  S.Struct({
+    CollectionIds: S.optional(CollectionIdList),
+    NextToken: S.optional(S.String),
+    FaceModelVersions: S.optional(FaceModelVersionList),
+  }),
+).annotations({
+  identifier: "ListCollectionsResponse",
+}) as any as S.Schema<ListCollectionsResponse>;
+export interface ListDatasetEntriesResponse {
+  DatasetEntries?: DatasetEntries;
+  NextToken?: string;
+}
+export const ListDatasetEntriesResponse = S.suspend(() =>
+  S.Struct({
+    DatasetEntries: S.optional(DatasetEntries),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListDatasetEntriesResponse",
+}) as any as S.Schema<ListDatasetEntriesResponse>;
+export interface ListTagsForResourceResponse {
+  Tags?: TagMap;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ Tags: S.optional(TagMap) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface PutProjectPolicyResponse {
+  PolicyRevisionId?: string;
+}
+export const PutProjectPolicyResponse = S.suspend(() =>
+  S.Struct({ PolicyRevisionId: S.optional(S.String) }),
+).annotations({
+  identifier: "PutProjectPolicyResponse",
+}) as any as S.Schema<PutProjectPolicyResponse>;
+export interface Face {
+  FaceId?: string;
+  BoundingBox?: BoundingBox;
+  ImageId?: string;
+  ExternalImageId?: string;
+  Confidence?: number;
+  IndexFacesModelVersion?: string;
+  UserId?: string;
+}
+export const Face = S.suspend(() =>
+  S.Struct({
+    FaceId: S.optional(S.String),
+    BoundingBox: S.optional(BoundingBox),
+    ImageId: S.optional(S.String),
+    ExternalImageId: S.optional(S.String),
+    Confidence: S.optional(S.Number),
+    IndexFacesModelVersion: S.optional(S.String),
+    UserId: S.optional(S.String),
+  }),
+).annotations({ identifier: "Face" }) as any as S.Schema<Face>;
+export interface FaceMatch {
+  Similarity?: number;
+  Face?: Face;
+}
+export const FaceMatch = S.suspend(() =>
+  S.Struct({ Similarity: S.optional(S.Number), Face: S.optional(Face) }),
+).annotations({ identifier: "FaceMatch" }) as any as S.Schema<FaceMatch>;
+export type FaceMatchList = FaceMatch[];
 export const FaceMatchList = S.Array(FaceMatch);
-export class SearchFacesByImageResponse extends S.Class<SearchFacesByImageResponse>(
-  "SearchFacesByImageResponse",
-)({
-  SearchedFaceBoundingBox: S.optional(BoundingBox),
-  SearchedFaceConfidence: S.optional(S.Number),
-  FaceMatches: S.optional(FaceMatchList),
-  FaceModelVersion: S.optional(S.String),
-}) {}
-export class StartCelebrityRecognitionRequest extends S.Class<StartCelebrityRecognitionRequest>(
-  "StartCelebrityRecognitionRequest",
-)(
-  {
+export interface SearchFacesByImageResponse {
+  SearchedFaceBoundingBox?: BoundingBox;
+  SearchedFaceConfidence?: number;
+  FaceMatches?: FaceMatchList;
+  FaceModelVersion?: string;
+}
+export const SearchFacesByImageResponse = S.suspend(() =>
+  S.Struct({
+    SearchedFaceBoundingBox: S.optional(BoundingBox),
+    SearchedFaceConfidence: S.optional(S.Number),
+    FaceMatches: S.optional(FaceMatchList),
+    FaceModelVersion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SearchFacesByImageResponse",
+}) as any as S.Schema<SearchFacesByImageResponse>;
+export interface StartCelebrityRecognitionRequest {
+  Video: Video;
+  ClientRequestToken?: string;
+  NotificationChannel?: NotificationChannel;
+  JobTag?: string;
+}
+export const StartCelebrityRecognitionRequest = S.suspend(() =>
+  S.Struct({
     Video: Video,
     ClientRequestToken: S.optional(S.String),
     NotificationChannel: S.optional(NotificationChannel),
     JobTag: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StartContentModerationResponse extends S.Class<StartContentModerationResponse>(
-  "StartContentModerationResponse",
-)({ JobId: S.optional(S.String) }) {}
-export class StartFaceDetectionResponse extends S.Class<StartFaceDetectionResponse>(
-  "StartFaceDetectionResponse",
-)({ JobId: S.optional(S.String) }) {}
-export class StartFaceSearchResponse extends S.Class<StartFaceSearchResponse>(
-  "StartFaceSearchResponse",
-)({ JobId: S.optional(S.String) }) {}
-export class StartLabelDetectionRequest extends S.Class<StartLabelDetectionRequest>(
-  "StartLabelDetectionRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StartCelebrityRecognitionRequest",
+}) as any as S.Schema<StartCelebrityRecognitionRequest>;
+export interface StartContentModerationResponse {
+  JobId?: string;
+}
+export const StartContentModerationResponse = S.suspend(() =>
+  S.Struct({ JobId: S.optional(S.String) }),
+).annotations({
+  identifier: "StartContentModerationResponse",
+}) as any as S.Schema<StartContentModerationResponse>;
+export interface StartFaceDetectionResponse {
+  JobId?: string;
+}
+export const StartFaceDetectionResponse = S.suspend(() =>
+  S.Struct({ JobId: S.optional(S.String) }),
+).annotations({
+  identifier: "StartFaceDetectionResponse",
+}) as any as S.Schema<StartFaceDetectionResponse>;
+export interface StartFaceSearchResponse {
+  JobId?: string;
+}
+export const StartFaceSearchResponse = S.suspend(() =>
+  S.Struct({ JobId: S.optional(S.String) }),
+).annotations({
+  identifier: "StartFaceSearchResponse",
+}) as any as S.Schema<StartFaceSearchResponse>;
+export interface StartLabelDetectionRequest {
+  Video: Video;
+  ClientRequestToken?: string;
+  MinConfidence?: number;
+  NotificationChannel?: NotificationChannel;
+  JobTag?: string;
+  Features?: LabelDetectionFeatureList;
+  Settings?: LabelDetectionSettings;
+}
+export const StartLabelDetectionRequest = S.suspend(() =>
+  S.Struct({
     Video: Video,
     ClientRequestToken: S.optional(S.String),
     MinConfidence: S.optional(S.Number),
@@ -1099,424 +1828,907 @@ export class StartLabelDetectionRequest extends S.Class<StartLabelDetectionReque
     JobTag: S.optional(S.String),
     Features: S.optional(LabelDetectionFeatureList),
     Settings: S.optional(LabelDetectionSettings),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StartPersonTrackingResponse extends S.Class<StartPersonTrackingResponse>(
-  "StartPersonTrackingResponse",
-)({ JobId: S.optional(S.String) }) {}
-export class StartProjectVersionResponse extends S.Class<StartProjectVersionResponse>(
-  "StartProjectVersionResponse",
-)({ Status: S.optional(S.String) }) {}
-export class StartTextDetectionRequest extends S.Class<StartTextDetectionRequest>(
-  "StartTextDetectionRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StartLabelDetectionRequest",
+}) as any as S.Schema<StartLabelDetectionRequest>;
+export interface StartPersonTrackingResponse {
+  JobId?: string;
+}
+export const StartPersonTrackingResponse = S.suspend(() =>
+  S.Struct({ JobId: S.optional(S.String) }),
+).annotations({
+  identifier: "StartPersonTrackingResponse",
+}) as any as S.Schema<StartPersonTrackingResponse>;
+export interface StartProjectVersionResponse {
+  Status?: string;
+}
+export const StartProjectVersionResponse = S.suspend(() =>
+  S.Struct({ Status: S.optional(S.String) }),
+).annotations({
+  identifier: "StartProjectVersionResponse",
+}) as any as S.Schema<StartProjectVersionResponse>;
+export interface StartTextDetectionRequest {
+  Video: Video;
+  ClientRequestToken?: string;
+  NotificationChannel?: NotificationChannel;
+  JobTag?: string;
+  Filters?: StartTextDetectionFilters;
+}
+export const StartTextDetectionRequest = S.suspend(() =>
+  S.Struct({
     Video: Video,
     ClientRequestToken: S.optional(S.String),
     NotificationChannel: S.optional(NotificationChannel),
     JobTag: S.optional(S.String),
     Filters: S.optional(StartTextDetectionFilters),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StopProjectVersionResponse extends S.Class<StopProjectVersionResponse>(
-  "StopProjectVersionResponse",
-)({ Status: S.optional(S.String) }) {}
-export class UpdateDatasetEntriesRequest extends S.Class<UpdateDatasetEntriesRequest>(
-  "UpdateDatasetEntriesRequest",
-)(
-  { DatasetArn: S.String, Changes: DatasetChanges },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateDatasetEntriesResponse extends S.Class<UpdateDatasetEntriesResponse>(
-  "UpdateDatasetEntriesResponse",
-)({}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StartTextDetectionRequest",
+}) as any as S.Schema<StartTextDetectionRequest>;
+export interface StopProjectVersionResponse {
+  Status?: string;
+}
+export const StopProjectVersionResponse = S.suspend(() =>
+  S.Struct({ Status: S.optional(S.String) }),
+).annotations({
+  identifier: "StopProjectVersionResponse",
+}) as any as S.Schema<StopProjectVersionResponse>;
+export interface UpdateDatasetEntriesRequest {
+  DatasetArn: string;
+  Changes: DatasetChanges;
+}
+export const UpdateDatasetEntriesRequest = S.suspend(() =>
+  S.Struct({ DatasetArn: S.String, Changes: DatasetChanges }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateDatasetEntriesRequest",
+}) as any as S.Schema<UpdateDatasetEntriesRequest>;
+export interface UpdateDatasetEntriesResponse {}
+export const UpdateDatasetEntriesResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateDatasetEntriesResponse",
+}) as any as S.Schema<UpdateDatasetEntriesResponse>;
+export type UnsuccessfulFaceAssociationReasons = string[];
 export const UnsuccessfulFaceAssociationReasons = S.Array(S.String);
-export class LivenessOutputConfig extends S.Class<LivenessOutputConfig>(
-  "LivenessOutputConfig",
-)({ S3Bucket: S.String, S3KeyPrefix: S.optional(S.String) }) {}
-export class CustomizationFeatureContentModerationConfig extends S.Class<CustomizationFeatureContentModerationConfig>(
-  "CustomizationFeatureContentModerationConfig",
-)({ ConfidenceThreshold: S.optional(S.Number) }) {}
+export interface LivenessOutputConfig {
+  S3Bucket: string;
+  S3KeyPrefix?: string;
+}
+export const LivenessOutputConfig = S.suspend(() =>
+  S.Struct({ S3Bucket: S.String, S3KeyPrefix: S.optional(S.String) }),
+).annotations({
+  identifier: "LivenessOutputConfig",
+}) as any as S.Schema<LivenessOutputConfig>;
+export interface CustomizationFeatureContentModerationConfig {
+  ConfidenceThreshold?: number;
+}
+export const CustomizationFeatureContentModerationConfig = S.suspend(() =>
+  S.Struct({ ConfidenceThreshold: S.optional(S.Number) }),
+).annotations({
+  identifier: "CustomizationFeatureContentModerationConfig",
+}) as any as S.Schema<CustomizationFeatureContentModerationConfig>;
+export type UnsuccessfulFaceDeletionReasons = string[];
 export const UnsuccessfulFaceDeletionReasons = S.Array(S.String);
-export class DetectLabelsImagePropertiesSettings extends S.Class<DetectLabelsImagePropertiesSettings>(
-  "DetectLabelsImagePropertiesSettings",
-)({ MaxDominantColors: S.optional(S.Number) }) {}
-export class HumanLoopDataAttributes extends S.Class<HumanLoopDataAttributes>(
-  "HumanLoopDataAttributes",
-)({ ContentClassifiers: S.optional(ContentClassifiers) }) {}
+export interface DetectLabelsImagePropertiesSettings {
+  MaxDominantColors?: number;
+}
+export const DetectLabelsImagePropertiesSettings = S.suspend(() =>
+  S.Struct({ MaxDominantColors: S.optional(S.Number) }),
+).annotations({
+  identifier: "DetectLabelsImagePropertiesSettings",
+}) as any as S.Schema<DetectLabelsImagePropertiesSettings>;
+export interface HumanLoopDataAttributes {
+  ContentClassifiers?: ContentClassifiers;
+}
+export const HumanLoopDataAttributes = S.suspend(() =>
+  S.Struct({ ContentClassifiers: S.optional(ContentClassifiers) }),
+).annotations({
+  identifier: "HumanLoopDataAttributes",
+}) as any as S.Schema<HumanLoopDataAttributes>;
+export type UnsuccessfulFaceDisassociationReasons = string[];
 export const UnsuccessfulFaceDisassociationReasons = S.Array(S.String);
+export type Reasons = string[];
 export const Reasons = S.Array(S.String);
+export type UnsearchedFaceReasons = string[];
 export const UnsearchedFaceReasons = S.Array(S.String);
-export class MediaAnalysisDetectModerationLabelsConfig extends S.Class<MediaAnalysisDetectModerationLabelsConfig>(
-  "MediaAnalysisDetectModerationLabelsConfig",
-)({
-  MinConfidence: S.optional(S.Number),
-  ProjectVersion: S.optional(S.String),
-}) {}
-export class StartShotDetectionFilter extends S.Class<StartShotDetectionFilter>(
-  "StartShotDetectionFilter",
-)({ MinSegmentConfidence: S.optional(S.Number) }) {}
-export class KinesisVideoStreamStartSelector extends S.Class<KinesisVideoStreamStartSelector>(
-  "KinesisVideoStreamStartSelector",
-)({
-  ProducerTimestamp: S.optional(S.Number),
-  FragmentNumber: S.optional(S.String),
-}) {}
-export class ConnectedHomeSettingsForUpdate extends S.Class<ConnectedHomeSettingsForUpdate>(
-  "ConnectedHomeSettingsForUpdate",
-)({
-  Labels: S.optional(ConnectedHomeLabels),
-  MinConfidence: S.optional(S.Number),
-}) {}
-export class AssociatedFace extends S.Class<AssociatedFace>("AssociatedFace")({
-  FaceId: S.optional(S.String),
-}) {}
+export interface MediaAnalysisDetectModerationLabelsConfig {
+  MinConfidence?: number;
+  ProjectVersion?: string;
+}
+export const MediaAnalysisDetectModerationLabelsConfig = S.suspend(() =>
+  S.Struct({
+    MinConfidence: S.optional(S.Number),
+    ProjectVersion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "MediaAnalysisDetectModerationLabelsConfig",
+}) as any as S.Schema<MediaAnalysisDetectModerationLabelsConfig>;
+export interface StartShotDetectionFilter {
+  MinSegmentConfidence?: number;
+}
+export const StartShotDetectionFilter = S.suspend(() =>
+  S.Struct({ MinSegmentConfidence: S.optional(S.Number) }),
+).annotations({
+  identifier: "StartShotDetectionFilter",
+}) as any as S.Schema<StartShotDetectionFilter>;
+export interface KinesisVideoStreamStartSelector {
+  ProducerTimestamp?: number;
+  FragmentNumber?: string;
+}
+export const KinesisVideoStreamStartSelector = S.suspend(() =>
+  S.Struct({
+    ProducerTimestamp: S.optional(S.Number),
+    FragmentNumber: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "KinesisVideoStreamStartSelector",
+}) as any as S.Schema<KinesisVideoStreamStartSelector>;
+export interface ConnectedHomeSettingsForUpdate {
+  Labels?: ConnectedHomeLabels;
+  MinConfidence?: number;
+}
+export const ConnectedHomeSettingsForUpdate = S.suspend(() =>
+  S.Struct({
+    Labels: S.optional(ConnectedHomeLabels),
+    MinConfidence: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "ConnectedHomeSettingsForUpdate",
+}) as any as S.Schema<ConnectedHomeSettingsForUpdate>;
+export interface AssociatedFace {
+  FaceId?: string;
+}
+export const AssociatedFace = S.suspend(() =>
+  S.Struct({ FaceId: S.optional(S.String) }),
+).annotations({
+  identifier: "AssociatedFace",
+}) as any as S.Schema<AssociatedFace>;
+export type AssociatedFacesList = AssociatedFace[];
 export const AssociatedFacesList = S.Array(AssociatedFace);
-export class UnsuccessfulFaceAssociation extends S.Class<UnsuccessfulFaceAssociation>(
-  "UnsuccessfulFaceAssociation",
-)({
-  FaceId: S.optional(S.String),
-  UserId: S.optional(S.String),
-  Confidence: S.optional(S.Number),
-  Reasons: S.optional(UnsuccessfulFaceAssociationReasons),
-}) {}
+export interface UnsuccessfulFaceAssociation {
+  FaceId?: string;
+  UserId?: string;
+  Confidence?: number;
+  Reasons?: UnsuccessfulFaceAssociationReasons;
+}
+export const UnsuccessfulFaceAssociation = S.suspend(() =>
+  S.Struct({
+    FaceId: S.optional(S.String),
+    UserId: S.optional(S.String),
+    Confidence: S.optional(S.Number),
+    Reasons: S.optional(UnsuccessfulFaceAssociationReasons),
+  }),
+).annotations({
+  identifier: "UnsuccessfulFaceAssociation",
+}) as any as S.Schema<UnsuccessfulFaceAssociation>;
+export type UnsuccessfulFaceAssociationList = UnsuccessfulFaceAssociation[];
 export const UnsuccessfulFaceAssociationList = S.Array(
   UnsuccessfulFaceAssociation,
 );
-export class DatasetSource extends S.Class<DatasetSource>("DatasetSource")({
-  GroundTruthManifest: S.optional(GroundTruthManifest),
-  DatasetArn: S.optional(S.String),
-}) {}
-export class TrainingData extends S.Class<TrainingData>("TrainingData")({
-  Assets: S.optional(Assets),
-}) {}
-export class CustomizationFeatureConfig extends S.Class<CustomizationFeatureConfig>(
-  "CustomizationFeatureConfig",
-)({
-  ContentModeration: S.optional(CustomizationFeatureContentModerationConfig),
-}) {}
-export class UnsuccessfulFaceDeletion extends S.Class<UnsuccessfulFaceDeletion>(
-  "UnsuccessfulFaceDeletion",
-)({
-  FaceId: S.optional(S.String),
-  UserId: S.optional(S.String),
-  Reasons: S.optional(UnsuccessfulFaceDeletionReasons),
-}) {}
+export interface DatasetSource {
+  GroundTruthManifest?: GroundTruthManifest;
+  DatasetArn?: string;
+}
+export const DatasetSource = S.suspend(() =>
+  S.Struct({
+    GroundTruthManifest: S.optional(GroundTruthManifest),
+    DatasetArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DatasetSource",
+}) as any as S.Schema<DatasetSource>;
+export interface TrainingData {
+  Assets?: Assets;
+}
+export const TrainingData = S.suspend(() =>
+  S.Struct({ Assets: S.optional(Assets) }),
+).annotations({ identifier: "TrainingData" }) as any as S.Schema<TrainingData>;
+export interface CustomizationFeatureConfig {
+  ContentModeration?: CustomizationFeatureContentModerationConfig;
+}
+export const CustomizationFeatureConfig = S.suspend(() =>
+  S.Struct({
+    ContentModeration: S.optional(CustomizationFeatureContentModerationConfig),
+  }),
+).annotations({
+  identifier: "CustomizationFeatureConfig",
+}) as any as S.Schema<CustomizationFeatureConfig>;
+export interface UnsuccessfulFaceDeletion {
+  FaceId?: string;
+  UserId?: string;
+  Reasons?: UnsuccessfulFaceDeletionReasons;
+}
+export const UnsuccessfulFaceDeletion = S.suspend(() =>
+  S.Struct({
+    FaceId: S.optional(S.String),
+    UserId: S.optional(S.String),
+    Reasons: S.optional(UnsuccessfulFaceDeletionReasons),
+  }),
+).annotations({
+  identifier: "UnsuccessfulFaceDeletion",
+}) as any as S.Schema<UnsuccessfulFaceDeletion>;
+export type UnsuccessfulFaceDeletionsList = UnsuccessfulFaceDeletion[];
 export const UnsuccessfulFaceDeletionsList = S.Array(UnsuccessfulFaceDeletion);
-export class DetectLabelsSettings extends S.Class<DetectLabelsSettings>(
-  "DetectLabelsSettings",
-)({
-  GeneralLabels: S.optional(GeneralLabelsSettings),
-  ImageProperties: S.optional(DetectLabelsImagePropertiesSettings),
-}) {}
-export class HumanLoopConfig extends S.Class<HumanLoopConfig>(
-  "HumanLoopConfig",
-)({
-  HumanLoopName: S.String,
-  FlowDefinitionArn: S.String,
-  DataAttributes: S.optional(HumanLoopDataAttributes),
-}) {}
-export class DetectTextFilters extends S.Class<DetectTextFilters>(
-  "DetectTextFilters",
-)({
-  WordFilter: S.optional(DetectionFilter),
-  RegionsOfInterest: S.optional(RegionsOfInterest),
-}) {}
-export class DisassociatedFace extends S.Class<DisassociatedFace>(
-  "DisassociatedFace",
-)({ FaceId: S.optional(S.String) }) {}
+export interface DetectLabelsSettings {
+  GeneralLabels?: GeneralLabelsSettings;
+  ImageProperties?: DetectLabelsImagePropertiesSettings;
+}
+export const DetectLabelsSettings = S.suspend(() =>
+  S.Struct({
+    GeneralLabels: S.optional(GeneralLabelsSettings),
+    ImageProperties: S.optional(DetectLabelsImagePropertiesSettings),
+  }),
+).annotations({
+  identifier: "DetectLabelsSettings",
+}) as any as S.Schema<DetectLabelsSettings>;
+export interface HumanLoopConfig {
+  HumanLoopName: string;
+  FlowDefinitionArn: string;
+  DataAttributes?: HumanLoopDataAttributes;
+}
+export const HumanLoopConfig = S.suspend(() =>
+  S.Struct({
+    HumanLoopName: S.String,
+    FlowDefinitionArn: S.String,
+    DataAttributes: S.optional(HumanLoopDataAttributes),
+  }),
+).annotations({
+  identifier: "HumanLoopConfig",
+}) as any as S.Schema<HumanLoopConfig>;
+export interface DetectTextFilters {
+  WordFilter?: DetectionFilter;
+  RegionsOfInterest?: RegionsOfInterest;
+}
+export const DetectTextFilters = S.suspend(() =>
+  S.Struct({
+    WordFilter: S.optional(DetectionFilter),
+    RegionsOfInterest: S.optional(RegionsOfInterest),
+  }),
+).annotations({
+  identifier: "DetectTextFilters",
+}) as any as S.Schema<DetectTextFilters>;
+export interface DisassociatedFace {
+  FaceId?: string;
+}
+export const DisassociatedFace = S.suspend(() =>
+  S.Struct({ FaceId: S.optional(S.String) }),
+).annotations({
+  identifier: "DisassociatedFace",
+}) as any as S.Schema<DisassociatedFace>;
+export type DisassociatedFacesList = DisassociatedFace[];
 export const DisassociatedFacesList = S.Array(DisassociatedFace);
-export class UnsuccessfulFaceDisassociation extends S.Class<UnsuccessfulFaceDisassociation>(
-  "UnsuccessfulFaceDisassociation",
-)({
-  FaceId: S.optional(S.String),
-  UserId: S.optional(S.String),
-  Reasons: S.optional(UnsuccessfulFaceDisassociationReasons),
-}) {}
+export interface UnsuccessfulFaceDisassociation {
+  FaceId?: string;
+  UserId?: string;
+  Reasons?: UnsuccessfulFaceDisassociationReasons;
+}
+export const UnsuccessfulFaceDisassociation = S.suspend(() =>
+  S.Struct({
+    FaceId: S.optional(S.String),
+    UserId: S.optional(S.String),
+    Reasons: S.optional(UnsuccessfulFaceDisassociationReasons),
+  }),
+).annotations({
+  identifier: "UnsuccessfulFaceDisassociation",
+}) as any as S.Schema<UnsuccessfulFaceDisassociation>;
+export type UnsuccessfulFaceDisassociationList =
+  UnsuccessfulFaceDisassociation[];
 export const UnsuccessfulFaceDisassociationList = S.Array(
   UnsuccessfulFaceDisassociation,
 );
-export class KnownGender extends S.Class<KnownGender>("KnownGender")({
-  Type: S.optional(S.String),
-}) {}
-export class GetContentModerationRequestMetadata extends S.Class<GetContentModerationRequestMetadata>(
-  "GetContentModerationRequestMetadata",
-)({ SortBy: S.optional(S.String), AggregateBy: S.optional(S.String) }) {}
-export class AgeRange extends S.Class<AgeRange>("AgeRange")({
-  Low: S.optional(S.Number),
-  High: S.optional(S.Number),
-}) {}
-export class Smile extends S.Class<Smile>("Smile")({
-  Value: S.optional(S.Boolean),
-  Confidence: S.optional(S.Number),
-}) {}
-export class Eyeglasses extends S.Class<Eyeglasses>("Eyeglasses")({
-  Value: S.optional(S.Boolean),
-  Confidence: S.optional(S.Number),
-}) {}
-export class Sunglasses extends S.Class<Sunglasses>("Sunglasses")({
-  Value: S.optional(S.Boolean),
-  Confidence: S.optional(S.Number),
-}) {}
-export class Gender extends S.Class<Gender>("Gender")({
-  Value: S.optional(S.String),
-  Confidence: S.optional(S.Number),
-}) {}
-export class Beard extends S.Class<Beard>("Beard")({
-  Value: S.optional(S.Boolean),
-  Confidence: S.optional(S.Number),
-}) {}
-export class Mustache extends S.Class<Mustache>("Mustache")({
-  Value: S.optional(S.Boolean),
-  Confidence: S.optional(S.Number),
-}) {}
-export class EyeOpen extends S.Class<EyeOpen>("EyeOpen")({
-  Value: S.optional(S.Boolean),
-  Confidence: S.optional(S.Number),
-}) {}
-export class MouthOpen extends S.Class<MouthOpen>("MouthOpen")({
-  Value: S.optional(S.Boolean),
-  Confidence: S.optional(S.Number),
-}) {}
-export class Emotion extends S.Class<Emotion>("Emotion")({
-  Type: S.optional(S.String),
-  Confidence: S.optional(S.Number),
-}) {}
+export interface KnownGender {
+  Type?: string;
+}
+export const KnownGender = S.suspend(() =>
+  S.Struct({ Type: S.optional(S.String) }),
+).annotations({ identifier: "KnownGender" }) as any as S.Schema<KnownGender>;
+export interface GetContentModerationRequestMetadata {
+  SortBy?: string;
+  AggregateBy?: string;
+}
+export const GetContentModerationRequestMetadata = S.suspend(() =>
+  S.Struct({ SortBy: S.optional(S.String), AggregateBy: S.optional(S.String) }),
+).annotations({
+  identifier: "GetContentModerationRequestMetadata",
+}) as any as S.Schema<GetContentModerationRequestMetadata>;
+export interface AgeRange {
+  Low?: number;
+  High?: number;
+}
+export const AgeRange = S.suspend(() =>
+  S.Struct({ Low: S.optional(S.Number), High: S.optional(S.Number) }),
+).annotations({ identifier: "AgeRange" }) as any as S.Schema<AgeRange>;
+export interface Smile {
+  Value?: boolean;
+  Confidence?: number;
+}
+export const Smile = S.suspend(() =>
+  S.Struct({ Value: S.optional(S.Boolean), Confidence: S.optional(S.Number) }),
+).annotations({ identifier: "Smile" }) as any as S.Schema<Smile>;
+export interface Eyeglasses {
+  Value?: boolean;
+  Confidence?: number;
+}
+export const Eyeglasses = S.suspend(() =>
+  S.Struct({ Value: S.optional(S.Boolean), Confidence: S.optional(S.Number) }),
+).annotations({ identifier: "Eyeglasses" }) as any as S.Schema<Eyeglasses>;
+export interface Sunglasses {
+  Value?: boolean;
+  Confidence?: number;
+}
+export const Sunglasses = S.suspend(() =>
+  S.Struct({ Value: S.optional(S.Boolean), Confidence: S.optional(S.Number) }),
+).annotations({ identifier: "Sunglasses" }) as any as S.Schema<Sunglasses>;
+export interface Gender {
+  Value?: string;
+  Confidence?: number;
+}
+export const Gender = S.suspend(() =>
+  S.Struct({ Value: S.optional(S.String), Confidence: S.optional(S.Number) }),
+).annotations({ identifier: "Gender" }) as any as S.Schema<Gender>;
+export interface Beard {
+  Value?: boolean;
+  Confidence?: number;
+}
+export const Beard = S.suspend(() =>
+  S.Struct({ Value: S.optional(S.Boolean), Confidence: S.optional(S.Number) }),
+).annotations({ identifier: "Beard" }) as any as S.Schema<Beard>;
+export interface Mustache {
+  Value?: boolean;
+  Confidence?: number;
+}
+export const Mustache = S.suspend(() =>
+  S.Struct({ Value: S.optional(S.Boolean), Confidence: S.optional(S.Number) }),
+).annotations({ identifier: "Mustache" }) as any as S.Schema<Mustache>;
+export interface EyeOpen {
+  Value?: boolean;
+  Confidence?: number;
+}
+export const EyeOpen = S.suspend(() =>
+  S.Struct({ Value: S.optional(S.Boolean), Confidence: S.optional(S.Number) }),
+).annotations({ identifier: "EyeOpen" }) as any as S.Schema<EyeOpen>;
+export interface MouthOpen {
+  Value?: boolean;
+  Confidence?: number;
+}
+export const MouthOpen = S.suspend(() =>
+  S.Struct({ Value: S.optional(S.Boolean), Confidence: S.optional(S.Number) }),
+).annotations({ identifier: "MouthOpen" }) as any as S.Schema<MouthOpen>;
+export interface Emotion {
+  Type?: string;
+  Confidence?: number;
+}
+export const Emotion = S.suspend(() =>
+  S.Struct({ Type: S.optional(S.String), Confidence: S.optional(S.Number) }),
+).annotations({ identifier: "Emotion" }) as any as S.Schema<Emotion>;
+export type Emotions = Emotion[];
 export const Emotions = S.Array(Emotion);
-export class Landmark extends S.Class<Landmark>("Landmark")({
-  Type: S.optional(S.String),
-  X: S.optional(S.Number),
-  Y: S.optional(S.Number),
-}) {}
+export interface Landmark {
+  Type?: string;
+  X?: number;
+  Y?: number;
+}
+export const Landmark = S.suspend(() =>
+  S.Struct({
+    Type: S.optional(S.String),
+    X: S.optional(S.Number),
+    Y: S.optional(S.Number),
+  }),
+).annotations({ identifier: "Landmark" }) as any as S.Schema<Landmark>;
+export type Landmarks = Landmark[];
 export const Landmarks = S.Array(Landmark);
-export class Pose extends S.Class<Pose>("Pose")({
-  Roll: S.optional(S.Number),
-  Yaw: S.optional(S.Number),
-  Pitch: S.optional(S.Number),
-}) {}
-export class ImageQuality extends S.Class<ImageQuality>("ImageQuality")({
-  Brightness: S.optional(S.Number),
-  Sharpness: S.optional(S.Number),
-}) {}
-export class FaceOccluded extends S.Class<FaceOccluded>("FaceOccluded")({
-  Value: S.optional(S.Boolean),
-  Confidence: S.optional(S.Number),
-}) {}
-export class EyeDirection extends S.Class<EyeDirection>("EyeDirection")({
-  Yaw: S.optional(S.Number),
-  Pitch: S.optional(S.Number),
-  Confidence: S.optional(S.Number),
-}) {}
-export class FaceDetail extends S.Class<FaceDetail>("FaceDetail")({
-  BoundingBox: S.optional(BoundingBox),
-  AgeRange: S.optional(AgeRange),
-  Smile: S.optional(Smile),
-  Eyeglasses: S.optional(Eyeglasses),
-  Sunglasses: S.optional(Sunglasses),
-  Gender: S.optional(Gender),
-  Beard: S.optional(Beard),
-  Mustache: S.optional(Mustache),
-  EyesOpen: S.optional(EyeOpen),
-  MouthOpen: S.optional(MouthOpen),
-  Emotions: S.optional(Emotions),
-  Landmarks: S.optional(Landmarks),
-  Pose: S.optional(Pose),
-  Quality: S.optional(ImageQuality),
-  Confidence: S.optional(S.Number),
-  FaceOccluded: S.optional(FaceOccluded),
-  EyeDirection: S.optional(EyeDirection),
-}) {}
-export class FaceDetection extends S.Class<FaceDetection>("FaceDetection")({
-  Timestamp: S.optional(S.Number),
-  Face: S.optional(FaceDetail),
-}) {}
+export interface Pose {
+  Roll?: number;
+  Yaw?: number;
+  Pitch?: number;
+}
+export const Pose = S.suspend(() =>
+  S.Struct({
+    Roll: S.optional(S.Number),
+    Yaw: S.optional(S.Number),
+    Pitch: S.optional(S.Number),
+  }),
+).annotations({ identifier: "Pose" }) as any as S.Schema<Pose>;
+export interface ImageQuality {
+  Brightness?: number;
+  Sharpness?: number;
+}
+export const ImageQuality = S.suspend(() =>
+  S.Struct({
+    Brightness: S.optional(S.Number),
+    Sharpness: S.optional(S.Number),
+  }),
+).annotations({ identifier: "ImageQuality" }) as any as S.Schema<ImageQuality>;
+export interface FaceOccluded {
+  Value?: boolean;
+  Confidence?: number;
+}
+export const FaceOccluded = S.suspend(() =>
+  S.Struct({ Value: S.optional(S.Boolean), Confidence: S.optional(S.Number) }),
+).annotations({ identifier: "FaceOccluded" }) as any as S.Schema<FaceOccluded>;
+export interface EyeDirection {
+  Yaw?: number;
+  Pitch?: number;
+  Confidence?: number;
+}
+export const EyeDirection = S.suspend(() =>
+  S.Struct({
+    Yaw: S.optional(S.Number),
+    Pitch: S.optional(S.Number),
+    Confidence: S.optional(S.Number),
+  }),
+).annotations({ identifier: "EyeDirection" }) as any as S.Schema<EyeDirection>;
+export interface FaceDetail {
+  BoundingBox?: BoundingBox;
+  AgeRange?: AgeRange;
+  Smile?: Smile;
+  Eyeglasses?: Eyeglasses;
+  Sunglasses?: Sunglasses;
+  Gender?: Gender;
+  Beard?: Beard;
+  Mustache?: Mustache;
+  EyesOpen?: EyeOpen;
+  MouthOpen?: MouthOpen;
+  Emotions?: Emotions;
+  Landmarks?: Landmarks;
+  Pose?: Pose;
+  Quality?: ImageQuality;
+  Confidence?: number;
+  FaceOccluded?: FaceOccluded;
+  EyeDirection?: EyeDirection;
+}
+export const FaceDetail = S.suspend(() =>
+  S.Struct({
+    BoundingBox: S.optional(BoundingBox),
+    AgeRange: S.optional(AgeRange),
+    Smile: S.optional(Smile),
+    Eyeglasses: S.optional(Eyeglasses),
+    Sunglasses: S.optional(Sunglasses),
+    Gender: S.optional(Gender),
+    Beard: S.optional(Beard),
+    Mustache: S.optional(Mustache),
+    EyesOpen: S.optional(EyeOpen),
+    MouthOpen: S.optional(MouthOpen),
+    Emotions: S.optional(Emotions),
+    Landmarks: S.optional(Landmarks),
+    Pose: S.optional(Pose),
+    Quality: S.optional(ImageQuality),
+    Confidence: S.optional(S.Number),
+    FaceOccluded: S.optional(FaceOccluded),
+    EyeDirection: S.optional(EyeDirection),
+  }),
+).annotations({ identifier: "FaceDetail" }) as any as S.Schema<FaceDetail>;
+export interface FaceDetection {
+  Timestamp?: number;
+  Face?: FaceDetail;
+}
+export const FaceDetection = S.suspend(() =>
+  S.Struct({ Timestamp: S.optional(S.Number), Face: S.optional(FaceDetail) }),
+).annotations({
+  identifier: "FaceDetection",
+}) as any as S.Schema<FaceDetection>;
+export type FaceDetections = FaceDetection[];
 export const FaceDetections = S.Array(FaceDetection);
-export class Challenge extends S.Class<Challenge>("Challenge")({
-  Type: S.String,
-  Version: S.String,
-}) {}
-export class GetLabelDetectionRequestMetadata extends S.Class<GetLabelDetectionRequestMetadata>(
-  "GetLabelDetectionRequestMetadata",
-)({ SortBy: S.optional(S.String), AggregateBy: S.optional(S.String) }) {}
-export class MediaAnalysisJobFailureDetails extends S.Class<MediaAnalysisJobFailureDetails>(
-  "MediaAnalysisJobFailureDetails",
-)({ Code: S.optional(S.String), Message: S.optional(S.String) }) {}
-export class MediaAnalysisManifestSummary extends S.Class<MediaAnalysisManifestSummary>(
-  "MediaAnalysisManifestSummary",
-)({ S3Object: S.optional(S3Object) }) {}
-export class PersonDetail extends S.Class<PersonDetail>("PersonDetail")({
-  Index: S.optional(S.Number),
-  BoundingBox: S.optional(BoundingBox),
-  Face: S.optional(FaceDetail),
-}) {}
-export class PersonDetection extends S.Class<PersonDetection>(
-  "PersonDetection",
-)({ Timestamp: S.optional(S.Number), Person: S.optional(PersonDetail) }) {}
+export interface Challenge {
+  Type: string;
+  Version: string;
+}
+export const Challenge = S.suspend(() =>
+  S.Struct({ Type: S.String, Version: S.String }),
+).annotations({ identifier: "Challenge" }) as any as S.Schema<Challenge>;
+export interface GetLabelDetectionRequestMetadata {
+  SortBy?: string;
+  AggregateBy?: string;
+}
+export const GetLabelDetectionRequestMetadata = S.suspend(() =>
+  S.Struct({ SortBy: S.optional(S.String), AggregateBy: S.optional(S.String) }),
+).annotations({
+  identifier: "GetLabelDetectionRequestMetadata",
+}) as any as S.Schema<GetLabelDetectionRequestMetadata>;
+export interface MediaAnalysisJobFailureDetails {
+  Code?: string;
+  Message?: string;
+}
+export const MediaAnalysisJobFailureDetails = S.suspend(() =>
+  S.Struct({ Code: S.optional(S.String), Message: S.optional(S.String) }),
+).annotations({
+  identifier: "MediaAnalysisJobFailureDetails",
+}) as any as S.Schema<MediaAnalysisJobFailureDetails>;
+export interface MediaAnalysisManifestSummary {
+  S3Object?: S3Object;
+}
+export const MediaAnalysisManifestSummary = S.suspend(() =>
+  S.Struct({ S3Object: S.optional(S3Object) }),
+).annotations({
+  identifier: "MediaAnalysisManifestSummary",
+}) as any as S.Schema<MediaAnalysisManifestSummary>;
+export interface PersonDetail {
+  Index?: number;
+  BoundingBox?: BoundingBox;
+  Face?: FaceDetail;
+}
+export const PersonDetail = S.suspend(() =>
+  S.Struct({
+    Index: S.optional(S.Number),
+    BoundingBox: S.optional(BoundingBox),
+    Face: S.optional(FaceDetail),
+  }),
+).annotations({ identifier: "PersonDetail" }) as any as S.Schema<PersonDetail>;
+export interface PersonDetection {
+  Timestamp?: number;
+  Person?: PersonDetail;
+}
+export const PersonDetection = S.suspend(() =>
+  S.Struct({
+    Timestamp: S.optional(S.Number),
+    Person: S.optional(PersonDetail),
+  }),
+).annotations({
+  identifier: "PersonDetection",
+}) as any as S.Schema<PersonDetection>;
+export type PersonDetections = PersonDetection[];
 export const PersonDetections = S.Array(PersonDetection);
-export class AudioMetadata extends S.Class<AudioMetadata>("AudioMetadata")({
-  Codec: S.optional(S.String),
-  DurationMillis: S.optional(S.Number),
-  SampleRate: S.optional(S.Number),
-  NumberOfChannels: S.optional(S.Number),
-}) {}
+export interface AudioMetadata {
+  Codec?: string;
+  DurationMillis?: number;
+  SampleRate?: number;
+  NumberOfChannels?: number;
+}
+export const AudioMetadata = S.suspend(() =>
+  S.Struct({
+    Codec: S.optional(S.String),
+    DurationMillis: S.optional(S.Number),
+    SampleRate: S.optional(S.Number),
+    NumberOfChannels: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "AudioMetadata",
+}) as any as S.Schema<AudioMetadata>;
+export type AudioMetadataList = AudioMetadata[];
 export const AudioMetadataList = S.Array(AudioMetadata);
-export class SegmentTypeInfo extends S.Class<SegmentTypeInfo>(
-  "SegmentTypeInfo",
-)({ Type: S.optional(S.String), ModelVersion: S.optional(S.String) }) {}
+export interface SegmentTypeInfo {
+  Type?: string;
+  ModelVersion?: string;
+}
+export const SegmentTypeInfo = S.suspend(() =>
+  S.Struct({ Type: S.optional(S.String), ModelVersion: S.optional(S.String) }),
+).annotations({
+  identifier: "SegmentTypeInfo",
+}) as any as S.Schema<SegmentTypeInfo>;
+export type SegmentTypesInfo = SegmentTypeInfo[];
 export const SegmentTypesInfo = S.Array(SegmentTypeInfo);
-export class FaceRecord extends S.Class<FaceRecord>("FaceRecord")({
-  Face: S.optional(Face),
-  FaceDetail: S.optional(FaceDetail),
-}) {}
+export interface FaceRecord {
+  Face?: Face;
+  FaceDetail?: FaceDetail;
+}
+export const FaceRecord = S.suspend(() =>
+  S.Struct({ Face: S.optional(Face), FaceDetail: S.optional(FaceDetail) }),
+).annotations({ identifier: "FaceRecord" }) as any as S.Schema<FaceRecord>;
+export type FaceRecordList = FaceRecord[];
 export const FaceRecordList = S.Array(FaceRecord);
-export class UnindexedFace extends S.Class<UnindexedFace>("UnindexedFace")({
-  Reasons: S.optional(Reasons),
-  FaceDetail: S.optional(FaceDetail),
-}) {}
+export interface UnindexedFace {
+  Reasons?: Reasons;
+  FaceDetail?: FaceDetail;
+}
+export const UnindexedFace = S.suspend(() =>
+  S.Struct({
+    Reasons: S.optional(Reasons),
+    FaceDetail: S.optional(FaceDetail),
+  }),
+).annotations({
+  identifier: "UnindexedFace",
+}) as any as S.Schema<UnindexedFace>;
+export type UnindexedFaces = UnindexedFace[];
 export const UnindexedFaces = S.Array(UnindexedFace);
+export type FaceList = Face[];
 export const FaceList = S.Array(Face);
-export class MediaAnalysisOperationsConfig extends S.Class<MediaAnalysisOperationsConfig>(
-  "MediaAnalysisOperationsConfig",
-)({
-  DetectModerationLabels: S.optional(MediaAnalysisDetectModerationLabelsConfig),
-}) {}
-export class MediaAnalysisModelVersions extends S.Class<MediaAnalysisModelVersions>(
-  "MediaAnalysisModelVersions",
-)({ Moderation: S.optional(S.String) }) {}
-export class MediaAnalysisResults extends S.Class<MediaAnalysisResults>(
-  "MediaAnalysisResults",
-)({
-  S3Object: S.optional(S3Object),
-  ModelVersions: S.optional(MediaAnalysisModelVersions),
-}) {}
-export class MediaAnalysisJobDescription extends S.Class<MediaAnalysisJobDescription>(
-  "MediaAnalysisJobDescription",
-)({
-  JobId: S.String,
-  JobName: S.optional(S.String),
-  OperationsConfig: MediaAnalysisOperationsConfig,
-  Status: S.String,
-  FailureDetails: S.optional(MediaAnalysisJobFailureDetails),
-  CreationTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  CompletionTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  Input: MediaAnalysisInput,
-  OutputConfig: MediaAnalysisOutputConfig,
-  KmsKeyId: S.optional(S.String),
-  Results: S.optional(MediaAnalysisResults),
-  ManifestSummary: S.optional(MediaAnalysisManifestSummary),
-}) {}
+export interface MediaAnalysisOperationsConfig {
+  DetectModerationLabels?: MediaAnalysisDetectModerationLabelsConfig;
+}
+export const MediaAnalysisOperationsConfig = S.suspend(() =>
+  S.Struct({
+    DetectModerationLabels: S.optional(
+      MediaAnalysisDetectModerationLabelsConfig,
+    ),
+  }),
+).annotations({
+  identifier: "MediaAnalysisOperationsConfig",
+}) as any as S.Schema<MediaAnalysisOperationsConfig>;
+export interface MediaAnalysisModelVersions {
+  Moderation?: string;
+}
+export const MediaAnalysisModelVersions = S.suspend(() =>
+  S.Struct({ Moderation: S.optional(S.String) }),
+).annotations({
+  identifier: "MediaAnalysisModelVersions",
+}) as any as S.Schema<MediaAnalysisModelVersions>;
+export interface MediaAnalysisResults {
+  S3Object?: S3Object;
+  ModelVersions?: MediaAnalysisModelVersions;
+}
+export const MediaAnalysisResults = S.suspend(() =>
+  S.Struct({
+    S3Object: S.optional(S3Object),
+    ModelVersions: S.optional(MediaAnalysisModelVersions),
+  }),
+).annotations({
+  identifier: "MediaAnalysisResults",
+}) as any as S.Schema<MediaAnalysisResults>;
+export interface MediaAnalysisJobDescription {
+  JobId: string;
+  JobName?: string;
+  OperationsConfig: MediaAnalysisOperationsConfig;
+  Status: string;
+  FailureDetails?: MediaAnalysisJobFailureDetails;
+  CreationTimestamp: Date;
+  CompletionTimestamp?: Date;
+  Input: MediaAnalysisInput;
+  OutputConfig: MediaAnalysisOutputConfig;
+  KmsKeyId?: string;
+  Results?: MediaAnalysisResults;
+  ManifestSummary?: MediaAnalysisManifestSummary;
+}
+export const MediaAnalysisJobDescription = S.suspend(() =>
+  S.Struct({
+    JobId: S.String,
+    JobName: S.optional(S.String),
+    OperationsConfig: MediaAnalysisOperationsConfig,
+    Status: S.String,
+    FailureDetails: S.optional(MediaAnalysisJobFailureDetails),
+    CreationTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    CompletionTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    Input: MediaAnalysisInput,
+    OutputConfig: MediaAnalysisOutputConfig,
+    KmsKeyId: S.optional(S.String),
+    Results: S.optional(MediaAnalysisResults),
+    ManifestSummary: S.optional(MediaAnalysisManifestSummary),
+  }),
+).annotations({
+  identifier: "MediaAnalysisJobDescription",
+}) as any as S.Schema<MediaAnalysisJobDescription>;
+export type MediaAnalysisJobDescriptions = MediaAnalysisJobDescription[];
 export const MediaAnalysisJobDescriptions = S.Array(
   MediaAnalysisJobDescription,
 );
-export class ProjectPolicy extends S.Class<ProjectPolicy>("ProjectPolicy")({
-  ProjectArn: S.optional(S.String),
-  PolicyName: S.optional(S.String),
-  PolicyRevisionId: S.optional(S.String),
-  PolicyDocument: S.optional(S.String),
-  CreationTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  LastUpdatedTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
+export interface ProjectPolicy {
+  ProjectArn?: string;
+  PolicyName?: string;
+  PolicyRevisionId?: string;
+  PolicyDocument?: string;
+  CreationTimestamp?: Date;
+  LastUpdatedTimestamp?: Date;
+}
+export const ProjectPolicy = S.suspend(() =>
+  S.Struct({
+    ProjectArn: S.optional(S.String),
+    PolicyName: S.optional(S.String),
+    PolicyRevisionId: S.optional(S.String),
+    PolicyDocument: S.optional(S.String),
+    CreationTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastUpdatedTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "ProjectPolicy",
+}) as any as S.Schema<ProjectPolicy>;
+export type ProjectPolicies = ProjectPolicy[];
 export const ProjectPolicies = S.Array(ProjectPolicy);
-export class StreamProcessor extends S.Class<StreamProcessor>(
-  "StreamProcessor",
-)({ Name: S.optional(S.String), Status: S.optional(S.String) }) {}
+export interface StreamProcessor {
+  Name?: string;
+  Status?: string;
+}
+export const StreamProcessor = S.suspend(() =>
+  S.Struct({ Name: S.optional(S.String), Status: S.optional(S.String) }),
+).annotations({
+  identifier: "StreamProcessor",
+}) as any as S.Schema<StreamProcessor>;
+export type StreamProcessorList = StreamProcessor[];
 export const StreamProcessorList = S.Array(StreamProcessor);
-export class User extends S.Class<User>("User")({
-  UserId: S.optional(S.String),
-  UserStatus: S.optional(S.String),
-}) {}
+export interface User {
+  UserId?: string;
+  UserStatus?: string;
+}
+export const User = S.suspend(() =>
+  S.Struct({ UserId: S.optional(S.String), UserStatus: S.optional(S.String) }),
+).annotations({ identifier: "User" }) as any as S.Schema<User>;
+export type UserList = User[];
 export const UserList = S.Array(User);
-export class ComparedFace extends S.Class<ComparedFace>("ComparedFace")({
-  BoundingBox: S.optional(BoundingBox),
-  Confidence: S.optional(S.Number),
-  Landmarks: S.optional(Landmarks),
-  Pose: S.optional(Pose),
-  Quality: S.optional(ImageQuality),
-  Emotions: S.optional(Emotions),
-  Smile: S.optional(Smile),
-}) {}
-export class Celebrity extends S.Class<Celebrity>("Celebrity")({
-  Urls: S.optional(Urls),
-  Name: S.optional(S.String),
-  Id: S.optional(S.String),
-  Face: S.optional(ComparedFace),
-  MatchConfidence: S.optional(S.Number),
-  KnownGender: S.optional(KnownGender),
-}) {}
+export interface ComparedFace {
+  BoundingBox?: BoundingBox;
+  Confidence?: number;
+  Landmarks?: Landmarks;
+  Pose?: Pose;
+  Quality?: ImageQuality;
+  Emotions?: Emotions;
+  Smile?: Smile;
+}
+export const ComparedFace = S.suspend(() =>
+  S.Struct({
+    BoundingBox: S.optional(BoundingBox),
+    Confidence: S.optional(S.Number),
+    Landmarks: S.optional(Landmarks),
+    Pose: S.optional(Pose),
+    Quality: S.optional(ImageQuality),
+    Emotions: S.optional(Emotions),
+    Smile: S.optional(Smile),
+  }),
+).annotations({ identifier: "ComparedFace" }) as any as S.Schema<ComparedFace>;
+export interface Celebrity {
+  Urls?: Urls;
+  Name?: string;
+  Id?: string;
+  Face?: ComparedFace;
+  MatchConfidence?: number;
+  KnownGender?: KnownGender;
+}
+export const Celebrity = S.suspend(() =>
+  S.Struct({
+    Urls: S.optional(Urls),
+    Name: S.optional(S.String),
+    Id: S.optional(S.String),
+    Face: S.optional(ComparedFace),
+    MatchConfidence: S.optional(S.Number),
+    KnownGender: S.optional(KnownGender),
+  }),
+).annotations({ identifier: "Celebrity" }) as any as S.Schema<Celebrity>;
+export type CelebrityList = Celebrity[];
 export const CelebrityList = S.Array(Celebrity);
+export type ComparedFaceList = ComparedFace[];
 export const ComparedFaceList = S.Array(ComparedFace);
-export class SearchedFace extends S.Class<SearchedFace>("SearchedFace")({
-  FaceId: S.optional(S.String),
-}) {}
-export class SearchedUser extends S.Class<SearchedUser>("SearchedUser")({
-  UserId: S.optional(S.String),
-}) {}
-export class SearchedFaceDetails extends S.Class<SearchedFaceDetails>(
-  "SearchedFaceDetails",
-)({ FaceDetail: S.optional(FaceDetail) }) {}
-export class UnsearchedFace extends S.Class<UnsearchedFace>("UnsearchedFace")({
-  FaceDetails: S.optional(FaceDetail),
-  Reasons: S.optional(UnsearchedFaceReasons),
-}) {}
+export interface SearchedFace {
+  FaceId?: string;
+}
+export const SearchedFace = S.suspend(() =>
+  S.Struct({ FaceId: S.optional(S.String) }),
+).annotations({ identifier: "SearchedFace" }) as any as S.Schema<SearchedFace>;
+export interface SearchedUser {
+  UserId?: string;
+}
+export const SearchedUser = S.suspend(() =>
+  S.Struct({ UserId: S.optional(S.String) }),
+).annotations({ identifier: "SearchedUser" }) as any as S.Schema<SearchedUser>;
+export interface SearchedFaceDetails {
+  FaceDetail?: FaceDetail;
+}
+export const SearchedFaceDetails = S.suspend(() =>
+  S.Struct({ FaceDetail: S.optional(FaceDetail) }),
+).annotations({
+  identifier: "SearchedFaceDetails",
+}) as any as S.Schema<SearchedFaceDetails>;
+export interface UnsearchedFace {
+  FaceDetails?: FaceDetail;
+  Reasons?: UnsearchedFaceReasons;
+}
+export const UnsearchedFace = S.suspend(() =>
+  S.Struct({
+    FaceDetails: S.optional(FaceDetail),
+    Reasons: S.optional(UnsearchedFaceReasons),
+  }),
+).annotations({
+  identifier: "UnsearchedFace",
+}) as any as S.Schema<UnsearchedFace>;
+export type UnsearchedFacesList = UnsearchedFace[];
 export const UnsearchedFacesList = S.Array(UnsearchedFace);
-export class StreamProcessingStartSelector extends S.Class<StreamProcessingStartSelector>(
-  "StreamProcessingStartSelector",
-)({ KVSStreamStartSelector: S.optional(KinesisVideoStreamStartSelector) }) {}
-export class StreamProcessorSettingsForUpdate extends S.Class<StreamProcessorSettingsForUpdate>(
-  "StreamProcessorSettingsForUpdate",
-)({ ConnectedHomeForUpdate: S.optional(ConnectedHomeSettingsForUpdate) }) {}
-export class Versions extends S.Class<Versions>("Versions")({
-  Minimum: S.optional(S.String),
-  Maximum: S.optional(S.String),
-}) {}
-export class BlackFrame extends S.Class<BlackFrame>("BlackFrame")({
-  MaxPixelThreshold: S.optional(S.Number),
-  MinCoveragePercentage: S.optional(S.Number),
-}) {}
-export class AssociateFacesResponse extends S.Class<AssociateFacesResponse>(
-  "AssociateFacesResponse",
-)({
-  AssociatedFaces: S.optional(AssociatedFacesList),
-  UnsuccessfulFaceAssociations: S.optional(UnsuccessfulFaceAssociationList),
-  UserStatus: S.optional(S.String),
-}) {}
-export class CompareFacesRequest extends S.Class<CompareFacesRequest>(
-  "CompareFacesRequest",
-)(
-  {
+export interface StreamProcessingStartSelector {
+  KVSStreamStartSelector?: KinesisVideoStreamStartSelector;
+}
+export const StreamProcessingStartSelector = S.suspend(() =>
+  S.Struct({
+    KVSStreamStartSelector: S.optional(KinesisVideoStreamStartSelector),
+  }),
+).annotations({
+  identifier: "StreamProcessingStartSelector",
+}) as any as S.Schema<StreamProcessingStartSelector>;
+export interface StreamProcessorSettingsForUpdate {
+  ConnectedHomeForUpdate?: ConnectedHomeSettingsForUpdate;
+}
+export const StreamProcessorSettingsForUpdate = S.suspend(() =>
+  S.Struct({
+    ConnectedHomeForUpdate: S.optional(ConnectedHomeSettingsForUpdate),
+  }),
+).annotations({
+  identifier: "StreamProcessorSettingsForUpdate",
+}) as any as S.Schema<StreamProcessorSettingsForUpdate>;
+export interface Versions {
+  Minimum?: string;
+  Maximum?: string;
+}
+export const Versions = S.suspend(() =>
+  S.Struct({ Minimum: S.optional(S.String), Maximum: S.optional(S.String) }),
+).annotations({ identifier: "Versions" }) as any as S.Schema<Versions>;
+export interface BlackFrame {
+  MaxPixelThreshold?: number;
+  MinCoveragePercentage?: number;
+}
+export const BlackFrame = S.suspend(() =>
+  S.Struct({
+    MaxPixelThreshold: S.optional(S.Number),
+    MinCoveragePercentage: S.optional(S.Number),
+  }),
+).annotations({ identifier: "BlackFrame" }) as any as S.Schema<BlackFrame>;
+export interface AssociateFacesResponse {
+  AssociatedFaces?: AssociatedFacesList;
+  UnsuccessfulFaceAssociations?: UnsuccessfulFaceAssociationList;
+  UserStatus?: string;
+}
+export const AssociateFacesResponse = S.suspend(() =>
+  S.Struct({
+    AssociatedFaces: S.optional(AssociatedFacesList),
+    UnsuccessfulFaceAssociations: S.optional(UnsuccessfulFaceAssociationList),
+    UserStatus: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AssociateFacesResponse",
+}) as any as S.Schema<AssociateFacesResponse>;
+export interface CompareFacesRequest {
+  SourceImage: Image;
+  TargetImage: Image;
+  SimilarityThreshold?: number;
+  QualityFilter?: string;
+}
+export const CompareFacesRequest = S.suspend(() =>
+  S.Struct({
     SourceImage: Image,
     TargetImage: Image,
     SimilarityThreshold: S.optional(S.Number),
     QualityFilter: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CopyProjectVersionResponse extends S.Class<CopyProjectVersionResponse>(
-  "CopyProjectVersionResponse",
-)({ ProjectVersionArn: S.optional(S.String) }) {}
-export class CreateDatasetRequest extends S.Class<CreateDatasetRequest>(
-  "CreateDatasetRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CompareFacesRequest",
+}) as any as S.Schema<CompareFacesRequest>;
+export interface CopyProjectVersionResponse {
+  ProjectVersionArn?: string;
+}
+export const CopyProjectVersionResponse = S.suspend(() =>
+  S.Struct({ ProjectVersionArn: S.optional(S.String) }),
+).annotations({
+  identifier: "CopyProjectVersionResponse",
+}) as any as S.Schema<CopyProjectVersionResponse>;
+export interface CreateDatasetRequest {
+  DatasetSource?: DatasetSource;
+  DatasetType: string;
+  ProjectArn: string;
+  Tags?: TagMap;
+}
+export const CreateDatasetRequest = S.suspend(() =>
+  S.Struct({
     DatasetSource: S.optional(DatasetSource),
     DatasetType: S.String,
     ProjectArn: S.String,
     Tags: S.optional(TagMap),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateProjectVersionRequest extends S.Class<CreateProjectVersionRequest>(
-  "CreateProjectVersionRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateDatasetRequest",
+}) as any as S.Schema<CreateDatasetRequest>;
+export interface CreateProjectVersionRequest {
+  ProjectArn: string;
+  VersionName: string;
+  OutputConfig: OutputConfig;
+  TrainingData?: TrainingData;
+  TestingData?: TestingData;
+  Tags?: TagMap;
+  KmsKeyId?: string;
+  VersionDescription?: string;
+  FeatureConfig?: CustomizationFeatureConfig;
+}
+export const CreateProjectVersionRequest = S.suspend(() =>
+  S.Struct({
     ProjectArn: S.String,
     VersionName: S.String,
     OutputConfig: OutputConfig,
@@ -1526,13 +2738,26 @@ export class CreateProjectVersionRequest extends S.Class<CreateProjectVersionReq
     KmsKeyId: S.optional(S.String),
     VersionDescription: S.optional(S.String),
     FeatureConfig: S.optional(CustomizationFeatureConfig),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateStreamProcessorRequest extends S.Class<CreateStreamProcessorRequest>(
-  "CreateStreamProcessorRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateProjectVersionRequest",
+}) as any as S.Schema<CreateProjectVersionRequest>;
+export interface CreateStreamProcessorRequest {
+  Input: StreamProcessorInput;
+  Output: StreamProcessorOutput;
+  Name: string;
+  Settings: StreamProcessorSettings;
+  RoleArn: string;
+  Tags?: TagMap;
+  NotificationChannel?: StreamProcessorNotificationChannel;
+  KmsKeyId?: string;
+  RegionsOfInterest?: RegionsOfInterest;
+  DataSharingPreference?: StreamProcessorDataSharingPreference;
+}
+export const CreateStreamProcessorRequest = S.suspend(() =>
+  S.Struct({
     Input: StreamProcessorInput,
     Output: StreamProcessorOutput,
     Name: S.String,
@@ -1543,197 +2768,377 @@ export class CreateStreamProcessorRequest extends S.Class<CreateStreamProcessorR
     KmsKeyId: S.optional(S.String),
     RegionsOfInterest: S.optional(RegionsOfInterest),
     DataSharingPreference: S.optional(StreamProcessorDataSharingPreference),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteFacesResponse extends S.Class<DeleteFacesResponse>(
-  "DeleteFacesResponse",
-)({
-  DeletedFaces: S.optional(FaceIdList),
-  UnsuccessfulFaceDeletions: S.optional(UnsuccessfulFaceDeletionsList),
-}) {}
-export class DetectLabelsRequest extends S.Class<DetectLabelsRequest>(
-  "DetectLabelsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateStreamProcessorRequest",
+}) as any as S.Schema<CreateStreamProcessorRequest>;
+export interface DeleteFacesResponse {
+  DeletedFaces?: FaceIdList;
+  UnsuccessfulFaceDeletions?: UnsuccessfulFaceDeletionsList;
+}
+export const DeleteFacesResponse = S.suspend(() =>
+  S.Struct({
+    DeletedFaces: S.optional(FaceIdList),
+    UnsuccessfulFaceDeletions: S.optional(UnsuccessfulFaceDeletionsList),
+  }),
+).annotations({
+  identifier: "DeleteFacesResponse",
+}) as any as S.Schema<DeleteFacesResponse>;
+export interface DetectLabelsRequest {
+  Image: Image;
+  MaxLabels?: number;
+  MinConfidence?: number;
+  Features?: DetectLabelsFeatureList;
+  Settings?: DetectLabelsSettings;
+}
+export const DetectLabelsRequest = S.suspend(() =>
+  S.Struct({
     Image: Image,
     MaxLabels: S.optional(S.Number),
     MinConfidence: S.optional(S.Number),
     Features: S.optional(DetectLabelsFeatureList),
     Settings: S.optional(DetectLabelsSettings),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DetectModerationLabelsRequest extends S.Class<DetectModerationLabelsRequest>(
-  "DetectModerationLabelsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DetectLabelsRequest",
+}) as any as S.Schema<DetectLabelsRequest>;
+export interface DetectModerationLabelsRequest {
+  Image: Image;
+  MinConfidence?: number;
+  HumanLoopConfig?: HumanLoopConfig;
+  ProjectVersion?: string;
+}
+export const DetectModerationLabelsRequest = S.suspend(() =>
+  S.Struct({
     Image: Image,
     MinConfidence: S.optional(S.Number),
     HumanLoopConfig: S.optional(HumanLoopConfig),
     ProjectVersion: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DetectTextRequest extends S.Class<DetectTextRequest>(
-  "DetectTextRequest",
-)(
-  { Image: Image, Filters: S.optional(DetectTextFilters) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DisassociateFacesResponse extends S.Class<DisassociateFacesResponse>(
-  "DisassociateFacesResponse",
-)({
-  DisassociatedFaces: S.optional(DisassociatedFacesList),
-  UnsuccessfulFaceDisassociations: S.optional(
-    UnsuccessfulFaceDisassociationList,
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-  UserStatus: S.optional(S.String),
-}) {}
-export class GetCelebrityInfoResponse extends S.Class<GetCelebrityInfoResponse>(
-  "GetCelebrityInfoResponse",
-)({
-  Urls: S.optional(Urls),
-  Name: S.optional(S.String),
-  KnownGender: S.optional(KnownGender),
-}) {}
-export class GetFaceDetectionResponse extends S.Class<GetFaceDetectionResponse>(
-  "GetFaceDetectionResponse",
-)({
-  JobStatus: S.optional(S.String),
-  StatusMessage: S.optional(S.String),
-  VideoMetadata: S.optional(VideoMetadata),
-  NextToken: S.optional(S.String),
-  Faces: S.optional(FaceDetections),
-  JobId: S.optional(S.String),
-  Video: S.optional(Video),
-  JobTag: S.optional(S.String),
-}) {}
-export class GetFaceLivenessSessionResultsResponse extends S.Class<GetFaceLivenessSessionResultsResponse>(
-  "GetFaceLivenessSessionResultsResponse",
-)({
-  SessionId: S.String,
-  Status: S.String,
-  Confidence: S.optional(S.Number),
-  ReferenceImage: S.optional(AuditImage),
-  AuditImages: S.optional(AuditImages),
-  Challenge: S.optional(Challenge),
-}) {}
-export class GetPersonTrackingResponse extends S.Class<GetPersonTrackingResponse>(
-  "GetPersonTrackingResponse",
-)({
-  JobStatus: S.optional(S.String),
-  StatusMessage: S.optional(S.String),
-  VideoMetadata: S.optional(VideoMetadata),
-  NextToken: S.optional(S.String),
-  Persons: S.optional(PersonDetections),
-  JobId: S.optional(S.String),
-  Video: S.optional(Video),
-  JobTag: S.optional(S.String),
-}) {}
-export class IndexFacesResponse extends S.Class<IndexFacesResponse>(
-  "IndexFacesResponse",
-)({
-  FaceRecords: S.optional(FaceRecordList),
-  OrientationCorrection: S.optional(S.String),
-  FaceModelVersion: S.optional(S.String),
-  UnindexedFaces: S.optional(UnindexedFaces),
-}) {}
-export class ListFacesResponse extends S.Class<ListFacesResponse>(
-  "ListFacesResponse",
-)({
-  Faces: S.optional(FaceList),
-  NextToken: S.optional(S.String),
-  FaceModelVersion: S.optional(S.String),
-}) {}
-export class ListMediaAnalysisJobsResponse extends S.Class<ListMediaAnalysisJobsResponse>(
-  "ListMediaAnalysisJobsResponse",
-)({
-  NextToken: S.optional(S.String),
-  MediaAnalysisJobs: MediaAnalysisJobDescriptions,
-}) {}
-export class ListProjectPoliciesResponse extends S.Class<ListProjectPoliciesResponse>(
-  "ListProjectPoliciesResponse",
-)({
-  ProjectPolicies: S.optional(ProjectPolicies),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListStreamProcessorsResponse extends S.Class<ListStreamProcessorsResponse>(
-  "ListStreamProcessorsResponse",
-)({
-  NextToken: S.optional(S.String),
-  StreamProcessors: S.optional(StreamProcessorList),
-}) {}
-export class ListUsersResponse extends S.Class<ListUsersResponse>(
-  "ListUsersResponse",
-)({ Users: S.optional(UserList), NextToken: S.optional(S.String) }) {}
-export class RecognizeCelebritiesResponse extends S.Class<RecognizeCelebritiesResponse>(
-  "RecognizeCelebritiesResponse",
-)({
-  CelebrityFaces: S.optional(CelebrityList),
-  UnrecognizedFaces: S.optional(ComparedFaceList),
-  OrientationCorrection: S.optional(S.String),
-}) {}
-export class SearchFacesResponse extends S.Class<SearchFacesResponse>(
-  "SearchFacesResponse",
-)({
-  SearchedFaceId: S.optional(S.String),
-  FaceMatches: S.optional(FaceMatchList),
-  FaceModelVersion: S.optional(S.String),
-}) {}
-export class MatchedUser extends S.Class<MatchedUser>("MatchedUser")({
-  UserId: S.optional(S.String),
-  UserStatus: S.optional(S.String),
-}) {}
-export class UserMatch extends S.Class<UserMatch>("UserMatch")({
-  Similarity: S.optional(S.Number),
-  User: S.optional(MatchedUser),
-}) {}
+).annotations({
+  identifier: "DetectModerationLabelsRequest",
+}) as any as S.Schema<DetectModerationLabelsRequest>;
+export interface DetectTextRequest {
+  Image: Image;
+  Filters?: DetectTextFilters;
+}
+export const DetectTextRequest = S.suspend(() =>
+  S.Struct({ Image: Image, Filters: S.optional(DetectTextFilters) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DetectTextRequest",
+}) as any as S.Schema<DetectTextRequest>;
+export interface DisassociateFacesResponse {
+  DisassociatedFaces?: DisassociatedFacesList;
+  UnsuccessfulFaceDisassociations?: UnsuccessfulFaceDisassociationList;
+  UserStatus?: string;
+}
+export const DisassociateFacesResponse = S.suspend(() =>
+  S.Struct({
+    DisassociatedFaces: S.optional(DisassociatedFacesList),
+    UnsuccessfulFaceDisassociations: S.optional(
+      UnsuccessfulFaceDisassociationList,
+    ),
+    UserStatus: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DisassociateFacesResponse",
+}) as any as S.Schema<DisassociateFacesResponse>;
+export interface GetCelebrityInfoResponse {
+  Urls?: Urls;
+  Name?: string;
+  KnownGender?: KnownGender;
+}
+export const GetCelebrityInfoResponse = S.suspend(() =>
+  S.Struct({
+    Urls: S.optional(Urls),
+    Name: S.optional(S.String),
+    KnownGender: S.optional(KnownGender),
+  }),
+).annotations({
+  identifier: "GetCelebrityInfoResponse",
+}) as any as S.Schema<GetCelebrityInfoResponse>;
+export interface GetFaceDetectionResponse {
+  JobStatus?: string;
+  StatusMessage?: string;
+  VideoMetadata?: VideoMetadata;
+  NextToken?: string;
+  Faces?: FaceDetections;
+  JobId?: string;
+  Video?: Video;
+  JobTag?: string;
+}
+export const GetFaceDetectionResponse = S.suspend(() =>
+  S.Struct({
+    JobStatus: S.optional(S.String),
+    StatusMessage: S.optional(S.String),
+    VideoMetadata: S.optional(VideoMetadata),
+    NextToken: S.optional(S.String),
+    Faces: S.optional(FaceDetections),
+    JobId: S.optional(S.String),
+    Video: S.optional(Video),
+    JobTag: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetFaceDetectionResponse",
+}) as any as S.Schema<GetFaceDetectionResponse>;
+export interface GetFaceLivenessSessionResultsResponse {
+  SessionId: string;
+  Status: string;
+  Confidence?: number;
+  ReferenceImage?: AuditImage;
+  AuditImages?: AuditImages;
+  Challenge?: Challenge;
+}
+export const GetFaceLivenessSessionResultsResponse = S.suspend(() =>
+  S.Struct({
+    SessionId: S.String,
+    Status: S.String,
+    Confidence: S.optional(S.Number),
+    ReferenceImage: S.optional(AuditImage),
+    AuditImages: S.optional(AuditImages),
+    Challenge: S.optional(Challenge),
+  }),
+).annotations({
+  identifier: "GetFaceLivenessSessionResultsResponse",
+}) as any as S.Schema<GetFaceLivenessSessionResultsResponse>;
+export interface GetPersonTrackingResponse {
+  JobStatus?: string;
+  StatusMessage?: string;
+  VideoMetadata?: VideoMetadata;
+  NextToken?: string;
+  Persons?: PersonDetections;
+  JobId?: string;
+  Video?: Video;
+  JobTag?: string;
+}
+export const GetPersonTrackingResponse = S.suspend(() =>
+  S.Struct({
+    JobStatus: S.optional(S.String),
+    StatusMessage: S.optional(S.String),
+    VideoMetadata: S.optional(VideoMetadata),
+    NextToken: S.optional(S.String),
+    Persons: S.optional(PersonDetections),
+    JobId: S.optional(S.String),
+    Video: S.optional(Video),
+    JobTag: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetPersonTrackingResponse",
+}) as any as S.Schema<GetPersonTrackingResponse>;
+export interface IndexFacesResponse {
+  FaceRecords?: FaceRecordList;
+  OrientationCorrection?: string;
+  FaceModelVersion?: string;
+  UnindexedFaces?: UnindexedFaces;
+}
+export const IndexFacesResponse = S.suspend(() =>
+  S.Struct({
+    FaceRecords: S.optional(FaceRecordList),
+    OrientationCorrection: S.optional(S.String),
+    FaceModelVersion: S.optional(S.String),
+    UnindexedFaces: S.optional(UnindexedFaces),
+  }),
+).annotations({
+  identifier: "IndexFacesResponse",
+}) as any as S.Schema<IndexFacesResponse>;
+export interface ListFacesResponse {
+  Faces?: FaceList;
+  NextToken?: string;
+  FaceModelVersion?: string;
+}
+export const ListFacesResponse = S.suspend(() =>
+  S.Struct({
+    Faces: S.optional(FaceList),
+    NextToken: S.optional(S.String),
+    FaceModelVersion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListFacesResponse",
+}) as any as S.Schema<ListFacesResponse>;
+export interface ListMediaAnalysisJobsResponse {
+  NextToken?: string;
+  MediaAnalysisJobs: MediaAnalysisJobDescriptions;
+}
+export const ListMediaAnalysisJobsResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    MediaAnalysisJobs: MediaAnalysisJobDescriptions,
+  }),
+).annotations({
+  identifier: "ListMediaAnalysisJobsResponse",
+}) as any as S.Schema<ListMediaAnalysisJobsResponse>;
+export interface ListProjectPoliciesResponse {
+  ProjectPolicies?: ProjectPolicies;
+  NextToken?: string;
+}
+export const ListProjectPoliciesResponse = S.suspend(() =>
+  S.Struct({
+    ProjectPolicies: S.optional(ProjectPolicies),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListProjectPoliciesResponse",
+}) as any as S.Schema<ListProjectPoliciesResponse>;
+export interface ListStreamProcessorsResponse {
+  NextToken?: string;
+  StreamProcessors?: StreamProcessorList;
+}
+export const ListStreamProcessorsResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    StreamProcessors: S.optional(StreamProcessorList),
+  }),
+).annotations({
+  identifier: "ListStreamProcessorsResponse",
+}) as any as S.Schema<ListStreamProcessorsResponse>;
+export interface ListUsersResponse {
+  Users?: UserList;
+  NextToken?: string;
+}
+export const ListUsersResponse = S.suspend(() =>
+  S.Struct({ Users: S.optional(UserList), NextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListUsersResponse",
+}) as any as S.Schema<ListUsersResponse>;
+export interface RecognizeCelebritiesResponse {
+  CelebrityFaces?: CelebrityList;
+  UnrecognizedFaces?: ComparedFaceList;
+  OrientationCorrection?: string;
+}
+export const RecognizeCelebritiesResponse = S.suspend(() =>
+  S.Struct({
+    CelebrityFaces: S.optional(CelebrityList),
+    UnrecognizedFaces: S.optional(ComparedFaceList),
+    OrientationCorrection: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RecognizeCelebritiesResponse",
+}) as any as S.Schema<RecognizeCelebritiesResponse>;
+export interface SearchFacesResponse {
+  SearchedFaceId?: string;
+  FaceMatches?: FaceMatchList;
+  FaceModelVersion?: string;
+}
+export const SearchFacesResponse = S.suspend(() =>
+  S.Struct({
+    SearchedFaceId: S.optional(S.String),
+    FaceMatches: S.optional(FaceMatchList),
+    FaceModelVersion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SearchFacesResponse",
+}) as any as S.Schema<SearchFacesResponse>;
+export interface MatchedUser {
+  UserId?: string;
+  UserStatus?: string;
+}
+export const MatchedUser = S.suspend(() =>
+  S.Struct({ UserId: S.optional(S.String), UserStatus: S.optional(S.String) }),
+).annotations({ identifier: "MatchedUser" }) as any as S.Schema<MatchedUser>;
+export interface UserMatch {
+  Similarity?: number;
+  User?: MatchedUser;
+}
+export const UserMatch = S.suspend(() =>
+  S.Struct({ Similarity: S.optional(S.Number), User: S.optional(MatchedUser) }),
+).annotations({ identifier: "UserMatch" }) as any as S.Schema<UserMatch>;
+export type UserMatchList = UserMatch[];
 export const UserMatchList = S.Array(UserMatch);
-export class SearchUsersByImageResponse extends S.Class<SearchUsersByImageResponse>(
-  "SearchUsersByImageResponse",
-)({
-  UserMatches: S.optional(UserMatchList),
-  FaceModelVersion: S.optional(S.String),
-  SearchedFace: S.optional(SearchedFaceDetails),
-  UnsearchedFaces: S.optional(UnsearchedFacesList),
-}) {}
-export class StartCelebrityRecognitionResponse extends S.Class<StartCelebrityRecognitionResponse>(
-  "StartCelebrityRecognitionResponse",
-)({ JobId: S.optional(S.String) }) {}
-export class StartLabelDetectionResponse extends S.Class<StartLabelDetectionResponse>(
-  "StartLabelDetectionResponse",
-)({ JobId: S.optional(S.String) }) {}
-export class StartMediaAnalysisJobRequest extends S.Class<StartMediaAnalysisJobRequest>(
-  "StartMediaAnalysisJobRequest",
-)(
-  {
+export interface SearchUsersByImageResponse {
+  UserMatches?: UserMatchList;
+  FaceModelVersion?: string;
+  SearchedFace?: SearchedFaceDetails;
+  UnsearchedFaces?: UnsearchedFacesList;
+}
+export const SearchUsersByImageResponse = S.suspend(() =>
+  S.Struct({
+    UserMatches: S.optional(UserMatchList),
+    FaceModelVersion: S.optional(S.String),
+    SearchedFace: S.optional(SearchedFaceDetails),
+    UnsearchedFaces: S.optional(UnsearchedFacesList),
+  }),
+).annotations({
+  identifier: "SearchUsersByImageResponse",
+}) as any as S.Schema<SearchUsersByImageResponse>;
+export interface StartCelebrityRecognitionResponse {
+  JobId?: string;
+}
+export const StartCelebrityRecognitionResponse = S.suspend(() =>
+  S.Struct({ JobId: S.optional(S.String) }),
+).annotations({
+  identifier: "StartCelebrityRecognitionResponse",
+}) as any as S.Schema<StartCelebrityRecognitionResponse>;
+export interface StartLabelDetectionResponse {
+  JobId?: string;
+}
+export const StartLabelDetectionResponse = S.suspend(() =>
+  S.Struct({ JobId: S.optional(S.String) }),
+).annotations({
+  identifier: "StartLabelDetectionResponse",
+}) as any as S.Schema<StartLabelDetectionResponse>;
+export interface StartMediaAnalysisJobRequest {
+  ClientRequestToken?: string;
+  JobName?: string;
+  OperationsConfig: MediaAnalysisOperationsConfig;
+  Input: MediaAnalysisInput;
+  OutputConfig: MediaAnalysisOutputConfig;
+  KmsKeyId?: string;
+}
+export const StartMediaAnalysisJobRequest = S.suspend(() =>
+  S.Struct({
     ClientRequestToken: S.optional(S.String),
     JobName: S.optional(S.String),
     OperationsConfig: MediaAnalysisOperationsConfig,
     Input: MediaAnalysisInput,
     OutputConfig: MediaAnalysisOutputConfig,
     KmsKeyId: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StartStreamProcessorRequest extends S.Class<StartStreamProcessorRequest>(
-  "StartStreamProcessorRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StartMediaAnalysisJobRequest",
+}) as any as S.Schema<StartMediaAnalysisJobRequest>;
+export interface StartStreamProcessorRequest {
+  Name: string;
+  StartSelector?: StreamProcessingStartSelector;
+  StopSelector?: StreamProcessingStopSelector;
+}
+export const StartStreamProcessorRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     StartSelector: S.optional(StreamProcessingStartSelector),
     StopSelector: S.optional(StreamProcessingStopSelector),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StartTextDetectionResponse extends S.Class<StartTextDetectionResponse>(
-  "StartTextDetectionResponse",
-)({ JobId: S.optional(S.String) }) {}
-export class UpdateStreamProcessorRequest extends S.Class<UpdateStreamProcessorRequest>(
-  "UpdateStreamProcessorRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StartStreamProcessorRequest",
+}) as any as S.Schema<StartStreamProcessorRequest>;
+export interface StartTextDetectionResponse {
+  JobId?: string;
+}
+export const StartTextDetectionResponse = S.suspend(() =>
+  S.Struct({ JobId: S.optional(S.String) }),
+).annotations({
+  identifier: "StartTextDetectionResponse",
+}) as any as S.Schema<StartTextDetectionResponse>;
+export interface UpdateStreamProcessorRequest {
+  Name: string;
+  SettingsForUpdate?: StreamProcessorSettingsForUpdate;
+  RegionsOfInterestForUpdate?: RegionsOfInterest;
+  DataSharingPreferenceForUpdate?: StreamProcessorDataSharingPreference;
+  ParametersToDelete?: StreamProcessorParametersToDelete;
+}
+export const UpdateStreamProcessorRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     SettingsForUpdate: S.optional(StreamProcessorSettingsForUpdate),
     RegionsOfInterestForUpdate: S.optional(RegionsOfInterest),
@@ -1741,589 +3146,1216 @@ export class UpdateStreamProcessorRequest extends S.Class<UpdateStreamProcessorR
       StreamProcessorDataSharingPreference,
     ),
     ParametersToDelete: S.optional(StreamProcessorParametersToDelete),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateStreamProcessorResponse extends S.Class<UpdateStreamProcessorResponse>(
-  "UpdateStreamProcessorResponse",
-)({}) {}
-export class ChallengePreference extends S.Class<ChallengePreference>(
-  "ChallengePreference",
-)({ Type: S.String, Versions: S.optional(Versions) }) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateStreamProcessorRequest",
+}) as any as S.Schema<UpdateStreamProcessorRequest>;
+export interface UpdateStreamProcessorResponse {}
+export const UpdateStreamProcessorResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateStreamProcessorResponse",
+}) as any as S.Schema<UpdateStreamProcessorResponse>;
+export interface ChallengePreference {
+  Type: string;
+  Versions?: Versions;
+}
+export const ChallengePreference = S.suspend(() =>
+  S.Struct({ Type: S.String, Versions: S.optional(Versions) }),
+).annotations({
+  identifier: "ChallengePreference",
+}) as any as S.Schema<ChallengePreference>;
+export type ChallengePreferences = ChallengePreference[];
 export const ChallengePreferences = S.Array(ChallengePreference);
-export class DatasetStats extends S.Class<DatasetStats>("DatasetStats")({
-  LabeledEntries: S.optional(S.Number),
-  TotalEntries: S.optional(S.Number),
-  TotalLabels: S.optional(S.Number),
-  ErrorEntries: S.optional(S.Number),
-}) {}
-export class DatasetMetadata extends S.Class<DatasetMetadata>(
-  "DatasetMetadata",
-)({
-  CreationTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  DatasetType: S.optional(S.String),
-  DatasetArn: S.optional(S.String),
-  Status: S.optional(S.String),
-  StatusMessage: S.optional(S.String),
-  StatusMessageCode: S.optional(S.String),
-}) {}
+export interface DatasetStats {
+  LabeledEntries?: number;
+  TotalEntries?: number;
+  TotalLabels?: number;
+  ErrorEntries?: number;
+}
+export const DatasetStats = S.suspend(() =>
+  S.Struct({
+    LabeledEntries: S.optional(S.Number),
+    TotalEntries: S.optional(S.Number),
+    TotalLabels: S.optional(S.Number),
+    ErrorEntries: S.optional(S.Number),
+  }),
+).annotations({ identifier: "DatasetStats" }) as any as S.Schema<DatasetStats>;
+export interface DatasetMetadata {
+  CreationTimestamp?: Date;
+  DatasetType?: string;
+  DatasetArn?: string;
+  Status?: string;
+  StatusMessage?: string;
+  StatusMessageCode?: string;
+}
+export const DatasetMetadata = S.suspend(() =>
+  S.Struct({
+    CreationTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    DatasetType: S.optional(S.String),
+    DatasetArn: S.optional(S.String),
+    Status: S.optional(S.String),
+    StatusMessage: S.optional(S.String),
+    StatusMessageCode: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DatasetMetadata",
+}) as any as S.Schema<DatasetMetadata>;
+export type DatasetMetadataList = DatasetMetadata[];
 export const DatasetMetadataList = S.Array(DatasetMetadata);
-export class ValidationData extends S.Class<ValidationData>("ValidationData")({
-  Assets: S.optional(Assets),
-}) {}
-export class TestingDataResult extends S.Class<TestingDataResult>(
-  "TestingDataResult",
-)({
-  Input: S.optional(TestingData),
-  Output: S.optional(TestingData),
-  Validation: S.optional(ValidationData),
-}) {}
-export class Geometry extends S.Class<Geometry>("Geometry")({
-  BoundingBox: S.optional(BoundingBox),
-  Polygon: S.optional(Polygon),
-}) {}
+export interface ValidationData {
+  Assets?: Assets;
+}
+export const ValidationData = S.suspend(() =>
+  S.Struct({ Assets: S.optional(Assets) }),
+).annotations({
+  identifier: "ValidationData",
+}) as any as S.Schema<ValidationData>;
+export interface TestingDataResult {
+  Input?: TestingData;
+  Output?: TestingData;
+  Validation?: ValidationData;
+}
+export const TestingDataResult = S.suspend(() =>
+  S.Struct({
+    Input: S.optional(TestingData),
+    Output: S.optional(TestingData),
+    Validation: S.optional(ValidationData),
+  }),
+).annotations({
+  identifier: "TestingDataResult",
+}) as any as S.Schema<TestingDataResult>;
+export interface Geometry {
+  BoundingBox?: BoundingBox;
+  Polygon?: Polygon;
+}
+export const Geometry = S.suspend(() =>
+  S.Struct({
+    BoundingBox: S.optional(BoundingBox),
+    Polygon: S.optional(Polygon),
+  }),
+).annotations({ identifier: "Geometry" }) as any as S.Schema<Geometry>;
+export type ProtectiveEquipmentPersonIds = number[];
 export const ProtectiveEquipmentPersonIds = S.Array(S.Number);
-export class CelebrityDetail extends S.Class<CelebrityDetail>(
-  "CelebrityDetail",
-)({
-  Urls: S.optional(Urls),
-  Name: S.optional(S.String),
-  Id: S.optional(S.String),
-  Confidence: S.optional(S.Number),
-  BoundingBox: S.optional(BoundingBox),
-  Face: S.optional(FaceDetail),
-  KnownGender: S.optional(KnownGender),
-}) {}
-export class ModerationLabel extends S.Class<ModerationLabel>(
-  "ModerationLabel",
-)({
-  Confidence: S.optional(S.Number),
-  Name: S.optional(S.String),
-  ParentName: S.optional(S.String),
-  TaxonomyLevel: S.optional(S.Number),
-}) {}
-export class ContentType extends S.Class<ContentType>("ContentType")({
-  Confidence: S.optional(S.Number),
-  Name: S.optional(S.String),
-}) {}
+export interface CelebrityDetail {
+  Urls?: Urls;
+  Name?: string;
+  Id?: string;
+  Confidence?: number;
+  BoundingBox?: BoundingBox;
+  Face?: FaceDetail;
+  KnownGender?: KnownGender;
+}
+export const CelebrityDetail = S.suspend(() =>
+  S.Struct({
+    Urls: S.optional(Urls),
+    Name: S.optional(S.String),
+    Id: S.optional(S.String),
+    Confidence: S.optional(S.Number),
+    BoundingBox: S.optional(BoundingBox),
+    Face: S.optional(FaceDetail),
+    KnownGender: S.optional(KnownGender),
+  }),
+).annotations({
+  identifier: "CelebrityDetail",
+}) as any as S.Schema<CelebrityDetail>;
+export interface ModerationLabel {
+  Confidence?: number;
+  Name?: string;
+  ParentName?: string;
+  TaxonomyLevel?: number;
+}
+export const ModerationLabel = S.suspend(() =>
+  S.Struct({
+    Confidence: S.optional(S.Number),
+    Name: S.optional(S.String),
+    ParentName: S.optional(S.String),
+    TaxonomyLevel: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "ModerationLabel",
+}) as any as S.Schema<ModerationLabel>;
+export interface ContentType {
+  Confidence?: number;
+  Name?: string;
+}
+export const ContentType = S.suspend(() =>
+  S.Struct({ Confidence: S.optional(S.Number), Name: S.optional(S.String) }),
+).annotations({ identifier: "ContentType" }) as any as S.Schema<ContentType>;
+export type ContentTypes = ContentType[];
 export const ContentTypes = S.Array(ContentType);
-export class TechnicalCueSegment extends S.Class<TechnicalCueSegment>(
-  "TechnicalCueSegment",
-)({ Type: S.optional(S.String), Confidence: S.optional(S.Number) }) {}
-export class ShotSegment extends S.Class<ShotSegment>("ShotSegment")({
-  Index: S.optional(S.Number),
-  Confidence: S.optional(S.Number),
-}) {}
-export class TextDetection extends S.Class<TextDetection>("TextDetection")({
-  DetectedText: S.optional(S.String),
-  Type: S.optional(S.String),
-  Id: S.optional(S.Number),
-  ParentId: S.optional(S.Number),
-  Confidence: S.optional(S.Number),
-  Geometry: S.optional(Geometry),
-}) {}
-export class DatasetLabelStats extends S.Class<DatasetLabelStats>(
-  "DatasetLabelStats",
-)({
-  EntryCount: S.optional(S.Number),
-  BoundingBoxCount: S.optional(S.Number),
-}) {}
-export class StartTechnicalCueDetectionFilter extends S.Class<StartTechnicalCueDetectionFilter>(
-  "StartTechnicalCueDetectionFilter",
-)({
-  MinSegmentConfidence: S.optional(S.Number),
-  BlackFrame: S.optional(BlackFrame),
-}) {}
+export interface TechnicalCueSegment {
+  Type?: string;
+  Confidence?: number;
+}
+export const TechnicalCueSegment = S.suspend(() =>
+  S.Struct({ Type: S.optional(S.String), Confidence: S.optional(S.Number) }),
+).annotations({
+  identifier: "TechnicalCueSegment",
+}) as any as S.Schema<TechnicalCueSegment>;
+export interface ShotSegment {
+  Index?: number;
+  Confidence?: number;
+}
+export const ShotSegment = S.suspend(() =>
+  S.Struct({ Index: S.optional(S.Number), Confidence: S.optional(S.Number) }),
+).annotations({ identifier: "ShotSegment" }) as any as S.Schema<ShotSegment>;
+export interface TextDetection {
+  DetectedText?: string;
+  Type?: string;
+  Id?: number;
+  ParentId?: number;
+  Confidence?: number;
+  Geometry?: Geometry;
+}
+export const TextDetection = S.suspend(() =>
+  S.Struct({
+    DetectedText: S.optional(S.String),
+    Type: S.optional(S.String),
+    Id: S.optional(S.Number),
+    ParentId: S.optional(S.Number),
+    Confidence: S.optional(S.Number),
+    Geometry: S.optional(Geometry),
+  }),
+).annotations({
+  identifier: "TextDetection",
+}) as any as S.Schema<TextDetection>;
+export interface DatasetLabelStats {
+  EntryCount?: number;
+  BoundingBoxCount?: number;
+}
+export const DatasetLabelStats = S.suspend(() =>
+  S.Struct({
+    EntryCount: S.optional(S.Number),
+    BoundingBoxCount: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "DatasetLabelStats",
+}) as any as S.Schema<DatasetLabelStats>;
+export interface StartTechnicalCueDetectionFilter {
+  MinSegmentConfidence?: number;
+  BlackFrame?: BlackFrame;
+}
+export const StartTechnicalCueDetectionFilter = S.suspend(() =>
+  S.Struct({
+    MinSegmentConfidence: S.optional(S.Number),
+    BlackFrame: S.optional(BlackFrame),
+  }),
+).annotations({
+  identifier: "StartTechnicalCueDetectionFilter",
+}) as any as S.Schema<StartTechnicalCueDetectionFilter>;
+export type CompareFacesUnmatchList = ComparedFace[];
 export const CompareFacesUnmatchList = S.Array(ComparedFace);
-export class CreateFaceLivenessSessionRequestSettings extends S.Class<CreateFaceLivenessSessionRequestSettings>(
-  "CreateFaceLivenessSessionRequestSettings",
-)({
-  OutputConfig: S.optional(LivenessOutputConfig),
-  AuditImagesLimit: S.optional(S.Number),
-  ChallengePreferences: S.optional(ChallengePreferences),
-}) {}
-export class DatasetDescription extends S.Class<DatasetDescription>(
-  "DatasetDescription",
-)({
-  CreationTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  LastUpdatedTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  Status: S.optional(S.String),
-  StatusMessage: S.optional(S.String),
-  StatusMessageCode: S.optional(S.String),
-  DatasetStats: S.optional(DatasetStats),
-}) {}
-export class ProjectDescription extends S.Class<ProjectDescription>(
-  "ProjectDescription",
-)({
-  ProjectArn: S.optional(S.String),
-  CreationTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  Status: S.optional(S.String),
-  Datasets: S.optional(DatasetMetadataList),
-  Feature: S.optional(S.String),
-  AutoUpdate: S.optional(S.String),
-}) {}
+export interface CreateFaceLivenessSessionRequestSettings {
+  OutputConfig?: LivenessOutputConfig;
+  AuditImagesLimit?: number;
+  ChallengePreferences?: ChallengePreferences;
+}
+export const CreateFaceLivenessSessionRequestSettings = S.suspend(() =>
+  S.Struct({
+    OutputConfig: S.optional(LivenessOutputConfig),
+    AuditImagesLimit: S.optional(S.Number),
+    ChallengePreferences: S.optional(ChallengePreferences),
+  }),
+).annotations({
+  identifier: "CreateFaceLivenessSessionRequestSettings",
+}) as any as S.Schema<CreateFaceLivenessSessionRequestSettings>;
+export interface DatasetDescription {
+  CreationTimestamp?: Date;
+  LastUpdatedTimestamp?: Date;
+  Status?: string;
+  StatusMessage?: string;
+  StatusMessageCode?: string;
+  DatasetStats?: DatasetStats;
+}
+export const DatasetDescription = S.suspend(() =>
+  S.Struct({
+    CreationTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastUpdatedTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    Status: S.optional(S.String),
+    StatusMessage: S.optional(S.String),
+    StatusMessageCode: S.optional(S.String),
+    DatasetStats: S.optional(DatasetStats),
+  }),
+).annotations({
+  identifier: "DatasetDescription",
+}) as any as S.Schema<DatasetDescription>;
+export interface ProjectDescription {
+  ProjectArn?: string;
+  CreationTimestamp?: Date;
+  Status?: string;
+  Datasets?: DatasetMetadataList;
+  Feature?: string;
+  AutoUpdate?: string;
+}
+export const ProjectDescription = S.suspend(() =>
+  S.Struct({
+    ProjectArn: S.optional(S.String),
+    CreationTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    Status: S.optional(S.String),
+    Datasets: S.optional(DatasetMetadataList),
+    Feature: S.optional(S.String),
+    AutoUpdate: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ProjectDescription",
+}) as any as S.Schema<ProjectDescription>;
+export type ProjectDescriptions = ProjectDescription[];
 export const ProjectDescriptions = S.Array(ProjectDescription);
-export class CustomLabel extends S.Class<CustomLabel>("CustomLabel")({
-  Name: S.optional(S.String),
-  Confidence: S.optional(S.Number),
-  Geometry: S.optional(Geometry),
-}) {}
+export interface CustomLabel {
+  Name?: string;
+  Confidence?: number;
+  Geometry?: Geometry;
+}
+export const CustomLabel = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Confidence: S.optional(S.Number),
+    Geometry: S.optional(Geometry),
+  }),
+).annotations({ identifier: "CustomLabel" }) as any as S.Schema<CustomLabel>;
+export type CustomLabels = CustomLabel[];
 export const CustomLabels = S.Array(CustomLabel);
+export type FaceDetailList = FaceDetail[];
 export const FaceDetailList = S.Array(FaceDetail);
-export class DominantColor extends S.Class<DominantColor>("DominantColor")({
-  Red: S.optional(S.Number),
-  Blue: S.optional(S.Number),
-  Green: S.optional(S.Number),
-  HexCode: S.optional(S.String),
-  CSSColor: S.optional(S.String),
-  SimplifiedColor: S.optional(S.String),
-  PixelPercent: S.optional(S.Number),
-}) {}
+export interface DominantColor {
+  Red?: number;
+  Blue?: number;
+  Green?: number;
+  HexCode?: string;
+  CSSColor?: string;
+  SimplifiedColor?: string;
+  PixelPercent?: number;
+}
+export const DominantColor = S.suspend(() =>
+  S.Struct({
+    Red: S.optional(S.Number),
+    Blue: S.optional(S.Number),
+    Green: S.optional(S.Number),
+    HexCode: S.optional(S.String),
+    CSSColor: S.optional(S.String),
+    SimplifiedColor: S.optional(S.String),
+    PixelPercent: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "DominantColor",
+}) as any as S.Schema<DominantColor>;
+export type DominantColors = DominantColor[];
 export const DominantColors = S.Array(DominantColor);
-export class Instance extends S.Class<Instance>("Instance")({
-  BoundingBox: S.optional(BoundingBox),
-  Confidence: S.optional(S.Number),
-  DominantColors: S.optional(DominantColors),
-}) {}
+export interface Instance {
+  BoundingBox?: BoundingBox;
+  Confidence?: number;
+  DominantColors?: DominantColors;
+}
+export const Instance = S.suspend(() =>
+  S.Struct({
+    BoundingBox: S.optional(BoundingBox),
+    Confidence: S.optional(S.Number),
+    DominantColors: S.optional(DominantColors),
+  }),
+).annotations({ identifier: "Instance" }) as any as S.Schema<Instance>;
+export type Instances = Instance[];
 export const Instances = S.Array(Instance);
-export class Parent extends S.Class<Parent>("Parent")({
-  Name: S.optional(S.String),
-}) {}
+export interface Parent {
+  Name?: string;
+}
+export const Parent = S.suspend(() =>
+  S.Struct({ Name: S.optional(S.String) }),
+).annotations({ identifier: "Parent" }) as any as S.Schema<Parent>;
+export type Parents = Parent[];
 export const Parents = S.Array(Parent);
-export class LabelAlias extends S.Class<LabelAlias>("LabelAlias")({
-  Name: S.optional(S.String),
-}) {}
+export interface LabelAlias {
+  Name?: string;
+}
+export const LabelAlias = S.suspend(() =>
+  S.Struct({ Name: S.optional(S.String) }),
+).annotations({ identifier: "LabelAlias" }) as any as S.Schema<LabelAlias>;
+export type LabelAliases = LabelAlias[];
 export const LabelAliases = S.Array(LabelAlias);
-export class LabelCategory extends S.Class<LabelCategory>("LabelCategory")({
-  Name: S.optional(S.String),
-}) {}
+export interface LabelCategory {
+  Name?: string;
+}
+export const LabelCategory = S.suspend(() =>
+  S.Struct({ Name: S.optional(S.String) }),
+).annotations({
+  identifier: "LabelCategory",
+}) as any as S.Schema<LabelCategory>;
+export type LabelCategories = LabelCategory[];
 export const LabelCategories = S.Array(LabelCategory);
-export class Label extends S.Class<Label>("Label")({
-  Name: S.optional(S.String),
-  Confidence: S.optional(S.Number),
-  Instances: S.optional(Instances),
-  Parents: S.optional(Parents),
-  Aliases: S.optional(LabelAliases),
-  Categories: S.optional(LabelCategories),
-}) {}
+export interface Label {
+  Name?: string;
+  Confidence?: number;
+  Instances?: Instances;
+  Parents?: Parents;
+  Aliases?: LabelAliases;
+  Categories?: LabelCategories;
+}
+export const Label = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Confidence: S.optional(S.Number),
+    Instances: S.optional(Instances),
+    Parents: S.optional(Parents),
+    Aliases: S.optional(LabelAliases),
+    Categories: S.optional(LabelCategories),
+  }),
+).annotations({ identifier: "Label" }) as any as S.Schema<Label>;
+export type Labels = Label[];
 export const Labels = S.Array(Label);
+export type ModerationLabels = ModerationLabel[];
 export const ModerationLabels = S.Array(ModerationLabel);
-export class ProtectiveEquipmentSummary extends S.Class<ProtectiveEquipmentSummary>(
-  "ProtectiveEquipmentSummary",
-)({
-  PersonsWithRequiredEquipment: S.optional(ProtectiveEquipmentPersonIds),
-  PersonsWithoutRequiredEquipment: S.optional(ProtectiveEquipmentPersonIds),
-  PersonsIndeterminate: S.optional(ProtectiveEquipmentPersonIds),
-}) {}
+export interface ProtectiveEquipmentSummary {
+  PersonsWithRequiredEquipment?: ProtectiveEquipmentPersonIds;
+  PersonsWithoutRequiredEquipment?: ProtectiveEquipmentPersonIds;
+  PersonsIndeterminate?: ProtectiveEquipmentPersonIds;
+}
+export const ProtectiveEquipmentSummary = S.suspend(() =>
+  S.Struct({
+    PersonsWithRequiredEquipment: S.optional(ProtectiveEquipmentPersonIds),
+    PersonsWithoutRequiredEquipment: S.optional(ProtectiveEquipmentPersonIds),
+    PersonsIndeterminate: S.optional(ProtectiveEquipmentPersonIds),
+  }),
+).annotations({
+  identifier: "ProtectiveEquipmentSummary",
+}) as any as S.Schema<ProtectiveEquipmentSummary>;
+export type TextDetectionList = TextDetection[];
 export const TextDetectionList = S.Array(TextDetection);
-export class CelebrityRecognition extends S.Class<CelebrityRecognition>(
-  "CelebrityRecognition",
-)({
-  Timestamp: S.optional(S.Number),
-  Celebrity: S.optional(CelebrityDetail),
-}) {}
+export interface CelebrityRecognition {
+  Timestamp?: number;
+  Celebrity?: CelebrityDetail;
+}
+export const CelebrityRecognition = S.suspend(() =>
+  S.Struct({
+    Timestamp: S.optional(S.Number),
+    Celebrity: S.optional(CelebrityDetail),
+  }),
+).annotations({
+  identifier: "CelebrityRecognition",
+}) as any as S.Schema<CelebrityRecognition>;
+export type CelebrityRecognitions = CelebrityRecognition[];
 export const CelebrityRecognitions = S.Array(CelebrityRecognition);
-export class ContentModerationDetection extends S.Class<ContentModerationDetection>(
-  "ContentModerationDetection",
-)({
-  Timestamp: S.optional(S.Number),
-  ModerationLabel: S.optional(ModerationLabel),
-  StartTimestampMillis: S.optional(S.Number),
-  EndTimestampMillis: S.optional(S.Number),
-  DurationMillis: S.optional(S.Number),
-  ContentTypes: S.optional(ContentTypes),
-}) {}
+export interface ContentModerationDetection {
+  Timestamp?: number;
+  ModerationLabel?: ModerationLabel;
+  StartTimestampMillis?: number;
+  EndTimestampMillis?: number;
+  DurationMillis?: number;
+  ContentTypes?: ContentTypes;
+}
+export const ContentModerationDetection = S.suspend(() =>
+  S.Struct({
+    Timestamp: S.optional(S.Number),
+    ModerationLabel: S.optional(ModerationLabel),
+    StartTimestampMillis: S.optional(S.Number),
+    EndTimestampMillis: S.optional(S.Number),
+    DurationMillis: S.optional(S.Number),
+    ContentTypes: S.optional(ContentTypes),
+  }),
+).annotations({
+  identifier: "ContentModerationDetection",
+}) as any as S.Schema<ContentModerationDetection>;
+export type ContentModerationDetections = ContentModerationDetection[];
 export const ContentModerationDetections = S.Array(ContentModerationDetection);
-export class PersonMatch extends S.Class<PersonMatch>("PersonMatch")({
-  Timestamp: S.optional(S.Number),
-  Person: S.optional(PersonDetail),
-  FaceMatches: S.optional(FaceMatchList),
-}) {}
+export interface PersonMatch {
+  Timestamp?: number;
+  Person?: PersonDetail;
+  FaceMatches?: FaceMatchList;
+}
+export const PersonMatch = S.suspend(() =>
+  S.Struct({
+    Timestamp: S.optional(S.Number),
+    Person: S.optional(PersonDetail),
+    FaceMatches: S.optional(FaceMatchList),
+  }),
+).annotations({ identifier: "PersonMatch" }) as any as S.Schema<PersonMatch>;
+export type PersonMatches = PersonMatch[];
 export const PersonMatches = S.Array(PersonMatch);
-export class SegmentDetection extends S.Class<SegmentDetection>(
-  "SegmentDetection",
-)({
-  Type: S.optional(S.String),
-  StartTimestampMillis: S.optional(S.Number),
-  EndTimestampMillis: S.optional(S.Number),
-  DurationMillis: S.optional(S.Number),
-  StartTimecodeSMPTE: S.optional(S.String),
-  EndTimecodeSMPTE: S.optional(S.String),
-  DurationSMPTE: S.optional(S.String),
-  TechnicalCueSegment: S.optional(TechnicalCueSegment),
-  ShotSegment: S.optional(ShotSegment),
-  StartFrameNumber: S.optional(S.Number),
-  EndFrameNumber: S.optional(S.Number),
-  DurationFrames: S.optional(S.Number),
-}) {}
+export interface SegmentDetection {
+  Type?: string;
+  StartTimestampMillis?: number;
+  EndTimestampMillis?: number;
+  DurationMillis?: number;
+  StartTimecodeSMPTE?: string;
+  EndTimecodeSMPTE?: string;
+  DurationSMPTE?: string;
+  TechnicalCueSegment?: TechnicalCueSegment;
+  ShotSegment?: ShotSegment;
+  StartFrameNumber?: number;
+  EndFrameNumber?: number;
+  DurationFrames?: number;
+}
+export const SegmentDetection = S.suspend(() =>
+  S.Struct({
+    Type: S.optional(S.String),
+    StartTimestampMillis: S.optional(S.Number),
+    EndTimestampMillis: S.optional(S.Number),
+    DurationMillis: S.optional(S.Number),
+    StartTimecodeSMPTE: S.optional(S.String),
+    EndTimecodeSMPTE: S.optional(S.String),
+    DurationSMPTE: S.optional(S.String),
+    TechnicalCueSegment: S.optional(TechnicalCueSegment),
+    ShotSegment: S.optional(ShotSegment),
+    StartFrameNumber: S.optional(S.Number),
+    EndFrameNumber: S.optional(S.Number),
+    DurationFrames: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "SegmentDetection",
+}) as any as S.Schema<SegmentDetection>;
+export type SegmentDetections = SegmentDetection[];
 export const SegmentDetections = S.Array(SegmentDetection);
-export class TextDetectionResult extends S.Class<TextDetectionResult>(
-  "TextDetectionResult",
-)({
-  Timestamp: S.optional(S.Number),
-  TextDetection: S.optional(TextDetection),
-}) {}
+export interface TextDetectionResult {
+  Timestamp?: number;
+  TextDetection?: TextDetection;
+}
+export const TextDetectionResult = S.suspend(() =>
+  S.Struct({
+    Timestamp: S.optional(S.Number),
+    TextDetection: S.optional(TextDetection),
+  }),
+).annotations({
+  identifier: "TextDetectionResult",
+}) as any as S.Schema<TextDetectionResult>;
+export type TextDetectionResults = TextDetectionResult[];
 export const TextDetectionResults = S.Array(TextDetectionResult);
-export class DatasetLabelDescription extends S.Class<DatasetLabelDescription>(
-  "DatasetLabelDescription",
-)({
-  LabelName: S.optional(S.String),
-  LabelStats: S.optional(DatasetLabelStats),
-}) {}
+export interface DatasetLabelDescription {
+  LabelName?: string;
+  LabelStats?: DatasetLabelStats;
+}
+export const DatasetLabelDescription = S.suspend(() =>
+  S.Struct({
+    LabelName: S.optional(S.String),
+    LabelStats: S.optional(DatasetLabelStats),
+  }),
+).annotations({
+  identifier: "DatasetLabelDescription",
+}) as any as S.Schema<DatasetLabelDescription>;
+export type DatasetLabelDescriptions = DatasetLabelDescription[];
 export const DatasetLabelDescriptions = S.Array(DatasetLabelDescription);
-export class StartSegmentDetectionFilters extends S.Class<StartSegmentDetectionFilters>(
-  "StartSegmentDetectionFilters",
-)({
-  TechnicalCueFilter: S.optional(StartTechnicalCueDetectionFilter),
-  ShotFilter: S.optional(StartShotDetectionFilter),
-}) {}
-export class Summary extends S.Class<Summary>("Summary")({
-  S3Object: S.optional(S3Object),
-}) {}
-export class CreateDatasetResponse extends S.Class<CreateDatasetResponse>(
-  "CreateDatasetResponse",
-)({ DatasetArn: S.optional(S.String) }) {}
-export class CreateFaceLivenessSessionRequest extends S.Class<CreateFaceLivenessSessionRequest>(
-  "CreateFaceLivenessSessionRequest",
-)(
-  {
+export interface StartSegmentDetectionFilters {
+  TechnicalCueFilter?: StartTechnicalCueDetectionFilter;
+  ShotFilter?: StartShotDetectionFilter;
+}
+export const StartSegmentDetectionFilters = S.suspend(() =>
+  S.Struct({
+    TechnicalCueFilter: S.optional(StartTechnicalCueDetectionFilter),
+    ShotFilter: S.optional(StartShotDetectionFilter),
+  }),
+).annotations({
+  identifier: "StartSegmentDetectionFilters",
+}) as any as S.Schema<StartSegmentDetectionFilters>;
+export interface Summary {
+  S3Object?: S3Object;
+}
+export const Summary = S.suspend(() =>
+  S.Struct({ S3Object: S.optional(S3Object) }),
+).annotations({ identifier: "Summary" }) as any as S.Schema<Summary>;
+export interface CreateDatasetResponse {
+  DatasetArn?: string;
+}
+export const CreateDatasetResponse = S.suspend(() =>
+  S.Struct({ DatasetArn: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateDatasetResponse",
+}) as any as S.Schema<CreateDatasetResponse>;
+export interface CreateFaceLivenessSessionRequest {
+  KmsKeyId?: string;
+  Settings?: CreateFaceLivenessSessionRequestSettings;
+  ClientRequestToken?: string;
+}
+export const CreateFaceLivenessSessionRequest = S.suspend(() =>
+  S.Struct({
     KmsKeyId: S.optional(S.String),
     Settings: S.optional(CreateFaceLivenessSessionRequestSettings),
     ClientRequestToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateProjectVersionResponse extends S.Class<CreateProjectVersionResponse>(
-  "CreateProjectVersionResponse",
-)({ ProjectVersionArn: S.optional(S.String) }) {}
-export class CreateStreamProcessorResponse extends S.Class<CreateStreamProcessorResponse>(
-  "CreateStreamProcessorResponse",
-)({ StreamProcessorArn: S.optional(S.String) }) {}
-export class DescribeDatasetResponse extends S.Class<DescribeDatasetResponse>(
-  "DescribeDatasetResponse",
-)({ DatasetDescription: S.optional(DatasetDescription) }) {}
-export class DescribeProjectsResponse extends S.Class<DescribeProjectsResponse>(
-  "DescribeProjectsResponse",
-)({
-  ProjectDescriptions: S.optional(ProjectDescriptions),
-  NextToken: S.optional(S.String),
-}) {}
-export class DetectCustomLabelsResponse extends S.Class<DetectCustomLabelsResponse>(
-  "DetectCustomLabelsResponse",
-)({ CustomLabels: S.optional(CustomLabels) }) {}
-export class DetectFacesResponse extends S.Class<DetectFacesResponse>(
-  "DetectFacesResponse",
-)({
-  FaceDetails: S.optional(FaceDetailList),
-  OrientationCorrection: S.optional(S.String),
-}) {}
-export class DetectTextResponse extends S.Class<DetectTextResponse>(
-  "DetectTextResponse",
-)({
-  TextDetections: S.optional(TextDetectionList),
-  TextModelVersion: S.optional(S.String),
-}) {}
-export class GetCelebrityRecognitionResponse extends S.Class<GetCelebrityRecognitionResponse>(
-  "GetCelebrityRecognitionResponse",
-)({
-  JobStatus: S.optional(S.String),
-  StatusMessage: S.optional(S.String),
-  VideoMetadata: S.optional(VideoMetadata),
-  NextToken: S.optional(S.String),
-  Celebrities: S.optional(CelebrityRecognitions),
-  JobId: S.optional(S.String),
-  Video: S.optional(Video),
-  JobTag: S.optional(S.String),
-}) {}
-export class GetContentModerationResponse extends S.Class<GetContentModerationResponse>(
-  "GetContentModerationResponse",
-)({
-  JobStatus: S.optional(S.String),
-  StatusMessage: S.optional(S.String),
-  VideoMetadata: S.optional(VideoMetadata),
-  ModerationLabels: S.optional(ContentModerationDetections),
-  NextToken: S.optional(S.String),
-  ModerationModelVersion: S.optional(S.String),
-  JobId: S.optional(S.String),
-  Video: S.optional(Video),
-  JobTag: S.optional(S.String),
-  GetRequestMetadata: S.optional(GetContentModerationRequestMetadata),
-}) {}
-export class GetFaceSearchResponse extends S.Class<GetFaceSearchResponse>(
-  "GetFaceSearchResponse",
-)({
-  JobStatus: S.optional(S.String),
-  StatusMessage: S.optional(S.String),
-  NextToken: S.optional(S.String),
-  VideoMetadata: S.optional(VideoMetadata),
-  Persons: S.optional(PersonMatches),
-  JobId: S.optional(S.String),
-  Video: S.optional(Video),
-  JobTag: S.optional(S.String),
-}) {}
-export class GetMediaAnalysisJobResponse extends S.Class<GetMediaAnalysisJobResponse>(
-  "GetMediaAnalysisJobResponse",
-)({
-  JobId: S.String,
-  JobName: S.optional(S.String),
-  OperationsConfig: MediaAnalysisOperationsConfig,
-  Status: S.String,
-  FailureDetails: S.optional(MediaAnalysisJobFailureDetails),
-  CreationTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  CompletionTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-  Input: MediaAnalysisInput,
-  OutputConfig: MediaAnalysisOutputConfig,
-  KmsKeyId: S.optional(S.String),
-  Results: S.optional(MediaAnalysisResults),
-  ManifestSummary: S.optional(MediaAnalysisManifestSummary),
-}) {}
-export class GetSegmentDetectionResponse extends S.Class<GetSegmentDetectionResponse>(
-  "GetSegmentDetectionResponse",
-)({
-  JobStatus: S.optional(S.String),
-  StatusMessage: S.optional(S.String),
-  VideoMetadata: S.optional(VideoMetadataList),
-  AudioMetadata: S.optional(AudioMetadataList),
-  NextToken: S.optional(S.String),
-  Segments: S.optional(SegmentDetections),
-  SelectedSegmentTypes: S.optional(SegmentTypesInfo),
-  JobId: S.optional(S.String),
-  Video: S.optional(Video),
-  JobTag: S.optional(S.String),
-}) {}
-export class GetTextDetectionResponse extends S.Class<GetTextDetectionResponse>(
-  "GetTextDetectionResponse",
-)({
-  JobStatus: S.optional(S.String),
-  StatusMessage: S.optional(S.String),
-  VideoMetadata: S.optional(VideoMetadata),
-  TextDetections: S.optional(TextDetectionResults),
-  NextToken: S.optional(S.String),
-  TextModelVersion: S.optional(S.String),
-  JobId: S.optional(S.String),
-  Video: S.optional(Video),
-  JobTag: S.optional(S.String),
-}) {}
-export class ListDatasetLabelsResponse extends S.Class<ListDatasetLabelsResponse>(
-  "ListDatasetLabelsResponse",
-)({
-  DatasetLabelDescriptions: S.optional(DatasetLabelDescriptions),
-  NextToken: S.optional(S.String),
-}) {}
-export class SearchUsersResponse extends S.Class<SearchUsersResponse>(
-  "SearchUsersResponse",
-)({
-  UserMatches: S.optional(UserMatchList),
-  FaceModelVersion: S.optional(S.String),
-  SearchedFace: S.optional(SearchedFace),
-  SearchedUser: S.optional(SearchedUser),
-}) {}
-export class StartMediaAnalysisJobResponse extends S.Class<StartMediaAnalysisJobResponse>(
-  "StartMediaAnalysisJobResponse",
-)({ JobId: S.String }) {}
-export class StartSegmentDetectionRequest extends S.Class<StartSegmentDetectionRequest>(
-  "StartSegmentDetectionRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateFaceLivenessSessionRequest",
+}) as any as S.Schema<CreateFaceLivenessSessionRequest>;
+export interface CreateProjectVersionResponse {
+  ProjectVersionArn?: string;
+}
+export const CreateProjectVersionResponse = S.suspend(() =>
+  S.Struct({ ProjectVersionArn: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateProjectVersionResponse",
+}) as any as S.Schema<CreateProjectVersionResponse>;
+export interface CreateStreamProcessorResponse {
+  StreamProcessorArn?: string;
+}
+export const CreateStreamProcessorResponse = S.suspend(() =>
+  S.Struct({ StreamProcessorArn: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateStreamProcessorResponse",
+}) as any as S.Schema<CreateStreamProcessorResponse>;
+export interface DescribeDatasetResponse {
+  DatasetDescription?: DatasetDescription;
+}
+export const DescribeDatasetResponse = S.suspend(() =>
+  S.Struct({ DatasetDescription: S.optional(DatasetDescription) }),
+).annotations({
+  identifier: "DescribeDatasetResponse",
+}) as any as S.Schema<DescribeDatasetResponse>;
+export interface DescribeProjectsResponse {
+  ProjectDescriptions?: ProjectDescriptions;
+  NextToken?: string;
+}
+export const DescribeProjectsResponse = S.suspend(() =>
+  S.Struct({
+    ProjectDescriptions: S.optional(ProjectDescriptions),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DescribeProjectsResponse",
+}) as any as S.Schema<DescribeProjectsResponse>;
+export interface DetectCustomLabelsResponse {
+  CustomLabels?: CustomLabels;
+}
+export const DetectCustomLabelsResponse = S.suspend(() =>
+  S.Struct({ CustomLabels: S.optional(CustomLabels) }),
+).annotations({
+  identifier: "DetectCustomLabelsResponse",
+}) as any as S.Schema<DetectCustomLabelsResponse>;
+export interface DetectFacesResponse {
+  FaceDetails?: FaceDetailList;
+  OrientationCorrection?: string;
+}
+export const DetectFacesResponse = S.suspend(() =>
+  S.Struct({
+    FaceDetails: S.optional(FaceDetailList),
+    OrientationCorrection: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DetectFacesResponse",
+}) as any as S.Schema<DetectFacesResponse>;
+export interface DetectTextResponse {
+  TextDetections?: TextDetectionList;
+  TextModelVersion?: string;
+}
+export const DetectTextResponse = S.suspend(() =>
+  S.Struct({
+    TextDetections: S.optional(TextDetectionList),
+    TextModelVersion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DetectTextResponse",
+}) as any as S.Schema<DetectTextResponse>;
+export interface GetCelebrityRecognitionResponse {
+  JobStatus?: string;
+  StatusMessage?: string;
+  VideoMetadata?: VideoMetadata;
+  NextToken?: string;
+  Celebrities?: CelebrityRecognitions;
+  JobId?: string;
+  Video?: Video;
+  JobTag?: string;
+}
+export const GetCelebrityRecognitionResponse = S.suspend(() =>
+  S.Struct({
+    JobStatus: S.optional(S.String),
+    StatusMessage: S.optional(S.String),
+    VideoMetadata: S.optional(VideoMetadata),
+    NextToken: S.optional(S.String),
+    Celebrities: S.optional(CelebrityRecognitions),
+    JobId: S.optional(S.String),
+    Video: S.optional(Video),
+    JobTag: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetCelebrityRecognitionResponse",
+}) as any as S.Schema<GetCelebrityRecognitionResponse>;
+export interface GetContentModerationResponse {
+  JobStatus?: string;
+  StatusMessage?: string;
+  VideoMetadata?: VideoMetadata;
+  ModerationLabels?: ContentModerationDetections;
+  NextToken?: string;
+  ModerationModelVersion?: string;
+  JobId?: string;
+  Video?: Video;
+  JobTag?: string;
+  GetRequestMetadata?: GetContentModerationRequestMetadata;
+}
+export const GetContentModerationResponse = S.suspend(() =>
+  S.Struct({
+    JobStatus: S.optional(S.String),
+    StatusMessage: S.optional(S.String),
+    VideoMetadata: S.optional(VideoMetadata),
+    ModerationLabels: S.optional(ContentModerationDetections),
+    NextToken: S.optional(S.String),
+    ModerationModelVersion: S.optional(S.String),
+    JobId: S.optional(S.String),
+    Video: S.optional(Video),
+    JobTag: S.optional(S.String),
+    GetRequestMetadata: S.optional(GetContentModerationRequestMetadata),
+  }),
+).annotations({
+  identifier: "GetContentModerationResponse",
+}) as any as S.Schema<GetContentModerationResponse>;
+export interface GetFaceSearchResponse {
+  JobStatus?: string;
+  StatusMessage?: string;
+  NextToken?: string;
+  VideoMetadata?: VideoMetadata;
+  Persons?: PersonMatches;
+  JobId?: string;
+  Video?: Video;
+  JobTag?: string;
+}
+export const GetFaceSearchResponse = S.suspend(() =>
+  S.Struct({
+    JobStatus: S.optional(S.String),
+    StatusMessage: S.optional(S.String),
+    NextToken: S.optional(S.String),
+    VideoMetadata: S.optional(VideoMetadata),
+    Persons: S.optional(PersonMatches),
+    JobId: S.optional(S.String),
+    Video: S.optional(Video),
+    JobTag: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetFaceSearchResponse",
+}) as any as S.Schema<GetFaceSearchResponse>;
+export interface GetMediaAnalysisJobResponse {
+  JobId: string;
+  JobName?: string;
+  OperationsConfig: MediaAnalysisOperationsConfig;
+  Status: string;
+  FailureDetails?: MediaAnalysisJobFailureDetails;
+  CreationTimestamp: Date;
+  CompletionTimestamp?: Date;
+  Input: MediaAnalysisInput;
+  OutputConfig: MediaAnalysisOutputConfig;
+  KmsKeyId?: string;
+  Results?: MediaAnalysisResults;
+  ManifestSummary?: MediaAnalysisManifestSummary;
+}
+export const GetMediaAnalysisJobResponse = S.suspend(() =>
+  S.Struct({
+    JobId: S.String,
+    JobName: S.optional(S.String),
+    OperationsConfig: MediaAnalysisOperationsConfig,
+    Status: S.String,
+    FailureDetails: S.optional(MediaAnalysisJobFailureDetails),
+    CreationTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    CompletionTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    Input: MediaAnalysisInput,
+    OutputConfig: MediaAnalysisOutputConfig,
+    KmsKeyId: S.optional(S.String),
+    Results: S.optional(MediaAnalysisResults),
+    ManifestSummary: S.optional(MediaAnalysisManifestSummary),
+  }),
+).annotations({
+  identifier: "GetMediaAnalysisJobResponse",
+}) as any as S.Schema<GetMediaAnalysisJobResponse>;
+export interface GetSegmentDetectionResponse {
+  JobStatus?: string;
+  StatusMessage?: string;
+  VideoMetadata?: VideoMetadataList;
+  AudioMetadata?: AudioMetadataList;
+  NextToken?: string;
+  Segments?: SegmentDetections;
+  SelectedSegmentTypes?: SegmentTypesInfo;
+  JobId?: string;
+  Video?: Video;
+  JobTag?: string;
+}
+export const GetSegmentDetectionResponse = S.suspend(() =>
+  S.Struct({
+    JobStatus: S.optional(S.String),
+    StatusMessage: S.optional(S.String),
+    VideoMetadata: S.optional(VideoMetadataList),
+    AudioMetadata: S.optional(AudioMetadataList),
+    NextToken: S.optional(S.String),
+    Segments: S.optional(SegmentDetections),
+    SelectedSegmentTypes: S.optional(SegmentTypesInfo),
+    JobId: S.optional(S.String),
+    Video: S.optional(Video),
+    JobTag: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetSegmentDetectionResponse",
+}) as any as S.Schema<GetSegmentDetectionResponse>;
+export interface GetTextDetectionResponse {
+  JobStatus?: string;
+  StatusMessage?: string;
+  VideoMetadata?: VideoMetadata;
+  TextDetections?: TextDetectionResults;
+  NextToken?: string;
+  TextModelVersion?: string;
+  JobId?: string;
+  Video?: Video;
+  JobTag?: string;
+}
+export const GetTextDetectionResponse = S.suspend(() =>
+  S.Struct({
+    JobStatus: S.optional(S.String),
+    StatusMessage: S.optional(S.String),
+    VideoMetadata: S.optional(VideoMetadata),
+    TextDetections: S.optional(TextDetectionResults),
+    NextToken: S.optional(S.String),
+    TextModelVersion: S.optional(S.String),
+    JobId: S.optional(S.String),
+    Video: S.optional(Video),
+    JobTag: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetTextDetectionResponse",
+}) as any as S.Schema<GetTextDetectionResponse>;
+export interface ListDatasetLabelsResponse {
+  DatasetLabelDescriptions?: DatasetLabelDescriptions;
+  NextToken?: string;
+}
+export const ListDatasetLabelsResponse = S.suspend(() =>
+  S.Struct({
+    DatasetLabelDescriptions: S.optional(DatasetLabelDescriptions),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListDatasetLabelsResponse",
+}) as any as S.Schema<ListDatasetLabelsResponse>;
+export interface SearchUsersResponse {
+  UserMatches?: UserMatchList;
+  FaceModelVersion?: string;
+  SearchedFace?: SearchedFace;
+  SearchedUser?: SearchedUser;
+}
+export const SearchUsersResponse = S.suspend(() =>
+  S.Struct({
+    UserMatches: S.optional(UserMatchList),
+    FaceModelVersion: S.optional(S.String),
+    SearchedFace: S.optional(SearchedFace),
+    SearchedUser: S.optional(SearchedUser),
+  }),
+).annotations({
+  identifier: "SearchUsersResponse",
+}) as any as S.Schema<SearchUsersResponse>;
+export interface StartMediaAnalysisJobResponse {
+  JobId: string;
+}
+export const StartMediaAnalysisJobResponse = S.suspend(() =>
+  S.Struct({ JobId: S.String }),
+).annotations({
+  identifier: "StartMediaAnalysisJobResponse",
+}) as any as S.Schema<StartMediaAnalysisJobResponse>;
+export interface StartSegmentDetectionRequest {
+  Video: Video;
+  ClientRequestToken?: string;
+  NotificationChannel?: NotificationChannel;
+  JobTag?: string;
+  Filters?: StartSegmentDetectionFilters;
+  SegmentTypes: SegmentTypes;
+}
+export const StartSegmentDetectionRequest = S.suspend(() =>
+  S.Struct({
     Video: Video,
     ClientRequestToken: S.optional(S.String),
     NotificationChannel: S.optional(NotificationChannel),
     JobTag: S.optional(S.String),
     Filters: S.optional(StartSegmentDetectionFilters),
     SegmentTypes: SegmentTypes,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StartStreamProcessorResponse extends S.Class<StartStreamProcessorResponse>(
-  "StartStreamProcessorResponse",
-)({ SessionId: S.optional(S.String) }) {}
-export class TrainingDataResult extends S.Class<TrainingDataResult>(
-  "TrainingDataResult",
-)({
-  Input: S.optional(TrainingData),
-  Output: S.optional(TrainingData),
-  Validation: S.optional(ValidationData),
-}) {}
-export class EvaluationResult extends S.Class<EvaluationResult>(
-  "EvaluationResult",
-)({ F1Score: S.optional(S.Number), Summary: S.optional(Summary) }) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StartSegmentDetectionRequest",
+}) as any as S.Schema<StartSegmentDetectionRequest>;
+export interface StartStreamProcessorResponse {
+  SessionId?: string;
+}
+export const StartStreamProcessorResponse = S.suspend(() =>
+  S.Struct({ SessionId: S.optional(S.String) }),
+).annotations({
+  identifier: "StartStreamProcessorResponse",
+}) as any as S.Schema<StartStreamProcessorResponse>;
+export interface TrainingDataResult {
+  Input?: TrainingData;
+  Output?: TrainingData;
+  Validation?: ValidationData;
+}
+export const TrainingDataResult = S.suspend(() =>
+  S.Struct({
+    Input: S.optional(TrainingData),
+    Output: S.optional(TrainingData),
+    Validation: S.optional(ValidationData),
+  }),
+).annotations({
+  identifier: "TrainingDataResult",
+}) as any as S.Schema<TrainingDataResult>;
+export interface EvaluationResult {
+  F1Score?: number;
+  Summary?: Summary;
+}
+export const EvaluationResult = S.suspend(() =>
+  S.Struct({ F1Score: S.optional(S.Number), Summary: S.optional(Summary) }),
+).annotations({
+  identifier: "EvaluationResult",
+}) as any as S.Schema<EvaluationResult>;
+export type HumanLoopActivationReasons = string[];
 export const HumanLoopActivationReasons = S.Array(S.String);
-export class ComparedSourceImageFace extends S.Class<ComparedSourceImageFace>(
-  "ComparedSourceImageFace",
-)({ BoundingBox: S.optional(BoundingBox), Confidence: S.optional(S.Number) }) {}
-export class CompareFacesMatch extends S.Class<CompareFacesMatch>(
-  "CompareFacesMatch",
-)({ Similarity: S.optional(S.Number), Face: S.optional(ComparedFace) }) {}
+export interface ComparedSourceImageFace {
+  BoundingBox?: BoundingBox;
+  Confidence?: number;
+}
+export const ComparedSourceImageFace = S.suspend(() =>
+  S.Struct({
+    BoundingBox: S.optional(BoundingBox),
+    Confidence: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "ComparedSourceImageFace",
+}) as any as S.Schema<ComparedSourceImageFace>;
+export interface CompareFacesMatch {
+  Similarity?: number;
+  Face?: ComparedFace;
+}
+export const CompareFacesMatch = S.suspend(() =>
+  S.Struct({
+    Similarity: S.optional(S.Number),
+    Face: S.optional(ComparedFace),
+  }),
+).annotations({
+  identifier: "CompareFacesMatch",
+}) as any as S.Schema<CompareFacesMatch>;
+export type CompareFacesMatchList = CompareFacesMatch[];
 export const CompareFacesMatchList = S.Array(CompareFacesMatch);
-export class ProjectVersionDescription extends S.Class<ProjectVersionDescription>(
-  "ProjectVersionDescription",
-)({
-  ProjectVersionArn: S.optional(S.String),
-  CreationTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  MinInferenceUnits: S.optional(S.Number),
-  Status: S.optional(S.String),
-  StatusMessage: S.optional(S.String),
-  BillableTrainingTimeInSeconds: S.optional(S.Number),
-  TrainingEndTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  OutputConfig: S.optional(OutputConfig),
-  TrainingDataResult: S.optional(TrainingDataResult),
-  TestingDataResult: S.optional(TestingDataResult),
-  EvaluationResult: S.optional(EvaluationResult),
-  ManifestSummary: S.optional(GroundTruthManifest),
-  KmsKeyId: S.optional(S.String),
-  MaxInferenceUnits: S.optional(S.Number),
-  SourceProjectVersionArn: S.optional(S.String),
-  VersionDescription: S.optional(S.String),
-  Feature: S.optional(S.String),
-  BaseModelVersion: S.optional(S.String),
-  FeatureConfig: S.optional(CustomizationFeatureConfig),
-}) {}
+export interface ProjectVersionDescription {
+  ProjectVersionArn?: string;
+  CreationTimestamp?: Date;
+  MinInferenceUnits?: number;
+  Status?: string;
+  StatusMessage?: string;
+  BillableTrainingTimeInSeconds?: number;
+  TrainingEndTimestamp?: Date;
+  OutputConfig?: OutputConfig;
+  TrainingDataResult?: TrainingDataResult;
+  TestingDataResult?: TestingDataResult;
+  EvaluationResult?: EvaluationResult;
+  ManifestSummary?: GroundTruthManifest;
+  KmsKeyId?: string;
+  MaxInferenceUnits?: number;
+  SourceProjectVersionArn?: string;
+  VersionDescription?: string;
+  Feature?: string;
+  BaseModelVersion?: string;
+  FeatureConfig?: CustomizationFeatureConfig;
+}
+export const ProjectVersionDescription = S.suspend(() =>
+  S.Struct({
+    ProjectVersionArn: S.optional(S.String),
+    CreationTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    MinInferenceUnits: S.optional(S.Number),
+    Status: S.optional(S.String),
+    StatusMessage: S.optional(S.String),
+    BillableTrainingTimeInSeconds: S.optional(S.Number),
+    TrainingEndTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    OutputConfig: S.optional(OutputConfig),
+    TrainingDataResult: S.optional(TrainingDataResult),
+    TestingDataResult: S.optional(TestingDataResult),
+    EvaluationResult: S.optional(EvaluationResult),
+    ManifestSummary: S.optional(GroundTruthManifest),
+    KmsKeyId: S.optional(S.String),
+    MaxInferenceUnits: S.optional(S.Number),
+    SourceProjectVersionArn: S.optional(S.String),
+    VersionDescription: S.optional(S.String),
+    Feature: S.optional(S.String),
+    BaseModelVersion: S.optional(S.String),
+    FeatureConfig: S.optional(CustomizationFeatureConfig),
+  }),
+).annotations({
+  identifier: "ProjectVersionDescription",
+}) as any as S.Schema<ProjectVersionDescription>;
+export type ProjectVersionDescriptions = ProjectVersionDescription[];
 export const ProjectVersionDescriptions = S.Array(ProjectVersionDescription);
-export class HumanLoopActivationOutput extends S.Class<HumanLoopActivationOutput>(
-  "HumanLoopActivationOutput",
-)({
-  HumanLoopArn: S.optional(S.String),
-  HumanLoopActivationReasons: S.optional(HumanLoopActivationReasons),
-  HumanLoopActivationConditionsEvaluationResults: S.optional(S.String),
-}) {}
-export class CompareFacesResponse extends S.Class<CompareFacesResponse>(
-  "CompareFacesResponse",
-)({
-  SourceImageFace: S.optional(ComparedSourceImageFace),
-  FaceMatches: S.optional(CompareFacesMatchList),
-  UnmatchedFaces: S.optional(CompareFacesUnmatchList),
-  SourceImageOrientationCorrection: S.optional(S.String),
-  TargetImageOrientationCorrection: S.optional(S.String),
-}) {}
-export class CreateFaceLivenessSessionResponse extends S.Class<CreateFaceLivenessSessionResponse>(
-  "CreateFaceLivenessSessionResponse",
-)({ SessionId: S.String }) {}
-export class DescribeProjectVersionsResponse extends S.Class<DescribeProjectVersionsResponse>(
-  "DescribeProjectVersionsResponse",
-)({
-  ProjectVersionDescriptions: S.optional(ProjectVersionDescriptions),
-  NextToken: S.optional(S.String),
-}) {}
-export class DetectModerationLabelsResponse extends S.Class<DetectModerationLabelsResponse>(
-  "DetectModerationLabelsResponse",
-)({
-  ModerationLabels: S.optional(ModerationLabels),
-  ModerationModelVersion: S.optional(S.String),
-  HumanLoopActivationOutput: S.optional(HumanLoopActivationOutput),
-  ProjectVersion: S.optional(S.String),
-  ContentTypes: S.optional(ContentTypes),
-}) {}
-export class StartSegmentDetectionResponse extends S.Class<StartSegmentDetectionResponse>(
-  "StartSegmentDetectionResponse",
-)({ JobId: S.optional(S.String) }) {}
-export class DetectLabelsImageQuality extends S.Class<DetectLabelsImageQuality>(
-  "DetectLabelsImageQuality",
-)({
-  Brightness: S.optional(S.Number),
-  Sharpness: S.optional(S.Number),
-  Contrast: S.optional(S.Number),
-}) {}
-export class DetectLabelsImageForeground extends S.Class<DetectLabelsImageForeground>(
-  "DetectLabelsImageForeground",
-)({
-  Quality: S.optional(DetectLabelsImageQuality),
-  DominantColors: S.optional(DominantColors),
-}) {}
-export class DetectLabelsImageBackground extends S.Class<DetectLabelsImageBackground>(
-  "DetectLabelsImageBackground",
-)({
-  Quality: S.optional(DetectLabelsImageQuality),
-  DominantColors: S.optional(DominantColors),
-}) {}
-export class CoversBodyPart extends S.Class<CoversBodyPart>("CoversBodyPart")({
-  Confidence: S.optional(S.Number),
-  Value: S.optional(S.Boolean),
-}) {}
-export class DetectLabelsImageProperties extends S.Class<DetectLabelsImageProperties>(
-  "DetectLabelsImageProperties",
-)({
-  Quality: S.optional(DetectLabelsImageQuality),
-  DominantColors: S.optional(DominantColors),
-  Foreground: S.optional(DetectLabelsImageForeground),
-  Background: S.optional(DetectLabelsImageBackground),
-}) {}
-export class LabelDetection extends S.Class<LabelDetection>("LabelDetection")({
-  Timestamp: S.optional(S.Number),
-  Label: S.optional(Label),
-  StartTimestampMillis: S.optional(S.Number),
-  EndTimestampMillis: S.optional(S.Number),
-  DurationMillis: S.optional(S.Number),
-}) {}
+export interface HumanLoopActivationOutput {
+  HumanLoopArn?: string;
+  HumanLoopActivationReasons?: HumanLoopActivationReasons;
+  HumanLoopActivationConditionsEvaluationResults?: string;
+}
+export const HumanLoopActivationOutput = S.suspend(() =>
+  S.Struct({
+    HumanLoopArn: S.optional(S.String),
+    HumanLoopActivationReasons: S.optional(HumanLoopActivationReasons),
+    HumanLoopActivationConditionsEvaluationResults: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "HumanLoopActivationOutput",
+}) as any as S.Schema<HumanLoopActivationOutput>;
+export interface CompareFacesResponse {
+  SourceImageFace?: ComparedSourceImageFace;
+  FaceMatches?: CompareFacesMatchList;
+  UnmatchedFaces?: CompareFacesUnmatchList;
+  SourceImageOrientationCorrection?: string;
+  TargetImageOrientationCorrection?: string;
+}
+export const CompareFacesResponse = S.suspend(() =>
+  S.Struct({
+    SourceImageFace: S.optional(ComparedSourceImageFace),
+    FaceMatches: S.optional(CompareFacesMatchList),
+    UnmatchedFaces: S.optional(CompareFacesUnmatchList),
+    SourceImageOrientationCorrection: S.optional(S.String),
+    TargetImageOrientationCorrection: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CompareFacesResponse",
+}) as any as S.Schema<CompareFacesResponse>;
+export interface CreateFaceLivenessSessionResponse {
+  SessionId: string;
+}
+export const CreateFaceLivenessSessionResponse = S.suspend(() =>
+  S.Struct({ SessionId: S.String }),
+).annotations({
+  identifier: "CreateFaceLivenessSessionResponse",
+}) as any as S.Schema<CreateFaceLivenessSessionResponse>;
+export interface DescribeProjectVersionsResponse {
+  ProjectVersionDescriptions?: ProjectVersionDescriptions;
+  NextToken?: string;
+}
+export const DescribeProjectVersionsResponse = S.suspend(() =>
+  S.Struct({
+    ProjectVersionDescriptions: S.optional(ProjectVersionDescriptions),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DescribeProjectVersionsResponse",
+}) as any as S.Schema<DescribeProjectVersionsResponse>;
+export interface DetectModerationLabelsResponse {
+  ModerationLabels?: ModerationLabels;
+  ModerationModelVersion?: string;
+  HumanLoopActivationOutput?: HumanLoopActivationOutput;
+  ProjectVersion?: string;
+  ContentTypes?: ContentTypes;
+}
+export const DetectModerationLabelsResponse = S.suspend(() =>
+  S.Struct({
+    ModerationLabels: S.optional(ModerationLabels),
+    ModerationModelVersion: S.optional(S.String),
+    HumanLoopActivationOutput: S.optional(HumanLoopActivationOutput),
+    ProjectVersion: S.optional(S.String),
+    ContentTypes: S.optional(ContentTypes),
+  }),
+).annotations({
+  identifier: "DetectModerationLabelsResponse",
+}) as any as S.Schema<DetectModerationLabelsResponse>;
+export interface StartSegmentDetectionResponse {
+  JobId?: string;
+}
+export const StartSegmentDetectionResponse = S.suspend(() =>
+  S.Struct({ JobId: S.optional(S.String) }),
+).annotations({
+  identifier: "StartSegmentDetectionResponse",
+}) as any as S.Schema<StartSegmentDetectionResponse>;
+export interface DetectLabelsImageQuality {
+  Brightness?: number;
+  Sharpness?: number;
+  Contrast?: number;
+}
+export const DetectLabelsImageQuality = S.suspend(() =>
+  S.Struct({
+    Brightness: S.optional(S.Number),
+    Sharpness: S.optional(S.Number),
+    Contrast: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "DetectLabelsImageQuality",
+}) as any as S.Schema<DetectLabelsImageQuality>;
+export interface DetectLabelsImageForeground {
+  Quality?: DetectLabelsImageQuality;
+  DominantColors?: DominantColors;
+}
+export const DetectLabelsImageForeground = S.suspend(() =>
+  S.Struct({
+    Quality: S.optional(DetectLabelsImageQuality),
+    DominantColors: S.optional(DominantColors),
+  }),
+).annotations({
+  identifier: "DetectLabelsImageForeground",
+}) as any as S.Schema<DetectLabelsImageForeground>;
+export interface DetectLabelsImageBackground {
+  Quality?: DetectLabelsImageQuality;
+  DominantColors?: DominantColors;
+}
+export const DetectLabelsImageBackground = S.suspend(() =>
+  S.Struct({
+    Quality: S.optional(DetectLabelsImageQuality),
+    DominantColors: S.optional(DominantColors),
+  }),
+).annotations({
+  identifier: "DetectLabelsImageBackground",
+}) as any as S.Schema<DetectLabelsImageBackground>;
+export interface CoversBodyPart {
+  Confidence?: number;
+  Value?: boolean;
+}
+export const CoversBodyPart = S.suspend(() =>
+  S.Struct({ Confidence: S.optional(S.Number), Value: S.optional(S.Boolean) }),
+).annotations({
+  identifier: "CoversBodyPart",
+}) as any as S.Schema<CoversBodyPart>;
+export interface DetectLabelsImageProperties {
+  Quality?: DetectLabelsImageQuality;
+  DominantColors?: DominantColors;
+  Foreground?: DetectLabelsImageForeground;
+  Background?: DetectLabelsImageBackground;
+}
+export const DetectLabelsImageProperties = S.suspend(() =>
+  S.Struct({
+    Quality: S.optional(DetectLabelsImageQuality),
+    DominantColors: S.optional(DominantColors),
+    Foreground: S.optional(DetectLabelsImageForeground),
+    Background: S.optional(DetectLabelsImageBackground),
+  }),
+).annotations({
+  identifier: "DetectLabelsImageProperties",
+}) as any as S.Schema<DetectLabelsImageProperties>;
+export interface LabelDetection {
+  Timestamp?: number;
+  Label?: Label;
+  StartTimestampMillis?: number;
+  EndTimestampMillis?: number;
+  DurationMillis?: number;
+}
+export const LabelDetection = S.suspend(() =>
+  S.Struct({
+    Timestamp: S.optional(S.Number),
+    Label: S.optional(Label),
+    StartTimestampMillis: S.optional(S.Number),
+    EndTimestampMillis: S.optional(S.Number),
+    DurationMillis: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "LabelDetection",
+}) as any as S.Schema<LabelDetection>;
+export type LabelDetections = LabelDetection[];
 export const LabelDetections = S.Array(LabelDetection);
-export class EquipmentDetection extends S.Class<EquipmentDetection>(
-  "EquipmentDetection",
-)({
-  BoundingBox: S.optional(BoundingBox),
-  Confidence: S.optional(S.Number),
-  Type: S.optional(S.String),
-  CoversBodyPart: S.optional(CoversBodyPart),
-}) {}
+export interface EquipmentDetection {
+  BoundingBox?: BoundingBox;
+  Confidence?: number;
+  Type?: string;
+  CoversBodyPart?: CoversBodyPart;
+}
+export const EquipmentDetection = S.suspend(() =>
+  S.Struct({
+    BoundingBox: S.optional(BoundingBox),
+    Confidence: S.optional(S.Number),
+    Type: S.optional(S.String),
+    CoversBodyPart: S.optional(CoversBodyPart),
+  }),
+).annotations({
+  identifier: "EquipmentDetection",
+}) as any as S.Schema<EquipmentDetection>;
+export type EquipmentDetections = EquipmentDetection[];
 export const EquipmentDetections = S.Array(EquipmentDetection);
-export class DetectLabelsResponse extends S.Class<DetectLabelsResponse>(
-  "DetectLabelsResponse",
-)({
-  Labels: S.optional(Labels),
-  OrientationCorrection: S.optional(S.String),
-  LabelModelVersion: S.optional(S.String),
-  ImageProperties: S.optional(DetectLabelsImageProperties),
-}) {}
-export class GetLabelDetectionResponse extends S.Class<GetLabelDetectionResponse>(
-  "GetLabelDetectionResponse",
-)({
-  JobStatus: S.optional(S.String),
-  StatusMessage: S.optional(S.String),
-  VideoMetadata: S.optional(VideoMetadata),
-  NextToken: S.optional(S.String),
-  Labels: S.optional(LabelDetections),
-  LabelModelVersion: S.optional(S.String),
-  JobId: S.optional(S.String),
-  Video: S.optional(Video),
-  JobTag: S.optional(S.String),
-  GetRequestMetadata: S.optional(GetLabelDetectionRequestMetadata),
-}) {}
-export class ProtectiveEquipmentBodyPart extends S.Class<ProtectiveEquipmentBodyPart>(
-  "ProtectiveEquipmentBodyPart",
-)({
-  Name: S.optional(S.String),
-  Confidence: S.optional(S.Number),
-  EquipmentDetections: S.optional(EquipmentDetections),
-}) {}
+export interface DetectLabelsResponse {
+  Labels?: Labels;
+  OrientationCorrection?: string;
+  LabelModelVersion?: string;
+  ImageProperties?: DetectLabelsImageProperties;
+}
+export const DetectLabelsResponse = S.suspend(() =>
+  S.Struct({
+    Labels: S.optional(Labels),
+    OrientationCorrection: S.optional(S.String),
+    LabelModelVersion: S.optional(S.String),
+    ImageProperties: S.optional(DetectLabelsImageProperties),
+  }),
+).annotations({
+  identifier: "DetectLabelsResponse",
+}) as any as S.Schema<DetectLabelsResponse>;
+export interface GetLabelDetectionResponse {
+  JobStatus?: string;
+  StatusMessage?: string;
+  VideoMetadata?: VideoMetadata;
+  NextToken?: string;
+  Labels?: LabelDetections;
+  LabelModelVersion?: string;
+  JobId?: string;
+  Video?: Video;
+  JobTag?: string;
+  GetRequestMetadata?: GetLabelDetectionRequestMetadata;
+}
+export const GetLabelDetectionResponse = S.suspend(() =>
+  S.Struct({
+    JobStatus: S.optional(S.String),
+    StatusMessage: S.optional(S.String),
+    VideoMetadata: S.optional(VideoMetadata),
+    NextToken: S.optional(S.String),
+    Labels: S.optional(LabelDetections),
+    LabelModelVersion: S.optional(S.String),
+    JobId: S.optional(S.String),
+    Video: S.optional(Video),
+    JobTag: S.optional(S.String),
+    GetRequestMetadata: S.optional(GetLabelDetectionRequestMetadata),
+  }),
+).annotations({
+  identifier: "GetLabelDetectionResponse",
+}) as any as S.Schema<GetLabelDetectionResponse>;
+export interface ProtectiveEquipmentBodyPart {
+  Name?: string;
+  Confidence?: number;
+  EquipmentDetections?: EquipmentDetections;
+}
+export const ProtectiveEquipmentBodyPart = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Confidence: S.optional(S.Number),
+    EquipmentDetections: S.optional(EquipmentDetections),
+  }),
+).annotations({
+  identifier: "ProtectiveEquipmentBodyPart",
+}) as any as S.Schema<ProtectiveEquipmentBodyPart>;
+export type BodyParts = ProtectiveEquipmentBodyPart[];
 export const BodyParts = S.Array(ProtectiveEquipmentBodyPart);
-export class ProtectiveEquipmentPerson extends S.Class<ProtectiveEquipmentPerson>(
-  "ProtectiveEquipmentPerson",
-)({
-  BodyParts: S.optional(BodyParts),
-  BoundingBox: S.optional(BoundingBox),
-  Confidence: S.optional(S.Number),
-  Id: S.optional(S.Number),
-}) {}
+export interface ProtectiveEquipmentPerson {
+  BodyParts?: BodyParts;
+  BoundingBox?: BoundingBox;
+  Confidence?: number;
+  Id?: number;
+}
+export const ProtectiveEquipmentPerson = S.suspend(() =>
+  S.Struct({
+    BodyParts: S.optional(BodyParts),
+    BoundingBox: S.optional(BoundingBox),
+    Confidence: S.optional(S.Number),
+    Id: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "ProtectiveEquipmentPerson",
+}) as any as S.Schema<ProtectiveEquipmentPerson>;
+export type ProtectiveEquipmentPersons = ProtectiveEquipmentPerson[];
 export const ProtectiveEquipmentPersons = S.Array(ProtectiveEquipmentPerson);
-export class DetectProtectiveEquipmentResponse extends S.Class<DetectProtectiveEquipmentResponse>(
-  "DetectProtectiveEquipmentResponse",
-)({
-  ProtectiveEquipmentModelVersion: S.optional(S.String),
-  Persons: S.optional(ProtectiveEquipmentPersons),
-  Summary: S.optional(ProtectiveEquipmentSummary),
-}) {}
+export interface DetectProtectiveEquipmentResponse {
+  ProtectiveEquipmentModelVersion?: string;
+  Persons?: ProtectiveEquipmentPersons;
+  Summary?: ProtectiveEquipmentSummary;
+}
+export const DetectProtectiveEquipmentResponse = S.suspend(() =>
+  S.Struct({
+    ProtectiveEquipmentModelVersion: S.optional(S.String),
+    Persons: S.optional(ProtectiveEquipmentPersons),
+    Summary: S.optional(ProtectiveEquipmentSummary),
+  }),
+).annotations({
+  identifier: "DetectProtectiveEquipmentResponse",
+}) as any as S.Schema<DetectProtectiveEquipmentResponse>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

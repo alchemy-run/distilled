@@ -242,33 +242,58 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class SendSerialConsoleSSHPublicKeyRequest extends S.Class<SendSerialConsoleSSHPublicKeyRequest>(
-  "SendSerialConsoleSSHPublicKeyRequest",
-)(
-  {
+export interface SendSerialConsoleSSHPublicKeyRequest {
+  InstanceId: string;
+  SerialPort?: number;
+  SSHPublicKey: string;
+}
+export const SendSerialConsoleSSHPublicKeyRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String,
     SerialPort: S.optional(S.Number),
     SSHPublicKey: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class SendSSHPublicKeyRequest extends S.Class<SendSSHPublicKeyRequest>(
-  "SendSSHPublicKeyRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "SendSerialConsoleSSHPublicKeyRequest",
+}) as any as S.Schema<SendSerialConsoleSSHPublicKeyRequest>;
+export interface SendSSHPublicKeyRequest {
+  InstanceId: string;
+  InstanceOSUser: string;
+  SSHPublicKey: string;
+  AvailabilityZone?: string;
+}
+export const SendSSHPublicKeyRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String,
     InstanceOSUser: S.String,
     SSHPublicKey: S.String,
     AvailabilityZone: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class SendSerialConsoleSSHPublicKeyResponse extends S.Class<SendSerialConsoleSSHPublicKeyResponse>(
-  "SendSerialConsoleSSHPublicKeyResponse",
-)({ RequestId: S.optional(S.String), Success: S.optional(S.Boolean) }) {}
-export class SendSSHPublicKeyResponse extends S.Class<SendSSHPublicKeyResponse>(
-  "SendSSHPublicKeyResponse",
-)({ RequestId: S.optional(S.String), Success: S.optional(S.Boolean) }) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "SendSSHPublicKeyRequest",
+}) as any as S.Schema<SendSSHPublicKeyRequest>;
+export interface SendSerialConsoleSSHPublicKeyResponse {
+  RequestId?: string;
+  Success?: boolean;
+}
+export const SendSerialConsoleSSHPublicKeyResponse = S.suspend(() =>
+  S.Struct({ RequestId: S.optional(S.String), Success: S.optional(S.Boolean) }),
+).annotations({
+  identifier: "SendSerialConsoleSSHPublicKeyResponse",
+}) as any as S.Schema<SendSerialConsoleSSHPublicKeyResponse>;
+export interface SendSSHPublicKeyResponse {
+  RequestId?: string;
+  Success?: boolean;
+}
+export const SendSSHPublicKeyResponse = S.suspend(() =>
+  S.Struct({ RequestId: S.optional(S.String), Success: S.optional(S.Boolean) }),
+).annotations({
+  identifier: "SendSSHPublicKeyResponse",
+}) as any as S.Schema<SendSSHPublicKeyResponse>;
 
 //# Errors
 export class AuthException extends S.TaggedError<AuthException>()(

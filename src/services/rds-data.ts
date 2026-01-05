@@ -242,97 +242,156 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class BeginTransactionRequest extends S.Class<BeginTransactionRequest>(
-  "BeginTransactionRequest",
-)(
-  {
+export interface BeginTransactionRequest {
+  resourceArn: string;
+  secretArn: string;
+  database?: string;
+  schema?: string;
+}
+export const BeginTransactionRequest = S.suspend(() =>
+  S.Struct({
     resourceArn: S.String,
     secretArn: S.String,
     database: S.optional(S.String),
     schema: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/BeginTransaction" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/BeginTransaction" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CommitTransactionRequest extends S.Class<CommitTransactionRequest>(
-  "CommitTransactionRequest",
-)(
-  { resourceArn: S.String, secretArn: S.String, transactionId: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/CommitTransaction" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "BeginTransactionRequest",
+}) as any as S.Schema<BeginTransactionRequest>;
+export interface CommitTransactionRequest {
+  resourceArn: string;
+  secretArn: string;
+  transactionId: string;
+}
+export const CommitTransactionRequest = S.suspend(() =>
+  S.Struct({
+    resourceArn: S.String,
+    secretArn: S.String,
+    transactionId: S.String,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/CommitTransaction" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ExecuteSqlRequest extends S.Class<ExecuteSqlRequest>(
-  "ExecuteSqlRequest",
-)(
-  {
+).annotations({
+  identifier: "CommitTransactionRequest",
+}) as any as S.Schema<CommitTransactionRequest>;
+export interface ExecuteSqlRequest {
+  dbClusterOrInstanceArn: string;
+  awsSecretStoreArn: string;
+  sqlStatements: string;
+  database?: string;
+  schema?: string;
+}
+export const ExecuteSqlRequest = S.suspend(() =>
+  S.Struct({
     dbClusterOrInstanceArn: S.String,
     awsSecretStoreArn: S.String,
     sqlStatements: S.String,
     database: S.optional(S.String),
     schema: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/ExecuteSql" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ExecuteSql" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class RollbackTransactionRequest extends S.Class<RollbackTransactionRequest>(
-  "RollbackTransactionRequest",
-)(
-  { resourceArn: S.String, secretArn: S.String, transactionId: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/RollbackTransaction" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ExecuteSqlRequest",
+}) as any as S.Schema<ExecuteSqlRequest>;
+export interface RollbackTransactionRequest {
+  resourceArn: string;
+  secretArn: string;
+  transactionId: string;
+}
+export const RollbackTransactionRequest = S.suspend(() =>
+  S.Struct({
+    resourceArn: S.String,
+    secretArn: S.String,
+    transactionId: S.String,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/RollbackTransaction" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ResultSetOptions extends S.Class<ResultSetOptions>(
-  "ResultSetOptions",
-)({
-  decimalReturnType: S.optional(S.String),
-  longReturnType: S.optional(S.String),
-}) {}
-export class BeginTransactionResponse extends S.Class<BeginTransactionResponse>(
-  "BeginTransactionResponse",
-)({ transactionId: S.optional(S.String) }) {}
-export class CommitTransactionResponse extends S.Class<CommitTransactionResponse>(
-  "CommitTransactionResponse",
-)({ transactionStatus: S.optional(S.String) }) {}
+).annotations({
+  identifier: "RollbackTransactionRequest",
+}) as any as S.Schema<RollbackTransactionRequest>;
+export interface ResultSetOptions {
+  decimalReturnType?: string;
+  longReturnType?: string;
+}
+export const ResultSetOptions = S.suspend(() =>
+  S.Struct({
+    decimalReturnType: S.optional(S.String),
+    longReturnType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ResultSetOptions",
+}) as any as S.Schema<ResultSetOptions>;
+export interface BeginTransactionResponse {
+  transactionId?: string;
+}
+export const BeginTransactionResponse = S.suspend(() =>
+  S.Struct({ transactionId: S.optional(S.String) }),
+).annotations({
+  identifier: "BeginTransactionResponse",
+}) as any as S.Schema<BeginTransactionResponse>;
+export interface CommitTransactionResponse {
+  transactionStatus?: string;
+}
+export const CommitTransactionResponse = S.suspend(() =>
+  S.Struct({ transactionStatus: S.optional(S.String) }),
+).annotations({
+  identifier: "CommitTransactionResponse",
+}) as any as S.Schema<CommitTransactionResponse>;
+export type BooleanArray = boolean[];
 export const BooleanArray = S.Array(S.Boolean);
+export type LongArray = number[];
 export const LongArray = S.Array(S.Number);
+export type DoubleArray = number[];
 export const DoubleArray = S.Array(S.Number);
+export type StringArray = string[];
 export const StringArray = S.Array(S.String);
 export type ArrayValue =
-  | { booleanValues: (typeof BooleanArray)["Type"] }
-  | { longValues: (typeof LongArray)["Type"] }
-  | { doubleValues: (typeof DoubleArray)["Type"] }
-  | { stringValues: (typeof StringArray)["Type"] }
+  | { booleanValues: BooleanArray }
+  | { longValues: LongArray }
+  | { doubleValues: DoubleArray }
+  | { stringValues: StringArray }
   | { arrayValues: ArrayOfArray };
 export const ArrayValue = S.Union(
   S.Struct({ booleanValues: BooleanArray }),
   S.Struct({ longValues: LongArray }),
   S.Struct({ doubleValues: DoubleArray }),
   S.Struct({ stringValues: StringArray }),
-  S.Struct({ arrayValues: S.suspend(() => ArrayOfArray) }),
+  S.Struct({
+    arrayValues: S.suspend(() => ArrayOfArray).annotations({
+      identifier: "ArrayOfArray",
+    }),
+  }),
 ) as any as S.Schema<ArrayValue>;
 export const Field = S.Union(
   S.Struct({ isNull: S.Boolean }),
@@ -343,16 +402,35 @@ export const Field = S.Union(
   S.Struct({ blobValue: T.Blob }),
   S.Struct({ arrayValue: ArrayValue }),
 );
-export class SqlParameter extends S.Class<SqlParameter>("SqlParameter")({
-  name: S.optional(S.String),
-  value: S.optional(Field),
-  typeHint: S.optional(S.String),
-}) {}
+export interface SqlParameter {
+  name?: string;
+  value?: (typeof Field)["Type"];
+  typeHint?: string;
+}
+export const SqlParameter = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    value: S.optional(Field),
+    typeHint: S.optional(S.String),
+  }),
+).annotations({ identifier: "SqlParameter" }) as any as S.Schema<SqlParameter>;
+export type SqlParametersList = SqlParameter[];
 export const SqlParametersList = S.Array(SqlParameter);
-export class ExecuteStatementRequest extends S.Class<ExecuteStatementRequest>(
-  "ExecuteStatementRequest",
-)(
-  {
+export interface ExecuteStatementRequest {
+  resourceArn: string;
+  secretArn: string;
+  sql: string;
+  database?: string;
+  schema?: string;
+  parameters?: SqlParametersList;
+  transactionId?: string;
+  includeResultMetadata?: boolean;
+  continueAfterTimeout?: boolean;
+  resultSetOptions?: ResultSetOptions;
+  formatRecordsAs?: string;
+}
+export const ExecuteStatementRequest = S.suspend(() =>
+  S.Struct({
     resourceArn: S.String,
     secretArn: S.String,
     sql: S.String,
@@ -364,53 +442,98 @@ export class ExecuteStatementRequest extends S.Class<ExecuteStatementRequest>(
     continueAfterTimeout: S.optional(S.Boolean),
     resultSetOptions: S.optional(ResultSetOptions),
     formatRecordsAs: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/Execute" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/Execute" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class RollbackTransactionResponse extends S.Class<RollbackTransactionResponse>(
-  "RollbackTransactionResponse",
-)({ transactionStatus: S.optional(S.String) }) {}
+).annotations({
+  identifier: "ExecuteStatementRequest",
+}) as any as S.Schema<ExecuteStatementRequest>;
+export interface RollbackTransactionResponse {
+  transactionStatus?: string;
+}
+export const RollbackTransactionResponse = S.suspend(() =>
+  S.Struct({ transactionStatus: S.optional(S.String) }),
+).annotations({
+  identifier: "RollbackTransactionResponse",
+}) as any as S.Schema<RollbackTransactionResponse>;
 export type ArrayOfArray = ArrayValue[];
 export const ArrayOfArray = S.Array(
-  S.suspend(() => ArrayValue),
+  S.suspend(() => ArrayValue).annotations({ identifier: "ArrayValue" }),
 ) as any as S.Schema<ArrayOfArray>;
+export type FieldList = (typeof Field)["Type"][];
 export const FieldList = S.Array(Field);
+export type SqlRecords = FieldList[];
 export const SqlRecords = S.Array(FieldList);
+export type SqlParameterSets = SqlParametersList[];
 export const SqlParameterSets = S.Array(SqlParametersList);
-export class ColumnMetadata extends S.Class<ColumnMetadata>("ColumnMetadata")({
-  name: S.optional(S.String),
-  type: S.optional(S.Number),
-  typeName: S.optional(S.String),
-  label: S.optional(S.String),
-  schemaName: S.optional(S.String),
-  tableName: S.optional(S.String),
-  isAutoIncrement: S.optional(S.Boolean),
-  isSigned: S.optional(S.Boolean),
-  isCurrency: S.optional(S.Boolean),
-  isCaseSensitive: S.optional(S.Boolean),
-  nullable: S.optional(S.Number),
-  precision: S.optional(S.Number),
-  scale: S.optional(S.Number),
-  arrayBaseColumnType: S.optional(S.Number),
-}) {}
+export interface ColumnMetadata {
+  name?: string;
+  type?: number;
+  typeName?: string;
+  label?: string;
+  schemaName?: string;
+  tableName?: string;
+  isAutoIncrement?: boolean;
+  isSigned?: boolean;
+  isCurrency?: boolean;
+  isCaseSensitive?: boolean;
+  nullable?: number;
+  precision?: number;
+  scale?: number;
+  arrayBaseColumnType?: number;
+}
+export const ColumnMetadata = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    type: S.optional(S.Number),
+    typeName: S.optional(S.String),
+    label: S.optional(S.String),
+    schemaName: S.optional(S.String),
+    tableName: S.optional(S.String),
+    isAutoIncrement: S.optional(S.Boolean),
+    isSigned: S.optional(S.Boolean),
+    isCurrency: S.optional(S.Boolean),
+    isCaseSensitive: S.optional(S.Boolean),
+    nullable: S.optional(S.Number),
+    precision: S.optional(S.Number),
+    scale: S.optional(S.Number),
+    arrayBaseColumnType: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "ColumnMetadata",
+}) as any as S.Schema<ColumnMetadata>;
+export type Metadata = ColumnMetadata[];
 export const Metadata = S.Array(ColumnMetadata);
-export class ResultSetMetadata extends S.Class<ResultSetMetadata>(
-  "ResultSetMetadata",
-)({
-  columnCount: S.optional(S.Number),
-  columnMetadata: S.optional(Metadata),
-}) {}
-export class BatchExecuteStatementRequest extends S.Class<BatchExecuteStatementRequest>(
-  "BatchExecuteStatementRequest",
-)(
-  {
+export interface ResultSetMetadata {
+  columnCount?: number;
+  columnMetadata?: Metadata;
+}
+export const ResultSetMetadata = S.suspend(() =>
+  S.Struct({
+    columnCount: S.optional(S.Number),
+    columnMetadata: S.optional(Metadata),
+  }),
+).annotations({
+  identifier: "ResultSetMetadata",
+}) as any as S.Schema<ResultSetMetadata>;
+export interface BatchExecuteStatementRequest {
+  resourceArn: string;
+  secretArn: string;
+  sql: string;
+  database?: string;
+  schema?: string;
+  parameterSets?: SqlParameterSets;
+  transactionId?: string;
+}
+export const BatchExecuteStatementRequest = S.suspend(() =>
+  S.Struct({
     resourceArn: S.String,
     secretArn: S.String,
     sql: S.String,
@@ -418,32 +541,53 @@ export class BatchExecuteStatementRequest extends S.Class<BatchExecuteStatementR
     schema: S.optional(S.String),
     parameterSets: S.optional(SqlParameterSets),
     transactionId: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/BatchExecute" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/BatchExecute" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "BatchExecuteStatementRequest",
+}) as any as S.Schema<BatchExecuteStatementRequest>;
 export type ArrayValueList = Value[];
 export const ArrayValueList = S.Array(
-  S.suspend(() => Value),
+  S.suspend(() => Value).annotations({ identifier: "Value" }),
 ) as any as S.Schema<ArrayValueList>;
-export class ExecuteStatementResponse extends S.Class<ExecuteStatementResponse>(
-  "ExecuteStatementResponse",
-)({
-  records: S.optional(SqlRecords),
-  columnMetadata: S.optional(Metadata),
-  numberOfRecordsUpdated: S.optional(S.Number),
-  generatedFields: S.optional(FieldList),
-  formattedRecords: S.optional(S.String),
-}) {}
-export class StructValue extends S.Class<StructValue>("StructValue")({
-  attributes: S.optional(S.suspend(() => ArrayValueList)),
-}) {}
+export interface ExecuteStatementResponse {
+  records?: SqlRecords;
+  columnMetadata?: Metadata;
+  numberOfRecordsUpdated?: number;
+  generatedFields?: FieldList;
+  formattedRecords?: string;
+}
+export const ExecuteStatementResponse = S.suspend(() =>
+  S.Struct({
+    records: S.optional(SqlRecords),
+    columnMetadata: S.optional(Metadata),
+    numberOfRecordsUpdated: S.optional(S.Number),
+    generatedFields: S.optional(FieldList),
+    formattedRecords: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ExecuteStatementResponse",
+}) as any as S.Schema<ExecuteStatementResponse>;
+export interface StructValue {
+  attributes?: ArrayValueList;
+}
+export const StructValue = S.suspend(() =>
+  S.Struct({
+    attributes: S.optional(
+      S.suspend(() => ArrayValueList).annotations({
+        identifier: "ArrayValueList",
+      }),
+    ),
+  }),
+).annotations({ identifier: "StructValue" }) as any as S.Schema<StructValue>;
 export type Value =
   | { isNull: boolean }
   | { bitValue: boolean }
@@ -464,37 +608,77 @@ export const Value = S.Union(
   S.Struct({ realValue: S.Number }),
   S.Struct({ stringValue: S.String }),
   S.Struct({ blobValue: T.Blob }),
-  S.Struct({ arrayValues: S.suspend(() => ArrayValueList) }),
   S.Struct({
-    structValue: S.suspend((): S.Schema<StructValue, any> => StructValue),
+    arrayValues: S.suspend(() => ArrayValueList).annotations({
+      identifier: "ArrayValueList",
+    }),
+  }),
+  S.Struct({
+    structValue: S.suspend(
+      (): S.Schema<StructValue, any> => StructValue,
+    ).annotations({ identifier: "StructValue" }),
   }),
 ) as any as S.Schema<Value>;
-export const Row = S.Array(S.suspend(() => Value));
-export class UpdateResult extends S.Class<UpdateResult>("UpdateResult")({
-  generatedFields: S.optional(FieldList),
-}) {}
+export type Row = Value[];
+export const Row = S.Array(
+  S.suspend(() => Value).annotations({ identifier: "Value" }),
+);
+export interface UpdateResult {
+  generatedFields?: FieldList;
+}
+export const UpdateResult = S.suspend(() =>
+  S.Struct({ generatedFields: S.optional(FieldList) }),
+).annotations({ identifier: "UpdateResult" }) as any as S.Schema<UpdateResult>;
+export type UpdateResults = UpdateResult[];
 export const UpdateResults = S.Array(UpdateResult);
-export class Record extends S.Class<Record>("Record")({
-  values: S.optional(Row),
-}) {}
+export interface Record {
+  values?: Row;
+}
+export const Record = S.suspend(() =>
+  S.Struct({ values: S.optional(Row) }),
+).annotations({ identifier: "Record" }) as any as S.Schema<Record>;
+export type Records = Record[];
 export const Records = S.Array(Record);
-export class BatchExecuteStatementResponse extends S.Class<BatchExecuteStatementResponse>(
-  "BatchExecuteStatementResponse",
-)({ updateResults: S.optional(UpdateResults) }) {}
-export class ResultFrame extends S.Class<ResultFrame>("ResultFrame")({
-  resultSetMetadata: S.optional(ResultSetMetadata),
-  records: S.optional(Records),
-}) {}
-export class SqlStatementResult extends S.Class<SqlStatementResult>(
-  "SqlStatementResult",
-)({
-  resultFrame: S.optional(ResultFrame),
-  numberOfRecordsUpdated: S.optional(S.Number),
-}) {}
+export interface BatchExecuteStatementResponse {
+  updateResults?: UpdateResults;
+}
+export const BatchExecuteStatementResponse = S.suspend(() =>
+  S.Struct({ updateResults: S.optional(UpdateResults) }),
+).annotations({
+  identifier: "BatchExecuteStatementResponse",
+}) as any as S.Schema<BatchExecuteStatementResponse>;
+export interface ResultFrame {
+  resultSetMetadata?: ResultSetMetadata;
+  records?: Records;
+}
+export const ResultFrame = S.suspend(() =>
+  S.Struct({
+    resultSetMetadata: S.optional(ResultSetMetadata),
+    records: S.optional(Records),
+  }),
+).annotations({ identifier: "ResultFrame" }) as any as S.Schema<ResultFrame>;
+export interface SqlStatementResult {
+  resultFrame?: ResultFrame;
+  numberOfRecordsUpdated?: number;
+}
+export const SqlStatementResult = S.suspend(() =>
+  S.Struct({
+    resultFrame: S.optional(ResultFrame),
+    numberOfRecordsUpdated: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "SqlStatementResult",
+}) as any as S.Schema<SqlStatementResult>;
+export type SqlStatementResults = SqlStatementResult[];
 export const SqlStatementResults = S.Array(SqlStatementResult);
-export class ExecuteSqlResponse extends S.Class<ExecuteSqlResponse>(
-  "ExecuteSqlResponse",
-)({ sqlStatementResults: S.optional(SqlStatementResults) }) {}
+export interface ExecuteSqlResponse {
+  sqlStatementResults?: SqlStatementResults;
+}
+export const ExecuteSqlResponse = S.suspend(() =>
+  S.Struct({ sqlStatementResults: S.optional(SqlStatementResults) }),
+).annotations({
+  identifier: "ExecuteSqlResponse",
+}) as any as S.Schema<ExecuteSqlResponse>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

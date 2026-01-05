@@ -239,10 +239,15 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class CompleteSnapshotRequest extends S.Class<CompleteSnapshotRequest>(
-  "CompleteSnapshotRequest",
-)(
-  {
+export interface CompleteSnapshotRequest {
+  SnapshotId: string;
+  ChangedBlocksCount: number;
+  Checksum?: string;
+  ChecksumAlgorithm?: string;
+  ChecksumAggregationMethod?: string;
+}
+export const CompleteSnapshotRequest = S.suspend(() =>
+  S.Struct({
     SnapshotId: S.String.pipe(T.HttpLabel("SnapshotId")),
     ChangedBlocksCount: S.Number.pipe(T.HttpHeader("x-amz-ChangedBlocksCount")),
     Checksum: S.optional(S.String).pipe(T.HttpHeader("x-amz-Checksum")),
@@ -252,40 +257,54 @@ export class CompleteSnapshotRequest extends S.Class<CompleteSnapshotRequest>(
     ChecksumAggregationMethod: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-Checksum-Aggregation-Method"),
     ),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/snapshots/completion/{SnapshotId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/snapshots/completion/{SnapshotId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetSnapshotBlockRequest extends S.Class<GetSnapshotBlockRequest>(
-  "GetSnapshotBlockRequest",
-)(
-  {
+).annotations({
+  identifier: "CompleteSnapshotRequest",
+}) as any as S.Schema<CompleteSnapshotRequest>;
+export interface GetSnapshotBlockRequest {
+  SnapshotId: string;
+  BlockIndex: number;
+  BlockToken: string;
+}
+export const GetSnapshotBlockRequest = S.suspend(() =>
+  S.Struct({
     SnapshotId: S.String.pipe(T.HttpLabel("SnapshotId")),
     BlockIndex: S.Number.pipe(T.HttpLabel("BlockIndex")),
     BlockToken: S.String.pipe(T.HttpQuery("blockToken")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/snapshots/{SnapshotId}/blocks/{BlockIndex}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/snapshots/{SnapshotId}/blocks/{BlockIndex}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListChangedBlocksRequest extends S.Class<ListChangedBlocksRequest>(
-  "ListChangedBlocksRequest",
-)(
-  {
+).annotations({
+  identifier: "GetSnapshotBlockRequest",
+}) as any as S.Schema<GetSnapshotBlockRequest>;
+export interface ListChangedBlocksRequest {
+  FirstSnapshotId?: string;
+  SecondSnapshotId: string;
+  NextToken?: string;
+  MaxResults?: number;
+  StartingBlockIndex?: number;
+}
+export const ListChangedBlocksRequest = S.suspend(() =>
+  S.Struct({
     FirstSnapshotId: S.optional(S.String).pipe(T.HttpQuery("firstSnapshotId")),
     SecondSnapshotId: S.String.pipe(T.HttpLabel("SecondSnapshotId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("pageToken")),
@@ -293,43 +312,60 @@ export class ListChangedBlocksRequest extends S.Class<ListChangedBlocksRequest>(
     StartingBlockIndex: S.optional(S.Number).pipe(
       T.HttpQuery("startingBlockIndex"),
     ),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/snapshots/{SecondSnapshotId}/changedblocks",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/snapshots/{SecondSnapshotId}/changedblocks",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListSnapshotBlocksRequest extends S.Class<ListSnapshotBlocksRequest>(
-  "ListSnapshotBlocksRequest",
-)(
-  {
+).annotations({
+  identifier: "ListChangedBlocksRequest",
+}) as any as S.Schema<ListChangedBlocksRequest>;
+export interface ListSnapshotBlocksRequest {
+  SnapshotId: string;
+  NextToken?: string;
+  MaxResults?: number;
+  StartingBlockIndex?: number;
+}
+export const ListSnapshotBlocksRequest = S.suspend(() =>
+  S.Struct({
     SnapshotId: S.String.pipe(T.HttpLabel("SnapshotId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("pageToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     StartingBlockIndex: S.optional(S.Number).pipe(
       T.HttpQuery("startingBlockIndex"),
     ),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/snapshots/{SnapshotId}/blocks" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/snapshots/{SnapshotId}/blocks" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutSnapshotBlockRequest extends S.Class<PutSnapshotBlockRequest>(
-  "PutSnapshotBlockRequest",
-)(
-  {
+).annotations({
+  identifier: "ListSnapshotBlocksRequest",
+}) as any as S.Schema<ListSnapshotBlocksRequest>;
+export interface PutSnapshotBlockRequest {
+  SnapshotId: string;
+  BlockIndex: number;
+  BlockData: T.StreamingInputBody;
+  DataLength: number;
+  Progress?: number;
+  Checksum: string;
+  ChecksumAlgorithm: string;
+}
+export const PutSnapshotBlockRequest = S.suspend(() =>
+  S.Struct({
     SnapshotId: S.String.pipe(T.HttpLabel("SnapshotId")),
     BlockIndex: S.Number.pipe(T.HttpLabel("BlockIndex")),
     BlockData: T.StreamingInput.pipe(T.HttpPayload()),
@@ -337,49 +373,83 @@ export class PutSnapshotBlockRequest extends S.Class<PutSnapshotBlockRequest>(
     Progress: S.optional(S.Number).pipe(T.HttpHeader("x-amz-Progress")),
     Checksum: S.String.pipe(T.HttpHeader("x-amz-Checksum")),
     ChecksumAlgorithm: S.String.pipe(T.HttpHeader("x-amz-Checksum-Algorithm")),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/snapshots/{SnapshotId}/blocks/{BlockIndex}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/snapshots/{SnapshotId}/blocks/{BlockIndex}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class Tag extends S.Class<Tag>("Tag")({
-  Key: S.optional(S.String),
-  Value: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "PutSnapshotBlockRequest",
+}) as any as S.Schema<PutSnapshotBlockRequest>;
+export interface Tag {
+  Key?: string;
+  Value?: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ Key: S.optional(S.String), Value: S.optional(S.String) }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type Tags = Tag[];
 export const Tags = S.Array(Tag);
-export class CompleteSnapshotResponse extends S.Class<CompleteSnapshotResponse>(
-  "CompleteSnapshotResponse",
-)({ Status: S.optional(S.String) }) {}
-export class GetSnapshotBlockResponse extends S.Class<GetSnapshotBlockResponse>(
-  "GetSnapshotBlockResponse",
-)({
-  DataLength: S.optional(S.Number).pipe(T.HttpHeader("x-amz-Data-Length")),
-  BlockData: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
-  Checksum: S.optional(S.String).pipe(T.HttpHeader("x-amz-Checksum")),
-  ChecksumAlgorithm: S.optional(S.String).pipe(
-    T.HttpHeader("x-amz-Checksum-Algorithm"),
-  ),
-}) {}
-export class PutSnapshotBlockResponse extends S.Class<PutSnapshotBlockResponse>(
-  "PutSnapshotBlockResponse",
-)({
-  Checksum: S.optional(S.String).pipe(T.HttpHeader("x-amz-Checksum")),
-  ChecksumAlgorithm: S.optional(S.String).pipe(
-    T.HttpHeader("x-amz-Checksum-Algorithm"),
-  ),
-}) {}
-export class StartSnapshotRequest extends S.Class<StartSnapshotRequest>(
-  "StartSnapshotRequest",
-)(
-  {
+export interface CompleteSnapshotResponse {
+  Status?: string;
+}
+export const CompleteSnapshotResponse = S.suspend(() =>
+  S.Struct({ Status: S.optional(S.String) }),
+).annotations({
+  identifier: "CompleteSnapshotResponse",
+}) as any as S.Schema<CompleteSnapshotResponse>;
+export interface GetSnapshotBlockResponse {
+  DataLength?: number;
+  BlockData?: T.StreamingOutputBody;
+  Checksum?: string;
+  ChecksumAlgorithm?: string;
+}
+export const GetSnapshotBlockResponse = S.suspend(() =>
+  S.Struct({
+    DataLength: S.optional(S.Number).pipe(T.HttpHeader("x-amz-Data-Length")),
+    BlockData: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
+    Checksum: S.optional(S.String).pipe(T.HttpHeader("x-amz-Checksum")),
+    ChecksumAlgorithm: S.optional(S.String).pipe(
+      T.HttpHeader("x-amz-Checksum-Algorithm"),
+    ),
+  }),
+).annotations({
+  identifier: "GetSnapshotBlockResponse",
+}) as any as S.Schema<GetSnapshotBlockResponse>;
+export interface PutSnapshotBlockResponse {
+  Checksum?: string;
+  ChecksumAlgorithm?: string;
+}
+export const PutSnapshotBlockResponse = S.suspend(() =>
+  S.Struct({
+    Checksum: S.optional(S.String).pipe(T.HttpHeader("x-amz-Checksum")),
+    ChecksumAlgorithm: S.optional(S.String).pipe(
+      T.HttpHeader("x-amz-Checksum-Algorithm"),
+    ),
+  }),
+).annotations({
+  identifier: "PutSnapshotBlockResponse",
+}) as any as S.Schema<PutSnapshotBlockResponse>;
+export interface StartSnapshotRequest {
+  VolumeSize: number;
+  ParentSnapshotId?: string;
+  Tags?: Tags;
+  Description?: string;
+  ClientToken?: string;
+  Encrypted?: boolean;
+  KmsKeyArn?: string;
+  Timeout?: number;
+}
+export const StartSnapshotRequest = S.suspend(() =>
+  S.Struct({
     VolumeSize: S.Number,
     ParentSnapshotId: S.optional(S.String),
     Tags: S.optional(Tags),
@@ -388,60 +458,111 @@ export class StartSnapshotRequest extends S.Class<StartSnapshotRequest>(
     Encrypted: S.optional(S.Boolean),
     KmsKeyArn: S.optional(S.String),
     Timeout: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/snapshots" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/snapshots" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ChangedBlock extends S.Class<ChangedBlock>("ChangedBlock")({
-  BlockIndex: S.optional(S.Number),
-  FirstBlockToken: S.optional(S.String),
-  SecondBlockToken: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "StartSnapshotRequest",
+}) as any as S.Schema<StartSnapshotRequest>;
+export interface ChangedBlock {
+  BlockIndex?: number;
+  FirstBlockToken?: string;
+  SecondBlockToken?: string;
+}
+export const ChangedBlock = S.suspend(() =>
+  S.Struct({
+    BlockIndex: S.optional(S.Number),
+    FirstBlockToken: S.optional(S.String),
+    SecondBlockToken: S.optional(S.String),
+  }),
+).annotations({ identifier: "ChangedBlock" }) as any as S.Schema<ChangedBlock>;
+export type ChangedBlocks = ChangedBlock[];
 export const ChangedBlocks = S.Array(ChangedBlock);
-export class Block extends S.Class<Block>("Block")({
-  BlockIndex: S.optional(S.Number),
-  BlockToken: S.optional(S.String),
-}) {}
+export interface Block {
+  BlockIndex?: number;
+  BlockToken?: string;
+}
+export const Block = S.suspend(() =>
+  S.Struct({
+    BlockIndex: S.optional(S.Number),
+    BlockToken: S.optional(S.String),
+  }),
+).annotations({ identifier: "Block" }) as any as S.Schema<Block>;
+export type Blocks = Block[];
 export const Blocks = S.Array(Block);
-export class ListChangedBlocksResponse extends S.Class<ListChangedBlocksResponse>(
-  "ListChangedBlocksResponse",
-)({
-  ChangedBlocks: S.optional(ChangedBlocks),
-  ExpiryTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  VolumeSize: S.optional(S.Number),
-  BlockSize: S.optional(S.Number),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListSnapshotBlocksResponse extends S.Class<ListSnapshotBlocksResponse>(
-  "ListSnapshotBlocksResponse",
-)({
-  Blocks: S.optional(Blocks),
-  ExpiryTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  VolumeSize: S.optional(S.Number),
-  BlockSize: S.optional(S.Number),
-  NextToken: S.optional(S.String),
-}) {}
-export class StartSnapshotResponse extends S.Class<StartSnapshotResponse>(
-  "StartSnapshotResponse",
-)({
-  Description: S.optional(S.String),
-  SnapshotId: S.optional(S.String),
-  OwnerId: S.optional(S.String),
-  Status: S.optional(S.String),
-  StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  VolumeSize: S.optional(S.Number),
-  BlockSize: S.optional(S.Number),
-  Tags: S.optional(Tags),
-  ParentSnapshotId: S.optional(S.String),
-  KmsKeyArn: S.optional(S.String),
-  SseType: S.optional(S.String),
-}) {}
+export interface ListChangedBlocksResponse {
+  ChangedBlocks?: ChangedBlocks;
+  ExpiryTime?: Date;
+  VolumeSize?: number;
+  BlockSize?: number;
+  NextToken?: string;
+}
+export const ListChangedBlocksResponse = S.suspend(() =>
+  S.Struct({
+    ChangedBlocks: S.optional(ChangedBlocks),
+    ExpiryTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    VolumeSize: S.optional(S.Number),
+    BlockSize: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListChangedBlocksResponse",
+}) as any as S.Schema<ListChangedBlocksResponse>;
+export interface ListSnapshotBlocksResponse {
+  Blocks?: Blocks;
+  ExpiryTime?: Date;
+  VolumeSize?: number;
+  BlockSize?: number;
+  NextToken?: string;
+}
+export const ListSnapshotBlocksResponse = S.suspend(() =>
+  S.Struct({
+    Blocks: S.optional(Blocks),
+    ExpiryTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    VolumeSize: S.optional(S.Number),
+    BlockSize: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListSnapshotBlocksResponse",
+}) as any as S.Schema<ListSnapshotBlocksResponse>;
+export interface StartSnapshotResponse {
+  Description?: string;
+  SnapshotId?: string;
+  OwnerId?: string;
+  Status?: string;
+  StartTime?: Date;
+  VolumeSize?: number;
+  BlockSize?: number;
+  Tags?: Tags;
+  ParentSnapshotId?: string;
+  KmsKeyArn?: string;
+  SseType?: string;
+}
+export const StartSnapshotResponse = S.suspend(() =>
+  S.Struct({
+    Description: S.optional(S.String),
+    SnapshotId: S.optional(S.String),
+    OwnerId: S.optional(S.String),
+    Status: S.optional(S.String),
+    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    VolumeSize: S.optional(S.Number),
+    BlockSize: S.optional(S.Number),
+    Tags: S.optional(Tags),
+    ParentSnapshotId: S.optional(S.String),
+    KmsKeyArn: S.optional(S.String),
+    SseType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "StartSnapshotResponse",
+}) as any as S.Schema<StartSnapshotResponse>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

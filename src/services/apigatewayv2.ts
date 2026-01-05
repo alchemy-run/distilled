@@ -242,56 +242,87 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type IdentitySourceList = string[];
 export const IdentitySourceList = S.Array(S.String);
+export type __listOf__stringMin20Max2048 = string[];
 export const __listOf__stringMin20Max2048 = S.Array(S.String);
+export type AuthorizationScopes = string[];
 export const AuthorizationScopes = S.Array(S.String);
+export type SecurityGroupIdList = string[];
 export const SecurityGroupIdList = S.Array(S.String);
+export type SubnetIdList = string[];
 export const SubnetIdList = S.Array(S.String);
+export type __listOf__string = string[];
 export const __listOf__string = S.Array(S.String);
-export class CreateApiMappingRequest extends S.Class<CreateApiMappingRequest>(
-  "CreateApiMappingRequest",
-)(
-  {
+export interface CreateApiMappingRequest {
+  ApiId: string;
+  ApiMappingKey?: string;
+  DomainName: string;
+  Stage: string;
+}
+export const CreateApiMappingRequest = S.suspend(() =>
+  S.Struct({
     ApiId: S.String.pipe(T.JsonName("apiId")),
     ApiMappingKey: S.optional(S.String).pipe(T.JsonName("apiMappingKey")),
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     Stage: S.String.pipe(T.JsonName("stage")),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/v2/domainnames/{DomainName}/apimappings" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/v2/domainnames/{DomainName}/apimappings",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateDeploymentRequest extends S.Class<CreateDeploymentRequest>(
-  "CreateDeploymentRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateApiMappingRequest",
+}) as any as S.Schema<CreateApiMappingRequest>;
+export interface CreateDeploymentRequest {
+  ApiId: string;
+  Description?: string;
+  StageName?: string;
+}
+export const CreateDeploymentRequest = S.suspend(() =>
+  S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     Description: S.optional(S.String).pipe(T.JsonName("description")),
     StageName: S.optional(S.String).pipe(T.JsonName("stageName")),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/v2/apis/{ApiId}/deployments" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v2/apis/{ApiId}/deployments" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "CreateDeploymentRequest",
+}) as any as S.Schema<CreateDeploymentRequest>;
+export type IntegrationParameters = { [key: string]: string };
 export const IntegrationParameters = S.Record({
   key: S.String,
   value: S.String,
 });
+export type TemplateMap = { [key: string]: string };
 export const TemplateMap = S.Record({ key: S.String, value: S.String });
-export class CreateIntegrationResponseRequest extends S.Class<CreateIntegrationResponseRequest>(
-  "CreateIntegrationResponseRequest",
-)(
-  {
+export interface CreateIntegrationResponseRequest {
+  ApiId: string;
+  ContentHandlingStrategy?: string;
+  IntegrationId: string;
+  IntegrationResponseKey: string;
+  ResponseParameters?: IntegrationParameters;
+  ResponseTemplates?: TemplateMap;
+  TemplateSelectionExpression?: string;
+}
+export const CreateIntegrationResponseRequest = S.suspend(() =>
+  S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     ContentHandlingStrategy: S.optional(S.String).pipe(
       T.JsonName("contentHandlingStrategy"),
@@ -307,68 +338,99 @@ export class CreateIntegrationResponseRequest extends S.Class<CreateIntegrationR
     TemplateSelectionExpression: S.optional(S.String).pipe(
       T.JsonName("templateSelectionExpression"),
     ),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/v2/apis/{ApiId}/integrations/{IntegrationId}/integrationresponses",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/v2/apis/{ApiId}/integrations/{IntegrationId}/integrationresponses",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateModelRequest extends S.Class<CreateModelRequest>(
-  "CreateModelRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateIntegrationResponseRequest",
+}) as any as S.Schema<CreateIntegrationResponseRequest>;
+export interface CreateModelRequest {
+  ApiId: string;
+  ContentType?: string;
+  Description?: string;
+  Name: string;
+  Schema: string;
+}
+export const CreateModelRequest = S.suspend(() =>
+  S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     ContentType: S.optional(S.String).pipe(T.JsonName("contentType")),
     Description: S.optional(S.String).pipe(T.JsonName("description")),
     Name: S.String.pipe(T.JsonName("name")),
     Schema: S.String.pipe(T.JsonName("schema")),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/v2/apis/{ApiId}/models" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v2/apis/{ApiId}/models" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "CreateModelRequest",
+}) as any as S.Schema<CreateModelRequest>;
+export type Tags = { [key: string]: string };
 export const Tags = S.Record({ key: S.String, value: S.String });
-export class CreatePortalProductRequest extends S.Class<CreatePortalProductRequest>(
-  "CreatePortalProductRequest",
-)(
-  {
+export interface CreatePortalProductRequest {
+  Description?: string;
+  DisplayName: string;
+  Tags?: Tags;
+}
+export const CreatePortalProductRequest = S.suspend(() =>
+  S.Struct({
     Description: S.optional(S.String).pipe(T.JsonName("description")),
     DisplayName: S.String.pipe(T.JsonName("displayName")),
     Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/v2/portalproducts" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v2/portalproducts" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "CreatePortalProductRequest",
+}) as any as S.Schema<CreatePortalProductRequest>;
+export type RouteModels = { [key: string]: string };
 export const RouteModels = S.Record({ key: S.String, value: S.String });
-export class ParameterConstraints extends S.Class<ParameterConstraints>(
-  "ParameterConstraints",
-)({ Required: S.optional(S.Boolean).pipe(T.JsonName("required")) }) {}
+export interface ParameterConstraints {
+  Required?: boolean;
+}
+export const ParameterConstraints = S.suspend(() =>
+  S.Struct({ Required: S.optional(S.Boolean).pipe(T.JsonName("required")) }),
+).annotations({
+  identifier: "ParameterConstraints",
+}) as any as S.Schema<ParameterConstraints>;
+export type RouteParameters = { [key: string]: ParameterConstraints };
 export const RouteParameters = S.Record({
   key: S.String,
   value: ParameterConstraints,
 });
-export class CreateRouteResponseRequest extends S.Class<CreateRouteResponseRequest>(
-  "CreateRouteResponseRequest",
-)(
-  {
+export interface CreateRouteResponseRequest {
+  ApiId: string;
+  ModelSelectionExpression?: string;
+  ResponseModels?: RouteModels;
+  ResponseParameters?: RouteParameters;
+  RouteId: string;
+  RouteResponseKey: string;
+}
+export const CreateRouteResponseRequest = S.suspend(() =>
+  S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     ModelSelectionExpression: S.optional(S.String).pipe(
       T.JsonName("modelSelectionExpression"),
@@ -379,502 +441,689 @@ export class CreateRouteResponseRequest extends S.Class<CreateRouteResponseReque
     ),
     RouteId: S.String.pipe(T.HttpLabel("RouteId")),
     RouteResponseKey: S.String.pipe(T.JsonName("routeResponseKey")),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/v2/apis/{ApiId}/routes/{RouteId}/routeresponses",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/v2/apis/{ApiId}/routes/{RouteId}/routeresponses",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateVpcLinkRequest extends S.Class<CreateVpcLinkRequest>(
-  "CreateVpcLinkRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateRouteResponseRequest",
+}) as any as S.Schema<CreateRouteResponseRequest>;
+export interface CreateVpcLinkRequest {
+  Name: string;
+  SecurityGroupIds?: SecurityGroupIdList;
+  SubnetIds: SubnetIdList;
+  Tags?: Tags;
+}
+export const CreateVpcLinkRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String.pipe(T.JsonName("name")),
     SecurityGroupIds: S.optional(SecurityGroupIdList).pipe(
       T.JsonName("securityGroupIds"),
     ),
     SubnetIds: SubnetIdList.pipe(T.JsonName("subnetIds")),
     Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/v2/vpclinks" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v2/vpclinks" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAccessLogSettingsRequest extends S.Class<DeleteAccessLogSettingsRequest>(
-  "DeleteAccessLogSettingsRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateVpcLinkRequest",
+}) as any as S.Schema<CreateVpcLinkRequest>;
+export interface DeleteAccessLogSettingsRequest {
+  ApiId: string;
+  StageName: string;
+}
+export const DeleteAccessLogSettingsRequest = S.suspend(() =>
+  S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     StageName: S.String.pipe(T.HttpLabel("StageName")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/apis/{ApiId}/stages/{StageName}/accesslogsettings",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/v2/apis/{ApiId}/stages/{StageName}/accesslogsettings",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAccessLogSettingsResponse extends S.Class<DeleteAccessLogSettingsResponse>(
-  "DeleteAccessLogSettingsResponse",
-)({}) {}
-export class DeleteApiRequest extends S.Class<DeleteApiRequest>(
-  "DeleteApiRequest",
-)(
-  { ApiId: S.String.pipe(T.HttpLabel("ApiId")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/v2/apis/{ApiId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteAccessLogSettingsRequest",
+}) as any as S.Schema<DeleteAccessLogSettingsRequest>;
+export interface DeleteAccessLogSettingsResponse {}
+export const DeleteAccessLogSettingsResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteAccessLogSettingsResponse",
+}) as any as S.Schema<DeleteAccessLogSettingsResponse>;
+export interface DeleteApiRequest {
+  ApiId: string;
+}
+export const DeleteApiRequest = S.suspend(() =>
+  S.Struct({ ApiId: S.String.pipe(T.HttpLabel("ApiId")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/v2/apis/{ApiId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteApiResponse extends S.Class<DeleteApiResponse>(
-  "DeleteApiResponse",
-)({}) {}
-export class DeleteApiMappingRequest extends S.Class<DeleteApiMappingRequest>(
-  "DeleteApiMappingRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteApiRequest",
+}) as any as S.Schema<DeleteApiRequest>;
+export interface DeleteApiResponse {}
+export const DeleteApiResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteApiResponse",
+}) as any as S.Schema<DeleteApiResponse>;
+export interface DeleteApiMappingRequest {
+  ApiMappingId: string;
+  DomainName: string;
+}
+export const DeleteApiMappingRequest = S.suspend(() =>
+  S.Struct({
     ApiMappingId: S.String.pipe(T.HttpLabel("ApiMappingId")),
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/domainnames/{DomainName}/apimappings/{ApiMappingId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/v2/domainnames/{DomainName}/apimappings/{ApiMappingId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteApiMappingResponse extends S.Class<DeleteApiMappingResponse>(
-  "DeleteApiMappingResponse",
-)({}) {}
-export class DeleteAuthorizerRequest extends S.Class<DeleteAuthorizerRequest>(
-  "DeleteAuthorizerRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteApiMappingRequest",
+}) as any as S.Schema<DeleteApiMappingRequest>;
+export interface DeleteApiMappingResponse {}
+export const DeleteApiMappingResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteApiMappingResponse",
+}) as any as S.Schema<DeleteApiMappingResponse>;
+export interface DeleteAuthorizerRequest {
+  ApiId: string;
+  AuthorizerId: string;
+}
+export const DeleteAuthorizerRequest = S.suspend(() =>
+  S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     AuthorizerId: S.String.pipe(T.HttpLabel("AuthorizerId")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/apis/{ApiId}/authorizers/{AuthorizerId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/v2/apis/{ApiId}/authorizers/{AuthorizerId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAuthorizerResponse extends S.Class<DeleteAuthorizerResponse>(
-  "DeleteAuthorizerResponse",
-)({}) {}
-export class DeleteCorsConfigurationRequest extends S.Class<DeleteCorsConfigurationRequest>(
-  "DeleteCorsConfigurationRequest",
-)(
-  { ApiId: S.String.pipe(T.HttpLabel("ApiId")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/v2/apis/{ApiId}/cors" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteAuthorizerRequest",
+}) as any as S.Schema<DeleteAuthorizerRequest>;
+export interface DeleteAuthorizerResponse {}
+export const DeleteAuthorizerResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteAuthorizerResponse",
+}) as any as S.Schema<DeleteAuthorizerResponse>;
+export interface DeleteCorsConfigurationRequest {
+  ApiId: string;
+}
+export const DeleteCorsConfigurationRequest = S.suspend(() =>
+  S.Struct({ ApiId: S.String.pipe(T.HttpLabel("ApiId")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/v2/apis/{ApiId}/cors" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteCorsConfigurationResponse extends S.Class<DeleteCorsConfigurationResponse>(
-  "DeleteCorsConfigurationResponse",
-)({}) {}
-export class DeleteDeploymentRequest extends S.Class<DeleteDeploymentRequest>(
-  "DeleteDeploymentRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteCorsConfigurationRequest",
+}) as any as S.Schema<DeleteCorsConfigurationRequest>;
+export interface DeleteCorsConfigurationResponse {}
+export const DeleteCorsConfigurationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteCorsConfigurationResponse",
+}) as any as S.Schema<DeleteCorsConfigurationResponse>;
+export interface DeleteDeploymentRequest {
+  ApiId: string;
+  DeploymentId: string;
+}
+export const DeleteDeploymentRequest = S.suspend(() =>
+  S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     DeploymentId: S.String.pipe(T.HttpLabel("DeploymentId")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/apis/{ApiId}/deployments/{DeploymentId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/v2/apis/{ApiId}/deployments/{DeploymentId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteDeploymentResponse extends S.Class<DeleteDeploymentResponse>(
-  "DeleteDeploymentResponse",
-)({}) {}
-export class DeleteDomainNameRequest extends S.Class<DeleteDomainNameRequest>(
-  "DeleteDomainNameRequest",
-)(
-  { DomainName: S.String.pipe(T.HttpLabel("DomainName")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/v2/domainnames/{DomainName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteDeploymentRequest",
+}) as any as S.Schema<DeleteDeploymentRequest>;
+export interface DeleteDeploymentResponse {}
+export const DeleteDeploymentResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteDeploymentResponse",
+}) as any as S.Schema<DeleteDeploymentResponse>;
+export interface DeleteDomainNameRequest {
+  DomainName: string;
+}
+export const DeleteDomainNameRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String.pipe(T.HttpLabel("DomainName")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/v2/domainnames/{DomainName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteDomainNameResponse extends S.Class<DeleteDomainNameResponse>(
-  "DeleteDomainNameResponse",
-)({}) {}
-export class DeleteIntegrationRequest extends S.Class<DeleteIntegrationRequest>(
-  "DeleteIntegrationRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteDomainNameRequest",
+}) as any as S.Schema<DeleteDomainNameRequest>;
+export interface DeleteDomainNameResponse {}
+export const DeleteDomainNameResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteDomainNameResponse",
+}) as any as S.Schema<DeleteDomainNameResponse>;
+export interface DeleteIntegrationRequest {
+  ApiId: string;
+  IntegrationId: string;
+}
+export const DeleteIntegrationRequest = S.suspend(() =>
+  S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     IntegrationId: S.String.pipe(T.HttpLabel("IntegrationId")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/apis/{ApiId}/integrations/{IntegrationId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/v2/apis/{ApiId}/integrations/{IntegrationId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteIntegrationResponse extends S.Class<DeleteIntegrationResponse>(
-  "DeleteIntegrationResponse",
-)({}) {}
-export class DeleteIntegrationResponseRequest extends S.Class<DeleteIntegrationResponseRequest>(
-  "DeleteIntegrationResponseRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteIntegrationRequest",
+}) as any as S.Schema<DeleteIntegrationRequest>;
+export interface DeleteIntegrationResponse {}
+export const DeleteIntegrationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteIntegrationResponse",
+}) as any as S.Schema<DeleteIntegrationResponse>;
+export interface DeleteIntegrationResponseRequest {
+  ApiId: string;
+  IntegrationId: string;
+  IntegrationResponseId: string;
+}
+export const DeleteIntegrationResponseRequest = S.suspend(() =>
+  S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     IntegrationId: S.String.pipe(T.HttpLabel("IntegrationId")),
     IntegrationResponseId: S.String.pipe(T.HttpLabel("IntegrationResponseId")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/apis/{ApiId}/integrations/{IntegrationId}/integrationresponses/{IntegrationResponseId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/v2/apis/{ApiId}/integrations/{IntegrationId}/integrationresponses/{IntegrationResponseId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteIntegrationResponseResponse extends S.Class<DeleteIntegrationResponseResponse>(
-  "DeleteIntegrationResponseResponse",
-)({}) {}
-export class DeleteModelRequest extends S.Class<DeleteModelRequest>(
-  "DeleteModelRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteIntegrationResponseRequest",
+}) as any as S.Schema<DeleteIntegrationResponseRequest>;
+export interface DeleteIntegrationResponseResponse {}
+export const DeleteIntegrationResponseResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteIntegrationResponseResponse",
+}) as any as S.Schema<DeleteIntegrationResponseResponse>;
+export interface DeleteModelRequest {
+  ApiId: string;
+  ModelId: string;
+}
+export const DeleteModelRequest = S.suspend(() =>
+  S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     ModelId: S.String.pipe(T.HttpLabel("ModelId")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/v2/apis/{ApiId}/models/{ModelId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/v2/apis/{ApiId}/models/{ModelId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteModelResponse extends S.Class<DeleteModelResponse>(
-  "DeleteModelResponse",
-)({}) {}
-export class DeletePortalRequest extends S.Class<DeletePortalRequest>(
-  "DeletePortalRequest",
-)(
-  { PortalId: S.String.pipe(T.HttpLabel("PortalId")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/v2/portals/{PortalId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteModelRequest",
+}) as any as S.Schema<DeleteModelRequest>;
+export interface DeleteModelResponse {}
+export const DeleteModelResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteModelResponse",
+}) as any as S.Schema<DeleteModelResponse>;
+export interface DeletePortalRequest {
+  PortalId: string;
+}
+export const DeletePortalRequest = S.suspend(() =>
+  S.Struct({ PortalId: S.String.pipe(T.HttpLabel("PortalId")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/v2/portals/{PortalId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeletePortalResponse extends S.Class<DeletePortalResponse>(
-  "DeletePortalResponse",
-)({}) {}
-export class DeletePortalProductRequest extends S.Class<DeletePortalProductRequest>(
-  "DeletePortalProductRequest",
-)(
-  { PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/v2/portalproducts/{PortalProductId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeletePortalRequest",
+}) as any as S.Schema<DeletePortalRequest>;
+export interface DeletePortalResponse {}
+export const DeletePortalResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeletePortalResponse",
+}) as any as S.Schema<DeletePortalResponse>;
+export interface DeletePortalProductRequest {
+  PortalProductId: string;
+}
+export const DeletePortalProductRequest = S.suspend(() =>
+  S.Struct({
+    PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/v2/portalproducts/{PortalProductId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeletePortalProductResponse extends S.Class<DeletePortalProductResponse>(
-  "DeletePortalProductResponse",
-)({}) {}
-export class DeletePortalProductSharingPolicyRequest extends S.Class<DeletePortalProductSharingPolicyRequest>(
-  "DeletePortalProductSharingPolicyRequest",
-)(
-  { PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")) },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/portalproducts/{PortalProductId}/sharingpolicy",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeletePortalProductRequest",
+}) as any as S.Schema<DeletePortalProductRequest>;
+export interface DeletePortalProductResponse {}
+export const DeletePortalProductResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeletePortalProductResponse",
+}) as any as S.Schema<DeletePortalProductResponse>;
+export interface DeletePortalProductSharingPolicyRequest {
+  PortalProductId: string;
+}
+export const DeletePortalProductSharingPolicyRequest = S.suspend(() =>
+  S.Struct({
+    PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/v2/portalproducts/{PortalProductId}/sharingpolicy",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeletePortalProductSharingPolicyResponse extends S.Class<DeletePortalProductSharingPolicyResponse>(
-  "DeletePortalProductSharingPolicyResponse",
-)({}) {}
-export class DeleteProductPageRequest extends S.Class<DeleteProductPageRequest>(
-  "DeleteProductPageRequest",
-)(
-  {
+).annotations({
+  identifier: "DeletePortalProductSharingPolicyRequest",
+}) as any as S.Schema<DeletePortalProductSharingPolicyRequest>;
+export interface DeletePortalProductSharingPolicyResponse {}
+export const DeletePortalProductSharingPolicyResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeletePortalProductSharingPolicyResponse",
+}) as any as S.Schema<DeletePortalProductSharingPolicyResponse>;
+export interface DeleteProductPageRequest {
+  PortalProductId: string;
+  ProductPageId: string;
+}
+export const DeleteProductPageRequest = S.suspend(() =>
+  S.Struct({
     PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")),
     ProductPageId: S.String.pipe(T.HttpLabel("ProductPageId")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/portalproducts/{PortalProductId}/productpages/{ProductPageId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/v2/portalproducts/{PortalProductId}/productpages/{ProductPageId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteProductPageResponse extends S.Class<DeleteProductPageResponse>(
-  "DeleteProductPageResponse",
-)({}) {}
-export class DeleteProductRestEndpointPageRequest extends S.Class<DeleteProductRestEndpointPageRequest>(
-  "DeleteProductRestEndpointPageRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteProductPageRequest",
+}) as any as S.Schema<DeleteProductPageRequest>;
+export interface DeleteProductPageResponse {}
+export const DeleteProductPageResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteProductPageResponse",
+}) as any as S.Schema<DeleteProductPageResponse>;
+export interface DeleteProductRestEndpointPageRequest {
+  PortalProductId: string;
+  ProductRestEndpointPageId: string;
+}
+export const DeleteProductRestEndpointPageRequest = S.suspend(() =>
+  S.Struct({
     PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")),
     ProductRestEndpointPageId: S.String.pipe(
       T.HttpLabel("ProductRestEndpointPageId"),
     ),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/portalproducts/{PortalProductId}/productrestendpointpages/{ProductRestEndpointPageId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/v2/portalproducts/{PortalProductId}/productrestendpointpages/{ProductRestEndpointPageId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteProductRestEndpointPageResponse extends S.Class<DeleteProductRestEndpointPageResponse>(
-  "DeleteProductRestEndpointPageResponse",
-)({}) {}
-export class DeleteRouteRequest extends S.Class<DeleteRouteRequest>(
-  "DeleteRouteRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteProductRestEndpointPageRequest",
+}) as any as S.Schema<DeleteProductRestEndpointPageRequest>;
+export interface DeleteProductRestEndpointPageResponse {}
+export const DeleteProductRestEndpointPageResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteProductRestEndpointPageResponse",
+}) as any as S.Schema<DeleteProductRestEndpointPageResponse>;
+export interface DeleteRouteRequest {
+  ApiId: string;
+  RouteId: string;
+}
+export const DeleteRouteRequest = S.suspend(() =>
+  S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     RouteId: S.String.pipe(T.HttpLabel("RouteId")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/v2/apis/{ApiId}/routes/{RouteId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/v2/apis/{ApiId}/routes/{RouteId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteRouteResponse extends S.Class<DeleteRouteResponse>(
-  "DeleteRouteResponse",
-)({}) {}
-export class DeleteRouteRequestParameterRequest extends S.Class<DeleteRouteRequestParameterRequest>(
-  "DeleteRouteRequestParameterRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteRouteRequest",
+}) as any as S.Schema<DeleteRouteRequest>;
+export interface DeleteRouteResponse {}
+export const DeleteRouteResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteRouteResponse",
+}) as any as S.Schema<DeleteRouteResponse>;
+export interface DeleteRouteRequestParameterRequest {
+  ApiId: string;
+  RequestParameterKey: string;
+  RouteId: string;
+}
+export const DeleteRouteRequestParameterRequest = S.suspend(() =>
+  S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     RequestParameterKey: S.String.pipe(T.HttpLabel("RequestParameterKey")),
     RouteId: S.String.pipe(T.HttpLabel("RouteId")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/apis/{ApiId}/routes/{RouteId}/requestparameters/{RequestParameterKey}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/v2/apis/{ApiId}/routes/{RouteId}/requestparameters/{RequestParameterKey}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteRouteRequestParameterResponse extends S.Class<DeleteRouteRequestParameterResponse>(
-  "DeleteRouteRequestParameterResponse",
-)({}) {}
-export class DeleteRouteResponseRequest extends S.Class<DeleteRouteResponseRequest>(
-  "DeleteRouteResponseRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteRouteRequestParameterRequest",
+}) as any as S.Schema<DeleteRouteRequestParameterRequest>;
+export interface DeleteRouteRequestParameterResponse {}
+export const DeleteRouteRequestParameterResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteRouteRequestParameterResponse",
+}) as any as S.Schema<DeleteRouteRequestParameterResponse>;
+export interface DeleteRouteResponseRequest {
+  ApiId: string;
+  RouteId: string;
+  RouteResponseId: string;
+}
+export const DeleteRouteResponseRequest = S.suspend(() =>
+  S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     RouteId: S.String.pipe(T.HttpLabel("RouteId")),
     RouteResponseId: S.String.pipe(T.HttpLabel("RouteResponseId")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/apis/{ApiId}/routes/{RouteId}/routeresponses/{RouteResponseId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/v2/apis/{ApiId}/routes/{RouteId}/routeresponses/{RouteResponseId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteRouteResponseResponse extends S.Class<DeleteRouteResponseResponse>(
-  "DeleteRouteResponseResponse",
-)({}) {}
-export class DeleteRouteSettingsRequest extends S.Class<DeleteRouteSettingsRequest>(
-  "DeleteRouteSettingsRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteRouteResponseRequest",
+}) as any as S.Schema<DeleteRouteResponseRequest>;
+export interface DeleteRouteResponseResponse {}
+export const DeleteRouteResponseResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteRouteResponseResponse",
+}) as any as S.Schema<DeleteRouteResponseResponse>;
+export interface DeleteRouteSettingsRequest {
+  ApiId: string;
+  RouteKey: string;
+  StageName: string;
+}
+export const DeleteRouteSettingsRequest = S.suspend(() =>
+  S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     RouteKey: S.String.pipe(T.HttpLabel("RouteKey")),
     StageName: S.String.pipe(T.HttpLabel("StageName")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/apis/{ApiId}/stages/{StageName}/routesettings/{RouteKey}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/v2/apis/{ApiId}/stages/{StageName}/routesettings/{RouteKey}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteRouteSettingsResponse extends S.Class<DeleteRouteSettingsResponse>(
-  "DeleteRouteSettingsResponse",
-)({}) {}
-export class DeleteRoutingRuleRequest extends S.Class<DeleteRoutingRuleRequest>(
-  "DeleteRoutingRuleRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteRouteSettingsRequest",
+}) as any as S.Schema<DeleteRouteSettingsRequest>;
+export interface DeleteRouteSettingsResponse {}
+export const DeleteRouteSettingsResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteRouteSettingsResponse",
+}) as any as S.Schema<DeleteRouteSettingsResponse>;
+export interface DeleteRoutingRuleRequest {
+  DomainName: string;
+  DomainNameId?: string;
+  RoutingRuleId: string;
+}
+export const DeleteRoutingRuleRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     DomainNameId: S.optional(S.String).pipe(T.HttpQuery("domainNameId")),
     RoutingRuleId: S.String.pipe(T.HttpLabel("RoutingRuleId")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/domainnames/{DomainName}/routingrules/{RoutingRuleId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/v2/domainnames/{DomainName}/routingrules/{RoutingRuleId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteRoutingRuleResponse extends S.Class<DeleteRoutingRuleResponse>(
-  "DeleteRoutingRuleResponse",
-)({}) {}
-export class DeleteStageRequest extends S.Class<DeleteStageRequest>(
-  "DeleteStageRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteRoutingRuleRequest",
+}) as any as S.Schema<DeleteRoutingRuleRequest>;
+export interface DeleteRoutingRuleResponse {}
+export const DeleteRoutingRuleResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteRoutingRuleResponse",
+}) as any as S.Schema<DeleteRoutingRuleResponse>;
+export interface DeleteStageRequest {
+  ApiId: string;
+  StageName: string;
+}
+export const DeleteStageRequest = S.suspend(() =>
+  S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     StageName: S.String.pipe(T.HttpLabel("StageName")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/v2/apis/{ApiId}/stages/{StageName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/v2/apis/{ApiId}/stages/{StageName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteStageResponse extends S.Class<DeleteStageResponse>(
-  "DeleteStageResponse",
-)({}) {}
-export class DeleteVpcLinkRequest extends S.Class<DeleteVpcLinkRequest>(
-  "DeleteVpcLinkRequest",
-)(
-  { VpcLinkId: S.String.pipe(T.HttpLabel("VpcLinkId")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/v2/vpclinks/{VpcLinkId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteStageRequest",
+}) as any as S.Schema<DeleteStageRequest>;
+export interface DeleteStageResponse {}
+export const DeleteStageResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteStageResponse",
+}) as any as S.Schema<DeleteStageResponse>;
+export interface DeleteVpcLinkRequest {
+  VpcLinkId: string;
+}
+export const DeleteVpcLinkRequest = S.suspend(() =>
+  S.Struct({ VpcLinkId: S.String.pipe(T.HttpLabel("VpcLinkId")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/v2/vpclinks/{VpcLinkId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteVpcLinkResponse extends S.Class<DeleteVpcLinkResponse>(
-  "DeleteVpcLinkResponse",
-)({}) {}
-export class DisablePortalRequest extends S.Class<DisablePortalRequest>(
-  "DisablePortalRequest",
-)(
-  { PortalId: S.String.pipe(T.HttpLabel("PortalId")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/v2/portals/{PortalId}/publish" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteVpcLinkRequest",
+}) as any as S.Schema<DeleteVpcLinkRequest>;
+export interface DeleteVpcLinkResponse {}
+export const DeleteVpcLinkResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteVpcLinkResponse",
+}) as any as S.Schema<DeleteVpcLinkResponse>;
+export interface DisablePortalRequest {
+  PortalId: string;
+}
+export const DisablePortalRequest = S.suspend(() =>
+  S.Struct({ PortalId: S.String.pipe(T.HttpLabel("PortalId")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/v2/portals/{PortalId}/publish" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DisablePortalResponse extends S.Class<DisablePortalResponse>(
-  "DisablePortalResponse",
-)({}) {}
-export class ExportApiRequest extends S.Class<ExportApiRequest>(
-  "ExportApiRequest",
-)(
-  {
+).annotations({
+  identifier: "DisablePortalRequest",
+}) as any as S.Schema<DisablePortalRequest>;
+export interface DisablePortalResponse {}
+export const DisablePortalResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DisablePortalResponse",
+}) as any as S.Schema<DisablePortalResponse>;
+export interface ExportApiRequest {
+  ApiId: string;
+  ExportVersion?: string;
+  IncludeExtensions?: boolean;
+  OutputType: string;
+  Specification: string;
+  StageName?: string;
+}
+export const ExportApiRequest = S.suspend(() =>
+  S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     ExportVersion: S.optional(S.String).pipe(T.HttpQuery("exportVersion")),
     IncludeExtensions: S.optional(S.Boolean).pipe(
@@ -883,380 +1132,509 @@ export class ExportApiRequest extends S.Class<ExportApiRequest>(
     OutputType: S.String.pipe(T.HttpQuery("outputType")),
     Specification: S.String.pipe(T.HttpLabel("Specification")),
     StageName: S.optional(S.String).pipe(T.HttpQuery("stageName")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/v2/apis/{ApiId}/exports/{Specification}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/v2/apis/{ApiId}/exports/{Specification}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetApiRequest extends S.Class<GetApiRequest>("GetApiRequest")(
-  { ApiId: S.String.pipe(T.HttpLabel("ApiId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/v2/apis/{ApiId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ExportApiRequest",
+}) as any as S.Schema<ExportApiRequest>;
+export interface GetApiRequest {
+  ApiId: string;
+}
+export const GetApiRequest = S.suspend(() =>
+  S.Struct({ ApiId: S.String.pipe(T.HttpLabel("ApiId")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v2/apis/{ApiId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetApiMappingRequest extends S.Class<GetApiMappingRequest>(
-  "GetApiMappingRequest",
-)(
-  {
+).annotations({
+  identifier: "GetApiRequest",
+}) as any as S.Schema<GetApiRequest>;
+export interface GetApiMappingRequest {
+  ApiMappingId: string;
+  DomainName: string;
+}
+export const GetApiMappingRequest = S.suspend(() =>
+  S.Struct({
     ApiMappingId: S.String.pipe(T.HttpLabel("ApiMappingId")),
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/v2/domainnames/{DomainName}/apimappings/{ApiMappingId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/v2/domainnames/{DomainName}/apimappings/{ApiMappingId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetApiMappingsRequest extends S.Class<GetApiMappingsRequest>(
-  "GetApiMappingsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetApiMappingRequest",
+}) as any as S.Schema<GetApiMappingRequest>;
+export interface GetApiMappingsRequest {
+  DomainName: string;
+  MaxResults?: string;
+  NextToken?: string;
+}
+export const GetApiMappingsRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     MaxResults: S.optional(S.String).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/v2/domainnames/{DomainName}/apimappings" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/v2/domainnames/{DomainName}/apimappings",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetApisRequest extends S.Class<GetApisRequest>("GetApisRequest")(
-  {
+).annotations({
+  identifier: "GetApiMappingsRequest",
+}) as any as S.Schema<GetApiMappingsRequest>;
+export interface GetApisRequest {
+  MaxResults?: string;
+  NextToken?: string;
+}
+export const GetApisRequest = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.String).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/v2/apis" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v2/apis" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetAuthorizerRequest extends S.Class<GetAuthorizerRequest>(
-  "GetAuthorizerRequest",
-)(
-  {
+).annotations({
+  identifier: "GetApisRequest",
+}) as any as S.Schema<GetApisRequest>;
+export interface GetAuthorizerRequest {
+  ApiId: string;
+  AuthorizerId: string;
+}
+export const GetAuthorizerRequest = S.suspend(() =>
+  S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     AuthorizerId: S.String.pipe(T.HttpLabel("AuthorizerId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/v2/apis/{ApiId}/authorizers/{AuthorizerId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/v2/apis/{ApiId}/authorizers/{AuthorizerId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetAuthorizersRequest extends S.Class<GetAuthorizersRequest>(
-  "GetAuthorizersRequest",
-)(
-  {
+).annotations({
+  identifier: "GetAuthorizerRequest",
+}) as any as S.Schema<GetAuthorizerRequest>;
+export interface GetAuthorizersRequest {
+  ApiId: string;
+  MaxResults?: string;
+  NextToken?: string;
+}
+export const GetAuthorizersRequest = S.suspend(() =>
+  S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     MaxResults: S.optional(S.String).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/v2/apis/{ApiId}/authorizers" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v2/apis/{ApiId}/authorizers" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetDeploymentRequest extends S.Class<GetDeploymentRequest>(
-  "GetDeploymentRequest",
-)(
-  {
+).annotations({
+  identifier: "GetAuthorizersRequest",
+}) as any as S.Schema<GetAuthorizersRequest>;
+export interface GetDeploymentRequest {
+  ApiId: string;
+  DeploymentId: string;
+}
+export const GetDeploymentRequest = S.suspend(() =>
+  S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     DeploymentId: S.String.pipe(T.HttpLabel("DeploymentId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/v2/apis/{ApiId}/deployments/{DeploymentId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/v2/apis/{ApiId}/deployments/{DeploymentId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetDeploymentsRequest extends S.Class<GetDeploymentsRequest>(
-  "GetDeploymentsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetDeploymentRequest",
+}) as any as S.Schema<GetDeploymentRequest>;
+export interface GetDeploymentsRequest {
+  ApiId: string;
+  MaxResults?: string;
+  NextToken?: string;
+}
+export const GetDeploymentsRequest = S.suspend(() =>
+  S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     MaxResults: S.optional(S.String).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/v2/apis/{ApiId}/deployments" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v2/apis/{ApiId}/deployments" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetDomainNameRequest extends S.Class<GetDomainNameRequest>(
-  "GetDomainNameRequest",
-)(
-  { DomainName: S.String.pipe(T.HttpLabel("DomainName")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/v2/domainnames/{DomainName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetDeploymentsRequest",
+}) as any as S.Schema<GetDeploymentsRequest>;
+export interface GetDomainNameRequest {
+  DomainName: string;
+}
+export const GetDomainNameRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String.pipe(T.HttpLabel("DomainName")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v2/domainnames/{DomainName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetDomainNamesRequest extends S.Class<GetDomainNamesRequest>(
-  "GetDomainNamesRequest",
-)(
-  {
+).annotations({
+  identifier: "GetDomainNameRequest",
+}) as any as S.Schema<GetDomainNameRequest>;
+export interface GetDomainNamesRequest {
+  MaxResults?: string;
+  NextToken?: string;
+}
+export const GetDomainNamesRequest = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.String).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/v2/domainnames" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v2/domainnames" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetIntegrationRequest extends S.Class<GetIntegrationRequest>(
-  "GetIntegrationRequest",
-)(
-  {
+).annotations({
+  identifier: "GetDomainNamesRequest",
+}) as any as S.Schema<GetDomainNamesRequest>;
+export interface GetIntegrationRequest {
+  ApiId: string;
+  IntegrationId: string;
+}
+export const GetIntegrationRequest = S.suspend(() =>
+  S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     IntegrationId: S.String.pipe(T.HttpLabel("IntegrationId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/v2/apis/{ApiId}/integrations/{IntegrationId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/v2/apis/{ApiId}/integrations/{IntegrationId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetIntegrationResponseRequest extends S.Class<GetIntegrationResponseRequest>(
-  "GetIntegrationResponseRequest",
-)(
-  {
+).annotations({
+  identifier: "GetIntegrationRequest",
+}) as any as S.Schema<GetIntegrationRequest>;
+export interface GetIntegrationResponseRequest {
+  ApiId: string;
+  IntegrationId: string;
+  IntegrationResponseId: string;
+}
+export const GetIntegrationResponseRequest = S.suspend(() =>
+  S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     IntegrationId: S.String.pipe(T.HttpLabel("IntegrationId")),
     IntegrationResponseId: S.String.pipe(T.HttpLabel("IntegrationResponseId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/v2/apis/{ApiId}/integrations/{IntegrationId}/integrationresponses/{IntegrationResponseId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/v2/apis/{ApiId}/integrations/{IntegrationId}/integrationresponses/{IntegrationResponseId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetIntegrationResponsesRequest extends S.Class<GetIntegrationResponsesRequest>(
-  "GetIntegrationResponsesRequest",
-)(
-  {
+).annotations({
+  identifier: "GetIntegrationResponseRequest",
+}) as any as S.Schema<GetIntegrationResponseRequest>;
+export interface GetIntegrationResponsesRequest {
+  ApiId: string;
+  IntegrationId: string;
+  MaxResults?: string;
+  NextToken?: string;
+}
+export const GetIntegrationResponsesRequest = S.suspend(() =>
+  S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     IntegrationId: S.String.pipe(T.HttpLabel("IntegrationId")),
     MaxResults: S.optional(S.String).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/v2/apis/{ApiId}/integrations/{IntegrationId}/integrationresponses",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/v2/apis/{ApiId}/integrations/{IntegrationId}/integrationresponses",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetIntegrationsRequest extends S.Class<GetIntegrationsRequest>(
-  "GetIntegrationsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetIntegrationResponsesRequest",
+}) as any as S.Schema<GetIntegrationResponsesRequest>;
+export interface GetIntegrationsRequest {
+  ApiId: string;
+  MaxResults?: string;
+  NextToken?: string;
+}
+export const GetIntegrationsRequest = S.suspend(() =>
+  S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     MaxResults: S.optional(S.String).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/v2/apis/{ApiId}/integrations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v2/apis/{ApiId}/integrations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetModelRequest extends S.Class<GetModelRequest>(
-  "GetModelRequest",
-)(
-  {
+).annotations({
+  identifier: "GetIntegrationsRequest",
+}) as any as S.Schema<GetIntegrationsRequest>;
+export interface GetModelRequest {
+  ApiId: string;
+  ModelId: string;
+}
+export const GetModelRequest = S.suspend(() =>
+  S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     ModelId: S.String.pipe(T.HttpLabel("ModelId")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/v2/apis/{ApiId}/models/{ModelId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v2/apis/{ApiId}/models/{ModelId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetModelsRequest extends S.Class<GetModelsRequest>(
-  "GetModelsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetModelRequest",
+}) as any as S.Schema<GetModelRequest>;
+export interface GetModelsRequest {
+  ApiId: string;
+  MaxResults?: string;
+  NextToken?: string;
+}
+export const GetModelsRequest = S.suspend(() =>
+  S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     MaxResults: S.optional(S.String).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/v2/apis/{ApiId}/models" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v2/apis/{ApiId}/models" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetModelTemplateRequest extends S.Class<GetModelTemplateRequest>(
-  "GetModelTemplateRequest",
-)(
-  {
+).annotations({
+  identifier: "GetModelsRequest",
+}) as any as S.Schema<GetModelsRequest>;
+export interface GetModelTemplateRequest {
+  ApiId: string;
+  ModelId: string;
+}
+export const GetModelTemplateRequest = S.suspend(() =>
+  S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     ModelId: S.String.pipe(T.HttpLabel("ModelId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/v2/apis/{ApiId}/models/{ModelId}/template",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/v2/apis/{ApiId}/models/{ModelId}/template",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetPortalRequest extends S.Class<GetPortalRequest>(
-  "GetPortalRequest",
-)(
-  { PortalId: S.String.pipe(T.HttpLabel("PortalId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/v2/portals/{PortalId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetModelTemplateRequest",
+}) as any as S.Schema<GetModelTemplateRequest>;
+export interface GetPortalRequest {
+  PortalId: string;
+}
+export const GetPortalRequest = S.suspend(() =>
+  S.Struct({ PortalId: S.String.pipe(T.HttpLabel("PortalId")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v2/portals/{PortalId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetPortalProductRequest extends S.Class<GetPortalProductRequest>(
-  "GetPortalProductRequest",
-)(
-  {
+).annotations({
+  identifier: "GetPortalRequest",
+}) as any as S.Schema<GetPortalRequest>;
+export interface GetPortalProductRequest {
+  PortalProductId: string;
+  ResourceOwnerAccountId?: string;
+}
+export const GetPortalProductRequest = S.suspend(() =>
+  S.Struct({
     PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")),
     ResourceOwnerAccountId: S.optional(S.String).pipe(
       T.HttpQuery("resourceOwnerAccountId"),
     ),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/v2/portalproducts/{PortalProductId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v2/portalproducts/{PortalProductId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetPortalProductSharingPolicyRequest extends S.Class<GetPortalProductSharingPolicyRequest>(
-  "GetPortalProductSharingPolicyRequest",
-)(
-  { PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")) },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/v2/portalproducts/{PortalProductId}/sharingpolicy",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetPortalProductRequest",
+}) as any as S.Schema<GetPortalProductRequest>;
+export interface GetPortalProductSharingPolicyRequest {
+  PortalProductId: string;
+}
+export const GetPortalProductSharingPolicyRequest = S.suspend(() =>
+  S.Struct({
+    PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/v2/portalproducts/{PortalProductId}/sharingpolicy",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetProductPageRequest extends S.Class<GetProductPageRequest>(
-  "GetProductPageRequest",
-)(
-  {
+).annotations({
+  identifier: "GetPortalProductSharingPolicyRequest",
+}) as any as S.Schema<GetPortalProductSharingPolicyRequest>;
+export interface GetProductPageRequest {
+  PortalProductId: string;
+  ProductPageId: string;
+  ResourceOwnerAccountId?: string;
+}
+export const GetProductPageRequest = S.suspend(() =>
+  S.Struct({
     PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")),
     ProductPageId: S.String.pipe(T.HttpLabel("ProductPageId")),
     ResourceOwnerAccountId: S.optional(S.String).pipe(
       T.HttpQuery("resourceOwnerAccountId"),
     ),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/v2/portalproducts/{PortalProductId}/productpages/{ProductPageId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/v2/portalproducts/{PortalProductId}/productpages/{ProductPageId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetProductRestEndpointPageRequest extends S.Class<GetProductRestEndpointPageRequest>(
-  "GetProductRestEndpointPageRequest",
-)(
-  {
+).annotations({
+  identifier: "GetProductPageRequest",
+}) as any as S.Schema<GetProductPageRequest>;
+export interface GetProductRestEndpointPageRequest {
+  IncludeRawDisplayContent?: string;
+  PortalProductId: string;
+  ProductRestEndpointPageId: string;
+  ResourceOwnerAccountId?: string;
+}
+export const GetProductRestEndpointPageRequest = S.suspend(() =>
+  S.Struct({
     IncludeRawDisplayContent: S.optional(S.String).pipe(
       T.HttpQuery("includeRawDisplayContent"),
     ),
@@ -1267,516 +1645,745 @@ export class GetProductRestEndpointPageRequest extends S.Class<GetProductRestEnd
     ResourceOwnerAccountId: S.optional(S.String).pipe(
       T.HttpQuery("resourceOwnerAccountId"),
     ),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/v2/portalproducts/{PortalProductId}/productrestendpointpages/{ProductRestEndpointPageId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/v2/portalproducts/{PortalProductId}/productrestendpointpages/{ProductRestEndpointPageId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetRouteRequest extends S.Class<GetRouteRequest>(
-  "GetRouteRequest",
-)(
-  {
+).annotations({
+  identifier: "GetProductRestEndpointPageRequest",
+}) as any as S.Schema<GetProductRestEndpointPageRequest>;
+export interface GetRouteRequest {
+  ApiId: string;
+  RouteId: string;
+}
+export const GetRouteRequest = S.suspend(() =>
+  S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     RouteId: S.String.pipe(T.HttpLabel("RouteId")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/v2/apis/{ApiId}/routes/{RouteId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v2/apis/{ApiId}/routes/{RouteId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetRouteResponseRequest extends S.Class<GetRouteResponseRequest>(
-  "GetRouteResponseRequest",
-)(
-  {
+).annotations({
+  identifier: "GetRouteRequest",
+}) as any as S.Schema<GetRouteRequest>;
+export interface GetRouteResponseRequest {
+  ApiId: string;
+  RouteId: string;
+  RouteResponseId: string;
+}
+export const GetRouteResponseRequest = S.suspend(() =>
+  S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     RouteId: S.String.pipe(T.HttpLabel("RouteId")),
     RouteResponseId: S.String.pipe(T.HttpLabel("RouteResponseId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/v2/apis/{ApiId}/routes/{RouteId}/routeresponses/{RouteResponseId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/v2/apis/{ApiId}/routes/{RouteId}/routeresponses/{RouteResponseId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetRouteResponsesRequest extends S.Class<GetRouteResponsesRequest>(
-  "GetRouteResponsesRequest",
-)(
-  {
+).annotations({
+  identifier: "GetRouteResponseRequest",
+}) as any as S.Schema<GetRouteResponseRequest>;
+export interface GetRouteResponsesRequest {
+  ApiId: string;
+  MaxResults?: string;
+  NextToken?: string;
+  RouteId: string;
+}
+export const GetRouteResponsesRequest = S.suspend(() =>
+  S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     MaxResults: S.optional(S.String).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     RouteId: S.String.pipe(T.HttpLabel("RouteId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/v2/apis/{ApiId}/routes/{RouteId}/routeresponses",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/v2/apis/{ApiId}/routes/{RouteId}/routeresponses",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetRoutesRequest extends S.Class<GetRoutesRequest>(
-  "GetRoutesRequest",
-)(
-  {
+).annotations({
+  identifier: "GetRouteResponsesRequest",
+}) as any as S.Schema<GetRouteResponsesRequest>;
+export interface GetRoutesRequest {
+  ApiId: string;
+  MaxResults?: string;
+  NextToken?: string;
+}
+export const GetRoutesRequest = S.suspend(() =>
+  S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     MaxResults: S.optional(S.String).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/v2/apis/{ApiId}/routes" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v2/apis/{ApiId}/routes" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetRoutingRuleRequest extends S.Class<GetRoutingRuleRequest>(
-  "GetRoutingRuleRequest",
-)(
-  {
+).annotations({
+  identifier: "GetRoutesRequest",
+}) as any as S.Schema<GetRoutesRequest>;
+export interface GetRoutingRuleRequest {
+  DomainName: string;
+  DomainNameId?: string;
+  RoutingRuleId: string;
+}
+export const GetRoutingRuleRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     DomainNameId: S.optional(S.String).pipe(T.HttpQuery("domainNameId")),
     RoutingRuleId: S.String.pipe(T.HttpLabel("RoutingRuleId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/v2/domainnames/{DomainName}/routingrules/{RoutingRuleId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/v2/domainnames/{DomainName}/routingrules/{RoutingRuleId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetStageRequest extends S.Class<GetStageRequest>(
-  "GetStageRequest",
-)(
-  {
+).annotations({
+  identifier: "GetRoutingRuleRequest",
+}) as any as S.Schema<GetRoutingRuleRequest>;
+export interface GetStageRequest {
+  ApiId: string;
+  StageName: string;
+}
+export const GetStageRequest = S.suspend(() =>
+  S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     StageName: S.String.pipe(T.HttpLabel("StageName")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/v2/apis/{ApiId}/stages/{StageName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v2/apis/{ApiId}/stages/{StageName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetStagesRequest extends S.Class<GetStagesRequest>(
-  "GetStagesRequest",
-)(
-  {
+).annotations({
+  identifier: "GetStageRequest",
+}) as any as S.Schema<GetStageRequest>;
+export interface GetStagesRequest {
+  ApiId: string;
+  MaxResults?: string;
+  NextToken?: string;
+}
+export const GetStagesRequest = S.suspend(() =>
+  S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     MaxResults: S.optional(S.String).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/v2/apis/{ApiId}/stages" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v2/apis/{ApiId}/stages" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetTagsRequest extends S.Class<GetTagsRequest>("GetTagsRequest")(
-  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/v2/tags/{ResourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetStagesRequest",
+}) as any as S.Schema<GetStagesRequest>;
+export interface GetTagsRequest {
+  ResourceArn: string;
+}
+export const GetTagsRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v2/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetVpcLinkRequest extends S.Class<GetVpcLinkRequest>(
-  "GetVpcLinkRequest",
-)(
-  { VpcLinkId: S.String.pipe(T.HttpLabel("VpcLinkId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/v2/vpclinks/{VpcLinkId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetTagsRequest",
+}) as any as S.Schema<GetTagsRequest>;
+export interface GetVpcLinkRequest {
+  VpcLinkId: string;
+}
+export const GetVpcLinkRequest = S.suspend(() =>
+  S.Struct({ VpcLinkId: S.String.pipe(T.HttpLabel("VpcLinkId")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v2/vpclinks/{VpcLinkId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetVpcLinksRequest extends S.Class<GetVpcLinksRequest>(
-  "GetVpcLinksRequest",
-)(
-  {
+).annotations({
+  identifier: "GetVpcLinkRequest",
+}) as any as S.Schema<GetVpcLinkRequest>;
+export interface GetVpcLinksRequest {
+  MaxResults?: string;
+  NextToken?: string;
+}
+export const GetVpcLinksRequest = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.String).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/v2/vpclinks" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v2/vpclinks" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ImportApiRequest extends S.Class<ImportApiRequest>(
-  "ImportApiRequest",
-)(
-  {
+).annotations({
+  identifier: "GetVpcLinksRequest",
+}) as any as S.Schema<GetVpcLinksRequest>;
+export interface ImportApiRequest {
+  Basepath?: string;
+  Body: string;
+  FailOnWarnings?: boolean;
+}
+export const ImportApiRequest = S.suspend(() =>
+  S.Struct({
     Basepath: S.optional(S.String).pipe(T.HttpQuery("basepath")),
     Body: S.String.pipe(T.JsonName("body")),
     FailOnWarnings: S.optional(S.Boolean).pipe(T.HttpQuery("failOnWarnings")),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/v2/apis" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/v2/apis" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListPortalProductsRequest extends S.Class<ListPortalProductsRequest>(
-  "ListPortalProductsRequest",
-)(
-  {
+).annotations({
+  identifier: "ImportApiRequest",
+}) as any as S.Schema<ImportApiRequest>;
+export interface ListPortalProductsRequest {
+  MaxResults?: string;
+  NextToken?: string;
+  ResourceOwner?: string;
+}
+export const ListPortalProductsRequest = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.String).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     ResourceOwner: S.optional(S.String).pipe(T.HttpQuery("resourceOwner")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/v2/portalproducts" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v2/portalproducts" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListPortalsRequest extends S.Class<ListPortalsRequest>(
-  "ListPortalsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListPortalProductsRequest",
+}) as any as S.Schema<ListPortalProductsRequest>;
+export interface ListPortalsRequest {
+  MaxResults?: string;
+  NextToken?: string;
+}
+export const ListPortalsRequest = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.String).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/v2/portals" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v2/portals" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListProductPagesRequest extends S.Class<ListProductPagesRequest>(
-  "ListProductPagesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListPortalsRequest",
+}) as any as S.Schema<ListPortalsRequest>;
+export interface ListProductPagesRequest {
+  MaxResults?: string;
+  NextToken?: string;
+  PortalProductId: string;
+  ResourceOwnerAccountId?: string;
+}
+export const ListProductPagesRequest = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.String).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")),
     ResourceOwnerAccountId: S.optional(S.String).pipe(
       T.HttpQuery("resourceOwnerAccountId"),
     ),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/v2/portalproducts/{PortalProductId}/productpages",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/v2/portalproducts/{PortalProductId}/productpages",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListProductRestEndpointPagesRequest extends S.Class<ListProductRestEndpointPagesRequest>(
-  "ListProductRestEndpointPagesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListProductPagesRequest",
+}) as any as S.Schema<ListProductPagesRequest>;
+export interface ListProductRestEndpointPagesRequest {
+  MaxResults?: string;
+  NextToken?: string;
+  PortalProductId: string;
+  ResourceOwnerAccountId?: string;
+}
+export const ListProductRestEndpointPagesRequest = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.String).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")),
     ResourceOwnerAccountId: S.optional(S.String).pipe(
       T.HttpQuery("resourceOwnerAccountId"),
     ),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/v2/portalproducts/{PortalProductId}/productrestendpointpages",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/v2/portalproducts/{PortalProductId}/productrestendpointpages",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListRoutingRulesRequest extends S.Class<ListRoutingRulesRequest>(
-  "ListRoutingRulesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListProductRestEndpointPagesRequest",
+}) as any as S.Schema<ListProductRestEndpointPagesRequest>;
+export interface ListRoutingRulesRequest {
+  DomainName: string;
+  DomainNameId?: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListRoutingRulesRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     DomainNameId: S.optional(S.String).pipe(T.HttpQuery("domainNameId")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/v2/domainnames/{DomainName}/routingrules" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/v2/domainnames/{DomainName}/routingrules",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PreviewPortalRequest extends S.Class<PreviewPortalRequest>(
-  "PreviewPortalRequest",
-)(
-  { PortalId: S.String.pipe(T.HttpLabel("PortalId")) },
-  T.all(
-    T.Http({ method: "POST", uri: "/v2/portals/{PortalId}/preview" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListRoutingRulesRequest",
+}) as any as S.Schema<ListRoutingRulesRequest>;
+export interface PreviewPortalRequest {
+  PortalId: string;
+}
+export const PreviewPortalRequest = S.suspend(() =>
+  S.Struct({ PortalId: S.String.pipe(T.HttpLabel("PortalId")) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v2/portals/{PortalId}/preview" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PreviewPortalResponse extends S.Class<PreviewPortalResponse>(
-  "PreviewPortalResponse",
-)({}) {}
-export class PublishPortalRequest extends S.Class<PublishPortalRequest>(
-  "PublishPortalRequest",
-)(
-  {
+).annotations({
+  identifier: "PreviewPortalRequest",
+}) as any as S.Schema<PreviewPortalRequest>;
+export interface PreviewPortalResponse {}
+export const PreviewPortalResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "PreviewPortalResponse",
+}) as any as S.Schema<PreviewPortalResponse>;
+export interface PublishPortalRequest {
+  Description?: string;
+  PortalId: string;
+}
+export const PublishPortalRequest = S.suspend(() =>
+  S.Struct({
     Description: S.optional(S.String).pipe(T.JsonName("description")),
     PortalId: S.String.pipe(T.HttpLabel("PortalId")),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/v2/portals/{PortalId}/publish" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v2/portals/{PortalId}/publish" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PublishPortalResponse extends S.Class<PublishPortalResponse>(
-  "PublishPortalResponse",
-)({}) {}
-export class PutPortalProductSharingPolicyRequest extends S.Class<PutPortalProductSharingPolicyRequest>(
-  "PutPortalProductSharingPolicyRequest",
-)(
-  {
+).annotations({
+  identifier: "PublishPortalRequest",
+}) as any as S.Schema<PublishPortalRequest>;
+export interface PublishPortalResponse {}
+export const PublishPortalResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "PublishPortalResponse",
+}) as any as S.Schema<PublishPortalResponse>;
+export interface PutPortalProductSharingPolicyRequest {
+  PolicyDocument: string;
+  PortalProductId: string;
+}
+export const PutPortalProductSharingPolicyRequest = S.suspend(() =>
+  S.Struct({
     PolicyDocument: S.String.pipe(T.JsonName("policyDocument")),
     PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/v2/portalproducts/{PortalProductId}/sharingpolicy",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/v2/portalproducts/{PortalProductId}/sharingpolicy",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutPortalProductSharingPolicyResponse extends S.Class<PutPortalProductSharingPolicyResponse>(
-  "PutPortalProductSharingPolicyResponse",
-)({}) {}
-export class RoutingRuleActionInvokeApi extends S.Class<RoutingRuleActionInvokeApi>(
-  "RoutingRuleActionInvokeApi",
-)({
-  ApiId: S.String.pipe(T.JsonName("apiId")),
-  Stage: S.String.pipe(T.JsonName("stage")),
-  StripBasePath: S.optional(S.Boolean).pipe(T.JsonName("stripBasePath")),
-}) {}
-export class RoutingRuleAction extends S.Class<RoutingRuleAction>(
-  "RoutingRuleAction",
-)({ InvokeApi: RoutingRuleActionInvokeApi.pipe(T.JsonName("invokeApi")) }) {}
+).annotations({
+  identifier: "PutPortalProductSharingPolicyRequest",
+}) as any as S.Schema<PutPortalProductSharingPolicyRequest>;
+export interface PutPortalProductSharingPolicyResponse {}
+export const PutPortalProductSharingPolicyResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "PutPortalProductSharingPolicyResponse",
+}) as any as S.Schema<PutPortalProductSharingPolicyResponse>;
+export interface RoutingRuleActionInvokeApi {
+  ApiId: string;
+  Stage: string;
+  StripBasePath?: boolean;
+}
+export const RoutingRuleActionInvokeApi = S.suspend(() =>
+  S.Struct({
+    ApiId: S.String.pipe(T.JsonName("apiId")),
+    Stage: S.String.pipe(T.JsonName("stage")),
+    StripBasePath: S.optional(S.Boolean).pipe(T.JsonName("stripBasePath")),
+  }),
+).annotations({
+  identifier: "RoutingRuleActionInvokeApi",
+}) as any as S.Schema<RoutingRuleActionInvokeApi>;
+export interface RoutingRuleAction {
+  InvokeApi: RoutingRuleActionInvokeApi;
+}
+export const RoutingRuleAction = S.suspend(() =>
+  S.Struct({
+    InvokeApi: RoutingRuleActionInvokeApi.pipe(
+      T.JsonName("invokeApi"),
+    ).annotations({ identifier: "RoutingRuleActionInvokeApi" }),
+  }),
+).annotations({
+  identifier: "RoutingRuleAction",
+}) as any as S.Schema<RoutingRuleAction>;
+export type __listOfRoutingRuleAction = RoutingRuleAction[];
 export const __listOfRoutingRuleAction = S.Array(RoutingRuleAction);
+export type __listOfSelectionKey = string[];
 export const __listOfSelectionKey = S.Array(S.String);
-export class RoutingRuleMatchBasePaths extends S.Class<RoutingRuleMatchBasePaths>(
-  "RoutingRuleMatchBasePaths",
-)({ AnyOf: __listOfSelectionKey.pipe(T.JsonName("anyOf")) }) {}
-export class RoutingRuleMatchHeaderValue extends S.Class<RoutingRuleMatchHeaderValue>(
-  "RoutingRuleMatchHeaderValue",
-)({
-  Header: S.String.pipe(T.JsonName("header")),
-  ValueGlob: S.String.pipe(T.JsonName("valueGlob")),
-}) {}
+export interface RoutingRuleMatchBasePaths {
+  AnyOf: __listOfSelectionKey;
+}
+export const RoutingRuleMatchBasePaths = S.suspend(() =>
+  S.Struct({ AnyOf: __listOfSelectionKey.pipe(T.JsonName("anyOf")) }),
+).annotations({
+  identifier: "RoutingRuleMatchBasePaths",
+}) as any as S.Schema<RoutingRuleMatchBasePaths>;
+export interface RoutingRuleMatchHeaderValue {
+  Header: string;
+  ValueGlob: string;
+}
+export const RoutingRuleMatchHeaderValue = S.suspend(() =>
+  S.Struct({
+    Header: S.String.pipe(T.JsonName("header")),
+    ValueGlob: S.String.pipe(T.JsonName("valueGlob")),
+  }),
+).annotations({
+  identifier: "RoutingRuleMatchHeaderValue",
+}) as any as S.Schema<RoutingRuleMatchHeaderValue>;
+export type __listOfRoutingRuleMatchHeaderValue = RoutingRuleMatchHeaderValue[];
 export const __listOfRoutingRuleMatchHeaderValue = S.Array(
   RoutingRuleMatchHeaderValue,
 );
-export class RoutingRuleMatchHeaders extends S.Class<RoutingRuleMatchHeaders>(
-  "RoutingRuleMatchHeaders",
-)({ AnyOf: __listOfRoutingRuleMatchHeaderValue.pipe(T.JsonName("anyOf")) }) {}
-export class RoutingRuleCondition extends S.Class<RoutingRuleCondition>(
-  "RoutingRuleCondition",
-)({
-  MatchBasePaths: S.optional(RoutingRuleMatchBasePaths).pipe(
-    T.JsonName("matchBasePaths"),
-  ),
-  MatchHeaders: S.optional(RoutingRuleMatchHeaders).pipe(
-    T.JsonName("matchHeaders"),
-  ),
-}) {}
+export interface RoutingRuleMatchHeaders {
+  AnyOf: __listOfRoutingRuleMatchHeaderValue;
+}
+export const RoutingRuleMatchHeaders = S.suspend(() =>
+  S.Struct({
+    AnyOf: __listOfRoutingRuleMatchHeaderValue.pipe(T.JsonName("anyOf")),
+  }),
+).annotations({
+  identifier: "RoutingRuleMatchHeaders",
+}) as any as S.Schema<RoutingRuleMatchHeaders>;
+export interface RoutingRuleCondition {
+  MatchBasePaths?: RoutingRuleMatchBasePaths;
+  MatchHeaders?: RoutingRuleMatchHeaders;
+}
+export const RoutingRuleCondition = S.suspend(() =>
+  S.Struct({
+    MatchBasePaths: S.optional(RoutingRuleMatchBasePaths)
+      .pipe(T.JsonName("matchBasePaths"))
+      .annotations({ identifier: "RoutingRuleMatchBasePaths" }),
+    MatchHeaders: S.optional(RoutingRuleMatchHeaders)
+      .pipe(T.JsonName("matchHeaders"))
+      .annotations({ identifier: "RoutingRuleMatchHeaders" }),
+  }),
+).annotations({
+  identifier: "RoutingRuleCondition",
+}) as any as S.Schema<RoutingRuleCondition>;
+export type __listOfRoutingRuleCondition = RoutingRuleCondition[];
 export const __listOfRoutingRuleCondition = S.Array(RoutingRuleCondition);
-export class PutRoutingRuleRequest extends S.Class<PutRoutingRuleRequest>(
-  "PutRoutingRuleRequest",
-)(
-  {
+export interface PutRoutingRuleRequest {
+  Actions: __listOfRoutingRuleAction;
+  Conditions: __listOfRoutingRuleCondition;
+  DomainName: string;
+  DomainNameId?: string;
+  Priority: number;
+  RoutingRuleId: string;
+}
+export const PutRoutingRuleRequest = S.suspend(() =>
+  S.Struct({
     Actions: __listOfRoutingRuleAction.pipe(T.JsonName("actions")),
     Conditions: __listOfRoutingRuleCondition.pipe(T.JsonName("conditions")),
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     DomainNameId: S.optional(S.String).pipe(T.HttpQuery("domainNameId")),
     Priority: S.Number.pipe(T.JsonName("priority")),
     RoutingRuleId: S.String.pipe(T.HttpLabel("RoutingRuleId")),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/v2/domainnames/{DomainName}/routingrules/{RoutingRuleId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/v2/domainnames/{DomainName}/routingrules/{RoutingRuleId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ReimportApiRequest extends S.Class<ReimportApiRequest>(
-  "ReimportApiRequest",
-)(
-  {
+).annotations({
+  identifier: "PutRoutingRuleRequest",
+}) as any as S.Schema<PutRoutingRuleRequest>;
+export interface ReimportApiRequest {
+  ApiId: string;
+  Basepath?: string;
+  Body: string;
+  FailOnWarnings?: boolean;
+}
+export const ReimportApiRequest = S.suspend(() =>
+  S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     Basepath: S.optional(S.String).pipe(T.HttpQuery("basepath")),
     Body: S.String.pipe(T.JsonName("body")),
     FailOnWarnings: S.optional(S.Boolean).pipe(T.HttpQuery("failOnWarnings")),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/v2/apis/{ApiId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/v2/apis/{ApiId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ResetAuthorizersCacheRequest extends S.Class<ResetAuthorizersCacheRequest>(
-  "ResetAuthorizersCacheRequest",
-)(
-  {
+).annotations({
+  identifier: "ReimportApiRequest",
+}) as any as S.Schema<ReimportApiRequest>;
+export interface ResetAuthorizersCacheRequest {
+  ApiId: string;
+  StageName: string;
+}
+export const ResetAuthorizersCacheRequest = S.suspend(() =>
+  S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     StageName: S.String.pipe(T.HttpLabel("StageName")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/apis/{ApiId}/stages/{StageName}/cache/authorizers",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/v2/apis/{ApiId}/stages/{StageName}/cache/authorizers",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ResetAuthorizersCacheResponse extends S.Class<ResetAuthorizersCacheResponse>(
-  "ResetAuthorizersCacheResponse",
-)({}) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "ResetAuthorizersCacheRequest",
+}) as any as S.Schema<ResetAuthorizersCacheRequest>;
+export interface ResetAuthorizersCacheResponse {}
+export const ResetAuthorizersCacheResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "ResetAuthorizersCacheResponse",
+}) as any as S.Schema<ResetAuthorizersCacheResponse>;
+export interface TagResourceRequest {
+  ResourceArn: string;
+  Tags?: Tags;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/v2/tags/{ResourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v2/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UntagResourceRequest {
+  ResourceArn: string;
+  TagKeys: __listOf__string;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: __listOf__string.pipe(T.HttpQuery("tagKeys")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/v2/tags/{ResourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/v2/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export type CorsHeaderList = string[];
 export const CorsHeaderList = S.Array(S.String);
+export type CorsMethodList = string[];
 export const CorsMethodList = S.Array(S.String);
+export type CorsOriginList = string[];
 export const CorsOriginList = S.Array(S.String);
-export class Cors extends S.Class<Cors>("Cors")({
-  AllowCredentials: S.optional(S.Boolean).pipe(T.JsonName("allowCredentials")),
-  AllowHeaders: S.optional(CorsHeaderList).pipe(T.JsonName("allowHeaders")),
-  AllowMethods: S.optional(CorsMethodList).pipe(T.JsonName("allowMethods")),
-  AllowOrigins: S.optional(CorsOriginList).pipe(T.JsonName("allowOrigins")),
-  ExposeHeaders: S.optional(CorsHeaderList).pipe(T.JsonName("exposeHeaders")),
-  MaxAge: S.optional(S.Number).pipe(T.JsonName("maxAge")),
-}) {}
-export class UpdateApiRequest extends S.Class<UpdateApiRequest>(
-  "UpdateApiRequest",
-)(
-  {
+export interface Cors {
+  AllowCredentials?: boolean;
+  AllowHeaders?: CorsHeaderList;
+  AllowMethods?: CorsMethodList;
+  AllowOrigins?: CorsOriginList;
+  ExposeHeaders?: CorsHeaderList;
+  MaxAge?: number;
+}
+export const Cors = S.suspend(() =>
+  S.Struct({
+    AllowCredentials: S.optional(S.Boolean).pipe(
+      T.JsonName("allowCredentials"),
+    ),
+    AllowHeaders: S.optional(CorsHeaderList).pipe(T.JsonName("allowHeaders")),
+    AllowMethods: S.optional(CorsMethodList).pipe(T.JsonName("allowMethods")),
+    AllowOrigins: S.optional(CorsOriginList).pipe(T.JsonName("allowOrigins")),
+    ExposeHeaders: S.optional(CorsHeaderList).pipe(T.JsonName("exposeHeaders")),
+    MaxAge: S.optional(S.Number).pipe(T.JsonName("maxAge")),
+  }),
+).annotations({ identifier: "Cors" }) as any as S.Schema<Cors>;
+export interface UpdateApiRequest {
+  ApiId: string;
+  ApiKeySelectionExpression?: string;
+  CorsConfiguration?: Cors;
+  CredentialsArn?: string;
+  Description?: string;
+  DisableSchemaValidation?: boolean;
+  DisableExecuteApiEndpoint?: boolean;
+  IpAddressType?: string;
+  Name?: string;
+  RouteKey?: string;
+  RouteSelectionExpression?: string;
+  Target?: string;
+  Version?: string;
+}
+export const UpdateApiRequest = S.suspend(() =>
+  S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     ApiKeySelectionExpression: S.optional(S.String).pipe(
       T.JsonName("apiKeySelectionExpression"),
     ),
-    CorsConfiguration: S.optional(Cors).pipe(T.JsonName("corsConfiguration")),
+    CorsConfiguration: S.optional(Cors)
+      .pipe(T.JsonName("corsConfiguration"))
+      .annotations({ identifier: "Cors" }),
     CredentialsArn: S.optional(S.String).pipe(T.JsonName("credentialsArn")),
     Description: S.optional(S.String).pipe(T.JsonName("description")),
     DisableSchemaValidation: S.optional(S.Boolean).pipe(
@@ -1793,48 +2400,77 @@ export class UpdateApiRequest extends S.Class<UpdateApiRequest>(
     ),
     Target: S.optional(S.String).pipe(T.JsonName("target")),
     Version: S.optional(S.String).pipe(T.JsonName("version")),
-  },
-  T.all(
-    T.Http({ method: "PATCH", uri: "/v2/apis/{ApiId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PATCH", uri: "/v2/apis/{ApiId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateApiMappingRequest extends S.Class<UpdateApiMappingRequest>(
-  "UpdateApiMappingRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateApiRequest",
+}) as any as S.Schema<UpdateApiRequest>;
+export interface UpdateApiMappingRequest {
+  ApiId: string;
+  ApiMappingId: string;
+  ApiMappingKey?: string;
+  DomainName: string;
+  Stage?: string;
+}
+export const UpdateApiMappingRequest = S.suspend(() =>
+  S.Struct({
     ApiId: S.String.pipe(T.JsonName("apiId")),
     ApiMappingId: S.String.pipe(T.HttpLabel("ApiMappingId")),
     ApiMappingKey: S.optional(S.String).pipe(T.JsonName("apiMappingKey")),
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     Stage: S.optional(S.String).pipe(T.JsonName("stage")),
-  },
-  T.all(
-    T.Http({
-      method: "PATCH",
-      uri: "/v2/domainnames/{DomainName}/apimappings/{ApiMappingId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/v2/domainnames/{DomainName}/apimappings/{ApiMappingId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class JWTConfiguration extends S.Class<JWTConfiguration>(
-  "JWTConfiguration",
-)({
-  Audience: S.optional(__listOf__string).pipe(T.JsonName("audience")),
-  Issuer: S.optional(S.String).pipe(T.JsonName("issuer")),
-}) {}
-export class UpdateAuthorizerRequest extends S.Class<UpdateAuthorizerRequest>(
-  "UpdateAuthorizerRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateApiMappingRequest",
+}) as any as S.Schema<UpdateApiMappingRequest>;
+export interface JWTConfiguration {
+  Audience?: __listOf__string;
+  Issuer?: string;
+}
+export const JWTConfiguration = S.suspend(() =>
+  S.Struct({
+    Audience: S.optional(__listOf__string).pipe(T.JsonName("audience")),
+    Issuer: S.optional(S.String).pipe(T.JsonName("issuer")),
+  }),
+).annotations({
+  identifier: "JWTConfiguration",
+}) as any as S.Schema<JWTConfiguration>;
+export interface UpdateAuthorizerRequest {
+  ApiId: string;
+  AuthorizerCredentialsArn?: string;
+  AuthorizerId: string;
+  AuthorizerPayloadFormatVersion?: string;
+  AuthorizerResultTtlInSeconds?: number;
+  AuthorizerType?: string;
+  AuthorizerUri?: string;
+  EnableSimpleResponses?: boolean;
+  IdentitySource?: IdentitySourceList;
+  IdentityValidationExpression?: string;
+  JwtConfiguration?: JWTConfiguration;
+  Name?: string;
+}
+export const UpdateAuthorizerRequest = S.suspend(() =>
+  S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     AuthorizerCredentialsArn: S.optional(S.String).pipe(
       T.JsonName("authorizerCredentialsArn"),
@@ -1857,108 +2493,175 @@ export class UpdateAuthorizerRequest extends S.Class<UpdateAuthorizerRequest>(
     IdentityValidationExpression: S.optional(S.String).pipe(
       T.JsonName("identityValidationExpression"),
     ),
-    JwtConfiguration: S.optional(JWTConfiguration).pipe(
-      T.JsonName("jwtConfiguration"),
-    ),
+    JwtConfiguration: S.optional(JWTConfiguration)
+      .pipe(T.JsonName("jwtConfiguration"))
+      .annotations({ identifier: "JWTConfiguration" }),
     Name: S.optional(S.String).pipe(T.JsonName("name")),
-  },
-  T.all(
-    T.Http({
-      method: "PATCH",
-      uri: "/v2/apis/{ApiId}/authorizers/{AuthorizerId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/v2/apis/{ApiId}/authorizers/{AuthorizerId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateDeploymentRequest extends S.Class<UpdateDeploymentRequest>(
-  "UpdateDeploymentRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateAuthorizerRequest",
+}) as any as S.Schema<UpdateAuthorizerRequest>;
+export interface UpdateDeploymentRequest {
+  ApiId: string;
+  DeploymentId: string;
+  Description?: string;
+}
+export const UpdateDeploymentRequest = S.suspend(() =>
+  S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     DeploymentId: S.String.pipe(T.HttpLabel("DeploymentId")),
     Description: S.optional(S.String).pipe(T.JsonName("description")),
-  },
-  T.all(
-    T.Http({
-      method: "PATCH",
-      uri: "/v2/apis/{ApiId}/deployments/{DeploymentId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/v2/apis/{ApiId}/deployments/{DeploymentId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DomainNameConfiguration extends S.Class<DomainNameConfiguration>(
-  "DomainNameConfiguration",
-)({
-  ApiGatewayDomainName: S.optional(S.String).pipe(
-    T.JsonName("apiGatewayDomainName"),
-  ),
-  CertificateArn: S.optional(S.String).pipe(T.JsonName("certificateArn")),
-  CertificateName: S.optional(S.String).pipe(T.JsonName("certificateName")),
-  CertificateUploadDate: S.optional(
-    S.Date.pipe(T.TimestampFormat("date-time")),
-  ).pipe(T.JsonName("certificateUploadDate")),
-  DomainNameStatus: S.optional(S.String).pipe(T.JsonName("domainNameStatus")),
-  DomainNameStatusMessage: S.optional(S.String).pipe(
-    T.JsonName("domainNameStatusMessage"),
-  ),
-  EndpointType: S.optional(S.String).pipe(T.JsonName("endpointType")),
-  HostedZoneId: S.optional(S.String).pipe(T.JsonName("hostedZoneId")),
-  IpAddressType: S.optional(S.String).pipe(T.JsonName("ipAddressType")),
-  SecurityPolicy: S.optional(S.String).pipe(T.JsonName("securityPolicy")),
-  OwnershipVerificationCertificateArn: S.optional(S.String).pipe(
-    T.JsonName("ownershipVerificationCertificateArn"),
-  ),
-}) {}
+).annotations({
+  identifier: "UpdateDeploymentRequest",
+}) as any as S.Schema<UpdateDeploymentRequest>;
+export interface DomainNameConfiguration {
+  ApiGatewayDomainName?: string;
+  CertificateArn?: string;
+  CertificateName?: string;
+  CertificateUploadDate?: Date;
+  DomainNameStatus?: string;
+  DomainNameStatusMessage?: string;
+  EndpointType?: string;
+  HostedZoneId?: string;
+  IpAddressType?: string;
+  SecurityPolicy?: string;
+  OwnershipVerificationCertificateArn?: string;
+}
+export const DomainNameConfiguration = S.suspend(() =>
+  S.Struct({
+    ApiGatewayDomainName: S.optional(S.String).pipe(
+      T.JsonName("apiGatewayDomainName"),
+    ),
+    CertificateArn: S.optional(S.String).pipe(T.JsonName("certificateArn")),
+    CertificateName: S.optional(S.String).pipe(T.JsonName("certificateName")),
+    CertificateUploadDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.JsonName("certificateUploadDate")),
+    DomainNameStatus: S.optional(S.String).pipe(T.JsonName("domainNameStatus")),
+    DomainNameStatusMessage: S.optional(S.String).pipe(
+      T.JsonName("domainNameStatusMessage"),
+    ),
+    EndpointType: S.optional(S.String).pipe(T.JsonName("endpointType")),
+    HostedZoneId: S.optional(S.String).pipe(T.JsonName("hostedZoneId")),
+    IpAddressType: S.optional(S.String).pipe(T.JsonName("ipAddressType")),
+    SecurityPolicy: S.optional(S.String).pipe(T.JsonName("securityPolicy")),
+    OwnershipVerificationCertificateArn: S.optional(S.String).pipe(
+      T.JsonName("ownershipVerificationCertificateArn"),
+    ),
+  }),
+).annotations({
+  identifier: "DomainNameConfiguration",
+}) as any as S.Schema<DomainNameConfiguration>;
+export type DomainNameConfigurations = DomainNameConfiguration[];
 export const DomainNameConfigurations = S.Array(DomainNameConfiguration);
-export class MutualTlsAuthenticationInput extends S.Class<MutualTlsAuthenticationInput>(
-  "MutualTlsAuthenticationInput",
-)({
-  TruststoreUri: S.optional(S.String).pipe(T.JsonName("truststoreUri")),
-  TruststoreVersion: S.optional(S.String).pipe(T.JsonName("truststoreVersion")),
-}) {}
-export class UpdateDomainNameRequest extends S.Class<UpdateDomainNameRequest>(
-  "UpdateDomainNameRequest",
-)(
-  {
+export interface MutualTlsAuthenticationInput {
+  TruststoreUri?: string;
+  TruststoreVersion?: string;
+}
+export const MutualTlsAuthenticationInput = S.suspend(() =>
+  S.Struct({
+    TruststoreUri: S.optional(S.String).pipe(T.JsonName("truststoreUri")),
+    TruststoreVersion: S.optional(S.String).pipe(
+      T.JsonName("truststoreVersion"),
+    ),
+  }),
+).annotations({
+  identifier: "MutualTlsAuthenticationInput",
+}) as any as S.Schema<MutualTlsAuthenticationInput>;
+export interface UpdateDomainNameRequest {
+  DomainName: string;
+  DomainNameConfigurations?: DomainNameConfigurations;
+  MutualTlsAuthentication?: MutualTlsAuthenticationInput;
+  RoutingMode?: string;
+}
+export const UpdateDomainNameRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     DomainNameConfigurations: S.optional(DomainNameConfigurations).pipe(
       T.JsonName("domainNameConfigurations"),
     ),
-    MutualTlsAuthentication: S.optional(MutualTlsAuthenticationInput).pipe(
-      T.JsonName("mutualTlsAuthentication"),
-    ),
+    MutualTlsAuthentication: S.optional(MutualTlsAuthenticationInput)
+      .pipe(T.JsonName("mutualTlsAuthentication"))
+      .annotations({ identifier: "MutualTlsAuthenticationInput" }),
     RoutingMode: S.optional(S.String).pipe(T.JsonName("routingMode")),
-  },
-  T.all(
-    T.Http({ method: "PATCH", uri: "/v2/domainnames/{DomainName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PATCH", uri: "/v2/domainnames/{DomainName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "UpdateDomainNameRequest",
+}) as any as S.Schema<UpdateDomainNameRequest>;
+export type ResponseParameters = { [key: string]: IntegrationParameters };
 export const ResponseParameters = S.Record({
   key: S.String,
   value: IntegrationParameters,
 });
-export class TlsConfigInput extends S.Class<TlsConfigInput>("TlsConfigInput")({
-  ServerNameToVerify: S.optional(S.String).pipe(
-    T.JsonName("serverNameToVerify"),
-  ),
-}) {}
-export class UpdateIntegrationRequest extends S.Class<UpdateIntegrationRequest>(
-  "UpdateIntegrationRequest",
-)(
-  {
+export interface TlsConfigInput {
+  ServerNameToVerify?: string;
+}
+export const TlsConfigInput = S.suspend(() =>
+  S.Struct({
+    ServerNameToVerify: S.optional(S.String).pipe(
+      T.JsonName("serverNameToVerify"),
+    ),
+  }),
+).annotations({
+  identifier: "TlsConfigInput",
+}) as any as S.Schema<TlsConfigInput>;
+export interface UpdateIntegrationRequest {
+  ApiId: string;
+  ConnectionId?: string;
+  ConnectionType?: string;
+  ContentHandlingStrategy?: string;
+  CredentialsArn?: string;
+  Description?: string;
+  IntegrationId: string;
+  IntegrationMethod?: string;
+  IntegrationSubtype?: string;
+  IntegrationType?: string;
+  IntegrationUri?: string;
+  PassthroughBehavior?: string;
+  PayloadFormatVersion?: string;
+  RequestParameters?: IntegrationParameters;
+  RequestTemplates?: TemplateMap;
+  ResponseParameters?: ResponseParameters;
+  TemplateSelectionExpression?: string;
+  TimeoutInMillis?: number;
+  TlsConfig?: TlsConfigInput;
+}
+export const UpdateIntegrationRequest = S.suspend(() =>
+  S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     ConnectionId: S.optional(S.String).pipe(T.JsonName("connectionId")),
     ConnectionType: S.optional(S.String).pipe(T.JsonName("connectionType")),
@@ -1995,24 +2698,37 @@ export class UpdateIntegrationRequest extends S.Class<UpdateIntegrationRequest>(
       T.JsonName("templateSelectionExpression"),
     ),
     TimeoutInMillis: S.optional(S.Number).pipe(T.JsonName("timeoutInMillis")),
-    TlsConfig: S.optional(TlsConfigInput).pipe(T.JsonName("tlsConfig")),
-  },
-  T.all(
-    T.Http({
-      method: "PATCH",
-      uri: "/v2/apis/{ApiId}/integrations/{IntegrationId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+    TlsConfig: S.optional(TlsConfigInput)
+      .pipe(T.JsonName("tlsConfig"))
+      .annotations({ identifier: "TlsConfigInput" }),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/v2/apis/{ApiId}/integrations/{IntegrationId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateIntegrationResponseRequest extends S.Class<UpdateIntegrationResponseRequest>(
-  "UpdateIntegrationResponseRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateIntegrationRequest",
+}) as any as S.Schema<UpdateIntegrationRequest>;
+export interface UpdateIntegrationResponseRequest {
+  ApiId: string;
+  ContentHandlingStrategy?: string;
+  IntegrationId: string;
+  IntegrationResponseId: string;
+  IntegrationResponseKey?: string;
+  ResponseParameters?: IntegrationParameters;
+  ResponseTemplates?: TemplateMap;
+  TemplateSelectionExpression?: string;
+}
+export const UpdateIntegrationResponseRequest = S.suspend(() =>
+  S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     ContentHandlingStrategy: S.optional(S.String).pipe(
       T.JsonName("contentHandlingStrategy"),
@@ -2031,173 +2747,319 @@ export class UpdateIntegrationResponseRequest extends S.Class<UpdateIntegrationR
     TemplateSelectionExpression: S.optional(S.String).pipe(
       T.JsonName("templateSelectionExpression"),
     ),
-  },
-  T.all(
-    T.Http({
-      method: "PATCH",
-      uri: "/v2/apis/{ApiId}/integrations/{IntegrationId}/integrationresponses/{IntegrationResponseId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/v2/apis/{ApiId}/integrations/{IntegrationId}/integrationresponses/{IntegrationResponseId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateModelRequest extends S.Class<UpdateModelRequest>(
-  "UpdateModelRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateIntegrationResponseRequest",
+}) as any as S.Schema<UpdateIntegrationResponseRequest>;
+export interface UpdateModelRequest {
+  ApiId: string;
+  ContentType?: string;
+  Description?: string;
+  ModelId: string;
+  Name?: string;
+  Schema?: string;
+}
+export const UpdateModelRequest = S.suspend(() =>
+  S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     ContentType: S.optional(S.String).pipe(T.JsonName("contentType")),
     Description: S.optional(S.String).pipe(T.JsonName("description")),
     ModelId: S.String.pipe(T.HttpLabel("ModelId")),
     Name: S.optional(S.String).pipe(T.JsonName("name")),
     Schema: S.optional(S.String).pipe(T.JsonName("schema")),
-  },
-  T.all(
-    T.Http({ method: "PATCH", uri: "/v2/apis/{ApiId}/models/{ModelId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-  ),
-) {}
-export class CognitoConfig extends S.Class<CognitoConfig>("CognitoConfig")({
-  AppClientId: S.String.pipe(T.JsonName("appClientId")),
-  UserPoolArn: S.String.pipe(T.JsonName("userPoolArn")),
-  UserPoolDomain: S.String.pipe(T.JsonName("userPoolDomain")),
-}) {}
-export class None extends S.Class<None>("None")({}) {}
-export class Authorization extends S.Class<Authorization>("Authorization")({
-  CognitoConfig: S.optional(CognitoConfig).pipe(T.JsonName("cognitoConfig")),
-  None: S.optional(None).pipe(T.JsonName("none")),
-}) {}
-export class ACMManaged extends S.Class<ACMManaged>("ACMManaged")({
-  CertificateArn: S.String.pipe(T.JsonName("certificateArn")),
-  DomainName: S.String.pipe(T.JsonName("domainName")),
-}) {}
-export class EndpointConfigurationRequest extends S.Class<EndpointConfigurationRequest>(
-  "EndpointConfigurationRequest",
-)({
-  AcmManaged: S.optional(ACMManaged).pipe(T.JsonName("acmManaged")),
-  None: S.optional(None).pipe(T.JsonName("none")),
-}) {}
-export class CustomColors extends S.Class<CustomColors>("CustomColors")({
-  AccentColor: S.String.pipe(T.JsonName("accentColor")),
-  BackgroundColor: S.String.pipe(T.JsonName("backgroundColor")),
-  ErrorValidationColor: S.String.pipe(T.JsonName("errorValidationColor")),
-  HeaderColor: S.String.pipe(T.JsonName("headerColor")),
-  NavigationColor: S.String.pipe(T.JsonName("navigationColor")),
-  TextColor: S.String.pipe(T.JsonName("textColor")),
-}) {}
-export class PortalTheme extends S.Class<PortalTheme>("PortalTheme")({
-  CustomColors: CustomColors.pipe(T.JsonName("customColors")),
-  LogoLastUploaded: S.optional(
-    S.Date.pipe(T.TimestampFormat("date-time")),
-  ).pipe(T.JsonName("logoLastUploaded")),
-}) {}
-export class PortalContent extends S.Class<PortalContent>("PortalContent")({
-  Description: S.optional(S.String).pipe(T.JsonName("description")),
-  DisplayName: S.String.pipe(T.JsonName("displayName")),
-  Theme: PortalTheme.pipe(T.JsonName("theme")),
-}) {}
-export class UpdatePortalRequest extends S.Class<UpdatePortalRequest>(
-  "UpdatePortalRequest",
-)(
-  {
-    Authorization: S.optional(Authorization).pipe(T.JsonName("authorization")),
-    EndpointConfiguration: S.optional(EndpointConfigurationRequest).pipe(
-      T.JsonName("endpointConfiguration"),
+  }).pipe(
+    T.all(
+      T.Http({ method: "PATCH", uri: "/v2/apis/{ApiId}/models/{ModelId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
+).annotations({
+  identifier: "UpdateModelRequest",
+}) as any as S.Schema<UpdateModelRequest>;
+export interface CognitoConfig {
+  AppClientId: string;
+  UserPoolArn: string;
+  UserPoolDomain: string;
+}
+export const CognitoConfig = S.suspend(() =>
+  S.Struct({
+    AppClientId: S.String.pipe(T.JsonName("appClientId")),
+    UserPoolArn: S.String.pipe(T.JsonName("userPoolArn")),
+    UserPoolDomain: S.String.pipe(T.JsonName("userPoolDomain")),
+  }),
+).annotations({
+  identifier: "CognitoConfig",
+}) as any as S.Schema<CognitoConfig>;
+export interface None {}
+export const None = S.suspend(() => S.Struct({})).annotations({
+  identifier: "None",
+}) as any as S.Schema<None>;
+export interface Authorization {
+  CognitoConfig?: CognitoConfig;
+  None?: None;
+}
+export const Authorization = S.suspend(() =>
+  S.Struct({
+    CognitoConfig: S.optional(CognitoConfig)
+      .pipe(T.JsonName("cognitoConfig"))
+      .annotations({ identifier: "CognitoConfig" }),
+    None: S.optional(None)
+      .pipe(T.JsonName("none"))
+      .annotations({ identifier: "None" }),
+  }),
+).annotations({
+  identifier: "Authorization",
+}) as any as S.Schema<Authorization>;
+export interface ACMManaged {
+  CertificateArn: string;
+  DomainName: string;
+}
+export const ACMManaged = S.suspend(() =>
+  S.Struct({
+    CertificateArn: S.String.pipe(T.JsonName("certificateArn")),
+    DomainName: S.String.pipe(T.JsonName("domainName")),
+  }),
+).annotations({ identifier: "ACMManaged" }) as any as S.Schema<ACMManaged>;
+export interface EndpointConfigurationRequest {
+  AcmManaged?: ACMManaged;
+  None?: None;
+}
+export const EndpointConfigurationRequest = S.suspend(() =>
+  S.Struct({
+    AcmManaged: S.optional(ACMManaged)
+      .pipe(T.JsonName("acmManaged"))
+      .annotations({ identifier: "ACMManaged" }),
+    None: S.optional(None)
+      .pipe(T.JsonName("none"))
+      .annotations({ identifier: "None" }),
+  }),
+).annotations({
+  identifier: "EndpointConfigurationRequest",
+}) as any as S.Schema<EndpointConfigurationRequest>;
+export interface CustomColors {
+  AccentColor: string;
+  BackgroundColor: string;
+  ErrorValidationColor: string;
+  HeaderColor: string;
+  NavigationColor: string;
+  TextColor: string;
+}
+export const CustomColors = S.suspend(() =>
+  S.Struct({
+    AccentColor: S.String.pipe(T.JsonName("accentColor")),
+    BackgroundColor: S.String.pipe(T.JsonName("backgroundColor")),
+    ErrorValidationColor: S.String.pipe(T.JsonName("errorValidationColor")),
+    HeaderColor: S.String.pipe(T.JsonName("headerColor")),
+    NavigationColor: S.String.pipe(T.JsonName("navigationColor")),
+    TextColor: S.String.pipe(T.JsonName("textColor")),
+  }),
+).annotations({ identifier: "CustomColors" }) as any as S.Schema<CustomColors>;
+export interface PortalTheme {
+  CustomColors: CustomColors;
+  LogoLastUploaded?: Date;
+}
+export const PortalTheme = S.suspend(() =>
+  S.Struct({
+    CustomColors: CustomColors.pipe(T.JsonName("customColors")).annotations({
+      identifier: "CustomColors",
+    }),
+    LogoLastUploaded: S.optional(
+      S.Date.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.JsonName("logoLastUploaded")),
+  }),
+).annotations({ identifier: "PortalTheme" }) as any as S.Schema<PortalTheme>;
+export interface PortalContent {
+  Description?: string;
+  DisplayName: string;
+  Theme: PortalTheme;
+}
+export const PortalContent = S.suspend(() =>
+  S.Struct({
+    Description: S.optional(S.String).pipe(T.JsonName("description")),
+    DisplayName: S.String.pipe(T.JsonName("displayName")),
+    Theme: PortalTheme.pipe(T.JsonName("theme")).annotations({
+      identifier: "PortalTheme",
+    }),
+  }),
+).annotations({
+  identifier: "PortalContent",
+}) as any as S.Schema<PortalContent>;
+export interface UpdatePortalRequest {
+  Authorization?: Authorization;
+  EndpointConfiguration?: EndpointConfigurationRequest;
+  IncludedPortalProductArns?: __listOf__stringMin20Max2048;
+  LogoUri?: string;
+  PortalContent?: PortalContent;
+  PortalId: string;
+  RumAppMonitorName?: string;
+}
+export const UpdatePortalRequest = S.suspend(() =>
+  S.Struct({
+    Authorization: S.optional(Authorization)
+      .pipe(T.JsonName("authorization"))
+      .annotations({ identifier: "Authorization" }),
+    EndpointConfiguration: S.optional(EndpointConfigurationRequest)
+      .pipe(T.JsonName("endpointConfiguration"))
+      .annotations({ identifier: "EndpointConfigurationRequest" }),
     IncludedPortalProductArns: S.optional(__listOf__stringMin20Max2048).pipe(
       T.JsonName("includedPortalProductArns"),
     ),
     LogoUri: S.optional(S.String).pipe(T.JsonName("logoUri")),
-    PortalContent: S.optional(PortalContent).pipe(T.JsonName("portalContent")),
+    PortalContent: S.optional(PortalContent)
+      .pipe(T.JsonName("portalContent"))
+      .annotations({ identifier: "PortalContent" }),
     PortalId: S.String.pipe(T.HttpLabel("PortalId")),
     RumAppMonitorName: S.optional(S.String).pipe(
       T.JsonName("rumAppMonitorName"),
     ),
-  },
-  T.all(
-    T.Http({ method: "PATCH", uri: "/v2/portals/{PortalId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-  ),
-) {}
-export class DisplayContent extends S.Class<DisplayContent>("DisplayContent")({
-  Body: S.String.pipe(T.JsonName("body")),
-  Title: S.String.pipe(T.JsonName("title")),
-}) {}
-export class UpdateProductPageRequest extends S.Class<UpdateProductPageRequest>(
-  "UpdateProductPageRequest",
-)(
-  {
-    DisplayContent: S.optional(DisplayContent).pipe(
-      T.JsonName("displayContent"),
+  }).pipe(
+    T.all(
+      T.Http({ method: "PATCH", uri: "/v2/portals/{PortalId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
+).annotations({
+  identifier: "UpdatePortalRequest",
+}) as any as S.Schema<UpdatePortalRequest>;
+export interface DisplayContent {
+  Body: string;
+  Title: string;
+}
+export const DisplayContent = S.suspend(() =>
+  S.Struct({
+    Body: S.String.pipe(T.JsonName("body")),
+    Title: S.String.pipe(T.JsonName("title")),
+  }),
+).annotations({
+  identifier: "DisplayContent",
+}) as any as S.Schema<DisplayContent>;
+export interface UpdateProductPageRequest {
+  DisplayContent?: DisplayContent;
+  PortalProductId: string;
+  ProductPageId: string;
+}
+export const UpdateProductPageRequest = S.suspend(() =>
+  S.Struct({
+    DisplayContent: S.optional(DisplayContent)
+      .pipe(T.JsonName("displayContent"))
+      .annotations({ identifier: "DisplayContent" }),
     PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")),
     ProductPageId: S.String.pipe(T.HttpLabel("ProductPageId")),
-  },
-  T.all(
-    T.Http({
-      method: "PATCH",
-      uri: "/v2/portalproducts/{PortalProductId}/productpages/{ProductPageId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-  ),
-) {}
-export class DisplayContentOverrides extends S.Class<DisplayContentOverrides>(
-  "DisplayContentOverrides",
-)({
-  Body: S.optional(S.String).pipe(T.JsonName("body")),
-  Endpoint: S.optional(S.String).pipe(T.JsonName("endpoint")),
-  OperationName: S.optional(S.String).pipe(T.JsonName("operationName")),
-}) {}
-export class EndpointDisplayContent extends S.Class<EndpointDisplayContent>(
-  "EndpointDisplayContent",
-)({
-  None: S.optional(None).pipe(T.JsonName("none")),
-  Overrides: S.optional(DisplayContentOverrides).pipe(T.JsonName("overrides")),
-}) {}
-export class UpdateProductRestEndpointPageRequest extends S.Class<UpdateProductRestEndpointPageRequest>(
-  "UpdateProductRestEndpointPageRequest",
-)(
-  {
-    DisplayContent: S.optional(EndpointDisplayContent).pipe(
-      T.JsonName("displayContent"),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/v2/portalproducts/{PortalProductId}/productpages/{ProductPageId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
+).annotations({
+  identifier: "UpdateProductPageRequest",
+}) as any as S.Schema<UpdateProductPageRequest>;
+export interface DisplayContentOverrides {
+  Body?: string;
+  Endpoint?: string;
+  OperationName?: string;
+}
+export const DisplayContentOverrides = S.suspend(() =>
+  S.Struct({
+    Body: S.optional(S.String).pipe(T.JsonName("body")),
+    Endpoint: S.optional(S.String).pipe(T.JsonName("endpoint")),
+    OperationName: S.optional(S.String).pipe(T.JsonName("operationName")),
+  }),
+).annotations({
+  identifier: "DisplayContentOverrides",
+}) as any as S.Schema<DisplayContentOverrides>;
+export interface EndpointDisplayContent {
+  None?: None;
+  Overrides?: DisplayContentOverrides;
+}
+export const EndpointDisplayContent = S.suspend(() =>
+  S.Struct({
+    None: S.optional(None)
+      .pipe(T.JsonName("none"))
+      .annotations({ identifier: "None" }),
+    Overrides: S.optional(DisplayContentOverrides)
+      .pipe(T.JsonName("overrides"))
+      .annotations({ identifier: "DisplayContentOverrides" }),
+  }),
+).annotations({
+  identifier: "EndpointDisplayContent",
+}) as any as S.Schema<EndpointDisplayContent>;
+export interface UpdateProductRestEndpointPageRequest {
+  DisplayContent?: EndpointDisplayContent;
+  PortalProductId: string;
+  ProductRestEndpointPageId: string;
+  TryItState?: string;
+}
+export const UpdateProductRestEndpointPageRequest = S.suspend(() =>
+  S.Struct({
+    DisplayContent: S.optional(EndpointDisplayContent)
+      .pipe(T.JsonName("displayContent"))
+      .annotations({ identifier: "EndpointDisplayContent" }),
     PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")),
     ProductRestEndpointPageId: S.String.pipe(
       T.HttpLabel("ProductRestEndpointPageId"),
     ),
     TryItState: S.optional(S.String).pipe(T.JsonName("tryItState")),
-  },
-  T.all(
-    T.Http({
-      method: "PATCH",
-      uri: "/v2/portalproducts/{PortalProductId}/productrestendpointpages/{ProductRestEndpointPageId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/v2/portalproducts/{PortalProductId}/productrestendpointpages/{ProductRestEndpointPageId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateRouteRequest extends S.Class<UpdateRouteRequest>(
-  "UpdateRouteRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateProductRestEndpointPageRequest",
+}) as any as S.Schema<UpdateProductRestEndpointPageRequest>;
+export interface UpdateRouteRequest {
+  ApiId: string;
+  ApiKeyRequired?: boolean;
+  AuthorizationScopes?: AuthorizationScopes;
+  AuthorizationType?: string;
+  AuthorizerId?: string;
+  ModelSelectionExpression?: string;
+  OperationName?: string;
+  RequestModels?: RouteModels;
+  RequestParameters?: RouteParameters;
+  RouteId: string;
+  RouteKey?: string;
+  RouteResponseSelectionExpression?: string;
+  Target?: string;
+}
+export const UpdateRouteRequest = S.suspend(() =>
+  S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     ApiKeyRequired: S.optional(S.Boolean).pipe(T.JsonName("apiKeyRequired")),
     AuthorizationScopes: S.optional(AuthorizationScopes).pipe(
@@ -2221,20 +3083,30 @@ export class UpdateRouteRequest extends S.Class<UpdateRouteRequest>(
       T.JsonName("routeResponseSelectionExpression"),
     ),
     Target: S.optional(S.String).pipe(T.JsonName("target")),
-  },
-  T.all(
-    T.Http({ method: "PATCH", uri: "/v2/apis/{ApiId}/routes/{RouteId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PATCH", uri: "/v2/apis/{ApiId}/routes/{RouteId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateRouteResponseRequest extends S.Class<UpdateRouteResponseRequest>(
-  "UpdateRouteResponseRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateRouteRequest",
+}) as any as S.Schema<UpdateRouteRequest>;
+export interface UpdateRouteResponseRequest {
+  ApiId: string;
+  ModelSelectionExpression?: string;
+  ResponseModels?: RouteModels;
+  ResponseParameters?: RouteParameters;
+  RouteId: string;
+  RouteResponseId: string;
+  RouteResponseKey?: string;
+}
+export const UpdateRouteResponseRequest = S.suspend(() =>
+  S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     ModelSelectionExpression: S.optional(S.String).pipe(
       T.JsonName("modelSelectionExpression"),
@@ -2246,58 +3118,92 @@ export class UpdateRouteResponseRequest extends S.Class<UpdateRouteResponseReque
     RouteId: S.String.pipe(T.HttpLabel("RouteId")),
     RouteResponseId: S.String.pipe(T.HttpLabel("RouteResponseId")),
     RouteResponseKey: S.optional(S.String).pipe(T.JsonName("routeResponseKey")),
-  },
-  T.all(
-    T.Http({
-      method: "PATCH",
-      uri: "/v2/apis/{ApiId}/routes/{RouteId}/routeresponses/{RouteResponseId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/v2/apis/{ApiId}/routes/{RouteId}/routeresponses/{RouteResponseId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AccessLogSettings extends S.Class<AccessLogSettings>(
-  "AccessLogSettings",
-)({
-  DestinationArn: S.optional(S.String).pipe(T.JsonName("destinationArn")),
-  Format: S.optional(S.String).pipe(T.JsonName("format")),
-}) {}
-export class RouteSettings extends S.Class<RouteSettings>("RouteSettings")({
-  DataTraceEnabled: S.optional(S.Boolean).pipe(T.JsonName("dataTraceEnabled")),
-  DetailedMetricsEnabled: S.optional(S.Boolean).pipe(
-    T.JsonName("detailedMetricsEnabled"),
-  ),
-  LoggingLevel: S.optional(S.String).pipe(T.JsonName("loggingLevel")),
-  ThrottlingBurstLimit: S.optional(S.Number).pipe(
-    T.JsonName("throttlingBurstLimit"),
-  ),
-  ThrottlingRateLimit: S.optional(S.Number).pipe(
-    T.JsonName("throttlingRateLimit"),
-  ),
-}) {}
+).annotations({
+  identifier: "UpdateRouteResponseRequest",
+}) as any as S.Schema<UpdateRouteResponseRequest>;
+export interface AccessLogSettings {
+  DestinationArn?: string;
+  Format?: string;
+}
+export const AccessLogSettings = S.suspend(() =>
+  S.Struct({
+    DestinationArn: S.optional(S.String).pipe(T.JsonName("destinationArn")),
+    Format: S.optional(S.String).pipe(T.JsonName("format")),
+  }),
+).annotations({
+  identifier: "AccessLogSettings",
+}) as any as S.Schema<AccessLogSettings>;
+export interface RouteSettings {
+  DataTraceEnabled?: boolean;
+  DetailedMetricsEnabled?: boolean;
+  LoggingLevel?: string;
+  ThrottlingBurstLimit?: number;
+  ThrottlingRateLimit?: number;
+}
+export const RouteSettings = S.suspend(() =>
+  S.Struct({
+    DataTraceEnabled: S.optional(S.Boolean).pipe(
+      T.JsonName("dataTraceEnabled"),
+    ),
+    DetailedMetricsEnabled: S.optional(S.Boolean).pipe(
+      T.JsonName("detailedMetricsEnabled"),
+    ),
+    LoggingLevel: S.optional(S.String).pipe(T.JsonName("loggingLevel")),
+    ThrottlingBurstLimit: S.optional(S.Number).pipe(
+      T.JsonName("throttlingBurstLimit"),
+    ),
+    ThrottlingRateLimit: S.optional(S.Number).pipe(
+      T.JsonName("throttlingRateLimit"),
+    ),
+  }),
+).annotations({
+  identifier: "RouteSettings",
+}) as any as S.Schema<RouteSettings>;
+export type RouteSettingsMap = { [key: string]: RouteSettings };
 export const RouteSettingsMap = S.Record({
   key: S.String,
   value: RouteSettings,
 });
+export type StageVariablesMap = { [key: string]: string };
 export const StageVariablesMap = S.Record({ key: S.String, value: S.String });
-export class UpdateStageRequest extends S.Class<UpdateStageRequest>(
-  "UpdateStageRequest",
-)(
-  {
-    AccessLogSettings: S.optional(AccessLogSettings).pipe(
-      T.JsonName("accessLogSettings"),
-    ),
+export interface UpdateStageRequest {
+  AccessLogSettings?: AccessLogSettings;
+  ApiId: string;
+  AutoDeploy?: boolean;
+  ClientCertificateId?: string;
+  DefaultRouteSettings?: RouteSettings;
+  DeploymentId?: string;
+  Description?: string;
+  RouteSettings?: RouteSettingsMap;
+  StageName: string;
+  StageVariables?: StageVariablesMap;
+}
+export const UpdateStageRequest = S.suspend(() =>
+  S.Struct({
+    AccessLogSettings: S.optional(AccessLogSettings)
+      .pipe(T.JsonName("accessLogSettings"))
+      .annotations({ identifier: "AccessLogSettings" }),
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     AutoDeploy: S.optional(S.Boolean).pipe(T.JsonName("autoDeploy")),
     ClientCertificateId: S.optional(S.String).pipe(
       T.JsonName("clientCertificateId"),
     ),
-    DefaultRouteSettings: S.optional(RouteSettings).pipe(
-      T.JsonName("defaultRouteSettings"),
-    ),
+    DefaultRouteSettings: S.optional(RouteSettings)
+      .pipe(T.JsonName("defaultRouteSettings"))
+      .annotations({ identifier: "RouteSettings" }),
     DeploymentId: S.optional(S.String).pipe(T.JsonName("deploymentId")),
     Description: S.optional(S.String).pipe(T.JsonName("description")),
     RouteSettings: S.optional(RouteSettingsMap).pipe(
@@ -2307,40 +3213,64 @@ export class UpdateStageRequest extends S.Class<UpdateStageRequest>(
     StageVariables: S.optional(StageVariablesMap).pipe(
       T.JsonName("stageVariables"),
     ),
-  },
-  T.all(
-    T.Http({ method: "PATCH", uri: "/v2/apis/{ApiId}/stages/{StageName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PATCH", uri: "/v2/apis/{ApiId}/stages/{StageName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateVpcLinkRequest extends S.Class<UpdateVpcLinkRequest>(
-  "UpdateVpcLinkRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateStageRequest",
+}) as any as S.Schema<UpdateStageRequest>;
+export interface UpdateVpcLinkRequest {
+  Name?: string;
+  VpcLinkId: string;
+}
+export const UpdateVpcLinkRequest = S.suspend(() =>
+  S.Struct({
     Name: S.optional(S.String).pipe(T.JsonName("name")),
     VpcLinkId: S.String.pipe(T.HttpLabel("VpcLinkId")),
-  },
-  T.all(
-    T.Http({ method: "PATCH", uri: "/v2/vpclinks/{VpcLinkId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PATCH", uri: "/v2/vpclinks/{VpcLinkId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateApiRequest extends S.Class<CreateApiRequest>(
-  "CreateApiRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateVpcLinkRequest",
+}) as any as S.Schema<UpdateVpcLinkRequest>;
+export interface CreateApiRequest {
+  ApiKeySelectionExpression?: string;
+  CorsConfiguration?: Cors;
+  CredentialsArn?: string;
+  Description?: string;
+  DisableSchemaValidation?: boolean;
+  DisableExecuteApiEndpoint?: boolean;
+  IpAddressType?: string;
+  Name: string;
+  ProtocolType: string;
+  RouteKey?: string;
+  RouteSelectionExpression?: string;
+  Tags?: Tags;
+  Target?: string;
+  Version?: string;
+}
+export const CreateApiRequest = S.suspend(() =>
+  S.Struct({
     ApiKeySelectionExpression: S.optional(S.String).pipe(
       T.JsonName("apiKeySelectionExpression"),
     ),
-    CorsConfiguration: S.optional(Cors).pipe(T.JsonName("corsConfiguration")),
+    CorsConfiguration: S.optional(Cors)
+      .pipe(T.JsonName("corsConfiguration"))
+      .annotations({ identifier: "Cors" }),
     CredentialsArn: S.optional(S.String).pipe(T.JsonName("credentialsArn")),
     Description: S.optional(S.String).pipe(T.JsonName("description")),
     DisableSchemaValidation: S.optional(S.Boolean).pipe(
@@ -2359,28 +3289,50 @@ export class CreateApiRequest extends S.Class<CreateApiRequest>(
     Tags: S.optional(Tags).pipe(T.JsonName("tags")),
     Target: S.optional(S.String).pipe(T.JsonName("target")),
     Version: S.optional(S.String).pipe(T.JsonName("version")),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/v2/apis" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v2/apis" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateApiMappingResponse extends S.Class<CreateApiMappingResponse>(
-  "CreateApiMappingResponse",
-)({
-  ApiId: S.optional(S.String).pipe(T.JsonName("apiId")),
-  ApiMappingId: S.optional(S.String).pipe(T.JsonName("apiMappingId")),
-  ApiMappingKey: S.optional(S.String).pipe(T.JsonName("apiMappingKey")),
-  Stage: S.optional(S.String).pipe(T.JsonName("stage")),
-}) {}
-export class CreateAuthorizerRequest extends S.Class<CreateAuthorizerRequest>(
-  "CreateAuthorizerRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateApiRequest",
+}) as any as S.Schema<CreateApiRequest>;
+export interface CreateApiMappingResponse {
+  ApiId?: string;
+  ApiMappingId?: string;
+  ApiMappingKey?: string;
+  Stage?: string;
+}
+export const CreateApiMappingResponse = S.suspend(() =>
+  S.Struct({
+    ApiId: S.optional(S.String).pipe(T.JsonName("apiId")),
+    ApiMappingId: S.optional(S.String).pipe(T.JsonName("apiMappingId")),
+    ApiMappingKey: S.optional(S.String).pipe(T.JsonName("apiMappingKey")),
+    Stage: S.optional(S.String).pipe(T.JsonName("stage")),
+  }),
+).annotations({
+  identifier: "CreateApiMappingResponse",
+}) as any as S.Schema<CreateApiMappingResponse>;
+export interface CreateAuthorizerRequest {
+  ApiId: string;
+  AuthorizerCredentialsArn?: string;
+  AuthorizerPayloadFormatVersion?: string;
+  AuthorizerResultTtlInSeconds?: number;
+  AuthorizerType: string;
+  AuthorizerUri?: string;
+  EnableSimpleResponses?: boolean;
+  IdentitySource: IdentitySourceList;
+  IdentityValidationExpression?: string;
+  JwtConfiguration?: JWTConfiguration;
+  Name: string;
+}
+export const CreateAuthorizerRequest = S.suspend(() =>
+  S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     AuthorizerCredentialsArn: S.optional(S.String).pipe(
       T.JsonName("authorizerCredentialsArn"),
@@ -2400,61 +3352,100 @@ export class CreateAuthorizerRequest extends S.Class<CreateAuthorizerRequest>(
     IdentityValidationExpression: S.optional(S.String).pipe(
       T.JsonName("identityValidationExpression"),
     ),
-    JwtConfiguration: S.optional(JWTConfiguration).pipe(
-      T.JsonName("jwtConfiguration"),
-    ),
+    JwtConfiguration: S.optional(JWTConfiguration)
+      .pipe(T.JsonName("jwtConfiguration"))
+      .annotations({ identifier: "JWTConfiguration" }),
     Name: S.String.pipe(T.JsonName("name")),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/v2/apis/{ApiId}/authorizers" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v2/apis/{ApiId}/authorizers" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateDeploymentResponse extends S.Class<CreateDeploymentResponse>(
-  "CreateDeploymentResponse",
-)({
-  AutoDeployed: S.optional(S.Boolean).pipe(T.JsonName("autoDeployed")),
-  CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-    T.JsonName("createdDate"),
-  ),
-  DeploymentId: S.optional(S.String).pipe(T.JsonName("deploymentId")),
-  DeploymentStatus: S.optional(S.String).pipe(T.JsonName("deploymentStatus")),
-  DeploymentStatusMessage: S.optional(S.String).pipe(
-    T.JsonName("deploymentStatusMessage"),
-  ),
-  Description: S.optional(S.String).pipe(T.JsonName("description")),
-}) {}
-export class CreateDomainNameRequest extends S.Class<CreateDomainNameRequest>(
-  "CreateDomainNameRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateAuthorizerRequest",
+}) as any as S.Schema<CreateAuthorizerRequest>;
+export interface CreateDeploymentResponse {
+  AutoDeployed?: boolean;
+  CreatedDate?: Date;
+  DeploymentId?: string;
+  DeploymentStatus?: string;
+  DeploymentStatusMessage?: string;
+  Description?: string;
+}
+export const CreateDeploymentResponse = S.suspend(() =>
+  S.Struct({
+    AutoDeployed: S.optional(S.Boolean).pipe(T.JsonName("autoDeployed")),
+    CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.JsonName("createdDate"),
+    ),
+    DeploymentId: S.optional(S.String).pipe(T.JsonName("deploymentId")),
+    DeploymentStatus: S.optional(S.String).pipe(T.JsonName("deploymentStatus")),
+    DeploymentStatusMessage: S.optional(S.String).pipe(
+      T.JsonName("deploymentStatusMessage"),
+    ),
+    Description: S.optional(S.String).pipe(T.JsonName("description")),
+  }),
+).annotations({
+  identifier: "CreateDeploymentResponse",
+}) as any as S.Schema<CreateDeploymentResponse>;
+export interface CreateDomainNameRequest {
+  DomainName: string;
+  DomainNameConfigurations?: DomainNameConfigurations;
+  MutualTlsAuthentication?: MutualTlsAuthenticationInput;
+  RoutingMode?: string;
+  Tags?: Tags;
+}
+export const CreateDomainNameRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.JsonName("domainName")),
     DomainNameConfigurations: S.optional(DomainNameConfigurations).pipe(
       T.JsonName("domainNameConfigurations"),
     ),
-    MutualTlsAuthentication: S.optional(MutualTlsAuthenticationInput).pipe(
-      T.JsonName("mutualTlsAuthentication"),
-    ),
+    MutualTlsAuthentication: S.optional(MutualTlsAuthenticationInput)
+      .pipe(T.JsonName("mutualTlsAuthentication"))
+      .annotations({ identifier: "MutualTlsAuthenticationInput" }),
     RoutingMode: S.optional(S.String).pipe(T.JsonName("routingMode")),
     Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/v2/domainnames" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v2/domainnames" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateIntegrationRequest extends S.Class<CreateIntegrationRequest>(
-  "CreateIntegrationRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateDomainNameRequest",
+}) as any as S.Schema<CreateDomainNameRequest>;
+export interface CreateIntegrationRequest {
+  ApiId: string;
+  ConnectionId?: string;
+  ConnectionType?: string;
+  ContentHandlingStrategy?: string;
+  CredentialsArn?: string;
+  Description?: string;
+  IntegrationMethod?: string;
+  IntegrationSubtype?: string;
+  IntegrationType: string;
+  IntegrationUri?: string;
+  PassthroughBehavior?: string;
+  PayloadFormatVersion?: string;
+  RequestParameters?: IntegrationParameters;
+  RequestTemplates?: TemplateMap;
+  ResponseParameters?: ResponseParameters;
+  TemplateSelectionExpression?: string;
+  TimeoutInMillis?: number;
+  TlsConfig?: TlsConfigInput;
+}
+export const CreateIntegrationRequest = S.suspend(() =>
+  S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     ConnectionId: S.optional(S.String).pipe(T.JsonName("connectionId")),
     ConnectionType: S.optional(S.String).pipe(T.JsonName("connectionType")),
@@ -2490,122 +3481,200 @@ export class CreateIntegrationRequest extends S.Class<CreateIntegrationRequest>(
       T.JsonName("templateSelectionExpression"),
     ),
     TimeoutInMillis: S.optional(S.Number).pipe(T.JsonName("timeoutInMillis")),
-    TlsConfig: S.optional(TlsConfigInput).pipe(T.JsonName("tlsConfig")),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/v2/apis/{ApiId}/integrations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-  ),
-) {}
-export class CreateIntegrationResponseResponse extends S.Class<CreateIntegrationResponseResponse>(
-  "CreateIntegrationResponseResponse",
-)({
-  ContentHandlingStrategy: S.optional(S.String).pipe(
-    T.JsonName("contentHandlingStrategy"),
-  ),
-  IntegrationResponseId: S.optional(S.String).pipe(
-    T.JsonName("integrationResponseId"),
-  ),
-  IntegrationResponseKey: S.optional(S.String).pipe(
-    T.JsonName("integrationResponseKey"),
-  ),
-  ResponseParameters: S.optional(IntegrationParameters).pipe(
-    T.JsonName("responseParameters"),
-  ),
-  ResponseTemplates: S.optional(TemplateMap).pipe(
-    T.JsonName("responseTemplates"),
-  ),
-  TemplateSelectionExpression: S.optional(S.String).pipe(
-    T.JsonName("templateSelectionExpression"),
-  ),
-}) {}
-export class CreateModelResponse extends S.Class<CreateModelResponse>(
-  "CreateModelResponse",
-)({
-  ContentType: S.optional(S.String).pipe(T.JsonName("contentType")),
-  Description: S.optional(S.String).pipe(T.JsonName("description")),
-  ModelId: S.optional(S.String).pipe(T.JsonName("modelId")),
-  Name: S.optional(S.String).pipe(T.JsonName("name")),
-  Schema: S.optional(S.String).pipe(T.JsonName("schema")),
-}) {}
-export class Section extends S.Class<Section>("Section")({
-  ProductRestEndpointPageArns: __listOf__stringMin20Max2048.pipe(
-    T.JsonName("productRestEndpointPageArns"),
-  ),
-  SectionName: S.String.pipe(T.JsonName("sectionName")),
-}) {}
-export const __listOfSection = S.Array(Section);
-export class DisplayOrder extends S.Class<DisplayOrder>("DisplayOrder")({
-  Contents: S.optional(__listOfSection).pipe(T.JsonName("contents")),
-  OverviewPageArn: S.optional(S.String).pipe(T.JsonName("overviewPageArn")),
-  ProductPageArns: S.optional(__listOf__stringMin20Max2048).pipe(
-    T.JsonName("productPageArns"),
-  ),
-}) {}
-export class CreatePortalProductResponse extends S.Class<CreatePortalProductResponse>(
-  "CreatePortalProductResponse",
-)({
-  Description: S.optional(S.String).pipe(T.JsonName("description")),
-  DisplayName: S.optional(S.String).pipe(T.JsonName("displayName")),
-  DisplayOrder: S.optional(DisplayOrder).pipe(T.JsonName("displayOrder")),
-  LastModified: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-    T.JsonName("lastModified"),
-  ),
-  PortalProductArn: S.optional(S.String).pipe(T.JsonName("portalProductArn")),
-  PortalProductId: S.optional(S.String).pipe(T.JsonName("portalProductId")),
-  Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-}) {}
-export class CreateProductPageRequest extends S.Class<CreateProductPageRequest>(
-  "CreateProductPageRequest",
-)(
-  {
-    DisplayContent: DisplayContent.pipe(T.JsonName("displayContent")),
-    PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/v2/portalproducts/{PortalProductId}/productpages",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-  ),
-) {}
-export class CreateRouteResponseResponse extends S.Class<CreateRouteResponseResponse>(
-  "CreateRouteResponseResponse",
-)({
-  ModelSelectionExpression: S.optional(S.String).pipe(
-    T.JsonName("modelSelectionExpression"),
-  ),
-  ResponseModels: S.optional(RouteModels).pipe(T.JsonName("responseModels")),
-  ResponseParameters: S.optional(RouteParameters).pipe(
-    T.JsonName("responseParameters"),
-  ),
-  RouteResponseId: S.optional(S.String).pipe(T.JsonName("routeResponseId")),
-  RouteResponseKey: S.optional(S.String).pipe(T.JsonName("routeResponseKey")),
-}) {}
-export class CreateStageRequest extends S.Class<CreateStageRequest>(
-  "CreateStageRequest",
-)(
-  {
-    AccessLogSettings: S.optional(AccessLogSettings).pipe(
-      T.JsonName("accessLogSettings"),
+    TlsConfig: S.optional(TlsConfigInput)
+      .pipe(T.JsonName("tlsConfig"))
+      .annotations({ identifier: "TlsConfigInput" }),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v2/apis/{ApiId}/integrations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
+).annotations({
+  identifier: "CreateIntegrationRequest",
+}) as any as S.Schema<CreateIntegrationRequest>;
+export interface CreateIntegrationResponseResponse {
+  ContentHandlingStrategy?: string;
+  IntegrationResponseId?: string;
+  IntegrationResponseKey?: string;
+  ResponseParameters?: IntegrationParameters;
+  ResponseTemplates?: TemplateMap;
+  TemplateSelectionExpression?: string;
+}
+export const CreateIntegrationResponseResponse = S.suspend(() =>
+  S.Struct({
+    ContentHandlingStrategy: S.optional(S.String).pipe(
+      T.JsonName("contentHandlingStrategy"),
+    ),
+    IntegrationResponseId: S.optional(S.String).pipe(
+      T.JsonName("integrationResponseId"),
+    ),
+    IntegrationResponseKey: S.optional(S.String).pipe(
+      T.JsonName("integrationResponseKey"),
+    ),
+    ResponseParameters: S.optional(IntegrationParameters).pipe(
+      T.JsonName("responseParameters"),
+    ),
+    ResponseTemplates: S.optional(TemplateMap).pipe(
+      T.JsonName("responseTemplates"),
+    ),
+    TemplateSelectionExpression: S.optional(S.String).pipe(
+      T.JsonName("templateSelectionExpression"),
+    ),
+  }),
+).annotations({
+  identifier: "CreateIntegrationResponseResponse",
+}) as any as S.Schema<CreateIntegrationResponseResponse>;
+export interface CreateModelResponse {
+  ContentType?: string;
+  Description?: string;
+  ModelId?: string;
+  Name?: string;
+  Schema?: string;
+}
+export const CreateModelResponse = S.suspend(() =>
+  S.Struct({
+    ContentType: S.optional(S.String).pipe(T.JsonName("contentType")),
+    Description: S.optional(S.String).pipe(T.JsonName("description")),
+    ModelId: S.optional(S.String).pipe(T.JsonName("modelId")),
+    Name: S.optional(S.String).pipe(T.JsonName("name")),
+    Schema: S.optional(S.String).pipe(T.JsonName("schema")),
+  }),
+).annotations({
+  identifier: "CreateModelResponse",
+}) as any as S.Schema<CreateModelResponse>;
+export interface Section {
+  ProductRestEndpointPageArns: __listOf__stringMin20Max2048;
+  SectionName: string;
+}
+export const Section = S.suspend(() =>
+  S.Struct({
+    ProductRestEndpointPageArns: __listOf__stringMin20Max2048.pipe(
+      T.JsonName("productRestEndpointPageArns"),
+    ),
+    SectionName: S.String.pipe(T.JsonName("sectionName")),
+  }),
+).annotations({ identifier: "Section" }) as any as S.Schema<Section>;
+export type __listOfSection = Section[];
+export const __listOfSection = S.Array(Section);
+export interface DisplayOrder {
+  Contents?: __listOfSection;
+  OverviewPageArn?: string;
+  ProductPageArns?: __listOf__stringMin20Max2048;
+}
+export const DisplayOrder = S.suspend(() =>
+  S.Struct({
+    Contents: S.optional(__listOfSection).pipe(T.JsonName("contents")),
+    OverviewPageArn: S.optional(S.String).pipe(T.JsonName("overviewPageArn")),
+    ProductPageArns: S.optional(__listOf__stringMin20Max2048).pipe(
+      T.JsonName("productPageArns"),
+    ),
+  }),
+).annotations({ identifier: "DisplayOrder" }) as any as S.Schema<DisplayOrder>;
+export interface CreatePortalProductResponse {
+  Description?: string;
+  DisplayName?: string;
+  DisplayOrder?: DisplayOrder;
+  LastModified?: Date;
+  PortalProductArn?: string;
+  PortalProductId?: string;
+  Tags?: Tags;
+}
+export const CreatePortalProductResponse = S.suspend(() =>
+  S.Struct({
+    Description: S.optional(S.String).pipe(T.JsonName("description")),
+    DisplayName: S.optional(S.String).pipe(T.JsonName("displayName")),
+    DisplayOrder: S.optional(DisplayOrder)
+      .pipe(T.JsonName("displayOrder"))
+      .annotations({ identifier: "DisplayOrder" }),
+    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.JsonName("lastModified"),
+    ),
+    PortalProductArn: S.optional(S.String).pipe(T.JsonName("portalProductArn")),
+    PortalProductId: S.optional(S.String).pipe(T.JsonName("portalProductId")),
+    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
+  }),
+).annotations({
+  identifier: "CreatePortalProductResponse",
+}) as any as S.Schema<CreatePortalProductResponse>;
+export interface CreateProductPageRequest {
+  DisplayContent: DisplayContent;
+  PortalProductId: string;
+}
+export const CreateProductPageRequest = S.suspend(() =>
+  S.Struct({
+    DisplayContent: DisplayContent.pipe(
+      T.JsonName("displayContent"),
+    ).annotations({ identifier: "DisplayContent" }),
+    PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/v2/portalproducts/{PortalProductId}/productpages",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateProductPageRequest",
+}) as any as S.Schema<CreateProductPageRequest>;
+export interface CreateRouteResponseResponse {
+  ModelSelectionExpression?: string;
+  ResponseModels?: RouteModels;
+  ResponseParameters?: RouteParameters;
+  RouteResponseId?: string;
+  RouteResponseKey?: string;
+}
+export const CreateRouteResponseResponse = S.suspend(() =>
+  S.Struct({
+    ModelSelectionExpression: S.optional(S.String).pipe(
+      T.JsonName("modelSelectionExpression"),
+    ),
+    ResponseModels: S.optional(RouteModels).pipe(T.JsonName("responseModels")),
+    ResponseParameters: S.optional(RouteParameters).pipe(
+      T.JsonName("responseParameters"),
+    ),
+    RouteResponseId: S.optional(S.String).pipe(T.JsonName("routeResponseId")),
+    RouteResponseKey: S.optional(S.String).pipe(T.JsonName("routeResponseKey")),
+  }),
+).annotations({
+  identifier: "CreateRouteResponseResponse",
+}) as any as S.Schema<CreateRouteResponseResponse>;
+export interface CreateStageRequest {
+  AccessLogSettings?: AccessLogSettings;
+  ApiId: string;
+  AutoDeploy?: boolean;
+  ClientCertificateId?: string;
+  DefaultRouteSettings?: RouteSettings;
+  DeploymentId?: string;
+  Description?: string;
+  RouteSettings?: RouteSettingsMap;
+  StageName: string;
+  StageVariables?: StageVariablesMap;
+  Tags?: Tags;
+}
+export const CreateStageRequest = S.suspend(() =>
+  S.Struct({
+    AccessLogSettings: S.optional(AccessLogSettings)
+      .pipe(T.JsonName("accessLogSettings"))
+      .annotations({ identifier: "AccessLogSettings" }),
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     AutoDeploy: S.optional(S.Boolean).pipe(T.JsonName("autoDeploy")),
     ClientCertificateId: S.optional(S.String).pipe(
       T.JsonName("clientCertificateId"),
     ),
-    DefaultRouteSettings: S.optional(RouteSettings).pipe(
-      T.JsonName("defaultRouteSettings"),
-    ),
+    DefaultRouteSettings: S.optional(RouteSettings)
+      .pipe(T.JsonName("defaultRouteSettings"))
+      .annotations({ identifier: "RouteSettings" }),
     DeploymentId: S.optional(S.String).pipe(T.JsonName("deploymentId")),
     Description: S.optional(S.String).pipe(T.JsonName("description")),
     RouteSettings: S.optional(RouteSettingsMap).pipe(
@@ -2616,1265 +3685,2178 @@ export class CreateStageRequest extends S.Class<CreateStageRequest>(
       T.JsonName("stageVariables"),
     ),
     Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/v2/apis/{ApiId}/stages" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-  ),
-) {}
-export class CreateVpcLinkResponse extends S.Class<CreateVpcLinkResponse>(
-  "CreateVpcLinkResponse",
-)({
-  CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-    T.JsonName("createdDate"),
-  ),
-  Name: S.optional(S.String).pipe(T.JsonName("name")),
-  SecurityGroupIds: S.optional(SecurityGroupIdList).pipe(
-    T.JsonName("securityGroupIds"),
-  ),
-  SubnetIds: S.optional(SubnetIdList).pipe(T.JsonName("subnetIds")),
-  Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  VpcLinkId: S.optional(S.String).pipe(T.JsonName("vpcLinkId")),
-  VpcLinkStatus: S.optional(S.String).pipe(T.JsonName("vpcLinkStatus")),
-  VpcLinkStatusMessage: S.optional(S.String).pipe(
-    T.JsonName("vpcLinkStatusMessage"),
-  ),
-  VpcLinkVersion: S.optional(S.String).pipe(T.JsonName("vpcLinkVersion")),
-}) {}
-export class ExportApiResponse extends S.Class<ExportApiResponse>(
-  "ExportApiResponse",
-)({ body: S.optional(T.StreamingOutput).pipe(T.HttpPayload()) }) {}
-export class GetApiResponse extends S.Class<GetApiResponse>("GetApiResponse")({
-  ApiEndpoint: S.optional(S.String).pipe(T.JsonName("apiEndpoint")),
-  ApiGatewayManaged: S.optional(S.Boolean).pipe(
-    T.JsonName("apiGatewayManaged"),
-  ),
-  ApiId: S.optional(S.String).pipe(T.JsonName("apiId")),
-  ApiKeySelectionExpression: S.optional(S.String).pipe(
-    T.JsonName("apiKeySelectionExpression"),
-  ),
-  CorsConfiguration: S.optional(Cors).pipe(T.JsonName("corsConfiguration")),
-  CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-    T.JsonName("createdDate"),
-  ),
-  Description: S.optional(S.String).pipe(T.JsonName("description")),
-  DisableSchemaValidation: S.optional(S.Boolean).pipe(
-    T.JsonName("disableSchemaValidation"),
-  ),
-  DisableExecuteApiEndpoint: S.optional(S.Boolean).pipe(
-    T.JsonName("disableExecuteApiEndpoint"),
-  ),
-  ImportInfo: S.optional(__listOf__string).pipe(T.JsonName("importInfo")),
-  IpAddressType: S.optional(S.String).pipe(T.JsonName("ipAddressType")),
-  Name: S.optional(S.String).pipe(T.JsonName("name")),
-  ProtocolType: S.optional(S.String).pipe(T.JsonName("protocolType")),
-  RouteSelectionExpression: S.optional(S.String).pipe(
-    T.JsonName("routeSelectionExpression"),
-  ),
-  Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  Version: S.optional(S.String).pipe(T.JsonName("version")),
-  Warnings: S.optional(__listOf__string).pipe(T.JsonName("warnings")),
-}) {}
-export class GetApiMappingResponse extends S.Class<GetApiMappingResponse>(
-  "GetApiMappingResponse",
-)({
-  ApiId: S.optional(S.String).pipe(T.JsonName("apiId")),
-  ApiMappingId: S.optional(S.String).pipe(T.JsonName("apiMappingId")),
-  ApiMappingKey: S.optional(S.String).pipe(T.JsonName("apiMappingKey")),
-  Stage: S.optional(S.String).pipe(T.JsonName("stage")),
-}) {}
-export class GetAuthorizerResponse extends S.Class<GetAuthorizerResponse>(
-  "GetAuthorizerResponse",
-)({
-  AuthorizerCredentialsArn: S.optional(S.String).pipe(
-    T.JsonName("authorizerCredentialsArn"),
-  ),
-  AuthorizerId: S.optional(S.String).pipe(T.JsonName("authorizerId")),
-  AuthorizerPayloadFormatVersion: S.optional(S.String).pipe(
-    T.JsonName("authorizerPayloadFormatVersion"),
-  ),
-  AuthorizerResultTtlInSeconds: S.optional(S.Number).pipe(
-    T.JsonName("authorizerResultTtlInSeconds"),
-  ),
-  AuthorizerType: S.optional(S.String).pipe(T.JsonName("authorizerType")),
-  AuthorizerUri: S.optional(S.String).pipe(T.JsonName("authorizerUri")),
-  EnableSimpleResponses: S.optional(S.Boolean).pipe(
-    T.JsonName("enableSimpleResponses"),
-  ),
-  IdentitySource: S.optional(IdentitySourceList).pipe(
-    T.JsonName("identitySource"),
-  ),
-  IdentityValidationExpression: S.optional(S.String).pipe(
-    T.JsonName("identityValidationExpression"),
-  ),
-  JwtConfiguration: S.optional(JWTConfiguration).pipe(
-    T.JsonName("jwtConfiguration"),
-  ),
-  Name: S.optional(S.String).pipe(T.JsonName("name")),
-}) {}
-export class GetDeploymentResponse extends S.Class<GetDeploymentResponse>(
-  "GetDeploymentResponse",
-)({
-  AutoDeployed: S.optional(S.Boolean).pipe(T.JsonName("autoDeployed")),
-  CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-    T.JsonName("createdDate"),
-  ),
-  DeploymentId: S.optional(S.String).pipe(T.JsonName("deploymentId")),
-  DeploymentStatus: S.optional(S.String).pipe(T.JsonName("deploymentStatus")),
-  DeploymentStatusMessage: S.optional(S.String).pipe(
-    T.JsonName("deploymentStatusMessage"),
-  ),
-  Description: S.optional(S.String).pipe(T.JsonName("description")),
-}) {}
-export class GetIntegrationResponseResponse extends S.Class<GetIntegrationResponseResponse>(
-  "GetIntegrationResponseResponse",
-)({
-  ContentHandlingStrategy: S.optional(S.String).pipe(
-    T.JsonName("contentHandlingStrategy"),
-  ),
-  IntegrationResponseId: S.optional(S.String).pipe(
-    T.JsonName("integrationResponseId"),
-  ),
-  IntegrationResponseKey: S.optional(S.String).pipe(
-    T.JsonName("integrationResponseKey"),
-  ),
-  ResponseParameters: S.optional(IntegrationParameters).pipe(
-    T.JsonName("responseParameters"),
-  ),
-  ResponseTemplates: S.optional(TemplateMap).pipe(
-    T.JsonName("responseTemplates"),
-  ),
-  TemplateSelectionExpression: S.optional(S.String).pipe(
-    T.JsonName("templateSelectionExpression"),
-  ),
-}) {}
-export class GetModelResponse extends S.Class<GetModelResponse>(
-  "GetModelResponse",
-)({
-  ContentType: S.optional(S.String).pipe(T.JsonName("contentType")),
-  Description: S.optional(S.String).pipe(T.JsonName("description")),
-  ModelId: S.optional(S.String).pipe(T.JsonName("modelId")),
-  Name: S.optional(S.String).pipe(T.JsonName("name")),
-  Schema: S.optional(S.String).pipe(T.JsonName("schema")),
-}) {}
-export class GetModelTemplateResponse extends S.Class<GetModelTemplateResponse>(
-  "GetModelTemplateResponse",
-)({ Value: S.optional(S.String).pipe(T.JsonName("value")) }) {}
-export class GetPortalProductResponse extends S.Class<GetPortalProductResponse>(
-  "GetPortalProductResponse",
-)({
-  Description: S.optional(S.String).pipe(T.JsonName("description")),
-  DisplayName: S.optional(S.String).pipe(T.JsonName("displayName")),
-  DisplayOrder: S.optional(DisplayOrder).pipe(T.JsonName("displayOrder")),
-  LastModified: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-    T.JsonName("lastModified"),
-  ),
-  PortalProductArn: S.optional(S.String).pipe(T.JsonName("portalProductArn")),
-  PortalProductId: S.optional(S.String).pipe(T.JsonName("portalProductId")),
-  Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-}) {}
-export class GetPortalProductSharingPolicyResponse extends S.Class<GetPortalProductSharingPolicyResponse>(
-  "GetPortalProductSharingPolicyResponse",
-)({
-  PolicyDocument: S.optional(S.String).pipe(T.JsonName("policyDocument")),
-  PortalProductId: S.optional(S.String).pipe(T.JsonName("portalProductId")),
-}) {}
-export class GetProductPageResponse extends S.Class<GetProductPageResponse>(
-  "GetProductPageResponse",
-)({
-  DisplayContent: S.optional(DisplayContent).pipe(T.JsonName("displayContent")),
-  LastModified: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-    T.JsonName("lastModified"),
-  ),
-  ProductPageArn: S.optional(S.String).pipe(T.JsonName("productPageArn")),
-  ProductPageId: S.optional(S.String).pipe(T.JsonName("productPageId")),
-}) {}
-export class GetRouteResult extends S.Class<GetRouteResult>("GetRouteResult")({
-  ApiGatewayManaged: S.optional(S.Boolean).pipe(
-    T.JsonName("apiGatewayManaged"),
-  ),
-  ApiKeyRequired: S.optional(S.Boolean).pipe(T.JsonName("apiKeyRequired")),
-  AuthorizationScopes: S.optional(AuthorizationScopes).pipe(
-    T.JsonName("authorizationScopes"),
-  ),
-  AuthorizationType: S.optional(S.String).pipe(T.JsonName("authorizationType")),
-  AuthorizerId: S.optional(S.String).pipe(T.JsonName("authorizerId")),
-  ModelSelectionExpression: S.optional(S.String).pipe(
-    T.JsonName("modelSelectionExpression"),
-  ),
-  OperationName: S.optional(S.String).pipe(T.JsonName("operationName")),
-  RequestModels: S.optional(RouteModels).pipe(T.JsonName("requestModels")),
-  RequestParameters: S.optional(RouteParameters).pipe(
-    T.JsonName("requestParameters"),
-  ),
-  RouteId: S.optional(S.String).pipe(T.JsonName("routeId")),
-  RouteKey: S.optional(S.String).pipe(T.JsonName("routeKey")),
-  RouteResponseSelectionExpression: S.optional(S.String).pipe(
-    T.JsonName("routeResponseSelectionExpression"),
-  ),
-  Target: S.optional(S.String).pipe(T.JsonName("target")),
-}) {}
-export class GetRouteResponseResponse extends S.Class<GetRouteResponseResponse>(
-  "GetRouteResponseResponse",
-)({
-  ModelSelectionExpression: S.optional(S.String).pipe(
-    T.JsonName("modelSelectionExpression"),
-  ),
-  ResponseModels: S.optional(RouteModels).pipe(T.JsonName("responseModels")),
-  ResponseParameters: S.optional(RouteParameters).pipe(
-    T.JsonName("responseParameters"),
-  ),
-  RouteResponseId: S.optional(S.String).pipe(T.JsonName("routeResponseId")),
-  RouteResponseKey: S.optional(S.String).pipe(T.JsonName("routeResponseKey")),
-}) {}
-export class GetRoutingRuleResponse extends S.Class<GetRoutingRuleResponse>(
-  "GetRoutingRuleResponse",
-)({
-  Actions: S.optional(__listOfRoutingRuleAction).pipe(T.JsonName("actions")),
-  Conditions: S.optional(__listOfRoutingRuleCondition).pipe(
-    T.JsonName("conditions"),
-  ),
-  Priority: S.optional(S.Number).pipe(T.JsonName("priority")),
-  RoutingRuleArn: S.optional(S.String).pipe(T.JsonName("routingRuleArn")),
-  RoutingRuleId: S.optional(S.String).pipe(T.JsonName("routingRuleId")),
-}) {}
-export class GetStageResponse extends S.Class<GetStageResponse>(
-  "GetStageResponse",
-)({
-  AccessLogSettings: S.optional(AccessLogSettings).pipe(
-    T.JsonName("accessLogSettings"),
-  ),
-  ApiGatewayManaged: S.optional(S.Boolean).pipe(
-    T.JsonName("apiGatewayManaged"),
-  ),
-  AutoDeploy: S.optional(S.Boolean).pipe(T.JsonName("autoDeploy")),
-  ClientCertificateId: S.optional(S.String).pipe(
-    T.JsonName("clientCertificateId"),
-  ),
-  CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-    T.JsonName("createdDate"),
-  ),
-  DefaultRouteSettings: S.optional(RouteSettings).pipe(
-    T.JsonName("defaultRouteSettings"),
-  ),
-  DeploymentId: S.optional(S.String).pipe(T.JsonName("deploymentId")),
-  Description: S.optional(S.String).pipe(T.JsonName("description")),
-  LastDeploymentStatusMessage: S.optional(S.String).pipe(
-    T.JsonName("lastDeploymentStatusMessage"),
-  ),
-  LastUpdatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-    T.JsonName("lastUpdatedDate"),
-  ),
-  RouteSettings: S.optional(RouteSettingsMap).pipe(T.JsonName("routeSettings")),
-  StageName: S.optional(S.String).pipe(T.JsonName("stageName")),
-  StageVariables: S.optional(StageVariablesMap).pipe(
-    T.JsonName("stageVariables"),
-  ),
-  Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-}) {}
-export class GetTagsResponse extends S.Class<GetTagsResponse>(
-  "GetTagsResponse",
-)({ Tags: S.optional(Tags).pipe(T.JsonName("tags")) }) {}
-export class GetVpcLinkResponse extends S.Class<GetVpcLinkResponse>(
-  "GetVpcLinkResponse",
-)({
-  CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-    T.JsonName("createdDate"),
-  ),
-  Name: S.optional(S.String).pipe(T.JsonName("name")),
-  SecurityGroupIds: S.optional(SecurityGroupIdList).pipe(
-    T.JsonName("securityGroupIds"),
-  ),
-  SubnetIds: S.optional(SubnetIdList).pipe(T.JsonName("subnetIds")),
-  Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  VpcLinkId: S.optional(S.String).pipe(T.JsonName("vpcLinkId")),
-  VpcLinkStatus: S.optional(S.String).pipe(T.JsonName("vpcLinkStatus")),
-  VpcLinkStatusMessage: S.optional(S.String).pipe(
-    T.JsonName("vpcLinkStatusMessage"),
-  ),
-  VpcLinkVersion: S.optional(S.String).pipe(T.JsonName("vpcLinkVersion")),
-}) {}
-export class ImportApiResponse extends S.Class<ImportApiResponse>(
-  "ImportApiResponse",
-)({
-  ApiEndpoint: S.optional(S.String).pipe(T.JsonName("apiEndpoint")),
-  ApiGatewayManaged: S.optional(S.Boolean).pipe(
-    T.JsonName("apiGatewayManaged"),
-  ),
-  ApiId: S.optional(S.String).pipe(T.JsonName("apiId")),
-  ApiKeySelectionExpression: S.optional(S.String).pipe(
-    T.JsonName("apiKeySelectionExpression"),
-  ),
-  CorsConfiguration: S.optional(Cors).pipe(T.JsonName("corsConfiguration")),
-  CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-    T.JsonName("createdDate"),
-  ),
-  Description: S.optional(S.String).pipe(T.JsonName("description")),
-  DisableSchemaValidation: S.optional(S.Boolean).pipe(
-    T.JsonName("disableSchemaValidation"),
-  ),
-  DisableExecuteApiEndpoint: S.optional(S.Boolean).pipe(
-    T.JsonName("disableExecuteApiEndpoint"),
-  ),
-  ImportInfo: S.optional(__listOf__string).pipe(T.JsonName("importInfo")),
-  IpAddressType: S.optional(S.String).pipe(T.JsonName("ipAddressType")),
-  Name: S.optional(S.String).pipe(T.JsonName("name")),
-  ProtocolType: S.optional(S.String).pipe(T.JsonName("protocolType")),
-  RouteSelectionExpression: S.optional(S.String).pipe(
-    T.JsonName("routeSelectionExpression"),
-  ),
-  Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  Version: S.optional(S.String).pipe(T.JsonName("version")),
-  Warnings: S.optional(__listOf__string).pipe(T.JsonName("warnings")),
-}) {}
-export class PutRoutingRuleResponse extends S.Class<PutRoutingRuleResponse>(
-  "PutRoutingRuleResponse",
-)({
-  Actions: S.optional(__listOfRoutingRuleAction).pipe(T.JsonName("actions")),
-  Conditions: S.optional(__listOfRoutingRuleCondition).pipe(
-    T.JsonName("conditions"),
-  ),
-  Priority: S.optional(S.Number).pipe(T.JsonName("priority")),
-  RoutingRuleArn: S.optional(S.String).pipe(T.JsonName("routingRuleArn")),
-  RoutingRuleId: S.optional(S.String).pipe(T.JsonName("routingRuleId")),
-}) {}
-export class ReimportApiResponse extends S.Class<ReimportApiResponse>(
-  "ReimportApiResponse",
-)({
-  ApiEndpoint: S.optional(S.String).pipe(T.JsonName("apiEndpoint")),
-  ApiGatewayManaged: S.optional(S.Boolean).pipe(
-    T.JsonName("apiGatewayManaged"),
-  ),
-  ApiId: S.optional(S.String).pipe(T.JsonName("apiId")),
-  ApiKeySelectionExpression: S.optional(S.String).pipe(
-    T.JsonName("apiKeySelectionExpression"),
-  ),
-  CorsConfiguration: S.optional(Cors).pipe(T.JsonName("corsConfiguration")),
-  CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-    T.JsonName("createdDate"),
-  ),
-  Description: S.optional(S.String).pipe(T.JsonName("description")),
-  DisableSchemaValidation: S.optional(S.Boolean).pipe(
-    T.JsonName("disableSchemaValidation"),
-  ),
-  DisableExecuteApiEndpoint: S.optional(S.Boolean).pipe(
-    T.JsonName("disableExecuteApiEndpoint"),
-  ),
-  ImportInfo: S.optional(__listOf__string).pipe(T.JsonName("importInfo")),
-  IpAddressType: S.optional(S.String).pipe(T.JsonName("ipAddressType")),
-  Name: S.optional(S.String).pipe(T.JsonName("name")),
-  ProtocolType: S.optional(S.String).pipe(T.JsonName("protocolType")),
-  RouteSelectionExpression: S.optional(S.String).pipe(
-    T.JsonName("routeSelectionExpression"),
-  ),
-  Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  Version: S.optional(S.String).pipe(T.JsonName("version")),
-  Warnings: S.optional(__listOf__string).pipe(T.JsonName("warnings")),
-}) {}
-export class UpdateApiResponse extends S.Class<UpdateApiResponse>(
-  "UpdateApiResponse",
-)({
-  ApiEndpoint: S.optional(S.String).pipe(T.JsonName("apiEndpoint")),
-  ApiGatewayManaged: S.optional(S.Boolean).pipe(
-    T.JsonName("apiGatewayManaged"),
-  ),
-  ApiId: S.optional(S.String).pipe(T.JsonName("apiId")),
-  ApiKeySelectionExpression: S.optional(S.String).pipe(
-    T.JsonName("apiKeySelectionExpression"),
-  ),
-  CorsConfiguration: S.optional(Cors).pipe(T.JsonName("corsConfiguration")),
-  CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-    T.JsonName("createdDate"),
-  ),
-  Description: S.optional(S.String).pipe(T.JsonName("description")),
-  DisableSchemaValidation: S.optional(S.Boolean).pipe(
-    T.JsonName("disableSchemaValidation"),
-  ),
-  DisableExecuteApiEndpoint: S.optional(S.Boolean).pipe(
-    T.JsonName("disableExecuteApiEndpoint"),
-  ),
-  ImportInfo: S.optional(__listOf__string).pipe(T.JsonName("importInfo")),
-  IpAddressType: S.optional(S.String).pipe(T.JsonName("ipAddressType")),
-  Name: S.optional(S.String).pipe(T.JsonName("name")),
-  ProtocolType: S.optional(S.String).pipe(T.JsonName("protocolType")),
-  RouteSelectionExpression: S.optional(S.String).pipe(
-    T.JsonName("routeSelectionExpression"),
-  ),
-  Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  Version: S.optional(S.String).pipe(T.JsonName("version")),
-  Warnings: S.optional(__listOf__string).pipe(T.JsonName("warnings")),
-}) {}
-export class UpdateApiMappingResponse extends S.Class<UpdateApiMappingResponse>(
-  "UpdateApiMappingResponse",
-)({
-  ApiId: S.optional(S.String).pipe(T.JsonName("apiId")),
-  ApiMappingId: S.optional(S.String).pipe(T.JsonName("apiMappingId")),
-  ApiMappingKey: S.optional(S.String).pipe(T.JsonName("apiMappingKey")),
-  Stage: S.optional(S.String).pipe(T.JsonName("stage")),
-}) {}
-export class UpdateAuthorizerResponse extends S.Class<UpdateAuthorizerResponse>(
-  "UpdateAuthorizerResponse",
-)({
-  AuthorizerCredentialsArn: S.optional(S.String).pipe(
-    T.JsonName("authorizerCredentialsArn"),
-  ),
-  AuthorizerId: S.optional(S.String).pipe(T.JsonName("authorizerId")),
-  AuthorizerPayloadFormatVersion: S.optional(S.String).pipe(
-    T.JsonName("authorizerPayloadFormatVersion"),
-  ),
-  AuthorizerResultTtlInSeconds: S.optional(S.Number).pipe(
-    T.JsonName("authorizerResultTtlInSeconds"),
-  ),
-  AuthorizerType: S.optional(S.String).pipe(T.JsonName("authorizerType")),
-  AuthorizerUri: S.optional(S.String).pipe(T.JsonName("authorizerUri")),
-  EnableSimpleResponses: S.optional(S.Boolean).pipe(
-    T.JsonName("enableSimpleResponses"),
-  ),
-  IdentitySource: S.optional(IdentitySourceList).pipe(
-    T.JsonName("identitySource"),
-  ),
-  IdentityValidationExpression: S.optional(S.String).pipe(
-    T.JsonName("identityValidationExpression"),
-  ),
-  JwtConfiguration: S.optional(JWTConfiguration).pipe(
-    T.JsonName("jwtConfiguration"),
-  ),
-  Name: S.optional(S.String).pipe(T.JsonName("name")),
-}) {}
-export class UpdateDeploymentResponse extends S.Class<UpdateDeploymentResponse>(
-  "UpdateDeploymentResponse",
-)({
-  AutoDeployed: S.optional(S.Boolean).pipe(T.JsonName("autoDeployed")),
-  CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-    T.JsonName("createdDate"),
-  ),
-  DeploymentId: S.optional(S.String).pipe(T.JsonName("deploymentId")),
-  DeploymentStatus: S.optional(S.String).pipe(T.JsonName("deploymentStatus")),
-  DeploymentStatusMessage: S.optional(S.String).pipe(
-    T.JsonName("deploymentStatusMessage"),
-  ),
-  Description: S.optional(S.String).pipe(T.JsonName("description")),
-}) {}
-export class MutualTlsAuthentication extends S.Class<MutualTlsAuthentication>(
-  "MutualTlsAuthentication",
-)({
-  TruststoreUri: S.optional(S.String).pipe(T.JsonName("truststoreUri")),
-  TruststoreVersion: S.optional(S.String).pipe(T.JsonName("truststoreVersion")),
-  TruststoreWarnings: S.optional(__listOf__string).pipe(
-    T.JsonName("truststoreWarnings"),
-  ),
-}) {}
-export class UpdateDomainNameResponse extends S.Class<UpdateDomainNameResponse>(
-  "UpdateDomainNameResponse",
-)({
-  ApiMappingSelectionExpression: S.optional(S.String).pipe(
-    T.JsonName("apiMappingSelectionExpression"),
-  ),
-  DomainName: S.optional(S.String).pipe(T.JsonName("domainName")),
-  DomainNameArn: S.optional(S.String).pipe(T.JsonName("domainNameArn")),
-  DomainNameConfigurations: S.optional(DomainNameConfigurations).pipe(
-    T.JsonName("domainNameConfigurations"),
-  ),
-  MutualTlsAuthentication: S.optional(MutualTlsAuthentication).pipe(
-    T.JsonName("mutualTlsAuthentication"),
-  ),
-  RoutingMode: S.optional(S.String).pipe(T.JsonName("routingMode")),
-  Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-}) {}
-export class TlsConfig extends S.Class<TlsConfig>("TlsConfig")({
-  ServerNameToVerify: S.optional(S.String).pipe(
-    T.JsonName("serverNameToVerify"),
-  ),
-}) {}
-export class UpdateIntegrationResult extends S.Class<UpdateIntegrationResult>(
-  "UpdateIntegrationResult",
-)({
-  ApiGatewayManaged: S.optional(S.Boolean).pipe(
-    T.JsonName("apiGatewayManaged"),
-  ),
-  ConnectionId: S.optional(S.String).pipe(T.JsonName("connectionId")),
-  ConnectionType: S.optional(S.String).pipe(T.JsonName("connectionType")),
-  ContentHandlingStrategy: S.optional(S.String).pipe(
-    T.JsonName("contentHandlingStrategy"),
-  ),
-  CredentialsArn: S.optional(S.String).pipe(T.JsonName("credentialsArn")),
-  Description: S.optional(S.String).pipe(T.JsonName("description")),
-  IntegrationId: S.optional(S.String).pipe(T.JsonName("integrationId")),
-  IntegrationMethod: S.optional(S.String).pipe(T.JsonName("integrationMethod")),
-  IntegrationResponseSelectionExpression: S.optional(S.String).pipe(
-    T.JsonName("integrationResponseSelectionExpression"),
-  ),
-  IntegrationSubtype: S.optional(S.String).pipe(
-    T.JsonName("integrationSubtype"),
-  ),
-  IntegrationType: S.optional(S.String).pipe(T.JsonName("integrationType")),
-  IntegrationUri: S.optional(S.String).pipe(T.JsonName("integrationUri")),
-  PassthroughBehavior: S.optional(S.String).pipe(
-    T.JsonName("passthroughBehavior"),
-  ),
-  PayloadFormatVersion: S.optional(S.String).pipe(
-    T.JsonName("payloadFormatVersion"),
-  ),
-  RequestParameters: S.optional(IntegrationParameters).pipe(
-    T.JsonName("requestParameters"),
-  ),
-  RequestTemplates: S.optional(TemplateMap).pipe(
-    T.JsonName("requestTemplates"),
-  ),
-  ResponseParameters: S.optional(ResponseParameters).pipe(
-    T.JsonName("responseParameters"),
-  ),
-  TemplateSelectionExpression: S.optional(S.String).pipe(
-    T.JsonName("templateSelectionExpression"),
-  ),
-  TimeoutInMillis: S.optional(S.Number).pipe(T.JsonName("timeoutInMillis")),
-  TlsConfig: S.optional(TlsConfig).pipe(T.JsonName("tlsConfig")),
-}) {}
-export class UpdateIntegrationResponseResponse extends S.Class<UpdateIntegrationResponseResponse>(
-  "UpdateIntegrationResponseResponse",
-)({
-  ContentHandlingStrategy: S.optional(S.String).pipe(
-    T.JsonName("contentHandlingStrategy"),
-  ),
-  IntegrationResponseId: S.optional(S.String).pipe(
-    T.JsonName("integrationResponseId"),
-  ),
-  IntegrationResponseKey: S.optional(S.String).pipe(
-    T.JsonName("integrationResponseKey"),
-  ),
-  ResponseParameters: S.optional(IntegrationParameters).pipe(
-    T.JsonName("responseParameters"),
-  ),
-  ResponseTemplates: S.optional(TemplateMap).pipe(
-    T.JsonName("responseTemplates"),
-  ),
-  TemplateSelectionExpression: S.optional(S.String).pipe(
-    T.JsonName("templateSelectionExpression"),
-  ),
-}) {}
-export class UpdateModelResponse extends S.Class<UpdateModelResponse>(
-  "UpdateModelResponse",
-)({
-  ContentType: S.optional(S.String).pipe(T.JsonName("contentType")),
-  Description: S.optional(S.String).pipe(T.JsonName("description")),
-  ModelId: S.optional(S.String).pipe(T.JsonName("modelId")),
-  Name: S.optional(S.String).pipe(T.JsonName("name")),
-  Schema: S.optional(S.String).pipe(T.JsonName("schema")),
-}) {}
-export class EndpointConfigurationResponse extends S.Class<EndpointConfigurationResponse>(
-  "EndpointConfigurationResponse",
-)({
-  CertificateArn: S.optional(S.String).pipe(T.JsonName("certificateArn")),
-  DomainName: S.optional(S.String).pipe(T.JsonName("domainName")),
-  PortalDefaultDomainName: S.String.pipe(T.JsonName("portalDefaultDomainName")),
-  PortalDomainHostedZoneId: S.String.pipe(
-    T.JsonName("portalDomainHostedZoneId"),
-  ),
-}) {}
-export class StatusException extends S.Class<StatusException>(
-  "StatusException",
-)({
-  Exception: S.optional(S.String).pipe(T.JsonName("exception")),
-  Message: S.optional(S.String).pipe(T.JsonName("message")),
-}) {}
-export class Preview extends S.Class<Preview>("Preview")({
-  PreviewStatus: S.String.pipe(T.JsonName("previewStatus")),
-  PreviewUrl: S.optional(S.String).pipe(T.JsonName("previewUrl")),
-  StatusException: S.optional(StatusException).pipe(
-    T.JsonName("statusException"),
-  ),
-}) {}
-export class UpdatePortalResponse extends S.Class<UpdatePortalResponse>(
-  "UpdatePortalResponse",
-)({
-  Authorization: S.optional(Authorization).pipe(T.JsonName("authorization")),
-  EndpointConfiguration: S.optional(EndpointConfigurationResponse).pipe(
-    T.JsonName("endpointConfiguration"),
-  ),
-  IncludedPortalProductArns: S.optional(__listOf__stringMin20Max2048).pipe(
-    T.JsonName("includedPortalProductArns"),
-  ),
-  LastModified: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-    T.JsonName("lastModified"),
-  ),
-  LastPublished: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-    T.JsonName("lastPublished"),
-  ),
-  LastPublishedDescription: S.optional(S.String).pipe(
-    T.JsonName("lastPublishedDescription"),
-  ),
-  PortalArn: S.optional(S.String).pipe(T.JsonName("portalArn")),
-  PortalContent: S.optional(PortalContent).pipe(T.JsonName("portalContent")),
-  PortalId: S.optional(S.String).pipe(T.JsonName("portalId")),
-  Preview: S.optional(Preview).pipe(T.JsonName("preview")),
-  PublishStatus: S.optional(S.String).pipe(T.JsonName("publishStatus")),
-  RumAppMonitorName: S.optional(S.String).pipe(T.JsonName("rumAppMonitorName")),
-  StatusException: S.optional(StatusException).pipe(
-    T.JsonName("statusException"),
-  ),
-  Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-}) {}
-export class UpdateProductPageResponse extends S.Class<UpdateProductPageResponse>(
-  "UpdateProductPageResponse",
-)({
-  DisplayContent: S.optional(DisplayContent).pipe(T.JsonName("displayContent")),
-  LastModified: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-    T.JsonName("lastModified"),
-  ),
-  ProductPageArn: S.optional(S.String).pipe(T.JsonName("productPageArn")),
-  ProductPageId: S.optional(S.String).pipe(T.JsonName("productPageId")),
-}) {}
-export class EndpointDisplayContentResponse extends S.Class<EndpointDisplayContentResponse>(
-  "EndpointDisplayContentResponse",
-)({
-  Body: S.optional(S.String).pipe(T.JsonName("body")),
-  Endpoint: S.String.pipe(T.JsonName("endpoint")),
-  OperationName: S.optional(S.String).pipe(T.JsonName("operationName")),
-}) {}
-export class IdentifierParts extends S.Class<IdentifierParts>(
-  "IdentifierParts",
-)({
-  Method: S.String.pipe(T.JsonName("method")),
-  Path: S.String.pipe(T.JsonName("path")),
-  RestApiId: S.String.pipe(T.JsonName("restApiId")),
-  Stage: S.String.pipe(T.JsonName("stage")),
-}) {}
-export class RestEndpointIdentifier extends S.Class<RestEndpointIdentifier>(
-  "RestEndpointIdentifier",
-)({
-  IdentifierParts: S.optional(IdentifierParts).pipe(
-    T.JsonName("identifierParts"),
-  ),
-}) {}
-export class UpdateProductRestEndpointPageResponse extends S.Class<UpdateProductRestEndpointPageResponse>(
-  "UpdateProductRestEndpointPageResponse",
-)({
-  DisplayContent: S.optional(EndpointDisplayContentResponse).pipe(
-    T.JsonName("displayContent"),
-  ),
-  LastModified: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-    T.JsonName("lastModified"),
-  ),
-  ProductRestEndpointPageArn: S.optional(S.String).pipe(
-    T.JsonName("productRestEndpointPageArn"),
-  ),
-  ProductRestEndpointPageId: S.optional(S.String).pipe(
-    T.JsonName("productRestEndpointPageId"),
-  ),
-  RestEndpointIdentifier: S.optional(RestEndpointIdentifier).pipe(
-    T.JsonName("restEndpointIdentifier"),
-  ),
-  Status: S.optional(S.String).pipe(T.JsonName("status")),
-  StatusException: S.optional(StatusException).pipe(
-    T.JsonName("statusException"),
-  ),
-  TryItState: S.optional(S.String).pipe(T.JsonName("tryItState")),
-}) {}
-export class UpdateRouteResult extends S.Class<UpdateRouteResult>(
-  "UpdateRouteResult",
-)({
-  ApiGatewayManaged: S.optional(S.Boolean).pipe(
-    T.JsonName("apiGatewayManaged"),
-  ),
-  ApiKeyRequired: S.optional(S.Boolean).pipe(T.JsonName("apiKeyRequired")),
-  AuthorizationScopes: S.optional(AuthorizationScopes).pipe(
-    T.JsonName("authorizationScopes"),
-  ),
-  AuthorizationType: S.optional(S.String).pipe(T.JsonName("authorizationType")),
-  AuthorizerId: S.optional(S.String).pipe(T.JsonName("authorizerId")),
-  ModelSelectionExpression: S.optional(S.String).pipe(
-    T.JsonName("modelSelectionExpression"),
-  ),
-  OperationName: S.optional(S.String).pipe(T.JsonName("operationName")),
-  RequestModels: S.optional(RouteModels).pipe(T.JsonName("requestModels")),
-  RequestParameters: S.optional(RouteParameters).pipe(
-    T.JsonName("requestParameters"),
-  ),
-  RouteId: S.optional(S.String).pipe(T.JsonName("routeId")),
-  RouteKey: S.optional(S.String).pipe(T.JsonName("routeKey")),
-  RouteResponseSelectionExpression: S.optional(S.String).pipe(
-    T.JsonName("routeResponseSelectionExpression"),
-  ),
-  Target: S.optional(S.String).pipe(T.JsonName("target")),
-}) {}
-export class UpdateRouteResponseResponse extends S.Class<UpdateRouteResponseResponse>(
-  "UpdateRouteResponseResponse",
-)({
-  ModelSelectionExpression: S.optional(S.String).pipe(
-    T.JsonName("modelSelectionExpression"),
-  ),
-  ResponseModels: S.optional(RouteModels).pipe(T.JsonName("responseModels")),
-  ResponseParameters: S.optional(RouteParameters).pipe(
-    T.JsonName("responseParameters"),
-  ),
-  RouteResponseId: S.optional(S.String).pipe(T.JsonName("routeResponseId")),
-  RouteResponseKey: S.optional(S.String).pipe(T.JsonName("routeResponseKey")),
-}) {}
-export class UpdateStageResponse extends S.Class<UpdateStageResponse>(
-  "UpdateStageResponse",
-)({
-  AccessLogSettings: S.optional(AccessLogSettings).pipe(
-    T.JsonName("accessLogSettings"),
-  ),
-  ApiGatewayManaged: S.optional(S.Boolean).pipe(
-    T.JsonName("apiGatewayManaged"),
-  ),
-  AutoDeploy: S.optional(S.Boolean).pipe(T.JsonName("autoDeploy")),
-  ClientCertificateId: S.optional(S.String).pipe(
-    T.JsonName("clientCertificateId"),
-  ),
-  CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-    T.JsonName("createdDate"),
-  ),
-  DefaultRouteSettings: S.optional(RouteSettings).pipe(
-    T.JsonName("defaultRouteSettings"),
-  ),
-  DeploymentId: S.optional(S.String).pipe(T.JsonName("deploymentId")),
-  Description: S.optional(S.String).pipe(T.JsonName("description")),
-  LastDeploymentStatusMessage: S.optional(S.String).pipe(
-    T.JsonName("lastDeploymentStatusMessage"),
-  ),
-  LastUpdatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-    T.JsonName("lastUpdatedDate"),
-  ),
-  RouteSettings: S.optional(RouteSettingsMap).pipe(T.JsonName("routeSettings")),
-  StageName: S.optional(S.String).pipe(T.JsonName("stageName")),
-  StageVariables: S.optional(StageVariablesMap).pipe(
-    T.JsonName("stageVariables"),
-  ),
-  Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-}) {}
-export class UpdateVpcLinkResponse extends S.Class<UpdateVpcLinkResponse>(
-  "UpdateVpcLinkResponse",
-)({
-  CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-    T.JsonName("createdDate"),
-  ),
-  Name: S.optional(S.String).pipe(T.JsonName("name")),
-  SecurityGroupIds: S.optional(SecurityGroupIdList).pipe(
-    T.JsonName("securityGroupIds"),
-  ),
-  SubnetIds: S.optional(SubnetIdList).pipe(T.JsonName("subnetIds")),
-  Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  VpcLinkId: S.optional(S.String).pipe(T.JsonName("vpcLinkId")),
-  VpcLinkStatus: S.optional(S.String).pipe(T.JsonName("vpcLinkStatus")),
-  VpcLinkStatusMessage: S.optional(S.String).pipe(
-    T.JsonName("vpcLinkStatusMessage"),
-  ),
-  VpcLinkVersion: S.optional(S.String).pipe(T.JsonName("vpcLinkVersion")),
-}) {}
-export class ApiMapping extends S.Class<ApiMapping>("ApiMapping")({
-  ApiId: S.String.pipe(T.JsonName("apiId")),
-  ApiMappingId: S.optional(S.String).pipe(T.JsonName("apiMappingId")),
-  ApiMappingKey: S.optional(S.String).pipe(T.JsonName("apiMappingKey")),
-  Stage: S.String.pipe(T.JsonName("stage")),
-}) {}
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v2/apis/{ApiId}/stages" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateStageRequest",
+}) as any as S.Schema<CreateStageRequest>;
+export interface CreateVpcLinkResponse {
+  CreatedDate?: Date;
+  Name?: string;
+  SecurityGroupIds?: SecurityGroupIdList;
+  SubnetIds?: SubnetIdList;
+  Tags?: Tags;
+  VpcLinkId?: string;
+  VpcLinkStatus?: string;
+  VpcLinkStatusMessage?: string;
+  VpcLinkVersion?: string;
+}
+export const CreateVpcLinkResponse = S.suspend(() =>
+  S.Struct({
+    CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.JsonName("createdDate"),
+    ),
+    Name: S.optional(S.String).pipe(T.JsonName("name")),
+    SecurityGroupIds: S.optional(SecurityGroupIdList).pipe(
+      T.JsonName("securityGroupIds"),
+    ),
+    SubnetIds: S.optional(SubnetIdList).pipe(T.JsonName("subnetIds")),
+    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
+    VpcLinkId: S.optional(S.String).pipe(T.JsonName("vpcLinkId")),
+    VpcLinkStatus: S.optional(S.String).pipe(T.JsonName("vpcLinkStatus")),
+    VpcLinkStatusMessage: S.optional(S.String).pipe(
+      T.JsonName("vpcLinkStatusMessage"),
+    ),
+    VpcLinkVersion: S.optional(S.String).pipe(T.JsonName("vpcLinkVersion")),
+  }),
+).annotations({
+  identifier: "CreateVpcLinkResponse",
+}) as any as S.Schema<CreateVpcLinkResponse>;
+export interface ExportApiResponse {
+  body?: T.StreamingOutputBody;
+}
+export const ExportApiResponse = S.suspend(() =>
+  S.Struct({ body: S.optional(T.StreamingOutput).pipe(T.HttpPayload()) }),
+).annotations({
+  identifier: "ExportApiResponse",
+}) as any as S.Schema<ExportApiResponse>;
+export interface GetApiResponse {
+  ApiEndpoint?: string;
+  ApiGatewayManaged?: boolean;
+  ApiId?: string;
+  ApiKeySelectionExpression?: string;
+  CorsConfiguration?: Cors;
+  CreatedDate?: Date;
+  Description?: string;
+  DisableSchemaValidation?: boolean;
+  DisableExecuteApiEndpoint?: boolean;
+  ImportInfo?: __listOf__string;
+  IpAddressType?: string;
+  Name?: string;
+  ProtocolType?: string;
+  RouteSelectionExpression?: string;
+  Tags?: Tags;
+  Version?: string;
+  Warnings?: __listOf__string;
+}
+export const GetApiResponse = S.suspend(() =>
+  S.Struct({
+    ApiEndpoint: S.optional(S.String).pipe(T.JsonName("apiEndpoint")),
+    ApiGatewayManaged: S.optional(S.Boolean).pipe(
+      T.JsonName("apiGatewayManaged"),
+    ),
+    ApiId: S.optional(S.String).pipe(T.JsonName("apiId")),
+    ApiKeySelectionExpression: S.optional(S.String).pipe(
+      T.JsonName("apiKeySelectionExpression"),
+    ),
+    CorsConfiguration: S.optional(Cors)
+      .pipe(T.JsonName("corsConfiguration"))
+      .annotations({ identifier: "Cors" }),
+    CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.JsonName("createdDate"),
+    ),
+    Description: S.optional(S.String).pipe(T.JsonName("description")),
+    DisableSchemaValidation: S.optional(S.Boolean).pipe(
+      T.JsonName("disableSchemaValidation"),
+    ),
+    DisableExecuteApiEndpoint: S.optional(S.Boolean).pipe(
+      T.JsonName("disableExecuteApiEndpoint"),
+    ),
+    ImportInfo: S.optional(__listOf__string).pipe(T.JsonName("importInfo")),
+    IpAddressType: S.optional(S.String).pipe(T.JsonName("ipAddressType")),
+    Name: S.optional(S.String).pipe(T.JsonName("name")),
+    ProtocolType: S.optional(S.String).pipe(T.JsonName("protocolType")),
+    RouteSelectionExpression: S.optional(S.String).pipe(
+      T.JsonName("routeSelectionExpression"),
+    ),
+    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
+    Version: S.optional(S.String).pipe(T.JsonName("version")),
+    Warnings: S.optional(__listOf__string).pipe(T.JsonName("warnings")),
+  }),
+).annotations({
+  identifier: "GetApiResponse",
+}) as any as S.Schema<GetApiResponse>;
+export interface GetApiMappingResponse {
+  ApiId?: string;
+  ApiMappingId?: string;
+  ApiMappingKey?: string;
+  Stage?: string;
+}
+export const GetApiMappingResponse = S.suspend(() =>
+  S.Struct({
+    ApiId: S.optional(S.String).pipe(T.JsonName("apiId")),
+    ApiMappingId: S.optional(S.String).pipe(T.JsonName("apiMappingId")),
+    ApiMappingKey: S.optional(S.String).pipe(T.JsonName("apiMappingKey")),
+    Stage: S.optional(S.String).pipe(T.JsonName("stage")),
+  }),
+).annotations({
+  identifier: "GetApiMappingResponse",
+}) as any as S.Schema<GetApiMappingResponse>;
+export interface GetAuthorizerResponse {
+  AuthorizerCredentialsArn?: string;
+  AuthorizerId?: string;
+  AuthorizerPayloadFormatVersion?: string;
+  AuthorizerResultTtlInSeconds?: number;
+  AuthorizerType?: string;
+  AuthorizerUri?: string;
+  EnableSimpleResponses?: boolean;
+  IdentitySource?: IdentitySourceList;
+  IdentityValidationExpression?: string;
+  JwtConfiguration?: JWTConfiguration;
+  Name?: string;
+}
+export const GetAuthorizerResponse = S.suspend(() =>
+  S.Struct({
+    AuthorizerCredentialsArn: S.optional(S.String).pipe(
+      T.JsonName("authorizerCredentialsArn"),
+    ),
+    AuthorizerId: S.optional(S.String).pipe(T.JsonName("authorizerId")),
+    AuthorizerPayloadFormatVersion: S.optional(S.String).pipe(
+      T.JsonName("authorizerPayloadFormatVersion"),
+    ),
+    AuthorizerResultTtlInSeconds: S.optional(S.Number).pipe(
+      T.JsonName("authorizerResultTtlInSeconds"),
+    ),
+    AuthorizerType: S.optional(S.String).pipe(T.JsonName("authorizerType")),
+    AuthorizerUri: S.optional(S.String).pipe(T.JsonName("authorizerUri")),
+    EnableSimpleResponses: S.optional(S.Boolean).pipe(
+      T.JsonName("enableSimpleResponses"),
+    ),
+    IdentitySource: S.optional(IdentitySourceList).pipe(
+      T.JsonName("identitySource"),
+    ),
+    IdentityValidationExpression: S.optional(S.String).pipe(
+      T.JsonName("identityValidationExpression"),
+    ),
+    JwtConfiguration: S.optional(JWTConfiguration)
+      .pipe(T.JsonName("jwtConfiguration"))
+      .annotations({ identifier: "JWTConfiguration" }),
+    Name: S.optional(S.String).pipe(T.JsonName("name")),
+  }),
+).annotations({
+  identifier: "GetAuthorizerResponse",
+}) as any as S.Schema<GetAuthorizerResponse>;
+export interface GetDeploymentResponse {
+  AutoDeployed?: boolean;
+  CreatedDate?: Date;
+  DeploymentId?: string;
+  DeploymentStatus?: string;
+  DeploymentStatusMessage?: string;
+  Description?: string;
+}
+export const GetDeploymentResponse = S.suspend(() =>
+  S.Struct({
+    AutoDeployed: S.optional(S.Boolean).pipe(T.JsonName("autoDeployed")),
+    CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.JsonName("createdDate"),
+    ),
+    DeploymentId: S.optional(S.String).pipe(T.JsonName("deploymentId")),
+    DeploymentStatus: S.optional(S.String).pipe(T.JsonName("deploymentStatus")),
+    DeploymentStatusMessage: S.optional(S.String).pipe(
+      T.JsonName("deploymentStatusMessage"),
+    ),
+    Description: S.optional(S.String).pipe(T.JsonName("description")),
+  }),
+).annotations({
+  identifier: "GetDeploymentResponse",
+}) as any as S.Schema<GetDeploymentResponse>;
+export interface GetIntegrationResponseResponse {
+  ContentHandlingStrategy?: string;
+  IntegrationResponseId?: string;
+  IntegrationResponseKey?: string;
+  ResponseParameters?: IntegrationParameters;
+  ResponseTemplates?: TemplateMap;
+  TemplateSelectionExpression?: string;
+}
+export const GetIntegrationResponseResponse = S.suspend(() =>
+  S.Struct({
+    ContentHandlingStrategy: S.optional(S.String).pipe(
+      T.JsonName("contentHandlingStrategy"),
+    ),
+    IntegrationResponseId: S.optional(S.String).pipe(
+      T.JsonName("integrationResponseId"),
+    ),
+    IntegrationResponseKey: S.optional(S.String).pipe(
+      T.JsonName("integrationResponseKey"),
+    ),
+    ResponseParameters: S.optional(IntegrationParameters).pipe(
+      T.JsonName("responseParameters"),
+    ),
+    ResponseTemplates: S.optional(TemplateMap).pipe(
+      T.JsonName("responseTemplates"),
+    ),
+    TemplateSelectionExpression: S.optional(S.String).pipe(
+      T.JsonName("templateSelectionExpression"),
+    ),
+  }),
+).annotations({
+  identifier: "GetIntegrationResponseResponse",
+}) as any as S.Schema<GetIntegrationResponseResponse>;
+export interface GetModelResponse {
+  ContentType?: string;
+  Description?: string;
+  ModelId?: string;
+  Name?: string;
+  Schema?: string;
+}
+export const GetModelResponse = S.suspend(() =>
+  S.Struct({
+    ContentType: S.optional(S.String).pipe(T.JsonName("contentType")),
+    Description: S.optional(S.String).pipe(T.JsonName("description")),
+    ModelId: S.optional(S.String).pipe(T.JsonName("modelId")),
+    Name: S.optional(S.String).pipe(T.JsonName("name")),
+    Schema: S.optional(S.String).pipe(T.JsonName("schema")),
+  }),
+).annotations({
+  identifier: "GetModelResponse",
+}) as any as S.Schema<GetModelResponse>;
+export interface GetModelTemplateResponse {
+  Value?: string;
+}
+export const GetModelTemplateResponse = S.suspend(() =>
+  S.Struct({ Value: S.optional(S.String).pipe(T.JsonName("value")) }),
+).annotations({
+  identifier: "GetModelTemplateResponse",
+}) as any as S.Schema<GetModelTemplateResponse>;
+export interface GetPortalProductResponse {
+  Description?: string;
+  DisplayName?: string;
+  DisplayOrder?: DisplayOrder;
+  LastModified?: Date;
+  PortalProductArn?: string;
+  PortalProductId?: string;
+  Tags?: Tags;
+}
+export const GetPortalProductResponse = S.suspend(() =>
+  S.Struct({
+    Description: S.optional(S.String).pipe(T.JsonName("description")),
+    DisplayName: S.optional(S.String).pipe(T.JsonName("displayName")),
+    DisplayOrder: S.optional(DisplayOrder)
+      .pipe(T.JsonName("displayOrder"))
+      .annotations({ identifier: "DisplayOrder" }),
+    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.JsonName("lastModified"),
+    ),
+    PortalProductArn: S.optional(S.String).pipe(T.JsonName("portalProductArn")),
+    PortalProductId: S.optional(S.String).pipe(T.JsonName("portalProductId")),
+    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
+  }),
+).annotations({
+  identifier: "GetPortalProductResponse",
+}) as any as S.Schema<GetPortalProductResponse>;
+export interface GetPortalProductSharingPolicyResponse {
+  PolicyDocument?: string;
+  PortalProductId?: string;
+}
+export const GetPortalProductSharingPolicyResponse = S.suspend(() =>
+  S.Struct({
+    PolicyDocument: S.optional(S.String).pipe(T.JsonName("policyDocument")),
+    PortalProductId: S.optional(S.String).pipe(T.JsonName("portalProductId")),
+  }),
+).annotations({
+  identifier: "GetPortalProductSharingPolicyResponse",
+}) as any as S.Schema<GetPortalProductSharingPolicyResponse>;
+export interface GetProductPageResponse {
+  DisplayContent?: DisplayContent;
+  LastModified?: Date;
+  ProductPageArn?: string;
+  ProductPageId?: string;
+}
+export const GetProductPageResponse = S.suspend(() =>
+  S.Struct({
+    DisplayContent: S.optional(DisplayContent)
+      .pipe(T.JsonName("displayContent"))
+      .annotations({ identifier: "DisplayContent" }),
+    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.JsonName("lastModified"),
+    ),
+    ProductPageArn: S.optional(S.String).pipe(T.JsonName("productPageArn")),
+    ProductPageId: S.optional(S.String).pipe(T.JsonName("productPageId")),
+  }),
+).annotations({
+  identifier: "GetProductPageResponse",
+}) as any as S.Schema<GetProductPageResponse>;
+export interface GetRouteResult {
+  ApiGatewayManaged?: boolean;
+  ApiKeyRequired?: boolean;
+  AuthorizationScopes?: AuthorizationScopes;
+  AuthorizationType?: string;
+  AuthorizerId?: string;
+  ModelSelectionExpression?: string;
+  OperationName?: string;
+  RequestModels?: RouteModels;
+  RequestParameters?: RouteParameters;
+  RouteId?: string;
+  RouteKey?: string;
+  RouteResponseSelectionExpression?: string;
+  Target?: string;
+}
+export const GetRouteResult = S.suspend(() =>
+  S.Struct({
+    ApiGatewayManaged: S.optional(S.Boolean).pipe(
+      T.JsonName("apiGatewayManaged"),
+    ),
+    ApiKeyRequired: S.optional(S.Boolean).pipe(T.JsonName("apiKeyRequired")),
+    AuthorizationScopes: S.optional(AuthorizationScopes).pipe(
+      T.JsonName("authorizationScopes"),
+    ),
+    AuthorizationType: S.optional(S.String).pipe(
+      T.JsonName("authorizationType"),
+    ),
+    AuthorizerId: S.optional(S.String).pipe(T.JsonName("authorizerId")),
+    ModelSelectionExpression: S.optional(S.String).pipe(
+      T.JsonName("modelSelectionExpression"),
+    ),
+    OperationName: S.optional(S.String).pipe(T.JsonName("operationName")),
+    RequestModels: S.optional(RouteModels).pipe(T.JsonName("requestModels")),
+    RequestParameters: S.optional(RouteParameters).pipe(
+      T.JsonName("requestParameters"),
+    ),
+    RouteId: S.optional(S.String).pipe(T.JsonName("routeId")),
+    RouteKey: S.optional(S.String).pipe(T.JsonName("routeKey")),
+    RouteResponseSelectionExpression: S.optional(S.String).pipe(
+      T.JsonName("routeResponseSelectionExpression"),
+    ),
+    Target: S.optional(S.String).pipe(T.JsonName("target")),
+  }),
+).annotations({
+  identifier: "GetRouteResult",
+}) as any as S.Schema<GetRouteResult>;
+export interface GetRouteResponseResponse {
+  ModelSelectionExpression?: string;
+  ResponseModels?: RouteModels;
+  ResponseParameters?: RouteParameters;
+  RouteResponseId?: string;
+  RouteResponseKey?: string;
+}
+export const GetRouteResponseResponse = S.suspend(() =>
+  S.Struct({
+    ModelSelectionExpression: S.optional(S.String).pipe(
+      T.JsonName("modelSelectionExpression"),
+    ),
+    ResponseModels: S.optional(RouteModels).pipe(T.JsonName("responseModels")),
+    ResponseParameters: S.optional(RouteParameters).pipe(
+      T.JsonName("responseParameters"),
+    ),
+    RouteResponseId: S.optional(S.String).pipe(T.JsonName("routeResponseId")),
+    RouteResponseKey: S.optional(S.String).pipe(T.JsonName("routeResponseKey")),
+  }),
+).annotations({
+  identifier: "GetRouteResponseResponse",
+}) as any as S.Schema<GetRouteResponseResponse>;
+export interface GetRoutingRuleResponse {
+  Actions?: __listOfRoutingRuleAction;
+  Conditions?: __listOfRoutingRuleCondition;
+  Priority?: number;
+  RoutingRuleArn?: string;
+  RoutingRuleId?: string;
+}
+export const GetRoutingRuleResponse = S.suspend(() =>
+  S.Struct({
+    Actions: S.optional(__listOfRoutingRuleAction).pipe(T.JsonName("actions")),
+    Conditions: S.optional(__listOfRoutingRuleCondition).pipe(
+      T.JsonName("conditions"),
+    ),
+    Priority: S.optional(S.Number).pipe(T.JsonName("priority")),
+    RoutingRuleArn: S.optional(S.String).pipe(T.JsonName("routingRuleArn")),
+    RoutingRuleId: S.optional(S.String).pipe(T.JsonName("routingRuleId")),
+  }),
+).annotations({
+  identifier: "GetRoutingRuleResponse",
+}) as any as S.Schema<GetRoutingRuleResponse>;
+export interface GetStageResponse {
+  AccessLogSettings?: AccessLogSettings;
+  ApiGatewayManaged?: boolean;
+  AutoDeploy?: boolean;
+  ClientCertificateId?: string;
+  CreatedDate?: Date;
+  DefaultRouteSettings?: RouteSettings;
+  DeploymentId?: string;
+  Description?: string;
+  LastDeploymentStatusMessage?: string;
+  LastUpdatedDate?: Date;
+  RouteSettings?: RouteSettingsMap;
+  StageName?: string;
+  StageVariables?: StageVariablesMap;
+  Tags?: Tags;
+}
+export const GetStageResponse = S.suspend(() =>
+  S.Struct({
+    AccessLogSettings: S.optional(AccessLogSettings)
+      .pipe(T.JsonName("accessLogSettings"))
+      .annotations({ identifier: "AccessLogSettings" }),
+    ApiGatewayManaged: S.optional(S.Boolean).pipe(
+      T.JsonName("apiGatewayManaged"),
+    ),
+    AutoDeploy: S.optional(S.Boolean).pipe(T.JsonName("autoDeploy")),
+    ClientCertificateId: S.optional(S.String).pipe(
+      T.JsonName("clientCertificateId"),
+    ),
+    CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.JsonName("createdDate"),
+    ),
+    DefaultRouteSettings: S.optional(RouteSettings)
+      .pipe(T.JsonName("defaultRouteSettings"))
+      .annotations({ identifier: "RouteSettings" }),
+    DeploymentId: S.optional(S.String).pipe(T.JsonName("deploymentId")),
+    Description: S.optional(S.String).pipe(T.JsonName("description")),
+    LastDeploymentStatusMessage: S.optional(S.String).pipe(
+      T.JsonName("lastDeploymentStatusMessage"),
+    ),
+    LastUpdatedDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.JsonName("lastUpdatedDate")),
+    RouteSettings: S.optional(RouteSettingsMap).pipe(
+      T.JsonName("routeSettings"),
+    ),
+    StageName: S.optional(S.String).pipe(T.JsonName("stageName")),
+    StageVariables: S.optional(StageVariablesMap).pipe(
+      T.JsonName("stageVariables"),
+    ),
+    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
+  }),
+).annotations({
+  identifier: "GetStageResponse",
+}) as any as S.Schema<GetStageResponse>;
+export interface GetTagsResponse {
+  Tags?: Tags;
+}
+export const GetTagsResponse = S.suspend(() =>
+  S.Struct({ Tags: S.optional(Tags).pipe(T.JsonName("tags")) }),
+).annotations({
+  identifier: "GetTagsResponse",
+}) as any as S.Schema<GetTagsResponse>;
+export interface GetVpcLinkResponse {
+  CreatedDate?: Date;
+  Name?: string;
+  SecurityGroupIds?: SecurityGroupIdList;
+  SubnetIds?: SubnetIdList;
+  Tags?: Tags;
+  VpcLinkId?: string;
+  VpcLinkStatus?: string;
+  VpcLinkStatusMessage?: string;
+  VpcLinkVersion?: string;
+}
+export const GetVpcLinkResponse = S.suspend(() =>
+  S.Struct({
+    CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.JsonName("createdDate"),
+    ),
+    Name: S.optional(S.String).pipe(T.JsonName("name")),
+    SecurityGroupIds: S.optional(SecurityGroupIdList).pipe(
+      T.JsonName("securityGroupIds"),
+    ),
+    SubnetIds: S.optional(SubnetIdList).pipe(T.JsonName("subnetIds")),
+    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
+    VpcLinkId: S.optional(S.String).pipe(T.JsonName("vpcLinkId")),
+    VpcLinkStatus: S.optional(S.String).pipe(T.JsonName("vpcLinkStatus")),
+    VpcLinkStatusMessage: S.optional(S.String).pipe(
+      T.JsonName("vpcLinkStatusMessage"),
+    ),
+    VpcLinkVersion: S.optional(S.String).pipe(T.JsonName("vpcLinkVersion")),
+  }),
+).annotations({
+  identifier: "GetVpcLinkResponse",
+}) as any as S.Schema<GetVpcLinkResponse>;
+export interface ImportApiResponse {
+  ApiEndpoint?: string;
+  ApiGatewayManaged?: boolean;
+  ApiId?: string;
+  ApiKeySelectionExpression?: string;
+  CorsConfiguration?: Cors;
+  CreatedDate?: Date;
+  Description?: string;
+  DisableSchemaValidation?: boolean;
+  DisableExecuteApiEndpoint?: boolean;
+  ImportInfo?: __listOf__string;
+  IpAddressType?: string;
+  Name?: string;
+  ProtocolType?: string;
+  RouteSelectionExpression?: string;
+  Tags?: Tags;
+  Version?: string;
+  Warnings?: __listOf__string;
+}
+export const ImportApiResponse = S.suspend(() =>
+  S.Struct({
+    ApiEndpoint: S.optional(S.String).pipe(T.JsonName("apiEndpoint")),
+    ApiGatewayManaged: S.optional(S.Boolean).pipe(
+      T.JsonName("apiGatewayManaged"),
+    ),
+    ApiId: S.optional(S.String).pipe(T.JsonName("apiId")),
+    ApiKeySelectionExpression: S.optional(S.String).pipe(
+      T.JsonName("apiKeySelectionExpression"),
+    ),
+    CorsConfiguration: S.optional(Cors)
+      .pipe(T.JsonName("corsConfiguration"))
+      .annotations({ identifier: "Cors" }),
+    CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.JsonName("createdDate"),
+    ),
+    Description: S.optional(S.String).pipe(T.JsonName("description")),
+    DisableSchemaValidation: S.optional(S.Boolean).pipe(
+      T.JsonName("disableSchemaValidation"),
+    ),
+    DisableExecuteApiEndpoint: S.optional(S.Boolean).pipe(
+      T.JsonName("disableExecuteApiEndpoint"),
+    ),
+    ImportInfo: S.optional(__listOf__string).pipe(T.JsonName("importInfo")),
+    IpAddressType: S.optional(S.String).pipe(T.JsonName("ipAddressType")),
+    Name: S.optional(S.String).pipe(T.JsonName("name")),
+    ProtocolType: S.optional(S.String).pipe(T.JsonName("protocolType")),
+    RouteSelectionExpression: S.optional(S.String).pipe(
+      T.JsonName("routeSelectionExpression"),
+    ),
+    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
+    Version: S.optional(S.String).pipe(T.JsonName("version")),
+    Warnings: S.optional(__listOf__string).pipe(T.JsonName("warnings")),
+  }),
+).annotations({
+  identifier: "ImportApiResponse",
+}) as any as S.Schema<ImportApiResponse>;
+export interface PutRoutingRuleResponse {
+  Actions?: __listOfRoutingRuleAction;
+  Conditions?: __listOfRoutingRuleCondition;
+  Priority?: number;
+  RoutingRuleArn?: string;
+  RoutingRuleId?: string;
+}
+export const PutRoutingRuleResponse = S.suspend(() =>
+  S.Struct({
+    Actions: S.optional(__listOfRoutingRuleAction).pipe(T.JsonName("actions")),
+    Conditions: S.optional(__listOfRoutingRuleCondition).pipe(
+      T.JsonName("conditions"),
+    ),
+    Priority: S.optional(S.Number).pipe(T.JsonName("priority")),
+    RoutingRuleArn: S.optional(S.String).pipe(T.JsonName("routingRuleArn")),
+    RoutingRuleId: S.optional(S.String).pipe(T.JsonName("routingRuleId")),
+  }),
+).annotations({
+  identifier: "PutRoutingRuleResponse",
+}) as any as S.Schema<PutRoutingRuleResponse>;
+export interface ReimportApiResponse {
+  ApiEndpoint?: string;
+  ApiGatewayManaged?: boolean;
+  ApiId?: string;
+  ApiKeySelectionExpression?: string;
+  CorsConfiguration?: Cors;
+  CreatedDate?: Date;
+  Description?: string;
+  DisableSchemaValidation?: boolean;
+  DisableExecuteApiEndpoint?: boolean;
+  ImportInfo?: __listOf__string;
+  IpAddressType?: string;
+  Name?: string;
+  ProtocolType?: string;
+  RouteSelectionExpression?: string;
+  Tags?: Tags;
+  Version?: string;
+  Warnings?: __listOf__string;
+}
+export const ReimportApiResponse = S.suspend(() =>
+  S.Struct({
+    ApiEndpoint: S.optional(S.String).pipe(T.JsonName("apiEndpoint")),
+    ApiGatewayManaged: S.optional(S.Boolean).pipe(
+      T.JsonName("apiGatewayManaged"),
+    ),
+    ApiId: S.optional(S.String).pipe(T.JsonName("apiId")),
+    ApiKeySelectionExpression: S.optional(S.String).pipe(
+      T.JsonName("apiKeySelectionExpression"),
+    ),
+    CorsConfiguration: S.optional(Cors)
+      .pipe(T.JsonName("corsConfiguration"))
+      .annotations({ identifier: "Cors" }),
+    CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.JsonName("createdDate"),
+    ),
+    Description: S.optional(S.String).pipe(T.JsonName("description")),
+    DisableSchemaValidation: S.optional(S.Boolean).pipe(
+      T.JsonName("disableSchemaValidation"),
+    ),
+    DisableExecuteApiEndpoint: S.optional(S.Boolean).pipe(
+      T.JsonName("disableExecuteApiEndpoint"),
+    ),
+    ImportInfo: S.optional(__listOf__string).pipe(T.JsonName("importInfo")),
+    IpAddressType: S.optional(S.String).pipe(T.JsonName("ipAddressType")),
+    Name: S.optional(S.String).pipe(T.JsonName("name")),
+    ProtocolType: S.optional(S.String).pipe(T.JsonName("protocolType")),
+    RouteSelectionExpression: S.optional(S.String).pipe(
+      T.JsonName("routeSelectionExpression"),
+    ),
+    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
+    Version: S.optional(S.String).pipe(T.JsonName("version")),
+    Warnings: S.optional(__listOf__string).pipe(T.JsonName("warnings")),
+  }),
+).annotations({
+  identifier: "ReimportApiResponse",
+}) as any as S.Schema<ReimportApiResponse>;
+export interface UpdateApiResponse {
+  ApiEndpoint?: string;
+  ApiGatewayManaged?: boolean;
+  ApiId?: string;
+  ApiKeySelectionExpression?: string;
+  CorsConfiguration?: Cors;
+  CreatedDate?: Date;
+  Description?: string;
+  DisableSchemaValidation?: boolean;
+  DisableExecuteApiEndpoint?: boolean;
+  ImportInfo?: __listOf__string;
+  IpAddressType?: string;
+  Name?: string;
+  ProtocolType?: string;
+  RouteSelectionExpression?: string;
+  Tags?: Tags;
+  Version?: string;
+  Warnings?: __listOf__string;
+}
+export const UpdateApiResponse = S.suspend(() =>
+  S.Struct({
+    ApiEndpoint: S.optional(S.String).pipe(T.JsonName("apiEndpoint")),
+    ApiGatewayManaged: S.optional(S.Boolean).pipe(
+      T.JsonName("apiGatewayManaged"),
+    ),
+    ApiId: S.optional(S.String).pipe(T.JsonName("apiId")),
+    ApiKeySelectionExpression: S.optional(S.String).pipe(
+      T.JsonName("apiKeySelectionExpression"),
+    ),
+    CorsConfiguration: S.optional(Cors)
+      .pipe(T.JsonName("corsConfiguration"))
+      .annotations({ identifier: "Cors" }),
+    CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.JsonName("createdDate"),
+    ),
+    Description: S.optional(S.String).pipe(T.JsonName("description")),
+    DisableSchemaValidation: S.optional(S.Boolean).pipe(
+      T.JsonName("disableSchemaValidation"),
+    ),
+    DisableExecuteApiEndpoint: S.optional(S.Boolean).pipe(
+      T.JsonName("disableExecuteApiEndpoint"),
+    ),
+    ImportInfo: S.optional(__listOf__string).pipe(T.JsonName("importInfo")),
+    IpAddressType: S.optional(S.String).pipe(T.JsonName("ipAddressType")),
+    Name: S.optional(S.String).pipe(T.JsonName("name")),
+    ProtocolType: S.optional(S.String).pipe(T.JsonName("protocolType")),
+    RouteSelectionExpression: S.optional(S.String).pipe(
+      T.JsonName("routeSelectionExpression"),
+    ),
+    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
+    Version: S.optional(S.String).pipe(T.JsonName("version")),
+    Warnings: S.optional(__listOf__string).pipe(T.JsonName("warnings")),
+  }),
+).annotations({
+  identifier: "UpdateApiResponse",
+}) as any as S.Schema<UpdateApiResponse>;
+export interface UpdateApiMappingResponse {
+  ApiId?: string;
+  ApiMappingId?: string;
+  ApiMappingKey?: string;
+  Stage?: string;
+}
+export const UpdateApiMappingResponse = S.suspend(() =>
+  S.Struct({
+    ApiId: S.optional(S.String).pipe(T.JsonName("apiId")),
+    ApiMappingId: S.optional(S.String).pipe(T.JsonName("apiMappingId")),
+    ApiMappingKey: S.optional(S.String).pipe(T.JsonName("apiMappingKey")),
+    Stage: S.optional(S.String).pipe(T.JsonName("stage")),
+  }),
+).annotations({
+  identifier: "UpdateApiMappingResponse",
+}) as any as S.Schema<UpdateApiMappingResponse>;
+export interface UpdateAuthorizerResponse {
+  AuthorizerCredentialsArn?: string;
+  AuthorizerId?: string;
+  AuthorizerPayloadFormatVersion?: string;
+  AuthorizerResultTtlInSeconds?: number;
+  AuthorizerType?: string;
+  AuthorizerUri?: string;
+  EnableSimpleResponses?: boolean;
+  IdentitySource?: IdentitySourceList;
+  IdentityValidationExpression?: string;
+  JwtConfiguration?: JWTConfiguration;
+  Name?: string;
+}
+export const UpdateAuthorizerResponse = S.suspend(() =>
+  S.Struct({
+    AuthorizerCredentialsArn: S.optional(S.String).pipe(
+      T.JsonName("authorizerCredentialsArn"),
+    ),
+    AuthorizerId: S.optional(S.String).pipe(T.JsonName("authorizerId")),
+    AuthorizerPayloadFormatVersion: S.optional(S.String).pipe(
+      T.JsonName("authorizerPayloadFormatVersion"),
+    ),
+    AuthorizerResultTtlInSeconds: S.optional(S.Number).pipe(
+      T.JsonName("authorizerResultTtlInSeconds"),
+    ),
+    AuthorizerType: S.optional(S.String).pipe(T.JsonName("authorizerType")),
+    AuthorizerUri: S.optional(S.String).pipe(T.JsonName("authorizerUri")),
+    EnableSimpleResponses: S.optional(S.Boolean).pipe(
+      T.JsonName("enableSimpleResponses"),
+    ),
+    IdentitySource: S.optional(IdentitySourceList).pipe(
+      T.JsonName("identitySource"),
+    ),
+    IdentityValidationExpression: S.optional(S.String).pipe(
+      T.JsonName("identityValidationExpression"),
+    ),
+    JwtConfiguration: S.optional(JWTConfiguration)
+      .pipe(T.JsonName("jwtConfiguration"))
+      .annotations({ identifier: "JWTConfiguration" }),
+    Name: S.optional(S.String).pipe(T.JsonName("name")),
+  }),
+).annotations({
+  identifier: "UpdateAuthorizerResponse",
+}) as any as S.Schema<UpdateAuthorizerResponse>;
+export interface UpdateDeploymentResponse {
+  AutoDeployed?: boolean;
+  CreatedDate?: Date;
+  DeploymentId?: string;
+  DeploymentStatus?: string;
+  DeploymentStatusMessage?: string;
+  Description?: string;
+}
+export const UpdateDeploymentResponse = S.suspend(() =>
+  S.Struct({
+    AutoDeployed: S.optional(S.Boolean).pipe(T.JsonName("autoDeployed")),
+    CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.JsonName("createdDate"),
+    ),
+    DeploymentId: S.optional(S.String).pipe(T.JsonName("deploymentId")),
+    DeploymentStatus: S.optional(S.String).pipe(T.JsonName("deploymentStatus")),
+    DeploymentStatusMessage: S.optional(S.String).pipe(
+      T.JsonName("deploymentStatusMessage"),
+    ),
+    Description: S.optional(S.String).pipe(T.JsonName("description")),
+  }),
+).annotations({
+  identifier: "UpdateDeploymentResponse",
+}) as any as S.Schema<UpdateDeploymentResponse>;
+export interface MutualTlsAuthentication {
+  TruststoreUri?: string;
+  TruststoreVersion?: string;
+  TruststoreWarnings?: __listOf__string;
+}
+export const MutualTlsAuthentication = S.suspend(() =>
+  S.Struct({
+    TruststoreUri: S.optional(S.String).pipe(T.JsonName("truststoreUri")),
+    TruststoreVersion: S.optional(S.String).pipe(
+      T.JsonName("truststoreVersion"),
+    ),
+    TruststoreWarnings: S.optional(__listOf__string).pipe(
+      T.JsonName("truststoreWarnings"),
+    ),
+  }),
+).annotations({
+  identifier: "MutualTlsAuthentication",
+}) as any as S.Schema<MutualTlsAuthentication>;
+export interface UpdateDomainNameResponse {
+  ApiMappingSelectionExpression?: string;
+  DomainName?: string;
+  DomainNameArn?: string;
+  DomainNameConfigurations?: DomainNameConfigurations;
+  MutualTlsAuthentication?: MutualTlsAuthentication;
+  RoutingMode?: string;
+  Tags?: Tags;
+}
+export const UpdateDomainNameResponse = S.suspend(() =>
+  S.Struct({
+    ApiMappingSelectionExpression: S.optional(S.String).pipe(
+      T.JsonName("apiMappingSelectionExpression"),
+    ),
+    DomainName: S.optional(S.String).pipe(T.JsonName("domainName")),
+    DomainNameArn: S.optional(S.String).pipe(T.JsonName("domainNameArn")),
+    DomainNameConfigurations: S.optional(DomainNameConfigurations).pipe(
+      T.JsonName("domainNameConfigurations"),
+    ),
+    MutualTlsAuthentication: S.optional(MutualTlsAuthentication)
+      .pipe(T.JsonName("mutualTlsAuthentication"))
+      .annotations({ identifier: "MutualTlsAuthentication" }),
+    RoutingMode: S.optional(S.String).pipe(T.JsonName("routingMode")),
+    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
+  }),
+).annotations({
+  identifier: "UpdateDomainNameResponse",
+}) as any as S.Schema<UpdateDomainNameResponse>;
+export interface TlsConfig {
+  ServerNameToVerify?: string;
+}
+export const TlsConfig = S.suspend(() =>
+  S.Struct({
+    ServerNameToVerify: S.optional(S.String).pipe(
+      T.JsonName("serverNameToVerify"),
+    ),
+  }),
+).annotations({ identifier: "TlsConfig" }) as any as S.Schema<TlsConfig>;
+export interface UpdateIntegrationResult {
+  ApiGatewayManaged?: boolean;
+  ConnectionId?: string;
+  ConnectionType?: string;
+  ContentHandlingStrategy?: string;
+  CredentialsArn?: string;
+  Description?: string;
+  IntegrationId?: string;
+  IntegrationMethod?: string;
+  IntegrationResponseSelectionExpression?: string;
+  IntegrationSubtype?: string;
+  IntegrationType?: string;
+  IntegrationUri?: string;
+  PassthroughBehavior?: string;
+  PayloadFormatVersion?: string;
+  RequestParameters?: IntegrationParameters;
+  RequestTemplates?: TemplateMap;
+  ResponseParameters?: ResponseParameters;
+  TemplateSelectionExpression?: string;
+  TimeoutInMillis?: number;
+  TlsConfig?: TlsConfig;
+}
+export const UpdateIntegrationResult = S.suspend(() =>
+  S.Struct({
+    ApiGatewayManaged: S.optional(S.Boolean).pipe(
+      T.JsonName("apiGatewayManaged"),
+    ),
+    ConnectionId: S.optional(S.String).pipe(T.JsonName("connectionId")),
+    ConnectionType: S.optional(S.String).pipe(T.JsonName("connectionType")),
+    ContentHandlingStrategy: S.optional(S.String).pipe(
+      T.JsonName("contentHandlingStrategy"),
+    ),
+    CredentialsArn: S.optional(S.String).pipe(T.JsonName("credentialsArn")),
+    Description: S.optional(S.String).pipe(T.JsonName("description")),
+    IntegrationId: S.optional(S.String).pipe(T.JsonName("integrationId")),
+    IntegrationMethod: S.optional(S.String).pipe(
+      T.JsonName("integrationMethod"),
+    ),
+    IntegrationResponseSelectionExpression: S.optional(S.String).pipe(
+      T.JsonName("integrationResponseSelectionExpression"),
+    ),
+    IntegrationSubtype: S.optional(S.String).pipe(
+      T.JsonName("integrationSubtype"),
+    ),
+    IntegrationType: S.optional(S.String).pipe(T.JsonName("integrationType")),
+    IntegrationUri: S.optional(S.String).pipe(T.JsonName("integrationUri")),
+    PassthroughBehavior: S.optional(S.String).pipe(
+      T.JsonName("passthroughBehavior"),
+    ),
+    PayloadFormatVersion: S.optional(S.String).pipe(
+      T.JsonName("payloadFormatVersion"),
+    ),
+    RequestParameters: S.optional(IntegrationParameters).pipe(
+      T.JsonName("requestParameters"),
+    ),
+    RequestTemplates: S.optional(TemplateMap).pipe(
+      T.JsonName("requestTemplates"),
+    ),
+    ResponseParameters: S.optional(ResponseParameters).pipe(
+      T.JsonName("responseParameters"),
+    ),
+    TemplateSelectionExpression: S.optional(S.String).pipe(
+      T.JsonName("templateSelectionExpression"),
+    ),
+    TimeoutInMillis: S.optional(S.Number).pipe(T.JsonName("timeoutInMillis")),
+    TlsConfig: S.optional(TlsConfig)
+      .pipe(T.JsonName("tlsConfig"))
+      .annotations({ identifier: "TlsConfig" }),
+  }),
+).annotations({
+  identifier: "UpdateIntegrationResult",
+}) as any as S.Schema<UpdateIntegrationResult>;
+export interface UpdateIntegrationResponseResponse {
+  ContentHandlingStrategy?: string;
+  IntegrationResponseId?: string;
+  IntegrationResponseKey?: string;
+  ResponseParameters?: IntegrationParameters;
+  ResponseTemplates?: TemplateMap;
+  TemplateSelectionExpression?: string;
+}
+export const UpdateIntegrationResponseResponse = S.suspend(() =>
+  S.Struct({
+    ContentHandlingStrategy: S.optional(S.String).pipe(
+      T.JsonName("contentHandlingStrategy"),
+    ),
+    IntegrationResponseId: S.optional(S.String).pipe(
+      T.JsonName("integrationResponseId"),
+    ),
+    IntegrationResponseKey: S.optional(S.String).pipe(
+      T.JsonName("integrationResponseKey"),
+    ),
+    ResponseParameters: S.optional(IntegrationParameters).pipe(
+      T.JsonName("responseParameters"),
+    ),
+    ResponseTemplates: S.optional(TemplateMap).pipe(
+      T.JsonName("responseTemplates"),
+    ),
+    TemplateSelectionExpression: S.optional(S.String).pipe(
+      T.JsonName("templateSelectionExpression"),
+    ),
+  }),
+).annotations({
+  identifier: "UpdateIntegrationResponseResponse",
+}) as any as S.Schema<UpdateIntegrationResponseResponse>;
+export interface UpdateModelResponse {
+  ContentType?: string;
+  Description?: string;
+  ModelId?: string;
+  Name?: string;
+  Schema?: string;
+}
+export const UpdateModelResponse = S.suspend(() =>
+  S.Struct({
+    ContentType: S.optional(S.String).pipe(T.JsonName("contentType")),
+    Description: S.optional(S.String).pipe(T.JsonName("description")),
+    ModelId: S.optional(S.String).pipe(T.JsonName("modelId")),
+    Name: S.optional(S.String).pipe(T.JsonName("name")),
+    Schema: S.optional(S.String).pipe(T.JsonName("schema")),
+  }),
+).annotations({
+  identifier: "UpdateModelResponse",
+}) as any as S.Schema<UpdateModelResponse>;
+export interface EndpointConfigurationResponse {
+  CertificateArn?: string;
+  DomainName?: string;
+  PortalDefaultDomainName: string;
+  PortalDomainHostedZoneId: string;
+}
+export const EndpointConfigurationResponse = S.suspend(() =>
+  S.Struct({
+    CertificateArn: S.optional(S.String).pipe(T.JsonName("certificateArn")),
+    DomainName: S.optional(S.String).pipe(T.JsonName("domainName")),
+    PortalDefaultDomainName: S.String.pipe(
+      T.JsonName("portalDefaultDomainName"),
+    ),
+    PortalDomainHostedZoneId: S.String.pipe(
+      T.JsonName("portalDomainHostedZoneId"),
+    ),
+  }),
+).annotations({
+  identifier: "EndpointConfigurationResponse",
+}) as any as S.Schema<EndpointConfigurationResponse>;
+export interface StatusException {
+  Exception?: string;
+  Message?: string;
+}
+export const StatusException = S.suspend(() =>
+  S.Struct({
+    Exception: S.optional(S.String).pipe(T.JsonName("exception")),
+    Message: S.optional(S.String).pipe(T.JsonName("message")),
+  }),
+).annotations({
+  identifier: "StatusException",
+}) as any as S.Schema<StatusException>;
+export interface Preview {
+  PreviewStatus: string;
+  PreviewUrl?: string;
+  StatusException?: StatusException;
+}
+export const Preview = S.suspend(() =>
+  S.Struct({
+    PreviewStatus: S.String.pipe(T.JsonName("previewStatus")),
+    PreviewUrl: S.optional(S.String).pipe(T.JsonName("previewUrl")),
+    StatusException: S.optional(StatusException)
+      .pipe(T.JsonName("statusException"))
+      .annotations({ identifier: "StatusException" }),
+  }),
+).annotations({ identifier: "Preview" }) as any as S.Schema<Preview>;
+export interface UpdatePortalResponse {
+  Authorization?: Authorization;
+  EndpointConfiguration?: EndpointConfigurationResponse;
+  IncludedPortalProductArns?: __listOf__stringMin20Max2048;
+  LastModified?: Date;
+  LastPublished?: Date;
+  LastPublishedDescription?: string;
+  PortalArn?: string;
+  PortalContent?: PortalContent;
+  PortalId?: string;
+  Preview?: Preview;
+  PublishStatus?: string;
+  RumAppMonitorName?: string;
+  StatusException?: StatusException;
+  Tags?: Tags;
+}
+export const UpdatePortalResponse = S.suspend(() =>
+  S.Struct({
+    Authorization: S.optional(Authorization)
+      .pipe(T.JsonName("authorization"))
+      .annotations({ identifier: "Authorization" }),
+    EndpointConfiguration: S.optional(EndpointConfigurationResponse)
+      .pipe(T.JsonName("endpointConfiguration"))
+      .annotations({ identifier: "EndpointConfigurationResponse" }),
+    IncludedPortalProductArns: S.optional(__listOf__stringMin20Max2048).pipe(
+      T.JsonName("includedPortalProductArns"),
+    ),
+    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.JsonName("lastModified"),
+    ),
+    LastPublished: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.JsonName("lastPublished"),
+    ),
+    LastPublishedDescription: S.optional(S.String).pipe(
+      T.JsonName("lastPublishedDescription"),
+    ),
+    PortalArn: S.optional(S.String).pipe(T.JsonName("portalArn")),
+    PortalContent: S.optional(PortalContent)
+      .pipe(T.JsonName("portalContent"))
+      .annotations({ identifier: "PortalContent" }),
+    PortalId: S.optional(S.String).pipe(T.JsonName("portalId")),
+    Preview: S.optional(Preview)
+      .pipe(T.JsonName("preview"))
+      .annotations({ identifier: "Preview" }),
+    PublishStatus: S.optional(S.String).pipe(T.JsonName("publishStatus")),
+    RumAppMonitorName: S.optional(S.String).pipe(
+      T.JsonName("rumAppMonitorName"),
+    ),
+    StatusException: S.optional(StatusException)
+      .pipe(T.JsonName("statusException"))
+      .annotations({ identifier: "StatusException" }),
+    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
+  }),
+).annotations({
+  identifier: "UpdatePortalResponse",
+}) as any as S.Schema<UpdatePortalResponse>;
+export interface UpdateProductPageResponse {
+  DisplayContent?: DisplayContent;
+  LastModified?: Date;
+  ProductPageArn?: string;
+  ProductPageId?: string;
+}
+export const UpdateProductPageResponse = S.suspend(() =>
+  S.Struct({
+    DisplayContent: S.optional(DisplayContent)
+      .pipe(T.JsonName("displayContent"))
+      .annotations({ identifier: "DisplayContent" }),
+    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.JsonName("lastModified"),
+    ),
+    ProductPageArn: S.optional(S.String).pipe(T.JsonName("productPageArn")),
+    ProductPageId: S.optional(S.String).pipe(T.JsonName("productPageId")),
+  }),
+).annotations({
+  identifier: "UpdateProductPageResponse",
+}) as any as S.Schema<UpdateProductPageResponse>;
+export interface EndpointDisplayContentResponse {
+  Body?: string;
+  Endpoint: string;
+  OperationName?: string;
+}
+export const EndpointDisplayContentResponse = S.suspend(() =>
+  S.Struct({
+    Body: S.optional(S.String).pipe(T.JsonName("body")),
+    Endpoint: S.String.pipe(T.JsonName("endpoint")),
+    OperationName: S.optional(S.String).pipe(T.JsonName("operationName")),
+  }),
+).annotations({
+  identifier: "EndpointDisplayContentResponse",
+}) as any as S.Schema<EndpointDisplayContentResponse>;
+export interface IdentifierParts {
+  Method: string;
+  Path: string;
+  RestApiId: string;
+  Stage: string;
+}
+export const IdentifierParts = S.suspend(() =>
+  S.Struct({
+    Method: S.String.pipe(T.JsonName("method")),
+    Path: S.String.pipe(T.JsonName("path")),
+    RestApiId: S.String.pipe(T.JsonName("restApiId")),
+    Stage: S.String.pipe(T.JsonName("stage")),
+  }),
+).annotations({
+  identifier: "IdentifierParts",
+}) as any as S.Schema<IdentifierParts>;
+export interface RestEndpointIdentifier {
+  IdentifierParts?: IdentifierParts;
+}
+export const RestEndpointIdentifier = S.suspend(() =>
+  S.Struct({
+    IdentifierParts: S.optional(IdentifierParts)
+      .pipe(T.JsonName("identifierParts"))
+      .annotations({ identifier: "IdentifierParts" }),
+  }),
+).annotations({
+  identifier: "RestEndpointIdentifier",
+}) as any as S.Schema<RestEndpointIdentifier>;
+export interface UpdateProductRestEndpointPageResponse {
+  DisplayContent?: EndpointDisplayContentResponse;
+  LastModified?: Date;
+  ProductRestEndpointPageArn?: string;
+  ProductRestEndpointPageId?: string;
+  RestEndpointIdentifier?: RestEndpointIdentifier;
+  Status?: string;
+  StatusException?: StatusException;
+  TryItState?: string;
+}
+export const UpdateProductRestEndpointPageResponse = S.suspend(() =>
+  S.Struct({
+    DisplayContent: S.optional(EndpointDisplayContentResponse)
+      .pipe(T.JsonName("displayContent"))
+      .annotations({ identifier: "EndpointDisplayContentResponse" }),
+    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.JsonName("lastModified"),
+    ),
+    ProductRestEndpointPageArn: S.optional(S.String).pipe(
+      T.JsonName("productRestEndpointPageArn"),
+    ),
+    ProductRestEndpointPageId: S.optional(S.String).pipe(
+      T.JsonName("productRestEndpointPageId"),
+    ),
+    RestEndpointIdentifier: S.optional(RestEndpointIdentifier)
+      .pipe(T.JsonName("restEndpointIdentifier"))
+      .annotations({ identifier: "RestEndpointIdentifier" }),
+    Status: S.optional(S.String).pipe(T.JsonName("status")),
+    StatusException: S.optional(StatusException)
+      .pipe(T.JsonName("statusException"))
+      .annotations({ identifier: "StatusException" }),
+    TryItState: S.optional(S.String).pipe(T.JsonName("tryItState")),
+  }),
+).annotations({
+  identifier: "UpdateProductRestEndpointPageResponse",
+}) as any as S.Schema<UpdateProductRestEndpointPageResponse>;
+export interface UpdateRouteResult {
+  ApiGatewayManaged?: boolean;
+  ApiKeyRequired?: boolean;
+  AuthorizationScopes?: AuthorizationScopes;
+  AuthorizationType?: string;
+  AuthorizerId?: string;
+  ModelSelectionExpression?: string;
+  OperationName?: string;
+  RequestModels?: RouteModels;
+  RequestParameters?: RouteParameters;
+  RouteId?: string;
+  RouteKey?: string;
+  RouteResponseSelectionExpression?: string;
+  Target?: string;
+}
+export const UpdateRouteResult = S.suspend(() =>
+  S.Struct({
+    ApiGatewayManaged: S.optional(S.Boolean).pipe(
+      T.JsonName("apiGatewayManaged"),
+    ),
+    ApiKeyRequired: S.optional(S.Boolean).pipe(T.JsonName("apiKeyRequired")),
+    AuthorizationScopes: S.optional(AuthorizationScopes).pipe(
+      T.JsonName("authorizationScopes"),
+    ),
+    AuthorizationType: S.optional(S.String).pipe(
+      T.JsonName("authorizationType"),
+    ),
+    AuthorizerId: S.optional(S.String).pipe(T.JsonName("authorizerId")),
+    ModelSelectionExpression: S.optional(S.String).pipe(
+      T.JsonName("modelSelectionExpression"),
+    ),
+    OperationName: S.optional(S.String).pipe(T.JsonName("operationName")),
+    RequestModels: S.optional(RouteModels).pipe(T.JsonName("requestModels")),
+    RequestParameters: S.optional(RouteParameters).pipe(
+      T.JsonName("requestParameters"),
+    ),
+    RouteId: S.optional(S.String).pipe(T.JsonName("routeId")),
+    RouteKey: S.optional(S.String).pipe(T.JsonName("routeKey")),
+    RouteResponseSelectionExpression: S.optional(S.String).pipe(
+      T.JsonName("routeResponseSelectionExpression"),
+    ),
+    Target: S.optional(S.String).pipe(T.JsonName("target")),
+  }),
+).annotations({
+  identifier: "UpdateRouteResult",
+}) as any as S.Schema<UpdateRouteResult>;
+export interface UpdateRouteResponseResponse {
+  ModelSelectionExpression?: string;
+  ResponseModels?: RouteModels;
+  ResponseParameters?: RouteParameters;
+  RouteResponseId?: string;
+  RouteResponseKey?: string;
+}
+export const UpdateRouteResponseResponse = S.suspend(() =>
+  S.Struct({
+    ModelSelectionExpression: S.optional(S.String).pipe(
+      T.JsonName("modelSelectionExpression"),
+    ),
+    ResponseModels: S.optional(RouteModels).pipe(T.JsonName("responseModels")),
+    ResponseParameters: S.optional(RouteParameters).pipe(
+      T.JsonName("responseParameters"),
+    ),
+    RouteResponseId: S.optional(S.String).pipe(T.JsonName("routeResponseId")),
+    RouteResponseKey: S.optional(S.String).pipe(T.JsonName("routeResponseKey")),
+  }),
+).annotations({
+  identifier: "UpdateRouteResponseResponse",
+}) as any as S.Schema<UpdateRouteResponseResponse>;
+export interface UpdateStageResponse {
+  AccessLogSettings?: AccessLogSettings;
+  ApiGatewayManaged?: boolean;
+  AutoDeploy?: boolean;
+  ClientCertificateId?: string;
+  CreatedDate?: Date;
+  DefaultRouteSettings?: RouteSettings;
+  DeploymentId?: string;
+  Description?: string;
+  LastDeploymentStatusMessage?: string;
+  LastUpdatedDate?: Date;
+  RouteSettings?: RouteSettingsMap;
+  StageName?: string;
+  StageVariables?: StageVariablesMap;
+  Tags?: Tags;
+}
+export const UpdateStageResponse = S.suspend(() =>
+  S.Struct({
+    AccessLogSettings: S.optional(AccessLogSettings)
+      .pipe(T.JsonName("accessLogSettings"))
+      .annotations({ identifier: "AccessLogSettings" }),
+    ApiGatewayManaged: S.optional(S.Boolean).pipe(
+      T.JsonName("apiGatewayManaged"),
+    ),
+    AutoDeploy: S.optional(S.Boolean).pipe(T.JsonName("autoDeploy")),
+    ClientCertificateId: S.optional(S.String).pipe(
+      T.JsonName("clientCertificateId"),
+    ),
+    CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.JsonName("createdDate"),
+    ),
+    DefaultRouteSettings: S.optional(RouteSettings)
+      .pipe(T.JsonName("defaultRouteSettings"))
+      .annotations({ identifier: "RouteSettings" }),
+    DeploymentId: S.optional(S.String).pipe(T.JsonName("deploymentId")),
+    Description: S.optional(S.String).pipe(T.JsonName("description")),
+    LastDeploymentStatusMessage: S.optional(S.String).pipe(
+      T.JsonName("lastDeploymentStatusMessage"),
+    ),
+    LastUpdatedDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.JsonName("lastUpdatedDate")),
+    RouteSettings: S.optional(RouteSettingsMap).pipe(
+      T.JsonName("routeSettings"),
+    ),
+    StageName: S.optional(S.String).pipe(T.JsonName("stageName")),
+    StageVariables: S.optional(StageVariablesMap).pipe(
+      T.JsonName("stageVariables"),
+    ),
+    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
+  }),
+).annotations({
+  identifier: "UpdateStageResponse",
+}) as any as S.Schema<UpdateStageResponse>;
+export interface UpdateVpcLinkResponse {
+  CreatedDate?: Date;
+  Name?: string;
+  SecurityGroupIds?: SecurityGroupIdList;
+  SubnetIds?: SubnetIdList;
+  Tags?: Tags;
+  VpcLinkId?: string;
+  VpcLinkStatus?: string;
+  VpcLinkStatusMessage?: string;
+  VpcLinkVersion?: string;
+}
+export const UpdateVpcLinkResponse = S.suspend(() =>
+  S.Struct({
+    CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.JsonName("createdDate"),
+    ),
+    Name: S.optional(S.String).pipe(T.JsonName("name")),
+    SecurityGroupIds: S.optional(SecurityGroupIdList).pipe(
+      T.JsonName("securityGroupIds"),
+    ),
+    SubnetIds: S.optional(SubnetIdList).pipe(T.JsonName("subnetIds")),
+    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
+    VpcLinkId: S.optional(S.String).pipe(T.JsonName("vpcLinkId")),
+    VpcLinkStatus: S.optional(S.String).pipe(T.JsonName("vpcLinkStatus")),
+    VpcLinkStatusMessage: S.optional(S.String).pipe(
+      T.JsonName("vpcLinkStatusMessage"),
+    ),
+    VpcLinkVersion: S.optional(S.String).pipe(T.JsonName("vpcLinkVersion")),
+  }),
+).annotations({
+  identifier: "UpdateVpcLinkResponse",
+}) as any as S.Schema<UpdateVpcLinkResponse>;
+export interface ApiMapping {
+  ApiId: string;
+  ApiMappingId?: string;
+  ApiMappingKey?: string;
+  Stage: string;
+}
+export const ApiMapping = S.suspend(() =>
+  S.Struct({
+    ApiId: S.String.pipe(T.JsonName("apiId")),
+    ApiMappingId: S.optional(S.String).pipe(T.JsonName("apiMappingId")),
+    ApiMappingKey: S.optional(S.String).pipe(T.JsonName("apiMappingKey")),
+    Stage: S.String.pipe(T.JsonName("stage")),
+  }),
+).annotations({ identifier: "ApiMapping" }) as any as S.Schema<ApiMapping>;
+export type __listOfApiMapping = ApiMapping[];
 export const __listOfApiMapping = S.Array(ApiMapping);
-export class Api extends S.Class<Api>("Api")({
-  ApiEndpoint: S.optional(S.String).pipe(T.JsonName("apiEndpoint")),
-  ApiGatewayManaged: S.optional(S.Boolean).pipe(
-    T.JsonName("apiGatewayManaged"),
-  ),
-  ApiId: S.optional(S.String).pipe(T.JsonName("apiId")),
-  ApiKeySelectionExpression: S.optional(S.String).pipe(
-    T.JsonName("apiKeySelectionExpression"),
-  ),
-  CorsConfiguration: S.optional(Cors).pipe(T.JsonName("corsConfiguration")),
-  CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-    T.JsonName("createdDate"),
-  ),
-  Description: S.optional(S.String).pipe(T.JsonName("description")),
-  DisableSchemaValidation: S.optional(S.Boolean).pipe(
-    T.JsonName("disableSchemaValidation"),
-  ),
-  DisableExecuteApiEndpoint: S.optional(S.Boolean).pipe(
-    T.JsonName("disableExecuteApiEndpoint"),
-  ),
-  ImportInfo: S.optional(__listOf__string).pipe(T.JsonName("importInfo")),
-  IpAddressType: S.optional(S.String).pipe(T.JsonName("ipAddressType")),
-  Name: S.String.pipe(T.JsonName("name")),
-  ProtocolType: S.String.pipe(T.JsonName("protocolType")),
-  RouteSelectionExpression: S.String.pipe(
-    T.JsonName("routeSelectionExpression"),
-  ),
-  Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  Version: S.optional(S.String).pipe(T.JsonName("version")),
-  Warnings: S.optional(__listOf__string).pipe(T.JsonName("warnings")),
-}) {}
+export interface Api {
+  ApiEndpoint?: string;
+  ApiGatewayManaged?: boolean;
+  ApiId?: string;
+  ApiKeySelectionExpression?: string;
+  CorsConfiguration?: Cors;
+  CreatedDate?: Date;
+  Description?: string;
+  DisableSchemaValidation?: boolean;
+  DisableExecuteApiEndpoint?: boolean;
+  ImportInfo?: __listOf__string;
+  IpAddressType?: string;
+  Name: string;
+  ProtocolType: string;
+  RouteSelectionExpression: string;
+  Tags?: Tags;
+  Version?: string;
+  Warnings?: __listOf__string;
+}
+export const Api = S.suspend(() =>
+  S.Struct({
+    ApiEndpoint: S.optional(S.String).pipe(T.JsonName("apiEndpoint")),
+    ApiGatewayManaged: S.optional(S.Boolean).pipe(
+      T.JsonName("apiGatewayManaged"),
+    ),
+    ApiId: S.optional(S.String).pipe(T.JsonName("apiId")),
+    ApiKeySelectionExpression: S.optional(S.String).pipe(
+      T.JsonName("apiKeySelectionExpression"),
+    ),
+    CorsConfiguration: S.optional(Cors)
+      .pipe(T.JsonName("corsConfiguration"))
+      .annotations({ identifier: "Cors" }),
+    CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.JsonName("createdDate"),
+    ),
+    Description: S.optional(S.String).pipe(T.JsonName("description")),
+    DisableSchemaValidation: S.optional(S.Boolean).pipe(
+      T.JsonName("disableSchemaValidation"),
+    ),
+    DisableExecuteApiEndpoint: S.optional(S.Boolean).pipe(
+      T.JsonName("disableExecuteApiEndpoint"),
+    ),
+    ImportInfo: S.optional(__listOf__string).pipe(T.JsonName("importInfo")),
+    IpAddressType: S.optional(S.String).pipe(T.JsonName("ipAddressType")),
+    Name: S.String.pipe(T.JsonName("name")),
+    ProtocolType: S.String.pipe(T.JsonName("protocolType")),
+    RouteSelectionExpression: S.String.pipe(
+      T.JsonName("routeSelectionExpression"),
+    ),
+    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
+    Version: S.optional(S.String).pipe(T.JsonName("version")),
+    Warnings: S.optional(__listOf__string).pipe(T.JsonName("warnings")),
+  }),
+).annotations({ identifier: "Api" }) as any as S.Schema<Api>;
+export type __listOfApi = Api[];
 export const __listOfApi = S.Array(Api);
-export class Authorizer extends S.Class<Authorizer>("Authorizer")({
-  AuthorizerCredentialsArn: S.optional(S.String).pipe(
-    T.JsonName("authorizerCredentialsArn"),
-  ),
-  AuthorizerId: S.optional(S.String).pipe(T.JsonName("authorizerId")),
-  AuthorizerPayloadFormatVersion: S.optional(S.String).pipe(
-    T.JsonName("authorizerPayloadFormatVersion"),
-  ),
-  AuthorizerResultTtlInSeconds: S.optional(S.Number).pipe(
-    T.JsonName("authorizerResultTtlInSeconds"),
-  ),
-  AuthorizerType: S.optional(S.String).pipe(T.JsonName("authorizerType")),
-  AuthorizerUri: S.optional(S.String).pipe(T.JsonName("authorizerUri")),
-  EnableSimpleResponses: S.optional(S.Boolean).pipe(
-    T.JsonName("enableSimpleResponses"),
-  ),
-  IdentitySource: S.optional(IdentitySourceList).pipe(
-    T.JsonName("identitySource"),
-  ),
-  IdentityValidationExpression: S.optional(S.String).pipe(
-    T.JsonName("identityValidationExpression"),
-  ),
-  JwtConfiguration: S.optional(JWTConfiguration).pipe(
-    T.JsonName("jwtConfiguration"),
-  ),
-  Name: S.String.pipe(T.JsonName("name")),
-}) {}
+export interface Authorizer {
+  AuthorizerCredentialsArn?: string;
+  AuthorizerId?: string;
+  AuthorizerPayloadFormatVersion?: string;
+  AuthorizerResultTtlInSeconds?: number;
+  AuthorizerType?: string;
+  AuthorizerUri?: string;
+  EnableSimpleResponses?: boolean;
+  IdentitySource?: IdentitySourceList;
+  IdentityValidationExpression?: string;
+  JwtConfiguration?: JWTConfiguration;
+  Name: string;
+}
+export const Authorizer = S.suspend(() =>
+  S.Struct({
+    AuthorizerCredentialsArn: S.optional(S.String).pipe(
+      T.JsonName("authorizerCredentialsArn"),
+    ),
+    AuthorizerId: S.optional(S.String).pipe(T.JsonName("authorizerId")),
+    AuthorizerPayloadFormatVersion: S.optional(S.String).pipe(
+      T.JsonName("authorizerPayloadFormatVersion"),
+    ),
+    AuthorizerResultTtlInSeconds: S.optional(S.Number).pipe(
+      T.JsonName("authorizerResultTtlInSeconds"),
+    ),
+    AuthorizerType: S.optional(S.String).pipe(T.JsonName("authorizerType")),
+    AuthorizerUri: S.optional(S.String).pipe(T.JsonName("authorizerUri")),
+    EnableSimpleResponses: S.optional(S.Boolean).pipe(
+      T.JsonName("enableSimpleResponses"),
+    ),
+    IdentitySource: S.optional(IdentitySourceList).pipe(
+      T.JsonName("identitySource"),
+    ),
+    IdentityValidationExpression: S.optional(S.String).pipe(
+      T.JsonName("identityValidationExpression"),
+    ),
+    JwtConfiguration: S.optional(JWTConfiguration)
+      .pipe(T.JsonName("jwtConfiguration"))
+      .annotations({ identifier: "JWTConfiguration" }),
+    Name: S.String.pipe(T.JsonName("name")),
+  }),
+).annotations({ identifier: "Authorizer" }) as any as S.Schema<Authorizer>;
+export type __listOfAuthorizer = Authorizer[];
 export const __listOfAuthorizer = S.Array(Authorizer);
-export class Deployment extends S.Class<Deployment>("Deployment")({
-  AutoDeployed: S.optional(S.Boolean).pipe(T.JsonName("autoDeployed")),
-  CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-    T.JsonName("createdDate"),
-  ),
-  DeploymentId: S.optional(S.String).pipe(T.JsonName("deploymentId")),
-  DeploymentStatus: S.optional(S.String).pipe(T.JsonName("deploymentStatus")),
-  DeploymentStatusMessage: S.optional(S.String).pipe(
-    T.JsonName("deploymentStatusMessage"),
-  ),
-  Description: S.optional(S.String).pipe(T.JsonName("description")),
-}) {}
+export interface Deployment {
+  AutoDeployed?: boolean;
+  CreatedDate?: Date;
+  DeploymentId?: string;
+  DeploymentStatus?: string;
+  DeploymentStatusMessage?: string;
+  Description?: string;
+}
+export const Deployment = S.suspend(() =>
+  S.Struct({
+    AutoDeployed: S.optional(S.Boolean).pipe(T.JsonName("autoDeployed")),
+    CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.JsonName("createdDate"),
+    ),
+    DeploymentId: S.optional(S.String).pipe(T.JsonName("deploymentId")),
+    DeploymentStatus: S.optional(S.String).pipe(T.JsonName("deploymentStatus")),
+    DeploymentStatusMessage: S.optional(S.String).pipe(
+      T.JsonName("deploymentStatusMessage"),
+    ),
+    Description: S.optional(S.String).pipe(T.JsonName("description")),
+  }),
+).annotations({ identifier: "Deployment" }) as any as S.Schema<Deployment>;
+export type __listOfDeployment = Deployment[];
 export const __listOfDeployment = S.Array(Deployment);
-export class DomainName extends S.Class<DomainName>("DomainName")({
-  ApiMappingSelectionExpression: S.optional(S.String).pipe(
-    T.JsonName("apiMappingSelectionExpression"),
-  ),
-  DomainName: S.String.pipe(T.JsonName("domainName")),
-  DomainNameArn: S.optional(S.String).pipe(T.JsonName("domainNameArn")),
-  DomainNameConfigurations: S.optional(DomainNameConfigurations).pipe(
-    T.JsonName("domainNameConfigurations"),
-  ),
-  MutualTlsAuthentication: S.optional(MutualTlsAuthentication).pipe(
-    T.JsonName("mutualTlsAuthentication"),
-  ),
-  RoutingMode: S.optional(S.String).pipe(T.JsonName("routingMode")),
-  Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-}) {}
+export interface DomainName {
+  ApiMappingSelectionExpression?: string;
+  DomainName: string;
+  DomainNameArn?: string;
+  DomainNameConfigurations?: DomainNameConfigurations;
+  MutualTlsAuthentication?: MutualTlsAuthentication;
+  RoutingMode?: string;
+  Tags?: Tags;
+}
+export const DomainName = S.suspend(() =>
+  S.Struct({
+    ApiMappingSelectionExpression: S.optional(S.String).pipe(
+      T.JsonName("apiMappingSelectionExpression"),
+    ),
+    DomainName: S.String.pipe(T.JsonName("domainName")),
+    DomainNameArn: S.optional(S.String).pipe(T.JsonName("domainNameArn")),
+    DomainNameConfigurations: S.optional(DomainNameConfigurations).pipe(
+      T.JsonName("domainNameConfigurations"),
+    ),
+    MutualTlsAuthentication: S.optional(MutualTlsAuthentication)
+      .pipe(T.JsonName("mutualTlsAuthentication"))
+      .annotations({ identifier: "MutualTlsAuthentication" }),
+    RoutingMode: S.optional(S.String).pipe(T.JsonName("routingMode")),
+    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
+  }),
+).annotations({ identifier: "DomainName" }) as any as S.Schema<DomainName>;
+export type __listOfDomainName = DomainName[];
 export const __listOfDomainName = S.Array(DomainName);
-export class IntegrationResponse extends S.Class<IntegrationResponse>(
-  "IntegrationResponse",
-)({
-  ContentHandlingStrategy: S.optional(S.String).pipe(
-    T.JsonName("contentHandlingStrategy"),
-  ),
-  IntegrationResponseId: S.optional(S.String).pipe(
-    T.JsonName("integrationResponseId"),
-  ),
-  IntegrationResponseKey: S.String.pipe(T.JsonName("integrationResponseKey")),
-  ResponseParameters: S.optional(IntegrationParameters).pipe(
-    T.JsonName("responseParameters"),
-  ),
-  ResponseTemplates: S.optional(TemplateMap).pipe(
-    T.JsonName("responseTemplates"),
-  ),
-  TemplateSelectionExpression: S.optional(S.String).pipe(
-    T.JsonName("templateSelectionExpression"),
-  ),
-}) {}
+export interface IntegrationResponse {
+  ContentHandlingStrategy?: string;
+  IntegrationResponseId?: string;
+  IntegrationResponseKey: string;
+  ResponseParameters?: IntegrationParameters;
+  ResponseTemplates?: TemplateMap;
+  TemplateSelectionExpression?: string;
+}
+export const IntegrationResponse = S.suspend(() =>
+  S.Struct({
+    ContentHandlingStrategy: S.optional(S.String).pipe(
+      T.JsonName("contentHandlingStrategy"),
+    ),
+    IntegrationResponseId: S.optional(S.String).pipe(
+      T.JsonName("integrationResponseId"),
+    ),
+    IntegrationResponseKey: S.String.pipe(T.JsonName("integrationResponseKey")),
+    ResponseParameters: S.optional(IntegrationParameters).pipe(
+      T.JsonName("responseParameters"),
+    ),
+    ResponseTemplates: S.optional(TemplateMap).pipe(
+      T.JsonName("responseTemplates"),
+    ),
+    TemplateSelectionExpression: S.optional(S.String).pipe(
+      T.JsonName("templateSelectionExpression"),
+    ),
+  }),
+).annotations({
+  identifier: "IntegrationResponse",
+}) as any as S.Schema<IntegrationResponse>;
+export type __listOfIntegrationResponse = IntegrationResponse[];
 export const __listOfIntegrationResponse = S.Array(IntegrationResponse);
-export class Integration extends S.Class<Integration>("Integration")({
-  ApiGatewayManaged: S.optional(S.Boolean).pipe(
-    T.JsonName("apiGatewayManaged"),
-  ),
-  ConnectionId: S.optional(S.String).pipe(T.JsonName("connectionId")),
-  ConnectionType: S.optional(S.String).pipe(T.JsonName("connectionType")),
-  ContentHandlingStrategy: S.optional(S.String).pipe(
-    T.JsonName("contentHandlingStrategy"),
-  ),
-  CredentialsArn: S.optional(S.String).pipe(T.JsonName("credentialsArn")),
-  Description: S.optional(S.String).pipe(T.JsonName("description")),
-  IntegrationId: S.optional(S.String).pipe(T.JsonName("integrationId")),
-  IntegrationMethod: S.optional(S.String).pipe(T.JsonName("integrationMethod")),
-  IntegrationResponseSelectionExpression: S.optional(S.String).pipe(
-    T.JsonName("integrationResponseSelectionExpression"),
-  ),
-  IntegrationSubtype: S.optional(S.String).pipe(
-    T.JsonName("integrationSubtype"),
-  ),
-  IntegrationType: S.optional(S.String).pipe(T.JsonName("integrationType")),
-  IntegrationUri: S.optional(S.String).pipe(T.JsonName("integrationUri")),
-  PassthroughBehavior: S.optional(S.String).pipe(
-    T.JsonName("passthroughBehavior"),
-  ),
-  PayloadFormatVersion: S.optional(S.String).pipe(
-    T.JsonName("payloadFormatVersion"),
-  ),
-  RequestParameters: S.optional(IntegrationParameters).pipe(
-    T.JsonName("requestParameters"),
-  ),
-  RequestTemplates: S.optional(TemplateMap).pipe(
-    T.JsonName("requestTemplates"),
-  ),
-  ResponseParameters: S.optional(ResponseParameters).pipe(
-    T.JsonName("responseParameters"),
-  ),
-  TemplateSelectionExpression: S.optional(S.String).pipe(
-    T.JsonName("templateSelectionExpression"),
-  ),
-  TimeoutInMillis: S.optional(S.Number).pipe(T.JsonName("timeoutInMillis")),
-  TlsConfig: S.optional(TlsConfig).pipe(T.JsonName("tlsConfig")),
-}) {}
+export interface Integration {
+  ApiGatewayManaged?: boolean;
+  ConnectionId?: string;
+  ConnectionType?: string;
+  ContentHandlingStrategy?: string;
+  CredentialsArn?: string;
+  Description?: string;
+  IntegrationId?: string;
+  IntegrationMethod?: string;
+  IntegrationResponseSelectionExpression?: string;
+  IntegrationSubtype?: string;
+  IntegrationType?: string;
+  IntegrationUri?: string;
+  PassthroughBehavior?: string;
+  PayloadFormatVersion?: string;
+  RequestParameters?: IntegrationParameters;
+  RequestTemplates?: TemplateMap;
+  ResponseParameters?: ResponseParameters;
+  TemplateSelectionExpression?: string;
+  TimeoutInMillis?: number;
+  TlsConfig?: TlsConfig;
+}
+export const Integration = S.suspend(() =>
+  S.Struct({
+    ApiGatewayManaged: S.optional(S.Boolean).pipe(
+      T.JsonName("apiGatewayManaged"),
+    ),
+    ConnectionId: S.optional(S.String).pipe(T.JsonName("connectionId")),
+    ConnectionType: S.optional(S.String).pipe(T.JsonName("connectionType")),
+    ContentHandlingStrategy: S.optional(S.String).pipe(
+      T.JsonName("contentHandlingStrategy"),
+    ),
+    CredentialsArn: S.optional(S.String).pipe(T.JsonName("credentialsArn")),
+    Description: S.optional(S.String).pipe(T.JsonName("description")),
+    IntegrationId: S.optional(S.String).pipe(T.JsonName("integrationId")),
+    IntegrationMethod: S.optional(S.String).pipe(
+      T.JsonName("integrationMethod"),
+    ),
+    IntegrationResponseSelectionExpression: S.optional(S.String).pipe(
+      T.JsonName("integrationResponseSelectionExpression"),
+    ),
+    IntegrationSubtype: S.optional(S.String).pipe(
+      T.JsonName("integrationSubtype"),
+    ),
+    IntegrationType: S.optional(S.String).pipe(T.JsonName("integrationType")),
+    IntegrationUri: S.optional(S.String).pipe(T.JsonName("integrationUri")),
+    PassthroughBehavior: S.optional(S.String).pipe(
+      T.JsonName("passthroughBehavior"),
+    ),
+    PayloadFormatVersion: S.optional(S.String).pipe(
+      T.JsonName("payloadFormatVersion"),
+    ),
+    RequestParameters: S.optional(IntegrationParameters).pipe(
+      T.JsonName("requestParameters"),
+    ),
+    RequestTemplates: S.optional(TemplateMap).pipe(
+      T.JsonName("requestTemplates"),
+    ),
+    ResponseParameters: S.optional(ResponseParameters).pipe(
+      T.JsonName("responseParameters"),
+    ),
+    TemplateSelectionExpression: S.optional(S.String).pipe(
+      T.JsonName("templateSelectionExpression"),
+    ),
+    TimeoutInMillis: S.optional(S.Number).pipe(T.JsonName("timeoutInMillis")),
+    TlsConfig: S.optional(TlsConfig)
+      .pipe(T.JsonName("tlsConfig"))
+      .annotations({ identifier: "TlsConfig" }),
+  }),
+).annotations({ identifier: "Integration" }) as any as S.Schema<Integration>;
+export type __listOfIntegration = Integration[];
 export const __listOfIntegration = S.Array(Integration);
-export class Model extends S.Class<Model>("Model")({
-  ContentType: S.optional(S.String).pipe(T.JsonName("contentType")),
-  Description: S.optional(S.String).pipe(T.JsonName("description")),
-  ModelId: S.optional(S.String).pipe(T.JsonName("modelId")),
-  Name: S.String.pipe(T.JsonName("name")),
-  Schema: S.optional(S.String).pipe(T.JsonName("schema")),
-}) {}
+export interface Model {
+  ContentType?: string;
+  Description?: string;
+  ModelId?: string;
+  Name: string;
+  Schema?: string;
+}
+export const Model = S.suspend(() =>
+  S.Struct({
+    ContentType: S.optional(S.String).pipe(T.JsonName("contentType")),
+    Description: S.optional(S.String).pipe(T.JsonName("description")),
+    ModelId: S.optional(S.String).pipe(T.JsonName("modelId")),
+    Name: S.String.pipe(T.JsonName("name")),
+    Schema: S.optional(S.String).pipe(T.JsonName("schema")),
+  }),
+).annotations({ identifier: "Model" }) as any as S.Schema<Model>;
+export type __listOfModel = Model[];
 export const __listOfModel = S.Array(Model);
-export class RouteResponse extends S.Class<RouteResponse>("RouteResponse")({
-  ModelSelectionExpression: S.optional(S.String).pipe(
-    T.JsonName("modelSelectionExpression"),
-  ),
-  ResponseModels: S.optional(RouteModels).pipe(T.JsonName("responseModels")),
-  ResponseParameters: S.optional(RouteParameters).pipe(
-    T.JsonName("responseParameters"),
-  ),
-  RouteResponseId: S.optional(S.String).pipe(T.JsonName("routeResponseId")),
-  RouteResponseKey: S.String.pipe(T.JsonName("routeResponseKey")),
-}) {}
+export interface RouteResponse {
+  ModelSelectionExpression?: string;
+  ResponseModels?: RouteModels;
+  ResponseParameters?: RouteParameters;
+  RouteResponseId?: string;
+  RouteResponseKey: string;
+}
+export const RouteResponse = S.suspend(() =>
+  S.Struct({
+    ModelSelectionExpression: S.optional(S.String).pipe(
+      T.JsonName("modelSelectionExpression"),
+    ),
+    ResponseModels: S.optional(RouteModels).pipe(T.JsonName("responseModels")),
+    ResponseParameters: S.optional(RouteParameters).pipe(
+      T.JsonName("responseParameters"),
+    ),
+    RouteResponseId: S.optional(S.String).pipe(T.JsonName("routeResponseId")),
+    RouteResponseKey: S.String.pipe(T.JsonName("routeResponseKey")),
+  }),
+).annotations({
+  identifier: "RouteResponse",
+}) as any as S.Schema<RouteResponse>;
+export type __listOfRouteResponse = RouteResponse[];
 export const __listOfRouteResponse = S.Array(RouteResponse);
-export class Route extends S.Class<Route>("Route")({
-  ApiGatewayManaged: S.optional(S.Boolean).pipe(
-    T.JsonName("apiGatewayManaged"),
-  ),
-  ApiKeyRequired: S.optional(S.Boolean).pipe(T.JsonName("apiKeyRequired")),
-  AuthorizationScopes: S.optional(AuthorizationScopes).pipe(
-    T.JsonName("authorizationScopes"),
-  ),
-  AuthorizationType: S.optional(S.String).pipe(T.JsonName("authorizationType")),
-  AuthorizerId: S.optional(S.String).pipe(T.JsonName("authorizerId")),
-  ModelSelectionExpression: S.optional(S.String).pipe(
-    T.JsonName("modelSelectionExpression"),
-  ),
-  OperationName: S.optional(S.String).pipe(T.JsonName("operationName")),
-  RequestModels: S.optional(RouteModels).pipe(T.JsonName("requestModels")),
-  RequestParameters: S.optional(RouteParameters).pipe(
-    T.JsonName("requestParameters"),
-  ),
-  RouteId: S.optional(S.String).pipe(T.JsonName("routeId")),
-  RouteKey: S.String.pipe(T.JsonName("routeKey")),
-  RouteResponseSelectionExpression: S.optional(S.String).pipe(
-    T.JsonName("routeResponseSelectionExpression"),
-  ),
-  Target: S.optional(S.String).pipe(T.JsonName("target")),
-}) {}
+export interface Route {
+  ApiGatewayManaged?: boolean;
+  ApiKeyRequired?: boolean;
+  AuthorizationScopes?: AuthorizationScopes;
+  AuthorizationType?: string;
+  AuthorizerId?: string;
+  ModelSelectionExpression?: string;
+  OperationName?: string;
+  RequestModels?: RouteModels;
+  RequestParameters?: RouteParameters;
+  RouteId?: string;
+  RouteKey: string;
+  RouteResponseSelectionExpression?: string;
+  Target?: string;
+}
+export const Route = S.suspend(() =>
+  S.Struct({
+    ApiGatewayManaged: S.optional(S.Boolean).pipe(
+      T.JsonName("apiGatewayManaged"),
+    ),
+    ApiKeyRequired: S.optional(S.Boolean).pipe(T.JsonName("apiKeyRequired")),
+    AuthorizationScopes: S.optional(AuthorizationScopes).pipe(
+      T.JsonName("authorizationScopes"),
+    ),
+    AuthorizationType: S.optional(S.String).pipe(
+      T.JsonName("authorizationType"),
+    ),
+    AuthorizerId: S.optional(S.String).pipe(T.JsonName("authorizerId")),
+    ModelSelectionExpression: S.optional(S.String).pipe(
+      T.JsonName("modelSelectionExpression"),
+    ),
+    OperationName: S.optional(S.String).pipe(T.JsonName("operationName")),
+    RequestModels: S.optional(RouteModels).pipe(T.JsonName("requestModels")),
+    RequestParameters: S.optional(RouteParameters).pipe(
+      T.JsonName("requestParameters"),
+    ),
+    RouteId: S.optional(S.String).pipe(T.JsonName("routeId")),
+    RouteKey: S.String.pipe(T.JsonName("routeKey")),
+    RouteResponseSelectionExpression: S.optional(S.String).pipe(
+      T.JsonName("routeResponseSelectionExpression"),
+    ),
+    Target: S.optional(S.String).pipe(T.JsonName("target")),
+  }),
+).annotations({ identifier: "Route" }) as any as S.Schema<Route>;
+export type __listOfRoute = Route[];
 export const __listOfRoute = S.Array(Route);
-export class Stage extends S.Class<Stage>("Stage")({
-  AccessLogSettings: S.optional(AccessLogSettings).pipe(
-    T.JsonName("accessLogSettings"),
-  ),
-  ApiGatewayManaged: S.optional(S.Boolean).pipe(
-    T.JsonName("apiGatewayManaged"),
-  ),
-  AutoDeploy: S.optional(S.Boolean).pipe(T.JsonName("autoDeploy")),
-  ClientCertificateId: S.optional(S.String).pipe(
-    T.JsonName("clientCertificateId"),
-  ),
-  CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-    T.JsonName("createdDate"),
-  ),
-  DefaultRouteSettings: S.optional(RouteSettings).pipe(
-    T.JsonName("defaultRouteSettings"),
-  ),
-  DeploymentId: S.optional(S.String).pipe(T.JsonName("deploymentId")),
-  Description: S.optional(S.String).pipe(T.JsonName("description")),
-  LastDeploymentStatusMessage: S.optional(S.String).pipe(
-    T.JsonName("lastDeploymentStatusMessage"),
-  ),
-  LastUpdatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-    T.JsonName("lastUpdatedDate"),
-  ),
-  RouteSettings: S.optional(RouteSettingsMap).pipe(T.JsonName("routeSettings")),
-  StageName: S.String.pipe(T.JsonName("stageName")),
-  StageVariables: S.optional(StageVariablesMap).pipe(
-    T.JsonName("stageVariables"),
-  ),
-  Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-}) {}
+export interface Stage {
+  AccessLogSettings?: AccessLogSettings;
+  ApiGatewayManaged?: boolean;
+  AutoDeploy?: boolean;
+  ClientCertificateId?: string;
+  CreatedDate?: Date;
+  DefaultRouteSettings?: RouteSettings;
+  DeploymentId?: string;
+  Description?: string;
+  LastDeploymentStatusMessage?: string;
+  LastUpdatedDate?: Date;
+  RouteSettings?: RouteSettingsMap;
+  StageName: string;
+  StageVariables?: StageVariablesMap;
+  Tags?: Tags;
+}
+export const Stage = S.suspend(() =>
+  S.Struct({
+    AccessLogSettings: S.optional(AccessLogSettings)
+      .pipe(T.JsonName("accessLogSettings"))
+      .annotations({ identifier: "AccessLogSettings" }),
+    ApiGatewayManaged: S.optional(S.Boolean).pipe(
+      T.JsonName("apiGatewayManaged"),
+    ),
+    AutoDeploy: S.optional(S.Boolean).pipe(T.JsonName("autoDeploy")),
+    ClientCertificateId: S.optional(S.String).pipe(
+      T.JsonName("clientCertificateId"),
+    ),
+    CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.JsonName("createdDate"),
+    ),
+    DefaultRouteSettings: S.optional(RouteSettings)
+      .pipe(T.JsonName("defaultRouteSettings"))
+      .annotations({ identifier: "RouteSettings" }),
+    DeploymentId: S.optional(S.String).pipe(T.JsonName("deploymentId")),
+    Description: S.optional(S.String).pipe(T.JsonName("description")),
+    LastDeploymentStatusMessage: S.optional(S.String).pipe(
+      T.JsonName("lastDeploymentStatusMessage"),
+    ),
+    LastUpdatedDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.JsonName("lastUpdatedDate")),
+    RouteSettings: S.optional(RouteSettingsMap).pipe(
+      T.JsonName("routeSettings"),
+    ),
+    StageName: S.String.pipe(T.JsonName("stageName")),
+    StageVariables: S.optional(StageVariablesMap).pipe(
+      T.JsonName("stageVariables"),
+    ),
+    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
+  }),
+).annotations({ identifier: "Stage" }) as any as S.Schema<Stage>;
+export type __listOfStage = Stage[];
 export const __listOfStage = S.Array(Stage);
-export class VpcLink extends S.Class<VpcLink>("VpcLink")({
-  CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-    T.JsonName("createdDate"),
-  ),
-  Name: S.String.pipe(T.JsonName("name")),
-  SecurityGroupIds: SecurityGroupIdList.pipe(T.JsonName("securityGroupIds")),
-  SubnetIds: SubnetIdList.pipe(T.JsonName("subnetIds")),
-  Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  VpcLinkId: S.String.pipe(T.JsonName("vpcLinkId")),
-  VpcLinkStatus: S.optional(S.String).pipe(T.JsonName("vpcLinkStatus")),
-  VpcLinkStatusMessage: S.optional(S.String).pipe(
-    T.JsonName("vpcLinkStatusMessage"),
-  ),
-  VpcLinkVersion: S.optional(S.String).pipe(T.JsonName("vpcLinkVersion")),
-}) {}
+export interface VpcLink {
+  CreatedDate?: Date;
+  Name: string;
+  SecurityGroupIds: SecurityGroupIdList;
+  SubnetIds: SubnetIdList;
+  Tags?: Tags;
+  VpcLinkId: string;
+  VpcLinkStatus?: string;
+  VpcLinkStatusMessage?: string;
+  VpcLinkVersion?: string;
+}
+export const VpcLink = S.suspend(() =>
+  S.Struct({
+    CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.JsonName("createdDate"),
+    ),
+    Name: S.String.pipe(T.JsonName("name")),
+    SecurityGroupIds: SecurityGroupIdList.pipe(T.JsonName("securityGroupIds")),
+    SubnetIds: SubnetIdList.pipe(T.JsonName("subnetIds")),
+    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
+    VpcLinkId: S.String.pipe(T.JsonName("vpcLinkId")),
+    VpcLinkStatus: S.optional(S.String).pipe(T.JsonName("vpcLinkStatus")),
+    VpcLinkStatusMessage: S.optional(S.String).pipe(
+      T.JsonName("vpcLinkStatusMessage"),
+    ),
+    VpcLinkVersion: S.optional(S.String).pipe(T.JsonName("vpcLinkVersion")),
+  }),
+).annotations({ identifier: "VpcLink" }) as any as S.Schema<VpcLink>;
+export type __listOfVpcLink = VpcLink[];
 export const __listOfVpcLink = S.Array(VpcLink);
-export class PortalProductSummary extends S.Class<PortalProductSummary>(
-  "PortalProductSummary",
-)({
-  Description: S.String.pipe(T.JsonName("description")),
-  DisplayName: S.String.pipe(T.JsonName("displayName")),
-  LastModified: S.Date.pipe(T.TimestampFormat("date-time")).pipe(
-    T.JsonName("lastModified"),
-  ),
-  PortalProductArn: S.String.pipe(T.JsonName("portalProductArn")),
-  PortalProductId: S.String.pipe(T.JsonName("portalProductId")),
-  Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-}) {}
+export interface PortalProductSummary {
+  Description: string;
+  DisplayName: string;
+  LastModified: Date;
+  PortalProductArn: string;
+  PortalProductId: string;
+  Tags?: Tags;
+}
+export const PortalProductSummary = S.suspend(() =>
+  S.Struct({
+    Description: S.String.pipe(T.JsonName("description")),
+    DisplayName: S.String.pipe(T.JsonName("displayName")),
+    LastModified: S.Date.pipe(T.TimestampFormat("date-time")).pipe(
+      T.JsonName("lastModified"),
+    ),
+    PortalProductArn: S.String.pipe(T.JsonName("portalProductArn")),
+    PortalProductId: S.String.pipe(T.JsonName("portalProductId")),
+    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
+  }),
+).annotations({
+  identifier: "PortalProductSummary",
+}) as any as S.Schema<PortalProductSummary>;
+export type __listOfPortalProductSummary = PortalProductSummary[];
 export const __listOfPortalProductSummary = S.Array(PortalProductSummary);
-export class PortalSummary extends S.Class<PortalSummary>("PortalSummary")({
-  Authorization: Authorization.pipe(T.JsonName("authorization")),
-  EndpointConfiguration: EndpointConfigurationResponse.pipe(
-    T.JsonName("endpointConfiguration"),
-  ),
-  IncludedPortalProductArns: __listOf__stringMin20Max2048.pipe(
-    T.JsonName("includedPortalProductArns"),
-  ),
-  LastModified: S.Date.pipe(T.TimestampFormat("date-time")).pipe(
-    T.JsonName("lastModified"),
-  ),
-  LastPublished: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-    T.JsonName("lastPublished"),
-  ),
-  LastPublishedDescription: S.optional(S.String).pipe(
-    T.JsonName("lastPublishedDescription"),
-  ),
-  PortalArn: S.String.pipe(T.JsonName("portalArn")),
-  PortalContent: PortalContent.pipe(T.JsonName("portalContent")),
-  PortalId: S.String.pipe(T.JsonName("portalId")),
-  Preview: S.optional(Preview).pipe(T.JsonName("preview")),
-  PublishStatus: S.optional(S.String).pipe(T.JsonName("publishStatus")),
-  RumAppMonitorName: S.optional(S.String).pipe(T.JsonName("rumAppMonitorName")),
-  StatusException: S.optional(StatusException).pipe(
-    T.JsonName("statusException"),
-  ),
-  Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-}) {}
+export interface PortalSummary {
+  Authorization: Authorization;
+  EndpointConfiguration: EndpointConfigurationResponse;
+  IncludedPortalProductArns: __listOf__stringMin20Max2048;
+  LastModified: Date;
+  LastPublished?: Date;
+  LastPublishedDescription?: string;
+  PortalArn: string;
+  PortalContent: PortalContent;
+  PortalId: string;
+  Preview?: Preview;
+  PublishStatus?: string;
+  RumAppMonitorName?: string;
+  StatusException?: StatusException;
+  Tags?: Tags;
+}
+export const PortalSummary = S.suspend(() =>
+  S.Struct({
+    Authorization: Authorization.pipe(T.JsonName("authorization")).annotations({
+      identifier: "Authorization",
+    }),
+    EndpointConfiguration: EndpointConfigurationResponse.pipe(
+      T.JsonName("endpointConfiguration"),
+    ).annotations({ identifier: "EndpointConfigurationResponse" }),
+    IncludedPortalProductArns: __listOf__stringMin20Max2048.pipe(
+      T.JsonName("includedPortalProductArns"),
+    ),
+    LastModified: S.Date.pipe(T.TimestampFormat("date-time")).pipe(
+      T.JsonName("lastModified"),
+    ),
+    LastPublished: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.JsonName("lastPublished"),
+    ),
+    LastPublishedDescription: S.optional(S.String).pipe(
+      T.JsonName("lastPublishedDescription"),
+    ),
+    PortalArn: S.String.pipe(T.JsonName("portalArn")),
+    PortalContent: PortalContent.pipe(T.JsonName("portalContent")).annotations({
+      identifier: "PortalContent",
+    }),
+    PortalId: S.String.pipe(T.JsonName("portalId")),
+    Preview: S.optional(Preview)
+      .pipe(T.JsonName("preview"))
+      .annotations({ identifier: "Preview" }),
+    PublishStatus: S.optional(S.String).pipe(T.JsonName("publishStatus")),
+    RumAppMonitorName: S.optional(S.String).pipe(
+      T.JsonName("rumAppMonitorName"),
+    ),
+    StatusException: S.optional(StatusException)
+      .pipe(T.JsonName("statusException"))
+      .annotations({ identifier: "StatusException" }),
+    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
+  }),
+).annotations({
+  identifier: "PortalSummary",
+}) as any as S.Schema<PortalSummary>;
+export type __listOfPortalSummary = PortalSummary[];
 export const __listOfPortalSummary = S.Array(PortalSummary);
-export class ProductPageSummaryNoBody extends S.Class<ProductPageSummaryNoBody>(
-  "ProductPageSummaryNoBody",
-)({
-  LastModified: S.Date.pipe(T.TimestampFormat("date-time")).pipe(
-    T.JsonName("lastModified"),
-  ),
-  PageTitle: S.String.pipe(T.JsonName("pageTitle")),
-  ProductPageArn: S.String.pipe(T.JsonName("productPageArn")),
-  ProductPageId: S.String.pipe(T.JsonName("productPageId")),
-}) {}
+export interface ProductPageSummaryNoBody {
+  LastModified: Date;
+  PageTitle: string;
+  ProductPageArn: string;
+  ProductPageId: string;
+}
+export const ProductPageSummaryNoBody = S.suspend(() =>
+  S.Struct({
+    LastModified: S.Date.pipe(T.TimestampFormat("date-time")).pipe(
+      T.JsonName("lastModified"),
+    ),
+    PageTitle: S.String.pipe(T.JsonName("pageTitle")),
+    ProductPageArn: S.String.pipe(T.JsonName("productPageArn")),
+    ProductPageId: S.String.pipe(T.JsonName("productPageId")),
+  }),
+).annotations({
+  identifier: "ProductPageSummaryNoBody",
+}) as any as S.Schema<ProductPageSummaryNoBody>;
+export type __listOfProductPageSummaryNoBody = ProductPageSummaryNoBody[];
 export const __listOfProductPageSummaryNoBody = S.Array(
   ProductPageSummaryNoBody,
 );
-export class ProductRestEndpointPageSummaryNoBody extends S.Class<ProductRestEndpointPageSummaryNoBody>(
-  "ProductRestEndpointPageSummaryNoBody",
-)({
-  Endpoint: S.String.pipe(T.JsonName("endpoint")),
-  LastModified: S.Date.pipe(T.TimestampFormat("date-time")).pipe(
-    T.JsonName("lastModified"),
-  ),
-  OperationName: S.optional(S.String).pipe(T.JsonName("operationName")),
-  ProductRestEndpointPageArn: S.String.pipe(
-    T.JsonName("productRestEndpointPageArn"),
-  ),
-  ProductRestEndpointPageId: S.String.pipe(
-    T.JsonName("productRestEndpointPageId"),
-  ),
-  RestEndpointIdentifier: RestEndpointIdentifier.pipe(
-    T.JsonName("restEndpointIdentifier"),
-  ),
-  Status: S.String.pipe(T.JsonName("status")),
-  StatusException: S.optional(StatusException).pipe(
-    T.JsonName("statusException"),
-  ),
-  TryItState: S.String.pipe(T.JsonName("tryItState")),
-}) {}
+export interface ProductRestEndpointPageSummaryNoBody {
+  Endpoint: string;
+  LastModified: Date;
+  OperationName?: string;
+  ProductRestEndpointPageArn: string;
+  ProductRestEndpointPageId: string;
+  RestEndpointIdentifier: RestEndpointIdentifier;
+  Status: string;
+  StatusException?: StatusException;
+  TryItState: string;
+}
+export const ProductRestEndpointPageSummaryNoBody = S.suspend(() =>
+  S.Struct({
+    Endpoint: S.String.pipe(T.JsonName("endpoint")),
+    LastModified: S.Date.pipe(T.TimestampFormat("date-time")).pipe(
+      T.JsonName("lastModified"),
+    ),
+    OperationName: S.optional(S.String).pipe(T.JsonName("operationName")),
+    ProductRestEndpointPageArn: S.String.pipe(
+      T.JsonName("productRestEndpointPageArn"),
+    ),
+    ProductRestEndpointPageId: S.String.pipe(
+      T.JsonName("productRestEndpointPageId"),
+    ),
+    RestEndpointIdentifier: RestEndpointIdentifier.pipe(
+      T.JsonName("restEndpointIdentifier"),
+    ).annotations({ identifier: "RestEndpointIdentifier" }),
+    Status: S.String.pipe(T.JsonName("status")),
+    StatusException: S.optional(StatusException)
+      .pipe(T.JsonName("statusException"))
+      .annotations({ identifier: "StatusException" }),
+    TryItState: S.String.pipe(T.JsonName("tryItState")),
+  }),
+).annotations({
+  identifier: "ProductRestEndpointPageSummaryNoBody",
+}) as any as S.Schema<ProductRestEndpointPageSummaryNoBody>;
+export type __listOfProductRestEndpointPageSummaryNoBody =
+  ProductRestEndpointPageSummaryNoBody[];
 export const __listOfProductRestEndpointPageSummaryNoBody = S.Array(
   ProductRestEndpointPageSummaryNoBody,
 );
-export class RoutingRule extends S.Class<RoutingRule>("RoutingRule")({
-  Actions: S.optional(__listOfRoutingRuleAction).pipe(T.JsonName("actions")),
-  Conditions: S.optional(__listOfRoutingRuleCondition).pipe(
-    T.JsonName("conditions"),
-  ),
-  Priority: S.optional(S.Number).pipe(T.JsonName("priority")),
-  RoutingRuleArn: S.optional(S.String).pipe(T.JsonName("routingRuleArn")),
-  RoutingRuleId: S.optional(S.String).pipe(T.JsonName("routingRuleId")),
-}) {}
-export const __listOfRoutingRule = S.Array(RoutingRule);
-export class CreateApiResponse extends S.Class<CreateApiResponse>(
-  "CreateApiResponse",
-)({
-  ApiEndpoint: S.optional(S.String).pipe(T.JsonName("apiEndpoint")),
-  ApiGatewayManaged: S.optional(S.Boolean).pipe(
-    T.JsonName("apiGatewayManaged"),
-  ),
-  ApiId: S.optional(S.String).pipe(T.JsonName("apiId")),
-  ApiKeySelectionExpression: S.optional(S.String).pipe(
-    T.JsonName("apiKeySelectionExpression"),
-  ),
-  CorsConfiguration: S.optional(Cors).pipe(T.JsonName("corsConfiguration")),
-  CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-    T.JsonName("createdDate"),
-  ),
-  Description: S.optional(S.String).pipe(T.JsonName("description")),
-  DisableSchemaValidation: S.optional(S.Boolean).pipe(
-    T.JsonName("disableSchemaValidation"),
-  ),
-  DisableExecuteApiEndpoint: S.optional(S.Boolean).pipe(
-    T.JsonName("disableExecuteApiEndpoint"),
-  ),
-  ImportInfo: S.optional(__listOf__string).pipe(T.JsonName("importInfo")),
-  IpAddressType: S.optional(S.String).pipe(T.JsonName("ipAddressType")),
-  Name: S.optional(S.String).pipe(T.JsonName("name")),
-  ProtocolType: S.optional(S.String).pipe(T.JsonName("protocolType")),
-  RouteSelectionExpression: S.optional(S.String).pipe(
-    T.JsonName("routeSelectionExpression"),
-  ),
-  Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  Version: S.optional(S.String).pipe(T.JsonName("version")),
-  Warnings: S.optional(__listOf__string).pipe(T.JsonName("warnings")),
-}) {}
-export class CreateAuthorizerResponse extends S.Class<CreateAuthorizerResponse>(
-  "CreateAuthorizerResponse",
-)({
-  AuthorizerCredentialsArn: S.optional(S.String).pipe(
-    T.JsonName("authorizerCredentialsArn"),
-  ),
-  AuthorizerId: S.optional(S.String).pipe(T.JsonName("authorizerId")),
-  AuthorizerPayloadFormatVersion: S.optional(S.String).pipe(
-    T.JsonName("authorizerPayloadFormatVersion"),
-  ),
-  AuthorizerResultTtlInSeconds: S.optional(S.Number).pipe(
-    T.JsonName("authorizerResultTtlInSeconds"),
-  ),
-  AuthorizerType: S.optional(S.String).pipe(T.JsonName("authorizerType")),
-  AuthorizerUri: S.optional(S.String).pipe(T.JsonName("authorizerUri")),
-  EnableSimpleResponses: S.optional(S.Boolean).pipe(
-    T.JsonName("enableSimpleResponses"),
-  ),
-  IdentitySource: S.optional(IdentitySourceList).pipe(
-    T.JsonName("identitySource"),
-  ),
-  IdentityValidationExpression: S.optional(S.String).pipe(
-    T.JsonName("identityValidationExpression"),
-  ),
-  JwtConfiguration: S.optional(JWTConfiguration).pipe(
-    T.JsonName("jwtConfiguration"),
-  ),
-  Name: S.optional(S.String).pipe(T.JsonName("name")),
-}) {}
-export class CreateDomainNameResponse extends S.Class<CreateDomainNameResponse>(
-  "CreateDomainNameResponse",
-)({
-  ApiMappingSelectionExpression: S.optional(S.String).pipe(
-    T.JsonName("apiMappingSelectionExpression"),
-  ),
-  DomainName: S.optional(S.String).pipe(T.JsonName("domainName")),
-  DomainNameArn: S.optional(S.String).pipe(T.JsonName("domainNameArn")),
-  DomainNameConfigurations: S.optional(DomainNameConfigurations).pipe(
-    T.JsonName("domainNameConfigurations"),
-  ),
-  MutualTlsAuthentication: S.optional(MutualTlsAuthentication).pipe(
-    T.JsonName("mutualTlsAuthentication"),
-  ),
-  RoutingMode: S.optional(S.String).pipe(T.JsonName("routingMode")),
-  Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-}) {}
-export class CreateIntegrationResult extends S.Class<CreateIntegrationResult>(
-  "CreateIntegrationResult",
-)({
-  ApiGatewayManaged: S.optional(S.Boolean).pipe(
-    T.JsonName("apiGatewayManaged"),
-  ),
-  ConnectionId: S.optional(S.String).pipe(T.JsonName("connectionId")),
-  ConnectionType: S.optional(S.String).pipe(T.JsonName("connectionType")),
-  ContentHandlingStrategy: S.optional(S.String).pipe(
-    T.JsonName("contentHandlingStrategy"),
-  ),
-  CredentialsArn: S.optional(S.String).pipe(T.JsonName("credentialsArn")),
-  Description: S.optional(S.String).pipe(T.JsonName("description")),
-  IntegrationId: S.optional(S.String).pipe(T.JsonName("integrationId")),
-  IntegrationMethod: S.optional(S.String).pipe(T.JsonName("integrationMethod")),
-  IntegrationResponseSelectionExpression: S.optional(S.String).pipe(
-    T.JsonName("integrationResponseSelectionExpression"),
-  ),
-  IntegrationSubtype: S.optional(S.String).pipe(
-    T.JsonName("integrationSubtype"),
-  ),
-  IntegrationType: S.optional(S.String).pipe(T.JsonName("integrationType")),
-  IntegrationUri: S.optional(S.String).pipe(T.JsonName("integrationUri")),
-  PassthroughBehavior: S.optional(S.String).pipe(
-    T.JsonName("passthroughBehavior"),
-  ),
-  PayloadFormatVersion: S.optional(S.String).pipe(
-    T.JsonName("payloadFormatVersion"),
-  ),
-  RequestParameters: S.optional(IntegrationParameters).pipe(
-    T.JsonName("requestParameters"),
-  ),
-  RequestTemplates: S.optional(TemplateMap).pipe(
-    T.JsonName("requestTemplates"),
-  ),
-  ResponseParameters: S.optional(ResponseParameters).pipe(
-    T.JsonName("responseParameters"),
-  ),
-  TemplateSelectionExpression: S.optional(S.String).pipe(
-    T.JsonName("templateSelectionExpression"),
-  ),
-  TimeoutInMillis: S.optional(S.Number).pipe(T.JsonName("timeoutInMillis")),
-  TlsConfig: S.optional(TlsConfig).pipe(T.JsonName("tlsConfig")),
-}) {}
-export class CreateProductPageResponse extends S.Class<CreateProductPageResponse>(
-  "CreateProductPageResponse",
-)({
-  DisplayContent: S.optional(DisplayContent).pipe(T.JsonName("displayContent")),
-  LastModified: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-    T.JsonName("lastModified"),
-  ),
-  ProductPageArn: S.optional(S.String).pipe(T.JsonName("productPageArn")),
-  ProductPageId: S.optional(S.String).pipe(T.JsonName("productPageId")),
-}) {}
-export class CreateProductRestEndpointPageRequest extends S.Class<CreateProductRestEndpointPageRequest>(
-  "CreateProductRestEndpointPageRequest",
-)(
-  {
-    DisplayContent: S.optional(EndpointDisplayContent).pipe(
-      T.JsonName("displayContent"),
+export interface RoutingRule {
+  Actions?: __listOfRoutingRuleAction;
+  Conditions?: __listOfRoutingRuleCondition;
+  Priority?: number;
+  RoutingRuleArn?: string;
+  RoutingRuleId?: string;
+}
+export const RoutingRule = S.suspend(() =>
+  S.Struct({
+    Actions: S.optional(__listOfRoutingRuleAction).pipe(T.JsonName("actions")),
+    Conditions: S.optional(__listOfRoutingRuleCondition).pipe(
+      T.JsonName("conditions"),
     ),
+    Priority: S.optional(S.Number).pipe(T.JsonName("priority")),
+    RoutingRuleArn: S.optional(S.String).pipe(T.JsonName("routingRuleArn")),
+    RoutingRuleId: S.optional(S.String).pipe(T.JsonName("routingRuleId")),
+  }),
+).annotations({ identifier: "RoutingRule" }) as any as S.Schema<RoutingRule>;
+export type __listOfRoutingRule = RoutingRule[];
+export const __listOfRoutingRule = S.Array(RoutingRule);
+export interface CreateApiResponse {
+  ApiEndpoint?: string;
+  ApiGatewayManaged?: boolean;
+  ApiId?: string;
+  ApiKeySelectionExpression?: string;
+  CorsConfiguration?: Cors;
+  CreatedDate?: Date;
+  Description?: string;
+  DisableSchemaValidation?: boolean;
+  DisableExecuteApiEndpoint?: boolean;
+  ImportInfo?: __listOf__string;
+  IpAddressType?: string;
+  Name?: string;
+  ProtocolType?: string;
+  RouteSelectionExpression?: string;
+  Tags?: Tags;
+  Version?: string;
+  Warnings?: __listOf__string;
+}
+export const CreateApiResponse = S.suspend(() =>
+  S.Struct({
+    ApiEndpoint: S.optional(S.String).pipe(T.JsonName("apiEndpoint")),
+    ApiGatewayManaged: S.optional(S.Boolean).pipe(
+      T.JsonName("apiGatewayManaged"),
+    ),
+    ApiId: S.optional(S.String).pipe(T.JsonName("apiId")),
+    ApiKeySelectionExpression: S.optional(S.String).pipe(
+      T.JsonName("apiKeySelectionExpression"),
+    ),
+    CorsConfiguration: S.optional(Cors)
+      .pipe(T.JsonName("corsConfiguration"))
+      .annotations({ identifier: "Cors" }),
+    CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.JsonName("createdDate"),
+    ),
+    Description: S.optional(S.String).pipe(T.JsonName("description")),
+    DisableSchemaValidation: S.optional(S.Boolean).pipe(
+      T.JsonName("disableSchemaValidation"),
+    ),
+    DisableExecuteApiEndpoint: S.optional(S.Boolean).pipe(
+      T.JsonName("disableExecuteApiEndpoint"),
+    ),
+    ImportInfo: S.optional(__listOf__string).pipe(T.JsonName("importInfo")),
+    IpAddressType: S.optional(S.String).pipe(T.JsonName("ipAddressType")),
+    Name: S.optional(S.String).pipe(T.JsonName("name")),
+    ProtocolType: S.optional(S.String).pipe(T.JsonName("protocolType")),
+    RouteSelectionExpression: S.optional(S.String).pipe(
+      T.JsonName("routeSelectionExpression"),
+    ),
+    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
+    Version: S.optional(S.String).pipe(T.JsonName("version")),
+    Warnings: S.optional(__listOf__string).pipe(T.JsonName("warnings")),
+  }),
+).annotations({
+  identifier: "CreateApiResponse",
+}) as any as S.Schema<CreateApiResponse>;
+export interface CreateAuthorizerResponse {
+  AuthorizerCredentialsArn?: string;
+  AuthorizerId?: string;
+  AuthorizerPayloadFormatVersion?: string;
+  AuthorizerResultTtlInSeconds?: number;
+  AuthorizerType?: string;
+  AuthorizerUri?: string;
+  EnableSimpleResponses?: boolean;
+  IdentitySource?: IdentitySourceList;
+  IdentityValidationExpression?: string;
+  JwtConfiguration?: JWTConfiguration;
+  Name?: string;
+}
+export const CreateAuthorizerResponse = S.suspend(() =>
+  S.Struct({
+    AuthorizerCredentialsArn: S.optional(S.String).pipe(
+      T.JsonName("authorizerCredentialsArn"),
+    ),
+    AuthorizerId: S.optional(S.String).pipe(T.JsonName("authorizerId")),
+    AuthorizerPayloadFormatVersion: S.optional(S.String).pipe(
+      T.JsonName("authorizerPayloadFormatVersion"),
+    ),
+    AuthorizerResultTtlInSeconds: S.optional(S.Number).pipe(
+      T.JsonName("authorizerResultTtlInSeconds"),
+    ),
+    AuthorizerType: S.optional(S.String).pipe(T.JsonName("authorizerType")),
+    AuthorizerUri: S.optional(S.String).pipe(T.JsonName("authorizerUri")),
+    EnableSimpleResponses: S.optional(S.Boolean).pipe(
+      T.JsonName("enableSimpleResponses"),
+    ),
+    IdentitySource: S.optional(IdentitySourceList).pipe(
+      T.JsonName("identitySource"),
+    ),
+    IdentityValidationExpression: S.optional(S.String).pipe(
+      T.JsonName("identityValidationExpression"),
+    ),
+    JwtConfiguration: S.optional(JWTConfiguration)
+      .pipe(T.JsonName("jwtConfiguration"))
+      .annotations({ identifier: "JWTConfiguration" }),
+    Name: S.optional(S.String).pipe(T.JsonName("name")),
+  }),
+).annotations({
+  identifier: "CreateAuthorizerResponse",
+}) as any as S.Schema<CreateAuthorizerResponse>;
+export interface CreateDomainNameResponse {
+  ApiMappingSelectionExpression?: string;
+  DomainName?: string;
+  DomainNameArn?: string;
+  DomainNameConfigurations?: DomainNameConfigurations;
+  MutualTlsAuthentication?: MutualTlsAuthentication;
+  RoutingMode?: string;
+  Tags?: Tags;
+}
+export const CreateDomainNameResponse = S.suspend(() =>
+  S.Struct({
+    ApiMappingSelectionExpression: S.optional(S.String).pipe(
+      T.JsonName("apiMappingSelectionExpression"),
+    ),
+    DomainName: S.optional(S.String).pipe(T.JsonName("domainName")),
+    DomainNameArn: S.optional(S.String).pipe(T.JsonName("domainNameArn")),
+    DomainNameConfigurations: S.optional(DomainNameConfigurations).pipe(
+      T.JsonName("domainNameConfigurations"),
+    ),
+    MutualTlsAuthentication: S.optional(MutualTlsAuthentication)
+      .pipe(T.JsonName("mutualTlsAuthentication"))
+      .annotations({ identifier: "MutualTlsAuthentication" }),
+    RoutingMode: S.optional(S.String).pipe(T.JsonName("routingMode")),
+    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
+  }),
+).annotations({
+  identifier: "CreateDomainNameResponse",
+}) as any as S.Schema<CreateDomainNameResponse>;
+export interface CreateIntegrationResult {
+  ApiGatewayManaged?: boolean;
+  ConnectionId?: string;
+  ConnectionType?: string;
+  ContentHandlingStrategy?: string;
+  CredentialsArn?: string;
+  Description?: string;
+  IntegrationId?: string;
+  IntegrationMethod?: string;
+  IntegrationResponseSelectionExpression?: string;
+  IntegrationSubtype?: string;
+  IntegrationType?: string;
+  IntegrationUri?: string;
+  PassthroughBehavior?: string;
+  PayloadFormatVersion?: string;
+  RequestParameters?: IntegrationParameters;
+  RequestTemplates?: TemplateMap;
+  ResponseParameters?: ResponseParameters;
+  TemplateSelectionExpression?: string;
+  TimeoutInMillis?: number;
+  TlsConfig?: TlsConfig;
+}
+export const CreateIntegrationResult = S.suspend(() =>
+  S.Struct({
+    ApiGatewayManaged: S.optional(S.Boolean).pipe(
+      T.JsonName("apiGatewayManaged"),
+    ),
+    ConnectionId: S.optional(S.String).pipe(T.JsonName("connectionId")),
+    ConnectionType: S.optional(S.String).pipe(T.JsonName("connectionType")),
+    ContentHandlingStrategy: S.optional(S.String).pipe(
+      T.JsonName("contentHandlingStrategy"),
+    ),
+    CredentialsArn: S.optional(S.String).pipe(T.JsonName("credentialsArn")),
+    Description: S.optional(S.String).pipe(T.JsonName("description")),
+    IntegrationId: S.optional(S.String).pipe(T.JsonName("integrationId")),
+    IntegrationMethod: S.optional(S.String).pipe(
+      T.JsonName("integrationMethod"),
+    ),
+    IntegrationResponseSelectionExpression: S.optional(S.String).pipe(
+      T.JsonName("integrationResponseSelectionExpression"),
+    ),
+    IntegrationSubtype: S.optional(S.String).pipe(
+      T.JsonName("integrationSubtype"),
+    ),
+    IntegrationType: S.optional(S.String).pipe(T.JsonName("integrationType")),
+    IntegrationUri: S.optional(S.String).pipe(T.JsonName("integrationUri")),
+    PassthroughBehavior: S.optional(S.String).pipe(
+      T.JsonName("passthroughBehavior"),
+    ),
+    PayloadFormatVersion: S.optional(S.String).pipe(
+      T.JsonName("payloadFormatVersion"),
+    ),
+    RequestParameters: S.optional(IntegrationParameters).pipe(
+      T.JsonName("requestParameters"),
+    ),
+    RequestTemplates: S.optional(TemplateMap).pipe(
+      T.JsonName("requestTemplates"),
+    ),
+    ResponseParameters: S.optional(ResponseParameters).pipe(
+      T.JsonName("responseParameters"),
+    ),
+    TemplateSelectionExpression: S.optional(S.String).pipe(
+      T.JsonName("templateSelectionExpression"),
+    ),
+    TimeoutInMillis: S.optional(S.Number).pipe(T.JsonName("timeoutInMillis")),
+    TlsConfig: S.optional(TlsConfig)
+      .pipe(T.JsonName("tlsConfig"))
+      .annotations({ identifier: "TlsConfig" }),
+  }),
+).annotations({
+  identifier: "CreateIntegrationResult",
+}) as any as S.Schema<CreateIntegrationResult>;
+export interface CreateProductPageResponse {
+  DisplayContent?: DisplayContent;
+  LastModified?: Date;
+  ProductPageArn?: string;
+  ProductPageId?: string;
+}
+export const CreateProductPageResponse = S.suspend(() =>
+  S.Struct({
+    DisplayContent: S.optional(DisplayContent)
+      .pipe(T.JsonName("displayContent"))
+      .annotations({ identifier: "DisplayContent" }),
+    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.JsonName("lastModified"),
+    ),
+    ProductPageArn: S.optional(S.String).pipe(T.JsonName("productPageArn")),
+    ProductPageId: S.optional(S.String).pipe(T.JsonName("productPageId")),
+  }),
+).annotations({
+  identifier: "CreateProductPageResponse",
+}) as any as S.Schema<CreateProductPageResponse>;
+export interface CreateProductRestEndpointPageRequest {
+  DisplayContent?: EndpointDisplayContent;
+  PortalProductId: string;
+  RestEndpointIdentifier: RestEndpointIdentifier;
+  TryItState?: string;
+}
+export const CreateProductRestEndpointPageRequest = S.suspend(() =>
+  S.Struct({
+    DisplayContent: S.optional(EndpointDisplayContent)
+      .pipe(T.JsonName("displayContent"))
+      .annotations({ identifier: "EndpointDisplayContent" }),
     PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")),
     RestEndpointIdentifier: RestEndpointIdentifier.pipe(
       T.JsonName("restEndpointIdentifier"),
-    ),
+    ).annotations({ identifier: "RestEndpointIdentifier" }),
     TryItState: S.optional(S.String).pipe(T.JsonName("tryItState")),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/v2/portalproducts/{PortalProductId}/productrestendpointpages",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/v2/portalproducts/{PortalProductId}/productrestendpointpages",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateRouteRequest extends S.Class<CreateRouteRequest>(
-  "CreateRouteRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateProductRestEndpointPageRequest",
+}) as any as S.Schema<CreateProductRestEndpointPageRequest>;
+export interface CreateRouteRequest {
+  ApiId: string;
+  ApiKeyRequired?: boolean;
+  AuthorizationScopes?: AuthorizationScopes;
+  AuthorizationType?: string;
+  AuthorizerId?: string;
+  ModelSelectionExpression?: string;
+  OperationName?: string;
+  RequestModels?: RouteModels;
+  RequestParameters?: RouteParameters;
+  RouteKey: string;
+  RouteResponseSelectionExpression?: string;
+  Target?: string;
+}
+export const CreateRouteRequest = S.suspend(() =>
+  S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     ApiKeyRequired: S.optional(S.Boolean).pipe(T.JsonName("apiKeyRequired")),
     AuthorizationScopes: S.optional(AuthorizationScopes).pipe(
@@ -3897,443 +5879,757 @@ export class CreateRouteRequest extends S.Class<CreateRouteRequest>(
       T.JsonName("routeResponseSelectionExpression"),
     ),
     Target: S.optional(S.String).pipe(T.JsonName("target")),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/v2/apis/{ApiId}/routes" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v2/apis/{ApiId}/routes" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateStageResponse extends S.Class<CreateStageResponse>(
-  "CreateStageResponse",
-)({
-  AccessLogSettings: S.optional(AccessLogSettings).pipe(
-    T.JsonName("accessLogSettings"),
-  ),
-  ApiGatewayManaged: S.optional(S.Boolean).pipe(
-    T.JsonName("apiGatewayManaged"),
-  ),
-  AutoDeploy: S.optional(S.Boolean).pipe(T.JsonName("autoDeploy")),
-  ClientCertificateId: S.optional(S.String).pipe(
-    T.JsonName("clientCertificateId"),
-  ),
-  CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-    T.JsonName("createdDate"),
-  ),
-  DefaultRouteSettings: S.optional(RouteSettings).pipe(
-    T.JsonName("defaultRouteSettings"),
-  ),
-  DeploymentId: S.optional(S.String).pipe(T.JsonName("deploymentId")),
-  Description: S.optional(S.String).pipe(T.JsonName("description")),
-  LastDeploymentStatusMessage: S.optional(S.String).pipe(
-    T.JsonName("lastDeploymentStatusMessage"),
-  ),
-  LastUpdatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-    T.JsonName("lastUpdatedDate"),
-  ),
-  RouteSettings: S.optional(RouteSettingsMap).pipe(T.JsonName("routeSettings")),
-  StageName: S.optional(S.String).pipe(T.JsonName("stageName")),
-  StageVariables: S.optional(StageVariablesMap).pipe(
-    T.JsonName("stageVariables"),
-  ),
-  Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-}) {}
-export class GetApiMappingsResponse extends S.Class<GetApiMappingsResponse>(
-  "GetApiMappingsResponse",
-)({
-  Items: S.optional(__listOfApiMapping).pipe(T.JsonName("items")),
-  NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-}) {}
-export class GetApisResponse extends S.Class<GetApisResponse>(
-  "GetApisResponse",
-)({
-  Items: S.optional(__listOfApi).pipe(T.JsonName("items")),
-  NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-}) {}
-export class GetAuthorizersResponse extends S.Class<GetAuthorizersResponse>(
-  "GetAuthorizersResponse",
-)({
-  Items: S.optional(__listOfAuthorizer).pipe(T.JsonName("items")),
-  NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-}) {}
-export class GetDeploymentsResponse extends S.Class<GetDeploymentsResponse>(
-  "GetDeploymentsResponse",
-)({
-  Items: S.optional(__listOfDeployment).pipe(T.JsonName("items")),
-  NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-}) {}
-export class GetDomainNameResponse extends S.Class<GetDomainNameResponse>(
-  "GetDomainNameResponse",
-)({
-  ApiMappingSelectionExpression: S.optional(S.String).pipe(
-    T.JsonName("apiMappingSelectionExpression"),
-  ),
-  DomainName: S.optional(S.String).pipe(T.JsonName("domainName")),
-  DomainNameArn: S.optional(S.String).pipe(T.JsonName("domainNameArn")),
-  DomainNameConfigurations: S.optional(DomainNameConfigurations).pipe(
-    T.JsonName("domainNameConfigurations"),
-  ),
-  MutualTlsAuthentication: S.optional(MutualTlsAuthentication).pipe(
-    T.JsonName("mutualTlsAuthentication"),
-  ),
-  RoutingMode: S.optional(S.String).pipe(T.JsonName("routingMode")),
-  Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-}) {}
-export class GetDomainNamesResponse extends S.Class<GetDomainNamesResponse>(
-  "GetDomainNamesResponse",
-)({
-  Items: S.optional(__listOfDomainName).pipe(T.JsonName("items")),
-  NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-}) {}
-export class GetIntegrationResult extends S.Class<GetIntegrationResult>(
-  "GetIntegrationResult",
-)({
-  ApiGatewayManaged: S.optional(S.Boolean).pipe(
-    T.JsonName("apiGatewayManaged"),
-  ),
-  ConnectionId: S.optional(S.String).pipe(T.JsonName("connectionId")),
-  ConnectionType: S.optional(S.String).pipe(T.JsonName("connectionType")),
-  ContentHandlingStrategy: S.optional(S.String).pipe(
-    T.JsonName("contentHandlingStrategy"),
-  ),
-  CredentialsArn: S.optional(S.String).pipe(T.JsonName("credentialsArn")),
-  Description: S.optional(S.String).pipe(T.JsonName("description")),
-  IntegrationId: S.optional(S.String).pipe(T.JsonName("integrationId")),
-  IntegrationMethod: S.optional(S.String).pipe(T.JsonName("integrationMethod")),
-  IntegrationResponseSelectionExpression: S.optional(S.String).pipe(
-    T.JsonName("integrationResponseSelectionExpression"),
-  ),
-  IntegrationSubtype: S.optional(S.String).pipe(
-    T.JsonName("integrationSubtype"),
-  ),
-  IntegrationType: S.optional(S.String).pipe(T.JsonName("integrationType")),
-  IntegrationUri: S.optional(S.String).pipe(T.JsonName("integrationUri")),
-  PassthroughBehavior: S.optional(S.String).pipe(
-    T.JsonName("passthroughBehavior"),
-  ),
-  PayloadFormatVersion: S.optional(S.String).pipe(
-    T.JsonName("payloadFormatVersion"),
-  ),
-  RequestParameters: S.optional(IntegrationParameters).pipe(
-    T.JsonName("requestParameters"),
-  ),
-  RequestTemplates: S.optional(TemplateMap).pipe(
-    T.JsonName("requestTemplates"),
-  ),
-  ResponseParameters: S.optional(ResponseParameters).pipe(
-    T.JsonName("responseParameters"),
-  ),
-  TemplateSelectionExpression: S.optional(S.String).pipe(
-    T.JsonName("templateSelectionExpression"),
-  ),
-  TimeoutInMillis: S.optional(S.Number).pipe(T.JsonName("timeoutInMillis")),
-  TlsConfig: S.optional(TlsConfig).pipe(T.JsonName("tlsConfig")),
-}) {}
-export class GetIntegrationResponsesResponse extends S.Class<GetIntegrationResponsesResponse>(
-  "GetIntegrationResponsesResponse",
-)({
-  Items: S.optional(__listOfIntegrationResponse).pipe(T.JsonName("items")),
-  NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-}) {}
-export class GetIntegrationsResponse extends S.Class<GetIntegrationsResponse>(
-  "GetIntegrationsResponse",
-)({
-  Items: S.optional(__listOfIntegration).pipe(T.JsonName("items")),
-  NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-}) {}
-export class GetModelsResponse extends S.Class<GetModelsResponse>(
-  "GetModelsResponse",
-)({
-  Items: S.optional(__listOfModel).pipe(T.JsonName("items")),
-  NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-}) {}
-export class GetPortalResponse extends S.Class<GetPortalResponse>(
-  "GetPortalResponse",
-)({
-  Authorization: S.optional(Authorization).pipe(T.JsonName("authorization")),
-  EndpointConfiguration: S.optional(EndpointConfigurationResponse).pipe(
-    T.JsonName("endpointConfiguration"),
-  ),
-  IncludedPortalProductArns: S.optional(__listOf__stringMin20Max2048).pipe(
-    T.JsonName("includedPortalProductArns"),
-  ),
-  LastModified: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-    T.JsonName("lastModified"),
-  ),
-  LastPublished: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-    T.JsonName("lastPublished"),
-  ),
-  LastPublishedDescription: S.optional(S.String).pipe(
-    T.JsonName("lastPublishedDescription"),
-  ),
-  PortalArn: S.optional(S.String).pipe(T.JsonName("portalArn")),
-  PortalContent: S.optional(PortalContent).pipe(T.JsonName("portalContent")),
-  PortalId: S.optional(S.String).pipe(T.JsonName("portalId")),
-  Preview: S.optional(Preview).pipe(T.JsonName("preview")),
-  PublishStatus: S.optional(S.String).pipe(T.JsonName("publishStatus")),
-  RumAppMonitorName: S.optional(S.String).pipe(T.JsonName("rumAppMonitorName")),
-  StatusException: S.optional(StatusException).pipe(
-    T.JsonName("statusException"),
-  ),
-  Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-}) {}
-export class GetProductRestEndpointPageResponse extends S.Class<GetProductRestEndpointPageResponse>(
-  "GetProductRestEndpointPageResponse",
-)({
-  DisplayContent: S.optional(EndpointDisplayContentResponse).pipe(
-    T.JsonName("displayContent"),
-  ),
-  LastModified: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-    T.JsonName("lastModified"),
-  ),
-  ProductRestEndpointPageArn: S.optional(S.String).pipe(
-    T.JsonName("productRestEndpointPageArn"),
-  ),
-  ProductRestEndpointPageId: S.optional(S.String).pipe(
-    T.JsonName("productRestEndpointPageId"),
-  ),
-  RawDisplayContent: S.optional(S.String).pipe(T.JsonName("rawDisplayContent")),
-  RestEndpointIdentifier: S.optional(RestEndpointIdentifier).pipe(
-    T.JsonName("restEndpointIdentifier"),
-  ),
-  Status: S.optional(S.String).pipe(T.JsonName("status")),
-  StatusException: S.optional(StatusException).pipe(
-    T.JsonName("statusException"),
-  ),
-  TryItState: S.optional(S.String).pipe(T.JsonName("tryItState")),
-}) {}
-export class GetRouteResponsesResponse extends S.Class<GetRouteResponsesResponse>(
-  "GetRouteResponsesResponse",
-)({
-  Items: S.optional(__listOfRouteResponse).pipe(T.JsonName("items")),
-  NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-}) {}
-export class GetRoutesResponse extends S.Class<GetRoutesResponse>(
-  "GetRoutesResponse",
-)({
-  Items: S.optional(__listOfRoute).pipe(T.JsonName("items")),
-  NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-}) {}
-export class GetStagesResponse extends S.Class<GetStagesResponse>(
-  "GetStagesResponse",
-)({
-  Items: S.optional(__listOfStage).pipe(T.JsonName("items")),
-  NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-}) {}
-export class GetVpcLinksResponse extends S.Class<GetVpcLinksResponse>(
-  "GetVpcLinksResponse",
-)({
-  Items: S.optional(__listOfVpcLink).pipe(T.JsonName("items")),
-  NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-}) {}
-export class ListPortalProductsResponse extends S.Class<ListPortalProductsResponse>(
-  "ListPortalProductsResponse",
-)({
-  Items: S.optional(__listOfPortalProductSummary).pipe(T.JsonName("items")),
-  NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-}) {}
-export class ListPortalsResponse extends S.Class<ListPortalsResponse>(
-  "ListPortalsResponse",
-)({
-  Items: S.optional(__listOfPortalSummary).pipe(T.JsonName("items")),
-  NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-}) {}
-export class ListProductPagesResponse extends S.Class<ListProductPagesResponse>(
-  "ListProductPagesResponse",
-)({
-  Items: S.optional(__listOfProductPageSummaryNoBody).pipe(T.JsonName("items")),
-  NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-}) {}
-export class ListProductRestEndpointPagesResponse extends S.Class<ListProductRestEndpointPagesResponse>(
-  "ListProductRestEndpointPagesResponse",
-)({
-  Items: S.optional(__listOfProductRestEndpointPageSummaryNoBody).pipe(
-    T.JsonName("items"),
-  ),
-  NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-}) {}
-export class ListRoutingRulesResponse extends S.Class<ListRoutingRulesResponse>(
-  "ListRoutingRulesResponse",
-)({
-  NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  RoutingRules: S.optional(__listOfRoutingRule).pipe(
-    T.JsonName("routingRules"),
-  ),
-}) {}
-export class UpdatePortalProductRequest extends S.Class<UpdatePortalProductRequest>(
-  "UpdatePortalProductRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateRouteRequest",
+}) as any as S.Schema<CreateRouteRequest>;
+export interface CreateStageResponse {
+  AccessLogSettings?: AccessLogSettings;
+  ApiGatewayManaged?: boolean;
+  AutoDeploy?: boolean;
+  ClientCertificateId?: string;
+  CreatedDate?: Date;
+  DefaultRouteSettings?: RouteSettings;
+  DeploymentId?: string;
+  Description?: string;
+  LastDeploymentStatusMessage?: string;
+  LastUpdatedDate?: Date;
+  RouteSettings?: RouteSettingsMap;
+  StageName?: string;
+  StageVariables?: StageVariablesMap;
+  Tags?: Tags;
+}
+export const CreateStageResponse = S.suspend(() =>
+  S.Struct({
+    AccessLogSettings: S.optional(AccessLogSettings)
+      .pipe(T.JsonName("accessLogSettings"))
+      .annotations({ identifier: "AccessLogSettings" }),
+    ApiGatewayManaged: S.optional(S.Boolean).pipe(
+      T.JsonName("apiGatewayManaged"),
+    ),
+    AutoDeploy: S.optional(S.Boolean).pipe(T.JsonName("autoDeploy")),
+    ClientCertificateId: S.optional(S.String).pipe(
+      T.JsonName("clientCertificateId"),
+    ),
+    CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.JsonName("createdDate"),
+    ),
+    DefaultRouteSettings: S.optional(RouteSettings)
+      .pipe(T.JsonName("defaultRouteSettings"))
+      .annotations({ identifier: "RouteSettings" }),
+    DeploymentId: S.optional(S.String).pipe(T.JsonName("deploymentId")),
+    Description: S.optional(S.String).pipe(T.JsonName("description")),
+    LastDeploymentStatusMessage: S.optional(S.String).pipe(
+      T.JsonName("lastDeploymentStatusMessage"),
+    ),
+    LastUpdatedDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.JsonName("lastUpdatedDate")),
+    RouteSettings: S.optional(RouteSettingsMap).pipe(
+      T.JsonName("routeSettings"),
+    ),
+    StageName: S.optional(S.String).pipe(T.JsonName("stageName")),
+    StageVariables: S.optional(StageVariablesMap).pipe(
+      T.JsonName("stageVariables"),
+    ),
+    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
+  }),
+).annotations({
+  identifier: "CreateStageResponse",
+}) as any as S.Schema<CreateStageResponse>;
+export interface GetApiMappingsResponse {
+  Items?: __listOfApiMapping;
+  NextToken?: string;
+}
+export const GetApiMappingsResponse = S.suspend(() =>
+  S.Struct({
+    Items: S.optional(__listOfApiMapping).pipe(T.JsonName("items")),
+    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
+  }),
+).annotations({
+  identifier: "GetApiMappingsResponse",
+}) as any as S.Schema<GetApiMappingsResponse>;
+export interface GetApisResponse {
+  Items?: __listOfApi;
+  NextToken?: string;
+}
+export const GetApisResponse = S.suspend(() =>
+  S.Struct({
+    Items: S.optional(__listOfApi).pipe(T.JsonName("items")),
+    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
+  }),
+).annotations({
+  identifier: "GetApisResponse",
+}) as any as S.Schema<GetApisResponse>;
+export interface GetAuthorizersResponse {
+  Items?: __listOfAuthorizer;
+  NextToken?: string;
+}
+export const GetAuthorizersResponse = S.suspend(() =>
+  S.Struct({
+    Items: S.optional(__listOfAuthorizer).pipe(T.JsonName("items")),
+    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
+  }),
+).annotations({
+  identifier: "GetAuthorizersResponse",
+}) as any as S.Schema<GetAuthorizersResponse>;
+export interface GetDeploymentsResponse {
+  Items?: __listOfDeployment;
+  NextToken?: string;
+}
+export const GetDeploymentsResponse = S.suspend(() =>
+  S.Struct({
+    Items: S.optional(__listOfDeployment).pipe(T.JsonName("items")),
+    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
+  }),
+).annotations({
+  identifier: "GetDeploymentsResponse",
+}) as any as S.Schema<GetDeploymentsResponse>;
+export interface GetDomainNameResponse {
+  ApiMappingSelectionExpression?: string;
+  DomainName?: string;
+  DomainNameArn?: string;
+  DomainNameConfigurations?: DomainNameConfigurations;
+  MutualTlsAuthentication?: MutualTlsAuthentication;
+  RoutingMode?: string;
+  Tags?: Tags;
+}
+export const GetDomainNameResponse = S.suspend(() =>
+  S.Struct({
+    ApiMappingSelectionExpression: S.optional(S.String).pipe(
+      T.JsonName("apiMappingSelectionExpression"),
+    ),
+    DomainName: S.optional(S.String).pipe(T.JsonName("domainName")),
+    DomainNameArn: S.optional(S.String).pipe(T.JsonName("domainNameArn")),
+    DomainNameConfigurations: S.optional(DomainNameConfigurations).pipe(
+      T.JsonName("domainNameConfigurations"),
+    ),
+    MutualTlsAuthentication: S.optional(MutualTlsAuthentication)
+      .pipe(T.JsonName("mutualTlsAuthentication"))
+      .annotations({ identifier: "MutualTlsAuthentication" }),
+    RoutingMode: S.optional(S.String).pipe(T.JsonName("routingMode")),
+    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
+  }),
+).annotations({
+  identifier: "GetDomainNameResponse",
+}) as any as S.Schema<GetDomainNameResponse>;
+export interface GetDomainNamesResponse {
+  Items?: __listOfDomainName;
+  NextToken?: string;
+}
+export const GetDomainNamesResponse = S.suspend(() =>
+  S.Struct({
+    Items: S.optional(__listOfDomainName).pipe(T.JsonName("items")),
+    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
+  }),
+).annotations({
+  identifier: "GetDomainNamesResponse",
+}) as any as S.Schema<GetDomainNamesResponse>;
+export interface GetIntegrationResult {
+  ApiGatewayManaged?: boolean;
+  ConnectionId?: string;
+  ConnectionType?: string;
+  ContentHandlingStrategy?: string;
+  CredentialsArn?: string;
+  Description?: string;
+  IntegrationId?: string;
+  IntegrationMethod?: string;
+  IntegrationResponseSelectionExpression?: string;
+  IntegrationSubtype?: string;
+  IntegrationType?: string;
+  IntegrationUri?: string;
+  PassthroughBehavior?: string;
+  PayloadFormatVersion?: string;
+  RequestParameters?: IntegrationParameters;
+  RequestTemplates?: TemplateMap;
+  ResponseParameters?: ResponseParameters;
+  TemplateSelectionExpression?: string;
+  TimeoutInMillis?: number;
+  TlsConfig?: TlsConfig;
+}
+export const GetIntegrationResult = S.suspend(() =>
+  S.Struct({
+    ApiGatewayManaged: S.optional(S.Boolean).pipe(
+      T.JsonName("apiGatewayManaged"),
+    ),
+    ConnectionId: S.optional(S.String).pipe(T.JsonName("connectionId")),
+    ConnectionType: S.optional(S.String).pipe(T.JsonName("connectionType")),
+    ContentHandlingStrategy: S.optional(S.String).pipe(
+      T.JsonName("contentHandlingStrategy"),
+    ),
+    CredentialsArn: S.optional(S.String).pipe(T.JsonName("credentialsArn")),
+    Description: S.optional(S.String).pipe(T.JsonName("description")),
+    IntegrationId: S.optional(S.String).pipe(T.JsonName("integrationId")),
+    IntegrationMethod: S.optional(S.String).pipe(
+      T.JsonName("integrationMethod"),
+    ),
+    IntegrationResponseSelectionExpression: S.optional(S.String).pipe(
+      T.JsonName("integrationResponseSelectionExpression"),
+    ),
+    IntegrationSubtype: S.optional(S.String).pipe(
+      T.JsonName("integrationSubtype"),
+    ),
+    IntegrationType: S.optional(S.String).pipe(T.JsonName("integrationType")),
+    IntegrationUri: S.optional(S.String).pipe(T.JsonName("integrationUri")),
+    PassthroughBehavior: S.optional(S.String).pipe(
+      T.JsonName("passthroughBehavior"),
+    ),
+    PayloadFormatVersion: S.optional(S.String).pipe(
+      T.JsonName("payloadFormatVersion"),
+    ),
+    RequestParameters: S.optional(IntegrationParameters).pipe(
+      T.JsonName("requestParameters"),
+    ),
+    RequestTemplates: S.optional(TemplateMap).pipe(
+      T.JsonName("requestTemplates"),
+    ),
+    ResponseParameters: S.optional(ResponseParameters).pipe(
+      T.JsonName("responseParameters"),
+    ),
+    TemplateSelectionExpression: S.optional(S.String).pipe(
+      T.JsonName("templateSelectionExpression"),
+    ),
+    TimeoutInMillis: S.optional(S.Number).pipe(T.JsonName("timeoutInMillis")),
+    TlsConfig: S.optional(TlsConfig)
+      .pipe(T.JsonName("tlsConfig"))
+      .annotations({ identifier: "TlsConfig" }),
+  }),
+).annotations({
+  identifier: "GetIntegrationResult",
+}) as any as S.Schema<GetIntegrationResult>;
+export interface GetIntegrationResponsesResponse {
+  Items?: __listOfIntegrationResponse;
+  NextToken?: string;
+}
+export const GetIntegrationResponsesResponse = S.suspend(() =>
+  S.Struct({
+    Items: S.optional(__listOfIntegrationResponse).pipe(T.JsonName("items")),
+    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
+  }),
+).annotations({
+  identifier: "GetIntegrationResponsesResponse",
+}) as any as S.Schema<GetIntegrationResponsesResponse>;
+export interface GetIntegrationsResponse {
+  Items?: __listOfIntegration;
+  NextToken?: string;
+}
+export const GetIntegrationsResponse = S.suspend(() =>
+  S.Struct({
+    Items: S.optional(__listOfIntegration).pipe(T.JsonName("items")),
+    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
+  }),
+).annotations({
+  identifier: "GetIntegrationsResponse",
+}) as any as S.Schema<GetIntegrationsResponse>;
+export interface GetModelsResponse {
+  Items?: __listOfModel;
+  NextToken?: string;
+}
+export const GetModelsResponse = S.suspend(() =>
+  S.Struct({
+    Items: S.optional(__listOfModel).pipe(T.JsonName("items")),
+    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
+  }),
+).annotations({
+  identifier: "GetModelsResponse",
+}) as any as S.Schema<GetModelsResponse>;
+export interface GetPortalResponse {
+  Authorization?: Authorization;
+  EndpointConfiguration?: EndpointConfigurationResponse;
+  IncludedPortalProductArns?: __listOf__stringMin20Max2048;
+  LastModified?: Date;
+  LastPublished?: Date;
+  LastPublishedDescription?: string;
+  PortalArn?: string;
+  PortalContent?: PortalContent;
+  PortalId?: string;
+  Preview?: Preview;
+  PublishStatus?: string;
+  RumAppMonitorName?: string;
+  StatusException?: StatusException;
+  Tags?: Tags;
+}
+export const GetPortalResponse = S.suspend(() =>
+  S.Struct({
+    Authorization: S.optional(Authorization)
+      .pipe(T.JsonName("authorization"))
+      .annotations({ identifier: "Authorization" }),
+    EndpointConfiguration: S.optional(EndpointConfigurationResponse)
+      .pipe(T.JsonName("endpointConfiguration"))
+      .annotations({ identifier: "EndpointConfigurationResponse" }),
+    IncludedPortalProductArns: S.optional(__listOf__stringMin20Max2048).pipe(
+      T.JsonName("includedPortalProductArns"),
+    ),
+    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.JsonName("lastModified"),
+    ),
+    LastPublished: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.JsonName("lastPublished"),
+    ),
+    LastPublishedDescription: S.optional(S.String).pipe(
+      T.JsonName("lastPublishedDescription"),
+    ),
+    PortalArn: S.optional(S.String).pipe(T.JsonName("portalArn")),
+    PortalContent: S.optional(PortalContent)
+      .pipe(T.JsonName("portalContent"))
+      .annotations({ identifier: "PortalContent" }),
+    PortalId: S.optional(S.String).pipe(T.JsonName("portalId")),
+    Preview: S.optional(Preview)
+      .pipe(T.JsonName("preview"))
+      .annotations({ identifier: "Preview" }),
+    PublishStatus: S.optional(S.String).pipe(T.JsonName("publishStatus")),
+    RumAppMonitorName: S.optional(S.String).pipe(
+      T.JsonName("rumAppMonitorName"),
+    ),
+    StatusException: S.optional(StatusException)
+      .pipe(T.JsonName("statusException"))
+      .annotations({ identifier: "StatusException" }),
+    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
+  }),
+).annotations({
+  identifier: "GetPortalResponse",
+}) as any as S.Schema<GetPortalResponse>;
+export interface GetProductRestEndpointPageResponse {
+  DisplayContent?: EndpointDisplayContentResponse;
+  LastModified?: Date;
+  ProductRestEndpointPageArn?: string;
+  ProductRestEndpointPageId?: string;
+  RawDisplayContent?: string;
+  RestEndpointIdentifier?: RestEndpointIdentifier;
+  Status?: string;
+  StatusException?: StatusException;
+  TryItState?: string;
+}
+export const GetProductRestEndpointPageResponse = S.suspend(() =>
+  S.Struct({
+    DisplayContent: S.optional(EndpointDisplayContentResponse)
+      .pipe(T.JsonName("displayContent"))
+      .annotations({ identifier: "EndpointDisplayContentResponse" }),
+    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.JsonName("lastModified"),
+    ),
+    ProductRestEndpointPageArn: S.optional(S.String).pipe(
+      T.JsonName("productRestEndpointPageArn"),
+    ),
+    ProductRestEndpointPageId: S.optional(S.String).pipe(
+      T.JsonName("productRestEndpointPageId"),
+    ),
+    RawDisplayContent: S.optional(S.String).pipe(
+      T.JsonName("rawDisplayContent"),
+    ),
+    RestEndpointIdentifier: S.optional(RestEndpointIdentifier)
+      .pipe(T.JsonName("restEndpointIdentifier"))
+      .annotations({ identifier: "RestEndpointIdentifier" }),
+    Status: S.optional(S.String).pipe(T.JsonName("status")),
+    StatusException: S.optional(StatusException)
+      .pipe(T.JsonName("statusException"))
+      .annotations({ identifier: "StatusException" }),
+    TryItState: S.optional(S.String).pipe(T.JsonName("tryItState")),
+  }),
+).annotations({
+  identifier: "GetProductRestEndpointPageResponse",
+}) as any as S.Schema<GetProductRestEndpointPageResponse>;
+export interface GetRouteResponsesResponse {
+  Items?: __listOfRouteResponse;
+  NextToken?: string;
+}
+export const GetRouteResponsesResponse = S.suspend(() =>
+  S.Struct({
+    Items: S.optional(__listOfRouteResponse).pipe(T.JsonName("items")),
+    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
+  }),
+).annotations({
+  identifier: "GetRouteResponsesResponse",
+}) as any as S.Schema<GetRouteResponsesResponse>;
+export interface GetRoutesResponse {
+  Items?: __listOfRoute;
+  NextToken?: string;
+}
+export const GetRoutesResponse = S.suspend(() =>
+  S.Struct({
+    Items: S.optional(__listOfRoute).pipe(T.JsonName("items")),
+    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
+  }),
+).annotations({
+  identifier: "GetRoutesResponse",
+}) as any as S.Schema<GetRoutesResponse>;
+export interface GetStagesResponse {
+  Items?: __listOfStage;
+  NextToken?: string;
+}
+export const GetStagesResponse = S.suspend(() =>
+  S.Struct({
+    Items: S.optional(__listOfStage).pipe(T.JsonName("items")),
+    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
+  }),
+).annotations({
+  identifier: "GetStagesResponse",
+}) as any as S.Schema<GetStagesResponse>;
+export interface GetVpcLinksResponse {
+  Items?: __listOfVpcLink;
+  NextToken?: string;
+}
+export const GetVpcLinksResponse = S.suspend(() =>
+  S.Struct({
+    Items: S.optional(__listOfVpcLink).pipe(T.JsonName("items")),
+    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
+  }),
+).annotations({
+  identifier: "GetVpcLinksResponse",
+}) as any as S.Schema<GetVpcLinksResponse>;
+export interface ListPortalProductsResponse {
+  Items?: __listOfPortalProductSummary;
+  NextToken?: string;
+}
+export const ListPortalProductsResponse = S.suspend(() =>
+  S.Struct({
+    Items: S.optional(__listOfPortalProductSummary).pipe(T.JsonName("items")),
+    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
+  }),
+).annotations({
+  identifier: "ListPortalProductsResponse",
+}) as any as S.Schema<ListPortalProductsResponse>;
+export interface ListPortalsResponse {
+  Items?: __listOfPortalSummary;
+  NextToken?: string;
+}
+export const ListPortalsResponse = S.suspend(() =>
+  S.Struct({
+    Items: S.optional(__listOfPortalSummary).pipe(T.JsonName("items")),
+    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
+  }),
+).annotations({
+  identifier: "ListPortalsResponse",
+}) as any as S.Schema<ListPortalsResponse>;
+export interface ListProductPagesResponse {
+  Items?: __listOfProductPageSummaryNoBody;
+  NextToken?: string;
+}
+export const ListProductPagesResponse = S.suspend(() =>
+  S.Struct({
+    Items: S.optional(__listOfProductPageSummaryNoBody).pipe(
+      T.JsonName("items"),
+    ),
+    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
+  }),
+).annotations({
+  identifier: "ListProductPagesResponse",
+}) as any as S.Schema<ListProductPagesResponse>;
+export interface ListProductRestEndpointPagesResponse {
+  Items?: __listOfProductRestEndpointPageSummaryNoBody;
+  NextToken?: string;
+}
+export const ListProductRestEndpointPagesResponse = S.suspend(() =>
+  S.Struct({
+    Items: S.optional(__listOfProductRestEndpointPageSummaryNoBody).pipe(
+      T.JsonName("items"),
+    ),
+    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
+  }),
+).annotations({
+  identifier: "ListProductRestEndpointPagesResponse",
+}) as any as S.Schema<ListProductRestEndpointPagesResponse>;
+export interface ListRoutingRulesResponse {
+  NextToken?: string;
+  RoutingRules?: __listOfRoutingRule;
+}
+export const ListRoutingRulesResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
+    RoutingRules: S.optional(__listOfRoutingRule).pipe(
+      T.JsonName("routingRules"),
+    ),
+  }),
+).annotations({
+  identifier: "ListRoutingRulesResponse",
+}) as any as S.Schema<ListRoutingRulesResponse>;
+export interface UpdatePortalProductRequest {
+  Description?: string;
+  DisplayName?: string;
+  DisplayOrder?: DisplayOrder;
+  PortalProductId: string;
+}
+export const UpdatePortalProductRequest = S.suspend(() =>
+  S.Struct({
     Description: S.optional(S.String).pipe(T.JsonName("description")),
     DisplayName: S.optional(S.String).pipe(T.JsonName("displayName")),
-    DisplayOrder: S.optional(DisplayOrder).pipe(T.JsonName("displayOrder")),
+    DisplayOrder: S.optional(DisplayOrder)
+      .pipe(T.JsonName("displayOrder"))
+      .annotations({ identifier: "DisplayOrder" }),
     PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")),
-  },
-  T.all(
-    T.Http({ method: "PATCH", uri: "/v2/portalproducts/{PortalProductId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PATCH", uri: "/v2/portalproducts/{PortalProductId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreatePortalRequest extends S.Class<CreatePortalRequest>(
-  "CreatePortalRequest",
-)(
-  {
-    Authorization: Authorization.pipe(T.JsonName("authorization")),
+).annotations({
+  identifier: "UpdatePortalProductRequest",
+}) as any as S.Schema<UpdatePortalProductRequest>;
+export interface CreatePortalRequest {
+  Authorization: Authorization;
+  EndpointConfiguration: EndpointConfigurationRequest;
+  IncludedPortalProductArns?: __listOf__stringMin20Max2048;
+  LogoUri?: string;
+  PortalContent: PortalContent;
+  RumAppMonitorName?: string;
+  Tags?: Tags;
+}
+export const CreatePortalRequest = S.suspend(() =>
+  S.Struct({
+    Authorization: Authorization.pipe(T.JsonName("authorization")).annotations({
+      identifier: "Authorization",
+    }),
     EndpointConfiguration: EndpointConfigurationRequest.pipe(
       T.JsonName("endpointConfiguration"),
-    ),
+    ).annotations({ identifier: "EndpointConfigurationRequest" }),
     IncludedPortalProductArns: S.optional(__listOf__stringMin20Max2048).pipe(
       T.JsonName("includedPortalProductArns"),
     ),
     LogoUri: S.optional(S.String).pipe(T.JsonName("logoUri")),
-    PortalContent: PortalContent.pipe(T.JsonName("portalContent")),
+    PortalContent: PortalContent.pipe(T.JsonName("portalContent")).annotations({
+      identifier: "PortalContent",
+    }),
     RumAppMonitorName: S.optional(S.String).pipe(
       T.JsonName("rumAppMonitorName"),
     ),
     Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/v2/portals" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v2/portals" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateProductRestEndpointPageResponse extends S.Class<CreateProductRestEndpointPageResponse>(
-  "CreateProductRestEndpointPageResponse",
-)({
-  DisplayContent: S.optional(EndpointDisplayContentResponse).pipe(
-    T.JsonName("displayContent"),
-  ),
-  LastModified: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-    T.JsonName("lastModified"),
-  ),
-  ProductRestEndpointPageArn: S.optional(S.String).pipe(
-    T.JsonName("productRestEndpointPageArn"),
-  ),
-  ProductRestEndpointPageId: S.optional(S.String).pipe(
-    T.JsonName("productRestEndpointPageId"),
-  ),
-  RestEndpointIdentifier: S.optional(RestEndpointIdentifier).pipe(
-    T.JsonName("restEndpointIdentifier"),
-  ),
-  Status: S.optional(S.String).pipe(T.JsonName("status")),
-  StatusException: S.optional(StatusException).pipe(
-    T.JsonName("statusException"),
-  ),
-  TryItState: S.optional(S.String).pipe(T.JsonName("tryItState")),
-}) {}
-export class CreateRouteResult extends S.Class<CreateRouteResult>(
-  "CreateRouteResult",
-)({
-  ApiGatewayManaged: S.optional(S.Boolean).pipe(
-    T.JsonName("apiGatewayManaged"),
-  ),
-  ApiKeyRequired: S.optional(S.Boolean).pipe(T.JsonName("apiKeyRequired")),
-  AuthorizationScopes: S.optional(AuthorizationScopes).pipe(
-    T.JsonName("authorizationScopes"),
-  ),
-  AuthorizationType: S.optional(S.String).pipe(T.JsonName("authorizationType")),
-  AuthorizerId: S.optional(S.String).pipe(T.JsonName("authorizerId")),
-  ModelSelectionExpression: S.optional(S.String).pipe(
-    T.JsonName("modelSelectionExpression"),
-  ),
-  OperationName: S.optional(S.String).pipe(T.JsonName("operationName")),
-  RequestModels: S.optional(RouteModels).pipe(T.JsonName("requestModels")),
-  RequestParameters: S.optional(RouteParameters).pipe(
-    T.JsonName("requestParameters"),
-  ),
-  RouteId: S.optional(S.String).pipe(T.JsonName("routeId")),
-  RouteKey: S.optional(S.String).pipe(T.JsonName("routeKey")),
-  RouteResponseSelectionExpression: S.optional(S.String).pipe(
-    T.JsonName("routeResponseSelectionExpression"),
-  ),
-  Target: S.optional(S.String).pipe(T.JsonName("target")),
-}) {}
-export class CreateRoutingRuleRequest extends S.Class<CreateRoutingRuleRequest>(
-  "CreateRoutingRuleRequest",
-)(
-  {
+).annotations({
+  identifier: "CreatePortalRequest",
+}) as any as S.Schema<CreatePortalRequest>;
+export interface CreateProductRestEndpointPageResponse {
+  DisplayContent?: EndpointDisplayContentResponse;
+  LastModified?: Date;
+  ProductRestEndpointPageArn?: string;
+  ProductRestEndpointPageId?: string;
+  RestEndpointIdentifier?: RestEndpointIdentifier;
+  Status?: string;
+  StatusException?: StatusException;
+  TryItState?: string;
+}
+export const CreateProductRestEndpointPageResponse = S.suspend(() =>
+  S.Struct({
+    DisplayContent: S.optional(EndpointDisplayContentResponse)
+      .pipe(T.JsonName("displayContent"))
+      .annotations({ identifier: "EndpointDisplayContentResponse" }),
+    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.JsonName("lastModified"),
+    ),
+    ProductRestEndpointPageArn: S.optional(S.String).pipe(
+      T.JsonName("productRestEndpointPageArn"),
+    ),
+    ProductRestEndpointPageId: S.optional(S.String).pipe(
+      T.JsonName("productRestEndpointPageId"),
+    ),
+    RestEndpointIdentifier: S.optional(RestEndpointIdentifier)
+      .pipe(T.JsonName("restEndpointIdentifier"))
+      .annotations({ identifier: "RestEndpointIdentifier" }),
+    Status: S.optional(S.String).pipe(T.JsonName("status")),
+    StatusException: S.optional(StatusException)
+      .pipe(T.JsonName("statusException"))
+      .annotations({ identifier: "StatusException" }),
+    TryItState: S.optional(S.String).pipe(T.JsonName("tryItState")),
+  }),
+).annotations({
+  identifier: "CreateProductRestEndpointPageResponse",
+}) as any as S.Schema<CreateProductRestEndpointPageResponse>;
+export interface CreateRouteResult {
+  ApiGatewayManaged?: boolean;
+  ApiKeyRequired?: boolean;
+  AuthorizationScopes?: AuthorizationScopes;
+  AuthorizationType?: string;
+  AuthorizerId?: string;
+  ModelSelectionExpression?: string;
+  OperationName?: string;
+  RequestModels?: RouteModels;
+  RequestParameters?: RouteParameters;
+  RouteId?: string;
+  RouteKey?: string;
+  RouteResponseSelectionExpression?: string;
+  Target?: string;
+}
+export const CreateRouteResult = S.suspend(() =>
+  S.Struct({
+    ApiGatewayManaged: S.optional(S.Boolean).pipe(
+      T.JsonName("apiGatewayManaged"),
+    ),
+    ApiKeyRequired: S.optional(S.Boolean).pipe(T.JsonName("apiKeyRequired")),
+    AuthorizationScopes: S.optional(AuthorizationScopes).pipe(
+      T.JsonName("authorizationScopes"),
+    ),
+    AuthorizationType: S.optional(S.String).pipe(
+      T.JsonName("authorizationType"),
+    ),
+    AuthorizerId: S.optional(S.String).pipe(T.JsonName("authorizerId")),
+    ModelSelectionExpression: S.optional(S.String).pipe(
+      T.JsonName("modelSelectionExpression"),
+    ),
+    OperationName: S.optional(S.String).pipe(T.JsonName("operationName")),
+    RequestModels: S.optional(RouteModels).pipe(T.JsonName("requestModels")),
+    RequestParameters: S.optional(RouteParameters).pipe(
+      T.JsonName("requestParameters"),
+    ),
+    RouteId: S.optional(S.String).pipe(T.JsonName("routeId")),
+    RouteKey: S.optional(S.String).pipe(T.JsonName("routeKey")),
+    RouteResponseSelectionExpression: S.optional(S.String).pipe(
+      T.JsonName("routeResponseSelectionExpression"),
+    ),
+    Target: S.optional(S.String).pipe(T.JsonName("target")),
+  }),
+).annotations({
+  identifier: "CreateRouteResult",
+}) as any as S.Schema<CreateRouteResult>;
+export interface CreateRoutingRuleRequest {
+  Actions: __listOfRoutingRuleAction;
+  Conditions: __listOfRoutingRuleCondition;
+  DomainName: string;
+  DomainNameId?: string;
+  Priority: number;
+}
+export const CreateRoutingRuleRequest = S.suspend(() =>
+  S.Struct({
     Actions: __listOfRoutingRuleAction.pipe(T.JsonName("actions")),
     Conditions: __listOfRoutingRuleCondition.pipe(T.JsonName("conditions")),
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     DomainNameId: S.optional(S.String).pipe(T.HttpQuery("domainNameId")),
     Priority: S.Number.pipe(T.JsonName("priority")),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/v2/domainnames/{DomainName}/routingrules",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/v2/domainnames/{DomainName}/routingrules",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdatePortalProductResponse extends S.Class<UpdatePortalProductResponse>(
-  "UpdatePortalProductResponse",
-)({
-  Description: S.optional(S.String).pipe(T.JsonName("description")),
-  DisplayName: S.optional(S.String).pipe(T.JsonName("displayName")),
-  DisplayOrder: S.optional(DisplayOrder).pipe(T.JsonName("displayOrder")),
-  LastModified: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-    T.JsonName("lastModified"),
-  ),
-  PortalProductArn: S.optional(S.String).pipe(T.JsonName("portalProductArn")),
-  PortalProductId: S.optional(S.String).pipe(T.JsonName("portalProductId")),
-  Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-}) {}
-export class CreatePortalResponse extends S.Class<CreatePortalResponse>(
-  "CreatePortalResponse",
-)({
-  Authorization: S.optional(Authorization).pipe(T.JsonName("authorization")),
-  EndpointConfiguration: S.optional(EndpointConfigurationResponse).pipe(
-    T.JsonName("endpointConfiguration"),
-  ),
-  IncludedPortalProductArns: S.optional(__listOf__stringMin20Max2048).pipe(
-    T.JsonName("includedPortalProductArns"),
-  ),
-  LastModified: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-    T.JsonName("lastModified"),
-  ),
-  LastPublished: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-    T.JsonName("lastPublished"),
-  ),
-  LastPublishedDescription: S.optional(S.String).pipe(
-    T.JsonName("lastPublishedDescription"),
-  ),
-  PortalArn: S.optional(S.String).pipe(T.JsonName("portalArn")),
-  PortalContent: S.optional(PortalContent).pipe(T.JsonName("portalContent")),
-  PortalId: S.optional(S.String).pipe(T.JsonName("portalId")),
-  PublishStatus: S.optional(S.String).pipe(T.JsonName("publishStatus")),
-  RumAppMonitorName: S.optional(S.String).pipe(T.JsonName("rumAppMonitorName")),
-  StatusException: S.optional(StatusException).pipe(
-    T.JsonName("statusException"),
-  ),
-  Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-}) {}
-export class CreateRoutingRuleResponse extends S.Class<CreateRoutingRuleResponse>(
-  "CreateRoutingRuleResponse",
-)({
-  Actions: S.optional(__listOfRoutingRuleAction).pipe(T.JsonName("actions")),
-  Conditions: S.optional(__listOfRoutingRuleCondition).pipe(
-    T.JsonName("conditions"),
-  ),
-  Priority: S.optional(S.Number).pipe(T.JsonName("priority")),
-  RoutingRuleArn: S.optional(S.String).pipe(T.JsonName("routingRuleArn")),
-  RoutingRuleId: S.optional(S.String).pipe(T.JsonName("routingRuleId")),
-}) {}
+).annotations({
+  identifier: "CreateRoutingRuleRequest",
+}) as any as S.Schema<CreateRoutingRuleRequest>;
+export interface UpdatePortalProductResponse {
+  Description?: string;
+  DisplayName?: string;
+  DisplayOrder?: DisplayOrder;
+  LastModified?: Date;
+  PortalProductArn?: string;
+  PortalProductId?: string;
+  Tags?: Tags;
+}
+export const UpdatePortalProductResponse = S.suspend(() =>
+  S.Struct({
+    Description: S.optional(S.String).pipe(T.JsonName("description")),
+    DisplayName: S.optional(S.String).pipe(T.JsonName("displayName")),
+    DisplayOrder: S.optional(DisplayOrder)
+      .pipe(T.JsonName("displayOrder"))
+      .annotations({ identifier: "DisplayOrder" }),
+    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.JsonName("lastModified"),
+    ),
+    PortalProductArn: S.optional(S.String).pipe(T.JsonName("portalProductArn")),
+    PortalProductId: S.optional(S.String).pipe(T.JsonName("portalProductId")),
+    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
+  }),
+).annotations({
+  identifier: "UpdatePortalProductResponse",
+}) as any as S.Schema<UpdatePortalProductResponse>;
+export interface CreatePortalResponse {
+  Authorization?: Authorization;
+  EndpointConfiguration?: EndpointConfigurationResponse;
+  IncludedPortalProductArns?: __listOf__stringMin20Max2048;
+  LastModified?: Date;
+  LastPublished?: Date;
+  LastPublishedDescription?: string;
+  PortalArn?: string;
+  PortalContent?: PortalContent;
+  PortalId?: string;
+  PublishStatus?: string;
+  RumAppMonitorName?: string;
+  StatusException?: StatusException;
+  Tags?: Tags;
+}
+export const CreatePortalResponse = S.suspend(() =>
+  S.Struct({
+    Authorization: S.optional(Authorization)
+      .pipe(T.JsonName("authorization"))
+      .annotations({ identifier: "Authorization" }),
+    EndpointConfiguration: S.optional(EndpointConfigurationResponse)
+      .pipe(T.JsonName("endpointConfiguration"))
+      .annotations({ identifier: "EndpointConfigurationResponse" }),
+    IncludedPortalProductArns: S.optional(__listOf__stringMin20Max2048).pipe(
+      T.JsonName("includedPortalProductArns"),
+    ),
+    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.JsonName("lastModified"),
+    ),
+    LastPublished: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.JsonName("lastPublished"),
+    ),
+    LastPublishedDescription: S.optional(S.String).pipe(
+      T.JsonName("lastPublishedDescription"),
+    ),
+    PortalArn: S.optional(S.String).pipe(T.JsonName("portalArn")),
+    PortalContent: S.optional(PortalContent)
+      .pipe(T.JsonName("portalContent"))
+      .annotations({ identifier: "PortalContent" }),
+    PortalId: S.optional(S.String).pipe(T.JsonName("portalId")),
+    PublishStatus: S.optional(S.String).pipe(T.JsonName("publishStatus")),
+    RumAppMonitorName: S.optional(S.String).pipe(
+      T.JsonName("rumAppMonitorName"),
+    ),
+    StatusException: S.optional(StatusException)
+      .pipe(T.JsonName("statusException"))
+      .annotations({ identifier: "StatusException" }),
+    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
+  }),
+).annotations({
+  identifier: "CreatePortalResponse",
+}) as any as S.Schema<CreatePortalResponse>;
+export interface CreateRoutingRuleResponse {
+  Actions?: __listOfRoutingRuleAction;
+  Conditions?: __listOfRoutingRuleCondition;
+  Priority?: number;
+  RoutingRuleArn?: string;
+  RoutingRuleId?: string;
+}
+export const CreateRoutingRuleResponse = S.suspend(() =>
+  S.Struct({
+    Actions: S.optional(__listOfRoutingRuleAction).pipe(T.JsonName("actions")),
+    Conditions: S.optional(__listOfRoutingRuleCondition).pipe(
+      T.JsonName("conditions"),
+    ),
+    Priority: S.optional(S.Number).pipe(T.JsonName("priority")),
+    RoutingRuleArn: S.optional(S.String).pipe(T.JsonName("routingRuleArn")),
+    RoutingRuleId: S.optional(S.String).pipe(T.JsonName("routingRuleId")),
+  }),
+).annotations({
+  identifier: "CreateRoutingRuleResponse",
+}) as any as S.Schema<CreateRoutingRuleResponse>;
 
 //# Errors
 export class NotFoundException extends S.TaggedError<NotFoundException>()(

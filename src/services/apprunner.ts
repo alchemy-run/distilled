@@ -243,346 +243,862 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type StringList = string[];
 export const StringList = S.Array(S.String);
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class AssociateCustomDomainRequest extends S.Class<AssociateCustomDomainRequest>(
-  "AssociateCustomDomainRequest",
-)(
-  {
+export interface AssociateCustomDomainRequest {
+  ServiceArn: string;
+  DomainName: string;
+  EnableWWWSubdomain?: boolean;
+}
+export const AssociateCustomDomainRequest = S.suspend(() =>
+  S.Struct({
     ServiceArn: S.String,
     DomainName: S.String,
     EnableWWWSubdomain: S.optional(S.Boolean),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class Tag extends S.Class<Tag>("Tag")({
-  Key: S.optional(S.String),
-  Value: S.optional(S.String),
-}) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "AssociateCustomDomainRequest",
+}) as any as S.Schema<AssociateCustomDomainRequest>;
+export interface Tag {
+  Key?: string;
+  Value?: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ Key: S.optional(S.String), Value: S.optional(S.String) }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagList = Tag[];
 export const TagList = S.Array(Tag);
-export class CreateConnectionRequest extends S.Class<CreateConnectionRequest>(
-  "CreateConnectionRequest",
-)(
-  {
+export interface CreateConnectionRequest {
+  ConnectionName: string;
+  ProviderType: string;
+  Tags?: TagList;
+}
+export const CreateConnectionRequest = S.suspend(() =>
+  S.Struct({
     ConnectionName: S.String,
     ProviderType: S.String,
     Tags: S.optional(TagList),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateVpcConnectorRequest extends S.Class<CreateVpcConnectorRequest>(
-  "CreateVpcConnectorRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateConnectionRequest",
+}) as any as S.Schema<CreateConnectionRequest>;
+export interface CreateVpcConnectorRequest {
+  VpcConnectorName: string;
+  Subnets: StringList;
+  SecurityGroups?: StringList;
+  Tags?: TagList;
+}
+export const CreateVpcConnectorRequest = S.suspend(() =>
+  S.Struct({
     VpcConnectorName: S.String,
     Subnets: StringList,
     SecurityGroups: S.optional(StringList),
     Tags: S.optional(TagList),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteAutoScalingConfigurationRequest extends S.Class<DeleteAutoScalingConfigurationRequest>(
-  "DeleteAutoScalingConfigurationRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateVpcConnectorRequest",
+}) as any as S.Schema<CreateVpcConnectorRequest>;
+export interface DeleteAutoScalingConfigurationRequest {
+  AutoScalingConfigurationArn: string;
+  DeleteAllRevisions?: boolean;
+}
+export const DeleteAutoScalingConfigurationRequest = S.suspend(() =>
+  S.Struct({
     AutoScalingConfigurationArn: S.String,
     DeleteAllRevisions: S.optional(S.Boolean),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteConnectionRequest extends S.Class<DeleteConnectionRequest>(
-  "DeleteConnectionRequest",
-)(
-  { ConnectionArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteObservabilityConfigurationRequest extends S.Class<DeleteObservabilityConfigurationRequest>(
-  "DeleteObservabilityConfigurationRequest",
-)(
-  { ObservabilityConfigurationArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteServiceRequest extends S.Class<DeleteServiceRequest>(
-  "DeleteServiceRequest",
-)(
-  { ServiceArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteVpcConnectorRequest extends S.Class<DeleteVpcConnectorRequest>(
-  "DeleteVpcConnectorRequest",
-)(
-  { VpcConnectorArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteVpcIngressConnectionRequest extends S.Class<DeleteVpcIngressConnectionRequest>(
-  "DeleteVpcIngressConnectionRequest",
-)(
-  { VpcIngressConnectionArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeAutoScalingConfigurationRequest extends S.Class<DescribeAutoScalingConfigurationRequest>(
-  "DescribeAutoScalingConfigurationRequest",
-)(
-  { AutoScalingConfigurationArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeCustomDomainsRequest extends S.Class<DescribeCustomDomainsRequest>(
-  "DescribeCustomDomainsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteAutoScalingConfigurationRequest",
+}) as any as S.Schema<DeleteAutoScalingConfigurationRequest>;
+export interface DeleteConnectionRequest {
+  ConnectionArn: string;
+}
+export const DeleteConnectionRequest = S.suspend(() =>
+  S.Struct({ ConnectionArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteConnectionRequest",
+}) as any as S.Schema<DeleteConnectionRequest>;
+export interface DeleteObservabilityConfigurationRequest {
+  ObservabilityConfigurationArn: string;
+}
+export const DeleteObservabilityConfigurationRequest = S.suspend(() =>
+  S.Struct({ ObservabilityConfigurationArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteObservabilityConfigurationRequest",
+}) as any as S.Schema<DeleteObservabilityConfigurationRequest>;
+export interface DeleteServiceRequest {
+  ServiceArn: string;
+}
+export const DeleteServiceRequest = S.suspend(() =>
+  S.Struct({ ServiceArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteServiceRequest",
+}) as any as S.Schema<DeleteServiceRequest>;
+export interface DeleteVpcConnectorRequest {
+  VpcConnectorArn: string;
+}
+export const DeleteVpcConnectorRequest = S.suspend(() =>
+  S.Struct({ VpcConnectorArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteVpcConnectorRequest",
+}) as any as S.Schema<DeleteVpcConnectorRequest>;
+export interface DeleteVpcIngressConnectionRequest {
+  VpcIngressConnectionArn: string;
+}
+export const DeleteVpcIngressConnectionRequest = S.suspend(() =>
+  S.Struct({ VpcIngressConnectionArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteVpcIngressConnectionRequest",
+}) as any as S.Schema<DeleteVpcIngressConnectionRequest>;
+export interface DescribeAutoScalingConfigurationRequest {
+  AutoScalingConfigurationArn: string;
+}
+export const DescribeAutoScalingConfigurationRequest = S.suspend(() =>
+  S.Struct({ AutoScalingConfigurationArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeAutoScalingConfigurationRequest",
+}) as any as S.Schema<DescribeAutoScalingConfigurationRequest>;
+export interface DescribeCustomDomainsRequest {
+  ServiceArn: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const DescribeCustomDomainsRequest = S.suspend(() =>
+  S.Struct({
     ServiceArn: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeObservabilityConfigurationRequest extends S.Class<DescribeObservabilityConfigurationRequest>(
-  "DescribeObservabilityConfigurationRequest",
-)(
-  { ObservabilityConfigurationArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeServiceRequest extends S.Class<DescribeServiceRequest>(
-  "DescribeServiceRequest",
-)(
-  { ServiceArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeVpcConnectorRequest extends S.Class<DescribeVpcConnectorRequest>(
-  "DescribeVpcConnectorRequest",
-)(
-  { VpcConnectorArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeVpcIngressConnectionRequest extends S.Class<DescribeVpcIngressConnectionRequest>(
-  "DescribeVpcIngressConnectionRequest",
-)(
-  { VpcIngressConnectionArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DisassociateCustomDomainRequest extends S.Class<DisassociateCustomDomainRequest>(
-  "DisassociateCustomDomainRequest",
-)(
-  { ServiceArn: S.String, DomainName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListAutoScalingConfigurationsRequest extends S.Class<ListAutoScalingConfigurationsRequest>(
-  "ListAutoScalingConfigurationsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeCustomDomainsRequest",
+}) as any as S.Schema<DescribeCustomDomainsRequest>;
+export interface DescribeObservabilityConfigurationRequest {
+  ObservabilityConfigurationArn: string;
+}
+export const DescribeObservabilityConfigurationRequest = S.suspend(() =>
+  S.Struct({ ObservabilityConfigurationArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeObservabilityConfigurationRequest",
+}) as any as S.Schema<DescribeObservabilityConfigurationRequest>;
+export interface DescribeServiceRequest {
+  ServiceArn: string;
+}
+export const DescribeServiceRequest = S.suspend(() =>
+  S.Struct({ ServiceArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeServiceRequest",
+}) as any as S.Schema<DescribeServiceRequest>;
+export interface DescribeVpcConnectorRequest {
+  VpcConnectorArn: string;
+}
+export const DescribeVpcConnectorRequest = S.suspend(() =>
+  S.Struct({ VpcConnectorArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeVpcConnectorRequest",
+}) as any as S.Schema<DescribeVpcConnectorRequest>;
+export interface DescribeVpcIngressConnectionRequest {
+  VpcIngressConnectionArn: string;
+}
+export const DescribeVpcIngressConnectionRequest = S.suspend(() =>
+  S.Struct({ VpcIngressConnectionArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeVpcIngressConnectionRequest",
+}) as any as S.Schema<DescribeVpcIngressConnectionRequest>;
+export interface DisassociateCustomDomainRequest {
+  ServiceArn: string;
+  DomainName: string;
+}
+export const DisassociateCustomDomainRequest = S.suspend(() =>
+  S.Struct({ ServiceArn: S.String, DomainName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DisassociateCustomDomainRequest",
+}) as any as S.Schema<DisassociateCustomDomainRequest>;
+export interface ListAutoScalingConfigurationsRequest {
+  AutoScalingConfigurationName?: string;
+  LatestOnly?: boolean;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListAutoScalingConfigurationsRequest = S.suspend(() =>
+  S.Struct({
     AutoScalingConfigurationName: S.optional(S.String),
     LatestOnly: S.optional(S.Boolean),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListConnectionsRequest extends S.Class<ListConnectionsRequest>(
-  "ListConnectionsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListAutoScalingConfigurationsRequest",
+}) as any as S.Schema<ListAutoScalingConfigurationsRequest>;
+export interface ListConnectionsRequest {
+  ConnectionName?: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListConnectionsRequest = S.suspend(() =>
+  S.Struct({
     ConnectionName: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListObservabilityConfigurationsRequest extends S.Class<ListObservabilityConfigurationsRequest>(
-  "ListObservabilityConfigurationsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListConnectionsRequest",
+}) as any as S.Schema<ListConnectionsRequest>;
+export interface ListObservabilityConfigurationsRequest {
+  ObservabilityConfigurationName?: string;
+  LatestOnly?: boolean;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListObservabilityConfigurationsRequest = S.suspend(() =>
+  S.Struct({
     ObservabilityConfigurationName: S.optional(S.String),
     LatestOnly: S.optional(S.Boolean),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListOperationsRequest extends S.Class<ListOperationsRequest>(
-  "ListOperationsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListObservabilityConfigurationsRequest",
+}) as any as S.Schema<ListObservabilityConfigurationsRequest>;
+export interface ListOperationsRequest {
+  ServiceArn: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListOperationsRequest = S.suspend(() =>
+  S.Struct({
     ServiceArn: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListServicesRequest extends S.Class<ListServicesRequest>(
-  "ListServicesRequest",
-)(
-  { NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListServicesForAutoScalingConfigurationRequest extends S.Class<ListServicesForAutoScalingConfigurationRequest>(
-  "ListServicesForAutoScalingConfigurationRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListOperationsRequest",
+}) as any as S.Schema<ListOperationsRequest>;
+export interface ListServicesRequest {
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListServicesRequest = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListServicesRequest",
+}) as any as S.Schema<ListServicesRequest>;
+export interface ListServicesForAutoScalingConfigurationRequest {
+  AutoScalingConfigurationArn: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListServicesForAutoScalingConfigurationRequest = S.suspend(() =>
+  S.Struct({
     AutoScalingConfigurationArn: S.String,
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { ResourceArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListVpcConnectorsRequest extends S.Class<ListVpcConnectorsRequest>(
-  "ListVpcConnectorsRequest",
-)(
-  { MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PauseServiceRequest extends S.Class<PauseServiceRequest>(
-  "PauseServiceRequest",
-)(
-  { ServiceArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ResumeServiceRequest extends S.Class<ResumeServiceRequest>(
-  "ResumeServiceRequest",
-)(
-  { ServiceArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StartDeploymentRequest extends S.Class<StartDeploymentRequest>(
-  "StartDeploymentRequest",
-)(
-  { ServiceArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { ResourceArn: S.String, Tags: TagList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}, ns) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  { ResourceArn: S.String, TagKeys: TagKeyList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}, ns) {}
-export class UpdateDefaultAutoScalingConfigurationRequest extends S.Class<UpdateDefaultAutoScalingConfigurationRequest>(
-  "UpdateDefaultAutoScalingConfigurationRequest",
-)(
-  { AutoScalingConfigurationArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class SourceCodeVersion extends S.Class<SourceCodeVersion>(
-  "SourceCodeVersion",
-)({ Type: S.String, Value: S.String }) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListServicesForAutoScalingConfigurationRequest",
+}) as any as S.Schema<ListServicesForAutoScalingConfigurationRequest>;
+export interface ListTagsForResourceRequest {
+  ResourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface ListVpcConnectorsRequest {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListVpcConnectorsRequest = S.suspend(() =>
+  S.Struct({
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListVpcConnectorsRequest",
+}) as any as S.Schema<ListVpcConnectorsRequest>;
+export interface PauseServiceRequest {
+  ServiceArn: string;
+}
+export const PauseServiceRequest = S.suspend(() =>
+  S.Struct({ ServiceArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PauseServiceRequest",
+}) as any as S.Schema<PauseServiceRequest>;
+export interface ResumeServiceRequest {
+  ServiceArn: string;
+}
+export const ResumeServiceRequest = S.suspend(() =>
+  S.Struct({ ServiceArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ResumeServiceRequest",
+}) as any as S.Schema<ResumeServiceRequest>;
+export interface StartDeploymentRequest {
+  ServiceArn: string;
+}
+export const StartDeploymentRequest = S.suspend(() =>
+  S.Struct({ ServiceArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "StartDeploymentRequest",
+}) as any as S.Schema<StartDeploymentRequest>;
+export interface TagResourceRequest {
+  ResourceArn: string;
+  Tags: TagList;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String, Tags: TagList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UntagResourceRequest {
+  ResourceArn: string;
+  TagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String, TagKeys: TagKeyList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface UpdateDefaultAutoScalingConfigurationRequest {
+  AutoScalingConfigurationArn: string;
+}
+export const UpdateDefaultAutoScalingConfigurationRequest = S.suspend(() =>
+  S.Struct({ AutoScalingConfigurationArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateDefaultAutoScalingConfigurationRequest",
+}) as any as S.Schema<UpdateDefaultAutoScalingConfigurationRequest>;
+export interface SourceCodeVersion {
+  Type: string;
+  Value: string;
+}
+export const SourceCodeVersion = S.suspend(() =>
+  S.Struct({ Type: S.String, Value: S.String }),
+).annotations({
+  identifier: "SourceCodeVersion",
+}) as any as S.Schema<SourceCodeVersion>;
+export type RuntimeEnvironmentVariables = { [key: string]: string };
 export const RuntimeEnvironmentVariables = S.Record({
   key: S.String,
   value: S.String,
 });
+export type RuntimeEnvironmentSecrets = { [key: string]: string };
 export const RuntimeEnvironmentSecrets = S.Record({
   key: S.String,
   value: S.String,
 });
-export class CodeConfigurationValues extends S.Class<CodeConfigurationValues>(
-  "CodeConfigurationValues",
-)({
-  Runtime: S.String,
-  BuildCommand: S.optional(S.String),
-  StartCommand: S.optional(S.String),
-  Port: S.optional(S.String),
-  RuntimeEnvironmentVariables: S.optional(RuntimeEnvironmentVariables),
-  RuntimeEnvironmentSecrets: S.optional(RuntimeEnvironmentSecrets),
-}) {}
-export class CodeConfiguration extends S.Class<CodeConfiguration>(
-  "CodeConfiguration",
-)({
-  ConfigurationSource: S.String,
-  CodeConfigurationValues: S.optional(CodeConfigurationValues),
-}) {}
-export class CodeRepository extends S.Class<CodeRepository>("CodeRepository")({
-  RepositoryUrl: S.String,
-  SourceCodeVersion: SourceCodeVersion,
-  CodeConfiguration: S.optional(CodeConfiguration),
-  SourceDirectory: S.optional(S.String),
-}) {}
-export class ImageConfiguration extends S.Class<ImageConfiguration>(
-  "ImageConfiguration",
-)({
-  RuntimeEnvironmentVariables: S.optional(RuntimeEnvironmentVariables),
-  StartCommand: S.optional(S.String),
-  Port: S.optional(S.String),
-  RuntimeEnvironmentSecrets: S.optional(RuntimeEnvironmentSecrets),
-}) {}
-export class ImageRepository extends S.Class<ImageRepository>(
-  "ImageRepository",
-)({
-  ImageIdentifier: S.String,
-  ImageConfiguration: S.optional(ImageConfiguration),
-  ImageRepositoryType: S.String,
-}) {}
-export class AuthenticationConfiguration extends S.Class<AuthenticationConfiguration>(
-  "AuthenticationConfiguration",
-)({
-  ConnectionArn: S.optional(S.String),
-  AccessRoleArn: S.optional(S.String),
-}) {}
-export class SourceConfiguration extends S.Class<SourceConfiguration>(
-  "SourceConfiguration",
-)({
-  CodeRepository: S.optional(CodeRepository),
-  ImageRepository: S.optional(ImageRepository),
-  AutoDeploymentsEnabled: S.optional(S.Boolean),
-  AuthenticationConfiguration: S.optional(AuthenticationConfiguration),
-}) {}
-export class InstanceConfiguration extends S.Class<InstanceConfiguration>(
-  "InstanceConfiguration",
-)({
-  Cpu: S.optional(S.String),
-  Memory: S.optional(S.String),
-  InstanceRoleArn: S.optional(S.String),
-}) {}
-export class HealthCheckConfiguration extends S.Class<HealthCheckConfiguration>(
-  "HealthCheckConfiguration",
-)({
-  Protocol: S.optional(S.String),
-  Path: S.optional(S.String),
-  Interval: S.optional(S.Number),
-  Timeout: S.optional(S.Number),
-  HealthyThreshold: S.optional(S.Number),
-  UnhealthyThreshold: S.optional(S.Number),
-}) {}
-export class EgressConfiguration extends S.Class<EgressConfiguration>(
-  "EgressConfiguration",
-)({
-  EgressType: S.optional(S.String),
-  VpcConnectorArn: S.optional(S.String),
-}) {}
-export class IngressConfiguration extends S.Class<IngressConfiguration>(
-  "IngressConfiguration",
-)({ IsPubliclyAccessible: S.optional(S.Boolean) }) {}
-export class NetworkConfiguration extends S.Class<NetworkConfiguration>(
-  "NetworkConfiguration",
-)({
-  EgressConfiguration: S.optional(EgressConfiguration),
-  IngressConfiguration: S.optional(IngressConfiguration),
-  IpAddressType: S.optional(S.String),
-}) {}
-export class ServiceObservabilityConfiguration extends S.Class<ServiceObservabilityConfiguration>(
-  "ServiceObservabilityConfiguration",
-)({
-  ObservabilityEnabled: S.Boolean,
-  ObservabilityConfigurationArn: S.optional(S.String),
-}) {}
-export class UpdateServiceRequest extends S.Class<UpdateServiceRequest>(
-  "UpdateServiceRequest",
-)(
-  {
+export interface CodeConfigurationValues {
+  Runtime: string;
+  BuildCommand?: string;
+  StartCommand?: string;
+  Port?: string;
+  RuntimeEnvironmentVariables?: RuntimeEnvironmentVariables;
+  RuntimeEnvironmentSecrets?: RuntimeEnvironmentSecrets;
+}
+export const CodeConfigurationValues = S.suspend(() =>
+  S.Struct({
+    Runtime: S.String,
+    BuildCommand: S.optional(S.String),
+    StartCommand: S.optional(S.String),
+    Port: S.optional(S.String),
+    RuntimeEnvironmentVariables: S.optional(RuntimeEnvironmentVariables),
+    RuntimeEnvironmentSecrets: S.optional(RuntimeEnvironmentSecrets),
+  }),
+).annotations({
+  identifier: "CodeConfigurationValues",
+}) as any as S.Schema<CodeConfigurationValues>;
+export interface CodeConfiguration {
+  ConfigurationSource: string;
+  CodeConfigurationValues?: CodeConfigurationValues;
+}
+export const CodeConfiguration = S.suspend(() =>
+  S.Struct({
+    ConfigurationSource: S.String,
+    CodeConfigurationValues: S.optional(CodeConfigurationValues),
+  }),
+).annotations({
+  identifier: "CodeConfiguration",
+}) as any as S.Schema<CodeConfiguration>;
+export interface CodeRepository {
+  RepositoryUrl: string;
+  SourceCodeVersion: SourceCodeVersion;
+  CodeConfiguration?: CodeConfiguration;
+  SourceDirectory?: string;
+}
+export const CodeRepository = S.suspend(() =>
+  S.Struct({
+    RepositoryUrl: S.String,
+    SourceCodeVersion: SourceCodeVersion,
+    CodeConfiguration: S.optional(CodeConfiguration),
+    SourceDirectory: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CodeRepository",
+}) as any as S.Schema<CodeRepository>;
+export interface ImageConfiguration {
+  RuntimeEnvironmentVariables?: RuntimeEnvironmentVariables;
+  StartCommand?: string;
+  Port?: string;
+  RuntimeEnvironmentSecrets?: RuntimeEnvironmentSecrets;
+}
+export const ImageConfiguration = S.suspend(() =>
+  S.Struct({
+    RuntimeEnvironmentVariables: S.optional(RuntimeEnvironmentVariables),
+    StartCommand: S.optional(S.String),
+    Port: S.optional(S.String),
+    RuntimeEnvironmentSecrets: S.optional(RuntimeEnvironmentSecrets),
+  }),
+).annotations({
+  identifier: "ImageConfiguration",
+}) as any as S.Schema<ImageConfiguration>;
+export interface ImageRepository {
+  ImageIdentifier: string;
+  ImageConfiguration?: ImageConfiguration;
+  ImageRepositoryType: string;
+}
+export const ImageRepository = S.suspend(() =>
+  S.Struct({
+    ImageIdentifier: S.String,
+    ImageConfiguration: S.optional(ImageConfiguration),
+    ImageRepositoryType: S.String,
+  }),
+).annotations({
+  identifier: "ImageRepository",
+}) as any as S.Schema<ImageRepository>;
+export interface AuthenticationConfiguration {
+  ConnectionArn?: string;
+  AccessRoleArn?: string;
+}
+export const AuthenticationConfiguration = S.suspend(() =>
+  S.Struct({
+    ConnectionArn: S.optional(S.String),
+    AccessRoleArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AuthenticationConfiguration",
+}) as any as S.Schema<AuthenticationConfiguration>;
+export interface SourceConfiguration {
+  CodeRepository?: CodeRepository;
+  ImageRepository?: ImageRepository;
+  AutoDeploymentsEnabled?: boolean;
+  AuthenticationConfiguration?: AuthenticationConfiguration;
+}
+export const SourceConfiguration = S.suspend(() =>
+  S.Struct({
+    CodeRepository: S.optional(CodeRepository),
+    ImageRepository: S.optional(ImageRepository),
+    AutoDeploymentsEnabled: S.optional(S.Boolean),
+    AuthenticationConfiguration: S.optional(AuthenticationConfiguration),
+  }),
+).annotations({
+  identifier: "SourceConfiguration",
+}) as any as S.Schema<SourceConfiguration>;
+export interface InstanceConfiguration {
+  Cpu?: string;
+  Memory?: string;
+  InstanceRoleArn?: string;
+}
+export const InstanceConfiguration = S.suspend(() =>
+  S.Struct({
+    Cpu: S.optional(S.String),
+    Memory: S.optional(S.String),
+    InstanceRoleArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "InstanceConfiguration",
+}) as any as S.Schema<InstanceConfiguration>;
+export interface HealthCheckConfiguration {
+  Protocol?: string;
+  Path?: string;
+  Interval?: number;
+  Timeout?: number;
+  HealthyThreshold?: number;
+  UnhealthyThreshold?: number;
+}
+export const HealthCheckConfiguration = S.suspend(() =>
+  S.Struct({
+    Protocol: S.optional(S.String),
+    Path: S.optional(S.String),
+    Interval: S.optional(S.Number),
+    Timeout: S.optional(S.Number),
+    HealthyThreshold: S.optional(S.Number),
+    UnhealthyThreshold: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "HealthCheckConfiguration",
+}) as any as S.Schema<HealthCheckConfiguration>;
+export interface EgressConfiguration {
+  EgressType?: string;
+  VpcConnectorArn?: string;
+}
+export const EgressConfiguration = S.suspend(() =>
+  S.Struct({
+    EgressType: S.optional(S.String),
+    VpcConnectorArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "EgressConfiguration",
+}) as any as S.Schema<EgressConfiguration>;
+export interface IngressConfiguration {
+  IsPubliclyAccessible?: boolean;
+}
+export const IngressConfiguration = S.suspend(() =>
+  S.Struct({ IsPubliclyAccessible: S.optional(S.Boolean) }),
+).annotations({
+  identifier: "IngressConfiguration",
+}) as any as S.Schema<IngressConfiguration>;
+export interface NetworkConfiguration {
+  EgressConfiguration?: EgressConfiguration;
+  IngressConfiguration?: IngressConfiguration;
+  IpAddressType?: string;
+}
+export const NetworkConfiguration = S.suspend(() =>
+  S.Struct({
+    EgressConfiguration: S.optional(EgressConfiguration),
+    IngressConfiguration: S.optional(IngressConfiguration),
+    IpAddressType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "NetworkConfiguration",
+}) as any as S.Schema<NetworkConfiguration>;
+export interface ServiceObservabilityConfiguration {
+  ObservabilityEnabled: boolean;
+  ObservabilityConfigurationArn?: string;
+}
+export const ServiceObservabilityConfiguration = S.suspend(() =>
+  S.Struct({
+    ObservabilityEnabled: S.Boolean,
+    ObservabilityConfigurationArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ServiceObservabilityConfiguration",
+}) as any as S.Schema<ServiceObservabilityConfiguration>;
+export interface UpdateServiceRequest {
+  ServiceArn: string;
+  SourceConfiguration?: SourceConfiguration;
+  InstanceConfiguration?: InstanceConfiguration;
+  AutoScalingConfigurationArn?: string;
+  HealthCheckConfiguration?: HealthCheckConfiguration;
+  NetworkConfiguration?: NetworkConfiguration;
+  ObservabilityConfiguration?: ServiceObservabilityConfiguration;
+}
+export const UpdateServiceRequest = S.suspend(() =>
+  S.Struct({
     ServiceArn: S.String,
     SourceConfiguration: S.optional(SourceConfiguration),
     InstanceConfiguration: S.optional(InstanceConfiguration),
@@ -590,404 +1106,872 @@ export class UpdateServiceRequest extends S.Class<UpdateServiceRequest>(
     HealthCheckConfiguration: S.optional(HealthCheckConfiguration),
     NetworkConfiguration: S.optional(NetworkConfiguration),
     ObservabilityConfiguration: S.optional(ServiceObservabilityConfiguration),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class IngressVpcConfiguration extends S.Class<IngressVpcConfiguration>(
-  "IngressVpcConfiguration",
-)({ VpcId: S.optional(S.String), VpcEndpointId: S.optional(S.String) }) {}
-export class UpdateVpcIngressConnectionRequest extends S.Class<UpdateVpcIngressConnectionRequest>(
-  "UpdateVpcIngressConnectionRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateServiceRequest",
+}) as any as S.Schema<UpdateServiceRequest>;
+export interface IngressVpcConfiguration {
+  VpcId?: string;
+  VpcEndpointId?: string;
+}
+export const IngressVpcConfiguration = S.suspend(() =>
+  S.Struct({
+    VpcId: S.optional(S.String),
+    VpcEndpointId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "IngressVpcConfiguration",
+}) as any as S.Schema<IngressVpcConfiguration>;
+export interface UpdateVpcIngressConnectionRequest {
+  VpcIngressConnectionArn: string;
+  IngressVpcConfiguration: IngressVpcConfiguration;
+}
+export const UpdateVpcIngressConnectionRequest = S.suspend(() =>
+  S.Struct({
     VpcIngressConnectionArn: S.String,
     IngressVpcConfiguration: IngressVpcConfiguration,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TraceConfiguration extends S.Class<TraceConfiguration>(
-  "TraceConfiguration",
-)({ Vendor: S.String }) {}
-export class EncryptionConfiguration extends S.Class<EncryptionConfiguration>(
-  "EncryptionConfiguration",
-)({ KmsKey: S.String }) {}
-export class CertificateValidationRecord extends S.Class<CertificateValidationRecord>(
-  "CertificateValidationRecord",
-)({
-  Name: S.optional(S.String),
-  Type: S.optional(S.String),
-  Value: S.optional(S.String),
-  Status: S.optional(S.String),
-}) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateVpcIngressConnectionRequest",
+}) as any as S.Schema<UpdateVpcIngressConnectionRequest>;
+export interface TraceConfiguration {
+  Vendor: string;
+}
+export const TraceConfiguration = S.suspend(() =>
+  S.Struct({ Vendor: S.String }),
+).annotations({
+  identifier: "TraceConfiguration",
+}) as any as S.Schema<TraceConfiguration>;
+export interface EncryptionConfiguration {
+  KmsKey: string;
+}
+export const EncryptionConfiguration = S.suspend(() =>
+  S.Struct({ KmsKey: S.String }),
+).annotations({
+  identifier: "EncryptionConfiguration",
+}) as any as S.Schema<EncryptionConfiguration>;
+export interface CertificateValidationRecord {
+  Name?: string;
+  Type?: string;
+  Value?: string;
+  Status?: string;
+}
+export const CertificateValidationRecord = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Type: S.optional(S.String),
+    Value: S.optional(S.String),
+    Status: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CertificateValidationRecord",
+}) as any as S.Schema<CertificateValidationRecord>;
+export type CertificateValidationRecordList = CertificateValidationRecord[];
 export const CertificateValidationRecordList = S.Array(
   CertificateValidationRecord,
 );
-export class CustomDomain extends S.Class<CustomDomain>("CustomDomain")({
-  DomainName: S.String,
-  EnableWWWSubdomain: S.Boolean,
-  CertificateValidationRecords: S.optional(CertificateValidationRecordList),
-  Status: S.String,
-}) {}
+export interface CustomDomain {
+  DomainName: string;
+  EnableWWWSubdomain: boolean;
+  CertificateValidationRecords?: CertificateValidationRecordList;
+  Status: string;
+}
+export const CustomDomain = S.suspend(() =>
+  S.Struct({
+    DomainName: S.String,
+    EnableWWWSubdomain: S.Boolean,
+    CertificateValidationRecords: S.optional(CertificateValidationRecordList),
+    Status: S.String,
+  }),
+).annotations({ identifier: "CustomDomain" }) as any as S.Schema<CustomDomain>;
+export type CustomDomainList = CustomDomain[];
 export const CustomDomainList = S.Array(CustomDomain);
+export type ServiceArnList = string[];
 export const ServiceArnList = S.Array(S.String);
-export class VpcConnector extends S.Class<VpcConnector>("VpcConnector")({
-  VpcConnectorName: S.optional(S.String),
-  VpcConnectorArn: S.optional(S.String),
-  VpcConnectorRevision: S.optional(S.Number),
-  Subnets: S.optional(StringList),
-  SecurityGroups: S.optional(StringList),
-  Status: S.optional(S.String),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  DeletedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface VpcConnector {
+  VpcConnectorName?: string;
+  VpcConnectorArn?: string;
+  VpcConnectorRevision?: number;
+  Subnets?: StringList;
+  SecurityGroups?: StringList;
+  Status?: string;
+  CreatedAt?: Date;
+  DeletedAt?: Date;
+}
+export const VpcConnector = S.suspend(() =>
+  S.Struct({
+    VpcConnectorName: S.optional(S.String),
+    VpcConnectorArn: S.optional(S.String),
+    VpcConnectorRevision: S.optional(S.Number),
+    Subnets: S.optional(StringList),
+    SecurityGroups: S.optional(StringList),
+    Status: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    DeletedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({ identifier: "VpcConnector" }) as any as S.Schema<VpcConnector>;
+export type VpcConnectors = VpcConnector[];
 export const VpcConnectors = S.Array(VpcConnector);
-export class ListVpcIngressConnectionsFilter extends S.Class<ListVpcIngressConnectionsFilter>(
-  "ListVpcIngressConnectionsFilter",
-)({ ServiceArn: S.optional(S.String), VpcEndpointId: S.optional(S.String) }) {}
-export class CreateAutoScalingConfigurationRequest extends S.Class<CreateAutoScalingConfigurationRequest>(
-  "CreateAutoScalingConfigurationRequest",
-)(
-  {
+export interface ListVpcIngressConnectionsFilter {
+  ServiceArn?: string;
+  VpcEndpointId?: string;
+}
+export const ListVpcIngressConnectionsFilter = S.suspend(() =>
+  S.Struct({
+    ServiceArn: S.optional(S.String),
+    VpcEndpointId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListVpcIngressConnectionsFilter",
+}) as any as S.Schema<ListVpcIngressConnectionsFilter>;
+export interface CreateAutoScalingConfigurationRequest {
+  AutoScalingConfigurationName: string;
+  MaxConcurrency?: number;
+  MinSize?: number;
+  MaxSize?: number;
+  Tags?: TagList;
+}
+export const CreateAutoScalingConfigurationRequest = S.suspend(() =>
+  S.Struct({
     AutoScalingConfigurationName: S.String,
     MaxConcurrency: S.optional(S.Number),
     MinSize: S.optional(S.Number),
     MaxSize: S.optional(S.Number),
     Tags: S.optional(TagList),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateObservabilityConfigurationRequest extends S.Class<CreateObservabilityConfigurationRequest>(
-  "CreateObservabilityConfigurationRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateAutoScalingConfigurationRequest",
+}) as any as S.Schema<CreateAutoScalingConfigurationRequest>;
+export interface CreateObservabilityConfigurationRequest {
+  ObservabilityConfigurationName: string;
+  TraceConfiguration?: TraceConfiguration;
+  Tags?: TagList;
+}
+export const CreateObservabilityConfigurationRequest = S.suspend(() =>
+  S.Struct({
     ObservabilityConfigurationName: S.String,
     TraceConfiguration: S.optional(TraceConfiguration),
     Tags: S.optional(TagList),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateVpcIngressConnectionRequest extends S.Class<CreateVpcIngressConnectionRequest>(
-  "CreateVpcIngressConnectionRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateObservabilityConfigurationRequest",
+}) as any as S.Schema<CreateObservabilityConfigurationRequest>;
+export interface CreateVpcIngressConnectionRequest {
+  ServiceArn: string;
+  VpcIngressConnectionName: string;
+  IngressVpcConfiguration: IngressVpcConfiguration;
+  Tags?: TagList;
+}
+export const CreateVpcIngressConnectionRequest = S.suspend(() =>
+  S.Struct({
     ServiceArn: S.String,
     VpcIngressConnectionName: S.String,
     IngressVpcConfiguration: IngressVpcConfiguration,
     Tags: S.optional(TagList),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class Connection extends S.Class<Connection>("Connection")({
-  ConnectionName: S.optional(S.String),
-  ConnectionArn: S.optional(S.String),
-  ProviderType: S.optional(S.String),
-  Status: S.optional(S.String),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class DeleteConnectionResponse extends S.Class<DeleteConnectionResponse>(
-  "DeleteConnectionResponse",
-)({ Connection: S.optional(Connection) }, ns) {}
-export class DeleteVpcConnectorResponse extends S.Class<DeleteVpcConnectorResponse>(
-  "DeleteVpcConnectorResponse",
-)({ VpcConnector: VpcConnector }, ns) {}
-export class AutoScalingConfiguration extends S.Class<AutoScalingConfiguration>(
-  "AutoScalingConfiguration",
-)({
-  AutoScalingConfigurationArn: S.optional(S.String),
-  AutoScalingConfigurationName: S.optional(S.String),
-  AutoScalingConfigurationRevision: S.optional(S.Number),
-  Latest: S.optional(S.Boolean),
-  Status: S.optional(S.String),
-  MaxConcurrency: S.optional(S.Number),
-  MinSize: S.optional(S.Number),
-  MaxSize: S.optional(S.Number),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  DeletedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  HasAssociatedService: S.optional(S.Boolean),
-  IsDefault: S.optional(S.Boolean),
-}) {}
-export class DescribeAutoScalingConfigurationResponse extends S.Class<DescribeAutoScalingConfigurationResponse>(
-  "DescribeAutoScalingConfigurationResponse",
-)({ AutoScalingConfiguration: AutoScalingConfiguration }, ns) {}
-export class VpcDNSTarget extends S.Class<VpcDNSTarget>("VpcDNSTarget")({
-  VpcIngressConnectionArn: S.optional(S.String),
-  VpcId: S.optional(S.String),
-  DomainName: S.optional(S.String),
-}) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateVpcIngressConnectionRequest",
+}) as any as S.Schema<CreateVpcIngressConnectionRequest>;
+export interface Connection {
+  ConnectionName?: string;
+  ConnectionArn?: string;
+  ProviderType?: string;
+  Status?: string;
+  CreatedAt?: Date;
+}
+export const Connection = S.suspend(() =>
+  S.Struct({
+    ConnectionName: S.optional(S.String),
+    ConnectionArn: S.optional(S.String),
+    ProviderType: S.optional(S.String),
+    Status: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({ identifier: "Connection" }) as any as S.Schema<Connection>;
+export interface DeleteConnectionResponse {
+  Connection?: Connection;
+}
+export const DeleteConnectionResponse = S.suspend(() =>
+  S.Struct({ Connection: S.optional(Connection) }).pipe(ns),
+).annotations({
+  identifier: "DeleteConnectionResponse",
+}) as any as S.Schema<DeleteConnectionResponse>;
+export interface DeleteVpcConnectorResponse {
+  VpcConnector: VpcConnector;
+}
+export const DeleteVpcConnectorResponse = S.suspend(() =>
+  S.Struct({ VpcConnector: VpcConnector }).pipe(ns),
+).annotations({
+  identifier: "DeleteVpcConnectorResponse",
+}) as any as S.Schema<DeleteVpcConnectorResponse>;
+export interface AutoScalingConfiguration {
+  AutoScalingConfigurationArn?: string;
+  AutoScalingConfigurationName?: string;
+  AutoScalingConfigurationRevision?: number;
+  Latest?: boolean;
+  Status?: string;
+  MaxConcurrency?: number;
+  MinSize?: number;
+  MaxSize?: number;
+  CreatedAt?: Date;
+  DeletedAt?: Date;
+  HasAssociatedService?: boolean;
+  IsDefault?: boolean;
+}
+export const AutoScalingConfiguration = S.suspend(() =>
+  S.Struct({
+    AutoScalingConfigurationArn: S.optional(S.String),
+    AutoScalingConfigurationName: S.optional(S.String),
+    AutoScalingConfigurationRevision: S.optional(S.Number),
+    Latest: S.optional(S.Boolean),
+    Status: S.optional(S.String),
+    MaxConcurrency: S.optional(S.Number),
+    MinSize: S.optional(S.Number),
+    MaxSize: S.optional(S.Number),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    DeletedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    HasAssociatedService: S.optional(S.Boolean),
+    IsDefault: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "AutoScalingConfiguration",
+}) as any as S.Schema<AutoScalingConfiguration>;
+export interface DescribeAutoScalingConfigurationResponse {
+  AutoScalingConfiguration: AutoScalingConfiguration;
+}
+export const DescribeAutoScalingConfigurationResponse = S.suspend(() =>
+  S.Struct({ AutoScalingConfiguration: AutoScalingConfiguration }).pipe(ns),
+).annotations({
+  identifier: "DescribeAutoScalingConfigurationResponse",
+}) as any as S.Schema<DescribeAutoScalingConfigurationResponse>;
+export interface VpcDNSTarget {
+  VpcIngressConnectionArn?: string;
+  VpcId?: string;
+  DomainName?: string;
+}
+export const VpcDNSTarget = S.suspend(() =>
+  S.Struct({
+    VpcIngressConnectionArn: S.optional(S.String),
+    VpcId: S.optional(S.String),
+    DomainName: S.optional(S.String),
+  }),
+).annotations({ identifier: "VpcDNSTarget" }) as any as S.Schema<VpcDNSTarget>;
+export type VpcDNSTargetList = VpcDNSTarget[];
 export const VpcDNSTargetList = S.Array(VpcDNSTarget);
-export class DescribeCustomDomainsResponse extends S.Class<DescribeCustomDomainsResponse>(
-  "DescribeCustomDomainsResponse",
-)(
-  {
+export interface DescribeCustomDomainsResponse {
+  DNSTarget: string;
+  ServiceArn: string;
+  CustomDomains: CustomDomainList;
+  VpcDNSTargets: VpcDNSTargetList;
+  NextToken?: string;
+}
+export const DescribeCustomDomainsResponse = S.suspend(() =>
+  S.Struct({
     DNSTarget: S.String,
     ServiceArn: S.String,
     CustomDomains: CustomDomainList,
     VpcDNSTargets: VpcDNSTargetList,
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ObservabilityConfiguration extends S.Class<ObservabilityConfiguration>(
-  "ObservabilityConfiguration",
-)({
-  ObservabilityConfigurationArn: S.optional(S.String),
-  ObservabilityConfigurationName: S.optional(S.String),
-  TraceConfiguration: S.optional(TraceConfiguration),
-  ObservabilityConfigurationRevision: S.optional(S.Number),
-  Latest: S.optional(S.Boolean),
-  Status: S.optional(S.String),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  DeletedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class DescribeObservabilityConfigurationResponse extends S.Class<DescribeObservabilityConfigurationResponse>(
-  "DescribeObservabilityConfigurationResponse",
-)({ ObservabilityConfiguration: ObservabilityConfiguration }, ns) {}
-export class AutoScalingConfigurationSummary extends S.Class<AutoScalingConfigurationSummary>(
-  "AutoScalingConfigurationSummary",
-)({
-  AutoScalingConfigurationArn: S.optional(S.String),
-  AutoScalingConfigurationName: S.optional(S.String),
-  AutoScalingConfigurationRevision: S.optional(S.Number),
-  Status: S.optional(S.String),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  HasAssociatedService: S.optional(S.Boolean),
-  IsDefault: S.optional(S.Boolean),
-}) {}
-export class Service extends S.Class<Service>("Service")({
-  ServiceName: S.String,
-  ServiceId: S.String,
-  ServiceArn: S.String,
-  ServiceUrl: S.optional(S.String),
-  CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  UpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  DeletedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Status: S.String,
-  SourceConfiguration: SourceConfiguration,
-  InstanceConfiguration: InstanceConfiguration,
-  EncryptionConfiguration: S.optional(EncryptionConfiguration),
-  HealthCheckConfiguration: S.optional(HealthCheckConfiguration),
-  AutoScalingConfigurationSummary: AutoScalingConfigurationSummary,
-  NetworkConfiguration: NetworkConfiguration,
-  ObservabilityConfiguration: S.optional(ServiceObservabilityConfiguration),
-}) {}
-export class DescribeServiceResponse extends S.Class<DescribeServiceResponse>(
-  "DescribeServiceResponse",
-)({ Service: Service }, ns) {}
-export class DescribeVpcConnectorResponse extends S.Class<DescribeVpcConnectorResponse>(
-  "DescribeVpcConnectorResponse",
-)({ VpcConnector: VpcConnector }, ns) {}
-export class VpcIngressConnection extends S.Class<VpcIngressConnection>(
-  "VpcIngressConnection",
-)({
-  VpcIngressConnectionArn: S.optional(S.String),
-  VpcIngressConnectionName: S.optional(S.String),
-  ServiceArn: S.optional(S.String),
-  Status: S.optional(S.String),
-  AccountId: S.optional(S.String),
-  DomainName: S.optional(S.String),
-  IngressVpcConfiguration: S.optional(IngressVpcConfiguration),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  DeletedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class DescribeVpcIngressConnectionResponse extends S.Class<DescribeVpcIngressConnectionResponse>(
-  "DescribeVpcIngressConnectionResponse",
-)({ VpcIngressConnection: VpcIngressConnection }, ns) {}
-export class DisassociateCustomDomainResponse extends S.Class<DisassociateCustomDomainResponse>(
-  "DisassociateCustomDomainResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeCustomDomainsResponse",
+}) as any as S.Schema<DescribeCustomDomainsResponse>;
+export interface ObservabilityConfiguration {
+  ObservabilityConfigurationArn?: string;
+  ObservabilityConfigurationName?: string;
+  TraceConfiguration?: TraceConfiguration;
+  ObservabilityConfigurationRevision?: number;
+  Latest?: boolean;
+  Status?: string;
+  CreatedAt?: Date;
+  DeletedAt?: Date;
+}
+export const ObservabilityConfiguration = S.suspend(() =>
+  S.Struct({
+    ObservabilityConfigurationArn: S.optional(S.String),
+    ObservabilityConfigurationName: S.optional(S.String),
+    TraceConfiguration: S.optional(TraceConfiguration),
+    ObservabilityConfigurationRevision: S.optional(S.Number),
+    Latest: S.optional(S.Boolean),
+    Status: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    DeletedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "ObservabilityConfiguration",
+}) as any as S.Schema<ObservabilityConfiguration>;
+export interface DescribeObservabilityConfigurationResponse {
+  ObservabilityConfiguration: ObservabilityConfiguration;
+}
+export const DescribeObservabilityConfigurationResponse = S.suspend(() =>
+  S.Struct({ ObservabilityConfiguration: ObservabilityConfiguration }).pipe(ns),
+).annotations({
+  identifier: "DescribeObservabilityConfigurationResponse",
+}) as any as S.Schema<DescribeObservabilityConfigurationResponse>;
+export interface AutoScalingConfigurationSummary {
+  AutoScalingConfigurationArn?: string;
+  AutoScalingConfigurationName?: string;
+  AutoScalingConfigurationRevision?: number;
+  Status?: string;
+  CreatedAt?: Date;
+  HasAssociatedService?: boolean;
+  IsDefault?: boolean;
+}
+export const AutoScalingConfigurationSummary = S.suspend(() =>
+  S.Struct({
+    AutoScalingConfigurationArn: S.optional(S.String),
+    AutoScalingConfigurationName: S.optional(S.String),
+    AutoScalingConfigurationRevision: S.optional(S.Number),
+    Status: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    HasAssociatedService: S.optional(S.Boolean),
+    IsDefault: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "AutoScalingConfigurationSummary",
+}) as any as S.Schema<AutoScalingConfigurationSummary>;
+export interface Service {
+  ServiceName: string;
+  ServiceId: string;
+  ServiceArn: string;
+  ServiceUrl?: string;
+  CreatedAt: Date;
+  UpdatedAt: Date;
+  DeletedAt?: Date;
+  Status: string;
+  SourceConfiguration: SourceConfiguration;
+  InstanceConfiguration: InstanceConfiguration;
+  EncryptionConfiguration?: EncryptionConfiguration;
+  HealthCheckConfiguration?: HealthCheckConfiguration;
+  AutoScalingConfigurationSummary: AutoScalingConfigurationSummary;
+  NetworkConfiguration: NetworkConfiguration;
+  ObservabilityConfiguration?: ServiceObservabilityConfiguration;
+}
+export const Service = S.suspend(() =>
+  S.Struct({
+    ServiceName: S.String,
+    ServiceId: S.String,
+    ServiceArn: S.String,
+    ServiceUrl: S.optional(S.String),
+    CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    UpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    DeletedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Status: S.String,
+    SourceConfiguration: SourceConfiguration,
+    InstanceConfiguration: InstanceConfiguration,
+    EncryptionConfiguration: S.optional(EncryptionConfiguration),
+    HealthCheckConfiguration: S.optional(HealthCheckConfiguration),
+    AutoScalingConfigurationSummary: AutoScalingConfigurationSummary,
+    NetworkConfiguration: NetworkConfiguration,
+    ObservabilityConfiguration: S.optional(ServiceObservabilityConfiguration),
+  }),
+).annotations({ identifier: "Service" }) as any as S.Schema<Service>;
+export interface DescribeServiceResponse {
+  Service: Service;
+}
+export const DescribeServiceResponse = S.suspend(() =>
+  S.Struct({ Service: Service }).pipe(ns),
+).annotations({
+  identifier: "DescribeServiceResponse",
+}) as any as S.Schema<DescribeServiceResponse>;
+export interface DescribeVpcConnectorResponse {
+  VpcConnector: VpcConnector;
+}
+export const DescribeVpcConnectorResponse = S.suspend(() =>
+  S.Struct({ VpcConnector: VpcConnector }).pipe(ns),
+).annotations({
+  identifier: "DescribeVpcConnectorResponse",
+}) as any as S.Schema<DescribeVpcConnectorResponse>;
+export interface VpcIngressConnection {
+  VpcIngressConnectionArn?: string;
+  VpcIngressConnectionName?: string;
+  ServiceArn?: string;
+  Status?: string;
+  AccountId?: string;
+  DomainName?: string;
+  IngressVpcConfiguration?: IngressVpcConfiguration;
+  CreatedAt?: Date;
+  DeletedAt?: Date;
+}
+export const VpcIngressConnection = S.suspend(() =>
+  S.Struct({
+    VpcIngressConnectionArn: S.optional(S.String),
+    VpcIngressConnectionName: S.optional(S.String),
+    ServiceArn: S.optional(S.String),
+    Status: S.optional(S.String),
+    AccountId: S.optional(S.String),
+    DomainName: S.optional(S.String),
+    IngressVpcConfiguration: S.optional(IngressVpcConfiguration),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    DeletedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "VpcIngressConnection",
+}) as any as S.Schema<VpcIngressConnection>;
+export interface DescribeVpcIngressConnectionResponse {
+  VpcIngressConnection: VpcIngressConnection;
+}
+export const DescribeVpcIngressConnectionResponse = S.suspend(() =>
+  S.Struct({ VpcIngressConnection: VpcIngressConnection }).pipe(ns),
+).annotations({
+  identifier: "DescribeVpcIngressConnectionResponse",
+}) as any as S.Schema<DescribeVpcIngressConnectionResponse>;
+export interface DisassociateCustomDomainResponse {
+  DNSTarget: string;
+  ServiceArn: string;
+  CustomDomain: CustomDomain;
+  VpcDNSTargets: VpcDNSTargetList;
+}
+export const DisassociateCustomDomainResponse = S.suspend(() =>
+  S.Struct({
     DNSTarget: S.String,
     ServiceArn: S.String,
     CustomDomain: CustomDomain,
     VpcDNSTargets: VpcDNSTargetList,
-  },
-  ns,
-) {}
-export class ListServicesForAutoScalingConfigurationResponse extends S.Class<ListServicesForAutoScalingConfigurationResponse>(
-  "ListServicesForAutoScalingConfigurationResponse",
-)({ ServiceArnList: ServiceArnList, NextToken: S.optional(S.String) }, ns) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ Tags: S.optional(TagList) }, ns) {}
-export class ListVpcConnectorsResponse extends S.Class<ListVpcConnectorsResponse>(
-  "ListVpcConnectorsResponse",
-)({ VpcConnectors: VpcConnectors, NextToken: S.optional(S.String) }, ns) {}
-export class ListVpcIngressConnectionsRequest extends S.Class<ListVpcIngressConnectionsRequest>(
-  "ListVpcIngressConnectionsRequest",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DisassociateCustomDomainResponse",
+}) as any as S.Schema<DisassociateCustomDomainResponse>;
+export interface ListServicesForAutoScalingConfigurationResponse {
+  ServiceArnList: ServiceArnList;
+  NextToken?: string;
+}
+export const ListServicesForAutoScalingConfigurationResponse = S.suspend(() =>
+  S.Struct({
+    ServiceArnList: ServiceArnList,
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListServicesForAutoScalingConfigurationResponse",
+}) as any as S.Schema<ListServicesForAutoScalingConfigurationResponse>;
+export interface ListTagsForResourceResponse {
+  Tags?: TagList;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ Tags: S.optional(TagList) }).pipe(ns),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface ListVpcConnectorsResponse {
+  VpcConnectors: VpcConnectors;
+  NextToken?: string;
+}
+export const ListVpcConnectorsResponse = S.suspend(() =>
+  S.Struct({
+    VpcConnectors: VpcConnectors,
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListVpcConnectorsResponse",
+}) as any as S.Schema<ListVpcConnectorsResponse>;
+export interface ListVpcIngressConnectionsRequest {
+  Filter?: ListVpcIngressConnectionsFilter;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListVpcIngressConnectionsRequest = S.suspend(() =>
+  S.Struct({
     Filter: S.optional(ListVpcIngressConnectionsFilter),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PauseServiceResponse extends S.Class<PauseServiceResponse>(
-  "PauseServiceResponse",
-)({ Service: Service, OperationId: S.optional(S.String) }, ns) {}
-export class ResumeServiceResponse extends S.Class<ResumeServiceResponse>(
-  "ResumeServiceResponse",
-)({ Service: Service, OperationId: S.optional(S.String) }, ns) {}
-export class StartDeploymentResponse extends S.Class<StartDeploymentResponse>(
-  "StartDeploymentResponse",
-)({ OperationId: S.String }, ns) {}
-export class UpdateDefaultAutoScalingConfigurationResponse extends S.Class<UpdateDefaultAutoScalingConfigurationResponse>(
-  "UpdateDefaultAutoScalingConfigurationResponse",
-)({ AutoScalingConfiguration: AutoScalingConfiguration }, ns) {}
-export class UpdateServiceResponse extends S.Class<UpdateServiceResponse>(
-  "UpdateServiceResponse",
-)({ Service: Service, OperationId: S.String }, ns) {}
-export class UpdateVpcIngressConnectionResponse extends S.Class<UpdateVpcIngressConnectionResponse>(
-  "UpdateVpcIngressConnectionResponse",
-)({ VpcIngressConnection: VpcIngressConnection }, ns) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListVpcIngressConnectionsRequest",
+}) as any as S.Schema<ListVpcIngressConnectionsRequest>;
+export interface PauseServiceResponse {
+  Service: Service;
+  OperationId?: string;
+}
+export const PauseServiceResponse = S.suspend(() =>
+  S.Struct({ Service: Service, OperationId: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "PauseServiceResponse",
+}) as any as S.Schema<PauseServiceResponse>;
+export interface ResumeServiceResponse {
+  Service: Service;
+  OperationId?: string;
+}
+export const ResumeServiceResponse = S.suspend(() =>
+  S.Struct({ Service: Service, OperationId: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "ResumeServiceResponse",
+}) as any as S.Schema<ResumeServiceResponse>;
+export interface StartDeploymentResponse {
+  OperationId: string;
+}
+export const StartDeploymentResponse = S.suspend(() =>
+  S.Struct({ OperationId: S.String }).pipe(ns),
+).annotations({
+  identifier: "StartDeploymentResponse",
+}) as any as S.Schema<StartDeploymentResponse>;
+export interface UpdateDefaultAutoScalingConfigurationResponse {
+  AutoScalingConfiguration: AutoScalingConfiguration;
+}
+export const UpdateDefaultAutoScalingConfigurationResponse = S.suspend(() =>
+  S.Struct({ AutoScalingConfiguration: AutoScalingConfiguration }).pipe(ns),
+).annotations({
+  identifier: "UpdateDefaultAutoScalingConfigurationResponse",
+}) as any as S.Schema<UpdateDefaultAutoScalingConfigurationResponse>;
+export interface UpdateServiceResponse {
+  Service: Service;
+  OperationId: string;
+}
+export const UpdateServiceResponse = S.suspend(() =>
+  S.Struct({ Service: Service, OperationId: S.String }).pipe(ns),
+).annotations({
+  identifier: "UpdateServiceResponse",
+}) as any as S.Schema<UpdateServiceResponse>;
+export interface UpdateVpcIngressConnectionResponse {
+  VpcIngressConnection: VpcIngressConnection;
+}
+export const UpdateVpcIngressConnectionResponse = S.suspend(() =>
+  S.Struct({ VpcIngressConnection: VpcIngressConnection }).pipe(ns),
+).annotations({
+  identifier: "UpdateVpcIngressConnectionResponse",
+}) as any as S.Schema<UpdateVpcIngressConnectionResponse>;
+export type AutoScalingConfigurationSummaryList =
+  AutoScalingConfigurationSummary[];
 export const AutoScalingConfigurationSummaryList = S.Array(
   AutoScalingConfigurationSummary,
 );
-export class ConnectionSummary extends S.Class<ConnectionSummary>(
-  "ConnectionSummary",
-)({
-  ConnectionName: S.optional(S.String),
-  ConnectionArn: S.optional(S.String),
-  ProviderType: S.optional(S.String),
-  Status: S.optional(S.String),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface ConnectionSummary {
+  ConnectionName?: string;
+  ConnectionArn?: string;
+  ProviderType?: string;
+  Status?: string;
+  CreatedAt?: Date;
+}
+export const ConnectionSummary = S.suspend(() =>
+  S.Struct({
+    ConnectionName: S.optional(S.String),
+    ConnectionArn: S.optional(S.String),
+    ProviderType: S.optional(S.String),
+    Status: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "ConnectionSummary",
+}) as any as S.Schema<ConnectionSummary>;
+export type ConnectionSummaryList = ConnectionSummary[];
 export const ConnectionSummaryList = S.Array(ConnectionSummary);
-export class ObservabilityConfigurationSummary extends S.Class<ObservabilityConfigurationSummary>(
-  "ObservabilityConfigurationSummary",
-)({
-  ObservabilityConfigurationArn: S.optional(S.String),
-  ObservabilityConfigurationName: S.optional(S.String),
-  ObservabilityConfigurationRevision: S.optional(S.Number),
-}) {}
+export interface ObservabilityConfigurationSummary {
+  ObservabilityConfigurationArn?: string;
+  ObservabilityConfigurationName?: string;
+  ObservabilityConfigurationRevision?: number;
+}
+export const ObservabilityConfigurationSummary = S.suspend(() =>
+  S.Struct({
+    ObservabilityConfigurationArn: S.optional(S.String),
+    ObservabilityConfigurationName: S.optional(S.String),
+    ObservabilityConfigurationRevision: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "ObservabilityConfigurationSummary",
+}) as any as S.Schema<ObservabilityConfigurationSummary>;
+export type ObservabilityConfigurationSummaryList =
+  ObservabilityConfigurationSummary[];
 export const ObservabilityConfigurationSummaryList = S.Array(
   ObservabilityConfigurationSummary,
 );
-export class OperationSummary extends S.Class<OperationSummary>(
-  "OperationSummary",
-)({
-  Id: S.optional(S.String),
-  Type: S.optional(S.String),
-  Status: S.optional(S.String),
-  TargetArn: S.optional(S.String),
-  StartedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  EndedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface OperationSummary {
+  Id?: string;
+  Type?: string;
+  Status?: string;
+  TargetArn?: string;
+  StartedAt?: Date;
+  EndedAt?: Date;
+  UpdatedAt?: Date;
+}
+export const OperationSummary = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Type: S.optional(S.String),
+    Status: S.optional(S.String),
+    TargetArn: S.optional(S.String),
+    StartedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EndedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "OperationSummary",
+}) as any as S.Schema<OperationSummary>;
+export type OperationSummaryList = OperationSummary[];
 export const OperationSummaryList = S.Array(OperationSummary);
-export class ServiceSummary extends S.Class<ServiceSummary>("ServiceSummary")({
-  ServiceName: S.optional(S.String),
-  ServiceId: S.optional(S.String),
-  ServiceArn: S.optional(S.String),
-  ServiceUrl: S.optional(S.String),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Status: S.optional(S.String),
-}) {}
+export interface ServiceSummary {
+  ServiceName?: string;
+  ServiceId?: string;
+  ServiceArn?: string;
+  ServiceUrl?: string;
+  CreatedAt?: Date;
+  UpdatedAt?: Date;
+  Status?: string;
+}
+export const ServiceSummary = S.suspend(() =>
+  S.Struct({
+    ServiceName: S.optional(S.String),
+    ServiceId: S.optional(S.String),
+    ServiceArn: S.optional(S.String),
+    ServiceUrl: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Status: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ServiceSummary",
+}) as any as S.Schema<ServiceSummary>;
+export type ServiceSummaryList = ServiceSummary[];
 export const ServiceSummaryList = S.Array(ServiceSummary);
-export class CreateAutoScalingConfigurationResponse extends S.Class<CreateAutoScalingConfigurationResponse>(
-  "CreateAutoScalingConfigurationResponse",
-)({ AutoScalingConfiguration: AutoScalingConfiguration }, ns) {}
-export class CreateConnectionResponse extends S.Class<CreateConnectionResponse>(
-  "CreateConnectionResponse",
-)({ Connection: Connection }, ns) {}
-export class CreateObservabilityConfigurationResponse extends S.Class<CreateObservabilityConfigurationResponse>(
-  "CreateObservabilityConfigurationResponse",
-)({ ObservabilityConfiguration: ObservabilityConfiguration }, ns) {}
-export class CreateVpcConnectorResponse extends S.Class<CreateVpcConnectorResponse>(
-  "CreateVpcConnectorResponse",
-)({ VpcConnector: VpcConnector }, ns) {}
-export class CreateVpcIngressConnectionResponse extends S.Class<CreateVpcIngressConnectionResponse>(
-  "CreateVpcIngressConnectionResponse",
-)({ VpcIngressConnection: VpcIngressConnection }, ns) {}
-export class DeleteAutoScalingConfigurationResponse extends S.Class<DeleteAutoScalingConfigurationResponse>(
-  "DeleteAutoScalingConfigurationResponse",
-)({ AutoScalingConfiguration: AutoScalingConfiguration }, ns) {}
-export class DeleteObservabilityConfigurationResponse extends S.Class<DeleteObservabilityConfigurationResponse>(
-  "DeleteObservabilityConfigurationResponse",
-)({ ObservabilityConfiguration: ObservabilityConfiguration }, ns) {}
-export class DeleteServiceResponse extends S.Class<DeleteServiceResponse>(
-  "DeleteServiceResponse",
-)({ Service: Service, OperationId: S.String }, ns) {}
-export class DeleteVpcIngressConnectionResponse extends S.Class<DeleteVpcIngressConnectionResponse>(
-  "DeleteVpcIngressConnectionResponse",
-)({ VpcIngressConnection: VpcIngressConnection }, ns) {}
-export class ListAutoScalingConfigurationsResponse extends S.Class<ListAutoScalingConfigurationsResponse>(
-  "ListAutoScalingConfigurationsResponse",
-)(
-  {
+export interface CreateAutoScalingConfigurationResponse {
+  AutoScalingConfiguration: AutoScalingConfiguration;
+}
+export const CreateAutoScalingConfigurationResponse = S.suspend(() =>
+  S.Struct({ AutoScalingConfiguration: AutoScalingConfiguration }).pipe(ns),
+).annotations({
+  identifier: "CreateAutoScalingConfigurationResponse",
+}) as any as S.Schema<CreateAutoScalingConfigurationResponse>;
+export interface CreateConnectionResponse {
+  Connection: Connection;
+}
+export const CreateConnectionResponse = S.suspend(() =>
+  S.Struct({ Connection: Connection }).pipe(ns),
+).annotations({
+  identifier: "CreateConnectionResponse",
+}) as any as S.Schema<CreateConnectionResponse>;
+export interface CreateObservabilityConfigurationResponse {
+  ObservabilityConfiguration: ObservabilityConfiguration;
+}
+export const CreateObservabilityConfigurationResponse = S.suspend(() =>
+  S.Struct({ ObservabilityConfiguration: ObservabilityConfiguration }).pipe(ns),
+).annotations({
+  identifier: "CreateObservabilityConfigurationResponse",
+}) as any as S.Schema<CreateObservabilityConfigurationResponse>;
+export interface CreateVpcConnectorResponse {
+  VpcConnector: VpcConnector;
+}
+export const CreateVpcConnectorResponse = S.suspend(() =>
+  S.Struct({ VpcConnector: VpcConnector }).pipe(ns),
+).annotations({
+  identifier: "CreateVpcConnectorResponse",
+}) as any as S.Schema<CreateVpcConnectorResponse>;
+export interface CreateVpcIngressConnectionResponse {
+  VpcIngressConnection: VpcIngressConnection;
+}
+export const CreateVpcIngressConnectionResponse = S.suspend(() =>
+  S.Struct({ VpcIngressConnection: VpcIngressConnection }).pipe(ns),
+).annotations({
+  identifier: "CreateVpcIngressConnectionResponse",
+}) as any as S.Schema<CreateVpcIngressConnectionResponse>;
+export interface DeleteAutoScalingConfigurationResponse {
+  AutoScalingConfiguration: AutoScalingConfiguration;
+}
+export const DeleteAutoScalingConfigurationResponse = S.suspend(() =>
+  S.Struct({ AutoScalingConfiguration: AutoScalingConfiguration }).pipe(ns),
+).annotations({
+  identifier: "DeleteAutoScalingConfigurationResponse",
+}) as any as S.Schema<DeleteAutoScalingConfigurationResponse>;
+export interface DeleteObservabilityConfigurationResponse {
+  ObservabilityConfiguration: ObservabilityConfiguration;
+}
+export const DeleteObservabilityConfigurationResponse = S.suspend(() =>
+  S.Struct({ ObservabilityConfiguration: ObservabilityConfiguration }).pipe(ns),
+).annotations({
+  identifier: "DeleteObservabilityConfigurationResponse",
+}) as any as S.Schema<DeleteObservabilityConfigurationResponse>;
+export interface DeleteServiceResponse {
+  Service: Service;
+  OperationId: string;
+}
+export const DeleteServiceResponse = S.suspend(() =>
+  S.Struct({ Service: Service, OperationId: S.String }).pipe(ns),
+).annotations({
+  identifier: "DeleteServiceResponse",
+}) as any as S.Schema<DeleteServiceResponse>;
+export interface DeleteVpcIngressConnectionResponse {
+  VpcIngressConnection: VpcIngressConnection;
+}
+export const DeleteVpcIngressConnectionResponse = S.suspend(() =>
+  S.Struct({ VpcIngressConnection: VpcIngressConnection }).pipe(ns),
+).annotations({
+  identifier: "DeleteVpcIngressConnectionResponse",
+}) as any as S.Schema<DeleteVpcIngressConnectionResponse>;
+export interface ListAutoScalingConfigurationsResponse {
+  AutoScalingConfigurationSummaryList: AutoScalingConfigurationSummaryList;
+  NextToken?: string;
+}
+export const ListAutoScalingConfigurationsResponse = S.suspend(() =>
+  S.Struct({
     AutoScalingConfigurationSummaryList: AutoScalingConfigurationSummaryList,
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListConnectionsResponse extends S.Class<ListConnectionsResponse>(
-  "ListConnectionsResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListAutoScalingConfigurationsResponse",
+}) as any as S.Schema<ListAutoScalingConfigurationsResponse>;
+export interface ListConnectionsResponse {
+  ConnectionSummaryList: ConnectionSummaryList;
+  NextToken?: string;
+}
+export const ListConnectionsResponse = S.suspend(() =>
+  S.Struct({
     ConnectionSummaryList: ConnectionSummaryList,
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListObservabilityConfigurationsResponse extends S.Class<ListObservabilityConfigurationsResponse>(
-  "ListObservabilityConfigurationsResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListConnectionsResponse",
+}) as any as S.Schema<ListConnectionsResponse>;
+export interface ListObservabilityConfigurationsResponse {
+  ObservabilityConfigurationSummaryList: ObservabilityConfigurationSummaryList;
+  NextToken?: string;
+}
+export const ListObservabilityConfigurationsResponse = S.suspend(() =>
+  S.Struct({
     ObservabilityConfigurationSummaryList:
       ObservabilityConfigurationSummaryList,
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListOperationsResponse extends S.Class<ListOperationsResponse>(
-  "ListOperationsResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListObservabilityConfigurationsResponse",
+}) as any as S.Schema<ListObservabilityConfigurationsResponse>;
+export interface ListOperationsResponse {
+  OperationSummaryList?: OperationSummaryList;
+  NextToken?: string;
+}
+export const ListOperationsResponse = S.suspend(() =>
+  S.Struct({
     OperationSummaryList: S.optional(OperationSummaryList),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListServicesResponse extends S.Class<ListServicesResponse>(
-  "ListServicesResponse",
-)(
-  { ServiceSummaryList: ServiceSummaryList, NextToken: S.optional(S.String) },
-  ns,
-) {}
-export class VpcIngressConnectionSummary extends S.Class<VpcIngressConnectionSummary>(
-  "VpcIngressConnectionSummary",
-)({
-  VpcIngressConnectionArn: S.optional(S.String),
-  ServiceArn: S.optional(S.String),
-}) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "ListOperationsResponse",
+}) as any as S.Schema<ListOperationsResponse>;
+export interface ListServicesResponse {
+  ServiceSummaryList: ServiceSummaryList;
+  NextToken?: string;
+}
+export const ListServicesResponse = S.suspend(() =>
+  S.Struct({
+    ServiceSummaryList: ServiceSummaryList,
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListServicesResponse",
+}) as any as S.Schema<ListServicesResponse>;
+export interface VpcIngressConnectionSummary {
+  VpcIngressConnectionArn?: string;
+  ServiceArn?: string;
+}
+export const VpcIngressConnectionSummary = S.suspend(() =>
+  S.Struct({
+    VpcIngressConnectionArn: S.optional(S.String),
+    ServiceArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "VpcIngressConnectionSummary",
+}) as any as S.Schema<VpcIngressConnectionSummary>;
+export type VpcIngressConnectionSummaryList = VpcIngressConnectionSummary[];
 export const VpcIngressConnectionSummaryList = S.Array(
   VpcIngressConnectionSummary,
 );
-export class AssociateCustomDomainResponse extends S.Class<AssociateCustomDomainResponse>(
-  "AssociateCustomDomainResponse",
-)(
-  {
+export interface AssociateCustomDomainResponse {
+  DNSTarget: string;
+  ServiceArn: string;
+  CustomDomain: CustomDomain;
+  VpcDNSTargets: VpcDNSTargetList;
+}
+export const AssociateCustomDomainResponse = S.suspend(() =>
+  S.Struct({
     DNSTarget: S.String,
     ServiceArn: S.String,
     CustomDomain: CustomDomain,
     VpcDNSTargets: VpcDNSTargetList,
-  },
-  ns,
-) {}
-export class ListVpcIngressConnectionsResponse extends S.Class<ListVpcIngressConnectionsResponse>(
-  "ListVpcIngressConnectionsResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "AssociateCustomDomainResponse",
+}) as any as S.Schema<AssociateCustomDomainResponse>;
+export interface ListVpcIngressConnectionsResponse {
+  VpcIngressConnectionSummaryList: VpcIngressConnectionSummaryList;
+  NextToken?: string;
+}
+export const ListVpcIngressConnectionsResponse = S.suspend(() =>
+  S.Struct({
     VpcIngressConnectionSummaryList: VpcIngressConnectionSummaryList,
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class CreateServiceRequest extends S.Class<CreateServiceRequest>(
-  "CreateServiceRequest",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListVpcIngressConnectionsResponse",
+}) as any as S.Schema<ListVpcIngressConnectionsResponse>;
+export interface CreateServiceRequest {
+  ServiceName: string;
+  SourceConfiguration: SourceConfiguration;
+  InstanceConfiguration?: InstanceConfiguration;
+  Tags?: TagList;
+  EncryptionConfiguration?: EncryptionConfiguration;
+  HealthCheckConfiguration?: HealthCheckConfiguration;
+  AutoScalingConfigurationArn?: string;
+  NetworkConfiguration?: NetworkConfiguration;
+  ObservabilityConfiguration?: ServiceObservabilityConfiguration;
+}
+export const CreateServiceRequest = S.suspend(() =>
+  S.Struct({
     ServiceName: S.String,
     SourceConfiguration: SourceConfiguration,
     InstanceConfiguration: S.optional(InstanceConfiguration),
@@ -997,12 +1981,29 @@ export class CreateServiceRequest extends S.Class<CreateServiceRequest>(
     AutoScalingConfigurationArn: S.optional(S.String),
     NetworkConfiguration: S.optional(NetworkConfiguration),
     ObservabilityConfiguration: S.optional(ServiceObservabilityConfiguration),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateServiceResponse extends S.Class<CreateServiceResponse>(
-  "CreateServiceResponse",
-)({ Service: Service, OperationId: S.String }, ns) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateServiceRequest",
+}) as any as S.Schema<CreateServiceRequest>;
+export interface CreateServiceResponse {
+  Service: Service;
+  OperationId: string;
+}
+export const CreateServiceResponse = S.suspend(() =>
+  S.Struct({ Service: Service, OperationId: S.String }).pipe(ns),
+).annotations({
+  identifier: "CreateServiceResponse",
+}) as any as S.Schema<CreateServiceResponse>;
 
 //# Errors
 export class InternalServiceErrorException extends S.TaggedError<InternalServiceErrorException>()(

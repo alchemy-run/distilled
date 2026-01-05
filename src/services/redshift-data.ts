@@ -242,11 +242,24 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type SqlList = string[];
 export const SqlList = S.Array(S.String);
-export class BatchExecuteStatementInput extends S.Class<BatchExecuteStatementInput>(
-  "BatchExecuteStatementInput",
-)(
-  {
+export interface BatchExecuteStatementInput {
+  Sqls: SqlList;
+  ClusterIdentifier?: string;
+  SecretArn?: string;
+  DbUser?: string;
+  Database?: string;
+  WithEvent?: boolean;
+  StatementName?: string;
+  WorkgroupName?: string;
+  ClientToken?: string;
+  ResultFormat?: string;
+  SessionKeepAliveSeconds?: number;
+  SessionId?: string;
+}
+export const BatchExecuteStatementInput = S.suspend(() =>
+  S.Struct({
     Sqls: SqlList,
     ClusterIdentifier: S.optional(S.String),
     SecretArn: S.optional(S.String),
@@ -259,25 +272,46 @@ export class BatchExecuteStatementInput extends S.Class<BatchExecuteStatementInp
     ResultFormat: S.optional(S.String),
     SessionKeepAliveSeconds: S.optional(S.Number),
     SessionId: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CancelStatementRequest extends S.Class<CancelStatementRequest>(
-  "CancelStatementRequest",
-)(
-  { Id: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeStatementRequest extends S.Class<DescribeStatementRequest>(
-  "DescribeStatementRequest",
-)(
-  { Id: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeTableRequest extends S.Class<DescribeTableRequest>(
-  "DescribeTableRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "BatchExecuteStatementInput",
+}) as any as S.Schema<BatchExecuteStatementInput>;
+export interface CancelStatementRequest {
+  Id: string;
+}
+export const CancelStatementRequest = S.suspend(() =>
+  S.Struct({ Id: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CancelStatementRequest",
+}) as any as S.Schema<CancelStatementRequest>;
+export interface DescribeStatementRequest {
+  Id: string;
+}
+export const DescribeStatementRequest = S.suspend(() =>
+  S.Struct({ Id: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeStatementRequest",
+}) as any as S.Schema<DescribeStatementRequest>;
+export interface DescribeTableRequest {
+  ClusterIdentifier?: string;
+  SecretArn?: string;
+  DbUser?: string;
+  Database: string;
+  ConnectedDatabase?: string;
+  Schema?: string;
+  Table?: string;
+  NextToken?: string;
+  MaxResults?: number;
+  WorkgroupName?: string;
+}
+export const DescribeTableRequest = S.suspend(() =>
+  S.Struct({
     ClusterIdentifier: S.optional(S.String),
     SecretArn: S.optional(S.String),
     DbUser: S.optional(S.String),
@@ -288,25 +322,45 @@ export class DescribeTableRequest extends S.Class<DescribeTableRequest>(
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     WorkgroupName: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetStatementResultRequest extends S.Class<GetStatementResultRequest>(
-  "GetStatementResultRequest",
-)(
-  { Id: S.String, NextToken: S.optional(S.String) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetStatementResultV2Request extends S.Class<GetStatementResultV2Request>(
-  "GetStatementResultV2Request",
-)(
-  { Id: S.String, NextToken: S.optional(S.String) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListDatabasesRequest extends S.Class<ListDatabasesRequest>(
-  "ListDatabasesRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeTableRequest",
+}) as any as S.Schema<DescribeTableRequest>;
+export interface GetStatementResultRequest {
+  Id: string;
+  NextToken?: string;
+}
+export const GetStatementResultRequest = S.suspend(() =>
+  S.Struct({ Id: S.String, NextToken: S.optional(S.String) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetStatementResultRequest",
+}) as any as S.Schema<GetStatementResultRequest>;
+export interface GetStatementResultV2Request {
+  Id: string;
+  NextToken?: string;
+}
+export const GetStatementResultV2Request = S.suspend(() =>
+  S.Struct({ Id: S.String, NextToken: S.optional(S.String) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetStatementResultV2Request",
+}) as any as S.Schema<GetStatementResultV2Request>;
+export interface ListDatabasesRequest {
+  ClusterIdentifier?: string;
+  Database: string;
+  SecretArn?: string;
+  DbUser?: string;
+  NextToken?: string;
+  MaxResults?: number;
+  WorkgroupName?: string;
+}
+export const ListDatabasesRequest = S.suspend(() =>
+  S.Struct({
     ClusterIdentifier: S.optional(S.String),
     Database: S.String,
     SecretArn: S.optional(S.String),
@@ -314,13 +368,25 @@ export class ListDatabasesRequest extends S.Class<ListDatabasesRequest>(
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     WorkgroupName: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListSchemasRequest extends S.Class<ListSchemasRequest>(
-  "ListSchemasRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListDatabasesRequest",
+}) as any as S.Schema<ListDatabasesRequest>;
+export interface ListSchemasRequest {
+  ClusterIdentifier?: string;
+  SecretArn?: string;
+  DbUser?: string;
+  Database: string;
+  ConnectedDatabase?: string;
+  SchemaPattern?: string;
+  NextToken?: string;
+  MaxResults?: number;
+  WorkgroupName?: string;
+}
+export const ListSchemasRequest = S.suspend(() =>
+  S.Struct({
     ClusterIdentifier: S.optional(S.String),
     SecretArn: S.optional(S.String),
     DbUser: S.optional(S.String),
@@ -330,13 +396,24 @@ export class ListSchemasRequest extends S.Class<ListSchemasRequest>(
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     WorkgroupName: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListStatementsRequest extends S.Class<ListStatementsRequest>(
-  "ListStatementsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListSchemasRequest",
+}) as any as S.Schema<ListSchemasRequest>;
+export interface ListStatementsRequest {
+  NextToken?: string;
+  MaxResults?: number;
+  StatementName?: string;
+  Status?: string;
+  RoleLevel?: boolean;
+  Database?: string;
+  ClusterIdentifier?: string;
+  WorkgroupName?: string;
+}
+export const ListStatementsRequest = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     StatementName: S.optional(S.String),
@@ -345,13 +422,26 @@ export class ListStatementsRequest extends S.Class<ListStatementsRequest>(
     Database: S.optional(S.String),
     ClusterIdentifier: S.optional(S.String),
     WorkgroupName: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTablesRequest extends S.Class<ListTablesRequest>(
-  "ListTablesRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListStatementsRequest",
+}) as any as S.Schema<ListStatementsRequest>;
+export interface ListTablesRequest {
+  ClusterIdentifier?: string;
+  SecretArn?: string;
+  DbUser?: string;
+  Database: string;
+  ConnectedDatabase?: string;
+  SchemaPattern?: string;
+  TablePattern?: string;
+  NextToken?: string;
+  MaxResults?: number;
+  WorkgroupName?: string;
+}
+export const ListTablesRequest = S.suspend(() =>
+  S.Struct({
     ClusterIdentifier: S.optional(S.String),
     SecretArn: S.optional(S.String),
     DbUser: S.optional(S.String),
@@ -362,53 +452,114 @@ export class ListTablesRequest extends S.Class<ListTablesRequest>(
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     WorkgroupName: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListTablesRequest",
+}) as any as S.Schema<ListTablesRequest>;
+export type DbGroupList = string[];
 export const DbGroupList = S.Array(S.String);
-export class SqlParameter extends S.Class<SqlParameter>("SqlParameter")({
-  name: S.String,
-  value: S.String,
-}) {}
+export interface SqlParameter {
+  name: string;
+  value: string;
+}
+export const SqlParameter = S.suspend(() =>
+  S.Struct({ name: S.String, value: S.String }),
+).annotations({ identifier: "SqlParameter" }) as any as S.Schema<SqlParameter>;
+export type SqlParametersList = SqlParameter[];
 export const SqlParametersList = S.Array(SqlParameter);
-export class ColumnMetadata extends S.Class<ColumnMetadata>("ColumnMetadata")({
-  isCaseSensitive: S.optional(S.Boolean),
-  isCurrency: S.optional(S.Boolean),
-  isSigned: S.optional(S.Boolean),
-  label: S.optional(S.String),
-  name: S.optional(S.String),
-  nullable: S.optional(S.Number),
-  precision: S.optional(S.Number),
-  scale: S.optional(S.Number),
-  schemaName: S.optional(S.String),
-  tableName: S.optional(S.String),
-  typeName: S.optional(S.String),
-  length: S.optional(S.Number),
-  columnDefault: S.optional(S.String),
-}) {}
+export interface ColumnMetadata {
+  isCaseSensitive?: boolean;
+  isCurrency?: boolean;
+  isSigned?: boolean;
+  label?: string;
+  name?: string;
+  nullable?: number;
+  precision?: number;
+  scale?: number;
+  schemaName?: string;
+  tableName?: string;
+  typeName?: string;
+  length?: number;
+  columnDefault?: string;
+}
+export const ColumnMetadata = S.suspend(() =>
+  S.Struct({
+    isCaseSensitive: S.optional(S.Boolean),
+    isCurrency: S.optional(S.Boolean),
+    isSigned: S.optional(S.Boolean),
+    label: S.optional(S.String),
+    name: S.optional(S.String),
+    nullable: S.optional(S.Number),
+    precision: S.optional(S.Number),
+    scale: S.optional(S.Number),
+    schemaName: S.optional(S.String),
+    tableName: S.optional(S.String),
+    typeName: S.optional(S.String),
+    length: S.optional(S.Number),
+    columnDefault: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ColumnMetadata",
+}) as any as S.Schema<ColumnMetadata>;
+export type ColumnMetadataList = ColumnMetadata[];
 export const ColumnMetadataList = S.Array(ColumnMetadata);
+export type DatabaseList = string[];
 export const DatabaseList = S.Array(S.String);
+export type SchemaList = string[];
 export const SchemaList = S.Array(S.String);
-export class BatchExecuteStatementOutput extends S.Class<BatchExecuteStatementOutput>(
-  "BatchExecuteStatementOutput",
-)({
-  Id: S.optional(S.String),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  ClusterIdentifier: S.optional(S.String),
-  DbUser: S.optional(S.String),
-  DbGroups: S.optional(DbGroupList),
-  Database: S.optional(S.String),
-  SecretArn: S.optional(S.String),
-  WorkgroupName: S.optional(S.String),
-  SessionId: S.optional(S.String),
-}) {}
-export class CancelStatementResponse extends S.Class<CancelStatementResponse>(
-  "CancelStatementResponse",
-)({ Status: S.optional(S.Boolean) }) {}
-export class ExecuteStatementInput extends S.Class<ExecuteStatementInput>(
-  "ExecuteStatementInput",
-)(
-  {
+export interface BatchExecuteStatementOutput {
+  Id?: string;
+  CreatedAt?: Date;
+  ClusterIdentifier?: string;
+  DbUser?: string;
+  DbGroups?: DbGroupList;
+  Database?: string;
+  SecretArn?: string;
+  WorkgroupName?: string;
+  SessionId?: string;
+}
+export const BatchExecuteStatementOutput = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ClusterIdentifier: S.optional(S.String),
+    DbUser: S.optional(S.String),
+    DbGroups: S.optional(DbGroupList),
+    Database: S.optional(S.String),
+    SecretArn: S.optional(S.String),
+    WorkgroupName: S.optional(S.String),
+    SessionId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "BatchExecuteStatementOutput",
+}) as any as S.Schema<BatchExecuteStatementOutput>;
+export interface CancelStatementResponse {
+  Status?: boolean;
+}
+export const CancelStatementResponse = S.suspend(() =>
+  S.Struct({ Status: S.optional(S.Boolean) }),
+).annotations({
+  identifier: "CancelStatementResponse",
+}) as any as S.Schema<CancelStatementResponse>;
+export interface ExecuteStatementInput {
+  Sql: string;
+  ClusterIdentifier?: string;
+  SecretArn?: string;
+  DbUser?: string;
+  Database?: string;
+  WithEvent?: boolean;
+  StatementName?: string;
+  Parameters?: SqlParametersList;
+  WorkgroupName?: string;
+  ClientToken?: string;
+  ResultFormat?: string;
+  SessionKeepAliveSeconds?: number;
+  SessionId?: string;
+}
+export const ExecuteStatementInput = S.suspend(() =>
+  S.Struct({
     Sql: S.String,
     ClusterIdentifier: S.optional(S.String),
     SecretArn: S.optional(S.String),
@@ -422,32 +573,71 @@ export class ExecuteStatementInput extends S.Class<ExecuteStatementInput>(
     ResultFormat: S.optional(S.String),
     SessionKeepAliveSeconds: S.optional(S.Number),
     SessionId: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListDatabasesResponse extends S.Class<ListDatabasesResponse>(
-  "ListDatabasesResponse",
-)({ Databases: S.optional(DatabaseList), NextToken: S.optional(S.String) }) {}
-export class ListSchemasResponse extends S.Class<ListSchemasResponse>(
-  "ListSchemasResponse",
-)({ Schemas: S.optional(SchemaList), NextToken: S.optional(S.String) }) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ExecuteStatementInput",
+}) as any as S.Schema<ExecuteStatementInput>;
+export interface ListDatabasesResponse {
+  Databases?: DatabaseList;
+  NextToken?: string;
+}
+export const ListDatabasesResponse = S.suspend(() =>
+  S.Struct({
+    Databases: S.optional(DatabaseList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListDatabasesResponse",
+}) as any as S.Schema<ListDatabasesResponse>;
+export interface ListSchemasResponse {
+  Schemas?: SchemaList;
+  NextToken?: string;
+}
+export const ListSchemasResponse = S.suspend(() =>
+  S.Struct({
+    Schemas: S.optional(SchemaList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListSchemasResponse",
+}) as any as S.Schema<ListSchemasResponse>;
+export type StatementStringList = string[];
 export const StatementStringList = S.Array(S.String);
-export class SubStatementData extends S.Class<SubStatementData>(
-  "SubStatementData",
-)({
-  Id: S.String,
-  Duration: S.optional(S.Number),
-  Error: S.optional(S.String),
-  Status: S.optional(S.String),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  QueryString: S.optional(S.String),
-  ResultRows: S.optional(S.Number),
-  ResultSize: S.optional(S.Number),
-  RedshiftQueryId: S.optional(S.Number),
-  HasResultSet: S.optional(S.Boolean),
-}) {}
+export interface SubStatementData {
+  Id: string;
+  Duration?: number;
+  Error?: string;
+  Status?: string;
+  CreatedAt?: Date;
+  UpdatedAt?: Date;
+  QueryString?: string;
+  ResultRows?: number;
+  ResultSize?: number;
+  RedshiftQueryId?: number;
+  HasResultSet?: boolean;
+}
+export const SubStatementData = S.suspend(() =>
+  S.Struct({
+    Id: S.String,
+    Duration: S.optional(S.Number),
+    Error: S.optional(S.String),
+    Status: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    QueryString: S.optional(S.String),
+    ResultRows: S.optional(S.Number),
+    ResultSize: S.optional(S.Number),
+    RedshiftQueryId: S.optional(S.Number),
+    HasResultSet: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "SubStatementData",
+}) as any as S.Schema<SubStatementData>;
+export type SubStatementList = SubStatementData[];
 export const SubStatementList = S.Array(SubStatementData);
+export type ColumnList = ColumnMetadata[];
 export const ColumnList = S.Array(ColumnMetadata);
 export const Field = S.Union(
   S.Struct({ isNull: S.Boolean }),
@@ -457,99 +647,203 @@ export const Field = S.Union(
   S.Struct({ stringValue: S.String }),
   S.Struct({ blobValue: T.Blob }),
 );
+export type FieldList = (typeof Field)["Type"][];
 export const FieldList = S.Array(Field);
+export type SqlRecords = FieldList[];
 export const SqlRecords = S.Array(FieldList);
 export const QueryRecords = S.Union(S.Struct({ CSVRecords: S.String }));
+export type FormattedSqlRecords = (typeof QueryRecords)["Type"][];
 export const FormattedSqlRecords = S.Array(QueryRecords);
-export class StatementData extends S.Class<StatementData>("StatementData")({
-  Id: S.String,
-  QueryString: S.optional(S.String),
-  QueryStrings: S.optional(StatementStringList),
-  SecretArn: S.optional(S.String),
-  Status: S.optional(S.String),
-  StatementName: S.optional(S.String),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  QueryParameters: S.optional(SqlParametersList),
-  IsBatchStatement: S.optional(S.Boolean),
-  ResultFormat: S.optional(S.String),
-  SessionId: S.optional(S.String),
-}) {}
+export interface StatementData {
+  Id: string;
+  QueryString?: string;
+  QueryStrings?: StatementStringList;
+  SecretArn?: string;
+  Status?: string;
+  StatementName?: string;
+  CreatedAt?: Date;
+  UpdatedAt?: Date;
+  QueryParameters?: SqlParametersList;
+  IsBatchStatement?: boolean;
+  ResultFormat?: string;
+  SessionId?: string;
+}
+export const StatementData = S.suspend(() =>
+  S.Struct({
+    Id: S.String,
+    QueryString: S.optional(S.String),
+    QueryStrings: S.optional(StatementStringList),
+    SecretArn: S.optional(S.String),
+    Status: S.optional(S.String),
+    StatementName: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    QueryParameters: S.optional(SqlParametersList),
+    IsBatchStatement: S.optional(S.Boolean),
+    ResultFormat: S.optional(S.String),
+    SessionId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "StatementData",
+}) as any as S.Schema<StatementData>;
+export type StatementList = StatementData[];
 export const StatementList = S.Array(StatementData);
-export class TableMember extends S.Class<TableMember>("TableMember")({
-  name: S.optional(S.String),
-  type: S.optional(S.String),
-  schema: S.optional(S.String),
-}) {}
+export interface TableMember {
+  name?: string;
+  type?: string;
+  schema?: string;
+}
+export const TableMember = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    schema: S.optional(S.String),
+  }),
+).annotations({ identifier: "TableMember" }) as any as S.Schema<TableMember>;
+export type TableList = TableMember[];
 export const TableList = S.Array(TableMember);
-export class DescribeStatementResponse extends S.Class<DescribeStatementResponse>(
-  "DescribeStatementResponse",
-)({
-  Id: S.String,
-  SecretArn: S.optional(S.String),
-  DbUser: S.optional(S.String),
-  Database: S.optional(S.String),
-  ClusterIdentifier: S.optional(S.String),
-  Duration: S.optional(S.Number),
-  Error: S.optional(S.String),
-  Status: S.optional(S.String),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  RedshiftPid: S.optional(S.Number),
-  HasResultSet: S.optional(S.Boolean),
-  QueryString: S.optional(S.String),
-  ResultRows: S.optional(S.Number),
-  ResultSize: S.optional(S.Number),
-  RedshiftQueryId: S.optional(S.Number),
-  QueryParameters: S.optional(SqlParametersList),
-  SubStatements: S.optional(SubStatementList),
-  WorkgroupName: S.optional(S.String),
-  ResultFormat: S.optional(S.String),
-  SessionId: S.optional(S.String),
-}) {}
-export class DescribeTableResponse extends S.Class<DescribeTableResponse>(
-  "DescribeTableResponse",
-)({
-  TableName: S.optional(S.String),
-  ColumnList: S.optional(ColumnList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ExecuteStatementOutput extends S.Class<ExecuteStatementOutput>(
-  "ExecuteStatementOutput",
-)({
-  Id: S.optional(S.String),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  ClusterIdentifier: S.optional(S.String),
-  DbUser: S.optional(S.String),
-  DbGroups: S.optional(DbGroupList),
-  Database: S.optional(S.String),
-  SecretArn: S.optional(S.String),
-  WorkgroupName: S.optional(S.String),
-  SessionId: S.optional(S.String),
-}) {}
-export class GetStatementResultResponse extends S.Class<GetStatementResultResponse>(
-  "GetStatementResultResponse",
-)({
-  Records: SqlRecords,
-  ColumnMetadata: S.optional(ColumnMetadataList),
-  TotalNumRows: S.optional(S.Number),
-  NextToken: S.optional(S.String),
-}) {}
-export class GetStatementResultV2Response extends S.Class<GetStatementResultV2Response>(
-  "GetStatementResultV2Response",
-)({
-  Records: FormattedSqlRecords,
-  ColumnMetadata: S.optional(ColumnMetadataList),
-  TotalNumRows: S.optional(S.Number),
-  ResultFormat: S.optional(S.String),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListStatementsResponse extends S.Class<ListStatementsResponse>(
-  "ListStatementsResponse",
-)({ Statements: StatementList, NextToken: S.optional(S.String) }) {}
-export class ListTablesResponse extends S.Class<ListTablesResponse>(
-  "ListTablesResponse",
-)({ Tables: S.optional(TableList), NextToken: S.optional(S.String) }) {}
+export interface DescribeStatementResponse {
+  Id: string;
+  SecretArn?: string;
+  DbUser?: string;
+  Database?: string;
+  ClusterIdentifier?: string;
+  Duration?: number;
+  Error?: string;
+  Status?: string;
+  CreatedAt?: Date;
+  UpdatedAt?: Date;
+  RedshiftPid?: number;
+  HasResultSet?: boolean;
+  QueryString?: string;
+  ResultRows?: number;
+  ResultSize?: number;
+  RedshiftQueryId?: number;
+  QueryParameters?: SqlParametersList;
+  SubStatements?: SubStatementList;
+  WorkgroupName?: string;
+  ResultFormat?: string;
+  SessionId?: string;
+}
+export const DescribeStatementResponse = S.suspend(() =>
+  S.Struct({
+    Id: S.String,
+    SecretArn: S.optional(S.String),
+    DbUser: S.optional(S.String),
+    Database: S.optional(S.String),
+    ClusterIdentifier: S.optional(S.String),
+    Duration: S.optional(S.Number),
+    Error: S.optional(S.String),
+    Status: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    RedshiftPid: S.optional(S.Number),
+    HasResultSet: S.optional(S.Boolean),
+    QueryString: S.optional(S.String),
+    ResultRows: S.optional(S.Number),
+    ResultSize: S.optional(S.Number),
+    RedshiftQueryId: S.optional(S.Number),
+    QueryParameters: S.optional(SqlParametersList),
+    SubStatements: S.optional(SubStatementList),
+    WorkgroupName: S.optional(S.String),
+    ResultFormat: S.optional(S.String),
+    SessionId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DescribeStatementResponse",
+}) as any as S.Schema<DescribeStatementResponse>;
+export interface DescribeTableResponse {
+  TableName?: string;
+  ColumnList?: ColumnList;
+  NextToken?: string;
+}
+export const DescribeTableResponse = S.suspend(() =>
+  S.Struct({
+    TableName: S.optional(S.String),
+    ColumnList: S.optional(ColumnList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DescribeTableResponse",
+}) as any as S.Schema<DescribeTableResponse>;
+export interface ExecuteStatementOutput {
+  Id?: string;
+  CreatedAt?: Date;
+  ClusterIdentifier?: string;
+  DbUser?: string;
+  DbGroups?: DbGroupList;
+  Database?: string;
+  SecretArn?: string;
+  WorkgroupName?: string;
+  SessionId?: string;
+}
+export const ExecuteStatementOutput = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ClusterIdentifier: S.optional(S.String),
+    DbUser: S.optional(S.String),
+    DbGroups: S.optional(DbGroupList),
+    Database: S.optional(S.String),
+    SecretArn: S.optional(S.String),
+    WorkgroupName: S.optional(S.String),
+    SessionId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ExecuteStatementOutput",
+}) as any as S.Schema<ExecuteStatementOutput>;
+export interface GetStatementResultResponse {
+  Records: SqlRecords;
+  ColumnMetadata?: ColumnMetadataList;
+  TotalNumRows?: number;
+  NextToken?: string;
+}
+export const GetStatementResultResponse = S.suspend(() =>
+  S.Struct({
+    Records: SqlRecords,
+    ColumnMetadata: S.optional(ColumnMetadataList),
+    TotalNumRows: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetStatementResultResponse",
+}) as any as S.Schema<GetStatementResultResponse>;
+export interface GetStatementResultV2Response {
+  Records: FormattedSqlRecords;
+  ColumnMetadata?: ColumnMetadataList;
+  TotalNumRows?: number;
+  ResultFormat?: string;
+  NextToken?: string;
+}
+export const GetStatementResultV2Response = S.suspend(() =>
+  S.Struct({
+    Records: FormattedSqlRecords,
+    ColumnMetadata: S.optional(ColumnMetadataList),
+    TotalNumRows: S.optional(S.Number),
+    ResultFormat: S.optional(S.String),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetStatementResultV2Response",
+}) as any as S.Schema<GetStatementResultV2Response>;
+export interface ListStatementsResponse {
+  Statements: StatementList;
+  NextToken?: string;
+}
+export const ListStatementsResponse = S.suspend(() =>
+  S.Struct({ Statements: StatementList, NextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListStatementsResponse",
+}) as any as S.Schema<ListStatementsResponse>;
+export interface ListTablesResponse {
+  Tables?: TableList;
+  NextToken?: string;
+}
+export const ListTablesResponse = S.suspend(() =>
+  S.Struct({ Tables: S.optional(TableList), NextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListTablesResponse",
+}) as any as S.Schema<ListTablesResponse>;
 
 //# Errors
 export class ActiveSessionsExceededException extends S.TaggedError<ActiveSessionsExceededException>()(

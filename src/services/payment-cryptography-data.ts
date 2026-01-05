@@ -294,97 +294,167 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class SymmetricEncryptionAttributes extends S.Class<SymmetricEncryptionAttributes>(
-  "SymmetricEncryptionAttributes",
-)({
-  Mode: S.String,
-  InitializationVector: S.optional(S.String),
-  PaddingType: S.optional(S.String),
-}) {}
-export class AsymmetricEncryptionAttributes extends S.Class<AsymmetricEncryptionAttributes>(
-  "AsymmetricEncryptionAttributes",
-)({ PaddingType: S.optional(S.String) }) {}
-export class DukptEncryptionAttributes extends S.Class<DukptEncryptionAttributes>(
-  "DukptEncryptionAttributes",
-)({
-  KeySerialNumber: S.String,
-  Mode: S.optional(S.String),
-  DukptKeyDerivationType: S.optional(S.String),
-  DukptKeyVariant: S.optional(S.String),
-  InitializationVector: S.optional(S.String),
-}) {}
-export class EmvEncryptionAttributes extends S.Class<EmvEncryptionAttributes>(
-  "EmvEncryptionAttributes",
-)({
-  MajorKeyDerivationMode: S.String,
-  PrimaryAccountNumber: S.String,
-  PanSequenceNumber: S.String,
-  SessionDerivationData: S.String,
-  Mode: S.optional(S.String),
-  InitializationVector: S.optional(S.String),
-}) {}
+export interface SymmetricEncryptionAttributes {
+  Mode: string;
+  InitializationVector?: string;
+  PaddingType?: string;
+}
+export const SymmetricEncryptionAttributes = S.suspend(() =>
+  S.Struct({
+    Mode: S.String,
+    InitializationVector: S.optional(S.String),
+    PaddingType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SymmetricEncryptionAttributes",
+}) as any as S.Schema<SymmetricEncryptionAttributes>;
+export interface AsymmetricEncryptionAttributes {
+  PaddingType?: string;
+}
+export const AsymmetricEncryptionAttributes = S.suspend(() =>
+  S.Struct({ PaddingType: S.optional(S.String) }),
+).annotations({
+  identifier: "AsymmetricEncryptionAttributes",
+}) as any as S.Schema<AsymmetricEncryptionAttributes>;
+export interface DukptEncryptionAttributes {
+  KeySerialNumber: string;
+  Mode?: string;
+  DukptKeyDerivationType?: string;
+  DukptKeyVariant?: string;
+  InitializationVector?: string;
+}
+export const DukptEncryptionAttributes = S.suspend(() =>
+  S.Struct({
+    KeySerialNumber: S.String,
+    Mode: S.optional(S.String),
+    DukptKeyDerivationType: S.optional(S.String),
+    DukptKeyVariant: S.optional(S.String),
+    InitializationVector: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DukptEncryptionAttributes",
+}) as any as S.Schema<DukptEncryptionAttributes>;
+export interface EmvEncryptionAttributes {
+  MajorKeyDerivationMode: string;
+  PrimaryAccountNumber: string;
+  PanSequenceNumber: string;
+  SessionDerivationData: string;
+  Mode?: string;
+  InitializationVector?: string;
+}
+export const EmvEncryptionAttributes = S.suspend(() =>
+  S.Struct({
+    MajorKeyDerivationMode: S.String,
+    PrimaryAccountNumber: S.String,
+    PanSequenceNumber: S.String,
+    SessionDerivationData: S.String,
+    Mode: S.optional(S.String),
+    InitializationVector: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "EmvEncryptionAttributes",
+}) as any as S.Schema<EmvEncryptionAttributes>;
 export const EncryptionDecryptionAttributes = S.Union(
   S.Struct({ Symmetric: SymmetricEncryptionAttributes }),
   S.Struct({ Asymmetric: AsymmetricEncryptionAttributes }),
   S.Struct({ Dukpt: DukptEncryptionAttributes }),
   S.Struct({ Emv: EmvEncryptionAttributes }),
 );
-export class EcdhDerivationAttributes extends S.Class<EcdhDerivationAttributes>(
-  "EcdhDerivationAttributes",
-)({
-  CertificateAuthorityPublicKeyIdentifier: S.String,
-  PublicKeyCertificate: S.String,
-  KeyAlgorithm: S.String,
-  KeyDerivationFunction: S.String,
-  KeyDerivationHashAlgorithm: S.String,
-  SharedInformation: S.String,
-}) {}
+export interface EcdhDerivationAttributes {
+  CertificateAuthorityPublicKeyIdentifier: string;
+  PublicKeyCertificate: string;
+  KeyAlgorithm: string;
+  KeyDerivationFunction: string;
+  KeyDerivationHashAlgorithm: string;
+  SharedInformation: string;
+}
+export const EcdhDerivationAttributes = S.suspend(() =>
+  S.Struct({
+    CertificateAuthorityPublicKeyIdentifier: S.String,
+    PublicKeyCertificate: S.String,
+    KeyAlgorithm: S.String,
+    KeyDerivationFunction: S.String,
+    KeyDerivationHashAlgorithm: S.String,
+    SharedInformation: S.String,
+  }),
+).annotations({
+  identifier: "EcdhDerivationAttributes",
+}) as any as S.Schema<EcdhDerivationAttributes>;
 export const WrappedKeyMaterial = S.Union(
   S.Struct({ Tr31KeyBlock: S.String }),
   S.Struct({ DiffieHellmanSymmetricKey: EcdhDerivationAttributes }),
 );
-export class WrappedKey extends S.Class<WrappedKey>("WrappedKey")({
-  WrappedKeyMaterial: WrappedKeyMaterial,
-  KeyCheckValueAlgorithm: S.optional(S.String),
-}) {}
-export class EncryptDataInput extends S.Class<EncryptDataInput>(
-  "EncryptDataInput",
-)(
-  {
+export interface WrappedKey {
+  WrappedKeyMaterial: (typeof WrappedKeyMaterial)["Type"];
+  KeyCheckValueAlgorithm?: string;
+}
+export const WrappedKey = S.suspend(() =>
+  S.Struct({
+    WrappedKeyMaterial: WrappedKeyMaterial,
+    KeyCheckValueAlgorithm: S.optional(S.String),
+  }),
+).annotations({ identifier: "WrappedKey" }) as any as S.Schema<WrappedKey>;
+export interface EncryptDataInput {
+  KeyIdentifier: string;
+  PlainText: string;
+  EncryptionAttributes: (typeof EncryptionDecryptionAttributes)["Type"];
+  WrappedKey?: WrappedKey;
+}
+export const EncryptDataInput = S.suspend(() =>
+  S.Struct({
     KeyIdentifier: S.String.pipe(T.HttpLabel("KeyIdentifier")),
     PlainText: S.String,
     EncryptionAttributes: EncryptionDecryptionAttributes,
     WrappedKey: S.optional(WrappedKey),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/keys/{KeyIdentifier}/encrypt" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/keys/{KeyIdentifier}/encrypt" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "EncryptDataInput",
+}) as any as S.Schema<EncryptDataInput>;
 export const SessionKeyDerivationValue = S.Union(
   S.Struct({ ApplicationCryptogram: S.String }),
   S.Struct({ ApplicationTransactionCounter: S.String }),
 );
-export class MacAlgorithmEmv extends S.Class<MacAlgorithmEmv>(
-  "MacAlgorithmEmv",
-)({
-  MajorKeyDerivationMode: S.String,
-  PrimaryAccountNumber: S.String,
-  PanSequenceNumber: S.String,
-  SessionKeyDerivationMode: S.String,
-  SessionKeyDerivationValue: SessionKeyDerivationValue,
-}) {}
-export class MacAlgorithmDukpt extends S.Class<MacAlgorithmDukpt>(
-  "MacAlgorithmDukpt",
-)({
-  KeySerialNumber: S.String,
-  DukptKeyVariant: S.String,
-  DukptDerivationType: S.optional(S.String),
-}) {}
+export interface MacAlgorithmEmv {
+  MajorKeyDerivationMode: string;
+  PrimaryAccountNumber: string;
+  PanSequenceNumber: string;
+  SessionKeyDerivationMode: string;
+  SessionKeyDerivationValue: (typeof SessionKeyDerivationValue)["Type"];
+}
+export const MacAlgorithmEmv = S.suspend(() =>
+  S.Struct({
+    MajorKeyDerivationMode: S.String,
+    PrimaryAccountNumber: S.String,
+    PanSequenceNumber: S.String,
+    SessionKeyDerivationMode: S.String,
+    SessionKeyDerivationValue: SessionKeyDerivationValue,
+  }),
+).annotations({
+  identifier: "MacAlgorithmEmv",
+}) as any as S.Schema<MacAlgorithmEmv>;
+export interface MacAlgorithmDukpt {
+  KeySerialNumber: string;
+  DukptKeyVariant: string;
+  DukptDerivationType?: string;
+}
+export const MacAlgorithmDukpt = S.suspend(() =>
+  S.Struct({
+    KeySerialNumber: S.String,
+    DukptKeyVariant: S.String,
+    DukptDerivationType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "MacAlgorithmDukpt",
+}) as any as S.Schema<MacAlgorithmDukpt>;
 export const MacAttributes = S.Union(
   S.Struct({ Algorithm: S.String }),
   S.Struct({ EmvMac: MacAlgorithmEmv }),
@@ -392,54 +462,100 @@ export const MacAttributes = S.Union(
   S.Struct({ DukptIso9797Algorithm3: MacAlgorithmDukpt }),
   S.Struct({ DukptCmac: MacAlgorithmDukpt }),
 );
-export class VerifyMacInput extends S.Class<VerifyMacInput>("VerifyMacInput")(
-  {
+export interface VerifyMacInput {
+  KeyIdentifier: string;
+  MessageData: string;
+  Mac: string;
+  VerificationAttributes: (typeof MacAttributes)["Type"];
+  MacLength?: number;
+}
+export const VerifyMacInput = S.suspend(() =>
+  S.Struct({
     KeyIdentifier: S.String,
     MessageData: S.String,
     Mac: S.String,
     VerificationAttributes: MacAttributes,
     MacLength: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/mac/verify" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/mac/verify" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TranslationPinDataIsoFormat1 extends S.Class<TranslationPinDataIsoFormat1>(
-  "TranslationPinDataIsoFormat1",
-)({}) {}
+).annotations({
+  identifier: "VerifyMacInput",
+}) as any as S.Schema<VerifyMacInput>;
+export interface TranslationPinDataIsoFormat1 {}
+export const TranslationPinDataIsoFormat1 = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "TranslationPinDataIsoFormat1",
+}) as any as S.Schema<TranslationPinDataIsoFormat1>;
 export const ReEncryptionAttributes = S.Union(
   S.Struct({ Symmetric: SymmetricEncryptionAttributes }),
   S.Struct({ Dukpt: DukptEncryptionAttributes }),
 );
-export class DukptDerivationAttributes extends S.Class<DukptDerivationAttributes>(
-  "DukptDerivationAttributes",
-)({
-  KeySerialNumber: S.String,
-  DukptKeyDerivationType: S.optional(S.String),
-  DukptKeyVariant: S.optional(S.String),
-}) {}
-export class As2805PekDerivationAttributes extends S.Class<As2805PekDerivationAttributes>(
-  "As2805PekDerivationAttributes",
-)({ SystemTraceAuditNumber: S.String, TransactionAmount: S.String }) {}
-export class DukptAttributes extends S.Class<DukptAttributes>(
-  "DukptAttributes",
-)({ KeySerialNumber: S.String, DukptDerivationType: S.String }) {}
-export class EncryptDataOutput extends S.Class<EncryptDataOutput>(
-  "EncryptDataOutput",
-)({
-  KeyArn: S.String,
-  KeyCheckValue: S.optional(S.String),
-  CipherText: S.String,
-}) {}
-export class ReEncryptDataInput extends S.Class<ReEncryptDataInput>(
-  "ReEncryptDataInput",
-)(
-  {
+export interface DukptDerivationAttributes {
+  KeySerialNumber: string;
+  DukptKeyDerivationType?: string;
+  DukptKeyVariant?: string;
+}
+export const DukptDerivationAttributes = S.suspend(() =>
+  S.Struct({
+    KeySerialNumber: S.String,
+    DukptKeyDerivationType: S.optional(S.String),
+    DukptKeyVariant: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DukptDerivationAttributes",
+}) as any as S.Schema<DukptDerivationAttributes>;
+export interface As2805PekDerivationAttributes {
+  SystemTraceAuditNumber: string;
+  TransactionAmount: string;
+}
+export const As2805PekDerivationAttributes = S.suspend(() =>
+  S.Struct({ SystemTraceAuditNumber: S.String, TransactionAmount: S.String }),
+).annotations({
+  identifier: "As2805PekDerivationAttributes",
+}) as any as S.Schema<As2805PekDerivationAttributes>;
+export interface DukptAttributes {
+  KeySerialNumber: string;
+  DukptDerivationType: string;
+}
+export const DukptAttributes = S.suspend(() =>
+  S.Struct({ KeySerialNumber: S.String, DukptDerivationType: S.String }),
+).annotations({
+  identifier: "DukptAttributes",
+}) as any as S.Schema<DukptAttributes>;
+export interface EncryptDataOutput {
+  KeyArn: string;
+  KeyCheckValue?: string;
+  CipherText: string;
+}
+export const EncryptDataOutput = S.suspend(() =>
+  S.Struct({
+    KeyArn: S.String,
+    KeyCheckValue: S.optional(S.String),
+    CipherText: S.String,
+  }),
+).annotations({
+  identifier: "EncryptDataOutput",
+}) as any as S.Schema<EncryptDataOutput>;
+export interface ReEncryptDataInput {
+  IncomingKeyIdentifier: string;
+  OutgoingKeyIdentifier: string;
+  CipherText: string;
+  IncomingEncryptionAttributes: (typeof ReEncryptionAttributes)["Type"];
+  OutgoingEncryptionAttributes: (typeof ReEncryptionAttributes)["Type"];
+  IncomingWrappedKey?: WrappedKey;
+  OutgoingWrappedKey?: WrappedKey;
+}
+export const ReEncryptDataInput = S.suspend(() =>
+  S.Struct({
     IncomingKeyIdentifier: S.String.pipe(T.HttpLabel("IncomingKeyIdentifier")),
     OutgoingKeyIdentifier: S.String,
     CipherText: S.String,
@@ -447,200 +563,433 @@ export class ReEncryptDataInput extends S.Class<ReEncryptDataInput>(
     OutgoingEncryptionAttributes: ReEncryptionAttributes,
     IncomingWrappedKey: S.optional(WrappedKey),
     OutgoingWrappedKey: S.optional(WrappedKey),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/keys/{IncomingKeyIdentifier}/reencrypt" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/keys/{IncomingKeyIdentifier}/reencrypt",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class VerifyMacOutput extends S.Class<VerifyMacOutput>(
-  "VerifyMacOutput",
-)({ KeyArn: S.String, KeyCheckValue: S.String }) {}
-export class KekValidationRequest extends S.Class<KekValidationRequest>(
-  "KekValidationRequest",
-)({ DeriveKeyAlgorithm: S.String }) {}
-export class KekValidationResponse extends S.Class<KekValidationResponse>(
-  "KekValidationResponse",
-)({ RandomKeySend: S.String }) {}
-export class AmexCardSecurityCodeVersion1 extends S.Class<AmexCardSecurityCodeVersion1>(
-  "AmexCardSecurityCodeVersion1",
-)({ CardExpiryDate: S.String }) {}
-export class AmexCardSecurityCodeVersion2 extends S.Class<AmexCardSecurityCodeVersion2>(
-  "AmexCardSecurityCodeVersion2",
-)({ CardExpiryDate: S.String, ServiceCode: S.String }) {}
-export class CardVerificationValue1 extends S.Class<CardVerificationValue1>(
-  "CardVerificationValue1",
-)({ CardExpiryDate: S.String, ServiceCode: S.String }) {}
-export class CardVerificationValue2 extends S.Class<CardVerificationValue2>(
-  "CardVerificationValue2",
-)({ CardExpiryDate: S.String }) {}
-export class CardHolderVerificationValue extends S.Class<CardHolderVerificationValue>(
-  "CardHolderVerificationValue",
-)({
-  UnpredictableNumber: S.String,
-  PanSequenceNumber: S.String,
-  ApplicationTransactionCounter: S.String,
-}) {}
-export class DynamicCardVerificationCode extends S.Class<DynamicCardVerificationCode>(
-  "DynamicCardVerificationCode",
-)({
-  UnpredictableNumber: S.String,
-  PanSequenceNumber: S.String,
-  ApplicationTransactionCounter: S.String,
-  TrackData: S.String,
-}) {}
-export class DynamicCardVerificationValue extends S.Class<DynamicCardVerificationValue>(
-  "DynamicCardVerificationValue",
-)({
-  PanSequenceNumber: S.String,
-  CardExpiryDate: S.String,
-  ServiceCode: S.String,
-  ApplicationTransactionCounter: S.String,
-}) {}
-export class EmvCommonAttributes extends S.Class<EmvCommonAttributes>(
-  "EmvCommonAttributes",
-)({
-  MajorKeyDerivationMode: S.String,
-  PrimaryAccountNumber: S.String,
-  PanSequenceNumber: S.String,
-  ApplicationCryptogram: S.String,
-  Mode: S.String,
-  PinBlockPaddingType: S.String,
-  PinBlockLengthPosition: S.String,
-}) {}
-export class CurrentPinAttributes extends S.Class<CurrentPinAttributes>(
-  "CurrentPinAttributes",
-)({ CurrentPinPekIdentifier: S.String, CurrentEncryptedPinBlock: S.String }) {}
-export class VisaAttributes extends S.Class<VisaAttributes>("VisaAttributes")({
-  MajorKeyDerivationMode: S.String,
-  PrimaryAccountNumber: S.String,
-  PanSequenceNumber: S.String,
-  ApplicationTransactionCounter: S.String,
-  AuthorizationRequestKeyIdentifier: S.String,
-  CurrentPinAttributes: S.optional(CurrentPinAttributes),
-}) {}
-export class Emv2000Attributes extends S.Class<Emv2000Attributes>(
-  "Emv2000Attributes",
-)({
-  MajorKeyDerivationMode: S.String,
-  PrimaryAccountNumber: S.String,
-  PanSequenceNumber: S.String,
-  ApplicationTransactionCounter: S.String,
-}) {}
-export class MasterCardAttributes extends S.Class<MasterCardAttributes>(
-  "MasterCardAttributes",
-)({
-  MajorKeyDerivationMode: S.String,
-  PrimaryAccountNumber: S.String,
-  PanSequenceNumber: S.String,
-  ApplicationCryptogram: S.String,
-}) {}
-export class VisaPin extends S.Class<VisaPin>("VisaPin")({
-  PinVerificationKeyIndex: S.Number,
-}) {}
-export class VisaPinVerificationValue extends S.Class<VisaPinVerificationValue>(
-  "VisaPinVerificationValue",
-)({ EncryptedPinBlock: S.String, PinVerificationKeyIndex: S.Number }) {}
-export class Ibm3624PinOffset extends S.Class<Ibm3624PinOffset>(
-  "Ibm3624PinOffset",
-)({
-  EncryptedPinBlock: S.String,
-  DecimalizationTable: S.String,
-  PinValidationDataPadCharacter: S.String,
-  PinValidationData: S.String,
-}) {}
-export class Ibm3624NaturalPin extends S.Class<Ibm3624NaturalPin>(
-  "Ibm3624NaturalPin",
-)({
-  DecimalizationTable: S.String,
-  PinValidationDataPadCharacter: S.String,
-  PinValidationData: S.String,
-}) {}
-export class Ibm3624RandomPin extends S.Class<Ibm3624RandomPin>(
-  "Ibm3624RandomPin",
-)({
-  DecimalizationTable: S.String,
-  PinValidationDataPadCharacter: S.String,
-  PinValidationData: S.String,
-}) {}
-export class Ibm3624PinFromOffset extends S.Class<Ibm3624PinFromOffset>(
-  "Ibm3624PinFromOffset",
-)({
-  DecimalizationTable: S.String,
-  PinValidationDataPadCharacter: S.String,
-  PinValidationData: S.String,
-  PinOffset: S.String,
-}) {}
-export class OutgoingTr31KeyBlock extends S.Class<OutgoingTr31KeyBlock>(
-  "OutgoingTr31KeyBlock",
-)({ WrappingKeyIdentifier: S.String }) {}
-export class TranslationPinDataIsoFormat034 extends S.Class<TranslationPinDataIsoFormat034>(
-  "TranslationPinDataIsoFormat034",
-)({ PrimaryAccountNumber: S.String }) {}
-export class TranslationPinDataAs2805Format0 extends S.Class<TranslationPinDataAs2805Format0>(
-  "TranslationPinDataAs2805Format0",
-)({ PrimaryAccountNumber: S.String }) {}
-export class SessionKeyEmvCommon extends S.Class<SessionKeyEmvCommon>(
-  "SessionKeyEmvCommon",
-)({
-  PrimaryAccountNumber: S.String,
-  PanSequenceNumber: S.String,
-  ApplicationTransactionCounter: S.String,
-}) {}
-export class SessionKeyMastercard extends S.Class<SessionKeyMastercard>(
-  "SessionKeyMastercard",
-)({
-  PrimaryAccountNumber: S.String,
-  PanSequenceNumber: S.String,
-  ApplicationTransactionCounter: S.String,
-  UnpredictableNumber: S.String,
-}) {}
-export class SessionKeyEmv2000 extends S.Class<SessionKeyEmv2000>(
-  "SessionKeyEmv2000",
-)({
-  PrimaryAccountNumber: S.String,
-  PanSequenceNumber: S.String,
-  ApplicationTransactionCounter: S.String,
-}) {}
-export class SessionKeyAmex extends S.Class<SessionKeyAmex>("SessionKeyAmex")({
-  PrimaryAccountNumber: S.String,
-  PanSequenceNumber: S.String,
-}) {}
-export class SessionKeyVisa extends S.Class<SessionKeyVisa>("SessionKeyVisa")({
-  PrimaryAccountNumber: S.String,
-  PanSequenceNumber: S.String,
-}) {}
-export class CryptogramVerificationArpcMethod1 extends S.Class<CryptogramVerificationArpcMethod1>(
-  "CryptogramVerificationArpcMethod1",
-)({ AuthResponseCode: S.String }) {}
-export class CryptogramVerificationArpcMethod2 extends S.Class<CryptogramVerificationArpcMethod2>(
-  "CryptogramVerificationArpcMethod2",
-)({
-  CardStatusUpdate: S.String,
-  ProprietaryAuthenticationData: S.optional(S.String),
-}) {}
-export class DiscoverDynamicCardVerificationCode extends S.Class<DiscoverDynamicCardVerificationCode>(
-  "DiscoverDynamicCardVerificationCode",
-)({
-  CardExpiryDate: S.String,
-  UnpredictableNumber: S.String,
-  ApplicationTransactionCounter: S.String,
-}) {}
-export class VisaPinVerification extends S.Class<VisaPinVerification>(
-  "VisaPinVerification",
-)({ PinVerificationKeyIndex: S.Number, VerificationValue: S.String }) {}
-export class Ibm3624PinVerification extends S.Class<Ibm3624PinVerification>(
-  "Ibm3624PinVerification",
-)({
-  DecimalizationTable: S.String,
-  PinValidationDataPadCharacter: S.String,
-  PinValidationData: S.String,
-  PinOffset: S.String,
-}) {}
+).annotations({
+  identifier: "ReEncryptDataInput",
+}) as any as S.Schema<ReEncryptDataInput>;
+export interface VerifyMacOutput {
+  KeyArn: string;
+  KeyCheckValue: string;
+}
+export const VerifyMacOutput = S.suspend(() =>
+  S.Struct({ KeyArn: S.String, KeyCheckValue: S.String }),
+).annotations({
+  identifier: "VerifyMacOutput",
+}) as any as S.Schema<VerifyMacOutput>;
+export interface KekValidationRequest {
+  DeriveKeyAlgorithm: string;
+}
+export const KekValidationRequest = S.suspend(() =>
+  S.Struct({ DeriveKeyAlgorithm: S.String }),
+).annotations({
+  identifier: "KekValidationRequest",
+}) as any as S.Schema<KekValidationRequest>;
+export interface KekValidationResponse {
+  RandomKeySend: string;
+}
+export const KekValidationResponse = S.suspend(() =>
+  S.Struct({ RandomKeySend: S.String }),
+).annotations({
+  identifier: "KekValidationResponse",
+}) as any as S.Schema<KekValidationResponse>;
+export interface AmexCardSecurityCodeVersion1 {
+  CardExpiryDate: string;
+}
+export const AmexCardSecurityCodeVersion1 = S.suspend(() =>
+  S.Struct({ CardExpiryDate: S.String }),
+).annotations({
+  identifier: "AmexCardSecurityCodeVersion1",
+}) as any as S.Schema<AmexCardSecurityCodeVersion1>;
+export interface AmexCardSecurityCodeVersion2 {
+  CardExpiryDate: string;
+  ServiceCode: string;
+}
+export const AmexCardSecurityCodeVersion2 = S.suspend(() =>
+  S.Struct({ CardExpiryDate: S.String, ServiceCode: S.String }),
+).annotations({
+  identifier: "AmexCardSecurityCodeVersion2",
+}) as any as S.Schema<AmexCardSecurityCodeVersion2>;
+export interface CardVerificationValue1 {
+  CardExpiryDate: string;
+  ServiceCode: string;
+}
+export const CardVerificationValue1 = S.suspend(() =>
+  S.Struct({ CardExpiryDate: S.String, ServiceCode: S.String }),
+).annotations({
+  identifier: "CardVerificationValue1",
+}) as any as S.Schema<CardVerificationValue1>;
+export interface CardVerificationValue2 {
+  CardExpiryDate: string;
+}
+export const CardVerificationValue2 = S.suspend(() =>
+  S.Struct({ CardExpiryDate: S.String }),
+).annotations({
+  identifier: "CardVerificationValue2",
+}) as any as S.Schema<CardVerificationValue2>;
+export interface CardHolderVerificationValue {
+  UnpredictableNumber: string;
+  PanSequenceNumber: string;
+  ApplicationTransactionCounter: string;
+}
+export const CardHolderVerificationValue = S.suspend(() =>
+  S.Struct({
+    UnpredictableNumber: S.String,
+    PanSequenceNumber: S.String,
+    ApplicationTransactionCounter: S.String,
+  }),
+).annotations({
+  identifier: "CardHolderVerificationValue",
+}) as any as S.Schema<CardHolderVerificationValue>;
+export interface DynamicCardVerificationCode {
+  UnpredictableNumber: string;
+  PanSequenceNumber: string;
+  ApplicationTransactionCounter: string;
+  TrackData: string;
+}
+export const DynamicCardVerificationCode = S.suspend(() =>
+  S.Struct({
+    UnpredictableNumber: S.String,
+    PanSequenceNumber: S.String,
+    ApplicationTransactionCounter: S.String,
+    TrackData: S.String,
+  }),
+).annotations({
+  identifier: "DynamicCardVerificationCode",
+}) as any as S.Schema<DynamicCardVerificationCode>;
+export interface DynamicCardVerificationValue {
+  PanSequenceNumber: string;
+  CardExpiryDate: string;
+  ServiceCode: string;
+  ApplicationTransactionCounter: string;
+}
+export const DynamicCardVerificationValue = S.suspend(() =>
+  S.Struct({
+    PanSequenceNumber: S.String,
+    CardExpiryDate: S.String,
+    ServiceCode: S.String,
+    ApplicationTransactionCounter: S.String,
+  }),
+).annotations({
+  identifier: "DynamicCardVerificationValue",
+}) as any as S.Schema<DynamicCardVerificationValue>;
+export interface EmvCommonAttributes {
+  MajorKeyDerivationMode: string;
+  PrimaryAccountNumber: string;
+  PanSequenceNumber: string;
+  ApplicationCryptogram: string;
+  Mode: string;
+  PinBlockPaddingType: string;
+  PinBlockLengthPosition: string;
+}
+export const EmvCommonAttributes = S.suspend(() =>
+  S.Struct({
+    MajorKeyDerivationMode: S.String,
+    PrimaryAccountNumber: S.String,
+    PanSequenceNumber: S.String,
+    ApplicationCryptogram: S.String,
+    Mode: S.String,
+    PinBlockPaddingType: S.String,
+    PinBlockLengthPosition: S.String,
+  }),
+).annotations({
+  identifier: "EmvCommonAttributes",
+}) as any as S.Schema<EmvCommonAttributes>;
+export interface CurrentPinAttributes {
+  CurrentPinPekIdentifier: string;
+  CurrentEncryptedPinBlock: string;
+}
+export const CurrentPinAttributes = S.suspend(() =>
+  S.Struct({
+    CurrentPinPekIdentifier: S.String,
+    CurrentEncryptedPinBlock: S.String,
+  }),
+).annotations({
+  identifier: "CurrentPinAttributes",
+}) as any as S.Schema<CurrentPinAttributes>;
+export interface VisaAttributes {
+  MajorKeyDerivationMode: string;
+  PrimaryAccountNumber: string;
+  PanSequenceNumber: string;
+  ApplicationTransactionCounter: string;
+  AuthorizationRequestKeyIdentifier: string;
+  CurrentPinAttributes?: CurrentPinAttributes;
+}
+export const VisaAttributes = S.suspend(() =>
+  S.Struct({
+    MajorKeyDerivationMode: S.String,
+    PrimaryAccountNumber: S.String,
+    PanSequenceNumber: S.String,
+    ApplicationTransactionCounter: S.String,
+    AuthorizationRequestKeyIdentifier: S.String,
+    CurrentPinAttributes: S.optional(CurrentPinAttributes),
+  }),
+).annotations({
+  identifier: "VisaAttributes",
+}) as any as S.Schema<VisaAttributes>;
+export interface Emv2000Attributes {
+  MajorKeyDerivationMode: string;
+  PrimaryAccountNumber: string;
+  PanSequenceNumber: string;
+  ApplicationTransactionCounter: string;
+}
+export const Emv2000Attributes = S.suspend(() =>
+  S.Struct({
+    MajorKeyDerivationMode: S.String,
+    PrimaryAccountNumber: S.String,
+    PanSequenceNumber: S.String,
+    ApplicationTransactionCounter: S.String,
+  }),
+).annotations({
+  identifier: "Emv2000Attributes",
+}) as any as S.Schema<Emv2000Attributes>;
+export interface MasterCardAttributes {
+  MajorKeyDerivationMode: string;
+  PrimaryAccountNumber: string;
+  PanSequenceNumber: string;
+  ApplicationCryptogram: string;
+}
+export const MasterCardAttributes = S.suspend(() =>
+  S.Struct({
+    MajorKeyDerivationMode: S.String,
+    PrimaryAccountNumber: S.String,
+    PanSequenceNumber: S.String,
+    ApplicationCryptogram: S.String,
+  }),
+).annotations({
+  identifier: "MasterCardAttributes",
+}) as any as S.Schema<MasterCardAttributes>;
+export interface VisaPin {
+  PinVerificationKeyIndex: number;
+}
+export const VisaPin = S.suspend(() =>
+  S.Struct({ PinVerificationKeyIndex: S.Number }),
+).annotations({ identifier: "VisaPin" }) as any as S.Schema<VisaPin>;
+export interface VisaPinVerificationValue {
+  EncryptedPinBlock: string;
+  PinVerificationKeyIndex: number;
+}
+export const VisaPinVerificationValue = S.suspend(() =>
+  S.Struct({ EncryptedPinBlock: S.String, PinVerificationKeyIndex: S.Number }),
+).annotations({
+  identifier: "VisaPinVerificationValue",
+}) as any as S.Schema<VisaPinVerificationValue>;
+export interface Ibm3624PinOffset {
+  EncryptedPinBlock: string;
+  DecimalizationTable: string;
+  PinValidationDataPadCharacter: string;
+  PinValidationData: string;
+}
+export const Ibm3624PinOffset = S.suspend(() =>
+  S.Struct({
+    EncryptedPinBlock: S.String,
+    DecimalizationTable: S.String,
+    PinValidationDataPadCharacter: S.String,
+    PinValidationData: S.String,
+  }),
+).annotations({
+  identifier: "Ibm3624PinOffset",
+}) as any as S.Schema<Ibm3624PinOffset>;
+export interface Ibm3624NaturalPin {
+  DecimalizationTable: string;
+  PinValidationDataPadCharacter: string;
+  PinValidationData: string;
+}
+export const Ibm3624NaturalPin = S.suspend(() =>
+  S.Struct({
+    DecimalizationTable: S.String,
+    PinValidationDataPadCharacter: S.String,
+    PinValidationData: S.String,
+  }),
+).annotations({
+  identifier: "Ibm3624NaturalPin",
+}) as any as S.Schema<Ibm3624NaturalPin>;
+export interface Ibm3624RandomPin {
+  DecimalizationTable: string;
+  PinValidationDataPadCharacter: string;
+  PinValidationData: string;
+}
+export const Ibm3624RandomPin = S.suspend(() =>
+  S.Struct({
+    DecimalizationTable: S.String,
+    PinValidationDataPadCharacter: S.String,
+    PinValidationData: S.String,
+  }),
+).annotations({
+  identifier: "Ibm3624RandomPin",
+}) as any as S.Schema<Ibm3624RandomPin>;
+export interface Ibm3624PinFromOffset {
+  DecimalizationTable: string;
+  PinValidationDataPadCharacter: string;
+  PinValidationData: string;
+  PinOffset: string;
+}
+export const Ibm3624PinFromOffset = S.suspend(() =>
+  S.Struct({
+    DecimalizationTable: S.String,
+    PinValidationDataPadCharacter: S.String,
+    PinValidationData: S.String,
+    PinOffset: S.String,
+  }),
+).annotations({
+  identifier: "Ibm3624PinFromOffset",
+}) as any as S.Schema<Ibm3624PinFromOffset>;
+export interface OutgoingTr31KeyBlock {
+  WrappingKeyIdentifier: string;
+}
+export const OutgoingTr31KeyBlock = S.suspend(() =>
+  S.Struct({ WrappingKeyIdentifier: S.String }),
+).annotations({
+  identifier: "OutgoingTr31KeyBlock",
+}) as any as S.Schema<OutgoingTr31KeyBlock>;
+export interface TranslationPinDataIsoFormat034 {
+  PrimaryAccountNumber: string;
+}
+export const TranslationPinDataIsoFormat034 = S.suspend(() =>
+  S.Struct({ PrimaryAccountNumber: S.String }),
+).annotations({
+  identifier: "TranslationPinDataIsoFormat034",
+}) as any as S.Schema<TranslationPinDataIsoFormat034>;
+export interface TranslationPinDataAs2805Format0 {
+  PrimaryAccountNumber: string;
+}
+export const TranslationPinDataAs2805Format0 = S.suspend(() =>
+  S.Struct({ PrimaryAccountNumber: S.String }),
+).annotations({
+  identifier: "TranslationPinDataAs2805Format0",
+}) as any as S.Schema<TranslationPinDataAs2805Format0>;
+export interface SessionKeyEmvCommon {
+  PrimaryAccountNumber: string;
+  PanSequenceNumber: string;
+  ApplicationTransactionCounter: string;
+}
+export const SessionKeyEmvCommon = S.suspend(() =>
+  S.Struct({
+    PrimaryAccountNumber: S.String,
+    PanSequenceNumber: S.String,
+    ApplicationTransactionCounter: S.String,
+  }),
+).annotations({
+  identifier: "SessionKeyEmvCommon",
+}) as any as S.Schema<SessionKeyEmvCommon>;
+export interface SessionKeyMastercard {
+  PrimaryAccountNumber: string;
+  PanSequenceNumber: string;
+  ApplicationTransactionCounter: string;
+  UnpredictableNumber: string;
+}
+export const SessionKeyMastercard = S.suspend(() =>
+  S.Struct({
+    PrimaryAccountNumber: S.String,
+    PanSequenceNumber: S.String,
+    ApplicationTransactionCounter: S.String,
+    UnpredictableNumber: S.String,
+  }),
+).annotations({
+  identifier: "SessionKeyMastercard",
+}) as any as S.Schema<SessionKeyMastercard>;
+export interface SessionKeyEmv2000 {
+  PrimaryAccountNumber: string;
+  PanSequenceNumber: string;
+  ApplicationTransactionCounter: string;
+}
+export const SessionKeyEmv2000 = S.suspend(() =>
+  S.Struct({
+    PrimaryAccountNumber: S.String,
+    PanSequenceNumber: S.String,
+    ApplicationTransactionCounter: S.String,
+  }),
+).annotations({
+  identifier: "SessionKeyEmv2000",
+}) as any as S.Schema<SessionKeyEmv2000>;
+export interface SessionKeyAmex {
+  PrimaryAccountNumber: string;
+  PanSequenceNumber: string;
+}
+export const SessionKeyAmex = S.suspend(() =>
+  S.Struct({ PrimaryAccountNumber: S.String, PanSequenceNumber: S.String }),
+).annotations({
+  identifier: "SessionKeyAmex",
+}) as any as S.Schema<SessionKeyAmex>;
+export interface SessionKeyVisa {
+  PrimaryAccountNumber: string;
+  PanSequenceNumber: string;
+}
+export const SessionKeyVisa = S.suspend(() =>
+  S.Struct({ PrimaryAccountNumber: S.String, PanSequenceNumber: S.String }),
+).annotations({
+  identifier: "SessionKeyVisa",
+}) as any as S.Schema<SessionKeyVisa>;
+export interface CryptogramVerificationArpcMethod1 {
+  AuthResponseCode: string;
+}
+export const CryptogramVerificationArpcMethod1 = S.suspend(() =>
+  S.Struct({ AuthResponseCode: S.String }),
+).annotations({
+  identifier: "CryptogramVerificationArpcMethod1",
+}) as any as S.Schema<CryptogramVerificationArpcMethod1>;
+export interface CryptogramVerificationArpcMethod2 {
+  CardStatusUpdate: string;
+  ProprietaryAuthenticationData?: string;
+}
+export const CryptogramVerificationArpcMethod2 = S.suspend(() =>
+  S.Struct({
+    CardStatusUpdate: S.String,
+    ProprietaryAuthenticationData: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CryptogramVerificationArpcMethod2",
+}) as any as S.Schema<CryptogramVerificationArpcMethod2>;
+export interface DiscoverDynamicCardVerificationCode {
+  CardExpiryDate: string;
+  UnpredictableNumber: string;
+  ApplicationTransactionCounter: string;
+}
+export const DiscoverDynamicCardVerificationCode = S.suspend(() =>
+  S.Struct({
+    CardExpiryDate: S.String,
+    UnpredictableNumber: S.String,
+    ApplicationTransactionCounter: S.String,
+  }),
+).annotations({
+  identifier: "DiscoverDynamicCardVerificationCode",
+}) as any as S.Schema<DiscoverDynamicCardVerificationCode>;
+export interface VisaPinVerification {
+  PinVerificationKeyIndex: number;
+  VerificationValue: string;
+}
+export const VisaPinVerification = S.suspend(() =>
+  S.Struct({ PinVerificationKeyIndex: S.Number, VerificationValue: S.String }),
+).annotations({
+  identifier: "VisaPinVerification",
+}) as any as S.Schema<VisaPinVerification>;
+export interface Ibm3624PinVerification {
+  DecimalizationTable: string;
+  PinValidationDataPadCharacter: string;
+  PinValidationData: string;
+  PinOffset: string;
+}
+export const Ibm3624PinVerification = S.suspend(() =>
+  S.Struct({
+    DecimalizationTable: S.String,
+    PinValidationDataPadCharacter: S.String,
+    PinValidationData: S.String,
+    PinOffset: S.String,
+  }),
+).annotations({
+  identifier: "Ibm3624PinVerification",
+}) as any as S.Schema<Ibm3624PinVerification>;
 export const As2805KekValidationType = S.Union(
   S.Struct({ KekValidationRequest: KekValidationRequest }),
   S.Struct({ KekValidationResponse: KekValidationResponse }),
@@ -702,45 +1051,65 @@ export const PinVerificationAttributes = S.Union(
 export const DiffieHellmanDerivationData = S.Union(
   S.Struct({ SharedInformation: S.String }),
 );
-export class GenerateAs2805KekValidationInput extends S.Class<GenerateAs2805KekValidationInput>(
-  "GenerateAs2805KekValidationInput",
-)(
-  {
+export interface GenerateAs2805KekValidationInput {
+  KeyIdentifier: string;
+  KekValidationType: (typeof As2805KekValidationType)["Type"];
+  RandomKeySendVariantMask: string;
+}
+export const GenerateAs2805KekValidationInput = S.suspend(() =>
+  S.Struct({
     KeyIdentifier: S.String,
     KekValidationType: As2805KekValidationType,
     RandomKeySendVariantMask: S.String,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/as2805kekvalidation/generate" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/as2805kekvalidation/generate" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GenerateCardValidationDataInput extends S.Class<GenerateCardValidationDataInput>(
-  "GenerateCardValidationDataInput",
-)(
-  {
+).annotations({
+  identifier: "GenerateAs2805KekValidationInput",
+}) as any as S.Schema<GenerateAs2805KekValidationInput>;
+export interface GenerateCardValidationDataInput {
+  KeyIdentifier: string;
+  PrimaryAccountNumber: string;
+  GenerationAttributes: (typeof CardGenerationAttributes)["Type"];
+  ValidationDataLength?: number;
+}
+export const GenerateCardValidationDataInput = S.suspend(() =>
+  S.Struct({
     KeyIdentifier: S.String,
     PrimaryAccountNumber: S.String,
     GenerationAttributes: CardGenerationAttributes,
     ValidationDataLength: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/cardvalidationdata/generate" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/cardvalidationdata/generate" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GeneratePinDataInput extends S.Class<GeneratePinDataInput>(
-  "GeneratePinDataInput",
-)(
-  {
+).annotations({
+  identifier: "GenerateCardValidationDataInput",
+}) as any as S.Schema<GenerateCardValidationDataInput>;
+export interface GeneratePinDataInput {
+  GenerationKeyIdentifier: string;
+  EncryptionKeyIdentifier: string;
+  GenerationAttributes: (typeof PinGenerationAttributes)["Type"];
+  PinDataLength?: number;
+  PrimaryAccountNumber?: string;
+  PinBlockFormat: string;
+  EncryptionWrappedKey?: WrappedKey;
+}
+export const GeneratePinDataInput = S.suspend(() =>
+  S.Struct({
     GenerationKeyIdentifier: S.String,
     EncryptionKeyIdentifier: S.String,
     GenerationAttributes: PinGenerationAttributes,
@@ -748,23 +1117,43 @@ export class GeneratePinDataInput extends S.Class<GeneratePinDataInput>(
     PrimaryAccountNumber: S.optional(S.String),
     PinBlockFormat: S.String,
     EncryptionWrappedKey: S.optional(WrappedKey),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/pindata/generate" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/pindata/generate" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ReEncryptDataOutput extends S.Class<ReEncryptDataOutput>(
-  "ReEncryptDataOutput",
-)({ KeyArn: S.String, KeyCheckValue: S.String, CipherText: S.String }) {}
-export class TranslatePinDataInput extends S.Class<TranslatePinDataInput>(
-  "TranslatePinDataInput",
-)(
-  {
+).annotations({
+  identifier: "GeneratePinDataInput",
+}) as any as S.Schema<GeneratePinDataInput>;
+export interface ReEncryptDataOutput {
+  KeyArn: string;
+  KeyCheckValue: string;
+  CipherText: string;
+}
+export const ReEncryptDataOutput = S.suspend(() =>
+  S.Struct({ KeyArn: S.String, KeyCheckValue: S.String, CipherText: S.String }),
+).annotations({
+  identifier: "ReEncryptDataOutput",
+}) as any as S.Schema<ReEncryptDataOutput>;
+export interface TranslatePinDataInput {
+  IncomingKeyIdentifier: string;
+  OutgoingKeyIdentifier: string;
+  IncomingTranslationAttributes: (typeof TranslationIsoFormats)["Type"];
+  OutgoingTranslationAttributes: (typeof TranslationIsoFormats)["Type"];
+  EncryptedPinBlock: string;
+  IncomingDukptAttributes?: DukptDerivationAttributes;
+  OutgoingDukptAttributes?: DukptDerivationAttributes;
+  IncomingWrappedKey?: WrappedKey;
+  OutgoingWrappedKey?: WrappedKey;
+  IncomingAs2805Attributes?: As2805PekDerivationAttributes;
+}
+export const TranslatePinDataInput = S.suspend(() =>
+  S.Struct({
     IncomingKeyIdentifier: S.String,
     OutgoingKeyIdentifier: S.String,
     IncomingTranslationAttributes: TranslationIsoFormats,
@@ -775,58 +1164,86 @@ export class TranslatePinDataInput extends S.Class<TranslatePinDataInput>(
     IncomingWrappedKey: S.optional(WrappedKey),
     OutgoingWrappedKey: S.optional(WrappedKey),
     IncomingAs2805Attributes: S.optional(As2805PekDerivationAttributes),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/pindata/translate" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/pindata/translate" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class VerifyAuthRequestCryptogramInput extends S.Class<VerifyAuthRequestCryptogramInput>(
-  "VerifyAuthRequestCryptogramInput",
-)(
-  {
+).annotations({
+  identifier: "TranslatePinDataInput",
+}) as any as S.Schema<TranslatePinDataInput>;
+export interface VerifyAuthRequestCryptogramInput {
+  KeyIdentifier: string;
+  TransactionData: string;
+  AuthRequestCryptogram: string;
+  MajorKeyDerivationMode: string;
+  SessionKeyDerivationAttributes: (typeof SessionKeyDerivation)["Type"];
+  AuthResponseAttributes?: (typeof CryptogramAuthResponse)["Type"];
+}
+export const VerifyAuthRequestCryptogramInput = S.suspend(() =>
+  S.Struct({
     KeyIdentifier: S.String,
     TransactionData: S.String,
     AuthRequestCryptogram: S.String,
     MajorKeyDerivationMode: S.String,
     SessionKeyDerivationAttributes: SessionKeyDerivation,
     AuthResponseAttributes: S.optional(CryptogramAuthResponse),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/cryptogram/verify" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/cryptogram/verify" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class VerifyCardValidationDataInput extends S.Class<VerifyCardValidationDataInput>(
-  "VerifyCardValidationDataInput",
-)(
-  {
+).annotations({
+  identifier: "VerifyAuthRequestCryptogramInput",
+}) as any as S.Schema<VerifyAuthRequestCryptogramInput>;
+export interface VerifyCardValidationDataInput {
+  KeyIdentifier: string;
+  PrimaryAccountNumber: string;
+  VerificationAttributes: (typeof CardVerificationAttributes)["Type"];
+  ValidationData: string;
+}
+export const VerifyCardValidationDataInput = S.suspend(() =>
+  S.Struct({
     KeyIdentifier: S.String,
     PrimaryAccountNumber: S.String,
     VerificationAttributes: CardVerificationAttributes,
     ValidationData: S.String,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/cardvalidationdata/verify" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/cardvalidationdata/verify" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class VerifyPinDataInput extends S.Class<VerifyPinDataInput>(
-  "VerifyPinDataInput",
-)(
-  {
+).annotations({
+  identifier: "VerifyCardValidationDataInput",
+}) as any as S.Schema<VerifyCardValidationDataInput>;
+export interface VerifyPinDataInput {
+  VerificationKeyIdentifier: string;
+  EncryptionKeyIdentifier: string;
+  VerificationAttributes: (typeof PinVerificationAttributes)["Type"];
+  EncryptedPinBlock: string;
+  PrimaryAccountNumber?: string;
+  PinBlockFormat: string;
+  PinDataLength?: number;
+  DukptAttributes?: DukptAttributes;
+  EncryptionWrappedKey?: WrappedKey;
+}
+export const VerifyPinDataInput = S.suspend(() =>
+  S.Struct({
     VerificationKeyIdentifier: S.String,
     EncryptionKeyIdentifier: S.String,
     VerificationAttributes: PinVerificationAttributes,
@@ -836,36 +1253,63 @@ export class VerifyPinDataInput extends S.Class<VerifyPinDataInput>(
     PinDataLength: S.optional(S.Number),
     DukptAttributes: S.optional(DukptAttributes),
     EncryptionWrappedKey: S.optional(WrappedKey),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/pindata/verify" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/pindata/verify" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AmexAttributes extends S.Class<AmexAttributes>("AmexAttributes")({
-  MajorKeyDerivationMode: S.String,
-  PrimaryAccountNumber: S.String,
-  PanSequenceNumber: S.String,
-  ApplicationTransactionCounter: S.String,
-  AuthorizationRequestKeyIdentifier: S.String,
-  CurrentPinAttributes: S.optional(CurrentPinAttributes),
-}) {}
-export class IncomingDiffieHellmanTr31KeyBlock extends S.Class<IncomingDiffieHellmanTr31KeyBlock>(
-  "IncomingDiffieHellmanTr31KeyBlock",
-)({
-  PrivateKeyIdentifier: S.String,
-  CertificateAuthorityPublicKeyIdentifier: S.String,
-  PublicKeyCertificate: S.String,
-  DeriveKeyAlgorithm: S.String,
-  KeyDerivationFunction: S.String,
-  KeyDerivationHashAlgorithm: S.String,
-  DerivationData: DiffieHellmanDerivationData,
-  WrappedKeyBlock: S.String,
-}) {}
+).annotations({
+  identifier: "VerifyPinDataInput",
+}) as any as S.Schema<VerifyPinDataInput>;
+export interface AmexAttributes {
+  MajorKeyDerivationMode: string;
+  PrimaryAccountNumber: string;
+  PanSequenceNumber: string;
+  ApplicationTransactionCounter: string;
+  AuthorizationRequestKeyIdentifier: string;
+  CurrentPinAttributes?: CurrentPinAttributes;
+}
+export const AmexAttributes = S.suspend(() =>
+  S.Struct({
+    MajorKeyDerivationMode: S.String,
+    PrimaryAccountNumber: S.String,
+    PanSequenceNumber: S.String,
+    ApplicationTransactionCounter: S.String,
+    AuthorizationRequestKeyIdentifier: S.String,
+    CurrentPinAttributes: S.optional(CurrentPinAttributes),
+  }),
+).annotations({
+  identifier: "AmexAttributes",
+}) as any as S.Schema<AmexAttributes>;
+export interface IncomingDiffieHellmanTr31KeyBlock {
+  PrivateKeyIdentifier: string;
+  CertificateAuthorityPublicKeyIdentifier: string;
+  PublicKeyCertificate: string;
+  DeriveKeyAlgorithm: string;
+  KeyDerivationFunction: string;
+  KeyDerivationHashAlgorithm: string;
+  DerivationData: (typeof DiffieHellmanDerivationData)["Type"];
+  WrappedKeyBlock: string;
+}
+export const IncomingDiffieHellmanTr31KeyBlock = S.suspend(() =>
+  S.Struct({
+    PrivateKeyIdentifier: S.String,
+    CertificateAuthorityPublicKeyIdentifier: S.String,
+    PublicKeyCertificate: S.String,
+    DeriveKeyAlgorithm: S.String,
+    KeyDerivationFunction: S.String,
+    KeyDerivationHashAlgorithm: S.String,
+    DerivationData: DiffieHellmanDerivationData,
+    WrappedKeyBlock: S.String,
+  }),
+).annotations({
+  identifier: "IncomingDiffieHellmanTr31KeyBlock",
+}) as any as S.Schema<IncomingDiffieHellmanTr31KeyBlock>;
 export const DerivationMethodAttributes = S.Union(
   S.Struct({ EmvCommon: EmvCommonAttributes }),
   S.Struct({ Amex: AmexAttributes }),
@@ -876,57 +1320,97 @@ export const DerivationMethodAttributes = S.Union(
 export const IncomingKeyMaterial = S.Union(
   S.Struct({ DiffieHellmanTr31KeyBlock: IncomingDiffieHellmanTr31KeyBlock }),
 );
-export class DecryptDataInput extends S.Class<DecryptDataInput>(
-  "DecryptDataInput",
-)(
-  {
+export interface DecryptDataInput {
+  KeyIdentifier: string;
+  CipherText: string;
+  DecryptionAttributes: (typeof EncryptionDecryptionAttributes)["Type"];
+  WrappedKey?: WrappedKey;
+}
+export const DecryptDataInput = S.suspend(() =>
+  S.Struct({
     KeyIdentifier: S.String.pipe(T.HttpLabel("KeyIdentifier")),
     CipherText: S.String,
     DecryptionAttributes: EncryptionDecryptionAttributes,
     WrappedKey: S.optional(WrappedKey),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/keys/{KeyIdentifier}/decrypt" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/keys/{KeyIdentifier}/decrypt" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GenerateAs2805KekValidationOutput extends S.Class<GenerateAs2805KekValidationOutput>(
-  "GenerateAs2805KekValidationOutput",
-)({
-  KeyArn: S.String,
-  KeyCheckValue: S.String,
-  RandomKeySend: S.String,
-  RandomKeyReceive: S.String,
-}) {}
-export class GenerateCardValidationDataOutput extends S.Class<GenerateCardValidationDataOutput>(
-  "GenerateCardValidationDataOutput",
-)({ KeyArn: S.String, KeyCheckValue: S.String, ValidationData: S.String }) {}
-export class GenerateMacInput extends S.Class<GenerateMacInput>(
-  "GenerateMacInput",
-)(
-  {
+).annotations({
+  identifier: "DecryptDataInput",
+}) as any as S.Schema<DecryptDataInput>;
+export interface GenerateAs2805KekValidationOutput {
+  KeyArn: string;
+  KeyCheckValue: string;
+  RandomKeySend: string;
+  RandomKeyReceive: string;
+}
+export const GenerateAs2805KekValidationOutput = S.suspend(() =>
+  S.Struct({
+    KeyArn: S.String,
+    KeyCheckValue: S.String,
+    RandomKeySend: S.String,
+    RandomKeyReceive: S.String,
+  }),
+).annotations({
+  identifier: "GenerateAs2805KekValidationOutput",
+}) as any as S.Schema<GenerateAs2805KekValidationOutput>;
+export interface GenerateCardValidationDataOutput {
+  KeyArn: string;
+  KeyCheckValue: string;
+  ValidationData: string;
+}
+export const GenerateCardValidationDataOutput = S.suspend(() =>
+  S.Struct({
+    KeyArn: S.String,
+    KeyCheckValue: S.String,
+    ValidationData: S.String,
+  }),
+).annotations({
+  identifier: "GenerateCardValidationDataOutput",
+}) as any as S.Schema<GenerateCardValidationDataOutput>;
+export interface GenerateMacInput {
+  KeyIdentifier: string;
+  MessageData: string;
+  GenerationAttributes: (typeof MacAttributes)["Type"];
+  MacLength?: number;
+}
+export const GenerateMacInput = S.suspend(() =>
+  S.Struct({
     KeyIdentifier: S.String,
     MessageData: S.String,
     GenerationAttributes: MacAttributes,
     MacLength: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/mac/generate" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/mac/generate" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GenerateMacEmvPinChangeInput extends S.Class<GenerateMacEmvPinChangeInput>(
-  "GenerateMacEmvPinChangeInput",
-)(
-  {
+).annotations({
+  identifier: "GenerateMacInput",
+}) as any as S.Schema<GenerateMacInput>;
+export interface GenerateMacEmvPinChangeInput {
+  NewPinPekIdentifier: string;
+  NewEncryptedPinBlock: string;
+  PinBlockFormat: string;
+  SecureMessagingIntegrityKeyIdentifier: string;
+  SecureMessagingConfidentialityKeyIdentifier: string;
+  MessageData: string;
+  DerivationMethodAttributes: (typeof DerivationMethodAttributes)["Type"];
+}
+export const GenerateMacEmvPinChangeInput = S.suspend(() =>
+  S.Struct({
     NewPinPekIdentifier: S.String,
     NewEncryptedPinBlock: S.String,
     PinBlockFormat: S.String,
@@ -934,108 +1418,209 @@ export class GenerateMacEmvPinChangeInput extends S.Class<GenerateMacEmvPinChang
     SecureMessagingConfidentialityKeyIdentifier: S.String,
     MessageData: S.String,
     DerivationMethodAttributes: DerivationMethodAttributes,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/macemvpinchange/generate" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/macemvpinchange/generate" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TranslateKeyMaterialInput extends S.Class<TranslateKeyMaterialInput>(
-  "TranslateKeyMaterialInput",
-)(
-  {
+).annotations({
+  identifier: "GenerateMacEmvPinChangeInput",
+}) as any as S.Schema<GenerateMacEmvPinChangeInput>;
+export interface TranslateKeyMaterialInput {
+  IncomingKeyMaterial: (typeof IncomingKeyMaterial)["Type"];
+  OutgoingKeyMaterial: (typeof OutgoingKeyMaterial)["Type"];
+  KeyCheckValueAlgorithm?: string;
+}
+export const TranslateKeyMaterialInput = S.suspend(() =>
+  S.Struct({
     IncomingKeyMaterial: IncomingKeyMaterial,
     OutgoingKeyMaterial: OutgoingKeyMaterial,
     KeyCheckValueAlgorithm: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/keymaterial/translate" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/keymaterial/translate" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TranslatePinDataOutput extends S.Class<TranslatePinDataOutput>(
-  "TranslatePinDataOutput",
-)({ PinBlock: S.String, KeyArn: S.String, KeyCheckValue: S.String }) {}
-export class VerifyAuthRequestCryptogramOutput extends S.Class<VerifyAuthRequestCryptogramOutput>(
-  "VerifyAuthRequestCryptogramOutput",
-)({
-  KeyArn: S.String,
-  KeyCheckValue: S.String,
-  AuthResponseValue: S.optional(S.String),
-}) {}
-export class VerifyCardValidationDataOutput extends S.Class<VerifyCardValidationDataOutput>(
-  "VerifyCardValidationDataOutput",
-)({ KeyArn: S.String, KeyCheckValue: S.String }) {}
-export class VerifyPinDataOutput extends S.Class<VerifyPinDataOutput>(
-  "VerifyPinDataOutput",
-)({
-  VerificationKeyArn: S.String,
-  VerificationKeyCheckValue: S.String,
-  EncryptionKeyArn: S.String,
-  EncryptionKeyCheckValue: S.String,
-}) {}
+).annotations({
+  identifier: "TranslateKeyMaterialInput",
+}) as any as S.Schema<TranslateKeyMaterialInput>;
+export interface TranslatePinDataOutput {
+  PinBlock: string;
+  KeyArn: string;
+  KeyCheckValue: string;
+}
+export const TranslatePinDataOutput = S.suspend(() =>
+  S.Struct({ PinBlock: S.String, KeyArn: S.String, KeyCheckValue: S.String }),
+).annotations({
+  identifier: "TranslatePinDataOutput",
+}) as any as S.Schema<TranslatePinDataOutput>;
+export interface VerifyAuthRequestCryptogramOutput {
+  KeyArn: string;
+  KeyCheckValue: string;
+  AuthResponseValue?: string;
+}
+export const VerifyAuthRequestCryptogramOutput = S.suspend(() =>
+  S.Struct({
+    KeyArn: S.String,
+    KeyCheckValue: S.String,
+    AuthResponseValue: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "VerifyAuthRequestCryptogramOutput",
+}) as any as S.Schema<VerifyAuthRequestCryptogramOutput>;
+export interface VerifyCardValidationDataOutput {
+  KeyArn: string;
+  KeyCheckValue: string;
+}
+export const VerifyCardValidationDataOutput = S.suspend(() =>
+  S.Struct({ KeyArn: S.String, KeyCheckValue: S.String }),
+).annotations({
+  identifier: "VerifyCardValidationDataOutput",
+}) as any as S.Schema<VerifyCardValidationDataOutput>;
+export interface VerifyPinDataOutput {
+  VerificationKeyArn: string;
+  VerificationKeyCheckValue: string;
+  EncryptionKeyArn: string;
+  EncryptionKeyCheckValue: string;
+}
+export const VerifyPinDataOutput = S.suspend(() =>
+  S.Struct({
+    VerificationKeyArn: S.String,
+    VerificationKeyCheckValue: S.String,
+    EncryptionKeyArn: S.String,
+    EncryptionKeyCheckValue: S.String,
+  }),
+).annotations({
+  identifier: "VerifyPinDataOutput",
+}) as any as S.Schema<VerifyPinDataOutput>;
 export const PinData = S.Union(
   S.Struct({ PinOffset: S.String }),
   S.Struct({ VerificationValue: S.String }),
 );
-export class DecryptDataOutput extends S.Class<DecryptDataOutput>(
-  "DecryptDataOutput",
-)({ KeyArn: S.String, KeyCheckValue: S.String, PlainText: S.String }) {}
-export class GenerateMacOutput extends S.Class<GenerateMacOutput>(
-  "GenerateMacOutput",
-)({ KeyArn: S.String, KeyCheckValue: S.String, Mac: S.String }) {}
-export class GeneratePinDataOutput extends S.Class<GeneratePinDataOutput>(
-  "GeneratePinDataOutput",
-)({
-  GenerationKeyArn: S.String,
-  GenerationKeyCheckValue: S.String,
-  EncryptionKeyArn: S.String,
-  EncryptionKeyCheckValue: S.String,
-  EncryptedPinBlock: S.String,
-  PinData: PinData,
-}) {}
-export class VisaAmexDerivationOutputs extends S.Class<VisaAmexDerivationOutputs>(
-  "VisaAmexDerivationOutputs",
-)({
-  AuthorizationRequestKeyArn: S.String,
-  AuthorizationRequestKeyCheckValue: S.String,
-  CurrentPinPekArn: S.optional(S.String),
-  CurrentPinPekKeyCheckValue: S.optional(S.String),
-}) {}
-export class WrappedWorkingKey extends S.Class<WrappedWorkingKey>(
-  "WrappedWorkingKey",
-)({
-  WrappedKeyMaterial: S.String,
-  KeyCheckValue: S.String,
-  WrappedKeyMaterialFormat: S.String,
-}) {}
-export class GenerateMacEmvPinChangeOutput extends S.Class<GenerateMacEmvPinChangeOutput>(
-  "GenerateMacEmvPinChangeOutput",
-)({
-  NewPinPekArn: S.String,
-  SecureMessagingIntegrityKeyArn: S.String,
-  SecureMessagingConfidentialityKeyArn: S.String,
-  Mac: S.String,
-  EncryptedPinBlock: S.String,
-  NewPinPekKeyCheckValue: S.String,
-  SecureMessagingIntegrityKeyCheckValue: S.String,
-  SecureMessagingConfidentialityKeyCheckValue: S.String,
-  VisaAmexDerivationOutputs: S.optional(VisaAmexDerivationOutputs),
-}) {}
-export class TranslateKeyMaterialOutput extends S.Class<TranslateKeyMaterialOutput>(
-  "TranslateKeyMaterialOutput",
-)({ WrappedKey: WrappedWorkingKey }) {}
-export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
-  "ValidationExceptionField",
-)({ path: S.String, message: S.String }) {}
+export interface DecryptDataOutput {
+  KeyArn: string;
+  KeyCheckValue: string;
+  PlainText: string;
+}
+export const DecryptDataOutput = S.suspend(() =>
+  S.Struct({ KeyArn: S.String, KeyCheckValue: S.String, PlainText: S.String }),
+).annotations({
+  identifier: "DecryptDataOutput",
+}) as any as S.Schema<DecryptDataOutput>;
+export interface GenerateMacOutput {
+  KeyArn: string;
+  KeyCheckValue: string;
+  Mac: string;
+}
+export const GenerateMacOutput = S.suspend(() =>
+  S.Struct({ KeyArn: S.String, KeyCheckValue: S.String, Mac: S.String }),
+).annotations({
+  identifier: "GenerateMacOutput",
+}) as any as S.Schema<GenerateMacOutput>;
+export interface GeneratePinDataOutput {
+  GenerationKeyArn: string;
+  GenerationKeyCheckValue: string;
+  EncryptionKeyArn: string;
+  EncryptionKeyCheckValue: string;
+  EncryptedPinBlock: string;
+  PinData: (typeof PinData)["Type"];
+}
+export const GeneratePinDataOutput = S.suspend(() =>
+  S.Struct({
+    GenerationKeyArn: S.String,
+    GenerationKeyCheckValue: S.String,
+    EncryptionKeyArn: S.String,
+    EncryptionKeyCheckValue: S.String,
+    EncryptedPinBlock: S.String,
+    PinData: PinData,
+  }),
+).annotations({
+  identifier: "GeneratePinDataOutput",
+}) as any as S.Schema<GeneratePinDataOutput>;
+export interface VisaAmexDerivationOutputs {
+  AuthorizationRequestKeyArn: string;
+  AuthorizationRequestKeyCheckValue: string;
+  CurrentPinPekArn?: string;
+  CurrentPinPekKeyCheckValue?: string;
+}
+export const VisaAmexDerivationOutputs = S.suspend(() =>
+  S.Struct({
+    AuthorizationRequestKeyArn: S.String,
+    AuthorizationRequestKeyCheckValue: S.String,
+    CurrentPinPekArn: S.optional(S.String),
+    CurrentPinPekKeyCheckValue: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "VisaAmexDerivationOutputs",
+}) as any as S.Schema<VisaAmexDerivationOutputs>;
+export interface WrappedWorkingKey {
+  WrappedKeyMaterial: string;
+  KeyCheckValue: string;
+  WrappedKeyMaterialFormat: string;
+}
+export const WrappedWorkingKey = S.suspend(() =>
+  S.Struct({
+    WrappedKeyMaterial: S.String,
+    KeyCheckValue: S.String,
+    WrappedKeyMaterialFormat: S.String,
+  }),
+).annotations({
+  identifier: "WrappedWorkingKey",
+}) as any as S.Schema<WrappedWorkingKey>;
+export interface GenerateMacEmvPinChangeOutput {
+  NewPinPekArn: string;
+  SecureMessagingIntegrityKeyArn: string;
+  SecureMessagingConfidentialityKeyArn: string;
+  Mac: string;
+  EncryptedPinBlock: string;
+  NewPinPekKeyCheckValue: string;
+  SecureMessagingIntegrityKeyCheckValue: string;
+  SecureMessagingConfidentialityKeyCheckValue: string;
+  VisaAmexDerivationOutputs?: VisaAmexDerivationOutputs;
+}
+export const GenerateMacEmvPinChangeOutput = S.suspend(() =>
+  S.Struct({
+    NewPinPekArn: S.String,
+    SecureMessagingIntegrityKeyArn: S.String,
+    SecureMessagingConfidentialityKeyArn: S.String,
+    Mac: S.String,
+    EncryptedPinBlock: S.String,
+    NewPinPekKeyCheckValue: S.String,
+    SecureMessagingIntegrityKeyCheckValue: S.String,
+    SecureMessagingConfidentialityKeyCheckValue: S.String,
+    VisaAmexDerivationOutputs: S.optional(VisaAmexDerivationOutputs),
+  }),
+).annotations({
+  identifier: "GenerateMacEmvPinChangeOutput",
+}) as any as S.Schema<GenerateMacEmvPinChangeOutput>;
+export interface TranslateKeyMaterialOutput {
+  WrappedKey: WrappedWorkingKey;
+}
+export const TranslateKeyMaterialOutput = S.suspend(() =>
+  S.Struct({ WrappedKey: WrappedWorkingKey }),
+).annotations({
+  identifier: "TranslateKeyMaterialOutput",
+}) as any as S.Schema<TranslateKeyMaterialOutput>;
+export interface ValidationExceptionField {
+  path: string;
+  message: string;
+}
+export const ValidationExceptionField = S.suspend(() =>
+  S.Struct({ path: S.String, message: S.String }),
+).annotations({
+  identifier: "ValidationExceptionField",
+}) as any as S.Schema<ValidationExceptionField>;
+export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 
 //# Errors

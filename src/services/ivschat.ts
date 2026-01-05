@@ -242,213 +242,328 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type ChatTokenCapabilities = string[];
 export const ChatTokenCapabilities = S.Array(S.String);
+export type LoggingConfigurationIdentifierList = string[];
 export const LoggingConfigurationIdentifierList = S.Array(S.String);
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class DeleteLoggingConfigurationRequest extends S.Class<DeleteLoggingConfigurationRequest>(
-  "DeleteLoggingConfigurationRequest",
-)(
-  { identifier: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/DeleteLoggingConfiguration" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface DeleteLoggingConfigurationRequest {
+  identifier: string;
+}
+export const DeleteLoggingConfigurationRequest = S.suspend(() =>
+  S.Struct({ identifier: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/DeleteLoggingConfiguration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteLoggingConfigurationResponse extends S.Class<DeleteLoggingConfigurationResponse>(
-  "DeleteLoggingConfigurationResponse",
-)({}) {}
-export class DeleteMessageRequest extends S.Class<DeleteMessageRequest>(
-  "DeleteMessageRequest",
-)(
-  { roomIdentifier: S.String, id: S.String, reason: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/DeleteMessage" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteLoggingConfigurationRequest",
+}) as any as S.Schema<DeleteLoggingConfigurationRequest>;
+export interface DeleteLoggingConfigurationResponse {}
+export const DeleteLoggingConfigurationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteLoggingConfigurationResponse",
+}) as any as S.Schema<DeleteLoggingConfigurationResponse>;
+export interface DeleteMessageRequest {
+  roomIdentifier: string;
+  id: string;
+  reason?: string;
+}
+export const DeleteMessageRequest = S.suspend(() =>
+  S.Struct({
+    roomIdentifier: S.String,
+    id: S.String,
+    reason: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/DeleteMessage" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteRoomRequest extends S.Class<DeleteRoomRequest>(
-  "DeleteRoomRequest",
-)(
-  { identifier: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/DeleteRoom" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteMessageRequest",
+}) as any as S.Schema<DeleteMessageRequest>;
+export interface DeleteRoomRequest {
+  identifier: string;
+}
+export const DeleteRoomRequest = S.suspend(() =>
+  S.Struct({ identifier: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/DeleteRoom" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteRoomResponse extends S.Class<DeleteRoomResponse>(
-  "DeleteRoomResponse",
-)({}) {}
-export class DisconnectUserRequest extends S.Class<DisconnectUserRequest>(
-  "DisconnectUserRequest",
-)(
-  { roomIdentifier: S.String, userId: S.String, reason: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/DisconnectUser" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteRoomRequest",
+}) as any as S.Schema<DeleteRoomRequest>;
+export interface DeleteRoomResponse {}
+export const DeleteRoomResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteRoomResponse",
+}) as any as S.Schema<DeleteRoomResponse>;
+export interface DisconnectUserRequest {
+  roomIdentifier: string;
+  userId: string;
+  reason?: string;
+}
+export const DisconnectUserRequest = S.suspend(() =>
+  S.Struct({
+    roomIdentifier: S.String,
+    userId: S.String,
+    reason: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/DisconnectUser" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DisconnectUserResponse extends S.Class<DisconnectUserResponse>(
-  "DisconnectUserResponse",
-)({}) {}
-export class GetLoggingConfigurationRequest extends S.Class<GetLoggingConfigurationRequest>(
-  "GetLoggingConfigurationRequest",
-)(
-  { identifier: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/GetLoggingConfiguration" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DisconnectUserRequest",
+}) as any as S.Schema<DisconnectUserRequest>;
+export interface DisconnectUserResponse {}
+export const DisconnectUserResponse = S.suspend(() => S.Struct({})).annotations(
+  { identifier: "DisconnectUserResponse" },
+) as any as S.Schema<DisconnectUserResponse>;
+export interface GetLoggingConfigurationRequest {
+  identifier: string;
+}
+export const GetLoggingConfigurationRequest = S.suspend(() =>
+  S.Struct({ identifier: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/GetLoggingConfiguration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetRoomRequest extends S.Class<GetRoomRequest>("GetRoomRequest")(
-  { identifier: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/GetRoom" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetLoggingConfigurationRequest",
+}) as any as S.Schema<GetLoggingConfigurationRequest>;
+export interface GetRoomRequest {
+  identifier: string;
+}
+export const GetRoomRequest = S.suspend(() =>
+  S.Struct({ identifier: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/GetRoom" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListLoggingConfigurationsRequest extends S.Class<ListLoggingConfigurationsRequest>(
-  "ListLoggingConfigurationsRequest",
-)(
-  { nextToken: S.optional(S.String), maxResults: S.optional(S.Number) },
-  T.all(
-    T.Http({ method: "POST", uri: "/ListLoggingConfigurations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetRoomRequest",
+}) as any as S.Schema<GetRoomRequest>;
+export interface ListLoggingConfigurationsRequest {
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListLoggingConfigurationsRequest = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    maxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ListLoggingConfigurations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListRoomsRequest extends S.Class<ListRoomsRequest>(
-  "ListRoomsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListLoggingConfigurationsRequest",
+}) as any as S.Schema<ListLoggingConfigurationsRequest>;
+export interface ListRoomsRequest {
+  name?: string;
+  nextToken?: string;
+  maxResults?: number;
+  messageReviewHandlerUri?: string;
+  loggingConfigurationIdentifier?: string;
+}
+export const ListRoomsRequest = S.suspend(() =>
+  S.Struct({
     name: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
     messageReviewHandlerUri: S.optional(S.String),
     loggingConfigurationIdentifier: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/ListRooms" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ListRooms" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListRoomsRequest",
+}) as any as S.Schema<ListRoomsRequest>;
+export interface ListTagsForResourceRequest {
+  resourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export type Tags = { [key: string]: string };
 export const Tags = S.Record({ key: S.String, value: S.String });
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: Tags },
-  T.all(
-    T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface TagResourceRequest {
+  resourceArn: string;
+  tags: Tags;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+    tags: Tags,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UntagResourceRequest {
+  resourceArn: string;
+  tagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
-export class S3DestinationConfiguration extends S.Class<S3DestinationConfiguration>(
-  "S3DestinationConfiguration",
-)({ bucketName: S.String }) {}
-export class CloudWatchLogsDestinationConfiguration extends S.Class<CloudWatchLogsDestinationConfiguration>(
-  "CloudWatchLogsDestinationConfiguration",
-)({ logGroupName: S.String }) {}
-export class FirehoseDestinationConfiguration extends S.Class<FirehoseDestinationConfiguration>(
-  "FirehoseDestinationConfiguration",
-)({ deliveryStreamName: S.String }) {}
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface S3DestinationConfiguration {
+  bucketName: string;
+}
+export const S3DestinationConfiguration = S.suspend(() =>
+  S.Struct({ bucketName: S.String }),
+).annotations({
+  identifier: "S3DestinationConfiguration",
+}) as any as S.Schema<S3DestinationConfiguration>;
+export interface CloudWatchLogsDestinationConfiguration {
+  logGroupName: string;
+}
+export const CloudWatchLogsDestinationConfiguration = S.suspend(() =>
+  S.Struct({ logGroupName: S.String }),
+).annotations({
+  identifier: "CloudWatchLogsDestinationConfiguration",
+}) as any as S.Schema<CloudWatchLogsDestinationConfiguration>;
+export interface FirehoseDestinationConfiguration {
+  deliveryStreamName: string;
+}
+export const FirehoseDestinationConfiguration = S.suspend(() =>
+  S.Struct({ deliveryStreamName: S.String }),
+).annotations({
+  identifier: "FirehoseDestinationConfiguration",
+}) as any as S.Schema<FirehoseDestinationConfiguration>;
 export const DestinationConfiguration = S.Union(
   S.Struct({ s3: S3DestinationConfiguration }),
   S.Struct({ cloudWatchLogs: CloudWatchLogsDestinationConfiguration }),
   S.Struct({ firehose: FirehoseDestinationConfiguration }),
 );
-export class UpdateLoggingConfigurationRequest extends S.Class<UpdateLoggingConfigurationRequest>(
-  "UpdateLoggingConfigurationRequest",
-)(
-  {
+export interface UpdateLoggingConfigurationRequest {
+  identifier: string;
+  name?: string;
+  destinationConfiguration?: (typeof DestinationConfiguration)["Type"];
+}
+export const UpdateLoggingConfigurationRequest = S.suspend(() =>
+  S.Struct({
     identifier: S.String,
     name: S.optional(S.String),
     destinationConfiguration: S.optional(DestinationConfiguration),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/UpdateLoggingConfiguration" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/UpdateLoggingConfiguration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class MessageReviewHandler extends S.Class<MessageReviewHandler>(
-  "MessageReviewHandler",
-)({ uri: S.optional(S.String), fallbackResult: S.optional(S.String) }) {}
-export class UpdateRoomRequest extends S.Class<UpdateRoomRequest>(
-  "UpdateRoomRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateLoggingConfigurationRequest",
+}) as any as S.Schema<UpdateLoggingConfigurationRequest>;
+export interface MessageReviewHandler {
+  uri?: string;
+  fallbackResult?: string;
+}
+export const MessageReviewHandler = S.suspend(() =>
+  S.Struct({ uri: S.optional(S.String), fallbackResult: S.optional(S.String) }),
+).annotations({
+  identifier: "MessageReviewHandler",
+}) as any as S.Schema<MessageReviewHandler>;
+export interface UpdateRoomRequest {
+  identifier: string;
+  name?: string;
+  maximumMessageRatePerSecond?: number;
+  maximumMessageLength?: number;
+  messageReviewHandler?: MessageReviewHandler;
+  loggingConfigurationIdentifiers?: LoggingConfigurationIdentifierList;
+}
+export const UpdateRoomRequest = S.suspend(() =>
+  S.Struct({
     identifier: S.String,
     name: S.optional(S.String),
     maximumMessageRatePerSecond: S.optional(S.Number),
@@ -457,41 +572,60 @@ export class UpdateRoomRequest extends S.Class<UpdateRoomRequest>(
     loggingConfigurationIdentifiers: S.optional(
       LoggingConfigurationIdentifierList,
     ),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/UpdateRoom" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/UpdateRoom" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "UpdateRoomRequest",
+}) as any as S.Schema<UpdateRoomRequest>;
+export type ChatTokenAttributes = { [key: string]: string };
 export const ChatTokenAttributes = S.Record({ key: S.String, value: S.String });
+export type EventAttributes = { [key: string]: string };
 export const EventAttributes = S.Record({ key: S.String, value: S.String });
-export class CreateChatTokenRequest extends S.Class<CreateChatTokenRequest>(
-  "CreateChatTokenRequest",
-)(
-  {
+export interface CreateChatTokenRequest {
+  roomIdentifier: string;
+  userId: string;
+  capabilities?: ChatTokenCapabilities;
+  sessionDurationInMinutes?: number;
+  attributes?: ChatTokenAttributes;
+}
+export const CreateChatTokenRequest = S.suspend(() =>
+  S.Struct({
     roomIdentifier: S.String,
     userId: S.String,
     capabilities: S.optional(ChatTokenCapabilities),
     sessionDurationInMinutes: S.optional(S.Number),
     attributes: S.optional(ChatTokenAttributes),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/CreateChatToken" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/CreateChatToken" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateRoomRequest extends S.Class<CreateRoomRequest>(
-  "CreateRoomRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateChatTokenRequest",
+}) as any as S.Schema<CreateChatTokenRequest>;
+export interface CreateRoomRequest {
+  name?: string;
+  maximumMessageRatePerSecond?: number;
+  maximumMessageLength?: number;
+  messageReviewHandler?: MessageReviewHandler;
+  tags?: Tags;
+  loggingConfigurationIdentifiers?: LoggingConfigurationIdentifierList;
+}
+export const CreateRoomRequest = S.suspend(() =>
+  S.Struct({
     name: S.optional(S.String),
     maximumMessageRatePerSecond: S.optional(S.Number),
     maximumMessageLength: S.optional(S.Number),
@@ -500,190 +634,352 @@ export class CreateRoomRequest extends S.Class<CreateRoomRequest>(
     loggingConfigurationIdentifiers: S.optional(
       LoggingConfigurationIdentifierList,
     ),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/CreateRoom" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/CreateRoom" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteMessageResponse extends S.Class<DeleteMessageResponse>(
-  "DeleteMessageResponse",
-)({ id: S.optional(S.String) }) {}
-export class GetLoggingConfigurationResponse extends S.Class<GetLoggingConfigurationResponse>(
-  "GetLoggingConfigurationResponse",
-)({
-  arn: S.optional(S.String),
-  id: S.optional(S.String),
-  createTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  updateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  name: S.optional(S.String),
-  destinationConfiguration: S.optional(DestinationConfiguration),
-  state: S.optional(S.String),
-  tags: S.optional(Tags),
-}) {}
-export class GetRoomResponse extends S.Class<GetRoomResponse>(
-  "GetRoomResponse",
-)({
-  arn: S.optional(S.String),
-  id: S.optional(S.String),
-  name: S.optional(S.String),
-  createTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  updateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  maximumMessageRatePerSecond: S.optional(S.Number),
-  maximumMessageLength: S.optional(S.Number),
-  messageReviewHandler: S.optional(MessageReviewHandler),
-  tags: S.optional(Tags),
-  loggingConfigurationIdentifiers: S.optional(
-    LoggingConfigurationIdentifierList,
-  ),
-}) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ tags: Tags }) {}
-export class SendEventRequest extends S.Class<SendEventRequest>(
-  "SendEventRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateRoomRequest",
+}) as any as S.Schema<CreateRoomRequest>;
+export interface DeleteMessageResponse {
+  id?: string;
+}
+export const DeleteMessageResponse = S.suspend(() =>
+  S.Struct({ id: S.optional(S.String) }),
+).annotations({
+  identifier: "DeleteMessageResponse",
+}) as any as S.Schema<DeleteMessageResponse>;
+export interface GetLoggingConfigurationResponse {
+  arn?: string;
+  id?: string;
+  createTime?: Date;
+  updateTime?: Date;
+  name?: string;
+  destinationConfiguration?: (typeof DestinationConfiguration)["Type"];
+  state?: string;
+  tags?: Tags;
+}
+export const GetLoggingConfigurationResponse = S.suspend(() =>
+  S.Struct({
+    arn: S.optional(S.String),
+    id: S.optional(S.String),
+    createTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    updateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    name: S.optional(S.String),
+    destinationConfiguration: S.optional(DestinationConfiguration),
+    state: S.optional(S.String),
+    tags: S.optional(Tags),
+  }),
+).annotations({
+  identifier: "GetLoggingConfigurationResponse",
+}) as any as S.Schema<GetLoggingConfigurationResponse>;
+export interface GetRoomResponse {
+  arn?: string;
+  id?: string;
+  name?: string;
+  createTime?: Date;
+  updateTime?: Date;
+  maximumMessageRatePerSecond?: number;
+  maximumMessageLength?: number;
+  messageReviewHandler?: MessageReviewHandler;
+  tags?: Tags;
+  loggingConfigurationIdentifiers?: LoggingConfigurationIdentifierList;
+}
+export const GetRoomResponse = S.suspend(() =>
+  S.Struct({
+    arn: S.optional(S.String),
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    createTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    updateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    maximumMessageRatePerSecond: S.optional(S.Number),
+    maximumMessageLength: S.optional(S.Number),
+    messageReviewHandler: S.optional(MessageReviewHandler),
+    tags: S.optional(Tags),
+    loggingConfigurationIdentifiers: S.optional(
+      LoggingConfigurationIdentifierList,
+    ),
+  }),
+).annotations({
+  identifier: "GetRoomResponse",
+}) as any as S.Schema<GetRoomResponse>;
+export interface ListTagsForResourceResponse {
+  tags: Tags;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ tags: Tags }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface SendEventRequest {
+  roomIdentifier: string;
+  eventName: string;
+  attributes?: EventAttributes;
+}
+export const SendEventRequest = S.suspend(() =>
+  S.Struct({
     roomIdentifier: S.String,
     eventName: S.String,
     attributes: S.optional(EventAttributes),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/SendEvent" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/SendEvent" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateLoggingConfigurationResponse extends S.Class<UpdateLoggingConfigurationResponse>(
-  "UpdateLoggingConfigurationResponse",
-)({
-  arn: S.optional(S.String),
-  id: S.optional(S.String),
-  createTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  updateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  name: S.optional(S.String),
-  destinationConfiguration: S.optional(DestinationConfiguration),
-  state: S.optional(S.String),
-  tags: S.optional(Tags),
-}) {}
-export class UpdateRoomResponse extends S.Class<UpdateRoomResponse>(
-  "UpdateRoomResponse",
-)({
-  arn: S.optional(S.String),
-  id: S.optional(S.String),
-  name: S.optional(S.String),
-  createTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  updateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  maximumMessageRatePerSecond: S.optional(S.Number),
-  maximumMessageLength: S.optional(S.Number),
-  messageReviewHandler: S.optional(MessageReviewHandler),
-  tags: S.optional(Tags),
-  loggingConfigurationIdentifiers: S.optional(
-    LoggingConfigurationIdentifierList,
-  ),
-}) {}
-export class LoggingConfigurationSummary extends S.Class<LoggingConfigurationSummary>(
-  "LoggingConfigurationSummary",
-)({
-  arn: S.optional(S.String),
-  id: S.optional(S.String),
-  createTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  updateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  name: S.optional(S.String),
-  destinationConfiguration: S.optional(DestinationConfiguration),
-  state: S.optional(S.String),
-  tags: S.optional(Tags),
-}) {}
+).annotations({
+  identifier: "SendEventRequest",
+}) as any as S.Schema<SendEventRequest>;
+export interface UpdateLoggingConfigurationResponse {
+  arn?: string;
+  id?: string;
+  createTime?: Date;
+  updateTime?: Date;
+  name?: string;
+  destinationConfiguration?: (typeof DestinationConfiguration)["Type"];
+  state?: string;
+  tags?: Tags;
+}
+export const UpdateLoggingConfigurationResponse = S.suspend(() =>
+  S.Struct({
+    arn: S.optional(S.String),
+    id: S.optional(S.String),
+    createTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    updateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    name: S.optional(S.String),
+    destinationConfiguration: S.optional(DestinationConfiguration),
+    state: S.optional(S.String),
+    tags: S.optional(Tags),
+  }),
+).annotations({
+  identifier: "UpdateLoggingConfigurationResponse",
+}) as any as S.Schema<UpdateLoggingConfigurationResponse>;
+export interface UpdateRoomResponse {
+  arn?: string;
+  id?: string;
+  name?: string;
+  createTime?: Date;
+  updateTime?: Date;
+  maximumMessageRatePerSecond?: number;
+  maximumMessageLength?: number;
+  messageReviewHandler?: MessageReviewHandler;
+  tags?: Tags;
+  loggingConfigurationIdentifiers?: LoggingConfigurationIdentifierList;
+}
+export const UpdateRoomResponse = S.suspend(() =>
+  S.Struct({
+    arn: S.optional(S.String),
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    createTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    updateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    maximumMessageRatePerSecond: S.optional(S.Number),
+    maximumMessageLength: S.optional(S.Number),
+    messageReviewHandler: S.optional(MessageReviewHandler),
+    tags: S.optional(Tags),
+    loggingConfigurationIdentifiers: S.optional(
+      LoggingConfigurationIdentifierList,
+    ),
+  }),
+).annotations({
+  identifier: "UpdateRoomResponse",
+}) as any as S.Schema<UpdateRoomResponse>;
+export interface LoggingConfigurationSummary {
+  arn?: string;
+  id?: string;
+  createTime?: Date;
+  updateTime?: Date;
+  name?: string;
+  destinationConfiguration?: (typeof DestinationConfiguration)["Type"];
+  state?: string;
+  tags?: Tags;
+}
+export const LoggingConfigurationSummary = S.suspend(() =>
+  S.Struct({
+    arn: S.optional(S.String),
+    id: S.optional(S.String),
+    createTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    updateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    name: S.optional(S.String),
+    destinationConfiguration: S.optional(DestinationConfiguration),
+    state: S.optional(S.String),
+    tags: S.optional(Tags),
+  }),
+).annotations({
+  identifier: "LoggingConfigurationSummary",
+}) as any as S.Schema<LoggingConfigurationSummary>;
+export type LoggingConfigurationList = LoggingConfigurationSummary[];
 export const LoggingConfigurationList = S.Array(LoggingConfigurationSummary);
-export class RoomSummary extends S.Class<RoomSummary>("RoomSummary")({
-  arn: S.optional(S.String),
-  id: S.optional(S.String),
-  name: S.optional(S.String),
-  messageReviewHandler: S.optional(MessageReviewHandler),
-  createTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  updateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  tags: S.optional(Tags),
-  loggingConfigurationIdentifiers: S.optional(
-    LoggingConfigurationIdentifierList,
-  ),
-}) {}
+export interface RoomSummary {
+  arn?: string;
+  id?: string;
+  name?: string;
+  messageReviewHandler?: MessageReviewHandler;
+  createTime?: Date;
+  updateTime?: Date;
+  tags?: Tags;
+  loggingConfigurationIdentifiers?: LoggingConfigurationIdentifierList;
+}
+export const RoomSummary = S.suspend(() =>
+  S.Struct({
+    arn: S.optional(S.String),
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    messageReviewHandler: S.optional(MessageReviewHandler),
+    createTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    updateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    tags: S.optional(Tags),
+    loggingConfigurationIdentifiers: S.optional(
+      LoggingConfigurationIdentifierList,
+    ),
+  }),
+).annotations({ identifier: "RoomSummary" }) as any as S.Schema<RoomSummary>;
+export type RoomList = RoomSummary[];
 export const RoomList = S.Array(RoomSummary);
-export class CreateChatTokenResponse extends S.Class<CreateChatTokenResponse>(
-  "CreateChatTokenResponse",
-)({
-  token: S.optional(S.String),
-  tokenExpirationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  sessionExpirationTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("date-time")),
-  ),
-}) {}
-export class CreateLoggingConfigurationRequest extends S.Class<CreateLoggingConfigurationRequest>(
-  "CreateLoggingConfigurationRequest",
-)(
-  {
+export interface CreateChatTokenResponse {
+  token?: string;
+  tokenExpirationTime?: Date;
+  sessionExpirationTime?: Date;
+}
+export const CreateChatTokenResponse = S.suspend(() =>
+  S.Struct({
+    token: S.optional(S.String),
+    tokenExpirationTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("date-time")),
+    ),
+    sessionExpirationTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("date-time")),
+    ),
+  }),
+).annotations({
+  identifier: "CreateChatTokenResponse",
+}) as any as S.Schema<CreateChatTokenResponse>;
+export interface CreateLoggingConfigurationRequest {
+  name?: string;
+  destinationConfiguration: (typeof DestinationConfiguration)["Type"];
+  tags?: Tags;
+}
+export const CreateLoggingConfigurationRequest = S.suspend(() =>
+  S.Struct({
     name: S.optional(S.String),
     destinationConfiguration: DestinationConfiguration,
     tags: S.optional(Tags),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/CreateLoggingConfiguration" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/CreateLoggingConfiguration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateRoomResponse extends S.Class<CreateRoomResponse>(
-  "CreateRoomResponse",
-)({
-  arn: S.optional(S.String),
-  id: S.optional(S.String),
-  name: S.optional(S.String),
-  createTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  updateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  maximumMessageRatePerSecond: S.optional(S.Number),
-  maximumMessageLength: S.optional(S.Number),
-  messageReviewHandler: S.optional(MessageReviewHandler),
-  tags: S.optional(Tags),
-  loggingConfigurationIdentifiers: S.optional(
-    LoggingConfigurationIdentifierList,
-  ),
-}) {}
-export class ListLoggingConfigurationsResponse extends S.Class<ListLoggingConfigurationsResponse>(
-  "ListLoggingConfigurationsResponse",
-)({
-  loggingConfigurations: LoggingConfigurationList,
-  nextToken: S.optional(S.String),
-}) {}
-export class ListRoomsResponse extends S.Class<ListRoomsResponse>(
-  "ListRoomsResponse",
-)({ rooms: RoomList, nextToken: S.optional(S.String) }) {}
-export class SendEventResponse extends S.Class<SendEventResponse>(
-  "SendEventResponse",
-)({ id: S.optional(S.String) }) {}
-export class CreateLoggingConfigurationResponse extends S.Class<CreateLoggingConfigurationResponse>(
-  "CreateLoggingConfigurationResponse",
-)({
-  arn: S.optional(S.String),
-  id: S.optional(S.String),
-  createTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  updateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  name: S.optional(S.String),
-  destinationConfiguration: S.optional(DestinationConfiguration),
-  state: S.optional(S.String),
-  tags: S.optional(Tags),
-}) {}
-export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
-  "ValidationExceptionField",
-)({ name: S.String, message: S.String }) {}
+).annotations({
+  identifier: "CreateLoggingConfigurationRequest",
+}) as any as S.Schema<CreateLoggingConfigurationRequest>;
+export interface CreateRoomResponse {
+  arn?: string;
+  id?: string;
+  name?: string;
+  createTime?: Date;
+  updateTime?: Date;
+  maximumMessageRatePerSecond?: number;
+  maximumMessageLength?: number;
+  messageReviewHandler?: MessageReviewHandler;
+  tags?: Tags;
+  loggingConfigurationIdentifiers?: LoggingConfigurationIdentifierList;
+}
+export const CreateRoomResponse = S.suspend(() =>
+  S.Struct({
+    arn: S.optional(S.String),
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    createTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    updateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    maximumMessageRatePerSecond: S.optional(S.Number),
+    maximumMessageLength: S.optional(S.Number),
+    messageReviewHandler: S.optional(MessageReviewHandler),
+    tags: S.optional(Tags),
+    loggingConfigurationIdentifiers: S.optional(
+      LoggingConfigurationIdentifierList,
+    ),
+  }),
+).annotations({
+  identifier: "CreateRoomResponse",
+}) as any as S.Schema<CreateRoomResponse>;
+export interface ListLoggingConfigurationsResponse {
+  loggingConfigurations: LoggingConfigurationList;
+  nextToken?: string;
+}
+export const ListLoggingConfigurationsResponse = S.suspend(() =>
+  S.Struct({
+    loggingConfigurations: LoggingConfigurationList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListLoggingConfigurationsResponse",
+}) as any as S.Schema<ListLoggingConfigurationsResponse>;
+export interface ListRoomsResponse {
+  rooms: RoomList;
+  nextToken?: string;
+}
+export const ListRoomsResponse = S.suspend(() =>
+  S.Struct({ rooms: RoomList, nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListRoomsResponse",
+}) as any as S.Schema<ListRoomsResponse>;
+export interface SendEventResponse {
+  id?: string;
+}
+export const SendEventResponse = S.suspend(() =>
+  S.Struct({ id: S.optional(S.String) }),
+).annotations({
+  identifier: "SendEventResponse",
+}) as any as S.Schema<SendEventResponse>;
+export interface CreateLoggingConfigurationResponse {
+  arn?: string;
+  id?: string;
+  createTime?: Date;
+  updateTime?: Date;
+  name?: string;
+  destinationConfiguration?: (typeof DestinationConfiguration)["Type"];
+  state?: string;
+  tags?: Tags;
+}
+export const CreateLoggingConfigurationResponse = S.suspend(() =>
+  S.Struct({
+    arn: S.optional(S.String),
+    id: S.optional(S.String),
+    createTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    updateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    name: S.optional(S.String),
+    destinationConfiguration: S.optional(DestinationConfiguration),
+    state: S.optional(S.String),
+    tags: S.optional(Tags),
+  }),
+).annotations({
+  identifier: "CreateLoggingConfigurationResponse",
+}) as any as S.Schema<CreateLoggingConfigurationResponse>;
+export interface ValidationExceptionField {
+  name: string;
+  message: string;
+}
+export const ValidationExceptionField = S.suspend(() =>
+  S.Struct({ name: S.String, message: S.String }),
+).annotations({
+  identifier: "ValidationExceptionField",
+}) as any as S.Schema<ValidationExceptionField>;
+export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 
 //# Errors

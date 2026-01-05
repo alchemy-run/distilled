@@ -122,176 +122,274 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type TagKeys = string[];
 export const TagKeys = S.Array(S.String);
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { arn: S.String.pipe(T.HttpLabel("arn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/tags/{arn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface ListTagsForResourceRequest {
+  arn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ arn: S.String.pipe(T.HttpLabel("arn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tags/{arn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface UntagResourceRequest {
+  arn: string;
+  tagKeys: TagKeys;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
     arn: S.String.pipe(T.HttpLabel("arn")),
     tagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/tags/{arn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{arn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
-export class CreateEmailContactRequest extends S.Class<CreateEmailContactRequest>(
-  "CreateEmailContactRequest",
-)(
-  { name: S.String, emailAddress: S.String, tags: S.optional(TagMap) },
-  T.all(
-    T.Http({ method: "POST", uri: "/2022-09-19/emailcontacts" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface CreateEmailContactRequest {
+  name: string;
+  emailAddress: string;
+  tags?: TagMap;
+}
+export const CreateEmailContactRequest = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    emailAddress: S.String,
+    tags: S.optional(TagMap),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/2022-09-19/emailcontacts" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetEmailContactRequest extends S.Class<GetEmailContactRequest>(
-  "GetEmailContactRequest",
-)(
-  { arn: S.String.pipe(T.HttpLabel("arn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/emailcontacts/{arn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CreateEmailContactRequest",
+}) as any as S.Schema<CreateEmailContactRequest>;
+export interface GetEmailContactRequest {
+  arn: string;
+}
+export const GetEmailContactRequest = S.suspend(() =>
+  S.Struct({ arn: S.String.pipe(T.HttpLabel("arn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/emailcontacts/{arn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteEmailContactRequest extends S.Class<DeleteEmailContactRequest>(
-  "DeleteEmailContactRequest",
-)(
-  { arn: S.String.pipe(T.HttpLabel("arn")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/emailcontacts/{arn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetEmailContactRequest",
+}) as any as S.Schema<GetEmailContactRequest>;
+export interface DeleteEmailContactRequest {
+  arn: string;
+}
+export const DeleteEmailContactRequest = S.suspend(() =>
+  S.Struct({ arn: S.String.pipe(T.HttpLabel("arn")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/emailcontacts/{arn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteEmailContactResponse extends S.Class<DeleteEmailContactResponse>(
-  "DeleteEmailContactResponse",
-)({}) {}
-export class ListEmailContactsRequest extends S.Class<ListEmailContactsRequest>(
-  "ListEmailContactsRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteEmailContactRequest",
+}) as any as S.Schema<DeleteEmailContactRequest>;
+export interface DeleteEmailContactResponse {}
+export const DeleteEmailContactResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteEmailContactResponse",
+}) as any as S.Schema<DeleteEmailContactResponse>;
+export interface ListEmailContactsRequest {
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListEmailContactsRequest = S.suspend(() =>
+  S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/emailcontacts" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/emailcontacts" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ActivateEmailContactRequest extends S.Class<ActivateEmailContactRequest>(
-  "ActivateEmailContactRequest",
-)(
-  {
+).annotations({
+  identifier: "ListEmailContactsRequest",
+}) as any as S.Schema<ListEmailContactsRequest>;
+export interface ActivateEmailContactRequest {
+  arn: string;
+  code: string;
+}
+export const ActivateEmailContactRequest = S.suspend(() =>
+  S.Struct({
     arn: S.String.pipe(T.HttpLabel("arn")),
     code: S.String.pipe(T.HttpLabel("code")),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/emailcontacts/{arn}/activate/{code}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/emailcontacts/{arn}/activate/{code}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ActivateEmailContactResponse extends S.Class<ActivateEmailContactResponse>(
-  "ActivateEmailContactResponse",
-)({}) {}
-export class SendActivationCodeRequest extends S.Class<SendActivationCodeRequest>(
-  "SendActivationCodeRequest",
-)(
-  { arn: S.String.pipe(T.HttpLabel("arn")) },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/2022-10-31/emailcontacts/{arn}/activate/send",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ActivateEmailContactRequest",
+}) as any as S.Schema<ActivateEmailContactRequest>;
+export interface ActivateEmailContactResponse {}
+export const ActivateEmailContactResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "ActivateEmailContactResponse",
+}) as any as S.Schema<ActivateEmailContactResponse>;
+export interface SendActivationCodeRequest {
+  arn: string;
+}
+export const SendActivationCodeRequest = S.suspend(() =>
+  S.Struct({ arn: S.String.pipe(T.HttpLabel("arn")) }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/2022-10-31/emailcontacts/{arn}/activate/send",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SendActivationCodeResponse extends S.Class<SendActivationCodeResponse>(
-  "SendActivationCodeResponse",
-)({}) {}
-export class EmailContact extends S.Class<EmailContact>("EmailContact")({
-  arn: S.String,
-  name: S.String,
-  address: S.String,
-  status: S.String,
-  creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  updateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
+).annotations({
+  identifier: "SendActivationCodeRequest",
+}) as any as S.Schema<SendActivationCodeRequest>;
+export interface SendActivationCodeResponse {}
+export const SendActivationCodeResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "SendActivationCodeResponse",
+}) as any as S.Schema<SendActivationCodeResponse>;
+export interface EmailContact {
+  arn: string;
+  name: string;
+  address: string;
+  status: string;
+  creationTime: Date;
+  updateTime: Date;
+}
+export const EmailContact = S.suspend(() =>
+  S.Struct({
+    arn: S.String,
+    name: S.String,
+    address: S.String,
+    status: S.String,
+    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    updateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({ identifier: "EmailContact" }) as any as S.Schema<EmailContact>;
+export type EmailContacts = EmailContact[];
 export const EmailContacts = S.Array(EmailContact);
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ tags: S.optional(TagMap) }) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { arn: S.String.pipe(T.HttpLabel("arn")), tags: TagMap },
-  T.all(
-    T.Http({ method: "POST", uri: "/tags/{arn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface ListTagsForResourceResponse {
+  tags?: TagMap;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ tags: S.optional(TagMap) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface TagResourceRequest {
+  arn: string;
+  tags: TagMap;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ arn: S.String.pipe(T.HttpLabel("arn")), tags: TagMap }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tags/{arn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class CreateEmailContactResponse extends S.Class<CreateEmailContactResponse>(
-  "CreateEmailContactResponse",
-)({ arn: S.String }) {}
-export class ListEmailContactsResponse extends S.Class<ListEmailContactsResponse>(
-  "ListEmailContactsResponse",
-)({ nextToken: S.optional(S.String), emailContacts: EmailContacts }) {}
-export class GetEmailContactResponse extends S.Class<GetEmailContactResponse>(
-  "GetEmailContactResponse",
-)({ emailContact: EmailContact }) {}
-export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
-  "ValidationExceptionField",
-)({ name: S.String, message: S.String }) {}
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface CreateEmailContactResponse {
+  arn: string;
+}
+export const CreateEmailContactResponse = S.suspend(() =>
+  S.Struct({ arn: S.String }),
+).annotations({
+  identifier: "CreateEmailContactResponse",
+}) as any as S.Schema<CreateEmailContactResponse>;
+export interface ListEmailContactsResponse {
+  nextToken?: string;
+  emailContacts: EmailContacts;
+}
+export const ListEmailContactsResponse = S.suspend(() =>
+  S.Struct({ nextToken: S.optional(S.String), emailContacts: EmailContacts }),
+).annotations({
+  identifier: "ListEmailContactsResponse",
+}) as any as S.Schema<ListEmailContactsResponse>;
+export interface GetEmailContactResponse {
+  emailContact: EmailContact;
+}
+export const GetEmailContactResponse = S.suspend(() =>
+  S.Struct({ emailContact: EmailContact }),
+).annotations({
+  identifier: "GetEmailContactResponse",
+}) as any as S.Schema<GetEmailContactResponse>;
+export interface ValidationExceptionField {
+  name: string;
+  message: string;
+}
+export const ValidationExceptionField = S.suspend(() =>
+  S.Struct({ name: S.String, message: S.String }),
+).annotations({
+  identifier: "ValidationExceptionField",
+}) as any as S.Schema<ValidationExceptionField>;
+export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 
 //# Errors

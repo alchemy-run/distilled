@@ -242,69 +242,103 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class DeleteConnectionRequest extends S.Class<DeleteConnectionRequest>(
-  "DeleteConnectionRequest",
-)(
-  { ConnectionId: S.String.pipe(T.HttpLabel("ConnectionId")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/@connections/{ConnectionId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface DeleteConnectionRequest {
+  ConnectionId: string;
+}
+export const DeleteConnectionRequest = S.suspend(() =>
+  S.Struct({ ConnectionId: S.String.pipe(T.HttpLabel("ConnectionId")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/@connections/{ConnectionId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteConnectionResponse extends S.Class<DeleteConnectionResponse>(
-  "DeleteConnectionResponse",
-)({}) {}
-export class GetConnectionRequest extends S.Class<GetConnectionRequest>(
-  "GetConnectionRequest",
-)(
-  { ConnectionId: S.String.pipe(T.HttpLabel("ConnectionId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/@connections/{ConnectionId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteConnectionRequest",
+}) as any as S.Schema<DeleteConnectionRequest>;
+export interface DeleteConnectionResponse {}
+export const DeleteConnectionResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteConnectionResponse",
+}) as any as S.Schema<DeleteConnectionResponse>;
+export interface GetConnectionRequest {
+  ConnectionId: string;
+}
+export const GetConnectionRequest = S.suspend(() =>
+  S.Struct({ ConnectionId: S.String.pipe(T.HttpLabel("ConnectionId")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/@connections/{ConnectionId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PostToConnectionRequest extends S.Class<PostToConnectionRequest>(
-  "PostToConnectionRequest",
-)(
-  {
+).annotations({
+  identifier: "GetConnectionRequest",
+}) as any as S.Schema<GetConnectionRequest>;
+export interface PostToConnectionRequest {
+  Data: T.StreamingInputBody;
+  ConnectionId: string;
+}
+export const PostToConnectionRequest = S.suspend(() =>
+  S.Struct({
     Data: T.StreamingInput.pipe(T.HttpPayload()),
     ConnectionId: S.String.pipe(T.HttpLabel("ConnectionId")),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/@connections/{ConnectionId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/@connections/{ConnectionId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PostToConnectionResponse extends S.Class<PostToConnectionResponse>(
-  "PostToConnectionResponse",
-)({}) {}
-export class Identity extends S.Class<Identity>("Identity")({
-  SourceIp: S.String.pipe(T.JsonName("sourceIp")),
-  UserAgent: S.String.pipe(T.JsonName("userAgent")),
-}) {}
-export class GetConnectionResponse extends S.Class<GetConnectionResponse>(
-  "GetConnectionResponse",
-)({
-  ConnectedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-    T.JsonName("connectedAt"),
-  ),
-  Identity: S.optional(Identity).pipe(T.JsonName("identity")),
-  LastActiveAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-    T.JsonName("lastActiveAt"),
-  ),
-}) {}
+).annotations({
+  identifier: "PostToConnectionRequest",
+}) as any as S.Schema<PostToConnectionRequest>;
+export interface PostToConnectionResponse {}
+export const PostToConnectionResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "PostToConnectionResponse",
+}) as any as S.Schema<PostToConnectionResponse>;
+export interface Identity {
+  SourceIp: string;
+  UserAgent: string;
+}
+export const Identity = S.suspend(() =>
+  S.Struct({
+    SourceIp: S.String.pipe(T.JsonName("sourceIp")),
+    UserAgent: S.String.pipe(T.JsonName("userAgent")),
+  }),
+).annotations({ identifier: "Identity" }) as any as S.Schema<Identity>;
+export interface GetConnectionResponse {
+  ConnectedAt?: Date;
+  Identity?: Identity;
+  LastActiveAt?: Date;
+}
+export const GetConnectionResponse = S.suspend(() =>
+  S.Struct({
+    ConnectedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.JsonName("connectedAt"),
+    ),
+    Identity: S.optional(Identity)
+      .pipe(T.JsonName("identity"))
+      .annotations({ identifier: "Identity" }),
+    LastActiveAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.JsonName("lastActiveAt"),
+    ),
+  }),
+).annotations({
+  identifier: "GetConnectionResponse",
+}) as any as S.Schema<GetConnectionResponse>;
 
 //# Errors
 export class ForbiddenException extends S.TaggedError<ForbiddenException>()(

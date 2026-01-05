@@ -242,51 +242,74 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type SortColumnList = string[];
 export const SortColumnList = S.Array(S.String);
+export type PartitionColumnList = string[];
 export const PartitionColumnList = S.Array(S.String);
+export type ApplicationPermissionList = string[];
 export const ApplicationPermissionList = S.Array(S.String);
-export class AssociateUserToPermissionGroupRequest extends S.Class<AssociateUserToPermissionGroupRequest>(
-  "AssociateUserToPermissionGroupRequest",
-)(
-  {
+export interface AssociateUserToPermissionGroupRequest {
+  permissionGroupId: string;
+  userId: string;
+  clientToken?: string;
+}
+export const AssociateUserToPermissionGroupRequest = S.suspend(() =>
+  S.Struct({
     permissionGroupId: S.String.pipe(T.HttpLabel("permissionGroupId")),
     userId: S.String.pipe(T.HttpLabel("userId")),
     clientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/permission-group/{permissionGroupId}/users/{userId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/permission-group/{permissionGroupId}/users/{userId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreatePermissionGroupRequest extends S.Class<CreatePermissionGroupRequest>(
-  "CreatePermissionGroupRequest",
-)(
-  {
+).annotations({
+  identifier: "AssociateUserToPermissionGroupRequest",
+}) as any as S.Schema<AssociateUserToPermissionGroupRequest>;
+export interface CreatePermissionGroupRequest {
+  name: string;
+  description?: string;
+  applicationPermissions: ApplicationPermissionList;
+  clientToken?: string;
+}
+export const CreatePermissionGroupRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     description: S.optional(S.String),
     applicationPermissions: ApplicationPermissionList,
     clientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/permission-group" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/permission-group" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateUserRequest extends S.Class<CreateUserRequest>(
-  "CreateUserRequest",
-)(
-  {
+).annotations({
+  identifier: "CreatePermissionGroupRequest",
+}) as any as S.Schema<CreatePermissionGroupRequest>;
+export interface CreateUserRequest {
+  emailAddress: string;
+  type: string;
+  firstName?: string;
+  lastName?: string;
+  apiAccess?: string;
+  apiAccessPrincipalArn?: string;
+  clientToken?: string;
+}
+export const CreateUserRequest = S.suspend(() =>
+  S.Struct({
     emailAddress: S.String,
     type: S.String,
     firstName: S.optional(S.String),
@@ -294,392 +317,557 @@ export class CreateUserRequest extends S.Class<CreateUserRequest>(
     apiAccess: S.optional(S.String),
     apiAccessPrincipalArn: S.optional(S.String),
     clientToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/user" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteDatasetRequest extends S.Class<DeleteDatasetRequest>(
-  "DeleteDatasetRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/user" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateUserRequest",
+}) as any as S.Schema<CreateUserRequest>;
+export interface DeleteDatasetRequest {
+  clientToken?: string;
+  datasetId: string;
+}
+export const DeleteDatasetRequest = S.suspend(() =>
+  S.Struct({
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
     datasetId: S.String.pipe(T.HttpLabel("datasetId")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/datasetsv2/{datasetId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/datasetsv2/{datasetId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeletePermissionGroupRequest extends S.Class<DeletePermissionGroupRequest>(
-  "DeletePermissionGroupRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteDatasetRequest",
+}) as any as S.Schema<DeleteDatasetRequest>;
+export interface DeletePermissionGroupRequest {
+  permissionGroupId: string;
+  clientToken?: string;
+}
+export const DeletePermissionGroupRequest = S.suspend(() =>
+  S.Struct({
     permissionGroupId: S.String.pipe(T.HttpLabel("permissionGroupId")),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/permission-group/{permissionGroupId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/permission-group/{permissionGroupId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DisableUserRequest extends S.Class<DisableUserRequest>(
-  "DisableUserRequest",
-)(
-  {
+).annotations({
+  identifier: "DeletePermissionGroupRequest",
+}) as any as S.Schema<DeletePermissionGroupRequest>;
+export interface DisableUserRequest {
+  userId: string;
+  clientToken?: string;
+}
+export const DisableUserRequest = S.suspend(() =>
+  S.Struct({
     userId: S.String.pipe(T.HttpLabel("userId")),
     clientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/user/{userId}/disable" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/user/{userId}/disable" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DisassociateUserFromPermissionGroupRequest extends S.Class<DisassociateUserFromPermissionGroupRequest>(
-  "DisassociateUserFromPermissionGroupRequest",
-)(
-  {
+).annotations({
+  identifier: "DisableUserRequest",
+}) as any as S.Schema<DisableUserRequest>;
+export interface DisassociateUserFromPermissionGroupRequest {
+  permissionGroupId: string;
+  userId: string;
+  clientToken?: string;
+}
+export const DisassociateUserFromPermissionGroupRequest = S.suspend(() =>
+  S.Struct({
     permissionGroupId: S.String.pipe(T.HttpLabel("permissionGroupId")),
     userId: S.String.pipe(T.HttpLabel("userId")),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/permission-group/{permissionGroupId}/users/{userId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/permission-group/{permissionGroupId}/users/{userId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class EnableUserRequest extends S.Class<EnableUserRequest>(
-  "EnableUserRequest",
-)(
-  {
+).annotations({
+  identifier: "DisassociateUserFromPermissionGroupRequest",
+}) as any as S.Schema<DisassociateUserFromPermissionGroupRequest>;
+export interface EnableUserRequest {
+  userId: string;
+  clientToken?: string;
+}
+export const EnableUserRequest = S.suspend(() =>
+  S.Struct({
     userId: S.String.pipe(T.HttpLabel("userId")),
     clientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/user/{userId}/enable" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/user/{userId}/enable" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetChangesetRequest extends S.Class<GetChangesetRequest>(
-  "GetChangesetRequest",
-)(
-  {
+).annotations({
+  identifier: "EnableUserRequest",
+}) as any as S.Schema<EnableUserRequest>;
+export interface GetChangesetRequest {
+  datasetId: string;
+  changesetId: string;
+}
+export const GetChangesetRequest = S.suspend(() =>
+  S.Struct({
     datasetId: S.String.pipe(T.HttpLabel("datasetId")),
     changesetId: S.String.pipe(T.HttpLabel("changesetId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/datasets/{datasetId}/changesetsv2/{changesetId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/datasets/{datasetId}/changesetsv2/{changesetId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetDatasetRequest extends S.Class<GetDatasetRequest>(
-  "GetDatasetRequest",
-)(
-  { datasetId: S.String.pipe(T.HttpLabel("datasetId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/datasetsv2/{datasetId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetChangesetRequest",
+}) as any as S.Schema<GetChangesetRequest>;
+export interface GetDatasetRequest {
+  datasetId: string;
+}
+export const GetDatasetRequest = S.suspend(() =>
+  S.Struct({ datasetId: S.String.pipe(T.HttpLabel("datasetId")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/datasetsv2/{datasetId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetDataViewRequest extends S.Class<GetDataViewRequest>(
-  "GetDataViewRequest",
-)(
-  {
+).annotations({
+  identifier: "GetDatasetRequest",
+}) as any as S.Schema<GetDatasetRequest>;
+export interface GetDataViewRequest {
+  dataViewId: string;
+  datasetId: string;
+}
+export const GetDataViewRequest = S.suspend(() =>
+  S.Struct({
     dataViewId: S.String.pipe(T.HttpLabel("dataViewId")),
     datasetId: S.String.pipe(T.HttpLabel("datasetId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/datasets/{datasetId}/dataviewsv2/{dataViewId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/datasets/{datasetId}/dataviewsv2/{dataViewId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetExternalDataViewAccessDetailsRequest extends S.Class<GetExternalDataViewAccessDetailsRequest>(
-  "GetExternalDataViewAccessDetailsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetDataViewRequest",
+}) as any as S.Schema<GetDataViewRequest>;
+export interface GetExternalDataViewAccessDetailsRequest {
+  dataViewId: string;
+  datasetId: string;
+}
+export const GetExternalDataViewAccessDetailsRequest = S.suspend(() =>
+  S.Struct({
     dataViewId: S.String.pipe(T.HttpLabel("dataViewId")),
     datasetId: S.String.pipe(T.HttpLabel("datasetId")),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/datasets/{datasetId}/dataviewsv2/{dataViewId}/external-access-details",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/datasets/{datasetId}/dataviewsv2/{dataViewId}/external-access-details",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetPermissionGroupRequest extends S.Class<GetPermissionGroupRequest>(
-  "GetPermissionGroupRequest",
-)(
-  { permissionGroupId: S.String.pipe(T.HttpLabel("permissionGroupId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/permission-group/{permissionGroupId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetExternalDataViewAccessDetailsRequest",
+}) as any as S.Schema<GetExternalDataViewAccessDetailsRequest>;
+export interface GetPermissionGroupRequest {
+  permissionGroupId: string;
+}
+export const GetPermissionGroupRequest = S.suspend(() =>
+  S.Struct({
+    permissionGroupId: S.String.pipe(T.HttpLabel("permissionGroupId")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/permission-group/{permissionGroupId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetProgrammaticAccessCredentialsRequest extends S.Class<GetProgrammaticAccessCredentialsRequest>(
-  "GetProgrammaticAccessCredentialsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetPermissionGroupRequest",
+}) as any as S.Schema<GetPermissionGroupRequest>;
+export interface GetProgrammaticAccessCredentialsRequest {
+  durationInMinutes?: number;
+  environmentId: string;
+}
+export const GetProgrammaticAccessCredentialsRequest = S.suspend(() =>
+  S.Struct({
     durationInMinutes: S.optional(S.Number).pipe(
       T.HttpQuery("durationInMinutes"),
     ),
     environmentId: S.String.pipe(T.HttpQuery("environmentId")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/credentials/programmatic" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/credentials/programmatic" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetUserRequest extends S.Class<GetUserRequest>("GetUserRequest")(
-  { userId: S.String.pipe(T.HttpLabel("userId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/user/{userId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetProgrammaticAccessCredentialsRequest",
+}) as any as S.Schema<GetProgrammaticAccessCredentialsRequest>;
+export interface GetUserRequest {
+  userId: string;
+}
+export const GetUserRequest = S.suspend(() =>
+  S.Struct({ userId: S.String.pipe(T.HttpLabel("userId")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/user/{userId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetWorkingLocationRequest extends S.Class<GetWorkingLocationRequest>(
-  "GetWorkingLocationRequest",
-)(
-  { locationType: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/workingLocationV1" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetUserRequest",
+}) as any as S.Schema<GetUserRequest>;
+export interface GetWorkingLocationRequest {
+  locationType?: string;
+}
+export const GetWorkingLocationRequest = S.suspend(() =>
+  S.Struct({ locationType: S.optional(S.String) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/workingLocationV1" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListChangesetsRequest extends S.Class<ListChangesetsRequest>(
-  "ListChangesetsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetWorkingLocationRequest",
+}) as any as S.Schema<GetWorkingLocationRequest>;
+export interface ListChangesetsRequest {
+  datasetId: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListChangesetsRequest = S.suspend(() =>
+  S.Struct({
     datasetId: S.String.pipe(T.HttpLabel("datasetId")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/datasets/{datasetId}/changesetsv2" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/datasets/{datasetId}/changesetsv2" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListDatasetsRequest extends S.Class<ListDatasetsRequest>(
-  "ListDatasetsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListChangesetsRequest",
+}) as any as S.Schema<ListChangesetsRequest>;
+export interface ListDatasetsRequest {
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListDatasetsRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/datasetsv2" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/datasetsv2" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListDataViewsRequest extends S.Class<ListDataViewsRequest>(
-  "ListDataViewsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListDatasetsRequest",
+}) as any as S.Schema<ListDatasetsRequest>;
+export interface ListDataViewsRequest {
+  datasetId: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListDataViewsRequest = S.suspend(() =>
+  S.Struct({
     datasetId: S.String.pipe(T.HttpLabel("datasetId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/datasets/{datasetId}/dataviewsv2" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/datasets/{datasetId}/dataviewsv2" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListPermissionGroupsRequest extends S.Class<ListPermissionGroupsRequest>(
-  "ListPermissionGroupsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListDataViewsRequest",
+}) as any as S.Schema<ListDataViewsRequest>;
+export interface ListPermissionGroupsRequest {
+  nextToken?: string;
+  maxResults: number;
+}
+export const ListPermissionGroupsRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.Number.pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/permission-group" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/permission-group" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListPermissionGroupsByUserRequest extends S.Class<ListPermissionGroupsByUserRequest>(
-  "ListPermissionGroupsByUserRequest",
-)(
-  {
+).annotations({
+  identifier: "ListPermissionGroupsRequest",
+}) as any as S.Schema<ListPermissionGroupsRequest>;
+export interface ListPermissionGroupsByUserRequest {
+  userId: string;
+  nextToken?: string;
+  maxResults: number;
+}
+export const ListPermissionGroupsByUserRequest = S.suspend(() =>
+  S.Struct({
     userId: S.String.pipe(T.HttpLabel("userId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.Number.pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/user/{userId}/permission-groups" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/user/{userId}/permission-groups" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListUsersRequest extends S.Class<ListUsersRequest>(
-  "ListUsersRequest",
-)(
-  {
+).annotations({
+  identifier: "ListPermissionGroupsByUserRequest",
+}) as any as S.Schema<ListPermissionGroupsByUserRequest>;
+export interface ListUsersRequest {
+  nextToken?: string;
+  maxResults: number;
+}
+export const ListUsersRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.Number.pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(T.Http({ method: "GET", uri: "/user" }), svc, auth, proto, ver, rules),
-) {}
-export class ListUsersByPermissionGroupRequest extends S.Class<ListUsersByPermissionGroupRequest>(
-  "ListUsersByPermissionGroupRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/user" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListUsersRequest",
+}) as any as S.Schema<ListUsersRequest>;
+export interface ListUsersByPermissionGroupRequest {
+  permissionGroupId: string;
+  nextToken?: string;
+  maxResults: number;
+}
+export const ListUsersByPermissionGroupRequest = S.suspend(() =>
+  S.Struct({
     permissionGroupId: S.String.pipe(T.HttpLabel("permissionGroupId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.Number.pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/permission-group/{permissionGroupId}/users",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/permission-group/{permissionGroupId}/users",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ResetUserPasswordRequest extends S.Class<ResetUserPasswordRequest>(
-  "ResetUserPasswordRequest",
-)(
-  {
+).annotations({
+  identifier: "ListUsersByPermissionGroupRequest",
+}) as any as S.Schema<ListUsersByPermissionGroupRequest>;
+export interface ResetUserPasswordRequest {
+  userId: string;
+  clientToken?: string;
+}
+export const ResetUserPasswordRequest = S.suspend(() =>
+  S.Struct({
     userId: S.String.pipe(T.HttpLabel("userId")),
     clientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/user/{userId}/password" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/user/{userId}/password" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "ResetUserPasswordRequest",
+}) as any as S.Schema<ResetUserPasswordRequest>;
+export type SourceParams = { [key: string]: string };
 export const SourceParams = S.Record({ key: S.String, value: S.String });
+export type FormatParams = { [key: string]: string };
 export const FormatParams = S.Record({ key: S.String, value: S.String });
-export class UpdateChangesetRequest extends S.Class<UpdateChangesetRequest>(
-  "UpdateChangesetRequest",
-)(
-  {
+export interface UpdateChangesetRequest {
+  clientToken?: string;
+  datasetId: string;
+  changesetId: string;
+  sourceParams: SourceParams;
+  formatParams: FormatParams;
+}
+export const UpdateChangesetRequest = S.suspend(() =>
+  S.Struct({
     clientToken: S.optional(S.String),
     datasetId: S.String.pipe(T.HttpLabel("datasetId")),
     changesetId: S.String.pipe(T.HttpLabel("changesetId")),
     sourceParams: SourceParams,
     formatParams: FormatParams,
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/datasets/{datasetId}/changesetsv2/{changesetId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/datasets/{datasetId}/changesetsv2/{changesetId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ColumnDefinition extends S.Class<ColumnDefinition>(
-  "ColumnDefinition",
-)({
-  dataType: S.optional(S.String),
-  columnName: S.optional(S.String),
-  columnDescription: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "UpdateChangesetRequest",
+}) as any as S.Schema<UpdateChangesetRequest>;
+export interface ColumnDefinition {
+  dataType?: string;
+  columnName?: string;
+  columnDescription?: string;
+}
+export const ColumnDefinition = S.suspend(() =>
+  S.Struct({
+    dataType: S.optional(S.String),
+    columnName: S.optional(S.String),
+    columnDescription: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ColumnDefinition",
+}) as any as S.Schema<ColumnDefinition>;
+export type ColumnList = ColumnDefinition[];
 export const ColumnList = S.Array(ColumnDefinition);
+export type ColumnNameList = string[];
 export const ColumnNameList = S.Array(S.String);
-export class SchemaDefinition extends S.Class<SchemaDefinition>(
-  "SchemaDefinition",
-)({
-  columns: S.optional(ColumnList),
-  primaryKeyColumns: S.optional(ColumnNameList),
-}) {}
-export class SchemaUnion extends S.Class<SchemaUnion>("SchemaUnion")({
-  tabularSchemaConfig: S.optional(SchemaDefinition),
-}) {}
-export class UpdateDatasetRequest extends S.Class<UpdateDatasetRequest>(
-  "UpdateDatasetRequest",
-)(
-  {
+export interface SchemaDefinition {
+  columns?: ColumnList;
+  primaryKeyColumns?: ColumnNameList;
+}
+export const SchemaDefinition = S.suspend(() =>
+  S.Struct({
+    columns: S.optional(ColumnList),
+    primaryKeyColumns: S.optional(ColumnNameList),
+  }),
+).annotations({
+  identifier: "SchemaDefinition",
+}) as any as S.Schema<SchemaDefinition>;
+export interface SchemaUnion {
+  tabularSchemaConfig?: SchemaDefinition;
+}
+export const SchemaUnion = S.suspend(() =>
+  S.Struct({ tabularSchemaConfig: S.optional(SchemaDefinition) }),
+).annotations({ identifier: "SchemaUnion" }) as any as S.Schema<SchemaUnion>;
+export interface UpdateDatasetRequest {
+  clientToken?: string;
+  datasetId: string;
+  datasetTitle: string;
+  kind: string;
+  datasetDescription?: string;
+  alias?: string;
+  schemaDefinition?: SchemaUnion;
+}
+export const UpdateDatasetRequest = S.suspend(() =>
+  S.Struct({
     clientToken: S.optional(S.String),
     datasetId: S.String.pipe(T.HttpLabel("datasetId")),
     datasetTitle: S.String,
@@ -687,39 +875,57 @@ export class UpdateDatasetRequest extends S.Class<UpdateDatasetRequest>(
     datasetDescription: S.optional(S.String),
     alias: S.optional(S.String),
     schemaDefinition: S.optional(SchemaUnion),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/datasetsv2/{datasetId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/datasetsv2/{datasetId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdatePermissionGroupRequest extends S.Class<UpdatePermissionGroupRequest>(
-  "UpdatePermissionGroupRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateDatasetRequest",
+}) as any as S.Schema<UpdateDatasetRequest>;
+export interface UpdatePermissionGroupRequest {
+  permissionGroupId: string;
+  name?: string;
+  description?: string;
+  applicationPermissions?: ApplicationPermissionList;
+  clientToken?: string;
+}
+export const UpdatePermissionGroupRequest = S.suspend(() =>
+  S.Struct({
     permissionGroupId: S.String.pipe(T.HttpLabel("permissionGroupId")),
     name: S.optional(S.String),
     description: S.optional(S.String),
     applicationPermissions: S.optional(ApplicationPermissionList),
     clientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/permission-group/{permissionGroupId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/permission-group/{permissionGroupId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateUserRequest extends S.Class<UpdateUserRequest>(
-  "UpdateUserRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdatePermissionGroupRequest",
+}) as any as S.Schema<UpdatePermissionGroupRequest>;
+export interface UpdateUserRequest {
+  userId: string;
+  type?: string;
+  firstName?: string;
+  lastName?: string;
+  apiAccess?: string;
+  apiAccessPrincipalArn?: string;
+  clientToken?: string;
+}
+export const UpdateUserRequest = S.suspend(() =>
+  S.Struct({
     userId: S.String.pipe(T.HttpLabel("userId")),
     type: S.optional(S.String),
     firstName: S.optional(S.String),
@@ -727,278 +933,585 @@ export class UpdateUserRequest extends S.Class<UpdateUserRequest>(
     apiAccess: S.optional(S.String),
     apiAccessPrincipalArn: S.optional(S.String),
     clientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/user/{userId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/user/{userId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DatasetOwnerInfo extends S.Class<DatasetOwnerInfo>(
-  "DatasetOwnerInfo",
-)({
-  name: S.optional(S.String),
-  phoneNumber: S.optional(S.String),
-  email: S.optional(S.String),
-}) {}
-export class PermissionGroup extends S.Class<PermissionGroup>(
-  "PermissionGroup",
-)({
-  permissionGroupId: S.optional(S.String),
-  name: S.optional(S.String),
-  description: S.optional(S.String),
-  applicationPermissions: S.optional(ApplicationPermissionList),
-  createTime: S.optional(S.Number),
-  lastModifiedTime: S.optional(S.Number),
-  membershipStatus: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "UpdateUserRequest",
+}) as any as S.Schema<UpdateUserRequest>;
+export interface DatasetOwnerInfo {
+  name?: string;
+  phoneNumber?: string;
+  email?: string;
+}
+export const DatasetOwnerInfo = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    phoneNumber: S.optional(S.String),
+    email: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DatasetOwnerInfo",
+}) as any as S.Schema<DatasetOwnerInfo>;
+export interface PermissionGroup {
+  permissionGroupId?: string;
+  name?: string;
+  description?: string;
+  applicationPermissions?: ApplicationPermissionList;
+  createTime?: number;
+  lastModifiedTime?: number;
+  membershipStatus?: string;
+}
+export const PermissionGroup = S.suspend(() =>
+  S.Struct({
+    permissionGroupId: S.optional(S.String),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    applicationPermissions: S.optional(ApplicationPermissionList),
+    createTime: S.optional(S.Number),
+    lastModifiedTime: S.optional(S.Number),
+    membershipStatus: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "PermissionGroup",
+}) as any as S.Schema<PermissionGroup>;
+export type PermissionGroupList = PermissionGroup[];
 export const PermissionGroupList = S.Array(PermissionGroup);
-export class AssociateUserToPermissionGroupResponse extends S.Class<AssociateUserToPermissionGroupResponse>(
-  "AssociateUserToPermissionGroupResponse",
-)({ statusCode: S.optional(S.Number).pipe(T.HttpResponseCode()) }) {}
-export class CreateChangesetRequest extends S.Class<CreateChangesetRequest>(
-  "CreateChangesetRequest",
-)(
-  {
+export interface AssociateUserToPermissionGroupResponse {
+  statusCode?: number;
+}
+export const AssociateUserToPermissionGroupResponse = S.suspend(() =>
+  S.Struct({ statusCode: S.optional(S.Number).pipe(T.HttpResponseCode()) }),
+).annotations({
+  identifier: "AssociateUserToPermissionGroupResponse",
+}) as any as S.Schema<AssociateUserToPermissionGroupResponse>;
+export interface CreateChangesetRequest {
+  clientToken?: string;
+  datasetId: string;
+  changeType: string;
+  sourceParams: SourceParams;
+  formatParams: FormatParams;
+}
+export const CreateChangesetRequest = S.suspend(() =>
+  S.Struct({
     clientToken: S.optional(S.String),
     datasetId: S.String.pipe(T.HttpLabel("datasetId")),
     changeType: S.String,
     sourceParams: SourceParams,
     formatParams: FormatParams,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/datasets/{datasetId}/changesetsv2" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/datasets/{datasetId}/changesetsv2" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreatePermissionGroupResponse extends S.Class<CreatePermissionGroupResponse>(
-  "CreatePermissionGroupResponse",
-)({ permissionGroupId: S.optional(S.String) }) {}
-export class CreateUserResponse extends S.Class<CreateUserResponse>(
-  "CreateUserResponse",
-)({ userId: S.optional(S.String) }) {}
-export class DeleteDatasetResponse extends S.Class<DeleteDatasetResponse>(
-  "DeleteDatasetResponse",
-)({ datasetId: S.optional(S.String) }) {}
-export class DeletePermissionGroupResponse extends S.Class<DeletePermissionGroupResponse>(
-  "DeletePermissionGroupResponse",
-)({ permissionGroupId: S.optional(S.String) }) {}
-export class DisableUserResponse extends S.Class<DisableUserResponse>(
-  "DisableUserResponse",
-)({ userId: S.optional(S.String) }) {}
-export class DisassociateUserFromPermissionGroupResponse extends S.Class<DisassociateUserFromPermissionGroupResponse>(
-  "DisassociateUserFromPermissionGroupResponse",
-)({ statusCode: S.optional(S.Number).pipe(T.HttpResponseCode()) }) {}
-export class EnableUserResponse extends S.Class<EnableUserResponse>(
-  "EnableUserResponse",
-)({ userId: S.optional(S.String) }) {}
-export class GetDatasetResponse extends S.Class<GetDatasetResponse>(
-  "GetDatasetResponse",
-)({
-  datasetId: S.optional(S.String),
-  datasetArn: S.optional(S.String),
-  datasetTitle: S.optional(S.String),
-  kind: S.optional(S.String),
-  datasetDescription: S.optional(S.String),
-  createTime: S.optional(S.Number),
-  lastModifiedTime: S.optional(S.Number),
-  schemaDefinition: S.optional(SchemaUnion),
-  alias: S.optional(S.String),
-  status: S.optional(S.String),
-}) {}
-export class GetUserResponse extends S.Class<GetUserResponse>(
-  "GetUserResponse",
-)({
-  userId: S.optional(S.String),
-  status: S.optional(S.String),
-  firstName: S.optional(S.String),
-  lastName: S.optional(S.String),
-  emailAddress: S.optional(S.String),
-  type: S.optional(S.String),
-  apiAccess: S.optional(S.String),
-  apiAccessPrincipalArn: S.optional(S.String),
-  createTime: S.optional(S.Number),
-  lastEnabledTime: S.optional(S.Number),
-  lastDisabledTime: S.optional(S.Number),
-  lastModifiedTime: S.optional(S.Number),
-  lastLoginTime: S.optional(S.Number),
-}) {}
-export class GetWorkingLocationResponse extends S.Class<GetWorkingLocationResponse>(
-  "GetWorkingLocationResponse",
-)({
-  s3Uri: S.optional(S.String),
-  s3Path: S.optional(S.String),
-  s3Bucket: S.optional(S.String),
-}) {}
-export class ListPermissionGroupsResponse extends S.Class<ListPermissionGroupsResponse>(
-  "ListPermissionGroupsResponse",
-)({
-  permissionGroups: S.optional(PermissionGroupList),
-  nextToken: S.optional(S.String),
-}) {}
-export class ResetUserPasswordResponse extends S.Class<ResetUserPasswordResponse>(
-  "ResetUserPasswordResponse",
-)({ userId: S.optional(S.String), temporaryPassword: S.optional(S.String) }) {}
-export class UpdateChangesetResponse extends S.Class<UpdateChangesetResponse>(
-  "UpdateChangesetResponse",
-)({ changesetId: S.optional(S.String), datasetId: S.optional(S.String) }) {}
-export class UpdateDatasetResponse extends S.Class<UpdateDatasetResponse>(
-  "UpdateDatasetResponse",
-)({ datasetId: S.optional(S.String) }) {}
-export class UpdatePermissionGroupResponse extends S.Class<UpdatePermissionGroupResponse>(
-  "UpdatePermissionGroupResponse",
-)({ permissionGroupId: S.optional(S.String) }) {}
-export class UpdateUserResponse extends S.Class<UpdateUserResponse>(
-  "UpdateUserResponse",
-)({ userId: S.optional(S.String) }) {}
-export class ResourcePermission extends S.Class<ResourcePermission>(
-  "ResourcePermission",
-)({ permission: S.optional(S.String) }) {}
+).annotations({
+  identifier: "CreateChangesetRequest",
+}) as any as S.Schema<CreateChangesetRequest>;
+export interface CreatePermissionGroupResponse {
+  permissionGroupId?: string;
+}
+export const CreatePermissionGroupResponse = S.suspend(() =>
+  S.Struct({ permissionGroupId: S.optional(S.String) }),
+).annotations({
+  identifier: "CreatePermissionGroupResponse",
+}) as any as S.Schema<CreatePermissionGroupResponse>;
+export interface CreateUserResponse {
+  userId?: string;
+}
+export const CreateUserResponse = S.suspend(() =>
+  S.Struct({ userId: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateUserResponse",
+}) as any as S.Schema<CreateUserResponse>;
+export interface DeleteDatasetResponse {
+  datasetId?: string;
+}
+export const DeleteDatasetResponse = S.suspend(() =>
+  S.Struct({ datasetId: S.optional(S.String) }),
+).annotations({
+  identifier: "DeleteDatasetResponse",
+}) as any as S.Schema<DeleteDatasetResponse>;
+export interface DeletePermissionGroupResponse {
+  permissionGroupId?: string;
+}
+export const DeletePermissionGroupResponse = S.suspend(() =>
+  S.Struct({ permissionGroupId: S.optional(S.String) }),
+).annotations({
+  identifier: "DeletePermissionGroupResponse",
+}) as any as S.Schema<DeletePermissionGroupResponse>;
+export interface DisableUserResponse {
+  userId?: string;
+}
+export const DisableUserResponse = S.suspend(() =>
+  S.Struct({ userId: S.optional(S.String) }),
+).annotations({
+  identifier: "DisableUserResponse",
+}) as any as S.Schema<DisableUserResponse>;
+export interface DisassociateUserFromPermissionGroupResponse {
+  statusCode?: number;
+}
+export const DisassociateUserFromPermissionGroupResponse = S.suspend(() =>
+  S.Struct({ statusCode: S.optional(S.Number).pipe(T.HttpResponseCode()) }),
+).annotations({
+  identifier: "DisassociateUserFromPermissionGroupResponse",
+}) as any as S.Schema<DisassociateUserFromPermissionGroupResponse>;
+export interface EnableUserResponse {
+  userId?: string;
+}
+export const EnableUserResponse = S.suspend(() =>
+  S.Struct({ userId: S.optional(S.String) }),
+).annotations({
+  identifier: "EnableUserResponse",
+}) as any as S.Schema<EnableUserResponse>;
+export interface GetDatasetResponse {
+  datasetId?: string;
+  datasetArn?: string;
+  datasetTitle?: string;
+  kind?: string;
+  datasetDescription?: string;
+  createTime?: number;
+  lastModifiedTime?: number;
+  schemaDefinition?: SchemaUnion;
+  alias?: string;
+  status?: string;
+}
+export const GetDatasetResponse = S.suspend(() =>
+  S.Struct({
+    datasetId: S.optional(S.String),
+    datasetArn: S.optional(S.String),
+    datasetTitle: S.optional(S.String),
+    kind: S.optional(S.String),
+    datasetDescription: S.optional(S.String),
+    createTime: S.optional(S.Number),
+    lastModifiedTime: S.optional(S.Number),
+    schemaDefinition: S.optional(SchemaUnion),
+    alias: S.optional(S.String),
+    status: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetDatasetResponse",
+}) as any as S.Schema<GetDatasetResponse>;
+export interface GetUserResponse {
+  userId?: string;
+  status?: string;
+  firstName?: string;
+  lastName?: string;
+  emailAddress?: string;
+  type?: string;
+  apiAccess?: string;
+  apiAccessPrincipalArn?: string;
+  createTime?: number;
+  lastEnabledTime?: number;
+  lastDisabledTime?: number;
+  lastModifiedTime?: number;
+  lastLoginTime?: number;
+}
+export const GetUserResponse = S.suspend(() =>
+  S.Struct({
+    userId: S.optional(S.String),
+    status: S.optional(S.String),
+    firstName: S.optional(S.String),
+    lastName: S.optional(S.String),
+    emailAddress: S.optional(S.String),
+    type: S.optional(S.String),
+    apiAccess: S.optional(S.String),
+    apiAccessPrincipalArn: S.optional(S.String),
+    createTime: S.optional(S.Number),
+    lastEnabledTime: S.optional(S.Number),
+    lastDisabledTime: S.optional(S.Number),
+    lastModifiedTime: S.optional(S.Number),
+    lastLoginTime: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "GetUserResponse",
+}) as any as S.Schema<GetUserResponse>;
+export interface GetWorkingLocationResponse {
+  s3Uri?: string;
+  s3Path?: string;
+  s3Bucket?: string;
+}
+export const GetWorkingLocationResponse = S.suspend(() =>
+  S.Struct({
+    s3Uri: S.optional(S.String),
+    s3Path: S.optional(S.String),
+    s3Bucket: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetWorkingLocationResponse",
+}) as any as S.Schema<GetWorkingLocationResponse>;
+export interface ListPermissionGroupsResponse {
+  permissionGroups?: PermissionGroupList;
+  nextToken?: string;
+}
+export const ListPermissionGroupsResponse = S.suspend(() =>
+  S.Struct({
+    permissionGroups: S.optional(PermissionGroupList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListPermissionGroupsResponse",
+}) as any as S.Schema<ListPermissionGroupsResponse>;
+export interface ResetUserPasswordResponse {
+  userId?: string;
+  temporaryPassword?: string;
+}
+export const ResetUserPasswordResponse = S.suspend(() =>
+  S.Struct({
+    userId: S.optional(S.String),
+    temporaryPassword: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ResetUserPasswordResponse",
+}) as any as S.Schema<ResetUserPasswordResponse>;
+export interface UpdateChangesetResponse {
+  changesetId?: string;
+  datasetId?: string;
+}
+export const UpdateChangesetResponse = S.suspend(() =>
+  S.Struct({
+    changesetId: S.optional(S.String),
+    datasetId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "UpdateChangesetResponse",
+}) as any as S.Schema<UpdateChangesetResponse>;
+export interface UpdateDatasetResponse {
+  datasetId?: string;
+}
+export const UpdateDatasetResponse = S.suspend(() =>
+  S.Struct({ datasetId: S.optional(S.String) }),
+).annotations({
+  identifier: "UpdateDatasetResponse",
+}) as any as S.Schema<UpdateDatasetResponse>;
+export interface UpdatePermissionGroupResponse {
+  permissionGroupId?: string;
+}
+export const UpdatePermissionGroupResponse = S.suspend(() =>
+  S.Struct({ permissionGroupId: S.optional(S.String) }),
+).annotations({
+  identifier: "UpdatePermissionGroupResponse",
+}) as any as S.Schema<UpdatePermissionGroupResponse>;
+export interface UpdateUserResponse {
+  userId?: string;
+}
+export const UpdateUserResponse = S.suspend(() =>
+  S.Struct({ userId: S.optional(S.String) }),
+).annotations({
+  identifier: "UpdateUserResponse",
+}) as any as S.Schema<UpdateUserResponse>;
+export interface ResourcePermission {
+  permission?: string;
+}
+export const ResourcePermission = S.suspend(() =>
+  S.Struct({ permission: S.optional(S.String) }),
+).annotations({
+  identifier: "ResourcePermission",
+}) as any as S.Schema<ResourcePermission>;
+export type ResourcePermissionsList = ResourcePermission[];
 export const ResourcePermissionsList = S.Array(ResourcePermission);
+export type S3DestinationFormatOptions = { [key: string]: string };
 export const S3DestinationFormatOptions = S.Record({
   key: S.String,
   value: S.String,
 });
-export class PermissionGroupParams extends S.Class<PermissionGroupParams>(
-  "PermissionGroupParams",
-)({
-  permissionGroupId: S.optional(S.String),
-  datasetPermissions: S.optional(ResourcePermissionsList),
-}) {}
-export class DataViewDestinationTypeParams extends S.Class<DataViewDestinationTypeParams>(
-  "DataViewDestinationTypeParams",
-)({
-  destinationType: S.String,
-  s3DestinationExportFileFormat: S.optional(S.String),
-  s3DestinationExportFileFormatOptions: S.optional(S3DestinationFormatOptions),
-}) {}
-export class ChangesetErrorInfo extends S.Class<ChangesetErrorInfo>(
-  "ChangesetErrorInfo",
-)({
-  errorMessage: S.optional(S.String),
-  errorCategory: S.optional(S.String),
-}) {}
-export class DataViewErrorInfo extends S.Class<DataViewErrorInfo>(
-  "DataViewErrorInfo",
-)({
-  errorMessage: S.optional(S.String),
-  errorCategory: S.optional(S.String),
-}) {}
-export class AwsCredentials extends S.Class<AwsCredentials>("AwsCredentials")({
-  accessKeyId: S.optional(S.String),
-  secretAccessKey: S.optional(S.String),
-  sessionToken: S.optional(S.String),
-  expiration: S.optional(S.Number),
-}) {}
-export class S3Location extends S.Class<S3Location>("S3Location")({
-  bucket: S.String,
-  key: S.String,
-}) {}
-export class Credentials extends S.Class<Credentials>("Credentials")({
-  accessKeyId: S.optional(S.String),
-  secretAccessKey: S.optional(S.String),
-  sessionToken: S.optional(S.String),
-}) {}
-export class ChangesetSummary extends S.Class<ChangesetSummary>(
-  "ChangesetSummary",
-)({
-  changesetId: S.optional(S.String),
-  changesetArn: S.optional(S.String),
-  datasetId: S.optional(S.String),
-  changeType: S.optional(S.String),
-  sourceParams: S.optional(SourceParams),
-  formatParams: S.optional(FormatParams),
-  createTime: S.optional(S.Number),
-  status: S.optional(S.String),
-  errorInfo: S.optional(ChangesetErrorInfo),
-  activeUntilTimestamp: S.optional(S.Number),
-  activeFromTimestamp: S.optional(S.Number),
-  updatesChangesetId: S.optional(S.String),
-  updatedByChangesetId: S.optional(S.String),
-}) {}
+export interface PermissionGroupParams {
+  permissionGroupId?: string;
+  datasetPermissions?: ResourcePermissionsList;
+}
+export const PermissionGroupParams = S.suspend(() =>
+  S.Struct({
+    permissionGroupId: S.optional(S.String),
+    datasetPermissions: S.optional(ResourcePermissionsList),
+  }),
+).annotations({
+  identifier: "PermissionGroupParams",
+}) as any as S.Schema<PermissionGroupParams>;
+export interface DataViewDestinationTypeParams {
+  destinationType: string;
+  s3DestinationExportFileFormat?: string;
+  s3DestinationExportFileFormatOptions?: S3DestinationFormatOptions;
+}
+export const DataViewDestinationTypeParams = S.suspend(() =>
+  S.Struct({
+    destinationType: S.String,
+    s3DestinationExportFileFormat: S.optional(S.String),
+    s3DestinationExportFileFormatOptions: S.optional(
+      S3DestinationFormatOptions,
+    ),
+  }),
+).annotations({
+  identifier: "DataViewDestinationTypeParams",
+}) as any as S.Schema<DataViewDestinationTypeParams>;
+export interface ChangesetErrorInfo {
+  errorMessage?: string;
+  errorCategory?: string;
+}
+export const ChangesetErrorInfo = S.suspend(() =>
+  S.Struct({
+    errorMessage: S.optional(S.String),
+    errorCategory: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ChangesetErrorInfo",
+}) as any as S.Schema<ChangesetErrorInfo>;
+export interface DataViewErrorInfo {
+  errorMessage?: string;
+  errorCategory?: string;
+}
+export const DataViewErrorInfo = S.suspend(() =>
+  S.Struct({
+    errorMessage: S.optional(S.String),
+    errorCategory: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DataViewErrorInfo",
+}) as any as S.Schema<DataViewErrorInfo>;
+export interface AwsCredentials {
+  accessKeyId?: string;
+  secretAccessKey?: string;
+  sessionToken?: string;
+  expiration?: number;
+}
+export const AwsCredentials = S.suspend(() =>
+  S.Struct({
+    accessKeyId: S.optional(S.String),
+    secretAccessKey: S.optional(S.String),
+    sessionToken: S.optional(S.String),
+    expiration: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "AwsCredentials",
+}) as any as S.Schema<AwsCredentials>;
+export interface S3Location {
+  bucket: string;
+  key: string;
+}
+export const S3Location = S.suspend(() =>
+  S.Struct({ bucket: S.String, key: S.String }),
+).annotations({ identifier: "S3Location" }) as any as S.Schema<S3Location>;
+export interface Credentials {
+  accessKeyId?: string;
+  secretAccessKey?: string;
+  sessionToken?: string;
+}
+export const Credentials = S.suspend(() =>
+  S.Struct({
+    accessKeyId: S.optional(S.String),
+    secretAccessKey: S.optional(S.String),
+    sessionToken: S.optional(S.String),
+  }),
+).annotations({ identifier: "Credentials" }) as any as S.Schema<Credentials>;
+export interface ChangesetSummary {
+  changesetId?: string;
+  changesetArn?: string;
+  datasetId?: string;
+  changeType?: string;
+  sourceParams?: SourceParams;
+  formatParams?: FormatParams;
+  createTime?: number;
+  status?: string;
+  errorInfo?: ChangesetErrorInfo;
+  activeUntilTimestamp?: number;
+  activeFromTimestamp?: number;
+  updatesChangesetId?: string;
+  updatedByChangesetId?: string;
+}
+export const ChangesetSummary = S.suspend(() =>
+  S.Struct({
+    changesetId: S.optional(S.String),
+    changesetArn: S.optional(S.String),
+    datasetId: S.optional(S.String),
+    changeType: S.optional(S.String),
+    sourceParams: S.optional(SourceParams),
+    formatParams: S.optional(FormatParams),
+    createTime: S.optional(S.Number),
+    status: S.optional(S.String),
+    errorInfo: S.optional(ChangesetErrorInfo),
+    activeUntilTimestamp: S.optional(S.Number),
+    activeFromTimestamp: S.optional(S.Number),
+    updatesChangesetId: S.optional(S.String),
+    updatedByChangesetId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ChangesetSummary",
+}) as any as S.Schema<ChangesetSummary>;
+export type ChangesetList = ChangesetSummary[];
 export const ChangesetList = S.Array(ChangesetSummary);
-export class Dataset extends S.Class<Dataset>("Dataset")({
-  datasetId: S.optional(S.String),
-  datasetArn: S.optional(S.String),
-  datasetTitle: S.optional(S.String),
-  kind: S.optional(S.String),
-  datasetDescription: S.optional(S.String),
-  ownerInfo: S.optional(DatasetOwnerInfo),
-  createTime: S.optional(S.Number),
-  lastModifiedTime: S.optional(S.Number),
-  schemaDefinition: S.optional(SchemaUnion),
-  alias: S.optional(S.String),
-}) {}
+export interface Dataset {
+  datasetId?: string;
+  datasetArn?: string;
+  datasetTitle?: string;
+  kind?: string;
+  datasetDescription?: string;
+  ownerInfo?: DatasetOwnerInfo;
+  createTime?: number;
+  lastModifiedTime?: number;
+  schemaDefinition?: SchemaUnion;
+  alias?: string;
+}
+export const Dataset = S.suspend(() =>
+  S.Struct({
+    datasetId: S.optional(S.String),
+    datasetArn: S.optional(S.String),
+    datasetTitle: S.optional(S.String),
+    kind: S.optional(S.String),
+    datasetDescription: S.optional(S.String),
+    ownerInfo: S.optional(DatasetOwnerInfo),
+    createTime: S.optional(S.Number),
+    lastModifiedTime: S.optional(S.Number),
+    schemaDefinition: S.optional(SchemaUnion),
+    alias: S.optional(S.String),
+  }),
+).annotations({ identifier: "Dataset" }) as any as S.Schema<Dataset>;
+export type DatasetList = Dataset[];
 export const DatasetList = S.Array(Dataset);
-export class DataViewSummary extends S.Class<DataViewSummary>(
-  "DataViewSummary",
-)({
-  dataViewId: S.optional(S.String),
-  dataViewArn: S.optional(S.String),
-  datasetId: S.optional(S.String),
-  asOfTimestamp: S.optional(S.Number),
-  partitionColumns: S.optional(PartitionColumnList),
-  sortColumns: S.optional(SortColumnList),
-  status: S.optional(S.String),
-  errorInfo: S.optional(DataViewErrorInfo),
-  destinationTypeProperties: S.optional(DataViewDestinationTypeParams),
-  autoUpdate: S.optional(S.Boolean),
-  createTime: S.optional(S.Number),
-  lastModifiedTime: S.optional(S.Number),
-}) {}
+export interface DataViewSummary {
+  dataViewId?: string;
+  dataViewArn?: string;
+  datasetId?: string;
+  asOfTimestamp?: number;
+  partitionColumns?: PartitionColumnList;
+  sortColumns?: SortColumnList;
+  status?: string;
+  errorInfo?: DataViewErrorInfo;
+  destinationTypeProperties?: DataViewDestinationTypeParams;
+  autoUpdate?: boolean;
+  createTime?: number;
+  lastModifiedTime?: number;
+}
+export const DataViewSummary = S.suspend(() =>
+  S.Struct({
+    dataViewId: S.optional(S.String),
+    dataViewArn: S.optional(S.String),
+    datasetId: S.optional(S.String),
+    asOfTimestamp: S.optional(S.Number),
+    partitionColumns: S.optional(PartitionColumnList),
+    sortColumns: S.optional(SortColumnList),
+    status: S.optional(S.String),
+    errorInfo: S.optional(DataViewErrorInfo),
+    destinationTypeProperties: S.optional(DataViewDestinationTypeParams),
+    autoUpdate: S.optional(S.Boolean),
+    createTime: S.optional(S.Number),
+    lastModifiedTime: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "DataViewSummary",
+}) as any as S.Schema<DataViewSummary>;
+export type DataViewList = DataViewSummary[];
 export const DataViewList = S.Array(DataViewSummary);
-export class PermissionGroupByUser extends S.Class<PermissionGroupByUser>(
-  "PermissionGroupByUser",
-)({
-  permissionGroupId: S.optional(S.String),
-  name: S.optional(S.String),
-  membershipStatus: S.optional(S.String),
-}) {}
+export interface PermissionGroupByUser {
+  permissionGroupId?: string;
+  name?: string;
+  membershipStatus?: string;
+}
+export const PermissionGroupByUser = S.suspend(() =>
+  S.Struct({
+    permissionGroupId: S.optional(S.String),
+    name: S.optional(S.String),
+    membershipStatus: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "PermissionGroupByUser",
+}) as any as S.Schema<PermissionGroupByUser>;
+export type PermissionGroupByUserList = PermissionGroupByUser[];
 export const PermissionGroupByUserList = S.Array(PermissionGroupByUser);
-export class User extends S.Class<User>("User")({
-  userId: S.optional(S.String),
-  status: S.optional(S.String),
-  firstName: S.optional(S.String),
-  lastName: S.optional(S.String),
-  emailAddress: S.optional(S.String),
-  type: S.optional(S.String),
-  apiAccess: S.optional(S.String),
-  apiAccessPrincipalArn: S.optional(S.String),
-  createTime: S.optional(S.Number),
-  lastEnabledTime: S.optional(S.Number),
-  lastDisabledTime: S.optional(S.Number),
-  lastModifiedTime: S.optional(S.Number),
-  lastLoginTime: S.optional(S.Number),
-}) {}
+export interface User {
+  userId?: string;
+  status?: string;
+  firstName?: string;
+  lastName?: string;
+  emailAddress?: string;
+  type?: string;
+  apiAccess?: string;
+  apiAccessPrincipalArn?: string;
+  createTime?: number;
+  lastEnabledTime?: number;
+  lastDisabledTime?: number;
+  lastModifiedTime?: number;
+  lastLoginTime?: number;
+}
+export const User = S.suspend(() =>
+  S.Struct({
+    userId: S.optional(S.String),
+    status: S.optional(S.String),
+    firstName: S.optional(S.String),
+    lastName: S.optional(S.String),
+    emailAddress: S.optional(S.String),
+    type: S.optional(S.String),
+    apiAccess: S.optional(S.String),
+    apiAccessPrincipalArn: S.optional(S.String),
+    createTime: S.optional(S.Number),
+    lastEnabledTime: S.optional(S.Number),
+    lastDisabledTime: S.optional(S.Number),
+    lastModifiedTime: S.optional(S.Number),
+    lastLoginTime: S.optional(S.Number),
+  }),
+).annotations({ identifier: "User" }) as any as S.Schema<User>;
+export type UserList = User[];
 export const UserList = S.Array(User);
-export class UserByPermissionGroup extends S.Class<UserByPermissionGroup>(
-  "UserByPermissionGroup",
-)({
-  userId: S.optional(S.String),
-  status: S.optional(S.String),
-  firstName: S.optional(S.String),
-  lastName: S.optional(S.String),
-  emailAddress: S.optional(S.String),
-  type: S.optional(S.String),
-  apiAccess: S.optional(S.String),
-  apiAccessPrincipalArn: S.optional(S.String),
-  membershipStatus: S.optional(S.String),
-}) {}
+export interface UserByPermissionGroup {
+  userId?: string;
+  status?: string;
+  firstName?: string;
+  lastName?: string;
+  emailAddress?: string;
+  type?: string;
+  apiAccess?: string;
+  apiAccessPrincipalArn?: string;
+  membershipStatus?: string;
+}
+export const UserByPermissionGroup = S.suspend(() =>
+  S.Struct({
+    userId: S.optional(S.String),
+    status: S.optional(S.String),
+    firstName: S.optional(S.String),
+    lastName: S.optional(S.String),
+    emailAddress: S.optional(S.String),
+    type: S.optional(S.String),
+    apiAccess: S.optional(S.String),
+    apiAccessPrincipalArn: S.optional(S.String),
+    membershipStatus: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "UserByPermissionGroup",
+}) as any as S.Schema<UserByPermissionGroup>;
+export type UserByPermissionGroupList = UserByPermissionGroup[];
 export const UserByPermissionGroupList = S.Array(UserByPermissionGroup);
-export class CreateChangesetResponse extends S.Class<CreateChangesetResponse>(
-  "CreateChangesetResponse",
-)({ datasetId: S.optional(S.String), changesetId: S.optional(S.String) }) {}
-export class CreateDataViewRequest extends S.Class<CreateDataViewRequest>(
-  "CreateDataViewRequest",
-)(
-  {
+export interface CreateChangesetResponse {
+  datasetId?: string;
+  changesetId?: string;
+}
+export const CreateChangesetResponse = S.suspend(() =>
+  S.Struct({
+    datasetId: S.optional(S.String),
+    changesetId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CreateChangesetResponse",
+}) as any as S.Schema<CreateChangesetResponse>;
+export interface CreateDataViewRequest {
+  clientToken?: string;
+  datasetId: string;
+  autoUpdate?: boolean;
+  sortColumns?: SortColumnList;
+  partitionColumns?: PartitionColumnList;
+  asOfTimestamp?: number;
+  destinationTypeParams: DataViewDestinationTypeParams;
+}
+export const CreateDataViewRequest = S.suspend(() =>
+  S.Struct({
     clientToken: S.optional(S.String),
     datasetId: S.String.pipe(T.HttpLabel("datasetId")),
     autoUpdate: S.optional(S.Boolean),
@@ -1006,92 +1519,198 @@ export class CreateDataViewRequest extends S.Class<CreateDataViewRequest>(
     partitionColumns: S.optional(PartitionColumnList),
     asOfTimestamp: S.optional(S.Number),
     destinationTypeParams: DataViewDestinationTypeParams,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/datasets/{datasetId}/dataviewsv2" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/datasets/{datasetId}/dataviewsv2" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetChangesetResponse extends S.Class<GetChangesetResponse>(
-  "GetChangesetResponse",
-)({
-  changesetId: S.optional(S.String),
-  changesetArn: S.optional(S.String),
-  datasetId: S.optional(S.String),
-  changeType: S.optional(S.String),
-  sourceParams: S.optional(SourceParams),
-  formatParams: S.optional(FormatParams),
-  createTime: S.optional(S.Number),
-  status: S.optional(S.String),
-  errorInfo: S.optional(ChangesetErrorInfo),
-  activeUntilTimestamp: S.optional(S.Number),
-  activeFromTimestamp: S.optional(S.Number),
-  updatesChangesetId: S.optional(S.String),
-  updatedByChangesetId: S.optional(S.String),
-}) {}
-export class GetDataViewResponse extends S.Class<GetDataViewResponse>(
-  "GetDataViewResponse",
-)({
-  autoUpdate: S.optional(S.Boolean),
-  partitionColumns: S.optional(PartitionColumnList),
-  datasetId: S.optional(S.String),
-  asOfTimestamp: S.optional(S.Number),
-  errorInfo: S.optional(DataViewErrorInfo),
-  lastModifiedTime: S.optional(S.Number),
-  createTime: S.optional(S.Number),
-  sortColumns: S.optional(SortColumnList),
-  dataViewId: S.optional(S.String),
-  dataViewArn: S.optional(S.String),
-  destinationTypeParams: S.optional(DataViewDestinationTypeParams),
-  status: S.optional(S.String),
-}) {}
-export class GetExternalDataViewAccessDetailsResponse extends S.Class<GetExternalDataViewAccessDetailsResponse>(
-  "GetExternalDataViewAccessDetailsResponse",
-)({
-  credentials: S.optional(AwsCredentials),
-  s3Location: S.optional(S3Location),
-}) {}
-export class GetPermissionGroupResponse extends S.Class<GetPermissionGroupResponse>(
-  "GetPermissionGroupResponse",
-)({ permissionGroup: S.optional(PermissionGroup) }) {}
-export class GetProgrammaticAccessCredentialsResponse extends S.Class<GetProgrammaticAccessCredentialsResponse>(
-  "GetProgrammaticAccessCredentialsResponse",
-)({
-  credentials: S.optional(Credentials),
-  durationInMinutes: S.optional(S.Number),
-}) {}
-export class ListChangesetsResponse extends S.Class<ListChangesetsResponse>(
-  "ListChangesetsResponse",
-)({ changesets: S.optional(ChangesetList), nextToken: S.optional(S.String) }) {}
-export class ListDatasetsResponse extends S.Class<ListDatasetsResponse>(
-  "ListDatasetsResponse",
-)({ datasets: S.optional(DatasetList), nextToken: S.optional(S.String) }) {}
-export class ListDataViewsResponse extends S.Class<ListDataViewsResponse>(
-  "ListDataViewsResponse",
-)({ nextToken: S.optional(S.String), dataViews: S.optional(DataViewList) }) {}
-export class ListPermissionGroupsByUserResponse extends S.Class<ListPermissionGroupsByUserResponse>(
-  "ListPermissionGroupsByUserResponse",
-)({
-  permissionGroups: S.optional(PermissionGroupByUserList),
-  nextToken: S.optional(S.String),
-}) {}
-export class ListUsersResponse extends S.Class<ListUsersResponse>(
-  "ListUsersResponse",
-)({ users: S.optional(UserList), nextToken: S.optional(S.String) }) {}
-export class ListUsersByPermissionGroupResponse extends S.Class<ListUsersByPermissionGroupResponse>(
-  "ListUsersByPermissionGroupResponse",
-)({
-  users: S.optional(UserByPermissionGroupList),
-  nextToken: S.optional(S.String),
-}) {}
-export class CreateDatasetRequest extends S.Class<CreateDatasetRequest>(
-  "CreateDatasetRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateDataViewRequest",
+}) as any as S.Schema<CreateDataViewRequest>;
+export interface GetChangesetResponse {
+  changesetId?: string;
+  changesetArn?: string;
+  datasetId?: string;
+  changeType?: string;
+  sourceParams?: SourceParams;
+  formatParams?: FormatParams;
+  createTime?: number;
+  status?: string;
+  errorInfo?: ChangesetErrorInfo;
+  activeUntilTimestamp?: number;
+  activeFromTimestamp?: number;
+  updatesChangesetId?: string;
+  updatedByChangesetId?: string;
+}
+export const GetChangesetResponse = S.suspend(() =>
+  S.Struct({
+    changesetId: S.optional(S.String),
+    changesetArn: S.optional(S.String),
+    datasetId: S.optional(S.String),
+    changeType: S.optional(S.String),
+    sourceParams: S.optional(SourceParams),
+    formatParams: S.optional(FormatParams),
+    createTime: S.optional(S.Number),
+    status: S.optional(S.String),
+    errorInfo: S.optional(ChangesetErrorInfo),
+    activeUntilTimestamp: S.optional(S.Number),
+    activeFromTimestamp: S.optional(S.Number),
+    updatesChangesetId: S.optional(S.String),
+    updatedByChangesetId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetChangesetResponse",
+}) as any as S.Schema<GetChangesetResponse>;
+export interface GetDataViewResponse {
+  autoUpdate?: boolean;
+  partitionColumns?: PartitionColumnList;
+  datasetId?: string;
+  asOfTimestamp?: number;
+  errorInfo?: DataViewErrorInfo;
+  lastModifiedTime?: number;
+  createTime?: number;
+  sortColumns?: SortColumnList;
+  dataViewId?: string;
+  dataViewArn?: string;
+  destinationTypeParams?: DataViewDestinationTypeParams;
+  status?: string;
+}
+export const GetDataViewResponse = S.suspend(() =>
+  S.Struct({
+    autoUpdate: S.optional(S.Boolean),
+    partitionColumns: S.optional(PartitionColumnList),
+    datasetId: S.optional(S.String),
+    asOfTimestamp: S.optional(S.Number),
+    errorInfo: S.optional(DataViewErrorInfo),
+    lastModifiedTime: S.optional(S.Number),
+    createTime: S.optional(S.Number),
+    sortColumns: S.optional(SortColumnList),
+    dataViewId: S.optional(S.String),
+    dataViewArn: S.optional(S.String),
+    destinationTypeParams: S.optional(DataViewDestinationTypeParams),
+    status: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetDataViewResponse",
+}) as any as S.Schema<GetDataViewResponse>;
+export interface GetExternalDataViewAccessDetailsResponse {
+  credentials?: AwsCredentials;
+  s3Location?: S3Location;
+}
+export const GetExternalDataViewAccessDetailsResponse = S.suspend(() =>
+  S.Struct({
+    credentials: S.optional(AwsCredentials),
+    s3Location: S.optional(S3Location),
+  }),
+).annotations({
+  identifier: "GetExternalDataViewAccessDetailsResponse",
+}) as any as S.Schema<GetExternalDataViewAccessDetailsResponse>;
+export interface GetPermissionGroupResponse {
+  permissionGroup?: PermissionGroup;
+}
+export const GetPermissionGroupResponse = S.suspend(() =>
+  S.Struct({ permissionGroup: S.optional(PermissionGroup) }),
+).annotations({
+  identifier: "GetPermissionGroupResponse",
+}) as any as S.Schema<GetPermissionGroupResponse>;
+export interface GetProgrammaticAccessCredentialsResponse {
+  credentials?: Credentials;
+  durationInMinutes?: number;
+}
+export const GetProgrammaticAccessCredentialsResponse = S.suspend(() =>
+  S.Struct({
+    credentials: S.optional(Credentials),
+    durationInMinutes: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "GetProgrammaticAccessCredentialsResponse",
+}) as any as S.Schema<GetProgrammaticAccessCredentialsResponse>;
+export interface ListChangesetsResponse {
+  changesets?: ChangesetList;
+  nextToken?: string;
+}
+export const ListChangesetsResponse = S.suspend(() =>
+  S.Struct({
+    changesets: S.optional(ChangesetList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListChangesetsResponse",
+}) as any as S.Schema<ListChangesetsResponse>;
+export interface ListDatasetsResponse {
+  datasets?: DatasetList;
+  nextToken?: string;
+}
+export const ListDatasetsResponse = S.suspend(() =>
+  S.Struct({
+    datasets: S.optional(DatasetList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListDatasetsResponse",
+}) as any as S.Schema<ListDatasetsResponse>;
+export interface ListDataViewsResponse {
+  nextToken?: string;
+  dataViews?: DataViewList;
+}
+export const ListDataViewsResponse = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    dataViews: S.optional(DataViewList),
+  }),
+).annotations({
+  identifier: "ListDataViewsResponse",
+}) as any as S.Schema<ListDataViewsResponse>;
+export interface ListPermissionGroupsByUserResponse {
+  permissionGroups?: PermissionGroupByUserList;
+  nextToken?: string;
+}
+export const ListPermissionGroupsByUserResponse = S.suspend(() =>
+  S.Struct({
+    permissionGroups: S.optional(PermissionGroupByUserList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListPermissionGroupsByUserResponse",
+}) as any as S.Schema<ListPermissionGroupsByUserResponse>;
+export interface ListUsersResponse {
+  users?: UserList;
+  nextToken?: string;
+}
+export const ListUsersResponse = S.suspend(() =>
+  S.Struct({ users: S.optional(UserList), nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListUsersResponse",
+}) as any as S.Schema<ListUsersResponse>;
+export interface ListUsersByPermissionGroupResponse {
+  users?: UserByPermissionGroupList;
+  nextToken?: string;
+}
+export const ListUsersByPermissionGroupResponse = S.suspend(() =>
+  S.Struct({
+    users: S.optional(UserByPermissionGroupList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListUsersByPermissionGroupResponse",
+}) as any as S.Schema<ListUsersByPermissionGroupResponse>;
+export interface CreateDatasetRequest {
+  clientToken?: string;
+  datasetTitle: string;
+  kind: string;
+  datasetDescription?: string;
+  ownerInfo?: DatasetOwnerInfo;
+  permissionGroupParams: PermissionGroupParams;
+  alias?: string;
+  schemaDefinition?: SchemaUnion;
+}
+export const CreateDatasetRequest = S.suspend(() =>
+  S.Struct({
     clientToken: S.optional(S.String),
     datasetTitle: S.String,
     kind: S.String,
@@ -1100,22 +1719,39 @@ export class CreateDatasetRequest extends S.Class<CreateDatasetRequest>(
     permissionGroupParams: PermissionGroupParams,
     alias: S.optional(S.String),
     schemaDefinition: S.optional(SchemaUnion),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/datasetsv2" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/datasetsv2" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateDataViewResponse extends S.Class<CreateDataViewResponse>(
-  "CreateDataViewResponse",
-)({ datasetId: S.optional(S.String), dataViewId: S.optional(S.String) }) {}
-export class CreateDatasetResponse extends S.Class<CreateDatasetResponse>(
-  "CreateDatasetResponse",
-)({ datasetId: S.optional(S.String) }) {}
+).annotations({
+  identifier: "CreateDatasetRequest",
+}) as any as S.Schema<CreateDatasetRequest>;
+export interface CreateDataViewResponse {
+  datasetId?: string;
+  dataViewId?: string;
+}
+export const CreateDataViewResponse = S.suspend(() =>
+  S.Struct({
+    datasetId: S.optional(S.String),
+    dataViewId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CreateDataViewResponse",
+}) as any as S.Schema<CreateDataViewResponse>;
+export interface CreateDatasetResponse {
+  datasetId?: string;
+}
+export const CreateDatasetResponse = S.suspend(() =>
+  S.Struct({ datasetId: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateDatasetResponse",
+}) as any as S.Schema<CreateDatasetResponse>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

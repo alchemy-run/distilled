@@ -106,110 +106,229 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class GetRecordsInput extends S.Class<GetRecordsInput>(
-  "GetRecordsInput",
-)(
-  { shardIterator: S.String, maxResults: S.optional(S.Number) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetShardIteratorInput extends S.Class<GetShardIteratorInput>(
-  "GetShardIteratorInput",
-)(
-  {
+export interface GetRecordsInput {
+  shardIterator: string;
+  maxResults?: number;
+}
+export const GetRecordsInput = S.suspend(() =>
+  S.Struct({ shardIterator: S.String, maxResults: S.optional(S.Number) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetRecordsInput",
+}) as any as S.Schema<GetRecordsInput>;
+export interface GetShardIteratorInput {
+  streamArn: string;
+  shardId: string;
+  shardIteratorType: string;
+  sequenceNumber?: string;
+}
+export const GetShardIteratorInput = S.suspend(() =>
+  S.Struct({
     streamArn: S.String,
     shardId: S.String,
     shardIteratorType: S.String,
     sequenceNumber: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListStreamsInput extends S.Class<ListStreamsInput>(
-  "ListStreamsInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetShardIteratorInput",
+}) as any as S.Schema<GetShardIteratorInput>;
+export interface ListStreamsInput {
+  keyspaceName?: string;
+  tableName?: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListStreamsInput = S.suspend(() =>
+  S.Struct({
     keyspaceName: S.optional(S.String),
     tableName: S.optional(S.String),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ShardFilter extends S.Class<ShardFilter>("ShardFilter")({
-  type: S.optional(S.String),
-  shardId: S.optional(S.String),
-}) {}
-export class GetShardIteratorOutput extends S.Class<GetShardIteratorOutput>(
-  "GetShardIteratorOutput",
-)({ shardIterator: S.optional(S.String) }) {}
-export class GetStreamInput extends S.Class<GetStreamInput>("GetStreamInput")(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListStreamsInput",
+}) as any as S.Schema<ListStreamsInput>;
+export interface ShardFilter {
+  type?: string;
+  shardId?: string;
+}
+export const ShardFilter = S.suspend(() =>
+  S.Struct({ type: S.optional(S.String), shardId: S.optional(S.String) }),
+).annotations({ identifier: "ShardFilter" }) as any as S.Schema<ShardFilter>;
+export interface GetShardIteratorOutput {
+  shardIterator?: string;
+}
+export const GetShardIteratorOutput = S.suspend(() =>
+  S.Struct({ shardIterator: S.optional(S.String) }),
+).annotations({
+  identifier: "GetShardIteratorOutput",
+}) as any as S.Schema<GetShardIteratorOutput>;
+export interface GetStreamInput {
+  streamArn: string;
+  maxResults?: number;
+  shardFilter?: ShardFilter;
+  nextToken?: string;
+}
+export const GetStreamInput = S.suspend(() =>
+  S.Struct({
     streamArn: S.String,
     maxResults: S.optional(S.Number),
     shardFilter: S.optional(ShardFilter),
     nextToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class Stream extends S.Class<Stream>("Stream")({
-  streamArn: S.String,
-  keyspaceName: S.String,
-  tableName: S.String,
-  streamLabel: S.String,
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetStreamInput",
+}) as any as S.Schema<GetStreamInput>;
+export interface Stream {
+  streamArn: string;
+  keyspaceName: string;
+  tableName: string;
+  streamLabel: string;
+}
+export const Stream = S.suspend(() =>
+  S.Struct({
+    streamArn: S.String,
+    keyspaceName: S.String,
+    tableName: S.String,
+    streamLabel: S.String,
+  }),
+).annotations({ identifier: "Stream" }) as any as S.Schema<Stream>;
+export type StreamList = Stream[];
 export const StreamList = S.Array(Stream);
-export class ListStreamsOutput extends S.Class<ListStreamsOutput>(
-  "ListStreamsOutput",
-)({ streams: S.optional(StreamList), nextToken: S.optional(S.String) }) {}
+export interface ListStreamsOutput {
+  streams?: StreamList;
+  nextToken?: string;
+}
+export const ListStreamsOutput = S.suspend(() =>
+  S.Struct({
+    streams: S.optional(StreamList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListStreamsOutput",
+}) as any as S.Schema<ListStreamsOutput>;
+export type ShardIdList = string[];
 export const ShardIdList = S.Array(S.String);
-export class KeyspacesMetadata extends S.Class<KeyspacesMetadata>(
-  "KeyspacesMetadata",
-)({ expirationTime: S.optional(S.String), writeTime: S.optional(S.String) }) {}
-export class KeyspacesCell extends S.Class<KeyspacesCell>("KeyspacesCell")({
-  value: S.optional(S.suspend(() => KeyspacesCellValue)),
-  metadata: S.optional(KeyspacesMetadata),
-}) {}
+export interface KeyspacesMetadata {
+  expirationTime?: string;
+  writeTime?: string;
+}
+export const KeyspacesMetadata = S.suspend(() =>
+  S.Struct({
+    expirationTime: S.optional(S.String),
+    writeTime: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "KeyspacesMetadata",
+}) as any as S.Schema<KeyspacesMetadata>;
+export interface KeyspacesCell {
+  value?: KeyspacesCellValue;
+  metadata?: KeyspacesMetadata;
+}
+export const KeyspacesCell = S.suspend(() =>
+  S.Struct({
+    value: S.optional(
+      S.suspend(() => KeyspacesCellValue).annotations({
+        identifier: "KeyspacesCellValue",
+      }),
+    ),
+    metadata: S.optional(KeyspacesMetadata),
+  }),
+).annotations({
+  identifier: "KeyspacesCell",
+}) as any as S.Schema<KeyspacesCell>;
+export type KeyspacesCells = { [key: string]: KeyspacesCell };
 export const KeyspacesCells = S.Record({
   key: S.String,
-  value: S.suspend((): S.Schema<KeyspacesCell, any> => KeyspacesCell),
+  value: S.suspend(
+    (): S.Schema<KeyspacesCell, any> => KeyspacesCell,
+  ).annotations({ identifier: "KeyspacesCell" }),
 });
-export class KeyspacesRow extends S.Class<KeyspacesRow>("KeyspacesRow")({
-  valueCells: S.optional(KeyspacesCells),
-  staticCells: S.optional(KeyspacesCells),
-  rowMetadata: S.optional(KeyspacesMetadata),
-}) {}
-export class SequenceNumberRange extends S.Class<SequenceNumberRange>(
-  "SequenceNumberRange",
-)({
-  startingSequenceNumber: S.optional(S.String),
-  endingSequenceNumber: S.optional(S.String),
-}) {}
+export interface KeyspacesRow {
+  valueCells?: KeyspacesCells;
+  staticCells?: KeyspacesCells;
+  rowMetadata?: KeyspacesMetadata;
+}
+export const KeyspacesRow = S.suspend(() =>
+  S.Struct({
+    valueCells: S.optional(KeyspacesCells),
+    staticCells: S.optional(KeyspacesCells),
+    rowMetadata: S.optional(KeyspacesMetadata),
+  }),
+).annotations({ identifier: "KeyspacesRow" }) as any as S.Schema<KeyspacesRow>;
+export interface SequenceNumberRange {
+  startingSequenceNumber?: string;
+  endingSequenceNumber?: string;
+}
+export const SequenceNumberRange = S.suspend(() =>
+  S.Struct({
+    startingSequenceNumber: S.optional(S.String),
+    endingSequenceNumber: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SequenceNumberRange",
+}) as any as S.Schema<SequenceNumberRange>;
 export type KeyspacesCellList = KeyspacesCell[];
 export const KeyspacesCellList = S.Array(
-  S.suspend((): S.Schema<KeyspacesCell, any> => KeyspacesCell),
+  S.suspend((): S.Schema<KeyspacesCell, any> => KeyspacesCell).annotations({
+    identifier: "KeyspacesCell",
+  }),
 ) as any as S.Schema<KeyspacesCellList>;
-export class KeyspacesCellMapDefinition extends S.Class<KeyspacesCellMapDefinition>(
-  "KeyspacesCellMapDefinition",
-)({
-  key: S.optional(S.suspend(() => KeyspacesCellValue)),
-  value: S.optional(S.suspend(() => KeyspacesCellValue)),
-  metadata: S.optional(KeyspacesMetadata),
-}) {}
+export interface KeyspacesCellMapDefinition {
+  key?: KeyspacesCellValue;
+  value?: KeyspacesCellValue;
+  metadata?: KeyspacesMetadata;
+}
+export const KeyspacesCellMapDefinition = S.suspend(() =>
+  S.Struct({
+    key: S.optional(
+      S.suspend(() => KeyspacesCellValue).annotations({
+        identifier: "KeyspacesCellValue",
+      }),
+    ),
+    value: S.optional(
+      S.suspend(() => KeyspacesCellValue).annotations({
+        identifier: "KeyspacesCellValue",
+      }),
+    ),
+    metadata: S.optional(KeyspacesMetadata),
+  }),
+).annotations({
+  identifier: "KeyspacesCellMapDefinition",
+}) as any as S.Schema<KeyspacesCellMapDefinition>;
 export type KeyspacesCellMap = KeyspacesCellMapDefinition[];
 export const KeyspacesCellMap = S.Array(
   S.suspend(
     (): S.Schema<KeyspacesCellMapDefinition, any> => KeyspacesCellMapDefinition,
-  ),
+  ).annotations({ identifier: "KeyspacesCellMapDefinition" }),
 ) as any as S.Schema<KeyspacesCellMap>;
 export type KeyspacesUdtMap = { [key: string]: KeyspacesCell };
 export const KeyspacesUdtMap = S.Record({
   key: S.String,
-  value: S.suspend((): S.Schema<KeyspacesCell, any> => KeyspacesCell),
+  value: S.suspend(
+    (): S.Schema<KeyspacesCell, any> => KeyspacesCell,
+  ).annotations({ identifier: "KeyspacesCell" }),
 }) as any as S.Schema<KeyspacesUdtMap>;
-export class Shard extends S.Class<Shard>("Shard")({
-  shardId: S.optional(S.String),
-  sequenceNumberRange: S.optional(SequenceNumberRange),
-  parentShardIds: S.optional(ShardIdList),
-}) {}
+export interface Shard {
+  shardId?: string;
+  sequenceNumberRange?: SequenceNumberRange;
+  parentShardIds?: ShardIdList;
+}
+export const Shard = S.suspend(() =>
+  S.Struct({
+    shardId: S.optional(S.String),
+    sequenceNumberRange: S.optional(SequenceNumberRange),
+    parentShardIds: S.optional(ShardIdList),
+  }),
+).annotations({ identifier: "Shard" }) as any as S.Schema<Shard>;
+export type ShardDescriptionList = Shard[];
 export const ShardDescriptionList = S.Array(Shard);
 export type KeyspacesCellValue =
   | { asciiT: string }
@@ -249,55 +368,110 @@ export const KeyspacesCellValue = S.Union(
   S.Struct({ floatT: S.String }),
   S.Struct({ inetT: S.String }),
   S.Struct({ intT: S.String }),
-  S.Struct({ listT: S.suspend(() => KeyspacesCellList) }),
-  S.Struct({ mapT: S.suspend(() => KeyspacesCellMap) }),
-  S.Struct({ setT: S.suspend(() => KeyspacesCellList) }),
+  S.Struct({
+    listT: S.suspend(() => KeyspacesCellList).annotations({
+      identifier: "KeyspacesCellList",
+    }),
+  }),
+  S.Struct({
+    mapT: S.suspend(() => KeyspacesCellMap).annotations({
+      identifier: "KeyspacesCellMap",
+    }),
+  }),
+  S.Struct({
+    setT: S.suspend(() => KeyspacesCellList).annotations({
+      identifier: "KeyspacesCellList",
+    }),
+  }),
   S.Struct({ smallintT: S.String }),
   S.Struct({ textT: S.String }),
   S.Struct({ timeT: S.String }),
   S.Struct({ timestampT: S.String }),
   S.Struct({ timeuuidT: S.String }),
   S.Struct({ tinyintT: S.String }),
-  S.Struct({ tupleT: S.suspend(() => KeyspacesCellList) }),
+  S.Struct({
+    tupleT: S.suspend(() => KeyspacesCellList).annotations({
+      identifier: "KeyspacesCellList",
+    }),
+  }),
   S.Struct({ uuidT: S.String }),
   S.Struct({ varcharT: S.String }),
   S.Struct({ varintT: S.String }),
-  S.Struct({ udtT: S.suspend(() => KeyspacesUdtMap) }),
+  S.Struct({
+    udtT: S.suspend(() => KeyspacesUdtMap).annotations({
+      identifier: "KeyspacesUdtMap",
+    }),
+  }),
 ) as any as S.Schema<KeyspacesCellValue>;
-export class GetStreamOutput extends S.Class<GetStreamOutput>(
-  "GetStreamOutput",
-)({
-  streamArn: S.String,
-  streamLabel: S.String,
-  streamStatus: S.String,
-  streamViewType: S.String,
-  creationRequestDateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  keyspaceName: S.String,
-  tableName: S.String,
-  shards: S.optional(ShardDescriptionList),
-  nextToken: S.optional(S.String),
-}) {}
+export interface GetStreamOutput {
+  streamArn: string;
+  streamLabel: string;
+  streamStatus: string;
+  streamViewType: string;
+  creationRequestDateTime: Date;
+  keyspaceName: string;
+  tableName: string;
+  shards?: ShardDescriptionList;
+  nextToken?: string;
+}
+export const GetStreamOutput = S.suspend(() =>
+  S.Struct({
+    streamArn: S.String,
+    streamLabel: S.String,
+    streamStatus: S.String,
+    streamViewType: S.String,
+    creationRequestDateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    keyspaceName: S.String,
+    tableName: S.String,
+    shards: S.optional(ShardDescriptionList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetStreamOutput",
+}) as any as S.Schema<GetStreamOutput>;
+export type KeyspacesKeysMap = { [key: string]: KeyspacesCellValue };
 export const KeyspacesKeysMap = S.Record({
   key: S.String,
-  value: S.suspend(() => KeyspacesCellValue),
+  value: S.suspend(() => KeyspacesCellValue).annotations({
+    identifier: "KeyspacesCellValue",
+  }),
 });
-export class Record extends S.Class<Record>("Record")({
-  eventVersion: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  origin: S.optional(S.String),
-  partitionKeys: S.optional(KeyspacesKeysMap),
-  clusteringKeys: S.optional(KeyspacesKeysMap),
-  newImage: S.optional(KeyspacesRow),
-  oldImage: S.optional(KeyspacesRow),
-  sequenceNumber: S.optional(S.String),
-}) {}
+export interface Record {
+  eventVersion?: string;
+  createdAt?: Date;
+  origin?: string;
+  partitionKeys?: KeyspacesKeysMap;
+  clusteringKeys?: KeyspacesKeysMap;
+  newImage?: KeyspacesRow;
+  oldImage?: KeyspacesRow;
+  sequenceNumber?: string;
+}
+export const Record = S.suspend(() =>
+  S.Struct({
+    eventVersion: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    origin: S.optional(S.String),
+    partitionKeys: S.optional(KeyspacesKeysMap),
+    clusteringKeys: S.optional(KeyspacesKeysMap),
+    newImage: S.optional(KeyspacesRow),
+    oldImage: S.optional(KeyspacesRow),
+    sequenceNumber: S.optional(S.String),
+  }),
+).annotations({ identifier: "Record" }) as any as S.Schema<Record>;
+export type RecordList = Record[];
 export const RecordList = S.Array(Record);
-export class GetRecordsOutput extends S.Class<GetRecordsOutput>(
-  "GetRecordsOutput",
-)({
-  changeRecords: S.optional(RecordList),
-  nextShardIterator: S.optional(S.String),
-}) {}
+export interface GetRecordsOutput {
+  changeRecords?: RecordList;
+  nextShardIterator?: string;
+}
+export const GetRecordsOutput = S.suspend(() =>
+  S.Struct({
+    changeRecords: S.optional(RecordList),
+    nextShardIterator: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetRecordsOutput",
+}) as any as S.Schema<GetRecordsOutput>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

@@ -242,168 +242,266 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type EventTypeIds = string[];
 export const EventTypeIds = S.Array(S.String);
+export type TagKeys = string[];
 export const TagKeys = S.Array(S.String);
-export class DeleteNotificationRuleRequest extends S.Class<DeleteNotificationRuleRequest>(
-  "DeleteNotificationRuleRequest",
-)(
-  { Arn: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/deleteNotificationRule" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface DeleteNotificationRuleRequest {
+  Arn: string;
+}
+export const DeleteNotificationRuleRequest = S.suspend(() =>
+  S.Struct({ Arn: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/deleteNotificationRule" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteTargetRequest extends S.Class<DeleteTargetRequest>(
-  "DeleteTargetRequest",
-)(
-  { TargetAddress: S.String, ForceUnsubscribeAll: S.optional(S.Boolean) },
-  T.all(
-    T.Http({ method: "POST", uri: "/deleteTarget" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteNotificationRuleRequest",
+}) as any as S.Schema<DeleteNotificationRuleRequest>;
+export interface DeleteTargetRequest {
+  TargetAddress: string;
+  ForceUnsubscribeAll?: boolean;
+}
+export const DeleteTargetRequest = S.suspend(() =>
+  S.Struct({
+    TargetAddress: S.String,
+    ForceUnsubscribeAll: S.optional(S.Boolean),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/deleteTarget" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteTargetResult extends S.Class<DeleteTargetResult>(
-  "DeleteTargetResult",
-)({}) {}
-export class DescribeNotificationRuleRequest extends S.Class<DescribeNotificationRuleRequest>(
-  "DescribeNotificationRuleRequest",
-)(
-  { Arn: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/describeNotificationRule" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteTargetRequest",
+}) as any as S.Schema<DeleteTargetRequest>;
+export interface DeleteTargetResult {}
+export const DeleteTargetResult = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteTargetResult",
+}) as any as S.Schema<DeleteTargetResult>;
+export interface DescribeNotificationRuleRequest {
+  Arn: string;
+}
+export const DescribeNotificationRuleRequest = S.suspend(() =>
+  S.Struct({ Arn: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/describeNotificationRule" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { Arn: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/listTagsForResource" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DescribeNotificationRuleRequest",
+}) as any as S.Schema<DescribeNotificationRuleRequest>;
+export interface ListTagsForResourceRequest {
+  Arn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ Arn: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/listTagsForResource" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class Target extends S.Class<Target>("Target")({
-  TargetType: S.optional(S.String),
-  TargetAddress: S.optional(S.String),
-}) {}
-export class SubscribeRequest extends S.Class<SubscribeRequest>(
-  "SubscribeRequest",
-)(
-  { Arn: S.String, Target: Target, ClientRequestToken: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/subscribe" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface Target {
+  TargetType?: string;
+  TargetAddress?: string;
+}
+export const Target = S.suspend(() =>
+  S.Struct({
+    TargetType: S.optional(S.String),
+    TargetAddress: S.optional(S.String),
+  }),
+).annotations({ identifier: "Target" }) as any as S.Schema<Target>;
+export interface SubscribeRequest {
+  Arn: string;
+  Target: Target;
+  ClientRequestToken?: string;
+}
+export const SubscribeRequest = S.suspend(() =>
+  S.Struct({
+    Arn: S.String,
+    Target: Target,
+    ClientRequestToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/subscribe" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "SubscribeRequest",
+}) as any as S.Schema<SubscribeRequest>;
+export type Tags = { [key: string]: string };
 export const Tags = S.Record({ key: S.String, value: S.String });
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { Arn: S.String, Tags: Tags },
-  T.all(
-    T.Http({ method: "POST", uri: "/tagResource" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface TagResourceRequest {
+  Arn: string;
+  Tags: Tags;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ Arn: S.String, Tags: Tags }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tagResource" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UnsubscribeRequest extends S.Class<UnsubscribeRequest>(
-  "UnsubscribeRequest",
-)(
-  { Arn: S.String, TargetAddress: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/unsubscribe" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface UnsubscribeRequest {
+  Arn: string;
+  TargetAddress: string;
+}
+export const UnsubscribeRequest = S.suspend(() =>
+  S.Struct({ Arn: S.String, TargetAddress: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/unsubscribe" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "UnsubscribeRequest",
+}) as any as S.Schema<UnsubscribeRequest>;
+export interface UntagResourceRequest {
+  Arn: string;
+  TagKeys: TagKeys;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
     Arn: S.String.pipe(T.HttpLabel("Arn")),
     TagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/untagResource/{Arn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/untagResource/{Arn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceResult extends S.Class<UntagResourceResult>(
-  "UntagResourceResult",
-)({}) {}
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResult {}
+export const UntagResourceResult = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResult",
+}) as any as S.Schema<UntagResourceResult>;
+export type Targets = Target[];
 export const Targets = S.Array(Target);
-export class UpdateNotificationRuleRequest extends S.Class<UpdateNotificationRuleRequest>(
-  "UpdateNotificationRuleRequest",
-)(
-  {
+export interface UpdateNotificationRuleRequest {
+  Arn: string;
+  Name?: string;
+  Status?: string;
+  EventTypeIds?: EventTypeIds;
+  Targets?: Targets;
+  DetailType?: string;
+}
+export const UpdateNotificationRuleRequest = S.suspend(() =>
+  S.Struct({
     Arn: S.String,
     Name: S.optional(S.String),
     Status: S.optional(S.String),
     EventTypeIds: S.optional(EventTypeIds),
     Targets: S.optional(Targets),
     DetailType: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/updateNotificationRule" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/updateNotificationRule" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateNotificationRuleResult extends S.Class<UpdateNotificationRuleResult>(
-  "UpdateNotificationRuleResult",
-)({}) {}
-export class ListEventTypesFilter extends S.Class<ListEventTypesFilter>(
-  "ListEventTypesFilter",
-)({ Name: S.String, Value: S.String }) {}
+).annotations({
+  identifier: "UpdateNotificationRuleRequest",
+}) as any as S.Schema<UpdateNotificationRuleRequest>;
+export interface UpdateNotificationRuleResult {}
+export const UpdateNotificationRuleResult = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateNotificationRuleResult",
+}) as any as S.Schema<UpdateNotificationRuleResult>;
+export interface ListEventTypesFilter {
+  Name: string;
+  Value: string;
+}
+export const ListEventTypesFilter = S.suspend(() =>
+  S.Struct({ Name: S.String, Value: S.String }),
+).annotations({
+  identifier: "ListEventTypesFilter",
+}) as any as S.Schema<ListEventTypesFilter>;
+export type ListEventTypesFilters = ListEventTypesFilter[];
 export const ListEventTypesFilters = S.Array(ListEventTypesFilter);
-export class ListNotificationRulesFilter extends S.Class<ListNotificationRulesFilter>(
-  "ListNotificationRulesFilter",
-)({ Name: S.String, Value: S.String }) {}
+export interface ListNotificationRulesFilter {
+  Name: string;
+  Value: string;
+}
+export const ListNotificationRulesFilter = S.suspend(() =>
+  S.Struct({ Name: S.String, Value: S.String }),
+).annotations({
+  identifier: "ListNotificationRulesFilter",
+}) as any as S.Schema<ListNotificationRulesFilter>;
+export type ListNotificationRulesFilters = ListNotificationRulesFilter[];
 export const ListNotificationRulesFilters = S.Array(
   ListNotificationRulesFilter,
 );
-export class ListTargetsFilter extends S.Class<ListTargetsFilter>(
-  "ListTargetsFilter",
-)({ Name: S.String, Value: S.String }) {}
+export interface ListTargetsFilter {
+  Name: string;
+  Value: string;
+}
+export const ListTargetsFilter = S.suspend(() =>
+  S.Struct({ Name: S.String, Value: S.String }),
+).annotations({
+  identifier: "ListTargetsFilter",
+}) as any as S.Schema<ListTargetsFilter>;
+export type ListTargetsFilters = ListTargetsFilter[];
 export const ListTargetsFilters = S.Array(ListTargetsFilter);
-export class CreateNotificationRuleRequest extends S.Class<CreateNotificationRuleRequest>(
-  "CreateNotificationRuleRequest",
-)(
-  {
+export interface CreateNotificationRuleRequest {
+  Name: string;
+  EventTypeIds: EventTypeIds;
+  Resource: string;
+  Targets: Targets;
+  DetailType: string;
+  ClientRequestToken?: string;
+  Tags?: Tags;
+  Status?: string;
+}
+export const CreateNotificationRuleRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     EventTypeIds: EventTypeIds,
     Resource: S.String,
@@ -412,136 +510,251 @@ export class CreateNotificationRuleRequest extends S.Class<CreateNotificationRul
     ClientRequestToken: S.optional(S.String),
     Tags: S.optional(Tags),
     Status: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/createNotificationRule" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/createNotificationRule" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteNotificationRuleResult extends S.Class<DeleteNotificationRuleResult>(
-  "DeleteNotificationRuleResult",
-)({ Arn: S.optional(S.String) }) {}
-export class ListEventTypesRequest extends S.Class<ListEventTypesRequest>(
-  "ListEventTypesRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateNotificationRuleRequest",
+}) as any as S.Schema<CreateNotificationRuleRequest>;
+export interface DeleteNotificationRuleResult {
+  Arn?: string;
+}
+export const DeleteNotificationRuleResult = S.suspend(() =>
+  S.Struct({ Arn: S.optional(S.String) }),
+).annotations({
+  identifier: "DeleteNotificationRuleResult",
+}) as any as S.Schema<DeleteNotificationRuleResult>;
+export interface ListEventTypesRequest {
+  Filters?: ListEventTypesFilters;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListEventTypesRequest = S.suspend(() =>
+  S.Struct({
     Filters: S.optional(ListEventTypesFilters),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/listEventTypes" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/listEventTypes" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListNotificationRulesRequest extends S.Class<ListNotificationRulesRequest>(
-  "ListNotificationRulesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListEventTypesRequest",
+}) as any as S.Schema<ListEventTypesRequest>;
+export interface ListNotificationRulesRequest {
+  Filters?: ListNotificationRulesFilters;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListNotificationRulesRequest = S.suspend(() =>
+  S.Struct({
     Filters: S.optional(ListNotificationRulesFilters),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/listNotificationRules" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/listNotificationRules" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTagsForResourceResult extends S.Class<ListTagsForResourceResult>(
-  "ListTagsForResourceResult",
-)({ Tags: S.optional(Tags) }) {}
-export class ListTargetsRequest extends S.Class<ListTargetsRequest>(
-  "ListTargetsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListNotificationRulesRequest",
+}) as any as S.Schema<ListNotificationRulesRequest>;
+export interface ListTagsForResourceResult {
+  Tags?: Tags;
+}
+export const ListTagsForResourceResult = S.suspend(() =>
+  S.Struct({ Tags: S.optional(Tags) }),
+).annotations({
+  identifier: "ListTagsForResourceResult",
+}) as any as S.Schema<ListTagsForResourceResult>;
+export interface ListTargetsRequest {
+  Filters?: ListTargetsFilters;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListTargetsRequest = S.suspend(() =>
+  S.Struct({
     Filters: S.optional(ListTargetsFilters),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/listTargets" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/listTargets" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SubscribeResult extends S.Class<SubscribeResult>(
-  "SubscribeResult",
-)({ Arn: S.optional(S.String) }) {}
-export class TagResourceResult extends S.Class<TagResourceResult>(
-  "TagResourceResult",
-)({ Tags: S.optional(Tags) }) {}
-export class UnsubscribeResult extends S.Class<UnsubscribeResult>(
-  "UnsubscribeResult",
-)({ Arn: S.String }) {}
-export class EventTypeSummary extends S.Class<EventTypeSummary>(
-  "EventTypeSummary",
-)({
-  EventTypeId: S.optional(S.String),
-  ServiceName: S.optional(S.String),
-  EventTypeName: S.optional(S.String),
-  ResourceType: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "ListTargetsRequest",
+}) as any as S.Schema<ListTargetsRequest>;
+export interface SubscribeResult {
+  Arn?: string;
+}
+export const SubscribeResult = S.suspend(() =>
+  S.Struct({ Arn: S.optional(S.String) }),
+).annotations({
+  identifier: "SubscribeResult",
+}) as any as S.Schema<SubscribeResult>;
+export interface TagResourceResult {
+  Tags?: Tags;
+}
+export const TagResourceResult = S.suspend(() =>
+  S.Struct({ Tags: S.optional(Tags) }),
+).annotations({
+  identifier: "TagResourceResult",
+}) as any as S.Schema<TagResourceResult>;
+export interface UnsubscribeResult {
+  Arn: string;
+}
+export const UnsubscribeResult = S.suspend(() =>
+  S.Struct({ Arn: S.String }),
+).annotations({
+  identifier: "UnsubscribeResult",
+}) as any as S.Schema<UnsubscribeResult>;
+export interface EventTypeSummary {
+  EventTypeId?: string;
+  ServiceName?: string;
+  EventTypeName?: string;
+  ResourceType?: string;
+}
+export const EventTypeSummary = S.suspend(() =>
+  S.Struct({
+    EventTypeId: S.optional(S.String),
+    ServiceName: S.optional(S.String),
+    EventTypeName: S.optional(S.String),
+    ResourceType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "EventTypeSummary",
+}) as any as S.Schema<EventTypeSummary>;
+export type EventTypeBatch = EventTypeSummary[];
 export const EventTypeBatch = S.Array(EventTypeSummary);
-export class TargetSummary extends S.Class<TargetSummary>("TargetSummary")({
-  TargetAddress: S.optional(S.String),
-  TargetType: S.optional(S.String),
-  TargetStatus: S.optional(S.String),
-}) {}
+export interface TargetSummary {
+  TargetAddress?: string;
+  TargetType?: string;
+  TargetStatus?: string;
+}
+export const TargetSummary = S.suspend(() =>
+  S.Struct({
+    TargetAddress: S.optional(S.String),
+    TargetType: S.optional(S.String),
+    TargetStatus: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "TargetSummary",
+}) as any as S.Schema<TargetSummary>;
+export type TargetsBatch = TargetSummary[];
 export const TargetsBatch = S.Array(TargetSummary);
-export class CreateNotificationRuleResult extends S.Class<CreateNotificationRuleResult>(
-  "CreateNotificationRuleResult",
-)({ Arn: S.optional(S.String) }) {}
-export class DescribeNotificationRuleResult extends S.Class<DescribeNotificationRuleResult>(
-  "DescribeNotificationRuleResult",
-)({
-  Arn: S.String,
-  Name: S.optional(S.String),
-  EventTypes: S.optional(EventTypeBatch),
-  Resource: S.optional(S.String),
-  Targets: S.optional(TargetsBatch),
-  DetailType: S.optional(S.String),
-  CreatedBy: S.optional(S.String),
-  Status: S.optional(S.String),
-  CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  Tags: S.optional(Tags),
-}) {}
-export class ListEventTypesResult extends S.Class<ListEventTypesResult>(
-  "ListEventTypesResult",
-)({
-  EventTypes: S.optional(EventTypeBatch),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListTargetsResult extends S.Class<ListTargetsResult>(
-  "ListTargetsResult",
-)({ Targets: S.optional(TargetsBatch), NextToken: S.optional(S.String) }) {}
-export class NotificationRuleSummary extends S.Class<NotificationRuleSummary>(
-  "NotificationRuleSummary",
-)({ Id: S.optional(S.String), Arn: S.optional(S.String) }) {}
+export interface CreateNotificationRuleResult {
+  Arn?: string;
+}
+export const CreateNotificationRuleResult = S.suspend(() =>
+  S.Struct({ Arn: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateNotificationRuleResult",
+}) as any as S.Schema<CreateNotificationRuleResult>;
+export interface DescribeNotificationRuleResult {
+  Arn: string;
+  Name?: string;
+  EventTypes?: EventTypeBatch;
+  Resource?: string;
+  Targets?: TargetsBatch;
+  DetailType?: string;
+  CreatedBy?: string;
+  Status?: string;
+  CreatedTimestamp?: Date;
+  LastModifiedTimestamp?: Date;
+  Tags?: Tags;
+}
+export const DescribeNotificationRuleResult = S.suspend(() =>
+  S.Struct({
+    Arn: S.String,
+    Name: S.optional(S.String),
+    EventTypes: S.optional(EventTypeBatch),
+    Resource: S.optional(S.String),
+    Targets: S.optional(TargetsBatch),
+    DetailType: S.optional(S.String),
+    CreatedBy: S.optional(S.String),
+    Status: S.optional(S.String),
+    CreatedTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastModifiedTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    Tags: S.optional(Tags),
+  }),
+).annotations({
+  identifier: "DescribeNotificationRuleResult",
+}) as any as S.Schema<DescribeNotificationRuleResult>;
+export interface ListEventTypesResult {
+  EventTypes?: EventTypeBatch;
+  NextToken?: string;
+}
+export const ListEventTypesResult = S.suspend(() =>
+  S.Struct({
+    EventTypes: S.optional(EventTypeBatch),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListEventTypesResult",
+}) as any as S.Schema<ListEventTypesResult>;
+export interface ListTargetsResult {
+  Targets?: TargetsBatch;
+  NextToken?: string;
+}
+export const ListTargetsResult = S.suspend(() =>
+  S.Struct({
+    Targets: S.optional(TargetsBatch),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListTargetsResult",
+}) as any as S.Schema<ListTargetsResult>;
+export interface NotificationRuleSummary {
+  Id?: string;
+  Arn?: string;
+}
+export const NotificationRuleSummary = S.suspend(() =>
+  S.Struct({ Id: S.optional(S.String), Arn: S.optional(S.String) }),
+).annotations({
+  identifier: "NotificationRuleSummary",
+}) as any as S.Schema<NotificationRuleSummary>;
+export type NotificationRuleBatch = NotificationRuleSummary[];
 export const NotificationRuleBatch = S.Array(NotificationRuleSummary);
-export class ListNotificationRulesResult extends S.Class<ListNotificationRulesResult>(
-  "ListNotificationRulesResult",
-)({
-  NextToken: S.optional(S.String),
-  NotificationRules: S.optional(NotificationRuleBatch),
-}) {}
+export interface ListNotificationRulesResult {
+  NextToken?: string;
+  NotificationRules?: NotificationRuleBatch;
+}
+export const ListNotificationRulesResult = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    NotificationRules: S.optional(NotificationRuleBatch),
+  }),
+).annotations({
+  identifier: "ListNotificationRulesResult",
+}) as any as S.Schema<ListNotificationRulesResult>;
 
 //# Errors
 export class ValidationException extends S.TaggedError<ValidationException>()(

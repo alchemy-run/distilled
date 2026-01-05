@@ -242,1259 +242,2308 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class GetMetadataRequest extends S.Class<GetMetadataRequest>(
-  "GetMetadataRequest",
-)(
-  {
+export interface GetMetadataRequest {
+  appId: string;
+  environmentName: string;
+}
+export const GetMetadataRequest = S.suspend(() =>
+  S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     environmentName: S.String.pipe(T.HttpLabel("environmentName")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/app/{appId}/environment/{environmentName}/metadata",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/app/{appId}/environment/{environmentName}/metadata",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetMetadataRequest",
+}) as any as S.Schema<GetMetadataRequest>;
+export interface ListTagsForResourceRequest {
+  resourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface UntagResourceRequest {
+  resourceArn: string;
+  tagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
-export class GetCodegenJobRequest extends S.Class<GetCodegenJobRequest>(
-  "GetCodegenJobRequest",
-)(
-  {
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface GetCodegenJobRequest {
+  appId: string;
+  environmentName: string;
+  id: string;
+}
+export const GetCodegenJobRequest = S.suspend(() =>
+  S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     environmentName: S.String.pipe(T.HttpLabel("environmentName")),
     id: S.String.pipe(T.HttpLabel("id")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/app/{appId}/environment/{environmentName}/codegen-jobs/{id}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/app/{appId}/environment/{environmentName}/codegen-jobs/{id}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListCodegenJobsRequest extends S.Class<ListCodegenJobsRequest>(
-  "ListCodegenJobsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetCodegenJobRequest",
+}) as any as S.Schema<GetCodegenJobRequest>;
+export interface ListCodegenJobsRequest {
+  appId: string;
+  environmentName: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListCodegenJobsRequest = S.suspend(() =>
+  S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     environmentName: S.String.pipe(T.HttpLabel("environmentName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/app/{appId}/environment/{environmentName}/codegen-jobs",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/app/{appId}/environment/{environmentName}/codegen-jobs",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetComponentRequest extends S.Class<GetComponentRequest>(
-  "GetComponentRequest",
-)(
-  {
+).annotations({
+  identifier: "ListCodegenJobsRequest",
+}) as any as S.Schema<ListCodegenJobsRequest>;
+export interface GetComponentRequest {
+  appId: string;
+  environmentName: string;
+  id: string;
+}
+export const GetComponentRequest = S.suspend(() =>
+  S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     environmentName: S.String.pipe(T.HttpLabel("environmentName")),
     id: S.String.pipe(T.HttpLabel("id")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/app/{appId}/environment/{environmentName}/components/{id}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/app/{appId}/environment/{environmentName}/components/{id}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteComponentRequest extends S.Class<DeleteComponentRequest>(
-  "DeleteComponentRequest",
-)(
-  {
+).annotations({
+  identifier: "GetComponentRequest",
+}) as any as S.Schema<GetComponentRequest>;
+export interface DeleteComponentRequest {
+  appId: string;
+  environmentName: string;
+  id: string;
+}
+export const DeleteComponentRequest = S.suspend(() =>
+  S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     environmentName: S.String.pipe(T.HttpLabel("environmentName")),
     id: S.String.pipe(T.HttpLabel("id")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/app/{appId}/environment/{environmentName}/components/{id}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/app/{appId}/environment/{environmentName}/components/{id}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteComponentResponse extends S.Class<DeleteComponentResponse>(
-  "DeleteComponentResponse",
-)({}) {}
-export class ListComponentsRequest extends S.Class<ListComponentsRequest>(
-  "ListComponentsRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteComponentRequest",
+}) as any as S.Schema<DeleteComponentRequest>;
+export interface DeleteComponentResponse {}
+export const DeleteComponentResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteComponentResponse",
+}) as any as S.Schema<DeleteComponentResponse>;
+export interface ListComponentsRequest {
+  appId: string;
+  environmentName: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListComponentsRequest = S.suspend(() =>
+  S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     environmentName: S.String.pipe(T.HttpLabel("environmentName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/app/{appId}/environment/{environmentName}/components",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/app/{appId}/environment/{environmentName}/components",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ExportComponentsRequest extends S.Class<ExportComponentsRequest>(
-  "ExportComponentsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListComponentsRequest",
+}) as any as S.Schema<ListComponentsRequest>;
+export interface ExportComponentsRequest {
+  appId: string;
+  environmentName: string;
+  nextToken?: string;
+}
+export const ExportComponentsRequest = S.suspend(() =>
+  S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     environmentName: S.String.pipe(T.HttpLabel("environmentName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/export/app/{appId}/environment/{environmentName}/components",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/export/app/{appId}/environment/{environmentName}/components",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetFormRequest extends S.Class<GetFormRequest>("GetFormRequest")(
-  {
+).annotations({
+  identifier: "ExportComponentsRequest",
+}) as any as S.Schema<ExportComponentsRequest>;
+export interface GetFormRequest {
+  appId: string;
+  environmentName: string;
+  id: string;
+}
+export const GetFormRequest = S.suspend(() =>
+  S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     environmentName: S.String.pipe(T.HttpLabel("environmentName")),
     id: S.String.pipe(T.HttpLabel("id")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/app/{appId}/environment/{environmentName}/forms/{id}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/app/{appId}/environment/{environmentName}/forms/{id}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteFormRequest extends S.Class<DeleteFormRequest>(
-  "DeleteFormRequest",
-)(
-  {
+).annotations({
+  identifier: "GetFormRequest",
+}) as any as S.Schema<GetFormRequest>;
+export interface DeleteFormRequest {
+  appId: string;
+  environmentName: string;
+  id: string;
+}
+export const DeleteFormRequest = S.suspend(() =>
+  S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     environmentName: S.String.pipe(T.HttpLabel("environmentName")),
     id: S.String.pipe(T.HttpLabel("id")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/app/{appId}/environment/{environmentName}/forms/{id}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/app/{appId}/environment/{environmentName}/forms/{id}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteFormResponse extends S.Class<DeleteFormResponse>(
-  "DeleteFormResponse",
-)({}) {}
-export class ListFormsRequest extends S.Class<ListFormsRequest>(
-  "ListFormsRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteFormRequest",
+}) as any as S.Schema<DeleteFormRequest>;
+export interface DeleteFormResponse {}
+export const DeleteFormResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteFormResponse",
+}) as any as S.Schema<DeleteFormResponse>;
+export interface ListFormsRequest {
+  appId: string;
+  environmentName: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListFormsRequest = S.suspend(() =>
+  S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     environmentName: S.String.pipe(T.HttpLabel("environmentName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/app/{appId}/environment/{environmentName}/forms",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/app/{appId}/environment/{environmentName}/forms",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ExportFormsRequest extends S.Class<ExportFormsRequest>(
-  "ExportFormsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListFormsRequest",
+}) as any as S.Schema<ListFormsRequest>;
+export interface ExportFormsRequest {
+  appId: string;
+  environmentName: string;
+  nextToken?: string;
+}
+export const ExportFormsRequest = S.suspend(() =>
+  S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     environmentName: S.String.pipe(T.HttpLabel("environmentName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/export/app/{appId}/environment/{environmentName}/forms",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/export/app/{appId}/environment/{environmentName}/forms",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetThemeRequest extends S.Class<GetThemeRequest>(
-  "GetThemeRequest",
-)(
-  {
+).annotations({
+  identifier: "ExportFormsRequest",
+}) as any as S.Schema<ExportFormsRequest>;
+export interface GetThemeRequest {
+  appId: string;
+  environmentName: string;
+  id: string;
+}
+export const GetThemeRequest = S.suspend(() =>
+  S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     environmentName: S.String.pipe(T.HttpLabel("environmentName")),
     id: S.String.pipe(T.HttpLabel("id")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/app/{appId}/environment/{environmentName}/themes/{id}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/app/{appId}/environment/{environmentName}/themes/{id}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteThemeRequest extends S.Class<DeleteThemeRequest>(
-  "DeleteThemeRequest",
-)(
-  {
+).annotations({
+  identifier: "GetThemeRequest",
+}) as any as S.Schema<GetThemeRequest>;
+export interface DeleteThemeRequest {
+  appId: string;
+  environmentName: string;
+  id: string;
+}
+export const DeleteThemeRequest = S.suspend(() =>
+  S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     environmentName: S.String.pipe(T.HttpLabel("environmentName")),
     id: S.String.pipe(T.HttpLabel("id")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/app/{appId}/environment/{environmentName}/themes/{id}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/app/{appId}/environment/{environmentName}/themes/{id}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteThemeResponse extends S.Class<DeleteThemeResponse>(
-  "DeleteThemeResponse",
-)({}) {}
-export class ListThemesRequest extends S.Class<ListThemesRequest>(
-  "ListThemesRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteThemeRequest",
+}) as any as S.Schema<DeleteThemeRequest>;
+export interface DeleteThemeResponse {}
+export const DeleteThemeResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteThemeResponse",
+}) as any as S.Schema<DeleteThemeResponse>;
+export interface ListThemesRequest {
+  appId: string;
+  environmentName: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListThemesRequest = S.suspend(() =>
+  S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     environmentName: S.String.pipe(T.HttpLabel("environmentName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/app/{appId}/environment/{environmentName}/themes",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/app/{appId}/environment/{environmentName}/themes",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ExportThemesRequest extends S.Class<ExportThemesRequest>(
-  "ExportThemesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListThemesRequest",
+}) as any as S.Schema<ListThemesRequest>;
+export interface ExportThemesRequest {
+  appId: string;
+  environmentName: string;
+  nextToken?: string;
+}
+export const ExportThemesRequest = S.suspend(() =>
+  S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     environmentName: S.String.pipe(T.HttpLabel("environmentName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/export/app/{appId}/environment/{environmentName}/themes",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/export/app/{appId}/environment/{environmentName}/themes",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ExchangeCodeForTokenRequestBody extends S.Class<ExchangeCodeForTokenRequestBody>(
-  "ExchangeCodeForTokenRequestBody",
-)({ code: S.String, redirectUri: S.String, clientId: S.optional(S.String) }) {}
-export class PutMetadataFlagBody extends S.Class<PutMetadataFlagBody>(
-  "PutMetadataFlagBody",
-)({ newValue: S.String }) {}
-export class RefreshTokenRequestBody extends S.Class<RefreshTokenRequestBody>(
-  "RefreshTokenRequestBody",
-)({ token: S.String, clientId: S.optional(S.String) }) {}
+).annotations({
+  identifier: "ExportThemesRequest",
+}) as any as S.Schema<ExportThemesRequest>;
+export interface ExchangeCodeForTokenRequestBody {
+  code: string;
+  redirectUri: string;
+  clientId?: string;
+}
+export const ExchangeCodeForTokenRequestBody = S.suspend(() =>
+  S.Struct({
+    code: S.String,
+    redirectUri: S.String,
+    clientId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ExchangeCodeForTokenRequestBody",
+}) as any as S.Schema<ExchangeCodeForTokenRequestBody>;
+export interface PutMetadataFlagBody {
+  newValue: string;
+}
+export const PutMetadataFlagBody = S.suspend(() =>
+  S.Struct({ newValue: S.String }),
+).annotations({
+  identifier: "PutMetadataFlagBody",
+}) as any as S.Schema<PutMetadataFlagBody>;
+export interface RefreshTokenRequestBody {
+  token: string;
+  clientId?: string;
+}
+export const RefreshTokenRequestBody = S.suspend(() =>
+  S.Struct({ token: S.String, clientId: S.optional(S.String) }),
+).annotations({
+  identifier: "RefreshTokenRequestBody",
+}) as any as S.Schema<RefreshTokenRequestBody>;
+export type Tags = { [key: string]: string };
 export const Tags = S.Record({ key: S.String, value: S.String });
-export class ComponentPropertyBindingProperties extends S.Class<ComponentPropertyBindingProperties>(
-  "ComponentPropertyBindingProperties",
-)({ property: S.String, field: S.optional(S.String) }) {}
-export class FormBindingElement extends S.Class<FormBindingElement>(
-  "FormBindingElement",
-)({ element: S.String, property: S.String }) {}
+export interface ComponentPropertyBindingProperties {
+  property: string;
+  field?: string;
+}
+export const ComponentPropertyBindingProperties = S.suspend(() =>
+  S.Struct({ property: S.String, field: S.optional(S.String) }),
+).annotations({
+  identifier: "ComponentPropertyBindingProperties",
+}) as any as S.Schema<ComponentPropertyBindingProperties>;
+export interface FormBindingElement {
+  element: string;
+  property: string;
+}
+export const FormBindingElement = S.suspend(() =>
+  S.Struct({ element: S.String, property: S.String }),
+).annotations({
+  identifier: "FormBindingElement",
+}) as any as S.Schema<FormBindingElement>;
+export type FormBindings = { [key: string]: FormBindingElement };
 export const FormBindings = S.Record({
   key: S.String,
   value: FormBindingElement,
 });
-export class ComponentProperty extends S.Class<ComponentProperty>(
-  "ComponentProperty",
-)({
-  value: S.optional(S.String),
-  bindingProperties: S.optional(ComponentPropertyBindingProperties),
-  collectionBindingProperties: S.optional(ComponentPropertyBindingProperties),
-  defaultValue: S.optional(S.String),
-  model: S.optional(S.String),
-  bindings: S.optional(FormBindings),
-  event: S.optional(S.String),
-  userAttribute: S.optional(S.String),
-  concat: S.optional(S.suspend(() => ComponentPropertyList)),
-  condition: S.optional(
-    S.suspend(
-      (): S.Schema<ComponentConditionProperty, any> =>
-        ComponentConditionProperty,
+export interface ComponentProperty {
+  value?: string;
+  bindingProperties?: ComponentPropertyBindingProperties;
+  collectionBindingProperties?: ComponentPropertyBindingProperties;
+  defaultValue?: string;
+  model?: string;
+  bindings?: FormBindings;
+  event?: string;
+  userAttribute?: string;
+  concat?: ComponentPropertyList;
+  condition?: ComponentConditionProperty;
+  configured?: boolean;
+  type?: string;
+  importedValue?: string;
+  componentName?: string;
+  property?: string;
+}
+export const ComponentProperty = S.suspend(() =>
+  S.Struct({
+    value: S.optional(S.String),
+    bindingProperties: S.optional(ComponentPropertyBindingProperties),
+    collectionBindingProperties: S.optional(ComponentPropertyBindingProperties),
+    defaultValue: S.optional(S.String),
+    model: S.optional(S.String),
+    bindings: S.optional(FormBindings),
+    event: S.optional(S.String),
+    userAttribute: S.optional(S.String),
+    concat: S.optional(
+      S.suspend(() => ComponentPropertyList).annotations({
+        identifier: "ComponentPropertyList",
+      }),
     ),
-  ),
-  configured: S.optional(S.Boolean),
-  type: S.optional(S.String),
-  importedValue: S.optional(S.String),
-  componentName: S.optional(S.String),
-  property: S.optional(S.String),
-}) {}
+    condition: S.optional(
+      S.suspend(
+        (): S.Schema<ComponentConditionProperty, any> =>
+          ComponentConditionProperty,
+      ).annotations({ identifier: "ComponentConditionProperty" }),
+    ),
+    configured: S.optional(S.Boolean),
+    type: S.optional(S.String),
+    importedValue: S.optional(S.String),
+    componentName: S.optional(S.String),
+    property: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ComponentProperty",
+}) as any as S.Schema<ComponentProperty>;
+export type ComponentProperties = { [key: string]: ComponentProperty };
 export const ComponentProperties = S.Record({
   key: S.String,
-  value: S.suspend((): S.Schema<ComponentProperty, any> => ComponentProperty),
+  value: S.suspend(
+    (): S.Schema<ComponentProperty, any> => ComponentProperty,
+  ).annotations({ identifier: "ComponentProperty" }),
 });
 export type ComponentChildList = ComponentChild[];
 export const ComponentChildList = S.Array(
-  S.suspend((): S.Schema<ComponentChild, any> => ComponentChild),
+  S.suspend((): S.Schema<ComponentChild, any> => ComponentChild).annotations({
+    identifier: "ComponentChild",
+  }),
 ) as any as S.Schema<ComponentChildList>;
+export type ComponentVariantValues = { [key: string]: string };
 export const ComponentVariantValues = S.Record({
   key: S.String,
   value: S.String,
 });
+export type ComponentOverridesValue = { [key: string]: string };
 export const ComponentOverridesValue = S.Record({
   key: S.String,
   value: S.String,
 });
+export type ComponentOverrides = { [key: string]: ComponentOverridesValue };
 export const ComponentOverrides = S.Record({
   key: S.String,
   value: ComponentOverridesValue,
 });
-export class ComponentVariant extends S.Class<ComponentVariant>(
-  "ComponentVariant",
-)({
-  variantValues: S.optional(ComponentVariantValues),
-  overrides: S.optional(ComponentOverrides),
-}) {}
+export interface ComponentVariant {
+  variantValues?: ComponentVariantValues;
+  overrides?: ComponentOverrides;
+}
+export const ComponentVariant = S.suspend(() =>
+  S.Struct({
+    variantValues: S.optional(ComponentVariantValues),
+    overrides: S.optional(ComponentOverrides),
+  }),
+).annotations({
+  identifier: "ComponentVariant",
+}) as any as S.Schema<ComponentVariant>;
+export type ComponentVariants = ComponentVariant[];
 export const ComponentVariants = S.Array(ComponentVariant);
 export type PredicateList = Predicate[];
 export const PredicateList = S.Array(
-  S.suspend((): S.Schema<Predicate, any> => Predicate),
+  S.suspend((): S.Schema<Predicate, any> => Predicate).annotations({
+    identifier: "Predicate",
+  }),
 ) as any as S.Schema<PredicateList>;
-export class ComponentBindingPropertiesValueProperties extends S.Class<ComponentBindingPropertiesValueProperties>(
-  "ComponentBindingPropertiesValueProperties",
-)({
-  model: S.optional(S.String),
-  field: S.optional(S.String),
-  predicates: S.optional(PredicateList),
-  userAttribute: S.optional(S.String),
-  bucket: S.optional(S.String),
-  key: S.optional(S.String),
-  defaultValue: S.optional(S.String),
-  slotName: S.optional(S.String),
-}) {}
-export class ComponentBindingPropertiesValue extends S.Class<ComponentBindingPropertiesValue>(
-  "ComponentBindingPropertiesValue",
-)({
-  type: S.optional(S.String),
-  bindingProperties: S.optional(ComponentBindingPropertiesValueProperties),
-  defaultValue: S.optional(S.String),
-}) {}
+export interface ComponentBindingPropertiesValueProperties {
+  model?: string;
+  field?: string;
+  predicates?: PredicateList;
+  userAttribute?: string;
+  bucket?: string;
+  key?: string;
+  defaultValue?: string;
+  slotName?: string;
+}
+export const ComponentBindingPropertiesValueProperties = S.suspend(() =>
+  S.Struct({
+    model: S.optional(S.String),
+    field: S.optional(S.String),
+    predicates: S.optional(PredicateList),
+    userAttribute: S.optional(S.String),
+    bucket: S.optional(S.String),
+    key: S.optional(S.String),
+    defaultValue: S.optional(S.String),
+    slotName: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ComponentBindingPropertiesValueProperties",
+}) as any as S.Schema<ComponentBindingPropertiesValueProperties>;
+export interface ComponentBindingPropertiesValue {
+  type?: string;
+  bindingProperties?: ComponentBindingPropertiesValueProperties;
+  defaultValue?: string;
+}
+export const ComponentBindingPropertiesValue = S.suspend(() =>
+  S.Struct({
+    type: S.optional(S.String),
+    bindingProperties: S.optional(ComponentBindingPropertiesValueProperties),
+    defaultValue: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ComponentBindingPropertiesValue",
+}) as any as S.Schema<ComponentBindingPropertiesValue>;
+export type ComponentBindingProperties = {
+  [key: string]: ComponentBindingPropertiesValue;
+};
 export const ComponentBindingProperties = S.Record({
   key: S.String,
   value: ComponentBindingPropertiesValue,
 });
-export class SortProperty extends S.Class<SortProperty>("SortProperty")({
-  field: S.String,
-  direction: S.String,
-}) {}
+export interface SortProperty {
+  field: string;
+  direction: string;
+}
+export const SortProperty = S.suspend(() =>
+  S.Struct({ field: S.String, direction: S.String }),
+).annotations({ identifier: "SortProperty" }) as any as S.Schema<SortProperty>;
+export type SortPropertyList = SortProperty[];
 export const SortPropertyList = S.Array(SortProperty);
-export class Predicate extends S.Class<Predicate>("Predicate")({
-  or: S.optional(S.suspend(() => PredicateList)),
-  and: S.optional(S.suspend(() => PredicateList)),
-  field: S.optional(S.String),
-  operator: S.optional(S.String),
-  operand: S.optional(S.String),
-  operandType: S.optional(S.String),
-}) {}
+export interface Predicate {
+  or?: PredicateList;
+  and?: PredicateList;
+  field?: string;
+  operator?: string;
+  operand?: string;
+  operandType?: string;
+}
+export const Predicate = S.suspend(() =>
+  S.Struct({
+    or: S.optional(
+      S.suspend(() => PredicateList).annotations({
+        identifier: "PredicateList",
+      }),
+    ),
+    and: S.optional(
+      S.suspend(() => PredicateList).annotations({
+        identifier: "PredicateList",
+      }),
+    ),
+    field: S.optional(S.String),
+    operator: S.optional(S.String),
+    operand: S.optional(S.String),
+    operandType: S.optional(S.String),
+  }),
+).annotations({ identifier: "Predicate" }) as any as S.Schema<Predicate>;
+export type IdentifierList = string[];
 export const IdentifierList = S.Array(S.String);
-export class ComponentDataConfiguration extends S.Class<ComponentDataConfiguration>(
-  "ComponentDataConfiguration",
-)({
-  model: S.String,
-  sort: S.optional(SortPropertyList),
-  predicate: S.optional(Predicate),
-  identifiers: S.optional(IdentifierList),
-}) {}
+export interface ComponentDataConfiguration {
+  model: string;
+  sort?: SortPropertyList;
+  predicate?: Predicate;
+  identifiers?: IdentifierList;
+}
+export const ComponentDataConfiguration = S.suspend(() =>
+  S.Struct({
+    model: S.String,
+    sort: S.optional(SortPropertyList),
+    predicate: S.optional(Predicate),
+    identifiers: S.optional(IdentifierList),
+  }),
+).annotations({
+  identifier: "ComponentDataConfiguration",
+}) as any as S.Schema<ComponentDataConfiguration>;
+export type ComponentCollectionProperties = {
+  [key: string]: ComponentDataConfiguration;
+};
 export const ComponentCollectionProperties = S.Record({
   key: S.String,
   value: ComponentDataConfiguration,
 });
-export class MutationActionSetStateParameter extends S.Class<MutationActionSetStateParameter>(
-  "MutationActionSetStateParameter",
-)({ componentName: S.String, property: S.String, set: ComponentProperty }) {}
-export class ActionParameters extends S.Class<ActionParameters>(
-  "ActionParameters",
-)({
-  type: S.optional(ComponentProperty),
-  url: S.optional(ComponentProperty),
-  anchor: S.optional(ComponentProperty),
-  target: S.optional(ComponentProperty),
-  global: S.optional(ComponentProperty),
-  model: S.optional(S.String),
-  id: S.optional(ComponentProperty),
-  fields: S.optional(ComponentProperties),
-  state: S.optional(MutationActionSetStateParameter),
-}) {}
-export class ComponentEvent extends S.Class<ComponentEvent>("ComponentEvent")({
-  action: S.optional(S.String),
-  parameters: S.optional(ActionParameters),
-  bindingEvent: S.optional(S.String),
-}) {}
+export interface MutationActionSetStateParameter {
+  componentName: string;
+  property: string;
+  set: ComponentProperty;
+}
+export const MutationActionSetStateParameter = S.suspend(() =>
+  S.Struct({
+    componentName: S.String,
+    property: S.String,
+    set: ComponentProperty,
+  }),
+).annotations({
+  identifier: "MutationActionSetStateParameter",
+}) as any as S.Schema<MutationActionSetStateParameter>;
+export interface ActionParameters {
+  type?: ComponentProperty;
+  url?: ComponentProperty;
+  anchor?: ComponentProperty;
+  target?: ComponentProperty;
+  global?: ComponentProperty;
+  model?: string;
+  id?: ComponentProperty;
+  fields?: ComponentProperties;
+  state?: MutationActionSetStateParameter;
+}
+export const ActionParameters = S.suspend(() =>
+  S.Struct({
+    type: S.optional(ComponentProperty),
+    url: S.optional(ComponentProperty),
+    anchor: S.optional(ComponentProperty),
+    target: S.optional(ComponentProperty),
+    global: S.optional(ComponentProperty),
+    model: S.optional(S.String),
+    id: S.optional(ComponentProperty),
+    fields: S.optional(ComponentProperties),
+    state: S.optional(MutationActionSetStateParameter),
+  }),
+).annotations({
+  identifier: "ActionParameters",
+}) as any as S.Schema<ActionParameters>;
+export interface ComponentEvent {
+  action?: string;
+  parameters?: ActionParameters;
+  bindingEvent?: string;
+}
+export const ComponentEvent = S.suspend(() =>
+  S.Struct({
+    action: S.optional(S.String),
+    parameters: S.optional(ActionParameters),
+    bindingEvent: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ComponentEvent",
+}) as any as S.Schema<ComponentEvent>;
+export type ComponentEvents = { [key: string]: ComponentEvent };
 export const ComponentEvents = S.Record({
   key: S.String,
   value: ComponentEvent,
 });
-export class UpdateComponentData extends S.Class<UpdateComponentData>(
-  "UpdateComponentData",
-)({
-  id: S.optional(S.String),
-  name: S.optional(S.String),
-  sourceId: S.optional(S.String),
-  componentType: S.optional(S.String),
-  properties: S.optional(ComponentProperties),
-  children: S.optional(ComponentChildList),
-  variants: S.optional(ComponentVariants),
-  overrides: S.optional(ComponentOverrides),
-  bindingProperties: S.optional(ComponentBindingProperties),
-  collectionProperties: S.optional(ComponentCollectionProperties),
-  events: S.optional(ComponentEvents),
-  schemaVersion: S.optional(S.String),
-}) {}
-export class Component extends S.Class<Component>("Component")({
-  appId: S.String,
-  environmentName: S.String,
-  sourceId: S.optional(S.String),
-  id: S.String,
-  name: S.String,
-  componentType: S.String,
-  properties: ComponentProperties,
-  children: S.optional(ComponentChildList),
-  variants: ComponentVariants,
-  overrides: ComponentOverrides,
-  bindingProperties: ComponentBindingProperties,
-  collectionProperties: S.optional(ComponentCollectionProperties),
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  tags: S.optional(Tags),
-  events: S.optional(ComponentEvents),
-  schemaVersion: S.optional(S.String),
-}) {}
+export interface UpdateComponentData {
+  id?: string;
+  name?: string;
+  sourceId?: string;
+  componentType?: string;
+  properties?: ComponentProperties;
+  children?: ComponentChildList;
+  variants?: ComponentVariants;
+  overrides?: ComponentOverrides;
+  bindingProperties?: ComponentBindingProperties;
+  collectionProperties?: ComponentCollectionProperties;
+  events?: ComponentEvents;
+  schemaVersion?: string;
+}
+export const UpdateComponentData = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    sourceId: S.optional(S.String),
+    componentType: S.optional(S.String),
+    properties: S.optional(ComponentProperties),
+    children: S.optional(ComponentChildList),
+    variants: S.optional(ComponentVariants),
+    overrides: S.optional(ComponentOverrides),
+    bindingProperties: S.optional(ComponentBindingProperties),
+    collectionProperties: S.optional(ComponentCollectionProperties),
+    events: S.optional(ComponentEvents),
+    schemaVersion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "UpdateComponentData",
+}) as any as S.Schema<UpdateComponentData>;
+export interface Component {
+  appId: string;
+  environmentName: string;
+  sourceId?: string;
+  id: string;
+  name: string;
+  componentType: string;
+  properties: ComponentProperties;
+  children?: ComponentChildList;
+  variants: ComponentVariants;
+  overrides: ComponentOverrides;
+  bindingProperties: ComponentBindingProperties;
+  collectionProperties?: ComponentCollectionProperties;
+  createdAt: Date;
+  modifiedAt?: Date;
+  tags?: Tags;
+  events?: ComponentEvents;
+  schemaVersion?: string;
+}
+export const Component = S.suspend(() =>
+  S.Struct({
+    appId: S.String,
+    environmentName: S.String,
+    sourceId: S.optional(S.String),
+    id: S.String,
+    name: S.String,
+    componentType: S.String,
+    properties: ComponentProperties,
+    children: S.optional(ComponentChildList),
+    variants: ComponentVariants,
+    overrides: ComponentOverrides,
+    bindingProperties: ComponentBindingProperties,
+    collectionProperties: S.optional(ComponentCollectionProperties),
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    tags: S.optional(Tags),
+    events: S.optional(ComponentEvents),
+    schemaVersion: S.optional(S.String),
+  }),
+).annotations({ identifier: "Component" }) as any as S.Schema<Component>;
+export type ComponentList = Component[];
 export const ComponentList = S.Array(Component);
-export class FormDataTypeConfig extends S.Class<FormDataTypeConfig>(
-  "FormDataTypeConfig",
-)({ dataSourceType: S.String, dataTypeName: S.String }) {}
+export interface FormDataTypeConfig {
+  dataSourceType: string;
+  dataTypeName: string;
+}
+export const FormDataTypeConfig = S.suspend(() =>
+  S.Struct({ dataSourceType: S.String, dataTypeName: S.String }),
+).annotations({
+  identifier: "FormDataTypeConfig",
+}) as any as S.Schema<FormDataTypeConfig>;
 export const FieldPosition = S.Union(
   S.Struct({ fixed: S.String }),
   S.Struct({ rightOf: S.String }),
   S.Struct({ below: S.String }),
 );
-export class FormInputValuePropertyBindingProperties extends S.Class<FormInputValuePropertyBindingProperties>(
-  "FormInputValuePropertyBindingProperties",
-)({ property: S.String, field: S.optional(S.String) }) {}
-export class FormInputValueProperty extends S.Class<FormInputValueProperty>(
-  "FormInputValueProperty",
-)({
-  value: S.optional(S.String),
-  bindingProperties: S.optional(FormInputValuePropertyBindingProperties),
-  concat: S.optional(S.suspend(() => FormInputValuePropertyList)),
-}) {}
-export class ValueMapping extends S.Class<ValueMapping>("ValueMapping")({
-  displayValue: S.optional(FormInputValueProperty),
-  value: FormInputValueProperty,
-}) {}
+export interface FormInputValuePropertyBindingProperties {
+  property: string;
+  field?: string;
+}
+export const FormInputValuePropertyBindingProperties = S.suspend(() =>
+  S.Struct({ property: S.String, field: S.optional(S.String) }),
+).annotations({
+  identifier: "FormInputValuePropertyBindingProperties",
+}) as any as S.Schema<FormInputValuePropertyBindingProperties>;
+export interface FormInputValueProperty {
+  value?: string;
+  bindingProperties?: FormInputValuePropertyBindingProperties;
+  concat?: FormInputValuePropertyList;
+}
+export const FormInputValueProperty = S.suspend(() =>
+  S.Struct({
+    value: S.optional(S.String),
+    bindingProperties: S.optional(FormInputValuePropertyBindingProperties),
+    concat: S.optional(
+      S.suspend(() => FormInputValuePropertyList).annotations({
+        identifier: "FormInputValuePropertyList",
+      }),
+    ),
+  }),
+).annotations({
+  identifier: "FormInputValueProperty",
+}) as any as S.Schema<FormInputValueProperty>;
+export interface ValueMapping {
+  displayValue?: FormInputValueProperty;
+  value: FormInputValueProperty;
+}
+export const ValueMapping = S.suspend(() =>
+  S.Struct({
+    displayValue: S.optional(FormInputValueProperty),
+    value: FormInputValueProperty,
+  }),
+).annotations({ identifier: "ValueMapping" }) as any as S.Schema<ValueMapping>;
+export type ValueMappingList = ValueMapping[];
 export const ValueMappingList = S.Array(ValueMapping);
-export class FormInputBindingPropertiesValueProperties extends S.Class<FormInputBindingPropertiesValueProperties>(
-  "FormInputBindingPropertiesValueProperties",
-)({ model: S.optional(S.String) }) {}
-export class FormInputBindingPropertiesValue extends S.Class<FormInputBindingPropertiesValue>(
-  "FormInputBindingPropertiesValue",
-)({
-  type: S.optional(S.String),
-  bindingProperties: S.optional(FormInputBindingPropertiesValueProperties),
-}) {}
+export interface FormInputBindingPropertiesValueProperties {
+  model?: string;
+}
+export const FormInputBindingPropertiesValueProperties = S.suspend(() =>
+  S.Struct({ model: S.optional(S.String) }),
+).annotations({
+  identifier: "FormInputBindingPropertiesValueProperties",
+}) as any as S.Schema<FormInputBindingPropertiesValueProperties>;
+export interface FormInputBindingPropertiesValue {
+  type?: string;
+  bindingProperties?: FormInputBindingPropertiesValueProperties;
+}
+export const FormInputBindingPropertiesValue = S.suspend(() =>
+  S.Struct({
+    type: S.optional(S.String),
+    bindingProperties: S.optional(FormInputBindingPropertiesValueProperties),
+  }),
+).annotations({
+  identifier: "FormInputBindingPropertiesValue",
+}) as any as S.Schema<FormInputBindingPropertiesValue>;
+export type FormInputBindingProperties = {
+  [key: string]: FormInputBindingPropertiesValue;
+};
 export const FormInputBindingProperties = S.Record({
   key: S.String,
   value: FormInputBindingPropertiesValue,
 });
-export class ValueMappings extends S.Class<ValueMappings>("ValueMappings")({
-  values: ValueMappingList,
-  bindingProperties: S.optional(FormInputBindingProperties),
-}) {}
+export interface ValueMappings {
+  values: ValueMappingList;
+  bindingProperties?: FormInputBindingProperties;
+}
+export const ValueMappings = S.suspend(() =>
+  S.Struct({
+    values: ValueMappingList,
+    bindingProperties: S.optional(FormInputBindingProperties),
+  }),
+).annotations({
+  identifier: "ValueMappings",
+}) as any as S.Schema<ValueMappings>;
+export type StrValues = string[];
 export const StrValues = S.Array(S.String);
-export class FileUploaderFieldConfig extends S.Class<FileUploaderFieldConfig>(
-  "FileUploaderFieldConfig",
-)({
-  accessLevel: S.String,
-  acceptedFileTypes: StrValues,
-  showThumbnails: S.optional(S.Boolean),
-  isResumable: S.optional(S.Boolean),
-  maxFileCount: S.optional(S.Number),
-  maxSize: S.optional(S.Number),
-}) {}
-export class FieldInputConfig extends S.Class<FieldInputConfig>(
-  "FieldInputConfig",
-)({
-  type: S.String,
-  required: S.optional(S.Boolean),
-  readOnly: S.optional(S.Boolean),
-  placeholder: S.optional(S.String),
-  defaultValue: S.optional(S.String),
-  descriptiveText: S.optional(S.String),
-  defaultChecked: S.optional(S.Boolean),
-  defaultCountryCode: S.optional(S.String),
-  valueMappings: S.optional(ValueMappings),
-  name: S.optional(S.String),
-  minValue: S.optional(S.Number),
-  maxValue: S.optional(S.Number),
-  step: S.optional(S.Number),
-  value: S.optional(S.String),
-  isArray: S.optional(S.Boolean),
-  fileUploaderConfig: S.optional(FileUploaderFieldConfig),
-}) {}
+export interface FileUploaderFieldConfig {
+  accessLevel: string;
+  acceptedFileTypes: StrValues;
+  showThumbnails?: boolean;
+  isResumable?: boolean;
+  maxFileCount?: number;
+  maxSize?: number;
+}
+export const FileUploaderFieldConfig = S.suspend(() =>
+  S.Struct({
+    accessLevel: S.String,
+    acceptedFileTypes: StrValues,
+    showThumbnails: S.optional(S.Boolean),
+    isResumable: S.optional(S.Boolean),
+    maxFileCount: S.optional(S.Number),
+    maxSize: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "FileUploaderFieldConfig",
+}) as any as S.Schema<FileUploaderFieldConfig>;
+export interface FieldInputConfig {
+  type: string;
+  required?: boolean;
+  readOnly?: boolean;
+  placeholder?: string;
+  defaultValue?: string;
+  descriptiveText?: string;
+  defaultChecked?: boolean;
+  defaultCountryCode?: string;
+  valueMappings?: ValueMappings;
+  name?: string;
+  minValue?: number;
+  maxValue?: number;
+  step?: number;
+  value?: string;
+  isArray?: boolean;
+  fileUploaderConfig?: FileUploaderFieldConfig;
+}
+export const FieldInputConfig = S.suspend(() =>
+  S.Struct({
+    type: S.String,
+    required: S.optional(S.Boolean),
+    readOnly: S.optional(S.Boolean),
+    placeholder: S.optional(S.String),
+    defaultValue: S.optional(S.String),
+    descriptiveText: S.optional(S.String),
+    defaultChecked: S.optional(S.Boolean),
+    defaultCountryCode: S.optional(S.String),
+    valueMappings: S.optional(ValueMappings),
+    name: S.optional(S.String),
+    minValue: S.optional(S.Number),
+    maxValue: S.optional(S.Number),
+    step: S.optional(S.Number),
+    value: S.optional(S.String),
+    isArray: S.optional(S.Boolean),
+    fileUploaderConfig: S.optional(FileUploaderFieldConfig),
+  }),
+).annotations({
+  identifier: "FieldInputConfig",
+}) as any as S.Schema<FieldInputConfig>;
+export type NumValues = number[];
 export const NumValues = S.Array(S.Number);
-export class FieldValidationConfiguration extends S.Class<FieldValidationConfiguration>(
-  "FieldValidationConfiguration",
-)({
-  type: S.String,
-  strValues: S.optional(StrValues),
-  numValues: S.optional(NumValues),
-  validationMessage: S.optional(S.String),
-}) {}
+export interface FieldValidationConfiguration {
+  type: string;
+  strValues?: StrValues;
+  numValues?: NumValues;
+  validationMessage?: string;
+}
+export const FieldValidationConfiguration = S.suspend(() =>
+  S.Struct({
+    type: S.String,
+    strValues: S.optional(StrValues),
+    numValues: S.optional(NumValues),
+    validationMessage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "FieldValidationConfiguration",
+}) as any as S.Schema<FieldValidationConfiguration>;
+export type ValidationsList = FieldValidationConfiguration[];
 export const ValidationsList = S.Array(FieldValidationConfiguration);
-export class FieldConfig extends S.Class<FieldConfig>("FieldConfig")({
-  label: S.optional(S.String),
-  position: S.optional(FieldPosition),
-  excluded: S.optional(S.Boolean),
-  inputType: S.optional(FieldInputConfig),
-  validations: S.optional(ValidationsList),
-}) {}
+export interface FieldConfig {
+  label?: string;
+  position?: (typeof FieldPosition)["Type"];
+  excluded?: boolean;
+  inputType?: FieldInputConfig;
+  validations?: ValidationsList;
+}
+export const FieldConfig = S.suspend(() =>
+  S.Struct({
+    label: S.optional(S.String),
+    position: S.optional(FieldPosition),
+    excluded: S.optional(S.Boolean),
+    inputType: S.optional(FieldInputConfig),
+    validations: S.optional(ValidationsList),
+  }),
+).annotations({ identifier: "FieldConfig" }) as any as S.Schema<FieldConfig>;
+export type FieldsMap = { [key: string]: FieldConfig };
 export const FieldsMap = S.Record({ key: S.String, value: FieldConfig });
 export const FormStyleConfig = S.Union(
   S.Struct({ tokenReference: S.String }),
   S.Struct({ value: S.String }),
 );
-export class FormStyle extends S.Class<FormStyle>("FormStyle")({
-  horizontalGap: S.optional(FormStyleConfig),
-  verticalGap: S.optional(FormStyleConfig),
-  outerPadding: S.optional(FormStyleConfig),
-}) {}
-export class SectionalElement extends S.Class<SectionalElement>(
-  "SectionalElement",
-)({
-  type: S.String,
-  position: S.optional(FieldPosition),
-  text: S.optional(S.String),
-  level: S.optional(S.Number),
-  orientation: S.optional(S.String),
-  excluded: S.optional(S.Boolean),
-}) {}
+export interface FormStyle {
+  horizontalGap?: (typeof FormStyleConfig)["Type"];
+  verticalGap?: (typeof FormStyleConfig)["Type"];
+  outerPadding?: (typeof FormStyleConfig)["Type"];
+}
+export const FormStyle = S.suspend(() =>
+  S.Struct({
+    horizontalGap: S.optional(FormStyleConfig),
+    verticalGap: S.optional(FormStyleConfig),
+    outerPadding: S.optional(FormStyleConfig),
+  }),
+).annotations({ identifier: "FormStyle" }) as any as S.Schema<FormStyle>;
+export interface SectionalElement {
+  type: string;
+  position?: (typeof FieldPosition)["Type"];
+  text?: string;
+  level?: number;
+  orientation?: string;
+  excluded?: boolean;
+}
+export const SectionalElement = S.suspend(() =>
+  S.Struct({
+    type: S.String,
+    position: S.optional(FieldPosition),
+    text: S.optional(S.String),
+    level: S.optional(S.Number),
+    orientation: S.optional(S.String),
+    excluded: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "SectionalElement",
+}) as any as S.Schema<SectionalElement>;
+export type SectionalElementMap = { [key: string]: SectionalElement };
 export const SectionalElementMap = S.Record({
   key: S.String,
   value: SectionalElement,
 });
-export class FormButton extends S.Class<FormButton>("FormButton")({
-  excluded: S.optional(S.Boolean),
-  children: S.optional(S.String),
-  position: S.optional(FieldPosition),
-}) {}
-export class FormCTA extends S.Class<FormCTA>("FormCTA")({
-  position: S.optional(S.String),
-  clear: S.optional(FormButton),
-  cancel: S.optional(FormButton),
-  submit: S.optional(FormButton),
-}) {}
-export class UpdateFormData extends S.Class<UpdateFormData>("UpdateFormData")({
-  name: S.optional(S.String),
-  dataType: S.optional(FormDataTypeConfig),
-  formActionType: S.optional(S.String),
-  fields: S.optional(FieldsMap),
-  style: S.optional(FormStyle),
-  sectionalElements: S.optional(SectionalElementMap),
-  schemaVersion: S.optional(S.String),
-  cta: S.optional(FormCTA),
-  labelDecorator: S.optional(S.String),
-}) {}
-export class Form extends S.Class<Form>("Form")({
-  appId: S.String,
-  environmentName: S.String,
-  id: S.String,
-  name: S.String,
-  formActionType: S.String,
-  style: FormStyle,
-  dataType: FormDataTypeConfig,
-  fields: FieldsMap,
-  sectionalElements: SectionalElementMap,
-  schemaVersion: S.String,
-  tags: S.optional(Tags),
-  cta: S.optional(FormCTA),
-  labelDecorator: S.optional(S.String),
-}) {}
+export interface FormButton {
+  excluded?: boolean;
+  children?: string;
+  position?: (typeof FieldPosition)["Type"];
+}
+export const FormButton = S.suspend(() =>
+  S.Struct({
+    excluded: S.optional(S.Boolean),
+    children: S.optional(S.String),
+    position: S.optional(FieldPosition),
+  }),
+).annotations({ identifier: "FormButton" }) as any as S.Schema<FormButton>;
+export interface FormCTA {
+  position?: string;
+  clear?: FormButton;
+  cancel?: FormButton;
+  submit?: FormButton;
+}
+export const FormCTA = S.suspend(() =>
+  S.Struct({
+    position: S.optional(S.String),
+    clear: S.optional(FormButton),
+    cancel: S.optional(FormButton),
+    submit: S.optional(FormButton),
+  }),
+).annotations({ identifier: "FormCTA" }) as any as S.Schema<FormCTA>;
+export interface UpdateFormData {
+  name?: string;
+  dataType?: FormDataTypeConfig;
+  formActionType?: string;
+  fields?: FieldsMap;
+  style?: FormStyle;
+  sectionalElements?: SectionalElementMap;
+  schemaVersion?: string;
+  cta?: FormCTA;
+  labelDecorator?: string;
+}
+export const UpdateFormData = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    dataType: S.optional(FormDataTypeConfig),
+    formActionType: S.optional(S.String),
+    fields: S.optional(FieldsMap),
+    style: S.optional(FormStyle),
+    sectionalElements: S.optional(SectionalElementMap),
+    schemaVersion: S.optional(S.String),
+    cta: S.optional(FormCTA),
+    labelDecorator: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "UpdateFormData",
+}) as any as S.Schema<UpdateFormData>;
+export interface Form {
+  appId: string;
+  environmentName: string;
+  id: string;
+  name: string;
+  formActionType: string;
+  style: FormStyle;
+  dataType: FormDataTypeConfig;
+  fields: FieldsMap;
+  sectionalElements: SectionalElementMap;
+  schemaVersion: string;
+  tags?: Tags;
+  cta?: FormCTA;
+  labelDecorator?: string;
+}
+export const Form = S.suspend(() =>
+  S.Struct({
+    appId: S.String,
+    environmentName: S.String,
+    id: S.String,
+    name: S.String,
+    formActionType: S.String,
+    style: FormStyle,
+    dataType: FormDataTypeConfig,
+    fields: FieldsMap,
+    sectionalElements: SectionalElementMap,
+    schemaVersion: S.String,
+    tags: S.optional(Tags),
+    cta: S.optional(FormCTA),
+    labelDecorator: S.optional(S.String),
+  }),
+).annotations({ identifier: "Form" }) as any as S.Schema<Form>;
+export type FormList = Form[];
 export const FormList = S.Array(Form);
 export type ThemeValuesList = ThemeValues[];
 export const ThemeValuesList = S.Array(
-  S.suspend((): S.Schema<ThemeValues, any> => ThemeValues),
+  S.suspend((): S.Schema<ThemeValues, any> => ThemeValues).annotations({
+    identifier: "ThemeValues",
+  }),
 ) as any as S.Schema<ThemeValuesList>;
-export class UpdateThemeData extends S.Class<UpdateThemeData>(
-  "UpdateThemeData",
-)({
-  id: S.optional(S.String),
-  name: S.optional(S.String),
-  values: ThemeValuesList,
-  overrides: S.optional(ThemeValuesList),
-}) {}
-export class Theme extends S.Class<Theme>("Theme")({
-  appId: S.String,
-  environmentName: S.String,
-  id: S.String,
-  name: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  values: ThemeValuesList,
-  overrides: S.optional(ThemeValuesList),
-  tags: S.optional(Tags),
-}) {}
+export interface UpdateThemeData {
+  id?: string;
+  name?: string;
+  values: ThemeValuesList;
+  overrides?: ThemeValuesList;
+}
+export const UpdateThemeData = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    values: ThemeValuesList,
+    overrides: S.optional(ThemeValuesList),
+  }),
+).annotations({
+  identifier: "UpdateThemeData",
+}) as any as S.Schema<UpdateThemeData>;
+export interface Theme {
+  appId: string;
+  environmentName: string;
+  id: string;
+  name: string;
+  createdAt: Date;
+  modifiedAt?: Date;
+  values: ThemeValuesList;
+  overrides?: ThemeValuesList;
+  tags?: Tags;
+}
+export const Theme = S.suspend(() =>
+  S.Struct({
+    appId: S.String,
+    environmentName: S.String,
+    id: S.String,
+    name: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    values: ThemeValuesList,
+    overrides: S.optional(ThemeValuesList),
+    tags: S.optional(Tags),
+  }),
+).annotations({ identifier: "Theme" }) as any as S.Schema<Theme>;
+export type ThemeList = Theme[];
 export const ThemeList = S.Array(Theme);
-export class ExchangeCodeForTokenRequest extends S.Class<ExchangeCodeForTokenRequest>(
-  "ExchangeCodeForTokenRequest",
-)(
-  {
+export interface ExchangeCodeForTokenRequest {
+  provider: string;
+  request: ExchangeCodeForTokenRequestBody;
+}
+export const ExchangeCodeForTokenRequest = S.suspend(() =>
+  S.Struct({
     provider: S.String.pipe(T.HttpLabel("provider")),
-    request: ExchangeCodeForTokenRequestBody.pipe(T.HttpPayload()),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/tokens/{provider}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+    request: ExchangeCodeForTokenRequestBody.pipe(T.HttpPayload()).annotations({
+      identifier: "ExchangeCodeForTokenRequestBody",
+    }),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tokens/{provider}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ tags: Tags }) {}
-export class PutMetadataFlagRequest extends S.Class<PutMetadataFlagRequest>(
-  "PutMetadataFlagRequest",
-)(
-  {
+).annotations({
+  identifier: "ExchangeCodeForTokenRequest",
+}) as any as S.Schema<ExchangeCodeForTokenRequest>;
+export interface ListTagsForResourceResponse {
+  tags: Tags;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ tags: Tags }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface PutMetadataFlagRequest {
+  appId: string;
+  environmentName: string;
+  featureName: string;
+  body: PutMetadataFlagBody;
+}
+export const PutMetadataFlagRequest = S.suspend(() =>
+  S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     environmentName: S.String.pipe(T.HttpLabel("environmentName")),
     featureName: S.String.pipe(T.HttpLabel("featureName")),
-    body: PutMetadataFlagBody.pipe(T.HttpPayload()),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/app/{appId}/environment/{environmentName}/metadata/features/{featureName}",
+    body: PutMetadataFlagBody.pipe(T.HttpPayload()).annotations({
+      identifier: "PutMetadataFlagBody",
     }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/app/{appId}/environment/{environmentName}/metadata/features/{featureName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutMetadataFlagResponse extends S.Class<PutMetadataFlagResponse>(
-  "PutMetadataFlagResponse",
-)({}) {}
-export class RefreshTokenRequest extends S.Class<RefreshTokenRequest>(
-  "RefreshTokenRequest",
-)(
-  {
+).annotations({
+  identifier: "PutMetadataFlagRequest",
+}) as any as S.Schema<PutMetadataFlagRequest>;
+export interface PutMetadataFlagResponse {}
+export const PutMetadataFlagResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "PutMetadataFlagResponse",
+}) as any as S.Schema<PutMetadataFlagResponse>;
+export interface RefreshTokenRequest {
+  provider: string;
+  refreshTokenBody: RefreshTokenRequestBody;
+}
+export const RefreshTokenRequest = S.suspend(() =>
+  S.Struct({
     provider: S.String.pipe(T.HttpLabel("provider")),
-    refreshTokenBody: RefreshTokenRequestBody.pipe(T.HttpPayload()),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/tokens/{provider}/refresh" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+    refreshTokenBody: RefreshTokenRequestBody.pipe(T.HttpPayload()).annotations(
+      { identifier: "RefreshTokenRequestBody" },
+    ),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tokens/{provider}/refresh" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: Tags },
-  T.all(
-    T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "RefreshTokenRequest",
+}) as any as S.Schema<RefreshTokenRequest>;
+export interface TagResourceRequest {
+  resourceArn: string;
+  tags: Tags;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+    tags: Tags,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class UpdateComponentRequest extends S.Class<UpdateComponentRequest>(
-  "UpdateComponentRequest",
-)(
-  {
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UpdateComponentRequest {
+  appId: string;
+  environmentName: string;
+  id: string;
+  clientToken?: string;
+  updatedComponent: UpdateComponentData;
+}
+export const UpdateComponentRequest = S.suspend(() =>
+  S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     environmentName: S.String.pipe(T.HttpLabel("environmentName")),
     id: S.String.pipe(T.HttpLabel("id")),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
-    updatedComponent: UpdateComponentData.pipe(T.HttpPayload()),
-  },
-  T.all(
-    T.Http({
-      method: "PATCH",
-      uri: "/app/{appId}/environment/{environmentName}/components/{id}",
+    updatedComponent: UpdateComponentData.pipe(T.HttpPayload()).annotations({
+      identifier: "UpdateComponentData",
     }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/app/{appId}/environment/{environmentName}/components/{id}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ExportComponentsResponse extends S.Class<ExportComponentsResponse>(
-  "ExportComponentsResponse",
-)({ entities: ComponentList, nextToken: S.optional(S.String) }) {}
-export class UpdateFormRequest extends S.Class<UpdateFormRequest>(
-  "UpdateFormRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateComponentRequest",
+}) as any as S.Schema<UpdateComponentRequest>;
+export interface ExportComponentsResponse {
+  entities: ComponentList;
+  nextToken?: string;
+}
+export const ExportComponentsResponse = S.suspend(() =>
+  S.Struct({ entities: ComponentList, nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ExportComponentsResponse",
+}) as any as S.Schema<ExportComponentsResponse>;
+export interface UpdateFormRequest {
+  appId: string;
+  environmentName: string;
+  id: string;
+  clientToken?: string;
+  updatedForm: UpdateFormData;
+}
+export const UpdateFormRequest = S.suspend(() =>
+  S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     environmentName: S.String.pipe(T.HttpLabel("environmentName")),
     id: S.String.pipe(T.HttpLabel("id")),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
-    updatedForm: UpdateFormData.pipe(T.HttpPayload()),
-  },
-  T.all(
-    T.Http({
-      method: "PATCH",
-      uri: "/app/{appId}/environment/{environmentName}/forms/{id}",
+    updatedForm: UpdateFormData.pipe(T.HttpPayload()).annotations({
+      identifier: "UpdateFormData",
     }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/app/{appId}/environment/{environmentName}/forms/{id}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ExportFormsResponse extends S.Class<ExportFormsResponse>(
-  "ExportFormsResponse",
-)({ entities: FormList, nextToken: S.optional(S.String) }) {}
-export class UpdateThemeRequest extends S.Class<UpdateThemeRequest>(
-  "UpdateThemeRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateFormRequest",
+}) as any as S.Schema<UpdateFormRequest>;
+export interface ExportFormsResponse {
+  entities: FormList;
+  nextToken?: string;
+}
+export const ExportFormsResponse = S.suspend(() =>
+  S.Struct({ entities: FormList, nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ExportFormsResponse",
+}) as any as S.Schema<ExportFormsResponse>;
+export interface UpdateThemeRequest {
+  appId: string;
+  environmentName: string;
+  id: string;
+  clientToken?: string;
+  updatedTheme: UpdateThemeData;
+}
+export const UpdateThemeRequest = S.suspend(() =>
+  S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     environmentName: S.String.pipe(T.HttpLabel("environmentName")),
     id: S.String.pipe(T.HttpLabel("id")),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
-    updatedTheme: UpdateThemeData.pipe(T.HttpPayload()),
-  },
-  T.all(
-    T.Http({
-      method: "PATCH",
-      uri: "/app/{appId}/environment/{environmentName}/themes/{id}",
+    updatedTheme: UpdateThemeData.pipe(T.HttpPayload()).annotations({
+      identifier: "UpdateThemeData",
     }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/app/{appId}/environment/{environmentName}/themes/{id}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ExportThemesResponse extends S.Class<ExportThemesResponse>(
-  "ExportThemesResponse",
-)({ entities: ThemeList, nextToken: S.optional(S.String) }) {}
-export class CodegenFeatureFlags extends S.Class<CodegenFeatureFlags>(
-  "CodegenFeatureFlags",
-)({
-  isRelationshipSupported: S.optional(S.Boolean),
-  isNonModelSupported: S.optional(S.Boolean),
-}) {}
-export class ComponentChild extends S.Class<ComponentChild>("ComponentChild")({
-  componentType: S.String,
-  name: S.String,
-  properties: ComponentProperties,
-  children: S.optional(S.suspend(() => ComponentChildList)),
-  events: S.optional(ComponentEvents),
-  sourceId: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "UpdateThemeRequest",
+}) as any as S.Schema<UpdateThemeRequest>;
+export interface ExportThemesResponse {
+  entities: ThemeList;
+  nextToken?: string;
+}
+export const ExportThemesResponse = S.suspend(() =>
+  S.Struct({ entities: ThemeList, nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ExportThemesResponse",
+}) as any as S.Schema<ExportThemesResponse>;
+export interface CodegenFeatureFlags {
+  isRelationshipSupported?: boolean;
+  isNonModelSupported?: boolean;
+}
+export const CodegenFeatureFlags = S.suspend(() =>
+  S.Struct({
+    isRelationshipSupported: S.optional(S.Boolean),
+    isNonModelSupported: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "CodegenFeatureFlags",
+}) as any as S.Schema<CodegenFeatureFlags>;
+export interface ComponentChild {
+  componentType: string;
+  name: string;
+  properties: ComponentProperties;
+  children?: ComponentChildList;
+  events?: ComponentEvents;
+  sourceId?: string;
+}
+export const ComponentChild = S.suspend(() =>
+  S.Struct({
+    componentType: S.String,
+    name: S.String,
+    properties: ComponentProperties,
+    children: S.optional(
+      S.suspend(() => ComponentChildList).annotations({
+        identifier: "ComponentChildList",
+      }),
+    ),
+    events: S.optional(ComponentEvents),
+    sourceId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ComponentChild",
+}) as any as S.Schema<ComponentChild>;
 export type ComponentPropertyList = ComponentProperty[];
 export const ComponentPropertyList = S.Array(
-  S.suspend((): S.Schema<ComponentProperty, any> => ComponentProperty),
+  S.suspend(
+    (): S.Schema<ComponentProperty, any> => ComponentProperty,
+  ).annotations({ identifier: "ComponentProperty" }),
 ) as any as S.Schema<ComponentPropertyList>;
+export type FeaturesMap = { [key: string]: string };
 export const FeaturesMap = S.Record({ key: S.String, value: S.String });
-export class CodegenJobSummary extends S.Class<CodegenJobSummary>(
-  "CodegenJobSummary",
-)({
-  appId: S.String,
-  environmentName: S.String,
-  id: S.String,
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-}) {}
+export interface CodegenJobSummary {
+  appId: string;
+  environmentName: string;
+  id: string;
+  createdAt?: Date;
+  modifiedAt?: Date;
+}
+export const CodegenJobSummary = S.suspend(() =>
+  S.Struct({
+    appId: S.String,
+    environmentName: S.String,
+    id: S.String,
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotations({
+  identifier: "CodegenJobSummary",
+}) as any as S.Schema<CodegenJobSummary>;
+export type CodegenJobSummaryList = CodegenJobSummary[];
 export const CodegenJobSummaryList = S.Array(CodegenJobSummary);
-export class ComponentSummary extends S.Class<ComponentSummary>(
-  "ComponentSummary",
-)({
-  appId: S.String,
-  environmentName: S.String,
-  id: S.String,
-  name: S.String,
-  componentType: S.String,
-}) {}
+export interface ComponentSummary {
+  appId: string;
+  environmentName: string;
+  id: string;
+  name: string;
+  componentType: string;
+}
+export const ComponentSummary = S.suspend(() =>
+  S.Struct({
+    appId: S.String,
+    environmentName: S.String,
+    id: S.String,
+    name: S.String,
+    componentType: S.String,
+  }),
+).annotations({
+  identifier: "ComponentSummary",
+}) as any as S.Schema<ComponentSummary>;
+export type ComponentSummaryList = ComponentSummary[];
 export const ComponentSummaryList = S.Array(ComponentSummary);
-export class FormSummary extends S.Class<FormSummary>("FormSummary")({
-  appId: S.String,
-  dataType: FormDataTypeConfig,
-  environmentName: S.String,
-  formActionType: S.String,
-  id: S.String,
-  name: S.String,
-}) {}
+export interface FormSummary {
+  appId: string;
+  dataType: FormDataTypeConfig;
+  environmentName: string;
+  formActionType: string;
+  id: string;
+  name: string;
+}
+export const FormSummary = S.suspend(() =>
+  S.Struct({
+    appId: S.String,
+    dataType: FormDataTypeConfig,
+    environmentName: S.String,
+    formActionType: S.String,
+    id: S.String,
+    name: S.String,
+  }),
+).annotations({ identifier: "FormSummary" }) as any as S.Schema<FormSummary>;
+export type FormSummaryList = FormSummary[];
 export const FormSummaryList = S.Array(FormSummary);
-export class ThemeSummary extends S.Class<ThemeSummary>("ThemeSummary")({
-  appId: S.String,
-  environmentName: S.String,
-  id: S.String,
-  name: S.String,
-}) {}
+export interface ThemeSummary {
+  appId: string;
+  environmentName: string;
+  id: string;
+  name: string;
+}
+export const ThemeSummary = S.suspend(() =>
+  S.Struct({
+    appId: S.String,
+    environmentName: S.String,
+    id: S.String,
+    name: S.String,
+  }),
+).annotations({ identifier: "ThemeSummary" }) as any as S.Schema<ThemeSummary>;
+export type ThemeSummaryList = ThemeSummary[];
 export const ThemeSummaryList = S.Array(ThemeSummary);
-export class ThemeValue extends S.Class<ThemeValue>("ThemeValue")({
-  value: S.optional(S.String),
-  children: S.optional(S.suspend(() => ThemeValuesList)),
-}) {}
-export class ExchangeCodeForTokenResponse extends S.Class<ExchangeCodeForTokenResponse>(
-  "ExchangeCodeForTokenResponse",
-)({ accessToken: S.String, expiresIn: S.Number, refreshToken: S.String }) {}
-export class GetMetadataResponse extends S.Class<GetMetadataResponse>(
-  "GetMetadataResponse",
-)({ features: FeaturesMap }) {}
-export class RefreshTokenResponse extends S.Class<RefreshTokenResponse>(
-  "RefreshTokenResponse",
-)({ accessToken: S.String, expiresIn: S.Number }) {}
-export class DataStoreRenderConfig extends S.Class<DataStoreRenderConfig>(
-  "DataStoreRenderConfig",
-)({}) {}
-export class NoApiRenderConfig extends S.Class<NoApiRenderConfig>(
-  "NoApiRenderConfig",
-)({}) {}
+export interface ThemeValue {
+  value?: string;
+  children?: ThemeValuesList;
+}
+export const ThemeValue = S.suspend(() =>
+  S.Struct({
+    value: S.optional(S.String),
+    children: S.optional(
+      S.suspend(() => ThemeValuesList).annotations({
+        identifier: "ThemeValuesList",
+      }),
+    ),
+  }),
+).annotations({ identifier: "ThemeValue" }) as any as S.Schema<ThemeValue>;
+export interface ExchangeCodeForTokenResponse {
+  accessToken: string;
+  expiresIn: number;
+  refreshToken: string;
+}
+export const ExchangeCodeForTokenResponse = S.suspend(() =>
+  S.Struct({
+    accessToken: S.String,
+    expiresIn: S.Number,
+    refreshToken: S.String,
+  }),
+).annotations({
+  identifier: "ExchangeCodeForTokenResponse",
+}) as any as S.Schema<ExchangeCodeForTokenResponse>;
+export interface GetMetadataResponse {
+  features: FeaturesMap;
+}
+export const GetMetadataResponse = S.suspend(() =>
+  S.Struct({ features: FeaturesMap }),
+).annotations({
+  identifier: "GetMetadataResponse",
+}) as any as S.Schema<GetMetadataResponse>;
+export interface RefreshTokenResponse {
+  accessToken: string;
+  expiresIn: number;
+}
+export const RefreshTokenResponse = S.suspend(() =>
+  S.Struct({ accessToken: S.String, expiresIn: S.Number }),
+).annotations({
+  identifier: "RefreshTokenResponse",
+}) as any as S.Schema<RefreshTokenResponse>;
+export interface DataStoreRenderConfig {}
+export const DataStoreRenderConfig = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DataStoreRenderConfig",
+}) as any as S.Schema<DataStoreRenderConfig>;
+export interface NoApiRenderConfig {}
+export const NoApiRenderConfig = S.suspend(() => S.Struct({})).annotations({
+  identifier: "NoApiRenderConfig",
+}) as any as S.Schema<NoApiRenderConfig>;
+export type CodegenPrimaryKeysList = string[];
 export const CodegenPrimaryKeysList = S.Array(S.String);
+export type CodegenGenericDataEnumValuesList = string[];
 export const CodegenGenericDataEnumValuesList = S.Array(S.String);
-export class ListCodegenJobsResponse extends S.Class<ListCodegenJobsResponse>(
-  "ListCodegenJobsResponse",
-)({ entities: CodegenJobSummaryList, nextToken: S.optional(S.String) }) {}
-export class GetComponentResponse extends S.Class<GetComponentResponse>(
-  "GetComponentResponse",
-)({ component: S.optional(Component).pipe(T.HttpPayload()) }) {}
-export class UpdateComponentResponse extends S.Class<UpdateComponentResponse>(
-  "UpdateComponentResponse",
-)({ entity: S.optional(Component).pipe(T.HttpPayload()) }) {}
-export class ListComponentsResponse extends S.Class<ListComponentsResponse>(
-  "ListComponentsResponse",
-)({ entities: ComponentSummaryList, nextToken: S.optional(S.String) }) {}
-export class GetFormResponse extends S.Class<GetFormResponse>(
-  "GetFormResponse",
-)({ form: S.optional(Form).pipe(T.HttpPayload()) }) {}
-export class UpdateFormResponse extends S.Class<UpdateFormResponse>(
-  "UpdateFormResponse",
-)({ entity: S.optional(Form).pipe(T.HttpPayload()) }) {}
-export class ListFormsResponse extends S.Class<ListFormsResponse>(
-  "ListFormsResponse",
-)({ entities: FormSummaryList, nextToken: S.optional(S.String) }) {}
-export class GetThemeResponse extends S.Class<GetThemeResponse>(
-  "GetThemeResponse",
-)({ theme: S.optional(Theme).pipe(T.HttpPayload()) }) {}
-export class UpdateThemeResponse extends S.Class<UpdateThemeResponse>(
-  "UpdateThemeResponse",
-)({ entity: S.optional(Theme).pipe(T.HttpPayload()) }) {}
-export class ListThemesResponse extends S.Class<ListThemesResponse>(
-  "ListThemesResponse",
-)({ entities: ThemeSummaryList, nextToken: S.optional(S.String) }) {}
-export class CodegenJobAsset extends S.Class<CodegenJobAsset>(
-  "CodegenJobAsset",
-)({ downloadUrl: S.optional(S.String) }) {}
-export class CodegenDependency extends S.Class<CodegenDependency>(
-  "CodegenDependency",
-)({
-  name: S.optional(S.String),
-  supportedVersion: S.optional(S.String),
-  isSemVer: S.optional(S.Boolean),
-  reason: S.optional(S.String),
-}) {}
+export interface ListCodegenJobsResponse {
+  entities: CodegenJobSummaryList;
+  nextToken?: string;
+}
+export const ListCodegenJobsResponse = S.suspend(() =>
+  S.Struct({
+    entities: CodegenJobSummaryList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListCodegenJobsResponse",
+}) as any as S.Schema<ListCodegenJobsResponse>;
+export interface GetComponentResponse {
+  component?: Component;
+}
+export const GetComponentResponse = S.suspend(() =>
+  S.Struct({
+    component: S.optional(Component)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "Component" }),
+  }),
+).annotations({
+  identifier: "GetComponentResponse",
+}) as any as S.Schema<GetComponentResponse>;
+export interface UpdateComponentResponse {
+  entity?: Component;
+}
+export const UpdateComponentResponse = S.suspend(() =>
+  S.Struct({
+    entity: S.optional(Component)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "Component" }),
+  }),
+).annotations({
+  identifier: "UpdateComponentResponse",
+}) as any as S.Schema<UpdateComponentResponse>;
+export interface ListComponentsResponse {
+  entities: ComponentSummaryList;
+  nextToken?: string;
+}
+export const ListComponentsResponse = S.suspend(() =>
+  S.Struct({ entities: ComponentSummaryList, nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListComponentsResponse",
+}) as any as S.Schema<ListComponentsResponse>;
+export interface GetFormResponse {
+  form?: Form;
+}
+export const GetFormResponse = S.suspend(() =>
+  S.Struct({
+    form: S.optional(Form)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "Form" }),
+  }),
+).annotations({
+  identifier: "GetFormResponse",
+}) as any as S.Schema<GetFormResponse>;
+export interface UpdateFormResponse {
+  entity?: Form;
+}
+export const UpdateFormResponse = S.suspend(() =>
+  S.Struct({
+    entity: S.optional(Form)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "Form" }),
+  }),
+).annotations({
+  identifier: "UpdateFormResponse",
+}) as any as S.Schema<UpdateFormResponse>;
+export interface ListFormsResponse {
+  entities: FormSummaryList;
+  nextToken?: string;
+}
+export const ListFormsResponse = S.suspend(() =>
+  S.Struct({ entities: FormSummaryList, nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListFormsResponse",
+}) as any as S.Schema<ListFormsResponse>;
+export interface GetThemeResponse {
+  theme?: Theme;
+}
+export const GetThemeResponse = S.suspend(() =>
+  S.Struct({
+    theme: S.optional(Theme)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "Theme" }),
+  }),
+).annotations({
+  identifier: "GetThemeResponse",
+}) as any as S.Schema<GetThemeResponse>;
+export interface UpdateThemeResponse {
+  entity?: Theme;
+}
+export const UpdateThemeResponse = S.suspend(() =>
+  S.Struct({
+    entity: S.optional(Theme)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "Theme" }),
+  }),
+).annotations({
+  identifier: "UpdateThemeResponse",
+}) as any as S.Schema<UpdateThemeResponse>;
+export interface ListThemesResponse {
+  entities: ThemeSummaryList;
+  nextToken?: string;
+}
+export const ListThemesResponse = S.suspend(() =>
+  S.Struct({ entities: ThemeSummaryList, nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListThemesResponse",
+}) as any as S.Schema<ListThemesResponse>;
+export interface CodegenJobAsset {
+  downloadUrl?: string;
+}
+export const CodegenJobAsset = S.suspend(() =>
+  S.Struct({ downloadUrl: S.optional(S.String) }),
+).annotations({
+  identifier: "CodegenJobAsset",
+}) as any as S.Schema<CodegenJobAsset>;
+export interface CodegenDependency {
+  name?: string;
+  supportedVersion?: string;
+  isSemVer?: boolean;
+  reason?: string;
+}
+export const CodegenDependency = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    supportedVersion: S.optional(S.String),
+    isSemVer: S.optional(S.Boolean),
+    reason: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CodegenDependency",
+}) as any as S.Schema<CodegenDependency>;
+export type CodegenDependencies = CodegenDependency[];
 export const CodegenDependencies = S.Array(CodegenDependency);
-export class ThemeValues extends S.Class<ThemeValues>("ThemeValues")({
-  key: S.optional(S.String),
-  value: S.optional(S.suspend((): S.Schema<ThemeValue, any> => ThemeValue)),
-}) {}
+export interface ThemeValues {
+  key?: string;
+  value?: ThemeValue;
+}
+export const ThemeValues = S.suspend(() =>
+  S.Struct({
+    key: S.optional(S.String),
+    value: S.optional(
+      S.suspend((): S.Schema<ThemeValue, any> => ThemeValue).annotations({
+        identifier: "ThemeValue",
+      }),
+    ),
+  }),
+).annotations({ identifier: "ThemeValues" }) as any as S.Schema<ThemeValues>;
+export type ReactCodegenDependencies = { [key: string]: string };
 export const ReactCodegenDependencies = S.Record({
   key: S.String,
   value: S.String,
 });
-export class CodegenGenericDataEnum extends S.Class<CodegenGenericDataEnum>(
-  "CodegenGenericDataEnum",
-)({ values: CodegenGenericDataEnumValuesList }) {}
-export class ComponentConditionProperty extends S.Class<ComponentConditionProperty>(
-  "ComponentConditionProperty",
-)({
-  property: S.optional(S.String),
-  field: S.optional(S.String),
-  operator: S.optional(S.String),
-  operand: S.optional(S.String),
-  then: S.optional(
-    S.suspend((): S.Schema<ComponentProperty, any> => ComponentProperty),
-  ),
-  else: S.optional(
-    S.suspend((): S.Schema<ComponentProperty, any> => ComponentProperty),
-  ),
-  operandType: S.optional(S.String),
-}) {}
-export class GraphQLRenderConfig extends S.Class<GraphQLRenderConfig>(
-  "GraphQLRenderConfig",
-)({
-  typesFilePath: S.String,
-  queriesFilePath: S.String,
-  mutationsFilePath: S.String,
-  subscriptionsFilePath: S.String,
-  fragmentsFilePath: S.String,
-}) {}
+export interface CodegenGenericDataEnum {
+  values: CodegenGenericDataEnumValuesList;
+}
+export const CodegenGenericDataEnum = S.suspend(() =>
+  S.Struct({ values: CodegenGenericDataEnumValuesList }),
+).annotations({
+  identifier: "CodegenGenericDataEnum",
+}) as any as S.Schema<CodegenGenericDataEnum>;
+export interface ComponentConditionProperty {
+  property?: string;
+  field?: string;
+  operator?: string;
+  operand?: string;
+  then?: ComponentProperty;
+  else?: ComponentProperty;
+  operandType?: string;
+}
+export const ComponentConditionProperty = S.suspend(() =>
+  S.Struct({
+    property: S.optional(S.String),
+    field: S.optional(S.String),
+    operator: S.optional(S.String),
+    operand: S.optional(S.String),
+    then: S.optional(
+      S.suspend(
+        (): S.Schema<ComponentProperty, any> => ComponentProperty,
+      ).annotations({ identifier: "ComponentProperty" }),
+    ),
+    else: S.optional(
+      S.suspend(
+        (): S.Schema<ComponentProperty, any> => ComponentProperty,
+      ).annotations({ identifier: "ComponentProperty" }),
+    ),
+    operandType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ComponentConditionProperty",
+}) as any as S.Schema<ComponentConditionProperty>;
+export interface GraphQLRenderConfig {
+  typesFilePath: string;
+  queriesFilePath: string;
+  mutationsFilePath: string;
+  subscriptionsFilePath: string;
+  fragmentsFilePath: string;
+}
+export const GraphQLRenderConfig = S.suspend(() =>
+  S.Struct({
+    typesFilePath: S.String,
+    queriesFilePath: S.String,
+    mutationsFilePath: S.String,
+    subscriptionsFilePath: S.String,
+    fragmentsFilePath: S.String,
+  }),
+).annotations({
+  identifier: "GraphQLRenderConfig",
+}) as any as S.Schema<GraphQLRenderConfig>;
 export const ApiConfiguration = S.Union(
   S.Struct({ graphQLConfig: GraphQLRenderConfig }),
   S.Struct({ dataStoreConfig: DataStoreRenderConfig }),
   S.Struct({ noApiConfig: NoApiRenderConfig }),
 );
-export class ReactStartCodegenJobData extends S.Class<ReactStartCodegenJobData>(
-  "ReactStartCodegenJobData",
-)({
-  module: S.optional(S.String),
-  target: S.optional(S.String),
-  script: S.optional(S.String),
-  renderTypeDeclarations: S.optional(S.Boolean),
-  inlineSourceMap: S.optional(S.Boolean),
-  apiConfiguration: S.optional(ApiConfiguration),
-  dependencies: S.optional(ReactCodegenDependencies),
-}) {}
+export interface ReactStartCodegenJobData {
+  module?: string;
+  target?: string;
+  script?: string;
+  renderTypeDeclarations?: boolean;
+  inlineSourceMap?: boolean;
+  apiConfiguration?: (typeof ApiConfiguration)["Type"];
+  dependencies?: ReactCodegenDependencies;
+}
+export const ReactStartCodegenJobData = S.suspend(() =>
+  S.Struct({
+    module: S.optional(S.String),
+    target: S.optional(S.String),
+    script: S.optional(S.String),
+    renderTypeDeclarations: S.optional(S.Boolean),
+    inlineSourceMap: S.optional(S.Boolean),
+    apiConfiguration: S.optional(ApiConfiguration),
+    dependencies: S.optional(ReactCodegenDependencies),
+  }),
+).annotations({
+  identifier: "ReactStartCodegenJobData",
+}) as any as S.Schema<ReactStartCodegenJobData>;
 export const CodegenJobRenderConfig = S.Union(
   S.Struct({ react: ReactStartCodegenJobData }),
 );
+export type RelatedModelFieldsList = string[];
 export const RelatedModelFieldsList = S.Array(S.String);
+export type AssociatedFieldsList = string[];
 export const AssociatedFieldsList = S.Array(S.String);
-export class CodegenGenericDataRelationshipType extends S.Class<CodegenGenericDataRelationshipType>(
-  "CodegenGenericDataRelationshipType",
-)({
-  type: S.String,
-  relatedModelName: S.String,
-  relatedModelFields: S.optional(RelatedModelFieldsList),
-  canUnlinkAssociatedModel: S.optional(S.Boolean),
-  relatedJoinFieldName: S.optional(S.String),
-  relatedJoinTableName: S.optional(S.String),
-  belongsToFieldOnRelatedModel: S.optional(S.String),
-  associatedFields: S.optional(AssociatedFieldsList),
-  isHasManyIndex: S.optional(S.Boolean),
-}) {}
-export class CodegenGenericDataField extends S.Class<CodegenGenericDataField>(
-  "CodegenGenericDataField",
-)({
-  dataType: S.String,
-  dataTypeValue: S.String,
-  required: S.Boolean,
-  readOnly: S.Boolean,
-  isArray: S.Boolean,
-  relationship: S.optional(CodegenGenericDataRelationshipType),
-}) {}
+export interface CodegenGenericDataRelationshipType {
+  type: string;
+  relatedModelName: string;
+  relatedModelFields?: RelatedModelFieldsList;
+  canUnlinkAssociatedModel?: boolean;
+  relatedJoinFieldName?: string;
+  relatedJoinTableName?: string;
+  belongsToFieldOnRelatedModel?: string;
+  associatedFields?: AssociatedFieldsList;
+  isHasManyIndex?: boolean;
+}
+export const CodegenGenericDataRelationshipType = S.suspend(() =>
+  S.Struct({
+    type: S.String,
+    relatedModelName: S.String,
+    relatedModelFields: S.optional(RelatedModelFieldsList),
+    canUnlinkAssociatedModel: S.optional(S.Boolean),
+    relatedJoinFieldName: S.optional(S.String),
+    relatedJoinTableName: S.optional(S.String),
+    belongsToFieldOnRelatedModel: S.optional(S.String),
+    associatedFields: S.optional(AssociatedFieldsList),
+    isHasManyIndex: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "CodegenGenericDataRelationshipType",
+}) as any as S.Schema<CodegenGenericDataRelationshipType>;
+export interface CodegenGenericDataField {
+  dataType: string;
+  dataTypeValue: string;
+  required: boolean;
+  readOnly: boolean;
+  isArray: boolean;
+  relationship?: CodegenGenericDataRelationshipType;
+}
+export const CodegenGenericDataField = S.suspend(() =>
+  S.Struct({
+    dataType: S.String,
+    dataTypeValue: S.String,
+    required: S.Boolean,
+    readOnly: S.Boolean,
+    isArray: S.Boolean,
+    relationship: S.optional(CodegenGenericDataRelationshipType),
+  }),
+).annotations({
+  identifier: "CodegenGenericDataField",
+}) as any as S.Schema<CodegenGenericDataField>;
+export type CodegenGenericDataFields = {
+  [key: string]: CodegenGenericDataField;
+};
 export const CodegenGenericDataFields = S.Record({
   key: S.String,
   value: CodegenGenericDataField,
 });
-export class CodegenGenericDataModel extends S.Class<CodegenGenericDataModel>(
-  "CodegenGenericDataModel",
-)({
-  fields: CodegenGenericDataFields,
-  isJoinTable: S.optional(S.Boolean),
-  primaryKeys: CodegenPrimaryKeysList,
-}) {}
+export interface CodegenGenericDataModel {
+  fields: CodegenGenericDataFields;
+  isJoinTable?: boolean;
+  primaryKeys: CodegenPrimaryKeysList;
+}
+export const CodegenGenericDataModel = S.suspend(() =>
+  S.Struct({
+    fields: CodegenGenericDataFields,
+    isJoinTable: S.optional(S.Boolean),
+    primaryKeys: CodegenPrimaryKeysList,
+  }),
+).annotations({
+  identifier: "CodegenGenericDataModel",
+}) as any as S.Schema<CodegenGenericDataModel>;
+export type CodegenGenericDataModels = {
+  [key: string]: CodegenGenericDataModel;
+};
 export const CodegenGenericDataModels = S.Record({
   key: S.String,
   value: CodegenGenericDataModel,
 });
+export type CodegenGenericDataEnums = { [key: string]: CodegenGenericDataEnum };
 export const CodegenGenericDataEnums = S.Record({
   key: S.String,
   value: CodegenGenericDataEnum,
 });
+export type CodegenGenericDataNonModelFields = {
+  [key: string]: CodegenGenericDataField;
+};
 export const CodegenGenericDataNonModelFields = S.Record({
   key: S.String,
   value: CodegenGenericDataField,
 });
-export class CodegenGenericDataNonModel extends S.Class<CodegenGenericDataNonModel>(
-  "CodegenGenericDataNonModel",
-)({ fields: CodegenGenericDataNonModelFields }) {}
+export interface CodegenGenericDataNonModel {
+  fields: CodegenGenericDataNonModelFields;
+}
+export const CodegenGenericDataNonModel = S.suspend(() =>
+  S.Struct({ fields: CodegenGenericDataNonModelFields }),
+).annotations({
+  identifier: "CodegenGenericDataNonModel",
+}) as any as S.Schema<CodegenGenericDataNonModel>;
+export type CodegenGenericDataNonModels = {
+  [key: string]: CodegenGenericDataNonModel;
+};
 export const CodegenGenericDataNonModels = S.Record({
   key: S.String,
   value: CodegenGenericDataNonModel,
 });
-export class CodegenJobGenericDataSchema extends S.Class<CodegenJobGenericDataSchema>(
-  "CodegenJobGenericDataSchema",
-)({
-  dataSourceType: S.String,
-  models: CodegenGenericDataModels,
-  enums: CodegenGenericDataEnums,
-  nonModels: CodegenGenericDataNonModels,
-}) {}
-export class CodegenJob extends S.Class<CodegenJob>("CodegenJob")({
-  id: S.String,
-  appId: S.String,
-  environmentName: S.String,
-  renderConfig: S.optional(CodegenJobRenderConfig),
-  genericDataSchema: S.optional(CodegenJobGenericDataSchema),
-  autoGenerateForms: S.optional(S.Boolean),
-  features: S.optional(CodegenFeatureFlags),
-  status: S.optional(S.String),
-  statusMessage: S.optional(S.String),
-  asset: S.optional(CodegenJobAsset),
-  tags: S.optional(Tags),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  dependencies: S.optional(CodegenDependencies),
-}) {}
-export class CreateThemeData extends S.Class<CreateThemeData>(
-  "CreateThemeData",
-)({
-  name: S.String,
-  values: ThemeValuesList,
-  overrides: S.optional(ThemeValuesList),
-  tags: S.optional(Tags),
-}) {}
-export class GetCodegenJobResponse extends S.Class<GetCodegenJobResponse>(
-  "GetCodegenJobResponse",
-)({ job: S.optional(CodegenJob).pipe(T.HttpPayload()) }) {}
-export class CreateThemeRequest extends S.Class<CreateThemeRequest>(
-  "CreateThemeRequest",
-)(
-  {
+export interface CodegenJobGenericDataSchema {
+  dataSourceType: string;
+  models: CodegenGenericDataModels;
+  enums: CodegenGenericDataEnums;
+  nonModels: CodegenGenericDataNonModels;
+}
+export const CodegenJobGenericDataSchema = S.suspend(() =>
+  S.Struct({
+    dataSourceType: S.String,
+    models: CodegenGenericDataModels,
+    enums: CodegenGenericDataEnums,
+    nonModels: CodegenGenericDataNonModels,
+  }),
+).annotations({
+  identifier: "CodegenJobGenericDataSchema",
+}) as any as S.Schema<CodegenJobGenericDataSchema>;
+export interface CodegenJob {
+  id: string;
+  appId: string;
+  environmentName: string;
+  renderConfig?: (typeof CodegenJobRenderConfig)["Type"];
+  genericDataSchema?: CodegenJobGenericDataSchema;
+  autoGenerateForms?: boolean;
+  features?: CodegenFeatureFlags;
+  status?: string;
+  statusMessage?: string;
+  asset?: CodegenJobAsset;
+  tags?: Tags;
+  createdAt?: Date;
+  modifiedAt?: Date;
+  dependencies?: CodegenDependencies;
+}
+export const CodegenJob = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    appId: S.String,
+    environmentName: S.String,
+    renderConfig: S.optional(CodegenJobRenderConfig),
+    genericDataSchema: S.optional(CodegenJobGenericDataSchema),
+    autoGenerateForms: S.optional(S.Boolean),
+    features: S.optional(CodegenFeatureFlags),
+    status: S.optional(S.String),
+    statusMessage: S.optional(S.String),
+    asset: S.optional(CodegenJobAsset),
+    tags: S.optional(Tags),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    dependencies: S.optional(CodegenDependencies),
+  }),
+).annotations({ identifier: "CodegenJob" }) as any as S.Schema<CodegenJob>;
+export interface CreateThemeData {
+  name: string;
+  values: ThemeValuesList;
+  overrides?: ThemeValuesList;
+  tags?: Tags;
+}
+export const CreateThemeData = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    values: ThemeValuesList,
+    overrides: S.optional(ThemeValuesList),
+    tags: S.optional(Tags),
+  }),
+).annotations({
+  identifier: "CreateThemeData",
+}) as any as S.Schema<CreateThemeData>;
+export interface GetCodegenJobResponse {
+  job?: CodegenJob;
+}
+export const GetCodegenJobResponse = S.suspend(() =>
+  S.Struct({
+    job: S.optional(CodegenJob)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "CodegenJob" }),
+  }),
+).annotations({
+  identifier: "GetCodegenJobResponse",
+}) as any as S.Schema<GetCodegenJobResponse>;
+export interface CreateThemeRequest {
+  appId: string;
+  environmentName: string;
+  clientToken?: string;
+  themeToCreate: CreateThemeData;
+}
+export const CreateThemeRequest = S.suspend(() =>
+  S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     environmentName: S.String.pipe(T.HttpLabel("environmentName")),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
-    themeToCreate: CreateThemeData.pipe(T.HttpPayload()),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/app/{appId}/environment/{environmentName}/themes",
+    themeToCreate: CreateThemeData.pipe(T.HttpPayload()).annotations({
+      identifier: "CreateThemeData",
     }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/app/{appId}/environment/{environmentName}/themes",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "CreateThemeRequest",
+}) as any as S.Schema<CreateThemeRequest>;
 export type FormInputValuePropertyList = FormInputValueProperty[];
 export const FormInputValuePropertyList = S.Array(
   S.suspend(
     (): S.Schema<FormInputValueProperty, any> => FormInputValueProperty,
-  ),
+  ).annotations({ identifier: "FormInputValueProperty" }),
 ) as any as S.Schema<FormInputValuePropertyList>;
-export class CreateThemeResponse extends S.Class<CreateThemeResponse>(
-  "CreateThemeResponse",
-)({ entity: S.optional(Theme).pipe(T.HttpPayload()) }) {}
-export class CreateComponentData extends S.Class<CreateComponentData>(
-  "CreateComponentData",
-)({
-  name: S.String,
-  sourceId: S.optional(S.String),
-  componentType: S.String,
-  properties: ComponentProperties,
-  children: S.optional(ComponentChildList),
-  variants: ComponentVariants,
-  overrides: ComponentOverrides,
-  bindingProperties: ComponentBindingProperties,
-  collectionProperties: S.optional(ComponentCollectionProperties),
-  tags: S.optional(Tags),
-  events: S.optional(ComponentEvents),
-  schemaVersion: S.optional(S.String),
-}) {}
-export class CreateComponentRequest extends S.Class<CreateComponentRequest>(
-  "CreateComponentRequest",
-)(
-  {
+export interface CreateThemeResponse {
+  entity?: Theme;
+}
+export const CreateThemeResponse = S.suspend(() =>
+  S.Struct({
+    entity: S.optional(Theme)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "Theme" }),
+  }),
+).annotations({
+  identifier: "CreateThemeResponse",
+}) as any as S.Schema<CreateThemeResponse>;
+export interface CreateComponentData {
+  name: string;
+  sourceId?: string;
+  componentType: string;
+  properties: ComponentProperties;
+  children?: ComponentChildList;
+  variants: ComponentVariants;
+  overrides: ComponentOverrides;
+  bindingProperties: ComponentBindingProperties;
+  collectionProperties?: ComponentCollectionProperties;
+  tags?: Tags;
+  events?: ComponentEvents;
+  schemaVersion?: string;
+}
+export const CreateComponentData = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    sourceId: S.optional(S.String),
+    componentType: S.String,
+    properties: ComponentProperties,
+    children: S.optional(ComponentChildList),
+    variants: ComponentVariants,
+    overrides: ComponentOverrides,
+    bindingProperties: ComponentBindingProperties,
+    collectionProperties: S.optional(ComponentCollectionProperties),
+    tags: S.optional(Tags),
+    events: S.optional(ComponentEvents),
+    schemaVersion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CreateComponentData",
+}) as any as S.Schema<CreateComponentData>;
+export interface CreateComponentRequest {
+  appId: string;
+  environmentName: string;
+  clientToken?: string;
+  componentToCreate: CreateComponentData;
+}
+export const CreateComponentRequest = S.suspend(() =>
+  S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     environmentName: S.String.pipe(T.HttpLabel("environmentName")),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
-    componentToCreate: CreateComponentData.pipe(T.HttpPayload()),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/app/{appId}/environment/{environmentName}/components",
+    componentToCreate: CreateComponentData.pipe(T.HttpPayload()).annotations({
+      identifier: "CreateComponentData",
     }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/app/{appId}/environment/{environmentName}/components",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateComponentResponse extends S.Class<CreateComponentResponse>(
-  "CreateComponentResponse",
-)({ entity: S.optional(Component).pipe(T.HttpPayload()) }) {}
-export class StartCodegenJobData extends S.Class<StartCodegenJobData>(
-  "StartCodegenJobData",
-)({
-  renderConfig: CodegenJobRenderConfig,
-  genericDataSchema: S.optional(CodegenJobGenericDataSchema),
-  autoGenerateForms: S.optional(S.Boolean),
-  features: S.optional(CodegenFeatureFlags),
-  tags: S.optional(Tags),
-}) {}
-export class StartCodegenJobRequest extends S.Class<StartCodegenJobRequest>(
-  "StartCodegenJobRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateComponentRequest",
+}) as any as S.Schema<CreateComponentRequest>;
+export interface CreateComponentResponse {
+  entity?: Component;
+}
+export const CreateComponentResponse = S.suspend(() =>
+  S.Struct({
+    entity: S.optional(Component)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "Component" }),
+  }),
+).annotations({
+  identifier: "CreateComponentResponse",
+}) as any as S.Schema<CreateComponentResponse>;
+export interface StartCodegenJobData {
+  renderConfig: (typeof CodegenJobRenderConfig)["Type"];
+  genericDataSchema?: CodegenJobGenericDataSchema;
+  autoGenerateForms?: boolean;
+  features?: CodegenFeatureFlags;
+  tags?: Tags;
+}
+export const StartCodegenJobData = S.suspend(() =>
+  S.Struct({
+    renderConfig: CodegenJobRenderConfig,
+    genericDataSchema: S.optional(CodegenJobGenericDataSchema),
+    autoGenerateForms: S.optional(S.Boolean),
+    features: S.optional(CodegenFeatureFlags),
+    tags: S.optional(Tags),
+  }),
+).annotations({
+  identifier: "StartCodegenJobData",
+}) as any as S.Schema<StartCodegenJobData>;
+export interface StartCodegenJobRequest {
+  appId: string;
+  environmentName: string;
+  clientToken?: string;
+  codegenJobToCreate: StartCodegenJobData;
+}
+export const StartCodegenJobRequest = S.suspend(() =>
+  S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     environmentName: S.String.pipe(T.HttpLabel("environmentName")),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
-    codegenJobToCreate: StartCodegenJobData.pipe(T.HttpPayload()),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/app/{appId}/environment/{environmentName}/codegen-jobs",
+    codegenJobToCreate: StartCodegenJobData.pipe(T.HttpPayload()).annotations({
+      identifier: "StartCodegenJobData",
     }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/app/{appId}/environment/{environmentName}/codegen-jobs",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateFormData extends S.Class<CreateFormData>("CreateFormData")({
-  name: S.String,
-  dataType: FormDataTypeConfig,
-  formActionType: S.String,
-  fields: FieldsMap,
-  style: FormStyle,
-  sectionalElements: SectionalElementMap,
-  schemaVersion: S.String,
-  cta: S.optional(FormCTA),
-  tags: S.optional(Tags),
-  labelDecorator: S.optional(S.String),
-}) {}
-export class StartCodegenJobResponse extends S.Class<StartCodegenJobResponse>(
-  "StartCodegenJobResponse",
-)({ entity: S.optional(CodegenJob).pipe(T.HttpPayload()) }) {}
-export class CreateFormRequest extends S.Class<CreateFormRequest>(
-  "CreateFormRequest",
-)(
-  {
+).annotations({
+  identifier: "StartCodegenJobRequest",
+}) as any as S.Schema<StartCodegenJobRequest>;
+export interface CreateFormData {
+  name: string;
+  dataType: FormDataTypeConfig;
+  formActionType: string;
+  fields: FieldsMap;
+  style: FormStyle;
+  sectionalElements: SectionalElementMap;
+  schemaVersion: string;
+  cta?: FormCTA;
+  tags?: Tags;
+  labelDecorator?: string;
+}
+export const CreateFormData = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    dataType: FormDataTypeConfig,
+    formActionType: S.String,
+    fields: FieldsMap,
+    style: FormStyle,
+    sectionalElements: SectionalElementMap,
+    schemaVersion: S.String,
+    cta: S.optional(FormCTA),
+    tags: S.optional(Tags),
+    labelDecorator: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CreateFormData",
+}) as any as S.Schema<CreateFormData>;
+export interface StartCodegenJobResponse {
+  entity?: CodegenJob;
+}
+export const StartCodegenJobResponse = S.suspend(() =>
+  S.Struct({
+    entity: S.optional(CodegenJob)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "CodegenJob" }),
+  }),
+).annotations({
+  identifier: "StartCodegenJobResponse",
+}) as any as S.Schema<StartCodegenJobResponse>;
+export interface CreateFormRequest {
+  appId: string;
+  environmentName: string;
+  clientToken?: string;
+  formToCreate: CreateFormData;
+}
+export const CreateFormRequest = S.suspend(() =>
+  S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     environmentName: S.String.pipe(T.HttpLabel("environmentName")),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
-    formToCreate: CreateFormData.pipe(T.HttpPayload()),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/app/{appId}/environment/{environmentName}/forms",
+    formToCreate: CreateFormData.pipe(T.HttpPayload()).annotations({
+      identifier: "CreateFormData",
     }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/app/{appId}/environment/{environmentName}/forms",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateFormResponse extends S.Class<CreateFormResponse>(
-  "CreateFormResponse",
-)({ entity: S.optional(Form).pipe(T.HttpPayload()) }) {}
+).annotations({
+  identifier: "CreateFormRequest",
+}) as any as S.Schema<CreateFormRequest>;
+export interface CreateFormResponse {
+  entity?: Form;
+}
+export const CreateFormResponse = S.suspend(() =>
+  S.Struct({
+    entity: S.optional(Form)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "Form" }),
+  }),
+).annotations({
+  identifier: "CreateFormResponse",
+}) as any as S.Schema<CreateFormResponse>;
 
 //# Errors
 export class InternalServerException extends S.TaggedError<InternalServerException>()(

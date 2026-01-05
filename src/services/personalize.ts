@@ -242,44 +242,76 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type TagKeys = string[];
 export const TagKeys = S.Array(S.String);
+export type MetricAttributesNamesList = string[];
 export const MetricAttributesNamesList = S.Array(S.String);
-export class Tag extends S.Class<Tag>("Tag")({
-  tagKey: S.String,
-  tagValue: S.String,
-}) {}
+export interface Tag {
+  tagKey: string;
+  tagValue: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ tagKey: S.String, tagValue: S.String }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type Tags = Tag[];
 export const Tags = S.Array(Tag);
-export class CreateDatasetRequest extends S.Class<CreateDatasetRequest>(
-  "CreateDatasetRequest",
-)(
-  {
+export interface CreateDatasetRequest {
+  name: string;
+  schemaArn: string;
+  datasetGroupArn: string;
+  datasetType: string;
+  tags?: Tags;
+}
+export const CreateDatasetRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     schemaArn: S.String,
     datasetGroupArn: S.String,
     datasetType: S.String,
     tags: S.optional(Tags),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateDatasetGroupRequest extends S.Class<CreateDatasetGroupRequest>(
-  "CreateDatasetGroupRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateDatasetRequest",
+}) as any as S.Schema<CreateDatasetRequest>;
+export interface CreateDatasetGroupRequest {
+  name: string;
+  roleArn?: string;
+  kmsKeyArn?: string;
+  domain?: string;
+  tags?: Tags;
+}
+export const CreateDatasetGroupRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     roleArn: S.optional(S.String),
     kmsKeyArn: S.optional(S.String),
     domain: S.optional(S.String),
     tags: S.optional(Tags),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DataSource extends S.Class<DataSource>("DataSource")({
-  dataLocation: S.optional(S.String),
-}) {}
-export class CreateDatasetImportJobRequest extends S.Class<CreateDatasetImportJobRequest>(
-  "CreateDatasetImportJobRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateDatasetGroupRequest",
+}) as any as S.Schema<CreateDatasetGroupRequest>;
+export interface DataSource {
+  dataLocation?: string;
+}
+export const DataSource = S.suspend(() =>
+  S.Struct({ dataLocation: S.optional(S.String) }),
+).annotations({ identifier: "DataSource" }) as any as S.Schema<DataSource>;
+export interface CreateDatasetImportJobRequest {
+  jobName: string;
+  datasetArn: string;
+  dataSource: DataSource;
+  roleArn?: string;
+  tags?: Tags;
+  importMode?: string;
+  publishAttributionMetricsToS3?: boolean;
+}
+export const CreateDatasetImportJobRequest = S.suspend(() =>
+  S.Struct({
     jobName: S.String,
     datasetArn: S.String,
     dataSource: DataSource,
@@ -287,559 +319,987 @@ export class CreateDatasetImportJobRequest extends S.Class<CreateDatasetImportJo
     tags: S.optional(Tags),
     importMode: S.optional(S.String),
     publishAttributionMetricsToS3: S.optional(S.Boolean),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateEventTrackerRequest extends S.Class<CreateEventTrackerRequest>(
-  "CreateEventTrackerRequest",
-)(
-  { name: S.String, datasetGroupArn: S.String, tags: S.optional(Tags) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateFilterRequest extends S.Class<CreateFilterRequest>(
-  "CreateFilterRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateDatasetImportJobRequest",
+}) as any as S.Schema<CreateDatasetImportJobRequest>;
+export interface CreateEventTrackerRequest {
+  name: string;
+  datasetGroupArn: string;
+  tags?: Tags;
+}
+export const CreateEventTrackerRequest = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    datasetGroupArn: S.String,
+    tags: S.optional(Tags),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateEventTrackerRequest",
+}) as any as S.Schema<CreateEventTrackerRequest>;
+export interface CreateFilterRequest {
+  name: string;
+  datasetGroupArn: string;
+  filterExpression: string;
+  tags?: Tags;
+}
+export const CreateFilterRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     datasetGroupArn: S.String,
     filterExpression: S.String,
     tags: S.optional(Tags),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateSchemaRequest extends S.Class<CreateSchemaRequest>(
-  "CreateSchemaRequest",
-)(
-  { name: S.String, schema: S.String, domain: S.optional(S.String) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateSolutionVersionRequest extends S.Class<CreateSolutionVersionRequest>(
-  "CreateSolutionVersionRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateFilterRequest",
+}) as any as S.Schema<CreateFilterRequest>;
+export interface CreateSchemaRequest {
+  name: string;
+  schema: string;
+  domain?: string;
+}
+export const CreateSchemaRequest = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    schema: S.String,
+    domain: S.optional(S.String),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateSchemaRequest",
+}) as any as S.Schema<CreateSchemaRequest>;
+export interface CreateSolutionVersionRequest {
+  name?: string;
+  solutionArn: string;
+  trainingMode?: string;
+  tags?: Tags;
+}
+export const CreateSolutionVersionRequest = S.suspend(() =>
+  S.Struct({
     name: S.optional(S.String),
     solutionArn: S.String,
     trainingMode: S.optional(S.String),
     tags: S.optional(Tags),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteCampaignRequest extends S.Class<DeleteCampaignRequest>(
-  "DeleteCampaignRequest",
-)(
-  { campaignArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteCampaignResponse extends S.Class<DeleteCampaignResponse>(
-  "DeleteCampaignResponse",
-)({}) {}
-export class DeleteDatasetRequest extends S.Class<DeleteDatasetRequest>(
-  "DeleteDatasetRequest",
-)(
-  { datasetArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteDatasetResponse extends S.Class<DeleteDatasetResponse>(
-  "DeleteDatasetResponse",
-)({}) {}
-export class DeleteDatasetGroupRequest extends S.Class<DeleteDatasetGroupRequest>(
-  "DeleteDatasetGroupRequest",
-)(
-  { datasetGroupArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteDatasetGroupResponse extends S.Class<DeleteDatasetGroupResponse>(
-  "DeleteDatasetGroupResponse",
-)({}) {}
-export class DeleteEventTrackerRequest extends S.Class<DeleteEventTrackerRequest>(
-  "DeleteEventTrackerRequest",
-)(
-  { eventTrackerArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteEventTrackerResponse extends S.Class<DeleteEventTrackerResponse>(
-  "DeleteEventTrackerResponse",
-)({}) {}
-export class DeleteFilterRequest extends S.Class<DeleteFilterRequest>(
-  "DeleteFilterRequest",
-)(
-  { filterArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteFilterResponse extends S.Class<DeleteFilterResponse>(
-  "DeleteFilterResponse",
-)({}) {}
-export class DeleteMetricAttributionRequest extends S.Class<DeleteMetricAttributionRequest>(
-  "DeleteMetricAttributionRequest",
-)(
-  { metricAttributionArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteMetricAttributionResponse extends S.Class<DeleteMetricAttributionResponse>(
-  "DeleteMetricAttributionResponse",
-)({}) {}
-export class DeleteRecommenderRequest extends S.Class<DeleteRecommenderRequest>(
-  "DeleteRecommenderRequest",
-)(
-  { recommenderArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteRecommenderResponse extends S.Class<DeleteRecommenderResponse>(
-  "DeleteRecommenderResponse",
-)({}) {}
-export class DeleteSchemaRequest extends S.Class<DeleteSchemaRequest>(
-  "DeleteSchemaRequest",
-)(
-  { schemaArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteSchemaResponse extends S.Class<DeleteSchemaResponse>(
-  "DeleteSchemaResponse",
-)({}) {}
-export class DeleteSolutionRequest extends S.Class<DeleteSolutionRequest>(
-  "DeleteSolutionRequest",
-)(
-  { solutionArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteSolutionResponse extends S.Class<DeleteSolutionResponse>(
-  "DeleteSolutionResponse",
-)({}) {}
-export class DescribeAlgorithmRequest extends S.Class<DescribeAlgorithmRequest>(
-  "DescribeAlgorithmRequest",
-)(
-  { algorithmArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeBatchInferenceJobRequest extends S.Class<DescribeBatchInferenceJobRequest>(
-  "DescribeBatchInferenceJobRequest",
-)(
-  { batchInferenceJobArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeBatchSegmentJobRequest extends S.Class<DescribeBatchSegmentJobRequest>(
-  "DescribeBatchSegmentJobRequest",
-)(
-  { batchSegmentJobArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeCampaignRequest extends S.Class<DescribeCampaignRequest>(
-  "DescribeCampaignRequest",
-)(
-  { campaignArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeDataDeletionJobRequest extends S.Class<DescribeDataDeletionJobRequest>(
-  "DescribeDataDeletionJobRequest",
-)(
-  { dataDeletionJobArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeDatasetRequest extends S.Class<DescribeDatasetRequest>(
-  "DescribeDatasetRequest",
-)(
-  { datasetArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeDatasetExportJobRequest extends S.Class<DescribeDatasetExportJobRequest>(
-  "DescribeDatasetExportJobRequest",
-)(
-  { datasetExportJobArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeDatasetGroupRequest extends S.Class<DescribeDatasetGroupRequest>(
-  "DescribeDatasetGroupRequest",
-)(
-  { datasetGroupArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeDatasetImportJobRequest extends S.Class<DescribeDatasetImportJobRequest>(
-  "DescribeDatasetImportJobRequest",
-)(
-  { datasetImportJobArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeEventTrackerRequest extends S.Class<DescribeEventTrackerRequest>(
-  "DescribeEventTrackerRequest",
-)(
-  { eventTrackerArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeFeatureTransformationRequest extends S.Class<DescribeFeatureTransformationRequest>(
-  "DescribeFeatureTransformationRequest",
-)(
-  { featureTransformationArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeFilterRequest extends S.Class<DescribeFilterRequest>(
-  "DescribeFilterRequest",
-)(
-  { filterArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeMetricAttributionRequest extends S.Class<DescribeMetricAttributionRequest>(
-  "DescribeMetricAttributionRequest",
-)(
-  { metricAttributionArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeRecipeRequest extends S.Class<DescribeRecipeRequest>(
-  "DescribeRecipeRequest",
-)(
-  { recipeArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeRecommenderRequest extends S.Class<DescribeRecommenderRequest>(
-  "DescribeRecommenderRequest",
-)(
-  { recommenderArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeSchemaRequest extends S.Class<DescribeSchemaRequest>(
-  "DescribeSchemaRequest",
-)(
-  { schemaArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeSolutionRequest extends S.Class<DescribeSolutionRequest>(
-  "DescribeSolutionRequest",
-)(
-  { solutionArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeSolutionVersionRequest extends S.Class<DescribeSolutionVersionRequest>(
-  "DescribeSolutionVersionRequest",
-)(
-  { solutionVersionArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetSolutionMetricsRequest extends S.Class<GetSolutionMetricsRequest>(
-  "GetSolutionMetricsRequest",
-)(
-  { solutionVersionArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListBatchInferenceJobsRequest extends S.Class<ListBatchInferenceJobsRequest>(
-  "ListBatchInferenceJobsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateSolutionVersionRequest",
+}) as any as S.Schema<CreateSolutionVersionRequest>;
+export interface DeleteCampaignRequest {
+  campaignArn: string;
+}
+export const DeleteCampaignRequest = S.suspend(() =>
+  S.Struct({ campaignArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteCampaignRequest",
+}) as any as S.Schema<DeleteCampaignRequest>;
+export interface DeleteCampaignResponse {}
+export const DeleteCampaignResponse = S.suspend(() => S.Struct({})).annotations(
+  { identifier: "DeleteCampaignResponse" },
+) as any as S.Schema<DeleteCampaignResponse>;
+export interface DeleteDatasetRequest {
+  datasetArn: string;
+}
+export const DeleteDatasetRequest = S.suspend(() =>
+  S.Struct({ datasetArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteDatasetRequest",
+}) as any as S.Schema<DeleteDatasetRequest>;
+export interface DeleteDatasetResponse {}
+export const DeleteDatasetResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteDatasetResponse",
+}) as any as S.Schema<DeleteDatasetResponse>;
+export interface DeleteDatasetGroupRequest {
+  datasetGroupArn: string;
+}
+export const DeleteDatasetGroupRequest = S.suspend(() =>
+  S.Struct({ datasetGroupArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteDatasetGroupRequest",
+}) as any as S.Schema<DeleteDatasetGroupRequest>;
+export interface DeleteDatasetGroupResponse {}
+export const DeleteDatasetGroupResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteDatasetGroupResponse",
+}) as any as S.Schema<DeleteDatasetGroupResponse>;
+export interface DeleteEventTrackerRequest {
+  eventTrackerArn: string;
+}
+export const DeleteEventTrackerRequest = S.suspend(() =>
+  S.Struct({ eventTrackerArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteEventTrackerRequest",
+}) as any as S.Schema<DeleteEventTrackerRequest>;
+export interface DeleteEventTrackerResponse {}
+export const DeleteEventTrackerResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteEventTrackerResponse",
+}) as any as S.Schema<DeleteEventTrackerResponse>;
+export interface DeleteFilterRequest {
+  filterArn: string;
+}
+export const DeleteFilterRequest = S.suspend(() =>
+  S.Struct({ filterArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteFilterRequest",
+}) as any as S.Schema<DeleteFilterRequest>;
+export interface DeleteFilterResponse {}
+export const DeleteFilterResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteFilterResponse",
+}) as any as S.Schema<DeleteFilterResponse>;
+export interface DeleteMetricAttributionRequest {
+  metricAttributionArn: string;
+}
+export const DeleteMetricAttributionRequest = S.suspend(() =>
+  S.Struct({ metricAttributionArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteMetricAttributionRequest",
+}) as any as S.Schema<DeleteMetricAttributionRequest>;
+export interface DeleteMetricAttributionResponse {}
+export const DeleteMetricAttributionResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteMetricAttributionResponse",
+}) as any as S.Schema<DeleteMetricAttributionResponse>;
+export interface DeleteRecommenderRequest {
+  recommenderArn: string;
+}
+export const DeleteRecommenderRequest = S.suspend(() =>
+  S.Struct({ recommenderArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteRecommenderRequest",
+}) as any as S.Schema<DeleteRecommenderRequest>;
+export interface DeleteRecommenderResponse {}
+export const DeleteRecommenderResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteRecommenderResponse",
+}) as any as S.Schema<DeleteRecommenderResponse>;
+export interface DeleteSchemaRequest {
+  schemaArn: string;
+}
+export const DeleteSchemaRequest = S.suspend(() =>
+  S.Struct({ schemaArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteSchemaRequest",
+}) as any as S.Schema<DeleteSchemaRequest>;
+export interface DeleteSchemaResponse {}
+export const DeleteSchemaResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteSchemaResponse",
+}) as any as S.Schema<DeleteSchemaResponse>;
+export interface DeleteSolutionRequest {
+  solutionArn: string;
+}
+export const DeleteSolutionRequest = S.suspend(() =>
+  S.Struct({ solutionArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteSolutionRequest",
+}) as any as S.Schema<DeleteSolutionRequest>;
+export interface DeleteSolutionResponse {}
+export const DeleteSolutionResponse = S.suspend(() => S.Struct({})).annotations(
+  { identifier: "DeleteSolutionResponse" },
+) as any as S.Schema<DeleteSolutionResponse>;
+export interface DescribeAlgorithmRequest {
+  algorithmArn: string;
+}
+export const DescribeAlgorithmRequest = S.suspend(() =>
+  S.Struct({ algorithmArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeAlgorithmRequest",
+}) as any as S.Schema<DescribeAlgorithmRequest>;
+export interface DescribeBatchInferenceJobRequest {
+  batchInferenceJobArn: string;
+}
+export const DescribeBatchInferenceJobRequest = S.suspend(() =>
+  S.Struct({ batchInferenceJobArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeBatchInferenceJobRequest",
+}) as any as S.Schema<DescribeBatchInferenceJobRequest>;
+export interface DescribeBatchSegmentJobRequest {
+  batchSegmentJobArn: string;
+}
+export const DescribeBatchSegmentJobRequest = S.suspend(() =>
+  S.Struct({ batchSegmentJobArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeBatchSegmentJobRequest",
+}) as any as S.Schema<DescribeBatchSegmentJobRequest>;
+export interface DescribeCampaignRequest {
+  campaignArn: string;
+}
+export const DescribeCampaignRequest = S.suspend(() =>
+  S.Struct({ campaignArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeCampaignRequest",
+}) as any as S.Schema<DescribeCampaignRequest>;
+export interface DescribeDataDeletionJobRequest {
+  dataDeletionJobArn: string;
+}
+export const DescribeDataDeletionJobRequest = S.suspend(() =>
+  S.Struct({ dataDeletionJobArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeDataDeletionJobRequest",
+}) as any as S.Schema<DescribeDataDeletionJobRequest>;
+export interface DescribeDatasetRequest {
+  datasetArn: string;
+}
+export const DescribeDatasetRequest = S.suspend(() =>
+  S.Struct({ datasetArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeDatasetRequest",
+}) as any as S.Schema<DescribeDatasetRequest>;
+export interface DescribeDatasetExportJobRequest {
+  datasetExportJobArn: string;
+}
+export const DescribeDatasetExportJobRequest = S.suspend(() =>
+  S.Struct({ datasetExportJobArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeDatasetExportJobRequest",
+}) as any as S.Schema<DescribeDatasetExportJobRequest>;
+export interface DescribeDatasetGroupRequest {
+  datasetGroupArn: string;
+}
+export const DescribeDatasetGroupRequest = S.suspend(() =>
+  S.Struct({ datasetGroupArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeDatasetGroupRequest",
+}) as any as S.Schema<DescribeDatasetGroupRequest>;
+export interface DescribeDatasetImportJobRequest {
+  datasetImportJobArn: string;
+}
+export const DescribeDatasetImportJobRequest = S.suspend(() =>
+  S.Struct({ datasetImportJobArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeDatasetImportJobRequest",
+}) as any as S.Schema<DescribeDatasetImportJobRequest>;
+export interface DescribeEventTrackerRequest {
+  eventTrackerArn: string;
+}
+export const DescribeEventTrackerRequest = S.suspend(() =>
+  S.Struct({ eventTrackerArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeEventTrackerRequest",
+}) as any as S.Schema<DescribeEventTrackerRequest>;
+export interface DescribeFeatureTransformationRequest {
+  featureTransformationArn: string;
+}
+export const DescribeFeatureTransformationRequest = S.suspend(() =>
+  S.Struct({ featureTransformationArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeFeatureTransformationRequest",
+}) as any as S.Schema<DescribeFeatureTransformationRequest>;
+export interface DescribeFilterRequest {
+  filterArn: string;
+}
+export const DescribeFilterRequest = S.suspend(() =>
+  S.Struct({ filterArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeFilterRequest",
+}) as any as S.Schema<DescribeFilterRequest>;
+export interface DescribeMetricAttributionRequest {
+  metricAttributionArn: string;
+}
+export const DescribeMetricAttributionRequest = S.suspend(() =>
+  S.Struct({ metricAttributionArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeMetricAttributionRequest",
+}) as any as S.Schema<DescribeMetricAttributionRequest>;
+export interface DescribeRecipeRequest {
+  recipeArn: string;
+}
+export const DescribeRecipeRequest = S.suspend(() =>
+  S.Struct({ recipeArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeRecipeRequest",
+}) as any as S.Schema<DescribeRecipeRequest>;
+export interface DescribeRecommenderRequest {
+  recommenderArn: string;
+}
+export const DescribeRecommenderRequest = S.suspend(() =>
+  S.Struct({ recommenderArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeRecommenderRequest",
+}) as any as S.Schema<DescribeRecommenderRequest>;
+export interface DescribeSchemaRequest {
+  schemaArn: string;
+}
+export const DescribeSchemaRequest = S.suspend(() =>
+  S.Struct({ schemaArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeSchemaRequest",
+}) as any as S.Schema<DescribeSchemaRequest>;
+export interface DescribeSolutionRequest {
+  solutionArn: string;
+}
+export const DescribeSolutionRequest = S.suspend(() =>
+  S.Struct({ solutionArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeSolutionRequest",
+}) as any as S.Schema<DescribeSolutionRequest>;
+export interface DescribeSolutionVersionRequest {
+  solutionVersionArn: string;
+}
+export const DescribeSolutionVersionRequest = S.suspend(() =>
+  S.Struct({ solutionVersionArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeSolutionVersionRequest",
+}) as any as S.Schema<DescribeSolutionVersionRequest>;
+export interface GetSolutionMetricsRequest {
+  solutionVersionArn: string;
+}
+export const GetSolutionMetricsRequest = S.suspend(() =>
+  S.Struct({ solutionVersionArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetSolutionMetricsRequest",
+}) as any as S.Schema<GetSolutionMetricsRequest>;
+export interface ListBatchInferenceJobsRequest {
+  solutionVersionArn?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListBatchInferenceJobsRequest = S.suspend(() =>
+  S.Struct({
     solutionVersionArn: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListBatchSegmentJobsRequest extends S.Class<ListBatchSegmentJobsRequest>(
-  "ListBatchSegmentJobsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListBatchInferenceJobsRequest",
+}) as any as S.Schema<ListBatchInferenceJobsRequest>;
+export interface ListBatchSegmentJobsRequest {
+  solutionVersionArn?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListBatchSegmentJobsRequest = S.suspend(() =>
+  S.Struct({
     solutionVersionArn: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListCampaignsRequest extends S.Class<ListCampaignsRequest>(
-  "ListCampaignsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListBatchSegmentJobsRequest",
+}) as any as S.Schema<ListBatchSegmentJobsRequest>;
+export interface ListCampaignsRequest {
+  solutionArn?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListCampaignsRequest = S.suspend(() =>
+  S.Struct({
     solutionArn: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListDataDeletionJobsRequest extends S.Class<ListDataDeletionJobsRequest>(
-  "ListDataDeletionJobsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListCampaignsRequest",
+}) as any as S.Schema<ListCampaignsRequest>;
+export interface ListDataDeletionJobsRequest {
+  datasetGroupArn?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListDataDeletionJobsRequest = S.suspend(() =>
+  S.Struct({
     datasetGroupArn: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListDatasetExportJobsRequest extends S.Class<ListDatasetExportJobsRequest>(
-  "ListDatasetExportJobsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListDataDeletionJobsRequest",
+}) as any as S.Schema<ListDataDeletionJobsRequest>;
+export interface ListDatasetExportJobsRequest {
+  datasetArn?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListDatasetExportJobsRequest = S.suspend(() =>
+  S.Struct({
     datasetArn: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListDatasetGroupsRequest extends S.Class<ListDatasetGroupsRequest>(
-  "ListDatasetGroupsRequest",
-)(
-  { nextToken: S.optional(S.String), maxResults: S.optional(S.Number) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListDatasetImportJobsRequest extends S.Class<ListDatasetImportJobsRequest>(
-  "ListDatasetImportJobsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListDatasetExportJobsRequest",
+}) as any as S.Schema<ListDatasetExportJobsRequest>;
+export interface ListDatasetGroupsRequest {
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListDatasetGroupsRequest = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    maxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListDatasetGroupsRequest",
+}) as any as S.Schema<ListDatasetGroupsRequest>;
+export interface ListDatasetImportJobsRequest {
+  datasetArn?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListDatasetImportJobsRequest = S.suspend(() =>
+  S.Struct({
     datasetArn: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListDatasetsRequest extends S.Class<ListDatasetsRequest>(
-  "ListDatasetsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListDatasetImportJobsRequest",
+}) as any as S.Schema<ListDatasetImportJobsRequest>;
+export interface ListDatasetsRequest {
+  datasetGroupArn?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListDatasetsRequest = S.suspend(() =>
+  S.Struct({
     datasetGroupArn: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListEventTrackersRequest extends S.Class<ListEventTrackersRequest>(
-  "ListEventTrackersRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListDatasetsRequest",
+}) as any as S.Schema<ListDatasetsRequest>;
+export interface ListEventTrackersRequest {
+  datasetGroupArn?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListEventTrackersRequest = S.suspend(() =>
+  S.Struct({
     datasetGroupArn: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListFiltersRequest extends S.Class<ListFiltersRequest>(
-  "ListFiltersRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListEventTrackersRequest",
+}) as any as S.Schema<ListEventTrackersRequest>;
+export interface ListFiltersRequest {
+  datasetGroupArn?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListFiltersRequest = S.suspend(() =>
+  S.Struct({
     datasetGroupArn: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListMetricAttributionMetricsRequest extends S.Class<ListMetricAttributionMetricsRequest>(
-  "ListMetricAttributionMetricsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListFiltersRequest",
+}) as any as S.Schema<ListFiltersRequest>;
+export interface ListMetricAttributionMetricsRequest {
+  metricAttributionArn?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListMetricAttributionMetricsRequest = S.suspend(() =>
+  S.Struct({
     metricAttributionArn: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListMetricAttributionsRequest extends S.Class<ListMetricAttributionsRequest>(
-  "ListMetricAttributionsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListMetricAttributionMetricsRequest",
+}) as any as S.Schema<ListMetricAttributionMetricsRequest>;
+export interface ListMetricAttributionsRequest {
+  datasetGroupArn?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListMetricAttributionsRequest = S.suspend(() =>
+  S.Struct({
     datasetGroupArn: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListRecipesRequest extends S.Class<ListRecipesRequest>(
-  "ListRecipesRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListMetricAttributionsRequest",
+}) as any as S.Schema<ListMetricAttributionsRequest>;
+export interface ListRecipesRequest {
+  recipeProvider?: string;
+  nextToken?: string;
+  maxResults?: number;
+  domain?: string;
+}
+export const ListRecipesRequest = S.suspend(() =>
+  S.Struct({
     recipeProvider: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
     domain: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListRecommendersRequest extends S.Class<ListRecommendersRequest>(
-  "ListRecommendersRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListRecipesRequest",
+}) as any as S.Schema<ListRecipesRequest>;
+export interface ListRecommendersRequest {
+  datasetGroupArn?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListRecommendersRequest = S.suspend(() =>
+  S.Struct({
     datasetGroupArn: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListSchemasRequest extends S.Class<ListSchemasRequest>(
-  "ListSchemasRequest",
-)(
-  { nextToken: S.optional(S.String), maxResults: S.optional(S.Number) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListSolutionsRequest extends S.Class<ListSolutionsRequest>(
-  "ListSolutionsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListRecommendersRequest",
+}) as any as S.Schema<ListRecommendersRequest>;
+export interface ListSchemasRequest {
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListSchemasRequest = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    maxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListSchemasRequest",
+}) as any as S.Schema<ListSchemasRequest>;
+export interface ListSolutionsRequest {
+  datasetGroupArn?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListSolutionsRequest = S.suspend(() =>
+  S.Struct({
     datasetGroupArn: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListSolutionVersionsRequest extends S.Class<ListSolutionVersionsRequest>(
-  "ListSolutionVersionsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListSolutionsRequest",
+}) as any as S.Schema<ListSolutionsRequest>;
+export interface ListSolutionVersionsRequest {
+  solutionArn?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListSolutionVersionsRequest = S.suspend(() =>
+  S.Struct({
     solutionArn: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { resourceArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StartRecommenderRequest extends S.Class<StartRecommenderRequest>(
-  "StartRecommenderRequest",
-)(
-  { recommenderArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StopRecommenderRequest extends S.Class<StopRecommenderRequest>(
-  "StopRecommenderRequest",
-)(
-  { recommenderArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StopSolutionVersionCreationRequest extends S.Class<StopSolutionVersionCreationRequest>(
-  "StopSolutionVersionCreationRequest",
-)(
-  { solutionVersionArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StopSolutionVersionCreationResponse extends S.Class<StopSolutionVersionCreationResponse>(
-  "StopSolutionVersionCreationResponse",
-)({}) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { resourceArn: S.String, tags: Tags },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  { resourceArn: S.String, tagKeys: TagKeys },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListSolutionVersionsRequest",
+}) as any as S.Schema<ListSolutionVersionsRequest>;
+export interface ListTagsForResourceRequest {
+  resourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface StartRecommenderRequest {
+  recommenderArn: string;
+}
+export const StartRecommenderRequest = S.suspend(() =>
+  S.Struct({ recommenderArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StartRecommenderRequest",
+}) as any as S.Schema<StartRecommenderRequest>;
+export interface StopRecommenderRequest {
+  recommenderArn: string;
+}
+export const StopRecommenderRequest = S.suspend(() =>
+  S.Struct({ recommenderArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StopRecommenderRequest",
+}) as any as S.Schema<StopRecommenderRequest>;
+export interface StopSolutionVersionCreationRequest {
+  solutionVersionArn: string;
+}
+export const StopSolutionVersionCreationRequest = S.suspend(() =>
+  S.Struct({ solutionVersionArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StopSolutionVersionCreationRequest",
+}) as any as S.Schema<StopSolutionVersionCreationRequest>;
+export interface StopSolutionVersionCreationResponse {}
+export const StopSolutionVersionCreationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "StopSolutionVersionCreationResponse",
+}) as any as S.Schema<StopSolutionVersionCreationResponse>;
+export interface TagResourceRequest {
+  resourceArn: string;
+  tags: Tags;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String, tags: Tags }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UntagResourceRequest {
+  resourceArn: string;
+  tagKeys: TagKeys;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String, tagKeys: TagKeys }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export type HyperParameters = { [key: string]: string };
 export const HyperParameters = S.Record({ key: S.String, value: S.String });
+export type RankingInfluence = { [key: string]: number };
 export const RankingInfluence = S.Record({ key: S.String, value: S.Number });
-export class CampaignConfig extends S.Class<CampaignConfig>("CampaignConfig")({
-  itemExplorationConfig: S.optional(HyperParameters),
-  enableMetadataWithRecommendations: S.optional(S.Boolean),
-  syncWithLatestSolutionVersion: S.optional(S.Boolean),
-  rankingInfluence: S.optional(RankingInfluence),
-}) {}
-export class UpdateCampaignRequest extends S.Class<UpdateCampaignRequest>(
-  "UpdateCampaignRequest",
-)(
-  {
+export interface CampaignConfig {
+  itemExplorationConfig?: HyperParameters;
+  enableMetadataWithRecommendations?: boolean;
+  syncWithLatestSolutionVersion?: boolean;
+  rankingInfluence?: RankingInfluence;
+}
+export const CampaignConfig = S.suspend(() =>
+  S.Struct({
+    itemExplorationConfig: S.optional(HyperParameters),
+    enableMetadataWithRecommendations: S.optional(S.Boolean),
+    syncWithLatestSolutionVersion: S.optional(S.Boolean),
+    rankingInfluence: S.optional(RankingInfluence),
+  }),
+).annotations({
+  identifier: "CampaignConfig",
+}) as any as S.Schema<CampaignConfig>;
+export interface UpdateCampaignRequest {
+  campaignArn: string;
+  solutionVersionArn?: string;
+  minProvisionedTPS?: number;
+  campaignConfig?: CampaignConfig;
+}
+export const UpdateCampaignRequest = S.suspend(() =>
+  S.Struct({
     campaignArn: S.String,
     solutionVersionArn: S.optional(S.String),
     minProvisionedTPS: S.optional(S.Number),
     campaignConfig: S.optional(CampaignConfig),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateDatasetRequest extends S.Class<UpdateDatasetRequest>(
-  "UpdateDatasetRequest",
-)(
-  { datasetArn: S.String, schemaArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class MetricAttribute extends S.Class<MetricAttribute>(
-  "MetricAttribute",
-)({ eventType: S.String, metricName: S.String, expression: S.String }) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateCampaignRequest",
+}) as any as S.Schema<UpdateCampaignRequest>;
+export interface UpdateDatasetRequest {
+  datasetArn: string;
+  schemaArn: string;
+}
+export const UpdateDatasetRequest = S.suspend(() =>
+  S.Struct({ datasetArn: S.String, schemaArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateDatasetRequest",
+}) as any as S.Schema<UpdateDatasetRequest>;
+export interface MetricAttribute {
+  eventType: string;
+  metricName: string;
+  expression: string;
+}
+export const MetricAttribute = S.suspend(() =>
+  S.Struct({ eventType: S.String, metricName: S.String, expression: S.String }),
+).annotations({
+  identifier: "MetricAttribute",
+}) as any as S.Schema<MetricAttribute>;
+export type MetricAttributes = MetricAttribute[];
 export const MetricAttributes = S.Array(MetricAttribute);
-export class S3DataConfig extends S.Class<S3DataConfig>("S3DataConfig")({
-  path: S.String,
-  kmsKeyArn: S.optional(S.String),
-}) {}
-export class MetricAttributionOutput extends S.Class<MetricAttributionOutput>(
-  "MetricAttributionOutput",
-)({ s3DataDestination: S.optional(S3DataConfig), roleArn: S.String }) {}
-export class UpdateMetricAttributionRequest extends S.Class<UpdateMetricAttributionRequest>(
-  "UpdateMetricAttributionRequest",
-)(
-  {
+export interface S3DataConfig {
+  path: string;
+  kmsKeyArn?: string;
+}
+export const S3DataConfig = S.suspend(() =>
+  S.Struct({ path: S.String, kmsKeyArn: S.optional(S.String) }),
+).annotations({ identifier: "S3DataConfig" }) as any as S.Schema<S3DataConfig>;
+export interface MetricAttributionOutput {
+  s3DataDestination?: S3DataConfig;
+  roleArn: string;
+}
+export const MetricAttributionOutput = S.suspend(() =>
+  S.Struct({ s3DataDestination: S.optional(S3DataConfig), roleArn: S.String }),
+).annotations({
+  identifier: "MetricAttributionOutput",
+}) as any as S.Schema<MetricAttributionOutput>;
+export interface UpdateMetricAttributionRequest {
+  addMetrics?: MetricAttributes;
+  removeMetrics?: MetricAttributesNamesList;
+  metricsOutputConfig?: MetricAttributionOutput;
+  metricAttributionArn?: string;
+}
+export const UpdateMetricAttributionRequest = S.suspend(() =>
+  S.Struct({
     addMetrics: S.optional(MetricAttributes),
     removeMetrics: S.optional(MetricAttributesNamesList),
     metricsOutputConfig: S.optional(MetricAttributionOutput),
     metricAttributionArn: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateMetricAttributionRequest",
+}) as any as S.Schema<UpdateMetricAttributionRequest>;
+export type ColumnNamesList = string[];
 export const ColumnNamesList = S.Array(S.String);
+export type ExcludedDatasetColumns = { [key: string]: ColumnNamesList };
 export const ExcludedDatasetColumns = S.Record({
   key: S.String,
   value: ColumnNamesList,
 });
+export type IncludedDatasetColumns = { [key: string]: ColumnNamesList };
 export const IncludedDatasetColumns = S.Record({
   key: S.String,
   value: ColumnNamesList,
 });
-export class TrainingDataConfig extends S.Class<TrainingDataConfig>(
-  "TrainingDataConfig",
-)({
-  excludedDatasetColumns: S.optional(ExcludedDatasetColumns),
-  includedDatasetColumns: S.optional(IncludedDatasetColumns),
-}) {}
-export class RecommenderConfig extends S.Class<RecommenderConfig>(
-  "RecommenderConfig",
-)({
-  itemExplorationConfig: S.optional(HyperParameters),
-  minRecommendationRequestsPerSecond: S.optional(S.Number),
-  trainingDataConfig: S.optional(TrainingDataConfig),
-  enableMetadataWithRecommendations: S.optional(S.Boolean),
-}) {}
-export class UpdateRecommenderRequest extends S.Class<UpdateRecommenderRequest>(
-  "UpdateRecommenderRequest",
-)(
-  { recommenderArn: S.String, recommenderConfig: RecommenderConfig },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class BatchInferenceJobOutput extends S.Class<BatchInferenceJobOutput>(
-  "BatchInferenceJobOutput",
-)({ s3DataDestination: S3DataConfig }) {}
-export class BatchSegmentJobInput extends S.Class<BatchSegmentJobInput>(
-  "BatchSegmentJobInput",
-)({ s3DataSource: S3DataConfig }) {}
-export class BatchSegmentJobOutput extends S.Class<BatchSegmentJobOutput>(
-  "BatchSegmentJobOutput",
-)({ s3DataDestination: S3DataConfig }) {}
-export class DatasetExportJobOutput extends S.Class<DatasetExportJobOutput>(
-  "DatasetExportJobOutput",
-)({ s3DataDestination: S3DataConfig }) {}
-export class AutoTrainingConfig extends S.Class<AutoTrainingConfig>(
-  "AutoTrainingConfig",
-)({ schedulingExpression: S.optional(S.String) }) {}
-export class EventParameters extends S.Class<EventParameters>(
-  "EventParameters",
-)({
-  eventType: S.optional(S.String),
-  eventValueThreshold: S.optional(S.Number),
-  weight: S.optional(S.Number),
-}) {}
+export interface TrainingDataConfig {
+  excludedDatasetColumns?: ExcludedDatasetColumns;
+  includedDatasetColumns?: IncludedDatasetColumns;
+}
+export const TrainingDataConfig = S.suspend(() =>
+  S.Struct({
+    excludedDatasetColumns: S.optional(ExcludedDatasetColumns),
+    includedDatasetColumns: S.optional(IncludedDatasetColumns),
+  }),
+).annotations({
+  identifier: "TrainingDataConfig",
+}) as any as S.Schema<TrainingDataConfig>;
+export interface RecommenderConfig {
+  itemExplorationConfig?: HyperParameters;
+  minRecommendationRequestsPerSecond?: number;
+  trainingDataConfig?: TrainingDataConfig;
+  enableMetadataWithRecommendations?: boolean;
+}
+export const RecommenderConfig = S.suspend(() =>
+  S.Struct({
+    itemExplorationConfig: S.optional(HyperParameters),
+    minRecommendationRequestsPerSecond: S.optional(S.Number),
+    trainingDataConfig: S.optional(TrainingDataConfig),
+    enableMetadataWithRecommendations: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "RecommenderConfig",
+}) as any as S.Schema<RecommenderConfig>;
+export interface UpdateRecommenderRequest {
+  recommenderArn: string;
+  recommenderConfig: RecommenderConfig;
+}
+export const UpdateRecommenderRequest = S.suspend(() =>
+  S.Struct({
+    recommenderArn: S.String,
+    recommenderConfig: RecommenderConfig,
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateRecommenderRequest",
+}) as any as S.Schema<UpdateRecommenderRequest>;
+export interface BatchInferenceJobOutput {
+  s3DataDestination: S3DataConfig;
+}
+export const BatchInferenceJobOutput = S.suspend(() =>
+  S.Struct({ s3DataDestination: S3DataConfig }),
+).annotations({
+  identifier: "BatchInferenceJobOutput",
+}) as any as S.Schema<BatchInferenceJobOutput>;
+export interface BatchSegmentJobInput {
+  s3DataSource: S3DataConfig;
+}
+export const BatchSegmentJobInput = S.suspend(() =>
+  S.Struct({ s3DataSource: S3DataConfig }),
+).annotations({
+  identifier: "BatchSegmentJobInput",
+}) as any as S.Schema<BatchSegmentJobInput>;
+export interface BatchSegmentJobOutput {
+  s3DataDestination: S3DataConfig;
+}
+export const BatchSegmentJobOutput = S.suspend(() =>
+  S.Struct({ s3DataDestination: S3DataConfig }),
+).annotations({
+  identifier: "BatchSegmentJobOutput",
+}) as any as S.Schema<BatchSegmentJobOutput>;
+export interface DatasetExportJobOutput {
+  s3DataDestination: S3DataConfig;
+}
+export const DatasetExportJobOutput = S.suspend(() =>
+  S.Struct({ s3DataDestination: S3DataConfig }),
+).annotations({
+  identifier: "DatasetExportJobOutput",
+}) as any as S.Schema<DatasetExportJobOutput>;
+export interface AutoTrainingConfig {
+  schedulingExpression?: string;
+}
+export const AutoTrainingConfig = S.suspend(() =>
+  S.Struct({ schedulingExpression: S.optional(S.String) }),
+).annotations({
+  identifier: "AutoTrainingConfig",
+}) as any as S.Schema<AutoTrainingConfig>;
+export interface EventParameters {
+  eventType?: string;
+  eventValueThreshold?: number;
+  weight?: number;
+}
+export const EventParameters = S.suspend(() =>
+  S.Struct({
+    eventType: S.optional(S.String),
+    eventValueThreshold: S.optional(S.Number),
+    weight: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "EventParameters",
+}) as any as S.Schema<EventParameters>;
+export type EventParametersList = EventParameters[];
 export const EventParametersList = S.Array(EventParameters);
-export class EventsConfig extends S.Class<EventsConfig>("EventsConfig")({
-  eventParametersList: S.optional(EventParametersList),
-}) {}
-export class SolutionUpdateConfig extends S.Class<SolutionUpdateConfig>(
-  "SolutionUpdateConfig",
-)({
-  autoTrainingConfig: S.optional(AutoTrainingConfig),
-  eventsConfig: S.optional(EventsConfig),
-}) {}
+export interface EventsConfig {
+  eventParametersList?: EventParametersList;
+}
+export const EventsConfig = S.suspend(() =>
+  S.Struct({ eventParametersList: S.optional(EventParametersList) }),
+).annotations({ identifier: "EventsConfig" }) as any as S.Schema<EventsConfig>;
+export interface SolutionUpdateConfig {
+  autoTrainingConfig?: AutoTrainingConfig;
+  eventsConfig?: EventsConfig;
+}
+export const SolutionUpdateConfig = S.suspend(() =>
+  S.Struct({
+    autoTrainingConfig: S.optional(AutoTrainingConfig),
+    eventsConfig: S.optional(EventsConfig),
+  }),
+).annotations({
+  identifier: "SolutionUpdateConfig",
+}) as any as S.Schema<SolutionUpdateConfig>;
+export type ArnList = string[];
 export const ArnList = S.Array(S.String);
-export class CreateBatchSegmentJobRequest extends S.Class<CreateBatchSegmentJobRequest>(
-  "CreateBatchSegmentJobRequest",
-)(
-  {
+export interface CreateBatchSegmentJobRequest {
+  jobName: string;
+  solutionVersionArn: string;
+  filterArn?: string;
+  numResults?: number;
+  jobInput: BatchSegmentJobInput;
+  jobOutput: BatchSegmentJobOutput;
+  roleArn: string;
+  tags?: Tags;
+}
+export const CreateBatchSegmentJobRequest = S.suspend(() =>
+  S.Struct({
     jobName: S.String,
     solutionVersionArn: S.String,
     filterArn: S.optional(S.String),
@@ -848,533 +1308,1114 @@ export class CreateBatchSegmentJobRequest extends S.Class<CreateBatchSegmentJobR
     jobOutput: BatchSegmentJobOutput,
     roleArn: S.String,
     tags: S.optional(Tags),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateCampaignRequest extends S.Class<CreateCampaignRequest>(
-  "CreateCampaignRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateBatchSegmentJobRequest",
+}) as any as S.Schema<CreateBatchSegmentJobRequest>;
+export interface CreateCampaignRequest {
+  name: string;
+  solutionVersionArn: string;
+  minProvisionedTPS?: number;
+  campaignConfig?: CampaignConfig;
+  tags?: Tags;
+}
+export const CreateCampaignRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     solutionVersionArn: S.String,
     minProvisionedTPS: S.optional(S.Number),
     campaignConfig: S.optional(CampaignConfig),
     tags: S.optional(Tags),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateDataDeletionJobRequest extends S.Class<CreateDataDeletionJobRequest>(
-  "CreateDataDeletionJobRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateCampaignRequest",
+}) as any as S.Schema<CreateCampaignRequest>;
+export interface CreateDataDeletionJobRequest {
+  jobName: string;
+  datasetGroupArn: string;
+  dataSource: DataSource;
+  roleArn: string;
+  tags?: Tags;
+}
+export const CreateDataDeletionJobRequest = S.suspend(() =>
+  S.Struct({
     jobName: S.String,
     datasetGroupArn: S.String,
     dataSource: DataSource,
     roleArn: S.String,
     tags: S.optional(Tags),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateDatasetResponse extends S.Class<CreateDatasetResponse>(
-  "CreateDatasetResponse",
-)({ datasetArn: S.optional(S.String) }) {}
-export class CreateDatasetExportJobRequest extends S.Class<CreateDatasetExportJobRequest>(
-  "CreateDatasetExportJobRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateDataDeletionJobRequest",
+}) as any as S.Schema<CreateDataDeletionJobRequest>;
+export interface CreateDatasetResponse {
+  datasetArn?: string;
+}
+export const CreateDatasetResponse = S.suspend(() =>
+  S.Struct({ datasetArn: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateDatasetResponse",
+}) as any as S.Schema<CreateDatasetResponse>;
+export interface CreateDatasetExportJobRequest {
+  jobName: string;
+  datasetArn: string;
+  ingestionMode?: string;
+  roleArn: string;
+  jobOutput: DatasetExportJobOutput;
+  tags?: Tags;
+}
+export const CreateDatasetExportJobRequest = S.suspend(() =>
+  S.Struct({
     jobName: S.String,
     datasetArn: S.String,
     ingestionMode: S.optional(S.String),
     roleArn: S.String,
     jobOutput: DatasetExportJobOutput,
     tags: S.optional(Tags),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateDatasetGroupResponse extends S.Class<CreateDatasetGroupResponse>(
-  "CreateDatasetGroupResponse",
-)({ datasetGroupArn: S.optional(S.String), domain: S.optional(S.String) }) {}
-export class CreateDatasetImportJobResponse extends S.Class<CreateDatasetImportJobResponse>(
-  "CreateDatasetImportJobResponse",
-)({ datasetImportJobArn: S.optional(S.String) }) {}
-export class CreateEventTrackerResponse extends S.Class<CreateEventTrackerResponse>(
-  "CreateEventTrackerResponse",
-)({
-  eventTrackerArn: S.optional(S.String),
-  trackingId: S.optional(S.String),
-}) {}
-export class CreateFilterResponse extends S.Class<CreateFilterResponse>(
-  "CreateFilterResponse",
-)({ filterArn: S.optional(S.String) }) {}
-export class CreateMetricAttributionRequest extends S.Class<CreateMetricAttributionRequest>(
-  "CreateMetricAttributionRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateDatasetExportJobRequest",
+}) as any as S.Schema<CreateDatasetExportJobRequest>;
+export interface CreateDatasetGroupResponse {
+  datasetGroupArn?: string;
+  domain?: string;
+}
+export const CreateDatasetGroupResponse = S.suspend(() =>
+  S.Struct({
+    datasetGroupArn: S.optional(S.String),
+    domain: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CreateDatasetGroupResponse",
+}) as any as S.Schema<CreateDatasetGroupResponse>;
+export interface CreateDatasetImportJobResponse {
+  datasetImportJobArn?: string;
+}
+export const CreateDatasetImportJobResponse = S.suspend(() =>
+  S.Struct({ datasetImportJobArn: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateDatasetImportJobResponse",
+}) as any as S.Schema<CreateDatasetImportJobResponse>;
+export interface CreateEventTrackerResponse {
+  eventTrackerArn?: string;
+  trackingId?: string;
+}
+export const CreateEventTrackerResponse = S.suspend(() =>
+  S.Struct({
+    eventTrackerArn: S.optional(S.String),
+    trackingId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CreateEventTrackerResponse",
+}) as any as S.Schema<CreateEventTrackerResponse>;
+export interface CreateFilterResponse {
+  filterArn?: string;
+}
+export const CreateFilterResponse = S.suspend(() =>
+  S.Struct({ filterArn: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateFilterResponse",
+}) as any as S.Schema<CreateFilterResponse>;
+export interface CreateMetricAttributionRequest {
+  name: string;
+  datasetGroupArn: string;
+  metrics: MetricAttributes;
+  metricsOutputConfig: MetricAttributionOutput;
+}
+export const CreateMetricAttributionRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     datasetGroupArn: S.String,
     metrics: MetricAttributes,
     metricsOutputConfig: MetricAttributionOutput,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateSchemaResponse extends S.Class<CreateSchemaResponse>(
-  "CreateSchemaResponse",
-)({ schemaArn: S.optional(S.String) }) {}
-export class CreateSolutionVersionResponse extends S.Class<CreateSolutionVersionResponse>(
-  "CreateSolutionVersionResponse",
-)({ solutionVersionArn: S.optional(S.String) }) {}
-export class ListMetricAttributionMetricsResponse extends S.Class<ListMetricAttributionMetricsResponse>(
-  "ListMetricAttributionMetricsResponse",
-)({ metrics: S.optional(MetricAttributes), nextToken: S.optional(S.String) }) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ tags: S.optional(Tags) }) {}
-export class StartRecommenderResponse extends S.Class<StartRecommenderResponse>(
-  "StartRecommenderResponse",
-)({ recommenderArn: S.optional(S.String) }) {}
-export class StopRecommenderResponse extends S.Class<StopRecommenderResponse>(
-  "StopRecommenderResponse",
-)({ recommenderArn: S.optional(S.String) }) {}
-export class UpdateCampaignResponse extends S.Class<UpdateCampaignResponse>(
-  "UpdateCampaignResponse",
-)({ campaignArn: S.optional(S.String) }) {}
-export class UpdateDatasetResponse extends S.Class<UpdateDatasetResponse>(
-  "UpdateDatasetResponse",
-)({ datasetArn: S.optional(S.String) }) {}
-export class UpdateMetricAttributionResponse extends S.Class<UpdateMetricAttributionResponse>(
-  "UpdateMetricAttributionResponse",
-)({ metricAttributionArn: S.optional(S.String) }) {}
-export class UpdateRecommenderResponse extends S.Class<UpdateRecommenderResponse>(
-  "UpdateRecommenderResponse",
-)({ recommenderArn: S.optional(S.String) }) {}
-export class UpdateSolutionRequest extends S.Class<UpdateSolutionRequest>(
-  "UpdateSolutionRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateMetricAttributionRequest",
+}) as any as S.Schema<CreateMetricAttributionRequest>;
+export interface CreateSchemaResponse {
+  schemaArn?: string;
+}
+export const CreateSchemaResponse = S.suspend(() =>
+  S.Struct({ schemaArn: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateSchemaResponse",
+}) as any as S.Schema<CreateSchemaResponse>;
+export interface CreateSolutionVersionResponse {
+  solutionVersionArn?: string;
+}
+export const CreateSolutionVersionResponse = S.suspend(() =>
+  S.Struct({ solutionVersionArn: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateSolutionVersionResponse",
+}) as any as S.Schema<CreateSolutionVersionResponse>;
+export interface ListMetricAttributionMetricsResponse {
+  metrics?: MetricAttributes;
+  nextToken?: string;
+}
+export const ListMetricAttributionMetricsResponse = S.suspend(() =>
+  S.Struct({
+    metrics: S.optional(MetricAttributes),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListMetricAttributionMetricsResponse",
+}) as any as S.Schema<ListMetricAttributionMetricsResponse>;
+export interface ListTagsForResourceResponse {
+  tags?: Tags;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ tags: S.optional(Tags) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface StartRecommenderResponse {
+  recommenderArn?: string;
+}
+export const StartRecommenderResponse = S.suspend(() =>
+  S.Struct({ recommenderArn: S.optional(S.String) }),
+).annotations({
+  identifier: "StartRecommenderResponse",
+}) as any as S.Schema<StartRecommenderResponse>;
+export interface StopRecommenderResponse {
+  recommenderArn?: string;
+}
+export const StopRecommenderResponse = S.suspend(() =>
+  S.Struct({ recommenderArn: S.optional(S.String) }),
+).annotations({
+  identifier: "StopRecommenderResponse",
+}) as any as S.Schema<StopRecommenderResponse>;
+export interface UpdateCampaignResponse {
+  campaignArn?: string;
+}
+export const UpdateCampaignResponse = S.suspend(() =>
+  S.Struct({ campaignArn: S.optional(S.String) }),
+).annotations({
+  identifier: "UpdateCampaignResponse",
+}) as any as S.Schema<UpdateCampaignResponse>;
+export interface UpdateDatasetResponse {
+  datasetArn?: string;
+}
+export const UpdateDatasetResponse = S.suspend(() =>
+  S.Struct({ datasetArn: S.optional(S.String) }),
+).annotations({
+  identifier: "UpdateDatasetResponse",
+}) as any as S.Schema<UpdateDatasetResponse>;
+export interface UpdateMetricAttributionResponse {
+  metricAttributionArn?: string;
+}
+export const UpdateMetricAttributionResponse = S.suspend(() =>
+  S.Struct({ metricAttributionArn: S.optional(S.String) }),
+).annotations({
+  identifier: "UpdateMetricAttributionResponse",
+}) as any as S.Schema<UpdateMetricAttributionResponse>;
+export interface UpdateRecommenderResponse {
+  recommenderArn?: string;
+}
+export const UpdateRecommenderResponse = S.suspend(() =>
+  S.Struct({ recommenderArn: S.optional(S.String) }),
+).annotations({
+  identifier: "UpdateRecommenderResponse",
+}) as any as S.Schema<UpdateRecommenderResponse>;
+export interface UpdateSolutionRequest {
+  solutionArn: string;
+  performAutoTraining?: boolean;
+  performIncrementalUpdate?: boolean;
+  solutionUpdateConfig?: SolutionUpdateConfig;
+}
+export const UpdateSolutionRequest = S.suspend(() =>
+  S.Struct({
     solutionArn: S.String,
     performAutoTraining: S.optional(S.Boolean),
     performIncrementalUpdate: S.optional(S.Boolean),
     solutionUpdateConfig: S.optional(SolutionUpdateConfig),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class FieldsForThemeGeneration extends S.Class<FieldsForThemeGeneration>(
-  "FieldsForThemeGeneration",
-)({ itemName: S.String }) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateSolutionRequest",
+}) as any as S.Schema<UpdateSolutionRequest>;
+export interface FieldsForThemeGeneration {
+  itemName: string;
+}
+export const FieldsForThemeGeneration = S.suspend(() =>
+  S.Struct({ itemName: S.String }),
+).annotations({
+  identifier: "FieldsForThemeGeneration",
+}) as any as S.Schema<FieldsForThemeGeneration>;
+export type FeatureTransformationParameters = { [key: string]: string };
 export const FeatureTransformationParameters = S.Record({
   key: S.String,
   value: S.String,
 });
-export class AutoMLConfig extends S.Class<AutoMLConfig>("AutoMLConfig")({
-  metricName: S.optional(S.String),
-  recipeList: S.optional(ArnList),
-}) {}
-export class OptimizationObjective extends S.Class<OptimizationObjective>(
-  "OptimizationObjective",
-)({
-  itemAttribute: S.optional(S.String),
-  objectiveSensitivity: S.optional(S.String),
-}) {}
-export class BatchInferenceJobInput extends S.Class<BatchInferenceJobInput>(
-  "BatchInferenceJobInput",
-)({ s3DataSource: S3DataConfig }) {}
-export class BatchInferenceJobConfig extends S.Class<BatchInferenceJobConfig>(
-  "BatchInferenceJobConfig",
-)({
-  itemExplorationConfig: S.optional(HyperParameters),
-  rankingInfluence: S.optional(RankingInfluence),
-}) {}
-export class ThemeGenerationConfig extends S.Class<ThemeGenerationConfig>(
-  "ThemeGenerationConfig",
-)({ fieldsForThemeGeneration: FieldsForThemeGeneration }) {}
-export class BatchInferenceJob extends S.Class<BatchInferenceJob>(
-  "BatchInferenceJob",
-)({
-  jobName: S.optional(S.String),
-  batchInferenceJobArn: S.optional(S.String),
-  filterArn: S.optional(S.String),
-  failureReason: S.optional(S.String),
-  solutionVersionArn: S.optional(S.String),
-  numResults: S.optional(S.Number),
-  jobInput: S.optional(BatchInferenceJobInput),
-  jobOutput: S.optional(BatchInferenceJobOutput),
-  batchInferenceJobConfig: S.optional(BatchInferenceJobConfig),
-  roleArn: S.optional(S.String),
-  batchInferenceJobMode: S.optional(S.String),
-  themeGenerationConfig: S.optional(ThemeGenerationConfig),
-  status: S.optional(S.String),
-  creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdatedDateTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
-export class BatchSegmentJob extends S.Class<BatchSegmentJob>(
-  "BatchSegmentJob",
-)({
-  jobName: S.optional(S.String),
-  batchSegmentJobArn: S.optional(S.String),
-  filterArn: S.optional(S.String),
-  failureReason: S.optional(S.String),
-  solutionVersionArn: S.optional(S.String),
-  numResults: S.optional(S.Number),
-  jobInput: S.optional(BatchSegmentJobInput),
-  jobOutput: S.optional(BatchSegmentJobOutput),
-  roleArn: S.optional(S.String),
-  status: S.optional(S.String),
-  creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdatedDateTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
-export class DataDeletionJob extends S.Class<DataDeletionJob>(
-  "DataDeletionJob",
-)({
-  jobName: S.optional(S.String),
-  dataDeletionJobArn: S.optional(S.String),
-  datasetGroupArn: S.optional(S.String),
-  dataSource: S.optional(DataSource),
-  roleArn: S.optional(S.String),
-  status: S.optional(S.String),
-  numDeleted: S.optional(S.Number),
-  creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdatedDateTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  failureReason: S.optional(S.String),
-}) {}
-export class DatasetExportJob extends S.Class<DatasetExportJob>(
-  "DatasetExportJob",
-)({
-  jobName: S.optional(S.String),
-  datasetExportJobArn: S.optional(S.String),
-  datasetArn: S.optional(S.String),
-  ingestionMode: S.optional(S.String),
-  roleArn: S.optional(S.String),
-  status: S.optional(S.String),
-  jobOutput: S.optional(DatasetExportJobOutput),
-  creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdatedDateTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  failureReason: S.optional(S.String),
-}) {}
-export class DatasetGroup extends S.Class<DatasetGroup>("DatasetGroup")({
-  name: S.optional(S.String),
-  datasetGroupArn: S.optional(S.String),
-  status: S.optional(S.String),
-  roleArn: S.optional(S.String),
-  kmsKeyArn: S.optional(S.String),
-  creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdatedDateTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  failureReason: S.optional(S.String),
-  domain: S.optional(S.String),
-}) {}
-export class DatasetImportJob extends S.Class<DatasetImportJob>(
-  "DatasetImportJob",
-)({
-  jobName: S.optional(S.String),
-  datasetImportJobArn: S.optional(S.String),
-  datasetArn: S.optional(S.String),
-  dataSource: S.optional(DataSource),
-  roleArn: S.optional(S.String),
-  status: S.optional(S.String),
-  creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdatedDateTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  failureReason: S.optional(S.String),
-  importMode: S.optional(S.String),
-  publishAttributionMetricsToS3: S.optional(S.Boolean),
-}) {}
-export class EventTracker extends S.Class<EventTracker>("EventTracker")({
-  name: S.optional(S.String),
-  eventTrackerArn: S.optional(S.String),
-  accountId: S.optional(S.String),
-  trackingId: S.optional(S.String),
-  datasetGroupArn: S.optional(S.String),
-  status: S.optional(S.String),
-  creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdatedDateTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
-export class Filter extends S.Class<Filter>("Filter")({
-  name: S.optional(S.String),
-  filterArn: S.optional(S.String),
-  creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdatedDateTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  datasetGroupArn: S.optional(S.String),
-  failureReason: S.optional(S.String),
-  filterExpression: S.optional(S.String),
-  status: S.optional(S.String),
-}) {}
-export class MetricAttribution extends S.Class<MetricAttribution>(
-  "MetricAttribution",
-)({
-  name: S.optional(S.String),
-  metricAttributionArn: S.optional(S.String),
-  datasetGroupArn: S.optional(S.String),
-  metricsOutputConfig: S.optional(MetricAttributionOutput),
-  status: S.optional(S.String),
-  creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdatedDateTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  failureReason: S.optional(S.String),
-}) {}
-export class Recipe extends S.Class<Recipe>("Recipe")({
-  name: S.optional(S.String),
-  recipeArn: S.optional(S.String),
-  algorithmArn: S.optional(S.String),
-  featureTransformationArn: S.optional(S.String),
-  status: S.optional(S.String),
-  description: S.optional(S.String),
-  creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  recipeType: S.optional(S.String),
-  lastUpdatedDateTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
-export class DatasetSchema extends S.Class<DatasetSchema>("DatasetSchema")({
-  name: S.optional(S.String),
-  schemaArn: S.optional(S.String),
-  schema: S.optional(S.String),
-  creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdatedDateTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  domain: S.optional(S.String),
-}) {}
+export interface AutoMLConfig {
+  metricName?: string;
+  recipeList?: ArnList;
+}
+export const AutoMLConfig = S.suspend(() =>
+  S.Struct({
+    metricName: S.optional(S.String),
+    recipeList: S.optional(ArnList),
+  }),
+).annotations({ identifier: "AutoMLConfig" }) as any as S.Schema<AutoMLConfig>;
+export interface OptimizationObjective {
+  itemAttribute?: string;
+  objectiveSensitivity?: string;
+}
+export const OptimizationObjective = S.suspend(() =>
+  S.Struct({
+    itemAttribute: S.optional(S.String),
+    objectiveSensitivity: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "OptimizationObjective",
+}) as any as S.Schema<OptimizationObjective>;
+export interface BatchInferenceJobInput {
+  s3DataSource: S3DataConfig;
+}
+export const BatchInferenceJobInput = S.suspend(() =>
+  S.Struct({ s3DataSource: S3DataConfig }),
+).annotations({
+  identifier: "BatchInferenceJobInput",
+}) as any as S.Schema<BatchInferenceJobInput>;
+export interface BatchInferenceJobConfig {
+  itemExplorationConfig?: HyperParameters;
+  rankingInfluence?: RankingInfluence;
+}
+export const BatchInferenceJobConfig = S.suspend(() =>
+  S.Struct({
+    itemExplorationConfig: S.optional(HyperParameters),
+    rankingInfluence: S.optional(RankingInfluence),
+  }),
+).annotations({
+  identifier: "BatchInferenceJobConfig",
+}) as any as S.Schema<BatchInferenceJobConfig>;
+export interface ThemeGenerationConfig {
+  fieldsForThemeGeneration: FieldsForThemeGeneration;
+}
+export const ThemeGenerationConfig = S.suspend(() =>
+  S.Struct({ fieldsForThemeGeneration: FieldsForThemeGeneration }),
+).annotations({
+  identifier: "ThemeGenerationConfig",
+}) as any as S.Schema<ThemeGenerationConfig>;
+export interface BatchInferenceJob {
+  jobName?: string;
+  batchInferenceJobArn?: string;
+  filterArn?: string;
+  failureReason?: string;
+  solutionVersionArn?: string;
+  numResults?: number;
+  jobInput?: BatchInferenceJobInput;
+  jobOutput?: BatchInferenceJobOutput;
+  batchInferenceJobConfig?: BatchInferenceJobConfig;
+  roleArn?: string;
+  batchInferenceJobMode?: string;
+  themeGenerationConfig?: ThemeGenerationConfig;
+  status?: string;
+  creationDateTime?: Date;
+  lastUpdatedDateTime?: Date;
+}
+export const BatchInferenceJob = S.suspend(() =>
+  S.Struct({
+    jobName: S.optional(S.String),
+    batchInferenceJobArn: S.optional(S.String),
+    filterArn: S.optional(S.String),
+    failureReason: S.optional(S.String),
+    solutionVersionArn: S.optional(S.String),
+    numResults: S.optional(S.Number),
+    jobInput: S.optional(BatchInferenceJobInput),
+    jobOutput: S.optional(BatchInferenceJobOutput),
+    batchInferenceJobConfig: S.optional(BatchInferenceJobConfig),
+    roleArn: S.optional(S.String),
+    batchInferenceJobMode: S.optional(S.String),
+    themeGenerationConfig: S.optional(ThemeGenerationConfig),
+    status: S.optional(S.String),
+    creationDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    lastUpdatedDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "BatchInferenceJob",
+}) as any as S.Schema<BatchInferenceJob>;
+export interface BatchSegmentJob {
+  jobName?: string;
+  batchSegmentJobArn?: string;
+  filterArn?: string;
+  failureReason?: string;
+  solutionVersionArn?: string;
+  numResults?: number;
+  jobInput?: BatchSegmentJobInput;
+  jobOutput?: BatchSegmentJobOutput;
+  roleArn?: string;
+  status?: string;
+  creationDateTime?: Date;
+  lastUpdatedDateTime?: Date;
+}
+export const BatchSegmentJob = S.suspend(() =>
+  S.Struct({
+    jobName: S.optional(S.String),
+    batchSegmentJobArn: S.optional(S.String),
+    filterArn: S.optional(S.String),
+    failureReason: S.optional(S.String),
+    solutionVersionArn: S.optional(S.String),
+    numResults: S.optional(S.Number),
+    jobInput: S.optional(BatchSegmentJobInput),
+    jobOutput: S.optional(BatchSegmentJobOutput),
+    roleArn: S.optional(S.String),
+    status: S.optional(S.String),
+    creationDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    lastUpdatedDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "BatchSegmentJob",
+}) as any as S.Schema<BatchSegmentJob>;
+export interface DataDeletionJob {
+  jobName?: string;
+  dataDeletionJobArn?: string;
+  datasetGroupArn?: string;
+  dataSource?: DataSource;
+  roleArn?: string;
+  status?: string;
+  numDeleted?: number;
+  creationDateTime?: Date;
+  lastUpdatedDateTime?: Date;
+  failureReason?: string;
+}
+export const DataDeletionJob = S.suspend(() =>
+  S.Struct({
+    jobName: S.optional(S.String),
+    dataDeletionJobArn: S.optional(S.String),
+    datasetGroupArn: S.optional(S.String),
+    dataSource: S.optional(DataSource),
+    roleArn: S.optional(S.String),
+    status: S.optional(S.String),
+    numDeleted: S.optional(S.Number),
+    creationDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    lastUpdatedDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    failureReason: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DataDeletionJob",
+}) as any as S.Schema<DataDeletionJob>;
+export interface DatasetExportJob {
+  jobName?: string;
+  datasetExportJobArn?: string;
+  datasetArn?: string;
+  ingestionMode?: string;
+  roleArn?: string;
+  status?: string;
+  jobOutput?: DatasetExportJobOutput;
+  creationDateTime?: Date;
+  lastUpdatedDateTime?: Date;
+  failureReason?: string;
+}
+export const DatasetExportJob = S.suspend(() =>
+  S.Struct({
+    jobName: S.optional(S.String),
+    datasetExportJobArn: S.optional(S.String),
+    datasetArn: S.optional(S.String),
+    ingestionMode: S.optional(S.String),
+    roleArn: S.optional(S.String),
+    status: S.optional(S.String),
+    jobOutput: S.optional(DatasetExportJobOutput),
+    creationDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    lastUpdatedDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    failureReason: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DatasetExportJob",
+}) as any as S.Schema<DatasetExportJob>;
+export interface DatasetGroup {
+  name?: string;
+  datasetGroupArn?: string;
+  status?: string;
+  roleArn?: string;
+  kmsKeyArn?: string;
+  creationDateTime?: Date;
+  lastUpdatedDateTime?: Date;
+  failureReason?: string;
+  domain?: string;
+}
+export const DatasetGroup = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    datasetGroupArn: S.optional(S.String),
+    status: S.optional(S.String),
+    roleArn: S.optional(S.String),
+    kmsKeyArn: S.optional(S.String),
+    creationDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    lastUpdatedDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    failureReason: S.optional(S.String),
+    domain: S.optional(S.String),
+  }),
+).annotations({ identifier: "DatasetGroup" }) as any as S.Schema<DatasetGroup>;
+export interface DatasetImportJob {
+  jobName?: string;
+  datasetImportJobArn?: string;
+  datasetArn?: string;
+  dataSource?: DataSource;
+  roleArn?: string;
+  status?: string;
+  creationDateTime?: Date;
+  lastUpdatedDateTime?: Date;
+  failureReason?: string;
+  importMode?: string;
+  publishAttributionMetricsToS3?: boolean;
+}
+export const DatasetImportJob = S.suspend(() =>
+  S.Struct({
+    jobName: S.optional(S.String),
+    datasetImportJobArn: S.optional(S.String),
+    datasetArn: S.optional(S.String),
+    dataSource: S.optional(DataSource),
+    roleArn: S.optional(S.String),
+    status: S.optional(S.String),
+    creationDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    lastUpdatedDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    failureReason: S.optional(S.String),
+    importMode: S.optional(S.String),
+    publishAttributionMetricsToS3: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "DatasetImportJob",
+}) as any as S.Schema<DatasetImportJob>;
+export interface EventTracker {
+  name?: string;
+  eventTrackerArn?: string;
+  accountId?: string;
+  trackingId?: string;
+  datasetGroupArn?: string;
+  status?: string;
+  creationDateTime?: Date;
+  lastUpdatedDateTime?: Date;
+}
+export const EventTracker = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    eventTrackerArn: S.optional(S.String),
+    accountId: S.optional(S.String),
+    trackingId: S.optional(S.String),
+    datasetGroupArn: S.optional(S.String),
+    status: S.optional(S.String),
+    creationDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    lastUpdatedDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({ identifier: "EventTracker" }) as any as S.Schema<EventTracker>;
+export interface Filter {
+  name?: string;
+  filterArn?: string;
+  creationDateTime?: Date;
+  lastUpdatedDateTime?: Date;
+  datasetGroupArn?: string;
+  failureReason?: string;
+  filterExpression?: string;
+  status?: string;
+}
+export const Filter = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    filterArn: S.optional(S.String),
+    creationDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    lastUpdatedDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    datasetGroupArn: S.optional(S.String),
+    failureReason: S.optional(S.String),
+    filterExpression: S.optional(S.String),
+    status: S.optional(S.String),
+  }),
+).annotations({ identifier: "Filter" }) as any as S.Schema<Filter>;
+export interface MetricAttribution {
+  name?: string;
+  metricAttributionArn?: string;
+  datasetGroupArn?: string;
+  metricsOutputConfig?: MetricAttributionOutput;
+  status?: string;
+  creationDateTime?: Date;
+  lastUpdatedDateTime?: Date;
+  failureReason?: string;
+}
+export const MetricAttribution = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    metricAttributionArn: S.optional(S.String),
+    datasetGroupArn: S.optional(S.String),
+    metricsOutputConfig: S.optional(MetricAttributionOutput),
+    status: S.optional(S.String),
+    creationDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    lastUpdatedDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    failureReason: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "MetricAttribution",
+}) as any as S.Schema<MetricAttribution>;
+export interface Recipe {
+  name?: string;
+  recipeArn?: string;
+  algorithmArn?: string;
+  featureTransformationArn?: string;
+  status?: string;
+  description?: string;
+  creationDateTime?: Date;
+  recipeType?: string;
+  lastUpdatedDateTime?: Date;
+}
+export const Recipe = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    recipeArn: S.optional(S.String),
+    algorithmArn: S.optional(S.String),
+    featureTransformationArn: S.optional(S.String),
+    status: S.optional(S.String),
+    description: S.optional(S.String),
+    creationDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    recipeType: S.optional(S.String),
+    lastUpdatedDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({ identifier: "Recipe" }) as any as S.Schema<Recipe>;
+export interface DatasetSchema {
+  name?: string;
+  schemaArn?: string;
+  schema?: string;
+  creationDateTime?: Date;
+  lastUpdatedDateTime?: Date;
+  domain?: string;
+}
+export const DatasetSchema = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    schemaArn: S.optional(S.String),
+    schema: S.optional(S.String),
+    creationDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    lastUpdatedDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    domain: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DatasetSchema",
+}) as any as S.Schema<DatasetSchema>;
+export type Metrics = { [key: string]: number };
 export const Metrics = S.Record({ key: S.String, value: S.Number });
-export class BatchInferenceJobSummary extends S.Class<BatchInferenceJobSummary>(
-  "BatchInferenceJobSummary",
-)({
-  batchInferenceJobArn: S.optional(S.String),
-  jobName: S.optional(S.String),
-  status: S.optional(S.String),
-  creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdatedDateTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  failureReason: S.optional(S.String),
-  solutionVersionArn: S.optional(S.String),
-  batchInferenceJobMode: S.optional(S.String),
-}) {}
+export interface BatchInferenceJobSummary {
+  batchInferenceJobArn?: string;
+  jobName?: string;
+  status?: string;
+  creationDateTime?: Date;
+  lastUpdatedDateTime?: Date;
+  failureReason?: string;
+  solutionVersionArn?: string;
+  batchInferenceJobMode?: string;
+}
+export const BatchInferenceJobSummary = S.suspend(() =>
+  S.Struct({
+    batchInferenceJobArn: S.optional(S.String),
+    jobName: S.optional(S.String),
+    status: S.optional(S.String),
+    creationDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    lastUpdatedDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    failureReason: S.optional(S.String),
+    solutionVersionArn: S.optional(S.String),
+    batchInferenceJobMode: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "BatchInferenceJobSummary",
+}) as any as S.Schema<BatchInferenceJobSummary>;
+export type BatchInferenceJobs = BatchInferenceJobSummary[];
 export const BatchInferenceJobs = S.Array(BatchInferenceJobSummary);
-export class BatchSegmentJobSummary extends S.Class<BatchSegmentJobSummary>(
-  "BatchSegmentJobSummary",
-)({
-  batchSegmentJobArn: S.optional(S.String),
-  jobName: S.optional(S.String),
-  status: S.optional(S.String),
-  creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdatedDateTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  failureReason: S.optional(S.String),
-  solutionVersionArn: S.optional(S.String),
-}) {}
+export interface BatchSegmentJobSummary {
+  batchSegmentJobArn?: string;
+  jobName?: string;
+  status?: string;
+  creationDateTime?: Date;
+  lastUpdatedDateTime?: Date;
+  failureReason?: string;
+  solutionVersionArn?: string;
+}
+export const BatchSegmentJobSummary = S.suspend(() =>
+  S.Struct({
+    batchSegmentJobArn: S.optional(S.String),
+    jobName: S.optional(S.String),
+    status: S.optional(S.String),
+    creationDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    lastUpdatedDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    failureReason: S.optional(S.String),
+    solutionVersionArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "BatchSegmentJobSummary",
+}) as any as S.Schema<BatchSegmentJobSummary>;
+export type BatchSegmentJobs = BatchSegmentJobSummary[];
 export const BatchSegmentJobs = S.Array(BatchSegmentJobSummary);
-export class CampaignSummary extends S.Class<CampaignSummary>(
-  "CampaignSummary",
-)({
-  name: S.optional(S.String),
-  campaignArn: S.optional(S.String),
-  status: S.optional(S.String),
-  creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdatedDateTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  failureReason: S.optional(S.String),
-}) {}
+export interface CampaignSummary {
+  name?: string;
+  campaignArn?: string;
+  status?: string;
+  creationDateTime?: Date;
+  lastUpdatedDateTime?: Date;
+  failureReason?: string;
+}
+export const CampaignSummary = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    campaignArn: S.optional(S.String),
+    status: S.optional(S.String),
+    creationDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    lastUpdatedDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    failureReason: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CampaignSummary",
+}) as any as S.Schema<CampaignSummary>;
+export type Campaigns = CampaignSummary[];
 export const Campaigns = S.Array(CampaignSummary);
-export class DataDeletionJobSummary extends S.Class<DataDeletionJobSummary>(
-  "DataDeletionJobSummary",
-)({
-  dataDeletionJobArn: S.optional(S.String),
-  datasetGroupArn: S.optional(S.String),
-  jobName: S.optional(S.String),
-  status: S.optional(S.String),
-  creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdatedDateTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  failureReason: S.optional(S.String),
-}) {}
+export interface DataDeletionJobSummary {
+  dataDeletionJobArn?: string;
+  datasetGroupArn?: string;
+  jobName?: string;
+  status?: string;
+  creationDateTime?: Date;
+  lastUpdatedDateTime?: Date;
+  failureReason?: string;
+}
+export const DataDeletionJobSummary = S.suspend(() =>
+  S.Struct({
+    dataDeletionJobArn: S.optional(S.String),
+    datasetGroupArn: S.optional(S.String),
+    jobName: S.optional(S.String),
+    status: S.optional(S.String),
+    creationDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    lastUpdatedDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    failureReason: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DataDeletionJobSummary",
+}) as any as S.Schema<DataDeletionJobSummary>;
+export type DataDeletionJobs = DataDeletionJobSummary[];
 export const DataDeletionJobs = S.Array(DataDeletionJobSummary);
-export class DatasetExportJobSummary extends S.Class<DatasetExportJobSummary>(
-  "DatasetExportJobSummary",
-)({
-  datasetExportJobArn: S.optional(S.String),
-  jobName: S.optional(S.String),
-  status: S.optional(S.String),
-  creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdatedDateTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  failureReason: S.optional(S.String),
-}) {}
+export interface DatasetExportJobSummary {
+  datasetExportJobArn?: string;
+  jobName?: string;
+  status?: string;
+  creationDateTime?: Date;
+  lastUpdatedDateTime?: Date;
+  failureReason?: string;
+}
+export const DatasetExportJobSummary = S.suspend(() =>
+  S.Struct({
+    datasetExportJobArn: S.optional(S.String),
+    jobName: S.optional(S.String),
+    status: S.optional(S.String),
+    creationDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    lastUpdatedDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    failureReason: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DatasetExportJobSummary",
+}) as any as S.Schema<DatasetExportJobSummary>;
+export type DatasetExportJobs = DatasetExportJobSummary[];
 export const DatasetExportJobs = S.Array(DatasetExportJobSummary);
-export class DatasetGroupSummary extends S.Class<DatasetGroupSummary>(
-  "DatasetGroupSummary",
-)({
-  name: S.optional(S.String),
-  datasetGroupArn: S.optional(S.String),
-  status: S.optional(S.String),
-  creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdatedDateTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  failureReason: S.optional(S.String),
-  domain: S.optional(S.String),
-}) {}
+export interface DatasetGroupSummary {
+  name?: string;
+  datasetGroupArn?: string;
+  status?: string;
+  creationDateTime?: Date;
+  lastUpdatedDateTime?: Date;
+  failureReason?: string;
+  domain?: string;
+}
+export const DatasetGroupSummary = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    datasetGroupArn: S.optional(S.String),
+    status: S.optional(S.String),
+    creationDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    lastUpdatedDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    failureReason: S.optional(S.String),
+    domain: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DatasetGroupSummary",
+}) as any as S.Schema<DatasetGroupSummary>;
+export type DatasetGroups = DatasetGroupSummary[];
 export const DatasetGroups = S.Array(DatasetGroupSummary);
-export class DatasetImportJobSummary extends S.Class<DatasetImportJobSummary>(
-  "DatasetImportJobSummary",
-)({
-  datasetImportJobArn: S.optional(S.String),
-  jobName: S.optional(S.String),
-  status: S.optional(S.String),
-  creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdatedDateTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  failureReason: S.optional(S.String),
-  importMode: S.optional(S.String),
-}) {}
+export interface DatasetImportJobSummary {
+  datasetImportJobArn?: string;
+  jobName?: string;
+  status?: string;
+  creationDateTime?: Date;
+  lastUpdatedDateTime?: Date;
+  failureReason?: string;
+  importMode?: string;
+}
+export const DatasetImportJobSummary = S.suspend(() =>
+  S.Struct({
+    datasetImportJobArn: S.optional(S.String),
+    jobName: S.optional(S.String),
+    status: S.optional(S.String),
+    creationDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    lastUpdatedDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    failureReason: S.optional(S.String),
+    importMode: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DatasetImportJobSummary",
+}) as any as S.Schema<DatasetImportJobSummary>;
+export type DatasetImportJobs = DatasetImportJobSummary[];
 export const DatasetImportJobs = S.Array(DatasetImportJobSummary);
-export class DatasetSummary extends S.Class<DatasetSummary>("DatasetSummary")({
-  name: S.optional(S.String),
-  datasetArn: S.optional(S.String),
-  datasetType: S.optional(S.String),
-  status: S.optional(S.String),
-  creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdatedDateTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
+export interface DatasetSummary {
+  name?: string;
+  datasetArn?: string;
+  datasetType?: string;
+  status?: string;
+  creationDateTime?: Date;
+  lastUpdatedDateTime?: Date;
+}
+export const DatasetSummary = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    datasetArn: S.optional(S.String),
+    datasetType: S.optional(S.String),
+    status: S.optional(S.String),
+    creationDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    lastUpdatedDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "DatasetSummary",
+}) as any as S.Schema<DatasetSummary>;
+export type Datasets = DatasetSummary[];
 export const Datasets = S.Array(DatasetSummary);
-export class EventTrackerSummary extends S.Class<EventTrackerSummary>(
-  "EventTrackerSummary",
-)({
-  name: S.optional(S.String),
-  eventTrackerArn: S.optional(S.String),
-  status: S.optional(S.String),
-  creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdatedDateTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
+export interface EventTrackerSummary {
+  name?: string;
+  eventTrackerArn?: string;
+  status?: string;
+  creationDateTime?: Date;
+  lastUpdatedDateTime?: Date;
+}
+export const EventTrackerSummary = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    eventTrackerArn: S.optional(S.String),
+    status: S.optional(S.String),
+    creationDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    lastUpdatedDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "EventTrackerSummary",
+}) as any as S.Schema<EventTrackerSummary>;
+export type EventTrackers = EventTrackerSummary[];
 export const EventTrackers = S.Array(EventTrackerSummary);
-export class FilterSummary extends S.Class<FilterSummary>("FilterSummary")({
-  name: S.optional(S.String),
-  filterArn: S.optional(S.String),
-  creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdatedDateTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  datasetGroupArn: S.optional(S.String),
-  failureReason: S.optional(S.String),
-  status: S.optional(S.String),
-}) {}
+export interface FilterSummary {
+  name?: string;
+  filterArn?: string;
+  creationDateTime?: Date;
+  lastUpdatedDateTime?: Date;
+  datasetGroupArn?: string;
+  failureReason?: string;
+  status?: string;
+}
+export const FilterSummary = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    filterArn: S.optional(S.String),
+    creationDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    lastUpdatedDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    datasetGroupArn: S.optional(S.String),
+    failureReason: S.optional(S.String),
+    status: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "FilterSummary",
+}) as any as S.Schema<FilterSummary>;
+export type Filters = FilterSummary[];
 export const Filters = S.Array(FilterSummary);
-export class MetricAttributionSummary extends S.Class<MetricAttributionSummary>(
-  "MetricAttributionSummary",
-)({
-  name: S.optional(S.String),
-  metricAttributionArn: S.optional(S.String),
-  status: S.optional(S.String),
-  creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdatedDateTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  failureReason: S.optional(S.String),
-}) {}
+export interface MetricAttributionSummary {
+  name?: string;
+  metricAttributionArn?: string;
+  status?: string;
+  creationDateTime?: Date;
+  lastUpdatedDateTime?: Date;
+  failureReason?: string;
+}
+export const MetricAttributionSummary = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    metricAttributionArn: S.optional(S.String),
+    status: S.optional(S.String),
+    creationDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    lastUpdatedDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    failureReason: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "MetricAttributionSummary",
+}) as any as S.Schema<MetricAttributionSummary>;
+export type MetricAttributions = MetricAttributionSummary[];
 export const MetricAttributions = S.Array(MetricAttributionSummary);
-export class RecipeSummary extends S.Class<RecipeSummary>("RecipeSummary")({
-  name: S.optional(S.String),
-  recipeArn: S.optional(S.String),
-  status: S.optional(S.String),
-  creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdatedDateTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  domain: S.optional(S.String),
-}) {}
+export interface RecipeSummary {
+  name?: string;
+  recipeArn?: string;
+  status?: string;
+  creationDateTime?: Date;
+  lastUpdatedDateTime?: Date;
+  domain?: string;
+}
+export const RecipeSummary = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    recipeArn: S.optional(S.String),
+    status: S.optional(S.String),
+    creationDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    lastUpdatedDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    domain: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RecipeSummary",
+}) as any as S.Schema<RecipeSummary>;
+export type Recipes = RecipeSummary[];
 export const Recipes = S.Array(RecipeSummary);
-export class RecommenderSummary extends S.Class<RecommenderSummary>(
-  "RecommenderSummary",
-)({
-  name: S.optional(S.String),
-  recommenderArn: S.optional(S.String),
-  datasetGroupArn: S.optional(S.String),
-  recipeArn: S.optional(S.String),
-  recommenderConfig: S.optional(RecommenderConfig),
-  status: S.optional(S.String),
-  creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdatedDateTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
+export interface RecommenderSummary {
+  name?: string;
+  recommenderArn?: string;
+  datasetGroupArn?: string;
+  recipeArn?: string;
+  recommenderConfig?: RecommenderConfig;
+  status?: string;
+  creationDateTime?: Date;
+  lastUpdatedDateTime?: Date;
+}
+export const RecommenderSummary = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    recommenderArn: S.optional(S.String),
+    datasetGroupArn: S.optional(S.String),
+    recipeArn: S.optional(S.String),
+    recommenderConfig: S.optional(RecommenderConfig),
+    status: S.optional(S.String),
+    creationDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    lastUpdatedDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "RecommenderSummary",
+}) as any as S.Schema<RecommenderSummary>;
+export type Recommenders = RecommenderSummary[];
 export const Recommenders = S.Array(RecommenderSummary);
-export class DatasetSchemaSummary extends S.Class<DatasetSchemaSummary>(
-  "DatasetSchemaSummary",
-)({
-  name: S.optional(S.String),
-  schemaArn: S.optional(S.String),
-  creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdatedDateTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  domain: S.optional(S.String),
-}) {}
+export interface DatasetSchemaSummary {
+  name?: string;
+  schemaArn?: string;
+  creationDateTime?: Date;
+  lastUpdatedDateTime?: Date;
+  domain?: string;
+}
+export const DatasetSchemaSummary = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    schemaArn: S.optional(S.String),
+    creationDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    lastUpdatedDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    domain: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DatasetSchemaSummary",
+}) as any as S.Schema<DatasetSchemaSummary>;
+export type Schemas = DatasetSchemaSummary[];
 export const Schemas = S.Array(DatasetSchemaSummary);
-export class SolutionSummary extends S.Class<SolutionSummary>(
-  "SolutionSummary",
-)({
-  name: S.optional(S.String),
-  solutionArn: S.optional(S.String),
-  status: S.optional(S.String),
-  creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdatedDateTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  recipeArn: S.optional(S.String),
-}) {}
+export interface SolutionSummary {
+  name?: string;
+  solutionArn?: string;
+  status?: string;
+  creationDateTime?: Date;
+  lastUpdatedDateTime?: Date;
+  recipeArn?: string;
+}
+export const SolutionSummary = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    solutionArn: S.optional(S.String),
+    status: S.optional(S.String),
+    creationDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    lastUpdatedDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    recipeArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SolutionSummary",
+}) as any as S.Schema<SolutionSummary>;
+export type Solutions = SolutionSummary[];
 export const Solutions = S.Array(SolutionSummary);
-export class SolutionVersionSummary extends S.Class<SolutionVersionSummary>(
-  "SolutionVersionSummary",
-)({
-  solutionVersionArn: S.optional(S.String),
-  status: S.optional(S.String),
-  trainingMode: S.optional(S.String),
-  trainingType: S.optional(S.String),
-  creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdatedDateTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  failureReason: S.optional(S.String),
-}) {}
+export interface SolutionVersionSummary {
+  solutionVersionArn?: string;
+  status?: string;
+  trainingMode?: string;
+  trainingType?: string;
+  creationDateTime?: Date;
+  lastUpdatedDateTime?: Date;
+  failureReason?: string;
+}
+export const SolutionVersionSummary = S.suspend(() =>
+  S.Struct({
+    solutionVersionArn: S.optional(S.String),
+    status: S.optional(S.String),
+    trainingMode: S.optional(S.String),
+    trainingType: S.optional(S.String),
+    creationDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    lastUpdatedDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    failureReason: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SolutionVersionSummary",
+}) as any as S.Schema<SolutionVersionSummary>;
+export type SolutionVersions = SolutionVersionSummary[];
 export const SolutionVersions = S.Array(SolutionVersionSummary);
-export class HPOObjective extends S.Class<HPOObjective>("HPOObjective")({
-  type: S.optional(S.String),
-  metricName: S.optional(S.String),
-  metricRegex: S.optional(S.String),
-}) {}
-export class HPOResourceConfig extends S.Class<HPOResourceConfig>(
-  "HPOResourceConfig",
-)({
-  maxNumberOfTrainingJobs: S.optional(S.String),
-  maxParallelTrainingJobs: S.optional(S.String),
-}) {}
-export class CreateBatchInferenceJobRequest extends S.Class<CreateBatchInferenceJobRequest>(
-  "CreateBatchInferenceJobRequest",
-)(
-  {
+export interface HPOObjective {
+  type?: string;
+  metricName?: string;
+  metricRegex?: string;
+}
+export const HPOObjective = S.suspend(() =>
+  S.Struct({
+    type: S.optional(S.String),
+    metricName: S.optional(S.String),
+    metricRegex: S.optional(S.String),
+  }),
+).annotations({ identifier: "HPOObjective" }) as any as S.Schema<HPOObjective>;
+export interface HPOResourceConfig {
+  maxNumberOfTrainingJobs?: string;
+  maxParallelTrainingJobs?: string;
+}
+export const HPOResourceConfig = S.suspend(() =>
+  S.Struct({
+    maxNumberOfTrainingJobs: S.optional(S.String),
+    maxParallelTrainingJobs: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "HPOResourceConfig",
+}) as any as S.Schema<HPOResourceConfig>;
+export interface CreateBatchInferenceJobRequest {
+  jobName: string;
+  solutionVersionArn: string;
+  filterArn?: string;
+  numResults?: number;
+  jobInput: BatchInferenceJobInput;
+  jobOutput: BatchInferenceJobOutput;
+  roleArn: string;
+  batchInferenceJobConfig?: BatchInferenceJobConfig;
+  tags?: Tags;
+  batchInferenceJobMode?: string;
+  themeGenerationConfig?: ThemeGenerationConfig;
+}
+export const CreateBatchInferenceJobRequest = S.suspend(() =>
+  S.Struct({
     jobName: S.String,
     solutionVersionArn: S.String,
     filterArn: S.optional(S.String),
@@ -1386,448 +2427,987 @@ export class CreateBatchInferenceJobRequest extends S.Class<CreateBatchInference
     tags: S.optional(Tags),
     batchInferenceJobMode: S.optional(S.String),
     themeGenerationConfig: S.optional(ThemeGenerationConfig),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateBatchSegmentJobResponse extends S.Class<CreateBatchSegmentJobResponse>(
-  "CreateBatchSegmentJobResponse",
-)({ batchSegmentJobArn: S.optional(S.String) }) {}
-export class CreateCampaignResponse extends S.Class<CreateCampaignResponse>(
-  "CreateCampaignResponse",
-)({ campaignArn: S.optional(S.String) }) {}
-export class CreateDataDeletionJobResponse extends S.Class<CreateDataDeletionJobResponse>(
-  "CreateDataDeletionJobResponse",
-)({ dataDeletionJobArn: S.optional(S.String) }) {}
-export class CreateDatasetExportJobResponse extends S.Class<CreateDatasetExportJobResponse>(
-  "CreateDatasetExportJobResponse",
-)({ datasetExportJobArn: S.optional(S.String) }) {}
-export class CreateMetricAttributionResponse extends S.Class<CreateMetricAttributionResponse>(
-  "CreateMetricAttributionResponse",
-)({ metricAttributionArn: S.optional(S.String) }) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateBatchInferenceJobRequest",
+}) as any as S.Schema<CreateBatchInferenceJobRequest>;
+export interface CreateBatchSegmentJobResponse {
+  batchSegmentJobArn?: string;
+}
+export const CreateBatchSegmentJobResponse = S.suspend(() =>
+  S.Struct({ batchSegmentJobArn: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateBatchSegmentJobResponse",
+}) as any as S.Schema<CreateBatchSegmentJobResponse>;
+export interface CreateCampaignResponse {
+  campaignArn?: string;
+}
+export const CreateCampaignResponse = S.suspend(() =>
+  S.Struct({ campaignArn: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateCampaignResponse",
+}) as any as S.Schema<CreateCampaignResponse>;
+export interface CreateDataDeletionJobResponse {
+  dataDeletionJobArn?: string;
+}
+export const CreateDataDeletionJobResponse = S.suspend(() =>
+  S.Struct({ dataDeletionJobArn: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateDataDeletionJobResponse",
+}) as any as S.Schema<CreateDataDeletionJobResponse>;
+export interface CreateDatasetExportJobResponse {
+  datasetExportJobArn?: string;
+}
+export const CreateDatasetExportJobResponse = S.suspend(() =>
+  S.Struct({ datasetExportJobArn: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateDatasetExportJobResponse",
+}) as any as S.Schema<CreateDatasetExportJobResponse>;
+export interface CreateMetricAttributionResponse {
+  metricAttributionArn?: string;
+}
+export const CreateMetricAttributionResponse = S.suspend(() =>
+  S.Struct({ metricAttributionArn: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateMetricAttributionResponse",
+}) as any as S.Schema<CreateMetricAttributionResponse>;
+export type CategoricalValues = string[];
 export const CategoricalValues = S.Array(S.String);
-export class DescribeBatchInferenceJobResponse extends S.Class<DescribeBatchInferenceJobResponse>(
-  "DescribeBatchInferenceJobResponse",
-)({ batchInferenceJob: S.optional(BatchInferenceJob) }) {}
-export class DescribeBatchSegmentJobResponse extends S.Class<DescribeBatchSegmentJobResponse>(
-  "DescribeBatchSegmentJobResponse",
-)({ batchSegmentJob: S.optional(BatchSegmentJob) }) {}
-export class DescribeDataDeletionJobResponse extends S.Class<DescribeDataDeletionJobResponse>(
-  "DescribeDataDeletionJobResponse",
-)({ dataDeletionJob: S.optional(DataDeletionJob) }) {}
-export class DescribeDatasetExportJobResponse extends S.Class<DescribeDatasetExportJobResponse>(
-  "DescribeDatasetExportJobResponse",
-)({ datasetExportJob: S.optional(DatasetExportJob) }) {}
-export class DescribeDatasetGroupResponse extends S.Class<DescribeDatasetGroupResponse>(
-  "DescribeDatasetGroupResponse",
-)({ datasetGroup: S.optional(DatasetGroup) }) {}
-export class DescribeDatasetImportJobResponse extends S.Class<DescribeDatasetImportJobResponse>(
-  "DescribeDatasetImportJobResponse",
-)({ datasetImportJob: S.optional(DatasetImportJob) }) {}
-export class DescribeEventTrackerResponse extends S.Class<DescribeEventTrackerResponse>(
-  "DescribeEventTrackerResponse",
-)({ eventTracker: S.optional(EventTracker) }) {}
-export class DescribeFilterResponse extends S.Class<DescribeFilterResponse>(
-  "DescribeFilterResponse",
-)({ filter: S.optional(Filter) }) {}
-export class DescribeMetricAttributionResponse extends S.Class<DescribeMetricAttributionResponse>(
-  "DescribeMetricAttributionResponse",
-)({ metricAttribution: S.optional(MetricAttribution) }) {}
-export class DescribeRecipeResponse extends S.Class<DescribeRecipeResponse>(
-  "DescribeRecipeResponse",
-)({ recipe: S.optional(Recipe) }) {}
-export class DescribeSchemaResponse extends S.Class<DescribeSchemaResponse>(
-  "DescribeSchemaResponse",
-)({ schema: S.optional(DatasetSchema) }) {}
-export class GetSolutionMetricsResponse extends S.Class<GetSolutionMetricsResponse>(
-  "GetSolutionMetricsResponse",
-)({ solutionVersionArn: S.optional(S.String), metrics: S.optional(Metrics) }) {}
-export class ListBatchInferenceJobsResponse extends S.Class<ListBatchInferenceJobsResponse>(
-  "ListBatchInferenceJobsResponse",
-)({
-  batchInferenceJobs: S.optional(BatchInferenceJobs),
-  nextToken: S.optional(S.String),
-}) {}
-export class ListBatchSegmentJobsResponse extends S.Class<ListBatchSegmentJobsResponse>(
-  "ListBatchSegmentJobsResponse",
-)({
-  batchSegmentJobs: S.optional(BatchSegmentJobs),
-  nextToken: S.optional(S.String),
-}) {}
-export class ListCampaignsResponse extends S.Class<ListCampaignsResponse>(
-  "ListCampaignsResponse",
-)({ campaigns: S.optional(Campaigns), nextToken: S.optional(S.String) }) {}
-export class ListDataDeletionJobsResponse extends S.Class<ListDataDeletionJobsResponse>(
-  "ListDataDeletionJobsResponse",
-)({
-  dataDeletionJobs: S.optional(DataDeletionJobs),
-  nextToken: S.optional(S.String),
-}) {}
-export class ListDatasetExportJobsResponse extends S.Class<ListDatasetExportJobsResponse>(
-  "ListDatasetExportJobsResponse",
-)({
-  datasetExportJobs: S.optional(DatasetExportJobs),
-  nextToken: S.optional(S.String),
-}) {}
-export class ListDatasetGroupsResponse extends S.Class<ListDatasetGroupsResponse>(
-  "ListDatasetGroupsResponse",
-)({
-  datasetGroups: S.optional(DatasetGroups),
-  nextToken: S.optional(S.String),
-}) {}
-export class ListDatasetImportJobsResponse extends S.Class<ListDatasetImportJobsResponse>(
-  "ListDatasetImportJobsResponse",
-)({
-  datasetImportJobs: S.optional(DatasetImportJobs),
-  nextToken: S.optional(S.String),
-}) {}
-export class ListDatasetsResponse extends S.Class<ListDatasetsResponse>(
-  "ListDatasetsResponse",
-)({ datasets: S.optional(Datasets), nextToken: S.optional(S.String) }) {}
-export class ListEventTrackersResponse extends S.Class<ListEventTrackersResponse>(
-  "ListEventTrackersResponse",
-)({
-  eventTrackers: S.optional(EventTrackers),
-  nextToken: S.optional(S.String),
-}) {}
-export class ListFiltersResponse extends S.Class<ListFiltersResponse>(
-  "ListFiltersResponse",
-)({ Filters: S.optional(Filters), nextToken: S.optional(S.String) }) {}
-export class ListMetricAttributionsResponse extends S.Class<ListMetricAttributionsResponse>(
-  "ListMetricAttributionsResponse",
-)({
-  metricAttributions: S.optional(MetricAttributions),
-  nextToken: S.optional(S.String),
-}) {}
-export class ListRecipesResponse extends S.Class<ListRecipesResponse>(
-  "ListRecipesResponse",
-)({ recipes: S.optional(Recipes), nextToken: S.optional(S.String) }) {}
-export class ListRecommendersResponse extends S.Class<ListRecommendersResponse>(
-  "ListRecommendersResponse",
-)({
-  recommenders: S.optional(Recommenders),
-  nextToken: S.optional(S.String),
-}) {}
-export class ListSchemasResponse extends S.Class<ListSchemasResponse>(
-  "ListSchemasResponse",
-)({ schemas: S.optional(Schemas), nextToken: S.optional(S.String) }) {}
-export class ListSolutionsResponse extends S.Class<ListSolutionsResponse>(
-  "ListSolutionsResponse",
-)({ solutions: S.optional(Solutions), nextToken: S.optional(S.String) }) {}
-export class ListSolutionVersionsResponse extends S.Class<ListSolutionVersionsResponse>(
-  "ListSolutionVersionsResponse",
-)({
-  solutionVersions: S.optional(SolutionVersions),
-  nextToken: S.optional(S.String),
-}) {}
-export class UpdateSolutionResponse extends S.Class<UpdateSolutionResponse>(
-  "UpdateSolutionResponse",
-)({ solutionArn: S.optional(S.String) }) {}
-export class AlgorithmImage extends S.Class<AlgorithmImage>("AlgorithmImage")({
-  name: S.optional(S.String),
-  dockerURI: S.String,
-}) {}
+export interface DescribeBatchInferenceJobResponse {
+  batchInferenceJob?: BatchInferenceJob;
+}
+export const DescribeBatchInferenceJobResponse = S.suspend(() =>
+  S.Struct({ batchInferenceJob: S.optional(BatchInferenceJob) }),
+).annotations({
+  identifier: "DescribeBatchInferenceJobResponse",
+}) as any as S.Schema<DescribeBatchInferenceJobResponse>;
+export interface DescribeBatchSegmentJobResponse {
+  batchSegmentJob?: BatchSegmentJob;
+}
+export const DescribeBatchSegmentJobResponse = S.suspend(() =>
+  S.Struct({ batchSegmentJob: S.optional(BatchSegmentJob) }),
+).annotations({
+  identifier: "DescribeBatchSegmentJobResponse",
+}) as any as S.Schema<DescribeBatchSegmentJobResponse>;
+export interface DescribeDataDeletionJobResponse {
+  dataDeletionJob?: DataDeletionJob;
+}
+export const DescribeDataDeletionJobResponse = S.suspend(() =>
+  S.Struct({ dataDeletionJob: S.optional(DataDeletionJob) }),
+).annotations({
+  identifier: "DescribeDataDeletionJobResponse",
+}) as any as S.Schema<DescribeDataDeletionJobResponse>;
+export interface DescribeDatasetExportJobResponse {
+  datasetExportJob?: DatasetExportJob;
+}
+export const DescribeDatasetExportJobResponse = S.suspend(() =>
+  S.Struct({ datasetExportJob: S.optional(DatasetExportJob) }),
+).annotations({
+  identifier: "DescribeDatasetExportJobResponse",
+}) as any as S.Schema<DescribeDatasetExportJobResponse>;
+export interface DescribeDatasetGroupResponse {
+  datasetGroup?: DatasetGroup;
+}
+export const DescribeDatasetGroupResponse = S.suspend(() =>
+  S.Struct({ datasetGroup: S.optional(DatasetGroup) }),
+).annotations({
+  identifier: "DescribeDatasetGroupResponse",
+}) as any as S.Schema<DescribeDatasetGroupResponse>;
+export interface DescribeDatasetImportJobResponse {
+  datasetImportJob?: DatasetImportJob;
+}
+export const DescribeDatasetImportJobResponse = S.suspend(() =>
+  S.Struct({ datasetImportJob: S.optional(DatasetImportJob) }),
+).annotations({
+  identifier: "DescribeDatasetImportJobResponse",
+}) as any as S.Schema<DescribeDatasetImportJobResponse>;
+export interface DescribeEventTrackerResponse {
+  eventTracker?: EventTracker;
+}
+export const DescribeEventTrackerResponse = S.suspend(() =>
+  S.Struct({ eventTracker: S.optional(EventTracker) }),
+).annotations({
+  identifier: "DescribeEventTrackerResponse",
+}) as any as S.Schema<DescribeEventTrackerResponse>;
+export interface DescribeFilterResponse {
+  filter?: Filter;
+}
+export const DescribeFilterResponse = S.suspend(() =>
+  S.Struct({ filter: S.optional(Filter) }),
+).annotations({
+  identifier: "DescribeFilterResponse",
+}) as any as S.Schema<DescribeFilterResponse>;
+export interface DescribeMetricAttributionResponse {
+  metricAttribution?: MetricAttribution;
+}
+export const DescribeMetricAttributionResponse = S.suspend(() =>
+  S.Struct({ metricAttribution: S.optional(MetricAttribution) }),
+).annotations({
+  identifier: "DescribeMetricAttributionResponse",
+}) as any as S.Schema<DescribeMetricAttributionResponse>;
+export interface DescribeRecipeResponse {
+  recipe?: Recipe;
+}
+export const DescribeRecipeResponse = S.suspend(() =>
+  S.Struct({ recipe: S.optional(Recipe) }),
+).annotations({
+  identifier: "DescribeRecipeResponse",
+}) as any as S.Schema<DescribeRecipeResponse>;
+export interface DescribeSchemaResponse {
+  schema?: DatasetSchema;
+}
+export const DescribeSchemaResponse = S.suspend(() =>
+  S.Struct({ schema: S.optional(DatasetSchema) }),
+).annotations({
+  identifier: "DescribeSchemaResponse",
+}) as any as S.Schema<DescribeSchemaResponse>;
+export interface GetSolutionMetricsResponse {
+  solutionVersionArn?: string;
+  metrics?: Metrics;
+}
+export const GetSolutionMetricsResponse = S.suspend(() =>
+  S.Struct({
+    solutionVersionArn: S.optional(S.String),
+    metrics: S.optional(Metrics),
+  }),
+).annotations({
+  identifier: "GetSolutionMetricsResponse",
+}) as any as S.Schema<GetSolutionMetricsResponse>;
+export interface ListBatchInferenceJobsResponse {
+  batchInferenceJobs?: BatchInferenceJobs;
+  nextToken?: string;
+}
+export const ListBatchInferenceJobsResponse = S.suspend(() =>
+  S.Struct({
+    batchInferenceJobs: S.optional(BatchInferenceJobs),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListBatchInferenceJobsResponse",
+}) as any as S.Schema<ListBatchInferenceJobsResponse>;
+export interface ListBatchSegmentJobsResponse {
+  batchSegmentJobs?: BatchSegmentJobs;
+  nextToken?: string;
+}
+export const ListBatchSegmentJobsResponse = S.suspend(() =>
+  S.Struct({
+    batchSegmentJobs: S.optional(BatchSegmentJobs),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListBatchSegmentJobsResponse",
+}) as any as S.Schema<ListBatchSegmentJobsResponse>;
+export interface ListCampaignsResponse {
+  campaigns?: Campaigns;
+  nextToken?: string;
+}
+export const ListCampaignsResponse = S.suspend(() =>
+  S.Struct({
+    campaigns: S.optional(Campaigns),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListCampaignsResponse",
+}) as any as S.Schema<ListCampaignsResponse>;
+export interface ListDataDeletionJobsResponse {
+  dataDeletionJobs?: DataDeletionJobs;
+  nextToken?: string;
+}
+export const ListDataDeletionJobsResponse = S.suspend(() =>
+  S.Struct({
+    dataDeletionJobs: S.optional(DataDeletionJobs),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListDataDeletionJobsResponse",
+}) as any as S.Schema<ListDataDeletionJobsResponse>;
+export interface ListDatasetExportJobsResponse {
+  datasetExportJobs?: DatasetExportJobs;
+  nextToken?: string;
+}
+export const ListDatasetExportJobsResponse = S.suspend(() =>
+  S.Struct({
+    datasetExportJobs: S.optional(DatasetExportJobs),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListDatasetExportJobsResponse",
+}) as any as S.Schema<ListDatasetExportJobsResponse>;
+export interface ListDatasetGroupsResponse {
+  datasetGroups?: DatasetGroups;
+  nextToken?: string;
+}
+export const ListDatasetGroupsResponse = S.suspend(() =>
+  S.Struct({
+    datasetGroups: S.optional(DatasetGroups),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListDatasetGroupsResponse",
+}) as any as S.Schema<ListDatasetGroupsResponse>;
+export interface ListDatasetImportJobsResponse {
+  datasetImportJobs?: DatasetImportJobs;
+  nextToken?: string;
+}
+export const ListDatasetImportJobsResponse = S.suspend(() =>
+  S.Struct({
+    datasetImportJobs: S.optional(DatasetImportJobs),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListDatasetImportJobsResponse",
+}) as any as S.Schema<ListDatasetImportJobsResponse>;
+export interface ListDatasetsResponse {
+  datasets?: Datasets;
+  nextToken?: string;
+}
+export const ListDatasetsResponse = S.suspend(() =>
+  S.Struct({ datasets: S.optional(Datasets), nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListDatasetsResponse",
+}) as any as S.Schema<ListDatasetsResponse>;
+export interface ListEventTrackersResponse {
+  eventTrackers?: EventTrackers;
+  nextToken?: string;
+}
+export const ListEventTrackersResponse = S.suspend(() =>
+  S.Struct({
+    eventTrackers: S.optional(EventTrackers),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListEventTrackersResponse",
+}) as any as S.Schema<ListEventTrackersResponse>;
+export interface ListFiltersResponse {
+  Filters?: Filters;
+  nextToken?: string;
+}
+export const ListFiltersResponse = S.suspend(() =>
+  S.Struct({ Filters: S.optional(Filters), nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListFiltersResponse",
+}) as any as S.Schema<ListFiltersResponse>;
+export interface ListMetricAttributionsResponse {
+  metricAttributions?: MetricAttributions;
+  nextToken?: string;
+}
+export const ListMetricAttributionsResponse = S.suspend(() =>
+  S.Struct({
+    metricAttributions: S.optional(MetricAttributions),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListMetricAttributionsResponse",
+}) as any as S.Schema<ListMetricAttributionsResponse>;
+export interface ListRecipesResponse {
+  recipes?: Recipes;
+  nextToken?: string;
+}
+export const ListRecipesResponse = S.suspend(() =>
+  S.Struct({ recipes: S.optional(Recipes), nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListRecipesResponse",
+}) as any as S.Schema<ListRecipesResponse>;
+export interface ListRecommendersResponse {
+  recommenders?: Recommenders;
+  nextToken?: string;
+}
+export const ListRecommendersResponse = S.suspend(() =>
+  S.Struct({
+    recommenders: S.optional(Recommenders),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListRecommendersResponse",
+}) as any as S.Schema<ListRecommendersResponse>;
+export interface ListSchemasResponse {
+  schemas?: Schemas;
+  nextToken?: string;
+}
+export const ListSchemasResponse = S.suspend(() =>
+  S.Struct({ schemas: S.optional(Schemas), nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListSchemasResponse",
+}) as any as S.Schema<ListSchemasResponse>;
+export interface ListSolutionsResponse {
+  solutions?: Solutions;
+  nextToken?: string;
+}
+export const ListSolutionsResponse = S.suspend(() =>
+  S.Struct({
+    solutions: S.optional(Solutions),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListSolutionsResponse",
+}) as any as S.Schema<ListSolutionsResponse>;
+export interface ListSolutionVersionsResponse {
+  solutionVersions?: SolutionVersions;
+  nextToken?: string;
+}
+export const ListSolutionVersionsResponse = S.suspend(() =>
+  S.Struct({
+    solutionVersions: S.optional(SolutionVersions),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListSolutionVersionsResponse",
+}) as any as S.Schema<ListSolutionVersionsResponse>;
+export interface UpdateSolutionResponse {
+  solutionArn?: string;
+}
+export const UpdateSolutionResponse = S.suspend(() =>
+  S.Struct({ solutionArn: S.optional(S.String) }),
+).annotations({
+  identifier: "UpdateSolutionResponse",
+}) as any as S.Schema<UpdateSolutionResponse>;
+export interface AlgorithmImage {
+  name?: string;
+  dockerURI: string;
+}
+export const AlgorithmImage = S.suspend(() =>
+  S.Struct({ name: S.optional(S.String), dockerURI: S.String }),
+).annotations({
+  identifier: "AlgorithmImage",
+}) as any as S.Schema<AlgorithmImage>;
+export type ResourceConfig = { [key: string]: string };
 export const ResourceConfig = S.Record({ key: S.String, value: S.String });
-export class CampaignUpdateSummary extends S.Class<CampaignUpdateSummary>(
-  "CampaignUpdateSummary",
-)({
-  solutionVersionArn: S.optional(S.String),
-  minProvisionedTPS: S.optional(S.Number),
-  campaignConfig: S.optional(CampaignConfig),
-  status: S.optional(S.String),
-  failureReason: S.optional(S.String),
-  creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdatedDateTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
-export class DatasetUpdateSummary extends S.Class<DatasetUpdateSummary>(
-  "DatasetUpdateSummary",
-)({
-  schemaArn: S.optional(S.String),
-  status: S.optional(S.String),
-  failureReason: S.optional(S.String),
-  creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdatedDateTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
+export interface CampaignUpdateSummary {
+  solutionVersionArn?: string;
+  minProvisionedTPS?: number;
+  campaignConfig?: CampaignConfig;
+  status?: string;
+  failureReason?: string;
+  creationDateTime?: Date;
+  lastUpdatedDateTime?: Date;
+}
+export const CampaignUpdateSummary = S.suspend(() =>
+  S.Struct({
+    solutionVersionArn: S.optional(S.String),
+    minProvisionedTPS: S.optional(S.Number),
+    campaignConfig: S.optional(CampaignConfig),
+    status: S.optional(S.String),
+    failureReason: S.optional(S.String),
+    creationDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    lastUpdatedDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "CampaignUpdateSummary",
+}) as any as S.Schema<CampaignUpdateSummary>;
+export interface DatasetUpdateSummary {
+  schemaArn?: string;
+  status?: string;
+  failureReason?: string;
+  creationDateTime?: Date;
+  lastUpdatedDateTime?: Date;
+}
+export const DatasetUpdateSummary = S.suspend(() =>
+  S.Struct({
+    schemaArn: S.optional(S.String),
+    status: S.optional(S.String),
+    failureReason: S.optional(S.String),
+    creationDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    lastUpdatedDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "DatasetUpdateSummary",
+}) as any as S.Schema<DatasetUpdateSummary>;
+export type FeaturizationParameters = { [key: string]: string };
 export const FeaturizationParameters = S.Record({
   key: S.String,
   value: S.String,
 });
-export class RecommenderUpdateSummary extends S.Class<RecommenderUpdateSummary>(
-  "RecommenderUpdateSummary",
-)({
-  recommenderConfig: S.optional(RecommenderConfig),
-  creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdatedDateTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  status: S.optional(S.String),
-  failureReason: S.optional(S.String),
-}) {}
-export class AutoMLResult extends S.Class<AutoMLResult>("AutoMLResult")({
-  bestRecipeArn: S.optional(S.String),
-}) {}
-export class SolutionUpdateSummary extends S.Class<SolutionUpdateSummary>(
-  "SolutionUpdateSummary",
-)({
-  solutionUpdateConfig: S.optional(SolutionUpdateConfig),
-  status: S.optional(S.String),
-  performAutoTraining: S.optional(S.Boolean),
-  performIncrementalUpdate: S.optional(S.Boolean),
-  creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdatedDateTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  failureReason: S.optional(S.String),
-}) {}
-export class TunedHPOParams extends S.Class<TunedHPOParams>("TunedHPOParams")({
-  algorithmHyperParameters: S.optional(HyperParameters),
-}) {}
-export class IntegerHyperParameterRange extends S.Class<IntegerHyperParameterRange>(
-  "IntegerHyperParameterRange",
-)({
-  name: S.optional(S.String),
-  minValue: S.optional(S.Number),
-  maxValue: S.optional(S.Number),
-}) {}
+export interface RecommenderUpdateSummary {
+  recommenderConfig?: RecommenderConfig;
+  creationDateTime?: Date;
+  lastUpdatedDateTime?: Date;
+  status?: string;
+  failureReason?: string;
+}
+export const RecommenderUpdateSummary = S.suspend(() =>
+  S.Struct({
+    recommenderConfig: S.optional(RecommenderConfig),
+    creationDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    lastUpdatedDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    status: S.optional(S.String),
+    failureReason: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RecommenderUpdateSummary",
+}) as any as S.Schema<RecommenderUpdateSummary>;
+export interface AutoMLResult {
+  bestRecipeArn?: string;
+}
+export const AutoMLResult = S.suspend(() =>
+  S.Struct({ bestRecipeArn: S.optional(S.String) }),
+).annotations({ identifier: "AutoMLResult" }) as any as S.Schema<AutoMLResult>;
+export interface SolutionUpdateSummary {
+  solutionUpdateConfig?: SolutionUpdateConfig;
+  status?: string;
+  performAutoTraining?: boolean;
+  performIncrementalUpdate?: boolean;
+  creationDateTime?: Date;
+  lastUpdatedDateTime?: Date;
+  failureReason?: string;
+}
+export const SolutionUpdateSummary = S.suspend(() =>
+  S.Struct({
+    solutionUpdateConfig: S.optional(SolutionUpdateConfig),
+    status: S.optional(S.String),
+    performAutoTraining: S.optional(S.Boolean),
+    performIncrementalUpdate: S.optional(S.Boolean),
+    creationDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    lastUpdatedDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    failureReason: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SolutionUpdateSummary",
+}) as any as S.Schema<SolutionUpdateSummary>;
+export interface TunedHPOParams {
+  algorithmHyperParameters?: HyperParameters;
+}
+export const TunedHPOParams = S.suspend(() =>
+  S.Struct({ algorithmHyperParameters: S.optional(HyperParameters) }),
+).annotations({
+  identifier: "TunedHPOParams",
+}) as any as S.Schema<TunedHPOParams>;
+export interface IntegerHyperParameterRange {
+  name?: string;
+  minValue?: number;
+  maxValue?: number;
+}
+export const IntegerHyperParameterRange = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    minValue: S.optional(S.Number),
+    maxValue: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "IntegerHyperParameterRange",
+}) as any as S.Schema<IntegerHyperParameterRange>;
+export type IntegerHyperParameterRanges = IntegerHyperParameterRange[];
 export const IntegerHyperParameterRanges = S.Array(IntegerHyperParameterRange);
-export class ContinuousHyperParameterRange extends S.Class<ContinuousHyperParameterRange>(
-  "ContinuousHyperParameterRange",
-)({
-  name: S.optional(S.String),
-  minValue: S.optional(S.Number),
-  maxValue: S.optional(S.Number),
-}) {}
+export interface ContinuousHyperParameterRange {
+  name?: string;
+  minValue?: number;
+  maxValue?: number;
+}
+export const ContinuousHyperParameterRange = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    minValue: S.optional(S.Number),
+    maxValue: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "ContinuousHyperParameterRange",
+}) as any as S.Schema<ContinuousHyperParameterRange>;
+export type ContinuousHyperParameterRanges = ContinuousHyperParameterRange[];
 export const ContinuousHyperParameterRanges = S.Array(
   ContinuousHyperParameterRange,
 );
-export class CategoricalHyperParameterRange extends S.Class<CategoricalHyperParameterRange>(
-  "CategoricalHyperParameterRange",
-)({ name: S.optional(S.String), values: S.optional(CategoricalValues) }) {}
+export interface CategoricalHyperParameterRange {
+  name?: string;
+  values?: CategoricalValues;
+}
+export const CategoricalHyperParameterRange = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    values: S.optional(CategoricalValues),
+  }),
+).annotations({
+  identifier: "CategoricalHyperParameterRange",
+}) as any as S.Schema<CategoricalHyperParameterRange>;
+export type CategoricalHyperParameterRanges = CategoricalHyperParameterRange[];
 export const CategoricalHyperParameterRanges = S.Array(
   CategoricalHyperParameterRange,
 );
-export class Campaign extends S.Class<Campaign>("Campaign")({
-  name: S.optional(S.String),
-  campaignArn: S.optional(S.String),
-  solutionVersionArn: S.optional(S.String),
-  minProvisionedTPS: S.optional(S.Number),
-  campaignConfig: S.optional(CampaignConfig),
-  status: S.optional(S.String),
-  failureReason: S.optional(S.String),
-  creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdatedDateTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  latestCampaignUpdate: S.optional(CampaignUpdateSummary),
-}) {}
-export class Dataset extends S.Class<Dataset>("Dataset")({
-  name: S.optional(S.String),
-  datasetArn: S.optional(S.String),
-  datasetGroupArn: S.optional(S.String),
-  datasetType: S.optional(S.String),
-  schemaArn: S.optional(S.String),
-  status: S.optional(S.String),
-  creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdatedDateTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  latestDatasetUpdate: S.optional(DatasetUpdateSummary),
-  trackingId: S.optional(S.String),
-}) {}
-export class FeatureTransformation extends S.Class<FeatureTransformation>(
-  "FeatureTransformation",
-)({
-  name: S.optional(S.String),
-  featureTransformationArn: S.optional(S.String),
-  defaultParameters: S.optional(FeaturizationParameters),
-  creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdatedDateTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  status: S.optional(S.String),
-}) {}
-export class Recommender extends S.Class<Recommender>("Recommender")({
-  recommenderArn: S.optional(S.String),
-  datasetGroupArn: S.optional(S.String),
-  name: S.optional(S.String),
-  recipeArn: S.optional(S.String),
-  recommenderConfig: S.optional(RecommenderConfig),
-  creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdatedDateTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  status: S.optional(S.String),
-  failureReason: S.optional(S.String),
-  latestRecommenderUpdate: S.optional(RecommenderUpdateSummary),
-  modelMetrics: S.optional(Metrics),
-}) {}
-export class HyperParameterRanges extends S.Class<HyperParameterRanges>(
-  "HyperParameterRanges",
-)({
-  integerHyperParameterRanges: S.optional(IntegerHyperParameterRanges),
-  continuousHyperParameterRanges: S.optional(ContinuousHyperParameterRanges),
-  categoricalHyperParameterRanges: S.optional(CategoricalHyperParameterRanges),
-}) {}
-export class HPOConfig extends S.Class<HPOConfig>("HPOConfig")({
-  hpoObjective: S.optional(HPOObjective),
-  hpoResourceConfig: S.optional(HPOResourceConfig),
-  algorithmHyperParameterRanges: S.optional(HyperParameterRanges),
-}) {}
-export class SolutionConfig extends S.Class<SolutionConfig>("SolutionConfig")({
-  eventValueThreshold: S.optional(S.String),
-  hpoConfig: S.optional(HPOConfig),
-  algorithmHyperParameters: S.optional(HyperParameters),
-  featureTransformationParameters: S.optional(FeatureTransformationParameters),
-  autoMLConfig: S.optional(AutoMLConfig),
-  eventsConfig: S.optional(EventsConfig),
-  optimizationObjective: S.optional(OptimizationObjective),
-  trainingDataConfig: S.optional(TrainingDataConfig),
-  autoTrainingConfig: S.optional(AutoTrainingConfig),
-}) {}
-export class Solution extends S.Class<Solution>("Solution")({
-  name: S.optional(S.String),
-  solutionArn: S.optional(S.String),
-  performHPO: S.optional(S.Boolean),
-  performAutoML: S.optional(S.Boolean),
-  performAutoTraining: S.optional(S.Boolean),
-  performIncrementalUpdate: S.optional(S.Boolean),
-  recipeArn: S.optional(S.String),
-  datasetGroupArn: S.optional(S.String),
-  eventType: S.optional(S.String),
-  solutionConfig: S.optional(SolutionConfig),
-  autoMLResult: S.optional(AutoMLResult),
-  status: S.optional(S.String),
-  creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdatedDateTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  latestSolutionVersion: S.optional(SolutionVersionSummary),
-  latestSolutionUpdate: S.optional(SolutionUpdateSummary),
-}) {}
-export class SolutionVersion extends S.Class<SolutionVersion>(
-  "SolutionVersion",
-)({
-  name: S.optional(S.String),
-  solutionVersionArn: S.optional(S.String),
-  solutionArn: S.optional(S.String),
-  performHPO: S.optional(S.Boolean),
-  performAutoML: S.optional(S.Boolean),
-  performIncrementalUpdate: S.optional(S.Boolean),
-  recipeArn: S.optional(S.String),
-  eventType: S.optional(S.String),
-  datasetGroupArn: S.optional(S.String),
-  solutionConfig: S.optional(SolutionConfig),
-  trainingHours: S.optional(S.Number),
-  trainingMode: S.optional(S.String),
-  tunedHPOParams: S.optional(TunedHPOParams),
-  status: S.optional(S.String),
-  failureReason: S.optional(S.String),
-  creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdatedDateTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  trainingType: S.optional(S.String),
-}) {}
-export class DefaultIntegerHyperParameterRange extends S.Class<DefaultIntegerHyperParameterRange>(
-  "DefaultIntegerHyperParameterRange",
-)({
-  name: S.optional(S.String),
-  minValue: S.optional(S.Number),
-  maxValue: S.optional(S.Number),
-  isTunable: S.optional(S.Boolean),
-}) {}
+export interface Campaign {
+  name?: string;
+  campaignArn?: string;
+  solutionVersionArn?: string;
+  minProvisionedTPS?: number;
+  campaignConfig?: CampaignConfig;
+  status?: string;
+  failureReason?: string;
+  creationDateTime?: Date;
+  lastUpdatedDateTime?: Date;
+  latestCampaignUpdate?: CampaignUpdateSummary;
+}
+export const Campaign = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    campaignArn: S.optional(S.String),
+    solutionVersionArn: S.optional(S.String),
+    minProvisionedTPS: S.optional(S.Number),
+    campaignConfig: S.optional(CampaignConfig),
+    status: S.optional(S.String),
+    failureReason: S.optional(S.String),
+    creationDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    lastUpdatedDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    latestCampaignUpdate: S.optional(CampaignUpdateSummary),
+  }),
+).annotations({ identifier: "Campaign" }) as any as S.Schema<Campaign>;
+export interface Dataset {
+  name?: string;
+  datasetArn?: string;
+  datasetGroupArn?: string;
+  datasetType?: string;
+  schemaArn?: string;
+  status?: string;
+  creationDateTime?: Date;
+  lastUpdatedDateTime?: Date;
+  latestDatasetUpdate?: DatasetUpdateSummary;
+  trackingId?: string;
+}
+export const Dataset = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    datasetArn: S.optional(S.String),
+    datasetGroupArn: S.optional(S.String),
+    datasetType: S.optional(S.String),
+    schemaArn: S.optional(S.String),
+    status: S.optional(S.String),
+    creationDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    lastUpdatedDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    latestDatasetUpdate: S.optional(DatasetUpdateSummary),
+    trackingId: S.optional(S.String),
+  }),
+).annotations({ identifier: "Dataset" }) as any as S.Schema<Dataset>;
+export interface FeatureTransformation {
+  name?: string;
+  featureTransformationArn?: string;
+  defaultParameters?: FeaturizationParameters;
+  creationDateTime?: Date;
+  lastUpdatedDateTime?: Date;
+  status?: string;
+}
+export const FeatureTransformation = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    featureTransformationArn: S.optional(S.String),
+    defaultParameters: S.optional(FeaturizationParameters),
+    creationDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    lastUpdatedDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    status: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "FeatureTransformation",
+}) as any as S.Schema<FeatureTransformation>;
+export interface Recommender {
+  recommenderArn?: string;
+  datasetGroupArn?: string;
+  name?: string;
+  recipeArn?: string;
+  recommenderConfig?: RecommenderConfig;
+  creationDateTime?: Date;
+  lastUpdatedDateTime?: Date;
+  status?: string;
+  failureReason?: string;
+  latestRecommenderUpdate?: RecommenderUpdateSummary;
+  modelMetrics?: Metrics;
+}
+export const Recommender = S.suspend(() =>
+  S.Struct({
+    recommenderArn: S.optional(S.String),
+    datasetGroupArn: S.optional(S.String),
+    name: S.optional(S.String),
+    recipeArn: S.optional(S.String),
+    recommenderConfig: S.optional(RecommenderConfig),
+    creationDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    lastUpdatedDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    status: S.optional(S.String),
+    failureReason: S.optional(S.String),
+    latestRecommenderUpdate: S.optional(RecommenderUpdateSummary),
+    modelMetrics: S.optional(Metrics),
+  }),
+).annotations({ identifier: "Recommender" }) as any as S.Schema<Recommender>;
+export interface HyperParameterRanges {
+  integerHyperParameterRanges?: IntegerHyperParameterRanges;
+  continuousHyperParameterRanges?: ContinuousHyperParameterRanges;
+  categoricalHyperParameterRanges?: CategoricalHyperParameterRanges;
+}
+export const HyperParameterRanges = S.suspend(() =>
+  S.Struct({
+    integerHyperParameterRanges: S.optional(IntegerHyperParameterRanges),
+    continuousHyperParameterRanges: S.optional(ContinuousHyperParameterRanges),
+    categoricalHyperParameterRanges: S.optional(
+      CategoricalHyperParameterRanges,
+    ),
+  }),
+).annotations({
+  identifier: "HyperParameterRanges",
+}) as any as S.Schema<HyperParameterRanges>;
+export interface HPOConfig {
+  hpoObjective?: HPOObjective;
+  hpoResourceConfig?: HPOResourceConfig;
+  algorithmHyperParameterRanges?: HyperParameterRanges;
+}
+export const HPOConfig = S.suspend(() =>
+  S.Struct({
+    hpoObjective: S.optional(HPOObjective),
+    hpoResourceConfig: S.optional(HPOResourceConfig),
+    algorithmHyperParameterRanges: S.optional(HyperParameterRanges),
+  }),
+).annotations({ identifier: "HPOConfig" }) as any as S.Schema<HPOConfig>;
+export interface SolutionConfig {
+  eventValueThreshold?: string;
+  hpoConfig?: HPOConfig;
+  algorithmHyperParameters?: HyperParameters;
+  featureTransformationParameters?: FeatureTransformationParameters;
+  autoMLConfig?: AutoMLConfig;
+  eventsConfig?: EventsConfig;
+  optimizationObjective?: OptimizationObjective;
+  trainingDataConfig?: TrainingDataConfig;
+  autoTrainingConfig?: AutoTrainingConfig;
+}
+export const SolutionConfig = S.suspend(() =>
+  S.Struct({
+    eventValueThreshold: S.optional(S.String),
+    hpoConfig: S.optional(HPOConfig),
+    algorithmHyperParameters: S.optional(HyperParameters),
+    featureTransformationParameters: S.optional(
+      FeatureTransformationParameters,
+    ),
+    autoMLConfig: S.optional(AutoMLConfig),
+    eventsConfig: S.optional(EventsConfig),
+    optimizationObjective: S.optional(OptimizationObjective),
+    trainingDataConfig: S.optional(TrainingDataConfig),
+    autoTrainingConfig: S.optional(AutoTrainingConfig),
+  }),
+).annotations({
+  identifier: "SolutionConfig",
+}) as any as S.Schema<SolutionConfig>;
+export interface Solution {
+  name?: string;
+  solutionArn?: string;
+  performHPO?: boolean;
+  performAutoML?: boolean;
+  performAutoTraining?: boolean;
+  performIncrementalUpdate?: boolean;
+  recipeArn?: string;
+  datasetGroupArn?: string;
+  eventType?: string;
+  solutionConfig?: SolutionConfig;
+  autoMLResult?: AutoMLResult;
+  status?: string;
+  creationDateTime?: Date;
+  lastUpdatedDateTime?: Date;
+  latestSolutionVersion?: SolutionVersionSummary;
+  latestSolutionUpdate?: SolutionUpdateSummary;
+}
+export const Solution = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    solutionArn: S.optional(S.String),
+    performHPO: S.optional(S.Boolean),
+    performAutoML: S.optional(S.Boolean),
+    performAutoTraining: S.optional(S.Boolean),
+    performIncrementalUpdate: S.optional(S.Boolean),
+    recipeArn: S.optional(S.String),
+    datasetGroupArn: S.optional(S.String),
+    eventType: S.optional(S.String),
+    solutionConfig: S.optional(SolutionConfig),
+    autoMLResult: S.optional(AutoMLResult),
+    status: S.optional(S.String),
+    creationDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    lastUpdatedDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    latestSolutionVersion: S.optional(SolutionVersionSummary),
+    latestSolutionUpdate: S.optional(SolutionUpdateSummary),
+  }),
+).annotations({ identifier: "Solution" }) as any as S.Schema<Solution>;
+export interface SolutionVersion {
+  name?: string;
+  solutionVersionArn?: string;
+  solutionArn?: string;
+  performHPO?: boolean;
+  performAutoML?: boolean;
+  performIncrementalUpdate?: boolean;
+  recipeArn?: string;
+  eventType?: string;
+  datasetGroupArn?: string;
+  solutionConfig?: SolutionConfig;
+  trainingHours?: number;
+  trainingMode?: string;
+  tunedHPOParams?: TunedHPOParams;
+  status?: string;
+  failureReason?: string;
+  creationDateTime?: Date;
+  lastUpdatedDateTime?: Date;
+  trainingType?: string;
+}
+export const SolutionVersion = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    solutionVersionArn: S.optional(S.String),
+    solutionArn: S.optional(S.String),
+    performHPO: S.optional(S.Boolean),
+    performAutoML: S.optional(S.Boolean),
+    performIncrementalUpdate: S.optional(S.Boolean),
+    recipeArn: S.optional(S.String),
+    eventType: S.optional(S.String),
+    datasetGroupArn: S.optional(S.String),
+    solutionConfig: S.optional(SolutionConfig),
+    trainingHours: S.optional(S.Number),
+    trainingMode: S.optional(S.String),
+    tunedHPOParams: S.optional(TunedHPOParams),
+    status: S.optional(S.String),
+    failureReason: S.optional(S.String),
+    creationDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    lastUpdatedDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    trainingType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SolutionVersion",
+}) as any as S.Schema<SolutionVersion>;
+export interface DefaultIntegerHyperParameterRange {
+  name?: string;
+  minValue?: number;
+  maxValue?: number;
+  isTunable?: boolean;
+}
+export const DefaultIntegerHyperParameterRange = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    minValue: S.optional(S.Number),
+    maxValue: S.optional(S.Number),
+    isTunable: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "DefaultIntegerHyperParameterRange",
+}) as any as S.Schema<DefaultIntegerHyperParameterRange>;
+export type DefaultIntegerHyperParameterRanges =
+  DefaultIntegerHyperParameterRange[];
 export const DefaultIntegerHyperParameterRanges = S.Array(
   DefaultIntegerHyperParameterRange,
 );
-export class DefaultContinuousHyperParameterRange extends S.Class<DefaultContinuousHyperParameterRange>(
-  "DefaultContinuousHyperParameterRange",
-)({
-  name: S.optional(S.String),
-  minValue: S.optional(S.Number),
-  maxValue: S.optional(S.Number),
-  isTunable: S.optional(S.Boolean),
-}) {}
+export interface DefaultContinuousHyperParameterRange {
+  name?: string;
+  minValue?: number;
+  maxValue?: number;
+  isTunable?: boolean;
+}
+export const DefaultContinuousHyperParameterRange = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    minValue: S.optional(S.Number),
+    maxValue: S.optional(S.Number),
+    isTunable: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "DefaultContinuousHyperParameterRange",
+}) as any as S.Schema<DefaultContinuousHyperParameterRange>;
+export type DefaultContinuousHyperParameterRanges =
+  DefaultContinuousHyperParameterRange[];
 export const DefaultContinuousHyperParameterRanges = S.Array(
   DefaultContinuousHyperParameterRange,
 );
-export class DefaultCategoricalHyperParameterRange extends S.Class<DefaultCategoricalHyperParameterRange>(
-  "DefaultCategoricalHyperParameterRange",
-)({
-  name: S.optional(S.String),
-  values: S.optional(CategoricalValues),
-  isTunable: S.optional(S.Boolean),
-}) {}
+export interface DefaultCategoricalHyperParameterRange {
+  name?: string;
+  values?: CategoricalValues;
+  isTunable?: boolean;
+}
+export const DefaultCategoricalHyperParameterRange = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    values: S.optional(CategoricalValues),
+    isTunable: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "DefaultCategoricalHyperParameterRange",
+}) as any as S.Schema<DefaultCategoricalHyperParameterRange>;
+export type DefaultCategoricalHyperParameterRanges =
+  DefaultCategoricalHyperParameterRange[];
 export const DefaultCategoricalHyperParameterRanges = S.Array(
   DefaultCategoricalHyperParameterRange,
 );
-export class CreateBatchInferenceJobResponse extends S.Class<CreateBatchInferenceJobResponse>(
-  "CreateBatchInferenceJobResponse",
-)({ batchInferenceJobArn: S.optional(S.String) }) {}
-export class CreateRecommenderRequest extends S.Class<CreateRecommenderRequest>(
-  "CreateRecommenderRequest",
-)(
-  {
+export interface CreateBatchInferenceJobResponse {
+  batchInferenceJobArn?: string;
+}
+export const CreateBatchInferenceJobResponse = S.suspend(() =>
+  S.Struct({ batchInferenceJobArn: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateBatchInferenceJobResponse",
+}) as any as S.Schema<CreateBatchInferenceJobResponse>;
+export interface CreateRecommenderRequest {
+  name: string;
+  datasetGroupArn: string;
+  recipeArn: string;
+  recommenderConfig?: RecommenderConfig;
+  tags?: Tags;
+}
+export const CreateRecommenderRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     datasetGroupArn: S.String,
     recipeArn: S.String,
     recommenderConfig: S.optional(RecommenderConfig),
     tags: S.optional(Tags),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeCampaignResponse extends S.Class<DescribeCampaignResponse>(
-  "DescribeCampaignResponse",
-)({ campaign: S.optional(Campaign) }) {}
-export class DescribeDatasetResponse extends S.Class<DescribeDatasetResponse>(
-  "DescribeDatasetResponse",
-)({ dataset: S.optional(Dataset) }) {}
-export class DescribeFeatureTransformationResponse extends S.Class<DescribeFeatureTransformationResponse>(
-  "DescribeFeatureTransformationResponse",
-)({ featureTransformation: S.optional(FeatureTransformation) }) {}
-export class DescribeRecommenderResponse extends S.Class<DescribeRecommenderResponse>(
-  "DescribeRecommenderResponse",
-)({ recommender: S.optional(Recommender) }) {}
-export class DescribeSolutionResponse extends S.Class<DescribeSolutionResponse>(
-  "DescribeSolutionResponse",
-)({ solution: S.optional(Solution) }) {}
-export class DescribeSolutionVersionResponse extends S.Class<DescribeSolutionVersionResponse>(
-  "DescribeSolutionVersionResponse",
-)({ solutionVersion: S.optional(SolutionVersion) }) {}
-export class DefaultHyperParameterRanges extends S.Class<DefaultHyperParameterRanges>(
-  "DefaultHyperParameterRanges",
-)({
-  integerHyperParameterRanges: S.optional(DefaultIntegerHyperParameterRanges),
-  continuousHyperParameterRanges: S.optional(
-    DefaultContinuousHyperParameterRanges,
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-  categoricalHyperParameterRanges: S.optional(
-    DefaultCategoricalHyperParameterRanges,
-  ),
-}) {}
-export class Algorithm extends S.Class<Algorithm>("Algorithm")({
-  name: S.optional(S.String),
-  algorithmArn: S.optional(S.String),
-  algorithmImage: S.optional(AlgorithmImage),
-  defaultHyperParameters: S.optional(HyperParameters),
-  defaultHyperParameterRanges: S.optional(DefaultHyperParameterRanges),
-  defaultResourceConfig: S.optional(ResourceConfig),
-  trainingInputMode: S.optional(S.String),
-  roleArn: S.optional(S.String),
-  creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdatedDateTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
-export class CreateRecommenderResponse extends S.Class<CreateRecommenderResponse>(
-  "CreateRecommenderResponse",
-)({ recommenderArn: S.optional(S.String) }) {}
-export class CreateSolutionRequest extends S.Class<CreateSolutionRequest>(
-  "CreateSolutionRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateRecommenderRequest",
+}) as any as S.Schema<CreateRecommenderRequest>;
+export interface DescribeCampaignResponse {
+  campaign?: Campaign;
+}
+export const DescribeCampaignResponse = S.suspend(() =>
+  S.Struct({ campaign: S.optional(Campaign) }),
+).annotations({
+  identifier: "DescribeCampaignResponse",
+}) as any as S.Schema<DescribeCampaignResponse>;
+export interface DescribeDatasetResponse {
+  dataset?: Dataset;
+}
+export const DescribeDatasetResponse = S.suspend(() =>
+  S.Struct({ dataset: S.optional(Dataset) }),
+).annotations({
+  identifier: "DescribeDatasetResponse",
+}) as any as S.Schema<DescribeDatasetResponse>;
+export interface DescribeFeatureTransformationResponse {
+  featureTransformation?: FeatureTransformation;
+}
+export const DescribeFeatureTransformationResponse = S.suspend(() =>
+  S.Struct({ featureTransformation: S.optional(FeatureTransformation) }),
+).annotations({
+  identifier: "DescribeFeatureTransformationResponse",
+}) as any as S.Schema<DescribeFeatureTransformationResponse>;
+export interface DescribeRecommenderResponse {
+  recommender?: Recommender;
+}
+export const DescribeRecommenderResponse = S.suspend(() =>
+  S.Struct({ recommender: S.optional(Recommender) }),
+).annotations({
+  identifier: "DescribeRecommenderResponse",
+}) as any as S.Schema<DescribeRecommenderResponse>;
+export interface DescribeSolutionResponse {
+  solution?: Solution;
+}
+export const DescribeSolutionResponse = S.suspend(() =>
+  S.Struct({ solution: S.optional(Solution) }),
+).annotations({
+  identifier: "DescribeSolutionResponse",
+}) as any as S.Schema<DescribeSolutionResponse>;
+export interface DescribeSolutionVersionResponse {
+  solutionVersion?: SolutionVersion;
+}
+export const DescribeSolutionVersionResponse = S.suspend(() =>
+  S.Struct({ solutionVersion: S.optional(SolutionVersion) }),
+).annotations({
+  identifier: "DescribeSolutionVersionResponse",
+}) as any as S.Schema<DescribeSolutionVersionResponse>;
+export interface DefaultHyperParameterRanges {
+  integerHyperParameterRanges?: DefaultIntegerHyperParameterRanges;
+  continuousHyperParameterRanges?: DefaultContinuousHyperParameterRanges;
+  categoricalHyperParameterRanges?: DefaultCategoricalHyperParameterRanges;
+}
+export const DefaultHyperParameterRanges = S.suspend(() =>
+  S.Struct({
+    integerHyperParameterRanges: S.optional(DefaultIntegerHyperParameterRanges),
+    continuousHyperParameterRanges: S.optional(
+      DefaultContinuousHyperParameterRanges,
+    ),
+    categoricalHyperParameterRanges: S.optional(
+      DefaultCategoricalHyperParameterRanges,
+    ),
+  }),
+).annotations({
+  identifier: "DefaultHyperParameterRanges",
+}) as any as S.Schema<DefaultHyperParameterRanges>;
+export interface Algorithm {
+  name?: string;
+  algorithmArn?: string;
+  algorithmImage?: AlgorithmImage;
+  defaultHyperParameters?: HyperParameters;
+  defaultHyperParameterRanges?: DefaultHyperParameterRanges;
+  defaultResourceConfig?: ResourceConfig;
+  trainingInputMode?: string;
+  roleArn?: string;
+  creationDateTime?: Date;
+  lastUpdatedDateTime?: Date;
+}
+export const Algorithm = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    algorithmArn: S.optional(S.String),
+    algorithmImage: S.optional(AlgorithmImage),
+    defaultHyperParameters: S.optional(HyperParameters),
+    defaultHyperParameterRanges: S.optional(DefaultHyperParameterRanges),
+    defaultResourceConfig: S.optional(ResourceConfig),
+    trainingInputMode: S.optional(S.String),
+    roleArn: S.optional(S.String),
+    creationDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    lastUpdatedDateTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({ identifier: "Algorithm" }) as any as S.Schema<Algorithm>;
+export interface CreateRecommenderResponse {
+  recommenderArn?: string;
+}
+export const CreateRecommenderResponse = S.suspend(() =>
+  S.Struct({ recommenderArn: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateRecommenderResponse",
+}) as any as S.Schema<CreateRecommenderResponse>;
+export interface CreateSolutionRequest {
+  name: string;
+  performHPO?: boolean;
+  performAutoML?: boolean;
+  performAutoTraining?: boolean;
+  performIncrementalUpdate?: boolean;
+  recipeArn?: string;
+  datasetGroupArn: string;
+  eventType?: string;
+  solutionConfig?: SolutionConfig;
+  tags?: Tags;
+}
+export const CreateSolutionRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     performHPO: S.optional(S.Boolean),
     performAutoML: S.optional(S.Boolean),
@@ -1838,15 +3418,28 @@ export class CreateSolutionRequest extends S.Class<CreateSolutionRequest>(
     eventType: S.optional(S.String),
     solutionConfig: S.optional(SolutionConfig),
     tags: S.optional(Tags),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeAlgorithmResponse extends S.Class<DescribeAlgorithmResponse>(
-  "DescribeAlgorithmResponse",
-)({ algorithm: S.optional(Algorithm) }) {}
-export class CreateSolutionResponse extends S.Class<CreateSolutionResponse>(
-  "CreateSolutionResponse",
-)({ solutionArn: S.optional(S.String) }) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateSolutionRequest",
+}) as any as S.Schema<CreateSolutionRequest>;
+export interface DescribeAlgorithmResponse {
+  algorithm?: Algorithm;
+}
+export const DescribeAlgorithmResponse = S.suspend(() =>
+  S.Struct({ algorithm: S.optional(Algorithm) }),
+).annotations({
+  identifier: "DescribeAlgorithmResponse",
+}) as any as S.Schema<DescribeAlgorithmResponse>;
+export interface CreateSolutionResponse {
+  solutionArn?: string;
+}
+export const CreateSolutionResponse = S.suspend(() =>
+  S.Struct({ solutionArn: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateSolutionResponse",
+}) as any as S.Schema<CreateSolutionResponse>;
 
 //# Errors
 export class InvalidInputException extends S.TaggedError<InvalidInputException>()(

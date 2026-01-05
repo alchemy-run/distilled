@@ -262,103 +262,171 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class GetRoleCredentialsRequest extends S.Class<GetRoleCredentialsRequest>(
-  "GetRoleCredentialsRequest",
-)(
-  {
+export interface GetRoleCredentialsRequest {
+  roleName: string;
+  accountId: string;
+  accessToken: string;
+}
+export const GetRoleCredentialsRequest = S.suspend(() =>
+  S.Struct({
     roleName: S.String.pipe(T.HttpQuery("role_name")),
     accountId: S.String.pipe(T.HttpQuery("account_id")),
     accessToken: S.String.pipe(T.HttpHeader("x-amz-sso_bearer_token")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/federation/credentials" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/federation/credentials" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListAccountRolesRequest extends S.Class<ListAccountRolesRequest>(
-  "ListAccountRolesRequest",
-)(
-  {
+).annotations({
+  identifier: "GetRoleCredentialsRequest",
+}) as any as S.Schema<GetRoleCredentialsRequest>;
+export interface ListAccountRolesRequest {
+  nextToken?: string;
+  maxResults?: number;
+  accessToken: string;
+  accountId: string;
+}
+export const ListAccountRolesRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("next_token")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("max_result")),
     accessToken: S.String.pipe(T.HttpHeader("x-amz-sso_bearer_token")),
     accountId: S.String.pipe(T.HttpQuery("account_id")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/assignment/roles" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/assignment/roles" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListAccountsRequest extends S.Class<ListAccountsRequest>(
-  "ListAccountsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListAccountRolesRequest",
+}) as any as S.Schema<ListAccountRolesRequest>;
+export interface ListAccountsRequest {
+  nextToken?: string;
+  maxResults?: number;
+  accessToken: string;
+}
+export const ListAccountsRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("next_token")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("max_result")),
     accessToken: S.String.pipe(T.HttpHeader("x-amz-sso_bearer_token")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/assignment/accounts" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/assignment/accounts" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class LogoutRequest extends S.Class<LogoutRequest>("LogoutRequest")(
-  { accessToken: S.String.pipe(T.HttpHeader("x-amz-sso_bearer_token")) },
-  T.all(
-    T.Http({ method: "POST", uri: "/logout" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListAccountsRequest",
+}) as any as S.Schema<ListAccountsRequest>;
+export interface LogoutRequest {
+  accessToken: string;
+}
+export const LogoutRequest = S.suspend(() =>
+  S.Struct({
+    accessToken: S.String.pipe(T.HttpHeader("x-amz-sso_bearer_token")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/logout" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class LogoutResponse extends S.Class<LogoutResponse>("LogoutResponse")(
-  {},
-) {}
-export class RoleCredentials extends S.Class<RoleCredentials>(
-  "RoleCredentials",
-)({
-  accessKeyId: S.optional(S.String),
-  secretAccessKey: S.optional(S.String),
-  sessionToken: S.optional(S.String),
-  expiration: S.optional(S.Number),
-}) {}
-export class RoleInfo extends S.Class<RoleInfo>("RoleInfo")({
-  roleName: S.optional(S.String),
-  accountId: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "LogoutRequest",
+}) as any as S.Schema<LogoutRequest>;
+export interface LogoutResponse {}
+export const LogoutResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "LogoutResponse",
+}) as any as S.Schema<LogoutResponse>;
+export interface RoleCredentials {
+  accessKeyId?: string;
+  secretAccessKey?: string;
+  sessionToken?: string;
+  expiration?: number;
+}
+export const RoleCredentials = S.suspend(() =>
+  S.Struct({
+    accessKeyId: S.optional(S.String),
+    secretAccessKey: S.optional(S.String),
+    sessionToken: S.optional(S.String),
+    expiration: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "RoleCredentials",
+}) as any as S.Schema<RoleCredentials>;
+export interface RoleInfo {
+  roleName?: string;
+  accountId?: string;
+}
+export const RoleInfo = S.suspend(() =>
+  S.Struct({ roleName: S.optional(S.String), accountId: S.optional(S.String) }),
+).annotations({ identifier: "RoleInfo" }) as any as S.Schema<RoleInfo>;
+export type RoleListType = RoleInfo[];
 export const RoleListType = S.Array(RoleInfo);
-export class AccountInfo extends S.Class<AccountInfo>("AccountInfo")({
-  accountId: S.optional(S.String),
-  accountName: S.optional(S.String),
-  emailAddress: S.optional(S.String),
-}) {}
+export interface AccountInfo {
+  accountId?: string;
+  accountName?: string;
+  emailAddress?: string;
+}
+export const AccountInfo = S.suspend(() =>
+  S.Struct({
+    accountId: S.optional(S.String),
+    accountName: S.optional(S.String),
+    emailAddress: S.optional(S.String),
+  }),
+).annotations({ identifier: "AccountInfo" }) as any as S.Schema<AccountInfo>;
+export type AccountListType = AccountInfo[];
 export const AccountListType = S.Array(AccountInfo);
-export class GetRoleCredentialsResponse extends S.Class<GetRoleCredentialsResponse>(
-  "GetRoleCredentialsResponse",
-)({ roleCredentials: S.optional(RoleCredentials) }) {}
-export class ListAccountRolesResponse extends S.Class<ListAccountRolesResponse>(
-  "ListAccountRolesResponse",
-)({ nextToken: S.optional(S.String), roleList: S.optional(RoleListType) }) {}
-export class ListAccountsResponse extends S.Class<ListAccountsResponse>(
-  "ListAccountsResponse",
-)({
-  nextToken: S.optional(S.String),
-  accountList: S.optional(AccountListType),
-}) {}
+export interface GetRoleCredentialsResponse {
+  roleCredentials?: RoleCredentials;
+}
+export const GetRoleCredentialsResponse = S.suspend(() =>
+  S.Struct({ roleCredentials: S.optional(RoleCredentials) }),
+).annotations({
+  identifier: "GetRoleCredentialsResponse",
+}) as any as S.Schema<GetRoleCredentialsResponse>;
+export interface ListAccountRolesResponse {
+  nextToken?: string;
+  roleList?: RoleListType;
+}
+export const ListAccountRolesResponse = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    roleList: S.optional(RoleListType),
+  }),
+).annotations({
+  identifier: "ListAccountRolesResponse",
+}) as any as S.Schema<ListAccountRolesResponse>;
+export interface ListAccountsResponse {
+  nextToken?: string;
+  accountList?: AccountListType;
+}
+export const ListAccountsResponse = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    accountList: S.optional(AccountListType),
+  }),
+).annotations({
+  identifier: "ListAccountsResponse",
+}) as any as S.Schema<ListAccountsResponse>;
 
 //# Errors
 export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(

@@ -257,303 +257,786 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class DeleteActivityInput extends S.Class<DeleteActivityInput>(
-  "DeleteActivityInput",
-)(
-  { activityArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteActivityOutput extends S.Class<DeleteActivityOutput>(
-  "DeleteActivityOutput",
-)({}, ns) {}
-export class DeleteStateMachineInput extends S.Class<DeleteStateMachineInput>(
-  "DeleteStateMachineInput",
-)(
-  { stateMachineArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteStateMachineOutput extends S.Class<DeleteStateMachineOutput>(
-  "DeleteStateMachineOutput",
-)({}, ns) {}
-export class DeleteStateMachineAliasInput extends S.Class<DeleteStateMachineAliasInput>(
-  "DeleteStateMachineAliasInput",
-)(
-  { stateMachineAliasArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteStateMachineAliasOutput extends S.Class<DeleteStateMachineAliasOutput>(
-  "DeleteStateMachineAliasOutput",
-)({}, ns) {}
-export class DeleteStateMachineVersionInput extends S.Class<DeleteStateMachineVersionInput>(
-  "DeleteStateMachineVersionInput",
-)(
-  { stateMachineVersionArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteStateMachineVersionOutput extends S.Class<DeleteStateMachineVersionOutput>(
-  "DeleteStateMachineVersionOutput",
-)({}, ns) {}
-export class DescribeActivityInput extends S.Class<DescribeActivityInput>(
-  "DescribeActivityInput",
-)(
-  { activityArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeExecutionInput extends S.Class<DescribeExecutionInput>(
-  "DescribeExecutionInput",
-)(
-  { executionArn: S.String, includedData: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeMapRunInput extends S.Class<DescribeMapRunInput>(
-  "DescribeMapRunInput",
-)(
-  { mapRunArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeStateMachineInput extends S.Class<DescribeStateMachineInput>(
-  "DescribeStateMachineInput",
-)(
-  { stateMachineArn: S.String, includedData: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeStateMachineAliasInput extends S.Class<DescribeStateMachineAliasInput>(
-  "DescribeStateMachineAliasInput",
-)(
-  { stateMachineAliasArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeStateMachineForExecutionInput extends S.Class<DescribeStateMachineForExecutionInput>(
-  "DescribeStateMachineForExecutionInput",
-)(
-  { executionArn: S.String, includedData: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetActivityTaskInput extends S.Class<GetActivityTaskInput>(
-  "GetActivityTaskInput",
-)(
-  { activityArn: S.String, workerName: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetExecutionHistoryInput extends S.Class<GetExecutionHistoryInput>(
-  "GetExecutionHistoryInput",
-)(
-  {
+export interface DeleteActivityInput {
+  activityArn: string;
+}
+export const DeleteActivityInput = S.suspend(() =>
+  S.Struct({ activityArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteActivityInput",
+}) as any as S.Schema<DeleteActivityInput>;
+export interface DeleteActivityOutput {}
+export const DeleteActivityOutput = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteActivityOutput",
+}) as any as S.Schema<DeleteActivityOutput>;
+export interface DeleteStateMachineInput {
+  stateMachineArn: string;
+}
+export const DeleteStateMachineInput = S.suspend(() =>
+  S.Struct({ stateMachineArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteStateMachineInput",
+}) as any as S.Schema<DeleteStateMachineInput>;
+export interface DeleteStateMachineOutput {}
+export const DeleteStateMachineOutput = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteStateMachineOutput",
+}) as any as S.Schema<DeleteStateMachineOutput>;
+export interface DeleteStateMachineAliasInput {
+  stateMachineAliasArn: string;
+}
+export const DeleteStateMachineAliasInput = S.suspend(() =>
+  S.Struct({ stateMachineAliasArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteStateMachineAliasInput",
+}) as any as S.Schema<DeleteStateMachineAliasInput>;
+export interface DeleteStateMachineAliasOutput {}
+export const DeleteStateMachineAliasOutput = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteStateMachineAliasOutput",
+}) as any as S.Schema<DeleteStateMachineAliasOutput>;
+export interface DeleteStateMachineVersionInput {
+  stateMachineVersionArn: string;
+}
+export const DeleteStateMachineVersionInput = S.suspend(() =>
+  S.Struct({ stateMachineVersionArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteStateMachineVersionInput",
+}) as any as S.Schema<DeleteStateMachineVersionInput>;
+export interface DeleteStateMachineVersionOutput {}
+export const DeleteStateMachineVersionOutput = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteStateMachineVersionOutput",
+}) as any as S.Schema<DeleteStateMachineVersionOutput>;
+export interface DescribeActivityInput {
+  activityArn: string;
+}
+export const DescribeActivityInput = S.suspend(() =>
+  S.Struct({ activityArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeActivityInput",
+}) as any as S.Schema<DescribeActivityInput>;
+export interface DescribeExecutionInput {
+  executionArn: string;
+  includedData?: string;
+}
+export const DescribeExecutionInput = S.suspend(() =>
+  S.Struct({ executionArn: S.String, includedData: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeExecutionInput",
+}) as any as S.Schema<DescribeExecutionInput>;
+export interface DescribeMapRunInput {
+  mapRunArn: string;
+}
+export const DescribeMapRunInput = S.suspend(() =>
+  S.Struct({ mapRunArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeMapRunInput",
+}) as any as S.Schema<DescribeMapRunInput>;
+export interface DescribeStateMachineInput {
+  stateMachineArn: string;
+  includedData?: string;
+}
+export const DescribeStateMachineInput = S.suspend(() =>
+  S.Struct({
+    stateMachineArn: S.String,
+    includedData: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeStateMachineInput",
+}) as any as S.Schema<DescribeStateMachineInput>;
+export interface DescribeStateMachineAliasInput {
+  stateMachineAliasArn: string;
+}
+export const DescribeStateMachineAliasInput = S.suspend(() =>
+  S.Struct({ stateMachineAliasArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeStateMachineAliasInput",
+}) as any as S.Schema<DescribeStateMachineAliasInput>;
+export interface DescribeStateMachineForExecutionInput {
+  executionArn: string;
+  includedData?: string;
+}
+export const DescribeStateMachineForExecutionInput = S.suspend(() =>
+  S.Struct({ executionArn: S.String, includedData: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeStateMachineForExecutionInput",
+}) as any as S.Schema<DescribeStateMachineForExecutionInput>;
+export interface GetActivityTaskInput {
+  activityArn: string;
+  workerName?: string;
+}
+export const GetActivityTaskInput = S.suspend(() =>
+  S.Struct({ activityArn: S.String, workerName: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetActivityTaskInput",
+}) as any as S.Schema<GetActivityTaskInput>;
+export interface GetExecutionHistoryInput {
+  executionArn: string;
+  maxResults?: number;
+  reverseOrder?: boolean;
+  nextToken?: string;
+  includeExecutionData?: boolean;
+}
+export const GetExecutionHistoryInput = S.suspend(() =>
+  S.Struct({
     executionArn: S.String,
     maxResults: S.optional(S.Number),
     reverseOrder: S.optional(S.Boolean),
     nextToken: S.optional(S.String),
     includeExecutionData: S.optional(S.Boolean),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListActivitiesInput extends S.Class<ListActivitiesInput>(
-  "ListActivitiesInput",
-)(
-  { maxResults: S.optional(S.Number), nextToken: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListExecutionsInput extends S.Class<ListExecutionsInput>(
-  "ListExecutionsInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetExecutionHistoryInput",
+}) as any as S.Schema<GetExecutionHistoryInput>;
+export interface ListActivitiesInput {
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListActivitiesInput = S.suspend(() =>
+  S.Struct({
+    maxResults: S.optional(S.Number),
+    nextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListActivitiesInput",
+}) as any as S.Schema<ListActivitiesInput>;
+export interface ListExecutionsInput {
+  stateMachineArn?: string;
+  statusFilter?: string;
+  maxResults?: number;
+  nextToken?: string;
+  mapRunArn?: string;
+  redriveFilter?: string;
+}
+export const ListExecutionsInput = S.suspend(() =>
+  S.Struct({
     stateMachineArn: S.optional(S.String),
     statusFilter: S.optional(S.String),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
     mapRunArn: S.optional(S.String),
     redriveFilter: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListMapRunsInput extends S.Class<ListMapRunsInput>(
-  "ListMapRunsInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListExecutionsInput",
+}) as any as S.Schema<ListExecutionsInput>;
+export interface ListMapRunsInput {
+  executionArn: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListMapRunsInput = S.suspend(() =>
+  S.Struct({
     executionArn: S.String,
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListStateMachineAliasesInput extends S.Class<ListStateMachineAliasesInput>(
-  "ListStateMachineAliasesInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListMapRunsInput",
+}) as any as S.Schema<ListMapRunsInput>;
+export interface ListStateMachineAliasesInput {
+  stateMachineArn: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListStateMachineAliasesInput = S.suspend(() =>
+  S.Struct({
     stateMachineArn: S.String,
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListStateMachinesInput extends S.Class<ListStateMachinesInput>(
-  "ListStateMachinesInput",
-)(
-  { maxResults: S.optional(S.Number), nextToken: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListStateMachineVersionsInput extends S.Class<ListStateMachineVersionsInput>(
-  "ListStateMachineVersionsInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListStateMachineAliasesInput",
+}) as any as S.Schema<ListStateMachineAliasesInput>;
+export interface ListStateMachinesInput {
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListStateMachinesInput = S.suspend(() =>
+  S.Struct({
+    maxResults: S.optional(S.Number),
+    nextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListStateMachinesInput",
+}) as any as S.Schema<ListStateMachinesInput>;
+export interface ListStateMachineVersionsInput {
+  stateMachineArn: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListStateMachineVersionsInput = S.suspend(() =>
+  S.Struct({
     stateMachineArn: S.String,
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTagsForResourceInput extends S.Class<ListTagsForResourceInput>(
-  "ListTagsForResourceInput",
-)(
-  { resourceArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PublishStateMachineVersionInput extends S.Class<PublishStateMachineVersionInput>(
-  "PublishStateMachineVersionInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListStateMachineVersionsInput",
+}) as any as S.Schema<ListStateMachineVersionsInput>;
+export interface ListTagsForResourceInput {
+  resourceArn: string;
+}
+export const ListTagsForResourceInput = S.suspend(() =>
+  S.Struct({ resourceArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListTagsForResourceInput",
+}) as any as S.Schema<ListTagsForResourceInput>;
+export interface PublishStateMachineVersionInput {
+  stateMachineArn: string;
+  revisionId?: string;
+  description?: string;
+}
+export const PublishStateMachineVersionInput = S.suspend(() =>
+  S.Struct({
     stateMachineArn: S.String,
     revisionId: S.optional(S.String),
     description: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class RedriveExecutionInput extends S.Class<RedriveExecutionInput>(
-  "RedriveExecutionInput",
-)(
-  { executionArn: S.String, clientToken: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class SendTaskFailureInput extends S.Class<SendTaskFailureInput>(
-  "SendTaskFailureInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PublishStateMachineVersionInput",
+}) as any as S.Schema<PublishStateMachineVersionInput>;
+export interface RedriveExecutionInput {
+  executionArn: string;
+  clientToken?: string;
+}
+export const RedriveExecutionInput = S.suspend(() =>
+  S.Struct({ executionArn: S.String, clientToken: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "RedriveExecutionInput",
+}) as any as S.Schema<RedriveExecutionInput>;
+export interface SendTaskFailureInput {
+  taskToken: string;
+  error?: string;
+  cause?: string;
+}
+export const SendTaskFailureInput = S.suspend(() =>
+  S.Struct({
     taskToken: S.String,
     error: S.optional(S.String),
     cause: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class SendTaskFailureOutput extends S.Class<SendTaskFailureOutput>(
-  "SendTaskFailureOutput",
-)({}, ns) {}
-export class SendTaskHeartbeatInput extends S.Class<SendTaskHeartbeatInput>(
-  "SendTaskHeartbeatInput",
-)(
-  { taskToken: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class SendTaskHeartbeatOutput extends S.Class<SendTaskHeartbeatOutput>(
-  "SendTaskHeartbeatOutput",
-)({}, ns) {}
-export class SendTaskSuccessInput extends S.Class<SendTaskSuccessInput>(
-  "SendTaskSuccessInput",
-)(
-  { taskToken: S.String, output: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class SendTaskSuccessOutput extends S.Class<SendTaskSuccessOutput>(
-  "SendTaskSuccessOutput",
-)({}, ns) {}
-export class StartExecutionInput extends S.Class<StartExecutionInput>(
-  "StartExecutionInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "SendTaskFailureInput",
+}) as any as S.Schema<SendTaskFailureInput>;
+export interface SendTaskFailureOutput {}
+export const SendTaskFailureOutput = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "SendTaskFailureOutput",
+}) as any as S.Schema<SendTaskFailureOutput>;
+export interface SendTaskHeartbeatInput {
+  taskToken: string;
+}
+export const SendTaskHeartbeatInput = S.suspend(() =>
+  S.Struct({ taskToken: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "SendTaskHeartbeatInput",
+}) as any as S.Schema<SendTaskHeartbeatInput>;
+export interface SendTaskHeartbeatOutput {}
+export const SendTaskHeartbeatOutput = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "SendTaskHeartbeatOutput",
+}) as any as S.Schema<SendTaskHeartbeatOutput>;
+export interface SendTaskSuccessInput {
+  taskToken: string;
+  output: string;
+}
+export const SendTaskSuccessInput = S.suspend(() =>
+  S.Struct({ taskToken: S.String, output: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "SendTaskSuccessInput",
+}) as any as S.Schema<SendTaskSuccessInput>;
+export interface SendTaskSuccessOutput {}
+export const SendTaskSuccessOutput = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "SendTaskSuccessOutput",
+}) as any as S.Schema<SendTaskSuccessOutput>;
+export interface StartExecutionInput {
+  stateMachineArn: string;
+  name?: string;
+  input?: string;
+  traceHeader?: string;
+}
+export const StartExecutionInput = S.suspend(() =>
+  S.Struct({
     stateMachineArn: S.String,
     name: S.optional(S.String),
     input: S.optional(S.String),
     traceHeader: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StartSyncExecutionInput extends S.Class<StartSyncExecutionInput>(
-  "StartSyncExecutionInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "StartExecutionInput",
+}) as any as S.Schema<StartExecutionInput>;
+export interface StartSyncExecutionInput {
+  stateMachineArn: string;
+  name?: string;
+  input?: string;
+  traceHeader?: string;
+  includedData?: string;
+}
+export const StartSyncExecutionInput = S.suspend(() =>
+  S.Struct({
     stateMachineArn: S.String,
     name: S.optional(S.String),
     input: S.optional(S.String),
     traceHeader: S.optional(S.String),
     includedData: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StopExecutionInput extends S.Class<StopExecutionInput>(
-  "StopExecutionInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "StartSyncExecutionInput",
+}) as any as S.Schema<StartSyncExecutionInput>;
+export interface StopExecutionInput {
+  executionArn: string;
+  error?: string;
+  cause?: string;
+}
+export const StopExecutionInput = S.suspend(() =>
+  S.Struct({
     executionArn: S.String,
     error: S.optional(S.String),
     cause: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class Tag extends S.Class<Tag>("Tag")({
-  key: S.optional(S.String),
-  value: S.optional(S.String),
-}) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "StopExecutionInput",
+}) as any as S.Schema<StopExecutionInput>;
+export interface Tag {
+  key?: string;
+  value?: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ key: S.optional(S.String), value: S.optional(S.String) }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagList = Tag[];
 export const TagList = S.Array(Tag);
-export class TagResourceInput extends S.Class<TagResourceInput>(
-  "TagResourceInput",
-)(
-  { resourceArn: S.String, tags: TagList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TagResourceOutput extends S.Class<TagResourceOutput>(
-  "TagResourceOutput",
-)({}, ns) {}
-export class UntagResourceInput extends S.Class<UntagResourceInput>(
-  "UntagResourceInput",
-)(
-  { resourceArn: S.String, tagKeys: TagKeyList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UntagResourceOutput extends S.Class<UntagResourceOutput>(
-  "UntagResourceOutput",
-)({}, ns) {}
-export class UpdateMapRunInput extends S.Class<UpdateMapRunInput>(
-  "UpdateMapRunInput",
-)(
-  {
+export interface TagResourceInput {
+  resourceArn: string;
+  tags: TagList;
+}
+export const TagResourceInput = S.suspend(() =>
+  S.Struct({ resourceArn: S.String, tags: TagList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "TagResourceInput",
+}) as any as S.Schema<TagResourceInput>;
+export interface TagResourceOutput {}
+export const TagResourceOutput = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "TagResourceOutput",
+}) as any as S.Schema<TagResourceOutput>;
+export interface UntagResourceInput {
+  resourceArn: string;
+  tagKeys: TagKeyList;
+}
+export const UntagResourceInput = S.suspend(() =>
+  S.Struct({ resourceArn: S.String, tagKeys: TagKeyList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UntagResourceInput",
+}) as any as S.Schema<UntagResourceInput>;
+export interface UntagResourceOutput {}
+export const UntagResourceOutput = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "UntagResourceOutput",
+}) as any as S.Schema<UntagResourceOutput>;
+export interface UpdateMapRunInput {
+  mapRunArn: string;
+  maxConcurrency?: number;
+  toleratedFailurePercentage?: number;
+  toleratedFailureCount?: number;
+}
+export const UpdateMapRunInput = S.suspend(() =>
+  S.Struct({
     mapRunArn: S.String,
     maxConcurrency: S.optional(S.Number),
     toleratedFailurePercentage: S.optional(S.Number),
     toleratedFailureCount: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateMapRunOutput extends S.Class<UpdateMapRunOutput>(
-  "UpdateMapRunOutput",
-)({}, ns) {}
-export class CloudWatchLogsLogGroup extends S.Class<CloudWatchLogsLogGroup>(
-  "CloudWatchLogsLogGroup",
-)({ logGroupArn: S.optional(S.String) }) {}
-export class LogDestination extends S.Class<LogDestination>("LogDestination")({
-  cloudWatchLogsLogGroup: S.optional(CloudWatchLogsLogGroup),
-}) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateMapRunInput",
+}) as any as S.Schema<UpdateMapRunInput>;
+export interface UpdateMapRunOutput {}
+export const UpdateMapRunOutput = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "UpdateMapRunOutput",
+}) as any as S.Schema<UpdateMapRunOutput>;
+export interface CloudWatchLogsLogGroup {
+  logGroupArn?: string;
+}
+export const CloudWatchLogsLogGroup = S.suspend(() =>
+  S.Struct({ logGroupArn: S.optional(S.String) }),
+).annotations({
+  identifier: "CloudWatchLogsLogGroup",
+}) as any as S.Schema<CloudWatchLogsLogGroup>;
+export interface LogDestination {
+  cloudWatchLogsLogGroup?: CloudWatchLogsLogGroup;
+}
+export const LogDestination = S.suspend(() =>
+  S.Struct({ cloudWatchLogsLogGroup: S.optional(CloudWatchLogsLogGroup) }),
+).annotations({
+  identifier: "LogDestination",
+}) as any as S.Schema<LogDestination>;
+export type LogDestinationList = LogDestination[];
 export const LogDestinationList = S.Array(LogDestination);
-export class LoggingConfiguration extends S.Class<LoggingConfiguration>(
-  "LoggingConfiguration",
-)({
-  level: S.optional(S.String),
-  includeExecutionData: S.optional(S.Boolean),
-  destinations: S.optional(LogDestinationList),
-}) {}
-export class TracingConfiguration extends S.Class<TracingConfiguration>(
-  "TracingConfiguration",
-)({ enabled: S.optional(S.Boolean) }) {}
-export class EncryptionConfiguration extends S.Class<EncryptionConfiguration>(
-  "EncryptionConfiguration",
-)({
-  kmsKeyId: S.optional(S.String),
-  kmsDataKeyReusePeriodSeconds: S.optional(S.Number),
-  type: S.String,
-}) {}
-export class UpdateStateMachineInput extends S.Class<UpdateStateMachineInput>(
-  "UpdateStateMachineInput",
-)(
-  {
+export interface LoggingConfiguration {
+  level?: string;
+  includeExecutionData?: boolean;
+  destinations?: LogDestinationList;
+}
+export const LoggingConfiguration = S.suspend(() =>
+  S.Struct({
+    level: S.optional(S.String),
+    includeExecutionData: S.optional(S.Boolean),
+    destinations: S.optional(LogDestinationList),
+  }),
+).annotations({
+  identifier: "LoggingConfiguration",
+}) as any as S.Schema<LoggingConfiguration>;
+export interface TracingConfiguration {
+  enabled?: boolean;
+}
+export const TracingConfiguration = S.suspend(() =>
+  S.Struct({ enabled: S.optional(S.Boolean) }),
+).annotations({
+  identifier: "TracingConfiguration",
+}) as any as S.Schema<TracingConfiguration>;
+export interface EncryptionConfiguration {
+  kmsKeyId?: string;
+  kmsDataKeyReusePeriodSeconds?: number;
+  type: string;
+}
+export const EncryptionConfiguration = S.suspend(() =>
+  S.Struct({
+    kmsKeyId: S.optional(S.String),
+    kmsDataKeyReusePeriodSeconds: S.optional(S.Number),
+    type: S.String,
+  }),
+).annotations({
+  identifier: "EncryptionConfiguration",
+}) as any as S.Schema<EncryptionConfiguration>;
+export interface UpdateStateMachineInput {
+  stateMachineArn: string;
+  definition?: string;
+  roleArn?: string;
+  loggingConfiguration?: LoggingConfiguration;
+  tracingConfiguration?: TracingConfiguration;
+  publish?: boolean;
+  versionDescription?: string;
+  encryptionConfiguration?: EncryptionConfiguration;
+}
+export const UpdateStateMachineInput = S.suspend(() =>
+  S.Struct({
     stateMachineArn: S.String,
     definition: S.optional(S.String),
     roleArn: S.optional(S.String),
@@ -562,95 +1045,204 @@ export class UpdateStateMachineInput extends S.Class<UpdateStateMachineInput>(
     publish: S.optional(S.Boolean),
     versionDescription: S.optional(S.String),
     encryptionConfiguration: S.optional(EncryptionConfiguration),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class RoutingConfigurationListItem extends S.Class<RoutingConfigurationListItem>(
-  "RoutingConfigurationListItem",
-)({ stateMachineVersionArn: S.String, weight: S.Number }) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateStateMachineInput",
+}) as any as S.Schema<UpdateStateMachineInput>;
+export interface RoutingConfigurationListItem {
+  stateMachineVersionArn: string;
+  weight: number;
+}
+export const RoutingConfigurationListItem = S.suspend(() =>
+  S.Struct({ stateMachineVersionArn: S.String, weight: S.Number }),
+).annotations({
+  identifier: "RoutingConfigurationListItem",
+}) as any as S.Schema<RoutingConfigurationListItem>;
+export type RoutingConfigurationList = RoutingConfigurationListItem[];
 export const RoutingConfigurationList = S.Array(RoutingConfigurationListItem);
-export class UpdateStateMachineAliasInput extends S.Class<UpdateStateMachineAliasInput>(
-  "UpdateStateMachineAliasInput",
-)(
-  {
+export interface UpdateStateMachineAliasInput {
+  stateMachineAliasArn: string;
+  description?: string;
+  routingConfiguration?: RoutingConfigurationList;
+}
+export const UpdateStateMachineAliasInput = S.suspend(() =>
+  S.Struct({
     stateMachineAliasArn: S.String,
     description: S.optional(S.String),
     routingConfiguration: S.optional(RoutingConfigurationList),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ValidateStateMachineDefinitionInput extends S.Class<ValidateStateMachineDefinitionInput>(
-  "ValidateStateMachineDefinitionInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateStateMachineAliasInput",
+}) as any as S.Schema<UpdateStateMachineAliasInput>;
+export interface ValidateStateMachineDefinitionInput {
+  definition: string;
+  type?: string;
+  severity?: string;
+  maxResults?: number;
+}
+export const ValidateStateMachineDefinitionInput = S.suspend(() =>
+  S.Struct({
     definition: S.String,
     type: S.optional(S.String),
     severity: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TestStateConfiguration extends S.Class<TestStateConfiguration>(
-  "TestStateConfiguration",
-)({
-  retrierRetryCount: S.optional(S.Number),
-  errorCausedByState: S.optional(S.String),
-  mapIterationFailureCount: S.optional(S.Number),
-  mapItemReaderData: S.optional(S.String),
-}) {}
-export class CreateActivityInput extends S.Class<CreateActivityInput>(
-  "CreateActivityInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ValidateStateMachineDefinitionInput",
+}) as any as S.Schema<ValidateStateMachineDefinitionInput>;
+export interface TestStateConfiguration {
+  retrierRetryCount?: number;
+  errorCausedByState?: string;
+  mapIterationFailureCount?: number;
+  mapItemReaderData?: string;
+}
+export const TestStateConfiguration = S.suspend(() =>
+  S.Struct({
+    retrierRetryCount: S.optional(S.Number),
+    errorCausedByState: S.optional(S.String),
+    mapIterationFailureCount: S.optional(S.Number),
+    mapItemReaderData: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "TestStateConfiguration",
+}) as any as S.Schema<TestStateConfiguration>;
+export interface CreateActivityInput {
+  name: string;
+  tags?: TagList;
+  encryptionConfiguration?: EncryptionConfiguration;
+}
+export const CreateActivityInput = S.suspend(() =>
+  S.Struct({
     name: S.String,
     tags: S.optional(TagList),
     encryptionConfiguration: S.optional(EncryptionConfiguration),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateStateMachineAliasInput extends S.Class<CreateStateMachineAliasInput>(
-  "CreateStateMachineAliasInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateActivityInput",
+}) as any as S.Schema<CreateActivityInput>;
+export interface CreateStateMachineAliasInput {
+  description?: string;
+  name: string;
+  routingConfiguration: RoutingConfigurationList;
+}
+export const CreateStateMachineAliasInput = S.suspend(() =>
+  S.Struct({
     description: S.optional(S.String),
     name: S.String,
     routingConfiguration: RoutingConfigurationList,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeActivityOutput extends S.Class<DescribeActivityOutput>(
-  "DescribeActivityOutput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateStateMachineAliasInput",
+}) as any as S.Schema<CreateStateMachineAliasInput>;
+export interface DescribeActivityOutput {
+  activityArn: string;
+  name: string;
+  creationDate: Date;
+  encryptionConfiguration?: EncryptionConfiguration;
+}
+export const DescribeActivityOutput = S.suspend(() =>
+  S.Struct({
     activityArn: S.String,
     name: S.String,
     creationDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     encryptionConfiguration: S.optional(EncryptionConfiguration),
-  },
-  ns,
-) {}
-export class DescribeStateMachineAliasOutput extends S.Class<DescribeStateMachineAliasOutput>(
-  "DescribeStateMachineAliasOutput",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeActivityOutput",
+}) as any as S.Schema<DescribeActivityOutput>;
+export interface DescribeStateMachineAliasOutput {
+  stateMachineAliasArn?: string;
+  name?: string;
+  description?: string;
+  routingConfiguration?: RoutingConfigurationList;
+  creationDate?: Date;
+  updateDate?: Date;
+}
+export const DescribeStateMachineAliasOutput = S.suspend(() =>
+  S.Struct({
     stateMachineAliasArn: S.optional(S.String),
     name: S.optional(S.String),
     description: S.optional(S.String),
     routingConfiguration: S.optional(RoutingConfigurationList),
     creationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     updateDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  },
-  ns,
-) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeStateMachineAliasOutput",
+}) as any as S.Schema<DescribeStateMachineAliasOutput>;
+export type VariableNameList = string[];
 export const VariableNameList = S.Array(S.String);
+export type VariableReferences = { [key: string]: VariableNameList };
 export const VariableReferences = S.Record({
   key: S.String,
   value: VariableNameList,
 });
-export class DescribeStateMachineForExecutionOutput extends S.Class<DescribeStateMachineForExecutionOutput>(
-  "DescribeStateMachineForExecutionOutput",
-)(
-  {
+export interface DescribeStateMachineForExecutionOutput {
+  stateMachineArn: string;
+  name: string;
+  definition: string;
+  roleArn: string;
+  updateDate: Date;
+  loggingConfiguration?: LoggingConfiguration;
+  tracingConfiguration?: TracingConfiguration;
+  mapRunArn?: string;
+  label?: string;
+  revisionId?: string;
+  encryptionConfiguration?: EncryptionConfiguration;
+  variableReferences?: VariableReferences;
+}
+export const DescribeStateMachineForExecutionOutput = S.suspend(() =>
+  S.Struct({
     stateMachineArn: S.String,
     name: S.String,
     definition: S.String,
@@ -663,184 +1255,380 @@ export class DescribeStateMachineForExecutionOutput extends S.Class<DescribeStat
     revisionId: S.optional(S.String),
     encryptionConfiguration: S.optional(EncryptionConfiguration),
     variableReferences: S.optional(VariableReferences),
-  },
-  ns,
-) {}
-export class GetActivityTaskOutput extends S.Class<GetActivityTaskOutput>(
-  "GetActivityTaskOutput",
-)({ taskToken: S.optional(S.String), input: S.optional(S.String) }, ns) {}
-export class ListTagsForResourceOutput extends S.Class<ListTagsForResourceOutput>(
-  "ListTagsForResourceOutput",
-)({ tags: S.optional(TagList) }, ns) {}
-export class PublishStateMachineVersionOutput extends S.Class<PublishStateMachineVersionOutput>(
-  "PublishStateMachineVersionOutput",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeStateMachineForExecutionOutput",
+}) as any as S.Schema<DescribeStateMachineForExecutionOutput>;
+export interface GetActivityTaskOutput {
+  taskToken?: string;
+  input?: string;
+}
+export const GetActivityTaskOutput = S.suspend(() =>
+  S.Struct({
+    taskToken: S.optional(S.String),
+    input: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "GetActivityTaskOutput",
+}) as any as S.Schema<GetActivityTaskOutput>;
+export interface ListTagsForResourceOutput {
+  tags?: TagList;
+}
+export const ListTagsForResourceOutput = S.suspend(() =>
+  S.Struct({ tags: S.optional(TagList) }).pipe(ns),
+).annotations({
+  identifier: "ListTagsForResourceOutput",
+}) as any as S.Schema<ListTagsForResourceOutput>;
+export interface PublishStateMachineVersionOutput {
+  creationDate: Date;
+  stateMachineVersionArn: string;
+}
+export const PublishStateMachineVersionOutput = S.suspend(() =>
+  S.Struct({
     creationDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     stateMachineVersionArn: S.String,
-  },
-  ns,
-) {}
-export class RedriveExecutionOutput extends S.Class<RedriveExecutionOutput>(
-  "RedriveExecutionOutput",
-)({ redriveDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")) }, ns) {}
-export class StartExecutionOutput extends S.Class<StartExecutionOutput>(
-  "StartExecutionOutput",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "PublishStateMachineVersionOutput",
+}) as any as S.Schema<PublishStateMachineVersionOutput>;
+export interface RedriveExecutionOutput {
+  redriveDate: Date;
+}
+export const RedriveExecutionOutput = S.suspend(() =>
+  S.Struct({
+    redriveDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }).pipe(ns),
+).annotations({
+  identifier: "RedriveExecutionOutput",
+}) as any as S.Schema<RedriveExecutionOutput>;
+export interface StartExecutionOutput {
+  executionArn: string;
+  startDate: Date;
+}
+export const StartExecutionOutput = S.suspend(() =>
+  S.Struct({
     executionArn: S.String,
     startDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  },
-  ns,
-) {}
-export class StopExecutionOutput extends S.Class<StopExecutionOutput>(
-  "StopExecutionOutput",
-)({ stopDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")) }, ns) {}
-export class UpdateStateMachineOutput extends S.Class<UpdateStateMachineOutput>(
-  "UpdateStateMachineOutput",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "StartExecutionOutput",
+}) as any as S.Schema<StartExecutionOutput>;
+export interface StopExecutionOutput {
+  stopDate: Date;
+}
+export const StopExecutionOutput = S.suspend(() =>
+  S.Struct({ stopDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")) }).pipe(
+    ns,
+  ),
+).annotations({
+  identifier: "StopExecutionOutput",
+}) as any as S.Schema<StopExecutionOutput>;
+export interface UpdateStateMachineOutput {
+  updateDate: Date;
+  revisionId?: string;
+  stateMachineVersionArn?: string;
+}
+export const UpdateStateMachineOutput = S.suspend(() =>
+  S.Struct({
     updateDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     revisionId: S.optional(S.String),
     stateMachineVersionArn: S.optional(S.String),
-  },
-  ns,
-) {}
-export class UpdateStateMachineAliasOutput extends S.Class<UpdateStateMachineAliasOutput>(
-  "UpdateStateMachineAliasOutput",
-)({ updateDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")) }, ns) {}
-export class MockErrorOutput extends S.Class<MockErrorOutput>(
-  "MockErrorOutput",
-)({ error: S.optional(S.String), cause: S.optional(S.String) }) {}
-export class CloudWatchEventsExecutionDataDetails extends S.Class<CloudWatchEventsExecutionDataDetails>(
-  "CloudWatchEventsExecutionDataDetails",
-)({ included: S.optional(S.Boolean) }) {}
-export class MapRunItemCounts extends S.Class<MapRunItemCounts>(
-  "MapRunItemCounts",
-)({
-  pending: S.Number,
-  running: S.Number,
-  succeeded: S.Number,
-  failed: S.Number,
-  timedOut: S.Number,
-  aborted: S.Number,
-  total: S.Number,
-  resultsWritten: S.Number,
-  failuresNotRedrivable: S.optional(S.Number),
-  pendingRedrive: S.optional(S.Number),
-}) {}
-export class MapRunExecutionCounts extends S.Class<MapRunExecutionCounts>(
-  "MapRunExecutionCounts",
-)({
-  pending: S.Number,
-  running: S.Number,
-  succeeded: S.Number,
-  failed: S.Number,
-  timedOut: S.Number,
-  aborted: S.Number,
-  total: S.Number,
-  resultsWritten: S.Number,
-  failuresNotRedrivable: S.optional(S.Number),
-  pendingRedrive: S.optional(S.Number),
-}) {}
-export class ActivityListItem extends S.Class<ActivityListItem>(
-  "ActivityListItem",
-)({
-  activityArn: S.String,
-  name: S.String,
-  creationDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-}) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "UpdateStateMachineOutput",
+}) as any as S.Schema<UpdateStateMachineOutput>;
+export interface UpdateStateMachineAliasOutput {
+  updateDate: Date;
+}
+export const UpdateStateMachineAliasOutput = S.suspend(() =>
+  S.Struct({
+    updateDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }).pipe(ns),
+).annotations({
+  identifier: "UpdateStateMachineAliasOutput",
+}) as any as S.Schema<UpdateStateMachineAliasOutput>;
+export interface MockErrorOutput {
+  error?: string;
+  cause?: string;
+}
+export const MockErrorOutput = S.suspend(() =>
+  S.Struct({ error: S.optional(S.String), cause: S.optional(S.String) }),
+).annotations({
+  identifier: "MockErrorOutput",
+}) as any as S.Schema<MockErrorOutput>;
+export interface CloudWatchEventsExecutionDataDetails {
+  included?: boolean;
+}
+export const CloudWatchEventsExecutionDataDetails = S.suspend(() =>
+  S.Struct({ included: S.optional(S.Boolean) }),
+).annotations({
+  identifier: "CloudWatchEventsExecutionDataDetails",
+}) as any as S.Schema<CloudWatchEventsExecutionDataDetails>;
+export interface MapRunItemCounts {
+  pending: number;
+  running: number;
+  succeeded: number;
+  failed: number;
+  timedOut: number;
+  aborted: number;
+  total: number;
+  resultsWritten: number;
+  failuresNotRedrivable?: number;
+  pendingRedrive?: number;
+}
+export const MapRunItemCounts = S.suspend(() =>
+  S.Struct({
+    pending: S.Number,
+    running: S.Number,
+    succeeded: S.Number,
+    failed: S.Number,
+    timedOut: S.Number,
+    aborted: S.Number,
+    total: S.Number,
+    resultsWritten: S.Number,
+    failuresNotRedrivable: S.optional(S.Number),
+    pendingRedrive: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "MapRunItemCounts",
+}) as any as S.Schema<MapRunItemCounts>;
+export interface MapRunExecutionCounts {
+  pending: number;
+  running: number;
+  succeeded: number;
+  failed: number;
+  timedOut: number;
+  aborted: number;
+  total: number;
+  resultsWritten: number;
+  failuresNotRedrivable?: number;
+  pendingRedrive?: number;
+}
+export const MapRunExecutionCounts = S.suspend(() =>
+  S.Struct({
+    pending: S.Number,
+    running: S.Number,
+    succeeded: S.Number,
+    failed: S.Number,
+    timedOut: S.Number,
+    aborted: S.Number,
+    total: S.Number,
+    resultsWritten: S.Number,
+    failuresNotRedrivable: S.optional(S.Number),
+    pendingRedrive: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "MapRunExecutionCounts",
+}) as any as S.Schema<MapRunExecutionCounts>;
+export interface ActivityListItem {
+  activityArn: string;
+  name: string;
+  creationDate: Date;
+}
+export const ActivityListItem = S.suspend(() =>
+  S.Struct({
+    activityArn: S.String,
+    name: S.String,
+    creationDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotations({
+  identifier: "ActivityListItem",
+}) as any as S.Schema<ActivityListItem>;
+export type ActivityList = ActivityListItem[];
 export const ActivityList = S.Array(ActivityListItem);
-export class ExecutionListItem extends S.Class<ExecutionListItem>(
-  "ExecutionListItem",
-)({
-  executionArn: S.String,
-  stateMachineArn: S.String,
-  name: S.String,
-  status: S.String,
-  startDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  stopDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  mapRunArn: S.optional(S.String),
-  itemCount: S.optional(S.Number),
-  stateMachineVersionArn: S.optional(S.String),
-  stateMachineAliasArn: S.optional(S.String),
-  redriveCount: S.optional(S.Number),
-  redriveDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface ExecutionListItem {
+  executionArn: string;
+  stateMachineArn: string;
+  name: string;
+  status: string;
+  startDate: Date;
+  stopDate?: Date;
+  mapRunArn?: string;
+  itemCount?: number;
+  stateMachineVersionArn?: string;
+  stateMachineAliasArn?: string;
+  redriveCount?: number;
+  redriveDate?: Date;
+}
+export const ExecutionListItem = S.suspend(() =>
+  S.Struct({
+    executionArn: S.String,
+    stateMachineArn: S.String,
+    name: S.String,
+    status: S.String,
+    startDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    stopDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    mapRunArn: S.optional(S.String),
+    itemCount: S.optional(S.Number),
+    stateMachineVersionArn: S.optional(S.String),
+    stateMachineAliasArn: S.optional(S.String),
+    redriveCount: S.optional(S.Number),
+    redriveDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "ExecutionListItem",
+}) as any as S.Schema<ExecutionListItem>;
+export type ExecutionList = ExecutionListItem[];
 export const ExecutionList = S.Array(ExecutionListItem);
-export class MapRunListItem extends S.Class<MapRunListItem>("MapRunListItem")({
-  executionArn: S.String,
-  mapRunArn: S.String,
-  stateMachineArn: S.String,
-  startDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  stopDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface MapRunListItem {
+  executionArn: string;
+  mapRunArn: string;
+  stateMachineArn: string;
+  startDate: Date;
+  stopDate?: Date;
+}
+export const MapRunListItem = S.suspend(() =>
+  S.Struct({
+    executionArn: S.String,
+    mapRunArn: S.String,
+    stateMachineArn: S.String,
+    startDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    stopDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "MapRunListItem",
+}) as any as S.Schema<MapRunListItem>;
+export type MapRunList = MapRunListItem[];
 export const MapRunList = S.Array(MapRunListItem);
-export class StateMachineAliasListItem extends S.Class<StateMachineAliasListItem>(
-  "StateMachineAliasListItem",
-)({
-  stateMachineAliasArn: S.String,
-  creationDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-}) {}
+export interface StateMachineAliasListItem {
+  stateMachineAliasArn: string;
+  creationDate: Date;
+}
+export const StateMachineAliasListItem = S.suspend(() =>
+  S.Struct({
+    stateMachineAliasArn: S.String,
+    creationDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotations({
+  identifier: "StateMachineAliasListItem",
+}) as any as S.Schema<StateMachineAliasListItem>;
+export type StateMachineAliasList = StateMachineAliasListItem[];
 export const StateMachineAliasList = S.Array(StateMachineAliasListItem);
-export class StateMachineListItem extends S.Class<StateMachineListItem>(
-  "StateMachineListItem",
-)({
-  stateMachineArn: S.String,
-  name: S.String,
-  type: S.String,
-  creationDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-}) {}
+export interface StateMachineListItem {
+  stateMachineArn: string;
+  name: string;
+  type: string;
+  creationDate: Date;
+}
+export const StateMachineListItem = S.suspend(() =>
+  S.Struct({
+    stateMachineArn: S.String,
+    name: S.String,
+    type: S.String,
+    creationDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotations({
+  identifier: "StateMachineListItem",
+}) as any as S.Schema<StateMachineListItem>;
+export type StateMachineList = StateMachineListItem[];
 export const StateMachineList = S.Array(StateMachineListItem);
-export class StateMachineVersionListItem extends S.Class<StateMachineVersionListItem>(
-  "StateMachineVersionListItem",
-)({
-  stateMachineVersionArn: S.String,
-  creationDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-}) {}
+export interface StateMachineVersionListItem {
+  stateMachineVersionArn: string;
+  creationDate: Date;
+}
+export const StateMachineVersionListItem = S.suspend(() =>
+  S.Struct({
+    stateMachineVersionArn: S.String,
+    creationDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotations({
+  identifier: "StateMachineVersionListItem",
+}) as any as S.Schema<StateMachineVersionListItem>;
+export type StateMachineVersionList = StateMachineVersionListItem[];
 export const StateMachineVersionList = S.Array(StateMachineVersionListItem);
-export class BillingDetails extends S.Class<BillingDetails>("BillingDetails")({
-  billedMemoryUsedInMB: S.optional(S.Number),
-  billedDurationInMilliseconds: S.optional(S.Number),
-}) {}
-export class MockInput extends S.Class<MockInput>("MockInput")({
-  result: S.optional(S.String),
-  errorOutput: S.optional(MockErrorOutput),
-  fieldValidationMode: S.optional(S.String),
-}) {}
-export class ValidateStateMachineDefinitionDiagnostic extends S.Class<ValidateStateMachineDefinitionDiagnostic>(
-  "ValidateStateMachineDefinitionDiagnostic",
-)({
-  severity: S.String,
-  code: S.String,
-  message: S.String,
-  location: S.optional(S.String),
-}) {}
+export interface BillingDetails {
+  billedMemoryUsedInMB?: number;
+  billedDurationInMilliseconds?: number;
+}
+export const BillingDetails = S.suspend(() =>
+  S.Struct({
+    billedMemoryUsedInMB: S.optional(S.Number),
+    billedDurationInMilliseconds: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "BillingDetails",
+}) as any as S.Schema<BillingDetails>;
+export interface MockInput {
+  result?: string;
+  errorOutput?: MockErrorOutput;
+  fieldValidationMode?: string;
+}
+export const MockInput = S.suspend(() =>
+  S.Struct({
+    result: S.optional(S.String),
+    errorOutput: S.optional(MockErrorOutput),
+    fieldValidationMode: S.optional(S.String),
+  }),
+).annotations({ identifier: "MockInput" }) as any as S.Schema<MockInput>;
+export interface ValidateStateMachineDefinitionDiagnostic {
+  severity: string;
+  code: string;
+  message: string;
+  location?: string;
+}
+export const ValidateStateMachineDefinitionDiagnostic = S.suspend(() =>
+  S.Struct({
+    severity: S.String,
+    code: S.String,
+    message: S.String,
+    location: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ValidateStateMachineDefinitionDiagnostic",
+}) as any as S.Schema<ValidateStateMachineDefinitionDiagnostic>;
+export type ValidateStateMachineDefinitionDiagnosticList =
+  ValidateStateMachineDefinitionDiagnostic[];
 export const ValidateStateMachineDefinitionDiagnosticList = S.Array(
   ValidateStateMachineDefinitionDiagnostic,
 );
-export class CreateActivityOutput extends S.Class<CreateActivityOutput>(
-  "CreateActivityOutput",
-)(
-  {
+export interface CreateActivityOutput {
+  activityArn: string;
+  creationDate: Date;
+}
+export const CreateActivityOutput = S.suspend(() =>
+  S.Struct({
     activityArn: S.String,
     creationDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  },
-  ns,
-) {}
-export class CreateStateMachineAliasOutput extends S.Class<CreateStateMachineAliasOutput>(
-  "CreateStateMachineAliasOutput",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "CreateActivityOutput",
+}) as any as S.Schema<CreateActivityOutput>;
+export interface CreateStateMachineAliasOutput {
+  stateMachineAliasArn: string;
+  creationDate: Date;
+}
+export const CreateStateMachineAliasOutput = S.suspend(() =>
+  S.Struct({
     stateMachineAliasArn: S.String,
     creationDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  },
-  ns,
-) {}
-export class DescribeExecutionOutput extends S.Class<DescribeExecutionOutput>(
-  "DescribeExecutionOutput",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "CreateStateMachineAliasOutput",
+}) as any as S.Schema<CreateStateMachineAliasOutput>;
+export interface DescribeExecutionOutput {
+  executionArn: string;
+  stateMachineArn: string;
+  name?: string;
+  status: string;
+  startDate: Date;
+  stopDate?: Date;
+  input?: string;
+  inputDetails?: CloudWatchEventsExecutionDataDetails;
+  output?: string;
+  outputDetails?: CloudWatchEventsExecutionDataDetails;
+  traceHeader?: string;
+  mapRunArn?: string;
+  error?: string;
+  cause?: string;
+  stateMachineVersionArn?: string;
+  stateMachineAliasArn?: string;
+  redriveCount?: number;
+  redriveDate?: Date;
+  redriveStatus?: string;
+  redriveStatusReason?: string;
+}
+export const DescribeExecutionOutput = S.suspend(() =>
+  S.Struct({
     executionArn: S.String,
     stateMachineArn: S.String,
     name: S.optional(S.String),
@@ -861,13 +1649,26 @@ export class DescribeExecutionOutput extends S.Class<DescribeExecutionOutput>(
     redriveDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     redriveStatus: S.optional(S.String),
     redriveStatusReason: S.optional(S.String),
-  },
-  ns,
-) {}
-export class DescribeMapRunOutput extends S.Class<DescribeMapRunOutput>(
-  "DescribeMapRunOutput",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeExecutionOutput",
+}) as any as S.Schema<DescribeExecutionOutput>;
+export interface DescribeMapRunOutput {
+  mapRunArn: string;
+  executionArn: string;
+  status: string;
+  startDate: Date;
+  stopDate?: Date;
+  maxConcurrency: number;
+  toleratedFailurePercentage: number;
+  toleratedFailureCount: number;
+  itemCounts: MapRunItemCounts;
+  executionCounts: MapRunExecutionCounts;
+  redriveCount?: number;
+  redriveDate?: Date;
+}
+export const DescribeMapRunOutput = S.suspend(() =>
+  S.Struct({
     mapRunArn: S.String,
     executionArn: S.String,
     status: S.String,
@@ -880,13 +1681,28 @@ export class DescribeMapRunOutput extends S.Class<DescribeMapRunOutput>(
     executionCounts: MapRunExecutionCounts,
     redriveCount: S.optional(S.Number),
     redriveDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  },
-  ns,
-) {}
-export class DescribeStateMachineOutput extends S.Class<DescribeStateMachineOutput>(
-  "DescribeStateMachineOutput",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeMapRunOutput",
+}) as any as S.Schema<DescribeMapRunOutput>;
+export interface DescribeStateMachineOutput {
+  stateMachineArn: string;
+  name: string;
+  status?: string;
+  definition: string;
+  roleArn: string;
+  type: string;
+  creationDate: Date;
+  loggingConfiguration?: LoggingConfiguration;
+  tracingConfiguration?: TracingConfiguration;
+  label?: string;
+  revisionId?: string;
+  description?: string;
+  encryptionConfiguration?: EncryptionConfiguration;
+  variableReferences?: VariableReferences;
+}
+export const DescribeStateMachineOutput = S.suspend(() =>
+  S.Struct({
     stateMachineArn: S.String,
     name: S.String,
     status: S.optional(S.String),
@@ -901,43 +1717,95 @@ export class DescribeStateMachineOutput extends S.Class<DescribeStateMachineOutp
     description: S.optional(S.String),
     encryptionConfiguration: S.optional(EncryptionConfiguration),
     variableReferences: S.optional(VariableReferences),
-  },
-  ns,
-) {}
-export class ListActivitiesOutput extends S.Class<ListActivitiesOutput>(
-  "ListActivitiesOutput",
-)({ activities: ActivityList, nextToken: S.optional(S.String) }, ns) {}
-export class ListExecutionsOutput extends S.Class<ListExecutionsOutput>(
-  "ListExecutionsOutput",
-)({ executions: ExecutionList, nextToken: S.optional(S.String) }, ns) {}
-export class ListMapRunsOutput extends S.Class<ListMapRunsOutput>(
-  "ListMapRunsOutput",
-)({ mapRuns: MapRunList, nextToken: S.optional(S.String) }, ns) {}
-export class ListStateMachineAliasesOutput extends S.Class<ListStateMachineAliasesOutput>(
-  "ListStateMachineAliasesOutput",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeStateMachineOutput",
+}) as any as S.Schema<DescribeStateMachineOutput>;
+export interface ListActivitiesOutput {
+  activities: ActivityList;
+  nextToken?: string;
+}
+export const ListActivitiesOutput = S.suspend(() =>
+  S.Struct({ activities: ActivityList, nextToken: S.optional(S.String) }).pipe(
+    ns,
+  ),
+).annotations({
+  identifier: "ListActivitiesOutput",
+}) as any as S.Schema<ListActivitiesOutput>;
+export interface ListExecutionsOutput {
+  executions: ExecutionList;
+  nextToken?: string;
+}
+export const ListExecutionsOutput = S.suspend(() =>
+  S.Struct({ executions: ExecutionList, nextToken: S.optional(S.String) }).pipe(
+    ns,
+  ),
+).annotations({
+  identifier: "ListExecutionsOutput",
+}) as any as S.Schema<ListExecutionsOutput>;
+export interface ListMapRunsOutput {
+  mapRuns: MapRunList;
+  nextToken?: string;
+}
+export const ListMapRunsOutput = S.suspend(() =>
+  S.Struct({ mapRuns: MapRunList, nextToken: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "ListMapRunsOutput",
+}) as any as S.Schema<ListMapRunsOutput>;
+export interface ListStateMachineAliasesOutput {
+  stateMachineAliases: StateMachineAliasList;
+  nextToken?: string;
+}
+export const ListStateMachineAliasesOutput = S.suspend(() =>
+  S.Struct({
     stateMachineAliases: StateMachineAliasList,
     nextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListStateMachinesOutput extends S.Class<ListStateMachinesOutput>(
-  "ListStateMachinesOutput",
-)({ stateMachines: StateMachineList, nextToken: S.optional(S.String) }, ns) {}
-export class ListStateMachineVersionsOutput extends S.Class<ListStateMachineVersionsOutput>(
-  "ListStateMachineVersionsOutput",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListStateMachineAliasesOutput",
+}) as any as S.Schema<ListStateMachineAliasesOutput>;
+export interface ListStateMachinesOutput {
+  stateMachines: StateMachineList;
+  nextToken?: string;
+}
+export const ListStateMachinesOutput = S.suspend(() =>
+  S.Struct({
+    stateMachines: StateMachineList,
+    nextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListStateMachinesOutput",
+}) as any as S.Schema<ListStateMachinesOutput>;
+export interface ListStateMachineVersionsOutput {
+  stateMachineVersions: StateMachineVersionList;
+  nextToken?: string;
+}
+export const ListStateMachineVersionsOutput = S.suspend(() =>
+  S.Struct({
     stateMachineVersions: StateMachineVersionList,
     nextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class StartSyncExecutionOutput extends S.Class<StartSyncExecutionOutput>(
-  "StartSyncExecutionOutput",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListStateMachineVersionsOutput",
+}) as any as S.Schema<ListStateMachineVersionsOutput>;
+export interface StartSyncExecutionOutput {
+  executionArn: string;
+  stateMachineArn?: string;
+  name?: string;
+  startDate: Date;
+  stopDate: Date;
+  status: string;
+  error?: string;
+  cause?: string;
+  input?: string;
+  inputDetails?: CloudWatchEventsExecutionDataDetails;
+  output?: string;
+  outputDetails?: CloudWatchEventsExecutionDataDetails;
+  traceHeader?: string;
+  billingDetails?: BillingDetails;
+}
+export const StartSyncExecutionOutput = S.suspend(() =>
+  S.Struct({
     executionArn: S.String,
     stateMachineArn: S.optional(S.String),
     name: S.optional(S.String),
@@ -952,11 +1820,24 @@ export class StartSyncExecutionOutput extends S.Class<StartSyncExecutionOutput>(
     outputDetails: S.optional(CloudWatchEventsExecutionDataDetails),
     traceHeader: S.optional(S.String),
     billingDetails: S.optional(BillingDetails),
-  },
-  ns,
-) {}
-export class TestStateInput extends S.Class<TestStateInput>("TestStateInput")(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "StartSyncExecutionOutput",
+}) as any as S.Schema<StartSyncExecutionOutput>;
+export interface TestStateInput {
+  definition: string;
+  roleArn?: string;
+  input?: string;
+  inspectionLevel?: string;
+  revealSecrets?: boolean;
+  variables?: string;
+  stateName?: string;
+  mock?: MockInput;
+  context?: string;
+  stateConfiguration?: TestStateConfiguration;
+}
+export const TestStateInput = S.suspend(() =>
+  S.Struct({
     definition: S.String,
     roleArn: S.optional(S.String),
     input: S.optional(S.String),
@@ -967,186 +1848,433 @@ export class TestStateInput extends S.Class<TestStateInput>("TestStateInput")(
     mock: S.optional(MockInput),
     context: S.optional(S.String),
     stateConfiguration: S.optional(TestStateConfiguration),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ValidateStateMachineDefinitionOutput extends S.Class<ValidateStateMachineDefinitionOutput>(
-  "ValidateStateMachineDefinitionOutput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "TestStateInput",
+}) as any as S.Schema<TestStateInput>;
+export interface ValidateStateMachineDefinitionOutput {
+  result: string;
+  diagnostics: ValidateStateMachineDefinitionDiagnosticList;
+  truncated?: boolean;
+}
+export const ValidateStateMachineDefinitionOutput = S.suspend(() =>
+  S.Struct({
     result: S.String,
     diagnostics: ValidateStateMachineDefinitionDiagnosticList,
     truncated: S.optional(S.Boolean),
-  },
-  ns,
-) {}
-export class ActivityFailedEventDetails extends S.Class<ActivityFailedEventDetails>(
-  "ActivityFailedEventDetails",
-)({ error: S.optional(S.String), cause: S.optional(S.String) }) {}
-export class ActivityScheduleFailedEventDetails extends S.Class<ActivityScheduleFailedEventDetails>(
-  "ActivityScheduleFailedEventDetails",
-)({ error: S.optional(S.String), cause: S.optional(S.String) }) {}
-export class ActivityStartedEventDetails extends S.Class<ActivityStartedEventDetails>(
-  "ActivityStartedEventDetails",
-)({ workerName: S.optional(S.String) }) {}
-export class HistoryEventExecutionDataDetails extends S.Class<HistoryEventExecutionDataDetails>(
-  "HistoryEventExecutionDataDetails",
-)({ truncated: S.optional(S.Boolean) }) {}
-export class ActivitySucceededEventDetails extends S.Class<ActivitySucceededEventDetails>(
-  "ActivitySucceededEventDetails",
-)({
-  output: S.optional(S.String),
-  outputDetails: S.optional(HistoryEventExecutionDataDetails),
-}) {}
-export class ActivityTimedOutEventDetails extends S.Class<ActivityTimedOutEventDetails>(
-  "ActivityTimedOutEventDetails",
-)({ error: S.optional(S.String), cause: S.optional(S.String) }) {}
-export class TaskFailedEventDetails extends S.Class<TaskFailedEventDetails>(
-  "TaskFailedEventDetails",
-)({
-  resourceType: S.String,
-  resource: S.String,
-  error: S.optional(S.String),
-  cause: S.optional(S.String),
-}) {}
-export class TaskStartFailedEventDetails extends S.Class<TaskStartFailedEventDetails>(
-  "TaskStartFailedEventDetails",
-)({
-  resourceType: S.String,
-  resource: S.String,
-  error: S.optional(S.String),
-  cause: S.optional(S.String),
-}) {}
-export class TaskStartedEventDetails extends S.Class<TaskStartedEventDetails>(
-  "TaskStartedEventDetails",
-)({ resourceType: S.String, resource: S.String }) {}
-export class TaskSubmitFailedEventDetails extends S.Class<TaskSubmitFailedEventDetails>(
-  "TaskSubmitFailedEventDetails",
-)({
-  resourceType: S.String,
-  resource: S.String,
-  error: S.optional(S.String),
-  cause: S.optional(S.String),
-}) {}
-export class TaskSubmittedEventDetails extends S.Class<TaskSubmittedEventDetails>(
-  "TaskSubmittedEventDetails",
-)({
-  resourceType: S.String,
-  resource: S.String,
-  output: S.optional(S.String),
-  outputDetails: S.optional(HistoryEventExecutionDataDetails),
-}) {}
-export class TaskSucceededEventDetails extends S.Class<TaskSucceededEventDetails>(
-  "TaskSucceededEventDetails",
-)({
-  resourceType: S.String,
-  resource: S.String,
-  output: S.optional(S.String),
-  outputDetails: S.optional(HistoryEventExecutionDataDetails),
-}) {}
-export class TaskTimedOutEventDetails extends S.Class<TaskTimedOutEventDetails>(
-  "TaskTimedOutEventDetails",
-)({
-  resourceType: S.String,
-  resource: S.String,
-  error: S.optional(S.String),
-  cause: S.optional(S.String),
-}) {}
-export class ExecutionFailedEventDetails extends S.Class<ExecutionFailedEventDetails>(
-  "ExecutionFailedEventDetails",
-)({ error: S.optional(S.String), cause: S.optional(S.String) }) {}
-export class ExecutionStartedEventDetails extends S.Class<ExecutionStartedEventDetails>(
-  "ExecutionStartedEventDetails",
-)({
-  input: S.optional(S.String),
-  inputDetails: S.optional(HistoryEventExecutionDataDetails),
-  roleArn: S.optional(S.String),
-  stateMachineAliasArn: S.optional(S.String),
-  stateMachineVersionArn: S.optional(S.String),
-}) {}
-export class ExecutionSucceededEventDetails extends S.Class<ExecutionSucceededEventDetails>(
-  "ExecutionSucceededEventDetails",
-)({
-  output: S.optional(S.String),
-  outputDetails: S.optional(HistoryEventExecutionDataDetails),
-}) {}
-export class ExecutionAbortedEventDetails extends S.Class<ExecutionAbortedEventDetails>(
-  "ExecutionAbortedEventDetails",
-)({ error: S.optional(S.String), cause: S.optional(S.String) }) {}
-export class ExecutionTimedOutEventDetails extends S.Class<ExecutionTimedOutEventDetails>(
-  "ExecutionTimedOutEventDetails",
-)({ error: S.optional(S.String), cause: S.optional(S.String) }) {}
-export class ExecutionRedrivenEventDetails extends S.Class<ExecutionRedrivenEventDetails>(
-  "ExecutionRedrivenEventDetails",
-)({ redriveCount: S.optional(S.Number) }) {}
-export class MapStateStartedEventDetails extends S.Class<MapStateStartedEventDetails>(
-  "MapStateStartedEventDetails",
-)({ length: S.optional(S.Number) }) {}
-export class MapIterationEventDetails extends S.Class<MapIterationEventDetails>(
-  "MapIterationEventDetails",
-)({ name: S.optional(S.String), index: S.optional(S.Number) }) {}
-export class LambdaFunctionFailedEventDetails extends S.Class<LambdaFunctionFailedEventDetails>(
-  "LambdaFunctionFailedEventDetails",
-)({ error: S.optional(S.String), cause: S.optional(S.String) }) {}
-export class LambdaFunctionScheduleFailedEventDetails extends S.Class<LambdaFunctionScheduleFailedEventDetails>(
-  "LambdaFunctionScheduleFailedEventDetails",
-)({ error: S.optional(S.String), cause: S.optional(S.String) }) {}
-export class TaskCredentials extends S.Class<TaskCredentials>(
-  "TaskCredentials",
-)({ roleArn: S.optional(S.String) }) {}
-export class LambdaFunctionScheduledEventDetails extends S.Class<LambdaFunctionScheduledEventDetails>(
-  "LambdaFunctionScheduledEventDetails",
-)({
-  resource: S.String,
-  input: S.optional(S.String),
-  inputDetails: S.optional(HistoryEventExecutionDataDetails),
-  timeoutInSeconds: S.optional(S.Number),
-  taskCredentials: S.optional(TaskCredentials),
-}) {}
-export class LambdaFunctionStartFailedEventDetails extends S.Class<LambdaFunctionStartFailedEventDetails>(
-  "LambdaFunctionStartFailedEventDetails",
-)({ error: S.optional(S.String), cause: S.optional(S.String) }) {}
-export class LambdaFunctionSucceededEventDetails extends S.Class<LambdaFunctionSucceededEventDetails>(
-  "LambdaFunctionSucceededEventDetails",
-)({
-  output: S.optional(S.String),
-  outputDetails: S.optional(HistoryEventExecutionDataDetails),
-}) {}
-export class LambdaFunctionTimedOutEventDetails extends S.Class<LambdaFunctionTimedOutEventDetails>(
-  "LambdaFunctionTimedOutEventDetails",
-)({ error: S.optional(S.String), cause: S.optional(S.String) }) {}
-export class StateEnteredEventDetails extends S.Class<StateEnteredEventDetails>(
-  "StateEnteredEventDetails",
-)({
-  name: S.String,
-  input: S.optional(S.String),
-  inputDetails: S.optional(HistoryEventExecutionDataDetails),
-}) {}
-export class MapRunStartedEventDetails extends S.Class<MapRunStartedEventDetails>(
-  "MapRunStartedEventDetails",
-)({ mapRunArn: S.optional(S.String) }) {}
-export class MapRunFailedEventDetails extends S.Class<MapRunFailedEventDetails>(
-  "MapRunFailedEventDetails",
-)({ error: S.optional(S.String), cause: S.optional(S.String) }) {}
-export class MapRunRedrivenEventDetails extends S.Class<MapRunRedrivenEventDetails>(
-  "MapRunRedrivenEventDetails",
-)({ mapRunArn: S.optional(S.String), redriveCount: S.optional(S.Number) }) {}
-export class EvaluationFailedEventDetails extends S.Class<EvaluationFailedEventDetails>(
-  "EvaluationFailedEventDetails",
-)({
-  error: S.optional(S.String),
-  cause: S.optional(S.String),
-  location: S.optional(S.String),
-  state: S.String,
-}) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "ValidateStateMachineDefinitionOutput",
+}) as any as S.Schema<ValidateStateMachineDefinitionOutput>;
+export interface ActivityFailedEventDetails {
+  error?: string;
+  cause?: string;
+}
+export const ActivityFailedEventDetails = S.suspend(() =>
+  S.Struct({ error: S.optional(S.String), cause: S.optional(S.String) }),
+).annotations({
+  identifier: "ActivityFailedEventDetails",
+}) as any as S.Schema<ActivityFailedEventDetails>;
+export interface ActivityScheduleFailedEventDetails {
+  error?: string;
+  cause?: string;
+}
+export const ActivityScheduleFailedEventDetails = S.suspend(() =>
+  S.Struct({ error: S.optional(S.String), cause: S.optional(S.String) }),
+).annotations({
+  identifier: "ActivityScheduleFailedEventDetails",
+}) as any as S.Schema<ActivityScheduleFailedEventDetails>;
+export interface ActivityStartedEventDetails {
+  workerName?: string;
+}
+export const ActivityStartedEventDetails = S.suspend(() =>
+  S.Struct({ workerName: S.optional(S.String) }),
+).annotations({
+  identifier: "ActivityStartedEventDetails",
+}) as any as S.Schema<ActivityStartedEventDetails>;
+export interface HistoryEventExecutionDataDetails {
+  truncated?: boolean;
+}
+export const HistoryEventExecutionDataDetails = S.suspend(() =>
+  S.Struct({ truncated: S.optional(S.Boolean) }),
+).annotations({
+  identifier: "HistoryEventExecutionDataDetails",
+}) as any as S.Schema<HistoryEventExecutionDataDetails>;
+export interface ActivitySucceededEventDetails {
+  output?: string;
+  outputDetails?: HistoryEventExecutionDataDetails;
+}
+export const ActivitySucceededEventDetails = S.suspend(() =>
+  S.Struct({
+    output: S.optional(S.String),
+    outputDetails: S.optional(HistoryEventExecutionDataDetails),
+  }),
+).annotations({
+  identifier: "ActivitySucceededEventDetails",
+}) as any as S.Schema<ActivitySucceededEventDetails>;
+export interface ActivityTimedOutEventDetails {
+  error?: string;
+  cause?: string;
+}
+export const ActivityTimedOutEventDetails = S.suspend(() =>
+  S.Struct({ error: S.optional(S.String), cause: S.optional(S.String) }),
+).annotations({
+  identifier: "ActivityTimedOutEventDetails",
+}) as any as S.Schema<ActivityTimedOutEventDetails>;
+export interface TaskFailedEventDetails {
+  resourceType: string;
+  resource: string;
+  error?: string;
+  cause?: string;
+}
+export const TaskFailedEventDetails = S.suspend(() =>
+  S.Struct({
+    resourceType: S.String,
+    resource: S.String,
+    error: S.optional(S.String),
+    cause: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "TaskFailedEventDetails",
+}) as any as S.Schema<TaskFailedEventDetails>;
+export interface TaskStartFailedEventDetails {
+  resourceType: string;
+  resource: string;
+  error?: string;
+  cause?: string;
+}
+export const TaskStartFailedEventDetails = S.suspend(() =>
+  S.Struct({
+    resourceType: S.String,
+    resource: S.String,
+    error: S.optional(S.String),
+    cause: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "TaskStartFailedEventDetails",
+}) as any as S.Schema<TaskStartFailedEventDetails>;
+export interface TaskStartedEventDetails {
+  resourceType: string;
+  resource: string;
+}
+export const TaskStartedEventDetails = S.suspend(() =>
+  S.Struct({ resourceType: S.String, resource: S.String }),
+).annotations({
+  identifier: "TaskStartedEventDetails",
+}) as any as S.Schema<TaskStartedEventDetails>;
+export interface TaskSubmitFailedEventDetails {
+  resourceType: string;
+  resource: string;
+  error?: string;
+  cause?: string;
+}
+export const TaskSubmitFailedEventDetails = S.suspend(() =>
+  S.Struct({
+    resourceType: S.String,
+    resource: S.String,
+    error: S.optional(S.String),
+    cause: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "TaskSubmitFailedEventDetails",
+}) as any as S.Schema<TaskSubmitFailedEventDetails>;
+export interface TaskSubmittedEventDetails {
+  resourceType: string;
+  resource: string;
+  output?: string;
+  outputDetails?: HistoryEventExecutionDataDetails;
+}
+export const TaskSubmittedEventDetails = S.suspend(() =>
+  S.Struct({
+    resourceType: S.String,
+    resource: S.String,
+    output: S.optional(S.String),
+    outputDetails: S.optional(HistoryEventExecutionDataDetails),
+  }),
+).annotations({
+  identifier: "TaskSubmittedEventDetails",
+}) as any as S.Schema<TaskSubmittedEventDetails>;
+export interface TaskSucceededEventDetails {
+  resourceType: string;
+  resource: string;
+  output?: string;
+  outputDetails?: HistoryEventExecutionDataDetails;
+}
+export const TaskSucceededEventDetails = S.suspend(() =>
+  S.Struct({
+    resourceType: S.String,
+    resource: S.String,
+    output: S.optional(S.String),
+    outputDetails: S.optional(HistoryEventExecutionDataDetails),
+  }),
+).annotations({
+  identifier: "TaskSucceededEventDetails",
+}) as any as S.Schema<TaskSucceededEventDetails>;
+export interface TaskTimedOutEventDetails {
+  resourceType: string;
+  resource: string;
+  error?: string;
+  cause?: string;
+}
+export const TaskTimedOutEventDetails = S.suspend(() =>
+  S.Struct({
+    resourceType: S.String,
+    resource: S.String,
+    error: S.optional(S.String),
+    cause: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "TaskTimedOutEventDetails",
+}) as any as S.Schema<TaskTimedOutEventDetails>;
+export interface ExecutionFailedEventDetails {
+  error?: string;
+  cause?: string;
+}
+export const ExecutionFailedEventDetails = S.suspend(() =>
+  S.Struct({ error: S.optional(S.String), cause: S.optional(S.String) }),
+).annotations({
+  identifier: "ExecutionFailedEventDetails",
+}) as any as S.Schema<ExecutionFailedEventDetails>;
+export interface ExecutionStartedEventDetails {
+  input?: string;
+  inputDetails?: HistoryEventExecutionDataDetails;
+  roleArn?: string;
+  stateMachineAliasArn?: string;
+  stateMachineVersionArn?: string;
+}
+export const ExecutionStartedEventDetails = S.suspend(() =>
+  S.Struct({
+    input: S.optional(S.String),
+    inputDetails: S.optional(HistoryEventExecutionDataDetails),
+    roleArn: S.optional(S.String),
+    stateMachineAliasArn: S.optional(S.String),
+    stateMachineVersionArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ExecutionStartedEventDetails",
+}) as any as S.Schema<ExecutionStartedEventDetails>;
+export interface ExecutionSucceededEventDetails {
+  output?: string;
+  outputDetails?: HistoryEventExecutionDataDetails;
+}
+export const ExecutionSucceededEventDetails = S.suspend(() =>
+  S.Struct({
+    output: S.optional(S.String),
+    outputDetails: S.optional(HistoryEventExecutionDataDetails),
+  }),
+).annotations({
+  identifier: "ExecutionSucceededEventDetails",
+}) as any as S.Schema<ExecutionSucceededEventDetails>;
+export interface ExecutionAbortedEventDetails {
+  error?: string;
+  cause?: string;
+}
+export const ExecutionAbortedEventDetails = S.suspend(() =>
+  S.Struct({ error: S.optional(S.String), cause: S.optional(S.String) }),
+).annotations({
+  identifier: "ExecutionAbortedEventDetails",
+}) as any as S.Schema<ExecutionAbortedEventDetails>;
+export interface ExecutionTimedOutEventDetails {
+  error?: string;
+  cause?: string;
+}
+export const ExecutionTimedOutEventDetails = S.suspend(() =>
+  S.Struct({ error: S.optional(S.String), cause: S.optional(S.String) }),
+).annotations({
+  identifier: "ExecutionTimedOutEventDetails",
+}) as any as S.Schema<ExecutionTimedOutEventDetails>;
+export interface ExecutionRedrivenEventDetails {
+  redriveCount?: number;
+}
+export const ExecutionRedrivenEventDetails = S.suspend(() =>
+  S.Struct({ redriveCount: S.optional(S.Number) }),
+).annotations({
+  identifier: "ExecutionRedrivenEventDetails",
+}) as any as S.Schema<ExecutionRedrivenEventDetails>;
+export interface MapStateStartedEventDetails {
+  length?: number;
+}
+export const MapStateStartedEventDetails = S.suspend(() =>
+  S.Struct({ length: S.optional(S.Number) }),
+).annotations({
+  identifier: "MapStateStartedEventDetails",
+}) as any as S.Schema<MapStateStartedEventDetails>;
+export interface MapIterationEventDetails {
+  name?: string;
+  index?: number;
+}
+export const MapIterationEventDetails = S.suspend(() =>
+  S.Struct({ name: S.optional(S.String), index: S.optional(S.Number) }),
+).annotations({
+  identifier: "MapIterationEventDetails",
+}) as any as S.Schema<MapIterationEventDetails>;
+export interface LambdaFunctionFailedEventDetails {
+  error?: string;
+  cause?: string;
+}
+export const LambdaFunctionFailedEventDetails = S.suspend(() =>
+  S.Struct({ error: S.optional(S.String), cause: S.optional(S.String) }),
+).annotations({
+  identifier: "LambdaFunctionFailedEventDetails",
+}) as any as S.Schema<LambdaFunctionFailedEventDetails>;
+export interface LambdaFunctionScheduleFailedEventDetails {
+  error?: string;
+  cause?: string;
+}
+export const LambdaFunctionScheduleFailedEventDetails = S.suspend(() =>
+  S.Struct({ error: S.optional(S.String), cause: S.optional(S.String) }),
+).annotations({
+  identifier: "LambdaFunctionScheduleFailedEventDetails",
+}) as any as S.Schema<LambdaFunctionScheduleFailedEventDetails>;
+export interface TaskCredentials {
+  roleArn?: string;
+}
+export const TaskCredentials = S.suspend(() =>
+  S.Struct({ roleArn: S.optional(S.String) }),
+).annotations({
+  identifier: "TaskCredentials",
+}) as any as S.Schema<TaskCredentials>;
+export interface LambdaFunctionScheduledEventDetails {
+  resource: string;
+  input?: string;
+  inputDetails?: HistoryEventExecutionDataDetails;
+  timeoutInSeconds?: number;
+  taskCredentials?: TaskCredentials;
+}
+export const LambdaFunctionScheduledEventDetails = S.suspend(() =>
+  S.Struct({
+    resource: S.String,
+    input: S.optional(S.String),
+    inputDetails: S.optional(HistoryEventExecutionDataDetails),
+    timeoutInSeconds: S.optional(S.Number),
+    taskCredentials: S.optional(TaskCredentials),
+  }),
+).annotations({
+  identifier: "LambdaFunctionScheduledEventDetails",
+}) as any as S.Schema<LambdaFunctionScheduledEventDetails>;
+export interface LambdaFunctionStartFailedEventDetails {
+  error?: string;
+  cause?: string;
+}
+export const LambdaFunctionStartFailedEventDetails = S.suspend(() =>
+  S.Struct({ error: S.optional(S.String), cause: S.optional(S.String) }),
+).annotations({
+  identifier: "LambdaFunctionStartFailedEventDetails",
+}) as any as S.Schema<LambdaFunctionStartFailedEventDetails>;
+export interface LambdaFunctionSucceededEventDetails {
+  output?: string;
+  outputDetails?: HistoryEventExecutionDataDetails;
+}
+export const LambdaFunctionSucceededEventDetails = S.suspend(() =>
+  S.Struct({
+    output: S.optional(S.String),
+    outputDetails: S.optional(HistoryEventExecutionDataDetails),
+  }),
+).annotations({
+  identifier: "LambdaFunctionSucceededEventDetails",
+}) as any as S.Schema<LambdaFunctionSucceededEventDetails>;
+export interface LambdaFunctionTimedOutEventDetails {
+  error?: string;
+  cause?: string;
+}
+export const LambdaFunctionTimedOutEventDetails = S.suspend(() =>
+  S.Struct({ error: S.optional(S.String), cause: S.optional(S.String) }),
+).annotations({
+  identifier: "LambdaFunctionTimedOutEventDetails",
+}) as any as S.Schema<LambdaFunctionTimedOutEventDetails>;
+export interface StateEnteredEventDetails {
+  name: string;
+  input?: string;
+  inputDetails?: HistoryEventExecutionDataDetails;
+}
+export const StateEnteredEventDetails = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    input: S.optional(S.String),
+    inputDetails: S.optional(HistoryEventExecutionDataDetails),
+  }),
+).annotations({
+  identifier: "StateEnteredEventDetails",
+}) as any as S.Schema<StateEnteredEventDetails>;
+export interface MapRunStartedEventDetails {
+  mapRunArn?: string;
+}
+export const MapRunStartedEventDetails = S.suspend(() =>
+  S.Struct({ mapRunArn: S.optional(S.String) }),
+).annotations({
+  identifier: "MapRunStartedEventDetails",
+}) as any as S.Schema<MapRunStartedEventDetails>;
+export interface MapRunFailedEventDetails {
+  error?: string;
+  cause?: string;
+}
+export const MapRunFailedEventDetails = S.suspend(() =>
+  S.Struct({ error: S.optional(S.String), cause: S.optional(S.String) }),
+).annotations({
+  identifier: "MapRunFailedEventDetails",
+}) as any as S.Schema<MapRunFailedEventDetails>;
+export interface MapRunRedrivenEventDetails {
+  mapRunArn?: string;
+  redriveCount?: number;
+}
+export const MapRunRedrivenEventDetails = S.suspend(() =>
+  S.Struct({
+    mapRunArn: S.optional(S.String),
+    redriveCount: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "MapRunRedrivenEventDetails",
+}) as any as S.Schema<MapRunRedrivenEventDetails>;
+export interface EvaluationFailedEventDetails {
+  error?: string;
+  cause?: string;
+  location?: string;
+  state: string;
+}
+export const EvaluationFailedEventDetails = S.suspend(() =>
+  S.Struct({
+    error: S.optional(S.String),
+    cause: S.optional(S.String),
+    location: S.optional(S.String),
+    state: S.String,
+  }),
+).annotations({
+  identifier: "EvaluationFailedEventDetails",
+}) as any as S.Schema<EvaluationFailedEventDetails>;
+export type AssignedVariables = { [key: string]: string };
 export const AssignedVariables = S.Record({ key: S.String, value: S.String });
-export class AssignedVariablesDetails extends S.Class<AssignedVariablesDetails>(
-  "AssignedVariablesDetails",
-)({ truncated: S.optional(S.Boolean) }) {}
-export class CreateStateMachineInput extends S.Class<CreateStateMachineInput>(
-  "CreateStateMachineInput",
-)(
-  {
+export interface AssignedVariablesDetails {
+  truncated?: boolean;
+}
+export const AssignedVariablesDetails = S.suspend(() =>
+  S.Struct({ truncated: S.optional(S.Boolean) }),
+).annotations({
+  identifier: "AssignedVariablesDetails",
+}) as any as S.Schema<AssignedVariablesDetails>;
+export interface CreateStateMachineInput {
+  name: string;
+  definition: string;
+  roleArn: string;
+  type?: string;
+  loggingConfiguration?: LoggingConfiguration;
+  tags?: TagList;
+  tracingConfiguration?: TracingConfiguration;
+  publish?: boolean;
+  versionDescription?: string;
+  encryptionConfiguration?: EncryptionConfiguration;
+}
+export const CreateStateMachineInput = S.suspend(() =>
+  S.Struct({
     name: S.String,
     definition: S.String,
     roleArn: S.String,
@@ -1157,167 +2285,321 @@ export class CreateStateMachineInput extends S.Class<CreateStateMachineInput>(
     publish: S.optional(S.Boolean),
     versionDescription: S.optional(S.String),
     encryptionConfiguration: S.optional(EncryptionConfiguration),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ActivityScheduledEventDetails extends S.Class<ActivityScheduledEventDetails>(
-  "ActivityScheduledEventDetails",
-)({
-  resource: S.String,
-  input: S.optional(S.String),
-  inputDetails: S.optional(HistoryEventExecutionDataDetails),
-  timeoutInSeconds: S.optional(S.Number),
-  heartbeatInSeconds: S.optional(S.Number),
-}) {}
-export class TaskScheduledEventDetails extends S.Class<TaskScheduledEventDetails>(
-  "TaskScheduledEventDetails",
-)({
-  resourceType: S.String,
-  resource: S.String,
-  region: S.String,
-  parameters: S.String,
-  timeoutInSeconds: S.optional(S.Number),
-  heartbeatInSeconds: S.optional(S.Number),
-  taskCredentials: S.optional(TaskCredentials),
-}) {}
-export class StateExitedEventDetails extends S.Class<StateExitedEventDetails>(
-  "StateExitedEventDetails",
-)({
-  name: S.String,
-  output: S.optional(S.String),
-  outputDetails: S.optional(HistoryEventExecutionDataDetails),
-  assignedVariables: S.optional(AssignedVariables),
-  assignedVariablesDetails: S.optional(AssignedVariablesDetails),
-}) {}
-export class HistoryEvent extends S.Class<HistoryEvent>("HistoryEvent")({
-  timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  type: S.String,
-  id: S.Number,
-  previousEventId: S.optional(S.Number),
-  activityFailedEventDetails: S.optional(ActivityFailedEventDetails),
-  activityScheduleFailedEventDetails: S.optional(
-    ActivityScheduleFailedEventDetails,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-  activityScheduledEventDetails: S.optional(ActivityScheduledEventDetails),
-  activityStartedEventDetails: S.optional(ActivityStartedEventDetails),
-  activitySucceededEventDetails: S.optional(ActivitySucceededEventDetails),
-  activityTimedOutEventDetails: S.optional(ActivityTimedOutEventDetails),
-  taskFailedEventDetails: S.optional(TaskFailedEventDetails),
-  taskScheduledEventDetails: S.optional(TaskScheduledEventDetails),
-  taskStartFailedEventDetails: S.optional(TaskStartFailedEventDetails),
-  taskStartedEventDetails: S.optional(TaskStartedEventDetails),
-  taskSubmitFailedEventDetails: S.optional(TaskSubmitFailedEventDetails),
-  taskSubmittedEventDetails: S.optional(TaskSubmittedEventDetails),
-  taskSucceededEventDetails: S.optional(TaskSucceededEventDetails),
-  taskTimedOutEventDetails: S.optional(TaskTimedOutEventDetails),
-  executionFailedEventDetails: S.optional(ExecutionFailedEventDetails),
-  executionStartedEventDetails: S.optional(ExecutionStartedEventDetails),
-  executionSucceededEventDetails: S.optional(ExecutionSucceededEventDetails),
-  executionAbortedEventDetails: S.optional(ExecutionAbortedEventDetails),
-  executionTimedOutEventDetails: S.optional(ExecutionTimedOutEventDetails),
-  executionRedrivenEventDetails: S.optional(ExecutionRedrivenEventDetails),
-  mapStateStartedEventDetails: S.optional(MapStateStartedEventDetails),
-  mapIterationStartedEventDetails: S.optional(MapIterationEventDetails),
-  mapIterationSucceededEventDetails: S.optional(MapIterationEventDetails),
-  mapIterationFailedEventDetails: S.optional(MapIterationEventDetails),
-  mapIterationAbortedEventDetails: S.optional(MapIterationEventDetails),
-  lambdaFunctionFailedEventDetails: S.optional(
-    LambdaFunctionFailedEventDetails,
-  ),
-  lambdaFunctionScheduleFailedEventDetails: S.optional(
-    LambdaFunctionScheduleFailedEventDetails,
-  ),
-  lambdaFunctionScheduledEventDetails: S.optional(
-    LambdaFunctionScheduledEventDetails,
-  ),
-  lambdaFunctionStartFailedEventDetails: S.optional(
-    LambdaFunctionStartFailedEventDetails,
-  ),
-  lambdaFunctionSucceededEventDetails: S.optional(
-    LambdaFunctionSucceededEventDetails,
-  ),
-  lambdaFunctionTimedOutEventDetails: S.optional(
-    LambdaFunctionTimedOutEventDetails,
-  ),
-  stateEnteredEventDetails: S.optional(StateEnteredEventDetails),
-  stateExitedEventDetails: S.optional(StateExitedEventDetails),
-  mapRunStartedEventDetails: S.optional(MapRunStartedEventDetails),
-  mapRunFailedEventDetails: S.optional(MapRunFailedEventDetails),
-  mapRunRedrivenEventDetails: S.optional(MapRunRedrivenEventDetails),
-  evaluationFailedEventDetails: S.optional(EvaluationFailedEventDetails),
-}) {}
+).annotations({
+  identifier: "CreateStateMachineInput",
+}) as any as S.Schema<CreateStateMachineInput>;
+export interface ActivityScheduledEventDetails {
+  resource: string;
+  input?: string;
+  inputDetails?: HistoryEventExecutionDataDetails;
+  timeoutInSeconds?: number;
+  heartbeatInSeconds?: number;
+}
+export const ActivityScheduledEventDetails = S.suspend(() =>
+  S.Struct({
+    resource: S.String,
+    input: S.optional(S.String),
+    inputDetails: S.optional(HistoryEventExecutionDataDetails),
+    timeoutInSeconds: S.optional(S.Number),
+    heartbeatInSeconds: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "ActivityScheduledEventDetails",
+}) as any as S.Schema<ActivityScheduledEventDetails>;
+export interface TaskScheduledEventDetails {
+  resourceType: string;
+  resource: string;
+  region: string;
+  parameters: string;
+  timeoutInSeconds?: number;
+  heartbeatInSeconds?: number;
+  taskCredentials?: TaskCredentials;
+}
+export const TaskScheduledEventDetails = S.suspend(() =>
+  S.Struct({
+    resourceType: S.String,
+    resource: S.String,
+    region: S.String,
+    parameters: S.String,
+    timeoutInSeconds: S.optional(S.Number),
+    heartbeatInSeconds: S.optional(S.Number),
+    taskCredentials: S.optional(TaskCredentials),
+  }),
+).annotations({
+  identifier: "TaskScheduledEventDetails",
+}) as any as S.Schema<TaskScheduledEventDetails>;
+export interface StateExitedEventDetails {
+  name: string;
+  output?: string;
+  outputDetails?: HistoryEventExecutionDataDetails;
+  assignedVariables?: AssignedVariables;
+  assignedVariablesDetails?: AssignedVariablesDetails;
+}
+export const StateExitedEventDetails = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    output: S.optional(S.String),
+    outputDetails: S.optional(HistoryEventExecutionDataDetails),
+    assignedVariables: S.optional(AssignedVariables),
+    assignedVariablesDetails: S.optional(AssignedVariablesDetails),
+  }),
+).annotations({
+  identifier: "StateExitedEventDetails",
+}) as any as S.Schema<StateExitedEventDetails>;
+export interface HistoryEvent {
+  timestamp: Date;
+  type: string;
+  id: number;
+  previousEventId?: number;
+  activityFailedEventDetails?: ActivityFailedEventDetails;
+  activityScheduleFailedEventDetails?: ActivityScheduleFailedEventDetails;
+  activityScheduledEventDetails?: ActivityScheduledEventDetails;
+  activityStartedEventDetails?: ActivityStartedEventDetails;
+  activitySucceededEventDetails?: ActivitySucceededEventDetails;
+  activityTimedOutEventDetails?: ActivityTimedOutEventDetails;
+  taskFailedEventDetails?: TaskFailedEventDetails;
+  taskScheduledEventDetails?: TaskScheduledEventDetails;
+  taskStartFailedEventDetails?: TaskStartFailedEventDetails;
+  taskStartedEventDetails?: TaskStartedEventDetails;
+  taskSubmitFailedEventDetails?: TaskSubmitFailedEventDetails;
+  taskSubmittedEventDetails?: TaskSubmittedEventDetails;
+  taskSucceededEventDetails?: TaskSucceededEventDetails;
+  taskTimedOutEventDetails?: TaskTimedOutEventDetails;
+  executionFailedEventDetails?: ExecutionFailedEventDetails;
+  executionStartedEventDetails?: ExecutionStartedEventDetails;
+  executionSucceededEventDetails?: ExecutionSucceededEventDetails;
+  executionAbortedEventDetails?: ExecutionAbortedEventDetails;
+  executionTimedOutEventDetails?: ExecutionTimedOutEventDetails;
+  executionRedrivenEventDetails?: ExecutionRedrivenEventDetails;
+  mapStateStartedEventDetails?: MapStateStartedEventDetails;
+  mapIterationStartedEventDetails?: MapIterationEventDetails;
+  mapIterationSucceededEventDetails?: MapIterationEventDetails;
+  mapIterationFailedEventDetails?: MapIterationEventDetails;
+  mapIterationAbortedEventDetails?: MapIterationEventDetails;
+  lambdaFunctionFailedEventDetails?: LambdaFunctionFailedEventDetails;
+  lambdaFunctionScheduleFailedEventDetails?: LambdaFunctionScheduleFailedEventDetails;
+  lambdaFunctionScheduledEventDetails?: LambdaFunctionScheduledEventDetails;
+  lambdaFunctionStartFailedEventDetails?: LambdaFunctionStartFailedEventDetails;
+  lambdaFunctionSucceededEventDetails?: LambdaFunctionSucceededEventDetails;
+  lambdaFunctionTimedOutEventDetails?: LambdaFunctionTimedOutEventDetails;
+  stateEnteredEventDetails?: StateEnteredEventDetails;
+  stateExitedEventDetails?: StateExitedEventDetails;
+  mapRunStartedEventDetails?: MapRunStartedEventDetails;
+  mapRunFailedEventDetails?: MapRunFailedEventDetails;
+  mapRunRedrivenEventDetails?: MapRunRedrivenEventDetails;
+  evaluationFailedEventDetails?: EvaluationFailedEventDetails;
+}
+export const HistoryEvent = S.suspend(() =>
+  S.Struct({
+    timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    type: S.String,
+    id: S.Number,
+    previousEventId: S.optional(S.Number),
+    activityFailedEventDetails: S.optional(ActivityFailedEventDetails),
+    activityScheduleFailedEventDetails: S.optional(
+      ActivityScheduleFailedEventDetails,
+    ),
+    activityScheduledEventDetails: S.optional(ActivityScheduledEventDetails),
+    activityStartedEventDetails: S.optional(ActivityStartedEventDetails),
+    activitySucceededEventDetails: S.optional(ActivitySucceededEventDetails),
+    activityTimedOutEventDetails: S.optional(ActivityTimedOutEventDetails),
+    taskFailedEventDetails: S.optional(TaskFailedEventDetails),
+    taskScheduledEventDetails: S.optional(TaskScheduledEventDetails),
+    taskStartFailedEventDetails: S.optional(TaskStartFailedEventDetails),
+    taskStartedEventDetails: S.optional(TaskStartedEventDetails),
+    taskSubmitFailedEventDetails: S.optional(TaskSubmitFailedEventDetails),
+    taskSubmittedEventDetails: S.optional(TaskSubmittedEventDetails),
+    taskSucceededEventDetails: S.optional(TaskSucceededEventDetails),
+    taskTimedOutEventDetails: S.optional(TaskTimedOutEventDetails),
+    executionFailedEventDetails: S.optional(ExecutionFailedEventDetails),
+    executionStartedEventDetails: S.optional(ExecutionStartedEventDetails),
+    executionSucceededEventDetails: S.optional(ExecutionSucceededEventDetails),
+    executionAbortedEventDetails: S.optional(ExecutionAbortedEventDetails),
+    executionTimedOutEventDetails: S.optional(ExecutionTimedOutEventDetails),
+    executionRedrivenEventDetails: S.optional(ExecutionRedrivenEventDetails),
+    mapStateStartedEventDetails: S.optional(MapStateStartedEventDetails),
+    mapIterationStartedEventDetails: S.optional(MapIterationEventDetails),
+    mapIterationSucceededEventDetails: S.optional(MapIterationEventDetails),
+    mapIterationFailedEventDetails: S.optional(MapIterationEventDetails),
+    mapIterationAbortedEventDetails: S.optional(MapIterationEventDetails),
+    lambdaFunctionFailedEventDetails: S.optional(
+      LambdaFunctionFailedEventDetails,
+    ),
+    lambdaFunctionScheduleFailedEventDetails: S.optional(
+      LambdaFunctionScheduleFailedEventDetails,
+    ),
+    lambdaFunctionScheduledEventDetails: S.optional(
+      LambdaFunctionScheduledEventDetails,
+    ),
+    lambdaFunctionStartFailedEventDetails: S.optional(
+      LambdaFunctionStartFailedEventDetails,
+    ),
+    lambdaFunctionSucceededEventDetails: S.optional(
+      LambdaFunctionSucceededEventDetails,
+    ),
+    lambdaFunctionTimedOutEventDetails: S.optional(
+      LambdaFunctionTimedOutEventDetails,
+    ),
+    stateEnteredEventDetails: S.optional(StateEnteredEventDetails),
+    stateExitedEventDetails: S.optional(StateExitedEventDetails),
+    mapRunStartedEventDetails: S.optional(MapRunStartedEventDetails),
+    mapRunFailedEventDetails: S.optional(MapRunFailedEventDetails),
+    mapRunRedrivenEventDetails: S.optional(MapRunRedrivenEventDetails),
+    evaluationFailedEventDetails: S.optional(EvaluationFailedEventDetails),
+  }),
+).annotations({ identifier: "HistoryEvent" }) as any as S.Schema<HistoryEvent>;
+export type HistoryEventList = HistoryEvent[];
 export const HistoryEventList = S.Array(HistoryEvent);
-export class CreateStateMachineOutput extends S.Class<CreateStateMachineOutput>(
-  "CreateStateMachineOutput",
-)(
-  {
+export interface CreateStateMachineOutput {
+  stateMachineArn: string;
+  creationDate: Date;
+  stateMachineVersionArn?: string;
+}
+export const CreateStateMachineOutput = S.suspend(() =>
+  S.Struct({
     stateMachineArn: S.String,
     creationDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     stateMachineVersionArn: S.optional(S.String),
-  },
-  ns,
-) {}
-export class GetExecutionHistoryOutput extends S.Class<GetExecutionHistoryOutput>(
-  "GetExecutionHistoryOutput",
-)({ events: HistoryEventList, nextToken: S.optional(S.String) }, ns) {}
-export class InspectionDataRequest extends S.Class<InspectionDataRequest>(
-  "InspectionDataRequest",
-)({
-  protocol: S.optional(S.String),
-  method: S.optional(S.String),
-  url: S.optional(S.String),
-  headers: S.optional(S.String),
-  body: S.optional(S.String),
-}) {}
-export class InspectionDataResponse extends S.Class<InspectionDataResponse>(
-  "InspectionDataResponse",
-)({
-  protocol: S.optional(S.String),
-  statusCode: S.optional(S.String),
-  statusMessage: S.optional(S.String),
-  headers: S.optional(S.String),
-  body: S.optional(S.String),
-}) {}
-export class InspectionErrorDetails extends S.Class<InspectionErrorDetails>(
-  "InspectionErrorDetails",
-)({
-  catchIndex: S.optional(S.Number),
-  retryIndex: S.optional(S.Number),
-  retryBackoffIntervalSeconds: S.optional(S.Number),
-}) {}
-export class InspectionData extends S.Class<InspectionData>("InspectionData")({
-  input: S.optional(S.String),
-  afterArguments: S.optional(S.String),
-  afterInputPath: S.optional(S.String),
-  afterParameters: S.optional(S.String),
-  result: S.optional(S.String),
-  afterResultSelector: S.optional(S.String),
-  afterResultPath: S.optional(S.String),
-  request: S.optional(InspectionDataRequest),
-  response: S.optional(InspectionDataResponse),
-  variables: S.optional(S.String),
-  errorDetails: S.optional(InspectionErrorDetails),
-  afterItemsPath: S.optional(S.String),
-  afterItemSelector: S.optional(S.String),
-  afterItemBatcher: S.optional(S.String),
-  afterItemsPointer: S.optional(S.String),
-  toleratedFailureCount: S.optional(S.Number),
-  toleratedFailurePercentage: S.optional(S.Number),
-  maxConcurrency: S.optional(S.Number),
-}) {}
-export class TestStateOutput extends S.Class<TestStateOutput>(
-  "TestStateOutput",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "CreateStateMachineOutput",
+}) as any as S.Schema<CreateStateMachineOutput>;
+export interface GetExecutionHistoryOutput {
+  events: HistoryEventList;
+  nextToken?: string;
+}
+export const GetExecutionHistoryOutput = S.suspend(() =>
+  S.Struct({ events: HistoryEventList, nextToken: S.optional(S.String) }).pipe(
+    ns,
+  ),
+).annotations({
+  identifier: "GetExecutionHistoryOutput",
+}) as any as S.Schema<GetExecutionHistoryOutput>;
+export interface InspectionDataRequest {
+  protocol?: string;
+  method?: string;
+  url?: string;
+  headers?: string;
+  body?: string;
+}
+export const InspectionDataRequest = S.suspend(() =>
+  S.Struct({
+    protocol: S.optional(S.String),
+    method: S.optional(S.String),
+    url: S.optional(S.String),
+    headers: S.optional(S.String),
+    body: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "InspectionDataRequest",
+}) as any as S.Schema<InspectionDataRequest>;
+export interface InspectionDataResponse {
+  protocol?: string;
+  statusCode?: string;
+  statusMessage?: string;
+  headers?: string;
+  body?: string;
+}
+export const InspectionDataResponse = S.suspend(() =>
+  S.Struct({
+    protocol: S.optional(S.String),
+    statusCode: S.optional(S.String),
+    statusMessage: S.optional(S.String),
+    headers: S.optional(S.String),
+    body: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "InspectionDataResponse",
+}) as any as S.Schema<InspectionDataResponse>;
+export interface InspectionErrorDetails {
+  catchIndex?: number;
+  retryIndex?: number;
+  retryBackoffIntervalSeconds?: number;
+}
+export const InspectionErrorDetails = S.suspend(() =>
+  S.Struct({
+    catchIndex: S.optional(S.Number),
+    retryIndex: S.optional(S.Number),
+    retryBackoffIntervalSeconds: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "InspectionErrorDetails",
+}) as any as S.Schema<InspectionErrorDetails>;
+export interface InspectionData {
+  input?: string;
+  afterArguments?: string;
+  afterInputPath?: string;
+  afterParameters?: string;
+  result?: string;
+  afterResultSelector?: string;
+  afterResultPath?: string;
+  request?: InspectionDataRequest;
+  response?: InspectionDataResponse;
+  variables?: string;
+  errorDetails?: InspectionErrorDetails;
+  afterItemsPath?: string;
+  afterItemSelector?: string;
+  afterItemBatcher?: string;
+  afterItemsPointer?: string;
+  toleratedFailureCount?: number;
+  toleratedFailurePercentage?: number;
+  maxConcurrency?: number;
+}
+export const InspectionData = S.suspend(() =>
+  S.Struct({
+    input: S.optional(S.String),
+    afterArguments: S.optional(S.String),
+    afterInputPath: S.optional(S.String),
+    afterParameters: S.optional(S.String),
+    result: S.optional(S.String),
+    afterResultSelector: S.optional(S.String),
+    afterResultPath: S.optional(S.String),
+    request: S.optional(InspectionDataRequest),
+    response: S.optional(InspectionDataResponse),
+    variables: S.optional(S.String),
+    errorDetails: S.optional(InspectionErrorDetails),
+    afterItemsPath: S.optional(S.String),
+    afterItemSelector: S.optional(S.String),
+    afterItemBatcher: S.optional(S.String),
+    afterItemsPointer: S.optional(S.String),
+    toleratedFailureCount: S.optional(S.Number),
+    toleratedFailurePercentage: S.optional(S.Number),
+    maxConcurrency: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "InspectionData",
+}) as any as S.Schema<InspectionData>;
+export interface TestStateOutput {
+  output?: string;
+  error?: string;
+  cause?: string;
+  inspectionData?: InspectionData;
+  nextState?: string;
+  status?: string;
+}
+export const TestStateOutput = S.suspend(() =>
+  S.Struct({
     output: S.optional(S.String),
     error: S.optional(S.String),
     cause: S.optional(S.String),
     inspectionData: S.optional(InspectionData),
     nextState: S.optional(S.String),
     status: S.optional(S.String),
-  },
-  ns,
-) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "TestStateOutput",
+}) as any as S.Schema<TestStateOutput>;
 
 //# Errors
 export class InvalidArn extends S.TaggedError<InvalidArn>()("InvalidArn", {

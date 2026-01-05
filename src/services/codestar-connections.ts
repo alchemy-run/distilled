@@ -242,28 +242,49 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class Tag extends S.Class<Tag>("Tag")({
-  Key: S.String,
-  Value: S.String,
-}) {}
+export interface Tag {
+  Key: string;
+  Value: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ Key: S.String, Value: S.String }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagList = Tag[];
 export const TagList = S.Array(Tag);
-export class CreateRepositoryLinkInput extends S.Class<CreateRepositoryLinkInput>(
-  "CreateRepositoryLinkInput",
-)(
-  {
+export interface CreateRepositoryLinkInput {
+  ConnectionArn: string;
+  OwnerId: string;
+  RepositoryName: string;
+  EncryptionKeyArn?: string;
+  Tags?: TagList;
+}
+export const CreateRepositoryLinkInput = S.suspend(() =>
+  S.Struct({
     ConnectionArn: S.String,
     OwnerId: S.String,
     RepositoryName: S.String,
     EncryptionKeyArn: S.optional(S.String),
     Tags: S.optional(TagList),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateSyncConfigurationInput extends S.Class<CreateSyncConfigurationInput>(
-  "CreateSyncConfigurationInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateRepositoryLinkInput",
+}) as any as S.Schema<CreateRepositoryLinkInput>;
+export interface CreateSyncConfigurationInput {
+  Branch: string;
+  ConfigFile: string;
+  RepositoryLinkId: string;
+  ResourceName: string;
+  RoleArn: string;
+  SyncType: string;
+  PublishDeploymentStatus?: string;
+  TriggerResourceUpdateOn?: string;
+}
+export const CreateSyncConfigurationInput = S.suspend(() =>
+  S.Struct({
     Branch: S.String,
     ConfigFile: S.String,
     RepositoryLinkId: S.String,
@@ -272,195 +293,351 @@ export class CreateSyncConfigurationInput extends S.Class<CreateSyncConfiguratio
     SyncType: S.String,
     PublishDeploymentStatus: S.optional(S.String),
     TriggerResourceUpdateOn: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteConnectionInput extends S.Class<DeleteConnectionInput>(
-  "DeleteConnectionInput",
-)(
-  { ConnectionArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteConnectionOutput extends S.Class<DeleteConnectionOutput>(
-  "DeleteConnectionOutput",
-)({}) {}
-export class DeleteHostInput extends S.Class<DeleteHostInput>(
-  "DeleteHostInput",
-)(
-  { HostArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteHostOutput extends S.Class<DeleteHostOutput>(
-  "DeleteHostOutput",
-)({}) {}
-export class DeleteRepositoryLinkInput extends S.Class<DeleteRepositoryLinkInput>(
-  "DeleteRepositoryLinkInput",
-)(
-  { RepositoryLinkId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteRepositoryLinkOutput extends S.Class<DeleteRepositoryLinkOutput>(
-  "DeleteRepositoryLinkOutput",
-)({}) {}
-export class DeleteSyncConfigurationInput extends S.Class<DeleteSyncConfigurationInput>(
-  "DeleteSyncConfigurationInput",
-)(
-  { SyncType: S.String, ResourceName: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteSyncConfigurationOutput extends S.Class<DeleteSyncConfigurationOutput>(
-  "DeleteSyncConfigurationOutput",
-)({}) {}
-export class GetConnectionInput extends S.Class<GetConnectionInput>(
-  "GetConnectionInput",
-)(
-  { ConnectionArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetHostInput extends S.Class<GetHostInput>("GetHostInput")(
-  { HostArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetRepositoryLinkInput extends S.Class<GetRepositoryLinkInput>(
-  "GetRepositoryLinkInput",
-)(
-  { RepositoryLinkId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetRepositorySyncStatusInput extends S.Class<GetRepositorySyncStatusInput>(
-  "GetRepositorySyncStatusInput",
-)(
-  { Branch: S.String, RepositoryLinkId: S.String, SyncType: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetResourceSyncStatusInput extends S.Class<GetResourceSyncStatusInput>(
-  "GetResourceSyncStatusInput",
-)(
-  { ResourceName: S.String, SyncType: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetSyncBlockerSummaryInput extends S.Class<GetSyncBlockerSummaryInput>(
-  "GetSyncBlockerSummaryInput",
-)(
-  { SyncType: S.String, ResourceName: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetSyncConfigurationInput extends S.Class<GetSyncConfigurationInput>(
-  "GetSyncConfigurationInput",
-)(
-  { SyncType: S.String, ResourceName: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListConnectionsInput extends S.Class<ListConnectionsInput>(
-  "ListConnectionsInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateSyncConfigurationInput",
+}) as any as S.Schema<CreateSyncConfigurationInput>;
+export interface DeleteConnectionInput {
+  ConnectionArn: string;
+}
+export const DeleteConnectionInput = S.suspend(() =>
+  S.Struct({ ConnectionArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteConnectionInput",
+}) as any as S.Schema<DeleteConnectionInput>;
+export interface DeleteConnectionOutput {}
+export const DeleteConnectionOutput = S.suspend(() => S.Struct({})).annotations(
+  { identifier: "DeleteConnectionOutput" },
+) as any as S.Schema<DeleteConnectionOutput>;
+export interface DeleteHostInput {
+  HostArn: string;
+}
+export const DeleteHostInput = S.suspend(() =>
+  S.Struct({ HostArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteHostInput",
+}) as any as S.Schema<DeleteHostInput>;
+export interface DeleteHostOutput {}
+export const DeleteHostOutput = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteHostOutput",
+}) as any as S.Schema<DeleteHostOutput>;
+export interface DeleteRepositoryLinkInput {
+  RepositoryLinkId: string;
+}
+export const DeleteRepositoryLinkInput = S.suspend(() =>
+  S.Struct({ RepositoryLinkId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteRepositoryLinkInput",
+}) as any as S.Schema<DeleteRepositoryLinkInput>;
+export interface DeleteRepositoryLinkOutput {}
+export const DeleteRepositoryLinkOutput = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteRepositoryLinkOutput",
+}) as any as S.Schema<DeleteRepositoryLinkOutput>;
+export interface DeleteSyncConfigurationInput {
+  SyncType: string;
+  ResourceName: string;
+}
+export const DeleteSyncConfigurationInput = S.suspend(() =>
+  S.Struct({ SyncType: S.String, ResourceName: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteSyncConfigurationInput",
+}) as any as S.Schema<DeleteSyncConfigurationInput>;
+export interface DeleteSyncConfigurationOutput {}
+export const DeleteSyncConfigurationOutput = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteSyncConfigurationOutput",
+}) as any as S.Schema<DeleteSyncConfigurationOutput>;
+export interface GetConnectionInput {
+  ConnectionArn: string;
+}
+export const GetConnectionInput = S.suspend(() =>
+  S.Struct({ ConnectionArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetConnectionInput",
+}) as any as S.Schema<GetConnectionInput>;
+export interface GetHostInput {
+  HostArn: string;
+}
+export const GetHostInput = S.suspend(() =>
+  S.Struct({ HostArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({ identifier: "GetHostInput" }) as any as S.Schema<GetHostInput>;
+export interface GetRepositoryLinkInput {
+  RepositoryLinkId: string;
+}
+export const GetRepositoryLinkInput = S.suspend(() =>
+  S.Struct({ RepositoryLinkId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetRepositoryLinkInput",
+}) as any as S.Schema<GetRepositoryLinkInput>;
+export interface GetRepositorySyncStatusInput {
+  Branch: string;
+  RepositoryLinkId: string;
+  SyncType: string;
+}
+export const GetRepositorySyncStatusInput = S.suspend(() =>
+  S.Struct({
+    Branch: S.String,
+    RepositoryLinkId: S.String,
+    SyncType: S.String,
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetRepositorySyncStatusInput",
+}) as any as S.Schema<GetRepositorySyncStatusInput>;
+export interface GetResourceSyncStatusInput {
+  ResourceName: string;
+  SyncType: string;
+}
+export const GetResourceSyncStatusInput = S.suspend(() =>
+  S.Struct({ ResourceName: S.String, SyncType: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetResourceSyncStatusInput",
+}) as any as S.Schema<GetResourceSyncStatusInput>;
+export interface GetSyncBlockerSummaryInput {
+  SyncType: string;
+  ResourceName: string;
+}
+export const GetSyncBlockerSummaryInput = S.suspend(() =>
+  S.Struct({ SyncType: S.String, ResourceName: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetSyncBlockerSummaryInput",
+}) as any as S.Schema<GetSyncBlockerSummaryInput>;
+export interface GetSyncConfigurationInput {
+  SyncType: string;
+  ResourceName: string;
+}
+export const GetSyncConfigurationInput = S.suspend(() =>
+  S.Struct({ SyncType: S.String, ResourceName: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetSyncConfigurationInput",
+}) as any as S.Schema<GetSyncConfigurationInput>;
+export interface ListConnectionsInput {
+  ProviderTypeFilter?: string;
+  HostArnFilter?: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListConnectionsInput = S.suspend(() =>
+  S.Struct({
     ProviderTypeFilter: S.optional(S.String),
     HostArnFilter: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListHostsInput extends S.Class<ListHostsInput>("ListHostsInput")(
-  { MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListRepositoryLinksInput extends S.Class<ListRepositoryLinksInput>(
-  "ListRepositoryLinksInput",
-)(
-  { MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListRepositorySyncDefinitionsInput extends S.Class<ListRepositorySyncDefinitionsInput>(
-  "ListRepositorySyncDefinitionsInput",
-)(
-  { RepositoryLinkId: S.String, SyncType: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListSyncConfigurationsInput extends S.Class<ListSyncConfigurationsInput>(
-  "ListSyncConfigurationsInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListConnectionsInput",
+}) as any as S.Schema<ListConnectionsInput>;
+export interface ListHostsInput {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListHostsInput = S.suspend(() =>
+  S.Struct({
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListHostsInput",
+}) as any as S.Schema<ListHostsInput>;
+export interface ListRepositoryLinksInput {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListRepositoryLinksInput = S.suspend(() =>
+  S.Struct({
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListRepositoryLinksInput",
+}) as any as S.Schema<ListRepositoryLinksInput>;
+export interface ListRepositorySyncDefinitionsInput {
+  RepositoryLinkId: string;
+  SyncType: string;
+}
+export const ListRepositorySyncDefinitionsInput = S.suspend(() =>
+  S.Struct({ RepositoryLinkId: S.String, SyncType: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListRepositorySyncDefinitionsInput",
+}) as any as S.Schema<ListRepositorySyncDefinitionsInput>;
+export interface ListSyncConfigurationsInput {
+  MaxResults?: number;
+  NextToken?: string;
+  RepositoryLinkId: string;
+  SyncType: string;
+}
+export const ListSyncConfigurationsInput = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     RepositoryLinkId: S.String,
     SyncType: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTagsForResourceInput extends S.Class<ListTagsForResourceInput>(
-  "ListTagsForResourceInput",
-)(
-  { ResourceArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TagResourceInput extends S.Class<TagResourceInput>(
-  "TagResourceInput",
-)(
-  { ResourceArn: S.String, Tags: TagList },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TagResourceOutput extends S.Class<TagResourceOutput>(
-  "TagResourceOutput",
-)({}) {}
-export class UntagResourceInput extends S.Class<UntagResourceInput>(
-  "UntagResourceInput",
-)(
-  { ResourceArn: S.String, TagKeys: TagKeyList },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UntagResourceOutput extends S.Class<UntagResourceOutput>(
-  "UntagResourceOutput",
-)({}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListSyncConfigurationsInput",
+}) as any as S.Schema<ListSyncConfigurationsInput>;
+export interface ListTagsForResourceInput {
+  ResourceArn: string;
+}
+export const ListTagsForResourceInput = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListTagsForResourceInput",
+}) as any as S.Schema<ListTagsForResourceInput>;
+export interface TagResourceInput {
+  ResourceArn: string;
+  Tags: TagList;
+}
+export const TagResourceInput = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String, Tags: TagList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "TagResourceInput",
+}) as any as S.Schema<TagResourceInput>;
+export interface TagResourceOutput {}
+export const TagResourceOutput = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceOutput",
+}) as any as S.Schema<TagResourceOutput>;
+export interface UntagResourceInput {
+  ResourceArn: string;
+  TagKeys: TagKeyList;
+}
+export const UntagResourceInput = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String, TagKeys: TagKeyList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UntagResourceInput",
+}) as any as S.Schema<UntagResourceInput>;
+export interface UntagResourceOutput {}
+export const UntagResourceOutput = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceOutput",
+}) as any as S.Schema<UntagResourceOutput>;
+export type SubnetIds = string[];
 export const SubnetIds = S.Array(S.String);
+export type SecurityGroupIds = string[];
 export const SecurityGroupIds = S.Array(S.String);
-export class VpcConfiguration extends S.Class<VpcConfiguration>(
-  "VpcConfiguration",
-)({
-  VpcId: S.String,
-  SubnetIds: SubnetIds,
-  SecurityGroupIds: SecurityGroupIds,
-  TlsCertificate: S.optional(S.String),
-}) {}
-export class UpdateHostInput extends S.Class<UpdateHostInput>(
-  "UpdateHostInput",
-)(
-  {
+export interface VpcConfiguration {
+  VpcId: string;
+  SubnetIds: SubnetIds;
+  SecurityGroupIds: SecurityGroupIds;
+  TlsCertificate?: string;
+}
+export const VpcConfiguration = S.suspend(() =>
+  S.Struct({
+    VpcId: S.String,
+    SubnetIds: SubnetIds,
+    SecurityGroupIds: SecurityGroupIds,
+    TlsCertificate: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "VpcConfiguration",
+}) as any as S.Schema<VpcConfiguration>;
+export interface UpdateHostInput {
+  HostArn: string;
+  ProviderEndpoint?: string;
+  VpcConfiguration?: VpcConfiguration;
+}
+export const UpdateHostInput = S.suspend(() =>
+  S.Struct({
     HostArn: S.String,
     ProviderEndpoint: S.optional(S.String),
     VpcConfiguration: S.optional(VpcConfiguration),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateHostOutput extends S.Class<UpdateHostOutput>(
-  "UpdateHostOutput",
-)({}) {}
-export class UpdateRepositoryLinkInput extends S.Class<UpdateRepositoryLinkInput>(
-  "UpdateRepositoryLinkInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateHostInput",
+}) as any as S.Schema<UpdateHostInput>;
+export interface UpdateHostOutput {}
+export const UpdateHostOutput = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UpdateHostOutput",
+}) as any as S.Schema<UpdateHostOutput>;
+export interface UpdateRepositoryLinkInput {
+  ConnectionArn?: string;
+  EncryptionKeyArn?: string;
+  RepositoryLinkId: string;
+}
+export const UpdateRepositoryLinkInput = S.suspend(() =>
+  S.Struct({
     ConnectionArn: S.optional(S.String),
     EncryptionKeyArn: S.optional(S.String),
     RepositoryLinkId: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateSyncBlockerInput extends S.Class<UpdateSyncBlockerInput>(
-  "UpdateSyncBlockerInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateRepositoryLinkInput",
+}) as any as S.Schema<UpdateRepositoryLinkInput>;
+export interface UpdateSyncBlockerInput {
+  Id: string;
+  SyncType: string;
+  ResourceName: string;
+  ResolvedReason: string;
+}
+export const UpdateSyncBlockerInput = S.suspend(() =>
+  S.Struct({
     Id: S.String,
     SyncType: S.String,
     ResourceName: S.String,
     ResolvedReason: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateSyncConfigurationInput extends S.Class<UpdateSyncConfigurationInput>(
-  "UpdateSyncConfigurationInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateSyncBlockerInput",
+}) as any as S.Schema<UpdateSyncBlockerInput>;
+export interface UpdateSyncConfigurationInput {
+  Branch?: string;
+  ConfigFile?: string;
+  RepositoryLinkId?: string;
+  ResourceName: string;
+  RoleArn?: string;
+  SyncType: string;
+  PublishDeploymentStatus?: string;
+  TriggerResourceUpdateOn?: string;
+}
+export const UpdateSyncConfigurationInput = S.suspend(() =>
+  S.Struct({
     Branch: S.optional(S.String),
     ConfigFile: S.optional(S.String),
     RepositoryLinkId: S.optional(S.String),
@@ -469,234 +646,504 @@ export class UpdateSyncConfigurationInput extends S.Class<UpdateSyncConfiguratio
     SyncType: S.String,
     PublishDeploymentStatus: S.optional(S.String),
     TriggerResourceUpdateOn: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class Connection extends S.Class<Connection>("Connection")({
-  ConnectionName: S.optional(S.String),
-  ConnectionArn: S.optional(S.String),
-  ProviderType: S.optional(S.String),
-  OwnerAccountId: S.optional(S.String),
-  ConnectionStatus: S.optional(S.String),
-  HostArn: S.optional(S.String),
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateSyncConfigurationInput",
+}) as any as S.Schema<UpdateSyncConfigurationInput>;
+export interface Connection {
+  ConnectionName?: string;
+  ConnectionArn?: string;
+  ProviderType?: string;
+  OwnerAccountId?: string;
+  ConnectionStatus?: string;
+  HostArn?: string;
+}
+export const Connection = S.suspend(() =>
+  S.Struct({
+    ConnectionName: S.optional(S.String),
+    ConnectionArn: S.optional(S.String),
+    ProviderType: S.optional(S.String),
+    OwnerAccountId: S.optional(S.String),
+    ConnectionStatus: S.optional(S.String),
+    HostArn: S.optional(S.String),
+  }),
+).annotations({ identifier: "Connection" }) as any as S.Schema<Connection>;
+export type ConnectionList = Connection[];
 export const ConnectionList = S.Array(Connection);
-export class RepositoryLinkInfo extends S.Class<RepositoryLinkInfo>(
-  "RepositoryLinkInfo",
-)({
-  ConnectionArn: S.String,
-  EncryptionKeyArn: S.optional(S.String),
-  OwnerId: S.String,
-  ProviderType: S.String,
-  RepositoryLinkArn: S.String,
-  RepositoryLinkId: S.String,
-  RepositoryName: S.String,
-}) {}
+export interface RepositoryLinkInfo {
+  ConnectionArn: string;
+  EncryptionKeyArn?: string;
+  OwnerId: string;
+  ProviderType: string;
+  RepositoryLinkArn: string;
+  RepositoryLinkId: string;
+  RepositoryName: string;
+}
+export const RepositoryLinkInfo = S.suspend(() =>
+  S.Struct({
+    ConnectionArn: S.String,
+    EncryptionKeyArn: S.optional(S.String),
+    OwnerId: S.String,
+    ProviderType: S.String,
+    RepositoryLinkArn: S.String,
+    RepositoryLinkId: S.String,
+    RepositoryName: S.String,
+  }),
+).annotations({
+  identifier: "RepositoryLinkInfo",
+}) as any as S.Schema<RepositoryLinkInfo>;
+export type RepositoryLinkList = RepositoryLinkInfo[];
 export const RepositoryLinkList = S.Array(RepositoryLinkInfo);
-export class SyncConfiguration extends S.Class<SyncConfiguration>(
-  "SyncConfiguration",
-)({
-  Branch: S.String,
-  ConfigFile: S.optional(S.String),
-  OwnerId: S.String,
-  ProviderType: S.String,
-  RepositoryLinkId: S.String,
-  RepositoryName: S.String,
-  ResourceName: S.String,
-  RoleArn: S.String,
-  SyncType: S.String,
-  PublishDeploymentStatus: S.optional(S.String),
-  TriggerResourceUpdateOn: S.optional(S.String),
-}) {}
+export interface SyncConfiguration {
+  Branch: string;
+  ConfigFile?: string;
+  OwnerId: string;
+  ProviderType: string;
+  RepositoryLinkId: string;
+  RepositoryName: string;
+  ResourceName: string;
+  RoleArn: string;
+  SyncType: string;
+  PublishDeploymentStatus?: string;
+  TriggerResourceUpdateOn?: string;
+}
+export const SyncConfiguration = S.suspend(() =>
+  S.Struct({
+    Branch: S.String,
+    ConfigFile: S.optional(S.String),
+    OwnerId: S.String,
+    ProviderType: S.String,
+    RepositoryLinkId: S.String,
+    RepositoryName: S.String,
+    ResourceName: S.String,
+    RoleArn: S.String,
+    SyncType: S.String,
+    PublishDeploymentStatus: S.optional(S.String),
+    TriggerResourceUpdateOn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SyncConfiguration",
+}) as any as S.Schema<SyncConfiguration>;
+export type SyncConfigurationList = SyncConfiguration[];
 export const SyncConfigurationList = S.Array(SyncConfiguration);
-export class CreateConnectionInput extends S.Class<CreateConnectionInput>(
-  "CreateConnectionInput",
-)(
-  {
+export interface CreateConnectionInput {
+  ProviderType?: string;
+  ConnectionName: string;
+  Tags?: TagList;
+  HostArn?: string;
+}
+export const CreateConnectionInput = S.suspend(() =>
+  S.Struct({
     ProviderType: S.optional(S.String),
     ConnectionName: S.String,
     Tags: S.optional(TagList),
     HostArn: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateHostInput extends S.Class<CreateHostInput>(
-  "CreateHostInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateConnectionInput",
+}) as any as S.Schema<CreateConnectionInput>;
+export interface CreateHostInput {
+  Name: string;
+  ProviderType: string;
+  ProviderEndpoint: string;
+  VpcConfiguration?: VpcConfiguration;
+  Tags?: TagList;
+}
+export const CreateHostInput = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     ProviderType: S.String,
     ProviderEndpoint: S.String,
     VpcConfiguration: S.optional(VpcConfiguration),
     Tags: S.optional(TagList),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetHostOutput extends S.Class<GetHostOutput>("GetHostOutput")({
-  Name: S.optional(S.String),
-  Status: S.optional(S.String),
-  ProviderType: S.optional(S.String),
-  ProviderEndpoint: S.optional(S.String),
-  VpcConfiguration: S.optional(VpcConfiguration),
-}) {}
-export class GetRepositoryLinkOutput extends S.Class<GetRepositoryLinkOutput>(
-  "GetRepositoryLinkOutput",
-)({ RepositoryLinkInfo: RepositoryLinkInfo }) {}
-export class GetSyncConfigurationOutput extends S.Class<GetSyncConfigurationOutput>(
-  "GetSyncConfigurationOutput",
-)({ SyncConfiguration: SyncConfiguration }) {}
-export class ListConnectionsOutput extends S.Class<ListConnectionsOutput>(
-  "ListConnectionsOutput",
-)({
-  Connections: S.optional(ConnectionList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListRepositoryLinksOutput extends S.Class<ListRepositoryLinksOutput>(
-  "ListRepositoryLinksOutput",
-)({ RepositoryLinks: RepositoryLinkList, NextToken: S.optional(S.String) }) {}
-export class ListSyncConfigurationsOutput extends S.Class<ListSyncConfigurationsOutput>(
-  "ListSyncConfigurationsOutput",
-)({
-  SyncConfigurations: SyncConfigurationList,
-  NextToken: S.optional(S.String),
-}) {}
-export class ListTagsForResourceOutput extends S.Class<ListTagsForResourceOutput>(
-  "ListTagsForResourceOutput",
-)({ Tags: S.optional(TagList) }) {}
-export class UpdateRepositoryLinkOutput extends S.Class<UpdateRepositoryLinkOutput>(
-  "UpdateRepositoryLinkOutput",
-)({ RepositoryLinkInfo: RepositoryLinkInfo }) {}
-export class UpdateSyncConfigurationOutput extends S.Class<UpdateSyncConfigurationOutput>(
-  "UpdateSyncConfigurationOutput",
-)({ SyncConfiguration: SyncConfiguration }) {}
-export class SyncBlockerContext extends S.Class<SyncBlockerContext>(
-  "SyncBlockerContext",
-)({ Key: S.String, Value: S.String }) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateHostInput",
+}) as any as S.Schema<CreateHostInput>;
+export interface GetHostOutput {
+  Name?: string;
+  Status?: string;
+  ProviderType?: string;
+  ProviderEndpoint?: string;
+  VpcConfiguration?: VpcConfiguration;
+}
+export const GetHostOutput = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Status: S.optional(S.String),
+    ProviderType: S.optional(S.String),
+    ProviderEndpoint: S.optional(S.String),
+    VpcConfiguration: S.optional(VpcConfiguration),
+  }),
+).annotations({
+  identifier: "GetHostOutput",
+}) as any as S.Schema<GetHostOutput>;
+export interface GetRepositoryLinkOutput {
+  RepositoryLinkInfo: RepositoryLinkInfo;
+}
+export const GetRepositoryLinkOutput = S.suspend(() =>
+  S.Struct({ RepositoryLinkInfo: RepositoryLinkInfo }),
+).annotations({
+  identifier: "GetRepositoryLinkOutput",
+}) as any as S.Schema<GetRepositoryLinkOutput>;
+export interface GetSyncConfigurationOutput {
+  SyncConfiguration: SyncConfiguration;
+}
+export const GetSyncConfigurationOutput = S.suspend(() =>
+  S.Struct({ SyncConfiguration: SyncConfiguration }),
+).annotations({
+  identifier: "GetSyncConfigurationOutput",
+}) as any as S.Schema<GetSyncConfigurationOutput>;
+export interface ListConnectionsOutput {
+  Connections?: ConnectionList;
+  NextToken?: string;
+}
+export const ListConnectionsOutput = S.suspend(() =>
+  S.Struct({
+    Connections: S.optional(ConnectionList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListConnectionsOutput",
+}) as any as S.Schema<ListConnectionsOutput>;
+export interface ListRepositoryLinksOutput {
+  RepositoryLinks: RepositoryLinkList;
+  NextToken?: string;
+}
+export const ListRepositoryLinksOutput = S.suspend(() =>
+  S.Struct({
+    RepositoryLinks: RepositoryLinkList,
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListRepositoryLinksOutput",
+}) as any as S.Schema<ListRepositoryLinksOutput>;
+export interface ListSyncConfigurationsOutput {
+  SyncConfigurations: SyncConfigurationList;
+  NextToken?: string;
+}
+export const ListSyncConfigurationsOutput = S.suspend(() =>
+  S.Struct({
+    SyncConfigurations: SyncConfigurationList,
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListSyncConfigurationsOutput",
+}) as any as S.Schema<ListSyncConfigurationsOutput>;
+export interface ListTagsForResourceOutput {
+  Tags?: TagList;
+}
+export const ListTagsForResourceOutput = S.suspend(() =>
+  S.Struct({ Tags: S.optional(TagList) }),
+).annotations({
+  identifier: "ListTagsForResourceOutput",
+}) as any as S.Schema<ListTagsForResourceOutput>;
+export interface UpdateRepositoryLinkOutput {
+  RepositoryLinkInfo: RepositoryLinkInfo;
+}
+export const UpdateRepositoryLinkOutput = S.suspend(() =>
+  S.Struct({ RepositoryLinkInfo: RepositoryLinkInfo }),
+).annotations({
+  identifier: "UpdateRepositoryLinkOutput",
+}) as any as S.Schema<UpdateRepositoryLinkOutput>;
+export interface UpdateSyncConfigurationOutput {
+  SyncConfiguration: SyncConfiguration;
+}
+export const UpdateSyncConfigurationOutput = S.suspend(() =>
+  S.Struct({ SyncConfiguration: SyncConfiguration }),
+).annotations({
+  identifier: "UpdateSyncConfigurationOutput",
+}) as any as S.Schema<UpdateSyncConfigurationOutput>;
+export interface SyncBlockerContext {
+  Key: string;
+  Value: string;
+}
+export const SyncBlockerContext = S.suspend(() =>
+  S.Struct({ Key: S.String, Value: S.String }),
+).annotations({
+  identifier: "SyncBlockerContext",
+}) as any as S.Schema<SyncBlockerContext>;
+export type SyncBlockerContextList = SyncBlockerContext[];
 export const SyncBlockerContextList = S.Array(SyncBlockerContext);
-export class SyncBlocker extends S.Class<SyncBlocker>("SyncBlocker")({
-  Id: S.String,
-  Type: S.String,
-  Status: S.String,
-  CreatedReason: S.String,
-  CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  Contexts: S.optional(SyncBlockerContextList),
-  ResolvedReason: S.optional(S.String),
-  ResolvedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface SyncBlocker {
+  Id: string;
+  Type: string;
+  Status: string;
+  CreatedReason: string;
+  CreatedAt: Date;
+  Contexts?: SyncBlockerContextList;
+  ResolvedReason?: string;
+  ResolvedAt?: Date;
+}
+export const SyncBlocker = S.suspend(() =>
+  S.Struct({
+    Id: S.String,
+    Type: S.String,
+    Status: S.String,
+    CreatedReason: S.String,
+    CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    Contexts: S.optional(SyncBlockerContextList),
+    ResolvedReason: S.optional(S.String),
+    ResolvedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({ identifier: "SyncBlocker" }) as any as S.Schema<SyncBlocker>;
+export type LatestSyncBlockerList = SyncBlocker[];
 export const LatestSyncBlockerList = S.Array(SyncBlocker);
-export class Revision extends S.Class<Revision>("Revision")({
-  Branch: S.String,
-  Directory: S.String,
-  OwnerId: S.String,
-  RepositoryName: S.String,
-  ProviderType: S.String,
-  Sha: S.String,
-}) {}
-export class SyncBlockerSummary extends S.Class<SyncBlockerSummary>(
-  "SyncBlockerSummary",
-)({
-  ResourceName: S.String,
-  ParentResourceName: S.optional(S.String),
-  LatestBlockers: S.optional(LatestSyncBlockerList),
-}) {}
-export class Host extends S.Class<Host>("Host")({
-  Name: S.optional(S.String),
-  HostArn: S.optional(S.String),
-  ProviderType: S.optional(S.String),
-  ProviderEndpoint: S.optional(S.String),
-  VpcConfiguration: S.optional(VpcConfiguration),
-  Status: S.optional(S.String),
-  StatusMessage: S.optional(S.String),
-}) {}
+export interface Revision {
+  Branch: string;
+  Directory: string;
+  OwnerId: string;
+  RepositoryName: string;
+  ProviderType: string;
+  Sha: string;
+}
+export const Revision = S.suspend(() =>
+  S.Struct({
+    Branch: S.String,
+    Directory: S.String,
+    OwnerId: S.String,
+    RepositoryName: S.String,
+    ProviderType: S.String,
+    Sha: S.String,
+  }),
+).annotations({ identifier: "Revision" }) as any as S.Schema<Revision>;
+export interface SyncBlockerSummary {
+  ResourceName: string;
+  ParentResourceName?: string;
+  LatestBlockers?: LatestSyncBlockerList;
+}
+export const SyncBlockerSummary = S.suspend(() =>
+  S.Struct({
+    ResourceName: S.String,
+    ParentResourceName: S.optional(S.String),
+    LatestBlockers: S.optional(LatestSyncBlockerList),
+  }),
+).annotations({
+  identifier: "SyncBlockerSummary",
+}) as any as S.Schema<SyncBlockerSummary>;
+export interface Host {
+  Name?: string;
+  HostArn?: string;
+  ProviderType?: string;
+  ProviderEndpoint?: string;
+  VpcConfiguration?: VpcConfiguration;
+  Status?: string;
+  StatusMessage?: string;
+}
+export const Host = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    HostArn: S.optional(S.String),
+    ProviderType: S.optional(S.String),
+    ProviderEndpoint: S.optional(S.String),
+    VpcConfiguration: S.optional(VpcConfiguration),
+    Status: S.optional(S.String),
+    StatusMessage: S.optional(S.String),
+  }),
+).annotations({ identifier: "Host" }) as any as S.Schema<Host>;
+export type HostList = Host[];
 export const HostList = S.Array(Host);
-export class RepositorySyncDefinition extends S.Class<RepositorySyncDefinition>(
-  "RepositorySyncDefinition",
-)({
-  Branch: S.String,
-  Directory: S.String,
-  Parent: S.String,
-  Target: S.String,
-}) {}
+export interface RepositorySyncDefinition {
+  Branch: string;
+  Directory: string;
+  Parent: string;
+  Target: string;
+}
+export const RepositorySyncDefinition = S.suspend(() =>
+  S.Struct({
+    Branch: S.String,
+    Directory: S.String,
+    Parent: S.String,
+    Target: S.String,
+  }),
+).annotations({
+  identifier: "RepositorySyncDefinition",
+}) as any as S.Schema<RepositorySyncDefinition>;
+export type RepositorySyncDefinitionList = RepositorySyncDefinition[];
 export const RepositorySyncDefinitionList = S.Array(RepositorySyncDefinition);
-export class CreateConnectionOutput extends S.Class<CreateConnectionOutput>(
-  "CreateConnectionOutput",
-)({ ConnectionArn: S.String, Tags: S.optional(TagList) }) {}
-export class CreateHostOutput extends S.Class<CreateHostOutput>(
-  "CreateHostOutput",
-)({ HostArn: S.optional(S.String), Tags: S.optional(TagList) }) {}
-export class CreateRepositoryLinkOutput extends S.Class<CreateRepositoryLinkOutput>(
-  "CreateRepositoryLinkOutput",
-)({ RepositoryLinkInfo: RepositoryLinkInfo }) {}
-export class CreateSyncConfigurationOutput extends S.Class<CreateSyncConfigurationOutput>(
-  "CreateSyncConfigurationOutput",
-)({ SyncConfiguration: SyncConfiguration }) {}
-export class GetConnectionOutput extends S.Class<GetConnectionOutput>(
-  "GetConnectionOutput",
-)({ Connection: S.optional(Connection) }) {}
-export class GetSyncBlockerSummaryOutput extends S.Class<GetSyncBlockerSummaryOutput>(
-  "GetSyncBlockerSummaryOutput",
-)({ SyncBlockerSummary: SyncBlockerSummary }) {}
-export class ListHostsOutput extends S.Class<ListHostsOutput>(
-  "ListHostsOutput",
-)({ Hosts: S.optional(HostList), NextToken: S.optional(S.String) }) {}
-export class ListRepositorySyncDefinitionsOutput extends S.Class<ListRepositorySyncDefinitionsOutput>(
-  "ListRepositorySyncDefinitionsOutput",
-)({
-  RepositorySyncDefinitions: RepositorySyncDefinitionList,
-  NextToken: S.optional(S.String),
-}) {}
-export class RepositorySyncEvent extends S.Class<RepositorySyncEvent>(
-  "RepositorySyncEvent",
-)({
-  Event: S.String,
-  ExternalId: S.optional(S.String),
-  Time: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  Type: S.String,
-}) {}
+export interface CreateConnectionOutput {
+  ConnectionArn: string;
+  Tags?: TagList;
+}
+export const CreateConnectionOutput = S.suspend(() =>
+  S.Struct({ ConnectionArn: S.String, Tags: S.optional(TagList) }),
+).annotations({
+  identifier: "CreateConnectionOutput",
+}) as any as S.Schema<CreateConnectionOutput>;
+export interface CreateHostOutput {
+  HostArn?: string;
+  Tags?: TagList;
+}
+export const CreateHostOutput = S.suspend(() =>
+  S.Struct({ HostArn: S.optional(S.String), Tags: S.optional(TagList) }),
+).annotations({
+  identifier: "CreateHostOutput",
+}) as any as S.Schema<CreateHostOutput>;
+export interface CreateRepositoryLinkOutput {
+  RepositoryLinkInfo: RepositoryLinkInfo;
+}
+export const CreateRepositoryLinkOutput = S.suspend(() =>
+  S.Struct({ RepositoryLinkInfo: RepositoryLinkInfo }),
+).annotations({
+  identifier: "CreateRepositoryLinkOutput",
+}) as any as S.Schema<CreateRepositoryLinkOutput>;
+export interface CreateSyncConfigurationOutput {
+  SyncConfiguration: SyncConfiguration;
+}
+export const CreateSyncConfigurationOutput = S.suspend(() =>
+  S.Struct({ SyncConfiguration: SyncConfiguration }),
+).annotations({
+  identifier: "CreateSyncConfigurationOutput",
+}) as any as S.Schema<CreateSyncConfigurationOutput>;
+export interface GetConnectionOutput {
+  Connection?: Connection;
+}
+export const GetConnectionOutput = S.suspend(() =>
+  S.Struct({ Connection: S.optional(Connection) }),
+).annotations({
+  identifier: "GetConnectionOutput",
+}) as any as S.Schema<GetConnectionOutput>;
+export interface GetSyncBlockerSummaryOutput {
+  SyncBlockerSummary: SyncBlockerSummary;
+}
+export const GetSyncBlockerSummaryOutput = S.suspend(() =>
+  S.Struct({ SyncBlockerSummary: SyncBlockerSummary }),
+).annotations({
+  identifier: "GetSyncBlockerSummaryOutput",
+}) as any as S.Schema<GetSyncBlockerSummaryOutput>;
+export interface ListHostsOutput {
+  Hosts?: HostList;
+  NextToken?: string;
+}
+export const ListHostsOutput = S.suspend(() =>
+  S.Struct({ Hosts: S.optional(HostList), NextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListHostsOutput",
+}) as any as S.Schema<ListHostsOutput>;
+export interface ListRepositorySyncDefinitionsOutput {
+  RepositorySyncDefinitions: RepositorySyncDefinitionList;
+  NextToken?: string;
+}
+export const ListRepositorySyncDefinitionsOutput = S.suspend(() =>
+  S.Struct({
+    RepositorySyncDefinitions: RepositorySyncDefinitionList,
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListRepositorySyncDefinitionsOutput",
+}) as any as S.Schema<ListRepositorySyncDefinitionsOutput>;
+export interface RepositorySyncEvent {
+  Event: string;
+  ExternalId?: string;
+  Time: Date;
+  Type: string;
+}
+export const RepositorySyncEvent = S.suspend(() =>
+  S.Struct({
+    Event: S.String,
+    ExternalId: S.optional(S.String),
+    Time: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    Type: S.String,
+  }),
+).annotations({
+  identifier: "RepositorySyncEvent",
+}) as any as S.Schema<RepositorySyncEvent>;
+export type RepositorySyncEventList = RepositorySyncEvent[];
 export const RepositorySyncEventList = S.Array(RepositorySyncEvent);
-export class ResourceSyncEvent extends S.Class<ResourceSyncEvent>(
-  "ResourceSyncEvent",
-)({
-  Event: S.String,
-  ExternalId: S.optional(S.String),
-  Time: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  Type: S.String,
-}) {}
+export interface ResourceSyncEvent {
+  Event: string;
+  ExternalId?: string;
+  Time: Date;
+  Type: string;
+}
+export const ResourceSyncEvent = S.suspend(() =>
+  S.Struct({
+    Event: S.String,
+    ExternalId: S.optional(S.String),
+    Time: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    Type: S.String,
+  }),
+).annotations({
+  identifier: "ResourceSyncEvent",
+}) as any as S.Schema<ResourceSyncEvent>;
+export type ResourceSyncEventList = ResourceSyncEvent[];
 export const ResourceSyncEventList = S.Array(ResourceSyncEvent);
-export class RepositorySyncAttempt extends S.Class<RepositorySyncAttempt>(
-  "RepositorySyncAttempt",
-)({
-  StartedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  Status: S.String,
-  Events: RepositorySyncEventList,
-}) {}
-export class ResourceSyncAttempt extends S.Class<ResourceSyncAttempt>(
-  "ResourceSyncAttempt",
-)({
-  Events: ResourceSyncEventList,
-  InitialRevision: Revision,
-  StartedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  Status: S.String,
-  TargetRevision: Revision,
-  Target: S.String,
-}) {}
-export class GetRepositorySyncStatusOutput extends S.Class<GetRepositorySyncStatusOutput>(
-  "GetRepositorySyncStatusOutput",
-)({ LatestSync: RepositorySyncAttempt }) {}
-export class GetResourceSyncStatusOutput extends S.Class<GetResourceSyncStatusOutput>(
-  "GetResourceSyncStatusOutput",
-)({
-  DesiredState: S.optional(Revision),
-  LatestSuccessfulSync: S.optional(ResourceSyncAttempt),
-  LatestSync: ResourceSyncAttempt,
-}) {}
-export class UpdateSyncBlockerOutput extends S.Class<UpdateSyncBlockerOutput>(
-  "UpdateSyncBlockerOutput",
-)({
-  ResourceName: S.String,
-  ParentResourceName: S.optional(S.String),
-  SyncBlocker: SyncBlocker,
-}) {}
+export interface RepositorySyncAttempt {
+  StartedAt: Date;
+  Status: string;
+  Events: RepositorySyncEventList;
+}
+export const RepositorySyncAttempt = S.suspend(() =>
+  S.Struct({
+    StartedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    Status: S.String,
+    Events: RepositorySyncEventList,
+  }),
+).annotations({
+  identifier: "RepositorySyncAttempt",
+}) as any as S.Schema<RepositorySyncAttempt>;
+export interface ResourceSyncAttempt {
+  Events: ResourceSyncEventList;
+  InitialRevision: Revision;
+  StartedAt: Date;
+  Status: string;
+  TargetRevision: Revision;
+  Target: string;
+}
+export const ResourceSyncAttempt = S.suspend(() =>
+  S.Struct({
+    Events: ResourceSyncEventList,
+    InitialRevision: Revision,
+    StartedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    Status: S.String,
+    TargetRevision: Revision,
+    Target: S.String,
+  }),
+).annotations({
+  identifier: "ResourceSyncAttempt",
+}) as any as S.Schema<ResourceSyncAttempt>;
+export interface GetRepositorySyncStatusOutput {
+  LatestSync: RepositorySyncAttempt;
+}
+export const GetRepositorySyncStatusOutput = S.suspend(() =>
+  S.Struct({ LatestSync: RepositorySyncAttempt }),
+).annotations({
+  identifier: "GetRepositorySyncStatusOutput",
+}) as any as S.Schema<GetRepositorySyncStatusOutput>;
+export interface GetResourceSyncStatusOutput {
+  DesiredState?: Revision;
+  LatestSuccessfulSync?: ResourceSyncAttempt;
+  LatestSync: ResourceSyncAttempt;
+}
+export const GetResourceSyncStatusOutput = S.suspend(() =>
+  S.Struct({
+    DesiredState: S.optional(Revision),
+    LatestSuccessfulSync: S.optional(ResourceSyncAttempt),
+    LatestSync: ResourceSyncAttempt,
+  }),
+).annotations({
+  identifier: "GetResourceSyncStatusOutput",
+}) as any as S.Schema<GetResourceSyncStatusOutput>;
+export interface UpdateSyncBlockerOutput {
+  ResourceName: string;
+  ParentResourceName?: string;
+  SyncBlocker: SyncBlocker;
+}
+export const UpdateSyncBlockerOutput = S.suspend(() =>
+  S.Struct({
+    ResourceName: S.String,
+    ParentResourceName: S.optional(S.String),
+    SyncBlocker: SyncBlocker,
+  }),
+).annotations({
+  identifier: "UpdateSyncBlockerOutput",
+}) as any as S.Schema<UpdateSyncBlockerOutput>;
 
 //# Errors
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(

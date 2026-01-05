@@ -106,114 +106,175 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type TagKeys = string[];
 export const TagKeys = S.Array(S.String);
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface ListTagsForResourceRequest {
+  ResourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface UntagResourceRequest {
+  ResourceArn: string;
+  TagKeys: TagKeys;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
-export class GetTaskInstanceRequest extends S.Class<GetTaskInstanceRequest>(
-  "GetTaskInstanceRequest",
-)(
-  {
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface GetTaskInstanceRequest {
+  WorkflowArn: string;
+  TaskInstanceId: string;
+  RunId: string;
+}
+export const GetTaskInstanceRequest = S.suspend(() =>
+  S.Struct({
     WorkflowArn: S.String.pipe(T.HttpLabel("WorkflowArn")),
     TaskInstanceId: S.String.pipe(T.HttpLabel("TaskInstanceId")),
     RunId: S.String.pipe(T.HttpLabel("RunId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/workflows/{WorkflowArn}/runs/{RunId}/tasks/{TaskInstanceId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/workflows/{WorkflowArn}/runs/{RunId}/tasks/{TaskInstanceId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTaskInstancesRequest extends S.Class<ListTaskInstancesRequest>(
-  "ListTaskInstancesRequest",
-)(
-  {
+).annotations({
+  identifier: "GetTaskInstanceRequest",
+}) as any as S.Schema<GetTaskInstanceRequest>;
+export interface ListTaskInstancesRequest {
+  WorkflowArn: string;
+  RunId: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListTaskInstancesRequest = S.suspend(() =>
+  S.Struct({
     WorkflowArn: S.String.pipe(T.HttpLabel("WorkflowArn")),
     RunId: S.String.pipe(T.HttpLabel("RunId")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/workflows/{WorkflowArn}/runs/{RunId}/tasks",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/workflows/{WorkflowArn}/runs/{RunId}/tasks",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetWorkflowRequest extends S.Class<GetWorkflowRequest>(
-  "GetWorkflowRequest",
-)(
-  {
+).annotations({
+  identifier: "ListTaskInstancesRequest",
+}) as any as S.Schema<ListTaskInstancesRequest>;
+export interface GetWorkflowRequest {
+  WorkflowArn: string;
+  WorkflowVersion?: string;
+}
+export const GetWorkflowRequest = S.suspend(() =>
+  S.Struct({
     WorkflowArn: S.String.pipe(T.HttpLabel("WorkflowArn")),
     WorkflowVersion: S.optional(S.String).pipe(T.HttpQuery("workflowVersion")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/workflows/{WorkflowArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/workflows/{WorkflowArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DefinitionS3Location extends S.Class<DefinitionS3Location>(
-  "DefinitionS3Location",
-)({ Bucket: S.String, ObjectKey: S.String, VersionId: S.optional(S.String) }) {}
-export class LoggingConfiguration extends S.Class<LoggingConfiguration>(
-  "LoggingConfiguration",
-)({ LogGroupName: S.String }) {}
+).annotations({
+  identifier: "GetWorkflowRequest",
+}) as any as S.Schema<GetWorkflowRequest>;
+export interface DefinitionS3Location {
+  Bucket: string;
+  ObjectKey: string;
+  VersionId?: string;
+}
+export const DefinitionS3Location = S.suspend(() =>
+  S.Struct({
+    Bucket: S.String,
+    ObjectKey: S.String,
+    VersionId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DefinitionS3Location",
+}) as any as S.Schema<DefinitionS3Location>;
+export interface LoggingConfiguration {
+  LogGroupName: string;
+}
+export const LoggingConfiguration = S.suspend(() =>
+  S.Struct({ LogGroupName: S.String }),
+).annotations({
+  identifier: "LoggingConfiguration",
+}) as any as S.Schema<LoggingConfiguration>;
+export type SecurityGroupIds = string[];
 export const SecurityGroupIds = S.Array(S.String);
+export type SubnetIds = string[];
 export const SubnetIds = S.Array(S.String);
-export class NetworkConfiguration extends S.Class<NetworkConfiguration>(
-  "NetworkConfiguration",
-)({
-  SecurityGroupIds: S.optional(SecurityGroupIds),
-  SubnetIds: S.optional(SubnetIds),
-}) {}
-export class UpdateWorkflowRequest extends S.Class<UpdateWorkflowRequest>(
-  "UpdateWorkflowRequest",
-)(
-  {
+export interface NetworkConfiguration {
+  SecurityGroupIds?: SecurityGroupIds;
+  SubnetIds?: SubnetIds;
+}
+export const NetworkConfiguration = S.suspend(() =>
+  S.Struct({
+    SecurityGroupIds: S.optional(SecurityGroupIds),
+    SubnetIds: S.optional(SubnetIds),
+  }),
+).annotations({
+  identifier: "NetworkConfiguration",
+}) as any as S.Schema<NetworkConfiguration>;
+export interface UpdateWorkflowRequest {
+  WorkflowArn: string;
+  DefinitionS3Location: DefinitionS3Location;
+  RoleArn: string;
+  Description?: string;
+  LoggingConfiguration?: LoggingConfiguration;
+  EngineVersion?: number;
+  NetworkConfiguration?: NetworkConfiguration;
+  TriggerMode?: string;
+}
+export const UpdateWorkflowRequest = S.suspend(() =>
+  S.Struct({
     WorkflowArn: S.String.pipe(T.HttpLabel("WorkflowArn")),
     DefinitionS3Location: DefinitionS3Location,
     RoleArn: S.String,
@@ -222,144 +283,217 @@ export class UpdateWorkflowRequest extends S.Class<UpdateWorkflowRequest>(
     EngineVersion: S.optional(S.Number),
     NetworkConfiguration: S.optional(NetworkConfiguration),
     TriggerMode: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/workflows/{WorkflowArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/workflows/{WorkflowArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteWorkflowRequest extends S.Class<DeleteWorkflowRequest>(
-  "DeleteWorkflowRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateWorkflowRequest",
+}) as any as S.Schema<UpdateWorkflowRequest>;
+export interface DeleteWorkflowRequest {
+  WorkflowArn: string;
+  WorkflowVersion?: string;
+}
+export const DeleteWorkflowRequest = S.suspend(() =>
+  S.Struct({
     WorkflowArn: S.String.pipe(T.HttpLabel("WorkflowArn")),
     WorkflowVersion: S.optional(S.String).pipe(T.HttpQuery("workflowVersion")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/workflows/{WorkflowArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/workflows/{WorkflowArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListWorkflowsRequest extends S.Class<ListWorkflowsRequest>(
-  "ListWorkflowsRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteWorkflowRequest",
+}) as any as S.Schema<DeleteWorkflowRequest>;
+export interface ListWorkflowsRequest {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListWorkflowsRequest = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/workflows" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/workflows" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetWorkflowRunRequest extends S.Class<GetWorkflowRunRequest>(
-  "GetWorkflowRunRequest",
-)(
-  {
+).annotations({
+  identifier: "ListWorkflowsRequest",
+}) as any as S.Schema<ListWorkflowsRequest>;
+export interface GetWorkflowRunRequest {
+  WorkflowArn: string;
+  RunId: string;
+}
+export const GetWorkflowRunRequest = S.suspend(() =>
+  S.Struct({
     WorkflowArn: S.String.pipe(T.HttpLabel("WorkflowArn")),
     RunId: S.String.pipe(T.HttpLabel("RunId")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/workflows/{WorkflowArn}/runs/{RunId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/workflows/{WorkflowArn}/runs/{RunId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StopWorkflowRunRequest extends S.Class<StopWorkflowRunRequest>(
-  "StopWorkflowRunRequest",
-)(
-  {
+).annotations({
+  identifier: "GetWorkflowRunRequest",
+}) as any as S.Schema<GetWorkflowRunRequest>;
+export interface StopWorkflowRunRequest {
+  WorkflowArn: string;
+  RunId: string;
+}
+export const StopWorkflowRunRequest = S.suspend(() =>
+  S.Struct({
     WorkflowArn: S.String.pipe(T.HttpLabel("WorkflowArn")),
     RunId: S.String.pipe(T.HttpLabel("RunId")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/workflows/{WorkflowArn}/runs/{RunId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/workflows/{WorkflowArn}/runs/{RunId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListWorkflowRunsRequest extends S.Class<ListWorkflowRunsRequest>(
-  "ListWorkflowRunsRequest",
-)(
-  {
+).annotations({
+  identifier: "StopWorkflowRunRequest",
+}) as any as S.Schema<StopWorkflowRunRequest>;
+export interface ListWorkflowRunsRequest {
+  MaxResults?: number;
+  NextToken?: string;
+  WorkflowArn: string;
+  WorkflowVersion?: string;
+}
+export const ListWorkflowRunsRequest = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     WorkflowArn: S.String.pipe(T.HttpLabel("WorkflowArn")),
     WorkflowVersion: S.optional(S.String).pipe(T.HttpQuery("workflowVersion")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/workflows/{WorkflowArn}/runs" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/workflows/{WorkflowArn}/runs" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListWorkflowVersionsRequest extends S.Class<ListWorkflowVersionsRequest>(
-  "ListWorkflowVersionsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListWorkflowRunsRequest",
+}) as any as S.Schema<ListWorkflowRunsRequest>;
+export interface ListWorkflowVersionsRequest {
+  MaxResults?: number;
+  NextToken?: string;
+  WorkflowArn: string;
+}
+export const ListWorkflowVersionsRequest = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     WorkflowArn: S.String.pipe(T.HttpLabel("WorkflowArn")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/workflows/{WorkflowArn}/versions" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/workflows/{WorkflowArn}/versions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "ListWorkflowVersionsRequest",
+}) as any as S.Schema<ListWorkflowVersionsRequest>;
+export type Tags = { [key: string]: string };
 export const Tags = S.Record({ key: S.String, value: S.String });
-export class EncryptionConfiguration extends S.Class<EncryptionConfiguration>(
-  "EncryptionConfiguration",
-)({ Type: S.String, KmsKeyId: S.optional(S.String) }) {}
+export interface EncryptionConfiguration {
+  Type: string;
+  KmsKeyId?: string;
+}
+export const EncryptionConfiguration = S.suspend(() =>
+  S.Struct({ Type: S.String, KmsKeyId: S.optional(S.String) }),
+).annotations({
+  identifier: "EncryptionConfiguration",
+}) as any as S.Schema<EncryptionConfiguration>;
+export type WarningMessages = string[];
 export const WarningMessages = S.Array(S.String);
+export type ObjectMap = { [key: string]: any };
 export const ObjectMap = S.Record({ key: S.String, value: S.Any });
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ Tags: S.optional(Tags) }) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")), Tags: Tags },
-  T.all(
-    T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface ListTagsForResourceResponse {
+  Tags?: Tags;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ Tags: S.optional(Tags) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface TagResourceRequest {
+  ResourceArn: string;
+  Tags: Tags;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
+    Tags: Tags,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class CreateWorkflowRequest extends S.Class<CreateWorkflowRequest>(
-  "CreateWorkflowRequest",
-)(
-  {
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface CreateWorkflowRequest {
+  Name: string;
+  ClientToken?: string;
+  DefinitionS3Location: DefinitionS3Location;
+  RoleArn: string;
+  Description?: string;
+  EncryptionConfiguration?: EncryptionConfiguration;
+  LoggingConfiguration?: LoggingConfiguration;
+  EngineVersion?: number;
+  NetworkConfiguration?: NetworkConfiguration;
+  Tags?: Tags;
+  TriggerMode?: string;
+}
+export const CreateWorkflowRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     ClientToken: S.optional(S.String),
     DefinitionS3Location: DefinitionS3Location,
@@ -371,221 +505,430 @@ export class CreateWorkflowRequest extends S.Class<CreateWorkflowRequest>(
     NetworkConfiguration: S.optional(NetworkConfiguration),
     Tags: S.optional(Tags),
     TriggerMode: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/workflows" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/workflows" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateWorkflowResponse extends S.Class<UpdateWorkflowResponse>(
-  "UpdateWorkflowResponse",
-)({
-  WorkflowArn: S.String,
-  ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  WorkflowVersion: S.optional(S.String),
-  Warnings: S.optional(WarningMessages),
-}) {}
-export class DeleteWorkflowResponse extends S.Class<DeleteWorkflowResponse>(
-  "DeleteWorkflowResponse",
-)({ WorkflowArn: S.String, WorkflowVersion: S.optional(S.String) }) {}
-export class StartWorkflowRunRequest extends S.Class<StartWorkflowRunRequest>(
-  "StartWorkflowRunRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateWorkflowRequest",
+}) as any as S.Schema<CreateWorkflowRequest>;
+export interface UpdateWorkflowResponse {
+  WorkflowArn: string;
+  ModifiedAt?: Date;
+  WorkflowVersion?: string;
+  Warnings?: WarningMessages;
+}
+export const UpdateWorkflowResponse = S.suspend(() =>
+  S.Struct({
+    WorkflowArn: S.String,
+    ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    WorkflowVersion: S.optional(S.String),
+    Warnings: S.optional(WarningMessages),
+  }),
+).annotations({
+  identifier: "UpdateWorkflowResponse",
+}) as any as S.Schema<UpdateWorkflowResponse>;
+export interface DeleteWorkflowResponse {
+  WorkflowArn: string;
+  WorkflowVersion?: string;
+}
+export const DeleteWorkflowResponse = S.suspend(() =>
+  S.Struct({ WorkflowArn: S.String, WorkflowVersion: S.optional(S.String) }),
+).annotations({
+  identifier: "DeleteWorkflowResponse",
+}) as any as S.Schema<DeleteWorkflowResponse>;
+export interface StartWorkflowRunRequest {
+  WorkflowArn: string;
+  ClientToken?: string;
+  OverrideParameters?: ObjectMap;
+  WorkflowVersion?: string;
+}
+export const StartWorkflowRunRequest = S.suspend(() =>
+  S.Struct({
     WorkflowArn: S.String.pipe(T.HttpLabel("WorkflowArn")),
     ClientToken: S.optional(S.String),
     OverrideParameters: S.optional(ObjectMap),
     WorkflowVersion: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/workflows/{WorkflowArn}/runs" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/workflows/{WorkflowArn}/runs" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StopWorkflowRunResponse extends S.Class<StopWorkflowRunResponse>(
-  "StopWorkflowRunResponse",
-)({
-  WorkflowArn: S.optional(S.String),
-  WorkflowVersion: S.optional(S.String),
-  RunId: S.optional(S.String),
-  Status: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "StartWorkflowRunRequest",
+}) as any as S.Schema<StartWorkflowRunRequest>;
+export interface StopWorkflowRunResponse {
+  WorkflowArn?: string;
+  WorkflowVersion?: string;
+  RunId?: string;
+  Status?: string;
+}
+export const StopWorkflowRunResponse = S.suspend(() =>
+  S.Struct({
+    WorkflowArn: S.optional(S.String),
+    WorkflowVersion: S.optional(S.String),
+    RunId: S.optional(S.String),
+    Status: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "StopWorkflowRunResponse",
+}) as any as S.Schema<StopWorkflowRunResponse>;
+export type TaskInstanceIds = string[];
 export const TaskInstanceIds = S.Array(S.String);
+export type GenericMap = { [key: string]: string };
 export const GenericMap = S.Record({ key: S.String, value: S.String });
-export class TaskInstanceSummary extends S.Class<TaskInstanceSummary>(
-  "TaskInstanceSummary",
-)({
-  WorkflowArn: S.optional(S.String),
-  WorkflowVersion: S.optional(S.String),
-  RunId: S.optional(S.String),
-  TaskInstanceId: S.optional(S.String),
-  Status: S.optional(S.String),
-  DurationInSeconds: S.optional(S.Number),
-  OperatorName: S.optional(S.String),
-}) {}
+export interface TaskInstanceSummary {
+  WorkflowArn?: string;
+  WorkflowVersion?: string;
+  RunId?: string;
+  TaskInstanceId?: string;
+  Status?: string;
+  DurationInSeconds?: number;
+  OperatorName?: string;
+}
+export const TaskInstanceSummary = S.suspend(() =>
+  S.Struct({
+    WorkflowArn: S.optional(S.String),
+    WorkflowVersion: S.optional(S.String),
+    RunId: S.optional(S.String),
+    TaskInstanceId: S.optional(S.String),
+    Status: S.optional(S.String),
+    DurationInSeconds: S.optional(S.Number),
+    OperatorName: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "TaskInstanceSummary",
+}) as any as S.Schema<TaskInstanceSummary>;
+export type TaskInstanceSummaries = TaskInstanceSummary[];
 export const TaskInstanceSummaries = S.Array(TaskInstanceSummary);
-export class ScheduleConfiguration extends S.Class<ScheduleConfiguration>(
-  "ScheduleConfiguration",
-)({ CronExpression: S.optional(S.String) }) {}
-export class WorkflowSummary extends S.Class<WorkflowSummary>(
-  "WorkflowSummary",
-)({
-  WorkflowArn: S.String,
-  WorkflowVersion: S.optional(S.String),
-  Name: S.optional(S.String),
-  Description: S.optional(S.String),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  WorkflowStatus: S.optional(S.String),
-  TriggerMode: S.optional(S.String),
-}) {}
+export interface ScheduleConfiguration {
+  CronExpression?: string;
+}
+export const ScheduleConfiguration = S.suspend(() =>
+  S.Struct({ CronExpression: S.optional(S.String) }),
+).annotations({
+  identifier: "ScheduleConfiguration",
+}) as any as S.Schema<ScheduleConfiguration>;
+export interface WorkflowSummary {
+  WorkflowArn: string;
+  WorkflowVersion?: string;
+  Name?: string;
+  Description?: string;
+  CreatedAt?: Date;
+  ModifiedAt?: Date;
+  WorkflowStatus?: string;
+  TriggerMode?: string;
+}
+export const WorkflowSummary = S.suspend(() =>
+  S.Struct({
+    WorkflowArn: S.String,
+    WorkflowVersion: S.optional(S.String),
+    Name: S.optional(S.String),
+    Description: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    WorkflowStatus: S.optional(S.String),
+    TriggerMode: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "WorkflowSummary",
+}) as any as S.Schema<WorkflowSummary>;
+export type WorkflowSummaries = WorkflowSummary[];
 export const WorkflowSummaries = S.Array(WorkflowSummary);
-export class WorkflowRunDetail extends S.Class<WorkflowRunDetail>(
-  "WorkflowRunDetail",
-)({
-  WorkflowArn: S.optional(S.String),
-  WorkflowVersion: S.optional(S.String),
-  RunId: S.optional(S.String),
-  RunType: S.optional(S.String),
-  StartedOn: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  CompletedOn: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  Duration: S.optional(S.Number),
-  ErrorMessage: S.optional(S.String),
-  TaskInstances: S.optional(TaskInstanceIds),
-  RunState: S.optional(S.String),
-}) {}
-export class WorkflowVersionSummary extends S.Class<WorkflowVersionSummary>(
-  "WorkflowVersionSummary",
-)({
-  WorkflowVersion: S.String,
-  WorkflowArn: S.String,
-  IsLatestVersion: S.optional(S.Boolean),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  DefinitionS3Location: S.optional(DefinitionS3Location),
-  ScheduleConfiguration: S.optional(ScheduleConfiguration),
-  TriggerMode: S.optional(S.String),
-}) {}
+export interface WorkflowRunDetail {
+  WorkflowArn?: string;
+  WorkflowVersion?: string;
+  RunId?: string;
+  RunType?: string;
+  StartedOn?: Date;
+  CreatedAt?: Date;
+  CompletedOn?: Date;
+  ModifiedAt?: Date;
+  Duration?: number;
+  ErrorMessage?: string;
+  TaskInstances?: TaskInstanceIds;
+  RunState?: string;
+}
+export const WorkflowRunDetail = S.suspend(() =>
+  S.Struct({
+    WorkflowArn: S.optional(S.String),
+    WorkflowVersion: S.optional(S.String),
+    RunId: S.optional(S.String),
+    RunType: S.optional(S.String),
+    StartedOn: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CompletedOn: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    Duration: S.optional(S.Number),
+    ErrorMessage: S.optional(S.String),
+    TaskInstances: S.optional(TaskInstanceIds),
+    RunState: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "WorkflowRunDetail",
+}) as any as S.Schema<WorkflowRunDetail>;
+export interface WorkflowVersionSummary {
+  WorkflowVersion: string;
+  WorkflowArn: string;
+  IsLatestVersion?: boolean;
+  CreatedAt?: Date;
+  ModifiedAt?: Date;
+  DefinitionS3Location?: DefinitionS3Location;
+  ScheduleConfiguration?: ScheduleConfiguration;
+  TriggerMode?: string;
+}
+export const WorkflowVersionSummary = S.suspend(() =>
+  S.Struct({
+    WorkflowVersion: S.String,
+    WorkflowArn: S.String,
+    IsLatestVersion: S.optional(S.Boolean),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    DefinitionS3Location: S.optional(DefinitionS3Location),
+    ScheduleConfiguration: S.optional(ScheduleConfiguration),
+    TriggerMode: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "WorkflowVersionSummary",
+}) as any as S.Schema<WorkflowVersionSummary>;
+export type WorkflowVersionSummaries = WorkflowVersionSummary[];
 export const WorkflowVersionSummaries = S.Array(WorkflowVersionSummary);
-export class GetTaskInstanceResponse extends S.Class<GetTaskInstanceResponse>(
-  "GetTaskInstanceResponse",
-)({
-  WorkflowArn: S.String,
-  RunId: S.String,
-  TaskInstanceId: S.String,
-  WorkflowVersion: S.optional(S.String),
-  Status: S.optional(S.String),
-  DurationInSeconds: S.optional(S.Number),
-  OperatorName: S.optional(S.String),
-  ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  EndedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  StartedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  AttemptNumber: S.optional(S.Number),
-  ErrorMessage: S.optional(S.String),
-  TaskId: S.optional(S.String),
-  LogStream: S.optional(S.String),
-  Xcom: S.optional(GenericMap),
-}) {}
-export class ListTaskInstancesResponse extends S.Class<ListTaskInstancesResponse>(
-  "ListTaskInstancesResponse",
-)({
-  TaskInstances: S.optional(TaskInstanceSummaries),
-  NextToken: S.optional(S.String),
-}) {}
-export class CreateWorkflowResponse extends S.Class<CreateWorkflowResponse>(
-  "CreateWorkflowResponse",
-)({
-  WorkflowArn: S.String,
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  RevisionId: S.optional(S.String),
-  WorkflowStatus: S.optional(S.String),
-  WorkflowVersion: S.optional(S.String),
-  IsLatestVersion: S.optional(S.Boolean),
-  Warnings: S.optional(WarningMessages),
-}) {}
-export class GetWorkflowResponse extends S.Class<GetWorkflowResponse>(
-  "GetWorkflowResponse",
-)({
-  WorkflowArn: S.String,
-  WorkflowVersion: S.optional(S.String),
-  Name: S.optional(S.String),
-  Description: S.optional(S.String),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  EncryptionConfiguration: S.optional(EncryptionConfiguration),
-  LoggingConfiguration: S.optional(LoggingConfiguration),
-  EngineVersion: S.optional(S.Number),
-  WorkflowStatus: S.optional(S.String),
-  DefinitionS3Location: S.optional(DefinitionS3Location),
-  ScheduleConfiguration: S.optional(ScheduleConfiguration),
-  RoleArn: S.optional(S.String),
-  NetworkConfiguration: S.optional(NetworkConfiguration),
-  TriggerMode: S.optional(S.String),
-  WorkflowDefinition: S.optional(S.String),
-}) {}
-export class ListWorkflowsResponse extends S.Class<ListWorkflowsResponse>(
-  "ListWorkflowsResponse",
-)({ Workflows: WorkflowSummaries, NextToken: S.optional(S.String) }) {}
-export class StartWorkflowRunResponse extends S.Class<StartWorkflowRunResponse>(
-  "StartWorkflowRunResponse",
-)({
-  RunId: S.optional(S.String),
-  Status: S.optional(S.String),
-  StartedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-}) {}
-export class GetWorkflowRunResponse extends S.Class<GetWorkflowRunResponse>(
-  "GetWorkflowRunResponse",
-)({
-  WorkflowArn: S.optional(S.String),
-  WorkflowVersion: S.optional(S.String),
-  RunId: S.optional(S.String),
-  RunType: S.optional(S.String),
-  OverrideParameters: S.optional(ObjectMap),
-  RunDetail: S.optional(WorkflowRunDetail),
-}) {}
-export class ListWorkflowVersionsResponse extends S.Class<ListWorkflowVersionsResponse>(
-  "ListWorkflowVersionsResponse",
-)({
-  WorkflowVersions: S.optional(WorkflowVersionSummaries),
-  NextToken: S.optional(S.String),
-}) {}
-export class RunDetailSummary extends S.Class<RunDetailSummary>(
-  "RunDetailSummary",
-)({
-  Status: S.optional(S.String),
-  CreatedOn: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  StartedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  EndedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-}) {}
-export class WorkflowRunSummary extends S.Class<WorkflowRunSummary>(
-  "WorkflowRunSummary",
-)({
-  RunId: S.optional(S.String),
-  WorkflowArn: S.optional(S.String),
-  WorkflowVersion: S.optional(S.String),
-  RunType: S.optional(S.String),
-  RunDetailSummary: S.optional(RunDetailSummary),
-}) {}
+export interface GetTaskInstanceResponse {
+  WorkflowArn: string;
+  RunId: string;
+  TaskInstanceId: string;
+  WorkflowVersion?: string;
+  Status?: string;
+  DurationInSeconds?: number;
+  OperatorName?: string;
+  ModifiedAt?: Date;
+  EndedAt?: Date;
+  StartedAt?: Date;
+  AttemptNumber?: number;
+  ErrorMessage?: string;
+  TaskId?: string;
+  LogStream?: string;
+  Xcom?: GenericMap;
+}
+export const GetTaskInstanceResponse = S.suspend(() =>
+  S.Struct({
+    WorkflowArn: S.String,
+    RunId: S.String,
+    TaskInstanceId: S.String,
+    WorkflowVersion: S.optional(S.String),
+    Status: S.optional(S.String),
+    DurationInSeconds: S.optional(S.Number),
+    OperatorName: S.optional(S.String),
+    ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    EndedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    AttemptNumber: S.optional(S.Number),
+    ErrorMessage: S.optional(S.String),
+    TaskId: S.optional(S.String),
+    LogStream: S.optional(S.String),
+    Xcom: S.optional(GenericMap),
+  }),
+).annotations({
+  identifier: "GetTaskInstanceResponse",
+}) as any as S.Schema<GetTaskInstanceResponse>;
+export interface ListTaskInstancesResponse {
+  TaskInstances?: TaskInstanceSummaries;
+  NextToken?: string;
+}
+export const ListTaskInstancesResponse = S.suspend(() =>
+  S.Struct({
+    TaskInstances: S.optional(TaskInstanceSummaries),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListTaskInstancesResponse",
+}) as any as S.Schema<ListTaskInstancesResponse>;
+export interface CreateWorkflowResponse {
+  WorkflowArn: string;
+  CreatedAt?: Date;
+  RevisionId?: string;
+  WorkflowStatus?: string;
+  WorkflowVersion?: string;
+  IsLatestVersion?: boolean;
+  Warnings?: WarningMessages;
+}
+export const CreateWorkflowResponse = S.suspend(() =>
+  S.Struct({
+    WorkflowArn: S.String,
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    RevisionId: S.optional(S.String),
+    WorkflowStatus: S.optional(S.String),
+    WorkflowVersion: S.optional(S.String),
+    IsLatestVersion: S.optional(S.Boolean),
+    Warnings: S.optional(WarningMessages),
+  }),
+).annotations({
+  identifier: "CreateWorkflowResponse",
+}) as any as S.Schema<CreateWorkflowResponse>;
+export interface GetWorkflowResponse {
+  WorkflowArn: string;
+  WorkflowVersion?: string;
+  Name?: string;
+  Description?: string;
+  CreatedAt?: Date;
+  ModifiedAt?: Date;
+  EncryptionConfiguration?: EncryptionConfiguration;
+  LoggingConfiguration?: LoggingConfiguration;
+  EngineVersion?: number;
+  WorkflowStatus?: string;
+  DefinitionS3Location?: DefinitionS3Location;
+  ScheduleConfiguration?: ScheduleConfiguration;
+  RoleArn?: string;
+  NetworkConfiguration?: NetworkConfiguration;
+  TriggerMode?: string;
+  WorkflowDefinition?: string;
+}
+export const GetWorkflowResponse = S.suspend(() =>
+  S.Struct({
+    WorkflowArn: S.String,
+    WorkflowVersion: S.optional(S.String),
+    Name: S.optional(S.String),
+    Description: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    EncryptionConfiguration: S.optional(EncryptionConfiguration),
+    LoggingConfiguration: S.optional(LoggingConfiguration),
+    EngineVersion: S.optional(S.Number),
+    WorkflowStatus: S.optional(S.String),
+    DefinitionS3Location: S.optional(DefinitionS3Location),
+    ScheduleConfiguration: S.optional(ScheduleConfiguration),
+    RoleArn: S.optional(S.String),
+    NetworkConfiguration: S.optional(NetworkConfiguration),
+    TriggerMode: S.optional(S.String),
+    WorkflowDefinition: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetWorkflowResponse",
+}) as any as S.Schema<GetWorkflowResponse>;
+export interface ListWorkflowsResponse {
+  Workflows: WorkflowSummaries;
+  NextToken?: string;
+}
+export const ListWorkflowsResponse = S.suspend(() =>
+  S.Struct({ Workflows: WorkflowSummaries, NextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListWorkflowsResponse",
+}) as any as S.Schema<ListWorkflowsResponse>;
+export interface StartWorkflowRunResponse {
+  RunId?: string;
+  Status?: string;
+  StartedAt?: Date;
+}
+export const StartWorkflowRunResponse = S.suspend(() =>
+  S.Struct({
+    RunId: S.optional(S.String),
+    Status: S.optional(S.String),
+    StartedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotations({
+  identifier: "StartWorkflowRunResponse",
+}) as any as S.Schema<StartWorkflowRunResponse>;
+export interface GetWorkflowRunResponse {
+  WorkflowArn?: string;
+  WorkflowVersion?: string;
+  RunId?: string;
+  RunType?: string;
+  OverrideParameters?: ObjectMap;
+  RunDetail?: WorkflowRunDetail;
+}
+export const GetWorkflowRunResponse = S.suspend(() =>
+  S.Struct({
+    WorkflowArn: S.optional(S.String),
+    WorkflowVersion: S.optional(S.String),
+    RunId: S.optional(S.String),
+    RunType: S.optional(S.String),
+    OverrideParameters: S.optional(ObjectMap),
+    RunDetail: S.optional(WorkflowRunDetail),
+  }),
+).annotations({
+  identifier: "GetWorkflowRunResponse",
+}) as any as S.Schema<GetWorkflowRunResponse>;
+export interface ListWorkflowVersionsResponse {
+  WorkflowVersions?: WorkflowVersionSummaries;
+  NextToken?: string;
+}
+export const ListWorkflowVersionsResponse = S.suspend(() =>
+  S.Struct({
+    WorkflowVersions: S.optional(WorkflowVersionSummaries),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListWorkflowVersionsResponse",
+}) as any as S.Schema<ListWorkflowVersionsResponse>;
+export interface RunDetailSummary {
+  Status?: string;
+  CreatedOn?: Date;
+  StartedAt?: Date;
+  EndedAt?: Date;
+}
+export const RunDetailSummary = S.suspend(() =>
+  S.Struct({
+    Status: S.optional(S.String),
+    CreatedOn: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    EndedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotations({
+  identifier: "RunDetailSummary",
+}) as any as S.Schema<RunDetailSummary>;
+export interface WorkflowRunSummary {
+  RunId?: string;
+  WorkflowArn?: string;
+  WorkflowVersion?: string;
+  RunType?: string;
+  RunDetailSummary?: RunDetailSummary;
+}
+export const WorkflowRunSummary = S.suspend(() =>
+  S.Struct({
+    RunId: S.optional(S.String),
+    WorkflowArn: S.optional(S.String),
+    WorkflowVersion: S.optional(S.String),
+    RunType: S.optional(S.String),
+    RunDetailSummary: S.optional(RunDetailSummary),
+  }),
+).annotations({
+  identifier: "WorkflowRunSummary",
+}) as any as S.Schema<WorkflowRunSummary>;
+export type WorkflowRunSummaries = WorkflowRunSummary[];
 export const WorkflowRunSummaries = S.Array(WorkflowRunSummary);
-export class ListWorkflowRunsResponse extends S.Class<ListWorkflowRunsResponse>(
-  "ListWorkflowRunsResponse",
-)({
-  WorkflowRuns: S.optional(WorkflowRunSummaries),
-  NextToken: S.optional(S.String),
-}) {}
-export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
-  "ValidationExceptionField",
-)({ Name: S.String, Message: S.String }) {}
+export interface ListWorkflowRunsResponse {
+  WorkflowRuns?: WorkflowRunSummaries;
+  NextToken?: string;
+}
+export const ListWorkflowRunsResponse = S.suspend(() =>
+  S.Struct({
+    WorkflowRuns: S.optional(WorkflowRunSummaries),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListWorkflowRunsResponse",
+}) as any as S.Schema<ListWorkflowRunsResponse>;
+export interface ValidationExceptionField {
+  Name: string;
+  Message: string;
+}
+export const ValidationExceptionField = S.suspend(() =>
+  S.Struct({ Name: S.String, Message: S.String }),
+).annotations({
+  identifier: "ValidationExceptionField",
+}) as any as S.Schema<ValidationExceptionField>;
+export type ValidationExceptionFields = ValidationExceptionField[];
 export const ValidationExceptionFields = S.Array(ValidationExceptionField);
 
 //# Errors

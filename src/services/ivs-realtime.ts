@@ -294,316 +294,456 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type ParticipantTokenCapabilities = string[];
 export const ParticipantTokenCapabilities = S.Array(S.String);
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class DeleteEncoderConfigurationRequest extends S.Class<DeleteEncoderConfigurationRequest>(
-  "DeleteEncoderConfigurationRequest",
-)(
-  { arn: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/DeleteEncoderConfiguration" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface DeleteEncoderConfigurationRequest {
+  arn: string;
+}
+export const DeleteEncoderConfigurationRequest = S.suspend(() =>
+  S.Struct({ arn: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/DeleteEncoderConfiguration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteEncoderConfigurationResponse extends S.Class<DeleteEncoderConfigurationResponse>(
-  "DeleteEncoderConfigurationResponse",
-)({}) {}
-export class DeleteIngestConfigurationRequest extends S.Class<DeleteIngestConfigurationRequest>(
-  "DeleteIngestConfigurationRequest",
-)(
-  { arn: S.String, force: S.optional(S.Boolean) },
-  T.all(
-    T.Http({ method: "POST", uri: "/DeleteIngestConfiguration" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteEncoderConfigurationRequest",
+}) as any as S.Schema<DeleteEncoderConfigurationRequest>;
+export interface DeleteEncoderConfigurationResponse {}
+export const DeleteEncoderConfigurationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteEncoderConfigurationResponse",
+}) as any as S.Schema<DeleteEncoderConfigurationResponse>;
+export interface DeleteIngestConfigurationRequest {
+  arn: string;
+  force?: boolean;
+}
+export const DeleteIngestConfigurationRequest = S.suspend(() =>
+  S.Struct({ arn: S.String, force: S.optional(S.Boolean) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/DeleteIngestConfiguration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteIngestConfigurationResponse extends S.Class<DeleteIngestConfigurationResponse>(
-  "DeleteIngestConfigurationResponse",
-)({}) {}
-export class DeletePublicKeyRequest extends S.Class<DeletePublicKeyRequest>(
-  "DeletePublicKeyRequest",
-)(
-  { arn: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/DeletePublicKey" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteIngestConfigurationRequest",
+}) as any as S.Schema<DeleteIngestConfigurationRequest>;
+export interface DeleteIngestConfigurationResponse {}
+export const DeleteIngestConfigurationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteIngestConfigurationResponse",
+}) as any as S.Schema<DeleteIngestConfigurationResponse>;
+export interface DeletePublicKeyRequest {
+  arn: string;
+}
+export const DeletePublicKeyRequest = S.suspend(() =>
+  S.Struct({ arn: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/DeletePublicKey" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeletePublicKeyResponse extends S.Class<DeletePublicKeyResponse>(
-  "DeletePublicKeyResponse",
-)({}) {}
-export class DeleteStageRequest extends S.Class<DeleteStageRequest>(
-  "DeleteStageRequest",
-)(
-  { arn: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/DeleteStage" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeletePublicKeyRequest",
+}) as any as S.Schema<DeletePublicKeyRequest>;
+export interface DeletePublicKeyResponse {}
+export const DeletePublicKeyResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeletePublicKeyResponse",
+}) as any as S.Schema<DeletePublicKeyResponse>;
+export interface DeleteStageRequest {
+  arn: string;
+}
+export const DeleteStageRequest = S.suspend(() =>
+  S.Struct({ arn: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/DeleteStage" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteStageResponse extends S.Class<DeleteStageResponse>(
-  "DeleteStageResponse",
-)({}) {}
-export class DeleteStorageConfigurationRequest extends S.Class<DeleteStorageConfigurationRequest>(
-  "DeleteStorageConfigurationRequest",
-)(
-  { arn: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/DeleteStorageConfiguration" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteStageRequest",
+}) as any as S.Schema<DeleteStageRequest>;
+export interface DeleteStageResponse {}
+export const DeleteStageResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteStageResponse",
+}) as any as S.Schema<DeleteStageResponse>;
+export interface DeleteStorageConfigurationRequest {
+  arn: string;
+}
+export const DeleteStorageConfigurationRequest = S.suspend(() =>
+  S.Struct({ arn: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/DeleteStorageConfiguration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteStorageConfigurationResponse extends S.Class<DeleteStorageConfigurationResponse>(
-  "DeleteStorageConfigurationResponse",
-)({}) {}
-export class DisconnectParticipantRequest extends S.Class<DisconnectParticipantRequest>(
-  "DisconnectParticipantRequest",
-)(
-  { stageArn: S.String, participantId: S.String, reason: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/DisconnectParticipant" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteStorageConfigurationRequest",
+}) as any as S.Schema<DeleteStorageConfigurationRequest>;
+export interface DeleteStorageConfigurationResponse {}
+export const DeleteStorageConfigurationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteStorageConfigurationResponse",
+}) as any as S.Schema<DeleteStorageConfigurationResponse>;
+export interface DisconnectParticipantRequest {
+  stageArn: string;
+  participantId: string;
+  reason?: string;
+}
+export const DisconnectParticipantRequest = S.suspend(() =>
+  S.Struct({
+    stageArn: S.String,
+    participantId: S.String,
+    reason: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/DisconnectParticipant" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DisconnectParticipantResponse extends S.Class<DisconnectParticipantResponse>(
-  "DisconnectParticipantResponse",
-)({}) {}
-export class GetCompositionRequest extends S.Class<GetCompositionRequest>(
-  "GetCompositionRequest",
-)(
-  { arn: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/GetComposition" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DisconnectParticipantRequest",
+}) as any as S.Schema<DisconnectParticipantRequest>;
+export interface DisconnectParticipantResponse {}
+export const DisconnectParticipantResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DisconnectParticipantResponse",
+}) as any as S.Schema<DisconnectParticipantResponse>;
+export interface GetCompositionRequest {
+  arn: string;
+}
+export const GetCompositionRequest = S.suspend(() =>
+  S.Struct({ arn: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/GetComposition" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetEncoderConfigurationRequest extends S.Class<GetEncoderConfigurationRequest>(
-  "GetEncoderConfigurationRequest",
-)(
-  { arn: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/GetEncoderConfiguration" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetCompositionRequest",
+}) as any as S.Schema<GetCompositionRequest>;
+export interface GetEncoderConfigurationRequest {
+  arn: string;
+}
+export const GetEncoderConfigurationRequest = S.suspend(() =>
+  S.Struct({ arn: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/GetEncoderConfiguration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetIngestConfigurationRequest extends S.Class<GetIngestConfigurationRequest>(
-  "GetIngestConfigurationRequest",
-)(
-  { arn: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/GetIngestConfiguration" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetEncoderConfigurationRequest",
+}) as any as S.Schema<GetEncoderConfigurationRequest>;
+export interface GetIngestConfigurationRequest {
+  arn: string;
+}
+export const GetIngestConfigurationRequest = S.suspend(() =>
+  S.Struct({ arn: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/GetIngestConfiguration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetParticipantRequest extends S.Class<GetParticipantRequest>(
-  "GetParticipantRequest",
-)(
-  { stageArn: S.String, sessionId: S.String, participantId: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/GetParticipant" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetIngestConfigurationRequest",
+}) as any as S.Schema<GetIngestConfigurationRequest>;
+export interface GetParticipantRequest {
+  stageArn: string;
+  sessionId: string;
+  participantId: string;
+}
+export const GetParticipantRequest = S.suspend(() =>
+  S.Struct({
+    stageArn: S.String,
+    sessionId: S.String,
+    participantId: S.String,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/GetParticipant" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetPublicKeyRequest extends S.Class<GetPublicKeyRequest>(
-  "GetPublicKeyRequest",
-)(
-  { arn: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/GetPublicKey" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetParticipantRequest",
+}) as any as S.Schema<GetParticipantRequest>;
+export interface GetPublicKeyRequest {
+  arn: string;
+}
+export const GetPublicKeyRequest = S.suspend(() =>
+  S.Struct({ arn: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/GetPublicKey" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetStageRequest extends S.Class<GetStageRequest>(
-  "GetStageRequest",
-)(
-  { arn: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/GetStage" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetPublicKeyRequest",
+}) as any as S.Schema<GetPublicKeyRequest>;
+export interface GetStageRequest {
+  arn: string;
+}
+export const GetStageRequest = S.suspend(() =>
+  S.Struct({ arn: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/GetStage" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetStageSessionRequest extends S.Class<GetStageSessionRequest>(
-  "GetStageSessionRequest",
-)(
-  { stageArn: S.String, sessionId: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/GetStageSession" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetStageRequest",
+}) as any as S.Schema<GetStageRequest>;
+export interface GetStageSessionRequest {
+  stageArn: string;
+  sessionId: string;
+}
+export const GetStageSessionRequest = S.suspend(() =>
+  S.Struct({ stageArn: S.String, sessionId: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/GetStageSession" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetStorageConfigurationRequest extends S.Class<GetStorageConfigurationRequest>(
-  "GetStorageConfigurationRequest",
-)(
-  { arn: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/GetStorageConfiguration" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetStageSessionRequest",
+}) as any as S.Schema<GetStageSessionRequest>;
+export interface GetStorageConfigurationRequest {
+  arn: string;
+}
+export const GetStorageConfigurationRequest = S.suspend(() =>
+  S.Struct({ arn: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/GetStorageConfiguration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "GetStorageConfigurationRequest",
+}) as any as S.Schema<GetStorageConfigurationRequest>;
+export type Tags = { [key: string]: string };
 export const Tags = S.Record({ key: S.String, value: S.String });
-export class ImportPublicKeyRequest extends S.Class<ImportPublicKeyRequest>(
-  "ImportPublicKeyRequest",
-)(
-  {
+export interface ImportPublicKeyRequest {
+  publicKeyMaterial: string;
+  name?: string;
+  tags?: Tags;
+}
+export const ImportPublicKeyRequest = S.suspend(() =>
+  S.Struct({
     publicKeyMaterial: S.String,
     name: S.optional(S.String),
     tags: S.optional(Tags),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/ImportPublicKey" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ImportPublicKey" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListCompositionsRequest extends S.Class<ListCompositionsRequest>(
-  "ListCompositionsRequest",
-)(
-  {
+).annotations({
+  identifier: "ImportPublicKeyRequest",
+}) as any as S.Schema<ImportPublicKeyRequest>;
+export interface ListCompositionsRequest {
+  filterByStageArn?: string;
+  filterByEncoderConfigurationArn?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListCompositionsRequest = S.suspend(() =>
+  S.Struct({
     filterByStageArn: S.optional(S.String),
     filterByEncoderConfigurationArn: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/ListCompositions" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ListCompositions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListEncoderConfigurationsRequest extends S.Class<ListEncoderConfigurationsRequest>(
-  "ListEncoderConfigurationsRequest",
-)(
-  { nextToken: S.optional(S.String), maxResults: S.optional(S.Number) },
-  T.all(
-    T.Http({ method: "POST", uri: "/ListEncoderConfigurations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListCompositionsRequest",
+}) as any as S.Schema<ListCompositionsRequest>;
+export interface ListEncoderConfigurationsRequest {
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListEncoderConfigurationsRequest = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    maxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ListEncoderConfigurations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListIngestConfigurationsRequest extends S.Class<ListIngestConfigurationsRequest>(
-  "ListIngestConfigurationsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListEncoderConfigurationsRequest",
+}) as any as S.Schema<ListEncoderConfigurationsRequest>;
+export interface ListIngestConfigurationsRequest {
+  filterByStageArn?: string;
+  filterByState?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListIngestConfigurationsRequest = S.suspend(() =>
+  S.Struct({
     filterByStageArn: S.optional(S.String),
     filterByState: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/ListIngestConfigurations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ListIngestConfigurations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListParticipantEventsRequest extends S.Class<ListParticipantEventsRequest>(
-  "ListParticipantEventsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListIngestConfigurationsRequest",
+}) as any as S.Schema<ListIngestConfigurationsRequest>;
+export interface ListParticipantEventsRequest {
+  stageArn: string;
+  sessionId: string;
+  participantId: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListParticipantEventsRequest = S.suspend(() =>
+  S.Struct({
     stageArn: S.String,
     sessionId: S.String,
     participantId: S.String,
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/ListParticipantEvents" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ListParticipantEvents" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListParticipantReplicasRequest extends S.Class<ListParticipantReplicasRequest>(
-  "ListParticipantReplicasRequest",
-)(
-  {
+).annotations({
+  identifier: "ListParticipantEventsRequest",
+}) as any as S.Schema<ListParticipantEventsRequest>;
+export interface ListParticipantReplicasRequest {
+  sourceStageArn: string;
+  participantId: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListParticipantReplicasRequest = S.suspend(() =>
+  S.Struct({
     sourceStageArn: S.String,
     participantId: S.String,
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/ListParticipantReplicas" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ListParticipantReplicas" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListParticipantsRequest extends S.Class<ListParticipantsRequest>(
-  "ListParticipantsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListParticipantReplicasRequest",
+}) as any as S.Schema<ListParticipantReplicasRequest>;
+export interface ListParticipantsRequest {
+  stageArn: string;
+  sessionId: string;
+  filterByUserId?: string;
+  filterByPublished?: boolean;
+  filterByState?: string;
+  nextToken?: string;
+  maxResults?: number;
+  filterByRecordingState?: string;
+}
+export const ListParticipantsRequest = S.suspend(() =>
+  S.Struct({
     stageArn: S.String,
     sessionId: S.String,
     filterByUserId: S.optional(S.String),
@@ -612,276 +752,422 @@ export class ListParticipantsRequest extends S.Class<ListParticipantsRequest>(
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
     filterByRecordingState: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/ListParticipants" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ListParticipants" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListPublicKeysRequest extends S.Class<ListPublicKeysRequest>(
-  "ListPublicKeysRequest",
-)(
-  { nextToken: S.optional(S.String), maxResults: S.optional(S.Number) },
-  T.all(
-    T.Http({ method: "POST", uri: "/ListPublicKeys" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListParticipantsRequest",
+}) as any as S.Schema<ListParticipantsRequest>;
+export interface ListPublicKeysRequest {
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListPublicKeysRequest = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    maxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ListPublicKeys" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListStagesRequest extends S.Class<ListStagesRequest>(
-  "ListStagesRequest",
-)(
-  { nextToken: S.optional(S.String), maxResults: S.optional(S.Number) },
-  T.all(
-    T.Http({ method: "POST", uri: "/ListStages" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListPublicKeysRequest",
+}) as any as S.Schema<ListPublicKeysRequest>;
+export interface ListStagesRequest {
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListStagesRequest = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    maxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ListStages" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListStageSessionsRequest extends S.Class<ListStageSessionsRequest>(
-  "ListStageSessionsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListStagesRequest",
+}) as any as S.Schema<ListStagesRequest>;
+export interface ListStageSessionsRequest {
+  stageArn: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListStageSessionsRequest = S.suspend(() =>
+  S.Struct({
     stageArn: S.String,
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/ListStageSessions" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ListStageSessions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListStorageConfigurationsRequest extends S.Class<ListStorageConfigurationsRequest>(
-  "ListStorageConfigurationsRequest",
-)(
-  { nextToken: S.optional(S.String), maxResults: S.optional(S.Number) },
-  T.all(
-    T.Http({ method: "POST", uri: "/ListStorageConfigurations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListStageSessionsRequest",
+}) as any as S.Schema<ListStageSessionsRequest>;
+export interface ListStorageConfigurationsRequest {
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListStorageConfigurationsRequest = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    maxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ListStorageConfigurations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListStorageConfigurationsRequest",
+}) as any as S.Schema<ListStorageConfigurationsRequest>;
+export interface ListTagsForResourceRequest {
+  resourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export type ParticipantAttributes = { [key: string]: string };
 export const ParticipantAttributes = S.Record({
   key: S.String,
   value: S.String,
 });
-export class StartParticipantReplicationRequest extends S.Class<StartParticipantReplicationRequest>(
-  "StartParticipantReplicationRequest",
-)(
-  {
+export interface StartParticipantReplicationRequest {
+  sourceStageArn: string;
+  destinationStageArn: string;
+  participantId: string;
+  reconnectWindowSeconds?: number;
+  attributes?: ParticipantAttributes;
+}
+export const StartParticipantReplicationRequest = S.suspend(() =>
+  S.Struct({
     sourceStageArn: S.String,
     destinationStageArn: S.String,
     participantId: S.String,
     reconnectWindowSeconds: S.optional(S.Number),
     attributes: S.optional(ParticipantAttributes),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/StartParticipantReplication" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/StartParticipantReplication" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StopCompositionRequest extends S.Class<StopCompositionRequest>(
-  "StopCompositionRequest",
-)(
-  { arn: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/StopComposition" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "StartParticipantReplicationRequest",
+}) as any as S.Schema<StartParticipantReplicationRequest>;
+export interface StopCompositionRequest {
+  arn: string;
+}
+export const StopCompositionRequest = S.suspend(() =>
+  S.Struct({ arn: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/StopComposition" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StopCompositionResponse extends S.Class<StopCompositionResponse>(
-  "StopCompositionResponse",
-)({}) {}
-export class StopParticipantReplicationRequest extends S.Class<StopParticipantReplicationRequest>(
-  "StopParticipantReplicationRequest",
-)(
-  {
+).annotations({
+  identifier: "StopCompositionRequest",
+}) as any as S.Schema<StopCompositionRequest>;
+export interface StopCompositionResponse {}
+export const StopCompositionResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "StopCompositionResponse",
+}) as any as S.Schema<StopCompositionResponse>;
+export interface StopParticipantReplicationRequest {
+  sourceStageArn: string;
+  destinationStageArn: string;
+  participantId: string;
+}
+export const StopParticipantReplicationRequest = S.suspend(() =>
+  S.Struct({
     sourceStageArn: S.String,
     destinationStageArn: S.String,
     participantId: S.String,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/StopParticipantReplication" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/StopParticipantReplication" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: Tags },
-  T.all(
-    T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "StopParticipantReplicationRequest",
+}) as any as S.Schema<StopParticipantReplicationRequest>;
+export interface TagResourceRequest {
+  resourceArn: string;
+  tags: Tags;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+    tags: Tags,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UntagResourceRequest {
+  resourceArn: string;
+  tagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
-export class UpdateIngestConfigurationRequest extends S.Class<UpdateIngestConfigurationRequest>(
-  "UpdateIngestConfigurationRequest",
-)(
-  { arn: S.String, stageArn: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/UpdateIngestConfiguration" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface UpdateIngestConfigurationRequest {
+  arn: string;
+  stageArn?: string;
+}
+export const UpdateIngestConfigurationRequest = S.suspend(() =>
+  S.Struct({ arn: S.String, stageArn: S.optional(S.String) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/UpdateIngestConfiguration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "UpdateIngestConfigurationRequest",
+}) as any as S.Schema<UpdateIngestConfigurationRequest>;
+export type ParticipantRecordingMediaTypeList = string[];
 export const ParticipantRecordingMediaTypeList = S.Array(S.String);
+export type ThumbnailStorageTypeList = string[];
 export const ThumbnailStorageTypeList = S.Array(S.String);
-export class ParticipantThumbnailConfiguration extends S.Class<ParticipantThumbnailConfiguration>(
-  "ParticipantThumbnailConfiguration",
-)({
-  targetIntervalSeconds: S.optional(S.Number),
-  storage: S.optional(ThumbnailStorageTypeList),
-  recordingMode: S.optional(S.String),
-}) {}
-export class ParticipantRecordingHlsConfiguration extends S.Class<ParticipantRecordingHlsConfiguration>(
-  "ParticipantRecordingHlsConfiguration",
-)({ targetSegmentDurationSeconds: S.optional(S.Number) }) {}
-export class AutoParticipantRecordingConfiguration extends S.Class<AutoParticipantRecordingConfiguration>(
-  "AutoParticipantRecordingConfiguration",
-)({
-  storageConfigurationArn: S.String,
-  mediaTypes: S.optional(ParticipantRecordingMediaTypeList),
-  thumbnailConfiguration: S.optional(ParticipantThumbnailConfiguration),
-  recordingReconnectWindowSeconds: S.optional(S.Number),
-  hlsConfiguration: S.optional(ParticipantRecordingHlsConfiguration),
-  recordParticipantReplicas: S.optional(S.Boolean),
-}) {}
-export class UpdateStageRequest extends S.Class<UpdateStageRequest>(
-  "UpdateStageRequest",
-)(
-  {
+export interface ParticipantThumbnailConfiguration {
+  targetIntervalSeconds?: number;
+  storage?: ThumbnailStorageTypeList;
+  recordingMode?: string;
+}
+export const ParticipantThumbnailConfiguration = S.suspend(() =>
+  S.Struct({
+    targetIntervalSeconds: S.optional(S.Number),
+    storage: S.optional(ThumbnailStorageTypeList),
+    recordingMode: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ParticipantThumbnailConfiguration",
+}) as any as S.Schema<ParticipantThumbnailConfiguration>;
+export interface ParticipantRecordingHlsConfiguration {
+  targetSegmentDurationSeconds?: number;
+}
+export const ParticipantRecordingHlsConfiguration = S.suspend(() =>
+  S.Struct({ targetSegmentDurationSeconds: S.optional(S.Number) }),
+).annotations({
+  identifier: "ParticipantRecordingHlsConfiguration",
+}) as any as S.Schema<ParticipantRecordingHlsConfiguration>;
+export interface AutoParticipantRecordingConfiguration {
+  storageConfigurationArn: string;
+  mediaTypes?: ParticipantRecordingMediaTypeList;
+  thumbnailConfiguration?: ParticipantThumbnailConfiguration;
+  recordingReconnectWindowSeconds?: number;
+  hlsConfiguration?: ParticipantRecordingHlsConfiguration;
+  recordParticipantReplicas?: boolean;
+}
+export const AutoParticipantRecordingConfiguration = S.suspend(() =>
+  S.Struct({
+    storageConfigurationArn: S.String,
+    mediaTypes: S.optional(ParticipantRecordingMediaTypeList),
+    thumbnailConfiguration: S.optional(ParticipantThumbnailConfiguration),
+    recordingReconnectWindowSeconds: S.optional(S.Number),
+    hlsConfiguration: S.optional(ParticipantRecordingHlsConfiguration),
+    recordParticipantReplicas: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "AutoParticipantRecordingConfiguration",
+}) as any as S.Schema<AutoParticipantRecordingConfiguration>;
+export interface UpdateStageRequest {
+  arn: string;
+  name?: string;
+  autoParticipantRecordingConfiguration?: AutoParticipantRecordingConfiguration;
+}
+export const UpdateStageRequest = S.suspend(() =>
+  S.Struct({
     arn: S.String,
     name: S.optional(S.String),
     autoParticipantRecordingConfiguration: S.optional(
       AutoParticipantRecordingConfiguration,
     ),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/UpdateStage" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/UpdateStage" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class Video extends S.Class<Video>("Video")({
-  width: S.optional(S.Number),
-  height: S.optional(S.Number),
-  framerate: S.optional(S.Number),
-  bitrate: S.optional(S.Number),
-}) {}
+).annotations({
+  identifier: "UpdateStageRequest",
+}) as any as S.Schema<UpdateStageRequest>;
+export interface Video {
+  width?: number;
+  height?: number;
+  framerate?: number;
+  bitrate?: number;
+}
+export const Video = S.suspend(() =>
+  S.Struct({
+    width: S.optional(S.Number),
+    height: S.optional(S.Number),
+    framerate: S.optional(S.Number),
+    bitrate: S.optional(S.Number),
+  }),
+).annotations({ identifier: "Video" }) as any as S.Schema<Video>;
+export type ParticipantTokenAttributes = { [key: string]: string };
 export const ParticipantTokenAttributes = S.Record({
   key: S.String,
   value: S.String,
 });
-export class ParticipantTokenConfiguration extends S.Class<ParticipantTokenConfiguration>(
-  "ParticipantTokenConfiguration",
-)({
-  duration: S.optional(S.Number),
-  userId: S.optional(S.String),
-  attributes: S.optional(ParticipantTokenAttributes),
-  capabilities: S.optional(ParticipantTokenCapabilities),
-}) {}
+export interface ParticipantTokenConfiguration {
+  duration?: number;
+  userId?: string;
+  attributes?: ParticipantTokenAttributes;
+  capabilities?: ParticipantTokenCapabilities;
+}
+export const ParticipantTokenConfiguration = S.suspend(() =>
+  S.Struct({
+    duration: S.optional(S.Number),
+    userId: S.optional(S.String),
+    attributes: S.optional(ParticipantTokenAttributes),
+    capabilities: S.optional(ParticipantTokenCapabilities),
+  }),
+).annotations({
+  identifier: "ParticipantTokenConfiguration",
+}) as any as S.Schema<ParticipantTokenConfiguration>;
+export type ParticipantTokenConfigurations = ParticipantTokenConfiguration[];
 export const ParticipantTokenConfigurations = S.Array(
   ParticipantTokenConfiguration,
 );
-export class S3StorageConfiguration extends S.Class<S3StorageConfiguration>(
-  "S3StorageConfiguration",
-)({ bucketName: S.String }) {}
+export interface S3StorageConfiguration {
+  bucketName: string;
+}
+export const S3StorageConfiguration = S.suspend(() =>
+  S.Struct({ bucketName: S.String }),
+).annotations({
+  identifier: "S3StorageConfiguration",
+}) as any as S.Schema<S3StorageConfiguration>;
+export type EncoderConfigurationArnList = string[];
 export const EncoderConfigurationArnList = S.Array(S.String);
-export class CreateEncoderConfigurationRequest extends S.Class<CreateEncoderConfigurationRequest>(
-  "CreateEncoderConfigurationRequest",
-)(
-  {
+export interface CreateEncoderConfigurationRequest {
+  name?: string;
+  video?: Video;
+  tags?: Tags;
+}
+export const CreateEncoderConfigurationRequest = S.suspend(() =>
+  S.Struct({
     name: S.optional(S.String),
     video: S.optional(Video),
     tags: S.optional(Tags),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/CreateEncoderConfiguration" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/CreateEncoderConfiguration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateIngestConfigurationRequest extends S.Class<CreateIngestConfigurationRequest>(
-  "CreateIngestConfigurationRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateEncoderConfigurationRequest",
+}) as any as S.Schema<CreateEncoderConfigurationRequest>;
+export interface CreateIngestConfigurationRequest {
+  name?: string;
+  stageArn?: string;
+  userId?: string;
+  attributes?: ParticipantAttributes;
+  ingestProtocol: string;
+  insecureIngest?: boolean;
+  tags?: Tags;
+}
+export const CreateIngestConfigurationRequest = S.suspend(() =>
+  S.Struct({
     name: S.optional(S.String),
     stageArn: S.optional(S.String),
     userId: S.optional(S.String),
@@ -889,531 +1175,1084 @@ export class CreateIngestConfigurationRequest extends S.Class<CreateIngestConfig
     ingestProtocol: S.String,
     insecureIngest: S.optional(S.Boolean),
     tags: S.optional(Tags),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/CreateIngestConfiguration" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/CreateIngestConfiguration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateParticipantTokenRequest extends S.Class<CreateParticipantTokenRequest>(
-  "CreateParticipantTokenRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateIngestConfigurationRequest",
+}) as any as S.Schema<CreateIngestConfigurationRequest>;
+export interface CreateParticipantTokenRequest {
+  stageArn: string;
+  duration?: number;
+  userId?: string;
+  attributes?: ParticipantTokenAttributes;
+  capabilities?: ParticipantTokenCapabilities;
+}
+export const CreateParticipantTokenRequest = S.suspend(() =>
+  S.Struct({
     stageArn: S.String,
     duration: S.optional(S.Number),
     userId: S.optional(S.String),
     attributes: S.optional(ParticipantTokenAttributes),
     capabilities: S.optional(ParticipantTokenCapabilities),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/CreateParticipantToken" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/CreateParticipantToken" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateStorageConfigurationRequest extends S.Class<CreateStorageConfigurationRequest>(
-  "CreateStorageConfigurationRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateParticipantTokenRequest",
+}) as any as S.Schema<CreateParticipantTokenRequest>;
+export interface CreateStorageConfigurationRequest {
+  name?: string;
+  s3: S3StorageConfiguration;
+  tags?: Tags;
+}
+export const CreateStorageConfigurationRequest = S.suspend(() =>
+  S.Struct({
     name: S.optional(S.String),
     s3: S3StorageConfiguration,
     tags: S.optional(Tags),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/CreateStorageConfiguration" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/CreateStorageConfiguration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PublicKey extends S.Class<PublicKey>("PublicKey")({
-  arn: S.optional(S.String),
-  name: S.optional(S.String),
-  publicKeyMaterial: S.optional(S.String),
-  fingerprint: S.optional(S.String),
-  tags: S.optional(Tags),
-}) {}
-export class ImportPublicKeyResponse extends S.Class<ImportPublicKeyResponse>(
-  "ImportPublicKeyResponse",
-)({ publicKey: S.optional(PublicKey) }) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ tags: Tags }) {}
-export class StartParticipantReplicationResponse extends S.Class<StartParticipantReplicationResponse>(
-  "StartParticipantReplicationResponse",
-)({
-  accessControlAllowOrigin: S.optional(S.String).pipe(
-    T.HttpHeader("Access-Control-Allow-Origin"),
-  ),
-  accessControlExposeHeaders: S.optional(S.String).pipe(
-    T.HttpHeader("Access-Control-Expose-Headers"),
-  ),
-  cacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-  contentSecurityPolicy: S.optional(S.String).pipe(
-    T.HttpHeader("Content-Security-Policy"),
-  ),
-  strictTransportSecurity: S.optional(S.String).pipe(
-    T.HttpHeader("Strict-Transport-Security"),
-  ),
-  xContentTypeOptions: S.optional(S.String).pipe(
-    T.HttpHeader("X-Content-Type-Options"),
-  ),
-  xFrameOptions: S.optional(S.String).pipe(T.HttpHeader("X-Frame-Options")),
-}) {}
-export class StopParticipantReplicationResponse extends S.Class<StopParticipantReplicationResponse>(
-  "StopParticipantReplicationResponse",
-)({
-  accessControlAllowOrigin: S.optional(S.String).pipe(
-    T.HttpHeader("Access-Control-Allow-Origin"),
-  ),
-  accessControlExposeHeaders: S.optional(S.String).pipe(
-    T.HttpHeader("Access-Control-Expose-Headers"),
-  ),
-  cacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-  contentSecurityPolicy: S.optional(S.String).pipe(
-    T.HttpHeader("Content-Security-Policy"),
-  ),
-  strictTransportSecurity: S.optional(S.String).pipe(
-    T.HttpHeader("Strict-Transport-Security"),
-  ),
-  xContentTypeOptions: S.optional(S.String).pipe(
-    T.HttpHeader("X-Content-Type-Options"),
-  ),
-  xFrameOptions: S.optional(S.String).pipe(T.HttpHeader("X-Frame-Options")),
-}) {}
-export class IngestConfiguration extends S.Class<IngestConfiguration>(
-  "IngestConfiguration",
-)({
-  name: S.optional(S.String),
-  arn: S.String,
-  ingestProtocol: S.String,
-  streamKey: S.String,
-  stageArn: S.String,
-  participantId: S.String,
-  state: S.String,
-  userId: S.optional(S.String),
-  attributes: S.optional(ParticipantAttributes),
-  tags: S.optional(Tags),
-}) {}
-export class UpdateIngestConfigurationResponse extends S.Class<UpdateIngestConfigurationResponse>(
-  "UpdateIngestConfigurationResponse",
-)({ ingestConfiguration: S.optional(IngestConfiguration) }) {}
-export class StageEndpoints extends S.Class<StageEndpoints>("StageEndpoints")({
-  events: S.optional(S.String),
-  whip: S.optional(S.String),
-  rtmp: S.optional(S.String),
-  rtmps: S.optional(S.String),
-}) {}
-export class Stage extends S.Class<Stage>("Stage")({
-  arn: S.String,
-  name: S.optional(S.String),
-  activeSessionId: S.optional(S.String),
-  tags: S.optional(Tags),
-  autoParticipantRecordingConfiguration: S.optional(
-    AutoParticipantRecordingConfiguration,
-  ),
-  endpoints: S.optional(StageEndpoints),
-}) {}
-export class UpdateStageResponse extends S.Class<UpdateStageResponse>(
-  "UpdateStageResponse",
-)({ stage: S.optional(Stage) }) {}
-export class GridConfiguration extends S.Class<GridConfiguration>(
-  "GridConfiguration",
-)({
-  featuredParticipantAttribute: S.optional(S.String),
-  omitStoppedVideo: S.optional(S.Boolean),
-  videoAspectRatio: S.optional(S.String),
-  videoFillMode: S.optional(S.String),
-  gridGap: S.optional(S.Number),
-  participantOrderAttribute: S.optional(S.String),
-}) {}
-export class PipConfiguration extends S.Class<PipConfiguration>(
-  "PipConfiguration",
-)({
-  featuredParticipantAttribute: S.optional(S.String),
-  omitStoppedVideo: S.optional(S.Boolean),
-  videoFillMode: S.optional(S.String),
-  gridGap: S.optional(S.Number),
-  pipParticipantAttribute: S.optional(S.String),
-  pipBehavior: S.optional(S.String),
-  pipOffset: S.optional(S.Number),
-  pipPosition: S.optional(S.String),
-  pipWidth: S.optional(S.Number),
-  pipHeight: S.optional(S.Number),
-  participantOrderAttribute: S.optional(S.String),
-}) {}
-export class ChannelDestinationConfiguration extends S.Class<ChannelDestinationConfiguration>(
-  "ChannelDestinationConfiguration",
-)({ channelArn: S.String, encoderConfigurationArn: S.optional(S.String) }) {}
-export class EncoderConfiguration extends S.Class<EncoderConfiguration>(
-  "EncoderConfiguration",
-)({
-  arn: S.String,
-  name: S.optional(S.String),
-  video: S.optional(Video),
-  tags: S.optional(Tags),
-}) {}
-export class Participant extends S.Class<Participant>("Participant")({
-  participantId: S.optional(S.String),
-  userId: S.optional(S.String),
-  state: S.optional(S.String),
-  firstJoinTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  attributes: S.optional(ParticipantAttributes),
-  published: S.optional(S.Boolean),
-  ispName: S.optional(S.String),
-  osName: S.optional(S.String),
-  osVersion: S.optional(S.String),
-  browserName: S.optional(S.String),
-  browserVersion: S.optional(S.String),
-  sdkVersion: S.optional(S.String),
-  recordingS3BucketName: S.optional(S.String),
-  recordingS3Prefix: S.optional(S.String),
-  recordingState: S.optional(S.String),
-  protocol: S.optional(S.String),
-  replicationType: S.optional(S.String),
-  replicationState: S.optional(S.String),
-  sourceStageArn: S.optional(S.String),
-  sourceSessionId: S.optional(S.String),
-}) {}
-export class StageSession extends S.Class<StageSession>("StageSession")({
-  sessionId: S.optional(S.String),
-  startTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-}) {}
-export class StorageConfiguration extends S.Class<StorageConfiguration>(
-  "StorageConfiguration",
-)({
-  arn: S.String,
-  name: S.optional(S.String),
-  s3: S.optional(S3StorageConfiguration),
-  tags: S.optional(Tags),
-}) {}
-export class EncoderConfigurationSummary extends S.Class<EncoderConfigurationSummary>(
-  "EncoderConfigurationSummary",
-)({ arn: S.String, name: S.optional(S.String), tags: S.optional(Tags) }) {}
+).annotations({
+  identifier: "CreateStorageConfigurationRequest",
+}) as any as S.Schema<CreateStorageConfigurationRequest>;
+export interface PublicKey {
+  arn?: string;
+  name?: string;
+  publicKeyMaterial?: string;
+  fingerprint?: string;
+  tags?: Tags;
+}
+export const PublicKey = S.suspend(() =>
+  S.Struct({
+    arn: S.optional(S.String),
+    name: S.optional(S.String),
+    publicKeyMaterial: S.optional(S.String),
+    fingerprint: S.optional(S.String),
+    tags: S.optional(Tags),
+  }),
+).annotations({ identifier: "PublicKey" }) as any as S.Schema<PublicKey>;
+export interface ImportPublicKeyResponse {
+  publicKey?: PublicKey;
+}
+export const ImportPublicKeyResponse = S.suspend(() =>
+  S.Struct({ publicKey: S.optional(PublicKey) }),
+).annotations({
+  identifier: "ImportPublicKeyResponse",
+}) as any as S.Schema<ImportPublicKeyResponse>;
+export interface ListTagsForResourceResponse {
+  tags: Tags;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ tags: Tags }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface StartParticipantReplicationResponse {
+  accessControlAllowOrigin?: string;
+  accessControlExposeHeaders?: string;
+  cacheControl?: string;
+  contentSecurityPolicy?: string;
+  strictTransportSecurity?: string;
+  xContentTypeOptions?: string;
+  xFrameOptions?: string;
+}
+export const StartParticipantReplicationResponse = S.suspend(() =>
+  S.Struct({
+    accessControlAllowOrigin: S.optional(S.String).pipe(
+      T.HttpHeader("Access-Control-Allow-Origin"),
+    ),
+    accessControlExposeHeaders: S.optional(S.String).pipe(
+      T.HttpHeader("Access-Control-Expose-Headers"),
+    ),
+    cacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
+    contentSecurityPolicy: S.optional(S.String).pipe(
+      T.HttpHeader("Content-Security-Policy"),
+    ),
+    strictTransportSecurity: S.optional(S.String).pipe(
+      T.HttpHeader("Strict-Transport-Security"),
+    ),
+    xContentTypeOptions: S.optional(S.String).pipe(
+      T.HttpHeader("X-Content-Type-Options"),
+    ),
+    xFrameOptions: S.optional(S.String).pipe(T.HttpHeader("X-Frame-Options")),
+  }),
+).annotations({
+  identifier: "StartParticipantReplicationResponse",
+}) as any as S.Schema<StartParticipantReplicationResponse>;
+export interface StopParticipantReplicationResponse {
+  accessControlAllowOrigin?: string;
+  accessControlExposeHeaders?: string;
+  cacheControl?: string;
+  contentSecurityPolicy?: string;
+  strictTransportSecurity?: string;
+  xContentTypeOptions?: string;
+  xFrameOptions?: string;
+}
+export const StopParticipantReplicationResponse = S.suspend(() =>
+  S.Struct({
+    accessControlAllowOrigin: S.optional(S.String).pipe(
+      T.HttpHeader("Access-Control-Allow-Origin"),
+    ),
+    accessControlExposeHeaders: S.optional(S.String).pipe(
+      T.HttpHeader("Access-Control-Expose-Headers"),
+    ),
+    cacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
+    contentSecurityPolicy: S.optional(S.String).pipe(
+      T.HttpHeader("Content-Security-Policy"),
+    ),
+    strictTransportSecurity: S.optional(S.String).pipe(
+      T.HttpHeader("Strict-Transport-Security"),
+    ),
+    xContentTypeOptions: S.optional(S.String).pipe(
+      T.HttpHeader("X-Content-Type-Options"),
+    ),
+    xFrameOptions: S.optional(S.String).pipe(T.HttpHeader("X-Frame-Options")),
+  }),
+).annotations({
+  identifier: "StopParticipantReplicationResponse",
+}) as any as S.Schema<StopParticipantReplicationResponse>;
+export interface IngestConfiguration {
+  name?: string;
+  arn: string;
+  ingestProtocol: string;
+  streamKey: string;
+  stageArn: string;
+  participantId: string;
+  state: string;
+  userId?: string;
+  attributes?: ParticipantAttributes;
+  tags?: Tags;
+}
+export const IngestConfiguration = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    arn: S.String,
+    ingestProtocol: S.String,
+    streamKey: S.String,
+    stageArn: S.String,
+    participantId: S.String,
+    state: S.String,
+    userId: S.optional(S.String),
+    attributes: S.optional(ParticipantAttributes),
+    tags: S.optional(Tags),
+  }),
+).annotations({
+  identifier: "IngestConfiguration",
+}) as any as S.Schema<IngestConfiguration>;
+export interface UpdateIngestConfigurationResponse {
+  ingestConfiguration?: IngestConfiguration;
+}
+export const UpdateIngestConfigurationResponse = S.suspend(() =>
+  S.Struct({ ingestConfiguration: S.optional(IngestConfiguration) }),
+).annotations({
+  identifier: "UpdateIngestConfigurationResponse",
+}) as any as S.Schema<UpdateIngestConfigurationResponse>;
+export interface StageEndpoints {
+  events?: string;
+  whip?: string;
+  rtmp?: string;
+  rtmps?: string;
+}
+export const StageEndpoints = S.suspend(() =>
+  S.Struct({
+    events: S.optional(S.String),
+    whip: S.optional(S.String),
+    rtmp: S.optional(S.String),
+    rtmps: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "StageEndpoints",
+}) as any as S.Schema<StageEndpoints>;
+export interface Stage {
+  arn: string;
+  name?: string;
+  activeSessionId?: string;
+  tags?: Tags;
+  autoParticipantRecordingConfiguration?: AutoParticipantRecordingConfiguration;
+  endpoints?: StageEndpoints;
+}
+export const Stage = S.suspend(() =>
+  S.Struct({
+    arn: S.String,
+    name: S.optional(S.String),
+    activeSessionId: S.optional(S.String),
+    tags: S.optional(Tags),
+    autoParticipantRecordingConfiguration: S.optional(
+      AutoParticipantRecordingConfiguration,
+    ),
+    endpoints: S.optional(StageEndpoints),
+  }),
+).annotations({ identifier: "Stage" }) as any as S.Schema<Stage>;
+export interface UpdateStageResponse {
+  stage?: Stage;
+}
+export const UpdateStageResponse = S.suspend(() =>
+  S.Struct({ stage: S.optional(Stage) }),
+).annotations({
+  identifier: "UpdateStageResponse",
+}) as any as S.Schema<UpdateStageResponse>;
+export interface GridConfiguration {
+  featuredParticipantAttribute?: string;
+  omitStoppedVideo?: boolean;
+  videoAspectRatio?: string;
+  videoFillMode?: string;
+  gridGap?: number;
+  participantOrderAttribute?: string;
+}
+export const GridConfiguration = S.suspend(() =>
+  S.Struct({
+    featuredParticipantAttribute: S.optional(S.String),
+    omitStoppedVideo: S.optional(S.Boolean),
+    videoAspectRatio: S.optional(S.String),
+    videoFillMode: S.optional(S.String),
+    gridGap: S.optional(S.Number),
+    participantOrderAttribute: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GridConfiguration",
+}) as any as S.Schema<GridConfiguration>;
+export interface PipConfiguration {
+  featuredParticipantAttribute?: string;
+  omitStoppedVideo?: boolean;
+  videoFillMode?: string;
+  gridGap?: number;
+  pipParticipantAttribute?: string;
+  pipBehavior?: string;
+  pipOffset?: number;
+  pipPosition?: string;
+  pipWidth?: number;
+  pipHeight?: number;
+  participantOrderAttribute?: string;
+}
+export const PipConfiguration = S.suspend(() =>
+  S.Struct({
+    featuredParticipantAttribute: S.optional(S.String),
+    omitStoppedVideo: S.optional(S.Boolean),
+    videoFillMode: S.optional(S.String),
+    gridGap: S.optional(S.Number),
+    pipParticipantAttribute: S.optional(S.String),
+    pipBehavior: S.optional(S.String),
+    pipOffset: S.optional(S.Number),
+    pipPosition: S.optional(S.String),
+    pipWidth: S.optional(S.Number),
+    pipHeight: S.optional(S.Number),
+    participantOrderAttribute: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "PipConfiguration",
+}) as any as S.Schema<PipConfiguration>;
+export interface ChannelDestinationConfiguration {
+  channelArn: string;
+  encoderConfigurationArn?: string;
+}
+export const ChannelDestinationConfiguration = S.suspend(() =>
+  S.Struct({
+    channelArn: S.String,
+    encoderConfigurationArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ChannelDestinationConfiguration",
+}) as any as S.Schema<ChannelDestinationConfiguration>;
+export interface EncoderConfiguration {
+  arn: string;
+  name?: string;
+  video?: Video;
+  tags?: Tags;
+}
+export const EncoderConfiguration = S.suspend(() =>
+  S.Struct({
+    arn: S.String,
+    name: S.optional(S.String),
+    video: S.optional(Video),
+    tags: S.optional(Tags),
+  }),
+).annotations({
+  identifier: "EncoderConfiguration",
+}) as any as S.Schema<EncoderConfiguration>;
+export interface Participant {
+  participantId?: string;
+  userId?: string;
+  state?: string;
+  firstJoinTime?: Date;
+  attributes?: ParticipantAttributes;
+  published?: boolean;
+  ispName?: string;
+  osName?: string;
+  osVersion?: string;
+  browserName?: string;
+  browserVersion?: string;
+  sdkVersion?: string;
+  recordingS3BucketName?: string;
+  recordingS3Prefix?: string;
+  recordingState?: string;
+  protocol?: string;
+  replicationType?: string;
+  replicationState?: string;
+  sourceStageArn?: string;
+  sourceSessionId?: string;
+}
+export const Participant = S.suspend(() =>
+  S.Struct({
+    participantId: S.optional(S.String),
+    userId: S.optional(S.String),
+    state: S.optional(S.String),
+    firstJoinTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    attributes: S.optional(ParticipantAttributes),
+    published: S.optional(S.Boolean),
+    ispName: S.optional(S.String),
+    osName: S.optional(S.String),
+    osVersion: S.optional(S.String),
+    browserName: S.optional(S.String),
+    browserVersion: S.optional(S.String),
+    sdkVersion: S.optional(S.String),
+    recordingS3BucketName: S.optional(S.String),
+    recordingS3Prefix: S.optional(S.String),
+    recordingState: S.optional(S.String),
+    protocol: S.optional(S.String),
+    replicationType: S.optional(S.String),
+    replicationState: S.optional(S.String),
+    sourceStageArn: S.optional(S.String),
+    sourceSessionId: S.optional(S.String),
+  }),
+).annotations({ identifier: "Participant" }) as any as S.Schema<Participant>;
+export interface StageSession {
+  sessionId?: string;
+  startTime?: Date;
+  endTime?: Date;
+}
+export const StageSession = S.suspend(() =>
+  S.Struct({
+    sessionId: S.optional(S.String),
+    startTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotations({ identifier: "StageSession" }) as any as S.Schema<StageSession>;
+export interface StorageConfiguration {
+  arn: string;
+  name?: string;
+  s3?: S3StorageConfiguration;
+  tags?: Tags;
+}
+export const StorageConfiguration = S.suspend(() =>
+  S.Struct({
+    arn: S.String,
+    name: S.optional(S.String),
+    s3: S.optional(S3StorageConfiguration),
+    tags: S.optional(Tags),
+  }),
+).annotations({
+  identifier: "StorageConfiguration",
+}) as any as S.Schema<StorageConfiguration>;
+export interface EncoderConfigurationSummary {
+  arn: string;
+  name?: string;
+  tags?: Tags;
+}
+export const EncoderConfigurationSummary = S.suspend(() =>
+  S.Struct({
+    arn: S.String,
+    name: S.optional(S.String),
+    tags: S.optional(Tags),
+  }),
+).annotations({
+  identifier: "EncoderConfigurationSummary",
+}) as any as S.Schema<EncoderConfigurationSummary>;
+export type EncoderConfigurationSummaryList = EncoderConfigurationSummary[];
 export const EncoderConfigurationSummaryList = S.Array(
   EncoderConfigurationSummary,
 );
-export class IngestConfigurationSummary extends S.Class<IngestConfigurationSummary>(
-  "IngestConfigurationSummary",
-)({
-  name: S.optional(S.String),
-  arn: S.String,
-  ingestProtocol: S.String,
-  stageArn: S.String,
-  participantId: S.String,
-  state: S.String,
-  userId: S.optional(S.String),
-}) {}
+export interface IngestConfigurationSummary {
+  name?: string;
+  arn: string;
+  ingestProtocol: string;
+  stageArn: string;
+  participantId: string;
+  state: string;
+  userId?: string;
+}
+export const IngestConfigurationSummary = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    arn: S.String,
+    ingestProtocol: S.String,
+    stageArn: S.String,
+    participantId: S.String,
+    state: S.String,
+    userId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "IngestConfigurationSummary",
+}) as any as S.Schema<IngestConfigurationSummary>;
+export type IngestConfigurationList = IngestConfigurationSummary[];
 export const IngestConfigurationList = S.Array(IngestConfigurationSummary);
-export class ParticipantReplica extends S.Class<ParticipantReplica>(
-  "ParticipantReplica",
-)({
-  sourceStageArn: S.String,
-  participantId: S.String,
-  sourceSessionId: S.String,
-  destinationStageArn: S.String,
-  destinationSessionId: S.String,
-  replicationState: S.String,
-}) {}
+export interface ParticipantReplica {
+  sourceStageArn: string;
+  participantId: string;
+  sourceSessionId: string;
+  destinationStageArn: string;
+  destinationSessionId: string;
+  replicationState: string;
+}
+export const ParticipantReplica = S.suspend(() =>
+  S.Struct({
+    sourceStageArn: S.String,
+    participantId: S.String,
+    sourceSessionId: S.String,
+    destinationStageArn: S.String,
+    destinationSessionId: S.String,
+    replicationState: S.String,
+  }),
+).annotations({
+  identifier: "ParticipantReplica",
+}) as any as S.Schema<ParticipantReplica>;
+export type ParticipantReplicaList = ParticipantReplica[];
 export const ParticipantReplicaList = S.Array(ParticipantReplica);
-export class ParticipantSummary extends S.Class<ParticipantSummary>(
-  "ParticipantSummary",
-)({
-  participantId: S.optional(S.String),
-  userId: S.optional(S.String),
-  state: S.optional(S.String),
-  firstJoinTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  published: S.optional(S.Boolean),
-  recordingState: S.optional(S.String),
-  replicationType: S.optional(S.String),
-  replicationState: S.optional(S.String),
-  sourceStageArn: S.optional(S.String),
-  sourceSessionId: S.optional(S.String),
-}) {}
+export interface ParticipantSummary {
+  participantId?: string;
+  userId?: string;
+  state?: string;
+  firstJoinTime?: Date;
+  published?: boolean;
+  recordingState?: string;
+  replicationType?: string;
+  replicationState?: string;
+  sourceStageArn?: string;
+  sourceSessionId?: string;
+}
+export const ParticipantSummary = S.suspend(() =>
+  S.Struct({
+    participantId: S.optional(S.String),
+    userId: S.optional(S.String),
+    state: S.optional(S.String),
+    firstJoinTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    published: S.optional(S.Boolean),
+    recordingState: S.optional(S.String),
+    replicationType: S.optional(S.String),
+    replicationState: S.optional(S.String),
+    sourceStageArn: S.optional(S.String),
+    sourceSessionId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ParticipantSummary",
+}) as any as S.Schema<ParticipantSummary>;
+export type ParticipantList = ParticipantSummary[];
 export const ParticipantList = S.Array(ParticipantSummary);
-export class PublicKeySummary extends S.Class<PublicKeySummary>(
-  "PublicKeySummary",
-)({
-  arn: S.optional(S.String),
-  name: S.optional(S.String),
-  tags: S.optional(Tags),
-}) {}
+export interface PublicKeySummary {
+  arn?: string;
+  name?: string;
+  tags?: Tags;
+}
+export const PublicKeySummary = S.suspend(() =>
+  S.Struct({
+    arn: S.optional(S.String),
+    name: S.optional(S.String),
+    tags: S.optional(Tags),
+  }),
+).annotations({
+  identifier: "PublicKeySummary",
+}) as any as S.Schema<PublicKeySummary>;
+export type PublicKeyList = PublicKeySummary[];
 export const PublicKeyList = S.Array(PublicKeySummary);
-export class StageSummary extends S.Class<StageSummary>("StageSummary")({
-  arn: S.String,
-  name: S.optional(S.String),
-  activeSessionId: S.optional(S.String),
-  tags: S.optional(Tags),
-}) {}
+export interface StageSummary {
+  arn: string;
+  name?: string;
+  activeSessionId?: string;
+  tags?: Tags;
+}
+export const StageSummary = S.suspend(() =>
+  S.Struct({
+    arn: S.String,
+    name: S.optional(S.String),
+    activeSessionId: S.optional(S.String),
+    tags: S.optional(Tags),
+  }),
+).annotations({ identifier: "StageSummary" }) as any as S.Schema<StageSummary>;
+export type StageSummaryList = StageSummary[];
 export const StageSummaryList = S.Array(StageSummary);
-export class StageSessionSummary extends S.Class<StageSessionSummary>(
-  "StageSessionSummary",
-)({
-  sessionId: S.optional(S.String),
-  startTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-}) {}
+export interface StageSessionSummary {
+  sessionId?: string;
+  startTime?: Date;
+  endTime?: Date;
+}
+export const StageSessionSummary = S.suspend(() =>
+  S.Struct({
+    sessionId: S.optional(S.String),
+    startTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotations({
+  identifier: "StageSessionSummary",
+}) as any as S.Schema<StageSessionSummary>;
+export type StageSessionList = StageSessionSummary[];
 export const StageSessionList = S.Array(StageSessionSummary);
-export class StorageConfigurationSummary extends S.Class<StorageConfigurationSummary>(
-  "StorageConfigurationSummary",
-)({
-  arn: S.String,
-  name: S.optional(S.String),
-  s3: S.optional(S3StorageConfiguration),
-  tags: S.optional(Tags),
-}) {}
+export interface StorageConfigurationSummary {
+  arn: string;
+  name?: string;
+  s3?: S3StorageConfiguration;
+  tags?: Tags;
+}
+export const StorageConfigurationSummary = S.suspend(() =>
+  S.Struct({
+    arn: S.String,
+    name: S.optional(S.String),
+    s3: S.optional(S3StorageConfiguration),
+    tags: S.optional(Tags),
+  }),
+).annotations({
+  identifier: "StorageConfigurationSummary",
+}) as any as S.Schema<StorageConfigurationSummary>;
+export type StorageConfigurationSummaryList = StorageConfigurationSummary[];
 export const StorageConfigurationSummaryList = S.Array(
   StorageConfigurationSummary,
 );
-export class LayoutConfiguration extends S.Class<LayoutConfiguration>(
-  "LayoutConfiguration",
-)({ grid: S.optional(GridConfiguration), pip: S.optional(PipConfiguration) }) {}
-export class CompositionThumbnailConfiguration extends S.Class<CompositionThumbnailConfiguration>(
-  "CompositionThumbnailConfiguration",
-)({
-  targetIntervalSeconds: S.optional(S.Number),
-  storage: S.optional(ThumbnailStorageTypeList),
-}) {}
+export interface LayoutConfiguration {
+  grid?: GridConfiguration;
+  pip?: PipConfiguration;
+}
+export const LayoutConfiguration = S.suspend(() =>
+  S.Struct({
+    grid: S.optional(GridConfiguration),
+    pip: S.optional(PipConfiguration),
+  }),
+).annotations({
+  identifier: "LayoutConfiguration",
+}) as any as S.Schema<LayoutConfiguration>;
+export interface CompositionThumbnailConfiguration {
+  targetIntervalSeconds?: number;
+  storage?: ThumbnailStorageTypeList;
+}
+export const CompositionThumbnailConfiguration = S.suspend(() =>
+  S.Struct({
+    targetIntervalSeconds: S.optional(S.Number),
+    storage: S.optional(ThumbnailStorageTypeList),
+  }),
+).annotations({
+  identifier: "CompositionThumbnailConfiguration",
+}) as any as S.Schema<CompositionThumbnailConfiguration>;
+export type CompositionThumbnailConfigurationList =
+  CompositionThumbnailConfiguration[];
 export const CompositionThumbnailConfigurationList = S.Array(
   CompositionThumbnailConfiguration,
 );
-export class CreateEncoderConfigurationResponse extends S.Class<CreateEncoderConfigurationResponse>(
-  "CreateEncoderConfigurationResponse",
-)({ encoderConfiguration: S.optional(EncoderConfiguration) }) {}
-export class CreateIngestConfigurationResponse extends S.Class<CreateIngestConfigurationResponse>(
-  "CreateIngestConfigurationResponse",
-)({ ingestConfiguration: S.optional(IngestConfiguration) }) {}
-export class CreateStageRequest extends S.Class<CreateStageRequest>(
-  "CreateStageRequest",
-)(
-  {
+export interface CreateEncoderConfigurationResponse {
+  encoderConfiguration?: EncoderConfiguration;
+}
+export const CreateEncoderConfigurationResponse = S.suspend(() =>
+  S.Struct({ encoderConfiguration: S.optional(EncoderConfiguration) }),
+).annotations({
+  identifier: "CreateEncoderConfigurationResponse",
+}) as any as S.Schema<CreateEncoderConfigurationResponse>;
+export interface CreateIngestConfigurationResponse {
+  ingestConfiguration?: IngestConfiguration;
+}
+export const CreateIngestConfigurationResponse = S.suspend(() =>
+  S.Struct({ ingestConfiguration: S.optional(IngestConfiguration) }),
+).annotations({
+  identifier: "CreateIngestConfigurationResponse",
+}) as any as S.Schema<CreateIngestConfigurationResponse>;
+export interface CreateStageRequest {
+  name?: string;
+  participantTokenConfigurations?: ParticipantTokenConfigurations;
+  tags?: Tags;
+  autoParticipantRecordingConfiguration?: AutoParticipantRecordingConfiguration;
+}
+export const CreateStageRequest = S.suspend(() =>
+  S.Struct({
     name: S.optional(S.String),
     participantTokenConfigurations: S.optional(ParticipantTokenConfigurations),
     tags: S.optional(Tags),
     autoParticipantRecordingConfiguration: S.optional(
       AutoParticipantRecordingConfiguration,
     ),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/CreateStage" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/CreateStage" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateStorageConfigurationResponse extends S.Class<CreateStorageConfigurationResponse>(
-  "CreateStorageConfigurationResponse",
-)({ storageConfiguration: S.optional(StorageConfiguration) }) {}
-export class GetEncoderConfigurationResponse extends S.Class<GetEncoderConfigurationResponse>(
-  "GetEncoderConfigurationResponse",
-)({ encoderConfiguration: S.optional(EncoderConfiguration) }) {}
-export class GetIngestConfigurationResponse extends S.Class<GetIngestConfigurationResponse>(
-  "GetIngestConfigurationResponse",
-)({ ingestConfiguration: S.optional(IngestConfiguration) }) {}
-export class GetParticipantResponse extends S.Class<GetParticipantResponse>(
-  "GetParticipantResponse",
-)({ participant: S.optional(Participant) }) {}
-export class GetPublicKeyResponse extends S.Class<GetPublicKeyResponse>(
-  "GetPublicKeyResponse",
-)({ publicKey: S.optional(PublicKey) }) {}
-export class GetStageSessionResponse extends S.Class<GetStageSessionResponse>(
-  "GetStageSessionResponse",
-)({ stageSession: S.optional(StageSession) }) {}
-export class GetStorageConfigurationResponse extends S.Class<GetStorageConfigurationResponse>(
-  "GetStorageConfigurationResponse",
-)({ storageConfiguration: S.optional(StorageConfiguration) }) {}
-export class ListEncoderConfigurationsResponse extends S.Class<ListEncoderConfigurationsResponse>(
-  "ListEncoderConfigurationsResponse",
-)({
-  encoderConfigurations: EncoderConfigurationSummaryList,
-  nextToken: S.optional(S.String),
-}) {}
-export class ListIngestConfigurationsResponse extends S.Class<ListIngestConfigurationsResponse>(
-  "ListIngestConfigurationsResponse",
-)({
-  ingestConfigurations: IngestConfigurationList,
-  nextToken: S.optional(S.String),
-}) {}
-export class ListParticipantReplicasResponse extends S.Class<ListParticipantReplicasResponse>(
-  "ListParticipantReplicasResponse",
-)({ replicas: ParticipantReplicaList, nextToken: S.optional(S.String) }) {}
-export class ListParticipantsResponse extends S.Class<ListParticipantsResponse>(
-  "ListParticipantsResponse",
-)({ participants: ParticipantList, nextToken: S.optional(S.String) }) {}
-export class ListPublicKeysResponse extends S.Class<ListPublicKeysResponse>(
-  "ListPublicKeysResponse",
-)({ publicKeys: PublicKeyList, nextToken: S.optional(S.String) }) {}
-export class ListStagesResponse extends S.Class<ListStagesResponse>(
-  "ListStagesResponse",
-)({ stages: StageSummaryList, nextToken: S.optional(S.String) }) {}
-export class ListStageSessionsResponse extends S.Class<ListStageSessionsResponse>(
-  "ListStageSessionsResponse",
-)({ stageSessions: StageSessionList, nextToken: S.optional(S.String) }) {}
-export class ListStorageConfigurationsResponse extends S.Class<ListStorageConfigurationsResponse>(
-  "ListStorageConfigurationsResponse",
-)({
-  storageConfigurations: StorageConfigurationSummaryList,
-  nextToken: S.optional(S.String),
-}) {}
-export class DestinationSummary extends S.Class<DestinationSummary>(
-  "DestinationSummary",
-)({
-  id: S.String,
-  state: S.String,
-  startTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-}) {}
+).annotations({
+  identifier: "CreateStageRequest",
+}) as any as S.Schema<CreateStageRequest>;
+export interface CreateStorageConfigurationResponse {
+  storageConfiguration?: StorageConfiguration;
+}
+export const CreateStorageConfigurationResponse = S.suspend(() =>
+  S.Struct({ storageConfiguration: S.optional(StorageConfiguration) }),
+).annotations({
+  identifier: "CreateStorageConfigurationResponse",
+}) as any as S.Schema<CreateStorageConfigurationResponse>;
+export interface GetEncoderConfigurationResponse {
+  encoderConfiguration?: EncoderConfiguration;
+}
+export const GetEncoderConfigurationResponse = S.suspend(() =>
+  S.Struct({ encoderConfiguration: S.optional(EncoderConfiguration) }),
+).annotations({
+  identifier: "GetEncoderConfigurationResponse",
+}) as any as S.Schema<GetEncoderConfigurationResponse>;
+export interface GetIngestConfigurationResponse {
+  ingestConfiguration?: IngestConfiguration;
+}
+export const GetIngestConfigurationResponse = S.suspend(() =>
+  S.Struct({ ingestConfiguration: S.optional(IngestConfiguration) }),
+).annotations({
+  identifier: "GetIngestConfigurationResponse",
+}) as any as S.Schema<GetIngestConfigurationResponse>;
+export interface GetParticipantResponse {
+  participant?: Participant;
+}
+export const GetParticipantResponse = S.suspend(() =>
+  S.Struct({ participant: S.optional(Participant) }),
+).annotations({
+  identifier: "GetParticipantResponse",
+}) as any as S.Schema<GetParticipantResponse>;
+export interface GetPublicKeyResponse {
+  publicKey?: PublicKey;
+}
+export const GetPublicKeyResponse = S.suspend(() =>
+  S.Struct({ publicKey: S.optional(PublicKey) }),
+).annotations({
+  identifier: "GetPublicKeyResponse",
+}) as any as S.Schema<GetPublicKeyResponse>;
+export interface GetStageSessionResponse {
+  stageSession?: StageSession;
+}
+export const GetStageSessionResponse = S.suspend(() =>
+  S.Struct({ stageSession: S.optional(StageSession) }),
+).annotations({
+  identifier: "GetStageSessionResponse",
+}) as any as S.Schema<GetStageSessionResponse>;
+export interface GetStorageConfigurationResponse {
+  storageConfiguration?: StorageConfiguration;
+}
+export const GetStorageConfigurationResponse = S.suspend(() =>
+  S.Struct({ storageConfiguration: S.optional(StorageConfiguration) }),
+).annotations({
+  identifier: "GetStorageConfigurationResponse",
+}) as any as S.Schema<GetStorageConfigurationResponse>;
+export interface ListEncoderConfigurationsResponse {
+  encoderConfigurations: EncoderConfigurationSummaryList;
+  nextToken?: string;
+}
+export const ListEncoderConfigurationsResponse = S.suspend(() =>
+  S.Struct({
+    encoderConfigurations: EncoderConfigurationSummaryList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListEncoderConfigurationsResponse",
+}) as any as S.Schema<ListEncoderConfigurationsResponse>;
+export interface ListIngestConfigurationsResponse {
+  ingestConfigurations: IngestConfigurationList;
+  nextToken?: string;
+}
+export const ListIngestConfigurationsResponse = S.suspend(() =>
+  S.Struct({
+    ingestConfigurations: IngestConfigurationList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListIngestConfigurationsResponse",
+}) as any as S.Schema<ListIngestConfigurationsResponse>;
+export interface ListParticipantReplicasResponse {
+  replicas: ParticipantReplicaList;
+  nextToken?: string;
+}
+export const ListParticipantReplicasResponse = S.suspend(() =>
+  S.Struct({
+    replicas: ParticipantReplicaList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListParticipantReplicasResponse",
+}) as any as S.Schema<ListParticipantReplicasResponse>;
+export interface ListParticipantsResponse {
+  participants: ParticipantList;
+  nextToken?: string;
+}
+export const ListParticipantsResponse = S.suspend(() =>
+  S.Struct({ participants: ParticipantList, nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListParticipantsResponse",
+}) as any as S.Schema<ListParticipantsResponse>;
+export interface ListPublicKeysResponse {
+  publicKeys: PublicKeyList;
+  nextToken?: string;
+}
+export const ListPublicKeysResponse = S.suspend(() =>
+  S.Struct({ publicKeys: PublicKeyList, nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListPublicKeysResponse",
+}) as any as S.Schema<ListPublicKeysResponse>;
+export interface ListStagesResponse {
+  stages: StageSummaryList;
+  nextToken?: string;
+}
+export const ListStagesResponse = S.suspend(() =>
+  S.Struct({ stages: StageSummaryList, nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListStagesResponse",
+}) as any as S.Schema<ListStagesResponse>;
+export interface ListStageSessionsResponse {
+  stageSessions: StageSessionList;
+  nextToken?: string;
+}
+export const ListStageSessionsResponse = S.suspend(() =>
+  S.Struct({
+    stageSessions: StageSessionList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListStageSessionsResponse",
+}) as any as S.Schema<ListStageSessionsResponse>;
+export interface ListStorageConfigurationsResponse {
+  storageConfigurations: StorageConfigurationSummaryList;
+  nextToken?: string;
+}
+export const ListStorageConfigurationsResponse = S.suspend(() =>
+  S.Struct({
+    storageConfigurations: StorageConfigurationSummaryList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListStorageConfigurationsResponse",
+}) as any as S.Schema<ListStorageConfigurationsResponse>;
+export interface DestinationSummary {
+  id: string;
+  state: string;
+  startTime?: Date;
+  endTime?: Date;
+}
+export const DestinationSummary = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    state: S.String,
+    startTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotations({
+  identifier: "DestinationSummary",
+}) as any as S.Schema<DestinationSummary>;
+export type DestinationSummaryList = DestinationSummary[];
 export const DestinationSummaryList = S.Array(DestinationSummary);
-export class ExchangedParticipantToken extends S.Class<ExchangedParticipantToken>(
-  "ExchangedParticipantToken",
-)({
-  capabilities: S.optional(ParticipantTokenCapabilities),
-  attributes: S.optional(ParticipantTokenAttributes),
-  userId: S.optional(S.String),
-  expirationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-}) {}
-export class CompositionRecordingHlsConfiguration extends S.Class<CompositionRecordingHlsConfiguration>(
-  "CompositionRecordingHlsConfiguration",
-)({ targetSegmentDurationSeconds: S.optional(S.Number) }) {}
-export class ParticipantToken extends S.Class<ParticipantToken>(
-  "ParticipantToken",
-)({
-  participantId: S.optional(S.String),
-  token: S.optional(S.String),
-  userId: S.optional(S.String),
-  attributes: S.optional(ParticipantTokenAttributes),
-  duration: S.optional(S.Number),
-  capabilities: S.optional(ParticipantTokenCapabilities),
-  expirationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-}) {}
+export interface ExchangedParticipantToken {
+  capabilities?: ParticipantTokenCapabilities;
+  attributes?: ParticipantTokenAttributes;
+  userId?: string;
+  expirationTime?: Date;
+}
+export const ExchangedParticipantToken = S.suspend(() =>
+  S.Struct({
+    capabilities: S.optional(ParticipantTokenCapabilities),
+    attributes: S.optional(ParticipantTokenAttributes),
+    userId: S.optional(S.String),
+    expirationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotations({
+  identifier: "ExchangedParticipantToken",
+}) as any as S.Schema<ExchangedParticipantToken>;
+export interface CompositionRecordingHlsConfiguration {
+  targetSegmentDurationSeconds?: number;
+}
+export const CompositionRecordingHlsConfiguration = S.suspend(() =>
+  S.Struct({ targetSegmentDurationSeconds: S.optional(S.Number) }),
+).annotations({
+  identifier: "CompositionRecordingHlsConfiguration",
+}) as any as S.Schema<CompositionRecordingHlsConfiguration>;
+export interface ParticipantToken {
+  participantId?: string;
+  token?: string;
+  userId?: string;
+  attributes?: ParticipantTokenAttributes;
+  duration?: number;
+  capabilities?: ParticipantTokenCapabilities;
+  expirationTime?: Date;
+}
+export const ParticipantToken = S.suspend(() =>
+  S.Struct({
+    participantId: S.optional(S.String),
+    token: S.optional(S.String),
+    userId: S.optional(S.String),
+    attributes: S.optional(ParticipantTokenAttributes),
+    duration: S.optional(S.Number),
+    capabilities: S.optional(ParticipantTokenCapabilities),
+    expirationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotations({
+  identifier: "ParticipantToken",
+}) as any as S.Schema<ParticipantToken>;
+export type ParticipantTokenList = ParticipantToken[];
 export const ParticipantTokenList = S.Array(ParticipantToken);
-export class CompositionSummary extends S.Class<CompositionSummary>(
-  "CompositionSummary",
-)({
-  arn: S.String,
-  stageArn: S.String,
-  destinations: DestinationSummaryList,
-  state: S.String,
-  tags: S.optional(Tags),
-  startTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-}) {}
+export interface CompositionSummary {
+  arn: string;
+  stageArn: string;
+  destinations: DestinationSummaryList;
+  state: string;
+  tags?: Tags;
+  startTime?: Date;
+  endTime?: Date;
+}
+export const CompositionSummary = S.suspend(() =>
+  S.Struct({
+    arn: S.String,
+    stageArn: S.String,
+    destinations: DestinationSummaryList,
+    state: S.String,
+    tags: S.optional(Tags),
+    startTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotations({
+  identifier: "CompositionSummary",
+}) as any as S.Schema<CompositionSummary>;
+export type CompositionSummaryList = CompositionSummary[];
 export const CompositionSummaryList = S.Array(CompositionSummary);
-export class Event extends S.Class<Event>("Event")({
-  name: S.optional(S.String),
-  participantId: S.optional(S.String),
-  eventTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  remoteParticipantId: S.optional(S.String),
-  errorCode: S.optional(S.String),
-  destinationStageArn: S.optional(S.String),
-  destinationSessionId: S.optional(S.String),
-  replica: S.optional(S.Boolean),
-  previousToken: S.optional(ExchangedParticipantToken),
-  newToken: S.optional(ExchangedParticipantToken),
-}) {}
+export interface Event {
+  name?: string;
+  participantId?: string;
+  eventTime?: Date;
+  remoteParticipantId?: string;
+  errorCode?: string;
+  destinationStageArn?: string;
+  destinationSessionId?: string;
+  replica?: boolean;
+  previousToken?: ExchangedParticipantToken;
+  newToken?: ExchangedParticipantToken;
+}
+export const Event = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    participantId: S.optional(S.String),
+    eventTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    remoteParticipantId: S.optional(S.String),
+    errorCode: S.optional(S.String),
+    destinationStageArn: S.optional(S.String),
+    destinationSessionId: S.optional(S.String),
+    replica: S.optional(S.Boolean),
+    previousToken: S.optional(ExchangedParticipantToken),
+    newToken: S.optional(ExchangedParticipantToken),
+  }),
+).annotations({ identifier: "Event" }) as any as S.Schema<Event>;
+export type EventList = Event[];
 export const EventList = S.Array(Event);
-export class RecordingConfiguration extends S.Class<RecordingConfiguration>(
-  "RecordingConfiguration",
-)({
-  hlsConfiguration: S.optional(CompositionRecordingHlsConfiguration),
-  format: S.optional(S.String),
-}) {}
-export class CreateParticipantTokenResponse extends S.Class<CreateParticipantTokenResponse>(
-  "CreateParticipantTokenResponse",
-)({ participantToken: S.optional(ParticipantToken) }) {}
-export class CreateStageResponse extends S.Class<CreateStageResponse>(
-  "CreateStageResponse",
-)({
-  stage: S.optional(Stage),
-  participantTokens: S.optional(ParticipantTokenList),
-}) {}
-export class GetStageResponse extends S.Class<GetStageResponse>(
-  "GetStageResponse",
-)({ stage: S.optional(Stage) }) {}
-export class ListCompositionsResponse extends S.Class<ListCompositionsResponse>(
-  "ListCompositionsResponse",
-)({ compositions: CompositionSummaryList, nextToken: S.optional(S.String) }) {}
-export class ListParticipantEventsResponse extends S.Class<ListParticipantEventsResponse>(
-  "ListParticipantEventsResponse",
-)({ events: EventList, nextToken: S.optional(S.String) }) {}
-export class S3DestinationConfiguration extends S.Class<S3DestinationConfiguration>(
-  "S3DestinationConfiguration",
-)({
-  storageConfigurationArn: S.String,
-  encoderConfigurationArns: EncoderConfigurationArnList,
-  recordingConfiguration: S.optional(RecordingConfiguration),
-  thumbnailConfigurations: S.optional(CompositionThumbnailConfigurationList),
-}) {}
-export class S3Detail extends S.Class<S3Detail>("S3Detail")({
-  recordingPrefix: S.String,
-}) {}
-export class DestinationConfiguration extends S.Class<DestinationConfiguration>(
-  "DestinationConfiguration",
-)({
-  name: S.optional(S.String),
-  channel: S.optional(ChannelDestinationConfiguration),
-  s3: S.optional(S3DestinationConfiguration),
-}) {}
+export interface RecordingConfiguration {
+  hlsConfiguration?: CompositionRecordingHlsConfiguration;
+  format?: string;
+}
+export const RecordingConfiguration = S.suspend(() =>
+  S.Struct({
+    hlsConfiguration: S.optional(CompositionRecordingHlsConfiguration),
+    format: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RecordingConfiguration",
+}) as any as S.Schema<RecordingConfiguration>;
+export interface CreateParticipantTokenResponse {
+  participantToken?: ParticipantToken;
+}
+export const CreateParticipantTokenResponse = S.suspend(() =>
+  S.Struct({ participantToken: S.optional(ParticipantToken) }),
+).annotations({
+  identifier: "CreateParticipantTokenResponse",
+}) as any as S.Schema<CreateParticipantTokenResponse>;
+export interface CreateStageResponse {
+  stage?: Stage;
+  participantTokens?: ParticipantTokenList;
+}
+export const CreateStageResponse = S.suspend(() =>
+  S.Struct({
+    stage: S.optional(Stage),
+    participantTokens: S.optional(ParticipantTokenList),
+  }),
+).annotations({
+  identifier: "CreateStageResponse",
+}) as any as S.Schema<CreateStageResponse>;
+export interface GetStageResponse {
+  stage?: Stage;
+}
+export const GetStageResponse = S.suspend(() =>
+  S.Struct({ stage: S.optional(Stage) }),
+).annotations({
+  identifier: "GetStageResponse",
+}) as any as S.Schema<GetStageResponse>;
+export interface ListCompositionsResponse {
+  compositions: CompositionSummaryList;
+  nextToken?: string;
+}
+export const ListCompositionsResponse = S.suspend(() =>
+  S.Struct({
+    compositions: CompositionSummaryList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListCompositionsResponse",
+}) as any as S.Schema<ListCompositionsResponse>;
+export interface ListParticipantEventsResponse {
+  events: EventList;
+  nextToken?: string;
+}
+export const ListParticipantEventsResponse = S.suspend(() =>
+  S.Struct({ events: EventList, nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListParticipantEventsResponse",
+}) as any as S.Schema<ListParticipantEventsResponse>;
+export interface S3DestinationConfiguration {
+  storageConfigurationArn: string;
+  encoderConfigurationArns: EncoderConfigurationArnList;
+  recordingConfiguration?: RecordingConfiguration;
+  thumbnailConfigurations?: CompositionThumbnailConfigurationList;
+}
+export const S3DestinationConfiguration = S.suspend(() =>
+  S.Struct({
+    storageConfigurationArn: S.String,
+    encoderConfigurationArns: EncoderConfigurationArnList,
+    recordingConfiguration: S.optional(RecordingConfiguration),
+    thumbnailConfigurations: S.optional(CompositionThumbnailConfigurationList),
+  }),
+).annotations({
+  identifier: "S3DestinationConfiguration",
+}) as any as S.Schema<S3DestinationConfiguration>;
+export interface S3Detail {
+  recordingPrefix: string;
+}
+export const S3Detail = S.suspend(() =>
+  S.Struct({ recordingPrefix: S.String }),
+).annotations({ identifier: "S3Detail" }) as any as S.Schema<S3Detail>;
+export interface DestinationConfiguration {
+  name?: string;
+  channel?: ChannelDestinationConfiguration;
+  s3?: S3DestinationConfiguration;
+}
+export const DestinationConfiguration = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    channel: S.optional(ChannelDestinationConfiguration),
+    s3: S.optional(S3DestinationConfiguration),
+  }),
+).annotations({
+  identifier: "DestinationConfiguration",
+}) as any as S.Schema<DestinationConfiguration>;
+export type DestinationConfigurationList = DestinationConfiguration[];
 export const DestinationConfigurationList = S.Array(DestinationConfiguration);
-export class DestinationDetail extends S.Class<DestinationDetail>(
-  "DestinationDetail",
-)({ s3: S.optional(S3Detail) }) {}
-export class StartCompositionRequest extends S.Class<StartCompositionRequest>(
-  "StartCompositionRequest",
-)(
-  {
+export interface DestinationDetail {
+  s3?: S3Detail;
+}
+export const DestinationDetail = S.suspend(() =>
+  S.Struct({ s3: S.optional(S3Detail) }),
+).annotations({
+  identifier: "DestinationDetail",
+}) as any as S.Schema<DestinationDetail>;
+export interface StartCompositionRequest {
+  stageArn: string;
+  idempotencyToken?: string;
+  layout?: LayoutConfiguration;
+  destinations: DestinationConfigurationList;
+  tags?: Tags;
+}
+export const StartCompositionRequest = S.suspend(() =>
+  S.Struct({
     stageArn: S.String,
     idempotencyToken: S.optional(S.String),
     layout: S.optional(LayoutConfiguration),
     destinations: DestinationConfigurationList,
     tags: S.optional(Tags),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/StartComposition" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/StartComposition" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class Destination extends S.Class<Destination>("Destination")({
-  id: S.String,
-  state: S.String,
-  startTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  configuration: DestinationConfiguration,
-  detail: S.optional(DestinationDetail),
-}) {}
+).annotations({
+  identifier: "StartCompositionRequest",
+}) as any as S.Schema<StartCompositionRequest>;
+export interface Destination {
+  id: string;
+  state: string;
+  startTime?: Date;
+  endTime?: Date;
+  configuration: DestinationConfiguration;
+  detail?: DestinationDetail;
+}
+export const Destination = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    state: S.String,
+    startTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    configuration: DestinationConfiguration,
+    detail: S.optional(DestinationDetail),
+  }),
+).annotations({ identifier: "Destination" }) as any as S.Schema<Destination>;
+export type DestinationList = Destination[];
 export const DestinationList = S.Array(Destination);
-export class Composition extends S.Class<Composition>("Composition")({
-  arn: S.String,
-  stageArn: S.String,
-  state: S.String,
-  layout: LayoutConfiguration,
-  destinations: DestinationList,
-  tags: S.optional(Tags),
-  startTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-}) {}
-export class GetCompositionResponse extends S.Class<GetCompositionResponse>(
-  "GetCompositionResponse",
-)({ composition: S.optional(Composition) }) {}
-export class StartCompositionResponse extends S.Class<StartCompositionResponse>(
-  "StartCompositionResponse",
-)({ composition: S.optional(Composition) }) {}
+export interface Composition {
+  arn: string;
+  stageArn: string;
+  state: string;
+  layout: LayoutConfiguration;
+  destinations: DestinationList;
+  tags?: Tags;
+  startTime?: Date;
+  endTime?: Date;
+}
+export const Composition = S.suspend(() =>
+  S.Struct({
+    arn: S.String,
+    stageArn: S.String,
+    state: S.String,
+    layout: LayoutConfiguration,
+    destinations: DestinationList,
+    tags: S.optional(Tags),
+    startTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotations({ identifier: "Composition" }) as any as S.Schema<Composition>;
+export interface GetCompositionResponse {
+  composition?: Composition;
+}
+export const GetCompositionResponse = S.suspend(() =>
+  S.Struct({ composition: S.optional(Composition) }),
+).annotations({
+  identifier: "GetCompositionResponse",
+}) as any as S.Schema<GetCompositionResponse>;
+export interface StartCompositionResponse {
+  composition?: Composition;
+}
+export const StartCompositionResponse = S.suspend(() =>
+  S.Struct({ composition: S.optional(Composition) }),
+).annotations({
+  identifier: "StartCompositionResponse",
+}) as any as S.Schema<StartCompositionResponse>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

@@ -239,377 +239,636 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class ListTagsForResourceInput extends S.Class<ListTagsForResourceInput>(
-  "ListTagsForResourceInput",
-)(
-  {
+export interface ListTagsForResourceInput {
+  resourceArn: string;
+  nextToken?: string;
+  limit?: number;
+}
+export const ListTagsForResourceInput = S.suspend(() =>
+  S.Struct({
     resourceArn: S.String.pipe(T.HttpQuery("resourceArn")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/v20190125/tags" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v20190125/tags" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceInput extends S.Class<UntagResourceInput>(
-  "UntagResourceInput",
-)(
-  {
+).annotations({
+  identifier: "ListTagsForResourceInput",
+}) as any as S.Schema<ListTagsForResourceInput>;
+export interface UntagResourceInput {
+  resourceArn: string;
+  tagKeys: TagKeyList;
+}
+export const UntagResourceInput = S.suspend(() =>
+  S.Struct({
     resourceArn: S.String.pipe(T.HttpQuery("resourceArn")),
     tagKeys: TagKeyList,
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/v20190125/untag" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/v20190125/untag" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceOutput extends S.Class<UntagResourceOutput>(
-  "UntagResourceOutput",
-)({}) {}
-export class DescribeMeshInput extends S.Class<DescribeMeshInput>(
-  "DescribeMeshInput",
-)(
-  {
+).annotations({
+  identifier: "UntagResourceInput",
+}) as any as S.Schema<UntagResourceInput>;
+export interface UntagResourceOutput {}
+export const UntagResourceOutput = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceOutput",
+}) as any as S.Schema<UntagResourceOutput>;
+export interface DescribeMeshInput {
+  meshName: string;
+  meshOwner?: string;
+}
+export const DescribeMeshInput = S.suspend(() =>
+  S.Struct({
     meshName: S.String.pipe(T.HttpLabel("meshName")),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/v20190125/meshes/{meshName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v20190125/meshes/{meshName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class EgressFilter extends S.Class<EgressFilter>("EgressFilter")({
-  type: S.String,
-}) {}
-export class MeshServiceDiscovery extends S.Class<MeshServiceDiscovery>(
-  "MeshServiceDiscovery",
-)({ ipPreference: S.optional(S.String) }) {}
-export class MeshSpec extends S.Class<MeshSpec>("MeshSpec")({
-  egressFilter: S.optional(EgressFilter),
-  serviceDiscovery: S.optional(MeshServiceDiscovery),
-}) {}
-export class UpdateMeshInput extends S.Class<UpdateMeshInput>(
-  "UpdateMeshInput",
-)(
-  {
+).annotations({
+  identifier: "DescribeMeshInput",
+}) as any as S.Schema<DescribeMeshInput>;
+export interface EgressFilter {
+  type: string;
+}
+export const EgressFilter = S.suspend(() =>
+  S.Struct({ type: S.String }),
+).annotations({ identifier: "EgressFilter" }) as any as S.Schema<EgressFilter>;
+export interface MeshServiceDiscovery {
+  ipPreference?: string;
+}
+export const MeshServiceDiscovery = S.suspend(() =>
+  S.Struct({ ipPreference: S.optional(S.String) }),
+).annotations({
+  identifier: "MeshServiceDiscovery",
+}) as any as S.Schema<MeshServiceDiscovery>;
+export interface MeshSpec {
+  egressFilter?: EgressFilter;
+  serviceDiscovery?: MeshServiceDiscovery;
+}
+export const MeshSpec = S.suspend(() =>
+  S.Struct({
+    egressFilter: S.optional(EgressFilter),
+    serviceDiscovery: S.optional(MeshServiceDiscovery),
+  }),
+).annotations({ identifier: "MeshSpec" }) as any as S.Schema<MeshSpec>;
+export interface UpdateMeshInput {
+  meshName: string;
+  spec?: MeshSpec;
+  clientToken?: string;
+}
+export const UpdateMeshInput = S.suspend(() =>
+  S.Struct({
     meshName: S.String.pipe(T.HttpLabel("meshName")),
     spec: S.optional(MeshSpec),
     clientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/v20190125/meshes/{meshName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/v20190125/meshes/{meshName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteMeshInput extends S.Class<DeleteMeshInput>(
-  "DeleteMeshInput",
-)(
-  { meshName: S.String.pipe(T.HttpLabel("meshName")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/v20190125/meshes/{meshName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UpdateMeshInput",
+}) as any as S.Schema<UpdateMeshInput>;
+export interface DeleteMeshInput {
+  meshName: string;
+}
+export const DeleteMeshInput = S.suspend(() =>
+  S.Struct({ meshName: S.String.pipe(T.HttpLabel("meshName")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/v20190125/meshes/{meshName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListMeshesInput extends S.Class<ListMeshesInput>(
-  "ListMeshesInput",
-)(
-  {
+).annotations({
+  identifier: "DeleteMeshInput",
+}) as any as S.Schema<DeleteMeshInput>;
+export interface ListMeshesInput {
+  nextToken?: string;
+  limit?: number;
+}
+export const ListMeshesInput = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/v20190125/meshes" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v20190125/meshes" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeVirtualGatewayInput extends S.Class<DescribeVirtualGatewayInput>(
-  "DescribeVirtualGatewayInput",
-)(
-  {
+).annotations({
+  identifier: "ListMeshesInput",
+}) as any as S.Schema<ListMeshesInput>;
+export interface DescribeVirtualGatewayInput {
+  virtualGatewayName: string;
+  meshName: string;
+  meshOwner?: string;
+}
+export const DescribeVirtualGatewayInput = S.suspend(() =>
+  S.Struct({
     virtualGatewayName: S.String.pipe(T.HttpLabel("virtualGatewayName")),
     meshName: S.String.pipe(T.HttpLabel("meshName")),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/v20190125/meshes/{meshName}/virtualGateways/{virtualGatewayName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/v20190125/meshes/{meshName}/virtualGateways/{virtualGatewayName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "DescribeVirtualGatewayInput",
+}) as any as S.Schema<DescribeVirtualGatewayInput>;
+export type PortSet = number[];
 export const PortSet = S.Array(S.Number);
-export class VirtualGatewayListenerTlsFileCertificate extends S.Class<VirtualGatewayListenerTlsFileCertificate>(
-  "VirtualGatewayListenerTlsFileCertificate",
-)({ certificateChain: S.String, privateKey: S.String }) {}
-export class VirtualGatewayListenerTlsSdsCertificate extends S.Class<VirtualGatewayListenerTlsSdsCertificate>(
-  "VirtualGatewayListenerTlsSdsCertificate",
-)({ secretName: S.String }) {}
+export interface VirtualGatewayListenerTlsFileCertificate {
+  certificateChain: string;
+  privateKey: string;
+}
+export const VirtualGatewayListenerTlsFileCertificate = S.suspend(() =>
+  S.Struct({ certificateChain: S.String, privateKey: S.String }),
+).annotations({
+  identifier: "VirtualGatewayListenerTlsFileCertificate",
+}) as any as S.Schema<VirtualGatewayListenerTlsFileCertificate>;
+export interface VirtualGatewayListenerTlsSdsCertificate {
+  secretName: string;
+}
+export const VirtualGatewayListenerTlsSdsCertificate = S.suspend(() =>
+  S.Struct({ secretName: S.String }),
+).annotations({
+  identifier: "VirtualGatewayListenerTlsSdsCertificate",
+}) as any as S.Schema<VirtualGatewayListenerTlsSdsCertificate>;
 export const VirtualGatewayClientTlsCertificate = S.Union(
   S.Struct({ file: VirtualGatewayListenerTlsFileCertificate }),
   S.Struct({ sds: VirtualGatewayListenerTlsSdsCertificate }),
 );
+export type VirtualGatewayCertificateAuthorityArns = string[];
 export const VirtualGatewayCertificateAuthorityArns = S.Array(S.String);
-export class VirtualGatewayTlsValidationContextAcmTrust extends S.Class<VirtualGatewayTlsValidationContextAcmTrust>(
-  "VirtualGatewayTlsValidationContextAcmTrust",
-)({ certificateAuthorityArns: VirtualGatewayCertificateAuthorityArns }) {}
-export class VirtualGatewayTlsValidationContextFileTrust extends S.Class<VirtualGatewayTlsValidationContextFileTrust>(
-  "VirtualGatewayTlsValidationContextFileTrust",
-)({ certificateChain: S.String }) {}
-export class VirtualGatewayTlsValidationContextSdsTrust extends S.Class<VirtualGatewayTlsValidationContextSdsTrust>(
-  "VirtualGatewayTlsValidationContextSdsTrust",
-)({ secretName: S.String }) {}
+export interface VirtualGatewayTlsValidationContextAcmTrust {
+  certificateAuthorityArns: VirtualGatewayCertificateAuthorityArns;
+}
+export const VirtualGatewayTlsValidationContextAcmTrust = S.suspend(() =>
+  S.Struct({
+    certificateAuthorityArns: VirtualGatewayCertificateAuthorityArns,
+  }),
+).annotations({
+  identifier: "VirtualGatewayTlsValidationContextAcmTrust",
+}) as any as S.Schema<VirtualGatewayTlsValidationContextAcmTrust>;
+export interface VirtualGatewayTlsValidationContextFileTrust {
+  certificateChain: string;
+}
+export const VirtualGatewayTlsValidationContextFileTrust = S.suspend(() =>
+  S.Struct({ certificateChain: S.String }),
+).annotations({
+  identifier: "VirtualGatewayTlsValidationContextFileTrust",
+}) as any as S.Schema<VirtualGatewayTlsValidationContextFileTrust>;
+export interface VirtualGatewayTlsValidationContextSdsTrust {
+  secretName: string;
+}
+export const VirtualGatewayTlsValidationContextSdsTrust = S.suspend(() =>
+  S.Struct({ secretName: S.String }),
+).annotations({
+  identifier: "VirtualGatewayTlsValidationContextSdsTrust",
+}) as any as S.Schema<VirtualGatewayTlsValidationContextSdsTrust>;
 export const VirtualGatewayTlsValidationContextTrust = S.Union(
   S.Struct({ acm: VirtualGatewayTlsValidationContextAcmTrust }),
   S.Struct({ file: VirtualGatewayTlsValidationContextFileTrust }),
   S.Struct({ sds: VirtualGatewayTlsValidationContextSdsTrust }),
 );
+export type SubjectAlternativeNameList = string[];
 export const SubjectAlternativeNameList = S.Array(S.String);
-export class SubjectAlternativeNameMatchers extends S.Class<SubjectAlternativeNameMatchers>(
-  "SubjectAlternativeNameMatchers",
-)({ exact: SubjectAlternativeNameList }) {}
-export class SubjectAlternativeNames extends S.Class<SubjectAlternativeNames>(
-  "SubjectAlternativeNames",
-)({ match: SubjectAlternativeNameMatchers }) {}
-export class VirtualGatewayTlsValidationContext extends S.Class<VirtualGatewayTlsValidationContext>(
-  "VirtualGatewayTlsValidationContext",
-)({
-  trust: VirtualGatewayTlsValidationContextTrust,
-  subjectAlternativeNames: S.optional(SubjectAlternativeNames),
-}) {}
-export class VirtualGatewayClientPolicyTls extends S.Class<VirtualGatewayClientPolicyTls>(
-  "VirtualGatewayClientPolicyTls",
-)({
-  enforce: S.optional(S.Boolean),
-  ports: S.optional(PortSet),
-  certificate: S.optional(VirtualGatewayClientTlsCertificate),
-  validation: VirtualGatewayTlsValidationContext,
-}) {}
-export class VirtualGatewayClientPolicy extends S.Class<VirtualGatewayClientPolicy>(
-  "VirtualGatewayClientPolicy",
-)({ tls: S.optional(VirtualGatewayClientPolicyTls) }) {}
-export class VirtualGatewayBackendDefaults extends S.Class<VirtualGatewayBackendDefaults>(
-  "VirtualGatewayBackendDefaults",
-)({ clientPolicy: S.optional(VirtualGatewayClientPolicy) }) {}
-export class VirtualGatewayHealthCheckPolicy extends S.Class<VirtualGatewayHealthCheckPolicy>(
-  "VirtualGatewayHealthCheckPolicy",
-)({
-  timeoutMillis: S.Number,
-  intervalMillis: S.Number,
-  protocol: S.String,
-  port: S.optional(S.Number),
-  path: S.optional(S.String),
-  healthyThreshold: S.Number,
-  unhealthyThreshold: S.Number,
-}) {}
-export class VirtualGatewayPortMapping extends S.Class<VirtualGatewayPortMapping>(
-  "VirtualGatewayPortMapping",
-)({ port: S.Number, protocol: S.String }) {}
+export interface SubjectAlternativeNameMatchers {
+  exact: SubjectAlternativeNameList;
+}
+export const SubjectAlternativeNameMatchers = S.suspend(() =>
+  S.Struct({ exact: SubjectAlternativeNameList }),
+).annotations({
+  identifier: "SubjectAlternativeNameMatchers",
+}) as any as S.Schema<SubjectAlternativeNameMatchers>;
+export interface SubjectAlternativeNames {
+  match: SubjectAlternativeNameMatchers;
+}
+export const SubjectAlternativeNames = S.suspend(() =>
+  S.Struct({ match: SubjectAlternativeNameMatchers }),
+).annotations({
+  identifier: "SubjectAlternativeNames",
+}) as any as S.Schema<SubjectAlternativeNames>;
+export interface VirtualGatewayTlsValidationContext {
+  trust: (typeof VirtualGatewayTlsValidationContextTrust)["Type"];
+  subjectAlternativeNames?: SubjectAlternativeNames;
+}
+export const VirtualGatewayTlsValidationContext = S.suspend(() =>
+  S.Struct({
+    trust: VirtualGatewayTlsValidationContextTrust,
+    subjectAlternativeNames: S.optional(SubjectAlternativeNames),
+  }),
+).annotations({
+  identifier: "VirtualGatewayTlsValidationContext",
+}) as any as S.Schema<VirtualGatewayTlsValidationContext>;
+export interface VirtualGatewayClientPolicyTls {
+  enforce?: boolean;
+  ports?: PortSet;
+  certificate?: (typeof VirtualGatewayClientTlsCertificate)["Type"];
+  validation: VirtualGatewayTlsValidationContext;
+}
+export const VirtualGatewayClientPolicyTls = S.suspend(() =>
+  S.Struct({
+    enforce: S.optional(S.Boolean),
+    ports: S.optional(PortSet),
+    certificate: S.optional(VirtualGatewayClientTlsCertificate),
+    validation: VirtualGatewayTlsValidationContext,
+  }),
+).annotations({
+  identifier: "VirtualGatewayClientPolicyTls",
+}) as any as S.Schema<VirtualGatewayClientPolicyTls>;
+export interface VirtualGatewayClientPolicy {
+  tls?: VirtualGatewayClientPolicyTls;
+}
+export const VirtualGatewayClientPolicy = S.suspend(() =>
+  S.Struct({ tls: S.optional(VirtualGatewayClientPolicyTls) }),
+).annotations({
+  identifier: "VirtualGatewayClientPolicy",
+}) as any as S.Schema<VirtualGatewayClientPolicy>;
+export interface VirtualGatewayBackendDefaults {
+  clientPolicy?: VirtualGatewayClientPolicy;
+}
+export const VirtualGatewayBackendDefaults = S.suspend(() =>
+  S.Struct({ clientPolicy: S.optional(VirtualGatewayClientPolicy) }),
+).annotations({
+  identifier: "VirtualGatewayBackendDefaults",
+}) as any as S.Schema<VirtualGatewayBackendDefaults>;
+export interface VirtualGatewayHealthCheckPolicy {
+  timeoutMillis: number;
+  intervalMillis: number;
+  protocol: string;
+  port?: number;
+  path?: string;
+  healthyThreshold: number;
+  unhealthyThreshold: number;
+}
+export const VirtualGatewayHealthCheckPolicy = S.suspend(() =>
+  S.Struct({
+    timeoutMillis: S.Number,
+    intervalMillis: S.Number,
+    protocol: S.String,
+    port: S.optional(S.Number),
+    path: S.optional(S.String),
+    healthyThreshold: S.Number,
+    unhealthyThreshold: S.Number,
+  }),
+).annotations({
+  identifier: "VirtualGatewayHealthCheckPolicy",
+}) as any as S.Schema<VirtualGatewayHealthCheckPolicy>;
+export interface VirtualGatewayPortMapping {
+  port: number;
+  protocol: string;
+}
+export const VirtualGatewayPortMapping = S.suspend(() =>
+  S.Struct({ port: S.Number, protocol: S.String }),
+).annotations({
+  identifier: "VirtualGatewayPortMapping",
+}) as any as S.Schema<VirtualGatewayPortMapping>;
 export const VirtualGatewayListenerTlsValidationContextTrust = S.Union(
   S.Struct({ file: VirtualGatewayTlsValidationContextFileTrust }),
   S.Struct({ sds: VirtualGatewayTlsValidationContextSdsTrust }),
 );
-export class VirtualGatewayListenerTlsValidationContext extends S.Class<VirtualGatewayListenerTlsValidationContext>(
-  "VirtualGatewayListenerTlsValidationContext",
-)({
-  trust: VirtualGatewayListenerTlsValidationContextTrust,
-  subjectAlternativeNames: S.optional(SubjectAlternativeNames),
-}) {}
-export class VirtualGatewayListenerTlsAcmCertificate extends S.Class<VirtualGatewayListenerTlsAcmCertificate>(
-  "VirtualGatewayListenerTlsAcmCertificate",
-)({ certificateArn: S.String }) {}
+export interface VirtualGatewayListenerTlsValidationContext {
+  trust: (typeof VirtualGatewayListenerTlsValidationContextTrust)["Type"];
+  subjectAlternativeNames?: SubjectAlternativeNames;
+}
+export const VirtualGatewayListenerTlsValidationContext = S.suspend(() =>
+  S.Struct({
+    trust: VirtualGatewayListenerTlsValidationContextTrust,
+    subjectAlternativeNames: S.optional(SubjectAlternativeNames),
+  }),
+).annotations({
+  identifier: "VirtualGatewayListenerTlsValidationContext",
+}) as any as S.Schema<VirtualGatewayListenerTlsValidationContext>;
+export interface VirtualGatewayListenerTlsAcmCertificate {
+  certificateArn: string;
+}
+export const VirtualGatewayListenerTlsAcmCertificate = S.suspend(() =>
+  S.Struct({ certificateArn: S.String }),
+).annotations({
+  identifier: "VirtualGatewayListenerTlsAcmCertificate",
+}) as any as S.Schema<VirtualGatewayListenerTlsAcmCertificate>;
 export const VirtualGatewayListenerTlsCertificate = S.Union(
   S.Struct({ acm: VirtualGatewayListenerTlsAcmCertificate }),
   S.Struct({ file: VirtualGatewayListenerTlsFileCertificate }),
   S.Struct({ sds: VirtualGatewayListenerTlsSdsCertificate }),
 );
-export class VirtualGatewayListenerTls extends S.Class<VirtualGatewayListenerTls>(
-  "VirtualGatewayListenerTls",
-)({
-  mode: S.String,
-  validation: S.optional(VirtualGatewayListenerTlsValidationContext),
-  certificate: VirtualGatewayListenerTlsCertificate,
-}) {}
-export class VirtualGatewayHttpConnectionPool extends S.Class<VirtualGatewayHttpConnectionPool>(
-  "VirtualGatewayHttpConnectionPool",
-)({ maxConnections: S.Number, maxPendingRequests: S.optional(S.Number) }) {}
-export class VirtualGatewayHttp2ConnectionPool extends S.Class<VirtualGatewayHttp2ConnectionPool>(
-  "VirtualGatewayHttp2ConnectionPool",
-)({ maxRequests: S.Number }) {}
-export class VirtualGatewayGrpcConnectionPool extends S.Class<VirtualGatewayGrpcConnectionPool>(
-  "VirtualGatewayGrpcConnectionPool",
-)({ maxRequests: S.Number }) {}
+export interface VirtualGatewayListenerTls {
+  mode: string;
+  validation?: VirtualGatewayListenerTlsValidationContext;
+  certificate: (typeof VirtualGatewayListenerTlsCertificate)["Type"];
+}
+export const VirtualGatewayListenerTls = S.suspend(() =>
+  S.Struct({
+    mode: S.String,
+    validation: S.optional(VirtualGatewayListenerTlsValidationContext),
+    certificate: VirtualGatewayListenerTlsCertificate,
+  }),
+).annotations({
+  identifier: "VirtualGatewayListenerTls",
+}) as any as S.Schema<VirtualGatewayListenerTls>;
+export interface VirtualGatewayHttpConnectionPool {
+  maxConnections: number;
+  maxPendingRequests?: number;
+}
+export const VirtualGatewayHttpConnectionPool = S.suspend(() =>
+  S.Struct({
+    maxConnections: S.Number,
+    maxPendingRequests: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "VirtualGatewayHttpConnectionPool",
+}) as any as S.Schema<VirtualGatewayHttpConnectionPool>;
+export interface VirtualGatewayHttp2ConnectionPool {
+  maxRequests: number;
+}
+export const VirtualGatewayHttp2ConnectionPool = S.suspend(() =>
+  S.Struct({ maxRequests: S.Number }),
+).annotations({
+  identifier: "VirtualGatewayHttp2ConnectionPool",
+}) as any as S.Schema<VirtualGatewayHttp2ConnectionPool>;
+export interface VirtualGatewayGrpcConnectionPool {
+  maxRequests: number;
+}
+export const VirtualGatewayGrpcConnectionPool = S.suspend(() =>
+  S.Struct({ maxRequests: S.Number }),
+).annotations({
+  identifier: "VirtualGatewayGrpcConnectionPool",
+}) as any as S.Schema<VirtualGatewayGrpcConnectionPool>;
 export const VirtualGatewayConnectionPool = S.Union(
   S.Struct({ http: VirtualGatewayHttpConnectionPool }),
   S.Struct({ http2: VirtualGatewayHttp2ConnectionPool }),
   S.Struct({ grpc: VirtualGatewayGrpcConnectionPool }),
 );
-export class VirtualGatewayListener extends S.Class<VirtualGatewayListener>(
-  "VirtualGatewayListener",
-)({
-  healthCheck: S.optional(VirtualGatewayHealthCheckPolicy),
-  portMapping: VirtualGatewayPortMapping,
-  tls: S.optional(VirtualGatewayListenerTls),
-  connectionPool: S.optional(VirtualGatewayConnectionPool),
-}) {}
+export interface VirtualGatewayListener {
+  healthCheck?: VirtualGatewayHealthCheckPolicy;
+  portMapping: VirtualGatewayPortMapping;
+  tls?: VirtualGatewayListenerTls;
+  connectionPool?: (typeof VirtualGatewayConnectionPool)["Type"];
+}
+export const VirtualGatewayListener = S.suspend(() =>
+  S.Struct({
+    healthCheck: S.optional(VirtualGatewayHealthCheckPolicy),
+    portMapping: VirtualGatewayPortMapping,
+    tls: S.optional(VirtualGatewayListenerTls),
+    connectionPool: S.optional(VirtualGatewayConnectionPool),
+  }),
+).annotations({
+  identifier: "VirtualGatewayListener",
+}) as any as S.Schema<VirtualGatewayListener>;
+export type VirtualGatewayListeners = VirtualGatewayListener[];
 export const VirtualGatewayListeners = S.Array(VirtualGatewayListener);
-export class JsonFormatRef extends S.Class<JsonFormatRef>("JsonFormatRef")({
-  key: S.String,
-  value: S.String,
-}) {}
+export interface JsonFormatRef {
+  key: string;
+  value: string;
+}
+export const JsonFormatRef = S.suspend(() =>
+  S.Struct({ key: S.String, value: S.String }),
+).annotations({
+  identifier: "JsonFormatRef",
+}) as any as S.Schema<JsonFormatRef>;
+export type JsonFormat = JsonFormatRef[];
 export const JsonFormat = S.Array(JsonFormatRef);
 export const LoggingFormat = S.Union(
   S.Struct({ text: S.String }),
   S.Struct({ json: JsonFormat }),
 );
-export class VirtualGatewayFileAccessLog extends S.Class<VirtualGatewayFileAccessLog>(
-  "VirtualGatewayFileAccessLog",
-)({ path: S.String, format: S.optional(LoggingFormat) }) {}
+export interface VirtualGatewayFileAccessLog {
+  path: string;
+  format?: (typeof LoggingFormat)["Type"];
+}
+export const VirtualGatewayFileAccessLog = S.suspend(() =>
+  S.Struct({ path: S.String, format: S.optional(LoggingFormat) }),
+).annotations({
+  identifier: "VirtualGatewayFileAccessLog",
+}) as any as S.Schema<VirtualGatewayFileAccessLog>;
 export const VirtualGatewayAccessLog = S.Union(
   S.Struct({ file: VirtualGatewayFileAccessLog }),
 );
-export class VirtualGatewayLogging extends S.Class<VirtualGatewayLogging>(
-  "VirtualGatewayLogging",
-)({ accessLog: S.optional(VirtualGatewayAccessLog) }) {}
-export class VirtualGatewaySpec extends S.Class<VirtualGatewaySpec>(
-  "VirtualGatewaySpec",
-)({
-  backendDefaults: S.optional(VirtualGatewayBackendDefaults),
-  listeners: VirtualGatewayListeners,
-  logging: S.optional(VirtualGatewayLogging),
-}) {}
-export class UpdateVirtualGatewayInput extends S.Class<UpdateVirtualGatewayInput>(
-  "UpdateVirtualGatewayInput",
-)(
-  {
+export interface VirtualGatewayLogging {
+  accessLog?: (typeof VirtualGatewayAccessLog)["Type"];
+}
+export const VirtualGatewayLogging = S.suspend(() =>
+  S.Struct({ accessLog: S.optional(VirtualGatewayAccessLog) }),
+).annotations({
+  identifier: "VirtualGatewayLogging",
+}) as any as S.Schema<VirtualGatewayLogging>;
+export interface VirtualGatewaySpec {
+  backendDefaults?: VirtualGatewayBackendDefaults;
+  listeners: VirtualGatewayListeners;
+  logging?: VirtualGatewayLogging;
+}
+export const VirtualGatewaySpec = S.suspend(() =>
+  S.Struct({
+    backendDefaults: S.optional(VirtualGatewayBackendDefaults),
+    listeners: VirtualGatewayListeners,
+    logging: S.optional(VirtualGatewayLogging),
+  }),
+).annotations({
+  identifier: "VirtualGatewaySpec",
+}) as any as S.Schema<VirtualGatewaySpec>;
+export interface UpdateVirtualGatewayInput {
+  virtualGatewayName: string;
+  meshName: string;
+  spec: VirtualGatewaySpec;
+  clientToken?: string;
+  meshOwner?: string;
+}
+export const UpdateVirtualGatewayInput = S.suspend(() =>
+  S.Struct({
     virtualGatewayName: S.String.pipe(T.HttpLabel("virtualGatewayName")),
     meshName: S.String.pipe(T.HttpLabel("meshName")),
     spec: VirtualGatewaySpec,
     clientToken: S.optional(S.String),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/v20190125/meshes/{meshName}/virtualGateways/{virtualGatewayName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/v20190125/meshes/{meshName}/virtualGateways/{virtualGatewayName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteVirtualGatewayInput extends S.Class<DeleteVirtualGatewayInput>(
-  "DeleteVirtualGatewayInput",
-)(
-  {
+).annotations({
+  identifier: "UpdateVirtualGatewayInput",
+}) as any as S.Schema<UpdateVirtualGatewayInput>;
+export interface DeleteVirtualGatewayInput {
+  virtualGatewayName: string;
+  meshName: string;
+  meshOwner?: string;
+}
+export const DeleteVirtualGatewayInput = S.suspend(() =>
+  S.Struct({
     virtualGatewayName: S.String.pipe(T.HttpLabel("virtualGatewayName")),
     meshName: S.String.pipe(T.HttpLabel("meshName")),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/v20190125/meshes/{meshName}/virtualGateways/{virtualGatewayName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/v20190125/meshes/{meshName}/virtualGateways/{virtualGatewayName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListVirtualGatewaysInput extends S.Class<ListVirtualGatewaysInput>(
-  "ListVirtualGatewaysInput",
-)(
-  {
+).annotations({
+  identifier: "DeleteVirtualGatewayInput",
+}) as any as S.Schema<DeleteVirtualGatewayInput>;
+export interface ListVirtualGatewaysInput {
+  meshName: string;
+  nextToken?: string;
+  limit?: number;
+  meshOwner?: string;
+}
+export const ListVirtualGatewaysInput = S.suspend(() =>
+  S.Struct({
     meshName: S.String.pipe(T.HttpLabel("meshName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/v20190125/meshes/{meshName}/virtualGateways",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/v20190125/meshes/{meshName}/virtualGateways",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeGatewayRouteInput extends S.Class<DescribeGatewayRouteInput>(
-  "DescribeGatewayRouteInput",
-)(
-  {
+).annotations({
+  identifier: "ListVirtualGatewaysInput",
+}) as any as S.Schema<ListVirtualGatewaysInput>;
+export interface DescribeGatewayRouteInput {
+  gatewayRouteName: string;
+  meshName: string;
+  virtualGatewayName: string;
+  meshOwner?: string;
+}
+export const DescribeGatewayRouteInput = S.suspend(() =>
+  S.Struct({
     gatewayRouteName: S.String.pipe(T.HttpLabel("gatewayRouteName")),
     meshName: S.String.pipe(T.HttpLabel("meshName")),
     virtualGatewayName: S.String.pipe(T.HttpLabel("virtualGatewayName")),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/v20190125/meshes/{meshName}/virtualGateway/{virtualGatewayName}/gatewayRoutes/{gatewayRouteName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/v20190125/meshes/{meshName}/virtualGateway/{virtualGatewayName}/gatewayRoutes/{gatewayRouteName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class HttpPathMatch extends S.Class<HttpPathMatch>("HttpPathMatch")({
-  exact: S.optional(S.String),
-  regex: S.optional(S.String),
-}) {}
-export class QueryParameterMatch extends S.Class<QueryParameterMatch>(
-  "QueryParameterMatch",
-)({ exact: S.optional(S.String) }) {}
-export class HttpQueryParameter extends S.Class<HttpQueryParameter>(
-  "HttpQueryParameter",
-)({ name: S.String, match: S.optional(QueryParameterMatch) }) {}
+).annotations({
+  identifier: "DescribeGatewayRouteInput",
+}) as any as S.Schema<DescribeGatewayRouteInput>;
+export interface HttpPathMatch {
+  exact?: string;
+  regex?: string;
+}
+export const HttpPathMatch = S.suspend(() =>
+  S.Struct({ exact: S.optional(S.String), regex: S.optional(S.String) }),
+).annotations({
+  identifier: "HttpPathMatch",
+}) as any as S.Schema<HttpPathMatch>;
+export interface QueryParameterMatch {
+  exact?: string;
+}
+export const QueryParameterMatch = S.suspend(() =>
+  S.Struct({ exact: S.optional(S.String) }),
+).annotations({
+  identifier: "QueryParameterMatch",
+}) as any as S.Schema<QueryParameterMatch>;
+export interface HttpQueryParameter {
+  name: string;
+  match?: QueryParameterMatch;
+}
+export const HttpQueryParameter = S.suspend(() =>
+  S.Struct({ name: S.String, match: S.optional(QueryParameterMatch) }),
+).annotations({
+  identifier: "HttpQueryParameter",
+}) as any as S.Schema<HttpQueryParameter>;
+export type HttpQueryParameters = HttpQueryParameter[];
 export const HttpQueryParameters = S.Array(HttpQueryParameter);
-export class GatewayRouteHostnameMatch extends S.Class<GatewayRouteHostnameMatch>(
-  "GatewayRouteHostnameMatch",
-)({ exact: S.optional(S.String), suffix: S.optional(S.String) }) {}
-export class MatchRange extends S.Class<MatchRange>("MatchRange")({
-  start: S.Number,
-  end: S.Number,
-}) {}
+export interface GatewayRouteHostnameMatch {
+  exact?: string;
+  suffix?: string;
+}
+export const GatewayRouteHostnameMatch = S.suspend(() =>
+  S.Struct({ exact: S.optional(S.String), suffix: S.optional(S.String) }),
+).annotations({
+  identifier: "GatewayRouteHostnameMatch",
+}) as any as S.Schema<GatewayRouteHostnameMatch>;
+export interface MatchRange {
+  start: number;
+  end: number;
+}
+export const MatchRange = S.suspend(() =>
+  S.Struct({ start: S.Number, end: S.Number }),
+).annotations({ identifier: "MatchRange" }) as any as S.Schema<MatchRange>;
 export const HeaderMatchMethod = S.Union(
   S.Struct({ exact: S.String }),
   S.Struct({ regex: S.String }),
@@ -617,56 +876,127 @@ export const HeaderMatchMethod = S.Union(
   S.Struct({ prefix: S.String }),
   S.Struct({ suffix: S.String }),
 );
-export class HttpGatewayRouteHeader extends S.Class<HttpGatewayRouteHeader>(
-  "HttpGatewayRouteHeader",
-)({
-  name: S.String,
-  invert: S.optional(S.Boolean),
-  match: S.optional(HeaderMatchMethod),
-}) {}
+export interface HttpGatewayRouteHeader {
+  name: string;
+  invert?: boolean;
+  match?: (typeof HeaderMatchMethod)["Type"];
+}
+export const HttpGatewayRouteHeader = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    invert: S.optional(S.Boolean),
+    match: S.optional(HeaderMatchMethod),
+  }),
+).annotations({
+  identifier: "HttpGatewayRouteHeader",
+}) as any as S.Schema<HttpGatewayRouteHeader>;
+export type HttpGatewayRouteHeaders = HttpGatewayRouteHeader[];
 export const HttpGatewayRouteHeaders = S.Array(HttpGatewayRouteHeader);
-export class HttpGatewayRouteMatch extends S.Class<HttpGatewayRouteMatch>(
-  "HttpGatewayRouteMatch",
-)({
-  prefix: S.optional(S.String),
-  path: S.optional(HttpPathMatch),
-  queryParameters: S.optional(HttpQueryParameters),
-  method: S.optional(S.String),
-  hostname: S.optional(GatewayRouteHostnameMatch),
-  headers: S.optional(HttpGatewayRouteHeaders),
-  port: S.optional(S.Number),
-}) {}
-export class GatewayRouteVirtualService extends S.Class<GatewayRouteVirtualService>(
-  "GatewayRouteVirtualService",
-)({ virtualServiceName: S.String }) {}
-export class GatewayRouteTarget extends S.Class<GatewayRouteTarget>(
-  "GatewayRouteTarget",
-)({ virtualService: GatewayRouteVirtualService, port: S.optional(S.Number) }) {}
-export class HttpGatewayRoutePrefixRewrite extends S.Class<HttpGatewayRoutePrefixRewrite>(
-  "HttpGatewayRoutePrefixRewrite",
-)({ defaultPrefix: S.optional(S.String), value: S.optional(S.String) }) {}
-export class HttpGatewayRoutePathRewrite extends S.Class<HttpGatewayRoutePathRewrite>(
-  "HttpGatewayRoutePathRewrite",
-)({ exact: S.optional(S.String) }) {}
-export class GatewayRouteHostnameRewrite extends S.Class<GatewayRouteHostnameRewrite>(
-  "GatewayRouteHostnameRewrite",
-)({ defaultTargetHostname: S.optional(S.String) }) {}
-export class HttpGatewayRouteRewrite extends S.Class<HttpGatewayRouteRewrite>(
-  "HttpGatewayRouteRewrite",
-)({
-  prefix: S.optional(HttpGatewayRoutePrefixRewrite),
-  path: S.optional(HttpGatewayRoutePathRewrite),
-  hostname: S.optional(GatewayRouteHostnameRewrite),
-}) {}
-export class HttpGatewayRouteAction extends S.Class<HttpGatewayRouteAction>(
-  "HttpGatewayRouteAction",
-)({
-  target: GatewayRouteTarget,
-  rewrite: S.optional(HttpGatewayRouteRewrite),
-}) {}
-export class HttpGatewayRoute extends S.Class<HttpGatewayRoute>(
-  "HttpGatewayRoute",
-)({ match: HttpGatewayRouteMatch, action: HttpGatewayRouteAction }) {}
+export interface HttpGatewayRouteMatch {
+  prefix?: string;
+  path?: HttpPathMatch;
+  queryParameters?: HttpQueryParameters;
+  method?: string;
+  hostname?: GatewayRouteHostnameMatch;
+  headers?: HttpGatewayRouteHeaders;
+  port?: number;
+}
+export const HttpGatewayRouteMatch = S.suspend(() =>
+  S.Struct({
+    prefix: S.optional(S.String),
+    path: S.optional(HttpPathMatch),
+    queryParameters: S.optional(HttpQueryParameters),
+    method: S.optional(S.String),
+    hostname: S.optional(GatewayRouteHostnameMatch),
+    headers: S.optional(HttpGatewayRouteHeaders),
+    port: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "HttpGatewayRouteMatch",
+}) as any as S.Schema<HttpGatewayRouteMatch>;
+export interface GatewayRouteVirtualService {
+  virtualServiceName: string;
+}
+export const GatewayRouteVirtualService = S.suspend(() =>
+  S.Struct({ virtualServiceName: S.String }),
+).annotations({
+  identifier: "GatewayRouteVirtualService",
+}) as any as S.Schema<GatewayRouteVirtualService>;
+export interface GatewayRouteTarget {
+  virtualService: GatewayRouteVirtualService;
+  port?: number;
+}
+export const GatewayRouteTarget = S.suspend(() =>
+  S.Struct({
+    virtualService: GatewayRouteVirtualService,
+    port: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "GatewayRouteTarget",
+}) as any as S.Schema<GatewayRouteTarget>;
+export interface HttpGatewayRoutePrefixRewrite {
+  defaultPrefix?: string;
+  value?: string;
+}
+export const HttpGatewayRoutePrefixRewrite = S.suspend(() =>
+  S.Struct({
+    defaultPrefix: S.optional(S.String),
+    value: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "HttpGatewayRoutePrefixRewrite",
+}) as any as S.Schema<HttpGatewayRoutePrefixRewrite>;
+export interface HttpGatewayRoutePathRewrite {
+  exact?: string;
+}
+export const HttpGatewayRoutePathRewrite = S.suspend(() =>
+  S.Struct({ exact: S.optional(S.String) }),
+).annotations({
+  identifier: "HttpGatewayRoutePathRewrite",
+}) as any as S.Schema<HttpGatewayRoutePathRewrite>;
+export interface GatewayRouteHostnameRewrite {
+  defaultTargetHostname?: string;
+}
+export const GatewayRouteHostnameRewrite = S.suspend(() =>
+  S.Struct({ defaultTargetHostname: S.optional(S.String) }),
+).annotations({
+  identifier: "GatewayRouteHostnameRewrite",
+}) as any as S.Schema<GatewayRouteHostnameRewrite>;
+export interface HttpGatewayRouteRewrite {
+  prefix?: HttpGatewayRoutePrefixRewrite;
+  path?: HttpGatewayRoutePathRewrite;
+  hostname?: GatewayRouteHostnameRewrite;
+}
+export const HttpGatewayRouteRewrite = S.suspend(() =>
+  S.Struct({
+    prefix: S.optional(HttpGatewayRoutePrefixRewrite),
+    path: S.optional(HttpGatewayRoutePathRewrite),
+    hostname: S.optional(GatewayRouteHostnameRewrite),
+  }),
+).annotations({
+  identifier: "HttpGatewayRouteRewrite",
+}) as any as S.Schema<HttpGatewayRouteRewrite>;
+export interface HttpGatewayRouteAction {
+  target: GatewayRouteTarget;
+  rewrite?: HttpGatewayRouteRewrite;
+}
+export const HttpGatewayRouteAction = S.suspend(() =>
+  S.Struct({
+    target: GatewayRouteTarget,
+    rewrite: S.optional(HttpGatewayRouteRewrite),
+  }),
+).annotations({
+  identifier: "HttpGatewayRouteAction",
+}) as any as S.Schema<HttpGatewayRouteAction>;
+export interface HttpGatewayRoute {
+  match: HttpGatewayRouteMatch;
+  action: HttpGatewayRouteAction;
+}
+export const HttpGatewayRoute = S.suspend(() =>
+  S.Struct({ match: HttpGatewayRouteMatch, action: HttpGatewayRouteAction }),
+).annotations({
+  identifier: "HttpGatewayRoute",
+}) as any as S.Schema<HttpGatewayRoute>;
 export const GrpcMetadataMatchMethod = S.Union(
   S.Struct({ exact: S.String }),
   S.Struct({ regex: S.String }),
@@ -674,543 +1004,944 @@ export const GrpcMetadataMatchMethod = S.Union(
   S.Struct({ prefix: S.String }),
   S.Struct({ suffix: S.String }),
 );
-export class GrpcGatewayRouteMetadata extends S.Class<GrpcGatewayRouteMetadata>(
-  "GrpcGatewayRouteMetadata",
-)({
-  name: S.String,
-  invert: S.optional(S.Boolean),
-  match: S.optional(GrpcMetadataMatchMethod),
-}) {}
+export interface GrpcGatewayRouteMetadata {
+  name: string;
+  invert?: boolean;
+  match?: (typeof GrpcMetadataMatchMethod)["Type"];
+}
+export const GrpcGatewayRouteMetadata = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    invert: S.optional(S.Boolean),
+    match: S.optional(GrpcMetadataMatchMethod),
+  }),
+).annotations({
+  identifier: "GrpcGatewayRouteMetadata",
+}) as any as S.Schema<GrpcGatewayRouteMetadata>;
+export type GrpcGatewayRouteMetadataList = GrpcGatewayRouteMetadata[];
 export const GrpcGatewayRouteMetadataList = S.Array(GrpcGatewayRouteMetadata);
-export class GrpcGatewayRouteMatch extends S.Class<GrpcGatewayRouteMatch>(
-  "GrpcGatewayRouteMatch",
-)({
-  serviceName: S.optional(S.String),
-  hostname: S.optional(GatewayRouteHostnameMatch),
-  metadata: S.optional(GrpcGatewayRouteMetadataList),
-  port: S.optional(S.Number),
-}) {}
-export class GrpcGatewayRouteRewrite extends S.Class<GrpcGatewayRouteRewrite>(
-  "GrpcGatewayRouteRewrite",
-)({ hostname: S.optional(GatewayRouteHostnameRewrite) }) {}
-export class GrpcGatewayRouteAction extends S.Class<GrpcGatewayRouteAction>(
-  "GrpcGatewayRouteAction",
-)({
-  target: GatewayRouteTarget,
-  rewrite: S.optional(GrpcGatewayRouteRewrite),
-}) {}
-export class GrpcGatewayRoute extends S.Class<GrpcGatewayRoute>(
-  "GrpcGatewayRoute",
-)({ match: GrpcGatewayRouteMatch, action: GrpcGatewayRouteAction }) {}
-export class GatewayRouteSpec extends S.Class<GatewayRouteSpec>(
-  "GatewayRouteSpec",
-)({
-  priority: S.optional(S.Number),
-  httpRoute: S.optional(HttpGatewayRoute),
-  http2Route: S.optional(HttpGatewayRoute),
-  grpcRoute: S.optional(GrpcGatewayRoute),
-}) {}
-export class UpdateGatewayRouteInput extends S.Class<UpdateGatewayRouteInput>(
-  "UpdateGatewayRouteInput",
-)(
-  {
+export interface GrpcGatewayRouteMatch {
+  serviceName?: string;
+  hostname?: GatewayRouteHostnameMatch;
+  metadata?: GrpcGatewayRouteMetadataList;
+  port?: number;
+}
+export const GrpcGatewayRouteMatch = S.suspend(() =>
+  S.Struct({
+    serviceName: S.optional(S.String),
+    hostname: S.optional(GatewayRouteHostnameMatch),
+    metadata: S.optional(GrpcGatewayRouteMetadataList),
+    port: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "GrpcGatewayRouteMatch",
+}) as any as S.Schema<GrpcGatewayRouteMatch>;
+export interface GrpcGatewayRouteRewrite {
+  hostname?: GatewayRouteHostnameRewrite;
+}
+export const GrpcGatewayRouteRewrite = S.suspend(() =>
+  S.Struct({ hostname: S.optional(GatewayRouteHostnameRewrite) }),
+).annotations({
+  identifier: "GrpcGatewayRouteRewrite",
+}) as any as S.Schema<GrpcGatewayRouteRewrite>;
+export interface GrpcGatewayRouteAction {
+  target: GatewayRouteTarget;
+  rewrite?: GrpcGatewayRouteRewrite;
+}
+export const GrpcGatewayRouteAction = S.suspend(() =>
+  S.Struct({
+    target: GatewayRouteTarget,
+    rewrite: S.optional(GrpcGatewayRouteRewrite),
+  }),
+).annotations({
+  identifier: "GrpcGatewayRouteAction",
+}) as any as S.Schema<GrpcGatewayRouteAction>;
+export interface GrpcGatewayRoute {
+  match: GrpcGatewayRouteMatch;
+  action: GrpcGatewayRouteAction;
+}
+export const GrpcGatewayRoute = S.suspend(() =>
+  S.Struct({ match: GrpcGatewayRouteMatch, action: GrpcGatewayRouteAction }),
+).annotations({
+  identifier: "GrpcGatewayRoute",
+}) as any as S.Schema<GrpcGatewayRoute>;
+export interface GatewayRouteSpec {
+  priority?: number;
+  httpRoute?: HttpGatewayRoute;
+  http2Route?: HttpGatewayRoute;
+  grpcRoute?: GrpcGatewayRoute;
+}
+export const GatewayRouteSpec = S.suspend(() =>
+  S.Struct({
+    priority: S.optional(S.Number),
+    httpRoute: S.optional(HttpGatewayRoute),
+    http2Route: S.optional(HttpGatewayRoute),
+    grpcRoute: S.optional(GrpcGatewayRoute),
+  }),
+).annotations({
+  identifier: "GatewayRouteSpec",
+}) as any as S.Schema<GatewayRouteSpec>;
+export interface UpdateGatewayRouteInput {
+  gatewayRouteName: string;
+  meshName: string;
+  virtualGatewayName: string;
+  spec: GatewayRouteSpec;
+  clientToken?: string;
+  meshOwner?: string;
+}
+export const UpdateGatewayRouteInput = S.suspend(() =>
+  S.Struct({
     gatewayRouteName: S.String.pipe(T.HttpLabel("gatewayRouteName")),
     meshName: S.String.pipe(T.HttpLabel("meshName")),
     virtualGatewayName: S.String.pipe(T.HttpLabel("virtualGatewayName")),
     spec: GatewayRouteSpec,
     clientToken: S.optional(S.String),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/v20190125/meshes/{meshName}/virtualGateway/{virtualGatewayName}/gatewayRoutes/{gatewayRouteName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/v20190125/meshes/{meshName}/virtualGateway/{virtualGatewayName}/gatewayRoutes/{gatewayRouteName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteGatewayRouteInput extends S.Class<DeleteGatewayRouteInput>(
-  "DeleteGatewayRouteInput",
-)(
-  {
+).annotations({
+  identifier: "UpdateGatewayRouteInput",
+}) as any as S.Schema<UpdateGatewayRouteInput>;
+export interface DeleteGatewayRouteInput {
+  gatewayRouteName: string;
+  meshName: string;
+  virtualGatewayName: string;
+  meshOwner?: string;
+}
+export const DeleteGatewayRouteInput = S.suspend(() =>
+  S.Struct({
     gatewayRouteName: S.String.pipe(T.HttpLabel("gatewayRouteName")),
     meshName: S.String.pipe(T.HttpLabel("meshName")),
     virtualGatewayName: S.String.pipe(T.HttpLabel("virtualGatewayName")),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/v20190125/meshes/{meshName}/virtualGateway/{virtualGatewayName}/gatewayRoutes/{gatewayRouteName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/v20190125/meshes/{meshName}/virtualGateway/{virtualGatewayName}/gatewayRoutes/{gatewayRouteName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListGatewayRoutesInput extends S.Class<ListGatewayRoutesInput>(
-  "ListGatewayRoutesInput",
-)(
-  {
+).annotations({
+  identifier: "DeleteGatewayRouteInput",
+}) as any as S.Schema<DeleteGatewayRouteInput>;
+export interface ListGatewayRoutesInput {
+  meshName: string;
+  virtualGatewayName: string;
+  nextToken?: string;
+  limit?: number;
+  meshOwner?: string;
+}
+export const ListGatewayRoutesInput = S.suspend(() =>
+  S.Struct({
     meshName: S.String.pipe(T.HttpLabel("meshName")),
     virtualGatewayName: S.String.pipe(T.HttpLabel("virtualGatewayName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/v20190125/meshes/{meshName}/virtualGateway/{virtualGatewayName}/gatewayRoutes",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/v20190125/meshes/{meshName}/virtualGateway/{virtualGatewayName}/gatewayRoutes",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeVirtualNodeInput extends S.Class<DescribeVirtualNodeInput>(
-  "DescribeVirtualNodeInput",
-)(
-  {
+).annotations({
+  identifier: "ListGatewayRoutesInput",
+}) as any as S.Schema<ListGatewayRoutesInput>;
+export interface DescribeVirtualNodeInput {
+  virtualNodeName: string;
+  meshName: string;
+  meshOwner?: string;
+}
+export const DescribeVirtualNodeInput = S.suspend(() =>
+  S.Struct({
     virtualNodeName: S.String.pipe(T.HttpLabel("virtualNodeName")),
     meshName: S.String.pipe(T.HttpLabel("meshName")),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/v20190125/meshes/{meshName}/virtualNodes/{virtualNodeName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/v20190125/meshes/{meshName}/virtualNodes/{virtualNodeName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DnsServiceDiscovery extends S.Class<DnsServiceDiscovery>(
-  "DnsServiceDiscovery",
-)({
-  hostname: S.String,
-  responseType: S.optional(S.String),
-  ipPreference: S.optional(S.String),
-}) {}
-export class AwsCloudMapInstanceAttribute extends S.Class<AwsCloudMapInstanceAttribute>(
-  "AwsCloudMapInstanceAttribute",
-)({ key: S.String, value: S.String }) {}
+).annotations({
+  identifier: "DescribeVirtualNodeInput",
+}) as any as S.Schema<DescribeVirtualNodeInput>;
+export interface DnsServiceDiscovery {
+  hostname: string;
+  responseType?: string;
+  ipPreference?: string;
+}
+export const DnsServiceDiscovery = S.suspend(() =>
+  S.Struct({
+    hostname: S.String,
+    responseType: S.optional(S.String),
+    ipPreference: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DnsServiceDiscovery",
+}) as any as S.Schema<DnsServiceDiscovery>;
+export interface AwsCloudMapInstanceAttribute {
+  key: string;
+  value: string;
+}
+export const AwsCloudMapInstanceAttribute = S.suspend(() =>
+  S.Struct({ key: S.String, value: S.String }),
+).annotations({
+  identifier: "AwsCloudMapInstanceAttribute",
+}) as any as S.Schema<AwsCloudMapInstanceAttribute>;
+export type AwsCloudMapInstanceAttributes = AwsCloudMapInstanceAttribute[];
 export const AwsCloudMapInstanceAttributes = S.Array(
   AwsCloudMapInstanceAttribute,
 );
-export class AwsCloudMapServiceDiscovery extends S.Class<AwsCloudMapServiceDiscovery>(
-  "AwsCloudMapServiceDiscovery",
-)({
-  namespaceName: S.String,
-  serviceName: S.String,
-  attributes: S.optional(AwsCloudMapInstanceAttributes),
-  ipPreference: S.optional(S.String),
-}) {}
+export interface AwsCloudMapServiceDiscovery {
+  namespaceName: string;
+  serviceName: string;
+  attributes?: AwsCloudMapInstanceAttributes;
+  ipPreference?: string;
+}
+export const AwsCloudMapServiceDiscovery = S.suspend(() =>
+  S.Struct({
+    namespaceName: S.String,
+    serviceName: S.String,
+    attributes: S.optional(AwsCloudMapInstanceAttributes),
+    ipPreference: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AwsCloudMapServiceDiscovery",
+}) as any as S.Schema<AwsCloudMapServiceDiscovery>;
 export const ServiceDiscovery = S.Union(
   S.Struct({ dns: DnsServiceDiscovery }),
   S.Struct({ awsCloudMap: AwsCloudMapServiceDiscovery }),
 );
-export class PortMapping extends S.Class<PortMapping>("PortMapping")({
-  port: S.Number,
-  protocol: S.String,
-}) {}
-export class ListenerTlsAcmCertificate extends S.Class<ListenerTlsAcmCertificate>(
-  "ListenerTlsAcmCertificate",
-)({ certificateArn: S.String }) {}
-export class ListenerTlsFileCertificate extends S.Class<ListenerTlsFileCertificate>(
-  "ListenerTlsFileCertificate",
-)({ certificateChain: S.String, privateKey: S.String }) {}
-export class ListenerTlsSdsCertificate extends S.Class<ListenerTlsSdsCertificate>(
-  "ListenerTlsSdsCertificate",
-)({ secretName: S.String }) {}
+export interface PortMapping {
+  port: number;
+  protocol: string;
+}
+export const PortMapping = S.suspend(() =>
+  S.Struct({ port: S.Number, protocol: S.String }),
+).annotations({ identifier: "PortMapping" }) as any as S.Schema<PortMapping>;
+export interface ListenerTlsAcmCertificate {
+  certificateArn: string;
+}
+export const ListenerTlsAcmCertificate = S.suspend(() =>
+  S.Struct({ certificateArn: S.String }),
+).annotations({
+  identifier: "ListenerTlsAcmCertificate",
+}) as any as S.Schema<ListenerTlsAcmCertificate>;
+export interface ListenerTlsFileCertificate {
+  certificateChain: string;
+  privateKey: string;
+}
+export const ListenerTlsFileCertificate = S.suspend(() =>
+  S.Struct({ certificateChain: S.String, privateKey: S.String }),
+).annotations({
+  identifier: "ListenerTlsFileCertificate",
+}) as any as S.Schema<ListenerTlsFileCertificate>;
+export interface ListenerTlsSdsCertificate {
+  secretName: string;
+}
+export const ListenerTlsSdsCertificate = S.suspend(() =>
+  S.Struct({ secretName: S.String }),
+).annotations({
+  identifier: "ListenerTlsSdsCertificate",
+}) as any as S.Schema<ListenerTlsSdsCertificate>;
 export const ListenerTlsCertificate = S.Union(
   S.Struct({ acm: ListenerTlsAcmCertificate }),
   S.Struct({ file: ListenerTlsFileCertificate }),
   S.Struct({ sds: ListenerTlsSdsCertificate }),
 );
-export class TlsValidationContextFileTrust extends S.Class<TlsValidationContextFileTrust>(
-  "TlsValidationContextFileTrust",
-)({ certificateChain: S.String }) {}
-export class TlsValidationContextSdsTrust extends S.Class<TlsValidationContextSdsTrust>(
-  "TlsValidationContextSdsTrust",
-)({ secretName: S.String }) {}
+export interface TlsValidationContextFileTrust {
+  certificateChain: string;
+}
+export const TlsValidationContextFileTrust = S.suspend(() =>
+  S.Struct({ certificateChain: S.String }),
+).annotations({
+  identifier: "TlsValidationContextFileTrust",
+}) as any as S.Schema<TlsValidationContextFileTrust>;
+export interface TlsValidationContextSdsTrust {
+  secretName: string;
+}
+export const TlsValidationContextSdsTrust = S.suspend(() =>
+  S.Struct({ secretName: S.String }),
+).annotations({
+  identifier: "TlsValidationContextSdsTrust",
+}) as any as S.Schema<TlsValidationContextSdsTrust>;
 export const ListenerTlsValidationContextTrust = S.Union(
   S.Struct({ file: TlsValidationContextFileTrust }),
   S.Struct({ sds: TlsValidationContextSdsTrust }),
 );
-export class ListenerTlsValidationContext extends S.Class<ListenerTlsValidationContext>(
-  "ListenerTlsValidationContext",
-)({
-  trust: ListenerTlsValidationContextTrust,
-  subjectAlternativeNames: S.optional(SubjectAlternativeNames),
-}) {}
-export class ListenerTls extends S.Class<ListenerTls>("ListenerTls")({
-  mode: S.String,
-  certificate: ListenerTlsCertificate,
-  validation: S.optional(ListenerTlsValidationContext),
-}) {}
-export class HealthCheckPolicy extends S.Class<HealthCheckPolicy>(
-  "HealthCheckPolicy",
-)({
-  timeoutMillis: S.Number,
-  intervalMillis: S.Number,
-  protocol: S.String,
-  port: S.optional(S.Number),
-  path: S.optional(S.String),
-  healthyThreshold: S.Number,
-  unhealthyThreshold: S.Number,
-}) {}
-export class Duration extends S.Class<Duration>("Duration")({
-  value: S.optional(S.Number),
-  unit: S.optional(S.String),
-}) {}
-export class TcpTimeout extends S.Class<TcpTimeout>("TcpTimeout")({
-  idle: S.optional(Duration),
-}) {}
-export class HttpTimeout extends S.Class<HttpTimeout>("HttpTimeout")({
-  perRequest: S.optional(Duration),
-  idle: S.optional(Duration),
-}) {}
-export class GrpcTimeout extends S.Class<GrpcTimeout>("GrpcTimeout")({
-  perRequest: S.optional(Duration),
-  idle: S.optional(Duration),
-}) {}
+export interface ListenerTlsValidationContext {
+  trust: (typeof ListenerTlsValidationContextTrust)["Type"];
+  subjectAlternativeNames?: SubjectAlternativeNames;
+}
+export const ListenerTlsValidationContext = S.suspend(() =>
+  S.Struct({
+    trust: ListenerTlsValidationContextTrust,
+    subjectAlternativeNames: S.optional(SubjectAlternativeNames),
+  }),
+).annotations({
+  identifier: "ListenerTlsValidationContext",
+}) as any as S.Schema<ListenerTlsValidationContext>;
+export interface ListenerTls {
+  mode: string;
+  certificate: (typeof ListenerTlsCertificate)["Type"];
+  validation?: ListenerTlsValidationContext;
+}
+export const ListenerTls = S.suspend(() =>
+  S.Struct({
+    mode: S.String,
+    certificate: ListenerTlsCertificate,
+    validation: S.optional(ListenerTlsValidationContext),
+  }),
+).annotations({ identifier: "ListenerTls" }) as any as S.Schema<ListenerTls>;
+export interface HealthCheckPolicy {
+  timeoutMillis: number;
+  intervalMillis: number;
+  protocol: string;
+  port?: number;
+  path?: string;
+  healthyThreshold: number;
+  unhealthyThreshold: number;
+}
+export const HealthCheckPolicy = S.suspend(() =>
+  S.Struct({
+    timeoutMillis: S.Number,
+    intervalMillis: S.Number,
+    protocol: S.String,
+    port: S.optional(S.Number),
+    path: S.optional(S.String),
+    healthyThreshold: S.Number,
+    unhealthyThreshold: S.Number,
+  }),
+).annotations({
+  identifier: "HealthCheckPolicy",
+}) as any as S.Schema<HealthCheckPolicy>;
+export interface Duration {
+  value?: number;
+  unit?: string;
+}
+export const Duration = S.suspend(() =>
+  S.Struct({ value: S.optional(S.Number), unit: S.optional(S.String) }),
+).annotations({ identifier: "Duration" }) as any as S.Schema<Duration>;
+export interface TcpTimeout {
+  idle?: Duration;
+}
+export const TcpTimeout = S.suspend(() =>
+  S.Struct({ idle: S.optional(Duration) }),
+).annotations({ identifier: "TcpTimeout" }) as any as S.Schema<TcpTimeout>;
+export interface HttpTimeout {
+  perRequest?: Duration;
+  idle?: Duration;
+}
+export const HttpTimeout = S.suspend(() =>
+  S.Struct({ perRequest: S.optional(Duration), idle: S.optional(Duration) }),
+).annotations({ identifier: "HttpTimeout" }) as any as S.Schema<HttpTimeout>;
+export interface GrpcTimeout {
+  perRequest?: Duration;
+  idle?: Duration;
+}
+export const GrpcTimeout = S.suspend(() =>
+  S.Struct({ perRequest: S.optional(Duration), idle: S.optional(Duration) }),
+).annotations({ identifier: "GrpcTimeout" }) as any as S.Schema<GrpcTimeout>;
 export const ListenerTimeout = S.Union(
   S.Struct({ tcp: TcpTimeout }),
   S.Struct({ http: HttpTimeout }),
   S.Struct({ http2: HttpTimeout }),
   S.Struct({ grpc: GrpcTimeout }),
 );
-export class OutlierDetection extends S.Class<OutlierDetection>(
-  "OutlierDetection",
-)({
-  maxServerErrors: S.Number,
-  interval: Duration,
-  baseEjectionDuration: Duration,
-  maxEjectionPercent: S.Number,
-}) {}
-export class VirtualNodeTcpConnectionPool extends S.Class<VirtualNodeTcpConnectionPool>(
-  "VirtualNodeTcpConnectionPool",
-)({ maxConnections: S.Number }) {}
-export class VirtualNodeHttpConnectionPool extends S.Class<VirtualNodeHttpConnectionPool>(
-  "VirtualNodeHttpConnectionPool",
-)({ maxConnections: S.Number, maxPendingRequests: S.optional(S.Number) }) {}
-export class VirtualNodeHttp2ConnectionPool extends S.Class<VirtualNodeHttp2ConnectionPool>(
-  "VirtualNodeHttp2ConnectionPool",
-)({ maxRequests: S.Number }) {}
-export class VirtualNodeGrpcConnectionPool extends S.Class<VirtualNodeGrpcConnectionPool>(
-  "VirtualNodeGrpcConnectionPool",
-)({ maxRequests: S.Number }) {}
+export interface OutlierDetection {
+  maxServerErrors: number;
+  interval: Duration;
+  baseEjectionDuration: Duration;
+  maxEjectionPercent: number;
+}
+export const OutlierDetection = S.suspend(() =>
+  S.Struct({
+    maxServerErrors: S.Number,
+    interval: Duration,
+    baseEjectionDuration: Duration,
+    maxEjectionPercent: S.Number,
+  }),
+).annotations({
+  identifier: "OutlierDetection",
+}) as any as S.Schema<OutlierDetection>;
+export interface VirtualNodeTcpConnectionPool {
+  maxConnections: number;
+}
+export const VirtualNodeTcpConnectionPool = S.suspend(() =>
+  S.Struct({ maxConnections: S.Number }),
+).annotations({
+  identifier: "VirtualNodeTcpConnectionPool",
+}) as any as S.Schema<VirtualNodeTcpConnectionPool>;
+export interface VirtualNodeHttpConnectionPool {
+  maxConnections: number;
+  maxPendingRequests?: number;
+}
+export const VirtualNodeHttpConnectionPool = S.suspend(() =>
+  S.Struct({
+    maxConnections: S.Number,
+    maxPendingRequests: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "VirtualNodeHttpConnectionPool",
+}) as any as S.Schema<VirtualNodeHttpConnectionPool>;
+export interface VirtualNodeHttp2ConnectionPool {
+  maxRequests: number;
+}
+export const VirtualNodeHttp2ConnectionPool = S.suspend(() =>
+  S.Struct({ maxRequests: S.Number }),
+).annotations({
+  identifier: "VirtualNodeHttp2ConnectionPool",
+}) as any as S.Schema<VirtualNodeHttp2ConnectionPool>;
+export interface VirtualNodeGrpcConnectionPool {
+  maxRequests: number;
+}
+export const VirtualNodeGrpcConnectionPool = S.suspend(() =>
+  S.Struct({ maxRequests: S.Number }),
+).annotations({
+  identifier: "VirtualNodeGrpcConnectionPool",
+}) as any as S.Schema<VirtualNodeGrpcConnectionPool>;
 export const VirtualNodeConnectionPool = S.Union(
   S.Struct({ tcp: VirtualNodeTcpConnectionPool }),
   S.Struct({ http: VirtualNodeHttpConnectionPool }),
   S.Struct({ http2: VirtualNodeHttp2ConnectionPool }),
   S.Struct({ grpc: VirtualNodeGrpcConnectionPool }),
 );
-export class Listener extends S.Class<Listener>("Listener")({
-  portMapping: PortMapping,
-  tls: S.optional(ListenerTls),
-  healthCheck: S.optional(HealthCheckPolicy),
-  timeout: S.optional(ListenerTimeout),
-  outlierDetection: S.optional(OutlierDetection),
-  connectionPool: S.optional(VirtualNodeConnectionPool),
-}) {}
+export interface Listener {
+  portMapping: PortMapping;
+  tls?: ListenerTls;
+  healthCheck?: HealthCheckPolicy;
+  timeout?: (typeof ListenerTimeout)["Type"];
+  outlierDetection?: OutlierDetection;
+  connectionPool?: (typeof VirtualNodeConnectionPool)["Type"];
+}
+export const Listener = S.suspend(() =>
+  S.Struct({
+    portMapping: PortMapping,
+    tls: S.optional(ListenerTls),
+    healthCheck: S.optional(HealthCheckPolicy),
+    timeout: S.optional(ListenerTimeout),
+    outlierDetection: S.optional(OutlierDetection),
+    connectionPool: S.optional(VirtualNodeConnectionPool),
+  }),
+).annotations({ identifier: "Listener" }) as any as S.Schema<Listener>;
+export type Listeners = Listener[];
 export const Listeners = S.Array(Listener);
 export const ClientTlsCertificate = S.Union(
   S.Struct({ file: ListenerTlsFileCertificate }),
   S.Struct({ sds: ListenerTlsSdsCertificate }),
 );
+export type CertificateAuthorityArns = string[];
 export const CertificateAuthorityArns = S.Array(S.String);
-export class TlsValidationContextAcmTrust extends S.Class<TlsValidationContextAcmTrust>(
-  "TlsValidationContextAcmTrust",
-)({ certificateAuthorityArns: CertificateAuthorityArns }) {}
+export interface TlsValidationContextAcmTrust {
+  certificateAuthorityArns: CertificateAuthorityArns;
+}
+export const TlsValidationContextAcmTrust = S.suspend(() =>
+  S.Struct({ certificateAuthorityArns: CertificateAuthorityArns }),
+).annotations({
+  identifier: "TlsValidationContextAcmTrust",
+}) as any as S.Schema<TlsValidationContextAcmTrust>;
 export const TlsValidationContextTrust = S.Union(
   S.Struct({ acm: TlsValidationContextAcmTrust }),
   S.Struct({ file: TlsValidationContextFileTrust }),
   S.Struct({ sds: TlsValidationContextSdsTrust }),
 );
-export class TlsValidationContext extends S.Class<TlsValidationContext>(
-  "TlsValidationContext",
-)({
-  trust: TlsValidationContextTrust,
-  subjectAlternativeNames: S.optional(SubjectAlternativeNames),
-}) {}
-export class ClientPolicyTls extends S.Class<ClientPolicyTls>(
-  "ClientPolicyTls",
-)({
-  enforce: S.optional(S.Boolean),
-  ports: S.optional(PortSet),
-  certificate: S.optional(ClientTlsCertificate),
-  validation: TlsValidationContext,
-}) {}
-export class ClientPolicy extends S.Class<ClientPolicy>("ClientPolicy")({
-  tls: S.optional(ClientPolicyTls),
-}) {}
-export class VirtualServiceBackend extends S.Class<VirtualServiceBackend>(
-  "VirtualServiceBackend",
-)({ virtualServiceName: S.String, clientPolicy: S.optional(ClientPolicy) }) {}
+export interface TlsValidationContext {
+  trust: (typeof TlsValidationContextTrust)["Type"];
+  subjectAlternativeNames?: SubjectAlternativeNames;
+}
+export const TlsValidationContext = S.suspend(() =>
+  S.Struct({
+    trust: TlsValidationContextTrust,
+    subjectAlternativeNames: S.optional(SubjectAlternativeNames),
+  }),
+).annotations({
+  identifier: "TlsValidationContext",
+}) as any as S.Schema<TlsValidationContext>;
+export interface ClientPolicyTls {
+  enforce?: boolean;
+  ports?: PortSet;
+  certificate?: (typeof ClientTlsCertificate)["Type"];
+  validation: TlsValidationContext;
+}
+export const ClientPolicyTls = S.suspend(() =>
+  S.Struct({
+    enforce: S.optional(S.Boolean),
+    ports: S.optional(PortSet),
+    certificate: S.optional(ClientTlsCertificate),
+    validation: TlsValidationContext,
+  }),
+).annotations({
+  identifier: "ClientPolicyTls",
+}) as any as S.Schema<ClientPolicyTls>;
+export interface ClientPolicy {
+  tls?: ClientPolicyTls;
+}
+export const ClientPolicy = S.suspend(() =>
+  S.Struct({ tls: S.optional(ClientPolicyTls) }),
+).annotations({ identifier: "ClientPolicy" }) as any as S.Schema<ClientPolicy>;
+export interface VirtualServiceBackend {
+  virtualServiceName: string;
+  clientPolicy?: ClientPolicy;
+}
+export const VirtualServiceBackend = S.suspend(() =>
+  S.Struct({
+    virtualServiceName: S.String,
+    clientPolicy: S.optional(ClientPolicy),
+  }),
+).annotations({
+  identifier: "VirtualServiceBackend",
+}) as any as S.Schema<VirtualServiceBackend>;
 export const Backend = S.Union(
   S.Struct({ virtualService: VirtualServiceBackend }),
 );
+export type Backends = (typeof Backend)["Type"][];
 export const Backends = S.Array(Backend);
-export class BackendDefaults extends S.Class<BackendDefaults>(
-  "BackendDefaults",
-)({ clientPolicy: S.optional(ClientPolicy) }) {}
-export class FileAccessLog extends S.Class<FileAccessLog>("FileAccessLog")({
-  path: S.String,
-  format: S.optional(LoggingFormat),
-}) {}
+export interface BackendDefaults {
+  clientPolicy?: ClientPolicy;
+}
+export const BackendDefaults = S.suspend(() =>
+  S.Struct({ clientPolicy: S.optional(ClientPolicy) }),
+).annotations({
+  identifier: "BackendDefaults",
+}) as any as S.Schema<BackendDefaults>;
+export interface FileAccessLog {
+  path: string;
+  format?: (typeof LoggingFormat)["Type"];
+}
+export const FileAccessLog = S.suspend(() =>
+  S.Struct({ path: S.String, format: S.optional(LoggingFormat) }),
+).annotations({
+  identifier: "FileAccessLog",
+}) as any as S.Schema<FileAccessLog>;
 export const AccessLog = S.Union(S.Struct({ file: FileAccessLog }));
-export class Logging extends S.Class<Logging>("Logging")({
-  accessLog: S.optional(AccessLog),
-}) {}
-export class VirtualNodeSpec extends S.Class<VirtualNodeSpec>(
-  "VirtualNodeSpec",
-)({
-  serviceDiscovery: S.optional(ServiceDiscovery),
-  listeners: S.optional(Listeners),
-  backends: S.optional(Backends),
-  backendDefaults: S.optional(BackendDefaults),
-  logging: S.optional(Logging),
-}) {}
-export class UpdateVirtualNodeInput extends S.Class<UpdateVirtualNodeInput>(
-  "UpdateVirtualNodeInput",
-)(
-  {
+export interface Logging {
+  accessLog?: (typeof AccessLog)["Type"];
+}
+export const Logging = S.suspend(() =>
+  S.Struct({ accessLog: S.optional(AccessLog) }),
+).annotations({ identifier: "Logging" }) as any as S.Schema<Logging>;
+export interface VirtualNodeSpec {
+  serviceDiscovery?: (typeof ServiceDiscovery)["Type"];
+  listeners?: Listeners;
+  backends?: Backends;
+  backendDefaults?: BackendDefaults;
+  logging?: Logging;
+}
+export const VirtualNodeSpec = S.suspend(() =>
+  S.Struct({
+    serviceDiscovery: S.optional(ServiceDiscovery),
+    listeners: S.optional(Listeners),
+    backends: S.optional(Backends),
+    backendDefaults: S.optional(BackendDefaults),
+    logging: S.optional(Logging),
+  }),
+).annotations({
+  identifier: "VirtualNodeSpec",
+}) as any as S.Schema<VirtualNodeSpec>;
+export interface UpdateVirtualNodeInput {
+  virtualNodeName: string;
+  meshName: string;
+  spec: VirtualNodeSpec;
+  clientToken?: string;
+  meshOwner?: string;
+}
+export const UpdateVirtualNodeInput = S.suspend(() =>
+  S.Struct({
     virtualNodeName: S.String.pipe(T.HttpLabel("virtualNodeName")),
     meshName: S.String.pipe(T.HttpLabel("meshName")),
     spec: VirtualNodeSpec,
     clientToken: S.optional(S.String),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/v20190125/meshes/{meshName}/virtualNodes/{virtualNodeName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/v20190125/meshes/{meshName}/virtualNodes/{virtualNodeName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteVirtualNodeInput extends S.Class<DeleteVirtualNodeInput>(
-  "DeleteVirtualNodeInput",
-)(
-  {
+).annotations({
+  identifier: "UpdateVirtualNodeInput",
+}) as any as S.Schema<UpdateVirtualNodeInput>;
+export interface DeleteVirtualNodeInput {
+  virtualNodeName: string;
+  meshName: string;
+  meshOwner?: string;
+}
+export const DeleteVirtualNodeInput = S.suspend(() =>
+  S.Struct({
     virtualNodeName: S.String.pipe(T.HttpLabel("virtualNodeName")),
     meshName: S.String.pipe(T.HttpLabel("meshName")),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/v20190125/meshes/{meshName}/virtualNodes/{virtualNodeName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/v20190125/meshes/{meshName}/virtualNodes/{virtualNodeName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListVirtualNodesInput extends S.Class<ListVirtualNodesInput>(
-  "ListVirtualNodesInput",
-)(
-  {
+).annotations({
+  identifier: "DeleteVirtualNodeInput",
+}) as any as S.Schema<DeleteVirtualNodeInput>;
+export interface ListVirtualNodesInput {
+  meshName: string;
+  nextToken?: string;
+  limit?: number;
+  meshOwner?: string;
+}
+export const ListVirtualNodesInput = S.suspend(() =>
+  S.Struct({
     meshName: S.String.pipe(T.HttpLabel("meshName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/v20190125/meshes/{meshName}/virtualNodes" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/v20190125/meshes/{meshName}/virtualNodes",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeVirtualRouterInput extends S.Class<DescribeVirtualRouterInput>(
-  "DescribeVirtualRouterInput",
-)(
-  {
+).annotations({
+  identifier: "ListVirtualNodesInput",
+}) as any as S.Schema<ListVirtualNodesInput>;
+export interface DescribeVirtualRouterInput {
+  virtualRouterName: string;
+  meshName: string;
+  meshOwner?: string;
+}
+export const DescribeVirtualRouterInput = S.suspend(() =>
+  S.Struct({
     virtualRouterName: S.String.pipe(T.HttpLabel("virtualRouterName")),
     meshName: S.String.pipe(T.HttpLabel("meshName")),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/v20190125/meshes/{meshName}/virtualRouters/{virtualRouterName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/v20190125/meshes/{meshName}/virtualRouters/{virtualRouterName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class VirtualRouterListener extends S.Class<VirtualRouterListener>(
-  "VirtualRouterListener",
-)({ portMapping: PortMapping }) {}
+).annotations({
+  identifier: "DescribeVirtualRouterInput",
+}) as any as S.Schema<DescribeVirtualRouterInput>;
+export interface VirtualRouterListener {
+  portMapping: PortMapping;
+}
+export const VirtualRouterListener = S.suspend(() =>
+  S.Struct({ portMapping: PortMapping }),
+).annotations({
+  identifier: "VirtualRouterListener",
+}) as any as S.Schema<VirtualRouterListener>;
+export type VirtualRouterListeners = VirtualRouterListener[];
 export const VirtualRouterListeners = S.Array(VirtualRouterListener);
-export class VirtualRouterSpec extends S.Class<VirtualRouterSpec>(
-  "VirtualRouterSpec",
-)({ listeners: S.optional(VirtualRouterListeners) }) {}
-export class UpdateVirtualRouterInput extends S.Class<UpdateVirtualRouterInput>(
-  "UpdateVirtualRouterInput",
-)(
-  {
+export interface VirtualRouterSpec {
+  listeners?: VirtualRouterListeners;
+}
+export const VirtualRouterSpec = S.suspend(() =>
+  S.Struct({ listeners: S.optional(VirtualRouterListeners) }),
+).annotations({
+  identifier: "VirtualRouterSpec",
+}) as any as S.Schema<VirtualRouterSpec>;
+export interface UpdateVirtualRouterInput {
+  virtualRouterName: string;
+  meshName: string;
+  spec: VirtualRouterSpec;
+  clientToken?: string;
+  meshOwner?: string;
+}
+export const UpdateVirtualRouterInput = S.suspend(() =>
+  S.Struct({
     virtualRouterName: S.String.pipe(T.HttpLabel("virtualRouterName")),
     meshName: S.String.pipe(T.HttpLabel("meshName")),
     spec: VirtualRouterSpec,
     clientToken: S.optional(S.String),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/v20190125/meshes/{meshName}/virtualRouters/{virtualRouterName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/v20190125/meshes/{meshName}/virtualRouters/{virtualRouterName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteVirtualRouterInput extends S.Class<DeleteVirtualRouterInput>(
-  "DeleteVirtualRouterInput",
-)(
-  {
+).annotations({
+  identifier: "UpdateVirtualRouterInput",
+}) as any as S.Schema<UpdateVirtualRouterInput>;
+export interface DeleteVirtualRouterInput {
+  virtualRouterName: string;
+  meshName: string;
+  meshOwner?: string;
+}
+export const DeleteVirtualRouterInput = S.suspend(() =>
+  S.Struct({
     virtualRouterName: S.String.pipe(T.HttpLabel("virtualRouterName")),
     meshName: S.String.pipe(T.HttpLabel("meshName")),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/v20190125/meshes/{meshName}/virtualRouters/{virtualRouterName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/v20190125/meshes/{meshName}/virtualRouters/{virtualRouterName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListVirtualRoutersInput extends S.Class<ListVirtualRoutersInput>(
-  "ListVirtualRoutersInput",
-)(
-  {
+).annotations({
+  identifier: "DeleteVirtualRouterInput",
+}) as any as S.Schema<DeleteVirtualRouterInput>;
+export interface ListVirtualRoutersInput {
+  meshName: string;
+  nextToken?: string;
+  limit?: number;
+  meshOwner?: string;
+}
+export const ListVirtualRoutersInput = S.suspend(() =>
+  S.Struct({
     meshName: S.String.pipe(T.HttpLabel("meshName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/v20190125/meshes/{meshName}/virtualRouters",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/v20190125/meshes/{meshName}/virtualRouters",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeRouteInput extends S.Class<DescribeRouteInput>(
-  "DescribeRouteInput",
-)(
-  {
+).annotations({
+  identifier: "ListVirtualRoutersInput",
+}) as any as S.Schema<ListVirtualRoutersInput>;
+export interface DescribeRouteInput {
+  routeName: string;
+  meshName: string;
+  meshOwner?: string;
+  virtualRouterName: string;
+}
+export const DescribeRouteInput = S.suspend(() =>
+  S.Struct({
     routeName: S.String.pipe(T.HttpLabel("routeName")),
     meshName: S.String.pipe(T.HttpLabel("meshName")),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
     virtualRouterName: S.String.pipe(T.HttpLabel("virtualRouterName")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes/{routeName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes/{routeName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class HttpRouteHeader extends S.Class<HttpRouteHeader>(
-  "HttpRouteHeader",
-)({
-  name: S.String,
-  invert: S.optional(S.Boolean),
-  match: S.optional(HeaderMatchMethod),
-}) {}
+).annotations({
+  identifier: "DescribeRouteInput",
+}) as any as S.Schema<DescribeRouteInput>;
+export interface HttpRouteHeader {
+  name: string;
+  invert?: boolean;
+  match?: (typeof HeaderMatchMethod)["Type"];
+}
+export const HttpRouteHeader = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    invert: S.optional(S.Boolean),
+    match: S.optional(HeaderMatchMethod),
+  }),
+).annotations({
+  identifier: "HttpRouteHeader",
+}) as any as S.Schema<HttpRouteHeader>;
+export type HttpRouteHeaders = HttpRouteHeader[];
 export const HttpRouteHeaders = S.Array(HttpRouteHeader);
-export class HttpRouteMatch extends S.Class<HttpRouteMatch>("HttpRouteMatch")({
-  prefix: S.optional(S.String),
-  path: S.optional(HttpPathMatch),
-  queryParameters: S.optional(HttpQueryParameters),
-  method: S.optional(S.String),
-  scheme: S.optional(S.String),
-  headers: S.optional(HttpRouteHeaders),
-  port: S.optional(S.Number),
-}) {}
-export class WeightedTarget extends S.Class<WeightedTarget>("WeightedTarget")({
-  virtualNode: S.String,
-  weight: S.Number,
-  port: S.optional(S.Number),
-}) {}
+export interface HttpRouteMatch {
+  prefix?: string;
+  path?: HttpPathMatch;
+  queryParameters?: HttpQueryParameters;
+  method?: string;
+  scheme?: string;
+  headers?: HttpRouteHeaders;
+  port?: number;
+}
+export const HttpRouteMatch = S.suspend(() =>
+  S.Struct({
+    prefix: S.optional(S.String),
+    path: S.optional(HttpPathMatch),
+    queryParameters: S.optional(HttpQueryParameters),
+    method: S.optional(S.String),
+    scheme: S.optional(S.String),
+    headers: S.optional(HttpRouteHeaders),
+    port: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "HttpRouteMatch",
+}) as any as S.Schema<HttpRouteMatch>;
+export interface WeightedTarget {
+  virtualNode: string;
+  weight: number;
+  port?: number;
+}
+export const WeightedTarget = S.suspend(() =>
+  S.Struct({
+    virtualNode: S.String,
+    weight: S.Number,
+    port: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "WeightedTarget",
+}) as any as S.Schema<WeightedTarget>;
+export type WeightedTargets = WeightedTarget[];
 export const WeightedTargets = S.Array(WeightedTarget);
-export class HttpRouteAction extends S.Class<HttpRouteAction>(
-  "HttpRouteAction",
-)({ weightedTargets: WeightedTargets }) {}
+export interface HttpRouteAction {
+  weightedTargets: WeightedTargets;
+}
+export const HttpRouteAction = S.suspend(() =>
+  S.Struct({ weightedTargets: WeightedTargets }),
+).annotations({
+  identifier: "HttpRouteAction",
+}) as any as S.Schema<HttpRouteAction>;
+export type HttpRetryPolicyEvents = string[];
 export const HttpRetryPolicyEvents = S.Array(S.String);
+export type TcpRetryPolicyEvents = string[];
 export const TcpRetryPolicyEvents = S.Array(S.String);
-export class HttpRetryPolicy extends S.Class<HttpRetryPolicy>(
-  "HttpRetryPolicy",
-)({
-  perRetryTimeout: Duration,
-  maxRetries: S.Number,
-  httpRetryEvents: S.optional(HttpRetryPolicyEvents),
-  tcpRetryEvents: S.optional(TcpRetryPolicyEvents),
-}) {}
-export class HttpRoute extends S.Class<HttpRoute>("HttpRoute")({
-  match: HttpRouteMatch,
-  action: HttpRouteAction,
-  retryPolicy: S.optional(HttpRetryPolicy),
-  timeout: S.optional(HttpTimeout),
-}) {}
-export class TcpRouteAction extends S.Class<TcpRouteAction>("TcpRouteAction")({
-  weightedTargets: WeightedTargets,
-}) {}
-export class TcpRouteMatch extends S.Class<TcpRouteMatch>("TcpRouteMatch")({
-  port: S.optional(S.Number),
-}) {}
-export class TcpRoute extends S.Class<TcpRoute>("TcpRoute")({
-  action: TcpRouteAction,
-  timeout: S.optional(TcpTimeout),
-  match: S.optional(TcpRouteMatch),
-}) {}
-export class GrpcRouteAction extends S.Class<GrpcRouteAction>(
-  "GrpcRouteAction",
-)({ weightedTargets: WeightedTargets }) {}
+export interface HttpRetryPolicy {
+  perRetryTimeout: Duration;
+  maxRetries: number;
+  httpRetryEvents?: HttpRetryPolicyEvents;
+  tcpRetryEvents?: TcpRetryPolicyEvents;
+}
+export const HttpRetryPolicy = S.suspend(() =>
+  S.Struct({
+    perRetryTimeout: Duration,
+    maxRetries: S.Number,
+    httpRetryEvents: S.optional(HttpRetryPolicyEvents),
+    tcpRetryEvents: S.optional(TcpRetryPolicyEvents),
+  }),
+).annotations({
+  identifier: "HttpRetryPolicy",
+}) as any as S.Schema<HttpRetryPolicy>;
+export interface HttpRoute {
+  match: HttpRouteMatch;
+  action: HttpRouteAction;
+  retryPolicy?: HttpRetryPolicy;
+  timeout?: HttpTimeout;
+}
+export const HttpRoute = S.suspend(() =>
+  S.Struct({
+    match: HttpRouteMatch,
+    action: HttpRouteAction,
+    retryPolicy: S.optional(HttpRetryPolicy),
+    timeout: S.optional(HttpTimeout),
+  }),
+).annotations({ identifier: "HttpRoute" }) as any as S.Schema<HttpRoute>;
+export interface TcpRouteAction {
+  weightedTargets: WeightedTargets;
+}
+export const TcpRouteAction = S.suspend(() =>
+  S.Struct({ weightedTargets: WeightedTargets }),
+).annotations({
+  identifier: "TcpRouteAction",
+}) as any as S.Schema<TcpRouteAction>;
+export interface TcpRouteMatch {
+  port?: number;
+}
+export const TcpRouteMatch = S.suspend(() =>
+  S.Struct({ port: S.optional(S.Number) }),
+).annotations({
+  identifier: "TcpRouteMatch",
+}) as any as S.Schema<TcpRouteMatch>;
+export interface TcpRoute {
+  action: TcpRouteAction;
+  timeout?: TcpTimeout;
+  match?: TcpRouteMatch;
+}
+export const TcpRoute = S.suspend(() =>
+  S.Struct({
+    action: TcpRouteAction,
+    timeout: S.optional(TcpTimeout),
+    match: S.optional(TcpRouteMatch),
+  }),
+).annotations({ identifier: "TcpRoute" }) as any as S.Schema<TcpRoute>;
+export interface GrpcRouteAction {
+  weightedTargets: WeightedTargets;
+}
+export const GrpcRouteAction = S.suspend(() =>
+  S.Struct({ weightedTargets: WeightedTargets }),
+).annotations({
+  identifier: "GrpcRouteAction",
+}) as any as S.Schema<GrpcRouteAction>;
 export const GrpcRouteMetadataMatchMethod = S.Union(
   S.Struct({ exact: S.String }),
   S.Struct({ regex: S.String }),
@@ -1218,568 +1949,1200 @@ export const GrpcRouteMetadataMatchMethod = S.Union(
   S.Struct({ prefix: S.String }),
   S.Struct({ suffix: S.String }),
 );
-export class GrpcRouteMetadata extends S.Class<GrpcRouteMetadata>(
-  "GrpcRouteMetadata",
-)({
-  name: S.String,
-  invert: S.optional(S.Boolean),
-  match: S.optional(GrpcRouteMetadataMatchMethod),
-}) {}
+export interface GrpcRouteMetadata {
+  name: string;
+  invert?: boolean;
+  match?: (typeof GrpcRouteMetadataMatchMethod)["Type"];
+}
+export const GrpcRouteMetadata = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    invert: S.optional(S.Boolean),
+    match: S.optional(GrpcRouteMetadataMatchMethod),
+  }),
+).annotations({
+  identifier: "GrpcRouteMetadata",
+}) as any as S.Schema<GrpcRouteMetadata>;
+export type GrpcRouteMetadataList = GrpcRouteMetadata[];
 export const GrpcRouteMetadataList = S.Array(GrpcRouteMetadata);
-export class GrpcRouteMatch extends S.Class<GrpcRouteMatch>("GrpcRouteMatch")({
-  serviceName: S.optional(S.String),
-  methodName: S.optional(S.String),
-  metadata: S.optional(GrpcRouteMetadataList),
-  port: S.optional(S.Number),
-}) {}
+export interface GrpcRouteMatch {
+  serviceName?: string;
+  methodName?: string;
+  metadata?: GrpcRouteMetadataList;
+  port?: number;
+}
+export const GrpcRouteMatch = S.suspend(() =>
+  S.Struct({
+    serviceName: S.optional(S.String),
+    methodName: S.optional(S.String),
+    metadata: S.optional(GrpcRouteMetadataList),
+    port: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "GrpcRouteMatch",
+}) as any as S.Schema<GrpcRouteMatch>;
+export type GrpcRetryPolicyEvents = string[];
 export const GrpcRetryPolicyEvents = S.Array(S.String);
-export class GrpcRetryPolicy extends S.Class<GrpcRetryPolicy>(
-  "GrpcRetryPolicy",
-)({
-  perRetryTimeout: Duration,
-  maxRetries: S.Number,
-  httpRetryEvents: S.optional(HttpRetryPolicyEvents),
-  tcpRetryEvents: S.optional(TcpRetryPolicyEvents),
-  grpcRetryEvents: S.optional(GrpcRetryPolicyEvents),
-}) {}
-export class GrpcRoute extends S.Class<GrpcRoute>("GrpcRoute")({
-  action: GrpcRouteAction,
-  match: GrpcRouteMatch,
-  retryPolicy: S.optional(GrpcRetryPolicy),
-  timeout: S.optional(GrpcTimeout),
-}) {}
-export class RouteSpec extends S.Class<RouteSpec>("RouteSpec")({
-  priority: S.optional(S.Number),
-  httpRoute: S.optional(HttpRoute),
-  tcpRoute: S.optional(TcpRoute),
-  http2Route: S.optional(HttpRoute),
-  grpcRoute: S.optional(GrpcRoute),
-}) {}
-export class UpdateRouteInput extends S.Class<UpdateRouteInput>(
-  "UpdateRouteInput",
-)(
-  {
+export interface GrpcRetryPolicy {
+  perRetryTimeout: Duration;
+  maxRetries: number;
+  httpRetryEvents?: HttpRetryPolicyEvents;
+  tcpRetryEvents?: TcpRetryPolicyEvents;
+  grpcRetryEvents?: GrpcRetryPolicyEvents;
+}
+export const GrpcRetryPolicy = S.suspend(() =>
+  S.Struct({
+    perRetryTimeout: Duration,
+    maxRetries: S.Number,
+    httpRetryEvents: S.optional(HttpRetryPolicyEvents),
+    tcpRetryEvents: S.optional(TcpRetryPolicyEvents),
+    grpcRetryEvents: S.optional(GrpcRetryPolicyEvents),
+  }),
+).annotations({
+  identifier: "GrpcRetryPolicy",
+}) as any as S.Schema<GrpcRetryPolicy>;
+export interface GrpcRoute {
+  action: GrpcRouteAction;
+  match: GrpcRouteMatch;
+  retryPolicy?: GrpcRetryPolicy;
+  timeout?: GrpcTimeout;
+}
+export const GrpcRoute = S.suspend(() =>
+  S.Struct({
+    action: GrpcRouteAction,
+    match: GrpcRouteMatch,
+    retryPolicy: S.optional(GrpcRetryPolicy),
+    timeout: S.optional(GrpcTimeout),
+  }),
+).annotations({ identifier: "GrpcRoute" }) as any as S.Schema<GrpcRoute>;
+export interface RouteSpec {
+  priority?: number;
+  httpRoute?: HttpRoute;
+  tcpRoute?: TcpRoute;
+  http2Route?: HttpRoute;
+  grpcRoute?: GrpcRoute;
+}
+export const RouteSpec = S.suspend(() =>
+  S.Struct({
+    priority: S.optional(S.Number),
+    httpRoute: S.optional(HttpRoute),
+    tcpRoute: S.optional(TcpRoute),
+    http2Route: S.optional(HttpRoute),
+    grpcRoute: S.optional(GrpcRoute),
+  }),
+).annotations({ identifier: "RouteSpec" }) as any as S.Schema<RouteSpec>;
+export interface UpdateRouteInput {
+  routeName: string;
+  meshName: string;
+  virtualRouterName: string;
+  spec: RouteSpec;
+  clientToken?: string;
+  meshOwner?: string;
+}
+export const UpdateRouteInput = S.suspend(() =>
+  S.Struct({
     routeName: S.String.pipe(T.HttpLabel("routeName")),
     meshName: S.String.pipe(T.HttpLabel("meshName")),
     virtualRouterName: S.String.pipe(T.HttpLabel("virtualRouterName")),
     spec: RouteSpec,
     clientToken: S.optional(S.String),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes/{routeName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes/{routeName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteRouteInput extends S.Class<DeleteRouteInput>(
-  "DeleteRouteInput",
-)(
-  {
+).annotations({
+  identifier: "UpdateRouteInput",
+}) as any as S.Schema<UpdateRouteInput>;
+export interface DeleteRouteInput {
+  routeName: string;
+  meshName: string;
+  virtualRouterName: string;
+  meshOwner?: string;
+}
+export const DeleteRouteInput = S.suspend(() =>
+  S.Struct({
     routeName: S.String.pipe(T.HttpLabel("routeName")),
     meshName: S.String.pipe(T.HttpLabel("meshName")),
     virtualRouterName: S.String.pipe(T.HttpLabel("virtualRouterName")),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes/{routeName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes/{routeName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListRoutesInput extends S.Class<ListRoutesInput>(
-  "ListRoutesInput",
-)(
-  {
+).annotations({
+  identifier: "DeleteRouteInput",
+}) as any as S.Schema<DeleteRouteInput>;
+export interface ListRoutesInput {
+  meshName: string;
+  virtualRouterName: string;
+  nextToken?: string;
+  limit?: number;
+  meshOwner?: string;
+}
+export const ListRoutesInput = S.suspend(() =>
+  S.Struct({
     meshName: S.String.pipe(T.HttpLabel("meshName")),
     virtualRouterName: S.String.pipe(T.HttpLabel("virtualRouterName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeVirtualServiceInput extends S.Class<DescribeVirtualServiceInput>(
-  "DescribeVirtualServiceInput",
-)(
-  {
+).annotations({
+  identifier: "ListRoutesInput",
+}) as any as S.Schema<ListRoutesInput>;
+export interface DescribeVirtualServiceInput {
+  virtualServiceName: string;
+  meshName: string;
+  meshOwner?: string;
+}
+export const DescribeVirtualServiceInput = S.suspend(() =>
+  S.Struct({
     virtualServiceName: S.String.pipe(T.HttpLabel("virtualServiceName")),
     meshName: S.String.pipe(T.HttpLabel("meshName")),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/v20190125/meshes/{meshName}/virtualServices/{virtualServiceName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/v20190125/meshes/{meshName}/virtualServices/{virtualServiceName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class VirtualNodeServiceProvider extends S.Class<VirtualNodeServiceProvider>(
-  "VirtualNodeServiceProvider",
-)({ virtualNodeName: S.String }) {}
-export class VirtualRouterServiceProvider extends S.Class<VirtualRouterServiceProvider>(
-  "VirtualRouterServiceProvider",
-)({ virtualRouterName: S.String }) {}
+).annotations({
+  identifier: "DescribeVirtualServiceInput",
+}) as any as S.Schema<DescribeVirtualServiceInput>;
+export interface VirtualNodeServiceProvider {
+  virtualNodeName: string;
+}
+export const VirtualNodeServiceProvider = S.suspend(() =>
+  S.Struct({ virtualNodeName: S.String }),
+).annotations({
+  identifier: "VirtualNodeServiceProvider",
+}) as any as S.Schema<VirtualNodeServiceProvider>;
+export interface VirtualRouterServiceProvider {
+  virtualRouterName: string;
+}
+export const VirtualRouterServiceProvider = S.suspend(() =>
+  S.Struct({ virtualRouterName: S.String }),
+).annotations({
+  identifier: "VirtualRouterServiceProvider",
+}) as any as S.Schema<VirtualRouterServiceProvider>;
 export const VirtualServiceProvider = S.Union(
   S.Struct({ virtualNode: VirtualNodeServiceProvider }),
   S.Struct({ virtualRouter: VirtualRouterServiceProvider }),
 );
-export class VirtualServiceSpec extends S.Class<VirtualServiceSpec>(
-  "VirtualServiceSpec",
-)({ provider: S.optional(VirtualServiceProvider) }) {}
-export class UpdateVirtualServiceInput extends S.Class<UpdateVirtualServiceInput>(
-  "UpdateVirtualServiceInput",
-)(
-  {
+export interface VirtualServiceSpec {
+  provider?: (typeof VirtualServiceProvider)["Type"];
+}
+export const VirtualServiceSpec = S.suspend(() =>
+  S.Struct({ provider: S.optional(VirtualServiceProvider) }),
+).annotations({
+  identifier: "VirtualServiceSpec",
+}) as any as S.Schema<VirtualServiceSpec>;
+export interface UpdateVirtualServiceInput {
+  virtualServiceName: string;
+  meshName: string;
+  spec: VirtualServiceSpec;
+  clientToken?: string;
+  meshOwner?: string;
+}
+export const UpdateVirtualServiceInput = S.suspend(() =>
+  S.Struct({
     virtualServiceName: S.String.pipe(T.HttpLabel("virtualServiceName")),
     meshName: S.String.pipe(T.HttpLabel("meshName")),
     spec: VirtualServiceSpec,
     clientToken: S.optional(S.String),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/v20190125/meshes/{meshName}/virtualServices/{virtualServiceName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/v20190125/meshes/{meshName}/virtualServices/{virtualServiceName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteVirtualServiceInput extends S.Class<DeleteVirtualServiceInput>(
-  "DeleteVirtualServiceInput",
-)(
-  {
+).annotations({
+  identifier: "UpdateVirtualServiceInput",
+}) as any as S.Schema<UpdateVirtualServiceInput>;
+export interface DeleteVirtualServiceInput {
+  virtualServiceName: string;
+  meshName: string;
+  meshOwner?: string;
+}
+export const DeleteVirtualServiceInput = S.suspend(() =>
+  S.Struct({
     virtualServiceName: S.String.pipe(T.HttpLabel("virtualServiceName")),
     meshName: S.String.pipe(T.HttpLabel("meshName")),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/v20190125/meshes/{meshName}/virtualServices/{virtualServiceName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/v20190125/meshes/{meshName}/virtualServices/{virtualServiceName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListVirtualServicesInput extends S.Class<ListVirtualServicesInput>(
-  "ListVirtualServicesInput",
-)(
-  {
+).annotations({
+  identifier: "DeleteVirtualServiceInput",
+}) as any as S.Schema<DeleteVirtualServiceInput>;
+export interface ListVirtualServicesInput {
+  meshName: string;
+  nextToken?: string;
+  limit?: number;
+  meshOwner?: string;
+}
+export const ListVirtualServicesInput = S.suspend(() =>
+  S.Struct({
     meshName: S.String.pipe(T.HttpLabel("meshName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/v20190125/meshes/{meshName}/virtualServices",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/v20190125/meshes/{meshName}/virtualServices",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagRef extends S.Class<TagRef>("TagRef")({
-  key: S.String,
-  value: S.String,
-}) {}
+).annotations({
+  identifier: "ListVirtualServicesInput",
+}) as any as S.Schema<ListVirtualServicesInput>;
+export interface TagRef {
+  key: string;
+  value: string;
+}
+export const TagRef = S.suspend(() =>
+  S.Struct({ key: S.String, value: S.String }),
+).annotations({ identifier: "TagRef" }) as any as S.Schema<TagRef>;
+export type TagList = TagRef[];
 export const TagList = S.Array(TagRef);
-export class ListTagsForResourceOutput extends S.Class<ListTagsForResourceOutput>(
-  "ListTagsForResourceOutput",
-)({ tags: TagList, nextToken: S.optional(S.String) }) {}
-export class TagResourceInput extends S.Class<TagResourceInput>(
-  "TagResourceInput",
-)(
-  { resourceArn: S.String.pipe(T.HttpQuery("resourceArn")), tags: TagList },
-  T.all(
-    T.Http({ method: "PUT", uri: "/v20190125/tag" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface ListTagsForResourceOutput {
+  tags: TagList;
+  nextToken?: string;
+}
+export const ListTagsForResourceOutput = S.suspend(() =>
+  S.Struct({ tags: TagList, nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListTagsForResourceOutput",
+}) as any as S.Schema<ListTagsForResourceOutput>;
+export interface TagResourceInput {
+  resourceArn: string;
+  tags: TagList;
+}
+export const TagResourceInput = S.suspend(() =>
+  S.Struct({
+    resourceArn: S.String.pipe(T.HttpQuery("resourceArn")),
+    tags: TagList,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/v20190125/tag" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceOutput extends S.Class<TagResourceOutput>(
-  "TagResourceOutput",
-)({}) {}
-export class ResourceMetadata extends S.Class<ResourceMetadata>(
-  "ResourceMetadata",
-)({
-  arn: S.String,
-  version: S.Number,
-  uid: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  lastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  meshOwner: S.String,
-  resourceOwner: S.String,
-}) {}
-export class MeshStatus extends S.Class<MeshStatus>("MeshStatus")({
-  status: S.optional(S.String),
-}) {}
-export class MeshData extends S.Class<MeshData>("MeshData")({
-  meshName: S.String,
-  spec: MeshSpec,
-  metadata: ResourceMetadata,
-  status: MeshStatus,
-}) {}
-export class UpdateMeshOutput extends S.Class<UpdateMeshOutput>(
-  "UpdateMeshOutput",
-)({ mesh: MeshData.pipe(T.HttpPayload()) }) {}
-export class DeleteMeshOutput extends S.Class<DeleteMeshOutput>(
-  "DeleteMeshOutput",
-)({ mesh: MeshData.pipe(T.HttpPayload()) }) {}
-export class VirtualGatewayStatus extends S.Class<VirtualGatewayStatus>(
-  "VirtualGatewayStatus",
-)({ status: S.String }) {}
-export class VirtualGatewayData extends S.Class<VirtualGatewayData>(
-  "VirtualGatewayData",
-)({
-  meshName: S.String,
-  virtualGatewayName: S.String,
-  spec: VirtualGatewaySpec,
-  metadata: ResourceMetadata,
-  status: VirtualGatewayStatus,
-}) {}
-export class UpdateVirtualGatewayOutput extends S.Class<UpdateVirtualGatewayOutput>(
-  "UpdateVirtualGatewayOutput",
-)({ virtualGateway: VirtualGatewayData.pipe(T.HttpPayload()) }) {}
-export class DeleteVirtualGatewayOutput extends S.Class<DeleteVirtualGatewayOutput>(
-  "DeleteVirtualGatewayOutput",
-)({ virtualGateway: VirtualGatewayData.pipe(T.HttpPayload()) }) {}
-export class GatewayRouteStatus extends S.Class<GatewayRouteStatus>(
-  "GatewayRouteStatus",
-)({ status: S.String }) {}
-export class GatewayRouteData extends S.Class<GatewayRouteData>(
-  "GatewayRouteData",
-)({
-  meshName: S.String,
-  gatewayRouteName: S.String,
-  virtualGatewayName: S.String,
-  spec: GatewayRouteSpec,
-  metadata: ResourceMetadata,
-  status: GatewayRouteStatus,
-}) {}
-export class UpdateGatewayRouteOutput extends S.Class<UpdateGatewayRouteOutput>(
-  "UpdateGatewayRouteOutput",
-)({ gatewayRoute: GatewayRouteData.pipe(T.HttpPayload()) }) {}
-export class DeleteGatewayRouteOutput extends S.Class<DeleteGatewayRouteOutput>(
-  "DeleteGatewayRouteOutput",
-)({ gatewayRoute: GatewayRouteData.pipe(T.HttpPayload()) }) {}
-export class VirtualNodeStatus extends S.Class<VirtualNodeStatus>(
-  "VirtualNodeStatus",
-)({ status: S.String }) {}
-export class VirtualNodeData extends S.Class<VirtualNodeData>(
-  "VirtualNodeData",
-)({
-  meshName: S.String,
-  virtualNodeName: S.String,
-  spec: VirtualNodeSpec,
-  metadata: ResourceMetadata,
-  status: VirtualNodeStatus,
-}) {}
-export class UpdateVirtualNodeOutput extends S.Class<UpdateVirtualNodeOutput>(
-  "UpdateVirtualNodeOutput",
-)({ virtualNode: VirtualNodeData.pipe(T.HttpPayload()) }) {}
-export class DeleteVirtualNodeOutput extends S.Class<DeleteVirtualNodeOutput>(
-  "DeleteVirtualNodeOutput",
-)({ virtualNode: VirtualNodeData.pipe(T.HttpPayload()) }) {}
-export class VirtualRouterStatus extends S.Class<VirtualRouterStatus>(
-  "VirtualRouterStatus",
-)({ status: S.String }) {}
-export class VirtualRouterData extends S.Class<VirtualRouterData>(
-  "VirtualRouterData",
-)({
-  meshName: S.String,
-  virtualRouterName: S.String,
-  spec: VirtualRouterSpec,
-  metadata: ResourceMetadata,
-  status: VirtualRouterStatus,
-}) {}
-export class UpdateVirtualRouterOutput extends S.Class<UpdateVirtualRouterOutput>(
-  "UpdateVirtualRouterOutput",
-)({ virtualRouter: VirtualRouterData.pipe(T.HttpPayload()) }) {}
-export class DeleteVirtualRouterOutput extends S.Class<DeleteVirtualRouterOutput>(
-  "DeleteVirtualRouterOutput",
-)({ virtualRouter: VirtualRouterData.pipe(T.HttpPayload()) }) {}
-export class RouteStatus extends S.Class<RouteStatus>("RouteStatus")({
-  status: S.String,
-}) {}
-export class RouteData extends S.Class<RouteData>("RouteData")({
-  meshName: S.String,
-  virtualRouterName: S.String,
-  routeName: S.String,
-  spec: RouteSpec,
-  metadata: ResourceMetadata,
-  status: RouteStatus,
-}) {}
-export class UpdateRouteOutput extends S.Class<UpdateRouteOutput>(
-  "UpdateRouteOutput",
-)({ route: RouteData.pipe(T.HttpPayload()) }) {}
-export class DeleteRouteOutput extends S.Class<DeleteRouteOutput>(
-  "DeleteRouteOutput",
-)({ route: RouteData.pipe(T.HttpPayload()) }) {}
-export class VirtualServiceStatus extends S.Class<VirtualServiceStatus>(
-  "VirtualServiceStatus",
-)({ status: S.String }) {}
-export class VirtualServiceData extends S.Class<VirtualServiceData>(
-  "VirtualServiceData",
-)({
-  meshName: S.String,
-  virtualServiceName: S.String,
-  spec: VirtualServiceSpec,
-  metadata: ResourceMetadata,
-  status: VirtualServiceStatus,
-}) {}
-export class UpdateVirtualServiceOutput extends S.Class<UpdateVirtualServiceOutput>(
-  "UpdateVirtualServiceOutput",
-)({ virtualService: VirtualServiceData.pipe(T.HttpPayload()) }) {}
-export class DeleteVirtualServiceOutput extends S.Class<DeleteVirtualServiceOutput>(
-  "DeleteVirtualServiceOutput",
-)({ virtualService: VirtualServiceData.pipe(T.HttpPayload()) }) {}
-export class MeshRef extends S.Class<MeshRef>("MeshRef")({
-  meshName: S.String,
-  meshOwner: S.String,
-  resourceOwner: S.String,
-  arn: S.String,
-  version: S.Number,
-  createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  lastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-}) {}
+).annotations({
+  identifier: "TagResourceInput",
+}) as any as S.Schema<TagResourceInput>;
+export interface TagResourceOutput {}
+export const TagResourceOutput = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceOutput",
+}) as any as S.Schema<TagResourceOutput>;
+export interface ResourceMetadata {
+  arn: string;
+  version: number;
+  uid: string;
+  createdAt: Date;
+  lastUpdatedAt: Date;
+  meshOwner: string;
+  resourceOwner: string;
+}
+export const ResourceMetadata = S.suspend(() =>
+  S.Struct({
+    arn: S.String,
+    version: S.Number,
+    uid: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    lastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    meshOwner: S.String,
+    resourceOwner: S.String,
+  }),
+).annotations({
+  identifier: "ResourceMetadata",
+}) as any as S.Schema<ResourceMetadata>;
+export interface MeshStatus {
+  status?: string;
+}
+export const MeshStatus = S.suspend(() =>
+  S.Struct({ status: S.optional(S.String) }),
+).annotations({ identifier: "MeshStatus" }) as any as S.Schema<MeshStatus>;
+export interface MeshData {
+  meshName: string;
+  spec: MeshSpec;
+  metadata: ResourceMetadata;
+  status: MeshStatus;
+}
+export const MeshData = S.suspend(() =>
+  S.Struct({
+    meshName: S.String,
+    spec: MeshSpec,
+    metadata: ResourceMetadata,
+    status: MeshStatus,
+  }),
+).annotations({ identifier: "MeshData" }) as any as S.Schema<MeshData>;
+export interface UpdateMeshOutput {
+  mesh: MeshData;
+}
+export const UpdateMeshOutput = S.suspend(() =>
+  S.Struct({
+    mesh: MeshData.pipe(T.HttpPayload()).annotations({
+      identifier: "MeshData",
+    }),
+  }),
+).annotations({
+  identifier: "UpdateMeshOutput",
+}) as any as S.Schema<UpdateMeshOutput>;
+export interface DeleteMeshOutput {
+  mesh: MeshData;
+}
+export const DeleteMeshOutput = S.suspend(() =>
+  S.Struct({
+    mesh: MeshData.pipe(T.HttpPayload()).annotations({
+      identifier: "MeshData",
+    }),
+  }),
+).annotations({
+  identifier: "DeleteMeshOutput",
+}) as any as S.Schema<DeleteMeshOutput>;
+export interface VirtualGatewayStatus {
+  status: string;
+}
+export const VirtualGatewayStatus = S.suspend(() =>
+  S.Struct({ status: S.String }),
+).annotations({
+  identifier: "VirtualGatewayStatus",
+}) as any as S.Schema<VirtualGatewayStatus>;
+export interface VirtualGatewayData {
+  meshName: string;
+  virtualGatewayName: string;
+  spec: VirtualGatewaySpec;
+  metadata: ResourceMetadata;
+  status: VirtualGatewayStatus;
+}
+export const VirtualGatewayData = S.suspend(() =>
+  S.Struct({
+    meshName: S.String,
+    virtualGatewayName: S.String,
+    spec: VirtualGatewaySpec,
+    metadata: ResourceMetadata,
+    status: VirtualGatewayStatus,
+  }),
+).annotations({
+  identifier: "VirtualGatewayData",
+}) as any as S.Schema<VirtualGatewayData>;
+export interface UpdateVirtualGatewayOutput {
+  virtualGateway: VirtualGatewayData;
+}
+export const UpdateVirtualGatewayOutput = S.suspend(() =>
+  S.Struct({
+    virtualGateway: VirtualGatewayData.pipe(T.HttpPayload()).annotations({
+      identifier: "VirtualGatewayData",
+    }),
+  }),
+).annotations({
+  identifier: "UpdateVirtualGatewayOutput",
+}) as any as S.Schema<UpdateVirtualGatewayOutput>;
+export interface DeleteVirtualGatewayOutput {
+  virtualGateway: VirtualGatewayData;
+}
+export const DeleteVirtualGatewayOutput = S.suspend(() =>
+  S.Struct({
+    virtualGateway: VirtualGatewayData.pipe(T.HttpPayload()).annotations({
+      identifier: "VirtualGatewayData",
+    }),
+  }),
+).annotations({
+  identifier: "DeleteVirtualGatewayOutput",
+}) as any as S.Schema<DeleteVirtualGatewayOutput>;
+export interface GatewayRouteStatus {
+  status: string;
+}
+export const GatewayRouteStatus = S.suspend(() =>
+  S.Struct({ status: S.String }),
+).annotations({
+  identifier: "GatewayRouteStatus",
+}) as any as S.Schema<GatewayRouteStatus>;
+export interface GatewayRouteData {
+  meshName: string;
+  gatewayRouteName: string;
+  virtualGatewayName: string;
+  spec: GatewayRouteSpec;
+  metadata: ResourceMetadata;
+  status: GatewayRouteStatus;
+}
+export const GatewayRouteData = S.suspend(() =>
+  S.Struct({
+    meshName: S.String,
+    gatewayRouteName: S.String,
+    virtualGatewayName: S.String,
+    spec: GatewayRouteSpec,
+    metadata: ResourceMetadata,
+    status: GatewayRouteStatus,
+  }),
+).annotations({
+  identifier: "GatewayRouteData",
+}) as any as S.Schema<GatewayRouteData>;
+export interface UpdateGatewayRouteOutput {
+  gatewayRoute: GatewayRouteData;
+}
+export const UpdateGatewayRouteOutput = S.suspend(() =>
+  S.Struct({
+    gatewayRoute: GatewayRouteData.pipe(T.HttpPayload()).annotations({
+      identifier: "GatewayRouteData",
+    }),
+  }),
+).annotations({
+  identifier: "UpdateGatewayRouteOutput",
+}) as any as S.Schema<UpdateGatewayRouteOutput>;
+export interface DeleteGatewayRouteOutput {
+  gatewayRoute: GatewayRouteData;
+}
+export const DeleteGatewayRouteOutput = S.suspend(() =>
+  S.Struct({
+    gatewayRoute: GatewayRouteData.pipe(T.HttpPayload()).annotations({
+      identifier: "GatewayRouteData",
+    }),
+  }),
+).annotations({
+  identifier: "DeleteGatewayRouteOutput",
+}) as any as S.Schema<DeleteGatewayRouteOutput>;
+export interface VirtualNodeStatus {
+  status: string;
+}
+export const VirtualNodeStatus = S.suspend(() =>
+  S.Struct({ status: S.String }),
+).annotations({
+  identifier: "VirtualNodeStatus",
+}) as any as S.Schema<VirtualNodeStatus>;
+export interface VirtualNodeData {
+  meshName: string;
+  virtualNodeName: string;
+  spec: VirtualNodeSpec;
+  metadata: ResourceMetadata;
+  status: VirtualNodeStatus;
+}
+export const VirtualNodeData = S.suspend(() =>
+  S.Struct({
+    meshName: S.String,
+    virtualNodeName: S.String,
+    spec: VirtualNodeSpec,
+    metadata: ResourceMetadata,
+    status: VirtualNodeStatus,
+  }),
+).annotations({
+  identifier: "VirtualNodeData",
+}) as any as S.Schema<VirtualNodeData>;
+export interface UpdateVirtualNodeOutput {
+  virtualNode: VirtualNodeData;
+}
+export const UpdateVirtualNodeOutput = S.suspend(() =>
+  S.Struct({
+    virtualNode: VirtualNodeData.pipe(T.HttpPayload()).annotations({
+      identifier: "VirtualNodeData",
+    }),
+  }),
+).annotations({
+  identifier: "UpdateVirtualNodeOutput",
+}) as any as S.Schema<UpdateVirtualNodeOutput>;
+export interface DeleteVirtualNodeOutput {
+  virtualNode: VirtualNodeData;
+}
+export const DeleteVirtualNodeOutput = S.suspend(() =>
+  S.Struct({
+    virtualNode: VirtualNodeData.pipe(T.HttpPayload()).annotations({
+      identifier: "VirtualNodeData",
+    }),
+  }),
+).annotations({
+  identifier: "DeleteVirtualNodeOutput",
+}) as any as S.Schema<DeleteVirtualNodeOutput>;
+export interface VirtualRouterStatus {
+  status: string;
+}
+export const VirtualRouterStatus = S.suspend(() =>
+  S.Struct({ status: S.String }),
+).annotations({
+  identifier: "VirtualRouterStatus",
+}) as any as S.Schema<VirtualRouterStatus>;
+export interface VirtualRouterData {
+  meshName: string;
+  virtualRouterName: string;
+  spec: VirtualRouterSpec;
+  metadata: ResourceMetadata;
+  status: VirtualRouterStatus;
+}
+export const VirtualRouterData = S.suspend(() =>
+  S.Struct({
+    meshName: S.String,
+    virtualRouterName: S.String,
+    spec: VirtualRouterSpec,
+    metadata: ResourceMetadata,
+    status: VirtualRouterStatus,
+  }),
+).annotations({
+  identifier: "VirtualRouterData",
+}) as any as S.Schema<VirtualRouterData>;
+export interface UpdateVirtualRouterOutput {
+  virtualRouter: VirtualRouterData;
+}
+export const UpdateVirtualRouterOutput = S.suspend(() =>
+  S.Struct({
+    virtualRouter: VirtualRouterData.pipe(T.HttpPayload()).annotations({
+      identifier: "VirtualRouterData",
+    }),
+  }),
+).annotations({
+  identifier: "UpdateVirtualRouterOutput",
+}) as any as S.Schema<UpdateVirtualRouterOutput>;
+export interface DeleteVirtualRouterOutput {
+  virtualRouter: VirtualRouterData;
+}
+export const DeleteVirtualRouterOutput = S.suspend(() =>
+  S.Struct({
+    virtualRouter: VirtualRouterData.pipe(T.HttpPayload()).annotations({
+      identifier: "VirtualRouterData",
+    }),
+  }),
+).annotations({
+  identifier: "DeleteVirtualRouterOutput",
+}) as any as S.Schema<DeleteVirtualRouterOutput>;
+export interface RouteStatus {
+  status: string;
+}
+export const RouteStatus = S.suspend(() =>
+  S.Struct({ status: S.String }),
+).annotations({ identifier: "RouteStatus" }) as any as S.Schema<RouteStatus>;
+export interface RouteData {
+  meshName: string;
+  virtualRouterName: string;
+  routeName: string;
+  spec: RouteSpec;
+  metadata: ResourceMetadata;
+  status: RouteStatus;
+}
+export const RouteData = S.suspend(() =>
+  S.Struct({
+    meshName: S.String,
+    virtualRouterName: S.String,
+    routeName: S.String,
+    spec: RouteSpec,
+    metadata: ResourceMetadata,
+    status: RouteStatus,
+  }),
+).annotations({ identifier: "RouteData" }) as any as S.Schema<RouteData>;
+export interface UpdateRouteOutput {
+  route: RouteData;
+}
+export const UpdateRouteOutput = S.suspend(() =>
+  S.Struct({
+    route: RouteData.pipe(T.HttpPayload()).annotations({
+      identifier: "RouteData",
+    }),
+  }),
+).annotations({
+  identifier: "UpdateRouteOutput",
+}) as any as S.Schema<UpdateRouteOutput>;
+export interface DeleteRouteOutput {
+  route: RouteData;
+}
+export const DeleteRouteOutput = S.suspend(() =>
+  S.Struct({
+    route: RouteData.pipe(T.HttpPayload()).annotations({
+      identifier: "RouteData",
+    }),
+  }),
+).annotations({
+  identifier: "DeleteRouteOutput",
+}) as any as S.Schema<DeleteRouteOutput>;
+export interface VirtualServiceStatus {
+  status: string;
+}
+export const VirtualServiceStatus = S.suspend(() =>
+  S.Struct({ status: S.String }),
+).annotations({
+  identifier: "VirtualServiceStatus",
+}) as any as S.Schema<VirtualServiceStatus>;
+export interface VirtualServiceData {
+  meshName: string;
+  virtualServiceName: string;
+  spec: VirtualServiceSpec;
+  metadata: ResourceMetadata;
+  status: VirtualServiceStatus;
+}
+export const VirtualServiceData = S.suspend(() =>
+  S.Struct({
+    meshName: S.String,
+    virtualServiceName: S.String,
+    spec: VirtualServiceSpec,
+    metadata: ResourceMetadata,
+    status: VirtualServiceStatus,
+  }),
+).annotations({
+  identifier: "VirtualServiceData",
+}) as any as S.Schema<VirtualServiceData>;
+export interface UpdateVirtualServiceOutput {
+  virtualService: VirtualServiceData;
+}
+export const UpdateVirtualServiceOutput = S.suspend(() =>
+  S.Struct({
+    virtualService: VirtualServiceData.pipe(T.HttpPayload()).annotations({
+      identifier: "VirtualServiceData",
+    }),
+  }),
+).annotations({
+  identifier: "UpdateVirtualServiceOutput",
+}) as any as S.Schema<UpdateVirtualServiceOutput>;
+export interface DeleteVirtualServiceOutput {
+  virtualService: VirtualServiceData;
+}
+export const DeleteVirtualServiceOutput = S.suspend(() =>
+  S.Struct({
+    virtualService: VirtualServiceData.pipe(T.HttpPayload()).annotations({
+      identifier: "VirtualServiceData",
+    }),
+  }),
+).annotations({
+  identifier: "DeleteVirtualServiceOutput",
+}) as any as S.Schema<DeleteVirtualServiceOutput>;
+export interface MeshRef {
+  meshName: string;
+  meshOwner: string;
+  resourceOwner: string;
+  arn: string;
+  version: number;
+  createdAt: Date;
+  lastUpdatedAt: Date;
+}
+export const MeshRef = S.suspend(() =>
+  S.Struct({
+    meshName: S.String,
+    meshOwner: S.String,
+    resourceOwner: S.String,
+    arn: S.String,
+    version: S.Number,
+    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    lastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotations({ identifier: "MeshRef" }) as any as S.Schema<MeshRef>;
+export type MeshList = MeshRef[];
 export const MeshList = S.Array(MeshRef);
-export class VirtualGatewayRef extends S.Class<VirtualGatewayRef>(
-  "VirtualGatewayRef",
-)({
-  meshName: S.String,
-  virtualGatewayName: S.String,
-  meshOwner: S.String,
-  resourceOwner: S.String,
-  arn: S.String,
-  version: S.Number,
-  createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  lastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-}) {}
+export interface VirtualGatewayRef {
+  meshName: string;
+  virtualGatewayName: string;
+  meshOwner: string;
+  resourceOwner: string;
+  arn: string;
+  version: number;
+  createdAt: Date;
+  lastUpdatedAt: Date;
+}
+export const VirtualGatewayRef = S.suspend(() =>
+  S.Struct({
+    meshName: S.String,
+    virtualGatewayName: S.String,
+    meshOwner: S.String,
+    resourceOwner: S.String,
+    arn: S.String,
+    version: S.Number,
+    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    lastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotations({
+  identifier: "VirtualGatewayRef",
+}) as any as S.Schema<VirtualGatewayRef>;
+export type VirtualGatewayList = VirtualGatewayRef[];
 export const VirtualGatewayList = S.Array(VirtualGatewayRef);
-export class GatewayRouteRef extends S.Class<GatewayRouteRef>(
-  "GatewayRouteRef",
-)({
-  meshName: S.String,
-  gatewayRouteName: S.String,
-  virtualGatewayName: S.String,
-  meshOwner: S.String,
-  resourceOwner: S.String,
-  arn: S.String,
-  version: S.Number,
-  createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  lastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-}) {}
+export interface GatewayRouteRef {
+  meshName: string;
+  gatewayRouteName: string;
+  virtualGatewayName: string;
+  meshOwner: string;
+  resourceOwner: string;
+  arn: string;
+  version: number;
+  createdAt: Date;
+  lastUpdatedAt: Date;
+}
+export const GatewayRouteRef = S.suspend(() =>
+  S.Struct({
+    meshName: S.String,
+    gatewayRouteName: S.String,
+    virtualGatewayName: S.String,
+    meshOwner: S.String,
+    resourceOwner: S.String,
+    arn: S.String,
+    version: S.Number,
+    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    lastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotations({
+  identifier: "GatewayRouteRef",
+}) as any as S.Schema<GatewayRouteRef>;
+export type GatewayRouteList = GatewayRouteRef[];
 export const GatewayRouteList = S.Array(GatewayRouteRef);
-export class VirtualNodeRef extends S.Class<VirtualNodeRef>("VirtualNodeRef")({
-  meshName: S.String,
-  virtualNodeName: S.String,
-  meshOwner: S.String,
-  resourceOwner: S.String,
-  arn: S.String,
-  version: S.Number,
-  createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  lastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-}) {}
+export interface VirtualNodeRef {
+  meshName: string;
+  virtualNodeName: string;
+  meshOwner: string;
+  resourceOwner: string;
+  arn: string;
+  version: number;
+  createdAt: Date;
+  lastUpdatedAt: Date;
+}
+export const VirtualNodeRef = S.suspend(() =>
+  S.Struct({
+    meshName: S.String,
+    virtualNodeName: S.String,
+    meshOwner: S.String,
+    resourceOwner: S.String,
+    arn: S.String,
+    version: S.Number,
+    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    lastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotations({
+  identifier: "VirtualNodeRef",
+}) as any as S.Schema<VirtualNodeRef>;
+export type VirtualNodeList = VirtualNodeRef[];
 export const VirtualNodeList = S.Array(VirtualNodeRef);
-export class VirtualRouterRef extends S.Class<VirtualRouterRef>(
-  "VirtualRouterRef",
-)({
-  meshName: S.String,
-  virtualRouterName: S.String,
-  meshOwner: S.String,
-  resourceOwner: S.String,
-  arn: S.String,
-  version: S.Number,
-  createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  lastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-}) {}
+export interface VirtualRouterRef {
+  meshName: string;
+  virtualRouterName: string;
+  meshOwner: string;
+  resourceOwner: string;
+  arn: string;
+  version: number;
+  createdAt: Date;
+  lastUpdatedAt: Date;
+}
+export const VirtualRouterRef = S.suspend(() =>
+  S.Struct({
+    meshName: S.String,
+    virtualRouterName: S.String,
+    meshOwner: S.String,
+    resourceOwner: S.String,
+    arn: S.String,
+    version: S.Number,
+    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    lastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotations({
+  identifier: "VirtualRouterRef",
+}) as any as S.Schema<VirtualRouterRef>;
+export type VirtualRouterList = VirtualRouterRef[];
 export const VirtualRouterList = S.Array(VirtualRouterRef);
-export class RouteRef extends S.Class<RouteRef>("RouteRef")({
-  meshName: S.String,
-  virtualRouterName: S.String,
-  routeName: S.String,
-  meshOwner: S.String,
-  resourceOwner: S.String,
-  arn: S.String,
-  version: S.Number,
-  createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  lastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-}) {}
+export interface RouteRef {
+  meshName: string;
+  virtualRouterName: string;
+  routeName: string;
+  meshOwner: string;
+  resourceOwner: string;
+  arn: string;
+  version: number;
+  createdAt: Date;
+  lastUpdatedAt: Date;
+}
+export const RouteRef = S.suspend(() =>
+  S.Struct({
+    meshName: S.String,
+    virtualRouterName: S.String,
+    routeName: S.String,
+    meshOwner: S.String,
+    resourceOwner: S.String,
+    arn: S.String,
+    version: S.Number,
+    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    lastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotations({ identifier: "RouteRef" }) as any as S.Schema<RouteRef>;
+export type RouteList = RouteRef[];
 export const RouteList = S.Array(RouteRef);
-export class VirtualServiceRef extends S.Class<VirtualServiceRef>(
-  "VirtualServiceRef",
-)({
-  meshName: S.String,
-  virtualServiceName: S.String,
-  meshOwner: S.String,
-  resourceOwner: S.String,
-  arn: S.String,
-  version: S.Number,
-  createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  lastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-}) {}
+export interface VirtualServiceRef {
+  meshName: string;
+  virtualServiceName: string;
+  meshOwner: string;
+  resourceOwner: string;
+  arn: string;
+  version: number;
+  createdAt: Date;
+  lastUpdatedAt: Date;
+}
+export const VirtualServiceRef = S.suspend(() =>
+  S.Struct({
+    meshName: S.String,
+    virtualServiceName: S.String,
+    meshOwner: S.String,
+    resourceOwner: S.String,
+    arn: S.String,
+    version: S.Number,
+    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    lastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotations({
+  identifier: "VirtualServiceRef",
+}) as any as S.Schema<VirtualServiceRef>;
+export type VirtualServiceList = VirtualServiceRef[];
 export const VirtualServiceList = S.Array(VirtualServiceRef);
-export class CreateMeshInput extends S.Class<CreateMeshInput>(
-  "CreateMeshInput",
-)(
-  {
+export interface CreateMeshInput {
+  meshName: string;
+  spec?: MeshSpec;
+  tags?: TagList;
+  clientToken?: string;
+}
+export const CreateMeshInput = S.suspend(() =>
+  S.Struct({
     meshName: S.String,
     spec: S.optional(MeshSpec),
     tags: S.optional(TagList),
     clientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/v20190125/meshes" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/v20190125/meshes" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListMeshesOutput extends S.Class<ListMeshesOutput>(
-  "ListMeshesOutput",
-)({ meshes: MeshList, nextToken: S.optional(S.String) }) {}
-export class ListVirtualGatewaysOutput extends S.Class<ListVirtualGatewaysOutput>(
-  "ListVirtualGatewaysOutput",
-)({ virtualGateways: VirtualGatewayList, nextToken: S.optional(S.String) }) {}
-export class ListGatewayRoutesOutput extends S.Class<ListGatewayRoutesOutput>(
-  "ListGatewayRoutesOutput",
-)({ gatewayRoutes: GatewayRouteList, nextToken: S.optional(S.String) }) {}
-export class ListVirtualNodesOutput extends S.Class<ListVirtualNodesOutput>(
-  "ListVirtualNodesOutput",
-)({ virtualNodes: VirtualNodeList, nextToken: S.optional(S.String) }) {}
-export class CreateVirtualRouterInput extends S.Class<CreateVirtualRouterInput>(
-  "CreateVirtualRouterInput",
-)(
-  {
+).annotations({
+  identifier: "CreateMeshInput",
+}) as any as S.Schema<CreateMeshInput>;
+export interface ListMeshesOutput {
+  meshes: MeshList;
+  nextToken?: string;
+}
+export const ListMeshesOutput = S.suspend(() =>
+  S.Struct({ meshes: MeshList, nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListMeshesOutput",
+}) as any as S.Schema<ListMeshesOutput>;
+export interface ListVirtualGatewaysOutput {
+  virtualGateways: VirtualGatewayList;
+  nextToken?: string;
+}
+export const ListVirtualGatewaysOutput = S.suspend(() =>
+  S.Struct({
+    virtualGateways: VirtualGatewayList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListVirtualGatewaysOutput",
+}) as any as S.Schema<ListVirtualGatewaysOutput>;
+export interface ListGatewayRoutesOutput {
+  gatewayRoutes: GatewayRouteList;
+  nextToken?: string;
+}
+export const ListGatewayRoutesOutput = S.suspend(() =>
+  S.Struct({
+    gatewayRoutes: GatewayRouteList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListGatewayRoutesOutput",
+}) as any as S.Schema<ListGatewayRoutesOutput>;
+export interface ListVirtualNodesOutput {
+  virtualNodes: VirtualNodeList;
+  nextToken?: string;
+}
+export const ListVirtualNodesOutput = S.suspend(() =>
+  S.Struct({ virtualNodes: VirtualNodeList, nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListVirtualNodesOutput",
+}) as any as S.Schema<ListVirtualNodesOutput>;
+export interface CreateVirtualRouterInput {
+  virtualRouterName: string;
+  meshName: string;
+  spec: VirtualRouterSpec;
+  tags?: TagList;
+  clientToken?: string;
+  meshOwner?: string;
+}
+export const CreateVirtualRouterInput = S.suspend(() =>
+  S.Struct({
     virtualRouterName: S.String,
     meshName: S.String.pipe(T.HttpLabel("meshName")),
     spec: VirtualRouterSpec,
     tags: S.optional(TagList),
     clientToken: S.optional(S.String),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/v20190125/meshes/{meshName}/virtualRouters",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/v20190125/meshes/{meshName}/virtualRouters",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListVirtualRoutersOutput extends S.Class<ListVirtualRoutersOutput>(
-  "ListVirtualRoutersOutput",
-)({ virtualRouters: VirtualRouterList, nextToken: S.optional(S.String) }) {}
-export class ListRoutesOutput extends S.Class<ListRoutesOutput>(
-  "ListRoutesOutput",
-)({ routes: RouteList, nextToken: S.optional(S.String) }) {}
-export class ListVirtualServicesOutput extends S.Class<ListVirtualServicesOutput>(
-  "ListVirtualServicesOutput",
-)({ virtualServices: VirtualServiceList, nextToken: S.optional(S.String) }) {}
-export class CreateMeshOutput extends S.Class<CreateMeshOutput>(
-  "CreateMeshOutput",
-)({ mesh: MeshData.pipe(T.HttpPayload()) }) {}
-export class DescribeMeshOutput extends S.Class<DescribeMeshOutput>(
-  "DescribeMeshOutput",
-)({ mesh: MeshData.pipe(T.HttpPayload()) }) {}
-export class DescribeVirtualGatewayOutput extends S.Class<DescribeVirtualGatewayOutput>(
-  "DescribeVirtualGatewayOutput",
-)({ virtualGateway: VirtualGatewayData.pipe(T.HttpPayload()) }) {}
-export class DescribeGatewayRouteOutput extends S.Class<DescribeGatewayRouteOutput>(
-  "DescribeGatewayRouteOutput",
-)({ gatewayRoute: GatewayRouteData.pipe(T.HttpPayload()) }) {}
-export class DescribeVirtualNodeOutput extends S.Class<DescribeVirtualNodeOutput>(
-  "DescribeVirtualNodeOutput",
-)({ virtualNode: VirtualNodeData.pipe(T.HttpPayload()) }) {}
-export class CreateVirtualRouterOutput extends S.Class<CreateVirtualRouterOutput>(
-  "CreateVirtualRouterOutput",
-)({ virtualRouter: VirtualRouterData.pipe(T.HttpPayload()) }) {}
-export class DescribeVirtualRouterOutput extends S.Class<DescribeVirtualRouterOutput>(
-  "DescribeVirtualRouterOutput",
-)({ virtualRouter: VirtualRouterData.pipe(T.HttpPayload()) }) {}
-export class DescribeRouteOutput extends S.Class<DescribeRouteOutput>(
-  "DescribeRouteOutput",
-)({ route: RouteData.pipe(T.HttpPayload()) }) {}
-export class CreateVirtualServiceInput extends S.Class<CreateVirtualServiceInput>(
-  "CreateVirtualServiceInput",
-)(
-  {
+).annotations({
+  identifier: "CreateVirtualRouterInput",
+}) as any as S.Schema<CreateVirtualRouterInput>;
+export interface ListVirtualRoutersOutput {
+  virtualRouters: VirtualRouterList;
+  nextToken?: string;
+}
+export const ListVirtualRoutersOutput = S.suspend(() =>
+  S.Struct({
+    virtualRouters: VirtualRouterList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListVirtualRoutersOutput",
+}) as any as S.Schema<ListVirtualRoutersOutput>;
+export interface ListRoutesOutput {
+  routes: RouteList;
+  nextToken?: string;
+}
+export const ListRoutesOutput = S.suspend(() =>
+  S.Struct({ routes: RouteList, nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListRoutesOutput",
+}) as any as S.Schema<ListRoutesOutput>;
+export interface ListVirtualServicesOutput {
+  virtualServices: VirtualServiceList;
+  nextToken?: string;
+}
+export const ListVirtualServicesOutput = S.suspend(() =>
+  S.Struct({
+    virtualServices: VirtualServiceList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListVirtualServicesOutput",
+}) as any as S.Schema<ListVirtualServicesOutput>;
+export interface CreateMeshOutput {
+  mesh: MeshData;
+}
+export const CreateMeshOutput = S.suspend(() =>
+  S.Struct({
+    mesh: MeshData.pipe(T.HttpPayload()).annotations({
+      identifier: "MeshData",
+    }),
+  }),
+).annotations({
+  identifier: "CreateMeshOutput",
+}) as any as S.Schema<CreateMeshOutput>;
+export interface DescribeMeshOutput {
+  mesh: MeshData;
+}
+export const DescribeMeshOutput = S.suspend(() =>
+  S.Struct({
+    mesh: MeshData.pipe(T.HttpPayload()).annotations({
+      identifier: "MeshData",
+    }),
+  }),
+).annotations({
+  identifier: "DescribeMeshOutput",
+}) as any as S.Schema<DescribeMeshOutput>;
+export interface DescribeVirtualGatewayOutput {
+  virtualGateway: VirtualGatewayData;
+}
+export const DescribeVirtualGatewayOutput = S.suspend(() =>
+  S.Struct({
+    virtualGateway: VirtualGatewayData.pipe(T.HttpPayload()).annotations({
+      identifier: "VirtualGatewayData",
+    }),
+  }),
+).annotations({
+  identifier: "DescribeVirtualGatewayOutput",
+}) as any as S.Schema<DescribeVirtualGatewayOutput>;
+export interface DescribeGatewayRouteOutput {
+  gatewayRoute: GatewayRouteData;
+}
+export const DescribeGatewayRouteOutput = S.suspend(() =>
+  S.Struct({
+    gatewayRoute: GatewayRouteData.pipe(T.HttpPayload()).annotations({
+      identifier: "GatewayRouteData",
+    }),
+  }),
+).annotations({
+  identifier: "DescribeGatewayRouteOutput",
+}) as any as S.Schema<DescribeGatewayRouteOutput>;
+export interface DescribeVirtualNodeOutput {
+  virtualNode: VirtualNodeData;
+}
+export const DescribeVirtualNodeOutput = S.suspend(() =>
+  S.Struct({
+    virtualNode: VirtualNodeData.pipe(T.HttpPayload()).annotations({
+      identifier: "VirtualNodeData",
+    }),
+  }),
+).annotations({
+  identifier: "DescribeVirtualNodeOutput",
+}) as any as S.Schema<DescribeVirtualNodeOutput>;
+export interface CreateVirtualRouterOutput {
+  virtualRouter: VirtualRouterData;
+}
+export const CreateVirtualRouterOutput = S.suspend(() =>
+  S.Struct({
+    virtualRouter: VirtualRouterData.pipe(T.HttpPayload()).annotations({
+      identifier: "VirtualRouterData",
+    }),
+  }),
+).annotations({
+  identifier: "CreateVirtualRouterOutput",
+}) as any as S.Schema<CreateVirtualRouterOutput>;
+export interface DescribeVirtualRouterOutput {
+  virtualRouter: VirtualRouterData;
+}
+export const DescribeVirtualRouterOutput = S.suspend(() =>
+  S.Struct({
+    virtualRouter: VirtualRouterData.pipe(T.HttpPayload()).annotations({
+      identifier: "VirtualRouterData",
+    }),
+  }),
+).annotations({
+  identifier: "DescribeVirtualRouterOutput",
+}) as any as S.Schema<DescribeVirtualRouterOutput>;
+export interface DescribeRouteOutput {
+  route: RouteData;
+}
+export const DescribeRouteOutput = S.suspend(() =>
+  S.Struct({
+    route: RouteData.pipe(T.HttpPayload()).annotations({
+      identifier: "RouteData",
+    }),
+  }),
+).annotations({
+  identifier: "DescribeRouteOutput",
+}) as any as S.Schema<DescribeRouteOutput>;
+export interface CreateVirtualServiceInput {
+  virtualServiceName: string;
+  meshName: string;
+  spec: VirtualServiceSpec;
+  tags?: TagList;
+  clientToken?: string;
+  meshOwner?: string;
+}
+export const CreateVirtualServiceInput = S.suspend(() =>
+  S.Struct({
     virtualServiceName: S.String,
     meshName: S.String.pipe(T.HttpLabel("meshName")),
     spec: VirtualServiceSpec,
     tags: S.optional(TagList),
     clientToken: S.optional(S.String),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/v20190125/meshes/{meshName}/virtualServices",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/v20190125/meshes/{meshName}/virtualServices",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeVirtualServiceOutput extends S.Class<DescribeVirtualServiceOutput>(
-  "DescribeVirtualServiceOutput",
-)({ virtualService: VirtualServiceData.pipe(T.HttpPayload()) }) {}
-export class CreateVirtualServiceOutput extends S.Class<CreateVirtualServiceOutput>(
-  "CreateVirtualServiceOutput",
-)({ virtualService: VirtualServiceData.pipe(T.HttpPayload()) }) {}
-export class CreateRouteInput extends S.Class<CreateRouteInput>(
-  "CreateRouteInput",
-)(
-  {
+).annotations({
+  identifier: "CreateVirtualServiceInput",
+}) as any as S.Schema<CreateVirtualServiceInput>;
+export interface DescribeVirtualServiceOutput {
+  virtualService: VirtualServiceData;
+}
+export const DescribeVirtualServiceOutput = S.suspend(() =>
+  S.Struct({
+    virtualService: VirtualServiceData.pipe(T.HttpPayload()).annotations({
+      identifier: "VirtualServiceData",
+    }),
+  }),
+).annotations({
+  identifier: "DescribeVirtualServiceOutput",
+}) as any as S.Schema<DescribeVirtualServiceOutput>;
+export interface CreateVirtualServiceOutput {
+  virtualService: VirtualServiceData;
+}
+export const CreateVirtualServiceOutput = S.suspend(() =>
+  S.Struct({
+    virtualService: VirtualServiceData.pipe(T.HttpPayload()).annotations({
+      identifier: "VirtualServiceData",
+    }),
+  }),
+).annotations({
+  identifier: "CreateVirtualServiceOutput",
+}) as any as S.Schema<CreateVirtualServiceOutput>;
+export interface CreateRouteInput {
+  routeName: string;
+  meshName: string;
+  virtualRouterName: string;
+  spec: RouteSpec;
+  tags?: TagList;
+  clientToken?: string;
+  meshOwner?: string;
+}
+export const CreateRouteInput = S.suspend(() =>
+  S.Struct({
     routeName: S.String,
     meshName: S.String.pipe(T.HttpLabel("meshName")),
     virtualRouterName: S.String.pipe(T.HttpLabel("virtualRouterName")),
@@ -1787,23 +3150,33 @@ export class CreateRouteInput extends S.Class<CreateRouteInput>(
     tags: S.optional(TagList),
     clientToken: S.optional(S.String),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateGatewayRouteInput extends S.Class<CreateGatewayRouteInput>(
-  "CreateGatewayRouteInput",
-)(
-  {
+).annotations({
+  identifier: "CreateRouteInput",
+}) as any as S.Schema<CreateRouteInput>;
+export interface CreateGatewayRouteInput {
+  gatewayRouteName: string;
+  meshName: string;
+  virtualGatewayName: string;
+  spec: GatewayRouteSpec;
+  tags?: TagList;
+  clientToken?: string;
+  meshOwner?: string;
+}
+export const CreateGatewayRouteInput = S.suspend(() =>
+  S.Struct({
     gatewayRouteName: S.String,
     meshName: S.String.pipe(T.HttpLabel("meshName")),
     virtualGatewayName: S.String.pipe(T.HttpLabel("virtualGatewayName")),
@@ -1811,74 +3184,134 @@ export class CreateGatewayRouteInput extends S.Class<CreateGatewayRouteInput>(
     tags: S.optional(TagList),
     clientToken: S.optional(S.String),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/v20190125/meshes/{meshName}/virtualGateway/{virtualGatewayName}/gatewayRoutes",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/v20190125/meshes/{meshName}/virtualGateway/{virtualGatewayName}/gatewayRoutes",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateRouteOutput extends S.Class<CreateRouteOutput>(
-  "CreateRouteOutput",
-)({ route: RouteData.pipe(T.HttpPayload()) }) {}
-export class CreateVirtualGatewayInput extends S.Class<CreateVirtualGatewayInput>(
-  "CreateVirtualGatewayInput",
-)(
-  {
+).annotations({
+  identifier: "CreateGatewayRouteInput",
+}) as any as S.Schema<CreateGatewayRouteInput>;
+export interface CreateRouteOutput {
+  route: RouteData;
+}
+export const CreateRouteOutput = S.suspend(() =>
+  S.Struct({
+    route: RouteData.pipe(T.HttpPayload()).annotations({
+      identifier: "RouteData",
+    }),
+  }),
+).annotations({
+  identifier: "CreateRouteOutput",
+}) as any as S.Schema<CreateRouteOutput>;
+export interface CreateVirtualGatewayInput {
+  virtualGatewayName: string;
+  meshName: string;
+  spec: VirtualGatewaySpec;
+  tags?: TagList;
+  clientToken?: string;
+  meshOwner?: string;
+}
+export const CreateVirtualGatewayInput = S.suspend(() =>
+  S.Struct({
     virtualGatewayName: S.String,
     meshName: S.String.pipe(T.HttpLabel("meshName")),
     spec: VirtualGatewaySpec,
     tags: S.optional(TagList),
     clientToken: S.optional(S.String),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/v20190125/meshes/{meshName}/virtualGateways",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/v20190125/meshes/{meshName}/virtualGateways",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateGatewayRouteOutput extends S.Class<CreateGatewayRouteOutput>(
-  "CreateGatewayRouteOutput",
-)({ gatewayRoute: GatewayRouteData.pipe(T.HttpPayload()) }) {}
-export class CreateVirtualNodeInput extends S.Class<CreateVirtualNodeInput>(
-  "CreateVirtualNodeInput",
-)(
-  {
+).annotations({
+  identifier: "CreateVirtualGatewayInput",
+}) as any as S.Schema<CreateVirtualGatewayInput>;
+export interface CreateGatewayRouteOutput {
+  gatewayRoute: GatewayRouteData;
+}
+export const CreateGatewayRouteOutput = S.suspend(() =>
+  S.Struct({
+    gatewayRoute: GatewayRouteData.pipe(T.HttpPayload()).annotations({
+      identifier: "GatewayRouteData",
+    }),
+  }),
+).annotations({
+  identifier: "CreateGatewayRouteOutput",
+}) as any as S.Schema<CreateGatewayRouteOutput>;
+export interface CreateVirtualNodeInput {
+  virtualNodeName: string;
+  meshName: string;
+  spec: VirtualNodeSpec;
+  tags?: TagList;
+  clientToken?: string;
+  meshOwner?: string;
+}
+export const CreateVirtualNodeInput = S.suspend(() =>
+  S.Struct({
     virtualNodeName: S.String,
     meshName: S.String.pipe(T.HttpLabel("meshName")),
     spec: VirtualNodeSpec,
     tags: S.optional(TagList),
     clientToken: S.optional(S.String),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/v20190125/meshes/{meshName}/virtualNodes" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/v20190125/meshes/{meshName}/virtualNodes",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateVirtualGatewayOutput extends S.Class<CreateVirtualGatewayOutput>(
-  "CreateVirtualGatewayOutput",
-)({ virtualGateway: VirtualGatewayData.pipe(T.HttpPayload()) }) {}
-export class CreateVirtualNodeOutput extends S.Class<CreateVirtualNodeOutput>(
-  "CreateVirtualNodeOutput",
-)({ virtualNode: VirtualNodeData.pipe(T.HttpPayload()) }) {}
+).annotations({
+  identifier: "CreateVirtualNodeInput",
+}) as any as S.Schema<CreateVirtualNodeInput>;
+export interface CreateVirtualGatewayOutput {
+  virtualGateway: VirtualGatewayData;
+}
+export const CreateVirtualGatewayOutput = S.suspend(() =>
+  S.Struct({
+    virtualGateway: VirtualGatewayData.pipe(T.HttpPayload()).annotations({
+      identifier: "VirtualGatewayData",
+    }),
+  }),
+).annotations({
+  identifier: "CreateVirtualGatewayOutput",
+}) as any as S.Schema<CreateVirtualGatewayOutput>;
+export interface CreateVirtualNodeOutput {
+  virtualNode: VirtualNodeData;
+}
+export const CreateVirtualNodeOutput = S.suspend(() =>
+  S.Struct({
+    virtualNode: VirtualNodeData.pipe(T.HttpPayload()).annotations({
+      identifier: "VirtualNodeData",
+    }),
+  }),
+).annotations({
+  identifier: "CreateVirtualNodeOutput",
+}) as any as S.Schema<CreateVirtualNodeOutput>;
 
 //# Errors
 export class BadRequestException extends S.TaggedError<BadRequestException>()(

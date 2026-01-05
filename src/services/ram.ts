@@ -262,108 +262,160 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class EnableSharingWithAwsOrganizationRequest extends S.Class<EnableSharingWithAwsOrganizationRequest>(
-  "EnableSharingWithAwsOrganizationRequest",
-)(
-  {},
-  T.all(
-    T.Http({ method: "POST", uri: "/enablesharingwithawsorganization" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface EnableSharingWithAwsOrganizationRequest {}
+export const EnableSharingWithAwsOrganizationRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/enablesharingwithawsorganization" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "EnableSharingWithAwsOrganizationRequest",
+}) as any as S.Schema<EnableSharingWithAwsOrganizationRequest>;
+export type ResourceArnList = string[];
 export const ResourceArnList = S.Array(S.String.pipe(T.XmlName("item")));
+export type PrincipalArnOrIdList = string[];
 export const PrincipalArnOrIdList = S.Array(S.String.pipe(T.XmlName("item")));
+export type SourceArnOrAccountList = string[];
 export const SourceArnOrAccountList = S.Array(S.String.pipe(T.XmlName("item")));
+export type PermissionArnList = string[];
 export const PermissionArnList = S.Array(S.String.pipe(T.XmlName("item")));
+export type ResourceShareArnList = string[];
 export const ResourceShareArnList = S.Array(S.String.pipe(T.XmlName("item")));
+export type ResourceShareInvitationArnList = string[];
 export const ResourceShareInvitationArnList = S.Array(
   S.String.pipe(T.XmlName("item")),
 );
+export type ReplacePermissionAssociationsWorkIdList = string[];
 export const ReplacePermissionAssociationsWorkIdList = S.Array(
   S.String.pipe(T.XmlName("item")),
 );
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class AcceptResourceShareInvitationRequest extends S.Class<AcceptResourceShareInvitationRequest>(
-  "AcceptResourceShareInvitationRequest",
-)(
-  { resourceShareInvitationArn: S.String, clientToken: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/acceptresourceshareinvitation" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface AcceptResourceShareInvitationRequest {
+  resourceShareInvitationArn: string;
+  clientToken?: string;
+}
+export const AcceptResourceShareInvitationRequest = S.suspend(() =>
+  S.Struct({
+    resourceShareInvitationArn: S.String,
+    clientToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/acceptresourceshareinvitation" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AssociateResourceShareRequest extends S.Class<AssociateResourceShareRequest>(
-  "AssociateResourceShareRequest",
-)(
-  {
+).annotations({
+  identifier: "AcceptResourceShareInvitationRequest",
+}) as any as S.Schema<AcceptResourceShareInvitationRequest>;
+export interface AssociateResourceShareRequest {
+  resourceShareArn: string;
+  resourceArns?: ResourceArnList;
+  principals?: PrincipalArnOrIdList;
+  clientToken?: string;
+  sources?: SourceArnOrAccountList;
+}
+export const AssociateResourceShareRequest = S.suspend(() =>
+  S.Struct({
     resourceShareArn: S.String,
     resourceArns: S.optional(ResourceArnList),
     principals: S.optional(PrincipalArnOrIdList),
     clientToken: S.optional(S.String),
     sources: S.optional(SourceArnOrAccountList),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/associateresourceshare" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/associateresourceshare" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AssociateResourceSharePermissionRequest extends S.Class<AssociateResourceSharePermissionRequest>(
-  "AssociateResourceSharePermissionRequest",
-)(
-  {
+).annotations({
+  identifier: "AssociateResourceShareRequest",
+}) as any as S.Schema<AssociateResourceShareRequest>;
+export interface AssociateResourceSharePermissionRequest {
+  resourceShareArn: string;
+  permissionArn: string;
+  replace?: boolean;
+  clientToken?: string;
+  permissionVersion?: number;
+}
+export const AssociateResourceSharePermissionRequest = S.suspend(() =>
+  S.Struct({
     resourceShareArn: S.String,
     permissionArn: S.String,
     replace: S.optional(S.Boolean),
     clientToken: S.optional(S.String),
     permissionVersion: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/associateresourcesharepermission" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/associateresourcesharepermission" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreatePermissionVersionRequest extends S.Class<CreatePermissionVersionRequest>(
-  "CreatePermissionVersionRequest",
-)(
-  {
+).annotations({
+  identifier: "AssociateResourceSharePermissionRequest",
+}) as any as S.Schema<AssociateResourceSharePermissionRequest>;
+export interface CreatePermissionVersionRequest {
+  permissionArn: string;
+  policyTemplate: string;
+  clientToken?: string;
+}
+export const CreatePermissionVersionRequest = S.suspend(() =>
+  S.Struct({
     permissionArn: S.String,
     policyTemplate: S.String,
     clientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/createpermissionversion" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/createpermissionversion" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class Tag extends S.Class<Tag>("Tag")({
-  key: S.optional(S.String),
-  value: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "CreatePermissionVersionRequest",
+}) as any as S.Schema<CreatePermissionVersionRequest>;
+export interface Tag {
+  key?: string;
+  value?: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ key: S.optional(S.String), value: S.optional(S.String) }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagList = Tag[];
 export const TagList = S.Array(Tag);
-export class CreateResourceShareRequest extends S.Class<CreateResourceShareRequest>(
-  "CreateResourceShareRequest",
-)(
-  {
+export interface CreateResourceShareRequest {
+  name: string;
+  resourceArns?: ResourceArnList;
+  principals?: PrincipalArnOrIdList;
+  tags?: TagList;
+  allowExternalPrincipals?: boolean;
+  clientToken?: string;
+  permissionArns?: PermissionArnList;
+  sources?: SourceArnOrAccountList;
+}
+export const CreateResourceShareRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     resourceArns: S.optional(ResourceArnList),
     principals: S.optional(PrincipalArnOrIdList),
@@ -372,139 +424,199 @@ export class CreateResourceShareRequest extends S.Class<CreateResourceShareReque
     clientToken: S.optional(S.String),
     permissionArns: S.optional(PermissionArnList),
     sources: S.optional(SourceArnOrAccountList),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/createresourceshare" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/createresourceshare" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeletePermissionRequest extends S.Class<DeletePermissionRequest>(
-  "DeletePermissionRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateResourceShareRequest",
+}) as any as S.Schema<CreateResourceShareRequest>;
+export interface DeletePermissionRequest {
+  permissionArn: string;
+  clientToken?: string;
+}
+export const DeletePermissionRequest = S.suspend(() =>
+  S.Struct({
     permissionArn: S.String.pipe(T.HttpQuery("permissionArn")),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/deletepermission" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/deletepermission" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeletePermissionVersionRequest extends S.Class<DeletePermissionVersionRequest>(
-  "DeletePermissionVersionRequest",
-)(
-  {
+).annotations({
+  identifier: "DeletePermissionRequest",
+}) as any as S.Schema<DeletePermissionRequest>;
+export interface DeletePermissionVersionRequest {
+  permissionArn: string;
+  permissionVersion: number;
+  clientToken?: string;
+}
+export const DeletePermissionVersionRequest = S.suspend(() =>
+  S.Struct({
     permissionArn: S.String.pipe(T.HttpQuery("permissionArn")),
     permissionVersion: S.Number.pipe(T.HttpQuery("permissionVersion")),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/deletepermissionversion" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/deletepermissionversion" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteResourceShareRequest extends S.Class<DeleteResourceShareRequest>(
-  "DeleteResourceShareRequest",
-)(
-  {
+).annotations({
+  identifier: "DeletePermissionVersionRequest",
+}) as any as S.Schema<DeletePermissionVersionRequest>;
+export interface DeleteResourceShareRequest {
+  resourceShareArn: string;
+  clientToken?: string;
+}
+export const DeleteResourceShareRequest = S.suspend(() =>
+  S.Struct({
     resourceShareArn: S.String.pipe(T.HttpQuery("resourceShareArn")),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/deleteresourceshare" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/deleteresourceshare" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DisassociateResourceShareRequest extends S.Class<DisassociateResourceShareRequest>(
-  "DisassociateResourceShareRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteResourceShareRequest",
+}) as any as S.Schema<DeleteResourceShareRequest>;
+export interface DisassociateResourceShareRequest {
+  resourceShareArn: string;
+  resourceArns?: ResourceArnList;
+  principals?: PrincipalArnOrIdList;
+  clientToken?: string;
+  sources?: SourceArnOrAccountList;
+}
+export const DisassociateResourceShareRequest = S.suspend(() =>
+  S.Struct({
     resourceShareArn: S.String,
     resourceArns: S.optional(ResourceArnList),
     principals: S.optional(PrincipalArnOrIdList),
     clientToken: S.optional(S.String),
     sources: S.optional(SourceArnOrAccountList),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/disassociateresourceshare" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/disassociateresourceshare" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DisassociateResourceSharePermissionRequest extends S.Class<DisassociateResourceSharePermissionRequest>(
-  "DisassociateResourceSharePermissionRequest",
-)(
-  {
+).annotations({
+  identifier: "DisassociateResourceShareRequest",
+}) as any as S.Schema<DisassociateResourceShareRequest>;
+export interface DisassociateResourceSharePermissionRequest {
+  resourceShareArn: string;
+  permissionArn: string;
+  clientToken?: string;
+}
+export const DisassociateResourceSharePermissionRequest = S.suspend(() =>
+  S.Struct({
     resourceShareArn: S.String,
     permissionArn: S.String,
     clientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/disassociateresourcesharepermission" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/disassociateresourcesharepermission" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class EnableSharingWithAwsOrganizationResponse extends S.Class<EnableSharingWithAwsOrganizationResponse>(
-  "EnableSharingWithAwsOrganizationResponse",
-)({ returnValue: S.optional(S.Boolean).pipe(T.XmlName("return")) }) {}
-export class GetPermissionRequest extends S.Class<GetPermissionRequest>(
-  "GetPermissionRequest",
-)(
-  { permissionArn: S.String, permissionVersion: S.optional(S.Number) },
-  T.all(
-    T.Http({ method: "POST", uri: "/getpermission" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DisassociateResourceSharePermissionRequest",
+}) as any as S.Schema<DisassociateResourceSharePermissionRequest>;
+export interface EnableSharingWithAwsOrganizationResponse {
+  returnValue?: boolean;
+}
+export const EnableSharingWithAwsOrganizationResponse = S.suspend(() =>
+  S.Struct({ returnValue: S.optional(S.Boolean).pipe(T.XmlName("return")) }),
+).annotations({
+  identifier: "EnableSharingWithAwsOrganizationResponse",
+}) as any as S.Schema<EnableSharingWithAwsOrganizationResponse>;
+export interface GetPermissionRequest {
+  permissionArn: string;
+  permissionVersion?: number;
+}
+export const GetPermissionRequest = S.suspend(() =>
+  S.Struct({
+    permissionArn: S.String,
+    permissionVersion: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/getpermission" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetResourcePoliciesRequest extends S.Class<GetResourcePoliciesRequest>(
-  "GetResourcePoliciesRequest",
-)(
-  {
+).annotations({
+  identifier: "GetPermissionRequest",
+}) as any as S.Schema<GetPermissionRequest>;
+export interface GetResourcePoliciesRequest {
+  resourceArns: ResourceArnList;
+  principal?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const GetResourcePoliciesRequest = S.suspend(() =>
+  S.Struct({
     resourceArns: ResourceArnList,
     principal: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/getresourcepolicies" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/getresourcepolicies" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetResourceShareAssociationsRequest extends S.Class<GetResourceShareAssociationsRequest>(
-  "GetResourceShareAssociationsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetResourcePoliciesRequest",
+}) as any as S.Schema<GetResourcePoliciesRequest>;
+export interface GetResourceShareAssociationsRequest {
+  associationType: string;
+  resourceShareArns?: ResourceShareArnList;
+  resourceArn?: string;
+  principal?: string;
+  associationStatus?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const GetResourceShareAssociationsRequest = S.suspend(() =>
+  S.Struct({
     associationType: S.String,
     resourceShareArns: S.optional(ResourceShareArnList),
     resourceArn: S.optional(S.String),
@@ -512,56 +624,81 @@ export class GetResourceShareAssociationsRequest extends S.Class<GetResourceShar
     associationStatus: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/getresourceshareassociations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/getresourceshareassociations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetResourceShareInvitationsRequest extends S.Class<GetResourceShareInvitationsRequest>(
-  "GetResourceShareInvitationsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetResourceShareAssociationsRequest",
+}) as any as S.Schema<GetResourceShareAssociationsRequest>;
+export interface GetResourceShareInvitationsRequest {
+  resourceShareInvitationArns?: ResourceShareInvitationArnList;
+  resourceShareArns?: ResourceShareArnList;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const GetResourceShareInvitationsRequest = S.suspend(() =>
+  S.Struct({
     resourceShareInvitationArns: S.optional(ResourceShareInvitationArnList),
     resourceShareArns: S.optional(ResourceShareArnList),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/getresourceshareinvitations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/getresourceshareinvitations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListPendingInvitationResourcesRequest extends S.Class<ListPendingInvitationResourcesRequest>(
-  "ListPendingInvitationResourcesRequest",
-)(
-  {
+).annotations({
+  identifier: "GetResourceShareInvitationsRequest",
+}) as any as S.Schema<GetResourceShareInvitationsRequest>;
+export interface ListPendingInvitationResourcesRequest {
+  resourceShareInvitationArn: string;
+  nextToken?: string;
+  maxResults?: number;
+  resourceRegionScope?: string;
+}
+export const ListPendingInvitationResourcesRequest = S.suspend(() =>
+  S.Struct({
     resourceShareInvitationArn: S.String,
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
     resourceRegionScope: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/listpendinginvitationresources" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/listpendinginvitationresources" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListPermissionAssociationsRequest extends S.Class<ListPermissionAssociationsRequest>(
-  "ListPermissionAssociationsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListPendingInvitationResourcesRequest",
+}) as any as S.Schema<ListPendingInvitationResourcesRequest>;
+export interface ListPermissionAssociationsRequest {
+  permissionArn?: string;
+  permissionVersion?: number;
+  associationStatus?: string;
+  resourceType?: string;
+  featureSet?: string;
+  defaultVersion?: boolean;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListPermissionAssociationsRequest = S.suspend(() =>
+  S.Struct({
     permissionArn: S.optional(S.String),
     permissionVersion: S.optional(S.Number),
     associationStatus: S.optional(S.String),
@@ -570,55 +707,78 @@ export class ListPermissionAssociationsRequest extends S.Class<ListPermissionAss
     defaultVersion: S.optional(S.Boolean),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/listpermissionassociations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/listpermissionassociations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListPermissionsRequest extends S.Class<ListPermissionsRequest>(
-  "ListPermissionsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListPermissionAssociationsRequest",
+}) as any as S.Schema<ListPermissionAssociationsRequest>;
+export interface ListPermissionsRequest {
+  resourceType?: string;
+  nextToken?: string;
+  maxResults?: number;
+  permissionType?: string;
+}
+export const ListPermissionsRequest = S.suspend(() =>
+  S.Struct({
     resourceType: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
     permissionType: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/listpermissions" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/listpermissions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListPermissionVersionsRequest extends S.Class<ListPermissionVersionsRequest>(
-  "ListPermissionVersionsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListPermissionsRequest",
+}) as any as S.Schema<ListPermissionsRequest>;
+export interface ListPermissionVersionsRequest {
+  permissionArn: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListPermissionVersionsRequest = S.suspend(() =>
+  S.Struct({
     permissionArn: S.String,
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/listpermissionversions" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/listpermissionversions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListPrincipalsRequest extends S.Class<ListPrincipalsRequest>(
-  "ListPrincipalsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListPermissionVersionsRequest",
+}) as any as S.Schema<ListPermissionVersionsRequest>;
+export interface ListPrincipalsRequest {
+  resourceOwner: string;
+  resourceArn?: string;
+  principals?: PrincipalArnOrIdList;
+  resourceType?: string;
+  resourceShareArns?: ResourceShareArnList;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListPrincipalsRequest = S.suspend(() =>
+  S.Struct({
     resourceOwner: S.String,
     resourceArn: S.optional(S.String),
     principals: S.optional(PrincipalArnOrIdList),
@@ -626,38 +786,56 @@ export class ListPrincipalsRequest extends S.Class<ListPrincipalsRequest>(
     resourceShareArns: S.optional(ResourceShareArnList),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/listprincipals" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/listprincipals" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListReplacePermissionAssociationsWorkRequest extends S.Class<ListReplacePermissionAssociationsWorkRequest>(
-  "ListReplacePermissionAssociationsWorkRequest",
-)(
-  {
+).annotations({
+  identifier: "ListPrincipalsRequest",
+}) as any as S.Schema<ListPrincipalsRequest>;
+export interface ListReplacePermissionAssociationsWorkRequest {
+  workIds?: ReplacePermissionAssociationsWorkIdList;
+  status?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListReplacePermissionAssociationsWorkRequest = S.suspend(() =>
+  S.Struct({
     workIds: S.optional(ReplacePermissionAssociationsWorkIdList),
     status: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/listreplacepermissionassociationswork" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/listreplacepermissionassociationswork" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListResourcesRequest extends S.Class<ListResourcesRequest>(
-  "ListResourcesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListReplacePermissionAssociationsWorkRequest",
+}) as any as S.Schema<ListReplacePermissionAssociationsWorkRequest>;
+export interface ListResourcesRequest {
+  resourceOwner: string;
+  principal?: string;
+  resourceType?: string;
+  resourceArns?: ResourceArnList;
+  resourceShareArns?: ResourceShareArnList;
+  nextToken?: string;
+  maxResults?: number;
+  resourceRegionScope?: string;
+}
+export const ListResourcesRequest = S.suspend(() =>
+  S.Struct({
     resourceOwner: S.String,
     principal: S.optional(S.String),
     resourceType: S.optional(S.String),
@@ -666,317 +844,535 @@ export class ListResourcesRequest extends S.Class<ListResourcesRequest>(
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
     resourceRegionScope: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/listresources" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/listresources" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListResourceSharePermissionsRequest extends S.Class<ListResourceSharePermissionsRequest>(
-  "ListResourceSharePermissionsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListResourcesRequest",
+}) as any as S.Schema<ListResourcesRequest>;
+export interface ListResourceSharePermissionsRequest {
+  resourceShareArn: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListResourceSharePermissionsRequest = S.suspend(() =>
+  S.Struct({
     resourceShareArn: S.String,
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/listresourcesharepermissions" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/listresourcesharepermissions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListResourceTypesRequest extends S.Class<ListResourceTypesRequest>(
-  "ListResourceTypesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListResourceSharePermissionsRequest",
+}) as any as S.Schema<ListResourceSharePermissionsRequest>;
+export interface ListResourceTypesRequest {
+  nextToken?: string;
+  maxResults?: number;
+  resourceRegionScope?: string;
+}
+export const ListResourceTypesRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
     resourceRegionScope: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/listresourcetypes" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/listresourcetypes" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PromotePermissionCreatedFromPolicyRequest extends S.Class<PromotePermissionCreatedFromPolicyRequest>(
-  "PromotePermissionCreatedFromPolicyRequest",
-)(
-  {
+).annotations({
+  identifier: "ListResourceTypesRequest",
+}) as any as S.Schema<ListResourceTypesRequest>;
+export interface PromotePermissionCreatedFromPolicyRequest {
+  permissionArn: string;
+  name: string;
+  clientToken?: string;
+}
+export const PromotePermissionCreatedFromPolicyRequest = S.suspend(() =>
+  S.Struct({
     permissionArn: S.String,
     name: S.String,
     clientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/promotepermissioncreatedfrompolicy" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/promotepermissioncreatedfrompolicy" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PromoteResourceShareCreatedFromPolicyRequest extends S.Class<PromoteResourceShareCreatedFromPolicyRequest>(
-  "PromoteResourceShareCreatedFromPolicyRequest",
-)(
-  { resourceShareArn: S.String.pipe(T.HttpQuery("resourceShareArn")) },
-  T.all(
-    T.Http({ method: "POST", uri: "/promoteresourcesharecreatedfrompolicy" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "PromotePermissionCreatedFromPolicyRequest",
+}) as any as S.Schema<PromotePermissionCreatedFromPolicyRequest>;
+export interface PromoteResourceShareCreatedFromPolicyRequest {
+  resourceShareArn: string;
+}
+export const PromoteResourceShareCreatedFromPolicyRequest = S.suspend(() =>
+  S.Struct({
+    resourceShareArn: S.String.pipe(T.HttpQuery("resourceShareArn")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/promoteresourcesharecreatedfrompolicy" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class RejectResourceShareInvitationRequest extends S.Class<RejectResourceShareInvitationRequest>(
-  "RejectResourceShareInvitationRequest",
-)(
-  { resourceShareInvitationArn: S.String, clientToken: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/rejectresourceshareinvitation" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "PromoteResourceShareCreatedFromPolicyRequest",
+}) as any as S.Schema<PromoteResourceShareCreatedFromPolicyRequest>;
+export interface RejectResourceShareInvitationRequest {
+  resourceShareInvitationArn: string;
+  clientToken?: string;
+}
+export const RejectResourceShareInvitationRequest = S.suspend(() =>
+  S.Struct({
+    resourceShareInvitationArn: S.String,
+    clientToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/rejectresourceshareinvitation" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ReplacePermissionAssociationsRequest extends S.Class<ReplacePermissionAssociationsRequest>(
-  "ReplacePermissionAssociationsRequest",
-)(
-  {
+).annotations({
+  identifier: "RejectResourceShareInvitationRequest",
+}) as any as S.Schema<RejectResourceShareInvitationRequest>;
+export interface ReplacePermissionAssociationsRequest {
+  fromPermissionArn: string;
+  fromPermissionVersion?: number;
+  toPermissionArn: string;
+  clientToken?: string;
+}
+export const ReplacePermissionAssociationsRequest = S.suspend(() =>
+  S.Struct({
     fromPermissionArn: S.String,
     fromPermissionVersion: S.optional(S.Number),
     toPermissionArn: S.String,
     clientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/replacepermissionassociations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/replacepermissionassociations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SetDefaultPermissionVersionRequest extends S.Class<SetDefaultPermissionVersionRequest>(
-  "SetDefaultPermissionVersionRequest",
-)(
-  {
+).annotations({
+  identifier: "ReplacePermissionAssociationsRequest",
+}) as any as S.Schema<ReplacePermissionAssociationsRequest>;
+export interface SetDefaultPermissionVersionRequest {
+  permissionArn: string;
+  permissionVersion: number;
+  clientToken?: string;
+}
+export const SetDefaultPermissionVersionRequest = S.suspend(() =>
+  S.Struct({
     permissionArn: S.String,
     permissionVersion: S.Number,
     clientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/setdefaultpermissionversion" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/setdefaultpermissionversion" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "SetDefaultPermissionVersionRequest",
+}) as any as S.Schema<SetDefaultPermissionVersionRequest>;
+export interface TagResourceRequest {
+  resourceShareArn?: string;
+  tags: TagList;
+  resourceArn?: string;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({
     resourceShareArn: S.optional(S.String),
     tags: TagList,
     resourceArn: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/tagresource" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tagresource" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UntagResourceRequest {
+  resourceShareArn?: string;
+  tagKeys: TagKeyList;
+  resourceArn?: string;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
     resourceShareArn: S.optional(S.String),
     tagKeys: TagKeyList,
     resourceArn: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/untagresource" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/untagresource" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
-export class UpdateResourceShareRequest extends S.Class<UpdateResourceShareRequest>(
-  "UpdateResourceShareRequest",
-)(
-  {
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface UpdateResourceShareRequest {
+  resourceShareArn: string;
+  name?: string;
+  allowExternalPrincipals?: boolean;
+  clientToken?: string;
+}
+export const UpdateResourceShareRequest = S.suspend(() =>
+  S.Struct({
     resourceShareArn: S.String,
     name: S.optional(S.String),
     allowExternalPrincipals: S.optional(S.Boolean),
     clientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/updateresourceshare" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/updateresourceshare" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "UpdateResourceShareRequest",
+}) as any as S.Schema<UpdateResourceShareRequest>;
+export type TagValueList = string[];
 export const TagValueList = S.Array(S.String);
+export type PolicyList = string[];
 export const PolicyList = S.Array(S.String.pipe(T.XmlName("item")));
-export class ResourceShareAssociation extends S.Class<ResourceShareAssociation>(
-  "ResourceShareAssociation",
-)({
-  resourceShareArn: S.optional(S.String),
-  resourceShareName: S.optional(S.String),
-  associatedEntity: S.optional(S.String),
-  associationType: S.optional(S.String),
-  status: S.optional(S.String),
-  statusMessage: S.optional(S.String),
-  creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  external: S.optional(S.Boolean),
-}) {}
+export interface ResourceShareAssociation {
+  resourceShareArn?: string;
+  resourceShareName?: string;
+  associatedEntity?: string;
+  associationType?: string;
+  status?: string;
+  statusMessage?: string;
+  creationTime?: Date;
+  lastUpdatedTime?: Date;
+  external?: boolean;
+}
+export const ResourceShareAssociation = S.suspend(() =>
+  S.Struct({
+    resourceShareArn: S.optional(S.String),
+    resourceShareName: S.optional(S.String),
+    associatedEntity: S.optional(S.String),
+    associationType: S.optional(S.String),
+    status: S.optional(S.String),
+    statusMessage: S.optional(S.String),
+    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdatedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    external: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "ResourceShareAssociation",
+}) as any as S.Schema<ResourceShareAssociation>;
+export type ResourceShareAssociationList = ResourceShareAssociation[];
 export const ResourceShareAssociationList = S.Array(
-  ResourceShareAssociation.pipe(T.XmlName("item")),
+  ResourceShareAssociation.pipe(T.XmlName("item")).annotations({
+    identifier: "ResourceShareAssociation",
+  }),
 );
-export class ResourceShareInvitation extends S.Class<ResourceShareInvitation>(
-  "ResourceShareInvitation",
-)({
-  resourceShareInvitationArn: S.optional(S.String),
-  resourceShareName: S.optional(S.String),
-  resourceShareArn: S.optional(S.String),
-  senderAccountId: S.optional(S.String),
-  receiverAccountId: S.optional(S.String),
-  invitationTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  status: S.optional(S.String),
-  resourceShareAssociations: S.optional(ResourceShareAssociationList),
-  receiverArn: S.optional(S.String),
-}) {}
+export interface ResourceShareInvitation {
+  resourceShareInvitationArn?: string;
+  resourceShareName?: string;
+  resourceShareArn?: string;
+  senderAccountId?: string;
+  receiverAccountId?: string;
+  invitationTimestamp?: Date;
+  status?: string;
+  resourceShareAssociations?: ResourceShareAssociationList;
+  receiverArn?: string;
+}
+export const ResourceShareInvitation = S.suspend(() =>
+  S.Struct({
+    resourceShareInvitationArn: S.optional(S.String),
+    resourceShareName: S.optional(S.String),
+    resourceShareArn: S.optional(S.String),
+    senderAccountId: S.optional(S.String),
+    receiverAccountId: S.optional(S.String),
+    invitationTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    status: S.optional(S.String),
+    resourceShareAssociations: S.optional(ResourceShareAssociationList),
+    receiverArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ResourceShareInvitation",
+}) as any as S.Schema<ResourceShareInvitation>;
+export type ResourceShareInvitationList = ResourceShareInvitation[];
 export const ResourceShareInvitationList = S.Array(
-  ResourceShareInvitation.pipe(T.XmlName("item")),
+  ResourceShareInvitation.pipe(T.XmlName("item")).annotations({
+    identifier: "ResourceShareInvitation",
+  }),
 );
-export class TagFilter extends S.Class<TagFilter>("TagFilter")({
-  tagKey: S.optional(S.String),
-  tagValues: S.optional(TagValueList),
-}) {}
+export interface TagFilter {
+  tagKey?: string;
+  tagValues?: TagValueList;
+}
+export const TagFilter = S.suspend(() =>
+  S.Struct({
+    tagKey: S.optional(S.String),
+    tagValues: S.optional(TagValueList),
+  }),
+).annotations({ identifier: "TagFilter" }) as any as S.Schema<TagFilter>;
+export type TagFilters = TagFilter[];
 export const TagFilters = S.Array(TagFilter);
-export class AssociateResourceSharePermissionResponse extends S.Class<AssociateResourceSharePermissionResponse>(
-  "AssociateResourceSharePermissionResponse",
-)({ returnValue: S.optional(S.Boolean), clientToken: S.optional(S.String) }) {}
-export class CreatePermissionRequest extends S.Class<CreatePermissionRequest>(
-  "CreatePermissionRequest",
-)(
-  {
+export interface AssociateResourceSharePermissionResponse {
+  returnValue?: boolean;
+  clientToken?: string;
+}
+export const AssociateResourceSharePermissionResponse = S.suspend(() =>
+  S.Struct({
+    returnValue: S.optional(S.Boolean),
+    clientToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AssociateResourceSharePermissionResponse",
+}) as any as S.Schema<AssociateResourceSharePermissionResponse>;
+export interface CreatePermissionRequest {
+  name: string;
+  resourceType: string;
+  policyTemplate: string;
+  clientToken?: string;
+  tags?: TagList;
+}
+export const CreatePermissionRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     resourceType: S.String,
     policyTemplate: S.String,
     clientToken: S.optional(S.String),
     tags: S.optional(TagList),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/createpermission" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/createpermission" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeletePermissionResponse extends S.Class<DeletePermissionResponse>(
-  "DeletePermissionResponse",
-)({
-  returnValue: S.optional(S.Boolean).pipe(T.XmlName("return")),
-  clientToken: S.optional(S.String),
-  permissionStatus: S.optional(S.String),
-}) {}
-export class DeletePermissionVersionResponse extends S.Class<DeletePermissionVersionResponse>(
-  "DeletePermissionVersionResponse",
-)({
-  returnValue: S.optional(S.Boolean).pipe(T.XmlName("return")),
-  clientToken: S.optional(S.String),
-  permissionStatus: S.optional(S.String),
-}) {}
-export class DeleteResourceShareResponse extends S.Class<DeleteResourceShareResponse>(
-  "DeleteResourceShareResponse",
-)({
-  returnValue: S.optional(S.Boolean).pipe(T.XmlName("return")),
-  clientToken: S.optional(S.String),
-}) {}
-export class DisassociateResourceShareResponse extends S.Class<DisassociateResourceShareResponse>(
-  "DisassociateResourceShareResponse",
-)({
-  resourceShareAssociations: S.optional(ResourceShareAssociationList),
-  clientToken: S.optional(S.String),
-}) {}
-export class DisassociateResourceSharePermissionResponse extends S.Class<DisassociateResourceSharePermissionResponse>(
-  "DisassociateResourceSharePermissionResponse",
-)({ returnValue: S.optional(S.Boolean), clientToken: S.optional(S.String) }) {}
-export class ResourceSharePermissionDetail extends S.Class<ResourceSharePermissionDetail>(
-  "ResourceSharePermissionDetail",
-)({
-  arn: S.optional(S.String),
-  version: S.optional(S.String),
-  defaultVersion: S.optional(S.Boolean),
-  name: S.optional(S.String),
-  resourceType: S.optional(S.String),
-  permission: S.optional(S.String),
-  creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  isResourceTypeDefault: S.optional(S.Boolean),
-  permissionType: S.optional(S.String),
-  featureSet: S.optional(S.String),
-  status: S.optional(S.String),
-  tags: S.optional(TagList),
-}) {}
-export class GetPermissionResponse extends S.Class<GetPermissionResponse>(
-  "GetPermissionResponse",
-)({ permission: S.optional(ResourceSharePermissionDetail) }) {}
-export class GetResourcePoliciesResponse extends S.Class<GetResourcePoliciesResponse>(
-  "GetResourcePoliciesResponse",
-)({ policies: S.optional(PolicyList), nextToken: S.optional(S.String) }) {}
-export class GetResourceShareAssociationsResponse extends S.Class<GetResourceShareAssociationsResponse>(
-  "GetResourceShareAssociationsResponse",
-)({
-  resourceShareAssociations: S.optional(ResourceShareAssociationList),
-  nextToken: S.optional(S.String),
-}) {}
-export class GetResourceShareInvitationsResponse extends S.Class<GetResourceShareInvitationsResponse>(
-  "GetResourceShareInvitationsResponse",
-)({
-  resourceShareInvitations: S.optional(ResourceShareInvitationList),
-  nextToken: S.optional(S.String),
-}) {}
-export class GetResourceSharesRequest extends S.Class<GetResourceSharesRequest>(
-  "GetResourceSharesRequest",
-)(
-  {
+).annotations({
+  identifier: "CreatePermissionRequest",
+}) as any as S.Schema<CreatePermissionRequest>;
+export interface DeletePermissionResponse {
+  returnValue?: boolean;
+  clientToken?: string;
+  permissionStatus?: string;
+}
+export const DeletePermissionResponse = S.suspend(() =>
+  S.Struct({
+    returnValue: S.optional(S.Boolean).pipe(T.XmlName("return")),
+    clientToken: S.optional(S.String),
+    permissionStatus: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DeletePermissionResponse",
+}) as any as S.Schema<DeletePermissionResponse>;
+export interface DeletePermissionVersionResponse {
+  returnValue?: boolean;
+  clientToken?: string;
+  permissionStatus?: string;
+}
+export const DeletePermissionVersionResponse = S.suspend(() =>
+  S.Struct({
+    returnValue: S.optional(S.Boolean).pipe(T.XmlName("return")),
+    clientToken: S.optional(S.String),
+    permissionStatus: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DeletePermissionVersionResponse",
+}) as any as S.Schema<DeletePermissionVersionResponse>;
+export interface DeleteResourceShareResponse {
+  returnValue?: boolean;
+  clientToken?: string;
+}
+export const DeleteResourceShareResponse = S.suspend(() =>
+  S.Struct({
+    returnValue: S.optional(S.Boolean).pipe(T.XmlName("return")),
+    clientToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DeleteResourceShareResponse",
+}) as any as S.Schema<DeleteResourceShareResponse>;
+export interface DisassociateResourceShareResponse {
+  resourceShareAssociations?: ResourceShareAssociationList;
+  clientToken?: string;
+}
+export const DisassociateResourceShareResponse = S.suspend(() =>
+  S.Struct({
+    resourceShareAssociations: S.optional(ResourceShareAssociationList),
+    clientToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DisassociateResourceShareResponse",
+}) as any as S.Schema<DisassociateResourceShareResponse>;
+export interface DisassociateResourceSharePermissionResponse {
+  returnValue?: boolean;
+  clientToken?: string;
+}
+export const DisassociateResourceSharePermissionResponse = S.suspend(() =>
+  S.Struct({
+    returnValue: S.optional(S.Boolean),
+    clientToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DisassociateResourceSharePermissionResponse",
+}) as any as S.Schema<DisassociateResourceSharePermissionResponse>;
+export interface ResourceSharePermissionDetail {
+  arn?: string;
+  version?: string;
+  defaultVersion?: boolean;
+  name?: string;
+  resourceType?: string;
+  permission?: string;
+  creationTime?: Date;
+  lastUpdatedTime?: Date;
+  isResourceTypeDefault?: boolean;
+  permissionType?: string;
+  featureSet?: string;
+  status?: string;
+  tags?: TagList;
+}
+export const ResourceSharePermissionDetail = S.suspend(() =>
+  S.Struct({
+    arn: S.optional(S.String),
+    version: S.optional(S.String),
+    defaultVersion: S.optional(S.Boolean),
+    name: S.optional(S.String),
+    resourceType: S.optional(S.String),
+    permission: S.optional(S.String),
+    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdatedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    isResourceTypeDefault: S.optional(S.Boolean),
+    permissionType: S.optional(S.String),
+    featureSet: S.optional(S.String),
+    status: S.optional(S.String),
+    tags: S.optional(TagList),
+  }),
+).annotations({
+  identifier: "ResourceSharePermissionDetail",
+}) as any as S.Schema<ResourceSharePermissionDetail>;
+export interface GetPermissionResponse {
+  permission?: ResourceSharePermissionDetail;
+}
+export const GetPermissionResponse = S.suspend(() =>
+  S.Struct({ permission: S.optional(ResourceSharePermissionDetail) }),
+).annotations({
+  identifier: "GetPermissionResponse",
+}) as any as S.Schema<GetPermissionResponse>;
+export interface GetResourcePoliciesResponse {
+  policies?: PolicyList;
+  nextToken?: string;
+}
+export const GetResourcePoliciesResponse = S.suspend(() =>
+  S.Struct({
+    policies: S.optional(PolicyList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetResourcePoliciesResponse",
+}) as any as S.Schema<GetResourcePoliciesResponse>;
+export interface GetResourceShareAssociationsResponse {
+  resourceShareAssociations?: ResourceShareAssociationList;
+  nextToken?: string;
+}
+export const GetResourceShareAssociationsResponse = S.suspend(() =>
+  S.Struct({
+    resourceShareAssociations: S.optional(ResourceShareAssociationList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetResourceShareAssociationsResponse",
+}) as any as S.Schema<GetResourceShareAssociationsResponse>;
+export interface GetResourceShareInvitationsResponse {
+  resourceShareInvitations?: ResourceShareInvitationList;
+  nextToken?: string;
+}
+export const GetResourceShareInvitationsResponse = S.suspend(() =>
+  S.Struct({
+    resourceShareInvitations: S.optional(ResourceShareInvitationList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetResourceShareInvitationsResponse",
+}) as any as S.Schema<GetResourceShareInvitationsResponse>;
+export interface GetResourceSharesRequest {
+  resourceShareArns?: ResourceShareArnList;
+  resourceShareStatus?: string;
+  resourceOwner: string;
+  name?: string;
+  tagFilters?: TagFilters;
+  nextToken?: string;
+  maxResults?: number;
+  permissionArn?: string;
+  permissionVersion?: number;
+}
+export const GetResourceSharesRequest = S.suspend(() =>
+  S.Struct({
     resourceShareArns: S.optional(ResourceShareArnList),
     resourceShareStatus: S.optional(S.String),
     resourceOwner: S.String,
@@ -986,227 +1382,486 @@ export class GetResourceSharesRequest extends S.Class<GetResourceSharesRequest>(
     maxResults: S.optional(S.Number),
     permissionArn: S.optional(S.String),
     permissionVersion: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/getresourceshares" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/getresourceshares" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ResourceSharePermissionSummary extends S.Class<ResourceSharePermissionSummary>(
-  "ResourceSharePermissionSummary",
-)({
-  arn: S.optional(S.String),
-  version: S.optional(S.String),
-  defaultVersion: S.optional(S.Boolean),
-  name: S.optional(S.String),
-  resourceType: S.optional(S.String),
-  status: S.optional(S.String),
-  creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  isResourceTypeDefault: S.optional(S.Boolean),
-  permissionType: S.optional(S.String),
-  featureSet: S.optional(S.String),
-  tags: S.optional(TagList),
-}) {}
+).annotations({
+  identifier: "GetResourceSharesRequest",
+}) as any as S.Schema<GetResourceSharesRequest>;
+export interface ResourceSharePermissionSummary {
+  arn?: string;
+  version?: string;
+  defaultVersion?: boolean;
+  name?: string;
+  resourceType?: string;
+  status?: string;
+  creationTime?: Date;
+  lastUpdatedTime?: Date;
+  isResourceTypeDefault?: boolean;
+  permissionType?: string;
+  featureSet?: string;
+  tags?: TagList;
+}
+export const ResourceSharePermissionSummary = S.suspend(() =>
+  S.Struct({
+    arn: S.optional(S.String),
+    version: S.optional(S.String),
+    defaultVersion: S.optional(S.Boolean),
+    name: S.optional(S.String),
+    resourceType: S.optional(S.String),
+    status: S.optional(S.String),
+    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdatedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    isResourceTypeDefault: S.optional(S.Boolean),
+    permissionType: S.optional(S.String),
+    featureSet: S.optional(S.String),
+    tags: S.optional(TagList),
+  }),
+).annotations({
+  identifier: "ResourceSharePermissionSummary",
+}) as any as S.Schema<ResourceSharePermissionSummary>;
+export type ResourceSharePermissionList = ResourceSharePermissionSummary[];
 export const ResourceSharePermissionList = S.Array(
-  ResourceSharePermissionSummary.pipe(T.XmlName("item")),
+  ResourceSharePermissionSummary.pipe(T.XmlName("item")).annotations({
+    identifier: "ResourceSharePermissionSummary",
+  }),
 );
-export class ListPermissionVersionsResponse extends S.Class<ListPermissionVersionsResponse>(
-  "ListPermissionVersionsResponse",
-)({
-  permissions: S.optional(ResourceSharePermissionList),
-  nextToken: S.optional(S.String),
-}) {}
-export class Resource extends S.Class<Resource>("Resource")({
-  arn: S.optional(S.String),
-  type: S.optional(S.String),
-  resourceShareArn: S.optional(S.String),
-  resourceGroupArn: S.optional(S.String),
-  status: S.optional(S.String),
-  statusMessage: S.optional(S.String),
-  creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  resourceRegionScope: S.optional(S.String),
-}) {}
-export const ResourceList = S.Array(Resource.pipe(T.XmlName("item")));
-export class ListResourcesResponse extends S.Class<ListResourcesResponse>(
-  "ListResourcesResponse",
-)({ resources: S.optional(ResourceList), nextToken: S.optional(S.String) }) {}
-export class ListResourceSharePermissionsResponse extends S.Class<ListResourceSharePermissionsResponse>(
-  "ListResourceSharePermissionsResponse",
-)({
-  permissions: S.optional(ResourceSharePermissionList),
-  nextToken: S.optional(S.String),
-}) {}
-export class PromotePermissionCreatedFromPolicyResponse extends S.Class<PromotePermissionCreatedFromPolicyResponse>(
-  "PromotePermissionCreatedFromPolicyResponse",
-)({
-  permission: S.optional(ResourceSharePermissionSummary),
-  clientToken: S.optional(S.String),
-}) {}
-export class PromoteResourceShareCreatedFromPolicyResponse extends S.Class<PromoteResourceShareCreatedFromPolicyResponse>(
-  "PromoteResourceShareCreatedFromPolicyResponse",
-)({ returnValue: S.optional(S.Boolean).pipe(T.XmlName("return")) }) {}
-export class RejectResourceShareInvitationResponse extends S.Class<RejectResourceShareInvitationResponse>(
-  "RejectResourceShareInvitationResponse",
-)({
-  resourceShareInvitation: S.optional(ResourceShareInvitation),
-  clientToken: S.optional(S.String),
-}) {}
-export class ReplacePermissionAssociationsWork extends S.Class<ReplacePermissionAssociationsWork>(
-  "ReplacePermissionAssociationsWork",
-)({
-  id: S.optional(S.String),
-  fromPermissionArn: S.optional(S.String),
-  fromPermissionVersion: S.optional(S.String),
-  toPermissionArn: S.optional(S.String),
-  toPermissionVersion: S.optional(S.String),
-  status: S.optional(S.String),
-  statusMessage: S.optional(S.String),
-  creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class ReplacePermissionAssociationsResponse extends S.Class<ReplacePermissionAssociationsResponse>(
-  "ReplacePermissionAssociationsResponse",
-)({
-  replacePermissionAssociationsWork: S.optional(
-    ReplacePermissionAssociationsWork,
-  ),
-  clientToken: S.optional(S.String),
-}) {}
-export class SetDefaultPermissionVersionResponse extends S.Class<SetDefaultPermissionVersionResponse>(
-  "SetDefaultPermissionVersionResponse",
-)({
-  returnValue: S.optional(S.Boolean).pipe(T.XmlName("return")),
-  clientToken: S.optional(S.String),
-}) {}
-export class ResourceShare extends S.Class<ResourceShare>("ResourceShare")({
-  resourceShareArn: S.optional(S.String),
-  name: S.optional(S.String),
-  owningAccountId: S.optional(S.String),
-  allowExternalPrincipals: S.optional(S.Boolean),
-  status: S.optional(S.String),
-  statusMessage: S.optional(S.String),
-  tags: S.optional(TagList),
-  creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  featureSet: S.optional(S.String),
-}) {}
-export class UpdateResourceShareResponse extends S.Class<UpdateResourceShareResponse>(
-  "UpdateResourceShareResponse",
-)({
-  resourceShare: S.optional(ResourceShare),
-  clientToken: S.optional(S.String),
-}) {}
-export const ResourceShareList = S.Array(ResourceShare.pipe(T.XmlName("item")));
-export class AssociatedPermission extends S.Class<AssociatedPermission>(
-  "AssociatedPermission",
-)({
-  arn: S.optional(S.String),
-  permissionVersion: S.optional(S.String),
-  defaultVersion: S.optional(S.Boolean),
-  resourceType: S.optional(S.String),
-  status: S.optional(S.String),
-  featureSet: S.optional(S.String),
-  lastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  resourceShareArn: S.optional(S.String),
-}) {}
+export interface ListPermissionVersionsResponse {
+  permissions?: ResourceSharePermissionList;
+  nextToken?: string;
+}
+export const ListPermissionVersionsResponse = S.suspend(() =>
+  S.Struct({
+    permissions: S.optional(ResourceSharePermissionList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListPermissionVersionsResponse",
+}) as any as S.Schema<ListPermissionVersionsResponse>;
+export interface Resource {
+  arn?: string;
+  type?: string;
+  resourceShareArn?: string;
+  resourceGroupArn?: string;
+  status?: string;
+  statusMessage?: string;
+  creationTime?: Date;
+  lastUpdatedTime?: Date;
+  resourceRegionScope?: string;
+}
+export const Resource = S.suspend(() =>
+  S.Struct({
+    arn: S.optional(S.String),
+    type: S.optional(S.String),
+    resourceShareArn: S.optional(S.String),
+    resourceGroupArn: S.optional(S.String),
+    status: S.optional(S.String),
+    statusMessage: S.optional(S.String),
+    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdatedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    resourceRegionScope: S.optional(S.String),
+  }),
+).annotations({ identifier: "Resource" }) as any as S.Schema<Resource>;
+export type ResourceList = Resource[];
+export const ResourceList = S.Array(
+  Resource.pipe(T.XmlName("item")).annotations({ identifier: "Resource" }),
+);
+export interface ListResourcesResponse {
+  resources?: ResourceList;
+  nextToken?: string;
+}
+export const ListResourcesResponse = S.suspend(() =>
+  S.Struct({
+    resources: S.optional(ResourceList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListResourcesResponse",
+}) as any as S.Schema<ListResourcesResponse>;
+export interface ListResourceSharePermissionsResponse {
+  permissions?: ResourceSharePermissionList;
+  nextToken?: string;
+}
+export const ListResourceSharePermissionsResponse = S.suspend(() =>
+  S.Struct({
+    permissions: S.optional(ResourceSharePermissionList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListResourceSharePermissionsResponse",
+}) as any as S.Schema<ListResourceSharePermissionsResponse>;
+export interface PromotePermissionCreatedFromPolicyResponse {
+  permission?: ResourceSharePermissionSummary;
+  clientToken?: string;
+}
+export const PromotePermissionCreatedFromPolicyResponse = S.suspend(() =>
+  S.Struct({
+    permission: S.optional(ResourceSharePermissionSummary),
+    clientToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "PromotePermissionCreatedFromPolicyResponse",
+}) as any as S.Schema<PromotePermissionCreatedFromPolicyResponse>;
+export interface PromoteResourceShareCreatedFromPolicyResponse {
+  returnValue?: boolean;
+}
+export const PromoteResourceShareCreatedFromPolicyResponse = S.suspend(() =>
+  S.Struct({ returnValue: S.optional(S.Boolean).pipe(T.XmlName("return")) }),
+).annotations({
+  identifier: "PromoteResourceShareCreatedFromPolicyResponse",
+}) as any as S.Schema<PromoteResourceShareCreatedFromPolicyResponse>;
+export interface RejectResourceShareInvitationResponse {
+  resourceShareInvitation?: ResourceShareInvitation;
+  clientToken?: string;
+}
+export const RejectResourceShareInvitationResponse = S.suspend(() =>
+  S.Struct({
+    resourceShareInvitation: S.optional(ResourceShareInvitation),
+    clientToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RejectResourceShareInvitationResponse",
+}) as any as S.Schema<RejectResourceShareInvitationResponse>;
+export interface ReplacePermissionAssociationsWork {
+  id?: string;
+  fromPermissionArn?: string;
+  fromPermissionVersion?: string;
+  toPermissionArn?: string;
+  toPermissionVersion?: string;
+  status?: string;
+  statusMessage?: string;
+  creationTime?: Date;
+  lastUpdatedTime?: Date;
+}
+export const ReplacePermissionAssociationsWork = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    fromPermissionArn: S.optional(S.String),
+    fromPermissionVersion: S.optional(S.String),
+    toPermissionArn: S.optional(S.String),
+    toPermissionVersion: S.optional(S.String),
+    status: S.optional(S.String),
+    statusMessage: S.optional(S.String),
+    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdatedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "ReplacePermissionAssociationsWork",
+}) as any as S.Schema<ReplacePermissionAssociationsWork>;
+export interface ReplacePermissionAssociationsResponse {
+  replacePermissionAssociationsWork?: ReplacePermissionAssociationsWork;
+  clientToken?: string;
+}
+export const ReplacePermissionAssociationsResponse = S.suspend(() =>
+  S.Struct({
+    replacePermissionAssociationsWork: S.optional(
+      ReplacePermissionAssociationsWork,
+    ),
+    clientToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ReplacePermissionAssociationsResponse",
+}) as any as S.Schema<ReplacePermissionAssociationsResponse>;
+export interface SetDefaultPermissionVersionResponse {
+  returnValue?: boolean;
+  clientToken?: string;
+}
+export const SetDefaultPermissionVersionResponse = S.suspend(() =>
+  S.Struct({
+    returnValue: S.optional(S.Boolean).pipe(T.XmlName("return")),
+    clientToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SetDefaultPermissionVersionResponse",
+}) as any as S.Schema<SetDefaultPermissionVersionResponse>;
+export interface ResourceShare {
+  resourceShareArn?: string;
+  name?: string;
+  owningAccountId?: string;
+  allowExternalPrincipals?: boolean;
+  status?: string;
+  statusMessage?: string;
+  tags?: TagList;
+  creationTime?: Date;
+  lastUpdatedTime?: Date;
+  featureSet?: string;
+}
+export const ResourceShare = S.suspend(() =>
+  S.Struct({
+    resourceShareArn: S.optional(S.String),
+    name: S.optional(S.String),
+    owningAccountId: S.optional(S.String),
+    allowExternalPrincipals: S.optional(S.Boolean),
+    status: S.optional(S.String),
+    statusMessage: S.optional(S.String),
+    tags: S.optional(TagList),
+    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdatedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    featureSet: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ResourceShare",
+}) as any as S.Schema<ResourceShare>;
+export interface UpdateResourceShareResponse {
+  resourceShare?: ResourceShare;
+  clientToken?: string;
+}
+export const UpdateResourceShareResponse = S.suspend(() =>
+  S.Struct({
+    resourceShare: S.optional(ResourceShare),
+    clientToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "UpdateResourceShareResponse",
+}) as any as S.Schema<UpdateResourceShareResponse>;
+export type ResourceShareList = ResourceShare[];
+export const ResourceShareList = S.Array(
+  ResourceShare.pipe(T.XmlName("item")).annotations({
+    identifier: "ResourceShare",
+  }),
+);
+export interface AssociatedPermission {
+  arn?: string;
+  permissionVersion?: string;
+  defaultVersion?: boolean;
+  resourceType?: string;
+  status?: string;
+  featureSet?: string;
+  lastUpdatedTime?: Date;
+  resourceShareArn?: string;
+}
+export const AssociatedPermission = S.suspend(() =>
+  S.Struct({
+    arn: S.optional(S.String),
+    permissionVersion: S.optional(S.String),
+    defaultVersion: S.optional(S.Boolean),
+    resourceType: S.optional(S.String),
+    status: S.optional(S.String),
+    featureSet: S.optional(S.String),
+    lastUpdatedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    resourceShareArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AssociatedPermission",
+}) as any as S.Schema<AssociatedPermission>;
+export type AssociatedPermissionList = AssociatedPermission[];
 export const AssociatedPermissionList = S.Array(
-  AssociatedPermission.pipe(T.XmlName("item")),
+  AssociatedPermission.pipe(T.XmlName("item")).annotations({
+    identifier: "AssociatedPermission",
+  }),
 );
-export class Principal extends S.Class<Principal>("Principal")({
-  id: S.optional(S.String),
-  resourceShareArn: S.optional(S.String),
-  creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  external: S.optional(S.Boolean),
-}) {}
-export const PrincipalList = S.Array(Principal.pipe(T.XmlName("item")));
+export interface Principal {
+  id?: string;
+  resourceShareArn?: string;
+  creationTime?: Date;
+  lastUpdatedTime?: Date;
+  external?: boolean;
+}
+export const Principal = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    resourceShareArn: S.optional(S.String),
+    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdatedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    external: S.optional(S.Boolean),
+  }),
+).annotations({ identifier: "Principal" }) as any as S.Schema<Principal>;
+export type PrincipalList = Principal[];
+export const PrincipalList = S.Array(
+  Principal.pipe(T.XmlName("item")).annotations({ identifier: "Principal" }),
+);
+export type ReplacePermissionAssociationsWorkList =
+  ReplacePermissionAssociationsWork[];
 export const ReplacePermissionAssociationsWorkList = S.Array(
-  ReplacePermissionAssociationsWork.pipe(T.XmlName("item")),
+  ReplacePermissionAssociationsWork.pipe(T.XmlName("item")).annotations({
+    identifier: "ReplacePermissionAssociationsWork",
+  }),
 );
-export class ServiceNameAndResourceType extends S.Class<ServiceNameAndResourceType>(
-  "ServiceNameAndResourceType",
-)({
-  resourceType: S.optional(S.String),
-  serviceName: S.optional(S.String),
-  resourceRegionScope: S.optional(S.String),
-}) {}
+export interface ServiceNameAndResourceType {
+  resourceType?: string;
+  serviceName?: string;
+  resourceRegionScope?: string;
+}
+export const ServiceNameAndResourceType = S.suspend(() =>
+  S.Struct({
+    resourceType: S.optional(S.String),
+    serviceName: S.optional(S.String),
+    resourceRegionScope: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ServiceNameAndResourceType",
+}) as any as S.Schema<ServiceNameAndResourceType>;
+export type ServiceNameAndResourceTypeList = ServiceNameAndResourceType[];
 export const ServiceNameAndResourceTypeList = S.Array(
-  ServiceNameAndResourceType.pipe(T.XmlName("item")),
+  ServiceNameAndResourceType.pipe(T.XmlName("item")).annotations({
+    identifier: "ServiceNameAndResourceType",
+  }),
 );
-export class AcceptResourceShareInvitationResponse extends S.Class<AcceptResourceShareInvitationResponse>(
-  "AcceptResourceShareInvitationResponse",
-)({
-  resourceShareInvitation: S.optional(ResourceShareInvitation),
-  clientToken: S.optional(S.String),
-}) {}
-export class AssociateResourceShareResponse extends S.Class<AssociateResourceShareResponse>(
-  "AssociateResourceShareResponse",
-)({
-  resourceShareAssociations: S.optional(ResourceShareAssociationList),
-  clientToken: S.optional(S.String),
-}) {}
-export class CreatePermissionResponse extends S.Class<CreatePermissionResponse>(
-  "CreatePermissionResponse",
-)({
-  permission: S.optional(ResourceSharePermissionSummary),
-  clientToken: S.optional(S.String),
-}) {}
-export class CreatePermissionVersionResponse extends S.Class<CreatePermissionVersionResponse>(
-  "CreatePermissionVersionResponse",
-)({
-  permission: S.optional(ResourceSharePermissionDetail),
-  clientToken: S.optional(S.String),
-}) {}
-export class CreateResourceShareResponse extends S.Class<CreateResourceShareResponse>(
-  "CreateResourceShareResponse",
-)({
-  resourceShare: S.optional(ResourceShare),
-  clientToken: S.optional(S.String),
-}) {}
-export class GetResourceSharesResponse extends S.Class<GetResourceSharesResponse>(
-  "GetResourceSharesResponse",
-)({
-  resourceShares: S.optional(ResourceShareList),
-  nextToken: S.optional(S.String),
-}) {}
-export class ListPendingInvitationResourcesResponse extends S.Class<ListPendingInvitationResourcesResponse>(
-  "ListPendingInvitationResourcesResponse",
-)({ resources: S.optional(ResourceList), nextToken: S.optional(S.String) }) {}
-export class ListPermissionAssociationsResponse extends S.Class<ListPermissionAssociationsResponse>(
-  "ListPermissionAssociationsResponse",
-)({
-  permissions: S.optional(AssociatedPermissionList),
-  nextToken: S.optional(S.String),
-}) {}
-export class ListPermissionsResponse extends S.Class<ListPermissionsResponse>(
-  "ListPermissionsResponse",
-)({
-  permissions: S.optional(ResourceSharePermissionList),
-  nextToken: S.optional(S.String),
-}) {}
-export class ListPrincipalsResponse extends S.Class<ListPrincipalsResponse>(
-  "ListPrincipalsResponse",
-)({ principals: S.optional(PrincipalList), nextToken: S.optional(S.String) }) {}
-export class ListReplacePermissionAssociationsWorkResponse extends S.Class<ListReplacePermissionAssociationsWorkResponse>(
-  "ListReplacePermissionAssociationsWorkResponse",
-)({
-  replacePermissionAssociationsWorks: S.optional(
-    ReplacePermissionAssociationsWorkList,
-  ),
-  nextToken: S.optional(S.String),
-}) {}
-export class ListResourceTypesResponse extends S.Class<ListResourceTypesResponse>(
-  "ListResourceTypesResponse",
-)({
-  resourceTypes: S.optional(ServiceNameAndResourceTypeList),
-  nextToken: S.optional(S.String),
-}) {}
+export interface AcceptResourceShareInvitationResponse {
+  resourceShareInvitation?: ResourceShareInvitation;
+  clientToken?: string;
+}
+export const AcceptResourceShareInvitationResponse = S.suspend(() =>
+  S.Struct({
+    resourceShareInvitation: S.optional(ResourceShareInvitation),
+    clientToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AcceptResourceShareInvitationResponse",
+}) as any as S.Schema<AcceptResourceShareInvitationResponse>;
+export interface AssociateResourceShareResponse {
+  resourceShareAssociations?: ResourceShareAssociationList;
+  clientToken?: string;
+}
+export const AssociateResourceShareResponse = S.suspend(() =>
+  S.Struct({
+    resourceShareAssociations: S.optional(ResourceShareAssociationList),
+    clientToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AssociateResourceShareResponse",
+}) as any as S.Schema<AssociateResourceShareResponse>;
+export interface CreatePermissionResponse {
+  permission?: ResourceSharePermissionSummary;
+  clientToken?: string;
+}
+export const CreatePermissionResponse = S.suspend(() =>
+  S.Struct({
+    permission: S.optional(ResourceSharePermissionSummary),
+    clientToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CreatePermissionResponse",
+}) as any as S.Schema<CreatePermissionResponse>;
+export interface CreatePermissionVersionResponse {
+  permission?: ResourceSharePermissionDetail;
+  clientToken?: string;
+}
+export const CreatePermissionVersionResponse = S.suspend(() =>
+  S.Struct({
+    permission: S.optional(ResourceSharePermissionDetail),
+    clientToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CreatePermissionVersionResponse",
+}) as any as S.Schema<CreatePermissionVersionResponse>;
+export interface CreateResourceShareResponse {
+  resourceShare?: ResourceShare;
+  clientToken?: string;
+}
+export const CreateResourceShareResponse = S.suspend(() =>
+  S.Struct({
+    resourceShare: S.optional(ResourceShare),
+    clientToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CreateResourceShareResponse",
+}) as any as S.Schema<CreateResourceShareResponse>;
+export interface GetResourceSharesResponse {
+  resourceShares?: ResourceShareList;
+  nextToken?: string;
+}
+export const GetResourceSharesResponse = S.suspend(() =>
+  S.Struct({
+    resourceShares: S.optional(ResourceShareList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetResourceSharesResponse",
+}) as any as S.Schema<GetResourceSharesResponse>;
+export interface ListPendingInvitationResourcesResponse {
+  resources?: ResourceList;
+  nextToken?: string;
+}
+export const ListPendingInvitationResourcesResponse = S.suspend(() =>
+  S.Struct({
+    resources: S.optional(ResourceList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListPendingInvitationResourcesResponse",
+}) as any as S.Schema<ListPendingInvitationResourcesResponse>;
+export interface ListPermissionAssociationsResponse {
+  permissions?: AssociatedPermissionList;
+  nextToken?: string;
+}
+export const ListPermissionAssociationsResponse = S.suspend(() =>
+  S.Struct({
+    permissions: S.optional(AssociatedPermissionList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListPermissionAssociationsResponse",
+}) as any as S.Schema<ListPermissionAssociationsResponse>;
+export interface ListPermissionsResponse {
+  permissions?: ResourceSharePermissionList;
+  nextToken?: string;
+}
+export const ListPermissionsResponse = S.suspend(() =>
+  S.Struct({
+    permissions: S.optional(ResourceSharePermissionList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListPermissionsResponse",
+}) as any as S.Schema<ListPermissionsResponse>;
+export interface ListPrincipalsResponse {
+  principals?: PrincipalList;
+  nextToken?: string;
+}
+export const ListPrincipalsResponse = S.suspend(() =>
+  S.Struct({
+    principals: S.optional(PrincipalList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListPrincipalsResponse",
+}) as any as S.Schema<ListPrincipalsResponse>;
+export interface ListReplacePermissionAssociationsWorkResponse {
+  replacePermissionAssociationsWorks?: ReplacePermissionAssociationsWorkList;
+  nextToken?: string;
+}
+export const ListReplacePermissionAssociationsWorkResponse = S.suspend(() =>
+  S.Struct({
+    replacePermissionAssociationsWorks: S.optional(
+      ReplacePermissionAssociationsWorkList,
+    ),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListReplacePermissionAssociationsWorkResponse",
+}) as any as S.Schema<ListReplacePermissionAssociationsWorkResponse>;
+export interface ListResourceTypesResponse {
+  resourceTypes?: ServiceNameAndResourceTypeList;
+  nextToken?: string;
+}
+export const ListResourceTypesResponse = S.suspend(() =>
+  S.Struct({
+    resourceTypes: S.optional(ServiceNameAndResourceTypeList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListResourceTypesResponse",
+}) as any as S.Schema<ListResourceTypesResponse>;
 
 //# Errors
 export class OperationNotPermittedException extends S.TaggedError<OperationNotPermittedException>()(

@@ -242,24 +242,48 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type AppComponentNameList = string[];
 export const AppComponentNameList = S.Array(S.String);
+export type RecommendationIdList = string[];
 export const RecommendationIdList = S.Array(S.String);
+export type RenderRecommendationTypeList = string[];
 export const RenderRecommendationTypeList = S.Array(S.String);
+export type ArnList = string[];
 export const ArnList = S.Array(S.String);
-export class TerraformSource extends S.Class<TerraformSource>(
-  "TerraformSource",
-)({ s3StateFileUrl: S.String }) {}
+export interface TerraformSource {
+  s3StateFileUrl: string;
+}
+export const TerraformSource = S.suspend(() =>
+  S.Struct({ s3StateFileUrl: S.String }),
+).annotations({
+  identifier: "TerraformSource",
+}) as any as S.Schema<TerraformSource>;
+export type TerraformSourceList = TerraformSource[];
 export const TerraformSourceList = S.Array(TerraformSource);
+export type AssessmentStatusList = string[];
 export const AssessmentStatusList = S.Array(S.String);
+export type RecommendationTemplateStatusList = string[];
 export const RecommendationTemplateStatusList = S.Array(S.String);
+export type EntityNameList = string[];
 export const EntityNameList = S.Array(S.String);
+export type String255List = string[];
 export const String255List = S.Array(S.String);
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
+export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
-export class CreateRecommendationTemplateRequest extends S.Class<CreateRecommendationTemplateRequest>(
-  "CreateRecommendationTemplateRequest",
-)(
-  {
+export interface CreateRecommendationTemplateRequest {
+  recommendationIds?: RecommendationIdList;
+  format?: string;
+  recommendationTypes?: RenderRecommendationTypeList;
+  assessmentArn: string;
+  name: string;
+  clientToken?: string;
+  tags?: TagMap;
+  bucketName?: string;
+}
+export const CreateRecommendationTemplateRequest = S.suspend(() =>
+  S.Struct({
     recommendationIds: S.optional(RecommendationIdList),
     format: S.optional(S.String),
     recommendationTypes: S.optional(RenderRecommendationTypeList),
@@ -268,72 +292,112 @@ export class CreateRecommendationTemplateRequest extends S.Class<CreateRecommend
     clientToken: S.optional(S.String),
     tags: S.optional(TagMap),
     bucketName: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/create-recommendation-template" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/create-recommendation-template" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAppRequest extends S.Class<DeleteAppRequest>(
-  "DeleteAppRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateRecommendationTemplateRequest",
+}) as any as S.Schema<CreateRecommendationTemplateRequest>;
+export interface DeleteAppRequest {
+  appArn: string;
+  forceDelete?: boolean;
+  clientToken?: string;
+}
+export const DeleteAppRequest = S.suspend(() =>
+  S.Struct({
     appArn: S.String,
     forceDelete: S.optional(S.Boolean),
     clientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/delete-app" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/delete-app" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAppAssessmentRequest extends S.Class<DeleteAppAssessmentRequest>(
-  "DeleteAppAssessmentRequest",
-)(
-  { assessmentArn: S.String, clientToken: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/delete-app-assessment" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteAppRequest",
+}) as any as S.Schema<DeleteAppRequest>;
+export interface DeleteAppAssessmentRequest {
+  assessmentArn: string;
+  clientToken?: string;
+}
+export const DeleteAppAssessmentRequest = S.suspend(() =>
+  S.Struct({ assessmentArn: S.String, clientToken: S.optional(S.String) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/delete-app-assessment" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAppVersionAppComponentRequest extends S.Class<DeleteAppVersionAppComponentRequest>(
-  "DeleteAppVersionAppComponentRequest",
-)(
-  { appArn: S.String, id: S.String, clientToken: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/delete-app-version-app-component" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteAppAssessmentRequest",
+}) as any as S.Schema<DeleteAppAssessmentRequest>;
+export interface DeleteAppVersionAppComponentRequest {
+  appArn: string;
+  id: string;
+  clientToken?: string;
+}
+export const DeleteAppVersionAppComponentRequest = S.suspend(() =>
+  S.Struct({
+    appArn: S.String,
+    id: S.String,
+    clientToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/delete-app-version-app-component" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class LogicalResourceId extends S.Class<LogicalResourceId>(
-  "LogicalResourceId",
-)({
-  identifier: S.String,
-  logicalStackName: S.optional(S.String),
-  resourceGroupName: S.optional(S.String),
-  terraformSourceName: S.optional(S.String),
-  eksSourceName: S.optional(S.String),
-}) {}
-export class DeleteAppVersionResourceRequest extends S.Class<DeleteAppVersionResourceRequest>(
-  "DeleteAppVersionResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteAppVersionAppComponentRequest",
+}) as any as S.Schema<DeleteAppVersionAppComponentRequest>;
+export interface LogicalResourceId {
+  identifier: string;
+  logicalStackName?: string;
+  resourceGroupName?: string;
+  terraformSourceName?: string;
+  eksSourceName?: string;
+}
+export const LogicalResourceId = S.suspend(() =>
+  S.Struct({
+    identifier: S.String,
+    logicalStackName: S.optional(S.String),
+    resourceGroupName: S.optional(S.String),
+    terraformSourceName: S.optional(S.String),
+    eksSourceName: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "LogicalResourceId",
+}) as any as S.Schema<LogicalResourceId>;
+export interface DeleteAppVersionResourceRequest {
+  appArn: string;
+  resourceName?: string;
+  logicalResourceId?: LogicalResourceId;
+  physicalResourceId?: string;
+  awsRegion?: string;
+  awsAccountId?: string;
+  clientToken?: string;
+}
+export const DeleteAppVersionResourceRequest = S.suspend(() =>
+  S.Struct({
     appArn: S.String,
     resourceName: S.optional(S.String),
     logicalResourceId: S.optional(LogicalResourceId),
@@ -341,98 +405,140 @@ export class DeleteAppVersionResourceRequest extends S.Class<DeleteAppVersionRes
     awsRegion: S.optional(S.String),
     awsAccountId: S.optional(S.String),
     clientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/delete-app-version-resource" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/delete-app-version-resource" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteRecommendationTemplateRequest extends S.Class<DeleteRecommendationTemplateRequest>(
-  "DeleteRecommendationTemplateRequest",
-)(
-  { recommendationTemplateArn: S.String, clientToken: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/delete-recommendation-template" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteAppVersionResourceRequest",
+}) as any as S.Schema<DeleteAppVersionResourceRequest>;
+export interface DeleteRecommendationTemplateRequest {
+  recommendationTemplateArn: string;
+  clientToken?: string;
+}
+export const DeleteRecommendationTemplateRequest = S.suspend(() =>
+  S.Struct({
+    recommendationTemplateArn: S.String,
+    clientToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/delete-recommendation-template" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteResiliencyPolicyRequest extends S.Class<DeleteResiliencyPolicyRequest>(
-  "DeleteResiliencyPolicyRequest",
-)(
-  { policyArn: S.String, clientToken: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/delete-resiliency-policy" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteRecommendationTemplateRequest",
+}) as any as S.Schema<DeleteRecommendationTemplateRequest>;
+export interface DeleteResiliencyPolicyRequest {
+  policyArn: string;
+  clientToken?: string;
+}
+export const DeleteResiliencyPolicyRequest = S.suspend(() =>
+  S.Struct({ policyArn: S.String, clientToken: S.optional(S.String) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/delete-resiliency-policy" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeAppRequest extends S.Class<DescribeAppRequest>(
-  "DescribeAppRequest",
-)(
-  { appArn: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/describe-app" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteResiliencyPolicyRequest",
+}) as any as S.Schema<DeleteResiliencyPolicyRequest>;
+export interface DescribeAppRequest {
+  appArn: string;
+}
+export const DescribeAppRequest = S.suspend(() =>
+  S.Struct({ appArn: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/describe-app" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeAppAssessmentRequest extends S.Class<DescribeAppAssessmentRequest>(
-  "DescribeAppAssessmentRequest",
-)(
-  { assessmentArn: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/describe-app-assessment" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DescribeAppRequest",
+}) as any as S.Schema<DescribeAppRequest>;
+export interface DescribeAppAssessmentRequest {
+  assessmentArn: string;
+}
+export const DescribeAppAssessmentRequest = S.suspend(() =>
+  S.Struct({ assessmentArn: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/describe-app-assessment" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeAppVersionRequest extends S.Class<DescribeAppVersionRequest>(
-  "DescribeAppVersionRequest",
-)(
-  { appArn: S.String, appVersion: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/describe-app-version" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DescribeAppAssessmentRequest",
+}) as any as S.Schema<DescribeAppAssessmentRequest>;
+export interface DescribeAppVersionRequest {
+  appArn: string;
+  appVersion: string;
+}
+export const DescribeAppVersionRequest = S.suspend(() =>
+  S.Struct({ appArn: S.String, appVersion: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/describe-app-version" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeAppVersionAppComponentRequest extends S.Class<DescribeAppVersionAppComponentRequest>(
-  "DescribeAppVersionAppComponentRequest",
-)(
-  { appArn: S.String, appVersion: S.String, id: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/describe-app-version-app-component" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DescribeAppVersionRequest",
+}) as any as S.Schema<DescribeAppVersionRequest>;
+export interface DescribeAppVersionAppComponentRequest {
+  appArn: string;
+  appVersion: string;
+  id: string;
+}
+export const DescribeAppVersionAppComponentRequest = S.suspend(() =>
+  S.Struct({ appArn: S.String, appVersion: S.String, id: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/describe-app-version-app-component" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeAppVersionResourceRequest extends S.Class<DescribeAppVersionResourceRequest>(
-  "DescribeAppVersionResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeAppVersionAppComponentRequest",
+}) as any as S.Schema<DescribeAppVersionAppComponentRequest>;
+export interface DescribeAppVersionResourceRequest {
+  appArn: string;
+  appVersion: string;
+  resourceName?: string;
+  logicalResourceId?: LogicalResourceId;
+  physicalResourceId?: string;
+  awsRegion?: string;
+  awsAccountId?: string;
+}
+export const DescribeAppVersionResourceRequest = S.suspend(() =>
+  S.Struct({
     appArn: S.String,
     appVersion: S.String,
     resourceName: S.optional(S.String),
@@ -440,162 +546,221 @@ export class DescribeAppVersionResourceRequest extends S.Class<DescribeAppVersio
     physicalResourceId: S.optional(S.String),
     awsRegion: S.optional(S.String),
     awsAccountId: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/describe-app-version-resource" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/describe-app-version-resource" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeAppVersionResourcesResolutionStatusRequest extends S.Class<DescribeAppVersionResourcesResolutionStatusRequest>(
-  "DescribeAppVersionResourcesResolutionStatusRequest",
-)(
-  {
-    appArn: S.String,
-    appVersion: S.String,
-    resolutionId: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/describe-app-version-resources-resolution-status",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DescribeAppVersionResourceRequest",
+}) as any as S.Schema<DescribeAppVersionResourceRequest>;
+export interface DescribeAppVersionResourcesResolutionStatusRequest {
+  appArn: string;
+  appVersion: string;
+  resolutionId?: string;
+}
+export const DescribeAppVersionResourcesResolutionStatusRequest = S.suspend(
+  () =>
+    S.Struct({
+      appArn: S.String,
+      appVersion: S.String,
+      resolutionId: S.optional(S.String),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/describe-app-version-resources-resolution-status",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+).annotations({
+  identifier: "DescribeAppVersionResourcesResolutionStatusRequest",
+}) as any as S.Schema<DescribeAppVersionResourcesResolutionStatusRequest>;
+export interface DescribeAppVersionTemplateRequest {
+  appArn: string;
+  appVersion: string;
+}
+export const DescribeAppVersionTemplateRequest = S.suspend(() =>
+  S.Struct({ appArn: S.String, appVersion: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/describe-app-version-template" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeAppVersionTemplateRequest extends S.Class<DescribeAppVersionTemplateRequest>(
-  "DescribeAppVersionTemplateRequest",
-)(
-  { appArn: S.String, appVersion: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/describe-app-version-template" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DescribeAppVersionTemplateRequest",
+}) as any as S.Schema<DescribeAppVersionTemplateRequest>;
+export interface DescribeDraftAppVersionResourcesImportStatusRequest {
+  appArn: string;
+}
+export const DescribeDraftAppVersionResourcesImportStatusRequest = S.suspend(
+  () =>
+    S.Struct({ appArn: S.String }).pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/describe-draft-app-version-resources-import-status",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+).annotations({
+  identifier: "DescribeDraftAppVersionResourcesImportStatusRequest",
+}) as any as S.Schema<DescribeDraftAppVersionResourcesImportStatusRequest>;
+export interface DescribeMetricsExportRequest {
+  metricsExportId: string;
+}
+export const DescribeMetricsExportRequest = S.suspend(() =>
+  S.Struct({ metricsExportId: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/describe-metrics-export" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeDraftAppVersionResourcesImportStatusRequest extends S.Class<DescribeDraftAppVersionResourcesImportStatusRequest>(
-  "DescribeDraftAppVersionResourcesImportStatusRequest",
-)(
-  { appArn: S.String },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/describe-draft-app-version-resources-import-status",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DescribeMetricsExportRequest",
+}) as any as S.Schema<DescribeMetricsExportRequest>;
+export interface DescribeResiliencyPolicyRequest {
+  policyArn: string;
+}
+export const DescribeResiliencyPolicyRequest = S.suspend(() =>
+  S.Struct({ policyArn: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/describe-resiliency-policy" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeMetricsExportRequest extends S.Class<DescribeMetricsExportRequest>(
-  "DescribeMetricsExportRequest",
-)(
-  { metricsExportId: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/describe-metrics-export" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DescribeResiliencyPolicyRequest",
+}) as any as S.Schema<DescribeResiliencyPolicyRequest>;
+export interface DescribeResourceGroupingRecommendationTaskRequest {
+  appArn: string;
+  groupingId?: string;
+}
+export const DescribeResourceGroupingRecommendationTaskRequest = S.suspend(() =>
+  S.Struct({ appArn: S.String, groupingId: S.optional(S.String) }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/describe-resource-grouping-recommendation-task",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeResiliencyPolicyRequest extends S.Class<DescribeResiliencyPolicyRequest>(
-  "DescribeResiliencyPolicyRequest",
-)(
-  { policyArn: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/describe-resiliency-policy" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-  ),
-) {}
-export class DescribeResourceGroupingRecommendationTaskRequest extends S.Class<DescribeResourceGroupingRecommendationTaskRequest>(
-  "DescribeResourceGroupingRecommendationTaskRequest",
-)(
-  { appArn: S.String, groupingId: S.optional(S.String) },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/describe-resource-grouping-recommendation-task",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-  ),
-) {}
-export class ListAlarmRecommendationsRequest extends S.Class<ListAlarmRecommendationsRequest>(
-  "ListAlarmRecommendationsRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeResourceGroupingRecommendationTaskRequest",
+}) as any as S.Schema<DescribeResourceGroupingRecommendationTaskRequest>;
+export interface ListAlarmRecommendationsRequest {
+  assessmentArn: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListAlarmRecommendationsRequest = S.suspend(() =>
+  S.Struct({
     assessmentArn: S.String,
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/list-alarm-recommendations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/list-alarm-recommendations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListAppAssessmentComplianceDriftsRequest extends S.Class<ListAppAssessmentComplianceDriftsRequest>(
-  "ListAppAssessmentComplianceDriftsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListAlarmRecommendationsRequest",
+}) as any as S.Schema<ListAlarmRecommendationsRequest>;
+export interface ListAppAssessmentComplianceDriftsRequest {
+  assessmentArn: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListAppAssessmentComplianceDriftsRequest = S.suspend(() =>
+  S.Struct({
     assessmentArn: S.String,
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/list-app-assessment-compliance-drifts" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/list-app-assessment-compliance-drifts" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListAppAssessmentResourceDriftsRequest extends S.Class<ListAppAssessmentResourceDriftsRequest>(
-  "ListAppAssessmentResourceDriftsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListAppAssessmentComplianceDriftsRequest",
+}) as any as S.Schema<ListAppAssessmentComplianceDriftsRequest>;
+export interface ListAppAssessmentResourceDriftsRequest {
+  assessmentArn: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListAppAssessmentResourceDriftsRequest = S.suspend(() =>
+  S.Struct({
     assessmentArn: S.String,
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/list-app-assessment-resource-drifts" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/list-app-assessment-resource-drifts" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListAppAssessmentsRequest extends S.Class<ListAppAssessmentsRequest>(
-  "ListAppAssessmentsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListAppAssessmentResourceDriftsRequest",
+}) as any as S.Schema<ListAppAssessmentResourceDriftsRequest>;
+export interface ListAppAssessmentsRequest {
+  appArn?: string;
+  assessmentName?: string;
+  assessmentStatus?: AssessmentStatusList;
+  complianceStatus?: string;
+  invoker?: string;
+  reverseOrder?: boolean;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListAppAssessmentsRequest = S.suspend(() =>
+  S.Struct({
     appArn: S.optional(S.String).pipe(T.HttpQuery("appArn")),
     assessmentName: S.optional(S.String).pipe(T.HttpQuery("assessmentName")),
     assessmentStatus: S.optional(AssessmentStatusList).pipe(
@@ -608,72 +773,102 @@ export class ListAppAssessmentsRequest extends S.Class<ListAppAssessmentsRequest
     reverseOrder: S.optional(S.Boolean).pipe(T.HttpQuery("reverseOrder")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/list-app-assessments" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/list-app-assessments" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListAppComponentCompliancesRequest extends S.Class<ListAppComponentCompliancesRequest>(
-  "ListAppComponentCompliancesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListAppAssessmentsRequest",
+}) as any as S.Schema<ListAppAssessmentsRequest>;
+export interface ListAppComponentCompliancesRequest {
+  nextToken?: string;
+  maxResults?: number;
+  assessmentArn: string;
+}
+export const ListAppComponentCompliancesRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
     assessmentArn: S.String,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/list-app-component-compliances" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/list-app-component-compliances" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListAppComponentRecommendationsRequest extends S.Class<ListAppComponentRecommendationsRequest>(
-  "ListAppComponentRecommendationsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListAppComponentCompliancesRequest",
+}) as any as S.Schema<ListAppComponentCompliancesRequest>;
+export interface ListAppComponentRecommendationsRequest {
+  assessmentArn: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListAppComponentRecommendationsRequest = S.suspend(() =>
+  S.Struct({
     assessmentArn: S.String,
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/list-app-component-recommendations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/list-app-component-recommendations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListAppInputSourcesRequest extends S.Class<ListAppInputSourcesRequest>(
-  "ListAppInputSourcesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListAppComponentRecommendationsRequest",
+}) as any as S.Schema<ListAppComponentRecommendationsRequest>;
+export interface ListAppInputSourcesRequest {
+  appArn: string;
+  appVersion: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListAppInputSourcesRequest = S.suspend(() =>
+  S.Struct({
     appArn: S.String,
     appVersion: S.String,
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/list-app-input-sources" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/list-app-input-sources" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListAppsRequest extends S.Class<ListAppsRequest>(
-  "ListAppsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListAppInputSourcesRequest",
+}) as any as S.Schema<ListAppInputSourcesRequest>;
+export interface ListAppsRequest {
+  nextToken?: string;
+  maxResults?: number;
+  name?: string;
+  appArn?: string;
+  fromLastAssessmentTime?: Date;
+  toLastAssessmentTime?: Date;
+  reverseOrder?: boolean;
+  awsApplicationArn?: string;
+}
+export const ListAppsRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     name: S.optional(S.String).pipe(T.HttpQuery("name")),
@@ -688,94 +883,134 @@ export class ListAppsRequest extends S.Class<ListAppsRequest>(
     awsApplicationArn: S.optional(S.String).pipe(
       T.HttpQuery("awsApplicationArn"),
     ),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/list-apps" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/list-apps" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListAppVersionAppComponentsRequest extends S.Class<ListAppVersionAppComponentsRequest>(
-  "ListAppVersionAppComponentsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListAppsRequest",
+}) as any as S.Schema<ListAppsRequest>;
+export interface ListAppVersionAppComponentsRequest {
+  appArn: string;
+  appVersion: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListAppVersionAppComponentsRequest = S.suspend(() =>
+  S.Struct({
     appArn: S.String,
     appVersion: S.String,
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/list-app-version-app-components" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/list-app-version-app-components" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListAppVersionResourceMappingsRequest extends S.Class<ListAppVersionResourceMappingsRequest>(
-  "ListAppVersionResourceMappingsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListAppVersionAppComponentsRequest",
+}) as any as S.Schema<ListAppVersionAppComponentsRequest>;
+export interface ListAppVersionResourceMappingsRequest {
+  appArn: string;
+  appVersion: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListAppVersionResourceMappingsRequest = S.suspend(() =>
+  S.Struct({
     appArn: S.String,
     appVersion: S.String,
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/list-app-version-resource-mappings" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/list-app-version-resource-mappings" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListAppVersionResourcesRequest extends S.Class<ListAppVersionResourcesRequest>(
-  "ListAppVersionResourcesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListAppVersionResourceMappingsRequest",
+}) as any as S.Schema<ListAppVersionResourceMappingsRequest>;
+export interface ListAppVersionResourcesRequest {
+  appArn: string;
+  appVersion: string;
+  resolutionId?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListAppVersionResourcesRequest = S.suspend(() =>
+  S.Struct({
     appArn: S.String,
     appVersion: S.String,
     resolutionId: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/list-app-version-resources" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/list-app-version-resources" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListAppVersionsRequest extends S.Class<ListAppVersionsRequest>(
-  "ListAppVersionsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListAppVersionResourcesRequest",
+}) as any as S.Schema<ListAppVersionResourcesRequest>;
+export interface ListAppVersionsRequest {
+  appArn: string;
+  nextToken?: string;
+  maxResults?: number;
+  startTime?: Date;
+  endTime?: Date;
+}
+export const ListAppVersionsRequest = S.suspend(() =>
+  S.Struct({
     appArn: S.String,
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/list-app-versions" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/list-app-versions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListRecommendationTemplatesRequest extends S.Class<ListRecommendationTemplatesRequest>(
-  "ListRecommendationTemplatesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListAppVersionsRequest",
+}) as any as S.Schema<ListAppVersionsRequest>;
+export interface ListRecommendationTemplatesRequest {
+  assessmentArn?: string;
+  reverseOrder?: boolean;
+  status?: RecommendationTemplateStatusList;
+  recommendationTemplateArn?: string;
+  name?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListRecommendationTemplatesRequest = S.suspend(() =>
+  S.Struct({
     assessmentArn: S.optional(S.String).pipe(T.HttpQuery("assessmentArn")),
     reverseOrder: S.optional(S.Boolean).pipe(T.HttpQuery("reverseOrder")),
     status: S.optional(RecommendationTemplateStatusList).pipe(
@@ -787,162 +1022,226 @@ export class ListRecommendationTemplatesRequest extends S.Class<ListRecommendati
     name: S.optional(S.String).pipe(T.HttpQuery("name")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/list-recommendation-templates" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/list-recommendation-templates" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListResiliencyPoliciesRequest extends S.Class<ListResiliencyPoliciesRequest>(
-  "ListResiliencyPoliciesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListRecommendationTemplatesRequest",
+}) as any as S.Schema<ListRecommendationTemplatesRequest>;
+export interface ListResiliencyPoliciesRequest {
+  policyName?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListResiliencyPoliciesRequest = S.suspend(() =>
+  S.Struct({
     policyName: S.optional(S.String).pipe(T.HttpQuery("policyName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/list-resiliency-policies" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/list-resiliency-policies" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListResourceGroupingRecommendationsRequest extends S.Class<ListResourceGroupingRecommendationsRequest>(
-  "ListResourceGroupingRecommendationsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListResiliencyPoliciesRequest",
+}) as any as S.Schema<ListResiliencyPoliciesRequest>;
+export interface ListResourceGroupingRecommendationsRequest {
+  appArn?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListResourceGroupingRecommendationsRequest = S.suspend(() =>
+  S.Struct({
     appArn: S.optional(S.String).pipe(T.HttpQuery("appArn")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/list-resource-grouping-recommendations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/list-resource-grouping-recommendations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListSopRecommendationsRequest extends S.Class<ListSopRecommendationsRequest>(
-  "ListSopRecommendationsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListResourceGroupingRecommendationsRequest",
+}) as any as S.Schema<ListResourceGroupingRecommendationsRequest>;
+export interface ListSopRecommendationsRequest {
+  nextToken?: string;
+  maxResults?: number;
+  assessmentArn: string;
+}
+export const ListSopRecommendationsRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
     assessmentArn: S.String,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/list-sop-recommendations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/list-sop-recommendations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListSuggestedResiliencyPoliciesRequest extends S.Class<ListSuggestedResiliencyPoliciesRequest>(
-  "ListSuggestedResiliencyPoliciesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListSopRecommendationsRequest",
+}) as any as S.Schema<ListSopRecommendationsRequest>;
+export interface ListSuggestedResiliencyPoliciesRequest {
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListSuggestedResiliencyPoliciesRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/list-suggested-resiliency-policies" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/list-suggested-resiliency-policies" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListSuggestedResiliencyPoliciesRequest",
+}) as any as S.Schema<ListSuggestedResiliencyPoliciesRequest>;
+export interface ListTagsForResourceRequest {
+  resourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTestRecommendationsRequest extends S.Class<ListTestRecommendationsRequest>(
-  "ListTestRecommendationsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface ListTestRecommendationsRequest {
+  nextToken?: string;
+  maxResults?: number;
+  assessmentArn: string;
+}
+export const ListTestRecommendationsRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
     assessmentArn: S.String,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/list-test-recommendations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/list-test-recommendations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListUnsupportedAppVersionResourcesRequest extends S.Class<ListUnsupportedAppVersionResourcesRequest>(
-  "ListUnsupportedAppVersionResourcesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListTestRecommendationsRequest",
+}) as any as S.Schema<ListTestRecommendationsRequest>;
+export interface ListUnsupportedAppVersionResourcesRequest {
+  appArn: string;
+  appVersion: string;
+  resolutionId?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListUnsupportedAppVersionResourcesRequest = S.suspend(() =>
+  S.Struct({
     appArn: S.String,
     appVersion: S.String,
     resolutionId: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/list-unsupported-app-version-resources" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/list-unsupported-app-version-resources",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PublishAppVersionRequest extends S.Class<PublishAppVersionRequest>(
-  "PublishAppVersionRequest",
-)(
-  { appArn: S.String, versionName: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/publish-app-version" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListUnsupportedAppVersionResourcesRequest",
+}) as any as S.Schema<ListUnsupportedAppVersionResourcesRequest>;
+export interface PublishAppVersionRequest {
+  appArn: string;
+  versionName?: string;
+}
+export const PublishAppVersionRequest = S.suspend(() =>
+  S.Struct({ appArn: S.String, versionName: S.optional(S.String) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/publish-app-version" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutDraftAppVersionTemplateRequest extends S.Class<PutDraftAppVersionTemplateRequest>(
-  "PutDraftAppVersionTemplateRequest",
-)(
-  { appArn: S.String, appTemplateBody: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/put-draft-app-version-template" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "PublishAppVersionRequest",
+}) as any as S.Schema<PublishAppVersionRequest>;
+export interface PutDraftAppVersionTemplateRequest {
+  appArn: string;
+  appTemplateBody: string;
+}
+export const PutDraftAppVersionTemplateRequest = S.suspend(() =>
+  S.Struct({ appArn: S.String, appTemplateBody: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/put-draft-app-version-template" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class RemoveDraftAppVersionResourceMappingsRequest extends S.Class<RemoveDraftAppVersionResourceMappingsRequest>(
-  "RemoveDraftAppVersionResourceMappingsRequest",
-)(
-  {
+).annotations({
+  identifier: "PutDraftAppVersionTemplateRequest",
+}) as any as S.Schema<PutDraftAppVersionTemplateRequest>;
+export interface RemoveDraftAppVersionResourceMappingsRequest {
+  appArn: string;
+  resourceNames?: EntityNameList;
+  logicalStackNames?: String255List;
+  appRegistryAppNames?: EntityNameList;
+  resourceGroupNames?: EntityNameList;
+  terraformSourceNames?: String255List;
+  eksSourceNames?: String255List;
+}
+export const RemoveDraftAppVersionResourceMappingsRequest = S.suspend(() =>
+  S.Struct({
     appArn: S.String,
     resourceNames: S.optional(EntityNameList),
     logicalStackNames: S.optional(String255List),
@@ -950,131 +1249,201 @@ export class RemoveDraftAppVersionResourceMappingsRequest extends S.Class<Remove
     resourceGroupNames: S.optional(EntityNameList),
     terraformSourceNames: S.optional(String255List),
     eksSourceNames: S.optional(String255List),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/remove-draft-app-version-resource-mappings",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/remove-draft-app-version-resource-mappings",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ResolveAppVersionResourcesRequest extends S.Class<ResolveAppVersionResourcesRequest>(
-  "ResolveAppVersionResourcesRequest",
-)(
-  { appArn: S.String, appVersion: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/resolve-app-version-resources" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "RemoveDraftAppVersionResourceMappingsRequest",
+}) as any as S.Schema<RemoveDraftAppVersionResourceMappingsRequest>;
+export interface ResolveAppVersionResourcesRequest {
+  appArn: string;
+  appVersion: string;
+}
+export const ResolveAppVersionResourcesRequest = S.suspend(() =>
+  S.Struct({ appArn: S.String, appVersion: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/resolve-app-version-resources" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartAppAssessmentRequest extends S.Class<StartAppAssessmentRequest>(
-  "StartAppAssessmentRequest",
-)(
-  {
+).annotations({
+  identifier: "ResolveAppVersionResourcesRequest",
+}) as any as S.Schema<ResolveAppVersionResourcesRequest>;
+export interface StartAppAssessmentRequest {
+  appArn: string;
+  appVersion: string;
+  assessmentName: string;
+  clientToken?: string;
+  tags?: TagMap;
+}
+export const StartAppAssessmentRequest = S.suspend(() =>
+  S.Struct({
     appArn: S.String,
     appVersion: S.String,
     assessmentName: S.String,
     clientToken: S.optional(S.String),
     tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/start-app-assessment" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/start-app-assessment" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartMetricsExportRequest extends S.Class<StartMetricsExportRequest>(
-  "StartMetricsExportRequest",
-)(
-  { bucketName: S.optional(S.String), clientToken: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/start-metrics-export" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "StartAppAssessmentRequest",
+}) as any as S.Schema<StartAppAssessmentRequest>;
+export interface StartMetricsExportRequest {
+  bucketName?: string;
+  clientToken?: string;
+}
+export const StartMetricsExportRequest = S.suspend(() =>
+  S.Struct({
+    bucketName: S.optional(S.String),
+    clientToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/start-metrics-export" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartResourceGroupingRecommendationTaskRequest extends S.Class<StartResourceGroupingRecommendationTaskRequest>(
-  "StartResourceGroupingRecommendationTaskRequest",
-)(
-  { appArn: S.String },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/start-resource-grouping-recommendation-task",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "StartMetricsExportRequest",
+}) as any as S.Schema<StartMetricsExportRequest>;
+export interface StartResourceGroupingRecommendationTaskRequest {
+  appArn: string;
+}
+export const StartResourceGroupingRecommendationTaskRequest = S.suspend(() =>
+  S.Struct({ appArn: S.String }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/start-resource-grouping-recommendation-task",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap },
-  T.all(
-    T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "StartResourceGroupingRecommendationTaskRequest",
+}) as any as S.Schema<StartResourceGroupingRecommendationTaskRequest>;
+export interface TagResourceRequest {
+  resourceArn: string;
+  tags: TagMap;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+    tags: TagMap,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UntagResourceRequest {
+  resourceArn: string;
+  tagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export type IamRoleArnList = string[];
 export const IamRoleArnList = S.Array(S.String);
-export class PermissionModel extends S.Class<PermissionModel>(
-  "PermissionModel",
-)({
-  type: S.String,
-  invokerRoleName: S.optional(S.String),
-  crossAccountRoleArns: S.optional(IamRoleArnList),
-}) {}
-export class EventSubscription extends S.Class<EventSubscription>(
-  "EventSubscription",
-)({ name: S.String, eventType: S.String, snsTopicArn: S.optional(S.String) }) {}
+export interface PermissionModel {
+  type: string;
+  invokerRoleName?: string;
+  crossAccountRoleArns?: IamRoleArnList;
+}
+export const PermissionModel = S.suspend(() =>
+  S.Struct({
+    type: S.String,
+    invokerRoleName: S.optional(S.String),
+    crossAccountRoleArns: S.optional(IamRoleArnList),
+  }),
+).annotations({
+  identifier: "PermissionModel",
+}) as any as S.Schema<PermissionModel>;
+export interface EventSubscription {
+  name: string;
+  eventType: string;
+  snsTopicArn?: string;
+}
+export const EventSubscription = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    eventType: S.String,
+    snsTopicArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "EventSubscription",
+}) as any as S.Schema<EventSubscription>;
+export type EventSubscriptionList = EventSubscription[];
 export const EventSubscriptionList = S.Array(EventSubscription);
-export class UpdateAppRequest extends S.Class<UpdateAppRequest>(
-  "UpdateAppRequest",
-)(
-  {
+export interface UpdateAppRequest {
+  appArn: string;
+  description?: string;
+  policyArn?: string;
+  clearResiliencyPolicyArn?: boolean;
+  assessmentSchedule?: string;
+  permissionModel?: PermissionModel;
+  eventSubscriptions?: EventSubscriptionList;
+}
+export const UpdateAppRequest = S.suspend(() =>
+  S.Struct({
     appArn: S.String,
     description: S.optional(S.String),
     policyArn: S.optional(S.String),
@@ -1082,57 +1451,88 @@ export class UpdateAppRequest extends S.Class<UpdateAppRequest>(
     assessmentSchedule: S.optional(S.String),
     permissionModel: S.optional(PermissionModel),
     eventSubscriptions: S.optional(EventSubscriptionList),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/update-app" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/update-app" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "UpdateAppRequest",
+}) as any as S.Schema<UpdateAppRequest>;
+export type AdditionalInfoValueList = string[];
 export const AdditionalInfoValueList = S.Array(S.String);
+export type AdditionalInfoMap = { [key: string]: AdditionalInfoValueList };
 export const AdditionalInfoMap = S.Record({
   key: S.String,
   value: AdditionalInfoValueList,
 });
-export class UpdateAppVersionRequest extends S.Class<UpdateAppVersionRequest>(
-  "UpdateAppVersionRequest",
-)(
-  { appArn: S.String, additionalInfo: S.optional(AdditionalInfoMap) },
-  T.all(
-    T.Http({ method: "POST", uri: "/update-app-version" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface UpdateAppVersionRequest {
+  appArn: string;
+  additionalInfo?: AdditionalInfoMap;
+}
+export const UpdateAppVersionRequest = S.suspend(() =>
+  S.Struct({
+    appArn: S.String,
+    additionalInfo: S.optional(AdditionalInfoMap),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/update-app-version" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateAppVersionAppComponentRequest extends S.Class<UpdateAppVersionAppComponentRequest>(
-  "UpdateAppVersionAppComponentRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateAppVersionRequest",
+}) as any as S.Schema<UpdateAppVersionRequest>;
+export interface UpdateAppVersionAppComponentRequest {
+  appArn: string;
+  id: string;
+  name?: string;
+  type?: string;
+  additionalInfo?: AdditionalInfoMap;
+}
+export const UpdateAppVersionAppComponentRequest = S.suspend(() =>
+  S.Struct({
     appArn: S.String,
     id: S.String,
     name: S.optional(S.String),
     type: S.optional(S.String),
     additionalInfo: S.optional(AdditionalInfoMap),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/update-app-version-app-component" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/update-app-version-app-component" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateAppVersionResourceRequest extends S.Class<UpdateAppVersionResourceRequest>(
-  "UpdateAppVersionResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateAppVersionAppComponentRequest",
+}) as any as S.Schema<UpdateAppVersionAppComponentRequest>;
+export interface UpdateAppVersionResourceRequest {
+  appArn: string;
+  resourceName?: string;
+  logicalResourceId?: LogicalResourceId;
+  physicalResourceId?: string;
+  awsRegion?: string;
+  awsAccountId?: string;
+  resourceType?: string;
+  appComponents?: AppComponentNameList;
+  additionalInfo?: AdditionalInfoMap;
+  excluded?: boolean;
+}
+export const UpdateAppVersionResourceRequest = S.suspend(() =>
+  S.Struct({
     appArn: S.String,
     resourceName: S.optional(S.String),
     logicalResourceId: S.optional(LogicalResourceId),
@@ -1143,170 +1543,314 @@ export class UpdateAppVersionResourceRequest extends S.Class<UpdateAppVersionRes
     appComponents: S.optional(AppComponentNameList),
     additionalInfo: S.optional(AdditionalInfoMap),
     excluded: S.optional(S.Boolean),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/update-app-version-resource" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/update-app-version-resource" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class FailurePolicy extends S.Class<FailurePolicy>("FailurePolicy")({
-  rtoInSecs: S.Number,
-  rpoInSecs: S.Number,
-}) {}
+).annotations({
+  identifier: "UpdateAppVersionResourceRequest",
+}) as any as S.Schema<UpdateAppVersionResourceRequest>;
+export interface FailurePolicy {
+  rtoInSecs: number;
+  rpoInSecs: number;
+}
+export const FailurePolicy = S.suspend(() =>
+  S.Struct({ rtoInSecs: S.Number, rpoInSecs: S.Number }),
+).annotations({
+  identifier: "FailurePolicy",
+}) as any as S.Schema<FailurePolicy>;
+export type DisruptionPolicy = { [key: string]: FailurePolicy };
 export const DisruptionPolicy = S.Record({
   key: S.String,
   value: FailurePolicy,
 });
-export class UpdateResiliencyPolicyRequest extends S.Class<UpdateResiliencyPolicyRequest>(
-  "UpdateResiliencyPolicyRequest",
-)(
-  {
+export interface UpdateResiliencyPolicyRequest {
+  policyArn: string;
+  policyName?: string;
+  policyDescription?: string;
+  dataLocationConstraint?: string;
+  tier?: string;
+  policy?: DisruptionPolicy;
+}
+export const UpdateResiliencyPolicyRequest = S.suspend(() =>
+  S.Struct({
     policyArn: S.String,
     policyName: S.optional(S.String),
     policyDescription: S.optional(S.String),
     dataLocationConstraint: S.optional(S.String),
     tier: S.optional(S.String),
     policy: S.optional(DisruptionPolicy),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/update-resiliency-policy" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/update-resiliency-policy" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "UpdateResiliencyPolicyRequest",
+}) as any as S.Schema<UpdateResiliencyPolicyRequest>;
+export type EksNamespaceList = string[];
 export const EksNamespaceList = S.Array(S.String);
-export class AcceptGroupingRecommendationEntry extends S.Class<AcceptGroupingRecommendationEntry>(
-  "AcceptGroupingRecommendationEntry",
-)({ groupingRecommendationId: S.String }) {}
+export interface AcceptGroupingRecommendationEntry {
+  groupingRecommendationId: string;
+}
+export const AcceptGroupingRecommendationEntry = S.suspend(() =>
+  S.Struct({ groupingRecommendationId: S.String }),
+).annotations({
+  identifier: "AcceptGroupingRecommendationEntry",
+}) as any as S.Schema<AcceptGroupingRecommendationEntry>;
+export type AcceptGroupingRecommendationEntries =
+  AcceptGroupingRecommendationEntry[];
 export const AcceptGroupingRecommendationEntries = S.Array(
   AcceptGroupingRecommendationEntry,
 );
-export class EksSourceClusterNamespace extends S.Class<EksSourceClusterNamespace>(
-  "EksSourceClusterNamespace",
-)({ eksClusterArn: S.String, namespace: S.String }) {}
-export class EksSource extends S.Class<EksSource>("EksSource")({
-  eksClusterArn: S.String,
-  namespaces: EksNamespaceList,
-}) {}
+export interface EksSourceClusterNamespace {
+  eksClusterArn: string;
+  namespace: string;
+}
+export const EksSourceClusterNamespace = S.suspend(() =>
+  S.Struct({ eksClusterArn: S.String, namespace: S.String }),
+).annotations({
+  identifier: "EksSourceClusterNamespace",
+}) as any as S.Schema<EksSourceClusterNamespace>;
+export interface EksSource {
+  eksClusterArn: string;
+  namespaces: EksNamespaceList;
+}
+export const EksSource = S.suspend(() =>
+  S.Struct({ eksClusterArn: S.String, namespaces: EksNamespaceList }),
+).annotations({ identifier: "EksSource" }) as any as S.Schema<EksSource>;
+export type EksSourceList = EksSource[];
 export const EksSourceList = S.Array(EksSource);
-export class AppComponent extends S.Class<AppComponent>("AppComponent")({
-  name: S.String,
-  type: S.String,
-  id: S.optional(S.String),
-  additionalInfo: S.optional(AdditionalInfoMap),
-}) {}
+export interface AppComponent {
+  name: string;
+  type: string;
+  id?: string;
+  additionalInfo?: AdditionalInfoMap;
+}
+export const AppComponent = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    type: S.String,
+    id: S.optional(S.String),
+    additionalInfo: S.optional(AdditionalInfoMap),
+  }),
+).annotations({ identifier: "AppComponent" }) as any as S.Schema<AppComponent>;
+export type AppComponentList = AppComponent[];
 export const AppComponentList = S.Array(AppComponent);
-export class PhysicalResourceId extends S.Class<PhysicalResourceId>(
-  "PhysicalResourceId",
-)({
-  identifier: S.String,
-  type: S.String,
-  awsRegion: S.optional(S.String),
-  awsAccountId: S.optional(S.String),
-}) {}
-export class PhysicalResource extends S.Class<PhysicalResource>(
-  "PhysicalResource",
-)({
-  resourceName: S.optional(S.String),
-  logicalResourceId: LogicalResourceId,
-  physicalResourceId: PhysicalResourceId,
-  resourceType: S.String,
-  appComponents: S.optional(AppComponentList),
-  additionalInfo: S.optional(AdditionalInfoMap),
-  excluded: S.optional(S.Boolean),
-  sourceType: S.optional(S.String),
-  parentResourceName: S.optional(S.String),
-}) {}
+export interface PhysicalResourceId {
+  identifier: string;
+  type: string;
+  awsRegion?: string;
+  awsAccountId?: string;
+}
+export const PhysicalResourceId = S.suspend(() =>
+  S.Struct({
+    identifier: S.String,
+    type: S.String,
+    awsRegion: S.optional(S.String),
+    awsAccountId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "PhysicalResourceId",
+}) as any as S.Schema<PhysicalResourceId>;
+export interface PhysicalResource {
+  resourceName?: string;
+  logicalResourceId: LogicalResourceId;
+  physicalResourceId: PhysicalResourceId;
+  resourceType: string;
+  appComponents?: AppComponentList;
+  additionalInfo?: AdditionalInfoMap;
+  excluded?: boolean;
+  sourceType?: string;
+  parentResourceName?: string;
+}
+export const PhysicalResource = S.suspend(() =>
+  S.Struct({
+    resourceName: S.optional(S.String),
+    logicalResourceId: LogicalResourceId,
+    physicalResourceId: PhysicalResourceId,
+    resourceType: S.String,
+    appComponents: S.optional(AppComponentList),
+    additionalInfo: S.optional(AdditionalInfoMap),
+    excluded: S.optional(S.Boolean),
+    sourceType: S.optional(S.String),
+    parentResourceName: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "PhysicalResource",
+}) as any as S.Schema<PhysicalResource>;
+export type PhysicalResourceList = PhysicalResource[];
 export const PhysicalResourceList = S.Array(PhysicalResource);
-export class Field extends S.Class<Field>("Field")({
-  name: S.String,
-  aggregation: S.optional(S.String),
-}) {}
+export interface Field {
+  name: string;
+  aggregation?: string;
+}
+export const Field = S.suspend(() =>
+  S.Struct({ name: S.String, aggregation: S.optional(S.String) }),
+).annotations({ identifier: "Field" }) as any as S.Schema<Field>;
+export type FieldList = Field[];
 export const FieldList = S.Array(Field);
-export class Condition extends S.Class<Condition>("Condition")({
-  field: S.String,
-  operator: S.String,
-  value: S.optional(S.String),
-}) {}
+export interface Condition {
+  field: string;
+  operator: string;
+  value?: string;
+}
+export const Condition = S.suspend(() =>
+  S.Struct({
+    field: S.String,
+    operator: S.String,
+    value: S.optional(S.String),
+  }),
+).annotations({ identifier: "Condition" }) as any as S.Schema<Condition>;
+export type ConditionList = Condition[];
 export const ConditionList = S.Array(Condition);
-export class Sort extends S.Class<Sort>("Sort")({
-  field: S.String,
-  ascending: S.optional(S.Boolean),
-}) {}
+export interface Sort {
+  field: string;
+  ascending?: boolean;
+}
+export const Sort = S.suspend(() =>
+  S.Struct({ field: S.String, ascending: S.optional(S.Boolean) }),
+).annotations({ identifier: "Sort" }) as any as S.Schema<Sort>;
+export type SortList = Sort[];
 export const SortList = S.Array(Sort);
-export class S3Location extends S.Class<S3Location>("S3Location")({
-  bucket: S.optional(S.String),
-  prefix: S.optional(S.String),
-}) {}
-export class RecommendationTemplate extends S.Class<RecommendationTemplate>(
-  "RecommendationTemplate",
-)({
-  templatesLocation: S.optional(S3Location),
-  assessmentArn: S.String,
-  appArn: S.optional(S.String),
-  recommendationIds: S.optional(RecommendationIdList),
-  recommendationTypes: RenderRecommendationTypeList,
-  format: S.String,
-  recommendationTemplateArn: S.String,
-  message: S.optional(S.String),
-  status: S.String,
-  name: S.String,
-  startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  tags: S.optional(TagMap),
-  needsReplacements: S.optional(S.Boolean),
-}) {}
+export interface S3Location {
+  bucket?: string;
+  prefix?: string;
+}
+export const S3Location = S.suspend(() =>
+  S.Struct({ bucket: S.optional(S.String), prefix: S.optional(S.String) }),
+).annotations({ identifier: "S3Location" }) as any as S.Schema<S3Location>;
+export interface RecommendationTemplate {
+  templatesLocation?: S3Location;
+  assessmentArn: string;
+  appArn?: string;
+  recommendationIds?: RecommendationIdList;
+  recommendationTypes: RenderRecommendationTypeList;
+  format: string;
+  recommendationTemplateArn: string;
+  message?: string;
+  status: string;
+  name: string;
+  startTime?: Date;
+  endTime?: Date;
+  tags?: TagMap;
+  needsReplacements?: boolean;
+}
+export const RecommendationTemplate = S.suspend(() =>
+  S.Struct({
+    templatesLocation: S.optional(S3Location),
+    assessmentArn: S.String,
+    appArn: S.optional(S.String),
+    recommendationIds: S.optional(RecommendationIdList),
+    recommendationTypes: RenderRecommendationTypeList,
+    format: S.String,
+    recommendationTemplateArn: S.String,
+    message: S.optional(S.String),
+    status: S.String,
+    name: S.String,
+    startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    tags: S.optional(TagMap),
+    needsReplacements: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "RecommendationTemplate",
+}) as any as S.Schema<RecommendationTemplate>;
+export type RecommendationTemplateList = RecommendationTemplate[];
 export const RecommendationTemplateList = S.Array(RecommendationTemplate);
-export class ResiliencyPolicy extends S.Class<ResiliencyPolicy>(
-  "ResiliencyPolicy",
-)({
-  policyArn: S.optional(S.String),
-  policyName: S.optional(S.String),
-  policyDescription: S.optional(S.String),
-  dataLocationConstraint: S.optional(S.String),
-  tier: S.optional(S.String),
-  estimatedCostTier: S.optional(S.String),
-  policy: S.optional(DisruptionPolicy),
-  creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  tags: S.optional(TagMap),
-}) {}
+export interface ResiliencyPolicy {
+  policyArn?: string;
+  policyName?: string;
+  policyDescription?: string;
+  dataLocationConstraint?: string;
+  tier?: string;
+  estimatedCostTier?: string;
+  policy?: DisruptionPolicy;
+  creationTime?: Date;
+  tags?: TagMap;
+}
+export const ResiliencyPolicy = S.suspend(() =>
+  S.Struct({
+    policyArn: S.optional(S.String),
+    policyName: S.optional(S.String),
+    policyDescription: S.optional(S.String),
+    dataLocationConstraint: S.optional(S.String),
+    tier: S.optional(S.String),
+    estimatedCostTier: S.optional(S.String),
+    policy: S.optional(DisruptionPolicy),
+    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "ResiliencyPolicy",
+}) as any as S.Schema<ResiliencyPolicy>;
+export type ResiliencyPolicies = ResiliencyPolicy[];
 export const ResiliencyPolicies = S.Array(ResiliencyPolicy);
-export class RejectGroupingRecommendationEntry extends S.Class<RejectGroupingRecommendationEntry>(
-  "RejectGroupingRecommendationEntry",
-)({
-  groupingRecommendationId: S.String,
-  rejectionReason: S.optional(S.String),
-}) {}
+export interface RejectGroupingRecommendationEntry {
+  groupingRecommendationId: string;
+  rejectionReason?: string;
+}
+export const RejectGroupingRecommendationEntry = S.suspend(() =>
+  S.Struct({
+    groupingRecommendationId: S.String,
+    rejectionReason: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RejectGroupingRecommendationEntry",
+}) as any as S.Schema<RejectGroupingRecommendationEntry>;
+export type RejectGroupingRecommendationEntries =
+  RejectGroupingRecommendationEntry[];
 export const RejectGroupingRecommendationEntries = S.Array(
   RejectGroupingRecommendationEntry,
 );
-export class AcceptResourceGroupingRecommendationsRequest extends S.Class<AcceptResourceGroupingRecommendationsRequest>(
-  "AcceptResourceGroupingRecommendationsRequest",
-)(
-  { appArn: S.String, entries: AcceptGroupingRecommendationEntries },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/accept-resource-grouping-recommendations",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface AcceptResourceGroupingRecommendationsRequest {
+  appArn: string;
+  entries: AcceptGroupingRecommendationEntries;
+}
+export const AcceptResourceGroupingRecommendationsRequest = S.suspend(() =>
+  S.Struct({
+    appArn: S.String,
+    entries: AcceptGroupingRecommendationEntries,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/accept-resource-grouping-recommendations",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateAppRequest extends S.Class<CreateAppRequest>(
-  "CreateAppRequest",
-)(
-  {
+).annotations({
+  identifier: "AcceptResourceGroupingRecommendationsRequest",
+}) as any as S.Schema<AcceptResourceGroupingRecommendationsRequest>;
+export interface CreateAppRequest {
+  name: string;
+  description?: string;
+  policyArn?: string;
+  tags?: TagMap;
+  clientToken?: string;
+  assessmentSchedule?: string;
+  permissionModel?: PermissionModel;
+  eventSubscriptions?: EventSubscriptionList;
+  awsApplicationArn?: string;
+}
+export const CreateAppRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     description: S.optional(S.String),
     policyArn: S.optional(S.String),
@@ -1316,40 +1860,62 @@ export class CreateAppRequest extends S.Class<CreateAppRequest>(
     permissionModel: S.optional(PermissionModel),
     eventSubscriptions: S.optional(EventSubscriptionList),
     awsApplicationArn: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/create-app" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/create-app" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateAppVersionAppComponentRequest extends S.Class<CreateAppVersionAppComponentRequest>(
-  "CreateAppVersionAppComponentRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateAppRequest",
+}) as any as S.Schema<CreateAppRequest>;
+export interface CreateAppVersionAppComponentRequest {
+  appArn: string;
+  id?: string;
+  name: string;
+  type: string;
+  additionalInfo?: AdditionalInfoMap;
+  clientToken?: string;
+}
+export const CreateAppVersionAppComponentRequest = S.suspend(() =>
+  S.Struct({
     appArn: S.String,
     id: S.optional(S.String),
     name: S.String,
     type: S.String,
     additionalInfo: S.optional(AdditionalInfoMap),
     clientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/create-app-version-app-component" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/create-app-version-app-component" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateAppVersionResourceRequest extends S.Class<CreateAppVersionResourceRequest>(
-  "CreateAppVersionResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateAppVersionAppComponentRequest",
+}) as any as S.Schema<CreateAppVersionAppComponentRequest>;
+export interface CreateAppVersionResourceRequest {
+  appArn: string;
+  resourceName?: string;
+  logicalResourceId: LogicalResourceId;
+  physicalResourceId: string;
+  awsRegion?: string;
+  awsAccountId?: string;
+  resourceType: string;
+  appComponents: AppComponentNameList;
+  additionalInfo?: AdditionalInfoMap;
+  clientToken?: string;
+}
+export const CreateAppVersionResourceRequest = S.suspend(() =>
+  S.Struct({
     appArn: S.String,
     resourceName: S.optional(S.String),
     logicalResourceId: LogicalResourceId,
@@ -1360,603 +1926,1183 @@ export class CreateAppVersionResourceRequest extends S.Class<CreateAppVersionRes
     appComponents: AppComponentNameList,
     additionalInfo: S.optional(AdditionalInfoMap),
     clientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/create-app-version-resource" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/create-app-version-resource" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAppResponse extends S.Class<DeleteAppResponse>(
-  "DeleteAppResponse",
-)({ appArn: S.String }) {}
-export class DeleteAppAssessmentResponse extends S.Class<DeleteAppAssessmentResponse>(
-  "DeleteAppAssessmentResponse",
-)({ assessmentArn: S.String, assessmentStatus: S.String }) {}
-export class DeleteAppInputSourceRequest extends S.Class<DeleteAppInputSourceRequest>(
-  "DeleteAppInputSourceRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateAppVersionResourceRequest",
+}) as any as S.Schema<CreateAppVersionResourceRequest>;
+export interface DeleteAppResponse {
+  appArn: string;
+}
+export const DeleteAppResponse = S.suspend(() =>
+  S.Struct({ appArn: S.String }),
+).annotations({
+  identifier: "DeleteAppResponse",
+}) as any as S.Schema<DeleteAppResponse>;
+export interface DeleteAppAssessmentResponse {
+  assessmentArn: string;
+  assessmentStatus: string;
+}
+export const DeleteAppAssessmentResponse = S.suspend(() =>
+  S.Struct({ assessmentArn: S.String, assessmentStatus: S.String }),
+).annotations({
+  identifier: "DeleteAppAssessmentResponse",
+}) as any as S.Schema<DeleteAppAssessmentResponse>;
+export interface DeleteAppInputSourceRequest {
+  appArn: string;
+  sourceArn?: string;
+  terraformSource?: TerraformSource;
+  clientToken?: string;
+  eksSourceClusterNamespace?: EksSourceClusterNamespace;
+}
+export const DeleteAppInputSourceRequest = S.suspend(() =>
+  S.Struct({
     appArn: S.String,
     sourceArn: S.optional(S.String),
     terraformSource: S.optional(TerraformSource),
     clientToken: S.optional(S.String),
     eksSourceClusterNamespace: S.optional(EksSourceClusterNamespace),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/delete-app-input-source" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/delete-app-input-source" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteRecommendationTemplateResponse extends S.Class<DeleteRecommendationTemplateResponse>(
-  "DeleteRecommendationTemplateResponse",
-)({ recommendationTemplateArn: S.String, status: S.String }) {}
-export class DeleteResiliencyPolicyResponse extends S.Class<DeleteResiliencyPolicyResponse>(
-  "DeleteResiliencyPolicyResponse",
-)({ policyArn: S.String }) {}
-export class DescribeAppVersionResponse extends S.Class<DescribeAppVersionResponse>(
-  "DescribeAppVersionResponse",
-)({
-  appArn: S.String,
-  appVersion: S.String,
-  additionalInfo: S.optional(AdditionalInfoMap),
-}) {}
-export class DescribeAppVersionAppComponentResponse extends S.Class<DescribeAppVersionAppComponentResponse>(
-  "DescribeAppVersionAppComponentResponse",
-)({
-  appArn: S.String,
-  appVersion: S.String,
-  appComponent: S.optional(AppComponent),
-}) {}
-export class DescribeAppVersionResourceResponse extends S.Class<DescribeAppVersionResourceResponse>(
-  "DescribeAppVersionResourceResponse",
-)({
-  appArn: S.String,
-  appVersion: S.String,
-  physicalResource: S.optional(PhysicalResource),
-}) {}
-export class DescribeAppVersionResourcesResolutionStatusResponse extends S.Class<DescribeAppVersionResourcesResolutionStatusResponse>(
-  "DescribeAppVersionResourcesResolutionStatusResponse",
-)({
-  appArn: S.String,
-  appVersion: S.String,
-  resolutionId: S.String,
-  status: S.String,
-  errorMessage: S.optional(S.String),
-}) {}
-export class DescribeAppVersionTemplateResponse extends S.Class<DescribeAppVersionTemplateResponse>(
-  "DescribeAppVersionTemplateResponse",
-)({ appArn: S.String, appVersion: S.String, appTemplateBody: S.String }) {}
-export class DescribeResourceGroupingRecommendationTaskResponse extends S.Class<DescribeResourceGroupingRecommendationTaskResponse>(
-  "DescribeResourceGroupingRecommendationTaskResponse",
-)({
-  groupingId: S.String,
-  status: S.String,
-  errorMessage: S.optional(S.String),
-}) {}
-export class ImportResourcesToDraftAppVersionRequest extends S.Class<ImportResourcesToDraftAppVersionRequest>(
-  "ImportResourcesToDraftAppVersionRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteAppInputSourceRequest",
+}) as any as S.Schema<DeleteAppInputSourceRequest>;
+export interface DeleteRecommendationTemplateResponse {
+  recommendationTemplateArn: string;
+  status: string;
+}
+export const DeleteRecommendationTemplateResponse = S.suspend(() =>
+  S.Struct({ recommendationTemplateArn: S.String, status: S.String }),
+).annotations({
+  identifier: "DeleteRecommendationTemplateResponse",
+}) as any as S.Schema<DeleteRecommendationTemplateResponse>;
+export interface DeleteResiliencyPolicyResponse {
+  policyArn: string;
+}
+export const DeleteResiliencyPolicyResponse = S.suspend(() =>
+  S.Struct({ policyArn: S.String }),
+).annotations({
+  identifier: "DeleteResiliencyPolicyResponse",
+}) as any as S.Schema<DeleteResiliencyPolicyResponse>;
+export interface DescribeAppVersionResponse {
+  appArn: string;
+  appVersion: string;
+  additionalInfo?: AdditionalInfoMap;
+}
+export const DescribeAppVersionResponse = S.suspend(() =>
+  S.Struct({
+    appArn: S.String,
+    appVersion: S.String,
+    additionalInfo: S.optional(AdditionalInfoMap),
+  }),
+).annotations({
+  identifier: "DescribeAppVersionResponse",
+}) as any as S.Schema<DescribeAppVersionResponse>;
+export interface DescribeAppVersionAppComponentResponse {
+  appArn: string;
+  appVersion: string;
+  appComponent?: AppComponent;
+}
+export const DescribeAppVersionAppComponentResponse = S.suspend(() =>
+  S.Struct({
+    appArn: S.String,
+    appVersion: S.String,
+    appComponent: S.optional(AppComponent),
+  }),
+).annotations({
+  identifier: "DescribeAppVersionAppComponentResponse",
+}) as any as S.Schema<DescribeAppVersionAppComponentResponse>;
+export interface DescribeAppVersionResourceResponse {
+  appArn: string;
+  appVersion: string;
+  physicalResource?: PhysicalResource;
+}
+export const DescribeAppVersionResourceResponse = S.suspend(() =>
+  S.Struct({
+    appArn: S.String,
+    appVersion: S.String,
+    physicalResource: S.optional(PhysicalResource),
+  }),
+).annotations({
+  identifier: "DescribeAppVersionResourceResponse",
+}) as any as S.Schema<DescribeAppVersionResourceResponse>;
+export interface DescribeAppVersionResourcesResolutionStatusResponse {
+  appArn: string;
+  appVersion: string;
+  resolutionId: string;
+  status: string;
+  errorMessage?: string;
+}
+export const DescribeAppVersionResourcesResolutionStatusResponse = S.suspend(
+  () =>
+    S.Struct({
+      appArn: S.String,
+      appVersion: S.String,
+      resolutionId: S.String,
+      status: S.String,
+      errorMessage: S.optional(S.String),
+    }),
+).annotations({
+  identifier: "DescribeAppVersionResourcesResolutionStatusResponse",
+}) as any as S.Schema<DescribeAppVersionResourcesResolutionStatusResponse>;
+export interface DescribeAppVersionTemplateResponse {
+  appArn: string;
+  appVersion: string;
+  appTemplateBody: string;
+}
+export const DescribeAppVersionTemplateResponse = S.suspend(() =>
+  S.Struct({
+    appArn: S.String,
+    appVersion: S.String,
+    appTemplateBody: S.String,
+  }),
+).annotations({
+  identifier: "DescribeAppVersionTemplateResponse",
+}) as any as S.Schema<DescribeAppVersionTemplateResponse>;
+export interface DescribeResourceGroupingRecommendationTaskResponse {
+  groupingId: string;
+  status: string;
+  errorMessage?: string;
+}
+export const DescribeResourceGroupingRecommendationTaskResponse = S.suspend(
+  () =>
+    S.Struct({
+      groupingId: S.String,
+      status: S.String,
+      errorMessage: S.optional(S.String),
+    }),
+).annotations({
+  identifier: "DescribeResourceGroupingRecommendationTaskResponse",
+}) as any as S.Schema<DescribeResourceGroupingRecommendationTaskResponse>;
+export interface ImportResourcesToDraftAppVersionRequest {
+  appArn: string;
+  sourceArns?: ArnList;
+  terraformSources?: TerraformSourceList;
+  importStrategy?: string;
+  eksSources?: EksSourceList;
+}
+export const ImportResourcesToDraftAppVersionRequest = S.suspend(() =>
+  S.Struct({
     appArn: S.String,
     sourceArns: S.optional(ArnList),
     terraformSources: S.optional(TerraformSourceList),
     importStrategy: S.optional(S.String),
     eksSources: S.optional(EksSourceList),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/import-resources-to-draft-app-version" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/import-resources-to-draft-app-version" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListAppVersionAppComponentsResponse extends S.Class<ListAppVersionAppComponentsResponse>(
-  "ListAppVersionAppComponentsResponse",
-)({
-  appArn: S.String,
-  appVersion: S.String,
-  appComponents: S.optional(AppComponentList),
-  nextToken: S.optional(S.String),
-}) {}
-export class ResourceMapping extends S.Class<ResourceMapping>(
-  "ResourceMapping",
-)({
-  resourceName: S.optional(S.String),
-  logicalStackName: S.optional(S.String),
-  appRegistryAppName: S.optional(S.String),
-  resourceGroupName: S.optional(S.String),
-  mappingType: S.String,
-  physicalResourceId: PhysicalResourceId,
-  terraformSourceName: S.optional(S.String),
-  eksSourceName: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "ImportResourcesToDraftAppVersionRequest",
+}) as any as S.Schema<ImportResourcesToDraftAppVersionRequest>;
+export interface ListAppVersionAppComponentsResponse {
+  appArn: string;
+  appVersion: string;
+  appComponents?: AppComponentList;
+  nextToken?: string;
+}
+export const ListAppVersionAppComponentsResponse = S.suspend(() =>
+  S.Struct({
+    appArn: S.String,
+    appVersion: S.String,
+    appComponents: S.optional(AppComponentList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListAppVersionAppComponentsResponse",
+}) as any as S.Schema<ListAppVersionAppComponentsResponse>;
+export interface ResourceMapping {
+  resourceName?: string;
+  logicalStackName?: string;
+  appRegistryAppName?: string;
+  resourceGroupName?: string;
+  mappingType: string;
+  physicalResourceId: PhysicalResourceId;
+  terraformSourceName?: string;
+  eksSourceName?: string;
+}
+export const ResourceMapping = S.suspend(() =>
+  S.Struct({
+    resourceName: S.optional(S.String),
+    logicalStackName: S.optional(S.String),
+    appRegistryAppName: S.optional(S.String),
+    resourceGroupName: S.optional(S.String),
+    mappingType: S.String,
+    physicalResourceId: PhysicalResourceId,
+    terraformSourceName: S.optional(S.String),
+    eksSourceName: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ResourceMapping",
+}) as any as S.Schema<ResourceMapping>;
+export type ResourceMappingList = ResourceMapping[];
 export const ResourceMappingList = S.Array(ResourceMapping);
-export class ListAppVersionResourceMappingsResponse extends S.Class<ListAppVersionResourceMappingsResponse>(
-  "ListAppVersionResourceMappingsResponse",
-)({ resourceMappings: ResourceMappingList, nextToken: S.optional(S.String) }) {}
-export class ListAppVersionResourcesResponse extends S.Class<ListAppVersionResourcesResponse>(
-  "ListAppVersionResourcesResponse",
-)({
-  physicalResources: PhysicalResourceList,
-  resolutionId: S.String,
-  nextToken: S.optional(S.String),
-}) {}
-export class ListMetricsRequest extends S.Class<ListMetricsRequest>(
-  "ListMetricsRequest",
-)(
-  {
+export interface ListAppVersionResourceMappingsResponse {
+  resourceMappings: ResourceMappingList;
+  nextToken?: string;
+}
+export const ListAppVersionResourceMappingsResponse = S.suspend(() =>
+  S.Struct({
+    resourceMappings: ResourceMappingList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListAppVersionResourceMappingsResponse",
+}) as any as S.Schema<ListAppVersionResourceMappingsResponse>;
+export interface ListAppVersionResourcesResponse {
+  physicalResources: PhysicalResourceList;
+  resolutionId: string;
+  nextToken?: string;
+}
+export const ListAppVersionResourcesResponse = S.suspend(() =>
+  S.Struct({
+    physicalResources: PhysicalResourceList,
+    resolutionId: S.String,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListAppVersionResourcesResponse",
+}) as any as S.Schema<ListAppVersionResourcesResponse>;
+export interface ListMetricsRequest {
+  nextToken?: string;
+  maxResults?: number;
+  fields?: FieldList;
+  dataSource?: string;
+  conditions?: ConditionList;
+  sorts?: SortList;
+}
+export const ListMetricsRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
     fields: S.optional(FieldList),
     dataSource: S.optional(S.String),
     conditions: S.optional(ConditionList),
     sorts: S.optional(SortList),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/list-metrics" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/list-metrics" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListRecommendationTemplatesResponse extends S.Class<ListRecommendationTemplatesResponse>(
-  "ListRecommendationTemplatesResponse",
-)({
-  nextToken: S.optional(S.String),
-  recommendationTemplates: S.optional(RecommendationTemplateList),
-}) {}
-export class ListResiliencyPoliciesResponse extends S.Class<ListResiliencyPoliciesResponse>(
-  "ListResiliencyPoliciesResponse",
-)({
-  resiliencyPolicies: ResiliencyPolicies,
-  nextToken: S.optional(S.String),
-}) {}
-export class ListSuggestedResiliencyPoliciesResponse extends S.Class<ListSuggestedResiliencyPoliciesResponse>(
-  "ListSuggestedResiliencyPoliciesResponse",
-)({
-  resiliencyPolicies: ResiliencyPolicies,
-  nextToken: S.optional(S.String),
-}) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ tags: S.optional(TagMap) }) {}
-export class PublishAppVersionResponse extends S.Class<PublishAppVersionResponse>(
-  "PublishAppVersionResponse",
-)({
-  appArn: S.String,
-  appVersion: S.optional(S.String),
-  identifier: S.optional(S.Number),
-  versionName: S.optional(S.String),
-}) {}
-export class PutDraftAppVersionTemplateResponse extends S.Class<PutDraftAppVersionTemplateResponse>(
-  "PutDraftAppVersionTemplateResponse",
-)({ appArn: S.optional(S.String), appVersion: S.optional(S.String) }) {}
-export class RejectResourceGroupingRecommendationsRequest extends S.Class<RejectResourceGroupingRecommendationsRequest>(
-  "RejectResourceGroupingRecommendationsRequest",
-)(
-  { appArn: S.String, entries: RejectGroupingRecommendationEntries },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/reject-resource-grouping-recommendations",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListMetricsRequest",
+}) as any as S.Schema<ListMetricsRequest>;
+export interface ListRecommendationTemplatesResponse {
+  nextToken?: string;
+  recommendationTemplates?: RecommendationTemplateList;
+}
+export const ListRecommendationTemplatesResponse = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    recommendationTemplates: S.optional(RecommendationTemplateList),
+  }),
+).annotations({
+  identifier: "ListRecommendationTemplatesResponse",
+}) as any as S.Schema<ListRecommendationTemplatesResponse>;
+export interface ListResiliencyPoliciesResponse {
+  resiliencyPolicies: ResiliencyPolicies;
+  nextToken?: string;
+}
+export const ListResiliencyPoliciesResponse = S.suspend(() =>
+  S.Struct({
+    resiliencyPolicies: ResiliencyPolicies,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListResiliencyPoliciesResponse",
+}) as any as S.Schema<ListResiliencyPoliciesResponse>;
+export interface ListSuggestedResiliencyPoliciesResponse {
+  resiliencyPolicies: ResiliencyPolicies;
+  nextToken?: string;
+}
+export const ListSuggestedResiliencyPoliciesResponse = S.suspend(() =>
+  S.Struct({
+    resiliencyPolicies: ResiliencyPolicies,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListSuggestedResiliencyPoliciesResponse",
+}) as any as S.Schema<ListSuggestedResiliencyPoliciesResponse>;
+export interface ListTagsForResourceResponse {
+  tags?: TagMap;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ tags: S.optional(TagMap) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface PublishAppVersionResponse {
+  appArn: string;
+  appVersion?: string;
+  identifier?: number;
+  versionName?: string;
+}
+export const PublishAppVersionResponse = S.suspend(() =>
+  S.Struct({
+    appArn: S.String,
+    appVersion: S.optional(S.String),
+    identifier: S.optional(S.Number),
+    versionName: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "PublishAppVersionResponse",
+}) as any as S.Schema<PublishAppVersionResponse>;
+export interface PutDraftAppVersionTemplateResponse {
+  appArn?: string;
+  appVersion?: string;
+}
+export const PutDraftAppVersionTemplateResponse = S.suspend(() =>
+  S.Struct({ appArn: S.optional(S.String), appVersion: S.optional(S.String) }),
+).annotations({
+  identifier: "PutDraftAppVersionTemplateResponse",
+}) as any as S.Schema<PutDraftAppVersionTemplateResponse>;
+export interface RejectResourceGroupingRecommendationsRequest {
+  appArn: string;
+  entries: RejectGroupingRecommendationEntries;
+}
+export const RejectResourceGroupingRecommendationsRequest = S.suspend(() =>
+  S.Struct({
+    appArn: S.String,
+    entries: RejectGroupingRecommendationEntries,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/reject-resource-grouping-recommendations",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class RemoveDraftAppVersionResourceMappingsResponse extends S.Class<RemoveDraftAppVersionResourceMappingsResponse>(
-  "RemoveDraftAppVersionResourceMappingsResponse",
-)({ appArn: S.optional(S.String), appVersion: S.optional(S.String) }) {}
-export class ResolveAppVersionResourcesResponse extends S.Class<ResolveAppVersionResourcesResponse>(
-  "ResolveAppVersionResourcesResponse",
-)({
-  appArn: S.String,
-  appVersion: S.String,
-  resolutionId: S.String,
-  status: S.String,
-}) {}
-export class Cost extends S.Class<Cost>("Cost")({
-  amount: S.Number,
-  currency: S.String,
-  frequency: S.String,
-}) {}
+).annotations({
+  identifier: "RejectResourceGroupingRecommendationsRequest",
+}) as any as S.Schema<RejectResourceGroupingRecommendationsRequest>;
+export interface RemoveDraftAppVersionResourceMappingsResponse {
+  appArn?: string;
+  appVersion?: string;
+}
+export const RemoveDraftAppVersionResourceMappingsResponse = S.suspend(() =>
+  S.Struct({ appArn: S.optional(S.String), appVersion: S.optional(S.String) }),
+).annotations({
+  identifier: "RemoveDraftAppVersionResourceMappingsResponse",
+}) as any as S.Schema<RemoveDraftAppVersionResourceMappingsResponse>;
+export interface ResolveAppVersionResourcesResponse {
+  appArn: string;
+  appVersion: string;
+  resolutionId: string;
+  status: string;
+}
+export const ResolveAppVersionResourcesResponse = S.suspend(() =>
+  S.Struct({
+    appArn: S.String,
+    appVersion: S.String,
+    resolutionId: S.String,
+    status: S.String,
+  }),
+).annotations({
+  identifier: "ResolveAppVersionResourcesResponse",
+}) as any as S.Schema<ResolveAppVersionResourcesResponse>;
+export interface Cost {
+  amount: number;
+  currency: string;
+  frequency: string;
+}
+export const Cost = S.suspend(() =>
+  S.Struct({ amount: S.Number, currency: S.String, frequency: S.String }),
+).annotations({ identifier: "Cost" }) as any as S.Schema<Cost>;
+export type DisruptionResiliencyScore = { [key: string]: number };
 export const DisruptionResiliencyScore = S.Record({
   key: S.String,
   value: S.Number,
 });
-export class ScoringComponentResiliencyScore extends S.Class<ScoringComponentResiliencyScore>(
-  "ScoringComponentResiliencyScore",
-)({
-  score: S.optional(S.Number),
-  possibleScore: S.optional(S.Number),
-  outstandingCount: S.optional(S.Number),
-  excludedCount: S.optional(S.Number),
-}) {}
+export interface ScoringComponentResiliencyScore {
+  score?: number;
+  possibleScore?: number;
+  outstandingCount?: number;
+  excludedCount?: number;
+}
+export const ScoringComponentResiliencyScore = S.suspend(() =>
+  S.Struct({
+    score: S.optional(S.Number),
+    possibleScore: S.optional(S.Number),
+    outstandingCount: S.optional(S.Number),
+    excludedCount: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "ScoringComponentResiliencyScore",
+}) as any as S.Schema<ScoringComponentResiliencyScore>;
+export type ScoringComponentResiliencyScores = {
+  [key: string]: ScoringComponentResiliencyScore;
+};
 export const ScoringComponentResiliencyScores = S.Record({
   key: S.String,
   value: ScoringComponentResiliencyScore,
 });
-export class ResiliencyScore extends S.Class<ResiliencyScore>(
-  "ResiliencyScore",
-)({
-  score: S.Number,
-  disruptionScore: DisruptionResiliencyScore,
-  componentScore: S.optional(ScoringComponentResiliencyScores),
-}) {}
-export class DisruptionCompliance extends S.Class<DisruptionCompliance>(
-  "DisruptionCompliance",
-)({
-  achievableRtoInSecs: S.optional(S.Number),
-  currentRtoInSecs: S.optional(S.Number),
-  rtoReferenceId: S.optional(S.String),
-  rtoDescription: S.optional(S.String),
-  currentRpoInSecs: S.optional(S.Number),
-  rpoReferenceId: S.optional(S.String),
-  rpoDescription: S.optional(S.String),
-  complianceStatus: S.String,
-  achievableRpoInSecs: S.optional(S.Number),
-  message: S.optional(S.String),
-}) {}
+export interface ResiliencyScore {
+  score: number;
+  disruptionScore: DisruptionResiliencyScore;
+  componentScore?: ScoringComponentResiliencyScores;
+}
+export const ResiliencyScore = S.suspend(() =>
+  S.Struct({
+    score: S.Number,
+    disruptionScore: DisruptionResiliencyScore,
+    componentScore: S.optional(ScoringComponentResiliencyScores),
+  }),
+).annotations({
+  identifier: "ResiliencyScore",
+}) as any as S.Schema<ResiliencyScore>;
+export interface DisruptionCompliance {
+  achievableRtoInSecs?: number;
+  currentRtoInSecs?: number;
+  rtoReferenceId?: string;
+  rtoDescription?: string;
+  currentRpoInSecs?: number;
+  rpoReferenceId?: string;
+  rpoDescription?: string;
+  complianceStatus: string;
+  achievableRpoInSecs?: number;
+  message?: string;
+}
+export const DisruptionCompliance = S.suspend(() =>
+  S.Struct({
+    achievableRtoInSecs: S.optional(S.Number),
+    currentRtoInSecs: S.optional(S.Number),
+    rtoReferenceId: S.optional(S.String),
+    rtoDescription: S.optional(S.String),
+    currentRpoInSecs: S.optional(S.Number),
+    rpoReferenceId: S.optional(S.String),
+    rpoDescription: S.optional(S.String),
+    complianceStatus: S.String,
+    achievableRpoInSecs: S.optional(S.Number),
+    message: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DisruptionCompliance",
+}) as any as S.Schema<DisruptionCompliance>;
+export type AssessmentCompliance = { [key: string]: DisruptionCompliance };
 export const AssessmentCompliance = S.Record({
   key: S.String,
   value: DisruptionCompliance,
 });
-export class ResourceError extends S.Class<ResourceError>("ResourceError")({
-  logicalResourceId: S.optional(S.String),
-  physicalResourceId: S.optional(S.String),
-  reason: S.optional(S.String),
-}) {}
+export interface ResourceError {
+  logicalResourceId?: string;
+  physicalResourceId?: string;
+  reason?: string;
+}
+export const ResourceError = S.suspend(() =>
+  S.Struct({
+    logicalResourceId: S.optional(S.String),
+    physicalResourceId: S.optional(S.String),
+    reason: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ResourceError",
+}) as any as S.Schema<ResourceError>;
+export type ResourceErrorList = ResourceError[];
 export const ResourceErrorList = S.Array(ResourceError);
-export class ResourceErrorsDetails extends S.Class<ResourceErrorsDetails>(
-  "ResourceErrorsDetails",
-)({
-  resourceErrors: S.optional(ResourceErrorList),
-  hasMoreErrors: S.optional(S.Boolean),
-}) {}
-export class AssessmentRiskRecommendation extends S.Class<AssessmentRiskRecommendation>(
-  "AssessmentRiskRecommendation",
-)({
-  risk: S.optional(S.String),
-  recommendation: S.optional(S.String),
-  appComponents: S.optional(AppComponentNameList),
-}) {}
+export interface ResourceErrorsDetails {
+  resourceErrors?: ResourceErrorList;
+  hasMoreErrors?: boolean;
+}
+export const ResourceErrorsDetails = S.suspend(() =>
+  S.Struct({
+    resourceErrors: S.optional(ResourceErrorList),
+    hasMoreErrors: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "ResourceErrorsDetails",
+}) as any as S.Schema<ResourceErrorsDetails>;
+export interface AssessmentRiskRecommendation {
+  risk?: string;
+  recommendation?: string;
+  appComponents?: AppComponentNameList;
+}
+export const AssessmentRiskRecommendation = S.suspend(() =>
+  S.Struct({
+    risk: S.optional(S.String),
+    recommendation: S.optional(S.String),
+    appComponents: S.optional(AppComponentNameList),
+  }),
+).annotations({
+  identifier: "AssessmentRiskRecommendation",
+}) as any as S.Schema<AssessmentRiskRecommendation>;
+export type AssessmentRiskRecommendationList = AssessmentRiskRecommendation[];
 export const AssessmentRiskRecommendationList = S.Array(
   AssessmentRiskRecommendation,
 );
-export class AssessmentSummary extends S.Class<AssessmentSummary>(
-  "AssessmentSummary",
-)({
-  summary: S.optional(S.String),
-  riskRecommendations: S.optional(AssessmentRiskRecommendationList),
-}) {}
-export class AppAssessment extends S.Class<AppAssessment>("AppAssessment")({
-  appArn: S.optional(S.String),
-  appVersion: S.optional(S.String),
-  invoker: S.String,
-  cost: S.optional(Cost),
-  resiliencyScore: S.optional(ResiliencyScore),
-  compliance: S.optional(AssessmentCompliance),
-  complianceStatus: S.optional(S.String),
-  assessmentStatus: S.String,
-  startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  message: S.optional(S.String),
-  assessmentName: S.optional(S.String),
-  assessmentArn: S.String,
-  policy: S.optional(ResiliencyPolicy),
-  tags: S.optional(TagMap),
-  resourceErrorsDetails: S.optional(ResourceErrorsDetails),
-  versionName: S.optional(S.String),
-  driftStatus: S.optional(S.String),
-  summary: S.optional(AssessmentSummary),
-}) {}
-export class StartAppAssessmentResponse extends S.Class<StartAppAssessmentResponse>(
-  "StartAppAssessmentResponse",
-)({ assessment: AppAssessment }) {}
-export class StartMetricsExportResponse extends S.Class<StartMetricsExportResponse>(
-  "StartMetricsExportResponse",
-)({ metricsExportId: S.String, status: S.String }) {}
-export class StartResourceGroupingRecommendationTaskResponse extends S.Class<StartResourceGroupingRecommendationTaskResponse>(
-  "StartResourceGroupingRecommendationTaskResponse",
-)({
-  appArn: S.String,
-  groupingId: S.String,
-  status: S.String,
-  errorMessage: S.optional(S.String),
-}) {}
-export class App extends S.Class<App>("App")({
-  appArn: S.String,
-  name: S.String,
-  description: S.optional(S.String),
-  policyArn: S.optional(S.String),
-  creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  status: S.optional(S.String),
-  complianceStatus: S.optional(S.String),
-  lastAppComplianceEvaluationTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  resiliencyScore: S.optional(S.Number),
-  lastResiliencyScoreEvaluationTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  tags: S.optional(TagMap),
-  assessmentSchedule: S.optional(S.String),
-  permissionModel: S.optional(PermissionModel),
-  eventSubscriptions: S.optional(EventSubscriptionList),
-  driftStatus: S.optional(S.String),
-  lastDriftEvaluationTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  rtoInSecs: S.optional(S.Number),
-  rpoInSecs: S.optional(S.Number),
-  awsApplicationArn: S.optional(S.String),
-}) {}
-export class UpdateAppResponse extends S.Class<UpdateAppResponse>(
-  "UpdateAppResponse",
-)({ app: App }) {}
-export class UpdateAppVersionResponse extends S.Class<UpdateAppVersionResponse>(
-  "UpdateAppVersionResponse",
-)({
-  appArn: S.String,
-  appVersion: S.String,
-  additionalInfo: S.optional(AdditionalInfoMap),
-}) {}
-export class UpdateAppVersionAppComponentResponse extends S.Class<UpdateAppVersionAppComponentResponse>(
-  "UpdateAppVersionAppComponentResponse",
-)({
-  appArn: S.String,
-  appVersion: S.String,
-  appComponent: S.optional(AppComponent),
-}) {}
-export class UpdateAppVersionResourceResponse extends S.Class<UpdateAppVersionResourceResponse>(
-  "UpdateAppVersionResourceResponse",
-)({
-  appArn: S.String,
-  appVersion: S.String,
-  physicalResource: S.optional(PhysicalResource),
-}) {}
-export class UpdateResiliencyPolicyResponse extends S.Class<UpdateResiliencyPolicyResponse>(
-  "UpdateResiliencyPolicyResponse",
-)({ policy: ResiliencyPolicy }) {}
-export class UpdateRecommendationStatusItem extends S.Class<UpdateRecommendationStatusItem>(
-  "UpdateRecommendationStatusItem",
-)({
-  resourceId: S.optional(S.String),
-  targetAccountId: S.optional(S.String),
-  targetRegion: S.optional(S.String),
-}) {}
+export interface AssessmentSummary {
+  summary?: string;
+  riskRecommendations?: AssessmentRiskRecommendationList;
+}
+export const AssessmentSummary = S.suspend(() =>
+  S.Struct({
+    summary: S.optional(S.String),
+    riskRecommendations: S.optional(AssessmentRiskRecommendationList),
+  }),
+).annotations({
+  identifier: "AssessmentSummary",
+}) as any as S.Schema<AssessmentSummary>;
+export interface AppAssessment {
+  appArn?: string;
+  appVersion?: string;
+  invoker: string;
+  cost?: Cost;
+  resiliencyScore?: ResiliencyScore;
+  compliance?: AssessmentCompliance;
+  complianceStatus?: string;
+  assessmentStatus: string;
+  startTime?: Date;
+  endTime?: Date;
+  message?: string;
+  assessmentName?: string;
+  assessmentArn: string;
+  policy?: ResiliencyPolicy;
+  tags?: TagMap;
+  resourceErrorsDetails?: ResourceErrorsDetails;
+  versionName?: string;
+  driftStatus?: string;
+  summary?: AssessmentSummary;
+}
+export const AppAssessment = S.suspend(() =>
+  S.Struct({
+    appArn: S.optional(S.String),
+    appVersion: S.optional(S.String),
+    invoker: S.String,
+    cost: S.optional(Cost),
+    resiliencyScore: S.optional(ResiliencyScore),
+    compliance: S.optional(AssessmentCompliance),
+    complianceStatus: S.optional(S.String),
+    assessmentStatus: S.String,
+    startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    message: S.optional(S.String),
+    assessmentName: S.optional(S.String),
+    assessmentArn: S.String,
+    policy: S.optional(ResiliencyPolicy),
+    tags: S.optional(TagMap),
+    resourceErrorsDetails: S.optional(ResourceErrorsDetails),
+    versionName: S.optional(S.String),
+    driftStatus: S.optional(S.String),
+    summary: S.optional(AssessmentSummary),
+  }),
+).annotations({
+  identifier: "AppAssessment",
+}) as any as S.Schema<AppAssessment>;
+export interface StartAppAssessmentResponse {
+  assessment: AppAssessment;
+}
+export const StartAppAssessmentResponse = S.suspend(() =>
+  S.Struct({ assessment: AppAssessment }),
+).annotations({
+  identifier: "StartAppAssessmentResponse",
+}) as any as S.Schema<StartAppAssessmentResponse>;
+export interface StartMetricsExportResponse {
+  metricsExportId: string;
+  status: string;
+}
+export const StartMetricsExportResponse = S.suspend(() =>
+  S.Struct({ metricsExportId: S.String, status: S.String }),
+).annotations({
+  identifier: "StartMetricsExportResponse",
+}) as any as S.Schema<StartMetricsExportResponse>;
+export interface StartResourceGroupingRecommendationTaskResponse {
+  appArn: string;
+  groupingId: string;
+  status: string;
+  errorMessage?: string;
+}
+export const StartResourceGroupingRecommendationTaskResponse = S.suspend(() =>
+  S.Struct({
+    appArn: S.String,
+    groupingId: S.String,
+    status: S.String,
+    errorMessage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "StartResourceGroupingRecommendationTaskResponse",
+}) as any as S.Schema<StartResourceGroupingRecommendationTaskResponse>;
+export interface App {
+  appArn: string;
+  name: string;
+  description?: string;
+  policyArn?: string;
+  creationTime: Date;
+  status?: string;
+  complianceStatus?: string;
+  lastAppComplianceEvaluationTime?: Date;
+  resiliencyScore?: number;
+  lastResiliencyScoreEvaluationTime?: Date;
+  tags?: TagMap;
+  assessmentSchedule?: string;
+  permissionModel?: PermissionModel;
+  eventSubscriptions?: EventSubscriptionList;
+  driftStatus?: string;
+  lastDriftEvaluationTime?: Date;
+  rtoInSecs?: number;
+  rpoInSecs?: number;
+  awsApplicationArn?: string;
+}
+export const App = S.suspend(() =>
+  S.Struct({
+    appArn: S.String,
+    name: S.String,
+    description: S.optional(S.String),
+    policyArn: S.optional(S.String),
+    creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    status: S.optional(S.String),
+    complianceStatus: S.optional(S.String),
+    lastAppComplianceEvaluationTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    resiliencyScore: S.optional(S.Number),
+    lastResiliencyScoreEvaluationTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    tags: S.optional(TagMap),
+    assessmentSchedule: S.optional(S.String),
+    permissionModel: S.optional(PermissionModel),
+    eventSubscriptions: S.optional(EventSubscriptionList),
+    driftStatus: S.optional(S.String),
+    lastDriftEvaluationTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    rtoInSecs: S.optional(S.Number),
+    rpoInSecs: S.optional(S.Number),
+    awsApplicationArn: S.optional(S.String),
+  }),
+).annotations({ identifier: "App" }) as any as S.Schema<App>;
+export interface UpdateAppResponse {
+  app: App;
+}
+export const UpdateAppResponse = S.suspend(() =>
+  S.Struct({ app: App }),
+).annotations({
+  identifier: "UpdateAppResponse",
+}) as any as S.Schema<UpdateAppResponse>;
+export interface UpdateAppVersionResponse {
+  appArn: string;
+  appVersion: string;
+  additionalInfo?: AdditionalInfoMap;
+}
+export const UpdateAppVersionResponse = S.suspend(() =>
+  S.Struct({
+    appArn: S.String,
+    appVersion: S.String,
+    additionalInfo: S.optional(AdditionalInfoMap),
+  }),
+).annotations({
+  identifier: "UpdateAppVersionResponse",
+}) as any as S.Schema<UpdateAppVersionResponse>;
+export interface UpdateAppVersionAppComponentResponse {
+  appArn: string;
+  appVersion: string;
+  appComponent?: AppComponent;
+}
+export const UpdateAppVersionAppComponentResponse = S.suspend(() =>
+  S.Struct({
+    appArn: S.String,
+    appVersion: S.String,
+    appComponent: S.optional(AppComponent),
+  }),
+).annotations({
+  identifier: "UpdateAppVersionAppComponentResponse",
+}) as any as S.Schema<UpdateAppVersionAppComponentResponse>;
+export interface UpdateAppVersionResourceResponse {
+  appArn: string;
+  appVersion: string;
+  physicalResource?: PhysicalResource;
+}
+export const UpdateAppVersionResourceResponse = S.suspend(() =>
+  S.Struct({
+    appArn: S.String,
+    appVersion: S.String,
+    physicalResource: S.optional(PhysicalResource),
+  }),
+).annotations({
+  identifier: "UpdateAppVersionResourceResponse",
+}) as any as S.Schema<UpdateAppVersionResourceResponse>;
+export interface UpdateResiliencyPolicyResponse {
+  policy: ResiliencyPolicy;
+}
+export const UpdateResiliencyPolicyResponse = S.suspend(() =>
+  S.Struct({ policy: ResiliencyPolicy }),
+).annotations({
+  identifier: "UpdateResiliencyPolicyResponse",
+}) as any as S.Schema<UpdateResiliencyPolicyResponse>;
+export interface UpdateRecommendationStatusItem {
+  resourceId?: string;
+  targetAccountId?: string;
+  targetRegion?: string;
+}
+export const UpdateRecommendationStatusItem = S.suspend(() =>
+  S.Struct({
+    resourceId: S.optional(S.String),
+    targetAccountId: S.optional(S.String),
+    targetRegion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "UpdateRecommendationStatusItem",
+}) as any as S.Schema<UpdateRecommendationStatusItem>;
+export type AlarmReferenceIdList = string[];
 export const AlarmReferenceIdList = S.Array(S.String);
-export class UpdateRecommendationStatusRequestEntry extends S.Class<UpdateRecommendationStatusRequestEntry>(
-  "UpdateRecommendationStatusRequestEntry",
-)({
-  entryId: S.String,
-  referenceId: S.String,
-  item: S.optional(UpdateRecommendationStatusItem),
-  excluded: S.Boolean,
-  appComponentId: S.optional(S.String),
-  excludeReason: S.optional(S.String),
-}) {}
+export interface UpdateRecommendationStatusRequestEntry {
+  entryId: string;
+  referenceId: string;
+  item?: UpdateRecommendationStatusItem;
+  excluded: boolean;
+  appComponentId?: string;
+  excludeReason?: string;
+}
+export const UpdateRecommendationStatusRequestEntry = S.suspend(() =>
+  S.Struct({
+    entryId: S.String,
+    referenceId: S.String,
+    item: S.optional(UpdateRecommendationStatusItem),
+    excluded: S.Boolean,
+    appComponentId: S.optional(S.String),
+    excludeReason: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "UpdateRecommendationStatusRequestEntry",
+}) as any as S.Schema<UpdateRecommendationStatusRequestEntry>;
+export type UpdateRecommendationStatusRequestEntries =
+  UpdateRecommendationStatusRequestEntry[];
 export const UpdateRecommendationStatusRequestEntries = S.Array(
   UpdateRecommendationStatusRequestEntry,
 );
-export class ErrorDetail extends S.Class<ErrorDetail>("ErrorDetail")({
-  errorMessage: S.optional(S.String),
-}) {}
+export interface ErrorDetail {
+  errorMessage?: string;
+}
+export const ErrorDetail = S.suspend(() =>
+  S.Struct({ errorMessage: S.optional(S.String) }),
+).annotations({ identifier: "ErrorDetail" }) as any as S.Schema<ErrorDetail>;
+export type ErrorDetailList = ErrorDetail[];
 export const ErrorDetailList = S.Array(ErrorDetail);
-export class ComplianceDrift extends S.Class<ComplianceDrift>(
-  "ComplianceDrift",
-)({
-  entityId: S.optional(S.String),
-  entityType: S.optional(S.String),
-  driftType: S.optional(S.String),
-  appId: S.optional(S.String),
-  appVersion: S.optional(S.String),
-  expectedReferenceId: S.optional(S.String),
-  expectedValue: S.optional(AssessmentCompliance),
-  actualReferenceId: S.optional(S.String),
-  actualValue: S.optional(AssessmentCompliance),
-  diffType: S.optional(S.String),
-}) {}
+export interface ComplianceDrift {
+  entityId?: string;
+  entityType?: string;
+  driftType?: string;
+  appId?: string;
+  appVersion?: string;
+  expectedReferenceId?: string;
+  expectedValue?: AssessmentCompliance;
+  actualReferenceId?: string;
+  actualValue?: AssessmentCompliance;
+  diffType?: string;
+}
+export const ComplianceDrift = S.suspend(() =>
+  S.Struct({
+    entityId: S.optional(S.String),
+    entityType: S.optional(S.String),
+    driftType: S.optional(S.String),
+    appId: S.optional(S.String),
+    appVersion: S.optional(S.String),
+    expectedReferenceId: S.optional(S.String),
+    expectedValue: S.optional(AssessmentCompliance),
+    actualReferenceId: S.optional(S.String),
+    actualValue: S.optional(AssessmentCompliance),
+    diffType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ComplianceDrift",
+}) as any as S.Schema<ComplianceDrift>;
+export type ComplianceDriftList = ComplianceDrift[];
 export const ComplianceDriftList = S.Array(ComplianceDrift);
-export class AppAssessmentSummary extends S.Class<AppAssessmentSummary>(
-  "AppAssessmentSummary",
-)({
-  appArn: S.optional(S.String),
-  appVersion: S.optional(S.String),
-  assessmentStatus: S.String,
-  invoker: S.optional(S.String),
-  startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  message: S.optional(S.String),
-  assessmentName: S.optional(S.String),
-  assessmentArn: S.String,
-  complianceStatus: S.optional(S.String),
-  cost: S.optional(Cost),
-  resiliencyScore: S.optional(S.Number),
-  versionName: S.optional(S.String),
-  driftStatus: S.optional(S.String),
-}) {}
+export interface AppAssessmentSummary {
+  appArn?: string;
+  appVersion?: string;
+  assessmentStatus: string;
+  invoker?: string;
+  startTime?: Date;
+  endTime?: Date;
+  message?: string;
+  assessmentName?: string;
+  assessmentArn: string;
+  complianceStatus?: string;
+  cost?: Cost;
+  resiliencyScore?: number;
+  versionName?: string;
+  driftStatus?: string;
+}
+export const AppAssessmentSummary = S.suspend(() =>
+  S.Struct({
+    appArn: S.optional(S.String),
+    appVersion: S.optional(S.String),
+    assessmentStatus: S.String,
+    invoker: S.optional(S.String),
+    startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    message: S.optional(S.String),
+    assessmentName: S.optional(S.String),
+    assessmentArn: S.String,
+    complianceStatus: S.optional(S.String),
+    cost: S.optional(Cost),
+    resiliencyScore: S.optional(S.Number),
+    versionName: S.optional(S.String),
+    driftStatus: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AppAssessmentSummary",
+}) as any as S.Schema<AppAssessmentSummary>;
+export type AppAssessmentSummaryList = AppAssessmentSummary[];
 export const AppAssessmentSummaryList = S.Array(AppAssessmentSummary);
-export class AppComponentCompliance extends S.Class<AppComponentCompliance>(
-  "AppComponentCompliance",
-)({
-  cost: S.optional(Cost),
-  appComponentName: S.optional(S.String),
-  compliance: S.optional(AssessmentCompliance),
-  message: S.optional(S.String),
-  status: S.optional(S.String),
-  resiliencyScore: S.optional(ResiliencyScore),
-}) {}
+export interface AppComponentCompliance {
+  cost?: Cost;
+  appComponentName?: string;
+  compliance?: AssessmentCompliance;
+  message?: string;
+  status?: string;
+  resiliencyScore?: ResiliencyScore;
+}
+export const AppComponentCompliance = S.suspend(() =>
+  S.Struct({
+    cost: S.optional(Cost),
+    appComponentName: S.optional(S.String),
+    compliance: S.optional(AssessmentCompliance),
+    message: S.optional(S.String),
+    status: S.optional(S.String),
+    resiliencyScore: S.optional(ResiliencyScore),
+  }),
+).annotations({
+  identifier: "AppComponentCompliance",
+}) as any as S.Schema<AppComponentCompliance>;
+export type ComponentCompliancesList = AppComponentCompliance[];
 export const ComponentCompliancesList = S.Array(AppComponentCompliance);
-export class AppInputSource extends S.Class<AppInputSource>("AppInputSource")({
-  sourceName: S.optional(S.String),
-  importType: S.String,
-  sourceArn: S.optional(S.String),
-  terraformSource: S.optional(TerraformSource),
-  resourceCount: S.optional(S.Number),
-  eksSourceClusterNamespace: S.optional(EksSourceClusterNamespace),
-}) {}
+export interface AppInputSource {
+  sourceName?: string;
+  importType: string;
+  sourceArn?: string;
+  terraformSource?: TerraformSource;
+  resourceCount?: number;
+  eksSourceClusterNamespace?: EksSourceClusterNamespace;
+}
+export const AppInputSource = S.suspend(() =>
+  S.Struct({
+    sourceName: S.optional(S.String),
+    importType: S.String,
+    sourceArn: S.optional(S.String),
+    terraformSource: S.optional(TerraformSource),
+    resourceCount: S.optional(S.Number),
+    eksSourceClusterNamespace: S.optional(EksSourceClusterNamespace),
+  }),
+).annotations({
+  identifier: "AppInputSource",
+}) as any as S.Schema<AppInputSource>;
+export type AppInputSourceList = AppInputSource[];
 export const AppInputSourceList = S.Array(AppInputSource);
-export class AppSummary extends S.Class<AppSummary>("AppSummary")({
-  appArn: S.String,
-  name: S.String,
-  description: S.optional(S.String),
-  creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  complianceStatus: S.optional(S.String),
-  resiliencyScore: S.optional(S.Number),
-  assessmentSchedule: S.optional(S.String),
-  status: S.optional(S.String),
-  driftStatus: S.optional(S.String),
-  lastAppComplianceEvaluationTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  rtoInSecs: S.optional(S.Number),
-  rpoInSecs: S.optional(S.Number),
-  awsApplicationArn: S.optional(S.String),
-}) {}
+export interface AppSummary {
+  appArn: string;
+  name: string;
+  description?: string;
+  creationTime: Date;
+  complianceStatus?: string;
+  resiliencyScore?: number;
+  assessmentSchedule?: string;
+  status?: string;
+  driftStatus?: string;
+  lastAppComplianceEvaluationTime?: Date;
+  rtoInSecs?: number;
+  rpoInSecs?: number;
+  awsApplicationArn?: string;
+}
+export const AppSummary = S.suspend(() =>
+  S.Struct({
+    appArn: S.String,
+    name: S.String,
+    description: S.optional(S.String),
+    creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    complianceStatus: S.optional(S.String),
+    resiliencyScore: S.optional(S.Number),
+    assessmentSchedule: S.optional(S.String),
+    status: S.optional(S.String),
+    driftStatus: S.optional(S.String),
+    lastAppComplianceEvaluationTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    rtoInSecs: S.optional(S.Number),
+    rpoInSecs: S.optional(S.Number),
+    awsApplicationArn: S.optional(S.String),
+  }),
+).annotations({ identifier: "AppSummary" }) as any as S.Schema<AppSummary>;
+export type AppSummaryList = AppSummary[];
 export const AppSummaryList = S.Array(AppSummary);
-export class AppVersionSummary extends S.Class<AppVersionSummary>(
-  "AppVersionSummary",
-)({
-  appVersion: S.String,
-  identifier: S.optional(S.Number),
-  creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  versionName: S.optional(S.String),
-}) {}
+export interface AppVersionSummary {
+  appVersion: string;
+  identifier?: number;
+  creationTime?: Date;
+  versionName?: string;
+}
+export const AppVersionSummary = S.suspend(() =>
+  S.Struct({
+    appVersion: S.String,
+    identifier: S.optional(S.Number),
+    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    versionName: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AppVersionSummary",
+}) as any as S.Schema<AppVersionSummary>;
+export type AppVersionList = AppVersionSummary[];
 export const AppVersionList = S.Array(AppVersionSummary);
+export type Row = string[];
 export const Row = S.Array(S.String);
+export type RowList = Row[];
 export const RowList = S.Array(Row);
-export class Experiment extends S.Class<Experiment>("Experiment")({
-  experimentArn: S.optional(S.String),
-  experimentTemplateId: S.optional(S.String),
-}) {}
-export class Alarm extends S.Class<Alarm>("Alarm")({
-  alarmArn: S.optional(S.String),
-  source: S.optional(S.String),
-}) {}
-export class RecommendationItem extends S.Class<RecommendationItem>(
-  "RecommendationItem",
-)({
-  resourceId: S.optional(S.String),
-  targetAccountId: S.optional(S.String),
-  targetRegion: S.optional(S.String),
-  alreadyImplemented: S.optional(S.Boolean),
-  excluded: S.optional(S.Boolean),
-  excludeReason: S.optional(S.String),
-  latestDiscoveredExperiment: S.optional(Experiment),
-  discoveredAlarm: S.optional(Alarm),
-}) {}
+export interface Experiment {
+  experimentArn?: string;
+  experimentTemplateId?: string;
+}
+export const Experiment = S.suspend(() =>
+  S.Struct({
+    experimentArn: S.optional(S.String),
+    experimentTemplateId: S.optional(S.String),
+  }),
+).annotations({ identifier: "Experiment" }) as any as S.Schema<Experiment>;
+export interface Alarm {
+  alarmArn?: string;
+  source?: string;
+}
+export const Alarm = S.suspend(() =>
+  S.Struct({ alarmArn: S.optional(S.String), source: S.optional(S.String) }),
+).annotations({ identifier: "Alarm" }) as any as S.Schema<Alarm>;
+export interface RecommendationItem {
+  resourceId?: string;
+  targetAccountId?: string;
+  targetRegion?: string;
+  alreadyImplemented?: boolean;
+  excluded?: boolean;
+  excludeReason?: string;
+  latestDiscoveredExperiment?: Experiment;
+  discoveredAlarm?: Alarm;
+}
+export const RecommendationItem = S.suspend(() =>
+  S.Struct({
+    resourceId: S.optional(S.String),
+    targetAccountId: S.optional(S.String),
+    targetRegion: S.optional(S.String),
+    alreadyImplemented: S.optional(S.Boolean),
+    excluded: S.optional(S.Boolean),
+    excludeReason: S.optional(S.String),
+    latestDiscoveredExperiment: S.optional(Experiment),
+    discoveredAlarm: S.optional(Alarm),
+  }),
+).annotations({
+  identifier: "RecommendationItem",
+}) as any as S.Schema<RecommendationItem>;
+export type RecommendationItemList = RecommendationItem[];
 export const RecommendationItemList = S.Array(RecommendationItem);
-export class SopRecommendation extends S.Class<SopRecommendation>(
-  "SopRecommendation",
-)({
-  serviceType: S.String,
-  appComponentName: S.optional(S.String),
-  description: S.optional(S.String),
-  recommendationId: S.String,
-  name: S.optional(S.String),
-  items: S.optional(RecommendationItemList),
-  referenceId: S.String,
-  prerequisite: S.optional(S.String),
-  recommendationStatus: S.optional(S.String),
-}) {}
+export interface SopRecommendation {
+  serviceType: string;
+  appComponentName?: string;
+  description?: string;
+  recommendationId: string;
+  name?: string;
+  items?: RecommendationItemList;
+  referenceId: string;
+  prerequisite?: string;
+  recommendationStatus?: string;
+}
+export const SopRecommendation = S.suspend(() =>
+  S.Struct({
+    serviceType: S.String,
+    appComponentName: S.optional(S.String),
+    description: S.optional(S.String),
+    recommendationId: S.String,
+    name: S.optional(S.String),
+    items: S.optional(RecommendationItemList),
+    referenceId: S.String,
+    prerequisite: S.optional(S.String),
+    recommendationStatus: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SopRecommendation",
+}) as any as S.Schema<SopRecommendation>;
+export type SopRecommendationList = SopRecommendation[];
 export const SopRecommendationList = S.Array(SopRecommendation);
-export class TestRecommendation extends S.Class<TestRecommendation>(
-  "TestRecommendation",
-)({
-  recommendationId: S.optional(S.String),
-  referenceId: S.String,
-  appComponentId: S.optional(S.String),
-  appComponentName: S.optional(S.String),
-  name: S.optional(S.String),
-  intent: S.optional(S.String),
-  risk: S.optional(S.String),
-  type: S.optional(S.String),
-  description: S.optional(S.String),
-  items: S.optional(RecommendationItemList),
-  prerequisite: S.optional(S.String),
-  dependsOnAlarms: S.optional(AlarmReferenceIdList),
-  recommendationStatus: S.optional(S.String),
-}) {}
+export interface TestRecommendation {
+  recommendationId?: string;
+  referenceId: string;
+  appComponentId?: string;
+  appComponentName?: string;
+  name?: string;
+  intent?: string;
+  risk?: string;
+  type?: string;
+  description?: string;
+  items?: RecommendationItemList;
+  prerequisite?: string;
+  dependsOnAlarms?: AlarmReferenceIdList;
+  recommendationStatus?: string;
+}
+export const TestRecommendation = S.suspend(() =>
+  S.Struct({
+    recommendationId: S.optional(S.String),
+    referenceId: S.String,
+    appComponentId: S.optional(S.String),
+    appComponentName: S.optional(S.String),
+    name: S.optional(S.String),
+    intent: S.optional(S.String),
+    risk: S.optional(S.String),
+    type: S.optional(S.String),
+    description: S.optional(S.String),
+    items: S.optional(RecommendationItemList),
+    prerequisite: S.optional(S.String),
+    dependsOnAlarms: S.optional(AlarmReferenceIdList),
+    recommendationStatus: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "TestRecommendation",
+}) as any as S.Schema<TestRecommendation>;
+export type TestRecommendationList = TestRecommendation[];
 export const TestRecommendationList = S.Array(TestRecommendation);
-export class UnsupportedResource extends S.Class<UnsupportedResource>(
-  "UnsupportedResource",
-)({
-  logicalResourceId: LogicalResourceId,
-  physicalResourceId: PhysicalResourceId,
-  resourceType: S.String,
-  unsupportedResourceStatus: S.optional(S.String),
-}) {}
+export interface UnsupportedResource {
+  logicalResourceId: LogicalResourceId;
+  physicalResourceId: PhysicalResourceId;
+  resourceType: string;
+  unsupportedResourceStatus?: string;
+}
+export const UnsupportedResource = S.suspend(() =>
+  S.Struct({
+    logicalResourceId: LogicalResourceId,
+    physicalResourceId: PhysicalResourceId,
+    resourceType: S.String,
+    unsupportedResourceStatus: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "UnsupportedResource",
+}) as any as S.Schema<UnsupportedResource>;
+export type UnsupportedResourceList = UnsupportedResource[];
 export const UnsupportedResourceList = S.Array(UnsupportedResource);
+export type SuggestedChangesList = string[];
 export const SuggestedChangesList = S.Array(S.String);
-export class AddDraftAppVersionResourceMappingsRequest extends S.Class<AddDraftAppVersionResourceMappingsRequest>(
-  "AddDraftAppVersionResourceMappingsRequest",
-)(
-  { appArn: S.String, resourceMappings: ResourceMappingList },
-  T.all(
-    T.Http({ method: "POST", uri: "/add-draft-app-version-resource-mappings" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface AddDraftAppVersionResourceMappingsRequest {
+  appArn: string;
+  resourceMappings: ResourceMappingList;
+}
+export const AddDraftAppVersionResourceMappingsRequest = S.suspend(() =>
+  S.Struct({ appArn: S.String, resourceMappings: ResourceMappingList }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/add-draft-app-version-resource-mappings",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class BatchUpdateRecommendationStatusRequest extends S.Class<BatchUpdateRecommendationStatusRequest>(
-  "BatchUpdateRecommendationStatusRequest",
-)(
-  {
+).annotations({
+  identifier: "AddDraftAppVersionResourceMappingsRequest",
+}) as any as S.Schema<AddDraftAppVersionResourceMappingsRequest>;
+export interface BatchUpdateRecommendationStatusRequest {
+  appArn: string;
+  requestEntries: UpdateRecommendationStatusRequestEntries;
+}
+export const BatchUpdateRecommendationStatusRequest = S.suspend(() =>
+  S.Struct({
     appArn: S.String,
     requestEntries: UpdateRecommendationStatusRequestEntries,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/batch-update-recommendation-status" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/batch-update-recommendation-status" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateAppResponse extends S.Class<CreateAppResponse>(
-  "CreateAppResponse",
-)({ app: App }) {}
-export class CreateAppVersionAppComponentResponse extends S.Class<CreateAppVersionAppComponentResponse>(
-  "CreateAppVersionAppComponentResponse",
-)({
-  appArn: S.String,
-  appVersion: S.String,
-  appComponent: S.optional(AppComponent),
-}) {}
-export class CreateAppVersionResourceResponse extends S.Class<CreateAppVersionResourceResponse>(
-  "CreateAppVersionResourceResponse",
-)({
-  appArn: S.String,
-  appVersion: S.String,
-  physicalResource: S.optional(PhysicalResource),
-}) {}
-export class CreateRecommendationTemplateResponse extends S.Class<CreateRecommendationTemplateResponse>(
-  "CreateRecommendationTemplateResponse",
-)({ recommendationTemplate: S.optional(RecommendationTemplate) }) {}
-export class CreateResiliencyPolicyRequest extends S.Class<CreateResiliencyPolicyRequest>(
-  "CreateResiliencyPolicyRequest",
-)(
-  {
+).annotations({
+  identifier: "BatchUpdateRecommendationStatusRequest",
+}) as any as S.Schema<BatchUpdateRecommendationStatusRequest>;
+export interface CreateAppResponse {
+  app: App;
+}
+export const CreateAppResponse = S.suspend(() =>
+  S.Struct({ app: App }),
+).annotations({
+  identifier: "CreateAppResponse",
+}) as any as S.Schema<CreateAppResponse>;
+export interface CreateAppVersionAppComponentResponse {
+  appArn: string;
+  appVersion: string;
+  appComponent?: AppComponent;
+}
+export const CreateAppVersionAppComponentResponse = S.suspend(() =>
+  S.Struct({
+    appArn: S.String,
+    appVersion: S.String,
+    appComponent: S.optional(AppComponent),
+  }),
+).annotations({
+  identifier: "CreateAppVersionAppComponentResponse",
+}) as any as S.Schema<CreateAppVersionAppComponentResponse>;
+export interface CreateAppVersionResourceResponse {
+  appArn: string;
+  appVersion: string;
+  physicalResource?: PhysicalResource;
+}
+export const CreateAppVersionResourceResponse = S.suspend(() =>
+  S.Struct({
+    appArn: S.String,
+    appVersion: S.String,
+    physicalResource: S.optional(PhysicalResource),
+  }),
+).annotations({
+  identifier: "CreateAppVersionResourceResponse",
+}) as any as S.Schema<CreateAppVersionResourceResponse>;
+export interface CreateRecommendationTemplateResponse {
+  recommendationTemplate?: RecommendationTemplate;
+}
+export const CreateRecommendationTemplateResponse = S.suspend(() =>
+  S.Struct({ recommendationTemplate: S.optional(RecommendationTemplate) }),
+).annotations({
+  identifier: "CreateRecommendationTemplateResponse",
+}) as any as S.Schema<CreateRecommendationTemplateResponse>;
+export interface CreateResiliencyPolicyRequest {
+  policyName: string;
+  policyDescription?: string;
+  dataLocationConstraint?: string;
+  tier: string;
+  policy: DisruptionPolicy;
+  clientToken?: string;
+  tags?: TagMap;
+}
+export const CreateResiliencyPolicyRequest = S.suspend(() =>
+  S.Struct({
     policyName: S.String,
     policyDescription: S.optional(S.String),
     dataLocationConstraint: S.optional(S.String),
@@ -1964,284 +3110,609 @@ export class CreateResiliencyPolicyRequest extends S.Class<CreateResiliencyPolic
     policy: DisruptionPolicy,
     clientToken: S.optional(S.String),
     tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/create-resiliency-policy" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/create-resiliency-policy" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAppInputSourceResponse extends S.Class<DeleteAppInputSourceResponse>(
-  "DeleteAppInputSourceResponse",
-)({
-  appArn: S.optional(S.String),
-  appInputSource: S.optional(AppInputSource),
-}) {}
-export class DeleteAppVersionAppComponentResponse extends S.Class<DeleteAppVersionAppComponentResponse>(
-  "DeleteAppVersionAppComponentResponse",
-)({
-  appArn: S.String,
-  appVersion: S.String,
-  appComponent: S.optional(AppComponent),
-}) {}
-export class DeleteAppVersionResourceResponse extends S.Class<DeleteAppVersionResourceResponse>(
-  "DeleteAppVersionResourceResponse",
-)({
-  appArn: S.String,
-  appVersion: S.String,
-  physicalResource: S.optional(PhysicalResource),
-}) {}
-export class DescribeAppResponse extends S.Class<DescribeAppResponse>(
-  "DescribeAppResponse",
-)({ app: App }) {}
-export class DescribeDraftAppVersionResourcesImportStatusResponse extends S.Class<DescribeDraftAppVersionResourcesImportStatusResponse>(
-  "DescribeDraftAppVersionResourcesImportStatusResponse",
-)({
-  appArn: S.String,
-  appVersion: S.String,
-  status: S.String,
-  statusChangeTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  errorMessage: S.optional(S.String),
-  errorDetails: S.optional(ErrorDetailList),
-}) {}
-export class DescribeMetricsExportResponse extends S.Class<DescribeMetricsExportResponse>(
-  "DescribeMetricsExportResponse",
-)({
-  metricsExportId: S.String,
-  status: S.String,
-  exportLocation: S.optional(S3Location),
-  errorMessage: S.optional(S.String),
-}) {}
-export class DescribeResiliencyPolicyResponse extends S.Class<DescribeResiliencyPolicyResponse>(
-  "DescribeResiliencyPolicyResponse",
-)({ policy: ResiliencyPolicy }) {}
-export class ImportResourcesToDraftAppVersionResponse extends S.Class<ImportResourcesToDraftAppVersionResponse>(
-  "ImportResourcesToDraftAppVersionResponse",
-)({
-  appArn: S.String,
-  appVersion: S.String,
-  sourceArns: S.optional(ArnList),
-  status: S.String,
-  terraformSources: S.optional(TerraformSourceList),
-  eksSources: S.optional(EksSourceList),
-}) {}
-export class ListAppAssessmentComplianceDriftsResponse extends S.Class<ListAppAssessmentComplianceDriftsResponse>(
-  "ListAppAssessmentComplianceDriftsResponse",
-)({ complianceDrifts: ComplianceDriftList, nextToken: S.optional(S.String) }) {}
-export class ListAppAssessmentsResponse extends S.Class<ListAppAssessmentsResponse>(
-  "ListAppAssessmentsResponse",
-)({
-  nextToken: S.optional(S.String),
-  assessmentSummaries: AppAssessmentSummaryList,
-}) {}
-export class ListAppComponentCompliancesResponse extends S.Class<ListAppComponentCompliancesResponse>(
-  "ListAppComponentCompliancesResponse",
-)({
-  componentCompliances: ComponentCompliancesList,
-  nextToken: S.optional(S.String),
-}) {}
-export class ListAppInputSourcesResponse extends S.Class<ListAppInputSourcesResponse>(
-  "ListAppInputSourcesResponse",
-)({ appInputSources: AppInputSourceList, nextToken: S.optional(S.String) }) {}
-export class ListAppsResponse extends S.Class<ListAppsResponse>(
-  "ListAppsResponse",
-)({ appSummaries: AppSummaryList, nextToken: S.optional(S.String) }) {}
-export class ListAppVersionsResponse extends S.Class<ListAppVersionsResponse>(
-  "ListAppVersionsResponse",
-)({ appVersions: AppVersionList, nextToken: S.optional(S.String) }) {}
-export class ListMetricsResponse extends S.Class<ListMetricsResponse>(
-  "ListMetricsResponse",
-)({ rows: RowList, nextToken: S.optional(S.String) }) {}
-export class ListSopRecommendationsResponse extends S.Class<ListSopRecommendationsResponse>(
-  "ListSopRecommendationsResponse",
-)({
-  nextToken: S.optional(S.String),
-  sopRecommendations: SopRecommendationList,
-}) {}
-export class ListTestRecommendationsResponse extends S.Class<ListTestRecommendationsResponse>(
-  "ListTestRecommendationsResponse",
-)({
-  nextToken: S.optional(S.String),
-  testRecommendations: TestRecommendationList,
-}) {}
-export class ListUnsupportedAppVersionResourcesResponse extends S.Class<ListUnsupportedAppVersionResourcesResponse>(
-  "ListUnsupportedAppVersionResourcesResponse",
-)({
-  unsupportedResources: UnsupportedResourceList,
-  resolutionId: S.String,
-  nextToken: S.optional(S.String),
-}) {}
-export class FailedGroupingRecommendationEntry extends S.Class<FailedGroupingRecommendationEntry>(
-  "FailedGroupingRecommendationEntry",
-)({ groupingRecommendationId: S.String, errorMessage: S.String }) {}
+).annotations({
+  identifier: "CreateResiliencyPolicyRequest",
+}) as any as S.Schema<CreateResiliencyPolicyRequest>;
+export interface DeleteAppInputSourceResponse {
+  appArn?: string;
+  appInputSource?: AppInputSource;
+}
+export const DeleteAppInputSourceResponse = S.suspend(() =>
+  S.Struct({
+    appArn: S.optional(S.String),
+    appInputSource: S.optional(AppInputSource),
+  }),
+).annotations({
+  identifier: "DeleteAppInputSourceResponse",
+}) as any as S.Schema<DeleteAppInputSourceResponse>;
+export interface DeleteAppVersionAppComponentResponse {
+  appArn: string;
+  appVersion: string;
+  appComponent?: AppComponent;
+}
+export const DeleteAppVersionAppComponentResponse = S.suspend(() =>
+  S.Struct({
+    appArn: S.String,
+    appVersion: S.String,
+    appComponent: S.optional(AppComponent),
+  }),
+).annotations({
+  identifier: "DeleteAppVersionAppComponentResponse",
+}) as any as S.Schema<DeleteAppVersionAppComponentResponse>;
+export interface DeleteAppVersionResourceResponse {
+  appArn: string;
+  appVersion: string;
+  physicalResource?: PhysicalResource;
+}
+export const DeleteAppVersionResourceResponse = S.suspend(() =>
+  S.Struct({
+    appArn: S.String,
+    appVersion: S.String,
+    physicalResource: S.optional(PhysicalResource),
+  }),
+).annotations({
+  identifier: "DeleteAppVersionResourceResponse",
+}) as any as S.Schema<DeleteAppVersionResourceResponse>;
+export interface DescribeAppResponse {
+  app: App;
+}
+export const DescribeAppResponse = S.suspend(() =>
+  S.Struct({ app: App }),
+).annotations({
+  identifier: "DescribeAppResponse",
+}) as any as S.Schema<DescribeAppResponse>;
+export interface DescribeDraftAppVersionResourcesImportStatusResponse {
+  appArn: string;
+  appVersion: string;
+  status: string;
+  statusChangeTime: Date;
+  errorMessage?: string;
+  errorDetails?: ErrorDetailList;
+}
+export const DescribeDraftAppVersionResourcesImportStatusResponse = S.suspend(
+  () =>
+    S.Struct({
+      appArn: S.String,
+      appVersion: S.String,
+      status: S.String,
+      statusChangeTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+      errorMessage: S.optional(S.String),
+      errorDetails: S.optional(ErrorDetailList),
+    }),
+).annotations({
+  identifier: "DescribeDraftAppVersionResourcesImportStatusResponse",
+}) as any as S.Schema<DescribeDraftAppVersionResourcesImportStatusResponse>;
+export interface DescribeMetricsExportResponse {
+  metricsExportId: string;
+  status: string;
+  exportLocation?: S3Location;
+  errorMessage?: string;
+}
+export const DescribeMetricsExportResponse = S.suspend(() =>
+  S.Struct({
+    metricsExportId: S.String,
+    status: S.String,
+    exportLocation: S.optional(S3Location),
+    errorMessage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DescribeMetricsExportResponse",
+}) as any as S.Schema<DescribeMetricsExportResponse>;
+export interface DescribeResiliencyPolicyResponse {
+  policy: ResiliencyPolicy;
+}
+export const DescribeResiliencyPolicyResponse = S.suspend(() =>
+  S.Struct({ policy: ResiliencyPolicy }),
+).annotations({
+  identifier: "DescribeResiliencyPolicyResponse",
+}) as any as S.Schema<DescribeResiliencyPolicyResponse>;
+export interface ImportResourcesToDraftAppVersionResponse {
+  appArn: string;
+  appVersion: string;
+  sourceArns?: ArnList;
+  status: string;
+  terraformSources?: TerraformSourceList;
+  eksSources?: EksSourceList;
+}
+export const ImportResourcesToDraftAppVersionResponse = S.suspend(() =>
+  S.Struct({
+    appArn: S.String,
+    appVersion: S.String,
+    sourceArns: S.optional(ArnList),
+    status: S.String,
+    terraformSources: S.optional(TerraformSourceList),
+    eksSources: S.optional(EksSourceList),
+  }),
+).annotations({
+  identifier: "ImportResourcesToDraftAppVersionResponse",
+}) as any as S.Schema<ImportResourcesToDraftAppVersionResponse>;
+export interface ListAppAssessmentComplianceDriftsResponse {
+  complianceDrifts: ComplianceDriftList;
+  nextToken?: string;
+}
+export const ListAppAssessmentComplianceDriftsResponse = S.suspend(() =>
+  S.Struct({
+    complianceDrifts: ComplianceDriftList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListAppAssessmentComplianceDriftsResponse",
+}) as any as S.Schema<ListAppAssessmentComplianceDriftsResponse>;
+export interface ListAppAssessmentsResponse {
+  nextToken?: string;
+  assessmentSummaries: AppAssessmentSummaryList;
+}
+export const ListAppAssessmentsResponse = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    assessmentSummaries: AppAssessmentSummaryList,
+  }),
+).annotations({
+  identifier: "ListAppAssessmentsResponse",
+}) as any as S.Schema<ListAppAssessmentsResponse>;
+export interface ListAppComponentCompliancesResponse {
+  componentCompliances: ComponentCompliancesList;
+  nextToken?: string;
+}
+export const ListAppComponentCompliancesResponse = S.suspend(() =>
+  S.Struct({
+    componentCompliances: ComponentCompliancesList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListAppComponentCompliancesResponse",
+}) as any as S.Schema<ListAppComponentCompliancesResponse>;
+export interface ListAppInputSourcesResponse {
+  appInputSources: AppInputSourceList;
+  nextToken?: string;
+}
+export const ListAppInputSourcesResponse = S.suspend(() =>
+  S.Struct({
+    appInputSources: AppInputSourceList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListAppInputSourcesResponse",
+}) as any as S.Schema<ListAppInputSourcesResponse>;
+export interface ListAppsResponse {
+  appSummaries: AppSummaryList;
+  nextToken?: string;
+}
+export const ListAppsResponse = S.suspend(() =>
+  S.Struct({ appSummaries: AppSummaryList, nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListAppsResponse",
+}) as any as S.Schema<ListAppsResponse>;
+export interface ListAppVersionsResponse {
+  appVersions: AppVersionList;
+  nextToken?: string;
+}
+export const ListAppVersionsResponse = S.suspend(() =>
+  S.Struct({ appVersions: AppVersionList, nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListAppVersionsResponse",
+}) as any as S.Schema<ListAppVersionsResponse>;
+export interface ListMetricsResponse {
+  rows: RowList;
+  nextToken?: string;
+}
+export const ListMetricsResponse = S.suspend(() =>
+  S.Struct({ rows: RowList, nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListMetricsResponse",
+}) as any as S.Schema<ListMetricsResponse>;
+export interface ListSopRecommendationsResponse {
+  nextToken?: string;
+  sopRecommendations: SopRecommendationList;
+}
+export const ListSopRecommendationsResponse = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    sopRecommendations: SopRecommendationList,
+  }),
+).annotations({
+  identifier: "ListSopRecommendationsResponse",
+}) as any as S.Schema<ListSopRecommendationsResponse>;
+export interface ListTestRecommendationsResponse {
+  nextToken?: string;
+  testRecommendations: TestRecommendationList;
+}
+export const ListTestRecommendationsResponse = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    testRecommendations: TestRecommendationList,
+  }),
+).annotations({
+  identifier: "ListTestRecommendationsResponse",
+}) as any as S.Schema<ListTestRecommendationsResponse>;
+export interface ListUnsupportedAppVersionResourcesResponse {
+  unsupportedResources: UnsupportedResourceList;
+  resolutionId: string;
+  nextToken?: string;
+}
+export const ListUnsupportedAppVersionResourcesResponse = S.suspend(() =>
+  S.Struct({
+    unsupportedResources: UnsupportedResourceList,
+    resolutionId: S.String,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListUnsupportedAppVersionResourcesResponse",
+}) as any as S.Schema<ListUnsupportedAppVersionResourcesResponse>;
+export interface FailedGroupingRecommendationEntry {
+  groupingRecommendationId: string;
+  errorMessage: string;
+}
+export const FailedGroupingRecommendationEntry = S.suspend(() =>
+  S.Struct({ groupingRecommendationId: S.String, errorMessage: S.String }),
+).annotations({
+  identifier: "FailedGroupingRecommendationEntry",
+}) as any as S.Schema<FailedGroupingRecommendationEntry>;
+export type FailedGroupingRecommendationEntries =
+  FailedGroupingRecommendationEntry[];
 export const FailedGroupingRecommendationEntries = S.Array(
   FailedGroupingRecommendationEntry,
 );
-export class RejectResourceGroupingRecommendationsResponse extends S.Class<RejectResourceGroupingRecommendationsResponse>(
-  "RejectResourceGroupingRecommendationsResponse",
-)({ appArn: S.String, failedEntries: FailedGroupingRecommendationEntries }) {}
-export class ResourceIdentifier extends S.Class<ResourceIdentifier>(
-  "ResourceIdentifier",
-)({
-  logicalResourceId: S.optional(LogicalResourceId),
-  resourceType: S.optional(S.String),
-}) {}
-export class GroupingAppComponent extends S.Class<GroupingAppComponent>(
-  "GroupingAppComponent",
-)({
-  appComponentId: S.String,
-  appComponentType: S.String,
-  appComponentName: S.String,
-}) {}
-export class GroupingResource extends S.Class<GroupingResource>(
-  "GroupingResource",
-)({
-  resourceName: S.String,
-  resourceType: S.String,
-  physicalResourceId: PhysicalResourceId,
-  logicalResourceId: LogicalResourceId,
-  sourceAppComponentIds: String255List,
-}) {}
+export interface RejectResourceGroupingRecommendationsResponse {
+  appArn: string;
+  failedEntries: FailedGroupingRecommendationEntries;
+}
+export const RejectResourceGroupingRecommendationsResponse = S.suspend(() =>
+  S.Struct({
+    appArn: S.String,
+    failedEntries: FailedGroupingRecommendationEntries,
+  }),
+).annotations({
+  identifier: "RejectResourceGroupingRecommendationsResponse",
+}) as any as S.Schema<RejectResourceGroupingRecommendationsResponse>;
+export interface ResourceIdentifier {
+  logicalResourceId?: LogicalResourceId;
+  resourceType?: string;
+}
+export const ResourceIdentifier = S.suspend(() =>
+  S.Struct({
+    logicalResourceId: S.optional(LogicalResourceId),
+    resourceType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ResourceIdentifier",
+}) as any as S.Schema<ResourceIdentifier>;
+export interface GroupingAppComponent {
+  appComponentId: string;
+  appComponentType: string;
+  appComponentName: string;
+}
+export const GroupingAppComponent = S.suspend(() =>
+  S.Struct({
+    appComponentId: S.String,
+    appComponentType: S.String,
+    appComponentName: S.String,
+  }),
+).annotations({
+  identifier: "GroupingAppComponent",
+}) as any as S.Schema<GroupingAppComponent>;
+export interface GroupingResource {
+  resourceName: string;
+  resourceType: string;
+  physicalResourceId: PhysicalResourceId;
+  logicalResourceId: LogicalResourceId;
+  sourceAppComponentIds: String255List;
+}
+export const GroupingResource = S.suspend(() =>
+  S.Struct({
+    resourceName: S.String,
+    resourceType: S.String,
+    physicalResourceId: PhysicalResourceId,
+    logicalResourceId: LogicalResourceId,
+    sourceAppComponentIds: String255List,
+  }),
+).annotations({
+  identifier: "GroupingResource",
+}) as any as S.Schema<GroupingResource>;
+export type GroupingResourceList = GroupingResource[];
 export const GroupingResourceList = S.Array(GroupingResource);
-export class ResourceDrift extends S.Class<ResourceDrift>("ResourceDrift")({
-  appArn: S.optional(S.String),
-  appVersion: S.optional(S.String),
-  referenceId: S.optional(S.String),
-  resourceIdentifier: S.optional(ResourceIdentifier),
-  diffType: S.optional(S.String),
-}) {}
+export interface ResourceDrift {
+  appArn?: string;
+  appVersion?: string;
+  referenceId?: string;
+  resourceIdentifier?: ResourceIdentifier;
+  diffType?: string;
+}
+export const ResourceDrift = S.suspend(() =>
+  S.Struct({
+    appArn: S.optional(S.String),
+    appVersion: S.optional(S.String),
+    referenceId: S.optional(S.String),
+    resourceIdentifier: S.optional(ResourceIdentifier),
+    diffType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ResourceDrift",
+}) as any as S.Schema<ResourceDrift>;
+export type ResourceDriftList = ResourceDrift[];
 export const ResourceDriftList = S.Array(ResourceDrift);
-export class GroupingRecommendation extends S.Class<GroupingRecommendation>(
-  "GroupingRecommendation",
-)({
-  groupingRecommendationId: S.String,
-  groupingAppComponent: GroupingAppComponent,
-  resources: GroupingResourceList,
-  score: S.Number,
-  recommendationReasons: String255List,
-  status: S.String,
-  confidenceLevel: S.String,
-  creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  rejectionReason: S.optional(S.String),
-}) {}
+export interface GroupingRecommendation {
+  groupingRecommendationId: string;
+  groupingAppComponent: GroupingAppComponent;
+  resources: GroupingResourceList;
+  score: number;
+  recommendationReasons: String255List;
+  status: string;
+  confidenceLevel: string;
+  creationTime: Date;
+  rejectionReason?: string;
+}
+export const GroupingRecommendation = S.suspend(() =>
+  S.Struct({
+    groupingRecommendationId: S.String,
+    groupingAppComponent: GroupingAppComponent,
+    resources: GroupingResourceList,
+    score: S.Number,
+    recommendationReasons: String255List,
+    status: S.String,
+    confidenceLevel: S.String,
+    creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    rejectionReason: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GroupingRecommendation",
+}) as any as S.Schema<GroupingRecommendation>;
+export type GroupingRecommendationList = GroupingRecommendation[];
 export const GroupingRecommendationList = S.Array(GroupingRecommendation);
-export class AcceptResourceGroupingRecommendationsResponse extends S.Class<AcceptResourceGroupingRecommendationsResponse>(
-  "AcceptResourceGroupingRecommendationsResponse",
-)({ appArn: S.String, failedEntries: FailedGroupingRecommendationEntries }) {}
-export class AddDraftAppVersionResourceMappingsResponse extends S.Class<AddDraftAppVersionResourceMappingsResponse>(
-  "AddDraftAppVersionResourceMappingsResponse",
-)({
-  appArn: S.String,
-  appVersion: S.String,
-  resourceMappings: ResourceMappingList,
-}) {}
-export class CreateResiliencyPolicyResponse extends S.Class<CreateResiliencyPolicyResponse>(
-  "CreateResiliencyPolicyResponse",
-)({ policy: ResiliencyPolicy }) {}
-export class ListAppAssessmentResourceDriftsResponse extends S.Class<ListAppAssessmentResourceDriftsResponse>(
-  "ListAppAssessmentResourceDriftsResponse",
-)({ resourceDrifts: ResourceDriftList, nextToken: S.optional(S.String) }) {}
-export class ListResourceGroupingRecommendationsResponse extends S.Class<ListResourceGroupingRecommendationsResponse>(
-  "ListResourceGroupingRecommendationsResponse",
-)({
-  groupingRecommendations: GroupingRecommendationList,
-  nextToken: S.optional(S.String),
-}) {}
-export class RecommendationDisruptionCompliance extends S.Class<RecommendationDisruptionCompliance>(
-  "RecommendationDisruptionCompliance",
-)({
-  expectedComplianceStatus: S.String,
-  expectedRtoInSecs: S.optional(S.Number),
-  expectedRtoDescription: S.optional(S.String),
-  expectedRpoInSecs: S.optional(S.Number),
-  expectedRpoDescription: S.optional(S.String),
-}) {}
-export class BatchUpdateRecommendationStatusSuccessfulEntry extends S.Class<BatchUpdateRecommendationStatusSuccessfulEntry>(
-  "BatchUpdateRecommendationStatusSuccessfulEntry",
-)({
-  entryId: S.String,
-  referenceId: S.String,
-  item: S.optional(UpdateRecommendationStatusItem),
-  excluded: S.Boolean,
-  appComponentId: S.optional(S.String),
-  excludeReason: S.optional(S.String),
-}) {}
+export interface AcceptResourceGroupingRecommendationsResponse {
+  appArn: string;
+  failedEntries: FailedGroupingRecommendationEntries;
+}
+export const AcceptResourceGroupingRecommendationsResponse = S.suspend(() =>
+  S.Struct({
+    appArn: S.String,
+    failedEntries: FailedGroupingRecommendationEntries,
+  }),
+).annotations({
+  identifier: "AcceptResourceGroupingRecommendationsResponse",
+}) as any as S.Schema<AcceptResourceGroupingRecommendationsResponse>;
+export interface AddDraftAppVersionResourceMappingsResponse {
+  appArn: string;
+  appVersion: string;
+  resourceMappings: ResourceMappingList;
+}
+export const AddDraftAppVersionResourceMappingsResponse = S.suspend(() =>
+  S.Struct({
+    appArn: S.String,
+    appVersion: S.String,
+    resourceMappings: ResourceMappingList,
+  }),
+).annotations({
+  identifier: "AddDraftAppVersionResourceMappingsResponse",
+}) as any as S.Schema<AddDraftAppVersionResourceMappingsResponse>;
+export interface CreateResiliencyPolicyResponse {
+  policy: ResiliencyPolicy;
+}
+export const CreateResiliencyPolicyResponse = S.suspend(() =>
+  S.Struct({ policy: ResiliencyPolicy }),
+).annotations({
+  identifier: "CreateResiliencyPolicyResponse",
+}) as any as S.Schema<CreateResiliencyPolicyResponse>;
+export interface ListAppAssessmentResourceDriftsResponse {
+  resourceDrifts: ResourceDriftList;
+  nextToken?: string;
+}
+export const ListAppAssessmentResourceDriftsResponse = S.suspend(() =>
+  S.Struct({
+    resourceDrifts: ResourceDriftList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListAppAssessmentResourceDriftsResponse",
+}) as any as S.Schema<ListAppAssessmentResourceDriftsResponse>;
+export interface ListResourceGroupingRecommendationsResponse {
+  groupingRecommendations: GroupingRecommendationList;
+  nextToken?: string;
+}
+export const ListResourceGroupingRecommendationsResponse = S.suspend(() =>
+  S.Struct({
+    groupingRecommendations: GroupingRecommendationList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListResourceGroupingRecommendationsResponse",
+}) as any as S.Schema<ListResourceGroupingRecommendationsResponse>;
+export interface RecommendationDisruptionCompliance {
+  expectedComplianceStatus: string;
+  expectedRtoInSecs?: number;
+  expectedRtoDescription?: string;
+  expectedRpoInSecs?: number;
+  expectedRpoDescription?: string;
+}
+export const RecommendationDisruptionCompliance = S.suspend(() =>
+  S.Struct({
+    expectedComplianceStatus: S.String,
+    expectedRtoInSecs: S.optional(S.Number),
+    expectedRtoDescription: S.optional(S.String),
+    expectedRpoInSecs: S.optional(S.Number),
+    expectedRpoDescription: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RecommendationDisruptionCompliance",
+}) as any as S.Schema<RecommendationDisruptionCompliance>;
+export interface BatchUpdateRecommendationStatusSuccessfulEntry {
+  entryId: string;
+  referenceId: string;
+  item?: UpdateRecommendationStatusItem;
+  excluded: boolean;
+  appComponentId?: string;
+  excludeReason?: string;
+}
+export const BatchUpdateRecommendationStatusSuccessfulEntry = S.suspend(() =>
+  S.Struct({
+    entryId: S.String,
+    referenceId: S.String,
+    item: S.optional(UpdateRecommendationStatusItem),
+    excluded: S.Boolean,
+    appComponentId: S.optional(S.String),
+    excludeReason: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "BatchUpdateRecommendationStatusSuccessfulEntry",
+}) as any as S.Schema<BatchUpdateRecommendationStatusSuccessfulEntry>;
+export type BatchUpdateRecommendationStatusSuccessfulEntries =
+  BatchUpdateRecommendationStatusSuccessfulEntry[];
 export const BatchUpdateRecommendationStatusSuccessfulEntries = S.Array(
   BatchUpdateRecommendationStatusSuccessfulEntry,
 );
-export class BatchUpdateRecommendationStatusFailedEntry extends S.Class<BatchUpdateRecommendationStatusFailedEntry>(
-  "BatchUpdateRecommendationStatusFailedEntry",
-)({ entryId: S.String, errorMessage: S.String }) {}
+export interface BatchUpdateRecommendationStatusFailedEntry {
+  entryId: string;
+  errorMessage: string;
+}
+export const BatchUpdateRecommendationStatusFailedEntry = S.suspend(() =>
+  S.Struct({ entryId: S.String, errorMessage: S.String }),
+).annotations({
+  identifier: "BatchUpdateRecommendationStatusFailedEntry",
+}) as any as S.Schema<BatchUpdateRecommendationStatusFailedEntry>;
+export type BatchUpdateRecommendationStatusFailedEntries =
+  BatchUpdateRecommendationStatusFailedEntry[];
 export const BatchUpdateRecommendationStatusFailedEntries = S.Array(
   BatchUpdateRecommendationStatusFailedEntry,
 );
-export class AlarmRecommendation extends S.Class<AlarmRecommendation>(
-  "AlarmRecommendation",
-)({
-  recommendationId: S.String,
-  referenceId: S.String,
-  name: S.String,
-  description: S.optional(S.String),
-  type: S.String,
-  appComponentName: S.optional(S.String),
-  items: S.optional(RecommendationItemList),
-  prerequisite: S.optional(S.String),
-  appComponentNames: S.optional(AppComponentNameList),
-  recommendationStatus: S.optional(S.String),
-}) {}
+export interface AlarmRecommendation {
+  recommendationId: string;
+  referenceId: string;
+  name: string;
+  description?: string;
+  type: string;
+  appComponentName?: string;
+  items?: RecommendationItemList;
+  prerequisite?: string;
+  appComponentNames?: AppComponentNameList;
+  recommendationStatus?: string;
+}
+export const AlarmRecommendation = S.suspend(() =>
+  S.Struct({
+    recommendationId: S.String,
+    referenceId: S.String,
+    name: S.String,
+    description: S.optional(S.String),
+    type: S.String,
+    appComponentName: S.optional(S.String),
+    items: S.optional(RecommendationItemList),
+    prerequisite: S.optional(S.String),
+    appComponentNames: S.optional(AppComponentNameList),
+    recommendationStatus: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AlarmRecommendation",
+}) as any as S.Schema<AlarmRecommendation>;
+export type AlarmRecommendationList = AlarmRecommendation[];
 export const AlarmRecommendationList = S.Array(AlarmRecommendation);
+export type RecommendationCompliance = {
+  [key: string]: RecommendationDisruptionCompliance;
+};
 export const RecommendationCompliance = S.Record({
   key: S.String,
   value: RecommendationDisruptionCompliance,
 });
-export class BatchUpdateRecommendationStatusResponse extends S.Class<BatchUpdateRecommendationStatusResponse>(
-  "BatchUpdateRecommendationStatusResponse",
-)({
-  appArn: S.String,
-  successfulEntries: BatchUpdateRecommendationStatusSuccessfulEntries,
-  failedEntries: BatchUpdateRecommendationStatusFailedEntries,
-}) {}
-export class ListAlarmRecommendationsResponse extends S.Class<ListAlarmRecommendationsResponse>(
-  "ListAlarmRecommendationsResponse",
-)({
-  alarmRecommendations: AlarmRecommendationList,
-  nextToken: S.optional(S.String),
-}) {}
-export class ConfigRecommendation extends S.Class<ConfigRecommendation>(
-  "ConfigRecommendation",
-)({
-  cost: S.optional(Cost),
-  appComponentName: S.optional(S.String),
-  compliance: S.optional(AssessmentCompliance),
-  recommendationCompliance: S.optional(RecommendationCompliance),
-  optimizationType: S.String,
-  name: S.String,
-  description: S.optional(S.String),
-  suggestedChanges: S.optional(SuggestedChangesList),
-  haArchitecture: S.optional(S.String),
-  referenceId: S.String,
-}) {}
+export interface BatchUpdateRecommendationStatusResponse {
+  appArn: string;
+  successfulEntries: BatchUpdateRecommendationStatusSuccessfulEntries;
+  failedEntries: BatchUpdateRecommendationStatusFailedEntries;
+}
+export const BatchUpdateRecommendationStatusResponse = S.suspend(() =>
+  S.Struct({
+    appArn: S.String,
+    successfulEntries: BatchUpdateRecommendationStatusSuccessfulEntries,
+    failedEntries: BatchUpdateRecommendationStatusFailedEntries,
+  }),
+).annotations({
+  identifier: "BatchUpdateRecommendationStatusResponse",
+}) as any as S.Schema<BatchUpdateRecommendationStatusResponse>;
+export interface ListAlarmRecommendationsResponse {
+  alarmRecommendations: AlarmRecommendationList;
+  nextToken?: string;
+}
+export const ListAlarmRecommendationsResponse = S.suspend(() =>
+  S.Struct({
+    alarmRecommendations: AlarmRecommendationList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListAlarmRecommendationsResponse",
+}) as any as S.Schema<ListAlarmRecommendationsResponse>;
+export interface ConfigRecommendation {
+  cost?: Cost;
+  appComponentName?: string;
+  compliance?: AssessmentCompliance;
+  recommendationCompliance?: RecommendationCompliance;
+  optimizationType: string;
+  name: string;
+  description?: string;
+  suggestedChanges?: SuggestedChangesList;
+  haArchitecture?: string;
+  referenceId: string;
+}
+export const ConfigRecommendation = S.suspend(() =>
+  S.Struct({
+    cost: S.optional(Cost),
+    appComponentName: S.optional(S.String),
+    compliance: S.optional(AssessmentCompliance),
+    recommendationCompliance: S.optional(RecommendationCompliance),
+    optimizationType: S.String,
+    name: S.String,
+    description: S.optional(S.String),
+    suggestedChanges: S.optional(SuggestedChangesList),
+    haArchitecture: S.optional(S.String),
+    referenceId: S.String,
+  }),
+).annotations({
+  identifier: "ConfigRecommendation",
+}) as any as S.Schema<ConfigRecommendation>;
+export type ConfigRecommendationList = ConfigRecommendation[];
 export const ConfigRecommendationList = S.Array(ConfigRecommendation);
-export class ComponentRecommendation extends S.Class<ComponentRecommendation>(
-  "ComponentRecommendation",
-)({
-  appComponentName: S.String,
-  recommendationStatus: S.String,
-  configRecommendations: ConfigRecommendationList,
-}) {}
+export interface ComponentRecommendation {
+  appComponentName: string;
+  recommendationStatus: string;
+  configRecommendations: ConfigRecommendationList;
+}
+export const ComponentRecommendation = S.suspend(() =>
+  S.Struct({
+    appComponentName: S.String,
+    recommendationStatus: S.String,
+    configRecommendations: ConfigRecommendationList,
+  }),
+).annotations({
+  identifier: "ComponentRecommendation",
+}) as any as S.Schema<ComponentRecommendation>;
+export type ComponentRecommendationList = ComponentRecommendation[];
 export const ComponentRecommendationList = S.Array(ComponentRecommendation);
-export class DescribeAppAssessmentResponse extends S.Class<DescribeAppAssessmentResponse>(
-  "DescribeAppAssessmentResponse",
-)({ assessment: AppAssessment }) {}
-export class ListAppComponentRecommendationsResponse extends S.Class<ListAppComponentRecommendationsResponse>(
-  "ListAppComponentRecommendationsResponse",
-)({
-  componentRecommendations: ComponentRecommendationList,
-  nextToken: S.optional(S.String),
-}) {}
+export interface DescribeAppAssessmentResponse {
+  assessment: AppAssessment;
+}
+export const DescribeAppAssessmentResponse = S.suspend(() =>
+  S.Struct({ assessment: AppAssessment }),
+).annotations({
+  identifier: "DescribeAppAssessmentResponse",
+}) as any as S.Schema<DescribeAppAssessmentResponse>;
+export interface ListAppComponentRecommendationsResponse {
+  componentRecommendations: ComponentRecommendationList;
+  nextToken?: string;
+}
+export const ListAppComponentRecommendationsResponse = S.suspend(() =>
+  S.Struct({
+    componentRecommendations: ComponentRecommendationList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListAppComponentRecommendationsResponse",
+}) as any as S.Schema<ListAppComponentRecommendationsResponse>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

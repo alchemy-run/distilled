@@ -242,248 +242,350 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type FindingIdList = string[];
 export const FindingIdList = S.Array(S.String);
+export type EngagementSet = string[];
 export const EngagementSet = S.Array(S.String);
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class BatchGetIncidentFindingsInput extends S.Class<BatchGetIncidentFindingsInput>(
-  "BatchGetIncidentFindingsInput",
-)(
-  { incidentRecordArn: S.String, findingIds: FindingIdList },
-  T.all(
-    T.Http({ method: "POST", uri: "/batchGetIncidentFindings" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface BatchGetIncidentFindingsInput {
+  incidentRecordArn: string;
+  findingIds: FindingIdList;
+}
+export const BatchGetIncidentFindingsInput = S.suspend(() =>
+  S.Struct({ incidentRecordArn: S.String, findingIds: FindingIdList }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/batchGetIncidentFindings" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteIncidentRecordInput extends S.Class<DeleteIncidentRecordInput>(
-  "DeleteIncidentRecordInput",
-)(
-  { arn: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/deleteIncidentRecord" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "BatchGetIncidentFindingsInput",
+}) as any as S.Schema<BatchGetIncidentFindingsInput>;
+export interface DeleteIncidentRecordInput {
+  arn: string;
+}
+export const DeleteIncidentRecordInput = S.suspend(() =>
+  S.Struct({ arn: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/deleteIncidentRecord" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteIncidentRecordOutput extends S.Class<DeleteIncidentRecordOutput>(
-  "DeleteIncidentRecordOutput",
-)({}) {}
-export class DeleteReplicationSetInput extends S.Class<DeleteReplicationSetInput>(
-  "DeleteReplicationSetInput",
-)(
-  { arn: S.String.pipe(T.HttpQuery("arn")) },
-  T.all(
-    T.Http({ method: "POST", uri: "/deleteReplicationSet" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteIncidentRecordInput",
+}) as any as S.Schema<DeleteIncidentRecordInput>;
+export interface DeleteIncidentRecordOutput {}
+export const DeleteIncidentRecordOutput = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteIncidentRecordOutput",
+}) as any as S.Schema<DeleteIncidentRecordOutput>;
+export interface DeleteReplicationSetInput {
+  arn: string;
+}
+export const DeleteReplicationSetInput = S.suspend(() =>
+  S.Struct({ arn: S.String.pipe(T.HttpQuery("arn")) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/deleteReplicationSet" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteReplicationSetOutput extends S.Class<DeleteReplicationSetOutput>(
-  "DeleteReplicationSetOutput",
-)({}) {}
-export class DeleteResourcePolicyInput extends S.Class<DeleteResourcePolicyInput>(
-  "DeleteResourcePolicyInput",
-)(
-  { resourceArn: S.String, policyId: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/deleteResourcePolicy" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteReplicationSetInput",
+}) as any as S.Schema<DeleteReplicationSetInput>;
+export interface DeleteReplicationSetOutput {}
+export const DeleteReplicationSetOutput = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteReplicationSetOutput",
+}) as any as S.Schema<DeleteReplicationSetOutput>;
+export interface DeleteResourcePolicyInput {
+  resourceArn: string;
+  policyId: string;
+}
+export const DeleteResourcePolicyInput = S.suspend(() =>
+  S.Struct({ resourceArn: S.String, policyId: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/deleteResourcePolicy" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteResourcePolicyOutput extends S.Class<DeleteResourcePolicyOutput>(
-  "DeleteResourcePolicyOutput",
-)({}) {}
-export class DeleteResponsePlanInput extends S.Class<DeleteResponsePlanInput>(
-  "DeleteResponsePlanInput",
-)(
-  { arn: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/deleteResponsePlan" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteResourcePolicyInput",
+}) as any as S.Schema<DeleteResourcePolicyInput>;
+export interface DeleteResourcePolicyOutput {}
+export const DeleteResourcePolicyOutput = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteResourcePolicyOutput",
+}) as any as S.Schema<DeleteResourcePolicyOutput>;
+export interface DeleteResponsePlanInput {
+  arn: string;
+}
+export const DeleteResponsePlanInput = S.suspend(() =>
+  S.Struct({ arn: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/deleteResponsePlan" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteResponsePlanOutput extends S.Class<DeleteResponsePlanOutput>(
-  "DeleteResponsePlanOutput",
-)({}) {}
-export class DeleteTimelineEventInput extends S.Class<DeleteTimelineEventInput>(
-  "DeleteTimelineEventInput",
-)(
-  { incidentRecordArn: S.String, eventId: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/deleteTimelineEvent" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteResponsePlanInput",
+}) as any as S.Schema<DeleteResponsePlanInput>;
+export interface DeleteResponsePlanOutput {}
+export const DeleteResponsePlanOutput = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteResponsePlanOutput",
+}) as any as S.Schema<DeleteResponsePlanOutput>;
+export interface DeleteTimelineEventInput {
+  incidentRecordArn: string;
+  eventId: string;
+}
+export const DeleteTimelineEventInput = S.suspend(() =>
+  S.Struct({ incidentRecordArn: S.String, eventId: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/deleteTimelineEvent" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteTimelineEventOutput extends S.Class<DeleteTimelineEventOutput>(
-  "DeleteTimelineEventOutput",
-)({}) {}
-export class GetIncidentRecordInput extends S.Class<GetIncidentRecordInput>(
-  "GetIncidentRecordInput",
-)(
-  { arn: S.String.pipe(T.HttpQuery("arn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/getIncidentRecord" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteTimelineEventInput",
+}) as any as S.Schema<DeleteTimelineEventInput>;
+export interface DeleteTimelineEventOutput {}
+export const DeleteTimelineEventOutput = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteTimelineEventOutput",
+}) as any as S.Schema<DeleteTimelineEventOutput>;
+export interface GetIncidentRecordInput {
+  arn: string;
+}
+export const GetIncidentRecordInput = S.suspend(() =>
+  S.Struct({ arn: S.String.pipe(T.HttpQuery("arn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/getIncidentRecord" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetReplicationSetInput extends S.Class<GetReplicationSetInput>(
-  "GetReplicationSetInput",
-)(
-  { arn: S.String.pipe(T.HttpQuery("arn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/getReplicationSet" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetIncidentRecordInput",
+}) as any as S.Schema<GetIncidentRecordInput>;
+export interface GetReplicationSetInput {
+  arn: string;
+}
+export const GetReplicationSetInput = S.suspend(() =>
+  S.Struct({ arn: S.String.pipe(T.HttpQuery("arn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/getReplicationSet" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetResourcePoliciesInput extends S.Class<GetResourcePoliciesInput>(
-  "GetResourcePoliciesInput",
-)(
-  {
+).annotations({
+  identifier: "GetReplicationSetInput",
+}) as any as S.Schema<GetReplicationSetInput>;
+export interface GetResourcePoliciesInput {
+  resourceArn: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const GetResourcePoliciesInput = S.suspend(() =>
+  S.Struct({
     resourceArn: S.String.pipe(T.HttpQuery("resourceArn")),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/getResourcePolicies" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/getResourcePolicies" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetResponsePlanInput extends S.Class<GetResponsePlanInput>(
-  "GetResponsePlanInput",
-)(
-  { arn: S.String.pipe(T.HttpQuery("arn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/getResponsePlan" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetResourcePoliciesInput",
+}) as any as S.Schema<GetResourcePoliciesInput>;
+export interface GetResponsePlanInput {
+  arn: string;
+}
+export const GetResponsePlanInput = S.suspend(() =>
+  S.Struct({ arn: S.String.pipe(T.HttpQuery("arn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/getResponsePlan" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetTimelineEventInput extends S.Class<GetTimelineEventInput>(
-  "GetTimelineEventInput",
-)(
-  {
+).annotations({
+  identifier: "GetResponsePlanInput",
+}) as any as S.Schema<GetResponsePlanInput>;
+export interface GetTimelineEventInput {
+  incidentRecordArn: string;
+  eventId: string;
+}
+export const GetTimelineEventInput = S.suspend(() =>
+  S.Struct({
     incidentRecordArn: S.String.pipe(T.HttpQuery("incidentRecordArn")),
     eventId: S.String.pipe(T.HttpQuery("eventId")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/getTimelineEvent" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/getTimelineEvent" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListIncidentFindingsInput extends S.Class<ListIncidentFindingsInput>(
-  "ListIncidentFindingsInput",
-)(
-  {
+).annotations({
+  identifier: "GetTimelineEventInput",
+}) as any as S.Schema<GetTimelineEventInput>;
+export interface ListIncidentFindingsInput {
+  incidentRecordArn: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListIncidentFindingsInput = S.suspend(() =>
+  S.Struct({
     incidentRecordArn: S.String,
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/listIncidentFindings" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/listIncidentFindings" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListRelatedItemsInput extends S.Class<ListRelatedItemsInput>(
-  "ListRelatedItemsInput",
-)(
-  {
+).annotations({
+  identifier: "ListIncidentFindingsInput",
+}) as any as S.Schema<ListIncidentFindingsInput>;
+export interface ListRelatedItemsInput {
+  incidentRecordArn: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListRelatedItemsInput = S.suspend(() =>
+  S.Struct({
     incidentRecordArn: S.String,
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/listRelatedItems" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/listRelatedItems" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListReplicationSetsInput extends S.Class<ListReplicationSetsInput>(
-  "ListReplicationSetsInput",
-)(
-  { maxResults: S.optional(S.Number), nextToken: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/listReplicationSets" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListRelatedItemsInput",
+}) as any as S.Schema<ListRelatedItemsInput>;
+export interface ListReplicationSetsInput {
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListReplicationSetsInput = S.suspend(() =>
+  S.Struct({
+    maxResults: S.optional(S.Number),
+    nextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/listReplicationSets" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListResponsePlansInput extends S.Class<ListResponsePlansInput>(
-  "ListResponsePlansInput",
-)(
-  { maxResults: S.optional(S.Number), nextToken: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/listResponsePlans" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListReplicationSetsInput",
+}) as any as S.Schema<ListReplicationSetsInput>;
+export interface ListResponsePlansInput {
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListResponsePlansInput = S.suspend(() =>
+  S.Struct({
+    maxResults: S.optional(S.Number),
+    nextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/listResponsePlans" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListResponsePlansInput",
+}) as any as S.Schema<ListResponsePlansInput>;
+export interface ListTagsForResourceRequest {
+  resourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export type StringList = string[];
 export const StringList = S.Array(S.String);
+export type IntegerList = number[];
 export const IntegerList = S.Array(S.Number);
 export const AttributeValueList = S.Union(
   S.Struct({ stringValues: StringList }),
@@ -494,109 +596,160 @@ export const Condition = S.Union(
   S.Struct({ after: S.Date.pipe(T.TimestampFormat("epoch-seconds")) }),
   S.Struct({ equals: AttributeValueList }),
 );
-export class Filter extends S.Class<Filter>("Filter")({
-  key: S.String,
-  condition: Condition,
-}) {}
+export interface Filter {
+  key: string;
+  condition: (typeof Condition)["Type"];
+}
+export const Filter = S.suspend(() =>
+  S.Struct({ key: S.String, condition: Condition }),
+).annotations({ identifier: "Filter" }) as any as S.Schema<Filter>;
+export type FilterList = Filter[];
 export const FilterList = S.Array(Filter);
-export class ListTimelineEventsInput extends S.Class<ListTimelineEventsInput>(
-  "ListTimelineEventsInput",
-)(
-  {
+export interface ListTimelineEventsInput {
+  incidentRecordArn: string;
+  filters?: FilterList;
+  sortBy?: string;
+  sortOrder?: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListTimelineEventsInput = S.suspend(() =>
+  S.Struct({
     incidentRecordArn: S.String,
     filters: S.optional(FilterList),
     sortBy: S.optional(S.String),
     sortOrder: S.optional(S.String),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/listTimelineEvents" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/listTimelineEvents" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutResourcePolicyInput extends S.Class<PutResourcePolicyInput>(
-  "PutResourcePolicyInput",
-)(
-  { resourceArn: S.String, policy: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/putResourcePolicy" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListTimelineEventsInput",
+}) as any as S.Schema<ListTimelineEventsInput>;
+export interface PutResourcePolicyInput {
+  resourceArn: string;
+  policy: string;
+}
+export const PutResourcePolicyInput = S.suspend(() =>
+  S.Struct({ resourceArn: S.String, policy: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/putResourcePolicy" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "PutResourcePolicyInput",
+}) as any as S.Schema<PutResourcePolicyInput>;
+export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap },
-  T.all(
-    T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface TagResourceRequest {
+  resourceArn: string;
+  tags: TagMap;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+    tags: TagMap,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UntagResourceRequest {
+  resourceArn: string;
+  tagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
-export class UpdateDeletionProtectionInput extends S.Class<UpdateDeletionProtectionInput>(
-  "UpdateDeletionProtectionInput",
-)(
-  {
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface UpdateDeletionProtectionInput {
+  arn: string;
+  deletionProtected: boolean;
+  clientToken?: string;
+}
+export const UpdateDeletionProtectionInput = S.suspend(() =>
+  S.Struct({
     arn: S.String,
     deletionProtected: S.Boolean,
     clientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/updateDeletionProtection" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/updateDeletionProtection" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateDeletionProtectionOutput extends S.Class<UpdateDeletionProtectionOutput>(
-  "UpdateDeletionProtectionOutput",
-)({}) {}
+).annotations({
+  identifier: "UpdateDeletionProtectionInput",
+}) as any as S.Schema<UpdateDeletionProtectionInput>;
+export interface UpdateDeletionProtectionOutput {}
+export const UpdateDeletionProtectionOutput = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateDeletionProtectionOutput",
+}) as any as S.Schema<UpdateDeletionProtectionOutput>;
 export const EventReference = S.Union(
   S.Struct({ resource: S.String }),
   S.Struct({ relatedItemId: S.String }),
 );
+export type EventReferenceList = (typeof EventReference)["Type"][];
 export const EventReferenceList = S.Array(EventReference);
-export class UpdateTimelineEventInput extends S.Class<UpdateTimelineEventInput>(
-  "UpdateTimelineEventInput",
-)(
-  {
+export interface UpdateTimelineEventInput {
+  clientToken?: string;
+  incidentRecordArn: string;
+  eventId: string;
+  eventTime?: Date;
+  eventType?: string;
+  eventData?: string;
+  eventReferences?: EventReferenceList;
+}
+export const UpdateTimelineEventInput = S.suspend(() =>
+  S.Struct({
     clientToken: S.optional(S.String),
     incidentRecordArn: S.String,
     eventId: S.String,
@@ -604,96 +757,157 @@ export class UpdateTimelineEventInput extends S.Class<UpdateTimelineEventInput>(
     eventType: S.optional(S.String),
     eventData: S.optional(S.String),
     eventReferences: S.optional(EventReferenceList),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/updateTimelineEvent" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/updateTimelineEvent" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateTimelineEventOutput extends S.Class<UpdateTimelineEventOutput>(
-  "UpdateTimelineEventOutput",
-)({}) {}
-export class EmptyChatChannel extends S.Class<EmptyChatChannel>(
-  "EmptyChatChannel",
-)({}) {}
+).annotations({
+  identifier: "UpdateTimelineEventInput",
+}) as any as S.Schema<UpdateTimelineEventInput>;
+export interface UpdateTimelineEventOutput {}
+export const UpdateTimelineEventOutput = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateTimelineEventOutput",
+}) as any as S.Schema<UpdateTimelineEventOutput>;
+export interface EmptyChatChannel {}
+export const EmptyChatChannel = S.suspend(() => S.Struct({})).annotations({
+  identifier: "EmptyChatChannel",
+}) as any as S.Schema<EmptyChatChannel>;
+export type ChatbotSnsConfigurationSet = string[];
 export const ChatbotSnsConfigurationSet = S.Array(S.String);
 export const NotificationTargetItem = S.Union(
   S.Struct({ snsTopicArn: S.String }),
 );
+export type NotificationTargetSet = (typeof NotificationTargetItem)["Type"][];
 export const NotificationTargetSet = S.Array(NotificationTargetItem);
-export class IncidentTemplate extends S.Class<IncidentTemplate>(
-  "IncidentTemplate",
-)({
-  title: S.String,
-  impact: S.Number,
-  summary: S.optional(S.String),
-  dedupeString: S.optional(S.String),
-  notificationTargets: S.optional(NotificationTargetSet),
-  incidentTags: S.optional(TagMap),
-}) {}
+export interface IncidentTemplate {
+  title: string;
+  impact: number;
+  summary?: string;
+  dedupeString?: string;
+  notificationTargets?: NotificationTargetSet;
+  incidentTags?: TagMap;
+}
+export const IncidentTemplate = S.suspend(() =>
+  S.Struct({
+    title: S.String,
+    impact: S.Number,
+    summary: S.optional(S.String),
+    dedupeString: S.optional(S.String),
+    notificationTargets: S.optional(NotificationTargetSet),
+    incidentTags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "IncidentTemplate",
+}) as any as S.Schema<IncidentTemplate>;
 export const ChatChannel = S.Union(
   S.Struct({ empty: EmptyChatChannel }),
   S.Struct({ chatbotSns: ChatbotSnsConfigurationSet }),
 );
+export type ReplicationSetArnList = string[];
 export const ReplicationSetArnList = S.Array(S.String);
-export class TriggerDetails extends S.Class<TriggerDetails>("TriggerDetails")({
-  source: S.String,
-  triggerArn: S.optional(S.String),
-  timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  rawData: S.optional(S.String),
-}) {}
-export class PagerDutyIncidentDetail extends S.Class<PagerDutyIncidentDetail>(
-  "PagerDutyIncidentDetail",
-)({
-  id: S.String,
-  autoResolve: S.optional(S.Boolean),
-  secretId: S.optional(S.String),
-}) {}
+export interface TriggerDetails {
+  source: string;
+  triggerArn?: string;
+  timestamp: Date;
+  rawData?: string;
+}
+export const TriggerDetails = S.suspend(() =>
+  S.Struct({
+    source: S.String,
+    triggerArn: S.optional(S.String),
+    timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    rawData: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "TriggerDetails",
+}) as any as S.Schema<TriggerDetails>;
+export interface PagerDutyIncidentDetail {
+  id: string;
+  autoResolve?: boolean;
+  secretId?: string;
+}
+export const PagerDutyIncidentDetail = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    autoResolve: S.optional(S.Boolean),
+    secretId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "PagerDutyIncidentDetail",
+}) as any as S.Schema<PagerDutyIncidentDetail>;
 export const ItemValue = S.Union(
   S.Struct({ arn: S.String }),
   S.Struct({ url: S.String }),
   S.Struct({ metricDefinition: S.String }),
   S.Struct({ pagerDutyIncidentDetail: PagerDutyIncidentDetail }),
 );
-export class ItemIdentifier extends S.Class<ItemIdentifier>("ItemIdentifier")({
-  value: ItemValue,
-  type: S.String,
-}) {}
-export class RelatedItem extends S.Class<RelatedItem>("RelatedItem")({
-  identifier: ItemIdentifier,
-  title: S.optional(S.String),
-  generatedId: S.optional(S.String),
-}) {}
+export interface ItemIdentifier {
+  value: (typeof ItemValue)["Type"];
+  type: string;
+}
+export const ItemIdentifier = S.suspend(() =>
+  S.Struct({ value: ItemValue, type: S.String }),
+).annotations({
+  identifier: "ItemIdentifier",
+}) as any as S.Schema<ItemIdentifier>;
+export interface RelatedItem {
+  identifier: ItemIdentifier;
+  title?: string;
+  generatedId?: string;
+}
+export const RelatedItem = S.suspend(() =>
+  S.Struct({
+    identifier: ItemIdentifier,
+    title: S.optional(S.String),
+    generatedId: S.optional(S.String),
+  }),
+).annotations({ identifier: "RelatedItem" }) as any as S.Schema<RelatedItem>;
 export const RelatedItemsUpdate = S.Union(
   S.Struct({ itemToAdd: RelatedItem }),
   S.Struct({ itemToRemove: ItemIdentifier }),
 );
+export type TagMapUpdate = { [key: string]: string };
 export const TagMapUpdate = S.Record({ key: S.String, value: S.String });
-export class CreateTimelineEventInput extends S.Class<CreateTimelineEventInput>(
-  "CreateTimelineEventInput",
-)(
-  {
+export interface CreateTimelineEventInput {
+  clientToken?: string;
+  incidentRecordArn: string;
+  eventTime: Date;
+  eventType: string;
+  eventData: string;
+  eventReferences?: EventReferenceList;
+}
+export const CreateTimelineEventInput = S.suspend(() =>
+  S.Struct({
     clientToken: S.optional(S.String),
     incidentRecordArn: S.String,
     eventTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     eventType: S.String,
     eventData: S.String,
     eventReferences: S.optional(EventReferenceList),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/createTimelineEvent" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/createTimelineEvent" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "CreateTimelineEventInput",
+}) as any as S.Schema<CreateTimelineEventInput>;
+export type SsmParameterValues = string[];
 export const SsmParameterValues = S.Array(S.String);
+export type SsmParameters = { [key: string]: SsmParameterValues };
 export const SsmParameters = S.Record({
   key: S.String,
   value: SsmParameterValues,
@@ -701,66 +915,138 @@ export const SsmParameters = S.Record({
 export const DynamicSsmParameterValue = S.Union(
   S.Struct({ variable: S.String }),
 );
+export type DynamicSsmParameters = {
+  [key: string]: (typeof DynamicSsmParameterValue)["Type"];
+};
 export const DynamicSsmParameters = S.Record({
   key: S.String,
   value: DynamicSsmParameterValue,
 });
-export class SsmAutomation extends S.Class<SsmAutomation>("SsmAutomation")({
-  roleArn: S.String,
-  documentName: S.String,
-  documentVersion: S.optional(S.String),
-  targetAccount: S.optional(S.String),
-  parameters: S.optional(SsmParameters),
-  dynamicParameters: S.optional(DynamicSsmParameters),
-}) {}
+export interface SsmAutomation {
+  roleArn: string;
+  documentName: string;
+  documentVersion?: string;
+  targetAccount?: string;
+  parameters?: SsmParameters;
+  dynamicParameters?: DynamicSsmParameters;
+}
+export const SsmAutomation = S.suspend(() =>
+  S.Struct({
+    roleArn: S.String,
+    documentName: S.String,
+    documentVersion: S.optional(S.String),
+    targetAccount: S.optional(S.String),
+    parameters: S.optional(SsmParameters),
+    dynamicParameters: S.optional(DynamicSsmParameters),
+  }),
+).annotations({
+  identifier: "SsmAutomation",
+}) as any as S.Schema<SsmAutomation>;
 export const Action = S.Union(S.Struct({ ssmAutomation: SsmAutomation }));
+export type ActionsList = (typeof Action)["Type"][];
 export const ActionsList = S.Array(Action);
-export class PagerDutyIncidentConfiguration extends S.Class<PagerDutyIncidentConfiguration>(
-  "PagerDutyIncidentConfiguration",
-)({ serviceId: S.String }) {}
-export class PagerDutyConfiguration extends S.Class<PagerDutyConfiguration>(
-  "PagerDutyConfiguration",
-)({
-  name: S.String,
-  secretId: S.String,
-  pagerDutyIncidentConfiguration: PagerDutyIncidentConfiguration,
-}) {}
+export interface PagerDutyIncidentConfiguration {
+  serviceId: string;
+}
+export const PagerDutyIncidentConfiguration = S.suspend(() =>
+  S.Struct({ serviceId: S.String }),
+).annotations({
+  identifier: "PagerDutyIncidentConfiguration",
+}) as any as S.Schema<PagerDutyIncidentConfiguration>;
+export interface PagerDutyConfiguration {
+  name: string;
+  secretId: string;
+  pagerDutyIncidentConfiguration: PagerDutyIncidentConfiguration;
+}
+export const PagerDutyConfiguration = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    secretId: S.String,
+    pagerDutyIncidentConfiguration: PagerDutyIncidentConfiguration,
+  }),
+).annotations({
+  identifier: "PagerDutyConfiguration",
+}) as any as S.Schema<PagerDutyConfiguration>;
 export const Integration = S.Union(
   S.Struct({ pagerDutyConfiguration: PagerDutyConfiguration }),
 );
+export type Integrations = (typeof Integration)["Type"][];
 export const Integrations = S.Array(Integration);
-export class GetResponsePlanOutput extends S.Class<GetResponsePlanOutput>(
-  "GetResponsePlanOutput",
-)({
-  arn: S.String,
-  name: S.String,
-  displayName: S.optional(S.String),
-  incidentTemplate: IncidentTemplate,
-  chatChannel: S.optional(ChatChannel),
-  engagements: S.optional(EngagementSet),
-  actions: S.optional(ActionsList),
-  integrations: S.optional(Integrations),
-}) {}
+export interface GetResponsePlanOutput {
+  arn: string;
+  name: string;
+  displayName?: string;
+  incidentTemplate: IncidentTemplate;
+  chatChannel?: (typeof ChatChannel)["Type"];
+  engagements?: EngagementSet;
+  actions?: ActionsList;
+  integrations?: Integrations;
+}
+export const GetResponsePlanOutput = S.suspend(() =>
+  S.Struct({
+    arn: S.String,
+    name: S.String,
+    displayName: S.optional(S.String),
+    incidentTemplate: IncidentTemplate,
+    chatChannel: S.optional(ChatChannel),
+    engagements: S.optional(EngagementSet),
+    actions: S.optional(ActionsList),
+    integrations: S.optional(Integrations),
+  }),
+).annotations({
+  identifier: "GetResponsePlanOutput",
+}) as any as S.Schema<GetResponsePlanOutput>;
+export type RelatedItemList = RelatedItem[];
 export const RelatedItemList = S.Array(RelatedItem);
-export class ListRelatedItemsOutput extends S.Class<ListRelatedItemsOutput>(
-  "ListRelatedItemsOutput",
-)({ relatedItems: RelatedItemList, nextToken: S.optional(S.String) }) {}
-export class ListReplicationSetsOutput extends S.Class<ListReplicationSetsOutput>(
-  "ListReplicationSetsOutput",
-)({
-  replicationSetArns: ReplicationSetArnList,
-  nextToken: S.optional(S.String),
-}) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ tags: TagMap }) {}
-export class PutResourcePolicyOutput extends S.Class<PutResourcePolicyOutput>(
-  "PutResourcePolicyOutput",
-)({ policyId: S.String }) {}
-export class UpdateIncidentRecordInput extends S.Class<UpdateIncidentRecordInput>(
-  "UpdateIncidentRecordInput",
-)(
-  {
+export interface ListRelatedItemsOutput {
+  relatedItems: RelatedItemList;
+  nextToken?: string;
+}
+export const ListRelatedItemsOutput = S.suspend(() =>
+  S.Struct({ relatedItems: RelatedItemList, nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListRelatedItemsOutput",
+}) as any as S.Schema<ListRelatedItemsOutput>;
+export interface ListReplicationSetsOutput {
+  replicationSetArns: ReplicationSetArnList;
+  nextToken?: string;
+}
+export const ListReplicationSetsOutput = S.suspend(() =>
+  S.Struct({
+    replicationSetArns: ReplicationSetArnList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListReplicationSetsOutput",
+}) as any as S.Schema<ListReplicationSetsOutput>;
+export interface ListTagsForResourceResponse {
+  tags: TagMap;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ tags: TagMap }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface PutResourcePolicyOutput {
+  policyId: string;
+}
+export const PutResourcePolicyOutput = S.suspend(() =>
+  S.Struct({ policyId: S.String }),
+).annotations({
+  identifier: "PutResourcePolicyOutput",
+}) as any as S.Schema<PutResourcePolicyOutput>;
+export interface UpdateIncidentRecordInput {
+  clientToken?: string;
+  arn: string;
+  title?: string;
+  summary?: string;
+  impact?: number;
+  status?: string;
+  chatChannel?: (typeof ChatChannel)["Type"];
+  notificationTargets?: NotificationTargetSet;
+}
+export const UpdateIncidentRecordInput = S.suspend(() =>
+  S.Struct({
     clientToken: S.optional(S.String),
     arn: S.String,
     title: S.optional(S.String),
@@ -769,43 +1055,71 @@ export class UpdateIncidentRecordInput extends S.Class<UpdateIncidentRecordInput
     status: S.optional(S.String),
     chatChannel: S.optional(ChatChannel),
     notificationTargets: S.optional(NotificationTargetSet),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/updateIncidentRecord" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/updateIncidentRecord" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateIncidentRecordOutput extends S.Class<UpdateIncidentRecordOutput>(
-  "UpdateIncidentRecordOutput",
-)({}) {}
-export class UpdateRelatedItemsInput extends S.Class<UpdateRelatedItemsInput>(
-  "UpdateRelatedItemsInput",
-)(
-  {
+).annotations({
+  identifier: "UpdateIncidentRecordInput",
+}) as any as S.Schema<UpdateIncidentRecordInput>;
+export interface UpdateIncidentRecordOutput {}
+export const UpdateIncidentRecordOutput = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateIncidentRecordOutput",
+}) as any as S.Schema<UpdateIncidentRecordOutput>;
+export interface UpdateRelatedItemsInput {
+  clientToken?: string;
+  incidentRecordArn: string;
+  relatedItemsUpdate: (typeof RelatedItemsUpdate)["Type"];
+}
+export const UpdateRelatedItemsInput = S.suspend(() =>
+  S.Struct({
     clientToken: S.optional(S.String),
     incidentRecordArn: S.String,
     relatedItemsUpdate: RelatedItemsUpdate,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/updateRelatedItems" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/updateRelatedItems" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateRelatedItemsOutput extends S.Class<UpdateRelatedItemsOutput>(
-  "UpdateRelatedItemsOutput",
-)({}) {}
-export class UpdateResponsePlanInput extends S.Class<UpdateResponsePlanInput>(
-  "UpdateResponsePlanInput",
-)(
-  {
+).annotations({
+  identifier: "UpdateRelatedItemsInput",
+}) as any as S.Schema<UpdateRelatedItemsInput>;
+export interface UpdateRelatedItemsOutput {}
+export const UpdateRelatedItemsOutput = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateRelatedItemsOutput",
+}) as any as S.Schema<UpdateRelatedItemsOutput>;
+export interface UpdateResponsePlanInput {
+  clientToken?: string;
+  arn: string;
+  displayName?: string;
+  incidentTemplateTitle?: string;
+  incidentTemplateImpact?: number;
+  incidentTemplateSummary?: string;
+  incidentTemplateDedupeString?: string;
+  incidentTemplateNotificationTargets?: NotificationTargetSet;
+  chatChannel?: (typeof ChatChannel)["Type"];
+  engagements?: EngagementSet;
+  actions?: ActionsList;
+  incidentTemplateTags?: TagMapUpdate;
+  integrations?: Integrations;
+}
+export const UpdateResponsePlanInput = S.suspend(() =>
+  S.Struct({
     clientToken: S.optional(S.String),
     arn: S.String,
     displayName: S.optional(S.String),
@@ -819,235 +1133,488 @@ export class UpdateResponsePlanInput extends S.Class<UpdateResponsePlanInput>(
     actions: S.optional(ActionsList),
     incidentTemplateTags: S.optional(TagMapUpdate),
     integrations: S.optional(Integrations),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/updateResponsePlan" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/updateResponsePlan" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateResponsePlanOutput extends S.Class<UpdateResponsePlanOutput>(
-  "UpdateResponsePlanOutput",
-)({}) {}
-export class RegionMapInputValue extends S.Class<RegionMapInputValue>(
-  "RegionMapInputValue",
-)({ sseKmsKeyId: S.optional(S.String) }) {}
-export class AddRegionAction extends S.Class<AddRegionAction>(
-  "AddRegionAction",
-)({ regionName: S.String, sseKmsKeyId: S.optional(S.String) }) {}
-export class DeleteRegionAction extends S.Class<DeleteRegionAction>(
-  "DeleteRegionAction",
-)({ regionName: S.String }) {}
-export class BatchGetIncidentFindingsError extends S.Class<BatchGetIncidentFindingsError>(
-  "BatchGetIncidentFindingsError",
-)({ findingId: S.String, code: S.String, message: S.String }) {}
+).annotations({
+  identifier: "UpdateResponsePlanInput",
+}) as any as S.Schema<UpdateResponsePlanInput>;
+export interface UpdateResponsePlanOutput {}
+export const UpdateResponsePlanOutput = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateResponsePlanOutput",
+}) as any as S.Schema<UpdateResponsePlanOutput>;
+export interface RegionMapInputValue {
+  sseKmsKeyId?: string;
+}
+export const RegionMapInputValue = S.suspend(() =>
+  S.Struct({ sseKmsKeyId: S.optional(S.String) }),
+).annotations({
+  identifier: "RegionMapInputValue",
+}) as any as S.Schema<RegionMapInputValue>;
+export interface AddRegionAction {
+  regionName: string;
+  sseKmsKeyId?: string;
+}
+export const AddRegionAction = S.suspend(() =>
+  S.Struct({ regionName: S.String, sseKmsKeyId: S.optional(S.String) }),
+).annotations({
+  identifier: "AddRegionAction",
+}) as any as S.Schema<AddRegionAction>;
+export interface DeleteRegionAction {
+  regionName: string;
+}
+export const DeleteRegionAction = S.suspend(() =>
+  S.Struct({ regionName: S.String }),
+).annotations({
+  identifier: "DeleteRegionAction",
+}) as any as S.Schema<DeleteRegionAction>;
+export interface BatchGetIncidentFindingsError {
+  findingId: string;
+  code: string;
+  message: string;
+}
+export const BatchGetIncidentFindingsError = S.suspend(() =>
+  S.Struct({ findingId: S.String, code: S.String, message: S.String }),
+).annotations({
+  identifier: "BatchGetIncidentFindingsError",
+}) as any as S.Schema<BatchGetIncidentFindingsError>;
+export type BatchGetIncidentFindingsErrorList = BatchGetIncidentFindingsError[];
 export const BatchGetIncidentFindingsErrorList = S.Array(
   BatchGetIncidentFindingsError,
 );
+export type RegionMapInput = { [key: string]: RegionMapInputValue };
 export const RegionMapInput = S.Record({
   key: S.String,
   value: RegionMapInputValue,
 });
-export class ResourcePolicy extends S.Class<ResourcePolicy>("ResourcePolicy")({
-  policyDocument: S.String,
-  policyId: S.String,
-  ramResourceShareRegion: S.String,
-}) {}
+export interface ResourcePolicy {
+  policyDocument: string;
+  policyId: string;
+  ramResourceShareRegion: string;
+}
+export const ResourcePolicy = S.suspend(() =>
+  S.Struct({
+    policyDocument: S.String,
+    policyId: S.String,
+    ramResourceShareRegion: S.String,
+  }),
+).annotations({
+  identifier: "ResourcePolicy",
+}) as any as S.Schema<ResourcePolicy>;
+export type ResourcePolicyList = ResourcePolicy[];
 export const ResourcePolicyList = S.Array(ResourcePolicy);
-export class TimelineEvent extends S.Class<TimelineEvent>("TimelineEvent")({
-  incidentRecordArn: S.String,
-  eventId: S.String,
-  eventTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  eventUpdatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  eventType: S.String,
-  eventData: S.String,
-  eventReferences: S.optional(EventReferenceList),
-}) {}
-export class FindingSummary extends S.Class<FindingSummary>("FindingSummary")({
-  id: S.String,
-  lastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-}) {}
+export interface TimelineEvent {
+  incidentRecordArn: string;
+  eventId: string;
+  eventTime: Date;
+  eventUpdatedTime: Date;
+  eventType: string;
+  eventData: string;
+  eventReferences?: EventReferenceList;
+}
+export const TimelineEvent = S.suspend(() =>
+  S.Struct({
+    incidentRecordArn: S.String,
+    eventId: S.String,
+    eventTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    eventUpdatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    eventType: S.String,
+    eventData: S.String,
+    eventReferences: S.optional(EventReferenceList),
+  }),
+).annotations({
+  identifier: "TimelineEvent",
+}) as any as S.Schema<TimelineEvent>;
+export interface FindingSummary {
+  id: string;
+  lastModifiedTime: Date;
+}
+export const FindingSummary = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    lastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotations({
+  identifier: "FindingSummary",
+}) as any as S.Schema<FindingSummary>;
+export type FindingSummaryList = FindingSummary[];
 export const FindingSummaryList = S.Array(FindingSummary);
-export class ResponsePlanSummary extends S.Class<ResponsePlanSummary>(
-  "ResponsePlanSummary",
-)({ arn: S.String, name: S.String, displayName: S.optional(S.String) }) {}
+export interface ResponsePlanSummary {
+  arn: string;
+  name: string;
+  displayName?: string;
+}
+export const ResponsePlanSummary = S.suspend(() =>
+  S.Struct({
+    arn: S.String,
+    name: S.String,
+    displayName: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ResponsePlanSummary",
+}) as any as S.Schema<ResponsePlanSummary>;
+export type ResponsePlanSummaryList = ResponsePlanSummary[];
 export const ResponsePlanSummaryList = S.Array(ResponsePlanSummary);
-export class EventSummary extends S.Class<EventSummary>("EventSummary")({
-  incidentRecordArn: S.String,
-  eventId: S.String,
-  eventTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  eventUpdatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  eventType: S.String,
-  eventReferences: S.optional(EventReferenceList),
-}) {}
+export interface EventSummary {
+  incidentRecordArn: string;
+  eventId: string;
+  eventTime: Date;
+  eventUpdatedTime: Date;
+  eventType: string;
+  eventReferences?: EventReferenceList;
+}
+export const EventSummary = S.suspend(() =>
+  S.Struct({
+    incidentRecordArn: S.String,
+    eventId: S.String,
+    eventTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    eventUpdatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    eventType: S.String,
+    eventReferences: S.optional(EventReferenceList),
+  }),
+).annotations({ identifier: "EventSummary" }) as any as S.Schema<EventSummary>;
+export type EventSummaryList = EventSummary[];
 export const EventSummaryList = S.Array(EventSummary);
 export const UpdateReplicationSetAction = S.Union(
   S.Struct({ addRegionAction: AddRegionAction }),
   S.Struct({ deleteRegionAction: DeleteRegionAction }),
 );
+export type UpdateActionList = (typeof UpdateReplicationSetAction)["Type"][];
 export const UpdateActionList = S.Array(UpdateReplicationSetAction);
-export class CreateReplicationSetInput extends S.Class<CreateReplicationSetInput>(
-  "CreateReplicationSetInput",
-)(
-  {
+export interface CreateReplicationSetInput {
+  regions: RegionMapInput;
+  clientToken?: string;
+  tags?: TagMap;
+}
+export const CreateReplicationSetInput = S.suspend(() =>
+  S.Struct({
     regions: RegionMapInput,
     clientToken: S.optional(S.String),
     tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/createReplicationSet" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/createReplicationSet" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateTimelineEventOutput extends S.Class<CreateTimelineEventOutput>(
-  "CreateTimelineEventOutput",
-)({ incidentRecordArn: S.String, eventId: S.String }) {}
-export class GetResourcePoliciesOutput extends S.Class<GetResourcePoliciesOutput>(
-  "GetResourcePoliciesOutput",
-)({ resourcePolicies: ResourcePolicyList, nextToken: S.optional(S.String) }) {}
-export class GetTimelineEventOutput extends S.Class<GetTimelineEventOutput>(
-  "GetTimelineEventOutput",
-)({ event: TimelineEvent }) {}
-export class ListIncidentFindingsOutput extends S.Class<ListIncidentFindingsOutput>(
-  "ListIncidentFindingsOutput",
-)({ findings: FindingSummaryList, nextToken: S.optional(S.String) }) {}
-export class ListResponsePlansOutput extends S.Class<ListResponsePlansOutput>(
-  "ListResponsePlansOutput",
-)({
-  responsePlanSummaries: ResponsePlanSummaryList,
-  nextToken: S.optional(S.String),
-}) {}
-export class ListTimelineEventsOutput extends S.Class<ListTimelineEventsOutput>(
-  "ListTimelineEventsOutput",
-)({ eventSummaries: EventSummaryList, nextToken: S.optional(S.String) }) {}
-export class UpdateReplicationSetInput extends S.Class<UpdateReplicationSetInput>(
-  "UpdateReplicationSetInput",
-)(
-  {
+).annotations({
+  identifier: "CreateReplicationSetInput",
+}) as any as S.Schema<CreateReplicationSetInput>;
+export interface CreateTimelineEventOutput {
+  incidentRecordArn: string;
+  eventId: string;
+}
+export const CreateTimelineEventOutput = S.suspend(() =>
+  S.Struct({ incidentRecordArn: S.String, eventId: S.String }),
+).annotations({
+  identifier: "CreateTimelineEventOutput",
+}) as any as S.Schema<CreateTimelineEventOutput>;
+export interface GetResourcePoliciesOutput {
+  resourcePolicies: ResourcePolicyList;
+  nextToken?: string;
+}
+export const GetResourcePoliciesOutput = S.suspend(() =>
+  S.Struct({
+    resourcePolicies: ResourcePolicyList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetResourcePoliciesOutput",
+}) as any as S.Schema<GetResourcePoliciesOutput>;
+export interface GetTimelineEventOutput {
+  event: TimelineEvent;
+}
+export const GetTimelineEventOutput = S.suspend(() =>
+  S.Struct({ event: TimelineEvent }),
+).annotations({
+  identifier: "GetTimelineEventOutput",
+}) as any as S.Schema<GetTimelineEventOutput>;
+export interface ListIncidentFindingsOutput {
+  findings: FindingSummaryList;
+  nextToken?: string;
+}
+export const ListIncidentFindingsOutput = S.suspend(() =>
+  S.Struct({ findings: FindingSummaryList, nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListIncidentFindingsOutput",
+}) as any as S.Schema<ListIncidentFindingsOutput>;
+export interface ListResponsePlansOutput {
+  responsePlanSummaries: ResponsePlanSummaryList;
+  nextToken?: string;
+}
+export const ListResponsePlansOutput = S.suspend(() =>
+  S.Struct({
+    responsePlanSummaries: ResponsePlanSummaryList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListResponsePlansOutput",
+}) as any as S.Schema<ListResponsePlansOutput>;
+export interface ListTimelineEventsOutput {
+  eventSummaries: EventSummaryList;
+  nextToken?: string;
+}
+export const ListTimelineEventsOutput = S.suspend(() =>
+  S.Struct({
+    eventSummaries: EventSummaryList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListTimelineEventsOutput",
+}) as any as S.Schema<ListTimelineEventsOutput>;
+export interface UpdateReplicationSetInput {
+  arn: string;
+  actions: UpdateActionList;
+  clientToken?: string;
+}
+export const UpdateReplicationSetInput = S.suspend(() =>
+  S.Struct({
     arn: S.String,
     actions: UpdateActionList,
     clientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/updateReplicationSet" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/updateReplicationSet" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateReplicationSetOutput extends S.Class<UpdateReplicationSetOutput>(
-  "UpdateReplicationSetOutput",
-)({}) {}
+).annotations({
+  identifier: "UpdateReplicationSetInput",
+}) as any as S.Schema<UpdateReplicationSetInput>;
+export interface UpdateReplicationSetOutput {}
+export const UpdateReplicationSetOutput = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateReplicationSetOutput",
+}) as any as S.Schema<UpdateReplicationSetOutput>;
 export const AutomationExecution = S.Union(
   S.Struct({ ssmExecutionArn: S.String }),
 );
+export type AutomationExecutionSet = (typeof AutomationExecution)["Type"][];
 export const AutomationExecutionSet = S.Array(AutomationExecution);
-export class IncidentRecordSource extends S.Class<IncidentRecordSource>(
-  "IncidentRecordSource",
-)({
-  createdBy: S.String,
-  invokedBy: S.optional(S.String),
-  resourceArn: S.optional(S.String),
-  source: S.String,
-}) {}
-export class IncidentRecord extends S.Class<IncidentRecord>("IncidentRecord")({
-  arn: S.String,
-  title: S.String,
-  summary: S.optional(S.String),
-  status: S.String,
-  impact: S.Number,
-  creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  resolvedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  lastModifiedBy: S.String,
-  automationExecutions: S.optional(AutomationExecutionSet),
-  incidentRecordSource: IncidentRecordSource,
-  dedupeString: S.String,
-  chatChannel: S.optional(ChatChannel),
-  notificationTargets: S.optional(NotificationTargetSet),
-}) {}
-export class CodeDeployDeployment extends S.Class<CodeDeployDeployment>(
-  "CodeDeployDeployment",
-)({
-  startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  deploymentGroupArn: S.String,
-  deploymentId: S.String,
-}) {}
-export class CloudFormationStackUpdate extends S.Class<CloudFormationStackUpdate>(
-  "CloudFormationStackUpdate",
-)({
-  startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  stackArn: S.String,
-}) {}
-export class RegionInfo extends S.Class<RegionInfo>("RegionInfo")({
-  sseKmsKeyId: S.optional(S.String),
-  status: S.String,
-  statusMessage: S.optional(S.String),
-  statusUpdateDateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-}) {}
-export class CreateReplicationSetOutput extends S.Class<CreateReplicationSetOutput>(
-  "CreateReplicationSetOutput",
-)({ arn: S.String }) {}
-export class GetIncidentRecordOutput extends S.Class<GetIncidentRecordOutput>(
-  "GetIncidentRecordOutput",
-)({ incidentRecord: IncidentRecord }) {}
-export class ListIncidentRecordsInput extends S.Class<ListIncidentRecordsInput>(
-  "ListIncidentRecordsInput",
-)(
-  {
+export interface IncidentRecordSource {
+  createdBy: string;
+  invokedBy?: string;
+  resourceArn?: string;
+  source: string;
+}
+export const IncidentRecordSource = S.suspend(() =>
+  S.Struct({
+    createdBy: S.String,
+    invokedBy: S.optional(S.String),
+    resourceArn: S.optional(S.String),
+    source: S.String,
+  }),
+).annotations({
+  identifier: "IncidentRecordSource",
+}) as any as S.Schema<IncidentRecordSource>;
+export interface IncidentRecord {
+  arn: string;
+  title: string;
+  summary?: string;
+  status: string;
+  impact: number;
+  creationTime: Date;
+  resolvedTime?: Date;
+  lastModifiedTime: Date;
+  lastModifiedBy: string;
+  automationExecutions?: AutomationExecutionSet;
+  incidentRecordSource: IncidentRecordSource;
+  dedupeString: string;
+  chatChannel?: (typeof ChatChannel)["Type"];
+  notificationTargets?: NotificationTargetSet;
+}
+export const IncidentRecord = S.suspend(() =>
+  S.Struct({
+    arn: S.String,
+    title: S.String,
+    summary: S.optional(S.String),
+    status: S.String,
+    impact: S.Number,
+    creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    resolvedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    lastModifiedBy: S.String,
+    automationExecutions: S.optional(AutomationExecutionSet),
+    incidentRecordSource: IncidentRecordSource,
+    dedupeString: S.String,
+    chatChannel: S.optional(ChatChannel),
+    notificationTargets: S.optional(NotificationTargetSet),
+  }),
+).annotations({
+  identifier: "IncidentRecord",
+}) as any as S.Schema<IncidentRecord>;
+export interface CodeDeployDeployment {
+  startTime: Date;
+  endTime?: Date;
+  deploymentGroupArn: string;
+  deploymentId: string;
+}
+export const CodeDeployDeployment = S.suspend(() =>
+  S.Struct({
+    startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    deploymentGroupArn: S.String,
+    deploymentId: S.String,
+  }),
+).annotations({
+  identifier: "CodeDeployDeployment",
+}) as any as S.Schema<CodeDeployDeployment>;
+export interface CloudFormationStackUpdate {
+  startTime: Date;
+  endTime?: Date;
+  stackArn: string;
+}
+export const CloudFormationStackUpdate = S.suspend(() =>
+  S.Struct({
+    startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    stackArn: S.String,
+  }),
+).annotations({
+  identifier: "CloudFormationStackUpdate",
+}) as any as S.Schema<CloudFormationStackUpdate>;
+export interface RegionInfo {
+  sseKmsKeyId?: string;
+  status: string;
+  statusMessage?: string;
+  statusUpdateDateTime: Date;
+}
+export const RegionInfo = S.suspend(() =>
+  S.Struct({
+    sseKmsKeyId: S.optional(S.String),
+    status: S.String,
+    statusMessage: S.optional(S.String),
+    statusUpdateDateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotations({ identifier: "RegionInfo" }) as any as S.Schema<RegionInfo>;
+export interface CreateReplicationSetOutput {
+  arn: string;
+}
+export const CreateReplicationSetOutput = S.suspend(() =>
+  S.Struct({ arn: S.String }),
+).annotations({
+  identifier: "CreateReplicationSetOutput",
+}) as any as S.Schema<CreateReplicationSetOutput>;
+export interface GetIncidentRecordOutput {
+  incidentRecord: IncidentRecord;
+}
+export const GetIncidentRecordOutput = S.suspend(() =>
+  S.Struct({ incidentRecord: IncidentRecord }),
+).annotations({
+  identifier: "GetIncidentRecordOutput",
+}) as any as S.Schema<GetIncidentRecordOutput>;
+export interface ListIncidentRecordsInput {
+  filters?: FilterList;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListIncidentRecordsInput = S.suspend(() =>
+  S.Struct({
     filters: S.optional(FilterList),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/listIncidentRecords" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/listIncidentRecords" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "ListIncidentRecordsInput",
+}) as any as S.Schema<ListIncidentRecordsInput>;
 export const FindingDetails = S.Union(
   S.Struct({ codeDeployDeployment: CodeDeployDeployment }),
   S.Struct({ cloudFormationStackUpdate: CloudFormationStackUpdate }),
 );
+export type RegionInfoMap = { [key: string]: RegionInfo };
 export const RegionInfoMap = S.Record({ key: S.String, value: RegionInfo });
-export class Finding extends S.Class<Finding>("Finding")({
-  id: S.String,
-  creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  lastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  details: S.optional(FindingDetails),
-}) {}
+export interface Finding {
+  id: string;
+  creationTime: Date;
+  lastModifiedTime: Date;
+  details?: (typeof FindingDetails)["Type"];
+}
+export const Finding = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    lastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    details: S.optional(FindingDetails),
+  }),
+).annotations({ identifier: "Finding" }) as any as S.Schema<Finding>;
+export type FindingList = Finding[];
 export const FindingList = S.Array(Finding);
-export class ReplicationSet extends S.Class<ReplicationSet>("ReplicationSet")({
-  arn: S.optional(S.String),
-  regionMap: RegionInfoMap,
-  status: S.String,
-  deletionProtected: S.Boolean,
-  createdTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  createdBy: S.String,
-  lastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  lastModifiedBy: S.String,
-}) {}
-export class BatchGetIncidentFindingsOutput extends S.Class<BatchGetIncidentFindingsOutput>(
-  "BatchGetIncidentFindingsOutput",
-)({ findings: FindingList, errors: BatchGetIncidentFindingsErrorList }) {}
-export class CreateResponsePlanInput extends S.Class<CreateResponsePlanInput>(
-  "CreateResponsePlanInput",
-)(
-  {
+export interface ReplicationSet {
+  arn?: string;
+  regionMap: RegionInfoMap;
+  status: string;
+  deletionProtected: boolean;
+  createdTime: Date;
+  createdBy: string;
+  lastModifiedTime: Date;
+  lastModifiedBy: string;
+}
+export const ReplicationSet = S.suspend(() =>
+  S.Struct({
+    arn: S.optional(S.String),
+    regionMap: RegionInfoMap,
+    status: S.String,
+    deletionProtected: S.Boolean,
+    createdTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    createdBy: S.String,
+    lastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    lastModifiedBy: S.String,
+  }),
+).annotations({
+  identifier: "ReplicationSet",
+}) as any as S.Schema<ReplicationSet>;
+export interface BatchGetIncidentFindingsOutput {
+  findings: FindingList;
+  errors: BatchGetIncidentFindingsErrorList;
+}
+export const BatchGetIncidentFindingsOutput = S.suspend(() =>
+  S.Struct({
+    findings: FindingList,
+    errors: BatchGetIncidentFindingsErrorList,
+  }),
+).annotations({
+  identifier: "BatchGetIncidentFindingsOutput",
+}) as any as S.Schema<BatchGetIncidentFindingsOutput>;
+export interface CreateResponsePlanInput {
+  clientToken?: string;
+  name: string;
+  displayName?: string;
+  incidentTemplate: IncidentTemplate;
+  chatChannel?: (typeof ChatChannel)["Type"];
+  engagements?: EngagementSet;
+  actions?: ActionsList;
+  tags?: TagMap;
+  integrations?: Integrations;
+}
+export const CreateResponsePlanInput = S.suspend(() =>
+  S.Struct({
     clientToken: S.optional(S.String),
     name: S.String,
     displayName: S.optional(S.String),
@@ -1057,63 +1624,108 @@ export class CreateResponsePlanInput extends S.Class<CreateResponsePlanInput>(
     actions: S.optional(ActionsList),
     tags: S.optional(TagMap),
     integrations: S.optional(Integrations),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/createResponsePlan" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/createResponsePlan" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetReplicationSetOutput extends S.Class<GetReplicationSetOutput>(
-  "GetReplicationSetOutput",
-)({ replicationSet: ReplicationSet }) {}
-export class StartIncidentInput extends S.Class<StartIncidentInput>(
-  "StartIncidentInput",
-)(
-  {
+).annotations({
+  identifier: "CreateResponsePlanInput",
+}) as any as S.Schema<CreateResponsePlanInput>;
+export interface GetReplicationSetOutput {
+  replicationSet: ReplicationSet;
+}
+export const GetReplicationSetOutput = S.suspend(() =>
+  S.Struct({ replicationSet: ReplicationSet }),
+).annotations({
+  identifier: "GetReplicationSetOutput",
+}) as any as S.Schema<GetReplicationSetOutput>;
+export interface StartIncidentInput {
+  clientToken?: string;
+  responsePlanArn: string;
+  title?: string;
+  impact?: number;
+  triggerDetails?: TriggerDetails;
+  relatedItems?: RelatedItemList;
+}
+export const StartIncidentInput = S.suspend(() =>
+  S.Struct({
     clientToken: S.optional(S.String),
     responsePlanArn: S.String,
     title: S.optional(S.String),
     impact: S.optional(S.Number),
     triggerDetails: S.optional(TriggerDetails),
     relatedItems: S.optional(RelatedItemList),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/startIncident" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/startIncident" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class IncidentRecordSummary extends S.Class<IncidentRecordSummary>(
-  "IncidentRecordSummary",
-)({
-  arn: S.String,
-  title: S.String,
-  status: S.String,
-  impact: S.Number,
-  creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  resolvedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  incidentRecordSource: IncidentRecordSource,
-}) {}
+).annotations({
+  identifier: "StartIncidentInput",
+}) as any as S.Schema<StartIncidentInput>;
+export interface IncidentRecordSummary {
+  arn: string;
+  title: string;
+  status: string;
+  impact: number;
+  creationTime: Date;
+  resolvedTime?: Date;
+  incidentRecordSource: IncidentRecordSource;
+}
+export const IncidentRecordSummary = S.suspend(() =>
+  S.Struct({
+    arn: S.String,
+    title: S.String,
+    status: S.String,
+    impact: S.Number,
+    creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    resolvedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    incidentRecordSource: IncidentRecordSource,
+  }),
+).annotations({
+  identifier: "IncidentRecordSummary",
+}) as any as S.Schema<IncidentRecordSummary>;
+export type IncidentRecordSummaryList = IncidentRecordSummary[];
 export const IncidentRecordSummaryList = S.Array(IncidentRecordSummary);
-export class CreateResponsePlanOutput extends S.Class<CreateResponsePlanOutput>(
-  "CreateResponsePlanOutput",
-)({ arn: S.String }) {}
-export class ListIncidentRecordsOutput extends S.Class<ListIncidentRecordsOutput>(
-  "ListIncidentRecordsOutput",
-)({
-  incidentRecordSummaries: IncidentRecordSummaryList,
-  nextToken: S.optional(S.String),
-}) {}
-export class StartIncidentOutput extends S.Class<StartIncidentOutput>(
-  "StartIncidentOutput",
-)({ incidentRecordArn: S.String }) {}
+export interface CreateResponsePlanOutput {
+  arn: string;
+}
+export const CreateResponsePlanOutput = S.suspend(() =>
+  S.Struct({ arn: S.String }),
+).annotations({
+  identifier: "CreateResponsePlanOutput",
+}) as any as S.Schema<CreateResponsePlanOutput>;
+export interface ListIncidentRecordsOutput {
+  incidentRecordSummaries: IncidentRecordSummaryList;
+  nextToken?: string;
+}
+export const ListIncidentRecordsOutput = S.suspend(() =>
+  S.Struct({
+    incidentRecordSummaries: IncidentRecordSummaryList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListIncidentRecordsOutput",
+}) as any as S.Schema<ListIncidentRecordsOutput>;
+export interface StartIncidentOutput {
+  incidentRecordArn: string;
+}
+export const StartIncidentOutput = S.suspend(() =>
+  S.Struct({ incidentRecordArn: S.String }),
+).annotations({
+  identifier: "StartIncidentOutput",
+}) as any as S.Schema<StartIncidentOutput>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

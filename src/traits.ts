@@ -702,6 +702,16 @@ export const StreamingOutput = S.declare(
 });
 
 /**
+ * Type alias for streaming output bodies.
+ * Used in generated interfaces for @httpPayload members with @streaming trait.
+ */
+export type StreamingOutputBody = Stream.Stream<
+  Uint8Array<ArrayBufferLike>,
+  Error,
+  never
+>;
+
+/**
  * Check if a value is an Effect Stream.
  * Uses duck typing since Stream doesn't have a built-in type guard.
  */
@@ -953,10 +963,15 @@ export const getXmlName = (ast: AST.AST): string | undefined => {
 };
 
 /**
- * Check if an AST has a specific annotation, handling Union/Transformation unwrapping
+ * Check if an AST has a specific annotation, handling Union/Transformation/Suspend unwrapping
  */
 export const hasAnnotation = (ast: AST.AST, symbol: symbol): boolean => {
   if (ast.annotations?.[symbol] !== undefined) return true;
+
+  // Handle S.suspend - check the inner AST
+  if (ast._tag === "Suspend") {
+    return hasAnnotation(ast.f(), symbol);
+  }
 
   if (ast._tag === "Union") {
     const nonNullishTypes = ast.types.filter(
@@ -979,7 +994,7 @@ export const hasAnnotation = (ast: AST.AST, symbol: symbol): boolean => {
 };
 
 /**
- * Get annotation value, unwrapping Union/Transformation if needed
+ * Get annotation value, unwrapping Union/Transformation/Suspend if needed
  */
 export const getAnnotationUnwrap = <T>(
   ast: AST.AST,
@@ -987,6 +1002,11 @@ export const getAnnotationUnwrap = <T>(
 ): T | undefined => {
   const direct = ast.annotations?.[symbol] as T | undefined;
   if (direct !== undefined) return direct;
+
+  // Handle S.suspend - check the inner AST
+  if (ast._tag === "Suspend") {
+    return getAnnotationUnwrap(ast.f(), symbol);
+  }
 
   if (ast._tag === "Transformation") {
     // For S.Class, annotations are on the 'to' side (the class instance)

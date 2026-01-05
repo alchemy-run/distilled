@@ -239,12 +239,19 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type __listOf__string = string[];
 export const __listOf__string = S.Array(S.String);
+export type __mapOf__string = { [key: string]: string };
 export const __mapOf__string = S.Record({ key: S.String, value: S.String });
-export class CreateConfigurationRequest extends S.Class<CreateConfigurationRequest>(
-  "CreateConfigurationRequest",
-)(
-  {
+export interface CreateConfigurationRequest {
+  AuthenticationStrategy?: string;
+  EngineType: string;
+  EngineVersion?: string;
+  Name: string;
+  Tags?: __mapOf__string;
+}
+export const CreateConfigurationRequest = S.suspend(() =>
+  S.Struct({
     AuthenticationStrategy: S.optional(S.String).pipe(
       T.JsonName("authenticationStrategy"),
     ),
@@ -252,159 +259,218 @@ export class CreateConfigurationRequest extends S.Class<CreateConfigurationReque
     EngineVersion: S.optional(S.String).pipe(T.JsonName("engineVersion")),
     Name: S.String.pipe(T.JsonName("name")),
     Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/v1/configurations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v1/configurations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateTagsRequest extends S.Class<CreateTagsRequest>(
-  "CreateTagsRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateConfigurationRequest",
+}) as any as S.Schema<CreateConfigurationRequest>;
+export interface CreateTagsRequest {
+  ResourceArn: string;
+  Tags?: __mapOf__string;
+}
+export const CreateTagsRequest = S.suspend(() =>
+  S.Struct({
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/v1/tags/{ResourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v1/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateTagsResponse extends S.Class<CreateTagsResponse>(
-  "CreateTagsResponse",
-)({}) {}
-export class CreateUserRequest extends S.Class<CreateUserRequest>(
-  "CreateUserRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateTagsRequest",
+}) as any as S.Schema<CreateTagsRequest>;
+export interface CreateTagsResponse {}
+export const CreateTagsResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "CreateTagsResponse",
+}) as any as S.Schema<CreateTagsResponse>;
+export interface CreateUserRequest {
+  BrokerId: string;
+  ConsoleAccess?: boolean;
+  Groups?: __listOf__string;
+  Password: string;
+  Username: string;
+  ReplicationUser?: boolean;
+}
+export const CreateUserRequest = S.suspend(() =>
+  S.Struct({
     BrokerId: S.String.pipe(T.HttpLabel("BrokerId")),
     ConsoleAccess: S.optional(S.Boolean).pipe(T.JsonName("consoleAccess")),
     Groups: S.optional(__listOf__string).pipe(T.JsonName("groups")),
     Password: S.String.pipe(T.JsonName("password")),
     Username: S.String.pipe(T.HttpLabel("Username")),
     ReplicationUser: S.optional(S.Boolean).pipe(T.JsonName("replicationUser")),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/v1/brokers/{BrokerId}/users/{Username}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/v1/brokers/{BrokerId}/users/{Username}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateUserResponse extends S.Class<CreateUserResponse>(
-  "CreateUserResponse",
-)({}) {}
-export class DeleteBrokerRequest extends S.Class<DeleteBrokerRequest>(
-  "DeleteBrokerRequest",
-)(
-  { BrokerId: S.String.pipe(T.HttpLabel("BrokerId")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/v1/brokers/{BrokerId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CreateUserRequest",
+}) as any as S.Schema<CreateUserRequest>;
+export interface CreateUserResponse {}
+export const CreateUserResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "CreateUserResponse",
+}) as any as S.Schema<CreateUserResponse>;
+export interface DeleteBrokerRequest {
+  BrokerId: string;
+}
+export const DeleteBrokerRequest = S.suspend(() =>
+  S.Struct({ BrokerId: S.String.pipe(T.HttpLabel("BrokerId")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/v1/brokers/{BrokerId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteConfigurationRequest extends S.Class<DeleteConfigurationRequest>(
-  "DeleteConfigurationRequest",
-)(
-  { ConfigurationId: S.String.pipe(T.HttpLabel("ConfigurationId")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/v1/configurations/{ConfigurationId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteBrokerRequest",
+}) as any as S.Schema<DeleteBrokerRequest>;
+export interface DeleteConfigurationRequest {
+  ConfigurationId: string;
+}
+export const DeleteConfigurationRequest = S.suspend(() =>
+  S.Struct({
+    ConfigurationId: S.String.pipe(T.HttpLabel("ConfigurationId")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/v1/configurations/{ConfigurationId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteTagsRequest extends S.Class<DeleteTagsRequest>(
-  "DeleteTagsRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteConfigurationRequest",
+}) as any as S.Schema<DeleteConfigurationRequest>;
+export interface DeleteTagsRequest {
+  ResourceArn: string;
+  TagKeys: __listOf__string;
+}
+export const DeleteTagsRequest = S.suspend(() =>
+  S.Struct({
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: __listOf__string.pipe(T.HttpQuery("tagKeys")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/v1/tags/{ResourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/v1/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteTagsResponse extends S.Class<DeleteTagsResponse>(
-  "DeleteTagsResponse",
-)({}) {}
-export class DeleteUserRequest extends S.Class<DeleteUserRequest>(
-  "DeleteUserRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteTagsRequest",
+}) as any as S.Schema<DeleteTagsRequest>;
+export interface DeleteTagsResponse {}
+export const DeleteTagsResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteTagsResponse",
+}) as any as S.Schema<DeleteTagsResponse>;
+export interface DeleteUserRequest {
+  BrokerId: string;
+  Username: string;
+}
+export const DeleteUserRequest = S.suspend(() =>
+  S.Struct({
     BrokerId: S.String.pipe(T.HttpLabel("BrokerId")),
     Username: S.String.pipe(T.HttpLabel("Username")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/brokers/{BrokerId}/users/{Username}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/v1/brokers/{BrokerId}/users/{Username}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteUserResponse extends S.Class<DeleteUserResponse>(
-  "DeleteUserResponse",
-)({}) {}
-export class DescribeBrokerRequest extends S.Class<DescribeBrokerRequest>(
-  "DescribeBrokerRequest",
-)(
-  { BrokerId: S.String.pipe(T.HttpLabel("BrokerId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/v1/brokers/{BrokerId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteUserRequest",
+}) as any as S.Schema<DeleteUserRequest>;
+export interface DeleteUserResponse {}
+export const DeleteUserResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteUserResponse",
+}) as any as S.Schema<DeleteUserResponse>;
+export interface DescribeBrokerRequest {
+  BrokerId: string;
+}
+export const DescribeBrokerRequest = S.suspend(() =>
+  S.Struct({ BrokerId: S.String.pipe(T.HttpLabel("BrokerId")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v1/brokers/{BrokerId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeBrokerEngineTypesRequest extends S.Class<DescribeBrokerEngineTypesRequest>(
-  "DescribeBrokerEngineTypesRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeBrokerRequest",
+}) as any as S.Schema<DescribeBrokerRequest>;
+export interface DescribeBrokerEngineTypesRequest {
+  EngineType?: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const DescribeBrokerEngineTypesRequest = S.suspend(() =>
+  S.Struct({
     EngineType: S.optional(S.String).pipe(T.HttpQuery("engineType")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/v1/broker-engine-types" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v1/broker-engine-types" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeBrokerInstanceOptionsRequest extends S.Class<DescribeBrokerInstanceOptionsRequest>(
-  "DescribeBrokerInstanceOptionsRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeBrokerEngineTypesRequest",
+}) as any as S.Schema<DescribeBrokerEngineTypesRequest>;
+export interface DescribeBrokerInstanceOptionsRequest {
+  EngineType?: string;
+  HostInstanceType?: string;
+  MaxResults?: number;
+  NextToken?: string;
+  StorageType?: string;
+}
+export const DescribeBrokerInstanceOptionsRequest = S.suspend(() =>
+  S.Struct({
     EngineType: S.optional(S.String).pipe(T.HttpQuery("engineType")),
     HostInstanceType: S.optional(S.String).pipe(
       T.HttpQuery("hostInstanceType"),
@@ -412,216 +478,318 @@ export class DescribeBrokerInstanceOptionsRequest extends S.Class<DescribeBroker
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     StorageType: S.optional(S.String).pipe(T.HttpQuery("storageType")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/v1/broker-instance-options" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v1/broker-instance-options" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeConfigurationRequest extends S.Class<DescribeConfigurationRequest>(
-  "DescribeConfigurationRequest",
-)(
-  { ConfigurationId: S.String.pipe(T.HttpLabel("ConfigurationId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/v1/configurations/{ConfigurationId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DescribeBrokerInstanceOptionsRequest",
+}) as any as S.Schema<DescribeBrokerInstanceOptionsRequest>;
+export interface DescribeConfigurationRequest {
+  ConfigurationId: string;
+}
+export const DescribeConfigurationRequest = S.suspend(() =>
+  S.Struct({
+    ConfigurationId: S.String.pipe(T.HttpLabel("ConfigurationId")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v1/configurations/{ConfigurationId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeConfigurationRevisionRequest extends S.Class<DescribeConfigurationRevisionRequest>(
-  "DescribeConfigurationRevisionRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeConfigurationRequest",
+}) as any as S.Schema<DescribeConfigurationRequest>;
+export interface DescribeConfigurationRevisionRequest {
+  ConfigurationId: string;
+  ConfigurationRevision: string;
+}
+export const DescribeConfigurationRevisionRequest = S.suspend(() =>
+  S.Struct({
     ConfigurationId: S.String.pipe(T.HttpLabel("ConfigurationId")),
     ConfigurationRevision: S.String.pipe(T.HttpLabel("ConfigurationRevision")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/v1/configurations/{ConfigurationId}/revisions/{ConfigurationRevision}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/v1/configurations/{ConfigurationId}/revisions/{ConfigurationRevision}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeUserRequest extends S.Class<DescribeUserRequest>(
-  "DescribeUserRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeConfigurationRevisionRequest",
+}) as any as S.Schema<DescribeConfigurationRevisionRequest>;
+export interface DescribeUserRequest {
+  BrokerId: string;
+  Username: string;
+}
+export const DescribeUserRequest = S.suspend(() =>
+  S.Struct({
     BrokerId: S.String.pipe(T.HttpLabel("BrokerId")),
     Username: S.String.pipe(T.HttpLabel("Username")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/v1/brokers/{BrokerId}/users/{Username}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v1/brokers/{BrokerId}/users/{Username}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListBrokersRequest extends S.Class<ListBrokersRequest>(
-  "ListBrokersRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeUserRequest",
+}) as any as S.Schema<DescribeUserRequest>;
+export interface ListBrokersRequest {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListBrokersRequest = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/v1/brokers" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v1/brokers" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListConfigurationRevisionsRequest extends S.Class<ListConfigurationRevisionsRequest>(
-  "ListConfigurationRevisionsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListBrokersRequest",
+}) as any as S.Schema<ListBrokersRequest>;
+export interface ListConfigurationRevisionsRequest {
+  ConfigurationId: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListConfigurationRevisionsRequest = S.suspend(() =>
+  S.Struct({
     ConfigurationId: S.String.pipe(T.HttpLabel("ConfigurationId")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/v1/configurations/{ConfigurationId}/revisions",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/v1/configurations/{ConfigurationId}/revisions",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListConfigurationsRequest extends S.Class<ListConfigurationsRequest>(
-  "ListConfigurationsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListConfigurationRevisionsRequest",
+}) as any as S.Schema<ListConfigurationRevisionsRequest>;
+export interface ListConfigurationsRequest {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListConfigurationsRequest = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/v1/configurations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v1/configurations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTagsRequest extends S.Class<ListTagsRequest>(
-  "ListTagsRequest",
-)(
-  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/v1/tags/{ResourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListConfigurationsRequest",
+}) as any as S.Schema<ListConfigurationsRequest>;
+export interface ListTagsRequest {
+  ResourceArn: string;
+}
+export const ListTagsRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v1/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListUsersRequest extends S.Class<ListUsersRequest>(
-  "ListUsersRequest",
-)(
-  {
+).annotations({
+  identifier: "ListTagsRequest",
+}) as any as S.Schema<ListTagsRequest>;
+export interface ListUsersRequest {
+  BrokerId: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListUsersRequest = S.suspend(() =>
+  S.Struct({
     BrokerId: S.String.pipe(T.HttpLabel("BrokerId")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/v1/brokers/{BrokerId}/users" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v1/brokers/{BrokerId}/users" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PromoteRequest extends S.Class<PromoteRequest>("PromoteRequest")(
-  {
+).annotations({
+  identifier: "ListUsersRequest",
+}) as any as S.Schema<ListUsersRequest>;
+export interface PromoteRequest {
+  BrokerId: string;
+  Mode: string;
+}
+export const PromoteRequest = S.suspend(() =>
+  S.Struct({
     BrokerId: S.String.pipe(T.HttpLabel("BrokerId")),
     Mode: S.String.pipe(T.JsonName("mode")),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/v1/brokers/{BrokerId}/promote" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v1/brokers/{BrokerId}/promote" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class RebootBrokerRequest extends S.Class<RebootBrokerRequest>(
-  "RebootBrokerRequest",
-)(
-  { BrokerId: S.String.pipe(T.HttpLabel("BrokerId")) },
-  T.all(
-    T.Http({ method: "POST", uri: "/v1/brokers/{BrokerId}/reboot" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "PromoteRequest",
+}) as any as S.Schema<PromoteRequest>;
+export interface RebootBrokerRequest {
+  BrokerId: string;
+}
+export const RebootBrokerRequest = S.suspend(() =>
+  S.Struct({ BrokerId: S.String.pipe(T.HttpLabel("BrokerId")) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v1/brokers/{BrokerId}/reboot" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class RebootBrokerResponse extends S.Class<RebootBrokerResponse>(
-  "RebootBrokerResponse",
-)({}) {}
-export class ConfigurationId extends S.Class<ConfigurationId>(
-  "ConfigurationId",
-)({
-  Id: S.String.pipe(T.JsonName("id")),
-  Revision: S.optional(S.Number).pipe(T.JsonName("revision")),
-}) {}
-export class LdapServerMetadataInput extends S.Class<LdapServerMetadataInput>(
-  "LdapServerMetadataInput",
-)({
-  Hosts: __listOf__string.pipe(T.JsonName("hosts")),
-  RoleBase: S.String.pipe(T.JsonName("roleBase")),
-  RoleName: S.optional(S.String).pipe(T.JsonName("roleName")),
-  RoleSearchMatching: S.String.pipe(T.JsonName("roleSearchMatching")),
-  RoleSearchSubtree: S.optional(S.Boolean).pipe(
-    T.JsonName("roleSearchSubtree"),
-  ),
-  ServiceAccountPassword: S.String.pipe(T.JsonName("serviceAccountPassword")),
-  ServiceAccountUsername: S.String.pipe(T.JsonName("serviceAccountUsername")),
-  UserBase: S.String.pipe(T.JsonName("userBase")),
-  UserRoleName: S.optional(S.String).pipe(T.JsonName("userRoleName")),
-  UserSearchMatching: S.String.pipe(T.JsonName("userSearchMatching")),
-  UserSearchSubtree: S.optional(S.Boolean).pipe(
-    T.JsonName("userSearchSubtree"),
-  ),
-}) {}
-export class Logs extends S.Class<Logs>("Logs")({
-  Audit: S.optional(S.Boolean).pipe(T.JsonName("audit")),
-  General: S.optional(S.Boolean).pipe(T.JsonName("general")),
-}) {}
-export class WeeklyStartTime extends S.Class<WeeklyStartTime>(
-  "WeeklyStartTime",
-)({
-  DayOfWeek: S.String.pipe(T.JsonName("dayOfWeek")),
-  TimeOfDay: S.String.pipe(T.JsonName("timeOfDay")),
-  TimeZone: S.optional(S.String).pipe(T.JsonName("timeZone")),
-}) {}
-export class UpdateBrokerRequest extends S.Class<UpdateBrokerRequest>(
-  "UpdateBrokerRequest",
-)(
-  {
+).annotations({
+  identifier: "RebootBrokerRequest",
+}) as any as S.Schema<RebootBrokerRequest>;
+export interface RebootBrokerResponse {}
+export const RebootBrokerResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "RebootBrokerResponse",
+}) as any as S.Schema<RebootBrokerResponse>;
+export interface ConfigurationId {
+  Id: string;
+  Revision?: number;
+}
+export const ConfigurationId = S.suspend(() =>
+  S.Struct({
+    Id: S.String.pipe(T.JsonName("id")),
+    Revision: S.optional(S.Number).pipe(T.JsonName("revision")),
+  }),
+).annotations({
+  identifier: "ConfigurationId",
+}) as any as S.Schema<ConfigurationId>;
+export interface LdapServerMetadataInput {
+  Hosts: __listOf__string;
+  RoleBase: string;
+  RoleName?: string;
+  RoleSearchMatching: string;
+  RoleSearchSubtree?: boolean;
+  ServiceAccountPassword: string;
+  ServiceAccountUsername: string;
+  UserBase: string;
+  UserRoleName?: string;
+  UserSearchMatching: string;
+  UserSearchSubtree?: boolean;
+}
+export const LdapServerMetadataInput = S.suspend(() =>
+  S.Struct({
+    Hosts: __listOf__string.pipe(T.JsonName("hosts")),
+    RoleBase: S.String.pipe(T.JsonName("roleBase")),
+    RoleName: S.optional(S.String).pipe(T.JsonName("roleName")),
+    RoleSearchMatching: S.String.pipe(T.JsonName("roleSearchMatching")),
+    RoleSearchSubtree: S.optional(S.Boolean).pipe(
+      T.JsonName("roleSearchSubtree"),
+    ),
+    ServiceAccountPassword: S.String.pipe(T.JsonName("serviceAccountPassword")),
+    ServiceAccountUsername: S.String.pipe(T.JsonName("serviceAccountUsername")),
+    UserBase: S.String.pipe(T.JsonName("userBase")),
+    UserRoleName: S.optional(S.String).pipe(T.JsonName("userRoleName")),
+    UserSearchMatching: S.String.pipe(T.JsonName("userSearchMatching")),
+    UserSearchSubtree: S.optional(S.Boolean).pipe(
+      T.JsonName("userSearchSubtree"),
+    ),
+  }),
+).annotations({
+  identifier: "LdapServerMetadataInput",
+}) as any as S.Schema<LdapServerMetadataInput>;
+export interface Logs {
+  Audit?: boolean;
+  General?: boolean;
+}
+export const Logs = S.suspend(() =>
+  S.Struct({
+    Audit: S.optional(S.Boolean).pipe(T.JsonName("audit")),
+    General: S.optional(S.Boolean).pipe(T.JsonName("general")),
+  }),
+).annotations({ identifier: "Logs" }) as any as S.Schema<Logs>;
+export interface WeeklyStartTime {
+  DayOfWeek: string;
+  TimeOfDay: string;
+  TimeZone?: string;
+}
+export const WeeklyStartTime = S.suspend(() =>
+  S.Struct({
+    DayOfWeek: S.String.pipe(T.JsonName("dayOfWeek")),
+    TimeOfDay: S.String.pipe(T.JsonName("timeOfDay")),
+    TimeZone: S.optional(S.String).pipe(T.JsonName("timeZone")),
+  }),
+).annotations({
+  identifier: "WeeklyStartTime",
+}) as any as S.Schema<WeeklyStartTime>;
+export interface UpdateBrokerRequest {
+  AuthenticationStrategy?: string;
+  AutoMinorVersionUpgrade?: boolean;
+  BrokerId: string;
+  Configuration?: ConfigurationId;
+  EngineVersion?: string;
+  HostInstanceType?: string;
+  LdapServerMetadata?: LdapServerMetadataInput;
+  Logs?: Logs;
+  MaintenanceWindowStartTime?: WeeklyStartTime;
+  SecurityGroups?: __listOf__string;
+  DataReplicationMode?: string;
+}
+export const UpdateBrokerRequest = S.suspend(() =>
+  S.Struct({
     AuthenticationStrategy: S.optional(S.String).pipe(
       T.JsonName("authenticationStrategy"),
     ),
@@ -629,102 +797,168 @@ export class UpdateBrokerRequest extends S.Class<UpdateBrokerRequest>(
       T.JsonName("autoMinorVersionUpgrade"),
     ),
     BrokerId: S.String.pipe(T.HttpLabel("BrokerId")),
-    Configuration: S.optional(ConfigurationId).pipe(
-      T.JsonName("configuration"),
-    ),
+    Configuration: S.optional(ConfigurationId)
+      .pipe(T.JsonName("configuration"))
+      .annotations({ identifier: "ConfigurationId" }),
     EngineVersion: S.optional(S.String).pipe(T.JsonName("engineVersion")),
     HostInstanceType: S.optional(S.String).pipe(T.JsonName("hostInstanceType")),
-    LdapServerMetadata: S.optional(LdapServerMetadataInput).pipe(
-      T.JsonName("ldapServerMetadata"),
-    ),
-    Logs: S.optional(Logs).pipe(T.JsonName("logs")),
-    MaintenanceWindowStartTime: S.optional(WeeklyStartTime).pipe(
-      T.JsonName("maintenanceWindowStartTime"),
-    ),
+    LdapServerMetadata: S.optional(LdapServerMetadataInput)
+      .pipe(T.JsonName("ldapServerMetadata"))
+      .annotations({ identifier: "LdapServerMetadataInput" }),
+    Logs: S.optional(Logs)
+      .pipe(T.JsonName("logs"))
+      .annotations({ identifier: "Logs" }),
+    MaintenanceWindowStartTime: S.optional(WeeklyStartTime)
+      .pipe(T.JsonName("maintenanceWindowStartTime"))
+      .annotations({ identifier: "WeeklyStartTime" }),
     SecurityGroups: S.optional(__listOf__string).pipe(
       T.JsonName("securityGroups"),
     ),
     DataReplicationMode: S.optional(S.String).pipe(
       T.JsonName("dataReplicationMode"),
     ),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/v1/brokers/{BrokerId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/v1/brokers/{BrokerId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateConfigurationRequest extends S.Class<UpdateConfigurationRequest>(
-  "UpdateConfigurationRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateBrokerRequest",
+}) as any as S.Schema<UpdateBrokerRequest>;
+export interface UpdateConfigurationRequest {
+  ConfigurationId: string;
+  Data: string;
+  Description?: string;
+}
+export const UpdateConfigurationRequest = S.suspend(() =>
+  S.Struct({
     ConfigurationId: S.String.pipe(T.HttpLabel("ConfigurationId")),
     Data: S.String.pipe(T.JsonName("data")),
     Description: S.optional(S.String).pipe(T.JsonName("description")),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/v1/configurations/{ConfigurationId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/v1/configurations/{ConfigurationId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateUserRequest extends S.Class<UpdateUserRequest>(
-  "UpdateUserRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateConfigurationRequest",
+}) as any as S.Schema<UpdateConfigurationRequest>;
+export interface UpdateUserRequest {
+  BrokerId: string;
+  ConsoleAccess?: boolean;
+  Groups?: __listOf__string;
+  Password?: string;
+  Username: string;
+  ReplicationUser?: boolean;
+}
+export const UpdateUserRequest = S.suspend(() =>
+  S.Struct({
     BrokerId: S.String.pipe(T.HttpLabel("BrokerId")),
     ConsoleAccess: S.optional(S.Boolean).pipe(T.JsonName("consoleAccess")),
     Groups: S.optional(__listOf__string).pipe(T.JsonName("groups")),
     Password: S.optional(S.String).pipe(T.JsonName("password")),
     Username: S.String.pipe(T.HttpLabel("Username")),
     ReplicationUser: S.optional(S.Boolean).pipe(T.JsonName("replicationUser")),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/v1/brokers/{BrokerId}/users/{Username}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/v1/brokers/{BrokerId}/users/{Username}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateUserResponse extends S.Class<UpdateUserResponse>(
-  "UpdateUserResponse",
-)({}) {}
-export class EncryptionOptions extends S.Class<EncryptionOptions>(
-  "EncryptionOptions",
-)({
-  KmsKeyId: S.optional(S.String).pipe(T.JsonName("kmsKeyId")),
-  UseAwsOwnedKey: S.Boolean.pipe(T.JsonName("useAwsOwnedKey")),
-}) {}
-export class User extends S.Class<User>("User")({
-  ConsoleAccess: S.optional(S.Boolean).pipe(T.JsonName("consoleAccess")),
-  Groups: S.optional(__listOf__string).pipe(T.JsonName("groups")),
-  Password: S.String.pipe(T.JsonName("password")),
-  Username: S.String.pipe(T.JsonName("username")),
-  ReplicationUser: S.optional(S.Boolean).pipe(T.JsonName("replicationUser")),
-}) {}
+).annotations({
+  identifier: "UpdateUserRequest",
+}) as any as S.Schema<UpdateUserRequest>;
+export interface UpdateUserResponse {}
+export const UpdateUserResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UpdateUserResponse",
+}) as any as S.Schema<UpdateUserResponse>;
+export interface EncryptionOptions {
+  KmsKeyId?: string;
+  UseAwsOwnedKey: boolean;
+}
+export const EncryptionOptions = S.suspend(() =>
+  S.Struct({
+    KmsKeyId: S.optional(S.String).pipe(T.JsonName("kmsKeyId")),
+    UseAwsOwnedKey: S.Boolean.pipe(T.JsonName("useAwsOwnedKey")),
+  }),
+).annotations({
+  identifier: "EncryptionOptions",
+}) as any as S.Schema<EncryptionOptions>;
+export interface User {
+  ConsoleAccess?: boolean;
+  Groups?: __listOf__string;
+  Password: string;
+  Username: string;
+  ReplicationUser?: boolean;
+}
+export const User = S.suspend(() =>
+  S.Struct({
+    ConsoleAccess: S.optional(S.Boolean).pipe(T.JsonName("consoleAccess")),
+    Groups: S.optional(__listOf__string).pipe(T.JsonName("groups")),
+    Password: S.String.pipe(T.JsonName("password")),
+    Username: S.String.pipe(T.JsonName("username")),
+    ReplicationUser: S.optional(S.Boolean).pipe(T.JsonName("replicationUser")),
+  }),
+).annotations({ identifier: "User" }) as any as S.Schema<User>;
+export type __listOfUser = User[];
 export const __listOfUser = S.Array(User);
-export class ConfigurationRevision extends S.Class<ConfigurationRevision>(
-  "ConfigurationRevision",
-)({
-  Created: S.Date.pipe(T.TimestampFormat("date-time")).pipe(
-    T.JsonName("created"),
-  ),
-  Description: S.optional(S.String).pipe(T.JsonName("description")),
-  Revision: S.Number.pipe(T.JsonName("revision")),
-}) {}
+export interface ConfigurationRevision {
+  Created: Date;
+  Description?: string;
+  Revision: number;
+}
+export const ConfigurationRevision = S.suspend(() =>
+  S.Struct({
+    Created: S.Date.pipe(T.TimestampFormat("date-time")).pipe(
+      T.JsonName("created"),
+    ),
+    Description: S.optional(S.String).pipe(T.JsonName("description")),
+    Revision: S.Number.pipe(T.JsonName("revision")),
+  }),
+).annotations({
+  identifier: "ConfigurationRevision",
+}) as any as S.Schema<ConfigurationRevision>;
+export type __listOfConfigurationRevision = ConfigurationRevision[];
 export const __listOfConfigurationRevision = S.Array(ConfigurationRevision);
-export class CreateBrokerRequest extends S.Class<CreateBrokerRequest>(
-  "CreateBrokerRequest",
-)(
-  {
+export interface CreateBrokerRequest {
+  AuthenticationStrategy?: string;
+  AutoMinorVersionUpgrade?: boolean;
+  BrokerName: string;
+  Configuration?: ConfigurationId;
+  CreatorRequestId?: string;
+  DeploymentMode: string;
+  EncryptionOptions?: EncryptionOptions;
+  EngineType: string;
+  EngineVersion?: string;
+  HostInstanceType: string;
+  LdapServerMetadata?: LdapServerMetadataInput;
+  Logs?: Logs;
+  MaintenanceWindowStartTime?: WeeklyStartTime;
+  PubliclyAccessible: boolean;
+  SecurityGroups?: __listOf__string;
+  StorageType?: string;
+  SubnetIds?: __listOf__string;
+  Tags?: __mapOf__string;
+  Users?: __listOfUser;
+  DataReplicationMode?: string;
+  DataReplicationPrimaryBrokerArn?: string;
+}
+export const CreateBrokerRequest = S.suspend(() =>
+  S.Struct({
     AuthenticationStrategy: S.optional(S.String).pipe(
       T.JsonName("authenticationStrategy"),
     ),
@@ -732,24 +966,26 @@ export class CreateBrokerRequest extends S.Class<CreateBrokerRequest>(
       T.JsonName("autoMinorVersionUpgrade"),
     ),
     BrokerName: S.String.pipe(T.JsonName("brokerName")),
-    Configuration: S.optional(ConfigurationId).pipe(
-      T.JsonName("configuration"),
-    ),
+    Configuration: S.optional(ConfigurationId)
+      .pipe(T.JsonName("configuration"))
+      .annotations({ identifier: "ConfigurationId" }),
     CreatorRequestId: S.optional(S.String).pipe(T.JsonName("creatorRequestId")),
     DeploymentMode: S.String.pipe(T.JsonName("deploymentMode")),
-    EncryptionOptions: S.optional(EncryptionOptions).pipe(
-      T.JsonName("encryptionOptions"),
-    ),
+    EncryptionOptions: S.optional(EncryptionOptions)
+      .pipe(T.JsonName("encryptionOptions"))
+      .annotations({ identifier: "EncryptionOptions" }),
     EngineType: S.String.pipe(T.JsonName("engineType")),
     EngineVersion: S.optional(S.String).pipe(T.JsonName("engineVersion")),
     HostInstanceType: S.String.pipe(T.JsonName("hostInstanceType")),
-    LdapServerMetadata: S.optional(LdapServerMetadataInput).pipe(
-      T.JsonName("ldapServerMetadata"),
-    ),
-    Logs: S.optional(Logs).pipe(T.JsonName("logs")),
-    MaintenanceWindowStartTime: S.optional(WeeklyStartTime).pipe(
-      T.JsonName("maintenanceWindowStartTime"),
-    ),
+    LdapServerMetadata: S.optional(LdapServerMetadataInput)
+      .pipe(T.JsonName("ldapServerMetadata"))
+      .annotations({ identifier: "LdapServerMetadataInput" }),
+    Logs: S.optional(Logs)
+      .pipe(T.JsonName("logs"))
+      .annotations({ identifier: "Logs" }),
+    MaintenanceWindowStartTime: S.optional(WeeklyStartTime)
+      .pipe(T.JsonName("maintenanceWindowStartTime"))
+      .annotations({ identifier: "WeeklyStartTime" }),
     PubliclyAccessible: S.Boolean.pipe(T.JsonName("publiclyAccessible")),
     SecurityGroups: S.optional(__listOf__string).pipe(
       T.JsonName("securityGroups"),
@@ -764,419 +1000,771 @@ export class CreateBrokerRequest extends S.Class<CreateBrokerRequest>(
     DataReplicationPrimaryBrokerArn: S.optional(S.String).pipe(
       T.JsonName("dataReplicationPrimaryBrokerArn"),
     ),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/v1/brokers" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v1/brokers" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteBrokerResponse extends S.Class<DeleteBrokerResponse>(
-  "DeleteBrokerResponse",
-)({ BrokerId: S.optional(S.String).pipe(T.JsonName("brokerId")) }) {}
-export class DeleteConfigurationResponse extends S.Class<DeleteConfigurationResponse>(
-  "DeleteConfigurationResponse",
-)({
-  ConfigurationId: S.optional(S.String).pipe(T.JsonName("configurationId")),
-}) {}
-export class DescribeConfigurationResponse extends S.Class<DescribeConfigurationResponse>(
-  "DescribeConfigurationResponse",
-)({
-  Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-  AuthenticationStrategy: S.optional(S.String).pipe(
-    T.JsonName("authenticationStrategy"),
-  ),
-  Created: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-    T.JsonName("created"),
-  ),
-  Description: S.optional(S.String).pipe(T.JsonName("description")),
-  EngineType: S.optional(S.String).pipe(T.JsonName("engineType")),
-  EngineVersion: S.optional(S.String).pipe(T.JsonName("engineVersion")),
-  Id: S.optional(S.String).pipe(T.JsonName("id")),
-  LatestRevision: S.optional(ConfigurationRevision).pipe(
-    T.JsonName("latestRevision"),
-  ),
-  Name: S.optional(S.String).pipe(T.JsonName("name")),
-  Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
-}) {}
-export class DescribeConfigurationRevisionResponse extends S.Class<DescribeConfigurationRevisionResponse>(
-  "DescribeConfigurationRevisionResponse",
-)({
-  ConfigurationId: S.optional(S.String).pipe(T.JsonName("configurationId")),
-  Created: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-    T.JsonName("created"),
-  ),
-  Data: S.optional(S.String).pipe(T.JsonName("data")),
-  Description: S.optional(S.String).pipe(T.JsonName("description")),
-}) {}
-export class ListConfigurationRevisionsResponse extends S.Class<ListConfigurationRevisionsResponse>(
-  "ListConfigurationRevisionsResponse",
-)({
-  ConfigurationId: S.optional(S.String).pipe(T.JsonName("configurationId")),
-  MaxResults: S.optional(S.Number).pipe(T.JsonName("maxResults")),
-  NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  Revisions: S.optional(__listOfConfigurationRevision).pipe(
-    T.JsonName("revisions"),
-  ),
-}) {}
-export class ListTagsResponse extends S.Class<ListTagsResponse>(
-  "ListTagsResponse",
-)({ Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")) }) {}
-export class UserSummary extends S.Class<UserSummary>("UserSummary")({
-  PendingChange: S.optional(S.String).pipe(T.JsonName("pendingChange")),
-  Username: S.String.pipe(T.JsonName("username")),
-}) {}
+).annotations({
+  identifier: "CreateBrokerRequest",
+}) as any as S.Schema<CreateBrokerRequest>;
+export interface DeleteBrokerResponse {
+  BrokerId?: string;
+}
+export const DeleteBrokerResponse = S.suspend(() =>
+  S.Struct({ BrokerId: S.optional(S.String).pipe(T.JsonName("brokerId")) }),
+).annotations({
+  identifier: "DeleteBrokerResponse",
+}) as any as S.Schema<DeleteBrokerResponse>;
+export interface DeleteConfigurationResponse {
+  ConfigurationId?: string;
+}
+export const DeleteConfigurationResponse = S.suspend(() =>
+  S.Struct({
+    ConfigurationId: S.optional(S.String).pipe(T.JsonName("configurationId")),
+  }),
+).annotations({
+  identifier: "DeleteConfigurationResponse",
+}) as any as S.Schema<DeleteConfigurationResponse>;
+export interface DescribeConfigurationResponse {
+  Arn?: string;
+  AuthenticationStrategy?: string;
+  Created?: Date;
+  Description?: string;
+  EngineType?: string;
+  EngineVersion?: string;
+  Id?: string;
+  LatestRevision?: ConfigurationRevision;
+  Name?: string;
+  Tags?: __mapOf__string;
+}
+export const DescribeConfigurationResponse = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
+    AuthenticationStrategy: S.optional(S.String).pipe(
+      T.JsonName("authenticationStrategy"),
+    ),
+    Created: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.JsonName("created"),
+    ),
+    Description: S.optional(S.String).pipe(T.JsonName("description")),
+    EngineType: S.optional(S.String).pipe(T.JsonName("engineType")),
+    EngineVersion: S.optional(S.String).pipe(T.JsonName("engineVersion")),
+    Id: S.optional(S.String).pipe(T.JsonName("id")),
+    LatestRevision: S.optional(ConfigurationRevision)
+      .pipe(T.JsonName("latestRevision"))
+      .annotations({ identifier: "ConfigurationRevision" }),
+    Name: S.optional(S.String).pipe(T.JsonName("name")),
+    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
+  }),
+).annotations({
+  identifier: "DescribeConfigurationResponse",
+}) as any as S.Schema<DescribeConfigurationResponse>;
+export interface DescribeConfigurationRevisionResponse {
+  ConfigurationId?: string;
+  Created?: Date;
+  Data?: string;
+  Description?: string;
+}
+export const DescribeConfigurationRevisionResponse = S.suspend(() =>
+  S.Struct({
+    ConfigurationId: S.optional(S.String).pipe(T.JsonName("configurationId")),
+    Created: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.JsonName("created"),
+    ),
+    Data: S.optional(S.String).pipe(T.JsonName("data")),
+    Description: S.optional(S.String).pipe(T.JsonName("description")),
+  }),
+).annotations({
+  identifier: "DescribeConfigurationRevisionResponse",
+}) as any as S.Schema<DescribeConfigurationRevisionResponse>;
+export interface ListConfigurationRevisionsResponse {
+  ConfigurationId?: string;
+  MaxResults?: number;
+  NextToken?: string;
+  Revisions?: __listOfConfigurationRevision;
+}
+export const ListConfigurationRevisionsResponse = S.suspend(() =>
+  S.Struct({
+    ConfigurationId: S.optional(S.String).pipe(T.JsonName("configurationId")),
+    MaxResults: S.optional(S.Number).pipe(T.JsonName("maxResults")),
+    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
+    Revisions: S.optional(__listOfConfigurationRevision).pipe(
+      T.JsonName("revisions"),
+    ),
+  }),
+).annotations({
+  identifier: "ListConfigurationRevisionsResponse",
+}) as any as S.Schema<ListConfigurationRevisionsResponse>;
+export interface ListTagsResponse {
+  Tags?: __mapOf__string;
+}
+export const ListTagsResponse = S.suspend(() =>
+  S.Struct({ Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")) }),
+).annotations({
+  identifier: "ListTagsResponse",
+}) as any as S.Schema<ListTagsResponse>;
+export interface UserSummary {
+  PendingChange?: string;
+  Username: string;
+}
+export const UserSummary = S.suspend(() =>
+  S.Struct({
+    PendingChange: S.optional(S.String).pipe(T.JsonName("pendingChange")),
+    Username: S.String.pipe(T.JsonName("username")),
+  }),
+).annotations({ identifier: "UserSummary" }) as any as S.Schema<UserSummary>;
+export type __listOfUserSummary = UserSummary[];
 export const __listOfUserSummary = S.Array(UserSummary);
-export class ListUsersResponse extends S.Class<ListUsersResponse>(
-  "ListUsersResponse",
-)({
-  BrokerId: S.optional(S.String).pipe(T.JsonName("brokerId")),
-  MaxResults: S.optional(S.Number).pipe(T.JsonName("maxResults")),
-  NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  Users: S.optional(__listOfUserSummary).pipe(T.JsonName("users")),
-}) {}
-export class PromoteResponse extends S.Class<PromoteResponse>(
-  "PromoteResponse",
-)({ BrokerId: S.optional(S.String).pipe(T.JsonName("brokerId")) }) {}
-export class LdapServerMetadataOutput extends S.Class<LdapServerMetadataOutput>(
-  "LdapServerMetadataOutput",
-)({
-  Hosts: __listOf__string.pipe(T.JsonName("hosts")),
-  RoleBase: S.String.pipe(T.JsonName("roleBase")),
-  RoleName: S.optional(S.String).pipe(T.JsonName("roleName")),
-  RoleSearchMatching: S.String.pipe(T.JsonName("roleSearchMatching")),
-  RoleSearchSubtree: S.optional(S.Boolean).pipe(
-    T.JsonName("roleSearchSubtree"),
-  ),
-  ServiceAccountUsername: S.String.pipe(T.JsonName("serviceAccountUsername")),
-  UserBase: S.String.pipe(T.JsonName("userBase")),
-  UserRoleName: S.optional(S.String).pipe(T.JsonName("userRoleName")),
-  UserSearchMatching: S.String.pipe(T.JsonName("userSearchMatching")),
-  UserSearchSubtree: S.optional(S.Boolean).pipe(
-    T.JsonName("userSearchSubtree"),
-  ),
-}) {}
-export class DataReplicationCounterpart extends S.Class<DataReplicationCounterpart>(
-  "DataReplicationCounterpart",
-)({
-  BrokerId: S.String.pipe(T.JsonName("brokerId")),
-  Region: S.String.pipe(T.JsonName("region")),
-}) {}
-export class DataReplicationMetadataOutput extends S.Class<DataReplicationMetadataOutput>(
-  "DataReplicationMetadataOutput",
-)({
-  DataReplicationCounterpart: S.optional(DataReplicationCounterpart).pipe(
-    T.JsonName("dataReplicationCounterpart"),
-  ),
-  DataReplicationRole: S.String.pipe(T.JsonName("dataReplicationRole")),
-}) {}
-export class UpdateBrokerResponse extends S.Class<UpdateBrokerResponse>(
-  "UpdateBrokerResponse",
-)({
-  AuthenticationStrategy: S.optional(S.String).pipe(
-    T.JsonName("authenticationStrategy"),
-  ),
-  AutoMinorVersionUpgrade: S.optional(S.Boolean).pipe(
-    T.JsonName("autoMinorVersionUpgrade"),
-  ),
-  BrokerId: S.optional(S.String).pipe(T.JsonName("brokerId")),
-  Configuration: S.optional(ConfigurationId).pipe(T.JsonName("configuration")),
-  EngineVersion: S.optional(S.String).pipe(T.JsonName("engineVersion")),
-  HostInstanceType: S.optional(S.String).pipe(T.JsonName("hostInstanceType")),
-  LdapServerMetadata: S.optional(LdapServerMetadataOutput).pipe(
-    T.JsonName("ldapServerMetadata"),
-  ),
-  Logs: S.optional(Logs).pipe(T.JsonName("logs")),
-  MaintenanceWindowStartTime: S.optional(WeeklyStartTime).pipe(
-    T.JsonName("maintenanceWindowStartTime"),
-  ),
-  SecurityGroups: S.optional(__listOf__string).pipe(
-    T.JsonName("securityGroups"),
-  ),
-  DataReplicationMetadata: S.optional(DataReplicationMetadataOutput).pipe(
-    T.JsonName("dataReplicationMetadata"),
-  ),
-  DataReplicationMode: S.optional(S.String).pipe(
-    T.JsonName("dataReplicationMode"),
-  ),
-  PendingDataReplicationMetadata: S.optional(
-    DataReplicationMetadataOutput,
-  ).pipe(T.JsonName("pendingDataReplicationMetadata")),
-  PendingDataReplicationMode: S.optional(S.String).pipe(
-    T.JsonName("pendingDataReplicationMode"),
-  ),
-}) {}
+export interface ListUsersResponse {
+  BrokerId?: string;
+  MaxResults?: number;
+  NextToken?: string;
+  Users?: __listOfUserSummary;
+}
+export const ListUsersResponse = S.suspend(() =>
+  S.Struct({
+    BrokerId: S.optional(S.String).pipe(T.JsonName("brokerId")),
+    MaxResults: S.optional(S.Number).pipe(T.JsonName("maxResults")),
+    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
+    Users: S.optional(__listOfUserSummary).pipe(T.JsonName("users")),
+  }),
+).annotations({
+  identifier: "ListUsersResponse",
+}) as any as S.Schema<ListUsersResponse>;
+export interface PromoteResponse {
+  BrokerId?: string;
+}
+export const PromoteResponse = S.suspend(() =>
+  S.Struct({ BrokerId: S.optional(S.String).pipe(T.JsonName("brokerId")) }),
+).annotations({
+  identifier: "PromoteResponse",
+}) as any as S.Schema<PromoteResponse>;
+export interface LdapServerMetadataOutput {
+  Hosts: __listOf__string;
+  RoleBase: string;
+  RoleName?: string;
+  RoleSearchMatching: string;
+  RoleSearchSubtree?: boolean;
+  ServiceAccountUsername: string;
+  UserBase: string;
+  UserRoleName?: string;
+  UserSearchMatching: string;
+  UserSearchSubtree?: boolean;
+}
+export const LdapServerMetadataOutput = S.suspend(() =>
+  S.Struct({
+    Hosts: __listOf__string.pipe(T.JsonName("hosts")),
+    RoleBase: S.String.pipe(T.JsonName("roleBase")),
+    RoleName: S.optional(S.String).pipe(T.JsonName("roleName")),
+    RoleSearchMatching: S.String.pipe(T.JsonName("roleSearchMatching")),
+    RoleSearchSubtree: S.optional(S.Boolean).pipe(
+      T.JsonName("roleSearchSubtree"),
+    ),
+    ServiceAccountUsername: S.String.pipe(T.JsonName("serviceAccountUsername")),
+    UserBase: S.String.pipe(T.JsonName("userBase")),
+    UserRoleName: S.optional(S.String).pipe(T.JsonName("userRoleName")),
+    UserSearchMatching: S.String.pipe(T.JsonName("userSearchMatching")),
+    UserSearchSubtree: S.optional(S.Boolean).pipe(
+      T.JsonName("userSearchSubtree"),
+    ),
+  }),
+).annotations({
+  identifier: "LdapServerMetadataOutput",
+}) as any as S.Schema<LdapServerMetadataOutput>;
+export interface DataReplicationCounterpart {
+  BrokerId: string;
+  Region: string;
+}
+export const DataReplicationCounterpart = S.suspend(() =>
+  S.Struct({
+    BrokerId: S.String.pipe(T.JsonName("brokerId")),
+    Region: S.String.pipe(T.JsonName("region")),
+  }),
+).annotations({
+  identifier: "DataReplicationCounterpart",
+}) as any as S.Schema<DataReplicationCounterpart>;
+export interface DataReplicationMetadataOutput {
+  DataReplicationCounterpart?: DataReplicationCounterpart;
+  DataReplicationRole: string;
+}
+export const DataReplicationMetadataOutput = S.suspend(() =>
+  S.Struct({
+    DataReplicationCounterpart: S.optional(DataReplicationCounterpart)
+      .pipe(T.JsonName("dataReplicationCounterpart"))
+      .annotations({ identifier: "DataReplicationCounterpart" }),
+    DataReplicationRole: S.String.pipe(T.JsonName("dataReplicationRole")),
+  }),
+).annotations({
+  identifier: "DataReplicationMetadataOutput",
+}) as any as S.Schema<DataReplicationMetadataOutput>;
+export interface UpdateBrokerResponse {
+  AuthenticationStrategy?: string;
+  AutoMinorVersionUpgrade?: boolean;
+  BrokerId?: string;
+  Configuration?: ConfigurationId;
+  EngineVersion?: string;
+  HostInstanceType?: string;
+  LdapServerMetadata?: LdapServerMetadataOutput;
+  Logs?: Logs;
+  MaintenanceWindowStartTime?: WeeklyStartTime;
+  SecurityGroups?: __listOf__string;
+  DataReplicationMetadata?: DataReplicationMetadataOutput;
+  DataReplicationMode?: string;
+  PendingDataReplicationMetadata?: DataReplicationMetadataOutput;
+  PendingDataReplicationMode?: string;
+}
+export const UpdateBrokerResponse = S.suspend(() =>
+  S.Struct({
+    AuthenticationStrategy: S.optional(S.String).pipe(
+      T.JsonName("authenticationStrategy"),
+    ),
+    AutoMinorVersionUpgrade: S.optional(S.Boolean).pipe(
+      T.JsonName("autoMinorVersionUpgrade"),
+    ),
+    BrokerId: S.optional(S.String).pipe(T.JsonName("brokerId")),
+    Configuration: S.optional(ConfigurationId)
+      .pipe(T.JsonName("configuration"))
+      .annotations({ identifier: "ConfigurationId" }),
+    EngineVersion: S.optional(S.String).pipe(T.JsonName("engineVersion")),
+    HostInstanceType: S.optional(S.String).pipe(T.JsonName("hostInstanceType")),
+    LdapServerMetadata: S.optional(LdapServerMetadataOutput)
+      .pipe(T.JsonName("ldapServerMetadata"))
+      .annotations({ identifier: "LdapServerMetadataOutput" }),
+    Logs: S.optional(Logs)
+      .pipe(T.JsonName("logs"))
+      .annotations({ identifier: "Logs" }),
+    MaintenanceWindowStartTime: S.optional(WeeklyStartTime)
+      .pipe(T.JsonName("maintenanceWindowStartTime"))
+      .annotations({ identifier: "WeeklyStartTime" }),
+    SecurityGroups: S.optional(__listOf__string).pipe(
+      T.JsonName("securityGroups"),
+    ),
+    DataReplicationMetadata: S.optional(DataReplicationMetadataOutput)
+      .pipe(T.JsonName("dataReplicationMetadata"))
+      .annotations({ identifier: "DataReplicationMetadataOutput" }),
+    DataReplicationMode: S.optional(S.String).pipe(
+      T.JsonName("dataReplicationMode"),
+    ),
+    PendingDataReplicationMetadata: S.optional(DataReplicationMetadataOutput)
+      .pipe(T.JsonName("pendingDataReplicationMetadata"))
+      .annotations({ identifier: "DataReplicationMetadataOutput" }),
+    PendingDataReplicationMode: S.optional(S.String).pipe(
+      T.JsonName("pendingDataReplicationMode"),
+    ),
+  }),
+).annotations({
+  identifier: "UpdateBrokerResponse",
+}) as any as S.Schema<UpdateBrokerResponse>;
+export type __listOfConfigurationId = ConfigurationId[];
 export const __listOfConfigurationId = S.Array(ConfigurationId);
+export type __listOfDeploymentMode = string[];
 export const __listOfDeploymentMode = S.Array(S.String);
-export class ActionRequired extends S.Class<ActionRequired>("ActionRequired")({
-  ActionRequiredCode: S.optional(S.String).pipe(
-    T.JsonName("actionRequiredCode"),
-  ),
-  ActionRequiredInfo: S.optional(S.String).pipe(
-    T.JsonName("actionRequiredInfo"),
-  ),
-}) {}
+export interface ActionRequired {
+  ActionRequiredCode?: string;
+  ActionRequiredInfo?: string;
+}
+export const ActionRequired = S.suspend(() =>
+  S.Struct({
+    ActionRequiredCode: S.optional(S.String).pipe(
+      T.JsonName("actionRequiredCode"),
+    ),
+    ActionRequiredInfo: S.optional(S.String).pipe(
+      T.JsonName("actionRequiredInfo"),
+    ),
+  }),
+).annotations({
+  identifier: "ActionRequired",
+}) as any as S.Schema<ActionRequired>;
+export type __listOfActionRequired = ActionRequired[];
 export const __listOfActionRequired = S.Array(ActionRequired);
-export class BrokerInstance extends S.Class<BrokerInstance>("BrokerInstance")({
-  ConsoleURL: S.optional(S.String).pipe(T.JsonName("consoleURL")),
-  Endpoints: S.optional(__listOf__string).pipe(T.JsonName("endpoints")),
-  IpAddress: S.optional(S.String).pipe(T.JsonName("ipAddress")),
-}) {}
+export interface BrokerInstance {
+  ConsoleURL?: string;
+  Endpoints?: __listOf__string;
+  IpAddress?: string;
+}
+export const BrokerInstance = S.suspend(() =>
+  S.Struct({
+    ConsoleURL: S.optional(S.String).pipe(T.JsonName("consoleURL")),
+    Endpoints: S.optional(__listOf__string).pipe(T.JsonName("endpoints")),
+    IpAddress: S.optional(S.String).pipe(T.JsonName("ipAddress")),
+  }),
+).annotations({
+  identifier: "BrokerInstance",
+}) as any as S.Schema<BrokerInstance>;
+export type __listOfBrokerInstance = BrokerInstance[];
 export const __listOfBrokerInstance = S.Array(BrokerInstance);
-export class Configurations extends S.Class<Configurations>("Configurations")({
-  Current: S.optional(ConfigurationId).pipe(T.JsonName("current")),
-  History: S.optional(__listOfConfigurationId).pipe(T.JsonName("history")),
-  Pending: S.optional(ConfigurationId).pipe(T.JsonName("pending")),
-}) {}
-export class UserPendingChanges extends S.Class<UserPendingChanges>(
-  "UserPendingChanges",
-)({
-  ConsoleAccess: S.optional(S.Boolean).pipe(T.JsonName("consoleAccess")),
-  Groups: S.optional(__listOf__string).pipe(T.JsonName("groups")),
-  PendingChange: S.String.pipe(T.JsonName("pendingChange")),
-}) {}
-export class BrokerSummary extends S.Class<BrokerSummary>("BrokerSummary")({
-  BrokerArn: S.optional(S.String).pipe(T.JsonName("brokerArn")),
-  BrokerId: S.optional(S.String).pipe(T.JsonName("brokerId")),
-  BrokerName: S.optional(S.String).pipe(T.JsonName("brokerName")),
-  BrokerState: S.optional(S.String).pipe(T.JsonName("brokerState")),
-  Created: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-    T.JsonName("created"),
-  ),
-  DeploymentMode: S.String.pipe(T.JsonName("deploymentMode")),
-  EngineType: S.String.pipe(T.JsonName("engineType")),
-  HostInstanceType: S.optional(S.String).pipe(T.JsonName("hostInstanceType")),
-}) {}
+export interface Configurations {
+  Current?: ConfigurationId;
+  History?: __listOfConfigurationId;
+  Pending?: ConfigurationId;
+}
+export const Configurations = S.suspend(() =>
+  S.Struct({
+    Current: S.optional(ConfigurationId)
+      .pipe(T.JsonName("current"))
+      .annotations({ identifier: "ConfigurationId" }),
+    History: S.optional(__listOfConfigurationId).pipe(T.JsonName("history")),
+    Pending: S.optional(ConfigurationId)
+      .pipe(T.JsonName("pending"))
+      .annotations({ identifier: "ConfigurationId" }),
+  }),
+).annotations({
+  identifier: "Configurations",
+}) as any as S.Schema<Configurations>;
+export interface UserPendingChanges {
+  ConsoleAccess?: boolean;
+  Groups?: __listOf__string;
+  PendingChange: string;
+}
+export const UserPendingChanges = S.suspend(() =>
+  S.Struct({
+    ConsoleAccess: S.optional(S.Boolean).pipe(T.JsonName("consoleAccess")),
+    Groups: S.optional(__listOf__string).pipe(T.JsonName("groups")),
+    PendingChange: S.String.pipe(T.JsonName("pendingChange")),
+  }),
+).annotations({
+  identifier: "UserPendingChanges",
+}) as any as S.Schema<UserPendingChanges>;
+export interface BrokerSummary {
+  BrokerArn?: string;
+  BrokerId?: string;
+  BrokerName?: string;
+  BrokerState?: string;
+  Created?: Date;
+  DeploymentMode: string;
+  EngineType: string;
+  HostInstanceType?: string;
+}
+export const BrokerSummary = S.suspend(() =>
+  S.Struct({
+    BrokerArn: S.optional(S.String).pipe(T.JsonName("brokerArn")),
+    BrokerId: S.optional(S.String).pipe(T.JsonName("brokerId")),
+    BrokerName: S.optional(S.String).pipe(T.JsonName("brokerName")),
+    BrokerState: S.optional(S.String).pipe(T.JsonName("brokerState")),
+    Created: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.JsonName("created"),
+    ),
+    DeploymentMode: S.String.pipe(T.JsonName("deploymentMode")),
+    EngineType: S.String.pipe(T.JsonName("engineType")),
+    HostInstanceType: S.optional(S.String).pipe(T.JsonName("hostInstanceType")),
+  }),
+).annotations({
+  identifier: "BrokerSummary",
+}) as any as S.Schema<BrokerSummary>;
+export type __listOfBrokerSummary = BrokerSummary[];
 export const __listOfBrokerSummary = S.Array(BrokerSummary);
-export class Configuration extends S.Class<Configuration>("Configuration")({
-  Arn: S.String.pipe(T.JsonName("arn")),
-  AuthenticationStrategy: S.String.pipe(T.JsonName("authenticationStrategy")),
-  Created: S.Date.pipe(T.TimestampFormat("date-time")).pipe(
-    T.JsonName("created"),
-  ),
-  Description: S.String.pipe(T.JsonName("description")),
-  EngineType: S.String.pipe(T.JsonName("engineType")),
-  EngineVersion: S.String.pipe(T.JsonName("engineVersion")),
-  Id: S.String.pipe(T.JsonName("id")),
-  LatestRevision: ConfigurationRevision.pipe(T.JsonName("latestRevision")),
-  Name: S.String.pipe(T.JsonName("name")),
-  Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
-}) {}
+export interface Configuration {
+  Arn: string;
+  AuthenticationStrategy: string;
+  Created: Date;
+  Description: string;
+  EngineType: string;
+  EngineVersion: string;
+  Id: string;
+  LatestRevision: ConfigurationRevision;
+  Name: string;
+  Tags?: __mapOf__string;
+}
+export const Configuration = S.suspend(() =>
+  S.Struct({
+    Arn: S.String.pipe(T.JsonName("arn")),
+    AuthenticationStrategy: S.String.pipe(T.JsonName("authenticationStrategy")),
+    Created: S.Date.pipe(T.TimestampFormat("date-time")).pipe(
+      T.JsonName("created"),
+    ),
+    Description: S.String.pipe(T.JsonName("description")),
+    EngineType: S.String.pipe(T.JsonName("engineType")),
+    EngineVersion: S.String.pipe(T.JsonName("engineVersion")),
+    Id: S.String.pipe(T.JsonName("id")),
+    LatestRevision: ConfigurationRevision.pipe(
+      T.JsonName("latestRevision"),
+    ).annotations({ identifier: "ConfigurationRevision" }),
+    Name: S.String.pipe(T.JsonName("name")),
+    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
+  }),
+).annotations({
+  identifier: "Configuration",
+}) as any as S.Schema<Configuration>;
+export type __listOfConfiguration = Configuration[];
 export const __listOfConfiguration = S.Array(Configuration);
-export class SanitizationWarning extends S.Class<SanitizationWarning>(
-  "SanitizationWarning",
-)({
-  AttributeName: S.optional(S.String).pipe(T.JsonName("attributeName")),
-  ElementName: S.optional(S.String).pipe(T.JsonName("elementName")),
-  Reason: S.String.pipe(T.JsonName("reason")),
-}) {}
+export interface SanitizationWarning {
+  AttributeName?: string;
+  ElementName?: string;
+  Reason: string;
+}
+export const SanitizationWarning = S.suspend(() =>
+  S.Struct({
+    AttributeName: S.optional(S.String).pipe(T.JsonName("attributeName")),
+    ElementName: S.optional(S.String).pipe(T.JsonName("elementName")),
+    Reason: S.String.pipe(T.JsonName("reason")),
+  }),
+).annotations({
+  identifier: "SanitizationWarning",
+}) as any as S.Schema<SanitizationWarning>;
+export type __listOfSanitizationWarning = SanitizationWarning[];
 export const __listOfSanitizationWarning = S.Array(SanitizationWarning);
-export class CreateBrokerResponse extends S.Class<CreateBrokerResponse>(
-  "CreateBrokerResponse",
-)({
-  BrokerArn: S.optional(S.String).pipe(T.JsonName("brokerArn")),
-  BrokerId: S.optional(S.String).pipe(T.JsonName("brokerId")),
-}) {}
-export class CreateConfigurationResponse extends S.Class<CreateConfigurationResponse>(
-  "CreateConfigurationResponse",
-)({
-  Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-  AuthenticationStrategy: S.optional(S.String).pipe(
-    T.JsonName("authenticationStrategy"),
-  ),
-  Created: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-    T.JsonName("created"),
-  ),
-  Id: S.optional(S.String).pipe(T.JsonName("id")),
-  LatestRevision: S.optional(ConfigurationRevision).pipe(
-    T.JsonName("latestRevision"),
-  ),
-  Name: S.optional(S.String).pipe(T.JsonName("name")),
-}) {}
-export class DescribeUserResponse extends S.Class<DescribeUserResponse>(
-  "DescribeUserResponse",
-)({
-  BrokerId: S.optional(S.String).pipe(T.JsonName("brokerId")),
-  ConsoleAccess: S.optional(S.Boolean).pipe(T.JsonName("consoleAccess")),
-  Groups: S.optional(__listOf__string).pipe(T.JsonName("groups")),
-  Pending: S.optional(UserPendingChanges).pipe(T.JsonName("pending")),
-  Username: S.optional(S.String).pipe(T.JsonName("username")),
-  ReplicationUser: S.optional(S.Boolean).pipe(T.JsonName("replicationUser")),
-}) {}
-export class ListBrokersResponse extends S.Class<ListBrokersResponse>(
-  "ListBrokersResponse",
-)({
-  BrokerSummaries: S.optional(__listOfBrokerSummary).pipe(
-    T.JsonName("brokerSummaries"),
-  ),
-  NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-}) {}
-export class ListConfigurationsResponse extends S.Class<ListConfigurationsResponse>(
-  "ListConfigurationsResponse",
-)({
-  Configurations: S.optional(__listOfConfiguration).pipe(
-    T.JsonName("configurations"),
-  ),
-  MaxResults: S.optional(S.Number).pipe(T.JsonName("maxResults")),
-  NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-}) {}
-export class UpdateConfigurationResponse extends S.Class<UpdateConfigurationResponse>(
-  "UpdateConfigurationResponse",
-)({
-  Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-  Created: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-    T.JsonName("created"),
-  ),
-  Id: S.optional(S.String).pipe(T.JsonName("id")),
-  LatestRevision: S.optional(ConfigurationRevision).pipe(
-    T.JsonName("latestRevision"),
-  ),
-  Name: S.optional(S.String).pipe(T.JsonName("name")),
-  Warnings: S.optional(__listOfSanitizationWarning).pipe(
-    T.JsonName("warnings"),
-  ),
-}) {}
-export class PendingLogs extends S.Class<PendingLogs>("PendingLogs")({
-  Audit: S.optional(S.Boolean).pipe(T.JsonName("audit")),
-  General: S.optional(S.Boolean).pipe(T.JsonName("general")),
-}) {}
-export class EngineVersion extends S.Class<EngineVersion>("EngineVersion")({
-  Name: S.optional(S.String).pipe(T.JsonName("name")),
-}) {}
+export interface CreateBrokerResponse {
+  BrokerArn?: string;
+  BrokerId?: string;
+}
+export const CreateBrokerResponse = S.suspend(() =>
+  S.Struct({
+    BrokerArn: S.optional(S.String).pipe(T.JsonName("brokerArn")),
+    BrokerId: S.optional(S.String).pipe(T.JsonName("brokerId")),
+  }),
+).annotations({
+  identifier: "CreateBrokerResponse",
+}) as any as S.Schema<CreateBrokerResponse>;
+export interface CreateConfigurationResponse {
+  Arn?: string;
+  AuthenticationStrategy?: string;
+  Created?: Date;
+  Id?: string;
+  LatestRevision?: ConfigurationRevision;
+  Name?: string;
+}
+export const CreateConfigurationResponse = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
+    AuthenticationStrategy: S.optional(S.String).pipe(
+      T.JsonName("authenticationStrategy"),
+    ),
+    Created: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.JsonName("created"),
+    ),
+    Id: S.optional(S.String).pipe(T.JsonName("id")),
+    LatestRevision: S.optional(ConfigurationRevision)
+      .pipe(T.JsonName("latestRevision"))
+      .annotations({ identifier: "ConfigurationRevision" }),
+    Name: S.optional(S.String).pipe(T.JsonName("name")),
+  }),
+).annotations({
+  identifier: "CreateConfigurationResponse",
+}) as any as S.Schema<CreateConfigurationResponse>;
+export interface DescribeUserResponse {
+  BrokerId?: string;
+  ConsoleAccess?: boolean;
+  Groups?: __listOf__string;
+  Pending?: UserPendingChanges;
+  Username?: string;
+  ReplicationUser?: boolean;
+}
+export const DescribeUserResponse = S.suspend(() =>
+  S.Struct({
+    BrokerId: S.optional(S.String).pipe(T.JsonName("brokerId")),
+    ConsoleAccess: S.optional(S.Boolean).pipe(T.JsonName("consoleAccess")),
+    Groups: S.optional(__listOf__string).pipe(T.JsonName("groups")),
+    Pending: S.optional(UserPendingChanges)
+      .pipe(T.JsonName("pending"))
+      .annotations({ identifier: "UserPendingChanges" }),
+    Username: S.optional(S.String).pipe(T.JsonName("username")),
+    ReplicationUser: S.optional(S.Boolean).pipe(T.JsonName("replicationUser")),
+  }),
+).annotations({
+  identifier: "DescribeUserResponse",
+}) as any as S.Schema<DescribeUserResponse>;
+export interface ListBrokersResponse {
+  BrokerSummaries?: __listOfBrokerSummary;
+  NextToken?: string;
+}
+export const ListBrokersResponse = S.suspend(() =>
+  S.Struct({
+    BrokerSummaries: S.optional(__listOfBrokerSummary).pipe(
+      T.JsonName("brokerSummaries"),
+    ),
+    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
+  }),
+).annotations({
+  identifier: "ListBrokersResponse",
+}) as any as S.Schema<ListBrokersResponse>;
+export interface ListConfigurationsResponse {
+  Configurations?: __listOfConfiguration;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListConfigurationsResponse = S.suspend(() =>
+  S.Struct({
+    Configurations: S.optional(__listOfConfiguration).pipe(
+      T.JsonName("configurations"),
+    ),
+    MaxResults: S.optional(S.Number).pipe(T.JsonName("maxResults")),
+    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
+  }),
+).annotations({
+  identifier: "ListConfigurationsResponse",
+}) as any as S.Schema<ListConfigurationsResponse>;
+export interface UpdateConfigurationResponse {
+  Arn?: string;
+  Created?: Date;
+  Id?: string;
+  LatestRevision?: ConfigurationRevision;
+  Name?: string;
+  Warnings?: __listOfSanitizationWarning;
+}
+export const UpdateConfigurationResponse = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
+    Created: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.JsonName("created"),
+    ),
+    Id: S.optional(S.String).pipe(T.JsonName("id")),
+    LatestRevision: S.optional(ConfigurationRevision)
+      .pipe(T.JsonName("latestRevision"))
+      .annotations({ identifier: "ConfigurationRevision" }),
+    Name: S.optional(S.String).pipe(T.JsonName("name")),
+    Warnings: S.optional(__listOfSanitizationWarning).pipe(
+      T.JsonName("warnings"),
+    ),
+  }),
+).annotations({
+  identifier: "UpdateConfigurationResponse",
+}) as any as S.Schema<UpdateConfigurationResponse>;
+export interface PendingLogs {
+  Audit?: boolean;
+  General?: boolean;
+}
+export const PendingLogs = S.suspend(() =>
+  S.Struct({
+    Audit: S.optional(S.Boolean).pipe(T.JsonName("audit")),
+    General: S.optional(S.Boolean).pipe(T.JsonName("general")),
+  }),
+).annotations({ identifier: "PendingLogs" }) as any as S.Schema<PendingLogs>;
+export interface EngineVersion {
+  Name?: string;
+}
+export const EngineVersion = S.suspend(() =>
+  S.Struct({ Name: S.optional(S.String).pipe(T.JsonName("name")) }),
+).annotations({
+  identifier: "EngineVersion",
+}) as any as S.Schema<EngineVersion>;
+export type __listOfEngineVersion = EngineVersion[];
 export const __listOfEngineVersion = S.Array(EngineVersion);
-export class AvailabilityZone extends S.Class<AvailabilityZone>(
-  "AvailabilityZone",
-)({ Name: S.optional(S.String).pipe(T.JsonName("name")) }) {}
+export interface AvailabilityZone {
+  Name?: string;
+}
+export const AvailabilityZone = S.suspend(() =>
+  S.Struct({ Name: S.optional(S.String).pipe(T.JsonName("name")) }),
+).annotations({
+  identifier: "AvailabilityZone",
+}) as any as S.Schema<AvailabilityZone>;
+export type __listOfAvailabilityZone = AvailabilityZone[];
 export const __listOfAvailabilityZone = S.Array(AvailabilityZone);
-export class LogsSummary extends S.Class<LogsSummary>("LogsSummary")({
-  Audit: S.optional(S.Boolean).pipe(T.JsonName("audit")),
-  AuditLogGroup: S.optional(S.String).pipe(T.JsonName("auditLogGroup")),
-  General: S.Boolean.pipe(T.JsonName("general")),
-  GeneralLogGroup: S.String.pipe(T.JsonName("generalLogGroup")),
-  Pending: S.optional(PendingLogs).pipe(T.JsonName("pending")),
-}) {}
-export class BrokerEngineType extends S.Class<BrokerEngineType>(
-  "BrokerEngineType",
-)({
-  EngineType: S.optional(S.String).pipe(T.JsonName("engineType")),
-  EngineVersions: S.optional(__listOfEngineVersion).pipe(
-    T.JsonName("engineVersions"),
-  ),
-}) {}
+export interface LogsSummary {
+  Audit?: boolean;
+  AuditLogGroup?: string;
+  General: boolean;
+  GeneralLogGroup: string;
+  Pending?: PendingLogs;
+}
+export const LogsSummary = S.suspend(() =>
+  S.Struct({
+    Audit: S.optional(S.Boolean).pipe(T.JsonName("audit")),
+    AuditLogGroup: S.optional(S.String).pipe(T.JsonName("auditLogGroup")),
+    General: S.Boolean.pipe(T.JsonName("general")),
+    GeneralLogGroup: S.String.pipe(T.JsonName("generalLogGroup")),
+    Pending: S.optional(PendingLogs)
+      .pipe(T.JsonName("pending"))
+      .annotations({ identifier: "PendingLogs" }),
+  }),
+).annotations({ identifier: "LogsSummary" }) as any as S.Schema<LogsSummary>;
+export interface BrokerEngineType {
+  EngineType?: string;
+  EngineVersions?: __listOfEngineVersion;
+}
+export const BrokerEngineType = S.suspend(() =>
+  S.Struct({
+    EngineType: S.optional(S.String).pipe(T.JsonName("engineType")),
+    EngineVersions: S.optional(__listOfEngineVersion).pipe(
+      T.JsonName("engineVersions"),
+    ),
+  }),
+).annotations({
+  identifier: "BrokerEngineType",
+}) as any as S.Schema<BrokerEngineType>;
+export type __listOfBrokerEngineType = BrokerEngineType[];
 export const __listOfBrokerEngineType = S.Array(BrokerEngineType);
-export class BrokerInstanceOption extends S.Class<BrokerInstanceOption>(
-  "BrokerInstanceOption",
-)({
-  AvailabilityZones: S.optional(__listOfAvailabilityZone).pipe(
-    T.JsonName("availabilityZones"),
-  ),
-  EngineType: S.optional(S.String).pipe(T.JsonName("engineType")),
-  HostInstanceType: S.optional(S.String).pipe(T.JsonName("hostInstanceType")),
-  StorageType: S.optional(S.String).pipe(T.JsonName("storageType")),
-  SupportedDeploymentModes: S.optional(__listOfDeploymentMode).pipe(
-    T.JsonName("supportedDeploymentModes"),
-  ),
-  SupportedEngineVersions: S.optional(__listOf__string).pipe(
-    T.JsonName("supportedEngineVersions"),
-  ),
-}) {}
+export interface BrokerInstanceOption {
+  AvailabilityZones?: __listOfAvailabilityZone;
+  EngineType?: string;
+  HostInstanceType?: string;
+  StorageType?: string;
+  SupportedDeploymentModes?: __listOfDeploymentMode;
+  SupportedEngineVersions?: __listOf__string;
+}
+export const BrokerInstanceOption = S.suspend(() =>
+  S.Struct({
+    AvailabilityZones: S.optional(__listOfAvailabilityZone).pipe(
+      T.JsonName("availabilityZones"),
+    ),
+    EngineType: S.optional(S.String).pipe(T.JsonName("engineType")),
+    HostInstanceType: S.optional(S.String).pipe(T.JsonName("hostInstanceType")),
+    StorageType: S.optional(S.String).pipe(T.JsonName("storageType")),
+    SupportedDeploymentModes: S.optional(__listOfDeploymentMode).pipe(
+      T.JsonName("supportedDeploymentModes"),
+    ),
+    SupportedEngineVersions: S.optional(__listOf__string).pipe(
+      T.JsonName("supportedEngineVersions"),
+    ),
+  }),
+).annotations({
+  identifier: "BrokerInstanceOption",
+}) as any as S.Schema<BrokerInstanceOption>;
+export type __listOfBrokerInstanceOption = BrokerInstanceOption[];
 export const __listOfBrokerInstanceOption = S.Array(BrokerInstanceOption);
-export class DescribeBrokerResponse extends S.Class<DescribeBrokerResponse>(
-  "DescribeBrokerResponse",
-)({
-  ActionsRequired: S.optional(__listOfActionRequired).pipe(
-    T.JsonName("actionsRequired"),
-  ),
-  AuthenticationStrategy: S.optional(S.String).pipe(
-    T.JsonName("authenticationStrategy"),
-  ),
-  AutoMinorVersionUpgrade: S.optional(S.Boolean).pipe(
-    T.JsonName("autoMinorVersionUpgrade"),
-  ),
-  BrokerArn: S.optional(S.String).pipe(T.JsonName("brokerArn")),
-  BrokerId: S.optional(S.String).pipe(T.JsonName("brokerId")),
-  BrokerInstances: S.optional(__listOfBrokerInstance).pipe(
-    T.JsonName("brokerInstances"),
-  ),
-  BrokerName: S.optional(S.String).pipe(T.JsonName("brokerName")),
-  BrokerState: S.optional(S.String).pipe(T.JsonName("brokerState")),
-  Configurations: S.optional(Configurations).pipe(T.JsonName("configurations")),
-  Created: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-    T.JsonName("created"),
-  ),
-  DeploymentMode: S.optional(S.String).pipe(T.JsonName("deploymentMode")),
-  EncryptionOptions: S.optional(EncryptionOptions).pipe(
-    T.JsonName("encryptionOptions"),
-  ),
-  EngineType: S.optional(S.String).pipe(T.JsonName("engineType")),
-  EngineVersion: S.optional(S.String).pipe(T.JsonName("engineVersion")),
-  HostInstanceType: S.optional(S.String).pipe(T.JsonName("hostInstanceType")),
-  LdapServerMetadata: S.optional(LdapServerMetadataOutput).pipe(
-    T.JsonName("ldapServerMetadata"),
-  ),
-  Logs: S.optional(LogsSummary).pipe(T.JsonName("logs")),
-  MaintenanceWindowStartTime: S.optional(WeeklyStartTime).pipe(
-    T.JsonName("maintenanceWindowStartTime"),
-  ),
-  PendingAuthenticationStrategy: S.optional(S.String).pipe(
-    T.JsonName("pendingAuthenticationStrategy"),
-  ),
-  PendingEngineVersion: S.optional(S.String).pipe(
-    T.JsonName("pendingEngineVersion"),
-  ),
-  PendingHostInstanceType: S.optional(S.String).pipe(
-    T.JsonName("pendingHostInstanceType"),
-  ),
-  PendingLdapServerMetadata: S.optional(LdapServerMetadataOutput).pipe(
-    T.JsonName("pendingLdapServerMetadata"),
-  ),
-  PendingSecurityGroups: S.optional(__listOf__string).pipe(
-    T.JsonName("pendingSecurityGroups"),
-  ),
-  PubliclyAccessible: S.optional(S.Boolean).pipe(
-    T.JsonName("publiclyAccessible"),
-  ),
-  SecurityGroups: S.optional(__listOf__string).pipe(
-    T.JsonName("securityGroups"),
-  ),
-  StorageType: S.optional(S.String).pipe(T.JsonName("storageType")),
-  SubnetIds: S.optional(__listOf__string).pipe(T.JsonName("subnetIds")),
-  Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
-  Users: S.optional(__listOfUserSummary).pipe(T.JsonName("users")),
-  DataReplicationMetadata: S.optional(DataReplicationMetadataOutput).pipe(
-    T.JsonName("dataReplicationMetadata"),
-  ),
-  DataReplicationMode: S.optional(S.String).pipe(
-    T.JsonName("dataReplicationMode"),
-  ),
-  PendingDataReplicationMetadata: S.optional(
-    DataReplicationMetadataOutput,
-  ).pipe(T.JsonName("pendingDataReplicationMetadata")),
-  PendingDataReplicationMode: S.optional(S.String).pipe(
-    T.JsonName("pendingDataReplicationMode"),
-  ),
-}) {}
-export class DescribeBrokerEngineTypesResponse extends S.Class<DescribeBrokerEngineTypesResponse>(
-  "DescribeBrokerEngineTypesResponse",
-)({
-  BrokerEngineTypes: S.optional(__listOfBrokerEngineType).pipe(
-    T.JsonName("brokerEngineTypes"),
-  ),
-  MaxResults: S.optional(S.Number).pipe(T.JsonName("maxResults")),
-  NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-}) {}
-export class DescribeBrokerInstanceOptionsResponse extends S.Class<DescribeBrokerInstanceOptionsResponse>(
-  "DescribeBrokerInstanceOptionsResponse",
-)({
-  BrokerInstanceOptions: S.optional(__listOfBrokerInstanceOption).pipe(
-    T.JsonName("brokerInstanceOptions"),
-  ),
-  MaxResults: S.optional(S.Number).pipe(T.JsonName("maxResults")),
-  NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-}) {}
+export interface DescribeBrokerResponse {
+  ActionsRequired?: __listOfActionRequired;
+  AuthenticationStrategy?: string;
+  AutoMinorVersionUpgrade?: boolean;
+  BrokerArn?: string;
+  BrokerId?: string;
+  BrokerInstances?: __listOfBrokerInstance;
+  BrokerName?: string;
+  BrokerState?: string;
+  Configurations?: Configurations;
+  Created?: Date;
+  DeploymentMode?: string;
+  EncryptionOptions?: EncryptionOptions;
+  EngineType?: string;
+  EngineVersion?: string;
+  HostInstanceType?: string;
+  LdapServerMetadata?: LdapServerMetadataOutput;
+  Logs?: LogsSummary;
+  MaintenanceWindowStartTime?: WeeklyStartTime;
+  PendingAuthenticationStrategy?: string;
+  PendingEngineVersion?: string;
+  PendingHostInstanceType?: string;
+  PendingLdapServerMetadata?: LdapServerMetadataOutput;
+  PendingSecurityGroups?: __listOf__string;
+  PubliclyAccessible?: boolean;
+  SecurityGroups?: __listOf__string;
+  StorageType?: string;
+  SubnetIds?: __listOf__string;
+  Tags?: __mapOf__string;
+  Users?: __listOfUserSummary;
+  DataReplicationMetadata?: DataReplicationMetadataOutput;
+  DataReplicationMode?: string;
+  PendingDataReplicationMetadata?: DataReplicationMetadataOutput;
+  PendingDataReplicationMode?: string;
+}
+export const DescribeBrokerResponse = S.suspend(() =>
+  S.Struct({
+    ActionsRequired: S.optional(__listOfActionRequired).pipe(
+      T.JsonName("actionsRequired"),
+    ),
+    AuthenticationStrategy: S.optional(S.String).pipe(
+      T.JsonName("authenticationStrategy"),
+    ),
+    AutoMinorVersionUpgrade: S.optional(S.Boolean).pipe(
+      T.JsonName("autoMinorVersionUpgrade"),
+    ),
+    BrokerArn: S.optional(S.String).pipe(T.JsonName("brokerArn")),
+    BrokerId: S.optional(S.String).pipe(T.JsonName("brokerId")),
+    BrokerInstances: S.optional(__listOfBrokerInstance).pipe(
+      T.JsonName("brokerInstances"),
+    ),
+    BrokerName: S.optional(S.String).pipe(T.JsonName("brokerName")),
+    BrokerState: S.optional(S.String).pipe(T.JsonName("brokerState")),
+    Configurations: S.optional(Configurations)
+      .pipe(T.JsonName("configurations"))
+      .annotations({ identifier: "Configurations" }),
+    Created: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.JsonName("created"),
+    ),
+    DeploymentMode: S.optional(S.String).pipe(T.JsonName("deploymentMode")),
+    EncryptionOptions: S.optional(EncryptionOptions)
+      .pipe(T.JsonName("encryptionOptions"))
+      .annotations({ identifier: "EncryptionOptions" }),
+    EngineType: S.optional(S.String).pipe(T.JsonName("engineType")),
+    EngineVersion: S.optional(S.String).pipe(T.JsonName("engineVersion")),
+    HostInstanceType: S.optional(S.String).pipe(T.JsonName("hostInstanceType")),
+    LdapServerMetadata: S.optional(LdapServerMetadataOutput)
+      .pipe(T.JsonName("ldapServerMetadata"))
+      .annotations({ identifier: "LdapServerMetadataOutput" }),
+    Logs: S.optional(LogsSummary)
+      .pipe(T.JsonName("logs"))
+      .annotations({ identifier: "LogsSummary" }),
+    MaintenanceWindowStartTime: S.optional(WeeklyStartTime)
+      .pipe(T.JsonName("maintenanceWindowStartTime"))
+      .annotations({ identifier: "WeeklyStartTime" }),
+    PendingAuthenticationStrategy: S.optional(S.String).pipe(
+      T.JsonName("pendingAuthenticationStrategy"),
+    ),
+    PendingEngineVersion: S.optional(S.String).pipe(
+      T.JsonName("pendingEngineVersion"),
+    ),
+    PendingHostInstanceType: S.optional(S.String).pipe(
+      T.JsonName("pendingHostInstanceType"),
+    ),
+    PendingLdapServerMetadata: S.optional(LdapServerMetadataOutput)
+      .pipe(T.JsonName("pendingLdapServerMetadata"))
+      .annotations({ identifier: "LdapServerMetadataOutput" }),
+    PendingSecurityGroups: S.optional(__listOf__string).pipe(
+      T.JsonName("pendingSecurityGroups"),
+    ),
+    PubliclyAccessible: S.optional(S.Boolean).pipe(
+      T.JsonName("publiclyAccessible"),
+    ),
+    SecurityGroups: S.optional(__listOf__string).pipe(
+      T.JsonName("securityGroups"),
+    ),
+    StorageType: S.optional(S.String).pipe(T.JsonName("storageType")),
+    SubnetIds: S.optional(__listOf__string).pipe(T.JsonName("subnetIds")),
+    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
+    Users: S.optional(__listOfUserSummary).pipe(T.JsonName("users")),
+    DataReplicationMetadata: S.optional(DataReplicationMetadataOutput)
+      .pipe(T.JsonName("dataReplicationMetadata"))
+      .annotations({ identifier: "DataReplicationMetadataOutput" }),
+    DataReplicationMode: S.optional(S.String).pipe(
+      T.JsonName("dataReplicationMode"),
+    ),
+    PendingDataReplicationMetadata: S.optional(DataReplicationMetadataOutput)
+      .pipe(T.JsonName("pendingDataReplicationMetadata"))
+      .annotations({ identifier: "DataReplicationMetadataOutput" }),
+    PendingDataReplicationMode: S.optional(S.String).pipe(
+      T.JsonName("pendingDataReplicationMode"),
+    ),
+  }),
+).annotations({
+  identifier: "DescribeBrokerResponse",
+}) as any as S.Schema<DescribeBrokerResponse>;
+export interface DescribeBrokerEngineTypesResponse {
+  BrokerEngineTypes?: __listOfBrokerEngineType;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const DescribeBrokerEngineTypesResponse = S.suspend(() =>
+  S.Struct({
+    BrokerEngineTypes: S.optional(__listOfBrokerEngineType).pipe(
+      T.JsonName("brokerEngineTypes"),
+    ),
+    MaxResults: S.optional(S.Number).pipe(T.JsonName("maxResults")),
+    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
+  }),
+).annotations({
+  identifier: "DescribeBrokerEngineTypesResponse",
+}) as any as S.Schema<DescribeBrokerEngineTypesResponse>;
+export interface DescribeBrokerInstanceOptionsResponse {
+  BrokerInstanceOptions?: __listOfBrokerInstanceOption;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const DescribeBrokerInstanceOptionsResponse = S.suspend(() =>
+  S.Struct({
+    BrokerInstanceOptions: S.optional(__listOfBrokerInstanceOption).pipe(
+      T.JsonName("brokerInstanceOptions"),
+    ),
+    MaxResults: S.optional(S.Number).pipe(T.JsonName("maxResults")),
+    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
+  }),
+).annotations({
+  identifier: "DescribeBrokerInstanceOptionsResponse",
+}) as any as S.Schema<DescribeBrokerInstanceOptionsResponse>;
 
 //# Errors
 export class BadRequestException extends S.TaggedError<BadRequestException>()(

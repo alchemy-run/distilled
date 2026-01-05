@@ -242,39 +242,64 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class DescribeReportCreationInput extends S.Class<DescribeReportCreationInput>(
-  "DescribeReportCreationInput",
-)(
-  {},
-  T.all(
-    T.Http({ method: "POST", uri: "/DescribeReportCreation" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface DescribeReportCreationInput {}
+export const DescribeReportCreationInput = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/DescribeReportCreation" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "DescribeReportCreationInput",
+}) as any as S.Schema<DescribeReportCreationInput>;
+export type TargetIdFilterList = string[];
 export const TargetIdFilterList = S.Array(S.String);
+export type RegionFilterList = string[];
 export const RegionFilterList = S.Array(S.String);
+export type ResourceTypeFilterList = string[];
 export const ResourceTypeFilterList = S.Array(S.String);
+export type TagKeyFilterList = string[];
 export const TagKeyFilterList = S.Array(S.String);
+export type GroupBy = string[];
 export const GroupBy = S.Array(S.String);
+export type ResourceARNListForGet = string[];
 export const ResourceARNListForGet = S.Array(S.String);
+export type ResourceARNListForTagUntag = string[];
 export const ResourceARNListForTagUntag = S.Array(S.String);
+export type TagKeyListForUntag = string[];
 export const TagKeyListForUntag = S.Array(S.String);
-export class DescribeReportCreationOutput extends S.Class<DescribeReportCreationOutput>(
-  "DescribeReportCreationOutput",
-)({
-  Status: S.optional(S.String),
-  S3Location: S.optional(S.String),
-  StartDate: S.optional(S.String),
-  ErrorMessage: S.optional(S.String),
-}) {}
-export class GetComplianceSummaryInput extends S.Class<GetComplianceSummaryInput>(
-  "GetComplianceSummaryInput",
-)(
-  {
+export interface DescribeReportCreationOutput {
+  Status?: string;
+  S3Location?: string;
+  StartDate?: string;
+  ErrorMessage?: string;
+}
+export const DescribeReportCreationOutput = S.suspend(() =>
+  S.Struct({
+    Status: S.optional(S.String),
+    S3Location: S.optional(S.String),
+    StartDate: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DescribeReportCreationOutput",
+}) as any as S.Schema<DescribeReportCreationOutput>;
+export interface GetComplianceSummaryInput {
+  TargetIdFilters?: TargetIdFilterList;
+  RegionFilters?: RegionFilterList;
+  ResourceTypeFilters?: ResourceTypeFilterList;
+  TagKeyFilters?: TagKeyFilterList;
+  GroupBy?: GroupBy;
+  MaxResults?: number;
+  PaginationToken?: string;
+}
+export const GetComplianceSummaryInput = S.suspend(() =>
+  S.Struct({
     TargetIdFilters: S.optional(TargetIdFilterList),
     RegionFilters: S.optional(RegionFilterList),
     ResourceTypeFilters: S.optional(ResourceTypeFilterList),
@@ -282,97 +307,148 @@ export class GetComplianceSummaryInput extends S.Class<GetComplianceSummaryInput
     GroupBy: S.optional(GroupBy),
     MaxResults: S.optional(S.Number),
     PaginationToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/GetComplianceSummary" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/GetComplianceSummary" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetTagKeysInput extends S.Class<GetTagKeysInput>(
-  "GetTagKeysInput",
-)(
-  { PaginationToken: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/GetTagKeys" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetComplianceSummaryInput",
+}) as any as S.Schema<GetComplianceSummaryInput>;
+export interface GetTagKeysInput {
+  PaginationToken?: string;
+}
+export const GetTagKeysInput = S.suspend(() =>
+  S.Struct({ PaginationToken: S.optional(S.String) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/GetTagKeys" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetTagValuesInput extends S.Class<GetTagValuesInput>(
-  "GetTagValuesInput",
-)(
-  { PaginationToken: S.optional(S.String), Key: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/GetTagValues" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetTagKeysInput",
+}) as any as S.Schema<GetTagKeysInput>;
+export interface GetTagValuesInput {
+  PaginationToken?: string;
+  Key: string;
+}
+export const GetTagValuesInput = S.suspend(() =>
+  S.Struct({ PaginationToken: S.optional(S.String), Key: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/GetTagValues" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListRequiredTagsInput extends S.Class<ListRequiredTagsInput>(
-  "ListRequiredTagsInput",
-)(
-  { NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) },
-  T.all(
-    T.Http({ method: "POST", uri: "/ListRequiredTags" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetTagValuesInput",
+}) as any as S.Schema<GetTagValuesInput>;
+export interface ListRequiredTagsInput {
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListRequiredTagsInput = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ListRequiredTags" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartReportCreationInput extends S.Class<StartReportCreationInput>(
-  "StartReportCreationInput",
-)(
-  { S3Bucket: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/StartReportCreation" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListRequiredTagsInput",
+}) as any as S.Schema<ListRequiredTagsInput>;
+export interface StartReportCreationInput {
+  S3Bucket: string;
+}
+export const StartReportCreationInput = S.suspend(() =>
+  S.Struct({ S3Bucket: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/StartReportCreation" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartReportCreationOutput extends S.Class<StartReportCreationOutput>(
-  "StartReportCreationOutput",
-)({}) {}
-export class UntagResourcesInput extends S.Class<UntagResourcesInput>(
-  "UntagResourcesInput",
-)(
-  { ResourceARNList: ResourceARNListForTagUntag, TagKeys: TagKeyListForUntag },
-  T.all(
-    T.Http({ method: "POST", uri: "/UntagResources" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "StartReportCreationInput",
+}) as any as S.Schema<StartReportCreationInput>;
+export interface StartReportCreationOutput {}
+export const StartReportCreationOutput = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "StartReportCreationOutput",
+}) as any as S.Schema<StartReportCreationOutput>;
+export interface UntagResourcesInput {
+  ResourceARNList: ResourceARNListForTagUntag;
+  TagKeys: TagKeyListForUntag;
+}
+export const UntagResourcesInput = S.suspend(() =>
+  S.Struct({
+    ResourceARNList: ResourceARNListForTagUntag,
+    TagKeys: TagKeyListForUntag,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/UntagResources" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "UntagResourcesInput",
+}) as any as S.Schema<UntagResourcesInput>;
+export type TagValueList = string[];
 export const TagValueList = S.Array(S.String);
-export class TagFilter extends S.Class<TagFilter>("TagFilter")({
-  Key: S.optional(S.String),
-  Values: S.optional(TagValueList),
-}) {}
+export interface TagFilter {
+  Key?: string;
+  Values?: TagValueList;
+}
+export const TagFilter = S.suspend(() =>
+  S.Struct({ Key: S.optional(S.String), Values: S.optional(TagValueList) }),
+).annotations({ identifier: "TagFilter" }) as any as S.Schema<TagFilter>;
+export type TagFilterList = TagFilter[];
 export const TagFilterList = S.Array(TagFilter);
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
+export type TagValuesOutputList = string[];
 export const TagValuesOutputList = S.Array(S.String);
+export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
-export class GetResourcesInput extends S.Class<GetResourcesInput>(
-  "GetResourcesInput",
-)(
-  {
+export interface GetResourcesInput {
+  PaginationToken?: string;
+  TagFilters?: TagFilterList;
+  ResourcesPerPage?: number;
+  TagsPerPage?: number;
+  ResourceTypeFilters?: ResourceTypeFilterList;
+  IncludeComplianceDetails?: boolean;
+  ExcludeCompliantResources?: boolean;
+  ResourceARNList?: ResourceARNListForGet;
+}
+export const GetResourcesInput = S.suspend(() =>
+  S.Struct({
     PaginationToken: S.optional(S.String),
     TagFilters: S.optional(TagFilterList),
     ResourcesPerPage: S.optional(S.Number),
@@ -381,108 +457,207 @@ export class GetResourcesInput extends S.Class<GetResourcesInput>(
     IncludeComplianceDetails: S.optional(S.Boolean),
     ExcludeCompliantResources: S.optional(S.Boolean),
     ResourceARNList: S.optional(ResourceARNListForGet),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/GetResources" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/GetResources" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetTagKeysOutput extends S.Class<GetTagKeysOutput>(
-  "GetTagKeysOutput",
-)({ PaginationToken: S.optional(S.String), TagKeys: S.optional(TagKeyList) }) {}
-export class GetTagValuesOutput extends S.Class<GetTagValuesOutput>(
-  "GetTagValuesOutput",
-)({
-  PaginationToken: S.optional(S.String),
-  TagValues: S.optional(TagValuesOutputList),
-}) {}
-export class TagResourcesInput extends S.Class<TagResourcesInput>(
-  "TagResourcesInput",
-)(
-  { ResourceARNList: ResourceARNListForTagUntag, Tags: TagMap },
-  T.all(
-    T.Http({ method: "POST", uri: "/TagResources" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetResourcesInput",
+}) as any as S.Schema<GetResourcesInput>;
+export interface GetTagKeysOutput {
+  PaginationToken?: string;
+  TagKeys?: TagKeyList;
+}
+export const GetTagKeysOutput = S.suspend(() =>
+  S.Struct({
+    PaginationToken: S.optional(S.String),
+    TagKeys: S.optional(TagKeyList),
+  }),
+).annotations({
+  identifier: "GetTagKeysOutput",
+}) as any as S.Schema<GetTagKeysOutput>;
+export interface GetTagValuesOutput {
+  PaginationToken?: string;
+  TagValues?: TagValuesOutputList;
+}
+export const GetTagValuesOutput = S.suspend(() =>
+  S.Struct({
+    PaginationToken: S.optional(S.String),
+    TagValues: S.optional(TagValuesOutputList),
+  }),
+).annotations({
+  identifier: "GetTagValuesOutput",
+}) as any as S.Schema<GetTagValuesOutput>;
+export interface TagResourcesInput {
+  ResourceARNList: ResourceARNListForTagUntag;
+  Tags: TagMap;
+}
+export const TagResourcesInput = S.suspend(() =>
+  S.Struct({ ResourceARNList: ResourceARNListForTagUntag, Tags: TagMap }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/TagResources" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "TagResourcesInput",
+}) as any as S.Schema<TagResourcesInput>;
+export type CloudFormationResourceTypes = string[];
 export const CloudFormationResourceTypes = S.Array(S.String);
+export type ReportingTagKeys = string[];
 export const ReportingTagKeys = S.Array(S.String);
-export class Summary extends S.Class<Summary>("Summary")({
-  LastUpdated: S.optional(S.String),
-  TargetId: S.optional(S.String),
-  TargetIdType: S.optional(S.String),
-  Region: S.optional(S.String),
-  ResourceType: S.optional(S.String),
-  NonCompliantResources: S.optional(S.Number),
-}) {}
+export interface Summary {
+  LastUpdated?: string;
+  TargetId?: string;
+  TargetIdType?: string;
+  Region?: string;
+  ResourceType?: string;
+  NonCompliantResources?: number;
+}
+export const Summary = S.suspend(() =>
+  S.Struct({
+    LastUpdated: S.optional(S.String),
+    TargetId: S.optional(S.String),
+    TargetIdType: S.optional(S.String),
+    Region: S.optional(S.String),
+    ResourceType: S.optional(S.String),
+    NonCompliantResources: S.optional(S.Number),
+  }),
+).annotations({ identifier: "Summary" }) as any as S.Schema<Summary>;
+export type SummaryList = Summary[];
 export const SummaryList = S.Array(Summary);
-export class RequiredTag extends S.Class<RequiredTag>("RequiredTag")({
-  ResourceType: S.optional(S.String),
-  CloudFormationResourceTypes: S.optional(CloudFormationResourceTypes),
-  ReportingTagKeys: S.optional(ReportingTagKeys),
-}) {}
+export interface RequiredTag {
+  ResourceType?: string;
+  CloudFormationResourceTypes?: CloudFormationResourceTypes;
+  ReportingTagKeys?: ReportingTagKeys;
+}
+export const RequiredTag = S.suspend(() =>
+  S.Struct({
+    ResourceType: S.optional(S.String),
+    CloudFormationResourceTypes: S.optional(CloudFormationResourceTypes),
+    ReportingTagKeys: S.optional(ReportingTagKeys),
+  }),
+).annotations({ identifier: "RequiredTag" }) as any as S.Schema<RequiredTag>;
+export type RequiredTagsForListRequiredTags = RequiredTag[];
 export const RequiredTagsForListRequiredTags = S.Array(RequiredTag);
-export class GetComplianceSummaryOutput extends S.Class<GetComplianceSummaryOutput>(
-  "GetComplianceSummaryOutput",
-)({
-  SummaryList: S.optional(SummaryList),
-  PaginationToken: S.optional(S.String),
-}) {}
-export class ListRequiredTagsOutput extends S.Class<ListRequiredTagsOutput>(
-  "ListRequiredTagsOutput",
-)({
-  RequiredTags: S.optional(RequiredTagsForListRequiredTags),
-  NextToken: S.optional(S.String),
-}) {}
-export class FailureInfo extends S.Class<FailureInfo>("FailureInfo")({
-  StatusCode: S.optional(S.Number),
-  ErrorCode: S.optional(S.String),
-  ErrorMessage: S.optional(S.String),
-}) {}
+export interface GetComplianceSummaryOutput {
+  SummaryList?: SummaryList;
+  PaginationToken?: string;
+}
+export const GetComplianceSummaryOutput = S.suspend(() =>
+  S.Struct({
+    SummaryList: S.optional(SummaryList),
+    PaginationToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetComplianceSummaryOutput",
+}) as any as S.Schema<GetComplianceSummaryOutput>;
+export interface ListRequiredTagsOutput {
+  RequiredTags?: RequiredTagsForListRequiredTags;
+  NextToken?: string;
+}
+export const ListRequiredTagsOutput = S.suspend(() =>
+  S.Struct({
+    RequiredTags: S.optional(RequiredTagsForListRequiredTags),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListRequiredTagsOutput",
+}) as any as S.Schema<ListRequiredTagsOutput>;
+export interface FailureInfo {
+  StatusCode?: number;
+  ErrorCode?: string;
+  ErrorMessage?: string;
+}
+export const FailureInfo = S.suspend(() =>
+  S.Struct({
+    StatusCode: S.optional(S.Number),
+    ErrorCode: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
+  }),
+).annotations({ identifier: "FailureInfo" }) as any as S.Schema<FailureInfo>;
+export type FailedResourcesMap = { [key: string]: FailureInfo };
 export const FailedResourcesMap = S.Record({
   key: S.String,
   value: FailureInfo,
 });
-export class TagResourcesOutput extends S.Class<TagResourcesOutput>(
-  "TagResourcesOutput",
-)({ FailedResourcesMap: S.optional(FailedResourcesMap) }) {}
-export class UntagResourcesOutput extends S.Class<UntagResourcesOutput>(
-  "UntagResourcesOutput",
-)({ FailedResourcesMap: S.optional(FailedResourcesMap) }) {}
-export class Tag extends S.Class<Tag>("Tag")({
-  Key: S.String,
-  Value: S.String,
-}) {}
+export interface TagResourcesOutput {
+  FailedResourcesMap?: FailedResourcesMap;
+}
+export const TagResourcesOutput = S.suspend(() =>
+  S.Struct({ FailedResourcesMap: S.optional(FailedResourcesMap) }),
+).annotations({
+  identifier: "TagResourcesOutput",
+}) as any as S.Schema<TagResourcesOutput>;
+export interface UntagResourcesOutput {
+  FailedResourcesMap?: FailedResourcesMap;
+}
+export const UntagResourcesOutput = S.suspend(() =>
+  S.Struct({ FailedResourcesMap: S.optional(FailedResourcesMap) }),
+).annotations({
+  identifier: "UntagResourcesOutput",
+}) as any as S.Schema<UntagResourcesOutput>;
+export interface Tag {
+  Key: string;
+  Value: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ Key: S.String, Value: S.String }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagList = Tag[];
 export const TagList = S.Array(Tag);
-export class ComplianceDetails extends S.Class<ComplianceDetails>(
-  "ComplianceDetails",
-)({
-  NoncompliantKeys: S.optional(TagKeyList),
-  KeysWithNoncompliantValues: S.optional(TagKeyList),
-  ComplianceStatus: S.optional(S.Boolean),
-}) {}
-export class ResourceTagMapping extends S.Class<ResourceTagMapping>(
-  "ResourceTagMapping",
-)({
-  ResourceARN: S.optional(S.String),
-  Tags: S.optional(TagList),
-  ComplianceDetails: S.optional(ComplianceDetails),
-}) {}
+export interface ComplianceDetails {
+  NoncompliantKeys?: TagKeyList;
+  KeysWithNoncompliantValues?: TagKeyList;
+  ComplianceStatus?: boolean;
+}
+export const ComplianceDetails = S.suspend(() =>
+  S.Struct({
+    NoncompliantKeys: S.optional(TagKeyList),
+    KeysWithNoncompliantValues: S.optional(TagKeyList),
+    ComplianceStatus: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "ComplianceDetails",
+}) as any as S.Schema<ComplianceDetails>;
+export interface ResourceTagMapping {
+  ResourceARN?: string;
+  Tags?: TagList;
+  ComplianceDetails?: ComplianceDetails;
+}
+export const ResourceTagMapping = S.suspend(() =>
+  S.Struct({
+    ResourceARN: S.optional(S.String),
+    Tags: S.optional(TagList),
+    ComplianceDetails: S.optional(ComplianceDetails),
+  }),
+).annotations({
+  identifier: "ResourceTagMapping",
+}) as any as S.Schema<ResourceTagMapping>;
+export type ResourceTagMappingList = ResourceTagMapping[];
 export const ResourceTagMappingList = S.Array(ResourceTagMapping);
-export class GetResourcesOutput extends S.Class<GetResourcesOutput>(
-  "GetResourcesOutput",
-)({
-  PaginationToken: S.optional(S.String),
-  ResourceTagMappingList: S.optional(ResourceTagMappingList),
-}) {}
+export interface GetResourcesOutput {
+  PaginationToken?: string;
+  ResourceTagMappingList?: ResourceTagMappingList;
+}
+export const GetResourcesOutput = S.suspend(() =>
+  S.Struct({
+    PaginationToken: S.optional(S.String),
+    ResourceTagMappingList: S.optional(ResourceTagMappingList),
+  }),
+).annotations({
+  identifier: "GetResourcesOutput",
+}) as any as S.Schema<GetResourcesOutput>;
 
 //# Errors
 export class ConstraintViolationException extends S.TaggedError<ConstraintViolationException>()(

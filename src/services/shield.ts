@@ -303,569 +303,1390 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class CreateSubscriptionRequest extends S.Class<CreateSubscriptionRequest>(
-  "CreateSubscriptionRequest",
-)(
-  {},
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateSubscriptionResponse extends S.Class<CreateSubscriptionResponse>(
-  "CreateSubscriptionResponse",
-)({}, ns) {}
-export class DeleteSubscriptionRequest extends S.Class<DeleteSubscriptionRequest>(
-  "DeleteSubscriptionRequest",
-)(
-  {},
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteSubscriptionResponse extends S.Class<DeleteSubscriptionResponse>(
-  "DeleteSubscriptionResponse",
-)({}, ns) {}
-export class DescribeAttackStatisticsRequest extends S.Class<DescribeAttackStatisticsRequest>(
-  "DescribeAttackStatisticsRequest",
-)(
-  {},
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeDRTAccessRequest extends S.Class<DescribeDRTAccessRequest>(
-  "DescribeDRTAccessRequest",
-)(
-  {},
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeEmergencyContactSettingsRequest extends S.Class<DescribeEmergencyContactSettingsRequest>(
-  "DescribeEmergencyContactSettingsRequest",
-)(
-  {},
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeSubscriptionRequest extends S.Class<DescribeSubscriptionRequest>(
-  "DescribeSubscriptionRequest",
-)(
-  {},
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DisableProactiveEngagementRequest extends S.Class<DisableProactiveEngagementRequest>(
-  "DisableProactiveEngagementRequest",
-)(
-  {},
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DisableProactiveEngagementResponse extends S.Class<DisableProactiveEngagementResponse>(
-  "DisableProactiveEngagementResponse",
-)({}, ns) {}
-export class DisassociateDRTRoleRequest extends S.Class<DisassociateDRTRoleRequest>(
-  "DisassociateDRTRoleRequest",
-)(
-  {},
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DisassociateDRTRoleResponse extends S.Class<DisassociateDRTRoleResponse>(
-  "DisassociateDRTRoleResponse",
-)({}, ns) {}
-export class EnableProactiveEngagementRequest extends S.Class<EnableProactiveEngagementRequest>(
-  "EnableProactiveEngagementRequest",
-)(
-  {},
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class EnableProactiveEngagementResponse extends S.Class<EnableProactiveEngagementResponse>(
-  "EnableProactiveEngagementResponse",
-)({}, ns) {}
-export class GetSubscriptionStateRequest extends S.Class<GetSubscriptionStateRequest>(
-  "GetSubscriptionStateRequest",
-)(
-  {},
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+export interface CreateSubscriptionRequest {}
+export const CreateSubscriptionRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateSubscriptionRequest",
+}) as any as S.Schema<CreateSubscriptionRequest>;
+export interface CreateSubscriptionResponse {}
+export const CreateSubscriptionResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "CreateSubscriptionResponse",
+}) as any as S.Schema<CreateSubscriptionResponse>;
+export interface DeleteSubscriptionRequest {}
+export const DeleteSubscriptionRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteSubscriptionRequest",
+}) as any as S.Schema<DeleteSubscriptionRequest>;
+export interface DeleteSubscriptionResponse {}
+export const DeleteSubscriptionResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteSubscriptionResponse",
+}) as any as S.Schema<DeleteSubscriptionResponse>;
+export interface DescribeAttackStatisticsRequest {}
+export const DescribeAttackStatisticsRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeAttackStatisticsRequest",
+}) as any as S.Schema<DescribeAttackStatisticsRequest>;
+export interface DescribeDRTAccessRequest {}
+export const DescribeDRTAccessRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeDRTAccessRequest",
+}) as any as S.Schema<DescribeDRTAccessRequest>;
+export interface DescribeEmergencyContactSettingsRequest {}
+export const DescribeEmergencyContactSettingsRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeEmergencyContactSettingsRequest",
+}) as any as S.Schema<DescribeEmergencyContactSettingsRequest>;
+export interface DescribeSubscriptionRequest {}
+export const DescribeSubscriptionRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeSubscriptionRequest",
+}) as any as S.Schema<DescribeSubscriptionRequest>;
+export interface DisableProactiveEngagementRequest {}
+export const DisableProactiveEngagementRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DisableProactiveEngagementRequest",
+}) as any as S.Schema<DisableProactiveEngagementRequest>;
+export interface DisableProactiveEngagementResponse {}
+export const DisableProactiveEngagementResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DisableProactiveEngagementResponse",
+}) as any as S.Schema<DisableProactiveEngagementResponse>;
+export interface DisassociateDRTRoleRequest {}
+export const DisassociateDRTRoleRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DisassociateDRTRoleRequest",
+}) as any as S.Schema<DisassociateDRTRoleRequest>;
+export interface DisassociateDRTRoleResponse {}
+export const DisassociateDRTRoleResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DisassociateDRTRoleResponse",
+}) as any as S.Schema<DisassociateDRTRoleResponse>;
+export interface EnableProactiveEngagementRequest {}
+export const EnableProactiveEngagementRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "EnableProactiveEngagementRequest",
+}) as any as S.Schema<EnableProactiveEngagementRequest>;
+export interface EnableProactiveEngagementResponse {}
+export const EnableProactiveEngagementResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "EnableProactiveEngagementResponse",
+}) as any as S.Schema<EnableProactiveEngagementResponse>;
+export interface GetSubscriptionStateRequest {}
+export const GetSubscriptionStateRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetSubscriptionStateRequest",
+}) as any as S.Schema<GetSubscriptionStateRequest>;
+export type ProtectionGroupMembers = string[];
 export const ProtectionGroupMembers = S.Array(S.String);
+export type LogBucketList = string[];
 export const LogBucketList = S.Array(S.String);
+export type ResourceArnFilterList = string[];
 export const ResourceArnFilterList = S.Array(S.String);
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class AssociateDRTLogBucketRequest extends S.Class<AssociateDRTLogBucketRequest>(
-  "AssociateDRTLogBucketRequest",
-)(
-  { LogBucket: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class AssociateDRTLogBucketResponse extends S.Class<AssociateDRTLogBucketResponse>(
-  "AssociateDRTLogBucketResponse",
-)({}, ns) {}
-export class AssociateDRTRoleRequest extends S.Class<AssociateDRTRoleRequest>(
-  "AssociateDRTRoleRequest",
-)(
-  { RoleArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class AssociateDRTRoleResponse extends S.Class<AssociateDRTRoleResponse>(
-  "AssociateDRTRoleResponse",
-)({}, ns) {}
-export class AssociateHealthCheckRequest extends S.Class<AssociateHealthCheckRequest>(
-  "AssociateHealthCheckRequest",
-)(
-  { ProtectionId: S.String, HealthCheckArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class AssociateHealthCheckResponse extends S.Class<AssociateHealthCheckResponse>(
-  "AssociateHealthCheckResponse",
-)({}, ns) {}
-export class Tag extends S.Class<Tag>("Tag")({
-  Key: S.optional(S.String),
-  Value: S.optional(S.String),
-}) {}
+export interface AssociateDRTLogBucketRequest {
+  LogBucket: string;
+}
+export const AssociateDRTLogBucketRequest = S.suspend(() =>
+  S.Struct({ LogBucket: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "AssociateDRTLogBucketRequest",
+}) as any as S.Schema<AssociateDRTLogBucketRequest>;
+export interface AssociateDRTLogBucketResponse {}
+export const AssociateDRTLogBucketResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "AssociateDRTLogBucketResponse",
+}) as any as S.Schema<AssociateDRTLogBucketResponse>;
+export interface AssociateDRTRoleRequest {
+  RoleArn: string;
+}
+export const AssociateDRTRoleRequest = S.suspend(() =>
+  S.Struct({ RoleArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "AssociateDRTRoleRequest",
+}) as any as S.Schema<AssociateDRTRoleRequest>;
+export interface AssociateDRTRoleResponse {}
+export const AssociateDRTRoleResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "AssociateDRTRoleResponse",
+}) as any as S.Schema<AssociateDRTRoleResponse>;
+export interface AssociateHealthCheckRequest {
+  ProtectionId: string;
+  HealthCheckArn: string;
+}
+export const AssociateHealthCheckRequest = S.suspend(() =>
+  S.Struct({ ProtectionId: S.String, HealthCheckArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "AssociateHealthCheckRequest",
+}) as any as S.Schema<AssociateHealthCheckRequest>;
+export interface AssociateHealthCheckResponse {}
+export const AssociateHealthCheckResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "AssociateHealthCheckResponse",
+}) as any as S.Schema<AssociateHealthCheckResponse>;
+export interface Tag {
+  Key?: string;
+  Value?: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ Key: S.optional(S.String), Value: S.optional(S.String) }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagList = Tag[];
 export const TagList = S.Array(Tag);
-export class CreateProtectionGroupRequest extends S.Class<CreateProtectionGroupRequest>(
-  "CreateProtectionGroupRequest",
-)(
-  {
+export interface CreateProtectionGroupRequest {
+  ProtectionGroupId: string;
+  Aggregation: string;
+  Pattern: string;
+  ResourceType?: string;
+  Members?: ProtectionGroupMembers;
+  Tags?: TagList;
+}
+export const CreateProtectionGroupRequest = S.suspend(() =>
+  S.Struct({
     ProtectionGroupId: S.String,
     Aggregation: S.String,
     Pattern: S.String,
     ResourceType: S.optional(S.String),
     Members: S.optional(ProtectionGroupMembers),
     Tags: S.optional(TagList),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateProtectionGroupResponse extends S.Class<CreateProtectionGroupResponse>(
-  "CreateProtectionGroupResponse",
-)({}, ns) {}
-export class DeleteProtectionRequest extends S.Class<DeleteProtectionRequest>(
-  "DeleteProtectionRequest",
-)(
-  { ProtectionId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteProtectionResponse extends S.Class<DeleteProtectionResponse>(
-  "DeleteProtectionResponse",
-)({}, ns) {}
-export class DeleteProtectionGroupRequest extends S.Class<DeleteProtectionGroupRequest>(
-  "DeleteProtectionGroupRequest",
-)(
-  { ProtectionGroupId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteProtectionGroupResponse extends S.Class<DeleteProtectionGroupResponse>(
-  "DeleteProtectionGroupResponse",
-)({}, ns) {}
-export class DescribeAttackRequest extends S.Class<DescribeAttackRequest>(
-  "DescribeAttackRequest",
-)(
-  { AttackId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeDRTAccessResponse extends S.Class<DescribeDRTAccessResponse>(
-  "DescribeDRTAccessResponse",
-)(
-  { RoleArn: S.optional(S.String), LogBucketList: S.optional(LogBucketList) },
-  ns,
-) {}
-export class EmergencyContact extends S.Class<EmergencyContact>(
-  "EmergencyContact",
-)({
-  EmailAddress: S.String,
-  PhoneNumber: S.optional(S.String),
-  ContactNotes: S.optional(S.String),
-}) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateProtectionGroupRequest",
+}) as any as S.Schema<CreateProtectionGroupRequest>;
+export interface CreateProtectionGroupResponse {}
+export const CreateProtectionGroupResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "CreateProtectionGroupResponse",
+}) as any as S.Schema<CreateProtectionGroupResponse>;
+export interface DeleteProtectionRequest {
+  ProtectionId: string;
+}
+export const DeleteProtectionRequest = S.suspend(() =>
+  S.Struct({ ProtectionId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteProtectionRequest",
+}) as any as S.Schema<DeleteProtectionRequest>;
+export interface DeleteProtectionResponse {}
+export const DeleteProtectionResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteProtectionResponse",
+}) as any as S.Schema<DeleteProtectionResponse>;
+export interface DeleteProtectionGroupRequest {
+  ProtectionGroupId: string;
+}
+export const DeleteProtectionGroupRequest = S.suspend(() =>
+  S.Struct({ ProtectionGroupId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteProtectionGroupRequest",
+}) as any as S.Schema<DeleteProtectionGroupRequest>;
+export interface DeleteProtectionGroupResponse {}
+export const DeleteProtectionGroupResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteProtectionGroupResponse",
+}) as any as S.Schema<DeleteProtectionGroupResponse>;
+export interface DescribeAttackRequest {
+  AttackId: string;
+}
+export const DescribeAttackRequest = S.suspend(() =>
+  S.Struct({ AttackId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeAttackRequest",
+}) as any as S.Schema<DescribeAttackRequest>;
+export interface DescribeDRTAccessResponse {
+  RoleArn?: string;
+  LogBucketList?: LogBucketList;
+}
+export const DescribeDRTAccessResponse = S.suspend(() =>
+  S.Struct({
+    RoleArn: S.optional(S.String),
+    LogBucketList: S.optional(LogBucketList),
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeDRTAccessResponse",
+}) as any as S.Schema<DescribeDRTAccessResponse>;
+export interface EmergencyContact {
+  EmailAddress: string;
+  PhoneNumber?: string;
+  ContactNotes?: string;
+}
+export const EmergencyContact = S.suspend(() =>
+  S.Struct({
+    EmailAddress: S.String,
+    PhoneNumber: S.optional(S.String),
+    ContactNotes: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "EmergencyContact",
+}) as any as S.Schema<EmergencyContact>;
+export type EmergencyContactList = EmergencyContact[];
 export const EmergencyContactList = S.Array(EmergencyContact);
-export class DescribeEmergencyContactSettingsResponse extends S.Class<DescribeEmergencyContactSettingsResponse>(
-  "DescribeEmergencyContactSettingsResponse",
-)({ EmergencyContactList: S.optional(EmergencyContactList) }, ns) {}
-export class DescribeProtectionRequest extends S.Class<DescribeProtectionRequest>(
-  "DescribeProtectionRequest",
-)(
-  { ProtectionId: S.optional(S.String), ResourceArn: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeProtectionGroupRequest extends S.Class<DescribeProtectionGroupRequest>(
-  "DescribeProtectionGroupRequest",
-)(
-  { ProtectionGroupId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DisableApplicationLayerAutomaticResponseRequest extends S.Class<DisableApplicationLayerAutomaticResponseRequest>(
-  "DisableApplicationLayerAutomaticResponseRequest",
-)(
-  { ResourceArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DisableApplicationLayerAutomaticResponseResponse extends S.Class<DisableApplicationLayerAutomaticResponseResponse>(
-  "DisableApplicationLayerAutomaticResponseResponse",
-)({}, ns) {}
-export class DisassociateDRTLogBucketRequest extends S.Class<DisassociateDRTLogBucketRequest>(
-  "DisassociateDRTLogBucketRequest",
-)(
-  { LogBucket: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DisassociateDRTLogBucketResponse extends S.Class<DisassociateDRTLogBucketResponse>(
-  "DisassociateDRTLogBucketResponse",
-)({}, ns) {}
-export class DisassociateHealthCheckRequest extends S.Class<DisassociateHealthCheckRequest>(
-  "DisassociateHealthCheckRequest",
-)(
-  { ProtectionId: S.String, HealthCheckArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DisassociateHealthCheckResponse extends S.Class<DisassociateHealthCheckResponse>(
-  "DisassociateHealthCheckResponse",
-)({}, ns) {}
-export class GetSubscriptionStateResponse extends S.Class<GetSubscriptionStateResponse>(
-  "GetSubscriptionStateResponse",
-)({ SubscriptionState: S.String }, ns) {}
-export class TimeRange extends S.Class<TimeRange>("TimeRange")({
-  FromInclusive: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  ToExclusive: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class ListAttacksRequest extends S.Class<ListAttacksRequest>(
-  "ListAttacksRequest",
-)(
-  {
+export interface DescribeEmergencyContactSettingsResponse {
+  EmergencyContactList?: EmergencyContactList;
+}
+export const DescribeEmergencyContactSettingsResponse = S.suspend(() =>
+  S.Struct({ EmergencyContactList: S.optional(EmergencyContactList) }).pipe(ns),
+).annotations({
+  identifier: "DescribeEmergencyContactSettingsResponse",
+}) as any as S.Schema<DescribeEmergencyContactSettingsResponse>;
+export interface DescribeProtectionRequest {
+  ProtectionId?: string;
+  ResourceArn?: string;
+}
+export const DescribeProtectionRequest = S.suspend(() =>
+  S.Struct({
+    ProtectionId: S.optional(S.String),
+    ResourceArn: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeProtectionRequest",
+}) as any as S.Schema<DescribeProtectionRequest>;
+export interface DescribeProtectionGroupRequest {
+  ProtectionGroupId: string;
+}
+export const DescribeProtectionGroupRequest = S.suspend(() =>
+  S.Struct({ ProtectionGroupId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeProtectionGroupRequest",
+}) as any as S.Schema<DescribeProtectionGroupRequest>;
+export interface DisableApplicationLayerAutomaticResponseRequest {
+  ResourceArn: string;
+}
+export const DisableApplicationLayerAutomaticResponseRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DisableApplicationLayerAutomaticResponseRequest",
+}) as any as S.Schema<DisableApplicationLayerAutomaticResponseRequest>;
+export interface DisableApplicationLayerAutomaticResponseResponse {}
+export const DisableApplicationLayerAutomaticResponseResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DisableApplicationLayerAutomaticResponseResponse",
+}) as any as S.Schema<DisableApplicationLayerAutomaticResponseResponse>;
+export interface DisassociateDRTLogBucketRequest {
+  LogBucket: string;
+}
+export const DisassociateDRTLogBucketRequest = S.suspend(() =>
+  S.Struct({ LogBucket: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DisassociateDRTLogBucketRequest",
+}) as any as S.Schema<DisassociateDRTLogBucketRequest>;
+export interface DisassociateDRTLogBucketResponse {}
+export const DisassociateDRTLogBucketResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DisassociateDRTLogBucketResponse",
+}) as any as S.Schema<DisassociateDRTLogBucketResponse>;
+export interface DisassociateHealthCheckRequest {
+  ProtectionId: string;
+  HealthCheckArn: string;
+}
+export const DisassociateHealthCheckRequest = S.suspend(() =>
+  S.Struct({ ProtectionId: S.String, HealthCheckArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DisassociateHealthCheckRequest",
+}) as any as S.Schema<DisassociateHealthCheckRequest>;
+export interface DisassociateHealthCheckResponse {}
+export const DisassociateHealthCheckResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DisassociateHealthCheckResponse",
+}) as any as S.Schema<DisassociateHealthCheckResponse>;
+export interface GetSubscriptionStateResponse {
+  SubscriptionState: string;
+}
+export const GetSubscriptionStateResponse = S.suspend(() =>
+  S.Struct({ SubscriptionState: S.String }).pipe(ns),
+).annotations({
+  identifier: "GetSubscriptionStateResponse",
+}) as any as S.Schema<GetSubscriptionStateResponse>;
+export interface TimeRange {
+  FromInclusive?: Date;
+  ToExclusive?: Date;
+}
+export const TimeRange = S.suspend(() =>
+  S.Struct({
+    FromInclusive: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ToExclusive: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({ identifier: "TimeRange" }) as any as S.Schema<TimeRange>;
+export interface ListAttacksRequest {
+  ResourceArns?: ResourceArnFilterList;
+  StartTime?: TimeRange;
+  EndTime?: TimeRange;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListAttacksRequest = S.suspend(() =>
+  S.Struct({
     ResourceArns: S.optional(ResourceArnFilterList),
     StartTime: S.optional(TimeRange),
     EndTime: S.optional(TimeRange),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListResourcesInProtectionGroupRequest extends S.Class<ListResourcesInProtectionGroupRequest>(
-  "ListResourcesInProtectionGroupRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListAttacksRequest",
+}) as any as S.Schema<ListAttacksRequest>;
+export interface ListResourcesInProtectionGroupRequest {
+  ProtectionGroupId: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListResourcesInProtectionGroupRequest = S.suspend(() =>
+  S.Struct({
     ProtectionGroupId: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { ResourceARN: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { ResourceARN: S.String, Tags: TagList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}, ns) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  { ResourceARN: S.String, TagKeys: TagKeyList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}, ns) {}
-export class BlockAction extends S.Class<BlockAction>("BlockAction")({}) {}
-export class CountAction extends S.Class<CountAction>("CountAction")({}) {}
-export class ResponseAction extends S.Class<ResponseAction>("ResponseAction")({
-  Block: S.optional(BlockAction),
-  Count: S.optional(CountAction),
-}) {}
-export class UpdateApplicationLayerAutomaticResponseRequest extends S.Class<UpdateApplicationLayerAutomaticResponseRequest>(
-  "UpdateApplicationLayerAutomaticResponseRequest",
-)(
-  { ResourceArn: S.String, Action: ResponseAction },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateApplicationLayerAutomaticResponseResponse extends S.Class<UpdateApplicationLayerAutomaticResponseResponse>(
-  "UpdateApplicationLayerAutomaticResponseResponse",
-)({}, ns) {}
-export class UpdateEmergencyContactSettingsRequest extends S.Class<UpdateEmergencyContactSettingsRequest>(
-  "UpdateEmergencyContactSettingsRequest",
-)(
-  { EmergencyContactList: S.optional(EmergencyContactList) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateEmergencyContactSettingsResponse extends S.Class<UpdateEmergencyContactSettingsResponse>(
-  "UpdateEmergencyContactSettingsResponse",
-)({}, ns) {}
-export class UpdateProtectionGroupRequest extends S.Class<UpdateProtectionGroupRequest>(
-  "UpdateProtectionGroupRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListResourcesInProtectionGroupRequest",
+}) as any as S.Schema<ListResourcesInProtectionGroupRequest>;
+export interface ListTagsForResourceRequest {
+  ResourceARN: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceARN: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface TagResourceRequest {
+  ResourceARN: string;
+  Tags: TagList;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceARN: S.String, Tags: TagList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UntagResourceRequest {
+  ResourceARN: string;
+  TagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceARN: S.String, TagKeys: TagKeyList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface BlockAction {}
+export const BlockAction = S.suspend(() => S.Struct({})).annotations({
+  identifier: "BlockAction",
+}) as any as S.Schema<BlockAction>;
+export interface CountAction {}
+export const CountAction = S.suspend(() => S.Struct({})).annotations({
+  identifier: "CountAction",
+}) as any as S.Schema<CountAction>;
+export interface ResponseAction {
+  Block?: BlockAction;
+  Count?: CountAction;
+}
+export const ResponseAction = S.suspend(() =>
+  S.Struct({ Block: S.optional(BlockAction), Count: S.optional(CountAction) }),
+).annotations({
+  identifier: "ResponseAction",
+}) as any as S.Schema<ResponseAction>;
+export interface UpdateApplicationLayerAutomaticResponseRequest {
+  ResourceArn: string;
+  Action: ResponseAction;
+}
+export const UpdateApplicationLayerAutomaticResponseRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String, Action: ResponseAction }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateApplicationLayerAutomaticResponseRequest",
+}) as any as S.Schema<UpdateApplicationLayerAutomaticResponseRequest>;
+export interface UpdateApplicationLayerAutomaticResponseResponse {}
+export const UpdateApplicationLayerAutomaticResponseResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "UpdateApplicationLayerAutomaticResponseResponse",
+}) as any as S.Schema<UpdateApplicationLayerAutomaticResponseResponse>;
+export interface UpdateEmergencyContactSettingsRequest {
+  EmergencyContactList?: EmergencyContactList;
+}
+export const UpdateEmergencyContactSettingsRequest = S.suspend(() =>
+  S.Struct({ EmergencyContactList: S.optional(EmergencyContactList) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateEmergencyContactSettingsRequest",
+}) as any as S.Schema<UpdateEmergencyContactSettingsRequest>;
+export interface UpdateEmergencyContactSettingsResponse {}
+export const UpdateEmergencyContactSettingsResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "UpdateEmergencyContactSettingsResponse",
+}) as any as S.Schema<UpdateEmergencyContactSettingsResponse>;
+export interface UpdateProtectionGroupRequest {
+  ProtectionGroupId: string;
+  Aggregation: string;
+  Pattern: string;
+  ResourceType?: string;
+  Members?: ProtectionGroupMembers;
+}
+export const UpdateProtectionGroupRequest = S.suspend(() =>
+  S.Struct({
     ProtectionGroupId: S.String,
     Aggregation: S.String,
     Pattern: S.String,
     ResourceType: S.optional(S.String),
     Members: S.optional(ProtectionGroupMembers),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateProtectionGroupResponse extends S.Class<UpdateProtectionGroupResponse>(
-  "UpdateProtectionGroupResponse",
-)({}, ns) {}
-export class UpdateSubscriptionRequest extends S.Class<UpdateSubscriptionRequest>(
-  "UpdateSubscriptionRequest",
-)(
-  { AutoRenew: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateSubscriptionResponse extends S.Class<UpdateSubscriptionResponse>(
-  "UpdateSubscriptionResponse",
-)({}, ns) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateProtectionGroupRequest",
+}) as any as S.Schema<UpdateProtectionGroupRequest>;
+export interface UpdateProtectionGroupResponse {}
+export const UpdateProtectionGroupResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "UpdateProtectionGroupResponse",
+}) as any as S.Schema<UpdateProtectionGroupResponse>;
+export interface UpdateSubscriptionRequest {
+  AutoRenew?: string;
+}
+export const UpdateSubscriptionRequest = S.suspend(() =>
+  S.Struct({ AutoRenew: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateSubscriptionRequest",
+}) as any as S.Schema<UpdateSubscriptionRequest>;
+export interface UpdateSubscriptionResponse {}
+export const UpdateSubscriptionResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "UpdateSubscriptionResponse",
+}) as any as S.Schema<UpdateSubscriptionResponse>;
+export type ProtectionGroupIdFilters = string[];
 export const ProtectionGroupIdFilters = S.Array(S.String);
+export type ProtectionGroupPatternFilters = string[];
 export const ProtectionGroupPatternFilters = S.Array(S.String);
+export type ProtectedResourceTypeFilters = string[];
 export const ProtectedResourceTypeFilters = S.Array(S.String);
+export type ProtectionGroupAggregationFilters = string[];
 export const ProtectionGroupAggregationFilters = S.Array(S.String);
+export type ResourceArnFilters = string[];
 export const ResourceArnFilters = S.Array(S.String);
+export type ProtectionNameFilters = string[];
 export const ProtectionNameFilters = S.Array(S.String);
-export class InclusionProtectionGroupFilters extends S.Class<InclusionProtectionGroupFilters>(
-  "InclusionProtectionGroupFilters",
-)({
-  ProtectionGroupIds: S.optional(ProtectionGroupIdFilters),
-  Patterns: S.optional(ProtectionGroupPatternFilters),
-  ResourceTypes: S.optional(ProtectedResourceTypeFilters),
-  Aggregations: S.optional(ProtectionGroupAggregationFilters),
-}) {}
-export class InclusionProtectionFilters extends S.Class<InclusionProtectionFilters>(
-  "InclusionProtectionFilters",
-)({
-  ResourceArns: S.optional(ResourceArnFilters),
-  ProtectionNames: S.optional(ProtectionNameFilters),
-  ResourceTypes: S.optional(ProtectedResourceTypeFilters),
-}) {}
+export interface InclusionProtectionGroupFilters {
+  ProtectionGroupIds?: ProtectionGroupIdFilters;
+  Patterns?: ProtectionGroupPatternFilters;
+  ResourceTypes?: ProtectedResourceTypeFilters;
+  Aggregations?: ProtectionGroupAggregationFilters;
+}
+export const InclusionProtectionGroupFilters = S.suspend(() =>
+  S.Struct({
+    ProtectionGroupIds: S.optional(ProtectionGroupIdFilters),
+    Patterns: S.optional(ProtectionGroupPatternFilters),
+    ResourceTypes: S.optional(ProtectedResourceTypeFilters),
+    Aggregations: S.optional(ProtectionGroupAggregationFilters),
+  }),
+).annotations({
+  identifier: "InclusionProtectionGroupFilters",
+}) as any as S.Schema<InclusionProtectionGroupFilters>;
+export interface InclusionProtectionFilters {
+  ResourceArns?: ResourceArnFilters;
+  ProtectionNames?: ProtectionNameFilters;
+  ResourceTypes?: ProtectedResourceTypeFilters;
+}
+export const InclusionProtectionFilters = S.suspend(() =>
+  S.Struct({
+    ResourceArns: S.optional(ResourceArnFilters),
+    ProtectionNames: S.optional(ProtectionNameFilters),
+    ResourceTypes: S.optional(ProtectedResourceTypeFilters),
+  }),
+).annotations({
+  identifier: "InclusionProtectionFilters",
+}) as any as S.Schema<InclusionProtectionFilters>;
+export type ResourceArnList = string[];
 export const ResourceArnList = S.Array(S.String);
-export class AssociateProactiveEngagementDetailsRequest extends S.Class<AssociateProactiveEngagementDetailsRequest>(
-  "AssociateProactiveEngagementDetailsRequest",
-)(
-  { EmergencyContactList: EmergencyContactList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class AssociateProactiveEngagementDetailsResponse extends S.Class<AssociateProactiveEngagementDetailsResponse>(
-  "AssociateProactiveEngagementDetailsResponse",
-)({}, ns) {}
-export class CreateProtectionRequest extends S.Class<CreateProtectionRequest>(
-  "CreateProtectionRequest",
-)(
-  { Name: S.String, ResourceArn: S.String, Tags: S.optional(TagList) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class EnableApplicationLayerAutomaticResponseRequest extends S.Class<EnableApplicationLayerAutomaticResponseRequest>(
-  "EnableApplicationLayerAutomaticResponseRequest",
-)(
-  { ResourceArn: S.String, Action: ResponseAction },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class EnableApplicationLayerAutomaticResponseResponse extends S.Class<EnableApplicationLayerAutomaticResponseResponse>(
-  "EnableApplicationLayerAutomaticResponseResponse",
-)({}, ns) {}
-export class ListProtectionGroupsRequest extends S.Class<ListProtectionGroupsRequest>(
-  "ListProtectionGroupsRequest",
-)(
-  {
+export interface AssociateProactiveEngagementDetailsRequest {
+  EmergencyContactList: EmergencyContactList;
+}
+export const AssociateProactiveEngagementDetailsRequest = S.suspend(() =>
+  S.Struct({ EmergencyContactList: EmergencyContactList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "AssociateProactiveEngagementDetailsRequest",
+}) as any as S.Schema<AssociateProactiveEngagementDetailsRequest>;
+export interface AssociateProactiveEngagementDetailsResponse {}
+export const AssociateProactiveEngagementDetailsResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "AssociateProactiveEngagementDetailsResponse",
+}) as any as S.Schema<AssociateProactiveEngagementDetailsResponse>;
+export interface CreateProtectionRequest {
+  Name: string;
+  ResourceArn: string;
+  Tags?: TagList;
+}
+export const CreateProtectionRequest = S.suspend(() =>
+  S.Struct({
+    Name: S.String,
+    ResourceArn: S.String,
+    Tags: S.optional(TagList),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateProtectionRequest",
+}) as any as S.Schema<CreateProtectionRequest>;
+export interface EnableApplicationLayerAutomaticResponseRequest {
+  ResourceArn: string;
+  Action: ResponseAction;
+}
+export const EnableApplicationLayerAutomaticResponseRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String, Action: ResponseAction }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "EnableApplicationLayerAutomaticResponseRequest",
+}) as any as S.Schema<EnableApplicationLayerAutomaticResponseRequest>;
+export interface EnableApplicationLayerAutomaticResponseResponse {}
+export const EnableApplicationLayerAutomaticResponseResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "EnableApplicationLayerAutomaticResponseResponse",
+}) as any as S.Schema<EnableApplicationLayerAutomaticResponseResponse>;
+export interface ListProtectionGroupsRequest {
+  NextToken?: string;
+  MaxResults?: number;
+  InclusionFilters?: InclusionProtectionGroupFilters;
+}
+export const ListProtectionGroupsRequest = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     InclusionFilters: S.optional(InclusionProtectionGroupFilters),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListProtectionsRequest extends S.Class<ListProtectionsRequest>(
-  "ListProtectionsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListProtectionGroupsRequest",
+}) as any as S.Schema<ListProtectionGroupsRequest>;
+export interface ListProtectionsRequest {
+  NextToken?: string;
+  MaxResults?: number;
+  InclusionFilters?: InclusionProtectionFilters;
+}
+export const ListProtectionsRequest = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     InclusionFilters: S.optional(InclusionProtectionFilters),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListResourcesInProtectionGroupResponse extends S.Class<ListResourcesInProtectionGroupResponse>(
-  "ListResourcesInProtectionGroupResponse",
-)({ ResourceArns: ResourceArnList, NextToken: S.optional(S.String) }, ns) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ Tags: S.optional(TagList) }, ns) {}
-export const HealthCheckIds = S.Array(S.String);
-export class Limit extends S.Class<Limit>("Limit")({
-  Type: S.optional(S.String),
-  Max: S.optional(S.Number),
-}) {}
-export const Limits = S.Array(Limit);
-export class ProtectionGroup extends S.Class<ProtectionGroup>(
-  "ProtectionGroup",
-)({
-  ProtectionGroupId: S.String,
-  Aggregation: S.String,
-  Pattern: S.String,
-  ResourceType: S.optional(S.String),
-  Members: ProtectionGroupMembers,
-  ProtectionGroupArn: S.optional(S.String),
-}) {}
-export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
-  "ValidationExceptionField",
-)({ name: S.String, message: S.String }) {}
-export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
-export const ProtectionGroups = S.Array(ProtectionGroup);
-export class ApplicationLayerAutomaticResponseConfiguration extends S.Class<ApplicationLayerAutomaticResponseConfiguration>(
-  "ApplicationLayerAutomaticResponseConfiguration",
-)({ Status: S.String, Action: ResponseAction }) {}
-export class Protection extends S.Class<Protection>("Protection")({
-  Id: S.optional(S.String),
-  Name: S.optional(S.String),
-  ResourceArn: S.optional(S.String),
-  HealthCheckIds: S.optional(HealthCheckIds),
-  ProtectionArn: S.optional(S.String),
-  ApplicationLayerAutomaticResponseConfiguration: S.optional(
-    ApplicationLayerAutomaticResponseConfiguration,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-}) {}
+).annotations({
+  identifier: "ListProtectionsRequest",
+}) as any as S.Schema<ListProtectionsRequest>;
+export interface ListResourcesInProtectionGroupResponse {
+  ResourceArns: ResourceArnList;
+  NextToken?: string;
+}
+export const ListResourcesInProtectionGroupResponse = S.suspend(() =>
+  S.Struct({
+    ResourceArns: ResourceArnList,
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListResourcesInProtectionGroupResponse",
+}) as any as S.Schema<ListResourcesInProtectionGroupResponse>;
+export interface ListTagsForResourceResponse {
+  Tags?: TagList;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ Tags: S.optional(TagList) }).pipe(ns),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export type HealthCheckIds = string[];
+export const HealthCheckIds = S.Array(S.String);
+export interface Limit {
+  Type?: string;
+  Max?: number;
+}
+export const Limit = S.suspend(() =>
+  S.Struct({ Type: S.optional(S.String), Max: S.optional(S.Number) }),
+).annotations({ identifier: "Limit" }) as any as S.Schema<Limit>;
+export type Limits = Limit[];
+export const Limits = S.Array(Limit);
+export interface ProtectionGroup {
+  ProtectionGroupId: string;
+  Aggregation: string;
+  Pattern: string;
+  ResourceType?: string;
+  Members: ProtectionGroupMembers;
+  ProtectionGroupArn?: string;
+}
+export const ProtectionGroup = S.suspend(() =>
+  S.Struct({
+    ProtectionGroupId: S.String,
+    Aggregation: S.String,
+    Pattern: S.String,
+    ResourceType: S.optional(S.String),
+    Members: ProtectionGroupMembers,
+    ProtectionGroupArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ProtectionGroup",
+}) as any as S.Schema<ProtectionGroup>;
+export interface ValidationExceptionField {
+  name: string;
+  message: string;
+}
+export const ValidationExceptionField = S.suspend(() =>
+  S.Struct({ name: S.String, message: S.String }),
+).annotations({
+  identifier: "ValidationExceptionField",
+}) as any as S.Schema<ValidationExceptionField>;
+export type ValidationExceptionFieldList = ValidationExceptionField[];
+export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
+export type ProtectionGroups = ProtectionGroup[];
+export const ProtectionGroups = S.Array(ProtectionGroup);
+export interface ApplicationLayerAutomaticResponseConfiguration {
+  Status: string;
+  Action: ResponseAction;
+}
+export const ApplicationLayerAutomaticResponseConfiguration = S.suspend(() =>
+  S.Struct({ Status: S.String, Action: ResponseAction }),
+).annotations({
+  identifier: "ApplicationLayerAutomaticResponseConfiguration",
+}) as any as S.Schema<ApplicationLayerAutomaticResponseConfiguration>;
+export interface Protection {
+  Id?: string;
+  Name?: string;
+  ResourceArn?: string;
+  HealthCheckIds?: HealthCheckIds;
+  ProtectionArn?: string;
+  ApplicationLayerAutomaticResponseConfiguration?: ApplicationLayerAutomaticResponseConfiguration;
+}
+export const Protection = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Name: S.optional(S.String),
+    ResourceArn: S.optional(S.String),
+    HealthCheckIds: S.optional(HealthCheckIds),
+    ProtectionArn: S.optional(S.String),
+    ApplicationLayerAutomaticResponseConfiguration: S.optional(
+      ApplicationLayerAutomaticResponseConfiguration,
+    ),
+  }),
+).annotations({ identifier: "Protection" }) as any as S.Schema<Protection>;
+export type Protections = Protection[];
 export const Protections = S.Array(Protection);
-export class AttackVolumeStatistics extends S.Class<AttackVolumeStatistics>(
-  "AttackVolumeStatistics",
-)({ Max: S.Number }) {}
-export class ProtectionLimits extends S.Class<ProtectionLimits>(
-  "ProtectionLimits",
-)({ ProtectedResourceTypeLimits: Limits }) {}
-export class CreateProtectionResponse extends S.Class<CreateProtectionResponse>(
-  "CreateProtectionResponse",
-)({ ProtectionId: S.optional(S.String) }, ns) {}
-export class DescribeProtectionGroupResponse extends S.Class<DescribeProtectionGroupResponse>(
-  "DescribeProtectionGroupResponse",
-)({ ProtectionGroup: ProtectionGroup }, ns) {}
-export class ListProtectionGroupsResponse extends S.Class<ListProtectionGroupsResponse>(
-  "ListProtectionGroupsResponse",
-)(
-  { ProtectionGroups: ProtectionGroups, NextToken: S.optional(S.String) },
-  ns,
-) {}
-export class ListProtectionsResponse extends S.Class<ListProtectionsResponse>(
-  "ListProtectionsResponse",
-)(
-  { Protections: S.optional(Protections), NextToken: S.optional(S.String) },
-  ns,
-) {}
-export class SummarizedCounter extends S.Class<SummarizedCounter>(
-  "SummarizedCounter",
-)({
-  Name: S.optional(S.String),
-  Max: S.optional(S.Number),
-  Average: S.optional(S.Number),
-  Sum: S.optional(S.Number),
-  N: S.optional(S.Number),
-  Unit: S.optional(S.String),
-}) {}
+export interface AttackVolumeStatistics {
+  Max: number;
+}
+export const AttackVolumeStatistics = S.suspend(() =>
+  S.Struct({ Max: S.Number }),
+).annotations({
+  identifier: "AttackVolumeStatistics",
+}) as any as S.Schema<AttackVolumeStatistics>;
+export interface ProtectionLimits {
+  ProtectedResourceTypeLimits: Limits;
+}
+export const ProtectionLimits = S.suspend(() =>
+  S.Struct({ ProtectedResourceTypeLimits: Limits }),
+).annotations({
+  identifier: "ProtectionLimits",
+}) as any as S.Schema<ProtectionLimits>;
+export interface CreateProtectionResponse {
+  ProtectionId?: string;
+}
+export const CreateProtectionResponse = S.suspend(() =>
+  S.Struct({ ProtectionId: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "CreateProtectionResponse",
+}) as any as S.Schema<CreateProtectionResponse>;
+export interface DescribeProtectionGroupResponse {
+  ProtectionGroup: ProtectionGroup;
+}
+export const DescribeProtectionGroupResponse = S.suspend(() =>
+  S.Struct({ ProtectionGroup: ProtectionGroup }).pipe(ns),
+).annotations({
+  identifier: "DescribeProtectionGroupResponse",
+}) as any as S.Schema<DescribeProtectionGroupResponse>;
+export interface ListProtectionGroupsResponse {
+  ProtectionGroups: ProtectionGroups;
+  NextToken?: string;
+}
+export const ListProtectionGroupsResponse = S.suspend(() =>
+  S.Struct({
+    ProtectionGroups: ProtectionGroups,
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListProtectionGroupsResponse",
+}) as any as S.Schema<ListProtectionGroupsResponse>;
+export interface ListProtectionsResponse {
+  Protections?: Protections;
+  NextToken?: string;
+}
+export const ListProtectionsResponse = S.suspend(() =>
+  S.Struct({
+    Protections: S.optional(Protections),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListProtectionsResponse",
+}) as any as S.Schema<ListProtectionsResponse>;
+export interface SummarizedCounter {
+  Name?: string;
+  Max?: number;
+  Average?: number;
+  Sum?: number;
+  N?: number;
+  Unit?: string;
+}
+export const SummarizedCounter = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Max: S.optional(S.Number),
+    Average: S.optional(S.Number),
+    Sum: S.optional(S.Number),
+    N: S.optional(S.Number),
+    Unit: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SummarizedCounter",
+}) as any as S.Schema<SummarizedCounter>;
+export type SummarizedCounterList = SummarizedCounter[];
 export const SummarizedCounterList = S.Array(SummarizedCounter);
-export class Mitigation extends S.Class<Mitigation>("Mitigation")({
-  MitigationName: S.optional(S.String),
-}) {}
+export interface Mitigation {
+  MitigationName?: string;
+}
+export const Mitigation = S.suspend(() =>
+  S.Struct({ MitigationName: S.optional(S.String) }),
+).annotations({ identifier: "Mitigation" }) as any as S.Schema<Mitigation>;
+export type MitigationList = Mitigation[];
 export const MitigationList = S.Array(Mitigation);
-export class AttackVolume extends S.Class<AttackVolume>("AttackVolume")({
-  BitsPerSecond: S.optional(AttackVolumeStatistics),
-  PacketsPerSecond: S.optional(AttackVolumeStatistics),
-  RequestsPerSecond: S.optional(AttackVolumeStatistics),
-}) {}
-export class AttackVectorDescription extends S.Class<AttackVectorDescription>(
-  "AttackVectorDescription",
-)({ VectorType: S.String }) {}
+export interface AttackVolume {
+  BitsPerSecond?: AttackVolumeStatistics;
+  PacketsPerSecond?: AttackVolumeStatistics;
+  RequestsPerSecond?: AttackVolumeStatistics;
+}
+export const AttackVolume = S.suspend(() =>
+  S.Struct({
+    BitsPerSecond: S.optional(AttackVolumeStatistics),
+    PacketsPerSecond: S.optional(AttackVolumeStatistics),
+    RequestsPerSecond: S.optional(AttackVolumeStatistics),
+  }),
+).annotations({ identifier: "AttackVolume" }) as any as S.Schema<AttackVolume>;
+export interface AttackVectorDescription {
+  VectorType: string;
+}
+export const AttackVectorDescription = S.suspend(() =>
+  S.Struct({ VectorType: S.String }),
+).annotations({
+  identifier: "AttackVectorDescription",
+}) as any as S.Schema<AttackVectorDescription>;
+export type AttackVectorDescriptionList = AttackVectorDescription[];
 export const AttackVectorDescriptionList = S.Array(AttackVectorDescription);
-export class AttackStatisticsDataItem extends S.Class<AttackStatisticsDataItem>(
-  "AttackStatisticsDataItem",
-)({ AttackVolume: S.optional(AttackVolume), AttackCount: S.Number }) {}
+export interface AttackStatisticsDataItem {
+  AttackVolume?: AttackVolume;
+  AttackCount: number;
+}
+export const AttackStatisticsDataItem = S.suspend(() =>
+  S.Struct({ AttackVolume: S.optional(AttackVolume), AttackCount: S.Number }),
+).annotations({
+  identifier: "AttackStatisticsDataItem",
+}) as any as S.Schema<AttackStatisticsDataItem>;
+export type AttackStatisticsDataList = AttackStatisticsDataItem[];
 export const AttackStatisticsDataList = S.Array(AttackStatisticsDataItem);
-export class AttackSummary extends S.Class<AttackSummary>("AttackSummary")({
-  AttackId: S.optional(S.String),
-  ResourceArn: S.optional(S.String),
-  StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  AttackVectors: S.optional(AttackVectorDescriptionList),
-}) {}
+export interface AttackSummary {
+  AttackId?: string;
+  ResourceArn?: string;
+  StartTime?: Date;
+  EndTime?: Date;
+  AttackVectors?: AttackVectorDescriptionList;
+}
+export const AttackSummary = S.suspend(() =>
+  S.Struct({
+    AttackId: S.optional(S.String),
+    ResourceArn: S.optional(S.String),
+    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    AttackVectors: S.optional(AttackVectorDescriptionList),
+  }),
+).annotations({
+  identifier: "AttackSummary",
+}) as any as S.Schema<AttackSummary>;
+export type AttackSummaries = AttackSummary[];
 export const AttackSummaries = S.Array(AttackSummary);
-export class SummarizedAttackVector extends S.Class<SummarizedAttackVector>(
-  "SummarizedAttackVector",
-)({
-  VectorType: S.String,
-  VectorCounters: S.optional(SummarizedCounterList),
-}) {}
+export interface SummarizedAttackVector {
+  VectorType: string;
+  VectorCounters?: SummarizedCounterList;
+}
+export const SummarizedAttackVector = S.suspend(() =>
+  S.Struct({
+    VectorType: S.String,
+    VectorCounters: S.optional(SummarizedCounterList),
+  }),
+).annotations({
+  identifier: "SummarizedAttackVector",
+}) as any as S.Schema<SummarizedAttackVector>;
+export type SummarizedAttackVectorList = SummarizedAttackVector[];
 export const SummarizedAttackVectorList = S.Array(SummarizedAttackVector);
-export class Contributor extends S.Class<Contributor>("Contributor")({
-  Name: S.optional(S.String),
-  Value: S.optional(S.Number),
-}) {}
+export interface Contributor {
+  Name?: string;
+  Value?: number;
+}
+export const Contributor = S.suspend(() =>
+  S.Struct({ Name: S.optional(S.String), Value: S.optional(S.Number) }),
+).annotations({ identifier: "Contributor" }) as any as S.Schema<Contributor>;
+export type TopContributors = Contributor[];
 export const TopContributors = S.Array(Contributor);
-export class DescribeAttackStatisticsResponse extends S.Class<DescribeAttackStatisticsResponse>(
-  "DescribeAttackStatisticsResponse",
-)({ TimeRange: TimeRange, DataItems: AttackStatisticsDataList }, ns) {}
-export class DescribeProtectionResponse extends S.Class<DescribeProtectionResponse>(
-  "DescribeProtectionResponse",
-)({ Protection: S.optional(Protection) }, ns) {}
-export class ProtectionGroupArbitraryPatternLimits extends S.Class<ProtectionGroupArbitraryPatternLimits>(
-  "ProtectionGroupArbitraryPatternLimits",
-)({ MaxMembers: S.Number }) {}
-export class ListAttacksResponse extends S.Class<ListAttacksResponse>(
-  "ListAttacksResponse",
-)(
-  {
+export interface DescribeAttackStatisticsResponse {
+  TimeRange: TimeRange;
+  DataItems: AttackStatisticsDataList;
+}
+export const DescribeAttackStatisticsResponse = S.suspend(() =>
+  S.Struct({ TimeRange: TimeRange, DataItems: AttackStatisticsDataList }).pipe(
+    ns,
+  ),
+).annotations({
+  identifier: "DescribeAttackStatisticsResponse",
+}) as any as S.Schema<DescribeAttackStatisticsResponse>;
+export interface DescribeProtectionResponse {
+  Protection?: Protection;
+}
+export const DescribeProtectionResponse = S.suspend(() =>
+  S.Struct({ Protection: S.optional(Protection) }).pipe(ns),
+).annotations({
+  identifier: "DescribeProtectionResponse",
+}) as any as S.Schema<DescribeProtectionResponse>;
+export interface ProtectionGroupArbitraryPatternLimits {
+  MaxMembers: number;
+}
+export const ProtectionGroupArbitraryPatternLimits = S.suspend(() =>
+  S.Struct({ MaxMembers: S.Number }),
+).annotations({
+  identifier: "ProtectionGroupArbitraryPatternLimits",
+}) as any as S.Schema<ProtectionGroupArbitraryPatternLimits>;
+export interface ListAttacksResponse {
+  AttackSummaries?: AttackSummaries;
+  NextToken?: string;
+}
+export const ListAttacksResponse = S.suspend(() =>
+  S.Struct({
     AttackSummaries: S.optional(AttackSummaries),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class SubResourceSummary extends S.Class<SubResourceSummary>(
-  "SubResourceSummary",
-)({
-  Type: S.optional(S.String),
-  Id: S.optional(S.String),
-  AttackVectors: S.optional(SummarizedAttackVectorList),
-  Counters: S.optional(SummarizedCounterList),
-}) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "ListAttacksResponse",
+}) as any as S.Schema<ListAttacksResponse>;
+export interface SubResourceSummary {
+  Type?: string;
+  Id?: string;
+  AttackVectors?: SummarizedAttackVectorList;
+  Counters?: SummarizedCounterList;
+}
+export const SubResourceSummary = S.suspend(() =>
+  S.Struct({
+    Type: S.optional(S.String),
+    Id: S.optional(S.String),
+    AttackVectors: S.optional(SummarizedAttackVectorList),
+    Counters: S.optional(SummarizedCounterList),
+  }),
+).annotations({
+  identifier: "SubResourceSummary",
+}) as any as S.Schema<SubResourceSummary>;
+export type SubResourceSummaryList = SubResourceSummary[];
 export const SubResourceSummaryList = S.Array(SubResourceSummary);
-export class AttackProperty extends S.Class<AttackProperty>("AttackProperty")({
-  AttackLayer: S.optional(S.String),
-  AttackPropertyIdentifier: S.optional(S.String),
-  TopContributors: S.optional(TopContributors),
-  Unit: S.optional(S.String),
-  Total: S.optional(S.Number),
-}) {}
+export interface AttackProperty {
+  AttackLayer?: string;
+  AttackPropertyIdentifier?: string;
+  TopContributors?: TopContributors;
+  Unit?: string;
+  Total?: number;
+}
+export const AttackProperty = S.suspend(() =>
+  S.Struct({
+    AttackLayer: S.optional(S.String),
+    AttackPropertyIdentifier: S.optional(S.String),
+    TopContributors: S.optional(TopContributors),
+    Unit: S.optional(S.String),
+    Total: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "AttackProperty",
+}) as any as S.Schema<AttackProperty>;
+export type AttackProperties = AttackProperty[];
 export const AttackProperties = S.Array(AttackProperty);
-export class ProtectionGroupPatternTypeLimits extends S.Class<ProtectionGroupPatternTypeLimits>(
-  "ProtectionGroupPatternTypeLimits",
-)({ ArbitraryPatternLimits: ProtectionGroupArbitraryPatternLimits }) {}
-export class AttackDetail extends S.Class<AttackDetail>("AttackDetail")({
-  AttackId: S.optional(S.String),
-  ResourceArn: S.optional(S.String),
-  SubResources: S.optional(SubResourceSummaryList),
-  StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  AttackCounters: S.optional(SummarizedCounterList),
-  AttackProperties: S.optional(AttackProperties),
-  Mitigations: S.optional(MitigationList),
-}) {}
-export class ProtectionGroupLimits extends S.Class<ProtectionGroupLimits>(
-  "ProtectionGroupLimits",
-)({
-  MaxProtectionGroups: S.Number,
-  PatternTypeLimits: ProtectionGroupPatternTypeLimits,
-}) {}
-export class DescribeAttackResponse extends S.Class<DescribeAttackResponse>(
-  "DescribeAttackResponse",
-)({ Attack: S.optional(AttackDetail) }, ns) {}
-export class SubscriptionLimits extends S.Class<SubscriptionLimits>(
-  "SubscriptionLimits",
-)({
-  ProtectionLimits: ProtectionLimits,
-  ProtectionGroupLimits: ProtectionGroupLimits,
-}) {}
-export class Subscription extends S.Class<Subscription>("Subscription")({
-  StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  TimeCommitmentInSeconds: S.optional(S.Number),
-  AutoRenew: S.optional(S.String),
-  Limits: S.optional(Limits),
-  ProactiveEngagementStatus: S.optional(S.String),
-  SubscriptionLimits: SubscriptionLimits,
-  SubscriptionArn: S.optional(S.String),
-}) {}
-export class DescribeSubscriptionResponse extends S.Class<DescribeSubscriptionResponse>(
-  "DescribeSubscriptionResponse",
-)({ Subscription: S.optional(Subscription) }, ns) {}
+export interface ProtectionGroupPatternTypeLimits {
+  ArbitraryPatternLimits: ProtectionGroupArbitraryPatternLimits;
+}
+export const ProtectionGroupPatternTypeLimits = S.suspend(() =>
+  S.Struct({ ArbitraryPatternLimits: ProtectionGroupArbitraryPatternLimits }),
+).annotations({
+  identifier: "ProtectionGroupPatternTypeLimits",
+}) as any as S.Schema<ProtectionGroupPatternTypeLimits>;
+export interface AttackDetail {
+  AttackId?: string;
+  ResourceArn?: string;
+  SubResources?: SubResourceSummaryList;
+  StartTime?: Date;
+  EndTime?: Date;
+  AttackCounters?: SummarizedCounterList;
+  AttackProperties?: AttackProperties;
+  Mitigations?: MitigationList;
+}
+export const AttackDetail = S.suspend(() =>
+  S.Struct({
+    AttackId: S.optional(S.String),
+    ResourceArn: S.optional(S.String),
+    SubResources: S.optional(SubResourceSummaryList),
+    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    AttackCounters: S.optional(SummarizedCounterList),
+    AttackProperties: S.optional(AttackProperties),
+    Mitigations: S.optional(MitigationList),
+  }),
+).annotations({ identifier: "AttackDetail" }) as any as S.Schema<AttackDetail>;
+export interface ProtectionGroupLimits {
+  MaxProtectionGroups: number;
+  PatternTypeLimits: ProtectionGroupPatternTypeLimits;
+}
+export const ProtectionGroupLimits = S.suspend(() =>
+  S.Struct({
+    MaxProtectionGroups: S.Number,
+    PatternTypeLimits: ProtectionGroupPatternTypeLimits,
+  }),
+).annotations({
+  identifier: "ProtectionGroupLimits",
+}) as any as S.Schema<ProtectionGroupLimits>;
+export interface DescribeAttackResponse {
+  Attack?: AttackDetail;
+}
+export const DescribeAttackResponse = S.suspend(() =>
+  S.Struct({ Attack: S.optional(AttackDetail) }).pipe(ns),
+).annotations({
+  identifier: "DescribeAttackResponse",
+}) as any as S.Schema<DescribeAttackResponse>;
+export interface SubscriptionLimits {
+  ProtectionLimits: ProtectionLimits;
+  ProtectionGroupLimits: ProtectionGroupLimits;
+}
+export const SubscriptionLimits = S.suspend(() =>
+  S.Struct({
+    ProtectionLimits: ProtectionLimits,
+    ProtectionGroupLimits: ProtectionGroupLimits,
+  }),
+).annotations({
+  identifier: "SubscriptionLimits",
+}) as any as S.Schema<SubscriptionLimits>;
+export interface Subscription {
+  StartTime?: Date;
+  EndTime?: Date;
+  TimeCommitmentInSeconds?: number;
+  AutoRenew?: string;
+  Limits?: Limits;
+  ProactiveEngagementStatus?: string;
+  SubscriptionLimits: SubscriptionLimits;
+  SubscriptionArn?: string;
+}
+export const Subscription = S.suspend(() =>
+  S.Struct({
+    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    TimeCommitmentInSeconds: S.optional(S.Number),
+    AutoRenew: S.optional(S.String),
+    Limits: S.optional(Limits),
+    ProactiveEngagementStatus: S.optional(S.String),
+    SubscriptionLimits: SubscriptionLimits,
+    SubscriptionArn: S.optional(S.String),
+  }),
+).annotations({ identifier: "Subscription" }) as any as S.Schema<Subscription>;
+export interface DescribeSubscriptionResponse {
+  Subscription?: Subscription;
+}
+export const DescribeSubscriptionResponse = S.suspend(() =>
+  S.Struct({ Subscription: S.optional(Subscription) }).pipe(ns),
+).annotations({
+  identifier: "DescribeSubscriptionResponse",
+}) as any as S.Schema<DescribeSubscriptionResponse>;
 
 //# Errors
 export class InternalErrorException extends S.TaggedError<InternalErrorException>()(

@@ -242,202 +242,305 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
+export type MetricNameList = string[];
 export const MetricNameList = S.Array(S.String);
+export type TreatmentNameList = string[];
 export const TreatmentNameList = S.Array(S.String);
+export type ExperimentResultRequestTypeList = string[];
 export const ExperimentResultRequestTypeList = S.Array(S.String);
+export type ExperimentReportNameList = string[];
 export const ExperimentReportNameList = S.Array(S.String);
+export type VariationNameList = string[];
 export const VariationNameList = S.Array(S.String);
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface ListTagsForResourceRequest {
+  resourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TestSegmentPatternRequest extends S.Class<TestSegmentPatternRequest>(
-  "TestSegmentPatternRequest",
-)(
-  { pattern: S.String, payload: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/test-segment-pattern" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface TestSegmentPatternRequest {
+  pattern: string;
+  payload: string;
+}
+export const TestSegmentPatternRequest = S.suspend(() =>
+  S.Struct({ pattern: S.String, payload: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/test-segment-pattern" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "TestSegmentPatternRequest",
+}) as any as S.Schema<TestSegmentPatternRequest>;
+export interface UntagResourceRequest {
+  resourceArn: string;
+  tagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
-export class GetProjectRequest extends S.Class<GetProjectRequest>(
-  "GetProjectRequest",
-)(
-  { project: S.String.pipe(T.HttpLabel("project")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/projects/{project}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface GetProjectRequest {
+  project: string;
+}
+export const GetProjectRequest = S.suspend(() =>
+  S.Struct({ project: S.String.pipe(T.HttpLabel("project")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/projects/{project}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteProjectRequest extends S.Class<DeleteProjectRequest>(
-  "DeleteProjectRequest",
-)(
-  { project: S.String.pipe(T.HttpLabel("project")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/projects/{project}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetProjectRequest",
+}) as any as S.Schema<GetProjectRequest>;
+export interface DeleteProjectRequest {
+  project: string;
+}
+export const DeleteProjectRequest = S.suspend(() =>
+  S.Struct({ project: S.String.pipe(T.HttpLabel("project")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/projects/{project}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteProjectResponse extends S.Class<DeleteProjectResponse>(
-  "DeleteProjectResponse",
-)({}) {}
-export class ListProjectsRequest extends S.Class<ListProjectsRequest>(
-  "ListProjectsRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteProjectRequest",
+}) as any as S.Schema<DeleteProjectRequest>;
+export interface DeleteProjectResponse {}
+export const DeleteProjectResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteProjectResponse",
+}) as any as S.Schema<DeleteProjectResponse>;
+export interface ListProjectsRequest {
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListProjectsRequest = S.suspend(() =>
+  S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/projects" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/projects" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class EvaluateFeatureRequest extends S.Class<EvaluateFeatureRequest>(
-  "EvaluateFeatureRequest",
-)(
-  {
+).annotations({
+  identifier: "ListProjectsRequest",
+}) as any as S.Schema<ListProjectsRequest>;
+export interface EvaluateFeatureRequest {
+  project: string;
+  feature: string;
+  entityId: string;
+  evaluationContext?: string;
+}
+export const EvaluateFeatureRequest = S.suspend(() =>
+  S.Struct({
     project: S.String.pipe(T.HttpLabel("project")),
     feature: S.String.pipe(T.HttpLabel("feature")),
     entityId: S.String,
     evaluationContext: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/projects/{project}/evaluations/{feature}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/projects/{project}/evaluations/{feature}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ProjectAppConfigResourceConfig extends S.Class<ProjectAppConfigResourceConfig>(
-  "ProjectAppConfigResourceConfig",
-)({
-  applicationId: S.optional(S.String),
-  environmentId: S.optional(S.String),
-}) {}
-export class UpdateProjectRequest extends S.Class<UpdateProjectRequest>(
-  "UpdateProjectRequest",
-)(
-  {
+).annotations({
+  identifier: "EvaluateFeatureRequest",
+}) as any as S.Schema<EvaluateFeatureRequest>;
+export interface ProjectAppConfigResourceConfig {
+  applicationId?: string;
+  environmentId?: string;
+}
+export const ProjectAppConfigResourceConfig = S.suspend(() =>
+  S.Struct({
+    applicationId: S.optional(S.String),
+    environmentId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ProjectAppConfigResourceConfig",
+}) as any as S.Schema<ProjectAppConfigResourceConfig>;
+export interface UpdateProjectRequest {
+  project: string;
+  appConfigResource?: ProjectAppConfigResourceConfig;
+  description?: string;
+}
+export const UpdateProjectRequest = S.suspend(() =>
+  S.Struct({
     project: S.String.pipe(T.HttpLabel("project")),
     appConfigResource: S.optional(ProjectAppConfigResourceConfig),
     description: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "PATCH", uri: "/projects/{project}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PATCH", uri: "/projects/{project}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetExperimentRequest extends S.Class<GetExperimentRequest>(
-  "GetExperimentRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateProjectRequest",
+}) as any as S.Schema<UpdateProjectRequest>;
+export interface GetExperimentRequest {
+  project: string;
+  experiment: string;
+}
+export const GetExperimentRequest = S.suspend(() =>
+  S.Struct({
     project: S.String.pipe(T.HttpLabel("project")),
     experiment: S.String.pipe(T.HttpLabel("experiment")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/projects/{project}/experiments/{experiment}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/projects/{project}/experiments/{experiment}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TreatmentConfig extends S.Class<TreatmentConfig>(
-  "TreatmentConfig",
-)({
-  name: S.String,
-  description: S.optional(S.String),
-  feature: S.String,
-  variation: S.String,
-}) {}
+).annotations({
+  identifier: "GetExperimentRequest",
+}) as any as S.Schema<GetExperimentRequest>;
+export interface TreatmentConfig {
+  name: string;
+  description?: string;
+  feature: string;
+  variation: string;
+}
+export const TreatmentConfig = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    description: S.optional(S.String),
+    feature: S.String,
+    variation: S.String,
+  }),
+).annotations({
+  identifier: "TreatmentConfig",
+}) as any as S.Schema<TreatmentConfig>;
+export type TreatmentConfigList = TreatmentConfig[];
 export const TreatmentConfigList = S.Array(TreatmentConfig);
-export class MetricDefinitionConfig extends S.Class<MetricDefinitionConfig>(
-  "MetricDefinitionConfig",
-)({
-  name: S.String,
-  entityIdKey: S.String,
-  valueKey: S.String,
-  eventPattern: S.optional(S.String),
-  unitLabel: S.optional(S.String),
-}) {}
-export class MetricGoalConfig extends S.Class<MetricGoalConfig>(
-  "MetricGoalConfig",
-)({
-  metricDefinition: MetricDefinitionConfig,
-  desiredChange: S.optional(S.String),
-}) {}
+export interface MetricDefinitionConfig {
+  name: string;
+  entityIdKey: string;
+  valueKey: string;
+  eventPattern?: string;
+  unitLabel?: string;
+}
+export const MetricDefinitionConfig = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    entityIdKey: S.String,
+    valueKey: S.String,
+    eventPattern: S.optional(S.String),
+    unitLabel: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "MetricDefinitionConfig",
+}) as any as S.Schema<MetricDefinitionConfig>;
+export interface MetricGoalConfig {
+  metricDefinition: MetricDefinitionConfig;
+  desiredChange?: string;
+}
+export const MetricGoalConfig = S.suspend(() =>
+  S.Struct({
+    metricDefinition: MetricDefinitionConfig,
+    desiredChange: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "MetricGoalConfig",
+}) as any as S.Schema<MetricGoalConfig>;
+export type MetricGoalConfigList = MetricGoalConfig[];
 export const MetricGoalConfigList = S.Array(MetricGoalConfig);
+export type TreatmentToWeightMap = { [key: string]: number };
 export const TreatmentToWeightMap = S.Record({
   key: S.String,
   value: S.Number,
 });
-export class OnlineAbConfig extends S.Class<OnlineAbConfig>("OnlineAbConfig")({
-  controlTreatmentName: S.optional(S.String),
-  treatmentWeights: S.optional(TreatmentToWeightMap),
-}) {}
-export class UpdateExperimentRequest extends S.Class<UpdateExperimentRequest>(
-  "UpdateExperimentRequest",
-)(
-  {
+export interface OnlineAbConfig {
+  controlTreatmentName?: string;
+  treatmentWeights?: TreatmentToWeightMap;
+}
+export const OnlineAbConfig = S.suspend(() =>
+  S.Struct({
+    controlTreatmentName: S.optional(S.String),
+    treatmentWeights: S.optional(TreatmentToWeightMap),
+  }),
+).annotations({
+  identifier: "OnlineAbConfig",
+}) as any as S.Schema<OnlineAbConfig>;
+export interface UpdateExperimentRequest {
+  project: string;
+  experiment: string;
+  description?: string;
+  treatments?: TreatmentConfigList;
+  metricGoals?: MetricGoalConfigList;
+  randomizationSalt?: string;
+  samplingRate?: number;
+  segment?: string;
+  removeSegment?: boolean;
+  onlineAbConfig?: OnlineAbConfig;
+}
+export const UpdateExperimentRequest = S.suspend(() =>
+  S.Struct({
     project: S.String.pipe(T.HttpLabel("project")),
     experiment: S.String.pipe(T.HttpLabel("experiment")),
     description: S.optional(S.String),
@@ -448,63 +551,91 @@ export class UpdateExperimentRequest extends S.Class<UpdateExperimentRequest>(
     segment: S.optional(S.String),
     removeSegment: S.optional(S.Boolean),
     onlineAbConfig: S.optional(OnlineAbConfig),
-  },
-  T.all(
-    T.Http({
-      method: "PATCH",
-      uri: "/projects/{project}/experiments/{experiment}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/projects/{project}/experiments/{experiment}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteExperimentRequest extends S.Class<DeleteExperimentRequest>(
-  "DeleteExperimentRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateExperimentRequest",
+}) as any as S.Schema<UpdateExperimentRequest>;
+export interface DeleteExperimentRequest {
+  project: string;
+  experiment: string;
+}
+export const DeleteExperimentRequest = S.suspend(() =>
+  S.Struct({
     project: S.String.pipe(T.HttpLabel("project")),
     experiment: S.String.pipe(T.HttpLabel("experiment")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/projects/{project}/experiments/{experiment}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/projects/{project}/experiments/{experiment}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteExperimentResponse extends S.Class<DeleteExperimentResponse>(
-  "DeleteExperimentResponse",
-)({}) {}
-export class ListExperimentsRequest extends S.Class<ListExperimentsRequest>(
-  "ListExperimentsRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteExperimentRequest",
+}) as any as S.Schema<DeleteExperimentRequest>;
+export interface DeleteExperimentResponse {}
+export const DeleteExperimentResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteExperimentResponse",
+}) as any as S.Schema<DeleteExperimentResponse>;
+export interface ListExperimentsRequest {
+  project: string;
+  maxResults?: number;
+  nextToken?: string;
+  status?: string;
+}
+export const ListExperimentsRequest = S.suspend(() =>
+  S.Struct({
     project: S.String.pipe(T.HttpLabel("project")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     status: S.optional(S.String).pipe(T.HttpQuery("status")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/projects/{project}/experiments" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/projects/{project}/experiments" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetExperimentResultsRequest extends S.Class<GetExperimentResultsRequest>(
-  "GetExperimentResultsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListExperimentsRequest",
+}) as any as S.Schema<ListExperimentsRequest>;
+export interface GetExperimentResultsRequest {
+  project: string;
+  experiment: string;
+  startTime?: Date;
+  endTime?: Date;
+  metricNames: MetricNameList;
+  treatmentNames: TreatmentNameList;
+  baseStat?: string;
+  resultStats?: ExperimentResultRequestTypeList;
+  reportNames?: ExperimentReportNameList;
+  period?: number;
+}
+export const GetExperimentResultsRequest = S.suspend(() =>
+  S.Struct({
     project: S.String.pipe(T.HttpLabel("project")),
     experiment: S.String.pipe(T.HttpLabel("experiment")),
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -515,91 +646,128 @@ export class GetExperimentResultsRequest extends S.Class<GetExperimentResultsReq
     resultStats: S.optional(ExperimentResultRequestTypeList),
     reportNames: S.optional(ExperimentReportNameList),
     period: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/projects/{project}/experiments/{experiment}/results",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/projects/{project}/experiments/{experiment}/results",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartExperimentRequest extends S.Class<StartExperimentRequest>(
-  "StartExperimentRequest",
-)(
-  {
+).annotations({
+  identifier: "GetExperimentResultsRequest",
+}) as any as S.Schema<GetExperimentResultsRequest>;
+export interface StartExperimentRequest {
+  project: string;
+  experiment: string;
+  analysisCompleteTime: Date;
+}
+export const StartExperimentRequest = S.suspend(() =>
+  S.Struct({
     project: S.String.pipe(T.HttpLabel("project")),
     experiment: S.String.pipe(T.HttpLabel("experiment")),
     analysisCompleteTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/projects/{project}/experiments/{experiment}/start",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/projects/{project}/experiments/{experiment}/start",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StopExperimentRequest extends S.Class<StopExperimentRequest>(
-  "StopExperimentRequest",
-)(
-  {
+).annotations({
+  identifier: "StartExperimentRequest",
+}) as any as S.Schema<StartExperimentRequest>;
+export interface StopExperimentRequest {
+  project: string;
+  experiment: string;
+  desiredState?: string;
+  reason?: string;
+}
+export const StopExperimentRequest = S.suspend(() =>
+  S.Struct({
     project: S.String.pipe(T.HttpLabel("project")),
     experiment: S.String.pipe(T.HttpLabel("experiment")),
     desiredState: S.optional(S.String),
     reason: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/projects/{project}/experiments/{experiment}/cancel",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/projects/{project}/experiments/{experiment}/cancel",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetFeatureRequest extends S.Class<GetFeatureRequest>(
-  "GetFeatureRequest",
-)(
-  {
+).annotations({
+  identifier: "StopExperimentRequest",
+}) as any as S.Schema<StopExperimentRequest>;
+export interface GetFeatureRequest {
+  project: string;
+  feature: string;
+}
+export const GetFeatureRequest = S.suspend(() =>
+  S.Struct({
     project: S.String.pipe(T.HttpLabel("project")),
     feature: S.String.pipe(T.HttpLabel("feature")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/projects/{project}/features/{feature}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/projects/{project}/features/{feature}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "GetFeatureRequest",
+}) as any as S.Schema<GetFeatureRequest>;
 export const VariableValue = S.Union(
   S.Struct({ boolValue: S.Boolean }),
   S.Struct({ stringValue: S.String }),
   S.Struct({ longValue: S.Number }),
   S.Struct({ doubleValue: S.Number }),
 );
-export class VariationConfig extends S.Class<VariationConfig>(
-  "VariationConfig",
-)({ name: S.String, value: VariableValue }) {}
+export interface VariationConfig {
+  name: string;
+  value: (typeof VariableValue)["Type"];
+}
+export const VariationConfig = S.suspend(() =>
+  S.Struct({ name: S.String, value: VariableValue }),
+).annotations({
+  identifier: "VariationConfig",
+}) as any as S.Schema<VariationConfig>;
+export type VariationConfigsList = VariationConfig[];
 export const VariationConfigsList = S.Array(VariationConfig);
+export type EntityOverrideMap = { [key: string]: string };
 export const EntityOverrideMap = S.Record({ key: S.String, value: S.String });
-export class UpdateFeatureRequest extends S.Class<UpdateFeatureRequest>(
-  "UpdateFeatureRequest",
-)(
-  {
+export interface UpdateFeatureRequest {
+  project: string;
+  feature: string;
+  evaluationStrategy?: string;
+  description?: string;
+  addOrUpdateVariations?: VariationConfigsList;
+  removeVariations?: VariationNameList;
+  defaultVariation?: string;
+  entityOverrides?: EntityOverrideMap;
+}
+export const UpdateFeatureRequest = S.suspend(() =>
+  S.Struct({
     project: S.String.pipe(T.HttpLabel("project")),
     feature: S.String.pipe(T.HttpLabel("feature")),
     evaluationStrategy: S.optional(S.String),
@@ -608,105 +776,175 @@ export class UpdateFeatureRequest extends S.Class<UpdateFeatureRequest>(
     removeVariations: S.optional(VariationNameList),
     defaultVariation: S.optional(S.String),
     entityOverrides: S.optional(EntityOverrideMap),
-  },
-  T.all(
-    T.Http({ method: "PATCH", uri: "/projects/{project}/features/{feature}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/projects/{project}/features/{feature}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteFeatureRequest extends S.Class<DeleteFeatureRequest>(
-  "DeleteFeatureRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateFeatureRequest",
+}) as any as S.Schema<UpdateFeatureRequest>;
+export interface DeleteFeatureRequest {
+  project: string;
+  feature: string;
+}
+export const DeleteFeatureRequest = S.suspend(() =>
+  S.Struct({
     project: S.String.pipe(T.HttpLabel("project")),
     feature: S.String.pipe(T.HttpLabel("feature")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/projects/{project}/features/{feature}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/projects/{project}/features/{feature}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteFeatureResponse extends S.Class<DeleteFeatureResponse>(
-  "DeleteFeatureResponse",
-)({}) {}
-export class ListFeaturesRequest extends S.Class<ListFeaturesRequest>(
-  "ListFeaturesRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteFeatureRequest",
+}) as any as S.Schema<DeleteFeatureRequest>;
+export interface DeleteFeatureResponse {}
+export const DeleteFeatureResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteFeatureResponse",
+}) as any as S.Schema<DeleteFeatureResponse>;
+export interface ListFeaturesRequest {
+  project: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListFeaturesRequest = S.suspend(() =>
+  S.Struct({
     project: S.String.pipe(T.HttpLabel("project")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/projects/{project}/features" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/projects/{project}/features" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetLaunchRequest extends S.Class<GetLaunchRequest>(
-  "GetLaunchRequest",
-)(
-  {
+).annotations({
+  identifier: "ListFeaturesRequest",
+}) as any as S.Schema<ListFeaturesRequest>;
+export interface GetLaunchRequest {
+  project: string;
+  launch: string;
+}
+export const GetLaunchRequest = S.suspend(() =>
+  S.Struct({
     project: S.String.pipe(T.HttpLabel("project")),
     launch: S.String.pipe(T.HttpLabel("launch")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/projects/{project}/launches/{launch}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/projects/{project}/launches/{launch}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class LaunchGroupConfig extends S.Class<LaunchGroupConfig>(
-  "LaunchGroupConfig",
-)({
-  name: S.String,
-  description: S.optional(S.String),
-  feature: S.String,
-  variation: S.String,
-}) {}
+).annotations({
+  identifier: "GetLaunchRequest",
+}) as any as S.Schema<GetLaunchRequest>;
+export interface LaunchGroupConfig {
+  name: string;
+  description?: string;
+  feature: string;
+  variation: string;
+}
+export const LaunchGroupConfig = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    description: S.optional(S.String),
+    feature: S.String,
+    variation: S.String,
+  }),
+).annotations({
+  identifier: "LaunchGroupConfig",
+}) as any as S.Schema<LaunchGroupConfig>;
+export type LaunchGroupConfigList = LaunchGroupConfig[];
 export const LaunchGroupConfigList = S.Array(LaunchGroupConfig);
-export class MetricMonitorConfig extends S.Class<MetricMonitorConfig>(
-  "MetricMonitorConfig",
-)({ metricDefinition: MetricDefinitionConfig }) {}
+export interface MetricMonitorConfig {
+  metricDefinition: MetricDefinitionConfig;
+}
+export const MetricMonitorConfig = S.suspend(() =>
+  S.Struct({ metricDefinition: MetricDefinitionConfig }),
+).annotations({
+  identifier: "MetricMonitorConfig",
+}) as any as S.Schema<MetricMonitorConfig>;
+export type MetricMonitorConfigList = MetricMonitorConfig[];
 export const MetricMonitorConfigList = S.Array(MetricMonitorConfig);
+export type GroupToWeightMap = { [key: string]: number };
 export const GroupToWeightMap = S.Record({ key: S.String, value: S.Number });
-export class SegmentOverride extends S.Class<SegmentOverride>(
-  "SegmentOverride",
-)({
-  segment: S.String,
-  evaluationOrder: S.Number,
-  weights: GroupToWeightMap,
-}) {}
+export interface SegmentOverride {
+  segment: string;
+  evaluationOrder: number;
+  weights: GroupToWeightMap;
+}
+export const SegmentOverride = S.suspend(() =>
+  S.Struct({
+    segment: S.String,
+    evaluationOrder: S.Number,
+    weights: GroupToWeightMap,
+  }),
+).annotations({
+  identifier: "SegmentOverride",
+}) as any as S.Schema<SegmentOverride>;
+export type SegmentOverridesList = SegmentOverride[];
 export const SegmentOverridesList = S.Array(SegmentOverride);
-export class ScheduledSplitConfig extends S.Class<ScheduledSplitConfig>(
-  "ScheduledSplitConfig",
-)({
-  startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  groupWeights: GroupToWeightMap,
-  segmentOverrides: S.optional(SegmentOverridesList),
-}) {}
+export interface ScheduledSplitConfig {
+  startTime: Date;
+  groupWeights: GroupToWeightMap;
+  segmentOverrides?: SegmentOverridesList;
+}
+export const ScheduledSplitConfig = S.suspend(() =>
+  S.Struct({
+    startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    groupWeights: GroupToWeightMap,
+    segmentOverrides: S.optional(SegmentOverridesList),
+  }),
+).annotations({
+  identifier: "ScheduledSplitConfig",
+}) as any as S.Schema<ScheduledSplitConfig>;
+export type ScheduledSplitConfigList = ScheduledSplitConfig[];
 export const ScheduledSplitConfigList = S.Array(ScheduledSplitConfig);
-export class ScheduledSplitsLaunchConfig extends S.Class<ScheduledSplitsLaunchConfig>(
-  "ScheduledSplitsLaunchConfig",
-)({ steps: ScheduledSplitConfigList }) {}
-export class UpdateLaunchRequest extends S.Class<UpdateLaunchRequest>(
-  "UpdateLaunchRequest",
-)(
-  {
+export interface ScheduledSplitsLaunchConfig {
+  steps: ScheduledSplitConfigList;
+}
+export const ScheduledSplitsLaunchConfig = S.suspend(() =>
+  S.Struct({ steps: ScheduledSplitConfigList }),
+).annotations({
+  identifier: "ScheduledSplitsLaunchConfig",
+}) as any as S.Schema<ScheduledSplitsLaunchConfig>;
+export interface UpdateLaunchRequest {
+  project: string;
+  launch: string;
+  description?: string;
+  groups?: LaunchGroupConfigList;
+  metricMonitors?: MetricMonitorConfigList;
+  randomizationSalt?: string;
+  scheduledSplitsConfig?: ScheduledSplitsLaunchConfig;
+}
+export const UpdateLaunchRequest = S.suspend(() =>
+  S.Struct({
     project: S.String.pipe(T.HttpLabel("project")),
     launch: S.String.pipe(T.HttpLabel("launch")),
     description: S.optional(S.String),
@@ -714,594 +952,1111 @@ export class UpdateLaunchRequest extends S.Class<UpdateLaunchRequest>(
     metricMonitors: S.optional(MetricMonitorConfigList),
     randomizationSalt: S.optional(S.String),
     scheduledSplitsConfig: S.optional(ScheduledSplitsLaunchConfig),
-  },
-  T.all(
-    T.Http({ method: "PATCH", uri: "/projects/{project}/launches/{launch}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PATCH", uri: "/projects/{project}/launches/{launch}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteLaunchRequest extends S.Class<DeleteLaunchRequest>(
-  "DeleteLaunchRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateLaunchRequest",
+}) as any as S.Schema<UpdateLaunchRequest>;
+export interface DeleteLaunchRequest {
+  project: string;
+  launch: string;
+}
+export const DeleteLaunchRequest = S.suspend(() =>
+  S.Struct({
     project: S.String.pipe(T.HttpLabel("project")),
     launch: S.String.pipe(T.HttpLabel("launch")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/projects/{project}/launches/{launch}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/projects/{project}/launches/{launch}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteLaunchResponse extends S.Class<DeleteLaunchResponse>(
-  "DeleteLaunchResponse",
-)({}) {}
-export class ListLaunchesRequest extends S.Class<ListLaunchesRequest>(
-  "ListLaunchesRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteLaunchRequest",
+}) as any as S.Schema<DeleteLaunchRequest>;
+export interface DeleteLaunchResponse {}
+export const DeleteLaunchResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteLaunchResponse",
+}) as any as S.Schema<DeleteLaunchResponse>;
+export interface ListLaunchesRequest {
+  project: string;
+  maxResults?: number;
+  nextToken?: string;
+  status?: string;
+}
+export const ListLaunchesRequest = S.suspend(() =>
+  S.Struct({
     project: S.String.pipe(T.HttpLabel("project")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     status: S.optional(S.String).pipe(T.HttpQuery("status")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/projects/{project}/launches" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/projects/{project}/launches" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartLaunchRequest extends S.Class<StartLaunchRequest>(
-  "StartLaunchRequest",
-)(
-  {
+).annotations({
+  identifier: "ListLaunchesRequest",
+}) as any as S.Schema<ListLaunchesRequest>;
+export interface StartLaunchRequest {
+  project: string;
+  launch: string;
+}
+export const StartLaunchRequest = S.suspend(() =>
+  S.Struct({
     project: S.String.pipe(T.HttpLabel("project")),
     launch: S.String.pipe(T.HttpLabel("launch")),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/projects/{project}/launches/{launch}/start",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/projects/{project}/launches/{launch}/start",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StopLaunchRequest extends S.Class<StopLaunchRequest>(
-  "StopLaunchRequest",
-)(
-  {
+).annotations({
+  identifier: "StartLaunchRequest",
+}) as any as S.Schema<StartLaunchRequest>;
+export interface StopLaunchRequest {
+  project: string;
+  launch: string;
+  desiredState?: string;
+  reason?: string;
+}
+export const StopLaunchRequest = S.suspend(() =>
+  S.Struct({
     project: S.String.pipe(T.HttpLabel("project")),
     launch: S.String.pipe(T.HttpLabel("launch")),
     desiredState: S.optional(S.String),
     reason: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/projects/{project}/launches/{launch}/cancel",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/projects/{project}/launches/{launch}/cancel",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "StopLaunchRequest",
+}) as any as S.Schema<StopLaunchRequest>;
+export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
-export class CreateSegmentRequest extends S.Class<CreateSegmentRequest>(
-  "CreateSegmentRequest",
-)(
-  {
+export interface CreateSegmentRequest {
+  name: string;
+  pattern: string;
+  description?: string;
+  tags?: TagMap;
+}
+export const CreateSegmentRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     pattern: S.String,
     description: S.optional(S.String),
     tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/segments" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/segments" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetSegmentRequest extends S.Class<GetSegmentRequest>(
-  "GetSegmentRequest",
-)(
-  { segment: S.String.pipe(T.HttpLabel("segment")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/segments/{segment}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CreateSegmentRequest",
+}) as any as S.Schema<CreateSegmentRequest>;
+export interface GetSegmentRequest {
+  segment: string;
+}
+export const GetSegmentRequest = S.suspend(() =>
+  S.Struct({ segment: S.String.pipe(T.HttpLabel("segment")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/segments/{segment}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteSegmentRequest extends S.Class<DeleteSegmentRequest>(
-  "DeleteSegmentRequest",
-)(
-  { segment: S.String.pipe(T.HttpLabel("segment")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/segments/{segment}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetSegmentRequest",
+}) as any as S.Schema<GetSegmentRequest>;
+export interface DeleteSegmentRequest {
+  segment: string;
+}
+export const DeleteSegmentRequest = S.suspend(() =>
+  S.Struct({ segment: S.String.pipe(T.HttpLabel("segment")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/segments/{segment}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteSegmentResponse extends S.Class<DeleteSegmentResponse>(
-  "DeleteSegmentResponse",
-)({}) {}
-export class ListSegmentsRequest extends S.Class<ListSegmentsRequest>(
-  "ListSegmentsRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteSegmentRequest",
+}) as any as S.Schema<DeleteSegmentRequest>;
+export interface DeleteSegmentResponse {}
+export const DeleteSegmentResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteSegmentResponse",
+}) as any as S.Schema<DeleteSegmentResponse>;
+export interface ListSegmentsRequest {
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListSegmentsRequest = S.suspend(() =>
+  S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/segments" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/segments" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListSegmentReferencesRequest extends S.Class<ListSegmentReferencesRequest>(
-  "ListSegmentReferencesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListSegmentsRequest",
+}) as any as S.Schema<ListSegmentsRequest>;
+export interface ListSegmentReferencesRequest {
+  segment: string;
+  maxResults?: number;
+  nextToken?: string;
+  type: string;
+}
+export const ListSegmentReferencesRequest = S.suspend(() =>
+  S.Struct({
     segment: S.String.pipe(T.HttpLabel("segment")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     type: S.String.pipe(T.HttpQuery("type")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/segments/{segment}/references" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/segments/{segment}/references" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class S3DestinationConfig extends S.Class<S3DestinationConfig>(
-  "S3DestinationConfig",
-)({ bucket: S.optional(S.String), prefix: S.optional(S.String) }) {}
-export class CloudWatchLogsDestinationConfig extends S.Class<CloudWatchLogsDestinationConfig>(
-  "CloudWatchLogsDestinationConfig",
-)({ logGroup: S.optional(S.String) }) {}
-export class ProjectDataDeliveryConfig extends S.Class<ProjectDataDeliveryConfig>(
-  "ProjectDataDeliveryConfig",
-)({
-  s3Destination: S.optional(S3DestinationConfig),
-  cloudWatchLogs: S.optional(CloudWatchLogsDestinationConfig),
-}) {}
-export class EvaluationRequest extends S.Class<EvaluationRequest>(
-  "EvaluationRequest",
-)({
-  feature: S.String,
-  entityId: S.String,
-  evaluationContext: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "ListSegmentReferencesRequest",
+}) as any as S.Schema<ListSegmentReferencesRequest>;
+export interface S3DestinationConfig {
+  bucket?: string;
+  prefix?: string;
+}
+export const S3DestinationConfig = S.suspend(() =>
+  S.Struct({ bucket: S.optional(S.String), prefix: S.optional(S.String) }),
+).annotations({
+  identifier: "S3DestinationConfig",
+}) as any as S.Schema<S3DestinationConfig>;
+export interface CloudWatchLogsDestinationConfig {
+  logGroup?: string;
+}
+export const CloudWatchLogsDestinationConfig = S.suspend(() =>
+  S.Struct({ logGroup: S.optional(S.String) }),
+).annotations({
+  identifier: "CloudWatchLogsDestinationConfig",
+}) as any as S.Schema<CloudWatchLogsDestinationConfig>;
+export interface ProjectDataDeliveryConfig {
+  s3Destination?: S3DestinationConfig;
+  cloudWatchLogs?: CloudWatchLogsDestinationConfig;
+}
+export const ProjectDataDeliveryConfig = S.suspend(() =>
+  S.Struct({
+    s3Destination: S.optional(S3DestinationConfig),
+    cloudWatchLogs: S.optional(CloudWatchLogsDestinationConfig),
+  }),
+).annotations({
+  identifier: "ProjectDataDeliveryConfig",
+}) as any as S.Schema<ProjectDataDeliveryConfig>;
+export interface EvaluationRequest {
+  feature: string;
+  entityId: string;
+  evaluationContext?: string;
+}
+export const EvaluationRequest = S.suspend(() =>
+  S.Struct({
+    feature: S.String,
+    entityId: S.String,
+    evaluationContext: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "EvaluationRequest",
+}) as any as S.Schema<EvaluationRequest>;
+export type EvaluationRequestsList = EvaluationRequest[];
 export const EvaluationRequestsList = S.Array(EvaluationRequest);
-export class Event extends S.Class<Event>("Event")({
-  timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  type: S.String,
-  data: S.String,
-}) {}
+export interface Event {
+  timestamp: Date;
+  type: string;
+  data: string;
+}
+export const Event = S.suspend(() =>
+  S.Struct({
+    timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    type: S.String,
+    data: S.String,
+  }),
+).annotations({ identifier: "Event" }) as any as S.Schema<Event>;
+export type EventList = Event[];
 export const EventList = S.Array(Event);
-export class ExperimentSchedule extends S.Class<ExperimentSchedule>(
-  "ExperimentSchedule",
-)({
-  analysisCompleteTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
-export class ExperimentExecution extends S.Class<ExperimentExecution>(
-  "ExperimentExecution",
-)({
-  startedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  endedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface ExperimentSchedule {
+  analysisCompleteTime?: Date;
+}
+export const ExperimentSchedule = S.suspend(() =>
+  S.Struct({
+    analysisCompleteTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "ExperimentSchedule",
+}) as any as S.Schema<ExperimentSchedule>;
+export interface ExperimentExecution {
+  startedTime?: Date;
+  endedTime?: Date;
+}
+export const ExperimentExecution = S.suspend(() =>
+  S.Struct({
+    startedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    endedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "ExperimentExecution",
+}) as any as S.Schema<ExperimentExecution>;
+export type FeatureToVariationMap = { [key: string]: string };
 export const FeatureToVariationMap = S.Record({
   key: S.String,
   value: S.String,
 });
-export class Treatment extends S.Class<Treatment>("Treatment")({
-  name: S.String,
-  description: S.optional(S.String),
-  featureVariations: S.optional(FeatureToVariationMap),
-}) {}
+export interface Treatment {
+  name: string;
+  description?: string;
+  featureVariations?: FeatureToVariationMap;
+}
+export const Treatment = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    description: S.optional(S.String),
+    featureVariations: S.optional(FeatureToVariationMap),
+  }),
+).annotations({ identifier: "Treatment" }) as any as S.Schema<Treatment>;
+export type TreatmentList = Treatment[];
 export const TreatmentList = S.Array(Treatment);
-export class MetricDefinition extends S.Class<MetricDefinition>(
-  "MetricDefinition",
-)({
-  name: S.optional(S.String),
-  entityIdKey: S.optional(S.String),
-  valueKey: S.optional(S.String),
-  eventPattern: S.optional(S.String),
-  unitLabel: S.optional(S.String),
-}) {}
-export class MetricGoal extends S.Class<MetricGoal>("MetricGoal")({
-  metricDefinition: MetricDefinition,
-  desiredChange: S.optional(S.String),
-}) {}
+export interface MetricDefinition {
+  name?: string;
+  entityIdKey?: string;
+  valueKey?: string;
+  eventPattern?: string;
+  unitLabel?: string;
+}
+export const MetricDefinition = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    entityIdKey: S.optional(S.String),
+    valueKey: S.optional(S.String),
+    eventPattern: S.optional(S.String),
+    unitLabel: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "MetricDefinition",
+}) as any as S.Schema<MetricDefinition>;
+export interface MetricGoal {
+  metricDefinition: MetricDefinition;
+  desiredChange?: string;
+}
+export const MetricGoal = S.suspend(() =>
+  S.Struct({
+    metricDefinition: MetricDefinition,
+    desiredChange: S.optional(S.String),
+  }),
+).annotations({ identifier: "MetricGoal" }) as any as S.Schema<MetricGoal>;
+export type MetricGoalsList = MetricGoal[];
 export const MetricGoalsList = S.Array(MetricGoal);
-export class OnlineAbDefinition extends S.Class<OnlineAbDefinition>(
-  "OnlineAbDefinition",
-)({
-  controlTreatmentName: S.optional(S.String),
-  treatmentWeights: S.optional(TreatmentToWeightMap),
-}) {}
-export class Experiment extends S.Class<Experiment>("Experiment")({
-  arn: S.String,
-  name: S.String,
-  project: S.optional(S.String),
-  status: S.String,
-  statusReason: S.optional(S.String),
-  description: S.optional(S.String),
-  createdTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  lastUpdatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  schedule: S.optional(ExperimentSchedule),
-  execution: S.optional(ExperimentExecution),
-  treatments: S.optional(TreatmentList),
-  metricGoals: S.optional(MetricGoalsList),
-  randomizationSalt: S.optional(S.String),
-  samplingRate: S.optional(S.Number),
-  segment: S.optional(S.String),
-  type: S.String,
-  onlineAbDefinition: S.optional(OnlineAbDefinition),
-  tags: S.optional(TagMap),
-}) {}
+export interface OnlineAbDefinition {
+  controlTreatmentName?: string;
+  treatmentWeights?: TreatmentToWeightMap;
+}
+export const OnlineAbDefinition = S.suspend(() =>
+  S.Struct({
+    controlTreatmentName: S.optional(S.String),
+    treatmentWeights: S.optional(TreatmentToWeightMap),
+  }),
+).annotations({
+  identifier: "OnlineAbDefinition",
+}) as any as S.Schema<OnlineAbDefinition>;
+export interface Experiment {
+  arn: string;
+  name: string;
+  project?: string;
+  status: string;
+  statusReason?: string;
+  description?: string;
+  createdTime: Date;
+  lastUpdatedTime: Date;
+  schedule?: ExperimentSchedule;
+  execution?: ExperimentExecution;
+  treatments?: TreatmentList;
+  metricGoals?: MetricGoalsList;
+  randomizationSalt?: string;
+  samplingRate?: number;
+  segment?: string;
+  type: string;
+  onlineAbDefinition?: OnlineAbDefinition;
+  tags?: TagMap;
+}
+export const Experiment = S.suspend(() =>
+  S.Struct({
+    arn: S.String,
+    name: S.String,
+    project: S.optional(S.String),
+    status: S.String,
+    statusReason: S.optional(S.String),
+    description: S.optional(S.String),
+    createdTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    lastUpdatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    schedule: S.optional(ExperimentSchedule),
+    execution: S.optional(ExperimentExecution),
+    treatments: S.optional(TreatmentList),
+    metricGoals: S.optional(MetricGoalsList),
+    randomizationSalt: S.optional(S.String),
+    samplingRate: S.optional(S.Number),
+    segment: S.optional(S.String),
+    type: S.String,
+    onlineAbDefinition: S.optional(OnlineAbDefinition),
+    tags: S.optional(TagMap),
+  }),
+).annotations({ identifier: "Experiment" }) as any as S.Schema<Experiment>;
+export type ExperimentList = Experiment[];
 export const ExperimentList = S.Array(Experiment);
+export type TimestampList = Date[];
 export const TimestampList = S.Array(
   S.Date.pipe(T.TimestampFormat("epoch-seconds")),
 );
-export class LaunchExecution extends S.Class<LaunchExecution>(
-  "LaunchExecution",
-)({
-  startedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  endedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class LaunchGroup extends S.Class<LaunchGroup>("LaunchGroup")({
-  name: S.String,
-  description: S.optional(S.String),
-  featureVariations: FeatureToVariationMap,
-}) {}
+export interface LaunchExecution {
+  startedTime?: Date;
+  endedTime?: Date;
+}
+export const LaunchExecution = S.suspend(() =>
+  S.Struct({
+    startedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    endedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "LaunchExecution",
+}) as any as S.Schema<LaunchExecution>;
+export interface LaunchGroup {
+  name: string;
+  description?: string;
+  featureVariations: FeatureToVariationMap;
+}
+export const LaunchGroup = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    description: S.optional(S.String),
+    featureVariations: FeatureToVariationMap,
+  }),
+).annotations({ identifier: "LaunchGroup" }) as any as S.Schema<LaunchGroup>;
+export type LaunchGroupList = LaunchGroup[];
 export const LaunchGroupList = S.Array(LaunchGroup);
-export class MetricMonitor extends S.Class<MetricMonitor>("MetricMonitor")({
-  metricDefinition: MetricDefinition,
-}) {}
+export interface MetricMonitor {
+  metricDefinition: MetricDefinition;
+}
+export const MetricMonitor = S.suspend(() =>
+  S.Struct({ metricDefinition: MetricDefinition }),
+).annotations({
+  identifier: "MetricMonitor",
+}) as any as S.Schema<MetricMonitor>;
+export type MetricMonitorList = MetricMonitor[];
 export const MetricMonitorList = S.Array(MetricMonitor);
-export class ScheduledSplit extends S.Class<ScheduledSplit>("ScheduledSplit")({
-  startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  groupWeights: S.optional(GroupToWeightMap),
-  segmentOverrides: S.optional(SegmentOverridesList),
-}) {}
+export interface ScheduledSplit {
+  startTime: Date;
+  groupWeights?: GroupToWeightMap;
+  segmentOverrides?: SegmentOverridesList;
+}
+export const ScheduledSplit = S.suspend(() =>
+  S.Struct({
+    startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    groupWeights: S.optional(GroupToWeightMap),
+    segmentOverrides: S.optional(SegmentOverridesList),
+  }),
+).annotations({
+  identifier: "ScheduledSplit",
+}) as any as S.Schema<ScheduledSplit>;
+export type ScheduledStepList = ScheduledSplit[];
 export const ScheduledStepList = S.Array(ScheduledSplit);
-export class ScheduledSplitsLaunchDefinition extends S.Class<ScheduledSplitsLaunchDefinition>(
-  "ScheduledSplitsLaunchDefinition",
-)({ steps: S.optional(ScheduledStepList) }) {}
-export class Launch extends S.Class<Launch>("Launch")({
-  arn: S.String,
-  name: S.String,
-  project: S.optional(S.String),
-  status: S.String,
-  statusReason: S.optional(S.String),
-  description: S.optional(S.String),
-  createdTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  lastUpdatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  execution: S.optional(LaunchExecution),
-  groups: S.optional(LaunchGroupList),
-  metricMonitors: S.optional(MetricMonitorList),
-  randomizationSalt: S.optional(S.String),
-  type: S.String,
-  scheduledSplitsDefinition: S.optional(ScheduledSplitsLaunchDefinition),
-  tags: S.optional(TagMap),
-}) {}
+export interface ScheduledSplitsLaunchDefinition {
+  steps?: ScheduledStepList;
+}
+export const ScheduledSplitsLaunchDefinition = S.suspend(() =>
+  S.Struct({ steps: S.optional(ScheduledStepList) }),
+).annotations({
+  identifier: "ScheduledSplitsLaunchDefinition",
+}) as any as S.Schema<ScheduledSplitsLaunchDefinition>;
+export interface Launch {
+  arn: string;
+  name: string;
+  project?: string;
+  status: string;
+  statusReason?: string;
+  description?: string;
+  createdTime: Date;
+  lastUpdatedTime: Date;
+  execution?: LaunchExecution;
+  groups?: LaunchGroupList;
+  metricMonitors?: MetricMonitorList;
+  randomizationSalt?: string;
+  type: string;
+  scheduledSplitsDefinition?: ScheduledSplitsLaunchDefinition;
+  tags?: TagMap;
+}
+export const Launch = S.suspend(() =>
+  S.Struct({
+    arn: S.String,
+    name: S.String,
+    project: S.optional(S.String),
+    status: S.String,
+    statusReason: S.optional(S.String),
+    description: S.optional(S.String),
+    createdTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    lastUpdatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    execution: S.optional(LaunchExecution),
+    groups: S.optional(LaunchGroupList),
+    metricMonitors: S.optional(MetricMonitorList),
+    randomizationSalt: S.optional(S.String),
+    type: S.String,
+    scheduledSplitsDefinition: S.optional(ScheduledSplitsLaunchDefinition),
+    tags: S.optional(TagMap),
+  }),
+).annotations({ identifier: "Launch" }) as any as S.Schema<Launch>;
+export type LaunchesList = Launch[];
 export const LaunchesList = S.Array(Launch);
-export class Segment extends S.Class<Segment>("Segment")({
-  arn: S.String,
-  name: S.String,
-  pattern: S.String,
-  createdTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  lastUpdatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  description: S.optional(S.String),
-  experimentCount: S.optional(S.Number),
-  launchCount: S.optional(S.Number),
-  tags: S.optional(TagMap),
-}) {}
+export interface Segment {
+  arn: string;
+  name: string;
+  pattern: string;
+  createdTime: Date;
+  lastUpdatedTime: Date;
+  description?: string;
+  experimentCount?: number;
+  launchCount?: number;
+  tags?: TagMap;
+}
+export const Segment = S.suspend(() =>
+  S.Struct({
+    arn: S.String,
+    name: S.String,
+    pattern: S.String,
+    createdTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    lastUpdatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    description: S.optional(S.String),
+    experimentCount: S.optional(S.Number),
+    launchCount: S.optional(S.Number),
+    tags: S.optional(TagMap),
+  }),
+).annotations({ identifier: "Segment" }) as any as S.Schema<Segment>;
+export type SegmentList = Segment[];
 export const SegmentList = S.Array(Segment);
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ tags: S.optional(TagMap) }) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap },
-  T.all(
-    T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface ListTagsForResourceResponse {
+  tags?: TagMap;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ tags: S.optional(TagMap) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface TagResourceRequest {
+  resourceArn: string;
+  tags: TagMap;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+    tags: TagMap,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class TestSegmentPatternResponse extends S.Class<TestSegmentPatternResponse>(
-  "TestSegmentPatternResponse",
-)({ match: S.Boolean }) {}
-export class CreateProjectRequest extends S.Class<CreateProjectRequest>(
-  "CreateProjectRequest",
-)(
-  {
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface TestSegmentPatternResponse {
+  match: boolean;
+}
+export const TestSegmentPatternResponse = S.suspend(() =>
+  S.Struct({ match: S.Boolean }),
+).annotations({
+  identifier: "TestSegmentPatternResponse",
+}) as any as S.Schema<TestSegmentPatternResponse>;
+export interface CreateProjectRequest {
+  name: string;
+  description?: string;
+  dataDelivery?: ProjectDataDeliveryConfig;
+  appConfigResource?: ProjectAppConfigResourceConfig;
+  tags?: TagMap;
+}
+export const CreateProjectRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     description: S.optional(S.String),
     dataDelivery: S.optional(ProjectDataDeliveryConfig),
     appConfigResource: S.optional(ProjectAppConfigResourceConfig),
     tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/projects" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/projects" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class BatchEvaluateFeatureRequest extends S.Class<BatchEvaluateFeatureRequest>(
-  "BatchEvaluateFeatureRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateProjectRequest",
+}) as any as S.Schema<CreateProjectRequest>;
+export interface BatchEvaluateFeatureRequest {
+  project: string;
+  requests: EvaluationRequestsList;
+}
+export const BatchEvaluateFeatureRequest = S.suspend(() =>
+  S.Struct({
     project: S.String.pipe(T.HttpLabel("project")),
     requests: EvaluationRequestsList,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/projects/{project}/evaluations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/projects/{project}/evaluations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class EvaluateFeatureResponse extends S.Class<EvaluateFeatureResponse>(
-  "EvaluateFeatureResponse",
-)({
-  variation: S.optional(S.String),
-  value: S.optional(VariableValue),
-  reason: S.optional(S.String),
-  details: S.optional(S.String),
-}) {}
-export class PutProjectEventsRequest extends S.Class<PutProjectEventsRequest>(
-  "PutProjectEventsRequest",
-)(
-  { project: S.String.pipe(T.HttpLabel("project")), events: EventList },
-  T.all(
-    T.Http({ method: "POST", uri: "/events/projects/{project}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "BatchEvaluateFeatureRequest",
+}) as any as S.Schema<BatchEvaluateFeatureRequest>;
+export interface EvaluateFeatureResponse {
+  variation?: string;
+  value?: (typeof VariableValue)["Type"];
+  reason?: string;
+  details?: string;
+}
+export const EvaluateFeatureResponse = S.suspend(() =>
+  S.Struct({
+    variation: S.optional(S.String),
+    value: S.optional(VariableValue),
+    reason: S.optional(S.String),
+    details: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "EvaluateFeatureResponse",
+}) as any as S.Schema<EvaluateFeatureResponse>;
+export interface PutProjectEventsRequest {
+  project: string;
+  events: EventList;
+}
+export const PutProjectEventsRequest = S.suspend(() =>
+  S.Struct({
+    project: S.String.pipe(T.HttpLabel("project")),
+    events: EventList,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/events/projects/{project}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class S3Destination extends S.Class<S3Destination>("S3Destination")({
-  bucket: S.optional(S.String),
-  prefix: S.optional(S.String),
-}) {}
-export class CloudWatchLogsDestination extends S.Class<CloudWatchLogsDestination>(
-  "CloudWatchLogsDestination",
-)({ logGroup: S.optional(S.String) }) {}
-export class ProjectDataDelivery extends S.Class<ProjectDataDelivery>(
-  "ProjectDataDelivery",
-)({
-  s3Destination: S.optional(S3Destination),
-  cloudWatchLogs: S.optional(CloudWatchLogsDestination),
-}) {}
-export class ProjectAppConfigResource extends S.Class<ProjectAppConfigResource>(
-  "ProjectAppConfigResource",
-)({
-  applicationId: S.String,
-  environmentId: S.String,
-  configurationProfileId: S.String,
-}) {}
-export class Project extends S.Class<Project>("Project")({
-  arn: S.String,
-  name: S.String,
-  status: S.String,
-  description: S.optional(S.String),
-  createdTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  lastUpdatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  featureCount: S.optional(S.Number),
-  launchCount: S.optional(S.Number),
-  activeLaunchCount: S.optional(S.Number),
-  experimentCount: S.optional(S.Number),
-  activeExperimentCount: S.optional(S.Number),
-  dataDelivery: S.optional(ProjectDataDelivery),
-  appConfigResource: S.optional(ProjectAppConfigResource),
-  tags: S.optional(TagMap),
-}) {}
-export class UpdateProjectResponse extends S.Class<UpdateProjectResponse>(
-  "UpdateProjectResponse",
-)({ project: Project }) {}
-export class UpdateProjectDataDeliveryRequest extends S.Class<UpdateProjectDataDeliveryRequest>(
-  "UpdateProjectDataDeliveryRequest",
-)(
-  {
+).annotations({
+  identifier: "PutProjectEventsRequest",
+}) as any as S.Schema<PutProjectEventsRequest>;
+export interface S3Destination {
+  bucket?: string;
+  prefix?: string;
+}
+export const S3Destination = S.suspend(() =>
+  S.Struct({ bucket: S.optional(S.String), prefix: S.optional(S.String) }),
+).annotations({
+  identifier: "S3Destination",
+}) as any as S.Schema<S3Destination>;
+export interface CloudWatchLogsDestination {
+  logGroup?: string;
+}
+export const CloudWatchLogsDestination = S.suspend(() =>
+  S.Struct({ logGroup: S.optional(S.String) }),
+).annotations({
+  identifier: "CloudWatchLogsDestination",
+}) as any as S.Schema<CloudWatchLogsDestination>;
+export interface ProjectDataDelivery {
+  s3Destination?: S3Destination;
+  cloudWatchLogs?: CloudWatchLogsDestination;
+}
+export const ProjectDataDelivery = S.suspend(() =>
+  S.Struct({
+    s3Destination: S.optional(S3Destination),
+    cloudWatchLogs: S.optional(CloudWatchLogsDestination),
+  }),
+).annotations({
+  identifier: "ProjectDataDelivery",
+}) as any as S.Schema<ProjectDataDelivery>;
+export interface ProjectAppConfigResource {
+  applicationId: string;
+  environmentId: string;
+  configurationProfileId: string;
+}
+export const ProjectAppConfigResource = S.suspend(() =>
+  S.Struct({
+    applicationId: S.String,
+    environmentId: S.String,
+    configurationProfileId: S.String,
+  }),
+).annotations({
+  identifier: "ProjectAppConfigResource",
+}) as any as S.Schema<ProjectAppConfigResource>;
+export interface Project {
+  arn: string;
+  name: string;
+  status: string;
+  description?: string;
+  createdTime: Date;
+  lastUpdatedTime: Date;
+  featureCount?: number;
+  launchCount?: number;
+  activeLaunchCount?: number;
+  experimentCount?: number;
+  activeExperimentCount?: number;
+  dataDelivery?: ProjectDataDelivery;
+  appConfigResource?: ProjectAppConfigResource;
+  tags?: TagMap;
+}
+export const Project = S.suspend(() =>
+  S.Struct({
+    arn: S.String,
+    name: S.String,
+    status: S.String,
+    description: S.optional(S.String),
+    createdTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    lastUpdatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    featureCount: S.optional(S.Number),
+    launchCount: S.optional(S.Number),
+    activeLaunchCount: S.optional(S.Number),
+    experimentCount: S.optional(S.Number),
+    activeExperimentCount: S.optional(S.Number),
+    dataDelivery: S.optional(ProjectDataDelivery),
+    appConfigResource: S.optional(ProjectAppConfigResource),
+    tags: S.optional(TagMap),
+  }),
+).annotations({ identifier: "Project" }) as any as S.Schema<Project>;
+export interface UpdateProjectResponse {
+  project: Project;
+}
+export const UpdateProjectResponse = S.suspend(() =>
+  S.Struct({ project: Project }),
+).annotations({
+  identifier: "UpdateProjectResponse",
+}) as any as S.Schema<UpdateProjectResponse>;
+export interface UpdateProjectDataDeliveryRequest {
+  project: string;
+  s3Destination?: S3DestinationConfig;
+  cloudWatchLogs?: CloudWatchLogsDestinationConfig;
+}
+export const UpdateProjectDataDeliveryRequest = S.suspend(() =>
+  S.Struct({
     project: S.String.pipe(T.HttpLabel("project")),
     s3Destination: S.optional(S3DestinationConfig),
     cloudWatchLogs: S.optional(CloudWatchLogsDestinationConfig),
-  },
-  T.all(
-    T.Http({ method: "PATCH", uri: "/projects/{project}/data-delivery" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PATCH", uri: "/projects/{project}/data-delivery" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateExperimentResponse extends S.Class<UpdateExperimentResponse>(
-  "UpdateExperimentResponse",
-)({ experiment: Experiment }) {}
-export class ListExperimentsResponse extends S.Class<ListExperimentsResponse>(
-  "ListExperimentsResponse",
-)({
-  experiments: S.optional(ExperimentList),
-  nextToken: S.optional(S.String),
-}) {}
-export class StartExperimentResponse extends S.Class<StartExperimentResponse>(
-  "StartExperimentResponse",
-)({
-  startedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class StopExperimentResponse extends S.Class<StopExperimentResponse>(
-  "StopExperimentResponse",
-)({ endedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))) }) {}
-export class Variation extends S.Class<Variation>("Variation")({
-  name: S.optional(S.String),
-  value: S.optional(VariableValue),
-}) {}
+).annotations({
+  identifier: "UpdateProjectDataDeliveryRequest",
+}) as any as S.Schema<UpdateProjectDataDeliveryRequest>;
+export interface UpdateExperimentResponse {
+  experiment: Experiment;
+}
+export const UpdateExperimentResponse = S.suspend(() =>
+  S.Struct({ experiment: Experiment }),
+).annotations({
+  identifier: "UpdateExperimentResponse",
+}) as any as S.Schema<UpdateExperimentResponse>;
+export interface ListExperimentsResponse {
+  experiments?: ExperimentList;
+  nextToken?: string;
+}
+export const ListExperimentsResponse = S.suspend(() =>
+  S.Struct({
+    experiments: S.optional(ExperimentList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListExperimentsResponse",
+}) as any as S.Schema<ListExperimentsResponse>;
+export interface StartExperimentResponse {
+  startedTime?: Date;
+}
+export const StartExperimentResponse = S.suspend(() =>
+  S.Struct({
+    startedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "StartExperimentResponse",
+}) as any as S.Schema<StartExperimentResponse>;
+export interface StopExperimentResponse {
+  endedTime?: Date;
+}
+export const StopExperimentResponse = S.suspend(() =>
+  S.Struct({
+    endedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "StopExperimentResponse",
+}) as any as S.Schema<StopExperimentResponse>;
+export interface Variation {
+  name?: string;
+  value?: (typeof VariableValue)["Type"];
+}
+export const Variation = S.suspend(() =>
+  S.Struct({ name: S.optional(S.String), value: S.optional(VariableValue) }),
+).annotations({ identifier: "Variation" }) as any as S.Schema<Variation>;
+export type VariationsList = Variation[];
 export const VariationsList = S.Array(Variation);
-export class EvaluationRule extends S.Class<EvaluationRule>("EvaluationRule")({
-  name: S.optional(S.String),
-  type: S.String,
-}) {}
+export interface EvaluationRule {
+  name?: string;
+  type: string;
+}
+export const EvaluationRule = S.suspend(() =>
+  S.Struct({ name: S.optional(S.String), type: S.String }),
+).annotations({
+  identifier: "EvaluationRule",
+}) as any as S.Schema<EvaluationRule>;
+export type EvaluationRulesList = EvaluationRule[];
 export const EvaluationRulesList = S.Array(EvaluationRule);
-export class Feature extends S.Class<Feature>("Feature")({
-  arn: S.String,
-  name: S.String,
-  project: S.optional(S.String),
-  status: S.String,
-  createdTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  lastUpdatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  description: S.optional(S.String),
-  evaluationStrategy: S.String,
-  valueType: S.String,
-  variations: VariationsList,
-  defaultVariation: S.optional(S.String),
-  evaluationRules: S.optional(EvaluationRulesList),
-  tags: S.optional(TagMap),
-  entityOverrides: S.optional(EntityOverrideMap),
-}) {}
-export class UpdateFeatureResponse extends S.Class<UpdateFeatureResponse>(
-  "UpdateFeatureResponse",
-)({ feature: Feature }) {}
-export class UpdateLaunchResponse extends S.Class<UpdateLaunchResponse>(
-  "UpdateLaunchResponse",
-)({ launch: Launch }) {}
-export class ListLaunchesResponse extends S.Class<ListLaunchesResponse>(
-  "ListLaunchesResponse",
-)({ launches: S.optional(LaunchesList), nextToken: S.optional(S.String) }) {}
-export class StartLaunchResponse extends S.Class<StartLaunchResponse>(
-  "StartLaunchResponse",
-)({ launch: Launch }) {}
-export class StopLaunchResponse extends S.Class<StopLaunchResponse>(
-  "StopLaunchResponse",
-)({ endedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))) }) {}
-export class GetSegmentResponse extends S.Class<GetSegmentResponse>(
-  "GetSegmentResponse",
-)({ segment: Segment }) {}
-export class ListSegmentsResponse extends S.Class<ListSegmentsResponse>(
-  "ListSegmentsResponse",
-)({ segments: S.optional(SegmentList), nextToken: S.optional(S.String) }) {}
+export interface Feature {
+  arn: string;
+  name: string;
+  project?: string;
+  status: string;
+  createdTime: Date;
+  lastUpdatedTime: Date;
+  description?: string;
+  evaluationStrategy: string;
+  valueType: string;
+  variations: VariationsList;
+  defaultVariation?: string;
+  evaluationRules?: EvaluationRulesList;
+  tags?: TagMap;
+  entityOverrides?: EntityOverrideMap;
+}
+export const Feature = S.suspend(() =>
+  S.Struct({
+    arn: S.String,
+    name: S.String,
+    project: S.optional(S.String),
+    status: S.String,
+    createdTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    lastUpdatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    description: S.optional(S.String),
+    evaluationStrategy: S.String,
+    valueType: S.String,
+    variations: VariationsList,
+    defaultVariation: S.optional(S.String),
+    evaluationRules: S.optional(EvaluationRulesList),
+    tags: S.optional(TagMap),
+    entityOverrides: S.optional(EntityOverrideMap),
+  }),
+).annotations({ identifier: "Feature" }) as any as S.Schema<Feature>;
+export interface UpdateFeatureResponse {
+  feature: Feature;
+}
+export const UpdateFeatureResponse = S.suspend(() =>
+  S.Struct({ feature: Feature }),
+).annotations({
+  identifier: "UpdateFeatureResponse",
+}) as any as S.Schema<UpdateFeatureResponse>;
+export interface UpdateLaunchResponse {
+  launch: Launch;
+}
+export const UpdateLaunchResponse = S.suspend(() =>
+  S.Struct({ launch: Launch }),
+).annotations({
+  identifier: "UpdateLaunchResponse",
+}) as any as S.Schema<UpdateLaunchResponse>;
+export interface ListLaunchesResponse {
+  launches?: LaunchesList;
+  nextToken?: string;
+}
+export const ListLaunchesResponse = S.suspend(() =>
+  S.Struct({
+    launches: S.optional(LaunchesList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListLaunchesResponse",
+}) as any as S.Schema<ListLaunchesResponse>;
+export interface StartLaunchResponse {
+  launch: Launch;
+}
+export const StartLaunchResponse = S.suspend(() =>
+  S.Struct({ launch: Launch }),
+).annotations({
+  identifier: "StartLaunchResponse",
+}) as any as S.Schema<StartLaunchResponse>;
+export interface StopLaunchResponse {
+  endedTime?: Date;
+}
+export const StopLaunchResponse = S.suspend(() =>
+  S.Struct({
+    endedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "StopLaunchResponse",
+}) as any as S.Schema<StopLaunchResponse>;
+export interface GetSegmentResponse {
+  segment: Segment;
+}
+export const GetSegmentResponse = S.suspend(() =>
+  S.Struct({ segment: Segment }),
+).annotations({
+  identifier: "GetSegmentResponse",
+}) as any as S.Schema<GetSegmentResponse>;
+export interface ListSegmentsResponse {
+  segments?: SegmentList;
+  nextToken?: string;
+}
+export const ListSegmentsResponse = S.suspend(() =>
+  S.Struct({
+    segments: S.optional(SegmentList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListSegmentsResponse",
+}) as any as S.Schema<ListSegmentsResponse>;
+export type DoubleValueList = number[];
 export const DoubleValueList = S.Array(S.Number);
-export class ProjectSummary extends S.Class<ProjectSummary>("ProjectSummary")({
-  arn: S.String,
-  name: S.String,
-  status: S.String,
-  description: S.optional(S.String),
-  createdTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  lastUpdatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  featureCount: S.optional(S.Number),
-  launchCount: S.optional(S.Number),
-  activeLaunchCount: S.optional(S.Number),
-  experimentCount: S.optional(S.Number),
-  activeExperimentCount: S.optional(S.Number),
-  tags: S.optional(TagMap),
-}) {}
+export interface ProjectSummary {
+  arn: string;
+  name: string;
+  status: string;
+  description?: string;
+  createdTime: Date;
+  lastUpdatedTime: Date;
+  featureCount?: number;
+  launchCount?: number;
+  activeLaunchCount?: number;
+  experimentCount?: number;
+  activeExperimentCount?: number;
+  tags?: TagMap;
+}
+export const ProjectSummary = S.suspend(() =>
+  S.Struct({
+    arn: S.String,
+    name: S.String,
+    status: S.String,
+    description: S.optional(S.String),
+    createdTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    lastUpdatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    featureCount: S.optional(S.Number),
+    launchCount: S.optional(S.Number),
+    activeLaunchCount: S.optional(S.Number),
+    experimentCount: S.optional(S.Number),
+    activeExperimentCount: S.optional(S.Number),
+    tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "ProjectSummary",
+}) as any as S.Schema<ProjectSummary>;
+export type ProjectSummariesList = ProjectSummary[];
 export const ProjectSummariesList = S.Array(ProjectSummary);
-export class ExperimentResultsData extends S.Class<ExperimentResultsData>(
-  "ExperimentResultsData",
-)({
-  metricName: S.optional(S.String),
-  treatmentName: S.optional(S.String),
-  resultStat: S.optional(S.String),
-  values: S.optional(DoubleValueList),
-}) {}
+export interface ExperimentResultsData {
+  metricName?: string;
+  treatmentName?: string;
+  resultStat?: string;
+  values?: DoubleValueList;
+}
+export const ExperimentResultsData = S.suspend(() =>
+  S.Struct({
+    metricName: S.optional(S.String),
+    treatmentName: S.optional(S.String),
+    resultStat: S.optional(S.String),
+    values: S.optional(DoubleValueList),
+  }),
+).annotations({
+  identifier: "ExperimentResultsData",
+}) as any as S.Schema<ExperimentResultsData>;
+export type ExperimentResultsDataList = ExperimentResultsData[];
 export const ExperimentResultsDataList = S.Array(ExperimentResultsData);
-export class ExperimentReport extends S.Class<ExperimentReport>(
-  "ExperimentReport",
-)({
-  metricName: S.optional(S.String),
-  treatmentName: S.optional(S.String),
-  reportName: S.optional(S.String),
-  content: S.optional(S.String),
-}) {}
+export interface ExperimentReport {
+  metricName?: string;
+  treatmentName?: string;
+  reportName?: string;
+  content?: string;
+}
+export const ExperimentReport = S.suspend(() =>
+  S.Struct({
+    metricName: S.optional(S.String),
+    treatmentName: S.optional(S.String),
+    reportName: S.optional(S.String),
+    content: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ExperimentReport",
+}) as any as S.Schema<ExperimentReport>;
+export type ExperimentReportList = ExperimentReport[];
 export const ExperimentReportList = S.Array(ExperimentReport);
-export class FeatureSummary extends S.Class<FeatureSummary>("FeatureSummary")({
-  arn: S.String,
-  name: S.String,
-  project: S.optional(S.String),
-  status: S.String,
-  createdTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  lastUpdatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  evaluationStrategy: S.String,
-  evaluationRules: S.optional(EvaluationRulesList),
-  defaultVariation: S.optional(S.String),
-  tags: S.optional(TagMap),
-}) {}
+export interface FeatureSummary {
+  arn: string;
+  name: string;
+  project?: string;
+  status: string;
+  createdTime: Date;
+  lastUpdatedTime: Date;
+  evaluationStrategy: string;
+  evaluationRules?: EvaluationRulesList;
+  defaultVariation?: string;
+  tags?: TagMap;
+}
+export const FeatureSummary = S.suspend(() =>
+  S.Struct({
+    arn: S.String,
+    name: S.String,
+    project: S.optional(S.String),
+    status: S.String,
+    createdTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    lastUpdatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    evaluationStrategy: S.String,
+    evaluationRules: S.optional(EvaluationRulesList),
+    defaultVariation: S.optional(S.String),
+    tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "FeatureSummary",
+}) as any as S.Schema<FeatureSummary>;
+export type FeatureSummariesList = FeatureSummary[];
 export const FeatureSummariesList = S.Array(FeatureSummary);
-export class RefResource extends S.Class<RefResource>("RefResource")({
-  name: S.String,
-  type: S.String,
-  arn: S.optional(S.String),
-  status: S.optional(S.String),
-  startTime: S.optional(S.String),
-  endTime: S.optional(S.String),
-  lastUpdatedOn: S.optional(S.String),
-}) {}
+export interface RefResource {
+  name: string;
+  type: string;
+  arn?: string;
+  status?: string;
+  startTime?: string;
+  endTime?: string;
+  lastUpdatedOn?: string;
+}
+export const RefResource = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    type: S.String,
+    arn: S.optional(S.String),
+    status: S.optional(S.String),
+    startTime: S.optional(S.String),
+    endTime: S.optional(S.String),
+    lastUpdatedOn: S.optional(S.String),
+  }),
+).annotations({ identifier: "RefResource" }) as any as S.Schema<RefResource>;
+export type RefResourceList = RefResource[];
 export const RefResourceList = S.Array(RefResource);
-export class CreateProjectResponse extends S.Class<CreateProjectResponse>(
-  "CreateProjectResponse",
-)({ project: Project }) {}
-export class ListProjectsResponse extends S.Class<ListProjectsResponse>(
-  "ListProjectsResponse",
-)({
-  projects: S.optional(ProjectSummariesList),
-  nextToken: S.optional(S.String),
-}) {}
-export class UpdateProjectDataDeliveryResponse extends S.Class<UpdateProjectDataDeliveryResponse>(
-  "UpdateProjectDataDeliveryResponse",
-)({ project: Project }) {}
-export class CreateExperimentRequest extends S.Class<CreateExperimentRequest>(
-  "CreateExperimentRequest",
-)(
-  {
+export interface CreateProjectResponse {
+  project: Project;
+}
+export const CreateProjectResponse = S.suspend(() =>
+  S.Struct({ project: Project }),
+).annotations({
+  identifier: "CreateProjectResponse",
+}) as any as S.Schema<CreateProjectResponse>;
+export interface ListProjectsResponse {
+  projects?: ProjectSummariesList;
+  nextToken?: string;
+}
+export const ListProjectsResponse = S.suspend(() =>
+  S.Struct({
+    projects: S.optional(ProjectSummariesList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListProjectsResponse",
+}) as any as S.Schema<ListProjectsResponse>;
+export interface UpdateProjectDataDeliveryResponse {
+  project: Project;
+}
+export const UpdateProjectDataDeliveryResponse = S.suspend(() =>
+  S.Struct({ project: Project }),
+).annotations({
+  identifier: "UpdateProjectDataDeliveryResponse",
+}) as any as S.Schema<UpdateProjectDataDeliveryResponse>;
+export interface CreateExperimentRequest {
+  project: string;
+  name: string;
+  description?: string;
+  treatments: TreatmentConfigList;
+  metricGoals: MetricGoalConfigList;
+  randomizationSalt?: string;
+  samplingRate?: number;
+  onlineAbConfig?: OnlineAbConfig;
+  segment?: string;
+  tags?: TagMap;
+}
+export const CreateExperimentRequest = S.suspend(() =>
+  S.Struct({
     project: S.String.pipe(T.HttpLabel("project")),
     name: S.String,
     description: S.optional(S.String),
@@ -1312,28 +2067,47 @@ export class CreateExperimentRequest extends S.Class<CreateExperimentRequest>(
     onlineAbConfig: S.optional(OnlineAbConfig),
     segment: S.optional(S.String),
     tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/projects/{project}/experiments" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/projects/{project}/experiments" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetExperimentResultsResponse extends S.Class<GetExperimentResultsResponse>(
-  "GetExperimentResultsResponse",
-)({
-  resultsData: S.optional(ExperimentResultsDataList),
-  reports: S.optional(ExperimentReportList),
-  timestamps: S.optional(TimestampList),
-  details: S.optional(S.String),
-}) {}
-export class CreateFeatureRequest extends S.Class<CreateFeatureRequest>(
-  "CreateFeatureRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateExperimentRequest",
+}) as any as S.Schema<CreateExperimentRequest>;
+export interface GetExperimentResultsResponse {
+  resultsData?: ExperimentResultsDataList;
+  reports?: ExperimentReportList;
+  timestamps?: TimestampList;
+  details?: string;
+}
+export const GetExperimentResultsResponse = S.suspend(() =>
+  S.Struct({
+    resultsData: S.optional(ExperimentResultsDataList),
+    reports: S.optional(ExperimentReportList),
+    timestamps: S.optional(TimestampList),
+    details: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetExperimentResultsResponse",
+}) as any as S.Schema<GetExperimentResultsResponse>;
+export interface CreateFeatureRequest {
+  project: string;
+  name: string;
+  evaluationStrategy?: string;
+  description?: string;
+  variations: VariationConfigsList;
+  defaultVariation?: string;
+  tags?: TagMap;
+  entityOverrides?: EntityOverrideMap;
+}
+export const CreateFeatureRequest = S.suspend(() =>
+  S.Struct({
     project: S.String.pipe(T.HttpLabel("project")),
     name: S.String,
     evaluationStrategy: S.optional(S.String),
@@ -1342,75 +2116,149 @@ export class CreateFeatureRequest extends S.Class<CreateFeatureRequest>(
     defaultVariation: S.optional(S.String),
     tags: S.optional(TagMap),
     entityOverrides: S.optional(EntityOverrideMap),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/projects/{project}/features" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/projects/{project}/features" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListFeaturesResponse extends S.Class<ListFeaturesResponse>(
-  "ListFeaturesResponse",
-)({
-  features: S.optional(FeatureSummariesList),
-  nextToken: S.optional(S.String),
-}) {}
-export class CreateSegmentResponse extends S.Class<CreateSegmentResponse>(
-  "CreateSegmentResponse",
-)({ segment: Segment }) {}
-export class ListSegmentReferencesResponse extends S.Class<ListSegmentReferencesResponse>(
-  "ListSegmentReferencesResponse",
-)({
-  referencedBy: S.optional(RefResourceList),
-  nextToken: S.optional(S.String),
-}) {}
-export class EvaluationResult extends S.Class<EvaluationResult>(
-  "EvaluationResult",
-)({
-  project: S.optional(S.String),
-  feature: S.String,
-  variation: S.optional(S.String),
-  value: S.optional(VariableValue),
-  entityId: S.String,
-  reason: S.optional(S.String),
-  details: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "CreateFeatureRequest",
+}) as any as S.Schema<CreateFeatureRequest>;
+export interface ListFeaturesResponse {
+  features?: FeatureSummariesList;
+  nextToken?: string;
+}
+export const ListFeaturesResponse = S.suspend(() =>
+  S.Struct({
+    features: S.optional(FeatureSummariesList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListFeaturesResponse",
+}) as any as S.Schema<ListFeaturesResponse>;
+export interface CreateSegmentResponse {
+  segment: Segment;
+}
+export const CreateSegmentResponse = S.suspend(() =>
+  S.Struct({ segment: Segment }),
+).annotations({
+  identifier: "CreateSegmentResponse",
+}) as any as S.Schema<CreateSegmentResponse>;
+export interface ListSegmentReferencesResponse {
+  referencedBy?: RefResourceList;
+  nextToken?: string;
+}
+export const ListSegmentReferencesResponse = S.suspend(() =>
+  S.Struct({
+    referencedBy: S.optional(RefResourceList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListSegmentReferencesResponse",
+}) as any as S.Schema<ListSegmentReferencesResponse>;
+export interface EvaluationResult {
+  project?: string;
+  feature: string;
+  variation?: string;
+  value?: (typeof VariableValue)["Type"];
+  entityId: string;
+  reason?: string;
+  details?: string;
+}
+export const EvaluationResult = S.suspend(() =>
+  S.Struct({
+    project: S.optional(S.String),
+    feature: S.String,
+    variation: S.optional(S.String),
+    value: S.optional(VariableValue),
+    entityId: S.String,
+    reason: S.optional(S.String),
+    details: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "EvaluationResult",
+}) as any as S.Schema<EvaluationResult>;
+export type EvaluationResultsList = EvaluationResult[];
 export const EvaluationResultsList = S.Array(EvaluationResult);
-export class PutProjectEventsResultEntry extends S.Class<PutProjectEventsResultEntry>(
-  "PutProjectEventsResultEntry",
-)({
-  eventId: S.optional(S.String),
-  errorCode: S.optional(S.String),
-  errorMessage: S.optional(S.String),
-}) {}
+export interface PutProjectEventsResultEntry {
+  eventId?: string;
+  errorCode?: string;
+  errorMessage?: string;
+}
+export const PutProjectEventsResultEntry = S.suspend(() =>
+  S.Struct({
+    eventId: S.optional(S.String),
+    errorCode: S.optional(S.String),
+    errorMessage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "PutProjectEventsResultEntry",
+}) as any as S.Schema<PutProjectEventsResultEntry>;
+export type PutProjectEventsResultEntryList = PutProjectEventsResultEntry[];
 export const PutProjectEventsResultEntryList = S.Array(
   PutProjectEventsResultEntry,
 );
-export class BatchEvaluateFeatureResponse extends S.Class<BatchEvaluateFeatureResponse>(
-  "BatchEvaluateFeatureResponse",
-)({ results: S.optional(EvaluationResultsList) }) {}
-export class PutProjectEventsResponse extends S.Class<PutProjectEventsResponse>(
-  "PutProjectEventsResponse",
-)({
-  failedEventCount: S.optional(S.Number),
-  eventResults: S.optional(PutProjectEventsResultEntryList),
-}) {}
-export class CreateExperimentResponse extends S.Class<CreateExperimentResponse>(
-  "CreateExperimentResponse",
-)({ experiment: Experiment }) {}
-export class CreateFeatureResponse extends S.Class<CreateFeatureResponse>(
-  "CreateFeatureResponse",
-)({ feature: S.optional(Feature) }) {}
-export class GetFeatureResponse extends S.Class<GetFeatureResponse>(
-  "GetFeatureResponse",
-)({ feature: Feature }) {}
-export class CreateLaunchRequest extends S.Class<CreateLaunchRequest>(
-  "CreateLaunchRequest",
-)(
-  {
+export interface BatchEvaluateFeatureResponse {
+  results?: EvaluationResultsList;
+}
+export const BatchEvaluateFeatureResponse = S.suspend(() =>
+  S.Struct({ results: S.optional(EvaluationResultsList) }),
+).annotations({
+  identifier: "BatchEvaluateFeatureResponse",
+}) as any as S.Schema<BatchEvaluateFeatureResponse>;
+export interface PutProjectEventsResponse {
+  failedEventCount?: number;
+  eventResults?: PutProjectEventsResultEntryList;
+}
+export const PutProjectEventsResponse = S.suspend(() =>
+  S.Struct({
+    failedEventCount: S.optional(S.Number),
+    eventResults: S.optional(PutProjectEventsResultEntryList),
+  }),
+).annotations({
+  identifier: "PutProjectEventsResponse",
+}) as any as S.Schema<PutProjectEventsResponse>;
+export interface CreateExperimentResponse {
+  experiment: Experiment;
+}
+export const CreateExperimentResponse = S.suspend(() =>
+  S.Struct({ experiment: Experiment }),
+).annotations({
+  identifier: "CreateExperimentResponse",
+}) as any as S.Schema<CreateExperimentResponse>;
+export interface CreateFeatureResponse {
+  feature?: Feature;
+}
+export const CreateFeatureResponse = S.suspend(() =>
+  S.Struct({ feature: S.optional(Feature) }),
+).annotations({
+  identifier: "CreateFeatureResponse",
+}) as any as S.Schema<CreateFeatureResponse>;
+export interface GetFeatureResponse {
+  feature: Feature;
+}
+export const GetFeatureResponse = S.suspend(() =>
+  S.Struct({ feature: Feature }),
+).annotations({
+  identifier: "GetFeatureResponse",
+}) as any as S.Schema<GetFeatureResponse>;
+export interface CreateLaunchRequest {
+  project: string;
+  name: string;
+  description?: string;
+  scheduledSplitsConfig?: ScheduledSplitsLaunchConfig;
+  metricMonitors?: MetricMonitorConfigList;
+  groups: LaunchGroupConfigList;
+  randomizationSalt?: string;
+  tags?: TagMap;
+}
+export const CreateLaunchRequest = S.suspend(() =>
+  S.Struct({
     project: S.String.pipe(T.HttpLabel("project")),
     name: S.String,
     description: S.optional(S.String),
@@ -1419,32 +2267,62 @@ export class CreateLaunchRequest extends S.Class<CreateLaunchRequest>(
     groups: LaunchGroupConfigList,
     randomizationSalt: S.optional(S.String),
     tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/projects/{project}/launches" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/projects/{project}/launches" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
-  "ValidationExceptionField",
-)({ name: S.String, message: S.String }) {}
+).annotations({
+  identifier: "CreateLaunchRequest",
+}) as any as S.Schema<CreateLaunchRequest>;
+export interface ValidationExceptionField {
+  name: string;
+  message: string;
+}
+export const ValidationExceptionField = S.suspend(() =>
+  S.Struct({ name: S.String, message: S.String }),
+).annotations({
+  identifier: "ValidationExceptionField",
+}) as any as S.Schema<ValidationExceptionField>;
+export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
-export class GetProjectResponse extends S.Class<GetProjectResponse>(
-  "GetProjectResponse",
-)({ project: Project }) {}
-export class GetExperimentResponse extends S.Class<GetExperimentResponse>(
-  "GetExperimentResponse",
-)({ experiment: S.optional(Experiment) }) {}
-export class CreateLaunchResponse extends S.Class<CreateLaunchResponse>(
-  "CreateLaunchResponse",
-)({ launch: Launch }) {}
-export class GetLaunchResponse extends S.Class<GetLaunchResponse>(
-  "GetLaunchResponse",
-)({ launch: S.optional(Launch) }) {}
+export interface GetProjectResponse {
+  project: Project;
+}
+export const GetProjectResponse = S.suspend(() =>
+  S.Struct({ project: Project }),
+).annotations({
+  identifier: "GetProjectResponse",
+}) as any as S.Schema<GetProjectResponse>;
+export interface GetExperimentResponse {
+  experiment?: Experiment;
+}
+export const GetExperimentResponse = S.suspend(() =>
+  S.Struct({ experiment: S.optional(Experiment) }),
+).annotations({
+  identifier: "GetExperimentResponse",
+}) as any as S.Schema<GetExperimentResponse>;
+export interface CreateLaunchResponse {
+  launch: Launch;
+}
+export const CreateLaunchResponse = S.suspend(() =>
+  S.Struct({ launch: Launch }),
+).annotations({
+  identifier: "CreateLaunchResponse",
+}) as any as S.Schema<CreateLaunchResponse>;
+export interface GetLaunchResponse {
+  launch?: Launch;
+}
+export const GetLaunchResponse = S.suspend(() =>
+  S.Struct({ launch: S.optional(Launch) }),
+).annotations({
+  identifier: "GetLaunchResponse",
+}) as any as S.Schema<GetLaunchResponse>;
 
 //# Errors
 export class ConflictException extends S.TaggedError<ConflictException>()(

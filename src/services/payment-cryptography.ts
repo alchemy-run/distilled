@@ -294,397 +294,791 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class GetDefaultKeyReplicationRegionsInput extends S.Class<GetDefaultKeyReplicationRegionsInput>(
-  "GetDefaultKeyReplicationRegionsInput",
-)(
-  {},
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+export interface GetDefaultKeyReplicationRegionsInput {}
+export const GetDefaultKeyReplicationRegionsInput = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetDefaultKeyReplicationRegionsInput",
+}) as any as S.Schema<GetDefaultKeyReplicationRegionsInput>;
+export type Regions = string[];
 export const Regions = S.Array(S.String);
+export type TagKeys = string[];
 export const TagKeys = S.Array(S.String);
-export class DisableDefaultKeyReplicationRegionsInput extends S.Class<DisableDefaultKeyReplicationRegionsInput>(
-  "DisableDefaultKeyReplicationRegionsInput",
-)(
-  { ReplicationRegions: Regions },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class EnableDefaultKeyReplicationRegionsInput extends S.Class<EnableDefaultKeyReplicationRegionsInput>(
-  "EnableDefaultKeyReplicationRegionsInput",
-)(
-  { ReplicationRegions: Regions },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetDefaultKeyReplicationRegionsOutput extends S.Class<GetDefaultKeyReplicationRegionsOutput>(
-  "GetDefaultKeyReplicationRegionsOutput",
-)({ EnabledReplicationRegions: Regions }) {}
-export class GetParametersForExportInput extends S.Class<GetParametersForExportInput>(
-  "GetParametersForExportInput",
-)(
-  { KeyMaterialType: S.String, SigningKeyAlgorithm: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetParametersForImportInput extends S.Class<GetParametersForImportInput>(
-  "GetParametersForImportInput",
-)(
-  { KeyMaterialType: S.String, WrappingKeyAlgorithm: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetPublicKeyCertificateInput extends S.Class<GetPublicKeyCertificateInput>(
-  "GetPublicKeyCertificateInput",
-)(
-  { KeyIdentifier: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTagsForResourceInput extends S.Class<ListTagsForResourceInput>(
-  "ListTagsForResourceInput",
-)(
-  {
+export interface DisableDefaultKeyReplicationRegionsInput {
+  ReplicationRegions: Regions;
+}
+export const DisableDefaultKeyReplicationRegionsInput = S.suspend(() =>
+  S.Struct({ ReplicationRegions: Regions }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DisableDefaultKeyReplicationRegionsInput",
+}) as any as S.Schema<DisableDefaultKeyReplicationRegionsInput>;
+export interface EnableDefaultKeyReplicationRegionsInput {
+  ReplicationRegions: Regions;
+}
+export const EnableDefaultKeyReplicationRegionsInput = S.suspend(() =>
+  S.Struct({ ReplicationRegions: Regions }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "EnableDefaultKeyReplicationRegionsInput",
+}) as any as S.Schema<EnableDefaultKeyReplicationRegionsInput>;
+export interface GetDefaultKeyReplicationRegionsOutput {
+  EnabledReplicationRegions: Regions;
+}
+export const GetDefaultKeyReplicationRegionsOutput = S.suspend(() =>
+  S.Struct({ EnabledReplicationRegions: Regions }),
+).annotations({
+  identifier: "GetDefaultKeyReplicationRegionsOutput",
+}) as any as S.Schema<GetDefaultKeyReplicationRegionsOutput>;
+export interface GetParametersForExportInput {
+  KeyMaterialType: string;
+  SigningKeyAlgorithm: string;
+}
+export const GetParametersForExportInput = S.suspend(() =>
+  S.Struct({ KeyMaterialType: S.String, SigningKeyAlgorithm: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetParametersForExportInput",
+}) as any as S.Schema<GetParametersForExportInput>;
+export interface GetParametersForImportInput {
+  KeyMaterialType: string;
+  WrappingKeyAlgorithm: string;
+}
+export const GetParametersForImportInput = S.suspend(() =>
+  S.Struct({ KeyMaterialType: S.String, WrappingKeyAlgorithm: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetParametersForImportInput",
+}) as any as S.Schema<GetParametersForImportInput>;
+export interface GetPublicKeyCertificateInput {
+  KeyIdentifier: string;
+}
+export const GetPublicKeyCertificateInput = S.suspend(() =>
+  S.Struct({ KeyIdentifier: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetPublicKeyCertificateInput",
+}) as any as S.Schema<GetPublicKeyCertificateInput>;
+export interface ListTagsForResourceInput {
+  ResourceArn: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListTagsForResourceInput = S.suspend(() =>
+  S.Struct({
     ResourceArn: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class Tag extends S.Class<Tag>("Tag")({
-  Key: S.String,
-  Value: S.String,
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListTagsForResourceInput",
+}) as any as S.Schema<ListTagsForResourceInput>;
+export interface Tag {
+  Key: string;
+  Value: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ Key: S.String, Value: S.String }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type Tags = Tag[];
 export const Tags = S.Array(Tag);
-export class TagResourceInput extends S.Class<TagResourceInput>(
-  "TagResourceInput",
-)(
-  { ResourceArn: S.String, Tags: Tags },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TagResourceOutput extends S.Class<TagResourceOutput>(
-  "TagResourceOutput",
-)({}) {}
-export class UntagResourceInput extends S.Class<UntagResourceInput>(
-  "UntagResourceInput",
-)(
-  { ResourceArn: S.String, TagKeys: TagKeys },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UntagResourceOutput extends S.Class<UntagResourceOutput>(
-  "UntagResourceOutput",
-)({}) {}
-export class CreateAliasInput extends S.Class<CreateAliasInput>(
-  "CreateAliasInput",
-)(
-  { AliasName: S.String, KeyArn: S.optional(S.String) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetAliasInput extends S.Class<GetAliasInput>("GetAliasInput")(
-  { AliasName: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateAliasInput extends S.Class<UpdateAliasInput>(
-  "UpdateAliasInput",
-)(
-  { AliasName: S.String, KeyArn: S.optional(S.String) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteAliasInput extends S.Class<DeleteAliasInput>(
-  "DeleteAliasInput",
-)(
-  { AliasName: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteAliasOutput extends S.Class<DeleteAliasOutput>(
-  "DeleteAliasOutput",
-)({}) {}
-export class ListAliasesInput extends S.Class<ListAliasesInput>(
-  "ListAliasesInput",
-)(
-  {
+export interface TagResourceInput {
+  ResourceArn: string;
+  Tags: Tags;
+}
+export const TagResourceInput = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String, Tags: Tags }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "TagResourceInput",
+}) as any as S.Schema<TagResourceInput>;
+export interface TagResourceOutput {}
+export const TagResourceOutput = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceOutput",
+}) as any as S.Schema<TagResourceOutput>;
+export interface UntagResourceInput {
+  ResourceArn: string;
+  TagKeys: TagKeys;
+}
+export const UntagResourceInput = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String, TagKeys: TagKeys }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UntagResourceInput",
+}) as any as S.Schema<UntagResourceInput>;
+export interface UntagResourceOutput {}
+export const UntagResourceOutput = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceOutput",
+}) as any as S.Schema<UntagResourceOutput>;
+export interface CreateAliasInput {
+  AliasName: string;
+  KeyArn?: string;
+}
+export const CreateAliasInput = S.suspend(() =>
+  S.Struct({ AliasName: S.String, KeyArn: S.optional(S.String) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateAliasInput",
+}) as any as S.Schema<CreateAliasInput>;
+export interface GetAliasInput {
+  AliasName: string;
+}
+export const GetAliasInput = S.suspend(() =>
+  S.Struct({ AliasName: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetAliasInput",
+}) as any as S.Schema<GetAliasInput>;
+export interface UpdateAliasInput {
+  AliasName: string;
+  KeyArn?: string;
+}
+export const UpdateAliasInput = S.suspend(() =>
+  S.Struct({ AliasName: S.String, KeyArn: S.optional(S.String) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateAliasInput",
+}) as any as S.Schema<UpdateAliasInput>;
+export interface DeleteAliasInput {
+  AliasName: string;
+}
+export const DeleteAliasInput = S.suspend(() =>
+  S.Struct({ AliasName: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteAliasInput",
+}) as any as S.Schema<DeleteAliasInput>;
+export interface DeleteAliasOutput {}
+export const DeleteAliasOutput = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteAliasOutput",
+}) as any as S.Schema<DeleteAliasOutput>;
+export interface ListAliasesInput {
+  KeyArn?: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListAliasesInput = S.suspend(() =>
+  S.Struct({
     KeyArn: S.optional(S.String),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetKeyInput extends S.Class<GetKeyInput>("GetKeyInput")(
-  { KeyIdentifier: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteKeyInput extends S.Class<DeleteKeyInput>("DeleteKeyInput")(
-  { KeyIdentifier: S.String, DeleteKeyInDays: S.optional(S.Number) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListKeysInput extends S.Class<ListKeysInput>("ListKeysInput")(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListAliasesInput",
+}) as any as S.Schema<ListAliasesInput>;
+export interface GetKeyInput {
+  KeyIdentifier: string;
+}
+export const GetKeyInput = S.suspend(() =>
+  S.Struct({ KeyIdentifier: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({ identifier: "GetKeyInput" }) as any as S.Schema<GetKeyInput>;
+export interface DeleteKeyInput {
+  KeyIdentifier: string;
+  DeleteKeyInDays?: number;
+}
+export const DeleteKeyInput = S.suspend(() =>
+  S.Struct({
+    KeyIdentifier: S.String,
+    DeleteKeyInDays: S.optional(S.Number),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteKeyInput",
+}) as any as S.Schema<DeleteKeyInput>;
+export interface ListKeysInput {
+  KeyState?: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListKeysInput = S.suspend(() =>
+  S.Struct({
     KeyState: S.optional(S.String),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class AddKeyReplicationRegionsInput extends S.Class<AddKeyReplicationRegionsInput>(
-  "AddKeyReplicationRegionsInput",
-)(
-  { KeyIdentifier: S.String, ReplicationRegions: Regions },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class RemoveKeyReplicationRegionsInput extends S.Class<RemoveKeyReplicationRegionsInput>(
-  "RemoveKeyReplicationRegionsInput",
-)(
-  { KeyIdentifier: S.String, ReplicationRegions: Regions },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class RestoreKeyInput extends S.Class<RestoreKeyInput>(
-  "RestoreKeyInput",
-)(
-  { KeyIdentifier: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StartKeyUsageInput extends S.Class<StartKeyUsageInput>(
-  "StartKeyUsageInput",
-)(
-  { KeyIdentifier: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StopKeyUsageInput extends S.Class<StopKeyUsageInput>(
-  "StopKeyUsageInput",
-)(
-  { KeyIdentifier: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CertificateSubjectType extends S.Class<CertificateSubjectType>(
-  "CertificateSubjectType",
-)({
-  CommonName: S.String,
-  OrganizationUnit: S.optional(S.String),
-  Organization: S.optional(S.String),
-  City: S.optional(S.String),
-  Country: S.optional(S.String),
-  StateOrProvince: S.optional(S.String),
-  EmailAddress: S.optional(S.String),
-}) {}
-export class Alias extends S.Class<Alias>("Alias")({
-  AliasName: S.String,
-  KeyArn: S.optional(S.String),
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListKeysInput",
+}) as any as S.Schema<ListKeysInput>;
+export interface AddKeyReplicationRegionsInput {
+  KeyIdentifier: string;
+  ReplicationRegions: Regions;
+}
+export const AddKeyReplicationRegionsInput = S.suspend(() =>
+  S.Struct({ KeyIdentifier: S.String, ReplicationRegions: Regions }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "AddKeyReplicationRegionsInput",
+}) as any as S.Schema<AddKeyReplicationRegionsInput>;
+export interface RemoveKeyReplicationRegionsInput {
+  KeyIdentifier: string;
+  ReplicationRegions: Regions;
+}
+export const RemoveKeyReplicationRegionsInput = S.suspend(() =>
+  S.Struct({ KeyIdentifier: S.String, ReplicationRegions: Regions }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "RemoveKeyReplicationRegionsInput",
+}) as any as S.Schema<RemoveKeyReplicationRegionsInput>;
+export interface RestoreKeyInput {
+  KeyIdentifier: string;
+}
+export const RestoreKeyInput = S.suspend(() =>
+  S.Struct({ KeyIdentifier: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "RestoreKeyInput",
+}) as any as S.Schema<RestoreKeyInput>;
+export interface StartKeyUsageInput {
+  KeyIdentifier: string;
+}
+export const StartKeyUsageInput = S.suspend(() =>
+  S.Struct({ KeyIdentifier: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StartKeyUsageInput",
+}) as any as S.Schema<StartKeyUsageInput>;
+export interface StopKeyUsageInput {
+  KeyIdentifier: string;
+}
+export const StopKeyUsageInput = S.suspend(() =>
+  S.Struct({ KeyIdentifier: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StopKeyUsageInput",
+}) as any as S.Schema<StopKeyUsageInput>;
+export interface CertificateSubjectType {
+  CommonName: string;
+  OrganizationUnit?: string;
+  Organization?: string;
+  City?: string;
+  Country?: string;
+  StateOrProvince?: string;
+  EmailAddress?: string;
+}
+export const CertificateSubjectType = S.suspend(() =>
+  S.Struct({
+    CommonName: S.String,
+    OrganizationUnit: S.optional(S.String),
+    Organization: S.optional(S.String),
+    City: S.optional(S.String),
+    Country: S.optional(S.String),
+    StateOrProvince: S.optional(S.String),
+    EmailAddress: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CertificateSubjectType",
+}) as any as S.Schema<CertificateSubjectType>;
+export interface Alias {
+  AliasName: string;
+  KeyArn?: string;
+}
+export const Alias = S.suspend(() =>
+  S.Struct({ AliasName: S.String, KeyArn: S.optional(S.String) }),
+).annotations({ identifier: "Alias" }) as any as S.Schema<Alias>;
+export type Aliases = Alias[];
 export const Aliases = S.Array(Alias);
-export class DisableDefaultKeyReplicationRegionsOutput extends S.Class<DisableDefaultKeyReplicationRegionsOutput>(
-  "DisableDefaultKeyReplicationRegionsOutput",
-)({ EnabledReplicationRegions: Regions }) {}
-export class EnableDefaultKeyReplicationRegionsOutput extends S.Class<EnableDefaultKeyReplicationRegionsOutput>(
-  "EnableDefaultKeyReplicationRegionsOutput",
-)({ EnabledReplicationRegions: Regions }) {}
-export class GetCertificateSigningRequestInput extends S.Class<GetCertificateSigningRequestInput>(
-  "GetCertificateSigningRequestInput",
-)(
-  {
+export interface DisableDefaultKeyReplicationRegionsOutput {
+  EnabledReplicationRegions: Regions;
+}
+export const DisableDefaultKeyReplicationRegionsOutput = S.suspend(() =>
+  S.Struct({ EnabledReplicationRegions: Regions }),
+).annotations({
+  identifier: "DisableDefaultKeyReplicationRegionsOutput",
+}) as any as S.Schema<DisableDefaultKeyReplicationRegionsOutput>;
+export interface EnableDefaultKeyReplicationRegionsOutput {
+  EnabledReplicationRegions: Regions;
+}
+export const EnableDefaultKeyReplicationRegionsOutput = S.suspend(() =>
+  S.Struct({ EnabledReplicationRegions: Regions }),
+).annotations({
+  identifier: "EnableDefaultKeyReplicationRegionsOutput",
+}) as any as S.Schema<EnableDefaultKeyReplicationRegionsOutput>;
+export interface GetCertificateSigningRequestInput {
+  KeyIdentifier: string;
+  SigningAlgorithm: string;
+  CertificateSubject: CertificateSubjectType;
+}
+export const GetCertificateSigningRequestInput = S.suspend(() =>
+  S.Struct({
     KeyIdentifier: S.String,
     SigningAlgorithm: S.String,
     CertificateSubject: CertificateSubjectType,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetParametersForExportOutput extends S.Class<GetParametersForExportOutput>(
-  "GetParametersForExportOutput",
-)({
-  SigningKeyCertificate: S.String,
-  SigningKeyCertificateChain: S.String,
-  SigningKeyAlgorithm: S.String,
-  ExportToken: S.String,
-  ParametersValidUntilTimestamp: S.Date.pipe(
-    T.TimestampFormat("epoch-seconds"),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-}) {}
-export class GetParametersForImportOutput extends S.Class<GetParametersForImportOutput>(
-  "GetParametersForImportOutput",
-)({
-  WrappingKeyCertificate: S.String,
-  WrappingKeyCertificateChain: S.String,
-  WrappingKeyAlgorithm: S.String,
-  ImportToken: S.String,
-  ParametersValidUntilTimestamp: S.Date.pipe(
-    T.TimestampFormat("epoch-seconds"),
-  ),
-}) {}
-export class GetPublicKeyCertificateOutput extends S.Class<GetPublicKeyCertificateOutput>(
-  "GetPublicKeyCertificateOutput",
-)({ KeyCertificate: S.String, KeyCertificateChain: S.String }) {}
-export class ListTagsForResourceOutput extends S.Class<ListTagsForResourceOutput>(
-  "ListTagsForResourceOutput",
-)({ Tags: Tags, NextToken: S.optional(S.String) }) {}
-export class GetAliasOutput extends S.Class<GetAliasOutput>("GetAliasOutput")({
-  Alias: Alias,
-}) {}
-export class UpdateAliasOutput extends S.Class<UpdateAliasOutput>(
-  "UpdateAliasOutput",
-)({ Alias: Alias }) {}
-export class ListAliasesOutput extends S.Class<ListAliasesOutput>(
-  "ListAliasesOutput",
-)({ Aliases: Aliases, NextToken: S.optional(S.String) }) {}
-export class KeyModesOfUse extends S.Class<KeyModesOfUse>("KeyModesOfUse")({
-  Encrypt: S.optional(S.Boolean),
-  Decrypt: S.optional(S.Boolean),
-  Wrap: S.optional(S.Boolean),
-  Unwrap: S.optional(S.Boolean),
-  Generate: S.optional(S.Boolean),
-  Sign: S.optional(S.Boolean),
-  Verify: S.optional(S.Boolean),
-  DeriveKey: S.optional(S.Boolean),
-  NoRestrictions: S.optional(S.Boolean),
-}) {}
-export class KeyAttributes extends S.Class<KeyAttributes>("KeyAttributes")({
-  KeyUsage: S.String,
-  KeyClass: S.String,
-  KeyAlgorithm: S.String,
-  KeyModesOfUse: KeyModesOfUse,
-}) {}
-export class ReplicationStatusType extends S.Class<ReplicationStatusType>(
-  "ReplicationStatusType",
-)({ Status: S.String, StatusMessage: S.optional(S.String) }) {}
+).annotations({
+  identifier: "GetCertificateSigningRequestInput",
+}) as any as S.Schema<GetCertificateSigningRequestInput>;
+export interface GetParametersForExportOutput {
+  SigningKeyCertificate: string;
+  SigningKeyCertificateChain: string;
+  SigningKeyAlgorithm: string;
+  ExportToken: string;
+  ParametersValidUntilTimestamp: Date;
+}
+export const GetParametersForExportOutput = S.suspend(() =>
+  S.Struct({
+    SigningKeyCertificate: S.String,
+    SigningKeyCertificateChain: S.String,
+    SigningKeyAlgorithm: S.String,
+    ExportToken: S.String,
+    ParametersValidUntilTimestamp: S.Date.pipe(
+      T.TimestampFormat("epoch-seconds"),
+    ),
+  }),
+).annotations({
+  identifier: "GetParametersForExportOutput",
+}) as any as S.Schema<GetParametersForExportOutput>;
+export interface GetParametersForImportOutput {
+  WrappingKeyCertificate: string;
+  WrappingKeyCertificateChain: string;
+  WrappingKeyAlgorithm: string;
+  ImportToken: string;
+  ParametersValidUntilTimestamp: Date;
+}
+export const GetParametersForImportOutput = S.suspend(() =>
+  S.Struct({
+    WrappingKeyCertificate: S.String,
+    WrappingKeyCertificateChain: S.String,
+    WrappingKeyAlgorithm: S.String,
+    ImportToken: S.String,
+    ParametersValidUntilTimestamp: S.Date.pipe(
+      T.TimestampFormat("epoch-seconds"),
+    ),
+  }),
+).annotations({
+  identifier: "GetParametersForImportOutput",
+}) as any as S.Schema<GetParametersForImportOutput>;
+export interface GetPublicKeyCertificateOutput {
+  KeyCertificate: string;
+  KeyCertificateChain: string;
+}
+export const GetPublicKeyCertificateOutput = S.suspend(() =>
+  S.Struct({ KeyCertificate: S.String, KeyCertificateChain: S.String }),
+).annotations({
+  identifier: "GetPublicKeyCertificateOutput",
+}) as any as S.Schema<GetPublicKeyCertificateOutput>;
+export interface ListTagsForResourceOutput {
+  Tags: Tags;
+  NextToken?: string;
+}
+export const ListTagsForResourceOutput = S.suspend(() =>
+  S.Struct({ Tags: Tags, NextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListTagsForResourceOutput",
+}) as any as S.Schema<ListTagsForResourceOutput>;
+export interface GetAliasOutput {
+  Alias: Alias;
+}
+export const GetAliasOutput = S.suspend(() =>
+  S.Struct({ Alias: Alias }),
+).annotations({
+  identifier: "GetAliasOutput",
+}) as any as S.Schema<GetAliasOutput>;
+export interface UpdateAliasOutput {
+  Alias: Alias;
+}
+export const UpdateAliasOutput = S.suspend(() =>
+  S.Struct({ Alias: Alias }),
+).annotations({
+  identifier: "UpdateAliasOutput",
+}) as any as S.Schema<UpdateAliasOutput>;
+export interface ListAliasesOutput {
+  Aliases: Aliases;
+  NextToken?: string;
+}
+export const ListAliasesOutput = S.suspend(() =>
+  S.Struct({ Aliases: Aliases, NextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListAliasesOutput",
+}) as any as S.Schema<ListAliasesOutput>;
+export interface KeyModesOfUse {
+  Encrypt?: boolean;
+  Decrypt?: boolean;
+  Wrap?: boolean;
+  Unwrap?: boolean;
+  Generate?: boolean;
+  Sign?: boolean;
+  Verify?: boolean;
+  DeriveKey?: boolean;
+  NoRestrictions?: boolean;
+}
+export const KeyModesOfUse = S.suspend(() =>
+  S.Struct({
+    Encrypt: S.optional(S.Boolean),
+    Decrypt: S.optional(S.Boolean),
+    Wrap: S.optional(S.Boolean),
+    Unwrap: S.optional(S.Boolean),
+    Generate: S.optional(S.Boolean),
+    Sign: S.optional(S.Boolean),
+    Verify: S.optional(S.Boolean),
+    DeriveKey: S.optional(S.Boolean),
+    NoRestrictions: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "KeyModesOfUse",
+}) as any as S.Schema<KeyModesOfUse>;
+export interface KeyAttributes {
+  KeyUsage: string;
+  KeyClass: string;
+  KeyAlgorithm: string;
+  KeyModesOfUse: KeyModesOfUse;
+}
+export const KeyAttributes = S.suspend(() =>
+  S.Struct({
+    KeyUsage: S.String,
+    KeyClass: S.String,
+    KeyAlgorithm: S.String,
+    KeyModesOfUse: KeyModesOfUse,
+  }),
+).annotations({
+  identifier: "KeyAttributes",
+}) as any as S.Schema<KeyAttributes>;
+export interface ReplicationStatusType {
+  Status: string;
+  StatusMessage?: string;
+}
+export const ReplicationStatusType = S.suspend(() =>
+  S.Struct({ Status: S.String, StatusMessage: S.optional(S.String) }),
+).annotations({
+  identifier: "ReplicationStatusType",
+}) as any as S.Schema<ReplicationStatusType>;
+export type ReplicationStatus = { [key: string]: ReplicationStatusType };
 export const ReplicationStatus = S.Record({
   key: S.String,
   value: ReplicationStatusType,
 });
-export class Key extends S.Class<Key>("Key")({
-  KeyArn: S.String,
-  KeyAttributes: KeyAttributes,
-  KeyCheckValue: S.String,
-  KeyCheckValueAlgorithm: S.String,
-  Enabled: S.Boolean,
-  Exportable: S.Boolean,
-  KeyState: S.String,
-  KeyOrigin: S.String,
-  CreateTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  UsageStartTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  UsageStopTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  DeletePendingTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  DeleteTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  DeriveKeyUsage: S.optional(S.String),
-  MultiRegionKeyType: S.optional(S.String),
-  PrimaryRegion: S.optional(S.String),
-  ReplicationStatus: S.optional(ReplicationStatus),
-  UsingDefaultReplicationRegions: S.optional(S.Boolean),
-}) {}
-export class DeleteKeyOutput extends S.Class<DeleteKeyOutput>(
-  "DeleteKeyOutput",
-)({ Key: Key }) {}
-export class AddKeyReplicationRegionsOutput extends S.Class<AddKeyReplicationRegionsOutput>(
-  "AddKeyReplicationRegionsOutput",
-)({ Key: Key }) {}
-export class RemoveKeyReplicationRegionsOutput extends S.Class<RemoveKeyReplicationRegionsOutput>(
-  "RemoveKeyReplicationRegionsOutput",
-)({ Key: Key }) {}
-export class RestoreKeyOutput extends S.Class<RestoreKeyOutput>(
-  "RestoreKeyOutput",
-)({ Key: Key }) {}
-export class StartKeyUsageOutput extends S.Class<StartKeyUsageOutput>(
-  "StartKeyUsageOutput",
-)({ Key: Key }) {}
-export class StopKeyUsageOutput extends S.Class<StopKeyUsageOutput>(
-  "StopKeyUsageOutput",
-)({ Key: Key }) {}
+export interface Key {
+  KeyArn: string;
+  KeyAttributes: KeyAttributes;
+  KeyCheckValue: string;
+  KeyCheckValueAlgorithm: string;
+  Enabled: boolean;
+  Exportable: boolean;
+  KeyState: string;
+  KeyOrigin: string;
+  CreateTimestamp: Date;
+  UsageStartTimestamp?: Date;
+  UsageStopTimestamp?: Date;
+  DeletePendingTimestamp?: Date;
+  DeleteTimestamp?: Date;
+  DeriveKeyUsage?: string;
+  MultiRegionKeyType?: string;
+  PrimaryRegion?: string;
+  ReplicationStatus?: ReplicationStatus;
+  UsingDefaultReplicationRegions?: boolean;
+}
+export const Key = S.suspend(() =>
+  S.Struct({
+    KeyArn: S.String,
+    KeyAttributes: KeyAttributes,
+    KeyCheckValue: S.String,
+    KeyCheckValueAlgorithm: S.String,
+    Enabled: S.Boolean,
+    Exportable: S.Boolean,
+    KeyState: S.String,
+    KeyOrigin: S.String,
+    CreateTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    UsageStartTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    UsageStopTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    DeletePendingTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    DeleteTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    DeriveKeyUsage: S.optional(S.String),
+    MultiRegionKeyType: S.optional(S.String),
+    PrimaryRegion: S.optional(S.String),
+    ReplicationStatus: S.optional(ReplicationStatus),
+    UsingDefaultReplicationRegions: S.optional(S.Boolean),
+  }),
+).annotations({ identifier: "Key" }) as any as S.Schema<Key>;
+export interface DeleteKeyOutput {
+  Key: Key;
+}
+export const DeleteKeyOutput = S.suspend(() =>
+  S.Struct({ Key: Key }),
+).annotations({
+  identifier: "DeleteKeyOutput",
+}) as any as S.Schema<DeleteKeyOutput>;
+export interface AddKeyReplicationRegionsOutput {
+  Key: Key;
+}
+export const AddKeyReplicationRegionsOutput = S.suspend(() =>
+  S.Struct({ Key: Key }),
+).annotations({
+  identifier: "AddKeyReplicationRegionsOutput",
+}) as any as S.Schema<AddKeyReplicationRegionsOutput>;
+export interface RemoveKeyReplicationRegionsOutput {
+  Key: Key;
+}
+export const RemoveKeyReplicationRegionsOutput = S.suspend(() =>
+  S.Struct({ Key: Key }),
+).annotations({
+  identifier: "RemoveKeyReplicationRegionsOutput",
+}) as any as S.Schema<RemoveKeyReplicationRegionsOutput>;
+export interface RestoreKeyOutput {
+  Key: Key;
+}
+export const RestoreKeyOutput = S.suspend(() =>
+  S.Struct({ Key: Key }),
+).annotations({
+  identifier: "RestoreKeyOutput",
+}) as any as S.Schema<RestoreKeyOutput>;
+export interface StartKeyUsageOutput {
+  Key: Key;
+}
+export const StartKeyUsageOutput = S.suspend(() =>
+  S.Struct({ Key: Key }),
+).annotations({
+  identifier: "StartKeyUsageOutput",
+}) as any as S.Schema<StartKeyUsageOutput>;
+export interface StopKeyUsageOutput {
+  Key: Key;
+}
+export const StopKeyUsageOutput = S.suspend(() =>
+  S.Struct({ Key: Key }),
+).annotations({
+  identifier: "StopKeyUsageOutput",
+}) as any as S.Schema<StopKeyUsageOutput>;
+export type OptionalBlocks = { [key: string]: string };
 export const OptionalBlocks = S.Record({ key: S.String, value: S.String });
-export class KeyBlockHeaders extends S.Class<KeyBlockHeaders>(
-  "KeyBlockHeaders",
-)({
-  KeyModesOfUse: S.optional(KeyModesOfUse),
-  KeyExportability: S.optional(S.String),
-  KeyVersion: S.optional(S.String),
-  OptionalBlocks: S.optional(OptionalBlocks),
-}) {}
-export class ExportTr34KeyBlock extends S.Class<ExportTr34KeyBlock>(
-  "ExportTr34KeyBlock",
-)({
-  CertificateAuthorityPublicKeyIdentifier: S.String,
-  WrappingKeyCertificate: S.String,
-  ExportToken: S.optional(S.String),
-  SigningKeyIdentifier: S.optional(S.String),
-  SigningKeyCertificate: S.optional(S.String),
-  KeyBlockFormat: S.String,
-  RandomNonce: S.optional(S.String),
-  KeyBlockHeaders: S.optional(KeyBlockHeaders),
-}) {}
-export class ExportKeyCryptogram extends S.Class<ExportKeyCryptogram>(
-  "ExportKeyCryptogram",
-)({
-  CertificateAuthorityPublicKeyIdentifier: S.String,
-  WrappingKeyCertificate: S.String,
-  WrappingSpec: S.optional(S.String),
-}) {}
-export class ExportAs2805KeyCryptogram extends S.Class<ExportAs2805KeyCryptogram>(
-  "ExportAs2805KeyCryptogram",
-)({ WrappingKeyIdentifier: S.String, As2805KeyVariant: S.String }) {}
-export class ExportDukptInitialKey extends S.Class<ExportDukptInitialKey>(
-  "ExportDukptInitialKey",
-)({ KeySerialNumber: S.String }) {}
-export class RootCertificatePublicKey extends S.Class<RootCertificatePublicKey>(
-  "RootCertificatePublicKey",
-)({ KeyAttributes: KeyAttributes, PublicKeyCertificate: S.String }) {}
-export class TrustedCertificatePublicKey extends S.Class<TrustedCertificatePublicKey>(
-  "TrustedCertificatePublicKey",
-)({
-  KeyAttributes: KeyAttributes,
-  PublicKeyCertificate: S.String,
-  CertificateAuthorityPublicKeyIdentifier: S.String,
-}) {}
-export class ImportTr31KeyBlock extends S.Class<ImportTr31KeyBlock>(
-  "ImportTr31KeyBlock",
-)({ WrappingKeyIdentifier: S.String, WrappedKeyBlock: S.String }) {}
-export class ImportTr34KeyBlock extends S.Class<ImportTr34KeyBlock>(
-  "ImportTr34KeyBlock",
-)({
-  CertificateAuthorityPublicKeyIdentifier: S.String,
-  SigningKeyCertificate: S.String,
-  ImportToken: S.optional(S.String),
-  WrappingKeyIdentifier: S.optional(S.String),
-  WrappingKeyCertificate: S.optional(S.String),
-  WrappedKeyBlock: S.String,
-  KeyBlockFormat: S.String,
-  RandomNonce: S.optional(S.String),
-}) {}
-export class ImportKeyCryptogram extends S.Class<ImportKeyCryptogram>(
-  "ImportKeyCryptogram",
-)({
-  KeyAttributes: KeyAttributes,
-  Exportable: S.Boolean,
-  WrappedKeyCryptogram: S.String,
-  ImportToken: S.String,
-  WrappingSpec: S.optional(S.String),
-}) {}
+export interface KeyBlockHeaders {
+  KeyModesOfUse?: KeyModesOfUse;
+  KeyExportability?: string;
+  KeyVersion?: string;
+  OptionalBlocks?: OptionalBlocks;
+}
+export const KeyBlockHeaders = S.suspend(() =>
+  S.Struct({
+    KeyModesOfUse: S.optional(KeyModesOfUse),
+    KeyExportability: S.optional(S.String),
+    KeyVersion: S.optional(S.String),
+    OptionalBlocks: S.optional(OptionalBlocks),
+  }),
+).annotations({
+  identifier: "KeyBlockHeaders",
+}) as any as S.Schema<KeyBlockHeaders>;
+export interface ExportTr34KeyBlock {
+  CertificateAuthorityPublicKeyIdentifier: string;
+  WrappingKeyCertificate: string;
+  ExportToken?: string;
+  SigningKeyIdentifier?: string;
+  SigningKeyCertificate?: string;
+  KeyBlockFormat: string;
+  RandomNonce?: string;
+  KeyBlockHeaders?: KeyBlockHeaders;
+}
+export const ExportTr34KeyBlock = S.suspend(() =>
+  S.Struct({
+    CertificateAuthorityPublicKeyIdentifier: S.String,
+    WrappingKeyCertificate: S.String,
+    ExportToken: S.optional(S.String),
+    SigningKeyIdentifier: S.optional(S.String),
+    SigningKeyCertificate: S.optional(S.String),
+    KeyBlockFormat: S.String,
+    RandomNonce: S.optional(S.String),
+    KeyBlockHeaders: S.optional(KeyBlockHeaders),
+  }),
+).annotations({
+  identifier: "ExportTr34KeyBlock",
+}) as any as S.Schema<ExportTr34KeyBlock>;
+export interface ExportKeyCryptogram {
+  CertificateAuthorityPublicKeyIdentifier: string;
+  WrappingKeyCertificate: string;
+  WrappingSpec?: string;
+}
+export const ExportKeyCryptogram = S.suspend(() =>
+  S.Struct({
+    CertificateAuthorityPublicKeyIdentifier: S.String,
+    WrappingKeyCertificate: S.String,
+    WrappingSpec: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ExportKeyCryptogram",
+}) as any as S.Schema<ExportKeyCryptogram>;
+export interface ExportAs2805KeyCryptogram {
+  WrappingKeyIdentifier: string;
+  As2805KeyVariant: string;
+}
+export const ExportAs2805KeyCryptogram = S.suspend(() =>
+  S.Struct({ WrappingKeyIdentifier: S.String, As2805KeyVariant: S.String }),
+).annotations({
+  identifier: "ExportAs2805KeyCryptogram",
+}) as any as S.Schema<ExportAs2805KeyCryptogram>;
+export interface ExportDukptInitialKey {
+  KeySerialNumber: string;
+}
+export const ExportDukptInitialKey = S.suspend(() =>
+  S.Struct({ KeySerialNumber: S.String }),
+).annotations({
+  identifier: "ExportDukptInitialKey",
+}) as any as S.Schema<ExportDukptInitialKey>;
+export interface RootCertificatePublicKey {
+  KeyAttributes: KeyAttributes;
+  PublicKeyCertificate: string;
+}
+export const RootCertificatePublicKey = S.suspend(() =>
+  S.Struct({ KeyAttributes: KeyAttributes, PublicKeyCertificate: S.String }),
+).annotations({
+  identifier: "RootCertificatePublicKey",
+}) as any as S.Schema<RootCertificatePublicKey>;
+export interface TrustedCertificatePublicKey {
+  KeyAttributes: KeyAttributes;
+  PublicKeyCertificate: string;
+  CertificateAuthorityPublicKeyIdentifier: string;
+}
+export const TrustedCertificatePublicKey = S.suspend(() =>
+  S.Struct({
+    KeyAttributes: KeyAttributes,
+    PublicKeyCertificate: S.String,
+    CertificateAuthorityPublicKeyIdentifier: S.String,
+  }),
+).annotations({
+  identifier: "TrustedCertificatePublicKey",
+}) as any as S.Schema<TrustedCertificatePublicKey>;
+export interface ImportTr31KeyBlock {
+  WrappingKeyIdentifier: string;
+  WrappedKeyBlock: string;
+}
+export const ImportTr31KeyBlock = S.suspend(() =>
+  S.Struct({ WrappingKeyIdentifier: S.String, WrappedKeyBlock: S.String }),
+).annotations({
+  identifier: "ImportTr31KeyBlock",
+}) as any as S.Schema<ImportTr31KeyBlock>;
+export interface ImportTr34KeyBlock {
+  CertificateAuthorityPublicKeyIdentifier: string;
+  SigningKeyCertificate: string;
+  ImportToken?: string;
+  WrappingKeyIdentifier?: string;
+  WrappingKeyCertificate?: string;
+  WrappedKeyBlock: string;
+  KeyBlockFormat: string;
+  RandomNonce?: string;
+}
+export const ImportTr34KeyBlock = S.suspend(() =>
+  S.Struct({
+    CertificateAuthorityPublicKeyIdentifier: S.String,
+    SigningKeyCertificate: S.String,
+    ImportToken: S.optional(S.String),
+    WrappingKeyIdentifier: S.optional(S.String),
+    WrappingKeyCertificate: S.optional(S.String),
+    WrappedKeyBlock: S.String,
+    KeyBlockFormat: S.String,
+    RandomNonce: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ImportTr34KeyBlock",
+}) as any as S.Schema<ImportTr34KeyBlock>;
+export interface ImportKeyCryptogram {
+  KeyAttributes: KeyAttributes;
+  Exportable: boolean;
+  WrappedKeyCryptogram: string;
+  ImportToken: string;
+  WrappingSpec?: string;
+}
+export const ImportKeyCryptogram = S.suspend(() =>
+  S.Struct({
+    KeyAttributes: KeyAttributes,
+    Exportable: S.Boolean,
+    WrappedKeyCryptogram: S.String,
+    ImportToken: S.String,
+    WrappingSpec: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ImportKeyCryptogram",
+}) as any as S.Schema<ImportKeyCryptogram>;
 export const DiffieHellmanDerivationData = S.Union(
   S.Struct({ SharedInformation: S.String }),
 );
-export class ImportDiffieHellmanTr31KeyBlock extends S.Class<ImportDiffieHellmanTr31KeyBlock>(
-  "ImportDiffieHellmanTr31KeyBlock",
-)({
-  PrivateKeyIdentifier: S.String,
-  CertificateAuthorityPublicKeyIdentifier: S.String,
-  PublicKeyCertificate: S.String,
-  DeriveKeyAlgorithm: S.String,
-  KeyDerivationFunction: S.String,
-  KeyDerivationHashAlgorithm: S.String,
-  DerivationData: DiffieHellmanDerivationData,
-  WrappedKeyBlock: S.String,
-}) {}
-export class ImportAs2805KeyCryptogram extends S.Class<ImportAs2805KeyCryptogram>(
-  "ImportAs2805KeyCryptogram",
-)({
-  As2805KeyVariant: S.String,
-  KeyModesOfUse: KeyModesOfUse,
-  KeyAlgorithm: S.String,
-  Exportable: S.Boolean,
-  WrappingKeyIdentifier: S.String,
-  WrappedKeyCryptogram: S.String,
-}) {}
-export class ExportAttributes extends S.Class<ExportAttributes>(
-  "ExportAttributes",
-)({
-  ExportDukptInitialKey: S.optional(ExportDukptInitialKey),
-  KeyCheckValueAlgorithm: S.optional(S.String),
-}) {}
+export interface ImportDiffieHellmanTr31KeyBlock {
+  PrivateKeyIdentifier: string;
+  CertificateAuthorityPublicKeyIdentifier: string;
+  PublicKeyCertificate: string;
+  DeriveKeyAlgorithm: string;
+  KeyDerivationFunction: string;
+  KeyDerivationHashAlgorithm: string;
+  DerivationData: (typeof DiffieHellmanDerivationData)["Type"];
+  WrappedKeyBlock: string;
+}
+export const ImportDiffieHellmanTr31KeyBlock = S.suspend(() =>
+  S.Struct({
+    PrivateKeyIdentifier: S.String,
+    CertificateAuthorityPublicKeyIdentifier: S.String,
+    PublicKeyCertificate: S.String,
+    DeriveKeyAlgorithm: S.String,
+    KeyDerivationFunction: S.String,
+    KeyDerivationHashAlgorithm: S.String,
+    DerivationData: DiffieHellmanDerivationData,
+    WrappedKeyBlock: S.String,
+  }),
+).annotations({
+  identifier: "ImportDiffieHellmanTr31KeyBlock",
+}) as any as S.Schema<ImportDiffieHellmanTr31KeyBlock>;
+export interface ImportAs2805KeyCryptogram {
+  As2805KeyVariant: string;
+  KeyModesOfUse: KeyModesOfUse;
+  KeyAlgorithm: string;
+  Exportable: boolean;
+  WrappingKeyIdentifier: string;
+  WrappedKeyCryptogram: string;
+}
+export const ImportAs2805KeyCryptogram = S.suspend(() =>
+  S.Struct({
+    As2805KeyVariant: S.String,
+    KeyModesOfUse: KeyModesOfUse,
+    KeyAlgorithm: S.String,
+    Exportable: S.Boolean,
+    WrappingKeyIdentifier: S.String,
+    WrappedKeyCryptogram: S.String,
+  }),
+).annotations({
+  identifier: "ImportAs2805KeyCryptogram",
+}) as any as S.Schema<ImportAs2805KeyCryptogram>;
+export interface ExportAttributes {
+  ExportDukptInitialKey?: ExportDukptInitialKey;
+  KeyCheckValueAlgorithm?: string;
+}
+export const ExportAttributes = S.suspend(() =>
+  S.Struct({
+    ExportDukptInitialKey: S.optional(ExportDukptInitialKey),
+    KeyCheckValueAlgorithm: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ExportAttributes",
+}) as any as S.Schema<ExportAttributes>;
 export const ImportKeyMaterial = S.Union(
   S.Struct({ RootCertificatePublicKey: RootCertificatePublicKey }),
   S.Struct({ TrustedCertificatePublicKey: TrustedCertificatePublicKey }),
@@ -694,35 +1088,77 @@ export const ImportKeyMaterial = S.Union(
   S.Struct({ DiffieHellmanTr31KeyBlock: ImportDiffieHellmanTr31KeyBlock }),
   S.Struct({ As2805KeyCryptogram: ImportAs2805KeyCryptogram }),
 );
-export class KeySummary extends S.Class<KeySummary>("KeySummary")({
-  KeyArn: S.String,
-  KeyState: S.String,
-  KeyAttributes: KeyAttributes,
-  KeyCheckValue: S.String,
-  Exportable: S.Boolean,
-  Enabled: S.Boolean,
-  MultiRegionKeyType: S.optional(S.String),
-  PrimaryRegion: S.optional(S.String),
-}) {}
+export interface KeySummary {
+  KeyArn: string;
+  KeyState: string;
+  KeyAttributes: KeyAttributes;
+  KeyCheckValue: string;
+  Exportable: boolean;
+  Enabled: boolean;
+  MultiRegionKeyType?: string;
+  PrimaryRegion?: string;
+}
+export const KeySummary = S.suspend(() =>
+  S.Struct({
+    KeyArn: S.String,
+    KeyState: S.String,
+    KeyAttributes: KeyAttributes,
+    KeyCheckValue: S.String,
+    Exportable: S.Boolean,
+    Enabled: S.Boolean,
+    MultiRegionKeyType: S.optional(S.String),
+    PrimaryRegion: S.optional(S.String),
+  }),
+).annotations({ identifier: "KeySummary" }) as any as S.Schema<KeySummary>;
+export type KeySummaryList = KeySummary[];
 export const KeySummaryList = S.Array(KeySummary);
-export class GetCertificateSigningRequestOutput extends S.Class<GetCertificateSigningRequestOutput>(
-  "GetCertificateSigningRequestOutput",
-)({ CertificateSigningRequest: S.String }) {}
-export class ImportKeyInput extends S.Class<ImportKeyInput>("ImportKeyInput")(
-  {
+export interface GetCertificateSigningRequestOutput {
+  CertificateSigningRequest: string;
+}
+export const GetCertificateSigningRequestOutput = S.suspend(() =>
+  S.Struct({ CertificateSigningRequest: S.String }),
+).annotations({
+  identifier: "GetCertificateSigningRequestOutput",
+}) as any as S.Schema<GetCertificateSigningRequestOutput>;
+export interface ImportKeyInput {
+  KeyMaterial: (typeof ImportKeyMaterial)["Type"];
+  KeyCheckValueAlgorithm?: string;
+  Enabled?: boolean;
+  Tags?: Tags;
+  ReplicationRegions?: Regions;
+}
+export const ImportKeyInput = S.suspend(() =>
+  S.Struct({
     KeyMaterial: ImportKeyMaterial,
     KeyCheckValueAlgorithm: S.optional(S.String),
     Enabled: S.optional(S.Boolean),
     Tags: S.optional(Tags),
     ReplicationRegions: S.optional(Regions),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateAliasOutput extends S.Class<CreateAliasOutput>(
-  "CreateAliasOutput",
-)({ Alias: Alias }) {}
-export class CreateKeyInput extends S.Class<CreateKeyInput>("CreateKeyInput")(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ImportKeyInput",
+}) as any as S.Schema<ImportKeyInput>;
+export interface CreateAliasOutput {
+  Alias: Alias;
+}
+export const CreateAliasOutput = S.suspend(() =>
+  S.Struct({ Alias: Alias }),
+).annotations({
+  identifier: "CreateAliasOutput",
+}) as any as S.Schema<CreateAliasOutput>;
+export interface CreateKeyInput {
+  KeyAttributes: KeyAttributes;
+  KeyCheckValueAlgorithm?: string;
+  Exportable: boolean;
+  Enabled?: boolean;
+  Tags?: Tags;
+  DeriveKeyUsage?: string;
+  ReplicationRegions?: Regions;
+}
+export const CreateKeyInput = S.suspend(() =>
+  S.Struct({
     KeyAttributes: KeyAttributes,
     KeyCheckValueAlgorithm: S.optional(S.String),
     Exportable: S.Boolean,
@@ -730,37 +1166,73 @@ export class CreateKeyInput extends S.Class<CreateKeyInput>("CreateKeyInput")(
     Tags: S.optional(Tags),
     DeriveKeyUsage: S.optional(S.String),
     ReplicationRegions: S.optional(Regions),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListKeysOutput extends S.Class<ListKeysOutput>("ListKeysOutput")({
-  Keys: KeySummaryList,
-  NextToken: S.optional(S.String),
-}) {}
-export class ExportDiffieHellmanTr31KeyBlock extends S.Class<ExportDiffieHellmanTr31KeyBlock>(
-  "ExportDiffieHellmanTr31KeyBlock",
-)({
-  PrivateKeyIdentifier: S.String,
-  CertificateAuthorityPublicKeyIdentifier: S.String,
-  PublicKeyCertificate: S.String,
-  DeriveKeyAlgorithm: S.String,
-  KeyDerivationFunction: S.String,
-  KeyDerivationHashAlgorithm: S.String,
-  DerivationData: DiffieHellmanDerivationData,
-  KeyBlockHeaders: S.optional(KeyBlockHeaders),
-}) {}
-export class ImportKeyOutput extends S.Class<ImportKeyOutput>(
-  "ImportKeyOutput",
-)({ Key: Key }) {}
-export class CreateKeyOutput extends S.Class<CreateKeyOutput>(
-  "CreateKeyOutput",
-)({ Key: Key }) {}
-export class ExportTr31KeyBlock extends S.Class<ExportTr31KeyBlock>(
-  "ExportTr31KeyBlock",
-)({
-  WrappingKeyIdentifier: S.String,
-  KeyBlockHeaders: S.optional(KeyBlockHeaders),
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateKeyInput",
+}) as any as S.Schema<CreateKeyInput>;
+export interface ListKeysOutput {
+  Keys: KeySummaryList;
+  NextToken?: string;
+}
+export const ListKeysOutput = S.suspend(() =>
+  S.Struct({ Keys: KeySummaryList, NextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListKeysOutput",
+}) as any as S.Schema<ListKeysOutput>;
+export interface ExportDiffieHellmanTr31KeyBlock {
+  PrivateKeyIdentifier: string;
+  CertificateAuthorityPublicKeyIdentifier: string;
+  PublicKeyCertificate: string;
+  DeriveKeyAlgorithm: string;
+  KeyDerivationFunction: string;
+  KeyDerivationHashAlgorithm: string;
+  DerivationData: (typeof DiffieHellmanDerivationData)["Type"];
+  KeyBlockHeaders?: KeyBlockHeaders;
+}
+export const ExportDiffieHellmanTr31KeyBlock = S.suspend(() =>
+  S.Struct({
+    PrivateKeyIdentifier: S.String,
+    CertificateAuthorityPublicKeyIdentifier: S.String,
+    PublicKeyCertificate: S.String,
+    DeriveKeyAlgorithm: S.String,
+    KeyDerivationFunction: S.String,
+    KeyDerivationHashAlgorithm: S.String,
+    DerivationData: DiffieHellmanDerivationData,
+    KeyBlockHeaders: S.optional(KeyBlockHeaders),
+  }),
+).annotations({
+  identifier: "ExportDiffieHellmanTr31KeyBlock",
+}) as any as S.Schema<ExportDiffieHellmanTr31KeyBlock>;
+export interface ImportKeyOutput {
+  Key: Key;
+}
+export const ImportKeyOutput = S.suspend(() =>
+  S.Struct({ Key: Key }),
+).annotations({
+  identifier: "ImportKeyOutput",
+}) as any as S.Schema<ImportKeyOutput>;
+export interface CreateKeyOutput {
+  Key: Key;
+}
+export const CreateKeyOutput = S.suspend(() =>
+  S.Struct({ Key: Key }),
+).annotations({
+  identifier: "CreateKeyOutput",
+}) as any as S.Schema<CreateKeyOutput>;
+export interface ExportTr31KeyBlock {
+  WrappingKeyIdentifier: string;
+  KeyBlockHeaders?: KeyBlockHeaders;
+}
+export const ExportTr31KeyBlock = S.suspend(() =>
+  S.Struct({
+    WrappingKeyIdentifier: S.String,
+    KeyBlockHeaders: S.optional(KeyBlockHeaders),
+  }),
+).annotations({
+  identifier: "ExportTr31KeyBlock",
+}) as any as S.Schema<ExportTr31KeyBlock>;
 export const ExportKeyMaterial = S.Union(
   S.Struct({ Tr31KeyBlock: ExportTr31KeyBlock }),
   S.Struct({ Tr34KeyBlock: ExportTr34KeyBlock }),
@@ -768,27 +1240,52 @@ export const ExportKeyMaterial = S.Union(
   S.Struct({ DiffieHellmanTr31KeyBlock: ExportDiffieHellmanTr31KeyBlock }),
   S.Struct({ As2805KeyCryptogram: ExportAs2805KeyCryptogram }),
 );
-export class ExportKeyInput extends S.Class<ExportKeyInput>("ExportKeyInput")(
-  {
+export interface ExportKeyInput {
+  KeyMaterial: (typeof ExportKeyMaterial)["Type"];
+  ExportKeyIdentifier: string;
+  ExportAttributes?: ExportAttributes;
+}
+export const ExportKeyInput = S.suspend(() =>
+  S.Struct({
     KeyMaterial: ExportKeyMaterial,
     ExportKeyIdentifier: S.String,
     ExportAttributes: S.optional(ExportAttributes),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetKeyOutput extends S.Class<GetKeyOutput>("GetKeyOutput")({
-  Key: Key,
-}) {}
-export class WrappedKey extends S.Class<WrappedKey>("WrappedKey")({
-  WrappingKeyArn: S.String,
-  WrappedKeyMaterialFormat: S.String,
-  KeyMaterial: S.String,
-  KeyCheckValue: S.optional(S.String),
-  KeyCheckValueAlgorithm: S.optional(S.String),
-}) {}
-export class ExportKeyOutput extends S.Class<ExportKeyOutput>(
-  "ExportKeyOutput",
-)({ WrappedKey: S.optional(WrappedKey) }) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ExportKeyInput",
+}) as any as S.Schema<ExportKeyInput>;
+export interface GetKeyOutput {
+  Key: Key;
+}
+export const GetKeyOutput = S.suspend(() => S.Struct({ Key: Key })).annotations(
+  { identifier: "GetKeyOutput" },
+) as any as S.Schema<GetKeyOutput>;
+export interface WrappedKey {
+  WrappingKeyArn: string;
+  WrappedKeyMaterialFormat: string;
+  KeyMaterial: string;
+  KeyCheckValue?: string;
+  KeyCheckValueAlgorithm?: string;
+}
+export const WrappedKey = S.suspend(() =>
+  S.Struct({
+    WrappingKeyArn: S.String,
+    WrappedKeyMaterialFormat: S.String,
+    KeyMaterial: S.String,
+    KeyCheckValue: S.optional(S.String),
+    KeyCheckValueAlgorithm: S.optional(S.String),
+  }),
+).annotations({ identifier: "WrappedKey" }) as any as S.Schema<WrappedKey>;
+export interface ExportKeyOutput {
+  WrappedKey?: WrappedKey;
+}
+export const ExportKeyOutput = S.suspend(() =>
+  S.Struct({ WrappedKey: S.optional(WrappedKey) }),
+).annotations({
+  identifier: "ExportKeyOutput",
+}) as any as S.Schema<ExportKeyOutput>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

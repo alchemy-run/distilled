@@ -294,145 +294,293 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class ListTagsForResourceInput extends S.Class<ListTagsForResourceInput>(
-  "ListTagsForResourceInput",
-)(
-  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface ListTagsForResourceInput {
+  ResourceArn: string;
+}
+export const ListTagsForResourceInput = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceInput extends S.Class<UntagResourceInput>(
-  "UntagResourceInput",
-)(
-  {
+).annotations({
+  identifier: "ListTagsForResourceInput",
+}) as any as S.Schema<ListTagsForResourceInput>;
+export interface UntagResourceInput {
+  ResourceArn: string;
+  TagKeys: TagKeyList;
+}
+export const UntagResourceInput = S.suspend(() =>
+  S.Struct({
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: TagKeyList.pipe(T.HttpQuery("TagKeys")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceOutput extends S.Class<UntagResourceOutput>(
-  "UntagResourceOutput",
-)({}) {}
-export class GetScheduleInput extends S.Class<GetScheduleInput>(
-  "GetScheduleInput",
-)(
-  {
+).annotations({
+  identifier: "UntagResourceInput",
+}) as any as S.Schema<UntagResourceInput>;
+export interface UntagResourceOutput {}
+export const UntagResourceOutput = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceOutput",
+}) as any as S.Schema<UntagResourceOutput>;
+export interface GetScheduleInput {
+  Name: string;
+  GroupName?: string;
+}
+export const GetScheduleInput = S.suspend(() =>
+  S.Struct({
     Name: S.String.pipe(T.HttpLabel("Name")),
     GroupName: S.optional(S.String).pipe(T.HttpQuery("groupName")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/schedules/{Name}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/schedules/{Name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeadLetterConfig extends S.Class<DeadLetterConfig>(
-  "DeadLetterConfig",
-)({ Arn: S.optional(S.String) }) {}
-export class RetryPolicy extends S.Class<RetryPolicy>("RetryPolicy")({
-  MaximumEventAgeInSeconds: S.optional(S.Number),
-  MaximumRetryAttempts: S.optional(S.Number),
-}) {}
+).annotations({
+  identifier: "GetScheduleInput",
+}) as any as S.Schema<GetScheduleInput>;
+export interface DeadLetterConfig {
+  Arn?: string;
+}
+export const DeadLetterConfig = S.suspend(() =>
+  S.Struct({ Arn: S.optional(S.String) }),
+).annotations({
+  identifier: "DeadLetterConfig",
+}) as any as S.Schema<DeadLetterConfig>;
+export interface RetryPolicy {
+  MaximumEventAgeInSeconds?: number;
+  MaximumRetryAttempts?: number;
+}
+export const RetryPolicy = S.suspend(() =>
+  S.Struct({
+    MaximumEventAgeInSeconds: S.optional(S.Number),
+    MaximumRetryAttempts: S.optional(S.Number),
+  }),
+).annotations({ identifier: "RetryPolicy" }) as any as S.Schema<RetryPolicy>;
+export type Subnets = string[];
 export const Subnets = S.Array(S.String);
+export type SecurityGroups = string[];
 export const SecurityGroups = S.Array(S.String);
-export class AwsVpcConfiguration extends S.Class<AwsVpcConfiguration>(
-  "AwsVpcConfiguration",
-)({
-  Subnets: Subnets,
-  SecurityGroups: S.optional(SecurityGroups),
-  AssignPublicIp: S.optional(S.String),
-}) {}
-export class NetworkConfiguration extends S.Class<NetworkConfiguration>(
-  "NetworkConfiguration",
-)({ awsvpcConfiguration: S.optional(AwsVpcConfiguration) }) {}
-export class CapacityProviderStrategyItem extends S.Class<CapacityProviderStrategyItem>(
-  "CapacityProviderStrategyItem",
-)({
-  capacityProvider: S.String,
-  weight: S.optional(S.Number),
-  base: S.optional(S.Number),
-}) {}
+export interface AwsVpcConfiguration {
+  Subnets: Subnets;
+  SecurityGroups?: SecurityGroups;
+  AssignPublicIp?: string;
+}
+export const AwsVpcConfiguration = S.suspend(() =>
+  S.Struct({
+    Subnets: Subnets,
+    SecurityGroups: S.optional(SecurityGroups),
+    AssignPublicIp: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AwsVpcConfiguration",
+}) as any as S.Schema<AwsVpcConfiguration>;
+export interface NetworkConfiguration {
+  awsvpcConfiguration?: AwsVpcConfiguration;
+}
+export const NetworkConfiguration = S.suspend(() =>
+  S.Struct({ awsvpcConfiguration: S.optional(AwsVpcConfiguration) }),
+).annotations({
+  identifier: "NetworkConfiguration",
+}) as any as S.Schema<NetworkConfiguration>;
+export interface CapacityProviderStrategyItem {
+  capacityProvider: string;
+  weight?: number;
+  base?: number;
+}
+export const CapacityProviderStrategyItem = S.suspend(() =>
+  S.Struct({
+    capacityProvider: S.String,
+    weight: S.optional(S.Number),
+    base: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "CapacityProviderStrategyItem",
+}) as any as S.Schema<CapacityProviderStrategyItem>;
+export type CapacityProviderStrategy = CapacityProviderStrategyItem[];
 export const CapacityProviderStrategy = S.Array(CapacityProviderStrategyItem);
-export class PlacementConstraint extends S.Class<PlacementConstraint>(
-  "PlacementConstraint",
-)({ type: S.optional(S.String), expression: S.optional(S.String) }) {}
+export interface PlacementConstraint {
+  type?: string;
+  expression?: string;
+}
+export const PlacementConstraint = S.suspend(() =>
+  S.Struct({ type: S.optional(S.String), expression: S.optional(S.String) }),
+).annotations({
+  identifier: "PlacementConstraint",
+}) as any as S.Schema<PlacementConstraint>;
+export type PlacementConstraints = PlacementConstraint[];
 export const PlacementConstraints = S.Array(PlacementConstraint);
-export class PlacementStrategy extends S.Class<PlacementStrategy>(
-  "PlacementStrategy",
-)({ type: S.optional(S.String), field: S.optional(S.String) }) {}
+export interface PlacementStrategy {
+  type?: string;
+  field?: string;
+}
+export const PlacementStrategy = S.suspend(() =>
+  S.Struct({ type: S.optional(S.String), field: S.optional(S.String) }),
+).annotations({
+  identifier: "PlacementStrategy",
+}) as any as S.Schema<PlacementStrategy>;
+export type PlacementStrategies = PlacementStrategy[];
 export const PlacementStrategies = S.Array(PlacementStrategy);
+export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
+export type Tags = TagMap[];
 export const Tags = S.Array(TagMap);
-export class EcsParameters extends S.Class<EcsParameters>("EcsParameters")({
-  TaskDefinitionArn: S.String,
-  TaskCount: S.optional(S.Number),
-  LaunchType: S.optional(S.String),
-  NetworkConfiguration: S.optional(NetworkConfiguration),
-  PlatformVersion: S.optional(S.String),
-  Group: S.optional(S.String),
-  CapacityProviderStrategy: S.optional(CapacityProviderStrategy),
-  EnableECSManagedTags: S.optional(S.Boolean),
-  EnableExecuteCommand: S.optional(S.Boolean),
-  PlacementConstraints: S.optional(PlacementConstraints),
-  PlacementStrategy: S.optional(PlacementStrategies),
-  PropagateTags: S.optional(S.String),
-  ReferenceId: S.optional(S.String),
-  Tags: S.optional(Tags),
-}) {}
-export class EventBridgeParameters extends S.Class<EventBridgeParameters>(
-  "EventBridgeParameters",
-)({ DetailType: S.String, Source: S.String }) {}
-export class KinesisParameters extends S.Class<KinesisParameters>(
-  "KinesisParameters",
-)({ PartitionKey: S.String }) {}
-export class SageMakerPipelineParameter extends S.Class<SageMakerPipelineParameter>(
-  "SageMakerPipelineParameter",
-)({ Name: S.String, Value: S.String }) {}
+export interface EcsParameters {
+  TaskDefinitionArn: string;
+  TaskCount?: number;
+  LaunchType?: string;
+  NetworkConfiguration?: NetworkConfiguration;
+  PlatformVersion?: string;
+  Group?: string;
+  CapacityProviderStrategy?: CapacityProviderStrategy;
+  EnableECSManagedTags?: boolean;
+  EnableExecuteCommand?: boolean;
+  PlacementConstraints?: PlacementConstraints;
+  PlacementStrategy?: PlacementStrategies;
+  PropagateTags?: string;
+  ReferenceId?: string;
+  Tags?: Tags;
+}
+export const EcsParameters = S.suspend(() =>
+  S.Struct({
+    TaskDefinitionArn: S.String,
+    TaskCount: S.optional(S.Number),
+    LaunchType: S.optional(S.String),
+    NetworkConfiguration: S.optional(NetworkConfiguration),
+    PlatformVersion: S.optional(S.String),
+    Group: S.optional(S.String),
+    CapacityProviderStrategy: S.optional(CapacityProviderStrategy),
+    EnableECSManagedTags: S.optional(S.Boolean),
+    EnableExecuteCommand: S.optional(S.Boolean),
+    PlacementConstraints: S.optional(PlacementConstraints),
+    PlacementStrategy: S.optional(PlacementStrategies),
+    PropagateTags: S.optional(S.String),
+    ReferenceId: S.optional(S.String),
+    Tags: S.optional(Tags),
+  }),
+).annotations({
+  identifier: "EcsParameters",
+}) as any as S.Schema<EcsParameters>;
+export interface EventBridgeParameters {
+  DetailType: string;
+  Source: string;
+}
+export const EventBridgeParameters = S.suspend(() =>
+  S.Struct({ DetailType: S.String, Source: S.String }),
+).annotations({
+  identifier: "EventBridgeParameters",
+}) as any as S.Schema<EventBridgeParameters>;
+export interface KinesisParameters {
+  PartitionKey: string;
+}
+export const KinesisParameters = S.suspend(() =>
+  S.Struct({ PartitionKey: S.String }),
+).annotations({
+  identifier: "KinesisParameters",
+}) as any as S.Schema<KinesisParameters>;
+export interface SageMakerPipelineParameter {
+  Name: string;
+  Value: string;
+}
+export const SageMakerPipelineParameter = S.suspend(() =>
+  S.Struct({ Name: S.String, Value: S.String }),
+).annotations({
+  identifier: "SageMakerPipelineParameter",
+}) as any as S.Schema<SageMakerPipelineParameter>;
+export type SageMakerPipelineParameterList = SageMakerPipelineParameter[];
 export const SageMakerPipelineParameterList = S.Array(
   SageMakerPipelineParameter,
 );
-export class SageMakerPipelineParameters extends S.Class<SageMakerPipelineParameters>(
-  "SageMakerPipelineParameters",
-)({ PipelineParameterList: S.optional(SageMakerPipelineParameterList) }) {}
-export class SqsParameters extends S.Class<SqsParameters>("SqsParameters")({
-  MessageGroupId: S.optional(S.String),
-}) {}
-export class Target extends S.Class<Target>("Target")({
-  Arn: S.String,
-  RoleArn: S.String,
-  DeadLetterConfig: S.optional(DeadLetterConfig),
-  RetryPolicy: S.optional(RetryPolicy),
-  Input: S.optional(S.String),
-  EcsParameters: S.optional(EcsParameters),
-  EventBridgeParameters: S.optional(EventBridgeParameters),
-  KinesisParameters: S.optional(KinesisParameters),
-  SageMakerPipelineParameters: S.optional(SageMakerPipelineParameters),
-  SqsParameters: S.optional(SqsParameters),
-}) {}
-export class FlexibleTimeWindow extends S.Class<FlexibleTimeWindow>(
-  "FlexibleTimeWindow",
-)({ Mode: S.String, MaximumWindowInMinutes: S.optional(S.Number) }) {}
-export class UpdateScheduleInput extends S.Class<UpdateScheduleInput>(
-  "UpdateScheduleInput",
-)(
-  {
+export interface SageMakerPipelineParameters {
+  PipelineParameterList?: SageMakerPipelineParameterList;
+}
+export const SageMakerPipelineParameters = S.suspend(() =>
+  S.Struct({
+    PipelineParameterList: S.optional(SageMakerPipelineParameterList),
+  }),
+).annotations({
+  identifier: "SageMakerPipelineParameters",
+}) as any as S.Schema<SageMakerPipelineParameters>;
+export interface SqsParameters {
+  MessageGroupId?: string;
+}
+export const SqsParameters = S.suspend(() =>
+  S.Struct({ MessageGroupId: S.optional(S.String) }),
+).annotations({
+  identifier: "SqsParameters",
+}) as any as S.Schema<SqsParameters>;
+export interface Target {
+  Arn: string;
+  RoleArn: string;
+  DeadLetterConfig?: DeadLetterConfig;
+  RetryPolicy?: RetryPolicy;
+  Input?: string;
+  EcsParameters?: EcsParameters;
+  EventBridgeParameters?: EventBridgeParameters;
+  KinesisParameters?: KinesisParameters;
+  SageMakerPipelineParameters?: SageMakerPipelineParameters;
+  SqsParameters?: SqsParameters;
+}
+export const Target = S.suspend(() =>
+  S.Struct({
+    Arn: S.String,
+    RoleArn: S.String,
+    DeadLetterConfig: S.optional(DeadLetterConfig),
+    RetryPolicy: S.optional(RetryPolicy),
+    Input: S.optional(S.String),
+    EcsParameters: S.optional(EcsParameters),
+    EventBridgeParameters: S.optional(EventBridgeParameters),
+    KinesisParameters: S.optional(KinesisParameters),
+    SageMakerPipelineParameters: S.optional(SageMakerPipelineParameters),
+    SqsParameters: S.optional(SqsParameters),
+  }),
+).annotations({ identifier: "Target" }) as any as S.Schema<Target>;
+export interface FlexibleTimeWindow {
+  Mode: string;
+  MaximumWindowInMinutes?: number;
+}
+export const FlexibleTimeWindow = S.suspend(() =>
+  S.Struct({ Mode: S.String, MaximumWindowInMinutes: S.optional(S.Number) }),
+).annotations({
+  identifier: "FlexibleTimeWindow",
+}) as any as S.Schema<FlexibleTimeWindow>;
+export interface UpdateScheduleInput {
+  Name: string;
+  GroupName?: string;
+  ScheduleExpression: string;
+  StartDate?: Date;
+  EndDate?: Date;
+  Description?: string;
+  ScheduleExpressionTimezone?: string;
+  State?: string;
+  KmsKeyArn?: string;
+  Target: Target;
+  FlexibleTimeWindow: FlexibleTimeWindow;
+  ClientToken?: string;
+  ActionAfterCompletion?: string;
+}
+export const UpdateScheduleInput = S.suspend(() =>
+  S.Struct({
     Name: S.String.pipe(T.HttpLabel("Name")),
     GroupName: S.optional(S.String),
     ScheduleExpression: S.String,
@@ -446,222 +594,375 @@ export class UpdateScheduleInput extends S.Class<UpdateScheduleInput>(
     FlexibleTimeWindow: FlexibleTimeWindow,
     ClientToken: S.optional(S.String),
     ActionAfterCompletion: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/schedules/{Name}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/schedules/{Name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteScheduleInput extends S.Class<DeleteScheduleInput>(
-  "DeleteScheduleInput",
-)(
-  {
+).annotations({
+  identifier: "UpdateScheduleInput",
+}) as any as S.Schema<UpdateScheduleInput>;
+export interface DeleteScheduleInput {
+  Name: string;
+  GroupName?: string;
+  ClientToken?: string;
+}
+export const DeleteScheduleInput = S.suspend(() =>
+  S.Struct({
     Name: S.String.pipe(T.HttpLabel("Name")),
     GroupName: S.optional(S.String).pipe(T.HttpQuery("groupName")),
     ClientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/schedules/{Name}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/schedules/{Name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteScheduleOutput extends S.Class<DeleteScheduleOutput>(
-  "DeleteScheduleOutput",
-)({}) {}
-export class ListSchedulesInput extends S.Class<ListSchedulesInput>(
-  "ListSchedulesInput",
-)(
-  {
+).annotations({
+  identifier: "DeleteScheduleInput",
+}) as any as S.Schema<DeleteScheduleInput>;
+export interface DeleteScheduleOutput {}
+export const DeleteScheduleOutput = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteScheduleOutput",
+}) as any as S.Schema<DeleteScheduleOutput>;
+export interface ListSchedulesInput {
+  GroupName?: string;
+  NamePrefix?: string;
+  State?: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListSchedulesInput = S.suspend(() =>
+  S.Struct({
     GroupName: S.optional(S.String).pipe(T.HttpQuery("ScheduleGroup")),
     NamePrefix: S.optional(S.String).pipe(T.HttpQuery("NamePrefix")),
     State: S.optional(S.String).pipe(T.HttpQuery("State")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/schedules" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/schedules" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class Tag extends S.Class<Tag>("Tag")({
-  Key: S.String,
-  Value: S.String,
-}) {}
+).annotations({
+  identifier: "ListSchedulesInput",
+}) as any as S.Schema<ListSchedulesInput>;
+export interface Tag {
+  Key: string;
+  Value: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ Key: S.String, Value: S.String }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagList = Tag[];
 export const TagList = S.Array(Tag);
-export class CreateScheduleGroupInput extends S.Class<CreateScheduleGroupInput>(
-  "CreateScheduleGroupInput",
-)(
-  {
+export interface CreateScheduleGroupInput {
+  Name: string;
+  Tags?: TagList;
+  ClientToken?: string;
+}
+export const CreateScheduleGroupInput = S.suspend(() =>
+  S.Struct({
     Name: S.String.pipe(T.HttpLabel("Name")),
     Tags: S.optional(TagList),
     ClientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/schedule-groups/{Name}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/schedule-groups/{Name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetScheduleGroupInput extends S.Class<GetScheduleGroupInput>(
-  "GetScheduleGroupInput",
-)(
-  { Name: S.String.pipe(T.HttpLabel("Name")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/schedule-groups/{Name}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CreateScheduleGroupInput",
+}) as any as S.Schema<CreateScheduleGroupInput>;
+export interface GetScheduleGroupInput {
+  Name: string;
+}
+export const GetScheduleGroupInput = S.suspend(() =>
+  S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/schedule-groups/{Name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteScheduleGroupInput extends S.Class<DeleteScheduleGroupInput>(
-  "DeleteScheduleGroupInput",
-)(
-  {
+).annotations({
+  identifier: "GetScheduleGroupInput",
+}) as any as S.Schema<GetScheduleGroupInput>;
+export interface DeleteScheduleGroupInput {
+  Name: string;
+  ClientToken?: string;
+}
+export const DeleteScheduleGroupInput = S.suspend(() =>
+  S.Struct({
     Name: S.String.pipe(T.HttpLabel("Name")),
     ClientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/schedule-groups/{Name}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/schedule-groups/{Name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteScheduleGroupOutput extends S.Class<DeleteScheduleGroupOutput>(
-  "DeleteScheduleGroupOutput",
-)({}) {}
-export class ListScheduleGroupsInput extends S.Class<ListScheduleGroupsInput>(
-  "ListScheduleGroupsInput",
-)(
-  {
+).annotations({
+  identifier: "DeleteScheduleGroupInput",
+}) as any as S.Schema<DeleteScheduleGroupInput>;
+export interface DeleteScheduleGroupOutput {}
+export const DeleteScheduleGroupOutput = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteScheduleGroupOutput",
+}) as any as S.Schema<DeleteScheduleGroupOutput>;
+export interface ListScheduleGroupsInput {
+  NamePrefix?: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListScheduleGroupsInput = S.suspend(() =>
+  S.Struct({
     NamePrefix: S.optional(S.String).pipe(T.HttpQuery("NamePrefix")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/schedule-groups" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/schedule-groups" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTagsForResourceOutput extends S.Class<ListTagsForResourceOutput>(
-  "ListTagsForResourceOutput",
-)({ Tags: S.optional(TagList) }) {}
-export class TagResourceInput extends S.Class<TagResourceInput>(
-  "TagResourceInput",
-)(
-  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")), Tags: TagList },
-  T.all(
-    T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListScheduleGroupsInput",
+}) as any as S.Schema<ListScheduleGroupsInput>;
+export interface ListTagsForResourceOutput {
+  Tags?: TagList;
+}
+export const ListTagsForResourceOutput = S.suspend(() =>
+  S.Struct({ Tags: S.optional(TagList) }),
+).annotations({
+  identifier: "ListTagsForResourceOutput",
+}) as any as S.Schema<ListTagsForResourceOutput>;
+export interface TagResourceInput {
+  ResourceArn: string;
+  Tags: TagList;
+}
+export const TagResourceInput = S.suspend(() =>
+  S.Struct({
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
+    Tags: TagList,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceOutput extends S.Class<TagResourceOutput>(
-  "TagResourceOutput",
-)({}) {}
-export class GetScheduleOutput extends S.Class<GetScheduleOutput>(
-  "GetScheduleOutput",
-)({
-  Arn: S.optional(S.String),
-  GroupName: S.optional(S.String),
-  Name: S.optional(S.String),
-  ScheduleExpression: S.optional(S.String),
-  StartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  EndDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Description: S.optional(S.String),
-  ScheduleExpressionTimezone: S.optional(S.String),
-  State: S.optional(S.String),
-  CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModificationDate: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  KmsKeyArn: S.optional(S.String),
-  Target: S.optional(Target),
-  FlexibleTimeWindow: S.optional(FlexibleTimeWindow),
-  ActionAfterCompletion: S.optional(S.String),
-}) {}
-export class UpdateScheduleOutput extends S.Class<UpdateScheduleOutput>(
-  "UpdateScheduleOutput",
-)({ ScheduleArn: S.String }) {}
-export class CreateScheduleGroupOutput extends S.Class<CreateScheduleGroupOutput>(
-  "CreateScheduleGroupOutput",
-)({ ScheduleGroupArn: S.String }) {}
-export class GetScheduleGroupOutput extends S.Class<GetScheduleGroupOutput>(
-  "GetScheduleGroupOutput",
-)({
-  Arn: S.optional(S.String),
-  Name: S.optional(S.String),
-  State: S.optional(S.String),
-  CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModificationDate: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
-export class ScheduleGroupSummary extends S.Class<ScheduleGroupSummary>(
-  "ScheduleGroupSummary",
-)({
-  Arn: S.optional(S.String),
-  Name: S.optional(S.String),
-  State: S.optional(S.String),
-  CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModificationDate: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
+).annotations({
+  identifier: "TagResourceInput",
+}) as any as S.Schema<TagResourceInput>;
+export interface TagResourceOutput {}
+export const TagResourceOutput = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceOutput",
+}) as any as S.Schema<TagResourceOutput>;
+export interface GetScheduleOutput {
+  Arn?: string;
+  GroupName?: string;
+  Name?: string;
+  ScheduleExpression?: string;
+  StartDate?: Date;
+  EndDate?: Date;
+  Description?: string;
+  ScheduleExpressionTimezone?: string;
+  State?: string;
+  CreationDate?: Date;
+  LastModificationDate?: Date;
+  KmsKeyArn?: string;
+  Target?: Target;
+  FlexibleTimeWindow?: FlexibleTimeWindow;
+  ActionAfterCompletion?: string;
+}
+export const GetScheduleOutput = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    GroupName: S.optional(S.String),
+    Name: S.optional(S.String),
+    ScheduleExpression: S.optional(S.String),
+    StartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EndDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Description: S.optional(S.String),
+    ScheduleExpressionTimezone: S.optional(S.String),
+    State: S.optional(S.String),
+    CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModificationDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    KmsKeyArn: S.optional(S.String),
+    Target: S.optional(Target),
+    FlexibleTimeWindow: S.optional(FlexibleTimeWindow),
+    ActionAfterCompletion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetScheduleOutput",
+}) as any as S.Schema<GetScheduleOutput>;
+export interface UpdateScheduleOutput {
+  ScheduleArn: string;
+}
+export const UpdateScheduleOutput = S.suspend(() =>
+  S.Struct({ ScheduleArn: S.String }),
+).annotations({
+  identifier: "UpdateScheduleOutput",
+}) as any as S.Schema<UpdateScheduleOutput>;
+export interface CreateScheduleGroupOutput {
+  ScheduleGroupArn: string;
+}
+export const CreateScheduleGroupOutput = S.suspend(() =>
+  S.Struct({ ScheduleGroupArn: S.String }),
+).annotations({
+  identifier: "CreateScheduleGroupOutput",
+}) as any as S.Schema<CreateScheduleGroupOutput>;
+export interface GetScheduleGroupOutput {
+  Arn?: string;
+  Name?: string;
+  State?: string;
+  CreationDate?: Date;
+  LastModificationDate?: Date;
+}
+export const GetScheduleGroupOutput = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    Name: S.optional(S.String),
+    State: S.optional(S.String),
+    CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModificationDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "GetScheduleGroupOutput",
+}) as any as S.Schema<GetScheduleGroupOutput>;
+export interface ScheduleGroupSummary {
+  Arn?: string;
+  Name?: string;
+  State?: string;
+  CreationDate?: Date;
+  LastModificationDate?: Date;
+}
+export const ScheduleGroupSummary = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    Name: S.optional(S.String),
+    State: S.optional(S.String),
+    CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModificationDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "ScheduleGroupSummary",
+}) as any as S.Schema<ScheduleGroupSummary>;
+export type ScheduleGroupList = ScheduleGroupSummary[];
 export const ScheduleGroupList = S.Array(ScheduleGroupSummary);
-export class ListScheduleGroupsOutput extends S.Class<ListScheduleGroupsOutput>(
-  "ListScheduleGroupsOutput",
-)({ NextToken: S.optional(S.String), ScheduleGroups: ScheduleGroupList }) {}
-export class TargetSummary extends S.Class<TargetSummary>("TargetSummary")({
-  Arn: S.String,
-}) {}
-export class ScheduleSummary extends S.Class<ScheduleSummary>(
-  "ScheduleSummary",
-)({
-  Arn: S.optional(S.String),
-  Name: S.optional(S.String),
-  GroupName: S.optional(S.String),
-  State: S.optional(S.String),
-  CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModificationDate: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  Target: S.optional(TargetSummary),
-}) {}
+export interface ListScheduleGroupsOutput {
+  NextToken?: string;
+  ScheduleGroups: ScheduleGroupList;
+}
+export const ListScheduleGroupsOutput = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    ScheduleGroups: ScheduleGroupList,
+  }),
+).annotations({
+  identifier: "ListScheduleGroupsOutput",
+}) as any as S.Schema<ListScheduleGroupsOutput>;
+export interface TargetSummary {
+  Arn: string;
+}
+export const TargetSummary = S.suspend(() =>
+  S.Struct({ Arn: S.String }),
+).annotations({
+  identifier: "TargetSummary",
+}) as any as S.Schema<TargetSummary>;
+export interface ScheduleSummary {
+  Arn?: string;
+  Name?: string;
+  GroupName?: string;
+  State?: string;
+  CreationDate?: Date;
+  LastModificationDate?: Date;
+  Target?: TargetSummary;
+}
+export const ScheduleSummary = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    Name: S.optional(S.String),
+    GroupName: S.optional(S.String),
+    State: S.optional(S.String),
+    CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModificationDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    Target: S.optional(TargetSummary),
+  }),
+).annotations({
+  identifier: "ScheduleSummary",
+}) as any as S.Schema<ScheduleSummary>;
+export type ScheduleList = ScheduleSummary[];
 export const ScheduleList = S.Array(ScheduleSummary);
-export class ListSchedulesOutput extends S.Class<ListSchedulesOutput>(
-  "ListSchedulesOutput",
-)({ NextToken: S.optional(S.String), Schedules: ScheduleList }) {}
-export class CreateScheduleInput extends S.Class<CreateScheduleInput>(
-  "CreateScheduleInput",
-)(
-  {
+export interface ListSchedulesOutput {
+  NextToken?: string;
+  Schedules: ScheduleList;
+}
+export const ListSchedulesOutput = S.suspend(() =>
+  S.Struct({ NextToken: S.optional(S.String), Schedules: ScheduleList }),
+).annotations({
+  identifier: "ListSchedulesOutput",
+}) as any as S.Schema<ListSchedulesOutput>;
+export interface CreateScheduleInput {
+  Name: string;
+  GroupName?: string;
+  ScheduleExpression: string;
+  StartDate?: Date;
+  EndDate?: Date;
+  Description?: string;
+  ScheduleExpressionTimezone?: string;
+  State?: string;
+  KmsKeyArn?: string;
+  Target: Target;
+  FlexibleTimeWindow: FlexibleTimeWindow;
+  ClientToken?: string;
+  ActionAfterCompletion?: string;
+}
+export const CreateScheduleInput = S.suspend(() =>
+  S.Struct({
     Name: S.String.pipe(T.HttpLabel("Name")),
     GroupName: S.optional(S.String),
     ScheduleExpression: S.String,
@@ -675,19 +976,27 @@ export class CreateScheduleInput extends S.Class<CreateScheduleInput>(
     FlexibleTimeWindow: FlexibleTimeWindow,
     ClientToken: S.optional(S.String),
     ActionAfterCompletion: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/schedules/{Name}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/schedules/{Name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateScheduleOutput extends S.Class<CreateScheduleOutput>(
-  "CreateScheduleOutput",
-)({ ScheduleArn: S.String }) {}
+).annotations({
+  identifier: "CreateScheduleInput",
+}) as any as S.Schema<CreateScheduleInput>;
+export interface CreateScheduleOutput {
+  ScheduleArn: string;
+}
+export const CreateScheduleOutput = S.suspend(() =>
+  S.Struct({ ScheduleArn: S.String }),
+).annotations({
+  identifier: "CreateScheduleOutput",
+}) as any as S.Schema<CreateScheduleOutput>;
 
 //# Errors
 export class ConflictException extends S.TaggedError<ConflictException>()(

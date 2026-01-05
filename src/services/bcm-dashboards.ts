@@ -122,144 +122,286 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type ResourceTagKeyList = string[];
 export const ResourceTagKeyList = S.Array(S.String);
-export class DeleteDashboardRequest extends S.Class<DeleteDashboardRequest>(
-  "DeleteDashboardRequest",
-)(
-  { arn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetDashboardRequest extends S.Class<GetDashboardRequest>(
-  "GetDashboardRequest",
-)(
-  { arn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetResourcePolicyRequest extends S.Class<GetResourcePolicyRequest>(
-  "GetResourcePolicyRequest",
-)(
-  { resourceArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListDashboardsRequest extends S.Class<ListDashboardsRequest>(
-  "ListDashboardsRequest",
-)(
-  { maxResults: S.optional(S.Number), nextToken: S.optional(S.String) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { resourceArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ResourceTag extends S.Class<ResourceTag>("ResourceTag")({
-  key: S.String,
-  value: S.String,
-}) {}
+export interface DeleteDashboardRequest {
+  arn: string;
+}
+export const DeleteDashboardRequest = S.suspend(() =>
+  S.Struct({ arn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteDashboardRequest",
+}) as any as S.Schema<DeleteDashboardRequest>;
+export interface GetDashboardRequest {
+  arn: string;
+}
+export const GetDashboardRequest = S.suspend(() =>
+  S.Struct({ arn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetDashboardRequest",
+}) as any as S.Schema<GetDashboardRequest>;
+export interface GetResourcePolicyRequest {
+  resourceArn: string;
+}
+export const GetResourcePolicyRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetResourcePolicyRequest",
+}) as any as S.Schema<GetResourcePolicyRequest>;
+export interface ListDashboardsRequest {
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListDashboardsRequest = S.suspend(() =>
+  S.Struct({
+    maxResults: S.optional(S.Number),
+    nextToken: S.optional(S.String),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListDashboardsRequest",
+}) as any as S.Schema<ListDashboardsRequest>;
+export interface ListTagsForResourceRequest {
+  resourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface ResourceTag {
+  key: string;
+  value: string;
+}
+export const ResourceTag = S.suspend(() =>
+  S.Struct({ key: S.String, value: S.String }),
+).annotations({ identifier: "ResourceTag" }) as any as S.Schema<ResourceTag>;
+export type ResourceTagList = ResourceTag[];
 export const ResourceTagList = S.Array(ResourceTag);
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { resourceArn: S.String, resourceTags: ResourceTagList },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  { resourceArn: S.String, resourceTagKeys: ResourceTagKeyList },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
+export interface TagResourceRequest {
+  resourceArn: string;
+  resourceTags: ResourceTagList;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String, resourceTags: ResourceTagList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UntagResourceRequest {
+  resourceArn: string;
+  resourceTagKeys: ResourceTagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String, resourceTagKeys: ResourceTagKeyList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export type MetricNames = string[];
 export const MetricNames = S.Array(S.String);
-export class DateTimeValue extends S.Class<DateTimeValue>("DateTimeValue")({
-  type: S.String,
-  value: S.String,
-}) {}
-export class DateTimeRange extends S.Class<DateTimeRange>("DateTimeRange")({
-  startTime: DateTimeValue,
-  endTime: DateTimeValue,
-}) {}
-export class GroupDefinition extends S.Class<GroupDefinition>(
-  "GroupDefinition",
-)({ key: S.String, type: S.optional(S.String) }) {}
+export interface DateTimeValue {
+  type: string;
+  value: string;
+}
+export const DateTimeValue = S.suspend(() =>
+  S.Struct({ type: S.String, value: S.String }),
+).annotations({
+  identifier: "DateTimeValue",
+}) as any as S.Schema<DateTimeValue>;
+export interface DateTimeRange {
+  startTime: DateTimeValue;
+  endTime: DateTimeValue;
+}
+export const DateTimeRange = S.suspend(() =>
+  S.Struct({ startTime: DateTimeValue, endTime: DateTimeValue }),
+).annotations({
+  identifier: "DateTimeRange",
+}) as any as S.Schema<DateTimeRange>;
+export interface GroupDefinition {
+  key: string;
+  type?: string;
+}
+export const GroupDefinition = S.suspend(() =>
+  S.Struct({ key: S.String, type: S.optional(S.String) }),
+).annotations({
+  identifier: "GroupDefinition",
+}) as any as S.Schema<GroupDefinition>;
+export type GroupDefinitions = GroupDefinition[];
 export const GroupDefinitions = S.Array(GroupDefinition);
+export type StringList = string[];
 export const StringList = S.Array(S.String);
+export type MatchOptions = string[];
 export const MatchOptions = S.Array(S.String);
-export class DimensionValues extends S.Class<DimensionValues>(
-  "DimensionValues",
-)({
-  key: S.String,
-  values: StringList,
-  matchOptions: S.optional(MatchOptions),
-}) {}
-export class TagValues extends S.Class<TagValues>("TagValues")({
-  key: S.optional(S.String),
-  values: S.optional(StringList),
-  matchOptions: S.optional(MatchOptions),
-}) {}
-export class CostCategoryValues extends S.Class<CostCategoryValues>(
-  "CostCategoryValues",
-)({
-  key: S.optional(S.String),
-  values: S.optional(StringList),
-  matchOptions: S.optional(MatchOptions),
-}) {}
-export class Expression extends S.Class<Expression>("Expression")({
-  or: S.optional(S.suspend(() => Expressions)),
-  and: S.optional(S.suspend(() => Expressions)),
-  not: S.optional(S.suspend((): S.Schema<Expression, any> => Expression)),
-  dimensions: S.optional(DimensionValues),
-  tags: S.optional(TagValues),
-  costCategories: S.optional(CostCategoryValues),
-}) {}
-export class CostAndUsageQuery extends S.Class<CostAndUsageQuery>(
-  "CostAndUsageQuery",
-)({
-  metrics: MetricNames,
-  timeRange: DateTimeRange,
-  granularity: S.String,
-  groupBy: S.optional(GroupDefinitions),
-  filter: S.optional(Expression),
-}) {}
-export class SavingsPlansCoverageQuery extends S.Class<SavingsPlansCoverageQuery>(
-  "SavingsPlansCoverageQuery",
-)({
-  timeRange: DateTimeRange,
-  metrics: S.optional(MetricNames),
-  granularity: S.optional(S.String),
-  groupBy: S.optional(GroupDefinitions),
-  filter: S.optional(Expression),
-}) {}
-export class SavingsPlansUtilizationQuery extends S.Class<SavingsPlansUtilizationQuery>(
-  "SavingsPlansUtilizationQuery",
-)({
-  timeRange: DateTimeRange,
-  granularity: S.optional(S.String),
-  filter: S.optional(Expression),
-}) {}
-export class ReservationCoverageQuery extends S.Class<ReservationCoverageQuery>(
-  "ReservationCoverageQuery",
-)({
-  timeRange: DateTimeRange,
-  groupBy: S.optional(GroupDefinitions),
-  granularity: S.optional(S.String),
-  filter: S.optional(Expression),
-  metrics: S.optional(MetricNames),
-}) {}
-export class ReservationUtilizationQuery extends S.Class<ReservationUtilizationQuery>(
-  "ReservationUtilizationQuery",
-)({
-  timeRange: DateTimeRange,
-  groupBy: S.optional(GroupDefinitions),
-  granularity: S.optional(S.String),
-  filter: S.optional(Expression),
-}) {}
+export interface DimensionValues {
+  key: string;
+  values: StringList;
+  matchOptions?: MatchOptions;
+}
+export const DimensionValues = S.suspend(() =>
+  S.Struct({
+    key: S.String,
+    values: StringList,
+    matchOptions: S.optional(MatchOptions),
+  }),
+).annotations({
+  identifier: "DimensionValues",
+}) as any as S.Schema<DimensionValues>;
+export interface TagValues {
+  key?: string;
+  values?: StringList;
+  matchOptions?: MatchOptions;
+}
+export const TagValues = S.suspend(() =>
+  S.Struct({
+    key: S.optional(S.String),
+    values: S.optional(StringList),
+    matchOptions: S.optional(MatchOptions),
+  }),
+).annotations({ identifier: "TagValues" }) as any as S.Schema<TagValues>;
+export interface CostCategoryValues {
+  key?: string;
+  values?: StringList;
+  matchOptions?: MatchOptions;
+}
+export const CostCategoryValues = S.suspend(() =>
+  S.Struct({
+    key: S.optional(S.String),
+    values: S.optional(StringList),
+    matchOptions: S.optional(MatchOptions),
+  }),
+).annotations({
+  identifier: "CostCategoryValues",
+}) as any as S.Schema<CostCategoryValues>;
+export interface Expression {
+  or?: Expressions;
+  and?: Expressions;
+  not?: Expression;
+  dimensions?: DimensionValues;
+  tags?: TagValues;
+  costCategories?: CostCategoryValues;
+}
+export const Expression = S.suspend(() =>
+  S.Struct({
+    or: S.optional(
+      S.suspend(() => Expressions).annotations({ identifier: "Expressions" }),
+    ),
+    and: S.optional(
+      S.suspend(() => Expressions).annotations({ identifier: "Expressions" }),
+    ),
+    not: S.optional(
+      S.suspend((): S.Schema<Expression, any> => Expression).annotations({
+        identifier: "Expression",
+      }),
+    ),
+    dimensions: S.optional(DimensionValues),
+    tags: S.optional(TagValues),
+    costCategories: S.optional(CostCategoryValues),
+  }),
+).annotations({ identifier: "Expression" }) as any as S.Schema<Expression>;
+export interface CostAndUsageQuery {
+  metrics: MetricNames;
+  timeRange: DateTimeRange;
+  granularity: string;
+  groupBy?: GroupDefinitions;
+  filter?: Expression;
+}
+export const CostAndUsageQuery = S.suspend(() =>
+  S.Struct({
+    metrics: MetricNames,
+    timeRange: DateTimeRange,
+    granularity: S.String,
+    groupBy: S.optional(GroupDefinitions),
+    filter: S.optional(Expression),
+  }),
+).annotations({
+  identifier: "CostAndUsageQuery",
+}) as any as S.Schema<CostAndUsageQuery>;
+export interface SavingsPlansCoverageQuery {
+  timeRange: DateTimeRange;
+  metrics?: MetricNames;
+  granularity?: string;
+  groupBy?: GroupDefinitions;
+  filter?: Expression;
+}
+export const SavingsPlansCoverageQuery = S.suspend(() =>
+  S.Struct({
+    timeRange: DateTimeRange,
+    metrics: S.optional(MetricNames),
+    granularity: S.optional(S.String),
+    groupBy: S.optional(GroupDefinitions),
+    filter: S.optional(Expression),
+  }),
+).annotations({
+  identifier: "SavingsPlansCoverageQuery",
+}) as any as S.Schema<SavingsPlansCoverageQuery>;
+export interface SavingsPlansUtilizationQuery {
+  timeRange: DateTimeRange;
+  granularity?: string;
+  filter?: Expression;
+}
+export const SavingsPlansUtilizationQuery = S.suspend(() =>
+  S.Struct({
+    timeRange: DateTimeRange,
+    granularity: S.optional(S.String),
+    filter: S.optional(Expression),
+  }),
+).annotations({
+  identifier: "SavingsPlansUtilizationQuery",
+}) as any as S.Schema<SavingsPlansUtilizationQuery>;
+export interface ReservationCoverageQuery {
+  timeRange: DateTimeRange;
+  groupBy?: GroupDefinitions;
+  granularity?: string;
+  filter?: Expression;
+  metrics?: MetricNames;
+}
+export const ReservationCoverageQuery = S.suspend(() =>
+  S.Struct({
+    timeRange: DateTimeRange,
+    groupBy: S.optional(GroupDefinitions),
+    granularity: S.optional(S.String),
+    filter: S.optional(Expression),
+    metrics: S.optional(MetricNames),
+  }),
+).annotations({
+  identifier: "ReservationCoverageQuery",
+}) as any as S.Schema<ReservationCoverageQuery>;
+export interface ReservationUtilizationQuery {
+  timeRange: DateTimeRange;
+  groupBy?: GroupDefinitions;
+  granularity?: string;
+  filter?: Expression;
+}
+export const ReservationUtilizationQuery = S.suspend(() =>
+  S.Struct({
+    timeRange: DateTimeRange,
+    groupBy: S.optional(GroupDefinitions),
+    granularity: S.optional(S.String),
+    filter: S.optional(Expression),
+  }),
+).annotations({
+  identifier: "ReservationUtilizationQuery",
+}) as any as S.Schema<ReservationUtilizationQuery>;
 export const QueryParameters = S.Union(
   S.Struct({ costAndUsage: CostAndUsageQuery }),
   S.Struct({ savingsPlansCoverage: SavingsPlansCoverageQuery }),
@@ -267,100 +409,197 @@ export const QueryParameters = S.Union(
   S.Struct({ reservationCoverage: ReservationCoverageQuery }),
   S.Struct({ reservationUtilization: ReservationUtilizationQuery }),
 );
-export class GraphDisplayConfig extends S.Class<GraphDisplayConfig>(
-  "GraphDisplayConfig",
-)({ visualType: S.String }) {}
+export interface GraphDisplayConfig {
+  visualType: string;
+}
+export const GraphDisplayConfig = S.suspend(() =>
+  S.Struct({ visualType: S.String }),
+).annotations({
+  identifier: "GraphDisplayConfig",
+}) as any as S.Schema<GraphDisplayConfig>;
+export type GraphDisplayConfigMap = { [key: string]: GraphDisplayConfig };
 export const GraphDisplayConfigMap = S.Record({
   key: S.String,
   value: GraphDisplayConfig,
 });
-export class TableDisplayConfigStruct extends S.Class<TableDisplayConfigStruct>(
-  "TableDisplayConfigStruct",
-)({}) {}
+export interface TableDisplayConfigStruct {}
+export const TableDisplayConfigStruct = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "TableDisplayConfigStruct",
+}) as any as S.Schema<TableDisplayConfigStruct>;
 export const DisplayConfig = S.Union(
   S.Struct({ graph: GraphDisplayConfigMap }),
   S.Struct({ table: TableDisplayConfigStruct }),
 );
-export class WidgetConfig extends S.Class<WidgetConfig>("WidgetConfig")({
-  queryParameters: QueryParameters,
-  displayConfig: DisplayConfig,
-}) {}
+export interface WidgetConfig {
+  queryParameters: (typeof QueryParameters)["Type"];
+  displayConfig: (typeof DisplayConfig)["Type"];
+}
+export const WidgetConfig = S.suspend(() =>
+  S.Struct({ queryParameters: QueryParameters, displayConfig: DisplayConfig }),
+).annotations({ identifier: "WidgetConfig" }) as any as S.Schema<WidgetConfig>;
+export type WidgetConfigList = WidgetConfig[];
 export const WidgetConfigList = S.Array(WidgetConfig);
-export class Widget extends S.Class<Widget>("Widget")({
-  title: S.String,
-  description: S.optional(S.String),
-  width: S.optional(S.Number),
-  height: S.optional(S.Number),
-  horizontalOffset: S.optional(S.Number),
-  configs: WidgetConfigList,
-}) {}
+export interface Widget {
+  title: string;
+  description?: string;
+  width?: number;
+  height?: number;
+  horizontalOffset?: number;
+  configs: WidgetConfigList;
+}
+export const Widget = S.suspend(() =>
+  S.Struct({
+    title: S.String,
+    description: S.optional(S.String),
+    width: S.optional(S.Number),
+    height: S.optional(S.Number),
+    horizontalOffset: S.optional(S.Number),
+    configs: WidgetConfigList,
+  }),
+).annotations({ identifier: "Widget" }) as any as S.Schema<Widget>;
+export type WidgetList = Widget[];
 export const WidgetList = S.Array(Widget);
-export class UpdateDashboardRequest extends S.Class<UpdateDashboardRequest>(
-  "UpdateDashboardRequest",
-)(
-  {
+export interface UpdateDashboardRequest {
+  arn: string;
+  name?: string;
+  description?: string;
+  widgets?: WidgetList;
+}
+export const UpdateDashboardRequest = S.suspend(() =>
+  S.Struct({
     arn: S.String,
     name: S.optional(S.String),
     description: S.optional(S.String),
     widgets: S.optional(WidgetList),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteDashboardResponse extends S.Class<DeleteDashboardResponse>(
-  "DeleteDashboardResponse",
-)({ arn: S.String }) {}
-export class GetDashboardResponse extends S.Class<GetDashboardResponse>(
-  "GetDashboardResponse",
-)({
-  arn: S.String,
-  name: S.String,
-  description: S.optional(S.String),
-  type: S.String,
-  widgets: WidgetList,
-  createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-}) {}
-export class GetResourcePolicyResponse extends S.Class<GetResourcePolicyResponse>(
-  "GetResourcePolicyResponse",
-)({ resourceArn: S.String, policyDocument: S.String }) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ resourceTags: S.optional(ResourceTagList) }) {}
-export class UpdateDashboardResponse extends S.Class<UpdateDashboardResponse>(
-  "UpdateDashboardResponse",
-)({ arn: S.String }) {}
-export class DashboardReference extends S.Class<DashboardReference>(
-  "DashboardReference",
-)({
-  arn: S.String,
-  name: S.String,
-  description: S.optional(S.String),
-  type: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateDashboardRequest",
+}) as any as S.Schema<UpdateDashboardRequest>;
+export interface DeleteDashboardResponse {
+  arn: string;
+}
+export const DeleteDashboardResponse = S.suspend(() =>
+  S.Struct({ arn: S.String }),
+).annotations({
+  identifier: "DeleteDashboardResponse",
+}) as any as S.Schema<DeleteDashboardResponse>;
+export interface GetDashboardResponse {
+  arn: string;
+  name: string;
+  description?: string;
+  type: string;
+  widgets: WidgetList;
+  createdAt: Date;
+  updatedAt: Date;
+}
+export const GetDashboardResponse = S.suspend(() =>
+  S.Struct({
+    arn: S.String,
+    name: S.String,
+    description: S.optional(S.String),
+    type: S.String,
+    widgets: WidgetList,
+    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotations({
+  identifier: "GetDashboardResponse",
+}) as any as S.Schema<GetDashboardResponse>;
+export interface GetResourcePolicyResponse {
+  resourceArn: string;
+  policyDocument: string;
+}
+export const GetResourcePolicyResponse = S.suspend(() =>
+  S.Struct({ resourceArn: S.String, policyDocument: S.String }),
+).annotations({
+  identifier: "GetResourcePolicyResponse",
+}) as any as S.Schema<GetResourcePolicyResponse>;
+export interface ListTagsForResourceResponse {
+  resourceTags?: ResourceTagList;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ resourceTags: S.optional(ResourceTagList) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface UpdateDashboardResponse {
+  arn: string;
+}
+export const UpdateDashboardResponse = S.suspend(() =>
+  S.Struct({ arn: S.String }),
+).annotations({
+  identifier: "UpdateDashboardResponse",
+}) as any as S.Schema<UpdateDashboardResponse>;
+export interface DashboardReference {
+  arn: string;
+  name: string;
+  description?: string;
+  type: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+export const DashboardReference = S.suspend(() =>
+  S.Struct({
+    arn: S.String,
+    name: S.String,
+    description: S.optional(S.String),
+    type: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotations({
+  identifier: "DashboardReference",
+}) as any as S.Schema<DashboardReference>;
+export type DashboardReferenceList = DashboardReference[];
 export const DashboardReferenceList = S.Array(DashboardReference);
-export class ListDashboardsResponse extends S.Class<ListDashboardsResponse>(
-  "ListDashboardsResponse",
-)({ dashboards: DashboardReferenceList, nextToken: S.optional(S.String) }) {}
+export interface ListDashboardsResponse {
+  dashboards: DashboardReferenceList;
+  nextToken?: string;
+}
+export const ListDashboardsResponse = S.suspend(() =>
+  S.Struct({
+    dashboards: DashboardReferenceList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListDashboardsResponse",
+}) as any as S.Schema<ListDashboardsResponse>;
 export type Expressions = Expression[];
 export const Expressions = S.Array(
-  S.suspend((): S.Schema<Expression, any> => Expression),
+  S.suspend((): S.Schema<Expression, any> => Expression).annotations({
+    identifier: "Expression",
+  }),
 ) as any as S.Schema<Expressions>;
-export class CreateDashboardRequest extends S.Class<CreateDashboardRequest>(
-  "CreateDashboardRequest",
-)(
-  {
+export interface CreateDashboardRequest {
+  name: string;
+  description?: string;
+  widgets: WidgetList;
+  resourceTags?: ResourceTagList;
+}
+export const CreateDashboardRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     description: S.optional(S.String),
     widgets: WidgetList,
     resourceTags: S.optional(ResourceTagList),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateDashboardResponse extends S.Class<CreateDashboardResponse>(
-  "CreateDashboardResponse",
-)({ arn: S.String }) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateDashboardRequest",
+}) as any as S.Schema<CreateDashboardRequest>;
+export interface CreateDashboardResponse {
+  arn: string;
+}
+export const CreateDashboardResponse = S.suspend(() =>
+  S.Struct({ arn: S.String }),
+).annotations({
+  identifier: "CreateDashboardResponse",
+}) as any as S.Schema<CreateDashboardResponse>;
 
 //# Errors
 export class InternalServerException extends S.TaggedError<InternalServerException>()(

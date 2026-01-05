@@ -242,1328 +242,2450 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class DescribeAccountHealthRequest extends S.Class<DescribeAccountHealthRequest>(
-  "DescribeAccountHealthRequest",
-)(
-  {},
-  T.all(
-    T.Http({ method: "GET", uri: "/accounts/health" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface DescribeAccountHealthRequest {}
+export const DescribeAccountHealthRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/accounts/health" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeEventSourcesConfigRequest extends S.Class<DescribeEventSourcesConfigRequest>(
-  "DescribeEventSourcesConfigRequest",
-)(
-  {},
-  T.all(
-    T.Http({ method: "POST", uri: "/event-sources" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DescribeAccountHealthRequest",
+}) as any as S.Schema<DescribeAccountHealthRequest>;
+export interface DescribeEventSourcesConfigRequest {}
+export const DescribeEventSourcesConfigRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/event-sources" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeServiceIntegrationRequest extends S.Class<DescribeServiceIntegrationRequest>(
-  "DescribeServiceIntegrationRequest",
-)(
-  {},
-  T.all(
-    T.Http({ method: "GET", uri: "/service-integrations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DescribeEventSourcesConfigRequest",
+}) as any as S.Schema<DescribeEventSourcesConfigRequest>;
+export interface DescribeServiceIntegrationRequest {}
+export const DescribeServiceIntegrationRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/service-integrations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "DescribeServiceIntegrationRequest",
+}) as any as S.Schema<DescribeServiceIntegrationRequest>;
+export type AccountIdList = string[];
 export const AccountIdList = S.Array(S.String);
+export type OrganizationalUnitIdList = string[];
 export const OrganizationalUnitIdList = S.Array(S.String);
+export type ListInsightsAccountIdList = string[];
 export const ListInsightsAccountIdList = S.Array(S.String);
+export type ListInsightsOrganizationalUnitIdList = string[];
 export const ListInsightsOrganizationalUnitIdList = S.Array(S.String);
+export type SearchInsightsAccountIdList = string[];
 export const SearchInsightsAccountIdList = S.Array(S.String);
-export class DeleteInsightRequest extends S.Class<DeleteInsightRequest>(
-  "DeleteInsightRequest",
-)(
-  { Id: S.String.pipe(T.HttpLabel("Id")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/insights/{Id}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface DeleteInsightRequest {
+  Id: string;
+}
+export const DeleteInsightRequest = S.suspend(() =>
+  S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/insights/{Id}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteInsightResponse extends S.Class<DeleteInsightResponse>(
-  "DeleteInsightResponse",
-)({}) {}
-export class DescribeAccountHealthResponse extends S.Class<DescribeAccountHealthResponse>(
-  "DescribeAccountHealthResponse",
-)({
-  OpenReactiveInsights: S.Number,
-  OpenProactiveInsights: S.Number,
-  MetricsAnalyzed: S.Number,
-  ResourceHours: S.Number,
-  AnalyzedResourceCount: S.optional(S.Number),
-}) {}
-export class DescribeAccountOverviewRequest extends S.Class<DescribeAccountOverviewRequest>(
-  "DescribeAccountOverviewRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteInsightRequest",
+}) as any as S.Schema<DeleteInsightRequest>;
+export interface DeleteInsightResponse {}
+export const DeleteInsightResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteInsightResponse",
+}) as any as S.Schema<DeleteInsightResponse>;
+export interface DescribeAccountHealthResponse {
+  OpenReactiveInsights: number;
+  OpenProactiveInsights: number;
+  MetricsAnalyzed: number;
+  ResourceHours: number;
+  AnalyzedResourceCount?: number;
+}
+export const DescribeAccountHealthResponse = S.suspend(() =>
+  S.Struct({
+    OpenReactiveInsights: S.Number,
+    OpenProactiveInsights: S.Number,
+    MetricsAnalyzed: S.Number,
+    ResourceHours: S.Number,
+    AnalyzedResourceCount: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "DescribeAccountHealthResponse",
+}) as any as S.Schema<DescribeAccountHealthResponse>;
+export interface DescribeAccountOverviewRequest {
+  FromTime: Date;
+  ToTime?: Date;
+}
+export const DescribeAccountOverviewRequest = S.suspend(() =>
+  S.Struct({
     FromTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ToTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/accounts/overview" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/accounts/overview" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeAnomalyRequest extends S.Class<DescribeAnomalyRequest>(
-  "DescribeAnomalyRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeAccountOverviewRequest",
+}) as any as S.Schema<DescribeAccountOverviewRequest>;
+export interface DescribeAnomalyRequest {
+  Id: string;
+  AccountId?: string;
+}
+export const DescribeAnomalyRequest = S.suspend(() =>
+  S.Struct({
     Id: S.String.pipe(T.HttpLabel("Id")),
     AccountId: S.optional(S.String).pipe(T.HttpQuery("AccountId")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/anomalies/{Id}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/anomalies/{Id}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeFeedbackRequest extends S.Class<DescribeFeedbackRequest>(
-  "DescribeFeedbackRequest",
-)(
-  { InsightId: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/feedback" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DescribeAnomalyRequest",
+}) as any as S.Schema<DescribeAnomalyRequest>;
+export interface DescribeFeedbackRequest {
+  InsightId?: string;
+}
+export const DescribeFeedbackRequest = S.suspend(() =>
+  S.Struct({ InsightId: S.optional(S.String) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/feedback" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeInsightRequest extends S.Class<DescribeInsightRequest>(
-  "DescribeInsightRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeFeedbackRequest",
+}) as any as S.Schema<DescribeFeedbackRequest>;
+export interface DescribeInsightRequest {
+  Id: string;
+  AccountId?: string;
+}
+export const DescribeInsightRequest = S.suspend(() =>
+  S.Struct({
     Id: S.String.pipe(T.HttpLabel("Id")),
     AccountId: S.optional(S.String).pipe(T.HttpQuery("AccountId")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/insights/{Id}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/insights/{Id}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeOrganizationHealthRequest extends S.Class<DescribeOrganizationHealthRequest>(
-  "DescribeOrganizationHealthRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeInsightRequest",
+}) as any as S.Schema<DescribeInsightRequest>;
+export interface DescribeOrganizationHealthRequest {
+  AccountIds?: AccountIdList;
+  OrganizationalUnitIds?: OrganizationalUnitIdList;
+}
+export const DescribeOrganizationHealthRequest = S.suspend(() =>
+  S.Struct({
     AccountIds: S.optional(AccountIdList),
     OrganizationalUnitIds: S.optional(OrganizationalUnitIdList),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/organization/health" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/organization/health" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeOrganizationOverviewRequest extends S.Class<DescribeOrganizationOverviewRequest>(
-  "DescribeOrganizationOverviewRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeOrganizationHealthRequest",
+}) as any as S.Schema<DescribeOrganizationHealthRequest>;
+export interface DescribeOrganizationOverviewRequest {
+  FromTime: Date;
+  ToTime?: Date;
+  AccountIds?: AccountIdList;
+  OrganizationalUnitIds?: OrganizationalUnitIdList;
+}
+export const DescribeOrganizationOverviewRequest = S.suspend(() =>
+  S.Struct({
     FromTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ToTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     AccountIds: S.optional(AccountIdList),
     OrganizationalUnitIds: S.optional(OrganizationalUnitIdList),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/organization/overview" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/organization/overview" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeOrganizationResourceCollectionHealthRequest extends S.Class<DescribeOrganizationResourceCollectionHealthRequest>(
-  "DescribeOrganizationResourceCollectionHealthRequest",
-)(
-  {
-    OrganizationResourceCollectionType: S.String,
-    AccountIds: S.optional(AccountIdList),
-    OrganizationalUnitIds: S.optional(OrganizationalUnitIdList),
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/organization/health/resource-collection" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-  ),
-) {}
-export class DescribeResourceCollectionHealthRequest extends S.Class<DescribeResourceCollectionHealthRequest>(
-  "DescribeResourceCollectionHealthRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeOrganizationOverviewRequest",
+}) as any as S.Schema<DescribeOrganizationOverviewRequest>;
+export interface DescribeOrganizationResourceCollectionHealthRequest {
+  OrganizationResourceCollectionType: string;
+  AccountIds?: AccountIdList;
+  OrganizationalUnitIds?: OrganizationalUnitIdList;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const DescribeOrganizationResourceCollectionHealthRequest = S.suspend(
+  () =>
+    S.Struct({
+      OrganizationResourceCollectionType: S.String,
+      AccountIds: S.optional(AccountIdList),
+      OrganizationalUnitIds: S.optional(OrganizationalUnitIdList),
+      NextToken: S.optional(S.String),
+      MaxResults: S.optional(S.Number),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/organization/health/resource-collection",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+).annotations({
+  identifier: "DescribeOrganizationResourceCollectionHealthRequest",
+}) as any as S.Schema<DescribeOrganizationResourceCollectionHealthRequest>;
+export interface DescribeResourceCollectionHealthRequest {
+  ResourceCollectionType: string;
+  NextToken?: string;
+}
+export const DescribeResourceCollectionHealthRequest = S.suspend(() =>
+  S.Struct({
     ResourceCollectionType: S.String.pipe(
       T.HttpLabel("ResourceCollectionType"),
     ),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/accounts/health/resource-collection/{ResourceCollectionType}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/accounts/health/resource-collection/{ResourceCollectionType}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetCostEstimationRequest extends S.Class<GetCostEstimationRequest>(
-  "GetCostEstimationRequest",
-)(
-  { NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/cost-estimation" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DescribeResourceCollectionHealthRequest",
+}) as any as S.Schema<DescribeResourceCollectionHealthRequest>;
+export interface GetCostEstimationRequest {
+  NextToken?: string;
+}
+export const GetCostEstimationRequest = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/cost-estimation" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetResourceCollectionRequest extends S.Class<GetResourceCollectionRequest>(
-  "GetResourceCollectionRequest",
-)(
-  {
+).annotations({
+  identifier: "GetCostEstimationRequest",
+}) as any as S.Schema<GetCostEstimationRequest>;
+export interface GetResourceCollectionRequest {
+  ResourceCollectionType: string;
+  NextToken?: string;
+}
+export const GetResourceCollectionRequest = S.suspend(() =>
+  S.Struct({
     ResourceCollectionType: S.String.pipe(
       T.HttpLabel("ResourceCollectionType"),
     ),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/resource-collections/{ResourceCollectionType}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/resource-collections/{ResourceCollectionType}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListAnomalousLogGroupsRequest extends S.Class<ListAnomalousLogGroupsRequest>(
-  "ListAnomalousLogGroupsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetResourceCollectionRequest",
+}) as any as S.Schema<GetResourceCollectionRequest>;
+export interface ListAnomalousLogGroupsRequest {
+  InsightId: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListAnomalousLogGroupsRequest = S.suspend(() =>
+  S.Struct({
     InsightId: S.String,
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/list-log-anomalies" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/list-log-anomalies" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListNotificationChannelsRequest extends S.Class<ListNotificationChannelsRequest>(
-  "ListNotificationChannelsRequest",
-)(
-  { NextToken: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/channels" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListAnomalousLogGroupsRequest",
+}) as any as S.Schema<ListAnomalousLogGroupsRequest>;
+export interface ListNotificationChannelsRequest {
+  NextToken?: string;
+}
+export const ListNotificationChannelsRequest = S.suspend(() =>
+  S.Struct({ NextToken: S.optional(S.String) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/channels" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListInsightsOngoingStatusFilter extends S.Class<ListInsightsOngoingStatusFilter>(
-  "ListInsightsOngoingStatusFilter",
-)({ Type: S.String }) {}
-export class EndTimeRange extends S.Class<EndTimeRange>("EndTimeRange")({
-  FromTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  ToTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class ListInsightsClosedStatusFilter extends S.Class<ListInsightsClosedStatusFilter>(
-  "ListInsightsClosedStatusFilter",
-)({ Type: S.String, EndTimeRange: EndTimeRange }) {}
-export class StartTimeRange extends S.Class<StartTimeRange>("StartTimeRange")({
-  FromTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  ToTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class ListInsightsAnyStatusFilter extends S.Class<ListInsightsAnyStatusFilter>(
-  "ListInsightsAnyStatusFilter",
-)({ Type: S.String, StartTimeRange: StartTimeRange }) {}
-export class ListInsightsStatusFilter extends S.Class<ListInsightsStatusFilter>(
-  "ListInsightsStatusFilter",
-)({
-  Ongoing: S.optional(ListInsightsOngoingStatusFilter),
-  Closed: S.optional(ListInsightsClosedStatusFilter),
-  Any: S.optional(ListInsightsAnyStatusFilter),
-}) {}
-export class ListOrganizationInsightsRequest extends S.Class<ListOrganizationInsightsRequest>(
-  "ListOrganizationInsightsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListNotificationChannelsRequest",
+}) as any as S.Schema<ListNotificationChannelsRequest>;
+export interface ListInsightsOngoingStatusFilter {
+  Type: string;
+}
+export const ListInsightsOngoingStatusFilter = S.suspend(() =>
+  S.Struct({ Type: S.String }),
+).annotations({
+  identifier: "ListInsightsOngoingStatusFilter",
+}) as any as S.Schema<ListInsightsOngoingStatusFilter>;
+export interface EndTimeRange {
+  FromTime?: Date;
+  ToTime?: Date;
+}
+export const EndTimeRange = S.suspend(() =>
+  S.Struct({
+    FromTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ToTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({ identifier: "EndTimeRange" }) as any as S.Schema<EndTimeRange>;
+export interface ListInsightsClosedStatusFilter {
+  Type: string;
+  EndTimeRange: EndTimeRange;
+}
+export const ListInsightsClosedStatusFilter = S.suspend(() =>
+  S.Struct({ Type: S.String, EndTimeRange: EndTimeRange }),
+).annotations({
+  identifier: "ListInsightsClosedStatusFilter",
+}) as any as S.Schema<ListInsightsClosedStatusFilter>;
+export interface StartTimeRange {
+  FromTime?: Date;
+  ToTime?: Date;
+}
+export const StartTimeRange = S.suspend(() =>
+  S.Struct({
+    FromTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ToTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "StartTimeRange",
+}) as any as S.Schema<StartTimeRange>;
+export interface ListInsightsAnyStatusFilter {
+  Type: string;
+  StartTimeRange: StartTimeRange;
+}
+export const ListInsightsAnyStatusFilter = S.suspend(() =>
+  S.Struct({ Type: S.String, StartTimeRange: StartTimeRange }),
+).annotations({
+  identifier: "ListInsightsAnyStatusFilter",
+}) as any as S.Schema<ListInsightsAnyStatusFilter>;
+export interface ListInsightsStatusFilter {
+  Ongoing?: ListInsightsOngoingStatusFilter;
+  Closed?: ListInsightsClosedStatusFilter;
+  Any?: ListInsightsAnyStatusFilter;
+}
+export const ListInsightsStatusFilter = S.suspend(() =>
+  S.Struct({
+    Ongoing: S.optional(ListInsightsOngoingStatusFilter),
+    Closed: S.optional(ListInsightsClosedStatusFilter),
+    Any: S.optional(ListInsightsAnyStatusFilter),
+  }),
+).annotations({
+  identifier: "ListInsightsStatusFilter",
+}) as any as S.Schema<ListInsightsStatusFilter>;
+export interface ListOrganizationInsightsRequest {
+  StatusFilter: ListInsightsStatusFilter;
+  MaxResults?: number;
+  AccountIds?: ListInsightsAccountIdList;
+  OrganizationalUnitIds?: ListInsightsOrganizationalUnitIdList;
+  NextToken?: string;
+}
+export const ListOrganizationInsightsRequest = S.suspend(() =>
+  S.Struct({
     StatusFilter: ListInsightsStatusFilter,
     MaxResults: S.optional(S.Number),
     AccountIds: S.optional(ListInsightsAccountIdList),
     OrganizationalUnitIds: S.optional(ListInsightsOrganizationalUnitIdList),
     NextToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/organization/insights" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/organization/insights" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListRecommendationsRequest extends S.Class<ListRecommendationsRequest>(
-  "ListRecommendationsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListOrganizationInsightsRequest",
+}) as any as S.Schema<ListOrganizationInsightsRequest>;
+export interface ListRecommendationsRequest {
+  InsightId: string;
+  NextToken?: string;
+  Locale?: string;
+  AccountId?: string;
+}
+export const ListRecommendationsRequest = S.suspend(() =>
+  S.Struct({
     InsightId: S.String,
     NextToken: S.optional(S.String),
     Locale: S.optional(S.String),
     AccountId: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/recommendations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/recommendations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class RemoveNotificationChannelRequest extends S.Class<RemoveNotificationChannelRequest>(
-  "RemoveNotificationChannelRequest",
-)(
-  { Id: S.String.pipe(T.HttpLabel("Id")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/channels/{Id}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListRecommendationsRequest",
+}) as any as S.Schema<ListRecommendationsRequest>;
+export interface RemoveNotificationChannelRequest {
+  Id: string;
+}
+export const RemoveNotificationChannelRequest = S.suspend(() =>
+  S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/channels/{Id}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class RemoveNotificationChannelResponse extends S.Class<RemoveNotificationChannelResponse>(
-  "RemoveNotificationChannelResponse",
-)({}) {}
-export class AmazonCodeGuruProfilerIntegration extends S.Class<AmazonCodeGuruProfilerIntegration>(
-  "AmazonCodeGuruProfilerIntegration",
-)({ Status: S.optional(S.String) }) {}
-export class EventSourcesConfig extends S.Class<EventSourcesConfig>(
-  "EventSourcesConfig",
-)({ AmazonCodeGuruProfiler: S.optional(AmazonCodeGuruProfilerIntegration) }) {}
-export class UpdateEventSourcesConfigRequest extends S.Class<UpdateEventSourcesConfigRequest>(
-  "UpdateEventSourcesConfigRequest",
-)(
-  { EventSources: S.optional(EventSourcesConfig) },
-  T.all(
-    T.Http({ method: "PUT", uri: "/event-sources" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "RemoveNotificationChannelRequest",
+}) as any as S.Schema<RemoveNotificationChannelRequest>;
+export interface RemoveNotificationChannelResponse {}
+export const RemoveNotificationChannelResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "RemoveNotificationChannelResponse",
+}) as any as S.Schema<RemoveNotificationChannelResponse>;
+export interface AmazonCodeGuruProfilerIntegration {
+  Status?: string;
+}
+export const AmazonCodeGuruProfilerIntegration = S.suspend(() =>
+  S.Struct({ Status: S.optional(S.String) }),
+).annotations({
+  identifier: "AmazonCodeGuruProfilerIntegration",
+}) as any as S.Schema<AmazonCodeGuruProfilerIntegration>;
+export interface EventSourcesConfig {
+  AmazonCodeGuruProfiler?: AmazonCodeGuruProfilerIntegration;
+}
+export const EventSourcesConfig = S.suspend(() =>
+  S.Struct({
+    AmazonCodeGuruProfiler: S.optional(AmazonCodeGuruProfilerIntegration),
+  }),
+).annotations({
+  identifier: "EventSourcesConfig",
+}) as any as S.Schema<EventSourcesConfig>;
+export interface UpdateEventSourcesConfigRequest {
+  EventSources?: EventSourcesConfig;
+}
+export const UpdateEventSourcesConfigRequest = S.suspend(() =>
+  S.Struct({ EventSources: S.optional(EventSourcesConfig) }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/event-sources" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateEventSourcesConfigResponse extends S.Class<UpdateEventSourcesConfigResponse>(
-  "UpdateEventSourcesConfigResponse",
-)({}) {}
+).annotations({
+  identifier: "UpdateEventSourcesConfigRequest",
+}) as any as S.Schema<UpdateEventSourcesConfigRequest>;
+export interface UpdateEventSourcesConfigResponse {}
+export const UpdateEventSourcesConfigResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateEventSourcesConfigResponse",
+}) as any as S.Schema<UpdateEventSourcesConfigResponse>;
+export type ResourceTypeFilters = string[];
 export const ResourceTypeFilters = S.Array(S.String);
+export type InsightSeverities = string[];
 export const InsightSeverities = S.Array(S.String);
+export type InsightStatuses = string[];
 export const InsightStatuses = S.Array(S.String);
-export class ListMonitoredResourcesFilters extends S.Class<ListMonitoredResourcesFilters>(
-  "ListMonitoredResourcesFilters",
-)({ ResourcePermission: S.String, ResourceTypeFilters: ResourceTypeFilters }) {}
-export class InsightFeedback extends S.Class<InsightFeedback>(
-  "InsightFeedback",
-)({ Id: S.optional(S.String), Feedback: S.optional(S.String) }) {}
+export interface ListMonitoredResourcesFilters {
+  ResourcePermission: string;
+  ResourceTypeFilters: ResourceTypeFilters;
+}
+export const ListMonitoredResourcesFilters = S.suspend(() =>
+  S.Struct({
+    ResourcePermission: S.String,
+    ResourceTypeFilters: ResourceTypeFilters,
+  }),
+).annotations({
+  identifier: "ListMonitoredResourcesFilters",
+}) as any as S.Schema<ListMonitoredResourcesFilters>;
+export interface InsightFeedback {
+  Id?: string;
+  Feedback?: string;
+}
+export const InsightFeedback = S.suspend(() =>
+  S.Struct({ Id: S.optional(S.String), Feedback: S.optional(S.String) }),
+).annotations({
+  identifier: "InsightFeedback",
+}) as any as S.Schema<InsightFeedback>;
+export type StackNames = string[];
 export const StackNames = S.Array(S.String);
-export class CloudFormationCollection extends S.Class<CloudFormationCollection>(
-  "CloudFormationCollection",
-)({ StackNames: S.optional(StackNames) }) {}
+export interface CloudFormationCollection {
+  StackNames?: StackNames;
+}
+export const CloudFormationCollection = S.suspend(() =>
+  S.Struct({ StackNames: S.optional(StackNames) }),
+).annotations({
+  identifier: "CloudFormationCollection",
+}) as any as S.Schema<CloudFormationCollection>;
+export type TagValues = string[];
 export const TagValues = S.Array(S.String);
-export class TagCollection extends S.Class<TagCollection>("TagCollection")({
-  AppBoundaryKey: S.String,
-  TagValues: TagValues,
-}) {}
+export interface TagCollection {
+  AppBoundaryKey: string;
+  TagValues: TagValues;
+}
+export const TagCollection = S.suspend(() =>
+  S.Struct({ AppBoundaryKey: S.String, TagValues: TagValues }),
+).annotations({
+  identifier: "TagCollection",
+}) as any as S.Schema<TagCollection>;
+export type TagCollections = TagCollection[];
 export const TagCollections = S.Array(TagCollection);
-export class ResourceCollection extends S.Class<ResourceCollection>(
-  "ResourceCollection",
-)({
-  CloudFormation: S.optional(CloudFormationCollection),
-  Tags: S.optional(TagCollections),
-}) {}
+export interface ResourceCollection {
+  CloudFormation?: CloudFormationCollection;
+  Tags?: TagCollections;
+}
+export const ResourceCollection = S.suspend(() =>
+  S.Struct({
+    CloudFormation: S.optional(CloudFormationCollection),
+    Tags: S.optional(TagCollections),
+  }),
+).annotations({
+  identifier: "ResourceCollection",
+}) as any as S.Schema<ResourceCollection>;
+export type ServiceNames = string[];
 export const ServiceNames = S.Array(S.String);
-export class ServiceCollection extends S.Class<ServiceCollection>(
-  "ServiceCollection",
-)({ ServiceNames: S.optional(ServiceNames) }) {}
-export class SearchInsightsFilters extends S.Class<SearchInsightsFilters>(
-  "SearchInsightsFilters",
-)({
-  Severities: S.optional(InsightSeverities),
-  Statuses: S.optional(InsightStatuses),
-  ResourceCollection: S.optional(ResourceCollection),
-  ServiceCollection: S.optional(ServiceCollection),
-}) {}
-export class SearchOrganizationInsightsFilters extends S.Class<SearchOrganizationInsightsFilters>(
-  "SearchOrganizationInsightsFilters",
-)({
-  Severities: S.optional(InsightSeverities),
-  Statuses: S.optional(InsightStatuses),
-  ResourceCollection: S.optional(ResourceCollection),
-  ServiceCollection: S.optional(ServiceCollection),
-}) {}
+export interface ServiceCollection {
+  ServiceNames?: ServiceNames;
+}
+export const ServiceCollection = S.suspend(() =>
+  S.Struct({ ServiceNames: S.optional(ServiceNames) }),
+).annotations({
+  identifier: "ServiceCollection",
+}) as any as S.Schema<ServiceCollection>;
+export interface SearchInsightsFilters {
+  Severities?: InsightSeverities;
+  Statuses?: InsightStatuses;
+  ResourceCollection?: ResourceCollection;
+  ServiceCollection?: ServiceCollection;
+}
+export const SearchInsightsFilters = S.suspend(() =>
+  S.Struct({
+    Severities: S.optional(InsightSeverities),
+    Statuses: S.optional(InsightStatuses),
+    ResourceCollection: S.optional(ResourceCollection),
+    ServiceCollection: S.optional(ServiceCollection),
+  }),
+).annotations({
+  identifier: "SearchInsightsFilters",
+}) as any as S.Schema<SearchInsightsFilters>;
+export interface SearchOrganizationInsightsFilters {
+  Severities?: InsightSeverities;
+  Statuses?: InsightStatuses;
+  ResourceCollection?: ResourceCollection;
+  ServiceCollection?: ServiceCollection;
+}
+export const SearchOrganizationInsightsFilters = S.suspend(() =>
+  S.Struct({
+    Severities: S.optional(InsightSeverities),
+    Statuses: S.optional(InsightStatuses),
+    ResourceCollection: S.optional(ResourceCollection),
+    ServiceCollection: S.optional(ServiceCollection),
+  }),
+).annotations({
+  identifier: "SearchOrganizationInsightsFilters",
+}) as any as S.Schema<SearchOrganizationInsightsFilters>;
+export type NotificationMessageTypes = string[];
 export const NotificationMessageTypes = S.Array(S.String);
+export type CostEstimationStackNames = string[];
 export const CostEstimationStackNames = S.Array(S.String);
+export type CostEstimationTagValues = string[];
 export const CostEstimationTagValues = S.Array(S.String);
+export type UpdateStackNames = string[];
 export const UpdateStackNames = S.Array(S.String);
+export type UpdateTagValues = string[];
 export const UpdateTagValues = S.Array(S.String);
-export class DescribeAccountOverviewResponse extends S.Class<DescribeAccountOverviewResponse>(
-  "DescribeAccountOverviewResponse",
-)({
-  ReactiveInsights: S.Number,
-  ProactiveInsights: S.Number,
-  MeanTimeToRecoverInMilliseconds: S.Number,
-}) {}
-export class DescribeFeedbackResponse extends S.Class<DescribeFeedbackResponse>(
-  "DescribeFeedbackResponse",
-)({ InsightFeedback: S.optional(InsightFeedback) }) {}
-export class DescribeOrganizationHealthResponse extends S.Class<DescribeOrganizationHealthResponse>(
-  "DescribeOrganizationHealthResponse",
-)({
-  OpenReactiveInsights: S.Number,
-  OpenProactiveInsights: S.Number,
-  MetricsAnalyzed: S.Number,
-  ResourceHours: S.Number,
-}) {}
-export class DescribeOrganizationOverviewResponse extends S.Class<DescribeOrganizationOverviewResponse>(
-  "DescribeOrganizationOverviewResponse",
-)({ ReactiveInsights: S.Number, ProactiveInsights: S.Number }) {}
-export class InsightHealth extends S.Class<InsightHealth>("InsightHealth")({
-  OpenProactiveInsights: S.optional(S.Number),
-  OpenReactiveInsights: S.optional(S.Number),
-  MeanTimeToRecoverInMilliseconds: S.optional(S.Number),
-}) {}
-export class CloudFormationHealth extends S.Class<CloudFormationHealth>(
-  "CloudFormationHealth",
-)({
-  StackName: S.optional(S.String),
-  Insight: S.optional(InsightHealth),
-  AnalyzedResourceCount: S.optional(S.Number),
-}) {}
+export interface DescribeAccountOverviewResponse {
+  ReactiveInsights: number;
+  ProactiveInsights: number;
+  MeanTimeToRecoverInMilliseconds: number;
+}
+export const DescribeAccountOverviewResponse = S.suspend(() =>
+  S.Struct({
+    ReactiveInsights: S.Number,
+    ProactiveInsights: S.Number,
+    MeanTimeToRecoverInMilliseconds: S.Number,
+  }),
+).annotations({
+  identifier: "DescribeAccountOverviewResponse",
+}) as any as S.Schema<DescribeAccountOverviewResponse>;
+export interface DescribeFeedbackResponse {
+  InsightFeedback?: InsightFeedback;
+}
+export const DescribeFeedbackResponse = S.suspend(() =>
+  S.Struct({ InsightFeedback: S.optional(InsightFeedback) }),
+).annotations({
+  identifier: "DescribeFeedbackResponse",
+}) as any as S.Schema<DescribeFeedbackResponse>;
+export interface DescribeOrganizationHealthResponse {
+  OpenReactiveInsights: number;
+  OpenProactiveInsights: number;
+  MetricsAnalyzed: number;
+  ResourceHours: number;
+}
+export const DescribeOrganizationHealthResponse = S.suspend(() =>
+  S.Struct({
+    OpenReactiveInsights: S.Number,
+    OpenProactiveInsights: S.Number,
+    MetricsAnalyzed: S.Number,
+    ResourceHours: S.Number,
+  }),
+).annotations({
+  identifier: "DescribeOrganizationHealthResponse",
+}) as any as S.Schema<DescribeOrganizationHealthResponse>;
+export interface DescribeOrganizationOverviewResponse {
+  ReactiveInsights: number;
+  ProactiveInsights: number;
+}
+export const DescribeOrganizationOverviewResponse = S.suspend(() =>
+  S.Struct({ ReactiveInsights: S.Number, ProactiveInsights: S.Number }),
+).annotations({
+  identifier: "DescribeOrganizationOverviewResponse",
+}) as any as S.Schema<DescribeOrganizationOverviewResponse>;
+export interface InsightHealth {
+  OpenProactiveInsights?: number;
+  OpenReactiveInsights?: number;
+  MeanTimeToRecoverInMilliseconds?: number;
+}
+export const InsightHealth = S.suspend(() =>
+  S.Struct({
+    OpenProactiveInsights: S.optional(S.Number),
+    OpenReactiveInsights: S.optional(S.Number),
+    MeanTimeToRecoverInMilliseconds: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "InsightHealth",
+}) as any as S.Schema<InsightHealth>;
+export interface CloudFormationHealth {
+  StackName?: string;
+  Insight?: InsightHealth;
+  AnalyzedResourceCount?: number;
+}
+export const CloudFormationHealth = S.suspend(() =>
+  S.Struct({
+    StackName: S.optional(S.String),
+    Insight: S.optional(InsightHealth),
+    AnalyzedResourceCount: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "CloudFormationHealth",
+}) as any as S.Schema<CloudFormationHealth>;
+export type CloudFormationHealths = CloudFormationHealth[];
 export const CloudFormationHealths = S.Array(CloudFormationHealth);
-export class ServiceInsightHealth extends S.Class<ServiceInsightHealth>(
-  "ServiceInsightHealth",
-)({
-  OpenProactiveInsights: S.optional(S.Number),
-  OpenReactiveInsights: S.optional(S.Number),
-}) {}
-export class ServiceHealth extends S.Class<ServiceHealth>("ServiceHealth")({
-  ServiceName: S.optional(S.String),
-  Insight: S.optional(ServiceInsightHealth),
-  AnalyzedResourceCount: S.optional(S.Number),
-}) {}
+export interface ServiceInsightHealth {
+  OpenProactiveInsights?: number;
+  OpenReactiveInsights?: number;
+}
+export const ServiceInsightHealth = S.suspend(() =>
+  S.Struct({
+    OpenProactiveInsights: S.optional(S.Number),
+    OpenReactiveInsights: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "ServiceInsightHealth",
+}) as any as S.Schema<ServiceInsightHealth>;
+export interface ServiceHealth {
+  ServiceName?: string;
+  Insight?: ServiceInsightHealth;
+  AnalyzedResourceCount?: number;
+}
+export const ServiceHealth = S.suspend(() =>
+  S.Struct({
+    ServiceName: S.optional(S.String),
+    Insight: S.optional(ServiceInsightHealth),
+    AnalyzedResourceCount: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "ServiceHealth",
+}) as any as S.Schema<ServiceHealth>;
+export type ServiceHealths = ServiceHealth[];
 export const ServiceHealths = S.Array(ServiceHealth);
-export class TagHealth extends S.Class<TagHealth>("TagHealth")({
-  AppBoundaryKey: S.optional(S.String),
-  TagValue: S.optional(S.String),
-  Insight: S.optional(InsightHealth),
-  AnalyzedResourceCount: S.optional(S.Number),
-}) {}
+export interface TagHealth {
+  AppBoundaryKey?: string;
+  TagValue?: string;
+  Insight?: InsightHealth;
+  AnalyzedResourceCount?: number;
+}
+export const TagHealth = S.suspend(() =>
+  S.Struct({
+    AppBoundaryKey: S.optional(S.String),
+    TagValue: S.optional(S.String),
+    Insight: S.optional(InsightHealth),
+    AnalyzedResourceCount: S.optional(S.Number),
+  }),
+).annotations({ identifier: "TagHealth" }) as any as S.Schema<TagHealth>;
+export type TagHealths = TagHealth[];
 export const TagHealths = S.Array(TagHealth);
-export class DescribeResourceCollectionHealthResponse extends S.Class<DescribeResourceCollectionHealthResponse>(
-  "DescribeResourceCollectionHealthResponse",
-)({
-  CloudFormation: S.optional(CloudFormationHealths),
-  Service: S.optional(ServiceHealths),
-  NextToken: S.optional(S.String),
-  Tags: S.optional(TagHealths),
-}) {}
-export class ListMonitoredResourcesRequest extends S.Class<ListMonitoredResourcesRequest>(
-  "ListMonitoredResourcesRequest",
-)(
-  {
+export interface DescribeResourceCollectionHealthResponse {
+  CloudFormation?: CloudFormationHealths;
+  Service?: ServiceHealths;
+  NextToken?: string;
+  Tags?: TagHealths;
+}
+export const DescribeResourceCollectionHealthResponse = S.suspend(() =>
+  S.Struct({
+    CloudFormation: S.optional(CloudFormationHealths),
+    Service: S.optional(ServiceHealths),
+    NextToken: S.optional(S.String),
+    Tags: S.optional(TagHealths),
+  }),
+).annotations({
+  identifier: "DescribeResourceCollectionHealthResponse",
+}) as any as S.Schema<DescribeResourceCollectionHealthResponse>;
+export interface ListMonitoredResourcesRequest {
+  Filters?: ListMonitoredResourcesFilters;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListMonitoredResourcesRequest = S.suspend(() =>
+  S.Struct({
     Filters: S.optional(ListMonitoredResourcesFilters),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/monitoredResources" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/monitoredResources" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutFeedbackRequest extends S.Class<PutFeedbackRequest>(
-  "PutFeedbackRequest",
-)(
-  { InsightFeedback: S.optional(InsightFeedback) },
-  T.all(
-    T.Http({ method: "PUT", uri: "/feedback" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListMonitoredResourcesRequest",
+}) as any as S.Schema<ListMonitoredResourcesRequest>;
+export interface PutFeedbackRequest {
+  InsightFeedback?: InsightFeedback;
+}
+export const PutFeedbackRequest = S.suspend(() =>
+  S.Struct({ InsightFeedback: S.optional(InsightFeedback) }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/feedback" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutFeedbackResponse extends S.Class<PutFeedbackResponse>(
-  "PutFeedbackResponse",
-)({}) {}
-export class SearchInsightsRequest extends S.Class<SearchInsightsRequest>(
-  "SearchInsightsRequest",
-)(
-  {
+).annotations({
+  identifier: "PutFeedbackRequest",
+}) as any as S.Schema<PutFeedbackRequest>;
+export interface PutFeedbackResponse {}
+export const PutFeedbackResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "PutFeedbackResponse",
+}) as any as S.Schema<PutFeedbackResponse>;
+export interface SearchInsightsRequest {
+  StartTimeRange: StartTimeRange;
+  Filters?: SearchInsightsFilters;
+  MaxResults?: number;
+  NextToken?: string;
+  Type: string;
+}
+export const SearchInsightsRequest = S.suspend(() =>
+  S.Struct({
     StartTimeRange: StartTimeRange,
     Filters: S.optional(SearchInsightsFilters),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     Type: S.String,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/insights/search" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/insights/search" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SearchOrganizationInsightsRequest extends S.Class<SearchOrganizationInsightsRequest>(
-  "SearchOrganizationInsightsRequest",
-)(
-  {
+).annotations({
+  identifier: "SearchInsightsRequest",
+}) as any as S.Schema<SearchInsightsRequest>;
+export interface SearchOrganizationInsightsRequest {
+  AccountIds: SearchInsightsAccountIdList;
+  StartTimeRange: StartTimeRange;
+  Filters?: SearchOrganizationInsightsFilters;
+  MaxResults?: number;
+  NextToken?: string;
+  Type: string;
+}
+export const SearchOrganizationInsightsRequest = S.suspend(() =>
+  S.Struct({
     AccountIds: SearchInsightsAccountIdList,
     StartTimeRange: StartTimeRange,
     Filters: S.optional(SearchOrganizationInsightsFilters),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     Type: S.String,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/organization/insights/search" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/organization/insights/search" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SnsChannelConfig extends S.Class<SnsChannelConfig>(
-  "SnsChannelConfig",
-)({ TopicArn: S.optional(S.String) }) {}
-export class NotificationFilterConfig extends S.Class<NotificationFilterConfig>(
-  "NotificationFilterConfig",
-)({
-  Severities: S.optional(InsightSeverities),
-  MessageTypes: S.optional(NotificationMessageTypes),
-}) {}
-export class OpsCenterIntegration extends S.Class<OpsCenterIntegration>(
-  "OpsCenterIntegration",
-)({ OptInStatus: S.optional(S.String) }) {}
-export class LogsAnomalyDetectionIntegration extends S.Class<LogsAnomalyDetectionIntegration>(
-  "LogsAnomalyDetectionIntegration",
-)({ OptInStatus: S.optional(S.String) }) {}
-export class KMSServerSideEncryptionIntegration extends S.Class<KMSServerSideEncryptionIntegration>(
-  "KMSServerSideEncryptionIntegration",
-)({
-  KMSKeyId: S.optional(S.String),
-  OptInStatus: S.optional(S.String),
-  Type: S.optional(S.String),
-}) {}
-export class EventTimeRange extends S.Class<EventTimeRange>("EventTimeRange")({
-  FromTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ToTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-}) {}
-export class CloudFormationCostEstimationResourceCollectionFilter extends S.Class<CloudFormationCostEstimationResourceCollectionFilter>(
-  "CloudFormationCostEstimationResourceCollectionFilter",
-)({ StackNames: S.optional(CostEstimationStackNames) }) {}
-export class TagCostEstimationResourceCollectionFilter extends S.Class<TagCostEstimationResourceCollectionFilter>(
-  "TagCostEstimationResourceCollectionFilter",
-)({ AppBoundaryKey: S.String, TagValues: CostEstimationTagValues }) {}
+).annotations({
+  identifier: "SearchOrganizationInsightsRequest",
+}) as any as S.Schema<SearchOrganizationInsightsRequest>;
+export interface SnsChannelConfig {
+  TopicArn?: string;
+}
+export const SnsChannelConfig = S.suspend(() =>
+  S.Struct({ TopicArn: S.optional(S.String) }),
+).annotations({
+  identifier: "SnsChannelConfig",
+}) as any as S.Schema<SnsChannelConfig>;
+export interface NotificationFilterConfig {
+  Severities?: InsightSeverities;
+  MessageTypes?: NotificationMessageTypes;
+}
+export const NotificationFilterConfig = S.suspend(() =>
+  S.Struct({
+    Severities: S.optional(InsightSeverities),
+    MessageTypes: S.optional(NotificationMessageTypes),
+  }),
+).annotations({
+  identifier: "NotificationFilterConfig",
+}) as any as S.Schema<NotificationFilterConfig>;
+export interface OpsCenterIntegration {
+  OptInStatus?: string;
+}
+export const OpsCenterIntegration = S.suspend(() =>
+  S.Struct({ OptInStatus: S.optional(S.String) }),
+).annotations({
+  identifier: "OpsCenterIntegration",
+}) as any as S.Schema<OpsCenterIntegration>;
+export interface LogsAnomalyDetectionIntegration {
+  OptInStatus?: string;
+}
+export const LogsAnomalyDetectionIntegration = S.suspend(() =>
+  S.Struct({ OptInStatus: S.optional(S.String) }),
+).annotations({
+  identifier: "LogsAnomalyDetectionIntegration",
+}) as any as S.Schema<LogsAnomalyDetectionIntegration>;
+export interface KMSServerSideEncryptionIntegration {
+  KMSKeyId?: string;
+  OptInStatus?: string;
+  Type?: string;
+}
+export const KMSServerSideEncryptionIntegration = S.suspend(() =>
+  S.Struct({
+    KMSKeyId: S.optional(S.String),
+    OptInStatus: S.optional(S.String),
+    Type: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "KMSServerSideEncryptionIntegration",
+}) as any as S.Schema<KMSServerSideEncryptionIntegration>;
+export interface EventTimeRange {
+  FromTime: Date;
+  ToTime: Date;
+}
+export const EventTimeRange = S.suspend(() =>
+  S.Struct({
+    FromTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ToTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotations({
+  identifier: "EventTimeRange",
+}) as any as S.Schema<EventTimeRange>;
+export interface CloudFormationCostEstimationResourceCollectionFilter {
+  StackNames?: CostEstimationStackNames;
+}
+export const CloudFormationCostEstimationResourceCollectionFilter = S.suspend(
+  () => S.Struct({ StackNames: S.optional(CostEstimationStackNames) }),
+).annotations({
+  identifier: "CloudFormationCostEstimationResourceCollectionFilter",
+}) as any as S.Schema<CloudFormationCostEstimationResourceCollectionFilter>;
+export interface TagCostEstimationResourceCollectionFilter {
+  AppBoundaryKey: string;
+  TagValues: CostEstimationTagValues;
+}
+export const TagCostEstimationResourceCollectionFilter = S.suspend(() =>
+  S.Struct({ AppBoundaryKey: S.String, TagValues: CostEstimationTagValues }),
+).annotations({
+  identifier: "TagCostEstimationResourceCollectionFilter",
+}) as any as S.Schema<TagCostEstimationResourceCollectionFilter>;
+export type TagCostEstimationResourceCollectionFilters =
+  TagCostEstimationResourceCollectionFilter[];
 export const TagCostEstimationResourceCollectionFilters = S.Array(
   TagCostEstimationResourceCollectionFilter,
 );
-export class UpdateCloudFormationCollectionFilter extends S.Class<UpdateCloudFormationCollectionFilter>(
-  "UpdateCloudFormationCollectionFilter",
-)({ StackNames: S.optional(UpdateStackNames) }) {}
-export class UpdateTagCollectionFilter extends S.Class<UpdateTagCollectionFilter>(
-  "UpdateTagCollectionFilter",
-)({ AppBoundaryKey: S.String, TagValues: UpdateTagValues }) {}
+export interface UpdateCloudFormationCollectionFilter {
+  StackNames?: UpdateStackNames;
+}
+export const UpdateCloudFormationCollectionFilter = S.suspend(() =>
+  S.Struct({ StackNames: S.optional(UpdateStackNames) }),
+).annotations({
+  identifier: "UpdateCloudFormationCollectionFilter",
+}) as any as S.Schema<UpdateCloudFormationCollectionFilter>;
+export interface UpdateTagCollectionFilter {
+  AppBoundaryKey: string;
+  TagValues: UpdateTagValues;
+}
+export const UpdateTagCollectionFilter = S.suspend(() =>
+  S.Struct({ AppBoundaryKey: S.String, TagValues: UpdateTagValues }),
+).annotations({
+  identifier: "UpdateTagCollectionFilter",
+}) as any as S.Schema<UpdateTagCollectionFilter>;
+export type UpdateTagCollectionFilters = UpdateTagCollectionFilter[];
 export const UpdateTagCollectionFilters = S.Array(UpdateTagCollectionFilter);
-export class OpsCenterIntegrationConfig extends S.Class<OpsCenterIntegrationConfig>(
-  "OpsCenterIntegrationConfig",
-)({ OptInStatus: S.optional(S.String) }) {}
-export class LogsAnomalyDetectionIntegrationConfig extends S.Class<LogsAnomalyDetectionIntegrationConfig>(
-  "LogsAnomalyDetectionIntegrationConfig",
-)({ OptInStatus: S.optional(S.String) }) {}
-export class KMSServerSideEncryptionIntegrationConfig extends S.Class<KMSServerSideEncryptionIntegrationConfig>(
-  "KMSServerSideEncryptionIntegrationConfig",
-)({
-  KMSKeyId: S.optional(S.String),
-  OptInStatus: S.optional(S.String),
-  Type: S.optional(S.String),
-}) {}
-export class NotificationChannelConfig extends S.Class<NotificationChannelConfig>(
-  "NotificationChannelConfig",
-)({ Sns: SnsChannelConfig, Filters: S.optional(NotificationFilterConfig) }) {}
-export class AnomalyTimeRange extends S.Class<AnomalyTimeRange>(
-  "AnomalyTimeRange",
-)({
-  StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class AnomalyReportedTimeRange extends S.Class<AnomalyReportedTimeRange>(
-  "AnomalyReportedTimeRange",
-)({
-  OpenTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  CloseTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class CloudWatchMetricsDimension extends S.Class<CloudWatchMetricsDimension>(
-  "CloudWatchMetricsDimension",
-)({ Name: S.optional(S.String), Value: S.optional(S.String) }) {}
+export interface OpsCenterIntegrationConfig {
+  OptInStatus?: string;
+}
+export const OpsCenterIntegrationConfig = S.suspend(() =>
+  S.Struct({ OptInStatus: S.optional(S.String) }),
+).annotations({
+  identifier: "OpsCenterIntegrationConfig",
+}) as any as S.Schema<OpsCenterIntegrationConfig>;
+export interface LogsAnomalyDetectionIntegrationConfig {
+  OptInStatus?: string;
+}
+export const LogsAnomalyDetectionIntegrationConfig = S.suspend(() =>
+  S.Struct({ OptInStatus: S.optional(S.String) }),
+).annotations({
+  identifier: "LogsAnomalyDetectionIntegrationConfig",
+}) as any as S.Schema<LogsAnomalyDetectionIntegrationConfig>;
+export interface KMSServerSideEncryptionIntegrationConfig {
+  KMSKeyId?: string;
+  OptInStatus?: string;
+  Type?: string;
+}
+export const KMSServerSideEncryptionIntegrationConfig = S.suspend(() =>
+  S.Struct({
+    KMSKeyId: S.optional(S.String),
+    OptInStatus: S.optional(S.String),
+    Type: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "KMSServerSideEncryptionIntegrationConfig",
+}) as any as S.Schema<KMSServerSideEncryptionIntegrationConfig>;
+export interface NotificationChannelConfig {
+  Sns: SnsChannelConfig;
+  Filters?: NotificationFilterConfig;
+}
+export const NotificationChannelConfig = S.suspend(() =>
+  S.Struct({
+    Sns: SnsChannelConfig,
+    Filters: S.optional(NotificationFilterConfig),
+  }),
+).annotations({
+  identifier: "NotificationChannelConfig",
+}) as any as S.Schema<NotificationChannelConfig>;
+export interface AnomalyTimeRange {
+  StartTime: Date;
+  EndTime?: Date;
+}
+export const AnomalyTimeRange = S.suspend(() =>
+  S.Struct({
+    StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "AnomalyTimeRange",
+}) as any as S.Schema<AnomalyTimeRange>;
+export interface AnomalyReportedTimeRange {
+  OpenTime: Date;
+  CloseTime?: Date;
+}
+export const AnomalyReportedTimeRange = S.suspend(() =>
+  S.Struct({
+    OpenTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    CloseTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "AnomalyReportedTimeRange",
+}) as any as S.Schema<AnomalyReportedTimeRange>;
+export interface CloudWatchMetricsDimension {
+  Name?: string;
+  Value?: string;
+}
+export const CloudWatchMetricsDimension = S.suspend(() =>
+  S.Struct({ Name: S.optional(S.String), Value: S.optional(S.String) }),
+).annotations({
+  identifier: "CloudWatchMetricsDimension",
+}) as any as S.Schema<CloudWatchMetricsDimension>;
+export type CloudWatchMetricsDimensions = CloudWatchMetricsDimension[];
 export const CloudWatchMetricsDimensions = S.Array(CloudWatchMetricsDimension);
-export class TimestampMetricValuePair extends S.Class<TimestampMetricValuePair>(
-  "TimestampMetricValuePair",
-)({
-  Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  MetricValue: S.optional(S.Number),
-}) {}
+export interface TimestampMetricValuePair {
+  Timestamp?: Date;
+  MetricValue?: number;
+}
+export const TimestampMetricValuePair = S.suspend(() =>
+  S.Struct({
+    Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    MetricValue: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "TimestampMetricValuePair",
+}) as any as S.Schema<TimestampMetricValuePair>;
+export type TimestampMetricValuePairList = TimestampMetricValuePair[];
 export const TimestampMetricValuePairList = S.Array(TimestampMetricValuePair);
-export class CloudWatchMetricsDataSummary extends S.Class<CloudWatchMetricsDataSummary>(
-  "CloudWatchMetricsDataSummary",
-)({
-  TimestampMetricValuePairList: S.optional(TimestampMetricValuePairList),
-  StatusCode: S.optional(S.String),
-}) {}
-export class CloudWatchMetricsDetail extends S.Class<CloudWatchMetricsDetail>(
-  "CloudWatchMetricsDetail",
-)({
-  MetricName: S.optional(S.String),
-  Namespace: S.optional(S.String),
-  Dimensions: S.optional(CloudWatchMetricsDimensions),
-  Stat: S.optional(S.String),
-  Unit: S.optional(S.String),
-  Period: S.optional(S.Number),
-  MetricDataSummary: S.optional(CloudWatchMetricsDataSummary),
-}) {}
+export interface CloudWatchMetricsDataSummary {
+  TimestampMetricValuePairList?: TimestampMetricValuePairList;
+  StatusCode?: string;
+}
+export const CloudWatchMetricsDataSummary = S.suspend(() =>
+  S.Struct({
+    TimestampMetricValuePairList: S.optional(TimestampMetricValuePairList),
+    StatusCode: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CloudWatchMetricsDataSummary",
+}) as any as S.Schema<CloudWatchMetricsDataSummary>;
+export interface CloudWatchMetricsDetail {
+  MetricName?: string;
+  Namespace?: string;
+  Dimensions?: CloudWatchMetricsDimensions;
+  Stat?: string;
+  Unit?: string;
+  Period?: number;
+  MetricDataSummary?: CloudWatchMetricsDataSummary;
+}
+export const CloudWatchMetricsDetail = S.suspend(() =>
+  S.Struct({
+    MetricName: S.optional(S.String),
+    Namespace: S.optional(S.String),
+    Dimensions: S.optional(CloudWatchMetricsDimensions),
+    Stat: S.optional(S.String),
+    Unit: S.optional(S.String),
+    Period: S.optional(S.Number),
+    MetricDataSummary: S.optional(CloudWatchMetricsDataSummary),
+  }),
+).annotations({
+  identifier: "CloudWatchMetricsDetail",
+}) as any as S.Schema<CloudWatchMetricsDetail>;
+export type CloudWatchMetricsDetails = CloudWatchMetricsDetail[];
 export const CloudWatchMetricsDetails = S.Array(CloudWatchMetricsDetail);
+export type PerformanceInsightsMetricDimensions = string[];
 export const PerformanceInsightsMetricDimensions = S.Array(S.String);
-export class PerformanceInsightsMetricDimensionGroup extends S.Class<PerformanceInsightsMetricDimensionGroup>(
-  "PerformanceInsightsMetricDimensionGroup",
-)({
-  Group: S.optional(S.String),
-  Dimensions: S.optional(PerformanceInsightsMetricDimensions),
-  Limit: S.optional(S.Number),
-}) {}
+export interface PerformanceInsightsMetricDimensionGroup {
+  Group?: string;
+  Dimensions?: PerformanceInsightsMetricDimensions;
+  Limit?: number;
+}
+export const PerformanceInsightsMetricDimensionGroup = S.suspend(() =>
+  S.Struct({
+    Group: S.optional(S.String),
+    Dimensions: S.optional(PerformanceInsightsMetricDimensions),
+    Limit: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "PerformanceInsightsMetricDimensionGroup",
+}) as any as S.Schema<PerformanceInsightsMetricDimensionGroup>;
+export type PerformanceInsightsMetricFilterMap = { [key: string]: string };
 export const PerformanceInsightsMetricFilterMap = S.Record({
   key: S.String,
   value: S.String,
 });
-export class PerformanceInsightsMetricQuery extends S.Class<PerformanceInsightsMetricQuery>(
-  "PerformanceInsightsMetricQuery",
-)({
-  Metric: S.optional(S.String),
-  GroupBy: S.optional(PerformanceInsightsMetricDimensionGroup),
-  Filter: S.optional(PerformanceInsightsMetricFilterMap),
-}) {}
-export class PerformanceInsightsReferenceScalar extends S.Class<PerformanceInsightsReferenceScalar>(
-  "PerformanceInsightsReferenceScalar",
-)({ Value: S.optional(S.Number) }) {}
-export class PerformanceInsightsReferenceMetric extends S.Class<PerformanceInsightsReferenceMetric>(
-  "PerformanceInsightsReferenceMetric",
-)({ MetricQuery: S.optional(PerformanceInsightsMetricQuery) }) {}
-export class PerformanceInsightsReferenceComparisonValues extends S.Class<PerformanceInsightsReferenceComparisonValues>(
-  "PerformanceInsightsReferenceComparisonValues",
-)({
-  ReferenceScalar: S.optional(PerformanceInsightsReferenceScalar),
-  ReferenceMetric: S.optional(PerformanceInsightsReferenceMetric),
-}) {}
-export class PerformanceInsightsReferenceData extends S.Class<PerformanceInsightsReferenceData>(
-  "PerformanceInsightsReferenceData",
-)({
-  Name: S.optional(S.String),
-  ComparisonValues: S.optional(PerformanceInsightsReferenceComparisonValues),
-}) {}
+export interface PerformanceInsightsMetricQuery {
+  Metric?: string;
+  GroupBy?: PerformanceInsightsMetricDimensionGroup;
+  Filter?: PerformanceInsightsMetricFilterMap;
+}
+export const PerformanceInsightsMetricQuery = S.suspend(() =>
+  S.Struct({
+    Metric: S.optional(S.String),
+    GroupBy: S.optional(PerformanceInsightsMetricDimensionGroup),
+    Filter: S.optional(PerformanceInsightsMetricFilterMap),
+  }),
+).annotations({
+  identifier: "PerformanceInsightsMetricQuery",
+}) as any as S.Schema<PerformanceInsightsMetricQuery>;
+export interface PerformanceInsightsReferenceScalar {
+  Value?: number;
+}
+export const PerformanceInsightsReferenceScalar = S.suspend(() =>
+  S.Struct({ Value: S.optional(S.Number) }),
+).annotations({
+  identifier: "PerformanceInsightsReferenceScalar",
+}) as any as S.Schema<PerformanceInsightsReferenceScalar>;
+export interface PerformanceInsightsReferenceMetric {
+  MetricQuery?: PerformanceInsightsMetricQuery;
+}
+export const PerformanceInsightsReferenceMetric = S.suspend(() =>
+  S.Struct({ MetricQuery: S.optional(PerformanceInsightsMetricQuery) }),
+).annotations({
+  identifier: "PerformanceInsightsReferenceMetric",
+}) as any as S.Schema<PerformanceInsightsReferenceMetric>;
+export interface PerformanceInsightsReferenceComparisonValues {
+  ReferenceScalar?: PerformanceInsightsReferenceScalar;
+  ReferenceMetric?: PerformanceInsightsReferenceMetric;
+}
+export const PerformanceInsightsReferenceComparisonValues = S.suspend(() =>
+  S.Struct({
+    ReferenceScalar: S.optional(PerformanceInsightsReferenceScalar),
+    ReferenceMetric: S.optional(PerformanceInsightsReferenceMetric),
+  }),
+).annotations({
+  identifier: "PerformanceInsightsReferenceComparisonValues",
+}) as any as S.Schema<PerformanceInsightsReferenceComparisonValues>;
+export interface PerformanceInsightsReferenceData {
+  Name?: string;
+  ComparisonValues?: PerformanceInsightsReferenceComparisonValues;
+}
+export const PerformanceInsightsReferenceData = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    ComparisonValues: S.optional(PerformanceInsightsReferenceComparisonValues),
+  }),
+).annotations({
+  identifier: "PerformanceInsightsReferenceData",
+}) as any as S.Schema<PerformanceInsightsReferenceData>;
+export type PerformanceInsightsReferenceDataList =
+  PerformanceInsightsReferenceData[];
 export const PerformanceInsightsReferenceDataList = S.Array(
   PerformanceInsightsReferenceData,
 );
-export class PerformanceInsightsStat extends S.Class<PerformanceInsightsStat>(
-  "PerformanceInsightsStat",
-)({ Type: S.optional(S.String), Value: S.optional(S.Number) }) {}
+export interface PerformanceInsightsStat {
+  Type?: string;
+  Value?: number;
+}
+export const PerformanceInsightsStat = S.suspend(() =>
+  S.Struct({ Type: S.optional(S.String), Value: S.optional(S.Number) }),
+).annotations({
+  identifier: "PerformanceInsightsStat",
+}) as any as S.Schema<PerformanceInsightsStat>;
+export type PerformanceInsightsStats = PerformanceInsightsStat[];
 export const PerformanceInsightsStats = S.Array(PerformanceInsightsStat);
-export class PerformanceInsightsMetricsDetail extends S.Class<PerformanceInsightsMetricsDetail>(
-  "PerformanceInsightsMetricsDetail",
-)({
-  MetricDisplayName: S.optional(S.String),
-  Unit: S.optional(S.String),
-  MetricQuery: S.optional(PerformanceInsightsMetricQuery),
-  ReferenceData: S.optional(PerformanceInsightsReferenceDataList),
-  StatsAtAnomaly: S.optional(PerformanceInsightsStats),
-  StatsAtBaseline: S.optional(PerformanceInsightsStats),
-}) {}
+export interface PerformanceInsightsMetricsDetail {
+  MetricDisplayName?: string;
+  Unit?: string;
+  MetricQuery?: PerformanceInsightsMetricQuery;
+  ReferenceData?: PerformanceInsightsReferenceDataList;
+  StatsAtAnomaly?: PerformanceInsightsStats;
+  StatsAtBaseline?: PerformanceInsightsStats;
+}
+export const PerformanceInsightsMetricsDetail = S.suspend(() =>
+  S.Struct({
+    MetricDisplayName: S.optional(S.String),
+    Unit: S.optional(S.String),
+    MetricQuery: S.optional(PerformanceInsightsMetricQuery),
+    ReferenceData: S.optional(PerformanceInsightsReferenceDataList),
+    StatsAtAnomaly: S.optional(PerformanceInsightsStats),
+    StatsAtBaseline: S.optional(PerformanceInsightsStats),
+  }),
+).annotations({
+  identifier: "PerformanceInsightsMetricsDetail",
+}) as any as S.Schema<PerformanceInsightsMetricsDetail>;
+export type PerformanceInsightsMetricsDetails =
+  PerformanceInsightsMetricsDetail[];
 export const PerformanceInsightsMetricsDetails = S.Array(
   PerformanceInsightsMetricsDetail,
 );
-export class AnomalySourceDetails extends S.Class<AnomalySourceDetails>(
-  "AnomalySourceDetails",
-)({
-  CloudWatchMetrics: S.optional(CloudWatchMetricsDetails),
-  PerformanceInsightsMetrics: S.optional(PerformanceInsightsMetricsDetails),
-}) {}
-export class AnomalyResource extends S.Class<AnomalyResource>(
-  "AnomalyResource",
-)({ Name: S.optional(S.String), Type: S.optional(S.String) }) {}
+export interface AnomalySourceDetails {
+  CloudWatchMetrics?: CloudWatchMetricsDetails;
+  PerformanceInsightsMetrics?: PerformanceInsightsMetricsDetails;
+}
+export const AnomalySourceDetails = S.suspend(() =>
+  S.Struct({
+    CloudWatchMetrics: S.optional(CloudWatchMetricsDetails),
+    PerformanceInsightsMetrics: S.optional(PerformanceInsightsMetricsDetails),
+  }),
+).annotations({
+  identifier: "AnomalySourceDetails",
+}) as any as S.Schema<AnomalySourceDetails>;
+export interface AnomalyResource {
+  Name?: string;
+  Type?: string;
+}
+export const AnomalyResource = S.suspend(() =>
+  S.Struct({ Name: S.optional(S.String), Type: S.optional(S.String) }),
+).annotations({
+  identifier: "AnomalyResource",
+}) as any as S.Schema<AnomalyResource>;
+export type AnomalyResources = AnomalyResource[];
 export const AnomalyResources = S.Array(AnomalyResource);
-export class ReactiveAnomaly extends S.Class<ReactiveAnomaly>(
-  "ReactiveAnomaly",
-)({
-  Id: S.optional(S.String),
-  Severity: S.optional(S.String),
-  Status: S.optional(S.String),
-  AnomalyTimeRange: S.optional(AnomalyTimeRange),
-  AnomalyReportedTimeRange: S.optional(AnomalyReportedTimeRange),
-  SourceDetails: S.optional(AnomalySourceDetails),
-  AssociatedInsightId: S.optional(S.String),
-  ResourceCollection: S.optional(ResourceCollection),
-  Type: S.optional(S.String),
-  Name: S.optional(S.String),
-  Description: S.optional(S.String),
-  CausalAnomalyId: S.optional(S.String),
-  AnomalyResources: S.optional(AnomalyResources),
-}) {}
-export class InsightTimeRange extends S.Class<InsightTimeRange>(
-  "InsightTimeRange",
-)({
-  StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class ReactiveInsight extends S.Class<ReactiveInsight>(
-  "ReactiveInsight",
-)({
-  Id: S.optional(S.String),
-  Name: S.optional(S.String),
-  Severity: S.optional(S.String),
-  Status: S.optional(S.String),
-  InsightTimeRange: S.optional(InsightTimeRange),
-  ResourceCollection: S.optional(ResourceCollection),
-  SsmOpsItemId: S.optional(S.String),
-  Description: S.optional(S.String),
-}) {}
-export class ServiceIntegrationConfig extends S.Class<ServiceIntegrationConfig>(
-  "ServiceIntegrationConfig",
-)({
-  OpsCenter: S.optional(OpsCenterIntegration),
-  LogsAnomalyDetection: S.optional(LogsAnomalyDetectionIntegration),
-  KMSServerSideEncryption: S.optional(KMSServerSideEncryptionIntegration),
-}) {}
-export class ServiceResourceCost extends S.Class<ServiceResourceCost>(
-  "ServiceResourceCost",
-)({
-  Type: S.optional(S.String),
-  State: S.optional(S.String),
-  Count: S.optional(S.Number),
-  UnitCost: S.optional(S.Number),
-  Cost: S.optional(S.Number),
-}) {}
+export interface ReactiveAnomaly {
+  Id?: string;
+  Severity?: string;
+  Status?: string;
+  AnomalyTimeRange?: AnomalyTimeRange;
+  AnomalyReportedTimeRange?: AnomalyReportedTimeRange;
+  SourceDetails?: AnomalySourceDetails;
+  AssociatedInsightId?: string;
+  ResourceCollection?: ResourceCollection;
+  Type?: string;
+  Name?: string;
+  Description?: string;
+  CausalAnomalyId?: string;
+  AnomalyResources?: AnomalyResources;
+}
+export const ReactiveAnomaly = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Severity: S.optional(S.String),
+    Status: S.optional(S.String),
+    AnomalyTimeRange: S.optional(AnomalyTimeRange),
+    AnomalyReportedTimeRange: S.optional(AnomalyReportedTimeRange),
+    SourceDetails: S.optional(AnomalySourceDetails),
+    AssociatedInsightId: S.optional(S.String),
+    ResourceCollection: S.optional(ResourceCollection),
+    Type: S.optional(S.String),
+    Name: S.optional(S.String),
+    Description: S.optional(S.String),
+    CausalAnomalyId: S.optional(S.String),
+    AnomalyResources: S.optional(AnomalyResources),
+  }),
+).annotations({
+  identifier: "ReactiveAnomaly",
+}) as any as S.Schema<ReactiveAnomaly>;
+export interface InsightTimeRange {
+  StartTime: Date;
+  EndTime?: Date;
+}
+export const InsightTimeRange = S.suspend(() =>
+  S.Struct({
+    StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "InsightTimeRange",
+}) as any as S.Schema<InsightTimeRange>;
+export interface ReactiveInsight {
+  Id?: string;
+  Name?: string;
+  Severity?: string;
+  Status?: string;
+  InsightTimeRange?: InsightTimeRange;
+  ResourceCollection?: ResourceCollection;
+  SsmOpsItemId?: string;
+  Description?: string;
+}
+export const ReactiveInsight = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Name: S.optional(S.String),
+    Severity: S.optional(S.String),
+    Status: S.optional(S.String),
+    InsightTimeRange: S.optional(InsightTimeRange),
+    ResourceCollection: S.optional(ResourceCollection),
+    SsmOpsItemId: S.optional(S.String),
+    Description: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ReactiveInsight",
+}) as any as S.Schema<ReactiveInsight>;
+export interface ServiceIntegrationConfig {
+  OpsCenter?: OpsCenterIntegration;
+  LogsAnomalyDetection?: LogsAnomalyDetectionIntegration;
+  KMSServerSideEncryption?: KMSServerSideEncryptionIntegration;
+}
+export const ServiceIntegrationConfig = S.suspend(() =>
+  S.Struct({
+    OpsCenter: S.optional(OpsCenterIntegration),
+    LogsAnomalyDetection: S.optional(LogsAnomalyDetectionIntegration),
+    KMSServerSideEncryption: S.optional(KMSServerSideEncryptionIntegration),
+  }),
+).annotations({
+  identifier: "ServiceIntegrationConfig",
+}) as any as S.Schema<ServiceIntegrationConfig>;
+export interface ServiceResourceCost {
+  Type?: string;
+  State?: string;
+  Count?: number;
+  UnitCost?: number;
+  Cost?: number;
+}
+export const ServiceResourceCost = S.suspend(() =>
+  S.Struct({
+    Type: S.optional(S.String),
+    State: S.optional(S.String),
+    Count: S.optional(S.Number),
+    UnitCost: S.optional(S.Number),
+    Cost: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "ServiceResourceCost",
+}) as any as S.Schema<ServiceResourceCost>;
+export type ServiceResourceCosts = ServiceResourceCost[];
 export const ServiceResourceCosts = S.Array(ServiceResourceCost);
-export class CostEstimationTimeRange extends S.Class<CostEstimationTimeRange>(
-  "CostEstimationTimeRange",
-)({
-  StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class ListAnomaliesForInsightFilters extends S.Class<ListAnomaliesForInsightFilters>(
-  "ListAnomaliesForInsightFilters",
-)({ ServiceCollection: S.optional(ServiceCollection) }) {}
-export class NotificationChannel extends S.Class<NotificationChannel>(
-  "NotificationChannel",
-)({
-  Id: S.optional(S.String),
-  Config: S.optional(NotificationChannelConfig),
-}) {}
+export interface CostEstimationTimeRange {
+  StartTime?: Date;
+  EndTime?: Date;
+}
+export const CostEstimationTimeRange = S.suspend(() =>
+  S.Struct({
+    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "CostEstimationTimeRange",
+}) as any as S.Schema<CostEstimationTimeRange>;
+export interface ListAnomaliesForInsightFilters {
+  ServiceCollection?: ServiceCollection;
+}
+export const ListAnomaliesForInsightFilters = S.suspend(() =>
+  S.Struct({ ServiceCollection: S.optional(ServiceCollection) }),
+).annotations({
+  identifier: "ListAnomaliesForInsightFilters",
+}) as any as S.Schema<ListAnomaliesForInsightFilters>;
+export interface NotificationChannel {
+  Id?: string;
+  Config?: NotificationChannelConfig;
+}
+export const NotificationChannel = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Config: S.optional(NotificationChannelConfig),
+  }),
+).annotations({
+  identifier: "NotificationChannel",
+}) as any as S.Schema<NotificationChannel>;
+export type Channels = NotificationChannel[];
 export const Channels = S.Array(NotificationChannel);
-export class PredictionTimeRange extends S.Class<PredictionTimeRange>(
-  "PredictionTimeRange",
-)({
-  StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class ProactiveOrganizationInsightSummary extends S.Class<ProactiveOrganizationInsightSummary>(
-  "ProactiveOrganizationInsightSummary",
-)({
-  Id: S.optional(S.String),
-  AccountId: S.optional(S.String),
-  OrganizationalUnitId: S.optional(S.String),
-  Name: S.optional(S.String),
-  Severity: S.optional(S.String),
-  Status: S.optional(S.String),
-  InsightTimeRange: S.optional(InsightTimeRange),
-  PredictionTimeRange: S.optional(PredictionTimeRange),
-  ResourceCollection: S.optional(ResourceCollection),
-  ServiceCollection: S.optional(ServiceCollection),
-}) {}
+export interface PredictionTimeRange {
+  StartTime: Date;
+  EndTime?: Date;
+}
+export const PredictionTimeRange = S.suspend(() =>
+  S.Struct({
+    StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "PredictionTimeRange",
+}) as any as S.Schema<PredictionTimeRange>;
+export interface ProactiveOrganizationInsightSummary {
+  Id?: string;
+  AccountId?: string;
+  OrganizationalUnitId?: string;
+  Name?: string;
+  Severity?: string;
+  Status?: string;
+  InsightTimeRange?: InsightTimeRange;
+  PredictionTimeRange?: PredictionTimeRange;
+  ResourceCollection?: ResourceCollection;
+  ServiceCollection?: ServiceCollection;
+}
+export const ProactiveOrganizationInsightSummary = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    AccountId: S.optional(S.String),
+    OrganizationalUnitId: S.optional(S.String),
+    Name: S.optional(S.String),
+    Severity: S.optional(S.String),
+    Status: S.optional(S.String),
+    InsightTimeRange: S.optional(InsightTimeRange),
+    PredictionTimeRange: S.optional(PredictionTimeRange),
+    ResourceCollection: S.optional(ResourceCollection),
+    ServiceCollection: S.optional(ServiceCollection),
+  }),
+).annotations({
+  identifier: "ProactiveOrganizationInsightSummary",
+}) as any as S.Schema<ProactiveOrganizationInsightSummary>;
+export type ProactiveOrganizationInsights =
+  ProactiveOrganizationInsightSummary[];
 export const ProactiveOrganizationInsights = S.Array(
   ProactiveOrganizationInsightSummary,
 );
-export class ReactiveOrganizationInsightSummary extends S.Class<ReactiveOrganizationInsightSummary>(
-  "ReactiveOrganizationInsightSummary",
-)({
-  Id: S.optional(S.String),
-  AccountId: S.optional(S.String),
-  OrganizationalUnitId: S.optional(S.String),
-  Name: S.optional(S.String),
-  Severity: S.optional(S.String),
-  Status: S.optional(S.String),
-  InsightTimeRange: S.optional(InsightTimeRange),
-  ResourceCollection: S.optional(ResourceCollection),
-  ServiceCollection: S.optional(ServiceCollection),
-}) {}
+export interface ReactiveOrganizationInsightSummary {
+  Id?: string;
+  AccountId?: string;
+  OrganizationalUnitId?: string;
+  Name?: string;
+  Severity?: string;
+  Status?: string;
+  InsightTimeRange?: InsightTimeRange;
+  ResourceCollection?: ResourceCollection;
+  ServiceCollection?: ServiceCollection;
+}
+export const ReactiveOrganizationInsightSummary = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    AccountId: S.optional(S.String),
+    OrganizationalUnitId: S.optional(S.String),
+    Name: S.optional(S.String),
+    Severity: S.optional(S.String),
+    Status: S.optional(S.String),
+    InsightTimeRange: S.optional(InsightTimeRange),
+    ResourceCollection: S.optional(ResourceCollection),
+    ServiceCollection: S.optional(ServiceCollection),
+  }),
+).annotations({
+  identifier: "ReactiveOrganizationInsightSummary",
+}) as any as S.Schema<ReactiveOrganizationInsightSummary>;
+export type ReactiveOrganizationInsights = ReactiveOrganizationInsightSummary[];
 export const ReactiveOrganizationInsights = S.Array(
   ReactiveOrganizationInsightSummary,
 );
-export class CostEstimationResourceCollectionFilter extends S.Class<CostEstimationResourceCollectionFilter>(
-  "CostEstimationResourceCollectionFilter",
-)({
-  CloudFormation: S.optional(
-    CloudFormationCostEstimationResourceCollectionFilter,
+export interface CostEstimationResourceCollectionFilter {
+  CloudFormation?: CloudFormationCostEstimationResourceCollectionFilter;
+  Tags?: TagCostEstimationResourceCollectionFilters;
+}
+export const CostEstimationResourceCollectionFilter = S.suspend(() =>
+  S.Struct({
+    CloudFormation: S.optional(
+      CloudFormationCostEstimationResourceCollectionFilter,
+    ),
+    Tags: S.optional(TagCostEstimationResourceCollectionFilters),
+  }),
+).annotations({
+  identifier: "CostEstimationResourceCollectionFilter",
+}) as any as S.Schema<CostEstimationResourceCollectionFilter>;
+export interface UpdateResourceCollectionFilter {
+  CloudFormation?: UpdateCloudFormationCollectionFilter;
+  Tags?: UpdateTagCollectionFilters;
+}
+export const UpdateResourceCollectionFilter = S.suspend(() =>
+  S.Struct({
+    CloudFormation: S.optional(UpdateCloudFormationCollectionFilter),
+    Tags: S.optional(UpdateTagCollectionFilters),
+  }),
+).annotations({
+  identifier: "UpdateResourceCollectionFilter",
+}) as any as S.Schema<UpdateResourceCollectionFilter>;
+export interface UpdateServiceIntegrationConfig {
+  OpsCenter?: OpsCenterIntegrationConfig;
+  LogsAnomalyDetection?: LogsAnomalyDetectionIntegrationConfig;
+  KMSServerSideEncryption?: KMSServerSideEncryptionIntegrationConfig;
+}
+export const UpdateServiceIntegrationConfig = S.suspend(() =>
+  S.Struct({
+    OpsCenter: S.optional(OpsCenterIntegrationConfig),
+    LogsAnomalyDetection: S.optional(LogsAnomalyDetectionIntegrationConfig),
+    KMSServerSideEncryption: S.optional(
+      KMSServerSideEncryptionIntegrationConfig,
+    ),
+  }),
+).annotations({
+  identifier: "UpdateServiceIntegrationConfig",
+}) as any as S.Schema<UpdateServiceIntegrationConfig>;
+export interface AddNotificationChannelRequest {
+  Config: NotificationChannelConfig;
+}
+export const AddNotificationChannelRequest = S.suspend(() =>
+  S.Struct({ Config: NotificationChannelConfig }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/channels" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-  Tags: S.optional(TagCostEstimationResourceCollectionFilters),
-}) {}
-export class UpdateResourceCollectionFilter extends S.Class<UpdateResourceCollectionFilter>(
-  "UpdateResourceCollectionFilter",
-)({
-  CloudFormation: S.optional(UpdateCloudFormationCollectionFilter),
-  Tags: S.optional(UpdateTagCollectionFilters),
-}) {}
-export class UpdateServiceIntegrationConfig extends S.Class<UpdateServiceIntegrationConfig>(
-  "UpdateServiceIntegrationConfig",
-)({
-  OpsCenter: S.optional(OpsCenterIntegrationConfig),
-  LogsAnomalyDetection: S.optional(LogsAnomalyDetectionIntegrationConfig),
-  KMSServerSideEncryption: S.optional(KMSServerSideEncryptionIntegrationConfig),
-}) {}
-export class AddNotificationChannelRequest extends S.Class<AddNotificationChannelRequest>(
-  "AddNotificationChannelRequest",
-)(
-  { Config: NotificationChannelConfig },
-  T.all(
-    T.Http({ method: "PUT", uri: "/channels" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-  ),
-) {}
-export class DescribeEventSourcesConfigResponse extends S.Class<DescribeEventSourcesConfigResponse>(
-  "DescribeEventSourcesConfigResponse",
-)({ EventSources: S.optional(EventSourcesConfig) }) {}
-export class DescribeServiceIntegrationResponse extends S.Class<DescribeServiceIntegrationResponse>(
-  "DescribeServiceIntegrationResponse",
-)({ ServiceIntegration: S.optional(ServiceIntegrationConfig) }) {}
-export class GetCostEstimationResponse extends S.Class<GetCostEstimationResponse>(
-  "GetCostEstimationResponse",
-)({
-  ResourceCollection: S.optional(CostEstimationResourceCollectionFilter),
-  Status: S.optional(S.String),
-  Costs: S.optional(ServiceResourceCosts),
-  TimeRange: S.optional(CostEstimationTimeRange),
-  TotalCost: S.optional(S.Number),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListAnomaliesForInsightRequest extends S.Class<ListAnomaliesForInsightRequest>(
-  "ListAnomaliesForInsightRequest",
-)(
-  {
+).annotations({
+  identifier: "AddNotificationChannelRequest",
+}) as any as S.Schema<AddNotificationChannelRequest>;
+export interface DescribeEventSourcesConfigResponse {
+  EventSources?: EventSourcesConfig;
+}
+export const DescribeEventSourcesConfigResponse = S.suspend(() =>
+  S.Struct({ EventSources: S.optional(EventSourcesConfig) }),
+).annotations({
+  identifier: "DescribeEventSourcesConfigResponse",
+}) as any as S.Schema<DescribeEventSourcesConfigResponse>;
+export interface DescribeServiceIntegrationResponse {
+  ServiceIntegration?: ServiceIntegrationConfig;
+}
+export const DescribeServiceIntegrationResponse = S.suspend(() =>
+  S.Struct({ ServiceIntegration: S.optional(ServiceIntegrationConfig) }),
+).annotations({
+  identifier: "DescribeServiceIntegrationResponse",
+}) as any as S.Schema<DescribeServiceIntegrationResponse>;
+export interface GetCostEstimationResponse {
+  ResourceCollection?: CostEstimationResourceCollectionFilter;
+  Status?: string;
+  Costs?: ServiceResourceCosts;
+  TimeRange?: CostEstimationTimeRange;
+  TotalCost?: number;
+  NextToken?: string;
+}
+export const GetCostEstimationResponse = S.suspend(() =>
+  S.Struct({
+    ResourceCollection: S.optional(CostEstimationResourceCollectionFilter),
+    Status: S.optional(S.String),
+    Costs: S.optional(ServiceResourceCosts),
+    TimeRange: S.optional(CostEstimationTimeRange),
+    TotalCost: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetCostEstimationResponse",
+}) as any as S.Schema<GetCostEstimationResponse>;
+export interface ListAnomaliesForInsightRequest {
+  InsightId: string;
+  StartTimeRange?: StartTimeRange;
+  MaxResults?: number;
+  NextToken?: string;
+  AccountId?: string;
+  Filters?: ListAnomaliesForInsightFilters;
+}
+export const ListAnomaliesForInsightRequest = S.suspend(() =>
+  S.Struct({
     InsightId: S.String.pipe(T.HttpLabel("InsightId")),
     StartTimeRange: S.optional(StartTimeRange),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     AccountId: S.optional(S.String),
     Filters: S.optional(ListAnomaliesForInsightFilters),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/anomalies/insight/{InsightId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/anomalies/insight/{InsightId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListNotificationChannelsResponse extends S.Class<ListNotificationChannelsResponse>(
-  "ListNotificationChannelsResponse",
-)({ Channels: S.optional(Channels), NextToken: S.optional(S.String) }) {}
-export class ListOrganizationInsightsResponse extends S.Class<ListOrganizationInsightsResponse>(
-  "ListOrganizationInsightsResponse",
-)({
-  ProactiveInsights: S.optional(ProactiveOrganizationInsights),
-  ReactiveInsights: S.optional(ReactiveOrganizationInsights),
-  NextToken: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "ListAnomaliesForInsightRequest",
+}) as any as S.Schema<ListAnomaliesForInsightRequest>;
+export interface ListNotificationChannelsResponse {
+  Channels?: Channels;
+  NextToken?: string;
+}
+export const ListNotificationChannelsResponse = S.suspend(() =>
+  S.Struct({ Channels: S.optional(Channels), NextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListNotificationChannelsResponse",
+}) as any as S.Schema<ListNotificationChannelsResponse>;
+export interface ListOrganizationInsightsResponse {
+  ProactiveInsights?: ProactiveOrganizationInsights;
+  ReactiveInsights?: ReactiveOrganizationInsights;
+  NextToken?: string;
+}
+export const ListOrganizationInsightsResponse = S.suspend(() =>
+  S.Struct({
+    ProactiveInsights: S.optional(ProactiveOrganizationInsights),
+    ReactiveInsights: S.optional(ReactiveOrganizationInsights),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListOrganizationInsightsResponse",
+}) as any as S.Schema<ListOrganizationInsightsResponse>;
+export type AssociatedResourceArns = string[];
 export const AssociatedResourceArns = S.Array(S.String);
-export class ProactiveInsightSummary extends S.Class<ProactiveInsightSummary>(
-  "ProactiveInsightSummary",
-)({
-  Id: S.optional(S.String),
-  Name: S.optional(S.String),
-  Severity: S.optional(S.String),
-  Status: S.optional(S.String),
-  InsightTimeRange: S.optional(InsightTimeRange),
-  PredictionTimeRange: S.optional(PredictionTimeRange),
-  ResourceCollection: S.optional(ResourceCollection),
-  ServiceCollection: S.optional(ServiceCollection),
-  AssociatedResourceArns: S.optional(AssociatedResourceArns),
-}) {}
+export interface ProactiveInsightSummary {
+  Id?: string;
+  Name?: string;
+  Severity?: string;
+  Status?: string;
+  InsightTimeRange?: InsightTimeRange;
+  PredictionTimeRange?: PredictionTimeRange;
+  ResourceCollection?: ResourceCollection;
+  ServiceCollection?: ServiceCollection;
+  AssociatedResourceArns?: AssociatedResourceArns;
+}
+export const ProactiveInsightSummary = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Name: S.optional(S.String),
+    Severity: S.optional(S.String),
+    Status: S.optional(S.String),
+    InsightTimeRange: S.optional(InsightTimeRange),
+    PredictionTimeRange: S.optional(PredictionTimeRange),
+    ResourceCollection: S.optional(ResourceCollection),
+    ServiceCollection: S.optional(ServiceCollection),
+    AssociatedResourceArns: S.optional(AssociatedResourceArns),
+  }),
+).annotations({
+  identifier: "ProactiveInsightSummary",
+}) as any as S.Schema<ProactiveInsightSummary>;
+export type ProactiveInsights = ProactiveInsightSummary[];
 export const ProactiveInsights = S.Array(ProactiveInsightSummary);
-export class ReactiveInsightSummary extends S.Class<ReactiveInsightSummary>(
-  "ReactiveInsightSummary",
-)({
-  Id: S.optional(S.String),
-  Name: S.optional(S.String),
-  Severity: S.optional(S.String),
-  Status: S.optional(S.String),
-  InsightTimeRange: S.optional(InsightTimeRange),
-  ResourceCollection: S.optional(ResourceCollection),
-  ServiceCollection: S.optional(ServiceCollection),
-  AssociatedResourceArns: S.optional(AssociatedResourceArns),
-}) {}
+export interface ReactiveInsightSummary {
+  Id?: string;
+  Name?: string;
+  Severity?: string;
+  Status?: string;
+  InsightTimeRange?: InsightTimeRange;
+  ResourceCollection?: ResourceCollection;
+  ServiceCollection?: ServiceCollection;
+  AssociatedResourceArns?: AssociatedResourceArns;
+}
+export const ReactiveInsightSummary = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Name: S.optional(S.String),
+    Severity: S.optional(S.String),
+    Status: S.optional(S.String),
+    InsightTimeRange: S.optional(InsightTimeRange),
+    ResourceCollection: S.optional(ResourceCollection),
+    ServiceCollection: S.optional(ServiceCollection),
+    AssociatedResourceArns: S.optional(AssociatedResourceArns),
+  }),
+).annotations({
+  identifier: "ReactiveInsightSummary",
+}) as any as S.Schema<ReactiveInsightSummary>;
+export type ReactiveInsights = ReactiveInsightSummary[];
 export const ReactiveInsights = S.Array(ReactiveInsightSummary);
-export class SearchOrganizationInsightsResponse extends S.Class<SearchOrganizationInsightsResponse>(
-  "SearchOrganizationInsightsResponse",
-)({
-  ProactiveInsights: S.optional(ProactiveInsights),
-  ReactiveInsights: S.optional(ReactiveInsights),
-  NextToken: S.optional(S.String),
-}) {}
-export class StartCostEstimationRequest extends S.Class<StartCostEstimationRequest>(
-  "StartCostEstimationRequest",
-)(
-  {
+export interface SearchOrganizationInsightsResponse {
+  ProactiveInsights?: ProactiveInsights;
+  ReactiveInsights?: ReactiveInsights;
+  NextToken?: string;
+}
+export const SearchOrganizationInsightsResponse = S.suspend(() =>
+  S.Struct({
+    ProactiveInsights: S.optional(ProactiveInsights),
+    ReactiveInsights: S.optional(ReactiveInsights),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SearchOrganizationInsightsResponse",
+}) as any as S.Schema<SearchOrganizationInsightsResponse>;
+export interface StartCostEstimationRequest {
+  ResourceCollection: CostEstimationResourceCollectionFilter;
+  ClientToken?: string;
+}
+export const StartCostEstimationRequest = S.suspend(() =>
+  S.Struct({
     ResourceCollection: CostEstimationResourceCollectionFilter,
     ClientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/cost-estimation" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/cost-estimation" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartCostEstimationResponse extends S.Class<StartCostEstimationResponse>(
-  "StartCostEstimationResponse",
-)({}) {}
-export class UpdateResourceCollectionRequest extends S.Class<UpdateResourceCollectionRequest>(
-  "UpdateResourceCollectionRequest",
-)(
-  { Action: S.String, ResourceCollection: UpdateResourceCollectionFilter },
-  T.all(
-    T.Http({ method: "PUT", uri: "/resource-collections" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "StartCostEstimationRequest",
+}) as any as S.Schema<StartCostEstimationRequest>;
+export interface StartCostEstimationResponse {}
+export const StartCostEstimationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "StartCostEstimationResponse",
+}) as any as S.Schema<StartCostEstimationResponse>;
+export interface UpdateResourceCollectionRequest {
+  Action: string;
+  ResourceCollection: UpdateResourceCollectionFilter;
+}
+export const UpdateResourceCollectionRequest = S.suspend(() =>
+  S.Struct({
+    Action: S.String,
+    ResourceCollection: UpdateResourceCollectionFilter,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/resource-collections" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateResourceCollectionResponse extends S.Class<UpdateResourceCollectionResponse>(
-  "UpdateResourceCollectionResponse",
-)({}) {}
-export class UpdateServiceIntegrationRequest extends S.Class<UpdateServiceIntegrationRequest>(
-  "UpdateServiceIntegrationRequest",
-)(
-  { ServiceIntegration: UpdateServiceIntegrationConfig },
-  T.all(
-    T.Http({ method: "PUT", uri: "/service-integrations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UpdateResourceCollectionRequest",
+}) as any as S.Schema<UpdateResourceCollectionRequest>;
+export interface UpdateResourceCollectionResponse {}
+export const UpdateResourceCollectionResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateResourceCollectionResponse",
+}) as any as S.Schema<UpdateResourceCollectionResponse>;
+export interface UpdateServiceIntegrationRequest {
+  ServiceIntegration: UpdateServiceIntegrationConfig;
+}
+export const UpdateServiceIntegrationRequest = S.suspend(() =>
+  S.Struct({ ServiceIntegration: UpdateServiceIntegrationConfig }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/service-integrations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateServiceIntegrationResponse extends S.Class<UpdateServiceIntegrationResponse>(
-  "UpdateServiceIntegrationResponse",
-)({}) {}
-export class AnomalySourceMetadata extends S.Class<AnomalySourceMetadata>(
-  "AnomalySourceMetadata",
-)({
-  Source: S.optional(S.String),
-  SourceResourceName: S.optional(S.String),
-  SourceResourceType: S.optional(S.String),
-}) {}
-export class AccountInsightHealth extends S.Class<AccountInsightHealth>(
-  "AccountInsightHealth",
-)({
-  OpenProactiveInsights: S.optional(S.Number),
-  OpenReactiveInsights: S.optional(S.Number),
-}) {}
-export class CloudFormationCollectionFilter extends S.Class<CloudFormationCollectionFilter>(
-  "CloudFormationCollectionFilter",
-)({ StackNames: S.optional(StackNames) }) {}
-export class TagCollectionFilter extends S.Class<TagCollectionFilter>(
-  "TagCollectionFilter",
-)({ AppBoundaryKey: S.String, TagValues: TagValues }) {}
+).annotations({
+  identifier: "UpdateServiceIntegrationRequest",
+}) as any as S.Schema<UpdateServiceIntegrationRequest>;
+export interface UpdateServiceIntegrationResponse {}
+export const UpdateServiceIntegrationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateServiceIntegrationResponse",
+}) as any as S.Schema<UpdateServiceIntegrationResponse>;
+export interface AnomalySourceMetadata {
+  Source?: string;
+  SourceResourceName?: string;
+  SourceResourceType?: string;
+}
+export const AnomalySourceMetadata = S.suspend(() =>
+  S.Struct({
+    Source: S.optional(S.String),
+    SourceResourceName: S.optional(S.String),
+    SourceResourceType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AnomalySourceMetadata",
+}) as any as S.Schema<AnomalySourceMetadata>;
+export interface AccountInsightHealth {
+  OpenProactiveInsights?: number;
+  OpenReactiveInsights?: number;
+}
+export const AccountInsightHealth = S.suspend(() =>
+  S.Struct({
+    OpenProactiveInsights: S.optional(S.Number),
+    OpenReactiveInsights: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "AccountInsightHealth",
+}) as any as S.Schema<AccountInsightHealth>;
+export interface CloudFormationCollectionFilter {
+  StackNames?: StackNames;
+}
+export const CloudFormationCollectionFilter = S.suspend(() =>
+  S.Struct({ StackNames: S.optional(StackNames) }),
+).annotations({
+  identifier: "CloudFormationCollectionFilter",
+}) as any as S.Schema<CloudFormationCollectionFilter>;
+export interface TagCollectionFilter {
+  AppBoundaryKey: string;
+  TagValues: TagValues;
+}
+export const TagCollectionFilter = S.suspend(() =>
+  S.Struct({ AppBoundaryKey: S.String, TagValues: TagValues }),
+).annotations({
+  identifier: "TagCollectionFilter",
+}) as any as S.Schema<TagCollectionFilter>;
+export type TagCollectionFilters = TagCollectionFilter[];
 export const TagCollectionFilters = S.Array(TagCollectionFilter);
-export class ProactiveInsight extends S.Class<ProactiveInsight>(
-  "ProactiveInsight",
-)({
-  Id: S.optional(S.String),
-  Name: S.optional(S.String),
-  Severity: S.optional(S.String),
-  Status: S.optional(S.String),
-  InsightTimeRange: S.optional(InsightTimeRange),
-  PredictionTimeRange: S.optional(PredictionTimeRange),
-  ResourceCollection: S.optional(ResourceCollection),
-  SsmOpsItemId: S.optional(S.String),
-  Description: S.optional(S.String),
-}) {}
-export class AccountHealth extends S.Class<AccountHealth>("AccountHealth")({
-  AccountId: S.optional(S.String),
-  Insight: S.optional(AccountInsightHealth),
-}) {}
+export interface ProactiveInsight {
+  Id?: string;
+  Name?: string;
+  Severity?: string;
+  Status?: string;
+  InsightTimeRange?: InsightTimeRange;
+  PredictionTimeRange?: PredictionTimeRange;
+  ResourceCollection?: ResourceCollection;
+  SsmOpsItemId?: string;
+  Description?: string;
+}
+export const ProactiveInsight = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Name: S.optional(S.String),
+    Severity: S.optional(S.String),
+    Status: S.optional(S.String),
+    InsightTimeRange: S.optional(InsightTimeRange),
+    PredictionTimeRange: S.optional(PredictionTimeRange),
+    ResourceCollection: S.optional(ResourceCollection),
+    SsmOpsItemId: S.optional(S.String),
+    Description: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ProactiveInsight",
+}) as any as S.Schema<ProactiveInsight>;
+export interface AccountHealth {
+  AccountId?: string;
+  Insight?: AccountInsightHealth;
+}
+export const AccountHealth = S.suspend(() =>
+  S.Struct({
+    AccountId: S.optional(S.String),
+    Insight: S.optional(AccountInsightHealth),
+  }),
+).annotations({
+  identifier: "AccountHealth",
+}) as any as S.Schema<AccountHealth>;
+export type AccountHealths = AccountHealth[];
 export const AccountHealths = S.Array(AccountHealth);
-export class ResourceCollectionFilter extends S.Class<ResourceCollectionFilter>(
-  "ResourceCollectionFilter",
-)({
-  CloudFormation: S.optional(CloudFormationCollectionFilter),
-  Tags: S.optional(TagCollectionFilters),
-}) {}
-export class ListEventsFilters extends S.Class<ListEventsFilters>(
-  "ListEventsFilters",
-)({
-  InsightId: S.optional(S.String),
-  EventTimeRange: S.optional(EventTimeRange),
-  EventClass: S.optional(S.String),
-  EventSource: S.optional(S.String),
-  DataSource: S.optional(S.String),
-  ResourceCollection: S.optional(ResourceCollection),
-}) {}
-export class MonitoredResourceIdentifier extends S.Class<MonitoredResourceIdentifier>(
-  "MonitoredResourceIdentifier",
-)({
-  MonitoredResourceName: S.optional(S.String),
-  Type: S.optional(S.String),
-  ResourcePermission: S.optional(S.String),
-  LastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  ResourceCollection: S.optional(ResourceCollection),
-}) {}
+export interface ResourceCollectionFilter {
+  CloudFormation?: CloudFormationCollectionFilter;
+  Tags?: TagCollectionFilters;
+}
+export const ResourceCollectionFilter = S.suspend(() =>
+  S.Struct({
+    CloudFormation: S.optional(CloudFormationCollectionFilter),
+    Tags: S.optional(TagCollectionFilters),
+  }),
+).annotations({
+  identifier: "ResourceCollectionFilter",
+}) as any as S.Schema<ResourceCollectionFilter>;
+export interface ListEventsFilters {
+  InsightId?: string;
+  EventTimeRange?: EventTimeRange;
+  EventClass?: string;
+  EventSource?: string;
+  DataSource?: string;
+  ResourceCollection?: ResourceCollection;
+}
+export const ListEventsFilters = S.suspend(() =>
+  S.Struct({
+    InsightId: S.optional(S.String),
+    EventTimeRange: S.optional(EventTimeRange),
+    EventClass: S.optional(S.String),
+    EventSource: S.optional(S.String),
+    DataSource: S.optional(S.String),
+    ResourceCollection: S.optional(ResourceCollection),
+  }),
+).annotations({
+  identifier: "ListEventsFilters",
+}) as any as S.Schema<ListEventsFilters>;
+export interface MonitoredResourceIdentifier {
+  MonitoredResourceName?: string;
+  Type?: string;
+  ResourcePermission?: string;
+  LastUpdated?: Date;
+  ResourceCollection?: ResourceCollection;
+}
+export const MonitoredResourceIdentifier = S.suspend(() =>
+  S.Struct({
+    MonitoredResourceName: S.optional(S.String),
+    Type: S.optional(S.String),
+    ResourcePermission: S.optional(S.String),
+    LastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ResourceCollection: S.optional(ResourceCollection),
+  }),
+).annotations({
+  identifier: "MonitoredResourceIdentifier",
+}) as any as S.Schema<MonitoredResourceIdentifier>;
+export type MonitoredResourceIdentifiers = MonitoredResourceIdentifier[];
 export const MonitoredResourceIdentifiers = S.Array(
   MonitoredResourceIdentifier,
 );
-export class LogAnomalyClass extends S.Class<LogAnomalyClass>(
-  "LogAnomalyClass",
-)({
-  LogStreamName: S.optional(S.String),
-  LogAnomalyType: S.optional(S.String),
-  LogAnomalyToken: S.optional(S.String),
-  LogEventId: S.optional(S.String),
-  Explanation: S.optional(S.String),
-  NumberOfLogLinesOccurrences: S.optional(S.Number),
-  LogEventTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
+export interface LogAnomalyClass {
+  LogStreamName?: string;
+  LogAnomalyType?: string;
+  LogAnomalyToken?: string;
+  LogEventId?: string;
+  Explanation?: string;
+  NumberOfLogLinesOccurrences?: number;
+  LogEventTimestamp?: Date;
+}
+export const LogAnomalyClass = S.suspend(() =>
+  S.Struct({
+    LogStreamName: S.optional(S.String),
+    LogAnomalyType: S.optional(S.String),
+    LogAnomalyToken: S.optional(S.String),
+    LogEventId: S.optional(S.String),
+    Explanation: S.optional(S.String),
+    NumberOfLogLinesOccurrences: S.optional(S.Number),
+    LogEventTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "LogAnomalyClass",
+}) as any as S.Schema<LogAnomalyClass>;
+export type LogAnomalyClasses = LogAnomalyClass[];
 export const LogAnomalyClasses = S.Array(LogAnomalyClass);
-export class RecommendationRelatedEventResource extends S.Class<RecommendationRelatedEventResource>(
-  "RecommendationRelatedEventResource",
-)({ Name: S.optional(S.String), Type: S.optional(S.String) }) {}
+export interface RecommendationRelatedEventResource {
+  Name?: string;
+  Type?: string;
+}
+export const RecommendationRelatedEventResource = S.suspend(() =>
+  S.Struct({ Name: S.optional(S.String), Type: S.optional(S.String) }),
+).annotations({
+  identifier: "RecommendationRelatedEventResource",
+}) as any as S.Schema<RecommendationRelatedEventResource>;
+export type RecommendationRelatedEventResources =
+  RecommendationRelatedEventResource[];
 export const RecommendationRelatedEventResources = S.Array(
   RecommendationRelatedEventResource,
 );
-export class RecommendationRelatedAnomalyResource extends S.Class<RecommendationRelatedAnomalyResource>(
-  "RecommendationRelatedAnomalyResource",
-)({ Name: S.optional(S.String), Type: S.optional(S.String) }) {}
+export interface RecommendationRelatedAnomalyResource {
+  Name?: string;
+  Type?: string;
+}
+export const RecommendationRelatedAnomalyResource = S.suspend(() =>
+  S.Struct({ Name: S.optional(S.String), Type: S.optional(S.String) }),
+).annotations({
+  identifier: "RecommendationRelatedAnomalyResource",
+}) as any as S.Schema<RecommendationRelatedAnomalyResource>;
+export type RecommendationRelatedAnomalyResources =
+  RecommendationRelatedAnomalyResource[];
 export const RecommendationRelatedAnomalyResources = S.Array(
   RecommendationRelatedAnomalyResource,
 );
-export class AddNotificationChannelResponse extends S.Class<AddNotificationChannelResponse>(
-  "AddNotificationChannelResponse",
-)({ Id: S.String }) {}
-export class DescribeInsightResponse extends S.Class<DescribeInsightResponse>(
-  "DescribeInsightResponse",
-)({
-  ProactiveInsight: S.optional(ProactiveInsight),
-  ReactiveInsight: S.optional(ReactiveInsight),
-}) {}
-export class DescribeOrganizationResourceCollectionHealthResponse extends S.Class<DescribeOrganizationResourceCollectionHealthResponse>(
-  "DescribeOrganizationResourceCollectionHealthResponse",
-)({
-  CloudFormation: S.optional(CloudFormationHealths),
-  Service: S.optional(ServiceHealths),
-  Account: S.optional(AccountHealths),
-  NextToken: S.optional(S.String),
-  Tags: S.optional(TagHealths),
-}) {}
-export class GetResourceCollectionResponse extends S.Class<GetResourceCollectionResponse>(
-  "GetResourceCollectionResponse",
-)({
-  ResourceCollection: S.optional(ResourceCollectionFilter),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListEventsRequest extends S.Class<ListEventsRequest>(
-  "ListEventsRequest",
-)(
-  {
+export interface AddNotificationChannelResponse {
+  Id: string;
+}
+export const AddNotificationChannelResponse = S.suspend(() =>
+  S.Struct({ Id: S.String }),
+).annotations({
+  identifier: "AddNotificationChannelResponse",
+}) as any as S.Schema<AddNotificationChannelResponse>;
+export interface DescribeInsightResponse {
+  ProactiveInsight?: ProactiveInsight;
+  ReactiveInsight?: ReactiveInsight;
+}
+export const DescribeInsightResponse = S.suspend(() =>
+  S.Struct({
+    ProactiveInsight: S.optional(ProactiveInsight),
+    ReactiveInsight: S.optional(ReactiveInsight),
+  }),
+).annotations({
+  identifier: "DescribeInsightResponse",
+}) as any as S.Schema<DescribeInsightResponse>;
+export interface DescribeOrganizationResourceCollectionHealthResponse {
+  CloudFormation?: CloudFormationHealths;
+  Service?: ServiceHealths;
+  Account?: AccountHealths;
+  NextToken?: string;
+  Tags?: TagHealths;
+}
+export const DescribeOrganizationResourceCollectionHealthResponse = S.suspend(
+  () =>
+    S.Struct({
+      CloudFormation: S.optional(CloudFormationHealths),
+      Service: S.optional(ServiceHealths),
+      Account: S.optional(AccountHealths),
+      NextToken: S.optional(S.String),
+      Tags: S.optional(TagHealths),
+    }),
+).annotations({
+  identifier: "DescribeOrganizationResourceCollectionHealthResponse",
+}) as any as S.Schema<DescribeOrganizationResourceCollectionHealthResponse>;
+export interface GetResourceCollectionResponse {
+  ResourceCollection?: ResourceCollectionFilter;
+  NextToken?: string;
+}
+export const GetResourceCollectionResponse = S.suspend(() =>
+  S.Struct({
+    ResourceCollection: S.optional(ResourceCollectionFilter),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetResourceCollectionResponse",
+}) as any as S.Schema<GetResourceCollectionResponse>;
+export interface ListEventsRequest {
+  Filters: ListEventsFilters;
+  MaxResults?: number;
+  NextToken?: string;
+  AccountId?: string;
+}
+export const ListEventsRequest = S.suspend(() =>
+  S.Struct({
     Filters: ListEventsFilters,
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     AccountId: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/events" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/events" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListInsightsRequest extends S.Class<ListInsightsRequest>(
-  "ListInsightsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListEventsRequest",
+}) as any as S.Schema<ListEventsRequest>;
+export interface ListInsightsRequest {
+  StatusFilter: ListInsightsStatusFilter;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListInsightsRequest = S.suspend(() =>
+  S.Struct({
     StatusFilter: ListInsightsStatusFilter,
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/insights" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/insights" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListMonitoredResourcesResponse extends S.Class<ListMonitoredResourcesResponse>(
-  "ListMonitoredResourcesResponse",
-)({
-  MonitoredResourceIdentifiers: MonitoredResourceIdentifiers,
-  NextToken: S.optional(S.String),
-}) {}
-export class SearchInsightsResponse extends S.Class<SearchInsightsResponse>(
-  "SearchInsightsResponse",
-)({
-  ProactiveInsights: S.optional(ProactiveInsights),
-  ReactiveInsights: S.optional(ReactiveInsights),
-  NextToken: S.optional(S.String),
-}) {}
-export class LogAnomalyShowcase extends S.Class<LogAnomalyShowcase>(
-  "LogAnomalyShowcase",
-)({ LogAnomalyClasses: S.optional(LogAnomalyClasses) }) {}
+).annotations({
+  identifier: "ListInsightsRequest",
+}) as any as S.Schema<ListInsightsRequest>;
+export interface ListMonitoredResourcesResponse {
+  MonitoredResourceIdentifiers: MonitoredResourceIdentifiers;
+  NextToken?: string;
+}
+export const ListMonitoredResourcesResponse = S.suspend(() =>
+  S.Struct({
+    MonitoredResourceIdentifiers: MonitoredResourceIdentifiers,
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListMonitoredResourcesResponse",
+}) as any as S.Schema<ListMonitoredResourcesResponse>;
+export interface SearchInsightsResponse {
+  ProactiveInsights?: ProactiveInsights;
+  ReactiveInsights?: ReactiveInsights;
+  NextToken?: string;
+}
+export const SearchInsightsResponse = S.suspend(() =>
+  S.Struct({
+    ProactiveInsights: S.optional(ProactiveInsights),
+    ReactiveInsights: S.optional(ReactiveInsights),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SearchInsightsResponse",
+}) as any as S.Schema<SearchInsightsResponse>;
+export interface LogAnomalyShowcase {
+  LogAnomalyClasses?: LogAnomalyClasses;
+}
+export const LogAnomalyShowcase = S.suspend(() =>
+  S.Struct({ LogAnomalyClasses: S.optional(LogAnomalyClasses) }),
+).annotations({
+  identifier: "LogAnomalyShowcase",
+}) as any as S.Schema<LogAnomalyShowcase>;
+export type LogAnomalyShowcases = LogAnomalyShowcase[];
 export const LogAnomalyShowcases = S.Array(LogAnomalyShowcase);
-export class RecommendationRelatedEvent extends S.Class<RecommendationRelatedEvent>(
-  "RecommendationRelatedEvent",
-)({
-  Name: S.optional(S.String),
-  Resources: S.optional(RecommendationRelatedEventResources),
-}) {}
+export interface RecommendationRelatedEvent {
+  Name?: string;
+  Resources?: RecommendationRelatedEventResources;
+}
+export const RecommendationRelatedEvent = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Resources: S.optional(RecommendationRelatedEventResources),
+  }),
+).annotations({
+  identifier: "RecommendationRelatedEvent",
+}) as any as S.Schema<RecommendationRelatedEvent>;
+export type RecommendationRelatedEvents = RecommendationRelatedEvent[];
 export const RecommendationRelatedEvents = S.Array(RecommendationRelatedEvent);
-export class RecommendationRelatedCloudWatchMetricsSourceDetail extends S.Class<RecommendationRelatedCloudWatchMetricsSourceDetail>(
-  "RecommendationRelatedCloudWatchMetricsSourceDetail",
-)({ MetricName: S.optional(S.String), Namespace: S.optional(S.String) }) {}
+export interface RecommendationRelatedCloudWatchMetricsSourceDetail {
+  MetricName?: string;
+  Namespace?: string;
+}
+export const RecommendationRelatedCloudWatchMetricsSourceDetail = S.suspend(
+  () =>
+    S.Struct({
+      MetricName: S.optional(S.String),
+      Namespace: S.optional(S.String),
+    }),
+).annotations({
+  identifier: "RecommendationRelatedCloudWatchMetricsSourceDetail",
+}) as any as S.Schema<RecommendationRelatedCloudWatchMetricsSourceDetail>;
+export type RecommendationRelatedCloudWatchMetricsSourceDetails =
+  RecommendationRelatedCloudWatchMetricsSourceDetail[];
 export const RecommendationRelatedCloudWatchMetricsSourceDetails = S.Array(
   RecommendationRelatedCloudWatchMetricsSourceDetail,
 );
-export class ProactiveAnomalySummary extends S.Class<ProactiveAnomalySummary>(
-  "ProactiveAnomalySummary",
-)({
-  Id: S.optional(S.String),
-  Severity: S.optional(S.String),
-  Status: S.optional(S.String),
-  UpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  AnomalyTimeRange: S.optional(AnomalyTimeRange),
-  AnomalyReportedTimeRange: S.optional(AnomalyReportedTimeRange),
-  PredictionTimeRange: S.optional(PredictionTimeRange),
-  SourceDetails: S.optional(AnomalySourceDetails),
-  AssociatedInsightId: S.optional(S.String),
-  ResourceCollection: S.optional(ResourceCollection),
-  Limit: S.optional(S.Number),
-  SourceMetadata: S.optional(AnomalySourceMetadata),
-  AnomalyResources: S.optional(AnomalyResources),
-  Description: S.optional(S.String),
-}) {}
+export interface ProactiveAnomalySummary {
+  Id?: string;
+  Severity?: string;
+  Status?: string;
+  UpdateTime?: Date;
+  AnomalyTimeRange?: AnomalyTimeRange;
+  AnomalyReportedTimeRange?: AnomalyReportedTimeRange;
+  PredictionTimeRange?: PredictionTimeRange;
+  SourceDetails?: AnomalySourceDetails;
+  AssociatedInsightId?: string;
+  ResourceCollection?: ResourceCollection;
+  Limit?: number;
+  SourceMetadata?: AnomalySourceMetadata;
+  AnomalyResources?: AnomalyResources;
+  Description?: string;
+}
+export const ProactiveAnomalySummary = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Severity: S.optional(S.String),
+    Status: S.optional(S.String),
+    UpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    AnomalyTimeRange: S.optional(AnomalyTimeRange),
+    AnomalyReportedTimeRange: S.optional(AnomalyReportedTimeRange),
+    PredictionTimeRange: S.optional(PredictionTimeRange),
+    SourceDetails: S.optional(AnomalySourceDetails),
+    AssociatedInsightId: S.optional(S.String),
+    ResourceCollection: S.optional(ResourceCollection),
+    Limit: S.optional(S.Number),
+    SourceMetadata: S.optional(AnomalySourceMetadata),
+    AnomalyResources: S.optional(AnomalyResources),
+    Description: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ProactiveAnomalySummary",
+}) as any as S.Schema<ProactiveAnomalySummary>;
+export type ProactiveAnomalies = ProactiveAnomalySummary[];
 export const ProactiveAnomalies = S.Array(ProactiveAnomalySummary);
-export class ReactiveAnomalySummary extends S.Class<ReactiveAnomalySummary>(
-  "ReactiveAnomalySummary",
-)({
-  Id: S.optional(S.String),
-  Severity: S.optional(S.String),
-  Status: S.optional(S.String),
-  AnomalyTimeRange: S.optional(AnomalyTimeRange),
-  AnomalyReportedTimeRange: S.optional(AnomalyReportedTimeRange),
-  SourceDetails: S.optional(AnomalySourceDetails),
-  AssociatedInsightId: S.optional(S.String),
-  ResourceCollection: S.optional(ResourceCollection),
-  Type: S.optional(S.String),
-  Name: S.optional(S.String),
-  Description: S.optional(S.String),
-  CausalAnomalyId: S.optional(S.String),
-  AnomalyResources: S.optional(AnomalyResources),
-}) {}
+export interface ReactiveAnomalySummary {
+  Id?: string;
+  Severity?: string;
+  Status?: string;
+  AnomalyTimeRange?: AnomalyTimeRange;
+  AnomalyReportedTimeRange?: AnomalyReportedTimeRange;
+  SourceDetails?: AnomalySourceDetails;
+  AssociatedInsightId?: string;
+  ResourceCollection?: ResourceCollection;
+  Type?: string;
+  Name?: string;
+  Description?: string;
+  CausalAnomalyId?: string;
+  AnomalyResources?: AnomalyResources;
+}
+export const ReactiveAnomalySummary = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Severity: S.optional(S.String),
+    Status: S.optional(S.String),
+    AnomalyTimeRange: S.optional(AnomalyTimeRange),
+    AnomalyReportedTimeRange: S.optional(AnomalyReportedTimeRange),
+    SourceDetails: S.optional(AnomalySourceDetails),
+    AssociatedInsightId: S.optional(S.String),
+    ResourceCollection: S.optional(ResourceCollection),
+    Type: S.optional(S.String),
+    Name: S.optional(S.String),
+    Description: S.optional(S.String),
+    CausalAnomalyId: S.optional(S.String),
+    AnomalyResources: S.optional(AnomalyResources),
+  }),
+).annotations({
+  identifier: "ReactiveAnomalySummary",
+}) as any as S.Schema<ReactiveAnomalySummary>;
+export type ReactiveAnomalies = ReactiveAnomalySummary[];
 export const ReactiveAnomalies = S.Array(ReactiveAnomalySummary);
-export class AnomalousLogGroup extends S.Class<AnomalousLogGroup>(
-  "AnomalousLogGroup",
-)({
-  LogGroupName: S.optional(S.String),
-  ImpactStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  ImpactEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  NumberOfLogLinesScanned: S.optional(S.Number),
-  LogAnomalyShowcases: S.optional(LogAnomalyShowcases),
-}) {}
+export interface AnomalousLogGroup {
+  LogGroupName?: string;
+  ImpactStartTime?: Date;
+  ImpactEndTime?: Date;
+  NumberOfLogLinesScanned?: number;
+  LogAnomalyShowcases?: LogAnomalyShowcases;
+}
+export const AnomalousLogGroup = S.suspend(() =>
+  S.Struct({
+    LogGroupName: S.optional(S.String),
+    ImpactStartTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    ImpactEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    NumberOfLogLinesScanned: S.optional(S.Number),
+    LogAnomalyShowcases: S.optional(LogAnomalyShowcases),
+  }),
+).annotations({
+  identifier: "AnomalousLogGroup",
+}) as any as S.Schema<AnomalousLogGroup>;
+export type AnomalousLogGroups = AnomalousLogGroup[];
 export const AnomalousLogGroups = S.Array(AnomalousLogGroup);
-export class RecommendationRelatedAnomalySourceDetail extends S.Class<RecommendationRelatedAnomalySourceDetail>(
-  "RecommendationRelatedAnomalySourceDetail",
-)({
-  CloudWatchMetrics: S.optional(
-    RecommendationRelatedCloudWatchMetricsSourceDetails,
-  ),
-}) {}
+export interface RecommendationRelatedAnomalySourceDetail {
+  CloudWatchMetrics?: RecommendationRelatedCloudWatchMetricsSourceDetails;
+}
+export const RecommendationRelatedAnomalySourceDetail = S.suspend(() =>
+  S.Struct({
+    CloudWatchMetrics: S.optional(
+      RecommendationRelatedCloudWatchMetricsSourceDetails,
+    ),
+  }),
+).annotations({
+  identifier: "RecommendationRelatedAnomalySourceDetail",
+}) as any as S.Schema<RecommendationRelatedAnomalySourceDetail>;
+export type RelatedAnomalySourceDetails =
+  RecommendationRelatedAnomalySourceDetail[];
 export const RelatedAnomalySourceDetails = S.Array(
   RecommendationRelatedAnomalySourceDetail,
 );
-export class ListAnomaliesForInsightResponse extends S.Class<ListAnomaliesForInsightResponse>(
-  "ListAnomaliesForInsightResponse",
-)({
-  ProactiveAnomalies: S.optional(ProactiveAnomalies),
-  ReactiveAnomalies: S.optional(ReactiveAnomalies),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListAnomalousLogGroupsResponse extends S.Class<ListAnomalousLogGroupsResponse>(
-  "ListAnomalousLogGroupsResponse",
-)({
-  InsightId: S.String,
-  AnomalousLogGroups: AnomalousLogGroups,
-  NextToken: S.optional(S.String),
-}) {}
-export class ListInsightsResponse extends S.Class<ListInsightsResponse>(
-  "ListInsightsResponse",
-)({
-  ProactiveInsights: S.optional(ProactiveInsights),
-  ReactiveInsights: S.optional(ReactiveInsights),
-  NextToken: S.optional(S.String),
-}) {}
-export class RecommendationRelatedAnomaly extends S.Class<RecommendationRelatedAnomaly>(
-  "RecommendationRelatedAnomaly",
-)({
-  Resources: S.optional(RecommendationRelatedAnomalyResources),
-  SourceDetails: S.optional(RelatedAnomalySourceDetails),
-  AnomalyId: S.optional(S.String),
-}) {}
+export interface ListAnomaliesForInsightResponse {
+  ProactiveAnomalies?: ProactiveAnomalies;
+  ReactiveAnomalies?: ReactiveAnomalies;
+  NextToken?: string;
+}
+export const ListAnomaliesForInsightResponse = S.suspend(() =>
+  S.Struct({
+    ProactiveAnomalies: S.optional(ProactiveAnomalies),
+    ReactiveAnomalies: S.optional(ReactiveAnomalies),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListAnomaliesForInsightResponse",
+}) as any as S.Schema<ListAnomaliesForInsightResponse>;
+export interface ListAnomalousLogGroupsResponse {
+  InsightId: string;
+  AnomalousLogGroups: AnomalousLogGroups;
+  NextToken?: string;
+}
+export const ListAnomalousLogGroupsResponse = S.suspend(() =>
+  S.Struct({
+    InsightId: S.String,
+    AnomalousLogGroups: AnomalousLogGroups,
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListAnomalousLogGroupsResponse",
+}) as any as S.Schema<ListAnomalousLogGroupsResponse>;
+export interface ListInsightsResponse {
+  ProactiveInsights?: ProactiveInsights;
+  ReactiveInsights?: ReactiveInsights;
+  NextToken?: string;
+}
+export const ListInsightsResponse = S.suspend(() =>
+  S.Struct({
+    ProactiveInsights: S.optional(ProactiveInsights),
+    ReactiveInsights: S.optional(ReactiveInsights),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListInsightsResponse",
+}) as any as S.Schema<ListInsightsResponse>;
+export interface RecommendationRelatedAnomaly {
+  Resources?: RecommendationRelatedAnomalyResources;
+  SourceDetails?: RelatedAnomalySourceDetails;
+  AnomalyId?: string;
+}
+export const RecommendationRelatedAnomaly = S.suspend(() =>
+  S.Struct({
+    Resources: S.optional(RecommendationRelatedAnomalyResources),
+    SourceDetails: S.optional(RelatedAnomalySourceDetails),
+    AnomalyId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RecommendationRelatedAnomaly",
+}) as any as S.Schema<RecommendationRelatedAnomaly>;
+export type RecommendationRelatedAnomalies = RecommendationRelatedAnomaly[];
 export const RecommendationRelatedAnomalies = S.Array(
   RecommendationRelatedAnomaly,
 );
-export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
-  "ValidationExceptionField",
-)({ Name: S.String, Message: S.String }) {}
+export interface ValidationExceptionField {
+  Name: string;
+  Message: string;
+}
+export const ValidationExceptionField = S.suspend(() =>
+  S.Struct({ Name: S.String, Message: S.String }),
+).annotations({
+  identifier: "ValidationExceptionField",
+}) as any as S.Schema<ValidationExceptionField>;
+export type ValidationExceptionFields = ValidationExceptionField[];
 export const ValidationExceptionFields = S.Array(ValidationExceptionField);
-export class Recommendation extends S.Class<Recommendation>("Recommendation")({
-  Description: S.optional(S.String),
-  Link: S.optional(S.String),
-  Name: S.optional(S.String),
-  Reason: S.optional(S.String),
-  RelatedEvents: S.optional(RecommendationRelatedEvents),
-  RelatedAnomalies: S.optional(RecommendationRelatedAnomalies),
-  Category: S.optional(S.String),
-}) {}
+export interface Recommendation {
+  Description?: string;
+  Link?: string;
+  Name?: string;
+  Reason?: string;
+  RelatedEvents?: RecommendationRelatedEvents;
+  RelatedAnomalies?: RecommendationRelatedAnomalies;
+  Category?: string;
+}
+export const Recommendation = S.suspend(() =>
+  S.Struct({
+    Description: S.optional(S.String),
+    Link: S.optional(S.String),
+    Name: S.optional(S.String),
+    Reason: S.optional(S.String),
+    RelatedEvents: S.optional(RecommendationRelatedEvents),
+    RelatedAnomalies: S.optional(RecommendationRelatedAnomalies),
+    Category: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "Recommendation",
+}) as any as S.Schema<Recommendation>;
+export type Recommendations = Recommendation[];
 export const Recommendations = S.Array(Recommendation);
-export class ListRecommendationsResponse extends S.Class<ListRecommendationsResponse>(
-  "ListRecommendationsResponse",
-)({
-  Recommendations: S.optional(Recommendations),
-  NextToken: S.optional(S.String),
-}) {}
-export class EventResource extends S.Class<EventResource>("EventResource")({
-  Type: S.optional(S.String),
-  Name: S.optional(S.String),
-  Arn: S.optional(S.String),
-}) {}
+export interface ListRecommendationsResponse {
+  Recommendations?: Recommendations;
+  NextToken?: string;
+}
+export const ListRecommendationsResponse = S.suspend(() =>
+  S.Struct({
+    Recommendations: S.optional(Recommendations),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListRecommendationsResponse",
+}) as any as S.Schema<ListRecommendationsResponse>;
+export interface EventResource {
+  Type?: string;
+  Name?: string;
+  Arn?: string;
+}
+export const EventResource = S.suspend(() =>
+  S.Struct({
+    Type: S.optional(S.String),
+    Name: S.optional(S.String),
+    Arn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "EventResource",
+}) as any as S.Schema<EventResource>;
+export type EventResources = EventResource[];
 export const EventResources = S.Array(EventResource);
-export class Event extends S.Class<Event>("Event")({
-  ResourceCollection: S.optional(ResourceCollection),
-  Id: S.optional(S.String),
-  Time: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  EventSource: S.optional(S.String),
-  Name: S.optional(S.String),
-  DataSource: S.optional(S.String),
-  EventClass: S.optional(S.String),
-  Resources: S.optional(EventResources),
-}) {}
+export interface Event {
+  ResourceCollection?: ResourceCollection;
+  Id?: string;
+  Time?: Date;
+  EventSource?: string;
+  Name?: string;
+  DataSource?: string;
+  EventClass?: string;
+  Resources?: EventResources;
+}
+export const Event = S.suspend(() =>
+  S.Struct({
+    ResourceCollection: S.optional(ResourceCollection),
+    Id: S.optional(S.String),
+    Time: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EventSource: S.optional(S.String),
+    Name: S.optional(S.String),
+    DataSource: S.optional(S.String),
+    EventClass: S.optional(S.String),
+    Resources: S.optional(EventResources),
+  }),
+).annotations({ identifier: "Event" }) as any as S.Schema<Event>;
+export type Events = Event[];
 export const Events = S.Array(Event);
-export class ListEventsResponse extends S.Class<ListEventsResponse>(
-  "ListEventsResponse",
-)({ Events: Events, NextToken: S.optional(S.String) }) {}
-export class ProactiveAnomaly extends S.Class<ProactiveAnomaly>(
-  "ProactiveAnomaly",
-)({
-  Id: S.optional(S.String),
-  Severity: S.optional(S.String),
-  Status: S.optional(S.String),
-  UpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  AnomalyTimeRange: S.optional(AnomalyTimeRange),
-  AnomalyReportedTimeRange: S.optional(AnomalyReportedTimeRange),
-  PredictionTimeRange: S.optional(PredictionTimeRange),
-  SourceDetails: S.optional(AnomalySourceDetails),
-  AssociatedInsightId: S.optional(S.String),
-  ResourceCollection: S.optional(ResourceCollection),
-  Limit: S.optional(S.Number),
-  SourceMetadata: S.optional(AnomalySourceMetadata),
-  AnomalyResources: S.optional(AnomalyResources),
-  Description: S.optional(S.String),
-}) {}
-export class DescribeAnomalyResponse extends S.Class<DescribeAnomalyResponse>(
-  "DescribeAnomalyResponse",
-)({
-  ProactiveAnomaly: S.optional(ProactiveAnomaly),
-  ReactiveAnomaly: S.optional(ReactiveAnomaly),
-}) {}
+export interface ListEventsResponse {
+  Events: Events;
+  NextToken?: string;
+}
+export const ListEventsResponse = S.suspend(() =>
+  S.Struct({ Events: Events, NextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListEventsResponse",
+}) as any as S.Schema<ListEventsResponse>;
+export interface ProactiveAnomaly {
+  Id?: string;
+  Severity?: string;
+  Status?: string;
+  UpdateTime?: Date;
+  AnomalyTimeRange?: AnomalyTimeRange;
+  AnomalyReportedTimeRange?: AnomalyReportedTimeRange;
+  PredictionTimeRange?: PredictionTimeRange;
+  SourceDetails?: AnomalySourceDetails;
+  AssociatedInsightId?: string;
+  ResourceCollection?: ResourceCollection;
+  Limit?: number;
+  SourceMetadata?: AnomalySourceMetadata;
+  AnomalyResources?: AnomalyResources;
+  Description?: string;
+}
+export const ProactiveAnomaly = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Severity: S.optional(S.String),
+    Status: S.optional(S.String),
+    UpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    AnomalyTimeRange: S.optional(AnomalyTimeRange),
+    AnomalyReportedTimeRange: S.optional(AnomalyReportedTimeRange),
+    PredictionTimeRange: S.optional(PredictionTimeRange),
+    SourceDetails: S.optional(AnomalySourceDetails),
+    AssociatedInsightId: S.optional(S.String),
+    ResourceCollection: S.optional(ResourceCollection),
+    Limit: S.optional(S.Number),
+    SourceMetadata: S.optional(AnomalySourceMetadata),
+    AnomalyResources: S.optional(AnomalyResources),
+    Description: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ProactiveAnomaly",
+}) as any as S.Schema<ProactiveAnomaly>;
+export interface DescribeAnomalyResponse {
+  ProactiveAnomaly?: ProactiveAnomaly;
+  ReactiveAnomaly?: ReactiveAnomaly;
+}
+export const DescribeAnomalyResponse = S.suspend(() =>
+  S.Struct({
+    ProactiveAnomaly: S.optional(ProactiveAnomaly),
+    ReactiveAnomaly: S.optional(ReactiveAnomaly),
+  }),
+).annotations({
+  identifier: "DescribeAnomalyResponse",
+}) as any as S.Schema<DescribeAnomalyResponse>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

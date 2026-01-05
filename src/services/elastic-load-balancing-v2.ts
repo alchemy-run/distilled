@@ -265,394 +265,940 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type ResourceArns = string[];
 export const ResourceArns = S.Array(S.String);
+export type AlpnPolicyName = string[];
 export const AlpnPolicyName = S.Array(S.String);
+export type Subnets = string[];
 export const Subnets = S.Array(S.String);
+export type SecurityGroups = string[];
 export const SecurityGroups = S.Array(S.String);
+export type ListenerArns = string[];
 export const ListenerArns = S.Array(S.String);
+export type LoadBalancerArns = string[];
 export const LoadBalancerArns = S.Array(S.String);
+export type LoadBalancerNames = string[];
 export const LoadBalancerNames = S.Array(S.String);
+export type RuleArns = string[];
 export const RuleArns = S.Array(S.String);
+export type SslPolicyNames = string[];
 export const SslPolicyNames = S.Array(S.String);
+export type TargetGroupArns = string[];
 export const TargetGroupArns = S.Array(S.String);
+export type TargetGroupNames = string[];
 export const TargetGroupNames = S.Array(S.String);
+export type ListOfDescribeTargetHealthIncludeOptions = string[];
 export const ListOfDescribeTargetHealthIncludeOptions = S.Array(S.String);
+export type RevocationIds = number[];
 export const RevocationIds = S.Array(S.Number);
+export type TrustStoreArns = string[];
 export const TrustStoreArns = S.Array(S.String);
+export type TrustStoreNames = string[];
 export const TrustStoreNames = S.Array(S.String);
+export type RemoveIpamPools = string[];
 export const RemoveIpamPools = S.Array(S.String);
+export type TagKeys = string[];
 export const TagKeys = S.Array(S.String);
-export class Tag extends S.Class<Tag>("Tag")({
-  Key: S.String,
-  Value: S.optional(S.String),
-}) {}
+export interface Tag {
+  Key: string;
+  Value?: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ Key: S.String, Value: S.optional(S.String) }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagList = Tag[];
 export const TagList = S.Array(Tag);
-export class CreateTrustStoreInput extends S.Class<CreateTrustStoreInput>(
-  "CreateTrustStoreInput",
-)(
-  {
+export interface CreateTrustStoreInput {
+  Name: string;
+  CaCertificatesBundleS3Bucket: string;
+  CaCertificatesBundleS3Key: string;
+  CaCertificatesBundleS3ObjectVersion?: string;
+  Tags?: TagList;
+}
+export const CreateTrustStoreInput = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     CaCertificatesBundleS3Bucket: S.String,
     CaCertificatesBundleS3Key: S.String,
     CaCertificatesBundleS3ObjectVersion: S.optional(S.String),
     Tags: S.optional(TagList),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteListenerInput extends S.Class<DeleteListenerInput>(
-  "DeleteListenerInput",
-)(
-  { ListenerArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteListenerOutput extends S.Class<DeleteListenerOutput>(
-  "DeleteListenerOutput",
-)({}, ns) {}
-export class DeleteLoadBalancerInput extends S.Class<DeleteLoadBalancerInput>(
-  "DeleteLoadBalancerInput",
-)(
-  { LoadBalancerArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteLoadBalancerOutput extends S.Class<DeleteLoadBalancerOutput>(
-  "DeleteLoadBalancerOutput",
-)({}, ns) {}
-export class DeleteRuleInput extends S.Class<DeleteRuleInput>(
-  "DeleteRuleInput",
-)(
-  { RuleArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteRuleOutput extends S.Class<DeleteRuleOutput>(
-  "DeleteRuleOutput",
-)({}, ns) {}
-export class DeleteSharedTrustStoreAssociationInput extends S.Class<DeleteSharedTrustStoreAssociationInput>(
-  "DeleteSharedTrustStoreAssociationInput",
-)(
-  { TrustStoreArn: S.String, ResourceArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteSharedTrustStoreAssociationOutput extends S.Class<DeleteSharedTrustStoreAssociationOutput>(
-  "DeleteSharedTrustStoreAssociationOutput",
-)({}, ns) {}
-export class DeleteTargetGroupInput extends S.Class<DeleteTargetGroupInput>(
-  "DeleteTargetGroupInput",
-)(
-  { TargetGroupArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteTargetGroupOutput extends S.Class<DeleteTargetGroupOutput>(
-  "DeleteTargetGroupOutput",
-)({}, ns) {}
-export class DeleteTrustStoreInput extends S.Class<DeleteTrustStoreInput>(
-  "DeleteTrustStoreInput",
-)(
-  { TrustStoreArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteTrustStoreOutput extends S.Class<DeleteTrustStoreOutput>(
-  "DeleteTrustStoreOutput",
-)({}, ns) {}
-export class DescribeAccountLimitsInput extends S.Class<DescribeAccountLimitsInput>(
-  "DescribeAccountLimitsInput",
-)(
-  { Marker: S.optional(S.String), PageSize: S.optional(S.Number) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeCapacityReservationInput extends S.Class<DescribeCapacityReservationInput>(
-  "DescribeCapacityReservationInput",
-)(
-  { LoadBalancerArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeListenerAttributesInput extends S.Class<DescribeListenerAttributesInput>(
-  "DescribeListenerAttributesInput",
-)(
-  { ListenerArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeListenerCertificatesInput extends S.Class<DescribeListenerCertificatesInput>(
-  "DescribeListenerCertificatesInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateTrustStoreInput",
+}) as any as S.Schema<CreateTrustStoreInput>;
+export interface DeleteListenerInput {
+  ListenerArn: string;
+}
+export const DeleteListenerInput = S.suspend(() =>
+  S.Struct({ ListenerArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteListenerInput",
+}) as any as S.Schema<DeleteListenerInput>;
+export interface DeleteListenerOutput {}
+export const DeleteListenerOutput = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteListenerOutput",
+}) as any as S.Schema<DeleteListenerOutput>;
+export interface DeleteLoadBalancerInput {
+  LoadBalancerArn: string;
+}
+export const DeleteLoadBalancerInput = S.suspend(() =>
+  S.Struct({ LoadBalancerArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteLoadBalancerInput",
+}) as any as S.Schema<DeleteLoadBalancerInput>;
+export interface DeleteLoadBalancerOutput {}
+export const DeleteLoadBalancerOutput = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteLoadBalancerOutput",
+}) as any as S.Schema<DeleteLoadBalancerOutput>;
+export interface DeleteRuleInput {
+  RuleArn: string;
+}
+export const DeleteRuleInput = S.suspend(() =>
+  S.Struct({ RuleArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteRuleInput",
+}) as any as S.Schema<DeleteRuleInput>;
+export interface DeleteRuleOutput {}
+export const DeleteRuleOutput = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteRuleOutput",
+}) as any as S.Schema<DeleteRuleOutput>;
+export interface DeleteSharedTrustStoreAssociationInput {
+  TrustStoreArn: string;
+  ResourceArn: string;
+}
+export const DeleteSharedTrustStoreAssociationInput = S.suspend(() =>
+  S.Struct({ TrustStoreArn: S.String, ResourceArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteSharedTrustStoreAssociationInput",
+}) as any as S.Schema<DeleteSharedTrustStoreAssociationInput>;
+export interface DeleteSharedTrustStoreAssociationOutput {}
+export const DeleteSharedTrustStoreAssociationOutput = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteSharedTrustStoreAssociationOutput",
+}) as any as S.Schema<DeleteSharedTrustStoreAssociationOutput>;
+export interface DeleteTargetGroupInput {
+  TargetGroupArn: string;
+}
+export const DeleteTargetGroupInput = S.suspend(() =>
+  S.Struct({ TargetGroupArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteTargetGroupInput",
+}) as any as S.Schema<DeleteTargetGroupInput>;
+export interface DeleteTargetGroupOutput {}
+export const DeleteTargetGroupOutput = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteTargetGroupOutput",
+}) as any as S.Schema<DeleteTargetGroupOutput>;
+export interface DeleteTrustStoreInput {
+  TrustStoreArn: string;
+}
+export const DeleteTrustStoreInput = S.suspend(() =>
+  S.Struct({ TrustStoreArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteTrustStoreInput",
+}) as any as S.Schema<DeleteTrustStoreInput>;
+export interface DeleteTrustStoreOutput {}
+export const DeleteTrustStoreOutput = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteTrustStoreOutput",
+}) as any as S.Schema<DeleteTrustStoreOutput>;
+export interface DescribeAccountLimitsInput {
+  Marker?: string;
+  PageSize?: number;
+}
+export const DescribeAccountLimitsInput = S.suspend(() =>
+  S.Struct({
+    Marker: S.optional(S.String),
+    PageSize: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeAccountLimitsInput",
+}) as any as S.Schema<DescribeAccountLimitsInput>;
+export interface DescribeCapacityReservationInput {
+  LoadBalancerArn: string;
+}
+export const DescribeCapacityReservationInput = S.suspend(() =>
+  S.Struct({ LoadBalancerArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeCapacityReservationInput",
+}) as any as S.Schema<DescribeCapacityReservationInput>;
+export interface DescribeListenerAttributesInput {
+  ListenerArn: string;
+}
+export const DescribeListenerAttributesInput = S.suspend(() =>
+  S.Struct({ ListenerArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeListenerAttributesInput",
+}) as any as S.Schema<DescribeListenerAttributesInput>;
+export interface DescribeListenerCertificatesInput {
+  ListenerArn: string;
+  Marker?: string;
+  PageSize?: number;
+}
+export const DescribeListenerCertificatesInput = S.suspend(() =>
+  S.Struct({
     ListenerArn: S.String,
     Marker: S.optional(S.String),
     PageSize: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeListenersInput extends S.Class<DescribeListenersInput>(
-  "DescribeListenersInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeListenerCertificatesInput",
+}) as any as S.Schema<DescribeListenerCertificatesInput>;
+export interface DescribeListenersInput {
+  LoadBalancerArn?: string;
+  ListenerArns?: ListenerArns;
+  Marker?: string;
+  PageSize?: number;
+}
+export const DescribeListenersInput = S.suspend(() =>
+  S.Struct({
     LoadBalancerArn: S.optional(S.String),
     ListenerArns: S.optional(ListenerArns),
     Marker: S.optional(S.String),
     PageSize: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeLoadBalancerAttributesInput extends S.Class<DescribeLoadBalancerAttributesInput>(
-  "DescribeLoadBalancerAttributesInput",
-)(
-  { LoadBalancerArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeLoadBalancersInput extends S.Class<DescribeLoadBalancersInput>(
-  "DescribeLoadBalancersInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeListenersInput",
+}) as any as S.Schema<DescribeListenersInput>;
+export interface DescribeLoadBalancerAttributesInput {
+  LoadBalancerArn: string;
+}
+export const DescribeLoadBalancerAttributesInput = S.suspend(() =>
+  S.Struct({ LoadBalancerArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeLoadBalancerAttributesInput",
+}) as any as S.Schema<DescribeLoadBalancerAttributesInput>;
+export interface DescribeLoadBalancersInput {
+  LoadBalancerArns?: LoadBalancerArns;
+  Names?: LoadBalancerNames;
+  Marker?: string;
+  PageSize?: number;
+}
+export const DescribeLoadBalancersInput = S.suspend(() =>
+  S.Struct({
     LoadBalancerArns: S.optional(LoadBalancerArns),
     Names: S.optional(LoadBalancerNames),
     Marker: S.optional(S.String),
     PageSize: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeRulesInput extends S.Class<DescribeRulesInput>(
-  "DescribeRulesInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeLoadBalancersInput",
+}) as any as S.Schema<DescribeLoadBalancersInput>;
+export interface DescribeRulesInput {
+  ListenerArn?: string;
+  RuleArns?: RuleArns;
+  Marker?: string;
+  PageSize?: number;
+}
+export const DescribeRulesInput = S.suspend(() =>
+  S.Struct({
     ListenerArn: S.optional(S.String),
     RuleArns: S.optional(RuleArns),
     Marker: S.optional(S.String),
     PageSize: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeSSLPoliciesInput extends S.Class<DescribeSSLPoliciesInput>(
-  "DescribeSSLPoliciesInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeRulesInput",
+}) as any as S.Schema<DescribeRulesInput>;
+export interface DescribeSSLPoliciesInput {
+  Names?: SslPolicyNames;
+  Marker?: string;
+  PageSize?: number;
+  LoadBalancerType?: string;
+}
+export const DescribeSSLPoliciesInput = S.suspend(() =>
+  S.Struct({
     Names: S.optional(SslPolicyNames),
     Marker: S.optional(S.String),
     PageSize: S.optional(S.Number),
     LoadBalancerType: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeTagsInput extends S.Class<DescribeTagsInput>(
-  "DescribeTagsInput",
-)(
-  { ResourceArns: ResourceArns },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeTargetGroupAttributesInput extends S.Class<DescribeTargetGroupAttributesInput>(
-  "DescribeTargetGroupAttributesInput",
-)(
-  { TargetGroupArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeTargetGroupsInput extends S.Class<DescribeTargetGroupsInput>(
-  "DescribeTargetGroupsInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeSSLPoliciesInput",
+}) as any as S.Schema<DescribeSSLPoliciesInput>;
+export interface DescribeTagsInput {
+  ResourceArns: ResourceArns;
+}
+export const DescribeTagsInput = S.suspend(() =>
+  S.Struct({ ResourceArns: ResourceArns }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeTagsInput",
+}) as any as S.Schema<DescribeTagsInput>;
+export interface DescribeTargetGroupAttributesInput {
+  TargetGroupArn: string;
+}
+export const DescribeTargetGroupAttributesInput = S.suspend(() =>
+  S.Struct({ TargetGroupArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeTargetGroupAttributesInput",
+}) as any as S.Schema<DescribeTargetGroupAttributesInput>;
+export interface DescribeTargetGroupsInput {
+  LoadBalancerArn?: string;
+  TargetGroupArns?: TargetGroupArns;
+  Names?: TargetGroupNames;
+  Marker?: string;
+  PageSize?: number;
+}
+export const DescribeTargetGroupsInput = S.suspend(() =>
+  S.Struct({
     LoadBalancerArn: S.optional(S.String),
     TargetGroupArns: S.optional(TargetGroupArns),
     Names: S.optional(TargetGroupNames),
     Marker: S.optional(S.String),
     PageSize: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TargetDescription extends S.Class<TargetDescription>(
-  "TargetDescription",
-)({
-  Id: S.String,
-  Port: S.optional(S.Number),
-  AvailabilityZone: S.optional(S.String),
-  QuicServerId: S.optional(S.String),
-}) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeTargetGroupsInput",
+}) as any as S.Schema<DescribeTargetGroupsInput>;
+export interface TargetDescription {
+  Id: string;
+  Port?: number;
+  AvailabilityZone?: string;
+  QuicServerId?: string;
+}
+export const TargetDescription = S.suspend(() =>
+  S.Struct({
+    Id: S.String,
+    Port: S.optional(S.Number),
+    AvailabilityZone: S.optional(S.String),
+    QuicServerId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "TargetDescription",
+}) as any as S.Schema<TargetDescription>;
+export type TargetDescriptions = TargetDescription[];
 export const TargetDescriptions = S.Array(TargetDescription);
-export class DescribeTargetHealthInput extends S.Class<DescribeTargetHealthInput>(
-  "DescribeTargetHealthInput",
-)(
-  {
+export interface DescribeTargetHealthInput {
+  TargetGroupArn: string;
+  Targets?: TargetDescriptions;
+  Include?: ListOfDescribeTargetHealthIncludeOptions;
+}
+export const DescribeTargetHealthInput = S.suspend(() =>
+  S.Struct({
     TargetGroupArn: S.String,
     Targets: S.optional(TargetDescriptions),
     Include: S.optional(ListOfDescribeTargetHealthIncludeOptions),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeTrustStoreAssociationsInput extends S.Class<DescribeTrustStoreAssociationsInput>(
-  "DescribeTrustStoreAssociationsInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeTargetHealthInput",
+}) as any as S.Schema<DescribeTargetHealthInput>;
+export interface DescribeTrustStoreAssociationsInput {
+  TrustStoreArn: string;
+  Marker?: string;
+  PageSize?: number;
+}
+export const DescribeTrustStoreAssociationsInput = S.suspend(() =>
+  S.Struct({
     TrustStoreArn: S.String,
     Marker: S.optional(S.String),
     PageSize: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeTrustStoreRevocationsInput extends S.Class<DescribeTrustStoreRevocationsInput>(
-  "DescribeTrustStoreRevocationsInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeTrustStoreAssociationsInput",
+}) as any as S.Schema<DescribeTrustStoreAssociationsInput>;
+export interface DescribeTrustStoreRevocationsInput {
+  TrustStoreArn: string;
+  RevocationIds?: RevocationIds;
+  Marker?: string;
+  PageSize?: number;
+}
+export const DescribeTrustStoreRevocationsInput = S.suspend(() =>
+  S.Struct({
     TrustStoreArn: S.String,
     RevocationIds: S.optional(RevocationIds),
     Marker: S.optional(S.String),
     PageSize: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeTrustStoresInput extends S.Class<DescribeTrustStoresInput>(
-  "DescribeTrustStoresInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeTrustStoreRevocationsInput",
+}) as any as S.Schema<DescribeTrustStoreRevocationsInput>;
+export interface DescribeTrustStoresInput {
+  TrustStoreArns?: TrustStoreArns;
+  Names?: TrustStoreNames;
+  Marker?: string;
+  PageSize?: number;
+}
+export const DescribeTrustStoresInput = S.suspend(() =>
+  S.Struct({
     TrustStoreArns: S.optional(TrustStoreArns),
     Names: S.optional(TrustStoreNames),
     Marker: S.optional(S.String),
     PageSize: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetResourcePolicyInput extends S.Class<GetResourcePolicyInput>(
-  "GetResourcePolicyInput",
-)(
-  { ResourceArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetTrustStoreCaCertificatesBundleInput extends S.Class<GetTrustStoreCaCertificatesBundleInput>(
-  "GetTrustStoreCaCertificatesBundleInput",
-)(
-  { TrustStoreArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetTrustStoreRevocationContentInput extends S.Class<GetTrustStoreRevocationContentInput>(
-  "GetTrustStoreRevocationContentInput",
-)(
-  { TrustStoreArn: S.String, RevocationId: S.Number },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class IpamPools extends S.Class<IpamPools>("IpamPools")({
-  Ipv4IpamPoolId: S.optional(S.String),
-}) {}
-export class ModifyIpPoolsInput extends S.Class<ModifyIpPoolsInput>(
-  "ModifyIpPoolsInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeTrustStoresInput",
+}) as any as S.Schema<DescribeTrustStoresInput>;
+export interface GetResourcePolicyInput {
+  ResourceArn: string;
+}
+export const GetResourcePolicyInput = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetResourcePolicyInput",
+}) as any as S.Schema<GetResourcePolicyInput>;
+export interface GetTrustStoreCaCertificatesBundleInput {
+  TrustStoreArn: string;
+}
+export const GetTrustStoreCaCertificatesBundleInput = S.suspend(() =>
+  S.Struct({ TrustStoreArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetTrustStoreCaCertificatesBundleInput",
+}) as any as S.Schema<GetTrustStoreCaCertificatesBundleInput>;
+export interface GetTrustStoreRevocationContentInput {
+  TrustStoreArn: string;
+  RevocationId: number;
+}
+export const GetTrustStoreRevocationContentInput = S.suspend(() =>
+  S.Struct({ TrustStoreArn: S.String, RevocationId: S.Number }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetTrustStoreRevocationContentInput",
+}) as any as S.Schema<GetTrustStoreRevocationContentInput>;
+export interface IpamPools {
+  Ipv4IpamPoolId?: string;
+}
+export const IpamPools = S.suspend(() =>
+  S.Struct({ Ipv4IpamPoolId: S.optional(S.String) }),
+).annotations({ identifier: "IpamPools" }) as any as S.Schema<IpamPools>;
+export interface ModifyIpPoolsInput {
+  LoadBalancerArn: string;
+  IpamPools?: IpamPools;
+  RemoveIpamPools?: RemoveIpamPools;
+}
+export const ModifyIpPoolsInput = S.suspend(() =>
+  S.Struct({
     LoadBalancerArn: S.String,
     IpamPools: S.optional(IpamPools),
     RemoveIpamPools: S.optional(RemoveIpamPools),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class Certificate extends S.Class<Certificate>("Certificate")({
-  CertificateArn: S.optional(S.String),
-  IsDefault: S.optional(S.Boolean),
-}) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ModifyIpPoolsInput",
+}) as any as S.Schema<ModifyIpPoolsInput>;
+export interface Certificate {
+  CertificateArn?: string;
+  IsDefault?: boolean;
+}
+export const Certificate = S.suspend(() =>
+  S.Struct({
+    CertificateArn: S.optional(S.String),
+    IsDefault: S.optional(S.Boolean),
+  }),
+).annotations({ identifier: "Certificate" }) as any as S.Schema<Certificate>;
+export type CertificateList = Certificate[];
 export const CertificateList = S.Array(Certificate);
+export type AuthenticateOidcActionAuthenticationRequestExtraParams = {
+  [key: string]: string;
+};
 export const AuthenticateOidcActionAuthenticationRequestExtraParams = S.Record({
   key: S.String,
   value: S.String,
 });
-export class AuthenticateOidcActionConfig extends S.Class<AuthenticateOidcActionConfig>(
-  "AuthenticateOidcActionConfig",
-)({
-  Issuer: S.String,
-  AuthorizationEndpoint: S.String,
-  TokenEndpoint: S.String,
-  UserInfoEndpoint: S.String,
-  ClientId: S.String,
-  ClientSecret: S.optional(S.String),
-  SessionCookieName: S.optional(S.String),
-  Scope: S.optional(S.String),
-  SessionTimeout: S.optional(S.Number),
-  AuthenticationRequestExtraParams: S.optional(
-    AuthenticateOidcActionAuthenticationRequestExtraParams,
-  ),
-  OnUnauthenticatedRequest: S.optional(S.String),
-  UseExistingClientSecret: S.optional(S.Boolean),
-}) {}
+export interface AuthenticateOidcActionConfig {
+  Issuer: string;
+  AuthorizationEndpoint: string;
+  TokenEndpoint: string;
+  UserInfoEndpoint: string;
+  ClientId: string;
+  ClientSecret?: string;
+  SessionCookieName?: string;
+  Scope?: string;
+  SessionTimeout?: number;
+  AuthenticationRequestExtraParams?: AuthenticateOidcActionAuthenticationRequestExtraParams;
+  OnUnauthenticatedRequest?: string;
+  UseExistingClientSecret?: boolean;
+}
+export const AuthenticateOidcActionConfig = S.suspend(() =>
+  S.Struct({
+    Issuer: S.String,
+    AuthorizationEndpoint: S.String,
+    TokenEndpoint: S.String,
+    UserInfoEndpoint: S.String,
+    ClientId: S.String,
+    ClientSecret: S.optional(S.String),
+    SessionCookieName: S.optional(S.String),
+    Scope: S.optional(S.String),
+    SessionTimeout: S.optional(S.Number),
+    AuthenticationRequestExtraParams: S.optional(
+      AuthenticateOidcActionAuthenticationRequestExtraParams,
+    ),
+    OnUnauthenticatedRequest: S.optional(S.String),
+    UseExistingClientSecret: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "AuthenticateOidcActionConfig",
+}) as any as S.Schema<AuthenticateOidcActionConfig>;
+export type AuthenticateCognitoActionAuthenticationRequestExtraParams = {
+  [key: string]: string;
+};
 export const AuthenticateCognitoActionAuthenticationRequestExtraParams =
   S.Record({ key: S.String, value: S.String });
-export class AuthenticateCognitoActionConfig extends S.Class<AuthenticateCognitoActionConfig>(
-  "AuthenticateCognitoActionConfig",
-)({
-  UserPoolArn: S.String,
-  UserPoolClientId: S.String,
-  UserPoolDomain: S.String,
-  SessionCookieName: S.optional(S.String),
-  Scope: S.optional(S.String),
-  SessionTimeout: S.optional(S.Number),
-  AuthenticationRequestExtraParams: S.optional(
-    AuthenticateCognitoActionAuthenticationRequestExtraParams,
-  ),
-  OnUnauthenticatedRequest: S.optional(S.String),
-}) {}
-export class RedirectActionConfig extends S.Class<RedirectActionConfig>(
-  "RedirectActionConfig",
-)({
-  Protocol: S.optional(S.String),
-  Port: S.optional(S.String),
-  Host: S.optional(S.String),
-  Path: S.optional(S.String),
-  Query: S.optional(S.String),
-  StatusCode: S.String,
-}) {}
-export class FixedResponseActionConfig extends S.Class<FixedResponseActionConfig>(
-  "FixedResponseActionConfig",
-)({
-  MessageBody: S.optional(S.String),
-  StatusCode: S.String,
-  ContentType: S.optional(S.String),
-}) {}
-export class TargetGroupTuple extends S.Class<TargetGroupTuple>(
-  "TargetGroupTuple",
-)({ TargetGroupArn: S.optional(S.String), Weight: S.optional(S.Number) }) {}
+export interface AuthenticateCognitoActionConfig {
+  UserPoolArn: string;
+  UserPoolClientId: string;
+  UserPoolDomain: string;
+  SessionCookieName?: string;
+  Scope?: string;
+  SessionTimeout?: number;
+  AuthenticationRequestExtraParams?: AuthenticateCognitoActionAuthenticationRequestExtraParams;
+  OnUnauthenticatedRequest?: string;
+}
+export const AuthenticateCognitoActionConfig = S.suspend(() =>
+  S.Struct({
+    UserPoolArn: S.String,
+    UserPoolClientId: S.String,
+    UserPoolDomain: S.String,
+    SessionCookieName: S.optional(S.String),
+    Scope: S.optional(S.String),
+    SessionTimeout: S.optional(S.Number),
+    AuthenticationRequestExtraParams: S.optional(
+      AuthenticateCognitoActionAuthenticationRequestExtraParams,
+    ),
+    OnUnauthenticatedRequest: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AuthenticateCognitoActionConfig",
+}) as any as S.Schema<AuthenticateCognitoActionConfig>;
+export interface RedirectActionConfig {
+  Protocol?: string;
+  Port?: string;
+  Host?: string;
+  Path?: string;
+  Query?: string;
+  StatusCode: string;
+}
+export const RedirectActionConfig = S.suspend(() =>
+  S.Struct({
+    Protocol: S.optional(S.String),
+    Port: S.optional(S.String),
+    Host: S.optional(S.String),
+    Path: S.optional(S.String),
+    Query: S.optional(S.String),
+    StatusCode: S.String,
+  }),
+).annotations({
+  identifier: "RedirectActionConfig",
+}) as any as S.Schema<RedirectActionConfig>;
+export interface FixedResponseActionConfig {
+  MessageBody?: string;
+  StatusCode: string;
+  ContentType?: string;
+}
+export const FixedResponseActionConfig = S.suspend(() =>
+  S.Struct({
+    MessageBody: S.optional(S.String),
+    StatusCode: S.String,
+    ContentType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "FixedResponseActionConfig",
+}) as any as S.Schema<FixedResponseActionConfig>;
+export interface TargetGroupTuple {
+  TargetGroupArn?: string;
+  Weight?: number;
+}
+export const TargetGroupTuple = S.suspend(() =>
+  S.Struct({
+    TargetGroupArn: S.optional(S.String),
+    Weight: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "TargetGroupTuple",
+}) as any as S.Schema<TargetGroupTuple>;
+export type TargetGroupList = TargetGroupTuple[];
 export const TargetGroupList = S.Array(TargetGroupTuple);
-export class TargetGroupStickinessConfig extends S.Class<TargetGroupStickinessConfig>(
-  "TargetGroupStickinessConfig",
-)({ Enabled: S.optional(S.Boolean), DurationSeconds: S.optional(S.Number) }) {}
-export class ForwardActionConfig extends S.Class<ForwardActionConfig>(
-  "ForwardActionConfig",
-)({
-  TargetGroups: S.optional(TargetGroupList),
-  TargetGroupStickinessConfig: S.optional(TargetGroupStickinessConfig),
-}) {}
+export interface TargetGroupStickinessConfig {
+  Enabled?: boolean;
+  DurationSeconds?: number;
+}
+export const TargetGroupStickinessConfig = S.suspend(() =>
+  S.Struct({
+    Enabled: S.optional(S.Boolean),
+    DurationSeconds: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "TargetGroupStickinessConfig",
+}) as any as S.Schema<TargetGroupStickinessConfig>;
+export interface ForwardActionConfig {
+  TargetGroups?: TargetGroupList;
+  TargetGroupStickinessConfig?: TargetGroupStickinessConfig;
+}
+export const ForwardActionConfig = S.suspend(() =>
+  S.Struct({
+    TargetGroups: S.optional(TargetGroupList),
+    TargetGroupStickinessConfig: S.optional(TargetGroupStickinessConfig),
+  }),
+).annotations({
+  identifier: "ForwardActionConfig",
+}) as any as S.Schema<ForwardActionConfig>;
+export type JwtValidationActionAdditionalClaimValues = string[];
 export const JwtValidationActionAdditionalClaimValues = S.Array(S.String);
-export class JwtValidationActionAdditionalClaim extends S.Class<JwtValidationActionAdditionalClaim>(
-  "JwtValidationActionAdditionalClaim",
-)({
-  Format: S.String,
-  Name: S.String,
-  Values: JwtValidationActionAdditionalClaimValues,
-}) {}
+export interface JwtValidationActionAdditionalClaim {
+  Format: string;
+  Name: string;
+  Values: JwtValidationActionAdditionalClaimValues;
+}
+export const JwtValidationActionAdditionalClaim = S.suspend(() =>
+  S.Struct({
+    Format: S.String,
+    Name: S.String,
+    Values: JwtValidationActionAdditionalClaimValues,
+  }),
+).annotations({
+  identifier: "JwtValidationActionAdditionalClaim",
+}) as any as S.Schema<JwtValidationActionAdditionalClaim>;
+export type JwtValidationActionAdditionalClaims =
+  JwtValidationActionAdditionalClaim[];
 export const JwtValidationActionAdditionalClaims = S.Array(
   JwtValidationActionAdditionalClaim,
 );
-export class JwtValidationActionConfig extends S.Class<JwtValidationActionConfig>(
-  "JwtValidationActionConfig",
-)({
-  JwksEndpoint: S.String,
-  Issuer: S.String,
-  AdditionalClaims: S.optional(JwtValidationActionAdditionalClaims),
-}) {}
-export class Action extends S.Class<Action>("Action")({
-  Type: S.String,
-  TargetGroupArn: S.optional(S.String),
-  AuthenticateOidcConfig: S.optional(AuthenticateOidcActionConfig),
-  AuthenticateCognitoConfig: S.optional(AuthenticateCognitoActionConfig),
-  Order: S.optional(S.Number),
-  RedirectConfig: S.optional(RedirectActionConfig),
-  FixedResponseConfig: S.optional(FixedResponseActionConfig),
-  ForwardConfig: S.optional(ForwardActionConfig),
-  JwtValidationConfig: S.optional(JwtValidationActionConfig),
-}) {}
+export interface JwtValidationActionConfig {
+  JwksEndpoint: string;
+  Issuer: string;
+  AdditionalClaims?: JwtValidationActionAdditionalClaims;
+}
+export const JwtValidationActionConfig = S.suspend(() =>
+  S.Struct({
+    JwksEndpoint: S.String,
+    Issuer: S.String,
+    AdditionalClaims: S.optional(JwtValidationActionAdditionalClaims),
+  }),
+).annotations({
+  identifier: "JwtValidationActionConfig",
+}) as any as S.Schema<JwtValidationActionConfig>;
+export interface Action {
+  Type: string;
+  TargetGroupArn?: string;
+  AuthenticateOidcConfig?: AuthenticateOidcActionConfig;
+  AuthenticateCognitoConfig?: AuthenticateCognitoActionConfig;
+  Order?: number;
+  RedirectConfig?: RedirectActionConfig;
+  FixedResponseConfig?: FixedResponseActionConfig;
+  ForwardConfig?: ForwardActionConfig;
+  JwtValidationConfig?: JwtValidationActionConfig;
+}
+export const Action = S.suspend(() =>
+  S.Struct({
+    Type: S.String,
+    TargetGroupArn: S.optional(S.String),
+    AuthenticateOidcConfig: S.optional(AuthenticateOidcActionConfig),
+    AuthenticateCognitoConfig: S.optional(AuthenticateCognitoActionConfig),
+    Order: S.optional(S.Number),
+    RedirectConfig: S.optional(RedirectActionConfig),
+    FixedResponseConfig: S.optional(FixedResponseActionConfig),
+    ForwardConfig: S.optional(ForwardActionConfig),
+    JwtValidationConfig: S.optional(JwtValidationActionConfig),
+  }),
+).annotations({ identifier: "Action" }) as any as S.Schema<Action>;
+export type Actions = Action[];
 export const Actions = S.Array(Action);
-export class MutualAuthenticationAttributes extends S.Class<MutualAuthenticationAttributes>(
-  "MutualAuthenticationAttributes",
-)({
-  Mode: S.optional(S.String),
-  TrustStoreArn: S.optional(S.String),
-  IgnoreClientCertificateExpiry: S.optional(S.Boolean),
-  TrustStoreAssociationStatus: S.optional(S.String),
-  AdvertiseTrustStoreCaNames: S.optional(S.String),
-}) {}
-export class ModifyListenerInput extends S.Class<ModifyListenerInput>(
-  "ModifyListenerInput",
-)(
-  {
+export interface MutualAuthenticationAttributes {
+  Mode?: string;
+  TrustStoreArn?: string;
+  IgnoreClientCertificateExpiry?: boolean;
+  TrustStoreAssociationStatus?: string;
+  AdvertiseTrustStoreCaNames?: string;
+}
+export const MutualAuthenticationAttributes = S.suspend(() =>
+  S.Struct({
+    Mode: S.optional(S.String),
+    TrustStoreArn: S.optional(S.String),
+    IgnoreClientCertificateExpiry: S.optional(S.Boolean),
+    TrustStoreAssociationStatus: S.optional(S.String),
+    AdvertiseTrustStoreCaNames: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "MutualAuthenticationAttributes",
+}) as any as S.Schema<MutualAuthenticationAttributes>;
+export interface ModifyListenerInput {
+  ListenerArn: string;
+  Port?: number;
+  Protocol?: string;
+  SslPolicy?: string;
+  Certificates?: CertificateList;
+  DefaultActions?: Actions;
+  AlpnPolicy?: AlpnPolicyName;
+  MutualAuthentication?: MutualAuthenticationAttributes;
+}
+export const ModifyListenerInput = S.suspend(() =>
+  S.Struct({
     ListenerArn: S.String,
     Port: S.optional(S.Number),
     Protocol: S.optional(S.String),
@@ -661,91 +1207,215 @@ export class ModifyListenerInput extends S.Class<ModifyListenerInput>(
     DefaultActions: S.optional(Actions),
     AlpnPolicy: S.optional(AlpnPolicyName),
     MutualAuthentication: S.optional(MutualAuthenticationAttributes),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ModifyListenerInput",
+}) as any as S.Schema<ModifyListenerInput>;
+export type ListOfString = string[];
 export const ListOfString = S.Array(S.String);
-export class HostHeaderConditionConfig extends S.Class<HostHeaderConditionConfig>(
-  "HostHeaderConditionConfig",
-)({
-  Values: S.optional(ListOfString),
-  RegexValues: S.optional(ListOfString),
-}) {}
-export class PathPatternConditionConfig extends S.Class<PathPatternConditionConfig>(
-  "PathPatternConditionConfig",
-)({
-  Values: S.optional(ListOfString),
-  RegexValues: S.optional(ListOfString),
-}) {}
-export class HttpHeaderConditionConfig extends S.Class<HttpHeaderConditionConfig>(
-  "HttpHeaderConditionConfig",
-)({
-  HttpHeaderName: S.optional(S.String),
-  Values: S.optional(ListOfString),
-  RegexValues: S.optional(ListOfString),
-}) {}
-export class QueryStringKeyValuePair extends S.Class<QueryStringKeyValuePair>(
-  "QueryStringKeyValuePair",
-)({ Key: S.optional(S.String), Value: S.optional(S.String) }) {}
+export interface HostHeaderConditionConfig {
+  Values?: ListOfString;
+  RegexValues?: ListOfString;
+}
+export const HostHeaderConditionConfig = S.suspend(() =>
+  S.Struct({
+    Values: S.optional(ListOfString),
+    RegexValues: S.optional(ListOfString),
+  }),
+).annotations({
+  identifier: "HostHeaderConditionConfig",
+}) as any as S.Schema<HostHeaderConditionConfig>;
+export interface PathPatternConditionConfig {
+  Values?: ListOfString;
+  RegexValues?: ListOfString;
+}
+export const PathPatternConditionConfig = S.suspend(() =>
+  S.Struct({
+    Values: S.optional(ListOfString),
+    RegexValues: S.optional(ListOfString),
+  }),
+).annotations({
+  identifier: "PathPatternConditionConfig",
+}) as any as S.Schema<PathPatternConditionConfig>;
+export interface HttpHeaderConditionConfig {
+  HttpHeaderName?: string;
+  Values?: ListOfString;
+  RegexValues?: ListOfString;
+}
+export const HttpHeaderConditionConfig = S.suspend(() =>
+  S.Struct({
+    HttpHeaderName: S.optional(S.String),
+    Values: S.optional(ListOfString),
+    RegexValues: S.optional(ListOfString),
+  }),
+).annotations({
+  identifier: "HttpHeaderConditionConfig",
+}) as any as S.Schema<HttpHeaderConditionConfig>;
+export interface QueryStringKeyValuePair {
+  Key?: string;
+  Value?: string;
+}
+export const QueryStringKeyValuePair = S.suspend(() =>
+  S.Struct({ Key: S.optional(S.String), Value: S.optional(S.String) }),
+).annotations({
+  identifier: "QueryStringKeyValuePair",
+}) as any as S.Schema<QueryStringKeyValuePair>;
+export type QueryStringKeyValuePairList = QueryStringKeyValuePair[];
 export const QueryStringKeyValuePairList = S.Array(QueryStringKeyValuePair);
-export class QueryStringConditionConfig extends S.Class<QueryStringConditionConfig>(
-  "QueryStringConditionConfig",
-)({ Values: S.optional(QueryStringKeyValuePairList) }) {}
-export class HttpRequestMethodConditionConfig extends S.Class<HttpRequestMethodConditionConfig>(
-  "HttpRequestMethodConditionConfig",
-)({ Values: S.optional(ListOfString) }) {}
-export class SourceIpConditionConfig extends S.Class<SourceIpConditionConfig>(
-  "SourceIpConditionConfig",
-)({ Values: S.optional(ListOfString) }) {}
-export class RuleCondition extends S.Class<RuleCondition>("RuleCondition")({
-  Field: S.optional(S.String),
-  Values: S.optional(ListOfString),
-  HostHeaderConfig: S.optional(HostHeaderConditionConfig),
-  PathPatternConfig: S.optional(PathPatternConditionConfig),
-  HttpHeaderConfig: S.optional(HttpHeaderConditionConfig),
-  QueryStringConfig: S.optional(QueryStringConditionConfig),
-  HttpRequestMethodConfig: S.optional(HttpRequestMethodConditionConfig),
-  SourceIpConfig: S.optional(SourceIpConditionConfig),
-  RegexValues: S.optional(ListOfString),
-}) {}
+export interface QueryStringConditionConfig {
+  Values?: QueryStringKeyValuePairList;
+}
+export const QueryStringConditionConfig = S.suspend(() =>
+  S.Struct({ Values: S.optional(QueryStringKeyValuePairList) }),
+).annotations({
+  identifier: "QueryStringConditionConfig",
+}) as any as S.Schema<QueryStringConditionConfig>;
+export interface HttpRequestMethodConditionConfig {
+  Values?: ListOfString;
+}
+export const HttpRequestMethodConditionConfig = S.suspend(() =>
+  S.Struct({ Values: S.optional(ListOfString) }),
+).annotations({
+  identifier: "HttpRequestMethodConditionConfig",
+}) as any as S.Schema<HttpRequestMethodConditionConfig>;
+export interface SourceIpConditionConfig {
+  Values?: ListOfString;
+}
+export const SourceIpConditionConfig = S.suspend(() =>
+  S.Struct({ Values: S.optional(ListOfString) }),
+).annotations({
+  identifier: "SourceIpConditionConfig",
+}) as any as S.Schema<SourceIpConditionConfig>;
+export interface RuleCondition {
+  Field?: string;
+  Values?: ListOfString;
+  HostHeaderConfig?: HostHeaderConditionConfig;
+  PathPatternConfig?: PathPatternConditionConfig;
+  HttpHeaderConfig?: HttpHeaderConditionConfig;
+  QueryStringConfig?: QueryStringConditionConfig;
+  HttpRequestMethodConfig?: HttpRequestMethodConditionConfig;
+  SourceIpConfig?: SourceIpConditionConfig;
+  RegexValues?: ListOfString;
+}
+export const RuleCondition = S.suspend(() =>
+  S.Struct({
+    Field: S.optional(S.String),
+    Values: S.optional(ListOfString),
+    HostHeaderConfig: S.optional(HostHeaderConditionConfig),
+    PathPatternConfig: S.optional(PathPatternConditionConfig),
+    HttpHeaderConfig: S.optional(HttpHeaderConditionConfig),
+    QueryStringConfig: S.optional(QueryStringConditionConfig),
+    HttpRequestMethodConfig: S.optional(HttpRequestMethodConditionConfig),
+    SourceIpConfig: S.optional(SourceIpConditionConfig),
+    RegexValues: S.optional(ListOfString),
+  }),
+).annotations({
+  identifier: "RuleCondition",
+}) as any as S.Schema<RuleCondition>;
+export type RuleConditionList = RuleCondition[];
 export const RuleConditionList = S.Array(RuleCondition);
-export class RewriteConfig extends S.Class<RewriteConfig>("RewriteConfig")({
-  Regex: S.String,
-  Replace: S.String,
-}) {}
+export interface RewriteConfig {
+  Regex: string;
+  Replace: string;
+}
+export const RewriteConfig = S.suspend(() =>
+  S.Struct({ Regex: S.String, Replace: S.String }),
+).annotations({
+  identifier: "RewriteConfig",
+}) as any as S.Schema<RewriteConfig>;
+export type RewriteConfigList = RewriteConfig[];
 export const RewriteConfigList = S.Array(RewriteConfig);
-export class HostHeaderRewriteConfig extends S.Class<HostHeaderRewriteConfig>(
-  "HostHeaderRewriteConfig",
-)({ Rewrites: S.optional(RewriteConfigList) }) {}
-export class UrlRewriteConfig extends S.Class<UrlRewriteConfig>(
-  "UrlRewriteConfig",
-)({ Rewrites: S.optional(RewriteConfigList) }) {}
-export class RuleTransform extends S.Class<RuleTransform>("RuleTransform")({
-  Type: S.String,
-  HostHeaderRewriteConfig: S.optional(HostHeaderRewriteConfig),
-  UrlRewriteConfig: S.optional(UrlRewriteConfig),
-}) {}
+export interface HostHeaderRewriteConfig {
+  Rewrites?: RewriteConfigList;
+}
+export const HostHeaderRewriteConfig = S.suspend(() =>
+  S.Struct({ Rewrites: S.optional(RewriteConfigList) }),
+).annotations({
+  identifier: "HostHeaderRewriteConfig",
+}) as any as S.Schema<HostHeaderRewriteConfig>;
+export interface UrlRewriteConfig {
+  Rewrites?: RewriteConfigList;
+}
+export const UrlRewriteConfig = S.suspend(() =>
+  S.Struct({ Rewrites: S.optional(RewriteConfigList) }),
+).annotations({
+  identifier: "UrlRewriteConfig",
+}) as any as S.Schema<UrlRewriteConfig>;
+export interface RuleTransform {
+  Type: string;
+  HostHeaderRewriteConfig?: HostHeaderRewriteConfig;
+  UrlRewriteConfig?: UrlRewriteConfig;
+}
+export const RuleTransform = S.suspend(() =>
+  S.Struct({
+    Type: S.String,
+    HostHeaderRewriteConfig: S.optional(HostHeaderRewriteConfig),
+    UrlRewriteConfig: S.optional(UrlRewriteConfig),
+  }),
+).annotations({
+  identifier: "RuleTransform",
+}) as any as S.Schema<RuleTransform>;
+export type RuleTransformList = RuleTransform[];
 export const RuleTransformList = S.Array(RuleTransform);
-export class ModifyRuleInput extends S.Class<ModifyRuleInput>(
-  "ModifyRuleInput",
-)(
-  {
+export interface ModifyRuleInput {
+  RuleArn: string;
+  Conditions?: RuleConditionList;
+  Actions?: Actions;
+  Transforms?: RuleTransformList;
+  ResetTransforms?: boolean;
+}
+export const ModifyRuleInput = S.suspend(() =>
+  S.Struct({
     RuleArn: S.String,
     Conditions: S.optional(RuleConditionList),
     Actions: S.optional(Actions),
     Transforms: S.optional(RuleTransformList),
     ResetTransforms: S.optional(S.Boolean),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class Matcher extends S.Class<Matcher>("Matcher")({
-  HttpCode: S.optional(S.String),
-  GrpcCode: S.optional(S.String),
-}) {}
-export class ModifyTargetGroupInput extends S.Class<ModifyTargetGroupInput>(
-  "ModifyTargetGroupInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ModifyRuleInput",
+}) as any as S.Schema<ModifyRuleInput>;
+export interface Matcher {
+  HttpCode?: string;
+  GrpcCode?: string;
+}
+export const Matcher = S.suspend(() =>
+  S.Struct({ HttpCode: S.optional(S.String), GrpcCode: S.optional(S.String) }),
+).annotations({ identifier: "Matcher" }) as any as S.Schema<Matcher>;
+export interface ModifyTargetGroupInput {
+  TargetGroupArn: string;
+  HealthCheckProtocol?: string;
+  HealthCheckPort?: string;
+  HealthCheckPath?: string;
+  HealthCheckEnabled?: boolean;
+  HealthCheckIntervalSeconds?: number;
+  HealthCheckTimeoutSeconds?: number;
+  HealthyThresholdCount?: number;
+  UnhealthyThresholdCount?: number;
+  Matcher?: Matcher;
+}
+export const ModifyTargetGroupInput = S.suspend(() =>
+  S.Struct({
     TargetGroupArn: S.String,
     HealthCheckProtocol: S.optional(S.String),
     HealthCheckPort: S.optional(S.String),
@@ -756,147 +1426,384 @@ export class ModifyTargetGroupInput extends S.Class<ModifyTargetGroupInput>(
     HealthyThresholdCount: S.optional(S.Number),
     UnhealthyThresholdCount: S.optional(S.Number),
     Matcher: S.optional(Matcher),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ModifyTrustStoreInput extends S.Class<ModifyTrustStoreInput>(
-  "ModifyTrustStoreInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ModifyTargetGroupInput",
+}) as any as S.Schema<ModifyTargetGroupInput>;
+export interface ModifyTrustStoreInput {
+  TrustStoreArn: string;
+  CaCertificatesBundleS3Bucket: string;
+  CaCertificatesBundleS3Key: string;
+  CaCertificatesBundleS3ObjectVersion?: string;
+}
+export const ModifyTrustStoreInput = S.suspend(() =>
+  S.Struct({
     TrustStoreArn: S.String,
     CaCertificatesBundleS3Bucket: S.String,
     CaCertificatesBundleS3Key: S.String,
     CaCertificatesBundleS3ObjectVersion: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class RegisterTargetsInput extends S.Class<RegisterTargetsInput>(
-  "RegisterTargetsInput",
-)(
-  { TargetGroupArn: S.String, Targets: TargetDescriptions },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class RegisterTargetsOutput extends S.Class<RegisterTargetsOutput>(
-  "RegisterTargetsOutput",
-)({}, ns) {}
-export class RemoveListenerCertificatesInput extends S.Class<RemoveListenerCertificatesInput>(
-  "RemoveListenerCertificatesInput",
-)(
-  { ListenerArn: S.String, Certificates: CertificateList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class RemoveListenerCertificatesOutput extends S.Class<RemoveListenerCertificatesOutput>(
-  "RemoveListenerCertificatesOutput",
-)({}, ns) {}
-export class RemoveTagsInput extends S.Class<RemoveTagsInput>(
-  "RemoveTagsInput",
-)(
-  { ResourceArns: ResourceArns, TagKeys: TagKeys },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class RemoveTagsOutput extends S.Class<RemoveTagsOutput>(
-  "RemoveTagsOutput",
-)({}, ns) {}
-export class RemoveTrustStoreRevocationsInput extends S.Class<RemoveTrustStoreRevocationsInput>(
-  "RemoveTrustStoreRevocationsInput",
-)(
-  { TrustStoreArn: S.String, RevocationIds: RevocationIds },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class RemoveTrustStoreRevocationsOutput extends S.Class<RemoveTrustStoreRevocationsOutput>(
-  "RemoveTrustStoreRevocationsOutput",
-)({}, ns) {}
-export class SetIpAddressTypeInput extends S.Class<SetIpAddressTypeInput>(
-  "SetIpAddressTypeInput",
-)(
-  { LoadBalancerArn: S.String, IpAddressType: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class SetSecurityGroupsInput extends S.Class<SetSecurityGroupsInput>(
-  "SetSecurityGroupsInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ModifyTrustStoreInput",
+}) as any as S.Schema<ModifyTrustStoreInput>;
+export interface RegisterTargetsInput {
+  TargetGroupArn: string;
+  Targets: TargetDescriptions;
+}
+export const RegisterTargetsInput = S.suspend(() =>
+  S.Struct({ TargetGroupArn: S.String, Targets: TargetDescriptions }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "RegisterTargetsInput",
+}) as any as S.Schema<RegisterTargetsInput>;
+export interface RegisterTargetsOutput {}
+export const RegisterTargetsOutput = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "RegisterTargetsOutput",
+}) as any as S.Schema<RegisterTargetsOutput>;
+export interface RemoveListenerCertificatesInput {
+  ListenerArn: string;
+  Certificates: CertificateList;
+}
+export const RemoveListenerCertificatesInput = S.suspend(() =>
+  S.Struct({ ListenerArn: S.String, Certificates: CertificateList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "RemoveListenerCertificatesInput",
+}) as any as S.Schema<RemoveListenerCertificatesInput>;
+export interface RemoveListenerCertificatesOutput {}
+export const RemoveListenerCertificatesOutput = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "RemoveListenerCertificatesOutput",
+}) as any as S.Schema<RemoveListenerCertificatesOutput>;
+export interface RemoveTagsInput {
+  ResourceArns: ResourceArns;
+  TagKeys: TagKeys;
+}
+export const RemoveTagsInput = S.suspend(() =>
+  S.Struct({ ResourceArns: ResourceArns, TagKeys: TagKeys }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "RemoveTagsInput",
+}) as any as S.Schema<RemoveTagsInput>;
+export interface RemoveTagsOutput {}
+export const RemoveTagsOutput = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "RemoveTagsOutput",
+}) as any as S.Schema<RemoveTagsOutput>;
+export interface RemoveTrustStoreRevocationsInput {
+  TrustStoreArn: string;
+  RevocationIds: RevocationIds;
+}
+export const RemoveTrustStoreRevocationsInput = S.suspend(() =>
+  S.Struct({ TrustStoreArn: S.String, RevocationIds: RevocationIds }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "RemoveTrustStoreRevocationsInput",
+}) as any as S.Schema<RemoveTrustStoreRevocationsInput>;
+export interface RemoveTrustStoreRevocationsOutput {}
+export const RemoveTrustStoreRevocationsOutput = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "RemoveTrustStoreRevocationsOutput",
+}) as any as S.Schema<RemoveTrustStoreRevocationsOutput>;
+export interface SetIpAddressTypeInput {
+  LoadBalancerArn: string;
+  IpAddressType: string;
+}
+export const SetIpAddressTypeInput = S.suspend(() =>
+  S.Struct({ LoadBalancerArn: S.String, IpAddressType: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "SetIpAddressTypeInput",
+}) as any as S.Schema<SetIpAddressTypeInput>;
+export interface SetSecurityGroupsInput {
+  LoadBalancerArn: string;
+  SecurityGroups: SecurityGroups;
+  EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic?: string;
+}
+export const SetSecurityGroupsInput = S.suspend(() =>
+  S.Struct({
     LoadBalancerArn: S.String,
     SecurityGroups: SecurityGroups,
     EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class SubnetMapping extends S.Class<SubnetMapping>("SubnetMapping")({
-  SubnetId: S.optional(S.String),
-  AllocationId: S.optional(S.String),
-  PrivateIPv4Address: S.optional(S.String),
-  IPv6Address: S.optional(S.String),
-  SourceNatIpv6Prefix: S.optional(S.String),
-}) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "SetSecurityGroupsInput",
+}) as any as S.Schema<SetSecurityGroupsInput>;
+export interface SubnetMapping {
+  SubnetId?: string;
+  AllocationId?: string;
+  PrivateIPv4Address?: string;
+  IPv6Address?: string;
+  SourceNatIpv6Prefix?: string;
+}
+export const SubnetMapping = S.suspend(() =>
+  S.Struct({
+    SubnetId: S.optional(S.String),
+    AllocationId: S.optional(S.String),
+    PrivateIPv4Address: S.optional(S.String),
+    IPv6Address: S.optional(S.String),
+    SourceNatIpv6Prefix: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SubnetMapping",
+}) as any as S.Schema<SubnetMapping>;
+export type SubnetMappings = SubnetMapping[];
 export const SubnetMappings = S.Array(SubnetMapping);
-export class SetSubnetsInput extends S.Class<SetSubnetsInput>(
-  "SetSubnetsInput",
-)(
-  {
+export interface SetSubnetsInput {
+  LoadBalancerArn: string;
+  Subnets?: Subnets;
+  SubnetMappings?: SubnetMappings;
+  IpAddressType?: string;
+  EnablePrefixForIpv6SourceNat?: string;
+}
+export const SetSubnetsInput = S.suspend(() =>
+  S.Struct({
     LoadBalancerArn: S.String,
     Subnets: S.optional(Subnets),
     SubnetMappings: S.optional(SubnetMappings),
     IpAddressType: S.optional(S.String),
     EnablePrefixForIpv6SourceNat: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class RevocationContent extends S.Class<RevocationContent>(
-  "RevocationContent",
-)({
-  S3Bucket: S.optional(S.String),
-  S3Key: S.optional(S.String),
-  S3ObjectVersion: S.optional(S.String),
-  RevocationType: S.optional(S.String),
-}) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "SetSubnetsInput",
+}) as any as S.Schema<SetSubnetsInput>;
+export interface RevocationContent {
+  S3Bucket?: string;
+  S3Key?: string;
+  S3ObjectVersion?: string;
+  RevocationType?: string;
+}
+export const RevocationContent = S.suspend(() =>
+  S.Struct({
+    S3Bucket: S.optional(S.String),
+    S3Key: S.optional(S.String),
+    S3ObjectVersion: S.optional(S.String),
+    RevocationType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RevocationContent",
+}) as any as S.Schema<RevocationContent>;
+export type RevocationContents = RevocationContent[];
 export const RevocationContents = S.Array(RevocationContent);
-export class MinimumLoadBalancerCapacity extends S.Class<MinimumLoadBalancerCapacity>(
-  "MinimumLoadBalancerCapacity",
-)({ CapacityUnits: S.optional(S.Number) }) {}
-export class ListenerAttribute extends S.Class<ListenerAttribute>(
-  "ListenerAttribute",
-)({ Key: S.optional(S.String), Value: S.optional(S.String) }) {}
+export interface MinimumLoadBalancerCapacity {
+  CapacityUnits?: number;
+}
+export const MinimumLoadBalancerCapacity = S.suspend(() =>
+  S.Struct({ CapacityUnits: S.optional(S.Number) }),
+).annotations({
+  identifier: "MinimumLoadBalancerCapacity",
+}) as any as S.Schema<MinimumLoadBalancerCapacity>;
+export interface ListenerAttribute {
+  Key?: string;
+  Value?: string;
+}
+export const ListenerAttribute = S.suspend(() =>
+  S.Struct({ Key: S.optional(S.String), Value: S.optional(S.String) }),
+).annotations({
+  identifier: "ListenerAttribute",
+}) as any as S.Schema<ListenerAttribute>;
+export type ListenerAttributes = ListenerAttribute[];
 export const ListenerAttributes = S.Array(ListenerAttribute);
-export class LoadBalancerAttribute extends S.Class<LoadBalancerAttribute>(
-  "LoadBalancerAttribute",
-)({ Key: S.optional(S.String), Value: S.optional(S.String) }) {}
+export interface LoadBalancerAttribute {
+  Key?: string;
+  Value?: string;
+}
+export const LoadBalancerAttribute = S.suspend(() =>
+  S.Struct({ Key: S.optional(S.String), Value: S.optional(S.String) }),
+).annotations({
+  identifier: "LoadBalancerAttribute",
+}) as any as S.Schema<LoadBalancerAttribute>;
+export type LoadBalancerAttributes = LoadBalancerAttribute[];
 export const LoadBalancerAttributes = S.Array(LoadBalancerAttribute);
-export class TargetGroupAttribute extends S.Class<TargetGroupAttribute>(
-  "TargetGroupAttribute",
-)({ Key: S.optional(S.String), Value: S.optional(S.String) }) {}
+export interface TargetGroupAttribute {
+  Key?: string;
+  Value?: string;
+}
+export const TargetGroupAttribute = S.suspend(() =>
+  S.Struct({ Key: S.optional(S.String), Value: S.optional(S.String) }),
+).annotations({
+  identifier: "TargetGroupAttribute",
+}) as any as S.Schema<TargetGroupAttribute>;
+export type TargetGroupAttributes = TargetGroupAttribute[];
 export const TargetGroupAttributes = S.Array(TargetGroupAttribute);
-export class RulePriorityPair extends S.Class<RulePriorityPair>(
-  "RulePriorityPair",
-)({ RuleArn: S.optional(S.String), Priority: S.optional(S.Number) }) {}
+export interface RulePriorityPair {
+  RuleArn?: string;
+  Priority?: number;
+}
+export const RulePriorityPair = S.suspend(() =>
+  S.Struct({ RuleArn: S.optional(S.String), Priority: S.optional(S.Number) }),
+).annotations({
+  identifier: "RulePriorityPair",
+}) as any as S.Schema<RulePriorityPair>;
+export type RulePriorityList = RulePriorityPair[];
 export const RulePriorityList = S.Array(RulePriorityPair);
-export class AddListenerCertificatesInput extends S.Class<AddListenerCertificatesInput>(
-  "AddListenerCertificatesInput",
-)(
-  { ListenerArn: S.String, Certificates: CertificateList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class AddTagsInput extends S.Class<AddTagsInput>("AddTagsInput")(
-  { ResourceArns: ResourceArns, Tags: TagList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class AddTagsOutput extends S.Class<AddTagsOutput>("AddTagsOutput")(
-  {},
-  ns,
-) {}
-export class AddTrustStoreRevocationsInput extends S.Class<AddTrustStoreRevocationsInput>(
-  "AddTrustStoreRevocationsInput",
-)(
-  {
+export interface AddListenerCertificatesInput {
+  ListenerArn: string;
+  Certificates: CertificateList;
+}
+export const AddListenerCertificatesInput = S.suspend(() =>
+  S.Struct({ ListenerArn: S.String, Certificates: CertificateList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "AddListenerCertificatesInput",
+}) as any as S.Schema<AddListenerCertificatesInput>;
+export interface AddTagsInput {
+  ResourceArns: ResourceArns;
+  Tags: TagList;
+}
+export const AddTagsInput = S.suspend(() =>
+  S.Struct({ ResourceArns: ResourceArns, Tags: TagList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({ identifier: "AddTagsInput" }) as any as S.Schema<AddTagsInput>;
+export interface AddTagsOutput {}
+export const AddTagsOutput = S.suspend(() => S.Struct({}).pipe(ns)).annotations(
+  { identifier: "AddTagsOutput" },
+) as any as S.Schema<AddTagsOutput>;
+export interface AddTrustStoreRevocationsInput {
+  TrustStoreArn: string;
+  RevocationContents?: RevocationContents;
+}
+export const AddTrustStoreRevocationsInput = S.suspend(() =>
+  S.Struct({
     TrustStoreArn: S.String,
     RevocationContents: S.optional(RevocationContents),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateLoadBalancerInput extends S.Class<CreateLoadBalancerInput>(
-  "CreateLoadBalancerInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "AddTrustStoreRevocationsInput",
+}) as any as S.Schema<AddTrustStoreRevocationsInput>;
+export interface CreateLoadBalancerInput {
+  Name: string;
+  Subnets?: Subnets;
+  SubnetMappings?: SubnetMappings;
+  SecurityGroups?: SecurityGroups;
+  Scheme?: string;
+  Tags?: TagList;
+  Type?: string;
+  IpAddressType?: string;
+  CustomerOwnedIpv4Pool?: string;
+  EnablePrefixForIpv6SourceNat?: string;
+  IpamPools?: IpamPools;
+}
+export const CreateLoadBalancerInput = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     Subnets: S.optional(Subnets),
     SubnetMappings: S.optional(SubnetMappings),
@@ -908,13 +1815,42 @@ export class CreateLoadBalancerInput extends S.Class<CreateLoadBalancerInput>(
     CustomerOwnedIpv4Pool: S.optional(S.String),
     EnablePrefixForIpv6SourceNat: S.optional(S.String),
     IpamPools: S.optional(IpamPools),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateTargetGroupInput extends S.Class<CreateTargetGroupInput>(
-  "CreateTargetGroupInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateLoadBalancerInput",
+}) as any as S.Schema<CreateLoadBalancerInput>;
+export interface CreateTargetGroupInput {
+  Name: string;
+  Protocol?: string;
+  ProtocolVersion?: string;
+  Port?: number;
+  VpcId?: string;
+  HealthCheckProtocol?: string;
+  HealthCheckPort?: string;
+  HealthCheckEnabled?: boolean;
+  HealthCheckPath?: string;
+  HealthCheckIntervalSeconds?: number;
+  HealthCheckTimeoutSeconds?: number;
+  HealthyThresholdCount?: number;
+  UnhealthyThresholdCount?: number;
+  Matcher?: Matcher;
+  TargetType?: string;
+  Tags?: TagList;
+  IpAddressType?: string;
+  TargetControlPort?: number;
+}
+export const CreateTargetGroupInput = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     Protocol: S.optional(S.String),
     ProtocolVersion: S.optional(S.String),
@@ -933,368 +1869,844 @@ export class CreateTargetGroupInput extends S.Class<CreateTargetGroupInput>(
     Tags: S.optional(TagList),
     IpAddressType: S.optional(S.String),
     TargetControlPort: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeregisterTargetsInput extends S.Class<DeregisterTargetsInput>(
-  "DeregisterTargetsInput",
-)(
-  { TargetGroupArn: S.String, Targets: TargetDescriptions },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeregisterTargetsOutput extends S.Class<DeregisterTargetsOutput>(
-  "DeregisterTargetsOutput",
-)({}, ns) {}
-export class DescribeListenerAttributesOutput extends S.Class<DescribeListenerAttributesOutput>(
-  "DescribeListenerAttributesOutput",
-)({ Attributes: S.optional(ListenerAttributes) }, ns) {}
-export class DescribeListenerCertificatesOutput extends S.Class<DescribeListenerCertificatesOutput>(
-  "DescribeListenerCertificatesOutput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateTargetGroupInput",
+}) as any as S.Schema<CreateTargetGroupInput>;
+export interface DeregisterTargetsInput {
+  TargetGroupArn: string;
+  Targets: TargetDescriptions;
+}
+export const DeregisterTargetsInput = S.suspend(() =>
+  S.Struct({ TargetGroupArn: S.String, Targets: TargetDescriptions }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeregisterTargetsInput",
+}) as any as S.Schema<DeregisterTargetsInput>;
+export interface DeregisterTargetsOutput {}
+export const DeregisterTargetsOutput = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeregisterTargetsOutput",
+}) as any as S.Schema<DeregisterTargetsOutput>;
+export interface DescribeListenerAttributesOutput {
+  Attributes?: ListenerAttributes;
+}
+export const DescribeListenerAttributesOutput = S.suspend(() =>
+  S.Struct({ Attributes: S.optional(ListenerAttributes) }).pipe(ns),
+).annotations({
+  identifier: "DescribeListenerAttributesOutput",
+}) as any as S.Schema<DescribeListenerAttributesOutput>;
+export interface DescribeListenerCertificatesOutput {
+  Certificates?: CertificateList;
+  NextMarker?: string;
+}
+export const DescribeListenerCertificatesOutput = S.suspend(() =>
+  S.Struct({
     Certificates: S.optional(CertificateList),
     NextMarker: S.optional(S.String),
-  },
-  ns,
-) {}
-export class DescribeLoadBalancerAttributesOutput extends S.Class<DescribeLoadBalancerAttributesOutput>(
-  "DescribeLoadBalancerAttributesOutput",
-)({ Attributes: S.optional(LoadBalancerAttributes) }, ns) {}
-export class DescribeTargetGroupAttributesOutput extends S.Class<DescribeTargetGroupAttributesOutput>(
-  "DescribeTargetGroupAttributesOutput",
-)({ Attributes: S.optional(TargetGroupAttributes) }, ns) {}
-export class TrustStore extends S.Class<TrustStore>("TrustStore")({
-  Name: S.optional(S.String),
-  TrustStoreArn: S.optional(S.String),
-  Status: S.optional(S.String),
-  NumberOfCaCertificates: S.optional(S.Number),
-  TotalRevokedEntries: S.optional(S.Number),
-}) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeListenerCertificatesOutput",
+}) as any as S.Schema<DescribeListenerCertificatesOutput>;
+export interface DescribeLoadBalancerAttributesOutput {
+  Attributes?: LoadBalancerAttributes;
+}
+export const DescribeLoadBalancerAttributesOutput = S.suspend(() =>
+  S.Struct({ Attributes: S.optional(LoadBalancerAttributes) }).pipe(ns),
+).annotations({
+  identifier: "DescribeLoadBalancerAttributesOutput",
+}) as any as S.Schema<DescribeLoadBalancerAttributesOutput>;
+export interface DescribeTargetGroupAttributesOutput {
+  Attributes?: TargetGroupAttributes;
+}
+export const DescribeTargetGroupAttributesOutput = S.suspend(() =>
+  S.Struct({ Attributes: S.optional(TargetGroupAttributes) }).pipe(ns),
+).annotations({
+  identifier: "DescribeTargetGroupAttributesOutput",
+}) as any as S.Schema<DescribeTargetGroupAttributesOutput>;
+export interface TrustStore {
+  Name?: string;
+  TrustStoreArn?: string;
+  Status?: string;
+  NumberOfCaCertificates?: number;
+  TotalRevokedEntries?: number;
+}
+export const TrustStore = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    TrustStoreArn: S.optional(S.String),
+    Status: S.optional(S.String),
+    NumberOfCaCertificates: S.optional(S.Number),
+    TotalRevokedEntries: S.optional(S.Number),
+  }),
+).annotations({ identifier: "TrustStore" }) as any as S.Schema<TrustStore>;
+export type TrustStores = TrustStore[];
 export const TrustStores = S.Array(TrustStore);
-export class DescribeTrustStoresOutput extends S.Class<DescribeTrustStoresOutput>(
-  "DescribeTrustStoresOutput",
-)(
-  { TrustStores: S.optional(TrustStores), NextMarker: S.optional(S.String) },
-  ns,
-) {}
-export class GetResourcePolicyOutput extends S.Class<GetResourcePolicyOutput>(
-  "GetResourcePolicyOutput",
-)({ Policy: S.optional(S.String) }, ns) {}
-export class GetTrustStoreCaCertificatesBundleOutput extends S.Class<GetTrustStoreCaCertificatesBundleOutput>(
-  "GetTrustStoreCaCertificatesBundleOutput",
-)({ Location: S.optional(S.String) }, ns) {}
-export class GetTrustStoreRevocationContentOutput extends S.Class<GetTrustStoreRevocationContentOutput>(
-  "GetTrustStoreRevocationContentOutput",
-)({ Location: S.optional(S.String) }, ns) {}
-export class ModifyCapacityReservationInput extends S.Class<ModifyCapacityReservationInput>(
-  "ModifyCapacityReservationInput",
-)(
-  {
+export interface DescribeTrustStoresOutput {
+  TrustStores?: TrustStores;
+  NextMarker?: string;
+}
+export const DescribeTrustStoresOutput = S.suspend(() =>
+  S.Struct({
+    TrustStores: S.optional(TrustStores),
+    NextMarker: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeTrustStoresOutput",
+}) as any as S.Schema<DescribeTrustStoresOutput>;
+export interface GetResourcePolicyOutput {
+  Policy?: string;
+}
+export const GetResourcePolicyOutput = S.suspend(() =>
+  S.Struct({ Policy: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "GetResourcePolicyOutput",
+}) as any as S.Schema<GetResourcePolicyOutput>;
+export interface GetTrustStoreCaCertificatesBundleOutput {
+  Location?: string;
+}
+export const GetTrustStoreCaCertificatesBundleOutput = S.suspend(() =>
+  S.Struct({ Location: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "GetTrustStoreCaCertificatesBundleOutput",
+}) as any as S.Schema<GetTrustStoreCaCertificatesBundleOutput>;
+export interface GetTrustStoreRevocationContentOutput {
+  Location?: string;
+}
+export const GetTrustStoreRevocationContentOutput = S.suspend(() =>
+  S.Struct({ Location: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "GetTrustStoreRevocationContentOutput",
+}) as any as S.Schema<GetTrustStoreRevocationContentOutput>;
+export interface ModifyCapacityReservationInput {
+  LoadBalancerArn: string;
+  MinimumLoadBalancerCapacity?: MinimumLoadBalancerCapacity;
+  ResetCapacityReservation?: boolean;
+}
+export const ModifyCapacityReservationInput = S.suspend(() =>
+  S.Struct({
     LoadBalancerArn: S.String,
     MinimumLoadBalancerCapacity: S.optional(MinimumLoadBalancerCapacity),
     ResetCapacityReservation: S.optional(S.Boolean),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ModifyIpPoolsOutput extends S.Class<ModifyIpPoolsOutput>(
-  "ModifyIpPoolsOutput",
-)({ IpamPools: S.optional(IpamPools) }, ns) {}
-export class Listener extends S.Class<Listener>("Listener")({
-  ListenerArn: S.optional(S.String),
-  LoadBalancerArn: S.optional(S.String),
-  Port: S.optional(S.Number),
-  Protocol: S.optional(S.String),
-  Certificates: S.optional(CertificateList),
-  SslPolicy: S.optional(S.String),
-  DefaultActions: S.optional(Actions),
-  AlpnPolicy: S.optional(AlpnPolicyName),
-  MutualAuthentication: S.optional(MutualAuthenticationAttributes),
-}) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ModifyCapacityReservationInput",
+}) as any as S.Schema<ModifyCapacityReservationInput>;
+export interface ModifyIpPoolsOutput {
+  IpamPools?: IpamPools;
+}
+export const ModifyIpPoolsOutput = S.suspend(() =>
+  S.Struct({ IpamPools: S.optional(IpamPools) }).pipe(ns),
+).annotations({
+  identifier: "ModifyIpPoolsOutput",
+}) as any as S.Schema<ModifyIpPoolsOutput>;
+export interface Listener {
+  ListenerArn?: string;
+  LoadBalancerArn?: string;
+  Port?: number;
+  Protocol?: string;
+  Certificates?: CertificateList;
+  SslPolicy?: string;
+  DefaultActions?: Actions;
+  AlpnPolicy?: AlpnPolicyName;
+  MutualAuthentication?: MutualAuthenticationAttributes;
+}
+export const Listener = S.suspend(() =>
+  S.Struct({
+    ListenerArn: S.optional(S.String),
+    LoadBalancerArn: S.optional(S.String),
+    Port: S.optional(S.Number),
+    Protocol: S.optional(S.String),
+    Certificates: S.optional(CertificateList),
+    SslPolicy: S.optional(S.String),
+    DefaultActions: S.optional(Actions),
+    AlpnPolicy: S.optional(AlpnPolicyName),
+    MutualAuthentication: S.optional(MutualAuthenticationAttributes),
+  }),
+).annotations({ identifier: "Listener" }) as any as S.Schema<Listener>;
+export type Listeners = Listener[];
 export const Listeners = S.Array(Listener);
-export class ModifyListenerOutput extends S.Class<ModifyListenerOutput>(
-  "ModifyListenerOutput",
-)({ Listeners: S.optional(Listeners) }, ns) {}
-export class ModifyListenerAttributesInput extends S.Class<ModifyListenerAttributesInput>(
-  "ModifyListenerAttributesInput",
-)(
-  { ListenerArn: S.String, Attributes: ListenerAttributes },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ModifyLoadBalancerAttributesInput extends S.Class<ModifyLoadBalancerAttributesInput>(
-  "ModifyLoadBalancerAttributesInput",
-)(
-  { LoadBalancerArn: S.String, Attributes: LoadBalancerAttributes },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class Rule extends S.Class<Rule>("Rule")({
-  RuleArn: S.optional(S.String),
-  Priority: S.optional(S.String),
-  Conditions: S.optional(RuleConditionList),
-  Actions: S.optional(Actions),
-  IsDefault: S.optional(S.Boolean),
-  Transforms: S.optional(RuleTransformList),
-}) {}
+export interface ModifyListenerOutput {
+  Listeners?: Listeners;
+}
+export const ModifyListenerOutput = S.suspend(() =>
+  S.Struct({ Listeners: S.optional(Listeners) }).pipe(ns),
+).annotations({
+  identifier: "ModifyListenerOutput",
+}) as any as S.Schema<ModifyListenerOutput>;
+export interface ModifyListenerAttributesInput {
+  ListenerArn: string;
+  Attributes: ListenerAttributes;
+}
+export const ModifyListenerAttributesInput = S.suspend(() =>
+  S.Struct({ ListenerArn: S.String, Attributes: ListenerAttributes }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ModifyListenerAttributesInput",
+}) as any as S.Schema<ModifyListenerAttributesInput>;
+export interface ModifyLoadBalancerAttributesInput {
+  LoadBalancerArn: string;
+  Attributes: LoadBalancerAttributes;
+}
+export const ModifyLoadBalancerAttributesInput = S.suspend(() =>
+  S.Struct({
+    LoadBalancerArn: S.String,
+    Attributes: LoadBalancerAttributes,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ModifyLoadBalancerAttributesInput",
+}) as any as S.Schema<ModifyLoadBalancerAttributesInput>;
+export interface Rule {
+  RuleArn?: string;
+  Priority?: string;
+  Conditions?: RuleConditionList;
+  Actions?: Actions;
+  IsDefault?: boolean;
+  Transforms?: RuleTransformList;
+}
+export const Rule = S.suspend(() =>
+  S.Struct({
+    RuleArn: S.optional(S.String),
+    Priority: S.optional(S.String),
+    Conditions: S.optional(RuleConditionList),
+    Actions: S.optional(Actions),
+    IsDefault: S.optional(S.Boolean),
+    Transforms: S.optional(RuleTransformList),
+  }),
+).annotations({ identifier: "Rule" }) as any as S.Schema<Rule>;
+export type Rules = Rule[];
 export const Rules = S.Array(Rule);
-export class ModifyRuleOutput extends S.Class<ModifyRuleOutput>(
-  "ModifyRuleOutput",
-)({ Rules: S.optional(Rules) }, ns) {}
-export class TargetGroup extends S.Class<TargetGroup>("TargetGroup")({
-  TargetGroupArn: S.optional(S.String),
-  TargetGroupName: S.optional(S.String),
-  Protocol: S.optional(S.String),
-  Port: S.optional(S.Number),
-  VpcId: S.optional(S.String),
-  HealthCheckProtocol: S.optional(S.String),
-  HealthCheckPort: S.optional(S.String),
-  HealthCheckEnabled: S.optional(S.Boolean),
-  HealthCheckIntervalSeconds: S.optional(S.Number),
-  HealthCheckTimeoutSeconds: S.optional(S.Number),
-  HealthyThresholdCount: S.optional(S.Number),
-  UnhealthyThresholdCount: S.optional(S.Number),
-  HealthCheckPath: S.optional(S.String),
-  Matcher: S.optional(Matcher),
-  LoadBalancerArns: S.optional(LoadBalancerArns),
-  TargetType: S.optional(S.String),
-  ProtocolVersion: S.optional(S.String),
-  IpAddressType: S.optional(S.String),
-  TargetControlPort: S.optional(S.Number),
-}) {}
+export interface ModifyRuleOutput {
+  Rules?: Rules;
+}
+export const ModifyRuleOutput = S.suspend(() =>
+  S.Struct({ Rules: S.optional(Rules) }).pipe(ns),
+).annotations({
+  identifier: "ModifyRuleOutput",
+}) as any as S.Schema<ModifyRuleOutput>;
+export interface TargetGroup {
+  TargetGroupArn?: string;
+  TargetGroupName?: string;
+  Protocol?: string;
+  Port?: number;
+  VpcId?: string;
+  HealthCheckProtocol?: string;
+  HealthCheckPort?: string;
+  HealthCheckEnabled?: boolean;
+  HealthCheckIntervalSeconds?: number;
+  HealthCheckTimeoutSeconds?: number;
+  HealthyThresholdCount?: number;
+  UnhealthyThresholdCount?: number;
+  HealthCheckPath?: string;
+  Matcher?: Matcher;
+  LoadBalancerArns?: LoadBalancerArns;
+  TargetType?: string;
+  ProtocolVersion?: string;
+  IpAddressType?: string;
+  TargetControlPort?: number;
+}
+export const TargetGroup = S.suspend(() =>
+  S.Struct({
+    TargetGroupArn: S.optional(S.String),
+    TargetGroupName: S.optional(S.String),
+    Protocol: S.optional(S.String),
+    Port: S.optional(S.Number),
+    VpcId: S.optional(S.String),
+    HealthCheckProtocol: S.optional(S.String),
+    HealthCheckPort: S.optional(S.String),
+    HealthCheckEnabled: S.optional(S.Boolean),
+    HealthCheckIntervalSeconds: S.optional(S.Number),
+    HealthCheckTimeoutSeconds: S.optional(S.Number),
+    HealthyThresholdCount: S.optional(S.Number),
+    UnhealthyThresholdCount: S.optional(S.Number),
+    HealthCheckPath: S.optional(S.String),
+    Matcher: S.optional(Matcher),
+    LoadBalancerArns: S.optional(LoadBalancerArns),
+    TargetType: S.optional(S.String),
+    ProtocolVersion: S.optional(S.String),
+    IpAddressType: S.optional(S.String),
+    TargetControlPort: S.optional(S.Number),
+  }),
+).annotations({ identifier: "TargetGroup" }) as any as S.Schema<TargetGroup>;
+export type TargetGroups = TargetGroup[];
 export const TargetGroups = S.Array(TargetGroup);
-export class ModifyTargetGroupOutput extends S.Class<ModifyTargetGroupOutput>(
-  "ModifyTargetGroupOutput",
-)({ TargetGroups: S.optional(TargetGroups) }, ns) {}
-export class ModifyTargetGroupAttributesInput extends S.Class<ModifyTargetGroupAttributesInput>(
-  "ModifyTargetGroupAttributesInput",
-)(
-  { TargetGroupArn: S.String, Attributes: TargetGroupAttributes },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ModifyTrustStoreOutput extends S.Class<ModifyTrustStoreOutput>(
-  "ModifyTrustStoreOutput",
-)({ TrustStores: S.optional(TrustStores) }, ns) {}
-export class SetIpAddressTypeOutput extends S.Class<SetIpAddressTypeOutput>(
-  "SetIpAddressTypeOutput",
-)({ IpAddressType: S.optional(S.String) }, ns) {}
-export class SetRulePrioritiesInput extends S.Class<SetRulePrioritiesInput>(
-  "SetRulePrioritiesInput",
-)(
-  { RulePriorities: RulePriorityList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class SetSecurityGroupsOutput extends S.Class<SetSecurityGroupsOutput>(
-  "SetSecurityGroupsOutput",
-)(
-  {
+export interface ModifyTargetGroupOutput {
+  TargetGroups?: TargetGroups;
+}
+export const ModifyTargetGroupOutput = S.suspend(() =>
+  S.Struct({ TargetGroups: S.optional(TargetGroups) }).pipe(ns),
+).annotations({
+  identifier: "ModifyTargetGroupOutput",
+}) as any as S.Schema<ModifyTargetGroupOutput>;
+export interface ModifyTargetGroupAttributesInput {
+  TargetGroupArn: string;
+  Attributes: TargetGroupAttributes;
+}
+export const ModifyTargetGroupAttributesInput = S.suspend(() =>
+  S.Struct({
+    TargetGroupArn: S.String,
+    Attributes: TargetGroupAttributes,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ModifyTargetGroupAttributesInput",
+}) as any as S.Schema<ModifyTargetGroupAttributesInput>;
+export interface ModifyTrustStoreOutput {
+  TrustStores?: TrustStores;
+}
+export const ModifyTrustStoreOutput = S.suspend(() =>
+  S.Struct({ TrustStores: S.optional(TrustStores) }).pipe(ns),
+).annotations({
+  identifier: "ModifyTrustStoreOutput",
+}) as any as S.Schema<ModifyTrustStoreOutput>;
+export interface SetIpAddressTypeOutput {
+  IpAddressType?: string;
+}
+export const SetIpAddressTypeOutput = S.suspend(() =>
+  S.Struct({ IpAddressType: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "SetIpAddressTypeOutput",
+}) as any as S.Schema<SetIpAddressTypeOutput>;
+export interface SetRulePrioritiesInput {
+  RulePriorities: RulePriorityList;
+}
+export const SetRulePrioritiesInput = S.suspend(() =>
+  S.Struct({ RulePriorities: RulePriorityList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "SetRulePrioritiesInput",
+}) as any as S.Schema<SetRulePrioritiesInput>;
+export interface SetSecurityGroupsOutput {
+  SecurityGroupIds?: SecurityGroups;
+  EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic?: string;
+}
+export const SetSecurityGroupsOutput = S.suspend(() =>
+  S.Struct({
     SecurityGroupIds: S.optional(SecurityGroups),
     EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic: S.optional(S.String),
-  },
-  ns,
-) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "SetSecurityGroupsOutput",
+}) as any as S.Schema<SetSecurityGroupsOutput>;
+export type SslProtocols = string[];
 export const SslProtocols = S.Array(S.String);
+export type SourceNatIpv6Prefixes = string[];
 export const SourceNatIpv6Prefixes = S.Array(S.String);
-export class Limit extends S.Class<Limit>("Limit")({
-  Name: S.optional(S.String),
-  Max: S.optional(S.String),
-}) {}
+export interface Limit {
+  Name?: string;
+  Max?: string;
+}
+export const Limit = S.suspend(() =>
+  S.Struct({ Name: S.optional(S.String), Max: S.optional(S.String) }),
+).annotations({ identifier: "Limit" }) as any as S.Schema<Limit>;
+export type Limits = Limit[];
 export const Limits = S.Array(Limit);
-export class TagDescription extends S.Class<TagDescription>("TagDescription")({
-  ResourceArn: S.optional(S.String),
-  Tags: S.optional(TagList),
-}) {}
+export interface TagDescription {
+  ResourceArn?: string;
+  Tags?: TagList;
+}
+export const TagDescription = S.suspend(() =>
+  S.Struct({ ResourceArn: S.optional(S.String), Tags: S.optional(TagList) }),
+).annotations({
+  identifier: "TagDescription",
+}) as any as S.Schema<TagDescription>;
+export type TagDescriptions = TagDescription[];
 export const TagDescriptions = S.Array(TagDescription);
-export class TrustStoreAssociation extends S.Class<TrustStoreAssociation>(
-  "TrustStoreAssociation",
-)({ ResourceArn: S.optional(S.String) }) {}
+export interface TrustStoreAssociation {
+  ResourceArn?: string;
+}
+export const TrustStoreAssociation = S.suspend(() =>
+  S.Struct({ ResourceArn: S.optional(S.String) }),
+).annotations({
+  identifier: "TrustStoreAssociation",
+}) as any as S.Schema<TrustStoreAssociation>;
+export type TrustStoreAssociations = TrustStoreAssociation[];
 export const TrustStoreAssociations = S.Array(TrustStoreAssociation);
-export class DescribeTrustStoreRevocation extends S.Class<DescribeTrustStoreRevocation>(
-  "DescribeTrustStoreRevocation",
-)({
-  TrustStoreArn: S.optional(S.String),
-  RevocationId: S.optional(S.Number),
-  RevocationType: S.optional(S.String),
-  NumberOfRevokedEntries: S.optional(S.Number),
-}) {}
+export interface DescribeTrustStoreRevocation {
+  TrustStoreArn?: string;
+  RevocationId?: number;
+  RevocationType?: string;
+  NumberOfRevokedEntries?: number;
+}
+export const DescribeTrustStoreRevocation = S.suspend(() =>
+  S.Struct({
+    TrustStoreArn: S.optional(S.String),
+    RevocationId: S.optional(S.Number),
+    RevocationType: S.optional(S.String),
+    NumberOfRevokedEntries: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "DescribeTrustStoreRevocation",
+}) as any as S.Schema<DescribeTrustStoreRevocation>;
+export type DescribeTrustStoreRevocationResponse =
+  DescribeTrustStoreRevocation[];
 export const DescribeTrustStoreRevocationResponse = S.Array(
   DescribeTrustStoreRevocation,
 );
-export class AddListenerCertificatesOutput extends S.Class<AddListenerCertificatesOutput>(
-  "AddListenerCertificatesOutput",
-)({ Certificates: S.optional(CertificateList) }, ns) {}
-export class LoadBalancerState extends S.Class<LoadBalancerState>(
-  "LoadBalancerState",
-)({ Code: S.optional(S.String), Reason: S.optional(S.String) }) {}
-export class LoadBalancerAddress extends S.Class<LoadBalancerAddress>(
-  "LoadBalancerAddress",
-)({
-  IpAddress: S.optional(S.String),
-  AllocationId: S.optional(S.String),
-  PrivateIPv4Address: S.optional(S.String),
-  IPv6Address: S.optional(S.String),
-}) {}
+export interface AddListenerCertificatesOutput {
+  Certificates?: CertificateList;
+}
+export const AddListenerCertificatesOutput = S.suspend(() =>
+  S.Struct({ Certificates: S.optional(CertificateList) }).pipe(ns),
+).annotations({
+  identifier: "AddListenerCertificatesOutput",
+}) as any as S.Schema<AddListenerCertificatesOutput>;
+export interface LoadBalancerState {
+  Code?: string;
+  Reason?: string;
+}
+export const LoadBalancerState = S.suspend(() =>
+  S.Struct({ Code: S.optional(S.String), Reason: S.optional(S.String) }),
+).annotations({
+  identifier: "LoadBalancerState",
+}) as any as S.Schema<LoadBalancerState>;
+export interface LoadBalancerAddress {
+  IpAddress?: string;
+  AllocationId?: string;
+  PrivateIPv4Address?: string;
+  IPv6Address?: string;
+}
+export const LoadBalancerAddress = S.suspend(() =>
+  S.Struct({
+    IpAddress: S.optional(S.String),
+    AllocationId: S.optional(S.String),
+    PrivateIPv4Address: S.optional(S.String),
+    IPv6Address: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "LoadBalancerAddress",
+}) as any as S.Schema<LoadBalancerAddress>;
+export type LoadBalancerAddresses = LoadBalancerAddress[];
 export const LoadBalancerAddresses = S.Array(LoadBalancerAddress);
-export class AvailabilityZone extends S.Class<AvailabilityZone>(
-  "AvailabilityZone",
-)({
-  ZoneName: S.optional(S.String),
-  SubnetId: S.optional(S.String),
-  OutpostId: S.optional(S.String),
-  LoadBalancerAddresses: S.optional(LoadBalancerAddresses),
-  SourceNatIpv6Prefixes: S.optional(SourceNatIpv6Prefixes),
-}) {}
+export interface AvailabilityZone {
+  ZoneName?: string;
+  SubnetId?: string;
+  OutpostId?: string;
+  LoadBalancerAddresses?: LoadBalancerAddresses;
+  SourceNatIpv6Prefixes?: SourceNatIpv6Prefixes;
+}
+export const AvailabilityZone = S.suspend(() =>
+  S.Struct({
+    ZoneName: S.optional(S.String),
+    SubnetId: S.optional(S.String),
+    OutpostId: S.optional(S.String),
+    LoadBalancerAddresses: S.optional(LoadBalancerAddresses),
+    SourceNatIpv6Prefixes: S.optional(SourceNatIpv6Prefixes),
+  }),
+).annotations({
+  identifier: "AvailabilityZone",
+}) as any as S.Schema<AvailabilityZone>;
+export type AvailabilityZones = AvailabilityZone[];
 export const AvailabilityZones = S.Array(AvailabilityZone);
-export class LoadBalancer extends S.Class<LoadBalancer>("LoadBalancer")({
-  LoadBalancerArn: S.optional(S.String),
-  DNSName: S.optional(S.String),
-  CanonicalHostedZoneId: S.optional(S.String),
-  CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  LoadBalancerName: S.optional(S.String),
-  Scheme: S.optional(S.String),
-  VpcId: S.optional(S.String),
-  State: S.optional(LoadBalancerState),
-  Type: S.optional(S.String),
-  AvailabilityZones: S.optional(AvailabilityZones),
-  SecurityGroups: S.optional(SecurityGroups),
-  IpAddressType: S.optional(S.String),
-  CustomerOwnedIpv4Pool: S.optional(S.String),
-  EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic: S.optional(S.String),
-  EnablePrefixForIpv6SourceNat: S.optional(S.String),
-  IpamPools: S.optional(IpamPools),
-}) {}
+export interface LoadBalancer {
+  LoadBalancerArn?: string;
+  DNSName?: string;
+  CanonicalHostedZoneId?: string;
+  CreatedTime?: Date;
+  LoadBalancerName?: string;
+  Scheme?: string;
+  VpcId?: string;
+  State?: LoadBalancerState;
+  Type?: string;
+  AvailabilityZones?: AvailabilityZones;
+  SecurityGroups?: SecurityGroups;
+  IpAddressType?: string;
+  CustomerOwnedIpv4Pool?: string;
+  EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic?: string;
+  EnablePrefixForIpv6SourceNat?: string;
+  IpamPools?: IpamPools;
+}
+export const LoadBalancer = S.suspend(() =>
+  S.Struct({
+    LoadBalancerArn: S.optional(S.String),
+    DNSName: S.optional(S.String),
+    CanonicalHostedZoneId: S.optional(S.String),
+    CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    LoadBalancerName: S.optional(S.String),
+    Scheme: S.optional(S.String),
+    VpcId: S.optional(S.String),
+    State: S.optional(LoadBalancerState),
+    Type: S.optional(S.String),
+    AvailabilityZones: S.optional(AvailabilityZones),
+    SecurityGroups: S.optional(SecurityGroups),
+    IpAddressType: S.optional(S.String),
+    CustomerOwnedIpv4Pool: S.optional(S.String),
+    EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic: S.optional(S.String),
+    EnablePrefixForIpv6SourceNat: S.optional(S.String),
+    IpamPools: S.optional(IpamPools),
+  }),
+).annotations({ identifier: "LoadBalancer" }) as any as S.Schema<LoadBalancer>;
+export type LoadBalancers = LoadBalancer[];
 export const LoadBalancers = S.Array(LoadBalancer);
-export class CreateLoadBalancerOutput extends S.Class<CreateLoadBalancerOutput>(
-  "CreateLoadBalancerOutput",
-)({ LoadBalancers: S.optional(LoadBalancers) }, ns) {}
-export class CreateTargetGroupOutput extends S.Class<CreateTargetGroupOutput>(
-  "CreateTargetGroupOutput",
-)({ TargetGroups: S.optional(TargetGroups) }, ns) {}
-export class CreateTrustStoreOutput extends S.Class<CreateTrustStoreOutput>(
-  "CreateTrustStoreOutput",
-)({ TrustStores: S.optional(TrustStores) }, ns) {}
-export class DescribeAccountLimitsOutput extends S.Class<DescribeAccountLimitsOutput>(
-  "DescribeAccountLimitsOutput",
-)({ Limits: S.optional(Limits), NextMarker: S.optional(S.String) }, ns) {}
-export class DescribeListenersOutput extends S.Class<DescribeListenersOutput>(
-  "DescribeListenersOutput",
-)({ Listeners: S.optional(Listeners), NextMarker: S.optional(S.String) }, ns) {}
-export class DescribeRulesOutput extends S.Class<DescribeRulesOutput>(
-  "DescribeRulesOutput",
-)({ Rules: S.optional(Rules), NextMarker: S.optional(S.String) }, ns) {}
-export class DescribeTagsOutput extends S.Class<DescribeTagsOutput>(
-  "DescribeTagsOutput",
-)({ TagDescriptions: S.optional(TagDescriptions) }, ns) {}
-export class DescribeTargetGroupsOutput extends S.Class<DescribeTargetGroupsOutput>(
-  "DescribeTargetGroupsOutput",
-)(
-  { TargetGroups: S.optional(TargetGroups), NextMarker: S.optional(S.String) },
-  ns,
-) {}
-export class DescribeTrustStoreAssociationsOutput extends S.Class<DescribeTrustStoreAssociationsOutput>(
-  "DescribeTrustStoreAssociationsOutput",
-)(
-  {
+export interface CreateLoadBalancerOutput {
+  LoadBalancers?: LoadBalancers;
+}
+export const CreateLoadBalancerOutput = S.suspend(() =>
+  S.Struct({ LoadBalancers: S.optional(LoadBalancers) }).pipe(ns),
+).annotations({
+  identifier: "CreateLoadBalancerOutput",
+}) as any as S.Schema<CreateLoadBalancerOutput>;
+export interface CreateTargetGroupOutput {
+  TargetGroups?: TargetGroups;
+}
+export const CreateTargetGroupOutput = S.suspend(() =>
+  S.Struct({ TargetGroups: S.optional(TargetGroups) }).pipe(ns),
+).annotations({
+  identifier: "CreateTargetGroupOutput",
+}) as any as S.Schema<CreateTargetGroupOutput>;
+export interface CreateTrustStoreOutput {
+  TrustStores?: TrustStores;
+}
+export const CreateTrustStoreOutput = S.suspend(() =>
+  S.Struct({ TrustStores: S.optional(TrustStores) }).pipe(ns),
+).annotations({
+  identifier: "CreateTrustStoreOutput",
+}) as any as S.Schema<CreateTrustStoreOutput>;
+export interface DescribeAccountLimitsOutput {
+  Limits?: Limits;
+  NextMarker?: string;
+}
+export const DescribeAccountLimitsOutput = S.suspend(() =>
+  S.Struct({
+    Limits: S.optional(Limits),
+    NextMarker: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeAccountLimitsOutput",
+}) as any as S.Schema<DescribeAccountLimitsOutput>;
+export interface DescribeListenersOutput {
+  Listeners?: Listeners;
+  NextMarker?: string;
+}
+export const DescribeListenersOutput = S.suspend(() =>
+  S.Struct({
+    Listeners: S.optional(Listeners),
+    NextMarker: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeListenersOutput",
+}) as any as S.Schema<DescribeListenersOutput>;
+export interface DescribeRulesOutput {
+  Rules?: Rules;
+  NextMarker?: string;
+}
+export const DescribeRulesOutput = S.suspend(() =>
+  S.Struct({ Rules: S.optional(Rules), NextMarker: S.optional(S.String) }).pipe(
+    ns,
+  ),
+).annotations({
+  identifier: "DescribeRulesOutput",
+}) as any as S.Schema<DescribeRulesOutput>;
+export interface DescribeTagsOutput {
+  TagDescriptions?: TagDescriptions;
+}
+export const DescribeTagsOutput = S.suspend(() =>
+  S.Struct({ TagDescriptions: S.optional(TagDescriptions) }).pipe(ns),
+).annotations({
+  identifier: "DescribeTagsOutput",
+}) as any as S.Schema<DescribeTagsOutput>;
+export interface DescribeTargetGroupsOutput {
+  TargetGroups?: TargetGroups;
+  NextMarker?: string;
+}
+export const DescribeTargetGroupsOutput = S.suspend(() =>
+  S.Struct({
+    TargetGroups: S.optional(TargetGroups),
+    NextMarker: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeTargetGroupsOutput",
+}) as any as S.Schema<DescribeTargetGroupsOutput>;
+export interface DescribeTrustStoreAssociationsOutput {
+  TrustStoreAssociations?: TrustStoreAssociations;
+  NextMarker?: string;
+}
+export const DescribeTrustStoreAssociationsOutput = S.suspend(() =>
+  S.Struct({
     TrustStoreAssociations: S.optional(TrustStoreAssociations),
     NextMarker: S.optional(S.String),
-  },
-  ns,
-) {}
-export class DescribeTrustStoreRevocationsOutput extends S.Class<DescribeTrustStoreRevocationsOutput>(
-  "DescribeTrustStoreRevocationsOutput",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeTrustStoreAssociationsOutput",
+}) as any as S.Schema<DescribeTrustStoreAssociationsOutput>;
+export interface DescribeTrustStoreRevocationsOutput {
+  TrustStoreRevocations?: DescribeTrustStoreRevocationResponse;
+  NextMarker?: string;
+}
+export const DescribeTrustStoreRevocationsOutput = S.suspend(() =>
+  S.Struct({
     TrustStoreRevocations: S.optional(DescribeTrustStoreRevocationResponse),
     NextMarker: S.optional(S.String),
-  },
-  ns,
-) {}
-export class CapacityReservationStatus extends S.Class<CapacityReservationStatus>(
-  "CapacityReservationStatus",
-)({ Code: S.optional(S.String), Reason: S.optional(S.String) }) {}
-export class ZonalCapacityReservationState extends S.Class<ZonalCapacityReservationState>(
-  "ZonalCapacityReservationState",
-)({
-  State: S.optional(CapacityReservationStatus),
-  AvailabilityZone: S.optional(S.String),
-  EffectiveCapacityUnits: S.optional(S.Number),
-}) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeTrustStoreRevocationsOutput",
+}) as any as S.Schema<DescribeTrustStoreRevocationsOutput>;
+export interface CapacityReservationStatus {
+  Code?: string;
+  Reason?: string;
+}
+export const CapacityReservationStatus = S.suspend(() =>
+  S.Struct({ Code: S.optional(S.String), Reason: S.optional(S.String) }),
+).annotations({
+  identifier: "CapacityReservationStatus",
+}) as any as S.Schema<CapacityReservationStatus>;
+export interface ZonalCapacityReservationState {
+  State?: CapacityReservationStatus;
+  AvailabilityZone?: string;
+  EffectiveCapacityUnits?: number;
+}
+export const ZonalCapacityReservationState = S.suspend(() =>
+  S.Struct({
+    State: S.optional(CapacityReservationStatus),
+    AvailabilityZone: S.optional(S.String),
+    EffectiveCapacityUnits: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "ZonalCapacityReservationState",
+}) as any as S.Schema<ZonalCapacityReservationState>;
+export type ZonalCapacityReservationStates = ZonalCapacityReservationState[];
 export const ZonalCapacityReservationStates = S.Array(
   ZonalCapacityReservationState,
 );
-export class ModifyCapacityReservationOutput extends S.Class<ModifyCapacityReservationOutput>(
-  "ModifyCapacityReservationOutput",
-)(
-  {
+export interface ModifyCapacityReservationOutput {
+  LastModifiedTime?: Date;
+  DecreaseRequestsRemaining?: number;
+  MinimumLoadBalancerCapacity?: MinimumLoadBalancerCapacity;
+  CapacityReservationState?: ZonalCapacityReservationStates;
+}
+export const ModifyCapacityReservationOutput = S.suspend(() =>
+  S.Struct({
     LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     DecreaseRequestsRemaining: S.optional(S.Number),
     MinimumLoadBalancerCapacity: S.optional(MinimumLoadBalancerCapacity),
     CapacityReservationState: S.optional(ZonalCapacityReservationStates),
-  },
-  ns,
-) {}
-export class ModifyListenerAttributesOutput extends S.Class<ModifyListenerAttributesOutput>(
-  "ModifyListenerAttributesOutput",
-)({ Attributes: S.optional(ListenerAttributes) }, ns) {}
-export class ModifyLoadBalancerAttributesOutput extends S.Class<ModifyLoadBalancerAttributesOutput>(
-  "ModifyLoadBalancerAttributesOutput",
-)({ Attributes: S.optional(LoadBalancerAttributes) }, ns) {}
-export class ModifyTargetGroupAttributesOutput extends S.Class<ModifyTargetGroupAttributesOutput>(
-  "ModifyTargetGroupAttributesOutput",
-)({ Attributes: S.optional(TargetGroupAttributes) }, ns) {}
-export class SetRulePrioritiesOutput extends S.Class<SetRulePrioritiesOutput>(
-  "SetRulePrioritiesOutput",
-)({ Rules: S.optional(Rules) }, ns) {}
-export class Cipher extends S.Class<Cipher>("Cipher")({
-  Name: S.optional(S.String),
-  Priority: S.optional(S.Number),
-}) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "ModifyCapacityReservationOutput",
+}) as any as S.Schema<ModifyCapacityReservationOutput>;
+export interface ModifyListenerAttributesOutput {
+  Attributes?: ListenerAttributes;
+}
+export const ModifyListenerAttributesOutput = S.suspend(() =>
+  S.Struct({ Attributes: S.optional(ListenerAttributes) }).pipe(ns),
+).annotations({
+  identifier: "ModifyListenerAttributesOutput",
+}) as any as S.Schema<ModifyListenerAttributesOutput>;
+export interface ModifyLoadBalancerAttributesOutput {
+  Attributes?: LoadBalancerAttributes;
+}
+export const ModifyLoadBalancerAttributesOutput = S.suspend(() =>
+  S.Struct({ Attributes: S.optional(LoadBalancerAttributes) }).pipe(ns),
+).annotations({
+  identifier: "ModifyLoadBalancerAttributesOutput",
+}) as any as S.Schema<ModifyLoadBalancerAttributesOutput>;
+export interface ModifyTargetGroupAttributesOutput {
+  Attributes?: TargetGroupAttributes;
+}
+export const ModifyTargetGroupAttributesOutput = S.suspend(() =>
+  S.Struct({ Attributes: S.optional(TargetGroupAttributes) }).pipe(ns),
+).annotations({
+  identifier: "ModifyTargetGroupAttributesOutput",
+}) as any as S.Schema<ModifyTargetGroupAttributesOutput>;
+export interface SetRulePrioritiesOutput {
+  Rules?: Rules;
+}
+export const SetRulePrioritiesOutput = S.suspend(() =>
+  S.Struct({ Rules: S.optional(Rules) }).pipe(ns),
+).annotations({
+  identifier: "SetRulePrioritiesOutput",
+}) as any as S.Schema<SetRulePrioritiesOutput>;
+export interface Cipher {
+  Name?: string;
+  Priority?: number;
+}
+export const Cipher = S.suspend(() =>
+  S.Struct({ Name: S.optional(S.String), Priority: S.optional(S.Number) }),
+).annotations({ identifier: "Cipher" }) as any as S.Schema<Cipher>;
+export type Ciphers = Cipher[];
 export const Ciphers = S.Array(Cipher);
-export class TargetHealth extends S.Class<TargetHealth>("TargetHealth")({
-  State: S.optional(S.String),
-  Reason: S.optional(S.String),
-  Description: S.optional(S.String),
-}) {}
-export class AnomalyDetection extends S.Class<AnomalyDetection>(
-  "AnomalyDetection",
-)({ Result: S.optional(S.String), MitigationInEffect: S.optional(S.String) }) {}
-export class AdministrativeOverride extends S.Class<AdministrativeOverride>(
-  "AdministrativeOverride",
-)({
-  State: S.optional(S.String),
-  Reason: S.optional(S.String),
-  Description: S.optional(S.String),
-}) {}
-export class TrustStoreRevocation extends S.Class<TrustStoreRevocation>(
-  "TrustStoreRevocation",
-)({
-  TrustStoreArn: S.optional(S.String),
-  RevocationId: S.optional(S.Number),
-  RevocationType: S.optional(S.String),
-  NumberOfRevokedEntries: S.optional(S.Number),
-}) {}
+export interface TargetHealth {
+  State?: string;
+  Reason?: string;
+  Description?: string;
+}
+export const TargetHealth = S.suspend(() =>
+  S.Struct({
+    State: S.optional(S.String),
+    Reason: S.optional(S.String),
+    Description: S.optional(S.String),
+  }),
+).annotations({ identifier: "TargetHealth" }) as any as S.Schema<TargetHealth>;
+export interface AnomalyDetection {
+  Result?: string;
+  MitigationInEffect?: string;
+}
+export const AnomalyDetection = S.suspend(() =>
+  S.Struct({
+    Result: S.optional(S.String),
+    MitigationInEffect: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AnomalyDetection",
+}) as any as S.Schema<AnomalyDetection>;
+export interface AdministrativeOverride {
+  State?: string;
+  Reason?: string;
+  Description?: string;
+}
+export const AdministrativeOverride = S.suspend(() =>
+  S.Struct({
+    State: S.optional(S.String),
+    Reason: S.optional(S.String),
+    Description: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AdministrativeOverride",
+}) as any as S.Schema<AdministrativeOverride>;
+export interface TrustStoreRevocation {
+  TrustStoreArn?: string;
+  RevocationId?: number;
+  RevocationType?: string;
+  NumberOfRevokedEntries?: number;
+}
+export const TrustStoreRevocation = S.suspend(() =>
+  S.Struct({
+    TrustStoreArn: S.optional(S.String),
+    RevocationId: S.optional(S.Number),
+    RevocationType: S.optional(S.String),
+    NumberOfRevokedEntries: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "TrustStoreRevocation",
+}) as any as S.Schema<TrustStoreRevocation>;
+export type TrustStoreRevocations = TrustStoreRevocation[];
 export const TrustStoreRevocations = S.Array(TrustStoreRevocation);
-export class SslPolicy extends S.Class<SslPolicy>("SslPolicy")({
-  SslProtocols: S.optional(SslProtocols),
-  Ciphers: S.optional(Ciphers),
-  Name: S.optional(S.String),
-  SupportedLoadBalancerTypes: S.optional(ListOfString),
-}) {}
+export interface SslPolicy {
+  SslProtocols?: SslProtocols;
+  Ciphers?: Ciphers;
+  Name?: string;
+  SupportedLoadBalancerTypes?: ListOfString;
+}
+export const SslPolicy = S.suspend(() =>
+  S.Struct({
+    SslProtocols: S.optional(SslProtocols),
+    Ciphers: S.optional(Ciphers),
+    Name: S.optional(S.String),
+    SupportedLoadBalancerTypes: S.optional(ListOfString),
+  }),
+).annotations({ identifier: "SslPolicy" }) as any as S.Schema<SslPolicy>;
+export type SslPolicies = SslPolicy[];
 export const SslPolicies = S.Array(SslPolicy);
-export class TargetHealthDescription extends S.Class<TargetHealthDescription>(
-  "TargetHealthDescription",
-)({
-  Target: S.optional(TargetDescription),
-  HealthCheckPort: S.optional(S.String),
-  TargetHealth: S.optional(TargetHealth),
-  AnomalyDetection: S.optional(AnomalyDetection),
-  AdministrativeOverride: S.optional(AdministrativeOverride),
-}) {}
+export interface TargetHealthDescription {
+  Target?: TargetDescription;
+  HealthCheckPort?: string;
+  TargetHealth?: TargetHealth;
+  AnomalyDetection?: AnomalyDetection;
+  AdministrativeOverride?: AdministrativeOverride;
+}
+export const TargetHealthDescription = S.suspend(() =>
+  S.Struct({
+    Target: S.optional(TargetDescription),
+    HealthCheckPort: S.optional(S.String),
+    TargetHealth: S.optional(TargetHealth),
+    AnomalyDetection: S.optional(AnomalyDetection),
+    AdministrativeOverride: S.optional(AdministrativeOverride),
+  }),
+).annotations({
+  identifier: "TargetHealthDescription",
+}) as any as S.Schema<TargetHealthDescription>;
+export type TargetHealthDescriptions = TargetHealthDescription[];
 export const TargetHealthDescriptions = S.Array(TargetHealthDescription);
-export class AddTrustStoreRevocationsOutput extends S.Class<AddTrustStoreRevocationsOutput>(
-  "AddTrustStoreRevocationsOutput",
-)({ TrustStoreRevocations: S.optional(TrustStoreRevocations) }, ns) {}
-export class CreateListenerInput extends S.Class<CreateListenerInput>(
-  "CreateListenerInput",
-)(
-  {
+export interface AddTrustStoreRevocationsOutput {
+  TrustStoreRevocations?: TrustStoreRevocations;
+}
+export const AddTrustStoreRevocationsOutput = S.suspend(() =>
+  S.Struct({ TrustStoreRevocations: S.optional(TrustStoreRevocations) }).pipe(
+    ns,
+  ),
+).annotations({
+  identifier: "AddTrustStoreRevocationsOutput",
+}) as any as S.Schema<AddTrustStoreRevocationsOutput>;
+export interface CreateListenerInput {
+  LoadBalancerArn: string;
+  Protocol?: string;
+  Port?: number;
+  SslPolicy?: string;
+  Certificates?: CertificateList;
+  DefaultActions: Actions;
+  AlpnPolicy?: AlpnPolicyName;
+  Tags?: TagList;
+  MutualAuthentication?: MutualAuthenticationAttributes;
+}
+export const CreateListenerInput = S.suspend(() =>
+  S.Struct({
     LoadBalancerArn: S.String,
     Protocol: S.optional(S.String),
     Port: S.optional(S.Number),
@@ -1304,67 +2716,130 @@ export class CreateListenerInput extends S.Class<CreateListenerInput>(
     AlpnPolicy: S.optional(AlpnPolicyName),
     Tags: S.optional(TagList),
     MutualAuthentication: S.optional(MutualAuthenticationAttributes),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateRuleInput extends S.Class<CreateRuleInput>(
-  "CreateRuleInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateListenerInput",
+}) as any as S.Schema<CreateListenerInput>;
+export interface CreateRuleInput {
+  ListenerArn: string;
+  Conditions: RuleConditionList;
+  Priority: number;
+  Actions: Actions;
+  Tags?: TagList;
+  Transforms?: RuleTransformList;
+}
+export const CreateRuleInput = S.suspend(() =>
+  S.Struct({
     ListenerArn: S.String,
     Conditions: RuleConditionList,
     Priority: S.Number,
     Actions: Actions,
     Tags: S.optional(TagList),
     Transforms: S.optional(RuleTransformList),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeCapacityReservationOutput extends S.Class<DescribeCapacityReservationOutput>(
-  "DescribeCapacityReservationOutput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateRuleInput",
+}) as any as S.Schema<CreateRuleInput>;
+export interface DescribeCapacityReservationOutput {
+  LastModifiedTime?: Date;
+  DecreaseRequestsRemaining?: number;
+  MinimumLoadBalancerCapacity?: MinimumLoadBalancerCapacity;
+  CapacityReservationState?: ZonalCapacityReservationStates;
+}
+export const DescribeCapacityReservationOutput = S.suspend(() =>
+  S.Struct({
     LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     DecreaseRequestsRemaining: S.optional(S.Number),
     MinimumLoadBalancerCapacity: S.optional(MinimumLoadBalancerCapacity),
     CapacityReservationState: S.optional(ZonalCapacityReservationStates),
-  },
-  ns,
-) {}
-export class DescribeLoadBalancersOutput extends S.Class<DescribeLoadBalancersOutput>(
-  "DescribeLoadBalancersOutput",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeCapacityReservationOutput",
+}) as any as S.Schema<DescribeCapacityReservationOutput>;
+export interface DescribeLoadBalancersOutput {
+  LoadBalancers?: LoadBalancers;
+  NextMarker?: string;
+}
+export const DescribeLoadBalancersOutput = S.suspend(() =>
+  S.Struct({
     LoadBalancers: S.optional(LoadBalancers),
     NextMarker: S.optional(S.String),
-  },
-  ns,
-) {}
-export class DescribeSSLPoliciesOutput extends S.Class<DescribeSSLPoliciesOutput>(
-  "DescribeSSLPoliciesOutput",
-)(
-  { SslPolicies: S.optional(SslPolicies), NextMarker: S.optional(S.String) },
-  ns,
-) {}
-export class DescribeTargetHealthOutput extends S.Class<DescribeTargetHealthOutput>(
-  "DescribeTargetHealthOutput",
-)({ TargetHealthDescriptions: S.optional(TargetHealthDescriptions) }, ns) {}
-export class SetSubnetsOutput extends S.Class<SetSubnetsOutput>(
-  "SetSubnetsOutput",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeLoadBalancersOutput",
+}) as any as S.Schema<DescribeLoadBalancersOutput>;
+export interface DescribeSSLPoliciesOutput {
+  SslPolicies?: SslPolicies;
+  NextMarker?: string;
+}
+export const DescribeSSLPoliciesOutput = S.suspend(() =>
+  S.Struct({
+    SslPolicies: S.optional(SslPolicies),
+    NextMarker: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeSSLPoliciesOutput",
+}) as any as S.Schema<DescribeSSLPoliciesOutput>;
+export interface DescribeTargetHealthOutput {
+  TargetHealthDescriptions?: TargetHealthDescriptions;
+}
+export const DescribeTargetHealthOutput = S.suspend(() =>
+  S.Struct({
+    TargetHealthDescriptions: S.optional(TargetHealthDescriptions),
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeTargetHealthOutput",
+}) as any as S.Schema<DescribeTargetHealthOutput>;
+export interface SetSubnetsOutput {
+  AvailabilityZones?: AvailabilityZones;
+  IpAddressType?: string;
+  EnablePrefixForIpv6SourceNat?: string;
+}
+export const SetSubnetsOutput = S.suspend(() =>
+  S.Struct({
     AvailabilityZones: S.optional(AvailabilityZones),
     IpAddressType: S.optional(S.String),
     EnablePrefixForIpv6SourceNat: S.optional(S.String),
-  },
-  ns,
-) {}
-export class CreateListenerOutput extends S.Class<CreateListenerOutput>(
-  "CreateListenerOutput",
-)({ Listeners: S.optional(Listeners) }, ns) {}
-export class CreateRuleOutput extends S.Class<CreateRuleOutput>(
-  "CreateRuleOutput",
-)({ Rules: S.optional(Rules) }, ns) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "SetSubnetsOutput",
+}) as any as S.Schema<SetSubnetsOutput>;
+export interface CreateListenerOutput {
+  Listeners?: Listeners;
+}
+export const CreateListenerOutput = S.suspend(() =>
+  S.Struct({ Listeners: S.optional(Listeners) }).pipe(ns),
+).annotations({
+  identifier: "CreateListenerOutput",
+}) as any as S.Schema<CreateListenerOutput>;
+export interface CreateRuleOutput {
+  Rules?: Rules;
+}
+export const CreateRuleOutput = S.suspend(() =>
+  S.Struct({ Rules: S.optional(Rules) }).pipe(ns),
+).annotations({
+  identifier: "CreateRuleOutput",
+}) as any as S.Schema<CreateRuleOutput>;
 
 //# Errors
 export class ListenerNotFoundException extends S.TaggedError<ListenerNotFoundException>()(

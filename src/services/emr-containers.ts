@@ -270,184 +270,258 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type JobRunStates = string[];
 export const JobRunStates = S.Array(S.String);
+export type EndpointTypes = string[];
 export const EndpointTypes = S.Array(S.String);
+export type EndpointStates = string[];
 export const EndpointStates = S.Array(S.String);
+export type VirtualClusterStates = string[];
 export const VirtualClusterStates = S.Array(S.String);
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class CancelJobRunRequest extends S.Class<CancelJobRunRequest>(
-  "CancelJobRunRequest",
-)(
-  {
+export interface CancelJobRunRequest {
+  id: string;
+  virtualClusterId: string;
+}
+export const CancelJobRunRequest = S.suspend(() =>
+  S.Struct({
     id: S.String.pipe(T.HttpLabel("id")),
     virtualClusterId: S.String.pipe(T.HttpLabel("virtualClusterId")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/virtualclusters/{virtualClusterId}/jobruns/{id}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/virtualclusters/{virtualClusterId}/jobruns/{id}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class EksInfo extends S.Class<EksInfo>("EksInfo")({
-  namespace: S.optional(S.String),
-  nodeLabel: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "CancelJobRunRequest",
+}) as any as S.Schema<CancelJobRunRequest>;
+export interface EksInfo {
+  namespace?: string;
+  nodeLabel?: string;
+}
+export const EksInfo = S.suspend(() =>
+  S.Struct({
+    namespace: S.optional(S.String),
+    nodeLabel: S.optional(S.String),
+  }),
+).annotations({ identifier: "EksInfo" }) as any as S.Schema<EksInfo>;
 export const ContainerInfo = S.Union(S.Struct({ eksInfo: EksInfo }));
-export class ContainerProvider extends S.Class<ContainerProvider>(
-  "ContainerProvider",
-)({ type: S.String, id: S.String, info: S.optional(ContainerInfo) }) {}
+export interface ContainerProvider {
+  type: string;
+  id: string;
+  info?: (typeof ContainerInfo)["Type"];
+}
+export const ContainerProvider = S.suspend(() =>
+  S.Struct({ type: S.String, id: S.String, info: S.optional(ContainerInfo) }),
+).annotations({
+  identifier: "ContainerProvider",
+}) as any as S.Schema<ContainerProvider>;
+export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
-export class CreateVirtualClusterRequest extends S.Class<CreateVirtualClusterRequest>(
-  "CreateVirtualClusterRequest",
-)(
-  {
+export interface CreateVirtualClusterRequest {
+  name: string;
+  containerProvider: ContainerProvider;
+  clientToken: string;
+  tags?: TagMap;
+  securityConfigurationId?: string;
+}
+export const CreateVirtualClusterRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     containerProvider: ContainerProvider,
     clientToken: S.String,
     tags: S.optional(TagMap),
     securityConfigurationId: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/virtualclusters" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/virtualclusters" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteJobTemplateRequest extends S.Class<DeleteJobTemplateRequest>(
-  "DeleteJobTemplateRequest",
-)(
-  { id: S.String.pipe(T.HttpLabel("id")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/jobtemplates/{id}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CreateVirtualClusterRequest",
+}) as any as S.Schema<CreateVirtualClusterRequest>;
+export interface DeleteJobTemplateRequest {
+  id: string;
+}
+export const DeleteJobTemplateRequest = S.suspend(() =>
+  S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/jobtemplates/{id}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteManagedEndpointRequest extends S.Class<DeleteManagedEndpointRequest>(
-  "DeleteManagedEndpointRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteJobTemplateRequest",
+}) as any as S.Schema<DeleteJobTemplateRequest>;
+export interface DeleteManagedEndpointRequest {
+  id: string;
+  virtualClusterId: string;
+}
+export const DeleteManagedEndpointRequest = S.suspend(() =>
+  S.Struct({
     id: S.String.pipe(T.HttpLabel("id")),
     virtualClusterId: S.String.pipe(T.HttpLabel("virtualClusterId")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/virtualclusters/{virtualClusterId}/endpoints/{id}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/virtualclusters/{virtualClusterId}/endpoints/{id}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteVirtualClusterRequest extends S.Class<DeleteVirtualClusterRequest>(
-  "DeleteVirtualClusterRequest",
-)(
-  { id: S.String.pipe(T.HttpLabel("id")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/virtualclusters/{id}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteManagedEndpointRequest",
+}) as any as S.Schema<DeleteManagedEndpointRequest>;
+export interface DeleteVirtualClusterRequest {
+  id: string;
+}
+export const DeleteVirtualClusterRequest = S.suspend(() =>
+  S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/virtualclusters/{id}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeJobRunRequest extends S.Class<DescribeJobRunRequest>(
-  "DescribeJobRunRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteVirtualClusterRequest",
+}) as any as S.Schema<DeleteVirtualClusterRequest>;
+export interface DescribeJobRunRequest {
+  id: string;
+  virtualClusterId: string;
+}
+export const DescribeJobRunRequest = S.suspend(() =>
+  S.Struct({
     id: S.String.pipe(T.HttpLabel("id")),
     virtualClusterId: S.String.pipe(T.HttpLabel("virtualClusterId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/virtualclusters/{virtualClusterId}/jobruns/{id}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/virtualclusters/{virtualClusterId}/jobruns/{id}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeJobTemplateRequest extends S.Class<DescribeJobTemplateRequest>(
-  "DescribeJobTemplateRequest",
-)(
-  { id: S.String.pipe(T.HttpLabel("id")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/jobtemplates/{id}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DescribeJobRunRequest",
+}) as any as S.Schema<DescribeJobRunRequest>;
+export interface DescribeJobTemplateRequest {
+  id: string;
+}
+export const DescribeJobTemplateRequest = S.suspend(() =>
+  S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/jobtemplates/{id}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeManagedEndpointRequest extends S.Class<DescribeManagedEndpointRequest>(
-  "DescribeManagedEndpointRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeJobTemplateRequest",
+}) as any as S.Schema<DescribeJobTemplateRequest>;
+export interface DescribeManagedEndpointRequest {
+  id: string;
+  virtualClusterId: string;
+}
+export const DescribeManagedEndpointRequest = S.suspend(() =>
+  S.Struct({
     id: S.String.pipe(T.HttpLabel("id")),
     virtualClusterId: S.String.pipe(T.HttpLabel("virtualClusterId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/virtualclusters/{virtualClusterId}/endpoints/{id}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/virtualclusters/{virtualClusterId}/endpoints/{id}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeSecurityConfigurationRequest extends S.Class<DescribeSecurityConfigurationRequest>(
-  "DescribeSecurityConfigurationRequest",
-)(
-  { id: S.String.pipe(T.HttpLabel("id")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/securityconfigurations/{id}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DescribeManagedEndpointRequest",
+}) as any as S.Schema<DescribeManagedEndpointRequest>;
+export interface DescribeSecurityConfigurationRequest {
+  id: string;
+}
+export const DescribeSecurityConfigurationRequest = S.suspend(() =>
+  S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/securityconfigurations/{id}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeVirtualClusterRequest extends S.Class<DescribeVirtualClusterRequest>(
-  "DescribeVirtualClusterRequest",
-)(
-  { id: S.String.pipe(T.HttpLabel("id")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/virtualclusters/{id}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DescribeSecurityConfigurationRequest",
+}) as any as S.Schema<DescribeSecurityConfigurationRequest>;
+export interface DescribeVirtualClusterRequest {
+  id: string;
+}
+export const DescribeVirtualClusterRequest = S.suspend(() =>
+  S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/virtualclusters/{id}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetManagedEndpointSessionCredentialsRequest extends S.Class<GetManagedEndpointSessionCredentialsRequest>(
-  "GetManagedEndpointSessionCredentialsRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeVirtualClusterRequest",
+}) as any as S.Schema<DescribeVirtualClusterRequest>;
+export interface GetManagedEndpointSessionCredentialsRequest {
+  endpointIdentifier: string;
+  virtualClusterIdentifier: string;
+  executionRoleArn: string;
+  credentialType: string;
+  durationInSeconds?: number;
+  logContext?: string;
+  clientToken?: string;
+}
+export const GetManagedEndpointSessionCredentialsRequest = S.suspend(() =>
+  S.Struct({
     endpointIdentifier: S.String.pipe(T.HttpLabel("endpointIdentifier")),
     virtualClusterIdentifier: S.String.pipe(
       T.HttpLabel("virtualClusterIdentifier"),
@@ -457,23 +531,33 @@ export class GetManagedEndpointSessionCredentialsRequest extends S.Class<GetMana
     durationInSeconds: S.optional(S.Number),
     logContext: S.optional(S.String),
     clientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/virtualclusters/{virtualClusterIdentifier}/endpoints/{endpointIdentifier}/credentials",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/virtualclusters/{virtualClusterIdentifier}/endpoints/{endpointIdentifier}/credentials",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListJobRunsRequest extends S.Class<ListJobRunsRequest>(
-  "ListJobRunsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetManagedEndpointSessionCredentialsRequest",
+}) as any as S.Schema<GetManagedEndpointSessionCredentialsRequest>;
+export interface ListJobRunsRequest {
+  virtualClusterId: string;
+  createdBefore?: Date;
+  createdAfter?: Date;
+  name?: string;
+  states?: JobRunStates;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListJobRunsRequest = S.suspend(() =>
+  S.Struct({
     virtualClusterId: S.String.pipe(T.HttpLabel("virtualClusterId")),
     createdBefore: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
       T.HttpQuery("createdBefore"),
@@ -485,23 +569,30 @@ export class ListJobRunsRequest extends S.Class<ListJobRunsRequest>(
     states: S.optional(JobRunStates).pipe(T.HttpQuery("states")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/virtualclusters/{virtualClusterId}/jobruns",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/virtualclusters/{virtualClusterId}/jobruns",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListJobTemplatesRequest extends S.Class<ListJobTemplatesRequest>(
-  "ListJobTemplatesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListJobRunsRequest",
+}) as any as S.Schema<ListJobRunsRequest>;
+export interface ListJobTemplatesRequest {
+  createdAfter?: Date;
+  createdBefore?: Date;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListJobTemplatesRequest = S.suspend(() =>
+  S.Struct({
     createdAfter: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
       T.HttpQuery("createdAfter"),
     ),
@@ -510,20 +601,30 @@ export class ListJobTemplatesRequest extends S.Class<ListJobTemplatesRequest>(
     ),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/jobtemplates" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/jobtemplates" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListManagedEndpointsRequest extends S.Class<ListManagedEndpointsRequest>(
-  "ListManagedEndpointsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListJobTemplatesRequest",
+}) as any as S.Schema<ListJobTemplatesRequest>;
+export interface ListManagedEndpointsRequest {
+  virtualClusterId: string;
+  createdBefore?: Date;
+  createdAfter?: Date;
+  types?: EndpointTypes;
+  states?: EndpointStates;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListManagedEndpointsRequest = S.suspend(() =>
+  S.Struct({
     virtualClusterId: S.String.pipe(T.HttpLabel("virtualClusterId")),
     createdBefore: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
       T.HttpQuery("createdBefore"),
@@ -535,23 +636,30 @@ export class ListManagedEndpointsRequest extends S.Class<ListManagedEndpointsReq
     states: S.optional(EndpointStates).pipe(T.HttpQuery("states")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/virtualclusters/{virtualClusterId}/endpoints",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/virtualclusters/{virtualClusterId}/endpoints",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListSecurityConfigurationsRequest extends S.Class<ListSecurityConfigurationsRequest>(
-  "ListSecurityConfigurationsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListManagedEndpointsRequest",
+}) as any as S.Schema<ListManagedEndpointsRequest>;
+export interface ListSecurityConfigurationsRequest {
+  createdAfter?: Date;
+  createdBefore?: Date;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListSecurityConfigurationsRequest = S.suspend(() =>
+  S.Struct({
     createdAfter: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
       T.HttpQuery("createdAfter"),
     ),
@@ -560,33 +668,48 @@ export class ListSecurityConfigurationsRequest extends S.Class<ListSecurityConfi
     ),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/securityconfigurations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/securityconfigurations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListSecurityConfigurationsRequest",
+}) as any as S.Schema<ListSecurityConfigurationsRequest>;
+export interface ListTagsForResourceRequest {
+  resourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListVirtualClustersRequest extends S.Class<ListVirtualClustersRequest>(
-  "ListVirtualClustersRequest",
-)(
-  {
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface ListVirtualClustersRequest {
+  containerProviderId?: string;
+  containerProviderType?: string;
+  createdAfter?: Date;
+  createdBefore?: Date;
+  states?: VirtualClusterStates;
+  maxResults?: number;
+  nextToken?: string;
+  eksAccessEntryIntegrated?: boolean;
+}
+export const ListVirtualClustersRequest = S.suspend(() =>
+  S.Struct({
     containerProviderId: S.optional(S.String).pipe(
       T.HttpQuery("containerProviderId"),
     ),
@@ -605,342 +728,729 @@ export class ListVirtualClustersRequest extends S.Class<ListVirtualClustersReque
     eksAccessEntryIntegrated: S.optional(S.Boolean).pipe(
       T.HttpQuery("eksAccessEntryIntegrated"),
     ),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/virtualclusters" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/virtualclusters" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap },
-  T.all(
-    T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListVirtualClustersRequest",
+}) as any as S.Schema<ListVirtualClustersRequest>;
+export interface TagResourceRequest {
+  resourceArn: string;
+  tags: TagMap;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+    tags: TagMap,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UntagResourceRequest {
+  resourceArn: string;
+  tagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
 export type ConfigurationList = Configuration[];
 export const ConfigurationList = S.Array(
-  S.suspend((): S.Schema<Configuration, any> => Configuration),
+  S.suspend((): S.Schema<Configuration, any> => Configuration).annotations({
+    identifier: "Configuration",
+  }),
 ) as any as S.Schema<ConfigurationList>;
-export class ManagedLogs extends S.Class<ManagedLogs>("ManagedLogs")({
-  allowAWSToRetainLogs: S.optional(S.String),
-  encryptionKeyArn: S.optional(S.String),
-}) {}
-export class CloudWatchMonitoringConfiguration extends S.Class<CloudWatchMonitoringConfiguration>(
-  "CloudWatchMonitoringConfiguration",
-)({ logGroupName: S.String, logStreamNamePrefix: S.optional(S.String) }) {}
-export class S3MonitoringConfiguration extends S.Class<S3MonitoringConfiguration>(
-  "S3MonitoringConfiguration",
-)({ logUri: S.String }) {}
-export class ContainerLogRotationConfiguration extends S.Class<ContainerLogRotationConfiguration>(
-  "ContainerLogRotationConfiguration",
-)({ rotationSize: S.String, maxFilesToKeep: S.Number }) {}
-export class MonitoringConfiguration extends S.Class<MonitoringConfiguration>(
-  "MonitoringConfiguration",
-)({
-  managedLogs: S.optional(ManagedLogs),
-  persistentAppUI: S.optional(S.String),
-  cloudWatchMonitoringConfiguration: S.optional(
-    CloudWatchMonitoringConfiguration,
-  ),
-  s3MonitoringConfiguration: S.optional(S3MonitoringConfiguration),
-  containerLogRotationConfiguration: S.optional(
-    ContainerLogRotationConfiguration,
-  ),
-}) {}
-export class ConfigurationOverrides extends S.Class<ConfigurationOverrides>(
-  "ConfigurationOverrides",
-)({
-  applicationConfiguration: S.optional(ConfigurationList),
-  monitoringConfiguration: S.optional(MonitoringConfiguration),
-}) {}
+export interface ManagedLogs {
+  allowAWSToRetainLogs?: string;
+  encryptionKeyArn?: string;
+}
+export const ManagedLogs = S.suspend(() =>
+  S.Struct({
+    allowAWSToRetainLogs: S.optional(S.String),
+    encryptionKeyArn: S.optional(S.String),
+  }),
+).annotations({ identifier: "ManagedLogs" }) as any as S.Schema<ManagedLogs>;
+export interface CloudWatchMonitoringConfiguration {
+  logGroupName: string;
+  logStreamNamePrefix?: string;
+}
+export const CloudWatchMonitoringConfiguration = S.suspend(() =>
+  S.Struct({
+    logGroupName: S.String,
+    logStreamNamePrefix: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CloudWatchMonitoringConfiguration",
+}) as any as S.Schema<CloudWatchMonitoringConfiguration>;
+export interface S3MonitoringConfiguration {
+  logUri: string;
+}
+export const S3MonitoringConfiguration = S.suspend(() =>
+  S.Struct({ logUri: S.String }),
+).annotations({
+  identifier: "S3MonitoringConfiguration",
+}) as any as S.Schema<S3MonitoringConfiguration>;
+export interface ContainerLogRotationConfiguration {
+  rotationSize: string;
+  maxFilesToKeep: number;
+}
+export const ContainerLogRotationConfiguration = S.suspend(() =>
+  S.Struct({ rotationSize: S.String, maxFilesToKeep: S.Number }),
+).annotations({
+  identifier: "ContainerLogRotationConfiguration",
+}) as any as S.Schema<ContainerLogRotationConfiguration>;
+export interface MonitoringConfiguration {
+  managedLogs?: ManagedLogs;
+  persistentAppUI?: string;
+  cloudWatchMonitoringConfiguration?: CloudWatchMonitoringConfiguration;
+  s3MonitoringConfiguration?: S3MonitoringConfiguration;
+  containerLogRotationConfiguration?: ContainerLogRotationConfiguration;
+}
+export const MonitoringConfiguration = S.suspend(() =>
+  S.Struct({
+    managedLogs: S.optional(ManagedLogs),
+    persistentAppUI: S.optional(S.String),
+    cloudWatchMonitoringConfiguration: S.optional(
+      CloudWatchMonitoringConfiguration,
+    ),
+    s3MonitoringConfiguration: S.optional(S3MonitoringConfiguration),
+    containerLogRotationConfiguration: S.optional(
+      ContainerLogRotationConfiguration,
+    ),
+  }),
+).annotations({
+  identifier: "MonitoringConfiguration",
+}) as any as S.Schema<MonitoringConfiguration>;
+export interface ConfigurationOverrides {
+  applicationConfiguration?: ConfigurationList;
+  monitoringConfiguration?: MonitoringConfiguration;
+}
+export const ConfigurationOverrides = S.suspend(() =>
+  S.Struct({
+    applicationConfiguration: S.optional(ConfigurationList),
+    monitoringConfiguration: S.optional(MonitoringConfiguration),
+  }),
+).annotations({
+  identifier: "ConfigurationOverrides",
+}) as any as S.Schema<ConfigurationOverrides>;
+export type EntryPointArguments = string[];
 export const EntryPointArguments = S.Array(S.String);
-export class SparkSubmitJobDriver extends S.Class<SparkSubmitJobDriver>(
-  "SparkSubmitJobDriver",
-)({
-  entryPoint: S.String,
-  entryPointArguments: S.optional(EntryPointArguments),
-  sparkSubmitParameters: S.optional(S.String),
-}) {}
-export class SparkSqlJobDriver extends S.Class<SparkSqlJobDriver>(
-  "SparkSqlJobDriver",
-)({
-  entryPoint: S.optional(S.String),
-  sparkSqlParameters: S.optional(S.String),
-}) {}
-export class JobDriver extends S.Class<JobDriver>("JobDriver")({
-  sparkSubmitJobDriver: S.optional(SparkSubmitJobDriver),
-  sparkSqlJobDriver: S.optional(SparkSqlJobDriver),
-}) {}
-export class RetryPolicyConfiguration extends S.Class<RetryPolicyConfiguration>(
-  "RetryPolicyConfiguration",
-)({ maxAttempts: S.Number }) {}
-export class RetryPolicyExecution extends S.Class<RetryPolicyExecution>(
-  "RetryPolicyExecution",
-)({ currentAttemptCount: S.Number }) {}
-export class JobRun extends S.Class<JobRun>("JobRun")({
-  id: S.optional(S.String),
-  name: S.optional(S.String),
-  virtualClusterId: S.optional(S.String),
-  arn: S.optional(S.String),
-  state: S.optional(S.String),
-  clientToken: S.optional(S.String),
-  executionRoleArn: S.optional(S.String),
-  releaseLabel: S.optional(S.String),
-  configurationOverrides: S.optional(ConfigurationOverrides),
-  jobDriver: S.optional(JobDriver),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  createdBy: S.optional(S.String),
-  finishedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  stateDetails: S.optional(S.String),
-  failureReason: S.optional(S.String),
-  tags: S.optional(TagMap),
-  retryPolicyConfiguration: S.optional(RetryPolicyConfiguration),
-  retryPolicyExecution: S.optional(RetryPolicyExecution),
-}) {}
+export interface SparkSubmitJobDriver {
+  entryPoint: string;
+  entryPointArguments?: EntryPointArguments;
+  sparkSubmitParameters?: string;
+}
+export const SparkSubmitJobDriver = S.suspend(() =>
+  S.Struct({
+    entryPoint: S.String,
+    entryPointArguments: S.optional(EntryPointArguments),
+    sparkSubmitParameters: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SparkSubmitJobDriver",
+}) as any as S.Schema<SparkSubmitJobDriver>;
+export interface SparkSqlJobDriver {
+  entryPoint?: string;
+  sparkSqlParameters?: string;
+}
+export const SparkSqlJobDriver = S.suspend(() =>
+  S.Struct({
+    entryPoint: S.optional(S.String),
+    sparkSqlParameters: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SparkSqlJobDriver",
+}) as any as S.Schema<SparkSqlJobDriver>;
+export interface JobDriver {
+  sparkSubmitJobDriver?: SparkSubmitJobDriver;
+  sparkSqlJobDriver?: SparkSqlJobDriver;
+}
+export const JobDriver = S.suspend(() =>
+  S.Struct({
+    sparkSubmitJobDriver: S.optional(SparkSubmitJobDriver),
+    sparkSqlJobDriver: S.optional(SparkSqlJobDriver),
+  }),
+).annotations({ identifier: "JobDriver" }) as any as S.Schema<JobDriver>;
+export interface RetryPolicyConfiguration {
+  maxAttempts: number;
+}
+export const RetryPolicyConfiguration = S.suspend(() =>
+  S.Struct({ maxAttempts: S.Number }),
+).annotations({
+  identifier: "RetryPolicyConfiguration",
+}) as any as S.Schema<RetryPolicyConfiguration>;
+export interface RetryPolicyExecution {
+  currentAttemptCount: number;
+}
+export const RetryPolicyExecution = S.suspend(() =>
+  S.Struct({ currentAttemptCount: S.Number }),
+).annotations({
+  identifier: "RetryPolicyExecution",
+}) as any as S.Schema<RetryPolicyExecution>;
+export interface JobRun {
+  id?: string;
+  name?: string;
+  virtualClusterId?: string;
+  arn?: string;
+  state?: string;
+  clientToken?: string;
+  executionRoleArn?: string;
+  releaseLabel?: string;
+  configurationOverrides?: ConfigurationOverrides;
+  jobDriver?: JobDriver;
+  createdAt?: Date;
+  createdBy?: string;
+  finishedAt?: Date;
+  stateDetails?: string;
+  failureReason?: string;
+  tags?: TagMap;
+  retryPolicyConfiguration?: RetryPolicyConfiguration;
+  retryPolicyExecution?: RetryPolicyExecution;
+}
+export const JobRun = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    virtualClusterId: S.optional(S.String),
+    arn: S.optional(S.String),
+    state: S.optional(S.String),
+    clientToken: S.optional(S.String),
+    executionRoleArn: S.optional(S.String),
+    releaseLabel: S.optional(S.String),
+    configurationOverrides: S.optional(ConfigurationOverrides),
+    jobDriver: S.optional(JobDriver),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdBy: S.optional(S.String),
+    finishedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    stateDetails: S.optional(S.String),
+    failureReason: S.optional(S.String),
+    tags: S.optional(TagMap),
+    retryPolicyConfiguration: S.optional(RetryPolicyConfiguration),
+    retryPolicyExecution: S.optional(RetryPolicyExecution),
+  }),
+).annotations({ identifier: "JobRun" }) as any as S.Schema<JobRun>;
+export type JobRuns = JobRun[];
 export const JobRuns = S.Array(JobRun);
-export class ParametricCloudWatchMonitoringConfiguration extends S.Class<ParametricCloudWatchMonitoringConfiguration>(
-  "ParametricCloudWatchMonitoringConfiguration",
-)({
-  logGroupName: S.optional(S.String),
-  logStreamNamePrefix: S.optional(S.String),
-}) {}
-export class ParametricS3MonitoringConfiguration extends S.Class<ParametricS3MonitoringConfiguration>(
-  "ParametricS3MonitoringConfiguration",
-)({ logUri: S.optional(S.String) }) {}
-export class ParametricMonitoringConfiguration extends S.Class<ParametricMonitoringConfiguration>(
-  "ParametricMonitoringConfiguration",
-)({
-  persistentAppUI: S.optional(S.String),
-  cloudWatchMonitoringConfiguration: S.optional(
-    ParametricCloudWatchMonitoringConfiguration,
-  ),
-  s3MonitoringConfiguration: S.optional(ParametricS3MonitoringConfiguration),
-}) {}
-export class ParametricConfigurationOverrides extends S.Class<ParametricConfigurationOverrides>(
-  "ParametricConfigurationOverrides",
-)({
-  applicationConfiguration: S.optional(ConfigurationList),
-  monitoringConfiguration: S.optional(ParametricMonitoringConfiguration),
-}) {}
-export class TemplateParameterConfiguration extends S.Class<TemplateParameterConfiguration>(
-  "TemplateParameterConfiguration",
-)({ type: S.optional(S.String), defaultValue: S.optional(S.String) }) {}
+export interface ParametricCloudWatchMonitoringConfiguration {
+  logGroupName?: string;
+  logStreamNamePrefix?: string;
+}
+export const ParametricCloudWatchMonitoringConfiguration = S.suspend(() =>
+  S.Struct({
+    logGroupName: S.optional(S.String),
+    logStreamNamePrefix: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ParametricCloudWatchMonitoringConfiguration",
+}) as any as S.Schema<ParametricCloudWatchMonitoringConfiguration>;
+export interface ParametricS3MonitoringConfiguration {
+  logUri?: string;
+}
+export const ParametricS3MonitoringConfiguration = S.suspend(() =>
+  S.Struct({ logUri: S.optional(S.String) }),
+).annotations({
+  identifier: "ParametricS3MonitoringConfiguration",
+}) as any as S.Schema<ParametricS3MonitoringConfiguration>;
+export interface ParametricMonitoringConfiguration {
+  persistentAppUI?: string;
+  cloudWatchMonitoringConfiguration?: ParametricCloudWatchMonitoringConfiguration;
+  s3MonitoringConfiguration?: ParametricS3MonitoringConfiguration;
+}
+export const ParametricMonitoringConfiguration = S.suspend(() =>
+  S.Struct({
+    persistentAppUI: S.optional(S.String),
+    cloudWatchMonitoringConfiguration: S.optional(
+      ParametricCloudWatchMonitoringConfiguration,
+    ),
+    s3MonitoringConfiguration: S.optional(ParametricS3MonitoringConfiguration),
+  }),
+).annotations({
+  identifier: "ParametricMonitoringConfiguration",
+}) as any as S.Schema<ParametricMonitoringConfiguration>;
+export interface ParametricConfigurationOverrides {
+  applicationConfiguration?: ConfigurationList;
+  monitoringConfiguration?: ParametricMonitoringConfiguration;
+}
+export const ParametricConfigurationOverrides = S.suspend(() =>
+  S.Struct({
+    applicationConfiguration: S.optional(ConfigurationList),
+    monitoringConfiguration: S.optional(ParametricMonitoringConfiguration),
+  }),
+).annotations({
+  identifier: "ParametricConfigurationOverrides",
+}) as any as S.Schema<ParametricConfigurationOverrides>;
+export interface TemplateParameterConfiguration {
+  type?: string;
+  defaultValue?: string;
+}
+export const TemplateParameterConfiguration = S.suspend(() =>
+  S.Struct({ type: S.optional(S.String), defaultValue: S.optional(S.String) }),
+).annotations({
+  identifier: "TemplateParameterConfiguration",
+}) as any as S.Schema<TemplateParameterConfiguration>;
+export type TemplateParameterConfigurationMap = {
+  [key: string]: TemplateParameterConfiguration;
+};
 export const TemplateParameterConfigurationMap = S.Record({
   key: S.String,
   value: TemplateParameterConfiguration,
 });
-export class JobTemplateData extends S.Class<JobTemplateData>(
-  "JobTemplateData",
-)({
-  executionRoleArn: S.String,
-  releaseLabel: S.String,
-  configurationOverrides: S.optional(ParametricConfigurationOverrides),
-  jobDriver: JobDriver,
-  parameterConfiguration: S.optional(TemplateParameterConfigurationMap),
-  jobTags: S.optional(TagMap),
-}) {}
-export class JobTemplate extends S.Class<JobTemplate>("JobTemplate")({
-  name: S.optional(S.String),
-  id: S.optional(S.String),
-  arn: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  createdBy: S.optional(S.String),
-  tags: S.optional(TagMap),
-  jobTemplateData: JobTemplateData,
-  kmsKeyArn: S.optional(S.String),
-  decryptionError: S.optional(S.String),
-}) {}
+export interface JobTemplateData {
+  executionRoleArn: string;
+  releaseLabel: string;
+  configurationOverrides?: ParametricConfigurationOverrides;
+  jobDriver: JobDriver;
+  parameterConfiguration?: TemplateParameterConfigurationMap;
+  jobTags?: TagMap;
+}
+export const JobTemplateData = S.suspend(() =>
+  S.Struct({
+    executionRoleArn: S.String,
+    releaseLabel: S.String,
+    configurationOverrides: S.optional(ParametricConfigurationOverrides),
+    jobDriver: JobDriver,
+    parameterConfiguration: S.optional(TemplateParameterConfigurationMap),
+    jobTags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "JobTemplateData",
+}) as any as S.Schema<JobTemplateData>;
+export interface JobTemplate {
+  name?: string;
+  id?: string;
+  arn?: string;
+  createdAt?: Date;
+  createdBy?: string;
+  tags?: TagMap;
+  jobTemplateData: JobTemplateData;
+  kmsKeyArn?: string;
+  decryptionError?: string;
+}
+export const JobTemplate = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    id: S.optional(S.String),
+    arn: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdBy: S.optional(S.String),
+    tags: S.optional(TagMap),
+    jobTemplateData: JobTemplateData,
+    kmsKeyArn: S.optional(S.String),
+    decryptionError: S.optional(S.String),
+  }),
+).annotations({ identifier: "JobTemplate" }) as any as S.Schema<JobTemplate>;
+export type JobTemplates = JobTemplate[];
 export const JobTemplates = S.Array(JobTemplate);
-export class Certificate extends S.Class<Certificate>("Certificate")({
-  certificateArn: S.optional(S.String),
-  certificateData: S.optional(S.String),
-}) {}
+export interface Certificate {
+  certificateArn?: string;
+  certificateData?: string;
+}
+export const Certificate = S.suspend(() =>
+  S.Struct({
+    certificateArn: S.optional(S.String),
+    certificateData: S.optional(S.String),
+  }),
+).annotations({ identifier: "Certificate" }) as any as S.Schema<Certificate>;
+export type SubnetIds = string[];
 export const SubnetIds = S.Array(S.String);
-export class Endpoint extends S.Class<Endpoint>("Endpoint")({
-  id: S.optional(S.String),
-  name: S.optional(S.String),
-  arn: S.optional(S.String),
-  virtualClusterId: S.optional(S.String),
-  type: S.optional(S.String),
-  state: S.optional(S.String),
-  releaseLabel: S.optional(S.String),
-  executionRoleArn: S.optional(S.String),
-  certificateArn: S.optional(S.String),
-  certificateAuthority: S.optional(Certificate),
-  configurationOverrides: S.optional(ConfigurationOverrides),
-  serverUrl: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  securityGroup: S.optional(S.String),
-  subnetIds: S.optional(SubnetIds),
-  stateDetails: S.optional(S.String),
-  failureReason: S.optional(S.String),
-  tags: S.optional(TagMap),
-}) {}
+export interface Endpoint {
+  id?: string;
+  name?: string;
+  arn?: string;
+  virtualClusterId?: string;
+  type?: string;
+  state?: string;
+  releaseLabel?: string;
+  executionRoleArn?: string;
+  certificateArn?: string;
+  certificateAuthority?: Certificate;
+  configurationOverrides?: ConfigurationOverrides;
+  serverUrl?: string;
+  createdAt?: Date;
+  securityGroup?: string;
+  subnetIds?: SubnetIds;
+  stateDetails?: string;
+  failureReason?: string;
+  tags?: TagMap;
+}
+export const Endpoint = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    arn: S.optional(S.String),
+    virtualClusterId: S.optional(S.String),
+    type: S.optional(S.String),
+    state: S.optional(S.String),
+    releaseLabel: S.optional(S.String),
+    executionRoleArn: S.optional(S.String),
+    certificateArn: S.optional(S.String),
+    certificateAuthority: S.optional(Certificate),
+    configurationOverrides: S.optional(ConfigurationOverrides),
+    serverUrl: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    securityGroup: S.optional(S.String),
+    subnetIds: S.optional(SubnetIds),
+    stateDetails: S.optional(S.String),
+    failureReason: S.optional(S.String),
+    tags: S.optional(TagMap),
+  }),
+).annotations({ identifier: "Endpoint" }) as any as S.Schema<Endpoint>;
+export type Endpoints = Endpoint[];
 export const Endpoints = S.Array(Endpoint);
-export class SecureNamespaceInfo extends S.Class<SecureNamespaceInfo>(
-  "SecureNamespaceInfo",
-)({ clusterId: S.optional(S.String), namespace: S.optional(S.String) }) {}
-export class LakeFormationConfiguration extends S.Class<LakeFormationConfiguration>(
-  "LakeFormationConfiguration",
-)({
-  authorizedSessionTagValue: S.optional(S.String),
-  secureNamespaceInfo: S.optional(SecureNamespaceInfo),
-  queryEngineRoleArn: S.optional(S.String),
-}) {}
-export class TLSCertificateConfiguration extends S.Class<TLSCertificateConfiguration>(
-  "TLSCertificateConfiguration",
-)({
-  certificateProviderType: S.optional(S.String),
-  publicCertificateSecretArn: S.optional(S.String),
-  privateCertificateSecretArn: S.optional(S.String),
-}) {}
-export class InTransitEncryptionConfiguration extends S.Class<InTransitEncryptionConfiguration>(
-  "InTransitEncryptionConfiguration",
-)({ tlsCertificateConfiguration: S.optional(TLSCertificateConfiguration) }) {}
-export class EncryptionConfiguration extends S.Class<EncryptionConfiguration>(
-  "EncryptionConfiguration",
-)({
-  inTransitEncryptionConfiguration: S.optional(
-    InTransitEncryptionConfiguration,
-  ),
-}) {}
-export class AuthorizationConfiguration extends S.Class<AuthorizationConfiguration>(
-  "AuthorizationConfiguration",
-)({
-  lakeFormationConfiguration: S.optional(LakeFormationConfiguration),
-  encryptionConfiguration: S.optional(EncryptionConfiguration),
-}) {}
-export class SecurityConfigurationData extends S.Class<SecurityConfigurationData>(
-  "SecurityConfigurationData",
-)({ authorizationConfiguration: S.optional(AuthorizationConfiguration) }) {}
-export class SecurityConfiguration extends S.Class<SecurityConfiguration>(
-  "SecurityConfiguration",
-)({
-  id: S.optional(S.String),
-  name: S.optional(S.String),
-  arn: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  createdBy: S.optional(S.String),
-  securityConfigurationData: S.optional(SecurityConfigurationData),
-  tags: S.optional(TagMap),
-}) {}
+export interface SecureNamespaceInfo {
+  clusterId?: string;
+  namespace?: string;
+}
+export const SecureNamespaceInfo = S.suspend(() =>
+  S.Struct({
+    clusterId: S.optional(S.String),
+    namespace: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SecureNamespaceInfo",
+}) as any as S.Schema<SecureNamespaceInfo>;
+export interface LakeFormationConfiguration {
+  authorizedSessionTagValue?: string;
+  secureNamespaceInfo?: SecureNamespaceInfo;
+  queryEngineRoleArn?: string;
+}
+export const LakeFormationConfiguration = S.suspend(() =>
+  S.Struct({
+    authorizedSessionTagValue: S.optional(S.String),
+    secureNamespaceInfo: S.optional(SecureNamespaceInfo),
+    queryEngineRoleArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "LakeFormationConfiguration",
+}) as any as S.Schema<LakeFormationConfiguration>;
+export interface TLSCertificateConfiguration {
+  certificateProviderType?: string;
+  publicCertificateSecretArn?: string;
+  privateCertificateSecretArn?: string;
+}
+export const TLSCertificateConfiguration = S.suspend(() =>
+  S.Struct({
+    certificateProviderType: S.optional(S.String),
+    publicCertificateSecretArn: S.optional(S.String),
+    privateCertificateSecretArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "TLSCertificateConfiguration",
+}) as any as S.Schema<TLSCertificateConfiguration>;
+export interface InTransitEncryptionConfiguration {
+  tlsCertificateConfiguration?: TLSCertificateConfiguration;
+}
+export const InTransitEncryptionConfiguration = S.suspend(() =>
+  S.Struct({
+    tlsCertificateConfiguration: S.optional(TLSCertificateConfiguration),
+  }),
+).annotations({
+  identifier: "InTransitEncryptionConfiguration",
+}) as any as S.Schema<InTransitEncryptionConfiguration>;
+export interface EncryptionConfiguration {
+  inTransitEncryptionConfiguration?: InTransitEncryptionConfiguration;
+}
+export const EncryptionConfiguration = S.suspend(() =>
+  S.Struct({
+    inTransitEncryptionConfiguration: S.optional(
+      InTransitEncryptionConfiguration,
+    ),
+  }),
+).annotations({
+  identifier: "EncryptionConfiguration",
+}) as any as S.Schema<EncryptionConfiguration>;
+export interface AuthorizationConfiguration {
+  lakeFormationConfiguration?: LakeFormationConfiguration;
+  encryptionConfiguration?: EncryptionConfiguration;
+}
+export const AuthorizationConfiguration = S.suspend(() =>
+  S.Struct({
+    lakeFormationConfiguration: S.optional(LakeFormationConfiguration),
+    encryptionConfiguration: S.optional(EncryptionConfiguration),
+  }),
+).annotations({
+  identifier: "AuthorizationConfiguration",
+}) as any as S.Schema<AuthorizationConfiguration>;
+export interface SecurityConfigurationData {
+  authorizationConfiguration?: AuthorizationConfiguration;
+}
+export const SecurityConfigurationData = S.suspend(() =>
+  S.Struct({
+    authorizationConfiguration: S.optional(AuthorizationConfiguration),
+  }),
+).annotations({
+  identifier: "SecurityConfigurationData",
+}) as any as S.Schema<SecurityConfigurationData>;
+export interface SecurityConfiguration {
+  id?: string;
+  name?: string;
+  arn?: string;
+  createdAt?: Date;
+  createdBy?: string;
+  securityConfigurationData?: SecurityConfigurationData;
+  tags?: TagMap;
+}
+export const SecurityConfiguration = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    arn: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdBy: S.optional(S.String),
+    securityConfigurationData: S.optional(SecurityConfigurationData),
+    tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "SecurityConfiguration",
+}) as any as S.Schema<SecurityConfiguration>;
+export type SecurityConfigurations = SecurityConfiguration[];
 export const SecurityConfigurations = S.Array(SecurityConfiguration);
-export class VirtualCluster extends S.Class<VirtualCluster>("VirtualCluster")({
-  id: S.optional(S.String),
-  name: S.optional(S.String),
-  arn: S.optional(S.String),
-  state: S.optional(S.String),
-  containerProvider: S.optional(ContainerProvider),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  tags: S.optional(TagMap),
-  securityConfigurationId: S.optional(S.String),
-}) {}
+export interface VirtualCluster {
+  id?: string;
+  name?: string;
+  arn?: string;
+  state?: string;
+  containerProvider?: ContainerProvider;
+  createdAt?: Date;
+  tags?: TagMap;
+  securityConfigurationId?: string;
+}
+export const VirtualCluster = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    arn: S.optional(S.String),
+    state: S.optional(S.String),
+    containerProvider: S.optional(ContainerProvider),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    tags: S.optional(TagMap),
+    securityConfigurationId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "VirtualCluster",
+}) as any as S.Schema<VirtualCluster>;
+export type VirtualClusters = VirtualCluster[];
 export const VirtualClusters = S.Array(VirtualCluster);
+export type TemplateParameterInputMap = { [key: string]: string };
 export const TemplateParameterInputMap = S.Record({
   key: S.String,
   value: S.String,
 });
-export class CancelJobRunResponse extends S.Class<CancelJobRunResponse>(
-  "CancelJobRunResponse",
-)({ id: S.optional(S.String), virtualClusterId: S.optional(S.String) }) {}
-export class CreateVirtualClusterResponse extends S.Class<CreateVirtualClusterResponse>(
-  "CreateVirtualClusterResponse",
-)({
-  id: S.optional(S.String),
-  name: S.optional(S.String),
-  arn: S.optional(S.String),
-}) {}
-export class DeleteJobTemplateResponse extends S.Class<DeleteJobTemplateResponse>(
-  "DeleteJobTemplateResponse",
-)({ id: S.optional(S.String) }) {}
-export class DeleteManagedEndpointResponse extends S.Class<DeleteManagedEndpointResponse>(
-  "DeleteManagedEndpointResponse",
-)({ id: S.optional(S.String), virtualClusterId: S.optional(S.String) }) {}
-export class DeleteVirtualClusterResponse extends S.Class<DeleteVirtualClusterResponse>(
-  "DeleteVirtualClusterResponse",
-)({ id: S.optional(S.String) }) {}
-export class ListJobRunsResponse extends S.Class<ListJobRunsResponse>(
-  "ListJobRunsResponse",
-)({ jobRuns: S.optional(JobRuns), nextToken: S.optional(S.String) }) {}
-export class ListJobTemplatesResponse extends S.Class<ListJobTemplatesResponse>(
-  "ListJobTemplatesResponse",
-)({ templates: S.optional(JobTemplates), nextToken: S.optional(S.String) }) {}
-export class ListManagedEndpointsResponse extends S.Class<ListManagedEndpointsResponse>(
-  "ListManagedEndpointsResponse",
-)({ endpoints: S.optional(Endpoints), nextToken: S.optional(S.String) }) {}
-export class ListSecurityConfigurationsResponse extends S.Class<ListSecurityConfigurationsResponse>(
-  "ListSecurityConfigurationsResponse",
-)({
-  securityConfigurations: S.optional(SecurityConfigurations),
-  nextToken: S.optional(S.String),
-}) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ tags: S.optional(TagMap) }) {}
-export class ListVirtualClustersResponse extends S.Class<ListVirtualClustersResponse>(
-  "ListVirtualClustersResponse",
-)({
-  virtualClusters: S.optional(VirtualClusters),
-  nextToken: S.optional(S.String),
-}) {}
+export interface CancelJobRunResponse {
+  id?: string;
+  virtualClusterId?: string;
+}
+export const CancelJobRunResponse = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    virtualClusterId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CancelJobRunResponse",
+}) as any as S.Schema<CancelJobRunResponse>;
+export interface CreateVirtualClusterResponse {
+  id?: string;
+  name?: string;
+  arn?: string;
+}
+export const CreateVirtualClusterResponse = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    arn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CreateVirtualClusterResponse",
+}) as any as S.Schema<CreateVirtualClusterResponse>;
+export interface DeleteJobTemplateResponse {
+  id?: string;
+}
+export const DeleteJobTemplateResponse = S.suspend(() =>
+  S.Struct({ id: S.optional(S.String) }),
+).annotations({
+  identifier: "DeleteJobTemplateResponse",
+}) as any as S.Schema<DeleteJobTemplateResponse>;
+export interface DeleteManagedEndpointResponse {
+  id?: string;
+  virtualClusterId?: string;
+}
+export const DeleteManagedEndpointResponse = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    virtualClusterId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DeleteManagedEndpointResponse",
+}) as any as S.Schema<DeleteManagedEndpointResponse>;
+export interface DeleteVirtualClusterResponse {
+  id?: string;
+}
+export const DeleteVirtualClusterResponse = S.suspend(() =>
+  S.Struct({ id: S.optional(S.String) }),
+).annotations({
+  identifier: "DeleteVirtualClusterResponse",
+}) as any as S.Schema<DeleteVirtualClusterResponse>;
+export interface ListJobRunsResponse {
+  jobRuns?: JobRuns;
+  nextToken?: string;
+}
+export const ListJobRunsResponse = S.suspend(() =>
+  S.Struct({ jobRuns: S.optional(JobRuns), nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListJobRunsResponse",
+}) as any as S.Schema<ListJobRunsResponse>;
+export interface ListJobTemplatesResponse {
+  templates?: JobTemplates;
+  nextToken?: string;
+}
+export const ListJobTemplatesResponse = S.suspend(() =>
+  S.Struct({
+    templates: S.optional(JobTemplates),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListJobTemplatesResponse",
+}) as any as S.Schema<ListJobTemplatesResponse>;
+export interface ListManagedEndpointsResponse {
+  endpoints?: Endpoints;
+  nextToken?: string;
+}
+export const ListManagedEndpointsResponse = S.suspend(() =>
+  S.Struct({
+    endpoints: S.optional(Endpoints),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListManagedEndpointsResponse",
+}) as any as S.Schema<ListManagedEndpointsResponse>;
+export interface ListSecurityConfigurationsResponse {
+  securityConfigurations?: SecurityConfigurations;
+  nextToken?: string;
+}
+export const ListSecurityConfigurationsResponse = S.suspend(() =>
+  S.Struct({
+    securityConfigurations: S.optional(SecurityConfigurations),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListSecurityConfigurationsResponse",
+}) as any as S.Schema<ListSecurityConfigurationsResponse>;
+export interface ListTagsForResourceResponse {
+  tags?: TagMap;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ tags: S.optional(TagMap) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface ListVirtualClustersResponse {
+  virtualClusters?: VirtualClusters;
+  nextToken?: string;
+}
+export const ListVirtualClustersResponse = S.suspend(() =>
+  S.Struct({
+    virtualClusters: S.optional(VirtualClusters),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListVirtualClustersResponse",
+}) as any as S.Schema<ListVirtualClustersResponse>;
 export const Credentials = S.Union(S.Struct({ token: S.String }));
+export type SensitivePropertiesMap = { [key: string]: string };
 export const SensitivePropertiesMap = S.Record({
   key: S.String,
   value: S.String,
 });
-export class DescribeJobTemplateResponse extends S.Class<DescribeJobTemplateResponse>(
-  "DescribeJobTemplateResponse",
-)({ jobTemplate: S.optional(JobTemplate) }) {}
-export class DescribeSecurityConfigurationResponse extends S.Class<DescribeSecurityConfigurationResponse>(
-  "DescribeSecurityConfigurationResponse",
-)({ securityConfiguration: S.optional(SecurityConfiguration) }) {}
-export class DescribeVirtualClusterResponse extends S.Class<DescribeVirtualClusterResponse>(
-  "DescribeVirtualClusterResponse",
-)({ virtualCluster: S.optional(VirtualCluster) }) {}
-export class GetManagedEndpointSessionCredentialsResponse extends S.Class<GetManagedEndpointSessionCredentialsResponse>(
-  "GetManagedEndpointSessionCredentialsResponse",
-)({
-  id: S.optional(S.String),
-  credentials: S.optional(Credentials),
-  expiresAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-}) {}
-export class StartJobRunRequest extends S.Class<StartJobRunRequest>(
-  "StartJobRunRequest",
-)(
-  {
+export interface DescribeJobTemplateResponse {
+  jobTemplate?: JobTemplate;
+}
+export const DescribeJobTemplateResponse = S.suspend(() =>
+  S.Struct({ jobTemplate: S.optional(JobTemplate) }),
+).annotations({
+  identifier: "DescribeJobTemplateResponse",
+}) as any as S.Schema<DescribeJobTemplateResponse>;
+export interface DescribeSecurityConfigurationResponse {
+  securityConfiguration?: SecurityConfiguration;
+}
+export const DescribeSecurityConfigurationResponse = S.suspend(() =>
+  S.Struct({ securityConfiguration: S.optional(SecurityConfiguration) }),
+).annotations({
+  identifier: "DescribeSecurityConfigurationResponse",
+}) as any as S.Schema<DescribeSecurityConfigurationResponse>;
+export interface DescribeVirtualClusterResponse {
+  virtualCluster?: VirtualCluster;
+}
+export const DescribeVirtualClusterResponse = S.suspend(() =>
+  S.Struct({ virtualCluster: S.optional(VirtualCluster) }),
+).annotations({
+  identifier: "DescribeVirtualClusterResponse",
+}) as any as S.Schema<DescribeVirtualClusterResponse>;
+export interface GetManagedEndpointSessionCredentialsResponse {
+  id?: string;
+  credentials?: (typeof Credentials)["Type"];
+  expiresAt?: Date;
+}
+export const GetManagedEndpointSessionCredentialsResponse = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    credentials: S.optional(Credentials),
+    expiresAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotations({
+  identifier: "GetManagedEndpointSessionCredentialsResponse",
+}) as any as S.Schema<GetManagedEndpointSessionCredentialsResponse>;
+export interface StartJobRunRequest {
+  name?: string;
+  virtualClusterId: string;
+  clientToken: string;
+  executionRoleArn?: string;
+  releaseLabel?: string;
+  jobDriver?: JobDriver;
+  configurationOverrides?: ConfigurationOverrides;
+  tags?: TagMap;
+  jobTemplateId?: string;
+  jobTemplateParameters?: TemplateParameterInputMap;
+  retryPolicyConfiguration?: RetryPolicyConfiguration;
+}
+export const StartJobRunRequest = S.suspend(() =>
+  S.Struct({
     name: S.optional(S.String),
     virtualClusterId: S.String.pipe(T.HttpLabel("virtualClusterId")),
     clientToken: S.String,
@@ -952,28 +1462,53 @@ export class StartJobRunRequest extends S.Class<StartJobRunRequest>(
     jobTemplateId: S.optional(S.String),
     jobTemplateParameters: S.optional(TemplateParameterInputMap),
     retryPolicyConfiguration: S.optional(RetryPolicyConfiguration),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/virtualclusters/{virtualClusterId}/jobruns",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/virtualclusters/{virtualClusterId}/jobruns",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class Configuration extends S.Class<Configuration>("Configuration")({
-  classification: S.String,
-  properties: S.optional(SensitivePropertiesMap),
-  configurations: S.optional(S.suspend(() => ConfigurationList)),
-}) {}
-export class CreateManagedEndpointRequest extends S.Class<CreateManagedEndpointRequest>(
-  "CreateManagedEndpointRequest",
-)(
-  {
+).annotations({
+  identifier: "StartJobRunRequest",
+}) as any as S.Schema<StartJobRunRequest>;
+export interface Configuration {
+  classification: string;
+  properties?: SensitivePropertiesMap;
+  configurations?: ConfigurationList;
+}
+export const Configuration = S.suspend(() =>
+  S.Struct({
+    classification: S.String,
+    properties: S.optional(SensitivePropertiesMap),
+    configurations: S.optional(
+      S.suspend(() => ConfigurationList).annotations({
+        identifier: "ConfigurationList",
+      }),
+    ),
+  }),
+).annotations({
+  identifier: "Configuration",
+}) as any as S.Schema<Configuration>;
+export interface CreateManagedEndpointRequest {
+  name: string;
+  virtualClusterId: string;
+  type: string;
+  releaseLabel: string;
+  executionRoleArn: string;
+  certificateArn?: string;
+  configurationOverrides?: ConfigurationOverrides;
+  clientToken: string;
+  tags?: TagMap;
+}
+export const CreateManagedEndpointRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     virtualClusterId: S.String.pipe(T.HttpLabel("virtualClusterId")),
     type: S.String,
@@ -983,94 +1518,154 @@ export class CreateManagedEndpointRequest extends S.Class<CreateManagedEndpointR
     configurationOverrides: S.optional(ConfigurationOverrides),
     clientToken: S.String,
     tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/virtualclusters/{virtualClusterId}/endpoints",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/virtualclusters/{virtualClusterId}/endpoints",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeJobRunResponse extends S.Class<DescribeJobRunResponse>(
-  "DescribeJobRunResponse",
-)({ jobRun: S.optional(JobRun) }) {}
-export class DescribeManagedEndpointResponse extends S.Class<DescribeManagedEndpointResponse>(
-  "DescribeManagedEndpointResponse",
-)({ endpoint: S.optional(Endpoint) }) {}
-export class StartJobRunResponse extends S.Class<StartJobRunResponse>(
-  "StartJobRunResponse",
-)({
-  id: S.optional(S.String),
-  name: S.optional(S.String),
-  arn: S.optional(S.String),
-  virtualClusterId: S.optional(S.String),
-}) {}
-export class CreateJobTemplateRequest extends S.Class<CreateJobTemplateRequest>(
-  "CreateJobTemplateRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateManagedEndpointRequest",
+}) as any as S.Schema<CreateManagedEndpointRequest>;
+export interface DescribeJobRunResponse {
+  jobRun?: JobRun;
+}
+export const DescribeJobRunResponse = S.suspend(() =>
+  S.Struct({ jobRun: S.optional(JobRun) }),
+).annotations({
+  identifier: "DescribeJobRunResponse",
+}) as any as S.Schema<DescribeJobRunResponse>;
+export interface DescribeManagedEndpointResponse {
+  endpoint?: Endpoint;
+}
+export const DescribeManagedEndpointResponse = S.suspend(() =>
+  S.Struct({ endpoint: S.optional(Endpoint) }),
+).annotations({
+  identifier: "DescribeManagedEndpointResponse",
+}) as any as S.Schema<DescribeManagedEndpointResponse>;
+export interface StartJobRunResponse {
+  id?: string;
+  name?: string;
+  arn?: string;
+  virtualClusterId?: string;
+}
+export const StartJobRunResponse = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    arn: S.optional(S.String),
+    virtualClusterId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "StartJobRunResponse",
+}) as any as S.Schema<StartJobRunResponse>;
+export interface CreateJobTemplateRequest {
+  name: string;
+  clientToken: string;
+  jobTemplateData: JobTemplateData;
+  tags?: TagMap;
+  kmsKeyArn?: string;
+}
+export const CreateJobTemplateRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     clientToken: S.String,
     jobTemplateData: JobTemplateData,
     tags: S.optional(TagMap),
     kmsKeyArn: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/jobtemplates" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/jobtemplates" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateManagedEndpointResponse extends S.Class<CreateManagedEndpointResponse>(
-  "CreateManagedEndpointResponse",
-)({
-  id: S.optional(S.String),
-  name: S.optional(S.String),
-  arn: S.optional(S.String),
-  virtualClusterId: S.optional(S.String),
-}) {}
-export class CreateJobTemplateResponse extends S.Class<CreateJobTemplateResponse>(
-  "CreateJobTemplateResponse",
-)({
-  id: S.optional(S.String),
-  name: S.optional(S.String),
-  arn: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-}) {}
-export class CreateSecurityConfigurationRequest extends S.Class<CreateSecurityConfigurationRequest>(
-  "CreateSecurityConfigurationRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateJobTemplateRequest",
+}) as any as S.Schema<CreateJobTemplateRequest>;
+export interface CreateManagedEndpointResponse {
+  id?: string;
+  name?: string;
+  arn?: string;
+  virtualClusterId?: string;
+}
+export const CreateManagedEndpointResponse = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    arn: S.optional(S.String),
+    virtualClusterId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CreateManagedEndpointResponse",
+}) as any as S.Schema<CreateManagedEndpointResponse>;
+export interface CreateJobTemplateResponse {
+  id?: string;
+  name?: string;
+  arn?: string;
+  createdAt?: Date;
+}
+export const CreateJobTemplateResponse = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    arn: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotations({
+  identifier: "CreateJobTemplateResponse",
+}) as any as S.Schema<CreateJobTemplateResponse>;
+export interface CreateSecurityConfigurationRequest {
+  clientToken: string;
+  name: string;
+  containerProvider?: ContainerProvider;
+  securityConfigurationData: SecurityConfigurationData;
+  tags?: TagMap;
+}
+export const CreateSecurityConfigurationRequest = S.suspend(() =>
+  S.Struct({
     clientToken: S.String,
     name: S.String,
     containerProvider: S.optional(ContainerProvider),
     securityConfigurationData: SecurityConfigurationData,
     tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/securityconfigurations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/securityconfigurations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateSecurityConfigurationResponse extends S.Class<CreateSecurityConfigurationResponse>(
-  "CreateSecurityConfigurationResponse",
-)({
-  id: S.optional(S.String),
-  name: S.optional(S.String),
-  arn: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "CreateSecurityConfigurationRequest",
+}) as any as S.Schema<CreateSecurityConfigurationRequest>;
+export interface CreateSecurityConfigurationResponse {
+  id?: string;
+  name?: string;
+  arn?: string;
+}
+export const CreateSecurityConfigurationResponse = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    arn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CreateSecurityConfigurationResponse",
+}) as any as S.Schema<CreateSecurityConfigurationResponse>;
 
 //# Errors
 export class InternalServerException extends S.TaggedError<InternalServerException>()(

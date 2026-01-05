@@ -294,31 +294,56 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type StringList = string[];
 export const StringList = S.Array(S.String);
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class ApplyPendingMaintenanceActionInput extends S.Class<ApplyPendingMaintenanceActionInput>(
-  "ApplyPendingMaintenanceActionInput",
-)(
-  {
+export interface ApplyPendingMaintenanceActionInput {
+  resourceArn: string;
+  applyAction: string;
+  optInType: string;
+  applyOn?: string;
+}
+export const ApplyPendingMaintenanceActionInput = S.suspend(() =>
+  S.Struct({
     resourceArn: S.String,
     applyAction: S.String,
     optInType: S.String,
     applyOn: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/pending-action" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/pending-action" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "ApplyPendingMaintenanceActionInput",
+}) as any as S.Schema<ApplyPendingMaintenanceActionInput>;
+export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
-export class CreateClusterInput extends S.Class<CreateClusterInput>(
-  "CreateClusterInput",
-)(
-  {
+export interface CreateClusterInput {
+  clusterName: string;
+  authType: string;
+  adminUserName: string;
+  adminUserPassword: string;
+  shardCapacity: number;
+  shardCount: number;
+  vpcSecurityGroupIds?: StringList;
+  subnetIds?: StringList;
+  kmsKeyId?: string;
+  clientToken?: string;
+  preferredMaintenanceWindow?: string;
+  tags?: TagMap;
+  backupRetentionPeriod?: number;
+  preferredBackupWindow?: string;
+  shardInstanceCount?: number;
+}
+export const CreateClusterInput = S.suspend(() =>
+  S.Struct({
     clusterName: S.String,
     authType: S.String,
     adminUserName: S.String,
@@ -334,161 +359,223 @@ export class CreateClusterInput extends S.Class<CreateClusterInput>(
     backupRetentionPeriod: S.optional(S.Number),
     preferredBackupWindow: S.optional(S.String),
     shardInstanceCount: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/cluster" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/cluster" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateClusterSnapshotInput extends S.Class<CreateClusterSnapshotInput>(
-  "CreateClusterSnapshotInput",
-)(
-  { clusterArn: S.String, snapshotName: S.String, tags: S.optional(TagMap) },
-  T.all(
-    T.Http({ method: "POST", uri: "/cluster-snapshot" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CreateClusterInput",
+}) as any as S.Schema<CreateClusterInput>;
+export interface CreateClusterSnapshotInput {
+  clusterArn: string;
+  snapshotName: string;
+  tags?: TagMap;
+}
+export const CreateClusterSnapshotInput = S.suspend(() =>
+  S.Struct({
+    clusterArn: S.String,
+    snapshotName: S.String,
+    tags: S.optional(TagMap),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/cluster-snapshot" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteClusterInput extends S.Class<DeleteClusterInput>(
-  "DeleteClusterInput",
-)(
-  { clusterArn: S.String.pipe(T.HttpLabel("clusterArn")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/cluster/{clusterArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CreateClusterSnapshotInput",
+}) as any as S.Schema<CreateClusterSnapshotInput>;
+export interface DeleteClusterInput {
+  clusterArn: string;
+}
+export const DeleteClusterInput = S.suspend(() =>
+  S.Struct({ clusterArn: S.String.pipe(T.HttpLabel("clusterArn")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/cluster/{clusterArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteClusterSnapshotInput extends S.Class<DeleteClusterSnapshotInput>(
-  "DeleteClusterSnapshotInput",
-)(
-  { snapshotArn: S.String.pipe(T.HttpLabel("snapshotArn")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/cluster-snapshot/{snapshotArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteClusterInput",
+}) as any as S.Schema<DeleteClusterInput>;
+export interface DeleteClusterSnapshotInput {
+  snapshotArn: string;
+}
+export const DeleteClusterSnapshotInput = S.suspend(() =>
+  S.Struct({ snapshotArn: S.String.pipe(T.HttpLabel("snapshotArn")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/cluster-snapshot/{snapshotArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetClusterInput extends S.Class<GetClusterInput>(
-  "GetClusterInput",
-)(
-  { clusterArn: S.String.pipe(T.HttpLabel("clusterArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/cluster/{clusterArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteClusterSnapshotInput",
+}) as any as S.Schema<DeleteClusterSnapshotInput>;
+export interface GetClusterInput {
+  clusterArn: string;
+}
+export const GetClusterInput = S.suspend(() =>
+  S.Struct({ clusterArn: S.String.pipe(T.HttpLabel("clusterArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/cluster/{clusterArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetClusterSnapshotInput extends S.Class<GetClusterSnapshotInput>(
-  "GetClusterSnapshotInput",
-)(
-  { snapshotArn: S.String.pipe(T.HttpLabel("snapshotArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/cluster-snapshot/{snapshotArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetClusterInput",
+}) as any as S.Schema<GetClusterInput>;
+export interface GetClusterSnapshotInput {
+  snapshotArn: string;
+}
+export const GetClusterSnapshotInput = S.suspend(() =>
+  S.Struct({ snapshotArn: S.String.pipe(T.HttpLabel("snapshotArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/cluster-snapshot/{snapshotArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetPendingMaintenanceActionInput extends S.Class<GetPendingMaintenanceActionInput>(
-  "GetPendingMaintenanceActionInput",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/pending-action/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetClusterSnapshotInput",
+}) as any as S.Schema<GetClusterSnapshotInput>;
+export interface GetPendingMaintenanceActionInput {
+  resourceArn: string;
+}
+export const GetPendingMaintenanceActionInput = S.suspend(() =>
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/pending-action/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListClustersInput extends S.Class<ListClustersInput>(
-  "ListClustersInput",
-)(
-  {
+).annotations({
+  identifier: "GetPendingMaintenanceActionInput",
+}) as any as S.Schema<GetPendingMaintenanceActionInput>;
+export interface ListClustersInput {
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListClustersInput = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/clusters" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/clusters" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListClusterSnapshotsInput extends S.Class<ListClusterSnapshotsInput>(
-  "ListClusterSnapshotsInput",
-)(
-  {
+).annotations({
+  identifier: "ListClustersInput",
+}) as any as S.Schema<ListClustersInput>;
+export interface ListClusterSnapshotsInput {
+  clusterArn?: string;
+  nextToken?: string;
+  maxResults?: number;
+  snapshotType?: string;
+}
+export const ListClusterSnapshotsInput = S.suspend(() =>
+  S.Struct({
     clusterArn: S.optional(S.String).pipe(T.HttpQuery("clusterArn")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     snapshotType: S.optional(S.String).pipe(T.HttpQuery("snapshotType")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/cluster-snapshots" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/cluster-snapshots" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListPendingMaintenanceActionsInput extends S.Class<ListPendingMaintenanceActionsInput>(
-  "ListPendingMaintenanceActionsInput",
-)(
-  {
+).annotations({
+  identifier: "ListClusterSnapshotsInput",
+}) as any as S.Schema<ListClusterSnapshotsInput>;
+export interface ListPendingMaintenanceActionsInput {
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListPendingMaintenanceActionsInput = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/pending-actions" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/pending-actions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListPendingMaintenanceActionsInput",
+}) as any as S.Schema<ListPendingMaintenanceActionsInput>;
+export interface ListTagsForResourceRequest {
+  resourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class RestoreClusterFromSnapshotInput extends S.Class<RestoreClusterFromSnapshotInput>(
-  "RestoreClusterFromSnapshotInput",
-)(
-  {
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface RestoreClusterFromSnapshotInput {
+  clusterName: string;
+  snapshotArn: string;
+  vpcSecurityGroupIds?: StringList;
+  subnetIds?: StringList;
+  kmsKeyId?: string;
+  tags?: TagMap;
+  shardCapacity?: number;
+  shardInstanceCount?: number;
+}
+export const RestoreClusterFromSnapshotInput = S.suspend(() =>
+  S.Struct({
     clusterName: S.String,
     snapshotArn: S.String.pipe(T.HttpLabel("snapshotArn")),
     vpcSecurityGroupIds: S.optional(StringList),
@@ -497,81 +584,122 @@ export class RestoreClusterFromSnapshotInput extends S.Class<RestoreClusterFromS
     tags: S.optional(TagMap),
     shardCapacity: S.optional(S.Number),
     shardInstanceCount: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/cluster-snapshot/{snapshotArn}/restore" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/cluster-snapshot/{snapshotArn}/restore",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartClusterInput extends S.Class<StartClusterInput>(
-  "StartClusterInput",
-)(
-  { clusterArn: S.String.pipe(T.HttpLabel("clusterArn")) },
-  T.all(
-    T.Http({ method: "POST", uri: "/cluster/{clusterArn}/start" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "RestoreClusterFromSnapshotInput",
+}) as any as S.Schema<RestoreClusterFromSnapshotInput>;
+export interface StartClusterInput {
+  clusterArn: string;
+}
+export const StartClusterInput = S.suspend(() =>
+  S.Struct({ clusterArn: S.String.pipe(T.HttpLabel("clusterArn")) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/cluster/{clusterArn}/start" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StopClusterInput extends S.Class<StopClusterInput>(
-  "StopClusterInput",
-)(
-  { clusterArn: S.String.pipe(T.HttpLabel("clusterArn")) },
-  T.all(
-    T.Http({ method: "POST", uri: "/cluster/{clusterArn}/stop" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "StartClusterInput",
+}) as any as S.Schema<StartClusterInput>;
+export interface StopClusterInput {
+  clusterArn: string;
+}
+export const StopClusterInput = S.suspend(() =>
+  S.Struct({ clusterArn: S.String.pipe(T.HttpLabel("clusterArn")) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/cluster/{clusterArn}/stop" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap },
-  T.all(
-    T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "StopClusterInput",
+}) as any as S.Schema<StopClusterInput>;
+export interface TagResourceRequest {
+  resourceArn: string;
+  tags: TagMap;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+    tags: TagMap,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UntagResourceRequest {
+  resourceArn: string;
+  tagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
-export class UpdateClusterInput extends S.Class<UpdateClusterInput>(
-  "UpdateClusterInput",
-)(
-  {
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface UpdateClusterInput {
+  clusterArn: string;
+  authType?: string;
+  shardCapacity?: number;
+  shardCount?: number;
+  vpcSecurityGroupIds?: StringList;
+  subnetIds?: StringList;
+  adminUserPassword?: string;
+  clientToken?: string;
+  preferredMaintenanceWindow?: string;
+  backupRetentionPeriod?: number;
+  preferredBackupWindow?: string;
+  shardInstanceCount?: number;
+}
+export const UpdateClusterInput = S.suspend(() =>
+  S.Struct({
     clusterArn: S.String.pipe(T.HttpLabel("clusterArn")),
     authType: S.optional(S.String),
     shardCapacity: S.optional(S.Number),
@@ -584,175 +712,364 @@ export class UpdateClusterInput extends S.Class<UpdateClusterInput>(
     backupRetentionPeriod: S.optional(S.Number),
     preferredBackupWindow: S.optional(S.String),
     shardInstanceCount: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/cluster/{clusterArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/cluster/{clusterArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PendingMaintenanceActionDetails extends S.Class<PendingMaintenanceActionDetails>(
-  "PendingMaintenanceActionDetails",
-)({
-  action: S.String,
-  autoAppliedAfterDate: S.optional(S.String),
-  forcedApplyDate: S.optional(S.String),
-  optInStatus: S.optional(S.String),
-  currentApplyDate: S.optional(S.String),
-  description: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "UpdateClusterInput",
+}) as any as S.Schema<UpdateClusterInput>;
+export interface PendingMaintenanceActionDetails {
+  action: string;
+  autoAppliedAfterDate?: string;
+  forcedApplyDate?: string;
+  optInStatus?: string;
+  currentApplyDate?: string;
+  description?: string;
+}
+export const PendingMaintenanceActionDetails = S.suspend(() =>
+  S.Struct({
+    action: S.String,
+    autoAppliedAfterDate: S.optional(S.String),
+    forcedApplyDate: S.optional(S.String),
+    optInStatus: S.optional(S.String),
+    currentApplyDate: S.optional(S.String),
+    description: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "PendingMaintenanceActionDetails",
+}) as any as S.Schema<PendingMaintenanceActionDetails>;
+export type PendingMaintenanceActionDetailsList =
+  PendingMaintenanceActionDetails[];
 export const PendingMaintenanceActionDetailsList = S.Array(
   PendingMaintenanceActionDetails,
 );
-export class ResourcePendingMaintenanceAction extends S.Class<ResourcePendingMaintenanceAction>(
-  "ResourcePendingMaintenanceAction",
-)({
-  resourceArn: S.optional(S.String),
-  pendingMaintenanceActionDetails: S.optional(
-    PendingMaintenanceActionDetailsList,
-  ),
-}) {}
+export interface ResourcePendingMaintenanceAction {
+  resourceArn?: string;
+  pendingMaintenanceActionDetails?: PendingMaintenanceActionDetailsList;
+}
+export const ResourcePendingMaintenanceAction = S.suspend(() =>
+  S.Struct({
+    resourceArn: S.optional(S.String),
+    pendingMaintenanceActionDetails: S.optional(
+      PendingMaintenanceActionDetailsList,
+    ),
+  }),
+).annotations({
+  identifier: "ResourcePendingMaintenanceAction",
+}) as any as S.Schema<ResourcePendingMaintenanceAction>;
+export type ResourcePendingMaintenanceActionList =
+  ResourcePendingMaintenanceAction[];
 export const ResourcePendingMaintenanceActionList = S.Array(
   ResourcePendingMaintenanceAction,
 );
-export class CopyClusterSnapshotInput extends S.Class<CopyClusterSnapshotInput>(
-  "CopyClusterSnapshotInput",
-)(
-  {
+export interface CopyClusterSnapshotInput {
+  snapshotArn: string;
+  targetSnapshotName: string;
+  kmsKeyId?: string;
+  copyTags?: boolean;
+  tags?: TagMap;
+}
+export const CopyClusterSnapshotInput = S.suspend(() =>
+  S.Struct({
     snapshotArn: S.String.pipe(T.HttpLabel("snapshotArn")),
     targetSnapshotName: S.String,
     kmsKeyId: S.optional(S.String),
     copyTags: S.optional(S.Boolean),
     tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/cluster-snapshot/{snapshotArn}/copy" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/cluster-snapshot/{snapshotArn}/copy" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class Shard extends S.Class<Shard>("Shard")({
-  shardId: S.String,
-  createTime: S.String,
-  status: S.String,
-}) {}
+).annotations({
+  identifier: "CopyClusterSnapshotInput",
+}) as any as S.Schema<CopyClusterSnapshotInput>;
+export interface Shard {
+  shardId: string;
+  createTime: string;
+  status: string;
+}
+export const Shard = S.suspend(() =>
+  S.Struct({ shardId: S.String, createTime: S.String, status: S.String }),
+).annotations({ identifier: "Shard" }) as any as S.Schema<Shard>;
+export type ShardList = Shard[];
 export const ShardList = S.Array(Shard);
-export class Cluster extends S.Class<Cluster>("Cluster")({
-  clusterName: S.String,
-  clusterArn: S.String,
-  status: S.String,
-  clusterEndpoint: S.String,
-  createTime: S.String,
-  adminUserName: S.String,
-  authType: S.String,
-  shardCapacity: S.Number,
-  shardCount: S.Number,
-  vpcSecurityGroupIds: StringList,
-  subnetIds: StringList,
-  preferredMaintenanceWindow: S.String,
-  kmsKeyId: S.String,
-  shards: S.optional(ShardList),
-  backupRetentionPeriod: S.optional(S.Number),
-  preferredBackupWindow: S.optional(S.String),
-  shardInstanceCount: S.optional(S.Number),
-}) {}
-export class DeleteClusterOutput extends S.Class<DeleteClusterOutput>(
-  "DeleteClusterOutput",
-)({ cluster: Cluster }) {}
-export class ClusterSnapshot extends S.Class<ClusterSnapshot>(
-  "ClusterSnapshot",
-)({
-  subnetIds: StringList,
-  snapshotName: S.String,
-  snapshotArn: S.String,
-  snapshotCreationTime: S.String,
-  clusterArn: S.String,
-  clusterCreationTime: S.String,
-  status: S.String,
-  vpcSecurityGroupIds: StringList,
-  adminUserName: S.String,
-  kmsKeyId: S.String,
-  snapshotType: S.optional(S.String),
-}) {}
-export class DeleteClusterSnapshotOutput extends S.Class<DeleteClusterSnapshotOutput>(
-  "DeleteClusterSnapshotOutput",
-)({ snapshot: ClusterSnapshot }) {}
-export class GetClusterOutput extends S.Class<GetClusterOutput>(
-  "GetClusterOutput",
-)({ cluster: Cluster }) {}
-export class GetClusterSnapshotOutput extends S.Class<GetClusterSnapshotOutput>(
-  "GetClusterSnapshotOutput",
-)({ snapshot: ClusterSnapshot }) {}
-export class GetPendingMaintenanceActionOutput extends S.Class<GetPendingMaintenanceActionOutput>(
-  "GetPendingMaintenanceActionOutput",
-)({ resourcePendingMaintenanceAction: ResourcePendingMaintenanceAction }) {}
-export class ListPendingMaintenanceActionsOutput extends S.Class<ListPendingMaintenanceActionsOutput>(
-  "ListPendingMaintenanceActionsOutput",
-)({
-  resourcePendingMaintenanceActions: ResourcePendingMaintenanceActionList,
-  nextToken: S.optional(S.String),
-}) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ tags: S.optional(TagMap) }) {}
-export class RestoreClusterFromSnapshotOutput extends S.Class<RestoreClusterFromSnapshotOutput>(
-  "RestoreClusterFromSnapshotOutput",
-)({ cluster: Cluster }) {}
-export class StartClusterOutput extends S.Class<StartClusterOutput>(
-  "StartClusterOutput",
-)({ cluster: Cluster }) {}
-export class StopClusterOutput extends S.Class<StopClusterOutput>(
-  "StopClusterOutput",
-)({ cluster: Cluster }) {}
-export class UpdateClusterOutput extends S.Class<UpdateClusterOutput>(
-  "UpdateClusterOutput",
-)({ cluster: Cluster }) {}
-export class ClusterInList extends S.Class<ClusterInList>("ClusterInList")({
-  clusterName: S.String,
-  clusterArn: S.String,
-  status: S.String,
-}) {}
+export interface Cluster {
+  clusterName: string;
+  clusterArn: string;
+  status: string;
+  clusterEndpoint: string;
+  createTime: string;
+  adminUserName: string;
+  authType: string;
+  shardCapacity: number;
+  shardCount: number;
+  vpcSecurityGroupIds: StringList;
+  subnetIds: StringList;
+  preferredMaintenanceWindow: string;
+  kmsKeyId: string;
+  shards?: ShardList;
+  backupRetentionPeriod?: number;
+  preferredBackupWindow?: string;
+  shardInstanceCount?: number;
+}
+export const Cluster = S.suspend(() =>
+  S.Struct({
+    clusterName: S.String,
+    clusterArn: S.String,
+    status: S.String,
+    clusterEndpoint: S.String,
+    createTime: S.String,
+    adminUserName: S.String,
+    authType: S.String,
+    shardCapacity: S.Number,
+    shardCount: S.Number,
+    vpcSecurityGroupIds: StringList,
+    subnetIds: StringList,
+    preferredMaintenanceWindow: S.String,
+    kmsKeyId: S.String,
+    shards: S.optional(ShardList),
+    backupRetentionPeriod: S.optional(S.Number),
+    preferredBackupWindow: S.optional(S.String),
+    shardInstanceCount: S.optional(S.Number),
+  }),
+).annotations({ identifier: "Cluster" }) as any as S.Schema<Cluster>;
+export interface DeleteClusterOutput {
+  cluster: Cluster;
+}
+export const DeleteClusterOutput = S.suspend(() =>
+  S.Struct({ cluster: Cluster }),
+).annotations({
+  identifier: "DeleteClusterOutput",
+}) as any as S.Schema<DeleteClusterOutput>;
+export interface ClusterSnapshot {
+  subnetIds: StringList;
+  snapshotName: string;
+  snapshotArn: string;
+  snapshotCreationTime: string;
+  clusterArn: string;
+  clusterCreationTime: string;
+  status: string;
+  vpcSecurityGroupIds: StringList;
+  adminUserName: string;
+  kmsKeyId: string;
+  snapshotType?: string;
+}
+export const ClusterSnapshot = S.suspend(() =>
+  S.Struct({
+    subnetIds: StringList,
+    snapshotName: S.String,
+    snapshotArn: S.String,
+    snapshotCreationTime: S.String,
+    clusterArn: S.String,
+    clusterCreationTime: S.String,
+    status: S.String,
+    vpcSecurityGroupIds: StringList,
+    adminUserName: S.String,
+    kmsKeyId: S.String,
+    snapshotType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ClusterSnapshot",
+}) as any as S.Schema<ClusterSnapshot>;
+export interface DeleteClusterSnapshotOutput {
+  snapshot: ClusterSnapshot;
+}
+export const DeleteClusterSnapshotOutput = S.suspend(() =>
+  S.Struct({ snapshot: ClusterSnapshot }),
+).annotations({
+  identifier: "DeleteClusterSnapshotOutput",
+}) as any as S.Schema<DeleteClusterSnapshotOutput>;
+export interface GetClusterOutput {
+  cluster: Cluster;
+}
+export const GetClusterOutput = S.suspend(() =>
+  S.Struct({ cluster: Cluster }),
+).annotations({
+  identifier: "GetClusterOutput",
+}) as any as S.Schema<GetClusterOutput>;
+export interface GetClusterSnapshotOutput {
+  snapshot: ClusterSnapshot;
+}
+export const GetClusterSnapshotOutput = S.suspend(() =>
+  S.Struct({ snapshot: ClusterSnapshot }),
+).annotations({
+  identifier: "GetClusterSnapshotOutput",
+}) as any as S.Schema<GetClusterSnapshotOutput>;
+export interface GetPendingMaintenanceActionOutput {
+  resourcePendingMaintenanceAction: ResourcePendingMaintenanceAction;
+}
+export const GetPendingMaintenanceActionOutput = S.suspend(() =>
+  S.Struct({
+    resourcePendingMaintenanceAction: ResourcePendingMaintenanceAction,
+  }),
+).annotations({
+  identifier: "GetPendingMaintenanceActionOutput",
+}) as any as S.Schema<GetPendingMaintenanceActionOutput>;
+export interface ListPendingMaintenanceActionsOutput {
+  resourcePendingMaintenanceActions: ResourcePendingMaintenanceActionList;
+  nextToken?: string;
+}
+export const ListPendingMaintenanceActionsOutput = S.suspend(() =>
+  S.Struct({
+    resourcePendingMaintenanceActions: ResourcePendingMaintenanceActionList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListPendingMaintenanceActionsOutput",
+}) as any as S.Schema<ListPendingMaintenanceActionsOutput>;
+export interface ListTagsForResourceResponse {
+  tags?: TagMap;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ tags: S.optional(TagMap) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface RestoreClusterFromSnapshotOutput {
+  cluster: Cluster;
+}
+export const RestoreClusterFromSnapshotOutput = S.suspend(() =>
+  S.Struct({ cluster: Cluster }),
+).annotations({
+  identifier: "RestoreClusterFromSnapshotOutput",
+}) as any as S.Schema<RestoreClusterFromSnapshotOutput>;
+export interface StartClusterOutput {
+  cluster: Cluster;
+}
+export const StartClusterOutput = S.suspend(() =>
+  S.Struct({ cluster: Cluster }),
+).annotations({
+  identifier: "StartClusterOutput",
+}) as any as S.Schema<StartClusterOutput>;
+export interface StopClusterOutput {
+  cluster: Cluster;
+}
+export const StopClusterOutput = S.suspend(() =>
+  S.Struct({ cluster: Cluster }),
+).annotations({
+  identifier: "StopClusterOutput",
+}) as any as S.Schema<StopClusterOutput>;
+export interface UpdateClusterOutput {
+  cluster: Cluster;
+}
+export const UpdateClusterOutput = S.suspend(() =>
+  S.Struct({ cluster: Cluster }),
+).annotations({
+  identifier: "UpdateClusterOutput",
+}) as any as S.Schema<UpdateClusterOutput>;
+export interface ClusterInList {
+  clusterName: string;
+  clusterArn: string;
+  status: string;
+}
+export const ClusterInList = S.suspend(() =>
+  S.Struct({ clusterName: S.String, clusterArn: S.String, status: S.String }),
+).annotations({
+  identifier: "ClusterInList",
+}) as any as S.Schema<ClusterInList>;
+export type ClusterList = ClusterInList[];
 export const ClusterList = S.Array(ClusterInList);
-export class ClusterSnapshotInList extends S.Class<ClusterSnapshotInList>(
-  "ClusterSnapshotInList",
-)({
-  snapshotName: S.String,
-  snapshotArn: S.String,
-  clusterArn: S.String,
-  status: S.String,
-  snapshotCreationTime: S.String,
-}) {}
+export interface ClusterSnapshotInList {
+  snapshotName: string;
+  snapshotArn: string;
+  clusterArn: string;
+  status: string;
+  snapshotCreationTime: string;
+}
+export const ClusterSnapshotInList = S.suspend(() =>
+  S.Struct({
+    snapshotName: S.String,
+    snapshotArn: S.String,
+    clusterArn: S.String,
+    status: S.String,
+    snapshotCreationTime: S.String,
+  }),
+).annotations({
+  identifier: "ClusterSnapshotInList",
+}) as any as S.Schema<ClusterSnapshotInList>;
+export type ClusterSnapshotList = ClusterSnapshotInList[];
 export const ClusterSnapshotList = S.Array(ClusterSnapshotInList);
-export class CopyClusterSnapshotOutput extends S.Class<CopyClusterSnapshotOutput>(
-  "CopyClusterSnapshotOutput",
-)({ snapshot: ClusterSnapshot }) {}
-export class CreateClusterSnapshotOutput extends S.Class<CreateClusterSnapshotOutput>(
-  "CreateClusterSnapshotOutput",
-)({ snapshot: ClusterSnapshot }) {}
-export class ListClustersOutput extends S.Class<ListClustersOutput>(
-  "ListClustersOutput",
-)({ clusters: S.optional(ClusterList), nextToken: S.optional(S.String) }) {}
-export class ListClusterSnapshotsOutput extends S.Class<ListClusterSnapshotsOutput>(
-  "ListClusterSnapshotsOutput",
-)({
-  snapshots: S.optional(ClusterSnapshotList),
-  nextToken: S.optional(S.String),
-}) {}
-export class ApplyPendingMaintenanceActionOutput extends S.Class<ApplyPendingMaintenanceActionOutput>(
-  "ApplyPendingMaintenanceActionOutput",
-)({ resourcePendingMaintenanceAction: ResourcePendingMaintenanceAction }) {}
-export class CreateClusterOutput extends S.Class<CreateClusterOutput>(
-  "CreateClusterOutput",
-)({ cluster: Cluster }) {}
-export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
-  "ValidationExceptionField",
-)({ name: S.String, message: S.String }) {}
+export interface CopyClusterSnapshotOutput {
+  snapshot: ClusterSnapshot;
+}
+export const CopyClusterSnapshotOutput = S.suspend(() =>
+  S.Struct({ snapshot: ClusterSnapshot }),
+).annotations({
+  identifier: "CopyClusterSnapshotOutput",
+}) as any as S.Schema<CopyClusterSnapshotOutput>;
+export interface CreateClusterSnapshotOutput {
+  snapshot: ClusterSnapshot;
+}
+export const CreateClusterSnapshotOutput = S.suspend(() =>
+  S.Struct({ snapshot: ClusterSnapshot }),
+).annotations({
+  identifier: "CreateClusterSnapshotOutput",
+}) as any as S.Schema<CreateClusterSnapshotOutput>;
+export interface ListClustersOutput {
+  clusters?: ClusterList;
+  nextToken?: string;
+}
+export const ListClustersOutput = S.suspend(() =>
+  S.Struct({
+    clusters: S.optional(ClusterList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListClustersOutput",
+}) as any as S.Schema<ListClustersOutput>;
+export interface ListClusterSnapshotsOutput {
+  snapshots?: ClusterSnapshotList;
+  nextToken?: string;
+}
+export const ListClusterSnapshotsOutput = S.suspend(() =>
+  S.Struct({
+    snapshots: S.optional(ClusterSnapshotList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListClusterSnapshotsOutput",
+}) as any as S.Schema<ListClusterSnapshotsOutput>;
+export interface ApplyPendingMaintenanceActionOutput {
+  resourcePendingMaintenanceAction: ResourcePendingMaintenanceAction;
+}
+export const ApplyPendingMaintenanceActionOutput = S.suspend(() =>
+  S.Struct({
+    resourcePendingMaintenanceAction: ResourcePendingMaintenanceAction,
+  }),
+).annotations({
+  identifier: "ApplyPendingMaintenanceActionOutput",
+}) as any as S.Schema<ApplyPendingMaintenanceActionOutput>;
+export interface CreateClusterOutput {
+  cluster: Cluster;
+}
+export const CreateClusterOutput = S.suspend(() =>
+  S.Struct({ cluster: Cluster }),
+).annotations({
+  identifier: "CreateClusterOutput",
+}) as any as S.Schema<CreateClusterOutput>;
+export interface ValidationExceptionField {
+  name: string;
+  message: string;
+}
+export const ValidationExceptionField = S.suspend(() =>
+  S.Struct({ name: S.String, message: S.String }),
+).annotations({
+  identifier: "ValidationExceptionField",
+}) as any as S.Schema<ValidationExceptionField>;
+export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 
 //# Errors

@@ -263,397 +263,1024 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class GetComplianceSummaryByConfigRuleRequest extends S.Class<GetComplianceSummaryByConfigRuleRequest>(
-  "GetComplianceSummaryByConfigRuleRequest",
-)(
-  {},
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+export interface GetComplianceSummaryByConfigRuleRequest {}
+export const GetComplianceSummaryByConfigRuleRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetComplianceSummaryByConfigRuleRequest",
+}) as any as S.Schema<GetComplianceSummaryByConfigRuleRequest>;
+export type ResourceTypeList = string[];
 export const ResourceTypeList = S.Array(S.String);
+export type ConfigRuleNames = string[];
 export const ConfigRuleNames = S.Array(S.String);
+export type ComplianceTypes = string[];
 export const ComplianceTypes = S.Array(S.String);
+export type ConfigurationAggregatorNameList = string[];
 export const ConfigurationAggregatorNameList = S.Array(S.String);
+export type AggregatedSourceStatusTypeList = string[];
 export const AggregatedSourceStatusTypeList = S.Array(S.String);
+export type ConfigurationRecorderNameList = string[];
 export const ConfigurationRecorderNameList = S.Array(S.String);
+export type ConformancePackNamesList = string[];
 export const ConformancePackNamesList = S.Array(S.String);
+export type DeliveryChannelNameList = string[];
 export const DeliveryChannelNameList = S.Array(S.String);
+export type OrganizationConfigRuleNames = string[];
 export const OrganizationConfigRuleNames = S.Array(S.String);
+export type OrganizationConformancePackNames = string[];
 export const OrganizationConformancePackNames = S.Array(S.String);
+export type RetentionConfigurationNameList = string[];
 export const RetentionConfigurationNameList = S.Array(S.String);
+export type ResourceTypes = string[];
 export const ResourceTypes = S.Array(S.String);
+export type ConformancePackNamesToSummarizeList = string[];
 export const ConformancePackNamesToSummarizeList = S.Array(S.String);
+export type ResourceIdList = string[];
 export const ResourceIdList = S.Array(S.String);
+export type ExcludedAccounts = string[];
 export const ExcludedAccounts = S.Array(S.String);
+export type ReevaluateConfigRuleNames = string[];
 export const ReevaluateConfigRuleNames = S.Array(S.String);
-export class Tag extends S.Class<Tag>("Tag")({
-  Key: S.optional(S.String),
-  Value: S.optional(S.String),
-}) {}
+export interface Tag {
+  Key?: string;
+  Value?: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ Key: S.optional(S.String), Value: S.optional(S.String) }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagList = Tag[];
 export const TagList = S.Array(Tag);
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class AssociateResourceTypesRequest extends S.Class<AssociateResourceTypesRequest>(
-  "AssociateResourceTypesRequest",
-)(
-  { ConfigurationRecorderArn: S.String, ResourceTypes: ResourceTypeList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteAggregationAuthorizationRequest extends S.Class<DeleteAggregationAuthorizationRequest>(
-  "DeleteAggregationAuthorizationRequest",
-)(
-  { AuthorizedAccountId: S.String, AuthorizedAwsRegion: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteAggregationAuthorizationResponse extends S.Class<DeleteAggregationAuthorizationResponse>(
-  "DeleteAggregationAuthorizationResponse",
-)({}, ns) {}
-export class DeleteConfigRuleRequest extends S.Class<DeleteConfigRuleRequest>(
-  "DeleteConfigRuleRequest",
-)(
-  { ConfigRuleName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteConfigRuleResponse extends S.Class<DeleteConfigRuleResponse>(
-  "DeleteConfigRuleResponse",
-)({}, ns) {}
-export class DeleteConfigurationAggregatorRequest extends S.Class<DeleteConfigurationAggregatorRequest>(
-  "DeleteConfigurationAggregatorRequest",
-)(
-  { ConfigurationAggregatorName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteConfigurationAggregatorResponse extends S.Class<DeleteConfigurationAggregatorResponse>(
-  "DeleteConfigurationAggregatorResponse",
-)({}, ns) {}
-export class DeleteConfigurationRecorderRequest extends S.Class<DeleteConfigurationRecorderRequest>(
-  "DeleteConfigurationRecorderRequest",
-)(
-  { ConfigurationRecorderName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteConfigurationRecorderResponse extends S.Class<DeleteConfigurationRecorderResponse>(
-  "DeleteConfigurationRecorderResponse",
-)({}, ns) {}
-export class DeleteConformancePackRequest extends S.Class<DeleteConformancePackRequest>(
-  "DeleteConformancePackRequest",
-)(
-  { ConformancePackName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteConformancePackResponse extends S.Class<DeleteConformancePackResponse>(
-  "DeleteConformancePackResponse",
-)({}, ns) {}
-export class DeleteDeliveryChannelRequest extends S.Class<DeleteDeliveryChannelRequest>(
-  "DeleteDeliveryChannelRequest",
-)(
-  { DeliveryChannelName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteDeliveryChannelResponse extends S.Class<DeleteDeliveryChannelResponse>(
-  "DeleteDeliveryChannelResponse",
-)({}, ns) {}
-export class DeleteEvaluationResultsRequest extends S.Class<DeleteEvaluationResultsRequest>(
-  "DeleteEvaluationResultsRequest",
-)(
-  { ConfigRuleName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteEvaluationResultsResponse extends S.Class<DeleteEvaluationResultsResponse>(
-  "DeleteEvaluationResultsResponse",
-)({}, ns) {}
-export class DeleteOrganizationConfigRuleRequest extends S.Class<DeleteOrganizationConfigRuleRequest>(
-  "DeleteOrganizationConfigRuleRequest",
-)(
-  { OrganizationConfigRuleName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteOrganizationConfigRuleResponse extends S.Class<DeleteOrganizationConfigRuleResponse>(
-  "DeleteOrganizationConfigRuleResponse",
-)({}, ns) {}
-export class DeleteOrganizationConformancePackRequest extends S.Class<DeleteOrganizationConformancePackRequest>(
-  "DeleteOrganizationConformancePackRequest",
-)(
-  { OrganizationConformancePackName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteOrganizationConformancePackResponse extends S.Class<DeleteOrganizationConformancePackResponse>(
-  "DeleteOrganizationConformancePackResponse",
-)({}, ns) {}
-export class DeletePendingAggregationRequestRequest extends S.Class<DeletePendingAggregationRequestRequest>(
-  "DeletePendingAggregationRequestRequest",
-)(
-  { RequesterAccountId: S.String, RequesterAwsRegion: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeletePendingAggregationRequestResponse extends S.Class<DeletePendingAggregationRequestResponse>(
-  "DeletePendingAggregationRequestResponse",
-)({}, ns) {}
-export class DeleteRemediationConfigurationRequest extends S.Class<DeleteRemediationConfigurationRequest>(
-  "DeleteRemediationConfigurationRequest",
-)(
-  { ConfigRuleName: S.String, ResourceType: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteRemediationConfigurationResponse extends S.Class<DeleteRemediationConfigurationResponse>(
-  "DeleteRemediationConfigurationResponse",
-)({}, ns) {}
-export class DeleteResourceConfigRequest extends S.Class<DeleteResourceConfigRequest>(
-  "DeleteResourceConfigRequest",
-)(
-  { ResourceType: S.String, ResourceId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteResourceConfigResponse extends S.Class<DeleteResourceConfigResponse>(
-  "DeleteResourceConfigResponse",
-)({}, ns) {}
-export class DeleteRetentionConfigurationRequest extends S.Class<DeleteRetentionConfigurationRequest>(
-  "DeleteRetentionConfigurationRequest",
-)(
-  { RetentionConfigurationName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteRetentionConfigurationResponse extends S.Class<DeleteRetentionConfigurationResponse>(
-  "DeleteRetentionConfigurationResponse",
-)({}, ns) {}
-export class DeleteServiceLinkedConfigurationRecorderRequest extends S.Class<DeleteServiceLinkedConfigurationRecorderRequest>(
-  "DeleteServiceLinkedConfigurationRecorderRequest",
-)(
-  { ServicePrincipal: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteStoredQueryRequest extends S.Class<DeleteStoredQueryRequest>(
-  "DeleteStoredQueryRequest",
-)(
-  { QueryName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteStoredQueryResponse extends S.Class<DeleteStoredQueryResponse>(
-  "DeleteStoredQueryResponse",
-)({}, ns) {}
-export class DeliverConfigSnapshotRequest extends S.Class<DeliverConfigSnapshotRequest>(
-  "DeliverConfigSnapshotRequest",
-)(
-  { deliveryChannelName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeAggregationAuthorizationsRequest extends S.Class<DescribeAggregationAuthorizationsRequest>(
-  "DescribeAggregationAuthorizationsRequest",
-)(
-  { Limit: S.optional(S.Number), NextToken: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeComplianceByConfigRuleRequest extends S.Class<DescribeComplianceByConfigRuleRequest>(
-  "DescribeComplianceByConfigRuleRequest",
-)(
-  {
+export interface AssociateResourceTypesRequest {
+  ConfigurationRecorderArn: string;
+  ResourceTypes: ResourceTypeList;
+}
+export const AssociateResourceTypesRequest = S.suspend(() =>
+  S.Struct({
+    ConfigurationRecorderArn: S.String,
+    ResourceTypes: ResourceTypeList,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "AssociateResourceTypesRequest",
+}) as any as S.Schema<AssociateResourceTypesRequest>;
+export interface DeleteAggregationAuthorizationRequest {
+  AuthorizedAccountId: string;
+  AuthorizedAwsRegion: string;
+}
+export const DeleteAggregationAuthorizationRequest = S.suspend(() =>
+  S.Struct({
+    AuthorizedAccountId: S.String,
+    AuthorizedAwsRegion: S.String,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteAggregationAuthorizationRequest",
+}) as any as S.Schema<DeleteAggregationAuthorizationRequest>;
+export interface DeleteAggregationAuthorizationResponse {}
+export const DeleteAggregationAuthorizationResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteAggregationAuthorizationResponse",
+}) as any as S.Schema<DeleteAggregationAuthorizationResponse>;
+export interface DeleteConfigRuleRequest {
+  ConfigRuleName: string;
+}
+export const DeleteConfigRuleRequest = S.suspend(() =>
+  S.Struct({ ConfigRuleName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteConfigRuleRequest",
+}) as any as S.Schema<DeleteConfigRuleRequest>;
+export interface DeleteConfigRuleResponse {}
+export const DeleteConfigRuleResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteConfigRuleResponse",
+}) as any as S.Schema<DeleteConfigRuleResponse>;
+export interface DeleteConfigurationAggregatorRequest {
+  ConfigurationAggregatorName: string;
+}
+export const DeleteConfigurationAggregatorRequest = S.suspend(() =>
+  S.Struct({ ConfigurationAggregatorName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteConfigurationAggregatorRequest",
+}) as any as S.Schema<DeleteConfigurationAggregatorRequest>;
+export interface DeleteConfigurationAggregatorResponse {}
+export const DeleteConfigurationAggregatorResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteConfigurationAggregatorResponse",
+}) as any as S.Schema<DeleteConfigurationAggregatorResponse>;
+export interface DeleteConfigurationRecorderRequest {
+  ConfigurationRecorderName: string;
+}
+export const DeleteConfigurationRecorderRequest = S.suspend(() =>
+  S.Struct({ ConfigurationRecorderName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteConfigurationRecorderRequest",
+}) as any as S.Schema<DeleteConfigurationRecorderRequest>;
+export interface DeleteConfigurationRecorderResponse {}
+export const DeleteConfigurationRecorderResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteConfigurationRecorderResponse",
+}) as any as S.Schema<DeleteConfigurationRecorderResponse>;
+export interface DeleteConformancePackRequest {
+  ConformancePackName: string;
+}
+export const DeleteConformancePackRequest = S.suspend(() =>
+  S.Struct({ ConformancePackName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteConformancePackRequest",
+}) as any as S.Schema<DeleteConformancePackRequest>;
+export interface DeleteConformancePackResponse {}
+export const DeleteConformancePackResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteConformancePackResponse",
+}) as any as S.Schema<DeleteConformancePackResponse>;
+export interface DeleteDeliveryChannelRequest {
+  DeliveryChannelName: string;
+}
+export const DeleteDeliveryChannelRequest = S.suspend(() =>
+  S.Struct({ DeliveryChannelName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteDeliveryChannelRequest",
+}) as any as S.Schema<DeleteDeliveryChannelRequest>;
+export interface DeleteDeliveryChannelResponse {}
+export const DeleteDeliveryChannelResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteDeliveryChannelResponse",
+}) as any as S.Schema<DeleteDeliveryChannelResponse>;
+export interface DeleteEvaluationResultsRequest {
+  ConfigRuleName: string;
+}
+export const DeleteEvaluationResultsRequest = S.suspend(() =>
+  S.Struct({ ConfigRuleName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteEvaluationResultsRequest",
+}) as any as S.Schema<DeleteEvaluationResultsRequest>;
+export interface DeleteEvaluationResultsResponse {}
+export const DeleteEvaluationResultsResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteEvaluationResultsResponse",
+}) as any as S.Schema<DeleteEvaluationResultsResponse>;
+export interface DeleteOrganizationConfigRuleRequest {
+  OrganizationConfigRuleName: string;
+}
+export const DeleteOrganizationConfigRuleRequest = S.suspend(() =>
+  S.Struct({ OrganizationConfigRuleName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteOrganizationConfigRuleRequest",
+}) as any as S.Schema<DeleteOrganizationConfigRuleRequest>;
+export interface DeleteOrganizationConfigRuleResponse {}
+export const DeleteOrganizationConfigRuleResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteOrganizationConfigRuleResponse",
+}) as any as S.Schema<DeleteOrganizationConfigRuleResponse>;
+export interface DeleteOrganizationConformancePackRequest {
+  OrganizationConformancePackName: string;
+}
+export const DeleteOrganizationConformancePackRequest = S.suspend(() =>
+  S.Struct({ OrganizationConformancePackName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteOrganizationConformancePackRequest",
+}) as any as S.Schema<DeleteOrganizationConformancePackRequest>;
+export interface DeleteOrganizationConformancePackResponse {}
+export const DeleteOrganizationConformancePackResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteOrganizationConformancePackResponse",
+}) as any as S.Schema<DeleteOrganizationConformancePackResponse>;
+export interface DeletePendingAggregationRequestRequest {
+  RequesterAccountId: string;
+  RequesterAwsRegion: string;
+}
+export const DeletePendingAggregationRequestRequest = S.suspend(() =>
+  S.Struct({ RequesterAccountId: S.String, RequesterAwsRegion: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeletePendingAggregationRequestRequest",
+}) as any as S.Schema<DeletePendingAggregationRequestRequest>;
+export interface DeletePendingAggregationRequestResponse {}
+export const DeletePendingAggregationRequestResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeletePendingAggregationRequestResponse",
+}) as any as S.Schema<DeletePendingAggregationRequestResponse>;
+export interface DeleteRemediationConfigurationRequest {
+  ConfigRuleName: string;
+  ResourceType?: string;
+}
+export const DeleteRemediationConfigurationRequest = S.suspend(() =>
+  S.Struct({
+    ConfigRuleName: S.String,
+    ResourceType: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteRemediationConfigurationRequest",
+}) as any as S.Schema<DeleteRemediationConfigurationRequest>;
+export interface DeleteRemediationConfigurationResponse {}
+export const DeleteRemediationConfigurationResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteRemediationConfigurationResponse",
+}) as any as S.Schema<DeleteRemediationConfigurationResponse>;
+export interface DeleteResourceConfigRequest {
+  ResourceType: string;
+  ResourceId: string;
+}
+export const DeleteResourceConfigRequest = S.suspend(() =>
+  S.Struct({ ResourceType: S.String, ResourceId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteResourceConfigRequest",
+}) as any as S.Schema<DeleteResourceConfigRequest>;
+export interface DeleteResourceConfigResponse {}
+export const DeleteResourceConfigResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteResourceConfigResponse",
+}) as any as S.Schema<DeleteResourceConfigResponse>;
+export interface DeleteRetentionConfigurationRequest {
+  RetentionConfigurationName: string;
+}
+export const DeleteRetentionConfigurationRequest = S.suspend(() =>
+  S.Struct({ RetentionConfigurationName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteRetentionConfigurationRequest",
+}) as any as S.Schema<DeleteRetentionConfigurationRequest>;
+export interface DeleteRetentionConfigurationResponse {}
+export const DeleteRetentionConfigurationResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteRetentionConfigurationResponse",
+}) as any as S.Schema<DeleteRetentionConfigurationResponse>;
+export interface DeleteServiceLinkedConfigurationRecorderRequest {
+  ServicePrincipal: string;
+}
+export const DeleteServiceLinkedConfigurationRecorderRequest = S.suspend(() =>
+  S.Struct({ ServicePrincipal: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteServiceLinkedConfigurationRecorderRequest",
+}) as any as S.Schema<DeleteServiceLinkedConfigurationRecorderRequest>;
+export interface DeleteStoredQueryRequest {
+  QueryName: string;
+}
+export const DeleteStoredQueryRequest = S.suspend(() =>
+  S.Struct({ QueryName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteStoredQueryRequest",
+}) as any as S.Schema<DeleteStoredQueryRequest>;
+export interface DeleteStoredQueryResponse {}
+export const DeleteStoredQueryResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteStoredQueryResponse",
+}) as any as S.Schema<DeleteStoredQueryResponse>;
+export interface DeliverConfigSnapshotRequest {
+  deliveryChannelName: string;
+}
+export const DeliverConfigSnapshotRequest = S.suspend(() =>
+  S.Struct({ deliveryChannelName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeliverConfigSnapshotRequest",
+}) as any as S.Schema<DeliverConfigSnapshotRequest>;
+export interface DescribeAggregationAuthorizationsRequest {
+  Limit?: number;
+  NextToken?: string;
+}
+export const DescribeAggregationAuthorizationsRequest = S.suspend(() =>
+  S.Struct({
+    Limit: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeAggregationAuthorizationsRequest",
+}) as any as S.Schema<DescribeAggregationAuthorizationsRequest>;
+export interface DescribeComplianceByConfigRuleRequest {
+  ConfigRuleNames?: ConfigRuleNames;
+  ComplianceTypes?: ComplianceTypes;
+  NextToken?: string;
+}
+export const DescribeComplianceByConfigRuleRequest = S.suspend(() =>
+  S.Struct({
     ConfigRuleNames: S.optional(ConfigRuleNames),
     ComplianceTypes: S.optional(ComplianceTypes),
     NextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeComplianceByResourceRequest extends S.Class<DescribeComplianceByResourceRequest>(
-  "DescribeComplianceByResourceRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeComplianceByConfigRuleRequest",
+}) as any as S.Schema<DescribeComplianceByConfigRuleRequest>;
+export interface DescribeComplianceByResourceRequest {
+  ResourceType?: string;
+  ResourceId?: string;
+  ComplianceTypes?: ComplianceTypes;
+  Limit?: number;
+  NextToken?: string;
+}
+export const DescribeComplianceByResourceRequest = S.suspend(() =>
+  S.Struct({
     ResourceType: S.optional(S.String),
     ResourceId: S.optional(S.String),
     ComplianceTypes: S.optional(ComplianceTypes),
     Limit: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeConfigRuleEvaluationStatusRequest extends S.Class<DescribeConfigRuleEvaluationStatusRequest>(
-  "DescribeConfigRuleEvaluationStatusRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeComplianceByResourceRequest",
+}) as any as S.Schema<DescribeComplianceByResourceRequest>;
+export interface DescribeConfigRuleEvaluationStatusRequest {
+  ConfigRuleNames?: ConfigRuleNames;
+  NextToken?: string;
+  Limit?: number;
+}
+export const DescribeConfigRuleEvaluationStatusRequest = S.suspend(() =>
+  S.Struct({
     ConfigRuleNames: S.optional(ConfigRuleNames),
     NextToken: S.optional(S.String),
     Limit: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeConfigurationAggregatorsRequest extends S.Class<DescribeConfigurationAggregatorsRequest>(
-  "DescribeConfigurationAggregatorsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeConfigRuleEvaluationStatusRequest",
+}) as any as S.Schema<DescribeConfigRuleEvaluationStatusRequest>;
+export interface DescribeConfigurationAggregatorsRequest {
+  ConfigurationAggregatorNames?: ConfigurationAggregatorNameList;
+  NextToken?: string;
+  Limit?: number;
+}
+export const DescribeConfigurationAggregatorsRequest = S.suspend(() =>
+  S.Struct({
     ConfigurationAggregatorNames: S.optional(ConfigurationAggregatorNameList),
     NextToken: S.optional(S.String),
     Limit: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeConfigurationAggregatorSourcesStatusRequest extends S.Class<DescribeConfigurationAggregatorSourcesStatusRequest>(
-  "DescribeConfigurationAggregatorSourcesStatusRequest",
-)(
-  {
-    ConfigurationAggregatorName: S.String,
-    UpdateStatus: S.optional(AggregatedSourceStatusTypeList),
-    NextToken: S.optional(S.String),
-    Limit: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeConfigurationRecordersRequest extends S.Class<DescribeConfigurationRecordersRequest>(
-  "DescribeConfigurationRecordersRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeConfigurationAggregatorsRequest",
+}) as any as S.Schema<DescribeConfigurationAggregatorsRequest>;
+export interface DescribeConfigurationAggregatorSourcesStatusRequest {
+  ConfigurationAggregatorName: string;
+  UpdateStatus?: AggregatedSourceStatusTypeList;
+  NextToken?: string;
+  Limit?: number;
+}
+export const DescribeConfigurationAggregatorSourcesStatusRequest = S.suspend(
+  () =>
+    S.Struct({
+      ConfigurationAggregatorName: S.String,
+      UpdateStatus: S.optional(AggregatedSourceStatusTypeList),
+      NextToken: S.optional(S.String),
+      Limit: S.optional(S.Number),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+).annotations({
+  identifier: "DescribeConfigurationAggregatorSourcesStatusRequest",
+}) as any as S.Schema<DescribeConfigurationAggregatorSourcesStatusRequest>;
+export interface DescribeConfigurationRecordersRequest {
+  ConfigurationRecorderNames?: ConfigurationRecorderNameList;
+  ServicePrincipal?: string;
+  Arn?: string;
+}
+export const DescribeConfigurationRecordersRequest = S.suspend(() =>
+  S.Struct({
     ConfigurationRecorderNames: S.optional(ConfigurationRecorderNameList),
     ServicePrincipal: S.optional(S.String),
     Arn: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeConfigurationRecorderStatusRequest extends S.Class<DescribeConfigurationRecorderStatusRequest>(
-  "DescribeConfigurationRecorderStatusRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeConfigurationRecordersRequest",
+}) as any as S.Schema<DescribeConfigurationRecordersRequest>;
+export interface DescribeConfigurationRecorderStatusRequest {
+  ConfigurationRecorderNames?: ConfigurationRecorderNameList;
+  ServicePrincipal?: string;
+  Arn?: string;
+}
+export const DescribeConfigurationRecorderStatusRequest = S.suspend(() =>
+  S.Struct({
     ConfigurationRecorderNames: S.optional(ConfigurationRecorderNameList),
     ServicePrincipal: S.optional(S.String),
     Arn: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeConformancePacksRequest extends S.Class<DescribeConformancePacksRequest>(
-  "DescribeConformancePacksRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeConfigurationRecorderStatusRequest",
+}) as any as S.Schema<DescribeConfigurationRecorderStatusRequest>;
+export interface DescribeConformancePacksRequest {
+  ConformancePackNames?: ConformancePackNamesList;
+  Limit?: number;
+  NextToken?: string;
+}
+export const DescribeConformancePacksRequest = S.suspend(() =>
+  S.Struct({
     ConformancePackNames: S.optional(ConformancePackNamesList),
     Limit: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeConformancePackStatusRequest extends S.Class<DescribeConformancePackStatusRequest>(
-  "DescribeConformancePackStatusRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeConformancePacksRequest",
+}) as any as S.Schema<DescribeConformancePacksRequest>;
+export interface DescribeConformancePackStatusRequest {
+  ConformancePackNames?: ConformancePackNamesList;
+  Limit?: number;
+  NextToken?: string;
+}
+export const DescribeConformancePackStatusRequest = S.suspend(() =>
+  S.Struct({
     ConformancePackNames: S.optional(ConformancePackNamesList),
     Limit: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeDeliveryChannelsRequest extends S.Class<DescribeDeliveryChannelsRequest>(
-  "DescribeDeliveryChannelsRequest",
-)(
-  { DeliveryChannelNames: S.optional(DeliveryChannelNameList) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeDeliveryChannelStatusRequest extends S.Class<DescribeDeliveryChannelStatusRequest>(
-  "DescribeDeliveryChannelStatusRequest",
-)(
-  { DeliveryChannelNames: S.optional(DeliveryChannelNameList) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeOrganizationConfigRulesRequest extends S.Class<DescribeOrganizationConfigRulesRequest>(
-  "DescribeOrganizationConfigRulesRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeConformancePackStatusRequest",
+}) as any as S.Schema<DescribeConformancePackStatusRequest>;
+export interface DescribeDeliveryChannelsRequest {
+  DeliveryChannelNames?: DeliveryChannelNameList;
+}
+export const DescribeDeliveryChannelsRequest = S.suspend(() =>
+  S.Struct({ DeliveryChannelNames: S.optional(DeliveryChannelNameList) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeDeliveryChannelsRequest",
+}) as any as S.Schema<DescribeDeliveryChannelsRequest>;
+export interface DescribeDeliveryChannelStatusRequest {
+  DeliveryChannelNames?: DeliveryChannelNameList;
+}
+export const DescribeDeliveryChannelStatusRequest = S.suspend(() =>
+  S.Struct({ DeliveryChannelNames: S.optional(DeliveryChannelNameList) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeDeliveryChannelStatusRequest",
+}) as any as S.Schema<DescribeDeliveryChannelStatusRequest>;
+export interface DescribeOrganizationConfigRulesRequest {
+  OrganizationConfigRuleNames?: OrganizationConfigRuleNames;
+  Limit?: number;
+  NextToken?: string;
+}
+export const DescribeOrganizationConfigRulesRequest = S.suspend(() =>
+  S.Struct({
     OrganizationConfigRuleNames: S.optional(OrganizationConfigRuleNames),
     Limit: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeOrganizationConfigRuleStatusesRequest extends S.Class<DescribeOrganizationConfigRuleStatusesRequest>(
-  "DescribeOrganizationConfigRuleStatusesRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeOrganizationConfigRulesRequest",
+}) as any as S.Schema<DescribeOrganizationConfigRulesRequest>;
+export interface DescribeOrganizationConfigRuleStatusesRequest {
+  OrganizationConfigRuleNames?: OrganizationConfigRuleNames;
+  Limit?: number;
+  NextToken?: string;
+}
+export const DescribeOrganizationConfigRuleStatusesRequest = S.suspend(() =>
+  S.Struct({
     OrganizationConfigRuleNames: S.optional(OrganizationConfigRuleNames),
     Limit: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeOrganizationConformancePacksRequest extends S.Class<DescribeOrganizationConformancePacksRequest>(
-  "DescribeOrganizationConformancePacksRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeOrganizationConfigRuleStatusesRequest",
+}) as any as S.Schema<DescribeOrganizationConfigRuleStatusesRequest>;
+export interface DescribeOrganizationConformancePacksRequest {
+  OrganizationConformancePackNames?: OrganizationConformancePackNames;
+  Limit?: number;
+  NextToken?: string;
+}
+export const DescribeOrganizationConformancePacksRequest = S.suspend(() =>
+  S.Struct({
     OrganizationConformancePackNames: S.optional(
       OrganizationConformancePackNames,
     ),
     Limit: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeOrganizationConformancePackStatusesRequest extends S.Class<DescribeOrganizationConformancePackStatusesRequest>(
-  "DescribeOrganizationConformancePackStatusesRequest",
-)(
-  {
-    OrganizationConformancePackNames: S.optional(
-      OrganizationConformancePackNames,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
+).annotations({
+  identifier: "DescribeOrganizationConformancePacksRequest",
+}) as any as S.Schema<DescribeOrganizationConformancePacksRequest>;
+export interface DescribeOrganizationConformancePackStatusesRequest {
+  OrganizationConformancePackNames?: OrganizationConformancePackNames;
+  Limit?: number;
+  NextToken?: string;
+}
+export const DescribeOrganizationConformancePackStatusesRequest = S.suspend(
+  () =>
+    S.Struct({
+      OrganizationConformancePackNames: S.optional(
+        OrganizationConformancePackNames,
+      ),
+      Limit: S.optional(S.Number),
+      NextToken: S.optional(S.String),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+).annotations({
+  identifier: "DescribeOrganizationConformancePackStatusesRequest",
+}) as any as S.Schema<DescribeOrganizationConformancePackStatusesRequest>;
+export interface DescribePendingAggregationRequestsRequest {
+  Limit?: number;
+  NextToken?: string;
+}
+export const DescribePendingAggregationRequestsRequest = S.suspend(() =>
+  S.Struct({
     Limit: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribePendingAggregationRequestsRequest extends S.Class<DescribePendingAggregationRequestsRequest>(
-  "DescribePendingAggregationRequestsRequest",
-)(
-  { Limit: S.optional(S.Number), NextToken: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeRemediationConfigurationsRequest extends S.Class<DescribeRemediationConfigurationsRequest>(
-  "DescribeRemediationConfigurationsRequest",
-)(
-  { ConfigRuleNames: ConfigRuleNames },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class RemediationExceptionResourceKey extends S.Class<RemediationExceptionResourceKey>(
-  "RemediationExceptionResourceKey",
-)({ ResourceType: S.optional(S.String), ResourceId: S.optional(S.String) }) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribePendingAggregationRequestsRequest",
+}) as any as S.Schema<DescribePendingAggregationRequestsRequest>;
+export interface DescribeRemediationConfigurationsRequest {
+  ConfigRuleNames: ConfigRuleNames;
+}
+export const DescribeRemediationConfigurationsRequest = S.suspend(() =>
+  S.Struct({ ConfigRuleNames: ConfigRuleNames }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeRemediationConfigurationsRequest",
+}) as any as S.Schema<DescribeRemediationConfigurationsRequest>;
+export interface RemediationExceptionResourceKey {
+  ResourceType?: string;
+  ResourceId?: string;
+}
+export const RemediationExceptionResourceKey = S.suspend(() =>
+  S.Struct({
+    ResourceType: S.optional(S.String),
+    ResourceId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RemediationExceptionResourceKey",
+}) as any as S.Schema<RemediationExceptionResourceKey>;
+export type RemediationExceptionResourceKeys =
+  RemediationExceptionResourceKey[];
 export const RemediationExceptionResourceKeys = S.Array(
   RemediationExceptionResourceKey,
 );
-export class DescribeRemediationExceptionsRequest extends S.Class<DescribeRemediationExceptionsRequest>(
-  "DescribeRemediationExceptionsRequest",
-)(
-  {
+export interface DescribeRemediationExceptionsRequest {
+  ConfigRuleName: string;
+  ResourceKeys?: RemediationExceptionResourceKeys;
+  Limit?: number;
+  NextToken?: string;
+}
+export const DescribeRemediationExceptionsRequest = S.suspend(() =>
+  S.Struct({
     ConfigRuleName: S.String,
     ResourceKeys: S.optional(RemediationExceptionResourceKeys),
     Limit: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ResourceKey extends S.Class<ResourceKey>("ResourceKey")({
-  resourceType: S.String,
-  resourceId: S.String,
-}) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeRemediationExceptionsRequest",
+}) as any as S.Schema<DescribeRemediationExceptionsRequest>;
+export interface ResourceKey {
+  resourceType: string;
+  resourceId: string;
+}
+export const ResourceKey = S.suspend(() =>
+  S.Struct({ resourceType: S.String, resourceId: S.String }),
+).annotations({ identifier: "ResourceKey" }) as any as S.Schema<ResourceKey>;
+export type ResourceKeys = ResourceKey[];
 export const ResourceKeys = S.Array(ResourceKey);
-export class DescribeRemediationExecutionStatusRequest extends S.Class<DescribeRemediationExecutionStatusRequest>(
-  "DescribeRemediationExecutionStatusRequest",
-)(
-  {
+export interface DescribeRemediationExecutionStatusRequest {
+  ConfigRuleName: string;
+  ResourceKeys?: ResourceKeys;
+  Limit?: number;
+  NextToken?: string;
+}
+export const DescribeRemediationExecutionStatusRequest = S.suspend(() =>
+  S.Struct({
     ConfigRuleName: S.String,
     ResourceKeys: S.optional(ResourceKeys),
     Limit: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeRetentionConfigurationsRequest extends S.Class<DescribeRetentionConfigurationsRequest>(
-  "DescribeRetentionConfigurationsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeRemediationExecutionStatusRequest",
+}) as any as S.Schema<DescribeRemediationExecutionStatusRequest>;
+export interface DescribeRetentionConfigurationsRequest {
+  RetentionConfigurationNames?: RetentionConfigurationNameList;
+  NextToken?: string;
+}
+export const DescribeRetentionConfigurationsRequest = S.suspend(() =>
+  S.Struct({
     RetentionConfigurationNames: S.optional(RetentionConfigurationNameList),
     NextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DisassociateResourceTypesRequest extends S.Class<DisassociateResourceTypesRequest>(
-  "DisassociateResourceTypesRequest",
-)(
-  { ConfigurationRecorderArn: S.String, ResourceTypes: ResourceTypeList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetAggregateComplianceDetailsByConfigRuleRequest extends S.Class<GetAggregateComplianceDetailsByConfigRuleRequest>(
-  "GetAggregateComplianceDetailsByConfigRuleRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeRetentionConfigurationsRequest",
+}) as any as S.Schema<DescribeRetentionConfigurationsRequest>;
+export interface DisassociateResourceTypesRequest {
+  ConfigurationRecorderArn: string;
+  ResourceTypes: ResourceTypeList;
+}
+export const DisassociateResourceTypesRequest = S.suspend(() =>
+  S.Struct({
+    ConfigurationRecorderArn: S.String,
+    ResourceTypes: ResourceTypeList,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DisassociateResourceTypesRequest",
+}) as any as S.Schema<DisassociateResourceTypesRequest>;
+export interface GetAggregateComplianceDetailsByConfigRuleRequest {
+  ConfigurationAggregatorName: string;
+  ConfigRuleName: string;
+  AccountId: string;
+  AwsRegion: string;
+  ComplianceType?: string;
+  Limit?: number;
+  NextToken?: string;
+}
+export const GetAggregateComplianceDetailsByConfigRuleRequest = S.suspend(() =>
+  S.Struct({
     ConfigurationAggregatorName: S.String,
     ConfigRuleName: S.String,
     AccountId: S.String,
@@ -661,92 +1288,227 @@ export class GetAggregateComplianceDetailsByConfigRuleRequest extends S.Class<Ge
     ComplianceType: S.optional(S.String),
     Limit: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class AggregateResourceIdentifier extends S.Class<AggregateResourceIdentifier>(
-  "AggregateResourceIdentifier",
-)({
-  SourceAccountId: S.String,
-  SourceRegion: S.String,
-  ResourceId: S.String,
-  ResourceType: S.String,
-  ResourceName: S.optional(S.String),
-}) {}
-export class GetAggregateResourceConfigRequest extends S.Class<GetAggregateResourceConfigRequest>(
-  "GetAggregateResourceConfigRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetAggregateComplianceDetailsByConfigRuleRequest",
+}) as any as S.Schema<GetAggregateComplianceDetailsByConfigRuleRequest>;
+export interface AggregateResourceIdentifier {
+  SourceAccountId: string;
+  SourceRegion: string;
+  ResourceId: string;
+  ResourceType: string;
+  ResourceName?: string;
+}
+export const AggregateResourceIdentifier = S.suspend(() =>
+  S.Struct({
+    SourceAccountId: S.String,
+    SourceRegion: S.String,
+    ResourceId: S.String,
+    ResourceType: S.String,
+    ResourceName: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AggregateResourceIdentifier",
+}) as any as S.Schema<AggregateResourceIdentifier>;
+export interface GetAggregateResourceConfigRequest {
+  ConfigurationAggregatorName: string;
+  ResourceIdentifier: AggregateResourceIdentifier;
+}
+export const GetAggregateResourceConfigRequest = S.suspend(() =>
+  S.Struct({
     ConfigurationAggregatorName: S.String,
     ResourceIdentifier: AggregateResourceIdentifier,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetComplianceDetailsByConfigRuleRequest extends S.Class<GetComplianceDetailsByConfigRuleRequest>(
-  "GetComplianceDetailsByConfigRuleRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetAggregateResourceConfigRequest",
+}) as any as S.Schema<GetAggregateResourceConfigRequest>;
+export interface GetComplianceDetailsByConfigRuleRequest {
+  ConfigRuleName: string;
+  ComplianceTypes?: ComplianceTypes;
+  Limit?: number;
+  NextToken?: string;
+}
+export const GetComplianceDetailsByConfigRuleRequest = S.suspend(() =>
+  S.Struct({
     ConfigRuleName: S.String,
     ComplianceTypes: S.optional(ComplianceTypes),
     Limit: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetComplianceDetailsByResourceRequest extends S.Class<GetComplianceDetailsByResourceRequest>(
-  "GetComplianceDetailsByResourceRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetComplianceDetailsByConfigRuleRequest",
+}) as any as S.Schema<GetComplianceDetailsByConfigRuleRequest>;
+export interface GetComplianceDetailsByResourceRequest {
+  ResourceType?: string;
+  ResourceId?: string;
+  ComplianceTypes?: ComplianceTypes;
+  NextToken?: string;
+  ResourceEvaluationId?: string;
+}
+export const GetComplianceDetailsByResourceRequest = S.suspend(() =>
+  S.Struct({
     ResourceType: S.optional(S.String),
     ResourceId: S.optional(S.String),
     ComplianceTypes: S.optional(ComplianceTypes),
     NextToken: S.optional(S.String),
     ResourceEvaluationId: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetComplianceSummaryByResourceTypeRequest extends S.Class<GetComplianceSummaryByResourceTypeRequest>(
-  "GetComplianceSummaryByResourceTypeRequest",
-)(
-  { ResourceTypes: S.optional(ResourceTypes) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetConformancePackComplianceSummaryRequest extends S.Class<GetConformancePackComplianceSummaryRequest>(
-  "GetConformancePackComplianceSummaryRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetComplianceDetailsByResourceRequest",
+}) as any as S.Schema<GetComplianceDetailsByResourceRequest>;
+export interface GetComplianceSummaryByResourceTypeRequest {
+  ResourceTypes?: ResourceTypes;
+}
+export const GetComplianceSummaryByResourceTypeRequest = S.suspend(() =>
+  S.Struct({ ResourceTypes: S.optional(ResourceTypes) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetComplianceSummaryByResourceTypeRequest",
+}) as any as S.Schema<GetComplianceSummaryByResourceTypeRequest>;
+export interface GetConformancePackComplianceSummaryRequest {
+  ConformancePackNames: ConformancePackNamesToSummarizeList;
+  Limit?: number;
+  NextToken?: string;
+}
+export const GetConformancePackComplianceSummaryRequest = S.suspend(() =>
+  S.Struct({
     ConformancePackNames: ConformancePackNamesToSummarizeList,
     Limit: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetCustomRulePolicyRequest extends S.Class<GetCustomRulePolicyRequest>(
-  "GetCustomRulePolicyRequest",
-)(
-  { ConfigRuleName: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetDiscoveredResourceCountsRequest extends S.Class<GetDiscoveredResourceCountsRequest>(
-  "GetDiscoveredResourceCountsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetConformancePackComplianceSummaryRequest",
+}) as any as S.Schema<GetConformancePackComplianceSummaryRequest>;
+export interface GetCustomRulePolicyRequest {
+  ConfigRuleName?: string;
+}
+export const GetCustomRulePolicyRequest = S.suspend(() =>
+  S.Struct({ ConfigRuleName: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetCustomRulePolicyRequest",
+}) as any as S.Schema<GetCustomRulePolicyRequest>;
+export interface GetDiscoveredResourceCountsRequest {
+  resourceTypes?: ResourceTypes;
+  limit?: number;
+  nextToken?: string;
+}
+export const GetDiscoveredResourceCountsRequest = S.suspend(() =>
+  S.Struct({
     resourceTypes: S.optional(ResourceTypes),
     limit: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetOrganizationCustomRulePolicyRequest extends S.Class<GetOrganizationCustomRulePolicyRequest>(
-  "GetOrganizationCustomRulePolicyRequest",
-)(
-  { OrganizationConfigRuleName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetResourceConfigHistoryRequest extends S.Class<GetResourceConfigHistoryRequest>(
-  "GetResourceConfigHistoryRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetDiscoveredResourceCountsRequest",
+}) as any as S.Schema<GetDiscoveredResourceCountsRequest>;
+export interface GetOrganizationCustomRulePolicyRequest {
+  OrganizationConfigRuleName: string;
+}
+export const GetOrganizationCustomRulePolicyRequest = S.suspend(() =>
+  S.Struct({ OrganizationConfigRuleName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetOrganizationCustomRulePolicyRequest",
+}) as any as S.Schema<GetOrganizationCustomRulePolicyRequest>;
+export interface GetResourceConfigHistoryRequest {
+  resourceType: string;
+  resourceId: string;
+  laterTime?: Date;
+  earlierTime?: Date;
+  chronologicalOrder?: string;
+  limit?: number;
+  nextToken?: string;
+}
+export const GetResourceConfigHistoryRequest = S.suspend(() =>
+  S.Struct({
     resourceType: S.String,
     resourceId: S.String,
     laterTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -754,60 +1516,156 @@ export class GetResourceConfigHistoryRequest extends S.Class<GetResourceConfigHi
     chronologicalOrder: S.optional(S.String),
     limit: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetResourceEvaluationSummaryRequest extends S.Class<GetResourceEvaluationSummaryRequest>(
-  "GetResourceEvaluationSummaryRequest",
-)(
-  { ResourceEvaluationId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetStoredQueryRequest extends S.Class<GetStoredQueryRequest>(
-  "GetStoredQueryRequest",
-)(
-  { QueryName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListDiscoveredResourcesRequest extends S.Class<ListDiscoveredResourcesRequest>(
-  "ListDiscoveredResourcesRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetResourceConfigHistoryRequest",
+}) as any as S.Schema<GetResourceConfigHistoryRequest>;
+export interface GetResourceEvaluationSummaryRequest {
+  ResourceEvaluationId: string;
+}
+export const GetResourceEvaluationSummaryRequest = S.suspend(() =>
+  S.Struct({ ResourceEvaluationId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetResourceEvaluationSummaryRequest",
+}) as any as S.Schema<GetResourceEvaluationSummaryRequest>;
+export interface GetStoredQueryRequest {
+  QueryName: string;
+}
+export const GetStoredQueryRequest = S.suspend(() =>
+  S.Struct({ QueryName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetStoredQueryRequest",
+}) as any as S.Schema<GetStoredQueryRequest>;
+export interface ListDiscoveredResourcesRequest {
+  resourceType: string;
+  resourceIds?: ResourceIdList;
+  resourceName?: string;
+  limit?: number;
+  includeDeletedResources?: boolean;
+  nextToken?: string;
+}
+export const ListDiscoveredResourcesRequest = S.suspend(() =>
+  S.Struct({
     resourceType: S.String,
     resourceIds: S.optional(ResourceIdList),
     resourceName: S.optional(S.String),
     limit: S.optional(S.Number),
     includeDeletedResources: S.optional(S.Boolean),
     nextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListStoredQueriesRequest extends S.Class<ListStoredQueriesRequest>(
-  "ListStoredQueriesRequest",
-)(
-  { NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListDiscoveredResourcesRequest",
+}) as any as S.Schema<ListDiscoveredResourcesRequest>;
+export interface ListStoredQueriesRequest {
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListStoredQueriesRequest = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListStoredQueriesRequest",
+}) as any as S.Schema<ListStoredQueriesRequest>;
+export interface ListTagsForResourceRequest {
+  ResourceArn: string;
+  Limit?: number;
+  NextToken?: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({
     ResourceArn: S.String,
     Limit: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ConformancePackInputParameter extends S.Class<ConformancePackInputParameter>(
-  "ConformancePackInputParameter",
-)({ ParameterName: S.String, ParameterValue: S.String }) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface ConformancePackInputParameter {
+  ParameterName: string;
+  ParameterValue: string;
+}
+export const ConformancePackInputParameter = S.suspend(() =>
+  S.Struct({ ParameterName: S.String, ParameterValue: S.String }),
+).annotations({
+  identifier: "ConformancePackInputParameter",
+}) as any as S.Schema<ConformancePackInputParameter>;
+export type ConformancePackInputParameters = ConformancePackInputParameter[];
 export const ConformancePackInputParameters = S.Array(
   ConformancePackInputParameter,
 );
-export class PutOrganizationConformancePackRequest extends S.Class<PutOrganizationConformancePackRequest>(
-  "PutOrganizationConformancePackRequest",
-)(
-  {
+export interface PutOrganizationConformancePackRequest {
+  OrganizationConformancePackName: string;
+  TemplateS3Uri?: string;
+  TemplateBody?: string;
+  DeliveryS3Bucket?: string;
+  DeliveryS3KeyPrefix?: string;
+  ConformancePackInputParameters?: ConformancePackInputParameters;
+  ExcludedAccounts?: ExcludedAccounts;
+}
+export const PutOrganizationConformancePackRequest = S.suspend(() =>
+  S.Struct({
     OrganizationConformancePackName: S.String,
     TemplateS3Uri: S.optional(S.String),
     TemplateBody: S.optional(S.String),
@@ -815,694 +1673,1582 @@ export class PutOrganizationConformancePackRequest extends S.Class<PutOrganizati
     DeliveryS3KeyPrefix: S.optional(S.String),
     ConformancePackInputParameters: S.optional(ConformancePackInputParameters),
     ExcludedAccounts: S.optional(ExcludedAccounts),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutRemediationExceptionsRequest extends S.Class<PutRemediationExceptionsRequest>(
-  "PutRemediationExceptionsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutOrganizationConformancePackRequest",
+}) as any as S.Schema<PutOrganizationConformancePackRequest>;
+export interface PutRemediationExceptionsRequest {
+  ConfigRuleName: string;
+  ResourceKeys: RemediationExceptionResourceKeys;
+  Message?: string;
+  ExpirationTime?: Date;
+}
+export const PutRemediationExceptionsRequest = S.suspend(() =>
+  S.Struct({
     ConfigRuleName: S.String,
     ResourceKeys: RemediationExceptionResourceKeys,
     Message: S.optional(S.String),
     ExpirationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutRetentionConfigurationRequest extends S.Class<PutRetentionConfigurationRequest>(
-  "PutRetentionConfigurationRequest",
-)(
-  { RetentionPeriodInDays: S.Number },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutRemediationExceptionsRequest",
+}) as any as S.Schema<PutRemediationExceptionsRequest>;
+export interface PutRetentionConfigurationRequest {
+  RetentionPeriodInDays: number;
+}
+export const PutRetentionConfigurationRequest = S.suspend(() =>
+  S.Struct({ RetentionPeriodInDays: S.Number }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutRetentionConfigurationRequest",
+}) as any as S.Schema<PutRetentionConfigurationRequest>;
+export type TagsList = Tag[];
 export const TagsList = S.Array(Tag);
-export class PutServiceLinkedConfigurationRecorderRequest extends S.Class<PutServiceLinkedConfigurationRecorderRequest>(
-  "PutServiceLinkedConfigurationRecorderRequest",
-)(
-  { ServicePrincipal: S.String, Tags: S.optional(TagsList) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class SelectAggregateResourceConfigRequest extends S.Class<SelectAggregateResourceConfigRequest>(
-  "SelectAggregateResourceConfigRequest",
-)(
-  {
+export interface PutServiceLinkedConfigurationRecorderRequest {
+  ServicePrincipal: string;
+  Tags?: TagsList;
+}
+export const PutServiceLinkedConfigurationRecorderRequest = S.suspend(() =>
+  S.Struct({ ServicePrincipal: S.String, Tags: S.optional(TagsList) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutServiceLinkedConfigurationRecorderRequest",
+}) as any as S.Schema<PutServiceLinkedConfigurationRecorderRequest>;
+export interface SelectAggregateResourceConfigRequest {
+  Expression: string;
+  ConfigurationAggregatorName: string;
+  Limit?: number;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const SelectAggregateResourceConfigRequest = S.suspend(() =>
+  S.Struct({
     Expression: S.String,
     ConfigurationAggregatorName: S.String,
     Limit: S.optional(S.Number),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class SelectResourceConfigRequest extends S.Class<SelectResourceConfigRequest>(
-  "SelectResourceConfigRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "SelectAggregateResourceConfigRequest",
+}) as any as S.Schema<SelectAggregateResourceConfigRequest>;
+export interface SelectResourceConfigRequest {
+  Expression: string;
+  Limit?: number;
+  NextToken?: string;
+}
+export const SelectResourceConfigRequest = S.suspend(() =>
+  S.Struct({
     Expression: S.String,
     Limit: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StartConfigRulesEvaluationRequest extends S.Class<StartConfigRulesEvaluationRequest>(
-  "StartConfigRulesEvaluationRequest",
-)(
-  { ConfigRuleNames: S.optional(ReevaluateConfigRuleNames) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StartConfigRulesEvaluationResponse extends S.Class<StartConfigRulesEvaluationResponse>(
-  "StartConfigRulesEvaluationResponse",
-)({}, ns) {}
-export class StartConfigurationRecorderRequest extends S.Class<StartConfigurationRecorderRequest>(
-  "StartConfigurationRecorderRequest",
-)(
-  { ConfigurationRecorderName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StartConfigurationRecorderResponse extends S.Class<StartConfigurationRecorderResponse>(
-  "StartConfigurationRecorderResponse",
-)({}, ns) {}
-export class StartRemediationExecutionRequest extends S.Class<StartRemediationExecutionRequest>(
-  "StartRemediationExecutionRequest",
-)(
-  { ConfigRuleName: S.String, ResourceKeys: ResourceKeys },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StopConfigurationRecorderRequest extends S.Class<StopConfigurationRecorderRequest>(
-  "StopConfigurationRecorderRequest",
-)(
-  { ConfigurationRecorderName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StopConfigurationRecorderResponse extends S.Class<StopConfigurationRecorderResponse>(
-  "StopConfigurationRecorderResponse",
-)({}, ns) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { ResourceArn: S.String, Tags: TagList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}, ns) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  { ResourceArn: S.String, TagKeys: TagKeyList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}, ns) {}
-export const ConformancePackConfigRuleNames = S.Array(S.String);
-export const ConformancePackComplianceResourceIds = S.Array(S.String);
-export const ConfigurationRecorderFilterValues = S.Array(S.String);
-export const ConformancePackNameFilter = S.Array(S.String);
-export const AccountAggregationSourceAccountList = S.Array(S.String);
-export const AggregatorRegionList = S.Array(S.String);
-export const ResourceTypesScope = S.Array(S.String);
-export const OrganizationConfigRuleTriggerTypes = S.Array(S.String);
-export const OrganizationConfigRuleTriggerTypeNoSNs = S.Array(S.String);
-export const DebugLogDeliveryAccounts = S.Array(S.String);
-export const ResourceIdentifiersList = S.Array(AggregateResourceIdentifier);
-export class ConfigRuleComplianceFilters extends S.Class<ConfigRuleComplianceFilters>(
-  "ConfigRuleComplianceFilters",
-)({
-  ConfigRuleName: S.optional(S.String),
-  ComplianceType: S.optional(S.String),
-  AccountId: S.optional(S.String),
-  AwsRegion: S.optional(S.String),
-}) {}
-export class AggregateConformancePackComplianceFilters extends S.Class<AggregateConformancePackComplianceFilters>(
-  "AggregateConformancePackComplianceFilters",
-)({
-  ConformancePackName: S.optional(S.String),
-  ComplianceType: S.optional(S.String),
-  AccountId: S.optional(S.String),
-  AwsRegion: S.optional(S.String),
-}) {}
-export class DescribeConfigRulesFilters extends S.Class<DescribeConfigRulesFilters>(
-  "DescribeConfigRulesFilters",
-)({ EvaluationMode: S.optional(S.String) }) {}
-export class ExclusionByResourceTypes extends S.Class<ExclusionByResourceTypes>(
-  "ExclusionByResourceTypes",
-)({ resourceTypes: S.optional(ResourceTypeList) }) {}
-export class RecordingStrategy extends S.Class<RecordingStrategy>(
-  "RecordingStrategy",
-)({ useOnly: S.optional(S.String) }) {}
-export class RecordingGroup extends S.Class<RecordingGroup>("RecordingGroup")({
-  allSupported: S.optional(S.Boolean),
-  includeGlobalResourceTypes: S.optional(S.Boolean),
-  resourceTypes: S.optional(ResourceTypeList),
-  exclusionByResourceTypes: S.optional(ExclusionByResourceTypes),
-  recordingStrategy: S.optional(RecordingStrategy),
-}) {}
-export const RecordingModeResourceTypesList = S.Array(S.String);
-export class RecordingModeOverride extends S.Class<RecordingModeOverride>(
-  "RecordingModeOverride",
-)({
-  description: S.optional(S.String),
-  resourceTypes: RecordingModeResourceTypesList,
-  recordingFrequency: S.String,
-}) {}
-export const RecordingModeOverrides = S.Array(RecordingModeOverride);
-export class RecordingMode extends S.Class<RecordingMode>("RecordingMode")({
-  recordingFrequency: S.String,
-  recordingModeOverrides: S.optional(RecordingModeOverrides),
-}) {}
-export class ConfigurationRecorder extends S.Class<ConfigurationRecorder>(
-  "ConfigurationRecorder",
-)({
-  arn: S.optional(S.String),
-  name: S.optional(S.String),
-  roleARN: S.optional(S.String),
-  recordingGroup: S.optional(RecordingGroup),
-  recordingMode: S.optional(RecordingMode),
-  recordingScope: S.optional(S.String),
-  servicePrincipal: S.optional(S.String),
-}) {}
-export const ConfigurationRecorderList = S.Array(ConfigurationRecorder);
-export class ConformancePackComplianceFilters extends S.Class<ConformancePackComplianceFilters>(
-  "ConformancePackComplianceFilters",
-)({
-  ConfigRuleNames: S.optional(ConformancePackConfigRuleNames),
-  ComplianceType: S.optional(S.String),
-}) {}
-export class ConfigSnapshotDeliveryProperties extends S.Class<ConfigSnapshotDeliveryProperties>(
-  "ConfigSnapshotDeliveryProperties",
-)({ deliveryFrequency: S.optional(S.String) }) {}
-export class DeliveryChannel extends S.Class<DeliveryChannel>(
-  "DeliveryChannel",
-)({
-  name: S.optional(S.String),
-  s3BucketName: S.optional(S.String),
-  s3KeyPrefix: S.optional(S.String),
-  s3KmsKeyArn: S.optional(S.String),
-  snsTopicARN: S.optional(S.String),
-  configSnapshotDeliveryProperties: S.optional(
-    ConfigSnapshotDeliveryProperties,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-}) {}
+).annotations({
+  identifier: "SelectResourceConfigRequest",
+}) as any as S.Schema<SelectResourceConfigRequest>;
+export interface StartConfigRulesEvaluationRequest {
+  ConfigRuleNames?: ReevaluateConfigRuleNames;
+}
+export const StartConfigRulesEvaluationRequest = S.suspend(() =>
+  S.Struct({ ConfigRuleNames: S.optional(ReevaluateConfigRuleNames) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "StartConfigRulesEvaluationRequest",
+}) as any as S.Schema<StartConfigRulesEvaluationRequest>;
+export interface StartConfigRulesEvaluationResponse {}
+export const StartConfigRulesEvaluationResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "StartConfigRulesEvaluationResponse",
+}) as any as S.Schema<StartConfigRulesEvaluationResponse>;
+export interface StartConfigurationRecorderRequest {
+  ConfigurationRecorderName: string;
+}
+export const StartConfigurationRecorderRequest = S.suspend(() =>
+  S.Struct({ ConfigurationRecorderName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "StartConfigurationRecorderRequest",
+}) as any as S.Schema<StartConfigurationRecorderRequest>;
+export interface StartConfigurationRecorderResponse {}
+export const StartConfigurationRecorderResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "StartConfigurationRecorderResponse",
+}) as any as S.Schema<StartConfigurationRecorderResponse>;
+export interface StartRemediationExecutionRequest {
+  ConfigRuleName: string;
+  ResourceKeys: ResourceKeys;
+}
+export const StartRemediationExecutionRequest = S.suspend(() =>
+  S.Struct({ ConfigRuleName: S.String, ResourceKeys: ResourceKeys }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "StartRemediationExecutionRequest",
+}) as any as S.Schema<StartRemediationExecutionRequest>;
+export interface StopConfigurationRecorderRequest {
+  ConfigurationRecorderName: string;
+}
+export const StopConfigurationRecorderRequest = S.suspend(() =>
+  S.Struct({ ConfigurationRecorderName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "StopConfigurationRecorderRequest",
+}) as any as S.Schema<StopConfigurationRecorderRequest>;
+export interface StopConfigurationRecorderResponse {}
+export const StopConfigurationRecorderResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "StopConfigurationRecorderResponse",
+}) as any as S.Schema<StopConfigurationRecorderResponse>;
+export interface TagResourceRequest {
+  ResourceArn: string;
+  Tags: TagList;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String, Tags: TagList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UntagResourceRequest {
+  ResourceArn: string;
+  TagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String, TagKeys: TagKeyList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export type ConformancePackConfigRuleNames = string[];
+export const ConformancePackConfigRuleNames = S.Array(S.String);
+export type ConformancePackComplianceResourceIds = string[];
+export const ConformancePackComplianceResourceIds = S.Array(S.String);
+export type ConfigurationRecorderFilterValues = string[];
+export const ConfigurationRecorderFilterValues = S.Array(S.String);
+export type ConformancePackNameFilter = string[];
+export const ConformancePackNameFilter = S.Array(S.String);
+export type AccountAggregationSourceAccountList = string[];
+export const AccountAggregationSourceAccountList = S.Array(S.String);
+export type AggregatorRegionList = string[];
+export const AggregatorRegionList = S.Array(S.String);
+export type ResourceTypesScope = string[];
+export const ResourceTypesScope = S.Array(S.String);
+export type OrganizationConfigRuleTriggerTypes = string[];
+export const OrganizationConfigRuleTriggerTypes = S.Array(S.String);
+export type OrganizationConfigRuleTriggerTypeNoSNs = string[];
+export const OrganizationConfigRuleTriggerTypeNoSNs = S.Array(S.String);
+export type DebugLogDeliveryAccounts = string[];
+export const DebugLogDeliveryAccounts = S.Array(S.String);
+export type ResourceIdentifiersList = AggregateResourceIdentifier[];
+export const ResourceIdentifiersList = S.Array(AggregateResourceIdentifier);
+export interface ConfigRuleComplianceFilters {
+  ConfigRuleName?: string;
+  ComplianceType?: string;
+  AccountId?: string;
+  AwsRegion?: string;
+}
+export const ConfigRuleComplianceFilters = S.suspend(() =>
+  S.Struct({
+    ConfigRuleName: S.optional(S.String),
+    ComplianceType: S.optional(S.String),
+    AccountId: S.optional(S.String),
+    AwsRegion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ConfigRuleComplianceFilters",
+}) as any as S.Schema<ConfigRuleComplianceFilters>;
+export interface AggregateConformancePackComplianceFilters {
+  ConformancePackName?: string;
+  ComplianceType?: string;
+  AccountId?: string;
+  AwsRegion?: string;
+}
+export const AggregateConformancePackComplianceFilters = S.suspend(() =>
+  S.Struct({
+    ConformancePackName: S.optional(S.String),
+    ComplianceType: S.optional(S.String),
+    AccountId: S.optional(S.String),
+    AwsRegion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AggregateConformancePackComplianceFilters",
+}) as any as S.Schema<AggregateConformancePackComplianceFilters>;
+export interface DescribeConfigRulesFilters {
+  EvaluationMode?: string;
+}
+export const DescribeConfigRulesFilters = S.suspend(() =>
+  S.Struct({ EvaluationMode: S.optional(S.String) }),
+).annotations({
+  identifier: "DescribeConfigRulesFilters",
+}) as any as S.Schema<DescribeConfigRulesFilters>;
+export interface ExclusionByResourceTypes {
+  resourceTypes?: ResourceTypeList;
+}
+export const ExclusionByResourceTypes = S.suspend(() =>
+  S.Struct({ resourceTypes: S.optional(ResourceTypeList) }),
+).annotations({
+  identifier: "ExclusionByResourceTypes",
+}) as any as S.Schema<ExclusionByResourceTypes>;
+export interface RecordingStrategy {
+  useOnly?: string;
+}
+export const RecordingStrategy = S.suspend(() =>
+  S.Struct({ useOnly: S.optional(S.String) }),
+).annotations({
+  identifier: "RecordingStrategy",
+}) as any as S.Schema<RecordingStrategy>;
+export interface RecordingGroup {
+  allSupported?: boolean;
+  includeGlobalResourceTypes?: boolean;
+  resourceTypes?: ResourceTypeList;
+  exclusionByResourceTypes?: ExclusionByResourceTypes;
+  recordingStrategy?: RecordingStrategy;
+}
+export const RecordingGroup = S.suspend(() =>
+  S.Struct({
+    allSupported: S.optional(S.Boolean),
+    includeGlobalResourceTypes: S.optional(S.Boolean),
+    resourceTypes: S.optional(ResourceTypeList),
+    exclusionByResourceTypes: S.optional(ExclusionByResourceTypes),
+    recordingStrategy: S.optional(RecordingStrategy),
+  }),
+).annotations({
+  identifier: "RecordingGroup",
+}) as any as S.Schema<RecordingGroup>;
+export type RecordingModeResourceTypesList = string[];
+export const RecordingModeResourceTypesList = S.Array(S.String);
+export interface RecordingModeOverride {
+  description?: string;
+  resourceTypes: RecordingModeResourceTypesList;
+  recordingFrequency: string;
+}
+export const RecordingModeOverride = S.suspend(() =>
+  S.Struct({
+    description: S.optional(S.String),
+    resourceTypes: RecordingModeResourceTypesList,
+    recordingFrequency: S.String,
+  }),
+).annotations({
+  identifier: "RecordingModeOverride",
+}) as any as S.Schema<RecordingModeOverride>;
+export type RecordingModeOverrides = RecordingModeOverride[];
+export const RecordingModeOverrides = S.Array(RecordingModeOverride);
+export interface RecordingMode {
+  recordingFrequency: string;
+  recordingModeOverrides?: RecordingModeOverrides;
+}
+export const RecordingMode = S.suspend(() =>
+  S.Struct({
+    recordingFrequency: S.String,
+    recordingModeOverrides: S.optional(RecordingModeOverrides),
+  }),
+).annotations({
+  identifier: "RecordingMode",
+}) as any as S.Schema<RecordingMode>;
+export interface ConfigurationRecorder {
+  arn?: string;
+  name?: string;
+  roleARN?: string;
+  recordingGroup?: RecordingGroup;
+  recordingMode?: RecordingMode;
+  recordingScope?: string;
+  servicePrincipal?: string;
+}
+export const ConfigurationRecorder = S.suspend(() =>
+  S.Struct({
+    arn: S.optional(S.String),
+    name: S.optional(S.String),
+    roleARN: S.optional(S.String),
+    recordingGroup: S.optional(RecordingGroup),
+    recordingMode: S.optional(RecordingMode),
+    recordingScope: S.optional(S.String),
+    servicePrincipal: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ConfigurationRecorder",
+}) as any as S.Schema<ConfigurationRecorder>;
+export type ConfigurationRecorderList = ConfigurationRecorder[];
+export const ConfigurationRecorderList = S.Array(ConfigurationRecorder);
+export interface ConformancePackComplianceFilters {
+  ConfigRuleNames?: ConformancePackConfigRuleNames;
+  ComplianceType?: string;
+}
+export const ConformancePackComplianceFilters = S.suspend(() =>
+  S.Struct({
+    ConfigRuleNames: S.optional(ConformancePackConfigRuleNames),
+    ComplianceType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ConformancePackComplianceFilters",
+}) as any as S.Schema<ConformancePackComplianceFilters>;
+export interface ConfigSnapshotDeliveryProperties {
+  deliveryFrequency?: string;
+}
+export const ConfigSnapshotDeliveryProperties = S.suspend(() =>
+  S.Struct({ deliveryFrequency: S.optional(S.String) }),
+).annotations({
+  identifier: "ConfigSnapshotDeliveryProperties",
+}) as any as S.Schema<ConfigSnapshotDeliveryProperties>;
+export interface DeliveryChannel {
+  name?: string;
+  s3BucketName?: string;
+  s3KeyPrefix?: string;
+  s3KmsKeyArn?: string;
+  snsTopicARN?: string;
+  configSnapshotDeliveryProperties?: ConfigSnapshotDeliveryProperties;
+}
+export const DeliveryChannel = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    s3BucketName: S.optional(S.String),
+    s3KeyPrefix: S.optional(S.String),
+    s3KmsKeyArn: S.optional(S.String),
+    snsTopicARN: S.optional(S.String),
+    configSnapshotDeliveryProperties: S.optional(
+      ConfigSnapshotDeliveryProperties,
+    ),
+  }),
+).annotations({
+  identifier: "DeliveryChannel",
+}) as any as S.Schema<DeliveryChannel>;
+export type DeliveryChannelList = DeliveryChannel[];
 export const DeliveryChannelList = S.Array(DeliveryChannel);
-export class ConfigRuleComplianceSummaryFilters extends S.Class<ConfigRuleComplianceSummaryFilters>(
-  "ConfigRuleComplianceSummaryFilters",
-)({ AccountId: S.optional(S.String), AwsRegion: S.optional(S.String) }) {}
-export class AggregateConformancePackComplianceSummaryFilters extends S.Class<AggregateConformancePackComplianceSummaryFilters>(
-  "AggregateConformancePackComplianceSummaryFilters",
-)({ AccountId: S.optional(S.String), AwsRegion: S.optional(S.String) }) {}
-export class ResourceCountFilters extends S.Class<ResourceCountFilters>(
-  "ResourceCountFilters",
-)({
-  ResourceType: S.optional(S.String),
-  AccountId: S.optional(S.String),
-  Region: S.optional(S.String),
-}) {}
-export class ConformancePackEvaluationFilters extends S.Class<ConformancePackEvaluationFilters>(
-  "ConformancePackEvaluationFilters",
-)({
-  ConfigRuleNames: S.optional(ConformancePackConfigRuleNames),
-  ComplianceType: S.optional(S.String),
-  ResourceType: S.optional(S.String),
-  ResourceIds: S.optional(ConformancePackComplianceResourceIds),
-}) {}
-export class StatusDetailFilters extends S.Class<StatusDetailFilters>(
-  "StatusDetailFilters",
-)({
-  AccountId: S.optional(S.String),
-  MemberAccountRuleStatus: S.optional(S.String),
-}) {}
-export class OrganizationResourceDetailedStatusFilters extends S.Class<OrganizationResourceDetailedStatusFilters>(
-  "OrganizationResourceDetailedStatusFilters",
-)({ AccountId: S.optional(S.String), Status: S.optional(S.String) }) {}
+export interface ConfigRuleComplianceSummaryFilters {
+  AccountId?: string;
+  AwsRegion?: string;
+}
+export const ConfigRuleComplianceSummaryFilters = S.suspend(() =>
+  S.Struct({
+    AccountId: S.optional(S.String),
+    AwsRegion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ConfigRuleComplianceSummaryFilters",
+}) as any as S.Schema<ConfigRuleComplianceSummaryFilters>;
+export interface AggregateConformancePackComplianceSummaryFilters {
+  AccountId?: string;
+  AwsRegion?: string;
+}
+export const AggregateConformancePackComplianceSummaryFilters = S.suspend(() =>
+  S.Struct({
+    AccountId: S.optional(S.String),
+    AwsRegion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AggregateConformancePackComplianceSummaryFilters",
+}) as any as S.Schema<AggregateConformancePackComplianceSummaryFilters>;
+export interface ResourceCountFilters {
+  ResourceType?: string;
+  AccountId?: string;
+  Region?: string;
+}
+export const ResourceCountFilters = S.suspend(() =>
+  S.Struct({
+    ResourceType: S.optional(S.String),
+    AccountId: S.optional(S.String),
+    Region: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ResourceCountFilters",
+}) as any as S.Schema<ResourceCountFilters>;
+export interface ConformancePackEvaluationFilters {
+  ConfigRuleNames?: ConformancePackConfigRuleNames;
+  ComplianceType?: string;
+  ResourceType?: string;
+  ResourceIds?: ConformancePackComplianceResourceIds;
+}
+export const ConformancePackEvaluationFilters = S.suspend(() =>
+  S.Struct({
+    ConfigRuleNames: S.optional(ConformancePackConfigRuleNames),
+    ComplianceType: S.optional(S.String),
+    ResourceType: S.optional(S.String),
+    ResourceIds: S.optional(ConformancePackComplianceResourceIds),
+  }),
+).annotations({
+  identifier: "ConformancePackEvaluationFilters",
+}) as any as S.Schema<ConformancePackEvaluationFilters>;
+export interface StatusDetailFilters {
+  AccountId?: string;
+  MemberAccountRuleStatus?: string;
+}
+export const StatusDetailFilters = S.suspend(() =>
+  S.Struct({
+    AccountId: S.optional(S.String),
+    MemberAccountRuleStatus: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "StatusDetailFilters",
+}) as any as S.Schema<StatusDetailFilters>;
+export interface OrganizationResourceDetailedStatusFilters {
+  AccountId?: string;
+  Status?: string;
+}
+export const OrganizationResourceDetailedStatusFilters = S.suspend(() =>
+  S.Struct({ AccountId: S.optional(S.String), Status: S.optional(S.String) }),
+).annotations({
+  identifier: "OrganizationResourceDetailedStatusFilters",
+}) as any as S.Schema<OrganizationResourceDetailedStatusFilters>;
+export type Tags = { [key: string]: string };
 export const Tags = S.Record({ key: S.String, value: S.String });
+export type RelatedEventList = string[];
 export const RelatedEventList = S.Array(S.String);
-export class Relationship extends S.Class<Relationship>("Relationship")({
-  resourceType: S.optional(S.String),
-  resourceId: S.optional(S.String),
-  resourceName: S.optional(S.String),
-  relationshipName: S.optional(S.String),
-}) {}
+export interface Relationship {
+  resourceType?: string;
+  resourceId?: string;
+  resourceName?: string;
+  relationshipName?: string;
+}
+export const Relationship = S.suspend(() =>
+  S.Struct({
+    resourceType: S.optional(S.String),
+    resourceId: S.optional(S.String),
+    resourceName: S.optional(S.String),
+    relationshipName: S.optional(S.String),
+  }),
+).annotations({ identifier: "Relationship" }) as any as S.Schema<Relationship>;
+export type RelationshipList = Relationship[];
 export const RelationshipList = S.Array(Relationship);
+export type SupplementaryConfiguration = { [key: string]: string };
 export const SupplementaryConfiguration = S.Record({
   key: S.String,
   value: S.String,
 });
-export class ConfigurationItem extends S.Class<ConfigurationItem>(
-  "ConfigurationItem",
-)({
-  version: S.optional(S.String),
-  accountId: S.optional(S.String),
-  configurationItemCaptureTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  configurationItemStatus: S.optional(S.String),
-  configurationStateId: S.optional(S.String),
-  configurationItemMD5Hash: S.optional(S.String),
-  arn: S.optional(S.String),
-  resourceType: S.optional(S.String),
-  resourceId: S.optional(S.String),
-  resourceName: S.optional(S.String),
-  awsRegion: S.optional(S.String),
-  availabilityZone: S.optional(S.String),
-  resourceCreationTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  tags: S.optional(Tags),
-  relatedEvents: S.optional(RelatedEventList),
-  relationships: S.optional(RelationshipList),
-  configuration: S.optional(S.String),
-  supplementaryConfiguration: S.optional(SupplementaryConfiguration),
-  recordingFrequency: S.optional(S.String),
-  configurationItemDeliveryTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
+export interface ConfigurationItem {
+  version?: string;
+  accountId?: string;
+  configurationItemCaptureTime?: Date;
+  configurationItemStatus?: string;
+  configurationStateId?: string;
+  configurationItemMD5Hash?: string;
+  arn?: string;
+  resourceType?: string;
+  resourceId?: string;
+  resourceName?: string;
+  awsRegion?: string;
+  availabilityZone?: string;
+  resourceCreationTime?: Date;
+  tags?: Tags;
+  relatedEvents?: RelatedEventList;
+  relationships?: RelationshipList;
+  configuration?: string;
+  supplementaryConfiguration?: SupplementaryConfiguration;
+  recordingFrequency?: string;
+  configurationItemDeliveryTime?: Date;
+}
+export const ConfigurationItem = S.suspend(() =>
+  S.Struct({
+    version: S.optional(S.String),
+    accountId: S.optional(S.String),
+    configurationItemCaptureTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    configurationItemStatus: S.optional(S.String),
+    configurationStateId: S.optional(S.String),
+    configurationItemMD5Hash: S.optional(S.String),
+    arn: S.optional(S.String),
+    resourceType: S.optional(S.String),
+    resourceId: S.optional(S.String),
+    resourceName: S.optional(S.String),
+    awsRegion: S.optional(S.String),
+    availabilityZone: S.optional(S.String),
+    resourceCreationTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    tags: S.optional(Tags),
+    relatedEvents: S.optional(RelatedEventList),
+    relationships: S.optional(RelationshipList),
+    configuration: S.optional(S.String),
+    supplementaryConfiguration: S.optional(SupplementaryConfiguration),
+    recordingFrequency: S.optional(S.String),
+    configurationItemDeliveryTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "ConfigurationItem",
+}) as any as S.Schema<ConfigurationItem>;
+export type ConfigurationItemList = ConfigurationItem[];
 export const ConfigurationItemList = S.Array(ConfigurationItem);
-export class ResourceFilters extends S.Class<ResourceFilters>(
-  "ResourceFilters",
-)({
-  AccountId: S.optional(S.String),
-  ResourceId: S.optional(S.String),
-  ResourceName: S.optional(S.String),
-  Region: S.optional(S.String),
-}) {}
-export class ConfigurationRecorderFilter extends S.Class<ConfigurationRecorderFilter>(
-  "ConfigurationRecorderFilter",
-)({
-  filterName: S.optional(S.String),
-  filterValue: S.optional(ConfigurationRecorderFilterValues),
-}) {}
+export interface ResourceFilters {
+  AccountId?: string;
+  ResourceId?: string;
+  ResourceName?: string;
+  Region?: string;
+}
+export const ResourceFilters = S.suspend(() =>
+  S.Struct({
+    AccountId: S.optional(S.String),
+    ResourceId: S.optional(S.String),
+    ResourceName: S.optional(S.String),
+    Region: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ResourceFilters",
+}) as any as S.Schema<ResourceFilters>;
+export interface ConfigurationRecorderFilter {
+  filterName?: string;
+  filterValue?: ConfigurationRecorderFilterValues;
+}
+export const ConfigurationRecorderFilter = S.suspend(() =>
+  S.Struct({
+    filterName: S.optional(S.String),
+    filterValue: S.optional(ConfigurationRecorderFilterValues),
+  }),
+).annotations({
+  identifier: "ConfigurationRecorderFilter",
+}) as any as S.Schema<ConfigurationRecorderFilter>;
+export type ConfigurationRecorderFilterList = ConfigurationRecorderFilter[];
 export const ConfigurationRecorderFilterList = S.Array(
   ConfigurationRecorderFilter,
 );
-export class ConformancePackComplianceScoresFilters extends S.Class<ConformancePackComplianceScoresFilters>(
-  "ConformancePackComplianceScoresFilters",
-)({ ConformancePackNames: ConformancePackNameFilter }) {}
-export class AccountAggregationSource extends S.Class<AccountAggregationSource>(
-  "AccountAggregationSource",
-)({
-  AccountIds: AccountAggregationSourceAccountList,
-  AllAwsRegions: S.optional(S.Boolean),
-  AwsRegions: S.optional(AggregatorRegionList),
-}) {}
+export interface ConformancePackComplianceScoresFilters {
+  ConformancePackNames: ConformancePackNameFilter;
+}
+export const ConformancePackComplianceScoresFilters = S.suspend(() =>
+  S.Struct({ ConformancePackNames: ConformancePackNameFilter }),
+).annotations({
+  identifier: "ConformancePackComplianceScoresFilters",
+}) as any as S.Schema<ConformancePackComplianceScoresFilters>;
+export interface AccountAggregationSource {
+  AccountIds: AccountAggregationSourceAccountList;
+  AllAwsRegions?: boolean;
+  AwsRegions?: AggregatorRegionList;
+}
+export const AccountAggregationSource = S.suspend(() =>
+  S.Struct({
+    AccountIds: AccountAggregationSourceAccountList,
+    AllAwsRegions: S.optional(S.Boolean),
+    AwsRegions: S.optional(AggregatorRegionList),
+  }),
+).annotations({
+  identifier: "AccountAggregationSource",
+}) as any as S.Schema<AccountAggregationSource>;
+export type AccountAggregationSourceList = AccountAggregationSource[];
 export const AccountAggregationSourceList = S.Array(AccountAggregationSource);
-export class OrganizationAggregationSource extends S.Class<OrganizationAggregationSource>(
-  "OrganizationAggregationSource",
-)({
-  RoleArn: S.String,
-  AwsRegions: S.optional(AggregatorRegionList),
-  AllAwsRegions: S.optional(S.Boolean),
-}) {}
-export class TemplateSSMDocumentDetails extends S.Class<TemplateSSMDocumentDetails>(
-  "TemplateSSMDocumentDetails",
-)({ DocumentName: S.String, DocumentVersion: S.optional(S.String) }) {}
-export class Evaluation extends S.Class<Evaluation>("Evaluation")({
-  ComplianceResourceType: S.String,
-  ComplianceResourceId: S.String,
-  ComplianceType: S.String,
-  Annotation: S.optional(S.String),
-  OrderingTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-}) {}
+export interface OrganizationAggregationSource {
+  RoleArn: string;
+  AwsRegions?: AggregatorRegionList;
+  AllAwsRegions?: boolean;
+}
+export const OrganizationAggregationSource = S.suspend(() =>
+  S.Struct({
+    RoleArn: S.String,
+    AwsRegions: S.optional(AggregatorRegionList),
+    AllAwsRegions: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "OrganizationAggregationSource",
+}) as any as S.Schema<OrganizationAggregationSource>;
+export interface TemplateSSMDocumentDetails {
+  DocumentName: string;
+  DocumentVersion?: string;
+}
+export const TemplateSSMDocumentDetails = S.suspend(() =>
+  S.Struct({ DocumentName: S.String, DocumentVersion: S.optional(S.String) }),
+).annotations({
+  identifier: "TemplateSSMDocumentDetails",
+}) as any as S.Schema<TemplateSSMDocumentDetails>;
+export interface Evaluation {
+  ComplianceResourceType: string;
+  ComplianceResourceId: string;
+  ComplianceType: string;
+  Annotation?: string;
+  OrderingTimestamp: Date;
+}
+export const Evaluation = S.suspend(() =>
+  S.Struct({
+    ComplianceResourceType: S.String,
+    ComplianceResourceId: S.String,
+    ComplianceType: S.String,
+    Annotation: S.optional(S.String),
+    OrderingTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotations({ identifier: "Evaluation" }) as any as S.Schema<Evaluation>;
+export type Evaluations = Evaluation[];
 export const Evaluations = S.Array(Evaluation);
-export class ExternalEvaluation extends S.Class<ExternalEvaluation>(
-  "ExternalEvaluation",
-)({
-  ComplianceResourceType: S.String,
-  ComplianceResourceId: S.String,
-  ComplianceType: S.String,
-  Annotation: S.optional(S.String),
-  OrderingTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-}) {}
-export class OrganizationManagedRuleMetadata extends S.Class<OrganizationManagedRuleMetadata>(
-  "OrganizationManagedRuleMetadata",
-)({
-  Description: S.optional(S.String),
-  RuleIdentifier: S.String,
-  InputParameters: S.optional(S.String),
-  MaximumExecutionFrequency: S.optional(S.String),
-  ResourceTypesScope: S.optional(ResourceTypesScope),
-  ResourceIdScope: S.optional(S.String),
-  TagKeyScope: S.optional(S.String),
-  TagValueScope: S.optional(S.String),
-}) {}
-export class OrganizationCustomRuleMetadata extends S.Class<OrganizationCustomRuleMetadata>(
-  "OrganizationCustomRuleMetadata",
-)({
-  Description: S.optional(S.String),
-  LambdaFunctionArn: S.String,
-  OrganizationConfigRuleTriggerTypes: OrganizationConfigRuleTriggerTypes,
-  InputParameters: S.optional(S.String),
-  MaximumExecutionFrequency: S.optional(S.String),
-  ResourceTypesScope: S.optional(ResourceTypesScope),
-  ResourceIdScope: S.optional(S.String),
-  TagKeyScope: S.optional(S.String),
-  TagValueScope: S.optional(S.String),
-}) {}
-export class OrganizationCustomPolicyRuleMetadata extends S.Class<OrganizationCustomPolicyRuleMetadata>(
-  "OrganizationCustomPolicyRuleMetadata",
-)({
-  Description: S.optional(S.String),
-  OrganizationConfigRuleTriggerTypes: S.optional(
-    OrganizationConfigRuleTriggerTypeNoSNs,
-  ),
-  InputParameters: S.optional(S.String),
-  MaximumExecutionFrequency: S.optional(S.String),
-  ResourceTypesScope: S.optional(ResourceTypesScope),
-  ResourceIdScope: S.optional(S.String),
-  TagKeyScope: S.optional(S.String),
-  TagValueScope: S.optional(S.String),
-  PolicyRuntime: S.String,
-  PolicyText: S.String,
-  DebugLogDeliveryAccounts: S.optional(DebugLogDeliveryAccounts),
-}) {}
-export class StoredQuery extends S.Class<StoredQuery>("StoredQuery")({
-  QueryId: S.optional(S.String),
-  QueryArn: S.optional(S.String),
-  QueryName: S.String,
-  Description: S.optional(S.String),
-  Expression: S.optional(S.String),
-}) {}
+export interface ExternalEvaluation {
+  ComplianceResourceType: string;
+  ComplianceResourceId: string;
+  ComplianceType: string;
+  Annotation?: string;
+  OrderingTimestamp: Date;
+}
+export const ExternalEvaluation = S.suspend(() =>
+  S.Struct({
+    ComplianceResourceType: S.String,
+    ComplianceResourceId: S.String,
+    ComplianceType: S.String,
+    Annotation: S.optional(S.String),
+    OrderingTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotations({
+  identifier: "ExternalEvaluation",
+}) as any as S.Schema<ExternalEvaluation>;
+export interface OrganizationManagedRuleMetadata {
+  Description?: string;
+  RuleIdentifier: string;
+  InputParameters?: string;
+  MaximumExecutionFrequency?: string;
+  ResourceTypesScope?: ResourceTypesScope;
+  ResourceIdScope?: string;
+  TagKeyScope?: string;
+  TagValueScope?: string;
+}
+export const OrganizationManagedRuleMetadata = S.suspend(() =>
+  S.Struct({
+    Description: S.optional(S.String),
+    RuleIdentifier: S.String,
+    InputParameters: S.optional(S.String),
+    MaximumExecutionFrequency: S.optional(S.String),
+    ResourceTypesScope: S.optional(ResourceTypesScope),
+    ResourceIdScope: S.optional(S.String),
+    TagKeyScope: S.optional(S.String),
+    TagValueScope: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "OrganizationManagedRuleMetadata",
+}) as any as S.Schema<OrganizationManagedRuleMetadata>;
+export interface OrganizationCustomRuleMetadata {
+  Description?: string;
+  LambdaFunctionArn: string;
+  OrganizationConfigRuleTriggerTypes: OrganizationConfigRuleTriggerTypes;
+  InputParameters?: string;
+  MaximumExecutionFrequency?: string;
+  ResourceTypesScope?: ResourceTypesScope;
+  ResourceIdScope?: string;
+  TagKeyScope?: string;
+  TagValueScope?: string;
+}
+export const OrganizationCustomRuleMetadata = S.suspend(() =>
+  S.Struct({
+    Description: S.optional(S.String),
+    LambdaFunctionArn: S.String,
+    OrganizationConfigRuleTriggerTypes: OrganizationConfigRuleTriggerTypes,
+    InputParameters: S.optional(S.String),
+    MaximumExecutionFrequency: S.optional(S.String),
+    ResourceTypesScope: S.optional(ResourceTypesScope),
+    ResourceIdScope: S.optional(S.String),
+    TagKeyScope: S.optional(S.String),
+    TagValueScope: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "OrganizationCustomRuleMetadata",
+}) as any as S.Schema<OrganizationCustomRuleMetadata>;
+export interface OrganizationCustomPolicyRuleMetadata {
+  Description?: string;
+  OrganizationConfigRuleTriggerTypes?: OrganizationConfigRuleTriggerTypeNoSNs;
+  InputParameters?: string;
+  MaximumExecutionFrequency?: string;
+  ResourceTypesScope?: ResourceTypesScope;
+  ResourceIdScope?: string;
+  TagKeyScope?: string;
+  TagValueScope?: string;
+  PolicyRuntime: string;
+  PolicyText: string;
+  DebugLogDeliveryAccounts?: DebugLogDeliveryAccounts;
+}
+export const OrganizationCustomPolicyRuleMetadata = S.suspend(() =>
+  S.Struct({
+    Description: S.optional(S.String),
+    OrganizationConfigRuleTriggerTypes: S.optional(
+      OrganizationConfigRuleTriggerTypeNoSNs,
+    ),
+    InputParameters: S.optional(S.String),
+    MaximumExecutionFrequency: S.optional(S.String),
+    ResourceTypesScope: S.optional(ResourceTypesScope),
+    ResourceIdScope: S.optional(S.String),
+    TagKeyScope: S.optional(S.String),
+    TagValueScope: S.optional(S.String),
+    PolicyRuntime: S.String,
+    PolicyText: S.String,
+    DebugLogDeliveryAccounts: S.optional(DebugLogDeliveryAccounts),
+  }),
+).annotations({
+  identifier: "OrganizationCustomPolicyRuleMetadata",
+}) as any as S.Schema<OrganizationCustomPolicyRuleMetadata>;
+export interface StoredQuery {
+  QueryId?: string;
+  QueryArn?: string;
+  QueryName: string;
+  Description?: string;
+  Expression?: string;
+}
+export const StoredQuery = S.suspend(() =>
+  S.Struct({
+    QueryId: S.optional(S.String),
+    QueryArn: S.optional(S.String),
+    QueryName: S.String,
+    Description: S.optional(S.String),
+    Expression: S.optional(S.String),
+  }),
+).annotations({ identifier: "StoredQuery" }) as any as S.Schema<StoredQuery>;
+export type Results = string[];
 export const Results = S.Array(S.String);
-export class ResourceDetails extends S.Class<ResourceDetails>(
-  "ResourceDetails",
-)({
-  ResourceId: S.String,
-  ResourceType: S.String,
-  ResourceConfiguration: S.String,
-  ResourceConfigurationSchemaType: S.optional(S.String),
-}) {}
-export class EvaluationContext extends S.Class<EvaluationContext>(
-  "EvaluationContext",
-)({ EvaluationContextIdentifier: S.optional(S.String) }) {}
+export interface ResourceDetails {
+  ResourceId: string;
+  ResourceType: string;
+  ResourceConfiguration: string;
+  ResourceConfigurationSchemaType?: string;
+}
+export const ResourceDetails = S.suspend(() =>
+  S.Struct({
+    ResourceId: S.String,
+    ResourceType: S.String,
+    ResourceConfiguration: S.String,
+    ResourceConfigurationSchemaType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ResourceDetails",
+}) as any as S.Schema<ResourceDetails>;
+export interface EvaluationContext {
+  EvaluationContextIdentifier?: string;
+}
+export const EvaluationContext = S.suspend(() =>
+  S.Struct({ EvaluationContextIdentifier: S.optional(S.String) }),
+).annotations({
+  identifier: "EvaluationContext",
+}) as any as S.Schema<EvaluationContext>;
+export type ComplianceResourceTypes = string[];
 export const ComplianceResourceTypes = S.Array(S.String);
+export type ResourceTypeValueList = string[];
 export const ResourceTypeValueList = S.Array(S.String);
+export type ServicePrincipalValueList = string[];
 export const ServicePrincipalValueList = S.Array(S.String);
-export class AssociateResourceTypesResponse extends S.Class<AssociateResourceTypesResponse>(
-  "AssociateResourceTypesResponse",
-)({ ConfigurationRecorder: ConfigurationRecorder }, ns) {}
-export class BatchGetAggregateResourceConfigRequest extends S.Class<BatchGetAggregateResourceConfigRequest>(
-  "BatchGetAggregateResourceConfigRequest",
-)(
-  {
+export interface AssociateResourceTypesResponse {
+  ConfigurationRecorder: ConfigurationRecorder;
+}
+export const AssociateResourceTypesResponse = S.suspend(() =>
+  S.Struct({ ConfigurationRecorder: ConfigurationRecorder }).pipe(ns),
+).annotations({
+  identifier: "AssociateResourceTypesResponse",
+}) as any as S.Schema<AssociateResourceTypesResponse>;
+export interface BatchGetAggregateResourceConfigRequest {
+  ConfigurationAggregatorName: string;
+  ResourceIdentifiers: ResourceIdentifiersList;
+}
+export const BatchGetAggregateResourceConfigRequest = S.suspend(() =>
+  S.Struct({
     ConfigurationAggregatorName: S.String,
     ResourceIdentifiers: ResourceIdentifiersList,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class BatchGetResourceConfigRequest extends S.Class<BatchGetResourceConfigRequest>(
-  "BatchGetResourceConfigRequest",
-)(
-  { resourceKeys: ResourceKeys },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteRemediationExceptionsRequest extends S.Class<DeleteRemediationExceptionsRequest>(
-  "DeleteRemediationExceptionsRequest",
-)(
-  { ConfigRuleName: S.String, ResourceKeys: RemediationExceptionResourceKeys },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteServiceLinkedConfigurationRecorderResponse extends S.Class<DeleteServiceLinkedConfigurationRecorderResponse>(
-  "DeleteServiceLinkedConfigurationRecorderResponse",
-)({ Arn: S.String, Name: S.String }, ns) {}
-export class DeliverConfigSnapshotResponse extends S.Class<DeliverConfigSnapshotResponse>(
-  "DeliverConfigSnapshotResponse",
-)({ configSnapshotId: S.optional(S.String) }, ns) {}
-export class DescribeAggregateComplianceByConfigRulesRequest extends S.Class<DescribeAggregateComplianceByConfigRulesRequest>(
-  "DescribeAggregateComplianceByConfigRulesRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "BatchGetAggregateResourceConfigRequest",
+}) as any as S.Schema<BatchGetAggregateResourceConfigRequest>;
+export interface BatchGetResourceConfigRequest {
+  resourceKeys: ResourceKeys;
+}
+export const BatchGetResourceConfigRequest = S.suspend(() =>
+  S.Struct({ resourceKeys: ResourceKeys }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "BatchGetResourceConfigRequest",
+}) as any as S.Schema<BatchGetResourceConfigRequest>;
+export interface DeleteRemediationExceptionsRequest {
+  ConfigRuleName: string;
+  ResourceKeys: RemediationExceptionResourceKeys;
+}
+export const DeleteRemediationExceptionsRequest = S.suspend(() =>
+  S.Struct({
+    ConfigRuleName: S.String,
+    ResourceKeys: RemediationExceptionResourceKeys,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteRemediationExceptionsRequest",
+}) as any as S.Schema<DeleteRemediationExceptionsRequest>;
+export interface DeleteServiceLinkedConfigurationRecorderResponse {
+  Arn: string;
+  Name: string;
+}
+export const DeleteServiceLinkedConfigurationRecorderResponse = S.suspend(() =>
+  S.Struct({ Arn: S.String, Name: S.String }).pipe(ns),
+).annotations({
+  identifier: "DeleteServiceLinkedConfigurationRecorderResponse",
+}) as any as S.Schema<DeleteServiceLinkedConfigurationRecorderResponse>;
+export interface DeliverConfigSnapshotResponse {
+  configSnapshotId?: string;
+}
+export const DeliverConfigSnapshotResponse = S.suspend(() =>
+  S.Struct({ configSnapshotId: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "DeliverConfigSnapshotResponse",
+}) as any as S.Schema<DeliverConfigSnapshotResponse>;
+export interface DescribeAggregateComplianceByConfigRulesRequest {
+  ConfigurationAggregatorName: string;
+  Filters?: ConfigRuleComplianceFilters;
+  Limit?: number;
+  NextToken?: string;
+}
+export const DescribeAggregateComplianceByConfigRulesRequest = S.suspend(() =>
+  S.Struct({
     ConfigurationAggregatorName: S.String,
     Filters: S.optional(ConfigRuleComplianceFilters),
     Limit: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeAggregateComplianceByConformancePacksRequest extends S.Class<DescribeAggregateComplianceByConformancePacksRequest>(
-  "DescribeAggregateComplianceByConformancePacksRequest",
-)(
-  {
-    ConfigurationAggregatorName: S.String,
-    Filters: S.optional(AggregateConformancePackComplianceFilters),
-    Limit: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeConfigRulesRequest extends S.Class<DescribeConfigRulesRequest>(
-  "DescribeConfigRulesRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeAggregateComplianceByConfigRulesRequest",
+}) as any as S.Schema<DescribeAggregateComplianceByConfigRulesRequest>;
+export interface DescribeAggregateComplianceByConformancePacksRequest {
+  ConfigurationAggregatorName: string;
+  Filters?: AggregateConformancePackComplianceFilters;
+  Limit?: number;
+  NextToken?: string;
+}
+export const DescribeAggregateComplianceByConformancePacksRequest = S.suspend(
+  () =>
+    S.Struct({
+      ConfigurationAggregatorName: S.String,
+      Filters: S.optional(AggregateConformancePackComplianceFilters),
+      Limit: S.optional(S.Number),
+      NextToken: S.optional(S.String),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+).annotations({
+  identifier: "DescribeAggregateComplianceByConformancePacksRequest",
+}) as any as S.Schema<DescribeAggregateComplianceByConformancePacksRequest>;
+export interface DescribeConfigRulesRequest {
+  ConfigRuleNames?: ConfigRuleNames;
+  NextToken?: string;
+  Filters?: DescribeConfigRulesFilters;
+}
+export const DescribeConfigRulesRequest = S.suspend(() =>
+  S.Struct({
     ConfigRuleNames: S.optional(ConfigRuleNames),
     NextToken: S.optional(S.String),
     Filters: S.optional(DescribeConfigRulesFilters),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeConfigurationRecordersResponse extends S.Class<DescribeConfigurationRecordersResponse>(
-  "DescribeConfigurationRecordersResponse",
-)({ ConfigurationRecorders: S.optional(ConfigurationRecorderList) }, ns) {}
-export class DescribeConformancePackComplianceRequest extends S.Class<DescribeConformancePackComplianceRequest>(
-  "DescribeConformancePackComplianceRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeConfigRulesRequest",
+}) as any as S.Schema<DescribeConfigRulesRequest>;
+export interface DescribeConfigurationRecordersResponse {
+  ConfigurationRecorders?: ConfigurationRecorderList;
+}
+export const DescribeConfigurationRecordersResponse = S.suspend(() =>
+  S.Struct({
+    ConfigurationRecorders: S.optional(ConfigurationRecorderList),
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeConfigurationRecordersResponse",
+}) as any as S.Schema<DescribeConfigurationRecordersResponse>;
+export interface DescribeConformancePackComplianceRequest {
+  ConformancePackName: string;
+  Filters?: ConformancePackComplianceFilters;
+  Limit?: number;
+  NextToken?: string;
+}
+export const DescribeConformancePackComplianceRequest = S.suspend(() =>
+  S.Struct({
     ConformancePackName: S.String,
     Filters: S.optional(ConformancePackComplianceFilters),
     Limit: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeDeliveryChannelsResponse extends S.Class<DescribeDeliveryChannelsResponse>(
-  "DescribeDeliveryChannelsResponse",
-)({ DeliveryChannels: S.optional(DeliveryChannelList) }, ns) {}
-export class ResourceValue extends S.Class<ResourceValue>("ResourceValue")({
-  Value: S.String,
-}) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeConformancePackComplianceRequest",
+}) as any as S.Schema<DescribeConformancePackComplianceRequest>;
+export interface DescribeDeliveryChannelsResponse {
+  DeliveryChannels?: DeliveryChannelList;
+}
+export const DescribeDeliveryChannelsResponse = S.suspend(() =>
+  S.Struct({ DeliveryChannels: S.optional(DeliveryChannelList) }).pipe(ns),
+).annotations({
+  identifier: "DescribeDeliveryChannelsResponse",
+}) as any as S.Schema<DescribeDeliveryChannelsResponse>;
+export interface ResourceValue {
+  Value: string;
+}
+export const ResourceValue = S.suspend(() =>
+  S.Struct({ Value: S.String }),
+).annotations({
+  identifier: "ResourceValue",
+}) as any as S.Schema<ResourceValue>;
+export type StaticParameterValues = string[];
 export const StaticParameterValues = S.Array(S.String);
-export class StaticValue extends S.Class<StaticValue>("StaticValue")({
-  Values: StaticParameterValues,
-}) {}
-export class RemediationParameterValue extends S.Class<RemediationParameterValue>(
-  "RemediationParameterValue",
-)({
-  ResourceValue: S.optional(ResourceValue),
-  StaticValue: S.optional(StaticValue),
-}) {}
+export interface StaticValue {
+  Values: StaticParameterValues;
+}
+export const StaticValue = S.suspend(() =>
+  S.Struct({ Values: StaticParameterValues }),
+).annotations({ identifier: "StaticValue" }) as any as S.Schema<StaticValue>;
+export interface RemediationParameterValue {
+  ResourceValue?: ResourceValue;
+  StaticValue?: StaticValue;
+}
+export const RemediationParameterValue = S.suspend(() =>
+  S.Struct({
+    ResourceValue: S.optional(ResourceValue),
+    StaticValue: S.optional(StaticValue),
+  }),
+).annotations({
+  identifier: "RemediationParameterValue",
+}) as any as S.Schema<RemediationParameterValue>;
+export type RemediationParameters = {
+  [key: string]: RemediationParameterValue;
+};
 export const RemediationParameters = S.Record({
   key: S.String,
   value: RemediationParameterValue,
 });
-export class SsmControls extends S.Class<SsmControls>("SsmControls")({
-  ConcurrentExecutionRatePercentage: S.optional(S.Number),
-  ErrorPercentage: S.optional(S.Number),
-}) {}
-export class ExecutionControls extends S.Class<ExecutionControls>(
-  "ExecutionControls",
-)({ SsmControls: S.optional(SsmControls) }) {}
-export class RemediationConfiguration extends S.Class<RemediationConfiguration>(
-  "RemediationConfiguration",
-)({
-  ConfigRuleName: S.String,
-  TargetType: S.String,
-  TargetId: S.String,
-  TargetVersion: S.optional(S.String),
-  Parameters: S.optional(RemediationParameters),
-  ResourceType: S.optional(S.String),
-  Automatic: S.optional(S.Boolean),
-  ExecutionControls: S.optional(ExecutionControls),
-  MaximumAutomaticAttempts: S.optional(S.Number),
-  RetryAttemptSeconds: S.optional(S.Number),
-  Arn: S.optional(S.String),
-  CreatedByService: S.optional(S.String),
-}) {}
+export interface SsmControls {
+  ConcurrentExecutionRatePercentage?: number;
+  ErrorPercentage?: number;
+}
+export const SsmControls = S.suspend(() =>
+  S.Struct({
+    ConcurrentExecutionRatePercentage: S.optional(S.Number),
+    ErrorPercentage: S.optional(S.Number),
+  }),
+).annotations({ identifier: "SsmControls" }) as any as S.Schema<SsmControls>;
+export interface ExecutionControls {
+  SsmControls?: SsmControls;
+}
+export const ExecutionControls = S.suspend(() =>
+  S.Struct({ SsmControls: S.optional(SsmControls) }),
+).annotations({
+  identifier: "ExecutionControls",
+}) as any as S.Schema<ExecutionControls>;
+export interface RemediationConfiguration {
+  ConfigRuleName: string;
+  TargetType: string;
+  TargetId: string;
+  TargetVersion?: string;
+  Parameters?: RemediationParameters;
+  ResourceType?: string;
+  Automatic?: boolean;
+  ExecutionControls?: ExecutionControls;
+  MaximumAutomaticAttempts?: number;
+  RetryAttemptSeconds?: number;
+  Arn?: string;
+  CreatedByService?: string;
+}
+export const RemediationConfiguration = S.suspend(() =>
+  S.Struct({
+    ConfigRuleName: S.String,
+    TargetType: S.String,
+    TargetId: S.String,
+    TargetVersion: S.optional(S.String),
+    Parameters: S.optional(RemediationParameters),
+    ResourceType: S.optional(S.String),
+    Automatic: S.optional(S.Boolean),
+    ExecutionControls: S.optional(ExecutionControls),
+    MaximumAutomaticAttempts: S.optional(S.Number),
+    RetryAttemptSeconds: S.optional(S.Number),
+    Arn: S.optional(S.String),
+    CreatedByService: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RemediationConfiguration",
+}) as any as S.Schema<RemediationConfiguration>;
+export type RemediationConfigurations = RemediationConfiguration[];
 export const RemediationConfigurations = S.Array(RemediationConfiguration);
-export class DescribeRemediationConfigurationsResponse extends S.Class<DescribeRemediationConfigurationsResponse>(
-  "DescribeRemediationConfigurationsResponse",
-)({ RemediationConfigurations: S.optional(RemediationConfigurations) }, ns) {}
-export class DisassociateResourceTypesResponse extends S.Class<DisassociateResourceTypesResponse>(
-  "DisassociateResourceTypesResponse",
-)({ ConfigurationRecorder: ConfigurationRecorder }, ns) {}
-export class GetAggregateConfigRuleComplianceSummaryRequest extends S.Class<GetAggregateConfigRuleComplianceSummaryRequest>(
-  "GetAggregateConfigRuleComplianceSummaryRequest",
-)(
-  {
+export interface DescribeRemediationConfigurationsResponse {
+  RemediationConfigurations?: RemediationConfigurations;
+}
+export const DescribeRemediationConfigurationsResponse = S.suspend(() =>
+  S.Struct({
+    RemediationConfigurations: S.optional(RemediationConfigurations),
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeRemediationConfigurationsResponse",
+}) as any as S.Schema<DescribeRemediationConfigurationsResponse>;
+export interface DisassociateResourceTypesResponse {
+  ConfigurationRecorder: ConfigurationRecorder;
+}
+export const DisassociateResourceTypesResponse = S.suspend(() =>
+  S.Struct({ ConfigurationRecorder: ConfigurationRecorder }).pipe(ns),
+).annotations({
+  identifier: "DisassociateResourceTypesResponse",
+}) as any as S.Schema<DisassociateResourceTypesResponse>;
+export interface GetAggregateConfigRuleComplianceSummaryRequest {
+  ConfigurationAggregatorName: string;
+  Filters?: ConfigRuleComplianceSummaryFilters;
+  GroupByKey?: string;
+  Limit?: number;
+  NextToken?: string;
+}
+export const GetAggregateConfigRuleComplianceSummaryRequest = S.suspend(() =>
+  S.Struct({
     ConfigurationAggregatorName: S.String,
     Filters: S.optional(ConfigRuleComplianceSummaryFilters),
     GroupByKey: S.optional(S.String),
     Limit: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetAggregateConformancePackComplianceSummaryRequest extends S.Class<GetAggregateConformancePackComplianceSummaryRequest>(
-  "GetAggregateConformancePackComplianceSummaryRequest",
-)(
-  {
-    ConfigurationAggregatorName: S.String,
-    Filters: S.optional(AggregateConformancePackComplianceSummaryFilters),
-    GroupByKey: S.optional(S.String),
-    Limit: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetAggregateDiscoveredResourceCountsRequest extends S.Class<GetAggregateDiscoveredResourceCountsRequest>(
-  "GetAggregateDiscoveredResourceCountsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetAggregateConfigRuleComplianceSummaryRequest",
+}) as any as S.Schema<GetAggregateConfigRuleComplianceSummaryRequest>;
+export interface GetAggregateConformancePackComplianceSummaryRequest {
+  ConfigurationAggregatorName: string;
+  Filters?: AggregateConformancePackComplianceSummaryFilters;
+  GroupByKey?: string;
+  Limit?: number;
+  NextToken?: string;
+}
+export const GetAggregateConformancePackComplianceSummaryRequest = S.suspend(
+  () =>
+    S.Struct({
+      ConfigurationAggregatorName: S.String,
+      Filters: S.optional(AggregateConformancePackComplianceSummaryFilters),
+      GroupByKey: S.optional(S.String),
+      Limit: S.optional(S.Number),
+      NextToken: S.optional(S.String),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+).annotations({
+  identifier: "GetAggregateConformancePackComplianceSummaryRequest",
+}) as any as S.Schema<GetAggregateConformancePackComplianceSummaryRequest>;
+export interface GetAggregateDiscoveredResourceCountsRequest {
+  ConfigurationAggregatorName: string;
+  Filters?: ResourceCountFilters;
+  GroupByKey?: string;
+  Limit?: number;
+  NextToken?: string;
+}
+export const GetAggregateDiscoveredResourceCountsRequest = S.suspend(() =>
+  S.Struct({
     ConfigurationAggregatorName: S.String,
     Filters: S.optional(ResourceCountFilters),
     GroupByKey: S.optional(S.String),
     Limit: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class EvaluationResultQualifier extends S.Class<EvaluationResultQualifier>(
-  "EvaluationResultQualifier",
-)({
-  ConfigRuleName: S.optional(S.String),
-  ResourceType: S.optional(S.String),
-  ResourceId: S.optional(S.String),
-  EvaluationMode: S.optional(S.String),
-}) {}
-export class EvaluationResultIdentifier extends S.Class<EvaluationResultIdentifier>(
-  "EvaluationResultIdentifier",
-)({
-  EvaluationResultQualifier: S.optional(EvaluationResultQualifier),
-  OrderingTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-  ResourceEvaluationId: S.optional(S.String),
-}) {}
-export class EvaluationResult extends S.Class<EvaluationResult>(
-  "EvaluationResult",
-)({
-  EvaluationResultIdentifier: S.optional(EvaluationResultIdentifier),
-  ComplianceType: S.optional(S.String),
-  ResultRecordedTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  ConfigRuleInvokedTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  Annotation: S.optional(S.String),
-  ResultToken: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "GetAggregateDiscoveredResourceCountsRequest",
+}) as any as S.Schema<GetAggregateDiscoveredResourceCountsRequest>;
+export interface EvaluationResultQualifier {
+  ConfigRuleName?: string;
+  ResourceType?: string;
+  ResourceId?: string;
+  EvaluationMode?: string;
+}
+export const EvaluationResultQualifier = S.suspend(() =>
+  S.Struct({
+    ConfigRuleName: S.optional(S.String),
+    ResourceType: S.optional(S.String),
+    ResourceId: S.optional(S.String),
+    EvaluationMode: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "EvaluationResultQualifier",
+}) as any as S.Schema<EvaluationResultQualifier>;
+export interface EvaluationResultIdentifier {
+  EvaluationResultQualifier?: EvaluationResultQualifier;
+  OrderingTimestamp?: Date;
+  ResourceEvaluationId?: string;
+}
+export const EvaluationResultIdentifier = S.suspend(() =>
+  S.Struct({
+    EvaluationResultQualifier: S.optional(EvaluationResultQualifier),
+    OrderingTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    ResourceEvaluationId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "EvaluationResultIdentifier",
+}) as any as S.Schema<EvaluationResultIdentifier>;
+export interface EvaluationResult {
+  EvaluationResultIdentifier?: EvaluationResultIdentifier;
+  ComplianceType?: string;
+  ResultRecordedTime?: Date;
+  ConfigRuleInvokedTime?: Date;
+  Annotation?: string;
+  ResultToken?: string;
+}
+export const EvaluationResult = S.suspend(() =>
+  S.Struct({
+    EvaluationResultIdentifier: S.optional(EvaluationResultIdentifier),
+    ComplianceType: S.optional(S.String),
+    ResultRecordedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    ConfigRuleInvokedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    Annotation: S.optional(S.String),
+    ResultToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "EvaluationResult",
+}) as any as S.Schema<EvaluationResult>;
+export type EvaluationResults = EvaluationResult[];
 export const EvaluationResults = S.Array(EvaluationResult);
-export class GetComplianceDetailsByResourceResponse extends S.Class<GetComplianceDetailsByResourceResponse>(
-  "GetComplianceDetailsByResourceResponse",
-)(
-  {
+export interface GetComplianceDetailsByResourceResponse {
+  EvaluationResults?: EvaluationResults;
+  NextToken?: string;
+}
+export const GetComplianceDetailsByResourceResponse = S.suspend(() =>
+  S.Struct({
     EvaluationResults: S.optional(EvaluationResults),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class GetConformancePackComplianceDetailsRequest extends S.Class<GetConformancePackComplianceDetailsRequest>(
-  "GetConformancePackComplianceDetailsRequest",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetComplianceDetailsByResourceResponse",
+}) as any as S.Schema<GetComplianceDetailsByResourceResponse>;
+export interface GetConformancePackComplianceDetailsRequest {
+  ConformancePackName: string;
+  Filters?: ConformancePackEvaluationFilters;
+  Limit?: number;
+  NextToken?: string;
+}
+export const GetConformancePackComplianceDetailsRequest = S.suspend(() =>
+  S.Struct({
     ConformancePackName: S.String,
     Filters: S.optional(ConformancePackEvaluationFilters),
     Limit: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetCustomRulePolicyResponse extends S.Class<GetCustomRulePolicyResponse>(
-  "GetCustomRulePolicyResponse",
-)({ PolicyText: S.optional(S.String) }, ns) {}
-export class GetOrganizationConfigRuleDetailedStatusRequest extends S.Class<GetOrganizationConfigRuleDetailedStatusRequest>(
-  "GetOrganizationConfigRuleDetailedStatusRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetConformancePackComplianceDetailsRequest",
+}) as any as S.Schema<GetConformancePackComplianceDetailsRequest>;
+export interface GetCustomRulePolicyResponse {
+  PolicyText?: string;
+}
+export const GetCustomRulePolicyResponse = S.suspend(() =>
+  S.Struct({ PolicyText: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "GetCustomRulePolicyResponse",
+}) as any as S.Schema<GetCustomRulePolicyResponse>;
+export interface GetOrganizationConfigRuleDetailedStatusRequest {
+  OrganizationConfigRuleName: string;
+  Filters?: StatusDetailFilters;
+  Limit?: number;
+  NextToken?: string;
+}
+export const GetOrganizationConfigRuleDetailedStatusRequest = S.suspend(() =>
+  S.Struct({
     OrganizationConfigRuleName: S.String,
     Filters: S.optional(StatusDetailFilters),
     Limit: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetOrganizationConformancePackDetailedStatusRequest extends S.Class<GetOrganizationConformancePackDetailedStatusRequest>(
-  "GetOrganizationConformancePackDetailedStatusRequest",
-)(
-  {
-    OrganizationConformancePackName: S.String,
-    Filters: S.optional(OrganizationResourceDetailedStatusFilters),
-    Limit: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetOrganizationCustomRulePolicyResponse extends S.Class<GetOrganizationCustomRulePolicyResponse>(
-  "GetOrganizationCustomRulePolicyResponse",
-)({ PolicyText: S.optional(S.String) }, ns) {}
-export class GetResourceConfigHistoryResponse extends S.Class<GetResourceConfigHistoryResponse>(
-  "GetResourceConfigHistoryResponse",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetOrganizationConfigRuleDetailedStatusRequest",
+}) as any as S.Schema<GetOrganizationConfigRuleDetailedStatusRequest>;
+export interface GetOrganizationConformancePackDetailedStatusRequest {
+  OrganizationConformancePackName: string;
+  Filters?: OrganizationResourceDetailedStatusFilters;
+  Limit?: number;
+  NextToken?: string;
+}
+export const GetOrganizationConformancePackDetailedStatusRequest = S.suspend(
+  () =>
+    S.Struct({
+      OrganizationConformancePackName: S.String,
+      Filters: S.optional(OrganizationResourceDetailedStatusFilters),
+      Limit: S.optional(S.Number),
+      NextToken: S.optional(S.String),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+).annotations({
+  identifier: "GetOrganizationConformancePackDetailedStatusRequest",
+}) as any as S.Schema<GetOrganizationConformancePackDetailedStatusRequest>;
+export interface GetOrganizationCustomRulePolicyResponse {
+  PolicyText?: string;
+}
+export const GetOrganizationCustomRulePolicyResponse = S.suspend(() =>
+  S.Struct({ PolicyText: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "GetOrganizationCustomRulePolicyResponse",
+}) as any as S.Schema<GetOrganizationCustomRulePolicyResponse>;
+export interface GetResourceConfigHistoryResponse {
+  configurationItems?: ConfigurationItemList;
+  nextToken?: string;
+}
+export const GetResourceConfigHistoryResponse = S.suspend(() =>
+  S.Struct({
     configurationItems: S.optional(ConfigurationItemList),
     nextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class GetStoredQueryResponse extends S.Class<GetStoredQueryResponse>(
-  "GetStoredQueryResponse",
-)({ StoredQuery: S.optional(StoredQuery) }, ns) {}
-export class ListAggregateDiscoveredResourcesRequest extends S.Class<ListAggregateDiscoveredResourcesRequest>(
-  "ListAggregateDiscoveredResourcesRequest",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetResourceConfigHistoryResponse",
+}) as any as S.Schema<GetResourceConfigHistoryResponse>;
+export interface GetStoredQueryResponse {
+  StoredQuery?: StoredQuery;
+}
+export const GetStoredQueryResponse = S.suspend(() =>
+  S.Struct({ StoredQuery: S.optional(StoredQuery) }).pipe(ns),
+).annotations({
+  identifier: "GetStoredQueryResponse",
+}) as any as S.Schema<GetStoredQueryResponse>;
+export interface ListAggregateDiscoveredResourcesRequest {
+  ConfigurationAggregatorName: string;
+  ResourceType: string;
+  Filters?: ResourceFilters;
+  Limit?: number;
+  NextToken?: string;
+}
+export const ListAggregateDiscoveredResourcesRequest = S.suspend(() =>
+  S.Struct({
     ConfigurationAggregatorName: S.String,
     ResourceType: S.String,
     Filters: S.optional(ResourceFilters),
     Limit: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListConfigurationRecordersRequest extends S.Class<ListConfigurationRecordersRequest>(
-  "ListConfigurationRecordersRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListAggregateDiscoveredResourcesRequest",
+}) as any as S.Schema<ListAggregateDiscoveredResourcesRequest>;
+export interface ListConfigurationRecordersRequest {
+  Filters?: ConfigurationRecorderFilterList;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListConfigurationRecordersRequest = S.suspend(() =>
+  S.Struct({
     Filters: S.optional(ConfigurationRecorderFilterList),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListConformancePackComplianceScoresRequest extends S.Class<ListConformancePackComplianceScoresRequest>(
-  "ListConformancePackComplianceScoresRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListConfigurationRecordersRequest",
+}) as any as S.Schema<ListConfigurationRecordersRequest>;
+export interface ListConformancePackComplianceScoresRequest {
+  Filters?: ConformancePackComplianceScoresFilters;
+  SortOrder?: string;
+  SortBy?: string;
+  Limit?: number;
+  NextToken?: string;
+}
+export const ListConformancePackComplianceScoresRequest = S.suspend(() =>
+  S.Struct({
     Filters: S.optional(ConformancePackComplianceScoresFilters),
     SortOrder: S.optional(S.String),
     SortBy: S.optional(S.String),
     Limit: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ Tags: S.optional(TagList), NextToken: S.optional(S.String) }, ns) {}
-export class PutAggregationAuthorizationRequest extends S.Class<PutAggregationAuthorizationRequest>(
-  "PutAggregationAuthorizationRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListConformancePackComplianceScoresRequest",
+}) as any as S.Schema<ListConformancePackComplianceScoresRequest>;
+export interface ListTagsForResourceResponse {
+  Tags?: TagList;
+  NextToken?: string;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ Tags: S.optional(TagList), NextToken: S.optional(S.String) }).pipe(
+    ns,
+  ),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface PutAggregationAuthorizationRequest {
+  AuthorizedAccountId: string;
+  AuthorizedAwsRegion: string;
+  Tags?: TagsList;
+}
+export const PutAggregationAuthorizationRequest = S.suspend(() =>
+  S.Struct({
     AuthorizedAccountId: S.String,
     AuthorizedAwsRegion: S.String,
     Tags: S.optional(TagsList),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutConformancePackRequest extends S.Class<PutConformancePackRequest>(
-  "PutConformancePackRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutAggregationAuthorizationRequest",
+}) as any as S.Schema<PutAggregationAuthorizationRequest>;
+export interface PutConformancePackRequest {
+  ConformancePackName: string;
+  TemplateS3Uri?: string;
+  TemplateBody?: string;
+  DeliveryS3Bucket?: string;
+  DeliveryS3KeyPrefix?: string;
+  ConformancePackInputParameters?: ConformancePackInputParameters;
+  TemplateSSMDocumentDetails?: TemplateSSMDocumentDetails;
+}
+export const PutConformancePackRequest = S.suspend(() =>
+  S.Struct({
     ConformancePackName: S.String,
     TemplateS3Uri: S.optional(S.String),
     TemplateBody: S.optional(S.String),
@@ -1510,32 +3256,81 @@ export class PutConformancePackRequest extends S.Class<PutConformancePackRequest
     DeliveryS3KeyPrefix: S.optional(S.String),
     ConformancePackInputParameters: S.optional(ConformancePackInputParameters),
     TemplateSSMDocumentDetails: S.optional(TemplateSSMDocumentDetails),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutEvaluationsRequest extends S.Class<PutEvaluationsRequest>(
-  "PutEvaluationsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutConformancePackRequest",
+}) as any as S.Schema<PutConformancePackRequest>;
+export interface PutEvaluationsRequest {
+  Evaluations?: Evaluations;
+  ResultToken: string;
+  TestMode?: boolean;
+}
+export const PutEvaluationsRequest = S.suspend(() =>
+  S.Struct({
     Evaluations: S.optional(Evaluations),
     ResultToken: S.String,
     TestMode: S.optional(S.Boolean),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutExternalEvaluationRequest extends S.Class<PutExternalEvaluationRequest>(
-  "PutExternalEvaluationRequest",
-)(
-  { ConfigRuleName: S.String, ExternalEvaluation: ExternalEvaluation },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutExternalEvaluationResponse extends S.Class<PutExternalEvaluationResponse>(
-  "PutExternalEvaluationResponse",
-)({}, ns) {}
-export class PutOrganizationConfigRuleRequest extends S.Class<PutOrganizationConfigRuleRequest>(
-  "PutOrganizationConfigRuleRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutEvaluationsRequest",
+}) as any as S.Schema<PutEvaluationsRequest>;
+export interface PutExternalEvaluationRequest {
+  ConfigRuleName: string;
+  ExternalEvaluation: ExternalEvaluation;
+}
+export const PutExternalEvaluationRequest = S.suspend(() =>
+  S.Struct({
+    ConfigRuleName: S.String,
+    ExternalEvaluation: ExternalEvaluation,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutExternalEvaluationRequest",
+}) as any as S.Schema<PutExternalEvaluationRequest>;
+export interface PutExternalEvaluationResponse {}
+export const PutExternalEvaluationResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "PutExternalEvaluationResponse",
+}) as any as S.Schema<PutExternalEvaluationResponse>;
+export interface PutOrganizationConfigRuleRequest {
+  OrganizationConfigRuleName: string;
+  OrganizationManagedRuleMetadata?: OrganizationManagedRuleMetadata;
+  OrganizationCustomRuleMetadata?: OrganizationCustomRuleMetadata;
+  ExcludedAccounts?: ExcludedAccounts;
+  OrganizationCustomPolicyRuleMetadata?: OrganizationCustomPolicyRuleMetadata;
+}
+export const PutOrganizationConfigRuleRequest = S.suspend(() =>
+  S.Struct({
     OrganizationConfigRuleName: S.String,
     OrganizationManagedRuleMetadata: S.optional(
       OrganizationManagedRuleMetadata,
@@ -1545,627 +3340,1146 @@ export class PutOrganizationConfigRuleRequest extends S.Class<PutOrganizationCon
     OrganizationCustomPolicyRuleMetadata: S.optional(
       OrganizationCustomPolicyRuleMetadata,
     ),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutOrganizationConformancePackResponse extends S.Class<PutOrganizationConformancePackResponse>(
-  "PutOrganizationConformancePackResponse",
-)({ OrganizationConformancePackArn: S.optional(S.String) }, ns) {}
-export class PutResourceConfigRequest extends S.Class<PutResourceConfigRequest>(
-  "PutResourceConfigRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutOrganizationConfigRuleRequest",
+}) as any as S.Schema<PutOrganizationConfigRuleRequest>;
+export interface PutOrganizationConformancePackResponse {
+  OrganizationConformancePackArn?: string;
+}
+export const PutOrganizationConformancePackResponse = S.suspend(() =>
+  S.Struct({ OrganizationConformancePackArn: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "PutOrganizationConformancePackResponse",
+}) as any as S.Schema<PutOrganizationConformancePackResponse>;
+export interface PutResourceConfigRequest {
+  ResourceType: string;
+  SchemaVersionId: string;
+  ResourceId: string;
+  ResourceName?: string;
+  Configuration: string;
+  Tags?: Tags;
+}
+export const PutResourceConfigRequest = S.suspend(() =>
+  S.Struct({
     ResourceType: S.String,
     SchemaVersionId: S.String,
     ResourceId: S.String,
     ResourceName: S.optional(S.String),
     Configuration: S.String,
     Tags: S.optional(Tags),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutResourceConfigResponse extends S.Class<PutResourceConfigResponse>(
-  "PutResourceConfigResponse",
-)({}, ns) {}
-export class RetentionConfiguration extends S.Class<RetentionConfiguration>(
-  "RetentionConfiguration",
-)({ Name: S.String, RetentionPeriodInDays: S.Number }) {}
-export class PutRetentionConfigurationResponse extends S.Class<PutRetentionConfigurationResponse>(
-  "PutRetentionConfigurationResponse",
-)({ RetentionConfiguration: S.optional(RetentionConfiguration) }, ns) {}
-export class PutServiceLinkedConfigurationRecorderResponse extends S.Class<PutServiceLinkedConfigurationRecorderResponse>(
-  "PutServiceLinkedConfigurationRecorderResponse",
-)({ Arn: S.optional(S.String), Name: S.optional(S.String) }, ns) {}
-export class PutStoredQueryRequest extends S.Class<PutStoredQueryRequest>(
-  "PutStoredQueryRequest",
-)(
-  { StoredQuery: StoredQuery, Tags: S.optional(TagsList) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class FieldInfo extends S.Class<FieldInfo>("FieldInfo")({
-  Name: S.optional(S.String),
-}) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutResourceConfigRequest",
+}) as any as S.Schema<PutResourceConfigRequest>;
+export interface PutResourceConfigResponse {}
+export const PutResourceConfigResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "PutResourceConfigResponse",
+}) as any as S.Schema<PutResourceConfigResponse>;
+export interface RetentionConfiguration {
+  Name: string;
+  RetentionPeriodInDays: number;
+}
+export const RetentionConfiguration = S.suspend(() =>
+  S.Struct({ Name: S.String, RetentionPeriodInDays: S.Number }),
+).annotations({
+  identifier: "RetentionConfiguration",
+}) as any as S.Schema<RetentionConfiguration>;
+export interface PutRetentionConfigurationResponse {
+  RetentionConfiguration?: RetentionConfiguration;
+}
+export const PutRetentionConfigurationResponse = S.suspend(() =>
+  S.Struct({ RetentionConfiguration: S.optional(RetentionConfiguration) }).pipe(
+    ns,
+  ),
+).annotations({
+  identifier: "PutRetentionConfigurationResponse",
+}) as any as S.Schema<PutRetentionConfigurationResponse>;
+export interface PutServiceLinkedConfigurationRecorderResponse {
+  Arn?: string;
+  Name?: string;
+}
+export const PutServiceLinkedConfigurationRecorderResponse = S.suspend(() =>
+  S.Struct({ Arn: S.optional(S.String), Name: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "PutServiceLinkedConfigurationRecorderResponse",
+}) as any as S.Schema<PutServiceLinkedConfigurationRecorderResponse>;
+export interface PutStoredQueryRequest {
+  StoredQuery: StoredQuery;
+  Tags?: TagsList;
+}
+export const PutStoredQueryRequest = S.suspend(() =>
+  S.Struct({ StoredQuery: StoredQuery, Tags: S.optional(TagsList) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutStoredQueryRequest",
+}) as any as S.Schema<PutStoredQueryRequest>;
+export interface FieldInfo {
+  Name?: string;
+}
+export const FieldInfo = S.suspend(() =>
+  S.Struct({ Name: S.optional(S.String) }),
+).annotations({ identifier: "FieldInfo" }) as any as S.Schema<FieldInfo>;
+export type FieldInfoList = FieldInfo[];
 export const FieldInfoList = S.Array(FieldInfo);
-export class QueryInfo extends S.Class<QueryInfo>("QueryInfo")({
-  SelectFields: S.optional(FieldInfoList),
-}) {}
-export class SelectResourceConfigResponse extends S.Class<SelectResourceConfigResponse>(
-  "SelectResourceConfigResponse",
-)(
-  {
+export interface QueryInfo {
+  SelectFields?: FieldInfoList;
+}
+export const QueryInfo = S.suspend(() =>
+  S.Struct({ SelectFields: S.optional(FieldInfoList) }),
+).annotations({ identifier: "QueryInfo" }) as any as S.Schema<QueryInfo>;
+export interface SelectResourceConfigResponse {
+  Results?: Results;
+  QueryInfo?: QueryInfo;
+  NextToken?: string;
+}
+export const SelectResourceConfigResponse = S.suspend(() =>
+  S.Struct({
     Results: S.optional(Results),
     QueryInfo: S.optional(QueryInfo),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class StartRemediationExecutionResponse extends S.Class<StartRemediationExecutionResponse>(
-  "StartRemediationExecutionResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "SelectResourceConfigResponse",
+}) as any as S.Schema<SelectResourceConfigResponse>;
+export interface StartRemediationExecutionResponse {
+  FailureMessage?: string;
+  FailedItems?: ResourceKeys;
+}
+export const StartRemediationExecutionResponse = S.suspend(() =>
+  S.Struct({
     FailureMessage: S.optional(S.String),
     FailedItems: S.optional(ResourceKeys),
-  },
-  ns,
-) {}
-export class StartResourceEvaluationRequest extends S.Class<StartResourceEvaluationRequest>(
-  "StartResourceEvaluationRequest",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "StartRemediationExecutionResponse",
+}) as any as S.Schema<StartRemediationExecutionResponse>;
+export interface StartResourceEvaluationRequest {
+  ResourceDetails: ResourceDetails;
+  EvaluationContext?: EvaluationContext;
+  EvaluationMode: string;
+  EvaluationTimeout?: number;
+  ClientToken?: string;
+}
+export const StartResourceEvaluationRequest = S.suspend(() =>
+  S.Struct({
     ResourceDetails: ResourceDetails,
     EvaluationContext: S.optional(EvaluationContext),
     EvaluationMode: S.String,
     EvaluationTimeout: S.optional(S.Number),
     ClientToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ComplianceContributorCount extends S.Class<ComplianceContributorCount>(
-  "ComplianceContributorCount",
-)({ CappedCount: S.optional(S.Number), CapExceeded: S.optional(S.Boolean) }) {}
-export class TimeWindow extends S.Class<TimeWindow>("TimeWindow")({
-  StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class Scope extends S.Class<Scope>("Scope")({
-  ComplianceResourceTypes: S.optional(ComplianceResourceTypes),
-  TagKey: S.optional(S.String),
-  TagValue: S.optional(S.String),
-  ComplianceResourceId: S.optional(S.String),
-}) {}
-export class EvaluationModeConfiguration extends S.Class<EvaluationModeConfiguration>(
-  "EvaluationModeConfiguration",
-)({ Mode: S.optional(S.String) }) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "StartResourceEvaluationRequest",
+}) as any as S.Schema<StartResourceEvaluationRequest>;
+export interface ComplianceContributorCount {
+  CappedCount?: number;
+  CapExceeded?: boolean;
+}
+export const ComplianceContributorCount = S.suspend(() =>
+  S.Struct({
+    CappedCount: S.optional(S.Number),
+    CapExceeded: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "ComplianceContributorCount",
+}) as any as S.Schema<ComplianceContributorCount>;
+export interface TimeWindow {
+  StartTime?: Date;
+  EndTime?: Date;
+}
+export const TimeWindow = S.suspend(() =>
+  S.Struct({
+    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({ identifier: "TimeWindow" }) as any as S.Schema<TimeWindow>;
+export interface Scope {
+  ComplianceResourceTypes?: ComplianceResourceTypes;
+  TagKey?: string;
+  TagValue?: string;
+  ComplianceResourceId?: string;
+}
+export const Scope = S.suspend(() =>
+  S.Struct({
+    ComplianceResourceTypes: S.optional(ComplianceResourceTypes),
+    TagKey: S.optional(S.String),
+    TagValue: S.optional(S.String),
+    ComplianceResourceId: S.optional(S.String),
+  }),
+).annotations({ identifier: "Scope" }) as any as S.Schema<Scope>;
+export interface EvaluationModeConfiguration {
+  Mode?: string;
+}
+export const EvaluationModeConfiguration = S.suspend(() =>
+  S.Struct({ Mode: S.optional(S.String) }),
+).annotations({
+  identifier: "EvaluationModeConfiguration",
+}) as any as S.Schema<EvaluationModeConfiguration>;
+export type EvaluationModes = EvaluationModeConfiguration[];
 export const EvaluationModes = S.Array(EvaluationModeConfiguration);
-export class AggregatorFilterResourceType extends S.Class<AggregatorFilterResourceType>(
-  "AggregatorFilterResourceType",
-)({ Type: S.optional(S.String), Value: S.optional(ResourceTypeValueList) }) {}
-export class AggregatorFilterServicePrincipal extends S.Class<AggregatorFilterServicePrincipal>(
-  "AggregatorFilterServicePrincipal",
-)({
-  Type: S.optional(S.String),
-  Value: S.optional(ServicePrincipalValueList),
-}) {}
+export interface AggregatorFilterResourceType {
+  Type?: string;
+  Value?: ResourceTypeValueList;
+}
+export const AggregatorFilterResourceType = S.suspend(() =>
+  S.Struct({
+    Type: S.optional(S.String),
+    Value: S.optional(ResourceTypeValueList),
+  }),
+).annotations({
+  identifier: "AggregatorFilterResourceType",
+}) as any as S.Schema<AggregatorFilterResourceType>;
+export interface AggregatorFilterServicePrincipal {
+  Type?: string;
+  Value?: ServicePrincipalValueList;
+}
+export const AggregatorFilterServicePrincipal = S.suspend(() =>
+  S.Struct({
+    Type: S.optional(S.String),
+    Value: S.optional(ServicePrincipalValueList),
+  }),
+).annotations({
+  identifier: "AggregatorFilterServicePrincipal",
+}) as any as S.Schema<AggregatorFilterServicePrincipal>;
+export type UnprocessedResourceIdentifierList = AggregateResourceIdentifier[];
 export const UnprocessedResourceIdentifierList = S.Array(
   AggregateResourceIdentifier,
 );
-export class AggregationAuthorization extends S.Class<AggregationAuthorization>(
-  "AggregationAuthorization",
-)({
-  AggregationAuthorizationArn: S.optional(S.String),
-  AuthorizedAccountId: S.optional(S.String),
-  AuthorizedAwsRegion: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface AggregationAuthorization {
+  AggregationAuthorizationArn?: string;
+  AuthorizedAccountId?: string;
+  AuthorizedAwsRegion?: string;
+  CreationTime?: Date;
+}
+export const AggregationAuthorization = S.suspend(() =>
+  S.Struct({
+    AggregationAuthorizationArn: S.optional(S.String),
+    AuthorizedAccountId: S.optional(S.String),
+    AuthorizedAwsRegion: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "AggregationAuthorization",
+}) as any as S.Schema<AggregationAuthorization>;
+export type AggregationAuthorizationList = AggregationAuthorization[];
 export const AggregationAuthorizationList = S.Array(AggregationAuthorization);
-export class Compliance extends S.Class<Compliance>("Compliance")({
-  ComplianceType: S.optional(S.String),
-  ComplianceContributorCount: S.optional(ComplianceContributorCount),
-}) {}
-export class ComplianceByResource extends S.Class<ComplianceByResource>(
-  "ComplianceByResource",
-)({
-  ResourceType: S.optional(S.String),
-  ResourceId: S.optional(S.String),
-  Compliance: S.optional(Compliance),
-}) {}
+export interface Compliance {
+  ComplianceType?: string;
+  ComplianceContributorCount?: ComplianceContributorCount;
+}
+export const Compliance = S.suspend(() =>
+  S.Struct({
+    ComplianceType: S.optional(S.String),
+    ComplianceContributorCount: S.optional(ComplianceContributorCount),
+  }),
+).annotations({ identifier: "Compliance" }) as any as S.Schema<Compliance>;
+export interface ComplianceByResource {
+  ResourceType?: string;
+  ResourceId?: string;
+  Compliance?: Compliance;
+}
+export const ComplianceByResource = S.suspend(() =>
+  S.Struct({
+    ResourceType: S.optional(S.String),
+    ResourceId: S.optional(S.String),
+    Compliance: S.optional(Compliance),
+  }),
+).annotations({
+  identifier: "ComplianceByResource",
+}) as any as S.Schema<ComplianceByResource>;
+export type ComplianceByResources = ComplianceByResource[];
 export const ComplianceByResources = S.Array(ComplianceByResource);
-export class ConfigRuleEvaluationStatus extends S.Class<ConfigRuleEvaluationStatus>(
-  "ConfigRuleEvaluationStatus",
-)({
-  ConfigRuleName: S.optional(S.String),
-  ConfigRuleArn: S.optional(S.String),
-  ConfigRuleId: S.optional(S.String),
-  LastSuccessfulInvocationTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  LastFailedInvocationTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  LastSuccessfulEvaluationTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  LastFailedEvaluationTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  FirstActivatedTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  LastDeactivatedTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  LastErrorCode: S.optional(S.String),
-  LastErrorMessage: S.optional(S.String),
-  FirstEvaluationStarted: S.optional(S.Boolean),
-  LastDebugLogDeliveryStatus: S.optional(S.String),
-  LastDebugLogDeliveryStatusReason: S.optional(S.String),
-  LastDebugLogDeliveryTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
+export interface ConfigRuleEvaluationStatus {
+  ConfigRuleName?: string;
+  ConfigRuleArn?: string;
+  ConfigRuleId?: string;
+  LastSuccessfulInvocationTime?: Date;
+  LastFailedInvocationTime?: Date;
+  LastSuccessfulEvaluationTime?: Date;
+  LastFailedEvaluationTime?: Date;
+  FirstActivatedTime?: Date;
+  LastDeactivatedTime?: Date;
+  LastErrorCode?: string;
+  LastErrorMessage?: string;
+  FirstEvaluationStarted?: boolean;
+  LastDebugLogDeliveryStatus?: string;
+  LastDebugLogDeliveryStatusReason?: string;
+  LastDebugLogDeliveryTime?: Date;
+}
+export const ConfigRuleEvaluationStatus = S.suspend(() =>
+  S.Struct({
+    ConfigRuleName: S.optional(S.String),
+    ConfigRuleArn: S.optional(S.String),
+    ConfigRuleId: S.optional(S.String),
+    LastSuccessfulInvocationTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastFailedInvocationTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastSuccessfulEvaluationTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastFailedEvaluationTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    FirstActivatedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastDeactivatedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastErrorCode: S.optional(S.String),
+    LastErrorMessage: S.optional(S.String),
+    FirstEvaluationStarted: S.optional(S.Boolean),
+    LastDebugLogDeliveryStatus: S.optional(S.String),
+    LastDebugLogDeliveryStatusReason: S.optional(S.String),
+    LastDebugLogDeliveryTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "ConfigRuleEvaluationStatus",
+}) as any as S.Schema<ConfigRuleEvaluationStatus>;
+export type ConfigRuleEvaluationStatusList = ConfigRuleEvaluationStatus[];
 export const ConfigRuleEvaluationStatusList = S.Array(
   ConfigRuleEvaluationStatus,
 );
-export class SourceDetail extends S.Class<SourceDetail>("SourceDetail")({
-  EventSource: S.optional(S.String),
-  MessageType: S.optional(S.String),
-  MaximumExecutionFrequency: S.optional(S.String),
-}) {}
+export interface SourceDetail {
+  EventSource?: string;
+  MessageType?: string;
+  MaximumExecutionFrequency?: string;
+}
+export const SourceDetail = S.suspend(() =>
+  S.Struct({
+    EventSource: S.optional(S.String),
+    MessageType: S.optional(S.String),
+    MaximumExecutionFrequency: S.optional(S.String),
+  }),
+).annotations({ identifier: "SourceDetail" }) as any as S.Schema<SourceDetail>;
+export type SourceDetails = SourceDetail[];
 export const SourceDetails = S.Array(SourceDetail);
-export class CustomPolicyDetails extends S.Class<CustomPolicyDetails>(
-  "CustomPolicyDetails",
-)({
-  PolicyRuntime: S.String,
-  PolicyText: S.String,
-  EnableDebugLogDelivery: S.optional(S.Boolean),
-}) {}
-export class Source extends S.Class<Source>("Source")({
-  Owner: S.String,
-  SourceIdentifier: S.optional(S.String),
-  SourceDetails: S.optional(SourceDetails),
-  CustomPolicyDetails: S.optional(CustomPolicyDetails),
-}) {}
-export class ConfigRule extends S.Class<ConfigRule>("ConfigRule")({
-  ConfigRuleName: S.optional(S.String),
-  ConfigRuleArn: S.optional(S.String),
-  ConfigRuleId: S.optional(S.String),
-  Description: S.optional(S.String),
-  Scope: S.optional(Scope),
-  Source: Source,
-  InputParameters: S.optional(S.String),
-  MaximumExecutionFrequency: S.optional(S.String),
-  ConfigRuleState: S.optional(S.String),
-  CreatedBy: S.optional(S.String),
-  EvaluationModes: S.optional(EvaluationModes),
-}) {}
+export interface CustomPolicyDetails {
+  PolicyRuntime: string;
+  PolicyText: string;
+  EnableDebugLogDelivery?: boolean;
+}
+export const CustomPolicyDetails = S.suspend(() =>
+  S.Struct({
+    PolicyRuntime: S.String,
+    PolicyText: S.String,
+    EnableDebugLogDelivery: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "CustomPolicyDetails",
+}) as any as S.Schema<CustomPolicyDetails>;
+export interface Source {
+  Owner: string;
+  SourceIdentifier?: string;
+  SourceDetails?: SourceDetails;
+  CustomPolicyDetails?: CustomPolicyDetails;
+}
+export const Source = S.suspend(() =>
+  S.Struct({
+    Owner: S.String,
+    SourceIdentifier: S.optional(S.String),
+    SourceDetails: S.optional(SourceDetails),
+    CustomPolicyDetails: S.optional(CustomPolicyDetails),
+  }),
+).annotations({ identifier: "Source" }) as any as S.Schema<Source>;
+export interface ConfigRule {
+  ConfigRuleName?: string;
+  ConfigRuleArn?: string;
+  ConfigRuleId?: string;
+  Description?: string;
+  Scope?: Scope;
+  Source: Source;
+  InputParameters?: string;
+  MaximumExecutionFrequency?: string;
+  ConfigRuleState?: string;
+  CreatedBy?: string;
+  EvaluationModes?: EvaluationModes;
+}
+export const ConfigRule = S.suspend(() =>
+  S.Struct({
+    ConfigRuleName: S.optional(S.String),
+    ConfigRuleArn: S.optional(S.String),
+    ConfigRuleId: S.optional(S.String),
+    Description: S.optional(S.String),
+    Scope: S.optional(Scope),
+    Source: Source,
+    InputParameters: S.optional(S.String),
+    MaximumExecutionFrequency: S.optional(S.String),
+    ConfigRuleState: S.optional(S.String),
+    CreatedBy: S.optional(S.String),
+    EvaluationModes: S.optional(EvaluationModes),
+  }),
+).annotations({ identifier: "ConfigRule" }) as any as S.Schema<ConfigRule>;
+export type ConfigRules = ConfigRule[];
 export const ConfigRules = S.Array(ConfigRule);
-export class AggregatorFilters extends S.Class<AggregatorFilters>(
-  "AggregatorFilters",
-)({
-  ResourceType: S.optional(AggregatorFilterResourceType),
-  ServicePrincipal: S.optional(AggregatorFilterServicePrincipal),
-}) {}
-export class ConfigurationAggregator extends S.Class<ConfigurationAggregator>(
-  "ConfigurationAggregator",
-)({
-  ConfigurationAggregatorName: S.optional(S.String),
-  ConfigurationAggregatorArn: S.optional(S.String),
-  AccountAggregationSources: S.optional(AccountAggregationSourceList),
-  OrganizationAggregationSource: S.optional(OrganizationAggregationSource),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  CreatedBy: S.optional(S.String),
-  AggregatorFilters: S.optional(AggregatorFilters),
-}) {}
+export interface AggregatorFilters {
+  ResourceType?: AggregatorFilterResourceType;
+  ServicePrincipal?: AggregatorFilterServicePrincipal;
+}
+export const AggregatorFilters = S.suspend(() =>
+  S.Struct({
+    ResourceType: S.optional(AggregatorFilterResourceType),
+    ServicePrincipal: S.optional(AggregatorFilterServicePrincipal),
+  }),
+).annotations({
+  identifier: "AggregatorFilters",
+}) as any as S.Schema<AggregatorFilters>;
+export interface ConfigurationAggregator {
+  ConfigurationAggregatorName?: string;
+  ConfigurationAggregatorArn?: string;
+  AccountAggregationSources?: AccountAggregationSourceList;
+  OrganizationAggregationSource?: OrganizationAggregationSource;
+  CreationTime?: Date;
+  LastUpdatedTime?: Date;
+  CreatedBy?: string;
+  AggregatorFilters?: AggregatorFilters;
+}
+export const ConfigurationAggregator = S.suspend(() =>
+  S.Struct({
+    ConfigurationAggregatorName: S.optional(S.String),
+    ConfigurationAggregatorArn: S.optional(S.String),
+    AccountAggregationSources: S.optional(AccountAggregationSourceList),
+    OrganizationAggregationSource: S.optional(OrganizationAggregationSource),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastUpdatedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    CreatedBy: S.optional(S.String),
+    AggregatorFilters: S.optional(AggregatorFilters),
+  }),
+).annotations({
+  identifier: "ConfigurationAggregator",
+}) as any as S.Schema<ConfigurationAggregator>;
+export type ConfigurationAggregatorList = ConfigurationAggregator[];
 export const ConfigurationAggregatorList = S.Array(ConfigurationAggregator);
-export class AggregatedSourceStatus extends S.Class<AggregatedSourceStatus>(
-  "AggregatedSourceStatus",
-)({
-  SourceId: S.optional(S.String),
-  SourceType: S.optional(S.String),
-  AwsRegion: S.optional(S.String),
-  LastUpdateStatus: S.optional(S.String),
-  LastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastErrorCode: S.optional(S.String),
-  LastErrorMessage: S.optional(S.String),
-}) {}
+export interface AggregatedSourceStatus {
+  SourceId?: string;
+  SourceType?: string;
+  AwsRegion?: string;
+  LastUpdateStatus?: string;
+  LastUpdateTime?: Date;
+  LastErrorCode?: string;
+  LastErrorMessage?: string;
+}
+export const AggregatedSourceStatus = S.suspend(() =>
+  S.Struct({
+    SourceId: S.optional(S.String),
+    SourceType: S.optional(S.String),
+    AwsRegion: S.optional(S.String),
+    LastUpdateStatus: S.optional(S.String),
+    LastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastErrorCode: S.optional(S.String),
+    LastErrorMessage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AggregatedSourceStatus",
+}) as any as S.Schema<AggregatedSourceStatus>;
+export type AggregatedSourceStatusList = AggregatedSourceStatus[];
 export const AggregatedSourceStatusList = S.Array(AggregatedSourceStatus);
-export class ConfigurationRecorderStatus extends S.Class<ConfigurationRecorderStatus>(
-  "ConfigurationRecorderStatus",
-)({
-  arn: S.optional(S.String),
-  name: S.optional(S.String),
-  lastStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastStopTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  recording: S.optional(S.Boolean),
-  lastStatus: S.optional(S.String),
-  lastErrorCode: S.optional(S.String),
-  lastErrorMessage: S.optional(S.String),
-  lastStatusChangeTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  servicePrincipal: S.optional(S.String),
-}) {}
+export interface ConfigurationRecorderStatus {
+  arn?: string;
+  name?: string;
+  lastStartTime?: Date;
+  lastStopTime?: Date;
+  recording?: boolean;
+  lastStatus?: string;
+  lastErrorCode?: string;
+  lastErrorMessage?: string;
+  lastStatusChangeTime?: Date;
+  servicePrincipal?: string;
+}
+export const ConfigurationRecorderStatus = S.suspend(() =>
+  S.Struct({
+    arn: S.optional(S.String),
+    name: S.optional(S.String),
+    lastStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastStopTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    recording: S.optional(S.Boolean),
+    lastStatus: S.optional(S.String),
+    lastErrorCode: S.optional(S.String),
+    lastErrorMessage: S.optional(S.String),
+    lastStatusChangeTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    servicePrincipal: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ConfigurationRecorderStatus",
+}) as any as S.Schema<ConfigurationRecorderStatus>;
+export type ConfigurationRecorderStatusList = ConfigurationRecorderStatus[];
 export const ConfigurationRecorderStatusList = S.Array(
   ConfigurationRecorderStatus,
 );
-export class ConformancePackDetail extends S.Class<ConformancePackDetail>(
-  "ConformancePackDetail",
-)({
-  ConformancePackName: S.String,
-  ConformancePackArn: S.String,
-  ConformancePackId: S.String,
-  DeliveryS3Bucket: S.optional(S.String),
-  DeliveryS3KeyPrefix: S.optional(S.String),
-  ConformancePackInputParameters: S.optional(ConformancePackInputParameters),
-  LastUpdateRequestedTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  CreatedBy: S.optional(S.String),
-  TemplateSSMDocumentDetails: S.optional(TemplateSSMDocumentDetails),
-}) {}
+export interface ConformancePackDetail {
+  ConformancePackName: string;
+  ConformancePackArn: string;
+  ConformancePackId: string;
+  DeliveryS3Bucket?: string;
+  DeliveryS3KeyPrefix?: string;
+  ConformancePackInputParameters?: ConformancePackInputParameters;
+  LastUpdateRequestedTime?: Date;
+  CreatedBy?: string;
+  TemplateSSMDocumentDetails?: TemplateSSMDocumentDetails;
+}
+export const ConformancePackDetail = S.suspend(() =>
+  S.Struct({
+    ConformancePackName: S.String,
+    ConformancePackArn: S.String,
+    ConformancePackId: S.String,
+    DeliveryS3Bucket: S.optional(S.String),
+    DeliveryS3KeyPrefix: S.optional(S.String),
+    ConformancePackInputParameters: S.optional(ConformancePackInputParameters),
+    LastUpdateRequestedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    CreatedBy: S.optional(S.String),
+    TemplateSSMDocumentDetails: S.optional(TemplateSSMDocumentDetails),
+  }),
+).annotations({
+  identifier: "ConformancePackDetail",
+}) as any as S.Schema<ConformancePackDetail>;
+export type ConformancePackDetailList = ConformancePackDetail[];
 export const ConformancePackDetailList = S.Array(ConformancePackDetail);
-export class ConformancePackStatusDetail extends S.Class<ConformancePackStatusDetail>(
-  "ConformancePackStatusDetail",
-)({
-  ConformancePackName: S.String,
-  ConformancePackId: S.String,
-  ConformancePackArn: S.String,
-  ConformancePackState: S.String,
-  StackArn: S.String,
-  ConformancePackStatusReason: S.optional(S.String),
-  LastUpdateRequestedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  LastUpdateCompletedTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
+export interface ConformancePackStatusDetail {
+  ConformancePackName: string;
+  ConformancePackId: string;
+  ConformancePackArn: string;
+  ConformancePackState: string;
+  StackArn: string;
+  ConformancePackStatusReason?: string;
+  LastUpdateRequestedTime: Date;
+  LastUpdateCompletedTime?: Date;
+}
+export const ConformancePackStatusDetail = S.suspend(() =>
+  S.Struct({
+    ConformancePackName: S.String,
+    ConformancePackId: S.String,
+    ConformancePackArn: S.String,
+    ConformancePackState: S.String,
+    StackArn: S.String,
+    ConformancePackStatusReason: S.optional(S.String),
+    LastUpdateRequestedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    LastUpdateCompletedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "ConformancePackStatusDetail",
+}) as any as S.Schema<ConformancePackStatusDetail>;
+export type ConformancePackStatusDetailsList = ConformancePackStatusDetail[];
 export const ConformancePackStatusDetailsList = S.Array(
   ConformancePackStatusDetail,
 );
-export class OrganizationConfigRuleStatus extends S.Class<OrganizationConfigRuleStatus>(
-  "OrganizationConfigRuleStatus",
-)({
-  OrganizationConfigRuleName: S.String,
-  OrganizationRuleStatus: S.String,
-  ErrorCode: S.optional(S.String),
-  ErrorMessage: S.optional(S.String),
-  LastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface OrganizationConfigRuleStatus {
+  OrganizationConfigRuleName: string;
+  OrganizationRuleStatus: string;
+  ErrorCode?: string;
+  ErrorMessage?: string;
+  LastUpdateTime?: Date;
+}
+export const OrganizationConfigRuleStatus = S.suspend(() =>
+  S.Struct({
+    OrganizationConfigRuleName: S.String,
+    OrganizationRuleStatus: S.String,
+    ErrorCode: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
+    LastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "OrganizationConfigRuleStatus",
+}) as any as S.Schema<OrganizationConfigRuleStatus>;
+export type OrganizationConfigRuleStatuses = OrganizationConfigRuleStatus[];
 export const OrganizationConfigRuleStatuses = S.Array(
   OrganizationConfigRuleStatus,
 );
-export class OrganizationConformancePack extends S.Class<OrganizationConformancePack>(
-  "OrganizationConformancePack",
-)({
-  OrganizationConformancePackName: S.String,
-  OrganizationConformancePackArn: S.String,
-  DeliveryS3Bucket: S.optional(S.String),
-  DeliveryS3KeyPrefix: S.optional(S.String),
-  ConformancePackInputParameters: S.optional(ConformancePackInputParameters),
-  ExcludedAccounts: S.optional(ExcludedAccounts),
-  LastUpdateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-}) {}
+export interface OrganizationConformancePack {
+  OrganizationConformancePackName: string;
+  OrganizationConformancePackArn: string;
+  DeliveryS3Bucket?: string;
+  DeliveryS3KeyPrefix?: string;
+  ConformancePackInputParameters?: ConformancePackInputParameters;
+  ExcludedAccounts?: ExcludedAccounts;
+  LastUpdateTime: Date;
+}
+export const OrganizationConformancePack = S.suspend(() =>
+  S.Struct({
+    OrganizationConformancePackName: S.String,
+    OrganizationConformancePackArn: S.String,
+    DeliveryS3Bucket: S.optional(S.String),
+    DeliveryS3KeyPrefix: S.optional(S.String),
+    ConformancePackInputParameters: S.optional(ConformancePackInputParameters),
+    ExcludedAccounts: S.optional(ExcludedAccounts),
+    LastUpdateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotations({
+  identifier: "OrganizationConformancePack",
+}) as any as S.Schema<OrganizationConformancePack>;
+export type OrganizationConformancePacks = OrganizationConformancePack[];
 export const OrganizationConformancePacks = S.Array(
   OrganizationConformancePack,
 );
-export class OrganizationConformancePackStatus extends S.Class<OrganizationConformancePackStatus>(
-  "OrganizationConformancePackStatus",
-)({
-  OrganizationConformancePackName: S.String,
-  Status: S.String,
-  ErrorCode: S.optional(S.String),
-  ErrorMessage: S.optional(S.String),
-  LastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface OrganizationConformancePackStatus {
+  OrganizationConformancePackName: string;
+  Status: string;
+  ErrorCode?: string;
+  ErrorMessage?: string;
+  LastUpdateTime?: Date;
+}
+export const OrganizationConformancePackStatus = S.suspend(() =>
+  S.Struct({
+    OrganizationConformancePackName: S.String,
+    Status: S.String,
+    ErrorCode: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
+    LastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "OrganizationConformancePackStatus",
+}) as any as S.Schema<OrganizationConformancePackStatus>;
+export type OrganizationConformancePackStatuses =
+  OrganizationConformancePackStatus[];
 export const OrganizationConformancePackStatuses = S.Array(
   OrganizationConformancePackStatus,
 );
-export class PendingAggregationRequest extends S.Class<PendingAggregationRequest>(
-  "PendingAggregationRequest",
-)({
-  RequesterAccountId: S.optional(S.String),
-  RequesterAwsRegion: S.optional(S.String),
-}) {}
+export interface PendingAggregationRequest {
+  RequesterAccountId?: string;
+  RequesterAwsRegion?: string;
+}
+export const PendingAggregationRequest = S.suspend(() =>
+  S.Struct({
+    RequesterAccountId: S.optional(S.String),
+    RequesterAwsRegion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "PendingAggregationRequest",
+}) as any as S.Schema<PendingAggregationRequest>;
+export type PendingAggregationRequestList = PendingAggregationRequest[];
 export const PendingAggregationRequestList = S.Array(PendingAggregationRequest);
-export class RemediationException extends S.Class<RemediationException>(
-  "RemediationException",
-)({
-  ConfigRuleName: S.String,
-  ResourceType: S.String,
-  ResourceId: S.String,
-  Message: S.optional(S.String),
-  ExpirationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface RemediationException {
+  ConfigRuleName: string;
+  ResourceType: string;
+  ResourceId: string;
+  Message?: string;
+  ExpirationTime?: Date;
+}
+export const RemediationException = S.suspend(() =>
+  S.Struct({
+    ConfigRuleName: S.String,
+    ResourceType: S.String,
+    ResourceId: S.String,
+    Message: S.optional(S.String),
+    ExpirationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "RemediationException",
+}) as any as S.Schema<RemediationException>;
+export type RemediationExceptions = RemediationException[];
 export const RemediationExceptions = S.Array(RemediationException);
+export type RetentionConfigurationList = RetentionConfiguration[];
 export const RetentionConfigurationList = S.Array(RetentionConfiguration);
-export class ComplianceSummary extends S.Class<ComplianceSummary>(
-  "ComplianceSummary",
-)({
-  CompliantResourceCount: S.optional(ComplianceContributorCount),
-  NonCompliantResourceCount: S.optional(ComplianceContributorCount),
-  ComplianceSummaryTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
-export class ComplianceSummaryByResourceType extends S.Class<ComplianceSummaryByResourceType>(
-  "ComplianceSummaryByResourceType",
-)({
-  ResourceType: S.optional(S.String),
-  ComplianceSummary: S.optional(ComplianceSummary),
-}) {}
+export interface ComplianceSummary {
+  CompliantResourceCount?: ComplianceContributorCount;
+  NonCompliantResourceCount?: ComplianceContributorCount;
+  ComplianceSummaryTimestamp?: Date;
+}
+export const ComplianceSummary = S.suspend(() =>
+  S.Struct({
+    CompliantResourceCount: S.optional(ComplianceContributorCount),
+    NonCompliantResourceCount: S.optional(ComplianceContributorCount),
+    ComplianceSummaryTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "ComplianceSummary",
+}) as any as S.Schema<ComplianceSummary>;
+export interface ComplianceSummaryByResourceType {
+  ResourceType?: string;
+  ComplianceSummary?: ComplianceSummary;
+}
+export const ComplianceSummaryByResourceType = S.suspend(() =>
+  S.Struct({
+    ResourceType: S.optional(S.String),
+    ComplianceSummary: S.optional(ComplianceSummary),
+  }),
+).annotations({
+  identifier: "ComplianceSummaryByResourceType",
+}) as any as S.Schema<ComplianceSummaryByResourceType>;
+export type ComplianceSummariesByResourceType =
+  ComplianceSummaryByResourceType[];
 export const ComplianceSummariesByResourceType = S.Array(
   ComplianceSummaryByResourceType,
 );
-export class ConformancePackComplianceSummary extends S.Class<ConformancePackComplianceSummary>(
-  "ConformancePackComplianceSummary",
-)({
-  ConformancePackName: S.String,
-  ConformancePackComplianceStatus: S.String,
-}) {}
+export interface ConformancePackComplianceSummary {
+  ConformancePackName: string;
+  ConformancePackComplianceStatus: string;
+}
+export const ConformancePackComplianceSummary = S.suspend(() =>
+  S.Struct({
+    ConformancePackName: S.String,
+    ConformancePackComplianceStatus: S.String,
+  }),
+).annotations({
+  identifier: "ConformancePackComplianceSummary",
+}) as any as S.Schema<ConformancePackComplianceSummary>;
+export type ConformancePackComplianceSummaryList =
+  ConformancePackComplianceSummary[];
 export const ConformancePackComplianceSummaryList = S.Array(
   ConformancePackComplianceSummary,
 );
-export class ResourceCount extends S.Class<ResourceCount>("ResourceCount")({
-  resourceType: S.optional(S.String),
-  count: S.optional(S.Number),
-}) {}
+export interface ResourceCount {
+  resourceType?: string;
+  count?: number;
+}
+export const ResourceCount = S.suspend(() =>
+  S.Struct({ resourceType: S.optional(S.String), count: S.optional(S.Number) }),
+).annotations({
+  identifier: "ResourceCount",
+}) as any as S.Schema<ResourceCount>;
+export type ResourceCounts = ResourceCount[];
 export const ResourceCounts = S.Array(ResourceCount);
-export class EvaluationStatus extends S.Class<EvaluationStatus>(
-  "EvaluationStatus",
-)({ Status: S.String, FailureReason: S.optional(S.String) }) {}
+export interface EvaluationStatus {
+  Status: string;
+  FailureReason?: string;
+}
+export const EvaluationStatus = S.suspend(() =>
+  S.Struct({ Status: S.String, FailureReason: S.optional(S.String) }),
+).annotations({
+  identifier: "EvaluationStatus",
+}) as any as S.Schema<EvaluationStatus>;
+export type DiscoveredResourceIdentifierList = AggregateResourceIdentifier[];
 export const DiscoveredResourceIdentifierList = S.Array(
   AggregateResourceIdentifier,
 );
-export class ResourceIdentifier extends S.Class<ResourceIdentifier>(
-  "ResourceIdentifier",
-)({
-  resourceType: S.optional(S.String),
-  resourceId: S.optional(S.String),
-  resourceName: S.optional(S.String),
-  resourceDeletionTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
+export interface ResourceIdentifier {
+  resourceType?: string;
+  resourceId?: string;
+  resourceName?: string;
+  resourceDeletionTime?: Date;
+}
+export const ResourceIdentifier = S.suspend(() =>
+  S.Struct({
+    resourceType: S.optional(S.String),
+    resourceId: S.optional(S.String),
+    resourceName: S.optional(S.String),
+    resourceDeletionTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "ResourceIdentifier",
+}) as any as S.Schema<ResourceIdentifier>;
+export type ResourceIdentifierList = ResourceIdentifier[];
 export const ResourceIdentifierList = S.Array(ResourceIdentifier);
-export class ResourceEvaluationFilters extends S.Class<ResourceEvaluationFilters>(
-  "ResourceEvaluationFilters",
-)({
-  EvaluationMode: S.optional(S.String),
-  TimeWindow: S.optional(TimeWindow),
-  EvaluationContextIdentifier: S.optional(S.String),
-}) {}
-export class StoredQueryMetadata extends S.Class<StoredQueryMetadata>(
-  "StoredQueryMetadata",
-)({
-  QueryId: S.String,
-  QueryArn: S.String,
-  QueryName: S.String,
-  Description: S.optional(S.String),
-}) {}
+export interface ResourceEvaluationFilters {
+  EvaluationMode?: string;
+  TimeWindow?: TimeWindow;
+  EvaluationContextIdentifier?: string;
+}
+export const ResourceEvaluationFilters = S.suspend(() =>
+  S.Struct({
+    EvaluationMode: S.optional(S.String),
+    TimeWindow: S.optional(TimeWindow),
+    EvaluationContextIdentifier: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ResourceEvaluationFilters",
+}) as any as S.Schema<ResourceEvaluationFilters>;
+export interface StoredQueryMetadata {
+  QueryId: string;
+  QueryArn: string;
+  QueryName: string;
+  Description?: string;
+}
+export const StoredQueryMetadata = S.suspend(() =>
+  S.Struct({
+    QueryId: S.String,
+    QueryArn: S.String,
+    QueryName: S.String,
+    Description: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "StoredQueryMetadata",
+}) as any as S.Schema<StoredQueryMetadata>;
+export type StoredQueryMetadataList = StoredQueryMetadata[];
 export const StoredQueryMetadataList = S.Array(StoredQueryMetadata);
-export class FailedRemediationExceptionBatch extends S.Class<FailedRemediationExceptionBatch>(
-  "FailedRemediationExceptionBatch",
-)({
-  FailureMessage: S.optional(S.String),
-  FailedItems: S.optional(RemediationExceptions),
-}) {}
+export interface FailedRemediationExceptionBatch {
+  FailureMessage?: string;
+  FailedItems?: RemediationExceptions;
+}
+export const FailedRemediationExceptionBatch = S.suspend(() =>
+  S.Struct({
+    FailureMessage: S.optional(S.String),
+    FailedItems: S.optional(RemediationExceptions),
+  }),
+).annotations({
+  identifier: "FailedRemediationExceptionBatch",
+}) as any as S.Schema<FailedRemediationExceptionBatch>;
+export type FailedRemediationExceptionBatches =
+  FailedRemediationExceptionBatch[];
 export const FailedRemediationExceptionBatches = S.Array(
   FailedRemediationExceptionBatch,
 );
-export class BaseConfigurationItem extends S.Class<BaseConfigurationItem>(
-  "BaseConfigurationItem",
-)({
-  version: S.optional(S.String),
-  accountId: S.optional(S.String),
-  configurationItemCaptureTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  configurationItemStatus: S.optional(S.String),
-  configurationStateId: S.optional(S.String),
-  arn: S.optional(S.String),
-  resourceType: S.optional(S.String),
-  resourceId: S.optional(S.String),
-  resourceName: S.optional(S.String),
-  awsRegion: S.optional(S.String),
-  availabilityZone: S.optional(S.String),
-  resourceCreationTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  configuration: S.optional(S.String),
-  supplementaryConfiguration: S.optional(SupplementaryConfiguration),
-  recordingFrequency: S.optional(S.String),
-  configurationItemDeliveryTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
+export interface BaseConfigurationItem {
+  version?: string;
+  accountId?: string;
+  configurationItemCaptureTime?: Date;
+  configurationItemStatus?: string;
+  configurationStateId?: string;
+  arn?: string;
+  resourceType?: string;
+  resourceId?: string;
+  resourceName?: string;
+  awsRegion?: string;
+  availabilityZone?: string;
+  resourceCreationTime?: Date;
+  configuration?: string;
+  supplementaryConfiguration?: SupplementaryConfiguration;
+  recordingFrequency?: string;
+  configurationItemDeliveryTime?: Date;
+}
+export const BaseConfigurationItem = S.suspend(() =>
+  S.Struct({
+    version: S.optional(S.String),
+    accountId: S.optional(S.String),
+    configurationItemCaptureTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    configurationItemStatus: S.optional(S.String),
+    configurationStateId: S.optional(S.String),
+    arn: S.optional(S.String),
+    resourceType: S.optional(S.String),
+    resourceId: S.optional(S.String),
+    resourceName: S.optional(S.String),
+    awsRegion: S.optional(S.String),
+    availabilityZone: S.optional(S.String),
+    resourceCreationTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    configuration: S.optional(S.String),
+    supplementaryConfiguration: S.optional(SupplementaryConfiguration),
+    recordingFrequency: S.optional(S.String),
+    configurationItemDeliveryTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "BaseConfigurationItem",
+}) as any as S.Schema<BaseConfigurationItem>;
+export type BaseConfigurationItems = BaseConfigurationItem[];
 export const BaseConfigurationItems = S.Array(BaseConfigurationItem);
-export class BatchGetResourceConfigResponse extends S.Class<BatchGetResourceConfigResponse>(
-  "BatchGetResourceConfigResponse",
-)(
-  {
+export interface BatchGetResourceConfigResponse {
+  baseConfigurationItems?: BaseConfigurationItems;
+  unprocessedResourceKeys?: ResourceKeys;
+}
+export const BatchGetResourceConfigResponse = S.suspend(() =>
+  S.Struct({
     baseConfigurationItems: S.optional(BaseConfigurationItems),
     unprocessedResourceKeys: S.optional(ResourceKeys),
-  },
-  ns,
-) {}
-export class DescribeAggregationAuthorizationsResponse extends S.Class<DescribeAggregationAuthorizationsResponse>(
-  "DescribeAggregationAuthorizationsResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "BatchGetResourceConfigResponse",
+}) as any as S.Schema<BatchGetResourceConfigResponse>;
+export interface DescribeAggregationAuthorizationsResponse {
+  AggregationAuthorizations?: AggregationAuthorizationList;
+  NextToken?: string;
+}
+export const DescribeAggregationAuthorizationsResponse = S.suspend(() =>
+  S.Struct({
     AggregationAuthorizations: S.optional(AggregationAuthorizationList),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class DescribeComplianceByResourceResponse extends S.Class<DescribeComplianceByResourceResponse>(
-  "DescribeComplianceByResourceResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeAggregationAuthorizationsResponse",
+}) as any as S.Schema<DescribeAggregationAuthorizationsResponse>;
+export interface DescribeComplianceByResourceResponse {
+  ComplianceByResources?: ComplianceByResources;
+  NextToken?: string;
+}
+export const DescribeComplianceByResourceResponse = S.suspend(() =>
+  S.Struct({
     ComplianceByResources: S.optional(ComplianceByResources),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class DescribeConfigRuleEvaluationStatusResponse extends S.Class<DescribeConfigRuleEvaluationStatusResponse>(
-  "DescribeConfigRuleEvaluationStatusResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeComplianceByResourceResponse",
+}) as any as S.Schema<DescribeComplianceByResourceResponse>;
+export interface DescribeConfigRuleEvaluationStatusResponse {
+  ConfigRulesEvaluationStatus?: ConfigRuleEvaluationStatusList;
+  NextToken?: string;
+}
+export const DescribeConfigRuleEvaluationStatusResponse = S.suspend(() =>
+  S.Struct({
     ConfigRulesEvaluationStatus: S.optional(ConfigRuleEvaluationStatusList),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class DescribeConfigRulesResponse extends S.Class<DescribeConfigRulesResponse>(
-  "DescribeConfigRulesResponse",
-)(
-  { ConfigRules: S.optional(ConfigRules), NextToken: S.optional(S.String) },
-  ns,
-) {}
-export class DescribeConfigurationAggregatorsResponse extends S.Class<DescribeConfigurationAggregatorsResponse>(
-  "DescribeConfigurationAggregatorsResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeConfigRuleEvaluationStatusResponse",
+}) as any as S.Schema<DescribeConfigRuleEvaluationStatusResponse>;
+export interface DescribeConfigRulesResponse {
+  ConfigRules?: ConfigRules;
+  NextToken?: string;
+}
+export const DescribeConfigRulesResponse = S.suspend(() =>
+  S.Struct({
+    ConfigRules: S.optional(ConfigRules),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeConfigRulesResponse",
+}) as any as S.Schema<DescribeConfigRulesResponse>;
+export interface DescribeConfigurationAggregatorsResponse {
+  ConfigurationAggregators?: ConfigurationAggregatorList;
+  NextToken?: string;
+}
+export const DescribeConfigurationAggregatorsResponse = S.suspend(() =>
+  S.Struct({
     ConfigurationAggregators: S.optional(ConfigurationAggregatorList),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class DescribeConfigurationAggregatorSourcesStatusResponse extends S.Class<DescribeConfigurationAggregatorSourcesStatusResponse>(
-  "DescribeConfigurationAggregatorSourcesStatusResponse",
-)(
-  {
-    AggregatedSourceStatusList: S.optional(AggregatedSourceStatusList),
-    NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class DescribeConfigurationRecorderStatusResponse extends S.Class<DescribeConfigurationRecorderStatusResponse>(
-  "DescribeConfigurationRecorderStatusResponse",
-)(
-  { ConfigurationRecordersStatus: S.optional(ConfigurationRecorderStatusList) },
-  ns,
-) {}
-export class DescribeConformancePacksResponse extends S.Class<DescribeConformancePacksResponse>(
-  "DescribeConformancePacksResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeConfigurationAggregatorsResponse",
+}) as any as S.Schema<DescribeConfigurationAggregatorsResponse>;
+export interface DescribeConfigurationAggregatorSourcesStatusResponse {
+  AggregatedSourceStatusList?: AggregatedSourceStatusList;
+  NextToken?: string;
+}
+export const DescribeConfigurationAggregatorSourcesStatusResponse = S.suspend(
+  () =>
+    S.Struct({
+      AggregatedSourceStatusList: S.optional(AggregatedSourceStatusList),
+      NextToken: S.optional(S.String),
+    }).pipe(ns),
+).annotations({
+  identifier: "DescribeConfigurationAggregatorSourcesStatusResponse",
+}) as any as S.Schema<DescribeConfigurationAggregatorSourcesStatusResponse>;
+export interface DescribeConfigurationRecorderStatusResponse {
+  ConfigurationRecordersStatus?: ConfigurationRecorderStatusList;
+}
+export const DescribeConfigurationRecorderStatusResponse = S.suspend(() =>
+  S.Struct({
+    ConfigurationRecordersStatus: S.optional(ConfigurationRecorderStatusList),
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeConfigurationRecorderStatusResponse",
+}) as any as S.Schema<DescribeConfigurationRecorderStatusResponse>;
+export interface DescribeConformancePacksResponse {
+  ConformancePackDetails?: ConformancePackDetailList;
+  NextToken?: string;
+}
+export const DescribeConformancePacksResponse = S.suspend(() =>
+  S.Struct({
     ConformancePackDetails: S.optional(ConformancePackDetailList),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class DescribeConformancePackStatusResponse extends S.Class<DescribeConformancePackStatusResponse>(
-  "DescribeConformancePackStatusResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeConformancePacksResponse",
+}) as any as S.Schema<DescribeConformancePacksResponse>;
+export interface DescribeConformancePackStatusResponse {
+  ConformancePackStatusDetails?: ConformancePackStatusDetailsList;
+  NextToken?: string;
+}
+export const DescribeConformancePackStatusResponse = S.suspend(() =>
+  S.Struct({
     ConformancePackStatusDetails: S.optional(ConformancePackStatusDetailsList),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class DescribeOrganizationConfigRuleStatusesResponse extends S.Class<DescribeOrganizationConfigRuleStatusesResponse>(
-  "DescribeOrganizationConfigRuleStatusesResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeConformancePackStatusResponse",
+}) as any as S.Schema<DescribeConformancePackStatusResponse>;
+export interface DescribeOrganizationConfigRuleStatusesResponse {
+  OrganizationConfigRuleStatuses?: OrganizationConfigRuleStatuses;
+  NextToken?: string;
+}
+export const DescribeOrganizationConfigRuleStatusesResponse = S.suspend(() =>
+  S.Struct({
     OrganizationConfigRuleStatuses: S.optional(OrganizationConfigRuleStatuses),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class DescribeOrganizationConformancePacksResponse extends S.Class<DescribeOrganizationConformancePacksResponse>(
-  "DescribeOrganizationConformancePacksResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeOrganizationConfigRuleStatusesResponse",
+}) as any as S.Schema<DescribeOrganizationConfigRuleStatusesResponse>;
+export interface DescribeOrganizationConformancePacksResponse {
+  OrganizationConformancePacks?: OrganizationConformancePacks;
+  NextToken?: string;
+}
+export const DescribeOrganizationConformancePacksResponse = S.suspend(() =>
+  S.Struct({
     OrganizationConformancePacks: S.optional(OrganizationConformancePacks),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class DescribeOrganizationConformancePackStatusesResponse extends S.Class<DescribeOrganizationConformancePackStatusesResponse>(
-  "DescribeOrganizationConformancePackStatusesResponse",
-)(
-  {
-    OrganizationConformancePackStatuses: S.optional(
-      OrganizationConformancePackStatuses,
-    ),
-    NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class DescribePendingAggregationRequestsResponse extends S.Class<DescribePendingAggregationRequestsResponse>(
-  "DescribePendingAggregationRequestsResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeOrganizationConformancePacksResponse",
+}) as any as S.Schema<DescribeOrganizationConformancePacksResponse>;
+export interface DescribeOrganizationConformancePackStatusesResponse {
+  OrganizationConformancePackStatuses?: OrganizationConformancePackStatuses;
+  NextToken?: string;
+}
+export const DescribeOrganizationConformancePackStatusesResponse = S.suspend(
+  () =>
+    S.Struct({
+      OrganizationConformancePackStatuses: S.optional(
+        OrganizationConformancePackStatuses,
+      ),
+      NextToken: S.optional(S.String),
+    }).pipe(ns),
+).annotations({
+  identifier: "DescribeOrganizationConformancePackStatusesResponse",
+}) as any as S.Schema<DescribeOrganizationConformancePackStatusesResponse>;
+export interface DescribePendingAggregationRequestsResponse {
+  PendingAggregationRequests?: PendingAggregationRequestList;
+  NextToken?: string;
+}
+export const DescribePendingAggregationRequestsResponse = S.suspend(() =>
+  S.Struct({
     PendingAggregationRequests: S.optional(PendingAggregationRequestList),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class DescribeRemediationExceptionsResponse extends S.Class<DescribeRemediationExceptionsResponse>(
-  "DescribeRemediationExceptionsResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribePendingAggregationRequestsResponse",
+}) as any as S.Schema<DescribePendingAggregationRequestsResponse>;
+export interface DescribeRemediationExceptionsResponse {
+  RemediationExceptions?: RemediationExceptions;
+  NextToken?: string;
+}
+export const DescribeRemediationExceptionsResponse = S.suspend(() =>
+  S.Struct({
     RemediationExceptions: S.optional(RemediationExceptions),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class DescribeRetentionConfigurationsResponse extends S.Class<DescribeRetentionConfigurationsResponse>(
-  "DescribeRetentionConfigurationsResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeRemediationExceptionsResponse",
+}) as any as S.Schema<DescribeRemediationExceptionsResponse>;
+export interface DescribeRetentionConfigurationsResponse {
+  RetentionConfigurations?: RetentionConfigurationList;
+  NextToken?: string;
+}
+export const DescribeRetentionConfigurationsResponse = S.suspend(() =>
+  S.Struct({
     RetentionConfigurations: S.optional(RetentionConfigurationList),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class GetComplianceDetailsByConfigRuleResponse extends S.Class<GetComplianceDetailsByConfigRuleResponse>(
-  "GetComplianceDetailsByConfigRuleResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeRetentionConfigurationsResponse",
+}) as any as S.Schema<DescribeRetentionConfigurationsResponse>;
+export interface GetComplianceDetailsByConfigRuleResponse {
+  EvaluationResults?: EvaluationResults;
+  NextToken?: string;
+}
+export const GetComplianceDetailsByConfigRuleResponse = S.suspend(() =>
+  S.Struct({
     EvaluationResults: S.optional(EvaluationResults),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class GetComplianceSummaryByConfigRuleResponse extends S.Class<GetComplianceSummaryByConfigRuleResponse>(
-  "GetComplianceSummaryByConfigRuleResponse",
-)({ ComplianceSummary: S.optional(ComplianceSummary) }, ns) {}
-export class GetComplianceSummaryByResourceTypeResponse extends S.Class<GetComplianceSummaryByResourceTypeResponse>(
-  "GetComplianceSummaryByResourceTypeResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetComplianceDetailsByConfigRuleResponse",
+}) as any as S.Schema<GetComplianceDetailsByConfigRuleResponse>;
+export interface GetComplianceSummaryByConfigRuleResponse {
+  ComplianceSummary?: ComplianceSummary;
+}
+export const GetComplianceSummaryByConfigRuleResponse = S.suspend(() =>
+  S.Struct({ ComplianceSummary: S.optional(ComplianceSummary) }).pipe(ns),
+).annotations({
+  identifier: "GetComplianceSummaryByConfigRuleResponse",
+}) as any as S.Schema<GetComplianceSummaryByConfigRuleResponse>;
+export interface GetComplianceSummaryByResourceTypeResponse {
+  ComplianceSummariesByResourceType?: ComplianceSummariesByResourceType;
+}
+export const GetComplianceSummaryByResourceTypeResponse = S.suspend(() =>
+  S.Struct({
     ComplianceSummariesByResourceType: S.optional(
       ComplianceSummariesByResourceType,
     ),
-  },
-  ns,
-) {}
-export class GetConformancePackComplianceSummaryResponse extends S.Class<GetConformancePackComplianceSummaryResponse>(
-  "GetConformancePackComplianceSummaryResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetComplianceSummaryByResourceTypeResponse",
+}) as any as S.Schema<GetComplianceSummaryByResourceTypeResponse>;
+export interface GetConformancePackComplianceSummaryResponse {
+  ConformancePackComplianceSummaryList?: ConformancePackComplianceSummaryList;
+  NextToken?: string;
+}
+export const GetConformancePackComplianceSummaryResponse = S.suspend(() =>
+  S.Struct({
     ConformancePackComplianceSummaryList: S.optional(
       ConformancePackComplianceSummaryList,
     ),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class GetDiscoveredResourceCountsResponse extends S.Class<GetDiscoveredResourceCountsResponse>(
-  "GetDiscoveredResourceCountsResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetConformancePackComplianceSummaryResponse",
+}) as any as S.Schema<GetConformancePackComplianceSummaryResponse>;
+export interface GetDiscoveredResourceCountsResponse {
+  totalDiscoveredResources?: number;
+  resourceCounts?: ResourceCounts;
+  nextToken?: string;
+}
+export const GetDiscoveredResourceCountsResponse = S.suspend(() =>
+  S.Struct({
     totalDiscoveredResources: S.optional(S.Number),
     resourceCounts: S.optional(ResourceCounts),
     nextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class GetResourceEvaluationSummaryResponse extends S.Class<GetResourceEvaluationSummaryResponse>(
-  "GetResourceEvaluationSummaryResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetDiscoveredResourceCountsResponse",
+}) as any as S.Schema<GetDiscoveredResourceCountsResponse>;
+export interface GetResourceEvaluationSummaryResponse {
+  ResourceEvaluationId?: string;
+  EvaluationMode?: string;
+  EvaluationStatus?: EvaluationStatus;
+  EvaluationStartTimestamp?: Date;
+  Compliance?: string;
+  EvaluationContext?: EvaluationContext;
+  ResourceDetails?: ResourceDetails;
+}
+export const GetResourceEvaluationSummaryResponse = S.suspend(() =>
+  S.Struct({
     ResourceEvaluationId: S.optional(S.String),
     EvaluationMode: S.optional(S.String),
     EvaluationStatus: S.optional(EvaluationStatus),
@@ -2175,568 +4489,1042 @@ export class GetResourceEvaluationSummaryResponse extends S.Class<GetResourceEva
     Compliance: S.optional(S.String),
     EvaluationContext: S.optional(EvaluationContext),
     ResourceDetails: S.optional(ResourceDetails),
-  },
-  ns,
-) {}
-export class ListAggregateDiscoveredResourcesResponse extends S.Class<ListAggregateDiscoveredResourcesResponse>(
-  "ListAggregateDiscoveredResourcesResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetResourceEvaluationSummaryResponse",
+}) as any as S.Schema<GetResourceEvaluationSummaryResponse>;
+export interface ListAggregateDiscoveredResourcesResponse {
+  ResourceIdentifiers?: DiscoveredResourceIdentifierList;
+  NextToken?: string;
+}
+export const ListAggregateDiscoveredResourcesResponse = S.suspend(() =>
+  S.Struct({
     ResourceIdentifiers: S.optional(DiscoveredResourceIdentifierList),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListDiscoveredResourcesResponse extends S.Class<ListDiscoveredResourcesResponse>(
-  "ListDiscoveredResourcesResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListAggregateDiscoveredResourcesResponse",
+}) as any as S.Schema<ListAggregateDiscoveredResourcesResponse>;
+export interface ListDiscoveredResourcesResponse {
+  resourceIdentifiers?: ResourceIdentifierList;
+  nextToken?: string;
+}
+export const ListDiscoveredResourcesResponse = S.suspend(() =>
+  S.Struct({
     resourceIdentifiers: S.optional(ResourceIdentifierList),
     nextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListResourceEvaluationsRequest extends S.Class<ListResourceEvaluationsRequest>(
-  "ListResourceEvaluationsRequest",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListDiscoveredResourcesResponse",
+}) as any as S.Schema<ListDiscoveredResourcesResponse>;
+export interface ListResourceEvaluationsRequest {
+  Filters?: ResourceEvaluationFilters;
+  Limit?: number;
+  NextToken?: string;
+}
+export const ListResourceEvaluationsRequest = S.suspend(() =>
+  S.Struct({
     Filters: S.optional(ResourceEvaluationFilters),
     Limit: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListStoredQueriesResponse extends S.Class<ListStoredQueriesResponse>(
-  "ListStoredQueriesResponse",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListResourceEvaluationsRequest",
+}) as any as S.Schema<ListResourceEvaluationsRequest>;
+export interface ListStoredQueriesResponse {
+  StoredQueryMetadata?: StoredQueryMetadataList;
+  NextToken?: string;
+}
+export const ListStoredQueriesResponse = S.suspend(() =>
+  S.Struct({
     StoredQueryMetadata: S.optional(StoredQueryMetadataList),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class PutAggregationAuthorizationResponse extends S.Class<PutAggregationAuthorizationResponse>(
-  "PutAggregationAuthorizationResponse",
-)({ AggregationAuthorization: S.optional(AggregationAuthorization) }, ns) {}
-export class PutConfigurationAggregatorRequest extends S.Class<PutConfigurationAggregatorRequest>(
-  "PutConfigurationAggregatorRequest",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListStoredQueriesResponse",
+}) as any as S.Schema<ListStoredQueriesResponse>;
+export interface PutAggregationAuthorizationResponse {
+  AggregationAuthorization?: AggregationAuthorization;
+}
+export const PutAggregationAuthorizationResponse = S.suspend(() =>
+  S.Struct({
+    AggregationAuthorization: S.optional(AggregationAuthorization),
+  }).pipe(ns),
+).annotations({
+  identifier: "PutAggregationAuthorizationResponse",
+}) as any as S.Schema<PutAggregationAuthorizationResponse>;
+export interface PutConfigurationAggregatorRequest {
+  ConfigurationAggregatorName: string;
+  AccountAggregationSources?: AccountAggregationSourceList;
+  OrganizationAggregationSource?: OrganizationAggregationSource;
+  Tags?: TagsList;
+  AggregatorFilters?: AggregatorFilters;
+}
+export const PutConfigurationAggregatorRequest = S.suspend(() =>
+  S.Struct({
     ConfigurationAggregatorName: S.String,
     AccountAggregationSources: S.optional(AccountAggregationSourceList),
     OrganizationAggregationSource: S.optional(OrganizationAggregationSource),
     Tags: S.optional(TagsList),
     AggregatorFilters: S.optional(AggregatorFilters),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutConformancePackResponse extends S.Class<PutConformancePackResponse>(
-  "PutConformancePackResponse",
-)({ ConformancePackArn: S.optional(S.String) }, ns) {}
-export class PutDeliveryChannelRequest extends S.Class<PutDeliveryChannelRequest>(
-  "PutDeliveryChannelRequest",
-)(
-  { DeliveryChannel: DeliveryChannel },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutDeliveryChannelResponse extends S.Class<PutDeliveryChannelResponse>(
-  "PutDeliveryChannelResponse",
-)({}, ns) {}
-export class PutEvaluationsResponse extends S.Class<PutEvaluationsResponse>(
-  "PutEvaluationsResponse",
-)({ FailedEvaluations: S.optional(Evaluations) }, ns) {}
-export class PutOrganizationConfigRuleResponse extends S.Class<PutOrganizationConfigRuleResponse>(
-  "PutOrganizationConfigRuleResponse",
-)({ OrganizationConfigRuleArn: S.optional(S.String) }, ns) {}
-export class PutRemediationExceptionsResponse extends S.Class<PutRemediationExceptionsResponse>(
-  "PutRemediationExceptionsResponse",
-)({ FailedBatches: S.optional(FailedRemediationExceptionBatches) }, ns) {}
-export class PutStoredQueryResponse extends S.Class<PutStoredQueryResponse>(
-  "PutStoredQueryResponse",
-)({ QueryArn: S.optional(S.String) }, ns) {}
-export class StartResourceEvaluationResponse extends S.Class<StartResourceEvaluationResponse>(
-  "StartResourceEvaluationResponse",
-)({ ResourceEvaluationId: S.optional(S.String) }, ns) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutConfigurationAggregatorRequest",
+}) as any as S.Schema<PutConfigurationAggregatorRequest>;
+export interface PutConformancePackResponse {
+  ConformancePackArn?: string;
+}
+export const PutConformancePackResponse = S.suspend(() =>
+  S.Struct({ ConformancePackArn: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "PutConformancePackResponse",
+}) as any as S.Schema<PutConformancePackResponse>;
+export interface PutDeliveryChannelRequest {
+  DeliveryChannel: DeliveryChannel;
+}
+export const PutDeliveryChannelRequest = S.suspend(() =>
+  S.Struct({ DeliveryChannel: DeliveryChannel }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutDeliveryChannelRequest",
+}) as any as S.Schema<PutDeliveryChannelRequest>;
+export interface PutDeliveryChannelResponse {}
+export const PutDeliveryChannelResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "PutDeliveryChannelResponse",
+}) as any as S.Schema<PutDeliveryChannelResponse>;
+export interface PutEvaluationsResponse {
+  FailedEvaluations?: Evaluations;
+}
+export const PutEvaluationsResponse = S.suspend(() =>
+  S.Struct({ FailedEvaluations: S.optional(Evaluations) }).pipe(ns),
+).annotations({
+  identifier: "PutEvaluationsResponse",
+}) as any as S.Schema<PutEvaluationsResponse>;
+export interface PutOrganizationConfigRuleResponse {
+  OrganizationConfigRuleArn?: string;
+}
+export const PutOrganizationConfigRuleResponse = S.suspend(() =>
+  S.Struct({ OrganizationConfigRuleArn: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "PutOrganizationConfigRuleResponse",
+}) as any as S.Schema<PutOrganizationConfigRuleResponse>;
+export interface PutRemediationExceptionsResponse {
+  FailedBatches?: FailedRemediationExceptionBatches;
+}
+export const PutRemediationExceptionsResponse = S.suspend(() =>
+  S.Struct({
+    FailedBatches: S.optional(FailedRemediationExceptionBatches),
+  }).pipe(ns),
+).annotations({
+  identifier: "PutRemediationExceptionsResponse",
+}) as any as S.Schema<PutRemediationExceptionsResponse>;
+export interface PutStoredQueryResponse {
+  QueryArn?: string;
+}
+export const PutStoredQueryResponse = S.suspend(() =>
+  S.Struct({ QueryArn: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "PutStoredQueryResponse",
+}) as any as S.Schema<PutStoredQueryResponse>;
+export interface StartResourceEvaluationResponse {
+  ResourceEvaluationId?: string;
+}
+export const StartResourceEvaluationResponse = S.suspend(() =>
+  S.Struct({ ResourceEvaluationId: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "StartResourceEvaluationResponse",
+}) as any as S.Schema<StartResourceEvaluationResponse>;
+export type ControlsList = string[];
 export const ControlsList = S.Array(S.String);
-export class ConfigExportDeliveryInfo extends S.Class<ConfigExportDeliveryInfo>(
-  "ConfigExportDeliveryInfo",
-)({
-  lastStatus: S.optional(S.String),
-  lastErrorCode: S.optional(S.String),
-  lastErrorMessage: S.optional(S.String),
-  lastAttemptTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastSuccessfulTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  nextDeliveryTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class ConfigStreamDeliveryInfo extends S.Class<ConfigStreamDeliveryInfo>(
-  "ConfigStreamDeliveryInfo",
-)({
-  lastStatus: S.optional(S.String),
-  lastErrorCode: S.optional(S.String),
-  lastErrorMessage: S.optional(S.String),
-  lastStatusChangeTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
-export class OrganizationCustomPolicyRuleMetadataNoPolicy extends S.Class<OrganizationCustomPolicyRuleMetadataNoPolicy>(
-  "OrganizationCustomPolicyRuleMetadataNoPolicy",
-)({
-  Description: S.optional(S.String),
-  OrganizationConfigRuleTriggerTypes: S.optional(
-    OrganizationConfigRuleTriggerTypeNoSNs,
-  ),
-  InputParameters: S.optional(S.String),
-  MaximumExecutionFrequency: S.optional(S.String),
-  ResourceTypesScope: S.optional(ResourceTypesScope),
-  ResourceIdScope: S.optional(S.String),
-  TagKeyScope: S.optional(S.String),
-  TagValueScope: S.optional(S.String),
-  PolicyRuntime: S.optional(S.String),
-  DebugLogDeliveryAccounts: S.optional(DebugLogDeliveryAccounts),
-}) {}
-export class RemediationExecutionStep extends S.Class<RemediationExecutionStep>(
-  "RemediationExecutionStep",
-)({
-  Name: S.optional(S.String),
-  State: S.optional(S.String),
-  ErrorMessage: S.optional(S.String),
-  StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  StopTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface ConfigExportDeliveryInfo {
+  lastStatus?: string;
+  lastErrorCode?: string;
+  lastErrorMessage?: string;
+  lastAttemptTime?: Date;
+  lastSuccessfulTime?: Date;
+  nextDeliveryTime?: Date;
+}
+export const ConfigExportDeliveryInfo = S.suspend(() =>
+  S.Struct({
+    lastStatus: S.optional(S.String),
+    lastErrorCode: S.optional(S.String),
+    lastErrorMessage: S.optional(S.String),
+    lastAttemptTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    lastSuccessfulTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    nextDeliveryTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "ConfigExportDeliveryInfo",
+}) as any as S.Schema<ConfigExportDeliveryInfo>;
+export interface ConfigStreamDeliveryInfo {
+  lastStatus?: string;
+  lastErrorCode?: string;
+  lastErrorMessage?: string;
+  lastStatusChangeTime?: Date;
+}
+export const ConfigStreamDeliveryInfo = S.suspend(() =>
+  S.Struct({
+    lastStatus: S.optional(S.String),
+    lastErrorCode: S.optional(S.String),
+    lastErrorMessage: S.optional(S.String),
+    lastStatusChangeTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "ConfigStreamDeliveryInfo",
+}) as any as S.Schema<ConfigStreamDeliveryInfo>;
+export interface OrganizationCustomPolicyRuleMetadataNoPolicy {
+  Description?: string;
+  OrganizationConfigRuleTriggerTypes?: OrganizationConfigRuleTriggerTypeNoSNs;
+  InputParameters?: string;
+  MaximumExecutionFrequency?: string;
+  ResourceTypesScope?: ResourceTypesScope;
+  ResourceIdScope?: string;
+  TagKeyScope?: string;
+  TagValueScope?: string;
+  PolicyRuntime?: string;
+  DebugLogDeliveryAccounts?: DebugLogDeliveryAccounts;
+}
+export const OrganizationCustomPolicyRuleMetadataNoPolicy = S.suspend(() =>
+  S.Struct({
+    Description: S.optional(S.String),
+    OrganizationConfigRuleTriggerTypes: S.optional(
+      OrganizationConfigRuleTriggerTypeNoSNs,
+    ),
+    InputParameters: S.optional(S.String),
+    MaximumExecutionFrequency: S.optional(S.String),
+    ResourceTypesScope: S.optional(ResourceTypesScope),
+    ResourceIdScope: S.optional(S.String),
+    TagKeyScope: S.optional(S.String),
+    TagValueScope: S.optional(S.String),
+    PolicyRuntime: S.optional(S.String),
+    DebugLogDeliveryAccounts: S.optional(DebugLogDeliveryAccounts),
+  }),
+).annotations({
+  identifier: "OrganizationCustomPolicyRuleMetadataNoPolicy",
+}) as any as S.Schema<OrganizationCustomPolicyRuleMetadataNoPolicy>;
+export interface RemediationExecutionStep {
+  Name?: string;
+  State?: string;
+  ErrorMessage?: string;
+  StartTime?: Date;
+  StopTime?: Date;
+}
+export const RemediationExecutionStep = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    State: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
+    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    StopTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "RemediationExecutionStep",
+}) as any as S.Schema<RemediationExecutionStep>;
+export type RemediationExecutionSteps = RemediationExecutionStep[];
 export const RemediationExecutionSteps = S.Array(RemediationExecutionStep);
-export class FailedDeleteRemediationExceptionsBatch extends S.Class<FailedDeleteRemediationExceptionsBatch>(
-  "FailedDeleteRemediationExceptionsBatch",
-)({
-  FailureMessage: S.optional(S.String),
-  FailedItems: S.optional(RemediationExceptionResourceKeys),
-}) {}
+export interface FailedDeleteRemediationExceptionsBatch {
+  FailureMessage?: string;
+  FailedItems?: RemediationExceptionResourceKeys;
+}
+export const FailedDeleteRemediationExceptionsBatch = S.suspend(() =>
+  S.Struct({
+    FailureMessage: S.optional(S.String),
+    FailedItems: S.optional(RemediationExceptionResourceKeys),
+  }),
+).annotations({
+  identifier: "FailedDeleteRemediationExceptionsBatch",
+}) as any as S.Schema<FailedDeleteRemediationExceptionsBatch>;
+export type FailedDeleteRemediationExceptionsBatches =
+  FailedDeleteRemediationExceptionsBatch[];
 export const FailedDeleteRemediationExceptionsBatches = S.Array(
   FailedDeleteRemediationExceptionsBatch,
 );
-export class AggregateComplianceByConfigRule extends S.Class<AggregateComplianceByConfigRule>(
-  "AggregateComplianceByConfigRule",
-)({
-  ConfigRuleName: S.optional(S.String),
-  Compliance: S.optional(Compliance),
-  AccountId: S.optional(S.String),
-  AwsRegion: S.optional(S.String),
-}) {}
+export interface AggregateComplianceByConfigRule {
+  ConfigRuleName?: string;
+  Compliance?: Compliance;
+  AccountId?: string;
+  AwsRegion?: string;
+}
+export const AggregateComplianceByConfigRule = S.suspend(() =>
+  S.Struct({
+    ConfigRuleName: S.optional(S.String),
+    Compliance: S.optional(Compliance),
+    AccountId: S.optional(S.String),
+    AwsRegion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AggregateComplianceByConfigRule",
+}) as any as S.Schema<AggregateComplianceByConfigRule>;
+export type AggregateComplianceByConfigRuleList =
+  AggregateComplianceByConfigRule[];
 export const AggregateComplianceByConfigRuleList = S.Array(
   AggregateComplianceByConfigRule,
 );
-export class ComplianceByConfigRule extends S.Class<ComplianceByConfigRule>(
-  "ComplianceByConfigRule",
-)({
-  ConfigRuleName: S.optional(S.String),
-  Compliance: S.optional(Compliance),
-}) {}
+export interface ComplianceByConfigRule {
+  ConfigRuleName?: string;
+  Compliance?: Compliance;
+}
+export const ComplianceByConfigRule = S.suspend(() =>
+  S.Struct({
+    ConfigRuleName: S.optional(S.String),
+    Compliance: S.optional(Compliance),
+  }),
+).annotations({
+  identifier: "ComplianceByConfigRule",
+}) as any as S.Schema<ComplianceByConfigRule>;
+export type ComplianceByConfigRules = ComplianceByConfigRule[];
 export const ComplianceByConfigRules = S.Array(ComplianceByConfigRule);
-export class ConformancePackRuleCompliance extends S.Class<ConformancePackRuleCompliance>(
-  "ConformancePackRuleCompliance",
-)({
-  ConfigRuleName: S.optional(S.String),
-  ComplianceType: S.optional(S.String),
-  Controls: S.optional(ControlsList),
-}) {}
+export interface ConformancePackRuleCompliance {
+  ConfigRuleName?: string;
+  ComplianceType?: string;
+  Controls?: ControlsList;
+}
+export const ConformancePackRuleCompliance = S.suspend(() =>
+  S.Struct({
+    ConfigRuleName: S.optional(S.String),
+    ComplianceType: S.optional(S.String),
+    Controls: S.optional(ControlsList),
+  }),
+).annotations({
+  identifier: "ConformancePackRuleCompliance",
+}) as any as S.Schema<ConformancePackRuleCompliance>;
+export type ConformancePackRuleComplianceList = ConformancePackRuleCompliance[];
 export const ConformancePackRuleComplianceList = S.Array(
   ConformancePackRuleCompliance,
 );
-export class DeliveryChannelStatus extends S.Class<DeliveryChannelStatus>(
-  "DeliveryChannelStatus",
-)({
-  name: S.optional(S.String),
-  configSnapshotDeliveryInfo: S.optional(ConfigExportDeliveryInfo),
-  configHistoryDeliveryInfo: S.optional(ConfigExportDeliveryInfo),
-  configStreamDeliveryInfo: S.optional(ConfigStreamDeliveryInfo),
-}) {}
+export interface DeliveryChannelStatus {
+  name?: string;
+  configSnapshotDeliveryInfo?: ConfigExportDeliveryInfo;
+  configHistoryDeliveryInfo?: ConfigExportDeliveryInfo;
+  configStreamDeliveryInfo?: ConfigStreamDeliveryInfo;
+}
+export const DeliveryChannelStatus = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    configSnapshotDeliveryInfo: S.optional(ConfigExportDeliveryInfo),
+    configHistoryDeliveryInfo: S.optional(ConfigExportDeliveryInfo),
+    configStreamDeliveryInfo: S.optional(ConfigStreamDeliveryInfo),
+  }),
+).annotations({
+  identifier: "DeliveryChannelStatus",
+}) as any as S.Schema<DeliveryChannelStatus>;
+export type DeliveryChannelStatusList = DeliveryChannelStatus[];
 export const DeliveryChannelStatusList = S.Array(DeliveryChannelStatus);
-export class OrganizationConfigRule extends S.Class<OrganizationConfigRule>(
-  "OrganizationConfigRule",
-)({
-  OrganizationConfigRuleName: S.String,
-  OrganizationConfigRuleArn: S.String,
-  OrganizationManagedRuleMetadata: S.optional(OrganizationManagedRuleMetadata),
-  OrganizationCustomRuleMetadata: S.optional(OrganizationCustomRuleMetadata),
-  ExcludedAccounts: S.optional(ExcludedAccounts),
-  LastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  OrganizationCustomPolicyRuleMetadata: S.optional(
-    OrganizationCustomPolicyRuleMetadataNoPolicy,
-  ),
-}) {}
+export interface OrganizationConfigRule {
+  OrganizationConfigRuleName: string;
+  OrganizationConfigRuleArn: string;
+  OrganizationManagedRuleMetadata?: OrganizationManagedRuleMetadata;
+  OrganizationCustomRuleMetadata?: OrganizationCustomRuleMetadata;
+  ExcludedAccounts?: ExcludedAccounts;
+  LastUpdateTime?: Date;
+  OrganizationCustomPolicyRuleMetadata?: OrganizationCustomPolicyRuleMetadataNoPolicy;
+}
+export const OrganizationConfigRule = S.suspend(() =>
+  S.Struct({
+    OrganizationConfigRuleName: S.String,
+    OrganizationConfigRuleArn: S.String,
+    OrganizationManagedRuleMetadata: S.optional(
+      OrganizationManagedRuleMetadata,
+    ),
+    OrganizationCustomRuleMetadata: S.optional(OrganizationCustomRuleMetadata),
+    ExcludedAccounts: S.optional(ExcludedAccounts),
+    LastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    OrganizationCustomPolicyRuleMetadata: S.optional(
+      OrganizationCustomPolicyRuleMetadataNoPolicy,
+    ),
+  }),
+).annotations({
+  identifier: "OrganizationConfigRule",
+}) as any as S.Schema<OrganizationConfigRule>;
+export type OrganizationConfigRules = OrganizationConfigRule[];
 export const OrganizationConfigRules = S.Array(OrganizationConfigRule);
-export class RemediationExecutionStatus extends S.Class<RemediationExecutionStatus>(
-  "RemediationExecutionStatus",
-)({
-  ResourceKey: S.optional(ResourceKey),
-  State: S.optional(S.String),
-  StepDetails: S.optional(RemediationExecutionSteps),
-  InvocationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface RemediationExecutionStatus {
+  ResourceKey?: ResourceKey;
+  State?: string;
+  StepDetails?: RemediationExecutionSteps;
+  InvocationTime?: Date;
+  LastUpdatedTime?: Date;
+}
+export const RemediationExecutionStatus = S.suspend(() =>
+  S.Struct({
+    ResourceKey: S.optional(ResourceKey),
+    State: S.optional(S.String),
+    StepDetails: S.optional(RemediationExecutionSteps),
+    InvocationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastUpdatedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "RemediationExecutionStatus",
+}) as any as S.Schema<RemediationExecutionStatus>;
+export type RemediationExecutionStatuses = RemediationExecutionStatus[];
 export const RemediationExecutionStatuses = S.Array(RemediationExecutionStatus);
-export class AggregateComplianceCount extends S.Class<AggregateComplianceCount>(
-  "AggregateComplianceCount",
-)({
-  GroupName: S.optional(S.String),
-  ComplianceSummary: S.optional(ComplianceSummary),
-}) {}
+export interface AggregateComplianceCount {
+  GroupName?: string;
+  ComplianceSummary?: ComplianceSummary;
+}
+export const AggregateComplianceCount = S.suspend(() =>
+  S.Struct({
+    GroupName: S.optional(S.String),
+    ComplianceSummary: S.optional(ComplianceSummary),
+  }),
+).annotations({
+  identifier: "AggregateComplianceCount",
+}) as any as S.Schema<AggregateComplianceCount>;
+export type AggregateComplianceCountList = AggregateComplianceCount[];
 export const AggregateComplianceCountList = S.Array(AggregateComplianceCount);
-export class GroupedResourceCount extends S.Class<GroupedResourceCount>(
-  "GroupedResourceCount",
-)({ GroupName: S.String, ResourceCount: S.Number }) {}
+export interface GroupedResourceCount {
+  GroupName: string;
+  ResourceCount: number;
+}
+export const GroupedResourceCount = S.suspend(() =>
+  S.Struct({ GroupName: S.String, ResourceCount: S.Number }),
+).annotations({
+  identifier: "GroupedResourceCount",
+}) as any as S.Schema<GroupedResourceCount>;
+export type GroupedResourceCountList = GroupedResourceCount[];
 export const GroupedResourceCountList = S.Array(GroupedResourceCount);
-export class ConformancePackEvaluationResult extends S.Class<ConformancePackEvaluationResult>(
-  "ConformancePackEvaluationResult",
-)({
-  ComplianceType: S.String,
-  EvaluationResultIdentifier: EvaluationResultIdentifier,
-  ConfigRuleInvokedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ResultRecordedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  Annotation: S.optional(S.String),
-}) {}
+export interface ConformancePackEvaluationResult {
+  ComplianceType: string;
+  EvaluationResultIdentifier: EvaluationResultIdentifier;
+  ConfigRuleInvokedTime: Date;
+  ResultRecordedTime: Date;
+  Annotation?: string;
+}
+export const ConformancePackEvaluationResult = S.suspend(() =>
+  S.Struct({
+    ComplianceType: S.String,
+    EvaluationResultIdentifier: EvaluationResultIdentifier,
+    ConfigRuleInvokedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ResultRecordedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    Annotation: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ConformancePackEvaluationResult",
+}) as any as S.Schema<ConformancePackEvaluationResult>;
+export type ConformancePackRuleEvaluationResultsList =
+  ConformancePackEvaluationResult[];
 export const ConformancePackRuleEvaluationResultsList = S.Array(
   ConformancePackEvaluationResult,
 );
-export class MemberAccountStatus extends S.Class<MemberAccountStatus>(
-  "MemberAccountStatus",
-)({
-  AccountId: S.String,
-  ConfigRuleName: S.String,
-  MemberAccountRuleStatus: S.String,
-  ErrorCode: S.optional(S.String),
-  ErrorMessage: S.optional(S.String),
-  LastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface MemberAccountStatus {
+  AccountId: string;
+  ConfigRuleName: string;
+  MemberAccountRuleStatus: string;
+  ErrorCode?: string;
+  ErrorMessage?: string;
+  LastUpdateTime?: Date;
+}
+export const MemberAccountStatus = S.suspend(() =>
+  S.Struct({
+    AccountId: S.String,
+    ConfigRuleName: S.String,
+    MemberAccountRuleStatus: S.String,
+    ErrorCode: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
+    LastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "MemberAccountStatus",
+}) as any as S.Schema<MemberAccountStatus>;
+export type OrganizationConfigRuleDetailedStatus = MemberAccountStatus[];
 export const OrganizationConfigRuleDetailedStatus =
   S.Array(MemberAccountStatus);
-export class OrganizationConformancePackDetailedStatus extends S.Class<OrganizationConformancePackDetailedStatus>(
-  "OrganizationConformancePackDetailedStatus",
-)({
-  AccountId: S.String,
-  ConformancePackName: S.String,
-  Status: S.String,
-  ErrorCode: S.optional(S.String),
-  ErrorMessage: S.optional(S.String),
-  LastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface OrganizationConformancePackDetailedStatus {
+  AccountId: string;
+  ConformancePackName: string;
+  Status: string;
+  ErrorCode?: string;
+  ErrorMessage?: string;
+  LastUpdateTime?: Date;
+}
+export const OrganizationConformancePackDetailedStatus = S.suspend(() =>
+  S.Struct({
+    AccountId: S.String,
+    ConformancePackName: S.String,
+    Status: S.String,
+    ErrorCode: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
+    LastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "OrganizationConformancePackDetailedStatus",
+}) as any as S.Schema<OrganizationConformancePackDetailedStatus>;
+export type OrganizationConformancePackDetailedStatuses =
+  OrganizationConformancePackDetailedStatus[];
 export const OrganizationConformancePackDetailedStatuses = S.Array(
   OrganizationConformancePackDetailedStatus,
 );
-export class ConfigurationRecorderSummary extends S.Class<ConfigurationRecorderSummary>(
-  "ConfigurationRecorderSummary",
-)({
-  arn: S.String,
-  name: S.String,
-  servicePrincipal: S.optional(S.String),
-  recordingScope: S.String,
-}) {}
+export interface ConfigurationRecorderSummary {
+  arn: string;
+  name: string;
+  servicePrincipal?: string;
+  recordingScope: string;
+}
+export const ConfigurationRecorderSummary = S.suspend(() =>
+  S.Struct({
+    arn: S.String,
+    name: S.String,
+    servicePrincipal: S.optional(S.String),
+    recordingScope: S.String,
+  }),
+).annotations({
+  identifier: "ConfigurationRecorderSummary",
+}) as any as S.Schema<ConfigurationRecorderSummary>;
+export type ConfigurationRecorderSummaries = ConfigurationRecorderSummary[];
 export const ConfigurationRecorderSummaries = S.Array(
   ConfigurationRecorderSummary,
 );
-export class ConformancePackComplianceScore extends S.Class<ConformancePackComplianceScore>(
-  "ConformancePackComplianceScore",
-)({
-  Score: S.optional(S.String),
-  ConformancePackName: S.optional(S.String),
-  LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface ConformancePackComplianceScore {
+  Score?: string;
+  ConformancePackName?: string;
+  LastUpdatedTime?: Date;
+}
+export const ConformancePackComplianceScore = S.suspend(() =>
+  S.Struct({
+    Score: S.optional(S.String),
+    ConformancePackName: S.optional(S.String),
+    LastUpdatedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "ConformancePackComplianceScore",
+}) as any as S.Schema<ConformancePackComplianceScore>;
+export type ConformancePackComplianceScores = ConformancePackComplianceScore[];
 export const ConformancePackComplianceScores = S.Array(
   ConformancePackComplianceScore,
 );
-export class BatchGetAggregateResourceConfigResponse extends S.Class<BatchGetAggregateResourceConfigResponse>(
-  "BatchGetAggregateResourceConfigResponse",
-)(
-  {
+export interface BatchGetAggregateResourceConfigResponse {
+  BaseConfigurationItems?: BaseConfigurationItems;
+  UnprocessedResourceIdentifiers?: UnprocessedResourceIdentifierList;
+}
+export const BatchGetAggregateResourceConfigResponse = S.suspend(() =>
+  S.Struct({
     BaseConfigurationItems: S.optional(BaseConfigurationItems),
     UnprocessedResourceIdentifiers: S.optional(
       UnprocessedResourceIdentifierList,
     ),
-  },
-  ns,
-) {}
-export class DeleteRemediationExceptionsResponse extends S.Class<DeleteRemediationExceptionsResponse>(
-  "DeleteRemediationExceptionsResponse",
-)(
-  { FailedBatches: S.optional(FailedDeleteRemediationExceptionsBatches) },
-  ns,
-) {}
-export class DescribeAggregateComplianceByConfigRulesResponse extends S.Class<DescribeAggregateComplianceByConfigRulesResponse>(
-  "DescribeAggregateComplianceByConfigRulesResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "BatchGetAggregateResourceConfigResponse",
+}) as any as S.Schema<BatchGetAggregateResourceConfigResponse>;
+export interface DeleteRemediationExceptionsResponse {
+  FailedBatches?: FailedDeleteRemediationExceptionsBatches;
+}
+export const DeleteRemediationExceptionsResponse = S.suspend(() =>
+  S.Struct({
+    FailedBatches: S.optional(FailedDeleteRemediationExceptionsBatches),
+  }).pipe(ns),
+).annotations({
+  identifier: "DeleteRemediationExceptionsResponse",
+}) as any as S.Schema<DeleteRemediationExceptionsResponse>;
+export interface DescribeAggregateComplianceByConfigRulesResponse {
+  AggregateComplianceByConfigRules?: AggregateComplianceByConfigRuleList;
+  NextToken?: string;
+}
+export const DescribeAggregateComplianceByConfigRulesResponse = S.suspend(() =>
+  S.Struct({
     AggregateComplianceByConfigRules: S.optional(
       AggregateComplianceByConfigRuleList,
     ),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class DescribeComplianceByConfigRuleResponse extends S.Class<DescribeComplianceByConfigRuleResponse>(
-  "DescribeComplianceByConfigRuleResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeAggregateComplianceByConfigRulesResponse",
+}) as any as S.Schema<DescribeAggregateComplianceByConfigRulesResponse>;
+export interface DescribeComplianceByConfigRuleResponse {
+  ComplianceByConfigRules?: ComplianceByConfigRules;
+  NextToken?: string;
+}
+export const DescribeComplianceByConfigRuleResponse = S.suspend(() =>
+  S.Struct({
     ComplianceByConfigRules: S.optional(ComplianceByConfigRules),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class DescribeConformancePackComplianceResponse extends S.Class<DescribeConformancePackComplianceResponse>(
-  "DescribeConformancePackComplianceResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeComplianceByConfigRuleResponse",
+}) as any as S.Schema<DescribeComplianceByConfigRuleResponse>;
+export interface DescribeConformancePackComplianceResponse {
+  ConformancePackName: string;
+  ConformancePackRuleComplianceList: ConformancePackRuleComplianceList;
+  NextToken?: string;
+}
+export const DescribeConformancePackComplianceResponse = S.suspend(() =>
+  S.Struct({
     ConformancePackName: S.String,
     ConformancePackRuleComplianceList: ConformancePackRuleComplianceList,
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class DescribeDeliveryChannelStatusResponse extends S.Class<DescribeDeliveryChannelStatusResponse>(
-  "DescribeDeliveryChannelStatusResponse",
-)({ DeliveryChannelsStatus: S.optional(DeliveryChannelStatusList) }, ns) {}
-export class DescribeOrganizationConfigRulesResponse extends S.Class<DescribeOrganizationConfigRulesResponse>(
-  "DescribeOrganizationConfigRulesResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeConformancePackComplianceResponse",
+}) as any as S.Schema<DescribeConformancePackComplianceResponse>;
+export interface DescribeDeliveryChannelStatusResponse {
+  DeliveryChannelsStatus?: DeliveryChannelStatusList;
+}
+export const DescribeDeliveryChannelStatusResponse = S.suspend(() =>
+  S.Struct({
+    DeliveryChannelsStatus: S.optional(DeliveryChannelStatusList),
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeDeliveryChannelStatusResponse",
+}) as any as S.Schema<DescribeDeliveryChannelStatusResponse>;
+export interface DescribeOrganizationConfigRulesResponse {
+  OrganizationConfigRules?: OrganizationConfigRules;
+  NextToken?: string;
+}
+export const DescribeOrganizationConfigRulesResponse = S.suspend(() =>
+  S.Struct({
     OrganizationConfigRules: S.optional(OrganizationConfigRules),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class DescribeRemediationExecutionStatusResponse extends S.Class<DescribeRemediationExecutionStatusResponse>(
-  "DescribeRemediationExecutionStatusResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeOrganizationConfigRulesResponse",
+}) as any as S.Schema<DescribeOrganizationConfigRulesResponse>;
+export interface DescribeRemediationExecutionStatusResponse {
+  RemediationExecutionStatuses?: RemediationExecutionStatuses;
+  NextToken?: string;
+}
+export const DescribeRemediationExecutionStatusResponse = S.suspend(() =>
+  S.Struct({
     RemediationExecutionStatuses: S.optional(RemediationExecutionStatuses),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class GetAggregateConfigRuleComplianceSummaryResponse extends S.Class<GetAggregateConfigRuleComplianceSummaryResponse>(
-  "GetAggregateConfigRuleComplianceSummaryResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeRemediationExecutionStatusResponse",
+}) as any as S.Schema<DescribeRemediationExecutionStatusResponse>;
+export interface GetAggregateConfigRuleComplianceSummaryResponse {
+  GroupByKey?: string;
+  AggregateComplianceCounts?: AggregateComplianceCountList;
+  NextToken?: string;
+}
+export const GetAggregateConfigRuleComplianceSummaryResponse = S.suspend(() =>
+  S.Struct({
     GroupByKey: S.optional(S.String),
     AggregateComplianceCounts: S.optional(AggregateComplianceCountList),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class GetAggregateDiscoveredResourceCountsResponse extends S.Class<GetAggregateDiscoveredResourceCountsResponse>(
-  "GetAggregateDiscoveredResourceCountsResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetAggregateConfigRuleComplianceSummaryResponse",
+}) as any as S.Schema<GetAggregateConfigRuleComplianceSummaryResponse>;
+export interface GetAggregateDiscoveredResourceCountsResponse {
+  TotalDiscoveredResources: number;
+  GroupByKey?: string;
+  GroupedResourceCounts?: GroupedResourceCountList;
+  NextToken?: string;
+}
+export const GetAggregateDiscoveredResourceCountsResponse = S.suspend(() =>
+  S.Struct({
     TotalDiscoveredResources: S.Number,
     GroupByKey: S.optional(S.String),
     GroupedResourceCounts: S.optional(GroupedResourceCountList),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class GetAggregateResourceConfigResponse extends S.Class<GetAggregateResourceConfigResponse>(
-  "GetAggregateResourceConfigResponse",
-)({ ConfigurationItem: S.optional(ConfigurationItem) }, ns) {}
-export class GetConformancePackComplianceDetailsResponse extends S.Class<GetConformancePackComplianceDetailsResponse>(
-  "GetConformancePackComplianceDetailsResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetAggregateDiscoveredResourceCountsResponse",
+}) as any as S.Schema<GetAggregateDiscoveredResourceCountsResponse>;
+export interface GetAggregateResourceConfigResponse {
+  ConfigurationItem?: ConfigurationItem;
+}
+export const GetAggregateResourceConfigResponse = S.suspend(() =>
+  S.Struct({ ConfigurationItem: S.optional(ConfigurationItem) }).pipe(ns),
+).annotations({
+  identifier: "GetAggregateResourceConfigResponse",
+}) as any as S.Schema<GetAggregateResourceConfigResponse>;
+export interface GetConformancePackComplianceDetailsResponse {
+  ConformancePackName: string;
+  ConformancePackRuleEvaluationResults?: ConformancePackRuleEvaluationResultsList;
+  NextToken?: string;
+}
+export const GetConformancePackComplianceDetailsResponse = S.suspend(() =>
+  S.Struct({
     ConformancePackName: S.String,
     ConformancePackRuleEvaluationResults: S.optional(
       ConformancePackRuleEvaluationResultsList,
     ),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class GetOrganizationConfigRuleDetailedStatusResponse extends S.Class<GetOrganizationConfigRuleDetailedStatusResponse>(
-  "GetOrganizationConfigRuleDetailedStatusResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetConformancePackComplianceDetailsResponse",
+}) as any as S.Schema<GetConformancePackComplianceDetailsResponse>;
+export interface GetOrganizationConfigRuleDetailedStatusResponse {
+  OrganizationConfigRuleDetailedStatus?: OrganizationConfigRuleDetailedStatus;
+  NextToken?: string;
+}
+export const GetOrganizationConfigRuleDetailedStatusResponse = S.suspend(() =>
+  S.Struct({
     OrganizationConfigRuleDetailedStatus: S.optional(
       OrganizationConfigRuleDetailedStatus,
     ),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class GetOrganizationConformancePackDetailedStatusResponse extends S.Class<GetOrganizationConformancePackDetailedStatusResponse>(
-  "GetOrganizationConformancePackDetailedStatusResponse",
-)(
-  {
-    OrganizationConformancePackDetailedStatuses: S.optional(
-      OrganizationConformancePackDetailedStatuses,
-    ),
-    NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListConfigurationRecordersResponse extends S.Class<ListConfigurationRecordersResponse>(
-  "ListConfigurationRecordersResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetOrganizationConfigRuleDetailedStatusResponse",
+}) as any as S.Schema<GetOrganizationConfigRuleDetailedStatusResponse>;
+export interface GetOrganizationConformancePackDetailedStatusResponse {
+  OrganizationConformancePackDetailedStatuses?: OrganizationConformancePackDetailedStatuses;
+  NextToken?: string;
+}
+export const GetOrganizationConformancePackDetailedStatusResponse = S.suspend(
+  () =>
+    S.Struct({
+      OrganizationConformancePackDetailedStatuses: S.optional(
+        OrganizationConformancePackDetailedStatuses,
+      ),
+      NextToken: S.optional(S.String),
+    }).pipe(ns),
+).annotations({
+  identifier: "GetOrganizationConformancePackDetailedStatusResponse",
+}) as any as S.Schema<GetOrganizationConformancePackDetailedStatusResponse>;
+export interface ListConfigurationRecordersResponse {
+  ConfigurationRecorderSummaries: ConfigurationRecorderSummaries;
+  NextToken?: string;
+}
+export const ListConfigurationRecordersResponse = S.suspend(() =>
+  S.Struct({
     ConfigurationRecorderSummaries: ConfigurationRecorderSummaries,
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListConformancePackComplianceScoresResponse extends S.Class<ListConformancePackComplianceScoresResponse>(
-  "ListConformancePackComplianceScoresResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListConfigurationRecordersResponse",
+}) as any as S.Schema<ListConfigurationRecordersResponse>;
+export interface ListConformancePackComplianceScoresResponse {
+  NextToken?: string;
+  ConformancePackComplianceScores: ConformancePackComplianceScores;
+}
+export const ListConformancePackComplianceScoresResponse = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String),
     ConformancePackComplianceScores: ConformancePackComplianceScores,
-  },
-  ns,
-) {}
-export class PutConfigRuleRequest extends S.Class<PutConfigRuleRequest>(
-  "PutConfigRuleRequest",
-)(
-  { ConfigRule: ConfigRule, Tags: S.optional(TagsList) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutConfigRuleResponse extends S.Class<PutConfigRuleResponse>(
-  "PutConfigRuleResponse",
-)({}, ns) {}
-export class PutConfigurationAggregatorResponse extends S.Class<PutConfigurationAggregatorResponse>(
-  "PutConfigurationAggregatorResponse",
-)({ ConfigurationAggregator: S.optional(ConfigurationAggregator) }, ns) {}
-export class PutConfigurationRecorderRequest extends S.Class<PutConfigurationRecorderRequest>(
-  "PutConfigurationRecorderRequest",
-)(
-  { ConfigurationRecorder: ConfigurationRecorder, Tags: S.optional(TagsList) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutConfigurationRecorderResponse extends S.Class<PutConfigurationRecorderResponse>(
-  "PutConfigurationRecorderResponse",
-)({}, ns) {}
-export class SelectAggregateResourceConfigResponse extends S.Class<SelectAggregateResourceConfigResponse>(
-  "SelectAggregateResourceConfigResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListConformancePackComplianceScoresResponse",
+}) as any as S.Schema<ListConformancePackComplianceScoresResponse>;
+export interface PutConfigRuleRequest {
+  ConfigRule: ConfigRule;
+  Tags?: TagsList;
+}
+export const PutConfigRuleRequest = S.suspend(() =>
+  S.Struct({ ConfigRule: ConfigRule, Tags: S.optional(TagsList) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutConfigRuleRequest",
+}) as any as S.Schema<PutConfigRuleRequest>;
+export interface PutConfigRuleResponse {}
+export const PutConfigRuleResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "PutConfigRuleResponse",
+}) as any as S.Schema<PutConfigRuleResponse>;
+export interface PutConfigurationAggregatorResponse {
+  ConfigurationAggregator?: ConfigurationAggregator;
+}
+export const PutConfigurationAggregatorResponse = S.suspend(() =>
+  S.Struct({
+    ConfigurationAggregator: S.optional(ConfigurationAggregator),
+  }).pipe(ns),
+).annotations({
+  identifier: "PutConfigurationAggregatorResponse",
+}) as any as S.Schema<PutConfigurationAggregatorResponse>;
+export interface PutConfigurationRecorderRequest {
+  ConfigurationRecorder: ConfigurationRecorder;
+  Tags?: TagsList;
+}
+export const PutConfigurationRecorderRequest = S.suspend(() =>
+  S.Struct({
+    ConfigurationRecorder: ConfigurationRecorder,
+    Tags: S.optional(TagsList),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutConfigurationRecorderRequest",
+}) as any as S.Schema<PutConfigurationRecorderRequest>;
+export interface PutConfigurationRecorderResponse {}
+export const PutConfigurationRecorderResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "PutConfigurationRecorderResponse",
+}) as any as S.Schema<PutConfigurationRecorderResponse>;
+export interface SelectAggregateResourceConfigResponse {
+  Results?: Results;
+  QueryInfo?: QueryInfo;
+  NextToken?: string;
+}
+export const SelectAggregateResourceConfigResponse = S.suspend(() =>
+  S.Struct({
     Results: S.optional(Results),
     QueryInfo: S.optional(QueryInfo),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class AggregateConformancePackCompliance extends S.Class<AggregateConformancePackCompliance>(
-  "AggregateConformancePackCompliance",
-)({
-  ComplianceType: S.optional(S.String),
-  CompliantRuleCount: S.optional(S.Number),
-  NonCompliantRuleCount: S.optional(S.Number),
-  TotalRuleCount: S.optional(S.Number),
-}) {}
-export class AggregateConformancePackComplianceCount extends S.Class<AggregateConformancePackComplianceCount>(
-  "AggregateConformancePackComplianceCount",
-)({
-  CompliantConformancePackCount: S.optional(S.Number),
-  NonCompliantConformancePackCount: S.optional(S.Number),
-}) {}
-export class AggregateComplianceByConformancePack extends S.Class<AggregateComplianceByConformancePack>(
-  "AggregateComplianceByConformancePack",
-)({
-  ConformancePackName: S.optional(S.String),
-  Compliance: S.optional(AggregateConformancePackCompliance),
-  AccountId: S.optional(S.String),
-  AwsRegion: S.optional(S.String),
-}) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "SelectAggregateResourceConfigResponse",
+}) as any as S.Schema<SelectAggregateResourceConfigResponse>;
+export interface AggregateConformancePackCompliance {
+  ComplianceType?: string;
+  CompliantRuleCount?: number;
+  NonCompliantRuleCount?: number;
+  TotalRuleCount?: number;
+}
+export const AggregateConformancePackCompliance = S.suspend(() =>
+  S.Struct({
+    ComplianceType: S.optional(S.String),
+    CompliantRuleCount: S.optional(S.Number),
+    NonCompliantRuleCount: S.optional(S.Number),
+    TotalRuleCount: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "AggregateConformancePackCompliance",
+}) as any as S.Schema<AggregateConformancePackCompliance>;
+export interface AggregateConformancePackComplianceCount {
+  CompliantConformancePackCount?: number;
+  NonCompliantConformancePackCount?: number;
+}
+export const AggregateConformancePackComplianceCount = S.suspend(() =>
+  S.Struct({
+    CompliantConformancePackCount: S.optional(S.Number),
+    NonCompliantConformancePackCount: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "AggregateConformancePackComplianceCount",
+}) as any as S.Schema<AggregateConformancePackComplianceCount>;
+export interface AggregateComplianceByConformancePack {
+  ConformancePackName?: string;
+  Compliance?: AggregateConformancePackCompliance;
+  AccountId?: string;
+  AwsRegion?: string;
+}
+export const AggregateComplianceByConformancePack = S.suspend(() =>
+  S.Struct({
+    ConformancePackName: S.optional(S.String),
+    Compliance: S.optional(AggregateConformancePackCompliance),
+    AccountId: S.optional(S.String),
+    AwsRegion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AggregateComplianceByConformancePack",
+}) as any as S.Schema<AggregateComplianceByConformancePack>;
+export type AggregateComplianceByConformancePackList =
+  AggregateComplianceByConformancePack[];
 export const AggregateComplianceByConformancePackList = S.Array(
   AggregateComplianceByConformancePack,
 );
-export class AggregateEvaluationResult extends S.Class<AggregateEvaluationResult>(
-  "AggregateEvaluationResult",
-)({
-  EvaluationResultIdentifier: S.optional(EvaluationResultIdentifier),
-  ComplianceType: S.optional(S.String),
-  ResultRecordedTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  ConfigRuleInvokedTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  Annotation: S.optional(S.String),
-  AccountId: S.optional(S.String),
-  AwsRegion: S.optional(S.String),
-}) {}
+export interface AggregateEvaluationResult {
+  EvaluationResultIdentifier?: EvaluationResultIdentifier;
+  ComplianceType?: string;
+  ResultRecordedTime?: Date;
+  ConfigRuleInvokedTime?: Date;
+  Annotation?: string;
+  AccountId?: string;
+  AwsRegion?: string;
+}
+export const AggregateEvaluationResult = S.suspend(() =>
+  S.Struct({
+    EvaluationResultIdentifier: S.optional(EvaluationResultIdentifier),
+    ComplianceType: S.optional(S.String),
+    ResultRecordedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    ConfigRuleInvokedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    Annotation: S.optional(S.String),
+    AccountId: S.optional(S.String),
+    AwsRegion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AggregateEvaluationResult",
+}) as any as S.Schema<AggregateEvaluationResult>;
+export type AggregateEvaluationResultList = AggregateEvaluationResult[];
 export const AggregateEvaluationResultList = S.Array(AggregateEvaluationResult);
-export class AggregateConformancePackComplianceSummary extends S.Class<AggregateConformancePackComplianceSummary>(
-  "AggregateConformancePackComplianceSummary",
-)({
-  ComplianceSummary: S.optional(AggregateConformancePackComplianceCount),
-  GroupName: S.optional(S.String),
-}) {}
+export interface AggregateConformancePackComplianceSummary {
+  ComplianceSummary?: AggregateConformancePackComplianceCount;
+  GroupName?: string;
+}
+export const AggregateConformancePackComplianceSummary = S.suspend(() =>
+  S.Struct({
+    ComplianceSummary: S.optional(AggregateConformancePackComplianceCount),
+    GroupName: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AggregateConformancePackComplianceSummary",
+}) as any as S.Schema<AggregateConformancePackComplianceSummary>;
+export type AggregateConformancePackComplianceSummaryList =
+  AggregateConformancePackComplianceSummary[];
 export const AggregateConformancePackComplianceSummaryList = S.Array(
   AggregateConformancePackComplianceSummary,
 );
-export class ResourceEvaluation extends S.Class<ResourceEvaluation>(
-  "ResourceEvaluation",
-)({
-  ResourceEvaluationId: S.optional(S.String),
-  EvaluationMode: S.optional(S.String),
-  EvaluationStartTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
-export const ResourceEvaluations = S.Array(ResourceEvaluation);
-export class DescribeAggregateComplianceByConformancePacksResponse extends S.Class<DescribeAggregateComplianceByConformancePacksResponse>(
-  "DescribeAggregateComplianceByConformancePacksResponse",
-)(
-  {
-    AggregateComplianceByConformancePacks: S.optional(
-      AggregateComplianceByConformancePackList,
+export interface ResourceEvaluation {
+  ResourceEvaluationId?: string;
+  EvaluationMode?: string;
+  EvaluationStartTimestamp?: Date;
+}
+export const ResourceEvaluation = S.suspend(() =>
+  S.Struct({
+    ResourceEvaluationId: S.optional(S.String),
+    EvaluationMode: S.optional(S.String),
+    EvaluationStartTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class GetAggregateComplianceDetailsByConfigRuleResponse extends S.Class<GetAggregateComplianceDetailsByConfigRuleResponse>(
-  "GetAggregateComplianceDetailsByConfigRuleResponse",
-)(
-  {
+  }),
+).annotations({
+  identifier: "ResourceEvaluation",
+}) as any as S.Schema<ResourceEvaluation>;
+export type ResourceEvaluations = ResourceEvaluation[];
+export const ResourceEvaluations = S.Array(ResourceEvaluation);
+export interface DescribeAggregateComplianceByConformancePacksResponse {
+  AggregateComplianceByConformancePacks?: AggregateComplianceByConformancePackList;
+  NextToken?: string;
+}
+export const DescribeAggregateComplianceByConformancePacksResponse = S.suspend(
+  () =>
+    S.Struct({
+      AggregateComplianceByConformancePacks: S.optional(
+        AggregateComplianceByConformancePackList,
+      ),
+      NextToken: S.optional(S.String),
+    }).pipe(ns),
+).annotations({
+  identifier: "DescribeAggregateComplianceByConformancePacksResponse",
+}) as any as S.Schema<DescribeAggregateComplianceByConformancePacksResponse>;
+export interface GetAggregateComplianceDetailsByConfigRuleResponse {
+  AggregateEvaluationResults?: AggregateEvaluationResultList;
+  NextToken?: string;
+}
+export const GetAggregateComplianceDetailsByConfigRuleResponse = S.suspend(() =>
+  S.Struct({
     AggregateEvaluationResults: S.optional(AggregateEvaluationResultList),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class GetAggregateConformancePackComplianceSummaryResponse extends S.Class<GetAggregateConformancePackComplianceSummaryResponse>(
-  "GetAggregateConformancePackComplianceSummaryResponse",
-)(
-  {
-    AggregateConformancePackComplianceSummaries: S.optional(
-      AggregateConformancePackComplianceSummaryList,
-    ),
-    GroupByKey: S.optional(S.String),
-    NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListResourceEvaluationsResponse extends S.Class<ListResourceEvaluationsResponse>(
-  "ListResourceEvaluationsResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetAggregateComplianceDetailsByConfigRuleResponse",
+}) as any as S.Schema<GetAggregateComplianceDetailsByConfigRuleResponse>;
+export interface GetAggregateConformancePackComplianceSummaryResponse {
+  AggregateConformancePackComplianceSummaries?: AggregateConformancePackComplianceSummaryList;
+  GroupByKey?: string;
+  NextToken?: string;
+}
+export const GetAggregateConformancePackComplianceSummaryResponse = S.suspend(
+  () =>
+    S.Struct({
+      AggregateConformancePackComplianceSummaries: S.optional(
+        AggregateConformancePackComplianceSummaryList,
+      ),
+      GroupByKey: S.optional(S.String),
+      NextToken: S.optional(S.String),
+    }).pipe(ns),
+).annotations({
+  identifier: "GetAggregateConformancePackComplianceSummaryResponse",
+}) as any as S.Schema<GetAggregateConformancePackComplianceSummaryResponse>;
+export interface ListResourceEvaluationsResponse {
+  ResourceEvaluations?: ResourceEvaluations;
+  NextToken?: string;
+}
+export const ListResourceEvaluationsResponse = S.suspend(() =>
+  S.Struct({
     ResourceEvaluations: S.optional(ResourceEvaluations),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class PutRemediationConfigurationsRequest extends S.Class<PutRemediationConfigurationsRequest>(
-  "PutRemediationConfigurationsRequest",
-)(
-  { RemediationConfigurations: RemediationConfigurations },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class FailedRemediationBatch extends S.Class<FailedRemediationBatch>(
-  "FailedRemediationBatch",
-)({
-  FailureMessage: S.optional(S.String),
-  FailedItems: S.optional(RemediationConfigurations),
-}) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "ListResourceEvaluationsResponse",
+}) as any as S.Schema<ListResourceEvaluationsResponse>;
+export interface PutRemediationConfigurationsRequest {
+  RemediationConfigurations: RemediationConfigurations;
+}
+export const PutRemediationConfigurationsRequest = S.suspend(() =>
+  S.Struct({ RemediationConfigurations: RemediationConfigurations }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutRemediationConfigurationsRequest",
+}) as any as S.Schema<PutRemediationConfigurationsRequest>;
+export interface FailedRemediationBatch {
+  FailureMessage?: string;
+  FailedItems?: RemediationConfigurations;
+}
+export const FailedRemediationBatch = S.suspend(() =>
+  S.Struct({
+    FailureMessage: S.optional(S.String),
+    FailedItems: S.optional(RemediationConfigurations),
+  }),
+).annotations({
+  identifier: "FailedRemediationBatch",
+}) as any as S.Schema<FailedRemediationBatch>;
+export type FailedRemediationBatches = FailedRemediationBatch[];
 export const FailedRemediationBatches = S.Array(FailedRemediationBatch);
-export class PutRemediationConfigurationsResponse extends S.Class<PutRemediationConfigurationsResponse>(
-  "PutRemediationConfigurationsResponse",
-)({ FailedBatches: S.optional(FailedRemediationBatches) }, ns) {}
+export interface PutRemediationConfigurationsResponse {
+  FailedBatches?: FailedRemediationBatches;
+}
+export const PutRemediationConfigurationsResponse = S.suspend(() =>
+  S.Struct({ FailedBatches: S.optional(FailedRemediationBatches) }).pipe(ns),
+).annotations({
+  identifier: "PutRemediationConfigurationsResponse",
+}) as any as S.Schema<PutRemediationConfigurationsResponse>;
 
 //# Errors
 export class InvalidParameterValueException extends S.TaggedError<InvalidParameterValueException>()(

@@ -149,253 +149,366 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class VerifySessionRequest extends S.Class<VerifySessionRequest>(
-  "VerifySessionRequest",
-)(
-  {},
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class WorkflowSortCriteria extends S.Class<WorkflowSortCriteria>(
-  "WorkflowSortCriteria",
-)({}) {}
+export interface VerifySessionRequest {}
+export const VerifySessionRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "VerifySessionRequest",
+}) as any as S.Schema<VerifySessionRequest>;
+export interface WorkflowSortCriteria {}
+export const WorkflowSortCriteria = S.suspend(() => S.Struct({})).annotations({
+  identifier: "WorkflowSortCriteria",
+}) as any as S.Schema<WorkflowSortCriteria>;
+export type WorkflowSortCriteriaList = WorkflowSortCriteria[];
 export const WorkflowSortCriteriaList = S.Array(WorkflowSortCriteria);
-export class WorkflowRunSortCriteria extends S.Class<WorkflowRunSortCriteria>(
-  "WorkflowRunSortCriteria",
-)({}) {}
+export interface WorkflowRunSortCriteria {}
+export const WorkflowRunSortCriteria = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "WorkflowRunSortCriteria",
+}) as any as S.Schema<WorkflowRunSortCriteria>;
+export type WorkflowRunSortCriteriaList = WorkflowRunSortCriteria[];
 export const WorkflowRunSortCriteriaList = S.Array(WorkflowRunSortCriteria);
-export class GetUserDetailsRequest extends S.Class<GetUserDetailsRequest>(
-  "GetUserDetailsRequest",
-)(
-  {
+export interface GetUserDetailsRequest {
+  id?: string;
+  userName?: string;
+}
+export const GetUserDetailsRequest = S.suspend(() =>
+  S.Struct({
     id: S.optional(S.String).pipe(T.HttpQuery("id")),
     userName: S.optional(S.String).pipe(T.HttpQuery("userName")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/userDetails" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/userDetails" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class VerifySessionResponse extends S.Class<VerifySessionResponse>(
-  "VerifySessionResponse",
-)({ identity: S.optional(S.String) }) {}
-export class CreateAccessTokenRequest extends S.Class<CreateAccessTokenRequest>(
-  "CreateAccessTokenRequest",
-)(
-  {
+).annotations({
+  identifier: "GetUserDetailsRequest",
+}) as any as S.Schema<GetUserDetailsRequest>;
+export interface VerifySessionResponse {
+  identity?: string;
+}
+export const VerifySessionResponse = S.suspend(() =>
+  S.Struct({ identity: S.optional(S.String) }),
+).annotations({
+  identifier: "VerifySessionResponse",
+}) as any as S.Schema<VerifySessionResponse>;
+export interface CreateAccessTokenRequest {
+  name: string;
+  expiresTime?: Date;
+}
+export const CreateAccessTokenRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     expiresTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/v1/accessTokens" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/v1/accessTokens" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAccessTokenRequest extends S.Class<DeleteAccessTokenRequest>(
-  "DeleteAccessTokenRequest",
-)(
-  { id: S.String.pipe(T.HttpLabel("id")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/v1/accessTokens/{id}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CreateAccessTokenRequest",
+}) as any as S.Schema<CreateAccessTokenRequest>;
+export interface DeleteAccessTokenRequest {
+  id: string;
+}
+export const DeleteAccessTokenRequest = S.suspend(() =>
+  S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/v1/accessTokens/{id}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAccessTokenResponse extends S.Class<DeleteAccessTokenResponse>(
-  "DeleteAccessTokenResponse",
-)({}) {}
-export class ListAccessTokensRequest extends S.Class<ListAccessTokensRequest>(
-  "ListAccessTokensRequest",
-)(
-  { maxResults: S.optional(S.Number), nextToken: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/v1/accessTokens" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteAccessTokenRequest",
+}) as any as S.Schema<DeleteAccessTokenRequest>;
+export interface DeleteAccessTokenResponse {}
+export const DeleteAccessTokenResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteAccessTokenResponse",
+}) as any as S.Schema<DeleteAccessTokenResponse>;
+export interface ListAccessTokensRequest {
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListAccessTokensRequest = S.suspend(() =>
+  S.Struct({
+    maxResults: S.optional(S.Number),
+    nextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v1/accessTokens" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetSpaceRequest extends S.Class<GetSpaceRequest>(
-  "GetSpaceRequest",
-)(
-  { name: S.String.pipe(T.HttpLabel("name")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/v1/spaces/{name}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListAccessTokensRequest",
+}) as any as S.Schema<ListAccessTokensRequest>;
+export interface GetSpaceRequest {
+  name: string;
+}
+export const GetSpaceRequest = S.suspend(() =>
+  S.Struct({ name: S.String.pipe(T.HttpLabel("name")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v1/spaces/{name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateSpaceRequest extends S.Class<UpdateSpaceRequest>(
-  "UpdateSpaceRequest",
-)(
-  {
+).annotations({
+  identifier: "GetSpaceRequest",
+}) as any as S.Schema<GetSpaceRequest>;
+export interface UpdateSpaceRequest {
+  name: string;
+  description?: string;
+}
+export const UpdateSpaceRequest = S.suspend(() =>
+  S.Struct({
     name: S.String.pipe(T.HttpLabel("name")),
     description: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "PATCH", uri: "/v1/spaces/{name}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PATCH", uri: "/v1/spaces/{name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteSpaceRequest extends S.Class<DeleteSpaceRequest>(
-  "DeleteSpaceRequest",
-)(
-  { name: S.String.pipe(T.HttpLabel("name")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/v1/spaces/{name}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UpdateSpaceRequest",
+}) as any as S.Schema<UpdateSpaceRequest>;
+export interface DeleteSpaceRequest {
+  name: string;
+}
+export const DeleteSpaceRequest = S.suspend(() =>
+  S.Struct({ name: S.String.pipe(T.HttpLabel("name")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/v1/spaces/{name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListSpacesRequest extends S.Class<ListSpacesRequest>(
-  "ListSpacesRequest",
-)(
-  { nextToken: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/v1/spaces" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteSpaceRequest",
+}) as any as S.Schema<DeleteSpaceRequest>;
+export interface ListSpacesRequest {
+  nextToken?: string;
+}
+export const ListSpacesRequest = S.suspend(() =>
+  S.Struct({ nextToken: S.optional(S.String) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v1/spaces" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListEventLogsRequest extends S.Class<ListEventLogsRequest>(
-  "ListEventLogsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListSpacesRequest",
+}) as any as S.Schema<ListSpacesRequest>;
+export interface ListEventLogsRequest {
+  spaceName: string;
+  startTime: Date;
+  endTime: Date;
+  eventName?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListEventLogsRequest = S.suspend(() =>
+  S.Struct({
     spaceName: S.String.pipe(T.HttpLabel("spaceName")),
     startTime: S.Date.pipe(T.TimestampFormat("date-time")),
     endTime: S.Date.pipe(T.TimestampFormat("date-time")),
     eventName: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/v1/spaces/{spaceName}/eventLogs" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v1/spaces/{spaceName}/eventLogs" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateProjectRequest extends S.Class<CreateProjectRequest>(
-  "CreateProjectRequest",
-)(
-  {
+).annotations({
+  identifier: "ListEventLogsRequest",
+}) as any as S.Schema<ListEventLogsRequest>;
+export interface CreateProjectRequest {
+  spaceName: string;
+  displayName: string;
+  description?: string;
+}
+export const CreateProjectRequest = S.suspend(() =>
+  S.Struct({
     spaceName: S.String.pipe(T.HttpLabel("spaceName")),
     displayName: S.String,
     description: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/v1/spaces/{spaceName}/projects" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/v1/spaces/{spaceName}/projects" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetProjectRequest extends S.Class<GetProjectRequest>(
-  "GetProjectRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateProjectRequest",
+}) as any as S.Schema<CreateProjectRequest>;
+export interface GetProjectRequest {
+  spaceName: string;
+  name: string;
+}
+export const GetProjectRequest = S.suspend(() =>
+  S.Struct({
     spaceName: S.String.pipe(T.HttpLabel("spaceName")),
     name: S.String.pipe(T.HttpLabel("name")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/v1/spaces/{spaceName}/projects/{name}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v1/spaces/{spaceName}/projects/{name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateProjectRequest extends S.Class<UpdateProjectRequest>(
-  "UpdateProjectRequest",
-)(
-  {
+).annotations({
+  identifier: "GetProjectRequest",
+}) as any as S.Schema<GetProjectRequest>;
+export interface UpdateProjectRequest {
+  spaceName: string;
+  name: string;
+  description?: string;
+}
+export const UpdateProjectRequest = S.suspend(() =>
+  S.Struct({
     spaceName: S.String.pipe(T.HttpLabel("spaceName")),
     name: S.String.pipe(T.HttpLabel("name")),
     description: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "PATCH", uri: "/v1/spaces/{spaceName}/projects/{name}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/v1/spaces/{spaceName}/projects/{name}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteProjectRequest extends S.Class<DeleteProjectRequest>(
-  "DeleteProjectRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateProjectRequest",
+}) as any as S.Schema<UpdateProjectRequest>;
+export interface DeleteProjectRequest {
+  spaceName: string;
+  name: string;
+}
+export const DeleteProjectRequest = S.suspend(() =>
+  S.Struct({
     spaceName: S.String.pipe(T.HttpLabel("spaceName")),
     name: S.String.pipe(T.HttpLabel("name")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/v1/spaces/{spaceName}/projects/{name}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/v1/spaces/{spaceName}/projects/{name}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetDevEnvironmentRequest extends S.Class<GetDevEnvironmentRequest>(
-  "GetDevEnvironmentRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteProjectRequest",
+}) as any as S.Schema<DeleteProjectRequest>;
+export interface GetDevEnvironmentRequest {
+  spaceName: string;
+  projectName: string;
+  id: string;
+}
+export const GetDevEnvironmentRequest = S.suspend(() =>
+  S.Struct({
     spaceName: S.String.pipe(T.HttpLabel("spaceName")),
     projectName: S.String.pipe(T.HttpLabel("projectName")),
     id: S.String.pipe(T.HttpLabel("id")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/v1/spaces/{spaceName}/projects/{projectName}/devEnvironments/{id}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/v1/spaces/{spaceName}/projects/{projectName}/devEnvironments/{id}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class IdeConfiguration extends S.Class<IdeConfiguration>(
-  "IdeConfiguration",
-)({ runtime: S.optional(S.String), name: S.optional(S.String) }) {}
+).annotations({
+  identifier: "GetDevEnvironmentRequest",
+}) as any as S.Schema<GetDevEnvironmentRequest>;
+export interface IdeConfiguration {
+  runtime?: string;
+  name?: string;
+}
+export const IdeConfiguration = S.suspend(() =>
+  S.Struct({ runtime: S.optional(S.String), name: S.optional(S.String) }),
+).annotations({
+  identifier: "IdeConfiguration",
+}) as any as S.Schema<IdeConfiguration>;
+export type IdeConfigurationList = IdeConfiguration[];
 export const IdeConfigurationList = S.Array(IdeConfiguration);
-export class UpdateDevEnvironmentRequest extends S.Class<UpdateDevEnvironmentRequest>(
-  "UpdateDevEnvironmentRequest",
-)(
-  {
+export interface UpdateDevEnvironmentRequest {
+  spaceName: string;
+  projectName: string;
+  id: string;
+  alias?: string;
+  ides?: IdeConfigurationList;
+  instanceType?: string;
+  inactivityTimeoutMinutes?: number;
+  clientToken?: string;
+}
+export const UpdateDevEnvironmentRequest = S.suspend(() =>
+  S.Struct({
     spaceName: S.String.pipe(T.HttpLabel("spaceName")),
     projectName: S.String.pipe(T.HttpLabel("projectName")),
     id: S.String.pipe(T.HttpLabel("id")),
@@ -404,511 +517,761 @@ export class UpdateDevEnvironmentRequest extends S.Class<UpdateDevEnvironmentReq
     instanceType: S.optional(S.String),
     inactivityTimeoutMinutes: S.optional(S.Number),
     clientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "PATCH",
-      uri: "/v1/spaces/{spaceName}/projects/{projectName}/devEnvironments/{id}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/v1/spaces/{spaceName}/projects/{projectName}/devEnvironments/{id}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteDevEnvironmentRequest extends S.Class<DeleteDevEnvironmentRequest>(
-  "DeleteDevEnvironmentRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateDevEnvironmentRequest",
+}) as any as S.Schema<UpdateDevEnvironmentRequest>;
+export interface DeleteDevEnvironmentRequest {
+  spaceName: string;
+  projectName: string;
+  id: string;
+}
+export const DeleteDevEnvironmentRequest = S.suspend(() =>
+  S.Struct({
     spaceName: S.String.pipe(T.HttpLabel("spaceName")),
     projectName: S.String.pipe(T.HttpLabel("projectName")),
     id: S.String.pipe(T.HttpLabel("id")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/spaces/{spaceName}/projects/{projectName}/devEnvironments/{id}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/v1/spaces/{spaceName}/projects/{projectName}/devEnvironments/{id}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListDevEnvironmentSessionsRequest extends S.Class<ListDevEnvironmentSessionsRequest>(
-  "ListDevEnvironmentSessionsRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteDevEnvironmentRequest",
+}) as any as S.Schema<DeleteDevEnvironmentRequest>;
+export interface ListDevEnvironmentSessionsRequest {
+  spaceName: string;
+  projectName: string;
+  devEnvironmentId: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListDevEnvironmentSessionsRequest = S.suspend(() =>
+  S.Struct({
     spaceName: S.String.pipe(T.HttpLabel("spaceName")),
     projectName: S.String.pipe(T.HttpLabel("projectName")),
     devEnvironmentId: S.String.pipe(T.HttpLabel("devEnvironmentId")),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/v1/spaces/{spaceName}/projects/{projectName}/devEnvironments/{devEnvironmentId}/sessions",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/v1/spaces/{spaceName}/projects/{projectName}/devEnvironments/{devEnvironmentId}/sessions",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartDevEnvironmentRequest extends S.Class<StartDevEnvironmentRequest>(
-  "StartDevEnvironmentRequest",
-)(
-  {
+).annotations({
+  identifier: "ListDevEnvironmentSessionsRequest",
+}) as any as S.Schema<ListDevEnvironmentSessionsRequest>;
+export interface StartDevEnvironmentRequest {
+  spaceName: string;
+  projectName: string;
+  id: string;
+  ides?: IdeConfigurationList;
+  instanceType?: string;
+  inactivityTimeoutMinutes?: number;
+}
+export const StartDevEnvironmentRequest = S.suspend(() =>
+  S.Struct({
     spaceName: S.String.pipe(T.HttpLabel("spaceName")),
     projectName: S.String.pipe(T.HttpLabel("projectName")),
     id: S.String.pipe(T.HttpLabel("id")),
     ides: S.optional(IdeConfigurationList),
     instanceType: S.optional(S.String),
     inactivityTimeoutMinutes: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/v1/spaces/{spaceName}/projects/{projectName}/devEnvironments/{id}/start",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/v1/spaces/{spaceName}/projects/{projectName}/devEnvironments/{id}/start",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StopDevEnvironmentRequest extends S.Class<StopDevEnvironmentRequest>(
-  "StopDevEnvironmentRequest",
-)(
-  {
+).annotations({
+  identifier: "StartDevEnvironmentRequest",
+}) as any as S.Schema<StartDevEnvironmentRequest>;
+export interface StopDevEnvironmentRequest {
+  spaceName: string;
+  projectName: string;
+  id: string;
+}
+export const StopDevEnvironmentRequest = S.suspend(() =>
+  S.Struct({
     spaceName: S.String.pipe(T.HttpLabel("spaceName")),
     projectName: S.String.pipe(T.HttpLabel("projectName")),
     id: S.String.pipe(T.HttpLabel("id")),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/v1/spaces/{spaceName}/projects/{projectName}/devEnvironments/{id}/stop",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/v1/spaces/{spaceName}/projects/{projectName}/devEnvironments/{id}/stop",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StopDevEnvironmentSessionRequest extends S.Class<StopDevEnvironmentSessionRequest>(
-  "StopDevEnvironmentSessionRequest",
-)(
-  {
+).annotations({
+  identifier: "StopDevEnvironmentRequest",
+}) as any as S.Schema<StopDevEnvironmentRequest>;
+export interface StopDevEnvironmentSessionRequest {
+  spaceName: string;
+  projectName: string;
+  id: string;
+  sessionId: string;
+}
+export const StopDevEnvironmentSessionRequest = S.suspend(() =>
+  S.Struct({
     spaceName: S.String.pipe(T.HttpLabel("spaceName")),
     projectName: S.String.pipe(T.HttpLabel("projectName")),
     id: S.String.pipe(T.HttpLabel("id")),
     sessionId: S.String.pipe(T.HttpLabel("sessionId")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/spaces/{spaceName}/projects/{projectName}/devEnvironments/{id}/session/{sessionId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/v1/spaces/{spaceName}/projects/{projectName}/devEnvironments/{id}/session/{sessionId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateSourceRepositoryRequest extends S.Class<CreateSourceRepositoryRequest>(
-  "CreateSourceRepositoryRequest",
-)(
-  {
+).annotations({
+  identifier: "StopDevEnvironmentSessionRequest",
+}) as any as S.Schema<StopDevEnvironmentSessionRequest>;
+export interface CreateSourceRepositoryRequest {
+  spaceName: string;
+  projectName: string;
+  name: string;
+  description?: string;
+}
+export const CreateSourceRepositoryRequest = S.suspend(() =>
+  S.Struct({
     spaceName: S.String.pipe(T.HttpLabel("spaceName")),
     projectName: S.String.pipe(T.HttpLabel("projectName")),
     name: S.String.pipe(T.HttpLabel("name")),
     description: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/v1/spaces/{spaceName}/projects/{projectName}/sourceRepositories/{name}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/v1/spaces/{spaceName}/projects/{projectName}/sourceRepositories/{name}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetSourceRepositoryRequest extends S.Class<GetSourceRepositoryRequest>(
-  "GetSourceRepositoryRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateSourceRepositoryRequest",
+}) as any as S.Schema<CreateSourceRepositoryRequest>;
+export interface GetSourceRepositoryRequest {
+  spaceName: string;
+  projectName: string;
+  name: string;
+}
+export const GetSourceRepositoryRequest = S.suspend(() =>
+  S.Struct({
     spaceName: S.String.pipe(T.HttpLabel("spaceName")),
     projectName: S.String.pipe(T.HttpLabel("projectName")),
     name: S.String.pipe(T.HttpLabel("name")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/v1/spaces/{spaceName}/projects/{projectName}/sourceRepositories/{name}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/v1/spaces/{spaceName}/projects/{projectName}/sourceRepositories/{name}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteSourceRepositoryRequest extends S.Class<DeleteSourceRepositoryRequest>(
-  "DeleteSourceRepositoryRequest",
-)(
-  {
+).annotations({
+  identifier: "GetSourceRepositoryRequest",
+}) as any as S.Schema<GetSourceRepositoryRequest>;
+export interface DeleteSourceRepositoryRequest {
+  spaceName: string;
+  projectName: string;
+  name: string;
+}
+export const DeleteSourceRepositoryRequest = S.suspend(() =>
+  S.Struct({
     spaceName: S.String.pipe(T.HttpLabel("spaceName")),
     projectName: S.String.pipe(T.HttpLabel("projectName")),
     name: S.String.pipe(T.HttpLabel("name")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/spaces/{spaceName}/projects/{projectName}/sourceRepositories/{name}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/v1/spaces/{spaceName}/projects/{projectName}/sourceRepositories/{name}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListSourceRepositoriesRequest extends S.Class<ListSourceRepositoriesRequest>(
-  "ListSourceRepositoriesRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteSourceRepositoryRequest",
+}) as any as S.Schema<DeleteSourceRepositoryRequest>;
+export interface ListSourceRepositoriesRequest {
+  spaceName: string;
+  projectName: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListSourceRepositoriesRequest = S.suspend(() =>
+  S.Struct({
     spaceName: S.String.pipe(T.HttpLabel("spaceName")),
     projectName: S.String.pipe(T.HttpLabel("projectName")),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/v1/spaces/{spaceName}/projects/{projectName}/sourceRepositories",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/v1/spaces/{spaceName}/projects/{projectName}/sourceRepositories",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetSourceRepositoryCloneUrlsRequest extends S.Class<GetSourceRepositoryCloneUrlsRequest>(
-  "GetSourceRepositoryCloneUrlsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListSourceRepositoriesRequest",
+}) as any as S.Schema<ListSourceRepositoriesRequest>;
+export interface GetSourceRepositoryCloneUrlsRequest {
+  spaceName: string;
+  projectName: string;
+  sourceRepositoryName: string;
+}
+export const GetSourceRepositoryCloneUrlsRequest = S.suspend(() =>
+  S.Struct({
     spaceName: S.String.pipe(T.HttpLabel("spaceName")),
     projectName: S.String.pipe(T.HttpLabel("projectName")),
     sourceRepositoryName: S.String.pipe(T.HttpLabel("sourceRepositoryName")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/v1/spaces/{spaceName}/projects/{projectName}/sourceRepositories/{sourceRepositoryName}/cloneUrls",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/v1/spaces/{spaceName}/projects/{projectName}/sourceRepositories/{sourceRepositoryName}/cloneUrls",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateSourceRepositoryBranchRequest extends S.Class<CreateSourceRepositoryBranchRequest>(
-  "CreateSourceRepositoryBranchRequest",
-)(
-  {
+).annotations({
+  identifier: "GetSourceRepositoryCloneUrlsRequest",
+}) as any as S.Schema<GetSourceRepositoryCloneUrlsRequest>;
+export interface CreateSourceRepositoryBranchRequest {
+  spaceName: string;
+  projectName: string;
+  sourceRepositoryName: string;
+  name: string;
+  headCommitId?: string;
+}
+export const CreateSourceRepositoryBranchRequest = S.suspend(() =>
+  S.Struct({
     spaceName: S.String.pipe(T.HttpLabel("spaceName")),
     projectName: S.String.pipe(T.HttpLabel("projectName")),
     sourceRepositoryName: S.String.pipe(T.HttpLabel("sourceRepositoryName")),
     name: S.String.pipe(T.HttpLabel("name")),
     headCommitId: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/v1/spaces/{spaceName}/projects/{projectName}/sourceRepositories/{sourceRepositoryName}/branches/{name}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/v1/spaces/{spaceName}/projects/{projectName}/sourceRepositories/{sourceRepositoryName}/branches/{name}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListSourceRepositoryBranchesRequest extends S.Class<ListSourceRepositoryBranchesRequest>(
-  "ListSourceRepositoryBranchesRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateSourceRepositoryBranchRequest",
+}) as any as S.Schema<CreateSourceRepositoryBranchRequest>;
+export interface ListSourceRepositoryBranchesRequest {
+  spaceName: string;
+  projectName: string;
+  sourceRepositoryName: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListSourceRepositoryBranchesRequest = S.suspend(() =>
+  S.Struct({
     spaceName: S.String.pipe(T.HttpLabel("spaceName")),
     projectName: S.String.pipe(T.HttpLabel("projectName")),
     sourceRepositoryName: S.String.pipe(T.HttpLabel("sourceRepositoryName")),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/v1/spaces/{spaceName}/projects/{projectName}/sourceRepositories/{sourceRepositoryName}/branches",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/v1/spaces/{spaceName}/projects/{projectName}/sourceRepositories/{sourceRepositoryName}/branches",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetWorkflowRequest extends S.Class<GetWorkflowRequest>(
-  "GetWorkflowRequest",
-)(
-  {
+).annotations({
+  identifier: "ListSourceRepositoryBranchesRequest",
+}) as any as S.Schema<ListSourceRepositoryBranchesRequest>;
+export interface GetWorkflowRequest {
+  spaceName: string;
+  id: string;
+  projectName: string;
+}
+export const GetWorkflowRequest = S.suspend(() =>
+  S.Struct({
     spaceName: S.String.pipe(T.HttpLabel("spaceName")),
     id: S.String.pipe(T.HttpLabel("id")),
     projectName: S.String.pipe(T.HttpLabel("projectName")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/v1/spaces/{spaceName}/projects/{projectName}/workflows/{id}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/v1/spaces/{spaceName}/projects/{projectName}/workflows/{id}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListWorkflowsRequest extends S.Class<ListWorkflowsRequest>(
-  "ListWorkflowsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetWorkflowRequest",
+}) as any as S.Schema<GetWorkflowRequest>;
+export interface ListWorkflowsRequest {
+  spaceName: string;
+  projectName: string;
+  nextToken?: string;
+  maxResults?: number;
+  sortBy?: WorkflowSortCriteriaList;
+}
+export const ListWorkflowsRequest = S.suspend(() =>
+  S.Struct({
     spaceName: S.String.pipe(T.HttpLabel("spaceName")),
     projectName: S.String.pipe(T.HttpLabel("projectName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     sortBy: S.optional(WorkflowSortCriteriaList),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/v1/spaces/{spaceName}/projects/{projectName}/workflows",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/v1/spaces/{spaceName}/projects/{projectName}/workflows",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartWorkflowRunRequest extends S.Class<StartWorkflowRunRequest>(
-  "StartWorkflowRunRequest",
-)(
-  {
+).annotations({
+  identifier: "ListWorkflowsRequest",
+}) as any as S.Schema<ListWorkflowsRequest>;
+export interface StartWorkflowRunRequest {
+  spaceName: string;
+  projectName: string;
+  workflowId: string;
+  clientToken?: string;
+}
+export const StartWorkflowRunRequest = S.suspend(() =>
+  S.Struct({
     spaceName: S.String.pipe(T.HttpLabel("spaceName")),
     projectName: S.String.pipe(T.HttpLabel("projectName")),
     workflowId: S.String.pipe(T.HttpQuery("workflowId")),
     clientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/v1/spaces/{spaceName}/projects/{projectName}/workflowRuns",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/v1/spaces/{spaceName}/projects/{projectName}/workflowRuns",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetWorkflowRunRequest extends S.Class<GetWorkflowRunRequest>(
-  "GetWorkflowRunRequest",
-)(
-  {
+).annotations({
+  identifier: "StartWorkflowRunRequest",
+}) as any as S.Schema<StartWorkflowRunRequest>;
+export interface GetWorkflowRunRequest {
+  spaceName: string;
+  id: string;
+  projectName: string;
+}
+export const GetWorkflowRunRequest = S.suspend(() =>
+  S.Struct({
     spaceName: S.String.pipe(T.HttpLabel("spaceName")),
     id: S.String.pipe(T.HttpLabel("id")),
     projectName: S.String.pipe(T.HttpLabel("projectName")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/v1/spaces/{spaceName}/projects/{projectName}/workflowRuns/{id}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/v1/spaces/{spaceName}/projects/{projectName}/workflowRuns/{id}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListWorkflowRunsRequest extends S.Class<ListWorkflowRunsRequest>(
-  "ListWorkflowRunsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetWorkflowRunRequest",
+}) as any as S.Schema<GetWorkflowRunRequest>;
+export interface ListWorkflowRunsRequest {
+  spaceName: string;
+  workflowId?: string;
+  projectName: string;
+  nextToken?: string;
+  maxResults?: number;
+  sortBy?: WorkflowRunSortCriteriaList;
+}
+export const ListWorkflowRunsRequest = S.suspend(() =>
+  S.Struct({
     spaceName: S.String.pipe(T.HttpLabel("spaceName")),
     workflowId: S.optional(S.String).pipe(T.HttpQuery("workflowId")),
     projectName: S.String.pipe(T.HttpLabel("projectName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     sortBy: S.optional(WorkflowRunSortCriteriaList),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/v1/spaces/{spaceName}/projects/{projectName}/workflowRuns",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/v1/spaces/{spaceName}/projects/{projectName}/workflowRuns",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetSubscriptionRequest extends S.Class<GetSubscriptionRequest>(
-  "GetSubscriptionRequest",
-)(
-  { spaceName: S.String.pipe(T.HttpLabel("spaceName")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/v1/spaces/{spaceName}/subscription" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListWorkflowRunsRequest",
+}) as any as S.Schema<ListWorkflowRunsRequest>;
+export interface GetSubscriptionRequest {
+  spaceName: string;
+}
+export const GetSubscriptionRequest = S.suspend(() =>
+  S.Struct({ spaceName: S.String.pipe(T.HttpLabel("spaceName")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v1/spaces/{spaceName}/subscription" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "GetSubscriptionRequest",
+}) as any as S.Schema<GetSubscriptionRequest>;
+export type StringList = string[];
 export const StringList = S.Array(S.String);
-export class Filter extends S.Class<Filter>("Filter")({
-  key: S.String,
-  values: StringList,
-  comparisonOperator: S.optional(S.String),
-}) {}
+export interface Filter {
+  key: string;
+  values: StringList;
+  comparisonOperator?: string;
+}
+export const Filter = S.suspend(() =>
+  S.Struct({
+    key: S.String,
+    values: StringList,
+    comparisonOperator: S.optional(S.String),
+  }),
+).annotations({ identifier: "Filter" }) as any as S.Schema<Filter>;
+export type Filters = Filter[];
 export const Filters = S.Array(Filter);
-export class ProjectListFilter extends S.Class<ProjectListFilter>(
-  "ProjectListFilter",
-)({
-  key: S.String,
-  values: StringList,
-  comparisonOperator: S.optional(S.String),
-}) {}
+export interface ProjectListFilter {
+  key: string;
+  values: StringList;
+  comparisonOperator?: string;
+}
+export const ProjectListFilter = S.suspend(() =>
+  S.Struct({
+    key: S.String,
+    values: StringList,
+    comparisonOperator: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ProjectListFilter",
+}) as any as S.Schema<ProjectListFilter>;
+export type ProjectListFilters = ProjectListFilter[];
 export const ProjectListFilters = S.Array(ProjectListFilter);
-export class RepositoryInput extends S.Class<RepositoryInput>(
-  "RepositoryInput",
-)({ repositoryName: S.String, branchName: S.optional(S.String) }) {}
+export interface RepositoryInput {
+  repositoryName: string;
+  branchName?: string;
+}
+export const RepositoryInput = S.suspend(() =>
+  S.Struct({ repositoryName: S.String, branchName: S.optional(S.String) }),
+).annotations({
+  identifier: "RepositoryInput",
+}) as any as S.Schema<RepositoryInput>;
+export type RepositoriesInput = RepositoryInput[];
 export const RepositoriesInput = S.Array(RepositoryInput);
-export class PersistentStorageConfiguration extends S.Class<PersistentStorageConfiguration>(
-  "PersistentStorageConfiguration",
-)({ sizeInGiB: S.Number }) {}
-export class WorkflowRunStatusReason extends S.Class<WorkflowRunStatusReason>(
-  "WorkflowRunStatusReason",
-)({}) {}
+export interface PersistentStorageConfiguration {
+  sizeInGiB: number;
+}
+export const PersistentStorageConfiguration = S.suspend(() =>
+  S.Struct({ sizeInGiB: S.Number }),
+).annotations({
+  identifier: "PersistentStorageConfiguration",
+}) as any as S.Schema<PersistentStorageConfiguration>;
+export interface WorkflowRunStatusReason {}
+export const WorkflowRunStatusReason = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "WorkflowRunStatusReason",
+}) as any as S.Schema<WorkflowRunStatusReason>;
+export type WorkflowRunStatusReasons = WorkflowRunStatusReason[];
 export const WorkflowRunStatusReasons = S.Array(WorkflowRunStatusReason);
+export type ExecuteCommandSessionConfigurationArguments = string[];
 export const ExecuteCommandSessionConfigurationArguments = S.Array(S.String);
-export class CreateAccessTokenResponse extends S.Class<CreateAccessTokenResponse>(
-  "CreateAccessTokenResponse",
-)({
-  secret: S.String,
-  name: S.String,
-  expiresTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  accessTokenId: S.String,
-}) {}
-export class GetSpaceResponse extends S.Class<GetSpaceResponse>(
-  "GetSpaceResponse",
-)({
-  name: S.String,
-  regionName: S.String,
-  displayName: S.optional(S.String),
-  description: S.optional(S.String),
-}) {}
-export class UpdateSpaceResponse extends S.Class<UpdateSpaceResponse>(
-  "UpdateSpaceResponse",
-)({
-  name: S.optional(S.String),
-  displayName: S.optional(S.String),
-  description: S.optional(S.String),
-}) {}
-export class DeleteSpaceResponse extends S.Class<DeleteSpaceResponse>(
-  "DeleteSpaceResponse",
-)({ name: S.String, displayName: S.optional(S.String) }) {}
-export class ListDevEnvironmentsRequest extends S.Class<ListDevEnvironmentsRequest>(
-  "ListDevEnvironmentsRequest",
-)(
-  {
+export interface CreateAccessTokenResponse {
+  secret: string;
+  name: string;
+  expiresTime: Date;
+  accessTokenId: string;
+}
+export const CreateAccessTokenResponse = S.suspend(() =>
+  S.Struct({
+    secret: S.String,
+    name: S.String,
+    expiresTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    accessTokenId: S.String,
+  }),
+).annotations({
+  identifier: "CreateAccessTokenResponse",
+}) as any as S.Schema<CreateAccessTokenResponse>;
+export interface GetSpaceResponse {
+  name: string;
+  regionName: string;
+  displayName?: string;
+  description?: string;
+}
+export const GetSpaceResponse = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    regionName: S.String,
+    displayName: S.optional(S.String),
+    description: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetSpaceResponse",
+}) as any as S.Schema<GetSpaceResponse>;
+export interface UpdateSpaceResponse {
+  name?: string;
+  displayName?: string;
+  description?: string;
+}
+export const UpdateSpaceResponse = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    displayName: S.optional(S.String),
+    description: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "UpdateSpaceResponse",
+}) as any as S.Schema<UpdateSpaceResponse>;
+export interface DeleteSpaceResponse {
+  name: string;
+  displayName?: string;
+}
+export const DeleteSpaceResponse = S.suspend(() =>
+  S.Struct({ name: S.String, displayName: S.optional(S.String) }),
+).annotations({
+  identifier: "DeleteSpaceResponse",
+}) as any as S.Schema<DeleteSpaceResponse>;
+export interface ListDevEnvironmentsRequest {
+  spaceName: string;
+  projectName?: string;
+  filters?: Filters;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListDevEnvironmentsRequest = S.suspend(() =>
+  S.Struct({
     spaceName: S.String.pipe(T.HttpLabel("spaceName")),
     projectName: S.optional(S.String),
     filters: S.optional(Filters),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/v1/spaces/{spaceName}/devEnvironments" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v1/spaces/{spaceName}/devEnvironments" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateProjectResponse extends S.Class<CreateProjectResponse>(
-  "CreateProjectResponse",
-)({
-  spaceName: S.optional(S.String),
-  name: S.String,
-  displayName: S.optional(S.String),
-  description: S.optional(S.String),
-}) {}
-export class GetProjectResponse extends S.Class<GetProjectResponse>(
-  "GetProjectResponse",
-)({
-  spaceName: S.optional(S.String),
-  name: S.String,
-  displayName: S.optional(S.String),
-  description: S.optional(S.String),
-}) {}
-export class UpdateProjectResponse extends S.Class<UpdateProjectResponse>(
-  "UpdateProjectResponse",
-)({
-  spaceName: S.optional(S.String),
-  name: S.optional(S.String),
-  displayName: S.optional(S.String),
-  description: S.optional(S.String),
-}) {}
-export class DeleteProjectResponse extends S.Class<DeleteProjectResponse>(
-  "DeleteProjectResponse",
-)({ spaceName: S.String, name: S.String, displayName: S.optional(S.String) }) {}
-export class ListProjectsRequest extends S.Class<ListProjectsRequest>(
-  "ListProjectsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListDevEnvironmentsRequest",
+}) as any as S.Schema<ListDevEnvironmentsRequest>;
+export interface CreateProjectResponse {
+  spaceName?: string;
+  name: string;
+  displayName?: string;
+  description?: string;
+}
+export const CreateProjectResponse = S.suspend(() =>
+  S.Struct({
+    spaceName: S.optional(S.String),
+    name: S.String,
+    displayName: S.optional(S.String),
+    description: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CreateProjectResponse",
+}) as any as S.Schema<CreateProjectResponse>;
+export interface GetProjectResponse {
+  spaceName?: string;
+  name: string;
+  displayName?: string;
+  description?: string;
+}
+export const GetProjectResponse = S.suspend(() =>
+  S.Struct({
+    spaceName: S.optional(S.String),
+    name: S.String,
+    displayName: S.optional(S.String),
+    description: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetProjectResponse",
+}) as any as S.Schema<GetProjectResponse>;
+export interface UpdateProjectResponse {
+  spaceName?: string;
+  name?: string;
+  displayName?: string;
+  description?: string;
+}
+export const UpdateProjectResponse = S.suspend(() =>
+  S.Struct({
+    spaceName: S.optional(S.String),
+    name: S.optional(S.String),
+    displayName: S.optional(S.String),
+    description: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "UpdateProjectResponse",
+}) as any as S.Schema<UpdateProjectResponse>;
+export interface DeleteProjectResponse {
+  spaceName: string;
+  name: string;
+  displayName?: string;
+}
+export const DeleteProjectResponse = S.suspend(() =>
+  S.Struct({
+    spaceName: S.String,
+    name: S.String,
+    displayName: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DeleteProjectResponse",
+}) as any as S.Schema<DeleteProjectResponse>;
+export interface ListProjectsRequest {
+  spaceName: string;
+  nextToken?: string;
+  maxResults?: number;
+  filters?: ProjectListFilters;
+}
+export const ListProjectsRequest = S.suspend(() =>
+  S.Struct({
     spaceName: S.String.pipe(T.HttpLabel("spaceName")),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
     filters: S.optional(ProjectListFilters),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/v1/spaces/{spaceName}/projects" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v1/spaces/{spaceName}/projects" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateDevEnvironmentRequest extends S.Class<CreateDevEnvironmentRequest>(
-  "CreateDevEnvironmentRequest",
-)(
-  {
+).annotations({
+  identifier: "ListProjectsRequest",
+}) as any as S.Schema<ListProjectsRequest>;
+export interface CreateDevEnvironmentRequest {
+  spaceName: string;
+  projectName: string;
+  repositories?: RepositoriesInput;
+  clientToken?: string;
+  alias?: string;
+  ides?: IdeConfigurationList;
+  instanceType: string;
+  inactivityTimeoutMinutes?: number;
+  persistentStorage: PersistentStorageConfiguration;
+  vpcConnectionName?: string;
+}
+export const CreateDevEnvironmentRequest = S.suspend(() =>
+  S.Struct({
     spaceName: S.String.pipe(T.HttpLabel("spaceName")),
     projectName: S.String.pipe(T.HttpLabel("projectName")),
     repositories: S.optional(RepositoriesInput),
@@ -919,415 +1282,856 @@ export class CreateDevEnvironmentRequest extends S.Class<CreateDevEnvironmentReq
     inactivityTimeoutMinutes: S.optional(S.Number),
     persistentStorage: PersistentStorageConfiguration,
     vpcConnectionName: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/v1/spaces/{spaceName}/projects/{projectName}/devEnvironments",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/v1/spaces/{spaceName}/projects/{projectName}/devEnvironments",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateDevEnvironmentResponse extends S.Class<UpdateDevEnvironmentResponse>(
-  "UpdateDevEnvironmentResponse",
-)({
-  id: S.String,
-  spaceName: S.String,
-  projectName: S.String,
-  alias: S.optional(S.String),
-  ides: S.optional(IdeConfigurationList),
-  instanceType: S.optional(S.String),
-  inactivityTimeoutMinutes: S.optional(S.Number),
-  clientToken: S.optional(S.String),
-}) {}
-export class DeleteDevEnvironmentResponse extends S.Class<DeleteDevEnvironmentResponse>(
-  "DeleteDevEnvironmentResponse",
-)({ spaceName: S.String, projectName: S.String, id: S.String }) {}
-export class StartDevEnvironmentResponse extends S.Class<StartDevEnvironmentResponse>(
-  "StartDevEnvironmentResponse",
-)({
-  spaceName: S.String,
-  projectName: S.String,
-  id: S.String,
-  status: S.String,
-}) {}
-export class StopDevEnvironmentResponse extends S.Class<StopDevEnvironmentResponse>(
-  "StopDevEnvironmentResponse",
-)({
-  spaceName: S.String,
-  projectName: S.String,
-  id: S.String,
-  status: S.String,
-}) {}
-export class StopDevEnvironmentSessionResponse extends S.Class<StopDevEnvironmentSessionResponse>(
-  "StopDevEnvironmentSessionResponse",
-)({
-  spaceName: S.String,
-  projectName: S.String,
-  id: S.String,
-  sessionId: S.String,
-}) {}
-export class CreateSourceRepositoryResponse extends S.Class<CreateSourceRepositoryResponse>(
-  "CreateSourceRepositoryResponse",
-)({
-  spaceName: S.String,
-  projectName: S.String,
-  name: S.String,
-  description: S.optional(S.String),
-}) {}
-export class GetSourceRepositoryResponse extends S.Class<GetSourceRepositoryResponse>(
-  "GetSourceRepositoryResponse",
-)({
-  spaceName: S.String,
-  projectName: S.String,
-  name: S.String,
-  description: S.optional(S.String),
-  lastUpdatedTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  createdTime: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class DeleteSourceRepositoryResponse extends S.Class<DeleteSourceRepositoryResponse>(
-  "DeleteSourceRepositoryResponse",
-)({ spaceName: S.String, projectName: S.String, name: S.String }) {}
-export class GetSourceRepositoryCloneUrlsResponse extends S.Class<GetSourceRepositoryCloneUrlsResponse>(
-  "GetSourceRepositoryCloneUrlsResponse",
-)({ https: S.String }) {}
-export class CreateSourceRepositoryBranchResponse extends S.Class<CreateSourceRepositoryBranchResponse>(
-  "CreateSourceRepositoryBranchResponse",
-)({
-  ref: S.optional(S.String),
-  name: S.optional(S.String),
-  lastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  headCommitId: S.optional(S.String),
-}) {}
-export class StartWorkflowRunResponse extends S.Class<StartWorkflowRunResponse>(
-  "StartWorkflowRunResponse",
-)({
-  spaceName: S.String,
-  projectName: S.String,
-  id: S.String,
-  workflowId: S.String,
-}) {}
-export class GetWorkflowRunResponse extends S.Class<GetWorkflowRunResponse>(
-  "GetWorkflowRunResponse",
-)({
-  spaceName: S.String,
-  projectName: S.String,
-  id: S.String,
-  workflowId: S.String,
-  status: S.String,
-  statusReasons: S.optional(WorkflowRunStatusReasons),
-  startTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  lastUpdatedTime: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class GetSubscriptionResponse extends S.Class<GetSubscriptionResponse>(
-  "GetSubscriptionResponse",
-)({
-  subscriptionType: S.optional(S.String),
-  awsAccountName: S.optional(S.String),
-  pendingSubscriptionType: S.optional(S.String),
-  pendingSubscriptionStartTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("date-time")),
-  ),
-}) {}
-export class ExecuteCommandSessionConfiguration extends S.Class<ExecuteCommandSessionConfiguration>(
-  "ExecuteCommandSessionConfiguration",
-)({
-  command: S.String,
-  arguments: S.optional(ExecuteCommandSessionConfigurationArguments),
-}) {}
-export class EmailAddress extends S.Class<EmailAddress>("EmailAddress")({
-  email: S.optional(S.String),
-  verified: S.optional(S.Boolean),
-}) {}
-export class AccessTokenSummary extends S.Class<AccessTokenSummary>(
-  "AccessTokenSummary",
-)({
-  id: S.String,
-  name: S.String,
-  expiresTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-}) {}
+).annotations({
+  identifier: "CreateDevEnvironmentRequest",
+}) as any as S.Schema<CreateDevEnvironmentRequest>;
+export interface UpdateDevEnvironmentResponse {
+  id: string;
+  spaceName: string;
+  projectName: string;
+  alias?: string;
+  ides?: IdeConfigurationList;
+  instanceType?: string;
+  inactivityTimeoutMinutes?: number;
+  clientToken?: string;
+}
+export const UpdateDevEnvironmentResponse = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    spaceName: S.String,
+    projectName: S.String,
+    alias: S.optional(S.String),
+    ides: S.optional(IdeConfigurationList),
+    instanceType: S.optional(S.String),
+    inactivityTimeoutMinutes: S.optional(S.Number),
+    clientToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "UpdateDevEnvironmentResponse",
+}) as any as S.Schema<UpdateDevEnvironmentResponse>;
+export interface DeleteDevEnvironmentResponse {
+  spaceName: string;
+  projectName: string;
+  id: string;
+}
+export const DeleteDevEnvironmentResponse = S.suspend(() =>
+  S.Struct({ spaceName: S.String, projectName: S.String, id: S.String }),
+).annotations({
+  identifier: "DeleteDevEnvironmentResponse",
+}) as any as S.Schema<DeleteDevEnvironmentResponse>;
+export interface StartDevEnvironmentResponse {
+  spaceName: string;
+  projectName: string;
+  id: string;
+  status: string;
+}
+export const StartDevEnvironmentResponse = S.suspend(() =>
+  S.Struct({
+    spaceName: S.String,
+    projectName: S.String,
+    id: S.String,
+    status: S.String,
+  }),
+).annotations({
+  identifier: "StartDevEnvironmentResponse",
+}) as any as S.Schema<StartDevEnvironmentResponse>;
+export interface StopDevEnvironmentResponse {
+  spaceName: string;
+  projectName: string;
+  id: string;
+  status: string;
+}
+export const StopDevEnvironmentResponse = S.suspend(() =>
+  S.Struct({
+    spaceName: S.String,
+    projectName: S.String,
+    id: S.String,
+    status: S.String,
+  }),
+).annotations({
+  identifier: "StopDevEnvironmentResponse",
+}) as any as S.Schema<StopDevEnvironmentResponse>;
+export interface StopDevEnvironmentSessionResponse {
+  spaceName: string;
+  projectName: string;
+  id: string;
+  sessionId: string;
+}
+export const StopDevEnvironmentSessionResponse = S.suspend(() =>
+  S.Struct({
+    spaceName: S.String,
+    projectName: S.String,
+    id: S.String,
+    sessionId: S.String,
+  }),
+).annotations({
+  identifier: "StopDevEnvironmentSessionResponse",
+}) as any as S.Schema<StopDevEnvironmentSessionResponse>;
+export interface CreateSourceRepositoryResponse {
+  spaceName: string;
+  projectName: string;
+  name: string;
+  description?: string;
+}
+export const CreateSourceRepositoryResponse = S.suspend(() =>
+  S.Struct({
+    spaceName: S.String,
+    projectName: S.String,
+    name: S.String,
+    description: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CreateSourceRepositoryResponse",
+}) as any as S.Schema<CreateSourceRepositoryResponse>;
+export interface GetSourceRepositoryResponse {
+  spaceName: string;
+  projectName: string;
+  name: string;
+  description?: string;
+  lastUpdatedTime: Date;
+  createdTime: Date;
+}
+export const GetSourceRepositoryResponse = S.suspend(() =>
+  S.Struct({
+    spaceName: S.String,
+    projectName: S.String,
+    name: S.String,
+    description: S.optional(S.String),
+    lastUpdatedTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdTime: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "GetSourceRepositoryResponse",
+}) as any as S.Schema<GetSourceRepositoryResponse>;
+export interface DeleteSourceRepositoryResponse {
+  spaceName: string;
+  projectName: string;
+  name: string;
+}
+export const DeleteSourceRepositoryResponse = S.suspend(() =>
+  S.Struct({ spaceName: S.String, projectName: S.String, name: S.String }),
+).annotations({
+  identifier: "DeleteSourceRepositoryResponse",
+}) as any as S.Schema<DeleteSourceRepositoryResponse>;
+export interface GetSourceRepositoryCloneUrlsResponse {
+  https: string;
+}
+export const GetSourceRepositoryCloneUrlsResponse = S.suspend(() =>
+  S.Struct({ https: S.String }),
+).annotations({
+  identifier: "GetSourceRepositoryCloneUrlsResponse",
+}) as any as S.Schema<GetSourceRepositoryCloneUrlsResponse>;
+export interface CreateSourceRepositoryBranchResponse {
+  ref?: string;
+  name?: string;
+  lastUpdatedTime?: Date;
+  headCommitId?: string;
+}
+export const CreateSourceRepositoryBranchResponse = S.suspend(() =>
+  S.Struct({
+    ref: S.optional(S.String),
+    name: S.optional(S.String),
+    lastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    headCommitId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CreateSourceRepositoryBranchResponse",
+}) as any as S.Schema<CreateSourceRepositoryBranchResponse>;
+export interface StartWorkflowRunResponse {
+  spaceName: string;
+  projectName: string;
+  id: string;
+  workflowId: string;
+}
+export const StartWorkflowRunResponse = S.suspend(() =>
+  S.Struct({
+    spaceName: S.String,
+    projectName: S.String,
+    id: S.String,
+    workflowId: S.String,
+  }),
+).annotations({
+  identifier: "StartWorkflowRunResponse",
+}) as any as S.Schema<StartWorkflowRunResponse>;
+export interface GetWorkflowRunResponse {
+  spaceName: string;
+  projectName: string;
+  id: string;
+  workflowId: string;
+  status: string;
+  statusReasons?: WorkflowRunStatusReasons;
+  startTime: Date;
+  endTime?: Date;
+  lastUpdatedTime: Date;
+}
+export const GetWorkflowRunResponse = S.suspend(() =>
+  S.Struct({
+    spaceName: S.String,
+    projectName: S.String,
+    id: S.String,
+    workflowId: S.String,
+    status: S.String,
+    statusReasons: S.optional(WorkflowRunStatusReasons),
+    startTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    lastUpdatedTime: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "GetWorkflowRunResponse",
+}) as any as S.Schema<GetWorkflowRunResponse>;
+export interface GetSubscriptionResponse {
+  subscriptionType?: string;
+  awsAccountName?: string;
+  pendingSubscriptionType?: string;
+  pendingSubscriptionStartTime?: Date;
+}
+export const GetSubscriptionResponse = S.suspend(() =>
+  S.Struct({
+    subscriptionType: S.optional(S.String),
+    awsAccountName: S.optional(S.String),
+    pendingSubscriptionType: S.optional(S.String),
+    pendingSubscriptionStartTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("date-time")),
+    ),
+  }),
+).annotations({
+  identifier: "GetSubscriptionResponse",
+}) as any as S.Schema<GetSubscriptionResponse>;
+export interface ExecuteCommandSessionConfiguration {
+  command: string;
+  arguments?: ExecuteCommandSessionConfigurationArguments;
+}
+export const ExecuteCommandSessionConfiguration = S.suspend(() =>
+  S.Struct({
+    command: S.String,
+    arguments: S.optional(ExecuteCommandSessionConfigurationArguments),
+  }),
+).annotations({
+  identifier: "ExecuteCommandSessionConfiguration",
+}) as any as S.Schema<ExecuteCommandSessionConfiguration>;
+export interface EmailAddress {
+  email?: string;
+  verified?: boolean;
+}
+export const EmailAddress = S.suspend(() =>
+  S.Struct({ email: S.optional(S.String), verified: S.optional(S.Boolean) }),
+).annotations({ identifier: "EmailAddress" }) as any as S.Schema<EmailAddress>;
+export interface AccessTokenSummary {
+  id: string;
+  name: string;
+  expiresTime?: Date;
+}
+export const AccessTokenSummary = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    name: S.String,
+    expiresTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotations({
+  identifier: "AccessTokenSummary",
+}) as any as S.Schema<AccessTokenSummary>;
+export type AccessTokenSummaries = AccessTokenSummary[];
 export const AccessTokenSummaries = S.Array(AccessTokenSummary);
-export class SpaceSummary extends S.Class<SpaceSummary>("SpaceSummary")({
-  name: S.String,
-  regionName: S.String,
-  displayName: S.optional(S.String),
-  description: S.optional(S.String),
-}) {}
+export interface SpaceSummary {
+  name: string;
+  regionName: string;
+  displayName?: string;
+  description?: string;
+}
+export const SpaceSummary = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    regionName: S.String,
+    displayName: S.optional(S.String),
+    description: S.optional(S.String),
+  }),
+).annotations({ identifier: "SpaceSummary" }) as any as S.Schema<SpaceSummary>;
+export type SpaceSummaries = SpaceSummary[];
 export const SpaceSummaries = S.Array(SpaceSummary);
-export class DevEnvironmentRepositorySummary extends S.Class<DevEnvironmentRepositorySummary>(
-  "DevEnvironmentRepositorySummary",
-)({ repositoryName: S.String, branchName: S.optional(S.String) }) {}
+export interface DevEnvironmentRepositorySummary {
+  repositoryName: string;
+  branchName?: string;
+}
+export const DevEnvironmentRepositorySummary = S.suspend(() =>
+  S.Struct({ repositoryName: S.String, branchName: S.optional(S.String) }),
+).annotations({
+  identifier: "DevEnvironmentRepositorySummary",
+}) as any as S.Schema<DevEnvironmentRepositorySummary>;
+export type DevEnvironmentRepositorySummaries =
+  DevEnvironmentRepositorySummary[];
 export const DevEnvironmentRepositorySummaries = S.Array(
   DevEnvironmentRepositorySummary,
 );
-export class Ide extends S.Class<Ide>("Ide")({
-  runtime: S.optional(S.String),
-  name: S.optional(S.String),
-}) {}
+export interface Ide {
+  runtime?: string;
+  name?: string;
+}
+export const Ide = S.suspend(() =>
+  S.Struct({ runtime: S.optional(S.String), name: S.optional(S.String) }),
+).annotations({ identifier: "Ide" }) as any as S.Schema<Ide>;
+export type Ides = Ide[];
 export const Ides = S.Array(Ide);
-export class PersistentStorage extends S.Class<PersistentStorage>(
-  "PersistentStorage",
-)({ sizeInGiB: S.Number }) {}
-export class DevEnvironmentSessionSummary extends S.Class<DevEnvironmentSessionSummary>(
-  "DevEnvironmentSessionSummary",
-)({
-  spaceName: S.String,
-  projectName: S.String,
-  devEnvironmentId: S.String,
-  startedTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  id: S.String,
-}) {}
+export interface PersistentStorage {
+  sizeInGiB: number;
+}
+export const PersistentStorage = S.suspend(() =>
+  S.Struct({ sizeInGiB: S.Number }),
+).annotations({
+  identifier: "PersistentStorage",
+}) as any as S.Schema<PersistentStorage>;
+export interface DevEnvironmentSessionSummary {
+  spaceName: string;
+  projectName: string;
+  devEnvironmentId: string;
+  startedTime: Date;
+  id: string;
+}
+export const DevEnvironmentSessionSummary = S.suspend(() =>
+  S.Struct({
+    spaceName: S.String,
+    projectName: S.String,
+    devEnvironmentId: S.String,
+    startedTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    id: S.String,
+  }),
+).annotations({
+  identifier: "DevEnvironmentSessionSummary",
+}) as any as S.Schema<DevEnvironmentSessionSummary>;
+export type DevEnvironmentSessionsSummaryList = DevEnvironmentSessionSummary[];
 export const DevEnvironmentSessionsSummaryList = S.Array(
   DevEnvironmentSessionSummary,
 );
-export class DevEnvironmentSessionConfiguration extends S.Class<DevEnvironmentSessionConfiguration>(
-  "DevEnvironmentSessionConfiguration",
-)({
-  sessionType: S.String,
-  executeCommandSessionConfiguration: S.optional(
-    ExecuteCommandSessionConfiguration,
-  ),
-}) {}
-export class ListSourceRepositoriesItem extends S.Class<ListSourceRepositoriesItem>(
-  "ListSourceRepositoriesItem",
-)({
-  id: S.String,
-  name: S.String,
-  description: S.optional(S.String),
-  lastUpdatedTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  createdTime: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
+export interface DevEnvironmentSessionConfiguration {
+  sessionType: string;
+  executeCommandSessionConfiguration?: ExecuteCommandSessionConfiguration;
+}
+export const DevEnvironmentSessionConfiguration = S.suspend(() =>
+  S.Struct({
+    sessionType: S.String,
+    executeCommandSessionConfiguration: S.optional(
+      ExecuteCommandSessionConfiguration,
+    ),
+  }),
+).annotations({
+  identifier: "DevEnvironmentSessionConfiguration",
+}) as any as S.Schema<DevEnvironmentSessionConfiguration>;
+export interface ListSourceRepositoriesItem {
+  id: string;
+  name: string;
+  description?: string;
+  lastUpdatedTime: Date;
+  createdTime: Date;
+}
+export const ListSourceRepositoriesItem = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    name: S.String,
+    description: S.optional(S.String),
+    lastUpdatedTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdTime: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "ListSourceRepositoriesItem",
+}) as any as S.Schema<ListSourceRepositoriesItem>;
+export type ListSourceRepositoriesItems = ListSourceRepositoriesItem[];
 export const ListSourceRepositoriesItems = S.Array(ListSourceRepositoriesItem);
-export class ListSourceRepositoryBranchesItem extends S.Class<ListSourceRepositoryBranchesItem>(
-  "ListSourceRepositoryBranchesItem",
-)({
-  ref: S.optional(S.String),
-  name: S.optional(S.String),
-  lastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  headCommitId: S.optional(S.String),
-}) {}
+export interface ListSourceRepositoryBranchesItem {
+  ref?: string;
+  name?: string;
+  lastUpdatedTime?: Date;
+  headCommitId?: string;
+}
+export const ListSourceRepositoryBranchesItem = S.suspend(() =>
+  S.Struct({
+    ref: S.optional(S.String),
+    name: S.optional(S.String),
+    lastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    headCommitId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListSourceRepositoryBranchesItem",
+}) as any as S.Schema<ListSourceRepositoryBranchesItem>;
+export type ListSourceRepositoryBranchesItems =
+  ListSourceRepositoryBranchesItem[];
 export const ListSourceRepositoryBranchesItems = S.Array(
   ListSourceRepositoryBranchesItem,
 );
-export class WorkflowDefinition extends S.Class<WorkflowDefinition>(
-  "WorkflowDefinition",
-)({ path: S.String }) {}
-export class WorkflowRunSummary extends S.Class<WorkflowRunSummary>(
-  "WorkflowRunSummary",
-)({
-  id: S.String,
-  workflowId: S.String,
-  workflowName: S.String,
-  status: S.String,
-  statusReasons: S.optional(WorkflowRunStatusReasons),
-  startTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  lastUpdatedTime: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
+export interface WorkflowDefinition {
+  path: string;
+}
+export const WorkflowDefinition = S.suspend(() =>
+  S.Struct({ path: S.String }),
+).annotations({
+  identifier: "WorkflowDefinition",
+}) as any as S.Schema<WorkflowDefinition>;
+export interface WorkflowRunSummary {
+  id: string;
+  workflowId: string;
+  workflowName: string;
+  status: string;
+  statusReasons?: WorkflowRunStatusReasons;
+  startTime: Date;
+  endTime?: Date;
+  lastUpdatedTime: Date;
+}
+export const WorkflowRunSummary = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    workflowId: S.String,
+    workflowName: S.String,
+    status: S.String,
+    statusReasons: S.optional(WorkflowRunStatusReasons),
+    startTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    lastUpdatedTime: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "WorkflowRunSummary",
+}) as any as S.Schema<WorkflowRunSummary>;
+export type WorkflowRunSummaries = WorkflowRunSummary[];
 export const WorkflowRunSummaries = S.Array(WorkflowRunSummary);
-export class GetUserDetailsResponse extends S.Class<GetUserDetailsResponse>(
-  "GetUserDetailsResponse",
-)({
-  userId: S.optional(S.String),
-  userName: S.optional(S.String),
-  displayName: S.optional(S.String),
-  primaryEmail: S.optional(EmailAddress),
-  version: S.optional(S.String),
-}) {}
-export class ListAccessTokensResponse extends S.Class<ListAccessTokensResponse>(
-  "ListAccessTokensResponse",
-)({ items: AccessTokenSummaries, nextToken: S.optional(S.String) }) {}
-export class ListSpacesResponse extends S.Class<ListSpacesResponse>(
-  "ListSpacesResponse",
-)({ nextToken: S.optional(S.String), items: S.optional(SpaceSummaries) }) {}
-export class CreateDevEnvironmentResponse extends S.Class<CreateDevEnvironmentResponse>(
-  "CreateDevEnvironmentResponse",
-)({
-  spaceName: S.String,
-  projectName: S.String,
-  id: S.String,
-  vpcConnectionName: S.optional(S.String),
-}) {}
-export class GetDevEnvironmentResponse extends S.Class<GetDevEnvironmentResponse>(
-  "GetDevEnvironmentResponse",
-)({
-  spaceName: S.String,
-  projectName: S.String,
-  id: S.String,
-  lastUpdatedTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  creatorId: S.String,
-  status: S.String,
-  statusReason: S.optional(S.String),
-  repositories: DevEnvironmentRepositorySummaries,
-  alias: S.optional(S.String),
-  ides: S.optional(Ides),
-  instanceType: S.String,
-  inactivityTimeoutMinutes: S.Number,
-  persistentStorage: PersistentStorage,
-  vpcConnectionName: S.optional(S.String),
-}) {}
-export class ListDevEnvironmentSessionsResponse extends S.Class<ListDevEnvironmentSessionsResponse>(
-  "ListDevEnvironmentSessionsResponse",
-)({
-  items: DevEnvironmentSessionsSummaryList,
-  nextToken: S.optional(S.String),
-}) {}
-export class StartDevEnvironmentSessionRequest extends S.Class<StartDevEnvironmentSessionRequest>(
-  "StartDevEnvironmentSessionRequest",
-)(
-  {
+export interface GetUserDetailsResponse {
+  userId?: string;
+  userName?: string;
+  displayName?: string;
+  primaryEmail?: EmailAddress;
+  version?: string;
+}
+export const GetUserDetailsResponse = S.suspend(() =>
+  S.Struct({
+    userId: S.optional(S.String),
+    userName: S.optional(S.String),
+    displayName: S.optional(S.String),
+    primaryEmail: S.optional(EmailAddress),
+    version: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetUserDetailsResponse",
+}) as any as S.Schema<GetUserDetailsResponse>;
+export interface ListAccessTokensResponse {
+  items: AccessTokenSummaries;
+  nextToken?: string;
+}
+export const ListAccessTokensResponse = S.suspend(() =>
+  S.Struct({ items: AccessTokenSummaries, nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListAccessTokensResponse",
+}) as any as S.Schema<ListAccessTokensResponse>;
+export interface ListSpacesResponse {
+  nextToken?: string;
+  items?: SpaceSummaries;
+}
+export const ListSpacesResponse = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    items: S.optional(SpaceSummaries),
+  }),
+).annotations({
+  identifier: "ListSpacesResponse",
+}) as any as S.Schema<ListSpacesResponse>;
+export interface CreateDevEnvironmentResponse {
+  spaceName: string;
+  projectName: string;
+  id: string;
+  vpcConnectionName?: string;
+}
+export const CreateDevEnvironmentResponse = S.suspend(() =>
+  S.Struct({
+    spaceName: S.String,
+    projectName: S.String,
+    id: S.String,
+    vpcConnectionName: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CreateDevEnvironmentResponse",
+}) as any as S.Schema<CreateDevEnvironmentResponse>;
+export interface GetDevEnvironmentResponse {
+  spaceName: string;
+  projectName: string;
+  id: string;
+  lastUpdatedTime: Date;
+  creatorId: string;
+  status: string;
+  statusReason?: string;
+  repositories: DevEnvironmentRepositorySummaries;
+  alias?: string;
+  ides?: Ides;
+  instanceType: string;
+  inactivityTimeoutMinutes: number;
+  persistentStorage: PersistentStorage;
+  vpcConnectionName?: string;
+}
+export const GetDevEnvironmentResponse = S.suspend(() =>
+  S.Struct({
+    spaceName: S.String,
+    projectName: S.String,
+    id: S.String,
+    lastUpdatedTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    creatorId: S.String,
+    status: S.String,
+    statusReason: S.optional(S.String),
+    repositories: DevEnvironmentRepositorySummaries,
+    alias: S.optional(S.String),
+    ides: S.optional(Ides),
+    instanceType: S.String,
+    inactivityTimeoutMinutes: S.Number,
+    persistentStorage: PersistentStorage,
+    vpcConnectionName: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetDevEnvironmentResponse",
+}) as any as S.Schema<GetDevEnvironmentResponse>;
+export interface ListDevEnvironmentSessionsResponse {
+  items: DevEnvironmentSessionsSummaryList;
+  nextToken?: string;
+}
+export const ListDevEnvironmentSessionsResponse = S.suspend(() =>
+  S.Struct({
+    items: DevEnvironmentSessionsSummaryList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListDevEnvironmentSessionsResponse",
+}) as any as S.Schema<ListDevEnvironmentSessionsResponse>;
+export interface StartDevEnvironmentSessionRequest {
+  spaceName: string;
+  projectName: string;
+  id: string;
+  sessionConfiguration: DevEnvironmentSessionConfiguration;
+}
+export const StartDevEnvironmentSessionRequest = S.suspend(() =>
+  S.Struct({
     spaceName: S.String.pipe(T.HttpLabel("spaceName")),
     projectName: S.String.pipe(T.HttpLabel("projectName")),
     id: S.String.pipe(T.HttpLabel("id")),
     sessionConfiguration: DevEnvironmentSessionConfiguration,
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/v1/spaces/{spaceName}/projects/{projectName}/devEnvironments/{id}/session",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/v1/spaces/{spaceName}/projects/{projectName}/devEnvironments/{id}/session",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListSourceRepositoriesResponse extends S.Class<ListSourceRepositoriesResponse>(
-  "ListSourceRepositoriesResponse",
-)({
-  items: S.optional(ListSourceRepositoriesItems),
-  nextToken: S.optional(S.String),
-}) {}
-export class ListSourceRepositoryBranchesResponse extends S.Class<ListSourceRepositoryBranchesResponse>(
-  "ListSourceRepositoryBranchesResponse",
-)({
-  nextToken: S.optional(S.String),
-  items: ListSourceRepositoryBranchesItems,
-}) {}
-export class GetWorkflowResponse extends S.Class<GetWorkflowResponse>(
-  "GetWorkflowResponse",
-)({
-  spaceName: S.String,
-  projectName: S.String,
-  id: S.String,
-  name: S.String,
-  sourceRepositoryName: S.optional(S.String),
-  sourceBranchName: S.optional(S.String),
-  definition: WorkflowDefinition,
-  createdTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  lastUpdatedTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  runMode: S.String,
-  status: S.String,
-}) {}
-export class ListWorkflowRunsResponse extends S.Class<ListWorkflowRunsResponse>(
-  "ListWorkflowRunsResponse",
-)({
-  nextToken: S.optional(S.String),
-  items: S.optional(WorkflowRunSummaries),
-}) {}
-export class UserIdentity extends S.Class<UserIdentity>("UserIdentity")({
-  userType: S.String,
-  principalId: S.String,
-  userName: S.optional(S.String),
-  awsAccountId: S.optional(S.String),
-}) {}
-export class ProjectInformation extends S.Class<ProjectInformation>(
-  "ProjectInformation",
-)({ name: S.optional(S.String), projectId: S.optional(S.String) }) {}
-export class EventPayload extends S.Class<EventPayload>("EventPayload")({
-  contentType: S.optional(S.String),
-  data: S.optional(S.String),
-}) {}
-export class WorkflowDefinitionSummary extends S.Class<WorkflowDefinitionSummary>(
-  "WorkflowDefinitionSummary",
-)({ path: S.String }) {}
-export class DevEnvironmentSummary extends S.Class<DevEnvironmentSummary>(
-  "DevEnvironmentSummary",
-)({
-  spaceName: S.optional(S.String),
-  projectName: S.optional(S.String),
-  id: S.String,
-  lastUpdatedTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  creatorId: S.String,
-  status: S.String,
-  statusReason: S.optional(S.String),
-  repositories: DevEnvironmentRepositorySummaries,
-  alias: S.optional(S.String),
-  ides: S.optional(Ides),
-  instanceType: S.String,
-  inactivityTimeoutMinutes: S.Number,
-  persistentStorage: PersistentStorage,
-  vpcConnectionName: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "StartDevEnvironmentSessionRequest",
+}) as any as S.Schema<StartDevEnvironmentSessionRequest>;
+export interface ListSourceRepositoriesResponse {
+  items?: ListSourceRepositoriesItems;
+  nextToken?: string;
+}
+export const ListSourceRepositoriesResponse = S.suspend(() =>
+  S.Struct({
+    items: S.optional(ListSourceRepositoriesItems),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListSourceRepositoriesResponse",
+}) as any as S.Schema<ListSourceRepositoriesResponse>;
+export interface ListSourceRepositoryBranchesResponse {
+  nextToken?: string;
+  items: ListSourceRepositoryBranchesItems;
+}
+export const ListSourceRepositoryBranchesResponse = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    items: ListSourceRepositoryBranchesItems,
+  }),
+).annotations({
+  identifier: "ListSourceRepositoryBranchesResponse",
+}) as any as S.Schema<ListSourceRepositoryBranchesResponse>;
+export interface GetWorkflowResponse {
+  spaceName: string;
+  projectName: string;
+  id: string;
+  name: string;
+  sourceRepositoryName?: string;
+  sourceBranchName?: string;
+  definition: WorkflowDefinition;
+  createdTime: Date;
+  lastUpdatedTime: Date;
+  runMode: string;
+  status: string;
+}
+export const GetWorkflowResponse = S.suspend(() =>
+  S.Struct({
+    spaceName: S.String,
+    projectName: S.String,
+    id: S.String,
+    name: S.String,
+    sourceRepositoryName: S.optional(S.String),
+    sourceBranchName: S.optional(S.String),
+    definition: WorkflowDefinition,
+    createdTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    runMode: S.String,
+    status: S.String,
+  }),
+).annotations({
+  identifier: "GetWorkflowResponse",
+}) as any as S.Schema<GetWorkflowResponse>;
+export interface ListWorkflowRunsResponse {
+  nextToken?: string;
+  items?: WorkflowRunSummaries;
+}
+export const ListWorkflowRunsResponse = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    items: S.optional(WorkflowRunSummaries),
+  }),
+).annotations({
+  identifier: "ListWorkflowRunsResponse",
+}) as any as S.Schema<ListWorkflowRunsResponse>;
+export interface UserIdentity {
+  userType: string;
+  principalId: string;
+  userName?: string;
+  awsAccountId?: string;
+}
+export const UserIdentity = S.suspend(() =>
+  S.Struct({
+    userType: S.String,
+    principalId: S.String,
+    userName: S.optional(S.String),
+    awsAccountId: S.optional(S.String),
+  }),
+).annotations({ identifier: "UserIdentity" }) as any as S.Schema<UserIdentity>;
+export interface ProjectInformation {
+  name?: string;
+  projectId?: string;
+}
+export const ProjectInformation = S.suspend(() =>
+  S.Struct({ name: S.optional(S.String), projectId: S.optional(S.String) }),
+).annotations({
+  identifier: "ProjectInformation",
+}) as any as S.Schema<ProjectInformation>;
+export interface EventPayload {
+  contentType?: string;
+  data?: string;
+}
+export const EventPayload = S.suspend(() =>
+  S.Struct({ contentType: S.optional(S.String), data: S.optional(S.String) }),
+).annotations({ identifier: "EventPayload" }) as any as S.Schema<EventPayload>;
+export interface WorkflowDefinitionSummary {
+  path: string;
+}
+export const WorkflowDefinitionSummary = S.suspend(() =>
+  S.Struct({ path: S.String }),
+).annotations({
+  identifier: "WorkflowDefinitionSummary",
+}) as any as S.Schema<WorkflowDefinitionSummary>;
+export interface DevEnvironmentSummary {
+  spaceName?: string;
+  projectName?: string;
+  id: string;
+  lastUpdatedTime: Date;
+  creatorId: string;
+  status: string;
+  statusReason?: string;
+  repositories: DevEnvironmentRepositorySummaries;
+  alias?: string;
+  ides?: Ides;
+  instanceType: string;
+  inactivityTimeoutMinutes: number;
+  persistentStorage: PersistentStorage;
+  vpcConnectionName?: string;
+}
+export const DevEnvironmentSummary = S.suspend(() =>
+  S.Struct({
+    spaceName: S.optional(S.String),
+    projectName: S.optional(S.String),
+    id: S.String,
+    lastUpdatedTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    creatorId: S.String,
+    status: S.String,
+    statusReason: S.optional(S.String),
+    repositories: DevEnvironmentRepositorySummaries,
+    alias: S.optional(S.String),
+    ides: S.optional(Ides),
+    instanceType: S.String,
+    inactivityTimeoutMinutes: S.Number,
+    persistentStorage: PersistentStorage,
+    vpcConnectionName: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DevEnvironmentSummary",
+}) as any as S.Schema<DevEnvironmentSummary>;
+export type DevEnvironmentSummaryList = DevEnvironmentSummary[];
 export const DevEnvironmentSummaryList = S.Array(DevEnvironmentSummary);
-export class EventLogEntry extends S.Class<EventLogEntry>("EventLogEntry")({
-  id: S.String,
-  eventName: S.String,
-  eventType: S.String,
-  eventCategory: S.String,
-  eventSource: S.String,
-  eventTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  operationType: S.String,
-  userIdentity: UserIdentity,
-  projectInformation: S.optional(ProjectInformation),
-  requestId: S.optional(S.String),
-  requestPayload: S.optional(EventPayload),
-  responsePayload: S.optional(EventPayload),
-  errorCode: S.optional(S.String),
-  sourceIpAddress: S.optional(S.String),
-  userAgent: S.optional(S.String),
-}) {}
+export interface EventLogEntry {
+  id: string;
+  eventName: string;
+  eventType: string;
+  eventCategory: string;
+  eventSource: string;
+  eventTime: Date;
+  operationType: string;
+  userIdentity: UserIdentity;
+  projectInformation?: ProjectInformation;
+  requestId?: string;
+  requestPayload?: EventPayload;
+  responsePayload?: EventPayload;
+  errorCode?: string;
+  sourceIpAddress?: string;
+  userAgent?: string;
+}
+export const EventLogEntry = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    eventName: S.String,
+    eventType: S.String,
+    eventCategory: S.String,
+    eventSource: S.String,
+    eventTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    operationType: S.String,
+    userIdentity: UserIdentity,
+    projectInformation: S.optional(ProjectInformation),
+    requestId: S.optional(S.String),
+    requestPayload: S.optional(EventPayload),
+    responsePayload: S.optional(EventPayload),
+    errorCode: S.optional(S.String),
+    sourceIpAddress: S.optional(S.String),
+    userAgent: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "EventLogEntry",
+}) as any as S.Schema<EventLogEntry>;
+export type EventLogEntries = EventLogEntry[];
 export const EventLogEntries = S.Array(EventLogEntry);
-export class ProjectSummary extends S.Class<ProjectSummary>("ProjectSummary")({
-  name: S.String,
-  displayName: S.optional(S.String),
-  description: S.optional(S.String),
-}) {}
+export interface ProjectSummary {
+  name: string;
+  displayName?: string;
+  description?: string;
+}
+export const ProjectSummary = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    displayName: S.optional(S.String),
+    description: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ProjectSummary",
+}) as any as S.Schema<ProjectSummary>;
+export type ProjectSummaries = ProjectSummary[];
 export const ProjectSummaries = S.Array(ProjectSummary);
-export class WorkflowSummary extends S.Class<WorkflowSummary>(
-  "WorkflowSummary",
-)({
-  id: S.String,
-  name: S.String,
-  sourceRepositoryName: S.String,
-  sourceBranchName: S.String,
-  definition: WorkflowDefinitionSummary,
-  createdTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  lastUpdatedTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  runMode: S.String,
-  status: S.String,
-}) {}
+export interface WorkflowSummary {
+  id: string;
+  name: string;
+  sourceRepositoryName: string;
+  sourceBranchName: string;
+  definition: WorkflowDefinitionSummary;
+  createdTime: Date;
+  lastUpdatedTime: Date;
+  runMode: string;
+  status: string;
+}
+export const WorkflowSummary = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    name: S.String,
+    sourceRepositoryName: S.String,
+    sourceBranchName: S.String,
+    definition: WorkflowDefinitionSummary,
+    createdTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    runMode: S.String,
+    status: S.String,
+  }),
+).annotations({
+  identifier: "WorkflowSummary",
+}) as any as S.Schema<WorkflowSummary>;
+export type WorkflowSummaries = WorkflowSummary[];
 export const WorkflowSummaries = S.Array(WorkflowSummary);
-export class ListDevEnvironmentsResponse extends S.Class<ListDevEnvironmentsResponse>(
-  "ListDevEnvironmentsResponse",
-)({ items: DevEnvironmentSummaryList, nextToken: S.optional(S.String) }) {}
-export class ListEventLogsResponse extends S.Class<ListEventLogsResponse>(
-  "ListEventLogsResponse",
-)({ nextToken: S.optional(S.String), items: EventLogEntries }) {}
-export class ListProjectsResponse extends S.Class<ListProjectsResponse>(
-  "ListProjectsResponse",
-)({ nextToken: S.optional(S.String), items: S.optional(ProjectSummaries) }) {}
-export class ListWorkflowsResponse extends S.Class<ListWorkflowsResponse>(
-  "ListWorkflowsResponse",
-)({ nextToken: S.optional(S.String), items: S.optional(WorkflowSummaries) }) {}
-export class DevEnvironmentAccessDetails extends S.Class<DevEnvironmentAccessDetails>(
-  "DevEnvironmentAccessDetails",
-)({ streamUrl: S.String, tokenValue: S.String }) {}
-export class StartDevEnvironmentSessionResponse extends S.Class<StartDevEnvironmentSessionResponse>(
-  "StartDevEnvironmentSessionResponse",
-)({
-  accessDetails: DevEnvironmentAccessDetails,
-  sessionId: S.optional(S.String),
-  spaceName: S.String,
-  projectName: S.String,
-  id: S.String,
-}) {}
+export interface ListDevEnvironmentsResponse {
+  items: DevEnvironmentSummaryList;
+  nextToken?: string;
+}
+export const ListDevEnvironmentsResponse = S.suspend(() =>
+  S.Struct({
+    items: DevEnvironmentSummaryList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListDevEnvironmentsResponse",
+}) as any as S.Schema<ListDevEnvironmentsResponse>;
+export interface ListEventLogsResponse {
+  nextToken?: string;
+  items: EventLogEntries;
+}
+export const ListEventLogsResponse = S.suspend(() =>
+  S.Struct({ nextToken: S.optional(S.String), items: EventLogEntries }),
+).annotations({
+  identifier: "ListEventLogsResponse",
+}) as any as S.Schema<ListEventLogsResponse>;
+export interface ListProjectsResponse {
+  nextToken?: string;
+  items?: ProjectSummaries;
+}
+export const ListProjectsResponse = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    items: S.optional(ProjectSummaries),
+  }),
+).annotations({
+  identifier: "ListProjectsResponse",
+}) as any as S.Schema<ListProjectsResponse>;
+export interface ListWorkflowsResponse {
+  nextToken?: string;
+  items?: WorkflowSummaries;
+}
+export const ListWorkflowsResponse = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    items: S.optional(WorkflowSummaries),
+  }),
+).annotations({
+  identifier: "ListWorkflowsResponse",
+}) as any as S.Schema<ListWorkflowsResponse>;
+export interface DevEnvironmentAccessDetails {
+  streamUrl: string;
+  tokenValue: string;
+}
+export const DevEnvironmentAccessDetails = S.suspend(() =>
+  S.Struct({ streamUrl: S.String, tokenValue: S.String }),
+).annotations({
+  identifier: "DevEnvironmentAccessDetails",
+}) as any as S.Schema<DevEnvironmentAccessDetails>;
+export interface StartDevEnvironmentSessionResponse {
+  accessDetails: DevEnvironmentAccessDetails;
+  sessionId?: string;
+  spaceName: string;
+  projectName: string;
+  id: string;
+}
+export const StartDevEnvironmentSessionResponse = S.suspend(() =>
+  S.Struct({
+    accessDetails: DevEnvironmentAccessDetails,
+    sessionId: S.optional(S.String),
+    spaceName: S.String,
+    projectName: S.String,
+    id: S.String,
+  }),
+).annotations({
+  identifier: "StartDevEnvironmentSessionResponse",
+}) as any as S.Schema<StartDevEnvironmentSessionResponse>;
 
 //# Errors
 

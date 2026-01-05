@@ -291,493 +291,764 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type InstanceList = string[];
 export const InstanceList = S.Array(S.String);
+export type ConfigurationCheckTypeList = string[];
 export const ConfigurationCheckTypeList = S.Array(S.String);
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class DeleteResourcePermissionInput extends S.Class<DeleteResourcePermissionInput>(
-  "DeleteResourcePermissionInput",
-)(
-  {
+export interface DeleteResourcePermissionInput {
+  ActionType?: string;
+  SourceResourceArn?: string;
+  ResourceArn: string;
+}
+export const DeleteResourcePermissionInput = S.suspend(() =>
+  S.Struct({
     ActionType: S.optional(S.String),
     SourceResourceArn: S.optional(S.String),
     ResourceArn: S.String,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/delete-resource-permission" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/delete-resource-permission" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeregisterApplicationInput extends S.Class<DeregisterApplicationInput>(
-  "DeregisterApplicationInput",
-)(
-  { ApplicationId: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/deregister-application" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteResourcePermissionInput",
+}) as any as S.Schema<DeleteResourcePermissionInput>;
+export interface DeregisterApplicationInput {
+  ApplicationId: string;
+}
+export const DeregisterApplicationInput = S.suspend(() =>
+  S.Struct({ ApplicationId: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/deregister-application" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeregisterApplicationOutput extends S.Class<DeregisterApplicationOutput>(
-  "DeregisterApplicationOutput",
-)({}) {}
-export class GetApplicationInput extends S.Class<GetApplicationInput>(
-  "GetApplicationInput",
-)(
-  {
+).annotations({
+  identifier: "DeregisterApplicationInput",
+}) as any as S.Schema<DeregisterApplicationInput>;
+export interface DeregisterApplicationOutput {}
+export const DeregisterApplicationOutput = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeregisterApplicationOutput",
+}) as any as S.Schema<DeregisterApplicationOutput>;
+export interface GetApplicationInput {
+  ApplicationId?: string;
+  ApplicationArn?: string;
+  AppRegistryArn?: string;
+}
+export const GetApplicationInput = S.suspend(() =>
+  S.Struct({
     ApplicationId: S.optional(S.String),
     ApplicationArn: S.optional(S.String),
     AppRegistryArn: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/get-application" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/get-application" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetComponentInput extends S.Class<GetComponentInput>(
-  "GetComponentInput",
-)(
-  { ApplicationId: S.String, ComponentId: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/get-component" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetApplicationInput",
+}) as any as S.Schema<GetApplicationInput>;
+export interface GetComponentInput {
+  ApplicationId: string;
+  ComponentId: string;
+}
+export const GetComponentInput = S.suspend(() =>
+  S.Struct({ ApplicationId: S.String, ComponentId: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/get-component" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetConfigurationCheckOperationInput extends S.Class<GetConfigurationCheckOperationInput>(
-  "GetConfigurationCheckOperationInput",
-)(
-  { OperationId: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/get-configuration-check-operation" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetComponentInput",
+}) as any as S.Schema<GetComponentInput>;
+export interface GetConfigurationCheckOperationInput {
+  OperationId: string;
+}
+export const GetConfigurationCheckOperationInput = S.suspend(() =>
+  S.Struct({ OperationId: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/get-configuration-check-operation" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetDatabaseInput extends S.Class<GetDatabaseInput>(
-  "GetDatabaseInput",
-)(
-  {
+).annotations({
+  identifier: "GetConfigurationCheckOperationInput",
+}) as any as S.Schema<GetConfigurationCheckOperationInput>;
+export interface GetDatabaseInput {
+  ApplicationId?: string;
+  ComponentId?: string;
+  DatabaseId?: string;
+  DatabaseArn?: string;
+}
+export const GetDatabaseInput = S.suspend(() =>
+  S.Struct({
     ApplicationId: S.optional(S.String),
     ComponentId: S.optional(S.String),
     DatabaseId: S.optional(S.String),
     DatabaseArn: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/get-database" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/get-database" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetOperationInput extends S.Class<GetOperationInput>(
-  "GetOperationInput",
-)(
-  { OperationId: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/get-operation" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetDatabaseInput",
+}) as any as S.Schema<GetDatabaseInput>;
+export interface GetOperationInput {
+  OperationId: string;
+}
+export const GetOperationInput = S.suspend(() =>
+  S.Struct({ OperationId: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/get-operation" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetResourcePermissionInput extends S.Class<GetResourcePermissionInput>(
-  "GetResourcePermissionInput",
-)(
-  { ActionType: S.optional(S.String), ResourceArn: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/get-resource-permission" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetOperationInput",
+}) as any as S.Schema<GetOperationInput>;
+export interface GetResourcePermissionInput {
+  ActionType?: string;
+  ResourceArn: string;
+}
+export const GetResourcePermissionInput = S.suspend(() =>
+  S.Struct({ ActionType: S.optional(S.String), ResourceArn: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/get-resource-permission" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListComponentsInput extends S.Class<ListComponentsInput>(
-  "ListComponentsInput",
-)(
-  {
+).annotations({
+  identifier: "GetResourcePermissionInput",
+}) as any as S.Schema<GetResourcePermissionInput>;
+export interface ListComponentsInput {
+  ApplicationId?: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListComponentsInput = S.suspend(() =>
+  S.Struct({
     ApplicationId: S.optional(S.String),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/list-components" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/list-components" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListConfigurationCheckDefinitionsInput extends S.Class<ListConfigurationCheckDefinitionsInput>(
-  "ListConfigurationCheckDefinitionsInput",
-)(
-  { MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/list-configuration-check-definitions" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListComponentsInput",
+}) as any as S.Schema<ListComponentsInput>;
+export interface ListConfigurationCheckDefinitionsInput {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListConfigurationCheckDefinitionsInput = S.suspend(() =>
+  S.Struct({
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/list-configuration-check-definitions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class Filter extends S.Class<Filter>("Filter")({
-  Name: S.String,
-  Value: S.String,
-  Operator: S.String,
-}) {}
+).annotations({
+  identifier: "ListConfigurationCheckDefinitionsInput",
+}) as any as S.Schema<ListConfigurationCheckDefinitionsInput>;
+export interface Filter {
+  Name: string;
+  Value: string;
+  Operator: string;
+}
+export const Filter = S.suspend(() =>
+  S.Struct({ Name: S.String, Value: S.String, Operator: S.String }),
+).annotations({ identifier: "Filter" }) as any as S.Schema<Filter>;
+export type FilterList = Filter[];
 export const FilterList = S.Array(Filter);
-export class ListConfigurationCheckOperationsInput extends S.Class<ListConfigurationCheckOperationsInput>(
-  "ListConfigurationCheckOperationsInput",
-)(
-  {
+export interface ListConfigurationCheckOperationsInput {
+  ApplicationId: string;
+  ListMode?: string;
+  MaxResults?: number;
+  NextToken?: string;
+  Filters?: FilterList;
+}
+export const ListConfigurationCheckOperationsInput = S.suspend(() =>
+  S.Struct({
     ApplicationId: S.String,
     ListMode: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     Filters: S.optional(FilterList),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/list-configuration-check-operations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/list-configuration-check-operations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListDatabasesInput extends S.Class<ListDatabasesInput>(
-  "ListDatabasesInput",
-)(
-  {
+).annotations({
+  identifier: "ListConfigurationCheckOperationsInput",
+}) as any as S.Schema<ListConfigurationCheckOperationsInput>;
+export interface ListDatabasesInput {
+  ApplicationId?: string;
+  ComponentId?: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListDatabasesInput = S.suspend(() =>
+  S.Struct({
     ApplicationId: S.optional(S.String),
     ComponentId: S.optional(S.String),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/list-databases" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/list-databases" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListOperationEventsInput extends S.Class<ListOperationEventsInput>(
-  "ListOperationEventsInput",
-)(
-  {
+).annotations({
+  identifier: "ListDatabasesInput",
+}) as any as S.Schema<ListDatabasesInput>;
+export interface ListOperationEventsInput {
+  OperationId: string;
+  MaxResults?: number;
+  NextToken?: string;
+  Filters?: FilterList;
+}
+export const ListOperationEventsInput = S.suspend(() =>
+  S.Struct({
     OperationId: S.String,
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     Filters: S.optional(FilterList),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/list-operation-events" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/list-operation-events" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListOperationsInput extends S.Class<ListOperationsInput>(
-  "ListOperationsInput",
-)(
-  {
+).annotations({
+  identifier: "ListOperationEventsInput",
+}) as any as S.Schema<ListOperationEventsInput>;
+export interface ListOperationsInput {
+  ApplicationId: string;
+  MaxResults?: number;
+  NextToken?: string;
+  Filters?: FilterList;
+}
+export const ListOperationsInput = S.suspend(() =>
+  S.Struct({
     ApplicationId: S.String,
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     Filters: S.optional(FilterList),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/list-operations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/list-operations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListSubCheckResultsInput extends S.Class<ListSubCheckResultsInput>(
-  "ListSubCheckResultsInput",
-)(
-  {
+).annotations({
+  identifier: "ListOperationsInput",
+}) as any as S.Schema<ListOperationsInput>;
+export interface ListSubCheckResultsInput {
+  OperationId: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListSubCheckResultsInput = S.suspend(() =>
+  S.Struct({
     OperationId: S.String,
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/list-sub-check-results" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/list-sub-check-results" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListSubCheckRuleResultsInput extends S.Class<ListSubCheckRuleResultsInput>(
-  "ListSubCheckRuleResultsInput",
-)(
-  {
+).annotations({
+  identifier: "ListSubCheckResultsInput",
+}) as any as S.Schema<ListSubCheckResultsInput>;
+export interface ListSubCheckRuleResultsInput {
+  SubCheckResultId: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListSubCheckRuleResultsInput = S.suspend(() =>
+  S.Struct({
     SubCheckResultId: S.String,
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/list-sub-check-rule-results" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/list-sub-check-rule-results" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListSubCheckRuleResultsInput",
+}) as any as S.Schema<ListSubCheckRuleResultsInput>;
+export interface ListTagsForResourceRequest {
+  resourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutResourcePermissionInput extends S.Class<PutResourcePermissionInput>(
-  "PutResourcePermissionInput",
-)(
-  { ActionType: S.String, SourceResourceArn: S.String, ResourceArn: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/put-resource-permission" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface PutResourcePermissionInput {
+  ActionType: string;
+  SourceResourceArn: string;
+  ResourceArn: string;
+}
+export const PutResourcePermissionInput = S.suspend(() =>
+  S.Struct({
+    ActionType: S.String,
+    SourceResourceArn: S.String,
+    ResourceArn: S.String,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/put-resource-permission" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartApplicationInput extends S.Class<StartApplicationInput>(
-  "StartApplicationInput",
-)(
-  { ApplicationId: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/start-application" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "PutResourcePermissionInput",
+}) as any as S.Schema<PutResourcePermissionInput>;
+export interface StartApplicationInput {
+  ApplicationId: string;
+}
+export const StartApplicationInput = S.suspend(() =>
+  S.Struct({ ApplicationId: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/start-application" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartApplicationRefreshInput extends S.Class<StartApplicationRefreshInput>(
-  "StartApplicationRefreshInput",
-)(
-  { ApplicationId: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/start-application-refresh" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "StartApplicationInput",
+}) as any as S.Schema<StartApplicationInput>;
+export interface StartApplicationRefreshInput {
+  ApplicationId: string;
+}
+export const StartApplicationRefreshInput = S.suspend(() =>
+  S.Struct({ ApplicationId: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/start-application-refresh" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartConfigurationChecksInput extends S.Class<StartConfigurationChecksInput>(
-  "StartConfigurationChecksInput",
-)(
-  {
+).annotations({
+  identifier: "StartApplicationRefreshInput",
+}) as any as S.Schema<StartApplicationRefreshInput>;
+export interface StartConfigurationChecksInput {
+  ApplicationId: string;
+  ConfigurationCheckIds?: ConfigurationCheckTypeList;
+}
+export const StartConfigurationChecksInput = S.suspend(() =>
+  S.Struct({
     ApplicationId: S.String,
     ConfigurationCheckIds: S.optional(ConfigurationCheckTypeList),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/start-configuration-checks" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/start-configuration-checks" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StopApplicationInput extends S.Class<StopApplicationInput>(
-  "StopApplicationInput",
-)(
-  {
+).annotations({
+  identifier: "StartConfigurationChecksInput",
+}) as any as S.Schema<StartConfigurationChecksInput>;
+export interface StopApplicationInput {
+  ApplicationId: string;
+  StopConnectedEntity?: string;
+  IncludeEc2InstanceShutdown?: boolean;
+}
+export const StopApplicationInput = S.suspend(() =>
+  S.Struct({
     ApplicationId: S.String,
     StopConnectedEntity: S.optional(S.String),
     IncludeEc2InstanceShutdown: S.optional(S.Boolean),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/stop-application" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/stop-application" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "StopApplicationInput",
+}) as any as S.Schema<StopApplicationInput>;
+export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap },
-  T.all(
-    T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface TagResourceRequest {
+  resourceArn: string;
+  tags: TagMap;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+    tags: TagMap,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UntagResourceRequest {
+  resourceArn: string;
+  tagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
-export class RuleStatusCounts extends S.Class<RuleStatusCounts>(
-  "RuleStatusCounts",
-)({
-  Failed: S.optional(S.Number),
-  Warning: S.optional(S.Number),
-  Info: S.optional(S.Number),
-  Passed: S.optional(S.Number),
-  Unknown: S.optional(S.Number),
-}) {}
-export class ConfigurationCheckOperation extends S.Class<ConfigurationCheckOperation>(
-  "ConfigurationCheckOperation",
-)({
-  Id: S.optional(S.String),
-  ApplicationId: S.optional(S.String),
-  Status: S.optional(S.String),
-  StatusMessage: S.optional(S.String),
-  ConfigurationCheckId: S.optional(S.String),
-  ConfigurationCheckName: S.optional(S.String),
-  ConfigurationCheckDescription: S.optional(S.String),
-  StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  RuleStatusCounts: S.optional(RuleStatusCounts),
-}) {}
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface RuleStatusCounts {
+  Failed?: number;
+  Warning?: number;
+  Info?: number;
+  Passed?: number;
+  Unknown?: number;
+}
+export const RuleStatusCounts = S.suspend(() =>
+  S.Struct({
+    Failed: S.optional(S.Number),
+    Warning: S.optional(S.Number),
+    Info: S.optional(S.Number),
+    Passed: S.optional(S.Number),
+    Unknown: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "RuleStatusCounts",
+}) as any as S.Schema<RuleStatusCounts>;
+export interface ConfigurationCheckOperation {
+  Id?: string;
+  ApplicationId?: string;
+  Status?: string;
+  StatusMessage?: string;
+  ConfigurationCheckId?: string;
+  ConfigurationCheckName?: string;
+  ConfigurationCheckDescription?: string;
+  StartTime?: Date;
+  EndTime?: Date;
+  RuleStatusCounts?: RuleStatusCounts;
+}
+export const ConfigurationCheckOperation = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    ApplicationId: S.optional(S.String),
+    Status: S.optional(S.String),
+    StatusMessage: S.optional(S.String),
+    ConfigurationCheckId: S.optional(S.String),
+    ConfigurationCheckName: S.optional(S.String),
+    ConfigurationCheckDescription: S.optional(S.String),
+    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    RuleStatusCounts: S.optional(RuleStatusCounts),
+  }),
+).annotations({
+  identifier: "ConfigurationCheckOperation",
+}) as any as S.Schema<ConfigurationCheckOperation>;
+export type ConfigurationCheckOperationList = ConfigurationCheckOperation[];
 export const ConfigurationCheckOperationList = S.Array(
   ConfigurationCheckOperation,
 );
+export type OperationProperties = { [key: string]: string };
 export const OperationProperties = S.Record({
   key: S.String,
   value: S.String,
 }).pipe(T.Sparse());
-export class Operation extends S.Class<Operation>("Operation")({
-  Id: S.optional(S.String),
-  Type: S.optional(S.String),
-  Status: S.optional(S.String),
-  StatusMessage: S.optional(S.String),
-  Properties: S.optional(OperationProperties),
-  ResourceType: S.optional(S.String),
-  ResourceId: S.optional(S.String),
-  ResourceArn: S.optional(S.String),
-  StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface Operation {
+  Id?: string;
+  Type?: string;
+  Status?: string;
+  StatusMessage?: string;
+  Properties?: OperationProperties;
+  ResourceType?: string;
+  ResourceId?: string;
+  ResourceArn?: string;
+  StartTime?: Date;
+  EndTime?: Date;
+  LastUpdatedTime?: Date;
+}
+export const Operation = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Type: S.optional(S.String),
+    Status: S.optional(S.String),
+    StatusMessage: S.optional(S.String),
+    Properties: S.optional(OperationProperties),
+    ResourceType: S.optional(S.String),
+    ResourceId: S.optional(S.String),
+    ResourceArn: S.optional(S.String),
+    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastUpdatedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({ identifier: "Operation" }) as any as S.Schema<Operation>;
+export type OperationList = Operation[];
 export const OperationList = S.Array(Operation);
-export class ApplicationCredential extends S.Class<ApplicationCredential>(
-  "ApplicationCredential",
-)({ DatabaseName: S.String, CredentialType: S.String, SecretId: S.String }) {}
+export interface ApplicationCredential {
+  DatabaseName: string;
+  CredentialType: string;
+  SecretId: string;
+}
+export const ApplicationCredential = S.suspend(() =>
+  S.Struct({
+    DatabaseName: S.String,
+    CredentialType: S.String,
+    SecretId: S.String,
+  }),
+).annotations({
+  identifier: "ApplicationCredential",
+}) as any as S.Schema<ApplicationCredential>;
+export type ApplicationCredentialList = ApplicationCredential[];
 export const ApplicationCredentialList = S.Array(ApplicationCredential);
-export class ComponentInfo extends S.Class<ComponentInfo>("ComponentInfo")({
-  ComponentType: S.String,
-  Sid: S.String,
-  Ec2InstanceId: S.String,
-}) {}
+export interface ComponentInfo {
+  ComponentType: string;
+  Sid: string;
+  Ec2InstanceId: string;
+}
+export const ComponentInfo = S.suspend(() =>
+  S.Struct({ ComponentType: S.String, Sid: S.String, Ec2InstanceId: S.String }),
+).annotations({
+  identifier: "ComponentInfo",
+}) as any as S.Schema<ComponentInfo>;
+export type ComponentInfoList = ComponentInfo[];
 export const ComponentInfoList = S.Array(ComponentInfo);
-export class BackintConfig extends S.Class<BackintConfig>("BackintConfig")({
-  BackintMode: S.String,
-  EnsureNoBackupInProcess: S.Boolean,
-}) {}
-export class DeleteResourcePermissionOutput extends S.Class<DeleteResourcePermissionOutput>(
-  "DeleteResourcePermissionOutput",
-)({ Policy: S.optional(S.String) }) {}
-export class GetResourcePermissionOutput extends S.Class<GetResourcePermissionOutput>(
-  "GetResourcePermissionOutput",
-)({ Policy: S.optional(S.String) }) {}
-export class ListApplicationsInput extends S.Class<ListApplicationsInput>(
-  "ListApplicationsInput",
-)(
-  {
+export interface BackintConfig {
+  BackintMode: string;
+  EnsureNoBackupInProcess: boolean;
+}
+export const BackintConfig = S.suspend(() =>
+  S.Struct({ BackintMode: S.String, EnsureNoBackupInProcess: S.Boolean }),
+).annotations({
+  identifier: "BackintConfig",
+}) as any as S.Schema<BackintConfig>;
+export interface DeleteResourcePermissionOutput {
+  Policy?: string;
+}
+export const DeleteResourcePermissionOutput = S.suspend(() =>
+  S.Struct({ Policy: S.optional(S.String) }),
+).annotations({
+  identifier: "DeleteResourcePermissionOutput",
+}) as any as S.Schema<DeleteResourcePermissionOutput>;
+export interface GetResourcePermissionOutput {
+  Policy?: string;
+}
+export const GetResourcePermissionOutput = S.suspend(() =>
+  S.Struct({ Policy: S.optional(S.String) }),
+).annotations({
+  identifier: "GetResourcePermissionOutput",
+}) as any as S.Schema<GetResourcePermissionOutput>;
+export interface ListApplicationsInput {
+  NextToken?: string;
+  MaxResults?: number;
+  Filters?: FilterList;
+}
+export const ListApplicationsInput = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     Filters: S.optional(FilterList),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/list-applications" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/list-applications" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListConfigurationCheckOperationsOutput extends S.Class<ListConfigurationCheckOperationsOutput>(
-  "ListConfigurationCheckOperationsOutput",
-)({
-  ConfigurationCheckOperations: S.optional(ConfigurationCheckOperationList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListOperationsOutput extends S.Class<ListOperationsOutput>(
-  "ListOperationsOutput",
-)({ Operations: S.optional(OperationList), NextToken: S.optional(S.String) }) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ tags: S.optional(TagMap) }) {}
-export class PutResourcePermissionOutput extends S.Class<PutResourcePermissionOutput>(
-  "PutResourcePermissionOutput",
-)({ Policy: S.optional(S.String) }) {}
-export class RegisterApplicationInput extends S.Class<RegisterApplicationInput>(
-  "RegisterApplicationInput",
-)(
-  {
+).annotations({
+  identifier: "ListApplicationsInput",
+}) as any as S.Schema<ListApplicationsInput>;
+export interface ListConfigurationCheckOperationsOutput {
+  ConfigurationCheckOperations?: ConfigurationCheckOperationList;
+  NextToken?: string;
+}
+export const ListConfigurationCheckOperationsOutput = S.suspend(() =>
+  S.Struct({
+    ConfigurationCheckOperations: S.optional(ConfigurationCheckOperationList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListConfigurationCheckOperationsOutput",
+}) as any as S.Schema<ListConfigurationCheckOperationsOutput>;
+export interface ListOperationsOutput {
+  Operations?: OperationList;
+  NextToken?: string;
+}
+export const ListOperationsOutput = S.suspend(() =>
+  S.Struct({
+    Operations: S.optional(OperationList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListOperationsOutput",
+}) as any as S.Schema<ListOperationsOutput>;
+export interface ListTagsForResourceResponse {
+  tags?: TagMap;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ tags: S.optional(TagMap) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface PutResourcePermissionOutput {
+  Policy?: string;
+}
+export const PutResourcePermissionOutput = S.suspend(() =>
+  S.Struct({ Policy: S.optional(S.String) }),
+).annotations({
+  identifier: "PutResourcePermissionOutput",
+}) as any as S.Schema<PutResourcePermissionOutput>;
+export interface RegisterApplicationInput {
+  ApplicationId: string;
+  ApplicationType: string;
+  Instances: InstanceList;
+  SapInstanceNumber?: string;
+  Sid?: string;
+  Tags?: TagMap;
+  Credentials?: ApplicationCredentialList;
+  DatabaseArn?: string;
+  ComponentsInfo?: ComponentInfoList;
+}
+export const RegisterApplicationInput = S.suspend(() =>
+  S.Struct({
     ApplicationId: S.String,
     ApplicationType: S.String,
     Instances: InstanceList,
@@ -787,280 +1058,581 @@ export class RegisterApplicationInput extends S.Class<RegisterApplicationInput>(
     Credentials: S.optional(ApplicationCredentialList),
     DatabaseArn: S.optional(S.String),
     ComponentsInfo: S.optional(ComponentInfoList),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/register-application" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/register-application" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartApplicationOutput extends S.Class<StartApplicationOutput>(
-  "StartApplicationOutput",
-)({ OperationId: S.optional(S.String) }) {}
-export class StartApplicationRefreshOutput extends S.Class<StartApplicationRefreshOutput>(
-  "StartApplicationRefreshOutput",
-)({ OperationId: S.optional(S.String) }) {}
-export class StartConfigurationChecksOutput extends S.Class<StartConfigurationChecksOutput>(
-  "StartConfigurationChecksOutput",
-)({
-  ConfigurationCheckOperations: S.optional(ConfigurationCheckOperationList),
-}) {}
-export class StopApplicationOutput extends S.Class<StopApplicationOutput>(
-  "StopApplicationOutput",
-)({ OperationId: S.optional(S.String) }) {}
-export class UpdateApplicationSettingsInput extends S.Class<UpdateApplicationSettingsInput>(
-  "UpdateApplicationSettingsInput",
-)(
-  {
+).annotations({
+  identifier: "RegisterApplicationInput",
+}) as any as S.Schema<RegisterApplicationInput>;
+export interface StartApplicationOutput {
+  OperationId?: string;
+}
+export const StartApplicationOutput = S.suspend(() =>
+  S.Struct({ OperationId: S.optional(S.String) }),
+).annotations({
+  identifier: "StartApplicationOutput",
+}) as any as S.Schema<StartApplicationOutput>;
+export interface StartApplicationRefreshOutput {
+  OperationId?: string;
+}
+export const StartApplicationRefreshOutput = S.suspend(() =>
+  S.Struct({ OperationId: S.optional(S.String) }),
+).annotations({
+  identifier: "StartApplicationRefreshOutput",
+}) as any as S.Schema<StartApplicationRefreshOutput>;
+export interface StartConfigurationChecksOutput {
+  ConfigurationCheckOperations?: ConfigurationCheckOperationList;
+}
+export const StartConfigurationChecksOutput = S.suspend(() =>
+  S.Struct({
+    ConfigurationCheckOperations: S.optional(ConfigurationCheckOperationList),
+  }),
+).annotations({
+  identifier: "StartConfigurationChecksOutput",
+}) as any as S.Schema<StartConfigurationChecksOutput>;
+export interface StopApplicationOutput {
+  OperationId?: string;
+}
+export const StopApplicationOutput = S.suspend(() =>
+  S.Struct({ OperationId: S.optional(S.String) }),
+).annotations({
+  identifier: "StopApplicationOutput",
+}) as any as S.Schema<StopApplicationOutput>;
+export interface UpdateApplicationSettingsInput {
+  ApplicationId: string;
+  CredentialsToAddOrUpdate?: ApplicationCredentialList;
+  CredentialsToRemove?: ApplicationCredentialList;
+  Backint?: BackintConfig;
+  DatabaseArn?: string;
+}
+export const UpdateApplicationSettingsInput = S.suspend(() =>
+  S.Struct({
     ApplicationId: S.String,
     CredentialsToAddOrUpdate: S.optional(ApplicationCredentialList),
     CredentialsToRemove: S.optional(ApplicationCredentialList),
     Backint: S.optional(BackintConfig),
     DatabaseArn: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/update-application-settings" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/update-application-settings" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "UpdateApplicationSettingsInput",
+}) as any as S.Schema<UpdateApplicationSettingsInput>;
+export type ComponentIdList = string[];
 export const ComponentIdList = S.Array(S.String);
+export type ApplicationArnList = string[];
 export const ApplicationArnList = S.Array(S.String);
+export type DatabaseIdList = string[];
 export const DatabaseIdList = S.Array(S.String);
+export type ComponentArnList = string[];
 export const ComponentArnList = S.Array(S.String);
+export type ApplicationTypeList = string[];
 export const ApplicationTypeList = S.Array(S.String);
+export type SubCheckReferencesList = string[];
 export const SubCheckReferencesList = S.Array(S.String);
-export class Application extends S.Class<Application>("Application")({
-  Id: S.optional(S.String),
-  Type: S.optional(S.String),
-  Arn: S.optional(S.String),
-  AppRegistryArn: S.optional(S.String),
-  Status: S.optional(S.String),
-  DiscoveryStatus: S.optional(S.String),
-  Components: S.optional(ComponentIdList),
-  LastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  StatusMessage: S.optional(S.String),
-  AssociatedApplicationArns: S.optional(ApplicationArnList),
-}) {}
-export class Database extends S.Class<Database>("Database")({
-  ApplicationId: S.optional(S.String),
-  ComponentId: S.optional(S.String),
-  Credentials: S.optional(ApplicationCredentialList),
-  DatabaseId: S.optional(S.String),
-  DatabaseName: S.optional(S.String),
-  DatabaseType: S.optional(S.String),
-  Arn: S.optional(S.String),
-  Status: S.optional(S.String),
-  PrimaryHost: S.optional(S.String),
-  SQLPort: S.optional(S.Number),
-  LastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  ConnectedComponentArns: S.optional(ComponentArnList),
-}) {}
-export class ComponentSummary extends S.Class<ComponentSummary>(
-  "ComponentSummary",
-)({
-  ApplicationId: S.optional(S.String),
-  ComponentId: S.optional(S.String),
-  ComponentType: S.optional(S.String),
-  Tags: S.optional(TagMap),
-  Arn: S.optional(S.String),
-}) {}
+export interface Application {
+  Id?: string;
+  Type?: string;
+  Arn?: string;
+  AppRegistryArn?: string;
+  Status?: string;
+  DiscoveryStatus?: string;
+  Components?: ComponentIdList;
+  LastUpdated?: Date;
+  StatusMessage?: string;
+  AssociatedApplicationArns?: ApplicationArnList;
+}
+export const Application = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Type: S.optional(S.String),
+    Arn: S.optional(S.String),
+    AppRegistryArn: S.optional(S.String),
+    Status: S.optional(S.String),
+    DiscoveryStatus: S.optional(S.String),
+    Components: S.optional(ComponentIdList),
+    LastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    StatusMessage: S.optional(S.String),
+    AssociatedApplicationArns: S.optional(ApplicationArnList),
+  }),
+).annotations({ identifier: "Application" }) as any as S.Schema<Application>;
+export interface Database {
+  ApplicationId?: string;
+  ComponentId?: string;
+  Credentials?: ApplicationCredentialList;
+  DatabaseId?: string;
+  DatabaseName?: string;
+  DatabaseType?: string;
+  Arn?: string;
+  Status?: string;
+  PrimaryHost?: string;
+  SQLPort?: number;
+  LastUpdated?: Date;
+  ConnectedComponentArns?: ComponentArnList;
+}
+export const Database = S.suspend(() =>
+  S.Struct({
+    ApplicationId: S.optional(S.String),
+    ComponentId: S.optional(S.String),
+    Credentials: S.optional(ApplicationCredentialList),
+    DatabaseId: S.optional(S.String),
+    DatabaseName: S.optional(S.String),
+    DatabaseType: S.optional(S.String),
+    Arn: S.optional(S.String),
+    Status: S.optional(S.String),
+    PrimaryHost: S.optional(S.String),
+    SQLPort: S.optional(S.Number),
+    LastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ConnectedComponentArns: S.optional(ComponentArnList),
+  }),
+).annotations({ identifier: "Database" }) as any as S.Schema<Database>;
+export interface ComponentSummary {
+  ApplicationId?: string;
+  ComponentId?: string;
+  ComponentType?: string;
+  Tags?: TagMap;
+  Arn?: string;
+}
+export const ComponentSummary = S.suspend(() =>
+  S.Struct({
+    ApplicationId: S.optional(S.String),
+    ComponentId: S.optional(S.String),
+    ComponentType: S.optional(S.String),
+    Tags: S.optional(TagMap),
+    Arn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ComponentSummary",
+}) as any as S.Schema<ComponentSummary>;
+export type ComponentSummaryList = ComponentSummary[];
 export const ComponentSummaryList = S.Array(ComponentSummary);
-export class ConfigurationCheckDefinition extends S.Class<ConfigurationCheckDefinition>(
-  "ConfigurationCheckDefinition",
-)({
-  Id: S.optional(S.String),
-  Name: S.optional(S.String),
-  Description: S.optional(S.String),
-  ApplicableApplicationTypes: S.optional(ApplicationTypeList),
-}) {}
+export interface ConfigurationCheckDefinition {
+  Id?: string;
+  Name?: string;
+  Description?: string;
+  ApplicableApplicationTypes?: ApplicationTypeList;
+}
+export const ConfigurationCheckDefinition = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Name: S.optional(S.String),
+    Description: S.optional(S.String),
+    ApplicableApplicationTypes: S.optional(ApplicationTypeList),
+  }),
+).annotations({
+  identifier: "ConfigurationCheckDefinition",
+}) as any as S.Schema<ConfigurationCheckDefinition>;
+export type ConfigurationCheckDefinitionList = ConfigurationCheckDefinition[];
 export const ConfigurationCheckDefinitionList = S.Array(
   ConfigurationCheckDefinition,
 );
-export class DatabaseSummary extends S.Class<DatabaseSummary>(
-  "DatabaseSummary",
-)({
-  ApplicationId: S.optional(S.String),
-  ComponentId: S.optional(S.String),
-  DatabaseId: S.optional(S.String),
-  DatabaseType: S.optional(S.String),
-  Arn: S.optional(S.String),
-  Tags: S.optional(TagMap),
-}) {}
+export interface DatabaseSummary {
+  ApplicationId?: string;
+  ComponentId?: string;
+  DatabaseId?: string;
+  DatabaseType?: string;
+  Arn?: string;
+  Tags?: TagMap;
+}
+export const DatabaseSummary = S.suspend(() =>
+  S.Struct({
+    ApplicationId: S.optional(S.String),
+    ComponentId: S.optional(S.String),
+    DatabaseId: S.optional(S.String),
+    DatabaseType: S.optional(S.String),
+    Arn: S.optional(S.String),
+    Tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "DatabaseSummary",
+}) as any as S.Schema<DatabaseSummary>;
+export type DatabaseSummaryList = DatabaseSummary[];
 export const DatabaseSummaryList = S.Array(DatabaseSummary);
-export class SubCheckResult extends S.Class<SubCheckResult>("SubCheckResult")({
-  Id: S.optional(S.String),
-  Name: S.optional(S.String),
-  Description: S.optional(S.String),
-  References: S.optional(SubCheckReferencesList),
-}) {}
+export interface SubCheckResult {
+  Id?: string;
+  Name?: string;
+  Description?: string;
+  References?: SubCheckReferencesList;
+}
+export const SubCheckResult = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Name: S.optional(S.String),
+    Description: S.optional(S.String),
+    References: S.optional(SubCheckReferencesList),
+  }),
+).annotations({
+  identifier: "SubCheckResult",
+}) as any as S.Schema<SubCheckResult>;
+export type SubCheckResultList = SubCheckResult[];
 export const SubCheckResultList = S.Array(SubCheckResult);
+export type OperationIdList = string[];
 export const OperationIdList = S.Array(S.String);
-export class GetApplicationOutput extends S.Class<GetApplicationOutput>(
-  "GetApplicationOutput",
-)({ Application: S.optional(Application), Tags: S.optional(TagMap) }) {}
-export class GetDatabaseOutput extends S.Class<GetDatabaseOutput>(
-  "GetDatabaseOutput",
-)({ Database: S.optional(Database), Tags: S.optional(TagMap) }) {}
-export class ListComponentsOutput extends S.Class<ListComponentsOutput>(
-  "ListComponentsOutput",
-)({
-  Components: S.optional(ComponentSummaryList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListConfigurationCheckDefinitionsOutput extends S.Class<ListConfigurationCheckDefinitionsOutput>(
-  "ListConfigurationCheckDefinitionsOutput",
-)({
-  ConfigurationChecks: S.optional(ConfigurationCheckDefinitionList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListDatabasesOutput extends S.Class<ListDatabasesOutput>(
-  "ListDatabasesOutput",
-)({
-  Databases: S.optional(DatabaseSummaryList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListSubCheckResultsOutput extends S.Class<ListSubCheckResultsOutput>(
-  "ListSubCheckResultsOutput",
-)({
-  SubCheckResults: S.optional(SubCheckResultList),
-  NextToken: S.optional(S.String),
-}) {}
-export class RegisterApplicationOutput extends S.Class<RegisterApplicationOutput>(
-  "RegisterApplicationOutput",
-)({
-  Application: S.optional(Application),
-  OperationId: S.optional(S.String),
-}) {}
-export class UpdateApplicationSettingsOutput extends S.Class<UpdateApplicationSettingsOutput>(
-  "UpdateApplicationSettingsOutput",
-)({
-  Message: S.optional(S.String),
-  OperationIds: S.optional(OperationIdList),
-}) {}
-export class Resilience extends S.Class<Resilience>("Resilience")({
-  HsrTier: S.optional(S.String),
-  HsrReplicationMode: S.optional(S.String),
-  HsrOperationMode: S.optional(S.String),
-  ClusterStatus: S.optional(S.String),
-  EnqueueReplication: S.optional(S.Boolean),
-}) {}
-export class Host extends S.Class<Host>("Host")({
-  HostName: S.optional(S.String),
-  HostIp: S.optional(S.String),
-  EC2InstanceId: S.optional(S.String),
-  InstanceId: S.optional(S.String),
-  HostRole: S.optional(S.String),
-  OsVersion: S.optional(S.String),
-}) {}
+export interface GetApplicationOutput {
+  Application?: Application;
+  Tags?: TagMap;
+}
+export const GetApplicationOutput = S.suspend(() =>
+  S.Struct({ Application: S.optional(Application), Tags: S.optional(TagMap) }),
+).annotations({
+  identifier: "GetApplicationOutput",
+}) as any as S.Schema<GetApplicationOutput>;
+export interface GetDatabaseOutput {
+  Database?: Database;
+  Tags?: TagMap;
+}
+export const GetDatabaseOutput = S.suspend(() =>
+  S.Struct({ Database: S.optional(Database), Tags: S.optional(TagMap) }),
+).annotations({
+  identifier: "GetDatabaseOutput",
+}) as any as S.Schema<GetDatabaseOutput>;
+export interface ListComponentsOutput {
+  Components?: ComponentSummaryList;
+  NextToken?: string;
+}
+export const ListComponentsOutput = S.suspend(() =>
+  S.Struct({
+    Components: S.optional(ComponentSummaryList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListComponentsOutput",
+}) as any as S.Schema<ListComponentsOutput>;
+export interface ListConfigurationCheckDefinitionsOutput {
+  ConfigurationChecks?: ConfigurationCheckDefinitionList;
+  NextToken?: string;
+}
+export const ListConfigurationCheckDefinitionsOutput = S.suspend(() =>
+  S.Struct({
+    ConfigurationChecks: S.optional(ConfigurationCheckDefinitionList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListConfigurationCheckDefinitionsOutput",
+}) as any as S.Schema<ListConfigurationCheckDefinitionsOutput>;
+export interface ListDatabasesOutput {
+  Databases?: DatabaseSummaryList;
+  NextToken?: string;
+}
+export const ListDatabasesOutput = S.suspend(() =>
+  S.Struct({
+    Databases: S.optional(DatabaseSummaryList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListDatabasesOutput",
+}) as any as S.Schema<ListDatabasesOutput>;
+export interface ListSubCheckResultsOutput {
+  SubCheckResults?: SubCheckResultList;
+  NextToken?: string;
+}
+export const ListSubCheckResultsOutput = S.suspend(() =>
+  S.Struct({
+    SubCheckResults: S.optional(SubCheckResultList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListSubCheckResultsOutput",
+}) as any as S.Schema<ListSubCheckResultsOutput>;
+export interface RegisterApplicationOutput {
+  Application?: Application;
+  OperationId?: string;
+}
+export const RegisterApplicationOutput = S.suspend(() =>
+  S.Struct({
+    Application: S.optional(Application),
+    OperationId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RegisterApplicationOutput",
+}) as any as S.Schema<RegisterApplicationOutput>;
+export interface UpdateApplicationSettingsOutput {
+  Message?: string;
+  OperationIds?: OperationIdList;
+}
+export const UpdateApplicationSettingsOutput = S.suspend(() =>
+  S.Struct({
+    Message: S.optional(S.String),
+    OperationIds: S.optional(OperationIdList),
+  }),
+).annotations({
+  identifier: "UpdateApplicationSettingsOutput",
+}) as any as S.Schema<UpdateApplicationSettingsOutput>;
+export interface Resilience {
+  HsrTier?: string;
+  HsrReplicationMode?: string;
+  HsrOperationMode?: string;
+  ClusterStatus?: string;
+  EnqueueReplication?: boolean;
+}
+export const Resilience = S.suspend(() =>
+  S.Struct({
+    HsrTier: S.optional(S.String),
+    HsrReplicationMode: S.optional(S.String),
+    HsrOperationMode: S.optional(S.String),
+    ClusterStatus: S.optional(S.String),
+    EnqueueReplication: S.optional(S.Boolean),
+  }),
+).annotations({ identifier: "Resilience" }) as any as S.Schema<Resilience>;
+export interface Host {
+  HostName?: string;
+  HostIp?: string;
+  EC2InstanceId?: string;
+  InstanceId?: string;
+  HostRole?: string;
+  OsVersion?: string;
+}
+export const Host = S.suspend(() =>
+  S.Struct({
+    HostName: S.optional(S.String),
+    HostIp: S.optional(S.String),
+    EC2InstanceId: S.optional(S.String),
+    InstanceId: S.optional(S.String),
+    HostRole: S.optional(S.String),
+    OsVersion: S.optional(S.String),
+  }),
+).annotations({ identifier: "Host" }) as any as S.Schema<Host>;
+export type HostList = Host[];
 export const HostList = S.Array(Host);
-export class DatabaseConnection extends S.Class<DatabaseConnection>(
-  "DatabaseConnection",
-)({
-  DatabaseConnectionMethod: S.optional(S.String),
-  DatabaseArn: S.optional(S.String),
-  ConnectionIp: S.optional(S.String),
-}) {}
-export class Resource extends S.Class<Resource>("Resource")({
-  ResourceArn: S.optional(S.String),
-  ResourceType: S.optional(S.String),
-}) {}
+export interface DatabaseConnection {
+  DatabaseConnectionMethod?: string;
+  DatabaseArn?: string;
+  ConnectionIp?: string;
+}
+export const DatabaseConnection = S.suspend(() =>
+  S.Struct({
+    DatabaseConnectionMethod: S.optional(S.String),
+    DatabaseArn: S.optional(S.String),
+    ConnectionIp: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DatabaseConnection",
+}) as any as S.Schema<DatabaseConnection>;
+export interface Resource {
+  ResourceArn?: string;
+  ResourceType?: string;
+}
+export const Resource = S.suspend(() =>
+  S.Struct({
+    ResourceArn: S.optional(S.String),
+    ResourceType: S.optional(S.String),
+  }),
+).annotations({ identifier: "Resource" }) as any as S.Schema<Resource>;
+export type RuleResultMetadata = { [key: string]: string };
 export const RuleResultMetadata = S.Record({ key: S.String, value: S.String });
-export class ApplicationSummary extends S.Class<ApplicationSummary>(
-  "ApplicationSummary",
-)({
-  Id: S.optional(S.String),
-  DiscoveryStatus: S.optional(S.String),
-  Type: S.optional(S.String),
-  Arn: S.optional(S.String),
-  Tags: S.optional(TagMap),
-}) {}
+export interface ApplicationSummary {
+  Id?: string;
+  DiscoveryStatus?: string;
+  Type?: string;
+  Arn?: string;
+  Tags?: TagMap;
+}
+export const ApplicationSummary = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    DiscoveryStatus: S.optional(S.String),
+    Type: S.optional(S.String),
+    Arn: S.optional(S.String),
+    Tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "ApplicationSummary",
+}) as any as S.Schema<ApplicationSummary>;
+export type ApplicationSummaryList = ApplicationSummary[];
 export const ApplicationSummaryList = S.Array(ApplicationSummary);
-export class OperationEvent extends S.Class<OperationEvent>("OperationEvent")({
-  Description: S.optional(S.String),
-  Resource: S.optional(Resource),
-  Status: S.optional(S.String),
-  StatusMessage: S.optional(S.String),
-  Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface OperationEvent {
+  Description?: string;
+  Resource?: Resource;
+  Status?: string;
+  StatusMessage?: string;
+  Timestamp?: Date;
+}
+export const OperationEvent = S.suspend(() =>
+  S.Struct({
+    Description: S.optional(S.String),
+    Resource: S.optional(Resource),
+    Status: S.optional(S.String),
+    StatusMessage: S.optional(S.String),
+    Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "OperationEvent",
+}) as any as S.Schema<OperationEvent>;
+export type OperationEventList = OperationEvent[];
 export const OperationEventList = S.Array(OperationEvent);
-export class RuleResult extends S.Class<RuleResult>("RuleResult")({
-  Id: S.optional(S.String),
-  Description: S.optional(S.String),
-  Status: S.optional(S.String),
-  Message: S.optional(S.String),
-  Metadata: S.optional(RuleResultMetadata),
-}) {}
+export interface RuleResult {
+  Id?: string;
+  Description?: string;
+  Status?: string;
+  Message?: string;
+  Metadata?: RuleResultMetadata;
+}
+export const RuleResult = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Description: S.optional(S.String),
+    Status: S.optional(S.String),
+    Message: S.optional(S.String),
+    Metadata: S.optional(RuleResultMetadata),
+  }),
+).annotations({ identifier: "RuleResult" }) as any as S.Schema<RuleResult>;
+export type RuleResultList = RuleResult[];
 export const RuleResultList = S.Array(RuleResult);
-export class IpAddressMember extends S.Class<IpAddressMember>(
-  "IpAddressMember",
-)({
-  IpAddress: S.optional(S.String),
-  Primary: S.optional(S.Boolean),
-  AllocationType: S.optional(S.String),
-}) {}
+export interface IpAddressMember {
+  IpAddress?: string;
+  Primary?: boolean;
+  AllocationType?: string;
+}
+export const IpAddressMember = S.suspend(() =>
+  S.Struct({
+    IpAddress: S.optional(S.String),
+    Primary: S.optional(S.Boolean),
+    AllocationType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "IpAddressMember",
+}) as any as S.Schema<IpAddressMember>;
+export type IpAddressList = IpAddressMember[];
 export const IpAddressList = S.Array(IpAddressMember);
-export class GetConfigurationCheckOperationOutput extends S.Class<GetConfigurationCheckOperationOutput>(
-  "GetConfigurationCheckOperationOutput",
-)({ ConfigurationCheckOperation: S.optional(ConfigurationCheckOperation) }) {}
-export class GetOperationOutput extends S.Class<GetOperationOutput>(
-  "GetOperationOutput",
-)({ Operation: S.optional(Operation) }) {}
-export class ListApplicationsOutput extends S.Class<ListApplicationsOutput>(
-  "ListApplicationsOutput",
-)({
-  Applications: S.optional(ApplicationSummaryList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListOperationEventsOutput extends S.Class<ListOperationEventsOutput>(
-  "ListOperationEventsOutput",
-)({
-  OperationEvents: S.optional(OperationEventList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListSubCheckRuleResultsOutput extends S.Class<ListSubCheckRuleResultsOutput>(
-  "ListSubCheckRuleResultsOutput",
-)({
-  RuleResults: S.optional(RuleResultList),
-  NextToken: S.optional(S.String),
-}) {}
-export class AssociatedHost extends S.Class<AssociatedHost>("AssociatedHost")({
-  Hostname: S.optional(S.String),
-  Ec2InstanceId: S.optional(S.String),
-  IpAddresses: S.optional(IpAddressList),
-  OsVersion: S.optional(S.String),
-}) {}
-export class Component extends S.Class<Component>("Component")({
-  ComponentId: S.optional(S.String),
-  Sid: S.optional(S.String),
-  SystemNumber: S.optional(S.String),
-  ParentComponent: S.optional(S.String),
-  ChildComponents: S.optional(ComponentIdList),
-  ApplicationId: S.optional(S.String),
-  ComponentType: S.optional(S.String),
-  Status: S.optional(S.String),
-  SapHostname: S.optional(S.String),
-  SapFeature: S.optional(S.String),
-  SapKernelVersion: S.optional(S.String),
-  HdbVersion: S.optional(S.String),
-  Resilience: S.optional(Resilience),
-  AssociatedHost: S.optional(AssociatedHost),
-  Databases: S.optional(DatabaseIdList),
-  Hosts: S.optional(HostList),
-  PrimaryHost: S.optional(S.String),
-  DatabaseConnection: S.optional(DatabaseConnection),
-  LastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Arn: S.optional(S.String),
-}) {}
-export class GetComponentOutput extends S.Class<GetComponentOutput>(
-  "GetComponentOutput",
-)({ Component: S.optional(Component), Tags: S.optional(TagMap) }) {}
+export interface GetConfigurationCheckOperationOutput {
+  ConfigurationCheckOperation?: ConfigurationCheckOperation;
+}
+export const GetConfigurationCheckOperationOutput = S.suspend(() =>
+  S.Struct({
+    ConfigurationCheckOperation: S.optional(ConfigurationCheckOperation),
+  }),
+).annotations({
+  identifier: "GetConfigurationCheckOperationOutput",
+}) as any as S.Schema<GetConfigurationCheckOperationOutput>;
+export interface GetOperationOutput {
+  Operation?: Operation;
+}
+export const GetOperationOutput = S.suspend(() =>
+  S.Struct({ Operation: S.optional(Operation) }),
+).annotations({
+  identifier: "GetOperationOutput",
+}) as any as S.Schema<GetOperationOutput>;
+export interface ListApplicationsOutput {
+  Applications?: ApplicationSummaryList;
+  NextToken?: string;
+}
+export const ListApplicationsOutput = S.suspend(() =>
+  S.Struct({
+    Applications: S.optional(ApplicationSummaryList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListApplicationsOutput",
+}) as any as S.Schema<ListApplicationsOutput>;
+export interface ListOperationEventsOutput {
+  OperationEvents?: OperationEventList;
+  NextToken?: string;
+}
+export const ListOperationEventsOutput = S.suspend(() =>
+  S.Struct({
+    OperationEvents: S.optional(OperationEventList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListOperationEventsOutput",
+}) as any as S.Schema<ListOperationEventsOutput>;
+export interface ListSubCheckRuleResultsOutput {
+  RuleResults?: RuleResultList;
+  NextToken?: string;
+}
+export const ListSubCheckRuleResultsOutput = S.suspend(() =>
+  S.Struct({
+    RuleResults: S.optional(RuleResultList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListSubCheckRuleResultsOutput",
+}) as any as S.Schema<ListSubCheckRuleResultsOutput>;
+export interface AssociatedHost {
+  Hostname?: string;
+  Ec2InstanceId?: string;
+  IpAddresses?: IpAddressList;
+  OsVersion?: string;
+}
+export const AssociatedHost = S.suspend(() =>
+  S.Struct({
+    Hostname: S.optional(S.String),
+    Ec2InstanceId: S.optional(S.String),
+    IpAddresses: S.optional(IpAddressList),
+    OsVersion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AssociatedHost",
+}) as any as S.Schema<AssociatedHost>;
+export interface Component {
+  ComponentId?: string;
+  Sid?: string;
+  SystemNumber?: string;
+  ParentComponent?: string;
+  ChildComponents?: ComponentIdList;
+  ApplicationId?: string;
+  ComponentType?: string;
+  Status?: string;
+  SapHostname?: string;
+  SapFeature?: string;
+  SapKernelVersion?: string;
+  HdbVersion?: string;
+  Resilience?: Resilience;
+  AssociatedHost?: AssociatedHost;
+  Databases?: DatabaseIdList;
+  Hosts?: HostList;
+  PrimaryHost?: string;
+  DatabaseConnection?: DatabaseConnection;
+  LastUpdated?: Date;
+  Arn?: string;
+}
+export const Component = S.suspend(() =>
+  S.Struct({
+    ComponentId: S.optional(S.String),
+    Sid: S.optional(S.String),
+    SystemNumber: S.optional(S.String),
+    ParentComponent: S.optional(S.String),
+    ChildComponents: S.optional(ComponentIdList),
+    ApplicationId: S.optional(S.String),
+    ComponentType: S.optional(S.String),
+    Status: S.optional(S.String),
+    SapHostname: S.optional(S.String),
+    SapFeature: S.optional(S.String),
+    SapKernelVersion: S.optional(S.String),
+    HdbVersion: S.optional(S.String),
+    Resilience: S.optional(Resilience),
+    AssociatedHost: S.optional(AssociatedHost),
+    Databases: S.optional(DatabaseIdList),
+    Hosts: S.optional(HostList),
+    PrimaryHost: S.optional(S.String),
+    DatabaseConnection: S.optional(DatabaseConnection),
+    LastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Arn: S.optional(S.String),
+  }),
+).annotations({ identifier: "Component" }) as any as S.Schema<Component>;
+export interface GetComponentOutput {
+  Component?: Component;
+  Tags?: TagMap;
+}
+export const GetComponentOutput = S.suspend(() =>
+  S.Struct({ Component: S.optional(Component), Tags: S.optional(TagMap) }),
+).annotations({
+  identifier: "GetComponentOutput",
+}) as any as S.Schema<GetComponentOutput>;
 
 //# Errors
 export class InternalServerException extends S.TaggedError<InternalServerException>()(

@@ -411,111 +411,157 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class DeleteConnectionRequest extends S.Class<DeleteConnectionRequest>(
-  "DeleteConnectionRequest",
-)(
-  {
+export interface DeleteConnectionRequest {
+  clientId: string;
+  cleanSession?: boolean;
+  preventWillMessage?: boolean;
+}
+export const DeleteConnectionRequest = S.suspend(() =>
+  S.Struct({
     clientId: S.String.pipe(T.HttpLabel("clientId")),
     cleanSession: S.optional(S.Boolean).pipe(T.HttpQuery("cleanSession")),
     preventWillMessage: S.optional(S.Boolean).pipe(
       T.HttpQuery("preventWillMessage"),
     ),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/connections/{clientId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/connections/{clientId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteConnectionResponse extends S.Class<DeleteConnectionResponse>(
-  "DeleteConnectionResponse",
-)({}) {}
-export class DeleteThingShadowRequest extends S.Class<DeleteThingShadowRequest>(
-  "DeleteThingShadowRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteConnectionRequest",
+}) as any as S.Schema<DeleteConnectionRequest>;
+export interface DeleteConnectionResponse {}
+export const DeleteConnectionResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteConnectionResponse",
+}) as any as S.Schema<DeleteConnectionResponse>;
+export interface DeleteThingShadowRequest {
+  thingName: string;
+  shadowName?: string;
+}
+export const DeleteThingShadowRequest = S.suspend(() =>
+  S.Struct({
     thingName: S.String.pipe(T.HttpLabel("thingName")),
     shadowName: S.optional(S.String).pipe(T.HttpQuery("name")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/things/{thingName}/shadow" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/things/{thingName}/shadow" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetRetainedMessageRequest extends S.Class<GetRetainedMessageRequest>(
-  "GetRetainedMessageRequest",
-)(
-  { topic: S.String.pipe(T.HttpLabel("topic")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/retainedMessage/{topic}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteThingShadowRequest",
+}) as any as S.Schema<DeleteThingShadowRequest>;
+export interface GetRetainedMessageRequest {
+  topic: string;
+}
+export const GetRetainedMessageRequest = S.suspend(() =>
+  S.Struct({ topic: S.String.pipe(T.HttpLabel("topic")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/retainedMessage/{topic}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetThingShadowRequest extends S.Class<GetThingShadowRequest>(
-  "GetThingShadowRequest",
-)(
-  {
+).annotations({
+  identifier: "GetRetainedMessageRequest",
+}) as any as S.Schema<GetRetainedMessageRequest>;
+export interface GetThingShadowRequest {
+  thingName: string;
+  shadowName?: string;
+}
+export const GetThingShadowRequest = S.suspend(() =>
+  S.Struct({
     thingName: S.String.pipe(T.HttpLabel("thingName")),
     shadowName: S.optional(S.String).pipe(T.HttpQuery("name")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/things/{thingName}/shadow" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/things/{thingName}/shadow" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListNamedShadowsForThingRequest extends S.Class<ListNamedShadowsForThingRequest>(
-  "ListNamedShadowsForThingRequest",
-)(
-  {
+).annotations({
+  identifier: "GetThingShadowRequest",
+}) as any as S.Schema<GetThingShadowRequest>;
+export interface ListNamedShadowsForThingRequest {
+  thingName: string;
+  nextToken?: string;
+  pageSize?: number;
+}
+export const ListNamedShadowsForThingRequest = S.suspend(() =>
+  S.Struct({
     thingName: S.String.pipe(T.HttpLabel("thingName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     pageSize: S.optional(S.Number).pipe(T.HttpQuery("pageSize")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/api/things/shadow/ListNamedShadowsForThing/{thingName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/api/things/shadow/ListNamedShadowsForThing/{thingName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListRetainedMessagesRequest extends S.Class<ListRetainedMessagesRequest>(
-  "ListRetainedMessagesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListNamedShadowsForThingRequest",
+}) as any as S.Schema<ListNamedShadowsForThingRequest>;
+export interface ListRetainedMessagesRequest {
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListRetainedMessagesRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/retainedMessage" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/retainedMessage" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PublishRequest extends S.Class<PublishRequest>("PublishRequest")(
-  {
+).annotations({
+  identifier: "ListRetainedMessagesRequest",
+}) as any as S.Schema<ListRetainedMessagesRequest>;
+export interface PublishRequest {
+  topic: string;
+  qos?: number;
+  retain?: boolean;
+  payload?: T.StreamingInputBody;
+  userProperties?: string;
+  payloadFormatIndicator?: string;
+  contentType?: string;
+  responseTopic?: string;
+  correlationData?: string;
+  messageExpiry?: number;
+}
+export const PublishRequest = S.suspend(() =>
+  S.Struct({
     topic: S.String.pipe(T.HttpLabel("topic")),
     qos: S.optional(S.Number).pipe(T.HttpQuery("qos")),
     retain: S.optional(S.Boolean).pipe(T.HttpQuery("retain")),
@@ -532,77 +578,134 @@ export class PublishRequest extends S.Class<PublishRequest>("PublishRequest")(
       T.HttpHeader("x-amz-mqtt5-correlation-data"),
     ),
     messageExpiry: S.optional(S.Number).pipe(T.HttpQuery("messageExpiry")),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/topics/{topic}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/topics/{topic}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PublishResponse extends S.Class<PublishResponse>(
-  "PublishResponse",
-)({}) {}
-export class UpdateThingShadowRequest extends S.Class<UpdateThingShadowRequest>(
-  "UpdateThingShadowRequest",
-)(
-  {
+).annotations({
+  identifier: "PublishRequest",
+}) as any as S.Schema<PublishRequest>;
+export interface PublishResponse {}
+export const PublishResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "PublishResponse",
+}) as any as S.Schema<PublishResponse>;
+export interface UpdateThingShadowRequest {
+  thingName: string;
+  shadowName?: string;
+  payload: T.StreamingInputBody;
+}
+export const UpdateThingShadowRequest = S.suspend(() =>
+  S.Struct({
     thingName: S.String.pipe(T.HttpLabel("thingName")),
     shadowName: S.optional(S.String).pipe(T.HttpQuery("name")),
     payload: T.StreamingInput.pipe(T.HttpPayload()),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/things/{thingName}/shadow" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/things/{thingName}/shadow" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "UpdateThingShadowRequest",
+}) as any as S.Schema<UpdateThingShadowRequest>;
+export type NamedShadowList = string[];
 export const NamedShadowList = S.Array(S.String);
-export class DeleteThingShadowResponse extends S.Class<DeleteThingShadowResponse>(
-  "DeleteThingShadowResponse",
-)({ payload: T.StreamingOutput.pipe(T.HttpPayload()) }) {}
-export class GetRetainedMessageResponse extends S.Class<GetRetainedMessageResponse>(
-  "GetRetainedMessageResponse",
-)({
-  topic: S.optional(S.String),
-  payload: S.optional(T.Blob),
-  qos: S.optional(S.Number),
-  lastModifiedTime: S.optional(S.Number),
-  userProperties: S.optional(T.Blob),
-}) {}
-export class GetThingShadowResponse extends S.Class<GetThingShadowResponse>(
-  "GetThingShadowResponse",
-)({ payload: S.optional(T.StreamingOutput).pipe(T.HttpPayload()) }) {}
-export class ListNamedShadowsForThingResponse extends S.Class<ListNamedShadowsForThingResponse>(
-  "ListNamedShadowsForThingResponse",
-)({
-  results: S.optional(NamedShadowList),
-  nextToken: S.optional(S.String),
-  timestamp: S.optional(S.Number),
-}) {}
-export class UpdateThingShadowResponse extends S.Class<UpdateThingShadowResponse>(
-  "UpdateThingShadowResponse",
-)({ payload: S.optional(T.StreamingOutput).pipe(T.HttpPayload()) }) {}
-export class RetainedMessageSummary extends S.Class<RetainedMessageSummary>(
-  "RetainedMessageSummary",
-)({
-  topic: S.optional(S.String),
-  payloadSize: S.optional(S.Number),
-  qos: S.optional(S.Number),
-  lastModifiedTime: S.optional(S.Number),
-}) {}
+export interface DeleteThingShadowResponse {
+  payload: T.StreamingOutputBody;
+}
+export const DeleteThingShadowResponse = S.suspend(() =>
+  S.Struct({ payload: T.StreamingOutput.pipe(T.HttpPayload()) }),
+).annotations({
+  identifier: "DeleteThingShadowResponse",
+}) as any as S.Schema<DeleteThingShadowResponse>;
+export interface GetRetainedMessageResponse {
+  topic?: string;
+  payload?: Uint8Array;
+  qos?: number;
+  lastModifiedTime?: number;
+  userProperties?: Uint8Array;
+}
+export const GetRetainedMessageResponse = S.suspend(() =>
+  S.Struct({
+    topic: S.optional(S.String),
+    payload: S.optional(T.Blob),
+    qos: S.optional(S.Number),
+    lastModifiedTime: S.optional(S.Number),
+    userProperties: S.optional(T.Blob),
+  }),
+).annotations({
+  identifier: "GetRetainedMessageResponse",
+}) as any as S.Schema<GetRetainedMessageResponse>;
+export interface GetThingShadowResponse {
+  payload?: T.StreamingOutputBody;
+}
+export const GetThingShadowResponse = S.suspend(() =>
+  S.Struct({ payload: S.optional(T.StreamingOutput).pipe(T.HttpPayload()) }),
+).annotations({
+  identifier: "GetThingShadowResponse",
+}) as any as S.Schema<GetThingShadowResponse>;
+export interface ListNamedShadowsForThingResponse {
+  results?: NamedShadowList;
+  nextToken?: string;
+  timestamp?: number;
+}
+export const ListNamedShadowsForThingResponse = S.suspend(() =>
+  S.Struct({
+    results: S.optional(NamedShadowList),
+    nextToken: S.optional(S.String),
+    timestamp: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "ListNamedShadowsForThingResponse",
+}) as any as S.Schema<ListNamedShadowsForThingResponse>;
+export interface UpdateThingShadowResponse {
+  payload?: T.StreamingOutputBody;
+}
+export const UpdateThingShadowResponse = S.suspend(() =>
+  S.Struct({ payload: S.optional(T.StreamingOutput).pipe(T.HttpPayload()) }),
+).annotations({
+  identifier: "UpdateThingShadowResponse",
+}) as any as S.Schema<UpdateThingShadowResponse>;
+export interface RetainedMessageSummary {
+  topic?: string;
+  payloadSize?: number;
+  qos?: number;
+  lastModifiedTime?: number;
+}
+export const RetainedMessageSummary = S.suspend(() =>
+  S.Struct({
+    topic: S.optional(S.String),
+    payloadSize: S.optional(S.Number),
+    qos: S.optional(S.Number),
+    lastModifiedTime: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "RetainedMessageSummary",
+}) as any as S.Schema<RetainedMessageSummary>;
+export type RetainedMessageList = RetainedMessageSummary[];
 export const RetainedMessageList = S.Array(RetainedMessageSummary);
-export class ListRetainedMessagesResponse extends S.Class<ListRetainedMessagesResponse>(
-  "ListRetainedMessagesResponse",
-)({
-  retainedTopics: S.optional(RetainedMessageList),
-  nextToken: S.optional(S.String),
-}) {}
+export interface ListRetainedMessagesResponse {
+  retainedTopics?: RetainedMessageList;
+  nextToken?: string;
+}
+export const ListRetainedMessagesResponse = S.suspend(() =>
+  S.Struct({
+    retainedTopics: S.optional(RetainedMessageList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListRetainedMessagesResponse",
+}) as any as S.Schema<ListRetainedMessagesResponse>;
 
 //# Errors
 export class ForbiddenException extends S.TaggedError<ForbiddenException>()(

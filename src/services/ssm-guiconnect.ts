@@ -294,67 +294,113 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class GetConnectionRecordingPreferencesRequest extends S.Class<GetConnectionRecordingPreferencesRequest>(
-  "GetConnectionRecordingPreferencesRequest",
-)(
-  {},
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteConnectionRecordingPreferencesRequest extends S.Class<DeleteConnectionRecordingPreferencesRequest>(
-  "DeleteConnectionRecordingPreferencesRequest",
-)(
-  { ClientToken: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/DeleteConnectionRecordingPreferences" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface GetConnectionRecordingPreferencesRequest {}
+export const GetConnectionRecordingPreferencesRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-) {}
-export class S3Bucket extends S.Class<S3Bucket>("S3Bucket")({
-  BucketOwner: S.String,
-  BucketName: S.String,
-}) {}
+).annotations({
+  identifier: "GetConnectionRecordingPreferencesRequest",
+}) as any as S.Schema<GetConnectionRecordingPreferencesRequest>;
+export interface DeleteConnectionRecordingPreferencesRequest {
+  ClientToken?: string;
+}
+export const DeleteConnectionRecordingPreferencesRequest = S.suspend(() =>
+  S.Struct({ ClientToken: S.optional(S.String) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/DeleteConnectionRecordingPreferences" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteConnectionRecordingPreferencesRequest",
+}) as any as S.Schema<DeleteConnectionRecordingPreferencesRequest>;
+export interface S3Bucket {
+  BucketOwner: string;
+  BucketName: string;
+}
+export const S3Bucket = S.suspend(() =>
+  S.Struct({ BucketOwner: S.String, BucketName: S.String }),
+).annotations({ identifier: "S3Bucket" }) as any as S.Schema<S3Bucket>;
+export type S3Buckets = S3Bucket[];
 export const S3Buckets = S.Array(S3Bucket);
-export class RecordingDestinations extends S.Class<RecordingDestinations>(
-  "RecordingDestinations",
-)({ S3Buckets: S3Buckets }) {}
-export class ConnectionRecordingPreferences extends S.Class<ConnectionRecordingPreferences>(
-  "ConnectionRecordingPreferences",
-)({ RecordingDestinations: RecordingDestinations, KMSKeyArn: S.String }) {}
-export class UpdateConnectionRecordingPreferencesRequest extends S.Class<UpdateConnectionRecordingPreferencesRequest>(
-  "UpdateConnectionRecordingPreferencesRequest",
-)(
-  {
+export interface RecordingDestinations {
+  S3Buckets: S3Buckets;
+}
+export const RecordingDestinations = S.suspend(() =>
+  S.Struct({ S3Buckets: S3Buckets }),
+).annotations({
+  identifier: "RecordingDestinations",
+}) as any as S.Schema<RecordingDestinations>;
+export interface ConnectionRecordingPreferences {
+  RecordingDestinations: RecordingDestinations;
+  KMSKeyArn: string;
+}
+export const ConnectionRecordingPreferences = S.suspend(() =>
+  S.Struct({
+    RecordingDestinations: RecordingDestinations,
+    KMSKeyArn: S.String,
+  }),
+).annotations({
+  identifier: "ConnectionRecordingPreferences",
+}) as any as S.Schema<ConnectionRecordingPreferences>;
+export interface UpdateConnectionRecordingPreferencesRequest {
+  ConnectionRecordingPreferences: ConnectionRecordingPreferences;
+  ClientToken?: string;
+}
+export const UpdateConnectionRecordingPreferencesRequest = S.suspend(() =>
+  S.Struct({
     ConnectionRecordingPreferences: ConnectionRecordingPreferences,
     ClientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/UpdateConnectionRecordingPreferences" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/UpdateConnectionRecordingPreferences" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteConnectionRecordingPreferencesResponse extends S.Class<DeleteConnectionRecordingPreferencesResponse>(
-  "DeleteConnectionRecordingPreferencesResponse",
-)({ ClientToken: S.optional(S.String) }) {}
-export class UpdateConnectionRecordingPreferencesResponse extends S.Class<UpdateConnectionRecordingPreferencesResponse>(
-  "UpdateConnectionRecordingPreferencesResponse",
-)({
-  ClientToken: S.optional(S.String),
-  ConnectionRecordingPreferences: S.optional(ConnectionRecordingPreferences),
-}) {}
-export class GetConnectionRecordingPreferencesResponse extends S.Class<GetConnectionRecordingPreferencesResponse>(
-  "GetConnectionRecordingPreferencesResponse",
-)({
-  ClientToken: S.optional(S.String),
-  ConnectionRecordingPreferences: S.optional(ConnectionRecordingPreferences),
-}) {}
+).annotations({
+  identifier: "UpdateConnectionRecordingPreferencesRequest",
+}) as any as S.Schema<UpdateConnectionRecordingPreferencesRequest>;
+export interface DeleteConnectionRecordingPreferencesResponse {
+  ClientToken?: string;
+}
+export const DeleteConnectionRecordingPreferencesResponse = S.suspend(() =>
+  S.Struct({ ClientToken: S.optional(S.String) }),
+).annotations({
+  identifier: "DeleteConnectionRecordingPreferencesResponse",
+}) as any as S.Schema<DeleteConnectionRecordingPreferencesResponse>;
+export interface UpdateConnectionRecordingPreferencesResponse {
+  ClientToken?: string;
+  ConnectionRecordingPreferences?: ConnectionRecordingPreferences;
+}
+export const UpdateConnectionRecordingPreferencesResponse = S.suspend(() =>
+  S.Struct({
+    ClientToken: S.optional(S.String),
+    ConnectionRecordingPreferences: S.optional(ConnectionRecordingPreferences),
+  }),
+).annotations({
+  identifier: "UpdateConnectionRecordingPreferencesResponse",
+}) as any as S.Schema<UpdateConnectionRecordingPreferencesResponse>;
+export interface GetConnectionRecordingPreferencesResponse {
+  ClientToken?: string;
+  ConnectionRecordingPreferences?: ConnectionRecordingPreferences;
+}
+export const GetConnectionRecordingPreferencesResponse = S.suspend(() =>
+  S.Struct({
+    ClientToken: S.optional(S.String),
+    ConnectionRecordingPreferences: S.optional(ConnectionRecordingPreferences),
+  }),
+).annotations({
+  identifier: "GetConnectionRecordingPreferencesResponse",
+}) as any as S.Schema<GetConnectionRecordingPreferencesResponse>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

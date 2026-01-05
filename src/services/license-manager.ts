@@ -245,49 +245,120 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class GetServiceSettingsRequest extends S.Class<GetServiceSettingsRequest>(
-  "GetServiceSettingsRequest",
-)(
-  {},
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+export interface GetServiceSettingsRequest {}
+export const GetServiceSettingsRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetServiceSettingsRequest",
+}) as any as S.Schema<GetServiceSettingsRequest>;
+export type PrincipalArnList = string[];
 export const PrincipalArnList = S.Array(S.String);
+export type AllowedOperationList = string[];
 export const AllowedOperationList = S.Array(S.String);
+export type LicenseAssetRulesetArnList = string[];
 export const LicenseAssetRulesetArnList = S.Array(S.String);
+export type StringList = string[];
 export const StringList = S.Array(S.String);
+export type ReportTypeList = string[];
 export const ReportTypeList = S.Array(S.String);
+export type ArnList = string[];
 export const ArnList = S.Array(S.String);
+export type MaxSize3StringList = string[];
 export const MaxSize3StringList = S.Array(S.String);
+export type FilterValues = string[];
 export const FilterValues = S.Array(S.String.pipe(T.XmlName("item")));
-export class Filter extends S.Class<Filter>("Filter")({
-  Name: S.optional(S.String),
-  Values: S.optional(FilterValues),
-}) {}
-export const Filters = S.Array(Filter.pipe(T.XmlName("item")));
+export interface Filter {
+  Name?: string;
+  Values?: FilterValues;
+}
+export const Filter = S.suspend(() =>
+  S.Struct({ Name: S.optional(S.String), Values: S.optional(FilterValues) }),
+).annotations({ identifier: "Filter" }) as any as S.Schema<Filter>;
+export type Filters = Filter[];
+export const Filters = S.Array(
+  Filter.pipe(T.XmlName("item")).annotations({ identifier: "Filter" }),
+);
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class AcceptGrantRequest extends S.Class<AcceptGrantRequest>(
-  "AcceptGrantRequest",
-)(
-  { GrantArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CheckInLicenseRequest extends S.Class<CheckInLicenseRequest>(
-  "CheckInLicenseRequest",
-)(
-  { LicenseConsumptionToken: S.String, Beneficiary: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CheckInLicenseResponse extends S.Class<CheckInLicenseResponse>(
-  "CheckInLicenseResponse",
-)({}, ns) {}
-export class EntitlementData extends S.Class<EntitlementData>(
-  "EntitlementData",
-)({ Name: S.String, Value: S.optional(S.String), Unit: S.String }) {}
+export interface AcceptGrantRequest {
+  GrantArn: string;
+}
+export const AcceptGrantRequest = S.suspend(() =>
+  S.Struct({ GrantArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "AcceptGrantRequest",
+}) as any as S.Schema<AcceptGrantRequest>;
+export interface CheckInLicenseRequest {
+  LicenseConsumptionToken: string;
+  Beneficiary?: string;
+}
+export const CheckInLicenseRequest = S.suspend(() =>
+  S.Struct({
+    LicenseConsumptionToken: S.String,
+    Beneficiary: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CheckInLicenseRequest",
+}) as any as S.Schema<CheckInLicenseRequest>;
+export interface CheckInLicenseResponse {}
+export const CheckInLicenseResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "CheckInLicenseResponse",
+}) as any as S.Schema<CheckInLicenseResponse>;
+export interface EntitlementData {
+  Name: string;
+  Value?: string;
+  Unit: string;
+}
+export const EntitlementData = S.suspend(() =>
+  S.Struct({ Name: S.String, Value: S.optional(S.String), Unit: S.String }),
+).annotations({
+  identifier: "EntitlementData",
+}) as any as S.Schema<EntitlementData>;
+export type EntitlementDataList = EntitlementData[];
 export const EntitlementDataList = S.Array(EntitlementData);
-export class CheckoutLicenseRequest extends S.Class<CheckoutLicenseRequest>(
-  "CheckoutLicenseRequest",
-)(
-  {
+export interface CheckoutLicenseRequest {
+  ProductSKU: string;
+  CheckoutType: string;
+  KeyFingerprint: string;
+  Entitlements: EntitlementDataList;
+  ClientToken: string;
+  Beneficiary?: string;
+  NodeId?: string;
+}
+export const CheckoutLicenseRequest = S.suspend(() =>
+  S.Struct({
     ProductSKU: S.String,
     CheckoutType: S.String,
     KeyFingerprint: S.String,
@@ -295,48 +366,112 @@ export class CheckoutLicenseRequest extends S.Class<CheckoutLicenseRequest>(
     ClientToken: S.String,
     Beneficiary: S.optional(S.String),
     NodeId: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class Issuer extends S.Class<Issuer>("Issuer")({
-  Name: S.String,
-  SignKey: S.optional(S.String),
-}) {}
-export class DatetimeRange extends S.Class<DatetimeRange>("DatetimeRange")({
-  Begin: S.String,
-  End: S.optional(S.String),
-}) {}
-export class Metadata extends S.Class<Metadata>("Metadata")({
-  Name: S.optional(S.String),
-  Value: S.optional(S.String),
-}) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CheckoutLicenseRequest",
+}) as any as S.Schema<CheckoutLicenseRequest>;
+export interface Issuer {
+  Name: string;
+  SignKey?: string;
+}
+export const Issuer = S.suspend(() =>
+  S.Struct({ Name: S.String, SignKey: S.optional(S.String) }),
+).annotations({ identifier: "Issuer" }) as any as S.Schema<Issuer>;
+export interface DatetimeRange {
+  Begin: string;
+  End?: string;
+}
+export const DatetimeRange = S.suspend(() =>
+  S.Struct({ Begin: S.String, End: S.optional(S.String) }),
+).annotations({
+  identifier: "DatetimeRange",
+}) as any as S.Schema<DatetimeRange>;
+export interface Metadata {
+  Name?: string;
+  Value?: string;
+}
+export const Metadata = S.suspend(() =>
+  S.Struct({ Name: S.optional(S.String), Value: S.optional(S.String) }),
+).annotations({ identifier: "Metadata" }) as any as S.Schema<Metadata>;
+export type MetadataList = Metadata[];
 export const MetadataList = S.Array(Metadata);
-export class Entitlement extends S.Class<Entitlement>("Entitlement")({
-  Name: S.String,
-  Value: S.optional(S.String),
-  MaxCount: S.optional(S.Number),
-  Overage: S.optional(S.Boolean),
-  Unit: S.String,
-  AllowCheckIn: S.optional(S.Boolean),
-}) {}
+export interface Entitlement {
+  Name: string;
+  Value?: string;
+  MaxCount?: number;
+  Overage?: boolean;
+  Unit: string;
+  AllowCheckIn?: boolean;
+}
+export const Entitlement = S.suspend(() =>
+  S.Struct({
+    Name: S.String,
+    Value: S.optional(S.String),
+    MaxCount: S.optional(S.Number),
+    Overage: S.optional(S.Boolean),
+    Unit: S.String,
+    AllowCheckIn: S.optional(S.Boolean),
+  }),
+).annotations({ identifier: "Entitlement" }) as any as S.Schema<Entitlement>;
+export type EntitlementList = Entitlement[];
 export const EntitlementList = S.Array(Entitlement);
-export class ProvisionalConfiguration extends S.Class<ProvisionalConfiguration>(
-  "ProvisionalConfiguration",
-)({ MaxTimeToLiveInMinutes: S.Number }) {}
-export class BorrowConfiguration extends S.Class<BorrowConfiguration>(
-  "BorrowConfiguration",
-)({ AllowEarlyCheckIn: S.Boolean, MaxTimeToLiveInMinutes: S.Number }) {}
-export class ConsumptionConfiguration extends S.Class<ConsumptionConfiguration>(
-  "ConsumptionConfiguration",
-)({
-  RenewType: S.optional(S.String),
-  ProvisionalConfiguration: S.optional(ProvisionalConfiguration),
-  BorrowConfiguration: S.optional(BorrowConfiguration),
-}) {}
-export class CreateLicenseVersionRequest extends S.Class<CreateLicenseVersionRequest>(
-  "CreateLicenseVersionRequest",
-)(
-  {
+export interface ProvisionalConfiguration {
+  MaxTimeToLiveInMinutes: number;
+}
+export const ProvisionalConfiguration = S.suspend(() =>
+  S.Struct({ MaxTimeToLiveInMinutes: S.Number }),
+).annotations({
+  identifier: "ProvisionalConfiguration",
+}) as any as S.Schema<ProvisionalConfiguration>;
+export interface BorrowConfiguration {
+  AllowEarlyCheckIn: boolean;
+  MaxTimeToLiveInMinutes: number;
+}
+export const BorrowConfiguration = S.suspend(() =>
+  S.Struct({ AllowEarlyCheckIn: S.Boolean, MaxTimeToLiveInMinutes: S.Number }),
+).annotations({
+  identifier: "BorrowConfiguration",
+}) as any as S.Schema<BorrowConfiguration>;
+export interface ConsumptionConfiguration {
+  RenewType?: string;
+  ProvisionalConfiguration?: ProvisionalConfiguration;
+  BorrowConfiguration?: BorrowConfiguration;
+}
+export const ConsumptionConfiguration = S.suspend(() =>
+  S.Struct({
+    RenewType: S.optional(S.String),
+    ProvisionalConfiguration: S.optional(ProvisionalConfiguration),
+    BorrowConfiguration: S.optional(BorrowConfiguration),
+  }),
+).annotations({
+  identifier: "ConsumptionConfiguration",
+}) as any as S.Schema<ConsumptionConfiguration>;
+export interface CreateLicenseVersionRequest {
+  LicenseArn: string;
+  LicenseName: string;
+  ProductName: string;
+  Issuer: Issuer;
+  HomeRegion: string;
+  Validity: DatetimeRange;
+  LicenseMetadata?: MetadataList;
+  Entitlements: EntitlementList;
+  ConsumptionConfiguration: ConsumptionConfiguration;
+  Status: string;
+  ClientToken: string;
+  SourceVersion?: string;
+}
+export const CreateLicenseVersionRequest = S.suspend(() =>
+  S.Struct({
     LicenseArn: S.String,
     LicenseName: S.String,
     ProductName: S.String,
@@ -349,375 +484,981 @@ export class CreateLicenseVersionRequest extends S.Class<CreateLicenseVersionReq
     Status: S.String,
     ClientToken: S.String,
     SourceVersion: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateTokenRequest extends S.Class<CreateTokenRequest>(
-  "CreateTokenRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateLicenseVersionRequest",
+}) as any as S.Schema<CreateLicenseVersionRequest>;
+export interface CreateTokenRequest {
+  LicenseArn: string;
+  RoleArns?: ArnList;
+  ExpirationInDays?: number;
+  TokenProperties?: MaxSize3StringList;
+  ClientToken: string;
+}
+export const CreateTokenRequest = S.suspend(() =>
+  S.Struct({
     LicenseArn: S.String,
     RoleArns: S.optional(ArnList),
     ExpirationInDays: S.optional(S.Number),
     TokenProperties: S.optional(MaxSize3StringList),
     ClientToken: S.String,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteGrantRequest extends S.Class<DeleteGrantRequest>(
-  "DeleteGrantRequest",
-)(
-  { GrantArn: S.String, StatusReason: S.optional(S.String), Version: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteLicenseRequest extends S.Class<DeleteLicenseRequest>(
-  "DeleteLicenseRequest",
-)(
-  { LicenseArn: S.String, SourceVersion: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteLicenseAssetGroupRequest extends S.Class<DeleteLicenseAssetGroupRequest>(
-  "DeleteLicenseAssetGroupRequest",
-)(
-  { LicenseAssetGroupArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteLicenseAssetRulesetRequest extends S.Class<DeleteLicenseAssetRulesetRequest>(
-  "DeleteLicenseAssetRulesetRequest",
-)(
-  { LicenseAssetRulesetArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteLicenseAssetRulesetResponse extends S.Class<DeleteLicenseAssetRulesetResponse>(
-  "DeleteLicenseAssetRulesetResponse",
-)({}, ns) {}
-export class DeleteLicenseConfigurationRequest extends S.Class<DeleteLicenseConfigurationRequest>(
-  "DeleteLicenseConfigurationRequest",
-)(
-  { LicenseConfigurationArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteLicenseConfigurationResponse extends S.Class<DeleteLicenseConfigurationResponse>(
-  "DeleteLicenseConfigurationResponse",
-)({}, ns) {}
-export class DeleteLicenseManagerReportGeneratorRequest extends S.Class<DeleteLicenseManagerReportGeneratorRequest>(
-  "DeleteLicenseManagerReportGeneratorRequest",
-)(
-  { LicenseManagerReportGeneratorArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteLicenseManagerReportGeneratorResponse extends S.Class<DeleteLicenseManagerReportGeneratorResponse>(
-  "DeleteLicenseManagerReportGeneratorResponse",
-)({}, ns) {}
-export class DeleteTokenRequest extends S.Class<DeleteTokenRequest>(
-  "DeleteTokenRequest",
-)(
-  { TokenId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteTokenResponse extends S.Class<DeleteTokenResponse>(
-  "DeleteTokenResponse",
-)({}, ns) {}
-export class ExtendLicenseConsumptionRequest extends S.Class<ExtendLicenseConsumptionRequest>(
-  "ExtendLicenseConsumptionRequest",
-)(
-  { LicenseConsumptionToken: S.String, DryRun: S.optional(S.Boolean) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetAccessTokenRequest extends S.Class<GetAccessTokenRequest>(
-  "GetAccessTokenRequest",
-)(
-  { Token: S.String, TokenProperties: S.optional(MaxSize3StringList) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetGrantRequest extends S.Class<GetGrantRequest>(
-  "GetGrantRequest",
-)(
-  { GrantArn: S.String, Version: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetLicenseRequest extends S.Class<GetLicenseRequest>(
-  "GetLicenseRequest",
-)(
-  { LicenseArn: S.String, Version: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetLicenseAssetGroupRequest extends S.Class<GetLicenseAssetGroupRequest>(
-  "GetLicenseAssetGroupRequest",
-)(
-  { LicenseAssetGroupArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetLicenseAssetRulesetRequest extends S.Class<GetLicenseAssetRulesetRequest>(
-  "GetLicenseAssetRulesetRequest",
-)(
-  { LicenseAssetRulesetArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetLicenseConfigurationRequest extends S.Class<GetLicenseConfigurationRequest>(
-  "GetLicenseConfigurationRequest",
-)(
-  { LicenseConfigurationArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetLicenseConversionTaskRequest extends S.Class<GetLicenseConversionTaskRequest>(
-  "GetLicenseConversionTaskRequest",
-)(
-  { LicenseConversionTaskId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetLicenseManagerReportGeneratorRequest extends S.Class<GetLicenseManagerReportGeneratorRequest>(
-  "GetLicenseManagerReportGeneratorRequest",
-)(
-  { LicenseManagerReportGeneratorArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetLicenseUsageRequest extends S.Class<GetLicenseUsageRequest>(
-  "GetLicenseUsageRequest",
-)(
-  { LicenseArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListAssetsForLicenseAssetGroupRequest extends S.Class<ListAssetsForLicenseAssetGroupRequest>(
-  "ListAssetsForLicenseAssetGroupRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateTokenRequest",
+}) as any as S.Schema<CreateTokenRequest>;
+export interface DeleteGrantRequest {
+  GrantArn: string;
+  StatusReason?: string;
+  Version: string;
+}
+export const DeleteGrantRequest = S.suspend(() =>
+  S.Struct({
+    GrantArn: S.String,
+    StatusReason: S.optional(S.String),
+    Version: S.String,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteGrantRequest",
+}) as any as S.Schema<DeleteGrantRequest>;
+export interface DeleteLicenseRequest {
+  LicenseArn: string;
+  SourceVersion: string;
+}
+export const DeleteLicenseRequest = S.suspend(() =>
+  S.Struct({ LicenseArn: S.String, SourceVersion: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteLicenseRequest",
+}) as any as S.Schema<DeleteLicenseRequest>;
+export interface DeleteLicenseAssetGroupRequest {
+  LicenseAssetGroupArn: string;
+}
+export const DeleteLicenseAssetGroupRequest = S.suspend(() =>
+  S.Struct({ LicenseAssetGroupArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteLicenseAssetGroupRequest",
+}) as any as S.Schema<DeleteLicenseAssetGroupRequest>;
+export interface DeleteLicenseAssetRulesetRequest {
+  LicenseAssetRulesetArn: string;
+}
+export const DeleteLicenseAssetRulesetRequest = S.suspend(() =>
+  S.Struct({ LicenseAssetRulesetArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteLicenseAssetRulesetRequest",
+}) as any as S.Schema<DeleteLicenseAssetRulesetRequest>;
+export interface DeleteLicenseAssetRulesetResponse {}
+export const DeleteLicenseAssetRulesetResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteLicenseAssetRulesetResponse",
+}) as any as S.Schema<DeleteLicenseAssetRulesetResponse>;
+export interface DeleteLicenseConfigurationRequest {
+  LicenseConfigurationArn: string;
+}
+export const DeleteLicenseConfigurationRequest = S.suspend(() =>
+  S.Struct({ LicenseConfigurationArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteLicenseConfigurationRequest",
+}) as any as S.Schema<DeleteLicenseConfigurationRequest>;
+export interface DeleteLicenseConfigurationResponse {}
+export const DeleteLicenseConfigurationResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteLicenseConfigurationResponse",
+}) as any as S.Schema<DeleteLicenseConfigurationResponse>;
+export interface DeleteLicenseManagerReportGeneratorRequest {
+  LicenseManagerReportGeneratorArn: string;
+}
+export const DeleteLicenseManagerReportGeneratorRequest = S.suspend(() =>
+  S.Struct({ LicenseManagerReportGeneratorArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteLicenseManagerReportGeneratorRequest",
+}) as any as S.Schema<DeleteLicenseManagerReportGeneratorRequest>;
+export interface DeleteLicenseManagerReportGeneratorResponse {}
+export const DeleteLicenseManagerReportGeneratorResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteLicenseManagerReportGeneratorResponse",
+}) as any as S.Schema<DeleteLicenseManagerReportGeneratorResponse>;
+export interface DeleteTokenRequest {
+  TokenId: string;
+}
+export const DeleteTokenRequest = S.suspend(() =>
+  S.Struct({ TokenId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteTokenRequest",
+}) as any as S.Schema<DeleteTokenRequest>;
+export interface DeleteTokenResponse {}
+export const DeleteTokenResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteTokenResponse",
+}) as any as S.Schema<DeleteTokenResponse>;
+export interface ExtendLicenseConsumptionRequest {
+  LicenseConsumptionToken: string;
+  DryRun?: boolean;
+}
+export const ExtendLicenseConsumptionRequest = S.suspend(() =>
+  S.Struct({
+    LicenseConsumptionToken: S.String,
+    DryRun: S.optional(S.Boolean),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ExtendLicenseConsumptionRequest",
+}) as any as S.Schema<ExtendLicenseConsumptionRequest>;
+export interface GetAccessTokenRequest {
+  Token: string;
+  TokenProperties?: MaxSize3StringList;
+}
+export const GetAccessTokenRequest = S.suspend(() =>
+  S.Struct({
+    Token: S.String,
+    TokenProperties: S.optional(MaxSize3StringList),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetAccessTokenRequest",
+}) as any as S.Schema<GetAccessTokenRequest>;
+export interface GetGrantRequest {
+  GrantArn: string;
+  Version?: string;
+}
+export const GetGrantRequest = S.suspend(() =>
+  S.Struct({ GrantArn: S.String, Version: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetGrantRequest",
+}) as any as S.Schema<GetGrantRequest>;
+export interface GetLicenseRequest {
+  LicenseArn: string;
+  Version?: string;
+}
+export const GetLicenseRequest = S.suspend(() =>
+  S.Struct({ LicenseArn: S.String, Version: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetLicenseRequest",
+}) as any as S.Schema<GetLicenseRequest>;
+export interface GetLicenseAssetGroupRequest {
+  LicenseAssetGroupArn: string;
+}
+export const GetLicenseAssetGroupRequest = S.suspend(() =>
+  S.Struct({ LicenseAssetGroupArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetLicenseAssetGroupRequest",
+}) as any as S.Schema<GetLicenseAssetGroupRequest>;
+export interface GetLicenseAssetRulesetRequest {
+  LicenseAssetRulesetArn: string;
+}
+export const GetLicenseAssetRulesetRequest = S.suspend(() =>
+  S.Struct({ LicenseAssetRulesetArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetLicenseAssetRulesetRequest",
+}) as any as S.Schema<GetLicenseAssetRulesetRequest>;
+export interface GetLicenseConfigurationRequest {
+  LicenseConfigurationArn: string;
+}
+export const GetLicenseConfigurationRequest = S.suspend(() =>
+  S.Struct({ LicenseConfigurationArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetLicenseConfigurationRequest",
+}) as any as S.Schema<GetLicenseConfigurationRequest>;
+export interface GetLicenseConversionTaskRequest {
+  LicenseConversionTaskId: string;
+}
+export const GetLicenseConversionTaskRequest = S.suspend(() =>
+  S.Struct({ LicenseConversionTaskId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetLicenseConversionTaskRequest",
+}) as any as S.Schema<GetLicenseConversionTaskRequest>;
+export interface GetLicenseManagerReportGeneratorRequest {
+  LicenseManagerReportGeneratorArn: string;
+}
+export const GetLicenseManagerReportGeneratorRequest = S.suspend(() =>
+  S.Struct({ LicenseManagerReportGeneratorArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetLicenseManagerReportGeneratorRequest",
+}) as any as S.Schema<GetLicenseManagerReportGeneratorRequest>;
+export interface GetLicenseUsageRequest {
+  LicenseArn: string;
+}
+export const GetLicenseUsageRequest = S.suspend(() =>
+  S.Struct({ LicenseArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetLicenseUsageRequest",
+}) as any as S.Schema<GetLicenseUsageRequest>;
+export interface ListAssetsForLicenseAssetGroupRequest {
+  LicenseAssetGroupArn: string;
+  AssetType: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListAssetsForLicenseAssetGroupRequest = S.suspend(() =>
+  S.Struct({
     LicenseAssetGroupArn: S.String,
     AssetType: S.String,
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListAssociationsForLicenseConfigurationRequest extends S.Class<ListAssociationsForLicenseConfigurationRequest>(
-  "ListAssociationsForLicenseConfigurationRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListAssetsForLicenseAssetGroupRequest",
+}) as any as S.Schema<ListAssetsForLicenseAssetGroupRequest>;
+export interface ListAssociationsForLicenseConfigurationRequest {
+  LicenseConfigurationArn: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListAssociationsForLicenseConfigurationRequest = S.suspend(() =>
+  S.Struct({
     LicenseConfigurationArn: S.String,
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListFailuresForLicenseConfigurationOperationsRequest extends S.Class<ListFailuresForLicenseConfigurationOperationsRequest>(
-  "ListFailuresForLicenseConfigurationOperationsRequest",
-)(
-  {
-    LicenseConfigurationArn: S.String,
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListLicenseAssetGroupsRequest extends S.Class<ListLicenseAssetGroupsRequest>(
-  "ListLicenseAssetGroupsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListAssociationsForLicenseConfigurationRequest",
+}) as any as S.Schema<ListAssociationsForLicenseConfigurationRequest>;
+export interface ListFailuresForLicenseConfigurationOperationsRequest {
+  LicenseConfigurationArn: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListFailuresForLicenseConfigurationOperationsRequest = S.suspend(
+  () =>
+    S.Struct({
+      LicenseConfigurationArn: S.String,
+      MaxResults: S.optional(S.Number),
+      NextToken: S.optional(S.String),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+).annotations({
+  identifier: "ListFailuresForLicenseConfigurationOperationsRequest",
+}) as any as S.Schema<ListFailuresForLicenseConfigurationOperationsRequest>;
+export interface ListLicenseAssetGroupsRequest {
+  Filters?: Filters;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListLicenseAssetGroupsRequest = S.suspend(() =>
+  S.Struct({
     Filters: S.optional(Filters),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListLicenseAssetRulesetsRequest extends S.Class<ListLicenseAssetRulesetsRequest>(
-  "ListLicenseAssetRulesetsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListLicenseAssetGroupsRequest",
+}) as any as S.Schema<ListLicenseAssetGroupsRequest>;
+export interface ListLicenseAssetRulesetsRequest {
+  Filters?: Filters;
+  ShowAWSManagedLicenseAssetRulesets?: boolean;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListLicenseAssetRulesetsRequest = S.suspend(() =>
+  S.Struct({
     Filters: S.optional(Filters),
     ShowAWSManagedLicenseAssetRulesets: S.optional(S.Boolean),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListLicenseConfigurationsRequest extends S.Class<ListLicenseConfigurationsRequest>(
-  "ListLicenseConfigurationsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListLicenseAssetRulesetsRequest",
+}) as any as S.Schema<ListLicenseAssetRulesetsRequest>;
+export interface ListLicenseConfigurationsRequest {
+  LicenseConfigurationArns?: StringList;
+  MaxResults?: number;
+  NextToken?: string;
+  Filters?: Filters;
+}
+export const ListLicenseConfigurationsRequest = S.suspend(() =>
+  S.Struct({
     LicenseConfigurationArns: S.optional(StringList),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     Filters: S.optional(Filters),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListLicenseConfigurationsForOrganizationRequest extends S.Class<ListLicenseConfigurationsForOrganizationRequest>(
-  "ListLicenseConfigurationsForOrganizationRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListLicenseConfigurationsRequest",
+}) as any as S.Schema<ListLicenseConfigurationsRequest>;
+export interface ListLicenseConfigurationsForOrganizationRequest {
+  LicenseConfigurationArns?: StringList;
+  MaxResults?: number;
+  NextToken?: string;
+  Filters?: Filters;
+}
+export const ListLicenseConfigurationsForOrganizationRequest = S.suspend(() =>
+  S.Struct({
     LicenseConfigurationArns: S.optional(StringList),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     Filters: S.optional(Filters),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListLicenseConversionTasksRequest extends S.Class<ListLicenseConversionTasksRequest>(
-  "ListLicenseConversionTasksRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListLicenseConfigurationsForOrganizationRequest",
+}) as any as S.Schema<ListLicenseConfigurationsForOrganizationRequest>;
+export interface ListLicenseConversionTasksRequest {
+  NextToken?: string;
+  MaxResults?: number;
+  Filters?: Filters;
+}
+export const ListLicenseConversionTasksRequest = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     Filters: S.optional(Filters),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListLicenseConversionTasksRequest",
+}) as any as S.Schema<ListLicenseConversionTasksRequest>;
+export type FilterList = Filter[];
 export const FilterList = S.Array(Filter);
-export class ListLicenseManagerReportGeneratorsRequest extends S.Class<ListLicenseManagerReportGeneratorsRequest>(
-  "ListLicenseManagerReportGeneratorsRequest",
-)(
-  {
+export interface ListLicenseManagerReportGeneratorsRequest {
+  Filters?: FilterList;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListLicenseManagerReportGeneratorsRequest = S.suspend(() =>
+  S.Struct({
     Filters: S.optional(FilterList),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListLicensesRequest extends S.Class<ListLicensesRequest>(
-  "ListLicensesRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListLicenseManagerReportGeneratorsRequest",
+}) as any as S.Schema<ListLicenseManagerReportGeneratorsRequest>;
+export interface ListLicensesRequest {
+  LicenseArns?: ArnList;
+  Filters?: FilterList;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListLicensesRequest = S.suspend(() =>
+  S.Struct({
     LicenseArns: S.optional(ArnList),
     Filters: S.optional(FilterList),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListLicenseSpecificationsForResourceRequest extends S.Class<ListLicenseSpecificationsForResourceRequest>(
-  "ListLicenseSpecificationsForResourceRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListLicensesRequest",
+}) as any as S.Schema<ListLicensesRequest>;
+export interface ListLicenseSpecificationsForResourceRequest {
+  ResourceArn: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListLicenseSpecificationsForResourceRequest = S.suspend(() =>
+  S.Struct({
     ResourceArn: S.String,
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListLicenseVersionsRequest extends S.Class<ListLicenseVersionsRequest>(
-  "ListLicenseVersionsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListLicenseSpecificationsForResourceRequest",
+}) as any as S.Schema<ListLicenseSpecificationsForResourceRequest>;
+export interface ListLicenseVersionsRequest {
+  LicenseArn: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListLicenseVersionsRequest = S.suspend(() =>
+  S.Struct({
     LicenseArn: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListReceivedGrantsRequest extends S.Class<ListReceivedGrantsRequest>(
-  "ListReceivedGrantsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListLicenseVersionsRequest",
+}) as any as S.Schema<ListLicenseVersionsRequest>;
+export interface ListReceivedGrantsRequest {
+  GrantArns?: ArnList;
+  Filters?: FilterList;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListReceivedGrantsRequest = S.suspend(() =>
+  S.Struct({
     GrantArns: S.optional(ArnList),
     Filters: S.optional(FilterList),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListReceivedGrantsForOrganizationRequest extends S.Class<ListReceivedGrantsForOrganizationRequest>(
-  "ListReceivedGrantsForOrganizationRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListReceivedGrantsRequest",
+}) as any as S.Schema<ListReceivedGrantsRequest>;
+export interface ListReceivedGrantsForOrganizationRequest {
+  LicenseArn: string;
+  Filters?: FilterList;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListReceivedGrantsForOrganizationRequest = S.suspend(() =>
+  S.Struct({
     LicenseArn: S.String,
     Filters: S.optional(FilterList),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListReceivedLicensesRequest extends S.Class<ListReceivedLicensesRequest>(
-  "ListReceivedLicensesRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListReceivedGrantsForOrganizationRequest",
+}) as any as S.Schema<ListReceivedGrantsForOrganizationRequest>;
+export interface ListReceivedLicensesRequest {
+  LicenseArns?: ArnList;
+  Filters?: FilterList;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListReceivedLicensesRequest = S.suspend(() =>
+  S.Struct({
     LicenseArns: S.optional(ArnList),
     Filters: S.optional(FilterList),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListReceivedLicensesForOrganizationRequest extends S.Class<ListReceivedLicensesForOrganizationRequest>(
-  "ListReceivedLicensesForOrganizationRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListReceivedLicensesRequest",
+}) as any as S.Schema<ListReceivedLicensesRequest>;
+export interface ListReceivedLicensesForOrganizationRequest {
+  Filters?: FilterList;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListReceivedLicensesForOrganizationRequest = S.suspend(() =>
+  S.Struct({
     Filters: S.optional(FilterList),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { ResourceArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTokensRequest extends S.Class<ListTokensRequest>(
-  "ListTokensRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListReceivedLicensesForOrganizationRequest",
+}) as any as S.Schema<ListReceivedLicensesForOrganizationRequest>;
+export interface ListTagsForResourceRequest {
+  ResourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface ListTokensRequest {
+  TokenIds?: StringList;
+  Filters?: FilterList;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListTokensRequest = S.suspend(() =>
+  S.Struct({
     TokenIds: S.optional(StringList),
     Filters: S.optional(FilterList),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListUsageForLicenseConfigurationRequest extends S.Class<ListUsageForLicenseConfigurationRequest>(
-  "ListUsageForLicenseConfigurationRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListTokensRequest",
+}) as any as S.Schema<ListTokensRequest>;
+export interface ListUsageForLicenseConfigurationRequest {
+  LicenseConfigurationArn: string;
+  MaxResults?: number;
+  NextToken?: string;
+  Filters?: Filters;
+}
+export const ListUsageForLicenseConfigurationRequest = S.suspend(() =>
+  S.Struct({
     LicenseConfigurationArn: S.String,
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     Filters: S.optional(Filters),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class RejectGrantRequest extends S.Class<RejectGrantRequest>(
-  "RejectGrantRequest",
-)(
-  { GrantArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class Tag extends S.Class<Tag>("Tag")({
-  Key: S.optional(S.String),
-  Value: S.optional(S.String),
-}) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListUsageForLicenseConfigurationRequest",
+}) as any as S.Schema<ListUsageForLicenseConfigurationRequest>;
+export interface RejectGrantRequest {
+  GrantArn: string;
+}
+export const RejectGrantRequest = S.suspend(() =>
+  S.Struct({ GrantArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "RejectGrantRequest",
+}) as any as S.Schema<RejectGrantRequest>;
+export interface Tag {
+  Key?: string;
+  Value?: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ Key: S.optional(S.String), Value: S.optional(S.String) }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagList = Tag[];
 export const TagList = S.Array(Tag);
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { ResourceArn: S.String, Tags: TagList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}, ns) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  { ResourceArn: S.String, TagKeys: TagKeyList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}, ns) {}
-export class LicenseAssetGroupConfiguration extends S.Class<LicenseAssetGroupConfiguration>(
-  "LicenseAssetGroupConfiguration",
-)({ UsageDimension: S.optional(S.String) }) {}
+export interface TagResourceRequest {
+  ResourceArn: string;
+  Tags: TagList;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String, Tags: TagList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UntagResourceRequest {
+  ResourceArn: string;
+  TagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String, TagKeys: TagKeyList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface LicenseAssetGroupConfiguration {
+  UsageDimension?: string;
+}
+export const LicenseAssetGroupConfiguration = S.suspend(() =>
+  S.Struct({ UsageDimension: S.optional(S.String) }),
+).annotations({
+  identifier: "LicenseAssetGroupConfiguration",
+}) as any as S.Schema<LicenseAssetGroupConfiguration>;
+export type LicenseAssetGroupConfigurationList =
+  LicenseAssetGroupConfiguration[];
 export const LicenseAssetGroupConfigurationList = S.Array(
   LicenseAssetGroupConfiguration,
 );
-export class LicenseAssetGroupProperty extends S.Class<LicenseAssetGroupProperty>(
-  "LicenseAssetGroupProperty",
-)({ Key: S.String, Value: S.String }) {}
+export interface LicenseAssetGroupProperty {
+  Key: string;
+  Value: string;
+}
+export const LicenseAssetGroupProperty = S.suspend(() =>
+  S.Struct({ Key: S.String, Value: S.String }),
+).annotations({
+  identifier: "LicenseAssetGroupProperty",
+}) as any as S.Schema<LicenseAssetGroupProperty>;
+export type LicenseAssetGroupPropertyList = LicenseAssetGroupProperty[];
 export const LicenseAssetGroupPropertyList = S.Array(LicenseAssetGroupProperty);
-export class UpdateLicenseAssetGroupRequest extends S.Class<UpdateLicenseAssetGroupRequest>(
-  "UpdateLicenseAssetGroupRequest",
-)(
-  {
+export interface UpdateLicenseAssetGroupRequest {
+  Name?: string;
+  Description?: string;
+  LicenseAssetGroupConfigurations?: LicenseAssetGroupConfigurationList;
+  AssociatedLicenseAssetRulesetARNs: LicenseAssetRulesetArnList;
+  Properties?: LicenseAssetGroupPropertyList;
+  LicenseAssetGroupArn: string;
+  Status?: string;
+  ClientToken: string;
+}
+export const UpdateLicenseAssetGroupRequest = S.suspend(() =>
+  S.Struct({
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     LicenseAssetGroupConfigurations: S.optional(
@@ -728,93 +1469,213 @@ export class UpdateLicenseAssetGroupRequest extends S.Class<UpdateLicenseAssetGr
     LicenseAssetGroupArn: S.String,
     Status: S.optional(S.String),
     ClientToken: S.String,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class MatchingRuleStatement extends S.Class<MatchingRuleStatement>(
-  "MatchingRuleStatement",
-)({ KeyToMatch: S.String, Constraint: S.String, ValueToMatch: StringList }) {}
-export const MatchingRuleStatementList = S.Array(MatchingRuleStatement);
-export class ScriptRuleStatement extends S.Class<ScriptRuleStatement>(
-  "ScriptRuleStatement",
-)({ KeyToMatch: S.String, Script: S.String }) {}
-export const ScriptRuleStatementList = S.Array(ScriptRuleStatement);
-export class AndRuleStatement extends S.Class<AndRuleStatement>(
-  "AndRuleStatement",
-)({
-  MatchingRuleStatements: S.optional(MatchingRuleStatementList),
-  ScriptRuleStatements: S.optional(ScriptRuleStatementList),
-}) {}
-export class OrRuleStatement extends S.Class<OrRuleStatement>(
-  "OrRuleStatement",
-)({
-  MatchingRuleStatements: S.optional(MatchingRuleStatementList),
-  ScriptRuleStatements: S.optional(ScriptRuleStatementList),
-}) {}
-export class LicenseConfigurationRuleStatement extends S.Class<LicenseConfigurationRuleStatement>(
-  "LicenseConfigurationRuleStatement",
-)({
-  AndRuleStatement: S.optional(AndRuleStatement),
-  OrRuleStatement: S.optional(OrRuleStatement),
-  MatchingRuleStatement: S.optional(MatchingRuleStatement),
-}) {}
-export class LicenseRuleStatement extends S.Class<LicenseRuleStatement>(
-  "LicenseRuleStatement",
-)({
-  AndRuleStatement: S.optional(AndRuleStatement),
-  OrRuleStatement: S.optional(OrRuleStatement),
-  MatchingRuleStatement: S.optional(MatchingRuleStatement),
-}) {}
-export class InstanceRuleStatement extends S.Class<InstanceRuleStatement>(
-  "InstanceRuleStatement",
-)({
-  AndRuleStatement: S.optional(AndRuleStatement),
-  OrRuleStatement: S.optional(OrRuleStatement),
-  MatchingRuleStatement: S.optional(MatchingRuleStatement),
-  ScriptRuleStatement: S.optional(ScriptRuleStatement),
-}) {}
-export class RuleStatement extends S.Class<RuleStatement>("RuleStatement")({
-  LicenseConfigurationRuleStatement: S.optional(
-    LicenseConfigurationRuleStatement,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-  LicenseRuleStatement: S.optional(LicenseRuleStatement),
-  InstanceRuleStatement: S.optional(InstanceRuleStatement),
-}) {}
-export class LicenseAssetRule extends S.Class<LicenseAssetRule>(
-  "LicenseAssetRule",
-)({ RuleStatement: RuleStatement }) {}
+).annotations({
+  identifier: "UpdateLicenseAssetGroupRequest",
+}) as any as S.Schema<UpdateLicenseAssetGroupRequest>;
+export interface MatchingRuleStatement {
+  KeyToMatch: string;
+  Constraint: string;
+  ValueToMatch: StringList;
+}
+export const MatchingRuleStatement = S.suspend(() =>
+  S.Struct({
+    KeyToMatch: S.String,
+    Constraint: S.String,
+    ValueToMatch: StringList,
+  }),
+).annotations({
+  identifier: "MatchingRuleStatement",
+}) as any as S.Schema<MatchingRuleStatement>;
+export type MatchingRuleStatementList = MatchingRuleStatement[];
+export const MatchingRuleStatementList = S.Array(MatchingRuleStatement);
+export interface ScriptRuleStatement {
+  KeyToMatch: string;
+  Script: string;
+}
+export const ScriptRuleStatement = S.suspend(() =>
+  S.Struct({ KeyToMatch: S.String, Script: S.String }),
+).annotations({
+  identifier: "ScriptRuleStatement",
+}) as any as S.Schema<ScriptRuleStatement>;
+export type ScriptRuleStatementList = ScriptRuleStatement[];
+export const ScriptRuleStatementList = S.Array(ScriptRuleStatement);
+export interface AndRuleStatement {
+  MatchingRuleStatements?: MatchingRuleStatementList;
+  ScriptRuleStatements?: ScriptRuleStatementList;
+}
+export const AndRuleStatement = S.suspend(() =>
+  S.Struct({
+    MatchingRuleStatements: S.optional(MatchingRuleStatementList),
+    ScriptRuleStatements: S.optional(ScriptRuleStatementList),
+  }),
+).annotations({
+  identifier: "AndRuleStatement",
+}) as any as S.Schema<AndRuleStatement>;
+export interface OrRuleStatement {
+  MatchingRuleStatements?: MatchingRuleStatementList;
+  ScriptRuleStatements?: ScriptRuleStatementList;
+}
+export const OrRuleStatement = S.suspend(() =>
+  S.Struct({
+    MatchingRuleStatements: S.optional(MatchingRuleStatementList),
+    ScriptRuleStatements: S.optional(ScriptRuleStatementList),
+  }),
+).annotations({
+  identifier: "OrRuleStatement",
+}) as any as S.Schema<OrRuleStatement>;
+export interface LicenseConfigurationRuleStatement {
+  AndRuleStatement?: AndRuleStatement;
+  OrRuleStatement?: OrRuleStatement;
+  MatchingRuleStatement?: MatchingRuleStatement;
+}
+export const LicenseConfigurationRuleStatement = S.suspend(() =>
+  S.Struct({
+    AndRuleStatement: S.optional(AndRuleStatement),
+    OrRuleStatement: S.optional(OrRuleStatement),
+    MatchingRuleStatement: S.optional(MatchingRuleStatement),
+  }),
+).annotations({
+  identifier: "LicenseConfigurationRuleStatement",
+}) as any as S.Schema<LicenseConfigurationRuleStatement>;
+export interface LicenseRuleStatement {
+  AndRuleStatement?: AndRuleStatement;
+  OrRuleStatement?: OrRuleStatement;
+  MatchingRuleStatement?: MatchingRuleStatement;
+}
+export const LicenseRuleStatement = S.suspend(() =>
+  S.Struct({
+    AndRuleStatement: S.optional(AndRuleStatement),
+    OrRuleStatement: S.optional(OrRuleStatement),
+    MatchingRuleStatement: S.optional(MatchingRuleStatement),
+  }),
+).annotations({
+  identifier: "LicenseRuleStatement",
+}) as any as S.Schema<LicenseRuleStatement>;
+export interface InstanceRuleStatement {
+  AndRuleStatement?: AndRuleStatement;
+  OrRuleStatement?: OrRuleStatement;
+  MatchingRuleStatement?: MatchingRuleStatement;
+  ScriptRuleStatement?: ScriptRuleStatement;
+}
+export const InstanceRuleStatement = S.suspend(() =>
+  S.Struct({
+    AndRuleStatement: S.optional(AndRuleStatement),
+    OrRuleStatement: S.optional(OrRuleStatement),
+    MatchingRuleStatement: S.optional(MatchingRuleStatement),
+    ScriptRuleStatement: S.optional(ScriptRuleStatement),
+  }),
+).annotations({
+  identifier: "InstanceRuleStatement",
+}) as any as S.Schema<InstanceRuleStatement>;
+export interface RuleStatement {
+  LicenseConfigurationRuleStatement?: LicenseConfigurationRuleStatement;
+  LicenseRuleStatement?: LicenseRuleStatement;
+  InstanceRuleStatement?: InstanceRuleStatement;
+}
+export const RuleStatement = S.suspend(() =>
+  S.Struct({
+    LicenseConfigurationRuleStatement: S.optional(
+      LicenseConfigurationRuleStatement,
+    ),
+    LicenseRuleStatement: S.optional(LicenseRuleStatement),
+    InstanceRuleStatement: S.optional(InstanceRuleStatement),
+  }),
+).annotations({
+  identifier: "RuleStatement",
+}) as any as S.Schema<RuleStatement>;
+export interface LicenseAssetRule {
+  RuleStatement: RuleStatement;
+}
+export const LicenseAssetRule = S.suspend(() =>
+  S.Struct({ RuleStatement: RuleStatement }),
+).annotations({
+  identifier: "LicenseAssetRule",
+}) as any as S.Schema<LicenseAssetRule>;
+export type LicenseAssetRuleList = LicenseAssetRule[];
 export const LicenseAssetRuleList = S.Array(LicenseAssetRule);
-export class UpdateLicenseAssetRulesetRequest extends S.Class<UpdateLicenseAssetRulesetRequest>(
-  "UpdateLicenseAssetRulesetRequest",
-)(
-  {
+export interface UpdateLicenseAssetRulesetRequest {
+  Name?: string;
+  Description?: string;
+  Rules: LicenseAssetRuleList;
+  LicenseAssetRulesetArn: string;
+  ClientToken: string;
+}
+export const UpdateLicenseAssetRulesetRequest = S.suspend(() =>
+  S.Struct({
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     Rules: LicenseAssetRuleList,
     LicenseAssetRulesetArn: S.String,
     ClientToken: S.String,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ProductInformationFilter extends S.Class<ProductInformationFilter>(
-  "ProductInformationFilter",
-)({
-  ProductInformationFilterName: S.String,
-  ProductInformationFilterValue: S.optional(StringList),
-  ProductInformationFilterComparator: S.String,
-}) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateLicenseAssetRulesetRequest",
+}) as any as S.Schema<UpdateLicenseAssetRulesetRequest>;
+export interface ProductInformationFilter {
+  ProductInformationFilterName: string;
+  ProductInformationFilterValue?: StringList;
+  ProductInformationFilterComparator: string;
+}
+export const ProductInformationFilter = S.suspend(() =>
+  S.Struct({
+    ProductInformationFilterName: S.String,
+    ProductInformationFilterValue: S.optional(StringList),
+    ProductInformationFilterComparator: S.String,
+  }),
+).annotations({
+  identifier: "ProductInformationFilter",
+}) as any as S.Schema<ProductInformationFilter>;
+export type ProductInformationFilterList = ProductInformationFilter[];
 export const ProductInformationFilterList = S.Array(ProductInformationFilter);
-export class ProductInformation extends S.Class<ProductInformation>(
-  "ProductInformation",
-)({
-  ResourceType: S.String,
-  ProductInformationFilterList: ProductInformationFilterList,
-}) {}
+export interface ProductInformation {
+  ResourceType: string;
+  ProductInformationFilterList: ProductInformationFilterList;
+}
+export const ProductInformation = S.suspend(() =>
+  S.Struct({
+    ResourceType: S.String,
+    ProductInformationFilterList: ProductInformationFilterList,
+  }),
+).annotations({
+  identifier: "ProductInformation",
+}) as any as S.Schema<ProductInformation>;
+export type ProductInformationList = ProductInformation[];
 export const ProductInformationList = S.Array(ProductInformation);
-export class UpdateLicenseConfigurationRequest extends S.Class<UpdateLicenseConfigurationRequest>(
-  "UpdateLicenseConfigurationRequest",
-)(
-  {
+export interface UpdateLicenseConfigurationRequest {
+  LicenseConfigurationArn: string;
+  LicenseConfigurationStatus?: string;
+  LicenseRules?: StringList;
+  LicenseCount?: number;
+  LicenseCountHardLimit?: boolean;
+  Name?: string;
+  Description?: string;
+  ProductInformationList?: ProductInformationList;
+  DisassociateWhenNotFound?: boolean;
+  LicenseExpiry?: number;
+}
+export const UpdateLicenseConfigurationRequest = S.suspend(() =>
+  S.Struct({
     LicenseConfigurationArn: S.String,
     LicenseConfigurationStatus: S.optional(S.String),
     LicenseRules: S.optional(StringList),
@@ -825,25 +1686,64 @@ export class UpdateLicenseConfigurationRequest extends S.Class<UpdateLicenseConf
     ProductInformationList: S.optional(ProductInformationList),
     DisassociateWhenNotFound: S.optional(S.Boolean),
     LicenseExpiry: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateLicenseConfigurationResponse extends S.Class<UpdateLicenseConfigurationResponse>(
-  "UpdateLicenseConfigurationResponse",
-)({}, ns) {}
-export class ReportContext extends S.Class<ReportContext>("ReportContext")({
-  licenseConfigurationArns: S.optional(ArnList),
-  licenseAssetGroupArns: S.optional(ArnList),
-  reportStartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  reportEndDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class ReportFrequency extends S.Class<ReportFrequency>(
-  "ReportFrequency",
-)({ value: S.optional(S.Number), period: S.optional(S.String) }) {}
-export class UpdateLicenseManagerReportGeneratorRequest extends S.Class<UpdateLicenseManagerReportGeneratorRequest>(
-  "UpdateLicenseManagerReportGeneratorRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateLicenseConfigurationRequest",
+}) as any as S.Schema<UpdateLicenseConfigurationRequest>;
+export interface UpdateLicenseConfigurationResponse {}
+export const UpdateLicenseConfigurationResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "UpdateLicenseConfigurationResponse",
+}) as any as S.Schema<UpdateLicenseConfigurationResponse>;
+export interface ReportContext {
+  licenseConfigurationArns?: ArnList;
+  licenseAssetGroupArns?: ArnList;
+  reportStartDate?: Date;
+  reportEndDate?: Date;
+}
+export const ReportContext = S.suspend(() =>
+  S.Struct({
+    licenseConfigurationArns: S.optional(ArnList),
+    licenseAssetGroupArns: S.optional(ArnList),
+    reportStartDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    reportEndDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "ReportContext",
+}) as any as S.Schema<ReportContext>;
+export interface ReportFrequency {
+  value?: number;
+  period?: string;
+}
+export const ReportFrequency = S.suspend(() =>
+  S.Struct({ value: S.optional(S.Number), period: S.optional(S.String) }),
+).annotations({
+  identifier: "ReportFrequency",
+}) as any as S.Schema<ReportFrequency>;
+export interface UpdateLicenseManagerReportGeneratorRequest {
+  LicenseManagerReportGeneratorArn: string;
+  ReportGeneratorName: string;
+  Type: ReportTypeList;
+  ReportContext: ReportContext;
+  ReportFrequency: ReportFrequency;
+  ClientToken: string;
+  Description?: string;
+}
+export const UpdateLicenseManagerReportGeneratorRequest = S.suspend(() =>
+  S.Struct({
     LicenseManagerReportGeneratorArn: S.String,
     ReportGeneratorName: S.String,
     Type: ReportTypeList,
@@ -851,159 +1751,337 @@ export class UpdateLicenseManagerReportGeneratorRequest extends S.Class<UpdateLi
     ReportFrequency: ReportFrequency,
     ClientToken: S.String,
     Description: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateLicenseManagerReportGeneratorResponse extends S.Class<UpdateLicenseManagerReportGeneratorResponse>(
-  "UpdateLicenseManagerReportGeneratorResponse",
-)({}, ns) {}
-export class OrganizationConfiguration extends S.Class<OrganizationConfiguration>(
-  "OrganizationConfiguration",
-)({ EnableIntegration: S.Boolean }) {}
-export class UpdateServiceSettingsRequest extends S.Class<UpdateServiceSettingsRequest>(
-  "UpdateServiceSettingsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateLicenseManagerReportGeneratorRequest",
+}) as any as S.Schema<UpdateLicenseManagerReportGeneratorRequest>;
+export interface UpdateLicenseManagerReportGeneratorResponse {}
+export const UpdateLicenseManagerReportGeneratorResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "UpdateLicenseManagerReportGeneratorResponse",
+}) as any as S.Schema<UpdateLicenseManagerReportGeneratorResponse>;
+export interface OrganizationConfiguration {
+  EnableIntegration: boolean;
+}
+export const OrganizationConfiguration = S.suspend(() =>
+  S.Struct({ EnableIntegration: S.Boolean }),
+).annotations({
+  identifier: "OrganizationConfiguration",
+}) as any as S.Schema<OrganizationConfiguration>;
+export interface UpdateServiceSettingsRequest {
+  S3BucketArn?: string;
+  SnsTopicArn?: string;
+  OrganizationConfiguration?: OrganizationConfiguration;
+  EnableCrossAccountsDiscovery?: boolean;
+  EnabledDiscoverySourceRegions?: StringList;
+}
+export const UpdateServiceSettingsRequest = S.suspend(() =>
+  S.Struct({
     S3BucketArn: S.optional(S.String),
     SnsTopicArn: S.optional(S.String),
     OrganizationConfiguration: S.optional(OrganizationConfiguration),
     EnableCrossAccountsDiscovery: S.optional(S.Boolean),
     EnabledDiscoverySourceRegions: S.optional(StringList),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateServiceSettingsResponse extends S.Class<UpdateServiceSettingsResponse>(
-  "UpdateServiceSettingsResponse",
-)({}, ns) {}
-export class Options extends S.Class<Options>("Options")({
-  ActivationOverrideBehavior: S.optional(S.String),
-}) {}
-export class LicenseAssetGroup extends S.Class<LicenseAssetGroup>(
-  "LicenseAssetGroup",
-)({
-  Name: S.String,
-  Description: S.optional(S.String),
-  LicenseAssetGroupConfigurations: S.optional(
-    LicenseAssetGroupConfigurationList,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-  AssociatedLicenseAssetRulesetARNs: LicenseAssetRulesetArnList,
-  Properties: S.optional(LicenseAssetGroupPropertyList),
-  LicenseAssetGroupArn: S.String,
-  Status: S.String,
-  StatusMessage: S.optional(S.String),
-  LatestUsageAnalysisTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  LatestResourceDiscoveryTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
+).annotations({
+  identifier: "UpdateServiceSettingsRequest",
+}) as any as S.Schema<UpdateServiceSettingsRequest>;
+export interface UpdateServiceSettingsResponse {}
+export const UpdateServiceSettingsResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "UpdateServiceSettingsResponse",
+}) as any as S.Schema<UpdateServiceSettingsResponse>;
+export interface Options {
+  ActivationOverrideBehavior?: string;
+}
+export const Options = S.suspend(() =>
+  S.Struct({ ActivationOverrideBehavior: S.optional(S.String) }),
+).annotations({ identifier: "Options" }) as any as S.Schema<Options>;
+export interface LicenseAssetGroup {
+  Name: string;
+  Description?: string;
+  LicenseAssetGroupConfigurations?: LicenseAssetGroupConfigurationList;
+  AssociatedLicenseAssetRulesetARNs: LicenseAssetRulesetArnList;
+  Properties?: LicenseAssetGroupPropertyList;
+  LicenseAssetGroupArn: string;
+  Status: string;
+  StatusMessage?: string;
+  LatestUsageAnalysisTime?: Date;
+  LatestResourceDiscoveryTime?: Date;
+}
+export const LicenseAssetGroup = S.suspend(() =>
+  S.Struct({
+    Name: S.String,
+    Description: S.optional(S.String),
+    LicenseAssetGroupConfigurations: S.optional(
+      LicenseAssetGroupConfigurationList,
+    ),
+    AssociatedLicenseAssetRulesetARNs: LicenseAssetRulesetArnList,
+    Properties: S.optional(LicenseAssetGroupPropertyList),
+    LicenseAssetGroupArn: S.String,
+    Status: S.String,
+    StatusMessage: S.optional(S.String),
+    LatestUsageAnalysisTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LatestResourceDiscoveryTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "LicenseAssetGroup",
+}) as any as S.Schema<LicenseAssetGroup>;
+export type LicenseAssetGroupList = LicenseAssetGroup[];
 export const LicenseAssetGroupList = S.Array(LicenseAssetGroup);
-export class LicenseAssetRuleset extends S.Class<LicenseAssetRuleset>(
-  "LicenseAssetRuleset",
-)({
-  Name: S.String,
-  Description: S.optional(S.String),
-  Rules: LicenseAssetRuleList,
-  LicenseAssetRulesetArn: S.String,
-}) {}
+export interface LicenseAssetRuleset {
+  Name: string;
+  Description?: string;
+  Rules: LicenseAssetRuleList;
+  LicenseAssetRulesetArn: string;
+}
+export const LicenseAssetRuleset = S.suspend(() =>
+  S.Struct({
+    Name: S.String,
+    Description: S.optional(S.String),
+    Rules: LicenseAssetRuleList,
+    LicenseAssetRulesetArn: S.String,
+  }),
+).annotations({
+  identifier: "LicenseAssetRuleset",
+}) as any as S.Schema<LicenseAssetRuleset>;
+export type LicenseAssetRulesetList = LicenseAssetRuleset[];
 export const LicenseAssetRulesetList = S.Array(LicenseAssetRuleset);
-export class S3Location extends S.Class<S3Location>("S3Location")({
-  bucket: S.optional(S.String),
-  keyPrefix: S.optional(S.String),
-}) {}
-export class ReportGenerator extends S.Class<ReportGenerator>(
-  "ReportGenerator",
-)({
-  ReportGeneratorName: S.optional(S.String),
-  ReportType: S.optional(ReportTypeList),
-  ReportContext: S.optional(ReportContext),
-  ReportFrequency: S.optional(ReportFrequency),
-  LicenseManagerReportGeneratorArn: S.optional(S.String),
-  LastRunStatus: S.optional(S.String),
-  LastRunFailureReason: S.optional(S.String),
-  LastReportGenerationTime: S.optional(S.String),
-  ReportCreatorAccount: S.optional(S.String),
-  Description: S.optional(S.String),
-  S3Location: S.optional(S3Location),
-  CreateTime: S.optional(S.String),
-  Tags: S.optional(TagList),
-}) {}
+export interface S3Location {
+  bucket?: string;
+  keyPrefix?: string;
+}
+export const S3Location = S.suspend(() =>
+  S.Struct({ bucket: S.optional(S.String), keyPrefix: S.optional(S.String) }),
+).annotations({ identifier: "S3Location" }) as any as S.Schema<S3Location>;
+export interface ReportGenerator {
+  ReportGeneratorName?: string;
+  ReportType?: ReportTypeList;
+  ReportContext?: ReportContext;
+  ReportFrequency?: ReportFrequency;
+  LicenseManagerReportGeneratorArn?: string;
+  LastRunStatus?: string;
+  LastRunFailureReason?: string;
+  LastReportGenerationTime?: string;
+  ReportCreatorAccount?: string;
+  Description?: string;
+  S3Location?: S3Location;
+  CreateTime?: string;
+  Tags?: TagList;
+}
+export const ReportGenerator = S.suspend(() =>
+  S.Struct({
+    ReportGeneratorName: S.optional(S.String),
+    ReportType: S.optional(ReportTypeList),
+    ReportContext: S.optional(ReportContext),
+    ReportFrequency: S.optional(ReportFrequency),
+    LicenseManagerReportGeneratorArn: S.optional(S.String),
+    LastRunStatus: S.optional(S.String),
+    LastRunFailureReason: S.optional(S.String),
+    LastReportGenerationTime: S.optional(S.String),
+    ReportCreatorAccount: S.optional(S.String),
+    Description: S.optional(S.String),
+    S3Location: S.optional(S3Location),
+    CreateTime: S.optional(S.String),
+    Tags: S.optional(TagList),
+  }),
+).annotations({
+  identifier: "ReportGenerator",
+}) as any as S.Schema<ReportGenerator>;
+export type ReportGeneratorList = ReportGenerator[];
 export const ReportGeneratorList = S.Array(ReportGenerator);
-export class IssuerDetails extends S.Class<IssuerDetails>("IssuerDetails")({
-  Name: S.optional(S.String),
-  SignKey: S.optional(S.String),
-  KeyFingerprint: S.optional(S.String),
-}) {}
-export class License extends S.Class<License>("License")({
-  LicenseArn: S.optional(S.String),
-  LicenseName: S.optional(S.String),
-  ProductName: S.optional(S.String),
-  ProductSKU: S.optional(S.String),
-  Issuer: S.optional(IssuerDetails),
-  HomeRegion: S.optional(S.String),
-  Status: S.optional(S.String),
-  Validity: S.optional(DatetimeRange),
-  Beneficiary: S.optional(S.String),
-  Entitlements: S.optional(EntitlementList),
-  ConsumptionConfiguration: S.optional(ConsumptionConfiguration),
-  LicenseMetadata: S.optional(MetadataList),
-  CreateTime: S.optional(S.String),
-  Version: S.optional(S.String),
-}) {}
+export interface IssuerDetails {
+  Name?: string;
+  SignKey?: string;
+  KeyFingerprint?: string;
+}
+export const IssuerDetails = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    SignKey: S.optional(S.String),
+    KeyFingerprint: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "IssuerDetails",
+}) as any as S.Schema<IssuerDetails>;
+export interface License {
+  LicenseArn?: string;
+  LicenseName?: string;
+  ProductName?: string;
+  ProductSKU?: string;
+  Issuer?: IssuerDetails;
+  HomeRegion?: string;
+  Status?: string;
+  Validity?: DatetimeRange;
+  Beneficiary?: string;
+  Entitlements?: EntitlementList;
+  ConsumptionConfiguration?: ConsumptionConfiguration;
+  LicenseMetadata?: MetadataList;
+  CreateTime?: string;
+  Version?: string;
+}
+export const License = S.suspend(() =>
+  S.Struct({
+    LicenseArn: S.optional(S.String),
+    LicenseName: S.optional(S.String),
+    ProductName: S.optional(S.String),
+    ProductSKU: S.optional(S.String),
+    Issuer: S.optional(IssuerDetails),
+    HomeRegion: S.optional(S.String),
+    Status: S.optional(S.String),
+    Validity: S.optional(DatetimeRange),
+    Beneficiary: S.optional(S.String),
+    Entitlements: S.optional(EntitlementList),
+    ConsumptionConfiguration: S.optional(ConsumptionConfiguration),
+    LicenseMetadata: S.optional(MetadataList),
+    CreateTime: S.optional(S.String),
+    Version: S.optional(S.String),
+  }),
+).annotations({ identifier: "License" }) as any as S.Schema<License>;
+export type LicenseList = License[];
 export const LicenseList = S.Array(License);
-export class Grant extends S.Class<Grant>("Grant")({
-  GrantArn: S.String,
-  GrantName: S.String,
-  ParentArn: S.String,
-  LicenseArn: S.String,
-  GranteePrincipalArn: S.String,
-  HomeRegion: S.String,
-  GrantStatus: S.String,
-  StatusReason: S.optional(S.String),
-  Version: S.String,
-  GrantedOperations: AllowedOperationList,
-  Options: S.optional(Options),
-}) {}
+export interface Grant {
+  GrantArn: string;
+  GrantName: string;
+  ParentArn: string;
+  LicenseArn: string;
+  GranteePrincipalArn: string;
+  HomeRegion: string;
+  GrantStatus: string;
+  StatusReason?: string;
+  Version: string;
+  GrantedOperations: AllowedOperationList;
+  Options?: Options;
+}
+export const Grant = S.suspend(() =>
+  S.Struct({
+    GrantArn: S.String,
+    GrantName: S.String,
+    ParentArn: S.String,
+    LicenseArn: S.String,
+    GranteePrincipalArn: S.String,
+    HomeRegion: S.String,
+    GrantStatus: S.String,
+    StatusReason: S.optional(S.String),
+    Version: S.String,
+    GrantedOperations: AllowedOperationList,
+    Options: S.optional(Options),
+  }),
+).annotations({ identifier: "Grant" }) as any as S.Schema<Grant>;
+export type GrantList = Grant[];
 export const GrantList = S.Array(Grant);
-export class InventoryFilter extends S.Class<InventoryFilter>(
-  "InventoryFilter",
-)({ Name: S.String, Condition: S.String, Value: S.optional(S.String) }) {}
+export interface InventoryFilter {
+  Name: string;
+  Condition: string;
+  Value?: string;
+}
+export const InventoryFilter = S.suspend(() =>
+  S.Struct({
+    Name: S.String,
+    Condition: S.String,
+    Value: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "InventoryFilter",
+}) as any as S.Schema<InventoryFilter>;
+export type InventoryFilterList = InventoryFilter[];
 export const InventoryFilterList = S.Array(InventoryFilter);
-export class LicenseSpecification extends S.Class<LicenseSpecification>(
-  "LicenseSpecification",
-)({
-  LicenseConfigurationArn: S.String,
-  AmiAssociationScope: S.optional(S.String),
-}) {}
+export interface LicenseSpecification {
+  LicenseConfigurationArn: string;
+  AmiAssociationScope?: string;
+}
+export const LicenseSpecification = S.suspend(() =>
+  S.Struct({
+    LicenseConfigurationArn: S.String,
+    AmiAssociationScope: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "LicenseSpecification",
+}) as any as S.Schema<LicenseSpecification>;
+export type LicenseSpecifications = LicenseSpecification[];
 export const LicenseSpecifications = S.Array(LicenseSpecification);
-export class AcceptGrantResponse extends S.Class<AcceptGrantResponse>(
-  "AcceptGrantResponse",
-)(
-  {
+export interface AcceptGrantResponse {
+  GrantArn?: string;
+  Status?: string;
+  Version?: string;
+}
+export const AcceptGrantResponse = S.suspend(() =>
+  S.Struct({
     GrantArn: S.optional(S.String),
     Status: S.optional(S.String),
     Version: S.optional(S.String),
-  },
-  ns,
-) {}
-export class CheckoutBorrowLicenseRequest extends S.Class<CheckoutBorrowLicenseRequest>(
-  "CheckoutBorrowLicenseRequest",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "AcceptGrantResponse",
+}) as any as S.Schema<AcceptGrantResponse>;
+export interface CheckoutBorrowLicenseRequest {
+  LicenseArn: string;
+  Entitlements: EntitlementDataList;
+  DigitalSignatureMethod: string;
+  NodeId?: string;
+  CheckoutMetadata?: MetadataList;
+  ClientToken: string;
+}
+export const CheckoutBorrowLicenseRequest = S.suspend(() =>
+  S.Struct({
     LicenseArn: S.String,
     Entitlements: EntitlementDataList,
     DigitalSignatureMethod: S.String,
     NodeId: S.optional(S.String),
     CheckoutMetadata: S.optional(MetadataList),
     ClientToken: S.String,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CheckoutLicenseResponse extends S.Class<CheckoutLicenseResponse>(
-  "CheckoutLicenseResponse",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CheckoutBorrowLicenseRequest",
+}) as any as S.Schema<CheckoutBorrowLicenseRequest>;
+export interface CheckoutLicenseResponse {
+  CheckoutType?: string;
+  LicenseConsumptionToken?: string;
+  EntitlementsAllowed?: EntitlementDataList;
+  SignedToken?: string;
+  NodeId?: string;
+  IssuedAt?: string;
+  Expiration?: string;
+  LicenseArn?: string;
+}
+export const CheckoutLicenseResponse = S.suspend(() =>
+  S.Struct({
     CheckoutType: S.optional(S.String),
     LicenseConsumptionToken: S.optional(S.String),
     EntitlementsAllowed: S.optional(EntitlementDataList),
@@ -1012,13 +2090,21 @@ export class CheckoutLicenseResponse extends S.Class<CheckoutLicenseResponse>(
     IssuedAt: S.optional(S.String),
     Expiration: S.optional(S.String),
     LicenseArn: S.optional(S.String),
-  },
-  ns,
-) {}
-export class CreateGrantRequest extends S.Class<CreateGrantRequest>(
-  "CreateGrantRequest",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "CheckoutLicenseResponse",
+}) as any as S.Schema<CheckoutLicenseResponse>;
+export interface CreateGrantRequest {
+  ClientToken: string;
+  GrantName: string;
+  LicenseArn: string;
+  Principals: PrincipalArnList;
+  HomeRegion: string;
+  AllowedOperations: AllowedOperationList;
+  Tags?: TagList;
+}
+export const CreateGrantRequest = S.suspend(() =>
+  S.Struct({
     ClientToken: S.String,
     GrantName: S.String,
     LicenseArn: S.String,
@@ -1026,13 +2112,32 @@ export class CreateGrantRequest extends S.Class<CreateGrantRequest>(
     HomeRegion: S.String,
     AllowedOperations: AllowedOperationList,
     Tags: S.optional(TagList),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateGrantVersionRequest extends S.Class<CreateGrantVersionRequest>(
-  "CreateGrantVersionRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateGrantRequest",
+}) as any as S.Schema<CreateGrantRequest>;
+export interface CreateGrantVersionRequest {
+  ClientToken: string;
+  GrantArn: string;
+  GrantName?: string;
+  AllowedOperations?: AllowedOperationList;
+  Status?: string;
+  StatusReason?: string;
+  SourceVersion?: string;
+  Options?: Options;
+}
+export const CreateGrantVersionRequest = S.suspend(() =>
+  S.Struct({
     ClientToken: S.String,
     GrantArn: S.String,
     GrantName: S.optional(S.String),
@@ -1041,13 +2146,31 @@ export class CreateGrantVersionRequest extends S.Class<CreateGrantVersionRequest
     StatusReason: S.optional(S.String),
     SourceVersion: S.optional(S.String),
     Options: S.optional(Options),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateLicenseAssetGroupRequest extends S.Class<CreateLicenseAssetGroupRequest>(
-  "CreateLicenseAssetGroupRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateGrantVersionRequest",
+}) as any as S.Schema<CreateGrantVersionRequest>;
+export interface CreateLicenseAssetGroupRequest {
+  Name: string;
+  Description?: string;
+  LicenseAssetGroupConfigurations: LicenseAssetGroupConfigurationList;
+  AssociatedLicenseAssetRulesetARNs: LicenseAssetRulesetArnList;
+  Properties?: LicenseAssetGroupPropertyList;
+  Tags?: TagList;
+  ClientToken: string;
+}
+export const CreateLicenseAssetGroupRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     Description: S.optional(S.String),
     LicenseAssetGroupConfigurations: LicenseAssetGroupConfigurationList,
@@ -1055,13 +2178,31 @@ export class CreateLicenseAssetGroupRequest extends S.Class<CreateLicenseAssetGr
     Properties: S.optional(LicenseAssetGroupPropertyList),
     Tags: S.optional(TagList),
     ClientToken: S.String,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateLicenseManagerReportGeneratorRequest extends S.Class<CreateLicenseManagerReportGeneratorRequest>(
-  "CreateLicenseManagerReportGeneratorRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateLicenseAssetGroupRequest",
+}) as any as S.Schema<CreateLicenseAssetGroupRequest>;
+export interface CreateLicenseManagerReportGeneratorRequest {
+  ReportGeneratorName: string;
+  Type: ReportTypeList;
+  ReportContext: ReportContext;
+  ReportFrequency: ReportFrequency;
+  ClientToken: string;
+  Description?: string;
+  Tags?: TagList;
+}
+export const CreateLicenseManagerReportGeneratorRequest = S.suspend(() =>
+  S.Struct({
     ReportGeneratorName: S.String,
     Type: ReportTypeList,
     ReportContext: ReportContext,
@@ -1069,71 +2210,138 @@ export class CreateLicenseManagerReportGeneratorRequest extends S.Class<CreateLi
     ClientToken: S.String,
     Description: S.optional(S.String),
     Tags: S.optional(TagList),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateLicenseVersionResponse extends S.Class<CreateLicenseVersionResponse>(
-  "CreateLicenseVersionResponse",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateLicenseManagerReportGeneratorRequest",
+}) as any as S.Schema<CreateLicenseManagerReportGeneratorRequest>;
+export interface CreateLicenseVersionResponse {
+  LicenseArn?: string;
+  Version?: string;
+  Status?: string;
+}
+export const CreateLicenseVersionResponse = S.suspend(() =>
+  S.Struct({
     LicenseArn: S.optional(S.String),
     Version: S.optional(S.String),
     Status: S.optional(S.String),
-  },
-  ns,
-) {}
-export class CreateTokenResponse extends S.Class<CreateTokenResponse>(
-  "CreateTokenResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "CreateLicenseVersionResponse",
+}) as any as S.Schema<CreateLicenseVersionResponse>;
+export interface CreateTokenResponse {
+  TokenId?: string;
+  TokenType?: string;
+  Token?: string;
+}
+export const CreateTokenResponse = S.suspend(() =>
+  S.Struct({
     TokenId: S.optional(S.String),
     TokenType: S.optional(S.String),
     Token: S.optional(S.String),
-  },
-  ns,
-) {}
-export class DeleteGrantResponse extends S.Class<DeleteGrantResponse>(
-  "DeleteGrantResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "CreateTokenResponse",
+}) as any as S.Schema<CreateTokenResponse>;
+export interface DeleteGrantResponse {
+  GrantArn?: string;
+  Status?: string;
+  Version?: string;
+}
+export const DeleteGrantResponse = S.suspend(() =>
+  S.Struct({
     GrantArn: S.optional(S.String),
     Status: S.optional(S.String),
     Version: S.optional(S.String),
-  },
-  ns,
-) {}
-export class DeleteLicenseResponse extends S.Class<DeleteLicenseResponse>(
-  "DeleteLicenseResponse",
-)({ Status: S.optional(S.String), DeletionDate: S.optional(S.String) }, ns) {}
-export class DeleteLicenseAssetGroupResponse extends S.Class<DeleteLicenseAssetGroupResponse>(
-  "DeleteLicenseAssetGroupResponse",
-)({ Status: S.String }, ns) {}
-export class ExtendLicenseConsumptionResponse extends S.Class<ExtendLicenseConsumptionResponse>(
-  "ExtendLicenseConsumptionResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DeleteGrantResponse",
+}) as any as S.Schema<DeleteGrantResponse>;
+export interface DeleteLicenseResponse {
+  Status?: string;
+  DeletionDate?: string;
+}
+export const DeleteLicenseResponse = S.suspend(() =>
+  S.Struct({
+    Status: S.optional(S.String),
+    DeletionDate: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "DeleteLicenseResponse",
+}) as any as S.Schema<DeleteLicenseResponse>;
+export interface DeleteLicenseAssetGroupResponse {
+  Status: string;
+}
+export const DeleteLicenseAssetGroupResponse = S.suspend(() =>
+  S.Struct({ Status: S.String }).pipe(ns),
+).annotations({
+  identifier: "DeleteLicenseAssetGroupResponse",
+}) as any as S.Schema<DeleteLicenseAssetGroupResponse>;
+export interface ExtendLicenseConsumptionResponse {
+  LicenseConsumptionToken?: string;
+  Expiration?: string;
+}
+export const ExtendLicenseConsumptionResponse = S.suspend(() =>
+  S.Struct({
     LicenseConsumptionToken: S.optional(S.String),
     Expiration: S.optional(S.String),
-  },
-  ns,
-) {}
-export class GetAccessTokenResponse extends S.Class<GetAccessTokenResponse>(
-  "GetAccessTokenResponse",
-)({ AccessToken: S.optional(S.String) }, ns) {}
-export class ProductCodeListItem extends S.Class<ProductCodeListItem>(
-  "ProductCodeListItem",
-)({ ProductCodeId: S.String, ProductCodeType: S.String }) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "ExtendLicenseConsumptionResponse",
+}) as any as S.Schema<ExtendLicenseConsumptionResponse>;
+export interface GetAccessTokenResponse {
+  AccessToken?: string;
+}
+export const GetAccessTokenResponse = S.suspend(() =>
+  S.Struct({ AccessToken: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "GetAccessTokenResponse",
+}) as any as S.Schema<GetAccessTokenResponse>;
+export interface ProductCodeListItem {
+  ProductCodeId: string;
+  ProductCodeType: string;
+}
+export const ProductCodeListItem = S.suspend(() =>
+  S.Struct({ ProductCodeId: S.String, ProductCodeType: S.String }),
+).annotations({
+  identifier: "ProductCodeListItem",
+}) as any as S.Schema<ProductCodeListItem>;
+export type ProductCodeList = ProductCodeListItem[];
 export const ProductCodeList = S.Array(ProductCodeListItem);
-export class LicenseConversionContext extends S.Class<LicenseConversionContext>(
-  "LicenseConversionContext",
-)({
-  UsageOperation: S.optional(S.String),
-  ProductCodes: S.optional(ProductCodeList),
-}) {}
-export class GetLicenseConversionTaskResponse extends S.Class<GetLicenseConversionTaskResponse>(
-  "GetLicenseConversionTaskResponse",
-)(
-  {
+export interface LicenseConversionContext {
+  UsageOperation?: string;
+  ProductCodes?: ProductCodeList;
+}
+export const LicenseConversionContext = S.suspend(() =>
+  S.Struct({
+    UsageOperation: S.optional(S.String),
+    ProductCodes: S.optional(ProductCodeList),
+  }),
+).annotations({
+  identifier: "LicenseConversionContext",
+}) as any as S.Schema<LicenseConversionContext>;
+export interface GetLicenseConversionTaskResponse {
+  LicenseConversionTaskId?: string;
+  ResourceArn?: string;
+  SourceLicenseContext?: LicenseConversionContext;
+  DestinationLicenseContext?: LicenseConversionContext;
+  StatusMessage?: string;
+  Status?: string;
+  StartTime?: Date;
+  LicenseConversionTime?: Date;
+  EndTime?: Date;
+}
+export const GetLicenseConversionTaskResponse = S.suspend(() =>
+  S.Struct({
     LicenseConversionTaskId: S.optional(S.String),
     ResourceArn: S.optional(S.String),
     SourceLicenseContext: S.optional(LicenseConversionContext),
@@ -1145,267 +2353,546 @@ export class GetLicenseConversionTaskResponse extends S.Class<GetLicenseConversi
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  },
-  ns,
-) {}
-export class ListDistributedGrantsRequest extends S.Class<ListDistributedGrantsRequest>(
-  "ListDistributedGrantsRequest",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetLicenseConversionTaskResponse",
+}) as any as S.Schema<GetLicenseConversionTaskResponse>;
+export interface ListDistributedGrantsRequest {
+  GrantArns?: ArnList;
+  Filters?: FilterList;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListDistributedGrantsRequest = S.suspend(() =>
+  S.Struct({
     GrantArns: S.optional(ArnList),
     Filters: S.optional(FilterList),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListLicenseAssetGroupsResponse extends S.Class<ListLicenseAssetGroupsResponse>(
-  "ListLicenseAssetGroupsResponse",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListDistributedGrantsRequest",
+}) as any as S.Schema<ListDistributedGrantsRequest>;
+export interface ListLicenseAssetGroupsResponse {
+  LicenseAssetGroups?: LicenseAssetGroupList;
+  NextToken?: string;
+}
+export const ListLicenseAssetGroupsResponse = S.suspend(() =>
+  S.Struct({
     LicenseAssetGroups: S.optional(LicenseAssetGroupList),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListLicenseAssetRulesetsResponse extends S.Class<ListLicenseAssetRulesetsResponse>(
-  "ListLicenseAssetRulesetsResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListLicenseAssetGroupsResponse",
+}) as any as S.Schema<ListLicenseAssetGroupsResponse>;
+export interface ListLicenseAssetRulesetsResponse {
+  LicenseAssetRulesets?: LicenseAssetRulesetList;
+  NextToken?: string;
+}
+export const ListLicenseAssetRulesetsResponse = S.suspend(() =>
+  S.Struct({
     LicenseAssetRulesets: S.optional(LicenseAssetRulesetList),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ConsumedLicenseSummary extends S.Class<ConsumedLicenseSummary>(
-  "ConsumedLicenseSummary",
-)({
-  ResourceType: S.optional(S.String),
-  ConsumedLicenses: S.optional(S.Number),
-}) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "ListLicenseAssetRulesetsResponse",
+}) as any as S.Schema<ListLicenseAssetRulesetsResponse>;
+export interface ConsumedLicenseSummary {
+  ResourceType?: string;
+  ConsumedLicenses?: number;
+}
+export const ConsumedLicenseSummary = S.suspend(() =>
+  S.Struct({
+    ResourceType: S.optional(S.String),
+    ConsumedLicenses: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "ConsumedLicenseSummary",
+}) as any as S.Schema<ConsumedLicenseSummary>;
+export type ConsumedLicenseSummaryList = ConsumedLicenseSummary[];
 export const ConsumedLicenseSummaryList = S.Array(ConsumedLicenseSummary);
-export class ManagedResourceSummary extends S.Class<ManagedResourceSummary>(
-  "ManagedResourceSummary",
-)({
-  ResourceType: S.optional(S.String),
-  AssociationCount: S.optional(S.Number),
-}) {}
+export interface ManagedResourceSummary {
+  ResourceType?: string;
+  AssociationCount?: number;
+}
+export const ManagedResourceSummary = S.suspend(() =>
+  S.Struct({
+    ResourceType: S.optional(S.String),
+    AssociationCount: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "ManagedResourceSummary",
+}) as any as S.Schema<ManagedResourceSummary>;
+export type ManagedResourceSummaryList = ManagedResourceSummary[];
 export const ManagedResourceSummaryList = S.Array(ManagedResourceSummary);
-export class AutomatedDiscoveryInformation extends S.Class<AutomatedDiscoveryInformation>(
-  "AutomatedDiscoveryInformation",
-)({
-  LastRunTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class LicenseConfiguration extends S.Class<LicenseConfiguration>(
-  "LicenseConfiguration",
-)({
-  LicenseConfigurationId: S.optional(S.String),
-  LicenseConfigurationArn: S.optional(S.String),
-  Name: S.optional(S.String),
-  Description: S.optional(S.String),
-  LicenseCountingType: S.optional(S.String),
-  LicenseRules: S.optional(StringList),
-  LicenseCount: S.optional(S.Number),
-  LicenseCountHardLimit: S.optional(S.Boolean),
-  DisassociateWhenNotFound: S.optional(S.Boolean),
-  ConsumedLicenses: S.optional(S.Number),
-  Status: S.optional(S.String),
-  OwnerAccountId: S.optional(S.String),
-  ConsumedLicenseSummaryList: S.optional(ConsumedLicenseSummaryList),
-  ManagedResourceSummaryList: S.optional(ManagedResourceSummaryList),
-  ProductInformationList: S.optional(ProductInformationList),
-  AutomatedDiscoveryInformation: S.optional(AutomatedDiscoveryInformation),
-  LicenseExpiry: S.optional(S.Number),
-}) {}
+export interface AutomatedDiscoveryInformation {
+  LastRunTime?: Date;
+}
+export const AutomatedDiscoveryInformation = S.suspend(() =>
+  S.Struct({
+    LastRunTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "AutomatedDiscoveryInformation",
+}) as any as S.Schema<AutomatedDiscoveryInformation>;
+export interface LicenseConfiguration {
+  LicenseConfigurationId?: string;
+  LicenseConfigurationArn?: string;
+  Name?: string;
+  Description?: string;
+  LicenseCountingType?: string;
+  LicenseRules?: StringList;
+  LicenseCount?: number;
+  LicenseCountHardLimit?: boolean;
+  DisassociateWhenNotFound?: boolean;
+  ConsumedLicenses?: number;
+  Status?: string;
+  OwnerAccountId?: string;
+  ConsumedLicenseSummaryList?: ConsumedLicenseSummaryList;
+  ManagedResourceSummaryList?: ManagedResourceSummaryList;
+  ProductInformationList?: ProductInformationList;
+  AutomatedDiscoveryInformation?: AutomatedDiscoveryInformation;
+  LicenseExpiry?: number;
+}
+export const LicenseConfiguration = S.suspend(() =>
+  S.Struct({
+    LicenseConfigurationId: S.optional(S.String),
+    LicenseConfigurationArn: S.optional(S.String),
+    Name: S.optional(S.String),
+    Description: S.optional(S.String),
+    LicenseCountingType: S.optional(S.String),
+    LicenseRules: S.optional(StringList),
+    LicenseCount: S.optional(S.Number),
+    LicenseCountHardLimit: S.optional(S.Boolean),
+    DisassociateWhenNotFound: S.optional(S.Boolean),
+    ConsumedLicenses: S.optional(S.Number),
+    Status: S.optional(S.String),
+    OwnerAccountId: S.optional(S.String),
+    ConsumedLicenseSummaryList: S.optional(ConsumedLicenseSummaryList),
+    ManagedResourceSummaryList: S.optional(ManagedResourceSummaryList),
+    ProductInformationList: S.optional(ProductInformationList),
+    AutomatedDiscoveryInformation: S.optional(AutomatedDiscoveryInformation),
+    LicenseExpiry: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "LicenseConfiguration",
+}) as any as S.Schema<LicenseConfiguration>;
+export type LicenseConfigurations = LicenseConfiguration[];
 export const LicenseConfigurations = S.Array(LicenseConfiguration);
-export class ListLicenseConfigurationsForOrganizationResponse extends S.Class<ListLicenseConfigurationsForOrganizationResponse>(
-  "ListLicenseConfigurationsForOrganizationResponse",
-)(
-  {
+export interface ListLicenseConfigurationsForOrganizationResponse {
+  LicenseConfigurations?: LicenseConfigurations;
+  NextToken?: string;
+}
+export const ListLicenseConfigurationsForOrganizationResponse = S.suspend(() =>
+  S.Struct({
     LicenseConfigurations: S.optional(LicenseConfigurations),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListLicenseManagerReportGeneratorsResponse extends S.Class<ListLicenseManagerReportGeneratorsResponse>(
-  "ListLicenseManagerReportGeneratorsResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListLicenseConfigurationsForOrganizationResponse",
+}) as any as S.Schema<ListLicenseConfigurationsForOrganizationResponse>;
+export interface ListLicenseManagerReportGeneratorsResponse {
+  ReportGenerators?: ReportGeneratorList;
+  NextToken?: string;
+}
+export const ListLicenseManagerReportGeneratorsResponse = S.suspend(() =>
+  S.Struct({
     ReportGenerators: S.optional(ReportGeneratorList),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListLicensesResponse extends S.Class<ListLicensesResponse>(
-  "ListLicensesResponse",
-)({ Licenses: S.optional(LicenseList), NextToken: S.optional(S.String) }, ns) {}
-export class ListLicenseSpecificationsForResourceResponse extends S.Class<ListLicenseSpecificationsForResourceResponse>(
-  "ListLicenseSpecificationsForResourceResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListLicenseManagerReportGeneratorsResponse",
+}) as any as S.Schema<ListLicenseManagerReportGeneratorsResponse>;
+export interface ListLicensesResponse {
+  Licenses?: LicenseList;
+  NextToken?: string;
+}
+export const ListLicensesResponse = S.suspend(() =>
+  S.Struct({
+    Licenses: S.optional(LicenseList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListLicensesResponse",
+}) as any as S.Schema<ListLicensesResponse>;
+export interface ListLicenseSpecificationsForResourceResponse {
+  LicenseSpecifications?: LicenseSpecifications;
+  NextToken?: string;
+}
+export const ListLicenseSpecificationsForResourceResponse = S.suspend(() =>
+  S.Struct({
     LicenseSpecifications: S.optional(LicenseSpecifications),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListLicenseVersionsResponse extends S.Class<ListLicenseVersionsResponse>(
-  "ListLicenseVersionsResponse",
-)({ Licenses: S.optional(LicenseList), NextToken: S.optional(S.String) }, ns) {}
-export class ListReceivedGrantsResponse extends S.Class<ListReceivedGrantsResponse>(
-  "ListReceivedGrantsResponse",
-)({ Grants: S.optional(GrantList), NextToken: S.optional(S.String) }, ns) {}
-export class ListReceivedGrantsForOrganizationResponse extends S.Class<ListReceivedGrantsForOrganizationResponse>(
-  "ListReceivedGrantsForOrganizationResponse",
-)({ Grants: S.optional(GrantList), NextToken: S.optional(S.String) }, ns) {}
-export class ReceivedMetadata extends S.Class<ReceivedMetadata>(
-  "ReceivedMetadata",
-)({
-  ReceivedStatus: S.optional(S.String),
-  ReceivedStatusReason: S.optional(S.String),
-  AllowedOperations: S.optional(AllowedOperationList),
-}) {}
-export class GrantedLicense extends S.Class<GrantedLicense>("GrantedLicense")({
-  LicenseArn: S.optional(S.String),
-  LicenseName: S.optional(S.String),
-  ProductName: S.optional(S.String),
-  ProductSKU: S.optional(S.String),
-  Issuer: S.optional(IssuerDetails),
-  HomeRegion: S.optional(S.String),
-  Status: S.optional(S.String),
-  Validity: S.optional(DatetimeRange),
-  Beneficiary: S.optional(S.String),
-  Entitlements: S.optional(EntitlementList),
-  ConsumptionConfiguration: S.optional(ConsumptionConfiguration),
-  LicenseMetadata: S.optional(MetadataList),
-  CreateTime: S.optional(S.String),
-  Version: S.optional(S.String),
-  ReceivedMetadata: S.optional(ReceivedMetadata),
-}) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "ListLicenseSpecificationsForResourceResponse",
+}) as any as S.Schema<ListLicenseSpecificationsForResourceResponse>;
+export interface ListLicenseVersionsResponse {
+  Licenses?: LicenseList;
+  NextToken?: string;
+}
+export const ListLicenseVersionsResponse = S.suspend(() =>
+  S.Struct({
+    Licenses: S.optional(LicenseList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListLicenseVersionsResponse",
+}) as any as S.Schema<ListLicenseVersionsResponse>;
+export interface ListReceivedGrantsResponse {
+  Grants?: GrantList;
+  NextToken?: string;
+}
+export const ListReceivedGrantsResponse = S.suspend(() =>
+  S.Struct({
+    Grants: S.optional(GrantList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListReceivedGrantsResponse",
+}) as any as S.Schema<ListReceivedGrantsResponse>;
+export interface ListReceivedGrantsForOrganizationResponse {
+  Grants?: GrantList;
+  NextToken?: string;
+}
+export const ListReceivedGrantsForOrganizationResponse = S.suspend(() =>
+  S.Struct({
+    Grants: S.optional(GrantList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListReceivedGrantsForOrganizationResponse",
+}) as any as S.Schema<ListReceivedGrantsForOrganizationResponse>;
+export interface ReceivedMetadata {
+  ReceivedStatus?: string;
+  ReceivedStatusReason?: string;
+  AllowedOperations?: AllowedOperationList;
+}
+export const ReceivedMetadata = S.suspend(() =>
+  S.Struct({
+    ReceivedStatus: S.optional(S.String),
+    ReceivedStatusReason: S.optional(S.String),
+    AllowedOperations: S.optional(AllowedOperationList),
+  }),
+).annotations({
+  identifier: "ReceivedMetadata",
+}) as any as S.Schema<ReceivedMetadata>;
+export interface GrantedLicense {
+  LicenseArn?: string;
+  LicenseName?: string;
+  ProductName?: string;
+  ProductSKU?: string;
+  Issuer?: IssuerDetails;
+  HomeRegion?: string;
+  Status?: string;
+  Validity?: DatetimeRange;
+  Beneficiary?: string;
+  Entitlements?: EntitlementList;
+  ConsumptionConfiguration?: ConsumptionConfiguration;
+  LicenseMetadata?: MetadataList;
+  CreateTime?: string;
+  Version?: string;
+  ReceivedMetadata?: ReceivedMetadata;
+}
+export const GrantedLicense = S.suspend(() =>
+  S.Struct({
+    LicenseArn: S.optional(S.String),
+    LicenseName: S.optional(S.String),
+    ProductName: S.optional(S.String),
+    ProductSKU: S.optional(S.String),
+    Issuer: S.optional(IssuerDetails),
+    HomeRegion: S.optional(S.String),
+    Status: S.optional(S.String),
+    Validity: S.optional(DatetimeRange),
+    Beneficiary: S.optional(S.String),
+    Entitlements: S.optional(EntitlementList),
+    ConsumptionConfiguration: S.optional(ConsumptionConfiguration),
+    LicenseMetadata: S.optional(MetadataList),
+    CreateTime: S.optional(S.String),
+    Version: S.optional(S.String),
+    ReceivedMetadata: S.optional(ReceivedMetadata),
+  }),
+).annotations({
+  identifier: "GrantedLicense",
+}) as any as S.Schema<GrantedLicense>;
+export type GrantedLicenseList = GrantedLicense[];
 export const GrantedLicenseList = S.Array(GrantedLicense);
-export class ListReceivedLicensesForOrganizationResponse extends S.Class<ListReceivedLicensesForOrganizationResponse>(
-  "ListReceivedLicensesForOrganizationResponse",
-)(
-  { Licenses: S.optional(GrantedLicenseList), NextToken: S.optional(S.String) },
-  ns,
-) {}
-export class ListResourceInventoryRequest extends S.Class<ListResourceInventoryRequest>(
-  "ListResourceInventoryRequest",
-)(
-  {
+export interface ListReceivedLicensesForOrganizationResponse {
+  Licenses?: GrantedLicenseList;
+  NextToken?: string;
+}
+export const ListReceivedLicensesForOrganizationResponse = S.suspend(() =>
+  S.Struct({
+    Licenses: S.optional(GrantedLicenseList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListReceivedLicensesForOrganizationResponse",
+}) as any as S.Schema<ListReceivedLicensesForOrganizationResponse>;
+export interface ListResourceInventoryRequest {
+  MaxResults?: number;
+  NextToken?: string;
+  Filters?: InventoryFilterList;
+}
+export const ListResourceInventoryRequest = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     Filters: S.optional(InventoryFilterList),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ Tags: S.optional(TagList) }, ns) {}
-export class RejectGrantResponse extends S.Class<RejectGrantResponse>(
-  "RejectGrantResponse",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListResourceInventoryRequest",
+}) as any as S.Schema<ListResourceInventoryRequest>;
+export interface ListTagsForResourceResponse {
+  Tags?: TagList;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ Tags: S.optional(TagList) }).pipe(ns),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface RejectGrantResponse {
+  GrantArn?: string;
+  Status?: string;
+  Version?: string;
+}
+export const RejectGrantResponse = S.suspend(() =>
+  S.Struct({
     GrantArn: S.optional(S.String),
     Status: S.optional(S.String),
     Version: S.optional(S.String),
-  },
-  ns,
-) {}
-export class UpdateLicenseAssetGroupResponse extends S.Class<UpdateLicenseAssetGroupResponse>(
-  "UpdateLicenseAssetGroupResponse",
-)({ LicenseAssetGroupArn: S.String, Status: S.String }, ns) {}
-export class UpdateLicenseAssetRulesetResponse extends S.Class<UpdateLicenseAssetRulesetResponse>(
-  "UpdateLicenseAssetRulesetResponse",
-)({ LicenseAssetRulesetArn: S.String }, ns) {}
-export class UpdateLicenseSpecificationsForResourceRequest extends S.Class<UpdateLicenseSpecificationsForResourceRequest>(
-  "UpdateLicenseSpecificationsForResourceRequest",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "RejectGrantResponse",
+}) as any as S.Schema<RejectGrantResponse>;
+export interface UpdateLicenseAssetGroupResponse {
+  LicenseAssetGroupArn: string;
+  Status: string;
+}
+export const UpdateLicenseAssetGroupResponse = S.suspend(() =>
+  S.Struct({ LicenseAssetGroupArn: S.String, Status: S.String }).pipe(ns),
+).annotations({
+  identifier: "UpdateLicenseAssetGroupResponse",
+}) as any as S.Schema<UpdateLicenseAssetGroupResponse>;
+export interface UpdateLicenseAssetRulesetResponse {
+  LicenseAssetRulesetArn: string;
+}
+export const UpdateLicenseAssetRulesetResponse = S.suspend(() =>
+  S.Struct({ LicenseAssetRulesetArn: S.String }).pipe(ns),
+).annotations({
+  identifier: "UpdateLicenseAssetRulesetResponse",
+}) as any as S.Schema<UpdateLicenseAssetRulesetResponse>;
+export interface UpdateLicenseSpecificationsForResourceRequest {
+  ResourceArn: string;
+  AddLicenseSpecifications?: LicenseSpecifications;
+  RemoveLicenseSpecifications?: LicenseSpecifications;
+}
+export const UpdateLicenseSpecificationsForResourceRequest = S.suspend(() =>
+  S.Struct({
     ResourceArn: S.String,
     AddLicenseSpecifications: S.optional(LicenseSpecifications),
     RemoveLicenseSpecifications: S.optional(LicenseSpecifications),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateLicenseSpecificationsForResourceResponse extends S.Class<UpdateLicenseSpecificationsForResourceResponse>(
-  "UpdateLicenseSpecificationsForResourceResponse",
-)({}, ns) {}
-export class CrossAccountDiscoveryServiceStatus extends S.Class<CrossAccountDiscoveryServiceStatus>(
-  "CrossAccountDiscoveryServiceStatus",
-)({ Message: S.optional(S.String) }) {}
-export class Asset extends S.Class<Asset>("Asset")({
-  AssetArn: S.optional(S.String),
-  LatestAssetDiscoveryTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-}) {}
+).annotations({
+  identifier: "UpdateLicenseSpecificationsForResourceRequest",
+}) as any as S.Schema<UpdateLicenseSpecificationsForResourceRequest>;
+export interface UpdateLicenseSpecificationsForResourceResponse {}
+export const UpdateLicenseSpecificationsForResourceResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "UpdateLicenseSpecificationsForResourceResponse",
+}) as any as S.Schema<UpdateLicenseSpecificationsForResourceResponse>;
+export interface CrossAccountDiscoveryServiceStatus {
+  Message?: string;
+}
+export const CrossAccountDiscoveryServiceStatus = S.suspend(() =>
+  S.Struct({ Message: S.optional(S.String) }),
+).annotations({
+  identifier: "CrossAccountDiscoveryServiceStatus",
+}) as any as S.Schema<CrossAccountDiscoveryServiceStatus>;
+export interface Asset {
+  AssetArn?: string;
+  LatestAssetDiscoveryTime?: Date;
+}
+export const Asset = S.suspend(() =>
+  S.Struct({
+    AssetArn: S.optional(S.String),
+    LatestAssetDiscoveryTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({ identifier: "Asset" }) as any as S.Schema<Asset>;
+export type AssetList = Asset[];
 export const AssetList = S.Array(Asset);
-export class LicenseConfigurationAssociation extends S.Class<LicenseConfigurationAssociation>(
-  "LicenseConfigurationAssociation",
-)({
-  ResourceArn: S.optional(S.String),
-  ResourceType: S.optional(S.String),
-  ResourceOwnerId: S.optional(S.String),
-  AssociationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  AmiAssociationScope: S.optional(S.String),
-}) {}
+export interface LicenseConfigurationAssociation {
+  ResourceArn?: string;
+  ResourceType?: string;
+  ResourceOwnerId?: string;
+  AssociationTime?: Date;
+  AmiAssociationScope?: string;
+}
+export const LicenseConfigurationAssociation = S.suspend(() =>
+  S.Struct({
+    ResourceArn: S.optional(S.String),
+    ResourceType: S.optional(S.String),
+    ResourceOwnerId: S.optional(S.String),
+    AssociationTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    AmiAssociationScope: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "LicenseConfigurationAssociation",
+}) as any as S.Schema<LicenseConfigurationAssociation>;
+export type LicenseConfigurationAssociations =
+  LicenseConfigurationAssociation[];
 export const LicenseConfigurationAssociations = S.Array(
   LicenseConfigurationAssociation,
 );
-export class LicenseOperationFailure extends S.Class<LicenseOperationFailure>(
-  "LicenseOperationFailure",
-)({
-  ResourceArn: S.optional(S.String),
-  ResourceType: S.optional(S.String),
-  ErrorMessage: S.optional(S.String),
-  FailureTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  OperationName: S.optional(S.String),
-  ResourceOwnerId: S.optional(S.String),
-  OperationRequestedBy: S.optional(S.String),
-  MetadataList: S.optional(MetadataList),
-}) {}
+export interface LicenseOperationFailure {
+  ResourceArn?: string;
+  ResourceType?: string;
+  ErrorMessage?: string;
+  FailureTime?: Date;
+  OperationName?: string;
+  ResourceOwnerId?: string;
+  OperationRequestedBy?: string;
+  MetadataList?: MetadataList;
+}
+export const LicenseOperationFailure = S.suspend(() =>
+  S.Struct({
+    ResourceArn: S.optional(S.String),
+    ResourceType: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
+    FailureTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    OperationName: S.optional(S.String),
+    ResourceOwnerId: S.optional(S.String),
+    OperationRequestedBy: S.optional(S.String),
+    MetadataList: S.optional(MetadataList),
+  }),
+).annotations({
+  identifier: "LicenseOperationFailure",
+}) as any as S.Schema<LicenseOperationFailure>;
+export type LicenseOperationFailureList = LicenseOperationFailure[];
 export const LicenseOperationFailureList = S.Array(LicenseOperationFailure);
-export class LicenseConversionTask extends S.Class<LicenseConversionTask>(
-  "LicenseConversionTask",
-)({
-  LicenseConversionTaskId: S.optional(S.String),
-  ResourceArn: S.optional(S.String),
-  SourceLicenseContext: S.optional(LicenseConversionContext),
-  DestinationLicenseContext: S.optional(LicenseConversionContext),
-  Status: S.optional(S.String),
-  StatusMessage: S.optional(S.String),
-  StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LicenseConversionTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface LicenseConversionTask {
+  LicenseConversionTaskId?: string;
+  ResourceArn?: string;
+  SourceLicenseContext?: LicenseConversionContext;
+  DestinationLicenseContext?: LicenseConversionContext;
+  Status?: string;
+  StatusMessage?: string;
+  StartTime?: Date;
+  LicenseConversionTime?: Date;
+  EndTime?: Date;
+}
+export const LicenseConversionTask = S.suspend(() =>
+  S.Struct({
+    LicenseConversionTaskId: S.optional(S.String),
+    ResourceArn: S.optional(S.String),
+    SourceLicenseContext: S.optional(LicenseConversionContext),
+    DestinationLicenseContext: S.optional(LicenseConversionContext),
+    Status: S.optional(S.String),
+    StatusMessage: S.optional(S.String),
+    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LicenseConversionTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "LicenseConversionTask",
+}) as any as S.Schema<LicenseConversionTask>;
+export type LicenseConversionTasks = LicenseConversionTask[];
 export const LicenseConversionTasks = S.Array(LicenseConversionTask);
-export class TokenData extends S.Class<TokenData>("TokenData")({
-  TokenId: S.optional(S.String),
-  TokenType: S.optional(S.String),
-  LicenseArn: S.optional(S.String),
-  ExpirationTime: S.optional(S.String),
-  TokenProperties: S.optional(MaxSize3StringList),
-  RoleArns: S.optional(ArnList),
-  Status: S.optional(S.String),
-}) {}
+export interface TokenData {
+  TokenId?: string;
+  TokenType?: string;
+  LicenseArn?: string;
+  ExpirationTime?: string;
+  TokenProperties?: MaxSize3StringList;
+  RoleArns?: ArnList;
+  Status?: string;
+}
+export const TokenData = S.suspend(() =>
+  S.Struct({
+    TokenId: S.optional(S.String),
+    TokenType: S.optional(S.String),
+    LicenseArn: S.optional(S.String),
+    ExpirationTime: S.optional(S.String),
+    TokenProperties: S.optional(MaxSize3StringList),
+    RoleArns: S.optional(ArnList),
+    Status: S.optional(S.String),
+  }),
+).annotations({ identifier: "TokenData" }) as any as S.Schema<TokenData>;
+export type TokenList = TokenData[];
 export const TokenList = S.Array(TokenData);
-export class LicenseConfigurationUsage extends S.Class<LicenseConfigurationUsage>(
-  "LicenseConfigurationUsage",
-)({
-  ResourceArn: S.optional(S.String),
-  ResourceType: S.optional(S.String),
-  ResourceStatus: S.optional(S.String),
-  ResourceOwnerId: S.optional(S.String),
-  AssociationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  ConsumedLicenses: S.optional(S.Number),
-}) {}
+export interface LicenseConfigurationUsage {
+  ResourceArn?: string;
+  ResourceType?: string;
+  ResourceStatus?: string;
+  ResourceOwnerId?: string;
+  AssociationTime?: Date;
+  ConsumedLicenses?: number;
+}
+export const LicenseConfigurationUsage = S.suspend(() =>
+  S.Struct({
+    ResourceArn: S.optional(S.String),
+    ResourceType: S.optional(S.String),
+    ResourceStatus: S.optional(S.String),
+    ResourceOwnerId: S.optional(S.String),
+    AssociationTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    ConsumedLicenses: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "LicenseConfigurationUsage",
+}) as any as S.Schema<LicenseConfigurationUsage>;
+export type LicenseConfigurationUsageList = LicenseConfigurationUsage[];
 export const LicenseConfigurationUsageList = S.Array(LicenseConfigurationUsage);
-export class CheckoutBorrowLicenseResponse extends S.Class<CheckoutBorrowLicenseResponse>(
-  "CheckoutBorrowLicenseResponse",
-)(
-  {
+export interface CheckoutBorrowLicenseResponse {
+  LicenseArn?: string;
+  LicenseConsumptionToken?: string;
+  EntitlementsAllowed?: EntitlementDataList;
+  NodeId?: string;
+  SignedToken?: string;
+  IssuedAt?: string;
+  Expiration?: string;
+  CheckoutMetadata?: MetadataList;
+}
+export const CheckoutBorrowLicenseResponse = S.suspend(() =>
+  S.Struct({
     LicenseArn: S.optional(S.String),
     LicenseConsumptionToken: S.optional(S.String),
     EntitlementsAllowed: S.optional(EntitlementDataList),
@@ -1414,33 +2901,54 @@ export class CheckoutBorrowLicenseResponse extends S.Class<CheckoutBorrowLicense
     IssuedAt: S.optional(S.String),
     Expiration: S.optional(S.String),
     CheckoutMetadata: S.optional(MetadataList),
-  },
-  ns,
-) {}
-export class CreateGrantResponse extends S.Class<CreateGrantResponse>(
-  "CreateGrantResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "CheckoutBorrowLicenseResponse",
+}) as any as S.Schema<CheckoutBorrowLicenseResponse>;
+export interface CreateGrantResponse {
+  GrantArn?: string;
+  Status?: string;
+  Version?: string;
+}
+export const CreateGrantResponse = S.suspend(() =>
+  S.Struct({
     GrantArn: S.optional(S.String),
     Status: S.optional(S.String),
     Version: S.optional(S.String),
-  },
-  ns,
-) {}
-export class CreateGrantVersionResponse extends S.Class<CreateGrantVersionResponse>(
-  "CreateGrantVersionResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "CreateGrantResponse",
+}) as any as S.Schema<CreateGrantResponse>;
+export interface CreateGrantVersionResponse {
+  GrantArn?: string;
+  Status?: string;
+  Version?: string;
+}
+export const CreateGrantVersionResponse = S.suspend(() =>
+  S.Struct({
     GrantArn: S.optional(S.String),
     Status: S.optional(S.String),
     Version: S.optional(S.String),
-  },
-  ns,
-) {}
-export class CreateLicenseRequest extends S.Class<CreateLicenseRequest>(
-  "CreateLicenseRequest",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "CreateGrantVersionResponse",
+}) as any as S.Schema<CreateGrantVersionResponse>;
+export interface CreateLicenseRequest {
+  LicenseName: string;
+  ProductName: string;
+  ProductSKU: string;
+  Issuer: Issuer;
+  HomeRegion: string;
+  Validity: DatetimeRange;
+  Entitlements: EntitlementList;
+  Beneficiary: string;
+  ConsumptionConfiguration: ConsumptionConfiguration;
+  LicenseMetadata?: MetadataList;
+  ClientToken: string;
+  Tags?: TagList;
+}
+export const CreateLicenseRequest = S.suspend(() =>
+  S.Struct({
     LicenseName: S.String,
     ProductName: S.String,
     ProductSKU: S.String,
@@ -1453,16 +2961,43 @@ export class CreateLicenseRequest extends S.Class<CreateLicenseRequest>(
     LicenseMetadata: S.optional(MetadataList),
     ClientToken: S.String,
     Tags: S.optional(TagList),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateLicenseAssetGroupResponse extends S.Class<CreateLicenseAssetGroupResponse>(
-  "CreateLicenseAssetGroupResponse",
-)({ LicenseAssetGroupArn: S.String, Status: S.String }, ns) {}
-export class CreateLicenseConfigurationRequest extends S.Class<CreateLicenseConfigurationRequest>(
-  "CreateLicenseConfigurationRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateLicenseRequest",
+}) as any as S.Schema<CreateLicenseRequest>;
+export interface CreateLicenseAssetGroupResponse {
+  LicenseAssetGroupArn: string;
+  Status: string;
+}
+export const CreateLicenseAssetGroupResponse = S.suspend(() =>
+  S.Struct({ LicenseAssetGroupArn: S.String, Status: S.String }).pipe(ns),
+).annotations({
+  identifier: "CreateLicenseAssetGroupResponse",
+}) as any as S.Schema<CreateLicenseAssetGroupResponse>;
+export interface CreateLicenseConfigurationRequest {
+  Name: string;
+  Description?: string;
+  LicenseCountingType: string;
+  LicenseCount?: number;
+  LicenseCountHardLimit?: boolean;
+  LicenseRules?: StringList;
+  Tags?: TagList;
+  DisassociateWhenNotFound?: boolean;
+  ProductInformationList?: ProductInformationList;
+  LicenseExpiry?: number;
+}
+export const CreateLicenseConfigurationRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     Description: S.optional(S.String),
     LicenseCountingType: S.String,
@@ -1473,35 +3008,98 @@ export class CreateLicenseConfigurationRequest extends S.Class<CreateLicenseConf
     DisassociateWhenNotFound: S.optional(S.Boolean),
     ProductInformationList: S.optional(ProductInformationList),
     LicenseExpiry: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateLicenseConversionTaskForResourceRequest extends S.Class<CreateLicenseConversionTaskForResourceRequest>(
-  "CreateLicenseConversionTaskForResourceRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateLicenseConfigurationRequest",
+}) as any as S.Schema<CreateLicenseConfigurationRequest>;
+export interface CreateLicenseConversionTaskForResourceRequest {
+  ResourceArn: string;
+  SourceLicenseContext: LicenseConversionContext;
+  DestinationLicenseContext: LicenseConversionContext;
+}
+export const CreateLicenseConversionTaskForResourceRequest = S.suspend(() =>
+  S.Struct({
     ResourceArn: S.String,
     SourceLicenseContext: LicenseConversionContext,
     DestinationLicenseContext: LicenseConversionContext,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateLicenseManagerReportGeneratorResponse extends S.Class<CreateLicenseManagerReportGeneratorResponse>(
-  "CreateLicenseManagerReportGeneratorResponse",
-)({ LicenseManagerReportGeneratorArn: S.optional(S.String) }, ns) {}
-export class GetGrantResponse extends S.Class<GetGrantResponse>(
-  "GetGrantResponse",
-)({ Grant: S.optional(Grant) }, ns) {}
-export class GetLicenseAssetGroupResponse extends S.Class<GetLicenseAssetGroupResponse>(
-  "GetLicenseAssetGroupResponse",
-)({ LicenseAssetGroup: LicenseAssetGroup }, ns) {}
-export class GetLicenseAssetRulesetResponse extends S.Class<GetLicenseAssetRulesetResponse>(
-  "GetLicenseAssetRulesetResponse",
-)({ LicenseAssetRuleset: LicenseAssetRuleset }, ns) {}
-export class GetLicenseConfigurationResponse extends S.Class<GetLicenseConfigurationResponse>(
-  "GetLicenseConfigurationResponse",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateLicenseConversionTaskForResourceRequest",
+}) as any as S.Schema<CreateLicenseConversionTaskForResourceRequest>;
+export interface CreateLicenseManagerReportGeneratorResponse {
+  LicenseManagerReportGeneratorArn?: string;
+}
+export const CreateLicenseManagerReportGeneratorResponse = S.suspend(() =>
+  S.Struct({ LicenseManagerReportGeneratorArn: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "CreateLicenseManagerReportGeneratorResponse",
+}) as any as S.Schema<CreateLicenseManagerReportGeneratorResponse>;
+export interface GetGrantResponse {
+  Grant?: Grant;
+}
+export const GetGrantResponse = S.suspend(() =>
+  S.Struct({ Grant: S.optional(Grant) }).pipe(ns),
+).annotations({
+  identifier: "GetGrantResponse",
+}) as any as S.Schema<GetGrantResponse>;
+export interface GetLicenseAssetGroupResponse {
+  LicenseAssetGroup: LicenseAssetGroup;
+}
+export const GetLicenseAssetGroupResponse = S.suspend(() =>
+  S.Struct({ LicenseAssetGroup: LicenseAssetGroup }).pipe(ns),
+).annotations({
+  identifier: "GetLicenseAssetGroupResponse",
+}) as any as S.Schema<GetLicenseAssetGroupResponse>;
+export interface GetLicenseAssetRulesetResponse {
+  LicenseAssetRuleset: LicenseAssetRuleset;
+}
+export const GetLicenseAssetRulesetResponse = S.suspend(() =>
+  S.Struct({ LicenseAssetRuleset: LicenseAssetRuleset }).pipe(ns),
+).annotations({
+  identifier: "GetLicenseAssetRulesetResponse",
+}) as any as S.Schema<GetLicenseAssetRulesetResponse>;
+export interface GetLicenseConfigurationResponse {
+  LicenseConfigurationId?: string;
+  LicenseConfigurationArn?: string;
+  Name?: string;
+  Description?: string;
+  LicenseCountingType?: string;
+  LicenseRules?: StringList;
+  LicenseCount?: number;
+  LicenseCountHardLimit?: boolean;
+  ConsumedLicenses?: number;
+  Status?: string;
+  OwnerAccountId?: string;
+  ConsumedLicenseSummaryList?: ConsumedLicenseSummaryList;
+  ManagedResourceSummaryList?: ManagedResourceSummaryList;
+  Tags?: TagList;
+  ProductInformationList?: ProductInformationList;
+  AutomatedDiscoveryInformation?: AutomatedDiscoveryInformation;
+  DisassociateWhenNotFound?: boolean;
+  LicenseExpiry?: number;
+}
+export const GetLicenseConfigurationResponse = S.suspend(() =>
+  S.Struct({
     LicenseConfigurationId: S.optional(S.String),
     LicenseConfigurationArn: S.optional(S.String),
     Name: S.optional(S.String),
@@ -1520,161 +3118,313 @@ export class GetLicenseConfigurationResponse extends S.Class<GetLicenseConfigura
     AutomatedDiscoveryInformation: S.optional(AutomatedDiscoveryInformation),
     DisassociateWhenNotFound: S.optional(S.Boolean),
     LicenseExpiry: S.optional(S.Number),
-  },
-  ns,
-) {}
-export class ListAssetsForLicenseAssetGroupResponse extends S.Class<ListAssetsForLicenseAssetGroupResponse>(
-  "ListAssetsForLicenseAssetGroupResponse",
-)({ Assets: S.optional(AssetList), NextToken: S.optional(S.String) }, ns) {}
-export class ListAssociationsForLicenseConfigurationResponse extends S.Class<ListAssociationsForLicenseConfigurationResponse>(
-  "ListAssociationsForLicenseConfigurationResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetLicenseConfigurationResponse",
+}) as any as S.Schema<GetLicenseConfigurationResponse>;
+export interface ListAssetsForLicenseAssetGroupResponse {
+  Assets?: AssetList;
+  NextToken?: string;
+}
+export const ListAssetsForLicenseAssetGroupResponse = S.suspend(() =>
+  S.Struct({
+    Assets: S.optional(AssetList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListAssetsForLicenseAssetGroupResponse",
+}) as any as S.Schema<ListAssetsForLicenseAssetGroupResponse>;
+export interface ListAssociationsForLicenseConfigurationResponse {
+  LicenseConfigurationAssociations?: LicenseConfigurationAssociations;
+  NextToken?: string;
+}
+export const ListAssociationsForLicenseConfigurationResponse = S.suspend(() =>
+  S.Struct({
     LicenseConfigurationAssociations: S.optional(
       LicenseConfigurationAssociations,
     ),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListDistributedGrantsResponse extends S.Class<ListDistributedGrantsResponse>(
-  "ListDistributedGrantsResponse",
-)({ Grants: S.optional(GrantList), NextToken: S.optional(S.String) }, ns) {}
-export class ListFailuresForLicenseConfigurationOperationsResponse extends S.Class<ListFailuresForLicenseConfigurationOperationsResponse>(
-  "ListFailuresForLicenseConfigurationOperationsResponse",
-)(
-  {
-    LicenseOperationFailureList: S.optional(LicenseOperationFailureList),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListAssociationsForLicenseConfigurationResponse",
+}) as any as S.Schema<ListAssociationsForLicenseConfigurationResponse>;
+export interface ListDistributedGrantsResponse {
+  Grants?: GrantList;
+  NextToken?: string;
+}
+export const ListDistributedGrantsResponse = S.suspend(() =>
+  S.Struct({
+    Grants: S.optional(GrantList),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListLicenseConfigurationsResponse extends S.Class<ListLicenseConfigurationsResponse>(
-  "ListLicenseConfigurationsResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListDistributedGrantsResponse",
+}) as any as S.Schema<ListDistributedGrantsResponse>;
+export interface ListFailuresForLicenseConfigurationOperationsResponse {
+  LicenseOperationFailureList?: LicenseOperationFailureList;
+  NextToken?: string;
+}
+export const ListFailuresForLicenseConfigurationOperationsResponse = S.suspend(
+  () =>
+    S.Struct({
+      LicenseOperationFailureList: S.optional(LicenseOperationFailureList),
+      NextToken: S.optional(S.String),
+    }).pipe(ns),
+).annotations({
+  identifier: "ListFailuresForLicenseConfigurationOperationsResponse",
+}) as any as S.Schema<ListFailuresForLicenseConfigurationOperationsResponse>;
+export interface ListLicenseConfigurationsResponse {
+  LicenseConfigurations?: LicenseConfigurations;
+  NextToken?: string;
+}
+export const ListLicenseConfigurationsResponse = S.suspend(() =>
+  S.Struct({
     LicenseConfigurations: S.optional(LicenseConfigurations),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListLicenseConversionTasksResponse extends S.Class<ListLicenseConversionTasksResponse>(
-  "ListLicenseConversionTasksResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListLicenseConfigurationsResponse",
+}) as any as S.Schema<ListLicenseConfigurationsResponse>;
+export interface ListLicenseConversionTasksResponse {
+  LicenseConversionTasks?: LicenseConversionTasks;
+  NextToken?: string;
+}
+export const ListLicenseConversionTasksResponse = S.suspend(() =>
+  S.Struct({
     LicenseConversionTasks: S.optional(LicenseConversionTasks),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListTokensResponse extends S.Class<ListTokensResponse>(
-  "ListTokensResponse",
-)({ Tokens: S.optional(TokenList), NextToken: S.optional(S.String) }, ns) {}
-export class ListUsageForLicenseConfigurationResponse extends S.Class<ListUsageForLicenseConfigurationResponse>(
-  "ListUsageForLicenseConfigurationResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListLicenseConversionTasksResponse",
+}) as any as S.Schema<ListLicenseConversionTasksResponse>;
+export interface ListTokensResponse {
+  Tokens?: TokenList;
+  NextToken?: string;
+}
+export const ListTokensResponse = S.suspend(() =>
+  S.Struct({
+    Tokens: S.optional(TokenList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListTokensResponse",
+}) as any as S.Schema<ListTokensResponse>;
+export interface ListUsageForLicenseConfigurationResponse {
+  LicenseConfigurationUsageList?: LicenseConfigurationUsageList;
+  NextToken?: string;
+}
+export const ListUsageForLicenseConfigurationResponse = S.suspend(() =>
+  S.Struct({
     LicenseConfigurationUsageList: S.optional(LicenseConfigurationUsageList),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class EntitlementUsage extends S.Class<EntitlementUsage>(
-  "EntitlementUsage",
-)({
-  Name: S.String,
-  ConsumedValue: S.String,
-  MaxCount: S.optional(S.String),
-  Unit: S.String,
-}) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "ListUsageForLicenseConfigurationResponse",
+}) as any as S.Schema<ListUsageForLicenseConfigurationResponse>;
+export interface EntitlementUsage {
+  Name: string;
+  ConsumedValue: string;
+  MaxCount?: string;
+  Unit: string;
+}
+export const EntitlementUsage = S.suspend(() =>
+  S.Struct({
+    Name: S.String,
+    ConsumedValue: S.String,
+    MaxCount: S.optional(S.String),
+    Unit: S.String,
+  }),
+).annotations({
+  identifier: "EntitlementUsage",
+}) as any as S.Schema<EntitlementUsage>;
+export type EntitlementUsageList = EntitlementUsage[];
 export const EntitlementUsageList = S.Array(EntitlementUsage);
-export class RegionStatus extends S.Class<RegionStatus>("RegionStatus")({
-  Status: S.optional(S.String),
-}) {}
-export class LicenseUsage extends S.Class<LicenseUsage>("LicenseUsage")({
-  EntitlementUsages: S.optional(EntitlementUsageList),
-}) {}
-export class ResourceInventory extends S.Class<ResourceInventory>(
-  "ResourceInventory",
-)({
-  ResourceId: S.optional(S.String),
-  ResourceType: S.optional(S.String),
-  ResourceArn: S.optional(S.String),
-  Platform: S.optional(S.String),
-  PlatformVersion: S.optional(S.String),
-  ResourceOwningAccountId: S.optional(S.String),
-  MarketplaceProductCodes: S.optional(StringList),
-  UsageOperation: S.optional(S.String),
-  AmiId: S.optional(S.String),
-  HostId: S.optional(S.String),
-  Region: S.optional(S.String),
-  InstanceType: S.optional(S.String),
-}) {}
+export interface RegionStatus {
+  Status?: string;
+}
+export const RegionStatus = S.suspend(() =>
+  S.Struct({ Status: S.optional(S.String) }),
+).annotations({ identifier: "RegionStatus" }) as any as S.Schema<RegionStatus>;
+export interface LicenseUsage {
+  EntitlementUsages?: EntitlementUsageList;
+}
+export const LicenseUsage = S.suspend(() =>
+  S.Struct({ EntitlementUsages: S.optional(EntitlementUsageList) }),
+).annotations({ identifier: "LicenseUsage" }) as any as S.Schema<LicenseUsage>;
+export interface ResourceInventory {
+  ResourceId?: string;
+  ResourceType?: string;
+  ResourceArn?: string;
+  Platform?: string;
+  PlatformVersion?: string;
+  ResourceOwningAccountId?: string;
+  MarketplaceProductCodes?: StringList;
+  UsageOperation?: string;
+  AmiId?: string;
+  HostId?: string;
+  Region?: string;
+  InstanceType?: string;
+}
+export const ResourceInventory = S.suspend(() =>
+  S.Struct({
+    ResourceId: S.optional(S.String),
+    ResourceType: S.optional(S.String),
+    ResourceArn: S.optional(S.String),
+    Platform: S.optional(S.String),
+    PlatformVersion: S.optional(S.String),
+    ResourceOwningAccountId: S.optional(S.String),
+    MarketplaceProductCodes: S.optional(StringList),
+    UsageOperation: S.optional(S.String),
+    AmiId: S.optional(S.String),
+    HostId: S.optional(S.String),
+    Region: S.optional(S.String),
+    InstanceType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ResourceInventory",
+}) as any as S.Schema<ResourceInventory>;
+export type ResourceInventoryList = ResourceInventory[];
 export const ResourceInventoryList = S.Array(ResourceInventory);
+export type RegionStatusMap = { [key: string]: RegionStatus };
 export const RegionStatusMap = S.Record({ key: S.String, value: RegionStatus });
-export class CreateLicenseResponse extends S.Class<CreateLicenseResponse>(
-  "CreateLicenseResponse",
-)(
-  {
+export interface CreateLicenseResponse {
+  LicenseArn?: string;
+  Status?: string;
+  Version?: string;
+}
+export const CreateLicenseResponse = S.suspend(() =>
+  S.Struct({
     LicenseArn: S.optional(S.String),
     Status: S.optional(S.String),
     Version: S.optional(S.String),
-  },
-  ns,
-) {}
-export class CreateLicenseConfigurationResponse extends S.Class<CreateLicenseConfigurationResponse>(
-  "CreateLicenseConfigurationResponse",
-)({ LicenseConfigurationArn: S.optional(S.String) }, ns) {}
-export class CreateLicenseConversionTaskForResourceResponse extends S.Class<CreateLicenseConversionTaskForResourceResponse>(
-  "CreateLicenseConversionTaskForResourceResponse",
-)({ LicenseConversionTaskId: S.optional(S.String) }, ns) {}
-export class GetLicenseResponse extends S.Class<GetLicenseResponse>(
-  "GetLicenseResponse",
-)({ License: S.optional(License) }, ns) {}
-export class GetLicenseManagerReportGeneratorResponse extends S.Class<GetLicenseManagerReportGeneratorResponse>(
-  "GetLicenseManagerReportGeneratorResponse",
-)({ ReportGenerator: S.optional(ReportGenerator) }, ns) {}
-export class GetLicenseUsageResponse extends S.Class<GetLicenseUsageResponse>(
-  "GetLicenseUsageResponse",
-)({ LicenseUsage: S.optional(LicenseUsage) }, ns) {}
-export class ListReceivedLicensesResponse extends S.Class<ListReceivedLicensesResponse>(
-  "ListReceivedLicensesResponse",
-)(
-  { Licenses: S.optional(GrantedLicenseList), NextToken: S.optional(S.String) },
-  ns,
-) {}
-export class ListResourceInventoryResponse extends S.Class<ListResourceInventoryResponse>(
-  "ListResourceInventoryResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "CreateLicenseResponse",
+}) as any as S.Schema<CreateLicenseResponse>;
+export interface CreateLicenseConfigurationResponse {
+  LicenseConfigurationArn?: string;
+}
+export const CreateLicenseConfigurationResponse = S.suspend(() =>
+  S.Struct({ LicenseConfigurationArn: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "CreateLicenseConfigurationResponse",
+}) as any as S.Schema<CreateLicenseConfigurationResponse>;
+export interface CreateLicenseConversionTaskForResourceResponse {
+  LicenseConversionTaskId?: string;
+}
+export const CreateLicenseConversionTaskForResourceResponse = S.suspend(() =>
+  S.Struct({ LicenseConversionTaskId: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "CreateLicenseConversionTaskForResourceResponse",
+}) as any as S.Schema<CreateLicenseConversionTaskForResourceResponse>;
+export interface GetLicenseResponse {
+  License?: License;
+}
+export const GetLicenseResponse = S.suspend(() =>
+  S.Struct({ License: S.optional(License) }).pipe(ns),
+).annotations({
+  identifier: "GetLicenseResponse",
+}) as any as S.Schema<GetLicenseResponse>;
+export interface GetLicenseManagerReportGeneratorResponse {
+  ReportGenerator?: ReportGenerator;
+}
+export const GetLicenseManagerReportGeneratorResponse = S.suspend(() =>
+  S.Struct({ ReportGenerator: S.optional(ReportGenerator) }).pipe(ns),
+).annotations({
+  identifier: "GetLicenseManagerReportGeneratorResponse",
+}) as any as S.Schema<GetLicenseManagerReportGeneratorResponse>;
+export interface GetLicenseUsageResponse {
+  LicenseUsage?: LicenseUsage;
+}
+export const GetLicenseUsageResponse = S.suspend(() =>
+  S.Struct({ LicenseUsage: S.optional(LicenseUsage) }).pipe(ns),
+).annotations({
+  identifier: "GetLicenseUsageResponse",
+}) as any as S.Schema<GetLicenseUsageResponse>;
+export interface ListReceivedLicensesResponse {
+  Licenses?: GrantedLicenseList;
+  NextToken?: string;
+}
+export const ListReceivedLicensesResponse = S.suspend(() =>
+  S.Struct({
+    Licenses: S.optional(GrantedLicenseList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListReceivedLicensesResponse",
+}) as any as S.Schema<ListReceivedLicensesResponse>;
+export interface ListResourceInventoryResponse {
+  ResourceInventoryList?: ResourceInventoryList;
+  NextToken?: string;
+}
+export const ListResourceInventoryResponse = S.suspend(() =>
+  S.Struct({
     ResourceInventoryList: S.optional(ResourceInventoryList),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class CrossRegionDiscoveryStatus extends S.Class<CrossRegionDiscoveryStatus>(
-  "CrossRegionDiscoveryStatus",
-)({ Message: S.optional(RegionStatusMap) }) {}
-export class ServiceStatus extends S.Class<ServiceStatus>("ServiceStatus")({
-  CrossAccountDiscovery: S.optional(CrossAccountDiscoveryServiceStatus),
-  CrossRegionDiscovery: S.optional(CrossRegionDiscoveryStatus),
-}) {}
-export class CreateLicenseAssetRulesetRequest extends S.Class<CreateLicenseAssetRulesetRequest>(
-  "CreateLicenseAssetRulesetRequest",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListResourceInventoryResponse",
+}) as any as S.Schema<ListResourceInventoryResponse>;
+export interface CrossRegionDiscoveryStatus {
+  Message?: RegionStatusMap;
+}
+export const CrossRegionDiscoveryStatus = S.suspend(() =>
+  S.Struct({ Message: S.optional(RegionStatusMap) }),
+).annotations({
+  identifier: "CrossRegionDiscoveryStatus",
+}) as any as S.Schema<CrossRegionDiscoveryStatus>;
+export interface ServiceStatus {
+  CrossAccountDiscovery?: CrossAccountDiscoveryServiceStatus;
+  CrossRegionDiscovery?: CrossRegionDiscoveryStatus;
+}
+export const ServiceStatus = S.suspend(() =>
+  S.Struct({
+    CrossAccountDiscovery: S.optional(CrossAccountDiscoveryServiceStatus),
+    CrossRegionDiscovery: S.optional(CrossRegionDiscoveryStatus),
+  }),
+).annotations({
+  identifier: "ServiceStatus",
+}) as any as S.Schema<ServiceStatus>;
+export interface CreateLicenseAssetRulesetRequest {
+  Name: string;
+  Description?: string;
+  Rules: LicenseAssetRuleList;
+  Tags?: TagList;
+  ClientToken: string;
+}
+export const CreateLicenseAssetRulesetRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     Description: S.optional(S.String),
     Rules: LicenseAssetRuleList,
     Tags: S.optional(TagList),
     ClientToken: S.String,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetServiceSettingsResponse extends S.Class<GetServiceSettingsResponse>(
-  "GetServiceSettingsResponse",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateLicenseAssetRulesetRequest",
+}) as any as S.Schema<CreateLicenseAssetRulesetRequest>;
+export interface GetServiceSettingsResponse {
+  S3BucketArn?: string;
+  SnsTopicArn?: string;
+  OrganizationConfiguration?: OrganizationConfiguration;
+  EnableCrossAccountsDiscovery?: boolean;
+  LicenseManagerResourceShareArn?: string;
+  CrossRegionDiscoveryHomeRegion?: string;
+  CrossRegionDiscoverySourceRegions?: StringList;
+  ServiceStatus?: ServiceStatus;
+}
+export const GetServiceSettingsResponse = S.suspend(() =>
+  S.Struct({
     S3BucketArn: S.optional(S.String),
     SnsTopicArn: S.optional(S.String),
     OrganizationConfiguration: S.optional(OrganizationConfiguration),
@@ -1683,12 +3433,18 @@ export class GetServiceSettingsResponse extends S.Class<GetServiceSettingsRespon
     CrossRegionDiscoveryHomeRegion: S.optional(S.String),
     CrossRegionDiscoverySourceRegions: S.optional(StringList),
     ServiceStatus: S.optional(ServiceStatus),
-  },
-  ns,
-) {}
-export class CreateLicenseAssetRulesetResponse extends S.Class<CreateLicenseAssetRulesetResponse>(
-  "CreateLicenseAssetRulesetResponse",
-)({ LicenseAssetRulesetArn: S.String }, ns) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "GetServiceSettingsResponse",
+}) as any as S.Schema<GetServiceSettingsResponse>;
+export interface CreateLicenseAssetRulesetResponse {
+  LicenseAssetRulesetArn: string;
+}
+export const CreateLicenseAssetRulesetResponse = S.suspend(() =>
+  S.Struct({ LicenseAssetRulesetArn: S.String }).pipe(ns),
+).annotations({
+  identifier: "CreateLicenseAssetRulesetResponse",
+}) as any as S.Schema<CreateLicenseAssetRulesetResponse>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

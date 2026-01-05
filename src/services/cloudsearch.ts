@@ -243,469 +243,1213 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class ListDomainNamesRequest extends S.Class<ListDomainNamesRequest>(
-  "ListDomainNamesRequest",
-)(
-  {},
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+export interface ListDomainNamesRequest {}
+export const ListDomainNamesRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListDomainNamesRequest",
+}) as any as S.Schema<ListDomainNamesRequest>;
+export type StandardNameList = string[];
 export const StandardNameList = S.Array(S.String);
+export type DomainNameList = string[];
 export const DomainNameList = S.Array(S.String);
+export type DynamicFieldNameList = string[];
 export const DynamicFieldNameList = S.Array(S.String);
-export class BuildSuggestersRequest extends S.Class<BuildSuggestersRequest>(
-  "BuildSuggestersRequest",
-)(
-  { DomainName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateDomainRequest extends S.Class<CreateDomainRequest>(
-  "CreateDomainRequest",
-)(
-  { DomainName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteAnalysisSchemeRequest extends S.Class<DeleteAnalysisSchemeRequest>(
-  "DeleteAnalysisSchemeRequest",
-)(
-  { DomainName: S.String, AnalysisSchemeName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteDomainRequest extends S.Class<DeleteDomainRequest>(
-  "DeleteDomainRequest",
-)(
-  { DomainName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteExpressionRequest extends S.Class<DeleteExpressionRequest>(
-  "DeleteExpressionRequest",
-)(
-  { DomainName: S.String, ExpressionName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteIndexFieldRequest extends S.Class<DeleteIndexFieldRequest>(
-  "DeleteIndexFieldRequest",
-)(
-  { DomainName: S.String, IndexFieldName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteSuggesterRequest extends S.Class<DeleteSuggesterRequest>(
-  "DeleteSuggesterRequest",
-)(
-  { DomainName: S.String, SuggesterName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeAnalysisSchemesRequest extends S.Class<DescribeAnalysisSchemesRequest>(
-  "DescribeAnalysisSchemesRequest",
-)(
-  {
+export interface BuildSuggestersRequest {
+  DomainName: string;
+}
+export const BuildSuggestersRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "BuildSuggestersRequest",
+}) as any as S.Schema<BuildSuggestersRequest>;
+export interface CreateDomainRequest {
+  DomainName: string;
+}
+export const CreateDomainRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateDomainRequest",
+}) as any as S.Schema<CreateDomainRequest>;
+export interface DeleteAnalysisSchemeRequest {
+  DomainName: string;
+  AnalysisSchemeName: string;
+}
+export const DeleteAnalysisSchemeRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String, AnalysisSchemeName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteAnalysisSchemeRequest",
+}) as any as S.Schema<DeleteAnalysisSchemeRequest>;
+export interface DeleteDomainRequest {
+  DomainName: string;
+}
+export const DeleteDomainRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteDomainRequest",
+}) as any as S.Schema<DeleteDomainRequest>;
+export interface DeleteExpressionRequest {
+  DomainName: string;
+  ExpressionName: string;
+}
+export const DeleteExpressionRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String, ExpressionName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteExpressionRequest",
+}) as any as S.Schema<DeleteExpressionRequest>;
+export interface DeleteIndexFieldRequest {
+  DomainName: string;
+  IndexFieldName: string;
+}
+export const DeleteIndexFieldRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String, IndexFieldName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteIndexFieldRequest",
+}) as any as S.Schema<DeleteIndexFieldRequest>;
+export interface DeleteSuggesterRequest {
+  DomainName: string;
+  SuggesterName: string;
+}
+export const DeleteSuggesterRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String, SuggesterName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteSuggesterRequest",
+}) as any as S.Schema<DeleteSuggesterRequest>;
+export interface DescribeAnalysisSchemesRequest {
+  DomainName: string;
+  AnalysisSchemeNames?: StandardNameList;
+  Deployed?: boolean;
+}
+export const DescribeAnalysisSchemesRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String,
     AnalysisSchemeNames: S.optional(StandardNameList),
     Deployed: S.optional(S.Boolean),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeAvailabilityOptionsRequest extends S.Class<DescribeAvailabilityOptionsRequest>(
-  "DescribeAvailabilityOptionsRequest",
-)(
-  { DomainName: S.String, Deployed: S.optional(S.Boolean) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeDomainEndpointOptionsRequest extends S.Class<DescribeDomainEndpointOptionsRequest>(
-  "DescribeDomainEndpointOptionsRequest",
-)(
-  { DomainName: S.String, Deployed: S.optional(S.Boolean) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeDomainsRequest extends S.Class<DescribeDomainsRequest>(
-  "DescribeDomainsRequest",
-)(
-  { DomainNames: S.optional(DomainNameList) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeExpressionsRequest extends S.Class<DescribeExpressionsRequest>(
-  "DescribeExpressionsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeAnalysisSchemesRequest",
+}) as any as S.Schema<DescribeAnalysisSchemesRequest>;
+export interface DescribeAvailabilityOptionsRequest {
+  DomainName: string;
+  Deployed?: boolean;
+}
+export const DescribeAvailabilityOptionsRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String, Deployed: S.optional(S.Boolean) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeAvailabilityOptionsRequest",
+}) as any as S.Schema<DescribeAvailabilityOptionsRequest>;
+export interface DescribeDomainEndpointOptionsRequest {
+  DomainName: string;
+  Deployed?: boolean;
+}
+export const DescribeDomainEndpointOptionsRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String, Deployed: S.optional(S.Boolean) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeDomainEndpointOptionsRequest",
+}) as any as S.Schema<DescribeDomainEndpointOptionsRequest>;
+export interface DescribeDomainsRequest {
+  DomainNames?: DomainNameList;
+}
+export const DescribeDomainsRequest = S.suspend(() =>
+  S.Struct({ DomainNames: S.optional(DomainNameList) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeDomainsRequest",
+}) as any as S.Schema<DescribeDomainsRequest>;
+export interface DescribeExpressionsRequest {
+  DomainName: string;
+  ExpressionNames?: StandardNameList;
+  Deployed?: boolean;
+}
+export const DescribeExpressionsRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String,
     ExpressionNames: S.optional(StandardNameList),
     Deployed: S.optional(S.Boolean),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeIndexFieldsRequest extends S.Class<DescribeIndexFieldsRequest>(
-  "DescribeIndexFieldsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeExpressionsRequest",
+}) as any as S.Schema<DescribeExpressionsRequest>;
+export interface DescribeIndexFieldsRequest {
+  DomainName: string;
+  FieldNames?: DynamicFieldNameList;
+  Deployed?: boolean;
+}
+export const DescribeIndexFieldsRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String,
     FieldNames: S.optional(DynamicFieldNameList),
     Deployed: S.optional(S.Boolean),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeScalingParametersRequest extends S.Class<DescribeScalingParametersRequest>(
-  "DescribeScalingParametersRequest",
-)(
-  { DomainName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeServiceAccessPoliciesRequest extends S.Class<DescribeServiceAccessPoliciesRequest>(
-  "DescribeServiceAccessPoliciesRequest",
-)(
-  { DomainName: S.String, Deployed: S.optional(S.Boolean) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeSuggestersRequest extends S.Class<DescribeSuggestersRequest>(
-  "DescribeSuggestersRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeIndexFieldsRequest",
+}) as any as S.Schema<DescribeIndexFieldsRequest>;
+export interface DescribeScalingParametersRequest {
+  DomainName: string;
+}
+export const DescribeScalingParametersRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeScalingParametersRequest",
+}) as any as S.Schema<DescribeScalingParametersRequest>;
+export interface DescribeServiceAccessPoliciesRequest {
+  DomainName: string;
+  Deployed?: boolean;
+}
+export const DescribeServiceAccessPoliciesRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String, Deployed: S.optional(S.Boolean) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeServiceAccessPoliciesRequest",
+}) as any as S.Schema<DescribeServiceAccessPoliciesRequest>;
+export interface DescribeSuggestersRequest {
+  DomainName: string;
+  SuggesterNames?: StandardNameList;
+  Deployed?: boolean;
+}
+export const DescribeSuggestersRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String,
     SuggesterNames: S.optional(StandardNameList),
     Deployed: S.optional(S.Boolean),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class IndexDocumentsRequest extends S.Class<IndexDocumentsRequest>(
-  "IndexDocumentsRequest",
-)(
-  { DomainName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateAvailabilityOptionsRequest extends S.Class<UpdateAvailabilityOptionsRequest>(
-  "UpdateAvailabilityOptionsRequest",
-)(
-  { DomainName: S.String, MultiAZ: S.Boolean },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateServiceAccessPoliciesRequest extends S.Class<UpdateServiceAccessPoliciesRequest>(
-  "UpdateServiceAccessPoliciesRequest",
-)(
-  { DomainName: S.String, AccessPolicies: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeSuggestersRequest",
+}) as any as S.Schema<DescribeSuggestersRequest>;
+export interface IndexDocumentsRequest {
+  DomainName: string;
+}
+export const IndexDocumentsRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "IndexDocumentsRequest",
+}) as any as S.Schema<IndexDocumentsRequest>;
+export interface UpdateAvailabilityOptionsRequest {
+  DomainName: string;
+  MultiAZ: boolean;
+}
+export const UpdateAvailabilityOptionsRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String, MultiAZ: S.Boolean }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateAvailabilityOptionsRequest",
+}) as any as S.Schema<UpdateAvailabilityOptionsRequest>;
+export interface UpdateServiceAccessPoliciesRequest {
+  DomainName: string;
+  AccessPolicies: string;
+}
+export const UpdateServiceAccessPoliciesRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String, AccessPolicies: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateServiceAccessPoliciesRequest",
+}) as any as S.Schema<UpdateServiceAccessPoliciesRequest>;
+export type FieldNameList = string[];
 export const FieldNameList = S.Array(S.String);
-export class Expression extends S.Class<Expression>("Expression")({
-  ExpressionName: S.String,
-  ExpressionValue: S.String,
-}) {}
-export class AnalysisOptions extends S.Class<AnalysisOptions>(
-  "AnalysisOptions",
-)({
-  Synonyms: S.optional(S.String),
-  Stopwords: S.optional(S.String),
-  StemmingDictionary: S.optional(S.String),
-  JapaneseTokenizationDictionary: S.optional(S.String),
-  AlgorithmicStemming: S.optional(S.String),
-}) {}
-export class AnalysisScheme extends S.Class<AnalysisScheme>("AnalysisScheme")({
-  AnalysisSchemeName: S.String,
-  AnalysisSchemeLanguage: S.String,
-  AnalysisOptions: S.optional(AnalysisOptions),
-}) {}
-export class OptionStatus extends S.Class<OptionStatus>("OptionStatus")({
-  CreationDate: S.Date.pipe(T.TimestampFormat("date-time")),
-  UpdateDate: S.Date.pipe(T.TimestampFormat("date-time")),
-  UpdateVersion: S.optional(S.Number),
-  State: S.String,
-  PendingDeletion: S.optional(S.Boolean),
-}) {}
-export class AnalysisSchemeStatus extends S.Class<AnalysisSchemeStatus>(
-  "AnalysisSchemeStatus",
-)({ Options: AnalysisScheme, Status: OptionStatus }) {}
+export interface Expression {
+  ExpressionName: string;
+  ExpressionValue: string;
+}
+export const Expression = S.suspend(() =>
+  S.Struct({ ExpressionName: S.String, ExpressionValue: S.String }),
+).annotations({ identifier: "Expression" }) as any as S.Schema<Expression>;
+export interface AnalysisOptions {
+  Synonyms?: string;
+  Stopwords?: string;
+  StemmingDictionary?: string;
+  JapaneseTokenizationDictionary?: string;
+  AlgorithmicStemming?: string;
+}
+export const AnalysisOptions = S.suspend(() =>
+  S.Struct({
+    Synonyms: S.optional(S.String),
+    Stopwords: S.optional(S.String),
+    StemmingDictionary: S.optional(S.String),
+    JapaneseTokenizationDictionary: S.optional(S.String),
+    AlgorithmicStemming: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AnalysisOptions",
+}) as any as S.Schema<AnalysisOptions>;
+export interface AnalysisScheme {
+  AnalysisSchemeName: string;
+  AnalysisSchemeLanguage: string;
+  AnalysisOptions?: AnalysisOptions;
+}
+export const AnalysisScheme = S.suspend(() =>
+  S.Struct({
+    AnalysisSchemeName: S.String,
+    AnalysisSchemeLanguage: S.String,
+    AnalysisOptions: S.optional(AnalysisOptions),
+  }),
+).annotations({
+  identifier: "AnalysisScheme",
+}) as any as S.Schema<AnalysisScheme>;
+export interface OptionStatus {
+  CreationDate: Date;
+  UpdateDate: Date;
+  UpdateVersion?: number;
+  State: string;
+  PendingDeletion?: boolean;
+}
+export const OptionStatus = S.suspend(() =>
+  S.Struct({
+    CreationDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    UpdateDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    UpdateVersion: S.optional(S.Number),
+    State: S.String,
+    PendingDeletion: S.optional(S.Boolean),
+  }),
+).annotations({ identifier: "OptionStatus" }) as any as S.Schema<OptionStatus>;
+export interface AnalysisSchemeStatus {
+  Options: AnalysisScheme;
+  Status: OptionStatus;
+}
+export const AnalysisSchemeStatus = S.suspend(() =>
+  S.Struct({ Options: AnalysisScheme, Status: OptionStatus }),
+).annotations({
+  identifier: "AnalysisSchemeStatus",
+}) as any as S.Schema<AnalysisSchemeStatus>;
+export type AnalysisSchemeStatusList = AnalysisSchemeStatus[];
 export const AnalysisSchemeStatusList = S.Array(AnalysisSchemeStatus);
-export class ServiceEndpoint extends S.Class<ServiceEndpoint>(
-  "ServiceEndpoint",
-)({ Endpoint: S.optional(S.String) }) {}
-export class Limits extends S.Class<Limits>("Limits")({
-  MaximumReplicationCount: S.Number,
-  MaximumPartitionCount: S.Number,
-}) {}
-export class DomainStatus extends S.Class<DomainStatus>("DomainStatus")({
-  DomainId: S.String,
-  DomainName: S.String,
-  ARN: S.optional(S.String),
-  Created: S.optional(S.Boolean),
-  Deleted: S.optional(S.Boolean),
-  DocService: S.optional(ServiceEndpoint),
-  SearchService: S.optional(ServiceEndpoint),
-  RequiresIndexDocuments: S.Boolean,
-  Processing: S.optional(S.Boolean),
-  SearchInstanceType: S.optional(S.String),
-  SearchPartitionCount: S.optional(S.Number),
-  SearchInstanceCount: S.optional(S.Number),
-  Limits: S.optional(Limits),
-}) {}
+export interface ServiceEndpoint {
+  Endpoint?: string;
+}
+export const ServiceEndpoint = S.suspend(() =>
+  S.Struct({ Endpoint: S.optional(S.String) }),
+).annotations({
+  identifier: "ServiceEndpoint",
+}) as any as S.Schema<ServiceEndpoint>;
+export interface Limits {
+  MaximumReplicationCount: number;
+  MaximumPartitionCount: number;
+}
+export const Limits = S.suspend(() =>
+  S.Struct({
+    MaximumReplicationCount: S.Number,
+    MaximumPartitionCount: S.Number,
+  }),
+).annotations({ identifier: "Limits" }) as any as S.Schema<Limits>;
+export interface DomainStatus {
+  DomainId: string;
+  DomainName: string;
+  ARN?: string;
+  Created?: boolean;
+  Deleted?: boolean;
+  DocService?: ServiceEndpoint;
+  SearchService?: ServiceEndpoint;
+  RequiresIndexDocuments: boolean;
+  Processing?: boolean;
+  SearchInstanceType?: string;
+  SearchPartitionCount?: number;
+  SearchInstanceCount?: number;
+  Limits?: Limits;
+}
+export const DomainStatus = S.suspend(() =>
+  S.Struct({
+    DomainId: S.String,
+    DomainName: S.String,
+    ARN: S.optional(S.String),
+    Created: S.optional(S.Boolean),
+    Deleted: S.optional(S.Boolean),
+    DocService: S.optional(ServiceEndpoint),
+    SearchService: S.optional(ServiceEndpoint),
+    RequiresIndexDocuments: S.Boolean,
+    Processing: S.optional(S.Boolean),
+    SearchInstanceType: S.optional(S.String),
+    SearchPartitionCount: S.optional(S.Number),
+    SearchInstanceCount: S.optional(S.Number),
+    Limits: S.optional(Limits),
+  }),
+).annotations({ identifier: "DomainStatus" }) as any as S.Schema<DomainStatus>;
+export type DomainStatusList = DomainStatus[];
 export const DomainStatusList = S.Array(DomainStatus);
-export class ExpressionStatus extends S.Class<ExpressionStatus>(
-  "ExpressionStatus",
-)({ Options: Expression, Status: OptionStatus }) {}
+export interface ExpressionStatus {
+  Options: Expression;
+  Status: OptionStatus;
+}
+export const ExpressionStatus = S.suspend(() =>
+  S.Struct({ Options: Expression, Status: OptionStatus }),
+).annotations({
+  identifier: "ExpressionStatus",
+}) as any as S.Schema<ExpressionStatus>;
+export type ExpressionStatusList = ExpressionStatus[];
 export const ExpressionStatusList = S.Array(ExpressionStatus);
-export class IntOptions extends S.Class<IntOptions>("IntOptions")({
-  DefaultValue: S.optional(S.Number),
-  SourceField: S.optional(S.String),
-  FacetEnabled: S.optional(S.Boolean),
-  SearchEnabled: S.optional(S.Boolean),
-  ReturnEnabled: S.optional(S.Boolean),
-  SortEnabled: S.optional(S.Boolean),
-}) {}
-export class DoubleOptions extends S.Class<DoubleOptions>("DoubleOptions")({
-  DefaultValue: S.optional(S.Number),
-  SourceField: S.optional(S.String),
-  FacetEnabled: S.optional(S.Boolean),
-  SearchEnabled: S.optional(S.Boolean),
-  ReturnEnabled: S.optional(S.Boolean),
-  SortEnabled: S.optional(S.Boolean),
-}) {}
-export class LiteralOptions extends S.Class<LiteralOptions>("LiteralOptions")({
-  DefaultValue: S.optional(S.String),
-  SourceField: S.optional(S.String),
-  FacetEnabled: S.optional(S.Boolean),
-  SearchEnabled: S.optional(S.Boolean),
-  ReturnEnabled: S.optional(S.Boolean),
-  SortEnabled: S.optional(S.Boolean),
-}) {}
-export class TextOptions extends S.Class<TextOptions>("TextOptions")({
-  DefaultValue: S.optional(S.String),
-  SourceField: S.optional(S.String),
-  ReturnEnabled: S.optional(S.Boolean),
-  SortEnabled: S.optional(S.Boolean),
-  HighlightEnabled: S.optional(S.Boolean),
-  AnalysisScheme: S.optional(S.String),
-}) {}
-export class DateOptions extends S.Class<DateOptions>("DateOptions")({
-  DefaultValue: S.optional(S.String),
-  SourceField: S.optional(S.String),
-  FacetEnabled: S.optional(S.Boolean),
-  SearchEnabled: S.optional(S.Boolean),
-  ReturnEnabled: S.optional(S.Boolean),
-  SortEnabled: S.optional(S.Boolean),
-}) {}
-export class LatLonOptions extends S.Class<LatLonOptions>("LatLonOptions")({
-  DefaultValue: S.optional(S.String),
-  SourceField: S.optional(S.String),
-  FacetEnabled: S.optional(S.Boolean),
-  SearchEnabled: S.optional(S.Boolean),
-  ReturnEnabled: S.optional(S.Boolean),
-  SortEnabled: S.optional(S.Boolean),
-}) {}
-export class IntArrayOptions extends S.Class<IntArrayOptions>(
-  "IntArrayOptions",
-)({
-  DefaultValue: S.optional(S.Number),
-  SourceFields: S.optional(S.String),
-  FacetEnabled: S.optional(S.Boolean),
-  SearchEnabled: S.optional(S.Boolean),
-  ReturnEnabled: S.optional(S.Boolean),
-}) {}
-export class DoubleArrayOptions extends S.Class<DoubleArrayOptions>(
-  "DoubleArrayOptions",
-)({
-  DefaultValue: S.optional(S.Number),
-  SourceFields: S.optional(S.String),
-  FacetEnabled: S.optional(S.Boolean),
-  SearchEnabled: S.optional(S.Boolean),
-  ReturnEnabled: S.optional(S.Boolean),
-}) {}
-export class LiteralArrayOptions extends S.Class<LiteralArrayOptions>(
-  "LiteralArrayOptions",
-)({
-  DefaultValue: S.optional(S.String),
-  SourceFields: S.optional(S.String),
-  FacetEnabled: S.optional(S.Boolean),
-  SearchEnabled: S.optional(S.Boolean),
-  ReturnEnabled: S.optional(S.Boolean),
-}) {}
-export class TextArrayOptions extends S.Class<TextArrayOptions>(
-  "TextArrayOptions",
-)({
-  DefaultValue: S.optional(S.String),
-  SourceFields: S.optional(S.String),
-  ReturnEnabled: S.optional(S.Boolean),
-  HighlightEnabled: S.optional(S.Boolean),
-  AnalysisScheme: S.optional(S.String),
-}) {}
-export class DateArrayOptions extends S.Class<DateArrayOptions>(
-  "DateArrayOptions",
-)({
-  DefaultValue: S.optional(S.String),
-  SourceFields: S.optional(S.String),
-  FacetEnabled: S.optional(S.Boolean),
-  SearchEnabled: S.optional(S.Boolean),
-  ReturnEnabled: S.optional(S.Boolean),
-}) {}
-export class IndexField extends S.Class<IndexField>("IndexField")({
-  IndexFieldName: S.String,
-  IndexFieldType: S.String,
-  IntOptions: S.optional(IntOptions),
-  DoubleOptions: S.optional(DoubleOptions),
-  LiteralOptions: S.optional(LiteralOptions),
-  TextOptions: S.optional(TextOptions),
-  DateOptions: S.optional(DateOptions),
-  LatLonOptions: S.optional(LatLonOptions),
-  IntArrayOptions: S.optional(IntArrayOptions),
-  DoubleArrayOptions: S.optional(DoubleArrayOptions),
-  LiteralArrayOptions: S.optional(LiteralArrayOptions),
-  TextArrayOptions: S.optional(TextArrayOptions),
-  DateArrayOptions: S.optional(DateArrayOptions),
-}) {}
-export class IndexFieldStatus extends S.Class<IndexFieldStatus>(
-  "IndexFieldStatus",
-)({ Options: IndexField, Status: OptionStatus }) {}
+export interface IntOptions {
+  DefaultValue?: number;
+  SourceField?: string;
+  FacetEnabled?: boolean;
+  SearchEnabled?: boolean;
+  ReturnEnabled?: boolean;
+  SortEnabled?: boolean;
+}
+export const IntOptions = S.suspend(() =>
+  S.Struct({
+    DefaultValue: S.optional(S.Number),
+    SourceField: S.optional(S.String),
+    FacetEnabled: S.optional(S.Boolean),
+    SearchEnabled: S.optional(S.Boolean),
+    ReturnEnabled: S.optional(S.Boolean),
+    SortEnabled: S.optional(S.Boolean),
+  }),
+).annotations({ identifier: "IntOptions" }) as any as S.Schema<IntOptions>;
+export interface DoubleOptions {
+  DefaultValue?: number;
+  SourceField?: string;
+  FacetEnabled?: boolean;
+  SearchEnabled?: boolean;
+  ReturnEnabled?: boolean;
+  SortEnabled?: boolean;
+}
+export const DoubleOptions = S.suspend(() =>
+  S.Struct({
+    DefaultValue: S.optional(S.Number),
+    SourceField: S.optional(S.String),
+    FacetEnabled: S.optional(S.Boolean),
+    SearchEnabled: S.optional(S.Boolean),
+    ReturnEnabled: S.optional(S.Boolean),
+    SortEnabled: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "DoubleOptions",
+}) as any as S.Schema<DoubleOptions>;
+export interface LiteralOptions {
+  DefaultValue?: string;
+  SourceField?: string;
+  FacetEnabled?: boolean;
+  SearchEnabled?: boolean;
+  ReturnEnabled?: boolean;
+  SortEnabled?: boolean;
+}
+export const LiteralOptions = S.suspend(() =>
+  S.Struct({
+    DefaultValue: S.optional(S.String),
+    SourceField: S.optional(S.String),
+    FacetEnabled: S.optional(S.Boolean),
+    SearchEnabled: S.optional(S.Boolean),
+    ReturnEnabled: S.optional(S.Boolean),
+    SortEnabled: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "LiteralOptions",
+}) as any as S.Schema<LiteralOptions>;
+export interface TextOptions {
+  DefaultValue?: string;
+  SourceField?: string;
+  ReturnEnabled?: boolean;
+  SortEnabled?: boolean;
+  HighlightEnabled?: boolean;
+  AnalysisScheme?: string;
+}
+export const TextOptions = S.suspend(() =>
+  S.Struct({
+    DefaultValue: S.optional(S.String),
+    SourceField: S.optional(S.String),
+    ReturnEnabled: S.optional(S.Boolean),
+    SortEnabled: S.optional(S.Boolean),
+    HighlightEnabled: S.optional(S.Boolean),
+    AnalysisScheme: S.optional(S.String),
+  }),
+).annotations({ identifier: "TextOptions" }) as any as S.Schema<TextOptions>;
+export interface DateOptions {
+  DefaultValue?: string;
+  SourceField?: string;
+  FacetEnabled?: boolean;
+  SearchEnabled?: boolean;
+  ReturnEnabled?: boolean;
+  SortEnabled?: boolean;
+}
+export const DateOptions = S.suspend(() =>
+  S.Struct({
+    DefaultValue: S.optional(S.String),
+    SourceField: S.optional(S.String),
+    FacetEnabled: S.optional(S.Boolean),
+    SearchEnabled: S.optional(S.Boolean),
+    ReturnEnabled: S.optional(S.Boolean),
+    SortEnabled: S.optional(S.Boolean),
+  }),
+).annotations({ identifier: "DateOptions" }) as any as S.Schema<DateOptions>;
+export interface LatLonOptions {
+  DefaultValue?: string;
+  SourceField?: string;
+  FacetEnabled?: boolean;
+  SearchEnabled?: boolean;
+  ReturnEnabled?: boolean;
+  SortEnabled?: boolean;
+}
+export const LatLonOptions = S.suspend(() =>
+  S.Struct({
+    DefaultValue: S.optional(S.String),
+    SourceField: S.optional(S.String),
+    FacetEnabled: S.optional(S.Boolean),
+    SearchEnabled: S.optional(S.Boolean),
+    ReturnEnabled: S.optional(S.Boolean),
+    SortEnabled: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "LatLonOptions",
+}) as any as S.Schema<LatLonOptions>;
+export interface IntArrayOptions {
+  DefaultValue?: number;
+  SourceFields?: string;
+  FacetEnabled?: boolean;
+  SearchEnabled?: boolean;
+  ReturnEnabled?: boolean;
+}
+export const IntArrayOptions = S.suspend(() =>
+  S.Struct({
+    DefaultValue: S.optional(S.Number),
+    SourceFields: S.optional(S.String),
+    FacetEnabled: S.optional(S.Boolean),
+    SearchEnabled: S.optional(S.Boolean),
+    ReturnEnabled: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "IntArrayOptions",
+}) as any as S.Schema<IntArrayOptions>;
+export interface DoubleArrayOptions {
+  DefaultValue?: number;
+  SourceFields?: string;
+  FacetEnabled?: boolean;
+  SearchEnabled?: boolean;
+  ReturnEnabled?: boolean;
+}
+export const DoubleArrayOptions = S.suspend(() =>
+  S.Struct({
+    DefaultValue: S.optional(S.Number),
+    SourceFields: S.optional(S.String),
+    FacetEnabled: S.optional(S.Boolean),
+    SearchEnabled: S.optional(S.Boolean),
+    ReturnEnabled: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "DoubleArrayOptions",
+}) as any as S.Schema<DoubleArrayOptions>;
+export interface LiteralArrayOptions {
+  DefaultValue?: string;
+  SourceFields?: string;
+  FacetEnabled?: boolean;
+  SearchEnabled?: boolean;
+  ReturnEnabled?: boolean;
+}
+export const LiteralArrayOptions = S.suspend(() =>
+  S.Struct({
+    DefaultValue: S.optional(S.String),
+    SourceFields: S.optional(S.String),
+    FacetEnabled: S.optional(S.Boolean),
+    SearchEnabled: S.optional(S.Boolean),
+    ReturnEnabled: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "LiteralArrayOptions",
+}) as any as S.Schema<LiteralArrayOptions>;
+export interface TextArrayOptions {
+  DefaultValue?: string;
+  SourceFields?: string;
+  ReturnEnabled?: boolean;
+  HighlightEnabled?: boolean;
+  AnalysisScheme?: string;
+}
+export const TextArrayOptions = S.suspend(() =>
+  S.Struct({
+    DefaultValue: S.optional(S.String),
+    SourceFields: S.optional(S.String),
+    ReturnEnabled: S.optional(S.Boolean),
+    HighlightEnabled: S.optional(S.Boolean),
+    AnalysisScheme: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "TextArrayOptions",
+}) as any as S.Schema<TextArrayOptions>;
+export interface DateArrayOptions {
+  DefaultValue?: string;
+  SourceFields?: string;
+  FacetEnabled?: boolean;
+  SearchEnabled?: boolean;
+  ReturnEnabled?: boolean;
+}
+export const DateArrayOptions = S.suspend(() =>
+  S.Struct({
+    DefaultValue: S.optional(S.String),
+    SourceFields: S.optional(S.String),
+    FacetEnabled: S.optional(S.Boolean),
+    SearchEnabled: S.optional(S.Boolean),
+    ReturnEnabled: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "DateArrayOptions",
+}) as any as S.Schema<DateArrayOptions>;
+export interface IndexField {
+  IndexFieldName: string;
+  IndexFieldType: string;
+  IntOptions?: IntOptions;
+  DoubleOptions?: DoubleOptions;
+  LiteralOptions?: LiteralOptions;
+  TextOptions?: TextOptions;
+  DateOptions?: DateOptions;
+  LatLonOptions?: LatLonOptions;
+  IntArrayOptions?: IntArrayOptions;
+  DoubleArrayOptions?: DoubleArrayOptions;
+  LiteralArrayOptions?: LiteralArrayOptions;
+  TextArrayOptions?: TextArrayOptions;
+  DateArrayOptions?: DateArrayOptions;
+}
+export const IndexField = S.suspend(() =>
+  S.Struct({
+    IndexFieldName: S.String,
+    IndexFieldType: S.String,
+    IntOptions: S.optional(IntOptions),
+    DoubleOptions: S.optional(DoubleOptions),
+    LiteralOptions: S.optional(LiteralOptions),
+    TextOptions: S.optional(TextOptions),
+    DateOptions: S.optional(DateOptions),
+    LatLonOptions: S.optional(LatLonOptions),
+    IntArrayOptions: S.optional(IntArrayOptions),
+    DoubleArrayOptions: S.optional(DoubleArrayOptions),
+    LiteralArrayOptions: S.optional(LiteralArrayOptions),
+    TextArrayOptions: S.optional(TextArrayOptions),
+    DateArrayOptions: S.optional(DateArrayOptions),
+  }),
+).annotations({ identifier: "IndexField" }) as any as S.Schema<IndexField>;
+export interface IndexFieldStatus {
+  Options: IndexField;
+  Status: OptionStatus;
+}
+export const IndexFieldStatus = S.suspend(() =>
+  S.Struct({ Options: IndexField, Status: OptionStatus }),
+).annotations({
+  identifier: "IndexFieldStatus",
+}) as any as S.Schema<IndexFieldStatus>;
+export type IndexFieldStatusList = IndexFieldStatus[];
 export const IndexFieldStatusList = S.Array(IndexFieldStatus);
-export class DocumentSuggesterOptions extends S.Class<DocumentSuggesterOptions>(
-  "DocumentSuggesterOptions",
-)({
-  SourceField: S.String,
-  FuzzyMatching: S.optional(S.String),
-  SortExpression: S.optional(S.String),
-}) {}
-export class Suggester extends S.Class<Suggester>("Suggester")({
-  SuggesterName: S.String,
-  DocumentSuggesterOptions: DocumentSuggesterOptions,
-}) {}
-export class SuggesterStatus extends S.Class<SuggesterStatus>(
-  "SuggesterStatus",
-)({ Options: Suggester, Status: OptionStatus }) {}
+export interface DocumentSuggesterOptions {
+  SourceField: string;
+  FuzzyMatching?: string;
+  SortExpression?: string;
+}
+export const DocumentSuggesterOptions = S.suspend(() =>
+  S.Struct({
+    SourceField: S.String,
+    FuzzyMatching: S.optional(S.String),
+    SortExpression: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DocumentSuggesterOptions",
+}) as any as S.Schema<DocumentSuggesterOptions>;
+export interface Suggester {
+  SuggesterName: string;
+  DocumentSuggesterOptions: DocumentSuggesterOptions;
+}
+export const Suggester = S.suspend(() =>
+  S.Struct({
+    SuggesterName: S.String,
+    DocumentSuggesterOptions: DocumentSuggesterOptions,
+  }),
+).annotations({ identifier: "Suggester" }) as any as S.Schema<Suggester>;
+export interface SuggesterStatus {
+  Options: Suggester;
+  Status: OptionStatus;
+}
+export const SuggesterStatus = S.suspend(() =>
+  S.Struct({ Options: Suggester, Status: OptionStatus }),
+).annotations({
+  identifier: "SuggesterStatus",
+}) as any as S.Schema<SuggesterStatus>;
+export type SuggesterStatusList = SuggesterStatus[];
 export const SuggesterStatusList = S.Array(SuggesterStatus);
+export type DomainNameMap = { [key: string]: string };
 export const DomainNameMap = S.Record({ key: S.String, value: S.String });
-export class DomainEndpointOptions extends S.Class<DomainEndpointOptions>(
-  "DomainEndpointOptions",
-)({
-  EnforceHTTPS: S.optional(S.Boolean),
-  TLSSecurityPolicy: S.optional(S.String),
-}) {}
-export class ScalingParameters extends S.Class<ScalingParameters>(
-  "ScalingParameters",
-)({
-  DesiredInstanceType: S.optional(S.String),
-  DesiredReplicationCount: S.optional(S.Number),
-  DesiredPartitionCount: S.optional(S.Number),
-}) {}
-export class BuildSuggestersResponse extends S.Class<BuildSuggestersResponse>(
-  "BuildSuggestersResponse",
-)({ FieldNames: S.optional(FieldNameList) }, ns) {}
-export class DefineExpressionRequest extends S.Class<DefineExpressionRequest>(
-  "DefineExpressionRequest",
-)(
-  { DomainName: S.String, Expression: Expression },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteDomainResponse extends S.Class<DeleteDomainResponse>(
-  "DeleteDomainResponse",
-)({ DomainStatus: S.optional(DomainStatus) }, ns) {}
-export class DescribeAnalysisSchemesResponse extends S.Class<DescribeAnalysisSchemesResponse>(
-  "DescribeAnalysisSchemesResponse",
-)({ AnalysisSchemes: AnalysisSchemeStatusList }, ns) {}
-export class DescribeDomainsResponse extends S.Class<DescribeDomainsResponse>(
-  "DescribeDomainsResponse",
-)({ DomainStatusList: DomainStatusList }, ns) {}
-export class DescribeExpressionsResponse extends S.Class<DescribeExpressionsResponse>(
-  "DescribeExpressionsResponse",
-)({ Expressions: ExpressionStatusList }, ns) {}
-export class DescribeIndexFieldsResponse extends S.Class<DescribeIndexFieldsResponse>(
-  "DescribeIndexFieldsResponse",
-)({ IndexFields: IndexFieldStatusList }, ns) {}
-export class DescribeSuggestersResponse extends S.Class<DescribeSuggestersResponse>(
-  "DescribeSuggestersResponse",
-)({ Suggesters: SuggesterStatusList }, ns) {}
-export class IndexDocumentsResponse extends S.Class<IndexDocumentsResponse>(
-  "IndexDocumentsResponse",
-)({ FieldNames: S.optional(FieldNameList) }, ns) {}
-export class ListDomainNamesResponse extends S.Class<ListDomainNamesResponse>(
-  "ListDomainNamesResponse",
-)({ DomainNames: S.optional(DomainNameMap) }, ns) {}
-export class AvailabilityOptionsStatus extends S.Class<AvailabilityOptionsStatus>(
-  "AvailabilityOptionsStatus",
-)({ Options: S.Boolean, Status: OptionStatus }) {}
-export class UpdateAvailabilityOptionsResponse extends S.Class<UpdateAvailabilityOptionsResponse>(
-  "UpdateAvailabilityOptionsResponse",
-)({ AvailabilityOptions: S.optional(AvailabilityOptionsStatus) }, ns) {}
-export class UpdateDomainEndpointOptionsRequest extends S.Class<UpdateDomainEndpointOptionsRequest>(
-  "UpdateDomainEndpointOptionsRequest",
-)(
-  { DomainName: S.String, DomainEndpointOptions: DomainEndpointOptions },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateScalingParametersRequest extends S.Class<UpdateScalingParametersRequest>(
-  "UpdateScalingParametersRequest",
-)(
-  { DomainName: S.String, ScalingParameters: ScalingParameters },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class AccessPoliciesStatus extends S.Class<AccessPoliciesStatus>(
-  "AccessPoliciesStatus",
-)({ Options: S.String, Status: OptionStatus }) {}
-export class UpdateServiceAccessPoliciesResponse extends S.Class<UpdateServiceAccessPoliciesResponse>(
-  "UpdateServiceAccessPoliciesResponse",
-)({ AccessPolicies: AccessPoliciesStatus }, ns) {}
-export class DomainEndpointOptionsStatus extends S.Class<DomainEndpointOptionsStatus>(
-  "DomainEndpointOptionsStatus",
-)({ Options: DomainEndpointOptions, Status: OptionStatus }) {}
-export class ScalingParametersStatus extends S.Class<ScalingParametersStatus>(
-  "ScalingParametersStatus",
-)({ Options: ScalingParameters, Status: OptionStatus }) {}
-export class DefineAnalysisSchemeRequest extends S.Class<DefineAnalysisSchemeRequest>(
-  "DefineAnalysisSchemeRequest",
-)(
-  { DomainName: S.String, AnalysisScheme: AnalysisScheme },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DefineExpressionResponse extends S.Class<DefineExpressionResponse>(
-  "DefineExpressionResponse",
-)({ Expression: ExpressionStatus }, ns) {}
-export class DefineIndexFieldRequest extends S.Class<DefineIndexFieldRequest>(
-  "DefineIndexFieldRequest",
-)(
-  { DomainName: S.String, IndexField: IndexField },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DefineSuggesterRequest extends S.Class<DefineSuggesterRequest>(
-  "DefineSuggesterRequest",
-)(
-  { DomainName: S.String, Suggester: Suggester },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteExpressionResponse extends S.Class<DeleteExpressionResponse>(
-  "DeleteExpressionResponse",
-)({ Expression: ExpressionStatus }, ns) {}
-export class DeleteIndexFieldResponse extends S.Class<DeleteIndexFieldResponse>(
-  "DeleteIndexFieldResponse",
-)({ IndexField: IndexFieldStatus }, ns) {}
-export class DeleteSuggesterResponse extends S.Class<DeleteSuggesterResponse>(
-  "DeleteSuggesterResponse",
-)({ Suggester: SuggesterStatus }, ns) {}
-export class DescribeAvailabilityOptionsResponse extends S.Class<DescribeAvailabilityOptionsResponse>(
-  "DescribeAvailabilityOptionsResponse",
-)({ AvailabilityOptions: S.optional(AvailabilityOptionsStatus) }, ns) {}
-export class DescribeDomainEndpointOptionsResponse extends S.Class<DescribeDomainEndpointOptionsResponse>(
-  "DescribeDomainEndpointOptionsResponse",
-)({ DomainEndpointOptions: S.optional(DomainEndpointOptionsStatus) }, ns) {}
-export class DescribeScalingParametersResponse extends S.Class<DescribeScalingParametersResponse>(
-  "DescribeScalingParametersResponse",
-)({ ScalingParameters: ScalingParametersStatus }, ns) {}
-export class DescribeServiceAccessPoliciesResponse extends S.Class<DescribeServiceAccessPoliciesResponse>(
-  "DescribeServiceAccessPoliciesResponse",
-)({ AccessPolicies: AccessPoliciesStatus }, ns) {}
-export class UpdateDomainEndpointOptionsResponse extends S.Class<UpdateDomainEndpointOptionsResponse>(
-  "UpdateDomainEndpointOptionsResponse",
-)({ DomainEndpointOptions: S.optional(DomainEndpointOptionsStatus) }, ns) {}
-export class UpdateScalingParametersResponse extends S.Class<UpdateScalingParametersResponse>(
-  "UpdateScalingParametersResponse",
-)({ ScalingParameters: ScalingParametersStatus }, ns) {}
-export class CreateDomainResponse extends S.Class<CreateDomainResponse>(
-  "CreateDomainResponse",
-)({ DomainStatus: S.optional(DomainStatus) }, ns) {}
-export class DefineAnalysisSchemeResponse extends S.Class<DefineAnalysisSchemeResponse>(
-  "DefineAnalysisSchemeResponse",
-)({ AnalysisScheme: AnalysisSchemeStatus }, ns) {}
-export class DefineIndexFieldResponse extends S.Class<DefineIndexFieldResponse>(
-  "DefineIndexFieldResponse",
-)({ IndexField: IndexFieldStatus }, ns) {}
-export class DefineSuggesterResponse extends S.Class<DefineSuggesterResponse>(
-  "DefineSuggesterResponse",
-)({ Suggester: SuggesterStatus }, ns) {}
-export class DeleteAnalysisSchemeResponse extends S.Class<DeleteAnalysisSchemeResponse>(
-  "DeleteAnalysisSchemeResponse",
-)({ AnalysisScheme: AnalysisSchemeStatus }, ns) {}
+export interface DomainEndpointOptions {
+  EnforceHTTPS?: boolean;
+  TLSSecurityPolicy?: string;
+}
+export const DomainEndpointOptions = S.suspend(() =>
+  S.Struct({
+    EnforceHTTPS: S.optional(S.Boolean),
+    TLSSecurityPolicy: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DomainEndpointOptions",
+}) as any as S.Schema<DomainEndpointOptions>;
+export interface ScalingParameters {
+  DesiredInstanceType?: string;
+  DesiredReplicationCount?: number;
+  DesiredPartitionCount?: number;
+}
+export const ScalingParameters = S.suspend(() =>
+  S.Struct({
+    DesiredInstanceType: S.optional(S.String),
+    DesiredReplicationCount: S.optional(S.Number),
+    DesiredPartitionCount: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "ScalingParameters",
+}) as any as S.Schema<ScalingParameters>;
+export interface BuildSuggestersResponse {
+  FieldNames?: FieldNameList;
+}
+export const BuildSuggestersResponse = S.suspend(() =>
+  S.Struct({ FieldNames: S.optional(FieldNameList) }).pipe(ns),
+).annotations({
+  identifier: "BuildSuggestersResponse",
+}) as any as S.Schema<BuildSuggestersResponse>;
+export interface DefineExpressionRequest {
+  DomainName: string;
+  Expression: Expression;
+}
+export const DefineExpressionRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String, Expression: Expression }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DefineExpressionRequest",
+}) as any as S.Schema<DefineExpressionRequest>;
+export interface DeleteDomainResponse {
+  DomainStatus?: DomainStatus;
+}
+export const DeleteDomainResponse = S.suspend(() =>
+  S.Struct({ DomainStatus: S.optional(DomainStatus) }).pipe(ns),
+).annotations({
+  identifier: "DeleteDomainResponse",
+}) as any as S.Schema<DeleteDomainResponse>;
+export interface DescribeAnalysisSchemesResponse {
+  AnalysisSchemes: AnalysisSchemeStatusList;
+}
+export const DescribeAnalysisSchemesResponse = S.suspend(() =>
+  S.Struct({ AnalysisSchemes: AnalysisSchemeStatusList }).pipe(ns),
+).annotations({
+  identifier: "DescribeAnalysisSchemesResponse",
+}) as any as S.Schema<DescribeAnalysisSchemesResponse>;
+export interface DescribeDomainsResponse {
+  DomainStatusList: DomainStatusList;
+}
+export const DescribeDomainsResponse = S.suspend(() =>
+  S.Struct({ DomainStatusList: DomainStatusList }).pipe(ns),
+).annotations({
+  identifier: "DescribeDomainsResponse",
+}) as any as S.Schema<DescribeDomainsResponse>;
+export interface DescribeExpressionsResponse {
+  Expressions: ExpressionStatusList;
+}
+export const DescribeExpressionsResponse = S.suspend(() =>
+  S.Struct({ Expressions: ExpressionStatusList }).pipe(ns),
+).annotations({
+  identifier: "DescribeExpressionsResponse",
+}) as any as S.Schema<DescribeExpressionsResponse>;
+export interface DescribeIndexFieldsResponse {
+  IndexFields: IndexFieldStatusList;
+}
+export const DescribeIndexFieldsResponse = S.suspend(() =>
+  S.Struct({ IndexFields: IndexFieldStatusList }).pipe(ns),
+).annotations({
+  identifier: "DescribeIndexFieldsResponse",
+}) as any as S.Schema<DescribeIndexFieldsResponse>;
+export interface DescribeSuggestersResponse {
+  Suggesters: SuggesterStatusList;
+}
+export const DescribeSuggestersResponse = S.suspend(() =>
+  S.Struct({ Suggesters: SuggesterStatusList }).pipe(ns),
+).annotations({
+  identifier: "DescribeSuggestersResponse",
+}) as any as S.Schema<DescribeSuggestersResponse>;
+export interface IndexDocumentsResponse {
+  FieldNames?: FieldNameList;
+}
+export const IndexDocumentsResponse = S.suspend(() =>
+  S.Struct({ FieldNames: S.optional(FieldNameList) }).pipe(ns),
+).annotations({
+  identifier: "IndexDocumentsResponse",
+}) as any as S.Schema<IndexDocumentsResponse>;
+export interface ListDomainNamesResponse {
+  DomainNames?: DomainNameMap;
+}
+export const ListDomainNamesResponse = S.suspend(() =>
+  S.Struct({ DomainNames: S.optional(DomainNameMap) }).pipe(ns),
+).annotations({
+  identifier: "ListDomainNamesResponse",
+}) as any as S.Schema<ListDomainNamesResponse>;
+export interface AvailabilityOptionsStatus {
+  Options: boolean;
+  Status: OptionStatus;
+}
+export const AvailabilityOptionsStatus = S.suspend(() =>
+  S.Struct({ Options: S.Boolean, Status: OptionStatus }),
+).annotations({
+  identifier: "AvailabilityOptionsStatus",
+}) as any as S.Schema<AvailabilityOptionsStatus>;
+export interface UpdateAvailabilityOptionsResponse {
+  AvailabilityOptions?: AvailabilityOptionsStatus;
+}
+export const UpdateAvailabilityOptionsResponse = S.suspend(() =>
+  S.Struct({ AvailabilityOptions: S.optional(AvailabilityOptionsStatus) }).pipe(
+    ns,
+  ),
+).annotations({
+  identifier: "UpdateAvailabilityOptionsResponse",
+}) as any as S.Schema<UpdateAvailabilityOptionsResponse>;
+export interface UpdateDomainEndpointOptionsRequest {
+  DomainName: string;
+  DomainEndpointOptions: DomainEndpointOptions;
+}
+export const UpdateDomainEndpointOptionsRequest = S.suspend(() =>
+  S.Struct({
+    DomainName: S.String,
+    DomainEndpointOptions: DomainEndpointOptions,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateDomainEndpointOptionsRequest",
+}) as any as S.Schema<UpdateDomainEndpointOptionsRequest>;
+export interface UpdateScalingParametersRequest {
+  DomainName: string;
+  ScalingParameters: ScalingParameters;
+}
+export const UpdateScalingParametersRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String, ScalingParameters: ScalingParameters }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateScalingParametersRequest",
+}) as any as S.Schema<UpdateScalingParametersRequest>;
+export interface AccessPoliciesStatus {
+  Options: string;
+  Status: OptionStatus;
+}
+export const AccessPoliciesStatus = S.suspend(() =>
+  S.Struct({ Options: S.String, Status: OptionStatus }),
+).annotations({
+  identifier: "AccessPoliciesStatus",
+}) as any as S.Schema<AccessPoliciesStatus>;
+export interface UpdateServiceAccessPoliciesResponse {
+  AccessPolicies: AccessPoliciesStatus;
+}
+export const UpdateServiceAccessPoliciesResponse = S.suspend(() =>
+  S.Struct({ AccessPolicies: AccessPoliciesStatus }).pipe(ns),
+).annotations({
+  identifier: "UpdateServiceAccessPoliciesResponse",
+}) as any as S.Schema<UpdateServiceAccessPoliciesResponse>;
+export interface DomainEndpointOptionsStatus {
+  Options: DomainEndpointOptions;
+  Status: OptionStatus;
+}
+export const DomainEndpointOptionsStatus = S.suspend(() =>
+  S.Struct({ Options: DomainEndpointOptions, Status: OptionStatus }),
+).annotations({
+  identifier: "DomainEndpointOptionsStatus",
+}) as any as S.Schema<DomainEndpointOptionsStatus>;
+export interface ScalingParametersStatus {
+  Options: ScalingParameters;
+  Status: OptionStatus;
+}
+export const ScalingParametersStatus = S.suspend(() =>
+  S.Struct({ Options: ScalingParameters, Status: OptionStatus }),
+).annotations({
+  identifier: "ScalingParametersStatus",
+}) as any as S.Schema<ScalingParametersStatus>;
+export interface DefineAnalysisSchemeRequest {
+  DomainName: string;
+  AnalysisScheme: AnalysisScheme;
+}
+export const DefineAnalysisSchemeRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String, AnalysisScheme: AnalysisScheme }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DefineAnalysisSchemeRequest",
+}) as any as S.Schema<DefineAnalysisSchemeRequest>;
+export interface DefineExpressionResponse {
+  Expression: ExpressionStatus;
+}
+export const DefineExpressionResponse = S.suspend(() =>
+  S.Struct({ Expression: ExpressionStatus }).pipe(ns),
+).annotations({
+  identifier: "DefineExpressionResponse",
+}) as any as S.Schema<DefineExpressionResponse>;
+export interface DefineIndexFieldRequest {
+  DomainName: string;
+  IndexField: IndexField;
+}
+export const DefineIndexFieldRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String, IndexField: IndexField }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DefineIndexFieldRequest",
+}) as any as S.Schema<DefineIndexFieldRequest>;
+export interface DefineSuggesterRequest {
+  DomainName: string;
+  Suggester: Suggester;
+}
+export const DefineSuggesterRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String, Suggester: Suggester }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DefineSuggesterRequest",
+}) as any as S.Schema<DefineSuggesterRequest>;
+export interface DeleteExpressionResponse {
+  Expression: ExpressionStatus;
+}
+export const DeleteExpressionResponse = S.suspend(() =>
+  S.Struct({ Expression: ExpressionStatus }).pipe(ns),
+).annotations({
+  identifier: "DeleteExpressionResponse",
+}) as any as S.Schema<DeleteExpressionResponse>;
+export interface DeleteIndexFieldResponse {
+  IndexField: IndexFieldStatus;
+}
+export const DeleteIndexFieldResponse = S.suspend(() =>
+  S.Struct({ IndexField: IndexFieldStatus }).pipe(ns),
+).annotations({
+  identifier: "DeleteIndexFieldResponse",
+}) as any as S.Schema<DeleteIndexFieldResponse>;
+export interface DeleteSuggesterResponse {
+  Suggester: SuggesterStatus;
+}
+export const DeleteSuggesterResponse = S.suspend(() =>
+  S.Struct({ Suggester: SuggesterStatus }).pipe(ns),
+).annotations({
+  identifier: "DeleteSuggesterResponse",
+}) as any as S.Schema<DeleteSuggesterResponse>;
+export interface DescribeAvailabilityOptionsResponse {
+  AvailabilityOptions?: AvailabilityOptionsStatus;
+}
+export const DescribeAvailabilityOptionsResponse = S.suspend(() =>
+  S.Struct({ AvailabilityOptions: S.optional(AvailabilityOptionsStatus) }).pipe(
+    ns,
+  ),
+).annotations({
+  identifier: "DescribeAvailabilityOptionsResponse",
+}) as any as S.Schema<DescribeAvailabilityOptionsResponse>;
+export interface DescribeDomainEndpointOptionsResponse {
+  DomainEndpointOptions?: DomainEndpointOptionsStatus;
+}
+export const DescribeDomainEndpointOptionsResponse = S.suspend(() =>
+  S.Struct({
+    DomainEndpointOptions: S.optional(DomainEndpointOptionsStatus),
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeDomainEndpointOptionsResponse",
+}) as any as S.Schema<DescribeDomainEndpointOptionsResponse>;
+export interface DescribeScalingParametersResponse {
+  ScalingParameters: ScalingParametersStatus;
+}
+export const DescribeScalingParametersResponse = S.suspend(() =>
+  S.Struct({ ScalingParameters: ScalingParametersStatus }).pipe(ns),
+).annotations({
+  identifier: "DescribeScalingParametersResponse",
+}) as any as S.Schema<DescribeScalingParametersResponse>;
+export interface DescribeServiceAccessPoliciesResponse {
+  AccessPolicies: AccessPoliciesStatus;
+}
+export const DescribeServiceAccessPoliciesResponse = S.suspend(() =>
+  S.Struct({ AccessPolicies: AccessPoliciesStatus }).pipe(ns),
+).annotations({
+  identifier: "DescribeServiceAccessPoliciesResponse",
+}) as any as S.Schema<DescribeServiceAccessPoliciesResponse>;
+export interface UpdateDomainEndpointOptionsResponse {
+  DomainEndpointOptions?: DomainEndpointOptionsStatus;
+}
+export const UpdateDomainEndpointOptionsResponse = S.suspend(() =>
+  S.Struct({
+    DomainEndpointOptions: S.optional(DomainEndpointOptionsStatus),
+  }).pipe(ns),
+).annotations({
+  identifier: "UpdateDomainEndpointOptionsResponse",
+}) as any as S.Schema<UpdateDomainEndpointOptionsResponse>;
+export interface UpdateScalingParametersResponse {
+  ScalingParameters: ScalingParametersStatus;
+}
+export const UpdateScalingParametersResponse = S.suspend(() =>
+  S.Struct({ ScalingParameters: ScalingParametersStatus }).pipe(ns),
+).annotations({
+  identifier: "UpdateScalingParametersResponse",
+}) as any as S.Schema<UpdateScalingParametersResponse>;
+export interface CreateDomainResponse {
+  DomainStatus?: DomainStatus;
+}
+export const CreateDomainResponse = S.suspend(() =>
+  S.Struct({ DomainStatus: S.optional(DomainStatus) }).pipe(ns),
+).annotations({
+  identifier: "CreateDomainResponse",
+}) as any as S.Schema<CreateDomainResponse>;
+export interface DefineAnalysisSchemeResponse {
+  AnalysisScheme: AnalysisSchemeStatus;
+}
+export const DefineAnalysisSchemeResponse = S.suspend(() =>
+  S.Struct({ AnalysisScheme: AnalysisSchemeStatus }).pipe(ns),
+).annotations({
+  identifier: "DefineAnalysisSchemeResponse",
+}) as any as S.Schema<DefineAnalysisSchemeResponse>;
+export interface DefineIndexFieldResponse {
+  IndexField: IndexFieldStatus;
+}
+export const DefineIndexFieldResponse = S.suspend(() =>
+  S.Struct({ IndexField: IndexFieldStatus }).pipe(ns),
+).annotations({
+  identifier: "DefineIndexFieldResponse",
+}) as any as S.Schema<DefineIndexFieldResponse>;
+export interface DefineSuggesterResponse {
+  Suggester: SuggesterStatus;
+}
+export const DefineSuggesterResponse = S.suspend(() =>
+  S.Struct({ Suggester: SuggesterStatus }).pipe(ns),
+).annotations({
+  identifier: "DefineSuggesterResponse",
+}) as any as S.Schema<DefineSuggesterResponse>;
+export interface DeleteAnalysisSchemeResponse {
+  AnalysisScheme: AnalysisSchemeStatus;
+}
+export const DeleteAnalysisSchemeResponse = S.suspend(() =>
+  S.Struct({ AnalysisScheme: AnalysisSchemeStatus }).pipe(ns),
+).annotations({
+  identifier: "DeleteAnalysisSchemeResponse",
+}) as any as S.Schema<DeleteAnalysisSchemeResponse>;
 
 //# Errors
 export class BaseException extends S.TaggedError<BaseException>()(

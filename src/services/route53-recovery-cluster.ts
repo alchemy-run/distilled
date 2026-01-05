@@ -242,76 +242,147 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type Arns = string[];
 export const Arns = S.Array(S.String);
-export class GetRoutingControlStateRequest extends S.Class<GetRoutingControlStateRequest>(
-  "GetRoutingControlStateRequest",
-)(
-  { RoutingControlArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListRoutingControlsRequest extends S.Class<ListRoutingControlsRequest>(
-  "ListRoutingControlsRequest",
-)(
-  {
+export interface GetRoutingControlStateRequest {
+  RoutingControlArn: string;
+}
+export const GetRoutingControlStateRequest = S.suspend(() =>
+  S.Struct({ RoutingControlArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetRoutingControlStateRequest",
+}) as any as S.Schema<GetRoutingControlStateRequest>;
+export interface ListRoutingControlsRequest {
+  ControlPanelArn?: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListRoutingControlsRequest = S.suspend(() =>
+  S.Struct({
     ControlPanelArn: S.optional(S.String),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateRoutingControlStateRequest extends S.Class<UpdateRoutingControlStateRequest>(
-  "UpdateRoutingControlStateRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListRoutingControlsRequest",
+}) as any as S.Schema<ListRoutingControlsRequest>;
+export interface UpdateRoutingControlStateRequest {
+  RoutingControlArn: string;
+  RoutingControlState: string;
+  SafetyRulesToOverride?: Arns;
+}
+export const UpdateRoutingControlStateRequest = S.suspend(() =>
+  S.Struct({
     RoutingControlArn: S.String,
     RoutingControlState: S.String,
     SafetyRulesToOverride: S.optional(Arns),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateRoutingControlStateResponse extends S.Class<UpdateRoutingControlStateResponse>(
-  "UpdateRoutingControlStateResponse",
-)({}) {}
-export class UpdateRoutingControlStateEntry extends S.Class<UpdateRoutingControlStateEntry>(
-  "UpdateRoutingControlStateEntry",
-)({ RoutingControlArn: S.String, RoutingControlState: S.String }) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateRoutingControlStateRequest",
+}) as any as S.Schema<UpdateRoutingControlStateRequest>;
+export interface UpdateRoutingControlStateResponse {}
+export const UpdateRoutingControlStateResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateRoutingControlStateResponse",
+}) as any as S.Schema<UpdateRoutingControlStateResponse>;
+export interface UpdateRoutingControlStateEntry {
+  RoutingControlArn: string;
+  RoutingControlState: string;
+}
+export const UpdateRoutingControlStateEntry = S.suspend(() =>
+  S.Struct({ RoutingControlArn: S.String, RoutingControlState: S.String }),
+).annotations({
+  identifier: "UpdateRoutingControlStateEntry",
+}) as any as S.Schema<UpdateRoutingControlStateEntry>;
+export type UpdateRoutingControlStateEntries = UpdateRoutingControlStateEntry[];
 export const UpdateRoutingControlStateEntries = S.Array(
   UpdateRoutingControlStateEntry,
 );
-export class GetRoutingControlStateResponse extends S.Class<GetRoutingControlStateResponse>(
-  "GetRoutingControlStateResponse",
-)({
-  RoutingControlArn: S.String,
-  RoutingControlState: S.String,
-  RoutingControlName: S.optional(S.String),
-}) {}
-export class UpdateRoutingControlStatesRequest extends S.Class<UpdateRoutingControlStatesRequest>(
-  "UpdateRoutingControlStatesRequest",
-)(
-  {
+export interface GetRoutingControlStateResponse {
+  RoutingControlArn: string;
+  RoutingControlState: string;
+  RoutingControlName?: string;
+}
+export const GetRoutingControlStateResponse = S.suspend(() =>
+  S.Struct({
+    RoutingControlArn: S.String,
+    RoutingControlState: S.String,
+    RoutingControlName: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetRoutingControlStateResponse",
+}) as any as S.Schema<GetRoutingControlStateResponse>;
+export interface UpdateRoutingControlStatesRequest {
+  UpdateRoutingControlStateEntries: UpdateRoutingControlStateEntries;
+  SafetyRulesToOverride?: Arns;
+}
+export const UpdateRoutingControlStatesRequest = S.suspend(() =>
+  S.Struct({
     UpdateRoutingControlStateEntries: UpdateRoutingControlStateEntries,
     SafetyRulesToOverride: S.optional(Arns),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateRoutingControlStatesResponse extends S.Class<UpdateRoutingControlStatesResponse>(
-  "UpdateRoutingControlStatesResponse",
-)({}) {}
-export class RoutingControl extends S.Class<RoutingControl>("RoutingControl")({
-  ControlPanelArn: S.optional(S.String),
-  ControlPanelName: S.optional(S.String),
-  RoutingControlArn: S.optional(S.String),
-  RoutingControlName: S.optional(S.String),
-  RoutingControlState: S.optional(S.String),
-  Owner: S.optional(S.String),
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateRoutingControlStatesRequest",
+}) as any as S.Schema<UpdateRoutingControlStatesRequest>;
+export interface UpdateRoutingControlStatesResponse {}
+export const UpdateRoutingControlStatesResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateRoutingControlStatesResponse",
+}) as any as S.Schema<UpdateRoutingControlStatesResponse>;
+export interface RoutingControl {
+  ControlPanelArn?: string;
+  ControlPanelName?: string;
+  RoutingControlArn?: string;
+  RoutingControlName?: string;
+  RoutingControlState?: string;
+  Owner?: string;
+}
+export const RoutingControl = S.suspend(() =>
+  S.Struct({
+    ControlPanelArn: S.optional(S.String),
+    ControlPanelName: S.optional(S.String),
+    RoutingControlArn: S.optional(S.String),
+    RoutingControlName: S.optional(S.String),
+    RoutingControlState: S.optional(S.String),
+    Owner: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RoutingControl",
+}) as any as S.Schema<RoutingControl>;
+export type RoutingControls = RoutingControl[];
 export const RoutingControls = S.Array(RoutingControl);
-export class ListRoutingControlsResponse extends S.Class<ListRoutingControlsResponse>(
-  "ListRoutingControlsResponse",
-)({ RoutingControls: RoutingControls, NextToken: S.optional(S.String) }) {}
-export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
-  "ValidationExceptionField",
-)({ name: S.String, message: S.String }) {}
+export interface ListRoutingControlsResponse {
+  RoutingControls: RoutingControls;
+  NextToken?: string;
+}
+export const ListRoutingControlsResponse = S.suspend(() =>
+  S.Struct({
+    RoutingControls: RoutingControls,
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListRoutingControlsResponse",
+}) as any as S.Schema<ListRoutingControlsResponse>;
+export interface ValidationExceptionField {
+  name: string;
+  message: string;
+}
+export const ValidationExceptionField = S.suspend(() =>
+  S.Struct({ name: S.String, message: S.String }),
+).annotations({
+  identifier: "ValidationExceptionField",
+}) as any as S.Schema<ValidationExceptionField>;
+export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 
 //# Errors

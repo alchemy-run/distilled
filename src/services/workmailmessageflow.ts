@@ -242,49 +242,78 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class GetRawMessageContentRequest extends S.Class<GetRawMessageContentRequest>(
-  "GetRawMessageContentRequest",
-)(
-  { messageId: S.String.pipe(T.HttpLabel("messageId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/messages/{messageId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface GetRawMessageContentRequest {
+  messageId: string;
+}
+export const GetRawMessageContentRequest = S.suspend(() =>
+  S.Struct({ messageId: S.String.pipe(T.HttpLabel("messageId")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/messages/{messageId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetRawMessageContentResponse extends S.Class<GetRawMessageContentResponse>(
-  "GetRawMessageContentResponse",
-)({ messageContent: T.StreamingOutput.pipe(T.HttpPayload()) }) {}
-export class S3Reference extends S.Class<S3Reference>("S3Reference")({
-  bucket: S.String,
-  key: S.String,
-  objectVersion: S.optional(S.String),
-}) {}
-export class RawMessageContent extends S.Class<RawMessageContent>(
-  "RawMessageContent",
-)({ s3Reference: S3Reference }) {}
-export class PutRawMessageContentRequest extends S.Class<PutRawMessageContentRequest>(
-  "PutRawMessageContentRequest",
-)(
-  {
+).annotations({
+  identifier: "GetRawMessageContentRequest",
+}) as any as S.Schema<GetRawMessageContentRequest>;
+export interface GetRawMessageContentResponse {
+  messageContent: T.StreamingOutputBody;
+}
+export const GetRawMessageContentResponse = S.suspend(() =>
+  S.Struct({ messageContent: T.StreamingOutput.pipe(T.HttpPayload()) }),
+).annotations({
+  identifier: "GetRawMessageContentResponse",
+}) as any as S.Schema<GetRawMessageContentResponse>;
+export interface S3Reference {
+  bucket: string;
+  key: string;
+  objectVersion?: string;
+}
+export const S3Reference = S.suspend(() =>
+  S.Struct({
+    bucket: S.String,
+    key: S.String,
+    objectVersion: S.optional(S.String),
+  }),
+).annotations({ identifier: "S3Reference" }) as any as S.Schema<S3Reference>;
+export interface RawMessageContent {
+  s3Reference: S3Reference;
+}
+export const RawMessageContent = S.suspend(() =>
+  S.Struct({ s3Reference: S3Reference }),
+).annotations({
+  identifier: "RawMessageContent",
+}) as any as S.Schema<RawMessageContent>;
+export interface PutRawMessageContentRequest {
+  messageId: string;
+  content: RawMessageContent;
+}
+export const PutRawMessageContentRequest = S.suspend(() =>
+  S.Struct({
     messageId: S.String.pipe(T.HttpLabel("messageId")),
     content: RawMessageContent,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/messages/{messageId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/messages/{messageId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutRawMessageContentResponse extends S.Class<PutRawMessageContentResponse>(
-  "PutRawMessageContentResponse",
-)({}) {}
+).annotations({
+  identifier: "PutRawMessageContentRequest",
+}) as any as S.Schema<PutRawMessageContentRequest>;
+export interface PutRawMessageContentResponse {}
+export const PutRawMessageContentResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "PutRawMessageContentResponse",
+}) as any as S.Schema<PutRawMessageContentResponse>;
 
 //# Errors
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(

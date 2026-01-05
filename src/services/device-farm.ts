@@ -243,31 +243,72 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class GetAccountSettingsRequest extends S.Class<GetAccountSettingsRequest>(
-  "GetAccountSettingsRequest",
-)(
-  {},
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+export interface GetAccountSettingsRequest {}
+export const GetAccountSettingsRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetAccountSettingsRequest",
+}) as any as S.Schema<GetAccountSettingsRequest>;
+export type PackageIds = string[];
 export const PackageIds = S.Array(S.String);
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
+export type InstanceLabels = string[];
 export const InstanceLabels = S.Array(S.String);
-export class CreateInstanceProfileRequest extends S.Class<CreateInstanceProfileRequest>(
-  "CreateInstanceProfileRequest",
-)(
-  {
+export interface CreateInstanceProfileRequest {
+  name: string;
+  description?: string;
+  packageCleanup?: boolean;
+  excludeAppPackagesFromCleanup?: PackageIds;
+  rebootAfterUse?: boolean;
+}
+export const CreateInstanceProfileRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     description: S.optional(S.String),
     packageCleanup: S.optional(S.Boolean),
     excludeAppPackagesFromCleanup: S.optional(PackageIds),
     rebootAfterUse: S.optional(S.Boolean),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateNetworkProfileRequest extends S.Class<CreateNetworkProfileRequest>(
-  "CreateNetworkProfileRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateInstanceProfileRequest",
+}) as any as S.Schema<CreateInstanceProfileRequest>;
+export interface CreateNetworkProfileRequest {
+  projectArn: string;
+  name: string;
+  description?: string;
+  type?: string;
+  uplinkBandwidthBits?: number;
+  downlinkBandwidthBits?: number;
+  uplinkDelayMs?: number;
+  downlinkDelayMs?: number;
+  uplinkJitterMs?: number;
+  downlinkJitterMs?: number;
+  uplinkLossPercent?: number;
+  downlinkLossPercent?: number;
+}
+export const CreateNetworkProfileRequest = S.suspend(() =>
+  S.Struct({
     projectArn: S.String,
     name: S.String,
     description: S.optional(S.String),
@@ -280,347 +321,1006 @@ export class CreateNetworkProfileRequest extends S.Class<CreateNetworkProfileReq
     downlinkJitterMs: S.optional(S.Number),
     uplinkLossPercent: S.optional(S.Number),
     downlinkLossPercent: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateTestGridUrlRequest extends S.Class<CreateTestGridUrlRequest>(
-  "CreateTestGridUrlRequest",
-)(
-  { projectArn: S.String, expiresInSeconds: S.Number },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateUploadRequest extends S.Class<CreateUploadRequest>(
-  "CreateUploadRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateNetworkProfileRequest",
+}) as any as S.Schema<CreateNetworkProfileRequest>;
+export interface CreateTestGridUrlRequest {
+  projectArn: string;
+  expiresInSeconds: number;
+}
+export const CreateTestGridUrlRequest = S.suspend(() =>
+  S.Struct({ projectArn: S.String, expiresInSeconds: S.Number }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateTestGridUrlRequest",
+}) as any as S.Schema<CreateTestGridUrlRequest>;
+export interface CreateUploadRequest {
+  projectArn: string;
+  name: string;
+  type: string;
+  contentType?: string;
+}
+export const CreateUploadRequest = S.suspend(() =>
+  S.Struct({
     projectArn: S.String,
     name: S.String,
     type: S.String,
     contentType: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateVPCEConfigurationRequest extends S.Class<CreateVPCEConfigurationRequest>(
-  "CreateVPCEConfigurationRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateUploadRequest",
+}) as any as S.Schema<CreateUploadRequest>;
+export interface CreateVPCEConfigurationRequest {
+  vpceConfigurationName: string;
+  vpceServiceName: string;
+  serviceDnsName: string;
+  vpceConfigurationDescription?: string;
+}
+export const CreateVPCEConfigurationRequest = S.suspend(() =>
+  S.Struct({
     vpceConfigurationName: S.String,
     vpceServiceName: S.String,
     serviceDnsName: S.String,
     vpceConfigurationDescription: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteDevicePoolRequest extends S.Class<DeleteDevicePoolRequest>(
-  "DeleteDevicePoolRequest",
-)(
-  { arn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteDevicePoolResult extends S.Class<DeleteDevicePoolResult>(
-  "DeleteDevicePoolResult",
-)({}, ns) {}
-export class DeleteInstanceProfileRequest extends S.Class<DeleteInstanceProfileRequest>(
-  "DeleteInstanceProfileRequest",
-)(
-  { arn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteInstanceProfileResult extends S.Class<DeleteInstanceProfileResult>(
-  "DeleteInstanceProfileResult",
-)({}, ns) {}
-export class DeleteNetworkProfileRequest extends S.Class<DeleteNetworkProfileRequest>(
-  "DeleteNetworkProfileRequest",
-)(
-  { arn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteNetworkProfileResult extends S.Class<DeleteNetworkProfileResult>(
-  "DeleteNetworkProfileResult",
-)({}, ns) {}
-export class DeleteProjectRequest extends S.Class<DeleteProjectRequest>(
-  "DeleteProjectRequest",
-)(
-  { arn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteProjectResult extends S.Class<DeleteProjectResult>(
-  "DeleteProjectResult",
-)({}, ns) {}
-export class DeleteRemoteAccessSessionRequest extends S.Class<DeleteRemoteAccessSessionRequest>(
-  "DeleteRemoteAccessSessionRequest",
-)(
-  { arn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteRemoteAccessSessionResult extends S.Class<DeleteRemoteAccessSessionResult>(
-  "DeleteRemoteAccessSessionResult",
-)({}, ns) {}
-export class DeleteRunRequest extends S.Class<DeleteRunRequest>(
-  "DeleteRunRequest",
-)(
-  { arn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteRunResult extends S.Class<DeleteRunResult>(
-  "DeleteRunResult",
-)({}, ns) {}
-export class DeleteTestGridProjectRequest extends S.Class<DeleteTestGridProjectRequest>(
-  "DeleteTestGridProjectRequest",
-)(
-  { projectArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteTestGridProjectResult extends S.Class<DeleteTestGridProjectResult>(
-  "DeleteTestGridProjectResult",
-)({}, ns) {}
-export class DeleteUploadRequest extends S.Class<DeleteUploadRequest>(
-  "DeleteUploadRequest",
-)(
-  { arn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteUploadResult extends S.Class<DeleteUploadResult>(
-  "DeleteUploadResult",
-)({}, ns) {}
-export class DeleteVPCEConfigurationRequest extends S.Class<DeleteVPCEConfigurationRequest>(
-  "DeleteVPCEConfigurationRequest",
-)(
-  { arn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteVPCEConfigurationResult extends S.Class<DeleteVPCEConfigurationResult>(
-  "DeleteVPCEConfigurationResult",
-)({}, ns) {}
-export class GetDeviceRequest extends S.Class<GetDeviceRequest>(
-  "GetDeviceRequest",
-)(
-  { arn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetDeviceInstanceRequest extends S.Class<GetDeviceInstanceRequest>(
-  "GetDeviceInstanceRequest",
-)(
-  { arn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetDevicePoolRequest extends S.Class<GetDevicePoolRequest>(
-  "GetDevicePoolRequest",
-)(
-  { arn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetInstanceProfileRequest extends S.Class<GetInstanceProfileRequest>(
-  "GetInstanceProfileRequest",
-)(
-  { arn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetJobRequest extends S.Class<GetJobRequest>("GetJobRequest")(
-  { arn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetNetworkProfileRequest extends S.Class<GetNetworkProfileRequest>(
-  "GetNetworkProfileRequest",
-)(
-  { arn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetOfferingStatusRequest extends S.Class<GetOfferingStatusRequest>(
-  "GetOfferingStatusRequest",
-)(
-  { nextToken: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetProjectRequest extends S.Class<GetProjectRequest>(
-  "GetProjectRequest",
-)(
-  { arn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetRemoteAccessSessionRequest extends S.Class<GetRemoteAccessSessionRequest>(
-  "GetRemoteAccessSessionRequest",
-)(
-  { arn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetRunRequest extends S.Class<GetRunRequest>("GetRunRequest")(
-  { arn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetSuiteRequest extends S.Class<GetSuiteRequest>(
-  "GetSuiteRequest",
-)(
-  { arn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetTestRequest extends S.Class<GetTestRequest>("GetTestRequest")(
-  { arn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetTestGridProjectRequest extends S.Class<GetTestGridProjectRequest>(
-  "GetTestGridProjectRequest",
-)(
-  { projectArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetTestGridSessionRequest extends S.Class<GetTestGridSessionRequest>(
-  "GetTestGridSessionRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateVPCEConfigurationRequest",
+}) as any as S.Schema<CreateVPCEConfigurationRequest>;
+export interface DeleteDevicePoolRequest {
+  arn: string;
+}
+export const DeleteDevicePoolRequest = S.suspend(() =>
+  S.Struct({ arn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteDevicePoolRequest",
+}) as any as S.Schema<DeleteDevicePoolRequest>;
+export interface DeleteDevicePoolResult {}
+export const DeleteDevicePoolResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteDevicePoolResult",
+}) as any as S.Schema<DeleteDevicePoolResult>;
+export interface DeleteInstanceProfileRequest {
+  arn: string;
+}
+export const DeleteInstanceProfileRequest = S.suspend(() =>
+  S.Struct({ arn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteInstanceProfileRequest",
+}) as any as S.Schema<DeleteInstanceProfileRequest>;
+export interface DeleteInstanceProfileResult {}
+export const DeleteInstanceProfileResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteInstanceProfileResult",
+}) as any as S.Schema<DeleteInstanceProfileResult>;
+export interface DeleteNetworkProfileRequest {
+  arn: string;
+}
+export const DeleteNetworkProfileRequest = S.suspend(() =>
+  S.Struct({ arn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteNetworkProfileRequest",
+}) as any as S.Schema<DeleteNetworkProfileRequest>;
+export interface DeleteNetworkProfileResult {}
+export const DeleteNetworkProfileResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteNetworkProfileResult",
+}) as any as S.Schema<DeleteNetworkProfileResult>;
+export interface DeleteProjectRequest {
+  arn: string;
+}
+export const DeleteProjectRequest = S.suspend(() =>
+  S.Struct({ arn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteProjectRequest",
+}) as any as S.Schema<DeleteProjectRequest>;
+export interface DeleteProjectResult {}
+export const DeleteProjectResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteProjectResult",
+}) as any as S.Schema<DeleteProjectResult>;
+export interface DeleteRemoteAccessSessionRequest {
+  arn: string;
+}
+export const DeleteRemoteAccessSessionRequest = S.suspend(() =>
+  S.Struct({ arn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteRemoteAccessSessionRequest",
+}) as any as S.Schema<DeleteRemoteAccessSessionRequest>;
+export interface DeleteRemoteAccessSessionResult {}
+export const DeleteRemoteAccessSessionResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteRemoteAccessSessionResult",
+}) as any as S.Schema<DeleteRemoteAccessSessionResult>;
+export interface DeleteRunRequest {
+  arn: string;
+}
+export const DeleteRunRequest = S.suspend(() =>
+  S.Struct({ arn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteRunRequest",
+}) as any as S.Schema<DeleteRunRequest>;
+export interface DeleteRunResult {}
+export const DeleteRunResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteRunResult",
+}) as any as S.Schema<DeleteRunResult>;
+export interface DeleteTestGridProjectRequest {
+  projectArn: string;
+}
+export const DeleteTestGridProjectRequest = S.suspend(() =>
+  S.Struct({ projectArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteTestGridProjectRequest",
+}) as any as S.Schema<DeleteTestGridProjectRequest>;
+export interface DeleteTestGridProjectResult {}
+export const DeleteTestGridProjectResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteTestGridProjectResult",
+}) as any as S.Schema<DeleteTestGridProjectResult>;
+export interface DeleteUploadRequest {
+  arn: string;
+}
+export const DeleteUploadRequest = S.suspend(() =>
+  S.Struct({ arn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteUploadRequest",
+}) as any as S.Schema<DeleteUploadRequest>;
+export interface DeleteUploadResult {}
+export const DeleteUploadResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteUploadResult",
+}) as any as S.Schema<DeleteUploadResult>;
+export interface DeleteVPCEConfigurationRequest {
+  arn: string;
+}
+export const DeleteVPCEConfigurationRequest = S.suspend(() =>
+  S.Struct({ arn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteVPCEConfigurationRequest",
+}) as any as S.Schema<DeleteVPCEConfigurationRequest>;
+export interface DeleteVPCEConfigurationResult {}
+export const DeleteVPCEConfigurationResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteVPCEConfigurationResult",
+}) as any as S.Schema<DeleteVPCEConfigurationResult>;
+export interface GetDeviceRequest {
+  arn: string;
+}
+export const GetDeviceRequest = S.suspend(() =>
+  S.Struct({ arn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetDeviceRequest",
+}) as any as S.Schema<GetDeviceRequest>;
+export interface GetDeviceInstanceRequest {
+  arn: string;
+}
+export const GetDeviceInstanceRequest = S.suspend(() =>
+  S.Struct({ arn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetDeviceInstanceRequest",
+}) as any as S.Schema<GetDeviceInstanceRequest>;
+export interface GetDevicePoolRequest {
+  arn: string;
+}
+export const GetDevicePoolRequest = S.suspend(() =>
+  S.Struct({ arn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetDevicePoolRequest",
+}) as any as S.Schema<GetDevicePoolRequest>;
+export interface GetInstanceProfileRequest {
+  arn: string;
+}
+export const GetInstanceProfileRequest = S.suspend(() =>
+  S.Struct({ arn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetInstanceProfileRequest",
+}) as any as S.Schema<GetInstanceProfileRequest>;
+export interface GetJobRequest {
+  arn: string;
+}
+export const GetJobRequest = S.suspend(() =>
+  S.Struct({ arn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetJobRequest",
+}) as any as S.Schema<GetJobRequest>;
+export interface GetNetworkProfileRequest {
+  arn: string;
+}
+export const GetNetworkProfileRequest = S.suspend(() =>
+  S.Struct({ arn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetNetworkProfileRequest",
+}) as any as S.Schema<GetNetworkProfileRequest>;
+export interface GetOfferingStatusRequest {
+  nextToken?: string;
+}
+export const GetOfferingStatusRequest = S.suspend(() =>
+  S.Struct({ nextToken: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetOfferingStatusRequest",
+}) as any as S.Schema<GetOfferingStatusRequest>;
+export interface GetProjectRequest {
+  arn: string;
+}
+export const GetProjectRequest = S.suspend(() =>
+  S.Struct({ arn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetProjectRequest",
+}) as any as S.Schema<GetProjectRequest>;
+export interface GetRemoteAccessSessionRequest {
+  arn: string;
+}
+export const GetRemoteAccessSessionRequest = S.suspend(() =>
+  S.Struct({ arn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetRemoteAccessSessionRequest",
+}) as any as S.Schema<GetRemoteAccessSessionRequest>;
+export interface GetRunRequest {
+  arn: string;
+}
+export const GetRunRequest = S.suspend(() =>
+  S.Struct({ arn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetRunRequest",
+}) as any as S.Schema<GetRunRequest>;
+export interface GetSuiteRequest {
+  arn: string;
+}
+export const GetSuiteRequest = S.suspend(() =>
+  S.Struct({ arn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetSuiteRequest",
+}) as any as S.Schema<GetSuiteRequest>;
+export interface GetTestRequest {
+  arn: string;
+}
+export const GetTestRequest = S.suspend(() =>
+  S.Struct({ arn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetTestRequest",
+}) as any as S.Schema<GetTestRequest>;
+export interface GetTestGridProjectRequest {
+  projectArn: string;
+}
+export const GetTestGridProjectRequest = S.suspend(() =>
+  S.Struct({ projectArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetTestGridProjectRequest",
+}) as any as S.Schema<GetTestGridProjectRequest>;
+export interface GetTestGridSessionRequest {
+  projectArn?: string;
+  sessionId?: string;
+  sessionArn?: string;
+}
+export const GetTestGridSessionRequest = S.suspend(() =>
+  S.Struct({
     projectArn: S.optional(S.String),
     sessionId: S.optional(S.String),
     sessionArn: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetUploadRequest extends S.Class<GetUploadRequest>(
-  "GetUploadRequest",
-)(
-  { arn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetVPCEConfigurationRequest extends S.Class<GetVPCEConfigurationRequest>(
-  "GetVPCEConfigurationRequest",
-)(
-  { arn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class InstallToRemoteAccessSessionRequest extends S.Class<InstallToRemoteAccessSessionRequest>(
-  "InstallToRemoteAccessSessionRequest",
-)(
-  { remoteAccessSessionArn: S.String, appArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListArtifactsRequest extends S.Class<ListArtifactsRequest>(
-  "ListArtifactsRequest",
-)(
-  { arn: S.String, type: S.String, nextToken: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListDeviceInstancesRequest extends S.Class<ListDeviceInstancesRequest>(
-  "ListDeviceInstancesRequest",
-)(
-  { maxResults: S.optional(S.Number), nextToken: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListDevicePoolsRequest extends S.Class<ListDevicePoolsRequest>(
-  "ListDevicePoolsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetTestGridSessionRequest",
+}) as any as S.Schema<GetTestGridSessionRequest>;
+export interface GetUploadRequest {
+  arn: string;
+}
+export const GetUploadRequest = S.suspend(() =>
+  S.Struct({ arn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetUploadRequest",
+}) as any as S.Schema<GetUploadRequest>;
+export interface GetVPCEConfigurationRequest {
+  arn: string;
+}
+export const GetVPCEConfigurationRequest = S.suspend(() =>
+  S.Struct({ arn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetVPCEConfigurationRequest",
+}) as any as S.Schema<GetVPCEConfigurationRequest>;
+export interface InstallToRemoteAccessSessionRequest {
+  remoteAccessSessionArn: string;
+  appArn: string;
+}
+export const InstallToRemoteAccessSessionRequest = S.suspend(() =>
+  S.Struct({ remoteAccessSessionArn: S.String, appArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "InstallToRemoteAccessSessionRequest",
+}) as any as S.Schema<InstallToRemoteAccessSessionRequest>;
+export interface ListArtifactsRequest {
+  arn: string;
+  type: string;
+  nextToken?: string;
+}
+export const ListArtifactsRequest = S.suspend(() =>
+  S.Struct({
+    arn: S.String,
+    type: S.String,
+    nextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListArtifactsRequest",
+}) as any as S.Schema<ListArtifactsRequest>;
+export interface ListDeviceInstancesRequest {
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListDeviceInstancesRequest = S.suspend(() =>
+  S.Struct({
+    maxResults: S.optional(S.Number),
+    nextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListDeviceInstancesRequest",
+}) as any as S.Schema<ListDeviceInstancesRequest>;
+export interface ListDevicePoolsRequest {
+  arn: string;
+  type?: string;
+  nextToken?: string;
+}
+export const ListDevicePoolsRequest = S.suspend(() =>
+  S.Struct({
     arn: S.String,
     type: S.optional(S.String),
     nextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListInstanceProfilesRequest extends S.Class<ListInstanceProfilesRequest>(
-  "ListInstanceProfilesRequest",
-)(
-  { maxResults: S.optional(S.Number), nextToken: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListJobsRequest extends S.Class<ListJobsRequest>(
-  "ListJobsRequest",
-)(
-  { arn: S.String, nextToken: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListNetworkProfilesRequest extends S.Class<ListNetworkProfilesRequest>(
-  "ListNetworkProfilesRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListDevicePoolsRequest",
+}) as any as S.Schema<ListDevicePoolsRequest>;
+export interface ListInstanceProfilesRequest {
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListInstanceProfilesRequest = S.suspend(() =>
+  S.Struct({
+    maxResults: S.optional(S.Number),
+    nextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListInstanceProfilesRequest",
+}) as any as S.Schema<ListInstanceProfilesRequest>;
+export interface ListJobsRequest {
+  arn: string;
+  nextToken?: string;
+}
+export const ListJobsRequest = S.suspend(() =>
+  S.Struct({ arn: S.String, nextToken: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListJobsRequest",
+}) as any as S.Schema<ListJobsRequest>;
+export interface ListNetworkProfilesRequest {
+  arn: string;
+  type?: string;
+  nextToken?: string;
+}
+export const ListNetworkProfilesRequest = S.suspend(() =>
+  S.Struct({
     arn: S.String,
     type: S.optional(S.String),
     nextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListOfferingPromotionsRequest extends S.Class<ListOfferingPromotionsRequest>(
-  "ListOfferingPromotionsRequest",
-)(
-  { nextToken: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListOfferingsRequest extends S.Class<ListOfferingsRequest>(
-  "ListOfferingsRequest",
-)(
-  { nextToken: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListOfferingTransactionsRequest extends S.Class<ListOfferingTransactionsRequest>(
-  "ListOfferingTransactionsRequest",
-)(
-  { nextToken: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListProjectsRequest extends S.Class<ListProjectsRequest>(
-  "ListProjectsRequest",
-)(
-  { arn: S.optional(S.String), nextToken: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListRemoteAccessSessionsRequest extends S.Class<ListRemoteAccessSessionsRequest>(
-  "ListRemoteAccessSessionsRequest",
-)(
-  { arn: S.String, nextToken: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListRunsRequest extends S.Class<ListRunsRequest>(
-  "ListRunsRequest",
-)(
-  { arn: S.String, nextToken: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListSamplesRequest extends S.Class<ListSamplesRequest>(
-  "ListSamplesRequest",
-)(
-  { arn: S.String, nextToken: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListSuitesRequest extends S.Class<ListSuitesRequest>(
-  "ListSuitesRequest",
-)(
-  { arn: S.String, nextToken: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { ResourceARN: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTestGridProjectsRequest extends S.Class<ListTestGridProjectsRequest>(
-  "ListTestGridProjectsRequest",
-)(
-  { maxResult: S.optional(S.Number), nextToken: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTestGridSessionActionsRequest extends S.Class<ListTestGridSessionActionsRequest>(
-  "ListTestGridSessionActionsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListNetworkProfilesRequest",
+}) as any as S.Schema<ListNetworkProfilesRequest>;
+export interface ListOfferingPromotionsRequest {
+  nextToken?: string;
+}
+export const ListOfferingPromotionsRequest = S.suspend(() =>
+  S.Struct({ nextToken: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListOfferingPromotionsRequest",
+}) as any as S.Schema<ListOfferingPromotionsRequest>;
+export interface ListOfferingsRequest {
+  nextToken?: string;
+}
+export const ListOfferingsRequest = S.suspend(() =>
+  S.Struct({ nextToken: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListOfferingsRequest",
+}) as any as S.Schema<ListOfferingsRequest>;
+export interface ListOfferingTransactionsRequest {
+  nextToken?: string;
+}
+export const ListOfferingTransactionsRequest = S.suspend(() =>
+  S.Struct({ nextToken: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListOfferingTransactionsRequest",
+}) as any as S.Schema<ListOfferingTransactionsRequest>;
+export interface ListProjectsRequest {
+  arn?: string;
+  nextToken?: string;
+}
+export const ListProjectsRequest = S.suspend(() =>
+  S.Struct({ arn: S.optional(S.String), nextToken: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListProjectsRequest",
+}) as any as S.Schema<ListProjectsRequest>;
+export interface ListRemoteAccessSessionsRequest {
+  arn: string;
+  nextToken?: string;
+}
+export const ListRemoteAccessSessionsRequest = S.suspend(() =>
+  S.Struct({ arn: S.String, nextToken: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListRemoteAccessSessionsRequest",
+}) as any as S.Schema<ListRemoteAccessSessionsRequest>;
+export interface ListRunsRequest {
+  arn: string;
+  nextToken?: string;
+}
+export const ListRunsRequest = S.suspend(() =>
+  S.Struct({ arn: S.String, nextToken: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListRunsRequest",
+}) as any as S.Schema<ListRunsRequest>;
+export interface ListSamplesRequest {
+  arn: string;
+  nextToken?: string;
+}
+export const ListSamplesRequest = S.suspend(() =>
+  S.Struct({ arn: S.String, nextToken: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListSamplesRequest",
+}) as any as S.Schema<ListSamplesRequest>;
+export interface ListSuitesRequest {
+  arn: string;
+  nextToken?: string;
+}
+export const ListSuitesRequest = S.suspend(() =>
+  S.Struct({ arn: S.String, nextToken: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListSuitesRequest",
+}) as any as S.Schema<ListSuitesRequest>;
+export interface ListTagsForResourceRequest {
+  ResourceARN: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceARN: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface ListTestGridProjectsRequest {
+  maxResult?: number;
+  nextToken?: string;
+}
+export const ListTestGridProjectsRequest = S.suspend(() =>
+  S.Struct({
+    maxResult: S.optional(S.Number),
+    nextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListTestGridProjectsRequest",
+}) as any as S.Schema<ListTestGridProjectsRequest>;
+export interface ListTestGridSessionActionsRequest {
+  sessionArn: string;
+  maxResult?: number;
+  nextToken?: string;
+}
+export const ListTestGridSessionActionsRequest = S.suspend(() =>
+  S.Struct({
     sessionArn: S.String,
     maxResult: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTestGridSessionArtifactsRequest extends S.Class<ListTestGridSessionArtifactsRequest>(
-  "ListTestGridSessionArtifactsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListTestGridSessionActionsRequest",
+}) as any as S.Schema<ListTestGridSessionActionsRequest>;
+export interface ListTestGridSessionArtifactsRequest {
+  sessionArn: string;
+  type?: string;
+  maxResult?: number;
+  nextToken?: string;
+}
+export const ListTestGridSessionArtifactsRequest = S.suspend(() =>
+  S.Struct({
     sessionArn: S.String,
     type: S.optional(S.String),
     maxResult: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTestGridSessionsRequest extends S.Class<ListTestGridSessionsRequest>(
-  "ListTestGridSessionsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListTestGridSessionArtifactsRequest",
+}) as any as S.Schema<ListTestGridSessionArtifactsRequest>;
+export interface ListTestGridSessionsRequest {
+  projectArn: string;
+  status?: string;
+  creationTimeAfter?: Date;
+  creationTimeBefore?: Date;
+  endTimeAfter?: Date;
+  endTimeBefore?: Date;
+  maxResult?: number;
+  nextToken?: string;
+}
+export const ListTestGridSessionsRequest = S.suspend(() =>
+  S.Struct({
     projectArn: S.String,
     status: S.optional(S.String),
     creationTimeAfter: S.optional(
@@ -633,122 +1333,340 @@ export class ListTestGridSessionsRequest extends S.Class<ListTestGridSessionsReq
     endTimeBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     maxResult: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTestsRequest extends S.Class<ListTestsRequest>(
-  "ListTestsRequest",
-)(
-  { arn: S.String, nextToken: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListUniqueProblemsRequest extends S.Class<ListUniqueProblemsRequest>(
-  "ListUniqueProblemsRequest",
-)(
-  { arn: S.String, nextToken: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListUploadsRequest extends S.Class<ListUploadsRequest>(
-  "ListUploadsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListTestGridSessionsRequest",
+}) as any as S.Schema<ListTestGridSessionsRequest>;
+export interface ListTestsRequest {
+  arn: string;
+  nextToken?: string;
+}
+export const ListTestsRequest = S.suspend(() =>
+  S.Struct({ arn: S.String, nextToken: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListTestsRequest",
+}) as any as S.Schema<ListTestsRequest>;
+export interface ListUniqueProblemsRequest {
+  arn: string;
+  nextToken?: string;
+}
+export const ListUniqueProblemsRequest = S.suspend(() =>
+  S.Struct({ arn: S.String, nextToken: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListUniqueProblemsRequest",
+}) as any as S.Schema<ListUniqueProblemsRequest>;
+export interface ListUploadsRequest {
+  arn: string;
+  type?: string;
+  nextToken?: string;
+}
+export const ListUploadsRequest = S.suspend(() =>
+  S.Struct({
     arn: S.String,
     type: S.optional(S.String),
     nextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListVPCEConfigurationsRequest extends S.Class<ListVPCEConfigurationsRequest>(
-  "ListVPCEConfigurationsRequest",
-)(
-  { maxResults: S.optional(S.Number), nextToken: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PurchaseOfferingRequest extends S.Class<PurchaseOfferingRequest>(
-  "PurchaseOfferingRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListUploadsRequest",
+}) as any as S.Schema<ListUploadsRequest>;
+export interface ListVPCEConfigurationsRequest {
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListVPCEConfigurationsRequest = S.suspend(() =>
+  S.Struct({
+    maxResults: S.optional(S.Number),
+    nextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListVPCEConfigurationsRequest",
+}) as any as S.Schema<ListVPCEConfigurationsRequest>;
+export interface PurchaseOfferingRequest {
+  offeringId: string;
+  quantity: number;
+  offeringPromotionId?: string;
+}
+export const PurchaseOfferingRequest = S.suspend(() =>
+  S.Struct({
     offeringId: S.String,
     quantity: S.Number,
     offeringPromotionId: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class RenewOfferingRequest extends S.Class<RenewOfferingRequest>(
-  "RenewOfferingRequest",
-)(
-  { offeringId: S.String, quantity: S.Number },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StopJobRequest extends S.Class<StopJobRequest>("StopJobRequest")(
-  { arn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StopRemoteAccessSessionRequest extends S.Class<StopRemoteAccessSessionRequest>(
-  "StopRemoteAccessSessionRequest",
-)(
-  { arn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StopRunRequest extends S.Class<StopRunRequest>("StopRunRequest")(
-  { arn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  { ResourceARN: S.String, TagKeys: TagKeyList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}, ns) {}
-export class UpdateDeviceInstanceRequest extends S.Class<UpdateDeviceInstanceRequest>(
-  "UpdateDeviceInstanceRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PurchaseOfferingRequest",
+}) as any as S.Schema<PurchaseOfferingRequest>;
+export interface RenewOfferingRequest {
+  offeringId: string;
+  quantity: number;
+}
+export const RenewOfferingRequest = S.suspend(() =>
+  S.Struct({ offeringId: S.String, quantity: S.Number }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "RenewOfferingRequest",
+}) as any as S.Schema<RenewOfferingRequest>;
+export interface StopJobRequest {
+  arn: string;
+}
+export const StopJobRequest = S.suspend(() =>
+  S.Struct({ arn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "StopJobRequest",
+}) as any as S.Schema<StopJobRequest>;
+export interface StopRemoteAccessSessionRequest {
+  arn: string;
+}
+export const StopRemoteAccessSessionRequest = S.suspend(() =>
+  S.Struct({ arn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "StopRemoteAccessSessionRequest",
+}) as any as S.Schema<StopRemoteAccessSessionRequest>;
+export interface StopRunRequest {
+  arn: string;
+}
+export const StopRunRequest = S.suspend(() =>
+  S.Struct({ arn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "StopRunRequest",
+}) as any as S.Schema<StopRunRequest>;
+export interface UntagResourceRequest {
+  ResourceARN: string;
+  TagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceARN: S.String, TagKeys: TagKeyList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface UpdateDeviceInstanceRequest {
+  arn: string;
+  profileArn?: string;
+  labels?: InstanceLabels;
+}
+export const UpdateDeviceInstanceRequest = S.suspend(() =>
+  S.Struct({
     arn: S.String,
     profileArn: S.optional(S.String),
     labels: S.optional(InstanceLabels),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class Rule extends S.Class<Rule>("Rule")({
-  attribute: S.optional(S.String),
-  operator: S.optional(S.String),
-  value: S.optional(S.String),
-}) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateDeviceInstanceRequest",
+}) as any as S.Schema<UpdateDeviceInstanceRequest>;
+export interface Rule {
+  attribute?: string;
+  operator?: string;
+  value?: string;
+}
+export const Rule = S.suspend(() =>
+  S.Struct({
+    attribute: S.optional(S.String),
+    operator: S.optional(S.String),
+    value: S.optional(S.String),
+  }),
+).annotations({ identifier: "Rule" }) as any as S.Schema<Rule>;
+export type Rules = Rule[];
 export const Rules = S.Array(Rule);
-export class UpdateDevicePoolRequest extends S.Class<UpdateDevicePoolRequest>(
-  "UpdateDevicePoolRequest",
-)(
-  {
+export interface UpdateDevicePoolRequest {
+  arn: string;
+  name?: string;
+  description?: string;
+  rules?: Rules;
+  maxDevices?: number;
+  clearMaxDevices?: boolean;
+}
+export const UpdateDevicePoolRequest = S.suspend(() =>
+  S.Struct({
     arn: S.String,
     name: S.optional(S.String),
     description: S.optional(S.String),
     rules: S.optional(Rules),
     maxDevices: S.optional(S.Number),
     clearMaxDevices: S.optional(S.Boolean),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateInstanceProfileRequest extends S.Class<UpdateInstanceProfileRequest>(
-  "UpdateInstanceProfileRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateDevicePoolRequest",
+}) as any as S.Schema<UpdateDevicePoolRequest>;
+export interface UpdateInstanceProfileRequest {
+  arn: string;
+  name?: string;
+  description?: string;
+  packageCleanup?: boolean;
+  excludeAppPackagesFromCleanup?: PackageIds;
+  rebootAfterUse?: boolean;
+}
+export const UpdateInstanceProfileRequest = S.suspend(() =>
+  S.Struct({
     arn: S.String,
     name: S.optional(S.String),
     description: S.optional(S.String),
     packageCleanup: S.optional(S.Boolean),
     excludeAppPackagesFromCleanup: S.optional(PackageIds),
     rebootAfterUse: S.optional(S.Boolean),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateNetworkProfileRequest extends S.Class<UpdateNetworkProfileRequest>(
-  "UpdateNetworkProfileRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateInstanceProfileRequest",
+}) as any as S.Schema<UpdateInstanceProfileRequest>;
+export interface UpdateNetworkProfileRequest {
+  arn: string;
+  name?: string;
+  description?: string;
+  type?: string;
+  uplinkBandwidthBits?: number;
+  downlinkBandwidthBits?: number;
+  uplinkDelayMs?: number;
+  downlinkDelayMs?: number;
+  uplinkJitterMs?: number;
+  downlinkJitterMs?: number;
+  uplinkLossPercent?: number;
+  downlinkLossPercent?: number;
+}
+export const UpdateNetworkProfileRequest = S.suspend(() =>
+  S.Struct({
     arn: S.String,
     name: S.optional(S.String),
     description: S.optional(S.String),
@@ -761,618 +1679,1327 @@ export class UpdateNetworkProfileRequest extends S.Class<UpdateNetworkProfileReq
     downlinkJitterMs: S.optional(S.Number),
     uplinkLossPercent: S.optional(S.Number),
     downlinkLossPercent: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateNetworkProfileRequest",
+}) as any as S.Schema<UpdateNetworkProfileRequest>;
+export type VpcSecurityGroupIds = string[];
 export const VpcSecurityGroupIds = S.Array(S.String);
+export type VpcSubnetIds = string[];
 export const VpcSubnetIds = S.Array(S.String);
-export class VpcConfig extends S.Class<VpcConfig>("VpcConfig")({
-  securityGroupIds: VpcSecurityGroupIds,
-  subnetIds: VpcSubnetIds,
-  vpcId: S.String,
-}) {}
-export class EnvironmentVariable extends S.Class<EnvironmentVariable>(
-  "EnvironmentVariable",
-)({ name: S.String, value: S.String }) {}
+export interface VpcConfig {
+  securityGroupIds: VpcSecurityGroupIds;
+  subnetIds: VpcSubnetIds;
+  vpcId: string;
+}
+export const VpcConfig = S.suspend(() =>
+  S.Struct({
+    securityGroupIds: VpcSecurityGroupIds,
+    subnetIds: VpcSubnetIds,
+    vpcId: S.String,
+  }),
+).annotations({ identifier: "VpcConfig" }) as any as S.Schema<VpcConfig>;
+export interface EnvironmentVariable {
+  name: string;
+  value: string;
+}
+export const EnvironmentVariable = S.suspend(() =>
+  S.Struct({ name: S.String, value: S.String }),
+).annotations({
+  identifier: "EnvironmentVariable",
+}) as any as S.Schema<EnvironmentVariable>;
+export type EnvironmentVariables = EnvironmentVariable[];
 export const EnvironmentVariables = S.Array(EnvironmentVariable);
-export class UpdateProjectRequest extends S.Class<UpdateProjectRequest>(
-  "UpdateProjectRequest",
-)(
-  {
+export interface UpdateProjectRequest {
+  arn: string;
+  name?: string;
+  defaultJobTimeoutMinutes?: number;
+  vpcConfig?: VpcConfig;
+  environmentVariables?: EnvironmentVariables;
+  executionRoleArn?: string;
+}
+export const UpdateProjectRequest = S.suspend(() =>
+  S.Struct({
     arn: S.String,
     name: S.optional(S.String),
     defaultJobTimeoutMinutes: S.optional(S.Number),
     vpcConfig: S.optional(VpcConfig),
     environmentVariables: S.optional(EnvironmentVariables),
     executionRoleArn: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateProjectRequest",
+}) as any as S.Schema<UpdateProjectRequest>;
+export type SecurityGroupIds = string[];
 export const SecurityGroupIds = S.Array(S.String);
+export type SubnetIds = string[];
 export const SubnetIds = S.Array(S.String);
-export class TestGridVpcConfig extends S.Class<TestGridVpcConfig>(
-  "TestGridVpcConfig",
-)({
-  securityGroupIds: SecurityGroupIds,
-  subnetIds: SubnetIds,
-  vpcId: S.String,
-}) {}
-export class UpdateTestGridProjectRequest extends S.Class<UpdateTestGridProjectRequest>(
-  "UpdateTestGridProjectRequest",
-)(
-  {
+export interface TestGridVpcConfig {
+  securityGroupIds: SecurityGroupIds;
+  subnetIds: SubnetIds;
+  vpcId: string;
+}
+export const TestGridVpcConfig = S.suspend(() =>
+  S.Struct({
+    securityGroupIds: SecurityGroupIds,
+    subnetIds: SubnetIds,
+    vpcId: S.String,
+  }),
+).annotations({
+  identifier: "TestGridVpcConfig",
+}) as any as S.Schema<TestGridVpcConfig>;
+export interface UpdateTestGridProjectRequest {
+  projectArn: string;
+  name?: string;
+  description?: string;
+  vpcConfig?: TestGridVpcConfig;
+}
+export const UpdateTestGridProjectRequest = S.suspend(() =>
+  S.Struct({
     projectArn: S.String,
     name: S.optional(S.String),
     description: S.optional(S.String),
     vpcConfig: S.optional(TestGridVpcConfig),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateUploadRequest extends S.Class<UpdateUploadRequest>(
-  "UpdateUploadRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateTestGridProjectRequest",
+}) as any as S.Schema<UpdateTestGridProjectRequest>;
+export interface UpdateUploadRequest {
+  arn: string;
+  name?: string;
+  contentType?: string;
+  editContent?: boolean;
+}
+export const UpdateUploadRequest = S.suspend(() =>
+  S.Struct({
     arn: S.String,
     name: S.optional(S.String),
     contentType: S.optional(S.String),
     editContent: S.optional(S.Boolean),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateVPCEConfigurationRequest extends S.Class<UpdateVPCEConfigurationRequest>(
-  "UpdateVPCEConfigurationRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateUploadRequest",
+}) as any as S.Schema<UpdateUploadRequest>;
+export interface UpdateVPCEConfigurationRequest {
+  arn: string;
+  vpceConfigurationName?: string;
+  vpceServiceName?: string;
+  serviceDnsName?: string;
+  vpceConfigurationDescription?: string;
+}
+export const UpdateVPCEConfigurationRequest = S.suspend(() =>
+  S.Struct({
     arn: S.String,
     vpceConfigurationName: S.optional(S.String),
     vpceServiceName: S.optional(S.String),
     serviceDnsName: S.optional(S.String),
     vpceConfigurationDescription: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateVPCEConfigurationRequest",
+}) as any as S.Schema<UpdateVPCEConfigurationRequest>;
+export type AuxiliaryAppArnList = string[];
 export const AuxiliaryAppArnList = S.Array(S.String);
+export type AmazonResourceNames = string[];
 export const AmazonResourceNames = S.Array(S.String);
+export type DeviceFilterValues = string[];
 export const DeviceFilterValues = S.Array(S.String);
-export class InstanceProfile extends S.Class<InstanceProfile>(
-  "InstanceProfile",
-)({
-  arn: S.optional(S.String),
-  packageCleanup: S.optional(S.Boolean),
-  excludeAppPackagesFromCleanup: S.optional(PackageIds),
-  rebootAfterUse: S.optional(S.Boolean),
-  name: S.optional(S.String),
-  description: S.optional(S.String),
-}) {}
-export class DeviceInstance extends S.Class<DeviceInstance>("DeviceInstance")({
-  arn: S.optional(S.String),
-  deviceArn: S.optional(S.String),
-  labels: S.optional(InstanceLabels),
-  status: S.optional(S.String),
-  udid: S.optional(S.String),
-  instanceProfile: S.optional(InstanceProfile),
-}) {}
+export interface InstanceProfile {
+  arn?: string;
+  packageCleanup?: boolean;
+  excludeAppPackagesFromCleanup?: PackageIds;
+  rebootAfterUse?: boolean;
+  name?: string;
+  description?: string;
+}
+export const InstanceProfile = S.suspend(() =>
+  S.Struct({
+    arn: S.optional(S.String),
+    packageCleanup: S.optional(S.Boolean),
+    excludeAppPackagesFromCleanup: S.optional(PackageIds),
+    rebootAfterUse: S.optional(S.Boolean),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "InstanceProfile",
+}) as any as S.Schema<InstanceProfile>;
+export interface DeviceInstance {
+  arn?: string;
+  deviceArn?: string;
+  labels?: InstanceLabels;
+  status?: string;
+  udid?: string;
+  instanceProfile?: InstanceProfile;
+}
+export const DeviceInstance = S.suspend(() =>
+  S.Struct({
+    arn: S.optional(S.String),
+    deviceArn: S.optional(S.String),
+    labels: S.optional(InstanceLabels),
+    status: S.optional(S.String),
+    udid: S.optional(S.String),
+    instanceProfile: S.optional(InstanceProfile),
+  }),
+).annotations({
+  identifier: "DeviceInstance",
+}) as any as S.Schema<DeviceInstance>;
+export type DeviceInstances = DeviceInstance[];
 export const DeviceInstances = S.Array(DeviceInstance);
-export class DevicePool extends S.Class<DevicePool>("DevicePool")({
-  arn: S.optional(S.String),
-  name: S.optional(S.String),
-  description: S.optional(S.String),
-  type: S.optional(S.String),
-  rules: S.optional(Rules),
-  maxDevices: S.optional(S.Number),
-}) {}
+export interface DevicePool {
+  arn?: string;
+  name?: string;
+  description?: string;
+  type?: string;
+  rules?: Rules;
+  maxDevices?: number;
+}
+export const DevicePool = S.suspend(() =>
+  S.Struct({
+    arn: S.optional(S.String),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    type: S.optional(S.String),
+    rules: S.optional(Rules),
+    maxDevices: S.optional(S.Number),
+  }),
+).annotations({ identifier: "DevicePool" }) as any as S.Schema<DevicePool>;
+export type DevicePools = DevicePool[];
 export const DevicePools = S.Array(DevicePool);
-export class DeviceFilter extends S.Class<DeviceFilter>("DeviceFilter")({
-  attribute: S.String,
-  operator: S.String,
-  values: DeviceFilterValues,
-}) {}
+export interface DeviceFilter {
+  attribute: string;
+  operator: string;
+  values: DeviceFilterValues;
+}
+export const DeviceFilter = S.suspend(() =>
+  S.Struct({
+    attribute: S.String,
+    operator: S.String,
+    values: DeviceFilterValues,
+  }),
+).annotations({ identifier: "DeviceFilter" }) as any as S.Schema<DeviceFilter>;
+export type DeviceFilters = DeviceFilter[];
 export const DeviceFilters = S.Array(DeviceFilter);
+export type InstanceProfiles = InstanceProfile[];
 export const InstanceProfiles = S.Array(InstanceProfile);
-export class Counters extends S.Class<Counters>("Counters")({
-  total: S.optional(S.Number),
-  passed: S.optional(S.Number),
-  failed: S.optional(S.Number),
-  warned: S.optional(S.Number),
-  errored: S.optional(S.Number),
-  stopped: S.optional(S.Number),
-  skipped: S.optional(S.Number),
-}) {}
-export class CPU extends S.Class<CPU>("CPU")({
-  frequency: S.optional(S.String),
-  architecture: S.optional(S.String),
-  clock: S.optional(S.Number),
-}) {}
-export class Resolution extends S.Class<Resolution>("Resolution")({
-  width: S.optional(S.Number),
-  height: S.optional(S.Number),
-}) {}
-export class Device extends S.Class<Device>("Device")({
-  arn: S.optional(S.String),
-  name: S.optional(S.String),
-  manufacturer: S.optional(S.String),
-  model: S.optional(S.String),
-  modelId: S.optional(S.String),
-  formFactor: S.optional(S.String),
-  platform: S.optional(S.String),
-  os: S.optional(S.String),
-  cpu: S.optional(CPU),
-  resolution: S.optional(Resolution),
-  heapSize: S.optional(S.Number),
-  memory: S.optional(S.Number),
-  image: S.optional(S.String),
-  carrier: S.optional(S.String),
-  radio: S.optional(S.String),
-  remoteAccessEnabled: S.optional(S.Boolean),
-  remoteDebugEnabled: S.optional(S.Boolean),
-  fleetType: S.optional(S.String),
-  fleetName: S.optional(S.String),
-  instances: S.optional(DeviceInstances),
-  availability: S.optional(S.String),
-}) {}
-export class DeviceMinutes extends S.Class<DeviceMinutes>("DeviceMinutes")({
-  total: S.optional(S.Number),
-  metered: S.optional(S.Number),
-  unmetered: S.optional(S.Number),
-}) {}
-export class Job extends S.Class<Job>("Job")({
-  arn: S.optional(S.String),
-  name: S.optional(S.String),
-  type: S.optional(S.String),
-  created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  status: S.optional(S.String),
-  result: S.optional(S.String),
-  started: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  stopped: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  counters: S.optional(Counters),
-  message: S.optional(S.String),
-  device: S.optional(Device),
-  instanceArn: S.optional(S.String),
-  deviceMinutes: S.optional(DeviceMinutes),
-  videoEndpoint: S.optional(S.String),
-  videoCapture: S.optional(S.Boolean),
-}) {}
+export interface Counters {
+  total?: number;
+  passed?: number;
+  failed?: number;
+  warned?: number;
+  errored?: number;
+  stopped?: number;
+  skipped?: number;
+}
+export const Counters = S.suspend(() =>
+  S.Struct({
+    total: S.optional(S.Number),
+    passed: S.optional(S.Number),
+    failed: S.optional(S.Number),
+    warned: S.optional(S.Number),
+    errored: S.optional(S.Number),
+    stopped: S.optional(S.Number),
+    skipped: S.optional(S.Number),
+  }),
+).annotations({ identifier: "Counters" }) as any as S.Schema<Counters>;
+export interface CPU {
+  frequency?: string;
+  architecture?: string;
+  clock?: number;
+}
+export const CPU = S.suspend(() =>
+  S.Struct({
+    frequency: S.optional(S.String),
+    architecture: S.optional(S.String),
+    clock: S.optional(S.Number),
+  }),
+).annotations({ identifier: "CPU" }) as any as S.Schema<CPU>;
+export interface Resolution {
+  width?: number;
+  height?: number;
+}
+export const Resolution = S.suspend(() =>
+  S.Struct({ width: S.optional(S.Number), height: S.optional(S.Number) }),
+).annotations({ identifier: "Resolution" }) as any as S.Schema<Resolution>;
+export interface Device {
+  arn?: string;
+  name?: string;
+  manufacturer?: string;
+  model?: string;
+  modelId?: string;
+  formFactor?: string;
+  platform?: string;
+  os?: string;
+  cpu?: CPU;
+  resolution?: Resolution;
+  heapSize?: number;
+  memory?: number;
+  image?: string;
+  carrier?: string;
+  radio?: string;
+  remoteAccessEnabled?: boolean;
+  remoteDebugEnabled?: boolean;
+  fleetType?: string;
+  fleetName?: string;
+  instances?: DeviceInstances;
+  availability?: string;
+}
+export const Device = S.suspend(() =>
+  S.Struct({
+    arn: S.optional(S.String),
+    name: S.optional(S.String),
+    manufacturer: S.optional(S.String),
+    model: S.optional(S.String),
+    modelId: S.optional(S.String),
+    formFactor: S.optional(S.String),
+    platform: S.optional(S.String),
+    os: S.optional(S.String),
+    cpu: S.optional(CPU),
+    resolution: S.optional(Resolution),
+    heapSize: S.optional(S.Number),
+    memory: S.optional(S.Number),
+    image: S.optional(S.String),
+    carrier: S.optional(S.String),
+    radio: S.optional(S.String),
+    remoteAccessEnabled: S.optional(S.Boolean),
+    remoteDebugEnabled: S.optional(S.Boolean),
+    fleetType: S.optional(S.String),
+    fleetName: S.optional(S.String),
+    instances: S.optional(DeviceInstances),
+    availability: S.optional(S.String),
+  }),
+).annotations({ identifier: "Device" }) as any as S.Schema<Device>;
+export interface DeviceMinutes {
+  total?: number;
+  metered?: number;
+  unmetered?: number;
+}
+export const DeviceMinutes = S.suspend(() =>
+  S.Struct({
+    total: S.optional(S.Number),
+    metered: S.optional(S.Number),
+    unmetered: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "DeviceMinutes",
+}) as any as S.Schema<DeviceMinutes>;
+export interface Job {
+  arn?: string;
+  name?: string;
+  type?: string;
+  created?: Date;
+  status?: string;
+  result?: string;
+  started?: Date;
+  stopped?: Date;
+  counters?: Counters;
+  message?: string;
+  device?: Device;
+  instanceArn?: string;
+  deviceMinutes?: DeviceMinutes;
+  videoEndpoint?: string;
+  videoCapture?: boolean;
+}
+export const Job = S.suspend(() =>
+  S.Struct({
+    arn: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    status: S.optional(S.String),
+    result: S.optional(S.String),
+    started: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    stopped: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    counters: S.optional(Counters),
+    message: S.optional(S.String),
+    device: S.optional(Device),
+    instanceArn: S.optional(S.String),
+    deviceMinutes: S.optional(DeviceMinutes),
+    videoEndpoint: S.optional(S.String),
+    videoCapture: S.optional(S.Boolean),
+  }),
+).annotations({ identifier: "Job" }) as any as S.Schema<Job>;
+export type Jobs = Job[];
 export const Jobs = S.Array(Job);
-export class NetworkProfile extends S.Class<NetworkProfile>("NetworkProfile")({
-  arn: S.optional(S.String),
-  name: S.optional(S.String),
-  description: S.optional(S.String),
-  type: S.optional(S.String),
-  uplinkBandwidthBits: S.optional(S.Number),
-  downlinkBandwidthBits: S.optional(S.Number),
-  uplinkDelayMs: S.optional(S.Number),
-  downlinkDelayMs: S.optional(S.Number),
-  uplinkJitterMs: S.optional(S.Number),
-  downlinkJitterMs: S.optional(S.Number),
-  uplinkLossPercent: S.optional(S.Number),
-  downlinkLossPercent: S.optional(S.Number),
-}) {}
+export interface NetworkProfile {
+  arn?: string;
+  name?: string;
+  description?: string;
+  type?: string;
+  uplinkBandwidthBits?: number;
+  downlinkBandwidthBits?: number;
+  uplinkDelayMs?: number;
+  downlinkDelayMs?: number;
+  uplinkJitterMs?: number;
+  downlinkJitterMs?: number;
+  uplinkLossPercent?: number;
+  downlinkLossPercent?: number;
+}
+export const NetworkProfile = S.suspend(() =>
+  S.Struct({
+    arn: S.optional(S.String),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    type: S.optional(S.String),
+    uplinkBandwidthBits: S.optional(S.Number),
+    downlinkBandwidthBits: S.optional(S.Number),
+    uplinkDelayMs: S.optional(S.Number),
+    downlinkDelayMs: S.optional(S.Number),
+    uplinkJitterMs: S.optional(S.Number),
+    downlinkJitterMs: S.optional(S.Number),
+    uplinkLossPercent: S.optional(S.Number),
+    downlinkLossPercent: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "NetworkProfile",
+}) as any as S.Schema<NetworkProfile>;
+export type NetworkProfiles = NetworkProfile[];
 export const NetworkProfiles = S.Array(NetworkProfile);
-export class Project extends S.Class<Project>("Project")({
-  arn: S.optional(S.String),
-  name: S.optional(S.String),
-  defaultJobTimeoutMinutes: S.optional(S.Number),
-  created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  vpcConfig: S.optional(VpcConfig),
-  environmentVariables: S.optional(EnvironmentVariables),
-  executionRoleArn: S.optional(S.String),
-}) {}
+export interface Project {
+  arn?: string;
+  name?: string;
+  defaultJobTimeoutMinutes?: number;
+  created?: Date;
+  vpcConfig?: VpcConfig;
+  environmentVariables?: EnvironmentVariables;
+  executionRoleArn?: string;
+}
+export const Project = S.suspend(() =>
+  S.Struct({
+    arn: S.optional(S.String),
+    name: S.optional(S.String),
+    defaultJobTimeoutMinutes: S.optional(S.Number),
+    created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    vpcConfig: S.optional(VpcConfig),
+    environmentVariables: S.optional(EnvironmentVariables),
+    executionRoleArn: S.optional(S.String),
+  }),
+).annotations({ identifier: "Project" }) as any as S.Schema<Project>;
+export type Projects = Project[];
 export const Projects = S.Array(Project);
-export class DeviceProxy extends S.Class<DeviceProxy>("DeviceProxy")({
-  host: S.String,
-  port: S.Number,
-}) {}
-export class RemoteAccessEndpoints extends S.Class<RemoteAccessEndpoints>(
-  "RemoteAccessEndpoints",
-)({
-  remoteDriverEndpoint: S.optional(S.String),
-  interactiveEndpoint: S.optional(S.String),
-}) {}
-export class RemoteAccessSession extends S.Class<RemoteAccessSession>(
-  "RemoteAccessSession",
-)({
-  arn: S.optional(S.String),
-  name: S.optional(S.String),
-  created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  status: S.optional(S.String),
-  result: S.optional(S.String),
-  message: S.optional(S.String),
-  started: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  stopped: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  device: S.optional(Device),
-  instanceArn: S.optional(S.String),
-  billingMethod: S.optional(S.String),
-  deviceMinutes: S.optional(DeviceMinutes),
-  endpoint: S.optional(S.String),
-  deviceUdid: S.optional(S.String),
-  interactionMode: S.optional(S.String),
-  skipAppResign: S.optional(S.Boolean),
-  vpcConfig: S.optional(VpcConfig),
-  deviceProxy: S.optional(DeviceProxy),
-  appUpload: S.optional(S.String),
-  endpoints: S.optional(RemoteAccessEndpoints),
-}) {}
+export interface DeviceProxy {
+  host: string;
+  port: number;
+}
+export const DeviceProxy = S.suspend(() =>
+  S.Struct({ host: S.String, port: S.Number }),
+).annotations({ identifier: "DeviceProxy" }) as any as S.Schema<DeviceProxy>;
+export interface RemoteAccessEndpoints {
+  remoteDriverEndpoint?: string;
+  interactiveEndpoint?: string;
+}
+export const RemoteAccessEndpoints = S.suspend(() =>
+  S.Struct({
+    remoteDriverEndpoint: S.optional(S.String),
+    interactiveEndpoint: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RemoteAccessEndpoints",
+}) as any as S.Schema<RemoteAccessEndpoints>;
+export interface RemoteAccessSession {
+  arn?: string;
+  name?: string;
+  created?: Date;
+  status?: string;
+  result?: string;
+  message?: string;
+  started?: Date;
+  stopped?: Date;
+  device?: Device;
+  instanceArn?: string;
+  billingMethod?: string;
+  deviceMinutes?: DeviceMinutes;
+  endpoint?: string;
+  deviceUdid?: string;
+  interactionMode?: string;
+  skipAppResign?: boolean;
+  vpcConfig?: VpcConfig;
+  deviceProxy?: DeviceProxy;
+  appUpload?: string;
+  endpoints?: RemoteAccessEndpoints;
+}
+export const RemoteAccessSession = S.suspend(() =>
+  S.Struct({
+    arn: S.optional(S.String),
+    name: S.optional(S.String),
+    created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    status: S.optional(S.String),
+    result: S.optional(S.String),
+    message: S.optional(S.String),
+    started: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    stopped: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    device: S.optional(Device),
+    instanceArn: S.optional(S.String),
+    billingMethod: S.optional(S.String),
+    deviceMinutes: S.optional(DeviceMinutes),
+    endpoint: S.optional(S.String),
+    deviceUdid: S.optional(S.String),
+    interactionMode: S.optional(S.String),
+    skipAppResign: S.optional(S.Boolean),
+    vpcConfig: S.optional(VpcConfig),
+    deviceProxy: S.optional(DeviceProxy),
+    appUpload: S.optional(S.String),
+    endpoints: S.optional(RemoteAccessEndpoints),
+  }),
+).annotations({
+  identifier: "RemoteAccessSession",
+}) as any as S.Schema<RemoteAccessSession>;
+export type RemoteAccessSessions = RemoteAccessSession[];
 export const RemoteAccessSessions = S.Array(RemoteAccessSession);
-export class Radios extends S.Class<Radios>("Radios")({
-  wifi: S.optional(S.Boolean),
-  bluetooth: S.optional(S.Boolean),
-  nfc: S.optional(S.Boolean),
-  gps: S.optional(S.Boolean),
-}) {}
-export class Location extends S.Class<Location>("Location")({
-  latitude: S.Number,
-  longitude: S.Number,
-}) {}
+export interface Radios {
+  wifi?: boolean;
+  bluetooth?: boolean;
+  nfc?: boolean;
+  gps?: boolean;
+}
+export const Radios = S.suspend(() =>
+  S.Struct({
+    wifi: S.optional(S.Boolean),
+    bluetooth: S.optional(S.Boolean),
+    nfc: S.optional(S.Boolean),
+    gps: S.optional(S.Boolean),
+  }),
+).annotations({ identifier: "Radios" }) as any as S.Schema<Radios>;
+export interface Location {
+  latitude: number;
+  longitude: number;
+}
+export const Location = S.suspend(() =>
+  S.Struct({ latitude: S.Number, longitude: S.Number }),
+).annotations({ identifier: "Location" }) as any as S.Schema<Location>;
+export type IosPaths = string[];
 export const IosPaths = S.Array(S.String);
+export type AndroidPaths = string[];
 export const AndroidPaths = S.Array(S.String);
+export type DeviceHostPaths = string[];
 export const DeviceHostPaths = S.Array(S.String);
-export class CustomerArtifactPaths extends S.Class<CustomerArtifactPaths>(
-  "CustomerArtifactPaths",
-)({
-  iosPaths: S.optional(IosPaths),
-  androidPaths: S.optional(AndroidPaths),
-  deviceHostPaths: S.optional(DeviceHostPaths),
-}) {}
-export class DeviceSelectionResult extends S.Class<DeviceSelectionResult>(
-  "DeviceSelectionResult",
-)({
-  filters: S.optional(DeviceFilters),
-  matchedDevicesCount: S.optional(S.Number),
-  maxDevices: S.optional(S.Number),
-}) {}
-export class Run extends S.Class<Run>("Run")({
-  arn: S.optional(S.String),
-  name: S.optional(S.String),
-  type: S.optional(S.String),
-  platform: S.optional(S.String),
-  created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  status: S.optional(S.String),
-  result: S.optional(S.String),
-  started: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  stopped: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  counters: S.optional(Counters),
-  message: S.optional(S.String),
-  totalJobs: S.optional(S.Number),
-  completedJobs: S.optional(S.Number),
-  billingMethod: S.optional(S.String),
-  deviceMinutes: S.optional(DeviceMinutes),
-  networkProfile: S.optional(NetworkProfile),
-  deviceProxy: S.optional(DeviceProxy),
-  parsingResultUrl: S.optional(S.String),
-  resultCode: S.optional(S.String),
-  seed: S.optional(S.Number),
-  appUpload: S.optional(S.String),
-  eventCount: S.optional(S.Number),
-  jobTimeoutMinutes: S.optional(S.Number),
-  devicePoolArn: S.optional(S.String),
-  locale: S.optional(S.String),
-  radios: S.optional(Radios),
-  location: S.optional(Location),
-  customerArtifactPaths: S.optional(CustomerArtifactPaths),
-  webUrl: S.optional(S.String),
-  skipAppResign: S.optional(S.Boolean),
-  testSpecArn: S.optional(S.String),
-  deviceSelectionResult: S.optional(DeviceSelectionResult),
-  vpcConfig: S.optional(VpcConfig),
-  executionRoleArn: S.optional(S.String),
-  environmentVariables: S.optional(EnvironmentVariables),
-}) {}
+export interface CustomerArtifactPaths {
+  iosPaths?: IosPaths;
+  androidPaths?: AndroidPaths;
+  deviceHostPaths?: DeviceHostPaths;
+}
+export const CustomerArtifactPaths = S.suspend(() =>
+  S.Struct({
+    iosPaths: S.optional(IosPaths),
+    androidPaths: S.optional(AndroidPaths),
+    deviceHostPaths: S.optional(DeviceHostPaths),
+  }),
+).annotations({
+  identifier: "CustomerArtifactPaths",
+}) as any as S.Schema<CustomerArtifactPaths>;
+export interface DeviceSelectionResult {
+  filters?: DeviceFilters;
+  matchedDevicesCount?: number;
+  maxDevices?: number;
+}
+export const DeviceSelectionResult = S.suspend(() =>
+  S.Struct({
+    filters: S.optional(DeviceFilters),
+    matchedDevicesCount: S.optional(S.Number),
+    maxDevices: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "DeviceSelectionResult",
+}) as any as S.Schema<DeviceSelectionResult>;
+export interface Run {
+  arn?: string;
+  name?: string;
+  type?: string;
+  platform?: string;
+  created?: Date;
+  status?: string;
+  result?: string;
+  started?: Date;
+  stopped?: Date;
+  counters?: Counters;
+  message?: string;
+  totalJobs?: number;
+  completedJobs?: number;
+  billingMethod?: string;
+  deviceMinutes?: DeviceMinutes;
+  networkProfile?: NetworkProfile;
+  deviceProxy?: DeviceProxy;
+  parsingResultUrl?: string;
+  resultCode?: string;
+  seed?: number;
+  appUpload?: string;
+  eventCount?: number;
+  jobTimeoutMinutes?: number;
+  devicePoolArn?: string;
+  locale?: string;
+  radios?: Radios;
+  location?: Location;
+  customerArtifactPaths?: CustomerArtifactPaths;
+  webUrl?: string;
+  skipAppResign?: boolean;
+  testSpecArn?: string;
+  deviceSelectionResult?: DeviceSelectionResult;
+  vpcConfig?: VpcConfig;
+  executionRoleArn?: string;
+  environmentVariables?: EnvironmentVariables;
+}
+export const Run = S.suspend(() =>
+  S.Struct({
+    arn: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    platform: S.optional(S.String),
+    created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    status: S.optional(S.String),
+    result: S.optional(S.String),
+    started: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    stopped: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    counters: S.optional(Counters),
+    message: S.optional(S.String),
+    totalJobs: S.optional(S.Number),
+    completedJobs: S.optional(S.Number),
+    billingMethod: S.optional(S.String),
+    deviceMinutes: S.optional(DeviceMinutes),
+    networkProfile: S.optional(NetworkProfile),
+    deviceProxy: S.optional(DeviceProxy),
+    parsingResultUrl: S.optional(S.String),
+    resultCode: S.optional(S.String),
+    seed: S.optional(S.Number),
+    appUpload: S.optional(S.String),
+    eventCount: S.optional(S.Number),
+    jobTimeoutMinutes: S.optional(S.Number),
+    devicePoolArn: S.optional(S.String),
+    locale: S.optional(S.String),
+    radios: S.optional(Radios),
+    location: S.optional(Location),
+    customerArtifactPaths: S.optional(CustomerArtifactPaths),
+    webUrl: S.optional(S.String),
+    skipAppResign: S.optional(S.Boolean),
+    testSpecArn: S.optional(S.String),
+    deviceSelectionResult: S.optional(DeviceSelectionResult),
+    vpcConfig: S.optional(VpcConfig),
+    executionRoleArn: S.optional(S.String),
+    environmentVariables: S.optional(EnvironmentVariables),
+  }),
+).annotations({ identifier: "Run" }) as any as S.Schema<Run>;
+export type Runs = Run[];
 export const Runs = S.Array(Run);
-export class Suite extends S.Class<Suite>("Suite")({
-  arn: S.optional(S.String),
-  name: S.optional(S.String),
-  type: S.optional(S.String),
-  created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  status: S.optional(S.String),
-  result: S.optional(S.String),
-  started: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  stopped: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  counters: S.optional(Counters),
-  message: S.optional(S.String),
-  deviceMinutes: S.optional(DeviceMinutes),
-}) {}
+export interface Suite {
+  arn?: string;
+  name?: string;
+  type?: string;
+  created?: Date;
+  status?: string;
+  result?: string;
+  started?: Date;
+  stopped?: Date;
+  counters?: Counters;
+  message?: string;
+  deviceMinutes?: DeviceMinutes;
+}
+export const Suite = S.suspend(() =>
+  S.Struct({
+    arn: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    status: S.optional(S.String),
+    result: S.optional(S.String),
+    started: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    stopped: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    counters: S.optional(Counters),
+    message: S.optional(S.String),
+    deviceMinutes: S.optional(DeviceMinutes),
+  }),
+).annotations({ identifier: "Suite" }) as any as S.Schema<Suite>;
+export type Suites = Suite[];
 export const Suites = S.Array(Suite);
-export class TestGridProject extends S.Class<TestGridProject>(
-  "TestGridProject",
-)({
-  arn: S.optional(S.String),
-  name: S.optional(S.String),
-  description: S.optional(S.String),
-  vpcConfig: S.optional(TestGridVpcConfig),
-  created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface TestGridProject {
+  arn?: string;
+  name?: string;
+  description?: string;
+  vpcConfig?: TestGridVpcConfig;
+  created?: Date;
+}
+export const TestGridProject = S.suspend(() =>
+  S.Struct({
+    arn: S.optional(S.String),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    vpcConfig: S.optional(TestGridVpcConfig),
+    created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "TestGridProject",
+}) as any as S.Schema<TestGridProject>;
+export type TestGridProjects = TestGridProject[];
 export const TestGridProjects = S.Array(TestGridProject);
-export class TestGridSession extends S.Class<TestGridSession>(
-  "TestGridSession",
-)({
-  arn: S.optional(S.String),
-  status: S.optional(S.String),
-  created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  ended: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  billingMinutes: S.optional(S.Number),
-  seleniumProperties: S.optional(S.String),
-}) {}
+export interface TestGridSession {
+  arn?: string;
+  status?: string;
+  created?: Date;
+  ended?: Date;
+  billingMinutes?: number;
+  seleniumProperties?: string;
+}
+export const TestGridSession = S.suspend(() =>
+  S.Struct({
+    arn: S.optional(S.String),
+    status: S.optional(S.String),
+    created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ended: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    billingMinutes: S.optional(S.Number),
+    seleniumProperties: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "TestGridSession",
+}) as any as S.Schema<TestGridSession>;
+export type TestGridSessions = TestGridSession[];
 export const TestGridSessions = S.Array(TestGridSession);
-export class Test extends S.Class<Test>("Test")({
-  arn: S.optional(S.String),
-  name: S.optional(S.String),
-  type: S.optional(S.String),
-  created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  status: S.optional(S.String),
-  result: S.optional(S.String),
-  started: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  stopped: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  counters: S.optional(Counters),
-  message: S.optional(S.String),
-  deviceMinutes: S.optional(DeviceMinutes),
-}) {}
+export interface Test {
+  arn?: string;
+  name?: string;
+  type?: string;
+  created?: Date;
+  status?: string;
+  result?: string;
+  started?: Date;
+  stopped?: Date;
+  counters?: Counters;
+  message?: string;
+  deviceMinutes?: DeviceMinutes;
+}
+export const Test = S.suspend(() =>
+  S.Struct({
+    arn: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    status: S.optional(S.String),
+    result: S.optional(S.String),
+    started: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    stopped: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    counters: S.optional(Counters),
+    message: S.optional(S.String),
+    deviceMinutes: S.optional(DeviceMinutes),
+  }),
+).annotations({ identifier: "Test" }) as any as S.Schema<Test>;
+export type Tests = Test[];
 export const Tests = S.Array(Test);
-export class Upload extends S.Class<Upload>("Upload")({
-  arn: S.optional(S.String),
-  name: S.optional(S.String),
-  created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  type: S.optional(S.String),
-  status: S.optional(S.String),
-  url: S.optional(S.String),
-  metadata: S.optional(S.String),
-  contentType: S.optional(S.String),
-  message: S.optional(S.String),
-  category: S.optional(S.String),
-}) {}
+export interface Upload {
+  arn?: string;
+  name?: string;
+  created?: Date;
+  type?: string;
+  status?: string;
+  url?: string;
+  metadata?: string;
+  contentType?: string;
+  message?: string;
+  category?: string;
+}
+export const Upload = S.suspend(() =>
+  S.Struct({
+    arn: S.optional(S.String),
+    name: S.optional(S.String),
+    created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    type: S.optional(S.String),
+    status: S.optional(S.String),
+    url: S.optional(S.String),
+    metadata: S.optional(S.String),
+    contentType: S.optional(S.String),
+    message: S.optional(S.String),
+    category: S.optional(S.String),
+  }),
+).annotations({ identifier: "Upload" }) as any as S.Schema<Upload>;
+export type Uploads = Upload[];
 export const Uploads = S.Array(Upload);
-export class VPCEConfiguration extends S.Class<VPCEConfiguration>(
-  "VPCEConfiguration",
-)({
-  arn: S.optional(S.String),
-  vpceConfigurationName: S.optional(S.String),
-  vpceServiceName: S.optional(S.String),
-  serviceDnsName: S.optional(S.String),
-  vpceConfigurationDescription: S.optional(S.String),
-}) {}
+export interface VPCEConfiguration {
+  arn?: string;
+  vpceConfigurationName?: string;
+  vpceServiceName?: string;
+  serviceDnsName?: string;
+  vpceConfigurationDescription?: string;
+}
+export const VPCEConfiguration = S.suspend(() =>
+  S.Struct({
+    arn: S.optional(S.String),
+    vpceConfigurationName: S.optional(S.String),
+    vpceServiceName: S.optional(S.String),
+    serviceDnsName: S.optional(S.String),
+    vpceConfigurationDescription: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "VPCEConfiguration",
+}) as any as S.Schema<VPCEConfiguration>;
+export type VPCEConfigurations = VPCEConfiguration[];
 export const VPCEConfigurations = S.Array(VPCEConfiguration);
-export class DeviceSelectionConfiguration extends S.Class<DeviceSelectionConfiguration>(
-  "DeviceSelectionConfiguration",
-)({ filters: DeviceFilters, maxDevices: S.Number }) {}
-export class ExecutionConfiguration extends S.Class<ExecutionConfiguration>(
-  "ExecutionConfiguration",
-)({
-  jobTimeoutMinutes: S.optional(S.Number),
-  accountsCleanup: S.optional(S.Boolean),
-  appPackagesCleanup: S.optional(S.Boolean),
-  videoCapture: S.optional(S.Boolean),
-  skipAppResign: S.optional(S.Boolean),
-}) {}
-export class Tag extends S.Class<Tag>("Tag")({
-  Key: S.String,
-  Value: S.String,
-}) {}
+export interface DeviceSelectionConfiguration {
+  filters: DeviceFilters;
+  maxDevices: number;
+}
+export const DeviceSelectionConfiguration = S.suspend(() =>
+  S.Struct({ filters: DeviceFilters, maxDevices: S.Number }),
+).annotations({
+  identifier: "DeviceSelectionConfiguration",
+}) as any as S.Schema<DeviceSelectionConfiguration>;
+export interface ExecutionConfiguration {
+  jobTimeoutMinutes?: number;
+  accountsCleanup?: boolean;
+  appPackagesCleanup?: boolean;
+  videoCapture?: boolean;
+  skipAppResign?: boolean;
+}
+export const ExecutionConfiguration = S.suspend(() =>
+  S.Struct({
+    jobTimeoutMinutes: S.optional(S.Number),
+    accountsCleanup: S.optional(S.Boolean),
+    appPackagesCleanup: S.optional(S.Boolean),
+    videoCapture: S.optional(S.Boolean),
+    skipAppResign: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "ExecutionConfiguration",
+}) as any as S.Schema<ExecutionConfiguration>;
+export interface Tag {
+  Key: string;
+  Value: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ Key: S.String, Value: S.String }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagList = Tag[];
 export const TagList = S.Array(Tag);
-export class CreateDevicePoolRequest extends S.Class<CreateDevicePoolRequest>(
-  "CreateDevicePoolRequest",
-)(
-  {
+export interface CreateDevicePoolRequest {
+  projectArn: string;
+  name: string;
+  description?: string;
+  rules: Rules;
+  maxDevices?: number;
+}
+export const CreateDevicePoolRequest = S.suspend(() =>
+  S.Struct({
     projectArn: S.String,
     name: S.String,
     description: S.optional(S.String),
     rules: Rules,
     maxDevices: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateProjectRequest extends S.Class<CreateProjectRequest>(
-  "CreateProjectRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateDevicePoolRequest",
+}) as any as S.Schema<CreateDevicePoolRequest>;
+export interface CreateProjectRequest {
+  name: string;
+  defaultJobTimeoutMinutes?: number;
+  vpcConfig?: VpcConfig;
+  environmentVariables?: EnvironmentVariables;
+  executionRoleArn?: string;
+}
+export const CreateProjectRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     defaultJobTimeoutMinutes: S.optional(S.Number),
     vpcConfig: S.optional(VpcConfig),
     environmentVariables: S.optional(EnvironmentVariables),
     executionRoleArn: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateTestGridProjectRequest extends S.Class<CreateTestGridProjectRequest>(
-  "CreateTestGridProjectRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateProjectRequest",
+}) as any as S.Schema<CreateProjectRequest>;
+export interface CreateTestGridProjectRequest {
+  name: string;
+  description?: string;
+  vpcConfig?: TestGridVpcConfig;
+}
+export const CreateTestGridProjectRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     description: S.optional(S.String),
     vpcConfig: S.optional(TestGridVpcConfig),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateTestGridUrlResult extends S.Class<CreateTestGridUrlResult>(
-  "CreateTestGridUrlResult",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateTestGridProjectRequest",
+}) as any as S.Schema<CreateTestGridProjectRequest>;
+export interface CreateTestGridUrlResult {
+  url?: string;
+  expires?: Date;
+}
+export const CreateTestGridUrlResult = S.suspend(() =>
+  S.Struct({
     url: S.optional(S.String),
     expires: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  },
-  ns,
-) {}
-export class GetInstanceProfileResult extends S.Class<GetInstanceProfileResult>(
-  "GetInstanceProfileResult",
-)({ instanceProfile: S.optional(InstanceProfile) }, ns) {}
-export class GetNetworkProfileResult extends S.Class<GetNetworkProfileResult>(
-  "GetNetworkProfileResult",
-)({ networkProfile: S.optional(NetworkProfile) }, ns) {}
-export class GetUploadResult extends S.Class<GetUploadResult>(
-  "GetUploadResult",
-)({ upload: S.optional(Upload) }, ns) {}
-export class GetVPCEConfigurationResult extends S.Class<GetVPCEConfigurationResult>(
-  "GetVPCEConfigurationResult",
-)({ vpceConfiguration: S.optional(VPCEConfiguration) }, ns) {}
-export class InstallToRemoteAccessSessionResult extends S.Class<InstallToRemoteAccessSessionResult>(
-  "InstallToRemoteAccessSessionResult",
-)({ appUpload: S.optional(Upload) }, ns) {}
-export class ListDeviceInstancesResult extends S.Class<ListDeviceInstancesResult>(
-  "ListDeviceInstancesResult",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "CreateTestGridUrlResult",
+}) as any as S.Schema<CreateTestGridUrlResult>;
+export interface GetInstanceProfileResult {
+  instanceProfile?: InstanceProfile;
+}
+export const GetInstanceProfileResult = S.suspend(() =>
+  S.Struct({ instanceProfile: S.optional(InstanceProfile) }).pipe(ns),
+).annotations({
+  identifier: "GetInstanceProfileResult",
+}) as any as S.Schema<GetInstanceProfileResult>;
+export interface GetNetworkProfileResult {
+  networkProfile?: NetworkProfile;
+}
+export const GetNetworkProfileResult = S.suspend(() =>
+  S.Struct({ networkProfile: S.optional(NetworkProfile) }).pipe(ns),
+).annotations({
+  identifier: "GetNetworkProfileResult",
+}) as any as S.Schema<GetNetworkProfileResult>;
+export interface GetUploadResult {
+  upload?: Upload;
+}
+export const GetUploadResult = S.suspend(() =>
+  S.Struct({ upload: S.optional(Upload) }).pipe(ns),
+).annotations({
+  identifier: "GetUploadResult",
+}) as any as S.Schema<GetUploadResult>;
+export interface GetVPCEConfigurationResult {
+  vpceConfiguration?: VPCEConfiguration;
+}
+export const GetVPCEConfigurationResult = S.suspend(() =>
+  S.Struct({ vpceConfiguration: S.optional(VPCEConfiguration) }).pipe(ns),
+).annotations({
+  identifier: "GetVPCEConfigurationResult",
+}) as any as S.Schema<GetVPCEConfigurationResult>;
+export interface InstallToRemoteAccessSessionResult {
+  appUpload?: Upload;
+}
+export const InstallToRemoteAccessSessionResult = S.suspend(() =>
+  S.Struct({ appUpload: S.optional(Upload) }).pipe(ns),
+).annotations({
+  identifier: "InstallToRemoteAccessSessionResult",
+}) as any as S.Schema<InstallToRemoteAccessSessionResult>;
+export interface ListDeviceInstancesResult {
+  deviceInstances?: DeviceInstances;
+  nextToken?: string;
+}
+export const ListDeviceInstancesResult = S.suspend(() =>
+  S.Struct({
     deviceInstances: S.optional(DeviceInstances),
     nextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListDevicePoolsResult extends S.Class<ListDevicePoolsResult>(
-  "ListDevicePoolsResult",
-)(
-  { devicePools: S.optional(DevicePools), nextToken: S.optional(S.String) },
-  ns,
-) {}
-export class ListDevicesRequest extends S.Class<ListDevicesRequest>(
-  "ListDevicesRequest",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListDeviceInstancesResult",
+}) as any as S.Schema<ListDeviceInstancesResult>;
+export interface ListDevicePoolsResult {
+  devicePools?: DevicePools;
+  nextToken?: string;
+}
+export const ListDevicePoolsResult = S.suspend(() =>
+  S.Struct({
+    devicePools: S.optional(DevicePools),
+    nextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListDevicePoolsResult",
+}) as any as S.Schema<ListDevicePoolsResult>;
+export interface ListDevicesRequest {
+  arn?: string;
+  nextToken?: string;
+  filters?: DeviceFilters;
+}
+export const ListDevicesRequest = S.suspend(() =>
+  S.Struct({
     arn: S.optional(S.String),
     nextToken: S.optional(S.String),
     filters: S.optional(DeviceFilters),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListInstanceProfilesResult extends S.Class<ListInstanceProfilesResult>(
-  "ListInstanceProfilesResult",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListDevicesRequest",
+}) as any as S.Schema<ListDevicesRequest>;
+export interface ListInstanceProfilesResult {
+  instanceProfiles?: InstanceProfiles;
+  nextToken?: string;
+}
+export const ListInstanceProfilesResult = S.suspend(() =>
+  S.Struct({
     instanceProfiles: S.optional(InstanceProfiles),
     nextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListJobsResult extends S.Class<ListJobsResult>("ListJobsResult")(
-  { jobs: S.optional(Jobs), nextToken: S.optional(S.String) },
-  ns,
-) {}
-export class ListNetworkProfilesResult extends S.Class<ListNetworkProfilesResult>(
-  "ListNetworkProfilesResult",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListInstanceProfilesResult",
+}) as any as S.Schema<ListInstanceProfilesResult>;
+export interface ListJobsResult {
+  jobs?: Jobs;
+  nextToken?: string;
+}
+export const ListJobsResult = S.suspend(() =>
+  S.Struct({ jobs: S.optional(Jobs), nextToken: S.optional(S.String) }).pipe(
+    ns,
+  ),
+).annotations({
+  identifier: "ListJobsResult",
+}) as any as S.Schema<ListJobsResult>;
+export interface ListNetworkProfilesResult {
+  networkProfiles?: NetworkProfiles;
+  nextToken?: string;
+}
+export const ListNetworkProfilesResult = S.suspend(() =>
+  S.Struct({
     networkProfiles: S.optional(NetworkProfiles),
     nextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListProjectsResult extends S.Class<ListProjectsResult>(
-  "ListProjectsResult",
-)({ projects: S.optional(Projects), nextToken: S.optional(S.String) }, ns) {}
-export class ListRemoteAccessSessionsResult extends S.Class<ListRemoteAccessSessionsResult>(
-  "ListRemoteAccessSessionsResult",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListNetworkProfilesResult",
+}) as any as S.Schema<ListNetworkProfilesResult>;
+export interface ListProjectsResult {
+  projects?: Projects;
+  nextToken?: string;
+}
+export const ListProjectsResult = S.suspend(() =>
+  S.Struct({
+    projects: S.optional(Projects),
+    nextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListProjectsResult",
+}) as any as S.Schema<ListProjectsResult>;
+export interface ListRemoteAccessSessionsResult {
+  remoteAccessSessions?: RemoteAccessSessions;
+  nextToken?: string;
+}
+export const ListRemoteAccessSessionsResult = S.suspend(() =>
+  S.Struct({
     remoteAccessSessions: S.optional(RemoteAccessSessions),
     nextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListRunsResult extends S.Class<ListRunsResult>("ListRunsResult")(
-  { runs: S.optional(Runs), nextToken: S.optional(S.String) },
-  ns,
-) {}
-export class ListSuitesResult extends S.Class<ListSuitesResult>(
-  "ListSuitesResult",
-)({ suites: S.optional(Suites), nextToken: S.optional(S.String) }, ns) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ Tags: S.optional(TagList) }, ns) {}
-export class ListTestGridProjectsResult extends S.Class<ListTestGridProjectsResult>(
-  "ListTestGridProjectsResult",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListRemoteAccessSessionsResult",
+}) as any as S.Schema<ListRemoteAccessSessionsResult>;
+export interface ListRunsResult {
+  runs?: Runs;
+  nextToken?: string;
+}
+export const ListRunsResult = S.suspend(() =>
+  S.Struct({ runs: S.optional(Runs), nextToken: S.optional(S.String) }).pipe(
+    ns,
+  ),
+).annotations({
+  identifier: "ListRunsResult",
+}) as any as S.Schema<ListRunsResult>;
+export interface ListSuitesResult {
+  suites?: Suites;
+  nextToken?: string;
+}
+export const ListSuitesResult = S.suspend(() =>
+  S.Struct({
+    suites: S.optional(Suites),
+    nextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListSuitesResult",
+}) as any as S.Schema<ListSuitesResult>;
+export interface ListTagsForResourceResponse {
+  Tags?: TagList;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ Tags: S.optional(TagList) }).pipe(ns),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface ListTestGridProjectsResult {
+  testGridProjects?: TestGridProjects;
+  nextToken?: string;
+}
+export const ListTestGridProjectsResult = S.suspend(() =>
+  S.Struct({
     testGridProjects: S.optional(TestGridProjects),
     nextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListTestGridSessionsResult extends S.Class<ListTestGridSessionsResult>(
-  "ListTestGridSessionsResult",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListTestGridProjectsResult",
+}) as any as S.Schema<ListTestGridProjectsResult>;
+export interface ListTestGridSessionsResult {
+  testGridSessions?: TestGridSessions;
+  nextToken?: string;
+}
+export const ListTestGridSessionsResult = S.suspend(() =>
+  S.Struct({
     testGridSessions: S.optional(TestGridSessions),
     nextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListTestsResult extends S.Class<ListTestsResult>(
-  "ListTestsResult",
-)({ tests: S.optional(Tests), nextToken: S.optional(S.String) }, ns) {}
-export class ListUploadsResult extends S.Class<ListUploadsResult>(
-  "ListUploadsResult",
-)({ uploads: S.optional(Uploads), nextToken: S.optional(S.String) }, ns) {}
-export class ListVPCEConfigurationsResult extends S.Class<ListVPCEConfigurationsResult>(
-  "ListVPCEConfigurationsResult",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListTestGridSessionsResult",
+}) as any as S.Schema<ListTestGridSessionsResult>;
+export interface ListTestsResult {
+  tests?: Tests;
+  nextToken?: string;
+}
+export const ListTestsResult = S.suspend(() =>
+  S.Struct({ tests: S.optional(Tests), nextToken: S.optional(S.String) }).pipe(
+    ns,
+  ),
+).annotations({
+  identifier: "ListTestsResult",
+}) as any as S.Schema<ListTestsResult>;
+export interface ListUploadsResult {
+  uploads?: Uploads;
+  nextToken?: string;
+}
+export const ListUploadsResult = S.suspend(() =>
+  S.Struct({
+    uploads: S.optional(Uploads),
+    nextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListUploadsResult",
+}) as any as S.Schema<ListUploadsResult>;
+export interface ListVPCEConfigurationsResult {
+  vpceConfigurations?: VPCEConfigurations;
+  nextToken?: string;
+}
+export const ListVPCEConfigurationsResult = S.suspend(() =>
+  S.Struct({
     vpceConfigurations: S.optional(VPCEConfigurations),
     nextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class MonetaryAmount extends S.Class<MonetaryAmount>("MonetaryAmount")({
-  amount: S.optional(S.Number),
-  currencyCode: S.optional(S.String),
-}) {}
-export class RecurringCharge extends S.Class<RecurringCharge>(
-  "RecurringCharge",
-)({ cost: S.optional(MonetaryAmount), frequency: S.optional(S.String) }) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "ListVPCEConfigurationsResult",
+}) as any as S.Schema<ListVPCEConfigurationsResult>;
+export interface MonetaryAmount {
+  amount?: number;
+  currencyCode?: string;
+}
+export const MonetaryAmount = S.suspend(() =>
+  S.Struct({
+    amount: S.optional(S.Number),
+    currencyCode: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "MonetaryAmount",
+}) as any as S.Schema<MonetaryAmount>;
+export interface RecurringCharge {
+  cost?: MonetaryAmount;
+  frequency?: string;
+}
+export const RecurringCharge = S.suspend(() =>
+  S.Struct({
+    cost: S.optional(MonetaryAmount),
+    frequency: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RecurringCharge",
+}) as any as S.Schema<RecurringCharge>;
+export type RecurringCharges = RecurringCharge[];
 export const RecurringCharges = S.Array(RecurringCharge);
-export class Offering extends S.Class<Offering>("Offering")({
-  id: S.optional(S.String),
-  description: S.optional(S.String),
-  type: S.optional(S.String),
-  platform: S.optional(S.String),
-  recurringCharges: S.optional(RecurringCharges),
-}) {}
-export class OfferingStatus extends S.Class<OfferingStatus>("OfferingStatus")({
-  type: S.optional(S.String),
-  offering: S.optional(Offering),
-  quantity: S.optional(S.Number),
-  effectiveOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class OfferingTransaction extends S.Class<OfferingTransaction>(
-  "OfferingTransaction",
-)({
-  offeringStatus: S.optional(OfferingStatus),
-  transactionId: S.optional(S.String),
-  offeringPromotionId: S.optional(S.String),
-  createdOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  cost: S.optional(MonetaryAmount),
-}) {}
-export class PurchaseOfferingResult extends S.Class<PurchaseOfferingResult>(
-  "PurchaseOfferingResult",
-)({ offeringTransaction: S.optional(OfferingTransaction) }, ns) {}
-export class RenewOfferingResult extends S.Class<RenewOfferingResult>(
-  "RenewOfferingResult",
-)({ offeringTransaction: S.optional(OfferingTransaction) }, ns) {}
+export interface Offering {
+  id?: string;
+  description?: string;
+  type?: string;
+  platform?: string;
+  recurringCharges?: RecurringCharges;
+}
+export const Offering = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    description: S.optional(S.String),
+    type: S.optional(S.String),
+    platform: S.optional(S.String),
+    recurringCharges: S.optional(RecurringCharges),
+  }),
+).annotations({ identifier: "Offering" }) as any as S.Schema<Offering>;
+export interface OfferingStatus {
+  type?: string;
+  offering?: Offering;
+  quantity?: number;
+  effectiveOn?: Date;
+}
+export const OfferingStatus = S.suspend(() =>
+  S.Struct({
+    type: S.optional(S.String),
+    offering: S.optional(Offering),
+    quantity: S.optional(S.Number),
+    effectiveOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "OfferingStatus",
+}) as any as S.Schema<OfferingStatus>;
+export interface OfferingTransaction {
+  offeringStatus?: OfferingStatus;
+  transactionId?: string;
+  offeringPromotionId?: string;
+  createdOn?: Date;
+  cost?: MonetaryAmount;
+}
+export const OfferingTransaction = S.suspend(() =>
+  S.Struct({
+    offeringStatus: S.optional(OfferingStatus),
+    transactionId: S.optional(S.String),
+    offeringPromotionId: S.optional(S.String),
+    createdOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    cost: S.optional(MonetaryAmount),
+  }),
+).annotations({
+  identifier: "OfferingTransaction",
+}) as any as S.Schema<OfferingTransaction>;
+export interface PurchaseOfferingResult {
+  offeringTransaction?: OfferingTransaction;
+}
+export const PurchaseOfferingResult = S.suspend(() =>
+  S.Struct({ offeringTransaction: S.optional(OfferingTransaction) }).pipe(ns),
+).annotations({
+  identifier: "PurchaseOfferingResult",
+}) as any as S.Schema<PurchaseOfferingResult>;
+export interface RenewOfferingResult {
+  offeringTransaction?: OfferingTransaction;
+}
+export const RenewOfferingResult = S.suspend(() =>
+  S.Struct({ offeringTransaction: S.optional(OfferingTransaction) }).pipe(ns),
+).annotations({
+  identifier: "RenewOfferingResult",
+}) as any as S.Schema<RenewOfferingResult>;
+export type TestParameters = { [key: string]: string };
 export const TestParameters = S.Record({ key: S.String, value: S.String });
-export class ScheduleRunTest extends S.Class<ScheduleRunTest>(
-  "ScheduleRunTest",
-)({
-  type: S.String,
-  testPackageArn: S.optional(S.String),
-  testSpecArn: S.optional(S.String),
-  filter: S.optional(S.String),
-  parameters: S.optional(TestParameters),
-}) {}
-export class ScheduleRunConfiguration extends S.Class<ScheduleRunConfiguration>(
-  "ScheduleRunConfiguration",
-)({
-  extraDataPackageArn: S.optional(S.String),
-  networkProfileArn: S.optional(S.String),
-  locale: S.optional(S.String),
-  location: S.optional(Location),
-  vpceConfigurationArns: S.optional(AmazonResourceNames),
-  deviceProxy: S.optional(DeviceProxy),
-  customerArtifactPaths: S.optional(CustomerArtifactPaths),
-  radios: S.optional(Radios),
-  auxiliaryApps: S.optional(AmazonResourceNames),
-  billingMethod: S.optional(S.String),
-  environmentVariables: S.optional(EnvironmentVariables),
-  executionRoleArn: S.optional(S.String),
-}) {}
-export class ScheduleRunRequest extends S.Class<ScheduleRunRequest>(
-  "ScheduleRunRequest",
-)(
-  {
+export interface ScheduleRunTest {
+  type: string;
+  testPackageArn?: string;
+  testSpecArn?: string;
+  filter?: string;
+  parameters?: TestParameters;
+}
+export const ScheduleRunTest = S.suspend(() =>
+  S.Struct({
+    type: S.String,
+    testPackageArn: S.optional(S.String),
+    testSpecArn: S.optional(S.String),
+    filter: S.optional(S.String),
+    parameters: S.optional(TestParameters),
+  }),
+).annotations({
+  identifier: "ScheduleRunTest",
+}) as any as S.Schema<ScheduleRunTest>;
+export interface ScheduleRunConfiguration {
+  extraDataPackageArn?: string;
+  networkProfileArn?: string;
+  locale?: string;
+  location?: Location;
+  vpceConfigurationArns?: AmazonResourceNames;
+  deviceProxy?: DeviceProxy;
+  customerArtifactPaths?: CustomerArtifactPaths;
+  radios?: Radios;
+  auxiliaryApps?: AmazonResourceNames;
+  billingMethod?: string;
+  environmentVariables?: EnvironmentVariables;
+  executionRoleArn?: string;
+}
+export const ScheduleRunConfiguration = S.suspend(() =>
+  S.Struct({
+    extraDataPackageArn: S.optional(S.String),
+    networkProfileArn: S.optional(S.String),
+    locale: S.optional(S.String),
+    location: S.optional(Location),
+    vpceConfigurationArns: S.optional(AmazonResourceNames),
+    deviceProxy: S.optional(DeviceProxy),
+    customerArtifactPaths: S.optional(CustomerArtifactPaths),
+    radios: S.optional(Radios),
+    auxiliaryApps: S.optional(AmazonResourceNames),
+    billingMethod: S.optional(S.String),
+    environmentVariables: S.optional(EnvironmentVariables),
+    executionRoleArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ScheduleRunConfiguration",
+}) as any as S.Schema<ScheduleRunConfiguration>;
+export interface ScheduleRunRequest {
+  projectArn: string;
+  appArn?: string;
+  devicePoolArn?: string;
+  deviceSelectionConfiguration?: DeviceSelectionConfiguration;
+  name?: string;
+  test: ScheduleRunTest;
+  configuration?: ScheduleRunConfiguration;
+  executionConfiguration?: ExecutionConfiguration;
+}
+export const ScheduleRunRequest = S.suspend(() =>
+  S.Struct({
     projectArn: S.String,
     appArn: S.optional(S.String),
     devicePoolArn: S.optional(S.String),
@@ -1381,132 +3008,309 @@ export class ScheduleRunRequest extends S.Class<ScheduleRunRequest>(
     test: ScheduleRunTest,
     configuration: S.optional(ScheduleRunConfiguration),
     executionConfiguration: S.optional(ExecutionConfiguration),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StopJobResult extends S.Class<StopJobResult>("StopJobResult")(
-  { job: S.optional(Job) },
-  ns,
-) {}
-export class StopRemoteAccessSessionResult extends S.Class<StopRemoteAccessSessionResult>(
-  "StopRemoteAccessSessionResult",
-)({ remoteAccessSession: S.optional(RemoteAccessSession) }, ns) {}
-export class StopRunResult extends S.Class<StopRunResult>("StopRunResult")(
-  { run: S.optional(Run) },
-  ns,
-) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { ResourceARN: S.String, Tags: TagList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}, ns) {}
-export class UpdateDeviceInstanceResult extends S.Class<UpdateDeviceInstanceResult>(
-  "UpdateDeviceInstanceResult",
-)({ deviceInstance: S.optional(DeviceInstance) }, ns) {}
-export class UpdateDevicePoolResult extends S.Class<UpdateDevicePoolResult>(
-  "UpdateDevicePoolResult",
-)({ devicePool: S.optional(DevicePool) }, ns) {}
-export class UpdateInstanceProfileResult extends S.Class<UpdateInstanceProfileResult>(
-  "UpdateInstanceProfileResult",
-)({ instanceProfile: S.optional(InstanceProfile) }, ns) {}
-export class UpdateNetworkProfileResult extends S.Class<UpdateNetworkProfileResult>(
-  "UpdateNetworkProfileResult",
-)({ networkProfile: S.optional(NetworkProfile) }, ns) {}
-export class UpdateProjectResult extends S.Class<UpdateProjectResult>(
-  "UpdateProjectResult",
-)({ project: S.optional(Project) }, ns) {}
-export class UpdateTestGridProjectResult extends S.Class<UpdateTestGridProjectResult>(
-  "UpdateTestGridProjectResult",
-)({ testGridProject: S.optional(TestGridProject) }, ns) {}
-export class UpdateUploadResult extends S.Class<UpdateUploadResult>(
-  "UpdateUploadResult",
-)({ upload: S.optional(Upload) }, ns) {}
-export class UpdateVPCEConfigurationResult extends S.Class<UpdateVPCEConfigurationResult>(
-  "UpdateVPCEConfigurationResult",
-)({ vpceConfiguration: S.optional(VPCEConfiguration) }, ns) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ScheduleRunRequest",
+}) as any as S.Schema<ScheduleRunRequest>;
+export interface StopJobResult {
+  job?: Job;
+}
+export const StopJobResult = S.suspend(() =>
+  S.Struct({ job: S.optional(Job) }).pipe(ns),
+).annotations({
+  identifier: "StopJobResult",
+}) as any as S.Schema<StopJobResult>;
+export interface StopRemoteAccessSessionResult {
+  remoteAccessSession?: RemoteAccessSession;
+}
+export const StopRemoteAccessSessionResult = S.suspend(() =>
+  S.Struct({ remoteAccessSession: S.optional(RemoteAccessSession) }).pipe(ns),
+).annotations({
+  identifier: "StopRemoteAccessSessionResult",
+}) as any as S.Schema<StopRemoteAccessSessionResult>;
+export interface StopRunResult {
+  run?: Run;
+}
+export const StopRunResult = S.suspend(() =>
+  S.Struct({ run: S.optional(Run) }).pipe(ns),
+).annotations({
+  identifier: "StopRunResult",
+}) as any as S.Schema<StopRunResult>;
+export interface TagResourceRequest {
+  ResourceARN: string;
+  Tags: TagList;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceARN: S.String, Tags: TagList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UpdateDeviceInstanceResult {
+  deviceInstance?: DeviceInstance;
+}
+export const UpdateDeviceInstanceResult = S.suspend(() =>
+  S.Struct({ deviceInstance: S.optional(DeviceInstance) }).pipe(ns),
+).annotations({
+  identifier: "UpdateDeviceInstanceResult",
+}) as any as S.Schema<UpdateDeviceInstanceResult>;
+export interface UpdateDevicePoolResult {
+  devicePool?: DevicePool;
+}
+export const UpdateDevicePoolResult = S.suspend(() =>
+  S.Struct({ devicePool: S.optional(DevicePool) }).pipe(ns),
+).annotations({
+  identifier: "UpdateDevicePoolResult",
+}) as any as S.Schema<UpdateDevicePoolResult>;
+export interface UpdateInstanceProfileResult {
+  instanceProfile?: InstanceProfile;
+}
+export const UpdateInstanceProfileResult = S.suspend(() =>
+  S.Struct({ instanceProfile: S.optional(InstanceProfile) }).pipe(ns),
+).annotations({
+  identifier: "UpdateInstanceProfileResult",
+}) as any as S.Schema<UpdateInstanceProfileResult>;
+export interface UpdateNetworkProfileResult {
+  networkProfile?: NetworkProfile;
+}
+export const UpdateNetworkProfileResult = S.suspend(() =>
+  S.Struct({ networkProfile: S.optional(NetworkProfile) }).pipe(ns),
+).annotations({
+  identifier: "UpdateNetworkProfileResult",
+}) as any as S.Schema<UpdateNetworkProfileResult>;
+export interface UpdateProjectResult {
+  project?: Project;
+}
+export const UpdateProjectResult = S.suspend(() =>
+  S.Struct({ project: S.optional(Project) }).pipe(ns),
+).annotations({
+  identifier: "UpdateProjectResult",
+}) as any as S.Schema<UpdateProjectResult>;
+export interface UpdateTestGridProjectResult {
+  testGridProject?: TestGridProject;
+}
+export const UpdateTestGridProjectResult = S.suspend(() =>
+  S.Struct({ testGridProject: S.optional(TestGridProject) }).pipe(ns),
+).annotations({
+  identifier: "UpdateTestGridProjectResult",
+}) as any as S.Schema<UpdateTestGridProjectResult>;
+export interface UpdateUploadResult {
+  upload?: Upload;
+}
+export const UpdateUploadResult = S.suspend(() =>
+  S.Struct({ upload: S.optional(Upload) }).pipe(ns),
+).annotations({
+  identifier: "UpdateUploadResult",
+}) as any as S.Schema<UpdateUploadResult>;
+export interface UpdateVPCEConfigurationResult {
+  vpceConfiguration?: VPCEConfiguration;
+}
+export const UpdateVPCEConfigurationResult = S.suspend(() =>
+  S.Struct({ vpceConfiguration: S.optional(VPCEConfiguration) }).pipe(ns),
+).annotations({
+  identifier: "UpdateVPCEConfigurationResult",
+}) as any as S.Schema<UpdateVPCEConfigurationResult>;
+export type PurchasedDevicesMap = { [key: string]: number };
 export const PurchasedDevicesMap = S.Record({ key: S.String, value: S.Number });
-export class TrialMinutes extends S.Class<TrialMinutes>("TrialMinutes")({
-  total: S.optional(S.Number),
-  remaining: S.optional(S.Number),
-}) {}
+export interface TrialMinutes {
+  total?: number;
+  remaining?: number;
+}
+export const TrialMinutes = S.suspend(() =>
+  S.Struct({ total: S.optional(S.Number), remaining: S.optional(S.Number) }),
+).annotations({ identifier: "TrialMinutes" }) as any as S.Schema<TrialMinutes>;
+export type MaxSlotMap = { [key: string]: number };
 export const MaxSlotMap = S.Record({ key: S.String, value: S.Number });
-export class CreateRemoteAccessSessionConfiguration extends S.Class<CreateRemoteAccessSessionConfiguration>(
-  "CreateRemoteAccessSessionConfiguration",
-)({
-  auxiliaryApps: S.optional(AuxiliaryAppArnList),
-  billingMethod: S.optional(S.String),
-  vpceConfigurationArns: S.optional(AmazonResourceNames),
-  deviceProxy: S.optional(DeviceProxy),
-}) {}
-export class AccountSettings extends S.Class<AccountSettings>(
-  "AccountSettings",
-)({
-  awsAccountNumber: S.optional(S.String),
-  unmeteredDevices: S.optional(PurchasedDevicesMap),
-  unmeteredRemoteAccessDevices: S.optional(PurchasedDevicesMap),
-  maxJobTimeoutMinutes: S.optional(S.Number),
-  trialMinutes: S.optional(TrialMinutes),
-  maxSlots: S.optional(MaxSlotMap),
-  defaultJobTimeoutMinutes: S.optional(S.Number),
-  skipAppResign: S.optional(S.Boolean),
-}) {}
-export class Artifact extends S.Class<Artifact>("Artifact")({
-  arn: S.optional(S.String),
-  name: S.optional(S.String),
-  type: S.optional(S.String),
-  extension: S.optional(S.String),
-  url: S.optional(S.String),
-}) {}
+export interface CreateRemoteAccessSessionConfiguration {
+  auxiliaryApps?: AuxiliaryAppArnList;
+  billingMethod?: string;
+  vpceConfigurationArns?: AmazonResourceNames;
+  deviceProxy?: DeviceProxy;
+}
+export const CreateRemoteAccessSessionConfiguration = S.suspend(() =>
+  S.Struct({
+    auxiliaryApps: S.optional(AuxiliaryAppArnList),
+    billingMethod: S.optional(S.String),
+    vpceConfigurationArns: S.optional(AmazonResourceNames),
+    deviceProxy: S.optional(DeviceProxy),
+  }),
+).annotations({
+  identifier: "CreateRemoteAccessSessionConfiguration",
+}) as any as S.Schema<CreateRemoteAccessSessionConfiguration>;
+export interface AccountSettings {
+  awsAccountNumber?: string;
+  unmeteredDevices?: PurchasedDevicesMap;
+  unmeteredRemoteAccessDevices?: PurchasedDevicesMap;
+  maxJobTimeoutMinutes?: number;
+  trialMinutes?: TrialMinutes;
+  maxSlots?: MaxSlotMap;
+  defaultJobTimeoutMinutes?: number;
+  skipAppResign?: boolean;
+}
+export const AccountSettings = S.suspend(() =>
+  S.Struct({
+    awsAccountNumber: S.optional(S.String),
+    unmeteredDevices: S.optional(PurchasedDevicesMap),
+    unmeteredRemoteAccessDevices: S.optional(PurchasedDevicesMap),
+    maxJobTimeoutMinutes: S.optional(S.Number),
+    trialMinutes: S.optional(TrialMinutes),
+    maxSlots: S.optional(MaxSlotMap),
+    defaultJobTimeoutMinutes: S.optional(S.Number),
+    skipAppResign: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "AccountSettings",
+}) as any as S.Schema<AccountSettings>;
+export interface Artifact {
+  arn?: string;
+  name?: string;
+  type?: string;
+  extension?: string;
+  url?: string;
+}
+export const Artifact = S.suspend(() =>
+  S.Struct({
+    arn: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    extension: S.optional(S.String),
+    url: S.optional(S.String),
+  }),
+).annotations({ identifier: "Artifact" }) as any as S.Schema<Artifact>;
+export type Artifacts = Artifact[];
 export const Artifacts = S.Array(Artifact);
+export type Devices = Device[];
 export const Devices = S.Array(Device);
-export class OfferingPromotion extends S.Class<OfferingPromotion>(
-  "OfferingPromotion",
-)({ id: S.optional(S.String), description: S.optional(S.String) }) {}
+export interface OfferingPromotion {
+  id?: string;
+  description?: string;
+}
+export const OfferingPromotion = S.suspend(() =>
+  S.Struct({ id: S.optional(S.String), description: S.optional(S.String) }),
+).annotations({
+  identifier: "OfferingPromotion",
+}) as any as S.Schema<OfferingPromotion>;
+export type OfferingPromotions = OfferingPromotion[];
 export const OfferingPromotions = S.Array(OfferingPromotion);
-export class Sample extends S.Class<Sample>("Sample")({
-  arn: S.optional(S.String),
-  type: S.optional(S.String),
-  url: S.optional(S.String),
-}) {}
+export interface Sample {
+  arn?: string;
+  type?: string;
+  url?: string;
+}
+export const Sample = S.suspend(() =>
+  S.Struct({
+    arn: S.optional(S.String),
+    type: S.optional(S.String),
+    url: S.optional(S.String),
+  }),
+).annotations({ identifier: "Sample" }) as any as S.Schema<Sample>;
+export type Samples = Sample[];
 export const Samples = S.Array(Sample);
-export class TestGridSessionAction extends S.Class<TestGridSessionAction>(
-  "TestGridSessionAction",
-)({
-  action: S.optional(S.String),
-  started: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  duration: S.optional(S.Number),
-  statusCode: S.optional(S.String),
-  requestMethod: S.optional(S.String),
-}) {}
+export interface TestGridSessionAction {
+  action?: string;
+  started?: Date;
+  duration?: number;
+  statusCode?: string;
+  requestMethod?: string;
+}
+export const TestGridSessionAction = S.suspend(() =>
+  S.Struct({
+    action: S.optional(S.String),
+    started: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    duration: S.optional(S.Number),
+    statusCode: S.optional(S.String),
+    requestMethod: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "TestGridSessionAction",
+}) as any as S.Schema<TestGridSessionAction>;
+export type TestGridSessionActions = TestGridSessionAction[];
 export const TestGridSessionActions = S.Array(TestGridSessionAction);
-export class TestGridSessionArtifact extends S.Class<TestGridSessionArtifact>(
-  "TestGridSessionArtifact",
-)({
-  filename: S.optional(S.String),
-  type: S.optional(S.String),
-  url: S.optional(S.String),
-}) {}
+export interface TestGridSessionArtifact {
+  filename?: string;
+  type?: string;
+  url?: string;
+}
+export const TestGridSessionArtifact = S.suspend(() =>
+  S.Struct({
+    filename: S.optional(S.String),
+    type: S.optional(S.String),
+    url: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "TestGridSessionArtifact",
+}) as any as S.Schema<TestGridSessionArtifact>;
+export type TestGridSessionArtifacts = TestGridSessionArtifact[];
 export const TestGridSessionArtifacts = S.Array(TestGridSessionArtifact);
-export class CreateDevicePoolResult extends S.Class<CreateDevicePoolResult>(
-  "CreateDevicePoolResult",
-)({ devicePool: S.optional(DevicePool) }, ns) {}
-export class CreateInstanceProfileResult extends S.Class<CreateInstanceProfileResult>(
-  "CreateInstanceProfileResult",
-)({ instanceProfile: S.optional(InstanceProfile) }, ns) {}
-export class CreateNetworkProfileResult extends S.Class<CreateNetworkProfileResult>(
-  "CreateNetworkProfileResult",
-)({ networkProfile: S.optional(NetworkProfile) }, ns) {}
-export class CreateProjectResult extends S.Class<CreateProjectResult>(
-  "CreateProjectResult",
-)({ project: S.optional(Project) }, ns) {}
-export class CreateRemoteAccessSessionRequest extends S.Class<CreateRemoteAccessSessionRequest>(
-  "CreateRemoteAccessSessionRequest",
-)(
-  {
+export interface CreateDevicePoolResult {
+  devicePool?: DevicePool;
+}
+export const CreateDevicePoolResult = S.suspend(() =>
+  S.Struct({ devicePool: S.optional(DevicePool) }).pipe(ns),
+).annotations({
+  identifier: "CreateDevicePoolResult",
+}) as any as S.Schema<CreateDevicePoolResult>;
+export interface CreateInstanceProfileResult {
+  instanceProfile?: InstanceProfile;
+}
+export const CreateInstanceProfileResult = S.suspend(() =>
+  S.Struct({ instanceProfile: S.optional(InstanceProfile) }).pipe(ns),
+).annotations({
+  identifier: "CreateInstanceProfileResult",
+}) as any as S.Schema<CreateInstanceProfileResult>;
+export interface CreateNetworkProfileResult {
+  networkProfile?: NetworkProfile;
+}
+export const CreateNetworkProfileResult = S.suspend(() =>
+  S.Struct({ networkProfile: S.optional(NetworkProfile) }).pipe(ns),
+).annotations({
+  identifier: "CreateNetworkProfileResult",
+}) as any as S.Schema<CreateNetworkProfileResult>;
+export interface CreateProjectResult {
+  project?: Project;
+}
+export const CreateProjectResult = S.suspend(() =>
+  S.Struct({ project: S.optional(Project) }).pipe(ns),
+).annotations({
+  identifier: "CreateProjectResult",
+}) as any as S.Schema<CreateProjectResult>;
+export interface CreateRemoteAccessSessionRequest {
+  projectArn: string;
+  deviceArn: string;
+  appArn?: string;
+  instanceArn?: string;
+  name?: string;
+  configuration?: CreateRemoteAccessSessionConfiguration;
+  interactionMode?: string;
+  skipAppResign?: boolean;
+}
+export const CreateRemoteAccessSessionRequest = S.suspend(() =>
+  S.Struct({
     projectArn: S.String,
     deviceArn: S.String,
     appArn: S.optional(S.String),
@@ -1515,196 +3319,403 @@ export class CreateRemoteAccessSessionRequest extends S.Class<CreateRemoteAccess
     configuration: S.optional(CreateRemoteAccessSessionConfiguration),
     interactionMode: S.optional(S.String),
     skipAppResign: S.optional(S.Boolean),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateTestGridProjectResult extends S.Class<CreateTestGridProjectResult>(
-  "CreateTestGridProjectResult",
-)({ testGridProject: S.optional(TestGridProject) }, ns) {}
-export class CreateUploadResult extends S.Class<CreateUploadResult>(
-  "CreateUploadResult",
-)({ upload: S.optional(Upload) }, ns) {}
-export class CreateVPCEConfigurationResult extends S.Class<CreateVPCEConfigurationResult>(
-  "CreateVPCEConfigurationResult",
-)({ vpceConfiguration: S.optional(VPCEConfiguration) }, ns) {}
-export class GetAccountSettingsResult extends S.Class<GetAccountSettingsResult>(
-  "GetAccountSettingsResult",
-)({ accountSettings: S.optional(AccountSettings) }, ns) {}
-export class GetDeviceInstanceResult extends S.Class<GetDeviceInstanceResult>(
-  "GetDeviceInstanceResult",
-)({ deviceInstance: S.optional(DeviceInstance) }, ns) {}
-export class GetDevicePoolResult extends S.Class<GetDevicePoolResult>(
-  "GetDevicePoolResult",
-)({ devicePool: S.optional(DevicePool) }, ns) {}
-export class GetDevicePoolCompatibilityRequest extends S.Class<GetDevicePoolCompatibilityRequest>(
-  "GetDevicePoolCompatibilityRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateRemoteAccessSessionRequest",
+}) as any as S.Schema<CreateRemoteAccessSessionRequest>;
+export interface CreateTestGridProjectResult {
+  testGridProject?: TestGridProject;
+}
+export const CreateTestGridProjectResult = S.suspend(() =>
+  S.Struct({ testGridProject: S.optional(TestGridProject) }).pipe(ns),
+).annotations({
+  identifier: "CreateTestGridProjectResult",
+}) as any as S.Schema<CreateTestGridProjectResult>;
+export interface CreateUploadResult {
+  upload?: Upload;
+}
+export const CreateUploadResult = S.suspend(() =>
+  S.Struct({ upload: S.optional(Upload) }).pipe(ns),
+).annotations({
+  identifier: "CreateUploadResult",
+}) as any as S.Schema<CreateUploadResult>;
+export interface CreateVPCEConfigurationResult {
+  vpceConfiguration?: VPCEConfiguration;
+}
+export const CreateVPCEConfigurationResult = S.suspend(() =>
+  S.Struct({ vpceConfiguration: S.optional(VPCEConfiguration) }).pipe(ns),
+).annotations({
+  identifier: "CreateVPCEConfigurationResult",
+}) as any as S.Schema<CreateVPCEConfigurationResult>;
+export interface GetAccountSettingsResult {
+  accountSettings?: AccountSettings;
+}
+export const GetAccountSettingsResult = S.suspend(() =>
+  S.Struct({ accountSettings: S.optional(AccountSettings) }).pipe(ns),
+).annotations({
+  identifier: "GetAccountSettingsResult",
+}) as any as S.Schema<GetAccountSettingsResult>;
+export interface GetDeviceInstanceResult {
+  deviceInstance?: DeviceInstance;
+}
+export const GetDeviceInstanceResult = S.suspend(() =>
+  S.Struct({ deviceInstance: S.optional(DeviceInstance) }).pipe(ns),
+).annotations({
+  identifier: "GetDeviceInstanceResult",
+}) as any as S.Schema<GetDeviceInstanceResult>;
+export interface GetDevicePoolResult {
+  devicePool?: DevicePool;
+}
+export const GetDevicePoolResult = S.suspend(() =>
+  S.Struct({ devicePool: S.optional(DevicePool) }).pipe(ns),
+).annotations({
+  identifier: "GetDevicePoolResult",
+}) as any as S.Schema<GetDevicePoolResult>;
+export interface GetDevicePoolCompatibilityRequest {
+  devicePoolArn: string;
+  appArn?: string;
+  testType?: string;
+  test?: ScheduleRunTest;
+  configuration?: ScheduleRunConfiguration;
+  projectArn?: string;
+}
+export const GetDevicePoolCompatibilityRequest = S.suspend(() =>
+  S.Struct({
     devicePoolArn: S.String,
     appArn: S.optional(S.String),
     testType: S.optional(S.String),
     test: S.optional(ScheduleRunTest),
     configuration: S.optional(ScheduleRunConfiguration),
     projectArn: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetProjectResult extends S.Class<GetProjectResult>(
-  "GetProjectResult",
-)({ project: S.optional(Project) }, ns) {}
-export class GetSuiteResult extends S.Class<GetSuiteResult>("GetSuiteResult")(
-  { suite: S.optional(Suite) },
-  ns,
-) {}
-export class GetTestResult extends S.Class<GetTestResult>("GetTestResult")(
-  { test: S.optional(Test) },
-  ns,
-) {}
-export class GetTestGridProjectResult extends S.Class<GetTestGridProjectResult>(
-  "GetTestGridProjectResult",
-)({ testGridProject: S.optional(TestGridProject) }, ns) {}
-export class GetTestGridSessionResult extends S.Class<GetTestGridSessionResult>(
-  "GetTestGridSessionResult",
-)({ testGridSession: S.optional(TestGridSession) }, ns) {}
-export class ListArtifactsResult extends S.Class<ListArtifactsResult>(
-  "ListArtifactsResult",
-)({ artifacts: S.optional(Artifacts), nextToken: S.optional(S.String) }, ns) {}
-export class ListDevicesResult extends S.Class<ListDevicesResult>(
-  "ListDevicesResult",
-)({ devices: S.optional(Devices), nextToken: S.optional(S.String) }, ns) {}
-export class ListOfferingPromotionsResult extends S.Class<ListOfferingPromotionsResult>(
-  "ListOfferingPromotionsResult",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetDevicePoolCompatibilityRequest",
+}) as any as S.Schema<GetDevicePoolCompatibilityRequest>;
+export interface GetProjectResult {
+  project?: Project;
+}
+export const GetProjectResult = S.suspend(() =>
+  S.Struct({ project: S.optional(Project) }).pipe(ns),
+).annotations({
+  identifier: "GetProjectResult",
+}) as any as S.Schema<GetProjectResult>;
+export interface GetSuiteResult {
+  suite?: Suite;
+}
+export const GetSuiteResult = S.suspend(() =>
+  S.Struct({ suite: S.optional(Suite) }).pipe(ns),
+).annotations({
+  identifier: "GetSuiteResult",
+}) as any as S.Schema<GetSuiteResult>;
+export interface GetTestResult {
+  test?: Test;
+}
+export const GetTestResult = S.suspend(() =>
+  S.Struct({ test: S.optional(Test) }).pipe(ns),
+).annotations({
+  identifier: "GetTestResult",
+}) as any as S.Schema<GetTestResult>;
+export interface GetTestGridProjectResult {
+  testGridProject?: TestGridProject;
+}
+export const GetTestGridProjectResult = S.suspend(() =>
+  S.Struct({ testGridProject: S.optional(TestGridProject) }).pipe(ns),
+).annotations({
+  identifier: "GetTestGridProjectResult",
+}) as any as S.Schema<GetTestGridProjectResult>;
+export interface GetTestGridSessionResult {
+  testGridSession?: TestGridSession;
+}
+export const GetTestGridSessionResult = S.suspend(() =>
+  S.Struct({ testGridSession: S.optional(TestGridSession) }).pipe(ns),
+).annotations({
+  identifier: "GetTestGridSessionResult",
+}) as any as S.Schema<GetTestGridSessionResult>;
+export interface ListArtifactsResult {
+  artifacts?: Artifacts;
+  nextToken?: string;
+}
+export const ListArtifactsResult = S.suspend(() =>
+  S.Struct({
+    artifacts: S.optional(Artifacts),
+    nextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListArtifactsResult",
+}) as any as S.Schema<ListArtifactsResult>;
+export interface ListDevicesResult {
+  devices?: Devices;
+  nextToken?: string;
+}
+export const ListDevicesResult = S.suspend(() =>
+  S.Struct({
+    devices: S.optional(Devices),
+    nextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListDevicesResult",
+}) as any as S.Schema<ListDevicesResult>;
+export interface ListOfferingPromotionsResult {
+  offeringPromotions?: OfferingPromotions;
+  nextToken?: string;
+}
+export const ListOfferingPromotionsResult = S.suspend(() =>
+  S.Struct({
     offeringPromotions: S.optional(OfferingPromotions),
     nextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListSamplesResult extends S.Class<ListSamplesResult>(
-  "ListSamplesResult",
-)({ samples: S.optional(Samples), nextToken: S.optional(S.String) }, ns) {}
-export class ListTestGridSessionActionsResult extends S.Class<ListTestGridSessionActionsResult>(
-  "ListTestGridSessionActionsResult",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListOfferingPromotionsResult",
+}) as any as S.Schema<ListOfferingPromotionsResult>;
+export interface ListSamplesResult {
+  samples?: Samples;
+  nextToken?: string;
+}
+export const ListSamplesResult = S.suspend(() =>
+  S.Struct({
+    samples: S.optional(Samples),
+    nextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListSamplesResult",
+}) as any as S.Schema<ListSamplesResult>;
+export interface ListTestGridSessionActionsResult {
+  actions?: TestGridSessionActions;
+  nextToken?: string;
+}
+export const ListTestGridSessionActionsResult = S.suspend(() =>
+  S.Struct({
     actions: S.optional(TestGridSessionActions),
     nextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListTestGridSessionArtifactsResult extends S.Class<ListTestGridSessionArtifactsResult>(
-  "ListTestGridSessionArtifactsResult",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListTestGridSessionActionsResult",
+}) as any as S.Schema<ListTestGridSessionActionsResult>;
+export interface ListTestGridSessionArtifactsResult {
+  artifacts?: TestGridSessionArtifacts;
+  nextToken?: string;
+}
+export const ListTestGridSessionArtifactsResult = S.suspend(() =>
+  S.Struct({
     artifacts: S.optional(TestGridSessionArtifacts),
     nextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ScheduleRunResult extends S.Class<ScheduleRunResult>(
-  "ScheduleRunResult",
-)({ run: S.optional(Run) }, ns) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "ListTestGridSessionArtifactsResult",
+}) as any as S.Schema<ListTestGridSessionArtifactsResult>;
+export interface ScheduleRunResult {
+  run?: Run;
+}
+export const ScheduleRunResult = S.suspend(() =>
+  S.Struct({ run: S.optional(Run) }).pipe(ns),
+).annotations({
+  identifier: "ScheduleRunResult",
+}) as any as S.Schema<ScheduleRunResult>;
+export type OfferingStatusMap = { [key: string]: OfferingStatus };
 export const OfferingStatusMap = S.Record({
   key: S.String,
   value: OfferingStatus,
 });
+export type Offerings = Offering[];
 export const Offerings = S.Array(Offering);
+export type OfferingTransactions = OfferingTransaction[];
 export const OfferingTransactions = S.Array(OfferingTransaction);
-export class CreateRemoteAccessSessionResult extends S.Class<CreateRemoteAccessSessionResult>(
-  "CreateRemoteAccessSessionResult",
-)({ remoteAccessSession: S.optional(RemoteAccessSession) }, ns) {}
-export class GetDeviceResult extends S.Class<GetDeviceResult>(
-  "GetDeviceResult",
-)({ device: S.optional(Device) }, ns) {}
-export class GetJobResult extends S.Class<GetJobResult>("GetJobResult")(
-  { job: S.optional(Job) },
-  ns,
-) {}
-export class GetOfferingStatusResult extends S.Class<GetOfferingStatusResult>(
-  "GetOfferingStatusResult",
-)(
-  {
+export interface CreateRemoteAccessSessionResult {
+  remoteAccessSession?: RemoteAccessSession;
+}
+export const CreateRemoteAccessSessionResult = S.suspend(() =>
+  S.Struct({ remoteAccessSession: S.optional(RemoteAccessSession) }).pipe(ns),
+).annotations({
+  identifier: "CreateRemoteAccessSessionResult",
+}) as any as S.Schema<CreateRemoteAccessSessionResult>;
+export interface GetDeviceResult {
+  device?: Device;
+}
+export const GetDeviceResult = S.suspend(() =>
+  S.Struct({ device: S.optional(Device) }).pipe(ns),
+).annotations({
+  identifier: "GetDeviceResult",
+}) as any as S.Schema<GetDeviceResult>;
+export interface GetJobResult {
+  job?: Job;
+}
+export const GetJobResult = S.suspend(() =>
+  S.Struct({ job: S.optional(Job) }).pipe(ns),
+).annotations({ identifier: "GetJobResult" }) as any as S.Schema<GetJobResult>;
+export interface GetOfferingStatusResult {
+  current?: OfferingStatusMap;
+  nextPeriod?: OfferingStatusMap;
+  nextToken?: string;
+}
+export const GetOfferingStatusResult = S.suspend(() =>
+  S.Struct({
     current: S.optional(OfferingStatusMap),
     nextPeriod: S.optional(OfferingStatusMap),
     nextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class GetRemoteAccessSessionResult extends S.Class<GetRemoteAccessSessionResult>(
-  "GetRemoteAccessSessionResult",
-)({ remoteAccessSession: S.optional(RemoteAccessSession) }, ns) {}
-export class GetRunResult extends S.Class<GetRunResult>("GetRunResult")(
-  { run: S.optional(Run) },
-  ns,
-) {}
-export class ListOfferingsResult extends S.Class<ListOfferingsResult>(
-  "ListOfferingsResult",
-)({ offerings: S.optional(Offerings), nextToken: S.optional(S.String) }, ns) {}
-export class ListOfferingTransactionsResult extends S.Class<ListOfferingTransactionsResult>(
-  "ListOfferingTransactionsResult",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetOfferingStatusResult",
+}) as any as S.Schema<GetOfferingStatusResult>;
+export interface GetRemoteAccessSessionResult {
+  remoteAccessSession?: RemoteAccessSession;
+}
+export const GetRemoteAccessSessionResult = S.suspend(() =>
+  S.Struct({ remoteAccessSession: S.optional(RemoteAccessSession) }).pipe(ns),
+).annotations({
+  identifier: "GetRemoteAccessSessionResult",
+}) as any as S.Schema<GetRemoteAccessSessionResult>;
+export interface GetRunResult {
+  run?: Run;
+}
+export const GetRunResult = S.suspend(() =>
+  S.Struct({ run: S.optional(Run) }).pipe(ns),
+).annotations({ identifier: "GetRunResult" }) as any as S.Schema<GetRunResult>;
+export interface ListOfferingsResult {
+  offerings?: Offerings;
+  nextToken?: string;
+}
+export const ListOfferingsResult = S.suspend(() =>
+  S.Struct({
+    offerings: S.optional(Offerings),
+    nextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListOfferingsResult",
+}) as any as S.Schema<ListOfferingsResult>;
+export interface ListOfferingTransactionsResult {
+  offeringTransactions?: OfferingTransactions;
+  nextToken?: string;
+}
+export const ListOfferingTransactionsResult = S.suspend(() =>
+  S.Struct({
     offeringTransactions: S.optional(OfferingTransactions),
     nextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ProblemDetail extends S.Class<ProblemDetail>("ProblemDetail")({
-  arn: S.optional(S.String),
-  name: S.optional(S.String),
-}) {}
-export class Problem extends S.Class<Problem>("Problem")({
-  run: S.optional(ProblemDetail),
-  job: S.optional(ProblemDetail),
-  suite: S.optional(ProblemDetail),
-  test: S.optional(ProblemDetail),
-  device: S.optional(Device),
-  result: S.optional(S.String),
-  message: S.optional(S.String),
-}) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "ListOfferingTransactionsResult",
+}) as any as S.Schema<ListOfferingTransactionsResult>;
+export interface ProblemDetail {
+  arn?: string;
+  name?: string;
+}
+export const ProblemDetail = S.suspend(() =>
+  S.Struct({ arn: S.optional(S.String), name: S.optional(S.String) }),
+).annotations({
+  identifier: "ProblemDetail",
+}) as any as S.Schema<ProblemDetail>;
+export interface Problem {
+  run?: ProblemDetail;
+  job?: ProblemDetail;
+  suite?: ProblemDetail;
+  test?: ProblemDetail;
+  device?: Device;
+  result?: string;
+  message?: string;
+}
+export const Problem = S.suspend(() =>
+  S.Struct({
+    run: S.optional(ProblemDetail),
+    job: S.optional(ProblemDetail),
+    suite: S.optional(ProblemDetail),
+    test: S.optional(ProblemDetail),
+    device: S.optional(Device),
+    result: S.optional(S.String),
+    message: S.optional(S.String),
+  }),
+).annotations({ identifier: "Problem" }) as any as S.Schema<Problem>;
+export type Problems = Problem[];
 export const Problems = S.Array(Problem);
-export class IncompatibilityMessage extends S.Class<IncompatibilityMessage>(
-  "IncompatibilityMessage",
-)({ message: S.optional(S.String), type: S.optional(S.String) }) {}
+export interface IncompatibilityMessage {
+  message?: string;
+  type?: string;
+}
+export const IncompatibilityMessage = S.suspend(() =>
+  S.Struct({ message: S.optional(S.String), type: S.optional(S.String) }),
+).annotations({
+  identifier: "IncompatibilityMessage",
+}) as any as S.Schema<IncompatibilityMessage>;
+export type IncompatibilityMessages = IncompatibilityMessage[];
 export const IncompatibilityMessages = S.Array(IncompatibilityMessage);
-export class UniqueProblem extends S.Class<UniqueProblem>("UniqueProblem")({
-  message: S.optional(S.String),
-  problems: S.optional(Problems),
-}) {}
+export interface UniqueProblem {
+  message?: string;
+  problems?: Problems;
+}
+export const UniqueProblem = S.suspend(() =>
+  S.Struct({ message: S.optional(S.String), problems: S.optional(Problems) }),
+).annotations({
+  identifier: "UniqueProblem",
+}) as any as S.Schema<UniqueProblem>;
+export type UniqueProblems = UniqueProblem[];
 export const UniqueProblems = S.Array(UniqueProblem);
-export class DevicePoolCompatibilityResult extends S.Class<DevicePoolCompatibilityResult>(
-  "DevicePoolCompatibilityResult",
-)({
-  device: S.optional(Device),
-  compatible: S.optional(S.Boolean),
-  incompatibilityMessages: S.optional(IncompatibilityMessages),
-}) {}
+export interface DevicePoolCompatibilityResult {
+  device?: Device;
+  compatible?: boolean;
+  incompatibilityMessages?: IncompatibilityMessages;
+}
+export const DevicePoolCompatibilityResult = S.suspend(() =>
+  S.Struct({
+    device: S.optional(Device),
+    compatible: S.optional(S.Boolean),
+    incompatibilityMessages: S.optional(IncompatibilityMessages),
+  }),
+).annotations({
+  identifier: "DevicePoolCompatibilityResult",
+}) as any as S.Schema<DevicePoolCompatibilityResult>;
+export type DevicePoolCompatibilityResults = DevicePoolCompatibilityResult[];
 export const DevicePoolCompatibilityResults = S.Array(
   DevicePoolCompatibilityResult,
 );
+export type UniqueProblemsByExecutionResultMap = {
+  [key: string]: UniqueProblems;
+};
 export const UniqueProblemsByExecutionResultMap = S.Record({
   key: S.String,
   value: UniqueProblems,
 });
-export class GetDevicePoolCompatibilityResult extends S.Class<GetDevicePoolCompatibilityResult>(
-  "GetDevicePoolCompatibilityResult",
-)(
-  {
+export interface GetDevicePoolCompatibilityResult {
+  compatibleDevices?: DevicePoolCompatibilityResults;
+  incompatibleDevices?: DevicePoolCompatibilityResults;
+}
+export const GetDevicePoolCompatibilityResult = S.suspend(() =>
+  S.Struct({
     compatibleDevices: S.optional(DevicePoolCompatibilityResults),
     incompatibleDevices: S.optional(DevicePoolCompatibilityResults),
-  },
-  ns,
-) {}
-export class ListUniqueProblemsResult extends S.Class<ListUniqueProblemsResult>(
-  "ListUniqueProblemsResult",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetDevicePoolCompatibilityResult",
+}) as any as S.Schema<GetDevicePoolCompatibilityResult>;
+export interface ListUniqueProblemsResult {
+  uniqueProblems?: UniqueProblemsByExecutionResultMap;
+  nextToken?: string;
+}
+export const ListUniqueProblemsResult = S.suspend(() =>
+  S.Struct({
     uniqueProblems: S.optional(UniqueProblemsByExecutionResultMap),
     nextToken: S.optional(S.String),
-  },
-  ns,
-) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "ListUniqueProblemsResult",
+}) as any as S.Schema<ListUniqueProblemsResult>;
 
 //# Errors
 export class ArgumentException extends S.TaggedError<ArgumentException>()(

@@ -242,53 +242,85 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type requestValueList = string[];
 export const requestValueList = S.Array(S.String);
+export type BatchGetCalculatedAttributeForProfileIdList = string[];
 export const BatchGetCalculatedAttributeForProfileIdList = S.Array(S.String);
+export type BatchGetProfileIdList = string[];
 export const BatchGetProfileIdList = S.Array(S.String);
+export type Objects = string[];
 export const Objects = S.Array(S.String);
+export type ProfileIds = string[];
 export const ProfileIds = S.Array(S.String);
+export type ProfileIdToBeMergedList = string[];
 export const ProfileIdToBeMergedList = S.Array(S.String);
+export type EventTriggerNames = string[];
 export const EventTriggerNames = S.Array(S.String);
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class AddProfileKeyRequest extends S.Class<AddProfileKeyRequest>(
-  "AddProfileKeyRequest",
-)(
-  {
+export interface AddProfileKeyRequest {
+  ProfileId: string;
+  KeyName: string;
+  Values: requestValueList;
+  DomainName: string;
+}
+export const AddProfileKeyRequest = S.suspend(() =>
+  S.Struct({
     ProfileId: S.String,
     KeyName: S.String,
     Values: requestValueList,
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/domains/{DomainName}/profiles/keys" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/domains/{DomainName}/profiles/keys" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class BatchGetProfileRequest extends S.Class<BatchGetProfileRequest>(
-  "BatchGetProfileRequest",
-)(
-  {
+).annotations({
+  identifier: "AddProfileKeyRequest",
+}) as any as S.Schema<AddProfileKeyRequest>;
+export interface BatchGetProfileRequest {
+  DomainName: string;
+  ProfileIds: BatchGetProfileIdList;
+}
+export const BatchGetProfileRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     ProfileIds: BatchGetProfileIdList,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/domains/{DomainName}/batch-get-profiles" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/domains/{DomainName}/batch-get-profiles",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "BatchGetProfileRequest",
+}) as any as S.Schema<BatchGetProfileRequest>;
+export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
-export class CreateDomainLayoutRequest extends S.Class<CreateDomainLayoutRequest>(
-  "CreateDomainLayoutRequest",
-)(
-  {
+export interface CreateDomainLayoutRequest {
+  DomainName: string;
+  LayoutDefinitionName: string;
+  Description: string;
+  DisplayName: string;
+  IsDefault?: boolean;
+  LayoutType: string;
+  Layout: string;
+  Tags?: TagMap;
+}
+export const CreateDomainLayoutRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     LayoutDefinitionName: S.String.pipe(T.HttpLabel("LayoutDefinitionName")),
     Description: S.String,
@@ -297,1046 +329,1394 @@ export class CreateDomainLayoutRequest extends S.Class<CreateDomainLayoutRequest
     LayoutType: S.String,
     Layout: S.String,
     Tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/domains/{DomainName}/layouts/{LayoutDefinitionName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/domains/{DomainName}/layouts/{LayoutDefinitionName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateEventStreamRequest extends S.Class<CreateEventStreamRequest>(
-  "CreateEventStreamRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateDomainLayoutRequest",
+}) as any as S.Schema<CreateDomainLayoutRequest>;
+export interface CreateEventStreamRequest {
+  DomainName: string;
+  Uri: string;
+  EventStreamName: string;
+  Tags?: TagMap;
+}
+export const CreateEventStreamRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     Uri: S.String,
     EventStreamName: S.String.pipe(T.HttpLabel("EventStreamName")),
     Tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/domains/{DomainName}/event-streams/{EventStreamName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/domains/{DomainName}/event-streams/{EventStreamName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateSegmentSnapshotRequest extends S.Class<CreateSegmentSnapshotRequest>(
-  "CreateSegmentSnapshotRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateEventStreamRequest",
+}) as any as S.Schema<CreateEventStreamRequest>;
+export interface CreateSegmentSnapshotRequest {
+  DomainName: string;
+  SegmentDefinitionName: string;
+  DataFormat: string;
+  EncryptionKey?: string;
+  RoleArn?: string;
+  DestinationUri?: string;
+}
+export const CreateSegmentSnapshotRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     SegmentDefinitionName: S.String.pipe(T.HttpLabel("SegmentDefinitionName")),
     DataFormat: S.String,
     EncryptionKey: S.optional(S.String),
     RoleArn: S.optional(S.String),
     DestinationUri: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/domains/{DomainName}/segments/{SegmentDefinitionName}/snapshots",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/domains/{DomainName}/segments/{SegmentDefinitionName}/snapshots",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteCalculatedAttributeDefinitionRequest extends S.Class<DeleteCalculatedAttributeDefinitionRequest>(
-  "DeleteCalculatedAttributeDefinitionRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateSegmentSnapshotRequest",
+}) as any as S.Schema<CreateSegmentSnapshotRequest>;
+export interface DeleteCalculatedAttributeDefinitionRequest {
+  DomainName: string;
+  CalculatedAttributeName: string;
+}
+export const DeleteCalculatedAttributeDefinitionRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     CalculatedAttributeName: S.String.pipe(
       T.HttpLabel("CalculatedAttributeName"),
     ),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/domains/{DomainName}/calculated-attributes/{CalculatedAttributeName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/domains/{DomainName}/calculated-attributes/{CalculatedAttributeName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteCalculatedAttributeDefinitionResponse extends S.Class<DeleteCalculatedAttributeDefinitionResponse>(
-  "DeleteCalculatedAttributeDefinitionResponse",
-)({}) {}
-export class DeleteDomainRequest extends S.Class<DeleteDomainRequest>(
-  "DeleteDomainRequest",
-)(
-  { DomainName: S.String.pipe(T.HttpLabel("DomainName")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/domains/{DomainName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteCalculatedAttributeDefinitionRequest",
+}) as any as S.Schema<DeleteCalculatedAttributeDefinitionRequest>;
+export interface DeleteCalculatedAttributeDefinitionResponse {}
+export const DeleteCalculatedAttributeDefinitionResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteCalculatedAttributeDefinitionResponse",
+}) as any as S.Schema<DeleteCalculatedAttributeDefinitionResponse>;
+export interface DeleteDomainRequest {
+  DomainName: string;
+}
+export const DeleteDomainRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String.pipe(T.HttpLabel("DomainName")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/domains/{DomainName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteDomainLayoutRequest extends S.Class<DeleteDomainLayoutRequest>(
-  "DeleteDomainLayoutRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteDomainRequest",
+}) as any as S.Schema<DeleteDomainRequest>;
+export interface DeleteDomainLayoutRequest {
+  DomainName: string;
+  LayoutDefinitionName: string;
+}
+export const DeleteDomainLayoutRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     LayoutDefinitionName: S.String.pipe(T.HttpLabel("LayoutDefinitionName")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/domains/{DomainName}/layouts/{LayoutDefinitionName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/domains/{DomainName}/layouts/{LayoutDefinitionName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteDomainObjectTypeRequest extends S.Class<DeleteDomainObjectTypeRequest>(
-  "DeleteDomainObjectTypeRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteDomainLayoutRequest",
+}) as any as S.Schema<DeleteDomainLayoutRequest>;
+export interface DeleteDomainObjectTypeRequest {
+  DomainName: string;
+  ObjectTypeName: string;
+}
+export const DeleteDomainObjectTypeRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     ObjectTypeName: S.String.pipe(T.HttpLabel("ObjectTypeName")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/domains/{DomainName}/domain-object-types/{ObjectTypeName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/domains/{DomainName}/domain-object-types/{ObjectTypeName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteDomainObjectTypeResponse extends S.Class<DeleteDomainObjectTypeResponse>(
-  "DeleteDomainObjectTypeResponse",
-)({}) {}
-export class DeleteEventStreamRequest extends S.Class<DeleteEventStreamRequest>(
-  "DeleteEventStreamRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteDomainObjectTypeRequest",
+}) as any as S.Schema<DeleteDomainObjectTypeRequest>;
+export interface DeleteDomainObjectTypeResponse {}
+export const DeleteDomainObjectTypeResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteDomainObjectTypeResponse",
+}) as any as S.Schema<DeleteDomainObjectTypeResponse>;
+export interface DeleteEventStreamRequest {
+  DomainName: string;
+  EventStreamName: string;
+}
+export const DeleteEventStreamRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     EventStreamName: S.String.pipe(T.HttpLabel("EventStreamName")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/domains/{DomainName}/event-streams/{EventStreamName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/domains/{DomainName}/event-streams/{EventStreamName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteEventStreamResponse extends S.Class<DeleteEventStreamResponse>(
-  "DeleteEventStreamResponse",
-)({}) {}
-export class DeleteEventTriggerRequest extends S.Class<DeleteEventTriggerRequest>(
-  "DeleteEventTriggerRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteEventStreamRequest",
+}) as any as S.Schema<DeleteEventStreamRequest>;
+export interface DeleteEventStreamResponse {}
+export const DeleteEventStreamResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteEventStreamResponse",
+}) as any as S.Schema<DeleteEventStreamResponse>;
+export interface DeleteEventTriggerRequest {
+  DomainName: string;
+  EventTriggerName: string;
+}
+export const DeleteEventTriggerRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     EventTriggerName: S.String.pipe(T.HttpLabel("EventTriggerName")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/domains/{DomainName}/event-triggers/{EventTriggerName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/domains/{DomainName}/event-triggers/{EventTriggerName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteIntegrationRequest extends S.Class<DeleteIntegrationRequest>(
-  "DeleteIntegrationRequest",
-)(
-  { DomainName: S.String.pipe(T.HttpLabel("DomainName")), Uri: S.String },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/domains/{DomainName}/integrations/delete",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteEventTriggerRequest",
+}) as any as S.Schema<DeleteEventTriggerRequest>;
+export interface DeleteIntegrationRequest {
+  DomainName: string;
+  Uri: string;
+}
+export const DeleteIntegrationRequest = S.suspend(() =>
+  S.Struct({
+    DomainName: S.String.pipe(T.HttpLabel("DomainName")),
+    Uri: S.String,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/domains/{DomainName}/integrations/delete",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteProfileRequest extends S.Class<DeleteProfileRequest>(
-  "DeleteProfileRequest",
-)(
-  { ProfileId: S.String, DomainName: S.String.pipe(T.HttpLabel("DomainName")) },
-  T.all(
-    T.Http({ method: "POST", uri: "/domains/{DomainName}/profiles/delete" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteIntegrationRequest",
+}) as any as S.Schema<DeleteIntegrationRequest>;
+export interface DeleteProfileRequest {
+  ProfileId: string;
+  DomainName: string;
+}
+export const DeleteProfileRequest = S.suspend(() =>
+  S.Struct({
+    ProfileId: S.String,
+    DomainName: S.String.pipe(T.HttpLabel("DomainName")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/domains/{DomainName}/profiles/delete" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteProfileKeyRequest extends S.Class<DeleteProfileKeyRequest>(
-  "DeleteProfileKeyRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteProfileRequest",
+}) as any as S.Schema<DeleteProfileRequest>;
+export interface DeleteProfileKeyRequest {
+  ProfileId: string;
+  KeyName: string;
+  Values: requestValueList;
+  DomainName: string;
+}
+export const DeleteProfileKeyRequest = S.suspend(() =>
+  S.Struct({
     ProfileId: S.String,
     KeyName: S.String,
     Values: requestValueList,
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/domains/{DomainName}/profiles/keys/delete",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/domains/{DomainName}/profiles/keys/delete",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteProfileObjectRequest extends S.Class<DeleteProfileObjectRequest>(
-  "DeleteProfileObjectRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteProfileKeyRequest",
+}) as any as S.Schema<DeleteProfileKeyRequest>;
+export interface DeleteProfileObjectRequest {
+  ProfileId: string;
+  ProfileObjectUniqueKey: string;
+  ObjectTypeName: string;
+  DomainName: string;
+}
+export const DeleteProfileObjectRequest = S.suspend(() =>
+  S.Struct({
     ProfileId: S.String,
     ProfileObjectUniqueKey: S.String,
     ObjectTypeName: S.String,
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/domains/{DomainName}/profiles/objects/delete",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/domains/{DomainName}/profiles/objects/delete",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteProfileObjectTypeRequest extends S.Class<DeleteProfileObjectTypeRequest>(
-  "DeleteProfileObjectTypeRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteProfileObjectRequest",
+}) as any as S.Schema<DeleteProfileObjectRequest>;
+export interface DeleteProfileObjectTypeRequest {
+  DomainName: string;
+  ObjectTypeName: string;
+}
+export const DeleteProfileObjectTypeRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     ObjectTypeName: S.String.pipe(T.HttpLabel("ObjectTypeName")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/domains/{DomainName}/object-types/{ObjectTypeName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/domains/{DomainName}/object-types/{ObjectTypeName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteRecommenderRequest extends S.Class<DeleteRecommenderRequest>(
-  "DeleteRecommenderRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteProfileObjectTypeRequest",
+}) as any as S.Schema<DeleteProfileObjectTypeRequest>;
+export interface DeleteRecommenderRequest {
+  DomainName: string;
+  RecommenderName: string;
+}
+export const DeleteRecommenderRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     RecommenderName: S.String.pipe(T.HttpLabel("RecommenderName")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/domains/{DomainName}/recommenders/{RecommenderName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/domains/{DomainName}/recommenders/{RecommenderName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteRecommenderResponse extends S.Class<DeleteRecommenderResponse>(
-  "DeleteRecommenderResponse",
-)({}) {}
-export class DeleteSegmentDefinitionRequest extends S.Class<DeleteSegmentDefinitionRequest>(
-  "DeleteSegmentDefinitionRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteRecommenderRequest",
+}) as any as S.Schema<DeleteRecommenderRequest>;
+export interface DeleteRecommenderResponse {}
+export const DeleteRecommenderResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteRecommenderResponse",
+}) as any as S.Schema<DeleteRecommenderResponse>;
+export interface DeleteSegmentDefinitionRequest {
+  DomainName: string;
+  SegmentDefinitionName: string;
+}
+export const DeleteSegmentDefinitionRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     SegmentDefinitionName: S.String.pipe(T.HttpLabel("SegmentDefinitionName")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/domains/{DomainName}/segment-definitions/{SegmentDefinitionName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/domains/{DomainName}/segment-definitions/{SegmentDefinitionName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteWorkflowRequest extends S.Class<DeleteWorkflowRequest>(
-  "DeleteWorkflowRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteSegmentDefinitionRequest",
+}) as any as S.Schema<DeleteSegmentDefinitionRequest>;
+export interface DeleteWorkflowRequest {
+  DomainName: string;
+  WorkflowId: string;
+}
+export const DeleteWorkflowRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     WorkflowId: S.String.pipe(T.HttpLabel("WorkflowId")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/domains/{DomainName}/workflows/{WorkflowId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/domains/{DomainName}/workflows/{WorkflowId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteWorkflowResponse extends S.Class<DeleteWorkflowResponse>(
-  "DeleteWorkflowResponse",
-)({}) {}
-export class DetectProfileObjectTypeRequest extends S.Class<DetectProfileObjectTypeRequest>(
-  "DetectProfileObjectTypeRequest",
-)(
-  { Objects: Objects, DomainName: S.String.pipe(T.HttpLabel("DomainName")) },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/domains/{DomainName}/detect/object-types",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteWorkflowRequest",
+}) as any as S.Schema<DeleteWorkflowRequest>;
+export interface DeleteWorkflowResponse {}
+export const DeleteWorkflowResponse = S.suspend(() => S.Struct({})).annotations(
+  { identifier: "DeleteWorkflowResponse" },
+) as any as S.Schema<DeleteWorkflowResponse>;
+export interface DetectProfileObjectTypeRequest {
+  Objects: Objects;
+  DomainName: string;
+}
+export const DetectProfileObjectTypeRequest = S.suspend(() =>
+  S.Struct({
+    Objects: Objects,
+    DomainName: S.String.pipe(T.HttpLabel("DomainName")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/domains/{DomainName}/detect/object-types",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetCalculatedAttributeDefinitionRequest extends S.Class<GetCalculatedAttributeDefinitionRequest>(
-  "GetCalculatedAttributeDefinitionRequest",
-)(
-  {
+).annotations({
+  identifier: "DetectProfileObjectTypeRequest",
+}) as any as S.Schema<DetectProfileObjectTypeRequest>;
+export interface GetCalculatedAttributeDefinitionRequest {
+  DomainName: string;
+  CalculatedAttributeName: string;
+}
+export const GetCalculatedAttributeDefinitionRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     CalculatedAttributeName: S.String.pipe(
       T.HttpLabel("CalculatedAttributeName"),
     ),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/domains/{DomainName}/calculated-attributes/{CalculatedAttributeName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/domains/{DomainName}/calculated-attributes/{CalculatedAttributeName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetCalculatedAttributeForProfileRequest extends S.Class<GetCalculatedAttributeForProfileRequest>(
-  "GetCalculatedAttributeForProfileRequest",
-)(
-  {
+).annotations({
+  identifier: "GetCalculatedAttributeDefinitionRequest",
+}) as any as S.Schema<GetCalculatedAttributeDefinitionRequest>;
+export interface GetCalculatedAttributeForProfileRequest {
+  DomainName: string;
+  ProfileId: string;
+  CalculatedAttributeName: string;
+}
+export const GetCalculatedAttributeForProfileRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     ProfileId: S.String.pipe(T.HttpLabel("ProfileId")),
     CalculatedAttributeName: S.String.pipe(
       T.HttpLabel("CalculatedAttributeName"),
     ),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/domains/{DomainName}/profile/{ProfileId}/calculated-attributes/{CalculatedAttributeName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/domains/{DomainName}/profile/{ProfileId}/calculated-attributes/{CalculatedAttributeName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetDomainRequest extends S.Class<GetDomainRequest>(
-  "GetDomainRequest",
-)(
-  { DomainName: S.String.pipe(T.HttpLabel("DomainName")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/domains/{DomainName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetCalculatedAttributeForProfileRequest",
+}) as any as S.Schema<GetCalculatedAttributeForProfileRequest>;
+export interface GetDomainRequest {
+  DomainName: string;
+}
+export const GetDomainRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String.pipe(T.HttpLabel("DomainName")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/domains/{DomainName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetDomainLayoutRequest extends S.Class<GetDomainLayoutRequest>(
-  "GetDomainLayoutRequest",
-)(
-  {
+).annotations({
+  identifier: "GetDomainRequest",
+}) as any as S.Schema<GetDomainRequest>;
+export interface GetDomainLayoutRequest {
+  DomainName: string;
+  LayoutDefinitionName: string;
+}
+export const GetDomainLayoutRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     LayoutDefinitionName: S.String.pipe(T.HttpLabel("LayoutDefinitionName")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/domains/{DomainName}/layouts/{LayoutDefinitionName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/domains/{DomainName}/layouts/{LayoutDefinitionName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetDomainObjectTypeRequest extends S.Class<GetDomainObjectTypeRequest>(
-  "GetDomainObjectTypeRequest",
-)(
-  {
+).annotations({
+  identifier: "GetDomainLayoutRequest",
+}) as any as S.Schema<GetDomainLayoutRequest>;
+export interface GetDomainObjectTypeRequest {
+  DomainName: string;
+  ObjectTypeName: string;
+}
+export const GetDomainObjectTypeRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     ObjectTypeName: S.String.pipe(T.HttpLabel("ObjectTypeName")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/domains/{DomainName}/domain-object-types/{ObjectTypeName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/domains/{DomainName}/domain-object-types/{ObjectTypeName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetEventStreamRequest extends S.Class<GetEventStreamRequest>(
-  "GetEventStreamRequest",
-)(
-  {
+).annotations({
+  identifier: "GetDomainObjectTypeRequest",
+}) as any as S.Schema<GetDomainObjectTypeRequest>;
+export interface GetEventStreamRequest {
+  DomainName: string;
+  EventStreamName: string;
+}
+export const GetEventStreamRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     EventStreamName: S.String.pipe(T.HttpLabel("EventStreamName")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/domains/{DomainName}/event-streams/{EventStreamName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/domains/{DomainName}/event-streams/{EventStreamName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetEventTriggerRequest extends S.Class<GetEventTriggerRequest>(
-  "GetEventTriggerRequest",
-)(
-  {
+).annotations({
+  identifier: "GetEventStreamRequest",
+}) as any as S.Schema<GetEventStreamRequest>;
+export interface GetEventTriggerRequest {
+  DomainName: string;
+  EventTriggerName: string;
+}
+export const GetEventTriggerRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     EventTriggerName: S.String.pipe(T.HttpLabel("EventTriggerName")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/domains/{DomainName}/event-triggers/{EventTriggerName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/domains/{DomainName}/event-triggers/{EventTriggerName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetIdentityResolutionJobRequest extends S.Class<GetIdentityResolutionJobRequest>(
-  "GetIdentityResolutionJobRequest",
-)(
-  {
+).annotations({
+  identifier: "GetEventTriggerRequest",
+}) as any as S.Schema<GetEventTriggerRequest>;
+export interface GetIdentityResolutionJobRequest {
+  DomainName: string;
+  JobId: string;
+}
+export const GetIdentityResolutionJobRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     JobId: S.String.pipe(T.HttpLabel("JobId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/domains/{DomainName}/identity-resolution-jobs/{JobId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/domains/{DomainName}/identity-resolution-jobs/{JobId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetIntegrationRequest extends S.Class<GetIntegrationRequest>(
-  "GetIntegrationRequest",
-)(
-  { DomainName: S.String.pipe(T.HttpLabel("DomainName")), Uri: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/domains/{DomainName}/integrations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetIdentityResolutionJobRequest",
+}) as any as S.Schema<GetIdentityResolutionJobRequest>;
+export interface GetIntegrationRequest {
+  DomainName: string;
+  Uri: string;
+}
+export const GetIntegrationRequest = S.suspend(() =>
+  S.Struct({
+    DomainName: S.String.pipe(T.HttpLabel("DomainName")),
+    Uri: S.String,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/domains/{DomainName}/integrations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetMatchesRequest extends S.Class<GetMatchesRequest>(
-  "GetMatchesRequest",
-)(
-  {
+).annotations({
+  identifier: "GetIntegrationRequest",
+}) as any as S.Schema<GetIntegrationRequest>;
+export interface GetMatchesRequest {
+  NextToken?: string;
+  MaxResults?: number;
+  DomainName: string;
+}
+export const GetMatchesRequest = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/domains/{DomainName}/matches" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/domains/{DomainName}/matches" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetObjectTypeAttributeStatisticsRequest extends S.Class<GetObjectTypeAttributeStatisticsRequest>(
-  "GetObjectTypeAttributeStatisticsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetMatchesRequest",
+}) as any as S.Schema<GetMatchesRequest>;
+export interface GetObjectTypeAttributeStatisticsRequest {
+  DomainName: string;
+  ObjectTypeName: string;
+  AttributeName: string;
+}
+export const GetObjectTypeAttributeStatisticsRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     ObjectTypeName: S.String.pipe(T.HttpLabel("ObjectTypeName")),
     AttributeName: S.String.pipe(T.HttpLabel("AttributeName")),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/domains/{DomainName}/object-types/{ObjectTypeName}/attributes/{AttributeName}/statistics",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/domains/{DomainName}/object-types/{ObjectTypeName}/attributes/{AttributeName}/statistics",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetProfileHistoryRecordRequest extends S.Class<GetProfileHistoryRecordRequest>(
-  "GetProfileHistoryRecordRequest",
-)(
-  {
+).annotations({
+  identifier: "GetObjectTypeAttributeStatisticsRequest",
+}) as any as S.Schema<GetObjectTypeAttributeStatisticsRequest>;
+export interface GetProfileHistoryRecordRequest {
+  DomainName: string;
+  ProfileId: string;
+  Id: string;
+}
+export const GetProfileHistoryRecordRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     ProfileId: S.String.pipe(T.HttpLabel("ProfileId")),
     Id: S.String.pipe(T.HttpLabel("Id")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/domains/{DomainName}/profiles/{ProfileId}/history-records/{Id}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/domains/{DomainName}/profiles/{ProfileId}/history-records/{Id}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetProfileObjectTypeRequest extends S.Class<GetProfileObjectTypeRequest>(
-  "GetProfileObjectTypeRequest",
-)(
-  {
+).annotations({
+  identifier: "GetProfileHistoryRecordRequest",
+}) as any as S.Schema<GetProfileHistoryRecordRequest>;
+export interface GetProfileObjectTypeRequest {
+  DomainName: string;
+  ObjectTypeName: string;
+}
+export const GetProfileObjectTypeRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     ObjectTypeName: S.String.pipe(T.HttpLabel("ObjectTypeName")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/domains/{DomainName}/object-types/{ObjectTypeName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/domains/{DomainName}/object-types/{ObjectTypeName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetProfileObjectTypeTemplateRequest extends S.Class<GetProfileObjectTypeTemplateRequest>(
-  "GetProfileObjectTypeTemplateRequest",
-)(
-  { TemplateId: S.String.pipe(T.HttpLabel("TemplateId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/templates/{TemplateId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetProfileObjectTypeRequest",
+}) as any as S.Schema<GetProfileObjectTypeRequest>;
+export interface GetProfileObjectTypeTemplateRequest {
+  TemplateId: string;
+}
+export const GetProfileObjectTypeTemplateRequest = S.suspend(() =>
+  S.Struct({ TemplateId: S.String.pipe(T.HttpLabel("TemplateId")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/templates/{TemplateId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetRecommenderRequest extends S.Class<GetRecommenderRequest>(
-  "GetRecommenderRequest",
-)(
-  {
+).annotations({
+  identifier: "GetProfileObjectTypeTemplateRequest",
+}) as any as S.Schema<GetProfileObjectTypeTemplateRequest>;
+export interface GetRecommenderRequest {
+  DomainName: string;
+  RecommenderName: string;
+  TrainingMetricsCount?: number;
+}
+export const GetRecommenderRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     RecommenderName: S.String.pipe(T.HttpLabel("RecommenderName")),
     TrainingMetricsCount: S.optional(S.Number).pipe(
       T.HttpQuery("training-metrics-count"),
     ),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/domains/{DomainName}/recommenders/{RecommenderName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/domains/{DomainName}/recommenders/{RecommenderName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetSegmentDefinitionRequest extends S.Class<GetSegmentDefinitionRequest>(
-  "GetSegmentDefinitionRequest",
-)(
-  {
+).annotations({
+  identifier: "GetRecommenderRequest",
+}) as any as S.Schema<GetRecommenderRequest>;
+export interface GetSegmentDefinitionRequest {
+  DomainName: string;
+  SegmentDefinitionName: string;
+}
+export const GetSegmentDefinitionRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     SegmentDefinitionName: S.String.pipe(T.HttpLabel("SegmentDefinitionName")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/domains/{DomainName}/segment-definitions/{SegmentDefinitionName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/domains/{DomainName}/segment-definitions/{SegmentDefinitionName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetSegmentEstimateRequest extends S.Class<GetSegmentEstimateRequest>(
-  "GetSegmentEstimateRequest",
-)(
-  {
+).annotations({
+  identifier: "GetSegmentDefinitionRequest",
+}) as any as S.Schema<GetSegmentDefinitionRequest>;
+export interface GetSegmentEstimateRequest {
+  DomainName: string;
+  EstimateId: string;
+}
+export const GetSegmentEstimateRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     EstimateId: S.String.pipe(T.HttpLabel("EstimateId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/domains/{DomainName}/segment-estimates/{EstimateId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/domains/{DomainName}/segment-estimates/{EstimateId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetSegmentMembershipRequest extends S.Class<GetSegmentMembershipRequest>(
-  "GetSegmentMembershipRequest",
-)(
-  {
+).annotations({
+  identifier: "GetSegmentEstimateRequest",
+}) as any as S.Schema<GetSegmentEstimateRequest>;
+export interface GetSegmentMembershipRequest {
+  DomainName: string;
+  SegmentDefinitionName: string;
+  ProfileIds: ProfileIds;
+}
+export const GetSegmentMembershipRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     SegmentDefinitionName: S.String.pipe(T.HttpLabel("SegmentDefinitionName")),
     ProfileIds: ProfileIds.pipe(T.JsonName("ProfileIds")),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/domains/{DomainName}/segments/{SegmentDefinitionName}/membership",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/domains/{DomainName}/segments/{SegmentDefinitionName}/membership",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetSegmentSnapshotRequest extends S.Class<GetSegmentSnapshotRequest>(
-  "GetSegmentSnapshotRequest",
-)(
-  {
+).annotations({
+  identifier: "GetSegmentMembershipRequest",
+}) as any as S.Schema<GetSegmentMembershipRequest>;
+export interface GetSegmentSnapshotRequest {
+  DomainName: string;
+  SegmentDefinitionName: string;
+  SnapshotId: string;
+}
+export const GetSegmentSnapshotRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     SegmentDefinitionName: S.String.pipe(T.HttpLabel("SegmentDefinitionName")),
     SnapshotId: S.String.pipe(T.HttpLabel("SnapshotId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/domains/{DomainName}/segments/{SegmentDefinitionName}/snapshots/{SnapshotId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/domains/{DomainName}/segments/{SegmentDefinitionName}/snapshots/{SnapshotId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetSimilarProfilesRequest extends S.Class<GetSimilarProfilesRequest>(
-  "GetSimilarProfilesRequest",
-)(
-  {
+).annotations({
+  identifier: "GetSegmentSnapshotRequest",
+}) as any as S.Schema<GetSegmentSnapshotRequest>;
+export interface GetSimilarProfilesRequest {
+  NextToken?: string;
+  MaxResults?: number;
+  DomainName: string;
+  MatchType: string;
+  SearchKey: string;
+  SearchValue: string;
+}
+export const GetSimilarProfilesRequest = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     MatchType: S.String,
     SearchKey: S.String,
     SearchValue: S.String,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/domains/{DomainName}/matches" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/domains/{DomainName}/matches" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetUploadJobRequest extends S.Class<GetUploadJobRequest>(
-  "GetUploadJobRequest",
-)(
-  {
+).annotations({
+  identifier: "GetSimilarProfilesRequest",
+}) as any as S.Schema<GetSimilarProfilesRequest>;
+export interface GetUploadJobRequest {
+  DomainName: string;
+  JobId: string;
+}
+export const GetUploadJobRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     JobId: S.String.pipe(T.HttpLabel("JobId")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/domains/{DomainName}/upload-jobs/{JobId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/domains/{DomainName}/upload-jobs/{JobId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetUploadJobPathRequest extends S.Class<GetUploadJobPathRequest>(
-  "GetUploadJobPathRequest",
-)(
-  {
+).annotations({
+  identifier: "GetUploadJobRequest",
+}) as any as S.Schema<GetUploadJobRequest>;
+export interface GetUploadJobPathRequest {
+  DomainName: string;
+  JobId: string;
+}
+export const GetUploadJobPathRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     JobId: S.String.pipe(T.HttpLabel("JobId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/domains/{DomainName}/upload-jobs/{JobId}/path",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/domains/{DomainName}/upload-jobs/{JobId}/path",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetWorkflowRequest extends S.Class<GetWorkflowRequest>(
-  "GetWorkflowRequest",
-)(
-  {
+).annotations({
+  identifier: "GetUploadJobPathRequest",
+}) as any as S.Schema<GetUploadJobPathRequest>;
+export interface GetWorkflowRequest {
+  DomainName: string;
+  WorkflowId: string;
+}
+export const GetWorkflowRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     WorkflowId: S.String.pipe(T.HttpLabel("WorkflowId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/domains/{DomainName}/workflows/{WorkflowId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/domains/{DomainName}/workflows/{WorkflowId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetWorkflowStepsRequest extends S.Class<GetWorkflowStepsRequest>(
-  "GetWorkflowStepsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetWorkflowRequest",
+}) as any as S.Schema<GetWorkflowRequest>;
+export interface GetWorkflowStepsRequest {
+  DomainName: string;
+  WorkflowId: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const GetWorkflowStepsRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     WorkflowId: S.String.pipe(T.HttpLabel("WorkflowId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/domains/{DomainName}/workflows/{WorkflowId}/steps",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/domains/{DomainName}/workflows/{WorkflowId}/steps",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListAccountIntegrationsRequest extends S.Class<ListAccountIntegrationsRequest>(
-  "ListAccountIntegrationsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetWorkflowStepsRequest",
+}) as any as S.Schema<GetWorkflowStepsRequest>;
+export interface ListAccountIntegrationsRequest {
+  Uri: string;
+  NextToken?: string;
+  MaxResults?: number;
+  IncludeHidden?: boolean;
+}
+export const ListAccountIntegrationsRequest = S.suspend(() =>
+  S.Struct({
     Uri: S.String,
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
     IncludeHidden: S.optional(S.Boolean).pipe(T.HttpQuery("include-hidden")),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/integrations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/integrations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListCalculatedAttributeDefinitionsRequest extends S.Class<ListCalculatedAttributeDefinitionsRequest>(
-  "ListCalculatedAttributeDefinitionsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListAccountIntegrationsRequest",
+}) as any as S.Schema<ListAccountIntegrationsRequest>;
+export interface ListCalculatedAttributeDefinitionsRequest {
+  DomainName: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListCalculatedAttributeDefinitionsRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/domains/{DomainName}/calculated-attributes",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/domains/{DomainName}/calculated-attributes",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListCalculatedAttributesForProfileRequest extends S.Class<ListCalculatedAttributesForProfileRequest>(
-  "ListCalculatedAttributesForProfileRequest",
-)(
-  {
+).annotations({
+  identifier: "ListCalculatedAttributeDefinitionsRequest",
+}) as any as S.Schema<ListCalculatedAttributeDefinitionsRequest>;
+export interface ListCalculatedAttributesForProfileRequest {
+  NextToken?: string;
+  MaxResults?: number;
+  DomainName: string;
+  ProfileId: string;
+}
+export const ListCalculatedAttributesForProfileRequest = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     ProfileId: S.String.pipe(T.HttpLabel("ProfileId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/domains/{DomainName}/profile/{ProfileId}/calculated-attributes",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/domains/{DomainName}/profile/{ProfileId}/calculated-attributes",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListDomainLayoutsRequest extends S.Class<ListDomainLayoutsRequest>(
-  "ListDomainLayoutsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListCalculatedAttributesForProfileRequest",
+}) as any as S.Schema<ListCalculatedAttributesForProfileRequest>;
+export interface ListDomainLayoutsRequest {
+  DomainName: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListDomainLayoutsRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/domains/{DomainName}/layouts" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/domains/{DomainName}/layouts" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListDomainObjectTypesRequest extends S.Class<ListDomainObjectTypesRequest>(
-  "ListDomainObjectTypesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListDomainLayoutsRequest",
+}) as any as S.Schema<ListDomainLayoutsRequest>;
+export interface ListDomainObjectTypesRequest {
+  DomainName: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListDomainObjectTypesRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/domains/{DomainName}/domain-object-types" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/domains/{DomainName}/domain-object-types",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListDomainsRequest extends S.Class<ListDomainsRequest>(
-  "ListDomainsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListDomainObjectTypesRequest",
+}) as any as S.Schema<ListDomainObjectTypesRequest>;
+export interface ListDomainsRequest {
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListDomainsRequest = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/domains" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/domains" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListEventStreamsRequest extends S.Class<ListEventStreamsRequest>(
-  "ListEventStreamsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListDomainsRequest",
+}) as any as S.Schema<ListDomainsRequest>;
+export interface ListEventStreamsRequest {
+  DomainName: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListEventStreamsRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/domains/{DomainName}/event-streams" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/domains/{DomainName}/event-streams" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListEventTriggersRequest extends S.Class<ListEventTriggersRequest>(
-  "ListEventTriggersRequest",
-)(
-  {
+).annotations({
+  identifier: "ListEventStreamsRequest",
+}) as any as S.Schema<ListEventStreamsRequest>;
+export interface ListEventTriggersRequest {
+  DomainName: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListEventTriggersRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/domains/{DomainName}/event-triggers" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/domains/{DomainName}/event-triggers" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListIdentityResolutionJobsRequest extends S.Class<ListIdentityResolutionJobsRequest>(
-  "ListIdentityResolutionJobsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListEventTriggersRequest",
+}) as any as S.Schema<ListEventTriggersRequest>;
+export interface ListIdentityResolutionJobsRequest {
+  DomainName: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListIdentityResolutionJobsRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/domains/{DomainName}/identity-resolution-jobs",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/domains/{DomainName}/identity-resolution-jobs",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListIntegrationsRequest extends S.Class<ListIntegrationsRequest>(
-  "ListIntegrationsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListIdentityResolutionJobsRequest",
+}) as any as S.Schema<ListIdentityResolutionJobsRequest>;
+export interface ListIntegrationsRequest {
+  DomainName: string;
+  NextToken?: string;
+  MaxResults?: number;
+  IncludeHidden?: boolean;
+}
+export const ListIntegrationsRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
     IncludeHidden: S.optional(S.Boolean).pipe(T.HttpQuery("include-hidden")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/domains/{DomainName}/integrations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/domains/{DomainName}/integrations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListObjectTypeAttributesRequest extends S.Class<ListObjectTypeAttributesRequest>(
-  "ListObjectTypeAttributesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListIntegrationsRequest",
+}) as any as S.Schema<ListIntegrationsRequest>;
+export interface ListObjectTypeAttributesRequest {
+  NextToken?: string;
+  MaxResults?: number;
+  DomainName: string;
+  ObjectTypeName: string;
+}
+export const ListObjectTypeAttributesRequest = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     ObjectTypeName: S.String.pipe(T.HttpLabel("ObjectTypeName")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/domains/{DomainName}/object-types/{ObjectTypeName}/attributes",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/domains/{DomainName}/object-types/{ObjectTypeName}/attributes",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListObjectTypeAttributeValuesRequest extends S.Class<ListObjectTypeAttributeValuesRequest>(
-  "ListObjectTypeAttributeValuesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListObjectTypeAttributesRequest",
+}) as any as S.Schema<ListObjectTypeAttributesRequest>;
+export interface ListObjectTypeAttributeValuesRequest {
+  NextToken?: string;
+  MaxResults?: number;
+  DomainName: string;
+  ObjectTypeName: string;
+  AttributeName: string;
+}
+export const ListObjectTypeAttributeValuesRequest = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     ObjectTypeName: S.String.pipe(T.HttpLabel("ObjectTypeName")),
     AttributeName: S.String.pipe(T.HttpLabel("AttributeName")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/domains/{DomainName}/object-types/{ObjectTypeName}/attributes/{AttributeName}/values",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/domains/{DomainName}/object-types/{ObjectTypeName}/attributes/{AttributeName}/values",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ProfileAttributeValuesRequest extends S.Class<ProfileAttributeValuesRequest>(
-  "ProfileAttributeValuesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListObjectTypeAttributeValuesRequest",
+}) as any as S.Schema<ListObjectTypeAttributeValuesRequest>;
+export interface ProfileAttributeValuesRequest {
+  DomainName: string;
+  AttributeName: string;
+}
+export const ProfileAttributeValuesRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     AttributeName: S.String.pipe(T.HttpLabel("AttributeName")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/domains/{DomainName}/profile-attributes/{AttributeName}/values",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/domains/{DomainName}/profile-attributes/{AttributeName}/values",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListProfileHistoryRecordsRequest extends S.Class<ListProfileHistoryRecordsRequest>(
-  "ListProfileHistoryRecordsRequest",
-)(
-  {
+).annotations({
+  identifier: "ProfileAttributeValuesRequest",
+}) as any as S.Schema<ProfileAttributeValuesRequest>;
+export interface ListProfileHistoryRecordsRequest {
+  DomainName: string;
+  ProfileId: string;
+  ObjectTypeName?: string;
+  NextToken?: string;
+  MaxResults?: number;
+  ActionType?: string;
+  PerformedBy?: string;
+}
+export const ListProfileHistoryRecordsRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     ProfileId: S.String,
     ObjectTypeName: S.optional(S.String),
@@ -1344,156 +1724,213 @@ export class ListProfileHistoryRecordsRequest extends S.Class<ListProfileHistory
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
     ActionType: S.optional(S.String),
     PerformedBy: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/domains/{DomainName}/profiles/history-records",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/domains/{DomainName}/profiles/history-records",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListProfileObjectTypesRequest extends S.Class<ListProfileObjectTypesRequest>(
-  "ListProfileObjectTypesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListProfileHistoryRecordsRequest",
+}) as any as S.Schema<ListProfileHistoryRecordsRequest>;
+export interface ListProfileObjectTypesRequest {
+  DomainName: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListProfileObjectTypesRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/domains/{DomainName}/object-types" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/domains/{DomainName}/object-types" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListProfileObjectTypeTemplatesRequest extends S.Class<ListProfileObjectTypeTemplatesRequest>(
-  "ListProfileObjectTypeTemplatesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListProfileObjectTypesRequest",
+}) as any as S.Schema<ListProfileObjectTypesRequest>;
+export interface ListProfileObjectTypeTemplatesRequest {
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListProfileObjectTypeTemplatesRequest = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/templates" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/templates" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListRecommenderRecipesRequest extends S.Class<ListRecommenderRecipesRequest>(
-  "ListRecommenderRecipesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListProfileObjectTypeTemplatesRequest",
+}) as any as S.Schema<ListProfileObjectTypeTemplatesRequest>;
+export interface ListRecommenderRecipesRequest {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListRecommenderRecipesRequest = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/recommender-recipes" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/recommender-recipes" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListRecommendersRequest extends S.Class<ListRecommendersRequest>(
-  "ListRecommendersRequest",
-)(
-  {
+).annotations({
+  identifier: "ListRecommenderRecipesRequest",
+}) as any as S.Schema<ListRecommenderRecipesRequest>;
+export interface ListRecommendersRequest {
+  DomainName: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListRecommendersRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/domains/{DomainName}/recommenders" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/domains/{DomainName}/recommenders" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListRuleBasedMatchesRequest extends S.Class<ListRuleBasedMatchesRequest>(
-  "ListRuleBasedMatchesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListRecommendersRequest",
+}) as any as S.Schema<ListRecommendersRequest>;
+export interface ListRuleBasedMatchesRequest {
+  NextToken?: string;
+  MaxResults?: number;
+  DomainName: string;
+}
+export const ListRuleBasedMatchesRequest = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/domains/{DomainName}/profiles/ruleBasedMatches",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/domains/{DomainName}/profiles/ruleBasedMatches",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListSegmentDefinitionsRequest extends S.Class<ListSegmentDefinitionsRequest>(
-  "ListSegmentDefinitionsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListRuleBasedMatchesRequest",
+}) as any as S.Schema<ListRuleBasedMatchesRequest>;
+export interface ListSegmentDefinitionsRequest {
+  DomainName: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListSegmentDefinitionsRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/domains/{DomainName}/segment-definitions" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/domains/{DomainName}/segment-definitions",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListSegmentDefinitionsRequest",
+}) as any as S.Schema<ListSegmentDefinitionsRequest>;
+export interface ListTagsForResourceRequest {
+  resourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListUploadJobsRequest extends S.Class<ListUploadJobsRequest>(
-  "ListUploadJobsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface ListUploadJobsRequest {
+  DomainName: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListUploadJobsRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/domains/{DomainName}/upload-jobs" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/domains/{DomainName}/upload-jobs" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListWorkflowsRequest extends S.Class<ListWorkflowsRequest>(
-  "ListWorkflowsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListUploadJobsRequest",
+}) as any as S.Schema<ListUploadJobsRequest>;
+export interface ListWorkflowsRequest {
+  DomainName: string;
+  WorkflowType?: string;
+  Status?: string;
+  QueryStartDate?: Date;
+  QueryEndDate?: Date;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListWorkflowsRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     WorkflowType: S.optional(S.String),
     Status: S.optional(S.String),
@@ -1501,177 +1938,259 @@ export class ListWorkflowsRequest extends S.Class<ListWorkflowsRequest>(
     QueryEndDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/domains/{DomainName}/workflows" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/domains/{DomainName}/workflows" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutProfileObjectRequest extends S.Class<PutProfileObjectRequest>(
-  "PutProfileObjectRequest",
-)(
-  {
+).annotations({
+  identifier: "ListWorkflowsRequest",
+}) as any as S.Schema<ListWorkflowsRequest>;
+export interface PutProfileObjectRequest {
+  ObjectTypeName: string;
+  Object: string;
+  DomainName: string;
+}
+export const PutProfileObjectRequest = S.suspend(() =>
+  S.Struct({
     ObjectTypeName: S.String,
     Object: S.String,
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/domains/{DomainName}/profiles/objects" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/domains/{DomainName}/profiles/objects" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartRecommenderRequest extends S.Class<StartRecommenderRequest>(
-  "StartRecommenderRequest",
-)(
-  {
+).annotations({
+  identifier: "PutProfileObjectRequest",
+}) as any as S.Schema<PutProfileObjectRequest>;
+export interface StartRecommenderRequest {
+  DomainName: string;
+  RecommenderName: string;
+}
+export const StartRecommenderRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     RecommenderName: S.String.pipe(T.HttpLabel("RecommenderName")),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/domains/{DomainName}/recommenders/{RecommenderName}/start",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/domains/{DomainName}/recommenders/{RecommenderName}/start",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartRecommenderResponse extends S.Class<StartRecommenderResponse>(
-  "StartRecommenderResponse",
-)({}) {}
-export class StartUploadJobRequest extends S.Class<StartUploadJobRequest>(
-  "StartUploadJobRequest",
-)(
-  {
+).annotations({
+  identifier: "StartRecommenderRequest",
+}) as any as S.Schema<StartRecommenderRequest>;
+export interface StartRecommenderResponse {}
+export const StartRecommenderResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "StartRecommenderResponse",
+}) as any as S.Schema<StartRecommenderResponse>;
+export interface StartUploadJobRequest {
+  DomainName: string;
+  JobId: string;
+}
+export const StartUploadJobRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     JobId: S.String.pipe(T.HttpLabel("JobId")),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/domains/{DomainName}/upload-jobs/{JobId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/domains/{DomainName}/upload-jobs/{JobId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartUploadJobResponse extends S.Class<StartUploadJobResponse>(
-  "StartUploadJobResponse",
-)({}) {}
-export class StopRecommenderRequest extends S.Class<StopRecommenderRequest>(
-  "StopRecommenderRequest",
-)(
-  {
+).annotations({
+  identifier: "StartUploadJobRequest",
+}) as any as S.Schema<StartUploadJobRequest>;
+export interface StartUploadJobResponse {}
+export const StartUploadJobResponse = S.suspend(() => S.Struct({})).annotations(
+  { identifier: "StartUploadJobResponse" },
+) as any as S.Schema<StartUploadJobResponse>;
+export interface StopRecommenderRequest {
+  DomainName: string;
+  RecommenderName: string;
+}
+export const StopRecommenderRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     RecommenderName: S.String.pipe(T.HttpLabel("RecommenderName")),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/domains/{DomainName}/recommenders/{RecommenderName}/stop",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/domains/{DomainName}/recommenders/{RecommenderName}/stop",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StopRecommenderResponse extends S.Class<StopRecommenderResponse>(
-  "StopRecommenderResponse",
-)({}) {}
-export class StopUploadJobRequest extends S.Class<StopUploadJobRequest>(
-  "StopUploadJobRequest",
-)(
-  {
+).annotations({
+  identifier: "StopRecommenderRequest",
+}) as any as S.Schema<StopRecommenderRequest>;
+export interface StopRecommenderResponse {}
+export const StopRecommenderResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "StopRecommenderResponse",
+}) as any as S.Schema<StopRecommenderResponse>;
+export interface StopUploadJobRequest {
+  DomainName: string;
+  JobId: string;
+}
+export const StopUploadJobRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     JobId: S.String.pipe(T.HttpLabel("JobId")),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/domains/{DomainName}/upload-jobs/{JobId}/stop",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/domains/{DomainName}/upload-jobs/{JobId}/stop",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StopUploadJobResponse extends S.Class<StopUploadJobResponse>(
-  "StopUploadJobResponse",
-)({}) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap },
-  T.all(
-    T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "StopUploadJobRequest",
+}) as any as S.Schema<StopUploadJobRequest>;
+export interface StopUploadJobResponse {}
+export const StopUploadJobResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "StopUploadJobResponse",
+}) as any as S.Schema<StopUploadJobResponse>;
+export interface TagResourceRequest {
+  resourceArn: string;
+  tags: TagMap;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+    tags: TagMap,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UntagResourceRequest {
+  resourceArn: string;
+  tagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
-export class ValueRange extends S.Class<ValueRange>("ValueRange")({
-  Start: S.Number,
-  End: S.Number,
-}) {}
-export class Range extends S.Class<Range>("Range")({
-  Value: S.optional(S.Number),
-  Unit: S.optional(S.String),
-  ValueRange: S.optional(ValueRange),
-  TimestampSource: S.optional(S.String),
-  TimestampFormat: S.optional(S.String),
-}) {}
-export class Threshold extends S.Class<Threshold>("Threshold")({
-  Value: S.String,
-  Operator: S.String,
-}) {}
-export class Conditions extends S.Class<Conditions>("Conditions")({
-  Range: S.optional(Range),
-  ObjectCount: S.optional(S.Number),
-  Threshold: S.optional(Threshold),
-}) {}
-export class UpdateCalculatedAttributeDefinitionRequest extends S.Class<UpdateCalculatedAttributeDefinitionRequest>(
-  "UpdateCalculatedAttributeDefinitionRequest",
-)(
-  {
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface ValueRange {
+  Start: number;
+  End: number;
+}
+export const ValueRange = S.suspend(() =>
+  S.Struct({ Start: S.Number, End: S.Number }),
+).annotations({ identifier: "ValueRange" }) as any as S.Schema<ValueRange>;
+export interface Range {
+  Value?: number;
+  Unit?: string;
+  ValueRange?: ValueRange;
+  TimestampSource?: string;
+  TimestampFormat?: string;
+}
+export const Range = S.suspend(() =>
+  S.Struct({
+    Value: S.optional(S.Number),
+    Unit: S.optional(S.String),
+    ValueRange: S.optional(ValueRange),
+    TimestampSource: S.optional(S.String),
+    TimestampFormat: S.optional(S.String),
+  }),
+).annotations({ identifier: "Range" }) as any as S.Schema<Range>;
+export interface Threshold {
+  Value: string;
+  Operator: string;
+}
+export const Threshold = S.suspend(() =>
+  S.Struct({ Value: S.String, Operator: S.String }),
+).annotations({ identifier: "Threshold" }) as any as S.Schema<Threshold>;
+export interface Conditions {
+  Range?: Range;
+  ObjectCount?: number;
+  Threshold?: Threshold;
+}
+export const Conditions = S.suspend(() =>
+  S.Struct({
+    Range: S.optional(Range),
+    ObjectCount: S.optional(S.Number),
+    Threshold: S.optional(Threshold),
+  }),
+).annotations({ identifier: "Conditions" }) as any as S.Schema<Conditions>;
+export interface UpdateCalculatedAttributeDefinitionRequest {
+  DomainName: string;
+  CalculatedAttributeName: string;
+  DisplayName?: string;
+  Description?: string;
+  Conditions?: Conditions;
+}
+export const UpdateCalculatedAttributeDefinitionRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     CalculatedAttributeName: S.String.pipe(
       T.HttpLabel("CalculatedAttributeName"),
@@ -1679,85 +2198,174 @@ export class UpdateCalculatedAttributeDefinitionRequest extends S.Class<UpdateCa
     DisplayName: S.optional(S.String),
     Description: S.optional(S.String),
     Conditions: S.optional(Conditions),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/domains/{DomainName}/calculated-attributes/{CalculatedAttributeName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/domains/{DomainName}/calculated-attributes/{CalculatedAttributeName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class JobSchedule extends S.Class<JobSchedule>("JobSchedule")({
-  DayOfTheWeek: S.String,
-  Time: S.String,
-}) {}
+).annotations({
+  identifier: "UpdateCalculatedAttributeDefinitionRequest",
+}) as any as S.Schema<UpdateCalculatedAttributeDefinitionRequest>;
+export interface JobSchedule {
+  DayOfTheWeek: string;
+  Time: string;
+}
+export const JobSchedule = S.suspend(() =>
+  S.Struct({ DayOfTheWeek: S.String, Time: S.String }),
+).annotations({ identifier: "JobSchedule" }) as any as S.Schema<JobSchedule>;
+export type MatchingAttributes = string[];
 export const MatchingAttributes = S.Array(S.String);
+export type MatchingAttributesList = MatchingAttributes[];
 export const MatchingAttributesList = S.Array(MatchingAttributes);
-export class Consolidation extends S.Class<Consolidation>("Consolidation")({
-  MatchingAttributesList: MatchingAttributesList,
-}) {}
-export class ConflictResolution extends S.Class<ConflictResolution>(
-  "ConflictResolution",
-)({ ConflictResolvingModel: S.String, SourceName: S.optional(S.String) }) {}
-export class AutoMerging extends S.Class<AutoMerging>("AutoMerging")({
-  Enabled: S.Boolean,
-  Consolidation: S.optional(Consolidation),
-  ConflictResolution: S.optional(ConflictResolution),
-  MinAllowedConfidenceScoreForMerging: S.optional(S.Number),
-}) {}
-export class S3ExportingConfig extends S.Class<S3ExportingConfig>(
-  "S3ExportingConfig",
-)({ S3BucketName: S.String, S3KeyName: S.optional(S.String) }) {}
-export class ExportingConfig extends S.Class<ExportingConfig>(
-  "ExportingConfig",
-)({ S3Exporting: S.optional(S3ExportingConfig) }) {}
-export class MatchingRequest extends S.Class<MatchingRequest>(
-  "MatchingRequest",
-)({
-  Enabled: S.Boolean,
-  JobSchedule: S.optional(JobSchedule),
-  AutoMerging: S.optional(AutoMerging),
-  ExportingConfig: S.optional(ExportingConfig),
-}) {}
+export interface Consolidation {
+  MatchingAttributesList: MatchingAttributesList;
+}
+export const Consolidation = S.suspend(() =>
+  S.Struct({ MatchingAttributesList: MatchingAttributesList }),
+).annotations({
+  identifier: "Consolidation",
+}) as any as S.Schema<Consolidation>;
+export interface ConflictResolution {
+  ConflictResolvingModel: string;
+  SourceName?: string;
+}
+export const ConflictResolution = S.suspend(() =>
+  S.Struct({
+    ConflictResolvingModel: S.String,
+    SourceName: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ConflictResolution",
+}) as any as S.Schema<ConflictResolution>;
+export interface AutoMerging {
+  Enabled: boolean;
+  Consolidation?: Consolidation;
+  ConflictResolution?: ConflictResolution;
+  MinAllowedConfidenceScoreForMerging?: number;
+}
+export const AutoMerging = S.suspend(() =>
+  S.Struct({
+    Enabled: S.Boolean,
+    Consolidation: S.optional(Consolidation),
+    ConflictResolution: S.optional(ConflictResolution),
+    MinAllowedConfidenceScoreForMerging: S.optional(S.Number),
+  }),
+).annotations({ identifier: "AutoMerging" }) as any as S.Schema<AutoMerging>;
+export interface S3ExportingConfig {
+  S3BucketName: string;
+  S3KeyName?: string;
+}
+export const S3ExportingConfig = S.suspend(() =>
+  S.Struct({ S3BucketName: S.String, S3KeyName: S.optional(S.String) }),
+).annotations({
+  identifier: "S3ExportingConfig",
+}) as any as S.Schema<S3ExportingConfig>;
+export interface ExportingConfig {
+  S3Exporting?: S3ExportingConfig;
+}
+export const ExportingConfig = S.suspend(() =>
+  S.Struct({ S3Exporting: S.optional(S3ExportingConfig) }),
+).annotations({
+  identifier: "ExportingConfig",
+}) as any as S.Schema<ExportingConfig>;
+export interface MatchingRequest {
+  Enabled: boolean;
+  JobSchedule?: JobSchedule;
+  AutoMerging?: AutoMerging;
+  ExportingConfig?: ExportingConfig;
+}
+export const MatchingRequest = S.suspend(() =>
+  S.Struct({
+    Enabled: S.Boolean,
+    JobSchedule: S.optional(JobSchedule),
+    AutoMerging: S.optional(AutoMerging),
+    ExportingConfig: S.optional(ExportingConfig),
+  }),
+).annotations({
+  identifier: "MatchingRequest",
+}) as any as S.Schema<MatchingRequest>;
+export type MatchingRuleAttributeList = string[];
 export const MatchingRuleAttributeList = S.Array(S.String);
-export class MatchingRule extends S.Class<MatchingRule>("MatchingRule")({
-  Rule: MatchingRuleAttributeList,
-}) {}
+export interface MatchingRule {
+  Rule: MatchingRuleAttributeList;
+}
+export const MatchingRule = S.suspend(() =>
+  S.Struct({ Rule: MatchingRuleAttributeList }),
+).annotations({ identifier: "MatchingRule" }) as any as S.Schema<MatchingRule>;
+export type MatchingRules = MatchingRule[];
 export const MatchingRules = S.Array(MatchingRule);
+export type AddressList = string[];
 export const AddressList = S.Array(S.String);
+export type PhoneNumberList = string[];
 export const PhoneNumberList = S.Array(S.String);
+export type EmailList = string[];
 export const EmailList = S.Array(S.String);
-export class AttributeTypesSelector extends S.Class<AttributeTypesSelector>(
-  "AttributeTypesSelector",
-)({
-  AttributeMatchingModel: S.String,
-  Address: S.optional(AddressList),
-  PhoneNumber: S.optional(PhoneNumberList),
-  EmailAddress: S.optional(EmailList),
-}) {}
-export class RuleBasedMatchingRequest extends S.Class<RuleBasedMatchingRequest>(
-  "RuleBasedMatchingRequest",
-)({
-  Enabled: S.Boolean,
-  MatchingRules: S.optional(MatchingRules),
-  MaxAllowedRuleLevelForMerging: S.optional(S.Number),
-  MaxAllowedRuleLevelForMatching: S.optional(S.Number),
-  AttributeTypesSelector: S.optional(AttributeTypesSelector),
-  ConflictResolution: S.optional(ConflictResolution),
-  ExportingConfig: S.optional(ExportingConfig),
-}) {}
-export class DataStoreRequest extends S.Class<DataStoreRequest>(
-  "DataStoreRequest",
-)({ Enabled: S.optional(S.Boolean) }) {}
-export class UpdateDomainRequest extends S.Class<UpdateDomainRequest>(
-  "UpdateDomainRequest",
-)(
-  {
+export interface AttributeTypesSelector {
+  AttributeMatchingModel: string;
+  Address?: AddressList;
+  PhoneNumber?: PhoneNumberList;
+  EmailAddress?: EmailList;
+}
+export const AttributeTypesSelector = S.suspend(() =>
+  S.Struct({
+    AttributeMatchingModel: S.String,
+    Address: S.optional(AddressList),
+    PhoneNumber: S.optional(PhoneNumberList),
+    EmailAddress: S.optional(EmailList),
+  }),
+).annotations({
+  identifier: "AttributeTypesSelector",
+}) as any as S.Schema<AttributeTypesSelector>;
+export interface RuleBasedMatchingRequest {
+  Enabled: boolean;
+  MatchingRules?: MatchingRules;
+  MaxAllowedRuleLevelForMerging?: number;
+  MaxAllowedRuleLevelForMatching?: number;
+  AttributeTypesSelector?: AttributeTypesSelector;
+  ConflictResolution?: ConflictResolution;
+  ExportingConfig?: ExportingConfig;
+}
+export const RuleBasedMatchingRequest = S.suspend(() =>
+  S.Struct({
+    Enabled: S.Boolean,
+    MatchingRules: S.optional(MatchingRules),
+    MaxAllowedRuleLevelForMerging: S.optional(S.Number),
+    MaxAllowedRuleLevelForMatching: S.optional(S.Number),
+    AttributeTypesSelector: S.optional(AttributeTypesSelector),
+    ConflictResolution: S.optional(ConflictResolution),
+    ExportingConfig: S.optional(ExportingConfig),
+  }),
+).annotations({
+  identifier: "RuleBasedMatchingRequest",
+}) as any as S.Schema<RuleBasedMatchingRequest>;
+export interface DataStoreRequest {
+  Enabled?: boolean;
+}
+export const DataStoreRequest = S.suspend(() =>
+  S.Struct({ Enabled: S.optional(S.Boolean) }),
+).annotations({
+  identifier: "DataStoreRequest",
+}) as any as S.Schema<DataStoreRequest>;
+export interface UpdateDomainRequest {
+  DomainName: string;
+  DefaultExpirationDays?: number;
+  DefaultEncryptionKey?: string;
+  DeadLetterQueueUrl?: string;
+  Matching?: MatchingRequest;
+  RuleBasedMatching?: RuleBasedMatchingRequest;
+  DataStore?: DataStoreRequest;
+  Tags?: TagMap;
+}
+export const UpdateDomainRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     DefaultExpirationDays: S.optional(S.Number),
     DefaultEncryptionKey: S.optional(S.String),
@@ -1766,20 +2374,30 @@ export class UpdateDomainRequest extends S.Class<UpdateDomainRequest>(
     RuleBasedMatching: S.optional(RuleBasedMatchingRequest),
     DataStore: S.optional(DataStoreRequest),
     Tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/domains/{DomainName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/domains/{DomainName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateDomainLayoutRequest extends S.Class<UpdateDomainLayoutRequest>(
-  "UpdateDomainLayoutRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateDomainRequest",
+}) as any as S.Schema<UpdateDomainRequest>;
+export interface UpdateDomainLayoutRequest {
+  DomainName: string;
+  LayoutDefinitionName: string;
+  Description?: string;
+  DisplayName?: string;
+  IsDefault?: boolean;
+  LayoutType?: string;
+  Layout?: string;
+}
+export const UpdateDomainLayoutRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     LayoutDefinitionName: S.String.pipe(T.HttpLabel("LayoutDefinitionName")),
     Description: S.optional(S.String),
@@ -1787,54 +2405,105 @@ export class UpdateDomainLayoutRequest extends S.Class<UpdateDomainLayoutRequest
     IsDefault: S.optional(S.Boolean),
     LayoutType: S.optional(S.String),
     Layout: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/domains/{DomainName}/layouts/{LayoutDefinitionName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/domains/{DomainName}/layouts/{LayoutDefinitionName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "UpdateDomainLayoutRequest",
+}) as any as S.Schema<UpdateDomainLayoutRequest>;
+export type EventTriggerValues = string[];
 export const EventTriggerValues = S.Array(S.String);
-export class ObjectAttribute extends S.Class<ObjectAttribute>(
-  "ObjectAttribute",
-)({
-  Source: S.optional(S.String),
-  FieldName: S.optional(S.String),
-  ComparisonOperator: S.String,
-  Values: EventTriggerValues,
-}) {}
+export interface ObjectAttribute {
+  Source?: string;
+  FieldName?: string;
+  ComparisonOperator: string;
+  Values: EventTriggerValues;
+}
+export const ObjectAttribute = S.suspend(() =>
+  S.Struct({
+    Source: S.optional(S.String),
+    FieldName: S.optional(S.String),
+    ComparisonOperator: S.String,
+    Values: EventTriggerValues,
+  }),
+).annotations({
+  identifier: "ObjectAttribute",
+}) as any as S.Schema<ObjectAttribute>;
+export type ObjectAttributes = ObjectAttribute[];
 export const ObjectAttributes = S.Array(ObjectAttribute);
-export class EventTriggerDimension extends S.Class<EventTriggerDimension>(
-  "EventTriggerDimension",
-)({ ObjectAttributes: ObjectAttributes }) {}
+export interface EventTriggerDimension {
+  ObjectAttributes: ObjectAttributes;
+}
+export const EventTriggerDimension = S.suspend(() =>
+  S.Struct({ ObjectAttributes: ObjectAttributes }),
+).annotations({
+  identifier: "EventTriggerDimension",
+}) as any as S.Schema<EventTriggerDimension>;
+export type EventTriggerDimensions = EventTriggerDimension[];
 export const EventTriggerDimensions = S.Array(EventTriggerDimension);
-export class EventTriggerCondition extends S.Class<EventTriggerCondition>(
-  "EventTriggerCondition",
-)({
-  EventTriggerDimensions: EventTriggerDimensions,
-  LogicalOperator: S.String,
-}) {}
+export interface EventTriggerCondition {
+  EventTriggerDimensions: EventTriggerDimensions;
+  LogicalOperator: string;
+}
+export const EventTriggerCondition = S.suspend(() =>
+  S.Struct({
+    EventTriggerDimensions: EventTriggerDimensions,
+    LogicalOperator: S.String,
+  }),
+).annotations({
+  identifier: "EventTriggerCondition",
+}) as any as S.Schema<EventTriggerCondition>;
+export type EventTriggerConditions = EventTriggerCondition[];
 export const EventTriggerConditions = S.Array(EventTriggerCondition);
-export class Period extends S.Class<Period>("Period")({
-  Unit: S.String,
-  Value: S.Number,
-  MaxInvocationsPerProfile: S.optional(S.Number),
-  Unlimited: S.optional(S.Boolean),
-}) {}
+export interface Period {
+  Unit: string;
+  Value: number;
+  MaxInvocationsPerProfile?: number;
+  Unlimited?: boolean;
+}
+export const Period = S.suspend(() =>
+  S.Struct({
+    Unit: S.String,
+    Value: S.Number,
+    MaxInvocationsPerProfile: S.optional(S.Number),
+    Unlimited: S.optional(S.Boolean),
+  }),
+).annotations({ identifier: "Period" }) as any as S.Schema<Period>;
+export type Periods = Period[];
 export const Periods = S.Array(Period);
-export class EventTriggerLimits extends S.Class<EventTriggerLimits>(
-  "EventTriggerLimits",
-)({ EventExpiration: S.optional(S.Number), Periods: S.optional(Periods) }) {}
-export class UpdateEventTriggerRequest extends S.Class<UpdateEventTriggerRequest>(
-  "UpdateEventTriggerRequest",
-)(
-  {
+export interface EventTriggerLimits {
+  EventExpiration?: number;
+  Periods?: Periods;
+}
+export const EventTriggerLimits = S.suspend(() =>
+  S.Struct({
+    EventExpiration: S.optional(S.Number),
+    Periods: S.optional(Periods),
+  }),
+).annotations({
+  identifier: "EventTriggerLimits",
+}) as any as S.Schema<EventTriggerLimits>;
+export interface UpdateEventTriggerRequest {
+  DomainName: string;
+  EventTriggerName: string;
+  ObjectTypeName?: string;
+  Description?: string;
+  EventTriggerConditions?: EventTriggerConditions;
+  SegmentFilter?: string;
+  EventTriggerLimits?: EventTriggerLimits;
+}
+export const UpdateEventTriggerRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     EventTriggerName: S.String.pipe(T.HttpLabel("EventTriggerName")),
     ObjectTypeName: S.optional(S.String),
@@ -1842,188 +2511,370 @@ export class UpdateEventTriggerRequest extends S.Class<UpdateEventTriggerRequest
     EventTriggerConditions: S.optional(EventTriggerConditions),
     SegmentFilter: S.optional(S.String),
     EventTriggerLimits: S.optional(EventTriggerLimits),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/domains/{DomainName}/event-triggers/{EventTriggerName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/domains/{DomainName}/event-triggers/{EventTriggerName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class EventParameters extends S.Class<EventParameters>(
-  "EventParameters",
-)({ EventType: S.String, EventValueThreshold: S.optional(S.Number) }) {}
+).annotations({
+  identifier: "UpdateEventTriggerRequest",
+}) as any as S.Schema<UpdateEventTriggerRequest>;
+export interface EventParameters {
+  EventType: string;
+  EventValueThreshold?: number;
+}
+export const EventParameters = S.suspend(() =>
+  S.Struct({ EventType: S.String, EventValueThreshold: S.optional(S.Number) }),
+).annotations({
+  identifier: "EventParameters",
+}) as any as S.Schema<EventParameters>;
+export type EventParametersList = EventParameters[];
 export const EventParametersList = S.Array(EventParameters);
-export class EventsConfig extends S.Class<EventsConfig>("EventsConfig")({
-  EventParametersList: EventParametersList,
-}) {}
-export class RecommenderConfig extends S.Class<RecommenderConfig>(
-  "RecommenderConfig",
-)({ EventsConfig: EventsConfig, TrainingFrequency: S.optional(S.Number) }) {}
-export class UpdateRecommenderRequest extends S.Class<UpdateRecommenderRequest>(
-  "UpdateRecommenderRequest",
-)(
-  {
+export interface EventsConfig {
+  EventParametersList: EventParametersList;
+}
+export const EventsConfig = S.suspend(() =>
+  S.Struct({ EventParametersList: EventParametersList }),
+).annotations({ identifier: "EventsConfig" }) as any as S.Schema<EventsConfig>;
+export interface RecommenderConfig {
+  EventsConfig: EventsConfig;
+  TrainingFrequency?: number;
+}
+export const RecommenderConfig = S.suspend(() =>
+  S.Struct({
+    EventsConfig: EventsConfig,
+    TrainingFrequency: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "RecommenderConfig",
+}) as any as S.Schema<RecommenderConfig>;
+export interface UpdateRecommenderRequest {
+  DomainName: string;
+  RecommenderName: string;
+  Description?: string;
+  RecommenderConfig?: RecommenderConfig;
+}
+export const UpdateRecommenderRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     RecommenderName: S.String.pipe(T.HttpLabel("RecommenderName")),
     Description: S.optional(S.String),
     RecommenderConfig: S.optional(RecommenderConfig),
-  },
-  T.all(
-    T.Http({
-      method: "PATCH",
-      uri: "/domains/{DomainName}/recommenders/{RecommenderName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/domains/{DomainName}/recommenders/{RecommenderName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ContactPreference extends S.Class<ContactPreference>(
-  "ContactPreference",
-)({
-  KeyName: S.optional(S.String),
-  KeyValue: S.optional(S.String),
-  ProfileId: S.optional(S.String),
-  ContactType: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "UpdateRecommenderRequest",
+}) as any as S.Schema<UpdateRecommenderRequest>;
+export interface ContactPreference {
+  KeyName?: string;
+  KeyValue?: string;
+  ProfileId?: string;
+  ContactType?: string;
+}
+export const ContactPreference = S.suspend(() =>
+  S.Struct({
+    KeyName: S.optional(S.String),
+    KeyValue: S.optional(S.String),
+    ProfileId: S.optional(S.String),
+    ContactType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ContactPreference",
+}) as any as S.Schema<ContactPreference>;
+export type EmailPreferenceList = ContactPreference[];
 export const EmailPreferenceList = S.Array(ContactPreference);
-export class Address extends S.Class<Address>("Address")({
-  Address1: S.optional(S.String),
-  Address2: S.optional(S.String),
-  Address3: S.optional(S.String),
-  Address4: S.optional(S.String),
-  City: S.optional(S.String),
-  County: S.optional(S.String),
-  State: S.optional(S.String),
-  Province: S.optional(S.String),
-  Country: S.optional(S.String),
-  PostalCode: S.optional(S.String),
-}) {}
+export interface Address {
+  Address1?: string;
+  Address2?: string;
+  Address3?: string;
+  Address4?: string;
+  City?: string;
+  County?: string;
+  State?: string;
+  Province?: string;
+  Country?: string;
+  PostalCode?: string;
+}
+export const Address = S.suspend(() =>
+  S.Struct({
+    Address1: S.optional(S.String),
+    Address2: S.optional(S.String),
+    Address3: S.optional(S.String),
+    Address4: S.optional(S.String),
+    City: S.optional(S.String),
+    County: S.optional(S.String),
+    State: S.optional(S.String),
+    Province: S.optional(S.String),
+    Country: S.optional(S.String),
+    PostalCode: S.optional(S.String),
+  }),
+).annotations({ identifier: "Address" }) as any as S.Schema<Address>;
+export type Attributes = { [key: string]: string };
 export const Attributes = S.Record({ key: S.String, value: S.String });
+export type Values = string[];
 export const Values = S.Array(S.String);
-export class ProfileDimension extends S.Class<ProfileDimension>(
-  "ProfileDimension",
-)({
-  DimensionType: S.String.pipe(T.JsonName("DimensionType")),
-  Values: Values.pipe(T.JsonName("Values")),
-}) {}
+export interface ProfileDimension {
+  DimensionType: string;
+  Values: Values;
+}
+export const ProfileDimension = S.suspend(() =>
+  S.Struct({
+    DimensionType: S.String.pipe(T.JsonName("DimensionType")),
+    Values: Values.pipe(T.JsonName("Values")),
+  }),
+).annotations({
+  identifier: "ProfileDimension",
+}) as any as S.Schema<ProfileDimension>;
+export type ExtraLengthValues = string[];
 export const ExtraLengthValues = S.Array(S.String);
-export class ExtraLengthValueProfileDimension extends S.Class<ExtraLengthValueProfileDimension>(
-  "ExtraLengthValueProfileDimension",
-)({
-  DimensionType: S.String.pipe(T.JsonName("DimensionType")),
-  Values: ExtraLengthValues.pipe(T.JsonName("Values")),
-}) {}
+export interface ExtraLengthValueProfileDimension {
+  DimensionType: string;
+  Values: ExtraLengthValues;
+}
+export const ExtraLengthValueProfileDimension = S.suspend(() =>
+  S.Struct({
+    DimensionType: S.String.pipe(T.JsonName("DimensionType")),
+    Values: ExtraLengthValues.pipe(T.JsonName("Values")),
+  }),
+).annotations({
+  identifier: "ExtraLengthValueProfileDimension",
+}) as any as S.Schema<ExtraLengthValueProfileDimension>;
+export type DateValues = string[];
 export const DateValues = S.Array(S.String);
-export class DateDimension extends S.Class<DateDimension>("DateDimension")({
-  DimensionType: S.String.pipe(T.JsonName("DimensionType")),
-  Values: DateValues.pipe(T.JsonName("Values")),
-}) {}
-export class AddressDimension extends S.Class<AddressDimension>(
-  "AddressDimension",
-)({
-  City: S.optional(ProfileDimension).pipe(T.JsonName("City")),
-  Country: S.optional(ProfileDimension).pipe(T.JsonName("Country")),
-  County: S.optional(ProfileDimension).pipe(T.JsonName("County")),
-  PostalCode: S.optional(ProfileDimension).pipe(T.JsonName("PostalCode")),
-  Province: S.optional(ProfileDimension).pipe(T.JsonName("Province")),
-  State: S.optional(ProfileDimension).pipe(T.JsonName("State")),
-}) {}
-export class AttributeDimension extends S.Class<AttributeDimension>(
-  "AttributeDimension",
-)({
-  DimensionType: S.String.pipe(T.JsonName("DimensionType")),
-  Values: Values.pipe(T.JsonName("Values")),
-}) {}
+export interface DateDimension {
+  DimensionType: string;
+  Values: DateValues;
+}
+export const DateDimension = S.suspend(() =>
+  S.Struct({
+    DimensionType: S.String.pipe(T.JsonName("DimensionType")),
+    Values: DateValues.pipe(T.JsonName("Values")),
+  }),
+).annotations({
+  identifier: "DateDimension",
+}) as any as S.Schema<DateDimension>;
+export interface AddressDimension {
+  City?: ProfileDimension;
+  Country?: ProfileDimension;
+  County?: ProfileDimension;
+  PostalCode?: ProfileDimension;
+  Province?: ProfileDimension;
+  State?: ProfileDimension;
+}
+export const AddressDimension = S.suspend(() =>
+  S.Struct({
+    City: S.optional(ProfileDimension)
+      .pipe(T.JsonName("City"))
+      .annotations({ identifier: "ProfileDimension" }),
+    Country: S.optional(ProfileDimension)
+      .pipe(T.JsonName("Country"))
+      .annotations({ identifier: "ProfileDimension" }),
+    County: S.optional(ProfileDimension)
+      .pipe(T.JsonName("County"))
+      .annotations({ identifier: "ProfileDimension" }),
+    PostalCode: S.optional(ProfileDimension)
+      .pipe(T.JsonName("PostalCode"))
+      .annotations({ identifier: "ProfileDimension" }),
+    Province: S.optional(ProfileDimension)
+      .pipe(T.JsonName("Province"))
+      .annotations({ identifier: "ProfileDimension" }),
+    State: S.optional(ProfileDimension)
+      .pipe(T.JsonName("State"))
+      .annotations({ identifier: "ProfileDimension" }),
+  }),
+).annotations({
+  identifier: "AddressDimension",
+}) as any as S.Schema<AddressDimension>;
+export interface AttributeDimension {
+  DimensionType: string;
+  Values: Values;
+}
+export const AttributeDimension = S.suspend(() =>
+  S.Struct({
+    DimensionType: S.String.pipe(T.JsonName("DimensionType")),
+    Values: Values.pipe(T.JsonName("Values")),
+  }),
+).annotations({
+  identifier: "AttributeDimension",
+}) as any as S.Schema<AttributeDimension>;
+export type CustomAttributes = { [key: string]: AttributeDimension };
 export const CustomAttributes = S.Record({
   key: S.String,
   value: AttributeDimension,
 });
+export type ProfileTypeValues = string[];
 export const ProfileTypeValues = S.Array(S.String);
-export class ProfileTypeDimension extends S.Class<ProfileTypeDimension>(
-  "ProfileTypeDimension",
-)({
-  DimensionType: S.String.pipe(T.JsonName("DimensionType")),
-  Values: ProfileTypeValues.pipe(T.JsonName("Values")),
-}) {}
-export class ProfileAttributes extends S.Class<ProfileAttributes>(
-  "ProfileAttributes",
-)({
-  AccountNumber: S.optional(ProfileDimension).pipe(T.JsonName("AccountNumber")),
-  AdditionalInformation: S.optional(ExtraLengthValueProfileDimension).pipe(
-    T.JsonName("AdditionalInformation"),
-  ),
-  FirstName: S.optional(ProfileDimension).pipe(T.JsonName("FirstName")),
-  LastName: S.optional(ProfileDimension).pipe(T.JsonName("LastName")),
-  MiddleName: S.optional(ProfileDimension).pipe(T.JsonName("MiddleName")),
-  GenderString: S.optional(ProfileDimension).pipe(T.JsonName("GenderString")),
-  PartyTypeString: S.optional(ProfileDimension).pipe(
-    T.JsonName("PartyTypeString"),
-  ),
-  BirthDate: S.optional(DateDimension).pipe(T.JsonName("BirthDate")),
-  PhoneNumber: S.optional(ProfileDimension).pipe(T.JsonName("PhoneNumber")),
-  BusinessName: S.optional(ProfileDimension).pipe(T.JsonName("BusinessName")),
-  BusinessPhoneNumber: S.optional(ProfileDimension).pipe(
-    T.JsonName("BusinessPhoneNumber"),
-  ),
-  HomePhoneNumber: S.optional(ProfileDimension).pipe(
-    T.JsonName("HomePhoneNumber"),
-  ),
-  MobilePhoneNumber: S.optional(ProfileDimension).pipe(
-    T.JsonName("MobilePhoneNumber"),
-  ),
-  EmailAddress: S.optional(ProfileDimension).pipe(T.JsonName("EmailAddress")),
-  PersonalEmailAddress: S.optional(ProfileDimension).pipe(
-    T.JsonName("PersonalEmailAddress"),
-  ),
-  BusinessEmailAddress: S.optional(ProfileDimension).pipe(
-    T.JsonName("BusinessEmailAddress"),
-  ),
-  Address: S.optional(AddressDimension).pipe(T.JsonName("Address")),
-  ShippingAddress: S.optional(AddressDimension).pipe(
-    T.JsonName("ShippingAddress"),
-  ),
-  MailingAddress: S.optional(AddressDimension).pipe(
-    T.JsonName("MailingAddress"),
-  ),
-  BillingAddress: S.optional(AddressDimension).pipe(
-    T.JsonName("BillingAddress"),
-  ),
-  Attributes: S.optional(CustomAttributes).pipe(T.JsonName("Attributes")),
-  ProfileType: S.optional(ProfileTypeDimension).pipe(T.JsonName("ProfileType")),
-}) {}
-export class RangeOverride extends S.Class<RangeOverride>("RangeOverride")({
-  Start: S.Number,
-  End: S.optional(S.Number),
-  Unit: S.String,
-}) {}
-export class ConditionOverrides extends S.Class<ConditionOverrides>(
-  "ConditionOverrides",
-)({ Range: S.optional(RangeOverride) }) {}
-export class CalculatedAttributeDimension extends S.Class<CalculatedAttributeDimension>(
-  "CalculatedAttributeDimension",
-)({
-  DimensionType: S.String.pipe(T.JsonName("DimensionType")),
-  Values: Values.pipe(T.JsonName("Values")),
-  ConditionOverrides: S.optional(ConditionOverrides).pipe(
-    T.JsonName("ConditionOverrides"),
-  ),
-}) {}
+export interface ProfileTypeDimension {
+  DimensionType: string;
+  Values: ProfileTypeValues;
+}
+export const ProfileTypeDimension = S.suspend(() =>
+  S.Struct({
+    DimensionType: S.String.pipe(T.JsonName("DimensionType")),
+    Values: ProfileTypeValues.pipe(T.JsonName("Values")),
+  }),
+).annotations({
+  identifier: "ProfileTypeDimension",
+}) as any as S.Schema<ProfileTypeDimension>;
+export interface ProfileAttributes {
+  AccountNumber?: ProfileDimension;
+  AdditionalInformation?: ExtraLengthValueProfileDimension;
+  FirstName?: ProfileDimension;
+  LastName?: ProfileDimension;
+  MiddleName?: ProfileDimension;
+  GenderString?: ProfileDimension;
+  PartyTypeString?: ProfileDimension;
+  BirthDate?: DateDimension;
+  PhoneNumber?: ProfileDimension;
+  BusinessName?: ProfileDimension;
+  BusinessPhoneNumber?: ProfileDimension;
+  HomePhoneNumber?: ProfileDimension;
+  MobilePhoneNumber?: ProfileDimension;
+  EmailAddress?: ProfileDimension;
+  PersonalEmailAddress?: ProfileDimension;
+  BusinessEmailAddress?: ProfileDimension;
+  Address?: AddressDimension;
+  ShippingAddress?: AddressDimension;
+  MailingAddress?: AddressDimension;
+  BillingAddress?: AddressDimension;
+  Attributes?: CustomAttributes;
+  ProfileType?: ProfileTypeDimension;
+}
+export const ProfileAttributes = S.suspend(() =>
+  S.Struct({
+    AccountNumber: S.optional(ProfileDimension)
+      .pipe(T.JsonName("AccountNumber"))
+      .annotations({ identifier: "ProfileDimension" }),
+    AdditionalInformation: S.optional(ExtraLengthValueProfileDimension)
+      .pipe(T.JsonName("AdditionalInformation"))
+      .annotations({ identifier: "ExtraLengthValueProfileDimension" }),
+    FirstName: S.optional(ProfileDimension)
+      .pipe(T.JsonName("FirstName"))
+      .annotations({ identifier: "ProfileDimension" }),
+    LastName: S.optional(ProfileDimension)
+      .pipe(T.JsonName("LastName"))
+      .annotations({ identifier: "ProfileDimension" }),
+    MiddleName: S.optional(ProfileDimension)
+      .pipe(T.JsonName("MiddleName"))
+      .annotations({ identifier: "ProfileDimension" }),
+    GenderString: S.optional(ProfileDimension)
+      .pipe(T.JsonName("GenderString"))
+      .annotations({ identifier: "ProfileDimension" }),
+    PartyTypeString: S.optional(ProfileDimension)
+      .pipe(T.JsonName("PartyTypeString"))
+      .annotations({ identifier: "ProfileDimension" }),
+    BirthDate: S.optional(DateDimension)
+      .pipe(T.JsonName("BirthDate"))
+      .annotations({ identifier: "DateDimension" }),
+    PhoneNumber: S.optional(ProfileDimension)
+      .pipe(T.JsonName("PhoneNumber"))
+      .annotations({ identifier: "ProfileDimension" }),
+    BusinessName: S.optional(ProfileDimension)
+      .pipe(T.JsonName("BusinessName"))
+      .annotations({ identifier: "ProfileDimension" }),
+    BusinessPhoneNumber: S.optional(ProfileDimension)
+      .pipe(T.JsonName("BusinessPhoneNumber"))
+      .annotations({ identifier: "ProfileDimension" }),
+    HomePhoneNumber: S.optional(ProfileDimension)
+      .pipe(T.JsonName("HomePhoneNumber"))
+      .annotations({ identifier: "ProfileDimension" }),
+    MobilePhoneNumber: S.optional(ProfileDimension)
+      .pipe(T.JsonName("MobilePhoneNumber"))
+      .annotations({ identifier: "ProfileDimension" }),
+    EmailAddress: S.optional(ProfileDimension)
+      .pipe(T.JsonName("EmailAddress"))
+      .annotations({ identifier: "ProfileDimension" }),
+    PersonalEmailAddress: S.optional(ProfileDimension)
+      .pipe(T.JsonName("PersonalEmailAddress"))
+      .annotations({ identifier: "ProfileDimension" }),
+    BusinessEmailAddress: S.optional(ProfileDimension)
+      .pipe(T.JsonName("BusinessEmailAddress"))
+      .annotations({ identifier: "ProfileDimension" }),
+    Address: S.optional(AddressDimension)
+      .pipe(T.JsonName("Address"))
+      .annotations({ identifier: "AddressDimension" }),
+    ShippingAddress: S.optional(AddressDimension)
+      .pipe(T.JsonName("ShippingAddress"))
+      .annotations({ identifier: "AddressDimension" }),
+    MailingAddress: S.optional(AddressDimension)
+      .pipe(T.JsonName("MailingAddress"))
+      .annotations({ identifier: "AddressDimension" }),
+    BillingAddress: S.optional(AddressDimension)
+      .pipe(T.JsonName("BillingAddress"))
+      .annotations({ identifier: "AddressDimension" }),
+    Attributes: S.optional(CustomAttributes).pipe(T.JsonName("Attributes")),
+    ProfileType: S.optional(ProfileTypeDimension)
+      .pipe(T.JsonName("ProfileType"))
+      .annotations({ identifier: "ProfileTypeDimension" }),
+  }),
+).annotations({
+  identifier: "ProfileAttributes",
+}) as any as S.Schema<ProfileAttributes>;
+export interface RangeOverride {
+  Start: number;
+  End?: number;
+  Unit: string;
+}
+export const RangeOverride = S.suspend(() =>
+  S.Struct({ Start: S.Number, End: S.optional(S.Number), Unit: S.String }),
+).annotations({
+  identifier: "RangeOverride",
+}) as any as S.Schema<RangeOverride>;
+export interface ConditionOverrides {
+  Range?: RangeOverride;
+}
+export const ConditionOverrides = S.suspend(() =>
+  S.Struct({ Range: S.optional(RangeOverride) }),
+).annotations({
+  identifier: "ConditionOverrides",
+}) as any as S.Schema<ConditionOverrides>;
+export interface CalculatedAttributeDimension {
+  DimensionType: string;
+  Values: Values;
+  ConditionOverrides?: ConditionOverrides;
+}
+export const CalculatedAttributeDimension = S.suspend(() =>
+  S.Struct({
+    DimensionType: S.String.pipe(T.JsonName("DimensionType")),
+    Values: Values.pipe(T.JsonName("Values")),
+    ConditionOverrides: S.optional(ConditionOverrides)
+      .pipe(T.JsonName("ConditionOverrides"))
+      .annotations({ identifier: "ConditionOverrides" }),
+  }),
+).annotations({
+  identifier: "CalculatedAttributeDimension",
+}) as any as S.Schema<CalculatedAttributeDimension>;
+export type CalculatedCustomAttributes = {
+  [key: string]: CalculatedAttributeDimension;
+};
 export const CalculatedCustomAttributes = S.Record({
   key: S.String,
   value: CalculatedAttributeDimension,
 });
 export const Dimension = S.Union(
   S.Struct({
-    ProfileAttributes: ProfileAttributes.pipe(T.JsonName("ProfileAttributes")),
+    ProfileAttributes: ProfileAttributes.pipe(
+      T.JsonName("ProfileAttributes"),
+    ).annotations({ identifier: "ProfileAttributes" }),
   }),
   S.Struct({
     CalculatedAttributes: CalculatedCustomAttributes.pipe(
@@ -2031,409 +2882,824 @@ export const Dimension = S.Union(
     ),
   }),
 );
+export type DimensionList = (typeof Dimension)["Type"][];
 export const DimensionList = S.Array(Dimension);
-export class SourceSegment extends S.Class<SourceSegment>("SourceSegment")({
-  SegmentDefinitionName: S.optional(S.String).pipe(
-    T.JsonName("SegmentDefinitionName"),
-  ),
-}) {}
+export interface SourceSegment {
+  SegmentDefinitionName?: string;
+}
+export const SourceSegment = S.suspend(() =>
+  S.Struct({
+    SegmentDefinitionName: S.optional(S.String).pipe(
+      T.JsonName("SegmentDefinitionName"),
+    ),
+  }),
+).annotations({
+  identifier: "SourceSegment",
+}) as any as S.Schema<SourceSegment>;
+export type SourceSegmentList = SourceSegment[];
 export const SourceSegmentList = S.Array(SourceSegment);
-export class Group extends S.Class<Group>("Group")({
-  Dimensions: S.optional(DimensionList).pipe(T.JsonName("Dimensions")),
-  SourceSegments: S.optional(SourceSegmentList).pipe(
-    T.JsonName("SourceSegments"),
-  ),
-  SourceType: S.optional(S.String).pipe(T.JsonName("SourceType")),
-  Type: S.optional(S.String).pipe(T.JsonName("Type")),
-}) {}
+export interface Group {
+  Dimensions?: DimensionList;
+  SourceSegments?: SourceSegmentList;
+  SourceType?: string;
+  Type?: string;
+}
+export const Group = S.suspend(() =>
+  S.Struct({
+    Dimensions: S.optional(DimensionList).pipe(T.JsonName("Dimensions")),
+    SourceSegments: S.optional(SourceSegmentList).pipe(
+      T.JsonName("SourceSegments"),
+    ),
+    SourceType: S.optional(S.String).pipe(T.JsonName("SourceType")),
+    Type: S.optional(S.String).pipe(T.JsonName("Type")),
+  }),
+).annotations({ identifier: "Group" }) as any as S.Schema<Group>;
+export type SegmentGroupList = Group[];
 export const SegmentGroupList = S.Array(Group);
-export class SegmentGroupStructure extends S.Class<SegmentGroupStructure>(
-  "SegmentGroupStructure",
-)({ Groups: S.optional(SegmentGroupList), Include: S.optional(S.String) }) {}
+export interface SegmentGroupStructure {
+  Groups?: SegmentGroupList;
+  Include?: string;
+}
+export const SegmentGroupStructure = S.suspend(() =>
+  S.Struct({
+    Groups: S.optional(SegmentGroupList),
+    Include: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SegmentGroupStructure",
+}) as any as S.Schema<SegmentGroupStructure>;
+export type RecommenderContext = { [key: string]: string };
 export const RecommenderContext = S.Record({ key: S.String, value: S.String });
+export type ProfileIdList = string[];
 export const ProfileIdList = S.Array(S.String);
-export class ObjectFilter extends S.Class<ObjectFilter>("ObjectFilter")({
-  KeyName: S.String,
-  Values: requestValueList,
-}) {}
+export interface ObjectFilter {
+  KeyName: string;
+  Values: requestValueList;
+}
+export const ObjectFilter = S.suspend(() =>
+  S.Struct({ KeyName: S.String, Values: requestValueList }),
+).annotations({ identifier: "ObjectFilter" }) as any as S.Schema<ObjectFilter>;
+export type MatchIdList = string[];
 export const MatchIdList = S.Array(S.String);
+export type ObjectTypeNames = { [key: string]: string };
 export const ObjectTypeNames = S.Record({ key: S.String, value: S.String });
-export class AdditionalSearchKey extends S.Class<AdditionalSearchKey>(
-  "AdditionalSearchKey",
-)({ KeyName: S.String, Values: requestValueList }) {}
+export interface AdditionalSearchKey {
+  KeyName: string;
+  Values: requestValueList;
+}
+export const AdditionalSearchKey = S.suspend(() =>
+  S.Struct({ KeyName: S.String, Values: requestValueList }),
+).annotations({
+  identifier: "AdditionalSearchKey",
+}) as any as S.Schema<AdditionalSearchKey>;
+export type additionalSearchKeysList = AdditionalSearchKey[];
 export const additionalSearchKeysList = S.Array(AdditionalSearchKey);
-export class UpdateAddress extends S.Class<UpdateAddress>("UpdateAddress")({
-  Address1: S.optional(S.String),
-  Address2: S.optional(S.String),
-  Address3: S.optional(S.String),
-  Address4: S.optional(S.String),
-  City: S.optional(S.String),
-  County: S.optional(S.String),
-  State: S.optional(S.String),
-  Province: S.optional(S.String),
-  Country: S.optional(S.String),
-  PostalCode: S.optional(S.String),
-}) {}
+export interface UpdateAddress {
+  Address1?: string;
+  Address2?: string;
+  Address3?: string;
+  Address4?: string;
+  City?: string;
+  County?: string;
+  State?: string;
+  Province?: string;
+  Country?: string;
+  PostalCode?: string;
+}
+export const UpdateAddress = S.suspend(() =>
+  S.Struct({
+    Address1: S.optional(S.String),
+    Address2: S.optional(S.String),
+    Address3: S.optional(S.String),
+    Address4: S.optional(S.String),
+    City: S.optional(S.String),
+    County: S.optional(S.String),
+    State: S.optional(S.String),
+    Province: S.optional(S.String),
+    Country: S.optional(S.String),
+    PostalCode: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "UpdateAddress",
+}) as any as S.Schema<UpdateAddress>;
+export type UpdateAttributes = { [key: string]: string };
 export const UpdateAttributes = S.Record({ key: S.String, value: S.String });
+export type SourceFields = string[];
 export const SourceFields = S.Array(S.String);
+export type StandardIdentifierList = string[];
 export const StandardIdentifierList = S.Array(S.String);
+export type FieldNameList = string[];
 export const FieldNameList = S.Array(S.String);
-export class AddProfileKeyResponse extends S.Class<AddProfileKeyResponse>(
-  "AddProfileKeyResponse",
-)({ KeyName: S.optional(S.String), Values: S.optional(requestValueList) }) {}
-export class CreateDomainLayoutResponse extends S.Class<CreateDomainLayoutResponse>(
-  "CreateDomainLayoutResponse",
-)({
-  LayoutDefinitionName: S.String,
-  Description: S.String,
-  DisplayName: S.String,
-  IsDefault: S.optional(S.Boolean),
-  LayoutType: S.String,
-  Layout: S.String,
-  Version: S.String,
-  Tags: S.optional(TagMap),
-  CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class CreateEventStreamResponse extends S.Class<CreateEventStreamResponse>(
-  "CreateEventStreamResponse",
-)({ EventStreamArn: S.String, Tags: S.optional(TagMap) }) {}
-export class CreateSegmentEstimateRequest extends S.Class<CreateSegmentEstimateRequest>(
-  "CreateSegmentEstimateRequest",
-)(
-  {
+export interface AddProfileKeyResponse {
+  KeyName?: string;
+  Values?: requestValueList;
+}
+export const AddProfileKeyResponse = S.suspend(() =>
+  S.Struct({
+    KeyName: S.optional(S.String),
+    Values: S.optional(requestValueList),
+  }),
+).annotations({
+  identifier: "AddProfileKeyResponse",
+}) as any as S.Schema<AddProfileKeyResponse>;
+export interface CreateDomainLayoutResponse {
+  LayoutDefinitionName: string;
+  Description: string;
+  DisplayName: string;
+  IsDefault?: boolean;
+  LayoutType: string;
+  Layout: string;
+  Version: string;
+  Tags?: TagMap;
+  CreatedAt: Date;
+  LastUpdatedAt?: Date;
+}
+export const CreateDomainLayoutResponse = S.suspend(() =>
+  S.Struct({
+    LayoutDefinitionName: S.String,
+    Description: S.String,
+    DisplayName: S.String,
+    IsDefault: S.optional(S.Boolean),
+    LayoutType: S.String,
+    Layout: S.String,
+    Version: S.String,
+    Tags: S.optional(TagMap),
+    CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "CreateDomainLayoutResponse",
+}) as any as S.Schema<CreateDomainLayoutResponse>;
+export interface CreateEventStreamResponse {
+  EventStreamArn: string;
+  Tags?: TagMap;
+}
+export const CreateEventStreamResponse = S.suspend(() =>
+  S.Struct({ EventStreamArn: S.String, Tags: S.optional(TagMap) }),
+).annotations({
+  identifier: "CreateEventStreamResponse",
+}) as any as S.Schema<CreateEventStreamResponse>;
+export interface CreateSegmentEstimateRequest {
+  DomainName: string;
+  SegmentQuery?: SegmentGroupStructure;
+  SegmentSqlQuery?: string;
+}
+export const CreateSegmentEstimateRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     SegmentQuery: S.optional(SegmentGroupStructure),
     SegmentSqlQuery: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/domains/{DomainName}/segment-estimates" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/domains/{DomainName}/segment-estimates",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateSegmentSnapshotResponse extends S.Class<CreateSegmentSnapshotResponse>(
-  "CreateSegmentSnapshotResponse",
-)({ SnapshotId: S.String }) {}
-export class DeleteDomainResponse extends S.Class<DeleteDomainResponse>(
-  "DeleteDomainResponse",
-)({ Message: S.String }) {}
-export class DeleteDomainLayoutResponse extends S.Class<DeleteDomainLayoutResponse>(
-  "DeleteDomainLayoutResponse",
-)({ Message: S.String }) {}
-export class DeleteEventTriggerResponse extends S.Class<DeleteEventTriggerResponse>(
-  "DeleteEventTriggerResponse",
-)({ Message: S.String }) {}
-export class DeleteIntegrationResponse extends S.Class<DeleteIntegrationResponse>(
-  "DeleteIntegrationResponse",
-)({ Message: S.String }) {}
-export class DeleteProfileResponse extends S.Class<DeleteProfileResponse>(
-  "DeleteProfileResponse",
-)({ Message: S.optional(S.String) }) {}
-export class DeleteProfileKeyResponse extends S.Class<DeleteProfileKeyResponse>(
-  "DeleteProfileKeyResponse",
-)({ Message: S.optional(S.String) }) {}
-export class DeleteProfileObjectResponse extends S.Class<DeleteProfileObjectResponse>(
-  "DeleteProfileObjectResponse",
-)({ Message: S.optional(S.String) }) {}
-export class DeleteProfileObjectTypeResponse extends S.Class<DeleteProfileObjectTypeResponse>(
-  "DeleteProfileObjectTypeResponse",
-)({ Message: S.String }) {}
-export class DeleteSegmentDefinitionResponse extends S.Class<DeleteSegmentDefinitionResponse>(
-  "DeleteSegmentDefinitionResponse",
-)({ Message: S.optional(S.String).pipe(T.JsonName("Message")) }) {}
-export class GetAutoMergingPreviewRequest extends S.Class<GetAutoMergingPreviewRequest>(
-  "GetAutoMergingPreviewRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateSegmentEstimateRequest",
+}) as any as S.Schema<CreateSegmentEstimateRequest>;
+export interface CreateSegmentSnapshotResponse {
+  SnapshotId: string;
+}
+export const CreateSegmentSnapshotResponse = S.suspend(() =>
+  S.Struct({ SnapshotId: S.String }),
+).annotations({
+  identifier: "CreateSegmentSnapshotResponse",
+}) as any as S.Schema<CreateSegmentSnapshotResponse>;
+export interface DeleteDomainResponse {
+  Message: string;
+}
+export const DeleteDomainResponse = S.suspend(() =>
+  S.Struct({ Message: S.String }),
+).annotations({
+  identifier: "DeleteDomainResponse",
+}) as any as S.Schema<DeleteDomainResponse>;
+export interface DeleteDomainLayoutResponse {
+  Message: string;
+}
+export const DeleteDomainLayoutResponse = S.suspend(() =>
+  S.Struct({ Message: S.String }),
+).annotations({
+  identifier: "DeleteDomainLayoutResponse",
+}) as any as S.Schema<DeleteDomainLayoutResponse>;
+export interface DeleteEventTriggerResponse {
+  Message: string;
+}
+export const DeleteEventTriggerResponse = S.suspend(() =>
+  S.Struct({ Message: S.String }),
+).annotations({
+  identifier: "DeleteEventTriggerResponse",
+}) as any as S.Schema<DeleteEventTriggerResponse>;
+export interface DeleteIntegrationResponse {
+  Message: string;
+}
+export const DeleteIntegrationResponse = S.suspend(() =>
+  S.Struct({ Message: S.String }),
+).annotations({
+  identifier: "DeleteIntegrationResponse",
+}) as any as S.Schema<DeleteIntegrationResponse>;
+export interface DeleteProfileResponse {
+  Message?: string;
+}
+export const DeleteProfileResponse = S.suspend(() =>
+  S.Struct({ Message: S.optional(S.String) }),
+).annotations({
+  identifier: "DeleteProfileResponse",
+}) as any as S.Schema<DeleteProfileResponse>;
+export interface DeleteProfileKeyResponse {
+  Message?: string;
+}
+export const DeleteProfileKeyResponse = S.suspend(() =>
+  S.Struct({ Message: S.optional(S.String) }),
+).annotations({
+  identifier: "DeleteProfileKeyResponse",
+}) as any as S.Schema<DeleteProfileKeyResponse>;
+export interface DeleteProfileObjectResponse {
+  Message?: string;
+}
+export const DeleteProfileObjectResponse = S.suspend(() =>
+  S.Struct({ Message: S.optional(S.String) }),
+).annotations({
+  identifier: "DeleteProfileObjectResponse",
+}) as any as S.Schema<DeleteProfileObjectResponse>;
+export interface DeleteProfileObjectTypeResponse {
+  Message: string;
+}
+export const DeleteProfileObjectTypeResponse = S.suspend(() =>
+  S.Struct({ Message: S.String }),
+).annotations({
+  identifier: "DeleteProfileObjectTypeResponse",
+}) as any as S.Schema<DeleteProfileObjectTypeResponse>;
+export interface DeleteSegmentDefinitionResponse {
+  Message?: string;
+}
+export const DeleteSegmentDefinitionResponse = S.suspend(() =>
+  S.Struct({ Message: S.optional(S.String).pipe(T.JsonName("Message")) }),
+).annotations({
+  identifier: "DeleteSegmentDefinitionResponse",
+}) as any as S.Schema<DeleteSegmentDefinitionResponse>;
+export interface GetAutoMergingPreviewRequest {
+  DomainName: string;
+  Consolidation: Consolidation;
+  ConflictResolution: ConflictResolution;
+  MinAllowedConfidenceScoreForMerging?: number;
+}
+export const GetAutoMergingPreviewRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     Consolidation: Consolidation,
     ConflictResolution: ConflictResolution,
     MinAllowedConfidenceScoreForMerging: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/domains/{DomainName}/identity-resolution-jobs/auto-merging-preview",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/domains/{DomainName}/identity-resolution-jobs/auto-merging-preview",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetCalculatedAttributeForProfileResponse extends S.Class<GetCalculatedAttributeForProfileResponse>(
-  "GetCalculatedAttributeForProfileResponse",
-)({
-  CalculatedAttributeName: S.optional(S.String),
-  DisplayName: S.optional(S.String),
-  IsDataPartial: S.optional(S.String),
-  Value: S.optional(S.String),
-  LastObjectTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
-export class GetDomainLayoutResponse extends S.Class<GetDomainLayoutResponse>(
-  "GetDomainLayoutResponse",
-)({
-  LayoutDefinitionName: S.String,
-  Description: S.String,
-  DisplayName: S.String,
-  IsDefault: S.optional(S.Boolean),
-  LayoutType: S.String,
-  Layout: S.String,
-  Version: S.String,
-  CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  LastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  Tags: S.optional(TagMap),
-}) {}
-export class DomainObjectTypeField extends S.Class<DomainObjectTypeField>(
-  "DomainObjectTypeField",
-)({
-  Source: S.String,
-  Target: S.String,
-  ContentType: S.optional(S.String),
-  FeatureType: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "GetAutoMergingPreviewRequest",
+}) as any as S.Schema<GetAutoMergingPreviewRequest>;
+export interface GetCalculatedAttributeForProfileResponse {
+  CalculatedAttributeName?: string;
+  DisplayName?: string;
+  IsDataPartial?: string;
+  Value?: string;
+  LastObjectTimestamp?: Date;
+}
+export const GetCalculatedAttributeForProfileResponse = S.suspend(() =>
+  S.Struct({
+    CalculatedAttributeName: S.optional(S.String),
+    DisplayName: S.optional(S.String),
+    IsDataPartial: S.optional(S.String),
+    Value: S.optional(S.String),
+    LastObjectTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "GetCalculatedAttributeForProfileResponse",
+}) as any as S.Schema<GetCalculatedAttributeForProfileResponse>;
+export interface GetDomainLayoutResponse {
+  LayoutDefinitionName: string;
+  Description: string;
+  DisplayName: string;
+  IsDefault?: boolean;
+  LayoutType: string;
+  Layout: string;
+  Version: string;
+  CreatedAt: Date;
+  LastUpdatedAt: Date;
+  Tags?: TagMap;
+}
+export const GetDomainLayoutResponse = S.suspend(() =>
+  S.Struct({
+    LayoutDefinitionName: S.String,
+    Description: S.String,
+    DisplayName: S.String,
+    IsDefault: S.optional(S.Boolean),
+    LayoutType: S.String,
+    Layout: S.String,
+    Version: S.String,
+    CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    LastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    Tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "GetDomainLayoutResponse",
+}) as any as S.Schema<GetDomainLayoutResponse>;
+export interface DomainObjectTypeField {
+  Source: string;
+  Target: string;
+  ContentType?: string;
+  FeatureType?: string;
+}
+export const DomainObjectTypeField = S.suspend(() =>
+  S.Struct({
+    Source: S.String,
+    Target: S.String,
+    ContentType: S.optional(S.String),
+    FeatureType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DomainObjectTypeField",
+}) as any as S.Schema<DomainObjectTypeField>;
+export type DomainObjectTypeFields = { [key: string]: DomainObjectTypeField };
 export const DomainObjectTypeFields = S.Record({
   key: S.String,
   value: DomainObjectTypeField,
 });
-export class GetDomainObjectTypeResponse extends S.Class<GetDomainObjectTypeResponse>(
-  "GetDomainObjectTypeResponse",
-)({
-  ObjectTypeName: S.String,
-  Description: S.optional(S.String),
-  EncryptionKey: S.optional(S.String),
-  Fields: S.optional(DomainObjectTypeFields),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Tags: S.optional(TagMap),
-}) {}
-export class GetEventTriggerResponse extends S.Class<GetEventTriggerResponse>(
-  "GetEventTriggerResponse",
-)({
-  EventTriggerName: S.optional(S.String),
-  ObjectTypeName: S.optional(S.String),
-  Description: S.optional(S.String),
-  EventTriggerConditions: S.optional(EventTriggerConditions),
-  SegmentFilter: S.optional(S.String),
-  EventTriggerLimits: S.optional(EventTriggerLimits),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Tags: S.optional(TagMap),
-}) {}
-export class GetIntegrationResponse extends S.Class<GetIntegrationResponse>(
-  "GetIntegrationResponse",
-)({
-  DomainName: S.String,
-  Uri: S.String,
-  ObjectTypeName: S.optional(S.String),
-  CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  LastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  Tags: S.optional(TagMap),
-  ObjectTypeNames: S.optional(ObjectTypeNames),
-  WorkflowId: S.optional(S.String),
-  IsUnstructured: S.optional(S.Boolean),
-  RoleArn: S.optional(S.String),
-  EventTriggerNames: S.optional(EventTriggerNames),
-  Scope: S.optional(S.String),
-}) {}
-export class GetProfileHistoryRecordResponse extends S.Class<GetProfileHistoryRecordResponse>(
-  "GetProfileHistoryRecordResponse",
-)({
-  Id: S.String,
-  ObjectTypeName: S.String,
-  CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  ActionType: S.String,
-  ProfileObjectUniqueKey: S.optional(S.String),
-  Content: S.optional(S.String),
-  PerformedBy: S.optional(S.String),
-}) {}
-export class ObjectTypeField extends S.Class<ObjectTypeField>(
-  "ObjectTypeField",
-)({
-  Source: S.optional(S.String),
-  Target: S.optional(S.String),
-  ContentType: S.optional(S.String),
-}) {}
+export interface GetDomainObjectTypeResponse {
+  ObjectTypeName: string;
+  Description?: string;
+  EncryptionKey?: string;
+  Fields?: DomainObjectTypeFields;
+  CreatedAt?: Date;
+  LastUpdatedAt?: Date;
+  Tags?: TagMap;
+}
+export const GetDomainObjectTypeResponse = S.suspend(() =>
+  S.Struct({
+    ObjectTypeName: S.String,
+    Description: S.optional(S.String),
+    EncryptionKey: S.optional(S.String),
+    Fields: S.optional(DomainObjectTypeFields),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "GetDomainObjectTypeResponse",
+}) as any as S.Schema<GetDomainObjectTypeResponse>;
+export interface GetEventTriggerResponse {
+  EventTriggerName?: string;
+  ObjectTypeName?: string;
+  Description?: string;
+  EventTriggerConditions?: EventTriggerConditions;
+  SegmentFilter?: string;
+  EventTriggerLimits?: EventTriggerLimits;
+  CreatedAt?: Date;
+  LastUpdatedAt?: Date;
+  Tags?: TagMap;
+}
+export const GetEventTriggerResponse = S.suspend(() =>
+  S.Struct({
+    EventTriggerName: S.optional(S.String),
+    ObjectTypeName: S.optional(S.String),
+    Description: S.optional(S.String),
+    EventTriggerConditions: S.optional(EventTriggerConditions),
+    SegmentFilter: S.optional(S.String),
+    EventTriggerLimits: S.optional(EventTriggerLimits),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "GetEventTriggerResponse",
+}) as any as S.Schema<GetEventTriggerResponse>;
+export interface GetIntegrationResponse {
+  DomainName: string;
+  Uri: string;
+  ObjectTypeName?: string;
+  CreatedAt: Date;
+  LastUpdatedAt: Date;
+  Tags?: TagMap;
+  ObjectTypeNames?: ObjectTypeNames;
+  WorkflowId?: string;
+  IsUnstructured?: boolean;
+  RoleArn?: string;
+  EventTriggerNames?: EventTriggerNames;
+  Scope?: string;
+}
+export const GetIntegrationResponse = S.suspend(() =>
+  S.Struct({
+    DomainName: S.String,
+    Uri: S.String,
+    ObjectTypeName: S.optional(S.String),
+    CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    LastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    Tags: S.optional(TagMap),
+    ObjectTypeNames: S.optional(ObjectTypeNames),
+    WorkflowId: S.optional(S.String),
+    IsUnstructured: S.optional(S.Boolean),
+    RoleArn: S.optional(S.String),
+    EventTriggerNames: S.optional(EventTriggerNames),
+    Scope: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetIntegrationResponse",
+}) as any as S.Schema<GetIntegrationResponse>;
+export interface GetProfileHistoryRecordResponse {
+  Id: string;
+  ObjectTypeName: string;
+  CreatedAt: Date;
+  LastUpdatedAt?: Date;
+  ActionType: string;
+  ProfileObjectUniqueKey?: string;
+  Content?: string;
+  PerformedBy?: string;
+}
+export const GetProfileHistoryRecordResponse = S.suspend(() =>
+  S.Struct({
+    Id: S.String,
+    ObjectTypeName: S.String,
+    CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ActionType: S.String,
+    ProfileObjectUniqueKey: S.optional(S.String),
+    Content: S.optional(S.String),
+    PerformedBy: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetProfileHistoryRecordResponse",
+}) as any as S.Schema<GetProfileHistoryRecordResponse>;
+export interface ObjectTypeField {
+  Source?: string;
+  Target?: string;
+  ContentType?: string;
+}
+export const ObjectTypeField = S.suspend(() =>
+  S.Struct({
+    Source: S.optional(S.String),
+    Target: S.optional(S.String),
+    ContentType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ObjectTypeField",
+}) as any as S.Schema<ObjectTypeField>;
+export type FieldMap = { [key: string]: ObjectTypeField };
 export const FieldMap = S.Record({ key: S.String, value: ObjectTypeField });
-export class ObjectTypeKey extends S.Class<ObjectTypeKey>("ObjectTypeKey")({
-  StandardIdentifiers: S.optional(StandardIdentifierList),
-  FieldNames: S.optional(FieldNameList),
-}) {}
+export interface ObjectTypeKey {
+  StandardIdentifiers?: StandardIdentifierList;
+  FieldNames?: FieldNameList;
+}
+export const ObjectTypeKey = S.suspend(() =>
+  S.Struct({
+    StandardIdentifiers: S.optional(StandardIdentifierList),
+    FieldNames: S.optional(FieldNameList),
+  }),
+).annotations({
+  identifier: "ObjectTypeKey",
+}) as any as S.Schema<ObjectTypeKey>;
+export type ObjectTypeKeyList = ObjectTypeKey[];
 export const ObjectTypeKeyList = S.Array(ObjectTypeKey);
+export type KeyMap = { [key: string]: ObjectTypeKeyList };
 export const KeyMap = S.Record({ key: S.String, value: ObjectTypeKeyList });
-export class GetProfileObjectTypeResponse extends S.Class<GetProfileObjectTypeResponse>(
-  "GetProfileObjectTypeResponse",
-)({
-  ObjectTypeName: S.String,
-  Description: S.String,
-  TemplateId: S.optional(S.String),
-  ExpirationDays: S.optional(S.Number),
-  EncryptionKey: S.optional(S.String),
-  AllowProfileCreation: S.optional(S.Boolean),
-  SourceLastUpdatedTimestampFormat: S.optional(S.String),
-  MaxAvailableProfileObjectCount: S.optional(S.Number),
-  MaxProfileObjectCount: S.optional(S.Number),
-  Fields: S.optional(FieldMap),
-  Keys: S.optional(KeyMap),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Tags: S.optional(TagMap),
-}) {}
-export class GetProfileObjectTypeTemplateResponse extends S.Class<GetProfileObjectTypeTemplateResponse>(
-  "GetProfileObjectTypeTemplateResponse",
-)({
-  TemplateId: S.optional(S.String),
-  SourceName: S.optional(S.String),
-  SourceObject: S.optional(S.String),
-  AllowProfileCreation: S.optional(S.Boolean),
-  SourceLastUpdatedTimestampFormat: S.optional(S.String),
-  Fields: S.optional(FieldMap),
-  Keys: S.optional(KeyMap),
-}) {}
-export class GetProfileRecommendationsRequest extends S.Class<GetProfileRecommendationsRequest>(
-  "GetProfileRecommendationsRequest",
-)(
-  {
+export interface GetProfileObjectTypeResponse {
+  ObjectTypeName: string;
+  Description: string;
+  TemplateId?: string;
+  ExpirationDays?: number;
+  EncryptionKey?: string;
+  AllowProfileCreation?: boolean;
+  SourceLastUpdatedTimestampFormat?: string;
+  MaxAvailableProfileObjectCount?: number;
+  MaxProfileObjectCount?: number;
+  Fields?: FieldMap;
+  Keys?: KeyMap;
+  CreatedAt?: Date;
+  LastUpdatedAt?: Date;
+  Tags?: TagMap;
+}
+export const GetProfileObjectTypeResponse = S.suspend(() =>
+  S.Struct({
+    ObjectTypeName: S.String,
+    Description: S.String,
+    TemplateId: S.optional(S.String),
+    ExpirationDays: S.optional(S.Number),
+    EncryptionKey: S.optional(S.String),
+    AllowProfileCreation: S.optional(S.Boolean),
+    SourceLastUpdatedTimestampFormat: S.optional(S.String),
+    MaxAvailableProfileObjectCount: S.optional(S.Number),
+    MaxProfileObjectCount: S.optional(S.Number),
+    Fields: S.optional(FieldMap),
+    Keys: S.optional(KeyMap),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "GetProfileObjectTypeResponse",
+}) as any as S.Schema<GetProfileObjectTypeResponse>;
+export interface GetProfileObjectTypeTemplateResponse {
+  TemplateId?: string;
+  SourceName?: string;
+  SourceObject?: string;
+  AllowProfileCreation?: boolean;
+  SourceLastUpdatedTimestampFormat?: string;
+  Fields?: FieldMap;
+  Keys?: KeyMap;
+}
+export const GetProfileObjectTypeTemplateResponse = S.suspend(() =>
+  S.Struct({
+    TemplateId: S.optional(S.String),
+    SourceName: S.optional(S.String),
+    SourceObject: S.optional(S.String),
+    AllowProfileCreation: S.optional(S.Boolean),
+    SourceLastUpdatedTimestampFormat: S.optional(S.String),
+    Fields: S.optional(FieldMap),
+    Keys: S.optional(KeyMap),
+  }),
+).annotations({
+  identifier: "GetProfileObjectTypeTemplateResponse",
+}) as any as S.Schema<GetProfileObjectTypeTemplateResponse>;
+export interface GetProfileRecommendationsRequest {
+  DomainName: string;
+  ProfileId: string;
+  RecommenderName: string;
+  Context?: RecommenderContext;
+  MaxResults?: number;
+}
+export const GetProfileRecommendationsRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     ProfileId: S.String.pipe(T.HttpLabel("ProfileId")),
     RecommenderName: S.String,
     Context: S.optional(RecommenderContext),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/domains/{DomainName}/profiles/{ProfileId}/recommendations",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/domains/{DomainName}/profiles/{ProfileId}/recommendations",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SegmentGroup extends S.Class<SegmentGroup>("SegmentGroup")({
-  Groups: S.optional(SegmentGroupList).pipe(T.JsonName("Groups")),
-  Include: S.optional(S.String).pipe(T.JsonName("Include")),
-}) {}
-export class GetSegmentDefinitionResponse extends S.Class<GetSegmentDefinitionResponse>(
-  "GetSegmentDefinitionResponse",
-)({
-  SegmentDefinitionName: S.optional(S.String).pipe(
-    T.JsonName("SegmentDefinitionName"),
-  ),
-  DisplayName: S.optional(S.String).pipe(T.JsonName("DisplayName")),
-  Description: S.optional(S.String).pipe(T.JsonName("Description")),
-  SegmentGroups: S.optional(SegmentGroup).pipe(T.JsonName("SegmentGroups")),
-  SegmentDefinitionArn: S.String.pipe(T.JsonName("SegmentDefinitionArn")),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-    T.JsonName("CreatedAt"),
-  ),
-  Tags: S.optional(TagMap).pipe(T.JsonName("Tags")),
-  SegmentSqlQuery: S.optional(S.String).pipe(T.JsonName("SegmentSqlQuery")),
-  SegmentType: S.optional(S.String).pipe(T.JsonName("SegmentType")),
-}) {}
-export class GetSegmentEstimateResponse extends S.Class<GetSegmentEstimateResponse>(
-  "GetSegmentEstimateResponse",
-)({
-  DomainName: S.optional(S.String),
-  EstimateId: S.optional(S.String),
-  Status: S.optional(S.String),
-  Estimate: S.optional(S.String),
-  Message: S.optional(S.String),
-  StatusCode: S.optional(S.Number).pipe(T.HttpResponseCode()),
-}) {}
-export class GetSegmentSnapshotResponse extends S.Class<GetSegmentSnapshotResponse>(
-  "GetSegmentSnapshotResponse",
-)({
-  SnapshotId: S.String,
-  Status: S.String,
-  StatusMessage: S.optional(S.String),
-  DataFormat: S.String,
-  EncryptionKey: S.optional(S.String),
-  RoleArn: S.optional(S.String),
-  DestinationUri: S.optional(S.String),
-}) {}
-export class GetSimilarProfilesResponse extends S.Class<GetSimilarProfilesResponse>(
-  "GetSimilarProfilesResponse",
-)({
-  ProfileIds: S.optional(ProfileIdList),
-  MatchId: S.optional(S.String),
-  MatchType: S.optional(S.String),
-  RuleLevel: S.optional(S.Number),
-  ConfidenceScore: S.optional(S.Number),
-  NextToken: S.optional(S.String),
-}) {}
-export class GetUploadJobPathResponse extends S.Class<GetUploadJobPathResponse>(
-  "GetUploadJobPathResponse",
-)({
-  Url: S.String.pipe(T.JsonName("Url")),
-  ClientToken: S.optional(S.String).pipe(T.JsonName("ClientToken")),
-  ValidUntil: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-    T.JsonName("ValidUntil"),
-  ),
-}) {}
-export class ListIntegrationItem extends S.Class<ListIntegrationItem>(
-  "ListIntegrationItem",
-)({
-  DomainName: S.String,
-  Uri: S.String,
-  ObjectTypeName: S.optional(S.String),
-  CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  LastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  Tags: S.optional(TagMap),
-  ObjectTypeNames: S.optional(ObjectTypeNames),
-  WorkflowId: S.optional(S.String),
-  IsUnstructured: S.optional(S.Boolean),
-  RoleArn: S.optional(S.String),
-  EventTriggerNames: S.optional(EventTriggerNames),
-  Scope: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "GetProfileRecommendationsRequest",
+}) as any as S.Schema<GetProfileRecommendationsRequest>;
+export interface SegmentGroup {
+  Groups?: SegmentGroupList;
+  Include?: string;
+}
+export const SegmentGroup = S.suspend(() =>
+  S.Struct({
+    Groups: S.optional(SegmentGroupList).pipe(T.JsonName("Groups")),
+    Include: S.optional(S.String).pipe(T.JsonName("Include")),
+  }),
+).annotations({ identifier: "SegmentGroup" }) as any as S.Schema<SegmentGroup>;
+export interface GetSegmentDefinitionResponse {
+  SegmentDefinitionName?: string;
+  DisplayName?: string;
+  Description?: string;
+  SegmentGroups?: SegmentGroup;
+  SegmentDefinitionArn: string;
+  CreatedAt?: Date;
+  Tags?: TagMap;
+  SegmentSqlQuery?: string;
+  SegmentType?: string;
+}
+export const GetSegmentDefinitionResponse = S.suspend(() =>
+  S.Struct({
+    SegmentDefinitionName: S.optional(S.String).pipe(
+      T.JsonName("SegmentDefinitionName"),
+    ),
+    DisplayName: S.optional(S.String).pipe(T.JsonName("DisplayName")),
+    Description: S.optional(S.String).pipe(T.JsonName("Description")),
+    SegmentGroups: S.optional(SegmentGroup)
+      .pipe(T.JsonName("SegmentGroups"))
+      .annotations({ identifier: "SegmentGroup" }),
+    SegmentDefinitionArn: S.String.pipe(T.JsonName("SegmentDefinitionArn")),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+      T.JsonName("CreatedAt"),
+    ),
+    Tags: S.optional(TagMap).pipe(T.JsonName("Tags")),
+    SegmentSqlQuery: S.optional(S.String).pipe(T.JsonName("SegmentSqlQuery")),
+    SegmentType: S.optional(S.String).pipe(T.JsonName("SegmentType")),
+  }),
+).annotations({
+  identifier: "GetSegmentDefinitionResponse",
+}) as any as S.Schema<GetSegmentDefinitionResponse>;
+export interface GetSegmentEstimateResponse {
+  DomainName?: string;
+  EstimateId?: string;
+  Status?: string;
+  Estimate?: string;
+  Message?: string;
+  StatusCode?: number;
+}
+export const GetSegmentEstimateResponse = S.suspend(() =>
+  S.Struct({
+    DomainName: S.optional(S.String),
+    EstimateId: S.optional(S.String),
+    Status: S.optional(S.String),
+    Estimate: S.optional(S.String),
+    Message: S.optional(S.String),
+    StatusCode: S.optional(S.Number).pipe(T.HttpResponseCode()),
+  }),
+).annotations({
+  identifier: "GetSegmentEstimateResponse",
+}) as any as S.Schema<GetSegmentEstimateResponse>;
+export interface GetSegmentSnapshotResponse {
+  SnapshotId: string;
+  Status: string;
+  StatusMessage?: string;
+  DataFormat: string;
+  EncryptionKey?: string;
+  RoleArn?: string;
+  DestinationUri?: string;
+}
+export const GetSegmentSnapshotResponse = S.suspend(() =>
+  S.Struct({
+    SnapshotId: S.String,
+    Status: S.String,
+    StatusMessage: S.optional(S.String),
+    DataFormat: S.String,
+    EncryptionKey: S.optional(S.String),
+    RoleArn: S.optional(S.String),
+    DestinationUri: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetSegmentSnapshotResponse",
+}) as any as S.Schema<GetSegmentSnapshotResponse>;
+export interface GetSimilarProfilesResponse {
+  ProfileIds?: ProfileIdList;
+  MatchId?: string;
+  MatchType?: string;
+  RuleLevel?: number;
+  ConfidenceScore?: number;
+  NextToken?: string;
+}
+export const GetSimilarProfilesResponse = S.suspend(() =>
+  S.Struct({
+    ProfileIds: S.optional(ProfileIdList),
+    MatchId: S.optional(S.String),
+    MatchType: S.optional(S.String),
+    RuleLevel: S.optional(S.Number),
+    ConfidenceScore: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetSimilarProfilesResponse",
+}) as any as S.Schema<GetSimilarProfilesResponse>;
+export interface GetUploadJobPathResponse {
+  Url: string;
+  ClientToken?: string;
+  ValidUntil?: Date;
+}
+export const GetUploadJobPathResponse = S.suspend(() =>
+  S.Struct({
+    Url: S.String.pipe(T.JsonName("Url")),
+    ClientToken: S.optional(S.String).pipe(T.JsonName("ClientToken")),
+    ValidUntil: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ).pipe(T.JsonName("ValidUntil")),
+  }),
+).annotations({
+  identifier: "GetUploadJobPathResponse",
+}) as any as S.Schema<GetUploadJobPathResponse>;
+export interface ListIntegrationItem {
+  DomainName: string;
+  Uri: string;
+  ObjectTypeName?: string;
+  CreatedAt: Date;
+  LastUpdatedAt: Date;
+  Tags?: TagMap;
+  ObjectTypeNames?: ObjectTypeNames;
+  WorkflowId?: string;
+  IsUnstructured?: boolean;
+  RoleArn?: string;
+  EventTriggerNames?: EventTriggerNames;
+  Scope?: string;
+}
+export const ListIntegrationItem = S.suspend(() =>
+  S.Struct({
+    DomainName: S.String,
+    Uri: S.String,
+    ObjectTypeName: S.optional(S.String),
+    CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    LastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    Tags: S.optional(TagMap),
+    ObjectTypeNames: S.optional(ObjectTypeNames),
+    WorkflowId: S.optional(S.String),
+    IsUnstructured: S.optional(S.Boolean),
+    RoleArn: S.optional(S.String),
+    EventTriggerNames: S.optional(EventTriggerNames),
+    Scope: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListIntegrationItem",
+}) as any as S.Schema<ListIntegrationItem>;
+export type IntegrationList = ListIntegrationItem[];
 export const IntegrationList = S.Array(ListIntegrationItem);
-export class ListIntegrationsResponse extends S.Class<ListIntegrationsResponse>(
-  "ListIntegrationsResponse",
-)({ Items: S.optional(IntegrationList), NextToken: S.optional(S.String) }) {}
-export class ListProfileObjectsRequest extends S.Class<ListProfileObjectsRequest>(
-  "ListProfileObjectsRequest",
-)(
-  {
+export interface ListIntegrationsResponse {
+  Items?: IntegrationList;
+  NextToken?: string;
+}
+export const ListIntegrationsResponse = S.suspend(() =>
+  S.Struct({
+    Items: S.optional(IntegrationList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListIntegrationsResponse",
+}) as any as S.Schema<ListIntegrationsResponse>;
+export interface ListProfileObjectsRequest {
+  NextToken?: string;
+  MaxResults?: number;
+  DomainName: string;
+  ObjectTypeName: string;
+  ProfileId: string;
+  ObjectFilter?: ObjectFilter;
+}
+export const ListProfileObjectsRequest = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     ObjectTypeName: S.String,
     ProfileId: S.String,
     ObjectFilter: S.optional(ObjectFilter),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/domains/{DomainName}/profiles/objects" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/domains/{DomainName}/profiles/objects" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListRuleBasedMatchesResponse extends S.Class<ListRuleBasedMatchesResponse>(
-  "ListRuleBasedMatchesResponse",
-)({ MatchIds: S.optional(MatchIdList), NextToken: S.optional(S.String) }) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ tags: S.optional(TagMap) }) {}
-export class PutProfileObjectResponse extends S.Class<PutProfileObjectResponse>(
-  "PutProfileObjectResponse",
-)({ ProfileObjectUniqueKey: S.optional(S.String) }) {}
-export class SearchProfilesRequest extends S.Class<SearchProfilesRequest>(
-  "SearchProfilesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListProfileObjectsRequest",
+}) as any as S.Schema<ListProfileObjectsRequest>;
+export interface ListRuleBasedMatchesResponse {
+  MatchIds?: MatchIdList;
+  NextToken?: string;
+}
+export const ListRuleBasedMatchesResponse = S.suspend(() =>
+  S.Struct({
+    MatchIds: S.optional(MatchIdList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListRuleBasedMatchesResponse",
+}) as any as S.Schema<ListRuleBasedMatchesResponse>;
+export interface ListTagsForResourceResponse {
+  tags?: TagMap;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ tags: S.optional(TagMap) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface PutProfileObjectResponse {
+  ProfileObjectUniqueKey?: string;
+}
+export const PutProfileObjectResponse = S.suspend(() =>
+  S.Struct({ ProfileObjectUniqueKey: S.optional(S.String) }),
+).annotations({
+  identifier: "PutProfileObjectResponse",
+}) as any as S.Schema<PutProfileObjectResponse>;
+export interface SearchProfilesRequest {
+  NextToken?: string;
+  MaxResults?: number;
+  DomainName: string;
+  KeyName: string;
+  Values: requestValueList;
+  AdditionalSearchKeys?: additionalSearchKeysList;
+  LogicalOperator?: string;
+}
+export const SearchProfilesRequest = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
@@ -2441,118 +3707,259 @@ export class SearchProfilesRequest extends S.Class<SearchProfilesRequest>(
     Values: requestValueList,
     AdditionalSearchKeys: S.optional(additionalSearchKeysList),
     LogicalOperator: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/domains/{DomainName}/profiles/search" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/domains/{DomainName}/profiles/search" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AttributeItem extends S.Class<AttributeItem>("AttributeItem")({
-  Name: S.String,
-}) {}
+).annotations({
+  identifier: "SearchProfilesRequest",
+}) as any as S.Schema<SearchProfilesRequest>;
+export interface AttributeItem {
+  Name: string;
+}
+export const AttributeItem = S.suspend(() =>
+  S.Struct({ Name: S.String }),
+).annotations({
+  identifier: "AttributeItem",
+}) as any as S.Schema<AttributeItem>;
+export type AttributeList = AttributeItem[];
 export const AttributeList = S.Array(AttributeItem);
-export class AttributeDetails extends S.Class<AttributeDetails>(
-  "AttributeDetails",
-)({ Attributes: AttributeList, Expression: S.String }) {}
-export class Readiness extends S.Class<Readiness>("Readiness")({
-  ProgressPercentage: S.optional(S.Number),
-  Message: S.optional(S.String),
-}) {}
-export class UpdateCalculatedAttributeDefinitionResponse extends S.Class<UpdateCalculatedAttributeDefinitionResponse>(
-  "UpdateCalculatedAttributeDefinitionResponse",
-)({
-  CalculatedAttributeName: S.optional(S.String),
-  DisplayName: S.optional(S.String),
-  Description: S.optional(S.String),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Statistic: S.optional(S.String),
-  Conditions: S.optional(Conditions),
-  AttributeDetails: S.optional(AttributeDetails),
-  UseHistoricalData: S.optional(S.Boolean),
-  Status: S.optional(S.String),
-  Readiness: S.optional(Readiness),
-  Tags: S.optional(TagMap),
-}) {}
-export class MatchingResponse extends S.Class<MatchingResponse>(
-  "MatchingResponse",
-)({
-  Enabled: S.optional(S.Boolean),
-  JobSchedule: S.optional(JobSchedule),
-  AutoMerging: S.optional(AutoMerging),
-  ExportingConfig: S.optional(ExportingConfig),
-}) {}
-export class RuleBasedMatchingResponse extends S.Class<RuleBasedMatchingResponse>(
-  "RuleBasedMatchingResponse",
-)({
-  Enabled: S.optional(S.Boolean),
-  MatchingRules: S.optional(MatchingRules),
-  Status: S.optional(S.String),
-  MaxAllowedRuleLevelForMerging: S.optional(S.Number),
-  MaxAllowedRuleLevelForMatching: S.optional(S.Number),
-  AttributeTypesSelector: S.optional(AttributeTypesSelector),
-  ConflictResolution: S.optional(ConflictResolution),
-  ExportingConfig: S.optional(ExportingConfig),
-}) {}
-export class DataStoreResponse extends S.Class<DataStoreResponse>(
-  "DataStoreResponse",
-)({ Enabled: S.optional(S.Boolean), Readiness: S.optional(Readiness) }) {}
-export class UpdateDomainResponse extends S.Class<UpdateDomainResponse>(
-  "UpdateDomainResponse",
-)({
-  DomainName: S.String,
-  DefaultExpirationDays: S.optional(S.Number),
-  DefaultEncryptionKey: S.optional(S.String),
-  DeadLetterQueueUrl: S.optional(S.String),
-  Matching: S.optional(MatchingResponse),
-  RuleBasedMatching: S.optional(RuleBasedMatchingResponse),
-  DataStore: S.optional(DataStoreResponse),
-  CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  LastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  Tags: S.optional(TagMap),
-}) {}
-export class UpdateDomainLayoutResponse extends S.Class<UpdateDomainLayoutResponse>(
-  "UpdateDomainLayoutResponse",
-)({
-  LayoutDefinitionName: S.optional(S.String),
-  Description: S.optional(S.String),
-  DisplayName: S.optional(S.String),
-  IsDefault: S.optional(S.Boolean),
-  LayoutType: S.optional(S.String),
-  Layout: S.optional(S.String),
-  Version: S.optional(S.String),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Tags: S.optional(TagMap),
-}) {}
-export class UpdateEventTriggerResponse extends S.Class<UpdateEventTriggerResponse>(
-  "UpdateEventTriggerResponse",
-)({
-  EventTriggerName: S.optional(S.String),
-  ObjectTypeName: S.optional(S.String),
-  Description: S.optional(S.String),
-  EventTriggerConditions: S.optional(EventTriggerConditions),
-  SegmentFilter: S.optional(S.String),
-  EventTriggerLimits: S.optional(EventTriggerLimits),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Tags: S.optional(TagMap),
-}) {}
+export interface AttributeDetails {
+  Attributes: AttributeList;
+  Expression: string;
+}
+export const AttributeDetails = S.suspend(() =>
+  S.Struct({ Attributes: AttributeList, Expression: S.String }),
+).annotations({
+  identifier: "AttributeDetails",
+}) as any as S.Schema<AttributeDetails>;
+export interface Readiness {
+  ProgressPercentage?: number;
+  Message?: string;
+}
+export const Readiness = S.suspend(() =>
+  S.Struct({
+    ProgressPercentage: S.optional(S.Number),
+    Message: S.optional(S.String),
+  }),
+).annotations({ identifier: "Readiness" }) as any as S.Schema<Readiness>;
+export interface UpdateCalculatedAttributeDefinitionResponse {
+  CalculatedAttributeName?: string;
+  DisplayName?: string;
+  Description?: string;
+  CreatedAt?: Date;
+  LastUpdatedAt?: Date;
+  Statistic?: string;
+  Conditions?: Conditions;
+  AttributeDetails?: AttributeDetails;
+  UseHistoricalData?: boolean;
+  Status?: string;
+  Readiness?: Readiness;
+  Tags?: TagMap;
+}
+export const UpdateCalculatedAttributeDefinitionResponse = S.suspend(() =>
+  S.Struct({
+    CalculatedAttributeName: S.optional(S.String),
+    DisplayName: S.optional(S.String),
+    Description: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Statistic: S.optional(S.String),
+    Conditions: S.optional(Conditions),
+    AttributeDetails: S.optional(AttributeDetails),
+    UseHistoricalData: S.optional(S.Boolean),
+    Status: S.optional(S.String),
+    Readiness: S.optional(Readiness),
+    Tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "UpdateCalculatedAttributeDefinitionResponse",
+}) as any as S.Schema<UpdateCalculatedAttributeDefinitionResponse>;
+export interface MatchingResponse {
+  Enabled?: boolean;
+  JobSchedule?: JobSchedule;
+  AutoMerging?: AutoMerging;
+  ExportingConfig?: ExportingConfig;
+}
+export const MatchingResponse = S.suspend(() =>
+  S.Struct({
+    Enabled: S.optional(S.Boolean),
+    JobSchedule: S.optional(JobSchedule),
+    AutoMerging: S.optional(AutoMerging),
+    ExportingConfig: S.optional(ExportingConfig),
+  }),
+).annotations({
+  identifier: "MatchingResponse",
+}) as any as S.Schema<MatchingResponse>;
+export interface RuleBasedMatchingResponse {
+  Enabled?: boolean;
+  MatchingRules?: MatchingRules;
+  Status?: string;
+  MaxAllowedRuleLevelForMerging?: number;
+  MaxAllowedRuleLevelForMatching?: number;
+  AttributeTypesSelector?: AttributeTypesSelector;
+  ConflictResolution?: ConflictResolution;
+  ExportingConfig?: ExportingConfig;
+}
+export const RuleBasedMatchingResponse = S.suspend(() =>
+  S.Struct({
+    Enabled: S.optional(S.Boolean),
+    MatchingRules: S.optional(MatchingRules),
+    Status: S.optional(S.String),
+    MaxAllowedRuleLevelForMerging: S.optional(S.Number),
+    MaxAllowedRuleLevelForMatching: S.optional(S.Number),
+    AttributeTypesSelector: S.optional(AttributeTypesSelector),
+    ConflictResolution: S.optional(ConflictResolution),
+    ExportingConfig: S.optional(ExportingConfig),
+  }),
+).annotations({
+  identifier: "RuleBasedMatchingResponse",
+}) as any as S.Schema<RuleBasedMatchingResponse>;
+export interface DataStoreResponse {
+  Enabled?: boolean;
+  Readiness?: Readiness;
+}
+export const DataStoreResponse = S.suspend(() =>
+  S.Struct({
+    Enabled: S.optional(S.Boolean),
+    Readiness: S.optional(Readiness),
+  }),
+).annotations({
+  identifier: "DataStoreResponse",
+}) as any as S.Schema<DataStoreResponse>;
+export interface UpdateDomainResponse {
+  DomainName: string;
+  DefaultExpirationDays?: number;
+  DefaultEncryptionKey?: string;
+  DeadLetterQueueUrl?: string;
+  Matching?: MatchingResponse;
+  RuleBasedMatching?: RuleBasedMatchingResponse;
+  DataStore?: DataStoreResponse;
+  CreatedAt: Date;
+  LastUpdatedAt: Date;
+  Tags?: TagMap;
+}
+export const UpdateDomainResponse = S.suspend(() =>
+  S.Struct({
+    DomainName: S.String,
+    DefaultExpirationDays: S.optional(S.Number),
+    DefaultEncryptionKey: S.optional(S.String),
+    DeadLetterQueueUrl: S.optional(S.String),
+    Matching: S.optional(MatchingResponse),
+    RuleBasedMatching: S.optional(RuleBasedMatchingResponse),
+    DataStore: S.optional(DataStoreResponse),
+    CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    LastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    Tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "UpdateDomainResponse",
+}) as any as S.Schema<UpdateDomainResponse>;
+export interface UpdateDomainLayoutResponse {
+  LayoutDefinitionName?: string;
+  Description?: string;
+  DisplayName?: string;
+  IsDefault?: boolean;
+  LayoutType?: string;
+  Layout?: string;
+  Version?: string;
+  CreatedAt?: Date;
+  LastUpdatedAt?: Date;
+  Tags?: TagMap;
+}
+export const UpdateDomainLayoutResponse = S.suspend(() =>
+  S.Struct({
+    LayoutDefinitionName: S.optional(S.String),
+    Description: S.optional(S.String),
+    DisplayName: S.optional(S.String),
+    IsDefault: S.optional(S.Boolean),
+    LayoutType: S.optional(S.String),
+    Layout: S.optional(S.String),
+    Version: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "UpdateDomainLayoutResponse",
+}) as any as S.Schema<UpdateDomainLayoutResponse>;
+export interface UpdateEventTriggerResponse {
+  EventTriggerName?: string;
+  ObjectTypeName?: string;
+  Description?: string;
+  EventTriggerConditions?: EventTriggerConditions;
+  SegmentFilter?: string;
+  EventTriggerLimits?: EventTriggerLimits;
+  CreatedAt?: Date;
+  LastUpdatedAt?: Date;
+  Tags?: TagMap;
+}
+export const UpdateEventTriggerResponse = S.suspend(() =>
+  S.Struct({
+    EventTriggerName: S.optional(S.String),
+    ObjectTypeName: S.optional(S.String),
+    Description: S.optional(S.String),
+    EventTriggerConditions: S.optional(EventTriggerConditions),
+    SegmentFilter: S.optional(S.String),
+    EventTriggerLimits: S.optional(EventTriggerLimits),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "UpdateEventTriggerResponse",
+}) as any as S.Schema<UpdateEventTriggerResponse>;
+export type PhonePreferenceList = ContactPreference[];
 export const PhonePreferenceList = S.Array(ContactPreference);
-export class EngagementPreferences extends S.Class<EngagementPreferences>(
-  "EngagementPreferences",
-)({
-  Phone: S.optional(PhonePreferenceList),
-  Email: S.optional(EmailPreferenceList),
-}) {}
-export class UpdateProfileRequest extends S.Class<UpdateProfileRequest>(
-  "UpdateProfileRequest",
-)(
-  {
+export interface EngagementPreferences {
+  Phone?: PhonePreferenceList;
+  Email?: EmailPreferenceList;
+}
+export const EngagementPreferences = S.suspend(() =>
+  S.Struct({
+    Phone: S.optional(PhonePreferenceList),
+    Email: S.optional(EmailPreferenceList),
+  }),
+).annotations({
+  identifier: "EngagementPreferences",
+}) as any as S.Schema<EngagementPreferences>;
+export interface UpdateProfileRequest {
+  DomainName: string;
+  ProfileId: string;
+  AdditionalInformation?: string;
+  AccountNumber?: string;
+  PartyType?: string;
+  BusinessName?: string;
+  FirstName?: string;
+  MiddleName?: string;
+  LastName?: string;
+  BirthDate?: string;
+  Gender?: string;
+  PhoneNumber?: string;
+  MobilePhoneNumber?: string;
+  HomePhoneNumber?: string;
+  BusinessPhoneNumber?: string;
+  EmailAddress?: string;
+  PersonalEmailAddress?: string;
+  BusinessEmailAddress?: string;
+  Address?: UpdateAddress;
+  ShippingAddress?: UpdateAddress;
+  MailingAddress?: UpdateAddress;
+  BillingAddress?: UpdateAddress;
+  Attributes?: UpdateAttributes;
+  PartyTypeString?: string;
+  GenderString?: string;
+  ProfileType?: string;
+  EngagementPreferences?: EngagementPreferences;
+}
+export const UpdateProfileRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     ProfileId: S.String,
     AdditionalInformation: S.optional(S.String),
@@ -2580,400 +3987,824 @@ export class UpdateProfileRequest extends S.Class<UpdateProfileRequest>(
     GenderString: S.optional(S.String),
     ProfileType: S.optional(S.String),
     EngagementPreferences: S.optional(EngagementPreferences),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/domains/{DomainName}/profiles" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/domains/{DomainName}/profiles" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateRecommenderResponse extends S.Class<UpdateRecommenderResponse>(
-  "UpdateRecommenderResponse",
-)({ RecommenderName: S.String }) {}
+).annotations({
+  identifier: "UpdateProfileRequest",
+}) as any as S.Schema<UpdateProfileRequest>;
+export interface UpdateRecommenderResponse {
+  RecommenderName: string;
+}
+export const UpdateRecommenderResponse = S.suspend(() =>
+  S.Struct({ RecommenderName: S.String }),
+).annotations({
+  identifier: "UpdateRecommenderResponse",
+}) as any as S.Schema<UpdateRecommenderResponse>;
+export type AttributeSourceIdMap = { [key: string]: string };
 export const AttributeSourceIdMap = S.Record({
   key: S.String,
   value: S.String,
 });
-export class BatchGetProfileError extends S.Class<BatchGetProfileError>(
-  "BatchGetProfileError",
-)({ Code: S.String, Message: S.String, ProfileId: S.String }) {}
+export interface BatchGetProfileError {
+  Code: string;
+  Message: string;
+  ProfileId: string;
+}
+export const BatchGetProfileError = S.suspend(() =>
+  S.Struct({ Code: S.String, Message: S.String, ProfileId: S.String }),
+).annotations({
+  identifier: "BatchGetProfileError",
+}) as any as S.Schema<BatchGetProfileError>;
+export type BatchGetProfileErrorList = BatchGetProfileError[];
 export const BatchGetProfileErrorList = S.Array(BatchGetProfileError);
-export class DetectedProfileObjectType extends S.Class<DetectedProfileObjectType>(
-  "DetectedProfileObjectType",
-)({
-  SourceLastUpdatedTimestampFormat: S.optional(S.String),
-  Fields: S.optional(FieldMap),
-  Keys: S.optional(KeyMap),
-}) {}
+export interface DetectedProfileObjectType {
+  SourceLastUpdatedTimestampFormat?: string;
+  Fields?: FieldMap;
+  Keys?: KeyMap;
+}
+export const DetectedProfileObjectType = S.suspend(() =>
+  S.Struct({
+    SourceLastUpdatedTimestampFormat: S.optional(S.String),
+    Fields: S.optional(FieldMap),
+    Keys: S.optional(KeyMap),
+  }),
+).annotations({
+  identifier: "DetectedProfileObjectType",
+}) as any as S.Schema<DetectedProfileObjectType>;
+export type DetectedProfileObjectTypes = DetectedProfileObjectType[];
 export const DetectedProfileObjectTypes = S.Array(DetectedProfileObjectType);
-export class DomainStats extends S.Class<DomainStats>("DomainStats")({
-  ProfileCount: S.optional(S.Number),
-  MeteringProfileCount: S.optional(S.Number),
-  ObjectCount: S.optional(S.Number),
-  TotalSize: S.optional(S.Number),
-}) {}
-export class EventStreamDestinationDetails extends S.Class<EventStreamDestinationDetails>(
-  "EventStreamDestinationDetails",
-)({
-  Uri: S.String,
-  Status: S.String,
-  UnhealthySince: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Message: S.optional(S.String),
-}) {}
-export class JobStats extends S.Class<JobStats>("JobStats")({
-  NumberOfProfilesReviewed: S.optional(S.Number),
-  NumberOfMatchesFound: S.optional(S.Number),
-  NumberOfMergesDone: S.optional(S.Number),
-}) {}
-export class MatchItem extends S.Class<MatchItem>("MatchItem")({
-  MatchId: S.optional(S.String),
-  ProfileIds: S.optional(ProfileIdList),
-  ConfidenceScore: S.optional(S.Number),
-}) {}
+export interface DomainStats {
+  ProfileCount?: number;
+  MeteringProfileCount?: number;
+  ObjectCount?: number;
+  TotalSize?: number;
+}
+export const DomainStats = S.suspend(() =>
+  S.Struct({
+    ProfileCount: S.optional(S.Number),
+    MeteringProfileCount: S.optional(S.Number),
+    ObjectCount: S.optional(S.Number),
+    TotalSize: S.optional(S.Number),
+  }),
+).annotations({ identifier: "DomainStats" }) as any as S.Schema<DomainStats>;
+export interface EventStreamDestinationDetails {
+  Uri: string;
+  Status: string;
+  UnhealthySince?: Date;
+  Message?: string;
+}
+export const EventStreamDestinationDetails = S.suspend(() =>
+  S.Struct({
+    Uri: S.String,
+    Status: S.String,
+    UnhealthySince: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Message: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "EventStreamDestinationDetails",
+}) as any as S.Schema<EventStreamDestinationDetails>;
+export interface JobStats {
+  NumberOfProfilesReviewed?: number;
+  NumberOfMatchesFound?: number;
+  NumberOfMergesDone?: number;
+}
+export const JobStats = S.suspend(() =>
+  S.Struct({
+    NumberOfProfilesReviewed: S.optional(S.Number),
+    NumberOfMatchesFound: S.optional(S.Number),
+    NumberOfMergesDone: S.optional(S.Number),
+  }),
+).annotations({ identifier: "JobStats" }) as any as S.Schema<JobStats>;
+export interface MatchItem {
+  MatchId?: string;
+  ProfileIds?: ProfileIdList;
+  ConfidenceScore?: number;
+}
+export const MatchItem = S.suspend(() =>
+  S.Struct({
+    MatchId: S.optional(S.String),
+    ProfileIds: S.optional(ProfileIdList),
+    ConfidenceScore: S.optional(S.Number),
+  }),
+).annotations({ identifier: "MatchItem" }) as any as S.Schema<MatchItem>;
+export type MatchesList = MatchItem[];
 export const MatchesList = S.Array(MatchItem);
-export class RecommenderUpdate extends S.Class<RecommenderUpdate>(
-  "RecommenderUpdate",
-)({
-  RecommenderConfig: S.optional(RecommenderConfig),
-  Status: S.optional(S.String),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  FailureReason: S.optional(S.String),
-}) {}
-export class FoundByKeyValue extends S.Class<FoundByKeyValue>(
-  "FoundByKeyValue",
-)({ KeyName: S.optional(S.String), Values: S.optional(requestValueList) }) {}
+export interface RecommenderUpdate {
+  RecommenderConfig?: RecommenderConfig;
+  Status?: string;
+  CreatedAt?: Date;
+  LastUpdatedAt?: Date;
+  FailureReason?: string;
+}
+export const RecommenderUpdate = S.suspend(() =>
+  S.Struct({
+    RecommenderConfig: S.optional(RecommenderConfig),
+    Status: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    FailureReason: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RecommenderUpdate",
+}) as any as S.Schema<RecommenderUpdate>;
+export interface FoundByKeyValue {
+  KeyName?: string;
+  Values?: requestValueList;
+}
+export const FoundByKeyValue = S.suspend(() =>
+  S.Struct({
+    KeyName: S.optional(S.String),
+    Values: S.optional(requestValueList),
+  }),
+).annotations({
+  identifier: "FoundByKeyValue",
+}) as any as S.Schema<FoundByKeyValue>;
+export type foundByList = FoundByKeyValue[];
 export const foundByList = S.Array(FoundByKeyValue);
-export class Profile extends S.Class<Profile>("Profile")({
-  ProfileId: S.optional(S.String),
-  AccountNumber: S.optional(S.String),
-  AdditionalInformation: S.optional(S.String),
-  PartyType: S.optional(S.String),
-  BusinessName: S.optional(S.String),
-  FirstName: S.optional(S.String),
-  MiddleName: S.optional(S.String),
-  LastName: S.optional(S.String),
-  BirthDate: S.optional(S.String),
-  Gender: S.optional(S.String),
-  PhoneNumber: S.optional(S.String),
-  MobilePhoneNumber: S.optional(S.String),
-  HomePhoneNumber: S.optional(S.String),
-  BusinessPhoneNumber: S.optional(S.String),
-  EmailAddress: S.optional(S.String),
-  PersonalEmailAddress: S.optional(S.String),
-  BusinessEmailAddress: S.optional(S.String),
-  Address: S.optional(Address),
-  ShippingAddress: S.optional(Address),
-  MailingAddress: S.optional(Address),
-  BillingAddress: S.optional(Address),
-  Attributes: S.optional(Attributes),
-  FoundByItems: S.optional(foundByList),
-  PartyTypeString: S.optional(S.String),
-  GenderString: S.optional(S.String),
-  ProfileType: S.optional(S.String),
-  EngagementPreferences: S.optional(EngagementPreferences),
-}) {}
-export class ProfileQueryResult extends S.Class<ProfileQueryResult>(
-  "ProfileQueryResult",
-)({
-  ProfileId: S.String.pipe(T.JsonName("ProfileId")),
-  QueryResult: S.String.pipe(T.JsonName("QueryResult")),
-  Profile: S.optional(Profile).pipe(T.JsonName("Profile")),
-}) {}
+export interface Profile {
+  ProfileId?: string;
+  AccountNumber?: string;
+  AdditionalInformation?: string;
+  PartyType?: string;
+  BusinessName?: string;
+  FirstName?: string;
+  MiddleName?: string;
+  LastName?: string;
+  BirthDate?: string;
+  Gender?: string;
+  PhoneNumber?: string;
+  MobilePhoneNumber?: string;
+  HomePhoneNumber?: string;
+  BusinessPhoneNumber?: string;
+  EmailAddress?: string;
+  PersonalEmailAddress?: string;
+  BusinessEmailAddress?: string;
+  Address?: Address;
+  ShippingAddress?: Address;
+  MailingAddress?: Address;
+  BillingAddress?: Address;
+  Attributes?: Attributes;
+  FoundByItems?: foundByList;
+  PartyTypeString?: string;
+  GenderString?: string;
+  ProfileType?: string;
+  EngagementPreferences?: EngagementPreferences;
+}
+export const Profile = S.suspend(() =>
+  S.Struct({
+    ProfileId: S.optional(S.String),
+    AccountNumber: S.optional(S.String),
+    AdditionalInformation: S.optional(S.String),
+    PartyType: S.optional(S.String),
+    BusinessName: S.optional(S.String),
+    FirstName: S.optional(S.String),
+    MiddleName: S.optional(S.String),
+    LastName: S.optional(S.String),
+    BirthDate: S.optional(S.String),
+    Gender: S.optional(S.String),
+    PhoneNumber: S.optional(S.String),
+    MobilePhoneNumber: S.optional(S.String),
+    HomePhoneNumber: S.optional(S.String),
+    BusinessPhoneNumber: S.optional(S.String),
+    EmailAddress: S.optional(S.String),
+    PersonalEmailAddress: S.optional(S.String),
+    BusinessEmailAddress: S.optional(S.String),
+    Address: S.optional(Address),
+    ShippingAddress: S.optional(Address),
+    MailingAddress: S.optional(Address),
+    BillingAddress: S.optional(Address),
+    Attributes: S.optional(Attributes),
+    FoundByItems: S.optional(foundByList),
+    PartyTypeString: S.optional(S.String),
+    GenderString: S.optional(S.String),
+    ProfileType: S.optional(S.String),
+    EngagementPreferences: S.optional(EngagementPreferences),
+  }),
+).annotations({ identifier: "Profile" }) as any as S.Schema<Profile>;
+export interface ProfileQueryResult {
+  ProfileId: string;
+  QueryResult: string;
+  Profile?: Profile;
+}
+export const ProfileQueryResult = S.suspend(() =>
+  S.Struct({
+    ProfileId: S.String.pipe(T.JsonName("ProfileId")),
+    QueryResult: S.String.pipe(T.JsonName("QueryResult")),
+    Profile: S.optional(Profile)
+      .pipe(T.JsonName("Profile"))
+      .annotations({ identifier: "Profile" }),
+  }),
+).annotations({
+  identifier: "ProfileQueryResult",
+}) as any as S.Schema<ProfileQueryResult>;
+export type Profiles = ProfileQueryResult[];
 export const Profiles = S.Array(ProfileQueryResult);
-export class ProfileQueryFailures extends S.Class<ProfileQueryFailures>(
-  "ProfileQueryFailures",
-)({
-  ProfileId: S.String.pipe(T.JsonName("ProfileId")),
-  Message: S.String.pipe(T.JsonName("Message")),
-  Status: S.optional(S.Number).pipe(T.JsonName("Status")),
-}) {}
+export interface ProfileQueryFailures {
+  ProfileId: string;
+  Message: string;
+  Status?: number;
+}
+export const ProfileQueryFailures = S.suspend(() =>
+  S.Struct({
+    ProfileId: S.String.pipe(T.JsonName("ProfileId")),
+    Message: S.String.pipe(T.JsonName("Message")),
+    Status: S.optional(S.Number).pipe(T.JsonName("Status")),
+  }),
+).annotations({
+  identifier: "ProfileQueryFailures",
+}) as any as S.Schema<ProfileQueryFailures>;
+export type Failures = ProfileQueryFailures[];
 export const Failures = S.Array(ProfileQueryFailures);
-export class ResultsSummary extends S.Class<ResultsSummary>("ResultsSummary")({
-  UpdatedRecords: S.optional(S.Number).pipe(T.JsonName("UpdatedRecords")),
-  CreatedRecords: S.optional(S.Number).pipe(T.JsonName("CreatedRecords")),
-  FailedRecords: S.optional(S.Number).pipe(T.JsonName("FailedRecords")),
-}) {}
-export class ListCalculatedAttributeDefinitionItem extends S.Class<ListCalculatedAttributeDefinitionItem>(
-  "ListCalculatedAttributeDefinitionItem",
-)({
-  CalculatedAttributeName: S.optional(S.String),
-  DisplayName: S.optional(S.String),
-  Description: S.optional(S.String),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  UseHistoricalData: S.optional(S.Boolean),
-  Status: S.optional(S.String),
-  Tags: S.optional(TagMap),
-}) {}
+export interface ResultsSummary {
+  UpdatedRecords?: number;
+  CreatedRecords?: number;
+  FailedRecords?: number;
+}
+export const ResultsSummary = S.suspend(() =>
+  S.Struct({
+    UpdatedRecords: S.optional(S.Number).pipe(T.JsonName("UpdatedRecords")),
+    CreatedRecords: S.optional(S.Number).pipe(T.JsonName("CreatedRecords")),
+    FailedRecords: S.optional(S.Number).pipe(T.JsonName("FailedRecords")),
+  }),
+).annotations({
+  identifier: "ResultsSummary",
+}) as any as S.Schema<ResultsSummary>;
+export interface ListCalculatedAttributeDefinitionItem {
+  CalculatedAttributeName?: string;
+  DisplayName?: string;
+  Description?: string;
+  CreatedAt?: Date;
+  LastUpdatedAt?: Date;
+  UseHistoricalData?: boolean;
+  Status?: string;
+  Tags?: TagMap;
+}
+export const ListCalculatedAttributeDefinitionItem = S.suspend(() =>
+  S.Struct({
+    CalculatedAttributeName: S.optional(S.String),
+    DisplayName: S.optional(S.String),
+    Description: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UseHistoricalData: S.optional(S.Boolean),
+    Status: S.optional(S.String),
+    Tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "ListCalculatedAttributeDefinitionItem",
+}) as any as S.Schema<ListCalculatedAttributeDefinitionItem>;
+export type CalculatedAttributeDefinitionsList =
+  ListCalculatedAttributeDefinitionItem[];
 export const CalculatedAttributeDefinitionsList = S.Array(
   ListCalculatedAttributeDefinitionItem,
 );
-export class ListCalculatedAttributeForProfileItem extends S.Class<ListCalculatedAttributeForProfileItem>(
-  "ListCalculatedAttributeForProfileItem",
-)({
-  CalculatedAttributeName: S.optional(S.String),
-  DisplayName: S.optional(S.String),
-  IsDataPartial: S.optional(S.String),
-  Value: S.optional(S.String),
-  LastObjectTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
+export interface ListCalculatedAttributeForProfileItem {
+  CalculatedAttributeName?: string;
+  DisplayName?: string;
+  IsDataPartial?: string;
+  Value?: string;
+  LastObjectTimestamp?: Date;
+}
+export const ListCalculatedAttributeForProfileItem = S.suspend(() =>
+  S.Struct({
+    CalculatedAttributeName: S.optional(S.String),
+    DisplayName: S.optional(S.String),
+    IsDataPartial: S.optional(S.String),
+    Value: S.optional(S.String),
+    LastObjectTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "ListCalculatedAttributeForProfileItem",
+}) as any as S.Schema<ListCalculatedAttributeForProfileItem>;
+export type CalculatedAttributesForProfileList =
+  ListCalculatedAttributeForProfileItem[];
 export const CalculatedAttributesForProfileList = S.Array(
   ListCalculatedAttributeForProfileItem,
 );
-export class LayoutItem extends S.Class<LayoutItem>("LayoutItem")({
-  LayoutDefinitionName: S.String,
-  Description: S.String,
-  DisplayName: S.String,
-  IsDefault: S.optional(S.Boolean),
-  LayoutType: S.String,
-  Tags: S.optional(TagMap),
-  CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  LastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-}) {}
+export interface LayoutItem {
+  LayoutDefinitionName: string;
+  Description: string;
+  DisplayName: string;
+  IsDefault?: boolean;
+  LayoutType: string;
+  Tags?: TagMap;
+  CreatedAt: Date;
+  LastUpdatedAt: Date;
+}
+export const LayoutItem = S.suspend(() =>
+  S.Struct({
+    LayoutDefinitionName: S.String,
+    Description: S.String,
+    DisplayName: S.String,
+    IsDefault: S.optional(S.Boolean),
+    LayoutType: S.String,
+    Tags: S.optional(TagMap),
+    CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    LastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotations({ identifier: "LayoutItem" }) as any as S.Schema<LayoutItem>;
+export type LayoutList = LayoutItem[];
 export const LayoutList = S.Array(LayoutItem);
-export class DomainObjectTypesListItem extends S.Class<DomainObjectTypesListItem>(
-  "DomainObjectTypesListItem",
-)({
-  ObjectTypeName: S.String,
-  Description: S.optional(S.String),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Tags: S.optional(TagMap),
-}) {}
+export interface DomainObjectTypesListItem {
+  ObjectTypeName: string;
+  Description?: string;
+  CreatedAt?: Date;
+  LastUpdatedAt?: Date;
+  Tags?: TagMap;
+}
+export const DomainObjectTypesListItem = S.suspend(() =>
+  S.Struct({
+    ObjectTypeName: S.String,
+    Description: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "DomainObjectTypesListItem",
+}) as any as S.Schema<DomainObjectTypesListItem>;
+export type DomainObjectTypesList = DomainObjectTypesListItem[];
 export const DomainObjectTypesList = S.Array(DomainObjectTypesListItem);
-export class ListDomainItem extends S.Class<ListDomainItem>("ListDomainItem")({
-  DomainName: S.String,
-  CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  LastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  Tags: S.optional(TagMap),
-}) {}
+export interface ListDomainItem {
+  DomainName: string;
+  CreatedAt: Date;
+  LastUpdatedAt: Date;
+  Tags?: TagMap;
+}
+export const ListDomainItem = S.suspend(() =>
+  S.Struct({
+    DomainName: S.String,
+    CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    LastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    Tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "ListDomainItem",
+}) as any as S.Schema<ListDomainItem>;
+export type DomainList = ListDomainItem[];
 export const DomainList = S.Array(ListDomainItem);
-export class EventTriggerSummaryItem extends S.Class<EventTriggerSummaryItem>(
-  "EventTriggerSummaryItem",
-)({
-  ObjectTypeName: S.optional(S.String),
-  EventTriggerName: S.optional(S.String),
-  Description: S.optional(S.String),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Tags: S.optional(TagMap),
-}) {}
+export interface EventTriggerSummaryItem {
+  ObjectTypeName?: string;
+  EventTriggerName?: string;
+  Description?: string;
+  CreatedAt?: Date;
+  LastUpdatedAt?: Date;
+  Tags?: TagMap;
+}
+export const EventTriggerSummaryItem = S.suspend(() =>
+  S.Struct({
+    ObjectTypeName: S.optional(S.String),
+    EventTriggerName: S.optional(S.String),
+    Description: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "EventTriggerSummaryItem",
+}) as any as S.Schema<EventTriggerSummaryItem>;
+export type EventTriggerSummaryList = EventTriggerSummaryItem[];
 export const EventTriggerSummaryList = S.Array(EventTriggerSummaryItem);
-export class S3ExportingLocation extends S.Class<S3ExportingLocation>(
-  "S3ExportingLocation",
-)({ S3BucketName: S.optional(S.String), S3KeyName: S.optional(S.String) }) {}
-export class ExportingLocation extends S.Class<ExportingLocation>(
-  "ExportingLocation",
-)({ S3Exporting: S.optional(S3ExportingLocation) }) {}
-export class IdentityResolutionJob extends S.Class<IdentityResolutionJob>(
-  "IdentityResolutionJob",
-)({
-  DomainName: S.optional(S.String),
-  JobId: S.optional(S.String),
-  Status: S.optional(S.String),
-  JobStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  JobEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  JobStats: S.optional(JobStats),
-  ExportingLocation: S.optional(ExportingLocation),
-  Message: S.optional(S.String),
-}) {}
+export interface S3ExportingLocation {
+  S3BucketName?: string;
+  S3KeyName?: string;
+}
+export const S3ExportingLocation = S.suspend(() =>
+  S.Struct({
+    S3BucketName: S.optional(S.String),
+    S3KeyName: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "S3ExportingLocation",
+}) as any as S.Schema<S3ExportingLocation>;
+export interface ExportingLocation {
+  S3Exporting?: S3ExportingLocation;
+}
+export const ExportingLocation = S.suspend(() =>
+  S.Struct({ S3Exporting: S.optional(S3ExportingLocation) }),
+).annotations({
+  identifier: "ExportingLocation",
+}) as any as S.Schema<ExportingLocation>;
+export interface IdentityResolutionJob {
+  DomainName?: string;
+  JobId?: string;
+  Status?: string;
+  JobStartTime?: Date;
+  JobEndTime?: Date;
+  JobStats?: JobStats;
+  ExportingLocation?: ExportingLocation;
+  Message?: string;
+}
+export const IdentityResolutionJob = S.suspend(() =>
+  S.Struct({
+    DomainName: S.optional(S.String),
+    JobId: S.optional(S.String),
+    Status: S.optional(S.String),
+    JobStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    JobEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    JobStats: S.optional(JobStats),
+    ExportingLocation: S.optional(ExportingLocation),
+    Message: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "IdentityResolutionJob",
+}) as any as S.Schema<IdentityResolutionJob>;
+export type IdentityResolutionJobsList = IdentityResolutionJob[];
 export const IdentityResolutionJobsList = S.Array(IdentityResolutionJob);
-export class ListObjectTypeAttributeItem extends S.Class<ListObjectTypeAttributeItem>(
-  "ListObjectTypeAttributeItem",
-)({
-  AttributeName: S.String,
-  LastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-}) {}
+export interface ListObjectTypeAttributeItem {
+  AttributeName: string;
+  LastUpdatedAt: Date;
+}
+export const ListObjectTypeAttributeItem = S.suspend(() =>
+  S.Struct({
+    AttributeName: S.String,
+    LastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotations({
+  identifier: "ListObjectTypeAttributeItem",
+}) as any as S.Schema<ListObjectTypeAttributeItem>;
+export type ListObjectTypeAttributesList = ListObjectTypeAttributeItem[];
 export const ListObjectTypeAttributesList = S.Array(
   ListObjectTypeAttributeItem,
 );
-export class ListObjectTypeAttributeValuesItem extends S.Class<ListObjectTypeAttributeValuesItem>(
-  "ListObjectTypeAttributeValuesItem",
-)({
-  Value: S.String,
-  LastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-}) {}
+export interface ListObjectTypeAttributeValuesItem {
+  Value: string;
+  LastUpdatedAt: Date;
+}
+export const ListObjectTypeAttributeValuesItem = S.suspend(() =>
+  S.Struct({
+    Value: S.String,
+    LastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotations({
+  identifier: "ListObjectTypeAttributeValuesItem",
+}) as any as S.Schema<ListObjectTypeAttributeValuesItem>;
+export type ListObjectTypeAttributeValuesList =
+  ListObjectTypeAttributeValuesItem[];
 export const ListObjectTypeAttributeValuesList = S.Array(
   ListObjectTypeAttributeValuesItem,
 );
-export class AttributeValueItem extends S.Class<AttributeValueItem>(
-  "AttributeValueItem",
-)({ Value: S.optional(S.String) }) {}
+export interface AttributeValueItem {
+  Value?: string;
+}
+export const AttributeValueItem = S.suspend(() =>
+  S.Struct({ Value: S.optional(S.String) }),
+).annotations({
+  identifier: "AttributeValueItem",
+}) as any as S.Schema<AttributeValueItem>;
+export type AttributeValueItemList = AttributeValueItem[];
 export const AttributeValueItemList = S.Array(AttributeValueItem);
-export class ProfileHistoryRecord extends S.Class<ProfileHistoryRecord>(
-  "ProfileHistoryRecord",
-)({
-  Id: S.String,
-  ObjectTypeName: S.String,
-  CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  ActionType: S.String,
-  ProfileObjectUniqueKey: S.optional(S.String),
-  PerformedBy: S.optional(S.String),
-}) {}
+export interface ProfileHistoryRecord {
+  Id: string;
+  ObjectTypeName: string;
+  CreatedAt: Date;
+  LastUpdatedAt?: Date;
+  ActionType: string;
+  ProfileObjectUniqueKey?: string;
+  PerformedBy?: string;
+}
+export const ProfileHistoryRecord = S.suspend(() =>
+  S.Struct({
+    Id: S.String,
+    ObjectTypeName: S.String,
+    CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ActionType: S.String,
+    ProfileObjectUniqueKey: S.optional(S.String),
+    PerformedBy: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ProfileHistoryRecord",
+}) as any as S.Schema<ProfileHistoryRecord>;
+export type ProfileHistoryRecords = ProfileHistoryRecord[];
 export const ProfileHistoryRecords = S.Array(ProfileHistoryRecord);
-export class ListProfileObjectTypeItem extends S.Class<ListProfileObjectTypeItem>(
-  "ListProfileObjectTypeItem",
-)({
-  ObjectTypeName: S.String,
-  Description: S.String,
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  MaxProfileObjectCount: S.optional(S.Number),
-  MaxAvailableProfileObjectCount: S.optional(S.Number),
-  Tags: S.optional(TagMap),
-}) {}
+export interface ListProfileObjectTypeItem {
+  ObjectTypeName: string;
+  Description: string;
+  CreatedAt?: Date;
+  LastUpdatedAt?: Date;
+  MaxProfileObjectCount?: number;
+  MaxAvailableProfileObjectCount?: number;
+  Tags?: TagMap;
+}
+export const ListProfileObjectTypeItem = S.suspend(() =>
+  S.Struct({
+    ObjectTypeName: S.String,
+    Description: S.String,
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    MaxProfileObjectCount: S.optional(S.Number),
+    MaxAvailableProfileObjectCount: S.optional(S.Number),
+    Tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "ListProfileObjectTypeItem",
+}) as any as S.Schema<ListProfileObjectTypeItem>;
+export type ProfileObjectTypeList = ListProfileObjectTypeItem[];
 export const ProfileObjectTypeList = S.Array(ListProfileObjectTypeItem);
-export class ListProfileObjectTypeTemplateItem extends S.Class<ListProfileObjectTypeTemplateItem>(
-  "ListProfileObjectTypeTemplateItem",
-)({
-  TemplateId: S.optional(S.String),
-  SourceName: S.optional(S.String),
-  SourceObject: S.optional(S.String),
-}) {}
+export interface ListProfileObjectTypeTemplateItem {
+  TemplateId?: string;
+  SourceName?: string;
+  SourceObject?: string;
+}
+export const ListProfileObjectTypeTemplateItem = S.suspend(() =>
+  S.Struct({
+    TemplateId: S.optional(S.String),
+    SourceName: S.optional(S.String),
+    SourceObject: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListProfileObjectTypeTemplateItem",
+}) as any as S.Schema<ListProfileObjectTypeTemplateItem>;
+export type ProfileObjectTypeTemplateList = ListProfileObjectTypeTemplateItem[];
 export const ProfileObjectTypeTemplateList = S.Array(
   ListProfileObjectTypeTemplateItem,
 );
-export class RecommenderRecipe extends S.Class<RecommenderRecipe>(
-  "RecommenderRecipe",
-)({ name: S.optional(S.String), description: S.optional(S.String) }) {}
+export interface RecommenderRecipe {
+  name?: string;
+  description?: string;
+}
+export const RecommenderRecipe = S.suspend(() =>
+  S.Struct({ name: S.optional(S.String), description: S.optional(S.String) }),
+).annotations({
+  identifier: "RecommenderRecipe",
+}) as any as S.Schema<RecommenderRecipe>;
+export type RecommenderRecipesList = RecommenderRecipe[];
 export const RecommenderRecipesList = S.Array(RecommenderRecipe);
-export class RecommenderSummary extends S.Class<RecommenderSummary>(
-  "RecommenderSummary",
-)({
-  RecommenderName: S.optional(S.String),
-  RecipeName: S.optional(S.String),
-  RecommenderConfig: S.optional(RecommenderConfig),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Description: S.optional(S.String),
-  Status: S.optional(S.String),
-  LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Tags: S.optional(TagMap),
-  FailureReason: S.optional(S.String),
-  LatestRecommenderUpdate: S.optional(RecommenderUpdate),
-}) {}
+export interface RecommenderSummary {
+  RecommenderName?: string;
+  RecipeName?: string;
+  RecommenderConfig?: RecommenderConfig;
+  CreatedAt?: Date;
+  Description?: string;
+  Status?: string;
+  LastUpdatedAt?: Date;
+  Tags?: TagMap;
+  FailureReason?: string;
+  LatestRecommenderUpdate?: RecommenderUpdate;
+}
+export const RecommenderSummary = S.suspend(() =>
+  S.Struct({
+    RecommenderName: S.optional(S.String),
+    RecipeName: S.optional(S.String),
+    RecommenderConfig: S.optional(RecommenderConfig),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Description: S.optional(S.String),
+    Status: S.optional(S.String),
+    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Tags: S.optional(TagMap),
+    FailureReason: S.optional(S.String),
+    LatestRecommenderUpdate: S.optional(RecommenderUpdate),
+  }),
+).annotations({
+  identifier: "RecommenderSummary",
+}) as any as S.Schema<RecommenderSummary>;
+export type RecommenderSummaryList = RecommenderSummary[];
 export const RecommenderSummaryList = S.Array(RecommenderSummary);
-export class SegmentDefinitionItem extends S.Class<SegmentDefinitionItem>(
-  "SegmentDefinitionItem",
-)({
-  SegmentDefinitionName: S.optional(S.String).pipe(
-    T.JsonName("SegmentDefinitionName"),
-  ),
-  DisplayName: S.optional(S.String).pipe(T.JsonName("DisplayName")),
-  Description: S.optional(S.String).pipe(T.JsonName("Description")),
-  SegmentDefinitionArn: S.optional(S.String).pipe(
-    T.JsonName("SegmentDefinitionArn"),
-  ),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-    T.JsonName("CreatedAt"),
-  ),
-  Tags: S.optional(TagMap).pipe(T.JsonName("Tags")),
-  SegmentType: S.optional(S.String).pipe(T.JsonName("SegmentType")),
-}) {}
+export interface SegmentDefinitionItem {
+  SegmentDefinitionName?: string;
+  DisplayName?: string;
+  Description?: string;
+  SegmentDefinitionArn?: string;
+  CreatedAt?: Date;
+  Tags?: TagMap;
+  SegmentType?: string;
+}
+export const SegmentDefinitionItem = S.suspend(() =>
+  S.Struct({
+    SegmentDefinitionName: S.optional(S.String).pipe(
+      T.JsonName("SegmentDefinitionName"),
+    ),
+    DisplayName: S.optional(S.String).pipe(T.JsonName("DisplayName")),
+    Description: S.optional(S.String).pipe(T.JsonName("Description")),
+    SegmentDefinitionArn: S.optional(S.String).pipe(
+      T.JsonName("SegmentDefinitionArn"),
+    ),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+      T.JsonName("CreatedAt"),
+    ),
+    Tags: S.optional(TagMap).pipe(T.JsonName("Tags")),
+    SegmentType: S.optional(S.String).pipe(T.JsonName("SegmentType")),
+  }),
+).annotations({
+  identifier: "SegmentDefinitionItem",
+}) as any as S.Schema<SegmentDefinitionItem>;
+export type SegmentDefinitionsList = SegmentDefinitionItem[];
 export const SegmentDefinitionsList = S.Array(SegmentDefinitionItem);
-export class UploadJobItem extends S.Class<UploadJobItem>("UploadJobItem")({
-  JobId: S.optional(S.String).pipe(T.JsonName("JobId")),
-  DisplayName: S.optional(S.String).pipe(T.JsonName("DisplayName")),
-  Status: S.optional(S.String).pipe(T.JsonName("Status")),
-  StatusReason: S.optional(S.String).pipe(T.JsonName("StatusReason")),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-    T.JsonName("CreatedAt"),
-  ),
-  CompletedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-    T.JsonName("CompletedAt"),
-  ),
-  DataExpiry: S.optional(S.Number).pipe(T.JsonName("DataExpiry")),
-}) {}
+export interface UploadJobItem {
+  JobId?: string;
+  DisplayName?: string;
+  Status?: string;
+  StatusReason?: string;
+  CreatedAt?: Date;
+  CompletedAt?: Date;
+  DataExpiry?: number;
+}
+export const UploadJobItem = S.suspend(() =>
+  S.Struct({
+    JobId: S.optional(S.String).pipe(T.JsonName("JobId")),
+    DisplayName: S.optional(S.String).pipe(T.JsonName("DisplayName")),
+    Status: S.optional(S.String).pipe(T.JsonName("Status")),
+    StatusReason: S.optional(S.String).pipe(T.JsonName("StatusReason")),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+      T.JsonName("CreatedAt"),
+    ),
+    CompletedAt: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ).pipe(T.JsonName("CompletedAt")),
+    DataExpiry: S.optional(S.Number).pipe(T.JsonName("DataExpiry")),
+  }),
+).annotations({
+  identifier: "UploadJobItem",
+}) as any as S.Schema<UploadJobItem>;
+export type UploadJobsList = UploadJobItem[];
 export const UploadJobsList = S.Array(UploadJobItem);
-export class ListWorkflowsItem extends S.Class<ListWorkflowsItem>(
-  "ListWorkflowsItem",
-)({
-  WorkflowType: S.String,
-  WorkflowId: S.String,
-  Status: S.String,
-  StatusDescription: S.String,
-  CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  LastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-}) {}
+export interface ListWorkflowsItem {
+  WorkflowType: string;
+  WorkflowId: string;
+  Status: string;
+  StatusDescription: string;
+  CreatedAt: Date;
+  LastUpdatedAt: Date;
+}
+export const ListWorkflowsItem = S.suspend(() =>
+  S.Struct({
+    WorkflowType: S.String,
+    WorkflowId: S.String,
+    Status: S.String,
+    StatusDescription: S.String,
+    CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    LastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotations({
+  identifier: "ListWorkflowsItem",
+}) as any as S.Schema<ListWorkflowsItem>;
+export type WorkflowList = ListWorkflowsItem[];
 export const WorkflowList = S.Array(ListWorkflowsItem);
-export class FieldSourceProfileIds extends S.Class<FieldSourceProfileIds>(
-  "FieldSourceProfileIds",
-)({
-  AccountNumber: S.optional(S.String),
-  AdditionalInformation: S.optional(S.String),
-  PartyType: S.optional(S.String),
-  BusinessName: S.optional(S.String),
-  FirstName: S.optional(S.String),
-  MiddleName: S.optional(S.String),
-  LastName: S.optional(S.String),
-  BirthDate: S.optional(S.String),
-  Gender: S.optional(S.String),
-  PhoneNumber: S.optional(S.String),
-  MobilePhoneNumber: S.optional(S.String),
-  HomePhoneNumber: S.optional(S.String),
-  BusinessPhoneNumber: S.optional(S.String),
-  EmailAddress: S.optional(S.String),
-  PersonalEmailAddress: S.optional(S.String),
-  BusinessEmailAddress: S.optional(S.String),
-  Address: S.optional(S.String),
-  ShippingAddress: S.optional(S.String),
-  MailingAddress: S.optional(S.String),
-  BillingAddress: S.optional(S.String),
-  Attributes: S.optional(AttributeSourceIdMap),
-  ProfileType: S.optional(S.String),
-  EngagementPreferences: S.optional(S.String),
-}) {}
-export class Batch extends S.Class<Batch>("Batch")({
-  StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-}) {}
+export interface FieldSourceProfileIds {
+  AccountNumber?: string;
+  AdditionalInformation?: string;
+  PartyType?: string;
+  BusinessName?: string;
+  FirstName?: string;
+  MiddleName?: string;
+  LastName?: string;
+  BirthDate?: string;
+  Gender?: string;
+  PhoneNumber?: string;
+  MobilePhoneNumber?: string;
+  HomePhoneNumber?: string;
+  BusinessPhoneNumber?: string;
+  EmailAddress?: string;
+  PersonalEmailAddress?: string;
+  BusinessEmailAddress?: string;
+  Address?: string;
+  ShippingAddress?: string;
+  MailingAddress?: string;
+  BillingAddress?: string;
+  Attributes?: AttributeSourceIdMap;
+  ProfileType?: string;
+  EngagementPreferences?: string;
+}
+export const FieldSourceProfileIds = S.suspend(() =>
+  S.Struct({
+    AccountNumber: S.optional(S.String),
+    AdditionalInformation: S.optional(S.String),
+    PartyType: S.optional(S.String),
+    BusinessName: S.optional(S.String),
+    FirstName: S.optional(S.String),
+    MiddleName: S.optional(S.String),
+    LastName: S.optional(S.String),
+    BirthDate: S.optional(S.String),
+    Gender: S.optional(S.String),
+    PhoneNumber: S.optional(S.String),
+    MobilePhoneNumber: S.optional(S.String),
+    HomePhoneNumber: S.optional(S.String),
+    BusinessPhoneNumber: S.optional(S.String),
+    EmailAddress: S.optional(S.String),
+    PersonalEmailAddress: S.optional(S.String),
+    BusinessEmailAddress: S.optional(S.String),
+    Address: S.optional(S.String),
+    ShippingAddress: S.optional(S.String),
+    MailingAddress: S.optional(S.String),
+    BillingAddress: S.optional(S.String),
+    Attributes: S.optional(AttributeSourceIdMap),
+    ProfileType: S.optional(S.String),
+    EngagementPreferences: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "FieldSourceProfileIds",
+}) as any as S.Schema<FieldSourceProfileIds>;
+export interface Batch {
+  StartTime: Date;
+  EndTime: Date;
+}
+export const Batch = S.suspend(() =>
+  S.Struct({
+    StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotations({ identifier: "Batch" }) as any as S.Schema<Batch>;
+export type Batches = Batch[];
 export const Batches = S.Array(Batch);
-export class IncrementalPullConfig extends S.Class<IncrementalPullConfig>(
-  "IncrementalPullConfig",
-)({ DatetimeTypeFieldName: S.optional(S.String) }) {}
-export class ConnectorOperator extends S.Class<ConnectorOperator>(
-  "ConnectorOperator",
-)({
-  Marketo: S.optional(S.String),
-  S3: S.optional(S.String),
-  Salesforce: S.optional(S.String),
-  ServiceNow: S.optional(S.String),
-  Zendesk: S.optional(S.String),
-}) {}
+export interface IncrementalPullConfig {
+  DatetimeTypeFieldName?: string;
+}
+export const IncrementalPullConfig = S.suspend(() =>
+  S.Struct({ DatetimeTypeFieldName: S.optional(S.String) }),
+).annotations({
+  identifier: "IncrementalPullConfig",
+}) as any as S.Schema<IncrementalPullConfig>;
+export interface ConnectorOperator {
+  Marketo?: string;
+  S3?: string;
+  Salesforce?: string;
+  ServiceNow?: string;
+  Zendesk?: string;
+}
+export const ConnectorOperator = S.suspend(() =>
+  S.Struct({
+    Marketo: S.optional(S.String),
+    S3: S.optional(S.String),
+    Salesforce: S.optional(S.String),
+    ServiceNow: S.optional(S.String),
+    Zendesk: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ConnectorOperator",
+}) as any as S.Schema<ConnectorOperator>;
+export type TaskPropertiesMap = { [key: string]: string };
 export const TaskPropertiesMap = S.Record({ key: S.String, value: S.String });
-export class BatchGetCalculatedAttributeForProfileRequest extends S.Class<BatchGetCalculatedAttributeForProfileRequest>(
-  "BatchGetCalculatedAttributeForProfileRequest",
-)(
-  {
+export interface BatchGetCalculatedAttributeForProfileRequest {
+  CalculatedAttributeName: string;
+  DomainName: string;
+  ProfileIds: BatchGetCalculatedAttributeForProfileIdList;
+  ConditionOverrides?: ConditionOverrides;
+}
+export const BatchGetCalculatedAttributeForProfileRequest = S.suspend(() =>
+  S.Struct({
     CalculatedAttributeName: S.String.pipe(
       T.HttpLabel("CalculatedAttributeName"),
     ),
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     ProfileIds: BatchGetCalculatedAttributeForProfileIdList,
     ConditionOverrides: S.optional(ConditionOverrides),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/domains/{DomainName}/calculated-attributes/{CalculatedAttributeName}/batch-get-for-profiles",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/domains/{DomainName}/calculated-attributes/{CalculatedAttributeName}/batch-get-for-profiles",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateProfileRequest extends S.Class<CreateProfileRequest>(
-  "CreateProfileRequest",
-)(
-  {
+).annotations({
+  identifier: "BatchGetCalculatedAttributeForProfileRequest",
+}) as any as S.Schema<BatchGetCalculatedAttributeForProfileRequest>;
+export interface CreateProfileRequest {
+  DomainName: string;
+  AccountNumber?: string;
+  AdditionalInformation?: string;
+  PartyType?: string;
+  BusinessName?: string;
+  FirstName?: string;
+  MiddleName?: string;
+  LastName?: string;
+  BirthDate?: string;
+  Gender?: string;
+  PhoneNumber?: string;
+  MobilePhoneNumber?: string;
+  HomePhoneNumber?: string;
+  BusinessPhoneNumber?: string;
+  EmailAddress?: string;
+  PersonalEmailAddress?: string;
+  BusinessEmailAddress?: string;
+  Address?: Address;
+  ShippingAddress?: Address;
+  MailingAddress?: Address;
+  BillingAddress?: Address;
+  Attributes?: Attributes;
+  PartyTypeString?: string;
+  GenderString?: string;
+  ProfileType?: string;
+  EngagementPreferences?: EngagementPreferences;
+}
+export const CreateProfileRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     AccountNumber: S.optional(S.String),
     AdditionalInformation: S.optional(S.String),
@@ -3000,309 +4831,588 @@ export class CreateProfileRequest extends S.Class<CreateProfileRequest>(
     GenderString: S.optional(S.String),
     ProfileType: S.optional(S.String),
     EngagementPreferences: S.optional(EngagementPreferences),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/domains/{DomainName}/profiles" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/domains/{DomainName}/profiles" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateSegmentEstimateResponse extends S.Class<CreateSegmentEstimateResponse>(
-  "CreateSegmentEstimateResponse",
-)({
-  DomainName: S.optional(S.String),
-  EstimateId: S.optional(S.String),
-  StatusCode: S.optional(S.Number).pipe(T.HttpResponseCode()),
-}) {}
-export class CreateUploadJobRequest extends S.Class<CreateUploadJobRequest>(
-  "CreateUploadJobRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateProfileRequest",
+}) as any as S.Schema<CreateProfileRequest>;
+export interface CreateSegmentEstimateResponse {
+  DomainName?: string;
+  EstimateId?: string;
+  StatusCode?: number;
+}
+export const CreateSegmentEstimateResponse = S.suspend(() =>
+  S.Struct({
+    DomainName: S.optional(S.String),
+    EstimateId: S.optional(S.String),
+    StatusCode: S.optional(S.Number).pipe(T.HttpResponseCode()),
+  }),
+).annotations({
+  identifier: "CreateSegmentEstimateResponse",
+}) as any as S.Schema<CreateSegmentEstimateResponse>;
+export interface CreateUploadJobRequest {
+  DomainName: string;
+  DisplayName: string;
+  Fields: FieldMap;
+  UniqueKey: string;
+  DataExpiry?: number;
+}
+export const CreateUploadJobRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     DisplayName: S.String,
     Fields: FieldMap,
     UniqueKey: S.String,
     DataExpiry: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/domains/{DomainName}/upload-jobs" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/domains/{DomainName}/upload-jobs" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DetectProfileObjectTypeResponse extends S.Class<DetectProfileObjectTypeResponse>(
-  "DetectProfileObjectTypeResponse",
-)({ DetectedProfileObjectTypes: S.optional(DetectedProfileObjectTypes) }) {}
-export class GetAutoMergingPreviewResponse extends S.Class<GetAutoMergingPreviewResponse>(
-  "GetAutoMergingPreviewResponse",
-)({
-  DomainName: S.String,
-  NumberOfMatchesInSample: S.optional(S.Number),
-  NumberOfProfilesInSample: S.optional(S.Number),
-  NumberOfProfilesWillBeMerged: S.optional(S.Number),
-}) {}
+).annotations({
+  identifier: "CreateUploadJobRequest",
+}) as any as S.Schema<CreateUploadJobRequest>;
+export interface DetectProfileObjectTypeResponse {
+  DetectedProfileObjectTypes?: DetectedProfileObjectTypes;
+}
+export const DetectProfileObjectTypeResponse = S.suspend(() =>
+  S.Struct({
+    DetectedProfileObjectTypes: S.optional(DetectedProfileObjectTypes),
+  }),
+).annotations({
+  identifier: "DetectProfileObjectTypeResponse",
+}) as any as S.Schema<DetectProfileObjectTypeResponse>;
+export interface GetAutoMergingPreviewResponse {
+  DomainName: string;
+  NumberOfMatchesInSample?: number;
+  NumberOfProfilesInSample?: number;
+  NumberOfProfilesWillBeMerged?: number;
+}
+export const GetAutoMergingPreviewResponse = S.suspend(() =>
+  S.Struct({
+    DomainName: S.String,
+    NumberOfMatchesInSample: S.optional(S.Number),
+    NumberOfProfilesInSample: S.optional(S.Number),
+    NumberOfProfilesWillBeMerged: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "GetAutoMergingPreviewResponse",
+}) as any as S.Schema<GetAutoMergingPreviewResponse>;
+export type ValueList = string[];
 export const ValueList = S.Array(S.String);
-export class FilterAttributeDimension extends S.Class<FilterAttributeDimension>(
-  "FilterAttributeDimension",
-)({ DimensionType: S.String, Values: ValueList }) {}
+export interface FilterAttributeDimension {
+  DimensionType: string;
+  Values: ValueList;
+}
+export const FilterAttributeDimension = S.suspend(() =>
+  S.Struct({ DimensionType: S.String, Values: ValueList }),
+).annotations({
+  identifier: "FilterAttributeDimension",
+}) as any as S.Schema<FilterAttributeDimension>;
+export type AttributeMap = { [key: string]: FilterAttributeDimension };
 export const AttributeMap = S.Record({
   key: S.String,
   value: FilterAttributeDimension,
 });
-export class FilterDimension extends S.Class<FilterDimension>(
-  "FilterDimension",
-)({ Attributes: AttributeMap }) {}
+export interface FilterDimension {
+  Attributes: AttributeMap;
+}
+export const FilterDimension = S.suspend(() =>
+  S.Struct({ Attributes: AttributeMap }),
+).annotations({
+  identifier: "FilterDimension",
+}) as any as S.Schema<FilterDimension>;
+export type FilterDimensionList = FilterDimension[];
 export const FilterDimensionList = S.Array(FilterDimension);
-export class FilterGroup extends S.Class<FilterGroup>("FilterGroup")({
-  Type: S.String,
-  Dimensions: FilterDimensionList,
-}) {}
+export interface FilterGroup {
+  Type: string;
+  Dimensions: FilterDimensionList;
+}
+export const FilterGroup = S.suspend(() =>
+  S.Struct({ Type: S.String, Dimensions: FilterDimensionList }),
+).annotations({ identifier: "FilterGroup" }) as any as S.Schema<FilterGroup>;
+export type GroupList = FilterGroup[];
 export const GroupList = S.Array(FilterGroup);
-export class Filter extends S.Class<Filter>("Filter")({
-  Include: S.String,
-  Groups: GroupList,
-}) {}
-export class GetCalculatedAttributeDefinitionResponse extends S.Class<GetCalculatedAttributeDefinitionResponse>(
-  "GetCalculatedAttributeDefinitionResponse",
-)({
-  CalculatedAttributeName: S.optional(S.String),
-  DisplayName: S.optional(S.String),
-  Description: S.optional(S.String),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Statistic: S.optional(S.String),
-  Filter: S.optional(Filter),
-  Conditions: S.optional(Conditions),
-  AttributeDetails: S.optional(AttributeDetails),
-  UseHistoricalData: S.optional(S.Boolean),
-  Status: S.optional(S.String),
-  Readiness: S.optional(Readiness),
-  Tags: S.optional(TagMap),
-}) {}
-export class GetDomainResponse extends S.Class<GetDomainResponse>(
-  "GetDomainResponse",
-)({
-  DomainName: S.String,
-  DefaultExpirationDays: S.optional(S.Number),
-  DefaultEncryptionKey: S.optional(S.String),
-  DeadLetterQueueUrl: S.optional(S.String),
-  Stats: S.optional(DomainStats),
-  Matching: S.optional(MatchingResponse),
-  RuleBasedMatching: S.optional(RuleBasedMatchingResponse),
-  DataStore: S.optional(DataStoreResponse),
-  CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  LastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  Tags: S.optional(TagMap),
-}) {}
-export class GetEventStreamResponse extends S.Class<GetEventStreamResponse>(
-  "GetEventStreamResponse",
-)({
-  DomainName: S.String,
-  EventStreamArn: S.String,
-  CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  State: S.String,
-  StoppedSince: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  DestinationDetails: EventStreamDestinationDetails,
-  Tags: S.optional(TagMap),
-}) {}
-export class GetMatchesResponse extends S.Class<GetMatchesResponse>(
-  "GetMatchesResponse",
-)({
-  NextToken: S.optional(S.String),
-  MatchGenerationDate: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  PotentialMatches: S.optional(S.Number),
-  Matches: S.optional(MatchesList),
-}) {}
-export class GetSegmentMembershipResponse extends S.Class<GetSegmentMembershipResponse>(
-  "GetSegmentMembershipResponse",
-)({
-  SegmentDefinitionName: S.optional(S.String).pipe(
-    T.JsonName("SegmentDefinitionName"),
-  ),
-  Profiles: S.optional(Profiles).pipe(T.JsonName("Profiles")),
-  Failures: S.optional(Failures).pipe(T.JsonName("Failures")),
-  LastComputedAt: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ).pipe(T.JsonName("LastComputedAt")),
-}) {}
-export class GetUploadJobResponse extends S.Class<GetUploadJobResponse>(
-  "GetUploadJobResponse",
-)({
-  JobId: S.optional(S.String).pipe(T.JsonName("JobId")),
-  DisplayName: S.optional(S.String).pipe(T.JsonName("DisplayName")),
-  Status: S.optional(S.String).pipe(T.JsonName("Status")),
-  StatusReason: S.optional(S.String).pipe(T.JsonName("StatusReason")),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-    T.JsonName("CreatedAt"),
-  ),
-  CompletedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-    T.JsonName("CompletedAt"),
-  ),
-  Fields: S.optional(FieldMap).pipe(T.JsonName("Fields")),
-  UniqueKey: S.optional(S.String).pipe(T.JsonName("UniqueKey")),
-  ResultsSummary: S.optional(ResultsSummary).pipe(T.JsonName("ResultsSummary")),
-  DataExpiry: S.optional(S.Number).pipe(T.JsonName("DataExpiry")),
-}) {}
-export class ListAccountIntegrationsResponse extends S.Class<ListAccountIntegrationsResponse>(
-  "ListAccountIntegrationsResponse",
-)({ Items: S.optional(IntegrationList), NextToken: S.optional(S.String) }) {}
-export class ListCalculatedAttributeDefinitionsResponse extends S.Class<ListCalculatedAttributeDefinitionsResponse>(
-  "ListCalculatedAttributeDefinitionsResponse",
-)({
-  Items: S.optional(CalculatedAttributeDefinitionsList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListCalculatedAttributesForProfileResponse extends S.Class<ListCalculatedAttributesForProfileResponse>(
-  "ListCalculatedAttributesForProfileResponse",
-)({
-  Items: S.optional(CalculatedAttributesForProfileList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListDomainLayoutsResponse extends S.Class<ListDomainLayoutsResponse>(
-  "ListDomainLayoutsResponse",
-)({ Items: S.optional(LayoutList), NextToken: S.optional(S.String) }) {}
-export class ListDomainObjectTypesResponse extends S.Class<ListDomainObjectTypesResponse>(
-  "ListDomainObjectTypesResponse",
-)({
-  Items: S.optional(DomainObjectTypesList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListDomainsResponse extends S.Class<ListDomainsResponse>(
-  "ListDomainsResponse",
-)({ Items: S.optional(DomainList), NextToken: S.optional(S.String) }) {}
-export class ListEventTriggersResponse extends S.Class<ListEventTriggersResponse>(
-  "ListEventTriggersResponse",
-)({
-  Items: S.optional(EventTriggerSummaryList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListIdentityResolutionJobsResponse extends S.Class<ListIdentityResolutionJobsResponse>(
-  "ListIdentityResolutionJobsResponse",
-)({
-  IdentityResolutionJobsList: S.optional(IdentityResolutionJobsList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListObjectTypeAttributesResponse extends S.Class<ListObjectTypeAttributesResponse>(
-  "ListObjectTypeAttributesResponse",
-)({
-  Items: S.optional(ListObjectTypeAttributesList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListObjectTypeAttributeValuesResponse extends S.Class<ListObjectTypeAttributeValuesResponse>(
-  "ListObjectTypeAttributeValuesResponse",
-)({
-  Items: S.optional(ListObjectTypeAttributeValuesList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ProfileAttributeValuesResponse extends S.Class<ProfileAttributeValuesResponse>(
-  "ProfileAttributeValuesResponse",
-)({
-  DomainName: S.optional(S.String),
-  AttributeName: S.optional(S.String),
-  Items: S.optional(AttributeValueItemList),
-  StatusCode: S.optional(S.Number).pipe(T.HttpResponseCode()),
-}) {}
-export class ListProfileHistoryRecordsResponse extends S.Class<ListProfileHistoryRecordsResponse>(
-  "ListProfileHistoryRecordsResponse",
-)({
-  ProfileHistoryRecords: S.optional(ProfileHistoryRecords),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListProfileObjectTypesResponse extends S.Class<ListProfileObjectTypesResponse>(
-  "ListProfileObjectTypesResponse",
-)({
-  Items: S.optional(ProfileObjectTypeList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListProfileObjectTypeTemplatesResponse extends S.Class<ListProfileObjectTypeTemplatesResponse>(
-  "ListProfileObjectTypeTemplatesResponse",
-)({
-  Items: S.optional(ProfileObjectTypeTemplateList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListRecommenderRecipesResponse extends S.Class<ListRecommenderRecipesResponse>(
-  "ListRecommenderRecipesResponse",
-)({
-  NextToken: S.optional(S.String),
-  RecommenderRecipes: S.optional(RecommenderRecipesList),
-}) {}
-export class ListRecommendersResponse extends S.Class<ListRecommendersResponse>(
-  "ListRecommendersResponse",
-)({
-  NextToken: S.optional(S.String),
-  Recommenders: S.optional(RecommenderSummaryList),
-}) {}
-export class ListSegmentDefinitionsResponse extends S.Class<ListSegmentDefinitionsResponse>(
-  "ListSegmentDefinitionsResponse",
-)({
-  NextToken: S.optional(S.String).pipe(T.JsonName("NextToken")),
-  Items: S.optional(SegmentDefinitionsList).pipe(T.JsonName("Items")),
-}) {}
-export class ListUploadJobsResponse extends S.Class<ListUploadJobsResponse>(
-  "ListUploadJobsResponse",
-)({
-  NextToken: S.optional(S.String).pipe(T.JsonName("NextToken")),
-  Items: S.optional(UploadJobsList).pipe(T.JsonName("Items")),
-}) {}
-export class ListWorkflowsResponse extends S.Class<ListWorkflowsResponse>(
-  "ListWorkflowsResponse",
-)({ Items: S.optional(WorkflowList), NextToken: S.optional(S.String) }) {}
-export class MergeProfilesRequest extends S.Class<MergeProfilesRequest>(
-  "MergeProfilesRequest",
-)(
-  {
+export interface Filter {
+  Include: string;
+  Groups: GroupList;
+}
+export const Filter = S.suspend(() =>
+  S.Struct({ Include: S.String, Groups: GroupList }),
+).annotations({ identifier: "Filter" }) as any as S.Schema<Filter>;
+export interface GetCalculatedAttributeDefinitionResponse {
+  CalculatedAttributeName?: string;
+  DisplayName?: string;
+  Description?: string;
+  CreatedAt?: Date;
+  LastUpdatedAt?: Date;
+  Statistic?: string;
+  Filter?: Filter;
+  Conditions?: Conditions;
+  AttributeDetails?: AttributeDetails;
+  UseHistoricalData?: boolean;
+  Status?: string;
+  Readiness?: Readiness;
+  Tags?: TagMap;
+}
+export const GetCalculatedAttributeDefinitionResponse = S.suspend(() =>
+  S.Struct({
+    CalculatedAttributeName: S.optional(S.String),
+    DisplayName: S.optional(S.String),
+    Description: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Statistic: S.optional(S.String),
+    Filter: S.optional(Filter),
+    Conditions: S.optional(Conditions),
+    AttributeDetails: S.optional(AttributeDetails),
+    UseHistoricalData: S.optional(S.Boolean),
+    Status: S.optional(S.String),
+    Readiness: S.optional(Readiness),
+    Tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "GetCalculatedAttributeDefinitionResponse",
+}) as any as S.Schema<GetCalculatedAttributeDefinitionResponse>;
+export interface GetDomainResponse {
+  DomainName: string;
+  DefaultExpirationDays?: number;
+  DefaultEncryptionKey?: string;
+  DeadLetterQueueUrl?: string;
+  Stats?: DomainStats;
+  Matching?: MatchingResponse;
+  RuleBasedMatching?: RuleBasedMatchingResponse;
+  DataStore?: DataStoreResponse;
+  CreatedAt: Date;
+  LastUpdatedAt: Date;
+  Tags?: TagMap;
+}
+export const GetDomainResponse = S.suspend(() =>
+  S.Struct({
+    DomainName: S.String,
+    DefaultExpirationDays: S.optional(S.Number),
+    DefaultEncryptionKey: S.optional(S.String),
+    DeadLetterQueueUrl: S.optional(S.String),
+    Stats: S.optional(DomainStats),
+    Matching: S.optional(MatchingResponse),
+    RuleBasedMatching: S.optional(RuleBasedMatchingResponse),
+    DataStore: S.optional(DataStoreResponse),
+    CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    LastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    Tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "GetDomainResponse",
+}) as any as S.Schema<GetDomainResponse>;
+export interface GetEventStreamResponse {
+  DomainName: string;
+  EventStreamArn: string;
+  CreatedAt: Date;
+  State: string;
+  StoppedSince?: Date;
+  DestinationDetails: EventStreamDestinationDetails;
+  Tags?: TagMap;
+}
+export const GetEventStreamResponse = S.suspend(() =>
+  S.Struct({
+    DomainName: S.String,
+    EventStreamArn: S.String,
+    CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    State: S.String,
+    StoppedSince: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    DestinationDetails: EventStreamDestinationDetails,
+    Tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "GetEventStreamResponse",
+}) as any as S.Schema<GetEventStreamResponse>;
+export interface GetMatchesResponse {
+  NextToken?: string;
+  MatchGenerationDate?: Date;
+  PotentialMatches?: number;
+  Matches?: MatchesList;
+}
+export const GetMatchesResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    MatchGenerationDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    PotentialMatches: S.optional(S.Number),
+    Matches: S.optional(MatchesList),
+  }),
+).annotations({
+  identifier: "GetMatchesResponse",
+}) as any as S.Schema<GetMatchesResponse>;
+export interface GetSegmentMembershipResponse {
+  SegmentDefinitionName?: string;
+  Profiles?: Profiles;
+  Failures?: Failures;
+  LastComputedAt?: Date;
+}
+export const GetSegmentMembershipResponse = S.suspend(() =>
+  S.Struct({
+    SegmentDefinitionName: S.optional(S.String).pipe(
+      T.JsonName("SegmentDefinitionName"),
+    ),
+    Profiles: S.optional(Profiles).pipe(T.JsonName("Profiles")),
+    Failures: S.optional(Failures).pipe(T.JsonName("Failures")),
+    LastComputedAt: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ).pipe(T.JsonName("LastComputedAt")),
+  }),
+).annotations({
+  identifier: "GetSegmentMembershipResponse",
+}) as any as S.Schema<GetSegmentMembershipResponse>;
+export interface GetUploadJobResponse {
+  JobId?: string;
+  DisplayName?: string;
+  Status?: string;
+  StatusReason?: string;
+  CreatedAt?: Date;
+  CompletedAt?: Date;
+  Fields?: FieldMap;
+  UniqueKey?: string;
+  ResultsSummary?: ResultsSummary;
+  DataExpiry?: number;
+}
+export const GetUploadJobResponse = S.suspend(() =>
+  S.Struct({
+    JobId: S.optional(S.String).pipe(T.JsonName("JobId")),
+    DisplayName: S.optional(S.String).pipe(T.JsonName("DisplayName")),
+    Status: S.optional(S.String).pipe(T.JsonName("Status")),
+    StatusReason: S.optional(S.String).pipe(T.JsonName("StatusReason")),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+      T.JsonName("CreatedAt"),
+    ),
+    CompletedAt: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ).pipe(T.JsonName("CompletedAt")),
+    Fields: S.optional(FieldMap).pipe(T.JsonName("Fields")),
+    UniqueKey: S.optional(S.String).pipe(T.JsonName("UniqueKey")),
+    ResultsSummary: S.optional(ResultsSummary)
+      .pipe(T.JsonName("ResultsSummary"))
+      .annotations({ identifier: "ResultsSummary" }),
+    DataExpiry: S.optional(S.Number).pipe(T.JsonName("DataExpiry")),
+  }),
+).annotations({
+  identifier: "GetUploadJobResponse",
+}) as any as S.Schema<GetUploadJobResponse>;
+export interface ListAccountIntegrationsResponse {
+  Items?: IntegrationList;
+  NextToken?: string;
+}
+export const ListAccountIntegrationsResponse = S.suspend(() =>
+  S.Struct({
+    Items: S.optional(IntegrationList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListAccountIntegrationsResponse",
+}) as any as S.Schema<ListAccountIntegrationsResponse>;
+export interface ListCalculatedAttributeDefinitionsResponse {
+  Items?: CalculatedAttributeDefinitionsList;
+  NextToken?: string;
+}
+export const ListCalculatedAttributeDefinitionsResponse = S.suspend(() =>
+  S.Struct({
+    Items: S.optional(CalculatedAttributeDefinitionsList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListCalculatedAttributeDefinitionsResponse",
+}) as any as S.Schema<ListCalculatedAttributeDefinitionsResponse>;
+export interface ListCalculatedAttributesForProfileResponse {
+  Items?: CalculatedAttributesForProfileList;
+  NextToken?: string;
+}
+export const ListCalculatedAttributesForProfileResponse = S.suspend(() =>
+  S.Struct({
+    Items: S.optional(CalculatedAttributesForProfileList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListCalculatedAttributesForProfileResponse",
+}) as any as S.Schema<ListCalculatedAttributesForProfileResponse>;
+export interface ListDomainLayoutsResponse {
+  Items?: LayoutList;
+  NextToken?: string;
+}
+export const ListDomainLayoutsResponse = S.suspend(() =>
+  S.Struct({ Items: S.optional(LayoutList), NextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListDomainLayoutsResponse",
+}) as any as S.Schema<ListDomainLayoutsResponse>;
+export interface ListDomainObjectTypesResponse {
+  Items?: DomainObjectTypesList;
+  NextToken?: string;
+}
+export const ListDomainObjectTypesResponse = S.suspend(() =>
+  S.Struct({
+    Items: S.optional(DomainObjectTypesList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListDomainObjectTypesResponse",
+}) as any as S.Schema<ListDomainObjectTypesResponse>;
+export interface ListDomainsResponse {
+  Items?: DomainList;
+  NextToken?: string;
+}
+export const ListDomainsResponse = S.suspend(() =>
+  S.Struct({ Items: S.optional(DomainList), NextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListDomainsResponse",
+}) as any as S.Schema<ListDomainsResponse>;
+export interface ListEventTriggersResponse {
+  Items?: EventTriggerSummaryList;
+  NextToken?: string;
+}
+export const ListEventTriggersResponse = S.suspend(() =>
+  S.Struct({
+    Items: S.optional(EventTriggerSummaryList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListEventTriggersResponse",
+}) as any as S.Schema<ListEventTriggersResponse>;
+export interface ListIdentityResolutionJobsResponse {
+  IdentityResolutionJobsList?: IdentityResolutionJobsList;
+  NextToken?: string;
+}
+export const ListIdentityResolutionJobsResponse = S.suspend(() =>
+  S.Struct({
+    IdentityResolutionJobsList: S.optional(IdentityResolutionJobsList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListIdentityResolutionJobsResponse",
+}) as any as S.Schema<ListIdentityResolutionJobsResponse>;
+export interface ListObjectTypeAttributesResponse {
+  Items?: ListObjectTypeAttributesList;
+  NextToken?: string;
+}
+export const ListObjectTypeAttributesResponse = S.suspend(() =>
+  S.Struct({
+    Items: S.optional(ListObjectTypeAttributesList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListObjectTypeAttributesResponse",
+}) as any as S.Schema<ListObjectTypeAttributesResponse>;
+export interface ListObjectTypeAttributeValuesResponse {
+  Items?: ListObjectTypeAttributeValuesList;
+  NextToken?: string;
+}
+export const ListObjectTypeAttributeValuesResponse = S.suspend(() =>
+  S.Struct({
+    Items: S.optional(ListObjectTypeAttributeValuesList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListObjectTypeAttributeValuesResponse",
+}) as any as S.Schema<ListObjectTypeAttributeValuesResponse>;
+export interface ProfileAttributeValuesResponse {
+  DomainName?: string;
+  AttributeName?: string;
+  Items?: AttributeValueItemList;
+  StatusCode?: number;
+}
+export const ProfileAttributeValuesResponse = S.suspend(() =>
+  S.Struct({
+    DomainName: S.optional(S.String),
+    AttributeName: S.optional(S.String),
+    Items: S.optional(AttributeValueItemList),
+    StatusCode: S.optional(S.Number).pipe(T.HttpResponseCode()),
+  }),
+).annotations({
+  identifier: "ProfileAttributeValuesResponse",
+}) as any as S.Schema<ProfileAttributeValuesResponse>;
+export interface ListProfileHistoryRecordsResponse {
+  ProfileHistoryRecords?: ProfileHistoryRecords;
+  NextToken?: string;
+}
+export const ListProfileHistoryRecordsResponse = S.suspend(() =>
+  S.Struct({
+    ProfileHistoryRecords: S.optional(ProfileHistoryRecords),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListProfileHistoryRecordsResponse",
+}) as any as S.Schema<ListProfileHistoryRecordsResponse>;
+export interface ListProfileObjectTypesResponse {
+  Items?: ProfileObjectTypeList;
+  NextToken?: string;
+}
+export const ListProfileObjectTypesResponse = S.suspend(() =>
+  S.Struct({
+    Items: S.optional(ProfileObjectTypeList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListProfileObjectTypesResponse",
+}) as any as S.Schema<ListProfileObjectTypesResponse>;
+export interface ListProfileObjectTypeTemplatesResponse {
+  Items?: ProfileObjectTypeTemplateList;
+  NextToken?: string;
+}
+export const ListProfileObjectTypeTemplatesResponse = S.suspend(() =>
+  S.Struct({
+    Items: S.optional(ProfileObjectTypeTemplateList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListProfileObjectTypeTemplatesResponse",
+}) as any as S.Schema<ListProfileObjectTypeTemplatesResponse>;
+export interface ListRecommenderRecipesResponse {
+  NextToken?: string;
+  RecommenderRecipes?: RecommenderRecipesList;
+}
+export const ListRecommenderRecipesResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    RecommenderRecipes: S.optional(RecommenderRecipesList),
+  }),
+).annotations({
+  identifier: "ListRecommenderRecipesResponse",
+}) as any as S.Schema<ListRecommenderRecipesResponse>;
+export interface ListRecommendersResponse {
+  NextToken?: string;
+  Recommenders?: RecommenderSummaryList;
+}
+export const ListRecommendersResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    Recommenders: S.optional(RecommenderSummaryList),
+  }),
+).annotations({
+  identifier: "ListRecommendersResponse",
+}) as any as S.Schema<ListRecommendersResponse>;
+export interface ListSegmentDefinitionsResponse {
+  NextToken?: string;
+  Items?: SegmentDefinitionsList;
+}
+export const ListSegmentDefinitionsResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String).pipe(T.JsonName("NextToken")),
+    Items: S.optional(SegmentDefinitionsList).pipe(T.JsonName("Items")),
+  }),
+).annotations({
+  identifier: "ListSegmentDefinitionsResponse",
+}) as any as S.Schema<ListSegmentDefinitionsResponse>;
+export interface ListUploadJobsResponse {
+  NextToken?: string;
+  Items?: UploadJobsList;
+}
+export const ListUploadJobsResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String).pipe(T.JsonName("NextToken")),
+    Items: S.optional(UploadJobsList).pipe(T.JsonName("Items")),
+  }),
+).annotations({
+  identifier: "ListUploadJobsResponse",
+}) as any as S.Schema<ListUploadJobsResponse>;
+export interface ListWorkflowsResponse {
+  Items?: WorkflowList;
+  NextToken?: string;
+}
+export const ListWorkflowsResponse = S.suspend(() =>
+  S.Struct({
+    Items: S.optional(WorkflowList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListWorkflowsResponse",
+}) as any as S.Schema<ListWorkflowsResponse>;
+export interface MergeProfilesRequest {
+  DomainName: string;
+  MainProfileId: string;
+  ProfileIdsToBeMerged: ProfileIdToBeMergedList;
+  FieldSourceProfileIds?: FieldSourceProfileIds;
+}
+export const MergeProfilesRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     MainProfileId: S.String,
     ProfileIdsToBeMerged: ProfileIdToBeMergedList,
     FieldSourceProfileIds: S.optional(FieldSourceProfileIds),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/domains/{DomainName}/profiles/objects/merge",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/domains/{DomainName}/profiles/objects/merge",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutDomainObjectTypeRequest extends S.Class<PutDomainObjectTypeRequest>(
-  "PutDomainObjectTypeRequest",
-)(
-  {
+).annotations({
+  identifier: "MergeProfilesRequest",
+}) as any as S.Schema<MergeProfilesRequest>;
+export interface PutDomainObjectTypeRequest {
+  DomainName: string;
+  ObjectTypeName: string;
+  Description?: string;
+  EncryptionKey?: string;
+  Fields: DomainObjectTypeFields;
+  Tags?: TagMap;
+}
+export const PutDomainObjectTypeRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     ObjectTypeName: S.String.pipe(T.HttpLabel("ObjectTypeName")),
     Description: S.optional(S.String),
     EncryptionKey: S.optional(S.String),
     Fields: DomainObjectTypeFields,
     Tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/domains/{DomainName}/domain-object-types/{ObjectTypeName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/domains/{DomainName}/domain-object-types/{ObjectTypeName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutProfileObjectTypeRequest extends S.Class<PutProfileObjectTypeRequest>(
-  "PutProfileObjectTypeRequest",
-)(
-  {
+).annotations({
+  identifier: "PutDomainObjectTypeRequest",
+}) as any as S.Schema<PutDomainObjectTypeRequest>;
+export interface PutProfileObjectTypeRequest {
+  DomainName: string;
+  ObjectTypeName: string;
+  Description: string;
+  TemplateId?: string;
+  ExpirationDays?: number;
+  EncryptionKey?: string;
+  AllowProfileCreation?: boolean;
+  SourceLastUpdatedTimestampFormat?: string;
+  MaxProfileObjectCount?: number;
+  Fields?: FieldMap;
+  Keys?: KeyMap;
+  Tags?: TagMap;
+}
+export const PutProfileObjectTypeRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     ObjectTypeName: S.String.pipe(T.HttpLabel("ObjectTypeName")),
     Description: S.String,
@@ -3315,205 +5425,437 @@ export class PutProfileObjectTypeRequest extends S.Class<PutProfileObjectTypeReq
     Fields: S.optional(FieldMap),
     Keys: S.optional(KeyMap),
     Tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/domains/{DomainName}/object-types/{ObjectTypeName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/domains/{DomainName}/object-types/{ObjectTypeName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "PutProfileObjectTypeRequest",
+}) as any as S.Schema<PutProfileObjectTypeRequest>;
+export type ProfileList = Profile[];
 export const ProfileList = S.Array(Profile);
-export class SearchProfilesResponse extends S.Class<SearchProfilesResponse>(
-  "SearchProfilesResponse",
-)({ Items: S.optional(ProfileList), NextToken: S.optional(S.String) }) {}
-export class UpdateProfileResponse extends S.Class<UpdateProfileResponse>(
-  "UpdateProfileResponse",
-)({ ProfileId: S.String }) {}
-export class MarketoSourceProperties extends S.Class<MarketoSourceProperties>(
-  "MarketoSourceProperties",
-)({ Object: S.String }) {}
-export class S3SourceProperties extends S.Class<S3SourceProperties>(
-  "S3SourceProperties",
-)({ BucketName: S.String, BucketPrefix: S.optional(S.String) }) {}
-export class SalesforceSourceProperties extends S.Class<SalesforceSourceProperties>(
-  "SalesforceSourceProperties",
-)({
-  Object: S.String,
-  EnableDynamicFieldUpdate: S.optional(S.Boolean),
-  IncludeDeletedRecords: S.optional(S.Boolean),
-}) {}
-export class ServiceNowSourceProperties extends S.Class<ServiceNowSourceProperties>(
-  "ServiceNowSourceProperties",
-)({ Object: S.String }) {}
-export class ZendeskSourceProperties extends S.Class<ZendeskSourceProperties>(
-  "ZendeskSourceProperties",
-)({ Object: S.String }) {}
-export class SourceConnectorProperties extends S.Class<SourceConnectorProperties>(
-  "SourceConnectorProperties",
-)({
-  Marketo: S.optional(MarketoSourceProperties),
-  S3: S.optional(S3SourceProperties),
-  Salesforce: S.optional(SalesforceSourceProperties),
-  ServiceNow: S.optional(ServiceNowSourceProperties),
-  Zendesk: S.optional(ZendeskSourceProperties),
-}) {}
-export class SourceFlowConfig extends S.Class<SourceFlowConfig>(
-  "SourceFlowConfig",
-)({
-  ConnectorProfileName: S.optional(S.String),
-  ConnectorType: S.String,
-  IncrementalPullConfig: S.optional(IncrementalPullConfig),
-  SourceConnectorProperties: SourceConnectorProperties,
-}) {}
-export class Task extends S.Class<Task>("Task")({
-  ConnectorOperator: S.optional(ConnectorOperator),
-  DestinationField: S.optional(S.String),
-  SourceFields: SourceFields,
-  TaskProperties: S.optional(TaskPropertiesMap),
-  TaskType: S.String,
-}) {}
+export interface SearchProfilesResponse {
+  Items?: ProfileList;
+  NextToken?: string;
+}
+export const SearchProfilesResponse = S.suspend(() =>
+  S.Struct({ Items: S.optional(ProfileList), NextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "SearchProfilesResponse",
+}) as any as S.Schema<SearchProfilesResponse>;
+export interface UpdateProfileResponse {
+  ProfileId: string;
+}
+export const UpdateProfileResponse = S.suspend(() =>
+  S.Struct({ ProfileId: S.String }),
+).annotations({
+  identifier: "UpdateProfileResponse",
+}) as any as S.Schema<UpdateProfileResponse>;
+export interface MarketoSourceProperties {
+  Object: string;
+}
+export const MarketoSourceProperties = S.suspend(() =>
+  S.Struct({ Object: S.String }),
+).annotations({
+  identifier: "MarketoSourceProperties",
+}) as any as S.Schema<MarketoSourceProperties>;
+export interface S3SourceProperties {
+  BucketName: string;
+  BucketPrefix?: string;
+}
+export const S3SourceProperties = S.suspend(() =>
+  S.Struct({ BucketName: S.String, BucketPrefix: S.optional(S.String) }),
+).annotations({
+  identifier: "S3SourceProperties",
+}) as any as S.Schema<S3SourceProperties>;
+export interface SalesforceSourceProperties {
+  Object: string;
+  EnableDynamicFieldUpdate?: boolean;
+  IncludeDeletedRecords?: boolean;
+}
+export const SalesforceSourceProperties = S.suspend(() =>
+  S.Struct({
+    Object: S.String,
+    EnableDynamicFieldUpdate: S.optional(S.Boolean),
+    IncludeDeletedRecords: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "SalesforceSourceProperties",
+}) as any as S.Schema<SalesforceSourceProperties>;
+export interface ServiceNowSourceProperties {
+  Object: string;
+}
+export const ServiceNowSourceProperties = S.suspend(() =>
+  S.Struct({ Object: S.String }),
+).annotations({
+  identifier: "ServiceNowSourceProperties",
+}) as any as S.Schema<ServiceNowSourceProperties>;
+export interface ZendeskSourceProperties {
+  Object: string;
+}
+export const ZendeskSourceProperties = S.suspend(() =>
+  S.Struct({ Object: S.String }),
+).annotations({
+  identifier: "ZendeskSourceProperties",
+}) as any as S.Schema<ZendeskSourceProperties>;
+export interface SourceConnectorProperties {
+  Marketo?: MarketoSourceProperties;
+  S3?: S3SourceProperties;
+  Salesforce?: SalesforceSourceProperties;
+  ServiceNow?: ServiceNowSourceProperties;
+  Zendesk?: ZendeskSourceProperties;
+}
+export const SourceConnectorProperties = S.suspend(() =>
+  S.Struct({
+    Marketo: S.optional(MarketoSourceProperties),
+    S3: S.optional(S3SourceProperties),
+    Salesforce: S.optional(SalesforceSourceProperties),
+    ServiceNow: S.optional(ServiceNowSourceProperties),
+    Zendesk: S.optional(ZendeskSourceProperties),
+  }),
+).annotations({
+  identifier: "SourceConnectorProperties",
+}) as any as S.Schema<SourceConnectorProperties>;
+export interface SourceFlowConfig {
+  ConnectorProfileName?: string;
+  ConnectorType: string;
+  IncrementalPullConfig?: IncrementalPullConfig;
+  SourceConnectorProperties: SourceConnectorProperties;
+}
+export const SourceFlowConfig = S.suspend(() =>
+  S.Struct({
+    ConnectorProfileName: S.optional(S.String),
+    ConnectorType: S.String,
+    IncrementalPullConfig: S.optional(IncrementalPullConfig),
+    SourceConnectorProperties: SourceConnectorProperties,
+  }),
+).annotations({
+  identifier: "SourceFlowConfig",
+}) as any as S.Schema<SourceFlowConfig>;
+export interface Task {
+  ConnectorOperator?: ConnectorOperator;
+  DestinationField?: string;
+  SourceFields: SourceFields;
+  TaskProperties?: TaskPropertiesMap;
+  TaskType: string;
+}
+export const Task = S.suspend(() =>
+  S.Struct({
+    ConnectorOperator: S.optional(ConnectorOperator),
+    DestinationField: S.optional(S.String),
+    SourceFields: SourceFields,
+    TaskProperties: S.optional(TaskPropertiesMap),
+    TaskType: S.String,
+  }),
+).annotations({ identifier: "Task" }) as any as S.Schema<Task>;
+export type Tasks = Task[];
 export const Tasks = S.Array(Task);
-export class ScheduledTriggerProperties extends S.Class<ScheduledTriggerProperties>(
-  "ScheduledTriggerProperties",
-)({
-  ScheduleExpression: S.String,
-  DataPullMode: S.optional(S.String),
-  ScheduleStartTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  ScheduleEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Timezone: S.optional(S.String),
-  ScheduleOffset: S.optional(S.Number),
-  FirstExecutionFrom: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
-export class TriggerProperties extends S.Class<TriggerProperties>(
-  "TriggerProperties",
-)({ Scheduled: S.optional(ScheduledTriggerProperties) }) {}
-export class TriggerConfig extends S.Class<TriggerConfig>("TriggerConfig")({
-  TriggerType: S.String,
-  TriggerProperties: S.optional(TriggerProperties),
-}) {}
-export class FlowDefinition extends S.Class<FlowDefinition>("FlowDefinition")({
-  Description: S.optional(S.String),
-  FlowName: S.String,
-  KmsArn: S.String,
-  SourceFlowConfig: SourceFlowConfig,
-  Tasks: Tasks,
-  TriggerConfig: TriggerConfig,
-}) {}
-export class AppflowIntegration extends S.Class<AppflowIntegration>(
-  "AppflowIntegration",
-)({ FlowDefinition: FlowDefinition, Batches: S.optional(Batches) }) {}
-export class GetObjectTypeAttributeStatisticsPercentiles extends S.Class<GetObjectTypeAttributeStatisticsPercentiles>(
-  "GetObjectTypeAttributeStatisticsPercentiles",
-)({
-  P5: S.Number,
-  P25: S.Number,
-  P50: S.Number,
-  P75: S.Number,
-  P95: S.Number,
-}) {}
+export interface ScheduledTriggerProperties {
+  ScheduleExpression: string;
+  DataPullMode?: string;
+  ScheduleStartTime?: Date;
+  ScheduleEndTime?: Date;
+  Timezone?: string;
+  ScheduleOffset?: number;
+  FirstExecutionFrom?: Date;
+}
+export const ScheduledTriggerProperties = S.suspend(() =>
+  S.Struct({
+    ScheduleExpression: S.String,
+    DataPullMode: S.optional(S.String),
+    ScheduleStartTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    ScheduleEndTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    Timezone: S.optional(S.String),
+    ScheduleOffset: S.optional(S.Number),
+    FirstExecutionFrom: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "ScheduledTriggerProperties",
+}) as any as S.Schema<ScheduledTriggerProperties>;
+export interface TriggerProperties {
+  Scheduled?: ScheduledTriggerProperties;
+}
+export const TriggerProperties = S.suspend(() =>
+  S.Struct({ Scheduled: S.optional(ScheduledTriggerProperties) }),
+).annotations({
+  identifier: "TriggerProperties",
+}) as any as S.Schema<TriggerProperties>;
+export interface TriggerConfig {
+  TriggerType: string;
+  TriggerProperties?: TriggerProperties;
+}
+export const TriggerConfig = S.suspend(() =>
+  S.Struct({
+    TriggerType: S.String,
+    TriggerProperties: S.optional(TriggerProperties),
+  }),
+).annotations({
+  identifier: "TriggerConfig",
+}) as any as S.Schema<TriggerConfig>;
+export interface FlowDefinition {
+  Description?: string;
+  FlowName: string;
+  KmsArn: string;
+  SourceFlowConfig: SourceFlowConfig;
+  Tasks: Tasks;
+  TriggerConfig: TriggerConfig;
+}
+export const FlowDefinition = S.suspend(() =>
+  S.Struct({
+    Description: S.optional(S.String),
+    FlowName: S.String,
+    KmsArn: S.String,
+    SourceFlowConfig: SourceFlowConfig,
+    Tasks: Tasks,
+    TriggerConfig: TriggerConfig,
+  }),
+).annotations({
+  identifier: "FlowDefinition",
+}) as any as S.Schema<FlowDefinition>;
+export interface AppflowIntegration {
+  FlowDefinition: FlowDefinition;
+  Batches?: Batches;
+}
+export const AppflowIntegration = S.suspend(() =>
+  S.Struct({ FlowDefinition: FlowDefinition, Batches: S.optional(Batches) }),
+).annotations({
+  identifier: "AppflowIntegration",
+}) as any as S.Schema<AppflowIntegration>;
+export interface GetObjectTypeAttributeStatisticsPercentiles {
+  P5: number;
+  P25: number;
+  P50: number;
+  P75: number;
+  P95: number;
+}
+export const GetObjectTypeAttributeStatisticsPercentiles = S.suspend(() =>
+  S.Struct({
+    P5: S.Number,
+    P25: S.Number,
+    P50: S.Number,
+    P75: S.Number,
+    P95: S.Number,
+  }),
+).annotations({
+  identifier: "GetObjectTypeAttributeStatisticsPercentiles",
+}) as any as S.Schema<GetObjectTypeAttributeStatisticsPercentiles>;
+export type Metrics = { [key: string]: number };
 export const Metrics = S.Record({ key: S.String, value: S.Number });
-export class AppflowIntegrationWorkflowAttributes extends S.Class<AppflowIntegrationWorkflowAttributes>(
-  "AppflowIntegrationWorkflowAttributes",
-)({
-  SourceConnectorType: S.String,
-  ConnectorProfileName: S.String,
-  RoleArn: S.optional(S.String),
-}) {}
-export class AppflowIntegrationWorkflowMetrics extends S.Class<AppflowIntegrationWorkflowMetrics>(
-  "AppflowIntegrationWorkflowMetrics",
-)({
-  RecordsProcessed: S.Number,
-  StepsCompleted: S.Number,
-  TotalSteps: S.Number,
-}) {}
-export class AppflowIntegrationWorkflowStep extends S.Class<AppflowIntegrationWorkflowStep>(
-  "AppflowIntegrationWorkflowStep",
-)({
-  FlowName: S.String,
-  Status: S.String,
-  ExecutionMessage: S.String,
-  RecordsProcessed: S.Number,
-  BatchRecordsStartTime: S.String,
-  BatchRecordsEndTime: S.String,
-  CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  LastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-}) {}
-export class DestinationSummary extends S.Class<DestinationSummary>(
-  "DestinationSummary",
-)({
-  Uri: S.String,
-  Status: S.String,
-  UnhealthySince: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class IntegrationConfig extends S.Class<IntegrationConfig>(
-  "IntegrationConfig",
-)({ AppflowIntegration: S.optional(AppflowIntegration) }) {}
-export class GetObjectTypeAttributeStatisticsStats extends S.Class<GetObjectTypeAttributeStatisticsStats>(
-  "GetObjectTypeAttributeStatisticsStats",
-)({
-  Maximum: S.Number,
-  Minimum: S.Number,
-  Average: S.Number,
-  StandardDeviation: S.Number,
-  Percentiles: GetObjectTypeAttributeStatisticsPercentiles,
-}) {}
-export class TrainingMetrics extends S.Class<TrainingMetrics>(
-  "TrainingMetrics",
-)({
-  Time: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Metrics: S.optional(Metrics),
-}) {}
+export interface AppflowIntegrationWorkflowAttributes {
+  SourceConnectorType: string;
+  ConnectorProfileName: string;
+  RoleArn?: string;
+}
+export const AppflowIntegrationWorkflowAttributes = S.suspend(() =>
+  S.Struct({
+    SourceConnectorType: S.String,
+    ConnectorProfileName: S.String,
+    RoleArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AppflowIntegrationWorkflowAttributes",
+}) as any as S.Schema<AppflowIntegrationWorkflowAttributes>;
+export interface AppflowIntegrationWorkflowMetrics {
+  RecordsProcessed: number;
+  StepsCompleted: number;
+  TotalSteps: number;
+}
+export const AppflowIntegrationWorkflowMetrics = S.suspend(() =>
+  S.Struct({
+    RecordsProcessed: S.Number,
+    StepsCompleted: S.Number,
+    TotalSteps: S.Number,
+  }),
+).annotations({
+  identifier: "AppflowIntegrationWorkflowMetrics",
+}) as any as S.Schema<AppflowIntegrationWorkflowMetrics>;
+export interface AppflowIntegrationWorkflowStep {
+  FlowName: string;
+  Status: string;
+  ExecutionMessage: string;
+  RecordsProcessed: number;
+  BatchRecordsStartTime: string;
+  BatchRecordsEndTime: string;
+  CreatedAt: Date;
+  LastUpdatedAt: Date;
+}
+export const AppflowIntegrationWorkflowStep = S.suspend(() =>
+  S.Struct({
+    FlowName: S.String,
+    Status: S.String,
+    ExecutionMessage: S.String,
+    RecordsProcessed: S.Number,
+    BatchRecordsStartTime: S.String,
+    BatchRecordsEndTime: S.String,
+    CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    LastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotations({
+  identifier: "AppflowIntegrationWorkflowStep",
+}) as any as S.Schema<AppflowIntegrationWorkflowStep>;
+export interface DestinationSummary {
+  Uri: string;
+  Status: string;
+  UnhealthySince?: Date;
+}
+export const DestinationSummary = S.suspend(() =>
+  S.Struct({
+    Uri: S.String,
+    Status: S.String,
+    UnhealthySince: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "DestinationSummary",
+}) as any as S.Schema<DestinationSummary>;
+export interface IntegrationConfig {
+  AppflowIntegration?: AppflowIntegration;
+}
+export const IntegrationConfig = S.suspend(() =>
+  S.Struct({ AppflowIntegration: S.optional(AppflowIntegration) }),
+).annotations({
+  identifier: "IntegrationConfig",
+}) as any as S.Schema<IntegrationConfig>;
+export interface GetObjectTypeAttributeStatisticsStats {
+  Maximum: number;
+  Minimum: number;
+  Average: number;
+  StandardDeviation: number;
+  Percentiles: GetObjectTypeAttributeStatisticsPercentiles;
+}
+export const GetObjectTypeAttributeStatisticsStats = S.suspend(() =>
+  S.Struct({
+    Maximum: S.Number,
+    Minimum: S.Number,
+    Average: S.Number,
+    StandardDeviation: S.Number,
+    Percentiles: GetObjectTypeAttributeStatisticsPercentiles,
+  }),
+).annotations({
+  identifier: "GetObjectTypeAttributeStatisticsStats",
+}) as any as S.Schema<GetObjectTypeAttributeStatisticsStats>;
+export interface TrainingMetrics {
+  Time?: Date;
+  Metrics?: Metrics;
+}
+export const TrainingMetrics = S.suspend(() =>
+  S.Struct({
+    Time: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Metrics: S.optional(Metrics),
+  }),
+).annotations({
+  identifier: "TrainingMetrics",
+}) as any as S.Schema<TrainingMetrics>;
+export type TrainingMetricsList = TrainingMetrics[];
 export const TrainingMetricsList = S.Array(TrainingMetrics);
-export class WorkflowAttributes extends S.Class<WorkflowAttributes>(
-  "WorkflowAttributes",
-)({ AppflowIntegration: S.optional(AppflowIntegrationWorkflowAttributes) }) {}
-export class WorkflowMetrics extends S.Class<WorkflowMetrics>(
-  "WorkflowMetrics",
-)({ AppflowIntegration: S.optional(AppflowIntegrationWorkflowMetrics) }) {}
-export class WorkflowStepItem extends S.Class<WorkflowStepItem>(
-  "WorkflowStepItem",
-)({ AppflowIntegration: S.optional(AppflowIntegrationWorkflowStep) }) {}
+export interface WorkflowAttributes {
+  AppflowIntegration?: AppflowIntegrationWorkflowAttributes;
+}
+export const WorkflowAttributes = S.suspend(() =>
+  S.Struct({
+    AppflowIntegration: S.optional(AppflowIntegrationWorkflowAttributes),
+  }),
+).annotations({
+  identifier: "WorkflowAttributes",
+}) as any as S.Schema<WorkflowAttributes>;
+export interface WorkflowMetrics {
+  AppflowIntegration?: AppflowIntegrationWorkflowMetrics;
+}
+export const WorkflowMetrics = S.suspend(() =>
+  S.Struct({
+    AppflowIntegration: S.optional(AppflowIntegrationWorkflowMetrics),
+  }),
+).annotations({
+  identifier: "WorkflowMetrics",
+}) as any as S.Schema<WorkflowMetrics>;
+export interface WorkflowStepItem {
+  AppflowIntegration?: AppflowIntegrationWorkflowStep;
+}
+export const WorkflowStepItem = S.suspend(() =>
+  S.Struct({ AppflowIntegration: S.optional(AppflowIntegrationWorkflowStep) }),
+).annotations({
+  identifier: "WorkflowStepItem",
+}) as any as S.Schema<WorkflowStepItem>;
+export type WorkflowStepsList = WorkflowStepItem[];
 export const WorkflowStepsList = S.Array(WorkflowStepItem);
-export class EventStreamSummary extends S.Class<EventStreamSummary>(
-  "EventStreamSummary",
-)({
-  DomainName: S.String,
-  EventStreamName: S.String,
-  EventStreamArn: S.String,
-  State: S.String,
-  StoppedSince: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  DestinationSummary: S.optional(DestinationSummary),
-  Tags: S.optional(TagMap),
-}) {}
+export interface EventStreamSummary {
+  DomainName: string;
+  EventStreamName: string;
+  EventStreamArn: string;
+  State: string;
+  StoppedSince?: Date;
+  DestinationSummary?: DestinationSummary;
+  Tags?: TagMap;
+}
+export const EventStreamSummary = S.suspend(() =>
+  S.Struct({
+    DomainName: S.String,
+    EventStreamName: S.String,
+    EventStreamArn: S.String,
+    State: S.String,
+    StoppedSince: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    DestinationSummary: S.optional(DestinationSummary),
+    Tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "EventStreamSummary",
+}) as any as S.Schema<EventStreamSummary>;
+export type EventStreamSummaryList = EventStreamSummary[];
 export const EventStreamSummaryList = S.Array(EventStreamSummary);
-export class ListProfileObjectsItem extends S.Class<ListProfileObjectsItem>(
-  "ListProfileObjectsItem",
-)({
-  ObjectTypeName: S.optional(S.String),
-  ProfileObjectUniqueKey: S.optional(S.String),
-  Object: S.optional(S.String),
-}) {}
+export interface ListProfileObjectsItem {
+  ObjectTypeName?: string;
+  ProfileObjectUniqueKey?: string;
+  Object?: string;
+}
+export const ListProfileObjectsItem = S.suspend(() =>
+  S.Struct({
+    ObjectTypeName: S.optional(S.String),
+    ProfileObjectUniqueKey: S.optional(S.String),
+    Object: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListProfileObjectsItem",
+}) as any as S.Schema<ListProfileObjectsItem>;
+export type ProfileObjectList = ListProfileObjectsItem[];
 export const ProfileObjectList = S.Array(ListProfileObjectsItem);
-export class BatchGetProfileResponse extends S.Class<BatchGetProfileResponse>(
-  "BatchGetProfileResponse",
-)({
-  Errors: S.optional(BatchGetProfileErrorList),
-  Profiles: S.optional(ProfileList),
-}) {}
-export class CreateDomainRequest extends S.Class<CreateDomainRequest>(
-  "CreateDomainRequest",
-)(
-  {
+export interface BatchGetProfileResponse {
+  Errors?: BatchGetProfileErrorList;
+  Profiles?: ProfileList;
+}
+export const BatchGetProfileResponse = S.suspend(() =>
+  S.Struct({
+    Errors: S.optional(BatchGetProfileErrorList),
+    Profiles: S.optional(ProfileList),
+  }),
+).annotations({
+  identifier: "BatchGetProfileResponse",
+}) as any as S.Schema<BatchGetProfileResponse>;
+export interface CreateDomainRequest {
+  DomainName: string;
+  DefaultExpirationDays: number;
+  DefaultEncryptionKey?: string;
+  DeadLetterQueueUrl?: string;
+  Matching?: MatchingRequest;
+  RuleBasedMatching?: RuleBasedMatchingRequest;
+  DataStore?: DataStoreRequest;
+  Tags?: TagMap;
+}
+export const CreateDomainRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     DefaultExpirationDays: S.Number,
     DefaultEncryptionKey: S.optional(S.String),
@@ -3522,20 +5864,31 @@ export class CreateDomainRequest extends S.Class<CreateDomainRequest>(
     RuleBasedMatching: S.optional(RuleBasedMatchingRequest),
     DataStore: S.optional(DataStoreRequest),
     Tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/domains/{DomainName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/domains/{DomainName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateEventTriggerRequest extends S.Class<CreateEventTriggerRequest>(
-  "CreateEventTriggerRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateDomainRequest",
+}) as any as S.Schema<CreateDomainRequest>;
+export interface CreateEventTriggerRequest {
+  DomainName: string;
+  EventTriggerName: string;
+  ObjectTypeName: string;
+  Description?: string;
+  EventTriggerConditions: EventTriggerConditions;
+  SegmentFilter?: string;
+  EventTriggerLimits?: EventTriggerLimits;
+  Tags?: TagMap;
+}
+export const CreateEventTriggerRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     EventTriggerName: S.String.pipe(T.HttpLabel("EventTriggerName")),
     ObjectTypeName: S.String,
@@ -3544,256 +5897,498 @@ export class CreateEventTriggerRequest extends S.Class<CreateEventTriggerRequest
     SegmentFilter: S.optional(S.String),
     EventTriggerLimits: S.optional(EventTriggerLimits),
     Tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/domains/{DomainName}/event-triggers/{EventTriggerName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/domains/{DomainName}/event-triggers/{EventTriggerName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateIntegrationWorkflowRequest extends S.Class<CreateIntegrationWorkflowRequest>(
-  "CreateIntegrationWorkflowRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateEventTriggerRequest",
+}) as any as S.Schema<CreateEventTriggerRequest>;
+export interface CreateIntegrationWorkflowRequest {
+  DomainName: string;
+  WorkflowType: string;
+  IntegrationConfig: IntegrationConfig;
+  ObjectTypeName: string;
+  RoleArn: string;
+  Tags?: TagMap;
+}
+export const CreateIntegrationWorkflowRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     WorkflowType: S.String,
     IntegrationConfig: IntegrationConfig,
     ObjectTypeName: S.String,
     RoleArn: S.String,
     Tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/domains/{DomainName}/workflows/integrations",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/domains/{DomainName}/workflows/integrations",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateProfileResponse extends S.Class<CreateProfileResponse>(
-  "CreateProfileResponse",
-)({ ProfileId: S.String }) {}
-export class CreateRecommenderRequest extends S.Class<CreateRecommenderRequest>(
-  "CreateRecommenderRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateIntegrationWorkflowRequest",
+}) as any as S.Schema<CreateIntegrationWorkflowRequest>;
+export interface CreateProfileResponse {
+  ProfileId: string;
+}
+export const CreateProfileResponse = S.suspend(() =>
+  S.Struct({ ProfileId: S.String }),
+).annotations({
+  identifier: "CreateProfileResponse",
+}) as any as S.Schema<CreateProfileResponse>;
+export interface CreateRecommenderRequest {
+  DomainName: string;
+  RecommenderName: string;
+  RecommenderRecipeName: string;
+  RecommenderConfig?: RecommenderConfig;
+  Description?: string;
+  Tags?: TagMap;
+}
+export const CreateRecommenderRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     RecommenderName: S.String.pipe(T.HttpLabel("RecommenderName")),
     RecommenderRecipeName: S.String,
     RecommenderConfig: S.optional(RecommenderConfig),
     Description: S.optional(S.String),
     Tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/domains/{DomainName}/recommenders/{RecommenderName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/domains/{DomainName}/recommenders/{RecommenderName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateUploadJobResponse extends S.Class<CreateUploadJobResponse>(
-  "CreateUploadJobResponse",
-)({ JobId: S.String.pipe(T.JsonName("JobId")) }) {}
-export class GetIdentityResolutionJobResponse extends S.Class<GetIdentityResolutionJobResponse>(
-  "GetIdentityResolutionJobResponse",
-)({
-  DomainName: S.optional(S.String),
-  JobId: S.optional(S.String),
-  Status: S.optional(S.String),
-  Message: S.optional(S.String),
-  JobStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  JobEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  JobExpirationTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  AutoMerging: S.optional(AutoMerging),
-  ExportingLocation: S.optional(ExportingLocation),
-  JobStats: S.optional(JobStats),
-}) {}
-export class GetObjectTypeAttributeStatisticsResponse extends S.Class<GetObjectTypeAttributeStatisticsResponse>(
-  "GetObjectTypeAttributeStatisticsResponse",
-)({
-  Statistics: GetObjectTypeAttributeStatisticsStats,
-  CalculatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-}) {}
-export class GetRecommenderResponse extends S.Class<GetRecommenderResponse>(
-  "GetRecommenderResponse",
-)({
-  RecommenderName: S.String,
-  RecommenderRecipeName: S.String,
-  RecommenderConfig: S.optional(RecommenderConfig),
-  Description: S.optional(S.String),
-  Status: S.optional(S.String),
-  LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  FailureReason: S.optional(S.String),
-  LatestRecommenderUpdate: S.optional(RecommenderUpdate),
-  TrainingMetrics: S.optional(TrainingMetricsList),
-  Tags: S.optional(TagMap),
-}) {}
-export class GetWorkflowResponse extends S.Class<GetWorkflowResponse>(
-  "GetWorkflowResponse",
-)({
-  WorkflowId: S.optional(S.String),
-  WorkflowType: S.optional(S.String),
-  Status: S.optional(S.String),
-  ErrorDescription: S.optional(S.String),
-  StartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Attributes: S.optional(WorkflowAttributes),
-  Metrics: S.optional(WorkflowMetrics),
-}) {}
-export class GetWorkflowStepsResponse extends S.Class<GetWorkflowStepsResponse>(
-  "GetWorkflowStepsResponse",
-)({
-  WorkflowId: S.optional(S.String),
-  WorkflowType: S.optional(S.String),
-  Items: S.optional(WorkflowStepsList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListEventStreamsResponse extends S.Class<ListEventStreamsResponse>(
-  "ListEventStreamsResponse",
-)({
-  Items: S.optional(EventStreamSummaryList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListProfileObjectsResponse extends S.Class<ListProfileObjectsResponse>(
-  "ListProfileObjectsResponse",
-)({ Items: S.optional(ProfileObjectList), NextToken: S.optional(S.String) }) {}
-export class MergeProfilesResponse extends S.Class<MergeProfilesResponse>(
-  "MergeProfilesResponse",
-)({ Message: S.optional(S.String) }) {}
-export class PutDomainObjectTypeResponse extends S.Class<PutDomainObjectTypeResponse>(
-  "PutDomainObjectTypeResponse",
-)({
-  ObjectTypeName: S.optional(S.String),
-  Description: S.optional(S.String),
-  EncryptionKey: S.optional(S.String),
-  Fields: S.optional(DomainObjectTypeFields),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Tags: S.optional(TagMap),
-}) {}
-export class PutProfileObjectTypeResponse extends S.Class<PutProfileObjectTypeResponse>(
-  "PutProfileObjectTypeResponse",
-)({
-  ObjectTypeName: S.String,
-  Description: S.String,
-  TemplateId: S.optional(S.String),
-  ExpirationDays: S.optional(S.Number),
-  EncryptionKey: S.optional(S.String),
-  AllowProfileCreation: S.optional(S.Boolean),
-  SourceLastUpdatedTimestampFormat: S.optional(S.String),
-  MaxProfileObjectCount: S.optional(S.Number),
-  MaxAvailableProfileObjectCount: S.optional(S.Number),
-  Fields: S.optional(FieldMap),
-  Keys: S.optional(KeyMap),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Tags: S.optional(TagMap),
-}) {}
-export class CatalogItem extends S.Class<CatalogItem>("CatalogItem")({
-  Id: S.optional(S.String),
-  Name: S.optional(S.String),
-  Code: S.optional(S.String),
-  Type: S.optional(S.String),
-  Category: S.optional(S.String),
-  Description: S.optional(S.String),
-  AdditionalInformation: S.optional(S.String),
-  ImageLink: S.optional(S.String),
-  Link: S.optional(S.String),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Price: S.optional(S.String),
-  Attributes: S.optional(Attributes),
-}) {}
-export class BatchGetCalculatedAttributeForProfileError extends S.Class<BatchGetCalculatedAttributeForProfileError>(
-  "BatchGetCalculatedAttributeForProfileError",
-)({ Code: S.String, Message: S.String, ProfileId: S.String }) {}
+).annotations({
+  identifier: "CreateRecommenderRequest",
+}) as any as S.Schema<CreateRecommenderRequest>;
+export interface CreateUploadJobResponse {
+  JobId: string;
+}
+export const CreateUploadJobResponse = S.suspend(() =>
+  S.Struct({ JobId: S.String.pipe(T.JsonName("JobId")) }),
+).annotations({
+  identifier: "CreateUploadJobResponse",
+}) as any as S.Schema<CreateUploadJobResponse>;
+export interface GetIdentityResolutionJobResponse {
+  DomainName?: string;
+  JobId?: string;
+  Status?: string;
+  Message?: string;
+  JobStartTime?: Date;
+  JobEndTime?: Date;
+  LastUpdatedAt?: Date;
+  JobExpirationTime?: Date;
+  AutoMerging?: AutoMerging;
+  ExportingLocation?: ExportingLocation;
+  JobStats?: JobStats;
+}
+export const GetIdentityResolutionJobResponse = S.suspend(() =>
+  S.Struct({
+    DomainName: S.optional(S.String),
+    JobId: S.optional(S.String),
+    Status: S.optional(S.String),
+    Message: S.optional(S.String),
+    JobStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    JobEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    JobExpirationTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    AutoMerging: S.optional(AutoMerging),
+    ExportingLocation: S.optional(ExportingLocation),
+    JobStats: S.optional(JobStats),
+  }),
+).annotations({
+  identifier: "GetIdentityResolutionJobResponse",
+}) as any as S.Schema<GetIdentityResolutionJobResponse>;
+export interface GetObjectTypeAttributeStatisticsResponse {
+  Statistics: GetObjectTypeAttributeStatisticsStats;
+  CalculatedAt: Date;
+}
+export const GetObjectTypeAttributeStatisticsResponse = S.suspend(() =>
+  S.Struct({
+    Statistics: GetObjectTypeAttributeStatisticsStats,
+    CalculatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotations({
+  identifier: "GetObjectTypeAttributeStatisticsResponse",
+}) as any as S.Schema<GetObjectTypeAttributeStatisticsResponse>;
+export interface GetRecommenderResponse {
+  RecommenderName: string;
+  RecommenderRecipeName: string;
+  RecommenderConfig?: RecommenderConfig;
+  Description?: string;
+  Status?: string;
+  LastUpdatedAt?: Date;
+  CreatedAt?: Date;
+  FailureReason?: string;
+  LatestRecommenderUpdate?: RecommenderUpdate;
+  TrainingMetrics?: TrainingMetricsList;
+  Tags?: TagMap;
+}
+export const GetRecommenderResponse = S.suspend(() =>
+  S.Struct({
+    RecommenderName: S.String,
+    RecommenderRecipeName: S.String,
+    RecommenderConfig: S.optional(RecommenderConfig),
+    Description: S.optional(S.String),
+    Status: S.optional(S.String),
+    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    FailureReason: S.optional(S.String),
+    LatestRecommenderUpdate: S.optional(RecommenderUpdate),
+    TrainingMetrics: S.optional(TrainingMetricsList),
+    Tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "GetRecommenderResponse",
+}) as any as S.Schema<GetRecommenderResponse>;
+export interface GetWorkflowResponse {
+  WorkflowId?: string;
+  WorkflowType?: string;
+  Status?: string;
+  ErrorDescription?: string;
+  StartDate?: Date;
+  LastUpdatedAt?: Date;
+  Attributes?: WorkflowAttributes;
+  Metrics?: WorkflowMetrics;
+}
+export const GetWorkflowResponse = S.suspend(() =>
+  S.Struct({
+    WorkflowId: S.optional(S.String),
+    WorkflowType: S.optional(S.String),
+    Status: S.optional(S.String),
+    ErrorDescription: S.optional(S.String),
+    StartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Attributes: S.optional(WorkflowAttributes),
+    Metrics: S.optional(WorkflowMetrics),
+  }),
+).annotations({
+  identifier: "GetWorkflowResponse",
+}) as any as S.Schema<GetWorkflowResponse>;
+export interface GetWorkflowStepsResponse {
+  WorkflowId?: string;
+  WorkflowType?: string;
+  Items?: WorkflowStepsList;
+  NextToken?: string;
+}
+export const GetWorkflowStepsResponse = S.suspend(() =>
+  S.Struct({
+    WorkflowId: S.optional(S.String),
+    WorkflowType: S.optional(S.String),
+    Items: S.optional(WorkflowStepsList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetWorkflowStepsResponse",
+}) as any as S.Schema<GetWorkflowStepsResponse>;
+export interface ListEventStreamsResponse {
+  Items?: EventStreamSummaryList;
+  NextToken?: string;
+}
+export const ListEventStreamsResponse = S.suspend(() =>
+  S.Struct({
+    Items: S.optional(EventStreamSummaryList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListEventStreamsResponse",
+}) as any as S.Schema<ListEventStreamsResponse>;
+export interface ListProfileObjectsResponse {
+  Items?: ProfileObjectList;
+  NextToken?: string;
+}
+export const ListProfileObjectsResponse = S.suspend(() =>
+  S.Struct({
+    Items: S.optional(ProfileObjectList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListProfileObjectsResponse",
+}) as any as S.Schema<ListProfileObjectsResponse>;
+export interface MergeProfilesResponse {
+  Message?: string;
+}
+export const MergeProfilesResponse = S.suspend(() =>
+  S.Struct({ Message: S.optional(S.String) }),
+).annotations({
+  identifier: "MergeProfilesResponse",
+}) as any as S.Schema<MergeProfilesResponse>;
+export interface PutDomainObjectTypeResponse {
+  ObjectTypeName?: string;
+  Description?: string;
+  EncryptionKey?: string;
+  Fields?: DomainObjectTypeFields;
+  CreatedAt?: Date;
+  LastUpdatedAt?: Date;
+  Tags?: TagMap;
+}
+export const PutDomainObjectTypeResponse = S.suspend(() =>
+  S.Struct({
+    ObjectTypeName: S.optional(S.String),
+    Description: S.optional(S.String),
+    EncryptionKey: S.optional(S.String),
+    Fields: S.optional(DomainObjectTypeFields),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "PutDomainObjectTypeResponse",
+}) as any as S.Schema<PutDomainObjectTypeResponse>;
+export interface PutProfileObjectTypeResponse {
+  ObjectTypeName: string;
+  Description: string;
+  TemplateId?: string;
+  ExpirationDays?: number;
+  EncryptionKey?: string;
+  AllowProfileCreation?: boolean;
+  SourceLastUpdatedTimestampFormat?: string;
+  MaxProfileObjectCount?: number;
+  MaxAvailableProfileObjectCount?: number;
+  Fields?: FieldMap;
+  Keys?: KeyMap;
+  CreatedAt?: Date;
+  LastUpdatedAt?: Date;
+  Tags?: TagMap;
+}
+export const PutProfileObjectTypeResponse = S.suspend(() =>
+  S.Struct({
+    ObjectTypeName: S.String,
+    Description: S.String,
+    TemplateId: S.optional(S.String),
+    ExpirationDays: S.optional(S.Number),
+    EncryptionKey: S.optional(S.String),
+    AllowProfileCreation: S.optional(S.Boolean),
+    SourceLastUpdatedTimestampFormat: S.optional(S.String),
+    MaxProfileObjectCount: S.optional(S.Number),
+    MaxAvailableProfileObjectCount: S.optional(S.Number),
+    Fields: S.optional(FieldMap),
+    Keys: S.optional(KeyMap),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "PutProfileObjectTypeResponse",
+}) as any as S.Schema<PutProfileObjectTypeResponse>;
+export interface CatalogItem {
+  Id?: string;
+  Name?: string;
+  Code?: string;
+  Type?: string;
+  Category?: string;
+  Description?: string;
+  AdditionalInformation?: string;
+  ImageLink?: string;
+  Link?: string;
+  CreatedAt?: Date;
+  UpdatedAt?: Date;
+  Price?: string;
+  Attributes?: Attributes;
+}
+export const CatalogItem = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Name: S.optional(S.String),
+    Code: S.optional(S.String),
+    Type: S.optional(S.String),
+    Category: S.optional(S.String),
+    Description: S.optional(S.String),
+    AdditionalInformation: S.optional(S.String),
+    ImageLink: S.optional(S.String),
+    Link: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Price: S.optional(S.String),
+    Attributes: S.optional(Attributes),
+  }),
+).annotations({ identifier: "CatalogItem" }) as any as S.Schema<CatalogItem>;
+export interface BatchGetCalculatedAttributeForProfileError {
+  Code: string;
+  Message: string;
+  ProfileId: string;
+}
+export const BatchGetCalculatedAttributeForProfileError = S.suspend(() =>
+  S.Struct({ Code: S.String, Message: S.String, ProfileId: S.String }),
+).annotations({
+  identifier: "BatchGetCalculatedAttributeForProfileError",
+}) as any as S.Schema<BatchGetCalculatedAttributeForProfileError>;
+export type BatchGetCalculatedAttributeForProfileErrorList =
+  BatchGetCalculatedAttributeForProfileError[];
 export const BatchGetCalculatedAttributeForProfileErrorList = S.Array(
   BatchGetCalculatedAttributeForProfileError,
 );
-export class CalculatedAttributeValue extends S.Class<CalculatedAttributeValue>(
-  "CalculatedAttributeValue",
-)({
-  CalculatedAttributeName: S.optional(S.String),
-  DisplayName: S.optional(S.String),
-  IsDataPartial: S.optional(S.String),
-  ProfileId: S.optional(S.String),
-  Value: S.optional(S.String),
-  LastObjectTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
+export interface CalculatedAttributeValue {
+  CalculatedAttributeName?: string;
+  DisplayName?: string;
+  IsDataPartial?: string;
+  ProfileId?: string;
+  Value?: string;
+  LastObjectTimestamp?: Date;
+}
+export const CalculatedAttributeValue = S.suspend(() =>
+  S.Struct({
+    CalculatedAttributeName: S.optional(S.String),
+    DisplayName: S.optional(S.String),
+    IsDataPartial: S.optional(S.String),
+    ProfileId: S.optional(S.String),
+    Value: S.optional(S.String),
+    LastObjectTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "CalculatedAttributeValue",
+}) as any as S.Schema<CalculatedAttributeValue>;
+export type CalculatedAttributeValueList = CalculatedAttributeValue[];
 export const CalculatedAttributeValueList = S.Array(CalculatedAttributeValue);
-export class Recommendation extends S.Class<Recommendation>("Recommendation")({
-  CatalogItem: S.optional(CatalogItem),
-  Score: S.optional(S.Number),
-}) {}
+export interface Recommendation {
+  CatalogItem?: CatalogItem;
+  Score?: number;
+}
+export const Recommendation = S.suspend(() =>
+  S.Struct({
+    CatalogItem: S.optional(CatalogItem),
+    Score: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "Recommendation",
+}) as any as S.Schema<Recommendation>;
+export type Recommendations = Recommendation[];
 export const Recommendations = S.Array(Recommendation);
-export class BatchGetCalculatedAttributeForProfileResponse extends S.Class<BatchGetCalculatedAttributeForProfileResponse>(
-  "BatchGetCalculatedAttributeForProfileResponse",
-)({
-  Errors: S.optional(BatchGetCalculatedAttributeForProfileErrorList),
-  CalculatedAttributeValues: S.optional(CalculatedAttributeValueList),
-  ConditionOverrides: S.optional(ConditionOverrides),
-}) {}
-export class CreateDomainResponse extends S.Class<CreateDomainResponse>(
-  "CreateDomainResponse",
-)({
-  DomainName: S.String,
-  DefaultExpirationDays: S.Number,
-  DefaultEncryptionKey: S.optional(S.String),
-  DeadLetterQueueUrl: S.optional(S.String),
-  Matching: S.optional(MatchingResponse),
-  RuleBasedMatching: S.optional(RuleBasedMatchingResponse),
-  DataStore: S.optional(DataStoreResponse),
-  CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  LastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  Tags: S.optional(TagMap),
-}) {}
-export class CreateEventTriggerResponse extends S.Class<CreateEventTriggerResponse>(
-  "CreateEventTriggerResponse",
-)({
-  EventTriggerName: S.optional(S.String),
-  ObjectTypeName: S.optional(S.String),
-  Description: S.optional(S.String),
-  EventTriggerConditions: S.optional(EventTriggerConditions),
-  SegmentFilter: S.optional(S.String),
-  EventTriggerLimits: S.optional(EventTriggerLimits),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Tags: S.optional(TagMap),
-}) {}
-export class CreateIntegrationWorkflowResponse extends S.Class<CreateIntegrationWorkflowResponse>(
-  "CreateIntegrationWorkflowResponse",
-)({ WorkflowId: S.String, Message: S.String }) {}
-export class CreateRecommenderResponse extends S.Class<CreateRecommenderResponse>(
-  "CreateRecommenderResponse",
-)({ RecommenderArn: S.String, Tags: S.optional(TagMap) }) {}
-export class GetProfileRecommendationsResponse extends S.Class<GetProfileRecommendationsResponse>(
-  "GetProfileRecommendationsResponse",
-)({ Recommendations: S.optional(Recommendations) }) {}
-export class PutIntegrationRequest extends S.Class<PutIntegrationRequest>(
-  "PutIntegrationRequest",
-)(
-  {
+export interface BatchGetCalculatedAttributeForProfileResponse {
+  Errors?: BatchGetCalculatedAttributeForProfileErrorList;
+  CalculatedAttributeValues?: CalculatedAttributeValueList;
+  ConditionOverrides?: ConditionOverrides;
+}
+export const BatchGetCalculatedAttributeForProfileResponse = S.suspend(() =>
+  S.Struct({
+    Errors: S.optional(BatchGetCalculatedAttributeForProfileErrorList),
+    CalculatedAttributeValues: S.optional(CalculatedAttributeValueList),
+    ConditionOverrides: S.optional(ConditionOverrides),
+  }),
+).annotations({
+  identifier: "BatchGetCalculatedAttributeForProfileResponse",
+}) as any as S.Schema<BatchGetCalculatedAttributeForProfileResponse>;
+export interface CreateDomainResponse {
+  DomainName: string;
+  DefaultExpirationDays: number;
+  DefaultEncryptionKey?: string;
+  DeadLetterQueueUrl?: string;
+  Matching?: MatchingResponse;
+  RuleBasedMatching?: RuleBasedMatchingResponse;
+  DataStore?: DataStoreResponse;
+  CreatedAt: Date;
+  LastUpdatedAt: Date;
+  Tags?: TagMap;
+}
+export const CreateDomainResponse = S.suspend(() =>
+  S.Struct({
+    DomainName: S.String,
+    DefaultExpirationDays: S.Number,
+    DefaultEncryptionKey: S.optional(S.String),
+    DeadLetterQueueUrl: S.optional(S.String),
+    Matching: S.optional(MatchingResponse),
+    RuleBasedMatching: S.optional(RuleBasedMatchingResponse),
+    DataStore: S.optional(DataStoreResponse),
+    CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    LastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    Tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "CreateDomainResponse",
+}) as any as S.Schema<CreateDomainResponse>;
+export interface CreateEventTriggerResponse {
+  EventTriggerName?: string;
+  ObjectTypeName?: string;
+  Description?: string;
+  EventTriggerConditions?: EventTriggerConditions;
+  SegmentFilter?: string;
+  EventTriggerLimits?: EventTriggerLimits;
+  CreatedAt?: Date;
+  LastUpdatedAt?: Date;
+  Tags?: TagMap;
+}
+export const CreateEventTriggerResponse = S.suspend(() =>
+  S.Struct({
+    EventTriggerName: S.optional(S.String),
+    ObjectTypeName: S.optional(S.String),
+    Description: S.optional(S.String),
+    EventTriggerConditions: S.optional(EventTriggerConditions),
+    SegmentFilter: S.optional(S.String),
+    EventTriggerLimits: S.optional(EventTriggerLimits),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "CreateEventTriggerResponse",
+}) as any as S.Schema<CreateEventTriggerResponse>;
+export interface CreateIntegrationWorkflowResponse {
+  WorkflowId: string;
+  Message: string;
+}
+export const CreateIntegrationWorkflowResponse = S.suspend(() =>
+  S.Struct({ WorkflowId: S.String, Message: S.String }),
+).annotations({
+  identifier: "CreateIntegrationWorkflowResponse",
+}) as any as S.Schema<CreateIntegrationWorkflowResponse>;
+export interface CreateRecommenderResponse {
+  RecommenderArn: string;
+  Tags?: TagMap;
+}
+export const CreateRecommenderResponse = S.suspend(() =>
+  S.Struct({ RecommenderArn: S.String, Tags: S.optional(TagMap) }),
+).annotations({
+  identifier: "CreateRecommenderResponse",
+}) as any as S.Schema<CreateRecommenderResponse>;
+export interface GetProfileRecommendationsResponse {
+  Recommendations?: Recommendations;
+}
+export const GetProfileRecommendationsResponse = S.suspend(() =>
+  S.Struct({ Recommendations: S.optional(Recommendations) }),
+).annotations({
+  identifier: "GetProfileRecommendationsResponse",
+}) as any as S.Schema<GetProfileRecommendationsResponse>;
+export interface PutIntegrationRequest {
+  DomainName: string;
+  Uri?: string;
+  ObjectTypeName?: string;
+  ObjectTypeNames?: ObjectTypeNames;
+  Tags?: TagMap;
+  FlowDefinition?: FlowDefinition;
+  RoleArn?: string;
+  EventTriggerNames?: EventTriggerNames;
+  Scope?: string;
+}
+export const PutIntegrationRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     Uri: S.optional(S.String),
     ObjectTypeName: S.optional(S.String),
@@ -3803,20 +6398,33 @@ export class PutIntegrationRequest extends S.Class<PutIntegrationRequest>(
     RoleArn: S.optional(S.String),
     EventTriggerNames: S.optional(EventTriggerNames),
     Scope: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/domains/{DomainName}/integrations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/domains/{DomainName}/integrations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateCalculatedAttributeDefinitionRequest extends S.Class<CreateCalculatedAttributeDefinitionRequest>(
-  "CreateCalculatedAttributeDefinitionRequest",
-)(
-  {
+).annotations({
+  identifier: "PutIntegrationRequest",
+}) as any as S.Schema<PutIntegrationRequest>;
+export interface CreateCalculatedAttributeDefinitionRequest {
+  DomainName: string;
+  CalculatedAttributeName: string;
+  DisplayName?: string;
+  Description?: string;
+  AttributeDetails: AttributeDetails;
+  Conditions?: Conditions;
+  Filter?: Filter;
+  Statistic: string;
+  UseHistoricalData?: boolean;
+  Tags?: TagMap;
+}
+export const CreateCalculatedAttributeDefinitionRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     CalculatedAttributeName: S.String.pipe(
       T.HttpLabel("CalculatedAttributeName"),
@@ -3829,56 +6437,99 @@ export class CreateCalculatedAttributeDefinitionRequest extends S.Class<CreateCa
     Statistic: S.String,
     UseHistoricalData: S.optional(S.Boolean),
     Tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/domains/{DomainName}/calculated-attributes/{CalculatedAttributeName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/domains/{DomainName}/calculated-attributes/{CalculatedAttributeName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutIntegrationResponse extends S.Class<PutIntegrationResponse>(
-  "PutIntegrationResponse",
-)({
-  DomainName: S.String,
-  Uri: S.String,
-  ObjectTypeName: S.optional(S.String),
-  CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  LastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  Tags: S.optional(TagMap),
-  ObjectTypeNames: S.optional(ObjectTypeNames),
-  WorkflowId: S.optional(S.String),
-  IsUnstructured: S.optional(S.Boolean),
-  RoleArn: S.optional(S.String),
-  EventTriggerNames: S.optional(EventTriggerNames),
-  Scope: S.optional(S.String),
-}) {}
-export class CreateCalculatedAttributeDefinitionResponse extends S.Class<CreateCalculatedAttributeDefinitionResponse>(
-  "CreateCalculatedAttributeDefinitionResponse",
-)({
-  CalculatedAttributeName: S.optional(S.String),
-  DisplayName: S.optional(S.String),
-  Description: S.optional(S.String),
-  AttributeDetails: S.optional(AttributeDetails),
-  Conditions: S.optional(Conditions),
-  Filter: S.optional(Filter),
-  Statistic: S.optional(S.String),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  UseHistoricalData: S.optional(S.Boolean),
-  Status: S.optional(S.String),
-  Readiness: S.optional(Readiness),
-  Tags: S.optional(TagMap),
-}) {}
-export class CreateSegmentDefinitionRequest extends S.Class<CreateSegmentDefinitionRequest>(
-  "CreateSegmentDefinitionRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateCalculatedAttributeDefinitionRequest",
+}) as any as S.Schema<CreateCalculatedAttributeDefinitionRequest>;
+export interface PutIntegrationResponse {
+  DomainName: string;
+  Uri: string;
+  ObjectTypeName?: string;
+  CreatedAt: Date;
+  LastUpdatedAt: Date;
+  Tags?: TagMap;
+  ObjectTypeNames?: ObjectTypeNames;
+  WorkflowId?: string;
+  IsUnstructured?: boolean;
+  RoleArn?: string;
+  EventTriggerNames?: EventTriggerNames;
+  Scope?: string;
+}
+export const PutIntegrationResponse = S.suspend(() =>
+  S.Struct({
+    DomainName: S.String,
+    Uri: S.String,
+    ObjectTypeName: S.optional(S.String),
+    CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    LastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    Tags: S.optional(TagMap),
+    ObjectTypeNames: S.optional(ObjectTypeNames),
+    WorkflowId: S.optional(S.String),
+    IsUnstructured: S.optional(S.Boolean),
+    RoleArn: S.optional(S.String),
+    EventTriggerNames: S.optional(EventTriggerNames),
+    Scope: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "PutIntegrationResponse",
+}) as any as S.Schema<PutIntegrationResponse>;
+export interface CreateCalculatedAttributeDefinitionResponse {
+  CalculatedAttributeName?: string;
+  DisplayName?: string;
+  Description?: string;
+  AttributeDetails?: AttributeDetails;
+  Conditions?: Conditions;
+  Filter?: Filter;
+  Statistic?: string;
+  CreatedAt?: Date;
+  LastUpdatedAt?: Date;
+  UseHistoricalData?: boolean;
+  Status?: string;
+  Readiness?: Readiness;
+  Tags?: TagMap;
+}
+export const CreateCalculatedAttributeDefinitionResponse = S.suspend(() =>
+  S.Struct({
+    CalculatedAttributeName: S.optional(S.String),
+    DisplayName: S.optional(S.String),
+    Description: S.optional(S.String),
+    AttributeDetails: S.optional(AttributeDetails),
+    Conditions: S.optional(Conditions),
+    Filter: S.optional(Filter),
+    Statistic: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UseHistoricalData: S.optional(S.Boolean),
+    Status: S.optional(S.String),
+    Readiness: S.optional(Readiness),
+    Tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "CreateCalculatedAttributeDefinitionResponse",
+}) as any as S.Schema<CreateCalculatedAttributeDefinitionResponse>;
+export interface CreateSegmentDefinitionRequest {
+  DomainName: string;
+  SegmentDefinitionName: string;
+  DisplayName: string;
+  Description?: string;
+  SegmentGroups?: SegmentGroup;
+  SegmentSqlQuery?: string;
+  Tags?: TagMap;
+}
+export const CreateSegmentDefinitionRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     SegmentDefinitionName: S.String.pipe(T.HttpLabel("SegmentDefinitionName")),
     DisplayName: S.String,
@@ -3886,33 +6537,46 @@ export class CreateSegmentDefinitionRequest extends S.Class<CreateSegmentDefinit
     SegmentGroups: S.optional(SegmentGroup),
     SegmentSqlQuery: S.optional(S.String),
     Tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/domains/{DomainName}/segment-definitions/{SegmentDefinitionName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/domains/{DomainName}/segment-definitions/{SegmentDefinitionName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateSegmentDefinitionResponse extends S.Class<CreateSegmentDefinitionResponse>(
-  "CreateSegmentDefinitionResponse",
-)({
-  SegmentDefinitionName: S.String.pipe(T.JsonName("SegmentDefinitionName")),
-  DisplayName: S.optional(S.String).pipe(T.JsonName("DisplayName")),
-  Description: S.optional(S.String).pipe(T.JsonName("Description")),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-    T.JsonName("CreatedAt"),
-  ),
-  SegmentDefinitionArn: S.optional(S.String).pipe(
-    T.JsonName("SegmentDefinitionArn"),
-  ),
-  Tags: S.optional(TagMap).pipe(T.JsonName("Tags")),
-}) {}
+).annotations({
+  identifier: "CreateSegmentDefinitionRequest",
+}) as any as S.Schema<CreateSegmentDefinitionRequest>;
+export interface CreateSegmentDefinitionResponse {
+  SegmentDefinitionName: string;
+  DisplayName?: string;
+  Description?: string;
+  CreatedAt?: Date;
+  SegmentDefinitionArn?: string;
+  Tags?: TagMap;
+}
+export const CreateSegmentDefinitionResponse = S.suspend(() =>
+  S.Struct({
+    SegmentDefinitionName: S.String.pipe(T.JsonName("SegmentDefinitionName")),
+    DisplayName: S.optional(S.String).pipe(T.JsonName("DisplayName")),
+    Description: S.optional(S.String).pipe(T.JsonName("Description")),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+      T.JsonName("CreatedAt"),
+    ),
+    SegmentDefinitionArn: S.optional(S.String).pipe(
+      T.JsonName("SegmentDefinitionArn"),
+    ),
+    Tags: S.optional(TagMap).pipe(T.JsonName("Tags")),
+  }),
+).annotations({
+  identifier: "CreateSegmentDefinitionResponse",
+}) as any as S.Schema<CreateSegmentDefinitionResponse>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

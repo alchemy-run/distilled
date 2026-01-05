@@ -242,12 +242,19 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type TargetStores = string[];
 export const TargetStores = S.Array(S.String);
+export type FeatureNames = string[];
 export const FeatureNames = S.Array(S.String);
-export class DeleteRecordRequest extends S.Class<DeleteRecordRequest>(
-  "DeleteRecordRequest",
-)(
-  {
+export interface DeleteRecordRequest {
+  FeatureGroupName: string;
+  RecordIdentifierValueAsString: string;
+  EventTime: string;
+  TargetStores?: TargetStores;
+  DeletionMode?: string;
+}
+export const DeleteRecordRequest = S.suspend(() =>
+  S.Struct({
     FeatureGroupName: S.String.pipe(T.HttpLabel("FeatureGroupName")),
     RecordIdentifierValueAsString: S.String.pipe(
       T.HttpQuery("RecordIdentifierValueAsString"),
@@ -255,23 +262,31 @@ export class DeleteRecordRequest extends S.Class<DeleteRecordRequest>(
     EventTime: S.String.pipe(T.HttpQuery("EventTime")),
     TargetStores: S.optional(TargetStores).pipe(T.HttpQuery("TargetStores")),
     DeletionMode: S.optional(S.String).pipe(T.HttpQuery("DeletionMode")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/FeatureGroup/{FeatureGroupName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/FeatureGroup/{FeatureGroupName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteRecordResponse extends S.Class<DeleteRecordResponse>(
-  "DeleteRecordResponse",
-)({}) {}
-export class GetRecordRequest extends S.Class<GetRecordRequest>(
-  "GetRecordRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteRecordRequest",
+}) as any as S.Schema<DeleteRecordRequest>;
+export interface DeleteRecordResponse {}
+export const DeleteRecordResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteRecordResponse",
+}) as any as S.Schema<DeleteRecordResponse>;
+export interface GetRecordRequest {
+  FeatureGroupName: string;
+  RecordIdentifierValueAsString: string;
+  FeatureNames?: FeatureNames;
+  ExpirationTimeResponse?: string;
+}
+export const GetRecordRequest = S.suspend(() =>
+  S.Struct({
     FeatureGroupName: S.String.pipe(T.HttpLabel("FeatureGroupName")),
     RecordIdentifierValueAsString: S.String.pipe(
       T.HttpQuery("RecordIdentifierValueAsString"),
@@ -280,102 +295,171 @@ export class GetRecordRequest extends S.Class<GetRecordRequest>(
     ExpirationTimeResponse: S.optional(S.String).pipe(
       T.HttpQuery("ExpirationTimeResponse"),
     ),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/FeatureGroup/{FeatureGroupName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/FeatureGroup/{FeatureGroupName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "GetRecordRequest",
+}) as any as S.Schema<GetRecordRequest>;
+export type RecordIdentifiers = string[];
 export const RecordIdentifiers = S.Array(S.String);
+export type ValueAsStringList = string[];
 export const ValueAsStringList = S.Array(S.String);
-export class BatchGetRecordIdentifier extends S.Class<BatchGetRecordIdentifier>(
-  "BatchGetRecordIdentifier",
-)({
-  FeatureGroupName: S.String,
-  RecordIdentifiersValueAsString: RecordIdentifiers,
-  FeatureNames: S.optional(FeatureNames),
-}) {}
+export interface BatchGetRecordIdentifier {
+  FeatureGroupName: string;
+  RecordIdentifiersValueAsString: RecordIdentifiers;
+  FeatureNames?: FeatureNames;
+}
+export const BatchGetRecordIdentifier = S.suspend(() =>
+  S.Struct({
+    FeatureGroupName: S.String,
+    RecordIdentifiersValueAsString: RecordIdentifiers,
+    FeatureNames: S.optional(FeatureNames),
+  }),
+).annotations({
+  identifier: "BatchGetRecordIdentifier",
+}) as any as S.Schema<BatchGetRecordIdentifier>;
+export type BatchGetRecordIdentifiers = BatchGetRecordIdentifier[];
 export const BatchGetRecordIdentifiers = S.Array(BatchGetRecordIdentifier);
-export class FeatureValue extends S.Class<FeatureValue>("FeatureValue")({
-  FeatureName: S.String,
-  ValueAsString: S.optional(S.String),
-  ValueAsStringList: S.optional(ValueAsStringList),
-}) {}
+export interface FeatureValue {
+  FeatureName: string;
+  ValueAsString?: string;
+  ValueAsStringList?: ValueAsStringList;
+}
+export const FeatureValue = S.suspend(() =>
+  S.Struct({
+    FeatureName: S.String,
+    ValueAsString: S.optional(S.String),
+    ValueAsStringList: S.optional(ValueAsStringList),
+  }),
+).annotations({ identifier: "FeatureValue" }) as any as S.Schema<FeatureValue>;
+export type Record = FeatureValue[];
 export const Record = S.Array(FeatureValue);
-export class TtlDuration extends S.Class<TtlDuration>("TtlDuration")({
-  Unit: S.String,
-  Value: S.Number,
-}) {}
-export class BatchGetRecordRequest extends S.Class<BatchGetRecordRequest>(
-  "BatchGetRecordRequest",
-)(
-  {
+export interface TtlDuration {
+  Unit: string;
+  Value: number;
+}
+export const TtlDuration = S.suspend(() =>
+  S.Struct({ Unit: S.String, Value: S.Number }),
+).annotations({ identifier: "TtlDuration" }) as any as S.Schema<TtlDuration>;
+export interface BatchGetRecordRequest {
+  Identifiers: BatchGetRecordIdentifiers;
+  ExpirationTimeResponse?: string;
+}
+export const BatchGetRecordRequest = S.suspend(() =>
+  S.Struct({
     Identifiers: BatchGetRecordIdentifiers,
     ExpirationTimeResponse: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/BatchGetRecord" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/BatchGetRecord" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetRecordResponse extends S.Class<GetRecordResponse>(
-  "GetRecordResponse",
-)({ Record: S.optional(Record), ExpiresAt: S.optional(S.String) }) {}
-export class PutRecordRequest extends S.Class<PutRecordRequest>(
-  "PutRecordRequest",
-)(
-  {
+).annotations({
+  identifier: "BatchGetRecordRequest",
+}) as any as S.Schema<BatchGetRecordRequest>;
+export interface GetRecordResponse {
+  Record?: Record;
+  ExpiresAt?: string;
+}
+export const GetRecordResponse = S.suspend(() =>
+  S.Struct({ Record: S.optional(Record), ExpiresAt: S.optional(S.String) }),
+).annotations({
+  identifier: "GetRecordResponse",
+}) as any as S.Schema<GetRecordResponse>;
+export interface PutRecordRequest {
+  FeatureGroupName: string;
+  Record: Record;
+  TargetStores?: TargetStores;
+  TtlDuration?: TtlDuration;
+}
+export const PutRecordRequest = S.suspend(() =>
+  S.Struct({
     FeatureGroupName: S.String.pipe(T.HttpLabel("FeatureGroupName")),
     Record: Record,
     TargetStores: S.optional(TargetStores),
     TtlDuration: S.optional(TtlDuration),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/FeatureGroup/{FeatureGroupName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/FeatureGroup/{FeatureGroupName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutRecordResponse extends S.Class<PutRecordResponse>(
-  "PutRecordResponse",
-)({}) {}
+).annotations({
+  identifier: "PutRecordRequest",
+}) as any as S.Schema<PutRecordRequest>;
+export interface PutRecordResponse {}
+export const PutRecordResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "PutRecordResponse",
+}) as any as S.Schema<PutRecordResponse>;
+export type UnprocessedIdentifiers = BatchGetRecordIdentifier[];
 export const UnprocessedIdentifiers = S.Array(BatchGetRecordIdentifier);
-export class BatchGetRecordResultDetail extends S.Class<BatchGetRecordResultDetail>(
-  "BatchGetRecordResultDetail",
-)({
-  FeatureGroupName: S.String,
-  RecordIdentifierValueAsString: S.String,
-  Record: Record,
-  ExpiresAt: S.optional(S.String),
-}) {}
+export interface BatchGetRecordResultDetail {
+  FeatureGroupName: string;
+  RecordIdentifierValueAsString: string;
+  Record: Record;
+  ExpiresAt?: string;
+}
+export const BatchGetRecordResultDetail = S.suspend(() =>
+  S.Struct({
+    FeatureGroupName: S.String,
+    RecordIdentifierValueAsString: S.String,
+    Record: Record,
+    ExpiresAt: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "BatchGetRecordResultDetail",
+}) as any as S.Schema<BatchGetRecordResultDetail>;
+export type BatchGetRecordResultDetails = BatchGetRecordResultDetail[];
 export const BatchGetRecordResultDetails = S.Array(BatchGetRecordResultDetail);
-export class BatchGetRecordError extends S.Class<BatchGetRecordError>(
-  "BatchGetRecordError",
-)({
-  FeatureGroupName: S.String,
-  RecordIdentifierValueAsString: S.String,
-  ErrorCode: S.String,
-  ErrorMessage: S.String,
-}) {}
+export interface BatchGetRecordError {
+  FeatureGroupName: string;
+  RecordIdentifierValueAsString: string;
+  ErrorCode: string;
+  ErrorMessage: string;
+}
+export const BatchGetRecordError = S.suspend(() =>
+  S.Struct({
+    FeatureGroupName: S.String,
+    RecordIdentifierValueAsString: S.String,
+    ErrorCode: S.String,
+    ErrorMessage: S.String,
+  }),
+).annotations({
+  identifier: "BatchGetRecordError",
+}) as any as S.Schema<BatchGetRecordError>;
+export type BatchGetRecordErrors = BatchGetRecordError[];
 export const BatchGetRecordErrors = S.Array(BatchGetRecordError);
-export class BatchGetRecordResponse extends S.Class<BatchGetRecordResponse>(
-  "BatchGetRecordResponse",
-)({
-  Records: BatchGetRecordResultDetails,
-  Errors: BatchGetRecordErrors,
-  UnprocessedIdentifiers: UnprocessedIdentifiers,
-}) {}
+export interface BatchGetRecordResponse {
+  Records: BatchGetRecordResultDetails;
+  Errors: BatchGetRecordErrors;
+  UnprocessedIdentifiers: UnprocessedIdentifiers;
+}
+export const BatchGetRecordResponse = S.suspend(() =>
+  S.Struct({
+    Records: BatchGetRecordResultDetails,
+    Errors: BatchGetRecordErrors,
+    UnprocessedIdentifiers: UnprocessedIdentifiers,
+  }),
+).annotations({
+  identifier: "BatchGetRecordResponse",
+}) as any as S.Schema<BatchGetRecordResponse>;
 
 //# Errors
 export class AccessForbidden extends S.TaggedError<AccessForbidden>()(

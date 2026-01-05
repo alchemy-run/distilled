@@ -242,60 +242,108 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type CustomerInputStringList = string[];
 export const CustomerInputStringList = S.Array(S.String);
+export type TargetEventTypes = string[];
 export const TargetEventTypes = S.Array(S.String);
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class BatchDetectDominantLanguageRequest extends S.Class<BatchDetectDominantLanguageRequest>(
-  "BatchDetectDominantLanguageRequest",
-)(
-  { TextList: CustomerInputStringList },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class BatchDetectEntitiesRequest extends S.Class<BatchDetectEntitiesRequest>(
-  "BatchDetectEntitiesRequest",
-)(
-  { TextList: CustomerInputStringList, LanguageCode: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class BatchDetectKeyPhrasesRequest extends S.Class<BatchDetectKeyPhrasesRequest>(
-  "BatchDetectKeyPhrasesRequest",
-)(
-  { TextList: CustomerInputStringList, LanguageCode: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class BatchDetectSentimentRequest extends S.Class<BatchDetectSentimentRequest>(
-  "BatchDetectSentimentRequest",
-)(
-  { TextList: CustomerInputStringList, LanguageCode: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class BatchDetectSyntaxRequest extends S.Class<BatchDetectSyntaxRequest>(
-  "BatchDetectSyntaxRequest",
-)(
-  { TextList: CustomerInputStringList, LanguageCode: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class BatchDetectTargetedSentimentRequest extends S.Class<BatchDetectTargetedSentimentRequest>(
-  "BatchDetectTargetedSentimentRequest",
-)(
-  { TextList: CustomerInputStringList, LanguageCode: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ContainsPiiEntitiesRequest extends S.Class<ContainsPiiEntitiesRequest>(
-  "ContainsPiiEntitiesRequest",
-)(
-  { Text: S.String, LanguageCode: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class Tag extends S.Class<Tag>("Tag")({
-  Key: S.String,
-  Value: S.optional(S.String),
-}) {}
+export interface BatchDetectDominantLanguageRequest {
+  TextList: CustomerInputStringList;
+}
+export const BatchDetectDominantLanguageRequest = S.suspend(() =>
+  S.Struct({ TextList: CustomerInputStringList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "BatchDetectDominantLanguageRequest",
+}) as any as S.Schema<BatchDetectDominantLanguageRequest>;
+export interface BatchDetectEntitiesRequest {
+  TextList: CustomerInputStringList;
+  LanguageCode: string;
+}
+export const BatchDetectEntitiesRequest = S.suspend(() =>
+  S.Struct({ TextList: CustomerInputStringList, LanguageCode: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "BatchDetectEntitiesRequest",
+}) as any as S.Schema<BatchDetectEntitiesRequest>;
+export interface BatchDetectKeyPhrasesRequest {
+  TextList: CustomerInputStringList;
+  LanguageCode: string;
+}
+export const BatchDetectKeyPhrasesRequest = S.suspend(() =>
+  S.Struct({ TextList: CustomerInputStringList, LanguageCode: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "BatchDetectKeyPhrasesRequest",
+}) as any as S.Schema<BatchDetectKeyPhrasesRequest>;
+export interface BatchDetectSentimentRequest {
+  TextList: CustomerInputStringList;
+  LanguageCode: string;
+}
+export const BatchDetectSentimentRequest = S.suspend(() =>
+  S.Struct({ TextList: CustomerInputStringList, LanguageCode: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "BatchDetectSentimentRequest",
+}) as any as S.Schema<BatchDetectSentimentRequest>;
+export interface BatchDetectSyntaxRequest {
+  TextList: CustomerInputStringList;
+  LanguageCode: string;
+}
+export const BatchDetectSyntaxRequest = S.suspend(() =>
+  S.Struct({ TextList: CustomerInputStringList, LanguageCode: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "BatchDetectSyntaxRequest",
+}) as any as S.Schema<BatchDetectSyntaxRequest>;
+export interface BatchDetectTargetedSentimentRequest {
+  TextList: CustomerInputStringList;
+  LanguageCode: string;
+}
+export const BatchDetectTargetedSentimentRequest = S.suspend(() =>
+  S.Struct({ TextList: CustomerInputStringList, LanguageCode: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "BatchDetectTargetedSentimentRequest",
+}) as any as S.Schema<BatchDetectTargetedSentimentRequest>;
+export interface ContainsPiiEntitiesRequest {
+  Text: string;
+  LanguageCode: string;
+}
+export const ContainsPiiEntitiesRequest = S.suspend(() =>
+  S.Struct({ Text: S.String, LanguageCode: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ContainsPiiEntitiesRequest",
+}) as any as S.Schema<ContainsPiiEntitiesRequest>;
+export interface Tag {
+  Key: string;
+  Value?: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ Key: S.String, Value: S.optional(S.String) }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagList = Tag[];
 export const TagList = S.Array(Tag);
-export class CreateEndpointRequest extends S.Class<CreateEndpointRequest>(
-  "CreateEndpointRequest",
-)(
-  {
+export interface CreateEndpointRequest {
+  EndpointName: string;
+  ModelArn?: string;
+  DesiredInferenceUnits: number;
+  ClientRequestToken?: string;
+  Tags?: TagList;
+  DataAccessRoleArn?: string;
+  FlywheelArn?: string;
+}
+export const CreateEndpointRequest = S.suspend(() =>
+  S.Struct({
     EndpointName: S.String,
     ModelArn: S.optional(S.String),
     DesiredInferenceUnits: S.Number,
@@ -303,267 +351,476 @@ export class CreateEndpointRequest extends S.Class<CreateEndpointRequest>(
     Tags: S.optional(TagList),
     DataAccessRoleArn: S.optional(S.String),
     FlywheelArn: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteDocumentClassifierRequest extends S.Class<DeleteDocumentClassifierRequest>(
-  "DeleteDocumentClassifierRequest",
-)(
-  { DocumentClassifierArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteDocumentClassifierResponse extends S.Class<DeleteDocumentClassifierResponse>(
-  "DeleteDocumentClassifierResponse",
-)({}) {}
-export class DeleteEndpointRequest extends S.Class<DeleteEndpointRequest>(
-  "DeleteEndpointRequest",
-)(
-  { EndpointArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteEndpointResponse extends S.Class<DeleteEndpointResponse>(
-  "DeleteEndpointResponse",
-)({}) {}
-export class DeleteEntityRecognizerRequest extends S.Class<DeleteEntityRecognizerRequest>(
-  "DeleteEntityRecognizerRequest",
-)(
-  { EntityRecognizerArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteEntityRecognizerResponse extends S.Class<DeleteEntityRecognizerResponse>(
-  "DeleteEntityRecognizerResponse",
-)({}) {}
-export class DeleteFlywheelRequest extends S.Class<DeleteFlywheelRequest>(
-  "DeleteFlywheelRequest",
-)(
-  { FlywheelArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteFlywheelResponse extends S.Class<DeleteFlywheelResponse>(
-  "DeleteFlywheelResponse",
-)({}) {}
-export class DeleteResourcePolicyRequest extends S.Class<DeleteResourcePolicyRequest>(
-  "DeleteResourcePolicyRequest",
-)(
-  { ResourceArn: S.String, PolicyRevisionId: S.optional(S.String) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteResourcePolicyResponse extends S.Class<DeleteResourcePolicyResponse>(
-  "DeleteResourcePolicyResponse",
-)({}) {}
-export class DescribeDatasetRequest extends S.Class<DescribeDatasetRequest>(
-  "DescribeDatasetRequest",
-)(
-  { DatasetArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeDocumentClassificationJobRequest extends S.Class<DescribeDocumentClassificationJobRequest>(
-  "DescribeDocumentClassificationJobRequest",
-)(
-  { JobId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeDocumentClassifierRequest extends S.Class<DescribeDocumentClassifierRequest>(
-  "DescribeDocumentClassifierRequest",
-)(
-  { DocumentClassifierArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeDominantLanguageDetectionJobRequest extends S.Class<DescribeDominantLanguageDetectionJobRequest>(
-  "DescribeDominantLanguageDetectionJobRequest",
-)(
-  { JobId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeEndpointRequest extends S.Class<DescribeEndpointRequest>(
-  "DescribeEndpointRequest",
-)(
-  { EndpointArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeEntitiesDetectionJobRequest extends S.Class<DescribeEntitiesDetectionJobRequest>(
-  "DescribeEntitiesDetectionJobRequest",
-)(
-  { JobId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeEntityRecognizerRequest extends S.Class<DescribeEntityRecognizerRequest>(
-  "DescribeEntityRecognizerRequest",
-)(
-  { EntityRecognizerArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeEventsDetectionJobRequest extends S.Class<DescribeEventsDetectionJobRequest>(
-  "DescribeEventsDetectionJobRequest",
-)(
-  { JobId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeFlywheelRequest extends S.Class<DescribeFlywheelRequest>(
-  "DescribeFlywheelRequest",
-)(
-  { FlywheelArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeFlywheelIterationRequest extends S.Class<DescribeFlywheelIterationRequest>(
-  "DescribeFlywheelIterationRequest",
-)(
-  { FlywheelArn: S.String, FlywheelIterationId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeKeyPhrasesDetectionJobRequest extends S.Class<DescribeKeyPhrasesDetectionJobRequest>(
-  "DescribeKeyPhrasesDetectionJobRequest",
-)(
-  { JobId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribePiiEntitiesDetectionJobRequest extends S.Class<DescribePiiEntitiesDetectionJobRequest>(
-  "DescribePiiEntitiesDetectionJobRequest",
-)(
-  { JobId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeResourcePolicyRequest extends S.Class<DescribeResourcePolicyRequest>(
-  "DescribeResourcePolicyRequest",
-)(
-  { ResourceArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeSentimentDetectionJobRequest extends S.Class<DescribeSentimentDetectionJobRequest>(
-  "DescribeSentimentDetectionJobRequest",
-)(
-  { JobId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeTargetedSentimentDetectionJobRequest extends S.Class<DescribeTargetedSentimentDetectionJobRequest>(
-  "DescribeTargetedSentimentDetectionJobRequest",
-)(
-  { JobId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeTopicsDetectionJobRequest extends S.Class<DescribeTopicsDetectionJobRequest>(
-  "DescribeTopicsDetectionJobRequest",
-)(
-  { JobId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DetectDominantLanguageRequest extends S.Class<DetectDominantLanguageRequest>(
-  "DetectDominantLanguageRequest",
-)(
-  { Text: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateEndpointRequest",
+}) as any as S.Schema<CreateEndpointRequest>;
+export interface DeleteDocumentClassifierRequest {
+  DocumentClassifierArn: string;
+}
+export const DeleteDocumentClassifierRequest = S.suspend(() =>
+  S.Struct({ DocumentClassifierArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteDocumentClassifierRequest",
+}) as any as S.Schema<DeleteDocumentClassifierRequest>;
+export interface DeleteDocumentClassifierResponse {}
+export const DeleteDocumentClassifierResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteDocumentClassifierResponse",
+}) as any as S.Schema<DeleteDocumentClassifierResponse>;
+export interface DeleteEndpointRequest {
+  EndpointArn: string;
+}
+export const DeleteEndpointRequest = S.suspend(() =>
+  S.Struct({ EndpointArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteEndpointRequest",
+}) as any as S.Schema<DeleteEndpointRequest>;
+export interface DeleteEndpointResponse {}
+export const DeleteEndpointResponse = S.suspend(() => S.Struct({})).annotations(
+  { identifier: "DeleteEndpointResponse" },
+) as any as S.Schema<DeleteEndpointResponse>;
+export interface DeleteEntityRecognizerRequest {
+  EntityRecognizerArn: string;
+}
+export const DeleteEntityRecognizerRequest = S.suspend(() =>
+  S.Struct({ EntityRecognizerArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteEntityRecognizerRequest",
+}) as any as S.Schema<DeleteEntityRecognizerRequest>;
+export interface DeleteEntityRecognizerResponse {}
+export const DeleteEntityRecognizerResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteEntityRecognizerResponse",
+}) as any as S.Schema<DeleteEntityRecognizerResponse>;
+export interface DeleteFlywheelRequest {
+  FlywheelArn: string;
+}
+export const DeleteFlywheelRequest = S.suspend(() =>
+  S.Struct({ FlywheelArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteFlywheelRequest",
+}) as any as S.Schema<DeleteFlywheelRequest>;
+export interface DeleteFlywheelResponse {}
+export const DeleteFlywheelResponse = S.suspend(() => S.Struct({})).annotations(
+  { identifier: "DeleteFlywheelResponse" },
+) as any as S.Schema<DeleteFlywheelResponse>;
+export interface DeleteResourcePolicyRequest {
+  ResourceArn: string;
+  PolicyRevisionId?: string;
+}
+export const DeleteResourcePolicyRequest = S.suspend(() =>
+  S.Struct({
+    ResourceArn: S.String,
+    PolicyRevisionId: S.optional(S.String),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteResourcePolicyRequest",
+}) as any as S.Schema<DeleteResourcePolicyRequest>;
+export interface DeleteResourcePolicyResponse {}
+export const DeleteResourcePolicyResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteResourcePolicyResponse",
+}) as any as S.Schema<DeleteResourcePolicyResponse>;
+export interface DescribeDatasetRequest {
+  DatasetArn: string;
+}
+export const DescribeDatasetRequest = S.suspend(() =>
+  S.Struct({ DatasetArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeDatasetRequest",
+}) as any as S.Schema<DescribeDatasetRequest>;
+export interface DescribeDocumentClassificationJobRequest {
+  JobId: string;
+}
+export const DescribeDocumentClassificationJobRequest = S.suspend(() =>
+  S.Struct({ JobId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeDocumentClassificationJobRequest",
+}) as any as S.Schema<DescribeDocumentClassificationJobRequest>;
+export interface DescribeDocumentClassifierRequest {
+  DocumentClassifierArn: string;
+}
+export const DescribeDocumentClassifierRequest = S.suspend(() =>
+  S.Struct({ DocumentClassifierArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeDocumentClassifierRequest",
+}) as any as S.Schema<DescribeDocumentClassifierRequest>;
+export interface DescribeDominantLanguageDetectionJobRequest {
+  JobId: string;
+}
+export const DescribeDominantLanguageDetectionJobRequest = S.suspend(() =>
+  S.Struct({ JobId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeDominantLanguageDetectionJobRequest",
+}) as any as S.Schema<DescribeDominantLanguageDetectionJobRequest>;
+export interface DescribeEndpointRequest {
+  EndpointArn: string;
+}
+export const DescribeEndpointRequest = S.suspend(() =>
+  S.Struct({ EndpointArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeEndpointRequest",
+}) as any as S.Schema<DescribeEndpointRequest>;
+export interface DescribeEntitiesDetectionJobRequest {
+  JobId: string;
+}
+export const DescribeEntitiesDetectionJobRequest = S.suspend(() =>
+  S.Struct({ JobId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeEntitiesDetectionJobRequest",
+}) as any as S.Schema<DescribeEntitiesDetectionJobRequest>;
+export interface DescribeEntityRecognizerRequest {
+  EntityRecognizerArn: string;
+}
+export const DescribeEntityRecognizerRequest = S.suspend(() =>
+  S.Struct({ EntityRecognizerArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeEntityRecognizerRequest",
+}) as any as S.Schema<DescribeEntityRecognizerRequest>;
+export interface DescribeEventsDetectionJobRequest {
+  JobId: string;
+}
+export const DescribeEventsDetectionJobRequest = S.suspend(() =>
+  S.Struct({ JobId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeEventsDetectionJobRequest",
+}) as any as S.Schema<DescribeEventsDetectionJobRequest>;
+export interface DescribeFlywheelRequest {
+  FlywheelArn: string;
+}
+export const DescribeFlywheelRequest = S.suspend(() =>
+  S.Struct({ FlywheelArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeFlywheelRequest",
+}) as any as S.Schema<DescribeFlywheelRequest>;
+export interface DescribeFlywheelIterationRequest {
+  FlywheelArn: string;
+  FlywheelIterationId: string;
+}
+export const DescribeFlywheelIterationRequest = S.suspend(() =>
+  S.Struct({ FlywheelArn: S.String, FlywheelIterationId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeFlywheelIterationRequest",
+}) as any as S.Schema<DescribeFlywheelIterationRequest>;
+export interface DescribeKeyPhrasesDetectionJobRequest {
+  JobId: string;
+}
+export const DescribeKeyPhrasesDetectionJobRequest = S.suspend(() =>
+  S.Struct({ JobId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeKeyPhrasesDetectionJobRequest",
+}) as any as S.Schema<DescribeKeyPhrasesDetectionJobRequest>;
+export interface DescribePiiEntitiesDetectionJobRequest {
+  JobId: string;
+}
+export const DescribePiiEntitiesDetectionJobRequest = S.suspend(() =>
+  S.Struct({ JobId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribePiiEntitiesDetectionJobRequest",
+}) as any as S.Schema<DescribePiiEntitiesDetectionJobRequest>;
+export interface DescribeResourcePolicyRequest {
+  ResourceArn: string;
+}
+export const DescribeResourcePolicyRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeResourcePolicyRequest",
+}) as any as S.Schema<DescribeResourcePolicyRequest>;
+export interface DescribeSentimentDetectionJobRequest {
+  JobId: string;
+}
+export const DescribeSentimentDetectionJobRequest = S.suspend(() =>
+  S.Struct({ JobId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeSentimentDetectionJobRequest",
+}) as any as S.Schema<DescribeSentimentDetectionJobRequest>;
+export interface DescribeTargetedSentimentDetectionJobRequest {
+  JobId: string;
+}
+export const DescribeTargetedSentimentDetectionJobRequest = S.suspend(() =>
+  S.Struct({ JobId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeTargetedSentimentDetectionJobRequest",
+}) as any as S.Schema<DescribeTargetedSentimentDetectionJobRequest>;
+export interface DescribeTopicsDetectionJobRequest {
+  JobId: string;
+}
+export const DescribeTopicsDetectionJobRequest = S.suspend(() =>
+  S.Struct({ JobId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeTopicsDetectionJobRequest",
+}) as any as S.Schema<DescribeTopicsDetectionJobRequest>;
+export interface DetectDominantLanguageRequest {
+  Text: string;
+}
+export const DetectDominantLanguageRequest = S.suspend(() =>
+  S.Struct({ Text: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DetectDominantLanguageRequest",
+}) as any as S.Schema<DetectDominantLanguageRequest>;
+export type ListOfDocumentReadFeatureTypes = string[];
 export const ListOfDocumentReadFeatureTypes = S.Array(S.String);
-export class DocumentReaderConfig extends S.Class<DocumentReaderConfig>(
-  "DocumentReaderConfig",
-)({
-  DocumentReadAction: S.String,
-  DocumentReadMode: S.optional(S.String),
-  FeatureTypes: S.optional(ListOfDocumentReadFeatureTypes),
-}) {}
-export class DetectEntitiesRequest extends S.Class<DetectEntitiesRequest>(
-  "DetectEntitiesRequest",
-)(
-  {
+export interface DocumentReaderConfig {
+  DocumentReadAction: string;
+  DocumentReadMode?: string;
+  FeatureTypes?: ListOfDocumentReadFeatureTypes;
+}
+export const DocumentReaderConfig = S.suspend(() =>
+  S.Struct({
+    DocumentReadAction: S.String,
+    DocumentReadMode: S.optional(S.String),
+    FeatureTypes: S.optional(ListOfDocumentReadFeatureTypes),
+  }),
+).annotations({
+  identifier: "DocumentReaderConfig",
+}) as any as S.Schema<DocumentReaderConfig>;
+export interface DetectEntitiesRequest {
+  Text?: string;
+  LanguageCode?: string;
+  EndpointArn?: string;
+  Bytes?: Uint8Array;
+  DocumentReaderConfig?: DocumentReaderConfig;
+}
+export const DetectEntitiesRequest = S.suspend(() =>
+  S.Struct({
     Text: S.optional(S.String),
     LanguageCode: S.optional(S.String),
     EndpointArn: S.optional(S.String),
     Bytes: S.optional(T.Blob),
     DocumentReaderConfig: S.optional(DocumentReaderConfig),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DetectKeyPhrasesRequest extends S.Class<DetectKeyPhrasesRequest>(
-  "DetectKeyPhrasesRequest",
-)(
-  { Text: S.String, LanguageCode: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DetectPiiEntitiesRequest extends S.Class<DetectPiiEntitiesRequest>(
-  "DetectPiiEntitiesRequest",
-)(
-  { Text: S.String, LanguageCode: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DetectSentimentRequest extends S.Class<DetectSentimentRequest>(
-  "DetectSentimentRequest",
-)(
-  { Text: S.String, LanguageCode: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DetectSyntaxRequest extends S.Class<DetectSyntaxRequest>(
-  "DetectSyntaxRequest",
-)(
-  { Text: S.String, LanguageCode: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DetectTargetedSentimentRequest extends S.Class<DetectTargetedSentimentRequest>(
-  "DetectTargetedSentimentRequest",
-)(
-  { Text: S.String, LanguageCode: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ImportModelRequest extends S.Class<ImportModelRequest>(
-  "ImportModelRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DetectEntitiesRequest",
+}) as any as S.Schema<DetectEntitiesRequest>;
+export interface DetectKeyPhrasesRequest {
+  Text: string;
+  LanguageCode: string;
+}
+export const DetectKeyPhrasesRequest = S.suspend(() =>
+  S.Struct({ Text: S.String, LanguageCode: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DetectKeyPhrasesRequest",
+}) as any as S.Schema<DetectKeyPhrasesRequest>;
+export interface DetectPiiEntitiesRequest {
+  Text: string;
+  LanguageCode: string;
+}
+export const DetectPiiEntitiesRequest = S.suspend(() =>
+  S.Struct({ Text: S.String, LanguageCode: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DetectPiiEntitiesRequest",
+}) as any as S.Schema<DetectPiiEntitiesRequest>;
+export interface DetectSentimentRequest {
+  Text: string;
+  LanguageCode: string;
+}
+export const DetectSentimentRequest = S.suspend(() =>
+  S.Struct({ Text: S.String, LanguageCode: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DetectSentimentRequest",
+}) as any as S.Schema<DetectSentimentRequest>;
+export interface DetectSyntaxRequest {
+  Text: string;
+  LanguageCode: string;
+}
+export const DetectSyntaxRequest = S.suspend(() =>
+  S.Struct({ Text: S.String, LanguageCode: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DetectSyntaxRequest",
+}) as any as S.Schema<DetectSyntaxRequest>;
+export interface DetectTargetedSentimentRequest {
+  Text: string;
+  LanguageCode: string;
+}
+export const DetectTargetedSentimentRequest = S.suspend(() =>
+  S.Struct({ Text: S.String, LanguageCode: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DetectTargetedSentimentRequest",
+}) as any as S.Schema<DetectTargetedSentimentRequest>;
+export interface ImportModelRequest {
+  SourceModelArn: string;
+  ModelName?: string;
+  VersionName?: string;
+  ModelKmsKeyId?: string;
+  DataAccessRoleArn?: string;
+  Tags?: TagList;
+}
+export const ImportModelRequest = S.suspend(() =>
+  S.Struct({
     SourceModelArn: S.String,
     ModelName: S.optional(S.String),
     VersionName: S.optional(S.String),
     ModelKmsKeyId: S.optional(S.String),
     DataAccessRoleArn: S.optional(S.String),
     Tags: S.optional(TagList),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListDocumentClassifierSummariesRequest extends S.Class<ListDocumentClassifierSummariesRequest>(
-  "ListDocumentClassifierSummariesRequest",
-)(
-  { NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListEntityRecognizerSummariesRequest extends S.Class<ListEntityRecognizerSummariesRequest>(
-  "ListEntityRecognizerSummariesRequest",
-)(
-  { NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { ResourceArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutResourcePolicyRequest extends S.Class<PutResourcePolicyRequest>(
-  "PutResourcePolicyRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ImportModelRequest",
+}) as any as S.Schema<ImportModelRequest>;
+export interface ListDocumentClassifierSummariesRequest {
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListDocumentClassifierSummariesRequest = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListDocumentClassifierSummariesRequest",
+}) as any as S.Schema<ListDocumentClassifierSummariesRequest>;
+export interface ListEntityRecognizerSummariesRequest {
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListEntityRecognizerSummariesRequest = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListEntityRecognizerSummariesRequest",
+}) as any as S.Schema<ListEntityRecognizerSummariesRequest>;
+export interface ListTagsForResourceRequest {
+  ResourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface PutResourcePolicyRequest {
+  ResourceArn: string;
+  ResourcePolicy: string;
+  PolicyRevisionId?: string;
+}
+export const PutResourcePolicyRequest = S.suspend(() =>
+  S.Struct({
     ResourceArn: S.String,
     ResourcePolicy: S.String,
     PolicyRevisionId: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class InputDataConfig extends S.Class<InputDataConfig>(
-  "InputDataConfig",
-)({
-  S3Uri: S.String,
-  InputFormat: S.optional(S.String),
-  DocumentReaderConfig: S.optional(DocumentReaderConfig),
-}) {}
-export class OutputDataConfig extends S.Class<OutputDataConfig>(
-  "OutputDataConfig",
-)({ S3Uri: S.String, KmsKeyId: S.optional(S.String) }) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "PutResourcePolicyRequest",
+}) as any as S.Schema<PutResourcePolicyRequest>;
+export interface InputDataConfig {
+  S3Uri: string;
+  InputFormat?: string;
+  DocumentReaderConfig?: DocumentReaderConfig;
+}
+export const InputDataConfig = S.suspend(() =>
+  S.Struct({
+    S3Uri: S.String,
+    InputFormat: S.optional(S.String),
+    DocumentReaderConfig: S.optional(DocumentReaderConfig),
+  }),
+).annotations({
+  identifier: "InputDataConfig",
+}) as any as S.Schema<InputDataConfig>;
+export interface OutputDataConfig {
+  S3Uri: string;
+  KmsKeyId?: string;
+}
+export const OutputDataConfig = S.suspend(() =>
+  S.Struct({ S3Uri: S.String, KmsKeyId: S.optional(S.String) }),
+).annotations({
+  identifier: "OutputDataConfig",
+}) as any as S.Schema<OutputDataConfig>;
+export type SecurityGroupIds = string[];
 export const SecurityGroupIds = S.Array(S.String);
+export type Subnets = string[];
 export const Subnets = S.Array(S.String);
-export class VpcConfig extends S.Class<VpcConfig>("VpcConfig")({
-  SecurityGroupIds: SecurityGroupIds,
-  Subnets: Subnets,
-}) {}
-export class StartDominantLanguageDetectionJobRequest extends S.Class<StartDominantLanguageDetectionJobRequest>(
-  "StartDominantLanguageDetectionJobRequest",
-)(
-  {
+export interface VpcConfig {
+  SecurityGroupIds: SecurityGroupIds;
+  Subnets: Subnets;
+}
+export const VpcConfig = S.suspend(() =>
+  S.Struct({ SecurityGroupIds: SecurityGroupIds, Subnets: Subnets }),
+).annotations({ identifier: "VpcConfig" }) as any as S.Schema<VpcConfig>;
+export interface StartDominantLanguageDetectionJobRequest {
+  InputDataConfig: InputDataConfig;
+  OutputDataConfig: OutputDataConfig;
+  DataAccessRoleArn: string;
+  JobName?: string;
+  ClientRequestToken?: string;
+  VolumeKmsKeyId?: string;
+  VpcConfig?: VpcConfig;
+  Tags?: TagList;
+}
+export const StartDominantLanguageDetectionJobRequest = S.suspend(() =>
+  S.Struct({
     InputDataConfig: InputDataConfig,
     OutputDataConfig: OutputDataConfig,
     DataAccessRoleArn: S.String,
@@ -572,13 +829,27 @@ export class StartDominantLanguageDetectionJobRequest extends S.Class<StartDomin
     VolumeKmsKeyId: S.optional(S.String),
     VpcConfig: S.optional(VpcConfig),
     Tags: S.optional(TagList),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StartEntitiesDetectionJobRequest extends S.Class<StartEntitiesDetectionJobRequest>(
-  "StartEntitiesDetectionJobRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StartDominantLanguageDetectionJobRequest",
+}) as any as S.Schema<StartDominantLanguageDetectionJobRequest>;
+export interface StartEntitiesDetectionJobRequest {
+  InputDataConfig: InputDataConfig;
+  OutputDataConfig: OutputDataConfig;
+  DataAccessRoleArn: string;
+  JobName?: string;
+  EntityRecognizerArn?: string;
+  LanguageCode: string;
+  ClientRequestToken?: string;
+  VolumeKmsKeyId?: string;
+  VpcConfig?: VpcConfig;
+  Tags?: TagList;
+  FlywheelArn?: string;
+}
+export const StartEntitiesDetectionJobRequest = S.suspend(() =>
+  S.Struct({
     InputDataConfig: InputDataConfig,
     OutputDataConfig: OutputDataConfig,
     DataAccessRoleArn: S.String,
@@ -590,13 +861,24 @@ export class StartEntitiesDetectionJobRequest extends S.Class<StartEntitiesDetec
     VpcConfig: S.optional(VpcConfig),
     Tags: S.optional(TagList),
     FlywheelArn: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StartEventsDetectionJobRequest extends S.Class<StartEventsDetectionJobRequest>(
-  "StartEventsDetectionJobRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StartEntitiesDetectionJobRequest",
+}) as any as S.Schema<StartEntitiesDetectionJobRequest>;
+export interface StartEventsDetectionJobRequest {
+  InputDataConfig: InputDataConfig;
+  OutputDataConfig: OutputDataConfig;
+  DataAccessRoleArn: string;
+  JobName?: string;
+  LanguageCode: string;
+  ClientRequestToken?: string;
+  TargetEventTypes: TargetEventTypes;
+  Tags?: TagList;
+}
+export const StartEventsDetectionJobRequest = S.suspend(() =>
+  S.Struct({
     InputDataConfig: InputDataConfig,
     OutputDataConfig: OutputDataConfig,
     DataAccessRoleArn: S.String,
@@ -605,19 +887,39 @@ export class StartEventsDetectionJobRequest extends S.Class<StartEventsDetection
     ClientRequestToken: S.optional(S.String),
     TargetEventTypes: TargetEventTypes,
     Tags: S.optional(TagList),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StartFlywheelIterationRequest extends S.Class<StartFlywheelIterationRequest>(
-  "StartFlywheelIterationRequest",
-)(
-  { FlywheelArn: S.String, ClientRequestToken: S.optional(S.String) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StartKeyPhrasesDetectionJobRequest extends S.Class<StartKeyPhrasesDetectionJobRequest>(
-  "StartKeyPhrasesDetectionJobRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StartEventsDetectionJobRequest",
+}) as any as S.Schema<StartEventsDetectionJobRequest>;
+export interface StartFlywheelIterationRequest {
+  FlywheelArn: string;
+  ClientRequestToken?: string;
+}
+export const StartFlywheelIterationRequest = S.suspend(() =>
+  S.Struct({
+    FlywheelArn: S.String,
+    ClientRequestToken: S.optional(S.String),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StartFlywheelIterationRequest",
+}) as any as S.Schema<StartFlywheelIterationRequest>;
+export interface StartKeyPhrasesDetectionJobRequest {
+  InputDataConfig: InputDataConfig;
+  OutputDataConfig: OutputDataConfig;
+  DataAccessRoleArn: string;
+  JobName?: string;
+  LanguageCode: string;
+  ClientRequestToken?: string;
+  VolumeKmsKeyId?: string;
+  VpcConfig?: VpcConfig;
+  Tags?: TagList;
+}
+export const StartKeyPhrasesDetectionJobRequest = S.suspend(() =>
+  S.Struct({
     InputDataConfig: InputDataConfig,
     OutputDataConfig: OutputDataConfig,
     DataAccessRoleArn: S.String,
@@ -627,13 +929,25 @@ export class StartKeyPhrasesDetectionJobRequest extends S.Class<StartKeyPhrasesD
     VolumeKmsKeyId: S.optional(S.String),
     VpcConfig: S.optional(VpcConfig),
     Tags: S.optional(TagList),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StartSentimentDetectionJobRequest extends S.Class<StartSentimentDetectionJobRequest>(
-  "StartSentimentDetectionJobRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StartKeyPhrasesDetectionJobRequest",
+}) as any as S.Schema<StartKeyPhrasesDetectionJobRequest>;
+export interface StartSentimentDetectionJobRequest {
+  InputDataConfig: InputDataConfig;
+  OutputDataConfig: OutputDataConfig;
+  DataAccessRoleArn: string;
+  JobName?: string;
+  LanguageCode: string;
+  ClientRequestToken?: string;
+  VolumeKmsKeyId?: string;
+  VpcConfig?: VpcConfig;
+  Tags?: TagList;
+}
+export const StartSentimentDetectionJobRequest = S.suspend(() =>
+  S.Struct({
     InputDataConfig: InputDataConfig,
     OutputDataConfig: OutputDataConfig,
     DataAccessRoleArn: S.String,
@@ -643,13 +957,25 @@ export class StartSentimentDetectionJobRequest extends S.Class<StartSentimentDet
     VolumeKmsKeyId: S.optional(S.String),
     VpcConfig: S.optional(VpcConfig),
     Tags: S.optional(TagList),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StartTargetedSentimentDetectionJobRequest extends S.Class<StartTargetedSentimentDetectionJobRequest>(
-  "StartTargetedSentimentDetectionJobRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StartSentimentDetectionJobRequest",
+}) as any as S.Schema<StartSentimentDetectionJobRequest>;
+export interface StartTargetedSentimentDetectionJobRequest {
+  InputDataConfig: InputDataConfig;
+  OutputDataConfig: OutputDataConfig;
+  DataAccessRoleArn: string;
+  JobName?: string;
+  LanguageCode: string;
+  ClientRequestToken?: string;
+  VolumeKmsKeyId?: string;
+  VpcConfig?: VpcConfig;
+  Tags?: TagList;
+}
+export const StartTargetedSentimentDetectionJobRequest = S.suspend(() =>
+  S.Struct({
     InputDataConfig: InputDataConfig,
     OutputDataConfig: OutputDataConfig,
     DataAccessRoleArn: S.String,
@@ -659,13 +985,25 @@ export class StartTargetedSentimentDetectionJobRequest extends S.Class<StartTarg
     VolumeKmsKeyId: S.optional(S.String),
     VpcConfig: S.optional(VpcConfig),
     Tags: S.optional(TagList),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StartTopicsDetectionJobRequest extends S.Class<StartTopicsDetectionJobRequest>(
-  "StartTopicsDetectionJobRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StartTargetedSentimentDetectionJobRequest",
+}) as any as S.Schema<StartTargetedSentimentDetectionJobRequest>;
+export interface StartTopicsDetectionJobRequest {
+  InputDataConfig: InputDataConfig;
+  OutputDataConfig: OutputDataConfig;
+  DataAccessRoleArn: string;
+  JobName?: string;
+  NumberOfTopics?: number;
+  ClientRequestToken?: string;
+  VolumeKmsKeyId?: string;
+  VpcConfig?: VpcConfig;
+  Tags?: TagList;
+}
+export const StartTopicsDetectionJobRequest = S.suspend(() =>
+  S.Struct({
     InputDataConfig: InputDataConfig,
     OutputDataConfig: OutputDataConfig,
     DataAccessRoleArn: S.String,
@@ -675,468 +1013,897 @@ export class StartTopicsDetectionJobRequest extends S.Class<StartTopicsDetection
     VolumeKmsKeyId: S.optional(S.String),
     VpcConfig: S.optional(VpcConfig),
     Tags: S.optional(TagList),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StopDominantLanguageDetectionJobRequest extends S.Class<StopDominantLanguageDetectionJobRequest>(
-  "StopDominantLanguageDetectionJobRequest",
-)(
-  { JobId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StopEntitiesDetectionJobRequest extends S.Class<StopEntitiesDetectionJobRequest>(
-  "StopEntitiesDetectionJobRequest",
-)(
-  { JobId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StopEventsDetectionJobRequest extends S.Class<StopEventsDetectionJobRequest>(
-  "StopEventsDetectionJobRequest",
-)(
-  { JobId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StopKeyPhrasesDetectionJobRequest extends S.Class<StopKeyPhrasesDetectionJobRequest>(
-  "StopKeyPhrasesDetectionJobRequest",
-)(
-  { JobId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StopPiiEntitiesDetectionJobRequest extends S.Class<StopPiiEntitiesDetectionJobRequest>(
-  "StopPiiEntitiesDetectionJobRequest",
-)(
-  { JobId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StopSentimentDetectionJobRequest extends S.Class<StopSentimentDetectionJobRequest>(
-  "StopSentimentDetectionJobRequest",
-)(
-  { JobId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StopTargetedSentimentDetectionJobRequest extends S.Class<StopTargetedSentimentDetectionJobRequest>(
-  "StopTargetedSentimentDetectionJobRequest",
-)(
-  { JobId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StopTrainingDocumentClassifierRequest extends S.Class<StopTrainingDocumentClassifierRequest>(
-  "StopTrainingDocumentClassifierRequest",
-)(
-  { DocumentClassifierArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StopTrainingDocumentClassifierResponse extends S.Class<StopTrainingDocumentClassifierResponse>(
-  "StopTrainingDocumentClassifierResponse",
-)({}) {}
-export class StopTrainingEntityRecognizerRequest extends S.Class<StopTrainingEntityRecognizerRequest>(
-  "StopTrainingEntityRecognizerRequest",
-)(
-  { EntityRecognizerArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StopTrainingEntityRecognizerResponse extends S.Class<StopTrainingEntityRecognizerResponse>(
-  "StopTrainingEntityRecognizerResponse",
-)({}) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { ResourceArn: S.String, Tags: TagList },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  { ResourceArn: S.String, TagKeys: TagKeyList },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
-export class UpdateEndpointRequest extends S.Class<UpdateEndpointRequest>(
-  "UpdateEndpointRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StartTopicsDetectionJobRequest",
+}) as any as S.Schema<StartTopicsDetectionJobRequest>;
+export interface StopDominantLanguageDetectionJobRequest {
+  JobId: string;
+}
+export const StopDominantLanguageDetectionJobRequest = S.suspend(() =>
+  S.Struct({ JobId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StopDominantLanguageDetectionJobRequest",
+}) as any as S.Schema<StopDominantLanguageDetectionJobRequest>;
+export interface StopEntitiesDetectionJobRequest {
+  JobId: string;
+}
+export const StopEntitiesDetectionJobRequest = S.suspend(() =>
+  S.Struct({ JobId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StopEntitiesDetectionJobRequest",
+}) as any as S.Schema<StopEntitiesDetectionJobRequest>;
+export interface StopEventsDetectionJobRequest {
+  JobId: string;
+}
+export const StopEventsDetectionJobRequest = S.suspend(() =>
+  S.Struct({ JobId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StopEventsDetectionJobRequest",
+}) as any as S.Schema<StopEventsDetectionJobRequest>;
+export interface StopKeyPhrasesDetectionJobRequest {
+  JobId: string;
+}
+export const StopKeyPhrasesDetectionJobRequest = S.suspend(() =>
+  S.Struct({ JobId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StopKeyPhrasesDetectionJobRequest",
+}) as any as S.Schema<StopKeyPhrasesDetectionJobRequest>;
+export interface StopPiiEntitiesDetectionJobRequest {
+  JobId: string;
+}
+export const StopPiiEntitiesDetectionJobRequest = S.suspend(() =>
+  S.Struct({ JobId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StopPiiEntitiesDetectionJobRequest",
+}) as any as S.Schema<StopPiiEntitiesDetectionJobRequest>;
+export interface StopSentimentDetectionJobRequest {
+  JobId: string;
+}
+export const StopSentimentDetectionJobRequest = S.suspend(() =>
+  S.Struct({ JobId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StopSentimentDetectionJobRequest",
+}) as any as S.Schema<StopSentimentDetectionJobRequest>;
+export interface StopTargetedSentimentDetectionJobRequest {
+  JobId: string;
+}
+export const StopTargetedSentimentDetectionJobRequest = S.suspend(() =>
+  S.Struct({ JobId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StopTargetedSentimentDetectionJobRequest",
+}) as any as S.Schema<StopTargetedSentimentDetectionJobRequest>;
+export interface StopTrainingDocumentClassifierRequest {
+  DocumentClassifierArn: string;
+}
+export const StopTrainingDocumentClassifierRequest = S.suspend(() =>
+  S.Struct({ DocumentClassifierArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StopTrainingDocumentClassifierRequest",
+}) as any as S.Schema<StopTrainingDocumentClassifierRequest>;
+export interface StopTrainingDocumentClassifierResponse {}
+export const StopTrainingDocumentClassifierResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "StopTrainingDocumentClassifierResponse",
+}) as any as S.Schema<StopTrainingDocumentClassifierResponse>;
+export interface StopTrainingEntityRecognizerRequest {
+  EntityRecognizerArn: string;
+}
+export const StopTrainingEntityRecognizerRequest = S.suspend(() =>
+  S.Struct({ EntityRecognizerArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StopTrainingEntityRecognizerRequest",
+}) as any as S.Schema<StopTrainingEntityRecognizerRequest>;
+export interface StopTrainingEntityRecognizerResponse {}
+export const StopTrainingEntityRecognizerResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "StopTrainingEntityRecognizerResponse",
+}) as any as S.Schema<StopTrainingEntityRecognizerResponse>;
+export interface TagResourceRequest {
+  ResourceArn: string;
+  Tags: TagList;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String, Tags: TagList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UntagResourceRequest {
+  ResourceArn: string;
+  TagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String, TagKeys: TagKeyList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface UpdateEndpointRequest {
+  EndpointArn: string;
+  DesiredModelArn?: string;
+  DesiredInferenceUnits?: number;
+  DesiredDataAccessRoleArn?: string;
+  FlywheelArn?: string;
+}
+export const UpdateEndpointRequest = S.suspend(() =>
+  S.Struct({
     EndpointArn: S.String,
     DesiredModelArn: S.optional(S.String),
     DesiredInferenceUnits: S.optional(S.Number),
     DesiredDataAccessRoleArn: S.optional(S.String),
     FlywheelArn: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateEndpointRequest",
+}) as any as S.Schema<UpdateEndpointRequest>;
+export type AttributeNamesList = string[];
 export const AttributeNamesList = S.Array(S.String);
-export class AugmentedManifestsListItem extends S.Class<AugmentedManifestsListItem>(
-  "AugmentedManifestsListItem",
-)({
-  S3Uri: S.String,
-  Split: S.optional(S.String),
-  AttributeNames: AttributeNamesList,
-  AnnotationDataS3Uri: S.optional(S.String),
-  SourceDocumentsS3Uri: S.optional(S.String),
-  DocumentType: S.optional(S.String),
-}) {}
+export interface AugmentedManifestsListItem {
+  S3Uri: string;
+  Split?: string;
+  AttributeNames: AttributeNamesList;
+  AnnotationDataS3Uri?: string;
+  SourceDocumentsS3Uri?: string;
+  DocumentType?: string;
+}
+export const AugmentedManifestsListItem = S.suspend(() =>
+  S.Struct({
+    S3Uri: S.String,
+    Split: S.optional(S.String),
+    AttributeNames: AttributeNamesList,
+    AnnotationDataS3Uri: S.optional(S.String),
+    SourceDocumentsS3Uri: S.optional(S.String),
+    DocumentType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AugmentedManifestsListItem",
+}) as any as S.Schema<AugmentedManifestsListItem>;
+export type EntityRecognizerAugmentedManifestsList =
+  AugmentedManifestsListItem[];
 export const EntityRecognizerAugmentedManifestsList = S.Array(
   AugmentedManifestsListItem,
 );
+export type ListOfPiiEntityTypes = string[];
 export const ListOfPiiEntityTypes = S.Array(S.String);
-export class DocumentClassifierOutputDataConfig extends S.Class<DocumentClassifierOutputDataConfig>(
-  "DocumentClassifierOutputDataConfig",
-)({
-  S3Uri: S.optional(S.String),
-  KmsKeyId: S.optional(S.String),
-  FlywheelStatsS3Prefix: S.optional(S.String),
-}) {}
-export class DataSecurityConfig extends S.Class<DataSecurityConfig>(
-  "DataSecurityConfig",
-)({
-  ModelKmsKeyId: S.optional(S.String),
-  VolumeKmsKeyId: S.optional(S.String),
-  DataLakeKmsKeyId: S.optional(S.String),
-  VpcConfig: S.optional(VpcConfig),
-}) {}
-export class TextSegment extends S.Class<TextSegment>("TextSegment")({
-  Text: S.String,
-}) {}
+export interface DocumentClassifierOutputDataConfig {
+  S3Uri?: string;
+  KmsKeyId?: string;
+  FlywheelStatsS3Prefix?: string;
+}
+export const DocumentClassifierOutputDataConfig = S.suspend(() =>
+  S.Struct({
+    S3Uri: S.optional(S.String),
+    KmsKeyId: S.optional(S.String),
+    FlywheelStatsS3Prefix: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DocumentClassifierOutputDataConfig",
+}) as any as S.Schema<DocumentClassifierOutputDataConfig>;
+export interface DataSecurityConfig {
+  ModelKmsKeyId?: string;
+  VolumeKmsKeyId?: string;
+  DataLakeKmsKeyId?: string;
+  VpcConfig?: VpcConfig;
+}
+export const DataSecurityConfig = S.suspend(() =>
+  S.Struct({
+    ModelKmsKeyId: S.optional(S.String),
+    VolumeKmsKeyId: S.optional(S.String),
+    DataLakeKmsKeyId: S.optional(S.String),
+    VpcConfig: S.optional(VpcConfig),
+  }),
+).annotations({
+  identifier: "DataSecurityConfig",
+}) as any as S.Schema<DataSecurityConfig>;
+export interface TextSegment {
+  Text: string;
+}
+export const TextSegment = S.suspend(() =>
+  S.Struct({ Text: S.String }),
+).annotations({ identifier: "TextSegment" }) as any as S.Schema<TextSegment>;
+export type ListOfTextSegments = TextSegment[];
 export const ListOfTextSegments = S.Array(TextSegment);
-export class DatasetFilter extends S.Class<DatasetFilter>("DatasetFilter")({
-  Status: S.optional(S.String),
-  DatasetType: S.optional(S.String),
-  CreationTimeAfter: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  CreationTimeBefore: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
-export class DocumentClassificationJobFilter extends S.Class<DocumentClassificationJobFilter>(
-  "DocumentClassificationJobFilter",
-)({
-  JobName: S.optional(S.String),
-  JobStatus: S.optional(S.String),
-  SubmitTimeBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  SubmitTimeAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class DocumentClassifierFilter extends S.Class<DocumentClassifierFilter>(
-  "DocumentClassifierFilter",
-)({
-  Status: S.optional(S.String),
-  DocumentClassifierName: S.optional(S.String),
-  SubmitTimeBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  SubmitTimeAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class DominantLanguageDetectionJobFilter extends S.Class<DominantLanguageDetectionJobFilter>(
-  "DominantLanguageDetectionJobFilter",
-)({
-  JobName: S.optional(S.String),
-  JobStatus: S.optional(S.String),
-  SubmitTimeBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  SubmitTimeAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class EndpointFilter extends S.Class<EndpointFilter>("EndpointFilter")({
-  ModelArn: S.optional(S.String),
-  Status: S.optional(S.String),
-  CreationTimeBefore: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  CreationTimeAfter: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
-export class EntitiesDetectionJobFilter extends S.Class<EntitiesDetectionJobFilter>(
-  "EntitiesDetectionJobFilter",
-)({
-  JobName: S.optional(S.String),
-  JobStatus: S.optional(S.String),
-  SubmitTimeBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  SubmitTimeAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class EntityRecognizerFilter extends S.Class<EntityRecognizerFilter>(
-  "EntityRecognizerFilter",
-)({
-  Status: S.optional(S.String),
-  RecognizerName: S.optional(S.String),
-  SubmitTimeBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  SubmitTimeAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class EventsDetectionJobFilter extends S.Class<EventsDetectionJobFilter>(
-  "EventsDetectionJobFilter",
-)({
-  JobName: S.optional(S.String),
-  JobStatus: S.optional(S.String),
-  SubmitTimeBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  SubmitTimeAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class FlywheelIterationFilter extends S.Class<FlywheelIterationFilter>(
-  "FlywheelIterationFilter",
-)({
-  CreationTimeAfter: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  CreationTimeBefore: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
-export class FlywheelFilter extends S.Class<FlywheelFilter>("FlywheelFilter")({
-  Status: S.optional(S.String),
-  CreationTimeAfter: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  CreationTimeBefore: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
-export class KeyPhrasesDetectionJobFilter extends S.Class<KeyPhrasesDetectionJobFilter>(
-  "KeyPhrasesDetectionJobFilter",
-)({
-  JobName: S.optional(S.String),
-  JobStatus: S.optional(S.String),
-  SubmitTimeBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  SubmitTimeAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class PiiEntitiesDetectionJobFilter extends S.Class<PiiEntitiesDetectionJobFilter>(
-  "PiiEntitiesDetectionJobFilter",
-)({
-  JobName: S.optional(S.String),
-  JobStatus: S.optional(S.String),
-  SubmitTimeBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  SubmitTimeAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class SentimentDetectionJobFilter extends S.Class<SentimentDetectionJobFilter>(
-  "SentimentDetectionJobFilter",
-)({
-  JobName: S.optional(S.String),
-  JobStatus: S.optional(S.String),
-  SubmitTimeBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  SubmitTimeAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class TargetedSentimentDetectionJobFilter extends S.Class<TargetedSentimentDetectionJobFilter>(
-  "TargetedSentimentDetectionJobFilter",
-)({
-  JobName: S.optional(S.String),
-  JobStatus: S.optional(S.String),
-  SubmitTimeBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  SubmitTimeAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class TopicsDetectionJobFilter extends S.Class<TopicsDetectionJobFilter>(
-  "TopicsDetectionJobFilter",
-)({
-  JobName: S.optional(S.String),
-  JobStatus: S.optional(S.String),
-  SubmitTimeBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  SubmitTimeAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class RedactionConfig extends S.Class<RedactionConfig>(
-  "RedactionConfig",
-)({
-  PiiEntityTypes: S.optional(ListOfPiiEntityTypes),
-  MaskMode: S.optional(S.String),
-  MaskCharacter: S.optional(S.String),
-}) {}
-export class UpdateDataSecurityConfig extends S.Class<UpdateDataSecurityConfig>(
-  "UpdateDataSecurityConfig",
-)({
-  ModelKmsKeyId: S.optional(S.String),
-  VolumeKmsKeyId: S.optional(S.String),
-  VpcConfig: S.optional(VpcConfig),
-}) {}
+export interface DatasetFilter {
+  Status?: string;
+  DatasetType?: string;
+  CreationTimeAfter?: Date;
+  CreationTimeBefore?: Date;
+}
+export const DatasetFilter = S.suspend(() =>
+  S.Struct({
+    Status: S.optional(S.String),
+    DatasetType: S.optional(S.String),
+    CreationTimeAfter: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    CreationTimeBefore: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "DatasetFilter",
+}) as any as S.Schema<DatasetFilter>;
+export interface DocumentClassificationJobFilter {
+  JobName?: string;
+  JobStatus?: string;
+  SubmitTimeBefore?: Date;
+  SubmitTimeAfter?: Date;
+}
+export const DocumentClassificationJobFilter = S.suspend(() =>
+  S.Struct({
+    JobName: S.optional(S.String),
+    JobStatus: S.optional(S.String),
+    SubmitTimeBefore: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    SubmitTimeAfter: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "DocumentClassificationJobFilter",
+}) as any as S.Schema<DocumentClassificationJobFilter>;
+export interface DocumentClassifierFilter {
+  Status?: string;
+  DocumentClassifierName?: string;
+  SubmitTimeBefore?: Date;
+  SubmitTimeAfter?: Date;
+}
+export const DocumentClassifierFilter = S.suspend(() =>
+  S.Struct({
+    Status: S.optional(S.String),
+    DocumentClassifierName: S.optional(S.String),
+    SubmitTimeBefore: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    SubmitTimeAfter: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "DocumentClassifierFilter",
+}) as any as S.Schema<DocumentClassifierFilter>;
+export interface DominantLanguageDetectionJobFilter {
+  JobName?: string;
+  JobStatus?: string;
+  SubmitTimeBefore?: Date;
+  SubmitTimeAfter?: Date;
+}
+export const DominantLanguageDetectionJobFilter = S.suspend(() =>
+  S.Struct({
+    JobName: S.optional(S.String),
+    JobStatus: S.optional(S.String),
+    SubmitTimeBefore: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    SubmitTimeAfter: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "DominantLanguageDetectionJobFilter",
+}) as any as S.Schema<DominantLanguageDetectionJobFilter>;
+export interface EndpointFilter {
+  ModelArn?: string;
+  Status?: string;
+  CreationTimeBefore?: Date;
+  CreationTimeAfter?: Date;
+}
+export const EndpointFilter = S.suspend(() =>
+  S.Struct({
+    ModelArn: S.optional(S.String),
+    Status: S.optional(S.String),
+    CreationTimeBefore: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    CreationTimeAfter: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "EndpointFilter",
+}) as any as S.Schema<EndpointFilter>;
+export interface EntitiesDetectionJobFilter {
+  JobName?: string;
+  JobStatus?: string;
+  SubmitTimeBefore?: Date;
+  SubmitTimeAfter?: Date;
+}
+export const EntitiesDetectionJobFilter = S.suspend(() =>
+  S.Struct({
+    JobName: S.optional(S.String),
+    JobStatus: S.optional(S.String),
+    SubmitTimeBefore: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    SubmitTimeAfter: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "EntitiesDetectionJobFilter",
+}) as any as S.Schema<EntitiesDetectionJobFilter>;
+export interface EntityRecognizerFilter {
+  Status?: string;
+  RecognizerName?: string;
+  SubmitTimeBefore?: Date;
+  SubmitTimeAfter?: Date;
+}
+export const EntityRecognizerFilter = S.suspend(() =>
+  S.Struct({
+    Status: S.optional(S.String),
+    RecognizerName: S.optional(S.String),
+    SubmitTimeBefore: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    SubmitTimeAfter: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "EntityRecognizerFilter",
+}) as any as S.Schema<EntityRecognizerFilter>;
+export interface EventsDetectionJobFilter {
+  JobName?: string;
+  JobStatus?: string;
+  SubmitTimeBefore?: Date;
+  SubmitTimeAfter?: Date;
+}
+export const EventsDetectionJobFilter = S.suspend(() =>
+  S.Struct({
+    JobName: S.optional(S.String),
+    JobStatus: S.optional(S.String),
+    SubmitTimeBefore: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    SubmitTimeAfter: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "EventsDetectionJobFilter",
+}) as any as S.Schema<EventsDetectionJobFilter>;
+export interface FlywheelIterationFilter {
+  CreationTimeAfter?: Date;
+  CreationTimeBefore?: Date;
+}
+export const FlywheelIterationFilter = S.suspend(() =>
+  S.Struct({
+    CreationTimeAfter: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    CreationTimeBefore: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "FlywheelIterationFilter",
+}) as any as S.Schema<FlywheelIterationFilter>;
+export interface FlywheelFilter {
+  Status?: string;
+  CreationTimeAfter?: Date;
+  CreationTimeBefore?: Date;
+}
+export const FlywheelFilter = S.suspend(() =>
+  S.Struct({
+    Status: S.optional(S.String),
+    CreationTimeAfter: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    CreationTimeBefore: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "FlywheelFilter",
+}) as any as S.Schema<FlywheelFilter>;
+export interface KeyPhrasesDetectionJobFilter {
+  JobName?: string;
+  JobStatus?: string;
+  SubmitTimeBefore?: Date;
+  SubmitTimeAfter?: Date;
+}
+export const KeyPhrasesDetectionJobFilter = S.suspend(() =>
+  S.Struct({
+    JobName: S.optional(S.String),
+    JobStatus: S.optional(S.String),
+    SubmitTimeBefore: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    SubmitTimeAfter: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "KeyPhrasesDetectionJobFilter",
+}) as any as S.Schema<KeyPhrasesDetectionJobFilter>;
+export interface PiiEntitiesDetectionJobFilter {
+  JobName?: string;
+  JobStatus?: string;
+  SubmitTimeBefore?: Date;
+  SubmitTimeAfter?: Date;
+}
+export const PiiEntitiesDetectionJobFilter = S.suspend(() =>
+  S.Struct({
+    JobName: S.optional(S.String),
+    JobStatus: S.optional(S.String),
+    SubmitTimeBefore: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    SubmitTimeAfter: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "PiiEntitiesDetectionJobFilter",
+}) as any as S.Schema<PiiEntitiesDetectionJobFilter>;
+export interface SentimentDetectionJobFilter {
+  JobName?: string;
+  JobStatus?: string;
+  SubmitTimeBefore?: Date;
+  SubmitTimeAfter?: Date;
+}
+export const SentimentDetectionJobFilter = S.suspend(() =>
+  S.Struct({
+    JobName: S.optional(S.String),
+    JobStatus: S.optional(S.String),
+    SubmitTimeBefore: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    SubmitTimeAfter: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "SentimentDetectionJobFilter",
+}) as any as S.Schema<SentimentDetectionJobFilter>;
+export interface TargetedSentimentDetectionJobFilter {
+  JobName?: string;
+  JobStatus?: string;
+  SubmitTimeBefore?: Date;
+  SubmitTimeAfter?: Date;
+}
+export const TargetedSentimentDetectionJobFilter = S.suspend(() =>
+  S.Struct({
+    JobName: S.optional(S.String),
+    JobStatus: S.optional(S.String),
+    SubmitTimeBefore: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    SubmitTimeAfter: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "TargetedSentimentDetectionJobFilter",
+}) as any as S.Schema<TargetedSentimentDetectionJobFilter>;
+export interface TopicsDetectionJobFilter {
+  JobName?: string;
+  JobStatus?: string;
+  SubmitTimeBefore?: Date;
+  SubmitTimeAfter?: Date;
+}
+export const TopicsDetectionJobFilter = S.suspend(() =>
+  S.Struct({
+    JobName: S.optional(S.String),
+    JobStatus: S.optional(S.String),
+    SubmitTimeBefore: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    SubmitTimeAfter: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "TopicsDetectionJobFilter",
+}) as any as S.Schema<TopicsDetectionJobFilter>;
+export interface RedactionConfig {
+  PiiEntityTypes?: ListOfPiiEntityTypes;
+  MaskMode?: string;
+  MaskCharacter?: string;
+}
+export const RedactionConfig = S.suspend(() =>
+  S.Struct({
+    PiiEntityTypes: S.optional(ListOfPiiEntityTypes),
+    MaskMode: S.optional(S.String),
+    MaskCharacter: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RedactionConfig",
+}) as any as S.Schema<RedactionConfig>;
+export interface UpdateDataSecurityConfig {
+  ModelKmsKeyId?: string;
+  VolumeKmsKeyId?: string;
+  VpcConfig?: VpcConfig;
+}
+export const UpdateDataSecurityConfig = S.suspend(() =>
+  S.Struct({
+    ModelKmsKeyId: S.optional(S.String),
+    VolumeKmsKeyId: S.optional(S.String),
+    VpcConfig: S.optional(VpcConfig),
+  }),
+).annotations({
+  identifier: "UpdateDataSecurityConfig",
+}) as any as S.Schema<UpdateDataSecurityConfig>;
+export type LabelsList = string[];
 export const LabelsList = S.Array(S.String);
-export class ClassifyDocumentRequest extends S.Class<ClassifyDocumentRequest>(
-  "ClassifyDocumentRequest",
-)(
-  {
+export interface ClassifyDocumentRequest {
+  Text?: string;
+  EndpointArn: string;
+  Bytes?: Uint8Array;
+  DocumentReaderConfig?: DocumentReaderConfig;
+}
+export const ClassifyDocumentRequest = S.suspend(() =>
+  S.Struct({
     Text: S.optional(S.String),
     EndpointArn: S.String,
     Bytes: S.optional(T.Blob),
     DocumentReaderConfig: S.optional(DocumentReaderConfig),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateEndpointResponse extends S.Class<CreateEndpointResponse>(
-  "CreateEndpointResponse",
-)({ EndpointArn: S.optional(S.String), ModelArn: S.optional(S.String) }) {}
-export class DescribeResourcePolicyResponse extends S.Class<DescribeResourcePolicyResponse>(
-  "DescribeResourcePolicyResponse",
-)({
-  ResourcePolicy: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  PolicyRevisionId: S.optional(S.String),
-}) {}
-export class DetectToxicContentRequest extends S.Class<DetectToxicContentRequest>(
-  "DetectToxicContentRequest",
-)(
-  { TextSegments: ListOfTextSegments, LanguageCode: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ImportModelResponse extends S.Class<ImportModelResponse>(
-  "ImportModelResponse",
-)({ ModelArn: S.optional(S.String) }) {}
-export class ListDatasetsRequest extends S.Class<ListDatasetsRequest>(
-  "ListDatasetsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ClassifyDocumentRequest",
+}) as any as S.Schema<ClassifyDocumentRequest>;
+export interface CreateEndpointResponse {
+  EndpointArn?: string;
+  ModelArn?: string;
+}
+export const CreateEndpointResponse = S.suspend(() =>
+  S.Struct({
+    EndpointArn: S.optional(S.String),
+    ModelArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CreateEndpointResponse",
+}) as any as S.Schema<CreateEndpointResponse>;
+export interface DescribeResourcePolicyResponse {
+  ResourcePolicy?: string;
+  CreationTime?: Date;
+  LastModifiedTime?: Date;
+  PolicyRevisionId?: string;
+}
+export const DescribeResourcePolicyResponse = S.suspend(() =>
+  S.Struct({
+    ResourcePolicy: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    PolicyRevisionId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DescribeResourcePolicyResponse",
+}) as any as S.Schema<DescribeResourcePolicyResponse>;
+export interface DetectToxicContentRequest {
+  TextSegments: ListOfTextSegments;
+  LanguageCode: string;
+}
+export const DetectToxicContentRequest = S.suspend(() =>
+  S.Struct({ TextSegments: ListOfTextSegments, LanguageCode: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DetectToxicContentRequest",
+}) as any as S.Schema<DetectToxicContentRequest>;
+export interface ImportModelResponse {
+  ModelArn?: string;
+}
+export const ImportModelResponse = S.suspend(() =>
+  S.Struct({ ModelArn: S.optional(S.String) }),
+).annotations({
+  identifier: "ImportModelResponse",
+}) as any as S.Schema<ImportModelResponse>;
+export interface ListDatasetsRequest {
+  FlywheelArn?: string;
+  Filter?: DatasetFilter;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListDatasetsRequest = S.suspend(() =>
+  S.Struct({
     FlywheelArn: S.optional(S.String),
     Filter: S.optional(DatasetFilter),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListDocumentClassificationJobsRequest extends S.Class<ListDocumentClassificationJobsRequest>(
-  "ListDocumentClassificationJobsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListDatasetsRequest",
+}) as any as S.Schema<ListDatasetsRequest>;
+export interface ListDocumentClassificationJobsRequest {
+  Filter?: DocumentClassificationJobFilter;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListDocumentClassificationJobsRequest = S.suspend(() =>
+  S.Struct({
     Filter: S.optional(DocumentClassificationJobFilter),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListDocumentClassifiersRequest extends S.Class<ListDocumentClassifiersRequest>(
-  "ListDocumentClassifiersRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListDocumentClassificationJobsRequest",
+}) as any as S.Schema<ListDocumentClassificationJobsRequest>;
+export interface ListDocumentClassifiersRequest {
+  Filter?: DocumentClassifierFilter;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListDocumentClassifiersRequest = S.suspend(() =>
+  S.Struct({
     Filter: S.optional(DocumentClassifierFilter),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListDominantLanguageDetectionJobsRequest extends S.Class<ListDominantLanguageDetectionJobsRequest>(
-  "ListDominantLanguageDetectionJobsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListDocumentClassifiersRequest",
+}) as any as S.Schema<ListDocumentClassifiersRequest>;
+export interface ListDominantLanguageDetectionJobsRequest {
+  Filter?: DominantLanguageDetectionJobFilter;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListDominantLanguageDetectionJobsRequest = S.suspend(() =>
+  S.Struct({
     Filter: S.optional(DominantLanguageDetectionJobFilter),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListEndpointsRequest extends S.Class<ListEndpointsRequest>(
-  "ListEndpointsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListDominantLanguageDetectionJobsRequest",
+}) as any as S.Schema<ListDominantLanguageDetectionJobsRequest>;
+export interface ListEndpointsRequest {
+  Filter?: EndpointFilter;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListEndpointsRequest = S.suspend(() =>
+  S.Struct({
     Filter: S.optional(EndpointFilter),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListEntitiesDetectionJobsRequest extends S.Class<ListEntitiesDetectionJobsRequest>(
-  "ListEntitiesDetectionJobsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListEndpointsRequest",
+}) as any as S.Schema<ListEndpointsRequest>;
+export interface ListEntitiesDetectionJobsRequest {
+  Filter?: EntitiesDetectionJobFilter;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListEntitiesDetectionJobsRequest = S.suspend(() =>
+  S.Struct({
     Filter: S.optional(EntitiesDetectionJobFilter),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListEntityRecognizersRequest extends S.Class<ListEntityRecognizersRequest>(
-  "ListEntityRecognizersRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListEntitiesDetectionJobsRequest",
+}) as any as S.Schema<ListEntitiesDetectionJobsRequest>;
+export interface ListEntityRecognizersRequest {
+  Filter?: EntityRecognizerFilter;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListEntityRecognizersRequest = S.suspend(() =>
+  S.Struct({
     Filter: S.optional(EntityRecognizerFilter),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListEventsDetectionJobsRequest extends S.Class<ListEventsDetectionJobsRequest>(
-  "ListEventsDetectionJobsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListEntityRecognizersRequest",
+}) as any as S.Schema<ListEntityRecognizersRequest>;
+export interface ListEventsDetectionJobsRequest {
+  Filter?: EventsDetectionJobFilter;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListEventsDetectionJobsRequest = S.suspend(() =>
+  S.Struct({
     Filter: S.optional(EventsDetectionJobFilter),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListFlywheelIterationHistoryRequest extends S.Class<ListFlywheelIterationHistoryRequest>(
-  "ListFlywheelIterationHistoryRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListEventsDetectionJobsRequest",
+}) as any as S.Schema<ListEventsDetectionJobsRequest>;
+export interface ListFlywheelIterationHistoryRequest {
+  FlywheelArn: string;
+  Filter?: FlywheelIterationFilter;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListFlywheelIterationHistoryRequest = S.suspend(() =>
+  S.Struct({
     FlywheelArn: S.String,
     Filter: S.optional(FlywheelIterationFilter),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListFlywheelsRequest extends S.Class<ListFlywheelsRequest>(
-  "ListFlywheelsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListFlywheelIterationHistoryRequest",
+}) as any as S.Schema<ListFlywheelIterationHistoryRequest>;
+export interface ListFlywheelsRequest {
+  Filter?: FlywheelFilter;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListFlywheelsRequest = S.suspend(() =>
+  S.Struct({
     Filter: S.optional(FlywheelFilter),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListKeyPhrasesDetectionJobsRequest extends S.Class<ListKeyPhrasesDetectionJobsRequest>(
-  "ListKeyPhrasesDetectionJobsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListFlywheelsRequest",
+}) as any as S.Schema<ListFlywheelsRequest>;
+export interface ListKeyPhrasesDetectionJobsRequest {
+  Filter?: KeyPhrasesDetectionJobFilter;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListKeyPhrasesDetectionJobsRequest = S.suspend(() =>
+  S.Struct({
     Filter: S.optional(KeyPhrasesDetectionJobFilter),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListPiiEntitiesDetectionJobsRequest extends S.Class<ListPiiEntitiesDetectionJobsRequest>(
-  "ListPiiEntitiesDetectionJobsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListKeyPhrasesDetectionJobsRequest",
+}) as any as S.Schema<ListKeyPhrasesDetectionJobsRequest>;
+export interface ListPiiEntitiesDetectionJobsRequest {
+  Filter?: PiiEntitiesDetectionJobFilter;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListPiiEntitiesDetectionJobsRequest = S.suspend(() =>
+  S.Struct({
     Filter: S.optional(PiiEntitiesDetectionJobFilter),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListSentimentDetectionJobsRequest extends S.Class<ListSentimentDetectionJobsRequest>(
-  "ListSentimentDetectionJobsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListPiiEntitiesDetectionJobsRequest",
+}) as any as S.Schema<ListPiiEntitiesDetectionJobsRequest>;
+export interface ListSentimentDetectionJobsRequest {
+  Filter?: SentimentDetectionJobFilter;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListSentimentDetectionJobsRequest = S.suspend(() =>
+  S.Struct({
     Filter: S.optional(SentimentDetectionJobFilter),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ ResourceArn: S.optional(S.String), Tags: S.optional(TagList) }) {}
-export class ListTargetedSentimentDetectionJobsRequest extends S.Class<ListTargetedSentimentDetectionJobsRequest>(
-  "ListTargetedSentimentDetectionJobsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListSentimentDetectionJobsRequest",
+}) as any as S.Schema<ListSentimentDetectionJobsRequest>;
+export interface ListTagsForResourceResponse {
+  ResourceArn?: string;
+  Tags?: TagList;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ ResourceArn: S.optional(S.String), Tags: S.optional(TagList) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface ListTargetedSentimentDetectionJobsRequest {
+  Filter?: TargetedSentimentDetectionJobFilter;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListTargetedSentimentDetectionJobsRequest = S.suspend(() =>
+  S.Struct({
     Filter: S.optional(TargetedSentimentDetectionJobFilter),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTopicsDetectionJobsRequest extends S.Class<ListTopicsDetectionJobsRequest>(
-  "ListTopicsDetectionJobsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListTargetedSentimentDetectionJobsRequest",
+}) as any as S.Schema<ListTargetedSentimentDetectionJobsRequest>;
+export interface ListTopicsDetectionJobsRequest {
+  Filter?: TopicsDetectionJobFilter;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListTopicsDetectionJobsRequest = S.suspend(() =>
+  S.Struct({
     Filter: S.optional(TopicsDetectionJobFilter),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutResourcePolicyResponse extends S.Class<PutResourcePolicyResponse>(
-  "PutResourcePolicyResponse",
-)({ PolicyRevisionId: S.optional(S.String) }) {}
-export class StartDocumentClassificationJobRequest extends S.Class<StartDocumentClassificationJobRequest>(
-  "StartDocumentClassificationJobRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListTopicsDetectionJobsRequest",
+}) as any as S.Schema<ListTopicsDetectionJobsRequest>;
+export interface PutResourcePolicyResponse {
+  PolicyRevisionId?: string;
+}
+export const PutResourcePolicyResponse = S.suspend(() =>
+  S.Struct({ PolicyRevisionId: S.optional(S.String) }),
+).annotations({
+  identifier: "PutResourcePolicyResponse",
+}) as any as S.Schema<PutResourcePolicyResponse>;
+export interface StartDocumentClassificationJobRequest {
+  JobName?: string;
+  DocumentClassifierArn?: string;
+  InputDataConfig: InputDataConfig;
+  OutputDataConfig: OutputDataConfig;
+  DataAccessRoleArn: string;
+  ClientRequestToken?: string;
+  VolumeKmsKeyId?: string;
+  VpcConfig?: VpcConfig;
+  Tags?: TagList;
+  FlywheelArn?: string;
+}
+export const StartDocumentClassificationJobRequest = S.suspend(() =>
+  S.Struct({
     JobName: S.optional(S.String),
     DocumentClassifierArn: S.optional(S.String),
     InputDataConfig: InputDataConfig,
@@ -1147,48 +1914,95 @@ export class StartDocumentClassificationJobRequest extends S.Class<StartDocument
     VpcConfig: S.optional(VpcConfig),
     Tags: S.optional(TagList),
     FlywheelArn: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StartDominantLanguageDetectionJobResponse extends S.Class<StartDominantLanguageDetectionJobResponse>(
-  "StartDominantLanguageDetectionJobResponse",
-)({
-  JobId: S.optional(S.String),
-  JobArn: S.optional(S.String),
-  JobStatus: S.optional(S.String),
-}) {}
-export class StartEntitiesDetectionJobResponse extends S.Class<StartEntitiesDetectionJobResponse>(
-  "StartEntitiesDetectionJobResponse",
-)({
-  JobId: S.optional(S.String),
-  JobArn: S.optional(S.String),
-  JobStatus: S.optional(S.String),
-  EntityRecognizerArn: S.optional(S.String),
-}) {}
-export class StartEventsDetectionJobResponse extends S.Class<StartEventsDetectionJobResponse>(
-  "StartEventsDetectionJobResponse",
-)({
-  JobId: S.optional(S.String),
-  JobArn: S.optional(S.String),
-  JobStatus: S.optional(S.String),
-}) {}
-export class StartFlywheelIterationResponse extends S.Class<StartFlywheelIterationResponse>(
-  "StartFlywheelIterationResponse",
-)({
-  FlywheelArn: S.optional(S.String),
-  FlywheelIterationId: S.optional(S.String),
-}) {}
-export class StartKeyPhrasesDetectionJobResponse extends S.Class<StartKeyPhrasesDetectionJobResponse>(
-  "StartKeyPhrasesDetectionJobResponse",
-)({
-  JobId: S.optional(S.String),
-  JobArn: S.optional(S.String),
-  JobStatus: S.optional(S.String),
-}) {}
-export class StartPiiEntitiesDetectionJobRequest extends S.Class<StartPiiEntitiesDetectionJobRequest>(
-  "StartPiiEntitiesDetectionJobRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StartDocumentClassificationJobRequest",
+}) as any as S.Schema<StartDocumentClassificationJobRequest>;
+export interface StartDominantLanguageDetectionJobResponse {
+  JobId?: string;
+  JobArn?: string;
+  JobStatus?: string;
+}
+export const StartDominantLanguageDetectionJobResponse = S.suspend(() =>
+  S.Struct({
+    JobId: S.optional(S.String),
+    JobArn: S.optional(S.String),
+    JobStatus: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "StartDominantLanguageDetectionJobResponse",
+}) as any as S.Schema<StartDominantLanguageDetectionJobResponse>;
+export interface StartEntitiesDetectionJobResponse {
+  JobId?: string;
+  JobArn?: string;
+  JobStatus?: string;
+  EntityRecognizerArn?: string;
+}
+export const StartEntitiesDetectionJobResponse = S.suspend(() =>
+  S.Struct({
+    JobId: S.optional(S.String),
+    JobArn: S.optional(S.String),
+    JobStatus: S.optional(S.String),
+    EntityRecognizerArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "StartEntitiesDetectionJobResponse",
+}) as any as S.Schema<StartEntitiesDetectionJobResponse>;
+export interface StartEventsDetectionJobResponse {
+  JobId?: string;
+  JobArn?: string;
+  JobStatus?: string;
+}
+export const StartEventsDetectionJobResponse = S.suspend(() =>
+  S.Struct({
+    JobId: S.optional(S.String),
+    JobArn: S.optional(S.String),
+    JobStatus: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "StartEventsDetectionJobResponse",
+}) as any as S.Schema<StartEventsDetectionJobResponse>;
+export interface StartFlywheelIterationResponse {
+  FlywheelArn?: string;
+  FlywheelIterationId?: string;
+}
+export const StartFlywheelIterationResponse = S.suspend(() =>
+  S.Struct({
+    FlywheelArn: S.optional(S.String),
+    FlywheelIterationId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "StartFlywheelIterationResponse",
+}) as any as S.Schema<StartFlywheelIterationResponse>;
+export interface StartKeyPhrasesDetectionJobResponse {
+  JobId?: string;
+  JobArn?: string;
+  JobStatus?: string;
+}
+export const StartKeyPhrasesDetectionJobResponse = S.suspend(() =>
+  S.Struct({
+    JobId: S.optional(S.String),
+    JobArn: S.optional(S.String),
+    JobStatus: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "StartKeyPhrasesDetectionJobResponse",
+}) as any as S.Schema<StartKeyPhrasesDetectionJobResponse>;
+export interface StartPiiEntitiesDetectionJobRequest {
+  InputDataConfig: InputDataConfig;
+  OutputDataConfig: OutputDataConfig;
+  Mode: string;
+  RedactionConfig?: RedactionConfig;
+  DataAccessRoleArn: string;
+  JobName?: string;
+  LanguageCode: string;
+  ClientRequestToken?: string;
+  Tags?: TagList;
+}
+export const StartPiiEntitiesDetectionJobRequest = S.suspend(() =>
+  S.Struct({
     InputDataConfig: InputDataConfig,
     OutputDataConfig: OutputDataConfig,
     Mode: S.String,
@@ -1198,725 +2012,1539 @@ export class StartPiiEntitiesDetectionJobRequest extends S.Class<StartPiiEntitie
     LanguageCode: S.String,
     ClientRequestToken: S.optional(S.String),
     Tags: S.optional(TagList),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StartSentimentDetectionJobResponse extends S.Class<StartSentimentDetectionJobResponse>(
-  "StartSentimentDetectionJobResponse",
-)({
-  JobId: S.optional(S.String),
-  JobArn: S.optional(S.String),
-  JobStatus: S.optional(S.String),
-}) {}
-export class StartTargetedSentimentDetectionJobResponse extends S.Class<StartTargetedSentimentDetectionJobResponse>(
-  "StartTargetedSentimentDetectionJobResponse",
-)({
-  JobId: S.optional(S.String),
-  JobArn: S.optional(S.String),
-  JobStatus: S.optional(S.String),
-}) {}
-export class StartTopicsDetectionJobResponse extends S.Class<StartTopicsDetectionJobResponse>(
-  "StartTopicsDetectionJobResponse",
-)({
-  JobId: S.optional(S.String),
-  JobArn: S.optional(S.String),
-  JobStatus: S.optional(S.String),
-}) {}
-export class StopDominantLanguageDetectionJobResponse extends S.Class<StopDominantLanguageDetectionJobResponse>(
-  "StopDominantLanguageDetectionJobResponse",
-)({ JobId: S.optional(S.String), JobStatus: S.optional(S.String) }) {}
-export class StopEntitiesDetectionJobResponse extends S.Class<StopEntitiesDetectionJobResponse>(
-  "StopEntitiesDetectionJobResponse",
-)({ JobId: S.optional(S.String), JobStatus: S.optional(S.String) }) {}
-export class StopEventsDetectionJobResponse extends S.Class<StopEventsDetectionJobResponse>(
-  "StopEventsDetectionJobResponse",
-)({ JobId: S.optional(S.String), JobStatus: S.optional(S.String) }) {}
-export class StopKeyPhrasesDetectionJobResponse extends S.Class<StopKeyPhrasesDetectionJobResponse>(
-  "StopKeyPhrasesDetectionJobResponse",
-)({ JobId: S.optional(S.String), JobStatus: S.optional(S.String) }) {}
-export class StopPiiEntitiesDetectionJobResponse extends S.Class<StopPiiEntitiesDetectionJobResponse>(
-  "StopPiiEntitiesDetectionJobResponse",
-)({ JobId: S.optional(S.String), JobStatus: S.optional(S.String) }) {}
-export class StopSentimentDetectionJobResponse extends S.Class<StopSentimentDetectionJobResponse>(
-  "StopSentimentDetectionJobResponse",
-)({ JobId: S.optional(S.String), JobStatus: S.optional(S.String) }) {}
-export class StopTargetedSentimentDetectionJobResponse extends S.Class<StopTargetedSentimentDetectionJobResponse>(
-  "StopTargetedSentimentDetectionJobResponse",
-)({ JobId: S.optional(S.String), JobStatus: S.optional(S.String) }) {}
-export class UpdateEndpointResponse extends S.Class<UpdateEndpointResponse>(
-  "UpdateEndpointResponse",
-)({ DesiredModelArn: S.optional(S.String) }) {}
-export class UpdateFlywheelRequest extends S.Class<UpdateFlywheelRequest>(
-  "UpdateFlywheelRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StartPiiEntitiesDetectionJobRequest",
+}) as any as S.Schema<StartPiiEntitiesDetectionJobRequest>;
+export interface StartSentimentDetectionJobResponse {
+  JobId?: string;
+  JobArn?: string;
+  JobStatus?: string;
+}
+export const StartSentimentDetectionJobResponse = S.suspend(() =>
+  S.Struct({
+    JobId: S.optional(S.String),
+    JobArn: S.optional(S.String),
+    JobStatus: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "StartSentimentDetectionJobResponse",
+}) as any as S.Schema<StartSentimentDetectionJobResponse>;
+export interface StartTargetedSentimentDetectionJobResponse {
+  JobId?: string;
+  JobArn?: string;
+  JobStatus?: string;
+}
+export const StartTargetedSentimentDetectionJobResponse = S.suspend(() =>
+  S.Struct({
+    JobId: S.optional(S.String),
+    JobArn: S.optional(S.String),
+    JobStatus: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "StartTargetedSentimentDetectionJobResponse",
+}) as any as S.Schema<StartTargetedSentimentDetectionJobResponse>;
+export interface StartTopicsDetectionJobResponse {
+  JobId?: string;
+  JobArn?: string;
+  JobStatus?: string;
+}
+export const StartTopicsDetectionJobResponse = S.suspend(() =>
+  S.Struct({
+    JobId: S.optional(S.String),
+    JobArn: S.optional(S.String),
+    JobStatus: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "StartTopicsDetectionJobResponse",
+}) as any as S.Schema<StartTopicsDetectionJobResponse>;
+export interface StopDominantLanguageDetectionJobResponse {
+  JobId?: string;
+  JobStatus?: string;
+}
+export const StopDominantLanguageDetectionJobResponse = S.suspend(() =>
+  S.Struct({ JobId: S.optional(S.String), JobStatus: S.optional(S.String) }),
+).annotations({
+  identifier: "StopDominantLanguageDetectionJobResponse",
+}) as any as S.Schema<StopDominantLanguageDetectionJobResponse>;
+export interface StopEntitiesDetectionJobResponse {
+  JobId?: string;
+  JobStatus?: string;
+}
+export const StopEntitiesDetectionJobResponse = S.suspend(() =>
+  S.Struct({ JobId: S.optional(S.String), JobStatus: S.optional(S.String) }),
+).annotations({
+  identifier: "StopEntitiesDetectionJobResponse",
+}) as any as S.Schema<StopEntitiesDetectionJobResponse>;
+export interface StopEventsDetectionJobResponse {
+  JobId?: string;
+  JobStatus?: string;
+}
+export const StopEventsDetectionJobResponse = S.suspend(() =>
+  S.Struct({ JobId: S.optional(S.String), JobStatus: S.optional(S.String) }),
+).annotations({
+  identifier: "StopEventsDetectionJobResponse",
+}) as any as S.Schema<StopEventsDetectionJobResponse>;
+export interface StopKeyPhrasesDetectionJobResponse {
+  JobId?: string;
+  JobStatus?: string;
+}
+export const StopKeyPhrasesDetectionJobResponse = S.suspend(() =>
+  S.Struct({ JobId: S.optional(S.String), JobStatus: S.optional(S.String) }),
+).annotations({
+  identifier: "StopKeyPhrasesDetectionJobResponse",
+}) as any as S.Schema<StopKeyPhrasesDetectionJobResponse>;
+export interface StopPiiEntitiesDetectionJobResponse {
+  JobId?: string;
+  JobStatus?: string;
+}
+export const StopPiiEntitiesDetectionJobResponse = S.suspend(() =>
+  S.Struct({ JobId: S.optional(S.String), JobStatus: S.optional(S.String) }),
+).annotations({
+  identifier: "StopPiiEntitiesDetectionJobResponse",
+}) as any as S.Schema<StopPiiEntitiesDetectionJobResponse>;
+export interface StopSentimentDetectionJobResponse {
+  JobId?: string;
+  JobStatus?: string;
+}
+export const StopSentimentDetectionJobResponse = S.suspend(() =>
+  S.Struct({ JobId: S.optional(S.String), JobStatus: S.optional(S.String) }),
+).annotations({
+  identifier: "StopSentimentDetectionJobResponse",
+}) as any as S.Schema<StopSentimentDetectionJobResponse>;
+export interface StopTargetedSentimentDetectionJobResponse {
+  JobId?: string;
+  JobStatus?: string;
+}
+export const StopTargetedSentimentDetectionJobResponse = S.suspend(() =>
+  S.Struct({ JobId: S.optional(S.String), JobStatus: S.optional(S.String) }),
+).annotations({
+  identifier: "StopTargetedSentimentDetectionJobResponse",
+}) as any as S.Schema<StopTargetedSentimentDetectionJobResponse>;
+export interface UpdateEndpointResponse {
+  DesiredModelArn?: string;
+}
+export const UpdateEndpointResponse = S.suspend(() =>
+  S.Struct({ DesiredModelArn: S.optional(S.String) }),
+).annotations({
+  identifier: "UpdateEndpointResponse",
+}) as any as S.Schema<UpdateEndpointResponse>;
+export interface UpdateFlywheelRequest {
+  FlywheelArn: string;
+  ActiveModelArn?: string;
+  DataAccessRoleArn?: string;
+  DataSecurityConfig?: UpdateDataSecurityConfig;
+}
+export const UpdateFlywheelRequest = S.suspend(() =>
+  S.Struct({
     FlywheelArn: S.String,
     ActiveModelArn: S.optional(S.String),
     DataAccessRoleArn: S.optional(S.String),
     DataSecurityConfig: S.optional(UpdateDataSecurityConfig),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DatasetAugmentedManifestsListItem extends S.Class<DatasetAugmentedManifestsListItem>(
-  "DatasetAugmentedManifestsListItem",
-)({
-  AttributeNames: AttributeNamesList,
-  S3Uri: S.String,
-  AnnotationDataS3Uri: S.optional(S.String),
-  SourceDocumentsS3Uri: S.optional(S.String),
-  DocumentType: S.optional(S.String),
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateFlywheelRequest",
+}) as any as S.Schema<UpdateFlywheelRequest>;
+export interface DatasetAugmentedManifestsListItem {
+  AttributeNames: AttributeNamesList;
+  S3Uri: string;
+  AnnotationDataS3Uri?: string;
+  SourceDocumentsS3Uri?: string;
+  DocumentType?: string;
+}
+export const DatasetAugmentedManifestsListItem = S.suspend(() =>
+  S.Struct({
+    AttributeNames: AttributeNamesList,
+    S3Uri: S.String,
+    AnnotationDataS3Uri: S.optional(S.String),
+    SourceDocumentsS3Uri: S.optional(S.String),
+    DocumentType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DatasetAugmentedManifestsListItem",
+}) as any as S.Schema<DatasetAugmentedManifestsListItem>;
+export type DatasetAugmentedManifestsList = DatasetAugmentedManifestsListItem[];
 export const DatasetAugmentedManifestsList = S.Array(
   DatasetAugmentedManifestsListItem,
 );
-export class DatasetDocumentClassifierInputDataConfig extends S.Class<DatasetDocumentClassifierInputDataConfig>(
-  "DatasetDocumentClassifierInputDataConfig",
-)({ S3Uri: S.String, LabelDelimiter: S.optional(S.String) }) {}
+export interface DatasetDocumentClassifierInputDataConfig {
+  S3Uri: string;
+  LabelDelimiter?: string;
+}
+export const DatasetDocumentClassifierInputDataConfig = S.suspend(() =>
+  S.Struct({ S3Uri: S.String, LabelDelimiter: S.optional(S.String) }),
+).annotations({
+  identifier: "DatasetDocumentClassifierInputDataConfig",
+}) as any as S.Schema<DatasetDocumentClassifierInputDataConfig>;
+export type DocumentClassifierAugmentedManifestsList =
+  AugmentedManifestsListItem[];
 export const DocumentClassifierAugmentedManifestsList = S.Array(
   AugmentedManifestsListItem,
 );
-export class DocumentClassifierDocuments extends S.Class<DocumentClassifierDocuments>(
-  "DocumentClassifierDocuments",
-)({ S3Uri: S.String, TestS3Uri: S.optional(S.String) }) {}
-export class EntityTypesListItem extends S.Class<EntityTypesListItem>(
-  "EntityTypesListItem",
-)({ Type: S.String }) {}
+export interface DocumentClassifierDocuments {
+  S3Uri: string;
+  TestS3Uri?: string;
+}
+export const DocumentClassifierDocuments = S.suspend(() =>
+  S.Struct({ S3Uri: S.String, TestS3Uri: S.optional(S.String) }),
+).annotations({
+  identifier: "DocumentClassifierDocuments",
+}) as any as S.Schema<DocumentClassifierDocuments>;
+export interface EntityTypesListItem {
+  Type: string;
+}
+export const EntityTypesListItem = S.suspend(() =>
+  S.Struct({ Type: S.String }),
+).annotations({
+  identifier: "EntityTypesListItem",
+}) as any as S.Schema<EntityTypesListItem>;
+export type EntityTypesList = EntityTypesListItem[];
 export const EntityTypesList = S.Array(EntityTypesListItem);
-export class EntityRecognizerDocuments extends S.Class<EntityRecognizerDocuments>(
-  "EntityRecognizerDocuments",
-)({
-  S3Uri: S.String,
-  TestS3Uri: S.optional(S.String),
-  InputFormat: S.optional(S.String),
-}) {}
-export class EntityRecognizerAnnotations extends S.Class<EntityRecognizerAnnotations>(
-  "EntityRecognizerAnnotations",
-)({ S3Uri: S.String, TestS3Uri: S.optional(S.String) }) {}
-export class EntityRecognizerEntityList extends S.Class<EntityRecognizerEntityList>(
-  "EntityRecognizerEntityList",
-)({ S3Uri: S.String }) {}
-export class DocumentClassificationConfig extends S.Class<DocumentClassificationConfig>(
-  "DocumentClassificationConfig",
-)({ Mode: S.String, Labels: S.optional(LabelsList) }) {}
-export class EntityRecognitionConfig extends S.Class<EntityRecognitionConfig>(
-  "EntityRecognitionConfig",
-)({ EntityTypes: EntityTypesList }) {}
+export interface EntityRecognizerDocuments {
+  S3Uri: string;
+  TestS3Uri?: string;
+  InputFormat?: string;
+}
+export const EntityRecognizerDocuments = S.suspend(() =>
+  S.Struct({
+    S3Uri: S.String,
+    TestS3Uri: S.optional(S.String),
+    InputFormat: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "EntityRecognizerDocuments",
+}) as any as S.Schema<EntityRecognizerDocuments>;
+export interface EntityRecognizerAnnotations {
+  S3Uri: string;
+  TestS3Uri?: string;
+}
+export const EntityRecognizerAnnotations = S.suspend(() =>
+  S.Struct({ S3Uri: S.String, TestS3Uri: S.optional(S.String) }),
+).annotations({
+  identifier: "EntityRecognizerAnnotations",
+}) as any as S.Schema<EntityRecognizerAnnotations>;
+export interface EntityRecognizerEntityList {
+  S3Uri: string;
+}
+export const EntityRecognizerEntityList = S.suspend(() =>
+  S.Struct({ S3Uri: S.String }),
+).annotations({
+  identifier: "EntityRecognizerEntityList",
+}) as any as S.Schema<EntityRecognizerEntityList>;
+export interface DocumentClassificationConfig {
+  Mode: string;
+  Labels?: LabelsList;
+}
+export const DocumentClassificationConfig = S.suspend(() =>
+  S.Struct({ Mode: S.String, Labels: S.optional(LabelsList) }),
+).annotations({
+  identifier: "DocumentClassificationConfig",
+}) as any as S.Schema<DocumentClassificationConfig>;
+export interface EntityRecognitionConfig {
+  EntityTypes: EntityTypesList;
+}
+export const EntityRecognitionConfig = S.suspend(() =>
+  S.Struct({ EntityTypes: EntityTypesList }),
+).annotations({
+  identifier: "EntityRecognitionConfig",
+}) as any as S.Schema<EntityRecognitionConfig>;
+export type ListOfDescriptiveMentionIndices = number[];
 export const ListOfDescriptiveMentionIndices = S.Array(S.Number);
-export class DominantLanguage extends S.Class<DominantLanguage>(
-  "DominantLanguage",
-)({ LanguageCode: S.optional(S.String), Score: S.optional(S.Number) }) {}
+export interface DominantLanguage {
+  LanguageCode?: string;
+  Score?: number;
+}
+export const DominantLanguage = S.suspend(() =>
+  S.Struct({ LanguageCode: S.optional(S.String), Score: S.optional(S.Number) }),
+).annotations({
+  identifier: "DominantLanguage",
+}) as any as S.Schema<DominantLanguage>;
+export type ListOfDominantLanguages = DominantLanguage[];
 export const ListOfDominantLanguages = S.Array(DominantLanguage);
-export class BatchDetectDominantLanguageItemResult extends S.Class<BatchDetectDominantLanguageItemResult>(
-  "BatchDetectDominantLanguageItemResult",
-)({
-  Index: S.optional(S.Number),
-  Languages: S.optional(ListOfDominantLanguages),
-}) {}
+export interface BatchDetectDominantLanguageItemResult {
+  Index?: number;
+  Languages?: ListOfDominantLanguages;
+}
+export const BatchDetectDominantLanguageItemResult = S.suspend(() =>
+  S.Struct({
+    Index: S.optional(S.Number),
+    Languages: S.optional(ListOfDominantLanguages),
+  }),
+).annotations({
+  identifier: "BatchDetectDominantLanguageItemResult",
+}) as any as S.Schema<BatchDetectDominantLanguageItemResult>;
+export type ListOfDetectDominantLanguageResult =
+  BatchDetectDominantLanguageItemResult[];
 export const ListOfDetectDominantLanguageResult = S.Array(
   BatchDetectDominantLanguageItemResult,
 );
-export class BatchItemError extends S.Class<BatchItemError>("BatchItemError")({
-  Index: S.optional(S.Number),
-  ErrorCode: S.optional(S.String),
-  ErrorMessage: S.optional(S.String),
-}) {}
+export interface BatchItemError {
+  Index?: number;
+  ErrorCode?: string;
+  ErrorMessage?: string;
+}
+export const BatchItemError = S.suspend(() =>
+  S.Struct({
+    Index: S.optional(S.Number),
+    ErrorCode: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "BatchItemError",
+}) as any as S.Schema<BatchItemError>;
+export type BatchItemErrorList = BatchItemError[];
 export const BatchItemErrorList = S.Array(BatchItemError);
-export class ChildBlock extends S.Class<ChildBlock>("ChildBlock")({
-  ChildBlockId: S.optional(S.String),
-  BeginOffset: S.optional(S.Number),
-  EndOffset: S.optional(S.Number),
-}) {}
+export interface ChildBlock {
+  ChildBlockId?: string;
+  BeginOffset?: number;
+  EndOffset?: number;
+}
+export const ChildBlock = S.suspend(() =>
+  S.Struct({
+    ChildBlockId: S.optional(S.String),
+    BeginOffset: S.optional(S.Number),
+    EndOffset: S.optional(S.Number),
+  }),
+).annotations({ identifier: "ChildBlock" }) as any as S.Schema<ChildBlock>;
+export type ListOfChildBlocks = ChildBlock[];
 export const ListOfChildBlocks = S.Array(ChildBlock);
-export class BlockReference extends S.Class<BlockReference>("BlockReference")({
-  BlockId: S.optional(S.String),
-  BeginOffset: S.optional(S.Number),
-  EndOffset: S.optional(S.Number),
-  ChildBlocks: S.optional(ListOfChildBlocks),
-}) {}
+export interface BlockReference {
+  BlockId?: string;
+  BeginOffset?: number;
+  EndOffset?: number;
+  ChildBlocks?: ListOfChildBlocks;
+}
+export const BlockReference = S.suspend(() =>
+  S.Struct({
+    BlockId: S.optional(S.String),
+    BeginOffset: S.optional(S.Number),
+    EndOffset: S.optional(S.Number),
+    ChildBlocks: S.optional(ListOfChildBlocks),
+  }),
+).annotations({
+  identifier: "BlockReference",
+}) as any as S.Schema<BlockReference>;
+export type ListOfBlockReferences = BlockReference[];
 export const ListOfBlockReferences = S.Array(BlockReference);
-export class Entity extends S.Class<Entity>("Entity")({
-  Score: S.optional(S.Number),
-  Type: S.optional(S.String),
-  Text: S.optional(S.String),
-  BeginOffset: S.optional(S.Number),
-  EndOffset: S.optional(S.Number),
-  BlockReferences: S.optional(ListOfBlockReferences),
-}) {}
+export interface Entity {
+  Score?: number;
+  Type?: string;
+  Text?: string;
+  BeginOffset?: number;
+  EndOffset?: number;
+  BlockReferences?: ListOfBlockReferences;
+}
+export const Entity = S.suspend(() =>
+  S.Struct({
+    Score: S.optional(S.Number),
+    Type: S.optional(S.String),
+    Text: S.optional(S.String),
+    BeginOffset: S.optional(S.Number),
+    EndOffset: S.optional(S.Number),
+    BlockReferences: S.optional(ListOfBlockReferences),
+  }),
+).annotations({ identifier: "Entity" }) as any as S.Schema<Entity>;
+export type ListOfEntities = Entity[];
 export const ListOfEntities = S.Array(Entity);
-export class BatchDetectEntitiesItemResult extends S.Class<BatchDetectEntitiesItemResult>(
-  "BatchDetectEntitiesItemResult",
-)({ Index: S.optional(S.Number), Entities: S.optional(ListOfEntities) }) {}
+export interface BatchDetectEntitiesItemResult {
+  Index?: number;
+  Entities?: ListOfEntities;
+}
+export const BatchDetectEntitiesItemResult = S.suspend(() =>
+  S.Struct({
+    Index: S.optional(S.Number),
+    Entities: S.optional(ListOfEntities),
+  }),
+).annotations({
+  identifier: "BatchDetectEntitiesItemResult",
+}) as any as S.Schema<BatchDetectEntitiesItemResult>;
+export type ListOfDetectEntitiesResult = BatchDetectEntitiesItemResult[];
 export const ListOfDetectEntitiesResult = S.Array(
   BatchDetectEntitiesItemResult,
 );
-export class KeyPhrase extends S.Class<KeyPhrase>("KeyPhrase")({
-  Score: S.optional(S.Number),
-  Text: S.optional(S.String),
-  BeginOffset: S.optional(S.Number),
-  EndOffset: S.optional(S.Number),
-}) {}
+export interface KeyPhrase {
+  Score?: number;
+  Text?: string;
+  BeginOffset?: number;
+  EndOffset?: number;
+}
+export const KeyPhrase = S.suspend(() =>
+  S.Struct({
+    Score: S.optional(S.Number),
+    Text: S.optional(S.String),
+    BeginOffset: S.optional(S.Number),
+    EndOffset: S.optional(S.Number),
+  }),
+).annotations({ identifier: "KeyPhrase" }) as any as S.Schema<KeyPhrase>;
+export type ListOfKeyPhrases = KeyPhrase[];
 export const ListOfKeyPhrases = S.Array(KeyPhrase);
-export class BatchDetectKeyPhrasesItemResult extends S.Class<BatchDetectKeyPhrasesItemResult>(
-  "BatchDetectKeyPhrasesItemResult",
-)({ Index: S.optional(S.Number), KeyPhrases: S.optional(ListOfKeyPhrases) }) {}
+export interface BatchDetectKeyPhrasesItemResult {
+  Index?: number;
+  KeyPhrases?: ListOfKeyPhrases;
+}
+export const BatchDetectKeyPhrasesItemResult = S.suspend(() =>
+  S.Struct({
+    Index: S.optional(S.Number),
+    KeyPhrases: S.optional(ListOfKeyPhrases),
+  }),
+).annotations({
+  identifier: "BatchDetectKeyPhrasesItemResult",
+}) as any as S.Schema<BatchDetectKeyPhrasesItemResult>;
+export type ListOfDetectKeyPhrasesResult = BatchDetectKeyPhrasesItemResult[];
 export const ListOfDetectKeyPhrasesResult = S.Array(
   BatchDetectKeyPhrasesItemResult,
 );
-export class SentimentScore extends S.Class<SentimentScore>("SentimentScore")({
-  Positive: S.optional(S.Number),
-  Negative: S.optional(S.Number),
-  Neutral: S.optional(S.Number),
-  Mixed: S.optional(S.Number),
-}) {}
-export class BatchDetectSentimentItemResult extends S.Class<BatchDetectSentimentItemResult>(
-  "BatchDetectSentimentItemResult",
-)({
-  Index: S.optional(S.Number),
-  Sentiment: S.optional(S.String),
-  SentimentScore: S.optional(SentimentScore),
-}) {}
+export interface SentimentScore {
+  Positive?: number;
+  Negative?: number;
+  Neutral?: number;
+  Mixed?: number;
+}
+export const SentimentScore = S.suspend(() =>
+  S.Struct({
+    Positive: S.optional(S.Number),
+    Negative: S.optional(S.Number),
+    Neutral: S.optional(S.Number),
+    Mixed: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "SentimentScore",
+}) as any as S.Schema<SentimentScore>;
+export interface BatchDetectSentimentItemResult {
+  Index?: number;
+  Sentiment?: string;
+  SentimentScore?: SentimentScore;
+}
+export const BatchDetectSentimentItemResult = S.suspend(() =>
+  S.Struct({
+    Index: S.optional(S.Number),
+    Sentiment: S.optional(S.String),
+    SentimentScore: S.optional(SentimentScore),
+  }),
+).annotations({
+  identifier: "BatchDetectSentimentItemResult",
+}) as any as S.Schema<BatchDetectSentimentItemResult>;
+export type ListOfDetectSentimentResult = BatchDetectSentimentItemResult[];
 export const ListOfDetectSentimentResult = S.Array(
   BatchDetectSentimentItemResult,
 );
-export class PartOfSpeechTag extends S.Class<PartOfSpeechTag>(
-  "PartOfSpeechTag",
-)({ Tag: S.optional(S.String), Score: S.optional(S.Number) }) {}
-export class SyntaxToken extends S.Class<SyntaxToken>("SyntaxToken")({
-  TokenId: S.optional(S.Number),
-  Text: S.optional(S.String),
-  BeginOffset: S.optional(S.Number),
-  EndOffset: S.optional(S.Number),
-  PartOfSpeech: S.optional(PartOfSpeechTag),
-}) {}
+export interface PartOfSpeechTag {
+  Tag?: string;
+  Score?: number;
+}
+export const PartOfSpeechTag = S.suspend(() =>
+  S.Struct({ Tag: S.optional(S.String), Score: S.optional(S.Number) }),
+).annotations({
+  identifier: "PartOfSpeechTag",
+}) as any as S.Schema<PartOfSpeechTag>;
+export interface SyntaxToken {
+  TokenId?: number;
+  Text?: string;
+  BeginOffset?: number;
+  EndOffset?: number;
+  PartOfSpeech?: PartOfSpeechTag;
+}
+export const SyntaxToken = S.suspend(() =>
+  S.Struct({
+    TokenId: S.optional(S.Number),
+    Text: S.optional(S.String),
+    BeginOffset: S.optional(S.Number),
+    EndOffset: S.optional(S.Number),
+    PartOfSpeech: S.optional(PartOfSpeechTag),
+  }),
+).annotations({ identifier: "SyntaxToken" }) as any as S.Schema<SyntaxToken>;
+export type ListOfSyntaxTokens = SyntaxToken[];
 export const ListOfSyntaxTokens = S.Array(SyntaxToken);
-export class BatchDetectSyntaxItemResult extends S.Class<BatchDetectSyntaxItemResult>(
-  "BatchDetectSyntaxItemResult",
-)({
-  Index: S.optional(S.Number),
-  SyntaxTokens: S.optional(ListOfSyntaxTokens),
-}) {}
+export interface BatchDetectSyntaxItemResult {
+  Index?: number;
+  SyntaxTokens?: ListOfSyntaxTokens;
+}
+export const BatchDetectSyntaxItemResult = S.suspend(() =>
+  S.Struct({
+    Index: S.optional(S.Number),
+    SyntaxTokens: S.optional(ListOfSyntaxTokens),
+  }),
+).annotations({
+  identifier: "BatchDetectSyntaxItemResult",
+}) as any as S.Schema<BatchDetectSyntaxItemResult>;
+export type ListOfDetectSyntaxResult = BatchDetectSyntaxItemResult[];
 export const ListOfDetectSyntaxResult = S.Array(BatchDetectSyntaxItemResult);
-export class MentionSentiment extends S.Class<MentionSentiment>(
-  "MentionSentiment",
-)({
-  Sentiment: S.optional(S.String),
-  SentimentScore: S.optional(SentimentScore),
-}) {}
-export class TargetedSentimentMention extends S.Class<TargetedSentimentMention>(
-  "TargetedSentimentMention",
-)({
-  Score: S.optional(S.Number),
-  GroupScore: S.optional(S.Number),
-  Text: S.optional(S.String),
-  Type: S.optional(S.String),
-  MentionSentiment: S.optional(MentionSentiment),
-  BeginOffset: S.optional(S.Number),
-  EndOffset: S.optional(S.Number),
-}) {}
+export interface MentionSentiment {
+  Sentiment?: string;
+  SentimentScore?: SentimentScore;
+}
+export const MentionSentiment = S.suspend(() =>
+  S.Struct({
+    Sentiment: S.optional(S.String),
+    SentimentScore: S.optional(SentimentScore),
+  }),
+).annotations({
+  identifier: "MentionSentiment",
+}) as any as S.Schema<MentionSentiment>;
+export interface TargetedSentimentMention {
+  Score?: number;
+  GroupScore?: number;
+  Text?: string;
+  Type?: string;
+  MentionSentiment?: MentionSentiment;
+  BeginOffset?: number;
+  EndOffset?: number;
+}
+export const TargetedSentimentMention = S.suspend(() =>
+  S.Struct({
+    Score: S.optional(S.Number),
+    GroupScore: S.optional(S.Number),
+    Text: S.optional(S.String),
+    Type: S.optional(S.String),
+    MentionSentiment: S.optional(MentionSentiment),
+    BeginOffset: S.optional(S.Number),
+    EndOffset: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "TargetedSentimentMention",
+}) as any as S.Schema<TargetedSentimentMention>;
+export type ListOfMentions = TargetedSentimentMention[];
 export const ListOfMentions = S.Array(TargetedSentimentMention);
-export class TargetedSentimentEntity extends S.Class<TargetedSentimentEntity>(
-  "TargetedSentimentEntity",
-)({
-  DescriptiveMentionIndex: S.optional(ListOfDescriptiveMentionIndices),
-  Mentions: S.optional(ListOfMentions),
-}) {}
+export interface TargetedSentimentEntity {
+  DescriptiveMentionIndex?: ListOfDescriptiveMentionIndices;
+  Mentions?: ListOfMentions;
+}
+export const TargetedSentimentEntity = S.suspend(() =>
+  S.Struct({
+    DescriptiveMentionIndex: S.optional(ListOfDescriptiveMentionIndices),
+    Mentions: S.optional(ListOfMentions),
+  }),
+).annotations({
+  identifier: "TargetedSentimentEntity",
+}) as any as S.Schema<TargetedSentimentEntity>;
+export type ListOfTargetedSentimentEntities = TargetedSentimentEntity[];
 export const ListOfTargetedSentimentEntities = S.Array(TargetedSentimentEntity);
-export class BatchDetectTargetedSentimentItemResult extends S.Class<BatchDetectTargetedSentimentItemResult>(
-  "BatchDetectTargetedSentimentItemResult",
-)({
-  Index: S.optional(S.Number),
-  Entities: S.optional(ListOfTargetedSentimentEntities),
-}) {}
+export interface BatchDetectTargetedSentimentItemResult {
+  Index?: number;
+  Entities?: ListOfTargetedSentimentEntities;
+}
+export const BatchDetectTargetedSentimentItemResult = S.suspend(() =>
+  S.Struct({
+    Index: S.optional(S.Number),
+    Entities: S.optional(ListOfTargetedSentimentEntities),
+  }),
+).annotations({
+  identifier: "BatchDetectTargetedSentimentItemResult",
+}) as any as S.Schema<BatchDetectTargetedSentimentItemResult>;
+export type ListOfDetectTargetedSentimentResult =
+  BatchDetectTargetedSentimentItemResult[];
 export const ListOfDetectTargetedSentimentResult = S.Array(
   BatchDetectTargetedSentimentItemResult,
 );
-export class EntityLabel extends S.Class<EntityLabel>("EntityLabel")({
-  Name: S.optional(S.String),
-  Score: S.optional(S.Number),
-}) {}
+export interface EntityLabel {
+  Name?: string;
+  Score?: number;
+}
+export const EntityLabel = S.suspend(() =>
+  S.Struct({ Name: S.optional(S.String), Score: S.optional(S.Number) }),
+).annotations({ identifier: "EntityLabel" }) as any as S.Schema<EntityLabel>;
+export type ListOfEntityLabels = EntityLabel[];
 export const ListOfEntityLabels = S.Array(EntityLabel);
-export class DocumentClassifierInputDataConfig extends S.Class<DocumentClassifierInputDataConfig>(
-  "DocumentClassifierInputDataConfig",
-)({
-  DataFormat: S.optional(S.String),
-  S3Uri: S.optional(S.String),
-  TestS3Uri: S.optional(S.String),
-  LabelDelimiter: S.optional(S.String),
-  AugmentedManifests: S.optional(DocumentClassifierAugmentedManifestsList),
-  DocumentType: S.optional(S.String),
-  Documents: S.optional(DocumentClassifierDocuments),
-  DocumentReaderConfig: S.optional(DocumentReaderConfig),
-}) {}
-export class EntityRecognizerInputDataConfig extends S.Class<EntityRecognizerInputDataConfig>(
-  "EntityRecognizerInputDataConfig",
-)({
-  DataFormat: S.optional(S.String),
-  EntityTypes: EntityTypesList,
-  Documents: S.optional(EntityRecognizerDocuments),
-  Annotations: S.optional(EntityRecognizerAnnotations),
-  EntityList: S.optional(EntityRecognizerEntityList),
-  AugmentedManifests: S.optional(EntityRecognizerAugmentedManifestsList),
-}) {}
-export class TaskConfig extends S.Class<TaskConfig>("TaskConfig")({
-  LanguageCode: S.String,
-  DocumentClassificationConfig: S.optional(DocumentClassificationConfig),
-  EntityRecognitionConfig: S.optional(EntityRecognitionConfig),
-}) {}
-export class DatasetProperties extends S.Class<DatasetProperties>(
-  "DatasetProperties",
-)({
-  DatasetArn: S.optional(S.String),
-  DatasetName: S.optional(S.String),
-  DatasetType: S.optional(S.String),
-  DatasetS3Uri: S.optional(S.String),
-  Description: S.optional(S.String),
-  Status: S.optional(S.String),
-  Message: S.optional(S.String),
-  NumberOfDocuments: S.optional(S.Number),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class DocumentClassificationJobProperties extends S.Class<DocumentClassificationJobProperties>(
-  "DocumentClassificationJobProperties",
-)({
-  JobId: S.optional(S.String),
-  JobArn: S.optional(S.String),
-  JobName: S.optional(S.String),
-  JobStatus: S.optional(S.String),
-  Message: S.optional(S.String),
-  SubmitTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  DocumentClassifierArn: S.optional(S.String),
-  InputDataConfig: S.optional(InputDataConfig),
-  OutputDataConfig: S.optional(OutputDataConfig),
-  DataAccessRoleArn: S.optional(S.String),
-  VolumeKmsKeyId: S.optional(S.String),
-  VpcConfig: S.optional(VpcConfig),
-  FlywheelArn: S.optional(S.String),
-}) {}
-export class DominantLanguageDetectionJobProperties extends S.Class<DominantLanguageDetectionJobProperties>(
-  "DominantLanguageDetectionJobProperties",
-)({
-  JobId: S.optional(S.String),
-  JobArn: S.optional(S.String),
-  JobName: S.optional(S.String),
-  JobStatus: S.optional(S.String),
-  Message: S.optional(S.String),
-  SubmitTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  InputDataConfig: S.optional(InputDataConfig),
-  OutputDataConfig: S.optional(OutputDataConfig),
-  DataAccessRoleArn: S.optional(S.String),
-  VolumeKmsKeyId: S.optional(S.String),
-  VpcConfig: S.optional(VpcConfig),
-}) {}
-export class EndpointProperties extends S.Class<EndpointProperties>(
-  "EndpointProperties",
-)({
-  EndpointArn: S.optional(S.String),
-  Status: S.optional(S.String),
-  Message: S.optional(S.String),
-  ModelArn: S.optional(S.String),
-  DesiredModelArn: S.optional(S.String),
-  DesiredInferenceUnits: S.optional(S.Number),
-  CurrentInferenceUnits: S.optional(S.Number),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  DataAccessRoleArn: S.optional(S.String),
-  DesiredDataAccessRoleArn: S.optional(S.String),
-  FlywheelArn: S.optional(S.String),
-}) {}
-export class EntitiesDetectionJobProperties extends S.Class<EntitiesDetectionJobProperties>(
-  "EntitiesDetectionJobProperties",
-)({
-  JobId: S.optional(S.String),
-  JobArn: S.optional(S.String),
-  JobName: S.optional(S.String),
-  JobStatus: S.optional(S.String),
-  Message: S.optional(S.String),
-  SubmitTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  EntityRecognizerArn: S.optional(S.String),
-  InputDataConfig: S.optional(InputDataConfig),
-  OutputDataConfig: S.optional(OutputDataConfig),
-  LanguageCode: S.optional(S.String),
-  DataAccessRoleArn: S.optional(S.String),
-  VolumeKmsKeyId: S.optional(S.String),
-  VpcConfig: S.optional(VpcConfig),
-  FlywheelArn: S.optional(S.String),
-}) {}
-export class EventsDetectionJobProperties extends S.Class<EventsDetectionJobProperties>(
-  "EventsDetectionJobProperties",
-)({
-  JobId: S.optional(S.String),
-  JobArn: S.optional(S.String),
-  JobName: S.optional(S.String),
-  JobStatus: S.optional(S.String),
-  Message: S.optional(S.String),
-  SubmitTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  InputDataConfig: S.optional(InputDataConfig),
-  OutputDataConfig: S.optional(OutputDataConfig),
-  LanguageCode: S.optional(S.String),
-  DataAccessRoleArn: S.optional(S.String),
-  TargetEventTypes: S.optional(TargetEventTypes),
-}) {}
-export class FlywheelProperties extends S.Class<FlywheelProperties>(
-  "FlywheelProperties",
-)({
-  FlywheelArn: S.optional(S.String),
-  ActiveModelArn: S.optional(S.String),
-  DataAccessRoleArn: S.optional(S.String),
-  TaskConfig: S.optional(TaskConfig),
-  DataLakeS3Uri: S.optional(S.String),
-  DataSecurityConfig: S.optional(DataSecurityConfig),
-  Status: S.optional(S.String),
-  ModelType: S.optional(S.String),
-  Message: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LatestFlywheelIteration: S.optional(S.String),
-}) {}
-export class KeyPhrasesDetectionJobProperties extends S.Class<KeyPhrasesDetectionJobProperties>(
-  "KeyPhrasesDetectionJobProperties",
-)({
-  JobId: S.optional(S.String),
-  JobArn: S.optional(S.String),
-  JobName: S.optional(S.String),
-  JobStatus: S.optional(S.String),
-  Message: S.optional(S.String),
-  SubmitTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  InputDataConfig: S.optional(InputDataConfig),
-  OutputDataConfig: S.optional(OutputDataConfig),
-  LanguageCode: S.optional(S.String),
-  DataAccessRoleArn: S.optional(S.String),
-  VolumeKmsKeyId: S.optional(S.String),
-  VpcConfig: S.optional(VpcConfig),
-}) {}
-export class SentimentDetectionJobProperties extends S.Class<SentimentDetectionJobProperties>(
-  "SentimentDetectionJobProperties",
-)({
-  JobId: S.optional(S.String),
-  JobArn: S.optional(S.String),
-  JobName: S.optional(S.String),
-  JobStatus: S.optional(S.String),
-  Message: S.optional(S.String),
-  SubmitTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  InputDataConfig: S.optional(InputDataConfig),
-  OutputDataConfig: S.optional(OutputDataConfig),
-  LanguageCode: S.optional(S.String),
-  DataAccessRoleArn: S.optional(S.String),
-  VolumeKmsKeyId: S.optional(S.String),
-  VpcConfig: S.optional(VpcConfig),
-}) {}
-export class TargetedSentimentDetectionJobProperties extends S.Class<TargetedSentimentDetectionJobProperties>(
-  "TargetedSentimentDetectionJobProperties",
-)({
-  JobId: S.optional(S.String),
-  JobArn: S.optional(S.String),
-  JobName: S.optional(S.String),
-  JobStatus: S.optional(S.String),
-  Message: S.optional(S.String),
-  SubmitTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  InputDataConfig: S.optional(InputDataConfig),
-  OutputDataConfig: S.optional(OutputDataConfig),
-  LanguageCode: S.optional(S.String),
-  DataAccessRoleArn: S.optional(S.String),
-  VolumeKmsKeyId: S.optional(S.String),
-  VpcConfig: S.optional(VpcConfig),
-}) {}
-export class TopicsDetectionJobProperties extends S.Class<TopicsDetectionJobProperties>(
-  "TopicsDetectionJobProperties",
-)({
-  JobId: S.optional(S.String),
-  JobArn: S.optional(S.String),
-  JobName: S.optional(S.String),
-  JobStatus: S.optional(S.String),
-  Message: S.optional(S.String),
-  SubmitTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  InputDataConfig: S.optional(InputDataConfig),
-  OutputDataConfig: S.optional(OutputDataConfig),
-  NumberOfTopics: S.optional(S.Number),
-  DataAccessRoleArn: S.optional(S.String),
-  VolumeKmsKeyId: S.optional(S.String),
-  VpcConfig: S.optional(VpcConfig),
-}) {}
-export class DocumentTypeListItem extends S.Class<DocumentTypeListItem>(
-  "DocumentTypeListItem",
-)({ Page: S.optional(S.Number), Type: S.optional(S.String) }) {}
+export interface DocumentClassifierInputDataConfig {
+  DataFormat?: string;
+  S3Uri?: string;
+  TestS3Uri?: string;
+  LabelDelimiter?: string;
+  AugmentedManifests?: DocumentClassifierAugmentedManifestsList;
+  DocumentType?: string;
+  Documents?: DocumentClassifierDocuments;
+  DocumentReaderConfig?: DocumentReaderConfig;
+}
+export const DocumentClassifierInputDataConfig = S.suspend(() =>
+  S.Struct({
+    DataFormat: S.optional(S.String),
+    S3Uri: S.optional(S.String),
+    TestS3Uri: S.optional(S.String),
+    LabelDelimiter: S.optional(S.String),
+    AugmentedManifests: S.optional(DocumentClassifierAugmentedManifestsList),
+    DocumentType: S.optional(S.String),
+    Documents: S.optional(DocumentClassifierDocuments),
+    DocumentReaderConfig: S.optional(DocumentReaderConfig),
+  }),
+).annotations({
+  identifier: "DocumentClassifierInputDataConfig",
+}) as any as S.Schema<DocumentClassifierInputDataConfig>;
+export interface EntityRecognizerInputDataConfig {
+  DataFormat?: string;
+  EntityTypes: EntityTypesList;
+  Documents?: EntityRecognizerDocuments;
+  Annotations?: EntityRecognizerAnnotations;
+  EntityList?: EntityRecognizerEntityList;
+  AugmentedManifests?: EntityRecognizerAugmentedManifestsList;
+}
+export const EntityRecognizerInputDataConfig = S.suspend(() =>
+  S.Struct({
+    DataFormat: S.optional(S.String),
+    EntityTypes: EntityTypesList,
+    Documents: S.optional(EntityRecognizerDocuments),
+    Annotations: S.optional(EntityRecognizerAnnotations),
+    EntityList: S.optional(EntityRecognizerEntityList),
+    AugmentedManifests: S.optional(EntityRecognizerAugmentedManifestsList),
+  }),
+).annotations({
+  identifier: "EntityRecognizerInputDataConfig",
+}) as any as S.Schema<EntityRecognizerInputDataConfig>;
+export interface TaskConfig {
+  LanguageCode: string;
+  DocumentClassificationConfig?: DocumentClassificationConfig;
+  EntityRecognitionConfig?: EntityRecognitionConfig;
+}
+export const TaskConfig = S.suspend(() =>
+  S.Struct({
+    LanguageCode: S.String,
+    DocumentClassificationConfig: S.optional(DocumentClassificationConfig),
+    EntityRecognitionConfig: S.optional(EntityRecognitionConfig),
+  }),
+).annotations({ identifier: "TaskConfig" }) as any as S.Schema<TaskConfig>;
+export interface DatasetProperties {
+  DatasetArn?: string;
+  DatasetName?: string;
+  DatasetType?: string;
+  DatasetS3Uri?: string;
+  Description?: string;
+  Status?: string;
+  Message?: string;
+  NumberOfDocuments?: number;
+  CreationTime?: Date;
+  EndTime?: Date;
+}
+export const DatasetProperties = S.suspend(() =>
+  S.Struct({
+    DatasetArn: S.optional(S.String),
+    DatasetName: S.optional(S.String),
+    DatasetType: S.optional(S.String),
+    DatasetS3Uri: S.optional(S.String),
+    Description: S.optional(S.String),
+    Status: S.optional(S.String),
+    Message: S.optional(S.String),
+    NumberOfDocuments: S.optional(S.Number),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "DatasetProperties",
+}) as any as S.Schema<DatasetProperties>;
+export interface DocumentClassificationJobProperties {
+  JobId?: string;
+  JobArn?: string;
+  JobName?: string;
+  JobStatus?: string;
+  Message?: string;
+  SubmitTime?: Date;
+  EndTime?: Date;
+  DocumentClassifierArn?: string;
+  InputDataConfig?: InputDataConfig;
+  OutputDataConfig?: OutputDataConfig;
+  DataAccessRoleArn?: string;
+  VolumeKmsKeyId?: string;
+  VpcConfig?: VpcConfig;
+  FlywheelArn?: string;
+}
+export const DocumentClassificationJobProperties = S.suspend(() =>
+  S.Struct({
+    JobId: S.optional(S.String),
+    JobArn: S.optional(S.String),
+    JobName: S.optional(S.String),
+    JobStatus: S.optional(S.String),
+    Message: S.optional(S.String),
+    SubmitTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    DocumentClassifierArn: S.optional(S.String),
+    InputDataConfig: S.optional(InputDataConfig),
+    OutputDataConfig: S.optional(OutputDataConfig),
+    DataAccessRoleArn: S.optional(S.String),
+    VolumeKmsKeyId: S.optional(S.String),
+    VpcConfig: S.optional(VpcConfig),
+    FlywheelArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DocumentClassificationJobProperties",
+}) as any as S.Schema<DocumentClassificationJobProperties>;
+export interface DominantLanguageDetectionJobProperties {
+  JobId?: string;
+  JobArn?: string;
+  JobName?: string;
+  JobStatus?: string;
+  Message?: string;
+  SubmitTime?: Date;
+  EndTime?: Date;
+  InputDataConfig?: InputDataConfig;
+  OutputDataConfig?: OutputDataConfig;
+  DataAccessRoleArn?: string;
+  VolumeKmsKeyId?: string;
+  VpcConfig?: VpcConfig;
+}
+export const DominantLanguageDetectionJobProperties = S.suspend(() =>
+  S.Struct({
+    JobId: S.optional(S.String),
+    JobArn: S.optional(S.String),
+    JobName: S.optional(S.String),
+    JobStatus: S.optional(S.String),
+    Message: S.optional(S.String),
+    SubmitTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    InputDataConfig: S.optional(InputDataConfig),
+    OutputDataConfig: S.optional(OutputDataConfig),
+    DataAccessRoleArn: S.optional(S.String),
+    VolumeKmsKeyId: S.optional(S.String),
+    VpcConfig: S.optional(VpcConfig),
+  }),
+).annotations({
+  identifier: "DominantLanguageDetectionJobProperties",
+}) as any as S.Schema<DominantLanguageDetectionJobProperties>;
+export interface EndpointProperties {
+  EndpointArn?: string;
+  Status?: string;
+  Message?: string;
+  ModelArn?: string;
+  DesiredModelArn?: string;
+  DesiredInferenceUnits?: number;
+  CurrentInferenceUnits?: number;
+  CreationTime?: Date;
+  LastModifiedTime?: Date;
+  DataAccessRoleArn?: string;
+  DesiredDataAccessRoleArn?: string;
+  FlywheelArn?: string;
+}
+export const EndpointProperties = S.suspend(() =>
+  S.Struct({
+    EndpointArn: S.optional(S.String),
+    Status: S.optional(S.String),
+    Message: S.optional(S.String),
+    ModelArn: S.optional(S.String),
+    DesiredModelArn: S.optional(S.String),
+    DesiredInferenceUnits: S.optional(S.Number),
+    CurrentInferenceUnits: S.optional(S.Number),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    DataAccessRoleArn: S.optional(S.String),
+    DesiredDataAccessRoleArn: S.optional(S.String),
+    FlywheelArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "EndpointProperties",
+}) as any as S.Schema<EndpointProperties>;
+export interface EntitiesDetectionJobProperties {
+  JobId?: string;
+  JobArn?: string;
+  JobName?: string;
+  JobStatus?: string;
+  Message?: string;
+  SubmitTime?: Date;
+  EndTime?: Date;
+  EntityRecognizerArn?: string;
+  InputDataConfig?: InputDataConfig;
+  OutputDataConfig?: OutputDataConfig;
+  LanguageCode?: string;
+  DataAccessRoleArn?: string;
+  VolumeKmsKeyId?: string;
+  VpcConfig?: VpcConfig;
+  FlywheelArn?: string;
+}
+export const EntitiesDetectionJobProperties = S.suspend(() =>
+  S.Struct({
+    JobId: S.optional(S.String),
+    JobArn: S.optional(S.String),
+    JobName: S.optional(S.String),
+    JobStatus: S.optional(S.String),
+    Message: S.optional(S.String),
+    SubmitTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EntityRecognizerArn: S.optional(S.String),
+    InputDataConfig: S.optional(InputDataConfig),
+    OutputDataConfig: S.optional(OutputDataConfig),
+    LanguageCode: S.optional(S.String),
+    DataAccessRoleArn: S.optional(S.String),
+    VolumeKmsKeyId: S.optional(S.String),
+    VpcConfig: S.optional(VpcConfig),
+    FlywheelArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "EntitiesDetectionJobProperties",
+}) as any as S.Schema<EntitiesDetectionJobProperties>;
+export interface EventsDetectionJobProperties {
+  JobId?: string;
+  JobArn?: string;
+  JobName?: string;
+  JobStatus?: string;
+  Message?: string;
+  SubmitTime?: Date;
+  EndTime?: Date;
+  InputDataConfig?: InputDataConfig;
+  OutputDataConfig?: OutputDataConfig;
+  LanguageCode?: string;
+  DataAccessRoleArn?: string;
+  TargetEventTypes?: TargetEventTypes;
+}
+export const EventsDetectionJobProperties = S.suspend(() =>
+  S.Struct({
+    JobId: S.optional(S.String),
+    JobArn: S.optional(S.String),
+    JobName: S.optional(S.String),
+    JobStatus: S.optional(S.String),
+    Message: S.optional(S.String),
+    SubmitTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    InputDataConfig: S.optional(InputDataConfig),
+    OutputDataConfig: S.optional(OutputDataConfig),
+    LanguageCode: S.optional(S.String),
+    DataAccessRoleArn: S.optional(S.String),
+    TargetEventTypes: S.optional(TargetEventTypes),
+  }),
+).annotations({
+  identifier: "EventsDetectionJobProperties",
+}) as any as S.Schema<EventsDetectionJobProperties>;
+export interface FlywheelProperties {
+  FlywheelArn?: string;
+  ActiveModelArn?: string;
+  DataAccessRoleArn?: string;
+  TaskConfig?: TaskConfig;
+  DataLakeS3Uri?: string;
+  DataSecurityConfig?: DataSecurityConfig;
+  Status?: string;
+  ModelType?: string;
+  Message?: string;
+  CreationTime?: Date;
+  LastModifiedTime?: Date;
+  LatestFlywheelIteration?: string;
+}
+export const FlywheelProperties = S.suspend(() =>
+  S.Struct({
+    FlywheelArn: S.optional(S.String),
+    ActiveModelArn: S.optional(S.String),
+    DataAccessRoleArn: S.optional(S.String),
+    TaskConfig: S.optional(TaskConfig),
+    DataLakeS3Uri: S.optional(S.String),
+    DataSecurityConfig: S.optional(DataSecurityConfig),
+    Status: S.optional(S.String),
+    ModelType: S.optional(S.String),
+    Message: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LatestFlywheelIteration: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "FlywheelProperties",
+}) as any as S.Schema<FlywheelProperties>;
+export interface KeyPhrasesDetectionJobProperties {
+  JobId?: string;
+  JobArn?: string;
+  JobName?: string;
+  JobStatus?: string;
+  Message?: string;
+  SubmitTime?: Date;
+  EndTime?: Date;
+  InputDataConfig?: InputDataConfig;
+  OutputDataConfig?: OutputDataConfig;
+  LanguageCode?: string;
+  DataAccessRoleArn?: string;
+  VolumeKmsKeyId?: string;
+  VpcConfig?: VpcConfig;
+}
+export const KeyPhrasesDetectionJobProperties = S.suspend(() =>
+  S.Struct({
+    JobId: S.optional(S.String),
+    JobArn: S.optional(S.String),
+    JobName: S.optional(S.String),
+    JobStatus: S.optional(S.String),
+    Message: S.optional(S.String),
+    SubmitTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    InputDataConfig: S.optional(InputDataConfig),
+    OutputDataConfig: S.optional(OutputDataConfig),
+    LanguageCode: S.optional(S.String),
+    DataAccessRoleArn: S.optional(S.String),
+    VolumeKmsKeyId: S.optional(S.String),
+    VpcConfig: S.optional(VpcConfig),
+  }),
+).annotations({
+  identifier: "KeyPhrasesDetectionJobProperties",
+}) as any as S.Schema<KeyPhrasesDetectionJobProperties>;
+export interface SentimentDetectionJobProperties {
+  JobId?: string;
+  JobArn?: string;
+  JobName?: string;
+  JobStatus?: string;
+  Message?: string;
+  SubmitTime?: Date;
+  EndTime?: Date;
+  InputDataConfig?: InputDataConfig;
+  OutputDataConfig?: OutputDataConfig;
+  LanguageCode?: string;
+  DataAccessRoleArn?: string;
+  VolumeKmsKeyId?: string;
+  VpcConfig?: VpcConfig;
+}
+export const SentimentDetectionJobProperties = S.suspend(() =>
+  S.Struct({
+    JobId: S.optional(S.String),
+    JobArn: S.optional(S.String),
+    JobName: S.optional(S.String),
+    JobStatus: S.optional(S.String),
+    Message: S.optional(S.String),
+    SubmitTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    InputDataConfig: S.optional(InputDataConfig),
+    OutputDataConfig: S.optional(OutputDataConfig),
+    LanguageCode: S.optional(S.String),
+    DataAccessRoleArn: S.optional(S.String),
+    VolumeKmsKeyId: S.optional(S.String),
+    VpcConfig: S.optional(VpcConfig),
+  }),
+).annotations({
+  identifier: "SentimentDetectionJobProperties",
+}) as any as S.Schema<SentimentDetectionJobProperties>;
+export interface TargetedSentimentDetectionJobProperties {
+  JobId?: string;
+  JobArn?: string;
+  JobName?: string;
+  JobStatus?: string;
+  Message?: string;
+  SubmitTime?: Date;
+  EndTime?: Date;
+  InputDataConfig?: InputDataConfig;
+  OutputDataConfig?: OutputDataConfig;
+  LanguageCode?: string;
+  DataAccessRoleArn?: string;
+  VolumeKmsKeyId?: string;
+  VpcConfig?: VpcConfig;
+}
+export const TargetedSentimentDetectionJobProperties = S.suspend(() =>
+  S.Struct({
+    JobId: S.optional(S.String),
+    JobArn: S.optional(S.String),
+    JobName: S.optional(S.String),
+    JobStatus: S.optional(S.String),
+    Message: S.optional(S.String),
+    SubmitTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    InputDataConfig: S.optional(InputDataConfig),
+    OutputDataConfig: S.optional(OutputDataConfig),
+    LanguageCode: S.optional(S.String),
+    DataAccessRoleArn: S.optional(S.String),
+    VolumeKmsKeyId: S.optional(S.String),
+    VpcConfig: S.optional(VpcConfig),
+  }),
+).annotations({
+  identifier: "TargetedSentimentDetectionJobProperties",
+}) as any as S.Schema<TargetedSentimentDetectionJobProperties>;
+export interface TopicsDetectionJobProperties {
+  JobId?: string;
+  JobArn?: string;
+  JobName?: string;
+  JobStatus?: string;
+  Message?: string;
+  SubmitTime?: Date;
+  EndTime?: Date;
+  InputDataConfig?: InputDataConfig;
+  OutputDataConfig?: OutputDataConfig;
+  NumberOfTopics?: number;
+  DataAccessRoleArn?: string;
+  VolumeKmsKeyId?: string;
+  VpcConfig?: VpcConfig;
+}
+export const TopicsDetectionJobProperties = S.suspend(() =>
+  S.Struct({
+    JobId: S.optional(S.String),
+    JobArn: S.optional(S.String),
+    JobName: S.optional(S.String),
+    JobStatus: S.optional(S.String),
+    Message: S.optional(S.String),
+    SubmitTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    InputDataConfig: S.optional(InputDataConfig),
+    OutputDataConfig: S.optional(OutputDataConfig),
+    NumberOfTopics: S.optional(S.Number),
+    DataAccessRoleArn: S.optional(S.String),
+    VolumeKmsKeyId: S.optional(S.String),
+    VpcConfig: S.optional(VpcConfig),
+  }),
+).annotations({
+  identifier: "TopicsDetectionJobProperties",
+}) as any as S.Schema<TopicsDetectionJobProperties>;
+export interface DocumentTypeListItem {
+  Page?: number;
+  Type?: string;
+}
+export const DocumentTypeListItem = S.suspend(() =>
+  S.Struct({ Page: S.optional(S.Number), Type: S.optional(S.String) }),
+).annotations({
+  identifier: "DocumentTypeListItem",
+}) as any as S.Schema<DocumentTypeListItem>;
+export type ListOfDocumentType = DocumentTypeListItem[];
 export const ListOfDocumentType = S.Array(DocumentTypeListItem);
-export class ErrorsListItem extends S.Class<ErrorsListItem>("ErrorsListItem")({
-  Page: S.optional(S.Number),
-  ErrorCode: S.optional(S.String),
-  ErrorMessage: S.optional(S.String),
-}) {}
+export interface ErrorsListItem {
+  Page?: number;
+  ErrorCode?: string;
+  ErrorMessage?: string;
+}
+export const ErrorsListItem = S.suspend(() =>
+  S.Struct({
+    Page: S.optional(S.Number),
+    ErrorCode: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ErrorsListItem",
+}) as any as S.Schema<ErrorsListItem>;
+export type ListOfErrors = ErrorsListItem[];
 export const ListOfErrors = S.Array(ErrorsListItem);
-export class PiiEntity extends S.Class<PiiEntity>("PiiEntity")({
-  Score: S.optional(S.Number),
-  Type: S.optional(S.String),
-  BeginOffset: S.optional(S.Number),
-  EndOffset: S.optional(S.Number),
-}) {}
+export interface PiiEntity {
+  Score?: number;
+  Type?: string;
+  BeginOffset?: number;
+  EndOffset?: number;
+}
+export const PiiEntity = S.suspend(() =>
+  S.Struct({
+    Score: S.optional(S.Number),
+    Type: S.optional(S.String),
+    BeginOffset: S.optional(S.Number),
+    EndOffset: S.optional(S.Number),
+  }),
+).annotations({ identifier: "PiiEntity" }) as any as S.Schema<PiiEntity>;
+export type ListOfPiiEntities = PiiEntity[];
 export const ListOfPiiEntities = S.Array(PiiEntity);
+export type DatasetPropertiesList = DatasetProperties[];
 export const DatasetPropertiesList = S.Array(DatasetProperties);
+export type DocumentClassificationJobPropertiesList =
+  DocumentClassificationJobProperties[];
 export const DocumentClassificationJobPropertiesList = S.Array(
   DocumentClassificationJobProperties,
 );
-export class ClassifierEvaluationMetrics extends S.Class<ClassifierEvaluationMetrics>(
-  "ClassifierEvaluationMetrics",
-)({
-  Accuracy: S.optional(S.Number),
-  Precision: S.optional(S.Number),
-  Recall: S.optional(S.Number),
-  F1Score: S.optional(S.Number),
-  MicroPrecision: S.optional(S.Number),
-  MicroRecall: S.optional(S.Number),
-  MicroF1Score: S.optional(S.Number),
-  HammingLoss: S.optional(S.Number),
-}) {}
-export class ClassifierMetadata extends S.Class<ClassifierMetadata>(
-  "ClassifierMetadata",
-)({
-  NumberOfLabels: S.optional(S.Number),
-  NumberOfTrainedDocuments: S.optional(S.Number),
-  NumberOfTestDocuments: S.optional(S.Number),
-  EvaluationMetrics: S.optional(ClassifierEvaluationMetrics),
-}) {}
-export class DocumentClassifierProperties extends S.Class<DocumentClassifierProperties>(
-  "DocumentClassifierProperties",
-)({
-  DocumentClassifierArn: S.optional(S.String),
-  LanguageCode: S.optional(S.String),
-  Status: S.optional(S.String),
-  Message: S.optional(S.String),
-  SubmitTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  TrainingStartTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  TrainingEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  InputDataConfig: S.optional(DocumentClassifierInputDataConfig),
-  OutputDataConfig: S.optional(DocumentClassifierOutputDataConfig),
-  ClassifierMetadata: S.optional(ClassifierMetadata),
-  DataAccessRoleArn: S.optional(S.String),
-  VolumeKmsKeyId: S.optional(S.String),
-  VpcConfig: S.optional(VpcConfig),
-  Mode: S.optional(S.String),
-  ModelKmsKeyId: S.optional(S.String),
-  VersionName: S.optional(S.String),
-  SourceModelArn: S.optional(S.String),
-  FlywheelArn: S.optional(S.String),
-}) {}
+export interface ClassifierEvaluationMetrics {
+  Accuracy?: number;
+  Precision?: number;
+  Recall?: number;
+  F1Score?: number;
+  MicroPrecision?: number;
+  MicroRecall?: number;
+  MicroF1Score?: number;
+  HammingLoss?: number;
+}
+export const ClassifierEvaluationMetrics = S.suspend(() =>
+  S.Struct({
+    Accuracy: S.optional(S.Number),
+    Precision: S.optional(S.Number),
+    Recall: S.optional(S.Number),
+    F1Score: S.optional(S.Number),
+    MicroPrecision: S.optional(S.Number),
+    MicroRecall: S.optional(S.Number),
+    MicroF1Score: S.optional(S.Number),
+    HammingLoss: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "ClassifierEvaluationMetrics",
+}) as any as S.Schema<ClassifierEvaluationMetrics>;
+export interface ClassifierMetadata {
+  NumberOfLabels?: number;
+  NumberOfTrainedDocuments?: number;
+  NumberOfTestDocuments?: number;
+  EvaluationMetrics?: ClassifierEvaluationMetrics;
+}
+export const ClassifierMetadata = S.suspend(() =>
+  S.Struct({
+    NumberOfLabels: S.optional(S.Number),
+    NumberOfTrainedDocuments: S.optional(S.Number),
+    NumberOfTestDocuments: S.optional(S.Number),
+    EvaluationMetrics: S.optional(ClassifierEvaluationMetrics),
+  }),
+).annotations({
+  identifier: "ClassifierMetadata",
+}) as any as S.Schema<ClassifierMetadata>;
+export interface DocumentClassifierProperties {
+  DocumentClassifierArn?: string;
+  LanguageCode?: string;
+  Status?: string;
+  Message?: string;
+  SubmitTime?: Date;
+  EndTime?: Date;
+  TrainingStartTime?: Date;
+  TrainingEndTime?: Date;
+  InputDataConfig?: DocumentClassifierInputDataConfig;
+  OutputDataConfig?: DocumentClassifierOutputDataConfig;
+  ClassifierMetadata?: ClassifierMetadata;
+  DataAccessRoleArn?: string;
+  VolumeKmsKeyId?: string;
+  VpcConfig?: VpcConfig;
+  Mode?: string;
+  ModelKmsKeyId?: string;
+  VersionName?: string;
+  SourceModelArn?: string;
+  FlywheelArn?: string;
+}
+export const DocumentClassifierProperties = S.suspend(() =>
+  S.Struct({
+    DocumentClassifierArn: S.optional(S.String),
+    LanguageCode: S.optional(S.String),
+    Status: S.optional(S.String),
+    Message: S.optional(S.String),
+    SubmitTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    TrainingStartTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    TrainingEndTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    InputDataConfig: S.optional(DocumentClassifierInputDataConfig),
+    OutputDataConfig: S.optional(DocumentClassifierOutputDataConfig),
+    ClassifierMetadata: S.optional(ClassifierMetadata),
+    DataAccessRoleArn: S.optional(S.String),
+    VolumeKmsKeyId: S.optional(S.String),
+    VpcConfig: S.optional(VpcConfig),
+    Mode: S.optional(S.String),
+    ModelKmsKeyId: S.optional(S.String),
+    VersionName: S.optional(S.String),
+    SourceModelArn: S.optional(S.String),
+    FlywheelArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DocumentClassifierProperties",
+}) as any as S.Schema<DocumentClassifierProperties>;
+export type DocumentClassifierPropertiesList = DocumentClassifierProperties[];
 export const DocumentClassifierPropertiesList = S.Array(
   DocumentClassifierProperties,
 );
-export class DocumentClassifierSummary extends S.Class<DocumentClassifierSummary>(
-  "DocumentClassifierSummary",
-)({
-  DocumentClassifierName: S.optional(S.String),
-  NumberOfVersions: S.optional(S.Number),
-  LatestVersionCreatedAt: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  LatestVersionName: S.optional(S.String),
-  LatestVersionStatus: S.optional(S.String),
-}) {}
+export interface DocumentClassifierSummary {
+  DocumentClassifierName?: string;
+  NumberOfVersions?: number;
+  LatestVersionCreatedAt?: Date;
+  LatestVersionName?: string;
+  LatestVersionStatus?: string;
+}
+export const DocumentClassifierSummary = S.suspend(() =>
+  S.Struct({
+    DocumentClassifierName: S.optional(S.String),
+    NumberOfVersions: S.optional(S.Number),
+    LatestVersionCreatedAt: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LatestVersionName: S.optional(S.String),
+    LatestVersionStatus: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DocumentClassifierSummary",
+}) as any as S.Schema<DocumentClassifierSummary>;
+export type DocumentClassifierSummariesList = DocumentClassifierSummary[];
 export const DocumentClassifierSummariesList = S.Array(
   DocumentClassifierSummary,
 );
+export type DominantLanguageDetectionJobPropertiesList =
+  DominantLanguageDetectionJobProperties[];
 export const DominantLanguageDetectionJobPropertiesList = S.Array(
   DominantLanguageDetectionJobProperties,
 );
+export type EndpointPropertiesList = EndpointProperties[];
 export const EndpointPropertiesList = S.Array(EndpointProperties);
+export type EntitiesDetectionJobPropertiesList =
+  EntitiesDetectionJobProperties[];
 export const EntitiesDetectionJobPropertiesList = S.Array(
   EntitiesDetectionJobProperties,
 );
-export class EntityRecognizerEvaluationMetrics extends S.Class<EntityRecognizerEvaluationMetrics>(
-  "EntityRecognizerEvaluationMetrics",
-)({
-  Precision: S.optional(S.Number),
-  Recall: S.optional(S.Number),
-  F1Score: S.optional(S.Number),
-}) {}
-export class EntityTypesEvaluationMetrics extends S.Class<EntityTypesEvaluationMetrics>(
-  "EntityTypesEvaluationMetrics",
-)({
-  Precision: S.optional(S.Number),
-  Recall: S.optional(S.Number),
-  F1Score: S.optional(S.Number),
-}) {}
-export class EntityRecognizerMetadataEntityTypesListItem extends S.Class<EntityRecognizerMetadataEntityTypesListItem>(
-  "EntityRecognizerMetadataEntityTypesListItem",
-)({
-  Type: S.optional(S.String),
-  EvaluationMetrics: S.optional(EntityTypesEvaluationMetrics),
-  NumberOfTrainMentions: S.optional(S.Number),
-}) {}
+export interface EntityRecognizerEvaluationMetrics {
+  Precision?: number;
+  Recall?: number;
+  F1Score?: number;
+}
+export const EntityRecognizerEvaluationMetrics = S.suspend(() =>
+  S.Struct({
+    Precision: S.optional(S.Number),
+    Recall: S.optional(S.Number),
+    F1Score: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "EntityRecognizerEvaluationMetrics",
+}) as any as S.Schema<EntityRecognizerEvaluationMetrics>;
+export interface EntityTypesEvaluationMetrics {
+  Precision?: number;
+  Recall?: number;
+  F1Score?: number;
+}
+export const EntityTypesEvaluationMetrics = S.suspend(() =>
+  S.Struct({
+    Precision: S.optional(S.Number),
+    Recall: S.optional(S.Number),
+    F1Score: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "EntityTypesEvaluationMetrics",
+}) as any as S.Schema<EntityTypesEvaluationMetrics>;
+export interface EntityRecognizerMetadataEntityTypesListItem {
+  Type?: string;
+  EvaluationMetrics?: EntityTypesEvaluationMetrics;
+  NumberOfTrainMentions?: number;
+}
+export const EntityRecognizerMetadataEntityTypesListItem = S.suspend(() =>
+  S.Struct({
+    Type: S.optional(S.String),
+    EvaluationMetrics: S.optional(EntityTypesEvaluationMetrics),
+    NumberOfTrainMentions: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "EntityRecognizerMetadataEntityTypesListItem",
+}) as any as S.Schema<EntityRecognizerMetadataEntityTypesListItem>;
+export type EntityRecognizerMetadataEntityTypesList =
+  EntityRecognizerMetadataEntityTypesListItem[];
 export const EntityRecognizerMetadataEntityTypesList = S.Array(
   EntityRecognizerMetadataEntityTypesListItem,
 );
-export class EntityRecognizerMetadata extends S.Class<EntityRecognizerMetadata>(
-  "EntityRecognizerMetadata",
-)({
-  NumberOfTrainedDocuments: S.optional(S.Number),
-  NumberOfTestDocuments: S.optional(S.Number),
-  EvaluationMetrics: S.optional(EntityRecognizerEvaluationMetrics),
-  EntityTypes: S.optional(EntityRecognizerMetadataEntityTypesList),
-}) {}
-export class EntityRecognizerOutputDataConfig extends S.Class<EntityRecognizerOutputDataConfig>(
-  "EntityRecognizerOutputDataConfig",
-)({ FlywheelStatsS3Prefix: S.optional(S.String) }) {}
-export class EntityRecognizerProperties extends S.Class<EntityRecognizerProperties>(
-  "EntityRecognizerProperties",
-)({
-  EntityRecognizerArn: S.optional(S.String),
-  LanguageCode: S.optional(S.String),
-  Status: S.optional(S.String),
-  Message: S.optional(S.String),
-  SubmitTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  TrainingStartTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  TrainingEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  InputDataConfig: S.optional(EntityRecognizerInputDataConfig),
-  RecognizerMetadata: S.optional(EntityRecognizerMetadata),
-  DataAccessRoleArn: S.optional(S.String),
-  VolumeKmsKeyId: S.optional(S.String),
-  VpcConfig: S.optional(VpcConfig),
-  ModelKmsKeyId: S.optional(S.String),
-  VersionName: S.optional(S.String),
-  SourceModelArn: S.optional(S.String),
-  FlywheelArn: S.optional(S.String),
-  OutputDataConfig: S.optional(EntityRecognizerOutputDataConfig),
-}) {}
+export interface EntityRecognizerMetadata {
+  NumberOfTrainedDocuments?: number;
+  NumberOfTestDocuments?: number;
+  EvaluationMetrics?: EntityRecognizerEvaluationMetrics;
+  EntityTypes?: EntityRecognizerMetadataEntityTypesList;
+}
+export const EntityRecognizerMetadata = S.suspend(() =>
+  S.Struct({
+    NumberOfTrainedDocuments: S.optional(S.Number),
+    NumberOfTestDocuments: S.optional(S.Number),
+    EvaluationMetrics: S.optional(EntityRecognizerEvaluationMetrics),
+    EntityTypes: S.optional(EntityRecognizerMetadataEntityTypesList),
+  }),
+).annotations({
+  identifier: "EntityRecognizerMetadata",
+}) as any as S.Schema<EntityRecognizerMetadata>;
+export interface EntityRecognizerOutputDataConfig {
+  FlywheelStatsS3Prefix?: string;
+}
+export const EntityRecognizerOutputDataConfig = S.suspend(() =>
+  S.Struct({ FlywheelStatsS3Prefix: S.optional(S.String) }),
+).annotations({
+  identifier: "EntityRecognizerOutputDataConfig",
+}) as any as S.Schema<EntityRecognizerOutputDataConfig>;
+export interface EntityRecognizerProperties {
+  EntityRecognizerArn?: string;
+  LanguageCode?: string;
+  Status?: string;
+  Message?: string;
+  SubmitTime?: Date;
+  EndTime?: Date;
+  TrainingStartTime?: Date;
+  TrainingEndTime?: Date;
+  InputDataConfig?: EntityRecognizerInputDataConfig;
+  RecognizerMetadata?: EntityRecognizerMetadata;
+  DataAccessRoleArn?: string;
+  VolumeKmsKeyId?: string;
+  VpcConfig?: VpcConfig;
+  ModelKmsKeyId?: string;
+  VersionName?: string;
+  SourceModelArn?: string;
+  FlywheelArn?: string;
+  OutputDataConfig?: EntityRecognizerOutputDataConfig;
+}
+export const EntityRecognizerProperties = S.suspend(() =>
+  S.Struct({
+    EntityRecognizerArn: S.optional(S.String),
+    LanguageCode: S.optional(S.String),
+    Status: S.optional(S.String),
+    Message: S.optional(S.String),
+    SubmitTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    TrainingStartTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    TrainingEndTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    InputDataConfig: S.optional(EntityRecognizerInputDataConfig),
+    RecognizerMetadata: S.optional(EntityRecognizerMetadata),
+    DataAccessRoleArn: S.optional(S.String),
+    VolumeKmsKeyId: S.optional(S.String),
+    VpcConfig: S.optional(VpcConfig),
+    ModelKmsKeyId: S.optional(S.String),
+    VersionName: S.optional(S.String),
+    SourceModelArn: S.optional(S.String),
+    FlywheelArn: S.optional(S.String),
+    OutputDataConfig: S.optional(EntityRecognizerOutputDataConfig),
+  }),
+).annotations({
+  identifier: "EntityRecognizerProperties",
+}) as any as S.Schema<EntityRecognizerProperties>;
+export type EntityRecognizerPropertiesList = EntityRecognizerProperties[];
 export const EntityRecognizerPropertiesList = S.Array(
   EntityRecognizerProperties,
 );
-export class EntityRecognizerSummary extends S.Class<EntityRecognizerSummary>(
-  "EntityRecognizerSummary",
-)({
-  RecognizerName: S.optional(S.String),
-  NumberOfVersions: S.optional(S.Number),
-  LatestVersionCreatedAt: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  LatestVersionName: S.optional(S.String),
-  LatestVersionStatus: S.optional(S.String),
-}) {}
+export interface EntityRecognizerSummary {
+  RecognizerName?: string;
+  NumberOfVersions?: number;
+  LatestVersionCreatedAt?: Date;
+  LatestVersionName?: string;
+  LatestVersionStatus?: string;
+}
+export const EntityRecognizerSummary = S.suspend(() =>
+  S.Struct({
+    RecognizerName: S.optional(S.String),
+    NumberOfVersions: S.optional(S.Number),
+    LatestVersionCreatedAt: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LatestVersionName: S.optional(S.String),
+    LatestVersionStatus: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "EntityRecognizerSummary",
+}) as any as S.Schema<EntityRecognizerSummary>;
+export type EntityRecognizerSummariesList = EntityRecognizerSummary[];
 export const EntityRecognizerSummariesList = S.Array(EntityRecognizerSummary);
+export type EventsDetectionJobPropertiesList = EventsDetectionJobProperties[];
 export const EventsDetectionJobPropertiesList = S.Array(
   EventsDetectionJobProperties,
 );
-export class FlywheelModelEvaluationMetrics extends S.Class<FlywheelModelEvaluationMetrics>(
-  "FlywheelModelEvaluationMetrics",
-)({
-  AverageF1Score: S.optional(S.Number),
-  AveragePrecision: S.optional(S.Number),
-  AverageRecall: S.optional(S.Number),
-  AverageAccuracy: S.optional(S.Number),
-}) {}
-export class FlywheelIterationProperties extends S.Class<FlywheelIterationProperties>(
-  "FlywheelIterationProperties",
-)({
-  FlywheelArn: S.optional(S.String),
-  FlywheelIterationId: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Status: S.optional(S.String),
-  Message: S.optional(S.String),
-  EvaluatedModelArn: S.optional(S.String),
-  EvaluatedModelMetrics: S.optional(FlywheelModelEvaluationMetrics),
-  TrainedModelArn: S.optional(S.String),
-  TrainedModelMetrics: S.optional(FlywheelModelEvaluationMetrics),
-  EvaluationManifestS3Prefix: S.optional(S.String),
-}) {}
+export interface FlywheelModelEvaluationMetrics {
+  AverageF1Score?: number;
+  AveragePrecision?: number;
+  AverageRecall?: number;
+  AverageAccuracy?: number;
+}
+export const FlywheelModelEvaluationMetrics = S.suspend(() =>
+  S.Struct({
+    AverageF1Score: S.optional(S.Number),
+    AveragePrecision: S.optional(S.Number),
+    AverageRecall: S.optional(S.Number),
+    AverageAccuracy: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "FlywheelModelEvaluationMetrics",
+}) as any as S.Schema<FlywheelModelEvaluationMetrics>;
+export interface FlywheelIterationProperties {
+  FlywheelArn?: string;
+  FlywheelIterationId?: string;
+  CreationTime?: Date;
+  EndTime?: Date;
+  Status?: string;
+  Message?: string;
+  EvaluatedModelArn?: string;
+  EvaluatedModelMetrics?: FlywheelModelEvaluationMetrics;
+  TrainedModelArn?: string;
+  TrainedModelMetrics?: FlywheelModelEvaluationMetrics;
+  EvaluationManifestS3Prefix?: string;
+}
+export const FlywheelIterationProperties = S.suspend(() =>
+  S.Struct({
+    FlywheelArn: S.optional(S.String),
+    FlywheelIterationId: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Status: S.optional(S.String),
+    Message: S.optional(S.String),
+    EvaluatedModelArn: S.optional(S.String),
+    EvaluatedModelMetrics: S.optional(FlywheelModelEvaluationMetrics),
+    TrainedModelArn: S.optional(S.String),
+    TrainedModelMetrics: S.optional(FlywheelModelEvaluationMetrics),
+    EvaluationManifestS3Prefix: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "FlywheelIterationProperties",
+}) as any as S.Schema<FlywheelIterationProperties>;
+export type FlywheelIterationPropertiesList = FlywheelIterationProperties[];
 export const FlywheelIterationPropertiesList = S.Array(
   FlywheelIterationProperties,
 );
+export type KeyPhrasesDetectionJobPropertiesList =
+  KeyPhrasesDetectionJobProperties[];
 export const KeyPhrasesDetectionJobPropertiesList = S.Array(
   KeyPhrasesDetectionJobProperties,
 );
-export class PiiOutputDataConfig extends S.Class<PiiOutputDataConfig>(
-  "PiiOutputDataConfig",
-)({ S3Uri: S.String, KmsKeyId: S.optional(S.String) }) {}
-export class PiiEntitiesDetectionJobProperties extends S.Class<PiiEntitiesDetectionJobProperties>(
-  "PiiEntitiesDetectionJobProperties",
-)({
-  JobId: S.optional(S.String),
-  JobArn: S.optional(S.String),
-  JobName: S.optional(S.String),
-  JobStatus: S.optional(S.String),
-  Message: S.optional(S.String),
-  SubmitTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  InputDataConfig: S.optional(InputDataConfig),
-  OutputDataConfig: S.optional(PiiOutputDataConfig),
-  RedactionConfig: S.optional(RedactionConfig),
-  LanguageCode: S.optional(S.String),
-  DataAccessRoleArn: S.optional(S.String),
-  Mode: S.optional(S.String),
-}) {}
+export interface PiiOutputDataConfig {
+  S3Uri: string;
+  KmsKeyId?: string;
+}
+export const PiiOutputDataConfig = S.suspend(() =>
+  S.Struct({ S3Uri: S.String, KmsKeyId: S.optional(S.String) }),
+).annotations({
+  identifier: "PiiOutputDataConfig",
+}) as any as S.Schema<PiiOutputDataConfig>;
+export interface PiiEntitiesDetectionJobProperties {
+  JobId?: string;
+  JobArn?: string;
+  JobName?: string;
+  JobStatus?: string;
+  Message?: string;
+  SubmitTime?: Date;
+  EndTime?: Date;
+  InputDataConfig?: InputDataConfig;
+  OutputDataConfig?: PiiOutputDataConfig;
+  RedactionConfig?: RedactionConfig;
+  LanguageCode?: string;
+  DataAccessRoleArn?: string;
+  Mode?: string;
+}
+export const PiiEntitiesDetectionJobProperties = S.suspend(() =>
+  S.Struct({
+    JobId: S.optional(S.String),
+    JobArn: S.optional(S.String),
+    JobName: S.optional(S.String),
+    JobStatus: S.optional(S.String),
+    Message: S.optional(S.String),
+    SubmitTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    InputDataConfig: S.optional(InputDataConfig),
+    OutputDataConfig: S.optional(PiiOutputDataConfig),
+    RedactionConfig: S.optional(RedactionConfig),
+    LanguageCode: S.optional(S.String),
+    DataAccessRoleArn: S.optional(S.String),
+    Mode: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "PiiEntitiesDetectionJobProperties",
+}) as any as S.Schema<PiiEntitiesDetectionJobProperties>;
+export type PiiEntitiesDetectionJobPropertiesList =
+  PiiEntitiesDetectionJobProperties[];
 export const PiiEntitiesDetectionJobPropertiesList = S.Array(
   PiiEntitiesDetectionJobProperties,
 );
+export type SentimentDetectionJobPropertiesList =
+  SentimentDetectionJobProperties[];
 export const SentimentDetectionJobPropertiesList = S.Array(
   SentimentDetectionJobProperties,
 );
+export type TargetedSentimentDetectionJobPropertiesList =
+  TargetedSentimentDetectionJobProperties[];
 export const TargetedSentimentDetectionJobPropertiesList = S.Array(
   TargetedSentimentDetectionJobProperties,
 );
+export type TopicsDetectionJobPropertiesList = TopicsDetectionJobProperties[];
 export const TopicsDetectionJobPropertiesList = S.Array(
   TopicsDetectionJobProperties,
 );
-export class DatasetEntityRecognizerAnnotations extends S.Class<DatasetEntityRecognizerAnnotations>(
-  "DatasetEntityRecognizerAnnotations",
-)({ S3Uri: S.String }) {}
-export class DatasetEntityRecognizerDocuments extends S.Class<DatasetEntityRecognizerDocuments>(
-  "DatasetEntityRecognizerDocuments",
-)({ S3Uri: S.String, InputFormat: S.optional(S.String) }) {}
-export class DatasetEntityRecognizerEntityList extends S.Class<DatasetEntityRecognizerEntityList>(
-  "DatasetEntityRecognizerEntityList",
-)({ S3Uri: S.String }) {}
+export interface DatasetEntityRecognizerAnnotations {
+  S3Uri: string;
+}
+export const DatasetEntityRecognizerAnnotations = S.suspend(() =>
+  S.Struct({ S3Uri: S.String }),
+).annotations({
+  identifier: "DatasetEntityRecognizerAnnotations",
+}) as any as S.Schema<DatasetEntityRecognizerAnnotations>;
+export interface DatasetEntityRecognizerDocuments {
+  S3Uri: string;
+  InputFormat?: string;
+}
+export const DatasetEntityRecognizerDocuments = S.suspend(() =>
+  S.Struct({ S3Uri: S.String, InputFormat: S.optional(S.String) }),
+).annotations({
+  identifier: "DatasetEntityRecognizerDocuments",
+}) as any as S.Schema<DatasetEntityRecognizerDocuments>;
+export interface DatasetEntityRecognizerEntityList {
+  S3Uri: string;
+}
+export const DatasetEntityRecognizerEntityList = S.suspend(() =>
+  S.Struct({ S3Uri: S.String }),
+).annotations({
+  identifier: "DatasetEntityRecognizerEntityList",
+}) as any as S.Schema<DatasetEntityRecognizerEntityList>;
+export type StringList = string[];
 export const StringList = S.Array(S.String);
-export class BatchDetectDominantLanguageResponse extends S.Class<BatchDetectDominantLanguageResponse>(
-  "BatchDetectDominantLanguageResponse",
-)({
-  ResultList: ListOfDetectDominantLanguageResult,
-  ErrorList: BatchItemErrorList,
-}) {}
-export class BatchDetectEntitiesResponse extends S.Class<BatchDetectEntitiesResponse>(
-  "BatchDetectEntitiesResponse",
-)({ ResultList: ListOfDetectEntitiesResult, ErrorList: BatchItemErrorList }) {}
-export class BatchDetectKeyPhrasesResponse extends S.Class<BatchDetectKeyPhrasesResponse>(
-  "BatchDetectKeyPhrasesResponse",
-)({
-  ResultList: ListOfDetectKeyPhrasesResult,
-  ErrorList: BatchItemErrorList,
-}) {}
-export class BatchDetectSentimentResponse extends S.Class<BatchDetectSentimentResponse>(
-  "BatchDetectSentimentResponse",
-)({ ResultList: ListOfDetectSentimentResult, ErrorList: BatchItemErrorList }) {}
-export class BatchDetectSyntaxResponse extends S.Class<BatchDetectSyntaxResponse>(
-  "BatchDetectSyntaxResponse",
-)({ ResultList: ListOfDetectSyntaxResult, ErrorList: BatchItemErrorList }) {}
-export class BatchDetectTargetedSentimentResponse extends S.Class<BatchDetectTargetedSentimentResponse>(
-  "BatchDetectTargetedSentimentResponse",
-)({
-  ResultList: ListOfDetectTargetedSentimentResult,
-  ErrorList: BatchItemErrorList,
-}) {}
-export class ContainsPiiEntitiesResponse extends S.Class<ContainsPiiEntitiesResponse>(
-  "ContainsPiiEntitiesResponse",
-)({ Labels: S.optional(ListOfEntityLabels) }) {}
-export class CreateDocumentClassifierRequest extends S.Class<CreateDocumentClassifierRequest>(
-  "CreateDocumentClassifierRequest",
-)(
-  {
+export interface BatchDetectDominantLanguageResponse {
+  ResultList: ListOfDetectDominantLanguageResult;
+  ErrorList: BatchItemErrorList;
+}
+export const BatchDetectDominantLanguageResponse = S.suspend(() =>
+  S.Struct({
+    ResultList: ListOfDetectDominantLanguageResult,
+    ErrorList: BatchItemErrorList,
+  }),
+).annotations({
+  identifier: "BatchDetectDominantLanguageResponse",
+}) as any as S.Schema<BatchDetectDominantLanguageResponse>;
+export interface BatchDetectEntitiesResponse {
+  ResultList: ListOfDetectEntitiesResult;
+  ErrorList: BatchItemErrorList;
+}
+export const BatchDetectEntitiesResponse = S.suspend(() =>
+  S.Struct({
+    ResultList: ListOfDetectEntitiesResult,
+    ErrorList: BatchItemErrorList,
+  }),
+).annotations({
+  identifier: "BatchDetectEntitiesResponse",
+}) as any as S.Schema<BatchDetectEntitiesResponse>;
+export interface BatchDetectKeyPhrasesResponse {
+  ResultList: ListOfDetectKeyPhrasesResult;
+  ErrorList: BatchItemErrorList;
+}
+export const BatchDetectKeyPhrasesResponse = S.suspend(() =>
+  S.Struct({
+    ResultList: ListOfDetectKeyPhrasesResult,
+    ErrorList: BatchItemErrorList,
+  }),
+).annotations({
+  identifier: "BatchDetectKeyPhrasesResponse",
+}) as any as S.Schema<BatchDetectKeyPhrasesResponse>;
+export interface BatchDetectSentimentResponse {
+  ResultList: ListOfDetectSentimentResult;
+  ErrorList: BatchItemErrorList;
+}
+export const BatchDetectSentimentResponse = S.suspend(() =>
+  S.Struct({
+    ResultList: ListOfDetectSentimentResult,
+    ErrorList: BatchItemErrorList,
+  }),
+).annotations({
+  identifier: "BatchDetectSentimentResponse",
+}) as any as S.Schema<BatchDetectSentimentResponse>;
+export interface BatchDetectSyntaxResponse {
+  ResultList: ListOfDetectSyntaxResult;
+  ErrorList: BatchItemErrorList;
+}
+export const BatchDetectSyntaxResponse = S.suspend(() =>
+  S.Struct({
+    ResultList: ListOfDetectSyntaxResult,
+    ErrorList: BatchItemErrorList,
+  }),
+).annotations({
+  identifier: "BatchDetectSyntaxResponse",
+}) as any as S.Schema<BatchDetectSyntaxResponse>;
+export interface BatchDetectTargetedSentimentResponse {
+  ResultList: ListOfDetectTargetedSentimentResult;
+  ErrorList: BatchItemErrorList;
+}
+export const BatchDetectTargetedSentimentResponse = S.suspend(() =>
+  S.Struct({
+    ResultList: ListOfDetectTargetedSentimentResult,
+    ErrorList: BatchItemErrorList,
+  }),
+).annotations({
+  identifier: "BatchDetectTargetedSentimentResponse",
+}) as any as S.Schema<BatchDetectTargetedSentimentResponse>;
+export interface ContainsPiiEntitiesResponse {
+  Labels?: ListOfEntityLabels;
+}
+export const ContainsPiiEntitiesResponse = S.suspend(() =>
+  S.Struct({ Labels: S.optional(ListOfEntityLabels) }),
+).annotations({
+  identifier: "ContainsPiiEntitiesResponse",
+}) as any as S.Schema<ContainsPiiEntitiesResponse>;
+export interface CreateDocumentClassifierRequest {
+  DocumentClassifierName: string;
+  VersionName?: string;
+  DataAccessRoleArn: string;
+  Tags?: TagList;
+  InputDataConfig: DocumentClassifierInputDataConfig;
+  OutputDataConfig?: DocumentClassifierOutputDataConfig;
+  ClientRequestToken?: string;
+  LanguageCode: string;
+  VolumeKmsKeyId?: string;
+  VpcConfig?: VpcConfig;
+  Mode?: string;
+  ModelKmsKeyId?: string;
+  ModelPolicy?: string;
+}
+export const CreateDocumentClassifierRequest = S.suspend(() =>
+  S.Struct({
     DocumentClassifierName: S.String,
     VersionName: S.optional(S.String),
     DataAccessRoleArn: S.String,
@@ -1930,13 +3558,27 @@ export class CreateDocumentClassifierRequest extends S.Class<CreateDocumentClass
     Mode: S.optional(S.String),
     ModelKmsKeyId: S.optional(S.String),
     ModelPolicy: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateEntityRecognizerRequest extends S.Class<CreateEntityRecognizerRequest>(
-  "CreateEntityRecognizerRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateDocumentClassifierRequest",
+}) as any as S.Schema<CreateDocumentClassifierRequest>;
+export interface CreateEntityRecognizerRequest {
+  RecognizerName: string;
+  VersionName?: string;
+  DataAccessRoleArn: string;
+  Tags?: TagList;
+  InputDataConfig: EntityRecognizerInputDataConfig;
+  ClientRequestToken?: string;
+  LanguageCode: string;
+  VolumeKmsKeyId?: string;
+  VpcConfig?: VpcConfig;
+  ModelKmsKeyId?: string;
+  ModelPolicy?: string;
+}
+export const CreateEntityRecognizerRequest = S.suspend(() =>
+  S.Struct({
     RecognizerName: S.String,
     VersionName: S.optional(S.String),
     DataAccessRoleArn: S.String,
@@ -1948,13 +3590,25 @@ export class CreateEntityRecognizerRequest extends S.Class<CreateEntityRecognize
     VpcConfig: S.optional(VpcConfig),
     ModelKmsKeyId: S.optional(S.String),
     ModelPolicy: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateFlywheelRequest extends S.Class<CreateFlywheelRequest>(
-  "CreateFlywheelRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateEntityRecognizerRequest",
+}) as any as S.Schema<CreateEntityRecognizerRequest>;
+export interface CreateFlywheelRequest {
+  FlywheelName: string;
+  ActiveModelArn?: string;
+  DataAccessRoleArn: string;
+  TaskConfig?: TaskConfig;
+  ModelType?: string;
+  DataLakeS3Uri: string;
+  DataSecurityConfig?: DataSecurityConfig;
+  ClientRequestToken?: string;
+  Tags?: TagList;
+}
+export const CreateFlywheelRequest = S.suspend(() =>
+  S.Struct({
     FlywheelName: S.String,
     ActiveModelArn: S.optional(S.String),
     DataAccessRoleArn: S.String,
@@ -1964,306 +3618,624 @@ export class CreateFlywheelRequest extends S.Class<CreateFlywheelRequest>(
     DataSecurityConfig: S.optional(DataSecurityConfig),
     ClientRequestToken: S.optional(S.String),
     Tags: S.optional(TagList),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeDatasetResponse extends S.Class<DescribeDatasetResponse>(
-  "DescribeDatasetResponse",
-)({ DatasetProperties: S.optional(DatasetProperties) }) {}
-export class DescribeDocumentClassificationJobResponse extends S.Class<DescribeDocumentClassificationJobResponse>(
-  "DescribeDocumentClassificationJobResponse",
-)({
-  DocumentClassificationJobProperties: S.optional(
-    DocumentClassificationJobProperties,
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-}) {}
-export class DescribeDominantLanguageDetectionJobResponse extends S.Class<DescribeDominantLanguageDetectionJobResponse>(
-  "DescribeDominantLanguageDetectionJobResponse",
-)({
-  DominantLanguageDetectionJobProperties: S.optional(
-    DominantLanguageDetectionJobProperties,
-  ),
-}) {}
-export class DescribeEndpointResponse extends S.Class<DescribeEndpointResponse>(
-  "DescribeEndpointResponse",
-)({ EndpointProperties: S.optional(EndpointProperties) }) {}
-export class DescribeEntitiesDetectionJobResponse extends S.Class<DescribeEntitiesDetectionJobResponse>(
-  "DescribeEntitiesDetectionJobResponse",
-)({
-  EntitiesDetectionJobProperties: S.optional(EntitiesDetectionJobProperties),
-}) {}
-export class DescribeEventsDetectionJobResponse extends S.Class<DescribeEventsDetectionJobResponse>(
-  "DescribeEventsDetectionJobResponse",
-)({ EventsDetectionJobProperties: S.optional(EventsDetectionJobProperties) }) {}
-export class DescribeFlywheelResponse extends S.Class<DescribeFlywheelResponse>(
-  "DescribeFlywheelResponse",
-)({ FlywheelProperties: S.optional(FlywheelProperties) }) {}
-export class DescribeKeyPhrasesDetectionJobResponse extends S.Class<DescribeKeyPhrasesDetectionJobResponse>(
-  "DescribeKeyPhrasesDetectionJobResponse",
-)({
-  KeyPhrasesDetectionJobProperties: S.optional(
-    KeyPhrasesDetectionJobProperties,
-  ),
-}) {}
-export class DescribeSentimentDetectionJobResponse extends S.Class<DescribeSentimentDetectionJobResponse>(
-  "DescribeSentimentDetectionJobResponse",
-)({
-  SentimentDetectionJobProperties: S.optional(SentimentDetectionJobProperties),
-}) {}
-export class DescribeTargetedSentimentDetectionJobResponse extends S.Class<DescribeTargetedSentimentDetectionJobResponse>(
-  "DescribeTargetedSentimentDetectionJobResponse",
-)({
-  TargetedSentimentDetectionJobProperties: S.optional(
-    TargetedSentimentDetectionJobProperties,
-  ),
-}) {}
-export class DescribeTopicsDetectionJobResponse extends S.Class<DescribeTopicsDetectionJobResponse>(
-  "DescribeTopicsDetectionJobResponse",
-)({ TopicsDetectionJobProperties: S.optional(TopicsDetectionJobProperties) }) {}
-export class DetectDominantLanguageResponse extends S.Class<DetectDominantLanguageResponse>(
-  "DetectDominantLanguageResponse",
-)({ Languages: S.optional(ListOfDominantLanguages) }) {}
-export class DetectKeyPhrasesResponse extends S.Class<DetectKeyPhrasesResponse>(
-  "DetectKeyPhrasesResponse",
-)({ KeyPhrases: S.optional(ListOfKeyPhrases) }) {}
-export class DetectPiiEntitiesResponse extends S.Class<DetectPiiEntitiesResponse>(
-  "DetectPiiEntitiesResponse",
-)({ Entities: S.optional(ListOfPiiEntities) }) {}
-export class DetectSentimentResponse extends S.Class<DetectSentimentResponse>(
-  "DetectSentimentResponse",
-)({
-  Sentiment: S.optional(S.String),
-  SentimentScore: S.optional(SentimentScore),
-}) {}
-export class ListDatasetsResponse extends S.Class<ListDatasetsResponse>(
-  "ListDatasetsResponse",
-)({
-  DatasetPropertiesList: S.optional(DatasetPropertiesList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListDocumentClassificationJobsResponse extends S.Class<ListDocumentClassificationJobsResponse>(
-  "ListDocumentClassificationJobsResponse",
-)({
-  DocumentClassificationJobPropertiesList: S.optional(
-    DocumentClassificationJobPropertiesList,
-  ),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListDocumentClassifiersResponse extends S.Class<ListDocumentClassifiersResponse>(
-  "ListDocumentClassifiersResponse",
-)({
-  DocumentClassifierPropertiesList: S.optional(
-    DocumentClassifierPropertiesList,
-  ),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListDocumentClassifierSummariesResponse extends S.Class<ListDocumentClassifierSummariesResponse>(
-  "ListDocumentClassifierSummariesResponse",
-)({
-  DocumentClassifierSummariesList: S.optional(DocumentClassifierSummariesList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListDominantLanguageDetectionJobsResponse extends S.Class<ListDominantLanguageDetectionJobsResponse>(
-  "ListDominantLanguageDetectionJobsResponse",
-)({
-  DominantLanguageDetectionJobPropertiesList: S.optional(
-    DominantLanguageDetectionJobPropertiesList,
-  ),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListEndpointsResponse extends S.Class<ListEndpointsResponse>(
-  "ListEndpointsResponse",
-)({
-  EndpointPropertiesList: S.optional(EndpointPropertiesList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListEntitiesDetectionJobsResponse extends S.Class<ListEntitiesDetectionJobsResponse>(
-  "ListEntitiesDetectionJobsResponse",
-)({
-  EntitiesDetectionJobPropertiesList: S.optional(
-    EntitiesDetectionJobPropertiesList,
-  ),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListEntityRecognizersResponse extends S.Class<ListEntityRecognizersResponse>(
-  "ListEntityRecognizersResponse",
-)({
-  EntityRecognizerPropertiesList: S.optional(EntityRecognizerPropertiesList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListEntityRecognizerSummariesResponse extends S.Class<ListEntityRecognizerSummariesResponse>(
-  "ListEntityRecognizerSummariesResponse",
-)({
-  EntityRecognizerSummariesList: S.optional(EntityRecognizerSummariesList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListEventsDetectionJobsResponse extends S.Class<ListEventsDetectionJobsResponse>(
-  "ListEventsDetectionJobsResponse",
-)({
-  EventsDetectionJobPropertiesList: S.optional(
-    EventsDetectionJobPropertiesList,
-  ),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListFlywheelIterationHistoryResponse extends S.Class<ListFlywheelIterationHistoryResponse>(
-  "ListFlywheelIterationHistoryResponse",
-)({
-  FlywheelIterationPropertiesList: S.optional(FlywheelIterationPropertiesList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListKeyPhrasesDetectionJobsResponse extends S.Class<ListKeyPhrasesDetectionJobsResponse>(
-  "ListKeyPhrasesDetectionJobsResponse",
-)({
-  KeyPhrasesDetectionJobPropertiesList: S.optional(
-    KeyPhrasesDetectionJobPropertiesList,
-  ),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListPiiEntitiesDetectionJobsResponse extends S.Class<ListPiiEntitiesDetectionJobsResponse>(
-  "ListPiiEntitiesDetectionJobsResponse",
-)({
-  PiiEntitiesDetectionJobPropertiesList: S.optional(
-    PiiEntitiesDetectionJobPropertiesList,
-  ),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListSentimentDetectionJobsResponse extends S.Class<ListSentimentDetectionJobsResponse>(
-  "ListSentimentDetectionJobsResponse",
-)({
-  SentimentDetectionJobPropertiesList: S.optional(
-    SentimentDetectionJobPropertiesList,
-  ),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListTargetedSentimentDetectionJobsResponse extends S.Class<ListTargetedSentimentDetectionJobsResponse>(
-  "ListTargetedSentimentDetectionJobsResponse",
-)({
-  TargetedSentimentDetectionJobPropertiesList: S.optional(
-    TargetedSentimentDetectionJobPropertiesList,
-  ),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListTopicsDetectionJobsResponse extends S.Class<ListTopicsDetectionJobsResponse>(
-  "ListTopicsDetectionJobsResponse",
-)({
-  TopicsDetectionJobPropertiesList: S.optional(
-    TopicsDetectionJobPropertiesList,
-  ),
-  NextToken: S.optional(S.String),
-}) {}
-export class StartDocumentClassificationJobResponse extends S.Class<StartDocumentClassificationJobResponse>(
-  "StartDocumentClassificationJobResponse",
-)({
-  JobId: S.optional(S.String),
-  JobArn: S.optional(S.String),
-  JobStatus: S.optional(S.String),
-  DocumentClassifierArn: S.optional(S.String),
-}) {}
-export class StartPiiEntitiesDetectionJobResponse extends S.Class<StartPiiEntitiesDetectionJobResponse>(
-  "StartPiiEntitiesDetectionJobResponse",
-)({
-  JobId: S.optional(S.String),
-  JobArn: S.optional(S.String),
-  JobStatus: S.optional(S.String),
-}) {}
-export class UpdateFlywheelResponse extends S.Class<UpdateFlywheelResponse>(
-  "UpdateFlywheelResponse",
-)({ FlywheelProperties: S.optional(FlywheelProperties) }) {}
-export class DatasetEntityRecognizerInputDataConfig extends S.Class<DatasetEntityRecognizerInputDataConfig>(
-  "DatasetEntityRecognizerInputDataConfig",
-)({
-  Annotations: S.optional(DatasetEntityRecognizerAnnotations),
-  Documents: DatasetEntityRecognizerDocuments,
-  EntityList: S.optional(DatasetEntityRecognizerEntityList),
-}) {}
-export class ExtractedCharactersListItem extends S.Class<ExtractedCharactersListItem>(
-  "ExtractedCharactersListItem",
-)({ Page: S.optional(S.Number), Count: S.optional(S.Number) }) {}
+).annotations({
+  identifier: "CreateFlywheelRequest",
+}) as any as S.Schema<CreateFlywheelRequest>;
+export interface DescribeDatasetResponse {
+  DatasetProperties?: DatasetProperties;
+}
+export const DescribeDatasetResponse = S.suspend(() =>
+  S.Struct({ DatasetProperties: S.optional(DatasetProperties) }),
+).annotations({
+  identifier: "DescribeDatasetResponse",
+}) as any as S.Schema<DescribeDatasetResponse>;
+export interface DescribeDocumentClassificationJobResponse {
+  DocumentClassificationJobProperties?: DocumentClassificationJobProperties;
+}
+export const DescribeDocumentClassificationJobResponse = S.suspend(() =>
+  S.Struct({
+    DocumentClassificationJobProperties: S.optional(
+      DocumentClassificationJobProperties,
+    ),
+  }),
+).annotations({
+  identifier: "DescribeDocumentClassificationJobResponse",
+}) as any as S.Schema<DescribeDocumentClassificationJobResponse>;
+export interface DescribeDominantLanguageDetectionJobResponse {
+  DominantLanguageDetectionJobProperties?: DominantLanguageDetectionJobProperties;
+}
+export const DescribeDominantLanguageDetectionJobResponse = S.suspend(() =>
+  S.Struct({
+    DominantLanguageDetectionJobProperties: S.optional(
+      DominantLanguageDetectionJobProperties,
+    ),
+  }),
+).annotations({
+  identifier: "DescribeDominantLanguageDetectionJobResponse",
+}) as any as S.Schema<DescribeDominantLanguageDetectionJobResponse>;
+export interface DescribeEndpointResponse {
+  EndpointProperties?: EndpointProperties;
+}
+export const DescribeEndpointResponse = S.suspend(() =>
+  S.Struct({ EndpointProperties: S.optional(EndpointProperties) }),
+).annotations({
+  identifier: "DescribeEndpointResponse",
+}) as any as S.Schema<DescribeEndpointResponse>;
+export interface DescribeEntitiesDetectionJobResponse {
+  EntitiesDetectionJobProperties?: EntitiesDetectionJobProperties;
+}
+export const DescribeEntitiesDetectionJobResponse = S.suspend(() =>
+  S.Struct({
+    EntitiesDetectionJobProperties: S.optional(EntitiesDetectionJobProperties),
+  }),
+).annotations({
+  identifier: "DescribeEntitiesDetectionJobResponse",
+}) as any as S.Schema<DescribeEntitiesDetectionJobResponse>;
+export interface DescribeEventsDetectionJobResponse {
+  EventsDetectionJobProperties?: EventsDetectionJobProperties;
+}
+export const DescribeEventsDetectionJobResponse = S.suspend(() =>
+  S.Struct({
+    EventsDetectionJobProperties: S.optional(EventsDetectionJobProperties),
+  }),
+).annotations({
+  identifier: "DescribeEventsDetectionJobResponse",
+}) as any as S.Schema<DescribeEventsDetectionJobResponse>;
+export interface DescribeFlywheelResponse {
+  FlywheelProperties?: FlywheelProperties;
+}
+export const DescribeFlywheelResponse = S.suspend(() =>
+  S.Struct({ FlywheelProperties: S.optional(FlywheelProperties) }),
+).annotations({
+  identifier: "DescribeFlywheelResponse",
+}) as any as S.Schema<DescribeFlywheelResponse>;
+export interface DescribeKeyPhrasesDetectionJobResponse {
+  KeyPhrasesDetectionJobProperties?: KeyPhrasesDetectionJobProperties;
+}
+export const DescribeKeyPhrasesDetectionJobResponse = S.suspend(() =>
+  S.Struct({
+    KeyPhrasesDetectionJobProperties: S.optional(
+      KeyPhrasesDetectionJobProperties,
+    ),
+  }),
+).annotations({
+  identifier: "DescribeKeyPhrasesDetectionJobResponse",
+}) as any as S.Schema<DescribeKeyPhrasesDetectionJobResponse>;
+export interface DescribeSentimentDetectionJobResponse {
+  SentimentDetectionJobProperties?: SentimentDetectionJobProperties;
+}
+export const DescribeSentimentDetectionJobResponse = S.suspend(() =>
+  S.Struct({
+    SentimentDetectionJobProperties: S.optional(
+      SentimentDetectionJobProperties,
+    ),
+  }),
+).annotations({
+  identifier: "DescribeSentimentDetectionJobResponse",
+}) as any as S.Schema<DescribeSentimentDetectionJobResponse>;
+export interface DescribeTargetedSentimentDetectionJobResponse {
+  TargetedSentimentDetectionJobProperties?: TargetedSentimentDetectionJobProperties;
+}
+export const DescribeTargetedSentimentDetectionJobResponse = S.suspend(() =>
+  S.Struct({
+    TargetedSentimentDetectionJobProperties: S.optional(
+      TargetedSentimentDetectionJobProperties,
+    ),
+  }),
+).annotations({
+  identifier: "DescribeTargetedSentimentDetectionJobResponse",
+}) as any as S.Schema<DescribeTargetedSentimentDetectionJobResponse>;
+export interface DescribeTopicsDetectionJobResponse {
+  TopicsDetectionJobProperties?: TopicsDetectionJobProperties;
+}
+export const DescribeTopicsDetectionJobResponse = S.suspend(() =>
+  S.Struct({
+    TopicsDetectionJobProperties: S.optional(TopicsDetectionJobProperties),
+  }),
+).annotations({
+  identifier: "DescribeTopicsDetectionJobResponse",
+}) as any as S.Schema<DescribeTopicsDetectionJobResponse>;
+export interface DetectDominantLanguageResponse {
+  Languages?: ListOfDominantLanguages;
+}
+export const DetectDominantLanguageResponse = S.suspend(() =>
+  S.Struct({ Languages: S.optional(ListOfDominantLanguages) }),
+).annotations({
+  identifier: "DetectDominantLanguageResponse",
+}) as any as S.Schema<DetectDominantLanguageResponse>;
+export interface DetectKeyPhrasesResponse {
+  KeyPhrases?: ListOfKeyPhrases;
+}
+export const DetectKeyPhrasesResponse = S.suspend(() =>
+  S.Struct({ KeyPhrases: S.optional(ListOfKeyPhrases) }),
+).annotations({
+  identifier: "DetectKeyPhrasesResponse",
+}) as any as S.Schema<DetectKeyPhrasesResponse>;
+export interface DetectPiiEntitiesResponse {
+  Entities?: ListOfPiiEntities;
+}
+export const DetectPiiEntitiesResponse = S.suspend(() =>
+  S.Struct({ Entities: S.optional(ListOfPiiEntities) }),
+).annotations({
+  identifier: "DetectPiiEntitiesResponse",
+}) as any as S.Schema<DetectPiiEntitiesResponse>;
+export interface DetectSentimentResponse {
+  Sentiment?: string;
+  SentimentScore?: SentimentScore;
+}
+export const DetectSentimentResponse = S.suspend(() =>
+  S.Struct({
+    Sentiment: S.optional(S.String),
+    SentimentScore: S.optional(SentimentScore),
+  }),
+).annotations({
+  identifier: "DetectSentimentResponse",
+}) as any as S.Schema<DetectSentimentResponse>;
+export interface ListDatasetsResponse {
+  DatasetPropertiesList?: DatasetPropertiesList;
+  NextToken?: string;
+}
+export const ListDatasetsResponse = S.suspend(() =>
+  S.Struct({
+    DatasetPropertiesList: S.optional(DatasetPropertiesList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListDatasetsResponse",
+}) as any as S.Schema<ListDatasetsResponse>;
+export interface ListDocumentClassificationJobsResponse {
+  DocumentClassificationJobPropertiesList?: DocumentClassificationJobPropertiesList;
+  NextToken?: string;
+}
+export const ListDocumentClassificationJobsResponse = S.suspend(() =>
+  S.Struct({
+    DocumentClassificationJobPropertiesList: S.optional(
+      DocumentClassificationJobPropertiesList,
+    ),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListDocumentClassificationJobsResponse",
+}) as any as S.Schema<ListDocumentClassificationJobsResponse>;
+export interface ListDocumentClassifiersResponse {
+  DocumentClassifierPropertiesList?: DocumentClassifierPropertiesList;
+  NextToken?: string;
+}
+export const ListDocumentClassifiersResponse = S.suspend(() =>
+  S.Struct({
+    DocumentClassifierPropertiesList: S.optional(
+      DocumentClassifierPropertiesList,
+    ),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListDocumentClassifiersResponse",
+}) as any as S.Schema<ListDocumentClassifiersResponse>;
+export interface ListDocumentClassifierSummariesResponse {
+  DocumentClassifierSummariesList?: DocumentClassifierSummariesList;
+  NextToken?: string;
+}
+export const ListDocumentClassifierSummariesResponse = S.suspend(() =>
+  S.Struct({
+    DocumentClassifierSummariesList: S.optional(
+      DocumentClassifierSummariesList,
+    ),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListDocumentClassifierSummariesResponse",
+}) as any as S.Schema<ListDocumentClassifierSummariesResponse>;
+export interface ListDominantLanguageDetectionJobsResponse {
+  DominantLanguageDetectionJobPropertiesList?: DominantLanguageDetectionJobPropertiesList;
+  NextToken?: string;
+}
+export const ListDominantLanguageDetectionJobsResponse = S.suspend(() =>
+  S.Struct({
+    DominantLanguageDetectionJobPropertiesList: S.optional(
+      DominantLanguageDetectionJobPropertiesList,
+    ),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListDominantLanguageDetectionJobsResponse",
+}) as any as S.Schema<ListDominantLanguageDetectionJobsResponse>;
+export interface ListEndpointsResponse {
+  EndpointPropertiesList?: EndpointPropertiesList;
+  NextToken?: string;
+}
+export const ListEndpointsResponse = S.suspend(() =>
+  S.Struct({
+    EndpointPropertiesList: S.optional(EndpointPropertiesList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListEndpointsResponse",
+}) as any as S.Schema<ListEndpointsResponse>;
+export interface ListEntitiesDetectionJobsResponse {
+  EntitiesDetectionJobPropertiesList?: EntitiesDetectionJobPropertiesList;
+  NextToken?: string;
+}
+export const ListEntitiesDetectionJobsResponse = S.suspend(() =>
+  S.Struct({
+    EntitiesDetectionJobPropertiesList: S.optional(
+      EntitiesDetectionJobPropertiesList,
+    ),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListEntitiesDetectionJobsResponse",
+}) as any as S.Schema<ListEntitiesDetectionJobsResponse>;
+export interface ListEntityRecognizersResponse {
+  EntityRecognizerPropertiesList?: EntityRecognizerPropertiesList;
+  NextToken?: string;
+}
+export const ListEntityRecognizersResponse = S.suspend(() =>
+  S.Struct({
+    EntityRecognizerPropertiesList: S.optional(EntityRecognizerPropertiesList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListEntityRecognizersResponse",
+}) as any as S.Schema<ListEntityRecognizersResponse>;
+export interface ListEntityRecognizerSummariesResponse {
+  EntityRecognizerSummariesList?: EntityRecognizerSummariesList;
+  NextToken?: string;
+}
+export const ListEntityRecognizerSummariesResponse = S.suspend(() =>
+  S.Struct({
+    EntityRecognizerSummariesList: S.optional(EntityRecognizerSummariesList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListEntityRecognizerSummariesResponse",
+}) as any as S.Schema<ListEntityRecognizerSummariesResponse>;
+export interface ListEventsDetectionJobsResponse {
+  EventsDetectionJobPropertiesList?: EventsDetectionJobPropertiesList;
+  NextToken?: string;
+}
+export const ListEventsDetectionJobsResponse = S.suspend(() =>
+  S.Struct({
+    EventsDetectionJobPropertiesList: S.optional(
+      EventsDetectionJobPropertiesList,
+    ),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListEventsDetectionJobsResponse",
+}) as any as S.Schema<ListEventsDetectionJobsResponse>;
+export interface ListFlywheelIterationHistoryResponse {
+  FlywheelIterationPropertiesList?: FlywheelIterationPropertiesList;
+  NextToken?: string;
+}
+export const ListFlywheelIterationHistoryResponse = S.suspend(() =>
+  S.Struct({
+    FlywheelIterationPropertiesList: S.optional(
+      FlywheelIterationPropertiesList,
+    ),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListFlywheelIterationHistoryResponse",
+}) as any as S.Schema<ListFlywheelIterationHistoryResponse>;
+export interface ListKeyPhrasesDetectionJobsResponse {
+  KeyPhrasesDetectionJobPropertiesList?: KeyPhrasesDetectionJobPropertiesList;
+  NextToken?: string;
+}
+export const ListKeyPhrasesDetectionJobsResponse = S.suspend(() =>
+  S.Struct({
+    KeyPhrasesDetectionJobPropertiesList: S.optional(
+      KeyPhrasesDetectionJobPropertiesList,
+    ),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListKeyPhrasesDetectionJobsResponse",
+}) as any as S.Schema<ListKeyPhrasesDetectionJobsResponse>;
+export interface ListPiiEntitiesDetectionJobsResponse {
+  PiiEntitiesDetectionJobPropertiesList?: PiiEntitiesDetectionJobPropertiesList;
+  NextToken?: string;
+}
+export const ListPiiEntitiesDetectionJobsResponse = S.suspend(() =>
+  S.Struct({
+    PiiEntitiesDetectionJobPropertiesList: S.optional(
+      PiiEntitiesDetectionJobPropertiesList,
+    ),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListPiiEntitiesDetectionJobsResponse",
+}) as any as S.Schema<ListPiiEntitiesDetectionJobsResponse>;
+export interface ListSentimentDetectionJobsResponse {
+  SentimentDetectionJobPropertiesList?: SentimentDetectionJobPropertiesList;
+  NextToken?: string;
+}
+export const ListSentimentDetectionJobsResponse = S.suspend(() =>
+  S.Struct({
+    SentimentDetectionJobPropertiesList: S.optional(
+      SentimentDetectionJobPropertiesList,
+    ),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListSentimentDetectionJobsResponse",
+}) as any as S.Schema<ListSentimentDetectionJobsResponse>;
+export interface ListTargetedSentimentDetectionJobsResponse {
+  TargetedSentimentDetectionJobPropertiesList?: TargetedSentimentDetectionJobPropertiesList;
+  NextToken?: string;
+}
+export const ListTargetedSentimentDetectionJobsResponse = S.suspend(() =>
+  S.Struct({
+    TargetedSentimentDetectionJobPropertiesList: S.optional(
+      TargetedSentimentDetectionJobPropertiesList,
+    ),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListTargetedSentimentDetectionJobsResponse",
+}) as any as S.Schema<ListTargetedSentimentDetectionJobsResponse>;
+export interface ListTopicsDetectionJobsResponse {
+  TopicsDetectionJobPropertiesList?: TopicsDetectionJobPropertiesList;
+  NextToken?: string;
+}
+export const ListTopicsDetectionJobsResponse = S.suspend(() =>
+  S.Struct({
+    TopicsDetectionJobPropertiesList: S.optional(
+      TopicsDetectionJobPropertiesList,
+    ),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListTopicsDetectionJobsResponse",
+}) as any as S.Schema<ListTopicsDetectionJobsResponse>;
+export interface StartDocumentClassificationJobResponse {
+  JobId?: string;
+  JobArn?: string;
+  JobStatus?: string;
+  DocumentClassifierArn?: string;
+}
+export const StartDocumentClassificationJobResponse = S.suspend(() =>
+  S.Struct({
+    JobId: S.optional(S.String),
+    JobArn: S.optional(S.String),
+    JobStatus: S.optional(S.String),
+    DocumentClassifierArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "StartDocumentClassificationJobResponse",
+}) as any as S.Schema<StartDocumentClassificationJobResponse>;
+export interface StartPiiEntitiesDetectionJobResponse {
+  JobId?: string;
+  JobArn?: string;
+  JobStatus?: string;
+}
+export const StartPiiEntitiesDetectionJobResponse = S.suspend(() =>
+  S.Struct({
+    JobId: S.optional(S.String),
+    JobArn: S.optional(S.String),
+    JobStatus: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "StartPiiEntitiesDetectionJobResponse",
+}) as any as S.Schema<StartPiiEntitiesDetectionJobResponse>;
+export interface UpdateFlywheelResponse {
+  FlywheelProperties?: FlywheelProperties;
+}
+export const UpdateFlywheelResponse = S.suspend(() =>
+  S.Struct({ FlywheelProperties: S.optional(FlywheelProperties) }),
+).annotations({
+  identifier: "UpdateFlywheelResponse",
+}) as any as S.Schema<UpdateFlywheelResponse>;
+export interface DatasetEntityRecognizerInputDataConfig {
+  Annotations?: DatasetEntityRecognizerAnnotations;
+  Documents: DatasetEntityRecognizerDocuments;
+  EntityList?: DatasetEntityRecognizerEntityList;
+}
+export const DatasetEntityRecognizerInputDataConfig = S.suspend(() =>
+  S.Struct({
+    Annotations: S.optional(DatasetEntityRecognizerAnnotations),
+    Documents: DatasetEntityRecognizerDocuments,
+    EntityList: S.optional(DatasetEntityRecognizerEntityList),
+  }),
+).annotations({
+  identifier: "DatasetEntityRecognizerInputDataConfig",
+}) as any as S.Schema<DatasetEntityRecognizerInputDataConfig>;
+export interface ExtractedCharactersListItem {
+  Page?: number;
+  Count?: number;
+}
+export const ExtractedCharactersListItem = S.suspend(() =>
+  S.Struct({ Page: S.optional(S.Number), Count: S.optional(S.Number) }),
+).annotations({
+  identifier: "ExtractedCharactersListItem",
+}) as any as S.Schema<ExtractedCharactersListItem>;
+export type ListOfExtractedCharacters = ExtractedCharactersListItem[];
 export const ListOfExtractedCharacters = S.Array(ExtractedCharactersListItem);
-export class RelationshipsListItem extends S.Class<RelationshipsListItem>(
-  "RelationshipsListItem",
-)({ Ids: S.optional(StringList), Type: S.optional(S.String) }) {}
+export interface RelationshipsListItem {
+  Ids?: StringList;
+  Type?: string;
+}
+export const RelationshipsListItem = S.suspend(() =>
+  S.Struct({ Ids: S.optional(StringList), Type: S.optional(S.String) }),
+).annotations({
+  identifier: "RelationshipsListItem",
+}) as any as S.Schema<RelationshipsListItem>;
+export type ListOfRelationships = RelationshipsListItem[];
 export const ListOfRelationships = S.Array(RelationshipsListItem);
-export class DocumentClass extends S.Class<DocumentClass>("DocumentClass")({
-  Name: S.optional(S.String),
-  Score: S.optional(S.Number),
-  Page: S.optional(S.Number),
-}) {}
+export interface DocumentClass {
+  Name?: string;
+  Score?: number;
+  Page?: number;
+}
+export const DocumentClass = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Score: S.optional(S.Number),
+    Page: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "DocumentClass",
+}) as any as S.Schema<DocumentClass>;
+export type ListOfClasses = DocumentClass[];
 export const ListOfClasses = S.Array(DocumentClass);
-export class DocumentLabel extends S.Class<DocumentLabel>("DocumentLabel")({
-  Name: S.optional(S.String),
-  Score: S.optional(S.Number),
-  Page: S.optional(S.Number),
-}) {}
+export interface DocumentLabel {
+  Name?: string;
+  Score?: number;
+  Page?: number;
+}
+export const DocumentLabel = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Score: S.optional(S.Number),
+    Page: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "DocumentLabel",
+}) as any as S.Schema<DocumentLabel>;
+export type ListOfLabels = DocumentLabel[];
 export const ListOfLabels = S.Array(DocumentLabel);
-export class WarningsListItem extends S.Class<WarningsListItem>(
-  "WarningsListItem",
-)({
-  Page: S.optional(S.Number),
-  WarnCode: S.optional(S.String),
-  WarnMessage: S.optional(S.String),
-}) {}
+export interface WarningsListItem {
+  Page?: number;
+  WarnCode?: string;
+  WarnMessage?: string;
+}
+export const WarningsListItem = S.suspend(() =>
+  S.Struct({
+    Page: S.optional(S.Number),
+    WarnCode: S.optional(S.String),
+    WarnMessage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "WarningsListItem",
+}) as any as S.Schema<WarningsListItem>;
+export type ListOfWarnings = WarningsListItem[];
 export const ListOfWarnings = S.Array(WarningsListItem);
-export class DatasetInputDataConfig extends S.Class<DatasetInputDataConfig>(
-  "DatasetInputDataConfig",
-)({
-  AugmentedManifests: S.optional(DatasetAugmentedManifestsList),
-  DataFormat: S.optional(S.String),
-  DocumentClassifierInputDataConfig: S.optional(
-    DatasetDocumentClassifierInputDataConfig,
-  ),
-  EntityRecognizerInputDataConfig: S.optional(
-    DatasetEntityRecognizerInputDataConfig,
-  ),
-}) {}
-export class InvalidRequestDetail extends S.Class<InvalidRequestDetail>(
-  "InvalidRequestDetail",
-)({ Reason: S.optional(S.String) }) {}
-export class DocumentMetadata extends S.Class<DocumentMetadata>(
-  "DocumentMetadata",
-)({
-  Pages: S.optional(S.Number),
-  ExtractedCharacters: S.optional(ListOfExtractedCharacters),
-}) {}
-export class FlywheelSummary extends S.Class<FlywheelSummary>(
-  "FlywheelSummary",
-)({
-  FlywheelArn: S.optional(S.String),
-  ActiveModelArn: S.optional(S.String),
-  DataLakeS3Uri: S.optional(S.String),
-  Status: S.optional(S.String),
-  ModelType: S.optional(S.String),
-  Message: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LatestFlywheelIteration: S.optional(S.String),
-}) {}
+export interface DatasetInputDataConfig {
+  AugmentedManifests?: DatasetAugmentedManifestsList;
+  DataFormat?: string;
+  DocumentClassifierInputDataConfig?: DatasetDocumentClassifierInputDataConfig;
+  EntityRecognizerInputDataConfig?: DatasetEntityRecognizerInputDataConfig;
+}
+export const DatasetInputDataConfig = S.suspend(() =>
+  S.Struct({
+    AugmentedManifests: S.optional(DatasetAugmentedManifestsList),
+    DataFormat: S.optional(S.String),
+    DocumentClassifierInputDataConfig: S.optional(
+      DatasetDocumentClassifierInputDataConfig,
+    ),
+    EntityRecognizerInputDataConfig: S.optional(
+      DatasetEntityRecognizerInputDataConfig,
+    ),
+  }),
+).annotations({
+  identifier: "DatasetInputDataConfig",
+}) as any as S.Schema<DatasetInputDataConfig>;
+export interface InvalidRequestDetail {
+  Reason?: string;
+}
+export const InvalidRequestDetail = S.suspend(() =>
+  S.Struct({ Reason: S.optional(S.String) }),
+).annotations({
+  identifier: "InvalidRequestDetail",
+}) as any as S.Schema<InvalidRequestDetail>;
+export interface DocumentMetadata {
+  Pages?: number;
+  ExtractedCharacters?: ListOfExtractedCharacters;
+}
+export const DocumentMetadata = S.suspend(() =>
+  S.Struct({
+    Pages: S.optional(S.Number),
+    ExtractedCharacters: S.optional(ListOfExtractedCharacters),
+  }),
+).annotations({
+  identifier: "DocumentMetadata",
+}) as any as S.Schema<DocumentMetadata>;
+export interface FlywheelSummary {
+  FlywheelArn?: string;
+  ActiveModelArn?: string;
+  DataLakeS3Uri?: string;
+  Status?: string;
+  ModelType?: string;
+  Message?: string;
+  CreationTime?: Date;
+  LastModifiedTime?: Date;
+  LatestFlywheelIteration?: string;
+}
+export const FlywheelSummary = S.suspend(() =>
+  S.Struct({
+    FlywheelArn: S.optional(S.String),
+    ActiveModelArn: S.optional(S.String),
+    DataLakeS3Uri: S.optional(S.String),
+    Status: S.optional(S.String),
+    ModelType: S.optional(S.String),
+    Message: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LatestFlywheelIteration: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "FlywheelSummary",
+}) as any as S.Schema<FlywheelSummary>;
+export type FlywheelSummaryList = FlywheelSummary[];
 export const FlywheelSummaryList = S.Array(FlywheelSummary);
-export class BoundingBox extends S.Class<BoundingBox>("BoundingBox")({
-  Height: S.optional(S.Number),
-  Left: S.optional(S.Number),
-  Top: S.optional(S.Number),
-  Width: S.optional(S.Number),
-}) {}
-export class Point extends S.Class<Point>("Point")({
-  X: S.optional(S.Number),
-  Y: S.optional(S.Number),
-}) {}
+export interface BoundingBox {
+  Height?: number;
+  Left?: number;
+  Top?: number;
+  Width?: number;
+}
+export const BoundingBox = S.suspend(() =>
+  S.Struct({
+    Height: S.optional(S.Number),
+    Left: S.optional(S.Number),
+    Top: S.optional(S.Number),
+    Width: S.optional(S.Number),
+  }),
+).annotations({ identifier: "BoundingBox" }) as any as S.Schema<BoundingBox>;
+export interface Point {
+  X?: number;
+  Y?: number;
+}
+export const Point = S.suspend(() =>
+  S.Struct({ X: S.optional(S.Number), Y: S.optional(S.Number) }),
+).annotations({ identifier: "Point" }) as any as S.Schema<Point>;
+export type Polygon = Point[];
 export const Polygon = S.Array(Point);
-export class ClassifyDocumentResponse extends S.Class<ClassifyDocumentResponse>(
-  "ClassifyDocumentResponse",
-)({
-  Classes: S.optional(ListOfClasses),
-  Labels: S.optional(ListOfLabels),
-  DocumentMetadata: S.optional(DocumentMetadata),
-  DocumentType: S.optional(ListOfDocumentType),
-  Errors: S.optional(ListOfErrors),
-  Warnings: S.optional(ListOfWarnings),
-}) {}
-export class CreateDatasetRequest extends S.Class<CreateDatasetRequest>(
-  "CreateDatasetRequest",
-)(
-  {
+export interface ClassifyDocumentResponse {
+  Classes?: ListOfClasses;
+  Labels?: ListOfLabels;
+  DocumentMetadata?: DocumentMetadata;
+  DocumentType?: ListOfDocumentType;
+  Errors?: ListOfErrors;
+  Warnings?: ListOfWarnings;
+}
+export const ClassifyDocumentResponse = S.suspend(() =>
+  S.Struct({
+    Classes: S.optional(ListOfClasses),
+    Labels: S.optional(ListOfLabels),
+    DocumentMetadata: S.optional(DocumentMetadata),
+    DocumentType: S.optional(ListOfDocumentType),
+    Errors: S.optional(ListOfErrors),
+    Warnings: S.optional(ListOfWarnings),
+  }),
+).annotations({
+  identifier: "ClassifyDocumentResponse",
+}) as any as S.Schema<ClassifyDocumentResponse>;
+export interface CreateDatasetRequest {
+  FlywheelArn: string;
+  DatasetName: string;
+  DatasetType?: string;
+  Description?: string;
+  InputDataConfig: DatasetInputDataConfig;
+  ClientRequestToken?: string;
+  Tags?: TagList;
+}
+export const CreateDatasetRequest = S.suspend(() =>
+  S.Struct({
     FlywheelArn: S.String,
     DatasetName: S.String,
     DatasetType: S.optional(S.String),
@@ -2271,87 +4243,195 @@ export class CreateDatasetRequest extends S.Class<CreateDatasetRequest>(
     InputDataConfig: DatasetInputDataConfig,
     ClientRequestToken: S.optional(S.String),
     Tags: S.optional(TagList),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateDocumentClassifierResponse extends S.Class<CreateDocumentClassifierResponse>(
-  "CreateDocumentClassifierResponse",
-)({ DocumentClassifierArn: S.optional(S.String) }) {}
-export class CreateEntityRecognizerResponse extends S.Class<CreateEntityRecognizerResponse>(
-  "CreateEntityRecognizerResponse",
-)({ EntityRecognizerArn: S.optional(S.String) }) {}
-export class CreateFlywheelResponse extends S.Class<CreateFlywheelResponse>(
-  "CreateFlywheelResponse",
-)({
-  FlywheelArn: S.optional(S.String),
-  ActiveModelArn: S.optional(S.String),
-}) {}
-export class DescribeFlywheelIterationResponse extends S.Class<DescribeFlywheelIterationResponse>(
-  "DescribeFlywheelIterationResponse",
-)({ FlywheelIterationProperties: S.optional(FlywheelIterationProperties) }) {}
-export class DescribePiiEntitiesDetectionJobResponse extends S.Class<DescribePiiEntitiesDetectionJobResponse>(
-  "DescribePiiEntitiesDetectionJobResponse",
-)({
-  PiiEntitiesDetectionJobProperties: S.optional(
-    PiiEntitiesDetectionJobProperties,
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-}) {}
-export class DetectSyntaxResponse extends S.Class<DetectSyntaxResponse>(
-  "DetectSyntaxResponse",
-)({ SyntaxTokens: S.optional(ListOfSyntaxTokens) }) {}
-export class ListFlywheelsResponse extends S.Class<ListFlywheelsResponse>(
-  "ListFlywheelsResponse",
-)({
-  FlywheelSummaryList: S.optional(FlywheelSummaryList),
-  NextToken: S.optional(S.String),
-}) {}
-export class Geometry extends S.Class<Geometry>("Geometry")({
-  BoundingBox: S.optional(BoundingBox),
-  Polygon: S.optional(Polygon),
-}) {}
-export class ToxicContent extends S.Class<ToxicContent>("ToxicContent")({
-  Name: S.optional(S.String),
-  Score: S.optional(S.Number),
-}) {}
+).annotations({
+  identifier: "CreateDatasetRequest",
+}) as any as S.Schema<CreateDatasetRequest>;
+export interface CreateDocumentClassifierResponse {
+  DocumentClassifierArn?: string;
+}
+export const CreateDocumentClassifierResponse = S.suspend(() =>
+  S.Struct({ DocumentClassifierArn: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateDocumentClassifierResponse",
+}) as any as S.Schema<CreateDocumentClassifierResponse>;
+export interface CreateEntityRecognizerResponse {
+  EntityRecognizerArn?: string;
+}
+export const CreateEntityRecognizerResponse = S.suspend(() =>
+  S.Struct({ EntityRecognizerArn: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateEntityRecognizerResponse",
+}) as any as S.Schema<CreateEntityRecognizerResponse>;
+export interface CreateFlywheelResponse {
+  FlywheelArn?: string;
+  ActiveModelArn?: string;
+}
+export const CreateFlywheelResponse = S.suspend(() =>
+  S.Struct({
+    FlywheelArn: S.optional(S.String),
+    ActiveModelArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CreateFlywheelResponse",
+}) as any as S.Schema<CreateFlywheelResponse>;
+export interface DescribeFlywheelIterationResponse {
+  FlywheelIterationProperties?: FlywheelIterationProperties;
+}
+export const DescribeFlywheelIterationResponse = S.suspend(() =>
+  S.Struct({
+    FlywheelIterationProperties: S.optional(FlywheelIterationProperties),
+  }),
+).annotations({
+  identifier: "DescribeFlywheelIterationResponse",
+}) as any as S.Schema<DescribeFlywheelIterationResponse>;
+export interface DescribePiiEntitiesDetectionJobResponse {
+  PiiEntitiesDetectionJobProperties?: PiiEntitiesDetectionJobProperties;
+}
+export const DescribePiiEntitiesDetectionJobResponse = S.suspend(() =>
+  S.Struct({
+    PiiEntitiesDetectionJobProperties: S.optional(
+      PiiEntitiesDetectionJobProperties,
+    ),
+  }),
+).annotations({
+  identifier: "DescribePiiEntitiesDetectionJobResponse",
+}) as any as S.Schema<DescribePiiEntitiesDetectionJobResponse>;
+export interface DetectSyntaxResponse {
+  SyntaxTokens?: ListOfSyntaxTokens;
+}
+export const DetectSyntaxResponse = S.suspend(() =>
+  S.Struct({ SyntaxTokens: S.optional(ListOfSyntaxTokens) }),
+).annotations({
+  identifier: "DetectSyntaxResponse",
+}) as any as S.Schema<DetectSyntaxResponse>;
+export interface ListFlywheelsResponse {
+  FlywheelSummaryList?: FlywheelSummaryList;
+  NextToken?: string;
+}
+export const ListFlywheelsResponse = S.suspend(() =>
+  S.Struct({
+    FlywheelSummaryList: S.optional(FlywheelSummaryList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListFlywheelsResponse",
+}) as any as S.Schema<ListFlywheelsResponse>;
+export interface Geometry {
+  BoundingBox?: BoundingBox;
+  Polygon?: Polygon;
+}
+export const Geometry = S.suspend(() =>
+  S.Struct({
+    BoundingBox: S.optional(BoundingBox),
+    Polygon: S.optional(Polygon),
+  }),
+).annotations({ identifier: "Geometry" }) as any as S.Schema<Geometry>;
+export interface ToxicContent {
+  Name?: string;
+  Score?: number;
+}
+export const ToxicContent = S.suspend(() =>
+  S.Struct({ Name: S.optional(S.String), Score: S.optional(S.Number) }),
+).annotations({ identifier: "ToxicContent" }) as any as S.Schema<ToxicContent>;
+export type ListOfToxicContent = ToxicContent[];
 export const ListOfToxicContent = S.Array(ToxicContent);
-export class Block extends S.Class<Block>("Block")({
-  Id: S.optional(S.String),
-  BlockType: S.optional(S.String),
-  Text: S.optional(S.String),
-  Page: S.optional(S.Number),
-  Geometry: S.optional(Geometry),
-  Relationships: S.optional(ListOfRelationships),
-}) {}
+export interface Block {
+  Id?: string;
+  BlockType?: string;
+  Text?: string;
+  Page?: number;
+  Geometry?: Geometry;
+  Relationships?: ListOfRelationships;
+}
+export const Block = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    BlockType: S.optional(S.String),
+    Text: S.optional(S.String),
+    Page: S.optional(S.Number),
+    Geometry: S.optional(Geometry),
+    Relationships: S.optional(ListOfRelationships),
+  }),
+).annotations({ identifier: "Block" }) as any as S.Schema<Block>;
+export type ListOfBlocks = Block[];
 export const ListOfBlocks = S.Array(Block);
-export class ToxicLabels extends S.Class<ToxicLabels>("ToxicLabels")({
-  Labels: S.optional(ListOfToxicContent),
-  Toxicity: S.optional(S.Number),
-}) {}
+export interface ToxicLabels {
+  Labels?: ListOfToxicContent;
+  Toxicity?: number;
+}
+export const ToxicLabels = S.suspend(() =>
+  S.Struct({
+    Labels: S.optional(ListOfToxicContent),
+    Toxicity: S.optional(S.Number),
+  }),
+).annotations({ identifier: "ToxicLabels" }) as any as S.Schema<ToxicLabels>;
+export type ListOfToxicLabels = ToxicLabels[];
 export const ListOfToxicLabels = S.Array(ToxicLabels);
-export class CreateDatasetResponse extends S.Class<CreateDatasetResponse>(
-  "CreateDatasetResponse",
-)({ DatasetArn: S.optional(S.String) }) {}
-export class DescribeDocumentClassifierResponse extends S.Class<DescribeDocumentClassifierResponse>(
-  "DescribeDocumentClassifierResponse",
-)({ DocumentClassifierProperties: S.optional(DocumentClassifierProperties) }) {}
-export class DetectEntitiesResponse extends S.Class<DetectEntitiesResponse>(
-  "DetectEntitiesResponse",
-)({
-  Entities: S.optional(ListOfEntities),
-  DocumentMetadata: S.optional(DocumentMetadata),
-  DocumentType: S.optional(ListOfDocumentType),
-  Blocks: S.optional(ListOfBlocks),
-  Errors: S.optional(ListOfErrors),
-}) {}
-export class DetectTargetedSentimentResponse extends S.Class<DetectTargetedSentimentResponse>(
-  "DetectTargetedSentimentResponse",
-)({ Entities: S.optional(ListOfTargetedSentimentEntities) }) {}
-export class DetectToxicContentResponse extends S.Class<DetectToxicContentResponse>(
-  "DetectToxicContentResponse",
-)({ ResultList: S.optional(ListOfToxicLabels) }) {}
-export class DescribeEntityRecognizerResponse extends S.Class<DescribeEntityRecognizerResponse>(
-  "DescribeEntityRecognizerResponse",
-)({ EntityRecognizerProperties: S.optional(EntityRecognizerProperties) }) {}
+export interface CreateDatasetResponse {
+  DatasetArn?: string;
+}
+export const CreateDatasetResponse = S.suspend(() =>
+  S.Struct({ DatasetArn: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateDatasetResponse",
+}) as any as S.Schema<CreateDatasetResponse>;
+export interface DescribeDocumentClassifierResponse {
+  DocumentClassifierProperties?: DocumentClassifierProperties;
+}
+export const DescribeDocumentClassifierResponse = S.suspend(() =>
+  S.Struct({
+    DocumentClassifierProperties: S.optional(DocumentClassifierProperties),
+  }),
+).annotations({
+  identifier: "DescribeDocumentClassifierResponse",
+}) as any as S.Schema<DescribeDocumentClassifierResponse>;
+export interface DetectEntitiesResponse {
+  Entities?: ListOfEntities;
+  DocumentMetadata?: DocumentMetadata;
+  DocumentType?: ListOfDocumentType;
+  Blocks?: ListOfBlocks;
+  Errors?: ListOfErrors;
+}
+export const DetectEntitiesResponse = S.suspend(() =>
+  S.Struct({
+    Entities: S.optional(ListOfEntities),
+    DocumentMetadata: S.optional(DocumentMetadata),
+    DocumentType: S.optional(ListOfDocumentType),
+    Blocks: S.optional(ListOfBlocks),
+    Errors: S.optional(ListOfErrors),
+  }),
+).annotations({
+  identifier: "DetectEntitiesResponse",
+}) as any as S.Schema<DetectEntitiesResponse>;
+export interface DetectTargetedSentimentResponse {
+  Entities?: ListOfTargetedSentimentEntities;
+}
+export const DetectTargetedSentimentResponse = S.suspend(() =>
+  S.Struct({ Entities: S.optional(ListOfTargetedSentimentEntities) }),
+).annotations({
+  identifier: "DetectTargetedSentimentResponse",
+}) as any as S.Schema<DetectTargetedSentimentResponse>;
+export interface DetectToxicContentResponse {
+  ResultList?: ListOfToxicLabels;
+}
+export const DetectToxicContentResponse = S.suspend(() =>
+  S.Struct({ ResultList: S.optional(ListOfToxicLabels) }),
+).annotations({
+  identifier: "DetectToxicContentResponse",
+}) as any as S.Schema<DetectToxicContentResponse>;
+export interface DescribeEntityRecognizerResponse {
+  EntityRecognizerProperties?: EntityRecognizerProperties;
+}
+export const DescribeEntityRecognizerResponse = S.suspend(() =>
+  S.Struct({
+    EntityRecognizerProperties: S.optional(EntityRecognizerProperties),
+  }),
+).annotations({
+  identifier: "DescribeEntityRecognizerResponse",
+}) as any as S.Schema<DescribeEntityRecognizerResponse>;
 
 //# Errors
 export class InternalServerException extends S.TaggedError<InternalServerException>()(

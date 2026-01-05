@@ -294,90 +294,135 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
+export type StringListInput = string[];
 export const StringListInput = S.Array(S.String);
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface ListTagsForResourceRequest {
+  ResourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface UntagResourceRequest {
+  ResourceArn: string;
+  TagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
-export class GetEarthObservationJobInput extends S.Class<GetEarthObservationJobInput>(
-  "GetEarthObservationJobInput",
-)(
-  { Arn: S.String.pipe(T.HttpLabel("Arn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/earth-observation-jobs/{Arn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface GetEarthObservationJobInput {
+  Arn: string;
+}
+export const GetEarthObservationJobInput = S.suspend(() =>
+  S.Struct({ Arn: S.String.pipe(T.HttpLabel("Arn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/earth-observation-jobs/{Arn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteEarthObservationJobInput extends S.Class<DeleteEarthObservationJobInput>(
-  "DeleteEarthObservationJobInput",
-)(
-  { Arn: S.String.pipe(T.HttpLabel("Arn")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/earth-observation-jobs/{Arn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetEarthObservationJobInput",
+}) as any as S.Schema<GetEarthObservationJobInput>;
+export interface DeleteEarthObservationJobInput {
+  Arn: string;
+}
+export const DeleteEarthObservationJobInput = S.suspend(() =>
+  S.Struct({ Arn: S.String.pipe(T.HttpLabel("Arn")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/earth-observation-jobs/{Arn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteEarthObservationJobOutput extends S.Class<DeleteEarthObservationJobOutput>(
-  "DeleteEarthObservationJobOutput",
-)({}) {}
-export class ListEarthObservationJobInput extends S.Class<ListEarthObservationJobInput>(
-  "ListEarthObservationJobInput",
-)(
-  {
+).annotations({
+  identifier: "DeleteEarthObservationJobInput",
+}) as any as S.Schema<DeleteEarthObservationJobInput>;
+export interface DeleteEarthObservationJobOutput {}
+export const DeleteEarthObservationJobOutput = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteEarthObservationJobOutput",
+}) as any as S.Schema<DeleteEarthObservationJobOutput>;
+export interface ListEarthObservationJobInput {
+  StatusEquals?: string;
+  SortOrder?: string;
+  SortBy?: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListEarthObservationJobInput = S.suspend(() =>
+  S.Struct({
     StatusEquals: S.optional(S.String),
     SortOrder: S.optional(S.String),
     SortBy: S.optional(S.String),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/list-earth-observation-jobs" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/list-earth-observation-jobs" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetTileInput extends S.Class<GetTileInput>("GetTileInput")(
-  {
+).annotations({
+  identifier: "ListEarthObservationJobInput",
+}) as any as S.Schema<ListEarthObservationJobInput>;
+export interface GetTileInput {
+  x: number;
+  y: number;
+  z: number;
+  ImageAssets: StringListInput;
+  Target: string;
+  Arn: string;
+  ImageMask?: boolean;
+  OutputFormat?: string;
+  TimeRangeFilter?: string;
+  PropertyFilters?: string;
+  OutputDataType?: string;
+  ExecutionRoleArn?: string;
+}
+export const GetTileInput = S.suspend(() =>
+  S.Struct({
     x: S.Number.pipe(T.HttpLabel("x")),
     y: S.Number.pipe(T.HttpLabel("y")),
     z: S.Number.pipe(T.HttpLabel("z")),
@@ -392,173 +437,265 @@ export class GetTileInput extends S.Class<GetTileInput>("GetTileInput")(
     ExecutionRoleArn: S.optional(S.String).pipe(
       T.HttpQuery("ExecutionRoleArn"),
     ),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/tile/{z}/{x}/{y}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tile/{z}/{x}/{y}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StopEarthObservationJobInput extends S.Class<StopEarthObservationJobInput>(
-  "StopEarthObservationJobInput",
-)(
-  { Arn: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/earth-observation-jobs/stop" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({ identifier: "GetTileInput" }) as any as S.Schema<GetTileInput>;
+export interface StopEarthObservationJobInput {
+  Arn: string;
+}
+export const StopEarthObservationJobInput = S.suspend(() =>
+  S.Struct({ Arn: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/earth-observation-jobs/stop" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StopEarthObservationJobOutput extends S.Class<StopEarthObservationJobOutput>(
-  "StopEarthObservationJobOutput",
-)({}) {}
-export class GetRasterDataCollectionInput extends S.Class<GetRasterDataCollectionInput>(
-  "GetRasterDataCollectionInput",
-)(
-  { Arn: S.String.pipe(T.HttpLabel("Arn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/raster-data-collection/{Arn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "StopEarthObservationJobInput",
+}) as any as S.Schema<StopEarthObservationJobInput>;
+export interface StopEarthObservationJobOutput {}
+export const StopEarthObservationJobOutput = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "StopEarthObservationJobOutput",
+}) as any as S.Schema<StopEarthObservationJobOutput>;
+export interface GetRasterDataCollectionInput {
+  Arn: string;
+}
+export const GetRasterDataCollectionInput = S.suspend(() =>
+  S.Struct({ Arn: S.String.pipe(T.HttpLabel("Arn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/raster-data-collection/{Arn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListRasterDataCollectionsInput extends S.Class<ListRasterDataCollectionsInput>(
-  "ListRasterDataCollectionsInput",
-)(
-  {
+).annotations({
+  identifier: "GetRasterDataCollectionInput",
+}) as any as S.Schema<GetRasterDataCollectionInput>;
+export interface ListRasterDataCollectionsInput {
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListRasterDataCollectionsInput = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/raster-data-collections" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/raster-data-collections" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetVectorEnrichmentJobInput extends S.Class<GetVectorEnrichmentJobInput>(
-  "GetVectorEnrichmentJobInput",
-)(
-  { Arn: S.String.pipe(T.HttpLabel("Arn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/vector-enrichment-jobs/{Arn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListRasterDataCollectionsInput",
+}) as any as S.Schema<ListRasterDataCollectionsInput>;
+export interface GetVectorEnrichmentJobInput {
+  Arn: string;
+}
+export const GetVectorEnrichmentJobInput = S.suspend(() =>
+  S.Struct({ Arn: S.String.pipe(T.HttpLabel("Arn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/vector-enrichment-jobs/{Arn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteVectorEnrichmentJobInput extends S.Class<DeleteVectorEnrichmentJobInput>(
-  "DeleteVectorEnrichmentJobInput",
-)(
-  { Arn: S.String.pipe(T.HttpLabel("Arn")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/vector-enrichment-jobs/{Arn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetVectorEnrichmentJobInput",
+}) as any as S.Schema<GetVectorEnrichmentJobInput>;
+export interface DeleteVectorEnrichmentJobInput {
+  Arn: string;
+}
+export const DeleteVectorEnrichmentJobInput = S.suspend(() =>
+  S.Struct({ Arn: S.String.pipe(T.HttpLabel("Arn")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/vector-enrichment-jobs/{Arn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteVectorEnrichmentJobOutput extends S.Class<DeleteVectorEnrichmentJobOutput>(
-  "DeleteVectorEnrichmentJobOutput",
-)({}) {}
-export class ListVectorEnrichmentJobInput extends S.Class<ListVectorEnrichmentJobInput>(
-  "ListVectorEnrichmentJobInput",
-)(
-  {
+).annotations({
+  identifier: "DeleteVectorEnrichmentJobInput",
+}) as any as S.Schema<DeleteVectorEnrichmentJobInput>;
+export interface DeleteVectorEnrichmentJobOutput {}
+export const DeleteVectorEnrichmentJobOutput = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteVectorEnrichmentJobOutput",
+}) as any as S.Schema<DeleteVectorEnrichmentJobOutput>;
+export interface ListVectorEnrichmentJobInput {
+  StatusEquals?: string;
+  SortOrder?: string;
+  SortBy?: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListVectorEnrichmentJobInput = S.suspend(() =>
+  S.Struct({
     StatusEquals: S.optional(S.String),
     SortOrder: S.optional(S.String),
     SortBy: S.optional(S.String),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/list-vector-enrichment-jobs" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/list-vector-enrichment-jobs" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StopVectorEnrichmentJobInput extends S.Class<StopVectorEnrichmentJobInput>(
-  "StopVectorEnrichmentJobInput",
-)(
-  { Arn: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/vector-enrichment-jobs/stop" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListVectorEnrichmentJobInput",
+}) as any as S.Schema<ListVectorEnrichmentJobInput>;
+export interface StopVectorEnrichmentJobInput {
+  Arn: string;
+}
+export const StopVectorEnrichmentJobInput = S.suspend(() =>
+  S.Struct({ Arn: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/vector-enrichment-jobs/stop" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StopVectorEnrichmentJobOutput extends S.Class<StopVectorEnrichmentJobOutput>(
-  "StopVectorEnrichmentJobOutput",
-)({}) {}
-export class CloudMaskingConfigInput extends S.Class<CloudMaskingConfigInput>(
-  "CloudMaskingConfigInput",
-)({}) {}
-export class LandCoverSegmentationConfigInput extends S.Class<LandCoverSegmentationConfigInput>(
-  "LandCoverSegmentationConfigInput",
-)({}) {}
+).annotations({
+  identifier: "StopVectorEnrichmentJobInput",
+}) as any as S.Schema<StopVectorEnrichmentJobInput>;
+export interface StopVectorEnrichmentJobOutput {}
+export const StopVectorEnrichmentJobOutput = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "StopVectorEnrichmentJobOutput",
+}) as any as S.Schema<StopVectorEnrichmentJobOutput>;
+export interface CloudMaskingConfigInput {}
+export const CloudMaskingConfigInput = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "CloudMaskingConfigInput",
+}) as any as S.Schema<CloudMaskingConfigInput>;
+export interface LandCoverSegmentationConfigInput {}
+export const LandCoverSegmentationConfigInput = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "LandCoverSegmentationConfigInput",
+}) as any as S.Schema<LandCoverSegmentationConfigInput>;
+export type Tags = { [key: string]: string };
 export const Tags = S.Record({ key: S.String, value: S.String });
+export type ImageSourceBandList = string[];
 export const ImageSourceBandList = S.Array(S.String);
+export type TemporalStatisticsListInput = string[];
 export const TemporalStatisticsListInput = S.Array(S.String);
+export type ZonalStatisticsListInput = string[];
 export const ZonalStatisticsListInput = S.Array(S.String);
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ Tags: S.optional(Tags) }) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")), Tags: Tags },
-  T.all(
-    T.Http({ method: "PUT", uri: "/tags/{ResourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface ListTagsForResourceResponse {
+  Tags?: Tags;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ Tags: S.optional(Tags) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface TagResourceRequest {
+  ResourceArn: string;
+  Tags: Tags;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
+    Tags: Tags,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class GetTileOutput extends S.Class<GetTileOutput>("GetTileOutput")({
-  BinaryFile: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
-}) {}
-export class TimeRangeFilterInput extends S.Class<TimeRangeFilterInput>(
-  "TimeRangeFilterInput",
-)({
-  StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-}) {}
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface GetTileOutput {
+  BinaryFile?: T.StreamingOutputBody;
+}
+export const GetTileOutput = S.suspend(() =>
+  S.Struct({ BinaryFile: S.optional(T.StreamingOutput).pipe(T.HttpPayload()) }),
+).annotations({
+  identifier: "GetTileOutput",
+}) as any as S.Schema<GetTileOutput>;
+export interface TimeRangeFilterInput {
+  StartTime: Date;
+  EndTime: Date;
+}
+export const TimeRangeFilterInput = S.suspend(() =>
+  S.Struct({
+    StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotations({
+  identifier: "TimeRangeFilterInput",
+}) as any as S.Schema<TimeRangeFilterInput>;
+export type Position = number[];
 export const Position = S.Array(S.Number);
+export type LinearRing = Position[];
 export const LinearRing = S.Array(Position);
+export type LinearRings = LinearRing[];
 export const LinearRings = S.Array(LinearRing);
-export class PolygonGeometryInput extends S.Class<PolygonGeometryInput>(
-  "PolygonGeometryInput",
-)({ Coordinates: LinearRings }) {}
+export interface PolygonGeometryInput {
+  Coordinates: LinearRings;
+}
+export const PolygonGeometryInput = S.suspend(() =>
+  S.Struct({ Coordinates: LinearRings }),
+).annotations({
+  identifier: "PolygonGeometryInput",
+}) as any as S.Schema<PolygonGeometryInput>;
+export type LinearRingsList = LinearRings[];
 export const LinearRingsList = S.Array(LinearRings);
-export class MultiPolygonGeometryInput extends S.Class<MultiPolygonGeometryInput>(
-  "MultiPolygonGeometryInput",
-)({ Coordinates: LinearRingsList }) {}
+export interface MultiPolygonGeometryInput {
+  Coordinates: LinearRingsList;
+}
+export const MultiPolygonGeometryInput = S.suspend(() =>
+  S.Struct({ Coordinates: LinearRingsList }),
+).annotations({
+  identifier: "MultiPolygonGeometryInput",
+}) as any as S.Schema<MultiPolygonGeometryInput>;
 export const AreaOfInterestGeometry = S.Union(
   S.Struct({ PolygonGeometry: PolygonGeometryInput }),
   S.Struct({ MultiPolygonGeometry: MultiPolygonGeometryInput }),
@@ -566,25 +703,60 @@ export const AreaOfInterestGeometry = S.Union(
 export const AreaOfInterest = S.Union(
   S.Struct({ AreaOfInterestGeometry: AreaOfInterestGeometry }),
 );
-export class EoCloudCoverInput extends S.Class<EoCloudCoverInput>(
-  "EoCloudCoverInput",
-)({ LowerBound: S.Number, UpperBound: S.Number }) {}
-export class ViewOffNadirInput extends S.Class<ViewOffNadirInput>(
-  "ViewOffNadirInput",
-)({ LowerBound: S.Number, UpperBound: S.Number }) {}
-export class ViewSunAzimuthInput extends S.Class<ViewSunAzimuthInput>(
-  "ViewSunAzimuthInput",
-)({ LowerBound: S.Number, UpperBound: S.Number }) {}
-export class ViewSunElevationInput extends S.Class<ViewSunElevationInput>(
-  "ViewSunElevationInput",
-)({ LowerBound: S.Number, UpperBound: S.Number }) {}
-export class PlatformInput extends S.Class<PlatformInput>("PlatformInput")({
-  Value: S.String,
-  ComparisonOperator: S.optional(S.String),
-}) {}
-export class LandsatCloudCoverLandInput extends S.Class<LandsatCloudCoverLandInput>(
-  "LandsatCloudCoverLandInput",
-)({ LowerBound: S.Number, UpperBound: S.Number }) {}
+export interface EoCloudCoverInput {
+  LowerBound: number;
+  UpperBound: number;
+}
+export const EoCloudCoverInput = S.suspend(() =>
+  S.Struct({ LowerBound: S.Number, UpperBound: S.Number }),
+).annotations({
+  identifier: "EoCloudCoverInput",
+}) as any as S.Schema<EoCloudCoverInput>;
+export interface ViewOffNadirInput {
+  LowerBound: number;
+  UpperBound: number;
+}
+export const ViewOffNadirInput = S.suspend(() =>
+  S.Struct({ LowerBound: S.Number, UpperBound: S.Number }),
+).annotations({
+  identifier: "ViewOffNadirInput",
+}) as any as S.Schema<ViewOffNadirInput>;
+export interface ViewSunAzimuthInput {
+  LowerBound: number;
+  UpperBound: number;
+}
+export const ViewSunAzimuthInput = S.suspend(() =>
+  S.Struct({ LowerBound: S.Number, UpperBound: S.Number }),
+).annotations({
+  identifier: "ViewSunAzimuthInput",
+}) as any as S.Schema<ViewSunAzimuthInput>;
+export interface ViewSunElevationInput {
+  LowerBound: number;
+  UpperBound: number;
+}
+export const ViewSunElevationInput = S.suspend(() =>
+  S.Struct({ LowerBound: S.Number, UpperBound: S.Number }),
+).annotations({
+  identifier: "ViewSunElevationInput",
+}) as any as S.Schema<ViewSunElevationInput>;
+export interface PlatformInput {
+  Value: string;
+  ComparisonOperator?: string;
+}
+export const PlatformInput = S.suspend(() =>
+  S.Struct({ Value: S.String, ComparisonOperator: S.optional(S.String) }),
+).annotations({
+  identifier: "PlatformInput",
+}) as any as S.Schema<PlatformInput>;
+export interface LandsatCloudCoverLandInput {
+  LowerBound: number;
+  UpperBound: number;
+}
+export const LandsatCloudCoverLandInput = S.suspend(() =>
+  S.Struct({ LowerBound: S.Number, UpperBound: S.Number }),
+).annotations({
+  identifier: "LandsatCloudCoverLandInput",
+}) as any as S.Schema<LandsatCloudCoverLandInput>;
 export const Property = S.Union(
   S.Struct({ EoCloudCover: EoCloudCoverInput }),
   S.Struct({ ViewOffNadir: ViewOffNadirInput }),
@@ -593,209 +765,426 @@ export const Property = S.Union(
   S.Struct({ Platform: PlatformInput }),
   S.Struct({ LandsatCloudCoverLand: LandsatCloudCoverLandInput }),
 );
-export class PropertyFilter extends S.Class<PropertyFilter>("PropertyFilter")({
-  Property: Property,
-}) {}
+export interface PropertyFilter {
+  Property: (typeof Property)["Type"];
+}
+export const PropertyFilter = S.suspend(() =>
+  S.Struct({ Property: Property }),
+).annotations({
+  identifier: "PropertyFilter",
+}) as any as S.Schema<PropertyFilter>;
+export type PropertyFiltersList = PropertyFilter[];
 export const PropertyFiltersList = S.Array(PropertyFilter);
-export class PropertyFilters extends S.Class<PropertyFilters>(
-  "PropertyFilters",
-)({
-  Properties: S.optional(PropertyFiltersList),
-  LogicalOperator: S.optional(S.String),
-}) {}
-export class RasterDataCollectionQueryInput extends S.Class<RasterDataCollectionQueryInput>(
-  "RasterDataCollectionQueryInput",
-)({
-  RasterDataCollectionArn: S.String,
-  TimeRangeFilter: TimeRangeFilterInput,
-  AreaOfInterest: S.optional(AreaOfInterest),
-  PropertyFilters: S.optional(PropertyFilters),
-}) {}
-export class TemporalStatisticsConfigInput extends S.Class<TemporalStatisticsConfigInput>(
-  "TemporalStatisticsConfigInput",
-)({
-  GroupBy: S.optional(S.String),
-  Statistics: TemporalStatisticsListInput,
-  TargetBands: S.optional(StringListInput),
-}) {}
-export class CloudRemovalConfigInput extends S.Class<CloudRemovalConfigInput>(
-  "CloudRemovalConfigInput",
-)({
-  AlgorithmName: S.optional(S.String),
-  InterpolationValue: S.optional(S.String),
-  TargetBands: S.optional(StringListInput),
-}) {}
-export class ZonalStatisticsConfigInput extends S.Class<ZonalStatisticsConfigInput>(
-  "ZonalStatisticsConfigInput",
-)({
-  ZoneS3Path: S.String,
-  Statistics: ZonalStatisticsListInput,
-  TargetBands: S.optional(StringListInput),
-  ZoneS3PathKmsKeyId: S.optional(S.String),
-}) {}
-export class GeoMosaicConfigInput extends S.Class<GeoMosaicConfigInput>(
-  "GeoMosaicConfigInput",
-)({
-  AlgorithmName: S.optional(S.String),
-  TargetBands: S.optional(StringListInput),
-}) {}
-export class ExportS3DataInput extends S.Class<ExportS3DataInput>(
-  "ExportS3DataInput",
-)({ S3Uri: S.String, KmsKeyId: S.optional(S.String) }) {}
-export class VectorEnrichmentJobS3Data extends S.Class<VectorEnrichmentJobS3Data>(
-  "VectorEnrichmentJobS3Data",
-)({ S3Uri: S.String, KmsKeyId: S.optional(S.String) }) {}
+export interface PropertyFilters {
+  Properties?: PropertyFiltersList;
+  LogicalOperator?: string;
+}
+export const PropertyFilters = S.suspend(() =>
+  S.Struct({
+    Properties: S.optional(PropertyFiltersList),
+    LogicalOperator: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "PropertyFilters",
+}) as any as S.Schema<PropertyFilters>;
+export interface RasterDataCollectionQueryInput {
+  RasterDataCollectionArn: string;
+  TimeRangeFilter: TimeRangeFilterInput;
+  AreaOfInterest?: (typeof AreaOfInterest)["Type"];
+  PropertyFilters?: PropertyFilters;
+}
+export const RasterDataCollectionQueryInput = S.suspend(() =>
+  S.Struct({
+    RasterDataCollectionArn: S.String,
+    TimeRangeFilter: TimeRangeFilterInput,
+    AreaOfInterest: S.optional(AreaOfInterest),
+    PropertyFilters: S.optional(PropertyFilters),
+  }),
+).annotations({
+  identifier: "RasterDataCollectionQueryInput",
+}) as any as S.Schema<RasterDataCollectionQueryInput>;
+export interface TemporalStatisticsConfigInput {
+  GroupBy?: string;
+  Statistics: TemporalStatisticsListInput;
+  TargetBands?: StringListInput;
+}
+export const TemporalStatisticsConfigInput = S.suspend(() =>
+  S.Struct({
+    GroupBy: S.optional(S.String),
+    Statistics: TemporalStatisticsListInput,
+    TargetBands: S.optional(StringListInput),
+  }),
+).annotations({
+  identifier: "TemporalStatisticsConfigInput",
+}) as any as S.Schema<TemporalStatisticsConfigInput>;
+export interface CloudRemovalConfigInput {
+  AlgorithmName?: string;
+  InterpolationValue?: string;
+  TargetBands?: StringListInput;
+}
+export const CloudRemovalConfigInput = S.suspend(() =>
+  S.Struct({
+    AlgorithmName: S.optional(S.String),
+    InterpolationValue: S.optional(S.String),
+    TargetBands: S.optional(StringListInput),
+  }),
+).annotations({
+  identifier: "CloudRemovalConfigInput",
+}) as any as S.Schema<CloudRemovalConfigInput>;
+export interface ZonalStatisticsConfigInput {
+  ZoneS3Path: string;
+  Statistics: ZonalStatisticsListInput;
+  TargetBands?: StringListInput;
+  ZoneS3PathKmsKeyId?: string;
+}
+export const ZonalStatisticsConfigInput = S.suspend(() =>
+  S.Struct({
+    ZoneS3Path: S.String,
+    Statistics: ZonalStatisticsListInput,
+    TargetBands: S.optional(StringListInput),
+    ZoneS3PathKmsKeyId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ZonalStatisticsConfigInput",
+}) as any as S.Schema<ZonalStatisticsConfigInput>;
+export interface GeoMosaicConfigInput {
+  AlgorithmName?: string;
+  TargetBands?: StringListInput;
+}
+export const GeoMosaicConfigInput = S.suspend(() =>
+  S.Struct({
+    AlgorithmName: S.optional(S.String),
+    TargetBands: S.optional(StringListInput),
+  }),
+).annotations({
+  identifier: "GeoMosaicConfigInput",
+}) as any as S.Schema<GeoMosaicConfigInput>;
+export interface ExportS3DataInput {
+  S3Uri: string;
+  KmsKeyId?: string;
+}
+export const ExportS3DataInput = S.suspend(() =>
+  S.Struct({ S3Uri: S.String, KmsKeyId: S.optional(S.String) }),
+).annotations({
+  identifier: "ExportS3DataInput",
+}) as any as S.Schema<ExportS3DataInput>;
+export interface VectorEnrichmentJobS3Data {
+  S3Uri: string;
+  KmsKeyId?: string;
+}
+export const VectorEnrichmentJobS3Data = S.suspend(() =>
+  S.Struct({ S3Uri: S.String, KmsKeyId: S.optional(S.String) }),
+).annotations({
+  identifier: "VectorEnrichmentJobS3Data",
+}) as any as S.Schema<VectorEnrichmentJobS3Data>;
 export const VectorEnrichmentJobDataSourceConfigInput = S.Union(
   S.Struct({ S3Data: VectorEnrichmentJobS3Data }),
 );
-export class ReverseGeocodingConfig extends S.Class<ReverseGeocodingConfig>(
-  "ReverseGeocodingConfig",
-)({ YAttributeName: S.String, XAttributeName: S.String }) {}
-export class MapMatchingConfig extends S.Class<MapMatchingConfig>(
-  "MapMatchingConfig",
-)({
-  IdAttributeName: S.String,
-  YAttributeName: S.String,
-  XAttributeName: S.String,
-  TimestampAttributeName: S.String,
-}) {}
-export class InputConfigInput extends S.Class<InputConfigInput>(
-  "InputConfigInput",
-)({
-  PreviousEarthObservationJobArn: S.optional(S.String),
-  RasterDataCollectionQuery: S.optional(RasterDataCollectionQueryInput),
-}) {}
-export class OutputBand extends S.Class<OutputBand>("OutputBand")({
-  BandName: S.String,
-  OutputDataType: S.String,
-}) {}
+export interface ReverseGeocodingConfig {
+  YAttributeName: string;
+  XAttributeName: string;
+}
+export const ReverseGeocodingConfig = S.suspend(() =>
+  S.Struct({ YAttributeName: S.String, XAttributeName: S.String }),
+).annotations({
+  identifier: "ReverseGeocodingConfig",
+}) as any as S.Schema<ReverseGeocodingConfig>;
+export interface MapMatchingConfig {
+  IdAttributeName: string;
+  YAttributeName: string;
+  XAttributeName: string;
+  TimestampAttributeName: string;
+}
+export const MapMatchingConfig = S.suspend(() =>
+  S.Struct({
+    IdAttributeName: S.String,
+    YAttributeName: S.String,
+    XAttributeName: S.String,
+    TimestampAttributeName: S.String,
+  }),
+).annotations({
+  identifier: "MapMatchingConfig",
+}) as any as S.Schema<MapMatchingConfig>;
+export interface InputConfigInput {
+  PreviousEarthObservationJobArn?: string;
+  RasterDataCollectionQuery?: RasterDataCollectionQueryInput;
+}
+export const InputConfigInput = S.suspend(() =>
+  S.Struct({
+    PreviousEarthObservationJobArn: S.optional(S.String),
+    RasterDataCollectionQuery: S.optional(RasterDataCollectionQueryInput),
+  }),
+).annotations({
+  identifier: "InputConfigInput",
+}) as any as S.Schema<InputConfigInput>;
+export interface OutputBand {
+  BandName: string;
+  OutputDataType: string;
+}
+export const OutputBand = S.suspend(() =>
+  S.Struct({ BandName: S.String, OutputDataType: S.String }),
+).annotations({ identifier: "OutputBand" }) as any as S.Schema<OutputBand>;
+export type EarthObservationJobOutputBands = OutputBand[];
 export const EarthObservationJobOutputBands = S.Array(OutputBand);
-export class EarthObservationJobErrorDetails extends S.Class<EarthObservationJobErrorDetails>(
-  "EarthObservationJobErrorDetails",
-)({ Type: S.optional(S.String), Message: S.optional(S.String) }) {}
-export class ListEarthObservationJobOutputConfig extends S.Class<ListEarthObservationJobOutputConfig>(
-  "ListEarthObservationJobOutputConfig",
-)({
-  Arn: S.String,
-  Name: S.String,
-  CreationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  DurationInSeconds: S.Number,
-  Status: S.String,
-  OperationType: S.String,
-  Tags: S.optional(Tags),
-}) {}
+export interface EarthObservationJobErrorDetails {
+  Type?: string;
+  Message?: string;
+}
+export const EarthObservationJobErrorDetails = S.suspend(() =>
+  S.Struct({ Type: S.optional(S.String), Message: S.optional(S.String) }),
+).annotations({
+  identifier: "EarthObservationJobErrorDetails",
+}) as any as S.Schema<EarthObservationJobErrorDetails>;
+export interface ListEarthObservationJobOutputConfig {
+  Arn: string;
+  Name: string;
+  CreationTime: Date;
+  DurationInSeconds: number;
+  Status: string;
+  OperationType: string;
+  Tags?: Tags;
+}
+export const ListEarthObservationJobOutputConfig = S.suspend(() =>
+  S.Struct({
+    Arn: S.String,
+    Name: S.String,
+    CreationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    DurationInSeconds: S.Number,
+    Status: S.String,
+    OperationType: S.String,
+    Tags: S.optional(Tags),
+  }),
+).annotations({
+  identifier: "ListEarthObservationJobOutputConfig",
+}) as any as S.Schema<ListEarthObservationJobOutputConfig>;
+export type EarthObservationJobList = ListEarthObservationJobOutputConfig[];
 export const EarthObservationJobList = S.Array(
   ListEarthObservationJobOutputConfig,
 );
-export class OutputConfigInput extends S.Class<OutputConfigInput>(
-  "OutputConfigInput",
-)({ S3Data: ExportS3DataInput }) {}
-export class Filter extends S.Class<Filter>("Filter")({
-  Name: S.String,
-  Type: S.String,
-  Minimum: S.optional(S.Number),
-  Maximum: S.optional(S.Number),
-}) {}
+export interface OutputConfigInput {
+  S3Data: ExportS3DataInput;
+}
+export const OutputConfigInput = S.suspend(() =>
+  S.Struct({ S3Data: ExportS3DataInput }),
+).annotations({
+  identifier: "OutputConfigInput",
+}) as any as S.Schema<OutputConfigInput>;
+export interface Filter {
+  Name: string;
+  Type: string;
+  Minimum?: number;
+  Maximum?: number;
+}
+export const Filter = S.suspend(() =>
+  S.Struct({
+    Name: S.String,
+    Type: S.String,
+    Minimum: S.optional(S.Number),
+    Maximum: S.optional(S.Number),
+  }),
+).annotations({ identifier: "Filter" }) as any as S.Schema<Filter>;
+export type FilterList = Filter[];
 export const FilterList = S.Array(Filter);
-export class RasterDataCollectionMetadata extends S.Class<RasterDataCollectionMetadata>(
-  "RasterDataCollectionMetadata",
-)({
-  Name: S.String,
-  Arn: S.String,
-  Type: S.String,
-  Description: S.String,
-  DescriptionPageUrl: S.optional(S.String),
-  SupportedFilters: FilterList,
-  Tags: S.optional(Tags),
-}) {}
+export interface RasterDataCollectionMetadata {
+  Name: string;
+  Arn: string;
+  Type: string;
+  Description: string;
+  DescriptionPageUrl?: string;
+  SupportedFilters: FilterList;
+  Tags?: Tags;
+}
+export const RasterDataCollectionMetadata = S.suspend(() =>
+  S.Struct({
+    Name: S.String,
+    Arn: S.String,
+    Type: S.String,
+    Description: S.String,
+    DescriptionPageUrl: S.optional(S.String),
+    SupportedFilters: FilterList,
+    Tags: S.optional(Tags),
+  }),
+).annotations({
+  identifier: "RasterDataCollectionMetadata",
+}) as any as S.Schema<RasterDataCollectionMetadata>;
+export type DataCollectionsList = RasterDataCollectionMetadata[];
 export const DataCollectionsList = S.Array(RasterDataCollectionMetadata);
-export class VectorEnrichmentJobInputConfig extends S.Class<VectorEnrichmentJobInputConfig>(
-  "VectorEnrichmentJobInputConfig",
-)({
-  DocumentType: S.String,
-  DataSourceConfig: VectorEnrichmentJobDataSourceConfigInput,
-}) {}
+export interface VectorEnrichmentJobInputConfig {
+  DocumentType: string;
+  DataSourceConfig: (typeof VectorEnrichmentJobDataSourceConfigInput)["Type"];
+}
+export const VectorEnrichmentJobInputConfig = S.suspend(() =>
+  S.Struct({
+    DocumentType: S.String,
+    DataSourceConfig: VectorEnrichmentJobDataSourceConfigInput,
+  }),
+).annotations({
+  identifier: "VectorEnrichmentJobInputConfig",
+}) as any as S.Schema<VectorEnrichmentJobInputConfig>;
 export const VectorEnrichmentJobConfig = S.Union(
   S.Struct({ ReverseGeocodingConfig: ReverseGeocodingConfig }),
   S.Struct({ MapMatchingConfig: MapMatchingConfig }),
 );
-export class VectorEnrichmentJobErrorDetails extends S.Class<VectorEnrichmentJobErrorDetails>(
-  "VectorEnrichmentJobErrorDetails",
-)({ ErrorType: S.optional(S.String), ErrorMessage: S.optional(S.String) }) {}
-export class VectorEnrichmentJobExportErrorDetails extends S.Class<VectorEnrichmentJobExportErrorDetails>(
-  "VectorEnrichmentJobExportErrorDetails",
-)({ Type: S.optional(S.String), Message: S.optional(S.String) }) {}
-export class ListVectorEnrichmentJobOutputConfig extends S.Class<ListVectorEnrichmentJobOutputConfig>(
-  "ListVectorEnrichmentJobOutputConfig",
-)({
-  Arn: S.String,
-  Name: S.String,
-  Type: S.String,
-  CreationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  DurationInSeconds: S.Number,
-  Status: S.String,
-  Tags: S.optional(Tags),
-}) {}
+export interface VectorEnrichmentJobErrorDetails {
+  ErrorType?: string;
+  ErrorMessage?: string;
+}
+export const VectorEnrichmentJobErrorDetails = S.suspend(() =>
+  S.Struct({
+    ErrorType: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "VectorEnrichmentJobErrorDetails",
+}) as any as S.Schema<VectorEnrichmentJobErrorDetails>;
+export interface VectorEnrichmentJobExportErrorDetails {
+  Type?: string;
+  Message?: string;
+}
+export const VectorEnrichmentJobExportErrorDetails = S.suspend(() =>
+  S.Struct({ Type: S.optional(S.String), Message: S.optional(S.String) }),
+).annotations({
+  identifier: "VectorEnrichmentJobExportErrorDetails",
+}) as any as S.Schema<VectorEnrichmentJobExportErrorDetails>;
+export interface ListVectorEnrichmentJobOutputConfig {
+  Arn: string;
+  Name: string;
+  Type: string;
+  CreationTime: Date;
+  DurationInSeconds: number;
+  Status: string;
+  Tags?: Tags;
+}
+export const ListVectorEnrichmentJobOutputConfig = S.suspend(() =>
+  S.Struct({
+    Arn: S.String,
+    Name: S.String,
+    Type: S.String,
+    CreationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    DurationInSeconds: S.Number,
+    Status: S.String,
+    Tags: S.optional(Tags),
+  }),
+).annotations({
+  identifier: "ListVectorEnrichmentJobOutputConfig",
+}) as any as S.Schema<ListVectorEnrichmentJobOutputConfig>;
+export type VectorEnrichmentJobList = ListVectorEnrichmentJobOutputConfig[];
 export const VectorEnrichmentJobList = S.Array(
   ListVectorEnrichmentJobOutputConfig,
 );
-export class ExportVectorEnrichmentJobOutputConfig extends S.Class<ExportVectorEnrichmentJobOutputConfig>(
-  "ExportVectorEnrichmentJobOutputConfig",
-)({ S3Data: VectorEnrichmentJobS3Data }) {}
-export class UserDefined extends S.Class<UserDefined>("UserDefined")({
-  Value: S.Number,
-  Unit: S.String,
-}) {}
-export class OutputResolutionStackInput extends S.Class<OutputResolutionStackInput>(
-  "OutputResolutionStackInput",
-)({ Predefined: S.optional(S.String), UserDefined: S.optional(UserDefined) }) {}
-export class ListEarthObservationJobOutput extends S.Class<ListEarthObservationJobOutput>(
-  "ListEarthObservationJobOutput",
-)({
-  EarthObservationJobSummaries: EarthObservationJobList,
-  NextToken: S.optional(S.String),
-}) {}
-export class ExportEarthObservationJobInput extends S.Class<ExportEarthObservationJobInput>(
-  "ExportEarthObservationJobInput",
-)(
-  {
+export interface ExportVectorEnrichmentJobOutputConfig {
+  S3Data: VectorEnrichmentJobS3Data;
+}
+export const ExportVectorEnrichmentJobOutputConfig = S.suspend(() =>
+  S.Struct({ S3Data: VectorEnrichmentJobS3Data }),
+).annotations({
+  identifier: "ExportVectorEnrichmentJobOutputConfig",
+}) as any as S.Schema<ExportVectorEnrichmentJobOutputConfig>;
+export interface UserDefined {
+  Value: number;
+  Unit: string;
+}
+export const UserDefined = S.suspend(() =>
+  S.Struct({ Value: S.Number, Unit: S.String }),
+).annotations({ identifier: "UserDefined" }) as any as S.Schema<UserDefined>;
+export interface OutputResolutionStackInput {
+  Predefined?: string;
+  UserDefined?: UserDefined;
+}
+export const OutputResolutionStackInput = S.suspend(() =>
+  S.Struct({
+    Predefined: S.optional(S.String),
+    UserDefined: S.optional(UserDefined),
+  }),
+).annotations({
+  identifier: "OutputResolutionStackInput",
+}) as any as S.Schema<OutputResolutionStackInput>;
+export interface ListEarthObservationJobOutput {
+  EarthObservationJobSummaries: EarthObservationJobList;
+  NextToken?: string;
+}
+export const ListEarthObservationJobOutput = S.suspend(() =>
+  S.Struct({
+    EarthObservationJobSummaries: EarthObservationJobList,
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListEarthObservationJobOutput",
+}) as any as S.Schema<ListEarthObservationJobOutput>;
+export interface ExportEarthObservationJobInput {
+  Arn: string;
+  ClientToken?: string;
+  ExecutionRoleArn: string;
+  OutputConfig: OutputConfigInput;
+  ExportSourceImages?: boolean;
+}
+export const ExportEarthObservationJobInput = S.suspend(() =>
+  S.Struct({
     Arn: S.String,
     ClientToken: S.optional(S.String),
     ExecutionRoleArn: S.String,
     OutputConfig: OutputConfigInput,
     ExportSourceImages: S.optional(S.Boolean),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/export-earth-observation-job" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/export-earth-observation-job" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetRasterDataCollectionOutput extends S.Class<GetRasterDataCollectionOutput>(
-  "GetRasterDataCollectionOutput",
-)({
-  Name: S.String,
-  Arn: S.String,
-  Type: S.String,
-  Description: S.String,
-  DescriptionPageUrl: S.String,
-  SupportedFilters: FilterList,
-  ImageSourceBands: ImageSourceBandList,
-  Tags: S.optional(Tags),
-}) {}
-export class ListRasterDataCollectionsOutput extends S.Class<ListRasterDataCollectionsOutput>(
-  "ListRasterDataCollectionsOutput",
-)({
-  RasterDataCollectionSummaries: DataCollectionsList,
-  NextToken: S.optional(S.String),
-}) {}
-export class StartVectorEnrichmentJobInput extends S.Class<StartVectorEnrichmentJobInput>(
-  "StartVectorEnrichmentJobInput",
-)(
-  {
+).annotations({
+  identifier: "ExportEarthObservationJobInput",
+}) as any as S.Schema<ExportEarthObservationJobInput>;
+export interface GetRasterDataCollectionOutput {
+  Name: string;
+  Arn: string;
+  Type: string;
+  Description: string;
+  DescriptionPageUrl: string;
+  SupportedFilters: FilterList;
+  ImageSourceBands: ImageSourceBandList;
+  Tags?: Tags;
+}
+export const GetRasterDataCollectionOutput = S.suspend(() =>
+  S.Struct({
+    Name: S.String,
+    Arn: S.String,
+    Type: S.String,
+    Description: S.String,
+    DescriptionPageUrl: S.String,
+    SupportedFilters: FilterList,
+    ImageSourceBands: ImageSourceBandList,
+    Tags: S.optional(Tags),
+  }),
+).annotations({
+  identifier: "GetRasterDataCollectionOutput",
+}) as any as S.Schema<GetRasterDataCollectionOutput>;
+export interface ListRasterDataCollectionsOutput {
+  RasterDataCollectionSummaries: DataCollectionsList;
+  NextToken?: string;
+}
+export const ListRasterDataCollectionsOutput = S.suspend(() =>
+  S.Struct({
+    RasterDataCollectionSummaries: DataCollectionsList,
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListRasterDataCollectionsOutput",
+}) as any as S.Schema<ListRasterDataCollectionsOutput>;
+export interface StartVectorEnrichmentJobInput {
+  Name: string;
+  ClientToken?: string;
+  KmsKeyId?: string;
+  InputConfig: VectorEnrichmentJobInputConfig;
+  JobConfig: (typeof VectorEnrichmentJobConfig)["Type"];
+  ExecutionRoleArn: string;
+  Tags?: Tags;
+}
+export const StartVectorEnrichmentJobInput = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     ClientToken: S.optional(S.String),
     KmsKeyId: S.optional(S.String),
@@ -803,147 +1192,279 @@ export class StartVectorEnrichmentJobInput extends S.Class<StartVectorEnrichment
     JobConfig: VectorEnrichmentJobConfig,
     ExecutionRoleArn: S.String,
     Tags: S.optional(Tags),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/vector-enrichment-jobs" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/vector-enrichment-jobs" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetVectorEnrichmentJobOutput extends S.Class<GetVectorEnrichmentJobOutput>(
-  "GetVectorEnrichmentJobOutput",
-)({
-  Arn: S.String,
-  Type: S.String,
-  Name: S.String,
-  CreationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  DurationInSeconds: S.Number,
-  Status: S.String,
-  KmsKeyId: S.optional(S.String),
-  InputConfig: VectorEnrichmentJobInputConfig,
-  JobConfig: VectorEnrichmentJobConfig,
-  ExecutionRoleArn: S.String,
-  ErrorDetails: S.optional(VectorEnrichmentJobErrorDetails),
-  ExportStatus: S.optional(S.String),
-  ExportErrorDetails: S.optional(VectorEnrichmentJobExportErrorDetails),
-  Tags: S.optional(Tags),
-}) {}
-export class ListVectorEnrichmentJobOutput extends S.Class<ListVectorEnrichmentJobOutput>(
-  "ListVectorEnrichmentJobOutput",
-)({
-  VectorEnrichmentJobSummaries: VectorEnrichmentJobList,
-  NextToken: S.optional(S.String),
-}) {}
-export class ExportVectorEnrichmentJobInput extends S.Class<ExportVectorEnrichmentJobInput>(
-  "ExportVectorEnrichmentJobInput",
-)(
-  {
+).annotations({
+  identifier: "StartVectorEnrichmentJobInput",
+}) as any as S.Schema<StartVectorEnrichmentJobInput>;
+export interface GetVectorEnrichmentJobOutput {
+  Arn: string;
+  Type: string;
+  Name: string;
+  CreationTime: Date;
+  DurationInSeconds: number;
+  Status: string;
+  KmsKeyId?: string;
+  InputConfig: VectorEnrichmentJobInputConfig;
+  JobConfig: (typeof VectorEnrichmentJobConfig)["Type"];
+  ExecutionRoleArn: string;
+  ErrorDetails?: VectorEnrichmentJobErrorDetails;
+  ExportStatus?: string;
+  ExportErrorDetails?: VectorEnrichmentJobExportErrorDetails;
+  Tags?: Tags;
+}
+export const GetVectorEnrichmentJobOutput = S.suspend(() =>
+  S.Struct({
+    Arn: S.String,
+    Type: S.String,
+    Name: S.String,
+    CreationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    DurationInSeconds: S.Number,
+    Status: S.String,
+    KmsKeyId: S.optional(S.String),
+    InputConfig: VectorEnrichmentJobInputConfig,
+    JobConfig: VectorEnrichmentJobConfig,
+    ExecutionRoleArn: S.String,
+    ErrorDetails: S.optional(VectorEnrichmentJobErrorDetails),
+    ExportStatus: S.optional(S.String),
+    ExportErrorDetails: S.optional(VectorEnrichmentJobExportErrorDetails),
+    Tags: S.optional(Tags),
+  }),
+).annotations({
+  identifier: "GetVectorEnrichmentJobOutput",
+}) as any as S.Schema<GetVectorEnrichmentJobOutput>;
+export interface ListVectorEnrichmentJobOutput {
+  VectorEnrichmentJobSummaries: VectorEnrichmentJobList;
+  NextToken?: string;
+}
+export const ListVectorEnrichmentJobOutput = S.suspend(() =>
+  S.Struct({
+    VectorEnrichmentJobSummaries: VectorEnrichmentJobList,
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListVectorEnrichmentJobOutput",
+}) as any as S.Schema<ListVectorEnrichmentJobOutput>;
+export interface ExportVectorEnrichmentJobInput {
+  Arn: string;
+  ClientToken?: string;
+  ExecutionRoleArn: string;
+  OutputConfig: ExportVectorEnrichmentJobOutputConfig;
+}
+export const ExportVectorEnrichmentJobInput = S.suspend(() =>
+  S.Struct({
     Arn: S.String,
     ClientToken: S.optional(S.String),
     ExecutionRoleArn: S.String,
     OutputConfig: ExportVectorEnrichmentJobOutputConfig,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/export-vector-enrichment-jobs" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/export-vector-enrichment-jobs" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StackConfigInput extends S.Class<StackConfigInput>(
-  "StackConfigInput",
-)({
-  OutputResolution: S.optional(OutputResolutionStackInput),
-  TargetBands: S.optional(StringListInput),
-}) {}
-export class ExportErrorDetailsOutput extends S.Class<ExportErrorDetailsOutput>(
-  "ExportErrorDetailsOutput",
-)({ Type: S.optional(S.String), Message: S.optional(S.String) }) {}
-export class Operation extends S.Class<Operation>("Operation")({
-  Name: S.String,
-  Equation: S.String,
-  OutputType: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "ExportVectorEnrichmentJobInput",
+}) as any as S.Schema<ExportVectorEnrichmentJobInput>;
+export interface StackConfigInput {
+  OutputResolution?: OutputResolutionStackInput;
+  TargetBands?: StringListInput;
+}
+export const StackConfigInput = S.suspend(() =>
+  S.Struct({
+    OutputResolution: S.optional(OutputResolutionStackInput),
+    TargetBands: S.optional(StringListInput),
+  }),
+).annotations({
+  identifier: "StackConfigInput",
+}) as any as S.Schema<StackConfigInput>;
+export interface ExportErrorDetailsOutput {
+  Type?: string;
+  Message?: string;
+}
+export const ExportErrorDetailsOutput = S.suspend(() =>
+  S.Struct({ Type: S.optional(S.String), Message: S.optional(S.String) }),
+).annotations({
+  identifier: "ExportErrorDetailsOutput",
+}) as any as S.Schema<ExportErrorDetailsOutput>;
+export interface Operation {
+  Name: string;
+  Equation: string;
+  OutputType?: string;
+}
+export const Operation = S.suspend(() =>
+  S.Struct({
+    Name: S.String,
+    Equation: S.String,
+    OutputType: S.optional(S.String),
+  }),
+).annotations({ identifier: "Operation" }) as any as S.Schema<Operation>;
+export type OperationsListInput = Operation[];
 export const OperationsListInput = S.Array(Operation);
-export class ExportErrorDetails extends S.Class<ExportErrorDetails>(
-  "ExportErrorDetails",
-)({
-  ExportResults: S.optional(ExportErrorDetailsOutput),
-  ExportSourceImages: S.optional(ExportErrorDetailsOutput),
-}) {}
-export class CustomIndicesInput extends S.Class<CustomIndicesInput>(
-  "CustomIndicesInput",
-)({ Operations: S.optional(OperationsListInput) }) {}
-export class OutputResolutionResamplingInput extends S.Class<OutputResolutionResamplingInput>(
-  "OutputResolutionResamplingInput",
-)({ UserDefined: UserDefined }) {}
-export class TimeRangeFilterOutput extends S.Class<TimeRangeFilterOutput>(
-  "TimeRangeFilterOutput",
-)({
-  StartTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  EndTime: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class ExportEarthObservationJobOutput extends S.Class<ExportEarthObservationJobOutput>(
-  "ExportEarthObservationJobOutput",
-)({
-  Arn: S.String,
-  CreationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  ExportStatus: S.String,
-  ExecutionRoleArn: S.String,
-  OutputConfig: OutputConfigInput,
-  ExportSourceImages: S.optional(S.Boolean),
-}) {}
-export class StartVectorEnrichmentJobOutput extends S.Class<StartVectorEnrichmentJobOutput>(
-  "StartVectorEnrichmentJobOutput",
-)({
-  Name: S.String,
-  Arn: S.String,
-  Type: S.String,
-  CreationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  DurationInSeconds: S.Number,
-  Status: S.String,
-  KmsKeyId: S.optional(S.String),
-  InputConfig: VectorEnrichmentJobInputConfig,
-  JobConfig: VectorEnrichmentJobConfig,
-  ExecutionRoleArn: S.String,
-  Tags: S.optional(Tags),
-}) {}
-export class ExportVectorEnrichmentJobOutput extends S.Class<ExportVectorEnrichmentJobOutput>(
-  "ExportVectorEnrichmentJobOutput",
-)({
-  Arn: S.String,
-  CreationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  ExecutionRoleArn: S.String,
-  ExportStatus: S.String,
-  OutputConfig: ExportVectorEnrichmentJobOutputConfig,
-}) {}
-export class BandMathConfigInput extends S.Class<BandMathConfigInput>(
-  "BandMathConfigInput",
-)({
-  PredefinedIndices: S.optional(StringListInput),
-  CustomIndices: S.optional(CustomIndicesInput),
-}) {}
-export class ResamplingConfigInput extends S.Class<ResamplingConfigInput>(
-  "ResamplingConfigInput",
-)({
-  OutputResolution: OutputResolutionResamplingInput,
-  AlgorithmName: S.optional(S.String),
-  TargetBands: S.optional(StringListInput),
-}) {}
-export class RasterDataCollectionQueryOutput extends S.Class<RasterDataCollectionQueryOutput>(
-  "RasterDataCollectionQueryOutput",
-)({
-  RasterDataCollectionArn: S.String,
-  RasterDataCollectionName: S.String,
-  TimeRangeFilter: TimeRangeFilterOutput,
-  AreaOfInterest: S.optional(AreaOfInterest),
-  PropertyFilters: S.optional(PropertyFilters),
-}) {}
+export interface ExportErrorDetails {
+  ExportResults?: ExportErrorDetailsOutput;
+  ExportSourceImages?: ExportErrorDetailsOutput;
+}
+export const ExportErrorDetails = S.suspend(() =>
+  S.Struct({
+    ExportResults: S.optional(ExportErrorDetailsOutput),
+    ExportSourceImages: S.optional(ExportErrorDetailsOutput),
+  }),
+).annotations({
+  identifier: "ExportErrorDetails",
+}) as any as S.Schema<ExportErrorDetails>;
+export interface CustomIndicesInput {
+  Operations?: OperationsListInput;
+}
+export const CustomIndicesInput = S.suspend(() =>
+  S.Struct({ Operations: S.optional(OperationsListInput) }),
+).annotations({
+  identifier: "CustomIndicesInput",
+}) as any as S.Schema<CustomIndicesInput>;
+export interface OutputResolutionResamplingInput {
+  UserDefined: UserDefined;
+}
+export const OutputResolutionResamplingInput = S.suspend(() =>
+  S.Struct({ UserDefined: UserDefined }),
+).annotations({
+  identifier: "OutputResolutionResamplingInput",
+}) as any as S.Schema<OutputResolutionResamplingInput>;
+export interface TimeRangeFilterOutput {
+  StartTime: Date;
+  EndTime: Date;
+}
+export const TimeRangeFilterOutput = S.suspend(() =>
+  S.Struct({
+    StartTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    EndTime: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "TimeRangeFilterOutput",
+}) as any as S.Schema<TimeRangeFilterOutput>;
+export interface ExportEarthObservationJobOutput {
+  Arn: string;
+  CreationTime: Date;
+  ExportStatus: string;
+  ExecutionRoleArn: string;
+  OutputConfig: OutputConfigInput;
+  ExportSourceImages?: boolean;
+}
+export const ExportEarthObservationJobOutput = S.suspend(() =>
+  S.Struct({
+    Arn: S.String,
+    CreationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    ExportStatus: S.String,
+    ExecutionRoleArn: S.String,
+    OutputConfig: OutputConfigInput,
+    ExportSourceImages: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "ExportEarthObservationJobOutput",
+}) as any as S.Schema<ExportEarthObservationJobOutput>;
+export interface StartVectorEnrichmentJobOutput {
+  Name: string;
+  Arn: string;
+  Type: string;
+  CreationTime: Date;
+  DurationInSeconds: number;
+  Status: string;
+  KmsKeyId?: string;
+  InputConfig: VectorEnrichmentJobInputConfig;
+  JobConfig: (typeof VectorEnrichmentJobConfig)["Type"];
+  ExecutionRoleArn: string;
+  Tags?: Tags;
+}
+export const StartVectorEnrichmentJobOutput = S.suspend(() =>
+  S.Struct({
+    Name: S.String,
+    Arn: S.String,
+    Type: S.String,
+    CreationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    DurationInSeconds: S.Number,
+    Status: S.String,
+    KmsKeyId: S.optional(S.String),
+    InputConfig: VectorEnrichmentJobInputConfig,
+    JobConfig: VectorEnrichmentJobConfig,
+    ExecutionRoleArn: S.String,
+    Tags: S.optional(Tags),
+  }),
+).annotations({
+  identifier: "StartVectorEnrichmentJobOutput",
+}) as any as S.Schema<StartVectorEnrichmentJobOutput>;
+export interface ExportVectorEnrichmentJobOutput {
+  Arn: string;
+  CreationTime: Date;
+  ExecutionRoleArn: string;
+  ExportStatus: string;
+  OutputConfig: ExportVectorEnrichmentJobOutputConfig;
+}
+export const ExportVectorEnrichmentJobOutput = S.suspend(() =>
+  S.Struct({
+    Arn: S.String,
+    CreationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    ExecutionRoleArn: S.String,
+    ExportStatus: S.String,
+    OutputConfig: ExportVectorEnrichmentJobOutputConfig,
+  }),
+).annotations({
+  identifier: "ExportVectorEnrichmentJobOutput",
+}) as any as S.Schema<ExportVectorEnrichmentJobOutput>;
+export interface BandMathConfigInput {
+  PredefinedIndices?: StringListInput;
+  CustomIndices?: CustomIndicesInput;
+}
+export const BandMathConfigInput = S.suspend(() =>
+  S.Struct({
+    PredefinedIndices: S.optional(StringListInput),
+    CustomIndices: S.optional(CustomIndicesInput),
+  }),
+).annotations({
+  identifier: "BandMathConfigInput",
+}) as any as S.Schema<BandMathConfigInput>;
+export interface ResamplingConfigInput {
+  OutputResolution: OutputResolutionResamplingInput;
+  AlgorithmName?: string;
+  TargetBands?: StringListInput;
+}
+export const ResamplingConfigInput = S.suspend(() =>
+  S.Struct({
+    OutputResolution: OutputResolutionResamplingInput,
+    AlgorithmName: S.optional(S.String),
+    TargetBands: S.optional(StringListInput),
+  }),
+).annotations({
+  identifier: "ResamplingConfigInput",
+}) as any as S.Schema<ResamplingConfigInput>;
+export interface RasterDataCollectionQueryOutput {
+  RasterDataCollectionArn: string;
+  RasterDataCollectionName: string;
+  TimeRangeFilter: TimeRangeFilterOutput;
+  AreaOfInterest?: (typeof AreaOfInterest)["Type"];
+  PropertyFilters?: PropertyFilters;
+}
+export const RasterDataCollectionQueryOutput = S.suspend(() =>
+  S.Struct({
+    RasterDataCollectionArn: S.String,
+    RasterDataCollectionName: S.String,
+    TimeRangeFilter: TimeRangeFilterOutput,
+    AreaOfInterest: S.optional(AreaOfInterest),
+    PropertyFilters: S.optional(PropertyFilters),
+  }),
+).annotations({
+  identifier: "RasterDataCollectionQueryOutput",
+}) as any as S.Schema<RasterDataCollectionQueryOutput>;
 export const JobConfigInput = S.Union(
   S.Struct({ BandMathConfig: BandMathConfigInput }),
   S.Struct({ ResamplingConfig: ResamplingConfigInput }),
@@ -955,16 +1476,29 @@ export const JobConfigInput = S.Union(
   S.Struct({ CloudMaskingConfig: CloudMaskingConfigInput }),
   S.Struct({ LandCoverSegmentationConfig: LandCoverSegmentationConfigInput }),
 );
-export class InputConfigOutput extends S.Class<InputConfigOutput>(
-  "InputConfigOutput",
-)({
-  PreviousEarthObservationJobArn: S.optional(S.String),
-  RasterDataCollectionQuery: S.optional(RasterDataCollectionQueryOutput),
-}) {}
-export class StartEarthObservationJobInput extends S.Class<StartEarthObservationJobInput>(
-  "StartEarthObservationJobInput",
-)(
-  {
+export interface InputConfigOutput {
+  PreviousEarthObservationJobArn?: string;
+  RasterDataCollectionQuery?: RasterDataCollectionQueryOutput;
+}
+export const InputConfigOutput = S.suspend(() =>
+  S.Struct({
+    PreviousEarthObservationJobArn: S.optional(S.String),
+    RasterDataCollectionQuery: S.optional(RasterDataCollectionQueryOutput),
+  }),
+).annotations({
+  identifier: "InputConfigOutput",
+}) as any as S.Schema<InputConfigOutput>;
+export interface StartEarthObservationJobInput {
+  Name: string;
+  ClientToken?: string;
+  KmsKeyId?: string;
+  InputConfig: InputConfigInput;
+  JobConfig: (typeof JobConfigInput)["Type"];
+  ExecutionRoleArn: string;
+  Tags?: Tags;
+}
+export const StartEarthObservationJobInput = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     ClientToken: S.optional(S.String),
     KmsKeyId: S.optional(S.String),
@@ -972,104 +1506,187 @@ export class StartEarthObservationJobInput extends S.Class<StartEarthObservation
     JobConfig: JobConfigInput,
     ExecutionRoleArn: S.String,
     Tags: S.optional(Tags),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/earth-observation-jobs" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/earth-observation-jobs" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetEarthObservationJobOutput extends S.Class<GetEarthObservationJobOutput>(
-  "GetEarthObservationJobOutput",
-)({
-  Arn: S.String,
-  Name: S.String,
-  CreationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  DurationInSeconds: S.Number,
-  Status: S.String,
-  KmsKeyId: S.optional(S.String),
-  InputConfig: InputConfigOutput,
-  JobConfig: JobConfigInput,
-  OutputBands: S.optional(EarthObservationJobOutputBands),
-  ExecutionRoleArn: S.optional(S.String),
-  ErrorDetails: S.optional(EarthObservationJobErrorDetails),
-  ExportStatus: S.optional(S.String),
-  ExportErrorDetails: S.optional(ExportErrorDetails),
-  Tags: S.optional(Tags),
-}) {}
-export class RasterDataCollectionQueryWithBandFilterInput extends S.Class<RasterDataCollectionQueryWithBandFilterInput>(
-  "RasterDataCollectionQueryWithBandFilterInput",
-)({
-  TimeRangeFilter: TimeRangeFilterInput,
-  AreaOfInterest: S.optional(AreaOfInterest),
-  PropertyFilters: S.optional(PropertyFilters),
-  BandFilter: S.optional(StringListInput),
-}) {}
-export class StartEarthObservationJobOutput extends S.Class<StartEarthObservationJobOutput>(
-  "StartEarthObservationJobOutput",
-)({
-  Name: S.String,
-  Arn: S.String,
-  CreationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  DurationInSeconds: S.Number,
-  Status: S.String,
-  KmsKeyId: S.optional(S.String),
-  InputConfig: S.optional(InputConfigOutput),
-  JobConfig: JobConfigInput,
-  ExecutionRoleArn: S.String,
-  Tags: S.optional(Tags),
-}) {}
-export class SearchRasterDataCollectionInput extends S.Class<SearchRasterDataCollectionInput>(
-  "SearchRasterDataCollectionInput",
-)(
-  {
+).annotations({
+  identifier: "StartEarthObservationJobInput",
+}) as any as S.Schema<StartEarthObservationJobInput>;
+export interface GetEarthObservationJobOutput {
+  Arn: string;
+  Name: string;
+  CreationTime: Date;
+  DurationInSeconds: number;
+  Status: string;
+  KmsKeyId?: string;
+  InputConfig: InputConfigOutput;
+  JobConfig: (typeof JobConfigInput)["Type"];
+  OutputBands?: EarthObservationJobOutputBands;
+  ExecutionRoleArn?: string;
+  ErrorDetails?: EarthObservationJobErrorDetails;
+  ExportStatus?: string;
+  ExportErrorDetails?: ExportErrorDetails;
+  Tags?: Tags;
+}
+export const GetEarthObservationJobOutput = S.suspend(() =>
+  S.Struct({
+    Arn: S.String,
+    Name: S.String,
+    CreationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    DurationInSeconds: S.Number,
+    Status: S.String,
+    KmsKeyId: S.optional(S.String),
+    InputConfig: InputConfigOutput,
+    JobConfig: JobConfigInput,
+    OutputBands: S.optional(EarthObservationJobOutputBands),
+    ExecutionRoleArn: S.optional(S.String),
+    ErrorDetails: S.optional(EarthObservationJobErrorDetails),
+    ExportStatus: S.optional(S.String),
+    ExportErrorDetails: S.optional(ExportErrorDetails),
+    Tags: S.optional(Tags),
+  }),
+).annotations({
+  identifier: "GetEarthObservationJobOutput",
+}) as any as S.Schema<GetEarthObservationJobOutput>;
+export interface RasterDataCollectionQueryWithBandFilterInput {
+  TimeRangeFilter: TimeRangeFilterInput;
+  AreaOfInterest?: (typeof AreaOfInterest)["Type"];
+  PropertyFilters?: PropertyFilters;
+  BandFilter?: StringListInput;
+}
+export const RasterDataCollectionQueryWithBandFilterInput = S.suspend(() =>
+  S.Struct({
+    TimeRangeFilter: TimeRangeFilterInput,
+    AreaOfInterest: S.optional(AreaOfInterest),
+    PropertyFilters: S.optional(PropertyFilters),
+    BandFilter: S.optional(StringListInput),
+  }),
+).annotations({
+  identifier: "RasterDataCollectionQueryWithBandFilterInput",
+}) as any as S.Schema<RasterDataCollectionQueryWithBandFilterInput>;
+export interface StartEarthObservationJobOutput {
+  Name: string;
+  Arn: string;
+  CreationTime: Date;
+  DurationInSeconds: number;
+  Status: string;
+  KmsKeyId?: string;
+  InputConfig?: InputConfigOutput;
+  JobConfig: (typeof JobConfigInput)["Type"];
+  ExecutionRoleArn: string;
+  Tags?: Tags;
+}
+export const StartEarthObservationJobOutput = S.suspend(() =>
+  S.Struct({
+    Name: S.String,
+    Arn: S.String,
+    CreationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    DurationInSeconds: S.Number,
+    Status: S.String,
+    KmsKeyId: S.optional(S.String),
+    InputConfig: S.optional(InputConfigOutput),
+    JobConfig: JobConfigInput,
+    ExecutionRoleArn: S.String,
+    Tags: S.optional(Tags),
+  }),
+).annotations({
+  identifier: "StartEarthObservationJobOutput",
+}) as any as S.Schema<StartEarthObservationJobOutput>;
+export interface SearchRasterDataCollectionInput {
+  Arn: string;
+  RasterDataCollectionQuery: RasterDataCollectionQueryWithBandFilterInput;
+  NextToken?: string;
+}
+export const SearchRasterDataCollectionInput = S.suspend(() =>
+  S.Struct({
     Arn: S.String,
     RasterDataCollectionQuery: RasterDataCollectionQueryWithBandFilterInput,
     NextToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/search-raster-data-collection" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/search-raster-data-collection" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class Geometry extends S.Class<Geometry>("Geometry")({
-  Type: S.String,
-  Coordinates: LinearRings,
-}) {}
-export class Properties extends S.Class<Properties>("Properties")({
-  EoCloudCover: S.optional(S.Number),
-  ViewOffNadir: S.optional(S.Number),
-  ViewSunAzimuth: S.optional(S.Number),
-  ViewSunElevation: S.optional(S.Number),
-  Platform: S.optional(S.String),
-  LandsatCloudCoverLand: S.optional(S.Number),
-}) {}
-export class AssetValue extends S.Class<AssetValue>("AssetValue")({
-  Href: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "SearchRasterDataCollectionInput",
+}) as any as S.Schema<SearchRasterDataCollectionInput>;
+export interface Geometry {
+  Type: string;
+  Coordinates: LinearRings;
+}
+export const Geometry = S.suspend(() =>
+  S.Struct({ Type: S.String, Coordinates: LinearRings }),
+).annotations({ identifier: "Geometry" }) as any as S.Schema<Geometry>;
+export interface Properties {
+  EoCloudCover?: number;
+  ViewOffNadir?: number;
+  ViewSunAzimuth?: number;
+  ViewSunElevation?: number;
+  Platform?: string;
+  LandsatCloudCoverLand?: number;
+}
+export const Properties = S.suspend(() =>
+  S.Struct({
+    EoCloudCover: S.optional(S.Number),
+    ViewOffNadir: S.optional(S.Number),
+    ViewSunAzimuth: S.optional(S.Number),
+    ViewSunElevation: S.optional(S.Number),
+    Platform: S.optional(S.String),
+    LandsatCloudCoverLand: S.optional(S.Number),
+  }),
+).annotations({ identifier: "Properties" }) as any as S.Schema<Properties>;
+export interface AssetValue {
+  Href?: string;
+}
+export const AssetValue = S.suspend(() =>
+  S.Struct({ Href: S.optional(S.String) }),
+).annotations({ identifier: "AssetValue" }) as any as S.Schema<AssetValue>;
+export type AssetsMap = { [key: string]: AssetValue };
 export const AssetsMap = S.Record({ key: S.String, value: AssetValue });
-export class ItemSource extends S.Class<ItemSource>("ItemSource")({
-  Id: S.String,
-  Geometry: Geometry,
-  Assets: S.optional(AssetsMap),
-  DateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  Properties: S.optional(Properties),
-}) {}
+export interface ItemSource {
+  Id: string;
+  Geometry: Geometry;
+  Assets?: AssetsMap;
+  DateTime: Date;
+  Properties?: Properties;
+}
+export const ItemSource = S.suspend(() =>
+  S.Struct({
+    Id: S.String,
+    Geometry: Geometry,
+    Assets: S.optional(AssetsMap),
+    DateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    Properties: S.optional(Properties),
+  }),
+).annotations({ identifier: "ItemSource" }) as any as S.Schema<ItemSource>;
+export type ItemSourceList = ItemSource[];
 export const ItemSourceList = S.Array(ItemSource);
-export class SearchRasterDataCollectionOutput extends S.Class<SearchRasterDataCollectionOutput>(
-  "SearchRasterDataCollectionOutput",
-)({
-  ApproximateResultCount: S.Number,
-  NextToken: S.optional(S.String),
-  Items: S.optional(ItemSourceList),
-}) {}
+export interface SearchRasterDataCollectionOutput {
+  ApproximateResultCount: number;
+  NextToken?: string;
+  Items?: ItemSourceList;
+}
+export const SearchRasterDataCollectionOutput = S.suspend(() =>
+  S.Struct({
+    ApproximateResultCount: S.Number,
+    NextToken: S.optional(S.String),
+    Items: S.optional(ItemSourceList),
+  }),
+).annotations({
+  identifier: "SearchRasterDataCollectionOutput",
+}) as any as S.Schema<SearchRasterDataCollectionOutput>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

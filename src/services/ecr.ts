@@ -1076,98 +1076,241 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class DeleteRegistryPolicyRequest extends S.Class<DeleteRegistryPolicyRequest>(
-  "DeleteRegistryPolicyRequest",
-)(
-  {},
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteSigningConfigurationRequest extends S.Class<DeleteSigningConfigurationRequest>(
-  "DeleteSigningConfigurationRequest",
-)(
-  {},
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeRegistryRequest extends S.Class<DescribeRegistryRequest>(
-  "DescribeRegistryRequest",
-)(
-  {},
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetRegistryPolicyRequest extends S.Class<GetRegistryPolicyRequest>(
-  "GetRegistryPolicyRequest",
-)(
-  {},
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetRegistryScanningConfigurationRequest extends S.Class<GetRegistryScanningConfigurationRequest>(
-  "GetRegistryScanningConfigurationRequest",
-)(
-  {},
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetSigningConfigurationRequest extends S.Class<GetSigningConfigurationRequest>(
-  "GetSigningConfigurationRequest",
-)(
-  {},
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+export interface DeleteRegistryPolicyRequest {}
+export const DeleteRegistryPolicyRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteRegistryPolicyRequest",
+}) as any as S.Schema<DeleteRegistryPolicyRequest>;
+export interface DeleteSigningConfigurationRequest {}
+export const DeleteSigningConfigurationRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteSigningConfigurationRequest",
+}) as any as S.Schema<DeleteSigningConfigurationRequest>;
+export interface DescribeRegistryRequest {}
+export const DescribeRegistryRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeRegistryRequest",
+}) as any as S.Schema<DescribeRegistryRequest>;
+export interface GetRegistryPolicyRequest {}
+export const GetRegistryPolicyRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetRegistryPolicyRequest",
+}) as any as S.Schema<GetRegistryPolicyRequest>;
+export interface GetRegistryScanningConfigurationRequest {}
+export const GetRegistryScanningConfigurationRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetRegistryScanningConfigurationRequest",
+}) as any as S.Schema<GetRegistryScanningConfigurationRequest>;
+export interface GetSigningConfigurationRequest {}
+export const GetSigningConfigurationRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetSigningConfigurationRequest",
+}) as any as S.Schema<GetSigningConfigurationRequest>;
+export type BatchedOperationLayerDigestList = string[];
 export const BatchedOperationLayerDigestList = S.Array(S.String);
+export type MediaTypeList = string[];
 export const MediaTypeList = S.Array(S.String);
+export type ScanningConfigurationRepositoryNameList = string[];
 export const ScanningConfigurationRepositoryNameList = S.Array(S.String);
+export type LayerDigestList = string[];
 export const LayerDigestList = S.Array(S.String);
+export type RCTAppliedForList = string[];
 export const RCTAppliedForList = S.Array(S.String);
+export type PullThroughCacheRuleRepositoryPrefixList = string[];
 export const PullThroughCacheRuleRepositoryPrefixList = S.Array(S.String);
+export type RepositoryNameList = string[];
 export const RepositoryNameList = S.Array(S.String);
+export type PrefixList = string[];
 export const PrefixList = S.Array(S.String);
+export type GetAuthorizationTokenRegistryIdList = string[];
 export const GetAuthorizationTokenRegistryIdList = S.Array(S.String);
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class BatchCheckLayerAvailabilityRequest extends S.Class<BatchCheckLayerAvailabilityRequest>(
-  "BatchCheckLayerAvailabilityRequest",
-)(
-  {
+export interface BatchCheckLayerAvailabilityRequest {
+  registryId?: string;
+  repositoryName: string;
+  layerDigests: BatchedOperationLayerDigestList;
+}
+export const BatchCheckLayerAvailabilityRequest = S.suspend(() =>
+  S.Struct({
     registryId: S.optional(S.String),
     repositoryName: S.String,
     layerDigests: BatchedOperationLayerDigestList,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ImageIdentifier extends S.Class<ImageIdentifier>(
-  "ImageIdentifier",
-)({ imageDigest: S.optional(S.String), imageTag: S.optional(S.String) }) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "BatchCheckLayerAvailabilityRequest",
+}) as any as S.Schema<BatchCheckLayerAvailabilityRequest>;
+export interface ImageIdentifier {
+  imageDigest?: string;
+  imageTag?: string;
+}
+export const ImageIdentifier = S.suspend(() =>
+  S.Struct({
+    imageDigest: S.optional(S.String),
+    imageTag: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ImageIdentifier",
+}) as any as S.Schema<ImageIdentifier>;
+export type ImageIdentifierList = ImageIdentifier[];
 export const ImageIdentifierList = S.Array(ImageIdentifier);
-export class BatchGetImageRequest extends S.Class<BatchGetImageRequest>(
-  "BatchGetImageRequest",
-)(
-  {
+export interface BatchGetImageRequest {
+  registryId?: string;
+  repositoryName: string;
+  imageIds: ImageIdentifierList;
+  acceptedMediaTypes?: MediaTypeList;
+}
+export const BatchGetImageRequest = S.suspend(() =>
+  S.Struct({
     registryId: S.optional(S.String),
     repositoryName: S.String,
     imageIds: ImageIdentifierList,
     acceptedMediaTypes: S.optional(MediaTypeList),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class BatchGetRepositoryScanningConfigurationRequest extends S.Class<BatchGetRepositoryScanningConfigurationRequest>(
-  "BatchGetRepositoryScanningConfigurationRequest",
-)(
-  { repositoryNames: ScanningConfigurationRepositoryNameList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CompleteLayerUploadRequest extends S.Class<CompleteLayerUploadRequest>(
-  "CompleteLayerUploadRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "BatchGetImageRequest",
+}) as any as S.Schema<BatchGetImageRequest>;
+export interface BatchGetRepositoryScanningConfigurationRequest {
+  repositoryNames: ScanningConfigurationRepositoryNameList;
+}
+export const BatchGetRepositoryScanningConfigurationRequest = S.suspend(() =>
+  S.Struct({ repositoryNames: ScanningConfigurationRepositoryNameList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "BatchGetRepositoryScanningConfigurationRequest",
+}) as any as S.Schema<BatchGetRepositoryScanningConfigurationRequest>;
+export interface CompleteLayerUploadRequest {
+  registryId?: string;
+  repositoryName: string;
+  uploadId: string;
+  layerDigests: LayerDigestList;
+}
+export const CompleteLayerUploadRequest = S.suspend(() =>
+  S.Struct({
     registryId: S.optional(S.String),
     repositoryName: S.String,
     uploadId: S.String,
     layerDigests: LayerDigestList,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreatePullThroughCacheRuleRequest extends S.Class<CreatePullThroughCacheRuleRequest>(
-  "CreatePullThroughCacheRuleRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CompleteLayerUploadRequest",
+}) as any as S.Schema<CompleteLayerUploadRequest>;
+export interface CreatePullThroughCacheRuleRequest {
+  ecrRepositoryPrefix: string;
+  upstreamRegistryUrl: string;
+  registryId?: string;
+  upstreamRegistry?: string;
+  credentialArn?: string;
+  customRoleArn?: string;
+  upstreamRepositoryPrefix?: string;
+}
+export const CreatePullThroughCacheRuleRequest = S.suspend(() =>
+  S.Struct({
     ecrRepositoryPrefix: S.String,
     upstreamRegistryUrl: S.String,
     registryId: S.optional(S.String),
@@ -1175,378 +1318,989 @@ export class CreatePullThroughCacheRuleRequest extends S.Class<CreatePullThrough
     credentialArn: S.optional(S.String),
     customRoleArn: S.optional(S.String),
     upstreamRepositoryPrefix: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteLifecyclePolicyRequest extends S.Class<DeleteLifecyclePolicyRequest>(
-  "DeleteLifecyclePolicyRequest",
-)(
-  { registryId: S.optional(S.String), repositoryName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeletePullThroughCacheRuleRequest extends S.Class<DeletePullThroughCacheRuleRequest>(
-  "DeletePullThroughCacheRuleRequest",
-)(
-  { ecrRepositoryPrefix: S.String, registryId: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteRegistryPolicyResponse extends S.Class<DeleteRegistryPolicyResponse>(
-  "DeleteRegistryPolicyResponse",
-)({ registryId: S.optional(S.String), policyText: S.optional(S.String) }, ns) {}
-export class DeleteRepositoryRequest extends S.Class<DeleteRepositoryRequest>(
-  "DeleteRepositoryRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreatePullThroughCacheRuleRequest",
+}) as any as S.Schema<CreatePullThroughCacheRuleRequest>;
+export interface DeleteLifecyclePolicyRequest {
+  registryId?: string;
+  repositoryName: string;
+}
+export const DeleteLifecyclePolicyRequest = S.suspend(() =>
+  S.Struct({ registryId: S.optional(S.String), repositoryName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteLifecyclePolicyRequest",
+}) as any as S.Schema<DeleteLifecyclePolicyRequest>;
+export interface DeletePullThroughCacheRuleRequest {
+  ecrRepositoryPrefix: string;
+  registryId?: string;
+}
+export const DeletePullThroughCacheRuleRequest = S.suspend(() =>
+  S.Struct({
+    ecrRepositoryPrefix: S.String,
+    registryId: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeletePullThroughCacheRuleRequest",
+}) as any as S.Schema<DeletePullThroughCacheRuleRequest>;
+export interface DeleteRegistryPolicyResponse {
+  registryId?: string;
+  policyText?: string;
+}
+export const DeleteRegistryPolicyResponse = S.suspend(() =>
+  S.Struct({
+    registryId: S.optional(S.String),
+    policyText: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "DeleteRegistryPolicyResponse",
+}) as any as S.Schema<DeleteRegistryPolicyResponse>;
+export interface DeleteRepositoryRequest {
+  registryId?: string;
+  repositoryName: string;
+  force?: boolean;
+}
+export const DeleteRepositoryRequest = S.suspend(() =>
+  S.Struct({
     registryId: S.optional(S.String),
     repositoryName: S.String,
     force: S.optional(S.Boolean),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteRepositoryCreationTemplateRequest extends S.Class<DeleteRepositoryCreationTemplateRequest>(
-  "DeleteRepositoryCreationTemplateRequest",
-)(
-  { prefix: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteRepositoryPolicyRequest extends S.Class<DeleteRepositoryPolicyRequest>(
-  "DeleteRepositoryPolicyRequest",
-)(
-  { registryId: S.optional(S.String), repositoryName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeregisterPullTimeUpdateExclusionRequest extends S.Class<DeregisterPullTimeUpdateExclusionRequest>(
-  "DeregisterPullTimeUpdateExclusionRequest",
-)(
-  { principalArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeImageReplicationStatusRequest extends S.Class<DescribeImageReplicationStatusRequest>(
-  "DescribeImageReplicationStatusRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteRepositoryRequest",
+}) as any as S.Schema<DeleteRepositoryRequest>;
+export interface DeleteRepositoryCreationTemplateRequest {
+  prefix: string;
+}
+export const DeleteRepositoryCreationTemplateRequest = S.suspend(() =>
+  S.Struct({ prefix: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteRepositoryCreationTemplateRequest",
+}) as any as S.Schema<DeleteRepositoryCreationTemplateRequest>;
+export interface DeleteRepositoryPolicyRequest {
+  registryId?: string;
+  repositoryName: string;
+}
+export const DeleteRepositoryPolicyRequest = S.suspend(() =>
+  S.Struct({ registryId: S.optional(S.String), repositoryName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteRepositoryPolicyRequest",
+}) as any as S.Schema<DeleteRepositoryPolicyRequest>;
+export interface DeregisterPullTimeUpdateExclusionRequest {
+  principalArn: string;
+}
+export const DeregisterPullTimeUpdateExclusionRequest = S.suspend(() =>
+  S.Struct({ principalArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeregisterPullTimeUpdateExclusionRequest",
+}) as any as S.Schema<DeregisterPullTimeUpdateExclusionRequest>;
+export interface DescribeImageReplicationStatusRequest {
+  repositoryName: string;
+  imageId: ImageIdentifier;
+  registryId?: string;
+}
+export const DescribeImageReplicationStatusRequest = S.suspend(() =>
+  S.Struct({
     repositoryName: S.String,
     imageId: ImageIdentifier,
     registryId: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeImageScanFindingsRequest extends S.Class<DescribeImageScanFindingsRequest>(
-  "DescribeImageScanFindingsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeImageReplicationStatusRequest",
+}) as any as S.Schema<DescribeImageReplicationStatusRequest>;
+export interface DescribeImageScanFindingsRequest {
+  registryId?: string;
+  repositoryName: string;
+  imageId: ImageIdentifier;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const DescribeImageScanFindingsRequest = S.suspend(() =>
+  S.Struct({
     registryId: S.optional(S.String),
     repositoryName: S.String,
     imageId: ImageIdentifier,
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeImageSigningStatusRequest extends S.Class<DescribeImageSigningStatusRequest>(
-  "DescribeImageSigningStatusRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeImageScanFindingsRequest",
+}) as any as S.Schema<DescribeImageScanFindingsRequest>;
+export interface DescribeImageSigningStatusRequest {
+  repositoryName: string;
+  imageId: ImageIdentifier;
+  registryId?: string;
+}
+export const DescribeImageSigningStatusRequest = S.suspend(() =>
+  S.Struct({
     repositoryName: S.String,
     imageId: ImageIdentifier,
     registryId: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribePullThroughCacheRulesRequest extends S.Class<DescribePullThroughCacheRulesRequest>(
-  "DescribePullThroughCacheRulesRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeImageSigningStatusRequest",
+}) as any as S.Schema<DescribeImageSigningStatusRequest>;
+export interface DescribePullThroughCacheRulesRequest {
+  registryId?: string;
+  ecrRepositoryPrefixes?: PullThroughCacheRuleRepositoryPrefixList;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const DescribePullThroughCacheRulesRequest = S.suspend(() =>
+  S.Struct({
     registryId: S.optional(S.String),
     ecrRepositoryPrefixes: S.optional(PullThroughCacheRuleRepositoryPrefixList),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeRepositoriesRequest extends S.Class<DescribeRepositoriesRequest>(
-  "DescribeRepositoriesRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribePullThroughCacheRulesRequest",
+}) as any as S.Schema<DescribePullThroughCacheRulesRequest>;
+export interface DescribeRepositoriesRequest {
+  registryId?: string;
+  repositoryNames?: RepositoryNameList;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const DescribeRepositoriesRequest = S.suspend(() =>
+  S.Struct({
     registryId: S.optional(S.String),
     repositoryNames: S.optional(RepositoryNameList),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeRepositoryCreationTemplatesRequest extends S.Class<DescribeRepositoryCreationTemplatesRequest>(
-  "DescribeRepositoryCreationTemplatesRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeRepositoriesRequest",
+}) as any as S.Schema<DescribeRepositoriesRequest>;
+export interface DescribeRepositoryCreationTemplatesRequest {
+  prefixes?: PrefixList;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const DescribeRepositoryCreationTemplatesRequest = S.suspend(() =>
+  S.Struct({
     prefixes: S.optional(PrefixList),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetAccountSettingRequest extends S.Class<GetAccountSettingRequest>(
-  "GetAccountSettingRequest",
-)(
-  { name: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetAuthorizationTokenRequest extends S.Class<GetAuthorizationTokenRequest>(
-  "GetAuthorizationTokenRequest",
-)(
-  { registryIds: S.optional(GetAuthorizationTokenRegistryIdList) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetDownloadUrlForLayerRequest extends S.Class<GetDownloadUrlForLayerRequest>(
-  "GetDownloadUrlForLayerRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeRepositoryCreationTemplatesRequest",
+}) as any as S.Schema<DescribeRepositoryCreationTemplatesRequest>;
+export interface GetAccountSettingRequest {
+  name: string;
+}
+export const GetAccountSettingRequest = S.suspend(() =>
+  S.Struct({ name: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetAccountSettingRequest",
+}) as any as S.Schema<GetAccountSettingRequest>;
+export interface GetAuthorizationTokenRequest {
+  registryIds?: GetAuthorizationTokenRegistryIdList;
+}
+export const GetAuthorizationTokenRequest = S.suspend(() =>
+  S.Struct({
+    registryIds: S.optional(GetAuthorizationTokenRegistryIdList),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetAuthorizationTokenRequest",
+}) as any as S.Schema<GetAuthorizationTokenRequest>;
+export interface GetDownloadUrlForLayerRequest {
+  registryId?: string;
+  repositoryName: string;
+  layerDigest: string;
+}
+export const GetDownloadUrlForLayerRequest = S.suspend(() =>
+  S.Struct({
     registryId: S.optional(S.String),
     repositoryName: S.String,
     layerDigest: S.String,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetLifecyclePolicyRequest extends S.Class<GetLifecyclePolicyRequest>(
-  "GetLifecyclePolicyRequest",
-)(
-  { registryId: S.optional(S.String), repositoryName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetRegistryPolicyResponse extends S.Class<GetRegistryPolicyResponse>(
-  "GetRegistryPolicyResponse",
-)({ registryId: S.optional(S.String), policyText: S.optional(S.String) }, ns) {}
-export class GetRepositoryPolicyRequest extends S.Class<GetRepositoryPolicyRequest>(
-  "GetRepositoryPolicyRequest",
-)(
-  { registryId: S.optional(S.String), repositoryName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class SigningRepositoryFilter extends S.Class<SigningRepositoryFilter>(
-  "SigningRepositoryFilter",
-)({ filter: S.String, filterType: S.String }) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetDownloadUrlForLayerRequest",
+}) as any as S.Schema<GetDownloadUrlForLayerRequest>;
+export interface GetLifecyclePolicyRequest {
+  registryId?: string;
+  repositoryName: string;
+}
+export const GetLifecyclePolicyRequest = S.suspend(() =>
+  S.Struct({ registryId: S.optional(S.String), repositoryName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetLifecyclePolicyRequest",
+}) as any as S.Schema<GetLifecyclePolicyRequest>;
+export interface GetRegistryPolicyResponse {
+  registryId?: string;
+  policyText?: string;
+}
+export const GetRegistryPolicyResponse = S.suspend(() =>
+  S.Struct({
+    registryId: S.optional(S.String),
+    policyText: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "GetRegistryPolicyResponse",
+}) as any as S.Schema<GetRegistryPolicyResponse>;
+export interface GetRepositoryPolicyRequest {
+  registryId?: string;
+  repositoryName: string;
+}
+export const GetRepositoryPolicyRequest = S.suspend(() =>
+  S.Struct({ registryId: S.optional(S.String), repositoryName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetRepositoryPolicyRequest",
+}) as any as S.Schema<GetRepositoryPolicyRequest>;
+export interface SigningRepositoryFilter {
+  filter: string;
+  filterType: string;
+}
+export const SigningRepositoryFilter = S.suspend(() =>
+  S.Struct({ filter: S.String, filterType: S.String }),
+).annotations({
+  identifier: "SigningRepositoryFilter",
+}) as any as S.Schema<SigningRepositoryFilter>;
+export type SigningRepositoryFilterList = SigningRepositoryFilter[];
 export const SigningRepositoryFilterList = S.Array(SigningRepositoryFilter);
-export class SigningRule extends S.Class<SigningRule>("SigningRule")({
-  signingProfileArn: S.String,
-  repositoryFilters: S.optional(SigningRepositoryFilterList),
-}) {}
+export interface SigningRule {
+  signingProfileArn: string;
+  repositoryFilters?: SigningRepositoryFilterList;
+}
+export const SigningRule = S.suspend(() =>
+  S.Struct({
+    signingProfileArn: S.String,
+    repositoryFilters: S.optional(SigningRepositoryFilterList),
+  }),
+).annotations({ identifier: "SigningRule" }) as any as S.Schema<SigningRule>;
+export type SigningRuleList = SigningRule[];
 export const SigningRuleList = S.Array(SigningRule);
-export class SigningConfiguration extends S.Class<SigningConfiguration>(
-  "SigningConfiguration",
-)({ rules: SigningRuleList }) {}
-export class GetSigningConfigurationResponse extends S.Class<GetSigningConfigurationResponse>(
-  "GetSigningConfigurationResponse",
-)(
-  {
+export interface SigningConfiguration {
+  rules: SigningRuleList;
+}
+export const SigningConfiguration = S.suspend(() =>
+  S.Struct({ rules: SigningRuleList }),
+).annotations({
+  identifier: "SigningConfiguration",
+}) as any as S.Schema<SigningConfiguration>;
+export interface GetSigningConfigurationResponse {
+  registryId?: string;
+  signingConfiguration?: SigningConfiguration;
+}
+export const GetSigningConfigurationResponse = S.suspend(() =>
+  S.Struct({
     registryId: S.optional(S.String),
     signingConfiguration: S.optional(SigningConfiguration),
-  },
-  ns,
-) {}
-export class InitiateLayerUploadRequest extends S.Class<InitiateLayerUploadRequest>(
-  "InitiateLayerUploadRequest",
-)(
-  { registryId: S.optional(S.String), repositoryName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListPullTimeUpdateExclusionsRequest extends S.Class<ListPullTimeUpdateExclusionsRequest>(
-  "ListPullTimeUpdateExclusionsRequest",
-)(
-  { maxResults: S.optional(S.Number), nextToken: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { resourceArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutAccountSettingRequest extends S.Class<PutAccountSettingRequest>(
-  "PutAccountSettingRequest",
-)(
-  { name: S.String, value: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutImageRequest extends S.Class<PutImageRequest>(
-  "PutImageRequest",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetSigningConfigurationResponse",
+}) as any as S.Schema<GetSigningConfigurationResponse>;
+export interface InitiateLayerUploadRequest {
+  registryId?: string;
+  repositoryName: string;
+}
+export const InitiateLayerUploadRequest = S.suspend(() =>
+  S.Struct({ registryId: S.optional(S.String), repositoryName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "InitiateLayerUploadRequest",
+}) as any as S.Schema<InitiateLayerUploadRequest>;
+export interface ListPullTimeUpdateExclusionsRequest {
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListPullTimeUpdateExclusionsRequest = S.suspend(() =>
+  S.Struct({
+    maxResults: S.optional(S.Number),
+    nextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListPullTimeUpdateExclusionsRequest",
+}) as any as S.Schema<ListPullTimeUpdateExclusionsRequest>;
+export interface ListTagsForResourceRequest {
+  resourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface PutAccountSettingRequest {
+  name: string;
+  value: string;
+}
+export const PutAccountSettingRequest = S.suspend(() =>
+  S.Struct({ name: S.String, value: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutAccountSettingRequest",
+}) as any as S.Schema<PutAccountSettingRequest>;
+export interface PutImageRequest {
+  registryId?: string;
+  repositoryName: string;
+  imageManifest: string;
+  imageManifestMediaType?: string;
+  imageTag?: string;
+  imageDigest?: string;
+}
+export const PutImageRequest = S.suspend(() =>
+  S.Struct({
     registryId: S.optional(S.String),
     repositoryName: S.String,
     imageManifest: S.String,
     imageManifestMediaType: S.optional(S.String),
     imageTag: S.optional(S.String),
     imageDigest: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ImageScanningConfiguration extends S.Class<ImageScanningConfiguration>(
-  "ImageScanningConfiguration",
-)({ scanOnPush: S.optional(S.Boolean) }) {}
-export class PutImageScanningConfigurationRequest extends S.Class<PutImageScanningConfigurationRequest>(
-  "PutImageScanningConfigurationRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutImageRequest",
+}) as any as S.Schema<PutImageRequest>;
+export interface ImageScanningConfiguration {
+  scanOnPush?: boolean;
+}
+export const ImageScanningConfiguration = S.suspend(() =>
+  S.Struct({ scanOnPush: S.optional(S.Boolean) }),
+).annotations({
+  identifier: "ImageScanningConfiguration",
+}) as any as S.Schema<ImageScanningConfiguration>;
+export interface PutImageScanningConfigurationRequest {
+  registryId?: string;
+  repositoryName: string;
+  imageScanningConfiguration: ImageScanningConfiguration;
+}
+export const PutImageScanningConfigurationRequest = S.suspend(() =>
+  S.Struct({
     registryId: S.optional(S.String),
     repositoryName: S.String,
     imageScanningConfiguration: ImageScanningConfiguration,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ImageTagMutabilityExclusionFilter extends S.Class<ImageTagMutabilityExclusionFilter>(
-  "ImageTagMutabilityExclusionFilter",
-)({ filterType: S.String, filter: S.String }) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutImageScanningConfigurationRequest",
+}) as any as S.Schema<PutImageScanningConfigurationRequest>;
+export interface ImageTagMutabilityExclusionFilter {
+  filterType: string;
+  filter: string;
+}
+export const ImageTagMutabilityExclusionFilter = S.suspend(() =>
+  S.Struct({ filterType: S.String, filter: S.String }),
+).annotations({
+  identifier: "ImageTagMutabilityExclusionFilter",
+}) as any as S.Schema<ImageTagMutabilityExclusionFilter>;
+export type ImageTagMutabilityExclusionFilters =
+  ImageTagMutabilityExclusionFilter[];
 export const ImageTagMutabilityExclusionFilters = S.Array(
   ImageTagMutabilityExclusionFilter,
 );
-export class PutImageTagMutabilityRequest extends S.Class<PutImageTagMutabilityRequest>(
-  "PutImageTagMutabilityRequest",
-)(
-  {
+export interface PutImageTagMutabilityRequest {
+  registryId?: string;
+  repositoryName: string;
+  imageTagMutability: string;
+  imageTagMutabilityExclusionFilters?: ImageTagMutabilityExclusionFilters;
+}
+export const PutImageTagMutabilityRequest = S.suspend(() =>
+  S.Struct({
     registryId: S.optional(S.String),
     repositoryName: S.String,
     imageTagMutability: S.String,
     imageTagMutabilityExclusionFilters: S.optional(
       ImageTagMutabilityExclusionFilters,
     ),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutLifecyclePolicyRequest extends S.Class<PutLifecyclePolicyRequest>(
-  "PutLifecyclePolicyRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutImageTagMutabilityRequest",
+}) as any as S.Schema<PutImageTagMutabilityRequest>;
+export interface PutLifecyclePolicyRequest {
+  registryId?: string;
+  repositoryName: string;
+  lifecyclePolicyText: string;
+}
+export const PutLifecyclePolicyRequest = S.suspend(() =>
+  S.Struct({
     registryId: S.optional(S.String),
     repositoryName: S.String,
     lifecyclePolicyText: S.String,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutRegistryPolicyRequest extends S.Class<PutRegistryPolicyRequest>(
-  "PutRegistryPolicyRequest",
-)(
-  { policyText: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ReplicationDestination extends S.Class<ReplicationDestination>(
-  "ReplicationDestination",
-)({ region: S.String, registryId: S.String }) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutLifecyclePolicyRequest",
+}) as any as S.Schema<PutLifecyclePolicyRequest>;
+export interface PutRegistryPolicyRequest {
+  policyText: string;
+}
+export const PutRegistryPolicyRequest = S.suspend(() =>
+  S.Struct({ policyText: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutRegistryPolicyRequest",
+}) as any as S.Schema<PutRegistryPolicyRequest>;
+export interface ReplicationDestination {
+  region: string;
+  registryId: string;
+}
+export const ReplicationDestination = S.suspend(() =>
+  S.Struct({ region: S.String, registryId: S.String }),
+).annotations({
+  identifier: "ReplicationDestination",
+}) as any as S.Schema<ReplicationDestination>;
+export type ReplicationDestinationList = ReplicationDestination[];
 export const ReplicationDestinationList = S.Array(ReplicationDestination);
-export class RepositoryFilter extends S.Class<RepositoryFilter>(
-  "RepositoryFilter",
-)({ filter: S.String, filterType: S.String }) {}
+export interface RepositoryFilter {
+  filter: string;
+  filterType: string;
+}
+export const RepositoryFilter = S.suspend(() =>
+  S.Struct({ filter: S.String, filterType: S.String }),
+).annotations({
+  identifier: "RepositoryFilter",
+}) as any as S.Schema<RepositoryFilter>;
+export type RepositoryFilterList = RepositoryFilter[];
 export const RepositoryFilterList = S.Array(RepositoryFilter);
-export class ReplicationRule extends S.Class<ReplicationRule>(
-  "ReplicationRule",
-)({
-  destinations: ReplicationDestinationList,
-  repositoryFilters: S.optional(RepositoryFilterList),
-}) {}
+export interface ReplicationRule {
+  destinations: ReplicationDestinationList;
+  repositoryFilters?: RepositoryFilterList;
+}
+export const ReplicationRule = S.suspend(() =>
+  S.Struct({
+    destinations: ReplicationDestinationList,
+    repositoryFilters: S.optional(RepositoryFilterList),
+  }),
+).annotations({
+  identifier: "ReplicationRule",
+}) as any as S.Schema<ReplicationRule>;
+export type ReplicationRuleList = ReplicationRule[];
 export const ReplicationRuleList = S.Array(ReplicationRule);
-export class ReplicationConfiguration extends S.Class<ReplicationConfiguration>(
-  "ReplicationConfiguration",
-)({ rules: ReplicationRuleList }) {}
-export class PutReplicationConfigurationRequest extends S.Class<PutReplicationConfigurationRequest>(
-  "PutReplicationConfigurationRequest",
-)(
-  { replicationConfiguration: ReplicationConfiguration },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutSigningConfigurationRequest extends S.Class<PutSigningConfigurationRequest>(
-  "PutSigningConfigurationRequest",
-)(
-  { signingConfiguration: SigningConfiguration },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class RegisterPullTimeUpdateExclusionRequest extends S.Class<RegisterPullTimeUpdateExclusionRequest>(
-  "RegisterPullTimeUpdateExclusionRequest",
-)(
-  { principalArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class SetRepositoryPolicyRequest extends S.Class<SetRepositoryPolicyRequest>(
-  "SetRepositoryPolicyRequest",
-)(
-  {
+export interface ReplicationConfiguration {
+  rules: ReplicationRuleList;
+}
+export const ReplicationConfiguration = S.suspend(() =>
+  S.Struct({ rules: ReplicationRuleList }),
+).annotations({
+  identifier: "ReplicationConfiguration",
+}) as any as S.Schema<ReplicationConfiguration>;
+export interface PutReplicationConfigurationRequest {
+  replicationConfiguration: ReplicationConfiguration;
+}
+export const PutReplicationConfigurationRequest = S.suspend(() =>
+  S.Struct({ replicationConfiguration: ReplicationConfiguration }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutReplicationConfigurationRequest",
+}) as any as S.Schema<PutReplicationConfigurationRequest>;
+export interface PutSigningConfigurationRequest {
+  signingConfiguration: SigningConfiguration;
+}
+export const PutSigningConfigurationRequest = S.suspend(() =>
+  S.Struct({ signingConfiguration: SigningConfiguration }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutSigningConfigurationRequest",
+}) as any as S.Schema<PutSigningConfigurationRequest>;
+export interface RegisterPullTimeUpdateExclusionRequest {
+  principalArn: string;
+}
+export const RegisterPullTimeUpdateExclusionRequest = S.suspend(() =>
+  S.Struct({ principalArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "RegisterPullTimeUpdateExclusionRequest",
+}) as any as S.Schema<RegisterPullTimeUpdateExclusionRequest>;
+export interface SetRepositoryPolicyRequest {
+  registryId?: string;
+  repositoryName: string;
+  policyText: string;
+  force?: boolean;
+}
+export const SetRepositoryPolicyRequest = S.suspend(() =>
+  S.Struct({
     registryId: S.optional(S.String),
     repositoryName: S.String,
     policyText: S.String,
     force: S.optional(S.Boolean),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StartImageScanRequest extends S.Class<StartImageScanRequest>(
-  "StartImageScanRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "SetRepositoryPolicyRequest",
+}) as any as S.Schema<SetRepositoryPolicyRequest>;
+export interface StartImageScanRequest {
+  registryId?: string;
+  repositoryName: string;
+  imageId: ImageIdentifier;
+}
+export const StartImageScanRequest = S.suspend(() =>
+  S.Struct({
     registryId: S.optional(S.String),
     repositoryName: S.String,
     imageId: ImageIdentifier,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StartLifecyclePolicyPreviewRequest extends S.Class<StartLifecyclePolicyPreviewRequest>(
-  "StartLifecyclePolicyPreviewRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "StartImageScanRequest",
+}) as any as S.Schema<StartImageScanRequest>;
+export interface StartLifecyclePolicyPreviewRequest {
+  registryId?: string;
+  repositoryName: string;
+  lifecyclePolicyText?: string;
+}
+export const StartLifecyclePolicyPreviewRequest = S.suspend(() =>
+  S.Struct({
     registryId: S.optional(S.String),
     repositoryName: S.String,
     lifecyclePolicyText: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class Tag extends S.Class<Tag>("Tag")({
-  Key: S.String,
-  Value: S.String,
-}) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "StartLifecyclePolicyPreviewRequest",
+}) as any as S.Schema<StartLifecyclePolicyPreviewRequest>;
+export interface Tag {
+  Key: string;
+  Value: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ Key: S.String, Value: S.String }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagList = Tag[];
 export const TagList = S.Array(Tag);
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { resourceArn: S.String, tags: TagList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}, ns) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  { resourceArn: S.String, tagKeys: TagKeyList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}, ns) {}
-export class UpdateImageStorageClassRequest extends S.Class<UpdateImageStorageClassRequest>(
-  "UpdateImageStorageClassRequest",
-)(
-  {
+export interface TagResourceRequest {
+  resourceArn: string;
+  tags: TagList;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String, tags: TagList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UntagResourceRequest {
+  resourceArn: string;
+  tagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String, tagKeys: TagKeyList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface UpdateImageStorageClassRequest {
+  registryId?: string;
+  repositoryName: string;
+  imageId: ImageIdentifier;
+  targetStorageClass: string;
+}
+export const UpdateImageStorageClassRequest = S.suspend(() =>
+  S.Struct({
     registryId: S.optional(S.String),
     repositoryName: S.String,
     imageId: ImageIdentifier,
     targetStorageClass: S.String,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdatePullThroughCacheRuleRequest extends S.Class<UpdatePullThroughCacheRuleRequest>(
-  "UpdatePullThroughCacheRuleRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateImageStorageClassRequest",
+}) as any as S.Schema<UpdateImageStorageClassRequest>;
+export interface UpdatePullThroughCacheRuleRequest {
+  registryId?: string;
+  ecrRepositoryPrefix: string;
+  credentialArn?: string;
+  customRoleArn?: string;
+}
+export const UpdatePullThroughCacheRuleRequest = S.suspend(() =>
+  S.Struct({
     registryId: S.optional(S.String),
     ecrRepositoryPrefix: S.String,
     credentialArn: S.optional(S.String),
     customRoleArn: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class EncryptionConfigurationForRepositoryCreationTemplate extends S.Class<EncryptionConfigurationForRepositoryCreationTemplate>(
-  "EncryptionConfigurationForRepositoryCreationTemplate",
-)({ encryptionType: S.String, kmsKey: S.optional(S.String) }) {}
-export class UpdateRepositoryCreationTemplateRequest extends S.Class<UpdateRepositoryCreationTemplateRequest>(
-  "UpdateRepositoryCreationTemplateRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdatePullThroughCacheRuleRequest",
+}) as any as S.Schema<UpdatePullThroughCacheRuleRequest>;
+export interface EncryptionConfigurationForRepositoryCreationTemplate {
+  encryptionType: string;
+  kmsKey?: string;
+}
+export const EncryptionConfigurationForRepositoryCreationTemplate = S.suspend(
+  () => S.Struct({ encryptionType: S.String, kmsKey: S.optional(S.String) }),
+).annotations({
+  identifier: "EncryptionConfigurationForRepositoryCreationTemplate",
+}) as any as S.Schema<EncryptionConfigurationForRepositoryCreationTemplate>;
+export interface UpdateRepositoryCreationTemplateRequest {
+  prefix: string;
+  description?: string;
+  encryptionConfiguration?: EncryptionConfigurationForRepositoryCreationTemplate;
+  resourceTags?: TagList;
+  imageTagMutability?: string;
+  imageTagMutabilityExclusionFilters?: ImageTagMutabilityExclusionFilters;
+  repositoryPolicy?: string;
+  lifecyclePolicy?: string;
+  appliedFor?: RCTAppliedForList;
+  customRoleArn?: string;
+}
+export const UpdateRepositoryCreationTemplateRequest = S.suspend(() =>
+  S.Struct({
     prefix: S.String,
     description: S.optional(S.String),
     encryptionConfiguration: S.optional(
@@ -1561,130 +2315,294 @@ export class UpdateRepositoryCreationTemplateRequest extends S.Class<UpdateRepos
     lifecyclePolicy: S.optional(S.String),
     appliedFor: S.optional(RCTAppliedForList),
     customRoleArn: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UploadLayerPartRequest extends S.Class<UploadLayerPartRequest>(
-  "UploadLayerPartRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateRepositoryCreationTemplateRequest",
+}) as any as S.Schema<UpdateRepositoryCreationTemplateRequest>;
+export interface UploadLayerPartRequest {
+  registryId?: string;
+  repositoryName: string;
+  uploadId: string;
+  partFirstByte: number;
+  partLastByte: number;
+  layerPartBlob: Uint8Array;
+}
+export const UploadLayerPartRequest = S.suspend(() =>
+  S.Struct({
     registryId: S.optional(S.String),
     repositoryName: S.String,
     uploadId: S.String,
     partFirstByte: S.Number,
     partLastByte: S.Number,
     layerPartBlob: T.Blob,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ValidatePullThroughCacheRuleRequest extends S.Class<ValidatePullThroughCacheRuleRequest>(
-  "ValidatePullThroughCacheRuleRequest",
-)(
-  { ecrRepositoryPrefix: S.String, registryId: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UploadLayerPartRequest",
+}) as any as S.Schema<UploadLayerPartRequest>;
+export interface ValidatePullThroughCacheRuleRequest {
+  ecrRepositoryPrefix: string;
+  registryId?: string;
+}
+export const ValidatePullThroughCacheRuleRequest = S.suspend(() =>
+  S.Struct({
+    ecrRepositoryPrefix: S.String,
+    registryId: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ValidatePullThroughCacheRuleRequest",
+}) as any as S.Schema<ValidatePullThroughCacheRuleRequest>;
+export type ArtifactTypeList = string[];
 export const ArtifactTypeList = S.Array(S.String);
-export class EncryptionConfiguration extends S.Class<EncryptionConfiguration>(
-  "EncryptionConfiguration",
-)({ encryptionType: S.String, kmsKey: S.optional(S.String) }) {}
-export class DescribeImagesFilter extends S.Class<DescribeImagesFilter>(
-  "DescribeImagesFilter",
-)({ tagStatus: S.optional(S.String), imageStatus: S.optional(S.String) }) {}
-export class Repository extends S.Class<Repository>("Repository")({
-  repositoryArn: S.optional(S.String),
-  registryId: S.optional(S.String),
-  repositoryName: S.optional(S.String),
-  repositoryUri: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  imageTagMutability: S.optional(S.String),
-  imageTagMutabilityExclusionFilters: S.optional(
-    ImageTagMutabilityExclusionFilters,
-  ),
-  imageScanningConfiguration: S.optional(ImageScanningConfiguration),
-  encryptionConfiguration: S.optional(EncryptionConfiguration),
-}) {}
+export interface EncryptionConfiguration {
+  encryptionType: string;
+  kmsKey?: string;
+}
+export const EncryptionConfiguration = S.suspend(() =>
+  S.Struct({ encryptionType: S.String, kmsKey: S.optional(S.String) }),
+).annotations({
+  identifier: "EncryptionConfiguration",
+}) as any as S.Schema<EncryptionConfiguration>;
+export interface DescribeImagesFilter {
+  tagStatus?: string;
+  imageStatus?: string;
+}
+export const DescribeImagesFilter = S.suspend(() =>
+  S.Struct({
+    tagStatus: S.optional(S.String),
+    imageStatus: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DescribeImagesFilter",
+}) as any as S.Schema<DescribeImagesFilter>;
+export interface Repository {
+  repositoryArn?: string;
+  registryId?: string;
+  repositoryName?: string;
+  repositoryUri?: string;
+  createdAt?: Date;
+  imageTagMutability?: string;
+  imageTagMutabilityExclusionFilters?: ImageTagMutabilityExclusionFilters;
+  imageScanningConfiguration?: ImageScanningConfiguration;
+  encryptionConfiguration?: EncryptionConfiguration;
+}
+export const Repository = S.suspend(() =>
+  S.Struct({
+    repositoryArn: S.optional(S.String),
+    registryId: S.optional(S.String),
+    repositoryName: S.optional(S.String),
+    repositoryUri: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    imageTagMutability: S.optional(S.String),
+    imageTagMutabilityExclusionFilters: S.optional(
+      ImageTagMutabilityExclusionFilters,
+    ),
+    imageScanningConfiguration: S.optional(ImageScanningConfiguration),
+    encryptionConfiguration: S.optional(EncryptionConfiguration),
+  }),
+).annotations({ identifier: "Repository" }) as any as S.Schema<Repository>;
+export type RepositoryList = Repository[];
 export const RepositoryList = S.Array(Repository);
-export class RepositoryCreationTemplate extends S.Class<RepositoryCreationTemplate>(
-  "RepositoryCreationTemplate",
-)({
-  prefix: S.optional(S.String),
-  description: S.optional(S.String),
-  encryptionConfiguration: S.optional(
-    EncryptionConfigurationForRepositoryCreationTemplate,
-  ),
-  resourceTags: S.optional(TagList),
-  imageTagMutability: S.optional(S.String),
-  imageTagMutabilityExclusionFilters: S.optional(
-    ImageTagMutabilityExclusionFilters,
-  ),
-  repositoryPolicy: S.optional(S.String),
-  lifecyclePolicy: S.optional(S.String),
-  appliedFor: S.optional(RCTAppliedForList),
-  customRoleArn: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface RepositoryCreationTemplate {
+  prefix?: string;
+  description?: string;
+  encryptionConfiguration?: EncryptionConfigurationForRepositoryCreationTemplate;
+  resourceTags?: TagList;
+  imageTagMutability?: string;
+  imageTagMutabilityExclusionFilters?: ImageTagMutabilityExclusionFilters;
+  repositoryPolicy?: string;
+  lifecyclePolicy?: string;
+  appliedFor?: RCTAppliedForList;
+  customRoleArn?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+export const RepositoryCreationTemplate = S.suspend(() =>
+  S.Struct({
+    prefix: S.optional(S.String),
+    description: S.optional(S.String),
+    encryptionConfiguration: S.optional(
+      EncryptionConfigurationForRepositoryCreationTemplate,
+    ),
+    resourceTags: S.optional(TagList),
+    imageTagMutability: S.optional(S.String),
+    imageTagMutabilityExclusionFilters: S.optional(
+      ImageTagMutabilityExclusionFilters,
+    ),
+    repositoryPolicy: S.optional(S.String),
+    lifecyclePolicy: S.optional(S.String),
+    appliedFor: S.optional(RCTAppliedForList),
+    customRoleArn: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "RepositoryCreationTemplate",
+}) as any as S.Schema<RepositoryCreationTemplate>;
+export type RepositoryCreationTemplateList = RepositoryCreationTemplate[];
 export const RepositoryCreationTemplateList = S.Array(
   RepositoryCreationTemplate,
 );
-export class LifecyclePolicyPreviewFilter extends S.Class<LifecyclePolicyPreviewFilter>(
-  "LifecyclePolicyPreviewFilter",
-)({ tagStatus: S.optional(S.String) }) {}
-export class ScanningRepositoryFilter extends S.Class<ScanningRepositoryFilter>(
-  "ScanningRepositoryFilter",
-)({ filter: S.String, filterType: S.String }) {}
+export interface LifecyclePolicyPreviewFilter {
+  tagStatus?: string;
+}
+export const LifecyclePolicyPreviewFilter = S.suspend(() =>
+  S.Struct({ tagStatus: S.optional(S.String) }),
+).annotations({
+  identifier: "LifecyclePolicyPreviewFilter",
+}) as any as S.Schema<LifecyclePolicyPreviewFilter>;
+export interface ScanningRepositoryFilter {
+  filter: string;
+  filterType: string;
+}
+export const ScanningRepositoryFilter = S.suspend(() =>
+  S.Struct({ filter: S.String, filterType: S.String }),
+).annotations({
+  identifier: "ScanningRepositoryFilter",
+}) as any as S.Schema<ScanningRepositoryFilter>;
+export type ScanningRepositoryFilterList = ScanningRepositoryFilter[];
 export const ScanningRepositoryFilterList = S.Array(ScanningRepositoryFilter);
-export class RegistryScanningRule extends S.Class<RegistryScanningRule>(
-  "RegistryScanningRule",
-)({
-  scanFrequency: S.String,
-  repositoryFilters: ScanningRepositoryFilterList,
-}) {}
+export interface RegistryScanningRule {
+  scanFrequency: string;
+  repositoryFilters: ScanningRepositoryFilterList;
+}
+export const RegistryScanningRule = S.suspend(() =>
+  S.Struct({
+    scanFrequency: S.String,
+    repositoryFilters: ScanningRepositoryFilterList,
+  }),
+).annotations({
+  identifier: "RegistryScanningRule",
+}) as any as S.Schema<RegistryScanningRule>;
+export type RegistryScanningRuleList = RegistryScanningRule[];
 export const RegistryScanningRuleList = S.Array(RegistryScanningRule);
-export class RegistryScanningConfiguration extends S.Class<RegistryScanningConfiguration>(
-  "RegistryScanningConfiguration",
-)({
-  scanType: S.optional(S.String),
-  rules: S.optional(RegistryScanningRuleList),
-}) {}
-export class SubjectIdentifier extends S.Class<SubjectIdentifier>(
-  "SubjectIdentifier",
-)({ imageDigest: S.String }) {}
-export class ListImageReferrersFilter extends S.Class<ListImageReferrersFilter>(
-  "ListImageReferrersFilter",
-)({
-  artifactTypes: S.optional(ArtifactTypeList),
-  artifactStatus: S.optional(S.String),
-}) {}
-export class ListImagesFilter extends S.Class<ListImagesFilter>(
-  "ListImagesFilter",
-)({ tagStatus: S.optional(S.String), imageStatus: S.optional(S.String) }) {}
+export interface RegistryScanningConfiguration {
+  scanType?: string;
+  rules?: RegistryScanningRuleList;
+}
+export const RegistryScanningConfiguration = S.suspend(() =>
+  S.Struct({
+    scanType: S.optional(S.String),
+    rules: S.optional(RegistryScanningRuleList),
+  }),
+).annotations({
+  identifier: "RegistryScanningConfiguration",
+}) as any as S.Schema<RegistryScanningConfiguration>;
+export interface SubjectIdentifier {
+  imageDigest: string;
+}
+export const SubjectIdentifier = S.suspend(() =>
+  S.Struct({ imageDigest: S.String }),
+).annotations({
+  identifier: "SubjectIdentifier",
+}) as any as S.Schema<SubjectIdentifier>;
+export interface ListImageReferrersFilter {
+  artifactTypes?: ArtifactTypeList;
+  artifactStatus?: string;
+}
+export const ListImageReferrersFilter = S.suspend(() =>
+  S.Struct({
+    artifactTypes: S.optional(ArtifactTypeList),
+    artifactStatus: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListImageReferrersFilter",
+}) as any as S.Schema<ListImageReferrersFilter>;
+export interface ListImagesFilter {
+  tagStatus?: string;
+  imageStatus?: string;
+}
+export const ListImagesFilter = S.suspend(() =>
+  S.Struct({
+    tagStatus: S.optional(S.String),
+    imageStatus: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListImagesFilter",
+}) as any as S.Schema<ListImagesFilter>;
+export type PullTimeUpdateExclusionList = string[];
 export const PullTimeUpdateExclusionList = S.Array(S.String);
-export class BatchDeleteImageRequest extends S.Class<BatchDeleteImageRequest>(
-  "BatchDeleteImageRequest",
-)(
-  {
+export interface BatchDeleteImageRequest {
+  registryId?: string;
+  repositoryName: string;
+  imageIds: ImageIdentifierList;
+}
+export const BatchDeleteImageRequest = S.suspend(() =>
+  S.Struct({
     registryId: S.optional(S.String),
     repositoryName: S.String,
     imageIds: ImageIdentifierList,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CompleteLayerUploadResponse extends S.Class<CompleteLayerUploadResponse>(
-  "CompleteLayerUploadResponse",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "BatchDeleteImageRequest",
+}) as any as S.Schema<BatchDeleteImageRequest>;
+export interface CompleteLayerUploadResponse {
+  registryId?: string;
+  repositoryName?: string;
+  uploadId?: string;
+  layerDigest?: string;
+}
+export const CompleteLayerUploadResponse = S.suspend(() =>
+  S.Struct({
     registryId: S.optional(S.String),
     repositoryName: S.optional(S.String),
     uploadId: S.optional(S.String),
     layerDigest: S.optional(S.String),
-  },
-  ns,
-) {}
-export class CreatePullThroughCacheRuleResponse extends S.Class<CreatePullThroughCacheRuleResponse>(
-  "CreatePullThroughCacheRuleResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "CompleteLayerUploadResponse",
+}) as any as S.Schema<CompleteLayerUploadResponse>;
+export interface CreatePullThroughCacheRuleResponse {
+  ecrRepositoryPrefix?: string;
+  upstreamRegistryUrl?: string;
+  createdAt?: Date;
+  registryId?: string;
+  upstreamRegistry?: string;
+  credentialArn?: string;
+  customRoleArn?: string;
+  upstreamRepositoryPrefix?: string;
+}
+export const CreatePullThroughCacheRuleResponse = S.suspend(() =>
+  S.Struct({
     ecrRepositoryPrefix: S.optional(S.String),
     upstreamRegistryUrl: S.optional(S.String),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -1693,13 +2611,21 @@ export class CreatePullThroughCacheRuleResponse extends S.Class<CreatePullThroug
     credentialArn: S.optional(S.String),
     customRoleArn: S.optional(S.String),
     upstreamRepositoryPrefix: S.optional(S.String),
-  },
-  ns,
-) {}
-export class CreateRepositoryRequest extends S.Class<CreateRepositoryRequest>(
-  "CreateRepositoryRequest",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "CreatePullThroughCacheRuleResponse",
+}) as any as S.Schema<CreatePullThroughCacheRuleResponse>;
+export interface CreateRepositoryRequest {
+  registryId?: string;
+  repositoryName: string;
+  tags?: TagList;
+  imageTagMutability?: string;
+  imageTagMutabilityExclusionFilters?: ImageTagMutabilityExclusionFilters;
+  imageScanningConfiguration?: ImageScanningConfiguration;
+  encryptionConfiguration?: EncryptionConfiguration;
+}
+export const CreateRepositoryRequest = S.suspend(() =>
+  S.Struct({
     registryId: S.optional(S.String),
     repositoryName: S.String,
     tags: S.optional(TagList),
@@ -1709,13 +2635,34 @@ export class CreateRepositoryRequest extends S.Class<CreateRepositoryRequest>(
     ),
     imageScanningConfiguration: S.optional(ImageScanningConfiguration),
     encryptionConfiguration: S.optional(EncryptionConfiguration),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateRepositoryCreationTemplateRequest extends S.Class<CreateRepositoryCreationTemplateRequest>(
-  "CreateRepositoryCreationTemplateRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateRepositoryRequest",
+}) as any as S.Schema<CreateRepositoryRequest>;
+export interface CreateRepositoryCreationTemplateRequest {
+  prefix: string;
+  description?: string;
+  encryptionConfiguration?: EncryptionConfigurationForRepositoryCreationTemplate;
+  resourceTags?: TagList;
+  imageTagMutability?: string;
+  imageTagMutabilityExclusionFilters?: ImageTagMutabilityExclusionFilters;
+  repositoryPolicy?: string;
+  lifecyclePolicy?: string;
+  appliedFor: RCTAppliedForList;
+  customRoleArn?: string;
+}
+export const CreateRepositoryCreationTemplateRequest = S.suspend(() =>
+  S.Struct({
     prefix: S.String,
     description: S.optional(S.String),
     encryptionConfiguration: S.optional(
@@ -1730,26 +2677,49 @@ export class CreateRepositoryCreationTemplateRequest extends S.Class<CreateRepos
     lifecyclePolicy: S.optional(S.String),
     appliedFor: RCTAppliedForList,
     customRoleArn: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteLifecyclePolicyResponse extends S.Class<DeleteLifecyclePolicyResponse>(
-  "DeleteLifecyclePolicyResponse",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateRepositoryCreationTemplateRequest",
+}) as any as S.Schema<CreateRepositoryCreationTemplateRequest>;
+export interface DeleteLifecyclePolicyResponse {
+  registryId?: string;
+  repositoryName?: string;
+  lifecyclePolicyText?: string;
+  lastEvaluatedAt?: Date;
+}
+export const DeleteLifecyclePolicyResponse = S.suspend(() =>
+  S.Struct({
     registryId: S.optional(S.String),
     repositoryName: S.optional(S.String),
     lifecyclePolicyText: S.optional(S.String),
     lastEvaluatedAt: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-  },
-  ns,
-) {}
-export class DeletePullThroughCacheRuleResponse extends S.Class<DeletePullThroughCacheRuleResponse>(
-  "DeletePullThroughCacheRuleResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DeleteLifecyclePolicyResponse",
+}) as any as S.Schema<DeleteLifecyclePolicyResponse>;
+export interface DeletePullThroughCacheRuleResponse {
+  ecrRepositoryPrefix?: string;
+  upstreamRegistryUrl?: string;
+  createdAt?: Date;
+  registryId?: string;
+  credentialArn?: string;
+  customRoleArn?: string;
+  upstreamRepositoryPrefix?: string;
+}
+export const DeletePullThroughCacheRuleResponse = S.suspend(() =>
+  S.Struct({
     ecrRepositoryPrefix: S.optional(S.String),
     upstreamRegistryUrl: S.optional(S.String),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -1757,292 +2727,529 @@ export class DeletePullThroughCacheRuleResponse extends S.Class<DeletePullThroug
     credentialArn: S.optional(S.String),
     customRoleArn: S.optional(S.String),
     upstreamRepositoryPrefix: S.optional(S.String),
-  },
-  ns,
-) {}
-export class DeleteRepositoryPolicyResponse extends S.Class<DeleteRepositoryPolicyResponse>(
-  "DeleteRepositoryPolicyResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DeletePullThroughCacheRuleResponse",
+}) as any as S.Schema<DeletePullThroughCacheRuleResponse>;
+export interface DeleteRepositoryPolicyResponse {
+  registryId?: string;
+  repositoryName?: string;
+  policyText?: string;
+}
+export const DeleteRepositoryPolicyResponse = S.suspend(() =>
+  S.Struct({
     registryId: S.optional(S.String),
     repositoryName: S.optional(S.String),
     policyText: S.optional(S.String),
-  },
-  ns,
-) {}
-export class DeregisterPullTimeUpdateExclusionResponse extends S.Class<DeregisterPullTimeUpdateExclusionResponse>(
-  "DeregisterPullTimeUpdateExclusionResponse",
-)({ principalArn: S.optional(S.String) }, ns) {}
-export class DescribeImagesRequest extends S.Class<DescribeImagesRequest>(
-  "DescribeImagesRequest",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DeleteRepositoryPolicyResponse",
+}) as any as S.Schema<DeleteRepositoryPolicyResponse>;
+export interface DeregisterPullTimeUpdateExclusionResponse {
+  principalArn?: string;
+}
+export const DeregisterPullTimeUpdateExclusionResponse = S.suspend(() =>
+  S.Struct({ principalArn: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "DeregisterPullTimeUpdateExclusionResponse",
+}) as any as S.Schema<DeregisterPullTimeUpdateExclusionResponse>;
+export interface DescribeImagesRequest {
+  registryId?: string;
+  repositoryName: string;
+  imageIds?: ImageIdentifierList;
+  nextToken?: string;
+  maxResults?: number;
+  filter?: DescribeImagesFilter;
+}
+export const DescribeImagesRequest = S.suspend(() =>
+  S.Struct({
     registryId: S.optional(S.String),
     repositoryName: S.String,
     imageIds: S.optional(ImageIdentifierList),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
     filter: S.optional(DescribeImagesFilter),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeRepositoriesResponse extends S.Class<DescribeRepositoriesResponse>(
-  "DescribeRepositoriesResponse",
-)(
-  { repositories: S.optional(RepositoryList), nextToken: S.optional(S.String) },
-  ns,
-) {}
-export class DescribeRepositoryCreationTemplatesResponse extends S.Class<DescribeRepositoryCreationTemplatesResponse>(
-  "DescribeRepositoryCreationTemplatesResponse",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeImagesRequest",
+}) as any as S.Schema<DescribeImagesRequest>;
+export interface DescribeRepositoriesResponse {
+  repositories?: RepositoryList;
+  nextToken?: string;
+}
+export const DescribeRepositoriesResponse = S.suspend(() =>
+  S.Struct({
+    repositories: S.optional(RepositoryList),
+    nextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeRepositoriesResponse",
+}) as any as S.Schema<DescribeRepositoriesResponse>;
+export interface DescribeRepositoryCreationTemplatesResponse {
+  registryId?: string;
+  repositoryCreationTemplates?: RepositoryCreationTemplateList;
+  nextToken?: string;
+}
+export const DescribeRepositoryCreationTemplatesResponse = S.suspend(() =>
+  S.Struct({
     registryId: S.optional(S.String),
     repositoryCreationTemplates: S.optional(RepositoryCreationTemplateList),
     nextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class GetAccountSettingResponse extends S.Class<GetAccountSettingResponse>(
-  "GetAccountSettingResponse",
-)({ name: S.optional(S.String), value: S.optional(S.String) }, ns) {}
-export class GetDownloadUrlForLayerResponse extends S.Class<GetDownloadUrlForLayerResponse>(
-  "GetDownloadUrlForLayerResponse",
-)(
-  { downloadUrl: S.optional(S.String), layerDigest: S.optional(S.String) },
-  ns,
-) {}
-export class GetLifecyclePolicyResponse extends S.Class<GetLifecyclePolicyResponse>(
-  "GetLifecyclePolicyResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeRepositoryCreationTemplatesResponse",
+}) as any as S.Schema<DescribeRepositoryCreationTemplatesResponse>;
+export interface GetAccountSettingResponse {
+  name?: string;
+  value?: string;
+}
+export const GetAccountSettingResponse = S.suspend(() =>
+  S.Struct({ name: S.optional(S.String), value: S.optional(S.String) }).pipe(
+    ns,
+  ),
+).annotations({
+  identifier: "GetAccountSettingResponse",
+}) as any as S.Schema<GetAccountSettingResponse>;
+export interface GetDownloadUrlForLayerResponse {
+  downloadUrl?: string;
+  layerDigest?: string;
+}
+export const GetDownloadUrlForLayerResponse = S.suspend(() =>
+  S.Struct({
+    downloadUrl: S.optional(S.String),
+    layerDigest: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "GetDownloadUrlForLayerResponse",
+}) as any as S.Schema<GetDownloadUrlForLayerResponse>;
+export interface GetLifecyclePolicyResponse {
+  registryId?: string;
+  repositoryName?: string;
+  lifecyclePolicyText?: string;
+  lastEvaluatedAt?: Date;
+}
+export const GetLifecyclePolicyResponse = S.suspend(() =>
+  S.Struct({
     registryId: S.optional(S.String),
     repositoryName: S.optional(S.String),
     lifecyclePolicyText: S.optional(S.String),
     lastEvaluatedAt: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-  },
-  ns,
-) {}
-export class GetLifecyclePolicyPreviewRequest extends S.Class<GetLifecyclePolicyPreviewRequest>(
-  "GetLifecyclePolicyPreviewRequest",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetLifecyclePolicyResponse",
+}) as any as S.Schema<GetLifecyclePolicyResponse>;
+export interface GetLifecyclePolicyPreviewRequest {
+  registryId?: string;
+  repositoryName: string;
+  imageIds?: ImageIdentifierList;
+  nextToken?: string;
+  maxResults?: number;
+  filter?: LifecyclePolicyPreviewFilter;
+}
+export const GetLifecyclePolicyPreviewRequest = S.suspend(() =>
+  S.Struct({
     registryId: S.optional(S.String),
     repositoryName: S.String,
     imageIds: S.optional(ImageIdentifierList),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
     filter: S.optional(LifecyclePolicyPreviewFilter),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetRegistryScanningConfigurationResponse extends S.Class<GetRegistryScanningConfigurationResponse>(
-  "GetRegistryScanningConfigurationResponse",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetLifecyclePolicyPreviewRequest",
+}) as any as S.Schema<GetLifecyclePolicyPreviewRequest>;
+export interface GetRegistryScanningConfigurationResponse {
+  registryId?: string;
+  scanningConfiguration?: RegistryScanningConfiguration;
+}
+export const GetRegistryScanningConfigurationResponse = S.suspend(() =>
+  S.Struct({
     registryId: S.optional(S.String),
     scanningConfiguration: S.optional(RegistryScanningConfiguration),
-  },
-  ns,
-) {}
-export class GetRepositoryPolicyResponse extends S.Class<GetRepositoryPolicyResponse>(
-  "GetRepositoryPolicyResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetRegistryScanningConfigurationResponse",
+}) as any as S.Schema<GetRegistryScanningConfigurationResponse>;
+export interface GetRepositoryPolicyResponse {
+  registryId?: string;
+  repositoryName?: string;
+  policyText?: string;
+}
+export const GetRepositoryPolicyResponse = S.suspend(() =>
+  S.Struct({
     registryId: S.optional(S.String),
     repositoryName: S.optional(S.String),
     policyText: S.optional(S.String),
-  },
-  ns,
-) {}
-export class InitiateLayerUploadResponse extends S.Class<InitiateLayerUploadResponse>(
-  "InitiateLayerUploadResponse",
-)({ uploadId: S.optional(S.String), partSize: S.optional(S.Number) }, ns) {}
-export class ListImageReferrersRequest extends S.Class<ListImageReferrersRequest>(
-  "ListImageReferrersRequest",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetRepositoryPolicyResponse",
+}) as any as S.Schema<GetRepositoryPolicyResponse>;
+export interface InitiateLayerUploadResponse {
+  uploadId?: string;
+  partSize?: number;
+}
+export const InitiateLayerUploadResponse = S.suspend(() =>
+  S.Struct({
+    uploadId: S.optional(S.String),
+    partSize: S.optional(S.Number),
+  }).pipe(ns),
+).annotations({
+  identifier: "InitiateLayerUploadResponse",
+}) as any as S.Schema<InitiateLayerUploadResponse>;
+export interface ListImageReferrersRequest {
+  registryId?: string;
+  repositoryName: string;
+  subjectId: SubjectIdentifier;
+  filter?: ListImageReferrersFilter;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListImageReferrersRequest = S.suspend(() =>
+  S.Struct({
     registryId: S.optional(S.String),
     repositoryName: S.String,
     subjectId: SubjectIdentifier,
     filter: S.optional(ListImageReferrersFilter),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListImagesRequest extends S.Class<ListImagesRequest>(
-  "ListImagesRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListImageReferrersRequest",
+}) as any as S.Schema<ListImageReferrersRequest>;
+export interface ListImagesRequest {
+  registryId?: string;
+  repositoryName: string;
+  nextToken?: string;
+  maxResults?: number;
+  filter?: ListImagesFilter;
+}
+export const ListImagesRequest = S.suspend(() =>
+  S.Struct({
     registryId: S.optional(S.String),
     repositoryName: S.String,
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
     filter: S.optional(ListImagesFilter),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListPullTimeUpdateExclusionsResponse extends S.Class<ListPullTimeUpdateExclusionsResponse>(
-  "ListPullTimeUpdateExclusionsResponse",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListImagesRequest",
+}) as any as S.Schema<ListImagesRequest>;
+export interface ListPullTimeUpdateExclusionsResponse {
+  pullTimeUpdateExclusions?: PullTimeUpdateExclusionList;
+  nextToken?: string;
+}
+export const ListPullTimeUpdateExclusionsResponse = S.suspend(() =>
+  S.Struct({
     pullTimeUpdateExclusions: S.optional(PullTimeUpdateExclusionList),
     nextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ tags: S.optional(TagList) }, ns) {}
-export class PutAccountSettingResponse extends S.Class<PutAccountSettingResponse>(
-  "PutAccountSettingResponse",
-)({ name: S.optional(S.String), value: S.optional(S.String) }, ns) {}
-export class Image extends S.Class<Image>("Image")({
-  registryId: S.optional(S.String),
-  repositoryName: S.optional(S.String),
-  imageId: S.optional(ImageIdentifier),
-  imageManifest: S.optional(S.String),
-  imageManifestMediaType: S.optional(S.String),
-}) {}
-export class PutImageResponse extends S.Class<PutImageResponse>(
-  "PutImageResponse",
-)({ image: S.optional(Image) }, ns) {}
-export class PutImageScanningConfigurationResponse extends S.Class<PutImageScanningConfigurationResponse>(
-  "PutImageScanningConfigurationResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListPullTimeUpdateExclusionsResponse",
+}) as any as S.Schema<ListPullTimeUpdateExclusionsResponse>;
+export interface ListTagsForResourceResponse {
+  tags?: TagList;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ tags: S.optional(TagList) }).pipe(ns),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface PutAccountSettingResponse {
+  name?: string;
+  value?: string;
+}
+export const PutAccountSettingResponse = S.suspend(() =>
+  S.Struct({ name: S.optional(S.String), value: S.optional(S.String) }).pipe(
+    ns,
+  ),
+).annotations({
+  identifier: "PutAccountSettingResponse",
+}) as any as S.Schema<PutAccountSettingResponse>;
+export interface Image {
+  registryId?: string;
+  repositoryName?: string;
+  imageId?: ImageIdentifier;
+  imageManifest?: string;
+  imageManifestMediaType?: string;
+}
+export const Image = S.suspend(() =>
+  S.Struct({
+    registryId: S.optional(S.String),
+    repositoryName: S.optional(S.String),
+    imageId: S.optional(ImageIdentifier),
+    imageManifest: S.optional(S.String),
+    imageManifestMediaType: S.optional(S.String),
+  }),
+).annotations({ identifier: "Image" }) as any as S.Schema<Image>;
+export interface PutImageResponse {
+  image?: Image;
+}
+export const PutImageResponse = S.suspend(() =>
+  S.Struct({ image: S.optional(Image) }).pipe(ns),
+).annotations({
+  identifier: "PutImageResponse",
+}) as any as S.Schema<PutImageResponse>;
+export interface PutImageScanningConfigurationResponse {
+  registryId?: string;
+  repositoryName?: string;
+  imageScanningConfiguration?: ImageScanningConfiguration;
+}
+export const PutImageScanningConfigurationResponse = S.suspend(() =>
+  S.Struct({
     registryId: S.optional(S.String),
     repositoryName: S.optional(S.String),
     imageScanningConfiguration: S.optional(ImageScanningConfiguration),
-  },
-  ns,
-) {}
-export class PutImageTagMutabilityResponse extends S.Class<PutImageTagMutabilityResponse>(
-  "PutImageTagMutabilityResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "PutImageScanningConfigurationResponse",
+}) as any as S.Schema<PutImageScanningConfigurationResponse>;
+export interface PutImageTagMutabilityResponse {
+  registryId?: string;
+  repositoryName?: string;
+  imageTagMutability?: string;
+  imageTagMutabilityExclusionFilters?: ImageTagMutabilityExclusionFilters;
+}
+export const PutImageTagMutabilityResponse = S.suspend(() =>
+  S.Struct({
     registryId: S.optional(S.String),
     repositoryName: S.optional(S.String),
     imageTagMutability: S.optional(S.String),
     imageTagMutabilityExclusionFilters: S.optional(
       ImageTagMutabilityExclusionFilters,
     ),
-  },
-  ns,
-) {}
-export class PutLifecyclePolicyResponse extends S.Class<PutLifecyclePolicyResponse>(
-  "PutLifecyclePolicyResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "PutImageTagMutabilityResponse",
+}) as any as S.Schema<PutImageTagMutabilityResponse>;
+export interface PutLifecyclePolicyResponse {
+  registryId?: string;
+  repositoryName?: string;
+  lifecyclePolicyText?: string;
+}
+export const PutLifecyclePolicyResponse = S.suspend(() =>
+  S.Struct({
     registryId: S.optional(S.String),
     repositoryName: S.optional(S.String),
     lifecyclePolicyText: S.optional(S.String),
-  },
-  ns,
-) {}
-export class PutRegistryPolicyResponse extends S.Class<PutRegistryPolicyResponse>(
-  "PutRegistryPolicyResponse",
-)({ registryId: S.optional(S.String), policyText: S.optional(S.String) }, ns) {}
-export class PutReplicationConfigurationResponse extends S.Class<PutReplicationConfigurationResponse>(
-  "PutReplicationConfigurationResponse",
-)({ replicationConfiguration: S.optional(ReplicationConfiguration) }, ns) {}
-export class PutSigningConfigurationResponse extends S.Class<PutSigningConfigurationResponse>(
-  "PutSigningConfigurationResponse",
-)({ signingConfiguration: S.optional(SigningConfiguration) }, ns) {}
-export class RegisterPullTimeUpdateExclusionResponse extends S.Class<RegisterPullTimeUpdateExclusionResponse>(
-  "RegisterPullTimeUpdateExclusionResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "PutLifecyclePolicyResponse",
+}) as any as S.Schema<PutLifecyclePolicyResponse>;
+export interface PutRegistryPolicyResponse {
+  registryId?: string;
+  policyText?: string;
+}
+export const PutRegistryPolicyResponse = S.suspend(() =>
+  S.Struct({
+    registryId: S.optional(S.String),
+    policyText: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "PutRegistryPolicyResponse",
+}) as any as S.Schema<PutRegistryPolicyResponse>;
+export interface PutReplicationConfigurationResponse {
+  replicationConfiguration?: ReplicationConfiguration;
+}
+export const PutReplicationConfigurationResponse = S.suspend(() =>
+  S.Struct({
+    replicationConfiguration: S.optional(ReplicationConfiguration),
+  }).pipe(ns),
+).annotations({
+  identifier: "PutReplicationConfigurationResponse",
+}) as any as S.Schema<PutReplicationConfigurationResponse>;
+export interface PutSigningConfigurationResponse {
+  signingConfiguration?: SigningConfiguration;
+}
+export const PutSigningConfigurationResponse = S.suspend(() =>
+  S.Struct({ signingConfiguration: S.optional(SigningConfiguration) }).pipe(ns),
+).annotations({
+  identifier: "PutSigningConfigurationResponse",
+}) as any as S.Schema<PutSigningConfigurationResponse>;
+export interface RegisterPullTimeUpdateExclusionResponse {
+  principalArn?: string;
+  createdAt?: Date;
+}
+export const RegisterPullTimeUpdateExclusionResponse = S.suspend(() =>
+  S.Struct({
     principalArn: S.optional(S.String),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  },
-  ns,
-) {}
-export class SetRepositoryPolicyResponse extends S.Class<SetRepositoryPolicyResponse>(
-  "SetRepositoryPolicyResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "RegisterPullTimeUpdateExclusionResponse",
+}) as any as S.Schema<RegisterPullTimeUpdateExclusionResponse>;
+export interface SetRepositoryPolicyResponse {
+  registryId?: string;
+  repositoryName?: string;
+  policyText?: string;
+}
+export const SetRepositoryPolicyResponse = S.suspend(() =>
+  S.Struct({
     registryId: S.optional(S.String),
     repositoryName: S.optional(S.String),
     policyText: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ImageScanStatus extends S.Class<ImageScanStatus>(
-  "ImageScanStatus",
-)({ status: S.optional(S.String), description: S.optional(S.String) }) {}
-export class StartImageScanResponse extends S.Class<StartImageScanResponse>(
-  "StartImageScanResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "SetRepositoryPolicyResponse",
+}) as any as S.Schema<SetRepositoryPolicyResponse>;
+export interface ImageScanStatus {
+  status?: string;
+  description?: string;
+}
+export const ImageScanStatus = S.suspend(() =>
+  S.Struct({ status: S.optional(S.String), description: S.optional(S.String) }),
+).annotations({
+  identifier: "ImageScanStatus",
+}) as any as S.Schema<ImageScanStatus>;
+export interface StartImageScanResponse {
+  registryId?: string;
+  repositoryName?: string;
+  imageId?: ImageIdentifier;
+  imageScanStatus?: ImageScanStatus;
+}
+export const StartImageScanResponse = S.suspend(() =>
+  S.Struct({
     registryId: S.optional(S.String),
     repositoryName: S.optional(S.String),
     imageId: S.optional(ImageIdentifier),
     imageScanStatus: S.optional(ImageScanStatus),
-  },
-  ns,
-) {}
-export class StartLifecyclePolicyPreviewResponse extends S.Class<StartLifecyclePolicyPreviewResponse>(
-  "StartLifecyclePolicyPreviewResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "StartImageScanResponse",
+}) as any as S.Schema<StartImageScanResponse>;
+export interface StartLifecyclePolicyPreviewResponse {
+  registryId?: string;
+  repositoryName?: string;
+  lifecyclePolicyText?: string;
+  status?: string;
+}
+export const StartLifecyclePolicyPreviewResponse = S.suspend(() =>
+  S.Struct({
     registryId: S.optional(S.String),
     repositoryName: S.optional(S.String),
     lifecyclePolicyText: S.optional(S.String),
     status: S.optional(S.String),
-  },
-  ns,
-) {}
-export class UpdateImageStorageClassResponse extends S.Class<UpdateImageStorageClassResponse>(
-  "UpdateImageStorageClassResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "StartLifecyclePolicyPreviewResponse",
+}) as any as S.Schema<StartLifecyclePolicyPreviewResponse>;
+export interface UpdateImageStorageClassResponse {
+  registryId?: string;
+  repositoryName?: string;
+  imageId?: ImageIdentifier;
+  imageStatus?: string;
+}
+export const UpdateImageStorageClassResponse = S.suspend(() =>
+  S.Struct({
     registryId: S.optional(S.String),
     repositoryName: S.optional(S.String),
     imageId: S.optional(ImageIdentifier),
     imageStatus: S.optional(S.String),
-  },
-  ns,
-) {}
-export class UpdatePullThroughCacheRuleResponse extends S.Class<UpdatePullThroughCacheRuleResponse>(
-  "UpdatePullThroughCacheRuleResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "UpdateImageStorageClassResponse",
+}) as any as S.Schema<UpdateImageStorageClassResponse>;
+export interface UpdatePullThroughCacheRuleResponse {
+  ecrRepositoryPrefix?: string;
+  registryId?: string;
+  updatedAt?: Date;
+  credentialArn?: string;
+  customRoleArn?: string;
+  upstreamRepositoryPrefix?: string;
+}
+export const UpdatePullThroughCacheRuleResponse = S.suspend(() =>
+  S.Struct({
     ecrRepositoryPrefix: S.optional(S.String),
     registryId: S.optional(S.String),
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     credentialArn: S.optional(S.String),
     customRoleArn: S.optional(S.String),
     upstreamRepositoryPrefix: S.optional(S.String),
-  },
-  ns,
-) {}
-export class UpdateRepositoryCreationTemplateResponse extends S.Class<UpdateRepositoryCreationTemplateResponse>(
-  "UpdateRepositoryCreationTemplateResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "UpdatePullThroughCacheRuleResponse",
+}) as any as S.Schema<UpdatePullThroughCacheRuleResponse>;
+export interface UpdateRepositoryCreationTemplateResponse {
+  registryId?: string;
+  repositoryCreationTemplate?: RepositoryCreationTemplate;
+}
+export const UpdateRepositoryCreationTemplateResponse = S.suspend(() =>
+  S.Struct({
     registryId: S.optional(S.String),
     repositoryCreationTemplate: S.optional(RepositoryCreationTemplate),
-  },
-  ns,
-) {}
-export class UploadLayerPartResponse extends S.Class<UploadLayerPartResponse>(
-  "UploadLayerPartResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "UpdateRepositoryCreationTemplateResponse",
+}) as any as S.Schema<UpdateRepositoryCreationTemplateResponse>;
+export interface UploadLayerPartResponse {
+  registryId?: string;
+  repositoryName?: string;
+  uploadId?: string;
+  lastByteReceived?: number;
+}
+export const UploadLayerPartResponse = S.suspend(() =>
+  S.Struct({
     registryId: S.optional(S.String),
     repositoryName: S.optional(S.String),
     uploadId: S.optional(S.String),
     lastByteReceived: S.optional(S.Number),
-  },
-  ns,
-) {}
-export class ValidatePullThroughCacheRuleResponse extends S.Class<ValidatePullThroughCacheRuleResponse>(
-  "ValidatePullThroughCacheRuleResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "UploadLayerPartResponse",
+}) as any as S.Schema<UploadLayerPartResponse>;
+export interface ValidatePullThroughCacheRuleResponse {
+  ecrRepositoryPrefix?: string;
+  registryId?: string;
+  upstreamRegistryUrl?: string;
+  credentialArn?: string;
+  customRoleArn?: string;
+  upstreamRepositoryPrefix?: string;
+  isValid?: boolean;
+  failure?: string;
+}
+export const ValidatePullThroughCacheRuleResponse = S.suspend(() =>
+  S.Struct({
     ecrRepositoryPrefix: S.optional(S.String),
     registryId: S.optional(S.String),
     upstreamRegistryUrl: S.optional(S.String),
@@ -2051,389 +3258,729 @@ export class ValidatePullThroughCacheRuleResponse extends S.Class<ValidatePullTh
     upstreamRepositoryPrefix: S.optional(S.String),
     isValid: S.optional(S.Boolean),
     failure: S.optional(S.String),
-  },
-  ns,
-) {}
-export class Layer extends S.Class<Layer>("Layer")({
-  layerDigest: S.optional(S.String),
-  layerAvailability: S.optional(S.String),
-  layerSize: S.optional(S.Number),
-  mediaType: S.optional(S.String),
-}) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "ValidatePullThroughCacheRuleResponse",
+}) as any as S.Schema<ValidatePullThroughCacheRuleResponse>;
+export interface Layer {
+  layerDigest?: string;
+  layerAvailability?: string;
+  layerSize?: number;
+  mediaType?: string;
+}
+export const Layer = S.suspend(() =>
+  S.Struct({
+    layerDigest: S.optional(S.String),
+    layerAvailability: S.optional(S.String),
+    layerSize: S.optional(S.Number),
+    mediaType: S.optional(S.String),
+  }),
+).annotations({ identifier: "Layer" }) as any as S.Schema<Layer>;
+export type LayerList = Layer[];
 export const LayerList = S.Array(Layer);
-export class LayerFailure extends S.Class<LayerFailure>("LayerFailure")({
-  layerDigest: S.optional(S.String),
-  failureCode: S.optional(S.String),
-  failureReason: S.optional(S.String),
-}) {}
+export interface LayerFailure {
+  layerDigest?: string;
+  failureCode?: string;
+  failureReason?: string;
+}
+export const LayerFailure = S.suspend(() =>
+  S.Struct({
+    layerDigest: S.optional(S.String),
+    failureCode: S.optional(S.String),
+    failureReason: S.optional(S.String),
+  }),
+).annotations({ identifier: "LayerFailure" }) as any as S.Schema<LayerFailure>;
+export type LayerFailureList = LayerFailure[];
 export const LayerFailureList = S.Array(LayerFailure);
+export type ImageList = Image[];
 export const ImageList = S.Array(Image);
-export class ImageFailure extends S.Class<ImageFailure>("ImageFailure")({
-  imageId: S.optional(ImageIdentifier),
-  failureCode: S.optional(S.String),
-  failureReason: S.optional(S.String),
-}) {}
+export interface ImageFailure {
+  imageId?: ImageIdentifier;
+  failureCode?: string;
+  failureReason?: string;
+}
+export const ImageFailure = S.suspend(() =>
+  S.Struct({
+    imageId: S.optional(ImageIdentifier),
+    failureCode: S.optional(S.String),
+    failureReason: S.optional(S.String),
+  }),
+).annotations({ identifier: "ImageFailure" }) as any as S.Schema<ImageFailure>;
+export type ImageFailureList = ImageFailure[];
 export const ImageFailureList = S.Array(ImageFailure);
-export class RepositoryScanningConfiguration extends S.Class<RepositoryScanningConfiguration>(
-  "RepositoryScanningConfiguration",
-)({
-  repositoryArn: S.optional(S.String),
-  repositoryName: S.optional(S.String),
-  scanOnPush: S.optional(S.Boolean),
-  scanFrequency: S.optional(S.String),
-  appliedScanFilters: S.optional(ScanningRepositoryFilterList),
-}) {}
+export interface RepositoryScanningConfiguration {
+  repositoryArn?: string;
+  repositoryName?: string;
+  scanOnPush?: boolean;
+  scanFrequency?: string;
+  appliedScanFilters?: ScanningRepositoryFilterList;
+}
+export const RepositoryScanningConfiguration = S.suspend(() =>
+  S.Struct({
+    repositoryArn: S.optional(S.String),
+    repositoryName: S.optional(S.String),
+    scanOnPush: S.optional(S.Boolean),
+    scanFrequency: S.optional(S.String),
+    appliedScanFilters: S.optional(ScanningRepositoryFilterList),
+  }),
+).annotations({
+  identifier: "RepositoryScanningConfiguration",
+}) as any as S.Schema<RepositoryScanningConfiguration>;
+export type RepositoryScanningConfigurationList =
+  RepositoryScanningConfiguration[];
 export const RepositoryScanningConfigurationList = S.Array(
   RepositoryScanningConfiguration,
 );
-export class RepositoryScanningConfigurationFailure extends S.Class<RepositoryScanningConfigurationFailure>(
-  "RepositoryScanningConfigurationFailure",
-)({
-  repositoryName: S.optional(S.String),
-  failureCode: S.optional(S.String),
-  failureReason: S.optional(S.String),
-}) {}
+export interface RepositoryScanningConfigurationFailure {
+  repositoryName?: string;
+  failureCode?: string;
+  failureReason?: string;
+}
+export const RepositoryScanningConfigurationFailure = S.suspend(() =>
+  S.Struct({
+    repositoryName: S.optional(S.String),
+    failureCode: S.optional(S.String),
+    failureReason: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RepositoryScanningConfigurationFailure",
+}) as any as S.Schema<RepositoryScanningConfigurationFailure>;
+export type RepositoryScanningConfigurationFailureList =
+  RepositoryScanningConfigurationFailure[];
 export const RepositoryScanningConfigurationFailureList = S.Array(
   RepositoryScanningConfigurationFailure,
 );
-export class ImageReplicationStatus extends S.Class<ImageReplicationStatus>(
-  "ImageReplicationStatus",
-)({
-  region: S.optional(S.String),
-  registryId: S.optional(S.String),
-  status: S.optional(S.String),
-  failureCode: S.optional(S.String),
-}) {}
+export interface ImageReplicationStatus {
+  region?: string;
+  registryId?: string;
+  status?: string;
+  failureCode?: string;
+}
+export const ImageReplicationStatus = S.suspend(() =>
+  S.Struct({
+    region: S.optional(S.String),
+    registryId: S.optional(S.String),
+    status: S.optional(S.String),
+    failureCode: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ImageReplicationStatus",
+}) as any as S.Schema<ImageReplicationStatus>;
+export type ImageReplicationStatusList = ImageReplicationStatus[];
 export const ImageReplicationStatusList = S.Array(ImageReplicationStatus);
-export class ImageSigningStatus extends S.Class<ImageSigningStatus>(
-  "ImageSigningStatus",
-)({
-  signingProfileArn: S.optional(S.String),
-  failureCode: S.optional(S.String),
-  failureReason: S.optional(S.String),
-  status: S.optional(S.String),
-}) {}
+export interface ImageSigningStatus {
+  signingProfileArn?: string;
+  failureCode?: string;
+  failureReason?: string;
+  status?: string;
+}
+export const ImageSigningStatus = S.suspend(() =>
+  S.Struct({
+    signingProfileArn: S.optional(S.String),
+    failureCode: S.optional(S.String),
+    failureReason: S.optional(S.String),
+    status: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ImageSigningStatus",
+}) as any as S.Schema<ImageSigningStatus>;
+export type ImageSigningStatusList = ImageSigningStatus[];
 export const ImageSigningStatusList = S.Array(ImageSigningStatus);
-export class PullThroughCacheRule extends S.Class<PullThroughCacheRule>(
-  "PullThroughCacheRule",
-)({
-  ecrRepositoryPrefix: S.optional(S.String),
-  upstreamRegistryUrl: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  registryId: S.optional(S.String),
-  credentialArn: S.optional(S.String),
-  customRoleArn: S.optional(S.String),
-  upstreamRepositoryPrefix: S.optional(S.String),
-  upstreamRegistry: S.optional(S.String),
-  updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface PullThroughCacheRule {
+  ecrRepositoryPrefix?: string;
+  upstreamRegistryUrl?: string;
+  createdAt?: Date;
+  registryId?: string;
+  credentialArn?: string;
+  customRoleArn?: string;
+  upstreamRepositoryPrefix?: string;
+  upstreamRegistry?: string;
+  updatedAt?: Date;
+}
+export const PullThroughCacheRule = S.suspend(() =>
+  S.Struct({
+    ecrRepositoryPrefix: S.optional(S.String),
+    upstreamRegistryUrl: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    registryId: S.optional(S.String),
+    credentialArn: S.optional(S.String),
+    customRoleArn: S.optional(S.String),
+    upstreamRepositoryPrefix: S.optional(S.String),
+    upstreamRegistry: S.optional(S.String),
+    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "PullThroughCacheRule",
+}) as any as S.Schema<PullThroughCacheRule>;
+export type PullThroughCacheRuleList = PullThroughCacheRule[];
 export const PullThroughCacheRuleList = S.Array(PullThroughCacheRule);
-export class AuthorizationData extends S.Class<AuthorizationData>(
-  "AuthorizationData",
-)({
-  authorizationToken: S.optional(S.String),
-  expiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  proxyEndpoint: S.optional(S.String),
-}) {}
+export interface AuthorizationData {
+  authorizationToken?: string;
+  expiresAt?: Date;
+  proxyEndpoint?: string;
+}
+export const AuthorizationData = S.suspend(() =>
+  S.Struct({
+    authorizationToken: S.optional(S.String),
+    expiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    proxyEndpoint: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AuthorizationData",
+}) as any as S.Schema<AuthorizationData>;
+export type AuthorizationDataList = AuthorizationData[];
 export const AuthorizationDataList = S.Array(AuthorizationData);
-export class BatchCheckLayerAvailabilityResponse extends S.Class<BatchCheckLayerAvailabilityResponse>(
-  "BatchCheckLayerAvailabilityResponse",
-)(
-  { layers: S.optional(LayerList), failures: S.optional(LayerFailureList) },
-  ns,
-) {}
-export class BatchDeleteImageResponse extends S.Class<BatchDeleteImageResponse>(
-  "BatchDeleteImageResponse",
-)(
-  {
+export interface BatchCheckLayerAvailabilityResponse {
+  layers?: LayerList;
+  failures?: LayerFailureList;
+}
+export const BatchCheckLayerAvailabilityResponse = S.suspend(() =>
+  S.Struct({
+    layers: S.optional(LayerList),
+    failures: S.optional(LayerFailureList),
+  }).pipe(ns),
+).annotations({
+  identifier: "BatchCheckLayerAvailabilityResponse",
+}) as any as S.Schema<BatchCheckLayerAvailabilityResponse>;
+export interface BatchDeleteImageResponse {
+  imageIds?: ImageIdentifierList;
+  failures?: ImageFailureList;
+}
+export const BatchDeleteImageResponse = S.suspend(() =>
+  S.Struct({
     imageIds: S.optional(ImageIdentifierList),
     failures: S.optional(ImageFailureList),
-  },
-  ns,
-) {}
-export class BatchGetImageResponse extends S.Class<BatchGetImageResponse>(
-  "BatchGetImageResponse",
-)(
-  { images: S.optional(ImageList), failures: S.optional(ImageFailureList) },
-  ns,
-) {}
-export class BatchGetRepositoryScanningConfigurationResponse extends S.Class<BatchGetRepositoryScanningConfigurationResponse>(
-  "BatchGetRepositoryScanningConfigurationResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "BatchDeleteImageResponse",
+}) as any as S.Schema<BatchDeleteImageResponse>;
+export interface BatchGetImageResponse {
+  images?: ImageList;
+  failures?: ImageFailureList;
+}
+export const BatchGetImageResponse = S.suspend(() =>
+  S.Struct({
+    images: S.optional(ImageList),
+    failures: S.optional(ImageFailureList),
+  }).pipe(ns),
+).annotations({
+  identifier: "BatchGetImageResponse",
+}) as any as S.Schema<BatchGetImageResponse>;
+export interface BatchGetRepositoryScanningConfigurationResponse {
+  scanningConfigurations?: RepositoryScanningConfigurationList;
+  failures?: RepositoryScanningConfigurationFailureList;
+}
+export const BatchGetRepositoryScanningConfigurationResponse = S.suspend(() =>
+  S.Struct({
     scanningConfigurations: S.optional(RepositoryScanningConfigurationList),
     failures: S.optional(RepositoryScanningConfigurationFailureList),
-  },
-  ns,
-) {}
-export class CreateRepositoryResponse extends S.Class<CreateRepositoryResponse>(
-  "CreateRepositoryResponse",
-)({ repository: S.optional(Repository) }, ns) {}
-export class CreateRepositoryCreationTemplateResponse extends S.Class<CreateRepositoryCreationTemplateResponse>(
-  "CreateRepositoryCreationTemplateResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "BatchGetRepositoryScanningConfigurationResponse",
+}) as any as S.Schema<BatchGetRepositoryScanningConfigurationResponse>;
+export interface CreateRepositoryResponse {
+  repository?: Repository;
+}
+export const CreateRepositoryResponse = S.suspend(() =>
+  S.Struct({ repository: S.optional(Repository) }).pipe(ns),
+).annotations({
+  identifier: "CreateRepositoryResponse",
+}) as any as S.Schema<CreateRepositoryResponse>;
+export interface CreateRepositoryCreationTemplateResponse {
+  registryId?: string;
+  repositoryCreationTemplate?: RepositoryCreationTemplate;
+}
+export const CreateRepositoryCreationTemplateResponse = S.suspend(() =>
+  S.Struct({
     registryId: S.optional(S.String),
     repositoryCreationTemplate: S.optional(RepositoryCreationTemplate),
-  },
-  ns,
-) {}
-export class DeleteRepositoryResponse extends S.Class<DeleteRepositoryResponse>(
-  "DeleteRepositoryResponse",
-)({ repository: S.optional(Repository) }, ns) {}
-export class DeleteRepositoryCreationTemplateResponse extends S.Class<DeleteRepositoryCreationTemplateResponse>(
-  "DeleteRepositoryCreationTemplateResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "CreateRepositoryCreationTemplateResponse",
+}) as any as S.Schema<CreateRepositoryCreationTemplateResponse>;
+export interface DeleteRepositoryResponse {
+  repository?: Repository;
+}
+export const DeleteRepositoryResponse = S.suspend(() =>
+  S.Struct({ repository: S.optional(Repository) }).pipe(ns),
+).annotations({
+  identifier: "DeleteRepositoryResponse",
+}) as any as S.Schema<DeleteRepositoryResponse>;
+export interface DeleteRepositoryCreationTemplateResponse {
+  registryId?: string;
+  repositoryCreationTemplate?: RepositoryCreationTemplate;
+}
+export const DeleteRepositoryCreationTemplateResponse = S.suspend(() =>
+  S.Struct({
     registryId: S.optional(S.String),
     repositoryCreationTemplate: S.optional(RepositoryCreationTemplate),
-  },
-  ns,
-) {}
-export class DescribeImageReplicationStatusResponse extends S.Class<DescribeImageReplicationStatusResponse>(
-  "DescribeImageReplicationStatusResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DeleteRepositoryCreationTemplateResponse",
+}) as any as S.Schema<DeleteRepositoryCreationTemplateResponse>;
+export interface DescribeImageReplicationStatusResponse {
+  repositoryName?: string;
+  imageId?: ImageIdentifier;
+  replicationStatuses?: ImageReplicationStatusList;
+}
+export const DescribeImageReplicationStatusResponse = S.suspend(() =>
+  S.Struct({
     repositoryName: S.optional(S.String),
     imageId: S.optional(ImageIdentifier),
     replicationStatuses: S.optional(ImageReplicationStatusList),
-  },
-  ns,
-) {}
-export class DescribeImageSigningStatusResponse extends S.Class<DescribeImageSigningStatusResponse>(
-  "DescribeImageSigningStatusResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeImageReplicationStatusResponse",
+}) as any as S.Schema<DescribeImageReplicationStatusResponse>;
+export interface DescribeImageSigningStatusResponse {
+  repositoryName?: string;
+  imageId?: ImageIdentifier;
+  registryId?: string;
+  signingStatuses?: ImageSigningStatusList;
+}
+export const DescribeImageSigningStatusResponse = S.suspend(() =>
+  S.Struct({
     repositoryName: S.optional(S.String),
     imageId: S.optional(ImageIdentifier),
     registryId: S.optional(S.String),
     signingStatuses: S.optional(ImageSigningStatusList),
-  },
-  ns,
-) {}
-export class DescribePullThroughCacheRulesResponse extends S.Class<DescribePullThroughCacheRulesResponse>(
-  "DescribePullThroughCacheRulesResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeImageSigningStatusResponse",
+}) as any as S.Schema<DescribeImageSigningStatusResponse>;
+export interface DescribePullThroughCacheRulesResponse {
+  pullThroughCacheRules?: PullThroughCacheRuleList;
+  nextToken?: string;
+}
+export const DescribePullThroughCacheRulesResponse = S.suspend(() =>
+  S.Struct({
     pullThroughCacheRules: S.optional(PullThroughCacheRuleList),
     nextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class GetAuthorizationTokenResponse extends S.Class<GetAuthorizationTokenResponse>(
-  "GetAuthorizationTokenResponse",
-)({ authorizationData: S.optional(AuthorizationDataList) }, ns) {}
-export class ListImagesResponse extends S.Class<ListImagesResponse>(
-  "ListImagesResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribePullThroughCacheRulesResponse",
+}) as any as S.Schema<DescribePullThroughCacheRulesResponse>;
+export interface GetAuthorizationTokenResponse {
+  authorizationData?: AuthorizationDataList;
+}
+export const GetAuthorizationTokenResponse = S.suspend(() =>
+  S.Struct({ authorizationData: S.optional(AuthorizationDataList) }).pipe(ns),
+).annotations({
+  identifier: "GetAuthorizationTokenResponse",
+}) as any as S.Schema<GetAuthorizationTokenResponse>;
+export interface ListImagesResponse {
+  imageIds?: ImageIdentifierList;
+  nextToken?: string;
+}
+export const ListImagesResponse = S.suspend(() =>
+  S.Struct({
     imageIds: S.optional(ImageIdentifierList),
     nextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class PutRegistryScanningConfigurationRequest extends S.Class<PutRegistryScanningConfigurationRequest>(
-  "PutRegistryScanningConfigurationRequest",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListImagesResponse",
+}) as any as S.Schema<ListImagesResponse>;
+export interface PutRegistryScanningConfigurationRequest {
+  scanType?: string;
+  rules?: RegistryScanningRuleList;
+}
+export const PutRegistryScanningConfigurationRequest = S.suspend(() =>
+  S.Struct({
     scanType: S.optional(S.String),
     rules: S.optional(RegistryScanningRuleList),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutRegistryScanningConfigurationRequest",
+}) as any as S.Schema<PutRegistryScanningConfigurationRequest>;
+export type ImageTagList = string[];
 export const ImageTagList = S.Array(S.String);
+export type FindingSeverityCounts = { [key: string]: number };
 export const FindingSeverityCounts = S.Record({
   key: S.String,
   value: S.Number,
 });
+export type ReferenceUrlsList = string[];
 export const ReferenceUrlsList = S.Array(S.String);
+export type RelatedVulnerabilitiesList = string[];
 export const RelatedVulnerabilitiesList = S.Array(S.String);
-export class Attribute extends S.Class<Attribute>("Attribute")({
-  key: S.String,
-  value: S.optional(S.String),
-}) {}
+export interface Attribute {
+  key: string;
+  value?: string;
+}
+export const Attribute = S.suspend(() =>
+  S.Struct({ key: S.String, value: S.optional(S.String) }),
+).annotations({ identifier: "Attribute" }) as any as S.Schema<Attribute>;
+export type AttributeList = Attribute[];
 export const AttributeList = S.Array(Attribute);
-export class DeleteSigningConfigurationResponse extends S.Class<DeleteSigningConfigurationResponse>(
-  "DeleteSigningConfigurationResponse",
-)(
-  {
+export interface DeleteSigningConfigurationResponse {
+  registryId?: string;
+  signingConfiguration?: SigningConfiguration;
+}
+export const DeleteSigningConfigurationResponse = S.suspend(() =>
+  S.Struct({
     registryId: S.optional(S.String),
     signingConfiguration: S.optional(SigningConfiguration),
-  },
-  ns,
-) {}
-export class DescribeRegistryResponse extends S.Class<DescribeRegistryResponse>(
-  "DescribeRegistryResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DeleteSigningConfigurationResponse",
+}) as any as S.Schema<DeleteSigningConfigurationResponse>;
+export interface DescribeRegistryResponse {
+  registryId?: string;
+  replicationConfiguration?: ReplicationConfiguration;
+}
+export const DescribeRegistryResponse = S.suspend(() =>
+  S.Struct({
     registryId: S.optional(S.String),
     replicationConfiguration: S.optional(ReplicationConfiguration),
-  },
-  ns,
-) {}
-export class PutRegistryScanningConfigurationResponse extends S.Class<PutRegistryScanningConfigurationResponse>(
-  "PutRegistryScanningConfigurationResponse",
-)(
-  { registryScanningConfiguration: S.optional(RegistryScanningConfiguration) },
-  ns,
-) {}
-export class ImageScanFindingsSummary extends S.Class<ImageScanFindingsSummary>(
-  "ImageScanFindingsSummary",
-)({
-  imageScanCompletedAt: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  vulnerabilitySourceUpdatedAt: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  findingSeverityCounts: S.optional(FindingSeverityCounts),
-}) {}
-export class ImageScanFinding extends S.Class<ImageScanFinding>(
-  "ImageScanFinding",
-)({
-  name: S.optional(S.String),
-  description: S.optional(S.String),
-  uri: S.optional(S.String),
-  severity: S.optional(S.String),
-  attributes: S.optional(AttributeList),
-}) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeRegistryResponse",
+}) as any as S.Schema<DescribeRegistryResponse>;
+export interface PutRegistryScanningConfigurationResponse {
+  registryScanningConfiguration?: RegistryScanningConfiguration;
+}
+export const PutRegistryScanningConfigurationResponse = S.suspend(() =>
+  S.Struct({
+    registryScanningConfiguration: S.optional(RegistryScanningConfiguration),
+  }).pipe(ns),
+).annotations({
+  identifier: "PutRegistryScanningConfigurationResponse",
+}) as any as S.Schema<PutRegistryScanningConfigurationResponse>;
+export interface ImageScanFindingsSummary {
+  imageScanCompletedAt?: Date;
+  vulnerabilitySourceUpdatedAt?: Date;
+  findingSeverityCounts?: FindingSeverityCounts;
+}
+export const ImageScanFindingsSummary = S.suspend(() =>
+  S.Struct({
+    imageScanCompletedAt: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    vulnerabilitySourceUpdatedAt: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    findingSeverityCounts: S.optional(FindingSeverityCounts),
+  }),
+).annotations({
+  identifier: "ImageScanFindingsSummary",
+}) as any as S.Schema<ImageScanFindingsSummary>;
+export interface ImageScanFinding {
+  name?: string;
+  description?: string;
+  uri?: string;
+  severity?: string;
+  attributes?: AttributeList;
+}
+export const ImageScanFinding = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    uri: S.optional(S.String),
+    severity: S.optional(S.String),
+    attributes: S.optional(AttributeList),
+  }),
+).annotations({
+  identifier: "ImageScanFinding",
+}) as any as S.Schema<ImageScanFinding>;
+export type ImageScanFindingList = ImageScanFinding[];
 export const ImageScanFindingList = S.Array(ImageScanFinding);
-export class LifecyclePolicyRuleAction extends S.Class<LifecyclePolicyRuleAction>(
-  "LifecyclePolicyRuleAction",
-)({ type: S.optional(S.String), targetStorageClass: S.optional(S.String) }) {}
-export class TransitioningImageTotalCount extends S.Class<TransitioningImageTotalCount>(
-  "TransitioningImageTotalCount",
-)({
-  targetStorageClass: S.optional(S.String),
-  imageTotalCount: S.optional(S.Number),
-}) {}
+export interface LifecyclePolicyRuleAction {
+  type?: string;
+  targetStorageClass?: string;
+}
+export const LifecyclePolicyRuleAction = S.suspend(() =>
+  S.Struct({
+    type: S.optional(S.String),
+    targetStorageClass: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "LifecyclePolicyRuleAction",
+}) as any as S.Schema<LifecyclePolicyRuleAction>;
+export interface TransitioningImageTotalCount {
+  targetStorageClass?: string;
+  imageTotalCount?: number;
+}
+export const TransitioningImageTotalCount = S.suspend(() =>
+  S.Struct({
+    targetStorageClass: S.optional(S.String),
+    imageTotalCount: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "TransitioningImageTotalCount",
+}) as any as S.Schema<TransitioningImageTotalCount>;
+export type TransitioningImageTotalCounts = TransitioningImageTotalCount[];
 export const TransitioningImageTotalCounts = S.Array(
   TransitioningImageTotalCount,
 );
+export type Annotations = { [key: string]: string };
 export const Annotations = S.Record({ key: S.String, value: S.String });
-export class CvssScore extends S.Class<CvssScore>("CvssScore")({
-  baseScore: S.optional(S.Number),
-  scoringVector: S.optional(S.String),
-  source: S.optional(S.String),
-  version: S.optional(S.String),
-}) {}
+export interface CvssScore {
+  baseScore?: number;
+  scoringVector?: string;
+  source?: string;
+  version?: string;
+}
+export const CvssScore = S.suspend(() =>
+  S.Struct({
+    baseScore: S.optional(S.Number),
+    scoringVector: S.optional(S.String),
+    source: S.optional(S.String),
+    version: S.optional(S.String),
+  }),
+).annotations({ identifier: "CvssScore" }) as any as S.Schema<CvssScore>;
+export type CvssScoreList = CvssScore[];
 export const CvssScoreList = S.Array(CvssScore);
-export class VulnerablePackage extends S.Class<VulnerablePackage>(
-  "VulnerablePackage",
-)({
-  arch: S.optional(S.String),
-  epoch: S.optional(S.Number),
-  filePath: S.optional(S.String),
-  name: S.optional(S.String),
-  packageManager: S.optional(S.String),
-  release: S.optional(S.String),
-  sourceLayerHash: S.optional(S.String),
-  version: S.optional(S.String),
-  fixedInVersion: S.optional(S.String),
-}) {}
+export interface VulnerablePackage {
+  arch?: string;
+  epoch?: number;
+  filePath?: string;
+  name?: string;
+  packageManager?: string;
+  release?: string;
+  sourceLayerHash?: string;
+  version?: string;
+  fixedInVersion?: string;
+}
+export const VulnerablePackage = S.suspend(() =>
+  S.Struct({
+    arch: S.optional(S.String),
+    epoch: S.optional(S.Number),
+    filePath: S.optional(S.String),
+    name: S.optional(S.String),
+    packageManager: S.optional(S.String),
+    release: S.optional(S.String),
+    sourceLayerHash: S.optional(S.String),
+    version: S.optional(S.String),
+    fixedInVersion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "VulnerablePackage",
+}) as any as S.Schema<VulnerablePackage>;
+export type VulnerablePackagesList = VulnerablePackage[];
 export const VulnerablePackagesList = S.Array(VulnerablePackage);
-export class Recommendation extends S.Class<Recommendation>("Recommendation")({
-  url: S.optional(S.String),
-  text: S.optional(S.String),
-}) {}
+export interface Recommendation {
+  url?: string;
+  text?: string;
+}
+export const Recommendation = S.suspend(() =>
+  S.Struct({ url: S.optional(S.String), text: S.optional(S.String) }),
+).annotations({
+  identifier: "Recommendation",
+}) as any as S.Schema<Recommendation>;
+export type Tags = { [key: string]: string };
 export const Tags = S.Record({ key: S.String, value: S.String });
-export class ImageDetail extends S.Class<ImageDetail>("ImageDetail")({
-  registryId: S.optional(S.String),
-  repositoryName: S.optional(S.String),
-  imageDigest: S.optional(S.String),
-  imageTags: S.optional(ImageTagList),
-  imageSizeInBytes: S.optional(S.Number),
-  imagePushedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  imageScanStatus: S.optional(ImageScanStatus),
-  imageScanFindingsSummary: S.optional(ImageScanFindingsSummary),
-  imageManifestMediaType: S.optional(S.String),
-  artifactMediaType: S.optional(S.String),
-  lastRecordedPullTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  subjectManifestDigest: S.optional(S.String),
-  imageStatus: S.optional(S.String),
-  lastArchivedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastActivatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface ImageDetail {
+  registryId?: string;
+  repositoryName?: string;
+  imageDigest?: string;
+  imageTags?: ImageTagList;
+  imageSizeInBytes?: number;
+  imagePushedAt?: Date;
+  imageScanStatus?: ImageScanStatus;
+  imageScanFindingsSummary?: ImageScanFindingsSummary;
+  imageManifestMediaType?: string;
+  artifactMediaType?: string;
+  lastRecordedPullTime?: Date;
+  subjectManifestDigest?: string;
+  imageStatus?: string;
+  lastArchivedAt?: Date;
+  lastActivatedAt?: Date;
+}
+export const ImageDetail = S.suspend(() =>
+  S.Struct({
+    registryId: S.optional(S.String),
+    repositoryName: S.optional(S.String),
+    imageDigest: S.optional(S.String),
+    imageTags: S.optional(ImageTagList),
+    imageSizeInBytes: S.optional(S.Number),
+    imagePushedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    imageScanStatus: S.optional(ImageScanStatus),
+    imageScanFindingsSummary: S.optional(ImageScanFindingsSummary),
+    imageManifestMediaType: S.optional(S.String),
+    artifactMediaType: S.optional(S.String),
+    lastRecordedPullTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    subjectManifestDigest: S.optional(S.String),
+    imageStatus: S.optional(S.String),
+    lastArchivedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastActivatedAt: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({ identifier: "ImageDetail" }) as any as S.Schema<ImageDetail>;
+export type ImageDetailList = ImageDetail[];
 export const ImageDetailList = S.Array(ImageDetail);
+export type ImageTagsList = string[];
 export const ImageTagsList = S.Array(S.String);
-export class LifecyclePolicyPreviewResult extends S.Class<LifecyclePolicyPreviewResult>(
-  "LifecyclePolicyPreviewResult",
-)({
-  imageTags: S.optional(ImageTagList),
-  imageDigest: S.optional(S.String),
-  imagePushedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  action: S.optional(LifecyclePolicyRuleAction),
-  appliedRulePriority: S.optional(S.Number),
-  storageClass: S.optional(S.String),
-}) {}
+export interface LifecyclePolicyPreviewResult {
+  imageTags?: ImageTagList;
+  imageDigest?: string;
+  imagePushedAt?: Date;
+  action?: LifecyclePolicyRuleAction;
+  appliedRulePriority?: number;
+  storageClass?: string;
+}
+export const LifecyclePolicyPreviewResult = S.suspend(() =>
+  S.Struct({
+    imageTags: S.optional(ImageTagList),
+    imageDigest: S.optional(S.String),
+    imagePushedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    action: S.optional(LifecyclePolicyRuleAction),
+    appliedRulePriority: S.optional(S.Number),
+    storageClass: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "LifecyclePolicyPreviewResult",
+}) as any as S.Schema<LifecyclePolicyPreviewResult>;
+export type LifecyclePolicyPreviewResultList = LifecyclePolicyPreviewResult[];
 export const LifecyclePolicyPreviewResultList = S.Array(
   LifecyclePolicyPreviewResult,
 );
-export class LifecyclePolicyPreviewSummary extends S.Class<LifecyclePolicyPreviewSummary>(
-  "LifecyclePolicyPreviewSummary",
-)({
-  expiringImageTotalCount: S.optional(S.Number),
-  transitioningImageTotalCounts: S.optional(TransitioningImageTotalCounts),
-}) {}
-export class ImageReferrer extends S.Class<ImageReferrer>("ImageReferrer")({
-  digest: S.String,
-  mediaType: S.String,
-  artifactType: S.optional(S.String),
-  size: S.Number,
-  annotations: S.optional(Annotations),
-  artifactStatus: S.optional(S.String),
-}) {}
+export interface LifecyclePolicyPreviewSummary {
+  expiringImageTotalCount?: number;
+  transitioningImageTotalCounts?: TransitioningImageTotalCounts;
+}
+export const LifecyclePolicyPreviewSummary = S.suspend(() =>
+  S.Struct({
+    expiringImageTotalCount: S.optional(S.Number),
+    transitioningImageTotalCounts: S.optional(TransitioningImageTotalCounts),
+  }),
+).annotations({
+  identifier: "LifecyclePolicyPreviewSummary",
+}) as any as S.Schema<LifecyclePolicyPreviewSummary>;
+export interface ImageReferrer {
+  digest: string;
+  mediaType: string;
+  artifactType?: string;
+  size: number;
+  annotations?: Annotations;
+  artifactStatus?: string;
+}
+export const ImageReferrer = S.suspend(() =>
+  S.Struct({
+    digest: S.String,
+    mediaType: S.String,
+    artifactType: S.optional(S.String),
+    size: S.Number,
+    annotations: S.optional(Annotations),
+    artifactStatus: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ImageReferrer",
+}) as any as S.Schema<ImageReferrer>;
+export type ImageReferrerList = ImageReferrer[];
 export const ImageReferrerList = S.Array(ImageReferrer);
-export class PackageVulnerabilityDetails extends S.Class<PackageVulnerabilityDetails>(
-  "PackageVulnerabilityDetails",
-)({
-  cvss: S.optional(CvssScoreList),
-  referenceUrls: S.optional(ReferenceUrlsList),
-  relatedVulnerabilities: S.optional(RelatedVulnerabilitiesList),
-  source: S.optional(S.String),
-  sourceUrl: S.optional(S.String),
-  vendorCreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  vendorSeverity: S.optional(S.String),
-  vendorUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  vulnerabilityId: S.optional(S.String),
-  vulnerablePackages: S.optional(VulnerablePackagesList),
-}) {}
-export class Remediation extends S.Class<Remediation>("Remediation")({
-  recommendation: S.optional(Recommendation),
-}) {}
-export class DescribeImagesResponse extends S.Class<DescribeImagesResponse>(
-  "DescribeImagesResponse",
-)(
-  {
+export interface PackageVulnerabilityDetails {
+  cvss?: CvssScoreList;
+  referenceUrls?: ReferenceUrlsList;
+  relatedVulnerabilities?: RelatedVulnerabilitiesList;
+  source?: string;
+  sourceUrl?: string;
+  vendorCreatedAt?: Date;
+  vendorSeverity?: string;
+  vendorUpdatedAt?: Date;
+  vulnerabilityId?: string;
+  vulnerablePackages?: VulnerablePackagesList;
+}
+export const PackageVulnerabilityDetails = S.suspend(() =>
+  S.Struct({
+    cvss: S.optional(CvssScoreList),
+    referenceUrls: S.optional(ReferenceUrlsList),
+    relatedVulnerabilities: S.optional(RelatedVulnerabilitiesList),
+    source: S.optional(S.String),
+    sourceUrl: S.optional(S.String),
+    vendorCreatedAt: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    vendorSeverity: S.optional(S.String),
+    vendorUpdatedAt: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    vulnerabilityId: S.optional(S.String),
+    vulnerablePackages: S.optional(VulnerablePackagesList),
+  }),
+).annotations({
+  identifier: "PackageVulnerabilityDetails",
+}) as any as S.Schema<PackageVulnerabilityDetails>;
+export interface Remediation {
+  recommendation?: Recommendation;
+}
+export const Remediation = S.suspend(() =>
+  S.Struct({ recommendation: S.optional(Recommendation) }),
+).annotations({ identifier: "Remediation" }) as any as S.Schema<Remediation>;
+export interface DescribeImagesResponse {
+  imageDetails?: ImageDetailList;
+  nextToken?: string;
+}
+export const DescribeImagesResponse = S.suspend(() =>
+  S.Struct({
     imageDetails: S.optional(ImageDetailList),
     nextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class AwsEcrContainerImageDetails extends S.Class<AwsEcrContainerImageDetails>(
-  "AwsEcrContainerImageDetails",
-)({
-  architecture: S.optional(S.String),
-  author: S.optional(S.String),
-  imageHash: S.optional(S.String),
-  imageTags: S.optional(ImageTagsList),
-  platform: S.optional(S.String),
-  pushedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastInUseAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  inUseCount: S.optional(S.Number),
-  registry: S.optional(S.String),
-  repositoryName: S.optional(S.String),
-}) {}
-export class CvssScoreAdjustment extends S.Class<CvssScoreAdjustment>(
-  "CvssScoreAdjustment",
-)({ metric: S.optional(S.String), reason: S.optional(S.String) }) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeImagesResponse",
+}) as any as S.Schema<DescribeImagesResponse>;
+export interface AwsEcrContainerImageDetails {
+  architecture?: string;
+  author?: string;
+  imageHash?: string;
+  imageTags?: ImageTagsList;
+  platform?: string;
+  pushedAt?: Date;
+  lastInUseAt?: Date;
+  inUseCount?: number;
+  registry?: string;
+  repositoryName?: string;
+}
+export const AwsEcrContainerImageDetails = S.suspend(() =>
+  S.Struct({
+    architecture: S.optional(S.String),
+    author: S.optional(S.String),
+    imageHash: S.optional(S.String),
+    imageTags: S.optional(ImageTagsList),
+    platform: S.optional(S.String),
+    pushedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastInUseAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    inUseCount: S.optional(S.Number),
+    registry: S.optional(S.String),
+    repositoryName: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AwsEcrContainerImageDetails",
+}) as any as S.Schema<AwsEcrContainerImageDetails>;
+export interface CvssScoreAdjustment {
+  metric?: string;
+  reason?: string;
+}
+export const CvssScoreAdjustment = S.suspend(() =>
+  S.Struct({ metric: S.optional(S.String), reason: S.optional(S.String) }),
+).annotations({
+  identifier: "CvssScoreAdjustment",
+}) as any as S.Schema<CvssScoreAdjustment>;
+export type CvssScoreAdjustmentList = CvssScoreAdjustment[];
 export const CvssScoreAdjustmentList = S.Array(CvssScoreAdjustment);
-export class GetLifecyclePolicyPreviewResponse extends S.Class<GetLifecyclePolicyPreviewResponse>(
-  "GetLifecyclePolicyPreviewResponse",
-)(
-  {
+export interface GetLifecyclePolicyPreviewResponse {
+  registryId?: string;
+  repositoryName?: string;
+  lifecyclePolicyText?: string;
+  status?: string;
+  nextToken?: string;
+  previewResults?: LifecyclePolicyPreviewResultList;
+  summary?: LifecyclePolicyPreviewSummary;
+}
+export const GetLifecyclePolicyPreviewResponse = S.suspend(() =>
+  S.Struct({
     registryId: S.optional(S.String),
     repositoryName: S.optional(S.String),
     lifecyclePolicyText: S.optional(S.String),
@@ -2441,85 +3988,158 @@ export class GetLifecyclePolicyPreviewResponse extends S.Class<GetLifecyclePolic
     nextToken: S.optional(S.String),
     previewResults: S.optional(LifecyclePolicyPreviewResultList),
     summary: S.optional(LifecyclePolicyPreviewSummary),
-  },
-  ns,
-) {}
-export class ListImageReferrersResponse extends S.Class<ListImageReferrersResponse>(
-  "ListImageReferrersResponse",
-)(
-  { referrers: S.optional(ImageReferrerList), nextToken: S.optional(S.String) },
-  ns,
-) {}
-export class ResourceDetails extends S.Class<ResourceDetails>(
-  "ResourceDetails",
-)({ awsEcrContainerImage: S.optional(AwsEcrContainerImageDetails) }) {}
-export class CvssScoreDetails extends S.Class<CvssScoreDetails>(
-  "CvssScoreDetails",
-)({
-  adjustments: S.optional(CvssScoreAdjustmentList),
-  score: S.optional(S.Number),
-  scoreSource: S.optional(S.String),
-  scoringVector: S.optional(S.String),
-  version: S.optional(S.String),
-}) {}
-export class Resource extends S.Class<Resource>("Resource")({
-  details: S.optional(ResourceDetails),
-  id: S.optional(S.String),
-  tags: S.optional(Tags),
-  type: S.optional(S.String),
-}) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "GetLifecyclePolicyPreviewResponse",
+}) as any as S.Schema<GetLifecyclePolicyPreviewResponse>;
+export interface ListImageReferrersResponse {
+  referrers?: ImageReferrerList;
+  nextToken?: string;
+}
+export const ListImageReferrersResponse = S.suspend(() =>
+  S.Struct({
+    referrers: S.optional(ImageReferrerList),
+    nextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListImageReferrersResponse",
+}) as any as S.Schema<ListImageReferrersResponse>;
+export interface ResourceDetails {
+  awsEcrContainerImage?: AwsEcrContainerImageDetails;
+}
+export const ResourceDetails = S.suspend(() =>
+  S.Struct({ awsEcrContainerImage: S.optional(AwsEcrContainerImageDetails) }),
+).annotations({
+  identifier: "ResourceDetails",
+}) as any as S.Schema<ResourceDetails>;
+export interface CvssScoreDetails {
+  adjustments?: CvssScoreAdjustmentList;
+  score?: number;
+  scoreSource?: string;
+  scoringVector?: string;
+  version?: string;
+}
+export const CvssScoreDetails = S.suspend(() =>
+  S.Struct({
+    adjustments: S.optional(CvssScoreAdjustmentList),
+    score: S.optional(S.Number),
+    scoreSource: S.optional(S.String),
+    scoringVector: S.optional(S.String),
+    version: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CvssScoreDetails",
+}) as any as S.Schema<CvssScoreDetails>;
+export interface Resource {
+  details?: ResourceDetails;
+  id?: string;
+  tags?: Tags;
+  type?: string;
+}
+export const Resource = S.suspend(() =>
+  S.Struct({
+    details: S.optional(ResourceDetails),
+    id: S.optional(S.String),
+    tags: S.optional(Tags),
+    type: S.optional(S.String),
+  }),
+).annotations({ identifier: "Resource" }) as any as S.Schema<Resource>;
+export type ResourceList = Resource[];
 export const ResourceList = S.Array(Resource);
-export class ScoreDetails extends S.Class<ScoreDetails>("ScoreDetails")({
-  cvss: S.optional(CvssScoreDetails),
-}) {}
-export class EnhancedImageScanFinding extends S.Class<EnhancedImageScanFinding>(
-  "EnhancedImageScanFinding",
-)({
-  awsAccountId: S.optional(S.String),
-  description: S.optional(S.String),
-  findingArn: S.optional(S.String),
-  firstObservedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastObservedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  packageVulnerabilityDetails: S.optional(PackageVulnerabilityDetails),
-  remediation: S.optional(Remediation),
-  resources: S.optional(ResourceList),
-  score: S.optional(S.Number),
-  scoreDetails: S.optional(ScoreDetails),
-  severity: S.optional(S.String),
-  status: S.optional(S.String),
-  title: S.optional(S.String),
-  type: S.optional(S.String),
-  updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  fixAvailable: S.optional(S.String),
-  exploitAvailable: S.optional(S.String),
-}) {}
+export interface ScoreDetails {
+  cvss?: CvssScoreDetails;
+}
+export const ScoreDetails = S.suspend(() =>
+  S.Struct({ cvss: S.optional(CvssScoreDetails) }),
+).annotations({ identifier: "ScoreDetails" }) as any as S.Schema<ScoreDetails>;
+export interface EnhancedImageScanFinding {
+  awsAccountId?: string;
+  description?: string;
+  findingArn?: string;
+  firstObservedAt?: Date;
+  lastObservedAt?: Date;
+  packageVulnerabilityDetails?: PackageVulnerabilityDetails;
+  remediation?: Remediation;
+  resources?: ResourceList;
+  score?: number;
+  scoreDetails?: ScoreDetails;
+  severity?: string;
+  status?: string;
+  title?: string;
+  type?: string;
+  updatedAt?: Date;
+  fixAvailable?: string;
+  exploitAvailable?: string;
+}
+export const EnhancedImageScanFinding = S.suspend(() =>
+  S.Struct({
+    awsAccountId: S.optional(S.String),
+    description: S.optional(S.String),
+    findingArn: S.optional(S.String),
+    firstObservedAt: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    lastObservedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    packageVulnerabilityDetails: S.optional(PackageVulnerabilityDetails),
+    remediation: S.optional(Remediation),
+    resources: S.optional(ResourceList),
+    score: S.optional(S.Number),
+    scoreDetails: S.optional(ScoreDetails),
+    severity: S.optional(S.String),
+    status: S.optional(S.String),
+    title: S.optional(S.String),
+    type: S.optional(S.String),
+    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    fixAvailable: S.optional(S.String),
+    exploitAvailable: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "EnhancedImageScanFinding",
+}) as any as S.Schema<EnhancedImageScanFinding>;
+export type EnhancedImageScanFindingList = EnhancedImageScanFinding[];
 export const EnhancedImageScanFindingList = S.Array(EnhancedImageScanFinding);
-export class ImageScanFindings extends S.Class<ImageScanFindings>(
-  "ImageScanFindings",
-)({
-  imageScanCompletedAt: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  vulnerabilitySourceUpdatedAt: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  findingSeverityCounts: S.optional(FindingSeverityCounts),
-  findings: S.optional(ImageScanFindingList),
-  enhancedFindings: S.optional(EnhancedImageScanFindingList),
-}) {}
-export class DescribeImageScanFindingsResponse extends S.Class<DescribeImageScanFindingsResponse>(
-  "DescribeImageScanFindingsResponse",
-)(
-  {
+export interface ImageScanFindings {
+  imageScanCompletedAt?: Date;
+  vulnerabilitySourceUpdatedAt?: Date;
+  findingSeverityCounts?: FindingSeverityCounts;
+  findings?: ImageScanFindingList;
+  enhancedFindings?: EnhancedImageScanFindingList;
+}
+export const ImageScanFindings = S.suspend(() =>
+  S.Struct({
+    imageScanCompletedAt: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    vulnerabilitySourceUpdatedAt: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    findingSeverityCounts: S.optional(FindingSeverityCounts),
+    findings: S.optional(ImageScanFindingList),
+    enhancedFindings: S.optional(EnhancedImageScanFindingList),
+  }),
+).annotations({
+  identifier: "ImageScanFindings",
+}) as any as S.Schema<ImageScanFindings>;
+export interface DescribeImageScanFindingsResponse {
+  registryId?: string;
+  repositoryName?: string;
+  imageId?: ImageIdentifier;
+  imageScanStatus?: ImageScanStatus;
+  imageScanFindings?: ImageScanFindings;
+  nextToken?: string;
+}
+export const DescribeImageScanFindingsResponse = S.suspend(() =>
+  S.Struct({
     registryId: S.optional(S.String),
     repositoryName: S.optional(S.String),
     imageId: S.optional(ImageIdentifier),
     imageScanStatus: S.optional(ImageScanStatus),
     imageScanFindings: S.optional(ImageScanFindings),
     nextToken: S.optional(S.String),
-  },
-  ns,
-) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeImageScanFindingsResponse",
+}) as any as S.Schema<DescribeImageScanFindingsResponse>;
 
 //# Errors
 export class InvalidParameterException extends S.TaggedError<InvalidParameterException>()(

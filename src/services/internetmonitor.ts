@@ -242,57 +242,79 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type TagKeys = string[];
 export const TagKeys = S.Array(S.String);
+export type SetOfARNs = string[];
 export const SetOfARNs = S.Array(S.String);
-export class ListTagsForResourceInput extends S.Class<ListTagsForResourceInput>(
-  "ListTagsForResourceInput",
-)(
-  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface ListTagsForResourceInput {
+  ResourceArn: string;
+}
+export const ListTagsForResourceInput = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceInput extends S.Class<UntagResourceInput>(
-  "UntagResourceInput",
-)(
-  {
+).annotations({
+  identifier: "ListTagsForResourceInput",
+}) as any as S.Schema<ListTagsForResourceInput>;
+export interface UntagResourceInput {
+  ResourceArn: string;
+  TagKeys: TagKeys;
+}
+export const UntagResourceInput = S.suspend(() =>
+  S.Struct({
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceOutput extends S.Class<UntagResourceOutput>(
-  "UntagResourceOutput",
-)({}) {}
-export class GetInternetEventInput extends S.Class<GetInternetEventInput>(
-  "GetInternetEventInput",
-)(
-  { EventId: S.String.pipe(T.HttpLabel("EventId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/v20210603/InternetEvents/{EventId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UntagResourceInput",
+}) as any as S.Schema<UntagResourceInput>;
+export interface UntagResourceOutput {}
+export const UntagResourceOutput = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceOutput",
+}) as any as S.Schema<UntagResourceOutput>;
+export interface GetInternetEventInput {
+  EventId: string;
+}
+export const GetInternetEventInput = S.suspend(() =>
+  S.Struct({ EventId: S.String.pipe(T.HttpLabel("EventId")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v20210603/InternetEvents/{EventId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListInternetEventsInput extends S.Class<ListInternetEventsInput>(
-  "ListInternetEventsInput",
-)(
-  {
+).annotations({
+  identifier: "GetInternetEventInput",
+}) as any as S.Schema<GetInternetEventInput>;
+export interface ListInternetEventsInput {
+  NextToken?: string;
+  MaxResults?: number;
+  StartTime?: Date;
+  EndTime?: Date;
+  EventStatus?: string;
+  EventType?: string;
+}
+export const ListInternetEventsInput = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(
       T.HttpQuery("InternetEventMaxResults"),
@@ -305,59 +327,103 @@ export class ListInternetEventsInput extends S.Class<ListInternetEventsInput>(
     ),
     EventStatus: S.optional(S.String).pipe(T.HttpQuery("EventStatus")),
     EventType: S.optional(S.String).pipe(T.HttpQuery("EventType")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/v20210603/InternetEvents" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v20210603/InternetEvents" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetMonitorInput extends S.Class<GetMonitorInput>(
-  "GetMonitorInput",
-)(
-  {
+).annotations({
+  identifier: "ListInternetEventsInput",
+}) as any as S.Schema<ListInternetEventsInput>;
+export interface GetMonitorInput {
+  MonitorName: string;
+  LinkedAccountId?: string;
+}
+export const GetMonitorInput = S.suspend(() =>
+  S.Struct({
     MonitorName: S.String.pipe(T.HttpLabel("MonitorName")),
     LinkedAccountId: S.optional(S.String).pipe(T.HttpQuery("LinkedAccountId")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/v20210603/Monitors/{MonitorName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v20210603/Monitors/{MonitorName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class S3Config extends S.Class<S3Config>("S3Config")({
-  BucketName: S.optional(S.String),
-  BucketPrefix: S.optional(S.String),
-  LogDeliveryStatus: S.optional(S.String),
-}) {}
-export class InternetMeasurementsLogDelivery extends S.Class<InternetMeasurementsLogDelivery>(
-  "InternetMeasurementsLogDelivery",
-)({ S3Config: S.optional(S3Config) }) {}
-export class LocalHealthEventsConfig extends S.Class<LocalHealthEventsConfig>(
-  "LocalHealthEventsConfig",
-)({
-  Status: S.optional(S.String),
-  HealthScoreThreshold: S.optional(S.Number),
-  MinTrafficImpact: S.optional(S.Number),
-}) {}
-export class HealthEventsConfig extends S.Class<HealthEventsConfig>(
-  "HealthEventsConfig",
-)({
-  AvailabilityScoreThreshold: S.optional(S.Number),
-  PerformanceScoreThreshold: S.optional(S.Number),
-  AvailabilityLocalHealthEventsConfig: S.optional(LocalHealthEventsConfig),
-  PerformanceLocalHealthEventsConfig: S.optional(LocalHealthEventsConfig),
-}) {}
-export class UpdateMonitorInput extends S.Class<UpdateMonitorInput>(
-  "UpdateMonitorInput",
-)(
-  {
+).annotations({
+  identifier: "GetMonitorInput",
+}) as any as S.Schema<GetMonitorInput>;
+export interface S3Config {
+  BucketName?: string;
+  BucketPrefix?: string;
+  LogDeliveryStatus?: string;
+}
+export const S3Config = S.suspend(() =>
+  S.Struct({
+    BucketName: S.optional(S.String),
+    BucketPrefix: S.optional(S.String),
+    LogDeliveryStatus: S.optional(S.String),
+  }),
+).annotations({ identifier: "S3Config" }) as any as S.Schema<S3Config>;
+export interface InternetMeasurementsLogDelivery {
+  S3Config?: S3Config;
+}
+export const InternetMeasurementsLogDelivery = S.suspend(() =>
+  S.Struct({ S3Config: S.optional(S3Config) }),
+).annotations({
+  identifier: "InternetMeasurementsLogDelivery",
+}) as any as S.Schema<InternetMeasurementsLogDelivery>;
+export interface LocalHealthEventsConfig {
+  Status?: string;
+  HealthScoreThreshold?: number;
+  MinTrafficImpact?: number;
+}
+export const LocalHealthEventsConfig = S.suspend(() =>
+  S.Struct({
+    Status: S.optional(S.String),
+    HealthScoreThreshold: S.optional(S.Number),
+    MinTrafficImpact: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "LocalHealthEventsConfig",
+}) as any as S.Schema<LocalHealthEventsConfig>;
+export interface HealthEventsConfig {
+  AvailabilityScoreThreshold?: number;
+  PerformanceScoreThreshold?: number;
+  AvailabilityLocalHealthEventsConfig?: LocalHealthEventsConfig;
+  PerformanceLocalHealthEventsConfig?: LocalHealthEventsConfig;
+}
+export const HealthEventsConfig = S.suspend(() =>
+  S.Struct({
+    AvailabilityScoreThreshold: S.optional(S.Number),
+    PerformanceScoreThreshold: S.optional(S.Number),
+    AvailabilityLocalHealthEventsConfig: S.optional(LocalHealthEventsConfig),
+    PerformanceLocalHealthEventsConfig: S.optional(LocalHealthEventsConfig),
+  }),
+).annotations({
+  identifier: "HealthEventsConfig",
+}) as any as S.Schema<HealthEventsConfig>;
+export interface UpdateMonitorInput {
+  MonitorName: string;
+  ResourcesToAdd?: SetOfARNs;
+  ResourcesToRemove?: SetOfARNs;
+  Status?: string;
+  ClientToken?: string;
+  MaxCityNetworksToMonitor?: number;
+  InternetMeasurementsLogDelivery?: InternetMeasurementsLogDelivery;
+  TrafficPercentageToMonitor?: number;
+  HealthEventsConfig?: HealthEventsConfig;
+}
+export const UpdateMonitorInput = S.suspend(() =>
+  S.Struct({
     MonitorName: S.String.pipe(T.HttpLabel("MonitorName")),
     ResourcesToAdd: S.optional(SetOfARNs),
     ResourcesToRemove: S.optional(SetOfARNs),
@@ -369,136 +435,184 @@ export class UpdateMonitorInput extends S.Class<UpdateMonitorInput>(
     ),
     TrafficPercentageToMonitor: S.optional(S.Number),
     HealthEventsConfig: S.optional(HealthEventsConfig),
-  },
-  T.all(
-    T.Http({ method: "PATCH", uri: "/v20210603/Monitors/{MonitorName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PATCH", uri: "/v20210603/Monitors/{MonitorName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteMonitorInput extends S.Class<DeleteMonitorInput>(
-  "DeleteMonitorInput",
-)(
-  { MonitorName: S.String.pipe(T.HttpLabel("MonitorName")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/v20210603/Monitors/{MonitorName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UpdateMonitorInput",
+}) as any as S.Schema<UpdateMonitorInput>;
+export interface DeleteMonitorInput {
+  MonitorName: string;
+}
+export const DeleteMonitorInput = S.suspend(() =>
+  S.Struct({ MonitorName: S.String.pipe(T.HttpLabel("MonitorName")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/v20210603/Monitors/{MonitorName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteMonitorOutput extends S.Class<DeleteMonitorOutput>(
-  "DeleteMonitorOutput",
-)({}) {}
-export class ListMonitorsInput extends S.Class<ListMonitorsInput>(
-  "ListMonitorsInput",
-)(
-  {
+).annotations({
+  identifier: "DeleteMonitorInput",
+}) as any as S.Schema<DeleteMonitorInput>;
+export interface DeleteMonitorOutput {}
+export const DeleteMonitorOutput = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteMonitorOutput",
+}) as any as S.Schema<DeleteMonitorOutput>;
+export interface ListMonitorsInput {
+  NextToken?: string;
+  MaxResults?: number;
+  MonitorStatus?: string;
+  IncludeLinkedAccounts?: boolean;
+}
+export const ListMonitorsInput = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
     MonitorStatus: S.optional(S.String).pipe(T.HttpQuery("MonitorStatus")),
     IncludeLinkedAccounts: S.optional(S.Boolean).pipe(
       T.HttpQuery("IncludeLinkedAccounts"),
     ),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/v20210603/Monitors" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v20210603/Monitors" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetQueryResultsInput extends S.Class<GetQueryResultsInput>(
-  "GetQueryResultsInput",
-)(
-  {
+).annotations({
+  identifier: "ListMonitorsInput",
+}) as any as S.Schema<ListMonitorsInput>;
+export interface GetQueryResultsInput {
+  MonitorName: string;
+  QueryId: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const GetQueryResultsInput = S.suspend(() =>
+  S.Struct({
     MonitorName: S.String.pipe(T.HttpLabel("MonitorName")),
     QueryId: S.String.pipe(T.HttpLabel("QueryId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/v20210603/Monitors/{MonitorName}/Queries/{QueryId}/Results",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/v20210603/Monitors/{MonitorName}/Queries/{QueryId}/Results",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetQueryStatusInput extends S.Class<GetQueryStatusInput>(
-  "GetQueryStatusInput",
-)(
-  {
+).annotations({
+  identifier: "GetQueryResultsInput",
+}) as any as S.Schema<GetQueryResultsInput>;
+export interface GetQueryStatusInput {
+  MonitorName: string;
+  QueryId: string;
+}
+export const GetQueryStatusInput = S.suspend(() =>
+  S.Struct({
     MonitorName: S.String.pipe(T.HttpLabel("MonitorName")),
     QueryId: S.String.pipe(T.HttpLabel("QueryId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/v20210603/Monitors/{MonitorName}/Queries/{QueryId}/Status",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/v20210603/Monitors/{MonitorName}/Queries/{QueryId}/Status",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StopQueryInput extends S.Class<StopQueryInput>("StopQueryInput")(
-  {
+).annotations({
+  identifier: "GetQueryStatusInput",
+}) as any as S.Schema<GetQueryStatusInput>;
+export interface StopQueryInput {
+  MonitorName: string;
+  QueryId: string;
+}
+export const StopQueryInput = S.suspend(() =>
+  S.Struct({
     MonitorName: S.String.pipe(T.HttpLabel("MonitorName")),
     QueryId: S.String.pipe(T.HttpLabel("QueryId")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/v20210603/Monitors/{MonitorName}/Queries/{QueryId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/v20210603/Monitors/{MonitorName}/Queries/{QueryId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StopQueryOutput extends S.Class<StopQueryOutput>(
-  "StopQueryOutput",
-)({}) {}
-export class GetHealthEventInput extends S.Class<GetHealthEventInput>(
-  "GetHealthEventInput",
-)(
-  {
+).annotations({
+  identifier: "StopQueryInput",
+}) as any as S.Schema<StopQueryInput>;
+export interface StopQueryOutput {}
+export const StopQueryOutput = S.suspend(() => S.Struct({})).annotations({
+  identifier: "StopQueryOutput",
+}) as any as S.Schema<StopQueryOutput>;
+export interface GetHealthEventInput {
+  MonitorName: string;
+  EventId: string;
+  LinkedAccountId?: string;
+}
+export const GetHealthEventInput = S.suspend(() =>
+  S.Struct({
     MonitorName: S.String.pipe(T.HttpLabel("MonitorName")),
     EventId: S.String.pipe(T.HttpLabel("EventId")),
     LinkedAccountId: S.optional(S.String).pipe(T.HttpQuery("LinkedAccountId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/v20210603/Monitors/{MonitorName}/HealthEvents/{EventId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/v20210603/Monitors/{MonitorName}/HealthEvents/{EventId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListHealthEventsInput extends S.Class<ListHealthEventsInput>(
-  "ListHealthEventsInput",
-)(
-  {
+).annotations({
+  identifier: "GetHealthEventInput",
+}) as any as S.Schema<GetHealthEventInput>;
+export interface ListHealthEventsInput {
+  MonitorName: string;
+  StartTime?: Date;
+  EndTime?: Date;
+  NextToken?: string;
+  MaxResults?: number;
+  EventStatus?: string;
+  LinkedAccountId?: string;
+}
+export const ListHealthEventsInput = S.suspend(() =>
+  S.Struct({
     MonitorName: S.String.pipe(T.HttpLabel("MonitorName")),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
       T.HttpQuery("StartTime"),
@@ -510,215 +624,434 @@ export class ListHealthEventsInput extends S.Class<ListHealthEventsInput>(
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
     EventStatus: S.optional(S.String).pipe(T.HttpQuery("EventStatus")),
     LinkedAccountId: S.optional(S.String).pipe(T.HttpQuery("LinkedAccountId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/v20210603/Monitors/{MonitorName}/HealthEvents",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/v20210603/Monitors/{MonitorName}/HealthEvents",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "ListHealthEventsInput",
+}) as any as S.Schema<ListHealthEventsInput>;
+export type FilterList = string[];
 export const FilterList = S.Array(S.String);
+export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
+export type QueryRow = string[];
 export const QueryRow = S.Array(S.String);
+export type QueryData = QueryRow[];
 export const QueryData = S.Array(QueryRow);
-export class FilterParameter extends S.Class<FilterParameter>(
-  "FilterParameter",
-)({
-  Field: S.optional(S.String),
-  Operator: S.optional(S.String),
-  Values: S.optional(FilterList),
-}) {}
+export interface FilterParameter {
+  Field?: string;
+  Operator?: string;
+  Values?: FilterList;
+}
+export const FilterParameter = S.suspend(() =>
+  S.Struct({
+    Field: S.optional(S.String),
+    Operator: S.optional(S.String),
+    Values: S.optional(FilterList),
+  }),
+).annotations({
+  identifier: "FilterParameter",
+}) as any as S.Schema<FilterParameter>;
+export type FilterParameters = FilterParameter[];
 export const FilterParameters = S.Array(FilterParameter);
-export class ListTagsForResourceOutput extends S.Class<ListTagsForResourceOutput>(
-  "ListTagsForResourceOutput",
-)({ Tags: S.optional(TagMap) }) {}
-export class TagResourceInput extends S.Class<TagResourceInput>(
-  "TagResourceInput",
-)(
-  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")), Tags: TagMap },
-  T.all(
-    T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface ListTagsForResourceOutput {
+  Tags?: TagMap;
+}
+export const ListTagsForResourceOutput = S.suspend(() =>
+  S.Struct({ Tags: S.optional(TagMap) }),
+).annotations({
+  identifier: "ListTagsForResourceOutput",
+}) as any as S.Schema<ListTagsForResourceOutput>;
+export interface TagResourceInput {
+  ResourceArn: string;
+  Tags: TagMap;
+}
+export const TagResourceInput = S.suspend(() =>
+  S.Struct({
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
+    Tags: TagMap,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceOutput extends S.Class<TagResourceOutput>(
-  "TagResourceOutput",
-)({}) {}
-export class GetMonitorOutput extends S.Class<GetMonitorOutput>(
-  "GetMonitorOutput",
-)({
-  MonitorName: S.String,
-  MonitorArn: S.String,
-  Resources: SetOfARNs,
-  Status: S.String,
-  CreatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  ModifiedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  ProcessingStatus: S.optional(S.String),
-  ProcessingStatusInfo: S.optional(S.String),
-  Tags: S.optional(TagMap),
-  MaxCityNetworksToMonitor: S.optional(S.Number),
-  InternetMeasurementsLogDelivery: S.optional(InternetMeasurementsLogDelivery),
-  TrafficPercentageToMonitor: S.optional(S.Number),
-  HealthEventsConfig: S.optional(HealthEventsConfig),
-}) {}
-export class UpdateMonitorOutput extends S.Class<UpdateMonitorOutput>(
-  "UpdateMonitorOutput",
-)({ MonitorArn: S.String, Status: S.String }) {}
-export class GetQueryStatusOutput extends S.Class<GetQueryStatusOutput>(
-  "GetQueryStatusOutput",
-)({ Status: S.String }) {}
-export class StartQueryInput extends S.Class<StartQueryInput>(
-  "StartQueryInput",
-)(
-  {
+).annotations({
+  identifier: "TagResourceInput",
+}) as any as S.Schema<TagResourceInput>;
+export interface TagResourceOutput {}
+export const TagResourceOutput = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceOutput",
+}) as any as S.Schema<TagResourceOutput>;
+export interface GetMonitorOutput {
+  MonitorName: string;
+  MonitorArn: string;
+  Resources: SetOfARNs;
+  Status: string;
+  CreatedAt: Date;
+  ModifiedAt: Date;
+  ProcessingStatus?: string;
+  ProcessingStatusInfo?: string;
+  Tags?: TagMap;
+  MaxCityNetworksToMonitor?: number;
+  InternetMeasurementsLogDelivery?: InternetMeasurementsLogDelivery;
+  TrafficPercentageToMonitor?: number;
+  HealthEventsConfig?: HealthEventsConfig;
+}
+export const GetMonitorOutput = S.suspend(() =>
+  S.Struct({
+    MonitorName: S.String,
+    MonitorArn: S.String,
+    Resources: SetOfARNs,
+    Status: S.String,
+    CreatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    ModifiedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    ProcessingStatus: S.optional(S.String),
+    ProcessingStatusInfo: S.optional(S.String),
+    Tags: S.optional(TagMap),
+    MaxCityNetworksToMonitor: S.optional(S.Number),
+    InternetMeasurementsLogDelivery: S.optional(
+      InternetMeasurementsLogDelivery,
+    ),
+    TrafficPercentageToMonitor: S.optional(S.Number),
+    HealthEventsConfig: S.optional(HealthEventsConfig),
+  }),
+).annotations({
+  identifier: "GetMonitorOutput",
+}) as any as S.Schema<GetMonitorOutput>;
+export interface UpdateMonitorOutput {
+  MonitorArn: string;
+  Status: string;
+}
+export const UpdateMonitorOutput = S.suspend(() =>
+  S.Struct({ MonitorArn: S.String, Status: S.String }),
+).annotations({
+  identifier: "UpdateMonitorOutput",
+}) as any as S.Schema<UpdateMonitorOutput>;
+export interface GetQueryStatusOutput {
+  Status: string;
+}
+export const GetQueryStatusOutput = S.suspend(() =>
+  S.Struct({ Status: S.String }),
+).annotations({
+  identifier: "GetQueryStatusOutput",
+}) as any as S.Schema<GetQueryStatusOutput>;
+export interface StartQueryInput {
+  MonitorName: string;
+  StartTime: Date;
+  EndTime: Date;
+  QueryType: string;
+  FilterParameters?: FilterParameters;
+  LinkedAccountId?: string;
+}
+export const StartQueryInput = S.suspend(() =>
+  S.Struct({
     MonitorName: S.String.pipe(T.HttpLabel("MonitorName")),
     StartTime: S.Date.pipe(T.TimestampFormat("date-time")),
     EndTime: S.Date.pipe(T.TimestampFormat("date-time")),
     QueryType: S.String,
     FilterParameters: S.optional(FilterParameters),
     LinkedAccountId: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/v20210603/Monitors/{MonitorName}/Queries",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/v20210603/Monitors/{MonitorName}/Queries",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "StartQueryInput",
+}) as any as S.Schema<StartQueryInput>;
+export type Ipv4PrefixList = string[];
 export const Ipv4PrefixList = S.Array(S.String);
-export class ClientLocation extends S.Class<ClientLocation>("ClientLocation")({
-  ASName: S.String,
-  ASNumber: S.Number,
-  Country: S.String,
-  Subdivision: S.optional(S.String),
-  Metro: S.optional(S.String),
-  City: S.String,
-  Latitude: S.Number,
-  Longitude: S.Number,
-}) {}
-export class InternetEventSummary extends S.Class<InternetEventSummary>(
-  "InternetEventSummary",
-)({
-  EventId: S.String,
-  EventArn: S.String,
-  StartedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  EndedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  ClientLocation: ClientLocation,
-  EventType: S.String,
-  EventStatus: S.String,
-}) {}
+export interface ClientLocation {
+  ASName: string;
+  ASNumber: number;
+  Country: string;
+  Subdivision?: string;
+  Metro?: string;
+  City: string;
+  Latitude: number;
+  Longitude: number;
+}
+export const ClientLocation = S.suspend(() =>
+  S.Struct({
+    ASName: S.String,
+    ASNumber: S.Number,
+    Country: S.String,
+    Subdivision: S.optional(S.String),
+    Metro: S.optional(S.String),
+    City: S.String,
+    Latitude: S.Number,
+    Longitude: S.Number,
+  }),
+).annotations({
+  identifier: "ClientLocation",
+}) as any as S.Schema<ClientLocation>;
+export interface InternetEventSummary {
+  EventId: string;
+  EventArn: string;
+  StartedAt: Date;
+  EndedAt?: Date;
+  ClientLocation: ClientLocation;
+  EventType: string;
+  EventStatus: string;
+}
+export const InternetEventSummary = S.suspend(() =>
+  S.Struct({
+    EventId: S.String,
+    EventArn: S.String,
+    StartedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    EndedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    ClientLocation: ClientLocation,
+    EventType: S.String,
+    EventStatus: S.String,
+  }),
+).annotations({
+  identifier: "InternetEventSummary",
+}) as any as S.Schema<InternetEventSummary>;
+export type InternetEventsList = InternetEventSummary[];
 export const InternetEventsList = S.Array(InternetEventSummary);
-export class Monitor extends S.Class<Monitor>("Monitor")({
-  MonitorName: S.String,
-  MonitorArn: S.String,
-  Status: S.String,
-  ProcessingStatus: S.optional(S.String),
-}) {}
+export interface Monitor {
+  MonitorName: string;
+  MonitorArn: string;
+  Status: string;
+  ProcessingStatus?: string;
+}
+export const Monitor = S.suspend(() =>
+  S.Struct({
+    MonitorName: S.String,
+    MonitorArn: S.String,
+    Status: S.String,
+    ProcessingStatus: S.optional(S.String),
+  }),
+).annotations({ identifier: "Monitor" }) as any as S.Schema<Monitor>;
+export type MonitorList = Monitor[];
 export const MonitorList = S.Array(Monitor);
-export class QueryField extends S.Class<QueryField>("QueryField")({
-  Name: S.optional(S.String),
-  Type: S.optional(S.String),
-}) {}
+export interface QueryField {
+  Name?: string;
+  Type?: string;
+}
+export const QueryField = S.suspend(() =>
+  S.Struct({ Name: S.optional(S.String), Type: S.optional(S.String) }),
+).annotations({ identifier: "QueryField" }) as any as S.Schema<QueryField>;
+export type QueryFields = QueryField[];
 export const QueryFields = S.Array(QueryField);
-export class Network extends S.Class<Network>("Network")({
-  ASName: S.String,
-  ASNumber: S.Number,
-}) {}
+export interface Network {
+  ASName: string;
+  ASNumber: number;
+}
+export const Network = S.suspend(() =>
+  S.Struct({ ASName: S.String, ASNumber: S.Number }),
+).annotations({ identifier: "Network" }) as any as S.Schema<Network>;
+export type NetworkList = Network[];
 export const NetworkList = S.Array(Network);
-export class NetworkImpairment extends S.Class<NetworkImpairment>(
-  "NetworkImpairment",
-)({ Networks: NetworkList, AsPath: NetworkList, NetworkEventType: S.String }) {}
-export class AvailabilityMeasurement extends S.Class<AvailabilityMeasurement>(
-  "AvailabilityMeasurement",
-)({
-  ExperienceScore: S.optional(S.Number),
-  PercentOfTotalTrafficImpacted: S.optional(S.Number),
-  PercentOfClientLocationImpacted: S.optional(S.Number),
-}) {}
-export class RoundTripTime extends S.Class<RoundTripTime>("RoundTripTime")({
-  P50: S.optional(S.Number),
-  P90: S.optional(S.Number),
-  P95: S.optional(S.Number),
-}) {}
-export class PerformanceMeasurement extends S.Class<PerformanceMeasurement>(
-  "PerformanceMeasurement",
-)({
-  ExperienceScore: S.optional(S.Number),
-  PercentOfTotalTrafficImpacted: S.optional(S.Number),
-  PercentOfClientLocationImpacted: S.optional(S.Number),
-  RoundTripTime: S.optional(RoundTripTime),
-}) {}
-export class InternetHealth extends S.Class<InternetHealth>("InternetHealth")({
-  Availability: S.optional(AvailabilityMeasurement),
-  Performance: S.optional(PerformanceMeasurement),
-}) {}
-export class ImpactedLocation extends S.Class<ImpactedLocation>(
-  "ImpactedLocation",
-)({
-  ASName: S.String,
-  ASNumber: S.Number,
-  Country: S.String,
-  Subdivision: S.optional(S.String),
-  Metro: S.optional(S.String),
-  City: S.optional(S.String),
-  Latitude: S.optional(S.Number),
-  Longitude: S.optional(S.Number),
-  CountryCode: S.optional(S.String),
-  SubdivisionCode: S.optional(S.String),
-  ServiceLocation: S.optional(S.String),
-  Status: S.String,
-  CausedBy: S.optional(NetworkImpairment),
-  InternetHealth: S.optional(InternetHealth),
-  Ipv4Prefixes: S.optional(Ipv4PrefixList),
-}) {}
+export interface NetworkImpairment {
+  Networks: NetworkList;
+  AsPath: NetworkList;
+  NetworkEventType: string;
+}
+export const NetworkImpairment = S.suspend(() =>
+  S.Struct({
+    Networks: NetworkList,
+    AsPath: NetworkList,
+    NetworkEventType: S.String,
+  }),
+).annotations({
+  identifier: "NetworkImpairment",
+}) as any as S.Schema<NetworkImpairment>;
+export interface AvailabilityMeasurement {
+  ExperienceScore?: number;
+  PercentOfTotalTrafficImpacted?: number;
+  PercentOfClientLocationImpacted?: number;
+}
+export const AvailabilityMeasurement = S.suspend(() =>
+  S.Struct({
+    ExperienceScore: S.optional(S.Number),
+    PercentOfTotalTrafficImpacted: S.optional(S.Number),
+    PercentOfClientLocationImpacted: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "AvailabilityMeasurement",
+}) as any as S.Schema<AvailabilityMeasurement>;
+export interface RoundTripTime {
+  P50?: number;
+  P90?: number;
+  P95?: number;
+}
+export const RoundTripTime = S.suspend(() =>
+  S.Struct({
+    P50: S.optional(S.Number),
+    P90: S.optional(S.Number),
+    P95: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "RoundTripTime",
+}) as any as S.Schema<RoundTripTime>;
+export interface PerformanceMeasurement {
+  ExperienceScore?: number;
+  PercentOfTotalTrafficImpacted?: number;
+  PercentOfClientLocationImpacted?: number;
+  RoundTripTime?: RoundTripTime;
+}
+export const PerformanceMeasurement = S.suspend(() =>
+  S.Struct({
+    ExperienceScore: S.optional(S.Number),
+    PercentOfTotalTrafficImpacted: S.optional(S.Number),
+    PercentOfClientLocationImpacted: S.optional(S.Number),
+    RoundTripTime: S.optional(RoundTripTime),
+  }),
+).annotations({
+  identifier: "PerformanceMeasurement",
+}) as any as S.Schema<PerformanceMeasurement>;
+export interface InternetHealth {
+  Availability?: AvailabilityMeasurement;
+  Performance?: PerformanceMeasurement;
+}
+export const InternetHealth = S.suspend(() =>
+  S.Struct({
+    Availability: S.optional(AvailabilityMeasurement),
+    Performance: S.optional(PerformanceMeasurement),
+  }),
+).annotations({
+  identifier: "InternetHealth",
+}) as any as S.Schema<InternetHealth>;
+export interface ImpactedLocation {
+  ASName: string;
+  ASNumber: number;
+  Country: string;
+  Subdivision?: string;
+  Metro?: string;
+  City?: string;
+  Latitude?: number;
+  Longitude?: number;
+  CountryCode?: string;
+  SubdivisionCode?: string;
+  ServiceLocation?: string;
+  Status: string;
+  CausedBy?: NetworkImpairment;
+  InternetHealth?: InternetHealth;
+  Ipv4Prefixes?: Ipv4PrefixList;
+}
+export const ImpactedLocation = S.suspend(() =>
+  S.Struct({
+    ASName: S.String,
+    ASNumber: S.Number,
+    Country: S.String,
+    Subdivision: S.optional(S.String),
+    Metro: S.optional(S.String),
+    City: S.optional(S.String),
+    Latitude: S.optional(S.Number),
+    Longitude: S.optional(S.Number),
+    CountryCode: S.optional(S.String),
+    SubdivisionCode: S.optional(S.String),
+    ServiceLocation: S.optional(S.String),
+    Status: S.String,
+    CausedBy: S.optional(NetworkImpairment),
+    InternetHealth: S.optional(InternetHealth),
+    Ipv4Prefixes: S.optional(Ipv4PrefixList),
+  }),
+).annotations({
+  identifier: "ImpactedLocation",
+}) as any as S.Schema<ImpactedLocation>;
+export type ImpactedLocationsList = ImpactedLocation[];
 export const ImpactedLocationsList = S.Array(ImpactedLocation);
-export class HealthEvent extends S.Class<HealthEvent>("HealthEvent")({
-  EventArn: S.String,
-  EventId: S.String,
-  StartedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  EndedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  LastUpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  ImpactedLocations: ImpactedLocationsList,
-  Status: S.String,
-  PercentOfTotalTrafficImpacted: S.optional(S.Number),
-  ImpactType: S.String,
-  HealthScoreThreshold: S.optional(S.Number),
-}) {}
+export interface HealthEvent {
+  EventArn: string;
+  EventId: string;
+  StartedAt: Date;
+  EndedAt?: Date;
+  CreatedAt?: Date;
+  LastUpdatedAt: Date;
+  ImpactedLocations: ImpactedLocationsList;
+  Status: string;
+  PercentOfTotalTrafficImpacted?: number;
+  ImpactType: string;
+  HealthScoreThreshold?: number;
+}
+export const HealthEvent = S.suspend(() =>
+  S.Struct({
+    EventArn: S.String,
+    EventId: S.String,
+    StartedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    EndedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    LastUpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    ImpactedLocations: ImpactedLocationsList,
+    Status: S.String,
+    PercentOfTotalTrafficImpacted: S.optional(S.Number),
+    ImpactType: S.String,
+    HealthScoreThreshold: S.optional(S.Number),
+  }),
+).annotations({ identifier: "HealthEvent" }) as any as S.Schema<HealthEvent>;
+export type HealthEventList = HealthEvent[];
 export const HealthEventList = S.Array(HealthEvent);
-export class GetInternetEventOutput extends S.Class<GetInternetEventOutput>(
-  "GetInternetEventOutput",
-)({
-  EventId: S.String,
-  EventArn: S.String,
-  StartedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  EndedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  ClientLocation: ClientLocation,
-  EventType: S.String,
-  EventStatus: S.String,
-}) {}
-export class ListInternetEventsOutput extends S.Class<ListInternetEventsOutput>(
-  "ListInternetEventsOutput",
-)({ InternetEvents: InternetEventsList, NextToken: S.optional(S.String) }) {}
-export class CreateMonitorInput extends S.Class<CreateMonitorInput>(
-  "CreateMonitorInput",
-)(
-  {
+export interface GetInternetEventOutput {
+  EventId: string;
+  EventArn: string;
+  StartedAt: Date;
+  EndedAt?: Date;
+  ClientLocation: ClientLocation;
+  EventType: string;
+  EventStatus: string;
+}
+export const GetInternetEventOutput = S.suspend(() =>
+  S.Struct({
+    EventId: S.String,
+    EventArn: S.String,
+    StartedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    EndedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    ClientLocation: ClientLocation,
+    EventType: S.String,
+    EventStatus: S.String,
+  }),
+).annotations({
+  identifier: "GetInternetEventOutput",
+}) as any as S.Schema<GetInternetEventOutput>;
+export interface ListInternetEventsOutput {
+  InternetEvents: InternetEventsList;
+  NextToken?: string;
+}
+export const ListInternetEventsOutput = S.suspend(() =>
+  S.Struct({
+    InternetEvents: InternetEventsList,
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListInternetEventsOutput",
+}) as any as S.Schema<ListInternetEventsOutput>;
+export interface CreateMonitorInput {
+  MonitorName: string;
+  Resources?: SetOfARNs;
+  ClientToken?: string;
+  Tags?: TagMap;
+  MaxCityNetworksToMonitor?: number;
+  InternetMeasurementsLogDelivery?: InternetMeasurementsLogDelivery;
+  TrafficPercentageToMonitor?: number;
+  HealthEventsConfig?: HealthEventsConfig;
+}
+export const CreateMonitorInput = S.suspend(() =>
+  S.Struct({
     MonitorName: S.String,
     Resources: S.optional(SetOfARNs),
     ClientToken: S.optional(S.String),
@@ -729,46 +1062,98 @@ export class CreateMonitorInput extends S.Class<CreateMonitorInput>(
     ),
     TrafficPercentageToMonitor: S.optional(S.Number),
     HealthEventsConfig: S.optional(HealthEventsConfig),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/v20210603/Monitors" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v20210603/Monitors" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListMonitorsOutput extends S.Class<ListMonitorsOutput>(
-  "ListMonitorsOutput",
-)({ Monitors: MonitorList, NextToken: S.optional(S.String) }) {}
-export class GetQueryResultsOutput extends S.Class<GetQueryResultsOutput>(
-  "GetQueryResultsOutput",
-)({ Fields: QueryFields, Data: QueryData, NextToken: S.optional(S.String) }) {}
-export class StartQueryOutput extends S.Class<StartQueryOutput>(
-  "StartQueryOutput",
-)({ QueryId: S.String }) {}
-export class ListHealthEventsOutput extends S.Class<ListHealthEventsOutput>(
-  "ListHealthEventsOutput",
-)({ HealthEvents: HealthEventList, NextToken: S.optional(S.String) }) {}
-export class CreateMonitorOutput extends S.Class<CreateMonitorOutput>(
-  "CreateMonitorOutput",
-)({ Arn: S.String, Status: S.String }) {}
-export class GetHealthEventOutput extends S.Class<GetHealthEventOutput>(
-  "GetHealthEventOutput",
-)({
-  EventArn: S.String,
-  EventId: S.String,
-  StartedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  EndedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  LastUpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  ImpactedLocations: ImpactedLocationsList,
-  Status: S.String,
-  PercentOfTotalTrafficImpacted: S.optional(S.Number),
-  ImpactType: S.String,
-  HealthScoreThreshold: S.optional(S.Number),
-}) {}
+).annotations({
+  identifier: "CreateMonitorInput",
+}) as any as S.Schema<CreateMonitorInput>;
+export interface ListMonitorsOutput {
+  Monitors: MonitorList;
+  NextToken?: string;
+}
+export const ListMonitorsOutput = S.suspend(() =>
+  S.Struct({ Monitors: MonitorList, NextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListMonitorsOutput",
+}) as any as S.Schema<ListMonitorsOutput>;
+export interface GetQueryResultsOutput {
+  Fields: QueryFields;
+  Data: QueryData;
+  NextToken?: string;
+}
+export const GetQueryResultsOutput = S.suspend(() =>
+  S.Struct({
+    Fields: QueryFields,
+    Data: QueryData,
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetQueryResultsOutput",
+}) as any as S.Schema<GetQueryResultsOutput>;
+export interface StartQueryOutput {
+  QueryId: string;
+}
+export const StartQueryOutput = S.suspend(() =>
+  S.Struct({ QueryId: S.String }),
+).annotations({
+  identifier: "StartQueryOutput",
+}) as any as S.Schema<StartQueryOutput>;
+export interface ListHealthEventsOutput {
+  HealthEvents: HealthEventList;
+  NextToken?: string;
+}
+export const ListHealthEventsOutput = S.suspend(() =>
+  S.Struct({ HealthEvents: HealthEventList, NextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListHealthEventsOutput",
+}) as any as S.Schema<ListHealthEventsOutput>;
+export interface CreateMonitorOutput {
+  Arn: string;
+  Status: string;
+}
+export const CreateMonitorOutput = S.suspend(() =>
+  S.Struct({ Arn: S.String, Status: S.String }),
+).annotations({
+  identifier: "CreateMonitorOutput",
+}) as any as S.Schema<CreateMonitorOutput>;
+export interface GetHealthEventOutput {
+  EventArn: string;
+  EventId: string;
+  StartedAt: Date;
+  EndedAt?: Date;
+  CreatedAt?: Date;
+  LastUpdatedAt: Date;
+  ImpactedLocations: ImpactedLocationsList;
+  Status: string;
+  PercentOfTotalTrafficImpacted?: number;
+  ImpactType: string;
+  HealthScoreThreshold?: number;
+}
+export const GetHealthEventOutput = S.suspend(() =>
+  S.Struct({
+    EventArn: S.String,
+    EventId: S.String,
+    StartedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    EndedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    LastUpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    ImpactedLocations: ImpactedLocationsList,
+    Status: S.String,
+    PercentOfTotalTrafficImpacted: S.optional(S.Number),
+    ImpactType: S.String,
+    HealthScoreThreshold: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "GetHealthEventOutput",
+}) as any as S.Schema<GetHealthEventOutput>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

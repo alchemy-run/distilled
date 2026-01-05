@@ -242,1364 +242,2129 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class DeregisterAccountRequest extends S.Class<DeregisterAccountRequest>(
-  "DeregisterAccountRequest",
-)(
-  {},
-  T.all(
-    T.Http({ method: "POST", uri: "/account/deregisterAccount" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface DeregisterAccountRequest {}
+export const DeregisterAccountRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/account/deregisterAccount" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetAccountStatusRequest extends S.Class<GetAccountStatusRequest>(
-  "GetAccountStatusRequest",
-)(
-  {},
-  T.all(
-    T.Http({ method: "GET", uri: "/account/status" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeregisterAccountRequest",
+}) as any as S.Schema<DeregisterAccountRequest>;
+export interface GetAccountStatusRequest {}
+export const GetAccountStatusRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/account/status" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetInsightsRequest extends S.Class<GetInsightsRequest>(
-  "GetInsightsRequest",
-)(
-  {},
-  T.all(
-    T.Http({ method: "GET", uri: "/insights" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetAccountStatusRequest",
+}) as any as S.Schema<GetAccountStatusRequest>;
+export interface GetInsightsRequest {}
+export const GetInsightsRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/insights" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetOrganizationAdminAccountRequest extends S.Class<GetOrganizationAdminAccountRequest>(
-  "GetOrganizationAdminAccountRequest",
-)(
-  {},
-  T.all(
-    T.Http({ method: "GET", uri: "/account/organizationAdminAccount" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetInsightsRequest",
+}) as any as S.Schema<GetInsightsRequest>;
+export interface GetOrganizationAdminAccountRequest {}
+export const GetOrganizationAdminAccountRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/account/organizationAdminAccount" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetServicesInScopeRequest extends S.Class<GetServicesInScopeRequest>(
-  "GetServicesInScopeRequest",
-)(
-  {},
-  T.all(
-    T.Http({ method: "GET", uri: "/services" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetOrganizationAdminAccountRequest",
+}) as any as S.Schema<GetOrganizationAdminAccountRequest>;
+export interface GetServicesInScopeRequest {}
+export const GetServicesInScopeRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/services" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "GetServicesInScopeRequest",
+}) as any as S.Schema<GetServicesInScopeRequest>;
+export type EvidenceIds = string[];
 export const EvidenceIds = S.Array(S.String);
+export type DelegationIds = string[];
 export const DelegationIds = S.Array(S.String);
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class AssociateAssessmentReportEvidenceFolderRequest extends S.Class<AssociateAssessmentReportEvidenceFolderRequest>(
-  "AssociateAssessmentReportEvidenceFolderRequest",
-)(
-  {
+export interface AssociateAssessmentReportEvidenceFolderRequest {
+  assessmentId: string;
+  evidenceFolderId: string;
+}
+export const AssociateAssessmentReportEvidenceFolderRequest = S.suspend(() =>
+  S.Struct({
     assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
     evidenceFolderId: S.String,
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/assessments/{assessmentId}/associateToAssessmentReport",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/assessments/{assessmentId}/associateToAssessmentReport",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AssociateAssessmentReportEvidenceFolderResponse extends S.Class<AssociateAssessmentReportEvidenceFolderResponse>(
-  "AssociateAssessmentReportEvidenceFolderResponse",
-)({}) {}
-export class BatchAssociateAssessmentReportEvidenceRequest extends S.Class<BatchAssociateAssessmentReportEvidenceRequest>(
-  "BatchAssociateAssessmentReportEvidenceRequest",
-)(
-  {
+).annotations({
+  identifier: "AssociateAssessmentReportEvidenceFolderRequest",
+}) as any as S.Schema<AssociateAssessmentReportEvidenceFolderRequest>;
+export interface AssociateAssessmentReportEvidenceFolderResponse {}
+export const AssociateAssessmentReportEvidenceFolderResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "AssociateAssessmentReportEvidenceFolderResponse",
+}) as any as S.Schema<AssociateAssessmentReportEvidenceFolderResponse>;
+export interface BatchAssociateAssessmentReportEvidenceRequest {
+  assessmentId: string;
+  evidenceFolderId: string;
+  evidenceIds: EvidenceIds;
+}
+export const BatchAssociateAssessmentReportEvidenceRequest = S.suspend(() =>
+  S.Struct({
     assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
     evidenceFolderId: S.String,
     evidenceIds: EvidenceIds,
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/assessments/{assessmentId}/batchAssociateToAssessmentReport",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/assessments/{assessmentId}/batchAssociateToAssessmentReport",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class BatchDeleteDelegationByAssessmentRequest extends S.Class<BatchDeleteDelegationByAssessmentRequest>(
-  "BatchDeleteDelegationByAssessmentRequest",
-)(
-  {
+).annotations({
+  identifier: "BatchAssociateAssessmentReportEvidenceRequest",
+}) as any as S.Schema<BatchAssociateAssessmentReportEvidenceRequest>;
+export interface BatchDeleteDelegationByAssessmentRequest {
+  delegationIds: DelegationIds;
+  assessmentId: string;
+}
+export const BatchDeleteDelegationByAssessmentRequest = S.suspend(() =>
+  S.Struct({
     delegationIds: DelegationIds,
     assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/assessments/{assessmentId}/delegations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/assessments/{assessmentId}/delegations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class BatchDisassociateAssessmentReportEvidenceRequest extends S.Class<BatchDisassociateAssessmentReportEvidenceRequest>(
-  "BatchDisassociateAssessmentReportEvidenceRequest",
-)(
-  {
+).annotations({
+  identifier: "BatchDeleteDelegationByAssessmentRequest",
+}) as any as S.Schema<BatchDeleteDelegationByAssessmentRequest>;
+export interface BatchDisassociateAssessmentReportEvidenceRequest {
+  assessmentId: string;
+  evidenceFolderId: string;
+  evidenceIds: EvidenceIds;
+}
+export const BatchDisassociateAssessmentReportEvidenceRequest = S.suspend(() =>
+  S.Struct({
     assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
     evidenceFolderId: S.String,
     evidenceIds: EvidenceIds,
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/assessments/{assessmentId}/batchDisassociateFromAssessmentReport",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/assessments/{assessmentId}/batchDisassociateFromAssessmentReport",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateAssessmentReportRequest extends S.Class<CreateAssessmentReportRequest>(
-  "CreateAssessmentReportRequest",
-)(
-  {
+).annotations({
+  identifier: "BatchDisassociateAssessmentReportEvidenceRequest",
+}) as any as S.Schema<BatchDisassociateAssessmentReportEvidenceRequest>;
+export interface CreateAssessmentReportRequest {
+  name: string;
+  description?: string;
+  assessmentId: string;
+  queryStatement?: string;
+}
+export const CreateAssessmentReportRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     description: S.optional(S.String),
     assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
     queryStatement: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/assessments/{assessmentId}/reports" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/assessments/{assessmentId}/reports" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAssessmentRequest extends S.Class<DeleteAssessmentRequest>(
-  "DeleteAssessmentRequest",
-)(
-  { assessmentId: S.String.pipe(T.HttpLabel("assessmentId")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/assessments/{assessmentId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CreateAssessmentReportRequest",
+}) as any as S.Schema<CreateAssessmentReportRequest>;
+export interface DeleteAssessmentRequest {
+  assessmentId: string;
+}
+export const DeleteAssessmentRequest = S.suspend(() =>
+  S.Struct({ assessmentId: S.String.pipe(T.HttpLabel("assessmentId")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/assessments/{assessmentId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAssessmentResponse extends S.Class<DeleteAssessmentResponse>(
-  "DeleteAssessmentResponse",
-)({}) {}
-export class DeleteAssessmentFrameworkRequest extends S.Class<DeleteAssessmentFrameworkRequest>(
-  "DeleteAssessmentFrameworkRequest",
-)(
-  { frameworkId: S.String.pipe(T.HttpLabel("frameworkId")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/assessmentFrameworks/{frameworkId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteAssessmentRequest",
+}) as any as S.Schema<DeleteAssessmentRequest>;
+export interface DeleteAssessmentResponse {}
+export const DeleteAssessmentResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteAssessmentResponse",
+}) as any as S.Schema<DeleteAssessmentResponse>;
+export interface DeleteAssessmentFrameworkRequest {
+  frameworkId: string;
+}
+export const DeleteAssessmentFrameworkRequest = S.suspend(() =>
+  S.Struct({ frameworkId: S.String.pipe(T.HttpLabel("frameworkId")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/assessmentFrameworks/{frameworkId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAssessmentFrameworkResponse extends S.Class<DeleteAssessmentFrameworkResponse>(
-  "DeleteAssessmentFrameworkResponse",
-)({}) {}
-export class DeleteAssessmentFrameworkShareRequest extends S.Class<DeleteAssessmentFrameworkShareRequest>(
-  "DeleteAssessmentFrameworkShareRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteAssessmentFrameworkRequest",
+}) as any as S.Schema<DeleteAssessmentFrameworkRequest>;
+export interface DeleteAssessmentFrameworkResponse {}
+export const DeleteAssessmentFrameworkResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteAssessmentFrameworkResponse",
+}) as any as S.Schema<DeleteAssessmentFrameworkResponse>;
+export interface DeleteAssessmentFrameworkShareRequest {
+  requestId: string;
+  requestType: string;
+}
+export const DeleteAssessmentFrameworkShareRequest = S.suspend(() =>
+  S.Struct({
     requestId: S.String.pipe(T.HttpLabel("requestId")),
     requestType: S.String.pipe(T.HttpQuery("requestType")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/assessmentFrameworkShareRequests/{requestId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/assessmentFrameworkShareRequests/{requestId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAssessmentFrameworkShareResponse extends S.Class<DeleteAssessmentFrameworkShareResponse>(
-  "DeleteAssessmentFrameworkShareResponse",
-)({}) {}
-export class DeleteAssessmentReportRequest extends S.Class<DeleteAssessmentReportRequest>(
-  "DeleteAssessmentReportRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteAssessmentFrameworkShareRequest",
+}) as any as S.Schema<DeleteAssessmentFrameworkShareRequest>;
+export interface DeleteAssessmentFrameworkShareResponse {}
+export const DeleteAssessmentFrameworkShareResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteAssessmentFrameworkShareResponse",
+}) as any as S.Schema<DeleteAssessmentFrameworkShareResponse>;
+export interface DeleteAssessmentReportRequest {
+  assessmentId: string;
+  assessmentReportId: string;
+}
+export const DeleteAssessmentReportRequest = S.suspend(() =>
+  S.Struct({
     assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
     assessmentReportId: S.String.pipe(T.HttpLabel("assessmentReportId")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/assessments/{assessmentId}/reports/{assessmentReportId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/assessments/{assessmentId}/reports/{assessmentReportId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAssessmentReportResponse extends S.Class<DeleteAssessmentReportResponse>(
-  "DeleteAssessmentReportResponse",
-)({}) {}
-export class DeleteControlRequest extends S.Class<DeleteControlRequest>(
-  "DeleteControlRequest",
-)(
-  { controlId: S.String.pipe(T.HttpLabel("controlId")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/controls/{controlId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteAssessmentReportRequest",
+}) as any as S.Schema<DeleteAssessmentReportRequest>;
+export interface DeleteAssessmentReportResponse {}
+export const DeleteAssessmentReportResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteAssessmentReportResponse",
+}) as any as S.Schema<DeleteAssessmentReportResponse>;
+export interface DeleteControlRequest {
+  controlId: string;
+}
+export const DeleteControlRequest = S.suspend(() =>
+  S.Struct({ controlId: S.String.pipe(T.HttpLabel("controlId")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/controls/{controlId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteControlResponse extends S.Class<DeleteControlResponse>(
-  "DeleteControlResponse",
-)({}) {}
-export class DeregisterAccountResponse extends S.Class<DeregisterAccountResponse>(
-  "DeregisterAccountResponse",
-)({ status: S.optional(S.String) }) {}
-export class DeregisterOrganizationAdminAccountRequest extends S.Class<DeregisterOrganizationAdminAccountRequest>(
-  "DeregisterOrganizationAdminAccountRequest",
-)(
-  { adminAccountId: S.optional(S.String) },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/account/deregisterOrganizationAdminAccount",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteControlRequest",
+}) as any as S.Schema<DeleteControlRequest>;
+export interface DeleteControlResponse {}
+export const DeleteControlResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteControlResponse",
+}) as any as S.Schema<DeleteControlResponse>;
+export interface DeregisterAccountResponse {
+  status?: string;
+}
+export const DeregisterAccountResponse = S.suspend(() =>
+  S.Struct({ status: S.optional(S.String) }),
+).annotations({
+  identifier: "DeregisterAccountResponse",
+}) as any as S.Schema<DeregisterAccountResponse>;
+export interface DeregisterOrganizationAdminAccountRequest {
+  adminAccountId?: string;
+}
+export const DeregisterOrganizationAdminAccountRequest = S.suspend(() =>
+  S.Struct({ adminAccountId: S.optional(S.String) }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/account/deregisterOrganizationAdminAccount",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeregisterOrganizationAdminAccountResponse extends S.Class<DeregisterOrganizationAdminAccountResponse>(
-  "DeregisterOrganizationAdminAccountResponse",
-)({}) {}
-export class DisassociateAssessmentReportEvidenceFolderRequest extends S.Class<DisassociateAssessmentReportEvidenceFolderRequest>(
-  "DisassociateAssessmentReportEvidenceFolderRequest",
-)(
-  {
+).annotations({
+  identifier: "DeregisterOrganizationAdminAccountRequest",
+}) as any as S.Schema<DeregisterOrganizationAdminAccountRequest>;
+export interface DeregisterOrganizationAdminAccountResponse {}
+export const DeregisterOrganizationAdminAccountResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeregisterOrganizationAdminAccountResponse",
+}) as any as S.Schema<DeregisterOrganizationAdminAccountResponse>;
+export interface DisassociateAssessmentReportEvidenceFolderRequest {
+  assessmentId: string;
+  evidenceFolderId: string;
+}
+export const DisassociateAssessmentReportEvidenceFolderRequest = S.suspend(() =>
+  S.Struct({
     assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
     evidenceFolderId: S.String,
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/assessments/{assessmentId}/disassociateFromAssessmentReport",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/assessments/{assessmentId}/disassociateFromAssessmentReport",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DisassociateAssessmentReportEvidenceFolderResponse extends S.Class<DisassociateAssessmentReportEvidenceFolderResponse>(
-  "DisassociateAssessmentReportEvidenceFolderResponse",
-)({}) {}
-export class GetAccountStatusResponse extends S.Class<GetAccountStatusResponse>(
-  "GetAccountStatusResponse",
-)({ status: S.optional(S.String) }) {}
-export class GetAssessmentRequest extends S.Class<GetAssessmentRequest>(
-  "GetAssessmentRequest",
-)(
-  { assessmentId: S.String.pipe(T.HttpLabel("assessmentId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/assessments/{assessmentId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DisassociateAssessmentReportEvidenceFolderRequest",
+}) as any as S.Schema<DisassociateAssessmentReportEvidenceFolderRequest>;
+export interface DisassociateAssessmentReportEvidenceFolderResponse {}
+export const DisassociateAssessmentReportEvidenceFolderResponse = S.suspend(
+  () => S.Struct({}),
+).annotations({
+  identifier: "DisassociateAssessmentReportEvidenceFolderResponse",
+}) as any as S.Schema<DisassociateAssessmentReportEvidenceFolderResponse>;
+export interface GetAccountStatusResponse {
+  status?: string;
+}
+export const GetAccountStatusResponse = S.suspend(() =>
+  S.Struct({ status: S.optional(S.String) }),
+).annotations({
+  identifier: "GetAccountStatusResponse",
+}) as any as S.Schema<GetAccountStatusResponse>;
+export interface GetAssessmentRequest {
+  assessmentId: string;
+}
+export const GetAssessmentRequest = S.suspend(() =>
+  S.Struct({ assessmentId: S.String.pipe(T.HttpLabel("assessmentId")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/assessments/{assessmentId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetAssessmentFrameworkRequest extends S.Class<GetAssessmentFrameworkRequest>(
-  "GetAssessmentFrameworkRequest",
-)(
-  { frameworkId: S.String.pipe(T.HttpLabel("frameworkId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/assessmentFrameworks/{frameworkId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetAssessmentRequest",
+}) as any as S.Schema<GetAssessmentRequest>;
+export interface GetAssessmentFrameworkRequest {
+  frameworkId: string;
+}
+export const GetAssessmentFrameworkRequest = S.suspend(() =>
+  S.Struct({ frameworkId: S.String.pipe(T.HttpLabel("frameworkId")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/assessmentFrameworks/{frameworkId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetAssessmentReportUrlRequest extends S.Class<GetAssessmentReportUrlRequest>(
-  "GetAssessmentReportUrlRequest",
-)(
-  {
+).annotations({
+  identifier: "GetAssessmentFrameworkRequest",
+}) as any as S.Schema<GetAssessmentFrameworkRequest>;
+export interface GetAssessmentReportUrlRequest {
+  assessmentReportId: string;
+  assessmentId: string;
+}
+export const GetAssessmentReportUrlRequest = S.suspend(() =>
+  S.Struct({
     assessmentReportId: S.String.pipe(T.HttpLabel("assessmentReportId")),
     assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/assessments/{assessmentId}/reports/{assessmentReportId}/url",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/assessments/{assessmentId}/reports/{assessmentReportId}/url",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetChangeLogsRequest extends S.Class<GetChangeLogsRequest>(
-  "GetChangeLogsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetAssessmentReportUrlRequest",
+}) as any as S.Schema<GetAssessmentReportUrlRequest>;
+export interface GetChangeLogsRequest {
+  assessmentId: string;
+  controlSetId?: string;
+  controlId?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const GetChangeLogsRequest = S.suspend(() =>
+  S.Struct({
     assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
     controlSetId: S.optional(S.String).pipe(T.HttpQuery("controlSetId")),
     controlId: S.optional(S.String).pipe(T.HttpQuery("controlId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/assessments/{assessmentId}/changelogs" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/assessments/{assessmentId}/changelogs" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetControlRequest extends S.Class<GetControlRequest>(
-  "GetControlRequest",
-)(
-  { controlId: S.String.pipe(T.HttpLabel("controlId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/controls/{controlId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetChangeLogsRequest",
+}) as any as S.Schema<GetChangeLogsRequest>;
+export interface GetControlRequest {
+  controlId: string;
+}
+export const GetControlRequest = S.suspend(() =>
+  S.Struct({ controlId: S.String.pipe(T.HttpLabel("controlId")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/controls/{controlId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetDelegationsRequest extends S.Class<GetDelegationsRequest>(
-  "GetDelegationsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetControlRequest",
+}) as any as S.Schema<GetControlRequest>;
+export interface GetDelegationsRequest {
+  nextToken?: string;
+  maxResults?: number;
+}
+export const GetDelegationsRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/delegations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/delegations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetEvidenceRequest extends S.Class<GetEvidenceRequest>(
-  "GetEvidenceRequest",
-)(
-  {
+).annotations({
+  identifier: "GetDelegationsRequest",
+}) as any as S.Schema<GetDelegationsRequest>;
+export interface GetEvidenceRequest {
+  assessmentId: string;
+  controlSetId: string;
+  evidenceFolderId: string;
+  evidenceId: string;
+}
+export const GetEvidenceRequest = S.suspend(() =>
+  S.Struct({
     assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
     controlSetId: S.String.pipe(T.HttpLabel("controlSetId")),
     evidenceFolderId: S.String.pipe(T.HttpLabel("evidenceFolderId")),
     evidenceId: S.String.pipe(T.HttpLabel("evidenceId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/assessments/{assessmentId}/controlSets/{controlSetId}/evidenceFolders/{evidenceFolderId}/evidence/{evidenceId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/assessments/{assessmentId}/controlSets/{controlSetId}/evidenceFolders/{evidenceFolderId}/evidence/{evidenceId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetEvidenceByEvidenceFolderRequest extends S.Class<GetEvidenceByEvidenceFolderRequest>(
-  "GetEvidenceByEvidenceFolderRequest",
-)(
-  {
+).annotations({
+  identifier: "GetEvidenceRequest",
+}) as any as S.Schema<GetEvidenceRequest>;
+export interface GetEvidenceByEvidenceFolderRequest {
+  assessmentId: string;
+  controlSetId: string;
+  evidenceFolderId: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const GetEvidenceByEvidenceFolderRequest = S.suspend(() =>
+  S.Struct({
     assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
     controlSetId: S.String.pipe(T.HttpLabel("controlSetId")),
     evidenceFolderId: S.String.pipe(T.HttpLabel("evidenceFolderId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/assessments/{assessmentId}/controlSets/{controlSetId}/evidenceFolders/{evidenceFolderId}/evidence",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/assessments/{assessmentId}/controlSets/{controlSetId}/evidenceFolders/{evidenceFolderId}/evidence",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetEvidenceFileUploadUrlRequest extends S.Class<GetEvidenceFileUploadUrlRequest>(
-  "GetEvidenceFileUploadUrlRequest",
-)(
-  { fileName: S.String.pipe(T.HttpQuery("fileName")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/evidenceFileUploadUrl" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetEvidenceByEvidenceFolderRequest",
+}) as any as S.Schema<GetEvidenceByEvidenceFolderRequest>;
+export interface GetEvidenceFileUploadUrlRequest {
+  fileName: string;
+}
+export const GetEvidenceFileUploadUrlRequest = S.suspend(() =>
+  S.Struct({ fileName: S.String.pipe(T.HttpQuery("fileName")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/evidenceFileUploadUrl" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetEvidenceFolderRequest extends S.Class<GetEvidenceFolderRequest>(
-  "GetEvidenceFolderRequest",
-)(
-  {
+).annotations({
+  identifier: "GetEvidenceFileUploadUrlRequest",
+}) as any as S.Schema<GetEvidenceFileUploadUrlRequest>;
+export interface GetEvidenceFolderRequest {
+  assessmentId: string;
+  controlSetId: string;
+  evidenceFolderId: string;
+}
+export const GetEvidenceFolderRequest = S.suspend(() =>
+  S.Struct({
     assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
     controlSetId: S.String.pipe(T.HttpLabel("controlSetId")),
     evidenceFolderId: S.String.pipe(T.HttpLabel("evidenceFolderId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/assessments/{assessmentId}/controlSets/{controlSetId}/evidenceFolders/{evidenceFolderId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/assessments/{assessmentId}/controlSets/{controlSetId}/evidenceFolders/{evidenceFolderId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetEvidenceFoldersByAssessmentRequest extends S.Class<GetEvidenceFoldersByAssessmentRequest>(
-  "GetEvidenceFoldersByAssessmentRequest",
-)(
-  {
+).annotations({
+  identifier: "GetEvidenceFolderRequest",
+}) as any as S.Schema<GetEvidenceFolderRequest>;
+export interface GetEvidenceFoldersByAssessmentRequest {
+  assessmentId: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const GetEvidenceFoldersByAssessmentRequest = S.suspend(() =>
+  S.Struct({
     assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/assessments/{assessmentId}/evidenceFolders",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/assessments/{assessmentId}/evidenceFolders",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetEvidenceFoldersByAssessmentControlRequest extends S.Class<GetEvidenceFoldersByAssessmentControlRequest>(
-  "GetEvidenceFoldersByAssessmentControlRequest",
-)(
-  {
+).annotations({
+  identifier: "GetEvidenceFoldersByAssessmentRequest",
+}) as any as S.Schema<GetEvidenceFoldersByAssessmentRequest>;
+export interface GetEvidenceFoldersByAssessmentControlRequest {
+  assessmentId: string;
+  controlSetId: string;
+  controlId: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const GetEvidenceFoldersByAssessmentControlRequest = S.suspend(() =>
+  S.Struct({
     assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
     controlSetId: S.String.pipe(T.HttpLabel("controlSetId")),
     controlId: S.String.pipe(T.HttpLabel("controlId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/assessments/{assessmentId}/evidenceFolders-by-assessment-control/{controlSetId}/{controlId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/assessments/{assessmentId}/evidenceFolders-by-assessment-control/{controlSetId}/{controlId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetInsightsByAssessmentRequest extends S.Class<GetInsightsByAssessmentRequest>(
-  "GetInsightsByAssessmentRequest",
-)(
-  { assessmentId: S.String.pipe(T.HttpLabel("assessmentId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/insights/assessments/{assessmentId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetEvidenceFoldersByAssessmentControlRequest",
+}) as any as S.Schema<GetEvidenceFoldersByAssessmentControlRequest>;
+export interface GetInsightsByAssessmentRequest {
+  assessmentId: string;
+}
+export const GetInsightsByAssessmentRequest = S.suspend(() =>
+  S.Struct({ assessmentId: S.String.pipe(T.HttpLabel("assessmentId")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/insights/assessments/{assessmentId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetOrganizationAdminAccountResponse extends S.Class<GetOrganizationAdminAccountResponse>(
-  "GetOrganizationAdminAccountResponse",
-)({
-  adminAccountId: S.optional(S.String),
-  organizationId: S.optional(S.String),
-}) {}
-export class GetSettingsRequest extends S.Class<GetSettingsRequest>(
-  "GetSettingsRequest",
-)(
-  { attribute: S.String.pipe(T.HttpLabel("attribute")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/settings/{attribute}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetInsightsByAssessmentRequest",
+}) as any as S.Schema<GetInsightsByAssessmentRequest>;
+export interface GetOrganizationAdminAccountResponse {
+  adminAccountId?: string;
+  organizationId?: string;
+}
+export const GetOrganizationAdminAccountResponse = S.suspend(() =>
+  S.Struct({
+    adminAccountId: S.optional(S.String),
+    organizationId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetOrganizationAdminAccountResponse",
+}) as any as S.Schema<GetOrganizationAdminAccountResponse>;
+export interface GetSettingsRequest {
+  attribute: string;
+}
+export const GetSettingsRequest = S.suspend(() =>
+  S.Struct({ attribute: S.String.pipe(T.HttpLabel("attribute")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/settings/{attribute}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListAssessmentControlInsightsByControlDomainRequest extends S.Class<ListAssessmentControlInsightsByControlDomainRequest>(
-  "ListAssessmentControlInsightsByControlDomainRequest",
-)(
-  {
-    controlDomainId: S.String.pipe(T.HttpQuery("controlDomainId")),
-    assessmentId: S.String.pipe(T.HttpQuery("assessmentId")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/insights/controls-by-assessment" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-  ),
-) {}
-export class ListAssessmentFrameworksRequest extends S.Class<ListAssessmentFrameworksRequest>(
-  "ListAssessmentFrameworksRequest",
-)(
-  {
+).annotations({
+  identifier: "GetSettingsRequest",
+}) as any as S.Schema<GetSettingsRequest>;
+export interface ListAssessmentControlInsightsByControlDomainRequest {
+  controlDomainId: string;
+  assessmentId: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListAssessmentControlInsightsByControlDomainRequest = S.suspend(
+  () =>
+    S.Struct({
+      controlDomainId: S.String.pipe(T.HttpQuery("controlDomainId")),
+      assessmentId: S.String.pipe(T.HttpQuery("assessmentId")),
+      nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+      maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    }).pipe(
+      T.all(
+        T.Http({ method: "GET", uri: "/insights/controls-by-assessment" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+).annotations({
+  identifier: "ListAssessmentControlInsightsByControlDomainRequest",
+}) as any as S.Schema<ListAssessmentControlInsightsByControlDomainRequest>;
+export interface ListAssessmentFrameworksRequest {
+  frameworkType: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListAssessmentFrameworksRequest = S.suspend(() =>
+  S.Struct({
     frameworkType: S.String.pipe(T.HttpQuery("frameworkType")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/assessmentFrameworks" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/assessmentFrameworks" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListAssessmentFrameworkShareRequestsRequest extends S.Class<ListAssessmentFrameworkShareRequestsRequest>(
-  "ListAssessmentFrameworkShareRequestsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListAssessmentFrameworksRequest",
+}) as any as S.Schema<ListAssessmentFrameworksRequest>;
+export interface ListAssessmentFrameworkShareRequestsRequest {
+  requestType: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListAssessmentFrameworkShareRequestsRequest = S.suspend(() =>
+  S.Struct({
     requestType: S.String.pipe(T.HttpQuery("requestType")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/assessmentFrameworkShareRequests" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/assessmentFrameworkShareRequests" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListAssessmentReportsRequest extends S.Class<ListAssessmentReportsRequest>(
-  "ListAssessmentReportsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListAssessmentFrameworkShareRequestsRequest",
+}) as any as S.Schema<ListAssessmentFrameworkShareRequestsRequest>;
+export interface ListAssessmentReportsRequest {
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListAssessmentReportsRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/assessmentReports" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/assessmentReports" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListAssessmentsRequest extends S.Class<ListAssessmentsRequest>(
-  "ListAssessmentsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListAssessmentReportsRequest",
+}) as any as S.Schema<ListAssessmentReportsRequest>;
+export interface ListAssessmentsRequest {
+  status?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListAssessmentsRequest = S.suspend(() =>
+  S.Struct({
     status: S.optional(S.String).pipe(T.HttpQuery("status")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/assessments" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/assessments" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListControlDomainInsightsRequest extends S.Class<ListControlDomainInsightsRequest>(
-  "ListControlDomainInsightsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListAssessmentsRequest",
+}) as any as S.Schema<ListAssessmentsRequest>;
+export interface ListControlDomainInsightsRequest {
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListControlDomainInsightsRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/insights/control-domains" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/insights/control-domains" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListControlDomainInsightsByAssessmentRequest extends S.Class<ListControlDomainInsightsByAssessmentRequest>(
-  "ListControlDomainInsightsByAssessmentRequest",
-)(
-  {
+).annotations({
+  identifier: "ListControlDomainInsightsRequest",
+}) as any as S.Schema<ListControlDomainInsightsRequest>;
+export interface ListControlDomainInsightsByAssessmentRequest {
+  assessmentId: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListControlDomainInsightsByAssessmentRequest = S.suspend(() =>
+  S.Struct({
     assessmentId: S.String.pipe(T.HttpQuery("assessmentId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/insights/control-domains-by-assessment" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/insights/control-domains-by-assessment" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListControlInsightsByControlDomainRequest extends S.Class<ListControlInsightsByControlDomainRequest>(
-  "ListControlInsightsByControlDomainRequest",
-)(
-  {
+).annotations({
+  identifier: "ListControlDomainInsightsByAssessmentRequest",
+}) as any as S.Schema<ListControlDomainInsightsByAssessmentRequest>;
+export interface ListControlInsightsByControlDomainRequest {
+  controlDomainId: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListControlInsightsByControlDomainRequest = S.suspend(() =>
+  S.Struct({
     controlDomainId: S.String.pipe(T.HttpQuery("controlDomainId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/insights/controls" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/insights/controls" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListControlsRequest extends S.Class<ListControlsRequest>(
-  "ListControlsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListControlInsightsByControlDomainRequest",
+}) as any as S.Schema<ListControlInsightsByControlDomainRequest>;
+export interface ListControlsRequest {
+  controlType: string;
+  nextToken?: string;
+  maxResults?: number;
+  controlCatalogId?: string;
+}
+export const ListControlsRequest = S.suspend(() =>
+  S.Struct({
     controlType: S.String.pipe(T.HttpQuery("controlType")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     controlCatalogId: S.optional(S.String).pipe(
       T.HttpQuery("controlCatalogId"),
     ),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/controls" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/controls" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListKeywordsForDataSourceRequest extends S.Class<ListKeywordsForDataSourceRequest>(
-  "ListKeywordsForDataSourceRequest",
-)(
-  {
+).annotations({
+  identifier: "ListControlsRequest",
+}) as any as S.Schema<ListControlsRequest>;
+export interface ListKeywordsForDataSourceRequest {
+  source: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListKeywordsForDataSourceRequest = S.suspend(() =>
+  S.Struct({
     source: S.String.pipe(T.HttpQuery("source")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/dataSourceKeywords" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/dataSourceKeywords" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListNotificationsRequest extends S.Class<ListNotificationsRequest>(
-  "ListNotificationsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListKeywordsForDataSourceRequest",
+}) as any as S.Schema<ListKeywordsForDataSourceRequest>;
+export interface ListNotificationsRequest {
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListNotificationsRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/notifications" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/notifications" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListNotificationsRequest",
+}) as any as S.Schema<ListNotificationsRequest>;
+export interface ListTagsForResourceRequest {
+  resourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class RegisterAccountRequest extends S.Class<RegisterAccountRequest>(
-  "RegisterAccountRequest",
-)(
-  { kmsKey: S.optional(S.String), delegatedAdminAccount: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/account/registerAccount" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface RegisterAccountRequest {
+  kmsKey?: string;
+  delegatedAdminAccount?: string;
+}
+export const RegisterAccountRequest = S.suspend(() =>
+  S.Struct({
+    kmsKey: S.optional(S.String),
+    delegatedAdminAccount: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/account/registerAccount" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class RegisterOrganizationAdminAccountRequest extends S.Class<RegisterOrganizationAdminAccountRequest>(
-  "RegisterOrganizationAdminAccountRequest",
-)(
-  { adminAccountId: S.String },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/account/registerOrganizationAdminAccount",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "RegisterAccountRequest",
+}) as any as S.Schema<RegisterAccountRequest>;
+export interface RegisterOrganizationAdminAccountRequest {
+  adminAccountId: string;
+}
+export const RegisterOrganizationAdminAccountRequest = S.suspend(() =>
+  S.Struct({ adminAccountId: S.String }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/account/registerOrganizationAdminAccount",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartAssessmentFrameworkShareRequest extends S.Class<StartAssessmentFrameworkShareRequest>(
-  "StartAssessmentFrameworkShareRequest",
-)(
-  {
+).annotations({
+  identifier: "RegisterOrganizationAdminAccountRequest",
+}) as any as S.Schema<RegisterOrganizationAdminAccountRequest>;
+export interface StartAssessmentFrameworkShareRequest {
+  frameworkId: string;
+  destinationAccount: string;
+  destinationRegion: string;
+  comment?: string;
+}
+export const StartAssessmentFrameworkShareRequest = S.suspend(() =>
+  S.Struct({
     frameworkId: S.String.pipe(T.HttpLabel("frameworkId")),
     destinationAccount: S.String,
     destinationRegion: S.String,
     comment: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/assessmentFrameworks/{frameworkId}/shareRequests",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/assessmentFrameworks/{frameworkId}/shareRequests",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "StartAssessmentFrameworkShareRequest",
+}) as any as S.Schema<StartAssessmentFrameworkShareRequest>;
+export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap },
-  T.all(
-    T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface TagResourceRequest {
+  resourceArn: string;
+  tags: TagMap;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+    tags: TagMap,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UntagResourceRequest {
+  resourceArn: string;
+  tagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
-export class AWSAccount extends S.Class<AWSAccount>("AWSAccount")({
-  id: S.optional(S.String),
-  emailAddress: S.optional(S.String),
-  name: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface AWSAccount {
+  id?: string;
+  emailAddress?: string;
+  name?: string;
+}
+export const AWSAccount = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    emailAddress: S.optional(S.String),
+    name: S.optional(S.String),
+  }),
+).annotations({ identifier: "AWSAccount" }) as any as S.Schema<AWSAccount>;
+export type AWSAccounts = AWSAccount[];
 export const AWSAccounts = S.Array(AWSAccount);
-export class AWSService extends S.Class<AWSService>("AWSService")({
-  serviceName: S.optional(S.String),
-}) {}
+export interface AWSService {
+  serviceName?: string;
+}
+export const AWSService = S.suspend(() =>
+  S.Struct({ serviceName: S.optional(S.String) }),
+).annotations({ identifier: "AWSService" }) as any as S.Schema<AWSService>;
+export type AWSServices = AWSService[];
 export const AWSServices = S.Array(AWSService);
-export class Scope extends S.Class<Scope>("Scope")({
-  awsAccounts: S.optional(AWSAccounts),
-  awsServices: S.optional(AWSServices),
-}) {}
-export class AssessmentReportsDestination extends S.Class<AssessmentReportsDestination>(
-  "AssessmentReportsDestination",
-)({
-  destinationType: S.optional(S.String),
-  destination: S.optional(S.String),
-}) {}
-export class Role extends S.Class<Role>("Role")({
-  roleType: S.String,
-  roleArn: S.String,
-}) {}
+export interface Scope {
+  awsAccounts?: AWSAccounts;
+  awsServices?: AWSServices;
+}
+export const Scope = S.suspend(() =>
+  S.Struct({
+    awsAccounts: S.optional(AWSAccounts),
+    awsServices: S.optional(AWSServices),
+  }),
+).annotations({ identifier: "Scope" }) as any as S.Schema<Scope>;
+export interface AssessmentReportsDestination {
+  destinationType?: string;
+  destination?: string;
+}
+export const AssessmentReportsDestination = S.suspend(() =>
+  S.Struct({
+    destinationType: S.optional(S.String),
+    destination: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AssessmentReportsDestination",
+}) as any as S.Schema<AssessmentReportsDestination>;
+export interface Role {
+  roleType: string;
+  roleArn: string;
+}
+export const Role = S.suspend(() =>
+  S.Struct({ roleType: S.String, roleArn: S.String }),
+).annotations({ identifier: "Role" }) as any as S.Schema<Role>;
+export type Roles = Role[];
 export const Roles = S.Array(Role);
-export class UpdateAssessmentRequest extends S.Class<UpdateAssessmentRequest>(
-  "UpdateAssessmentRequest",
-)(
-  {
+export interface UpdateAssessmentRequest {
+  assessmentId: string;
+  assessmentName?: string;
+  assessmentDescription?: string;
+  scope: Scope;
+  assessmentReportsDestination?: AssessmentReportsDestination;
+  roles?: Roles;
+}
+export const UpdateAssessmentRequest = S.suspend(() =>
+  S.Struct({
     assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
     assessmentName: S.optional(S.String),
     assessmentDescription: S.optional(S.String),
     scope: Scope,
     assessmentReportsDestination: S.optional(AssessmentReportsDestination),
     roles: S.optional(Roles),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/assessments/{assessmentId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/assessments/{assessmentId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateAssessmentControlRequest extends S.Class<UpdateAssessmentControlRequest>(
-  "UpdateAssessmentControlRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateAssessmentRequest",
+}) as any as S.Schema<UpdateAssessmentRequest>;
+export interface UpdateAssessmentControlRequest {
+  assessmentId: string;
+  controlSetId: string;
+  controlId: string;
+  controlStatus?: string;
+  commentBody?: string;
+}
+export const UpdateAssessmentControlRequest = S.suspend(() =>
+  S.Struct({
     assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
     controlSetId: S.String.pipe(T.HttpLabel("controlSetId")),
     controlId: S.String.pipe(T.HttpLabel("controlId")),
     controlStatus: S.optional(S.String),
     commentBody: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/assessments/{assessmentId}/controlSets/{controlSetId}/controls/{controlId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/assessments/{assessmentId}/controlSets/{controlSetId}/controls/{controlId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateAssessmentControlSetStatusRequest extends S.Class<UpdateAssessmentControlSetStatusRequest>(
-  "UpdateAssessmentControlSetStatusRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateAssessmentControlRequest",
+}) as any as S.Schema<UpdateAssessmentControlRequest>;
+export interface UpdateAssessmentControlSetStatusRequest {
+  assessmentId: string;
+  controlSetId: string;
+  status: string;
+  comment: string;
+}
+export const UpdateAssessmentControlSetStatusRequest = S.suspend(() =>
+  S.Struct({
     assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
     controlSetId: S.String.pipe(T.HttpLabel("controlSetId")),
     status: S.String,
     comment: S.String,
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/assessments/{assessmentId}/controlSets/{controlSetId}/status",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/assessments/{assessmentId}/controlSets/{controlSetId}/status",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateAssessmentFrameworkShareRequest extends S.Class<UpdateAssessmentFrameworkShareRequest>(
-  "UpdateAssessmentFrameworkShareRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateAssessmentControlSetStatusRequest",
+}) as any as S.Schema<UpdateAssessmentControlSetStatusRequest>;
+export interface UpdateAssessmentFrameworkShareRequest {
+  requestId: string;
+  requestType: string;
+  action: string;
+}
+export const UpdateAssessmentFrameworkShareRequest = S.suspend(() =>
+  S.Struct({
     requestId: S.String.pipe(T.HttpLabel("requestId")),
     requestType: S.String,
     action: S.String,
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/assessmentFrameworkShareRequests/{requestId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/assessmentFrameworkShareRequests/{requestId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateAssessmentStatusRequest extends S.Class<UpdateAssessmentStatusRequest>(
-  "UpdateAssessmentStatusRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateAssessmentFrameworkShareRequest",
+}) as any as S.Schema<UpdateAssessmentFrameworkShareRequest>;
+export interface UpdateAssessmentStatusRequest {
+  assessmentId: string;
+  status: string;
+}
+export const UpdateAssessmentStatusRequest = S.suspend(() =>
+  S.Struct({
     assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
     status: S.String,
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/assessments/{assessmentId}/status" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/assessments/{assessmentId}/status" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ValidateAssessmentReportIntegrityRequest extends S.Class<ValidateAssessmentReportIntegrityRequest>(
-  "ValidateAssessmentReportIntegrityRequest",
-)(
-  { s3RelativePath: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/assessmentReports/integrity" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UpdateAssessmentStatusRequest",
+}) as any as S.Schema<UpdateAssessmentStatusRequest>;
+export interface ValidateAssessmentReportIntegrityRequest {
+  s3RelativePath: string;
+}
+export const ValidateAssessmentReportIntegrityRequest = S.suspend(() =>
+  S.Struct({ s3RelativePath: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/assessmentReports/integrity" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateDelegationRequest extends S.Class<CreateDelegationRequest>(
-  "CreateDelegationRequest",
-)({
-  comment: S.optional(S.String),
-  controlSetId: S.optional(S.String),
-  roleArn: S.optional(S.String),
-  roleType: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "ValidateAssessmentReportIntegrityRequest",
+}) as any as S.Schema<ValidateAssessmentReportIntegrityRequest>;
+export interface CreateDelegationRequest {
+  comment?: string;
+  controlSetId?: string;
+  roleArn?: string;
+  roleType?: string;
+}
+export const CreateDelegationRequest = S.suspend(() =>
+  S.Struct({
+    comment: S.optional(S.String),
+    controlSetId: S.optional(S.String),
+    roleArn: S.optional(S.String),
+    roleType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CreateDelegationRequest",
+}) as any as S.Schema<CreateDelegationRequest>;
+export type CreateDelegationRequests = CreateDelegationRequest[];
 export const CreateDelegationRequests = S.Array(CreateDelegationRequest);
-export class ManualEvidence extends S.Class<ManualEvidence>("ManualEvidence")({
-  s3ResourcePath: S.optional(S.String),
-  textResponse: S.optional(S.String),
-  evidenceFileName: S.optional(S.String),
-}) {}
+export interface ManualEvidence {
+  s3ResourcePath?: string;
+  textResponse?: string;
+  evidenceFileName?: string;
+}
+export const ManualEvidence = S.suspend(() =>
+  S.Struct({
+    s3ResourcePath: S.optional(S.String),
+    textResponse: S.optional(S.String),
+    evidenceFileName: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ManualEvidence",
+}) as any as S.Schema<ManualEvidence>;
+export type ManualEvidenceList = ManualEvidence[];
 export const ManualEvidenceList = S.Array(ManualEvidence);
-export class Resource extends S.Class<Resource>("Resource")({
-  arn: S.optional(S.String),
-  value: S.optional(S.String),
-  complianceCheck: S.optional(S.String),
-}) {}
+export interface Resource {
+  arn?: string;
+  value?: string;
+  complianceCheck?: string;
+}
+export const Resource = S.suspend(() =>
+  S.Struct({
+    arn: S.optional(S.String),
+    value: S.optional(S.String),
+    complianceCheck: S.optional(S.String),
+  }),
+).annotations({ identifier: "Resource" }) as any as S.Schema<Resource>;
+export type Resources = Resource[];
 export const Resources = S.Array(Resource);
+export type EvidenceAttributes = { [key: string]: string };
 export const EvidenceAttributes = S.Record({ key: S.String, value: S.String });
-export class Evidence extends S.Class<Evidence>("Evidence")({
-  dataSource: S.optional(S.String),
-  evidenceAwsAccountId: S.optional(S.String),
-  time: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  eventSource: S.optional(S.String),
-  eventName: S.optional(S.String),
-  evidenceByType: S.optional(S.String),
-  resourcesIncluded: S.optional(Resources),
-  attributes: S.optional(EvidenceAttributes),
-  iamId: S.optional(S.String),
-  complianceCheck: S.optional(S.String),
-  awsOrganization: S.optional(S.String),
-  awsAccountId: S.optional(S.String),
-  evidenceFolderId: S.optional(S.String),
-  id: S.optional(S.String),
-  assessmentReportSelection: S.optional(S.String),
-}) {}
+export interface Evidence {
+  dataSource?: string;
+  evidenceAwsAccountId?: string;
+  time?: Date;
+  eventSource?: string;
+  eventName?: string;
+  evidenceByType?: string;
+  resourcesIncluded?: Resources;
+  attributes?: EvidenceAttributes;
+  iamId?: string;
+  complianceCheck?: string;
+  awsOrganization?: string;
+  awsAccountId?: string;
+  evidenceFolderId?: string;
+  id?: string;
+  assessmentReportSelection?: string;
+}
+export const Evidence = S.suspend(() =>
+  S.Struct({
+    dataSource: S.optional(S.String),
+    evidenceAwsAccountId: S.optional(S.String),
+    time: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    eventSource: S.optional(S.String),
+    eventName: S.optional(S.String),
+    evidenceByType: S.optional(S.String),
+    resourcesIncluded: S.optional(Resources),
+    attributes: S.optional(EvidenceAttributes),
+    iamId: S.optional(S.String),
+    complianceCheck: S.optional(S.String),
+    awsOrganization: S.optional(S.String),
+    awsAccountId: S.optional(S.String),
+    evidenceFolderId: S.optional(S.String),
+    id: S.optional(S.String),
+    assessmentReportSelection: S.optional(S.String),
+  }),
+).annotations({ identifier: "Evidence" }) as any as S.Schema<Evidence>;
+export type EvidenceList = Evidence[];
 export const EvidenceList = S.Array(Evidence);
-export class AssessmentEvidenceFolder extends S.Class<AssessmentEvidenceFolder>(
-  "AssessmentEvidenceFolder",
-)({
-  name: S.optional(S.String),
-  date: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  assessmentId: S.optional(S.String),
-  controlSetId: S.optional(S.String),
-  controlId: S.optional(S.String),
-  id: S.optional(S.String),
-  dataSource: S.optional(S.String),
-  author: S.optional(S.String),
-  totalEvidence: S.optional(S.Number),
-  assessmentReportSelectionCount: S.optional(S.Number),
-  controlName: S.optional(S.String),
-  evidenceResourcesIncludedCount: S.optional(S.Number),
-  evidenceByTypeConfigurationDataCount: S.optional(S.Number),
-  evidenceByTypeManualCount: S.optional(S.Number),
-  evidenceByTypeComplianceCheckCount: S.optional(S.Number),
-  evidenceByTypeComplianceCheckIssuesCount: S.optional(S.Number),
-  evidenceByTypeUserActivityCount: S.optional(S.Number),
-  evidenceAwsServiceSourceCount: S.optional(S.Number),
-}) {}
+export interface AssessmentEvidenceFolder {
+  name?: string;
+  date?: Date;
+  assessmentId?: string;
+  controlSetId?: string;
+  controlId?: string;
+  id?: string;
+  dataSource?: string;
+  author?: string;
+  totalEvidence?: number;
+  assessmentReportSelectionCount?: number;
+  controlName?: string;
+  evidenceResourcesIncludedCount?: number;
+  evidenceByTypeConfigurationDataCount?: number;
+  evidenceByTypeManualCount?: number;
+  evidenceByTypeComplianceCheckCount?: number;
+  evidenceByTypeComplianceCheckIssuesCount?: number;
+  evidenceByTypeUserActivityCount?: number;
+  evidenceAwsServiceSourceCount?: number;
+}
+export const AssessmentEvidenceFolder = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    date: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    assessmentId: S.optional(S.String),
+    controlSetId: S.optional(S.String),
+    controlId: S.optional(S.String),
+    id: S.optional(S.String),
+    dataSource: S.optional(S.String),
+    author: S.optional(S.String),
+    totalEvidence: S.optional(S.Number),
+    assessmentReportSelectionCount: S.optional(S.Number),
+    controlName: S.optional(S.String),
+    evidenceResourcesIncludedCount: S.optional(S.Number),
+    evidenceByTypeConfigurationDataCount: S.optional(S.Number),
+    evidenceByTypeManualCount: S.optional(S.Number),
+    evidenceByTypeComplianceCheckCount: S.optional(S.Number),
+    evidenceByTypeComplianceCheckIssuesCount: S.optional(S.Number),
+    evidenceByTypeUserActivityCount: S.optional(S.Number),
+    evidenceAwsServiceSourceCount: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "AssessmentEvidenceFolder",
+}) as any as S.Schema<AssessmentEvidenceFolder>;
+export type AssessmentEvidenceFolders = AssessmentEvidenceFolder[];
 export const AssessmentEvidenceFolders = S.Array(AssessmentEvidenceFolder);
-export class Insights extends S.Class<Insights>("Insights")({
-  activeAssessmentsCount: S.optional(S.Number),
-  noncompliantEvidenceCount: S.optional(S.Number),
-  compliantEvidenceCount: S.optional(S.Number),
-  inconclusiveEvidenceCount: S.optional(S.Number),
-  assessmentControlsCountByNoncompliantEvidence: S.optional(S.Number),
-  totalAssessmentControlsCount: S.optional(S.Number),
-  lastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class ServiceMetadata extends S.Class<ServiceMetadata>(
-  "ServiceMetadata",
-)({
-  name: S.optional(S.String),
-  displayName: S.optional(S.String),
-  description: S.optional(S.String),
-  category: S.optional(S.String),
-}) {}
+export interface Insights {
+  activeAssessmentsCount?: number;
+  noncompliantEvidenceCount?: number;
+  compliantEvidenceCount?: number;
+  inconclusiveEvidenceCount?: number;
+  assessmentControlsCountByNoncompliantEvidence?: number;
+  totalAssessmentControlsCount?: number;
+  lastUpdated?: Date;
+}
+export const Insights = S.suspend(() =>
+  S.Struct({
+    activeAssessmentsCount: S.optional(S.Number),
+    noncompliantEvidenceCount: S.optional(S.Number),
+    compliantEvidenceCount: S.optional(S.Number),
+    inconclusiveEvidenceCount: S.optional(S.Number),
+    assessmentControlsCountByNoncompliantEvidence: S.optional(S.Number),
+    totalAssessmentControlsCount: S.optional(S.Number),
+    lastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({ identifier: "Insights" }) as any as S.Schema<Insights>;
+export interface ServiceMetadata {
+  name?: string;
+  displayName?: string;
+  description?: string;
+  category?: string;
+}
+export const ServiceMetadata = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    displayName: S.optional(S.String),
+    description: S.optional(S.String),
+    category: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ServiceMetadata",
+}) as any as S.Schema<ServiceMetadata>;
+export type ServiceMetadataList = ServiceMetadata[];
 export const ServiceMetadataList = S.Array(ServiceMetadata);
+export type Keywords = string[];
 export const Keywords = S.Array(S.String);
-export class CreateAssessmentFrameworkControl extends S.Class<CreateAssessmentFrameworkControl>(
-  "CreateAssessmentFrameworkControl",
-)({ id: S.String }) {}
+export interface CreateAssessmentFrameworkControl {
+  id: string;
+}
+export const CreateAssessmentFrameworkControl = S.suspend(() =>
+  S.Struct({ id: S.String }),
+).annotations({
+  identifier: "CreateAssessmentFrameworkControl",
+}) as any as S.Schema<CreateAssessmentFrameworkControl>;
+export type CreateAssessmentFrameworkControls =
+  CreateAssessmentFrameworkControl[];
 export const CreateAssessmentFrameworkControls = S.Array(
   CreateAssessmentFrameworkControl,
 );
-export class UpdateAssessmentFrameworkControlSet extends S.Class<UpdateAssessmentFrameworkControlSet>(
-  "UpdateAssessmentFrameworkControlSet",
-)({
-  id: S.optional(S.String),
-  name: S.String,
-  controls: CreateAssessmentFrameworkControls,
-}) {}
+export interface UpdateAssessmentFrameworkControlSet {
+  id?: string;
+  name: string;
+  controls: CreateAssessmentFrameworkControls;
+}
+export const UpdateAssessmentFrameworkControlSet = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.String,
+    controls: CreateAssessmentFrameworkControls,
+  }),
+).annotations({
+  identifier: "UpdateAssessmentFrameworkControlSet",
+}) as any as S.Schema<UpdateAssessmentFrameworkControlSet>;
+export type UpdateAssessmentFrameworkControlSets =
+  UpdateAssessmentFrameworkControlSet[];
 export const UpdateAssessmentFrameworkControlSets = S.Array(
   UpdateAssessmentFrameworkControlSet,
 );
-export class SourceKeyword extends S.Class<SourceKeyword>("SourceKeyword")({
-  keywordInputType: S.optional(S.String),
-  keywordValue: S.optional(S.String),
-}) {}
-export class ControlMappingSource extends S.Class<ControlMappingSource>(
-  "ControlMappingSource",
-)({
-  sourceId: S.optional(S.String),
-  sourceName: S.optional(S.String),
-  sourceDescription: S.optional(S.String),
-  sourceSetUpOption: S.optional(S.String),
-  sourceType: S.optional(S.String),
-  sourceKeyword: S.optional(SourceKeyword),
-  sourceFrequency: S.optional(S.String),
-  troubleshootingText: S.optional(S.String),
-}) {}
+export interface SourceKeyword {
+  keywordInputType?: string;
+  keywordValue?: string;
+}
+export const SourceKeyword = S.suspend(() =>
+  S.Struct({
+    keywordInputType: S.optional(S.String),
+    keywordValue: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SourceKeyword",
+}) as any as S.Schema<SourceKeyword>;
+export interface ControlMappingSource {
+  sourceId?: string;
+  sourceName?: string;
+  sourceDescription?: string;
+  sourceSetUpOption?: string;
+  sourceType?: string;
+  sourceKeyword?: SourceKeyword;
+  sourceFrequency?: string;
+  troubleshootingText?: string;
+}
+export const ControlMappingSource = S.suspend(() =>
+  S.Struct({
+    sourceId: S.optional(S.String),
+    sourceName: S.optional(S.String),
+    sourceDescription: S.optional(S.String),
+    sourceSetUpOption: S.optional(S.String),
+    sourceType: S.optional(S.String),
+    sourceKeyword: S.optional(SourceKeyword),
+    sourceFrequency: S.optional(S.String),
+    troubleshootingText: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ControlMappingSource",
+}) as any as S.Schema<ControlMappingSource>;
+export type ControlMappingSources = ControlMappingSource[];
 export const ControlMappingSources = S.Array(ControlMappingSource);
-export class DeregistrationPolicy extends S.Class<DeregistrationPolicy>(
-  "DeregistrationPolicy",
-)({ deleteResources: S.optional(S.String) }) {}
-export class DefaultExportDestination extends S.Class<DefaultExportDestination>(
-  "DefaultExportDestination",
-)({
-  destinationType: S.optional(S.String),
-  destination: S.optional(S.String),
-}) {}
+export interface DeregistrationPolicy {
+  deleteResources?: string;
+}
+export const DeregistrationPolicy = S.suspend(() =>
+  S.Struct({ deleteResources: S.optional(S.String) }),
+).annotations({
+  identifier: "DeregistrationPolicy",
+}) as any as S.Schema<DeregistrationPolicy>;
+export interface DefaultExportDestination {
+  destinationType?: string;
+  destination?: string;
+}
+export const DefaultExportDestination = S.suspend(() =>
+  S.Struct({
+    destinationType: S.optional(S.String),
+    destination: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DefaultExportDestination",
+}) as any as S.Schema<DefaultExportDestination>;
+export type ValidationErrors = string[];
 export const ValidationErrors = S.Array(S.String);
-export class BatchCreateDelegationByAssessmentRequest extends S.Class<BatchCreateDelegationByAssessmentRequest>(
-  "BatchCreateDelegationByAssessmentRequest",
-)(
-  {
+export interface BatchCreateDelegationByAssessmentRequest {
+  createDelegationRequests: CreateDelegationRequests;
+  assessmentId: string;
+}
+export const BatchCreateDelegationByAssessmentRequest = S.suspend(() =>
+  S.Struct({
     createDelegationRequests: CreateDelegationRequests,
     assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/assessments/{assessmentId}/delegations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/assessments/{assessmentId}/delegations",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AssessmentReportEvidenceError extends S.Class<AssessmentReportEvidenceError>(
-  "AssessmentReportEvidenceError",
-)({
-  evidenceId: S.optional(S.String),
-  errorCode: S.optional(S.String),
-  errorMessage: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "BatchCreateDelegationByAssessmentRequest",
+}) as any as S.Schema<BatchCreateDelegationByAssessmentRequest>;
+export interface AssessmentReportEvidenceError {
+  evidenceId?: string;
+  errorCode?: string;
+  errorMessage?: string;
+}
+export const AssessmentReportEvidenceError = S.suspend(() =>
+  S.Struct({
+    evidenceId: S.optional(S.String),
+    errorCode: S.optional(S.String),
+    errorMessage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AssessmentReportEvidenceError",
+}) as any as S.Schema<AssessmentReportEvidenceError>;
+export type AssessmentReportEvidenceErrors = AssessmentReportEvidenceError[];
 export const AssessmentReportEvidenceErrors = S.Array(
   AssessmentReportEvidenceError,
 );
-export class BatchDisassociateAssessmentReportEvidenceResponse extends S.Class<BatchDisassociateAssessmentReportEvidenceResponse>(
-  "BatchDisassociateAssessmentReportEvidenceResponse",
-)({
-  evidenceIds: S.optional(EvidenceIds),
-  errors: S.optional(AssessmentReportEvidenceErrors),
-}) {}
-export class BatchImportEvidenceToAssessmentControlRequest extends S.Class<BatchImportEvidenceToAssessmentControlRequest>(
-  "BatchImportEvidenceToAssessmentControlRequest",
-)(
-  {
+export interface BatchDisassociateAssessmentReportEvidenceResponse {
+  evidenceIds?: EvidenceIds;
+  errors?: AssessmentReportEvidenceErrors;
+}
+export const BatchDisassociateAssessmentReportEvidenceResponse = S.suspend(() =>
+  S.Struct({
+    evidenceIds: S.optional(EvidenceIds),
+    errors: S.optional(AssessmentReportEvidenceErrors),
+  }),
+).annotations({
+  identifier: "BatchDisassociateAssessmentReportEvidenceResponse",
+}) as any as S.Schema<BatchDisassociateAssessmentReportEvidenceResponse>;
+export interface BatchImportEvidenceToAssessmentControlRequest {
+  assessmentId: string;
+  controlSetId: string;
+  controlId: string;
+  manualEvidence: ManualEvidenceList;
+}
+export const BatchImportEvidenceToAssessmentControlRequest = S.suspend(() =>
+  S.Struct({
     assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
     controlSetId: S.String.pipe(T.HttpLabel("controlSetId")),
     controlId: S.String.pipe(T.HttpLabel("controlId")),
     manualEvidence: ManualEvidenceList,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/assessments/{assessmentId}/controlSets/{controlSetId}/controls/{controlId}/evidence",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/assessments/{assessmentId}/controlSets/{controlSetId}/controls/{controlId}/evidence",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetEvidenceByEvidenceFolderResponse extends S.Class<GetEvidenceByEvidenceFolderResponse>(
-  "GetEvidenceByEvidenceFolderResponse",
-)({ evidence: S.optional(EvidenceList), nextToken: S.optional(S.String) }) {}
-export class GetEvidenceFileUploadUrlResponse extends S.Class<GetEvidenceFileUploadUrlResponse>(
-  "GetEvidenceFileUploadUrlResponse",
-)({
-  evidenceFileName: S.optional(S.String),
-  uploadUrl: S.optional(S.String),
-}) {}
-export class GetEvidenceFoldersByAssessmentResponse extends S.Class<GetEvidenceFoldersByAssessmentResponse>(
-  "GetEvidenceFoldersByAssessmentResponse",
-)({
-  evidenceFolders: S.optional(AssessmentEvidenceFolders),
-  nextToken: S.optional(S.String),
-}) {}
-export class GetEvidenceFoldersByAssessmentControlResponse extends S.Class<GetEvidenceFoldersByAssessmentControlResponse>(
-  "GetEvidenceFoldersByAssessmentControlResponse",
-)({
-  evidenceFolders: S.optional(AssessmentEvidenceFolders),
-  nextToken: S.optional(S.String),
-}) {}
-export class GetInsightsResponse extends S.Class<GetInsightsResponse>(
-  "GetInsightsResponse",
-)({ insights: S.optional(Insights) }) {}
-export class GetServicesInScopeResponse extends S.Class<GetServicesInScopeResponse>(
-  "GetServicesInScopeResponse",
-)({ serviceMetadata: S.optional(ServiceMetadataList) }) {}
-export class EvidenceInsights extends S.Class<EvidenceInsights>(
-  "EvidenceInsights",
-)({
-  noncompliantEvidenceCount: S.optional(S.Number),
-  compliantEvidenceCount: S.optional(S.Number),
-  inconclusiveEvidenceCount: S.optional(S.Number),
-}) {}
-export class ControlDomainInsights extends S.Class<ControlDomainInsights>(
-  "ControlDomainInsights",
-)({
-  name: S.optional(S.String),
-  id: S.optional(S.String),
-  controlsCountByNoncompliantEvidence: S.optional(S.Number),
-  totalControlsCount: S.optional(S.Number),
-  evidenceInsights: S.optional(EvidenceInsights),
-  lastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+).annotations({
+  identifier: "BatchImportEvidenceToAssessmentControlRequest",
+}) as any as S.Schema<BatchImportEvidenceToAssessmentControlRequest>;
+export interface GetEvidenceByEvidenceFolderResponse {
+  evidence?: EvidenceList;
+  nextToken?: string;
+}
+export const GetEvidenceByEvidenceFolderResponse = S.suspend(() =>
+  S.Struct({
+    evidence: S.optional(EvidenceList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetEvidenceByEvidenceFolderResponse",
+}) as any as S.Schema<GetEvidenceByEvidenceFolderResponse>;
+export interface GetEvidenceFileUploadUrlResponse {
+  evidenceFileName?: string;
+  uploadUrl?: string;
+}
+export const GetEvidenceFileUploadUrlResponse = S.suspend(() =>
+  S.Struct({
+    evidenceFileName: S.optional(S.String),
+    uploadUrl: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetEvidenceFileUploadUrlResponse",
+}) as any as S.Schema<GetEvidenceFileUploadUrlResponse>;
+export interface GetEvidenceFoldersByAssessmentResponse {
+  evidenceFolders?: AssessmentEvidenceFolders;
+  nextToken?: string;
+}
+export const GetEvidenceFoldersByAssessmentResponse = S.suspend(() =>
+  S.Struct({
+    evidenceFolders: S.optional(AssessmentEvidenceFolders),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetEvidenceFoldersByAssessmentResponse",
+}) as any as S.Schema<GetEvidenceFoldersByAssessmentResponse>;
+export interface GetEvidenceFoldersByAssessmentControlResponse {
+  evidenceFolders?: AssessmentEvidenceFolders;
+  nextToken?: string;
+}
+export const GetEvidenceFoldersByAssessmentControlResponse = S.suspend(() =>
+  S.Struct({
+    evidenceFolders: S.optional(AssessmentEvidenceFolders),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetEvidenceFoldersByAssessmentControlResponse",
+}) as any as S.Schema<GetEvidenceFoldersByAssessmentControlResponse>;
+export interface GetInsightsResponse {
+  insights?: Insights;
+}
+export const GetInsightsResponse = S.suspend(() =>
+  S.Struct({ insights: S.optional(Insights) }),
+).annotations({
+  identifier: "GetInsightsResponse",
+}) as any as S.Schema<GetInsightsResponse>;
+export interface GetServicesInScopeResponse {
+  serviceMetadata?: ServiceMetadataList;
+}
+export const GetServicesInScopeResponse = S.suspend(() =>
+  S.Struct({ serviceMetadata: S.optional(ServiceMetadataList) }),
+).annotations({
+  identifier: "GetServicesInScopeResponse",
+}) as any as S.Schema<GetServicesInScopeResponse>;
+export interface EvidenceInsights {
+  noncompliantEvidenceCount?: number;
+  compliantEvidenceCount?: number;
+  inconclusiveEvidenceCount?: number;
+}
+export const EvidenceInsights = S.suspend(() =>
+  S.Struct({
+    noncompliantEvidenceCount: S.optional(S.Number),
+    compliantEvidenceCount: S.optional(S.Number),
+    inconclusiveEvidenceCount: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "EvidenceInsights",
+}) as any as S.Schema<EvidenceInsights>;
+export interface ControlDomainInsights {
+  name?: string;
+  id?: string;
+  controlsCountByNoncompliantEvidence?: number;
+  totalControlsCount?: number;
+  evidenceInsights?: EvidenceInsights;
+  lastUpdated?: Date;
+}
+export const ControlDomainInsights = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    id: S.optional(S.String),
+    controlsCountByNoncompliantEvidence: S.optional(S.Number),
+    totalControlsCount: S.optional(S.Number),
+    evidenceInsights: S.optional(EvidenceInsights),
+    lastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "ControlDomainInsights",
+}) as any as S.Schema<ControlDomainInsights>;
+export type ControlDomainInsightsList = ControlDomainInsights[];
 export const ControlDomainInsightsList = S.Array(ControlDomainInsights);
-export class ListControlDomainInsightsByAssessmentResponse extends S.Class<ListControlDomainInsightsByAssessmentResponse>(
-  "ListControlDomainInsightsByAssessmentResponse",
-)({
-  controlDomainInsights: S.optional(ControlDomainInsightsList),
-  nextToken: S.optional(S.String),
-}) {}
-export class ListKeywordsForDataSourceResponse extends S.Class<ListKeywordsForDataSourceResponse>(
-  "ListKeywordsForDataSourceResponse",
-)({ keywords: S.optional(Keywords), nextToken: S.optional(S.String) }) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ tags: S.optional(TagMap) }) {}
-export class RegisterAccountResponse extends S.Class<RegisterAccountResponse>(
-  "RegisterAccountResponse",
-)({ status: S.optional(S.String) }) {}
-export class RegisterOrganizationAdminAccountResponse extends S.Class<RegisterOrganizationAdminAccountResponse>(
-  "RegisterOrganizationAdminAccountResponse",
-)({
-  adminAccountId: S.optional(S.String),
-  organizationId: S.optional(S.String),
-}) {}
-export class AssessmentFrameworkShareRequest extends S.Class<AssessmentFrameworkShareRequest>(
-  "AssessmentFrameworkShareRequest",
-)({
-  id: S.optional(S.String),
-  frameworkId: S.optional(S.String),
-  frameworkName: S.optional(S.String),
-  frameworkDescription: S.optional(S.String),
-  status: S.optional(S.String),
-  sourceAccount: S.optional(S.String),
-  destinationAccount: S.optional(S.String),
-  destinationRegion: S.optional(S.String),
-  expirationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  comment: S.optional(S.String),
-  standardControlsCount: S.optional(S.Number),
-  customControlsCount: S.optional(S.Number),
-  complianceType: S.optional(S.String),
-}) {}
-export class StartAssessmentFrameworkShareResponse extends S.Class<StartAssessmentFrameworkShareResponse>(
-  "StartAssessmentFrameworkShareResponse",
-)({
-  assessmentFrameworkShareRequest: S.optional(AssessmentFrameworkShareRequest),
-}) {}
-export class Delegation extends S.Class<Delegation>("Delegation")({
-  id: S.optional(S.String),
-  assessmentName: S.optional(S.String),
-  assessmentId: S.optional(S.String),
-  status: S.optional(S.String),
-  roleArn: S.optional(S.String),
-  roleType: S.optional(S.String),
-  creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  controlSetId: S.optional(S.String),
-  comment: S.optional(S.String),
-  createdBy: S.optional(S.String),
-}) {}
+export interface ListControlDomainInsightsByAssessmentResponse {
+  controlDomainInsights?: ControlDomainInsightsList;
+  nextToken?: string;
+}
+export const ListControlDomainInsightsByAssessmentResponse = S.suspend(() =>
+  S.Struct({
+    controlDomainInsights: S.optional(ControlDomainInsightsList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListControlDomainInsightsByAssessmentResponse",
+}) as any as S.Schema<ListControlDomainInsightsByAssessmentResponse>;
+export interface ListKeywordsForDataSourceResponse {
+  keywords?: Keywords;
+  nextToken?: string;
+}
+export const ListKeywordsForDataSourceResponse = S.suspend(() =>
+  S.Struct({ keywords: S.optional(Keywords), nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListKeywordsForDataSourceResponse",
+}) as any as S.Schema<ListKeywordsForDataSourceResponse>;
+export interface ListTagsForResourceResponse {
+  tags?: TagMap;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ tags: S.optional(TagMap) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface RegisterAccountResponse {
+  status?: string;
+}
+export const RegisterAccountResponse = S.suspend(() =>
+  S.Struct({ status: S.optional(S.String) }),
+).annotations({
+  identifier: "RegisterAccountResponse",
+}) as any as S.Schema<RegisterAccountResponse>;
+export interface RegisterOrganizationAdminAccountResponse {
+  adminAccountId?: string;
+  organizationId?: string;
+}
+export const RegisterOrganizationAdminAccountResponse = S.suspend(() =>
+  S.Struct({
+    adminAccountId: S.optional(S.String),
+    organizationId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RegisterOrganizationAdminAccountResponse",
+}) as any as S.Schema<RegisterOrganizationAdminAccountResponse>;
+export interface AssessmentFrameworkShareRequest {
+  id?: string;
+  frameworkId?: string;
+  frameworkName?: string;
+  frameworkDescription?: string;
+  status?: string;
+  sourceAccount?: string;
+  destinationAccount?: string;
+  destinationRegion?: string;
+  expirationTime?: Date;
+  creationTime?: Date;
+  lastUpdated?: Date;
+  comment?: string;
+  standardControlsCount?: number;
+  customControlsCount?: number;
+  complianceType?: string;
+}
+export const AssessmentFrameworkShareRequest = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    frameworkId: S.optional(S.String),
+    frameworkName: S.optional(S.String),
+    frameworkDescription: S.optional(S.String),
+    status: S.optional(S.String),
+    sourceAccount: S.optional(S.String),
+    destinationAccount: S.optional(S.String),
+    destinationRegion: S.optional(S.String),
+    expirationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    comment: S.optional(S.String),
+    standardControlsCount: S.optional(S.Number),
+    customControlsCount: S.optional(S.Number),
+    complianceType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AssessmentFrameworkShareRequest",
+}) as any as S.Schema<AssessmentFrameworkShareRequest>;
+export interface StartAssessmentFrameworkShareResponse {
+  assessmentFrameworkShareRequest?: AssessmentFrameworkShareRequest;
+}
+export const StartAssessmentFrameworkShareResponse = S.suspend(() =>
+  S.Struct({
+    assessmentFrameworkShareRequest: S.optional(
+      AssessmentFrameworkShareRequest,
+    ),
+  }),
+).annotations({
+  identifier: "StartAssessmentFrameworkShareResponse",
+}) as any as S.Schema<StartAssessmentFrameworkShareResponse>;
+export interface Delegation {
+  id?: string;
+  assessmentName?: string;
+  assessmentId?: string;
+  status?: string;
+  roleArn?: string;
+  roleType?: string;
+  creationTime?: Date;
+  lastUpdated?: Date;
+  controlSetId?: string;
+  comment?: string;
+  createdBy?: string;
+}
+export const Delegation = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    assessmentName: S.optional(S.String),
+    assessmentId: S.optional(S.String),
+    status: S.optional(S.String),
+    roleArn: S.optional(S.String),
+    roleType: S.optional(S.String),
+    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    controlSetId: S.optional(S.String),
+    comment: S.optional(S.String),
+    createdBy: S.optional(S.String),
+  }),
+).annotations({ identifier: "Delegation" }) as any as S.Schema<Delegation>;
+export type Delegations = Delegation[];
 export const Delegations = S.Array(Delegation);
-export class AssessmentMetadata extends S.Class<AssessmentMetadata>(
-  "AssessmentMetadata",
-)({
-  name: S.optional(S.String),
-  id: S.optional(S.String),
-  description: S.optional(S.String),
-  complianceType: S.optional(S.String),
-  status: S.optional(S.String),
-  assessmentReportsDestination: S.optional(AssessmentReportsDestination),
-  scope: S.optional(Scope),
-  roles: S.optional(Roles),
-  delegations: S.optional(Delegations),
-  creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class FrameworkMetadata extends S.Class<FrameworkMetadata>(
-  "FrameworkMetadata",
-)({
-  name: S.optional(S.String),
-  description: S.optional(S.String),
-  logo: S.optional(S.String),
-  complianceType: S.optional(S.String),
-}) {}
-export class ControlComment extends S.Class<ControlComment>("ControlComment")({
-  authorName: S.optional(S.String),
-  commentBody: S.optional(S.String),
-  postedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface AssessmentMetadata {
+  name?: string;
+  id?: string;
+  description?: string;
+  complianceType?: string;
+  status?: string;
+  assessmentReportsDestination?: AssessmentReportsDestination;
+  scope?: Scope;
+  roles?: Roles;
+  delegations?: Delegations;
+  creationTime?: Date;
+  lastUpdated?: Date;
+}
+export const AssessmentMetadata = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    id: S.optional(S.String),
+    description: S.optional(S.String),
+    complianceType: S.optional(S.String),
+    status: S.optional(S.String),
+    assessmentReportsDestination: S.optional(AssessmentReportsDestination),
+    scope: S.optional(Scope),
+    roles: S.optional(Roles),
+    delegations: S.optional(Delegations),
+    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "AssessmentMetadata",
+}) as any as S.Schema<AssessmentMetadata>;
+export interface FrameworkMetadata {
+  name?: string;
+  description?: string;
+  logo?: string;
+  complianceType?: string;
+}
+export const FrameworkMetadata = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    logo: S.optional(S.String),
+    complianceType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "FrameworkMetadata",
+}) as any as S.Schema<FrameworkMetadata>;
+export interface ControlComment {
+  authorName?: string;
+  commentBody?: string;
+  postedDate?: Date;
+}
+export const ControlComment = S.suspend(() =>
+  S.Struct({
+    authorName: S.optional(S.String),
+    commentBody: S.optional(S.String),
+    postedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "ControlComment",
+}) as any as S.Schema<ControlComment>;
+export type ControlComments = ControlComment[];
 export const ControlComments = S.Array(ControlComment);
+export type EvidenceSources = string[];
 export const EvidenceSources = S.Array(S.String);
-export class AssessmentControl extends S.Class<AssessmentControl>(
-  "AssessmentControl",
-)({
-  id: S.optional(S.String),
-  name: S.optional(S.String),
-  description: S.optional(S.String),
-  status: S.optional(S.String),
-  response: S.optional(S.String),
-  comments: S.optional(ControlComments),
-  evidenceSources: S.optional(EvidenceSources),
-  evidenceCount: S.optional(S.Number),
-  assessmentReportEvidenceCount: S.optional(S.Number),
-}) {}
+export interface AssessmentControl {
+  id?: string;
+  name?: string;
+  description?: string;
+  status?: string;
+  response?: string;
+  comments?: ControlComments;
+  evidenceSources?: EvidenceSources;
+  evidenceCount?: number;
+  assessmentReportEvidenceCount?: number;
+}
+export const AssessmentControl = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    status: S.optional(S.String),
+    response: S.optional(S.String),
+    comments: S.optional(ControlComments),
+    evidenceSources: S.optional(EvidenceSources),
+    evidenceCount: S.optional(S.Number),
+    assessmentReportEvidenceCount: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "AssessmentControl",
+}) as any as S.Schema<AssessmentControl>;
+export type AssessmentControls = AssessmentControl[];
 export const AssessmentControls = S.Array(AssessmentControl);
-export class AssessmentControlSet extends S.Class<AssessmentControlSet>(
-  "AssessmentControlSet",
-)({
-  id: S.optional(S.String),
-  description: S.optional(S.String),
-  status: S.optional(S.String),
-  roles: S.optional(Roles),
-  controls: S.optional(AssessmentControls),
-  delegations: S.optional(Delegations),
-  systemEvidenceCount: S.optional(S.Number),
-  manualEvidenceCount: S.optional(S.Number),
-}) {}
+export interface AssessmentControlSet {
+  id?: string;
+  description?: string;
+  status?: string;
+  roles?: Roles;
+  controls?: AssessmentControls;
+  delegations?: Delegations;
+  systemEvidenceCount?: number;
+  manualEvidenceCount?: number;
+}
+export const AssessmentControlSet = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    description: S.optional(S.String),
+    status: S.optional(S.String),
+    roles: S.optional(Roles),
+    controls: S.optional(AssessmentControls),
+    delegations: S.optional(Delegations),
+    systemEvidenceCount: S.optional(S.Number),
+    manualEvidenceCount: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "AssessmentControlSet",
+}) as any as S.Schema<AssessmentControlSet>;
+export type AssessmentControlSets = AssessmentControlSet[];
 export const AssessmentControlSets = S.Array(AssessmentControlSet);
-export class AssessmentFramework extends S.Class<AssessmentFramework>(
-  "AssessmentFramework",
-)({
-  id: S.optional(S.String),
-  arn: S.optional(S.String),
-  metadata: S.optional(FrameworkMetadata),
-  controlSets: S.optional(AssessmentControlSets),
-}) {}
-export class Assessment extends S.Class<Assessment>("Assessment")({
-  arn: S.optional(S.String),
-  awsAccount: S.optional(AWSAccount),
-  metadata: S.optional(AssessmentMetadata),
-  framework: S.optional(AssessmentFramework),
-  tags: S.optional(TagMap),
-}) {}
-export class UpdateAssessmentResponse extends S.Class<UpdateAssessmentResponse>(
-  "UpdateAssessmentResponse",
-)({ assessment: S.optional(Assessment) }) {}
-export class UpdateAssessmentFrameworkRequest extends S.Class<UpdateAssessmentFrameworkRequest>(
-  "UpdateAssessmentFrameworkRequest",
-)(
-  {
+export interface AssessmentFramework {
+  id?: string;
+  arn?: string;
+  metadata?: FrameworkMetadata;
+  controlSets?: AssessmentControlSets;
+}
+export const AssessmentFramework = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    arn: S.optional(S.String),
+    metadata: S.optional(FrameworkMetadata),
+    controlSets: S.optional(AssessmentControlSets),
+  }),
+).annotations({
+  identifier: "AssessmentFramework",
+}) as any as S.Schema<AssessmentFramework>;
+export interface Assessment {
+  arn?: string;
+  awsAccount?: AWSAccount;
+  metadata?: AssessmentMetadata;
+  framework?: AssessmentFramework;
+  tags?: TagMap;
+}
+export const Assessment = S.suspend(() =>
+  S.Struct({
+    arn: S.optional(S.String),
+    awsAccount: S.optional(AWSAccount),
+    metadata: S.optional(AssessmentMetadata),
+    framework: S.optional(AssessmentFramework),
+    tags: S.optional(TagMap),
+  }),
+).annotations({ identifier: "Assessment" }) as any as S.Schema<Assessment>;
+export interface UpdateAssessmentResponse {
+  assessment?: Assessment;
+}
+export const UpdateAssessmentResponse = S.suspend(() =>
+  S.Struct({ assessment: S.optional(Assessment) }),
+).annotations({
+  identifier: "UpdateAssessmentResponse",
+}) as any as S.Schema<UpdateAssessmentResponse>;
+export interface UpdateAssessmentFrameworkRequest {
+  frameworkId: string;
+  name: string;
+  description?: string;
+  complianceType?: string;
+  controlSets: UpdateAssessmentFrameworkControlSets;
+}
+export const UpdateAssessmentFrameworkRequest = S.suspend(() =>
+  S.Struct({
     frameworkId: S.String.pipe(T.HttpLabel("frameworkId")),
     name: S.String,
     description: S.optional(S.String),
     complianceType: S.optional(S.String),
     controlSets: UpdateAssessmentFrameworkControlSets,
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/assessmentFrameworks/{frameworkId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/assessmentFrameworks/{frameworkId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateAssessmentFrameworkShareResponse extends S.Class<UpdateAssessmentFrameworkShareResponse>(
-  "UpdateAssessmentFrameworkShareResponse",
-)({
-  assessmentFrameworkShareRequest: S.optional(AssessmentFrameworkShareRequest),
-}) {}
-export class UpdateAssessmentStatusResponse extends S.Class<UpdateAssessmentStatusResponse>(
-  "UpdateAssessmentStatusResponse",
-)({ assessment: S.optional(Assessment) }) {}
-export class UpdateControlRequest extends S.Class<UpdateControlRequest>(
-  "UpdateControlRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateAssessmentFrameworkRequest",
+}) as any as S.Schema<UpdateAssessmentFrameworkRequest>;
+export interface UpdateAssessmentFrameworkShareResponse {
+  assessmentFrameworkShareRequest?: AssessmentFrameworkShareRequest;
+}
+export const UpdateAssessmentFrameworkShareResponse = S.suspend(() =>
+  S.Struct({
+    assessmentFrameworkShareRequest: S.optional(
+      AssessmentFrameworkShareRequest,
+    ),
+  }),
+).annotations({
+  identifier: "UpdateAssessmentFrameworkShareResponse",
+}) as any as S.Schema<UpdateAssessmentFrameworkShareResponse>;
+export interface UpdateAssessmentStatusResponse {
+  assessment?: Assessment;
+}
+export const UpdateAssessmentStatusResponse = S.suspend(() =>
+  S.Struct({ assessment: S.optional(Assessment) }),
+).annotations({
+  identifier: "UpdateAssessmentStatusResponse",
+}) as any as S.Schema<UpdateAssessmentStatusResponse>;
+export interface UpdateControlRequest {
+  controlId: string;
+  name: string;
+  description?: string;
+  testingInformation?: string;
+  actionPlanTitle?: string;
+  actionPlanInstructions?: string;
+  controlMappingSources: ControlMappingSources;
+}
+export const UpdateControlRequest = S.suspend(() =>
+  S.Struct({
     controlId: S.String.pipe(T.HttpLabel("controlId")),
     name: S.String,
     description: S.optional(S.String),
@@ -1607,20 +2372,30 @@ export class UpdateControlRequest extends S.Class<UpdateControlRequest>(
     actionPlanTitle: S.optional(S.String),
     actionPlanInstructions: S.optional(S.String),
     controlMappingSources: ControlMappingSources,
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/controls/{controlId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/controls/{controlId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateSettingsRequest extends S.Class<UpdateSettingsRequest>(
-  "UpdateSettingsRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateControlRequest",
+}) as any as S.Schema<UpdateControlRequest>;
+export interface UpdateSettingsRequest {
+  snsTopic?: string;
+  defaultAssessmentReportsDestination?: AssessmentReportsDestination;
+  defaultProcessOwners?: Roles;
+  kmsKey?: string;
+  evidenceFinderEnabled?: boolean;
+  deregistrationPolicy?: DeregistrationPolicy;
+  defaultExportDestination?: DefaultExportDestination;
+}
+export const UpdateSettingsRequest = S.suspend(() =>
+  S.Struct({
     snsTopic: S.optional(S.String),
     defaultAssessmentReportsDestination: S.optional(
       AssessmentReportsDestination,
@@ -1630,198 +2405,390 @@ export class UpdateSettingsRequest extends S.Class<UpdateSettingsRequest>(
     evidenceFinderEnabled: S.optional(S.Boolean),
     deregistrationPolicy: S.optional(DeregistrationPolicy),
     defaultExportDestination: S.optional(DefaultExportDestination),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/settings" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/settings" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ValidateAssessmentReportIntegrityResponse extends S.Class<ValidateAssessmentReportIntegrityResponse>(
-  "ValidateAssessmentReportIntegrityResponse",
-)({
-  signatureValid: S.optional(S.Boolean),
-  signatureAlgorithm: S.optional(S.String),
-  signatureDateTime: S.optional(S.String),
-  signatureKeyId: S.optional(S.String),
-  validationErrors: S.optional(ValidationErrors),
-}) {}
-export class BatchDeleteDelegationByAssessmentError extends S.Class<BatchDeleteDelegationByAssessmentError>(
-  "BatchDeleteDelegationByAssessmentError",
-)({
-  delegationId: S.optional(S.String),
-  errorCode: S.optional(S.String),
-  errorMessage: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "UpdateSettingsRequest",
+}) as any as S.Schema<UpdateSettingsRequest>;
+export interface ValidateAssessmentReportIntegrityResponse {
+  signatureValid?: boolean;
+  signatureAlgorithm?: string;
+  signatureDateTime?: string;
+  signatureKeyId?: string;
+  validationErrors?: ValidationErrors;
+}
+export const ValidateAssessmentReportIntegrityResponse = S.suspend(() =>
+  S.Struct({
+    signatureValid: S.optional(S.Boolean),
+    signatureAlgorithm: S.optional(S.String),
+    signatureDateTime: S.optional(S.String),
+    signatureKeyId: S.optional(S.String),
+    validationErrors: S.optional(ValidationErrors),
+  }),
+).annotations({
+  identifier: "ValidateAssessmentReportIntegrityResponse",
+}) as any as S.Schema<ValidateAssessmentReportIntegrityResponse>;
+export interface BatchDeleteDelegationByAssessmentError {
+  delegationId?: string;
+  errorCode?: string;
+  errorMessage?: string;
+}
+export const BatchDeleteDelegationByAssessmentError = S.suspend(() =>
+  S.Struct({
+    delegationId: S.optional(S.String),
+    errorCode: S.optional(S.String),
+    errorMessage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "BatchDeleteDelegationByAssessmentError",
+}) as any as S.Schema<BatchDeleteDelegationByAssessmentError>;
+export type BatchDeleteDelegationByAssessmentErrors =
+  BatchDeleteDelegationByAssessmentError[];
 export const BatchDeleteDelegationByAssessmentErrors = S.Array(
   BatchDeleteDelegationByAssessmentError,
 );
-export class CreateAssessmentFrameworkControlSet extends S.Class<CreateAssessmentFrameworkControlSet>(
-  "CreateAssessmentFrameworkControlSet",
-)({
-  name: S.String,
-  controls: S.optional(CreateAssessmentFrameworkControls),
-}) {}
+export interface CreateAssessmentFrameworkControlSet {
+  name: string;
+  controls?: CreateAssessmentFrameworkControls;
+}
+export const CreateAssessmentFrameworkControlSet = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    controls: S.optional(CreateAssessmentFrameworkControls),
+  }),
+).annotations({
+  identifier: "CreateAssessmentFrameworkControlSet",
+}) as any as S.Schema<CreateAssessmentFrameworkControlSet>;
+export type CreateAssessmentFrameworkControlSets =
+  CreateAssessmentFrameworkControlSet[];
 export const CreateAssessmentFrameworkControlSets = S.Array(
   CreateAssessmentFrameworkControlSet,
 );
-export class AssessmentReport extends S.Class<AssessmentReport>(
-  "AssessmentReport",
-)({
-  id: S.optional(S.String),
-  name: S.optional(S.String),
-  description: S.optional(S.String),
-  awsAccountId: S.optional(S.String),
-  assessmentId: S.optional(S.String),
-  assessmentName: S.optional(S.String),
-  author: S.optional(S.String),
-  status: S.optional(S.String),
-  creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class CreateControlMappingSource extends S.Class<CreateControlMappingSource>(
-  "CreateControlMappingSource",
-)({
-  sourceName: S.optional(S.String),
-  sourceDescription: S.optional(S.String),
-  sourceSetUpOption: S.optional(S.String),
-  sourceType: S.optional(S.String),
-  sourceKeyword: S.optional(SourceKeyword),
-  sourceFrequency: S.optional(S.String),
-  troubleshootingText: S.optional(S.String),
-}) {}
+export interface AssessmentReport {
+  id?: string;
+  name?: string;
+  description?: string;
+  awsAccountId?: string;
+  assessmentId?: string;
+  assessmentName?: string;
+  author?: string;
+  status?: string;
+  creationTime?: Date;
+}
+export const AssessmentReport = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    awsAccountId: S.optional(S.String),
+    assessmentId: S.optional(S.String),
+    assessmentName: S.optional(S.String),
+    author: S.optional(S.String),
+    status: S.optional(S.String),
+    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "AssessmentReport",
+}) as any as S.Schema<AssessmentReport>;
+export interface CreateControlMappingSource {
+  sourceName?: string;
+  sourceDescription?: string;
+  sourceSetUpOption?: string;
+  sourceType?: string;
+  sourceKeyword?: SourceKeyword;
+  sourceFrequency?: string;
+  troubleshootingText?: string;
+}
+export const CreateControlMappingSource = S.suspend(() =>
+  S.Struct({
+    sourceName: S.optional(S.String),
+    sourceDescription: S.optional(S.String),
+    sourceSetUpOption: S.optional(S.String),
+    sourceType: S.optional(S.String),
+    sourceKeyword: S.optional(SourceKeyword),
+    sourceFrequency: S.optional(S.String),
+    troubleshootingText: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CreateControlMappingSource",
+}) as any as S.Schema<CreateControlMappingSource>;
+export type CreateControlMappingSources = CreateControlMappingSource[];
 export const CreateControlMappingSources = S.Array(CreateControlMappingSource);
-export class URL extends S.Class<URL>("URL")({
-  hyperlinkName: S.optional(S.String),
-  link: S.optional(S.String),
-}) {}
-export class ChangeLog extends S.Class<ChangeLog>("ChangeLog")({
-  objectType: S.optional(S.String),
-  objectName: S.optional(S.String),
-  action: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  createdBy: S.optional(S.String),
-}) {}
+export interface URL {
+  hyperlinkName?: string;
+  link?: string;
+}
+export const URL = S.suspend(() =>
+  S.Struct({ hyperlinkName: S.optional(S.String), link: S.optional(S.String) }),
+).annotations({ identifier: "URL" }) as any as S.Schema<URL>;
+export interface ChangeLog {
+  objectType?: string;
+  objectName?: string;
+  action?: string;
+  createdAt?: Date;
+  createdBy?: string;
+}
+export const ChangeLog = S.suspend(() =>
+  S.Struct({
+    objectType: S.optional(S.String),
+    objectName: S.optional(S.String),
+    action: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    createdBy: S.optional(S.String),
+  }),
+).annotations({ identifier: "ChangeLog" }) as any as S.Schema<ChangeLog>;
+export type ChangeLogs = ChangeLog[];
 export const ChangeLogs = S.Array(ChangeLog);
-export class Control extends S.Class<Control>("Control")({
-  arn: S.optional(S.String),
-  id: S.optional(S.String),
-  type: S.optional(S.String),
-  name: S.optional(S.String),
-  description: S.optional(S.String),
-  testingInformation: S.optional(S.String),
-  actionPlanTitle: S.optional(S.String),
-  actionPlanInstructions: S.optional(S.String),
-  controlSources: S.optional(S.String),
-  controlMappingSources: S.optional(ControlMappingSources),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  createdBy: S.optional(S.String),
-  lastUpdatedBy: S.optional(S.String),
-  tags: S.optional(TagMap),
-  state: S.optional(S.String),
-}) {}
-export class DelegationMetadata extends S.Class<DelegationMetadata>(
-  "DelegationMetadata",
-)({
-  id: S.optional(S.String),
-  assessmentName: S.optional(S.String),
-  assessmentId: S.optional(S.String),
-  status: S.optional(S.String),
-  roleArn: S.optional(S.String),
-  creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  controlSetName: S.optional(S.String),
-}) {}
+export interface Control {
+  arn?: string;
+  id?: string;
+  type?: string;
+  name?: string;
+  description?: string;
+  testingInformation?: string;
+  actionPlanTitle?: string;
+  actionPlanInstructions?: string;
+  controlSources?: string;
+  controlMappingSources?: ControlMappingSources;
+  createdAt?: Date;
+  lastUpdatedAt?: Date;
+  createdBy?: string;
+  lastUpdatedBy?: string;
+  tags?: TagMap;
+  state?: string;
+}
+export const Control = S.suspend(() =>
+  S.Struct({
+    arn: S.optional(S.String),
+    id: S.optional(S.String),
+    type: S.optional(S.String),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    testingInformation: S.optional(S.String),
+    actionPlanTitle: S.optional(S.String),
+    actionPlanInstructions: S.optional(S.String),
+    controlSources: S.optional(S.String),
+    controlMappingSources: S.optional(ControlMappingSources),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    createdBy: S.optional(S.String),
+    lastUpdatedBy: S.optional(S.String),
+    tags: S.optional(TagMap),
+    state: S.optional(S.String),
+  }),
+).annotations({ identifier: "Control" }) as any as S.Schema<Control>;
+export interface DelegationMetadata {
+  id?: string;
+  assessmentName?: string;
+  assessmentId?: string;
+  status?: string;
+  roleArn?: string;
+  creationTime?: Date;
+  controlSetName?: string;
+}
+export const DelegationMetadata = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    assessmentName: S.optional(S.String),
+    assessmentId: S.optional(S.String),
+    status: S.optional(S.String),
+    roleArn: S.optional(S.String),
+    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    controlSetName: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DelegationMetadata",
+}) as any as S.Schema<DelegationMetadata>;
+export type DelegationMetadataList = DelegationMetadata[];
 export const DelegationMetadataList = S.Array(DelegationMetadata);
-export class InsightsByAssessment extends S.Class<InsightsByAssessment>(
-  "InsightsByAssessment",
-)({
-  noncompliantEvidenceCount: S.optional(S.Number),
-  compliantEvidenceCount: S.optional(S.Number),
-  inconclusiveEvidenceCount: S.optional(S.Number),
-  assessmentControlsCountByNoncompliantEvidence: S.optional(S.Number),
-  totalAssessmentControlsCount: S.optional(S.Number),
-  lastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class AssessmentFrameworkMetadata extends S.Class<AssessmentFrameworkMetadata>(
-  "AssessmentFrameworkMetadata",
-)({
-  arn: S.optional(S.String),
-  id: S.optional(S.String),
-  type: S.optional(S.String),
-  name: S.optional(S.String),
-  description: S.optional(S.String),
-  logo: S.optional(S.String),
-  complianceType: S.optional(S.String),
-  controlsCount: S.optional(S.Number),
-  controlSetsCount: S.optional(S.Number),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface InsightsByAssessment {
+  noncompliantEvidenceCount?: number;
+  compliantEvidenceCount?: number;
+  inconclusiveEvidenceCount?: number;
+  assessmentControlsCountByNoncompliantEvidence?: number;
+  totalAssessmentControlsCount?: number;
+  lastUpdated?: Date;
+}
+export const InsightsByAssessment = S.suspend(() =>
+  S.Struct({
+    noncompliantEvidenceCount: S.optional(S.Number),
+    compliantEvidenceCount: S.optional(S.Number),
+    inconclusiveEvidenceCount: S.optional(S.Number),
+    assessmentControlsCountByNoncompliantEvidence: S.optional(S.Number),
+    totalAssessmentControlsCount: S.optional(S.Number),
+    lastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "InsightsByAssessment",
+}) as any as S.Schema<InsightsByAssessment>;
+export interface AssessmentFrameworkMetadata {
+  arn?: string;
+  id?: string;
+  type?: string;
+  name?: string;
+  description?: string;
+  logo?: string;
+  complianceType?: string;
+  controlsCount?: number;
+  controlSetsCount?: number;
+  createdAt?: Date;
+  lastUpdatedAt?: Date;
+}
+export const AssessmentFrameworkMetadata = S.suspend(() =>
+  S.Struct({
+    arn: S.optional(S.String),
+    id: S.optional(S.String),
+    type: S.optional(S.String),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    logo: S.optional(S.String),
+    complianceType: S.optional(S.String),
+    controlsCount: S.optional(S.Number),
+    controlSetsCount: S.optional(S.Number),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "AssessmentFrameworkMetadata",
+}) as any as S.Schema<AssessmentFrameworkMetadata>;
+export type FrameworkMetadataList = AssessmentFrameworkMetadata[];
 export const FrameworkMetadataList = S.Array(AssessmentFrameworkMetadata);
+export type AssessmentFrameworkShareRequestList =
+  AssessmentFrameworkShareRequest[];
 export const AssessmentFrameworkShareRequestList = S.Array(
   AssessmentFrameworkShareRequest,
 );
-export class AssessmentReportMetadata extends S.Class<AssessmentReportMetadata>(
-  "AssessmentReportMetadata",
-)({
-  id: S.optional(S.String),
-  name: S.optional(S.String),
-  description: S.optional(S.String),
-  assessmentId: S.optional(S.String),
-  assessmentName: S.optional(S.String),
-  author: S.optional(S.String),
-  status: S.optional(S.String),
-  creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface AssessmentReportMetadata {
+  id?: string;
+  name?: string;
+  description?: string;
+  assessmentId?: string;
+  assessmentName?: string;
+  author?: string;
+  status?: string;
+  creationTime?: Date;
+}
+export const AssessmentReportMetadata = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    assessmentId: S.optional(S.String),
+    assessmentName: S.optional(S.String),
+    author: S.optional(S.String),
+    status: S.optional(S.String),
+    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "AssessmentReportMetadata",
+}) as any as S.Schema<AssessmentReportMetadata>;
+export type AssessmentReportsMetadata = AssessmentReportMetadata[];
 export const AssessmentReportsMetadata = S.Array(AssessmentReportMetadata);
-export class ControlInsightsMetadataItem extends S.Class<ControlInsightsMetadataItem>(
-  "ControlInsightsMetadataItem",
-)({
-  name: S.optional(S.String),
-  id: S.optional(S.String),
-  evidenceInsights: S.optional(EvidenceInsights),
-  lastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface ControlInsightsMetadataItem {
+  name?: string;
+  id?: string;
+  evidenceInsights?: EvidenceInsights;
+  lastUpdated?: Date;
+}
+export const ControlInsightsMetadataItem = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    id: S.optional(S.String),
+    evidenceInsights: S.optional(EvidenceInsights),
+    lastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "ControlInsightsMetadataItem",
+}) as any as S.Schema<ControlInsightsMetadataItem>;
+export type ControlInsightsMetadata = ControlInsightsMetadataItem[];
 export const ControlInsightsMetadata = S.Array(ControlInsightsMetadataItem);
-export class ControlMetadata extends S.Class<ControlMetadata>(
-  "ControlMetadata",
-)({
-  arn: S.optional(S.String),
-  id: S.optional(S.String),
-  name: S.optional(S.String),
-  controlSources: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface ControlMetadata {
+  arn?: string;
+  id?: string;
+  name?: string;
+  controlSources?: string;
+  createdAt?: Date;
+  lastUpdatedAt?: Date;
+}
+export const ControlMetadata = S.suspend(() =>
+  S.Struct({
+    arn: S.optional(S.String),
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    controlSources: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "ControlMetadata",
+}) as any as S.Schema<ControlMetadata>;
+export type ControlMetadataList = ControlMetadata[];
 export const ControlMetadataList = S.Array(ControlMetadata);
-export class Notification extends S.Class<Notification>("Notification")({
-  id: S.optional(S.String),
-  assessmentId: S.optional(S.String),
-  assessmentName: S.optional(S.String),
-  controlSetId: S.optional(S.String),
-  controlSetName: S.optional(S.String),
-  description: S.optional(S.String),
-  eventTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  source: S.optional(S.String),
-}) {}
+export interface Notification {
+  id?: string;
+  assessmentId?: string;
+  assessmentName?: string;
+  controlSetId?: string;
+  controlSetName?: string;
+  description?: string;
+  eventTime?: Date;
+  source?: string;
+}
+export const Notification = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    assessmentId: S.optional(S.String),
+    assessmentName: S.optional(S.String),
+    controlSetId: S.optional(S.String),
+    controlSetName: S.optional(S.String),
+    description: S.optional(S.String),
+    eventTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    source: S.optional(S.String),
+  }),
+).annotations({ identifier: "Notification" }) as any as S.Schema<Notification>;
+export type Notifications = Notification[];
 export const Notifications = S.Array(Notification);
+export type Controls = Control[];
 export const Controls = S.Array(Control);
-export class BatchAssociateAssessmentReportEvidenceResponse extends S.Class<BatchAssociateAssessmentReportEvidenceResponse>(
-  "BatchAssociateAssessmentReportEvidenceResponse",
-)({
-  evidenceIds: S.optional(EvidenceIds),
-  errors: S.optional(AssessmentReportEvidenceErrors),
-}) {}
-export class BatchDeleteDelegationByAssessmentResponse extends S.Class<BatchDeleteDelegationByAssessmentResponse>(
-  "BatchDeleteDelegationByAssessmentResponse",
-)({ errors: S.optional(BatchDeleteDelegationByAssessmentErrors) }) {}
-export class CreateAssessmentRequest extends S.Class<CreateAssessmentRequest>(
-  "CreateAssessmentRequest",
-)(
-  {
+export interface BatchAssociateAssessmentReportEvidenceResponse {
+  evidenceIds?: EvidenceIds;
+  errors?: AssessmentReportEvidenceErrors;
+}
+export const BatchAssociateAssessmentReportEvidenceResponse = S.suspend(() =>
+  S.Struct({
+    evidenceIds: S.optional(EvidenceIds),
+    errors: S.optional(AssessmentReportEvidenceErrors),
+  }),
+).annotations({
+  identifier: "BatchAssociateAssessmentReportEvidenceResponse",
+}) as any as S.Schema<BatchAssociateAssessmentReportEvidenceResponse>;
+export interface BatchDeleteDelegationByAssessmentResponse {
+  errors?: BatchDeleteDelegationByAssessmentErrors;
+}
+export const BatchDeleteDelegationByAssessmentResponse = S.suspend(() =>
+  S.Struct({ errors: S.optional(BatchDeleteDelegationByAssessmentErrors) }),
+).annotations({
+  identifier: "BatchDeleteDelegationByAssessmentResponse",
+}) as any as S.Schema<BatchDeleteDelegationByAssessmentResponse>;
+export interface CreateAssessmentRequest {
+  name: string;
+  description?: string;
+  assessmentReportsDestination: AssessmentReportsDestination;
+  scope: Scope;
+  roles: Roles;
+  frameworkId: string;
+  tags?: TagMap;
+}
+export const CreateAssessmentRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     description: S.optional(S.String),
     assessmentReportsDestination: AssessmentReportsDestination,
@@ -1829,42 +2796,65 @@ export class CreateAssessmentRequest extends S.Class<CreateAssessmentRequest>(
     roles: Roles,
     frameworkId: S.String,
     tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/assessments" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/assessments" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateAssessmentFrameworkRequest extends S.Class<CreateAssessmentFrameworkRequest>(
-  "CreateAssessmentFrameworkRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateAssessmentRequest",
+}) as any as S.Schema<CreateAssessmentRequest>;
+export interface CreateAssessmentFrameworkRequest {
+  name: string;
+  description?: string;
+  complianceType?: string;
+  controlSets: CreateAssessmentFrameworkControlSets;
+  tags?: TagMap;
+}
+export const CreateAssessmentFrameworkRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     description: S.optional(S.String),
     complianceType: S.optional(S.String),
     controlSets: CreateAssessmentFrameworkControlSets,
     tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/assessmentFrameworks" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/assessmentFrameworks" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateAssessmentReportResponse extends S.Class<CreateAssessmentReportResponse>(
-  "CreateAssessmentReportResponse",
-)({ assessmentReport: S.optional(AssessmentReport) }) {}
-export class CreateControlRequest extends S.Class<CreateControlRequest>(
-  "CreateControlRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateAssessmentFrameworkRequest",
+}) as any as S.Schema<CreateAssessmentFrameworkRequest>;
+export interface CreateAssessmentReportResponse {
+  assessmentReport?: AssessmentReport;
+}
+export const CreateAssessmentReportResponse = S.suspend(() =>
+  S.Struct({ assessmentReport: S.optional(AssessmentReport) }),
+).annotations({
+  identifier: "CreateAssessmentReportResponse",
+}) as any as S.Schema<CreateAssessmentReportResponse>;
+export interface CreateControlRequest {
+  name: string;
+  description?: string;
+  testingInformation?: string;
+  actionPlanTitle?: string;
+  actionPlanInstructions?: string;
+  controlMappingSources: CreateControlMappingSources;
+  tags?: TagMap;
+}
+export const CreateControlRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     description: S.optional(S.String),
     testingInformation: S.optional(S.String),
@@ -1872,227 +2862,493 @@ export class CreateControlRequest extends S.Class<CreateControlRequest>(
     actionPlanInstructions: S.optional(S.String),
     controlMappingSources: CreateControlMappingSources,
     tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/controls" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/controls" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetAssessmentReportUrlResponse extends S.Class<GetAssessmentReportUrlResponse>(
-  "GetAssessmentReportUrlResponse",
-)({ preSignedUrl: S.optional(URL) }) {}
-export class GetChangeLogsResponse extends S.Class<GetChangeLogsResponse>(
-  "GetChangeLogsResponse",
-)({ changeLogs: S.optional(ChangeLogs), nextToken: S.optional(S.String) }) {}
-export class GetControlResponse extends S.Class<GetControlResponse>(
-  "GetControlResponse",
-)({ control: S.optional(Control) }) {}
-export class GetDelegationsResponse extends S.Class<GetDelegationsResponse>(
-  "GetDelegationsResponse",
-)({
-  delegations: S.optional(DelegationMetadataList),
-  nextToken: S.optional(S.String),
-}) {}
-export class GetEvidenceFolderResponse extends S.Class<GetEvidenceFolderResponse>(
-  "GetEvidenceFolderResponse",
-)({ evidenceFolder: S.optional(AssessmentEvidenceFolder) }) {}
-export class GetInsightsByAssessmentResponse extends S.Class<GetInsightsByAssessmentResponse>(
-  "GetInsightsByAssessmentResponse",
-)({ insights: S.optional(InsightsByAssessment) }) {}
-export class ListAssessmentFrameworksResponse extends S.Class<ListAssessmentFrameworksResponse>(
-  "ListAssessmentFrameworksResponse",
-)({
-  frameworkMetadataList: S.optional(FrameworkMetadataList),
-  nextToken: S.optional(S.String),
-}) {}
-export class ListAssessmentFrameworkShareRequestsResponse extends S.Class<ListAssessmentFrameworkShareRequestsResponse>(
-  "ListAssessmentFrameworkShareRequestsResponse",
-)({
-  assessmentFrameworkShareRequests: S.optional(
-    AssessmentFrameworkShareRequestList,
-  ),
-  nextToken: S.optional(S.String),
-}) {}
-export class ListAssessmentReportsResponse extends S.Class<ListAssessmentReportsResponse>(
-  "ListAssessmentReportsResponse",
-)({
-  assessmentReports: S.optional(AssessmentReportsMetadata),
-  nextToken: S.optional(S.String),
-}) {}
-export class ListControlDomainInsightsResponse extends S.Class<ListControlDomainInsightsResponse>(
-  "ListControlDomainInsightsResponse",
-)({
-  controlDomainInsights: S.optional(ControlDomainInsightsList),
-  nextToken: S.optional(S.String),
-}) {}
-export class ListControlInsightsByControlDomainResponse extends S.Class<ListControlInsightsByControlDomainResponse>(
-  "ListControlInsightsByControlDomainResponse",
-)({
-  controlInsightsMetadata: S.optional(ControlInsightsMetadata),
-  nextToken: S.optional(S.String),
-}) {}
-export class ListControlsResponse extends S.Class<ListControlsResponse>(
-  "ListControlsResponse",
-)({
-  controlMetadataList: S.optional(ControlMetadataList),
-  nextToken: S.optional(S.String),
-}) {}
-export class ListNotificationsResponse extends S.Class<ListNotificationsResponse>(
-  "ListNotificationsResponse",
-)({
-  notifications: S.optional(Notifications),
-  nextToken: S.optional(S.String),
-}) {}
-export class UpdateAssessmentControlSetStatusResponse extends S.Class<UpdateAssessmentControlSetStatusResponse>(
-  "UpdateAssessmentControlSetStatusResponse",
-)({ controlSet: S.optional(AssessmentControlSet) }) {}
-export class ControlSet extends S.Class<ControlSet>("ControlSet")({
-  id: S.optional(S.String),
-  name: S.optional(S.String),
-  controls: S.optional(Controls),
-}) {}
+).annotations({
+  identifier: "CreateControlRequest",
+}) as any as S.Schema<CreateControlRequest>;
+export interface GetAssessmentReportUrlResponse {
+  preSignedUrl?: URL;
+}
+export const GetAssessmentReportUrlResponse = S.suspend(() =>
+  S.Struct({ preSignedUrl: S.optional(URL) }),
+).annotations({
+  identifier: "GetAssessmentReportUrlResponse",
+}) as any as S.Schema<GetAssessmentReportUrlResponse>;
+export interface GetChangeLogsResponse {
+  changeLogs?: ChangeLogs;
+  nextToken?: string;
+}
+export const GetChangeLogsResponse = S.suspend(() =>
+  S.Struct({
+    changeLogs: S.optional(ChangeLogs),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetChangeLogsResponse",
+}) as any as S.Schema<GetChangeLogsResponse>;
+export interface GetControlResponse {
+  control?: Control;
+}
+export const GetControlResponse = S.suspend(() =>
+  S.Struct({ control: S.optional(Control) }),
+).annotations({
+  identifier: "GetControlResponse",
+}) as any as S.Schema<GetControlResponse>;
+export interface GetDelegationsResponse {
+  delegations?: DelegationMetadataList;
+  nextToken?: string;
+}
+export const GetDelegationsResponse = S.suspend(() =>
+  S.Struct({
+    delegations: S.optional(DelegationMetadataList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetDelegationsResponse",
+}) as any as S.Schema<GetDelegationsResponse>;
+export interface GetEvidenceFolderResponse {
+  evidenceFolder?: AssessmentEvidenceFolder;
+}
+export const GetEvidenceFolderResponse = S.suspend(() =>
+  S.Struct({ evidenceFolder: S.optional(AssessmentEvidenceFolder) }),
+).annotations({
+  identifier: "GetEvidenceFolderResponse",
+}) as any as S.Schema<GetEvidenceFolderResponse>;
+export interface GetInsightsByAssessmentResponse {
+  insights?: InsightsByAssessment;
+}
+export const GetInsightsByAssessmentResponse = S.suspend(() =>
+  S.Struct({ insights: S.optional(InsightsByAssessment) }),
+).annotations({
+  identifier: "GetInsightsByAssessmentResponse",
+}) as any as S.Schema<GetInsightsByAssessmentResponse>;
+export interface ListAssessmentFrameworksResponse {
+  frameworkMetadataList?: FrameworkMetadataList;
+  nextToken?: string;
+}
+export const ListAssessmentFrameworksResponse = S.suspend(() =>
+  S.Struct({
+    frameworkMetadataList: S.optional(FrameworkMetadataList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListAssessmentFrameworksResponse",
+}) as any as S.Schema<ListAssessmentFrameworksResponse>;
+export interface ListAssessmentFrameworkShareRequestsResponse {
+  assessmentFrameworkShareRequests?: AssessmentFrameworkShareRequestList;
+  nextToken?: string;
+}
+export const ListAssessmentFrameworkShareRequestsResponse = S.suspend(() =>
+  S.Struct({
+    assessmentFrameworkShareRequests: S.optional(
+      AssessmentFrameworkShareRequestList,
+    ),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListAssessmentFrameworkShareRequestsResponse",
+}) as any as S.Schema<ListAssessmentFrameworkShareRequestsResponse>;
+export interface ListAssessmentReportsResponse {
+  assessmentReports?: AssessmentReportsMetadata;
+  nextToken?: string;
+}
+export const ListAssessmentReportsResponse = S.suspend(() =>
+  S.Struct({
+    assessmentReports: S.optional(AssessmentReportsMetadata),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListAssessmentReportsResponse",
+}) as any as S.Schema<ListAssessmentReportsResponse>;
+export interface ListControlDomainInsightsResponse {
+  controlDomainInsights?: ControlDomainInsightsList;
+  nextToken?: string;
+}
+export const ListControlDomainInsightsResponse = S.suspend(() =>
+  S.Struct({
+    controlDomainInsights: S.optional(ControlDomainInsightsList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListControlDomainInsightsResponse",
+}) as any as S.Schema<ListControlDomainInsightsResponse>;
+export interface ListControlInsightsByControlDomainResponse {
+  controlInsightsMetadata?: ControlInsightsMetadata;
+  nextToken?: string;
+}
+export const ListControlInsightsByControlDomainResponse = S.suspend(() =>
+  S.Struct({
+    controlInsightsMetadata: S.optional(ControlInsightsMetadata),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListControlInsightsByControlDomainResponse",
+}) as any as S.Schema<ListControlInsightsByControlDomainResponse>;
+export interface ListControlsResponse {
+  controlMetadataList?: ControlMetadataList;
+  nextToken?: string;
+}
+export const ListControlsResponse = S.suspend(() =>
+  S.Struct({
+    controlMetadataList: S.optional(ControlMetadataList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListControlsResponse",
+}) as any as S.Schema<ListControlsResponse>;
+export interface ListNotificationsResponse {
+  notifications?: Notifications;
+  nextToken?: string;
+}
+export const ListNotificationsResponse = S.suspend(() =>
+  S.Struct({
+    notifications: S.optional(Notifications),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListNotificationsResponse",
+}) as any as S.Schema<ListNotificationsResponse>;
+export interface UpdateAssessmentControlSetStatusResponse {
+  controlSet?: AssessmentControlSet;
+}
+export const UpdateAssessmentControlSetStatusResponse = S.suspend(() =>
+  S.Struct({ controlSet: S.optional(AssessmentControlSet) }),
+).annotations({
+  identifier: "UpdateAssessmentControlSetStatusResponse",
+}) as any as S.Schema<UpdateAssessmentControlSetStatusResponse>;
+export interface ControlSet {
+  id?: string;
+  name?: string;
+  controls?: Controls;
+}
+export const ControlSet = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    controls: S.optional(Controls),
+  }),
+).annotations({ identifier: "ControlSet" }) as any as S.Schema<ControlSet>;
+export type ControlSets = ControlSet[];
 export const ControlSets = S.Array(ControlSet);
-export class Framework extends S.Class<Framework>("Framework")({
-  arn: S.optional(S.String),
-  id: S.optional(S.String),
-  name: S.optional(S.String),
-  type: S.optional(S.String),
-  complianceType: S.optional(S.String),
-  description: S.optional(S.String),
-  logo: S.optional(S.String),
-  controlSources: S.optional(S.String),
-  controlSets: S.optional(ControlSets),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  createdBy: S.optional(S.String),
-  lastUpdatedBy: S.optional(S.String),
-  tags: S.optional(TagMap),
-}) {}
-export class UpdateAssessmentFrameworkResponse extends S.Class<UpdateAssessmentFrameworkResponse>(
-  "UpdateAssessmentFrameworkResponse",
-)({ framework: S.optional(Framework) }) {}
-export class UpdateControlResponse extends S.Class<UpdateControlResponse>(
-  "UpdateControlResponse",
-)({ control: S.optional(Control) }) {}
-export class EvidenceFinderEnablement extends S.Class<EvidenceFinderEnablement>(
-  "EvidenceFinderEnablement",
-)({
-  eventDataStoreArn: S.optional(S.String),
-  enablementStatus: S.optional(S.String),
-  backfillStatus: S.optional(S.String),
-  error: S.optional(S.String),
-}) {}
-export class Settings extends S.Class<Settings>("Settings")({
-  isAwsOrgEnabled: S.optional(S.Boolean),
-  snsTopic: S.optional(S.String),
-  defaultAssessmentReportsDestination: S.optional(AssessmentReportsDestination),
-  defaultProcessOwners: S.optional(Roles),
-  kmsKey: S.optional(S.String),
-  evidenceFinderEnablement: S.optional(EvidenceFinderEnablement),
-  deregistrationPolicy: S.optional(DeregistrationPolicy),
-  defaultExportDestination: S.optional(DefaultExportDestination),
-}) {}
-export class UpdateSettingsResponse extends S.Class<UpdateSettingsResponse>(
-  "UpdateSettingsResponse",
-)({ settings: S.optional(Settings) }) {}
-export class BatchCreateDelegationByAssessmentError extends S.Class<BatchCreateDelegationByAssessmentError>(
-  "BatchCreateDelegationByAssessmentError",
-)({
-  createDelegationRequest: S.optional(CreateDelegationRequest),
-  errorCode: S.optional(S.String),
-  errorMessage: S.optional(S.String),
-}) {}
+export interface Framework {
+  arn?: string;
+  id?: string;
+  name?: string;
+  type?: string;
+  complianceType?: string;
+  description?: string;
+  logo?: string;
+  controlSources?: string;
+  controlSets?: ControlSets;
+  createdAt?: Date;
+  lastUpdatedAt?: Date;
+  createdBy?: string;
+  lastUpdatedBy?: string;
+  tags?: TagMap;
+}
+export const Framework = S.suspend(() =>
+  S.Struct({
+    arn: S.optional(S.String),
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    complianceType: S.optional(S.String),
+    description: S.optional(S.String),
+    logo: S.optional(S.String),
+    controlSources: S.optional(S.String),
+    controlSets: S.optional(ControlSets),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    createdBy: S.optional(S.String),
+    lastUpdatedBy: S.optional(S.String),
+    tags: S.optional(TagMap),
+  }),
+).annotations({ identifier: "Framework" }) as any as S.Schema<Framework>;
+export interface UpdateAssessmentFrameworkResponse {
+  framework?: Framework;
+}
+export const UpdateAssessmentFrameworkResponse = S.suspend(() =>
+  S.Struct({ framework: S.optional(Framework) }),
+).annotations({
+  identifier: "UpdateAssessmentFrameworkResponse",
+}) as any as S.Schema<UpdateAssessmentFrameworkResponse>;
+export interface UpdateControlResponse {
+  control?: Control;
+}
+export const UpdateControlResponse = S.suspend(() =>
+  S.Struct({ control: S.optional(Control) }),
+).annotations({
+  identifier: "UpdateControlResponse",
+}) as any as S.Schema<UpdateControlResponse>;
+export interface EvidenceFinderEnablement {
+  eventDataStoreArn?: string;
+  enablementStatus?: string;
+  backfillStatus?: string;
+  error?: string;
+}
+export const EvidenceFinderEnablement = S.suspend(() =>
+  S.Struct({
+    eventDataStoreArn: S.optional(S.String),
+    enablementStatus: S.optional(S.String),
+    backfillStatus: S.optional(S.String),
+    error: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "EvidenceFinderEnablement",
+}) as any as S.Schema<EvidenceFinderEnablement>;
+export interface Settings {
+  isAwsOrgEnabled?: boolean;
+  snsTopic?: string;
+  defaultAssessmentReportsDestination?: AssessmentReportsDestination;
+  defaultProcessOwners?: Roles;
+  kmsKey?: string;
+  evidenceFinderEnablement?: EvidenceFinderEnablement;
+  deregistrationPolicy?: DeregistrationPolicy;
+  defaultExportDestination?: DefaultExportDestination;
+}
+export const Settings = S.suspend(() =>
+  S.Struct({
+    isAwsOrgEnabled: S.optional(S.Boolean),
+    snsTopic: S.optional(S.String),
+    defaultAssessmentReportsDestination: S.optional(
+      AssessmentReportsDestination,
+    ),
+    defaultProcessOwners: S.optional(Roles),
+    kmsKey: S.optional(S.String),
+    evidenceFinderEnablement: S.optional(EvidenceFinderEnablement),
+    deregistrationPolicy: S.optional(DeregistrationPolicy),
+    defaultExportDestination: S.optional(DefaultExportDestination),
+  }),
+).annotations({ identifier: "Settings" }) as any as S.Schema<Settings>;
+export interface UpdateSettingsResponse {
+  settings?: Settings;
+}
+export const UpdateSettingsResponse = S.suspend(() =>
+  S.Struct({ settings: S.optional(Settings) }),
+).annotations({
+  identifier: "UpdateSettingsResponse",
+}) as any as S.Schema<UpdateSettingsResponse>;
+export interface BatchCreateDelegationByAssessmentError {
+  createDelegationRequest?: CreateDelegationRequest;
+  errorCode?: string;
+  errorMessage?: string;
+}
+export const BatchCreateDelegationByAssessmentError = S.suspend(() =>
+  S.Struct({
+    createDelegationRequest: S.optional(CreateDelegationRequest),
+    errorCode: S.optional(S.String),
+    errorMessage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "BatchCreateDelegationByAssessmentError",
+}) as any as S.Schema<BatchCreateDelegationByAssessmentError>;
+export type BatchCreateDelegationByAssessmentErrors =
+  BatchCreateDelegationByAssessmentError[];
 export const BatchCreateDelegationByAssessmentErrors = S.Array(
   BatchCreateDelegationByAssessmentError,
 );
-export class BatchImportEvidenceToAssessmentControlError extends S.Class<BatchImportEvidenceToAssessmentControlError>(
-  "BatchImportEvidenceToAssessmentControlError",
-)({
-  manualEvidence: S.optional(ManualEvidence),
-  errorCode: S.optional(S.String),
-  errorMessage: S.optional(S.String),
-}) {}
+export interface BatchImportEvidenceToAssessmentControlError {
+  manualEvidence?: ManualEvidence;
+  errorCode?: string;
+  errorMessage?: string;
+}
+export const BatchImportEvidenceToAssessmentControlError = S.suspend(() =>
+  S.Struct({
+    manualEvidence: S.optional(ManualEvidence),
+    errorCode: S.optional(S.String),
+    errorMessage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "BatchImportEvidenceToAssessmentControlError",
+}) as any as S.Schema<BatchImportEvidenceToAssessmentControlError>;
+export type BatchImportEvidenceToAssessmentControlErrors =
+  BatchImportEvidenceToAssessmentControlError[];
 export const BatchImportEvidenceToAssessmentControlErrors = S.Array(
   BatchImportEvidenceToAssessmentControlError,
 );
-export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
-  "ValidationExceptionField",
-)({ name: S.String, message: S.String }) {}
+export interface ValidationExceptionField {
+  name: string;
+  message: string;
+}
+export const ValidationExceptionField = S.suspend(() =>
+  S.Struct({ name: S.String, message: S.String }),
+).annotations({
+  identifier: "ValidationExceptionField",
+}) as any as S.Schema<ValidationExceptionField>;
+export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
-export class ControlInsightsMetadataByAssessmentItem extends S.Class<ControlInsightsMetadataByAssessmentItem>(
-  "ControlInsightsMetadataByAssessmentItem",
-)({
-  name: S.optional(S.String),
-  id: S.optional(S.String),
-  evidenceInsights: S.optional(EvidenceInsights),
-  controlSetName: S.optional(S.String),
-  lastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface ControlInsightsMetadataByAssessmentItem {
+  name?: string;
+  id?: string;
+  evidenceInsights?: EvidenceInsights;
+  controlSetName?: string;
+  lastUpdated?: Date;
+}
+export const ControlInsightsMetadataByAssessmentItem = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    id: S.optional(S.String),
+    evidenceInsights: S.optional(EvidenceInsights),
+    controlSetName: S.optional(S.String),
+    lastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "ControlInsightsMetadataByAssessmentItem",
+}) as any as S.Schema<ControlInsightsMetadataByAssessmentItem>;
+export type ControlInsightsMetadataByAssessment =
+  ControlInsightsMetadataByAssessmentItem[];
 export const ControlInsightsMetadataByAssessment = S.Array(
   ControlInsightsMetadataByAssessmentItem,
 );
-export class AssessmentMetadataItem extends S.Class<AssessmentMetadataItem>(
-  "AssessmentMetadataItem",
-)({
-  name: S.optional(S.String),
-  id: S.optional(S.String),
-  complianceType: S.optional(S.String),
-  status: S.optional(S.String),
-  roles: S.optional(Roles),
-  delegations: S.optional(Delegations),
-  creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface AssessmentMetadataItem {
+  name?: string;
+  id?: string;
+  complianceType?: string;
+  status?: string;
+  roles?: Roles;
+  delegations?: Delegations;
+  creationTime?: Date;
+  lastUpdated?: Date;
+}
+export const AssessmentMetadataItem = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    id: S.optional(S.String),
+    complianceType: S.optional(S.String),
+    status: S.optional(S.String),
+    roles: S.optional(Roles),
+    delegations: S.optional(Delegations),
+    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "AssessmentMetadataItem",
+}) as any as S.Schema<AssessmentMetadataItem>;
+export type ListAssessmentMetadata = AssessmentMetadataItem[];
 export const ListAssessmentMetadata = S.Array(AssessmentMetadataItem);
-export class BatchCreateDelegationByAssessmentResponse extends S.Class<BatchCreateDelegationByAssessmentResponse>(
-  "BatchCreateDelegationByAssessmentResponse",
-)({
-  delegations: S.optional(Delegations),
-  errors: S.optional(BatchCreateDelegationByAssessmentErrors),
-}) {}
-export class BatchImportEvidenceToAssessmentControlResponse extends S.Class<BatchImportEvidenceToAssessmentControlResponse>(
-  "BatchImportEvidenceToAssessmentControlResponse",
-)({ errors: S.optional(BatchImportEvidenceToAssessmentControlErrors) }) {}
-export class CreateAssessmentResponse extends S.Class<CreateAssessmentResponse>(
-  "CreateAssessmentResponse",
-)({ assessment: S.optional(Assessment) }) {}
-export class CreateAssessmentFrameworkResponse extends S.Class<CreateAssessmentFrameworkResponse>(
-  "CreateAssessmentFrameworkResponse",
-)({ framework: S.optional(Framework) }) {}
-export class CreateControlResponse extends S.Class<CreateControlResponse>(
-  "CreateControlResponse",
-)({ control: S.optional(Control) }) {}
-export class GetAssessmentFrameworkResponse extends S.Class<GetAssessmentFrameworkResponse>(
-  "GetAssessmentFrameworkResponse",
-)({ framework: S.optional(Framework) }) {}
-export class GetEvidenceResponse extends S.Class<GetEvidenceResponse>(
-  "GetEvidenceResponse",
-)({ evidence: S.optional(Evidence) }) {}
-export class GetSettingsResponse extends S.Class<GetSettingsResponse>(
-  "GetSettingsResponse",
-)({ settings: S.optional(Settings) }) {}
-export class ListAssessmentControlInsightsByControlDomainResponse extends S.Class<ListAssessmentControlInsightsByControlDomainResponse>(
-  "ListAssessmentControlInsightsByControlDomainResponse",
-)({
-  controlInsightsByAssessment: S.optional(ControlInsightsMetadataByAssessment),
-  nextToken: S.optional(S.String),
-}) {}
-export class ListAssessmentsResponse extends S.Class<ListAssessmentsResponse>(
-  "ListAssessmentsResponse",
-)({
-  assessmentMetadata: S.optional(ListAssessmentMetadata),
-  nextToken: S.optional(S.String),
-}) {}
-export class UpdateAssessmentControlResponse extends S.Class<UpdateAssessmentControlResponse>(
-  "UpdateAssessmentControlResponse",
-)({ control: S.optional(AssessmentControl) }) {}
-export class GetAssessmentResponse extends S.Class<GetAssessmentResponse>(
-  "GetAssessmentResponse",
-)({ assessment: S.optional(Assessment), userRole: S.optional(Role) }) {}
+export interface BatchCreateDelegationByAssessmentResponse {
+  delegations?: Delegations;
+  errors?: BatchCreateDelegationByAssessmentErrors;
+}
+export const BatchCreateDelegationByAssessmentResponse = S.suspend(() =>
+  S.Struct({
+    delegations: S.optional(Delegations),
+    errors: S.optional(BatchCreateDelegationByAssessmentErrors),
+  }),
+).annotations({
+  identifier: "BatchCreateDelegationByAssessmentResponse",
+}) as any as S.Schema<BatchCreateDelegationByAssessmentResponse>;
+export interface BatchImportEvidenceToAssessmentControlResponse {
+  errors?: BatchImportEvidenceToAssessmentControlErrors;
+}
+export const BatchImportEvidenceToAssessmentControlResponse = S.suspend(() =>
+  S.Struct({
+    errors: S.optional(BatchImportEvidenceToAssessmentControlErrors),
+  }),
+).annotations({
+  identifier: "BatchImportEvidenceToAssessmentControlResponse",
+}) as any as S.Schema<BatchImportEvidenceToAssessmentControlResponse>;
+export interface CreateAssessmentResponse {
+  assessment?: Assessment;
+}
+export const CreateAssessmentResponse = S.suspend(() =>
+  S.Struct({ assessment: S.optional(Assessment) }),
+).annotations({
+  identifier: "CreateAssessmentResponse",
+}) as any as S.Schema<CreateAssessmentResponse>;
+export interface CreateAssessmentFrameworkResponse {
+  framework?: Framework;
+}
+export const CreateAssessmentFrameworkResponse = S.suspend(() =>
+  S.Struct({ framework: S.optional(Framework) }),
+).annotations({
+  identifier: "CreateAssessmentFrameworkResponse",
+}) as any as S.Schema<CreateAssessmentFrameworkResponse>;
+export interface CreateControlResponse {
+  control?: Control;
+}
+export const CreateControlResponse = S.suspend(() =>
+  S.Struct({ control: S.optional(Control) }),
+).annotations({
+  identifier: "CreateControlResponse",
+}) as any as S.Schema<CreateControlResponse>;
+export interface GetAssessmentFrameworkResponse {
+  framework?: Framework;
+}
+export const GetAssessmentFrameworkResponse = S.suspend(() =>
+  S.Struct({ framework: S.optional(Framework) }),
+).annotations({
+  identifier: "GetAssessmentFrameworkResponse",
+}) as any as S.Schema<GetAssessmentFrameworkResponse>;
+export interface GetEvidenceResponse {
+  evidence?: Evidence;
+}
+export const GetEvidenceResponse = S.suspend(() =>
+  S.Struct({ evidence: S.optional(Evidence) }),
+).annotations({
+  identifier: "GetEvidenceResponse",
+}) as any as S.Schema<GetEvidenceResponse>;
+export interface GetSettingsResponse {
+  settings?: Settings;
+}
+export const GetSettingsResponse = S.suspend(() =>
+  S.Struct({ settings: S.optional(Settings) }),
+).annotations({
+  identifier: "GetSettingsResponse",
+}) as any as S.Schema<GetSettingsResponse>;
+export interface ListAssessmentControlInsightsByControlDomainResponse {
+  controlInsightsByAssessment?: ControlInsightsMetadataByAssessment;
+  nextToken?: string;
+}
+export const ListAssessmentControlInsightsByControlDomainResponse = S.suspend(
+  () =>
+    S.Struct({
+      controlInsightsByAssessment: S.optional(
+        ControlInsightsMetadataByAssessment,
+      ),
+      nextToken: S.optional(S.String),
+    }),
+).annotations({
+  identifier: "ListAssessmentControlInsightsByControlDomainResponse",
+}) as any as S.Schema<ListAssessmentControlInsightsByControlDomainResponse>;
+export interface ListAssessmentsResponse {
+  assessmentMetadata?: ListAssessmentMetadata;
+  nextToken?: string;
+}
+export const ListAssessmentsResponse = S.suspend(() =>
+  S.Struct({
+    assessmentMetadata: S.optional(ListAssessmentMetadata),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListAssessmentsResponse",
+}) as any as S.Schema<ListAssessmentsResponse>;
+export interface UpdateAssessmentControlResponse {
+  control?: AssessmentControl;
+}
+export const UpdateAssessmentControlResponse = S.suspend(() =>
+  S.Struct({ control: S.optional(AssessmentControl) }),
+).annotations({
+  identifier: "UpdateAssessmentControlResponse",
+}) as any as S.Schema<UpdateAssessmentControlResponse>;
+export interface GetAssessmentResponse {
+  assessment?: Assessment;
+  userRole?: Role;
+}
+export const GetAssessmentResponse = S.suspend(() =>
+  S.Struct({ assessment: S.optional(Assessment), userRole: S.optional(Role) }),
+).annotations({
+  identifier: "GetAssessmentResponse",
+}) as any as S.Schema<GetAssessmentResponse>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

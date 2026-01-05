@@ -262,147 +262,278 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class DeleteKeyspaceRequest extends S.Class<DeleteKeyspaceRequest>(
-  "DeleteKeyspaceRequest",
-)(
-  { keyspaceName: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteKeyspaceResponse extends S.Class<DeleteKeyspaceResponse>(
-  "DeleteKeyspaceResponse",
-)({}) {}
-export class DeleteTableRequest extends S.Class<DeleteTableRequest>(
-  "DeleteTableRequest",
-)(
-  { keyspaceName: S.String, tableName: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteTableResponse extends S.Class<DeleteTableResponse>(
-  "DeleteTableResponse",
-)({}) {}
-export class DeleteTypeRequest extends S.Class<DeleteTypeRequest>(
-  "DeleteTypeRequest",
-)(
-  { keyspaceName: S.String, typeName: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetKeyspaceRequest extends S.Class<GetKeyspaceRequest>(
-  "GetKeyspaceRequest",
-)(
-  { keyspaceName: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetTableRequest extends S.Class<GetTableRequest>(
-  "GetTableRequest",
-)(
-  { keyspaceName: S.String, tableName: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetTableAutoScalingSettingsRequest extends S.Class<GetTableAutoScalingSettingsRequest>(
-  "GetTableAutoScalingSettingsRequest",
-)(
-  { keyspaceName: S.String, tableName: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetTypeRequest extends S.Class<GetTypeRequest>("GetTypeRequest")(
-  { keyspaceName: S.String, typeName: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListKeyspacesRequest extends S.Class<ListKeyspacesRequest>(
-  "ListKeyspacesRequest",
-)(
-  { nextToken: S.optional(S.String), maxResults: S.optional(S.Number) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTablesRequest extends S.Class<ListTablesRequest>(
-  "ListTablesRequest",
-)(
-  {
+export interface DeleteKeyspaceRequest {
+  keyspaceName: string;
+}
+export const DeleteKeyspaceRequest = S.suspend(() =>
+  S.Struct({ keyspaceName: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteKeyspaceRequest",
+}) as any as S.Schema<DeleteKeyspaceRequest>;
+export interface DeleteKeyspaceResponse {}
+export const DeleteKeyspaceResponse = S.suspend(() => S.Struct({})).annotations(
+  { identifier: "DeleteKeyspaceResponse" },
+) as any as S.Schema<DeleteKeyspaceResponse>;
+export interface DeleteTableRequest {
+  keyspaceName: string;
+  tableName: string;
+}
+export const DeleteTableRequest = S.suspend(() =>
+  S.Struct({ keyspaceName: S.String, tableName: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteTableRequest",
+}) as any as S.Schema<DeleteTableRequest>;
+export interface DeleteTableResponse {}
+export const DeleteTableResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteTableResponse",
+}) as any as S.Schema<DeleteTableResponse>;
+export interface DeleteTypeRequest {
+  keyspaceName: string;
+  typeName: string;
+}
+export const DeleteTypeRequest = S.suspend(() =>
+  S.Struct({ keyspaceName: S.String, typeName: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteTypeRequest",
+}) as any as S.Schema<DeleteTypeRequest>;
+export interface GetKeyspaceRequest {
+  keyspaceName: string;
+}
+export const GetKeyspaceRequest = S.suspend(() =>
+  S.Struct({ keyspaceName: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetKeyspaceRequest",
+}) as any as S.Schema<GetKeyspaceRequest>;
+export interface GetTableRequest {
+  keyspaceName: string;
+  tableName: string;
+}
+export const GetTableRequest = S.suspend(() =>
+  S.Struct({ keyspaceName: S.String, tableName: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetTableRequest",
+}) as any as S.Schema<GetTableRequest>;
+export interface GetTableAutoScalingSettingsRequest {
+  keyspaceName: string;
+  tableName: string;
+}
+export const GetTableAutoScalingSettingsRequest = S.suspend(() =>
+  S.Struct({ keyspaceName: S.String, tableName: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetTableAutoScalingSettingsRequest",
+}) as any as S.Schema<GetTableAutoScalingSettingsRequest>;
+export interface GetTypeRequest {
+  keyspaceName: string;
+  typeName: string;
+}
+export const GetTypeRequest = S.suspend(() =>
+  S.Struct({ keyspaceName: S.String, typeName: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetTypeRequest",
+}) as any as S.Schema<GetTypeRequest>;
+export interface ListKeyspacesRequest {
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListKeyspacesRequest = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    maxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListKeyspacesRequest",
+}) as any as S.Schema<ListKeyspacesRequest>;
+export interface ListTablesRequest {
+  nextToken?: string;
+  maxResults?: number;
+  keyspaceName: string;
+}
+export const ListTablesRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
     keyspaceName: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListTablesRequest",
+}) as any as S.Schema<ListTablesRequest>;
+export interface ListTagsForResourceRequest {
+  resourceArn: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({
     resourceArn: S.String,
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTypesRequest extends S.Class<ListTypesRequest>(
-  "ListTypesRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface ListTypesRequest {
+  nextToken?: string;
+  maxResults?: number;
+  keyspaceName: string;
+}
+export const ListTypesRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
     keyspaceName: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CapacitySpecification extends S.Class<CapacitySpecification>(
-  "CapacitySpecification",
-)({
-  throughputMode: S.String,
-  readCapacityUnits: S.optional(S.Number),
-  writeCapacityUnits: S.optional(S.Number),
-}) {}
-export class EncryptionSpecification extends S.Class<EncryptionSpecification>(
-  "EncryptionSpecification",
-)({ type: S.String, kmsKeyIdentifier: S.optional(S.String) }) {}
-export class PointInTimeRecovery extends S.Class<PointInTimeRecovery>(
-  "PointInTimeRecovery",
-)({ status: S.String }) {}
-export class Tag extends S.Class<Tag>("Tag")({
-  key: S.String,
-  value: S.String,
-}) {}
-export const TagList = S.Array(Tag);
-export class TargetTrackingScalingPolicyConfiguration extends S.Class<TargetTrackingScalingPolicyConfiguration>(
-  "TargetTrackingScalingPolicyConfiguration",
-)({
-  disableScaleIn: S.optional(S.Boolean),
-  scaleInCooldown: S.optional(S.Number),
-  scaleOutCooldown: S.optional(S.Number),
-  targetValue: S.Number,
-}) {}
-export class AutoScalingPolicy extends S.Class<AutoScalingPolicy>(
-  "AutoScalingPolicy",
-)({
-  targetTrackingScalingPolicyConfiguration: S.optional(
-    TargetTrackingScalingPolicyConfiguration,
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-}) {}
-export class AutoScalingSettings extends S.Class<AutoScalingSettings>(
-  "AutoScalingSettings",
-)({
-  autoScalingDisabled: S.optional(S.Boolean),
-  minimumUnits: S.optional(S.Number),
-  maximumUnits: S.optional(S.Number),
-  scalingPolicy: S.optional(AutoScalingPolicy),
-}) {}
-export class AutoScalingSpecification extends S.Class<AutoScalingSpecification>(
-  "AutoScalingSpecification",
-)({
-  writeCapacityAutoScaling: S.optional(AutoScalingSettings),
-  readCapacityAutoScaling: S.optional(AutoScalingSettings),
-}) {}
-export class ReplicaSpecification extends S.Class<ReplicaSpecification>(
-  "ReplicaSpecification",
-)({
-  region: S.String,
-  readCapacityUnits: S.optional(S.Number),
-  readCapacityAutoScaling: S.optional(AutoScalingSettings),
-}) {}
+).annotations({
+  identifier: "ListTypesRequest",
+}) as any as S.Schema<ListTypesRequest>;
+export interface CapacitySpecification {
+  throughputMode: string;
+  readCapacityUnits?: number;
+  writeCapacityUnits?: number;
+}
+export const CapacitySpecification = S.suspend(() =>
+  S.Struct({
+    throughputMode: S.String,
+    readCapacityUnits: S.optional(S.Number),
+    writeCapacityUnits: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "CapacitySpecification",
+}) as any as S.Schema<CapacitySpecification>;
+export interface EncryptionSpecification {
+  type: string;
+  kmsKeyIdentifier?: string;
+}
+export const EncryptionSpecification = S.suspend(() =>
+  S.Struct({ type: S.String, kmsKeyIdentifier: S.optional(S.String) }),
+).annotations({
+  identifier: "EncryptionSpecification",
+}) as any as S.Schema<EncryptionSpecification>;
+export interface PointInTimeRecovery {
+  status: string;
+}
+export const PointInTimeRecovery = S.suspend(() =>
+  S.Struct({ status: S.String }),
+).annotations({
+  identifier: "PointInTimeRecovery",
+}) as any as S.Schema<PointInTimeRecovery>;
+export interface Tag {
+  key: string;
+  value: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ key: S.String, value: S.String }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagList = Tag[];
+export const TagList = S.Array(Tag);
+export interface TargetTrackingScalingPolicyConfiguration {
+  disableScaleIn?: boolean;
+  scaleInCooldown?: number;
+  scaleOutCooldown?: number;
+  targetValue: number;
+}
+export const TargetTrackingScalingPolicyConfiguration = S.suspend(() =>
+  S.Struct({
+    disableScaleIn: S.optional(S.Boolean),
+    scaleInCooldown: S.optional(S.Number),
+    scaleOutCooldown: S.optional(S.Number),
+    targetValue: S.Number,
+  }),
+).annotations({
+  identifier: "TargetTrackingScalingPolicyConfiguration",
+}) as any as S.Schema<TargetTrackingScalingPolicyConfiguration>;
+export interface AutoScalingPolicy {
+  targetTrackingScalingPolicyConfiguration?: TargetTrackingScalingPolicyConfiguration;
+}
+export const AutoScalingPolicy = S.suspend(() =>
+  S.Struct({
+    targetTrackingScalingPolicyConfiguration: S.optional(
+      TargetTrackingScalingPolicyConfiguration,
+    ),
+  }),
+).annotations({
+  identifier: "AutoScalingPolicy",
+}) as any as S.Schema<AutoScalingPolicy>;
+export interface AutoScalingSettings {
+  autoScalingDisabled?: boolean;
+  minimumUnits?: number;
+  maximumUnits?: number;
+  scalingPolicy?: AutoScalingPolicy;
+}
+export const AutoScalingSettings = S.suspend(() =>
+  S.Struct({
+    autoScalingDisabled: S.optional(S.Boolean),
+    minimumUnits: S.optional(S.Number),
+    maximumUnits: S.optional(S.Number),
+    scalingPolicy: S.optional(AutoScalingPolicy),
+  }),
+).annotations({
+  identifier: "AutoScalingSettings",
+}) as any as S.Schema<AutoScalingSettings>;
+export interface AutoScalingSpecification {
+  writeCapacityAutoScaling?: AutoScalingSettings;
+  readCapacityAutoScaling?: AutoScalingSettings;
+}
+export const AutoScalingSpecification = S.suspend(() =>
+  S.Struct({
+    writeCapacityAutoScaling: S.optional(AutoScalingSettings),
+    readCapacityAutoScaling: S.optional(AutoScalingSettings),
+  }),
+).annotations({
+  identifier: "AutoScalingSpecification",
+}) as any as S.Schema<AutoScalingSpecification>;
+export interface ReplicaSpecification {
+  region: string;
+  readCapacityUnits?: number;
+  readCapacityAutoScaling?: AutoScalingSettings;
+}
+export const ReplicaSpecification = S.suspend(() =>
+  S.Struct({
+    region: S.String,
+    readCapacityUnits: S.optional(S.Number),
+    readCapacityAutoScaling: S.optional(AutoScalingSettings),
+  }),
+).annotations({
+  identifier: "ReplicaSpecification",
+}) as any as S.Schema<ReplicaSpecification>;
+export type ReplicaSpecificationList = ReplicaSpecification[];
 export const ReplicaSpecificationList = S.Array(ReplicaSpecification);
-export class RestoreTableRequest extends S.Class<RestoreTableRequest>(
-  "RestoreTableRequest",
-)(
-  {
+export interface RestoreTableRequest {
+  sourceKeyspaceName: string;
+  sourceTableName: string;
+  targetKeyspaceName: string;
+  targetTableName: string;
+  restoreTimestamp?: Date;
+  capacitySpecificationOverride?: CapacitySpecification;
+  encryptionSpecificationOverride?: EncryptionSpecification;
+  pointInTimeRecoveryOverride?: PointInTimeRecovery;
+  tagsOverride?: TagList;
+  autoScalingSpecification?: AutoScalingSpecification;
+  replicaSpecifications?: ReplicaSpecificationList;
+}
+export const RestoreTableRequest = S.suspend(() =>
+  S.Struct({
     sourceKeyspaceName: S.String,
     sourceTableName: S.String,
     targetKeyspaceName: S.String,
@@ -416,118 +547,253 @@ export class RestoreTableRequest extends S.Class<RestoreTableRequest>(
     tagsOverride: S.optional(TagList),
     autoScalingSpecification: S.optional(AutoScalingSpecification),
     replicaSpecifications: S.optional(ReplicaSpecificationList),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { resourceArn: S.String, tags: TagList },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  { resourceArn: S.String, tags: TagList },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "RestoreTableRequest",
+}) as any as S.Schema<RestoreTableRequest>;
+export interface TagResourceRequest {
+  resourceArn: string;
+  tags: TagList;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String, tags: TagList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UntagResourceRequest {
+  resourceArn: string;
+  tags: TagList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String, tags: TagList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export type RegionList = string[];
 export const RegionList = S.Array(S.String);
-export class ReplicationSpecification extends S.Class<ReplicationSpecification>(
-  "ReplicationSpecification",
-)({ replicationStrategy: S.String, regionList: S.optional(RegionList) }) {}
-export class ClientSideTimestamps extends S.Class<ClientSideTimestamps>(
-  "ClientSideTimestamps",
-)({ status: S.String }) {}
-export class UpdateKeyspaceRequest extends S.Class<UpdateKeyspaceRequest>(
-  "UpdateKeyspaceRequest",
-)(
-  {
+export interface ReplicationSpecification {
+  replicationStrategy: string;
+  regionList?: RegionList;
+}
+export const ReplicationSpecification = S.suspend(() =>
+  S.Struct({
+    replicationStrategy: S.String,
+    regionList: S.optional(RegionList),
+  }),
+).annotations({
+  identifier: "ReplicationSpecification",
+}) as any as S.Schema<ReplicationSpecification>;
+export interface ClientSideTimestamps {
+  status: string;
+}
+export const ClientSideTimestamps = S.suspend(() =>
+  S.Struct({ status: S.String }),
+).annotations({
+  identifier: "ClientSideTimestamps",
+}) as any as S.Schema<ClientSideTimestamps>;
+export interface UpdateKeyspaceRequest {
+  keyspaceName: string;
+  replicationSpecification: ReplicationSpecification;
+  clientSideTimestamps?: ClientSideTimestamps;
+}
+export const UpdateKeyspaceRequest = S.suspend(() =>
+  S.Struct({
     keyspaceName: S.String,
     replicationSpecification: ReplicationSpecification,
     clientSideTimestamps: S.optional(ClientSideTimestamps),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class Comment extends S.Class<Comment>("Comment")({
-  message: S.String,
-}) {}
-export class TimeToLive extends S.Class<TimeToLive>("TimeToLive")({
-  status: S.String,
-}) {}
-export class CdcSpecification extends S.Class<CdcSpecification>(
-  "CdcSpecification",
-)({
-  status: S.String,
-  viewType: S.optional(S.String),
-  tags: S.optional(TagList),
-  propagateTags: S.optional(S.String),
-}) {}
-export class FieldDefinition extends S.Class<FieldDefinition>(
-  "FieldDefinition",
-)({ name: S.String, type: S.String }) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateKeyspaceRequest",
+}) as any as S.Schema<UpdateKeyspaceRequest>;
+export interface Comment {
+  message: string;
+}
+export const Comment = S.suspend(() =>
+  S.Struct({ message: S.String }),
+).annotations({ identifier: "Comment" }) as any as S.Schema<Comment>;
+export interface TimeToLive {
+  status: string;
+}
+export const TimeToLive = S.suspend(() =>
+  S.Struct({ status: S.String }),
+).annotations({ identifier: "TimeToLive" }) as any as S.Schema<TimeToLive>;
+export interface CdcSpecification {
+  status: string;
+  viewType?: string;
+  tags?: TagList;
+  propagateTags?: string;
+}
+export const CdcSpecification = S.suspend(() =>
+  S.Struct({
+    status: S.String,
+    viewType: S.optional(S.String),
+    tags: S.optional(TagList),
+    propagateTags: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CdcSpecification",
+}) as any as S.Schema<CdcSpecification>;
+export interface FieldDefinition {
+  name: string;
+  type: string;
+}
+export const FieldDefinition = S.suspend(() =>
+  S.Struct({ name: S.String, type: S.String }),
+).annotations({
+  identifier: "FieldDefinition",
+}) as any as S.Schema<FieldDefinition>;
+export type FieldList = FieldDefinition[];
 export const FieldList = S.Array(FieldDefinition);
+export type TableNameList = string[];
 export const TableNameList = S.Array(S.String);
+export type TypeNameList = string[];
 export const TypeNameList = S.Array(S.String);
-export class ColumnDefinition extends S.Class<ColumnDefinition>(
-  "ColumnDefinition",
-)({ name: S.String, type: S.String }) {}
+export interface ColumnDefinition {
+  name: string;
+  type: string;
+}
+export const ColumnDefinition = S.suspend(() =>
+  S.Struct({ name: S.String, type: S.String }),
+).annotations({
+  identifier: "ColumnDefinition",
+}) as any as S.Schema<ColumnDefinition>;
+export type ColumnDefinitionList = ColumnDefinition[];
 export const ColumnDefinitionList = S.Array(ColumnDefinition);
-export class CreateKeyspaceRequest extends S.Class<CreateKeyspaceRequest>(
-  "CreateKeyspaceRequest",
-)(
-  {
+export interface CreateKeyspaceRequest {
+  keyspaceName: string;
+  tags?: TagList;
+  replicationSpecification?: ReplicationSpecification;
+}
+export const CreateKeyspaceRequest = S.suspend(() =>
+  S.Struct({
     keyspaceName: S.String,
     tags: S.optional(TagList),
     replicationSpecification: S.optional(ReplicationSpecification),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateTypeRequest extends S.Class<CreateTypeRequest>(
-  "CreateTypeRequest",
-)(
-  { keyspaceName: S.String, typeName: S.String, fieldDefinitions: FieldList },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteTypeResponse extends S.Class<DeleteTypeResponse>(
-  "DeleteTypeResponse",
-)({ keyspaceArn: S.String, typeName: S.String }) {}
-export class GetTypeResponse extends S.Class<GetTypeResponse>(
-  "GetTypeResponse",
-)({
-  keyspaceName: S.String,
-  typeName: S.String,
-  fieldDefinitions: S.optional(FieldList),
-  lastModifiedTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-  status: S.optional(S.String),
-  directReferringTables: S.optional(TableNameList),
-  directParentTypes: S.optional(TypeNameList),
-  maxNestingDepth: S.optional(S.Number),
-  keyspaceArn: S.String,
-}) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ nextToken: S.optional(S.String), tags: S.optional(TagList) }) {}
-export class ListTypesResponse extends S.Class<ListTypesResponse>(
-  "ListTypesResponse",
-)({ nextToken: S.optional(S.String), types: TypeNameList }) {}
-export class RestoreTableResponse extends S.Class<RestoreTableResponse>(
-  "RestoreTableResponse",
-)({ restoredTableARN: S.String }) {}
-export class UpdateKeyspaceResponse extends S.Class<UpdateKeyspaceResponse>(
-  "UpdateKeyspaceResponse",
-)({ resourceArn: S.String }) {}
-export class UpdateTableRequest extends S.Class<UpdateTableRequest>(
-  "UpdateTableRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateKeyspaceRequest",
+}) as any as S.Schema<CreateKeyspaceRequest>;
+export interface CreateTypeRequest {
+  keyspaceName: string;
+  typeName: string;
+  fieldDefinitions: FieldList;
+}
+export const CreateTypeRequest = S.suspend(() =>
+  S.Struct({
+    keyspaceName: S.String,
+    typeName: S.String,
+    fieldDefinitions: FieldList,
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateTypeRequest",
+}) as any as S.Schema<CreateTypeRequest>;
+export interface DeleteTypeResponse {
+  keyspaceArn: string;
+  typeName: string;
+}
+export const DeleteTypeResponse = S.suspend(() =>
+  S.Struct({ keyspaceArn: S.String, typeName: S.String }),
+).annotations({
+  identifier: "DeleteTypeResponse",
+}) as any as S.Schema<DeleteTypeResponse>;
+export interface GetTypeResponse {
+  keyspaceName: string;
+  typeName: string;
+  fieldDefinitions?: FieldList;
+  lastModifiedTimestamp?: Date;
+  status?: string;
+  directReferringTables?: TableNameList;
+  directParentTypes?: TypeNameList;
+  maxNestingDepth?: number;
+  keyspaceArn: string;
+}
+export const GetTypeResponse = S.suspend(() =>
+  S.Struct({
+    keyspaceName: S.String,
+    typeName: S.String,
+    fieldDefinitions: S.optional(FieldList),
+    lastModifiedTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    status: S.optional(S.String),
+    directReferringTables: S.optional(TableNameList),
+    directParentTypes: S.optional(TypeNameList),
+    maxNestingDepth: S.optional(S.Number),
+    keyspaceArn: S.String,
+  }),
+).annotations({
+  identifier: "GetTypeResponse",
+}) as any as S.Schema<GetTypeResponse>;
+export interface ListTagsForResourceResponse {
+  nextToken?: string;
+  tags?: TagList;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ nextToken: S.optional(S.String), tags: S.optional(TagList) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface ListTypesResponse {
+  nextToken?: string;
+  types: TypeNameList;
+}
+export const ListTypesResponse = S.suspend(() =>
+  S.Struct({ nextToken: S.optional(S.String), types: TypeNameList }),
+).annotations({
+  identifier: "ListTypesResponse",
+}) as any as S.Schema<ListTypesResponse>;
+export interface RestoreTableResponse {
+  restoredTableARN: string;
+}
+export const RestoreTableResponse = S.suspend(() =>
+  S.Struct({ restoredTableARN: S.String }),
+).annotations({
+  identifier: "RestoreTableResponse",
+}) as any as S.Schema<RestoreTableResponse>;
+export interface UpdateKeyspaceResponse {
+  resourceArn: string;
+}
+export const UpdateKeyspaceResponse = S.suspend(() =>
+  S.Struct({ resourceArn: S.String }),
+).annotations({
+  identifier: "UpdateKeyspaceResponse",
+}) as any as S.Schema<UpdateKeyspaceResponse>;
+export interface UpdateTableRequest {
+  keyspaceName: string;
+  tableName: string;
+  addColumns?: ColumnDefinitionList;
+  capacitySpecification?: CapacitySpecification;
+  encryptionSpecification?: EncryptionSpecification;
+  pointInTimeRecovery?: PointInTimeRecovery;
+  ttl?: TimeToLive;
+  defaultTimeToLive?: number;
+  clientSideTimestamps?: ClientSideTimestamps;
+  autoScalingSpecification?: AutoScalingSpecification;
+  replicaSpecifications?: ReplicaSpecificationList;
+  cdcSpecification?: CdcSpecification;
+}
+export const UpdateTableRequest = S.suspend(() =>
+  S.Struct({
     keyspaceName: S.String,
     tableName: S.String,
     addColumns: S.optional(ColumnDefinitionList),
@@ -540,152 +806,321 @@ export class UpdateTableRequest extends S.Class<UpdateTableRequest>(
     autoScalingSpecification: S.optional(AutoScalingSpecification),
     replicaSpecifications: S.optional(ReplicaSpecificationList),
     cdcSpecification: S.optional(CdcSpecification),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PartitionKey extends S.Class<PartitionKey>("PartitionKey")({
-  name: S.String,
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateTableRequest",
+}) as any as S.Schema<UpdateTableRequest>;
+export interface PartitionKey {
+  name: string;
+}
+export const PartitionKey = S.suspend(() =>
+  S.Struct({ name: S.String }),
+).annotations({ identifier: "PartitionKey" }) as any as S.Schema<PartitionKey>;
+export type PartitionKeyList = PartitionKey[];
 export const PartitionKeyList = S.Array(PartitionKey);
-export class ClusteringKey extends S.Class<ClusteringKey>("ClusteringKey")({
-  name: S.String,
-  orderBy: S.String,
-}) {}
+export interface ClusteringKey {
+  name: string;
+  orderBy: string;
+}
+export const ClusteringKey = S.suspend(() =>
+  S.Struct({ name: S.String, orderBy: S.String }),
+).annotations({
+  identifier: "ClusteringKey",
+}) as any as S.Schema<ClusteringKey>;
+export type ClusteringKeyList = ClusteringKey[];
 export const ClusteringKeyList = S.Array(ClusteringKey);
-export class StaticColumn extends S.Class<StaticColumn>("StaticColumn")({
-  name: S.String,
-}) {}
+export interface StaticColumn {
+  name: string;
+}
+export const StaticColumn = S.suspend(() =>
+  S.Struct({ name: S.String }),
+).annotations({ identifier: "StaticColumn" }) as any as S.Schema<StaticColumn>;
+export type StaticColumnList = StaticColumn[];
 export const StaticColumnList = S.Array(StaticColumn);
-export class SchemaDefinition extends S.Class<SchemaDefinition>(
-  "SchemaDefinition",
-)({
-  allColumns: ColumnDefinitionList,
-  partitionKeys: PartitionKeyList,
-  clusteringKeys: S.optional(ClusteringKeyList),
-  staticColumns: S.optional(StaticColumnList),
-}) {}
-export class ReplicationGroupStatus extends S.Class<ReplicationGroupStatus>(
-  "ReplicationGroupStatus",
-)({
-  region: S.String,
-  keyspaceStatus: S.String,
-  tablesReplicationProgress: S.optional(S.String),
-}) {}
+export interface SchemaDefinition {
+  allColumns: ColumnDefinitionList;
+  partitionKeys: PartitionKeyList;
+  clusteringKeys?: ClusteringKeyList;
+  staticColumns?: StaticColumnList;
+}
+export const SchemaDefinition = S.suspend(() =>
+  S.Struct({
+    allColumns: ColumnDefinitionList,
+    partitionKeys: PartitionKeyList,
+    clusteringKeys: S.optional(ClusteringKeyList),
+    staticColumns: S.optional(StaticColumnList),
+  }),
+).annotations({
+  identifier: "SchemaDefinition",
+}) as any as S.Schema<SchemaDefinition>;
+export interface ReplicationGroupStatus {
+  region: string;
+  keyspaceStatus: string;
+  tablesReplicationProgress?: string;
+}
+export const ReplicationGroupStatus = S.suspend(() =>
+  S.Struct({
+    region: S.String,
+    keyspaceStatus: S.String,
+    tablesReplicationProgress: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ReplicationGroupStatus",
+}) as any as S.Schema<ReplicationGroupStatus>;
+export type ReplicationGroupStatusList = ReplicationGroupStatus[];
 export const ReplicationGroupStatusList = S.Array(ReplicationGroupStatus);
-export class CapacitySpecificationSummary extends S.Class<CapacitySpecificationSummary>(
-  "CapacitySpecificationSummary",
-)({
-  throughputMode: S.String,
-  readCapacityUnits: S.optional(S.Number),
-  writeCapacityUnits: S.optional(S.Number),
-  lastUpdateToPayPerRequestTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
-export class PointInTimeRecoverySummary extends S.Class<PointInTimeRecoverySummary>(
-  "PointInTimeRecoverySummary",
-)({
-  status: S.String,
-  earliestRestorableTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
-export class ReplicaSpecificationSummary extends S.Class<ReplicaSpecificationSummary>(
-  "ReplicaSpecificationSummary",
-)({
-  region: S.optional(S.String),
-  status: S.optional(S.String),
-  capacitySpecification: S.optional(CapacitySpecificationSummary),
-}) {}
+export interface CapacitySpecificationSummary {
+  throughputMode: string;
+  readCapacityUnits?: number;
+  writeCapacityUnits?: number;
+  lastUpdateToPayPerRequestTimestamp?: Date;
+}
+export const CapacitySpecificationSummary = S.suspend(() =>
+  S.Struct({
+    throughputMode: S.String,
+    readCapacityUnits: S.optional(S.Number),
+    writeCapacityUnits: S.optional(S.Number),
+    lastUpdateToPayPerRequestTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "CapacitySpecificationSummary",
+}) as any as S.Schema<CapacitySpecificationSummary>;
+export interface PointInTimeRecoverySummary {
+  status: string;
+  earliestRestorableTimestamp?: Date;
+}
+export const PointInTimeRecoverySummary = S.suspend(() =>
+  S.Struct({
+    status: S.String,
+    earliestRestorableTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "PointInTimeRecoverySummary",
+}) as any as S.Schema<PointInTimeRecoverySummary>;
+export interface ReplicaSpecificationSummary {
+  region?: string;
+  status?: string;
+  capacitySpecification?: CapacitySpecificationSummary;
+}
+export const ReplicaSpecificationSummary = S.suspend(() =>
+  S.Struct({
+    region: S.optional(S.String),
+    status: S.optional(S.String),
+    capacitySpecification: S.optional(CapacitySpecificationSummary),
+  }),
+).annotations({
+  identifier: "ReplicaSpecificationSummary",
+}) as any as S.Schema<ReplicaSpecificationSummary>;
+export type ReplicaSpecificationSummaryList = ReplicaSpecificationSummary[];
 export const ReplicaSpecificationSummaryList = S.Array(
   ReplicaSpecificationSummary,
 );
-export class CdcSpecificationSummary extends S.Class<CdcSpecificationSummary>(
-  "CdcSpecificationSummary",
-)({ status: S.String, viewType: S.optional(S.String) }) {}
-export class ReplicaAutoScalingSpecification extends S.Class<ReplicaAutoScalingSpecification>(
-  "ReplicaAutoScalingSpecification",
-)({
-  region: S.optional(S.String),
-  autoScalingSpecification: S.optional(AutoScalingSpecification),
-}) {}
+export interface CdcSpecificationSummary {
+  status: string;
+  viewType?: string;
+}
+export const CdcSpecificationSummary = S.suspend(() =>
+  S.Struct({ status: S.String, viewType: S.optional(S.String) }),
+).annotations({
+  identifier: "CdcSpecificationSummary",
+}) as any as S.Schema<CdcSpecificationSummary>;
+export interface ReplicaAutoScalingSpecification {
+  region?: string;
+  autoScalingSpecification?: AutoScalingSpecification;
+}
+export const ReplicaAutoScalingSpecification = S.suspend(() =>
+  S.Struct({
+    region: S.optional(S.String),
+    autoScalingSpecification: S.optional(AutoScalingSpecification),
+  }),
+).annotations({
+  identifier: "ReplicaAutoScalingSpecification",
+}) as any as S.Schema<ReplicaAutoScalingSpecification>;
+export type ReplicaAutoScalingSpecificationList =
+  ReplicaAutoScalingSpecification[];
 export const ReplicaAutoScalingSpecificationList = S.Array(
   ReplicaAutoScalingSpecification,
 );
-export class KeyspaceSummary extends S.Class<KeyspaceSummary>(
-  "KeyspaceSummary",
-)({
-  keyspaceName: S.String,
-  resourceArn: S.String,
-  replicationStrategy: S.String,
-  replicationRegions: S.optional(RegionList),
-}) {}
+export interface KeyspaceSummary {
+  keyspaceName: string;
+  resourceArn: string;
+  replicationStrategy: string;
+  replicationRegions?: RegionList;
+}
+export const KeyspaceSummary = S.suspend(() =>
+  S.Struct({
+    keyspaceName: S.String,
+    resourceArn: S.String,
+    replicationStrategy: S.String,
+    replicationRegions: S.optional(RegionList),
+  }),
+).annotations({
+  identifier: "KeyspaceSummary",
+}) as any as S.Schema<KeyspaceSummary>;
+export type KeyspaceSummaryList = KeyspaceSummary[];
 export const KeyspaceSummaryList = S.Array(KeyspaceSummary);
-export class TableSummary extends S.Class<TableSummary>("TableSummary")({
-  keyspaceName: S.String,
-  tableName: S.String,
-  resourceArn: S.String,
-}) {}
+export interface TableSummary {
+  keyspaceName: string;
+  tableName: string;
+  resourceArn: string;
+}
+export const TableSummary = S.suspend(() =>
+  S.Struct({
+    keyspaceName: S.String,
+    tableName: S.String,
+    resourceArn: S.String,
+  }),
+).annotations({ identifier: "TableSummary" }) as any as S.Schema<TableSummary>;
+export type TableSummaryList = TableSummary[];
 export const TableSummaryList = S.Array(TableSummary);
-export class CreateKeyspaceResponse extends S.Class<CreateKeyspaceResponse>(
-  "CreateKeyspaceResponse",
-)({ resourceArn: S.String }) {}
-export class CreateTypeResponse extends S.Class<CreateTypeResponse>(
-  "CreateTypeResponse",
-)({ keyspaceArn: S.String, typeName: S.String }) {}
-export class GetKeyspaceResponse extends S.Class<GetKeyspaceResponse>(
-  "GetKeyspaceResponse",
-)({
-  keyspaceName: S.String,
-  resourceArn: S.String,
-  replicationStrategy: S.String,
-  replicationRegions: S.optional(RegionList),
-  replicationGroupStatuses: S.optional(ReplicationGroupStatusList),
-}) {}
-export class GetTableResponse extends S.Class<GetTableResponse>(
-  "GetTableResponse",
-)({
-  keyspaceName: S.String,
-  tableName: S.String,
-  resourceArn: S.String,
-  creationTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  status: S.optional(S.String),
-  schemaDefinition: S.optional(SchemaDefinition),
-  capacitySpecification: S.optional(CapacitySpecificationSummary),
-  encryptionSpecification: S.optional(EncryptionSpecification),
-  pointInTimeRecovery: S.optional(PointInTimeRecoverySummary),
-  ttl: S.optional(TimeToLive),
-  defaultTimeToLive: S.optional(S.Number),
-  comment: S.optional(Comment),
-  clientSideTimestamps: S.optional(ClientSideTimestamps),
-  replicaSpecifications: S.optional(ReplicaSpecificationSummaryList),
-  latestStreamArn: S.optional(S.String),
-  cdcSpecification: S.optional(CdcSpecificationSummary),
-}) {}
-export class GetTableAutoScalingSettingsResponse extends S.Class<GetTableAutoScalingSettingsResponse>(
-  "GetTableAutoScalingSettingsResponse",
-)({
-  keyspaceName: S.String,
-  tableName: S.String,
-  resourceArn: S.String,
-  autoScalingSpecification: S.optional(AutoScalingSpecification),
-  replicaSpecifications: S.optional(ReplicaAutoScalingSpecificationList),
-}) {}
-export class ListKeyspacesResponse extends S.Class<ListKeyspacesResponse>(
-  "ListKeyspacesResponse",
-)({ nextToken: S.optional(S.String), keyspaces: KeyspaceSummaryList }) {}
-export class ListTablesResponse extends S.Class<ListTablesResponse>(
-  "ListTablesResponse",
-)({ nextToken: S.optional(S.String), tables: S.optional(TableSummaryList) }) {}
-export class UpdateTableResponse extends S.Class<UpdateTableResponse>(
-  "UpdateTableResponse",
-)({ resourceArn: S.String }) {}
-export class CreateTableRequest extends S.Class<CreateTableRequest>(
-  "CreateTableRequest",
-)(
-  {
+export interface CreateKeyspaceResponse {
+  resourceArn: string;
+}
+export const CreateKeyspaceResponse = S.suspend(() =>
+  S.Struct({ resourceArn: S.String }),
+).annotations({
+  identifier: "CreateKeyspaceResponse",
+}) as any as S.Schema<CreateKeyspaceResponse>;
+export interface CreateTypeResponse {
+  keyspaceArn: string;
+  typeName: string;
+}
+export const CreateTypeResponse = S.suspend(() =>
+  S.Struct({ keyspaceArn: S.String, typeName: S.String }),
+).annotations({
+  identifier: "CreateTypeResponse",
+}) as any as S.Schema<CreateTypeResponse>;
+export interface GetKeyspaceResponse {
+  keyspaceName: string;
+  resourceArn: string;
+  replicationStrategy: string;
+  replicationRegions?: RegionList;
+  replicationGroupStatuses?: ReplicationGroupStatusList;
+}
+export const GetKeyspaceResponse = S.suspend(() =>
+  S.Struct({
+    keyspaceName: S.String,
+    resourceArn: S.String,
+    replicationStrategy: S.String,
+    replicationRegions: S.optional(RegionList),
+    replicationGroupStatuses: S.optional(ReplicationGroupStatusList),
+  }),
+).annotations({
+  identifier: "GetKeyspaceResponse",
+}) as any as S.Schema<GetKeyspaceResponse>;
+export interface GetTableResponse {
+  keyspaceName: string;
+  tableName: string;
+  resourceArn: string;
+  creationTimestamp?: Date;
+  status?: string;
+  schemaDefinition?: SchemaDefinition;
+  capacitySpecification?: CapacitySpecificationSummary;
+  encryptionSpecification?: EncryptionSpecification;
+  pointInTimeRecovery?: PointInTimeRecoverySummary;
+  ttl?: TimeToLive;
+  defaultTimeToLive?: number;
+  comment?: Comment;
+  clientSideTimestamps?: ClientSideTimestamps;
+  replicaSpecifications?: ReplicaSpecificationSummaryList;
+  latestStreamArn?: string;
+  cdcSpecification?: CdcSpecificationSummary;
+}
+export const GetTableResponse = S.suspend(() =>
+  S.Struct({
+    keyspaceName: S.String,
+    tableName: S.String,
+    resourceArn: S.String,
+    creationTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    status: S.optional(S.String),
+    schemaDefinition: S.optional(SchemaDefinition),
+    capacitySpecification: S.optional(CapacitySpecificationSummary),
+    encryptionSpecification: S.optional(EncryptionSpecification),
+    pointInTimeRecovery: S.optional(PointInTimeRecoverySummary),
+    ttl: S.optional(TimeToLive),
+    defaultTimeToLive: S.optional(S.Number),
+    comment: S.optional(Comment),
+    clientSideTimestamps: S.optional(ClientSideTimestamps),
+    replicaSpecifications: S.optional(ReplicaSpecificationSummaryList),
+    latestStreamArn: S.optional(S.String),
+    cdcSpecification: S.optional(CdcSpecificationSummary),
+  }),
+).annotations({
+  identifier: "GetTableResponse",
+}) as any as S.Schema<GetTableResponse>;
+export interface GetTableAutoScalingSettingsResponse {
+  keyspaceName: string;
+  tableName: string;
+  resourceArn: string;
+  autoScalingSpecification?: AutoScalingSpecification;
+  replicaSpecifications?: ReplicaAutoScalingSpecificationList;
+}
+export const GetTableAutoScalingSettingsResponse = S.suspend(() =>
+  S.Struct({
+    keyspaceName: S.String,
+    tableName: S.String,
+    resourceArn: S.String,
+    autoScalingSpecification: S.optional(AutoScalingSpecification),
+    replicaSpecifications: S.optional(ReplicaAutoScalingSpecificationList),
+  }),
+).annotations({
+  identifier: "GetTableAutoScalingSettingsResponse",
+}) as any as S.Schema<GetTableAutoScalingSettingsResponse>;
+export interface ListKeyspacesResponse {
+  nextToken?: string;
+  keyspaces: KeyspaceSummaryList;
+}
+export const ListKeyspacesResponse = S.suspend(() =>
+  S.Struct({ nextToken: S.optional(S.String), keyspaces: KeyspaceSummaryList }),
+).annotations({
+  identifier: "ListKeyspacesResponse",
+}) as any as S.Schema<ListKeyspacesResponse>;
+export interface ListTablesResponse {
+  nextToken?: string;
+  tables?: TableSummaryList;
+}
+export const ListTablesResponse = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    tables: S.optional(TableSummaryList),
+  }),
+).annotations({
+  identifier: "ListTablesResponse",
+}) as any as S.Schema<ListTablesResponse>;
+export interface UpdateTableResponse {
+  resourceArn: string;
+}
+export const UpdateTableResponse = S.suspend(() =>
+  S.Struct({ resourceArn: S.String }),
+).annotations({
+  identifier: "UpdateTableResponse",
+}) as any as S.Schema<UpdateTableResponse>;
+export interface CreateTableRequest {
+  keyspaceName: string;
+  tableName: string;
+  schemaDefinition: SchemaDefinition;
+  comment?: Comment;
+  capacitySpecification?: CapacitySpecification;
+  encryptionSpecification?: EncryptionSpecification;
+  pointInTimeRecovery?: PointInTimeRecovery;
+  ttl?: TimeToLive;
+  defaultTimeToLive?: number;
+  tags?: TagList;
+  clientSideTimestamps?: ClientSideTimestamps;
+  autoScalingSpecification?: AutoScalingSpecification;
+  replicaSpecifications?: ReplicaSpecificationList;
+  cdcSpecification?: CdcSpecification;
+}
+export const CreateTableRequest = S.suspend(() =>
+  S.Struct({
     keyspaceName: S.String,
     tableName: S.String,
     schemaDefinition: SchemaDefinition,
@@ -700,12 +1135,20 @@ export class CreateTableRequest extends S.Class<CreateTableRequest>(
     autoScalingSpecification: S.optional(AutoScalingSpecification),
     replicaSpecifications: S.optional(ReplicaSpecificationList),
     cdcSpecification: S.optional(CdcSpecification),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateTableResponse extends S.Class<CreateTableResponse>(
-  "CreateTableResponse",
-)({ resourceArn: S.String }) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateTableRequest",
+}) as any as S.Schema<CreateTableRequest>;
+export interface CreateTableResponse {
+  resourceArn: string;
+}
+export const CreateTableResponse = S.suspend(() =>
+  S.Struct({ resourceArn: S.String }),
+).annotations({
+  identifier: "CreateTableResponse",
+}) as any as S.Schema<CreateTableResponse>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

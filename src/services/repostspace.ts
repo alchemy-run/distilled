@@ -294,359 +294,523 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type AccessorIdList = string[];
 export const AccessorIdList = S.Array(S.String);
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class BatchAddChannelRoleToAccessorsInput extends S.Class<BatchAddChannelRoleToAccessorsInput>(
-  "BatchAddChannelRoleToAccessorsInput",
-)(
-  {
+export interface BatchAddChannelRoleToAccessorsInput {
+  spaceId: string;
+  channelId: string;
+  accessorIds: AccessorIdList;
+  channelRole: string;
+}
+export const BatchAddChannelRoleToAccessorsInput = S.suspend(() =>
+  S.Struct({
     spaceId: S.String.pipe(T.HttpLabel("spaceId")),
     channelId: S.String.pipe(T.HttpLabel("channelId")),
     accessorIds: AccessorIdList,
     channelRole: S.String,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/spaces/{spaceId}/channels/{channelId}/roles",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/spaces/{spaceId}/channels/{channelId}/roles",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class BatchAddRoleInput extends S.Class<BatchAddRoleInput>(
-  "BatchAddRoleInput",
-)(
-  {
+).annotations({
+  identifier: "BatchAddChannelRoleToAccessorsInput",
+}) as any as S.Schema<BatchAddChannelRoleToAccessorsInput>;
+export interface BatchAddRoleInput {
+  spaceId: string;
+  accessorIds: AccessorIdList;
+  role: string;
+}
+export const BatchAddRoleInput = S.suspend(() =>
+  S.Struct({
     spaceId: S.String.pipe(T.HttpLabel("spaceId")),
     accessorIds: AccessorIdList,
     role: S.String,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/spaces/{spaceId}/roles" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/spaces/{spaceId}/roles" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class BatchRemoveChannelRoleFromAccessorsInput extends S.Class<BatchRemoveChannelRoleFromAccessorsInput>(
-  "BatchRemoveChannelRoleFromAccessorsInput",
-)(
-  {
+).annotations({
+  identifier: "BatchAddRoleInput",
+}) as any as S.Schema<BatchAddRoleInput>;
+export interface BatchRemoveChannelRoleFromAccessorsInput {
+  spaceId: string;
+  channelId: string;
+  accessorIds: AccessorIdList;
+  channelRole: string;
+}
+export const BatchRemoveChannelRoleFromAccessorsInput = S.suspend(() =>
+  S.Struct({
     spaceId: S.String.pipe(T.HttpLabel("spaceId")),
     channelId: S.String.pipe(T.HttpLabel("channelId")),
     accessorIds: AccessorIdList,
     channelRole: S.String,
-  },
-  T.all(
-    T.Http({
-      method: "PATCH",
-      uri: "/spaces/{spaceId}/channels/{channelId}/roles",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/spaces/{spaceId}/channels/{channelId}/roles",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class BatchRemoveRoleInput extends S.Class<BatchRemoveRoleInput>(
-  "BatchRemoveRoleInput",
-)(
-  {
+).annotations({
+  identifier: "BatchRemoveChannelRoleFromAccessorsInput",
+}) as any as S.Schema<BatchRemoveChannelRoleFromAccessorsInput>;
+export interface BatchRemoveRoleInput {
+  spaceId: string;
+  accessorIds: AccessorIdList;
+  role: string;
+}
+export const BatchRemoveRoleInput = S.suspend(() =>
+  S.Struct({
     spaceId: S.String.pipe(T.HttpLabel("spaceId")),
     accessorIds: AccessorIdList,
     role: S.String,
-  },
-  T.all(
-    T.Http({ method: "PATCH", uri: "/spaces/{spaceId}/roles" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PATCH", uri: "/spaces/{spaceId}/roles" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateChannelInput extends S.Class<CreateChannelInput>(
-  "CreateChannelInput",
-)(
-  {
+).annotations({
+  identifier: "BatchRemoveRoleInput",
+}) as any as S.Schema<BatchRemoveRoleInput>;
+export interface CreateChannelInput {
+  spaceId: string;
+  channelName: string;
+  channelDescription?: string;
+}
+export const CreateChannelInput = S.suspend(() =>
+  S.Struct({
     spaceId: S.String.pipe(T.HttpLabel("spaceId")),
     channelName: S.String,
     channelDescription: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/spaces/{spaceId}/channels" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/spaces/{spaceId}/channels" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteSpaceInput extends S.Class<DeleteSpaceInput>(
-  "DeleteSpaceInput",
-)(
-  { spaceId: S.String.pipe(T.HttpLabel("spaceId")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/spaces/{spaceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CreateChannelInput",
+}) as any as S.Schema<CreateChannelInput>;
+export interface DeleteSpaceInput {
+  spaceId: string;
+}
+export const DeleteSpaceInput = S.suspend(() =>
+  S.Struct({ spaceId: S.String.pipe(T.HttpLabel("spaceId")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/spaces/{spaceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteSpaceResponse extends S.Class<DeleteSpaceResponse>(
-  "DeleteSpaceResponse",
-)({}) {}
-export class DeregisterAdminInput extends S.Class<DeregisterAdminInput>(
-  "DeregisterAdminInput",
-)(
-  {
+).annotations({
+  identifier: "DeleteSpaceInput",
+}) as any as S.Schema<DeleteSpaceInput>;
+export interface DeleteSpaceResponse {}
+export const DeleteSpaceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteSpaceResponse",
+}) as any as S.Schema<DeleteSpaceResponse>;
+export interface DeregisterAdminInput {
+  spaceId: string;
+  adminId: string;
+}
+export const DeregisterAdminInput = S.suspend(() =>
+  S.Struct({
     spaceId: S.String.pipe(T.HttpLabel("spaceId")),
     adminId: S.String.pipe(T.HttpLabel("adminId")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/spaces/{spaceId}/admins/{adminId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/spaces/{spaceId}/admins/{adminId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeregisterAdminResponse extends S.Class<DeregisterAdminResponse>(
-  "DeregisterAdminResponse",
-)({}) {}
-export class GetChannelInput extends S.Class<GetChannelInput>(
-  "GetChannelInput",
-)(
-  {
+).annotations({
+  identifier: "DeregisterAdminInput",
+}) as any as S.Schema<DeregisterAdminInput>;
+export interface DeregisterAdminResponse {}
+export const DeregisterAdminResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeregisterAdminResponse",
+}) as any as S.Schema<DeregisterAdminResponse>;
+export interface GetChannelInput {
+  spaceId: string;
+  channelId: string;
+}
+export const GetChannelInput = S.suspend(() =>
+  S.Struct({
     spaceId: S.String.pipe(T.HttpLabel("spaceId")),
     channelId: S.String.pipe(T.HttpLabel("channelId")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/spaces/{spaceId}/channels/{channelId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/spaces/{spaceId}/channels/{channelId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetSpaceInput extends S.Class<GetSpaceInput>("GetSpaceInput")(
-  { spaceId: S.String.pipe(T.HttpLabel("spaceId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/spaces/{spaceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetChannelInput",
+}) as any as S.Schema<GetChannelInput>;
+export interface GetSpaceInput {
+  spaceId: string;
+}
+export const GetSpaceInput = S.suspend(() =>
+  S.Struct({ spaceId: S.String.pipe(T.HttpLabel("spaceId")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/spaces/{spaceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListChannelsInput extends S.Class<ListChannelsInput>(
-  "ListChannelsInput",
-)(
-  {
+).annotations({
+  identifier: "GetSpaceInput",
+}) as any as S.Schema<GetSpaceInput>;
+export interface ListChannelsInput {
+  spaceId: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListChannelsInput = S.suspend(() =>
+  S.Struct({
     spaceId: S.String.pipe(T.HttpLabel("spaceId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/spaces/{spaceId}/channels" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/spaces/{spaceId}/channels" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListSpacesInput extends S.Class<ListSpacesInput>(
-  "ListSpacesInput",
-)(
-  {
+).annotations({
+  identifier: "ListChannelsInput",
+}) as any as S.Schema<ListChannelsInput>;
+export interface ListSpacesInput {
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListSpacesInput = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/spaces" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/spaces" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListSpacesInput",
+}) as any as S.Schema<ListSpacesInput>;
+export interface ListTagsForResourceRequest {
+  resourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class RegisterAdminInput extends S.Class<RegisterAdminInput>(
-  "RegisterAdminInput",
-)(
-  {
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface RegisterAdminInput {
+  spaceId: string;
+  adminId: string;
+}
+export const RegisterAdminInput = S.suspend(() =>
+  S.Struct({
     spaceId: S.String.pipe(T.HttpLabel("spaceId")),
     adminId: S.String.pipe(T.HttpLabel("adminId")),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/spaces/{spaceId}/admins/{adminId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/spaces/{spaceId}/admins/{adminId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class RegisterAdminResponse extends S.Class<RegisterAdminResponse>(
-  "RegisterAdminResponse",
-)({}) {}
-export class SendInvitesInput extends S.Class<SendInvitesInput>(
-  "SendInvitesInput",
-)(
-  {
+).annotations({
+  identifier: "RegisterAdminInput",
+}) as any as S.Schema<RegisterAdminInput>;
+export interface RegisterAdminResponse {}
+export const RegisterAdminResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "RegisterAdminResponse",
+}) as any as S.Schema<RegisterAdminResponse>;
+export interface SendInvitesInput {
+  spaceId: string;
+  accessorIds: AccessorIdList;
+  title: string;
+  body: string;
+}
+export const SendInvitesInput = S.suspend(() =>
+  S.Struct({
     spaceId: S.String.pipe(T.HttpLabel("spaceId")),
     accessorIds: AccessorIdList,
     title: S.String,
     body: S.String,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/spaces/{spaceId}/invite" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/spaces/{spaceId}/invite" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SendInvitesResponse extends S.Class<SendInvitesResponse>(
-  "SendInvitesResponse",
-)({}) {}
+).annotations({
+  identifier: "SendInvitesInput",
+}) as any as S.Schema<SendInvitesInput>;
+export interface SendInvitesResponse {}
+export const SendInvitesResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "SendInvitesResponse",
+}) as any as S.Schema<SendInvitesResponse>;
+export type Tags = { [key: string]: string };
 export const Tags = S.Record({ key: S.String, value: S.String });
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: Tags },
-  T.all(
-    T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface TagResourceRequest {
+  resourceArn: string;
+  tags: Tags;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+    tags: Tags,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UntagResourceRequest {
+  resourceArn: string;
+  tagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
-export class UpdateChannelInput extends S.Class<UpdateChannelInput>(
-  "UpdateChannelInput",
-)(
-  {
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface UpdateChannelInput {
+  spaceId: string;
+  channelId: string;
+  channelName: string;
+  channelDescription?: string;
+}
+export const UpdateChannelInput = S.suspend(() =>
+  S.Struct({
     spaceId: S.String.pipe(T.HttpLabel("spaceId")),
     channelId: S.String.pipe(T.HttpLabel("channelId")),
     channelName: S.String,
     channelDescription: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/spaces/{spaceId}/channels/{channelId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/spaces/{spaceId}/channels/{channelId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateChannelOutput extends S.Class<UpdateChannelOutput>(
-  "UpdateChannelOutput",
-)({}) {}
+).annotations({
+  identifier: "UpdateChannelInput",
+}) as any as S.Schema<UpdateChannelInput>;
+export interface UpdateChannelOutput {}
+export const UpdateChannelOutput = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UpdateChannelOutput",
+}) as any as S.Schema<UpdateChannelOutput>;
+export type AllowedDomainsList = string[];
 export const AllowedDomainsList = S.Array(S.String);
-export class SupportedEmailDomainsParameters extends S.Class<SupportedEmailDomainsParameters>(
-  "SupportedEmailDomainsParameters",
-)({
-  enabled: S.optional(S.String),
-  allowedDomains: S.optional(AllowedDomainsList),
-}) {}
-export class UpdateSpaceInput extends S.Class<UpdateSpaceInput>(
-  "UpdateSpaceInput",
-)(
-  {
+export interface SupportedEmailDomainsParameters {
+  enabled?: string;
+  allowedDomains?: AllowedDomainsList;
+}
+export const SupportedEmailDomainsParameters = S.suspend(() =>
+  S.Struct({
+    enabled: S.optional(S.String),
+    allowedDomains: S.optional(AllowedDomainsList),
+  }),
+).annotations({
+  identifier: "SupportedEmailDomainsParameters",
+}) as any as S.Schema<SupportedEmailDomainsParameters>;
+export interface UpdateSpaceInput {
+  spaceId: string;
+  description?: string;
+  tier?: string;
+  roleArn?: string;
+  supportedEmailDomains?: SupportedEmailDomainsParameters;
+}
+export const UpdateSpaceInput = S.suspend(() =>
+  S.Struct({
     spaceId: S.String.pipe(T.HttpLabel("spaceId")),
     description: S.optional(S.String),
     tier: S.optional(S.String),
     roleArn: S.optional(S.String),
     supportedEmailDomains: S.optional(SupportedEmailDomainsParameters),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/spaces/{spaceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/spaces/{spaceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateSpaceResponse extends S.Class<UpdateSpaceResponse>(
-  "UpdateSpaceResponse",
-)({}) {}
+).annotations({
+  identifier: "UpdateSpaceInput",
+}) as any as S.Schema<UpdateSpaceInput>;
+export interface UpdateSpaceResponse {}
+export const UpdateSpaceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UpdateSpaceResponse",
+}) as any as S.Schema<UpdateSpaceResponse>;
+export type UserAdmins = string[];
 export const UserAdmins = S.Array(S.String);
+export type GroupAdmins = string[];
 export const GroupAdmins = S.Array(S.String);
-export class BatchError extends S.Class<BatchError>("BatchError")({
-  accessorId: S.String,
-  error: S.Number,
-  message: S.String,
-}) {}
+export interface BatchError {
+  accessorId: string;
+  error: number;
+  message: string;
+}
+export const BatchError = S.suspend(() =>
+  S.Struct({ accessorId: S.String, error: S.Number, message: S.String }),
+).annotations({ identifier: "BatchError" }) as any as S.Schema<BatchError>;
+export type BatchErrorList = BatchError[];
 export const BatchErrorList = S.Array(BatchError);
-export class BatchAddRoleOutput extends S.Class<BatchAddRoleOutput>(
-  "BatchAddRoleOutput",
-)({ addedAccessorIds: AccessorIdList, errors: BatchErrorList }) {}
-export class BatchRemoveChannelRoleFromAccessorsOutput extends S.Class<BatchRemoveChannelRoleFromAccessorsOutput>(
-  "BatchRemoveChannelRoleFromAccessorsOutput",
-)({ removedAccessorIds: AccessorIdList, errors: BatchErrorList }) {}
-export class BatchRemoveRoleOutput extends S.Class<BatchRemoveRoleOutput>(
-  "BatchRemoveRoleOutput",
-)({ removedAccessorIds: AccessorIdList, errors: BatchErrorList }) {}
-export class CreateChannelOutput extends S.Class<CreateChannelOutput>(
-  "CreateChannelOutput",
-)({ channelId: S.String }) {}
-export class CreateSpaceInput extends S.Class<CreateSpaceInput>(
-  "CreateSpaceInput",
-)(
-  {
+export interface BatchAddRoleOutput {
+  addedAccessorIds: AccessorIdList;
+  errors: BatchErrorList;
+}
+export const BatchAddRoleOutput = S.suspend(() =>
+  S.Struct({ addedAccessorIds: AccessorIdList, errors: BatchErrorList }),
+).annotations({
+  identifier: "BatchAddRoleOutput",
+}) as any as S.Schema<BatchAddRoleOutput>;
+export interface BatchRemoveChannelRoleFromAccessorsOutput {
+  removedAccessorIds: AccessorIdList;
+  errors: BatchErrorList;
+}
+export const BatchRemoveChannelRoleFromAccessorsOutput = S.suspend(() =>
+  S.Struct({ removedAccessorIds: AccessorIdList, errors: BatchErrorList }),
+).annotations({
+  identifier: "BatchRemoveChannelRoleFromAccessorsOutput",
+}) as any as S.Schema<BatchRemoveChannelRoleFromAccessorsOutput>;
+export interface BatchRemoveRoleOutput {
+  removedAccessorIds: AccessorIdList;
+  errors: BatchErrorList;
+}
+export const BatchRemoveRoleOutput = S.suspend(() =>
+  S.Struct({ removedAccessorIds: AccessorIdList, errors: BatchErrorList }),
+).annotations({
+  identifier: "BatchRemoveRoleOutput",
+}) as any as S.Schema<BatchRemoveRoleOutput>;
+export interface CreateChannelOutput {
+  channelId: string;
+}
+export const CreateChannelOutput = S.suspend(() =>
+  S.Struct({ channelId: S.String }),
+).annotations({
+  identifier: "CreateChannelOutput",
+}) as any as S.Schema<CreateChannelOutput>;
+export interface CreateSpaceInput {
+  name: string;
+  subdomain: string;
+  tier: string;
+  description?: string;
+  userKMSKey?: string;
+  tags?: Tags;
+  roleArn?: string;
+  supportedEmailDomains?: SupportedEmailDomainsParameters;
+}
+export const CreateSpaceInput = S.suspend(() =>
+  S.Struct({
     name: S.String,
     subdomain: S.String,
     tier: S.String,
@@ -655,114 +819,240 @@ export class CreateSpaceInput extends S.Class<CreateSpaceInput>(
     tags: S.optional(Tags),
     roleArn: S.optional(S.String),
     supportedEmailDomains: S.optional(SupportedEmailDomainsParameters),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/spaces" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/spaces" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ tags: S.optional(Tags) }) {}
+).annotations({
+  identifier: "CreateSpaceInput",
+}) as any as S.Schema<CreateSpaceInput>;
+export interface ListTagsForResourceResponse {
+  tags?: Tags;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ tags: S.optional(Tags) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export type ChannelRoleList = string[];
 export const ChannelRoleList = S.Array(S.String);
+export type RoleList = string[];
 export const RoleList = S.Array(S.String);
+export type ChannelRoles = { [key: string]: ChannelRoleList };
 export const ChannelRoles = S.Record({ key: S.String, value: ChannelRoleList });
+export type Roles = { [key: string]: RoleList };
 export const Roles = S.Record({ key: S.String, value: RoleList });
-export class SupportedEmailDomainsStatus extends S.Class<SupportedEmailDomainsStatus>(
-  "SupportedEmailDomainsStatus",
-)({
-  enabled: S.optional(S.String),
-  allowedDomains: S.optional(AllowedDomainsList),
-}) {}
-export class ChannelData extends S.Class<ChannelData>("ChannelData")({
-  spaceId: S.String,
-  channelId: S.String,
-  channelName: S.String,
-  channelDescription: S.optional(S.String),
-  createDateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  deleteDateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  channelStatus: S.String,
-  userCount: S.Number,
-  groupCount: S.Number,
-}) {}
+export interface SupportedEmailDomainsStatus {
+  enabled?: string;
+  allowedDomains?: AllowedDomainsList;
+}
+export const SupportedEmailDomainsStatus = S.suspend(() =>
+  S.Struct({
+    enabled: S.optional(S.String),
+    allowedDomains: S.optional(AllowedDomainsList),
+  }),
+).annotations({
+  identifier: "SupportedEmailDomainsStatus",
+}) as any as S.Schema<SupportedEmailDomainsStatus>;
+export interface ChannelData {
+  spaceId: string;
+  channelId: string;
+  channelName: string;
+  channelDescription?: string;
+  createDateTime: Date;
+  deleteDateTime?: Date;
+  channelStatus: string;
+  userCount: number;
+  groupCount: number;
+}
+export const ChannelData = S.suspend(() =>
+  S.Struct({
+    spaceId: S.String,
+    channelId: S.String,
+    channelName: S.String,
+    channelDescription: S.optional(S.String),
+    createDateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    deleteDateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    channelStatus: S.String,
+    userCount: S.Number,
+    groupCount: S.Number,
+  }),
+).annotations({ identifier: "ChannelData" }) as any as S.Schema<ChannelData>;
+export type ChannelsList = ChannelData[];
 export const ChannelsList = S.Array(ChannelData);
-export class SpaceData extends S.Class<SpaceData>("SpaceData")({
-  spaceId: S.String,
-  arn: S.String,
-  name: S.String,
-  description: S.optional(S.String),
-  status: S.String,
-  configurationStatus: S.String,
-  vanityDomainStatus: S.String,
-  vanityDomain: S.String,
-  randomDomain: S.String,
-  tier: S.String,
-  storageLimit: S.Number,
-  createDateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  deleteDateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  userKMSKey: S.optional(S.String),
-  userCount: S.optional(S.Number),
-  contentSize: S.optional(S.Number),
-  supportedEmailDomains: S.optional(SupportedEmailDomainsStatus),
-}) {}
+export interface SpaceData {
+  spaceId: string;
+  arn: string;
+  name: string;
+  description?: string;
+  status: string;
+  configurationStatus: string;
+  vanityDomainStatus: string;
+  vanityDomain: string;
+  randomDomain: string;
+  tier: string;
+  storageLimit: number;
+  createDateTime: Date;
+  deleteDateTime?: Date;
+  userKMSKey?: string;
+  userCount?: number;
+  contentSize?: number;
+  supportedEmailDomains?: SupportedEmailDomainsStatus;
+}
+export const SpaceData = S.suspend(() =>
+  S.Struct({
+    spaceId: S.String,
+    arn: S.String,
+    name: S.String,
+    description: S.optional(S.String),
+    status: S.String,
+    configurationStatus: S.String,
+    vanityDomainStatus: S.String,
+    vanityDomain: S.String,
+    randomDomain: S.String,
+    tier: S.String,
+    storageLimit: S.Number,
+    createDateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    deleteDateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    userKMSKey: S.optional(S.String),
+    userCount: S.optional(S.Number),
+    contentSize: S.optional(S.Number),
+    supportedEmailDomains: S.optional(SupportedEmailDomainsStatus),
+  }),
+).annotations({ identifier: "SpaceData" }) as any as S.Schema<SpaceData>;
+export type SpacesList = SpaceData[];
 export const SpacesList = S.Array(SpaceData);
-export class BatchAddChannelRoleToAccessorsOutput extends S.Class<BatchAddChannelRoleToAccessorsOutput>(
-  "BatchAddChannelRoleToAccessorsOutput",
-)({ addedAccessorIds: AccessorIdList, errors: BatchErrorList }) {}
-export class CreateSpaceOutput extends S.Class<CreateSpaceOutput>(
-  "CreateSpaceOutput",
-)({ spaceId: S.String }) {}
-export class GetChannelOutput extends S.Class<GetChannelOutput>(
-  "GetChannelOutput",
-)({
-  spaceId: S.String,
-  channelId: S.String,
-  channelName: S.String,
-  channelDescription: S.optional(S.String),
-  createDateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  deleteDateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  channelRoles: S.optional(ChannelRoles),
-  channelStatus: S.String,
-}) {}
-export class GetSpaceOutput extends S.Class<GetSpaceOutput>("GetSpaceOutput")({
-  spaceId: S.String,
-  arn: S.String,
-  name: S.String,
-  status: S.String,
-  configurationStatus: S.String,
-  clientId: S.String,
-  identityStoreId: S.optional(S.String),
-  applicationArn: S.optional(S.String),
-  description: S.optional(S.String),
-  vanityDomainStatus: S.String,
-  vanityDomain: S.String,
-  randomDomain: S.String,
-  customerRoleArn: S.optional(S.String),
-  createDateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  deleteDateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  tier: S.String,
-  storageLimit: S.Number,
-  userAdmins: S.optional(UserAdmins),
-  groupAdmins: S.optional(GroupAdmins),
-  roles: S.optional(Roles),
-  userKMSKey: S.optional(S.String),
-  userCount: S.optional(S.Number),
-  contentSize: S.optional(S.Number),
-  supportedEmailDomains: S.optional(SupportedEmailDomainsStatus),
-}) {}
-export class ListChannelsOutput extends S.Class<ListChannelsOutput>(
-  "ListChannelsOutput",
-)({ channels: ChannelsList, nextToken: S.optional(S.String) }) {}
-export class ListSpacesOutput extends S.Class<ListSpacesOutput>(
-  "ListSpacesOutput",
-)({ spaces: SpacesList, nextToken: S.optional(S.String) }) {}
-export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
-  "ValidationExceptionField",
-)({ name: S.String, message: S.String }) {}
+export interface BatchAddChannelRoleToAccessorsOutput {
+  addedAccessorIds: AccessorIdList;
+  errors: BatchErrorList;
+}
+export const BatchAddChannelRoleToAccessorsOutput = S.suspend(() =>
+  S.Struct({ addedAccessorIds: AccessorIdList, errors: BatchErrorList }),
+).annotations({
+  identifier: "BatchAddChannelRoleToAccessorsOutput",
+}) as any as S.Schema<BatchAddChannelRoleToAccessorsOutput>;
+export interface CreateSpaceOutput {
+  spaceId: string;
+}
+export const CreateSpaceOutput = S.suspend(() =>
+  S.Struct({ spaceId: S.String }),
+).annotations({
+  identifier: "CreateSpaceOutput",
+}) as any as S.Schema<CreateSpaceOutput>;
+export interface GetChannelOutput {
+  spaceId: string;
+  channelId: string;
+  channelName: string;
+  channelDescription?: string;
+  createDateTime: Date;
+  deleteDateTime?: Date;
+  channelRoles?: ChannelRoles;
+  channelStatus: string;
+}
+export const GetChannelOutput = S.suspend(() =>
+  S.Struct({
+    spaceId: S.String,
+    channelId: S.String,
+    channelName: S.String,
+    channelDescription: S.optional(S.String),
+    createDateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    deleteDateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    channelRoles: S.optional(ChannelRoles),
+    channelStatus: S.String,
+  }),
+).annotations({
+  identifier: "GetChannelOutput",
+}) as any as S.Schema<GetChannelOutput>;
+export interface GetSpaceOutput {
+  spaceId: string;
+  arn: string;
+  name: string;
+  status: string;
+  configurationStatus: string;
+  clientId: string;
+  identityStoreId?: string;
+  applicationArn?: string;
+  description?: string;
+  vanityDomainStatus: string;
+  vanityDomain: string;
+  randomDomain: string;
+  customerRoleArn?: string;
+  createDateTime: Date;
+  deleteDateTime?: Date;
+  tier: string;
+  storageLimit: number;
+  userAdmins?: UserAdmins;
+  groupAdmins?: GroupAdmins;
+  roles?: Roles;
+  userKMSKey?: string;
+  userCount?: number;
+  contentSize?: number;
+  supportedEmailDomains?: SupportedEmailDomainsStatus;
+}
+export const GetSpaceOutput = S.suspend(() =>
+  S.Struct({
+    spaceId: S.String,
+    arn: S.String,
+    name: S.String,
+    status: S.String,
+    configurationStatus: S.String,
+    clientId: S.String,
+    identityStoreId: S.optional(S.String),
+    applicationArn: S.optional(S.String),
+    description: S.optional(S.String),
+    vanityDomainStatus: S.String,
+    vanityDomain: S.String,
+    randomDomain: S.String,
+    customerRoleArn: S.optional(S.String),
+    createDateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    deleteDateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    tier: S.String,
+    storageLimit: S.Number,
+    userAdmins: S.optional(UserAdmins),
+    groupAdmins: S.optional(GroupAdmins),
+    roles: S.optional(Roles),
+    userKMSKey: S.optional(S.String),
+    userCount: S.optional(S.Number),
+    contentSize: S.optional(S.Number),
+    supportedEmailDomains: S.optional(SupportedEmailDomainsStatus),
+  }),
+).annotations({
+  identifier: "GetSpaceOutput",
+}) as any as S.Schema<GetSpaceOutput>;
+export interface ListChannelsOutput {
+  channels: ChannelsList;
+  nextToken?: string;
+}
+export const ListChannelsOutput = S.suspend(() =>
+  S.Struct({ channels: ChannelsList, nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListChannelsOutput",
+}) as any as S.Schema<ListChannelsOutput>;
+export interface ListSpacesOutput {
+  spaces: SpacesList;
+  nextToken?: string;
+}
+export const ListSpacesOutput = S.suspend(() =>
+  S.Struct({ spaces: SpacesList, nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListSpacesOutput",
+}) as any as S.Schema<ListSpacesOutput>;
+export interface ValidationExceptionField {
+  name: string;
+  message: string;
+}
+export const ValidationExceptionField = S.suspend(() =>
+  S.Struct({ name: S.String, message: S.String }),
+).annotations({
+  identifier: "ValidationExceptionField",
+}) as any as S.Schema<ValidationExceptionField>;
+export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 
 //# Errors

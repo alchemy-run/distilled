@@ -239,263 +239,443 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type TagKeys = string[];
 export const TagKeys = S.Array(S.String);
+export type HybridJobAdditionalAttributeNamesList = string[];
 export const HybridJobAdditionalAttributeNamesList = S.Array(S.String);
+export type QuantumTaskAdditionalAttributeNamesList = string[];
 export const QuantumTaskAdditionalAttributeNamesList = S.Array(S.String);
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface ListTagsForResourceRequest {
+  resourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface UntagResourceRequest {
+  resourceArn: string;
+  tagKeys: TagKeys;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
-export class GetDeviceRequest extends S.Class<GetDeviceRequest>(
-  "GetDeviceRequest",
-)(
-  { deviceArn: S.String.pipe(T.HttpLabel("deviceArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/device/{deviceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface GetDeviceRequest {
+  deviceArn: string;
+}
+export const GetDeviceRequest = S.suspend(() =>
+  S.Struct({ deviceArn: S.String.pipe(T.HttpLabel("deviceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/device/{deviceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetJobRequest extends S.Class<GetJobRequest>("GetJobRequest")(
-  {
+).annotations({
+  identifier: "GetDeviceRequest",
+}) as any as S.Schema<GetDeviceRequest>;
+export interface GetJobRequest {
+  jobArn: string;
+  additionalAttributeNames?: HybridJobAdditionalAttributeNamesList;
+}
+export const GetJobRequest = S.suspend(() =>
+  S.Struct({
     jobArn: S.String.pipe(T.HttpLabel("jobArn")),
     additionalAttributeNames: S.optional(
       HybridJobAdditionalAttributeNamesList,
     ).pipe(T.HttpQuery("additionalAttributeNames")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/job/{jobArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/job/{jobArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CancelJobRequest extends S.Class<CancelJobRequest>(
-  "CancelJobRequest",
-)(
-  { jobArn: S.String.pipe(T.HttpLabel("jobArn")) },
-  T.all(
-    T.Http({ method: "PUT", uri: "/job/{jobArn}/cancel" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetJobRequest",
+}) as any as S.Schema<GetJobRequest>;
+export interface CancelJobRequest {
+  jobArn: string;
+}
+export const CancelJobRequest = S.suspend(() =>
+  S.Struct({ jobArn: S.String.pipe(T.HttpLabel("jobArn")) }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/job/{jobArn}/cancel" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetQuantumTaskRequest extends S.Class<GetQuantumTaskRequest>(
-  "GetQuantumTaskRequest",
-)(
-  {
+).annotations({
+  identifier: "CancelJobRequest",
+}) as any as S.Schema<CancelJobRequest>;
+export interface GetQuantumTaskRequest {
+  quantumTaskArn: string;
+  additionalAttributeNames?: QuantumTaskAdditionalAttributeNamesList;
+}
+export const GetQuantumTaskRequest = S.suspend(() =>
+  S.Struct({
     quantumTaskArn: S.String.pipe(T.HttpLabel("quantumTaskArn")),
     additionalAttributeNames: S.optional(
       QuantumTaskAdditionalAttributeNamesList,
     ).pipe(T.HttpQuery("additionalAttributeNames")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/quantum-task/{quantumTaskArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/quantum-task/{quantumTaskArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CancelQuantumTaskRequest extends S.Class<CancelQuantumTaskRequest>(
-  "CancelQuantumTaskRequest",
-)(
-  {
+).annotations({
+  identifier: "GetQuantumTaskRequest",
+}) as any as S.Schema<GetQuantumTaskRequest>;
+export interface CancelQuantumTaskRequest {
+  quantumTaskArn: string;
+  clientToken: string;
+}
+export const CancelQuantumTaskRequest = S.suspend(() =>
+  S.Struct({
     quantumTaskArn: S.String.pipe(T.HttpLabel("quantumTaskArn")),
     clientToken: S.String,
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/quantum-task/{quantumTaskArn}/cancel" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/quantum-task/{quantumTaskArn}/cancel" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TimePeriod extends S.Class<TimePeriod>("TimePeriod")({
-  startAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  endAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-}) {}
-export class UpdateSpendingLimitRequest extends S.Class<UpdateSpendingLimitRequest>(
-  "UpdateSpendingLimitRequest",
-)(
-  {
+).annotations({
+  identifier: "CancelQuantumTaskRequest",
+}) as any as S.Schema<CancelQuantumTaskRequest>;
+export interface TimePeriod {
+  startAt: Date;
+  endAt: Date;
+}
+export const TimePeriod = S.suspend(() =>
+  S.Struct({
+    startAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    endAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotations({ identifier: "TimePeriod" }) as any as S.Schema<TimePeriod>;
+export interface UpdateSpendingLimitRequest {
+  spendingLimitArn: string;
+  clientToken: string;
+  spendingLimit?: string;
+  timePeriod?: TimePeriod;
+}
+export const UpdateSpendingLimitRequest = S.suspend(() =>
+  S.Struct({
     spendingLimitArn: S.String.pipe(T.HttpLabel("spendingLimitArn")),
     clientToken: S.String,
     spendingLimit: S.optional(S.String),
     timePeriod: S.optional(TimePeriod),
-  },
-  T.all(
-    T.Http({
-      method: "PATCH",
-      uri: "/spending-limit/{spendingLimitArn}/update",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/spending-limit/{spendingLimitArn}/update",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateSpendingLimitResponse extends S.Class<UpdateSpendingLimitResponse>(
-  "UpdateSpendingLimitResponse",
-)({}) {}
-export class DeleteSpendingLimitRequest extends S.Class<DeleteSpendingLimitRequest>(
-  "DeleteSpendingLimitRequest",
-)(
-  { spendingLimitArn: S.String.pipe(T.HttpLabel("spendingLimitArn")) },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/spending-limit/{spendingLimitArn}/delete",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UpdateSpendingLimitRequest",
+}) as any as S.Schema<UpdateSpendingLimitRequest>;
+export interface UpdateSpendingLimitResponse {}
+export const UpdateSpendingLimitResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateSpendingLimitResponse",
+}) as any as S.Schema<UpdateSpendingLimitResponse>;
+export interface DeleteSpendingLimitRequest {
+  spendingLimitArn: string;
+}
+export const DeleteSpendingLimitRequest = S.suspend(() =>
+  S.Struct({
+    spendingLimitArn: S.String.pipe(T.HttpLabel("spendingLimitArn")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/spending-limit/{spendingLimitArn}/delete",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteSpendingLimitResponse extends S.Class<DeleteSpendingLimitResponse>(
-  "DeleteSpendingLimitResponse",
-)({}) {}
+).annotations({
+  identifier: "DeleteSpendingLimitRequest",
+}) as any as S.Schema<DeleteSpendingLimitRequest>;
+export interface DeleteSpendingLimitResponse {}
+export const DeleteSpendingLimitResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteSpendingLimitResponse",
+}) as any as S.Schema<DeleteSpendingLimitResponse>;
+export type String256List = string[];
 export const String256List = S.Array(S.String);
+export type TagsMap = { [key: string]: string };
 export const TagsMap = S.Record({ key: S.String, value: S.String });
-export class SearchDevicesFilter extends S.Class<SearchDevicesFilter>(
-  "SearchDevicesFilter",
-)({ name: S.String, values: String256List }) {}
+export interface SearchDevicesFilter {
+  name: string;
+  values: String256List;
+}
+export const SearchDevicesFilter = S.suspend(() =>
+  S.Struct({ name: S.String, values: String256List }),
+).annotations({
+  identifier: "SearchDevicesFilter",
+}) as any as S.Schema<SearchDevicesFilter>;
+export type SearchDevicesFilterList = SearchDevicesFilter[];
 export const SearchDevicesFilterList = S.Array(SearchDevicesFilter);
-export class JobOutputDataConfig extends S.Class<JobOutputDataConfig>(
-  "JobOutputDataConfig",
-)({ kmsKeyId: S.optional(S.String), s3Path: S.String }) {}
-export class JobCheckpointConfig extends S.Class<JobCheckpointConfig>(
-  "JobCheckpointConfig",
-)({ localPath: S.optional(S.String), s3Uri: S.String }) {}
-export class JobStoppingCondition extends S.Class<JobStoppingCondition>(
-  "JobStoppingCondition",
-)({ maxRuntimeInSeconds: S.optional(S.Number) }) {}
-export class InstanceConfig extends S.Class<InstanceConfig>("InstanceConfig")({
-  instanceType: S.String,
-  volumeSizeInGb: S.Number,
-  instanceCount: S.optional(S.Number),
-}) {}
+export interface JobOutputDataConfig {
+  kmsKeyId?: string;
+  s3Path: string;
+}
+export const JobOutputDataConfig = S.suspend(() =>
+  S.Struct({ kmsKeyId: S.optional(S.String), s3Path: S.String }),
+).annotations({
+  identifier: "JobOutputDataConfig",
+}) as any as S.Schema<JobOutputDataConfig>;
+export interface JobCheckpointConfig {
+  localPath?: string;
+  s3Uri: string;
+}
+export const JobCheckpointConfig = S.suspend(() =>
+  S.Struct({ localPath: S.optional(S.String), s3Uri: S.String }),
+).annotations({
+  identifier: "JobCheckpointConfig",
+}) as any as S.Schema<JobCheckpointConfig>;
+export interface JobStoppingCondition {
+  maxRuntimeInSeconds?: number;
+}
+export const JobStoppingCondition = S.suspend(() =>
+  S.Struct({ maxRuntimeInSeconds: S.optional(S.Number) }),
+).annotations({
+  identifier: "JobStoppingCondition",
+}) as any as S.Schema<JobStoppingCondition>;
+export interface InstanceConfig {
+  instanceType: string;
+  volumeSizeInGb: number;
+  instanceCount?: number;
+}
+export const InstanceConfig = S.suspend(() =>
+  S.Struct({
+    instanceType: S.String,
+    volumeSizeInGb: S.Number,
+    instanceCount: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "InstanceConfig",
+}) as any as S.Schema<InstanceConfig>;
+export type HyperParameters = { [key: string]: string };
 export const HyperParameters = S.Record({ key: S.String, value: S.String });
-export class DeviceConfig extends S.Class<DeviceConfig>("DeviceConfig")({
-  device: S.String,
-}) {}
-export class Association extends S.Class<Association>("Association")({
-  arn: S.String,
-  type: S.String,
-}) {}
+export interface DeviceConfig {
+  device: string;
+}
+export const DeviceConfig = S.suspend(() =>
+  S.Struct({ device: S.String }),
+).annotations({ identifier: "DeviceConfig" }) as any as S.Schema<DeviceConfig>;
+export interface Association {
+  arn: string;
+  type: string;
+}
+export const Association = S.suspend(() =>
+  S.Struct({ arn: S.String, type: S.String }),
+).annotations({ identifier: "Association" }) as any as S.Schema<Association>;
+export type Associations = Association[];
 export const Associations = S.Array(Association);
-export class SearchJobsFilter extends S.Class<SearchJobsFilter>(
-  "SearchJobsFilter",
-)({ name: S.String, values: String256List, operator: S.String }) {}
+export interface SearchJobsFilter {
+  name: string;
+  values: String256List;
+  operator: string;
+}
+export const SearchJobsFilter = S.suspend(() =>
+  S.Struct({ name: S.String, values: String256List, operator: S.String }),
+).annotations({
+  identifier: "SearchJobsFilter",
+}) as any as S.Schema<SearchJobsFilter>;
+export type SearchJobsFilterList = SearchJobsFilter[];
 export const SearchJobsFilterList = S.Array(SearchJobsFilter);
 export const ExperimentalCapabilities = S.Union(
   S.Struct({ enabled: S.String }),
 );
-export class SearchQuantumTasksFilter extends S.Class<SearchQuantumTasksFilter>(
-  "SearchQuantumTasksFilter",
-)({ name: S.String, values: String256List, operator: S.String }) {}
+export interface SearchQuantumTasksFilter {
+  name: string;
+  values: String256List;
+  operator: string;
+}
+export const SearchQuantumTasksFilter = S.suspend(() =>
+  S.Struct({ name: S.String, values: String256List, operator: S.String }),
+).annotations({
+  identifier: "SearchQuantumTasksFilter",
+}) as any as S.Schema<SearchQuantumTasksFilter>;
+export type SearchQuantumTasksFilterList = SearchQuantumTasksFilter[];
 export const SearchQuantumTasksFilterList = S.Array(SearchQuantumTasksFilter);
-export class SearchSpendingLimitsFilter extends S.Class<SearchSpendingLimitsFilter>(
-  "SearchSpendingLimitsFilter",
-)({ name: S.String, values: String256List, operator: S.String }) {}
+export interface SearchSpendingLimitsFilter {
+  name: string;
+  values: String256List;
+  operator: string;
+}
+export const SearchSpendingLimitsFilter = S.suspend(() =>
+  S.Struct({ name: S.String, values: String256List, operator: S.String }),
+).annotations({
+  identifier: "SearchSpendingLimitsFilter",
+}) as any as S.Schema<SearchSpendingLimitsFilter>;
+export type SearchSpendingLimitsFilterList = SearchSpendingLimitsFilter[];
 export const SearchSpendingLimitsFilterList = S.Array(
   SearchSpendingLimitsFilter,
 );
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ tags: S.optional(TagsMap) }) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagsMap },
-  T.all(
-    T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface ListTagsForResourceResponse {
+  tags?: TagsMap;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ tags: S.optional(TagsMap) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface TagResourceRequest {
+  resourceArn: string;
+  tags: TagsMap;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+    tags: TagsMap,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class SearchDevicesRequest extends S.Class<SearchDevicesRequest>(
-  "SearchDevicesRequest",
-)(
-  {
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface SearchDevicesRequest {
+  nextToken?: string;
+  maxResults?: number;
+  filters: SearchDevicesFilterList;
+}
+export const SearchDevicesRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
     filters: SearchDevicesFilterList,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/devices" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/devices" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CancelJobResponse extends S.Class<CancelJobResponse>(
-  "CancelJobResponse",
-)({ jobArn: S.String, cancellationStatus: S.String }) {}
-export class SearchJobsRequest extends S.Class<SearchJobsRequest>(
-  "SearchJobsRequest",
-)(
-  {
+).annotations({
+  identifier: "SearchDevicesRequest",
+}) as any as S.Schema<SearchDevicesRequest>;
+export interface CancelJobResponse {
+  jobArn: string;
+  cancellationStatus: string;
+}
+export const CancelJobResponse = S.suspend(() =>
+  S.Struct({ jobArn: S.String, cancellationStatus: S.String }),
+).annotations({
+  identifier: "CancelJobResponse",
+}) as any as S.Schema<CancelJobResponse>;
+export interface SearchJobsRequest {
+  nextToken?: string;
+  maxResults?: number;
+  filters: SearchJobsFilterList;
+}
+export const SearchJobsRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
     filters: SearchJobsFilterList,
-  },
-  T.all(T.Http({ method: "POST", uri: "/jobs" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateQuantumTaskRequest extends S.Class<CreateQuantumTaskRequest>(
-  "CreateQuantumTaskRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/jobs" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "SearchJobsRequest",
+}) as any as S.Schema<SearchJobsRequest>;
+export interface CreateQuantumTaskRequest {
+  clientToken: string;
+  deviceArn: string;
+  deviceParameters?: string;
+  shots: number;
+  outputS3Bucket: string;
+  outputS3KeyPrefix: string;
+  action: string;
+  tags?: TagsMap;
+  jobToken?: string;
+  associations?: Associations;
+  experimentalCapabilities?: (typeof ExperimentalCapabilities)["Type"];
+}
+export const CreateQuantumTaskRequest = S.suspend(() =>
+  S.Struct({
     clientToken: S.String,
     deviceArn: S.String,
     deviceParameters: S.optional(S.String),
@@ -507,249 +687,495 @@ export class CreateQuantumTaskRequest extends S.Class<CreateQuantumTaskRequest>(
     jobToken: S.optional(S.String),
     associations: S.optional(Associations),
     experimentalCapabilities: S.optional(ExperimentalCapabilities),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/quantum-task" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/quantum-task" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CancelQuantumTaskResponse extends S.Class<CancelQuantumTaskResponse>(
-  "CancelQuantumTaskResponse",
-)({ quantumTaskArn: S.String, cancellationStatus: S.String }) {}
-export class SearchQuantumTasksRequest extends S.Class<SearchQuantumTasksRequest>(
-  "SearchQuantumTasksRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateQuantumTaskRequest",
+}) as any as S.Schema<CreateQuantumTaskRequest>;
+export interface CancelQuantumTaskResponse {
+  quantumTaskArn: string;
+  cancellationStatus: string;
+}
+export const CancelQuantumTaskResponse = S.suspend(() =>
+  S.Struct({ quantumTaskArn: S.String, cancellationStatus: S.String }),
+).annotations({
+  identifier: "CancelQuantumTaskResponse",
+}) as any as S.Schema<CancelQuantumTaskResponse>;
+export interface SearchQuantumTasksRequest {
+  nextToken?: string;
+  maxResults?: number;
+  filters: SearchQuantumTasksFilterList;
+}
+export const SearchQuantumTasksRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
     filters: SearchQuantumTasksFilterList,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/quantum-tasks" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/quantum-tasks" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateSpendingLimitRequest extends S.Class<CreateSpendingLimitRequest>(
-  "CreateSpendingLimitRequest",
-)(
-  {
+).annotations({
+  identifier: "SearchQuantumTasksRequest",
+}) as any as S.Schema<SearchQuantumTasksRequest>;
+export interface CreateSpendingLimitRequest {
+  clientToken: string;
+  deviceArn: string;
+  spendingLimit: string;
+  timePeriod?: TimePeriod;
+  tags?: TagsMap;
+}
+export const CreateSpendingLimitRequest = S.suspend(() =>
+  S.Struct({
     clientToken: S.String,
     deviceArn: S.String,
     spendingLimit: S.String,
     timePeriod: S.optional(TimePeriod),
     tags: S.optional(TagsMap),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/spending-limit" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/spending-limit" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SearchSpendingLimitsRequest extends S.Class<SearchSpendingLimitsRequest>(
-  "SearchSpendingLimitsRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateSpendingLimitRequest",
+}) as any as S.Schema<CreateSpendingLimitRequest>;
+export interface SearchSpendingLimitsRequest {
+  nextToken?: string;
+  maxResults?: number;
+  filters?: SearchSpendingLimitsFilterList;
+}
+export const SearchSpendingLimitsRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
     filters: S.optional(SearchSpendingLimitsFilterList),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/spending-limits" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/spending-limits" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ScriptModeConfig extends S.Class<ScriptModeConfig>(
-  "ScriptModeConfig",
-)({
-  entryPoint: S.String,
-  s3Uri: S.String,
-  compressionType: S.optional(S.String),
-}) {}
-export class ContainerImage extends S.Class<ContainerImage>("ContainerImage")({
-  uri: S.String,
-}) {}
-export class DeviceQueueInfo extends S.Class<DeviceQueueInfo>(
-  "DeviceQueueInfo",
-)({
-  queue: S.String,
-  queueSize: S.String,
-  queuePriority: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "SearchSpendingLimitsRequest",
+}) as any as S.Schema<SearchSpendingLimitsRequest>;
+export interface ScriptModeConfig {
+  entryPoint: string;
+  s3Uri: string;
+  compressionType?: string;
+}
+export const ScriptModeConfig = S.suspend(() =>
+  S.Struct({
+    entryPoint: S.String,
+    s3Uri: S.String,
+    compressionType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ScriptModeConfig",
+}) as any as S.Schema<ScriptModeConfig>;
+export interface ContainerImage {
+  uri: string;
+}
+export const ContainerImage = S.suspend(() =>
+  S.Struct({ uri: S.String }),
+).annotations({
+  identifier: "ContainerImage",
+}) as any as S.Schema<ContainerImage>;
+export interface DeviceQueueInfo {
+  queue: string;
+  queueSize: string;
+  queuePriority?: string;
+}
+export const DeviceQueueInfo = S.suspend(() =>
+  S.Struct({
+    queue: S.String,
+    queueSize: S.String,
+    queuePriority: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DeviceQueueInfo",
+}) as any as S.Schema<DeviceQueueInfo>;
+export type DeviceQueueInfoList = DeviceQueueInfo[];
 export const DeviceQueueInfoList = S.Array(DeviceQueueInfo);
-export class AlgorithmSpecification extends S.Class<AlgorithmSpecification>(
-  "AlgorithmSpecification",
-)({
-  scriptModeConfig: S.optional(ScriptModeConfig),
-  containerImage: S.optional(ContainerImage),
-}) {}
-export class JobEventDetails extends S.Class<JobEventDetails>(
-  "JobEventDetails",
-)({
-  eventType: S.optional(S.String),
-  timeOfEvent: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  message: S.optional(S.String),
-}) {}
+export interface AlgorithmSpecification {
+  scriptModeConfig?: ScriptModeConfig;
+  containerImage?: ContainerImage;
+}
+export const AlgorithmSpecification = S.suspend(() =>
+  S.Struct({
+    scriptModeConfig: S.optional(ScriptModeConfig),
+    containerImage: S.optional(ContainerImage),
+  }),
+).annotations({
+  identifier: "AlgorithmSpecification",
+}) as any as S.Schema<AlgorithmSpecification>;
+export interface JobEventDetails {
+  eventType?: string;
+  timeOfEvent?: Date;
+  message?: string;
+}
+export const JobEventDetails = S.suspend(() =>
+  S.Struct({
+    eventType: S.optional(S.String),
+    timeOfEvent: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    message: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "JobEventDetails",
+}) as any as S.Schema<JobEventDetails>;
+export type JobEvents = JobEventDetails[];
 export const JobEvents = S.Array(JobEventDetails);
-export class HybridJobQueueInfo extends S.Class<HybridJobQueueInfo>(
-  "HybridJobQueueInfo",
-)({ queue: S.String, position: S.String, message: S.optional(S.String) }) {}
-export class QuantumTaskQueueInfo extends S.Class<QuantumTaskQueueInfo>(
-  "QuantumTaskQueueInfo",
-)({
-  queue: S.String,
-  position: S.String,
-  queuePriority: S.optional(S.String),
-  message: S.optional(S.String),
-}) {}
-export class ActionMetadata extends S.Class<ActionMetadata>("ActionMetadata")({
-  actionType: S.String,
-  programCount: S.optional(S.Number),
-  executableCount: S.optional(S.Number),
-}) {}
-export class S3DataSource extends S.Class<S3DataSource>("S3DataSource")({
-  s3Uri: S.String,
-}) {}
-export class GetDeviceResponse extends S.Class<GetDeviceResponse>(
-  "GetDeviceResponse",
-)({
-  deviceArn: S.String,
-  deviceName: S.String,
-  providerName: S.String,
-  deviceType: S.String,
-  deviceStatus: S.String,
-  deviceCapabilities: S.String,
-  deviceQueueInfo: S.optional(DeviceQueueInfoList),
-}) {}
-export class DataSource extends S.Class<DataSource>("DataSource")({
-  s3DataSource: S3DataSource,
-}) {}
-export class InputFileConfig extends S.Class<InputFileConfig>(
-  "InputFileConfig",
-)({
-  channelName: S.String,
-  contentType: S.optional(S.String),
-  dataSource: DataSource,
-}) {}
+export interface HybridJobQueueInfo {
+  queue: string;
+  position: string;
+  message?: string;
+}
+export const HybridJobQueueInfo = S.suspend(() =>
+  S.Struct({
+    queue: S.String,
+    position: S.String,
+    message: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "HybridJobQueueInfo",
+}) as any as S.Schema<HybridJobQueueInfo>;
+export interface QuantumTaskQueueInfo {
+  queue: string;
+  position: string;
+  queuePriority?: string;
+  message?: string;
+}
+export const QuantumTaskQueueInfo = S.suspend(() =>
+  S.Struct({
+    queue: S.String,
+    position: S.String,
+    queuePriority: S.optional(S.String),
+    message: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "QuantumTaskQueueInfo",
+}) as any as S.Schema<QuantumTaskQueueInfo>;
+export interface ActionMetadata {
+  actionType: string;
+  programCount?: number;
+  executableCount?: number;
+}
+export const ActionMetadata = S.suspend(() =>
+  S.Struct({
+    actionType: S.String,
+    programCount: S.optional(S.Number),
+    executableCount: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "ActionMetadata",
+}) as any as S.Schema<ActionMetadata>;
+export interface S3DataSource {
+  s3Uri: string;
+}
+export const S3DataSource = S.suspend(() =>
+  S.Struct({ s3Uri: S.String }),
+).annotations({ identifier: "S3DataSource" }) as any as S.Schema<S3DataSource>;
+export interface GetDeviceResponse {
+  deviceArn: string;
+  deviceName: string;
+  providerName: string;
+  deviceType: string;
+  deviceStatus: string;
+  deviceCapabilities: string;
+  deviceQueueInfo?: DeviceQueueInfoList;
+}
+export const GetDeviceResponse = S.suspend(() =>
+  S.Struct({
+    deviceArn: S.String,
+    deviceName: S.String,
+    providerName: S.String,
+    deviceType: S.String,
+    deviceStatus: S.String,
+    deviceCapabilities: S.String,
+    deviceQueueInfo: S.optional(DeviceQueueInfoList),
+  }),
+).annotations({
+  identifier: "GetDeviceResponse",
+}) as any as S.Schema<GetDeviceResponse>;
+export interface DataSource {
+  s3DataSource: S3DataSource;
+}
+export const DataSource = S.suspend(() =>
+  S.Struct({ s3DataSource: S3DataSource }),
+).annotations({ identifier: "DataSource" }) as any as S.Schema<DataSource>;
+export interface InputFileConfig {
+  channelName: string;
+  contentType?: string;
+  dataSource: DataSource;
+}
+export const InputFileConfig = S.suspend(() =>
+  S.Struct({
+    channelName: S.String,
+    contentType: S.optional(S.String),
+    dataSource: DataSource,
+  }),
+).annotations({
+  identifier: "InputFileConfig",
+}) as any as S.Schema<InputFileConfig>;
+export type InputConfigList = InputFileConfig[];
 export const InputConfigList = S.Array(InputFileConfig);
-export class GetJobResponse extends S.Class<GetJobResponse>("GetJobResponse")({
-  status: S.String,
-  jobArn: S.String,
-  roleArn: S.String,
-  failureReason: S.optional(S.String),
-  jobName: S.String,
-  hyperParameters: S.optional(HyperParameters),
-  inputDataConfig: S.optional(InputConfigList),
-  outputDataConfig: JobOutputDataConfig,
-  stoppingCondition: S.optional(JobStoppingCondition),
-  checkpointConfig: S.optional(JobCheckpointConfig),
-  algorithmSpecification: AlgorithmSpecification,
-  instanceConfig: InstanceConfig,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  startedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  endedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  billableDuration: S.optional(S.Number),
-  deviceConfig: S.optional(DeviceConfig),
-  events: S.optional(JobEvents),
-  tags: S.optional(TagsMap),
-  queueInfo: S.optional(HybridJobQueueInfo),
-  associations: S.optional(Associations),
-}) {}
-export class CreateQuantumTaskResponse extends S.Class<CreateQuantumTaskResponse>(
-  "CreateQuantumTaskResponse",
-)({ quantumTaskArn: S.String }) {}
-export class GetQuantumTaskResponse extends S.Class<GetQuantumTaskResponse>(
-  "GetQuantumTaskResponse",
-)({
-  quantumTaskArn: S.String,
-  status: S.String,
-  failureReason: S.optional(S.String),
-  deviceArn: S.String,
-  deviceParameters: S.String,
-  shots: S.Number,
-  outputS3Bucket: S.String,
-  outputS3Directory: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  endedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  tags: S.optional(TagsMap),
-  jobArn: S.optional(S.String),
-  queueInfo: S.optional(QuantumTaskQueueInfo),
-  associations: S.optional(Associations),
-  numSuccessfulShots: S.optional(S.Number),
-  actionMetadata: S.optional(ActionMetadata),
-  experimentalCapabilities: S.optional(ExperimentalCapabilities),
-}) {}
-export class CreateSpendingLimitResponse extends S.Class<CreateSpendingLimitResponse>(
-  "CreateSpendingLimitResponse",
-)({ spendingLimitArn: S.String }) {}
-export class DeviceSummary extends S.Class<DeviceSummary>("DeviceSummary")({
-  deviceArn: S.String,
-  deviceName: S.String,
-  providerName: S.String,
-  deviceType: S.String,
-  deviceStatus: S.String,
-}) {}
+export interface GetJobResponse {
+  status: string;
+  jobArn: string;
+  roleArn: string;
+  failureReason?: string;
+  jobName: string;
+  hyperParameters?: HyperParameters;
+  inputDataConfig?: InputConfigList;
+  outputDataConfig: JobOutputDataConfig;
+  stoppingCondition?: JobStoppingCondition;
+  checkpointConfig?: JobCheckpointConfig;
+  algorithmSpecification: AlgorithmSpecification;
+  instanceConfig: InstanceConfig;
+  createdAt: Date;
+  startedAt?: Date;
+  endedAt?: Date;
+  billableDuration?: number;
+  deviceConfig?: DeviceConfig;
+  events?: JobEvents;
+  tags?: TagsMap;
+  queueInfo?: HybridJobQueueInfo;
+  associations?: Associations;
+}
+export const GetJobResponse = S.suspend(() =>
+  S.Struct({
+    status: S.String,
+    jobArn: S.String,
+    roleArn: S.String,
+    failureReason: S.optional(S.String),
+    jobName: S.String,
+    hyperParameters: S.optional(HyperParameters),
+    inputDataConfig: S.optional(InputConfigList),
+    outputDataConfig: JobOutputDataConfig,
+    stoppingCondition: S.optional(JobStoppingCondition),
+    checkpointConfig: S.optional(JobCheckpointConfig),
+    algorithmSpecification: AlgorithmSpecification,
+    instanceConfig: InstanceConfig,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    startedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    endedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    billableDuration: S.optional(S.Number),
+    deviceConfig: S.optional(DeviceConfig),
+    events: S.optional(JobEvents),
+    tags: S.optional(TagsMap),
+    queueInfo: S.optional(HybridJobQueueInfo),
+    associations: S.optional(Associations),
+  }),
+).annotations({
+  identifier: "GetJobResponse",
+}) as any as S.Schema<GetJobResponse>;
+export interface CreateQuantumTaskResponse {
+  quantumTaskArn: string;
+}
+export const CreateQuantumTaskResponse = S.suspend(() =>
+  S.Struct({ quantumTaskArn: S.String }),
+).annotations({
+  identifier: "CreateQuantumTaskResponse",
+}) as any as S.Schema<CreateQuantumTaskResponse>;
+export interface GetQuantumTaskResponse {
+  quantumTaskArn: string;
+  status: string;
+  failureReason?: string;
+  deviceArn: string;
+  deviceParameters: string;
+  shots: number;
+  outputS3Bucket: string;
+  outputS3Directory: string;
+  createdAt: Date;
+  endedAt?: Date;
+  tags?: TagsMap;
+  jobArn?: string;
+  queueInfo?: QuantumTaskQueueInfo;
+  associations?: Associations;
+  numSuccessfulShots?: number;
+  actionMetadata?: ActionMetadata;
+  experimentalCapabilities?: (typeof ExperimentalCapabilities)["Type"];
+}
+export const GetQuantumTaskResponse = S.suspend(() =>
+  S.Struct({
+    quantumTaskArn: S.String,
+    status: S.String,
+    failureReason: S.optional(S.String),
+    deviceArn: S.String,
+    deviceParameters: S.String,
+    shots: S.Number,
+    outputS3Bucket: S.String,
+    outputS3Directory: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    endedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    tags: S.optional(TagsMap),
+    jobArn: S.optional(S.String),
+    queueInfo: S.optional(QuantumTaskQueueInfo),
+    associations: S.optional(Associations),
+    numSuccessfulShots: S.optional(S.Number),
+    actionMetadata: S.optional(ActionMetadata),
+    experimentalCapabilities: S.optional(ExperimentalCapabilities),
+  }),
+).annotations({
+  identifier: "GetQuantumTaskResponse",
+}) as any as S.Schema<GetQuantumTaskResponse>;
+export interface CreateSpendingLimitResponse {
+  spendingLimitArn: string;
+}
+export const CreateSpendingLimitResponse = S.suspend(() =>
+  S.Struct({ spendingLimitArn: S.String }),
+).annotations({
+  identifier: "CreateSpendingLimitResponse",
+}) as any as S.Schema<CreateSpendingLimitResponse>;
+export interface DeviceSummary {
+  deviceArn: string;
+  deviceName: string;
+  providerName: string;
+  deviceType: string;
+  deviceStatus: string;
+}
+export const DeviceSummary = S.suspend(() =>
+  S.Struct({
+    deviceArn: S.String,
+    deviceName: S.String,
+    providerName: S.String,
+    deviceType: S.String,
+    deviceStatus: S.String,
+  }),
+).annotations({
+  identifier: "DeviceSummary",
+}) as any as S.Schema<DeviceSummary>;
+export type DeviceSummaryList = DeviceSummary[];
 export const DeviceSummaryList = S.Array(DeviceSummary);
-export class JobSummary extends S.Class<JobSummary>("JobSummary")({
-  status: S.String,
-  jobArn: S.String,
-  jobName: S.String,
-  device: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  startedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  endedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  tags: S.optional(TagsMap),
-}) {}
+export interface JobSummary {
+  status: string;
+  jobArn: string;
+  jobName: string;
+  device: string;
+  createdAt: Date;
+  startedAt?: Date;
+  endedAt?: Date;
+  tags?: TagsMap;
+}
+export const JobSummary = S.suspend(() =>
+  S.Struct({
+    status: S.String,
+    jobArn: S.String,
+    jobName: S.String,
+    device: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    startedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    endedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    tags: S.optional(TagsMap),
+  }),
+).annotations({ identifier: "JobSummary" }) as any as S.Schema<JobSummary>;
+export type JobSummaryList = JobSummary[];
 export const JobSummaryList = S.Array(JobSummary);
-export class QuantumTaskSummary extends S.Class<QuantumTaskSummary>(
-  "QuantumTaskSummary",
-)({
-  quantumTaskArn: S.String,
-  status: S.String,
-  deviceArn: S.String,
-  shots: S.Number,
-  outputS3Bucket: S.String,
-  outputS3Directory: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  endedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  tags: S.optional(TagsMap),
-}) {}
+export interface QuantumTaskSummary {
+  quantumTaskArn: string;
+  status: string;
+  deviceArn: string;
+  shots: number;
+  outputS3Bucket: string;
+  outputS3Directory: string;
+  createdAt: Date;
+  endedAt?: Date;
+  tags?: TagsMap;
+}
+export const QuantumTaskSummary = S.suspend(() =>
+  S.Struct({
+    quantumTaskArn: S.String,
+    status: S.String,
+    deviceArn: S.String,
+    shots: S.Number,
+    outputS3Bucket: S.String,
+    outputS3Directory: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    endedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    tags: S.optional(TagsMap),
+  }),
+).annotations({
+  identifier: "QuantumTaskSummary",
+}) as any as S.Schema<QuantumTaskSummary>;
+export type QuantumTaskSummaryList = QuantumTaskSummary[];
 export const QuantumTaskSummaryList = S.Array(QuantumTaskSummary);
-export class SpendingLimitSummary extends S.Class<SpendingLimitSummary>(
-  "SpendingLimitSummary",
-)({
-  spendingLimitArn: S.String,
-  deviceArn: S.String,
-  timePeriod: TimePeriod,
-  spendingLimit: S.String,
-  queuedSpend: S.String,
-  totalSpend: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  tags: S.optional(TagsMap),
-}) {}
+export interface SpendingLimitSummary {
+  spendingLimitArn: string;
+  deviceArn: string;
+  timePeriod: TimePeriod;
+  spendingLimit: string;
+  queuedSpend: string;
+  totalSpend: string;
+  createdAt: Date;
+  updatedAt: Date;
+  tags?: TagsMap;
+}
+export const SpendingLimitSummary = S.suspend(() =>
+  S.Struct({
+    spendingLimitArn: S.String,
+    deviceArn: S.String,
+    timePeriod: TimePeriod,
+    spendingLimit: S.String,
+    queuedSpend: S.String,
+    totalSpend: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    tags: S.optional(TagsMap),
+  }),
+).annotations({
+  identifier: "SpendingLimitSummary",
+}) as any as S.Schema<SpendingLimitSummary>;
+export type SpendingLimitSummaryList = SpendingLimitSummary[];
 export const SpendingLimitSummaryList = S.Array(SpendingLimitSummary);
-export class SearchDevicesResponse extends S.Class<SearchDevicesResponse>(
-  "SearchDevicesResponse",
-)({ devices: DeviceSummaryList, nextToken: S.optional(S.String) }) {}
-export class CreateJobRequest extends S.Class<CreateJobRequest>(
-  "CreateJobRequest",
-)(
-  {
+export interface SearchDevicesResponse {
+  devices: DeviceSummaryList;
+  nextToken?: string;
+}
+export const SearchDevicesResponse = S.suspend(() =>
+  S.Struct({ devices: DeviceSummaryList, nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "SearchDevicesResponse",
+}) as any as S.Schema<SearchDevicesResponse>;
+export interface CreateJobRequest {
+  clientToken: string;
+  algorithmSpecification: AlgorithmSpecification;
+  inputDataConfig?: InputConfigList;
+  outputDataConfig: JobOutputDataConfig;
+  checkpointConfig?: JobCheckpointConfig;
+  jobName: string;
+  roleArn: string;
+  stoppingCondition?: JobStoppingCondition;
+  instanceConfig: InstanceConfig;
+  hyperParameters?: HyperParameters;
+  deviceConfig: DeviceConfig;
+  tags?: TagsMap;
+  associations?: Associations;
+}
+export const CreateJobRequest = S.suspend(() =>
+  S.Struct({
     clientToken: S.String,
     algorithmSpecification: AlgorithmSpecification,
     inputDataConfig: S.optional(InputConfigList),
@@ -763,35 +1189,80 @@ export class CreateJobRequest extends S.Class<CreateJobRequest>(
     deviceConfig: DeviceConfig,
     tags: S.optional(TagsMap),
     associations: S.optional(Associations),
-  },
-  T.all(T.Http({ method: "POST", uri: "/job" }), svc, auth, proto, ver, rules),
-) {}
-export class SearchJobsResponse extends S.Class<SearchJobsResponse>(
-  "SearchJobsResponse",
-)({ jobs: JobSummaryList, nextToken: S.optional(S.String) }) {}
-export class SearchQuantumTasksResponse extends S.Class<SearchQuantumTasksResponse>(
-  "SearchQuantumTasksResponse",
-)({ quantumTasks: QuantumTaskSummaryList, nextToken: S.optional(S.String) }) {}
-export class SearchSpendingLimitsResponse extends S.Class<SearchSpendingLimitsResponse>(
-  "SearchSpendingLimitsResponse",
-)({
-  spendingLimits: SpendingLimitSummaryList,
-  nextToken: S.optional(S.String),
-}) {}
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/job" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateJobRequest",
+}) as any as S.Schema<CreateJobRequest>;
+export interface SearchJobsResponse {
+  jobs: JobSummaryList;
+  nextToken?: string;
+}
+export const SearchJobsResponse = S.suspend(() =>
+  S.Struct({ jobs: JobSummaryList, nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "SearchJobsResponse",
+}) as any as S.Schema<SearchJobsResponse>;
+export interface SearchQuantumTasksResponse {
+  quantumTasks: QuantumTaskSummaryList;
+  nextToken?: string;
+}
+export const SearchQuantumTasksResponse = S.suspend(() =>
+  S.Struct({
+    quantumTasks: QuantumTaskSummaryList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SearchQuantumTasksResponse",
+}) as any as S.Schema<SearchQuantumTasksResponse>;
+export interface SearchSpendingLimitsResponse {
+  spendingLimits: SpendingLimitSummaryList;
+  nextToken?: string;
+}
+export const SearchSpendingLimitsResponse = S.suspend(() =>
+  S.Struct({
+    spendingLimits: SpendingLimitSummaryList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SearchSpendingLimitsResponse",
+}) as any as S.Schema<SearchSpendingLimitsResponse>;
+export type ProgramValidationFailuresList = string[];
 export const ProgramValidationFailuresList = S.Array(S.String);
-export class ProgramSetValidationFailure extends S.Class<ProgramSetValidationFailure>(
-  "ProgramSetValidationFailure",
-)({
-  programIndex: S.Number,
-  inputsIndex: S.optional(S.Number),
-  errors: S.optional(ProgramValidationFailuresList),
-}) {}
+export interface ProgramSetValidationFailure {
+  programIndex: number;
+  inputsIndex?: number;
+  errors?: ProgramValidationFailuresList;
+}
+export const ProgramSetValidationFailure = S.suspend(() =>
+  S.Struct({
+    programIndex: S.Number,
+    inputsIndex: S.optional(S.Number),
+    errors: S.optional(ProgramValidationFailuresList),
+  }),
+).annotations({
+  identifier: "ProgramSetValidationFailure",
+}) as any as S.Schema<ProgramSetValidationFailure>;
+export type ProgramSetValidationFailuresList = ProgramSetValidationFailure[];
 export const ProgramSetValidationFailuresList = S.Array(
   ProgramSetValidationFailure,
 );
-export class CreateJobResponse extends S.Class<CreateJobResponse>(
-  "CreateJobResponse",
-)({ jobArn: S.String }) {}
+export interface CreateJobResponse {
+  jobArn: string;
+}
+export const CreateJobResponse = S.suspend(() =>
+  S.Struct({ jobArn: S.String }),
+).annotations({
+  identifier: "CreateJobResponse",
+}) as any as S.Schema<CreateJobResponse>;
 
 //# Errors
 export class InternalServiceException extends S.TaggedError<InternalServiceException>()(

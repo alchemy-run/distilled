@@ -242,51 +242,88 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class GetIceServerConfigRequest extends S.Class<GetIceServerConfigRequest>(
-  "GetIceServerConfigRequest",
-)(
-  {
+export interface GetIceServerConfigRequest {
+  ChannelARN: string;
+  ClientId?: string;
+  Service?: string;
+  Username?: string;
+}
+export const GetIceServerConfigRequest = S.suspend(() =>
+  S.Struct({
     ChannelARN: S.String,
     ClientId: S.optional(S.String),
     Service: S.optional(S.String),
     Username: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/v1/get-ice-server-config" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v1/get-ice-server-config" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SendAlexaOfferToMasterRequest extends S.Class<SendAlexaOfferToMasterRequest>(
-  "SendAlexaOfferToMasterRequest",
-)(
-  { ChannelARN: S.String, SenderClientId: S.String, MessagePayload: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/v1/send-alexa-offer-to-master" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetIceServerConfigRequest",
+}) as any as S.Schema<GetIceServerConfigRequest>;
+export interface SendAlexaOfferToMasterRequest {
+  ChannelARN: string;
+  SenderClientId: string;
+  MessagePayload: string;
+}
+export const SendAlexaOfferToMasterRequest = S.suspend(() =>
+  S.Struct({
+    ChannelARN: S.String,
+    SenderClientId: S.String,
+    MessagePayload: S.String,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v1/send-alexa-offer-to-master" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SendAlexaOfferToMasterResponse extends S.Class<SendAlexaOfferToMasterResponse>(
-  "SendAlexaOfferToMasterResponse",
-)({ Answer: S.optional(S.String) }) {}
+).annotations({
+  identifier: "SendAlexaOfferToMasterRequest",
+}) as any as S.Schema<SendAlexaOfferToMasterRequest>;
+export interface SendAlexaOfferToMasterResponse {
+  Answer?: string;
+}
+export const SendAlexaOfferToMasterResponse = S.suspend(() =>
+  S.Struct({ Answer: S.optional(S.String) }),
+).annotations({
+  identifier: "SendAlexaOfferToMasterResponse",
+}) as any as S.Schema<SendAlexaOfferToMasterResponse>;
+export type Uris = string[];
 export const Uris = S.Array(S.String);
-export class IceServer extends S.Class<IceServer>("IceServer")({
-  Uris: S.optional(Uris),
-  Username: S.optional(S.String),
-  Password: S.optional(S.String),
-  Ttl: S.optional(S.Number),
-}) {}
+export interface IceServer {
+  Uris?: Uris;
+  Username?: string;
+  Password?: string;
+  Ttl?: number;
+}
+export const IceServer = S.suspend(() =>
+  S.Struct({
+    Uris: S.optional(Uris),
+    Username: S.optional(S.String),
+    Password: S.optional(S.String),
+    Ttl: S.optional(S.Number),
+  }),
+).annotations({ identifier: "IceServer" }) as any as S.Schema<IceServer>;
+export type IceServerList = IceServer[];
 export const IceServerList = S.Array(IceServer);
-export class GetIceServerConfigResponse extends S.Class<GetIceServerConfigResponse>(
-  "GetIceServerConfigResponse",
-)({ IceServerList: S.optional(IceServerList) }) {}
+export interface GetIceServerConfigResponse {
+  IceServerList?: IceServerList;
+}
+export const GetIceServerConfigResponse = S.suspend(() =>
+  S.Struct({ IceServerList: S.optional(IceServerList) }),
+).annotations({
+  identifier: "GetIceServerConfigResponse",
+}) as any as S.Schema<GetIceServerConfigResponse>;
 
 //# Errors
 export class ClientLimitExceededException extends S.TaggedError<ClientLimitExceededException>()(

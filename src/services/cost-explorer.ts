@@ -539,129 +539,249 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class StartSavingsPlansPurchaseRecommendationGenerationRequest extends S.Class<StartSavingsPlansPurchaseRecommendationGenerationRequest>(
-  "StartSavingsPlansPurchaseRecommendationGenerationRequest",
-)(
-  {},
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+export interface StartSavingsPlansPurchaseRecommendationGenerationRequest {}
+export const StartSavingsPlansPurchaseRecommendationGenerationRequest =
+  S.suspend(() =>
+    S.Struct({}).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotations({
+    identifier: "StartSavingsPlansPurchaseRecommendationGenerationRequest",
+  }) as any as S.Schema<StartSavingsPlansPurchaseRecommendationGenerationRequest>;
+export type Values = string[];
 export const Values = S.Array(S.String);
+export type UsageServices = string[];
 export const UsageServices = S.Array(S.String);
+export type MetricNames = string[];
 export const MetricNames = S.Array(S.String);
+export type SavingsPlansDataTypes = string[];
 export const SavingsPlansDataTypes = S.Array(S.String);
+export type AnalysisIds = string[];
 export const AnalysisIds = S.Array(S.String);
+export type CostAllocationTagKeyList = string[];
 export const CostAllocationTagKeyList = S.Array(S.String);
+export type ResourceTypesFilterInput = string[];
 export const ResourceTypesFilterInput = S.Array(S.String);
+export type RecommendationIdList = string[];
 export const RecommendationIdList = S.Array(S.String);
+export type ResourceTagKeyList = string[];
 export const ResourceTagKeyList = S.Array(S.String);
+export type MonitorArnList = string[];
 export const MonitorArnList = S.Array(S.String);
-export class DeleteAnomalyMonitorRequest extends S.Class<DeleteAnomalyMonitorRequest>(
-  "DeleteAnomalyMonitorRequest",
-)(
-  { MonitorArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteAnomalyMonitorResponse extends S.Class<DeleteAnomalyMonitorResponse>(
-  "DeleteAnomalyMonitorResponse",
-)({}) {}
-export class DeleteAnomalySubscriptionRequest extends S.Class<DeleteAnomalySubscriptionRequest>(
-  "DeleteAnomalySubscriptionRequest",
-)(
-  { SubscriptionArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteAnomalySubscriptionResponse extends S.Class<DeleteAnomalySubscriptionResponse>(
-  "DeleteAnomalySubscriptionResponse",
-)({}) {}
-export class DeleteCostCategoryDefinitionRequest extends S.Class<DeleteCostCategoryDefinitionRequest>(
-  "DeleteCostCategoryDefinitionRequest",
-)(
-  { CostCategoryArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeCostCategoryDefinitionRequest extends S.Class<DescribeCostCategoryDefinitionRequest>(
-  "DescribeCostCategoryDefinitionRequest",
-)(
-  { CostCategoryArn: S.String, EffectiveOn: S.optional(S.String) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetAnomalyMonitorsRequest extends S.Class<GetAnomalyMonitorsRequest>(
-  "GetAnomalyMonitorsRequest",
-)(
-  {
+export interface DeleteAnomalyMonitorRequest {
+  MonitorArn: string;
+}
+export const DeleteAnomalyMonitorRequest = S.suspend(() =>
+  S.Struct({ MonitorArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteAnomalyMonitorRequest",
+}) as any as S.Schema<DeleteAnomalyMonitorRequest>;
+export interface DeleteAnomalyMonitorResponse {}
+export const DeleteAnomalyMonitorResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteAnomalyMonitorResponse",
+}) as any as S.Schema<DeleteAnomalyMonitorResponse>;
+export interface DeleteAnomalySubscriptionRequest {
+  SubscriptionArn: string;
+}
+export const DeleteAnomalySubscriptionRequest = S.suspend(() =>
+  S.Struct({ SubscriptionArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteAnomalySubscriptionRequest",
+}) as any as S.Schema<DeleteAnomalySubscriptionRequest>;
+export interface DeleteAnomalySubscriptionResponse {}
+export const DeleteAnomalySubscriptionResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteAnomalySubscriptionResponse",
+}) as any as S.Schema<DeleteAnomalySubscriptionResponse>;
+export interface DeleteCostCategoryDefinitionRequest {
+  CostCategoryArn: string;
+}
+export const DeleteCostCategoryDefinitionRequest = S.suspend(() =>
+  S.Struct({ CostCategoryArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteCostCategoryDefinitionRequest",
+}) as any as S.Schema<DeleteCostCategoryDefinitionRequest>;
+export interface DescribeCostCategoryDefinitionRequest {
+  CostCategoryArn: string;
+  EffectiveOn?: string;
+}
+export const DescribeCostCategoryDefinitionRequest = S.suspend(() =>
+  S.Struct({
+    CostCategoryArn: S.String,
+    EffectiveOn: S.optional(S.String),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeCostCategoryDefinitionRequest",
+}) as any as S.Schema<DescribeCostCategoryDefinitionRequest>;
+export interface GetAnomalyMonitorsRequest {
+  MonitorArnList?: Values;
+  NextPageToken?: string;
+  MaxResults?: number;
+}
+export const GetAnomalyMonitorsRequest = S.suspend(() =>
+  S.Struct({
     MonitorArnList: S.optional(Values),
     NextPageToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetAnomalySubscriptionsRequest extends S.Class<GetAnomalySubscriptionsRequest>(
-  "GetAnomalySubscriptionsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetAnomalyMonitorsRequest",
+}) as any as S.Schema<GetAnomalyMonitorsRequest>;
+export interface GetAnomalySubscriptionsRequest {
+  SubscriptionArnList?: Values;
+  MonitorArn?: string;
+  NextPageToken?: string;
+  MaxResults?: number;
+}
+export const GetAnomalySubscriptionsRequest = S.suspend(() =>
+  S.Struct({
     SubscriptionArnList: S.optional(Values),
     MonitorArn: S.optional(S.String),
     NextPageToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetApproximateUsageRecordsRequest extends S.Class<GetApproximateUsageRecordsRequest>(
-  "GetApproximateUsageRecordsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetAnomalySubscriptionsRequest",
+}) as any as S.Schema<GetAnomalySubscriptionsRequest>;
+export interface GetApproximateUsageRecordsRequest {
+  Granularity: string;
+  Services?: UsageServices;
+  ApproximationDimension: string;
+}
+export const GetApproximateUsageRecordsRequest = S.suspend(() =>
+  S.Struct({
     Granularity: S.String,
     Services: S.optional(UsageServices),
     ApproximationDimension: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetCommitmentPurchaseAnalysisRequest extends S.Class<GetCommitmentPurchaseAnalysisRequest>(
-  "GetCommitmentPurchaseAnalysisRequest",
-)(
-  { AnalysisId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DateInterval extends S.Class<DateInterval>("DateInterval")({
-  Start: S.String,
-  End: S.String,
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetApproximateUsageRecordsRequest",
+}) as any as S.Schema<GetApproximateUsageRecordsRequest>;
+export interface GetCommitmentPurchaseAnalysisRequest {
+  AnalysisId: string;
+}
+export const GetCommitmentPurchaseAnalysisRequest = S.suspend(() =>
+  S.Struct({ AnalysisId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetCommitmentPurchaseAnalysisRequest",
+}) as any as S.Schema<GetCommitmentPurchaseAnalysisRequest>;
+export interface DateInterval {
+  Start: string;
+  End: string;
+}
+export const DateInterval = S.suspend(() =>
+  S.Struct({ Start: S.String, End: S.String }),
+).annotations({ identifier: "DateInterval" }) as any as S.Schema<DateInterval>;
+export type MatchOptions = string[];
 export const MatchOptions = S.Array(S.String);
-export class DimensionValues extends S.Class<DimensionValues>(
-  "DimensionValues",
-)({
-  Key: S.optional(S.String),
-  Values: S.optional(Values),
-  MatchOptions: S.optional(MatchOptions),
-}) {}
-export class TagValues extends S.Class<TagValues>("TagValues")({
-  Key: S.optional(S.String),
-  Values: S.optional(Values),
-  MatchOptions: S.optional(MatchOptions),
-}) {}
-export class CostCategoryValues extends S.Class<CostCategoryValues>(
-  "CostCategoryValues",
-)({
-  Key: S.optional(S.String),
-  Values: S.optional(Values),
-  MatchOptions: S.optional(MatchOptions),
-}) {}
-export class Expression extends S.Class<Expression>("Expression")({
-  Or: S.optional(S.suspend(() => Expressions)),
-  And: S.optional(S.suspend(() => Expressions)),
-  Not: S.optional(S.suspend((): S.Schema<Expression, any> => Expression)),
-  Dimensions: S.optional(DimensionValues),
-  Tags: S.optional(TagValues),
-  CostCategories: S.optional(CostCategoryValues),
-}) {}
-export class GroupDefinition extends S.Class<GroupDefinition>(
-  "GroupDefinition",
-)({ Type: S.optional(S.String), Key: S.optional(S.String) }) {}
+export interface DimensionValues {
+  Key?: string;
+  Values?: Values;
+  MatchOptions?: MatchOptions;
+}
+export const DimensionValues = S.suspend(() =>
+  S.Struct({
+    Key: S.optional(S.String),
+    Values: S.optional(Values),
+    MatchOptions: S.optional(MatchOptions),
+  }),
+).annotations({
+  identifier: "DimensionValues",
+}) as any as S.Schema<DimensionValues>;
+export interface TagValues {
+  Key?: string;
+  Values?: Values;
+  MatchOptions?: MatchOptions;
+}
+export const TagValues = S.suspend(() =>
+  S.Struct({
+    Key: S.optional(S.String),
+    Values: S.optional(Values),
+    MatchOptions: S.optional(MatchOptions),
+  }),
+).annotations({ identifier: "TagValues" }) as any as S.Schema<TagValues>;
+export interface CostCategoryValues {
+  Key?: string;
+  Values?: Values;
+  MatchOptions?: MatchOptions;
+}
+export const CostCategoryValues = S.suspend(() =>
+  S.Struct({
+    Key: S.optional(S.String),
+    Values: S.optional(Values),
+    MatchOptions: S.optional(MatchOptions),
+  }),
+).annotations({
+  identifier: "CostCategoryValues",
+}) as any as S.Schema<CostCategoryValues>;
+export interface Expression {
+  Or?: Expressions;
+  And?: Expressions;
+  Not?: Expression;
+  Dimensions?: DimensionValues;
+  Tags?: TagValues;
+  CostCategories?: CostCategoryValues;
+}
+export const Expression = S.suspend(() =>
+  S.Struct({
+    Or: S.optional(
+      S.suspend(() => Expressions).annotations({ identifier: "Expressions" }),
+    ),
+    And: S.optional(
+      S.suspend(() => Expressions).annotations({ identifier: "Expressions" }),
+    ),
+    Not: S.optional(
+      S.suspend((): S.Schema<Expression, any> => Expression).annotations({
+        identifier: "Expression",
+      }),
+    ),
+    Dimensions: S.optional(DimensionValues),
+    Tags: S.optional(TagValues),
+    CostCategories: S.optional(CostCategoryValues),
+  }),
+).annotations({ identifier: "Expression" }) as any as S.Schema<Expression>;
+export interface GroupDefinition {
+  Type?: string;
+  Key?: string;
+}
+export const GroupDefinition = S.suspend(() =>
+  S.Struct({ Type: S.optional(S.String), Key: S.optional(S.String) }),
+).annotations({
+  identifier: "GroupDefinition",
+}) as any as S.Schema<GroupDefinition>;
+export type GroupDefinitions = GroupDefinition[];
 export const GroupDefinitions = S.Array(GroupDefinition);
-export class GetCostAndUsageComparisonsRequest extends S.Class<GetCostAndUsageComparisonsRequest>(
-  "GetCostAndUsageComparisonsRequest",
-)(
-  {
+export interface GetCostAndUsageComparisonsRequest {
+  BillingViewArn?: string;
+  BaselineTimePeriod: DateInterval;
+  ComparisonTimePeriod: DateInterval;
+  MetricForComparison: string;
+  Filter?: Expression;
+  GroupBy?: GroupDefinitions;
+  MaxResults?: number;
+  NextPageToken?: string;
+}
+export const GetCostAndUsageComparisonsRequest = S.suspend(() =>
+  S.Struct({
     BillingViewArn: S.optional(S.String),
     BaselineTimePeriod: DateInterval,
     ComparisonTimePeriod: DateInterval,
@@ -670,13 +790,23 @@ export class GetCostAndUsageComparisonsRequest extends S.Class<GetCostAndUsageCo
     GroupBy: S.optional(GroupDefinitions),
     MaxResults: S.optional(S.Number),
     NextPageToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetCostAndUsageWithResourcesRequest extends S.Class<GetCostAndUsageWithResourcesRequest>(
-  "GetCostAndUsageWithResourcesRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetCostAndUsageComparisonsRequest",
+}) as any as S.Schema<GetCostAndUsageComparisonsRequest>;
+export interface GetCostAndUsageWithResourcesRequest {
+  TimePeriod: DateInterval;
+  Granularity: string;
+  Filter: Expression;
+  Metrics?: MetricNames;
+  GroupBy?: GroupDefinitions;
+  BillingViewArn?: string;
+  NextPageToken?: string;
+}
+export const GetCostAndUsageWithResourcesRequest = S.suspend(() =>
+  S.Struct({
     TimePeriod: DateInterval,
     Granularity: S.String,
     Filter: Expression,
@@ -684,13 +814,24 @@ export class GetCostAndUsageWithResourcesRequest extends S.Class<GetCostAndUsage
     GroupBy: S.optional(GroupDefinitions),
     BillingViewArn: S.optional(S.String),
     NextPageToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetCostComparisonDriversRequest extends S.Class<GetCostComparisonDriversRequest>(
-  "GetCostComparisonDriversRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetCostAndUsageWithResourcesRequest",
+}) as any as S.Schema<GetCostAndUsageWithResourcesRequest>;
+export interface GetCostComparisonDriversRequest {
+  BillingViewArn?: string;
+  BaselineTimePeriod: DateInterval;
+  ComparisonTimePeriod: DateInterval;
+  MetricForComparison: string;
+  Filter?: Expression;
+  GroupBy?: GroupDefinitions;
+  MaxResults?: number;
+  NextPageToken?: string;
+}
+export const GetCostComparisonDriversRequest = S.suspend(() =>
+  S.Struct({
     BillingViewArn: S.optional(S.String),
     BaselineTimePeriod: DateInterval,
     ComparisonTimePeriod: DateInterval,
@@ -699,31 +840,58 @@ export class GetCostComparisonDriversRequest extends S.Class<GetCostComparisonDr
     GroupBy: S.optional(GroupDefinitions),
     MaxResults: S.optional(S.Number),
     NextPageToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetCostForecastRequest extends S.Class<GetCostForecastRequest>(
-  "GetCostForecastRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetCostComparisonDriversRequest",
+}) as any as S.Schema<GetCostComparisonDriversRequest>;
+export interface GetCostForecastRequest {
+  TimePeriod: DateInterval;
+  Metric: string;
+  Granularity: string;
+  Filter?: Expression;
+  BillingViewArn?: string;
+  PredictionIntervalLevel?: number;
+}
+export const GetCostForecastRequest = S.suspend(() =>
+  S.Struct({
     TimePeriod: DateInterval,
     Metric: S.String,
     Granularity: S.String,
     Filter: S.optional(Expression),
     BillingViewArn: S.optional(S.String),
     PredictionIntervalLevel: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class SortDefinition extends S.Class<SortDefinition>("SortDefinition")({
-  Key: S.String,
-  SortOrder: S.optional(S.String),
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetCostForecastRequest",
+}) as any as S.Schema<GetCostForecastRequest>;
+export interface SortDefinition {
+  Key: string;
+  SortOrder?: string;
+}
+export const SortDefinition = S.suspend(() =>
+  S.Struct({ Key: S.String, SortOrder: S.optional(S.String) }),
+).annotations({
+  identifier: "SortDefinition",
+}) as any as S.Schema<SortDefinition>;
+export type SortDefinitions = SortDefinition[];
 export const SortDefinitions = S.Array(SortDefinition);
-export class GetDimensionValuesRequest extends S.Class<GetDimensionValuesRequest>(
-  "GetDimensionValuesRequest",
-)(
-  {
+export interface GetDimensionValuesRequest {
+  SearchString?: string;
+  TimePeriod: DateInterval;
+  Dimension: string;
+  Context?: string;
+  Filter?: Expression;
+  SortBy?: SortDefinitions;
+  BillingViewArn?: string;
+  MaxResults?: number;
+  NextPageToken?: string;
+}
+export const GetDimensionValuesRequest = S.suspend(() =>
+  S.Struct({
     SearchString: S.optional(S.String),
     TimePeriod: DateInterval,
     Dimension: S.String,
@@ -733,13 +901,24 @@ export class GetDimensionValuesRequest extends S.Class<GetDimensionValuesRequest
     BillingViewArn: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     NextPageToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetReservationCoverageRequest extends S.Class<GetReservationCoverageRequest>(
-  "GetReservationCoverageRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetDimensionValuesRequest",
+}) as any as S.Schema<GetDimensionValuesRequest>;
+export interface GetReservationCoverageRequest {
+  TimePeriod: DateInterval;
+  GroupBy?: GroupDefinitions;
+  Granularity?: string;
+  Filter?: Expression;
+  Metrics?: MetricNames;
+  NextPageToken?: string;
+  SortBy?: SortDefinition;
+  MaxResults?: number;
+}
+export const GetReservationCoverageRequest = S.suspend(() =>
+  S.Struct({
     TimePeriod: DateInterval,
     GroupBy: S.optional(GroupDefinitions),
     Granularity: S.optional(S.String),
@@ -748,13 +927,23 @@ export class GetReservationCoverageRequest extends S.Class<GetReservationCoverag
     NextPageToken: S.optional(S.String),
     SortBy: S.optional(SortDefinition),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetReservationUtilizationRequest extends S.Class<GetReservationUtilizationRequest>(
-  "GetReservationUtilizationRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetReservationCoverageRequest",
+}) as any as S.Schema<GetReservationCoverageRequest>;
+export interface GetReservationUtilizationRequest {
+  TimePeriod: DateInterval;
+  GroupBy?: GroupDefinitions;
+  Granularity?: string;
+  Filter?: Expression;
+  SortBy?: SortDefinition;
+  NextPageToken?: string;
+  MaxResults?: number;
+}
+export const GetReservationUtilizationRequest = S.suspend(() =>
+  S.Struct({
     TimePeriod: DateInterval,
     GroupBy: S.optional(GroupDefinitions),
     Granularity: S.optional(S.String),
@@ -762,19 +951,35 @@ export class GetReservationUtilizationRequest extends S.Class<GetReservationUtil
     SortBy: S.optional(SortDefinition),
     NextPageToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetSavingsPlanPurchaseRecommendationDetailsRequest extends S.Class<GetSavingsPlanPurchaseRecommendationDetailsRequest>(
-  "GetSavingsPlanPurchaseRecommendationDetailsRequest",
-)(
-  { RecommendationDetailId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetSavingsPlansCoverageRequest extends S.Class<GetSavingsPlansCoverageRequest>(
-  "GetSavingsPlansCoverageRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetReservationUtilizationRequest",
+}) as any as S.Schema<GetReservationUtilizationRequest>;
+export interface GetSavingsPlanPurchaseRecommendationDetailsRequest {
+  RecommendationDetailId: string;
+}
+export const GetSavingsPlanPurchaseRecommendationDetailsRequest = S.suspend(
+  () =>
+    S.Struct({ RecommendationDetailId: S.String }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+).annotations({
+  identifier: "GetSavingsPlanPurchaseRecommendationDetailsRequest",
+}) as any as S.Schema<GetSavingsPlanPurchaseRecommendationDetailsRequest>;
+export interface GetSavingsPlansCoverageRequest {
+  TimePeriod: DateInterval;
+  GroupBy?: GroupDefinitions;
+  Granularity?: string;
+  Filter?: Expression;
+  Metrics?: MetricNames;
+  NextToken?: string;
+  MaxResults?: number;
+  SortBy?: SortDefinition;
+}
+export const GetSavingsPlansCoverageRequest = S.suspend(() =>
+  S.Struct({
     TimePeriod: DateInterval,
     GroupBy: S.optional(GroupDefinitions),
     Granularity: S.optional(S.String),
@@ -783,13 +988,24 @@ export class GetSavingsPlansCoverageRequest extends S.Class<GetSavingsPlansCover
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     SortBy: S.optional(SortDefinition),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetSavingsPlansPurchaseRecommendationRequest extends S.Class<GetSavingsPlansPurchaseRecommendationRequest>(
-  "GetSavingsPlansPurchaseRecommendationRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetSavingsPlansCoverageRequest",
+}) as any as S.Schema<GetSavingsPlansCoverageRequest>;
+export interface GetSavingsPlansPurchaseRecommendationRequest {
+  SavingsPlansType: string;
+  TermInYears: string;
+  PaymentOption: string;
+  AccountScope?: string;
+  NextPageToken?: string;
+  PageSize?: number;
+  LookbackPeriodInDays: string;
+  Filter?: Expression;
+}
+export const GetSavingsPlansPurchaseRecommendationRequest = S.suspend(() =>
+  S.Struct({
     SavingsPlansType: S.String,
     TermInYears: S.String,
     PaymentOption: S.String,
@@ -798,35 +1014,64 @@ export class GetSavingsPlansPurchaseRecommendationRequest extends S.Class<GetSav
     PageSize: S.optional(S.Number),
     LookbackPeriodInDays: S.String,
     Filter: S.optional(Expression),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetSavingsPlansUtilizationRequest extends S.Class<GetSavingsPlansUtilizationRequest>(
-  "GetSavingsPlansUtilizationRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetSavingsPlansPurchaseRecommendationRequest",
+}) as any as S.Schema<GetSavingsPlansPurchaseRecommendationRequest>;
+export interface GetSavingsPlansUtilizationRequest {
+  TimePeriod: DateInterval;
+  Granularity?: string;
+  Filter?: Expression;
+  SortBy?: SortDefinition;
+}
+export const GetSavingsPlansUtilizationRequest = S.suspend(() =>
+  S.Struct({
     TimePeriod: DateInterval,
     Granularity: S.optional(S.String),
     Filter: S.optional(Expression),
     SortBy: S.optional(SortDefinition),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetSavingsPlansUtilizationDetailsRequest extends S.Class<GetSavingsPlansUtilizationDetailsRequest>(
-  "GetSavingsPlansUtilizationDetailsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetSavingsPlansUtilizationRequest",
+}) as any as S.Schema<GetSavingsPlansUtilizationRequest>;
+export interface GetSavingsPlansUtilizationDetailsRequest {
+  TimePeriod: DateInterval;
+  Filter?: Expression;
+  DataType?: SavingsPlansDataTypes;
+  NextToken?: string;
+  MaxResults?: number;
+  SortBy?: SortDefinition;
+}
+export const GetSavingsPlansUtilizationDetailsRequest = S.suspend(() =>
+  S.Struct({
     TimePeriod: DateInterval,
     Filter: S.optional(Expression),
     DataType: S.optional(SavingsPlansDataTypes),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     SortBy: S.optional(SortDefinition),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetTagsRequest extends S.Class<GetTagsRequest>("GetTagsRequest")(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetSavingsPlansUtilizationDetailsRequest",
+}) as any as S.Schema<GetSavingsPlansUtilizationDetailsRequest>;
+export interface GetTagsRequest {
+  SearchString?: string;
+  TimePeriod: DateInterval;
+  TagKey?: string;
+  Filter?: Expression;
+  SortBy?: SortDefinitions;
+  BillingViewArn?: string;
+  MaxResults?: number;
+  NextPageToken?: string;
+}
+export const GetTagsRequest = S.suspend(() =>
+  S.Struct({
     SearchString: S.optional(S.String),
     TimePeriod: DateInterval,
     TagKey: S.optional(S.String),
@@ -835,287 +1080,549 @@ export class GetTagsRequest extends S.Class<GetTagsRequest>("GetTagsRequest")(
     BillingViewArn: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     NextPageToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetUsageForecastRequest extends S.Class<GetUsageForecastRequest>(
-  "GetUsageForecastRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetTagsRequest",
+}) as any as S.Schema<GetTagsRequest>;
+export interface GetUsageForecastRequest {
+  TimePeriod: DateInterval;
+  Metric: string;
+  Granularity: string;
+  Filter?: Expression;
+  BillingViewArn?: string;
+  PredictionIntervalLevel?: number;
+}
+export const GetUsageForecastRequest = S.suspend(() =>
+  S.Struct({
     TimePeriod: DateInterval,
     Metric: S.String,
     Granularity: S.String,
     Filter: S.optional(Expression),
     BillingViewArn: S.optional(S.String),
     PredictionIntervalLevel: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListCommitmentPurchaseAnalysesRequest extends S.Class<ListCommitmentPurchaseAnalysesRequest>(
-  "ListCommitmentPurchaseAnalysesRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetUsageForecastRequest",
+}) as any as S.Schema<GetUsageForecastRequest>;
+export interface ListCommitmentPurchaseAnalysesRequest {
+  AnalysisStatus?: string;
+  NextPageToken?: string;
+  PageSize?: number;
+  AnalysisIds?: AnalysisIds;
+}
+export const ListCommitmentPurchaseAnalysesRequest = S.suspend(() =>
+  S.Struct({
     AnalysisStatus: S.optional(S.String),
     NextPageToken: S.optional(S.String),
     PageSize: S.optional(S.Number),
     AnalysisIds: S.optional(AnalysisIds),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListCostAllocationTagBackfillHistoryRequest extends S.Class<ListCostAllocationTagBackfillHistoryRequest>(
-  "ListCostAllocationTagBackfillHistoryRequest",
-)(
-  { NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListCostAllocationTagsRequest extends S.Class<ListCostAllocationTagsRequest>(
-  "ListCostAllocationTagsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListCommitmentPurchaseAnalysesRequest",
+}) as any as S.Schema<ListCommitmentPurchaseAnalysesRequest>;
+export interface ListCostAllocationTagBackfillHistoryRequest {
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListCostAllocationTagBackfillHistoryRequest = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListCostAllocationTagBackfillHistoryRequest",
+}) as any as S.Schema<ListCostAllocationTagBackfillHistoryRequest>;
+export interface ListCostAllocationTagsRequest {
+  Status?: string;
+  TagKeys?: CostAllocationTagKeyList;
+  Type?: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListCostAllocationTagsRequest = S.suspend(() =>
+  S.Struct({
     Status: S.optional(S.String),
     TagKeys: S.optional(CostAllocationTagKeyList),
     Type: S.optional(S.String),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListCostCategoryDefinitionsRequest extends S.Class<ListCostCategoryDefinitionsRequest>(
-  "ListCostCategoryDefinitionsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListCostAllocationTagsRequest",
+}) as any as S.Schema<ListCostAllocationTagsRequest>;
+export interface ListCostCategoryDefinitionsRequest {
+  EffectiveOn?: string;
+  NextToken?: string;
+  MaxResults?: number;
+  SupportedResourceTypes?: ResourceTypesFilterInput;
+}
+export const ListCostCategoryDefinitionsRequest = S.suspend(() =>
+  S.Struct({
     EffectiveOn: S.optional(S.String),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     SupportedResourceTypes: S.optional(ResourceTypesFilterInput),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListCostCategoryResourceAssociationsRequest extends S.Class<ListCostCategoryResourceAssociationsRequest>(
-  "ListCostCategoryResourceAssociationsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListCostCategoryDefinitionsRequest",
+}) as any as S.Schema<ListCostCategoryDefinitionsRequest>;
+export interface ListCostCategoryResourceAssociationsRequest {
+  CostCategoryArn?: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListCostCategoryResourceAssociationsRequest = S.suspend(() =>
+  S.Struct({
     CostCategoryArn: S.optional(S.String),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListSavingsPlansPurchaseRecommendationGenerationRequest extends S.Class<ListSavingsPlansPurchaseRecommendationGenerationRequest>(
-  "ListSavingsPlansPurchaseRecommendationGenerationRequest",
-)(
-  {
-    GenerationStatus: S.optional(S.String),
-    RecommendationIds: S.optional(RecommendationIdList),
-    PageSize: S.optional(S.Number),
-    NextPageToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { ResourceArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ProvideAnomalyFeedbackRequest extends S.Class<ProvideAnomalyFeedbackRequest>(
-  "ProvideAnomalyFeedbackRequest",
-)(
-  { AnomalyId: S.String, Feedback: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StartCostAllocationTagBackfillRequest extends S.Class<StartCostAllocationTagBackfillRequest>(
-  "StartCostAllocationTagBackfillRequest",
-)(
-  { BackfillFrom: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StartSavingsPlansPurchaseRecommendationGenerationResponse extends S.Class<StartSavingsPlansPurchaseRecommendationGenerationResponse>(
-  "StartSavingsPlansPurchaseRecommendationGenerationResponse",
-)({
-  RecommendationId: S.optional(S.String),
-  GenerationStartedTime: S.optional(S.String),
-  EstimatedCompletionTime: S.optional(S.String),
-}) {}
-export class ResourceTag extends S.Class<ResourceTag>("ResourceTag")({
-  Key: S.String,
-  Value: S.String,
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListCostCategoryResourceAssociationsRequest",
+}) as any as S.Schema<ListCostCategoryResourceAssociationsRequest>;
+export interface ListSavingsPlansPurchaseRecommendationGenerationRequest {
+  GenerationStatus?: string;
+  RecommendationIds?: RecommendationIdList;
+  PageSize?: number;
+  NextPageToken?: string;
+}
+export const ListSavingsPlansPurchaseRecommendationGenerationRequest =
+  S.suspend(() =>
+    S.Struct({
+      GenerationStatus: S.optional(S.String),
+      RecommendationIds: S.optional(RecommendationIdList),
+      PageSize: S.optional(S.Number),
+      NextPageToken: S.optional(S.String),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotations({
+    identifier: "ListSavingsPlansPurchaseRecommendationGenerationRequest",
+  }) as any as S.Schema<ListSavingsPlansPurchaseRecommendationGenerationRequest>;
+export interface ListTagsForResourceRequest {
+  ResourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface ProvideAnomalyFeedbackRequest {
+  AnomalyId: string;
+  Feedback: string;
+}
+export const ProvideAnomalyFeedbackRequest = S.suspend(() =>
+  S.Struct({ AnomalyId: S.String, Feedback: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ProvideAnomalyFeedbackRequest",
+}) as any as S.Schema<ProvideAnomalyFeedbackRequest>;
+export interface StartCostAllocationTagBackfillRequest {
+  BackfillFrom: string;
+}
+export const StartCostAllocationTagBackfillRequest = S.suspend(() =>
+  S.Struct({ BackfillFrom: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StartCostAllocationTagBackfillRequest",
+}) as any as S.Schema<StartCostAllocationTagBackfillRequest>;
+export interface StartSavingsPlansPurchaseRecommendationGenerationResponse {
+  RecommendationId?: string;
+  GenerationStartedTime?: string;
+  EstimatedCompletionTime?: string;
+}
+export const StartSavingsPlansPurchaseRecommendationGenerationResponse =
+  S.suspend(() =>
+    S.Struct({
+      RecommendationId: S.optional(S.String),
+      GenerationStartedTime: S.optional(S.String),
+      EstimatedCompletionTime: S.optional(S.String),
+    }),
+  ).annotations({
+    identifier: "StartSavingsPlansPurchaseRecommendationGenerationResponse",
+  }) as any as S.Schema<StartSavingsPlansPurchaseRecommendationGenerationResponse>;
+export interface ResourceTag {
+  Key: string;
+  Value: string;
+}
+export const ResourceTag = S.suspend(() =>
+  S.Struct({ Key: S.String, Value: S.String }),
+).annotations({ identifier: "ResourceTag" }) as any as S.Schema<ResourceTag>;
+export type ResourceTagList = ResourceTag[];
 export const ResourceTagList = S.Array(ResourceTag);
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { ResourceArn: S.String, ResourceTags: ResourceTagList },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  { ResourceArn: S.String, ResourceTagKeys: ResourceTagKeyList },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
-export class UpdateAnomalyMonitorRequest extends S.Class<UpdateAnomalyMonitorRequest>(
-  "UpdateAnomalyMonitorRequest",
-)(
-  { MonitorArn: S.String, MonitorName: S.optional(S.String) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CostCategoryInheritedValueDimension extends S.Class<CostCategoryInheritedValueDimension>(
-  "CostCategoryInheritedValueDimension",
-)({
-  DimensionName: S.optional(S.String),
-  DimensionKey: S.optional(S.String),
-}) {}
-export class CostCategoryRule extends S.Class<CostCategoryRule>(
-  "CostCategoryRule",
-)({
-  Value: S.optional(S.String),
-  Rule: S.optional(Expression),
-  InheritedValue: S.optional(CostCategoryInheritedValueDimension),
-  Type: S.optional(S.String),
-}) {}
+export interface TagResourceRequest {
+  ResourceArn: string;
+  ResourceTags: ResourceTagList;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String, ResourceTags: ResourceTagList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UntagResourceRequest {
+  ResourceArn: string;
+  ResourceTagKeys: ResourceTagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String, ResourceTagKeys: ResourceTagKeyList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface UpdateAnomalyMonitorRequest {
+  MonitorArn: string;
+  MonitorName?: string;
+}
+export const UpdateAnomalyMonitorRequest = S.suspend(() =>
+  S.Struct({ MonitorArn: S.String, MonitorName: S.optional(S.String) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateAnomalyMonitorRequest",
+}) as any as S.Schema<UpdateAnomalyMonitorRequest>;
+export interface CostCategoryInheritedValueDimension {
+  DimensionName?: string;
+  DimensionKey?: string;
+}
+export const CostCategoryInheritedValueDimension = S.suspend(() =>
+  S.Struct({
+    DimensionName: S.optional(S.String),
+    DimensionKey: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CostCategoryInheritedValueDimension",
+}) as any as S.Schema<CostCategoryInheritedValueDimension>;
+export interface CostCategoryRule {
+  Value?: string;
+  Rule?: Expression;
+  InheritedValue?: CostCategoryInheritedValueDimension;
+  Type?: string;
+}
+export const CostCategoryRule = S.suspend(() =>
+  S.Struct({
+    Value: S.optional(S.String),
+    Rule: S.optional(Expression),
+    InheritedValue: S.optional(CostCategoryInheritedValueDimension),
+    Type: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CostCategoryRule",
+}) as any as S.Schema<CostCategoryRule>;
+export type CostCategoryRulesList = CostCategoryRule[];
 export const CostCategoryRulesList = S.Array(CostCategoryRule);
+export type CostCategorySplitChargeRuleTargetsList = string[];
 export const CostCategorySplitChargeRuleTargetsList = S.Array(S.String);
+export type CostCategorySplitChargeRuleParameterValuesList = string[];
 export const CostCategorySplitChargeRuleParameterValuesList = S.Array(S.String);
-export class CostCategorySplitChargeRuleParameter extends S.Class<CostCategorySplitChargeRuleParameter>(
-  "CostCategorySplitChargeRuleParameter",
-)({ Type: S.String, Values: CostCategorySplitChargeRuleParameterValuesList }) {}
+export interface CostCategorySplitChargeRuleParameter {
+  Type: string;
+  Values: CostCategorySplitChargeRuleParameterValuesList;
+}
+export const CostCategorySplitChargeRuleParameter = S.suspend(() =>
+  S.Struct({
+    Type: S.String,
+    Values: CostCategorySplitChargeRuleParameterValuesList,
+  }),
+).annotations({
+  identifier: "CostCategorySplitChargeRuleParameter",
+}) as any as S.Schema<CostCategorySplitChargeRuleParameter>;
+export type CostCategorySplitChargeRuleParametersList =
+  CostCategorySplitChargeRuleParameter[];
 export const CostCategorySplitChargeRuleParametersList = S.Array(
   CostCategorySplitChargeRuleParameter,
 );
-export class CostCategorySplitChargeRule extends S.Class<CostCategorySplitChargeRule>(
-  "CostCategorySplitChargeRule",
-)({
-  Source: S.String,
-  Targets: CostCategorySplitChargeRuleTargetsList,
-  Method: S.String,
-  Parameters: S.optional(CostCategorySplitChargeRuleParametersList),
-}) {}
+export interface CostCategorySplitChargeRule {
+  Source: string;
+  Targets: CostCategorySplitChargeRuleTargetsList;
+  Method: string;
+  Parameters?: CostCategorySplitChargeRuleParametersList;
+}
+export const CostCategorySplitChargeRule = S.suspend(() =>
+  S.Struct({
+    Source: S.String,
+    Targets: CostCategorySplitChargeRuleTargetsList,
+    Method: S.String,
+    Parameters: S.optional(CostCategorySplitChargeRuleParametersList),
+  }),
+).annotations({
+  identifier: "CostCategorySplitChargeRule",
+}) as any as S.Schema<CostCategorySplitChargeRule>;
+export type CostCategorySplitChargeRulesList = CostCategorySplitChargeRule[];
 export const CostCategorySplitChargeRulesList = S.Array(
   CostCategorySplitChargeRule,
 );
-export class UpdateCostCategoryDefinitionRequest extends S.Class<UpdateCostCategoryDefinitionRequest>(
-  "UpdateCostCategoryDefinitionRequest",
-)(
-  {
+export interface UpdateCostCategoryDefinitionRequest {
+  CostCategoryArn: string;
+  EffectiveStart?: string;
+  RuleVersion: string;
+  Rules: CostCategoryRulesList;
+  DefaultValue?: string;
+  SplitChargeRules?: CostCategorySplitChargeRulesList;
+}
+export const UpdateCostCategoryDefinitionRequest = S.suspend(() =>
+  S.Struct({
     CostCategoryArn: S.String,
     EffectiveStart: S.optional(S.String),
     RuleVersion: S.String,
     Rules: CostCategoryRulesList,
     DefaultValue: S.optional(S.String),
     SplitChargeRules: S.optional(CostCategorySplitChargeRulesList),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateCostCategoryDefinitionRequest",
+}) as any as S.Schema<UpdateCostCategoryDefinitionRequest>;
 export type Expressions = Expression[];
 export const Expressions = S.Array(
-  S.suspend((): S.Schema<Expression, any> => Expression),
+  S.suspend((): S.Schema<Expression, any> => Expression).annotations({
+    identifier: "Expression",
+  }),
 ) as any as S.Schema<Expressions>;
-export class AnomalyMonitor extends S.Class<AnomalyMonitor>("AnomalyMonitor")({
-  MonitorArn: S.optional(S.String),
-  MonitorName: S.String,
-  CreationDate: S.optional(S.String),
-  LastUpdatedDate: S.optional(S.String),
-  LastEvaluatedDate: S.optional(S.String),
-  MonitorType: S.String,
-  MonitorDimension: S.optional(S.String),
-  MonitorSpecification: S.optional(Expression),
-  DimensionalValueCount: S.optional(S.Number),
-}) {}
-export class Subscriber extends S.Class<Subscriber>("Subscriber")({
-  Address: S.optional(S.String),
-  Type: S.optional(S.String),
-  Status: S.optional(S.String),
-}) {}
+export interface AnomalyMonitor {
+  MonitorArn?: string;
+  MonitorName: string;
+  CreationDate?: string;
+  LastUpdatedDate?: string;
+  LastEvaluatedDate?: string;
+  MonitorType: string;
+  MonitorDimension?: string;
+  MonitorSpecification?: Expression;
+  DimensionalValueCount?: number;
+}
+export const AnomalyMonitor = S.suspend(() =>
+  S.Struct({
+    MonitorArn: S.optional(S.String),
+    MonitorName: S.String,
+    CreationDate: S.optional(S.String),
+    LastUpdatedDate: S.optional(S.String),
+    LastEvaluatedDate: S.optional(S.String),
+    MonitorType: S.String,
+    MonitorDimension: S.optional(S.String),
+    MonitorSpecification: S.optional(Expression),
+    DimensionalValueCount: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "AnomalyMonitor",
+}) as any as S.Schema<AnomalyMonitor>;
+export interface Subscriber {
+  Address?: string;
+  Type?: string;
+  Status?: string;
+}
+export const Subscriber = S.suspend(() =>
+  S.Struct({
+    Address: S.optional(S.String),
+    Type: S.optional(S.String),
+    Status: S.optional(S.String),
+  }),
+).annotations({ identifier: "Subscriber" }) as any as S.Schema<Subscriber>;
+export type Subscribers = Subscriber[];
 export const Subscribers = S.Array(Subscriber);
-export class AnomalySubscription extends S.Class<AnomalySubscription>(
-  "AnomalySubscription",
-)({
-  SubscriptionArn: S.optional(S.String),
-  AccountId: S.optional(S.String),
-  MonitorArnList: MonitorArnList,
-  Subscribers: Subscribers,
-  Threshold: S.optional(S.Number),
-  Frequency: S.String,
-  SubscriptionName: S.String,
-  ThresholdExpression: S.optional(Expression),
-}) {}
-export class AnomalyDateInterval extends S.Class<AnomalyDateInterval>(
-  "AnomalyDateInterval",
-)({ StartDate: S.String, EndDate: S.optional(S.String) }) {}
-export class TotalImpactFilter extends S.Class<TotalImpactFilter>(
-  "TotalImpactFilter",
-)({
-  NumericOperator: S.String,
-  StartValue: S.Number,
-  EndValue: S.optional(S.Number),
-}) {}
+export interface AnomalySubscription {
+  SubscriptionArn?: string;
+  AccountId?: string;
+  MonitorArnList: MonitorArnList;
+  Subscribers: Subscribers;
+  Threshold?: number;
+  Frequency: string;
+  SubscriptionName: string;
+  ThresholdExpression?: Expression;
+}
+export const AnomalySubscription = S.suspend(() =>
+  S.Struct({
+    SubscriptionArn: S.optional(S.String),
+    AccountId: S.optional(S.String),
+    MonitorArnList: MonitorArnList,
+    Subscribers: Subscribers,
+    Threshold: S.optional(S.Number),
+    Frequency: S.String,
+    SubscriptionName: S.String,
+    ThresholdExpression: S.optional(Expression),
+  }),
+).annotations({
+  identifier: "AnomalySubscription",
+}) as any as S.Schema<AnomalySubscription>;
+export interface AnomalyDateInterval {
+  StartDate: string;
+  EndDate?: string;
+}
+export const AnomalyDateInterval = S.suspend(() =>
+  S.Struct({ StartDate: S.String, EndDate: S.optional(S.String) }),
+).annotations({
+  identifier: "AnomalyDateInterval",
+}) as any as S.Schema<AnomalyDateInterval>;
+export interface TotalImpactFilter {
+  NumericOperator: string;
+  StartValue: number;
+  EndValue?: number;
+}
+export const TotalImpactFilter = S.suspend(() =>
+  S.Struct({
+    NumericOperator: S.String,
+    StartValue: S.Number,
+    EndValue: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "TotalImpactFilter",
+}) as any as S.Schema<TotalImpactFilter>;
+export type AnomalyMonitors = AnomalyMonitor[];
 export const AnomalyMonitors = S.Array(AnomalyMonitor);
+export type AnomalySubscriptions = AnomalySubscription[];
 export const AnomalySubscriptions = S.Array(AnomalySubscription);
-export class RightsizingRecommendationConfiguration extends S.Class<RightsizingRecommendationConfiguration>(
-  "RightsizingRecommendationConfiguration",
-)({ RecommendationTarget: S.String, BenefitsConsidered: S.Boolean }) {}
+export interface RightsizingRecommendationConfiguration {
+  RecommendationTarget: string;
+  BenefitsConsidered: boolean;
+}
+export const RightsizingRecommendationConfiguration = S.suspend(() =>
+  S.Struct({ RecommendationTarget: S.String, BenefitsConsidered: S.Boolean }),
+).annotations({
+  identifier: "RightsizingRecommendationConfiguration",
+}) as any as S.Schema<RightsizingRecommendationConfiguration>;
+export type TagList = string[];
 export const TagList = S.Array(S.String);
-export class CostAllocationTagStatusEntry extends S.Class<CostAllocationTagStatusEntry>(
-  "CostAllocationTagStatusEntry",
-)({ TagKey: S.String, Status: S.String }) {}
+export interface CostAllocationTagStatusEntry {
+  TagKey: string;
+  Status: string;
+}
+export const CostAllocationTagStatusEntry = S.suspend(() =>
+  S.Struct({ TagKey: S.String, Status: S.String }),
+).annotations({
+  identifier: "CostAllocationTagStatusEntry",
+}) as any as S.Schema<CostAllocationTagStatusEntry>;
+export type CostAllocationTagStatusList = CostAllocationTagStatusEntry[];
 export const CostAllocationTagStatusList = S.Array(
   CostAllocationTagStatusEntry,
 );
+export type SavingsPlansToExclude = string[];
 export const SavingsPlansToExclude = S.Array(S.String);
-export class CreateAnomalyMonitorRequest extends S.Class<CreateAnomalyMonitorRequest>(
-  "CreateAnomalyMonitorRequest",
-)(
-  { AnomalyMonitor: AnomalyMonitor, ResourceTags: S.optional(ResourceTagList) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateAnomalySubscriptionRequest extends S.Class<CreateAnomalySubscriptionRequest>(
-  "CreateAnomalySubscriptionRequest",
-)(
-  {
+export interface CreateAnomalyMonitorRequest {
+  AnomalyMonitor: AnomalyMonitor;
+  ResourceTags?: ResourceTagList;
+}
+export const CreateAnomalyMonitorRequest = S.suspend(() =>
+  S.Struct({
+    AnomalyMonitor: AnomalyMonitor,
+    ResourceTags: S.optional(ResourceTagList),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateAnomalyMonitorRequest",
+}) as any as S.Schema<CreateAnomalyMonitorRequest>;
+export interface CreateAnomalySubscriptionRequest {
+  AnomalySubscription: AnomalySubscription;
+  ResourceTags?: ResourceTagList;
+}
+export const CreateAnomalySubscriptionRequest = S.suspend(() =>
+  S.Struct({
     AnomalySubscription: AnomalySubscription,
     ResourceTags: S.optional(ResourceTagList),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteCostCategoryDefinitionResponse extends S.Class<DeleteCostCategoryDefinitionResponse>(
-  "DeleteCostCategoryDefinitionResponse",
-)({
-  CostCategoryArn: S.optional(S.String),
-  EffectiveEnd: S.optional(S.String),
-}) {}
-export class GetAnomaliesRequest extends S.Class<GetAnomaliesRequest>(
-  "GetAnomaliesRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateAnomalySubscriptionRequest",
+}) as any as S.Schema<CreateAnomalySubscriptionRequest>;
+export interface DeleteCostCategoryDefinitionResponse {
+  CostCategoryArn?: string;
+  EffectiveEnd?: string;
+}
+export const DeleteCostCategoryDefinitionResponse = S.suspend(() =>
+  S.Struct({
+    CostCategoryArn: S.optional(S.String),
+    EffectiveEnd: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DeleteCostCategoryDefinitionResponse",
+}) as any as S.Schema<DeleteCostCategoryDefinitionResponse>;
+export interface GetAnomaliesRequest {
+  MonitorArn?: string;
+  DateInterval: AnomalyDateInterval;
+  Feedback?: string;
+  TotalImpact?: TotalImpactFilter;
+  NextPageToken?: string;
+  MaxResults?: number;
+}
+export const GetAnomaliesRequest = S.suspend(() =>
+  S.Struct({
     MonitorArn: S.optional(S.String),
     DateInterval: AnomalyDateInterval,
     Feedback: S.optional(S.String),
     TotalImpact: S.optional(TotalImpactFilter),
     NextPageToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetAnomalyMonitorsResponse extends S.Class<GetAnomalyMonitorsResponse>(
-  "GetAnomalyMonitorsResponse",
-)({ AnomalyMonitors: AnomalyMonitors, NextPageToken: S.optional(S.String) }) {}
-export class GetAnomalySubscriptionsResponse extends S.Class<GetAnomalySubscriptionsResponse>(
-  "GetAnomalySubscriptionsResponse",
-)({
-  AnomalySubscriptions: AnomalySubscriptions,
-  NextPageToken: S.optional(S.String),
-}) {}
-export class GetCostCategoriesRequest extends S.Class<GetCostCategoriesRequest>(
-  "GetCostCategoriesRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetAnomaliesRequest",
+}) as any as S.Schema<GetAnomaliesRequest>;
+export interface GetAnomalyMonitorsResponse {
+  AnomalyMonitors: AnomalyMonitors;
+  NextPageToken?: string;
+}
+export const GetAnomalyMonitorsResponse = S.suspend(() =>
+  S.Struct({
+    AnomalyMonitors: AnomalyMonitors,
+    NextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetAnomalyMonitorsResponse",
+}) as any as S.Schema<GetAnomalyMonitorsResponse>;
+export interface GetAnomalySubscriptionsResponse {
+  AnomalySubscriptions: AnomalySubscriptions;
+  NextPageToken?: string;
+}
+export const GetAnomalySubscriptionsResponse = S.suspend(() =>
+  S.Struct({
+    AnomalySubscriptions: AnomalySubscriptions,
+    NextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetAnomalySubscriptionsResponse",
+}) as any as S.Schema<GetAnomalySubscriptionsResponse>;
+export interface GetCostCategoriesRequest {
+  SearchString?: string;
+  TimePeriod: DateInterval;
+  CostCategoryName?: string;
+  Filter?: Expression;
+  SortBy?: SortDefinitions;
+  BillingViewArn?: string;
+  MaxResults?: number;
+  NextPageToken?: string;
+}
+export const GetCostCategoriesRequest = S.suspend(() =>
+  S.Struct({
     SearchString: S.optional(S.String),
     TimePeriod: DateInterval,
     CostCategoryName: S.optional(S.String),
@@ -1124,86 +1631,177 @@ export class GetCostCategoriesRequest extends S.Class<GetCostCategoriesRequest>(
     BillingViewArn: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     NextPageToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetCostCategoriesRequest",
+}) as any as S.Schema<GetCostCategoriesRequest>;
+export type Attributes = { [key: string]: string };
 export const Attributes = S.Record({ key: S.String, value: S.String });
-export class DimensionValuesWithAttributes extends S.Class<DimensionValuesWithAttributes>(
-  "DimensionValuesWithAttributes",
-)({ Value: S.optional(S.String), Attributes: S.optional(Attributes) }) {}
+export interface DimensionValuesWithAttributes {
+  Value?: string;
+  Attributes?: Attributes;
+}
+export const DimensionValuesWithAttributes = S.suspend(() =>
+  S.Struct({ Value: S.optional(S.String), Attributes: S.optional(Attributes) }),
+).annotations({
+  identifier: "DimensionValuesWithAttributes",
+}) as any as S.Schema<DimensionValuesWithAttributes>;
+export type DimensionValuesWithAttributesList = DimensionValuesWithAttributes[];
 export const DimensionValuesWithAttributesList = S.Array(
   DimensionValuesWithAttributes,
 );
-export class GetDimensionValuesResponse extends S.Class<GetDimensionValuesResponse>(
-  "GetDimensionValuesResponse",
-)({
-  DimensionValues: DimensionValuesWithAttributesList,
-  ReturnSize: S.Number,
-  TotalSize: S.Number,
-  NextPageToken: S.optional(S.String),
-}) {}
-export class GetRightsizingRecommendationRequest extends S.Class<GetRightsizingRecommendationRequest>(
-  "GetRightsizingRecommendationRequest",
-)(
-  {
+export interface GetDimensionValuesResponse {
+  DimensionValues: DimensionValuesWithAttributesList;
+  ReturnSize: number;
+  TotalSize: number;
+  NextPageToken?: string;
+}
+export const GetDimensionValuesResponse = S.suspend(() =>
+  S.Struct({
+    DimensionValues: DimensionValuesWithAttributesList,
+    ReturnSize: S.Number,
+    TotalSize: S.Number,
+    NextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetDimensionValuesResponse",
+}) as any as S.Schema<GetDimensionValuesResponse>;
+export interface GetRightsizingRecommendationRequest {
+  Filter?: Expression;
+  Configuration?: RightsizingRecommendationConfiguration;
+  Service: string;
+  PageSize?: number;
+  NextPageToken?: string;
+}
+export const GetRightsizingRecommendationRequest = S.suspend(() =>
+  S.Struct({
     Filter: S.optional(Expression),
     Configuration: S.optional(RightsizingRecommendationConfiguration),
     Service: S.String,
     PageSize: S.optional(S.Number),
     NextPageToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetTagsResponse extends S.Class<GetTagsResponse>(
-  "GetTagsResponse",
-)({
-  NextPageToken: S.optional(S.String),
-  Tags: TagList,
-  ReturnSize: S.Number,
-  TotalSize: S.Number,
-}) {}
-export class MetricValue extends S.Class<MetricValue>("MetricValue")({
-  Amount: S.optional(S.String),
-  Unit: S.optional(S.String),
-}) {}
-export class ForecastResult extends S.Class<ForecastResult>("ForecastResult")({
-  TimePeriod: S.optional(DateInterval),
-  MeanValue: S.optional(S.String),
-  PredictionIntervalLowerBound: S.optional(S.String),
-  PredictionIntervalUpperBound: S.optional(S.String),
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetRightsizingRecommendationRequest",
+}) as any as S.Schema<GetRightsizingRecommendationRequest>;
+export interface GetTagsResponse {
+  NextPageToken?: string;
+  Tags: TagList;
+  ReturnSize: number;
+  TotalSize: number;
+}
+export const GetTagsResponse = S.suspend(() =>
+  S.Struct({
+    NextPageToken: S.optional(S.String),
+    Tags: TagList,
+    ReturnSize: S.Number,
+    TotalSize: S.Number,
+  }),
+).annotations({
+  identifier: "GetTagsResponse",
+}) as any as S.Schema<GetTagsResponse>;
+export interface MetricValue {
+  Amount?: string;
+  Unit?: string;
+}
+export const MetricValue = S.suspend(() =>
+  S.Struct({ Amount: S.optional(S.String), Unit: S.optional(S.String) }),
+).annotations({ identifier: "MetricValue" }) as any as S.Schema<MetricValue>;
+export interface ForecastResult {
+  TimePeriod?: DateInterval;
+  MeanValue?: string;
+  PredictionIntervalLowerBound?: string;
+  PredictionIntervalUpperBound?: string;
+}
+export const ForecastResult = S.suspend(() =>
+  S.Struct({
+    TimePeriod: S.optional(DateInterval),
+    MeanValue: S.optional(S.String),
+    PredictionIntervalLowerBound: S.optional(S.String),
+    PredictionIntervalUpperBound: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ForecastResult",
+}) as any as S.Schema<ForecastResult>;
+export type ForecastResultsByTime = ForecastResult[];
 export const ForecastResultsByTime = S.Array(ForecastResult);
-export class GetUsageForecastResponse extends S.Class<GetUsageForecastResponse>(
-  "GetUsageForecastResponse",
-)({
-  Total: S.optional(MetricValue),
-  ForecastResultsByTime: S.optional(ForecastResultsByTime),
-}) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ ResourceTags: S.optional(ResourceTagList) }) {}
-export class ProvideAnomalyFeedbackResponse extends S.Class<ProvideAnomalyFeedbackResponse>(
-  "ProvideAnomalyFeedbackResponse",
-)({ AnomalyId: S.String }) {}
-export class CostAllocationTagBackfillRequest extends S.Class<CostAllocationTagBackfillRequest>(
-  "CostAllocationTagBackfillRequest",
-)({
-  BackfillFrom: S.optional(S.String),
-  RequestedAt: S.optional(S.String),
-  CompletedAt: S.optional(S.String),
-  BackfillStatus: S.optional(S.String),
-  LastUpdatedAt: S.optional(S.String),
-}) {}
-export class StartCostAllocationTagBackfillResponse extends S.Class<StartCostAllocationTagBackfillResponse>(
-  "StartCostAllocationTagBackfillResponse",
-)({ BackfillRequest: S.optional(CostAllocationTagBackfillRequest) }) {}
-export class UpdateAnomalyMonitorResponse extends S.Class<UpdateAnomalyMonitorResponse>(
-  "UpdateAnomalyMonitorResponse",
-)({ MonitorArn: S.String }) {}
-export class UpdateAnomalySubscriptionRequest extends S.Class<UpdateAnomalySubscriptionRequest>(
-  "UpdateAnomalySubscriptionRequest",
-)(
-  {
+export interface GetUsageForecastResponse {
+  Total?: MetricValue;
+  ForecastResultsByTime?: ForecastResultsByTime;
+}
+export const GetUsageForecastResponse = S.suspend(() =>
+  S.Struct({
+    Total: S.optional(MetricValue),
+    ForecastResultsByTime: S.optional(ForecastResultsByTime),
+  }),
+).annotations({
+  identifier: "GetUsageForecastResponse",
+}) as any as S.Schema<GetUsageForecastResponse>;
+export interface ListTagsForResourceResponse {
+  ResourceTags?: ResourceTagList;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ ResourceTags: S.optional(ResourceTagList) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface ProvideAnomalyFeedbackResponse {
+  AnomalyId: string;
+}
+export const ProvideAnomalyFeedbackResponse = S.suspend(() =>
+  S.Struct({ AnomalyId: S.String }),
+).annotations({
+  identifier: "ProvideAnomalyFeedbackResponse",
+}) as any as S.Schema<ProvideAnomalyFeedbackResponse>;
+export interface CostAllocationTagBackfillRequest {
+  BackfillFrom?: string;
+  RequestedAt?: string;
+  CompletedAt?: string;
+  BackfillStatus?: string;
+  LastUpdatedAt?: string;
+}
+export const CostAllocationTagBackfillRequest = S.suspend(() =>
+  S.Struct({
+    BackfillFrom: S.optional(S.String),
+    RequestedAt: S.optional(S.String),
+    CompletedAt: S.optional(S.String),
+    BackfillStatus: S.optional(S.String),
+    LastUpdatedAt: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CostAllocationTagBackfillRequest",
+}) as any as S.Schema<CostAllocationTagBackfillRequest>;
+export interface StartCostAllocationTagBackfillResponse {
+  BackfillRequest?: CostAllocationTagBackfillRequest;
+}
+export const StartCostAllocationTagBackfillResponse = S.suspend(() =>
+  S.Struct({ BackfillRequest: S.optional(CostAllocationTagBackfillRequest) }),
+).annotations({
+  identifier: "StartCostAllocationTagBackfillResponse",
+}) as any as S.Schema<StartCostAllocationTagBackfillResponse>;
+export interface UpdateAnomalyMonitorResponse {
+  MonitorArn: string;
+}
+export const UpdateAnomalyMonitorResponse = S.suspend(() =>
+  S.Struct({ MonitorArn: S.String }),
+).annotations({
+  identifier: "UpdateAnomalyMonitorResponse",
+}) as any as S.Schema<UpdateAnomalyMonitorResponse>;
+export interface UpdateAnomalySubscriptionRequest {
+  SubscriptionArn: string;
+  Threshold?: number;
+  Frequency?: string;
+  MonitorArnList?: MonitorArnList;
+  Subscribers?: Subscribers;
+  SubscriptionName?: string;
+  ThresholdExpression?: Expression;
+}
+export const UpdateAnomalySubscriptionRequest = S.suspend(() =>
+  S.Struct({
     SubscriptionArn: S.String,
     Threshold: S.optional(S.Number),
     Frequency: S.optional(S.String),
@@ -1211,226 +1809,444 @@ export class UpdateAnomalySubscriptionRequest extends S.Class<UpdateAnomalySubsc
     Subscribers: S.optional(Subscribers),
     SubscriptionName: S.optional(S.String),
     ThresholdExpression: S.optional(Expression),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateCostAllocationTagsStatusRequest extends S.Class<UpdateCostAllocationTagsStatusRequest>(
-  "UpdateCostAllocationTagsStatusRequest",
-)(
-  { CostAllocationTagsStatus: CostAllocationTagStatusList },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateCostCategoryDefinitionResponse extends S.Class<UpdateCostCategoryDefinitionResponse>(
-  "UpdateCostCategoryDefinitionResponse",
-)({
-  CostCategoryArn: S.optional(S.String),
-  EffectiveStart: S.optional(S.String),
-}) {}
-export class EC2Specification extends S.Class<EC2Specification>(
-  "EC2Specification",
-)({ OfferingClass: S.optional(S.String) }) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateAnomalySubscriptionRequest",
+}) as any as S.Schema<UpdateAnomalySubscriptionRequest>;
+export interface UpdateCostAllocationTagsStatusRequest {
+  CostAllocationTagsStatus: CostAllocationTagStatusList;
+}
+export const UpdateCostAllocationTagsStatusRequest = S.suspend(() =>
+  S.Struct({ CostAllocationTagsStatus: CostAllocationTagStatusList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateCostAllocationTagsStatusRequest",
+}) as any as S.Schema<UpdateCostAllocationTagsStatusRequest>;
+export interface UpdateCostCategoryDefinitionResponse {
+  CostCategoryArn?: string;
+  EffectiveStart?: string;
+}
+export const UpdateCostCategoryDefinitionResponse = S.suspend(() =>
+  S.Struct({
+    CostCategoryArn: S.optional(S.String),
+    EffectiveStart: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "UpdateCostCategoryDefinitionResponse",
+}) as any as S.Schema<UpdateCostCategoryDefinitionResponse>;
+export interface EC2Specification {
+  OfferingClass?: string;
+}
+export const EC2Specification = S.suspend(() =>
+  S.Struct({ OfferingClass: S.optional(S.String) }),
+).annotations({
+  identifier: "EC2Specification",
+}) as any as S.Schema<EC2Specification>;
+export type CostCategoryValuesList = string[];
 export const CostCategoryValuesList = S.Array(S.String);
+export type ResourceTypes = string[];
 export const ResourceTypes = S.Array(S.String);
+export type ApproximateUsageRecordsPerService = { [key: string]: number };
 export const ApproximateUsageRecordsPerService = S.Record({
   key: S.String,
   value: S.Number,
 });
-export class ComparisonMetricValue extends S.Class<ComparisonMetricValue>(
-  "ComparisonMetricValue",
-)({
-  BaselineTimePeriodAmount: S.optional(S.String),
-  ComparisonTimePeriodAmount: S.optional(S.String),
-  Difference: S.optional(S.String),
-  Unit: S.optional(S.String),
-}) {}
+export interface ComparisonMetricValue {
+  BaselineTimePeriodAmount?: string;
+  ComparisonTimePeriodAmount?: string;
+  Difference?: string;
+  Unit?: string;
+}
+export const ComparisonMetricValue = S.suspend(() =>
+  S.Struct({
+    BaselineTimePeriodAmount: S.optional(S.String),
+    ComparisonTimePeriodAmount: S.optional(S.String),
+    Difference: S.optional(S.String),
+    Unit: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ComparisonMetricValue",
+}) as any as S.Schema<ComparisonMetricValue>;
+export type ComparisonMetrics = { [key: string]: ComparisonMetricValue };
 export const ComparisonMetrics = S.Record({
   key: S.String,
   value: ComparisonMetricValue,
 });
-export class CostAndUsageComparison extends S.Class<CostAndUsageComparison>(
-  "CostAndUsageComparison",
-)({
-  CostAndUsageSelector: S.optional(Expression),
-  Metrics: S.optional(ComparisonMetrics),
-}) {}
+export interface CostAndUsageComparison {
+  CostAndUsageSelector?: Expression;
+  Metrics?: ComparisonMetrics;
+}
+export const CostAndUsageComparison = S.suspend(() =>
+  S.Struct({
+    CostAndUsageSelector: S.optional(Expression),
+    Metrics: S.optional(ComparisonMetrics),
+  }),
+).annotations({
+  identifier: "CostAndUsageComparison",
+}) as any as S.Schema<CostAndUsageComparison>;
+export type CostAndUsageComparisons = CostAndUsageComparison[];
 export const CostAndUsageComparisons = S.Array(CostAndUsageComparison);
+export type CostCategoryNamesList = string[];
 export const CostCategoryNamesList = S.Array(S.String);
-export class ServiceSpecification extends S.Class<ServiceSpecification>(
-  "ServiceSpecification",
-)({ EC2Specification: S.optional(EC2Specification) }) {}
-export class ReservationAggregates extends S.Class<ReservationAggregates>(
-  "ReservationAggregates",
-)({
-  UtilizationPercentage: S.optional(S.String),
-  UtilizationPercentageInUnits: S.optional(S.String),
-  PurchasedHours: S.optional(S.String),
-  PurchasedUnits: S.optional(S.String),
-  TotalActualHours: S.optional(S.String),
-  TotalActualUnits: S.optional(S.String),
-  UnusedHours: S.optional(S.String),
-  UnusedUnits: S.optional(S.String),
-  OnDemandCostOfRIHoursUsed: S.optional(S.String),
-  NetRISavings: S.optional(S.String),
-  TotalPotentialRISavings: S.optional(S.String),
-  AmortizedUpfrontFee: S.optional(S.String),
-  AmortizedRecurringFee: S.optional(S.String),
-  TotalAmortizedFee: S.optional(S.String),
-  RICostForUnusedHours: S.optional(S.String),
-  RealizedSavings: S.optional(S.String),
-  UnrealizedSavings: S.optional(S.String),
-}) {}
-export class SavingsPlansPurchaseRecommendationMetadata extends S.Class<SavingsPlansPurchaseRecommendationMetadata>(
-  "SavingsPlansPurchaseRecommendationMetadata",
-)({
-  RecommendationId: S.optional(S.String),
-  GenerationTimestamp: S.optional(S.String),
-  AdditionalMetadata: S.optional(S.String),
-}) {}
-export class SavingsPlansUtilization extends S.Class<SavingsPlansUtilization>(
-  "SavingsPlansUtilization",
-)({
-  TotalCommitment: S.optional(S.String),
-  UsedCommitment: S.optional(S.String),
-  UnusedCommitment: S.optional(S.String),
-  UtilizationPercentage: S.optional(S.String),
-}) {}
-export class SavingsPlansSavings extends S.Class<SavingsPlansSavings>(
-  "SavingsPlansSavings",
-)({
-  NetSavings: S.optional(S.String),
-  OnDemandCostEquivalent: S.optional(S.String),
-}) {}
-export class SavingsPlansAmortizedCommitment extends S.Class<SavingsPlansAmortizedCommitment>(
-  "SavingsPlansAmortizedCommitment",
-)({
-  AmortizedRecurringCommitment: S.optional(S.String),
-  AmortizedUpfrontCommitment: S.optional(S.String),
-  TotalAmortizedCommitment: S.optional(S.String),
-}) {}
-export class SavingsPlansUtilizationAggregates extends S.Class<SavingsPlansUtilizationAggregates>(
-  "SavingsPlansUtilizationAggregates",
-)({
-  Utilization: SavingsPlansUtilization,
-  Savings: S.optional(SavingsPlansSavings),
-  AmortizedCommitment: S.optional(SavingsPlansAmortizedCommitment),
-}) {}
-export class SavingsPlansUtilizationDetail extends S.Class<SavingsPlansUtilizationDetail>(
-  "SavingsPlansUtilizationDetail",
-)({
-  SavingsPlanArn: S.optional(S.String),
-  Attributes: S.optional(Attributes),
-  Utilization: S.optional(SavingsPlansUtilization),
-  Savings: S.optional(SavingsPlansSavings),
-  AmortizedCommitment: S.optional(SavingsPlansAmortizedCommitment),
-}) {}
+export interface ServiceSpecification {
+  EC2Specification?: EC2Specification;
+}
+export const ServiceSpecification = S.suspend(() =>
+  S.Struct({ EC2Specification: S.optional(EC2Specification) }),
+).annotations({
+  identifier: "ServiceSpecification",
+}) as any as S.Schema<ServiceSpecification>;
+export interface ReservationAggregates {
+  UtilizationPercentage?: string;
+  UtilizationPercentageInUnits?: string;
+  PurchasedHours?: string;
+  PurchasedUnits?: string;
+  TotalActualHours?: string;
+  TotalActualUnits?: string;
+  UnusedHours?: string;
+  UnusedUnits?: string;
+  OnDemandCostOfRIHoursUsed?: string;
+  NetRISavings?: string;
+  TotalPotentialRISavings?: string;
+  AmortizedUpfrontFee?: string;
+  AmortizedRecurringFee?: string;
+  TotalAmortizedFee?: string;
+  RICostForUnusedHours?: string;
+  RealizedSavings?: string;
+  UnrealizedSavings?: string;
+}
+export const ReservationAggregates = S.suspend(() =>
+  S.Struct({
+    UtilizationPercentage: S.optional(S.String),
+    UtilizationPercentageInUnits: S.optional(S.String),
+    PurchasedHours: S.optional(S.String),
+    PurchasedUnits: S.optional(S.String),
+    TotalActualHours: S.optional(S.String),
+    TotalActualUnits: S.optional(S.String),
+    UnusedHours: S.optional(S.String),
+    UnusedUnits: S.optional(S.String),
+    OnDemandCostOfRIHoursUsed: S.optional(S.String),
+    NetRISavings: S.optional(S.String),
+    TotalPotentialRISavings: S.optional(S.String),
+    AmortizedUpfrontFee: S.optional(S.String),
+    AmortizedRecurringFee: S.optional(S.String),
+    TotalAmortizedFee: S.optional(S.String),
+    RICostForUnusedHours: S.optional(S.String),
+    RealizedSavings: S.optional(S.String),
+    UnrealizedSavings: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ReservationAggregates",
+}) as any as S.Schema<ReservationAggregates>;
+export interface SavingsPlansPurchaseRecommendationMetadata {
+  RecommendationId?: string;
+  GenerationTimestamp?: string;
+  AdditionalMetadata?: string;
+}
+export const SavingsPlansPurchaseRecommendationMetadata = S.suspend(() =>
+  S.Struct({
+    RecommendationId: S.optional(S.String),
+    GenerationTimestamp: S.optional(S.String),
+    AdditionalMetadata: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SavingsPlansPurchaseRecommendationMetadata",
+}) as any as S.Schema<SavingsPlansPurchaseRecommendationMetadata>;
+export interface SavingsPlansUtilization {
+  TotalCommitment?: string;
+  UsedCommitment?: string;
+  UnusedCommitment?: string;
+  UtilizationPercentage?: string;
+}
+export const SavingsPlansUtilization = S.suspend(() =>
+  S.Struct({
+    TotalCommitment: S.optional(S.String),
+    UsedCommitment: S.optional(S.String),
+    UnusedCommitment: S.optional(S.String),
+    UtilizationPercentage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SavingsPlansUtilization",
+}) as any as S.Schema<SavingsPlansUtilization>;
+export interface SavingsPlansSavings {
+  NetSavings?: string;
+  OnDemandCostEquivalent?: string;
+}
+export const SavingsPlansSavings = S.suspend(() =>
+  S.Struct({
+    NetSavings: S.optional(S.String),
+    OnDemandCostEquivalent: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SavingsPlansSavings",
+}) as any as S.Schema<SavingsPlansSavings>;
+export interface SavingsPlansAmortizedCommitment {
+  AmortizedRecurringCommitment?: string;
+  AmortizedUpfrontCommitment?: string;
+  TotalAmortizedCommitment?: string;
+}
+export const SavingsPlansAmortizedCommitment = S.suspend(() =>
+  S.Struct({
+    AmortizedRecurringCommitment: S.optional(S.String),
+    AmortizedUpfrontCommitment: S.optional(S.String),
+    TotalAmortizedCommitment: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SavingsPlansAmortizedCommitment",
+}) as any as S.Schema<SavingsPlansAmortizedCommitment>;
+export interface SavingsPlansUtilizationAggregates {
+  Utilization: SavingsPlansUtilization;
+  Savings?: SavingsPlansSavings;
+  AmortizedCommitment?: SavingsPlansAmortizedCommitment;
+}
+export const SavingsPlansUtilizationAggregates = S.suspend(() =>
+  S.Struct({
+    Utilization: SavingsPlansUtilization,
+    Savings: S.optional(SavingsPlansSavings),
+    AmortizedCommitment: S.optional(SavingsPlansAmortizedCommitment),
+  }),
+).annotations({
+  identifier: "SavingsPlansUtilizationAggregates",
+}) as any as S.Schema<SavingsPlansUtilizationAggregates>;
+export interface SavingsPlansUtilizationDetail {
+  SavingsPlanArn?: string;
+  Attributes?: Attributes;
+  Utilization?: SavingsPlansUtilization;
+  Savings?: SavingsPlansSavings;
+  AmortizedCommitment?: SavingsPlansAmortizedCommitment;
+}
+export const SavingsPlansUtilizationDetail = S.suspend(() =>
+  S.Struct({
+    SavingsPlanArn: S.optional(S.String),
+    Attributes: S.optional(Attributes),
+    Utilization: S.optional(SavingsPlansUtilization),
+    Savings: S.optional(SavingsPlansSavings),
+    AmortizedCommitment: S.optional(SavingsPlansAmortizedCommitment),
+  }),
+).annotations({
+  identifier: "SavingsPlansUtilizationDetail",
+}) as any as S.Schema<SavingsPlansUtilizationDetail>;
+export type SavingsPlansUtilizationDetails = SavingsPlansUtilizationDetail[];
 export const SavingsPlansUtilizationDetails = S.Array(
   SavingsPlansUtilizationDetail,
 );
-export class SavingsPlans extends S.Class<SavingsPlans>("SavingsPlans")({
-  PaymentOption: S.optional(S.String),
-  SavingsPlansType: S.optional(S.String),
-  Region: S.optional(S.String),
-  InstanceFamily: S.optional(S.String),
-  TermInYears: S.optional(S.String),
-  SavingsPlansCommitment: S.optional(S.Number),
-  OfferingId: S.optional(S.String),
-}) {}
+export interface SavingsPlans {
+  PaymentOption?: string;
+  SavingsPlansType?: string;
+  Region?: string;
+  InstanceFamily?: string;
+  TermInYears?: string;
+  SavingsPlansCommitment?: number;
+  OfferingId?: string;
+}
+export const SavingsPlans = S.suspend(() =>
+  S.Struct({
+    PaymentOption: S.optional(S.String),
+    SavingsPlansType: S.optional(S.String),
+    Region: S.optional(S.String),
+    InstanceFamily: S.optional(S.String),
+    TermInYears: S.optional(S.String),
+    SavingsPlansCommitment: S.optional(S.Number),
+    OfferingId: S.optional(S.String),
+  }),
+).annotations({ identifier: "SavingsPlans" }) as any as S.Schema<SavingsPlans>;
+export type SavingsPlansToAdd = SavingsPlans[];
 export const SavingsPlansToAdd = S.Array(SavingsPlans);
-export class SavingsPlansPurchaseAnalysisConfiguration extends S.Class<SavingsPlansPurchaseAnalysisConfiguration>(
-  "SavingsPlansPurchaseAnalysisConfiguration",
-)({
-  AccountScope: S.optional(S.String),
-  AccountId: S.optional(S.String),
-  AnalysisType: S.String,
-  SavingsPlansToAdd: SavingsPlansToAdd,
-  SavingsPlansToExclude: S.optional(SavingsPlansToExclude),
-  LookBackTimePeriod: DateInterval,
-}) {}
-export class CommitmentPurchaseAnalysisConfiguration extends S.Class<CommitmentPurchaseAnalysisConfiguration>(
-  "CommitmentPurchaseAnalysisConfiguration",
-)({
-  SavingsPlansPurchaseAnalysisConfiguration: S.optional(
-    SavingsPlansPurchaseAnalysisConfiguration,
-  ),
-}) {}
-export class AnalysisSummary extends S.Class<AnalysisSummary>(
-  "AnalysisSummary",
-)({
-  EstimatedCompletionTime: S.optional(S.String),
-  AnalysisCompletionTime: S.optional(S.String),
-  AnalysisStartedTime: S.optional(S.String),
-  AnalysisStatus: S.optional(S.String),
-  ErrorCode: S.optional(S.String),
-  AnalysisId: S.optional(S.String),
-  CommitmentPurchaseAnalysisConfiguration: S.optional(
-    CommitmentPurchaseAnalysisConfiguration,
-  ),
-}) {}
+export interface SavingsPlansPurchaseAnalysisConfiguration {
+  AccountScope?: string;
+  AccountId?: string;
+  AnalysisType: string;
+  SavingsPlansToAdd: SavingsPlansToAdd;
+  SavingsPlansToExclude?: SavingsPlansToExclude;
+  LookBackTimePeriod: DateInterval;
+}
+export const SavingsPlansPurchaseAnalysisConfiguration = S.suspend(() =>
+  S.Struct({
+    AccountScope: S.optional(S.String),
+    AccountId: S.optional(S.String),
+    AnalysisType: S.String,
+    SavingsPlansToAdd: SavingsPlansToAdd,
+    SavingsPlansToExclude: S.optional(SavingsPlansToExclude),
+    LookBackTimePeriod: DateInterval,
+  }),
+).annotations({
+  identifier: "SavingsPlansPurchaseAnalysisConfiguration",
+}) as any as S.Schema<SavingsPlansPurchaseAnalysisConfiguration>;
+export interface CommitmentPurchaseAnalysisConfiguration {
+  SavingsPlansPurchaseAnalysisConfiguration?: SavingsPlansPurchaseAnalysisConfiguration;
+}
+export const CommitmentPurchaseAnalysisConfiguration = S.suspend(() =>
+  S.Struct({
+    SavingsPlansPurchaseAnalysisConfiguration: S.optional(
+      SavingsPlansPurchaseAnalysisConfiguration,
+    ),
+  }),
+).annotations({
+  identifier: "CommitmentPurchaseAnalysisConfiguration",
+}) as any as S.Schema<CommitmentPurchaseAnalysisConfiguration>;
+export interface AnalysisSummary {
+  EstimatedCompletionTime?: string;
+  AnalysisCompletionTime?: string;
+  AnalysisStartedTime?: string;
+  AnalysisStatus?: string;
+  ErrorCode?: string;
+  AnalysisId?: string;
+  CommitmentPurchaseAnalysisConfiguration?: CommitmentPurchaseAnalysisConfiguration;
+}
+export const AnalysisSummary = S.suspend(() =>
+  S.Struct({
+    EstimatedCompletionTime: S.optional(S.String),
+    AnalysisCompletionTime: S.optional(S.String),
+    AnalysisStartedTime: S.optional(S.String),
+    AnalysisStatus: S.optional(S.String),
+    ErrorCode: S.optional(S.String),
+    AnalysisId: S.optional(S.String),
+    CommitmentPurchaseAnalysisConfiguration: S.optional(
+      CommitmentPurchaseAnalysisConfiguration,
+    ),
+  }),
+).annotations({
+  identifier: "AnalysisSummary",
+}) as any as S.Schema<AnalysisSummary>;
+export type AnalysisSummaryList = AnalysisSummary[];
 export const AnalysisSummaryList = S.Array(AnalysisSummary);
+export type CostAllocationTagBackfillRequestList =
+  CostAllocationTagBackfillRequest[];
 export const CostAllocationTagBackfillRequestList = S.Array(
   CostAllocationTagBackfillRequest,
 );
-export class CostAllocationTag extends S.Class<CostAllocationTag>(
-  "CostAllocationTag",
-)({
-  TagKey: S.String,
-  Type: S.String,
-  Status: S.String,
-  LastUpdatedDate: S.optional(S.String),
-  LastUsedDate: S.optional(S.String),
-}) {}
+export interface CostAllocationTag {
+  TagKey: string;
+  Type: string;
+  Status: string;
+  LastUpdatedDate?: string;
+  LastUsedDate?: string;
+}
+export const CostAllocationTag = S.suspend(() =>
+  S.Struct({
+    TagKey: S.String,
+    Type: S.String,
+    Status: S.String,
+    LastUpdatedDate: S.optional(S.String),
+    LastUsedDate: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CostAllocationTag",
+}) as any as S.Schema<CostAllocationTag>;
+export type CostAllocationTagList = CostAllocationTag[];
 export const CostAllocationTagList = S.Array(CostAllocationTag);
-export class CostCategoryProcessingStatus extends S.Class<CostCategoryProcessingStatus>(
-  "CostCategoryProcessingStatus",
-)({ Component: S.optional(S.String), Status: S.optional(S.String) }) {}
+export interface CostCategoryProcessingStatus {
+  Component?: string;
+  Status?: string;
+}
+export const CostCategoryProcessingStatus = S.suspend(() =>
+  S.Struct({ Component: S.optional(S.String), Status: S.optional(S.String) }),
+).annotations({
+  identifier: "CostCategoryProcessingStatus",
+}) as any as S.Schema<CostCategoryProcessingStatus>;
+export type CostCategoryProcessingStatusList = CostCategoryProcessingStatus[];
 export const CostCategoryProcessingStatusList = S.Array(
   CostCategoryProcessingStatus,
 );
-export class CostCategoryReference extends S.Class<CostCategoryReference>(
-  "CostCategoryReference",
-)({
-  CostCategoryArn: S.optional(S.String),
-  Name: S.optional(S.String),
-  EffectiveStart: S.optional(S.String),
-  EffectiveEnd: S.optional(S.String),
-  NumberOfRules: S.optional(S.Number),
-  ProcessingStatus: S.optional(CostCategoryProcessingStatusList),
-  Values: S.optional(CostCategoryValuesList),
-  DefaultValue: S.optional(S.String),
-  SupportedResourceTypes: S.optional(ResourceTypes),
-}) {}
+export interface CostCategoryReference {
+  CostCategoryArn?: string;
+  Name?: string;
+  EffectiveStart?: string;
+  EffectiveEnd?: string;
+  NumberOfRules?: number;
+  ProcessingStatus?: CostCategoryProcessingStatusList;
+  Values?: CostCategoryValuesList;
+  DefaultValue?: string;
+  SupportedResourceTypes?: ResourceTypes;
+}
+export const CostCategoryReference = S.suspend(() =>
+  S.Struct({
+    CostCategoryArn: S.optional(S.String),
+    Name: S.optional(S.String),
+    EffectiveStart: S.optional(S.String),
+    EffectiveEnd: S.optional(S.String),
+    NumberOfRules: S.optional(S.Number),
+    ProcessingStatus: S.optional(CostCategoryProcessingStatusList),
+    Values: S.optional(CostCategoryValuesList),
+    DefaultValue: S.optional(S.String),
+    SupportedResourceTypes: S.optional(ResourceTypes),
+  }),
+).annotations({
+  identifier: "CostCategoryReference",
+}) as any as S.Schema<CostCategoryReference>;
+export type CostCategoryReferencesList = CostCategoryReference[];
 export const CostCategoryReferencesList = S.Array(CostCategoryReference);
-export class CostCategoryResourceAssociation extends S.Class<CostCategoryResourceAssociation>(
-  "CostCategoryResourceAssociation",
-)({
-  ResourceArn: S.optional(S.String),
-  CostCategoryName: S.optional(S.String),
-  CostCategoryArn: S.optional(S.String),
-}) {}
+export interface CostCategoryResourceAssociation {
+  ResourceArn?: string;
+  CostCategoryName?: string;
+  CostCategoryArn?: string;
+}
+export const CostCategoryResourceAssociation = S.suspend(() =>
+  S.Struct({
+    ResourceArn: S.optional(S.String),
+    CostCategoryName: S.optional(S.String),
+    CostCategoryArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CostCategoryResourceAssociation",
+}) as any as S.Schema<CostCategoryResourceAssociation>;
+export type CostCategoryResourceAssociations =
+  CostCategoryResourceAssociation[];
 export const CostCategoryResourceAssociations = S.Array(
   CostCategoryResourceAssociation,
 );
-export class GenerationSummary extends S.Class<GenerationSummary>(
-  "GenerationSummary",
-)({
-  RecommendationId: S.optional(S.String),
-  GenerationStatus: S.optional(S.String),
-  GenerationStartedTime: S.optional(S.String),
-  GenerationCompletionTime: S.optional(S.String),
-  EstimatedCompletionTime: S.optional(S.String),
-}) {}
+export interface GenerationSummary {
+  RecommendationId?: string;
+  GenerationStatus?: string;
+  GenerationStartedTime?: string;
+  GenerationCompletionTime?: string;
+  EstimatedCompletionTime?: string;
+}
+export const GenerationSummary = S.suspend(() =>
+  S.Struct({
+    RecommendationId: S.optional(S.String),
+    GenerationStatus: S.optional(S.String),
+    GenerationStartedTime: S.optional(S.String),
+    GenerationCompletionTime: S.optional(S.String),
+    EstimatedCompletionTime: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GenerationSummary",
+}) as any as S.Schema<GenerationSummary>;
+export type GenerationSummaryList = GenerationSummary[];
 export const GenerationSummaryList = S.Array(GenerationSummary);
+export type Keys = string[];
 export const Keys = S.Array(S.String);
-export class CreateAnomalyMonitorResponse extends S.Class<CreateAnomalyMonitorResponse>(
-  "CreateAnomalyMonitorResponse",
-)({ MonitorArn: S.String }) {}
-export class CreateAnomalySubscriptionResponse extends S.Class<CreateAnomalySubscriptionResponse>(
-  "CreateAnomalySubscriptionResponse",
-)({ SubscriptionArn: S.String }) {}
-export class CreateCostCategoryDefinitionRequest extends S.Class<CreateCostCategoryDefinitionRequest>(
-  "CreateCostCategoryDefinitionRequest",
-)(
-  {
+export interface CreateAnomalyMonitorResponse {
+  MonitorArn: string;
+}
+export const CreateAnomalyMonitorResponse = S.suspend(() =>
+  S.Struct({ MonitorArn: S.String }),
+).annotations({
+  identifier: "CreateAnomalyMonitorResponse",
+}) as any as S.Schema<CreateAnomalyMonitorResponse>;
+export interface CreateAnomalySubscriptionResponse {
+  SubscriptionArn: string;
+}
+export const CreateAnomalySubscriptionResponse = S.suspend(() =>
+  S.Struct({ SubscriptionArn: S.String }),
+).annotations({
+  identifier: "CreateAnomalySubscriptionResponse",
+}) as any as S.Schema<CreateAnomalySubscriptionResponse>;
+export interface CreateCostCategoryDefinitionRequest {
+  Name: string;
+  EffectiveStart?: string;
+  RuleVersion: string;
+  Rules: CostCategoryRulesList;
+  DefaultValue?: string;
+  SplitChargeRules?: CostCategorySplitChargeRulesList;
+  ResourceTags?: ResourceTagList;
+}
+export const CreateCostCategoryDefinitionRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     EffectiveStart: S.optional(S.String),
     RuleVersion: S.String,
@@ -1438,20 +2254,37 @@ export class CreateCostCategoryDefinitionRequest extends S.Class<CreateCostCateg
     DefaultValue: S.optional(S.String),
     SplitChargeRules: S.optional(CostCategorySplitChargeRulesList),
     ResourceTags: S.optional(ResourceTagList),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetApproximateUsageRecordsResponse extends S.Class<GetApproximateUsageRecordsResponse>(
-  "GetApproximateUsageRecordsResponse",
-)({
-  Services: S.optional(ApproximateUsageRecordsPerService),
-  TotalRecords: S.optional(S.Number),
-  LookbackPeriod: S.optional(DateInterval),
-}) {}
-export class GetCostAndUsageRequest extends S.Class<GetCostAndUsageRequest>(
-  "GetCostAndUsageRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateCostCategoryDefinitionRequest",
+}) as any as S.Schema<CreateCostCategoryDefinitionRequest>;
+export interface GetApproximateUsageRecordsResponse {
+  Services?: ApproximateUsageRecordsPerService;
+  TotalRecords?: number;
+  LookbackPeriod?: DateInterval;
+}
+export const GetApproximateUsageRecordsResponse = S.suspend(() =>
+  S.Struct({
+    Services: S.optional(ApproximateUsageRecordsPerService),
+    TotalRecords: S.optional(S.Number),
+    LookbackPeriod: S.optional(DateInterval),
+  }),
+).annotations({
+  identifier: "GetApproximateUsageRecordsResponse",
+}) as any as S.Schema<GetApproximateUsageRecordsResponse>;
+export interface GetCostAndUsageRequest {
+  TimePeriod: DateInterval;
+  Granularity: string;
+  Filter?: Expression;
+  Metrics: MetricNames;
+  GroupBy?: GroupDefinitions;
+  BillingViewArn?: string;
+  NextPageToken?: string;
+}
+export const GetCostAndUsageRequest = S.suspend(() =>
+  S.Struct({
     TimePeriod: DateInterval,
     Granularity: S.String,
     Filter: S.optional(Expression),
@@ -1459,28 +2292,56 @@ export class GetCostAndUsageRequest extends S.Class<GetCostAndUsageRequest>(
     GroupBy: S.optional(GroupDefinitions),
     BillingViewArn: S.optional(S.String),
     NextPageToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetCostCategoriesResponse extends S.Class<GetCostCategoriesResponse>(
-  "GetCostCategoriesResponse",
-)({
-  NextPageToken: S.optional(S.String),
-  CostCategoryNames: S.optional(CostCategoryNamesList),
-  CostCategoryValues: S.optional(CostCategoryValuesList),
-  ReturnSize: S.Number,
-  TotalSize: S.Number,
-}) {}
-export class GetCostForecastResponse extends S.Class<GetCostForecastResponse>(
-  "GetCostForecastResponse",
-)({
-  Total: S.optional(MetricValue),
-  ForecastResultsByTime: S.optional(ForecastResultsByTime),
-}) {}
-export class GetReservationPurchaseRecommendationRequest extends S.Class<GetReservationPurchaseRecommendationRequest>(
-  "GetReservationPurchaseRecommendationRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetCostAndUsageRequest",
+}) as any as S.Schema<GetCostAndUsageRequest>;
+export interface GetCostCategoriesResponse {
+  NextPageToken?: string;
+  CostCategoryNames?: CostCategoryNamesList;
+  CostCategoryValues?: CostCategoryValuesList;
+  ReturnSize: number;
+  TotalSize: number;
+}
+export const GetCostCategoriesResponse = S.suspend(() =>
+  S.Struct({
+    NextPageToken: S.optional(S.String),
+    CostCategoryNames: S.optional(CostCategoryNamesList),
+    CostCategoryValues: S.optional(CostCategoryValuesList),
+    ReturnSize: S.Number,
+    TotalSize: S.Number,
+  }),
+).annotations({
+  identifier: "GetCostCategoriesResponse",
+}) as any as S.Schema<GetCostCategoriesResponse>;
+export interface GetCostForecastResponse {
+  Total?: MetricValue;
+  ForecastResultsByTime?: ForecastResultsByTime;
+}
+export const GetCostForecastResponse = S.suspend(() =>
+  S.Struct({
+    Total: S.optional(MetricValue),
+    ForecastResultsByTime: S.optional(ForecastResultsByTime),
+  }),
+).annotations({
+  identifier: "GetCostForecastResponse",
+}) as any as S.Schema<GetCostForecastResponse>;
+export interface GetReservationPurchaseRecommendationRequest {
+  AccountId?: string;
+  Service: string;
+  Filter?: Expression;
+  AccountScope?: string;
+  LookbackPeriodInDays?: string;
+  TermInYears?: string;
+  PaymentOption?: string;
+  ServiceSpecification?: ServiceSpecification;
+  PageSize?: number;
+  NextPageToken?: string;
+}
+export const GetReservationPurchaseRecommendationRequest = S.suspend(() =>
+  S.Struct({
     AccountId: S.optional(S.String),
     Service: S.String,
     Filter: S.optional(Expression),
@@ -1491,742 +2352,1509 @@ export class GetReservationPurchaseRecommendationRequest extends S.Class<GetRese
     ServiceSpecification: S.optional(ServiceSpecification),
     PageSize: S.optional(S.Number),
     NextPageToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetSavingsPlansUtilizationDetailsResponse extends S.Class<GetSavingsPlansUtilizationDetailsResponse>(
-  "GetSavingsPlansUtilizationDetailsResponse",
-)({
-  SavingsPlansUtilizationDetails: SavingsPlansUtilizationDetails,
-  Total: S.optional(SavingsPlansUtilizationAggregates),
-  TimePeriod: DateInterval,
-  NextToken: S.optional(S.String),
-}) {}
-export class ListCommitmentPurchaseAnalysesResponse extends S.Class<ListCommitmentPurchaseAnalysesResponse>(
-  "ListCommitmentPurchaseAnalysesResponse",
-)({
-  AnalysisSummaryList: S.optional(AnalysisSummaryList),
-  NextPageToken: S.optional(S.String),
-}) {}
-export class ListCostAllocationTagBackfillHistoryResponse extends S.Class<ListCostAllocationTagBackfillHistoryResponse>(
-  "ListCostAllocationTagBackfillHistoryResponse",
-)({
-  BackfillRequests: S.optional(CostAllocationTagBackfillRequestList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListCostAllocationTagsResponse extends S.Class<ListCostAllocationTagsResponse>(
-  "ListCostAllocationTagsResponse",
-)({
-  CostAllocationTags: S.optional(CostAllocationTagList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListCostCategoryDefinitionsResponse extends S.Class<ListCostCategoryDefinitionsResponse>(
-  "ListCostCategoryDefinitionsResponse",
-)({
-  CostCategoryReferences: S.optional(CostCategoryReferencesList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListCostCategoryResourceAssociationsResponse extends S.Class<ListCostCategoryResourceAssociationsResponse>(
-  "ListCostCategoryResourceAssociationsResponse",
-)({
-  CostCategoryResourceAssociations: S.optional(
-    CostCategoryResourceAssociations,
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListSavingsPlansPurchaseRecommendationGenerationResponse extends S.Class<ListSavingsPlansPurchaseRecommendationGenerationResponse>(
-  "ListSavingsPlansPurchaseRecommendationGenerationResponse",
-)({
-  GenerationSummaryList: S.optional(GenerationSummaryList),
-  NextPageToken: S.optional(S.String),
-}) {}
-export class UpdateAnomalySubscriptionResponse extends S.Class<UpdateAnomalySubscriptionResponse>(
-  "UpdateAnomalySubscriptionResponse",
-)({ SubscriptionArn: S.String }) {}
-export class RecommendationDetailHourlyMetrics extends S.Class<RecommendationDetailHourlyMetrics>(
-  "RecommendationDetailHourlyMetrics",
-)({
-  StartTime: S.optional(S.String),
-  EstimatedOnDemandCost: S.optional(S.String),
-  CurrentCoverage: S.optional(S.String),
-  EstimatedCoverage: S.optional(S.String),
-  EstimatedNewCommitmentUtilization: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "GetReservationPurchaseRecommendationRequest",
+}) as any as S.Schema<GetReservationPurchaseRecommendationRequest>;
+export interface GetSavingsPlansUtilizationDetailsResponse {
+  SavingsPlansUtilizationDetails: SavingsPlansUtilizationDetails;
+  Total?: SavingsPlansUtilizationAggregates;
+  TimePeriod: DateInterval;
+  NextToken?: string;
+}
+export const GetSavingsPlansUtilizationDetailsResponse = S.suspend(() =>
+  S.Struct({
+    SavingsPlansUtilizationDetails: SavingsPlansUtilizationDetails,
+    Total: S.optional(SavingsPlansUtilizationAggregates),
+    TimePeriod: DateInterval,
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetSavingsPlansUtilizationDetailsResponse",
+}) as any as S.Schema<GetSavingsPlansUtilizationDetailsResponse>;
+export interface ListCommitmentPurchaseAnalysesResponse {
+  AnalysisSummaryList?: AnalysisSummaryList;
+  NextPageToken?: string;
+}
+export const ListCommitmentPurchaseAnalysesResponse = S.suspend(() =>
+  S.Struct({
+    AnalysisSummaryList: S.optional(AnalysisSummaryList),
+    NextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListCommitmentPurchaseAnalysesResponse",
+}) as any as S.Schema<ListCommitmentPurchaseAnalysesResponse>;
+export interface ListCostAllocationTagBackfillHistoryResponse {
+  BackfillRequests?: CostAllocationTagBackfillRequestList;
+  NextToken?: string;
+}
+export const ListCostAllocationTagBackfillHistoryResponse = S.suspend(() =>
+  S.Struct({
+    BackfillRequests: S.optional(CostAllocationTagBackfillRequestList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListCostAllocationTagBackfillHistoryResponse",
+}) as any as S.Schema<ListCostAllocationTagBackfillHistoryResponse>;
+export interface ListCostAllocationTagsResponse {
+  CostAllocationTags?: CostAllocationTagList;
+  NextToken?: string;
+}
+export const ListCostAllocationTagsResponse = S.suspend(() =>
+  S.Struct({
+    CostAllocationTags: S.optional(CostAllocationTagList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListCostAllocationTagsResponse",
+}) as any as S.Schema<ListCostAllocationTagsResponse>;
+export interface ListCostCategoryDefinitionsResponse {
+  CostCategoryReferences?: CostCategoryReferencesList;
+  NextToken?: string;
+}
+export const ListCostCategoryDefinitionsResponse = S.suspend(() =>
+  S.Struct({
+    CostCategoryReferences: S.optional(CostCategoryReferencesList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListCostCategoryDefinitionsResponse",
+}) as any as S.Schema<ListCostCategoryDefinitionsResponse>;
+export interface ListCostCategoryResourceAssociationsResponse {
+  CostCategoryResourceAssociations?: CostCategoryResourceAssociations;
+  NextToken?: string;
+}
+export const ListCostCategoryResourceAssociationsResponse = S.suspend(() =>
+  S.Struct({
+    CostCategoryResourceAssociations: S.optional(
+      CostCategoryResourceAssociations,
+    ),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListCostCategoryResourceAssociationsResponse",
+}) as any as S.Schema<ListCostCategoryResourceAssociationsResponse>;
+export interface ListSavingsPlansPurchaseRecommendationGenerationResponse {
+  GenerationSummaryList?: GenerationSummaryList;
+  NextPageToken?: string;
+}
+export const ListSavingsPlansPurchaseRecommendationGenerationResponse =
+  S.suspend(() =>
+    S.Struct({
+      GenerationSummaryList: S.optional(GenerationSummaryList),
+      NextPageToken: S.optional(S.String),
+    }),
+  ).annotations({
+    identifier: "ListSavingsPlansPurchaseRecommendationGenerationResponse",
+  }) as any as S.Schema<ListSavingsPlansPurchaseRecommendationGenerationResponse>;
+export interface UpdateAnomalySubscriptionResponse {
+  SubscriptionArn: string;
+}
+export const UpdateAnomalySubscriptionResponse = S.suspend(() =>
+  S.Struct({ SubscriptionArn: S.String }),
+).annotations({
+  identifier: "UpdateAnomalySubscriptionResponse",
+}) as any as S.Schema<UpdateAnomalySubscriptionResponse>;
+export interface RecommendationDetailHourlyMetrics {
+  StartTime?: string;
+  EstimatedOnDemandCost?: string;
+  CurrentCoverage?: string;
+  EstimatedCoverage?: string;
+  EstimatedNewCommitmentUtilization?: string;
+}
+export const RecommendationDetailHourlyMetrics = S.suspend(() =>
+  S.Struct({
+    StartTime: S.optional(S.String),
+    EstimatedOnDemandCost: S.optional(S.String),
+    CurrentCoverage: S.optional(S.String),
+    EstimatedCoverage: S.optional(S.String),
+    EstimatedNewCommitmentUtilization: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RecommendationDetailHourlyMetrics",
+}) as any as S.Schema<RecommendationDetailHourlyMetrics>;
+export type MetricsOverLookbackPeriod = RecommendationDetailHourlyMetrics[];
 export const MetricsOverLookbackPeriod = S.Array(
   RecommendationDetailHourlyMetrics,
 );
-export class SavingsPlansPurchaseAnalysisDetails extends S.Class<SavingsPlansPurchaseAnalysisDetails>(
-  "SavingsPlansPurchaseAnalysisDetails",
-)({
-  CurrencyCode: S.optional(S.String),
-  LookbackPeriodInHours: S.optional(S.String),
-  CurrentAverageCoverage: S.optional(S.String),
-  CurrentAverageHourlyOnDemandSpend: S.optional(S.String),
-  CurrentMaximumHourlyOnDemandSpend: S.optional(S.String),
-  CurrentMinimumHourlyOnDemandSpend: S.optional(S.String),
-  CurrentOnDemandSpend: S.optional(S.String),
-  ExistingHourlyCommitment: S.optional(S.String),
-  HourlyCommitmentToPurchase: S.optional(S.String),
-  EstimatedAverageCoverage: S.optional(S.String),
-  EstimatedAverageUtilization: S.optional(S.String),
-  EstimatedMonthlySavingsAmount: S.optional(S.String),
-  EstimatedOnDemandCost: S.optional(S.String),
-  EstimatedOnDemandCostWithCurrentCommitment: S.optional(S.String),
-  EstimatedROI: S.optional(S.String),
-  EstimatedSavingsAmount: S.optional(S.String),
-  EstimatedSavingsPercentage: S.optional(S.String),
-  EstimatedCommitmentCost: S.optional(S.String),
-  LatestUsageTimestamp: S.optional(S.String),
-  UpfrontCost: S.optional(S.String),
-  AdditionalMetadata: S.optional(S.String),
-  MetricsOverLookbackPeriod: S.optional(MetricsOverLookbackPeriod),
-}) {}
+export interface SavingsPlansPurchaseAnalysisDetails {
+  CurrencyCode?: string;
+  LookbackPeriodInHours?: string;
+  CurrentAverageCoverage?: string;
+  CurrentAverageHourlyOnDemandSpend?: string;
+  CurrentMaximumHourlyOnDemandSpend?: string;
+  CurrentMinimumHourlyOnDemandSpend?: string;
+  CurrentOnDemandSpend?: string;
+  ExistingHourlyCommitment?: string;
+  HourlyCommitmentToPurchase?: string;
+  EstimatedAverageCoverage?: string;
+  EstimatedAverageUtilization?: string;
+  EstimatedMonthlySavingsAmount?: string;
+  EstimatedOnDemandCost?: string;
+  EstimatedOnDemandCostWithCurrentCommitment?: string;
+  EstimatedROI?: string;
+  EstimatedSavingsAmount?: string;
+  EstimatedSavingsPercentage?: string;
+  EstimatedCommitmentCost?: string;
+  LatestUsageTimestamp?: string;
+  UpfrontCost?: string;
+  AdditionalMetadata?: string;
+  MetricsOverLookbackPeriod?: MetricsOverLookbackPeriod;
+}
+export const SavingsPlansPurchaseAnalysisDetails = S.suspend(() =>
+  S.Struct({
+    CurrencyCode: S.optional(S.String),
+    LookbackPeriodInHours: S.optional(S.String),
+    CurrentAverageCoverage: S.optional(S.String),
+    CurrentAverageHourlyOnDemandSpend: S.optional(S.String),
+    CurrentMaximumHourlyOnDemandSpend: S.optional(S.String),
+    CurrentMinimumHourlyOnDemandSpend: S.optional(S.String),
+    CurrentOnDemandSpend: S.optional(S.String),
+    ExistingHourlyCommitment: S.optional(S.String),
+    HourlyCommitmentToPurchase: S.optional(S.String),
+    EstimatedAverageCoverage: S.optional(S.String),
+    EstimatedAverageUtilization: S.optional(S.String),
+    EstimatedMonthlySavingsAmount: S.optional(S.String),
+    EstimatedOnDemandCost: S.optional(S.String),
+    EstimatedOnDemandCostWithCurrentCommitment: S.optional(S.String),
+    EstimatedROI: S.optional(S.String),
+    EstimatedSavingsAmount: S.optional(S.String),
+    EstimatedSavingsPercentage: S.optional(S.String),
+    EstimatedCommitmentCost: S.optional(S.String),
+    LatestUsageTimestamp: S.optional(S.String),
+    UpfrontCost: S.optional(S.String),
+    AdditionalMetadata: S.optional(S.String),
+    MetricsOverLookbackPeriod: S.optional(MetricsOverLookbackPeriod),
+  }),
+).annotations({
+  identifier: "SavingsPlansPurchaseAnalysisDetails",
+}) as any as S.Schema<SavingsPlansPurchaseAnalysisDetails>;
+export type Metrics = { [key: string]: MetricValue };
 export const Metrics = S.Record({ key: S.String, value: MetricValue });
-export class Group extends S.Class<Group>("Group")({
-  Keys: S.optional(Keys),
-  Metrics: S.optional(Metrics),
-}) {}
+export interface Group {
+  Keys?: Keys;
+  Metrics?: Metrics;
+}
+export const Group = S.suspend(() =>
+  S.Struct({ Keys: S.optional(Keys), Metrics: S.optional(Metrics) }),
+).annotations({ identifier: "Group" }) as any as S.Schema<Group>;
+export type Groups = Group[];
 export const Groups = S.Array(Group);
-export class CostDriver extends S.Class<CostDriver>("CostDriver")({
-  Type: S.optional(S.String),
-  Name: S.optional(S.String),
-  Metrics: S.optional(ComparisonMetrics),
-}) {}
+export interface CostDriver {
+  Type?: string;
+  Name?: string;
+  Metrics?: ComparisonMetrics;
+}
+export const CostDriver = S.suspend(() =>
+  S.Struct({
+    Type: S.optional(S.String),
+    Name: S.optional(S.String),
+    Metrics: S.optional(ComparisonMetrics),
+  }),
+).annotations({ identifier: "CostDriver" }) as any as S.Schema<CostDriver>;
+export type CostDrivers = CostDriver[];
 export const CostDrivers = S.Array(CostDriver);
-export class CoverageHours extends S.Class<CoverageHours>("CoverageHours")({
-  OnDemandHours: S.optional(S.String),
-  ReservedHours: S.optional(S.String),
-  TotalRunningHours: S.optional(S.String),
-  CoverageHoursPercentage: S.optional(S.String),
-}) {}
-export class CoverageNormalizedUnits extends S.Class<CoverageNormalizedUnits>(
-  "CoverageNormalizedUnits",
-)({
-  OnDemandNormalizedUnits: S.optional(S.String),
-  ReservedNormalizedUnits: S.optional(S.String),
-  TotalRunningNormalizedUnits: S.optional(S.String),
-  CoverageNormalizedUnitsPercentage: S.optional(S.String),
-}) {}
-export class CoverageCost extends S.Class<CoverageCost>("CoverageCost")({
-  OnDemandCost: S.optional(S.String),
-}) {}
-export class Coverage extends S.Class<Coverage>("Coverage")({
-  CoverageHours: S.optional(CoverageHours),
-  CoverageNormalizedUnits: S.optional(CoverageNormalizedUnits),
-  CoverageCost: S.optional(CoverageCost),
-}) {}
-export class ReservationCoverageGroup extends S.Class<ReservationCoverageGroup>(
-  "ReservationCoverageGroup",
-)({ Attributes: S.optional(Attributes), Coverage: S.optional(Coverage) }) {}
+export interface CoverageHours {
+  OnDemandHours?: string;
+  ReservedHours?: string;
+  TotalRunningHours?: string;
+  CoverageHoursPercentage?: string;
+}
+export const CoverageHours = S.suspend(() =>
+  S.Struct({
+    OnDemandHours: S.optional(S.String),
+    ReservedHours: S.optional(S.String),
+    TotalRunningHours: S.optional(S.String),
+    CoverageHoursPercentage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CoverageHours",
+}) as any as S.Schema<CoverageHours>;
+export interface CoverageNormalizedUnits {
+  OnDemandNormalizedUnits?: string;
+  ReservedNormalizedUnits?: string;
+  TotalRunningNormalizedUnits?: string;
+  CoverageNormalizedUnitsPercentage?: string;
+}
+export const CoverageNormalizedUnits = S.suspend(() =>
+  S.Struct({
+    OnDemandNormalizedUnits: S.optional(S.String),
+    ReservedNormalizedUnits: S.optional(S.String),
+    TotalRunningNormalizedUnits: S.optional(S.String),
+    CoverageNormalizedUnitsPercentage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CoverageNormalizedUnits",
+}) as any as S.Schema<CoverageNormalizedUnits>;
+export interface CoverageCost {
+  OnDemandCost?: string;
+}
+export const CoverageCost = S.suspend(() =>
+  S.Struct({ OnDemandCost: S.optional(S.String) }),
+).annotations({ identifier: "CoverageCost" }) as any as S.Schema<CoverageCost>;
+export interface Coverage {
+  CoverageHours?: CoverageHours;
+  CoverageNormalizedUnits?: CoverageNormalizedUnits;
+  CoverageCost?: CoverageCost;
+}
+export const Coverage = S.suspend(() =>
+  S.Struct({
+    CoverageHours: S.optional(CoverageHours),
+    CoverageNormalizedUnits: S.optional(CoverageNormalizedUnits),
+    CoverageCost: S.optional(CoverageCost),
+  }),
+).annotations({ identifier: "Coverage" }) as any as S.Schema<Coverage>;
+export interface ReservationCoverageGroup {
+  Attributes?: Attributes;
+  Coverage?: Coverage;
+}
+export const ReservationCoverageGroup = S.suspend(() =>
+  S.Struct({
+    Attributes: S.optional(Attributes),
+    Coverage: S.optional(Coverage),
+  }),
+).annotations({
+  identifier: "ReservationCoverageGroup",
+}) as any as S.Schema<ReservationCoverageGroup>;
+export type ReservationCoverageGroups = ReservationCoverageGroup[];
 export const ReservationCoverageGroups = S.Array(ReservationCoverageGroup);
-export class ReservationUtilizationGroup extends S.Class<ReservationUtilizationGroup>(
-  "ReservationUtilizationGroup",
-)({
-  Key: S.optional(S.String),
-  Value: S.optional(S.String),
-  Attributes: S.optional(Attributes),
-  Utilization: S.optional(ReservationAggregates),
-}) {}
+export interface ReservationUtilizationGroup {
+  Key?: string;
+  Value?: string;
+  Attributes?: Attributes;
+  Utilization?: ReservationAggregates;
+}
+export const ReservationUtilizationGroup = S.suspend(() =>
+  S.Struct({
+    Key: S.optional(S.String),
+    Value: S.optional(S.String),
+    Attributes: S.optional(Attributes),
+    Utilization: S.optional(ReservationAggregates),
+  }),
+).annotations({
+  identifier: "ReservationUtilizationGroup",
+}) as any as S.Schema<ReservationUtilizationGroup>;
+export type ReservationUtilizationGroups = ReservationUtilizationGroup[];
 export const ReservationUtilizationGroups = S.Array(
   ReservationUtilizationGroup,
 );
+export type FindingReasonCodes = string[];
 export const FindingReasonCodes = S.Array(S.String);
-export class SavingsPlansCoverageData extends S.Class<SavingsPlansCoverageData>(
-  "SavingsPlansCoverageData",
-)({
-  SpendCoveredBySavingsPlans: S.optional(S.String),
-  OnDemandCost: S.optional(S.String),
-  TotalCost: S.optional(S.String),
-  CoveragePercentage: S.optional(S.String),
-}) {}
-export class SavingsPlansPurchaseRecommendationSummary extends S.Class<SavingsPlansPurchaseRecommendationSummary>(
-  "SavingsPlansPurchaseRecommendationSummary",
-)({
-  EstimatedROI: S.optional(S.String),
-  CurrencyCode: S.optional(S.String),
-  EstimatedTotalCost: S.optional(S.String),
-  CurrentOnDemandSpend: S.optional(S.String),
-  EstimatedSavingsAmount: S.optional(S.String),
-  TotalRecommendationCount: S.optional(S.String),
-  DailyCommitmentToPurchase: S.optional(S.String),
-  HourlyCommitmentToPurchase: S.optional(S.String),
-  EstimatedSavingsPercentage: S.optional(S.String),
-  EstimatedMonthlySavingsAmount: S.optional(S.String),
-  EstimatedOnDemandCostWithCurrentCommitment: S.optional(S.String),
-}) {}
-export class CostCategory extends S.Class<CostCategory>("CostCategory")({
-  CostCategoryArn: S.String,
-  EffectiveStart: S.String,
-  EffectiveEnd: S.optional(S.String),
-  Name: S.String,
-  RuleVersion: S.String,
-  Rules: CostCategoryRulesList,
-  SplitChargeRules: S.optional(CostCategorySplitChargeRulesList),
-  ProcessingStatus: S.optional(CostCategoryProcessingStatusList),
-  DefaultValue: S.optional(S.String),
-}) {}
-export class AnalysisDetails extends S.Class<AnalysisDetails>(
-  "AnalysisDetails",
-)({
-  SavingsPlansPurchaseAnalysisDetails: S.optional(
-    SavingsPlansPurchaseAnalysisDetails,
-  ),
-}) {}
-export class ResultByTime extends S.Class<ResultByTime>("ResultByTime")({
-  TimePeriod: S.optional(DateInterval),
-  Total: S.optional(Metrics),
-  Groups: S.optional(Groups),
-  Estimated: S.optional(S.Boolean),
-}) {}
+export interface SavingsPlansCoverageData {
+  SpendCoveredBySavingsPlans?: string;
+  OnDemandCost?: string;
+  TotalCost?: string;
+  CoveragePercentage?: string;
+}
+export const SavingsPlansCoverageData = S.suspend(() =>
+  S.Struct({
+    SpendCoveredBySavingsPlans: S.optional(S.String),
+    OnDemandCost: S.optional(S.String),
+    TotalCost: S.optional(S.String),
+    CoveragePercentage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SavingsPlansCoverageData",
+}) as any as S.Schema<SavingsPlansCoverageData>;
+export interface SavingsPlansPurchaseRecommendationSummary {
+  EstimatedROI?: string;
+  CurrencyCode?: string;
+  EstimatedTotalCost?: string;
+  CurrentOnDemandSpend?: string;
+  EstimatedSavingsAmount?: string;
+  TotalRecommendationCount?: string;
+  DailyCommitmentToPurchase?: string;
+  HourlyCommitmentToPurchase?: string;
+  EstimatedSavingsPercentage?: string;
+  EstimatedMonthlySavingsAmount?: string;
+  EstimatedOnDemandCostWithCurrentCommitment?: string;
+}
+export const SavingsPlansPurchaseRecommendationSummary = S.suspend(() =>
+  S.Struct({
+    EstimatedROI: S.optional(S.String),
+    CurrencyCode: S.optional(S.String),
+    EstimatedTotalCost: S.optional(S.String),
+    CurrentOnDemandSpend: S.optional(S.String),
+    EstimatedSavingsAmount: S.optional(S.String),
+    TotalRecommendationCount: S.optional(S.String),
+    DailyCommitmentToPurchase: S.optional(S.String),
+    HourlyCommitmentToPurchase: S.optional(S.String),
+    EstimatedSavingsPercentage: S.optional(S.String),
+    EstimatedMonthlySavingsAmount: S.optional(S.String),
+    EstimatedOnDemandCostWithCurrentCommitment: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SavingsPlansPurchaseRecommendationSummary",
+}) as any as S.Schema<SavingsPlansPurchaseRecommendationSummary>;
+export interface CostCategory {
+  CostCategoryArn: string;
+  EffectiveStart: string;
+  EffectiveEnd?: string;
+  Name: string;
+  RuleVersion: string;
+  Rules: CostCategoryRulesList;
+  SplitChargeRules?: CostCategorySplitChargeRulesList;
+  ProcessingStatus?: CostCategoryProcessingStatusList;
+  DefaultValue?: string;
+}
+export const CostCategory = S.suspend(() =>
+  S.Struct({
+    CostCategoryArn: S.String,
+    EffectiveStart: S.String,
+    EffectiveEnd: S.optional(S.String),
+    Name: S.String,
+    RuleVersion: S.String,
+    Rules: CostCategoryRulesList,
+    SplitChargeRules: S.optional(CostCategorySplitChargeRulesList),
+    ProcessingStatus: S.optional(CostCategoryProcessingStatusList),
+    DefaultValue: S.optional(S.String),
+  }),
+).annotations({ identifier: "CostCategory" }) as any as S.Schema<CostCategory>;
+export interface AnalysisDetails {
+  SavingsPlansPurchaseAnalysisDetails?: SavingsPlansPurchaseAnalysisDetails;
+}
+export const AnalysisDetails = S.suspend(() =>
+  S.Struct({
+    SavingsPlansPurchaseAnalysisDetails: S.optional(
+      SavingsPlansPurchaseAnalysisDetails,
+    ),
+  }),
+).annotations({
+  identifier: "AnalysisDetails",
+}) as any as S.Schema<AnalysisDetails>;
+export interface ResultByTime {
+  TimePeriod?: DateInterval;
+  Total?: Metrics;
+  Groups?: Groups;
+  Estimated?: boolean;
+}
+export const ResultByTime = S.suspend(() =>
+  S.Struct({
+    TimePeriod: S.optional(DateInterval),
+    Total: S.optional(Metrics),
+    Groups: S.optional(Groups),
+    Estimated: S.optional(S.Boolean),
+  }),
+).annotations({ identifier: "ResultByTime" }) as any as S.Schema<ResultByTime>;
+export type ResultsByTime = ResultByTime[];
 export const ResultsByTime = S.Array(ResultByTime);
-export class CostComparisonDriver extends S.Class<CostComparisonDriver>(
-  "CostComparisonDriver",
-)({
-  CostSelector: S.optional(Expression),
-  Metrics: S.optional(ComparisonMetrics),
-  CostDrivers: S.optional(CostDrivers),
-}) {}
+export interface CostComparisonDriver {
+  CostSelector?: Expression;
+  Metrics?: ComparisonMetrics;
+  CostDrivers?: CostDrivers;
+}
+export const CostComparisonDriver = S.suspend(() =>
+  S.Struct({
+    CostSelector: S.optional(Expression),
+    Metrics: S.optional(ComparisonMetrics),
+    CostDrivers: S.optional(CostDrivers),
+  }),
+).annotations({
+  identifier: "CostComparisonDriver",
+}) as any as S.Schema<CostComparisonDriver>;
+export type CostComparisonDrivers = CostComparisonDriver[];
 export const CostComparisonDrivers = S.Array(CostComparisonDriver);
-export class CoverageByTime extends S.Class<CoverageByTime>("CoverageByTime")({
-  TimePeriod: S.optional(DateInterval),
-  Groups: S.optional(ReservationCoverageGroups),
-  Total: S.optional(Coverage),
-}) {}
+export interface CoverageByTime {
+  TimePeriod?: DateInterval;
+  Groups?: ReservationCoverageGroups;
+  Total?: Coverage;
+}
+export const CoverageByTime = S.suspend(() =>
+  S.Struct({
+    TimePeriod: S.optional(DateInterval),
+    Groups: S.optional(ReservationCoverageGroups),
+    Total: S.optional(Coverage),
+  }),
+).annotations({
+  identifier: "CoverageByTime",
+}) as any as S.Schema<CoverageByTime>;
+export type CoveragesByTime = CoverageByTime[];
 export const CoveragesByTime = S.Array(CoverageByTime);
-export class UtilizationByTime extends S.Class<UtilizationByTime>(
-  "UtilizationByTime",
-)({
-  TimePeriod: S.optional(DateInterval),
-  Groups: S.optional(ReservationUtilizationGroups),
-  Total: S.optional(ReservationAggregates),
-}) {}
+export interface UtilizationByTime {
+  TimePeriod?: DateInterval;
+  Groups?: ReservationUtilizationGroups;
+  Total?: ReservationAggregates;
+}
+export const UtilizationByTime = S.suspend(() =>
+  S.Struct({
+    TimePeriod: S.optional(DateInterval),
+    Groups: S.optional(ReservationUtilizationGroups),
+    Total: S.optional(ReservationAggregates),
+  }),
+).annotations({
+  identifier: "UtilizationByTime",
+}) as any as S.Schema<UtilizationByTime>;
+export type UtilizationsByTime = UtilizationByTime[];
 export const UtilizationsByTime = S.Array(UtilizationByTime);
-export class RightsizingRecommendationMetadata extends S.Class<RightsizingRecommendationMetadata>(
-  "RightsizingRecommendationMetadata",
-)({
-  RecommendationId: S.optional(S.String),
-  GenerationTimestamp: S.optional(S.String),
-  LookbackPeriodInDays: S.optional(S.String),
-  AdditionalMetadata: S.optional(S.String),
-}) {}
-export class RightsizingRecommendationSummary extends S.Class<RightsizingRecommendationSummary>(
-  "RightsizingRecommendationSummary",
-)({
-  TotalRecommendationCount: S.optional(S.String),
-  EstimatedTotalMonthlySavingsAmount: S.optional(S.String),
-  SavingsCurrencyCode: S.optional(S.String),
-  SavingsPercentage: S.optional(S.String),
-}) {}
-export class RecommendationDetailData extends S.Class<RecommendationDetailData>(
-  "RecommendationDetailData",
-)({
-  AccountScope: S.optional(S.String),
-  LookbackPeriodInDays: S.optional(S.String),
-  SavingsPlansType: S.optional(S.String),
-  TermInYears: S.optional(S.String),
-  PaymentOption: S.optional(S.String),
-  AccountId: S.optional(S.String),
-  CurrencyCode: S.optional(S.String),
-  InstanceFamily: S.optional(S.String),
-  Region: S.optional(S.String),
-  OfferingId: S.optional(S.String),
-  GenerationTimestamp: S.optional(S.String),
-  LatestUsageTimestamp: S.optional(S.String),
-  CurrentAverageHourlyOnDemandSpend: S.optional(S.String),
-  CurrentMaximumHourlyOnDemandSpend: S.optional(S.String),
-  CurrentMinimumHourlyOnDemandSpend: S.optional(S.String),
-  EstimatedAverageUtilization: S.optional(S.String),
-  EstimatedMonthlySavingsAmount: S.optional(S.String),
-  EstimatedOnDemandCost: S.optional(S.String),
-  EstimatedOnDemandCostWithCurrentCommitment: S.optional(S.String),
-  EstimatedROI: S.optional(S.String),
-  EstimatedSPCost: S.optional(S.String),
-  EstimatedSavingsAmount: S.optional(S.String),
-  EstimatedSavingsPercentage: S.optional(S.String),
-  ExistingHourlyCommitment: S.optional(S.String),
-  HourlyCommitmentToPurchase: S.optional(S.String),
-  UpfrontCost: S.optional(S.String),
-  CurrentAverageCoverage: S.optional(S.String),
-  EstimatedAverageCoverage: S.optional(S.String),
-  MetricsOverLookbackPeriod: S.optional(MetricsOverLookbackPeriod),
-}) {}
-export class SavingsPlansCoverage extends S.Class<SavingsPlansCoverage>(
-  "SavingsPlansCoverage",
-)({
-  Attributes: S.optional(Attributes),
-  Coverage: S.optional(SavingsPlansCoverageData),
-  TimePeriod: S.optional(DateInterval),
-}) {}
+export interface RightsizingRecommendationMetadata {
+  RecommendationId?: string;
+  GenerationTimestamp?: string;
+  LookbackPeriodInDays?: string;
+  AdditionalMetadata?: string;
+}
+export const RightsizingRecommendationMetadata = S.suspend(() =>
+  S.Struct({
+    RecommendationId: S.optional(S.String),
+    GenerationTimestamp: S.optional(S.String),
+    LookbackPeriodInDays: S.optional(S.String),
+    AdditionalMetadata: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RightsizingRecommendationMetadata",
+}) as any as S.Schema<RightsizingRecommendationMetadata>;
+export interface RightsizingRecommendationSummary {
+  TotalRecommendationCount?: string;
+  EstimatedTotalMonthlySavingsAmount?: string;
+  SavingsCurrencyCode?: string;
+  SavingsPercentage?: string;
+}
+export const RightsizingRecommendationSummary = S.suspend(() =>
+  S.Struct({
+    TotalRecommendationCount: S.optional(S.String),
+    EstimatedTotalMonthlySavingsAmount: S.optional(S.String),
+    SavingsCurrencyCode: S.optional(S.String),
+    SavingsPercentage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RightsizingRecommendationSummary",
+}) as any as S.Schema<RightsizingRecommendationSummary>;
+export interface RecommendationDetailData {
+  AccountScope?: string;
+  LookbackPeriodInDays?: string;
+  SavingsPlansType?: string;
+  TermInYears?: string;
+  PaymentOption?: string;
+  AccountId?: string;
+  CurrencyCode?: string;
+  InstanceFamily?: string;
+  Region?: string;
+  OfferingId?: string;
+  GenerationTimestamp?: string;
+  LatestUsageTimestamp?: string;
+  CurrentAverageHourlyOnDemandSpend?: string;
+  CurrentMaximumHourlyOnDemandSpend?: string;
+  CurrentMinimumHourlyOnDemandSpend?: string;
+  EstimatedAverageUtilization?: string;
+  EstimatedMonthlySavingsAmount?: string;
+  EstimatedOnDemandCost?: string;
+  EstimatedOnDemandCostWithCurrentCommitment?: string;
+  EstimatedROI?: string;
+  EstimatedSPCost?: string;
+  EstimatedSavingsAmount?: string;
+  EstimatedSavingsPercentage?: string;
+  ExistingHourlyCommitment?: string;
+  HourlyCommitmentToPurchase?: string;
+  UpfrontCost?: string;
+  CurrentAverageCoverage?: string;
+  EstimatedAverageCoverage?: string;
+  MetricsOverLookbackPeriod?: MetricsOverLookbackPeriod;
+}
+export const RecommendationDetailData = S.suspend(() =>
+  S.Struct({
+    AccountScope: S.optional(S.String),
+    LookbackPeriodInDays: S.optional(S.String),
+    SavingsPlansType: S.optional(S.String),
+    TermInYears: S.optional(S.String),
+    PaymentOption: S.optional(S.String),
+    AccountId: S.optional(S.String),
+    CurrencyCode: S.optional(S.String),
+    InstanceFamily: S.optional(S.String),
+    Region: S.optional(S.String),
+    OfferingId: S.optional(S.String),
+    GenerationTimestamp: S.optional(S.String),
+    LatestUsageTimestamp: S.optional(S.String),
+    CurrentAverageHourlyOnDemandSpend: S.optional(S.String),
+    CurrentMaximumHourlyOnDemandSpend: S.optional(S.String),
+    CurrentMinimumHourlyOnDemandSpend: S.optional(S.String),
+    EstimatedAverageUtilization: S.optional(S.String),
+    EstimatedMonthlySavingsAmount: S.optional(S.String),
+    EstimatedOnDemandCost: S.optional(S.String),
+    EstimatedOnDemandCostWithCurrentCommitment: S.optional(S.String),
+    EstimatedROI: S.optional(S.String),
+    EstimatedSPCost: S.optional(S.String),
+    EstimatedSavingsAmount: S.optional(S.String),
+    EstimatedSavingsPercentage: S.optional(S.String),
+    ExistingHourlyCommitment: S.optional(S.String),
+    HourlyCommitmentToPurchase: S.optional(S.String),
+    UpfrontCost: S.optional(S.String),
+    CurrentAverageCoverage: S.optional(S.String),
+    EstimatedAverageCoverage: S.optional(S.String),
+    MetricsOverLookbackPeriod: S.optional(MetricsOverLookbackPeriod),
+  }),
+).annotations({
+  identifier: "RecommendationDetailData",
+}) as any as S.Schema<RecommendationDetailData>;
+export interface SavingsPlansCoverage {
+  Attributes?: Attributes;
+  Coverage?: SavingsPlansCoverageData;
+  TimePeriod?: DateInterval;
+}
+export const SavingsPlansCoverage = S.suspend(() =>
+  S.Struct({
+    Attributes: S.optional(Attributes),
+    Coverage: S.optional(SavingsPlansCoverageData),
+    TimePeriod: S.optional(DateInterval),
+  }),
+).annotations({
+  identifier: "SavingsPlansCoverage",
+}) as any as S.Schema<SavingsPlansCoverage>;
+export type SavingsPlansCoverages = SavingsPlansCoverage[];
 export const SavingsPlansCoverages = S.Array(SavingsPlansCoverage);
-export class SavingsPlansUtilizationByTime extends S.Class<SavingsPlansUtilizationByTime>(
-  "SavingsPlansUtilizationByTime",
-)({
-  TimePeriod: DateInterval,
-  Utilization: SavingsPlansUtilization,
-  Savings: S.optional(SavingsPlansSavings),
-  AmortizedCommitment: S.optional(SavingsPlansAmortizedCommitment),
-}) {}
+export interface SavingsPlansUtilizationByTime {
+  TimePeriod: DateInterval;
+  Utilization: SavingsPlansUtilization;
+  Savings?: SavingsPlansSavings;
+  AmortizedCommitment?: SavingsPlansAmortizedCommitment;
+}
+export const SavingsPlansUtilizationByTime = S.suspend(() =>
+  S.Struct({
+    TimePeriod: DateInterval,
+    Utilization: SavingsPlansUtilization,
+    Savings: S.optional(SavingsPlansSavings),
+    AmortizedCommitment: S.optional(SavingsPlansAmortizedCommitment),
+  }),
+).annotations({
+  identifier: "SavingsPlansUtilizationByTime",
+}) as any as S.Schema<SavingsPlansUtilizationByTime>;
+export type SavingsPlansUtilizationsByTime = SavingsPlansUtilizationByTime[];
 export const SavingsPlansUtilizationsByTime = S.Array(
   SavingsPlansUtilizationByTime,
 );
-export class UpdateCostAllocationTagsStatusError extends S.Class<UpdateCostAllocationTagsStatusError>(
-  "UpdateCostAllocationTagsStatusError",
-)({
-  TagKey: S.optional(S.String),
-  Code: S.optional(S.String),
-  Message: S.optional(S.String),
-}) {}
+export interface UpdateCostAllocationTagsStatusError {
+  TagKey?: string;
+  Code?: string;
+  Message?: string;
+}
+export const UpdateCostAllocationTagsStatusError = S.suspend(() =>
+  S.Struct({
+    TagKey: S.optional(S.String),
+    Code: S.optional(S.String),
+    Message: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "UpdateCostAllocationTagsStatusError",
+}) as any as S.Schema<UpdateCostAllocationTagsStatusError>;
+export type UpdateCostAllocationTagsStatusErrors =
+  UpdateCostAllocationTagsStatusError[];
 export const UpdateCostAllocationTagsStatusErrors = S.Array(
   UpdateCostAllocationTagsStatusError,
 );
+export type TagValuesList = TagValues[];
 export const TagValuesList = S.Array(TagValues);
-export class SavingsPlansDetails extends S.Class<SavingsPlansDetails>(
-  "SavingsPlansDetails",
-)({
-  Region: S.optional(S.String),
-  InstanceFamily: S.optional(S.String),
-  OfferingId: S.optional(S.String),
-}) {}
-export class CreateCostCategoryDefinitionResponse extends S.Class<CreateCostCategoryDefinitionResponse>(
-  "CreateCostCategoryDefinitionResponse",
-)({
-  CostCategoryArn: S.optional(S.String),
-  EffectiveStart: S.optional(S.String),
-}) {}
-export class DescribeCostCategoryDefinitionResponse extends S.Class<DescribeCostCategoryDefinitionResponse>(
-  "DescribeCostCategoryDefinitionResponse",
-)({ CostCategory: S.optional(CostCategory) }) {}
-export class GetCommitmentPurchaseAnalysisResponse extends S.Class<GetCommitmentPurchaseAnalysisResponse>(
-  "GetCommitmentPurchaseAnalysisResponse",
-)({
-  EstimatedCompletionTime: S.String,
-  AnalysisCompletionTime: S.optional(S.String),
-  AnalysisStartedTime: S.String,
-  AnalysisId: S.String,
-  AnalysisStatus: S.String,
-  ErrorCode: S.optional(S.String),
-  AnalysisDetails: S.optional(AnalysisDetails),
-  CommitmentPurchaseAnalysisConfiguration:
-    CommitmentPurchaseAnalysisConfiguration,
-}) {}
-export class GetCostAndUsageResponse extends S.Class<GetCostAndUsageResponse>(
-  "GetCostAndUsageResponse",
-)({
-  NextPageToken: S.optional(S.String),
-  GroupDefinitions: S.optional(GroupDefinitions),
-  ResultsByTime: S.optional(ResultsByTime),
-  DimensionValueAttributes: S.optional(DimensionValuesWithAttributesList),
-}) {}
-export class GetCostAndUsageComparisonsResponse extends S.Class<GetCostAndUsageComparisonsResponse>(
-  "GetCostAndUsageComparisonsResponse",
-)({
-  CostAndUsageComparisons: S.optional(CostAndUsageComparisons),
-  TotalCostAndUsage: S.optional(ComparisonMetrics),
-  NextPageToken: S.optional(S.String),
-}) {}
-export class GetCostAndUsageWithResourcesResponse extends S.Class<GetCostAndUsageWithResourcesResponse>(
-  "GetCostAndUsageWithResourcesResponse",
-)({
-  NextPageToken: S.optional(S.String),
-  GroupDefinitions: S.optional(GroupDefinitions),
-  ResultsByTime: S.optional(ResultsByTime),
-  DimensionValueAttributes: S.optional(DimensionValuesWithAttributesList),
-}) {}
-export class GetCostComparisonDriversResponse extends S.Class<GetCostComparisonDriversResponse>(
-  "GetCostComparisonDriversResponse",
-)({
-  CostComparisonDrivers: S.optional(CostComparisonDrivers),
-  NextPageToken: S.optional(S.String),
-}) {}
-export class GetReservationCoverageResponse extends S.Class<GetReservationCoverageResponse>(
-  "GetReservationCoverageResponse",
-)({
-  CoveragesByTime: CoveragesByTime,
-  Total: S.optional(Coverage),
-  NextPageToken: S.optional(S.String),
-}) {}
-export class GetReservationUtilizationResponse extends S.Class<GetReservationUtilizationResponse>(
-  "GetReservationUtilizationResponse",
-)({
-  UtilizationsByTime: UtilizationsByTime,
-  Total: S.optional(ReservationAggregates),
-  NextPageToken: S.optional(S.String),
-}) {}
-export class GetSavingsPlanPurchaseRecommendationDetailsResponse extends S.Class<GetSavingsPlanPurchaseRecommendationDetailsResponse>(
-  "GetSavingsPlanPurchaseRecommendationDetailsResponse",
-)({
-  RecommendationDetailId: S.optional(S.String),
-  RecommendationDetailData: S.optional(RecommendationDetailData),
-}) {}
-export class GetSavingsPlansCoverageResponse extends S.Class<GetSavingsPlansCoverageResponse>(
-  "GetSavingsPlansCoverageResponse",
-)({
-  SavingsPlansCoverages: SavingsPlansCoverages,
-  NextToken: S.optional(S.String),
-}) {}
-export class GetSavingsPlansUtilizationResponse extends S.Class<GetSavingsPlansUtilizationResponse>(
-  "GetSavingsPlansUtilizationResponse",
-)({
-  SavingsPlansUtilizationsByTime: S.optional(SavingsPlansUtilizationsByTime),
-  Total: SavingsPlansUtilizationAggregates,
-}) {}
-export class StartCommitmentPurchaseAnalysisRequest extends S.Class<StartCommitmentPurchaseAnalysisRequest>(
-  "StartCommitmentPurchaseAnalysisRequest",
-)(
-  {
+export interface SavingsPlansDetails {
+  Region?: string;
+  InstanceFamily?: string;
+  OfferingId?: string;
+}
+export const SavingsPlansDetails = S.suspend(() =>
+  S.Struct({
+    Region: S.optional(S.String),
+    InstanceFamily: S.optional(S.String),
+    OfferingId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SavingsPlansDetails",
+}) as any as S.Schema<SavingsPlansDetails>;
+export interface CreateCostCategoryDefinitionResponse {
+  CostCategoryArn?: string;
+  EffectiveStart?: string;
+}
+export const CreateCostCategoryDefinitionResponse = S.suspend(() =>
+  S.Struct({
+    CostCategoryArn: S.optional(S.String),
+    EffectiveStart: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CreateCostCategoryDefinitionResponse",
+}) as any as S.Schema<CreateCostCategoryDefinitionResponse>;
+export interface DescribeCostCategoryDefinitionResponse {
+  CostCategory?: CostCategory;
+}
+export const DescribeCostCategoryDefinitionResponse = S.suspend(() =>
+  S.Struct({ CostCategory: S.optional(CostCategory) }),
+).annotations({
+  identifier: "DescribeCostCategoryDefinitionResponse",
+}) as any as S.Schema<DescribeCostCategoryDefinitionResponse>;
+export interface GetCommitmentPurchaseAnalysisResponse {
+  EstimatedCompletionTime: string;
+  AnalysisCompletionTime?: string;
+  AnalysisStartedTime: string;
+  AnalysisId: string;
+  AnalysisStatus: string;
+  ErrorCode?: string;
+  AnalysisDetails?: AnalysisDetails;
+  CommitmentPurchaseAnalysisConfiguration: CommitmentPurchaseAnalysisConfiguration;
+}
+export const GetCommitmentPurchaseAnalysisResponse = S.suspend(() =>
+  S.Struct({
+    EstimatedCompletionTime: S.String,
+    AnalysisCompletionTime: S.optional(S.String),
+    AnalysisStartedTime: S.String,
+    AnalysisId: S.String,
+    AnalysisStatus: S.String,
+    ErrorCode: S.optional(S.String),
+    AnalysisDetails: S.optional(AnalysisDetails),
     CommitmentPurchaseAnalysisConfiguration:
       CommitmentPurchaseAnalysisConfiguration,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateCostAllocationTagsStatusResponse extends S.Class<UpdateCostAllocationTagsStatusResponse>(
-  "UpdateCostAllocationTagsStatusResponse",
-)({ Errors: S.optional(UpdateCostAllocationTagsStatusErrors) }) {}
-export class AnomalyScore extends S.Class<AnomalyScore>("AnomalyScore")({
-  MaxScore: S.Number,
-  CurrentScore: S.Number,
-}) {}
-export class Impact extends S.Class<Impact>("Impact")({
-  MaxImpact: S.Number,
-  TotalImpact: S.optional(S.Number),
-  TotalActualSpend: S.optional(S.Number),
-  TotalExpectedSpend: S.optional(S.Number),
-  TotalImpactPercentage: S.optional(S.Number),
-}) {}
-export class TerminateRecommendationDetail extends S.Class<TerminateRecommendationDetail>(
-  "TerminateRecommendationDetail",
-)({
-  EstimatedMonthlySavings: S.optional(S.String),
-  CurrencyCode: S.optional(S.String),
-}) {}
-export class SavingsPlansPurchaseRecommendationDetail extends S.Class<SavingsPlansPurchaseRecommendationDetail>(
-  "SavingsPlansPurchaseRecommendationDetail",
-)({
-  SavingsPlansDetails: S.optional(SavingsPlansDetails),
-  AccountId: S.optional(S.String),
-  UpfrontCost: S.optional(S.String),
-  EstimatedROI: S.optional(S.String),
-  CurrencyCode: S.optional(S.String),
-  EstimatedSPCost: S.optional(S.String),
-  EstimatedOnDemandCost: S.optional(S.String),
-  EstimatedOnDemandCostWithCurrentCommitment: S.optional(S.String),
-  EstimatedSavingsAmount: S.optional(S.String),
-  EstimatedSavingsPercentage: S.optional(S.String),
-  HourlyCommitmentToPurchase: S.optional(S.String),
-  EstimatedAverageUtilization: S.optional(S.String),
-  EstimatedMonthlySavingsAmount: S.optional(S.String),
-  CurrentMinimumHourlyOnDemandSpend: S.optional(S.String),
-  CurrentMaximumHourlyOnDemandSpend: S.optional(S.String),
-  CurrentAverageHourlyOnDemandSpend: S.optional(S.String),
-  RecommendationDetailId: S.optional(S.String),
-}) {}
+  }),
+).annotations({
+  identifier: "GetCommitmentPurchaseAnalysisResponse",
+}) as any as S.Schema<GetCommitmentPurchaseAnalysisResponse>;
+export interface GetCostAndUsageResponse {
+  NextPageToken?: string;
+  GroupDefinitions?: GroupDefinitions;
+  ResultsByTime?: ResultsByTime;
+  DimensionValueAttributes?: DimensionValuesWithAttributesList;
+}
+export const GetCostAndUsageResponse = S.suspend(() =>
+  S.Struct({
+    NextPageToken: S.optional(S.String),
+    GroupDefinitions: S.optional(GroupDefinitions),
+    ResultsByTime: S.optional(ResultsByTime),
+    DimensionValueAttributes: S.optional(DimensionValuesWithAttributesList),
+  }),
+).annotations({
+  identifier: "GetCostAndUsageResponse",
+}) as any as S.Schema<GetCostAndUsageResponse>;
+export interface GetCostAndUsageComparisonsResponse {
+  CostAndUsageComparisons?: CostAndUsageComparisons;
+  TotalCostAndUsage?: ComparisonMetrics;
+  NextPageToken?: string;
+}
+export const GetCostAndUsageComparisonsResponse = S.suspend(() =>
+  S.Struct({
+    CostAndUsageComparisons: S.optional(CostAndUsageComparisons),
+    TotalCostAndUsage: S.optional(ComparisonMetrics),
+    NextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetCostAndUsageComparisonsResponse",
+}) as any as S.Schema<GetCostAndUsageComparisonsResponse>;
+export interface GetCostAndUsageWithResourcesResponse {
+  NextPageToken?: string;
+  GroupDefinitions?: GroupDefinitions;
+  ResultsByTime?: ResultsByTime;
+  DimensionValueAttributes?: DimensionValuesWithAttributesList;
+}
+export const GetCostAndUsageWithResourcesResponse = S.suspend(() =>
+  S.Struct({
+    NextPageToken: S.optional(S.String),
+    GroupDefinitions: S.optional(GroupDefinitions),
+    ResultsByTime: S.optional(ResultsByTime),
+    DimensionValueAttributes: S.optional(DimensionValuesWithAttributesList),
+  }),
+).annotations({
+  identifier: "GetCostAndUsageWithResourcesResponse",
+}) as any as S.Schema<GetCostAndUsageWithResourcesResponse>;
+export interface GetCostComparisonDriversResponse {
+  CostComparisonDrivers?: CostComparisonDrivers;
+  NextPageToken?: string;
+}
+export const GetCostComparisonDriversResponse = S.suspend(() =>
+  S.Struct({
+    CostComparisonDrivers: S.optional(CostComparisonDrivers),
+    NextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetCostComparisonDriversResponse",
+}) as any as S.Schema<GetCostComparisonDriversResponse>;
+export interface GetReservationCoverageResponse {
+  CoveragesByTime: CoveragesByTime;
+  Total?: Coverage;
+  NextPageToken?: string;
+}
+export const GetReservationCoverageResponse = S.suspend(() =>
+  S.Struct({
+    CoveragesByTime: CoveragesByTime,
+    Total: S.optional(Coverage),
+    NextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetReservationCoverageResponse",
+}) as any as S.Schema<GetReservationCoverageResponse>;
+export interface GetReservationUtilizationResponse {
+  UtilizationsByTime: UtilizationsByTime;
+  Total?: ReservationAggregates;
+  NextPageToken?: string;
+}
+export const GetReservationUtilizationResponse = S.suspend(() =>
+  S.Struct({
+    UtilizationsByTime: UtilizationsByTime,
+    Total: S.optional(ReservationAggregates),
+    NextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetReservationUtilizationResponse",
+}) as any as S.Schema<GetReservationUtilizationResponse>;
+export interface GetSavingsPlanPurchaseRecommendationDetailsResponse {
+  RecommendationDetailId?: string;
+  RecommendationDetailData?: RecommendationDetailData;
+}
+export const GetSavingsPlanPurchaseRecommendationDetailsResponse = S.suspend(
+  () =>
+    S.Struct({
+      RecommendationDetailId: S.optional(S.String),
+      RecommendationDetailData: S.optional(RecommendationDetailData),
+    }),
+).annotations({
+  identifier: "GetSavingsPlanPurchaseRecommendationDetailsResponse",
+}) as any as S.Schema<GetSavingsPlanPurchaseRecommendationDetailsResponse>;
+export interface GetSavingsPlansCoverageResponse {
+  SavingsPlansCoverages: SavingsPlansCoverages;
+  NextToken?: string;
+}
+export const GetSavingsPlansCoverageResponse = S.suspend(() =>
+  S.Struct({
+    SavingsPlansCoverages: SavingsPlansCoverages,
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetSavingsPlansCoverageResponse",
+}) as any as S.Schema<GetSavingsPlansCoverageResponse>;
+export interface GetSavingsPlansUtilizationResponse {
+  SavingsPlansUtilizationsByTime?: SavingsPlansUtilizationsByTime;
+  Total: SavingsPlansUtilizationAggregates;
+}
+export const GetSavingsPlansUtilizationResponse = S.suspend(() =>
+  S.Struct({
+    SavingsPlansUtilizationsByTime: S.optional(SavingsPlansUtilizationsByTime),
+    Total: SavingsPlansUtilizationAggregates,
+  }),
+).annotations({
+  identifier: "GetSavingsPlansUtilizationResponse",
+}) as any as S.Schema<GetSavingsPlansUtilizationResponse>;
+export interface StartCommitmentPurchaseAnalysisRequest {
+  CommitmentPurchaseAnalysisConfiguration: CommitmentPurchaseAnalysisConfiguration;
+}
+export const StartCommitmentPurchaseAnalysisRequest = S.suspend(() =>
+  S.Struct({
+    CommitmentPurchaseAnalysisConfiguration:
+      CommitmentPurchaseAnalysisConfiguration,
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StartCommitmentPurchaseAnalysisRequest",
+}) as any as S.Schema<StartCommitmentPurchaseAnalysisRequest>;
+export interface UpdateCostAllocationTagsStatusResponse {
+  Errors?: UpdateCostAllocationTagsStatusErrors;
+}
+export const UpdateCostAllocationTagsStatusResponse = S.suspend(() =>
+  S.Struct({ Errors: S.optional(UpdateCostAllocationTagsStatusErrors) }),
+).annotations({
+  identifier: "UpdateCostAllocationTagsStatusResponse",
+}) as any as S.Schema<UpdateCostAllocationTagsStatusResponse>;
+export interface AnomalyScore {
+  MaxScore: number;
+  CurrentScore: number;
+}
+export const AnomalyScore = S.suspend(() =>
+  S.Struct({ MaxScore: S.Number, CurrentScore: S.Number }),
+).annotations({ identifier: "AnomalyScore" }) as any as S.Schema<AnomalyScore>;
+export interface Impact {
+  MaxImpact: number;
+  TotalImpact?: number;
+  TotalActualSpend?: number;
+  TotalExpectedSpend?: number;
+  TotalImpactPercentage?: number;
+}
+export const Impact = S.suspend(() =>
+  S.Struct({
+    MaxImpact: S.Number,
+    TotalImpact: S.optional(S.Number),
+    TotalActualSpend: S.optional(S.Number),
+    TotalExpectedSpend: S.optional(S.Number),
+    TotalImpactPercentage: S.optional(S.Number),
+  }),
+).annotations({ identifier: "Impact" }) as any as S.Schema<Impact>;
+export interface TerminateRecommendationDetail {
+  EstimatedMonthlySavings?: string;
+  CurrencyCode?: string;
+}
+export const TerminateRecommendationDetail = S.suspend(() =>
+  S.Struct({
+    EstimatedMonthlySavings: S.optional(S.String),
+    CurrencyCode: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "TerminateRecommendationDetail",
+}) as any as S.Schema<TerminateRecommendationDetail>;
+export interface SavingsPlansPurchaseRecommendationDetail {
+  SavingsPlansDetails?: SavingsPlansDetails;
+  AccountId?: string;
+  UpfrontCost?: string;
+  EstimatedROI?: string;
+  CurrencyCode?: string;
+  EstimatedSPCost?: string;
+  EstimatedOnDemandCost?: string;
+  EstimatedOnDemandCostWithCurrentCommitment?: string;
+  EstimatedSavingsAmount?: string;
+  EstimatedSavingsPercentage?: string;
+  HourlyCommitmentToPurchase?: string;
+  EstimatedAverageUtilization?: string;
+  EstimatedMonthlySavingsAmount?: string;
+  CurrentMinimumHourlyOnDemandSpend?: string;
+  CurrentMaximumHourlyOnDemandSpend?: string;
+  CurrentAverageHourlyOnDemandSpend?: string;
+  RecommendationDetailId?: string;
+}
+export const SavingsPlansPurchaseRecommendationDetail = S.suspend(() =>
+  S.Struct({
+    SavingsPlansDetails: S.optional(SavingsPlansDetails),
+    AccountId: S.optional(S.String),
+    UpfrontCost: S.optional(S.String),
+    EstimatedROI: S.optional(S.String),
+    CurrencyCode: S.optional(S.String),
+    EstimatedSPCost: S.optional(S.String),
+    EstimatedOnDemandCost: S.optional(S.String),
+    EstimatedOnDemandCostWithCurrentCommitment: S.optional(S.String),
+    EstimatedSavingsAmount: S.optional(S.String),
+    EstimatedSavingsPercentage: S.optional(S.String),
+    HourlyCommitmentToPurchase: S.optional(S.String),
+    EstimatedAverageUtilization: S.optional(S.String),
+    EstimatedMonthlySavingsAmount: S.optional(S.String),
+    CurrentMinimumHourlyOnDemandSpend: S.optional(S.String),
+    CurrentMaximumHourlyOnDemandSpend: S.optional(S.String),
+    CurrentAverageHourlyOnDemandSpend: S.optional(S.String),
+    RecommendationDetailId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SavingsPlansPurchaseRecommendationDetail",
+}) as any as S.Schema<SavingsPlansPurchaseRecommendationDetail>;
+export type SavingsPlansPurchaseRecommendationDetailList =
+  SavingsPlansPurchaseRecommendationDetail[];
 export const SavingsPlansPurchaseRecommendationDetailList = S.Array(
   SavingsPlansPurchaseRecommendationDetail,
 );
+export type PlatformDifferences = string[];
 export const PlatformDifferences = S.Array(S.String);
-export class ReservationPurchaseRecommendationMetadata extends S.Class<ReservationPurchaseRecommendationMetadata>(
-  "ReservationPurchaseRecommendationMetadata",
-)({
-  RecommendationId: S.optional(S.String),
-  GenerationTimestamp: S.optional(S.String),
-  AdditionalMetadata: S.optional(S.String),
-}) {}
-export class SavingsPlansPurchaseRecommendation extends S.Class<SavingsPlansPurchaseRecommendation>(
-  "SavingsPlansPurchaseRecommendation",
-)({
-  AccountScope: S.optional(S.String),
-  SavingsPlansType: S.optional(S.String),
-  TermInYears: S.optional(S.String),
-  PaymentOption: S.optional(S.String),
-  LookbackPeriodInDays: S.optional(S.String),
-  SavingsPlansPurchaseRecommendationDetails: S.optional(
-    SavingsPlansPurchaseRecommendationDetailList,
-  ),
-  SavingsPlansPurchaseRecommendationSummary: S.optional(
-    SavingsPlansPurchaseRecommendationSummary,
-  ),
-}) {}
-export class RootCauseImpact extends S.Class<RootCauseImpact>(
-  "RootCauseImpact",
-)({ Contribution: S.Number }) {}
-export class EC2ResourceDetails extends S.Class<EC2ResourceDetails>(
-  "EC2ResourceDetails",
-)({
-  HourlyOnDemandRate: S.optional(S.String),
-  InstanceType: S.optional(S.String),
-  Platform: S.optional(S.String),
-  Region: S.optional(S.String),
-  Sku: S.optional(S.String),
-  Memory: S.optional(S.String),
-  NetworkPerformance: S.optional(S.String),
-  Storage: S.optional(S.String),
-  Vcpu: S.optional(S.String),
-}) {}
-export class ResourceDetails extends S.Class<ResourceDetails>(
-  "ResourceDetails",
-)({ EC2ResourceDetails: S.optional(EC2ResourceDetails) }) {}
-export class EBSResourceUtilization extends S.Class<EBSResourceUtilization>(
-  "EBSResourceUtilization",
-)({
-  EbsReadOpsPerSecond: S.optional(S.String),
-  EbsWriteOpsPerSecond: S.optional(S.String),
-  EbsReadBytesPerSecond: S.optional(S.String),
-  EbsWriteBytesPerSecond: S.optional(S.String),
-}) {}
-export class DiskResourceUtilization extends S.Class<DiskResourceUtilization>(
-  "DiskResourceUtilization",
-)({
-  DiskReadOpsPerSecond: S.optional(S.String),
-  DiskWriteOpsPerSecond: S.optional(S.String),
-  DiskReadBytesPerSecond: S.optional(S.String),
-  DiskWriteBytesPerSecond: S.optional(S.String),
-}) {}
-export class NetworkResourceUtilization extends S.Class<NetworkResourceUtilization>(
-  "NetworkResourceUtilization",
-)({
-  NetworkInBytesPerSecond: S.optional(S.String),
-  NetworkOutBytesPerSecond: S.optional(S.String),
-  NetworkPacketsInPerSecond: S.optional(S.String),
-  NetworkPacketsOutPerSecond: S.optional(S.String),
-}) {}
-export class EC2ResourceUtilization extends S.Class<EC2ResourceUtilization>(
-  "EC2ResourceUtilization",
-)({
-  MaxCpuUtilizationPercentage: S.optional(S.String),
-  MaxMemoryUtilizationPercentage: S.optional(S.String),
-  MaxStorageUtilizationPercentage: S.optional(S.String),
-  EBSResourceUtilization: S.optional(EBSResourceUtilization),
-  DiskResourceUtilization: S.optional(DiskResourceUtilization),
-  NetworkResourceUtilization: S.optional(NetworkResourceUtilization),
-}) {}
-export class ResourceUtilization extends S.Class<ResourceUtilization>(
-  "ResourceUtilization",
-)({ EC2ResourceUtilization: S.optional(EC2ResourceUtilization) }) {}
-export class TargetInstance extends S.Class<TargetInstance>("TargetInstance")({
-  EstimatedMonthlyCost: S.optional(S.String),
-  EstimatedMonthlySavings: S.optional(S.String),
-  CurrencyCode: S.optional(S.String),
-  DefaultTargetInstance: S.optional(S.Boolean),
-  ResourceDetails: S.optional(ResourceDetails),
-  ExpectedResourceUtilization: S.optional(ResourceUtilization),
-  PlatformDifferences: S.optional(PlatformDifferences),
-}) {}
+export interface ReservationPurchaseRecommendationMetadata {
+  RecommendationId?: string;
+  GenerationTimestamp?: string;
+  AdditionalMetadata?: string;
+}
+export const ReservationPurchaseRecommendationMetadata = S.suspend(() =>
+  S.Struct({
+    RecommendationId: S.optional(S.String),
+    GenerationTimestamp: S.optional(S.String),
+    AdditionalMetadata: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ReservationPurchaseRecommendationMetadata",
+}) as any as S.Schema<ReservationPurchaseRecommendationMetadata>;
+export interface SavingsPlansPurchaseRecommendation {
+  AccountScope?: string;
+  SavingsPlansType?: string;
+  TermInYears?: string;
+  PaymentOption?: string;
+  LookbackPeriodInDays?: string;
+  SavingsPlansPurchaseRecommendationDetails?: SavingsPlansPurchaseRecommendationDetailList;
+  SavingsPlansPurchaseRecommendationSummary?: SavingsPlansPurchaseRecommendationSummary;
+}
+export const SavingsPlansPurchaseRecommendation = S.suspend(() =>
+  S.Struct({
+    AccountScope: S.optional(S.String),
+    SavingsPlansType: S.optional(S.String),
+    TermInYears: S.optional(S.String),
+    PaymentOption: S.optional(S.String),
+    LookbackPeriodInDays: S.optional(S.String),
+    SavingsPlansPurchaseRecommendationDetails: S.optional(
+      SavingsPlansPurchaseRecommendationDetailList,
+    ),
+    SavingsPlansPurchaseRecommendationSummary: S.optional(
+      SavingsPlansPurchaseRecommendationSummary,
+    ),
+  }),
+).annotations({
+  identifier: "SavingsPlansPurchaseRecommendation",
+}) as any as S.Schema<SavingsPlansPurchaseRecommendation>;
+export interface RootCauseImpact {
+  Contribution: number;
+}
+export const RootCauseImpact = S.suspend(() =>
+  S.Struct({ Contribution: S.Number }),
+).annotations({
+  identifier: "RootCauseImpact",
+}) as any as S.Schema<RootCauseImpact>;
+export interface EC2ResourceDetails {
+  HourlyOnDemandRate?: string;
+  InstanceType?: string;
+  Platform?: string;
+  Region?: string;
+  Sku?: string;
+  Memory?: string;
+  NetworkPerformance?: string;
+  Storage?: string;
+  Vcpu?: string;
+}
+export const EC2ResourceDetails = S.suspend(() =>
+  S.Struct({
+    HourlyOnDemandRate: S.optional(S.String),
+    InstanceType: S.optional(S.String),
+    Platform: S.optional(S.String),
+    Region: S.optional(S.String),
+    Sku: S.optional(S.String),
+    Memory: S.optional(S.String),
+    NetworkPerformance: S.optional(S.String),
+    Storage: S.optional(S.String),
+    Vcpu: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "EC2ResourceDetails",
+}) as any as S.Schema<EC2ResourceDetails>;
+export interface ResourceDetails {
+  EC2ResourceDetails?: EC2ResourceDetails;
+}
+export const ResourceDetails = S.suspend(() =>
+  S.Struct({ EC2ResourceDetails: S.optional(EC2ResourceDetails) }),
+).annotations({
+  identifier: "ResourceDetails",
+}) as any as S.Schema<ResourceDetails>;
+export interface EBSResourceUtilization {
+  EbsReadOpsPerSecond?: string;
+  EbsWriteOpsPerSecond?: string;
+  EbsReadBytesPerSecond?: string;
+  EbsWriteBytesPerSecond?: string;
+}
+export const EBSResourceUtilization = S.suspend(() =>
+  S.Struct({
+    EbsReadOpsPerSecond: S.optional(S.String),
+    EbsWriteOpsPerSecond: S.optional(S.String),
+    EbsReadBytesPerSecond: S.optional(S.String),
+    EbsWriteBytesPerSecond: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "EBSResourceUtilization",
+}) as any as S.Schema<EBSResourceUtilization>;
+export interface DiskResourceUtilization {
+  DiskReadOpsPerSecond?: string;
+  DiskWriteOpsPerSecond?: string;
+  DiskReadBytesPerSecond?: string;
+  DiskWriteBytesPerSecond?: string;
+}
+export const DiskResourceUtilization = S.suspend(() =>
+  S.Struct({
+    DiskReadOpsPerSecond: S.optional(S.String),
+    DiskWriteOpsPerSecond: S.optional(S.String),
+    DiskReadBytesPerSecond: S.optional(S.String),
+    DiskWriteBytesPerSecond: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DiskResourceUtilization",
+}) as any as S.Schema<DiskResourceUtilization>;
+export interface NetworkResourceUtilization {
+  NetworkInBytesPerSecond?: string;
+  NetworkOutBytesPerSecond?: string;
+  NetworkPacketsInPerSecond?: string;
+  NetworkPacketsOutPerSecond?: string;
+}
+export const NetworkResourceUtilization = S.suspend(() =>
+  S.Struct({
+    NetworkInBytesPerSecond: S.optional(S.String),
+    NetworkOutBytesPerSecond: S.optional(S.String),
+    NetworkPacketsInPerSecond: S.optional(S.String),
+    NetworkPacketsOutPerSecond: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "NetworkResourceUtilization",
+}) as any as S.Schema<NetworkResourceUtilization>;
+export interface EC2ResourceUtilization {
+  MaxCpuUtilizationPercentage?: string;
+  MaxMemoryUtilizationPercentage?: string;
+  MaxStorageUtilizationPercentage?: string;
+  EBSResourceUtilization?: EBSResourceUtilization;
+  DiskResourceUtilization?: DiskResourceUtilization;
+  NetworkResourceUtilization?: NetworkResourceUtilization;
+}
+export const EC2ResourceUtilization = S.suspend(() =>
+  S.Struct({
+    MaxCpuUtilizationPercentage: S.optional(S.String),
+    MaxMemoryUtilizationPercentage: S.optional(S.String),
+    MaxStorageUtilizationPercentage: S.optional(S.String),
+    EBSResourceUtilization: S.optional(EBSResourceUtilization),
+    DiskResourceUtilization: S.optional(DiskResourceUtilization),
+    NetworkResourceUtilization: S.optional(NetworkResourceUtilization),
+  }),
+).annotations({
+  identifier: "EC2ResourceUtilization",
+}) as any as S.Schema<EC2ResourceUtilization>;
+export interface ResourceUtilization {
+  EC2ResourceUtilization?: EC2ResourceUtilization;
+}
+export const ResourceUtilization = S.suspend(() =>
+  S.Struct({ EC2ResourceUtilization: S.optional(EC2ResourceUtilization) }),
+).annotations({
+  identifier: "ResourceUtilization",
+}) as any as S.Schema<ResourceUtilization>;
+export interface TargetInstance {
+  EstimatedMonthlyCost?: string;
+  EstimatedMonthlySavings?: string;
+  CurrencyCode?: string;
+  DefaultTargetInstance?: boolean;
+  ResourceDetails?: ResourceDetails;
+  ExpectedResourceUtilization?: ResourceUtilization;
+  PlatformDifferences?: PlatformDifferences;
+}
+export const TargetInstance = S.suspend(() =>
+  S.Struct({
+    EstimatedMonthlyCost: S.optional(S.String),
+    EstimatedMonthlySavings: S.optional(S.String),
+    CurrencyCode: S.optional(S.String),
+    DefaultTargetInstance: S.optional(S.Boolean),
+    ResourceDetails: S.optional(ResourceDetails),
+    ExpectedResourceUtilization: S.optional(ResourceUtilization),
+    PlatformDifferences: S.optional(PlatformDifferences),
+  }),
+).annotations({
+  identifier: "TargetInstance",
+}) as any as S.Schema<TargetInstance>;
+export type TargetInstancesList = TargetInstance[];
 export const TargetInstancesList = S.Array(TargetInstance);
-export class GetSavingsPlansPurchaseRecommendationResponse extends S.Class<GetSavingsPlansPurchaseRecommendationResponse>(
-  "GetSavingsPlansPurchaseRecommendationResponse",
-)({
-  Metadata: S.optional(SavingsPlansPurchaseRecommendationMetadata),
-  SavingsPlansPurchaseRecommendation: S.optional(
-    SavingsPlansPurchaseRecommendation,
-  ),
-  NextPageToken: S.optional(S.String),
-}) {}
-export class StartCommitmentPurchaseAnalysisResponse extends S.Class<StartCommitmentPurchaseAnalysisResponse>(
-  "StartCommitmentPurchaseAnalysisResponse",
-)({
-  AnalysisId: S.String,
-  AnalysisStartedTime: S.String,
-  EstimatedCompletionTime: S.String,
-}) {}
-export class RootCause extends S.Class<RootCause>("RootCause")({
-  Service: S.optional(S.String),
-  Region: S.optional(S.String),
-  LinkedAccount: S.optional(S.String),
-  LinkedAccountName: S.optional(S.String),
-  UsageType: S.optional(S.String),
-  Impact: S.optional(RootCauseImpact),
-}) {}
+export interface GetSavingsPlansPurchaseRecommendationResponse {
+  Metadata?: SavingsPlansPurchaseRecommendationMetadata;
+  SavingsPlansPurchaseRecommendation?: SavingsPlansPurchaseRecommendation;
+  NextPageToken?: string;
+}
+export const GetSavingsPlansPurchaseRecommendationResponse = S.suspend(() =>
+  S.Struct({
+    Metadata: S.optional(SavingsPlansPurchaseRecommendationMetadata),
+    SavingsPlansPurchaseRecommendation: S.optional(
+      SavingsPlansPurchaseRecommendation,
+    ),
+    NextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetSavingsPlansPurchaseRecommendationResponse",
+}) as any as S.Schema<GetSavingsPlansPurchaseRecommendationResponse>;
+export interface StartCommitmentPurchaseAnalysisResponse {
+  AnalysisId: string;
+  AnalysisStartedTime: string;
+  EstimatedCompletionTime: string;
+}
+export const StartCommitmentPurchaseAnalysisResponse = S.suspend(() =>
+  S.Struct({
+    AnalysisId: S.String,
+    AnalysisStartedTime: S.String,
+    EstimatedCompletionTime: S.String,
+  }),
+).annotations({
+  identifier: "StartCommitmentPurchaseAnalysisResponse",
+}) as any as S.Schema<StartCommitmentPurchaseAnalysisResponse>;
+export interface RootCause {
+  Service?: string;
+  Region?: string;
+  LinkedAccount?: string;
+  LinkedAccountName?: string;
+  UsageType?: string;
+  Impact?: RootCauseImpact;
+}
+export const RootCause = S.suspend(() =>
+  S.Struct({
+    Service: S.optional(S.String),
+    Region: S.optional(S.String),
+    LinkedAccount: S.optional(S.String),
+    LinkedAccountName: S.optional(S.String),
+    UsageType: S.optional(S.String),
+    Impact: S.optional(RootCauseImpact),
+  }),
+).annotations({ identifier: "RootCause" }) as any as S.Schema<RootCause>;
+export type RootCauses = RootCause[];
 export const RootCauses = S.Array(RootCause);
-export class ReservationPurchaseRecommendationSummary extends S.Class<ReservationPurchaseRecommendationSummary>(
-  "ReservationPurchaseRecommendationSummary",
-)({
-  TotalEstimatedMonthlySavingsAmount: S.optional(S.String),
-  TotalEstimatedMonthlySavingsPercentage: S.optional(S.String),
-  CurrencyCode: S.optional(S.String),
-}) {}
-export class ModifyRecommendationDetail extends S.Class<ModifyRecommendationDetail>(
-  "ModifyRecommendationDetail",
-)({ TargetInstances: S.optional(TargetInstancesList) }) {}
-export class Anomaly extends S.Class<Anomaly>("Anomaly")({
-  AnomalyId: S.String,
-  AnomalyStartDate: S.optional(S.String),
-  AnomalyEndDate: S.optional(S.String),
-  DimensionValue: S.optional(S.String),
-  RootCauses: S.optional(RootCauses),
-  AnomalyScore: AnomalyScore,
-  Impact: Impact,
-  MonitorArn: S.String,
-  Feedback: S.optional(S.String),
-}) {}
+export interface ReservationPurchaseRecommendationSummary {
+  TotalEstimatedMonthlySavingsAmount?: string;
+  TotalEstimatedMonthlySavingsPercentage?: string;
+  CurrencyCode?: string;
+}
+export const ReservationPurchaseRecommendationSummary = S.suspend(() =>
+  S.Struct({
+    TotalEstimatedMonthlySavingsAmount: S.optional(S.String),
+    TotalEstimatedMonthlySavingsPercentage: S.optional(S.String),
+    CurrencyCode: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ReservationPurchaseRecommendationSummary",
+}) as any as S.Schema<ReservationPurchaseRecommendationSummary>;
+export interface ModifyRecommendationDetail {
+  TargetInstances?: TargetInstancesList;
+}
+export const ModifyRecommendationDetail = S.suspend(() =>
+  S.Struct({ TargetInstances: S.optional(TargetInstancesList) }),
+).annotations({
+  identifier: "ModifyRecommendationDetail",
+}) as any as S.Schema<ModifyRecommendationDetail>;
+export interface Anomaly {
+  AnomalyId: string;
+  AnomalyStartDate?: string;
+  AnomalyEndDate?: string;
+  DimensionValue?: string;
+  RootCauses?: RootCauses;
+  AnomalyScore: AnomalyScore;
+  Impact: Impact;
+  MonitorArn: string;
+  Feedback?: string;
+}
+export const Anomaly = S.suspend(() =>
+  S.Struct({
+    AnomalyId: S.String,
+    AnomalyStartDate: S.optional(S.String),
+    AnomalyEndDate: S.optional(S.String),
+    DimensionValue: S.optional(S.String),
+    RootCauses: S.optional(RootCauses),
+    AnomalyScore: AnomalyScore,
+    Impact: Impact,
+    MonitorArn: S.String,
+    Feedback: S.optional(S.String),
+  }),
+).annotations({ identifier: "Anomaly" }) as any as S.Schema<Anomaly>;
+export type Anomalies = Anomaly[];
 export const Anomalies = S.Array(Anomaly);
-export class GetAnomaliesResponse extends S.Class<GetAnomaliesResponse>(
-  "GetAnomaliesResponse",
-)({ Anomalies: Anomalies, NextPageToken: S.optional(S.String) }) {}
-export class EC2InstanceDetails extends S.Class<EC2InstanceDetails>(
-  "EC2InstanceDetails",
-)({
-  Family: S.optional(S.String),
-  InstanceType: S.optional(S.String),
-  Region: S.optional(S.String),
-  AvailabilityZone: S.optional(S.String),
-  Platform: S.optional(S.String),
-  Tenancy: S.optional(S.String),
-  CurrentGeneration: S.optional(S.Boolean),
-  SizeFlexEligible: S.optional(S.Boolean),
-}) {}
-export class RDSInstanceDetails extends S.Class<RDSInstanceDetails>(
-  "RDSInstanceDetails",
-)({
-  Family: S.optional(S.String),
-  InstanceType: S.optional(S.String),
-  Region: S.optional(S.String),
-  DatabaseEngine: S.optional(S.String),
-  DatabaseEdition: S.optional(S.String),
-  DeploymentOption: S.optional(S.String),
-  LicenseModel: S.optional(S.String),
-  CurrentGeneration: S.optional(S.Boolean),
-  SizeFlexEligible: S.optional(S.Boolean),
-}) {}
-export class RedshiftInstanceDetails extends S.Class<RedshiftInstanceDetails>(
-  "RedshiftInstanceDetails",
-)({
-  Family: S.optional(S.String),
-  NodeType: S.optional(S.String),
-  Region: S.optional(S.String),
-  CurrentGeneration: S.optional(S.Boolean),
-  SizeFlexEligible: S.optional(S.Boolean),
-}) {}
-export class ElastiCacheInstanceDetails extends S.Class<ElastiCacheInstanceDetails>(
-  "ElastiCacheInstanceDetails",
-)({
-  Family: S.optional(S.String),
-  NodeType: S.optional(S.String),
-  Region: S.optional(S.String),
-  ProductDescription: S.optional(S.String),
-  CurrentGeneration: S.optional(S.Boolean),
-  SizeFlexEligible: S.optional(S.Boolean),
-}) {}
-export class ESInstanceDetails extends S.Class<ESInstanceDetails>(
-  "ESInstanceDetails",
-)({
-  InstanceClass: S.optional(S.String),
-  InstanceSize: S.optional(S.String),
-  Region: S.optional(S.String),
-  CurrentGeneration: S.optional(S.Boolean),
-  SizeFlexEligible: S.optional(S.Boolean),
-}) {}
-export class MemoryDBInstanceDetails extends S.Class<MemoryDBInstanceDetails>(
-  "MemoryDBInstanceDetails",
-)({
-  Family: S.optional(S.String),
-  NodeType: S.optional(S.String),
-  Region: S.optional(S.String),
-  CurrentGeneration: S.optional(S.Boolean),
-  SizeFlexEligible: S.optional(S.Boolean),
-}) {}
-export class DynamoDBCapacityDetails extends S.Class<DynamoDBCapacityDetails>(
-  "DynamoDBCapacityDetails",
-)({ CapacityUnits: S.optional(S.String), Region: S.optional(S.String) }) {}
-export class InstanceDetails extends S.Class<InstanceDetails>(
-  "InstanceDetails",
-)({
-  EC2InstanceDetails: S.optional(EC2InstanceDetails),
-  RDSInstanceDetails: S.optional(RDSInstanceDetails),
-  RedshiftInstanceDetails: S.optional(RedshiftInstanceDetails),
-  ElastiCacheInstanceDetails: S.optional(ElastiCacheInstanceDetails),
-  ESInstanceDetails: S.optional(ESInstanceDetails),
-  MemoryDBInstanceDetails: S.optional(MemoryDBInstanceDetails),
-}) {}
-export class ReservedCapacityDetails extends S.Class<ReservedCapacityDetails>(
-  "ReservedCapacityDetails",
-)({ DynamoDBCapacityDetails: S.optional(DynamoDBCapacityDetails) }) {}
-export class ReservationPurchaseRecommendationDetail extends S.Class<ReservationPurchaseRecommendationDetail>(
-  "ReservationPurchaseRecommendationDetail",
-)({
-  AccountId: S.optional(S.String),
-  InstanceDetails: S.optional(InstanceDetails),
-  RecommendedNumberOfInstancesToPurchase: S.optional(S.String),
-  RecommendedNormalizedUnitsToPurchase: S.optional(S.String),
-  MinimumNumberOfInstancesUsedPerHour: S.optional(S.String),
-  MinimumNormalizedUnitsUsedPerHour: S.optional(S.String),
-  MaximumNumberOfInstancesUsedPerHour: S.optional(S.String),
-  MaximumNormalizedUnitsUsedPerHour: S.optional(S.String),
-  AverageNumberOfInstancesUsedPerHour: S.optional(S.String),
-  AverageNormalizedUnitsUsedPerHour: S.optional(S.String),
-  AverageUtilization: S.optional(S.String),
-  EstimatedBreakEvenInMonths: S.optional(S.String),
-  CurrencyCode: S.optional(S.String),
-  EstimatedMonthlySavingsAmount: S.optional(S.String),
-  EstimatedMonthlySavingsPercentage: S.optional(S.String),
-  EstimatedMonthlyOnDemandCost: S.optional(S.String),
-  EstimatedReservationCostForLookbackPeriod: S.optional(S.String),
-  UpfrontCost: S.optional(S.String),
-  RecurringStandardMonthlyCost: S.optional(S.String),
-  ReservedCapacityDetails: S.optional(ReservedCapacityDetails),
-  RecommendedNumberOfCapacityUnitsToPurchase: S.optional(S.String),
-  MinimumNumberOfCapacityUnitsUsedPerHour: S.optional(S.String),
-  MaximumNumberOfCapacityUnitsUsedPerHour: S.optional(S.String),
-  AverageNumberOfCapacityUnitsUsedPerHour: S.optional(S.String),
-}) {}
+export interface GetAnomaliesResponse {
+  Anomalies: Anomalies;
+  NextPageToken?: string;
+}
+export const GetAnomaliesResponse = S.suspend(() =>
+  S.Struct({ Anomalies: Anomalies, NextPageToken: S.optional(S.String) }),
+).annotations({
+  identifier: "GetAnomaliesResponse",
+}) as any as S.Schema<GetAnomaliesResponse>;
+export interface EC2InstanceDetails {
+  Family?: string;
+  InstanceType?: string;
+  Region?: string;
+  AvailabilityZone?: string;
+  Platform?: string;
+  Tenancy?: string;
+  CurrentGeneration?: boolean;
+  SizeFlexEligible?: boolean;
+}
+export const EC2InstanceDetails = S.suspend(() =>
+  S.Struct({
+    Family: S.optional(S.String),
+    InstanceType: S.optional(S.String),
+    Region: S.optional(S.String),
+    AvailabilityZone: S.optional(S.String),
+    Platform: S.optional(S.String),
+    Tenancy: S.optional(S.String),
+    CurrentGeneration: S.optional(S.Boolean),
+    SizeFlexEligible: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "EC2InstanceDetails",
+}) as any as S.Schema<EC2InstanceDetails>;
+export interface RDSInstanceDetails {
+  Family?: string;
+  InstanceType?: string;
+  Region?: string;
+  DatabaseEngine?: string;
+  DatabaseEdition?: string;
+  DeploymentOption?: string;
+  LicenseModel?: string;
+  CurrentGeneration?: boolean;
+  SizeFlexEligible?: boolean;
+}
+export const RDSInstanceDetails = S.suspend(() =>
+  S.Struct({
+    Family: S.optional(S.String),
+    InstanceType: S.optional(S.String),
+    Region: S.optional(S.String),
+    DatabaseEngine: S.optional(S.String),
+    DatabaseEdition: S.optional(S.String),
+    DeploymentOption: S.optional(S.String),
+    LicenseModel: S.optional(S.String),
+    CurrentGeneration: S.optional(S.Boolean),
+    SizeFlexEligible: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "RDSInstanceDetails",
+}) as any as S.Schema<RDSInstanceDetails>;
+export interface RedshiftInstanceDetails {
+  Family?: string;
+  NodeType?: string;
+  Region?: string;
+  CurrentGeneration?: boolean;
+  SizeFlexEligible?: boolean;
+}
+export const RedshiftInstanceDetails = S.suspend(() =>
+  S.Struct({
+    Family: S.optional(S.String),
+    NodeType: S.optional(S.String),
+    Region: S.optional(S.String),
+    CurrentGeneration: S.optional(S.Boolean),
+    SizeFlexEligible: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "RedshiftInstanceDetails",
+}) as any as S.Schema<RedshiftInstanceDetails>;
+export interface ElastiCacheInstanceDetails {
+  Family?: string;
+  NodeType?: string;
+  Region?: string;
+  ProductDescription?: string;
+  CurrentGeneration?: boolean;
+  SizeFlexEligible?: boolean;
+}
+export const ElastiCacheInstanceDetails = S.suspend(() =>
+  S.Struct({
+    Family: S.optional(S.String),
+    NodeType: S.optional(S.String),
+    Region: S.optional(S.String),
+    ProductDescription: S.optional(S.String),
+    CurrentGeneration: S.optional(S.Boolean),
+    SizeFlexEligible: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "ElastiCacheInstanceDetails",
+}) as any as S.Schema<ElastiCacheInstanceDetails>;
+export interface ESInstanceDetails {
+  InstanceClass?: string;
+  InstanceSize?: string;
+  Region?: string;
+  CurrentGeneration?: boolean;
+  SizeFlexEligible?: boolean;
+}
+export const ESInstanceDetails = S.suspend(() =>
+  S.Struct({
+    InstanceClass: S.optional(S.String),
+    InstanceSize: S.optional(S.String),
+    Region: S.optional(S.String),
+    CurrentGeneration: S.optional(S.Boolean),
+    SizeFlexEligible: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "ESInstanceDetails",
+}) as any as S.Schema<ESInstanceDetails>;
+export interface MemoryDBInstanceDetails {
+  Family?: string;
+  NodeType?: string;
+  Region?: string;
+  CurrentGeneration?: boolean;
+  SizeFlexEligible?: boolean;
+}
+export const MemoryDBInstanceDetails = S.suspend(() =>
+  S.Struct({
+    Family: S.optional(S.String),
+    NodeType: S.optional(S.String),
+    Region: S.optional(S.String),
+    CurrentGeneration: S.optional(S.Boolean),
+    SizeFlexEligible: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "MemoryDBInstanceDetails",
+}) as any as S.Schema<MemoryDBInstanceDetails>;
+export interface DynamoDBCapacityDetails {
+  CapacityUnits?: string;
+  Region?: string;
+}
+export const DynamoDBCapacityDetails = S.suspend(() =>
+  S.Struct({
+    CapacityUnits: S.optional(S.String),
+    Region: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DynamoDBCapacityDetails",
+}) as any as S.Schema<DynamoDBCapacityDetails>;
+export interface InstanceDetails {
+  EC2InstanceDetails?: EC2InstanceDetails;
+  RDSInstanceDetails?: RDSInstanceDetails;
+  RedshiftInstanceDetails?: RedshiftInstanceDetails;
+  ElastiCacheInstanceDetails?: ElastiCacheInstanceDetails;
+  ESInstanceDetails?: ESInstanceDetails;
+  MemoryDBInstanceDetails?: MemoryDBInstanceDetails;
+}
+export const InstanceDetails = S.suspend(() =>
+  S.Struct({
+    EC2InstanceDetails: S.optional(EC2InstanceDetails),
+    RDSInstanceDetails: S.optional(RDSInstanceDetails),
+    RedshiftInstanceDetails: S.optional(RedshiftInstanceDetails),
+    ElastiCacheInstanceDetails: S.optional(ElastiCacheInstanceDetails),
+    ESInstanceDetails: S.optional(ESInstanceDetails),
+    MemoryDBInstanceDetails: S.optional(MemoryDBInstanceDetails),
+  }),
+).annotations({
+  identifier: "InstanceDetails",
+}) as any as S.Schema<InstanceDetails>;
+export interface ReservedCapacityDetails {
+  DynamoDBCapacityDetails?: DynamoDBCapacityDetails;
+}
+export const ReservedCapacityDetails = S.suspend(() =>
+  S.Struct({ DynamoDBCapacityDetails: S.optional(DynamoDBCapacityDetails) }),
+).annotations({
+  identifier: "ReservedCapacityDetails",
+}) as any as S.Schema<ReservedCapacityDetails>;
+export interface ReservationPurchaseRecommendationDetail {
+  AccountId?: string;
+  InstanceDetails?: InstanceDetails;
+  RecommendedNumberOfInstancesToPurchase?: string;
+  RecommendedNormalizedUnitsToPurchase?: string;
+  MinimumNumberOfInstancesUsedPerHour?: string;
+  MinimumNormalizedUnitsUsedPerHour?: string;
+  MaximumNumberOfInstancesUsedPerHour?: string;
+  MaximumNormalizedUnitsUsedPerHour?: string;
+  AverageNumberOfInstancesUsedPerHour?: string;
+  AverageNormalizedUnitsUsedPerHour?: string;
+  AverageUtilization?: string;
+  EstimatedBreakEvenInMonths?: string;
+  CurrencyCode?: string;
+  EstimatedMonthlySavingsAmount?: string;
+  EstimatedMonthlySavingsPercentage?: string;
+  EstimatedMonthlyOnDemandCost?: string;
+  EstimatedReservationCostForLookbackPeriod?: string;
+  UpfrontCost?: string;
+  RecurringStandardMonthlyCost?: string;
+  ReservedCapacityDetails?: ReservedCapacityDetails;
+  RecommendedNumberOfCapacityUnitsToPurchase?: string;
+  MinimumNumberOfCapacityUnitsUsedPerHour?: string;
+  MaximumNumberOfCapacityUnitsUsedPerHour?: string;
+  AverageNumberOfCapacityUnitsUsedPerHour?: string;
+}
+export const ReservationPurchaseRecommendationDetail = S.suspend(() =>
+  S.Struct({
+    AccountId: S.optional(S.String),
+    InstanceDetails: S.optional(InstanceDetails),
+    RecommendedNumberOfInstancesToPurchase: S.optional(S.String),
+    RecommendedNormalizedUnitsToPurchase: S.optional(S.String),
+    MinimumNumberOfInstancesUsedPerHour: S.optional(S.String),
+    MinimumNormalizedUnitsUsedPerHour: S.optional(S.String),
+    MaximumNumberOfInstancesUsedPerHour: S.optional(S.String),
+    MaximumNormalizedUnitsUsedPerHour: S.optional(S.String),
+    AverageNumberOfInstancesUsedPerHour: S.optional(S.String),
+    AverageNormalizedUnitsUsedPerHour: S.optional(S.String),
+    AverageUtilization: S.optional(S.String),
+    EstimatedBreakEvenInMonths: S.optional(S.String),
+    CurrencyCode: S.optional(S.String),
+    EstimatedMonthlySavingsAmount: S.optional(S.String),
+    EstimatedMonthlySavingsPercentage: S.optional(S.String),
+    EstimatedMonthlyOnDemandCost: S.optional(S.String),
+    EstimatedReservationCostForLookbackPeriod: S.optional(S.String),
+    UpfrontCost: S.optional(S.String),
+    RecurringStandardMonthlyCost: S.optional(S.String),
+    ReservedCapacityDetails: S.optional(ReservedCapacityDetails),
+    RecommendedNumberOfCapacityUnitsToPurchase: S.optional(S.String),
+    MinimumNumberOfCapacityUnitsUsedPerHour: S.optional(S.String),
+    MaximumNumberOfCapacityUnitsUsedPerHour: S.optional(S.String),
+    AverageNumberOfCapacityUnitsUsedPerHour: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ReservationPurchaseRecommendationDetail",
+}) as any as S.Schema<ReservationPurchaseRecommendationDetail>;
+export type ReservationPurchaseRecommendationDetails =
+  ReservationPurchaseRecommendationDetail[];
 export const ReservationPurchaseRecommendationDetails = S.Array(
   ReservationPurchaseRecommendationDetail,
 );
-export class CurrentInstance extends S.Class<CurrentInstance>(
-  "CurrentInstance",
-)({
-  ResourceId: S.optional(S.String),
-  InstanceName: S.optional(S.String),
-  Tags: S.optional(TagValuesList),
-  ResourceDetails: S.optional(ResourceDetails),
-  ResourceUtilization: S.optional(ResourceUtilization),
-  ReservationCoveredHoursInLookbackPeriod: S.optional(S.String),
-  SavingsPlansCoveredHoursInLookbackPeriod: S.optional(S.String),
-  OnDemandHoursInLookbackPeriod: S.optional(S.String),
-  TotalRunningHoursInLookbackPeriod: S.optional(S.String),
-  MonthlyCost: S.optional(S.String),
-  CurrencyCode: S.optional(S.String),
-}) {}
-export class ReservationPurchaseRecommendation extends S.Class<ReservationPurchaseRecommendation>(
-  "ReservationPurchaseRecommendation",
-)({
-  AccountScope: S.optional(S.String),
-  LookbackPeriodInDays: S.optional(S.String),
-  TermInYears: S.optional(S.String),
-  PaymentOption: S.optional(S.String),
-  ServiceSpecification: S.optional(ServiceSpecification),
-  RecommendationDetails: S.optional(ReservationPurchaseRecommendationDetails),
-  RecommendationSummary: S.optional(ReservationPurchaseRecommendationSummary),
-}) {}
+export interface CurrentInstance {
+  ResourceId?: string;
+  InstanceName?: string;
+  Tags?: TagValuesList;
+  ResourceDetails?: ResourceDetails;
+  ResourceUtilization?: ResourceUtilization;
+  ReservationCoveredHoursInLookbackPeriod?: string;
+  SavingsPlansCoveredHoursInLookbackPeriod?: string;
+  OnDemandHoursInLookbackPeriod?: string;
+  TotalRunningHoursInLookbackPeriod?: string;
+  MonthlyCost?: string;
+  CurrencyCode?: string;
+}
+export const CurrentInstance = S.suspend(() =>
+  S.Struct({
+    ResourceId: S.optional(S.String),
+    InstanceName: S.optional(S.String),
+    Tags: S.optional(TagValuesList),
+    ResourceDetails: S.optional(ResourceDetails),
+    ResourceUtilization: S.optional(ResourceUtilization),
+    ReservationCoveredHoursInLookbackPeriod: S.optional(S.String),
+    SavingsPlansCoveredHoursInLookbackPeriod: S.optional(S.String),
+    OnDemandHoursInLookbackPeriod: S.optional(S.String),
+    TotalRunningHoursInLookbackPeriod: S.optional(S.String),
+    MonthlyCost: S.optional(S.String),
+    CurrencyCode: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CurrentInstance",
+}) as any as S.Schema<CurrentInstance>;
+export interface ReservationPurchaseRecommendation {
+  AccountScope?: string;
+  LookbackPeriodInDays?: string;
+  TermInYears?: string;
+  PaymentOption?: string;
+  ServiceSpecification?: ServiceSpecification;
+  RecommendationDetails?: ReservationPurchaseRecommendationDetails;
+  RecommendationSummary?: ReservationPurchaseRecommendationSummary;
+}
+export const ReservationPurchaseRecommendation = S.suspend(() =>
+  S.Struct({
+    AccountScope: S.optional(S.String),
+    LookbackPeriodInDays: S.optional(S.String),
+    TermInYears: S.optional(S.String),
+    PaymentOption: S.optional(S.String),
+    ServiceSpecification: S.optional(ServiceSpecification),
+    RecommendationDetails: S.optional(ReservationPurchaseRecommendationDetails),
+    RecommendationSummary: S.optional(ReservationPurchaseRecommendationSummary),
+  }),
+).annotations({
+  identifier: "ReservationPurchaseRecommendation",
+}) as any as S.Schema<ReservationPurchaseRecommendation>;
+export type ReservationPurchaseRecommendations =
+  ReservationPurchaseRecommendation[];
 export const ReservationPurchaseRecommendations = S.Array(
   ReservationPurchaseRecommendation,
 );
-export class RightsizingRecommendation extends S.Class<RightsizingRecommendation>(
-  "RightsizingRecommendation",
-)({
-  AccountId: S.optional(S.String),
-  CurrentInstance: S.optional(CurrentInstance),
-  RightsizingType: S.optional(S.String),
-  ModifyRecommendationDetail: S.optional(ModifyRecommendationDetail),
-  TerminateRecommendationDetail: S.optional(TerminateRecommendationDetail),
-  FindingReasonCodes: S.optional(FindingReasonCodes),
-}) {}
+export interface RightsizingRecommendation {
+  AccountId?: string;
+  CurrentInstance?: CurrentInstance;
+  RightsizingType?: string;
+  ModifyRecommendationDetail?: ModifyRecommendationDetail;
+  TerminateRecommendationDetail?: TerminateRecommendationDetail;
+  FindingReasonCodes?: FindingReasonCodes;
+}
+export const RightsizingRecommendation = S.suspend(() =>
+  S.Struct({
+    AccountId: S.optional(S.String),
+    CurrentInstance: S.optional(CurrentInstance),
+    RightsizingType: S.optional(S.String),
+    ModifyRecommendationDetail: S.optional(ModifyRecommendationDetail),
+    TerminateRecommendationDetail: S.optional(TerminateRecommendationDetail),
+    FindingReasonCodes: S.optional(FindingReasonCodes),
+  }),
+).annotations({
+  identifier: "RightsizingRecommendation",
+}) as any as S.Schema<RightsizingRecommendation>;
+export type RightsizingRecommendationList = RightsizingRecommendation[];
 export const RightsizingRecommendationList = S.Array(RightsizingRecommendation);
-export class GetReservationPurchaseRecommendationResponse extends S.Class<GetReservationPurchaseRecommendationResponse>(
-  "GetReservationPurchaseRecommendationResponse",
-)({
-  Metadata: S.optional(ReservationPurchaseRecommendationMetadata),
-  Recommendations: S.optional(ReservationPurchaseRecommendations),
-  NextPageToken: S.optional(S.String),
-}) {}
-export class GetRightsizingRecommendationResponse extends S.Class<GetRightsizingRecommendationResponse>(
-  "GetRightsizingRecommendationResponse",
-)({
-  Metadata: S.optional(RightsizingRecommendationMetadata),
-  Summary: S.optional(RightsizingRecommendationSummary),
-  RightsizingRecommendations: S.optional(RightsizingRecommendationList),
-  NextPageToken: S.optional(S.String),
-  Configuration: S.optional(RightsizingRecommendationConfiguration),
-}) {}
+export interface GetReservationPurchaseRecommendationResponse {
+  Metadata?: ReservationPurchaseRecommendationMetadata;
+  Recommendations?: ReservationPurchaseRecommendations;
+  NextPageToken?: string;
+}
+export const GetReservationPurchaseRecommendationResponse = S.suspend(() =>
+  S.Struct({
+    Metadata: S.optional(ReservationPurchaseRecommendationMetadata),
+    Recommendations: S.optional(ReservationPurchaseRecommendations),
+    NextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetReservationPurchaseRecommendationResponse",
+}) as any as S.Schema<GetReservationPurchaseRecommendationResponse>;
+export interface GetRightsizingRecommendationResponse {
+  Metadata?: RightsizingRecommendationMetadata;
+  Summary?: RightsizingRecommendationSummary;
+  RightsizingRecommendations?: RightsizingRecommendationList;
+  NextPageToken?: string;
+  Configuration?: RightsizingRecommendationConfiguration;
+}
+export const GetRightsizingRecommendationResponse = S.suspend(() =>
+  S.Struct({
+    Metadata: S.optional(RightsizingRecommendationMetadata),
+    Summary: S.optional(RightsizingRecommendationSummary),
+    RightsizingRecommendations: S.optional(RightsizingRecommendationList),
+    NextPageToken: S.optional(S.String),
+    Configuration: S.optional(RightsizingRecommendationConfiguration),
+  }),
+).annotations({
+  identifier: "GetRightsizingRecommendationResponse",
+}) as any as S.Schema<GetRightsizingRecommendationResponse>;
 
 //# Errors
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(

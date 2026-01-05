@@ -294,90 +294,125 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
+export type RecommendationIdList = string[];
 export const RecommendationIdList = S.Array(S.String);
+export type Channels = string[];
 export const Channels = S.Array(S.String);
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface ListTagsForResourceRequest {
+  resourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface UntagResourceRequest {
+  resourceArn: string;
+  tagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
-export class GetAssistantRequest extends S.Class<GetAssistantRequest>(
-  "GetAssistantRequest",
-)(
-  { assistantId: S.String.pipe(T.HttpLabel("assistantId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/assistants/{assistantId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface GetAssistantRequest {
+  assistantId: string;
+}
+export const GetAssistantRequest = S.suspend(() =>
+  S.Struct({ assistantId: S.String.pipe(T.HttpLabel("assistantId")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/assistants/{assistantId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAssistantRequest extends S.Class<DeleteAssistantRequest>(
-  "DeleteAssistantRequest",
-)(
-  { assistantId: S.String.pipe(T.HttpLabel("assistantId")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/assistants/{assistantId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetAssistantRequest",
+}) as any as S.Schema<GetAssistantRequest>;
+export interface DeleteAssistantRequest {
+  assistantId: string;
+}
+export const DeleteAssistantRequest = S.suspend(() =>
+  S.Struct({ assistantId: S.String.pipe(T.HttpLabel("assistantId")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/assistants/{assistantId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAssistantResponse extends S.Class<DeleteAssistantResponse>(
-  "DeleteAssistantResponse",
-)({}) {}
-export class ListAssistantsRequest extends S.Class<ListAssistantsRequest>(
-  "ListAssistantsRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteAssistantRequest",
+}) as any as S.Schema<DeleteAssistantRequest>;
+export interface DeleteAssistantResponse {}
+export const DeleteAssistantResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteAssistantResponse",
+}) as any as S.Schema<DeleteAssistantResponse>;
+export interface ListAssistantsRequest {
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListAssistantsRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/assistants" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/assistants" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetRecommendationsRequest extends S.Class<GetRecommendationsRequest>(
-  "GetRecommendationsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListAssistantsRequest",
+}) as any as S.Schema<ListAssistantsRequest>;
+export interface GetRecommendationsRequest {
+  assistantId: string;
+  sessionId: string;
+  maxResults?: number;
+  waitTimeSeconds?: number;
+  nextChunkToken?: string;
+  recommendationType?: string;
+}
+export const GetRecommendationsRequest = S.suspend(() =>
+  S.Struct({
     assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     sessionId: S.String.pipe(T.HttpLabel("sessionId")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -386,246 +421,423 @@ export class GetRecommendationsRequest extends S.Class<GetRecommendationsRequest
     recommendationType: S.optional(S.String).pipe(
       T.HttpQuery("recommendationType"),
     ),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/assistants/{assistantId}/sessions/{sessionId}/recommendations",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/assistants/{assistantId}/sessions/{sessionId}/recommendations",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class NotifyRecommendationsReceivedRequest extends S.Class<NotifyRecommendationsReceivedRequest>(
-  "NotifyRecommendationsReceivedRequest",
-)(
-  {
+).annotations({
+  identifier: "GetRecommendationsRequest",
+}) as any as S.Schema<GetRecommendationsRequest>;
+export interface NotifyRecommendationsReceivedRequest {
+  assistantId: string;
+  sessionId: string;
+  recommendationIds: RecommendationIdList;
+}
+export const NotifyRecommendationsReceivedRequest = S.suspend(() =>
+  S.Struct({
     assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     sessionId: S.String.pipe(T.HttpLabel("sessionId")),
     recommendationIds: RecommendationIdList,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/assistants/{assistantId}/sessions/{sessionId}/recommendations/notify",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/assistants/{assistantId}/sessions/{sessionId}/recommendations/notify",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class RemoveAssistantAIAgentRequest extends S.Class<RemoveAssistantAIAgentRequest>(
-  "RemoveAssistantAIAgentRequest",
-)(
-  {
+).annotations({
+  identifier: "NotifyRecommendationsReceivedRequest",
+}) as any as S.Schema<NotifyRecommendationsReceivedRequest>;
+export interface RemoveAssistantAIAgentRequest {
+  assistantId: string;
+  aiAgentType: string;
+  orchestratorUseCase?: string;
+}
+export const RemoveAssistantAIAgentRequest = S.suspend(() =>
+  S.Struct({
     assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     aiAgentType: S.String.pipe(T.HttpQuery("aiAgentType")),
     orchestratorUseCase: S.optional(S.String).pipe(
       T.HttpQuery("orchestratorUseCase"),
     ),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/assistants/{assistantId}/aiagentConfiguration",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/assistants/{assistantId}/aiagentConfiguration",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class RemoveAssistantAIAgentResponse extends S.Class<RemoveAssistantAIAgentResponse>(
-  "RemoveAssistantAIAgentResponse",
-)({}) {}
-export class GetAIAgentRequest extends S.Class<GetAIAgentRequest>(
-  "GetAIAgentRequest",
-)(
-  {
+).annotations({
+  identifier: "RemoveAssistantAIAgentRequest",
+}) as any as S.Schema<RemoveAssistantAIAgentRequest>;
+export interface RemoveAssistantAIAgentResponse {}
+export const RemoveAssistantAIAgentResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "RemoveAssistantAIAgentResponse",
+}) as any as S.Schema<RemoveAssistantAIAgentResponse>;
+export interface GetAIAgentRequest {
+  assistantId: string;
+  aiAgentId: string;
+}
+export const GetAIAgentRequest = S.suspend(() =>
+  S.Struct({
     assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     aiAgentId: S.String.pipe(T.HttpLabel("aiAgentId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/assistants/{assistantId}/aiagents/{aiAgentId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/assistants/{assistantId}/aiagents/{aiAgentId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagCondition extends S.Class<TagCondition>("TagCondition")({
-  key: S.String,
-  value: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "GetAIAgentRequest",
+}) as any as S.Schema<GetAIAgentRequest>;
+export interface TagCondition {
+  key: string;
+  value?: string;
+}
+export const TagCondition = S.suspend(() =>
+  S.Struct({ key: S.String, value: S.optional(S.String) }),
+).annotations({ identifier: "TagCondition" }) as any as S.Schema<TagCondition>;
+export type AndConditions = TagCondition[];
 export const AndConditions = S.Array(TagCondition);
 export const OrCondition = S.Union(
   S.Struct({ andConditions: AndConditions }),
   S.Struct({ tagCondition: TagCondition }),
 );
+export type OrConditions = (typeof OrCondition)["Type"][];
 export const OrConditions = S.Array(OrCondition);
 export const TagFilter = S.Union(
   S.Struct({ tagCondition: TagCondition }),
   S.Struct({ andConditions: AndConditions }),
   S.Struct({ orConditions: OrConditions }),
 );
-export class KnowledgeBaseAssociationConfigurationData extends S.Class<KnowledgeBaseAssociationConfigurationData>(
-  "KnowledgeBaseAssociationConfigurationData",
-)({
-  contentTagFilter: S.optional(TagFilter),
-  maxResults: S.optional(S.Number),
-  overrideKnowledgeBaseSearchType: S.optional(S.String),
-}) {}
+export interface KnowledgeBaseAssociationConfigurationData {
+  contentTagFilter?: (typeof TagFilter)["Type"];
+  maxResults?: number;
+  overrideKnowledgeBaseSearchType?: string;
+}
+export const KnowledgeBaseAssociationConfigurationData = S.suspend(() =>
+  S.Struct({
+    contentTagFilter: S.optional(TagFilter),
+    maxResults: S.optional(S.Number),
+    overrideKnowledgeBaseSearchType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "KnowledgeBaseAssociationConfigurationData",
+}) as any as S.Schema<KnowledgeBaseAssociationConfigurationData>;
 export const AssociationConfigurationData = S.Union(
   S.Struct({
     knowledgeBaseAssociationConfigurationData:
       KnowledgeBaseAssociationConfigurationData,
   }),
 );
-export class AssociationConfiguration extends S.Class<AssociationConfiguration>(
-  "AssociationConfiguration",
-)({
-  associationId: S.optional(S.String),
-  associationType: S.optional(S.String),
-  associationConfigurationData: S.optional(AssociationConfigurationData),
-}) {}
+export interface AssociationConfiguration {
+  associationId?: string;
+  associationType?: string;
+  associationConfigurationData?: (typeof AssociationConfigurationData)["Type"];
+}
+export const AssociationConfiguration = S.suspend(() =>
+  S.Struct({
+    associationId: S.optional(S.String),
+    associationType: S.optional(S.String),
+    associationConfigurationData: S.optional(AssociationConfigurationData),
+  }),
+).annotations({
+  identifier: "AssociationConfiguration",
+}) as any as S.Schema<AssociationConfiguration>;
+export type AssociationConfigurationList = AssociationConfiguration[];
 export const AssociationConfigurationList = S.Array(AssociationConfiguration);
-export class ManualSearchAIAgentConfiguration extends S.Class<ManualSearchAIAgentConfiguration>(
-  "ManualSearchAIAgentConfiguration",
-)({
-  answerGenerationAIPromptId: S.optional(S.String),
-  answerGenerationAIGuardrailId: S.optional(S.String),
-  associationConfigurations: S.optional(AssociationConfigurationList),
-  locale: S.optional(S.String),
-}) {}
+export interface ManualSearchAIAgentConfiguration {
+  answerGenerationAIPromptId?: string;
+  answerGenerationAIGuardrailId?: string;
+  associationConfigurations?: AssociationConfigurationList;
+  locale?: string;
+}
+export const ManualSearchAIAgentConfiguration = S.suspend(() =>
+  S.Struct({
+    answerGenerationAIPromptId: S.optional(S.String),
+    answerGenerationAIGuardrailId: S.optional(S.String),
+    associationConfigurations: S.optional(AssociationConfigurationList),
+    locale: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ManualSearchAIAgentConfiguration",
+}) as any as S.Schema<ManualSearchAIAgentConfiguration>;
+export type SuggestedMessagesList = string[];
 export const SuggestedMessagesList = S.Array(S.String);
-export class AnswerRecommendationAIAgentConfiguration extends S.Class<AnswerRecommendationAIAgentConfiguration>(
-  "AnswerRecommendationAIAgentConfiguration",
-)({
-  intentLabelingGenerationAIPromptId: S.optional(S.String),
-  queryReformulationAIPromptId: S.optional(S.String),
-  answerGenerationAIPromptId: S.optional(S.String),
-  answerGenerationAIGuardrailId: S.optional(S.String),
-  associationConfigurations: S.optional(AssociationConfigurationList),
-  locale: S.optional(S.String),
-  suggestedMessages: S.optional(SuggestedMessagesList),
-}) {}
-export class SelfServiceAIAgentConfiguration extends S.Class<SelfServiceAIAgentConfiguration>(
-  "SelfServiceAIAgentConfiguration",
-)({
-  selfServicePreProcessingAIPromptId: S.optional(S.String),
-  selfServiceAnswerGenerationAIPromptId: S.optional(S.String),
-  selfServiceAIGuardrailId: S.optional(S.String),
-  associationConfigurations: S.optional(AssociationConfigurationList),
-}) {}
-export class EmailResponseAIAgentConfiguration extends S.Class<EmailResponseAIAgentConfiguration>(
-  "EmailResponseAIAgentConfiguration",
-)({
-  emailResponseAIPromptId: S.optional(S.String),
-  emailQueryReformulationAIPromptId: S.optional(S.String),
-  locale: S.optional(S.String),
-  associationConfigurations: S.optional(AssociationConfigurationList),
-}) {}
-export class EmailOverviewAIAgentConfiguration extends S.Class<EmailOverviewAIAgentConfiguration>(
-  "EmailOverviewAIAgentConfiguration",
-)({
-  emailOverviewAIPromptId: S.optional(S.String),
-  locale: S.optional(S.String),
-}) {}
-export class EmailGenerativeAnswerAIAgentConfiguration extends S.Class<EmailGenerativeAnswerAIAgentConfiguration>(
-  "EmailGenerativeAnswerAIAgentConfiguration",
-)({
-  emailGenerativeAnswerAIPromptId: S.optional(S.String),
-  emailQueryReformulationAIPromptId: S.optional(S.String),
-  locale: S.optional(S.String),
-  associationConfigurations: S.optional(AssociationConfigurationList),
-}) {}
+export interface AnswerRecommendationAIAgentConfiguration {
+  intentLabelingGenerationAIPromptId?: string;
+  queryReformulationAIPromptId?: string;
+  answerGenerationAIPromptId?: string;
+  answerGenerationAIGuardrailId?: string;
+  associationConfigurations?: AssociationConfigurationList;
+  locale?: string;
+  suggestedMessages?: SuggestedMessagesList;
+}
+export const AnswerRecommendationAIAgentConfiguration = S.suspend(() =>
+  S.Struct({
+    intentLabelingGenerationAIPromptId: S.optional(S.String),
+    queryReformulationAIPromptId: S.optional(S.String),
+    answerGenerationAIPromptId: S.optional(S.String),
+    answerGenerationAIGuardrailId: S.optional(S.String),
+    associationConfigurations: S.optional(AssociationConfigurationList),
+    locale: S.optional(S.String),
+    suggestedMessages: S.optional(SuggestedMessagesList),
+  }),
+).annotations({
+  identifier: "AnswerRecommendationAIAgentConfiguration",
+}) as any as S.Schema<AnswerRecommendationAIAgentConfiguration>;
+export interface SelfServiceAIAgentConfiguration {
+  selfServicePreProcessingAIPromptId?: string;
+  selfServiceAnswerGenerationAIPromptId?: string;
+  selfServiceAIGuardrailId?: string;
+  associationConfigurations?: AssociationConfigurationList;
+}
+export const SelfServiceAIAgentConfiguration = S.suspend(() =>
+  S.Struct({
+    selfServicePreProcessingAIPromptId: S.optional(S.String),
+    selfServiceAnswerGenerationAIPromptId: S.optional(S.String),
+    selfServiceAIGuardrailId: S.optional(S.String),
+    associationConfigurations: S.optional(AssociationConfigurationList),
+  }),
+).annotations({
+  identifier: "SelfServiceAIAgentConfiguration",
+}) as any as S.Schema<SelfServiceAIAgentConfiguration>;
+export interface EmailResponseAIAgentConfiguration {
+  emailResponseAIPromptId?: string;
+  emailQueryReformulationAIPromptId?: string;
+  locale?: string;
+  associationConfigurations?: AssociationConfigurationList;
+}
+export const EmailResponseAIAgentConfiguration = S.suspend(() =>
+  S.Struct({
+    emailResponseAIPromptId: S.optional(S.String),
+    emailQueryReformulationAIPromptId: S.optional(S.String),
+    locale: S.optional(S.String),
+    associationConfigurations: S.optional(AssociationConfigurationList),
+  }),
+).annotations({
+  identifier: "EmailResponseAIAgentConfiguration",
+}) as any as S.Schema<EmailResponseAIAgentConfiguration>;
+export interface EmailOverviewAIAgentConfiguration {
+  emailOverviewAIPromptId?: string;
+  locale?: string;
+}
+export const EmailOverviewAIAgentConfiguration = S.suspend(() =>
+  S.Struct({
+    emailOverviewAIPromptId: S.optional(S.String),
+    locale: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "EmailOverviewAIAgentConfiguration",
+}) as any as S.Schema<EmailOverviewAIAgentConfiguration>;
+export interface EmailGenerativeAnswerAIAgentConfiguration {
+  emailGenerativeAnswerAIPromptId?: string;
+  emailQueryReformulationAIPromptId?: string;
+  locale?: string;
+  associationConfigurations?: AssociationConfigurationList;
+}
+export const EmailGenerativeAnswerAIAgentConfiguration = S.suspend(() =>
+  S.Struct({
+    emailGenerativeAnswerAIPromptId: S.optional(S.String),
+    emailQueryReformulationAIPromptId: S.optional(S.String),
+    locale: S.optional(S.String),
+    associationConfigurations: S.optional(AssociationConfigurationList),
+  }),
+).annotations({
+  identifier: "EmailGenerativeAnswerAIAgentConfiguration",
+}) as any as S.Schema<EmailGenerativeAnswerAIAgentConfiguration>;
+export type ToolExampleList = string[];
 export const ToolExampleList = S.Array(S.String);
-export class ToolInstruction extends S.Class<ToolInstruction>(
-  "ToolInstruction",
-)({
-  instruction: S.optional(S.String),
-  examples: S.optional(ToolExampleList),
-}) {}
-export class ToolOverrideConstantInputValue extends S.Class<ToolOverrideConstantInputValue>(
-  "ToolOverrideConstantInputValue",
-)({ type: S.String, value: S.String }) {}
+export interface ToolInstruction {
+  instruction?: string;
+  examples?: ToolExampleList;
+}
+export const ToolInstruction = S.suspend(() =>
+  S.Struct({
+    instruction: S.optional(S.String),
+    examples: S.optional(ToolExampleList),
+  }),
+).annotations({
+  identifier: "ToolInstruction",
+}) as any as S.Schema<ToolInstruction>;
+export interface ToolOverrideConstantInputValue {
+  type: string;
+  value: string;
+}
+export const ToolOverrideConstantInputValue = S.suspend(() =>
+  S.Struct({ type: S.String, value: S.String }),
+).annotations({
+  identifier: "ToolOverrideConstantInputValue",
+}) as any as S.Schema<ToolOverrideConstantInputValue>;
 export const ToolOverrideInputValueConfiguration = S.Union(
   S.Struct({ constant: ToolOverrideConstantInputValue }),
 );
-export class ToolOverrideInputValue extends S.Class<ToolOverrideInputValue>(
-  "ToolOverrideInputValue",
-)({ jsonPath: S.String, value: ToolOverrideInputValueConfiguration }) {}
+export interface ToolOverrideInputValue {
+  jsonPath: string;
+  value: (typeof ToolOverrideInputValueConfiguration)["Type"];
+}
+export const ToolOverrideInputValue = S.suspend(() =>
+  S.Struct({ jsonPath: S.String, value: ToolOverrideInputValueConfiguration }),
+).annotations({
+  identifier: "ToolOverrideInputValue",
+}) as any as S.Schema<ToolOverrideInputValue>;
+export type ToolOverrideInputValueList = ToolOverrideInputValue[];
 export const ToolOverrideInputValueList = S.Array(ToolOverrideInputValue);
-export class ToolOutputConfiguration extends S.Class<ToolOutputConfiguration>(
-  "ToolOutputConfiguration",
-)({
-  outputVariableNameOverride: S.optional(S.String),
-  sessionDataNamespace: S.optional(S.String),
-}) {}
-export class ToolOutputFilter extends S.Class<ToolOutputFilter>(
-  "ToolOutputFilter",
-)({
-  jsonPath: S.String,
-  outputConfiguration: S.optional(ToolOutputConfiguration),
-}) {}
+export interface ToolOutputConfiguration {
+  outputVariableNameOverride?: string;
+  sessionDataNamespace?: string;
+}
+export const ToolOutputConfiguration = S.suspend(() =>
+  S.Struct({
+    outputVariableNameOverride: S.optional(S.String),
+    sessionDataNamespace: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ToolOutputConfiguration",
+}) as any as S.Schema<ToolOutputConfiguration>;
+export interface ToolOutputFilter {
+  jsonPath: string;
+  outputConfiguration?: ToolOutputConfiguration;
+}
+export const ToolOutputFilter = S.suspend(() =>
+  S.Struct({
+    jsonPath: S.String,
+    outputConfiguration: S.optional(ToolOutputConfiguration),
+  }),
+).annotations({
+  identifier: "ToolOutputFilter",
+}) as any as S.Schema<ToolOutputFilter>;
+export type ToolOutputFilterList = ToolOutputFilter[];
 export const ToolOutputFilterList = S.Array(ToolOutputFilter);
-export class Annotation extends S.Class<Annotation>("Annotation")({
-  title: S.optional(S.String),
-  destructiveHint: S.optional(S.Boolean),
-}) {}
-export class UserInteractionConfiguration extends S.Class<UserInteractionConfiguration>(
-  "UserInteractionConfiguration",
-)({ isUserConfirmationRequired: S.optional(S.Boolean) }) {}
-export class ToolConfiguration extends S.Class<ToolConfiguration>(
-  "ToolConfiguration",
-)({
-  toolName: S.String,
-  toolType: S.String,
-  title: S.optional(S.String),
-  toolId: S.optional(S.String),
-  description: S.optional(S.String),
-  instruction: S.optional(ToolInstruction),
-  overrideInputValues: S.optional(ToolOverrideInputValueList),
-  outputFilters: S.optional(ToolOutputFilterList),
-  inputSchema: S.optional(S.Any),
-  outputSchema: S.optional(S.Any),
-  annotations: S.optional(Annotation),
-  userInteractionConfiguration: S.optional(UserInteractionConfiguration),
-}) {}
+export interface Annotation {
+  title?: string;
+  destructiveHint?: boolean;
+}
+export const Annotation = S.suspend(() =>
+  S.Struct({
+    title: S.optional(S.String),
+    destructiveHint: S.optional(S.Boolean),
+  }),
+).annotations({ identifier: "Annotation" }) as any as S.Schema<Annotation>;
+export interface UserInteractionConfiguration {
+  isUserConfirmationRequired?: boolean;
+}
+export const UserInteractionConfiguration = S.suspend(() =>
+  S.Struct({ isUserConfirmationRequired: S.optional(S.Boolean) }),
+).annotations({
+  identifier: "UserInteractionConfiguration",
+}) as any as S.Schema<UserInteractionConfiguration>;
+export interface ToolConfiguration {
+  toolName: string;
+  toolType: string;
+  title?: string;
+  toolId?: string;
+  description?: string;
+  instruction?: ToolInstruction;
+  overrideInputValues?: ToolOverrideInputValueList;
+  outputFilters?: ToolOutputFilterList;
+  inputSchema?: any;
+  outputSchema?: any;
+  annotations?: Annotation;
+  userInteractionConfiguration?: UserInteractionConfiguration;
+}
+export const ToolConfiguration = S.suspend(() =>
+  S.Struct({
+    toolName: S.String,
+    toolType: S.String,
+    title: S.optional(S.String),
+    toolId: S.optional(S.String),
+    description: S.optional(S.String),
+    instruction: S.optional(ToolInstruction),
+    overrideInputValues: S.optional(ToolOverrideInputValueList),
+    outputFilters: S.optional(ToolOutputFilterList),
+    inputSchema: S.optional(S.Any),
+    outputSchema: S.optional(S.Any),
+    annotations: S.optional(Annotation),
+    userInteractionConfiguration: S.optional(UserInteractionConfiguration),
+  }),
+).annotations({
+  identifier: "ToolConfiguration",
+}) as any as S.Schema<ToolConfiguration>;
+export type ToolConfigurationList = ToolConfiguration[];
 export const ToolConfigurationList = S.Array(ToolConfiguration);
-export class OrchestrationAIAgentConfiguration extends S.Class<OrchestrationAIAgentConfiguration>(
-  "OrchestrationAIAgentConfiguration",
-)({
-  orchestrationAIPromptId: S.String,
-  orchestrationAIGuardrailId: S.optional(S.String),
-  toolConfigurations: S.optional(ToolConfigurationList),
-  connectInstanceArn: S.optional(S.String),
-  locale: S.optional(S.String),
-}) {}
-export class NoteTakingAIAgentConfiguration extends S.Class<NoteTakingAIAgentConfiguration>(
-  "NoteTakingAIAgentConfiguration",
-)({
-  noteTakingAIPromptId: S.optional(S.String),
-  noteTakingAIGuardrailId: S.optional(S.String),
-  locale: S.optional(S.String),
-}) {}
-export class CaseSummarizationAIAgentConfiguration extends S.Class<CaseSummarizationAIAgentConfiguration>(
-  "CaseSummarizationAIAgentConfiguration",
-)({
-  caseSummarizationAIPromptId: S.optional(S.String),
-  caseSummarizationAIGuardrailId: S.optional(S.String),
-  locale: S.optional(S.String),
-}) {}
+export interface OrchestrationAIAgentConfiguration {
+  orchestrationAIPromptId: string;
+  orchestrationAIGuardrailId?: string;
+  toolConfigurations?: ToolConfigurationList;
+  connectInstanceArn?: string;
+  locale?: string;
+}
+export const OrchestrationAIAgentConfiguration = S.suspend(() =>
+  S.Struct({
+    orchestrationAIPromptId: S.String,
+    orchestrationAIGuardrailId: S.optional(S.String),
+    toolConfigurations: S.optional(ToolConfigurationList),
+    connectInstanceArn: S.optional(S.String),
+    locale: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "OrchestrationAIAgentConfiguration",
+}) as any as S.Schema<OrchestrationAIAgentConfiguration>;
+export interface NoteTakingAIAgentConfiguration {
+  noteTakingAIPromptId?: string;
+  noteTakingAIGuardrailId?: string;
+  locale?: string;
+}
+export const NoteTakingAIAgentConfiguration = S.suspend(() =>
+  S.Struct({
+    noteTakingAIPromptId: S.optional(S.String),
+    noteTakingAIGuardrailId: S.optional(S.String),
+    locale: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "NoteTakingAIAgentConfiguration",
+}) as any as S.Schema<NoteTakingAIAgentConfiguration>;
+export interface CaseSummarizationAIAgentConfiguration {
+  caseSummarizationAIPromptId?: string;
+  caseSummarizationAIGuardrailId?: string;
+  locale?: string;
+}
+export const CaseSummarizationAIAgentConfiguration = S.suspend(() =>
+  S.Struct({
+    caseSummarizationAIPromptId: S.optional(S.String),
+    caseSummarizationAIGuardrailId: S.optional(S.String),
+    locale: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CaseSummarizationAIAgentConfiguration",
+}) as any as S.Schema<CaseSummarizationAIAgentConfiguration>;
 export const AIAgentConfiguration = S.Union(
   S.Struct({
     manualSearchAIAgentConfiguration: ManualSearchAIAgentConfiguration,
@@ -656,224 +868,372 @@ export const AIAgentConfiguration = S.Union(
       CaseSummarizationAIAgentConfiguration,
   }),
 );
-export class UpdateAIAgentRequest extends S.Class<UpdateAIAgentRequest>(
-  "UpdateAIAgentRequest",
-)(
-  {
+export interface UpdateAIAgentRequest {
+  clientToken?: string;
+  assistantId: string;
+  aiAgentId: string;
+  visibilityStatus: string;
+  configuration?: (typeof AIAgentConfiguration)["Type"];
+  description?: string;
+}
+export const UpdateAIAgentRequest = S.suspend(() =>
+  S.Struct({
     clientToken: S.optional(S.String),
     assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     aiAgentId: S.String.pipe(T.HttpLabel("aiAgentId")),
     visibilityStatus: S.String,
     configuration: S.optional(AIAgentConfiguration),
     description: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/assistants/{assistantId}/aiagents/{aiAgentId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/assistants/{assistantId}/aiagents/{aiAgentId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAIAgentRequest extends S.Class<DeleteAIAgentRequest>(
-  "DeleteAIAgentRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateAIAgentRequest",
+}) as any as S.Schema<UpdateAIAgentRequest>;
+export interface DeleteAIAgentRequest {
+  assistantId: string;
+  aiAgentId: string;
+}
+export const DeleteAIAgentRequest = S.suspend(() =>
+  S.Struct({
     assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     aiAgentId: S.String.pipe(T.HttpLabel("aiAgentId")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/assistants/{assistantId}/aiagents/{aiAgentId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/assistants/{assistantId}/aiagents/{aiAgentId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAIAgentResponse extends S.Class<DeleteAIAgentResponse>(
-  "DeleteAIAgentResponse",
-)({}) {}
-export class ListAIAgentsRequest extends S.Class<ListAIAgentsRequest>(
-  "ListAIAgentsRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteAIAgentRequest",
+}) as any as S.Schema<DeleteAIAgentRequest>;
+export interface DeleteAIAgentResponse {}
+export const DeleteAIAgentResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteAIAgentResponse",
+}) as any as S.Schema<DeleteAIAgentResponse>;
+export interface ListAIAgentsRequest {
+  assistantId: string;
+  nextToken?: string;
+  maxResults?: number;
+  origin?: string;
+}
+export const ListAIAgentsRequest = S.suspend(() =>
+  S.Struct({
     assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     origin: S.optional(S.String).pipe(T.HttpQuery("origin")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/assistants/{assistantId}/aiagents" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/assistants/{assistantId}/aiagents" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateAIAgentVersionRequest extends S.Class<CreateAIAgentVersionRequest>(
-  "CreateAIAgentVersionRequest",
-)(
-  {
+).annotations({
+  identifier: "ListAIAgentsRequest",
+}) as any as S.Schema<ListAIAgentsRequest>;
+export interface CreateAIAgentVersionRequest {
+  assistantId: string;
+  aiAgentId: string;
+  modifiedTime?: Date;
+  clientToken?: string;
+}
+export const CreateAIAgentVersionRequest = S.suspend(() =>
+  S.Struct({
     assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     aiAgentId: S.String.pipe(T.HttpLabel("aiAgentId")),
     modifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     clientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/assistants/{assistantId}/aiagents/{aiAgentId}/versions",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/assistants/{assistantId}/aiagents/{aiAgentId}/versions",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAIAgentVersionRequest extends S.Class<DeleteAIAgentVersionRequest>(
-  "DeleteAIAgentVersionRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateAIAgentVersionRequest",
+}) as any as S.Schema<CreateAIAgentVersionRequest>;
+export interface DeleteAIAgentVersionRequest {
+  assistantId: string;
+  aiAgentId: string;
+  versionNumber: number;
+}
+export const DeleteAIAgentVersionRequest = S.suspend(() =>
+  S.Struct({
     assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     aiAgentId: S.String.pipe(T.HttpLabel("aiAgentId")),
     versionNumber: S.Number.pipe(T.HttpLabel("versionNumber")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/assistants/{assistantId}/aiagents/{aiAgentId}/versions/{versionNumber}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/assistants/{assistantId}/aiagents/{aiAgentId}/versions/{versionNumber}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAIAgentVersionResponse extends S.Class<DeleteAIAgentVersionResponse>(
-  "DeleteAIAgentVersionResponse",
-)({}) {}
-export class ListAIAgentVersionsRequest extends S.Class<ListAIAgentVersionsRequest>(
-  "ListAIAgentVersionsRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteAIAgentVersionRequest",
+}) as any as S.Schema<DeleteAIAgentVersionRequest>;
+export interface DeleteAIAgentVersionResponse {}
+export const DeleteAIAgentVersionResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteAIAgentVersionResponse",
+}) as any as S.Schema<DeleteAIAgentVersionResponse>;
+export interface ListAIAgentVersionsRequest {
+  assistantId: string;
+  aiAgentId: string;
+  nextToken?: string;
+  maxResults?: number;
+  origin?: string;
+}
+export const ListAIAgentVersionsRequest = S.suspend(() =>
+  S.Struct({
     assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     aiAgentId: S.String.pipe(T.HttpLabel("aiAgentId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     origin: S.optional(S.String).pipe(T.HttpQuery("origin")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/assistants/{assistantId}/aiagents/{aiAgentId}/versions",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/assistants/{assistantId}/aiagents/{aiAgentId}/versions",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetAIGuardrailRequest extends S.Class<GetAIGuardrailRequest>(
-  "GetAIGuardrailRequest",
-)(
-  {
+).annotations({
+  identifier: "ListAIAgentVersionsRequest",
+}) as any as S.Schema<ListAIAgentVersionsRequest>;
+export interface GetAIGuardrailRequest {
+  assistantId: string;
+  aiGuardrailId: string;
+}
+export const GetAIGuardrailRequest = S.suspend(() =>
+  S.Struct({
     assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     aiGuardrailId: S.String.pipe(T.HttpLabel("aiGuardrailId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/assistants/{assistantId}/aiguardrails/{aiGuardrailId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/assistants/{assistantId}/aiguardrails/{aiGuardrailId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "GetAIGuardrailRequest",
+}) as any as S.Schema<GetAIGuardrailRequest>;
+export type GuardrailTopicExamples = string[];
 export const GuardrailTopicExamples = S.Array(S.String);
-export class GuardrailTopicConfig extends S.Class<GuardrailTopicConfig>(
-  "GuardrailTopicConfig",
-)({
-  name: S.String,
-  definition: S.String,
-  examples: S.optional(GuardrailTopicExamples),
-  type: S.String,
-}) {}
+export interface GuardrailTopicConfig {
+  name: string;
+  definition: string;
+  examples?: GuardrailTopicExamples;
+  type: string;
+}
+export const GuardrailTopicConfig = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    definition: S.String,
+    examples: S.optional(GuardrailTopicExamples),
+    type: S.String,
+  }),
+).annotations({
+  identifier: "GuardrailTopicConfig",
+}) as any as S.Schema<GuardrailTopicConfig>;
+export type GuardrailTopicsConfig = GuardrailTopicConfig[];
 export const GuardrailTopicsConfig = S.Array(GuardrailTopicConfig);
-export class AIGuardrailTopicPolicyConfig extends S.Class<AIGuardrailTopicPolicyConfig>(
-  "AIGuardrailTopicPolicyConfig",
-)({ topicsConfig: GuardrailTopicsConfig }) {}
-export class GuardrailContentFilterConfig extends S.Class<GuardrailContentFilterConfig>(
-  "GuardrailContentFilterConfig",
-)({ type: S.String, inputStrength: S.String, outputStrength: S.String }) {}
+export interface AIGuardrailTopicPolicyConfig {
+  topicsConfig: GuardrailTopicsConfig;
+}
+export const AIGuardrailTopicPolicyConfig = S.suspend(() =>
+  S.Struct({ topicsConfig: GuardrailTopicsConfig }),
+).annotations({
+  identifier: "AIGuardrailTopicPolicyConfig",
+}) as any as S.Schema<AIGuardrailTopicPolicyConfig>;
+export interface GuardrailContentFilterConfig {
+  type: string;
+  inputStrength: string;
+  outputStrength: string;
+}
+export const GuardrailContentFilterConfig = S.suspend(() =>
+  S.Struct({
+    type: S.String,
+    inputStrength: S.String,
+    outputStrength: S.String,
+  }),
+).annotations({
+  identifier: "GuardrailContentFilterConfig",
+}) as any as S.Schema<GuardrailContentFilterConfig>;
+export type GuardrailContentFiltersConfig = GuardrailContentFilterConfig[];
 export const GuardrailContentFiltersConfig = S.Array(
   GuardrailContentFilterConfig,
 );
-export class AIGuardrailContentPolicyConfig extends S.Class<AIGuardrailContentPolicyConfig>(
-  "AIGuardrailContentPolicyConfig",
-)({ filtersConfig: GuardrailContentFiltersConfig }) {}
-export class GuardrailWordConfig extends S.Class<GuardrailWordConfig>(
-  "GuardrailWordConfig",
-)({ text: S.String }) {}
+export interface AIGuardrailContentPolicyConfig {
+  filtersConfig: GuardrailContentFiltersConfig;
+}
+export const AIGuardrailContentPolicyConfig = S.suspend(() =>
+  S.Struct({ filtersConfig: GuardrailContentFiltersConfig }),
+).annotations({
+  identifier: "AIGuardrailContentPolicyConfig",
+}) as any as S.Schema<AIGuardrailContentPolicyConfig>;
+export interface GuardrailWordConfig {
+  text: string;
+}
+export const GuardrailWordConfig = S.suspend(() =>
+  S.Struct({ text: S.String }),
+).annotations({
+  identifier: "GuardrailWordConfig",
+}) as any as S.Schema<GuardrailWordConfig>;
+export type GuardrailWordsConfig = GuardrailWordConfig[];
 export const GuardrailWordsConfig = S.Array(GuardrailWordConfig);
-export class GuardrailManagedWordsConfig extends S.Class<GuardrailManagedWordsConfig>(
-  "GuardrailManagedWordsConfig",
-)({ type: S.String }) {}
+export interface GuardrailManagedWordsConfig {
+  type: string;
+}
+export const GuardrailManagedWordsConfig = S.suspend(() =>
+  S.Struct({ type: S.String }),
+).annotations({
+  identifier: "GuardrailManagedWordsConfig",
+}) as any as S.Schema<GuardrailManagedWordsConfig>;
+export type GuardrailManagedWordListsConfig = GuardrailManagedWordsConfig[];
 export const GuardrailManagedWordListsConfig = S.Array(
   GuardrailManagedWordsConfig,
 );
-export class AIGuardrailWordPolicyConfig extends S.Class<AIGuardrailWordPolicyConfig>(
-  "AIGuardrailWordPolicyConfig",
-)({
-  wordsConfig: S.optional(GuardrailWordsConfig),
-  managedWordListsConfig: S.optional(GuardrailManagedWordListsConfig),
-}) {}
-export class GuardrailPiiEntityConfig extends S.Class<GuardrailPiiEntityConfig>(
-  "GuardrailPiiEntityConfig",
-)({ type: S.String, action: S.String }) {}
+export interface AIGuardrailWordPolicyConfig {
+  wordsConfig?: GuardrailWordsConfig;
+  managedWordListsConfig?: GuardrailManagedWordListsConfig;
+}
+export const AIGuardrailWordPolicyConfig = S.suspend(() =>
+  S.Struct({
+    wordsConfig: S.optional(GuardrailWordsConfig),
+    managedWordListsConfig: S.optional(GuardrailManagedWordListsConfig),
+  }),
+).annotations({
+  identifier: "AIGuardrailWordPolicyConfig",
+}) as any as S.Schema<AIGuardrailWordPolicyConfig>;
+export interface GuardrailPiiEntityConfig {
+  type: string;
+  action: string;
+}
+export const GuardrailPiiEntityConfig = S.suspend(() =>
+  S.Struct({ type: S.String, action: S.String }),
+).annotations({
+  identifier: "GuardrailPiiEntityConfig",
+}) as any as S.Schema<GuardrailPiiEntityConfig>;
+export type GuardrailPiiEntitiesConfig = GuardrailPiiEntityConfig[];
 export const GuardrailPiiEntitiesConfig = S.Array(GuardrailPiiEntityConfig);
-export class GuardrailRegexConfig extends S.Class<GuardrailRegexConfig>(
-  "GuardrailRegexConfig",
-)({
-  name: S.String,
-  description: S.optional(S.String),
-  pattern: S.String,
-  action: S.String,
-}) {}
+export interface GuardrailRegexConfig {
+  name: string;
+  description?: string;
+  pattern: string;
+  action: string;
+}
+export const GuardrailRegexConfig = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    description: S.optional(S.String),
+    pattern: S.String,
+    action: S.String,
+  }),
+).annotations({
+  identifier: "GuardrailRegexConfig",
+}) as any as S.Schema<GuardrailRegexConfig>;
+export type GuardrailRegexesConfig = GuardrailRegexConfig[];
 export const GuardrailRegexesConfig = S.Array(GuardrailRegexConfig);
-export class AIGuardrailSensitiveInformationPolicyConfig extends S.Class<AIGuardrailSensitiveInformationPolicyConfig>(
-  "AIGuardrailSensitiveInformationPolicyConfig",
-)({
-  piiEntitiesConfig: S.optional(GuardrailPiiEntitiesConfig),
-  regexesConfig: S.optional(GuardrailRegexesConfig),
-}) {}
-export class GuardrailContextualGroundingFilterConfig extends S.Class<GuardrailContextualGroundingFilterConfig>(
-  "GuardrailContextualGroundingFilterConfig",
-)({ type: S.String, threshold: S.Number }) {}
+export interface AIGuardrailSensitiveInformationPolicyConfig {
+  piiEntitiesConfig?: GuardrailPiiEntitiesConfig;
+  regexesConfig?: GuardrailRegexesConfig;
+}
+export const AIGuardrailSensitiveInformationPolicyConfig = S.suspend(() =>
+  S.Struct({
+    piiEntitiesConfig: S.optional(GuardrailPiiEntitiesConfig),
+    regexesConfig: S.optional(GuardrailRegexesConfig),
+  }),
+).annotations({
+  identifier: "AIGuardrailSensitiveInformationPolicyConfig",
+}) as any as S.Schema<AIGuardrailSensitiveInformationPolicyConfig>;
+export interface GuardrailContextualGroundingFilterConfig {
+  type: string;
+  threshold: number;
+}
+export const GuardrailContextualGroundingFilterConfig = S.suspend(() =>
+  S.Struct({ type: S.String, threshold: S.Number }),
+).annotations({
+  identifier: "GuardrailContextualGroundingFilterConfig",
+}) as any as S.Schema<GuardrailContextualGroundingFilterConfig>;
+export type GuardrailContextualGroundingFiltersConfig =
+  GuardrailContextualGroundingFilterConfig[];
 export const GuardrailContextualGroundingFiltersConfig = S.Array(
   GuardrailContextualGroundingFilterConfig,
 );
-export class AIGuardrailContextualGroundingPolicyConfig extends S.Class<AIGuardrailContextualGroundingPolicyConfig>(
-  "AIGuardrailContextualGroundingPolicyConfig",
-)({ filtersConfig: GuardrailContextualGroundingFiltersConfig }) {}
-export class UpdateAIGuardrailRequest extends S.Class<UpdateAIGuardrailRequest>(
-  "UpdateAIGuardrailRequest",
-)(
-  {
+export interface AIGuardrailContextualGroundingPolicyConfig {
+  filtersConfig: GuardrailContextualGroundingFiltersConfig;
+}
+export const AIGuardrailContextualGroundingPolicyConfig = S.suspend(() =>
+  S.Struct({ filtersConfig: GuardrailContextualGroundingFiltersConfig }),
+).annotations({
+  identifier: "AIGuardrailContextualGroundingPolicyConfig",
+}) as any as S.Schema<AIGuardrailContextualGroundingPolicyConfig>;
+export interface UpdateAIGuardrailRequest {
+  clientToken?: string;
+  assistantId: string;
+  aiGuardrailId: string;
+  visibilityStatus: string;
+  blockedInputMessaging: string;
+  blockedOutputsMessaging: string;
+  description?: string;
+  topicPolicyConfig?: AIGuardrailTopicPolicyConfig;
+  contentPolicyConfig?: AIGuardrailContentPolicyConfig;
+  wordPolicyConfig?: AIGuardrailWordPolicyConfig;
+  sensitiveInformationPolicyConfig?: AIGuardrailSensitiveInformationPolicyConfig;
+  contextualGroundingPolicyConfig?: AIGuardrailContextualGroundingPolicyConfig;
+}
+export const UpdateAIGuardrailRequest = S.suspend(() =>
+  S.Struct({
     clientToken: S.optional(S.String),
     assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     aiGuardrailId: S.String.pipe(T.HttpLabel("aiGuardrailId")),
@@ -890,168 +1250,234 @@ export class UpdateAIGuardrailRequest extends S.Class<UpdateAIGuardrailRequest>(
     contextualGroundingPolicyConfig: S.optional(
       AIGuardrailContextualGroundingPolicyConfig,
     ),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/assistants/{assistantId}/aiguardrails/{aiGuardrailId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/assistants/{assistantId}/aiguardrails/{aiGuardrailId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAIGuardrailRequest extends S.Class<DeleteAIGuardrailRequest>(
-  "DeleteAIGuardrailRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateAIGuardrailRequest",
+}) as any as S.Schema<UpdateAIGuardrailRequest>;
+export interface DeleteAIGuardrailRequest {
+  assistantId: string;
+  aiGuardrailId: string;
+}
+export const DeleteAIGuardrailRequest = S.suspend(() =>
+  S.Struct({
     assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     aiGuardrailId: S.String.pipe(T.HttpLabel("aiGuardrailId")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/assistants/{assistantId}/aiguardrails/{aiGuardrailId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/assistants/{assistantId}/aiguardrails/{aiGuardrailId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAIGuardrailResponse extends S.Class<DeleteAIGuardrailResponse>(
-  "DeleteAIGuardrailResponse",
-)({}) {}
-export class ListAIGuardrailsRequest extends S.Class<ListAIGuardrailsRequest>(
-  "ListAIGuardrailsRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteAIGuardrailRequest",
+}) as any as S.Schema<DeleteAIGuardrailRequest>;
+export interface DeleteAIGuardrailResponse {}
+export const DeleteAIGuardrailResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteAIGuardrailResponse",
+}) as any as S.Schema<DeleteAIGuardrailResponse>;
+export interface ListAIGuardrailsRequest {
+  assistantId: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListAIGuardrailsRequest = S.suspend(() =>
+  S.Struct({
     assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/assistants/{assistantId}/aiguardrails" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/assistants/{assistantId}/aiguardrails" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateAIGuardrailVersionRequest extends S.Class<CreateAIGuardrailVersionRequest>(
-  "CreateAIGuardrailVersionRequest",
-)(
-  {
+).annotations({
+  identifier: "ListAIGuardrailsRequest",
+}) as any as S.Schema<ListAIGuardrailsRequest>;
+export interface CreateAIGuardrailVersionRequest {
+  assistantId: string;
+  aiGuardrailId: string;
+  modifiedTime?: Date;
+  clientToken?: string;
+}
+export const CreateAIGuardrailVersionRequest = S.suspend(() =>
+  S.Struct({
     assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     aiGuardrailId: S.String.pipe(T.HttpLabel("aiGuardrailId")),
     modifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     clientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/assistants/{assistantId}/aiguardrails/{aiGuardrailId}/versions",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/assistants/{assistantId}/aiguardrails/{aiGuardrailId}/versions",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAIGuardrailVersionRequest extends S.Class<DeleteAIGuardrailVersionRequest>(
-  "DeleteAIGuardrailVersionRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateAIGuardrailVersionRequest",
+}) as any as S.Schema<CreateAIGuardrailVersionRequest>;
+export interface DeleteAIGuardrailVersionRequest {
+  assistantId: string;
+  aiGuardrailId: string;
+  versionNumber: number;
+}
+export const DeleteAIGuardrailVersionRequest = S.suspend(() =>
+  S.Struct({
     assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     aiGuardrailId: S.String.pipe(T.HttpLabel("aiGuardrailId")),
     versionNumber: S.Number.pipe(T.HttpLabel("versionNumber")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/assistants/{assistantId}/aiguardrails/{aiGuardrailId}/versions/{versionNumber}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/assistants/{assistantId}/aiguardrails/{aiGuardrailId}/versions/{versionNumber}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAIGuardrailVersionResponse extends S.Class<DeleteAIGuardrailVersionResponse>(
-  "DeleteAIGuardrailVersionResponse",
-)({}) {}
-export class ListAIGuardrailVersionsRequest extends S.Class<ListAIGuardrailVersionsRequest>(
-  "ListAIGuardrailVersionsRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteAIGuardrailVersionRequest",
+}) as any as S.Schema<DeleteAIGuardrailVersionRequest>;
+export interface DeleteAIGuardrailVersionResponse {}
+export const DeleteAIGuardrailVersionResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteAIGuardrailVersionResponse",
+}) as any as S.Schema<DeleteAIGuardrailVersionResponse>;
+export interface ListAIGuardrailVersionsRequest {
+  assistantId: string;
+  aiGuardrailId: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListAIGuardrailVersionsRequest = S.suspend(() =>
+  S.Struct({
     assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     aiGuardrailId: S.String.pipe(T.HttpLabel("aiGuardrailId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/assistants/{assistantId}/aiguardrails/{aiGuardrailId}/versions",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/assistants/{assistantId}/aiguardrails/{aiGuardrailId}/versions",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetAIPromptRequest extends S.Class<GetAIPromptRequest>(
-  "GetAIPromptRequest",
-)(
-  {
+).annotations({
+  identifier: "ListAIGuardrailVersionsRequest",
+}) as any as S.Schema<ListAIGuardrailVersionsRequest>;
+export interface GetAIPromptRequest {
+  assistantId: string;
+  aiPromptId: string;
+}
+export const GetAIPromptRequest = S.suspend(() =>
+  S.Struct({
     assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     aiPromptId: S.String.pipe(T.HttpLabel("aiPromptId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/assistants/{assistantId}/aiprompts/{aiPromptId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/assistants/{assistantId}/aiprompts/{aiPromptId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TextFullAIPromptEditTemplateConfiguration extends S.Class<TextFullAIPromptEditTemplateConfiguration>(
-  "TextFullAIPromptEditTemplateConfiguration",
-)({ text: S.String }) {}
+).annotations({
+  identifier: "GetAIPromptRequest",
+}) as any as S.Schema<GetAIPromptRequest>;
+export interface TextFullAIPromptEditTemplateConfiguration {
+  text: string;
+}
+export const TextFullAIPromptEditTemplateConfiguration = S.suspend(() =>
+  S.Struct({ text: S.String }),
+).annotations({
+  identifier: "TextFullAIPromptEditTemplateConfiguration",
+}) as any as S.Schema<TextFullAIPromptEditTemplateConfiguration>;
 export const AIPromptTemplateConfiguration = S.Union(
   S.Struct({
     textFullAIPromptEditTemplateConfiguration:
       TextFullAIPromptEditTemplateConfiguration,
   }),
 );
-export class TextAIPromptInferenceConfiguration extends S.Class<TextAIPromptInferenceConfiguration>(
-  "TextAIPromptInferenceConfiguration",
-)({
-  temperature: S.optional(S.Number),
-  topP: S.optional(S.Number),
-  topK: S.optional(S.Number),
-  maxTokensToSample: S.optional(S.Number),
-}) {}
+export interface TextAIPromptInferenceConfiguration {
+  temperature?: number;
+  topP?: number;
+  topK?: number;
+  maxTokensToSample?: number;
+}
+export const TextAIPromptInferenceConfiguration = S.suspend(() =>
+  S.Struct({
+    temperature: S.optional(S.Number),
+    topP: S.optional(S.Number),
+    topK: S.optional(S.Number),
+    maxTokensToSample: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "TextAIPromptInferenceConfiguration",
+}) as any as S.Schema<TextAIPromptInferenceConfiguration>;
 export const AIPromptInferenceConfiguration = S.Union(
   S.Struct({
     textAIPromptInferenceConfiguration: TextAIPromptInferenceConfiguration,
   }),
 );
-export class UpdateAIPromptRequest extends S.Class<UpdateAIPromptRequest>(
-  "UpdateAIPromptRequest",
-)(
-  {
+export interface UpdateAIPromptRequest {
+  clientToken?: string;
+  assistantId: string;
+  aiPromptId: string;
+  visibilityStatus: string;
+  templateConfiguration?: (typeof AIPromptTemplateConfiguration)["Type"];
+  description?: string;
+  modelId?: string;
+  inferenceConfiguration?: (typeof AIPromptInferenceConfiguration)["Type"];
+}
+export const UpdateAIPromptRequest = S.suspend(() =>
+  S.Struct({
     clientToken: S.optional(S.String),
     assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     aiPromptId: S.String.pipe(T.HttpLabel("aiPromptId")),
@@ -1060,223 +1486,309 @@ export class UpdateAIPromptRequest extends S.Class<UpdateAIPromptRequest>(
     description: S.optional(S.String),
     modelId: S.optional(S.String),
     inferenceConfiguration: S.optional(AIPromptInferenceConfiguration),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/assistants/{assistantId}/aiprompts/{aiPromptId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/assistants/{assistantId}/aiprompts/{aiPromptId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAIPromptRequest extends S.Class<DeleteAIPromptRequest>(
-  "DeleteAIPromptRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateAIPromptRequest",
+}) as any as S.Schema<UpdateAIPromptRequest>;
+export interface DeleteAIPromptRequest {
+  assistantId: string;
+  aiPromptId: string;
+}
+export const DeleteAIPromptRequest = S.suspend(() =>
+  S.Struct({
     assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     aiPromptId: S.String.pipe(T.HttpLabel("aiPromptId")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/assistants/{assistantId}/aiprompts/{aiPromptId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/assistants/{assistantId}/aiprompts/{aiPromptId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAIPromptResponse extends S.Class<DeleteAIPromptResponse>(
-  "DeleteAIPromptResponse",
-)({}) {}
-export class ListAIPromptsRequest extends S.Class<ListAIPromptsRequest>(
-  "ListAIPromptsRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteAIPromptRequest",
+}) as any as S.Schema<DeleteAIPromptRequest>;
+export interface DeleteAIPromptResponse {}
+export const DeleteAIPromptResponse = S.suspend(() => S.Struct({})).annotations(
+  { identifier: "DeleteAIPromptResponse" },
+) as any as S.Schema<DeleteAIPromptResponse>;
+export interface ListAIPromptsRequest {
+  assistantId: string;
+  nextToken?: string;
+  maxResults?: number;
+  origin?: string;
+}
+export const ListAIPromptsRequest = S.suspend(() =>
+  S.Struct({
     assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     origin: S.optional(S.String).pipe(T.HttpQuery("origin")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/assistants/{assistantId}/aiprompts" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/assistants/{assistantId}/aiprompts" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateAIPromptVersionRequest extends S.Class<CreateAIPromptVersionRequest>(
-  "CreateAIPromptVersionRequest",
-)(
-  {
+).annotations({
+  identifier: "ListAIPromptsRequest",
+}) as any as S.Schema<ListAIPromptsRequest>;
+export interface CreateAIPromptVersionRequest {
+  assistantId: string;
+  aiPromptId: string;
+  modifiedTime?: Date;
+  clientToken?: string;
+}
+export const CreateAIPromptVersionRequest = S.suspend(() =>
+  S.Struct({
     assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     aiPromptId: S.String.pipe(T.HttpLabel("aiPromptId")),
     modifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     clientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/assistants/{assistantId}/aiprompts/{aiPromptId}/versions",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/assistants/{assistantId}/aiprompts/{aiPromptId}/versions",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAIPromptVersionRequest extends S.Class<DeleteAIPromptVersionRequest>(
-  "DeleteAIPromptVersionRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateAIPromptVersionRequest",
+}) as any as S.Schema<CreateAIPromptVersionRequest>;
+export interface DeleteAIPromptVersionRequest {
+  assistantId: string;
+  aiPromptId: string;
+  versionNumber: number;
+}
+export const DeleteAIPromptVersionRequest = S.suspend(() =>
+  S.Struct({
     assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     aiPromptId: S.String.pipe(T.HttpLabel("aiPromptId")),
     versionNumber: S.Number.pipe(T.HttpLabel("versionNumber")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/assistants/{assistantId}/aiprompts/{aiPromptId}/versions/{versionNumber}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/assistants/{assistantId}/aiprompts/{aiPromptId}/versions/{versionNumber}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAIPromptVersionResponse extends S.Class<DeleteAIPromptVersionResponse>(
-  "DeleteAIPromptVersionResponse",
-)({}) {}
-export class ListAIPromptVersionsRequest extends S.Class<ListAIPromptVersionsRequest>(
-  "ListAIPromptVersionsRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteAIPromptVersionRequest",
+}) as any as S.Schema<DeleteAIPromptVersionRequest>;
+export interface DeleteAIPromptVersionResponse {}
+export const DeleteAIPromptVersionResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteAIPromptVersionResponse",
+}) as any as S.Schema<DeleteAIPromptVersionResponse>;
+export interface ListAIPromptVersionsRequest {
+  assistantId: string;
+  aiPromptId: string;
+  nextToken?: string;
+  maxResults?: number;
+  origin?: string;
+}
+export const ListAIPromptVersionsRequest = S.suspend(() =>
+  S.Struct({
     assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     aiPromptId: S.String.pipe(T.HttpLabel("aiPromptId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     origin: S.optional(S.String).pipe(T.HttpQuery("origin")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/assistants/{assistantId}/aiprompts/{aiPromptId}/versions",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/assistants/{assistantId}/aiprompts/{aiPromptId}/versions",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetAssistantAssociationRequest extends S.Class<GetAssistantAssociationRequest>(
-  "GetAssistantAssociationRequest",
-)(
-  {
+).annotations({
+  identifier: "ListAIPromptVersionsRequest",
+}) as any as S.Schema<ListAIPromptVersionsRequest>;
+export interface GetAssistantAssociationRequest {
+  assistantAssociationId: string;
+  assistantId: string;
+}
+export const GetAssistantAssociationRequest = S.suspend(() =>
+  S.Struct({
     assistantAssociationId: S.String.pipe(
       T.HttpLabel("assistantAssociationId"),
     ),
     assistantId: S.String.pipe(T.HttpLabel("assistantId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/assistants/{assistantId}/associations/{assistantAssociationId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/assistants/{assistantId}/associations/{assistantAssociationId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAssistantAssociationRequest extends S.Class<DeleteAssistantAssociationRequest>(
-  "DeleteAssistantAssociationRequest",
-)(
-  {
+).annotations({
+  identifier: "GetAssistantAssociationRequest",
+}) as any as S.Schema<GetAssistantAssociationRequest>;
+export interface DeleteAssistantAssociationRequest {
+  assistantAssociationId: string;
+  assistantId: string;
+}
+export const DeleteAssistantAssociationRequest = S.suspend(() =>
+  S.Struct({
     assistantAssociationId: S.String.pipe(
       T.HttpLabel("assistantAssociationId"),
     ),
     assistantId: S.String.pipe(T.HttpLabel("assistantId")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/assistants/{assistantId}/associations/{assistantAssociationId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/assistants/{assistantId}/associations/{assistantAssociationId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAssistantAssociationResponse extends S.Class<DeleteAssistantAssociationResponse>(
-  "DeleteAssistantAssociationResponse",
-)({}) {}
-export class ListAssistantAssociationsRequest extends S.Class<ListAssistantAssociationsRequest>(
-  "ListAssistantAssociationsRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteAssistantAssociationRequest",
+}) as any as S.Schema<DeleteAssistantAssociationRequest>;
+export interface DeleteAssistantAssociationResponse {}
+export const DeleteAssistantAssociationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteAssistantAssociationResponse",
+}) as any as S.Schema<DeleteAssistantAssociationResponse>;
+export interface ListAssistantAssociationsRequest {
+  nextToken?: string;
+  maxResults?: number;
+  assistantId: string;
+}
+export const ListAssistantAssociationsRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     assistantId: S.String.pipe(T.HttpLabel("assistantId")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/assistants/{assistantId}/associations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/assistants/{assistantId}/associations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetSessionRequest extends S.Class<GetSessionRequest>(
-  "GetSessionRequest",
-)(
-  {
+).annotations({
+  identifier: "ListAssistantAssociationsRequest",
+}) as any as S.Schema<ListAssistantAssociationsRequest>;
+export interface GetSessionRequest {
+  assistantId: string;
+  sessionId: string;
+}
+export const GetSessionRequest = S.suspend(() =>
+  S.Struct({
     assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     sessionId: S.String.pipe(T.HttpLabel("sessionId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/assistants/{assistantId}/sessions/{sessionId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/assistants/{assistantId}/sessions/{sessionId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AIAgentConfigurationData extends S.Class<AIAgentConfigurationData>(
-  "AIAgentConfigurationData",
-)({ aiAgentId: S.String }) {}
+).annotations({
+  identifier: "GetSessionRequest",
+}) as any as S.Schema<GetSessionRequest>;
+export interface AIAgentConfigurationData {
+  aiAgentId: string;
+}
+export const AIAgentConfigurationData = S.suspend(() =>
+  S.Struct({ aiAgentId: S.String }),
+).annotations({
+  identifier: "AIAgentConfigurationData",
+}) as any as S.Schema<AIAgentConfigurationData>;
+export type AIAgentConfigurationMap = {
+  [key: string]: AIAgentConfigurationData;
+};
 export const AIAgentConfigurationMap = S.Record({
   key: S.String,
   value: AIAgentConfigurationData,
 });
-export class OrchestratorConfigurationEntry extends S.Class<OrchestratorConfigurationEntry>(
-  "OrchestratorConfigurationEntry",
-)({ aiAgentId: S.optional(S.String), orchestratorUseCase: S.String }) {}
+export interface OrchestratorConfigurationEntry {
+  aiAgentId?: string;
+  orchestratorUseCase: string;
+}
+export const OrchestratorConfigurationEntry = S.suspend(() =>
+  S.Struct({ aiAgentId: S.optional(S.String), orchestratorUseCase: S.String }),
+).annotations({
+  identifier: "OrchestratorConfigurationEntry",
+}) as any as S.Schema<OrchestratorConfigurationEntry>;
+export type OrchestratorConfigurationList = OrchestratorConfigurationEntry[];
 export const OrchestratorConfigurationList = S.Array(
   OrchestratorConfigurationEntry,
 );
-export class UpdateSessionRequest extends S.Class<UpdateSessionRequest>(
-  "UpdateSessionRequest",
-)(
-  {
+export interface UpdateSessionRequest {
+  assistantId: string;
+  sessionId: string;
+  description?: string;
+  tagFilter?: (typeof TagFilter)["Type"];
+  aiAgentConfiguration?: AIAgentConfigurationMap;
+  orchestratorConfigurationList?: OrchestratorConfigurationList;
+  removeOrchestratorConfigurationList?: boolean;
+}
+export const UpdateSessionRequest = S.suspend(() =>
+  S.Struct({
     assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     sessionId: S.String.pipe(T.HttpLabel("sessionId")),
     description: S.optional(S.String),
@@ -1284,276 +1796,391 @@ export class UpdateSessionRequest extends S.Class<UpdateSessionRequest>(
     aiAgentConfiguration: S.optional(AIAgentConfigurationMap),
     orchestratorConfigurationList: S.optional(OrchestratorConfigurationList),
     removeOrchestratorConfigurationList: S.optional(S.Boolean),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/assistants/{assistantId}/sessions/{sessionId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/assistants/{assistantId}/sessions/{sessionId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetNextMessageRequest extends S.Class<GetNextMessageRequest>(
-  "GetNextMessageRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateSessionRequest",
+}) as any as S.Schema<UpdateSessionRequest>;
+export interface GetNextMessageRequest {
+  assistantId: string;
+  sessionId: string;
+  nextMessageToken: string;
+}
+export const GetNextMessageRequest = S.suspend(() =>
+  S.Struct({
     assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     sessionId: S.String.pipe(T.HttpLabel("sessionId")),
     nextMessageToken: S.String.pipe(T.HttpQuery("nextMessageToken")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/assistants/{assistantId}/sessions/{sessionId}/messages/next",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/assistants/{assistantId}/sessions/{sessionId}/messages/next",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListMessagesRequest extends S.Class<ListMessagesRequest>(
-  "ListMessagesRequest",
-)(
-  {
+).annotations({
+  identifier: "GetNextMessageRequest",
+}) as any as S.Schema<GetNextMessageRequest>;
+export interface ListMessagesRequest {
+  assistantId: string;
+  sessionId: string;
+  nextToken?: string;
+  maxResults?: number;
+  filter?: string;
+}
+export const ListMessagesRequest = S.suspend(() =>
+  S.Struct({
     assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     sessionId: S.String.pipe(T.HttpLabel("sessionId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     filter: S.optional(S.String).pipe(T.HttpQuery("filter")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/assistants/{assistantId}/sessions/{sessionId}/messages",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/assistants/{assistantId}/sessions/{sessionId}/messages",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListSpansRequest extends S.Class<ListSpansRequest>(
-  "ListSpansRequest",
-)(
-  {
+).annotations({
+  identifier: "ListMessagesRequest",
+}) as any as S.Schema<ListMessagesRequest>;
+export interface ListSpansRequest {
+  assistantId: string;
+  sessionId: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListSpansRequest = S.suspend(() =>
+  S.Struct({
     assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     sessionId: S.String.pipe(T.HttpLabel("sessionId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/assistants/{assistantId}/sessions/{sessionId}/spans",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/assistants/{assistantId}/sessions/{sessionId}/spans",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetKnowledgeBaseRequest extends S.Class<GetKnowledgeBaseRequest>(
-  "GetKnowledgeBaseRequest",
-)(
-  { knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/knowledgeBases/{knowledgeBaseId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListSpansRequest",
+}) as any as S.Schema<ListSpansRequest>;
+export interface GetKnowledgeBaseRequest {
+  knowledgeBaseId: string;
+}
+export const GetKnowledgeBaseRequest = S.suspend(() =>
+  S.Struct({
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/knowledgeBases/{knowledgeBaseId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteKnowledgeBaseRequest extends S.Class<DeleteKnowledgeBaseRequest>(
-  "DeleteKnowledgeBaseRequest",
-)(
-  { knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/knowledgeBases/{knowledgeBaseId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetKnowledgeBaseRequest",
+}) as any as S.Schema<GetKnowledgeBaseRequest>;
+export interface DeleteKnowledgeBaseRequest {
+  knowledgeBaseId: string;
+}
+export const DeleteKnowledgeBaseRequest = S.suspend(() =>
+  S.Struct({
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/knowledgeBases/{knowledgeBaseId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteKnowledgeBaseResponse extends S.Class<DeleteKnowledgeBaseResponse>(
-  "DeleteKnowledgeBaseResponse",
-)({}) {}
-export class ListKnowledgeBasesRequest extends S.Class<ListKnowledgeBasesRequest>(
-  "ListKnowledgeBasesRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteKnowledgeBaseRequest",
+}) as any as S.Schema<DeleteKnowledgeBaseRequest>;
+export interface DeleteKnowledgeBaseResponse {}
+export const DeleteKnowledgeBaseResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteKnowledgeBaseResponse",
+}) as any as S.Schema<DeleteKnowledgeBaseResponse>;
+export interface ListKnowledgeBasesRequest {
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListKnowledgeBasesRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/knowledgeBases" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/knowledgeBases" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteImportJobRequest extends S.Class<DeleteImportJobRequest>(
-  "DeleteImportJobRequest",
-)(
-  {
+).annotations({
+  identifier: "ListKnowledgeBasesRequest",
+}) as any as S.Schema<ListKnowledgeBasesRequest>;
+export interface DeleteImportJobRequest {
+  knowledgeBaseId: string;
+  importJobId: string;
+}
+export const DeleteImportJobRequest = S.suspend(() =>
+  S.Struct({
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     importJobId: S.String.pipe(T.HttpLabel("importJobId")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/knowledgeBases/{knowledgeBaseId}/importJobs/{importJobId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/knowledgeBases/{knowledgeBaseId}/importJobs/{importJobId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteImportJobResponse extends S.Class<DeleteImportJobResponse>(
-  "DeleteImportJobResponse",
-)({}) {}
-export class GetImportJobRequest extends S.Class<GetImportJobRequest>(
-  "GetImportJobRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteImportJobRequest",
+}) as any as S.Schema<DeleteImportJobRequest>;
+export interface DeleteImportJobResponse {}
+export const DeleteImportJobResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteImportJobResponse",
+}) as any as S.Schema<DeleteImportJobResponse>;
+export interface GetImportJobRequest {
+  importJobId: string;
+  knowledgeBaseId: string;
+}
+export const GetImportJobRequest = S.suspend(() =>
+  S.Struct({
     importJobId: S.String.pipe(T.HttpLabel("importJobId")),
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/knowledgeBases/{knowledgeBaseId}/importJobs/{importJobId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/knowledgeBases/{knowledgeBaseId}/importJobs/{importJobId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListImportJobsRequest extends S.Class<ListImportJobsRequest>(
-  "ListImportJobsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetImportJobRequest",
+}) as any as S.Schema<GetImportJobRequest>;
+export interface ListImportJobsRequest {
+  nextToken?: string;
+  maxResults?: number;
+  knowledgeBaseId: string;
+}
+export const ListImportJobsRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/knowledgeBases/{knowledgeBaseId}/importJobs",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/knowledgeBases/{knowledgeBaseId}/importJobs",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class RemoveKnowledgeBaseTemplateUriRequest extends S.Class<RemoveKnowledgeBaseTemplateUriRequest>(
-  "RemoveKnowledgeBaseTemplateUriRequest",
-)(
-  { knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")) },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/knowledgeBases/{knowledgeBaseId}/templateUri",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListImportJobsRequest",
+}) as any as S.Schema<ListImportJobsRequest>;
+export interface RemoveKnowledgeBaseTemplateUriRequest {
+  knowledgeBaseId: string;
+}
+export const RemoveKnowledgeBaseTemplateUriRequest = S.suspend(() =>
+  S.Struct({
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/knowledgeBases/{knowledgeBaseId}/templateUri",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class RemoveKnowledgeBaseTemplateUriResponse extends S.Class<RemoveKnowledgeBaseTemplateUriResponse>(
-  "RemoveKnowledgeBaseTemplateUriResponse",
-)({}) {}
-export class Filter extends S.Class<Filter>("Filter")({
-  field: S.String,
-  operator: S.String,
-  value: S.String,
-}) {}
+).annotations({
+  identifier: "RemoveKnowledgeBaseTemplateUriRequest",
+}) as any as S.Schema<RemoveKnowledgeBaseTemplateUriRequest>;
+export interface RemoveKnowledgeBaseTemplateUriResponse {}
+export const RemoveKnowledgeBaseTemplateUriResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "RemoveKnowledgeBaseTemplateUriResponse",
+}) as any as S.Schema<RemoveKnowledgeBaseTemplateUriResponse>;
+export interface Filter {
+  field: string;
+  operator: string;
+  value: string;
+}
+export const Filter = S.suspend(() =>
+  S.Struct({ field: S.String, operator: S.String, value: S.String }),
+).annotations({ identifier: "Filter" }) as any as S.Schema<Filter>;
+export type FilterList = Filter[];
 export const FilterList = S.Array(Filter);
-export class SearchExpression extends S.Class<SearchExpression>(
-  "SearchExpression",
-)({ filters: FilterList }) {}
-export class SearchContentRequest extends S.Class<SearchContentRequest>(
-  "SearchContentRequest",
-)(
-  {
+export interface SearchExpression {
+  filters: FilterList;
+}
+export const SearchExpression = S.suspend(() =>
+  S.Struct({ filters: FilterList }),
+).annotations({
+  identifier: "SearchExpression",
+}) as any as S.Schema<SearchExpression>;
+export interface SearchContentRequest {
+  nextToken?: string;
+  maxResults?: number;
+  knowledgeBaseId: string;
+  searchExpression: SearchExpression;
+}
+export const SearchContentRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     searchExpression: SearchExpression,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/knowledgeBases/{knowledgeBaseId}/search" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/knowledgeBases/{knowledgeBaseId}/search",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartContentUploadRequest extends S.Class<StartContentUploadRequest>(
-  "StartContentUploadRequest",
-)(
-  {
+).annotations({
+  identifier: "SearchContentRequest",
+}) as any as S.Schema<SearchContentRequest>;
+export interface StartContentUploadRequest {
+  knowledgeBaseId: string;
+  contentType: string;
+  presignedUrlTimeToLive?: number;
+}
+export const StartContentUploadRequest = S.suspend(() =>
+  S.Struct({
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     contentType: S.String,
     presignedUrlTimeToLive: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/knowledgeBases/{knowledgeBaseId}/upload" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/knowledgeBases/{knowledgeBaseId}/upload",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateKnowledgeBaseTemplateUriRequest extends S.Class<UpdateKnowledgeBaseTemplateUriRequest>(
-  "UpdateKnowledgeBaseTemplateUriRequest",
-)(
-  {
+).annotations({
+  identifier: "StartContentUploadRequest",
+}) as any as S.Schema<StartContentUploadRequest>;
+export interface UpdateKnowledgeBaseTemplateUriRequest {
+  knowledgeBaseId: string;
+  templateUri: string;
+}
+export const UpdateKnowledgeBaseTemplateUriRequest = S.suspend(() =>
+  S.Struct({
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     templateUri: S.String,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/knowledgeBases/{knowledgeBaseId}/templateUri",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/knowledgeBases/{knowledgeBaseId}/templateUri",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "UpdateKnowledgeBaseTemplateUriRequest",
+}) as any as S.Schema<UpdateKnowledgeBaseTemplateUriRequest>;
+export type ContentMetadata = { [key: string]: string };
 export const ContentMetadata = S.Record({ key: S.String, value: S.String });
+export type Tags = { [key: string]: string };
 export const Tags = S.Record({ key: S.String, value: S.String });
-export class CreateContentRequest extends S.Class<CreateContentRequest>(
-  "CreateContentRequest",
-)(
-  {
+export interface CreateContentRequest {
+  knowledgeBaseId: string;
+  name: string;
+  title?: string;
+  overrideLinkOutUri?: string;
+  metadata?: ContentMetadata;
+  uploadId: string;
+  clientToken?: string;
+  tags?: Tags;
+}
+export const CreateContentRequest = S.suspend(() =>
+  S.Struct({
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     name: S.String,
     title: S.optional(S.String),
@@ -1562,42 +2189,58 @@ export class CreateContentRequest extends S.Class<CreateContentRequest>(
     uploadId: S.String,
     clientToken: S.optional(S.String),
     tags: S.optional(Tags),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/knowledgeBases/{knowledgeBaseId}/contents",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/knowledgeBases/{knowledgeBaseId}/contents",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetContentRequest extends S.Class<GetContentRequest>(
-  "GetContentRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateContentRequest",
+}) as any as S.Schema<CreateContentRequest>;
+export interface GetContentRequest {
+  contentId: string;
+  knowledgeBaseId: string;
+}
+export const GetContentRequest = S.suspend(() =>
+  S.Struct({
     contentId: S.String.pipe(T.HttpLabel("contentId")),
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/knowledgeBases/{knowledgeBaseId}/contents/{contentId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/knowledgeBases/{knowledgeBaseId}/contents/{contentId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateContentRequest extends S.Class<UpdateContentRequest>(
-  "UpdateContentRequest",
-)(
-  {
+).annotations({
+  identifier: "GetContentRequest",
+}) as any as S.Schema<GetContentRequest>;
+export interface UpdateContentRequest {
+  knowledgeBaseId: string;
+  contentId: string;
+  revisionId?: string;
+  title?: string;
+  overrideLinkOutUri?: string;
+  removeOverrideLinkOutUri?: boolean;
+  metadata?: ContentMetadata;
+  uploadId?: string;
+}
+export const UpdateContentRequest = S.suspend(() =>
+  S.Struct({
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     contentId: S.String.pipe(T.HttpLabel("contentId")),
     revisionId: S.optional(S.String),
@@ -1606,616 +2249,959 @@ export class UpdateContentRequest extends S.Class<UpdateContentRequest>(
     removeOverrideLinkOutUri: S.optional(S.Boolean),
     metadata: S.optional(ContentMetadata),
     uploadId: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/knowledgeBases/{knowledgeBaseId}/contents/{contentId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/knowledgeBases/{knowledgeBaseId}/contents/{contentId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteContentRequest extends S.Class<DeleteContentRequest>(
-  "DeleteContentRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateContentRequest",
+}) as any as S.Schema<UpdateContentRequest>;
+export interface DeleteContentRequest {
+  knowledgeBaseId: string;
+  contentId: string;
+}
+export const DeleteContentRequest = S.suspend(() =>
+  S.Struct({
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     contentId: S.String.pipe(T.HttpLabel("contentId")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/knowledgeBases/{knowledgeBaseId}/contents/{contentId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/knowledgeBases/{knowledgeBaseId}/contents/{contentId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteContentResponse extends S.Class<DeleteContentResponse>(
-  "DeleteContentResponse",
-)({}) {}
-export class ListContentsRequest extends S.Class<ListContentsRequest>(
-  "ListContentsRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteContentRequest",
+}) as any as S.Schema<DeleteContentRequest>;
+export interface DeleteContentResponse {}
+export const DeleteContentResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteContentResponse",
+}) as any as S.Schema<DeleteContentResponse>;
+export interface ListContentsRequest {
+  nextToken?: string;
+  maxResults?: number;
+  knowledgeBaseId: string;
+}
+export const ListContentsRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/knowledgeBases/{knowledgeBaseId}/contents",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/knowledgeBases/{knowledgeBaseId}/contents",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetContentSummaryRequest extends S.Class<GetContentSummaryRequest>(
-  "GetContentSummaryRequest",
-)(
-  {
+).annotations({
+  identifier: "ListContentsRequest",
+}) as any as S.Schema<ListContentsRequest>;
+export interface GetContentSummaryRequest {
+  contentId: string;
+  knowledgeBaseId: string;
+}
+export const GetContentSummaryRequest = S.suspend(() =>
+  S.Struct({
     contentId: S.String.pipe(T.HttpLabel("contentId")),
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/knowledgeBases/{knowledgeBaseId}/contents/{contentId}/summary",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/knowledgeBases/{knowledgeBaseId}/contents/{contentId}/summary",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetContentAssociationRequest extends S.Class<GetContentAssociationRequest>(
-  "GetContentAssociationRequest",
-)(
-  {
-    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
-    contentId: S.String.pipe(T.HttpLabel("contentId")),
-    contentAssociationId: S.String.pipe(T.HttpLabel("contentAssociationId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/knowledgeBases/{knowledgeBaseId}/contents/{contentId}/associations/{contentAssociationId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-  ),
-) {}
-export class DeleteContentAssociationRequest extends S.Class<DeleteContentAssociationRequest>(
-  "DeleteContentAssociationRequest",
-)(
-  {
+).annotations({
+  identifier: "GetContentSummaryRequest",
+}) as any as S.Schema<GetContentSummaryRequest>;
+export interface GetContentAssociationRequest {
+  knowledgeBaseId: string;
+  contentId: string;
+  contentAssociationId: string;
+}
+export const GetContentAssociationRequest = S.suspend(() =>
+  S.Struct({
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     contentId: S.String.pipe(T.HttpLabel("contentId")),
     contentAssociationId: S.String.pipe(T.HttpLabel("contentAssociationId")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/knowledgeBases/{knowledgeBaseId}/contents/{contentId}/associations/{contentAssociationId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/knowledgeBases/{knowledgeBaseId}/contents/{contentId}/associations/{contentAssociationId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteContentAssociationResponse extends S.Class<DeleteContentAssociationResponse>(
-  "DeleteContentAssociationResponse",
-)({}) {}
-export class ListContentAssociationsRequest extends S.Class<ListContentAssociationsRequest>(
-  "ListContentAssociationsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetContentAssociationRequest",
+}) as any as S.Schema<GetContentAssociationRequest>;
+export interface DeleteContentAssociationRequest {
+  knowledgeBaseId: string;
+  contentId: string;
+  contentAssociationId: string;
+}
+export const DeleteContentAssociationRequest = S.suspend(() =>
+  S.Struct({
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
+    contentId: S.String.pipe(T.HttpLabel("contentId")),
+    contentAssociationId: S.String.pipe(T.HttpLabel("contentAssociationId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/knowledgeBases/{knowledgeBaseId}/contents/{contentId}/associations/{contentAssociationId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteContentAssociationRequest",
+}) as any as S.Schema<DeleteContentAssociationRequest>;
+export interface DeleteContentAssociationResponse {}
+export const DeleteContentAssociationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteContentAssociationResponse",
+}) as any as S.Schema<DeleteContentAssociationResponse>;
+export interface ListContentAssociationsRequest {
+  nextToken?: string;
+  maxResults?: number;
+  knowledgeBaseId: string;
+  contentId: string;
+}
+export const ListContentAssociationsRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     contentId: S.String.pipe(T.HttpLabel("contentId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/knowledgeBases/{knowledgeBaseId}/contents/{contentId}/associations",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/knowledgeBases/{knowledgeBaseId}/contents/{contentId}/associations",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetMessageTemplateRequest extends S.Class<GetMessageTemplateRequest>(
-  "GetMessageTemplateRequest",
-)(
-  {
+).annotations({
+  identifier: "ListContentAssociationsRequest",
+}) as any as S.Schema<ListContentAssociationsRequest>;
+export interface GetMessageTemplateRequest {
+  messageTemplateId: string;
+  knowledgeBaseId: string;
+}
+export const GetMessageTemplateRequest = S.suspend(() =>
+  S.Struct({
     messageTemplateId: S.String.pipe(T.HttpLabel("messageTemplateId")),
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/knowledgeBases/{knowledgeBaseId}/messageTemplates/{messageTemplateId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/knowledgeBases/{knowledgeBaseId}/messageTemplates/{messageTemplateId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "GetMessageTemplateRequest",
+}) as any as S.Schema<GetMessageTemplateRequest>;
 export const MessageTemplateBodyContentProvider = S.Union(
   S.Struct({ content: S.String }),
 );
-export class EmailMessageTemplateContentBody extends S.Class<EmailMessageTemplateContentBody>(
-  "EmailMessageTemplateContentBody",
-)({
-  plainText: S.optional(MessageTemplateBodyContentProvider),
-  html: S.optional(MessageTemplateBodyContentProvider),
-}) {}
-export class EmailHeader extends S.Class<EmailHeader>("EmailHeader")({
-  name: S.optional(S.String),
-  value: S.optional(S.String),
-}) {}
+export interface EmailMessageTemplateContentBody {
+  plainText?: (typeof MessageTemplateBodyContentProvider)["Type"];
+  html?: (typeof MessageTemplateBodyContentProvider)["Type"];
+}
+export const EmailMessageTemplateContentBody = S.suspend(() =>
+  S.Struct({
+    plainText: S.optional(MessageTemplateBodyContentProvider),
+    html: S.optional(MessageTemplateBodyContentProvider),
+  }),
+).annotations({
+  identifier: "EmailMessageTemplateContentBody",
+}) as any as S.Schema<EmailMessageTemplateContentBody>;
+export interface EmailHeader {
+  name?: string;
+  value?: string;
+}
+export const EmailHeader = S.suspend(() =>
+  S.Struct({ name: S.optional(S.String), value: S.optional(S.String) }),
+).annotations({ identifier: "EmailHeader" }) as any as S.Schema<EmailHeader>;
+export type EmailHeaders = EmailHeader[];
 export const EmailHeaders = S.Array(EmailHeader);
-export class EmailMessageTemplateContent extends S.Class<EmailMessageTemplateContent>(
-  "EmailMessageTemplateContent",
-)({
-  subject: S.optional(S.String),
-  body: S.optional(EmailMessageTemplateContentBody),
-  headers: S.optional(EmailHeaders),
-}) {}
-export class SMSMessageTemplateContentBody extends S.Class<SMSMessageTemplateContentBody>(
-  "SMSMessageTemplateContentBody",
-)({ plainText: S.optional(MessageTemplateBodyContentProvider) }) {}
-export class SMSMessageTemplateContent extends S.Class<SMSMessageTemplateContent>(
-  "SMSMessageTemplateContent",
-)({ body: S.optional(SMSMessageTemplateContentBody) }) {}
-export class WhatsAppMessageTemplateContent extends S.Class<WhatsAppMessageTemplateContent>(
-  "WhatsAppMessageTemplateContent",
-)({ data: S.optional(S.String) }) {}
-export class PushADMMessageTemplateContent extends S.Class<PushADMMessageTemplateContent>(
-  "PushADMMessageTemplateContent",
-)({
-  title: S.optional(S.String),
-  body: S.optional(MessageTemplateBodyContentProvider),
-  action: S.optional(S.String),
-  sound: S.optional(S.String),
-  url: S.optional(S.String),
-  imageUrl: S.optional(S.String),
-  imageIconUrl: S.optional(S.String),
-  smallImageIconUrl: S.optional(S.String),
-  rawContent: S.optional(MessageTemplateBodyContentProvider),
-}) {}
-export class PushAPNSMessageTemplateContent extends S.Class<PushAPNSMessageTemplateContent>(
-  "PushAPNSMessageTemplateContent",
-)({
-  title: S.optional(S.String),
-  body: S.optional(MessageTemplateBodyContentProvider),
-  action: S.optional(S.String),
-  sound: S.optional(S.String),
-  url: S.optional(S.String),
-  mediaUrl: S.optional(S.String),
-  rawContent: S.optional(MessageTemplateBodyContentProvider),
-}) {}
-export class PushFCMMessageTemplateContent extends S.Class<PushFCMMessageTemplateContent>(
-  "PushFCMMessageTemplateContent",
-)({
-  title: S.optional(S.String),
-  body: S.optional(MessageTemplateBodyContentProvider),
-  action: S.optional(S.String),
-  sound: S.optional(S.String),
-  url: S.optional(S.String),
-  imageUrl: S.optional(S.String),
-  imageIconUrl: S.optional(S.String),
-  smallImageIconUrl: S.optional(S.String),
-  rawContent: S.optional(MessageTemplateBodyContentProvider),
-}) {}
-export class PushBaiduMessageTemplateContent extends S.Class<PushBaiduMessageTemplateContent>(
-  "PushBaiduMessageTemplateContent",
-)({
-  title: S.optional(S.String),
-  body: S.optional(MessageTemplateBodyContentProvider),
-  action: S.optional(S.String),
-  sound: S.optional(S.String),
-  url: S.optional(S.String),
-  imageUrl: S.optional(S.String),
-  imageIconUrl: S.optional(S.String),
-  smallImageIconUrl: S.optional(S.String),
-  rawContent: S.optional(MessageTemplateBodyContentProvider),
-}) {}
-export class PushMessageTemplateContent extends S.Class<PushMessageTemplateContent>(
-  "PushMessageTemplateContent",
-)({
-  adm: S.optional(PushADMMessageTemplateContent),
-  apns: S.optional(PushAPNSMessageTemplateContent),
-  fcm: S.optional(PushFCMMessageTemplateContent),
-  baidu: S.optional(PushBaiduMessageTemplateContent),
-}) {}
+export interface EmailMessageTemplateContent {
+  subject?: string;
+  body?: EmailMessageTemplateContentBody;
+  headers?: EmailHeaders;
+}
+export const EmailMessageTemplateContent = S.suspend(() =>
+  S.Struct({
+    subject: S.optional(S.String),
+    body: S.optional(EmailMessageTemplateContentBody),
+    headers: S.optional(EmailHeaders),
+  }),
+).annotations({
+  identifier: "EmailMessageTemplateContent",
+}) as any as S.Schema<EmailMessageTemplateContent>;
+export interface SMSMessageTemplateContentBody {
+  plainText?: (typeof MessageTemplateBodyContentProvider)["Type"];
+}
+export const SMSMessageTemplateContentBody = S.suspend(() =>
+  S.Struct({ plainText: S.optional(MessageTemplateBodyContentProvider) }),
+).annotations({
+  identifier: "SMSMessageTemplateContentBody",
+}) as any as S.Schema<SMSMessageTemplateContentBody>;
+export interface SMSMessageTemplateContent {
+  body?: SMSMessageTemplateContentBody;
+}
+export const SMSMessageTemplateContent = S.suspend(() =>
+  S.Struct({ body: S.optional(SMSMessageTemplateContentBody) }),
+).annotations({
+  identifier: "SMSMessageTemplateContent",
+}) as any as S.Schema<SMSMessageTemplateContent>;
+export interface WhatsAppMessageTemplateContent {
+  data?: string;
+}
+export const WhatsAppMessageTemplateContent = S.suspend(() =>
+  S.Struct({ data: S.optional(S.String) }),
+).annotations({
+  identifier: "WhatsAppMessageTemplateContent",
+}) as any as S.Schema<WhatsAppMessageTemplateContent>;
+export interface PushADMMessageTemplateContent {
+  title?: string;
+  body?: (typeof MessageTemplateBodyContentProvider)["Type"];
+  action?: string;
+  sound?: string;
+  url?: string;
+  imageUrl?: string;
+  imageIconUrl?: string;
+  smallImageIconUrl?: string;
+  rawContent?: (typeof MessageTemplateBodyContentProvider)["Type"];
+}
+export const PushADMMessageTemplateContent = S.suspend(() =>
+  S.Struct({
+    title: S.optional(S.String),
+    body: S.optional(MessageTemplateBodyContentProvider),
+    action: S.optional(S.String),
+    sound: S.optional(S.String),
+    url: S.optional(S.String),
+    imageUrl: S.optional(S.String),
+    imageIconUrl: S.optional(S.String),
+    smallImageIconUrl: S.optional(S.String),
+    rawContent: S.optional(MessageTemplateBodyContentProvider),
+  }),
+).annotations({
+  identifier: "PushADMMessageTemplateContent",
+}) as any as S.Schema<PushADMMessageTemplateContent>;
+export interface PushAPNSMessageTemplateContent {
+  title?: string;
+  body?: (typeof MessageTemplateBodyContentProvider)["Type"];
+  action?: string;
+  sound?: string;
+  url?: string;
+  mediaUrl?: string;
+  rawContent?: (typeof MessageTemplateBodyContentProvider)["Type"];
+}
+export const PushAPNSMessageTemplateContent = S.suspend(() =>
+  S.Struct({
+    title: S.optional(S.String),
+    body: S.optional(MessageTemplateBodyContentProvider),
+    action: S.optional(S.String),
+    sound: S.optional(S.String),
+    url: S.optional(S.String),
+    mediaUrl: S.optional(S.String),
+    rawContent: S.optional(MessageTemplateBodyContentProvider),
+  }),
+).annotations({
+  identifier: "PushAPNSMessageTemplateContent",
+}) as any as S.Schema<PushAPNSMessageTemplateContent>;
+export interface PushFCMMessageTemplateContent {
+  title?: string;
+  body?: (typeof MessageTemplateBodyContentProvider)["Type"];
+  action?: string;
+  sound?: string;
+  url?: string;
+  imageUrl?: string;
+  imageIconUrl?: string;
+  smallImageIconUrl?: string;
+  rawContent?: (typeof MessageTemplateBodyContentProvider)["Type"];
+}
+export const PushFCMMessageTemplateContent = S.suspend(() =>
+  S.Struct({
+    title: S.optional(S.String),
+    body: S.optional(MessageTemplateBodyContentProvider),
+    action: S.optional(S.String),
+    sound: S.optional(S.String),
+    url: S.optional(S.String),
+    imageUrl: S.optional(S.String),
+    imageIconUrl: S.optional(S.String),
+    smallImageIconUrl: S.optional(S.String),
+    rawContent: S.optional(MessageTemplateBodyContentProvider),
+  }),
+).annotations({
+  identifier: "PushFCMMessageTemplateContent",
+}) as any as S.Schema<PushFCMMessageTemplateContent>;
+export interface PushBaiduMessageTemplateContent {
+  title?: string;
+  body?: (typeof MessageTemplateBodyContentProvider)["Type"];
+  action?: string;
+  sound?: string;
+  url?: string;
+  imageUrl?: string;
+  imageIconUrl?: string;
+  smallImageIconUrl?: string;
+  rawContent?: (typeof MessageTemplateBodyContentProvider)["Type"];
+}
+export const PushBaiduMessageTemplateContent = S.suspend(() =>
+  S.Struct({
+    title: S.optional(S.String),
+    body: S.optional(MessageTemplateBodyContentProvider),
+    action: S.optional(S.String),
+    sound: S.optional(S.String),
+    url: S.optional(S.String),
+    imageUrl: S.optional(S.String),
+    imageIconUrl: S.optional(S.String),
+    smallImageIconUrl: S.optional(S.String),
+    rawContent: S.optional(MessageTemplateBodyContentProvider),
+  }),
+).annotations({
+  identifier: "PushBaiduMessageTemplateContent",
+}) as any as S.Schema<PushBaiduMessageTemplateContent>;
+export interface PushMessageTemplateContent {
+  adm?: PushADMMessageTemplateContent;
+  apns?: PushAPNSMessageTemplateContent;
+  fcm?: PushFCMMessageTemplateContent;
+  baidu?: PushBaiduMessageTemplateContent;
+}
+export const PushMessageTemplateContent = S.suspend(() =>
+  S.Struct({
+    adm: S.optional(PushADMMessageTemplateContent),
+    apns: S.optional(PushAPNSMessageTemplateContent),
+    fcm: S.optional(PushFCMMessageTemplateContent),
+    baidu: S.optional(PushBaiduMessageTemplateContent),
+  }),
+).annotations({
+  identifier: "PushMessageTemplateContent",
+}) as any as S.Schema<PushMessageTemplateContent>;
 export const MessageTemplateContentProvider = S.Union(
   S.Struct({ email: EmailMessageTemplateContent }),
   S.Struct({ sms: SMSMessageTemplateContent }),
   S.Struct({ whatsApp: WhatsAppMessageTemplateContent }),
   S.Struct({ push: PushMessageTemplateContent }),
 );
+export type WhatsAppMessageTemplateComponents = string[];
 export const WhatsAppMessageTemplateComponents = S.Array(S.String);
-export class WhatsAppMessageTemplateSourceConfiguration extends S.Class<WhatsAppMessageTemplateSourceConfiguration>(
-  "WhatsAppMessageTemplateSourceConfiguration",
-)({
-  businessAccountId: S.String,
-  templateId: S.String,
-  components: S.optional(WhatsAppMessageTemplateComponents),
-}) {}
+export interface WhatsAppMessageTemplateSourceConfiguration {
+  businessAccountId: string;
+  templateId: string;
+  components?: WhatsAppMessageTemplateComponents;
+}
+export const WhatsAppMessageTemplateSourceConfiguration = S.suspend(() =>
+  S.Struct({
+    businessAccountId: S.String,
+    templateId: S.String,
+    components: S.optional(WhatsAppMessageTemplateComponents),
+  }),
+).annotations({
+  identifier: "WhatsAppMessageTemplateSourceConfiguration",
+}) as any as S.Schema<WhatsAppMessageTemplateSourceConfiguration>;
 export const MessageTemplateSourceConfiguration = S.Union(
   S.Struct({ whatsApp: WhatsAppMessageTemplateSourceConfiguration }),
 );
-export class SystemEndpointAttributes extends S.Class<SystemEndpointAttributes>(
-  "SystemEndpointAttributes",
-)({ address: S.optional(S.String) }) {}
-export class SystemAttributes extends S.Class<SystemAttributes>(
-  "SystemAttributes",
-)({
-  name: S.optional(S.String),
-  customerEndpoint: S.optional(SystemEndpointAttributes),
-  systemEndpoint: S.optional(SystemEndpointAttributes),
-}) {}
-export class AgentAttributes extends S.Class<AgentAttributes>(
-  "AgentAttributes",
-)({ firstName: S.optional(S.String), lastName: S.optional(S.String) }) {}
+export interface SystemEndpointAttributes {
+  address?: string;
+}
+export const SystemEndpointAttributes = S.suspend(() =>
+  S.Struct({ address: S.optional(S.String) }),
+).annotations({
+  identifier: "SystemEndpointAttributes",
+}) as any as S.Schema<SystemEndpointAttributes>;
+export interface SystemAttributes {
+  name?: string;
+  customerEndpoint?: SystemEndpointAttributes;
+  systemEndpoint?: SystemEndpointAttributes;
+}
+export const SystemAttributes = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    customerEndpoint: S.optional(SystemEndpointAttributes),
+    systemEndpoint: S.optional(SystemEndpointAttributes),
+  }),
+).annotations({
+  identifier: "SystemAttributes",
+}) as any as S.Schema<SystemAttributes>;
+export interface AgentAttributes {
+  firstName?: string;
+  lastName?: string;
+}
+export const AgentAttributes = S.suspend(() =>
+  S.Struct({ firstName: S.optional(S.String), lastName: S.optional(S.String) }),
+).annotations({
+  identifier: "AgentAttributes",
+}) as any as S.Schema<AgentAttributes>;
+export type CustomAttributes = { [key: string]: string };
 export const CustomAttributes = S.Record({ key: S.String, value: S.String });
-export class CustomerProfileAttributes extends S.Class<CustomerProfileAttributes>(
-  "CustomerProfileAttributes",
-)({
-  profileId: S.optional(S.String),
-  profileARN: S.optional(S.String),
-  firstName: S.optional(S.String),
-  middleName: S.optional(S.String),
-  lastName: S.optional(S.String),
-  accountNumber: S.optional(S.String),
-  emailAddress: S.optional(S.String),
-  phoneNumber: S.optional(S.String),
-  additionalInformation: S.optional(S.String),
-  partyType: S.optional(S.String),
-  businessName: S.optional(S.String),
-  birthDate: S.optional(S.String),
-  gender: S.optional(S.String),
-  mobilePhoneNumber: S.optional(S.String),
-  homePhoneNumber: S.optional(S.String),
-  businessPhoneNumber: S.optional(S.String),
-  businessEmailAddress: S.optional(S.String),
-  address1: S.optional(S.String),
-  address2: S.optional(S.String),
-  address3: S.optional(S.String),
-  address4: S.optional(S.String),
-  city: S.optional(S.String),
-  county: S.optional(S.String),
-  country: S.optional(S.String),
-  postalCode: S.optional(S.String),
-  province: S.optional(S.String),
-  state: S.optional(S.String),
-  shippingAddress1: S.optional(S.String),
-  shippingAddress2: S.optional(S.String),
-  shippingAddress3: S.optional(S.String),
-  shippingAddress4: S.optional(S.String),
-  shippingCity: S.optional(S.String),
-  shippingCounty: S.optional(S.String),
-  shippingCountry: S.optional(S.String),
-  shippingPostalCode: S.optional(S.String),
-  shippingProvince: S.optional(S.String),
-  shippingState: S.optional(S.String),
-  mailingAddress1: S.optional(S.String),
-  mailingAddress2: S.optional(S.String),
-  mailingAddress3: S.optional(S.String),
-  mailingAddress4: S.optional(S.String),
-  mailingCity: S.optional(S.String),
-  mailingCounty: S.optional(S.String),
-  mailingCountry: S.optional(S.String),
-  mailingPostalCode: S.optional(S.String),
-  mailingProvince: S.optional(S.String),
-  mailingState: S.optional(S.String),
-  billingAddress1: S.optional(S.String),
-  billingAddress2: S.optional(S.String),
-  billingAddress3: S.optional(S.String),
-  billingAddress4: S.optional(S.String),
-  billingCity: S.optional(S.String),
-  billingCounty: S.optional(S.String),
-  billingCountry: S.optional(S.String),
-  billingPostalCode: S.optional(S.String),
-  billingProvince: S.optional(S.String),
-  billingState: S.optional(S.String),
-  custom: S.optional(CustomAttributes),
-}) {}
-export class MessageTemplateAttributes extends S.Class<MessageTemplateAttributes>(
-  "MessageTemplateAttributes",
-)({
-  systemAttributes: S.optional(SystemAttributes),
-  agentAttributes: S.optional(AgentAttributes),
-  customerProfileAttributes: S.optional(CustomerProfileAttributes),
-  customAttributes: S.optional(CustomAttributes),
-}) {}
-export class UpdateMessageTemplateRequest extends S.Class<UpdateMessageTemplateRequest>(
-  "UpdateMessageTemplateRequest",
-)(
-  {
+export interface CustomerProfileAttributes {
+  profileId?: string;
+  profileARN?: string;
+  firstName?: string;
+  middleName?: string;
+  lastName?: string;
+  accountNumber?: string;
+  emailAddress?: string;
+  phoneNumber?: string;
+  additionalInformation?: string;
+  partyType?: string;
+  businessName?: string;
+  birthDate?: string;
+  gender?: string;
+  mobilePhoneNumber?: string;
+  homePhoneNumber?: string;
+  businessPhoneNumber?: string;
+  businessEmailAddress?: string;
+  address1?: string;
+  address2?: string;
+  address3?: string;
+  address4?: string;
+  city?: string;
+  county?: string;
+  country?: string;
+  postalCode?: string;
+  province?: string;
+  state?: string;
+  shippingAddress1?: string;
+  shippingAddress2?: string;
+  shippingAddress3?: string;
+  shippingAddress4?: string;
+  shippingCity?: string;
+  shippingCounty?: string;
+  shippingCountry?: string;
+  shippingPostalCode?: string;
+  shippingProvince?: string;
+  shippingState?: string;
+  mailingAddress1?: string;
+  mailingAddress2?: string;
+  mailingAddress3?: string;
+  mailingAddress4?: string;
+  mailingCity?: string;
+  mailingCounty?: string;
+  mailingCountry?: string;
+  mailingPostalCode?: string;
+  mailingProvince?: string;
+  mailingState?: string;
+  billingAddress1?: string;
+  billingAddress2?: string;
+  billingAddress3?: string;
+  billingAddress4?: string;
+  billingCity?: string;
+  billingCounty?: string;
+  billingCountry?: string;
+  billingPostalCode?: string;
+  billingProvince?: string;
+  billingState?: string;
+  custom?: CustomAttributes;
+}
+export const CustomerProfileAttributes = S.suspend(() =>
+  S.Struct({
+    profileId: S.optional(S.String),
+    profileARN: S.optional(S.String),
+    firstName: S.optional(S.String),
+    middleName: S.optional(S.String),
+    lastName: S.optional(S.String),
+    accountNumber: S.optional(S.String),
+    emailAddress: S.optional(S.String),
+    phoneNumber: S.optional(S.String),
+    additionalInformation: S.optional(S.String),
+    partyType: S.optional(S.String),
+    businessName: S.optional(S.String),
+    birthDate: S.optional(S.String),
+    gender: S.optional(S.String),
+    mobilePhoneNumber: S.optional(S.String),
+    homePhoneNumber: S.optional(S.String),
+    businessPhoneNumber: S.optional(S.String),
+    businessEmailAddress: S.optional(S.String),
+    address1: S.optional(S.String),
+    address2: S.optional(S.String),
+    address3: S.optional(S.String),
+    address4: S.optional(S.String),
+    city: S.optional(S.String),
+    county: S.optional(S.String),
+    country: S.optional(S.String),
+    postalCode: S.optional(S.String),
+    province: S.optional(S.String),
+    state: S.optional(S.String),
+    shippingAddress1: S.optional(S.String),
+    shippingAddress2: S.optional(S.String),
+    shippingAddress3: S.optional(S.String),
+    shippingAddress4: S.optional(S.String),
+    shippingCity: S.optional(S.String),
+    shippingCounty: S.optional(S.String),
+    shippingCountry: S.optional(S.String),
+    shippingPostalCode: S.optional(S.String),
+    shippingProvince: S.optional(S.String),
+    shippingState: S.optional(S.String),
+    mailingAddress1: S.optional(S.String),
+    mailingAddress2: S.optional(S.String),
+    mailingAddress3: S.optional(S.String),
+    mailingAddress4: S.optional(S.String),
+    mailingCity: S.optional(S.String),
+    mailingCounty: S.optional(S.String),
+    mailingCountry: S.optional(S.String),
+    mailingPostalCode: S.optional(S.String),
+    mailingProvince: S.optional(S.String),
+    mailingState: S.optional(S.String),
+    billingAddress1: S.optional(S.String),
+    billingAddress2: S.optional(S.String),
+    billingAddress3: S.optional(S.String),
+    billingAddress4: S.optional(S.String),
+    billingCity: S.optional(S.String),
+    billingCounty: S.optional(S.String),
+    billingCountry: S.optional(S.String),
+    billingPostalCode: S.optional(S.String),
+    billingProvince: S.optional(S.String),
+    billingState: S.optional(S.String),
+    custom: S.optional(CustomAttributes),
+  }),
+).annotations({
+  identifier: "CustomerProfileAttributes",
+}) as any as S.Schema<CustomerProfileAttributes>;
+export interface MessageTemplateAttributes {
+  systemAttributes?: SystemAttributes;
+  agentAttributes?: AgentAttributes;
+  customerProfileAttributes?: CustomerProfileAttributes;
+  customAttributes?: CustomAttributes;
+}
+export const MessageTemplateAttributes = S.suspend(() =>
+  S.Struct({
+    systemAttributes: S.optional(SystemAttributes),
+    agentAttributes: S.optional(AgentAttributes),
+    customerProfileAttributes: S.optional(CustomerProfileAttributes),
+    customAttributes: S.optional(CustomAttributes),
+  }),
+).annotations({
+  identifier: "MessageTemplateAttributes",
+}) as any as S.Schema<MessageTemplateAttributes>;
+export interface UpdateMessageTemplateRequest {
+  knowledgeBaseId: string;
+  messageTemplateId: string;
+  content?: (typeof MessageTemplateContentProvider)["Type"];
+  language?: string;
+  sourceConfiguration?: (typeof MessageTemplateSourceConfiguration)["Type"];
+  defaultAttributes?: MessageTemplateAttributes;
+}
+export const UpdateMessageTemplateRequest = S.suspend(() =>
+  S.Struct({
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     messageTemplateId: S.String.pipe(T.HttpLabel("messageTemplateId")),
     content: S.optional(MessageTemplateContentProvider),
     language: S.optional(S.String),
     sourceConfiguration: S.optional(MessageTemplateSourceConfiguration),
     defaultAttributes: S.optional(MessageTemplateAttributes),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/knowledgeBases/{knowledgeBaseId}/messageTemplates/{messageTemplateId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/knowledgeBases/{knowledgeBaseId}/messageTemplates/{messageTemplateId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteMessageTemplateRequest extends S.Class<DeleteMessageTemplateRequest>(
-  "DeleteMessageTemplateRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateMessageTemplateRequest",
+}) as any as S.Schema<UpdateMessageTemplateRequest>;
+export interface DeleteMessageTemplateRequest {
+  knowledgeBaseId: string;
+  messageTemplateId: string;
+}
+export const DeleteMessageTemplateRequest = S.suspend(() =>
+  S.Struct({
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     messageTemplateId: S.String.pipe(T.HttpLabel("messageTemplateId")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/knowledgeBases/{knowledgeBaseId}/messageTemplates/{messageTemplateId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/knowledgeBases/{knowledgeBaseId}/messageTemplates/{messageTemplateId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteMessageTemplateResponse extends S.Class<DeleteMessageTemplateResponse>(
-  "DeleteMessageTemplateResponse",
-)({}) {}
-export class ListMessageTemplatesRequest extends S.Class<ListMessageTemplatesRequest>(
-  "ListMessageTemplatesRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteMessageTemplateRequest",
+}) as any as S.Schema<DeleteMessageTemplateRequest>;
+export interface DeleteMessageTemplateResponse {}
+export const DeleteMessageTemplateResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteMessageTemplateResponse",
+}) as any as S.Schema<DeleteMessageTemplateResponse>;
+export interface ListMessageTemplatesRequest {
+  nextToken?: string;
+  maxResults?: number;
+  knowledgeBaseId: string;
+}
+export const ListMessageTemplatesRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/knowledgeBases/{knowledgeBaseId}/messageTemplates",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/knowledgeBases/{knowledgeBaseId}/messageTemplates",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ActivateMessageTemplateRequest extends S.Class<ActivateMessageTemplateRequest>(
-  "ActivateMessageTemplateRequest",
-)(
-  {
+).annotations({
+  identifier: "ListMessageTemplatesRequest",
+}) as any as S.Schema<ListMessageTemplatesRequest>;
+export interface ActivateMessageTemplateRequest {
+  knowledgeBaseId: string;
+  messageTemplateId: string;
+  versionNumber: number;
+}
+export const ActivateMessageTemplateRequest = S.suspend(() =>
+  S.Struct({
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     messageTemplateId: S.String.pipe(T.HttpLabel("messageTemplateId")),
     versionNumber: S.Number,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/knowledgeBases/{knowledgeBaseId}/messageTemplates/{messageTemplateId}/activate",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/knowledgeBases/{knowledgeBaseId}/messageTemplates/{messageTemplateId}/activate",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateMessageTemplateAttachmentRequest extends S.Class<CreateMessageTemplateAttachmentRequest>(
-  "CreateMessageTemplateAttachmentRequest",
-)(
-  {
+).annotations({
+  identifier: "ActivateMessageTemplateRequest",
+}) as any as S.Schema<ActivateMessageTemplateRequest>;
+export interface CreateMessageTemplateAttachmentRequest {
+  knowledgeBaseId: string;
+  messageTemplateId: string;
+  contentDisposition: string;
+  name: string;
+  body: string;
+  clientToken?: string;
+}
+export const CreateMessageTemplateAttachmentRequest = S.suspend(() =>
+  S.Struct({
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     messageTemplateId: S.String.pipe(T.HttpLabel("messageTemplateId")),
     contentDisposition: S.String,
     name: S.String,
     body: S.String,
     clientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/knowledgeBases/{knowledgeBaseId}/messageTemplates/{messageTemplateId}/attachments",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/knowledgeBases/{knowledgeBaseId}/messageTemplates/{messageTemplateId}/attachments",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateMessageTemplateVersionRequest extends S.Class<CreateMessageTemplateVersionRequest>(
-  "CreateMessageTemplateVersionRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateMessageTemplateAttachmentRequest",
+}) as any as S.Schema<CreateMessageTemplateAttachmentRequest>;
+export interface CreateMessageTemplateVersionRequest {
+  knowledgeBaseId: string;
+  messageTemplateId: string;
+  messageTemplateContentSha256?: string;
+}
+export const CreateMessageTemplateVersionRequest = S.suspend(() =>
+  S.Struct({
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     messageTemplateId: S.String.pipe(T.HttpLabel("messageTemplateId")),
     messageTemplateContentSha256: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/knowledgeBases/{knowledgeBaseId}/messageTemplates/{messageTemplateId}/versions",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/knowledgeBases/{knowledgeBaseId}/messageTemplates/{messageTemplateId}/versions",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeactivateMessageTemplateRequest extends S.Class<DeactivateMessageTemplateRequest>(
-  "DeactivateMessageTemplateRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateMessageTemplateVersionRequest",
+}) as any as S.Schema<CreateMessageTemplateVersionRequest>;
+export interface DeactivateMessageTemplateRequest {
+  knowledgeBaseId: string;
+  messageTemplateId: string;
+  versionNumber: number;
+}
+export const DeactivateMessageTemplateRequest = S.suspend(() =>
+  S.Struct({
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     messageTemplateId: S.String.pipe(T.HttpLabel("messageTemplateId")),
     versionNumber: S.Number,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/knowledgeBases/{knowledgeBaseId}/messageTemplates/{messageTemplateId}/deactivate",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/knowledgeBases/{knowledgeBaseId}/messageTemplates/{messageTemplateId}/deactivate",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteMessageTemplateAttachmentRequest extends S.Class<DeleteMessageTemplateAttachmentRequest>(
-  "DeleteMessageTemplateAttachmentRequest",
-)(
-  {
+).annotations({
+  identifier: "DeactivateMessageTemplateRequest",
+}) as any as S.Schema<DeactivateMessageTemplateRequest>;
+export interface DeleteMessageTemplateAttachmentRequest {
+  knowledgeBaseId: string;
+  messageTemplateId: string;
+  attachmentId: string;
+}
+export const DeleteMessageTemplateAttachmentRequest = S.suspend(() =>
+  S.Struct({
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     messageTemplateId: S.String.pipe(T.HttpLabel("messageTemplateId")),
     attachmentId: S.String.pipe(T.HttpLabel("attachmentId")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/knowledgeBases/{knowledgeBaseId}/messageTemplates/{messageTemplateId}/attachments/{attachmentId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/knowledgeBases/{knowledgeBaseId}/messageTemplates/{messageTemplateId}/attachments/{attachmentId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteMessageTemplateAttachmentResponse extends S.Class<DeleteMessageTemplateAttachmentResponse>(
-  "DeleteMessageTemplateAttachmentResponse",
-)({}) {}
-export class ListMessageTemplateVersionsRequest extends S.Class<ListMessageTemplateVersionsRequest>(
-  "ListMessageTemplateVersionsRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteMessageTemplateAttachmentRequest",
+}) as any as S.Schema<DeleteMessageTemplateAttachmentRequest>;
+export interface DeleteMessageTemplateAttachmentResponse {}
+export const DeleteMessageTemplateAttachmentResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteMessageTemplateAttachmentResponse",
+}) as any as S.Schema<DeleteMessageTemplateAttachmentResponse>;
+export interface ListMessageTemplateVersionsRequest {
+  knowledgeBaseId: string;
+  messageTemplateId: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListMessageTemplateVersionsRequest = S.suspend(() =>
+  S.Struct({
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     messageTemplateId: S.String.pipe(T.HttpLabel("messageTemplateId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/knowledgeBases/{knowledgeBaseId}/messageTemplates/{messageTemplateId}/versions",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/knowledgeBases/{knowledgeBaseId}/messageTemplates/{messageTemplateId}/versions",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class RenderMessageTemplateRequest extends S.Class<RenderMessageTemplateRequest>(
-  "RenderMessageTemplateRequest",
-)(
-  {
+).annotations({
+  identifier: "ListMessageTemplateVersionsRequest",
+}) as any as S.Schema<ListMessageTemplateVersionsRequest>;
+export interface RenderMessageTemplateRequest {
+  knowledgeBaseId: string;
+  messageTemplateId: string;
+  attributes: MessageTemplateAttributes;
+}
+export const RenderMessageTemplateRequest = S.suspend(() =>
+  S.Struct({
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     messageTemplateId: S.String.pipe(T.HttpLabel("messageTemplateId")),
     attributes: MessageTemplateAttributes,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/knowledgeBases/{knowledgeBaseId}/messageTemplates/{messageTemplateId}/render",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/knowledgeBases/{knowledgeBaseId}/messageTemplates/{messageTemplateId}/render",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "RenderMessageTemplateRequest",
+}) as any as S.Schema<RenderMessageTemplateRequest>;
+export type GroupingValues = string[];
 export const GroupingValues = S.Array(S.String);
-export class GroupingConfiguration extends S.Class<GroupingConfiguration>(
-  "GroupingConfiguration",
-)({ criteria: S.optional(S.String), values: S.optional(GroupingValues) }) {}
-export class UpdateMessageTemplateMetadataRequest extends S.Class<UpdateMessageTemplateMetadataRequest>(
-  "UpdateMessageTemplateMetadataRequest",
-)(
-  {
+export interface GroupingConfiguration {
+  criteria?: string;
+  values?: GroupingValues;
+}
+export const GroupingConfiguration = S.suspend(() =>
+  S.Struct({
+    criteria: S.optional(S.String),
+    values: S.optional(GroupingValues),
+  }),
+).annotations({
+  identifier: "GroupingConfiguration",
+}) as any as S.Schema<GroupingConfiguration>;
+export interface UpdateMessageTemplateMetadataRequest {
+  knowledgeBaseId: string;
+  messageTemplateId: string;
+  name?: string;
+  description?: string;
+  groupingConfiguration?: GroupingConfiguration;
+}
+export const UpdateMessageTemplateMetadataRequest = S.suspend(() =>
+  S.Struct({
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     messageTemplateId: S.String.pipe(T.HttpLabel("messageTemplateId")),
     name: S.optional(S.String),
     description: S.optional(S.String),
     groupingConfiguration: S.optional(GroupingConfiguration),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/knowledgeBases/{knowledgeBaseId}/messageTemplates/{messageTemplateId}/metadata",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/knowledgeBases/{knowledgeBaseId}/messageTemplates/{messageTemplateId}/metadata",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetQuickResponseRequest extends S.Class<GetQuickResponseRequest>(
-  "GetQuickResponseRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateMessageTemplateMetadataRequest",
+}) as any as S.Schema<UpdateMessageTemplateMetadataRequest>;
+export interface GetQuickResponseRequest {
+  quickResponseId: string;
+  knowledgeBaseId: string;
+}
+export const GetQuickResponseRequest = S.suspend(() =>
+  S.Struct({
     quickResponseId: S.String.pipe(T.HttpLabel("quickResponseId")),
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/knowledgeBases/{knowledgeBaseId}/quickResponses/{quickResponseId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/knowledgeBases/{knowledgeBaseId}/quickResponses/{quickResponseId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "GetQuickResponseRequest",
+}) as any as S.Schema<GetQuickResponseRequest>;
 export const QuickResponseDataProvider = S.Union(
   S.Struct({ content: S.String }),
 );
-export class UpdateQuickResponseRequest extends S.Class<UpdateQuickResponseRequest>(
-  "UpdateQuickResponseRequest",
-)(
-  {
+export interface UpdateQuickResponseRequest {
+  knowledgeBaseId: string;
+  quickResponseId: string;
+  name?: string;
+  content?: (typeof QuickResponseDataProvider)["Type"];
+  contentType?: string;
+  groupingConfiguration?: GroupingConfiguration;
+  removeGroupingConfiguration?: boolean;
+  description?: string;
+  removeDescription?: boolean;
+  shortcutKey?: string;
+  removeShortcutKey?: boolean;
+  isActive?: boolean;
+  channels?: Channels;
+  language?: string;
+}
+export const UpdateQuickResponseRequest = S.suspend(() =>
+  S.Struct({
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     quickResponseId: S.String.pipe(T.HttpLabel("quickResponseId")),
     name: S.optional(S.String),
@@ -2230,160 +3216,283 @@ export class UpdateQuickResponseRequest extends S.Class<UpdateQuickResponseReque
     isActive: S.optional(S.Boolean),
     channels: S.optional(Channels),
     language: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/knowledgeBases/{knowledgeBaseId}/quickResponses/{quickResponseId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/knowledgeBases/{knowledgeBaseId}/quickResponses/{quickResponseId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteQuickResponseRequest extends S.Class<DeleteQuickResponseRequest>(
-  "DeleteQuickResponseRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateQuickResponseRequest",
+}) as any as S.Schema<UpdateQuickResponseRequest>;
+export interface DeleteQuickResponseRequest {
+  knowledgeBaseId: string;
+  quickResponseId: string;
+}
+export const DeleteQuickResponseRequest = S.suspend(() =>
+  S.Struct({
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     quickResponseId: S.String.pipe(T.HttpLabel("quickResponseId")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/knowledgeBases/{knowledgeBaseId}/quickResponses/{quickResponseId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/knowledgeBases/{knowledgeBaseId}/quickResponses/{quickResponseId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteQuickResponseResponse extends S.Class<DeleteQuickResponseResponse>(
-  "DeleteQuickResponseResponse",
-)({}) {}
-export class ListQuickResponsesRequest extends S.Class<ListQuickResponsesRequest>(
-  "ListQuickResponsesRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteQuickResponseRequest",
+}) as any as S.Schema<DeleteQuickResponseRequest>;
+export interface DeleteQuickResponseResponse {}
+export const DeleteQuickResponseResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteQuickResponseResponse",
+}) as any as S.Schema<DeleteQuickResponseResponse>;
+export interface ListQuickResponsesRequest {
+  nextToken?: string;
+  maxResults?: number;
+  knowledgeBaseId: string;
+}
+export const ListQuickResponsesRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/knowledgeBases/{knowledgeBaseId}/quickResponses",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/knowledgeBases/{knowledgeBaseId}/quickResponses",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ServerSideEncryptionConfiguration extends S.Class<ServerSideEncryptionConfiguration>(
-  "ServerSideEncryptionConfiguration",
-)({ kmsKeyId: S.optional(S.String) }) {}
-export class CitationSpan extends S.Class<CitationSpan>("CitationSpan")({
-  beginOffsetInclusive: S.optional(S.Number),
-  endOffsetExclusive: S.optional(S.Number),
-}) {}
-export class Citation extends S.Class<Citation>("Citation")({
-  contentId: S.optional(S.String),
-  title: S.optional(S.String),
-  knowledgeBaseId: S.optional(S.String),
-  citationSpan: CitationSpan,
-  sourceURL: S.optional(S.String),
-  referenceType: S.String,
-}) {}
+).annotations({
+  identifier: "ListQuickResponsesRequest",
+}) as any as S.Schema<ListQuickResponsesRequest>;
+export interface ServerSideEncryptionConfiguration {
+  kmsKeyId?: string;
+}
+export const ServerSideEncryptionConfiguration = S.suspend(() =>
+  S.Struct({ kmsKeyId: S.optional(S.String) }),
+).annotations({
+  identifier: "ServerSideEncryptionConfiguration",
+}) as any as S.Schema<ServerSideEncryptionConfiguration>;
+export interface CitationSpan {
+  beginOffsetInclusive?: number;
+  endOffsetExclusive?: number;
+}
+export const CitationSpan = S.suspend(() =>
+  S.Struct({
+    beginOffsetInclusive: S.optional(S.Number),
+    endOffsetExclusive: S.optional(S.Number),
+  }),
+).annotations({ identifier: "CitationSpan" }) as any as S.Schema<CitationSpan>;
+export interface Citation {
+  contentId?: string;
+  title?: string;
+  knowledgeBaseId?: string;
+  citationSpan: CitationSpan;
+  sourceURL?: string;
+  referenceType: string;
+}
+export const Citation = S.suspend(() =>
+  S.Struct({
+    contentId: S.optional(S.String),
+    title: S.optional(S.String),
+    knowledgeBaseId: S.optional(S.String),
+    citationSpan: CitationSpan,
+    sourceURL: S.optional(S.String),
+    referenceType: S.String,
+  }),
+).annotations({ identifier: "Citation" }) as any as S.Schema<Citation>;
+export type Citations = Citation[];
 export const Citations = S.Array(Citation);
-export class AIGuardrailAssessment extends S.Class<AIGuardrailAssessment>(
-  "AIGuardrailAssessment",
-)({ blocked: S.Boolean }) {}
-export class TextMessage extends S.Class<TextMessage>("TextMessage")({
-  value: S.optional(S.String),
-  citations: S.optional(Citations),
-  aiGuardrailAssessment: S.optional(AIGuardrailAssessment),
-}) {}
-export class ToolUseResultData extends S.Class<ToolUseResultData>(
-  "ToolUseResultData",
-)({
-  toolUseId: S.String,
-  toolName: S.String,
-  toolResult: S.Any,
-  inputSchema: S.optional(S.Any),
-}) {}
+export interface AIGuardrailAssessment {
+  blocked: boolean;
+}
+export const AIGuardrailAssessment = S.suspend(() =>
+  S.Struct({ blocked: S.Boolean }),
+).annotations({
+  identifier: "AIGuardrailAssessment",
+}) as any as S.Schema<AIGuardrailAssessment>;
+export interface TextMessage {
+  value?: string;
+  citations?: Citations;
+  aiGuardrailAssessment?: AIGuardrailAssessment;
+}
+export const TextMessage = S.suspend(() =>
+  S.Struct({
+    value: S.optional(S.String),
+    citations: S.optional(Citations),
+    aiGuardrailAssessment: S.optional(AIGuardrailAssessment),
+  }),
+).annotations({ identifier: "TextMessage" }) as any as S.Schema<TextMessage>;
+export interface ToolUseResultData {
+  toolUseId: string;
+  toolName: string;
+  toolResult: any;
+  inputSchema?: any;
+}
+export const ToolUseResultData = S.suspend(() =>
+  S.Struct({
+    toolUseId: S.String,
+    toolName: S.String,
+    toolResult: S.Any,
+    inputSchema: S.optional(S.Any),
+  }),
+).annotations({
+  identifier: "ToolUseResultData",
+}) as any as S.Schema<ToolUseResultData>;
 export const MessageData = S.Union(
   S.Struct({ text: TextMessage }),
   S.Struct({ toolUseResult: ToolUseResultData }),
 );
-export class MessageOutput extends S.Class<MessageOutput>("MessageOutput")({
-  value: MessageData,
-  messageId: S.String,
-  participant: S.String,
-  timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-}) {}
+export interface MessageOutput {
+  value: (typeof MessageData)["Type"];
+  messageId: string;
+  participant: string;
+  timestamp: Date;
+}
+export const MessageOutput = S.suspend(() =>
+  S.Struct({
+    value: MessageData,
+    messageId: S.String,
+    participant: S.String,
+    timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotations({
+  identifier: "MessageOutput",
+}) as any as S.Schema<MessageOutput>;
+export type MessageList = MessageOutput[];
 export const MessageList = S.Array(MessageOutput);
-export class MessageConfiguration extends S.Class<MessageConfiguration>(
-  "MessageConfiguration",
-)({
-  generateFillerMessage: S.optional(S.Boolean),
-  generateChunkedMessage: S.optional(S.Boolean),
-}) {}
+export interface MessageConfiguration {
+  generateFillerMessage?: boolean;
+  generateChunkedMessage?: boolean;
+}
+export const MessageConfiguration = S.suspend(() =>
+  S.Struct({
+    generateFillerMessage: S.optional(S.Boolean),
+    generateChunkedMessage: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "MessageConfiguration",
+}) as any as S.Schema<MessageConfiguration>;
+export type MessageMetadata = { [key: string]: string };
 export const MessageMetadata = S.Record({ key: S.String, value: S.String });
-export class RenderingConfiguration extends S.Class<RenderingConfiguration>(
-  "RenderingConfiguration",
-)({ templateUri: S.optional(S.String) }) {}
+export interface RenderingConfiguration {
+  templateUri?: string;
+}
+export const RenderingConfiguration = S.suspend(() =>
+  S.Struct({ templateUri: S.optional(S.String) }),
+).annotations({
+  identifier: "RenderingConfiguration",
+}) as any as S.Schema<RenderingConfiguration>;
+export type ContactAttributes = { [key: string]: string };
 export const ContactAttributes = S.Record({ key: S.String, value: S.String });
+export type MessageTemplateAttributeKeyList = string[];
 export const MessageTemplateAttributeKeyList = S.Array(S.String);
-export class MessageTemplateAttachment extends S.Class<MessageTemplateAttachment>(
-  "MessageTemplateAttachment",
-)({
-  contentDisposition: S.String,
-  name: S.String,
-  uploadedTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  url: S.String,
-  urlExpiry: S.Date.pipe(T.TimestampFormat("date-time")),
-  attachmentId: S.String,
-}) {}
+export interface MessageTemplateAttachment {
+  contentDisposition: string;
+  name: string;
+  uploadedTime: Date;
+  url: string;
+  urlExpiry: Date;
+  attachmentId: string;
+}
+export const MessageTemplateAttachment = S.suspend(() =>
+  S.Struct({
+    contentDisposition: S.String,
+    name: S.String,
+    uploadedTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    url: S.String,
+    urlExpiry: S.Date.pipe(T.TimestampFormat("date-time")),
+    attachmentId: S.String,
+  }),
+).annotations({
+  identifier: "MessageTemplateAttachment",
+}) as any as S.Schema<MessageTemplateAttachment>;
+export type MessageTemplateAttachmentList = MessageTemplateAttachment[];
 export const MessageTemplateAttachmentList = S.Array(MessageTemplateAttachment);
+export type AssistantAssociationIdList = string[];
 export const AssistantAssociationIdList = S.Array(S.String);
 export type RetrievalFilterList = RetrievalFilterConfiguration[];
 export const RetrievalFilterList = S.Array(
-  S.suspend(() => RetrievalFilterConfiguration),
+  S.suspend(() => RetrievalFilterConfiguration).annotations({
+    identifier: "RetrievalFilterConfiguration",
+  }),
 ) as any as S.Schema<RetrievalFilterList>;
+export type ObjectFieldsList = string[];
 export const ObjectFieldsList = S.Array(S.String);
+export type MessageTemplateQueryValueList = string[];
 export const MessageTemplateQueryValueList = S.Array(S.String);
+export type MessageTemplateFilterValueList = string[];
 export const MessageTemplateFilterValueList = S.Array(S.String);
+export type QuickResponseQueryValueList = string[];
 export const QuickResponseQueryValueList = S.Array(S.String);
+export type QuickResponseFilterValueList = string[];
 export const QuickResponseFilterValueList = S.Array(S.String);
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ tags: S.optional(Tags) }) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: Tags },
-  T.all(
-    T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface ListTagsForResourceResponse {
+  tags?: Tags;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ tags: S.optional(Tags) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface TagResourceRequest {
+  resourceArn: string;
+  tags: Tags;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+    tags: Tags,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class CreateAssistantRequest extends S.Class<CreateAssistantRequest>(
-  "CreateAssistantRequest",
-)(
-  {
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface CreateAssistantRequest {
+  clientToken?: string;
+  name: string;
+  type: string;
+  description?: string;
+  tags?: Tags;
+  serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
+}
+export const CreateAssistantRequest = S.suspend(() =>
+  S.Struct({
     clientToken: S.optional(S.String),
     name: S.String,
     type: S.String,
@@ -2392,219 +3501,441 @@ export class CreateAssistantRequest extends S.Class<CreateAssistantRequest>(
     serverSideEncryptionConfiguration: S.optional(
       ServerSideEncryptionConfiguration,
     ),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/assistants" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/assistants" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateAssistantAIAgentRequest extends S.Class<UpdateAssistantAIAgentRequest>(
-  "UpdateAssistantAIAgentRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateAssistantRequest",
+}) as any as S.Schema<CreateAssistantRequest>;
+export interface UpdateAssistantAIAgentRequest {
+  assistantId: string;
+  aiAgentType: string;
+  configuration: AIAgentConfigurationData;
+  orchestratorConfigurationList?: OrchestratorConfigurationList;
+}
+export const UpdateAssistantAIAgentRequest = S.suspend(() =>
+  S.Struct({
     assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     aiAgentType: S.String,
     configuration: AIAgentConfigurationData,
     orchestratorConfigurationList: S.optional(OrchestratorConfigurationList),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/assistants/{assistantId}/aiagentConfiguration",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/assistants/{assistantId}/aiagentConfiguration",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AIAgentData extends S.Class<AIAgentData>("AIAgentData")({
-  assistantId: S.String,
-  assistantArn: S.String,
-  aiAgentId: S.String,
-  aiAgentArn: S.String,
-  name: S.String,
-  type: S.String,
-  configuration: AIAgentConfiguration,
-  modifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  description: S.optional(S.String),
-  visibilityStatus: S.String,
-  tags: S.optional(Tags),
-  origin: S.optional(S.String),
-  status: S.optional(S.String),
-}) {}
-export class UpdateAIAgentResponse extends S.Class<UpdateAIAgentResponse>(
-  "UpdateAIAgentResponse",
-)({ aiAgent: S.optional(AIAgentData) }) {}
-export class CreateAIAgentVersionResponse extends S.Class<CreateAIAgentVersionResponse>(
-  "CreateAIAgentVersionResponse",
-)({ aiAgent: S.optional(AIAgentData), versionNumber: S.optional(S.Number) }) {}
-export class AIGuardrailData extends S.Class<AIGuardrailData>(
-  "AIGuardrailData",
-)({
-  assistantId: S.String,
-  assistantArn: S.String,
-  aiGuardrailArn: S.String,
-  aiGuardrailId: S.String,
-  name: S.String,
-  visibilityStatus: S.String,
-  blockedInputMessaging: S.String,
-  blockedOutputsMessaging: S.String,
-  description: S.optional(S.String),
-  topicPolicyConfig: S.optional(AIGuardrailTopicPolicyConfig),
-  contentPolicyConfig: S.optional(AIGuardrailContentPolicyConfig),
-  wordPolicyConfig: S.optional(AIGuardrailWordPolicyConfig),
-  sensitiveInformationPolicyConfig: S.optional(
-    AIGuardrailSensitiveInformationPolicyConfig,
-  ),
-  contextualGroundingPolicyConfig: S.optional(
-    AIGuardrailContextualGroundingPolicyConfig,
-  ),
-  tags: S.optional(Tags),
-  status: S.optional(S.String),
-  modifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class UpdateAIGuardrailResponse extends S.Class<UpdateAIGuardrailResponse>(
-  "UpdateAIGuardrailResponse",
-)({ aiGuardrail: S.optional(AIGuardrailData) }) {}
-export class CreateAIGuardrailVersionResponse extends S.Class<CreateAIGuardrailVersionResponse>(
-  "CreateAIGuardrailVersionResponse",
-)({
-  aiGuardrail: S.optional(AIGuardrailData),
-  versionNumber: S.optional(S.Number),
-}) {}
-export class AIPromptData extends S.Class<AIPromptData>("AIPromptData")({
-  assistantId: S.String,
-  assistantArn: S.String,
-  aiPromptId: S.String,
-  aiPromptArn: S.String,
-  name: S.String,
-  type: S.String,
-  templateType: S.String,
-  modelId: S.String,
-  apiFormat: S.String,
-  templateConfiguration: AIPromptTemplateConfiguration,
-  inferenceConfiguration: S.optional(AIPromptInferenceConfiguration),
-  modifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  description: S.optional(S.String),
-  visibilityStatus: S.String,
-  tags: S.optional(Tags),
-  origin: S.optional(S.String),
-  status: S.optional(S.String),
-}) {}
-export class UpdateAIPromptResponse extends S.Class<UpdateAIPromptResponse>(
-  "UpdateAIPromptResponse",
-)({ aiPrompt: S.optional(AIPromptData) }) {}
-export class CreateAIPromptVersionResponse extends S.Class<CreateAIPromptVersionResponse>(
-  "CreateAIPromptVersionResponse",
-)({
-  aiPrompt: S.optional(AIPromptData),
-  versionNumber: S.optional(S.Number),
-}) {}
-export class SessionIntegrationConfiguration extends S.Class<SessionIntegrationConfiguration>(
-  "SessionIntegrationConfiguration",
-)({ topicIntegrationArn: S.optional(S.String) }) {}
-export class SessionData extends S.Class<SessionData>("SessionData")({
-  sessionArn: S.String,
-  sessionId: S.String,
-  name: S.String,
-  description: S.optional(S.String),
-  tags: S.optional(Tags),
-  integrationConfiguration: S.optional(SessionIntegrationConfiguration),
-  tagFilter: S.optional(TagFilter),
-  aiAgentConfiguration: S.optional(AIAgentConfigurationMap),
-  origin: S.optional(S.String),
-  orchestratorConfigurationList: S.optional(OrchestratorConfigurationList),
-}) {}
-export class UpdateSessionResponse extends S.Class<UpdateSessionResponse>(
-  "UpdateSessionResponse",
-)({ session: S.optional(SessionData) }) {}
-export class ListMessagesResponse extends S.Class<ListMessagesResponse>(
-  "ListMessagesResponse",
-)({ messages: MessageList, nextToken: S.optional(S.String) }) {}
-export class FixedSizeChunkingConfiguration extends S.Class<FixedSizeChunkingConfiguration>(
-  "FixedSizeChunkingConfiguration",
-)({ maxTokens: S.Number, overlapPercentage: S.Number }) {}
-export class HierarchicalChunkingLevelConfiguration extends S.Class<HierarchicalChunkingLevelConfiguration>(
-  "HierarchicalChunkingLevelConfiguration",
-)({ maxTokens: S.Number }) {}
+).annotations({
+  identifier: "UpdateAssistantAIAgentRequest",
+}) as any as S.Schema<UpdateAssistantAIAgentRequest>;
+export interface AIAgentData {
+  assistantId: string;
+  assistantArn: string;
+  aiAgentId: string;
+  aiAgentArn: string;
+  name: string;
+  type: string;
+  configuration: (typeof AIAgentConfiguration)["Type"];
+  modifiedTime?: Date;
+  description?: string;
+  visibilityStatus: string;
+  tags?: Tags;
+  origin?: string;
+  status?: string;
+}
+export const AIAgentData = S.suspend(() =>
+  S.Struct({
+    assistantId: S.String,
+    assistantArn: S.String,
+    aiAgentId: S.String,
+    aiAgentArn: S.String,
+    name: S.String,
+    type: S.String,
+    configuration: AIAgentConfiguration,
+    modifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    description: S.optional(S.String),
+    visibilityStatus: S.String,
+    tags: S.optional(Tags),
+    origin: S.optional(S.String),
+    status: S.optional(S.String),
+  }),
+).annotations({ identifier: "AIAgentData" }) as any as S.Schema<AIAgentData>;
+export interface UpdateAIAgentResponse {
+  aiAgent?: AIAgentData;
+}
+export const UpdateAIAgentResponse = S.suspend(() =>
+  S.Struct({ aiAgent: S.optional(AIAgentData) }),
+).annotations({
+  identifier: "UpdateAIAgentResponse",
+}) as any as S.Schema<UpdateAIAgentResponse>;
+export interface CreateAIAgentVersionResponse {
+  aiAgent?: AIAgentData;
+  versionNumber?: number;
+}
+export const CreateAIAgentVersionResponse = S.suspend(() =>
+  S.Struct({
+    aiAgent: S.optional(AIAgentData),
+    versionNumber: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "CreateAIAgentVersionResponse",
+}) as any as S.Schema<CreateAIAgentVersionResponse>;
+export interface AIGuardrailData {
+  assistantId: string;
+  assistantArn: string;
+  aiGuardrailArn: string;
+  aiGuardrailId: string;
+  name: string;
+  visibilityStatus: string;
+  blockedInputMessaging: string;
+  blockedOutputsMessaging: string;
+  description?: string;
+  topicPolicyConfig?: AIGuardrailTopicPolicyConfig;
+  contentPolicyConfig?: AIGuardrailContentPolicyConfig;
+  wordPolicyConfig?: AIGuardrailWordPolicyConfig;
+  sensitiveInformationPolicyConfig?: AIGuardrailSensitiveInformationPolicyConfig;
+  contextualGroundingPolicyConfig?: AIGuardrailContextualGroundingPolicyConfig;
+  tags?: Tags;
+  status?: string;
+  modifiedTime?: Date;
+}
+export const AIGuardrailData = S.suspend(() =>
+  S.Struct({
+    assistantId: S.String,
+    assistantArn: S.String,
+    aiGuardrailArn: S.String,
+    aiGuardrailId: S.String,
+    name: S.String,
+    visibilityStatus: S.String,
+    blockedInputMessaging: S.String,
+    blockedOutputsMessaging: S.String,
+    description: S.optional(S.String),
+    topicPolicyConfig: S.optional(AIGuardrailTopicPolicyConfig),
+    contentPolicyConfig: S.optional(AIGuardrailContentPolicyConfig),
+    wordPolicyConfig: S.optional(AIGuardrailWordPolicyConfig),
+    sensitiveInformationPolicyConfig: S.optional(
+      AIGuardrailSensitiveInformationPolicyConfig,
+    ),
+    contextualGroundingPolicyConfig: S.optional(
+      AIGuardrailContextualGroundingPolicyConfig,
+    ),
+    tags: S.optional(Tags),
+    status: S.optional(S.String),
+    modifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "AIGuardrailData",
+}) as any as S.Schema<AIGuardrailData>;
+export interface UpdateAIGuardrailResponse {
+  aiGuardrail?: AIGuardrailData;
+}
+export const UpdateAIGuardrailResponse = S.suspend(() =>
+  S.Struct({ aiGuardrail: S.optional(AIGuardrailData) }),
+).annotations({
+  identifier: "UpdateAIGuardrailResponse",
+}) as any as S.Schema<UpdateAIGuardrailResponse>;
+export interface CreateAIGuardrailVersionResponse {
+  aiGuardrail?: AIGuardrailData;
+  versionNumber?: number;
+}
+export const CreateAIGuardrailVersionResponse = S.suspend(() =>
+  S.Struct({
+    aiGuardrail: S.optional(AIGuardrailData),
+    versionNumber: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "CreateAIGuardrailVersionResponse",
+}) as any as S.Schema<CreateAIGuardrailVersionResponse>;
+export interface AIPromptData {
+  assistantId: string;
+  assistantArn: string;
+  aiPromptId: string;
+  aiPromptArn: string;
+  name: string;
+  type: string;
+  templateType: string;
+  modelId: string;
+  apiFormat: string;
+  templateConfiguration: (typeof AIPromptTemplateConfiguration)["Type"];
+  inferenceConfiguration?: (typeof AIPromptInferenceConfiguration)["Type"];
+  modifiedTime?: Date;
+  description?: string;
+  visibilityStatus: string;
+  tags?: Tags;
+  origin?: string;
+  status?: string;
+}
+export const AIPromptData = S.suspend(() =>
+  S.Struct({
+    assistantId: S.String,
+    assistantArn: S.String,
+    aiPromptId: S.String,
+    aiPromptArn: S.String,
+    name: S.String,
+    type: S.String,
+    templateType: S.String,
+    modelId: S.String,
+    apiFormat: S.String,
+    templateConfiguration: AIPromptTemplateConfiguration,
+    inferenceConfiguration: S.optional(AIPromptInferenceConfiguration),
+    modifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    description: S.optional(S.String),
+    visibilityStatus: S.String,
+    tags: S.optional(Tags),
+    origin: S.optional(S.String),
+    status: S.optional(S.String),
+  }),
+).annotations({ identifier: "AIPromptData" }) as any as S.Schema<AIPromptData>;
+export interface UpdateAIPromptResponse {
+  aiPrompt?: AIPromptData;
+}
+export const UpdateAIPromptResponse = S.suspend(() =>
+  S.Struct({ aiPrompt: S.optional(AIPromptData) }),
+).annotations({
+  identifier: "UpdateAIPromptResponse",
+}) as any as S.Schema<UpdateAIPromptResponse>;
+export interface CreateAIPromptVersionResponse {
+  aiPrompt?: AIPromptData;
+  versionNumber?: number;
+}
+export const CreateAIPromptVersionResponse = S.suspend(() =>
+  S.Struct({
+    aiPrompt: S.optional(AIPromptData),
+    versionNumber: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "CreateAIPromptVersionResponse",
+}) as any as S.Schema<CreateAIPromptVersionResponse>;
+export interface SessionIntegrationConfiguration {
+  topicIntegrationArn?: string;
+}
+export const SessionIntegrationConfiguration = S.suspend(() =>
+  S.Struct({ topicIntegrationArn: S.optional(S.String) }),
+).annotations({
+  identifier: "SessionIntegrationConfiguration",
+}) as any as S.Schema<SessionIntegrationConfiguration>;
+export interface SessionData {
+  sessionArn: string;
+  sessionId: string;
+  name: string;
+  description?: string;
+  tags?: Tags;
+  integrationConfiguration?: SessionIntegrationConfiguration;
+  tagFilter?: (typeof TagFilter)["Type"];
+  aiAgentConfiguration?: AIAgentConfigurationMap;
+  origin?: string;
+  orchestratorConfigurationList?: OrchestratorConfigurationList;
+}
+export const SessionData = S.suspend(() =>
+  S.Struct({
+    sessionArn: S.String,
+    sessionId: S.String,
+    name: S.String,
+    description: S.optional(S.String),
+    tags: S.optional(Tags),
+    integrationConfiguration: S.optional(SessionIntegrationConfiguration),
+    tagFilter: S.optional(TagFilter),
+    aiAgentConfiguration: S.optional(AIAgentConfigurationMap),
+    origin: S.optional(S.String),
+    orchestratorConfigurationList: S.optional(OrchestratorConfigurationList),
+  }),
+).annotations({ identifier: "SessionData" }) as any as S.Schema<SessionData>;
+export interface UpdateSessionResponse {
+  session?: SessionData;
+}
+export const UpdateSessionResponse = S.suspend(() =>
+  S.Struct({ session: S.optional(SessionData) }),
+).annotations({
+  identifier: "UpdateSessionResponse",
+}) as any as S.Schema<UpdateSessionResponse>;
+export interface ListMessagesResponse {
+  messages: MessageList;
+  nextToken?: string;
+}
+export const ListMessagesResponse = S.suspend(() =>
+  S.Struct({ messages: MessageList, nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListMessagesResponse",
+}) as any as S.Schema<ListMessagesResponse>;
+export interface FixedSizeChunkingConfiguration {
+  maxTokens: number;
+  overlapPercentage: number;
+}
+export const FixedSizeChunkingConfiguration = S.suspend(() =>
+  S.Struct({ maxTokens: S.Number, overlapPercentage: S.Number }),
+).annotations({
+  identifier: "FixedSizeChunkingConfiguration",
+}) as any as S.Schema<FixedSizeChunkingConfiguration>;
+export interface HierarchicalChunkingLevelConfiguration {
+  maxTokens: number;
+}
+export const HierarchicalChunkingLevelConfiguration = S.suspend(() =>
+  S.Struct({ maxTokens: S.Number }),
+).annotations({
+  identifier: "HierarchicalChunkingLevelConfiguration",
+}) as any as S.Schema<HierarchicalChunkingLevelConfiguration>;
+export type HierarchicalChunkingLevelConfigurations =
+  HierarchicalChunkingLevelConfiguration[];
 export const HierarchicalChunkingLevelConfigurations = S.Array(
   HierarchicalChunkingLevelConfiguration,
 );
-export class HierarchicalChunkingConfiguration extends S.Class<HierarchicalChunkingConfiguration>(
-  "HierarchicalChunkingConfiguration",
-)({
-  levelConfigurations: HierarchicalChunkingLevelConfigurations,
-  overlapTokens: S.Number,
-}) {}
-export class SemanticChunkingConfiguration extends S.Class<SemanticChunkingConfiguration>(
-  "SemanticChunkingConfiguration",
-)({
-  maxTokens: S.Number,
-  bufferSize: S.Number,
-  breakpointPercentileThreshold: S.Number,
-}) {}
-export class ChunkingConfiguration extends S.Class<ChunkingConfiguration>(
-  "ChunkingConfiguration",
-)({
-  chunkingStrategy: S.String,
-  fixedSizeChunkingConfiguration: S.optional(FixedSizeChunkingConfiguration),
-  hierarchicalChunkingConfiguration: S.optional(
-    HierarchicalChunkingConfiguration,
-  ),
-  semanticChunkingConfiguration: S.optional(SemanticChunkingConfiguration),
-}) {}
-export class ParsingPrompt extends S.Class<ParsingPrompt>("ParsingPrompt")({
-  parsingPromptText: S.String,
-}) {}
-export class BedrockFoundationModelConfigurationForParsing extends S.Class<BedrockFoundationModelConfigurationForParsing>(
-  "BedrockFoundationModelConfigurationForParsing",
-)({ modelArn: S.String, parsingPrompt: S.optional(ParsingPrompt) }) {}
-export class ParsingConfiguration extends S.Class<ParsingConfiguration>(
-  "ParsingConfiguration",
-)({
-  parsingStrategy: S.String,
-  bedrockFoundationModelConfiguration: S.optional(
-    BedrockFoundationModelConfigurationForParsing,
-  ),
-}) {}
-export class VectorIngestionConfiguration extends S.Class<VectorIngestionConfiguration>(
-  "VectorIngestionConfiguration",
-)({
-  chunkingConfiguration: S.optional(ChunkingConfiguration),
-  parsingConfiguration: S.optional(ParsingConfiguration),
-}) {}
-export class AppIntegrationsConfiguration extends S.Class<AppIntegrationsConfiguration>(
-  "AppIntegrationsConfiguration",
-)({
-  appIntegrationArn: S.String,
-  objectFields: S.optional(ObjectFieldsList),
-}) {}
-export class SeedUrl extends S.Class<SeedUrl>("SeedUrl")({
-  url: S.optional(S.String),
-}) {}
+export interface HierarchicalChunkingConfiguration {
+  levelConfigurations: HierarchicalChunkingLevelConfigurations;
+  overlapTokens: number;
+}
+export const HierarchicalChunkingConfiguration = S.suspend(() =>
+  S.Struct({
+    levelConfigurations: HierarchicalChunkingLevelConfigurations,
+    overlapTokens: S.Number,
+  }),
+).annotations({
+  identifier: "HierarchicalChunkingConfiguration",
+}) as any as S.Schema<HierarchicalChunkingConfiguration>;
+export interface SemanticChunkingConfiguration {
+  maxTokens: number;
+  bufferSize: number;
+  breakpointPercentileThreshold: number;
+}
+export const SemanticChunkingConfiguration = S.suspend(() =>
+  S.Struct({
+    maxTokens: S.Number,
+    bufferSize: S.Number,
+    breakpointPercentileThreshold: S.Number,
+  }),
+).annotations({
+  identifier: "SemanticChunkingConfiguration",
+}) as any as S.Schema<SemanticChunkingConfiguration>;
+export interface ChunkingConfiguration {
+  chunkingStrategy: string;
+  fixedSizeChunkingConfiguration?: FixedSizeChunkingConfiguration;
+  hierarchicalChunkingConfiguration?: HierarchicalChunkingConfiguration;
+  semanticChunkingConfiguration?: SemanticChunkingConfiguration;
+}
+export const ChunkingConfiguration = S.suspend(() =>
+  S.Struct({
+    chunkingStrategy: S.String,
+    fixedSizeChunkingConfiguration: S.optional(FixedSizeChunkingConfiguration),
+    hierarchicalChunkingConfiguration: S.optional(
+      HierarchicalChunkingConfiguration,
+    ),
+    semanticChunkingConfiguration: S.optional(SemanticChunkingConfiguration),
+  }),
+).annotations({
+  identifier: "ChunkingConfiguration",
+}) as any as S.Schema<ChunkingConfiguration>;
+export interface ParsingPrompt {
+  parsingPromptText: string;
+}
+export const ParsingPrompt = S.suspend(() =>
+  S.Struct({ parsingPromptText: S.String }),
+).annotations({
+  identifier: "ParsingPrompt",
+}) as any as S.Schema<ParsingPrompt>;
+export interface BedrockFoundationModelConfigurationForParsing {
+  modelArn: string;
+  parsingPrompt?: ParsingPrompt;
+}
+export const BedrockFoundationModelConfigurationForParsing = S.suspend(() =>
+  S.Struct({ modelArn: S.String, parsingPrompt: S.optional(ParsingPrompt) }),
+).annotations({
+  identifier: "BedrockFoundationModelConfigurationForParsing",
+}) as any as S.Schema<BedrockFoundationModelConfigurationForParsing>;
+export interface ParsingConfiguration {
+  parsingStrategy: string;
+  bedrockFoundationModelConfiguration?: BedrockFoundationModelConfigurationForParsing;
+}
+export const ParsingConfiguration = S.suspend(() =>
+  S.Struct({
+    parsingStrategy: S.String,
+    bedrockFoundationModelConfiguration: S.optional(
+      BedrockFoundationModelConfigurationForParsing,
+    ),
+  }),
+).annotations({
+  identifier: "ParsingConfiguration",
+}) as any as S.Schema<ParsingConfiguration>;
+export interface VectorIngestionConfiguration {
+  chunkingConfiguration?: ChunkingConfiguration;
+  parsingConfiguration?: ParsingConfiguration;
+}
+export const VectorIngestionConfiguration = S.suspend(() =>
+  S.Struct({
+    chunkingConfiguration: S.optional(ChunkingConfiguration),
+    parsingConfiguration: S.optional(ParsingConfiguration),
+  }),
+).annotations({
+  identifier: "VectorIngestionConfiguration",
+}) as any as S.Schema<VectorIngestionConfiguration>;
+export interface AppIntegrationsConfiguration {
+  appIntegrationArn: string;
+  objectFields?: ObjectFieldsList;
+}
+export const AppIntegrationsConfiguration = S.suspend(() =>
+  S.Struct({
+    appIntegrationArn: S.String,
+    objectFields: S.optional(ObjectFieldsList),
+  }),
+).annotations({
+  identifier: "AppIntegrationsConfiguration",
+}) as any as S.Schema<AppIntegrationsConfiguration>;
+export interface SeedUrl {
+  url?: string;
+}
+export const SeedUrl = S.suspend(() =>
+  S.Struct({ url: S.optional(S.String) }),
+).annotations({ identifier: "SeedUrl" }) as any as S.Schema<SeedUrl>;
+export type SeedUrls = SeedUrl[];
 export const SeedUrls = S.Array(SeedUrl);
-export class UrlConfiguration extends S.Class<UrlConfiguration>(
-  "UrlConfiguration",
-)({ seedUrls: S.optional(SeedUrls) }) {}
-export class WebCrawlerLimits extends S.Class<WebCrawlerLimits>(
-  "WebCrawlerLimits",
-)({ rateLimit: S.optional(S.Number) }) {}
+export interface UrlConfiguration {
+  seedUrls?: SeedUrls;
+}
+export const UrlConfiguration = S.suspend(() =>
+  S.Struct({ seedUrls: S.optional(SeedUrls) }),
+).annotations({
+  identifier: "UrlConfiguration",
+}) as any as S.Schema<UrlConfiguration>;
+export interface WebCrawlerLimits {
+  rateLimit?: number;
+}
+export const WebCrawlerLimits = S.suspend(() =>
+  S.Struct({ rateLimit: S.optional(S.Number) }),
+).annotations({
+  identifier: "WebCrawlerLimits",
+}) as any as S.Schema<WebCrawlerLimits>;
+export type UrlFilterList = string[];
 export const UrlFilterList = S.Array(S.String);
-export class WebCrawlerConfiguration extends S.Class<WebCrawlerConfiguration>(
-  "WebCrawlerConfiguration",
-)({
-  urlConfiguration: UrlConfiguration,
-  crawlerLimits: S.optional(WebCrawlerLimits),
-  inclusionFilters: S.optional(UrlFilterList),
-  exclusionFilters: S.optional(UrlFilterList),
-  scope: S.optional(S.String),
-}) {}
+export interface WebCrawlerConfiguration {
+  urlConfiguration: UrlConfiguration;
+  crawlerLimits?: WebCrawlerLimits;
+  inclusionFilters?: UrlFilterList;
+  exclusionFilters?: UrlFilterList;
+  scope?: string;
+}
+export const WebCrawlerConfiguration = S.suspend(() =>
+  S.Struct({
+    urlConfiguration: UrlConfiguration,
+    crawlerLimits: S.optional(WebCrawlerLimits),
+    inclusionFilters: S.optional(UrlFilterList),
+    exclusionFilters: S.optional(UrlFilterList),
+    scope: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "WebCrawlerConfiguration",
+}) as any as S.Schema<WebCrawlerConfiguration>;
 export const ManagedSourceConfiguration = S.Union(
   S.Struct({ webCrawlerConfiguration: WebCrawlerConfiguration }),
 );
@@ -2612,166 +3943,347 @@ export const SourceConfiguration = S.Union(
   S.Struct({ appIntegrations: AppIntegrationsConfiguration }),
   S.Struct({ managedSourceConfiguration: ManagedSourceConfiguration }),
 );
+export type FailureReason = string[];
 export const FailureReason = S.Array(S.String);
-export class KnowledgeBaseData extends S.Class<KnowledgeBaseData>(
-  "KnowledgeBaseData",
-)({
-  knowledgeBaseId: S.String,
-  knowledgeBaseArn: S.String,
-  name: S.String,
-  knowledgeBaseType: S.String,
-  status: S.String,
-  lastContentModificationTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  vectorIngestionConfiguration: S.optional(VectorIngestionConfiguration),
-  sourceConfiguration: S.optional(SourceConfiguration),
-  renderingConfiguration: S.optional(RenderingConfiguration),
-  serverSideEncryptionConfiguration: S.optional(
-    ServerSideEncryptionConfiguration,
-  ),
-  description: S.optional(S.String),
-  tags: S.optional(Tags),
-  ingestionStatus: S.optional(S.String),
-  ingestionFailureReasons: S.optional(FailureReason),
-}) {}
-export class UpdateKnowledgeBaseTemplateUriResponse extends S.Class<UpdateKnowledgeBaseTemplateUriResponse>(
-  "UpdateKnowledgeBaseTemplateUriResponse",
-)({ knowledgeBase: S.optional(KnowledgeBaseData) }) {}
-export class ContentData extends S.Class<ContentData>("ContentData")({
-  contentArn: S.String,
-  contentId: S.String,
-  knowledgeBaseArn: S.String,
-  knowledgeBaseId: S.String,
-  name: S.String,
-  revisionId: S.String,
-  title: S.String,
-  contentType: S.String,
-  status: S.String,
-  metadata: ContentMetadata,
-  tags: S.optional(Tags),
-  linkOutUri: S.optional(S.String),
-  url: S.String,
-  urlExpiry: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-}) {}
-export class GetContentResponse extends S.Class<GetContentResponse>(
-  "GetContentResponse",
-)({ content: S.optional(ContentData) }) {}
-export class UpdateContentResponse extends S.Class<UpdateContentResponse>(
-  "UpdateContentResponse",
-)({ content: S.optional(ContentData) }) {}
-export class ContentSummary extends S.Class<ContentSummary>("ContentSummary")({
-  contentArn: S.String,
-  contentId: S.String,
-  knowledgeBaseArn: S.String,
-  knowledgeBaseId: S.String,
-  name: S.String,
-  revisionId: S.String,
-  title: S.String,
-  contentType: S.String,
-  status: S.String,
-  metadata: ContentMetadata,
-  tags: S.optional(Tags),
-}) {}
+export interface KnowledgeBaseData {
+  knowledgeBaseId: string;
+  knowledgeBaseArn: string;
+  name: string;
+  knowledgeBaseType: string;
+  status: string;
+  lastContentModificationTime?: Date;
+  vectorIngestionConfiguration?: VectorIngestionConfiguration;
+  sourceConfiguration?: (typeof SourceConfiguration)["Type"];
+  renderingConfiguration?: RenderingConfiguration;
+  serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
+  description?: string;
+  tags?: Tags;
+  ingestionStatus?: string;
+  ingestionFailureReasons?: FailureReason;
+}
+export const KnowledgeBaseData = S.suspend(() =>
+  S.Struct({
+    knowledgeBaseId: S.String,
+    knowledgeBaseArn: S.String,
+    name: S.String,
+    knowledgeBaseType: S.String,
+    status: S.String,
+    lastContentModificationTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    vectorIngestionConfiguration: S.optional(VectorIngestionConfiguration),
+    sourceConfiguration: S.optional(SourceConfiguration),
+    renderingConfiguration: S.optional(RenderingConfiguration),
+    serverSideEncryptionConfiguration: S.optional(
+      ServerSideEncryptionConfiguration,
+    ),
+    description: S.optional(S.String),
+    tags: S.optional(Tags),
+    ingestionStatus: S.optional(S.String),
+    ingestionFailureReasons: S.optional(FailureReason),
+  }),
+).annotations({
+  identifier: "KnowledgeBaseData",
+}) as any as S.Schema<KnowledgeBaseData>;
+export interface UpdateKnowledgeBaseTemplateUriResponse {
+  knowledgeBase?: KnowledgeBaseData;
+}
+export const UpdateKnowledgeBaseTemplateUriResponse = S.suspend(() =>
+  S.Struct({ knowledgeBase: S.optional(KnowledgeBaseData) }),
+).annotations({
+  identifier: "UpdateKnowledgeBaseTemplateUriResponse",
+}) as any as S.Schema<UpdateKnowledgeBaseTemplateUriResponse>;
+export interface ContentData {
+  contentArn: string;
+  contentId: string;
+  knowledgeBaseArn: string;
+  knowledgeBaseId: string;
+  name: string;
+  revisionId: string;
+  title: string;
+  contentType: string;
+  status: string;
+  metadata: ContentMetadata;
+  tags?: Tags;
+  linkOutUri?: string;
+  url: string;
+  urlExpiry: Date;
+}
+export const ContentData = S.suspend(() =>
+  S.Struct({
+    contentArn: S.String,
+    contentId: S.String,
+    knowledgeBaseArn: S.String,
+    knowledgeBaseId: S.String,
+    name: S.String,
+    revisionId: S.String,
+    title: S.String,
+    contentType: S.String,
+    status: S.String,
+    metadata: ContentMetadata,
+    tags: S.optional(Tags),
+    linkOutUri: S.optional(S.String),
+    url: S.String,
+    urlExpiry: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotations({ identifier: "ContentData" }) as any as S.Schema<ContentData>;
+export interface GetContentResponse {
+  content?: ContentData;
+}
+export const GetContentResponse = S.suspend(() =>
+  S.Struct({ content: S.optional(ContentData) }),
+).annotations({
+  identifier: "GetContentResponse",
+}) as any as S.Schema<GetContentResponse>;
+export interface UpdateContentResponse {
+  content?: ContentData;
+}
+export const UpdateContentResponse = S.suspend(() =>
+  S.Struct({ content: S.optional(ContentData) }),
+).annotations({
+  identifier: "UpdateContentResponse",
+}) as any as S.Schema<UpdateContentResponse>;
+export interface ContentSummary {
+  contentArn: string;
+  contentId: string;
+  knowledgeBaseArn: string;
+  knowledgeBaseId: string;
+  name: string;
+  revisionId: string;
+  title: string;
+  contentType: string;
+  status: string;
+  metadata: ContentMetadata;
+  tags?: Tags;
+}
+export const ContentSummary = S.suspend(() =>
+  S.Struct({
+    contentArn: S.String,
+    contentId: S.String,
+    knowledgeBaseArn: S.String,
+    knowledgeBaseId: S.String,
+    name: S.String,
+    revisionId: S.String,
+    title: S.String,
+    contentType: S.String,
+    status: S.String,
+    metadata: ContentMetadata,
+    tags: S.optional(Tags),
+  }),
+).annotations({
+  identifier: "ContentSummary",
+}) as any as S.Schema<ContentSummary>;
+export type ContentSummaryList = ContentSummary[];
 export const ContentSummaryList = S.Array(ContentSummary);
-export class ListContentsResponse extends S.Class<ListContentsResponse>(
-  "ListContentsResponse",
-)({ contentSummaries: ContentSummaryList, nextToken: S.optional(S.String) }) {}
-export class GetContentSummaryResponse extends S.Class<GetContentSummaryResponse>(
-  "GetContentSummaryResponse",
-)({ contentSummary: S.optional(ContentSummary) }) {}
-export class ActivateMessageTemplateResponse extends S.Class<ActivateMessageTemplateResponse>(
-  "ActivateMessageTemplateResponse",
-)({
-  messageTemplateArn: S.String,
-  messageTemplateId: S.String,
-  versionNumber: S.Number,
-}) {}
-export class WhatsAppMessageTemplateSourceConfigurationSummary extends S.Class<WhatsAppMessageTemplateSourceConfigurationSummary>(
-  "WhatsAppMessageTemplateSourceConfigurationSummary",
-)({
-  businessAccountId: S.String,
-  templateId: S.String,
-  name: S.optional(S.String),
-  language: S.optional(S.String),
-  components: S.optional(WhatsAppMessageTemplateComponents),
-  status: S.optional(S.String),
-  statusReason: S.optional(S.String),
-}) {}
+export interface ListContentsResponse {
+  contentSummaries: ContentSummaryList;
+  nextToken?: string;
+}
+export const ListContentsResponse = S.suspend(() =>
+  S.Struct({
+    contentSummaries: ContentSummaryList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListContentsResponse",
+}) as any as S.Schema<ListContentsResponse>;
+export interface GetContentSummaryResponse {
+  contentSummary?: ContentSummary;
+}
+export const GetContentSummaryResponse = S.suspend(() =>
+  S.Struct({ contentSummary: S.optional(ContentSummary) }),
+).annotations({
+  identifier: "GetContentSummaryResponse",
+}) as any as S.Schema<GetContentSummaryResponse>;
+export interface ActivateMessageTemplateResponse {
+  messageTemplateArn: string;
+  messageTemplateId: string;
+  versionNumber: number;
+}
+export const ActivateMessageTemplateResponse = S.suspend(() =>
+  S.Struct({
+    messageTemplateArn: S.String,
+    messageTemplateId: S.String,
+    versionNumber: S.Number,
+  }),
+).annotations({
+  identifier: "ActivateMessageTemplateResponse",
+}) as any as S.Schema<ActivateMessageTemplateResponse>;
+export interface WhatsAppMessageTemplateSourceConfigurationSummary {
+  businessAccountId: string;
+  templateId: string;
+  name?: string;
+  language?: string;
+  components?: WhatsAppMessageTemplateComponents;
+  status?: string;
+  statusReason?: string;
+}
+export const WhatsAppMessageTemplateSourceConfigurationSummary = S.suspend(() =>
+  S.Struct({
+    businessAccountId: S.String,
+    templateId: S.String,
+    name: S.optional(S.String),
+    language: S.optional(S.String),
+    components: S.optional(WhatsAppMessageTemplateComponents),
+    status: S.optional(S.String),
+    statusReason: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "WhatsAppMessageTemplateSourceConfigurationSummary",
+}) as any as S.Schema<WhatsAppMessageTemplateSourceConfigurationSummary>;
 export const MessageTemplateSourceConfigurationSummary = S.Union(
   S.Struct({ whatsApp: WhatsAppMessageTemplateSourceConfigurationSummary }),
 );
+export type MessageTemplateAttributeTypeList = string[];
 export const MessageTemplateAttributeTypeList = S.Array(S.String);
-export class ExtendedMessageTemplateData extends S.Class<ExtendedMessageTemplateData>(
-  "ExtendedMessageTemplateData",
-)({
-  messageTemplateArn: S.String,
-  messageTemplateId: S.String,
-  knowledgeBaseArn: S.String,
-  knowledgeBaseId: S.String,
-  name: S.String,
-  channel: S.optional(S.String),
-  channelSubtype: S.String,
-  createdTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  lastModifiedTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  lastModifiedBy: S.String,
-  content: S.optional(MessageTemplateContentProvider),
-  description: S.optional(S.String),
-  language: S.optional(S.String),
-  sourceConfigurationSummary: S.optional(
-    MessageTemplateSourceConfigurationSummary,
-  ),
-  groupingConfiguration: S.optional(GroupingConfiguration),
-  defaultAttributes: S.optional(MessageTemplateAttributes),
-  attributeTypes: S.optional(MessageTemplateAttributeTypeList),
-  attachments: S.optional(MessageTemplateAttachmentList),
-  isActive: S.optional(S.Boolean),
-  versionNumber: S.optional(S.Number),
-  messageTemplateContentSha256: S.String,
-  tags: S.optional(Tags),
-}) {}
-export class CreateMessageTemplateVersionResponse extends S.Class<CreateMessageTemplateVersionResponse>(
-  "CreateMessageTemplateVersionResponse",
-)({ messageTemplate: S.optional(ExtendedMessageTemplateData) }) {}
-export class DeactivateMessageTemplateResponse extends S.Class<DeactivateMessageTemplateResponse>(
-  "DeactivateMessageTemplateResponse",
-)({
-  messageTemplateArn: S.String,
-  messageTemplateId: S.String,
-  versionNumber: S.Number,
-}) {}
-export class MessageTemplateData extends S.Class<MessageTemplateData>(
-  "MessageTemplateData",
-)({
-  messageTemplateArn: S.String,
-  messageTemplateId: S.String,
-  knowledgeBaseArn: S.String,
-  knowledgeBaseId: S.String,
-  name: S.String,
-  channel: S.optional(S.String),
-  channelSubtype: S.String,
-  createdTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  lastModifiedTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  lastModifiedBy: S.String,
-  content: S.optional(MessageTemplateContentProvider),
-  description: S.optional(S.String),
-  language: S.optional(S.String),
-  sourceConfigurationSummary: S.optional(
-    MessageTemplateSourceConfigurationSummary,
-  ),
-  groupingConfiguration: S.optional(GroupingConfiguration),
-  defaultAttributes: S.optional(MessageTemplateAttributes),
-  attributeTypes: S.optional(MessageTemplateAttributeTypeList),
-  messageTemplateContentSha256: S.String,
-  tags: S.optional(Tags),
-}) {}
-export class UpdateMessageTemplateMetadataResponse extends S.Class<UpdateMessageTemplateMetadataResponse>(
-  "UpdateMessageTemplateMetadataResponse",
-)({ messageTemplate: S.optional(MessageTemplateData) }) {}
-export class CreateQuickResponseRequest extends S.Class<CreateQuickResponseRequest>(
-  "CreateQuickResponseRequest",
-)(
-  {
+export interface ExtendedMessageTemplateData {
+  messageTemplateArn: string;
+  messageTemplateId: string;
+  knowledgeBaseArn: string;
+  knowledgeBaseId: string;
+  name: string;
+  channel?: string;
+  channelSubtype: string;
+  createdTime: Date;
+  lastModifiedTime: Date;
+  lastModifiedBy: string;
+  content?: (typeof MessageTemplateContentProvider)["Type"];
+  description?: string;
+  language?: string;
+  sourceConfigurationSummary?: (typeof MessageTemplateSourceConfigurationSummary)["Type"];
+  groupingConfiguration?: GroupingConfiguration;
+  defaultAttributes?: MessageTemplateAttributes;
+  attributeTypes?: MessageTemplateAttributeTypeList;
+  attachments?: MessageTemplateAttachmentList;
+  isActive?: boolean;
+  versionNumber?: number;
+  messageTemplateContentSha256: string;
+  tags?: Tags;
+}
+export const ExtendedMessageTemplateData = S.suspend(() =>
+  S.Struct({
+    messageTemplateArn: S.String,
+    messageTemplateId: S.String,
+    knowledgeBaseArn: S.String,
+    knowledgeBaseId: S.String,
+    name: S.String,
+    channel: S.optional(S.String),
+    channelSubtype: S.String,
+    createdTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastModifiedTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastModifiedBy: S.String,
+    content: S.optional(MessageTemplateContentProvider),
+    description: S.optional(S.String),
+    language: S.optional(S.String),
+    sourceConfigurationSummary: S.optional(
+      MessageTemplateSourceConfigurationSummary,
+    ),
+    groupingConfiguration: S.optional(GroupingConfiguration),
+    defaultAttributes: S.optional(MessageTemplateAttributes),
+    attributeTypes: S.optional(MessageTemplateAttributeTypeList),
+    attachments: S.optional(MessageTemplateAttachmentList),
+    isActive: S.optional(S.Boolean),
+    versionNumber: S.optional(S.Number),
+    messageTemplateContentSha256: S.String,
+    tags: S.optional(Tags),
+  }),
+).annotations({
+  identifier: "ExtendedMessageTemplateData",
+}) as any as S.Schema<ExtendedMessageTemplateData>;
+export interface CreateMessageTemplateVersionResponse {
+  messageTemplate?: ExtendedMessageTemplateData;
+}
+export const CreateMessageTemplateVersionResponse = S.suspend(() =>
+  S.Struct({ messageTemplate: S.optional(ExtendedMessageTemplateData) }),
+).annotations({
+  identifier: "CreateMessageTemplateVersionResponse",
+}) as any as S.Schema<CreateMessageTemplateVersionResponse>;
+export interface DeactivateMessageTemplateResponse {
+  messageTemplateArn: string;
+  messageTemplateId: string;
+  versionNumber: number;
+}
+export const DeactivateMessageTemplateResponse = S.suspend(() =>
+  S.Struct({
+    messageTemplateArn: S.String,
+    messageTemplateId: S.String,
+    versionNumber: S.Number,
+  }),
+).annotations({
+  identifier: "DeactivateMessageTemplateResponse",
+}) as any as S.Schema<DeactivateMessageTemplateResponse>;
+export interface MessageTemplateData {
+  messageTemplateArn: string;
+  messageTemplateId: string;
+  knowledgeBaseArn: string;
+  knowledgeBaseId: string;
+  name: string;
+  channel?: string;
+  channelSubtype: string;
+  createdTime: Date;
+  lastModifiedTime: Date;
+  lastModifiedBy: string;
+  content?: (typeof MessageTemplateContentProvider)["Type"];
+  description?: string;
+  language?: string;
+  sourceConfigurationSummary?: (typeof MessageTemplateSourceConfigurationSummary)["Type"];
+  groupingConfiguration?: GroupingConfiguration;
+  defaultAttributes?: MessageTemplateAttributes;
+  attributeTypes?: MessageTemplateAttributeTypeList;
+  messageTemplateContentSha256: string;
+  tags?: Tags;
+}
+export const MessageTemplateData = S.suspend(() =>
+  S.Struct({
+    messageTemplateArn: S.String,
+    messageTemplateId: S.String,
+    knowledgeBaseArn: S.String,
+    knowledgeBaseId: S.String,
+    name: S.String,
+    channel: S.optional(S.String),
+    channelSubtype: S.String,
+    createdTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastModifiedTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastModifiedBy: S.String,
+    content: S.optional(MessageTemplateContentProvider),
+    description: S.optional(S.String),
+    language: S.optional(S.String),
+    sourceConfigurationSummary: S.optional(
+      MessageTemplateSourceConfigurationSummary,
+    ),
+    groupingConfiguration: S.optional(GroupingConfiguration),
+    defaultAttributes: S.optional(MessageTemplateAttributes),
+    attributeTypes: S.optional(MessageTemplateAttributeTypeList),
+    messageTemplateContentSha256: S.String,
+    tags: S.optional(Tags),
+  }),
+).annotations({
+  identifier: "MessageTemplateData",
+}) as any as S.Schema<MessageTemplateData>;
+export interface UpdateMessageTemplateMetadataResponse {
+  messageTemplate?: MessageTemplateData;
+}
+export const UpdateMessageTemplateMetadataResponse = S.suspend(() =>
+  S.Struct({ messageTemplate: S.optional(MessageTemplateData) }),
+).annotations({
+  identifier: "UpdateMessageTemplateMetadataResponse",
+}) as any as S.Schema<UpdateMessageTemplateMetadataResponse>;
+export interface CreateQuickResponseRequest {
+  knowledgeBaseId: string;
+  name: string;
+  content: (typeof QuickResponseDataProvider)["Type"];
+  contentType?: string;
+  groupingConfiguration?: GroupingConfiguration;
+  description?: string;
+  shortcutKey?: string;
+  isActive?: boolean;
+  channels?: Channels;
+  language?: string;
+  clientToken?: string;
+  tags?: Tags;
+}
+export const CreateQuickResponseRequest = S.suspend(() =>
+  S.Struct({
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     name: S.String,
     content: QuickResponseDataProvider,
@@ -2784,165 +4296,337 @@ export class CreateQuickResponseRequest extends S.Class<CreateQuickResponseReque
     language: S.optional(S.String),
     clientToken: S.optional(S.String),
     tags: S.optional(Tags),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/knowledgeBases/{knowledgeBaseId}/quickResponses",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/knowledgeBases/{knowledgeBaseId}/quickResponses",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "CreateQuickResponseRequest",
+}) as any as S.Schema<CreateQuickResponseRequest>;
 export const QuickResponseContentProvider = S.Union(
   S.Struct({ content: S.String }),
 );
-export class QuickResponseContents extends S.Class<QuickResponseContents>(
-  "QuickResponseContents",
-)({
-  plainText: S.optional(QuickResponseContentProvider),
-  markdown: S.optional(QuickResponseContentProvider),
-}) {}
-export class QuickResponseData extends S.Class<QuickResponseData>(
-  "QuickResponseData",
-)({
-  quickResponseArn: S.String,
-  quickResponseId: S.String,
-  knowledgeBaseArn: S.String,
-  knowledgeBaseId: S.String,
-  name: S.String,
-  contentType: S.String,
-  status: S.String,
-  createdTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  lastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  contents: S.optional(QuickResponseContents),
-  description: S.optional(S.String),
-  groupingConfiguration: S.optional(GroupingConfiguration),
-  shortcutKey: S.optional(S.String),
-  lastModifiedBy: S.optional(S.String),
-  isActive: S.optional(S.Boolean),
-  channels: S.optional(Channels),
-  language: S.optional(S.String),
-  tags: S.optional(Tags),
-}) {}
-export class UpdateQuickResponseResponse extends S.Class<UpdateQuickResponseResponse>(
-  "UpdateQuickResponseResponse",
-)({ quickResponse: S.optional(QuickResponseData) }) {}
-export class GenerativeContentFeedbackData extends S.Class<GenerativeContentFeedbackData>(
-  "GenerativeContentFeedbackData",
-)({ relevance: S.String }) {}
-export class QueryConditionItem extends S.Class<QueryConditionItem>(
-  "QueryConditionItem",
-)({ field: S.String, comparator: S.String, value: S.String }) {}
-export class QueryTextInputData extends S.Class<QueryTextInputData>(
-  "QueryTextInputData",
-)({ text: S.String }) {}
-export class IntentInputData extends S.Class<IntentInputData>(
-  "IntentInputData",
-)({ intentId: S.String }) {}
-export class CaseSummarizationInputData extends S.Class<CaseSummarizationInputData>(
-  "CaseSummarizationInputData",
-)({ caseArn: S.String }) {}
+export interface QuickResponseContents {
+  plainText?: (typeof QuickResponseContentProvider)["Type"];
+  markdown?: (typeof QuickResponseContentProvider)["Type"];
+}
+export const QuickResponseContents = S.suspend(() =>
+  S.Struct({
+    plainText: S.optional(QuickResponseContentProvider),
+    markdown: S.optional(QuickResponseContentProvider),
+  }),
+).annotations({
+  identifier: "QuickResponseContents",
+}) as any as S.Schema<QuickResponseContents>;
+export interface QuickResponseData {
+  quickResponseArn: string;
+  quickResponseId: string;
+  knowledgeBaseArn: string;
+  knowledgeBaseId: string;
+  name: string;
+  contentType: string;
+  status: string;
+  createdTime: Date;
+  lastModifiedTime: Date;
+  contents?: QuickResponseContents;
+  description?: string;
+  groupingConfiguration?: GroupingConfiguration;
+  shortcutKey?: string;
+  lastModifiedBy?: string;
+  isActive?: boolean;
+  channels?: Channels;
+  language?: string;
+  tags?: Tags;
+}
+export const QuickResponseData = S.suspend(() =>
+  S.Struct({
+    quickResponseArn: S.String,
+    quickResponseId: S.String,
+    knowledgeBaseArn: S.String,
+    knowledgeBaseId: S.String,
+    name: S.String,
+    contentType: S.String,
+    status: S.String,
+    createdTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    lastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    contents: S.optional(QuickResponseContents),
+    description: S.optional(S.String),
+    groupingConfiguration: S.optional(GroupingConfiguration),
+    shortcutKey: S.optional(S.String),
+    lastModifiedBy: S.optional(S.String),
+    isActive: S.optional(S.Boolean),
+    channels: S.optional(Channels),
+    language: S.optional(S.String),
+    tags: S.optional(Tags),
+  }),
+).annotations({
+  identifier: "QuickResponseData",
+}) as any as S.Schema<QuickResponseData>;
+export interface UpdateQuickResponseResponse {
+  quickResponse?: QuickResponseData;
+}
+export const UpdateQuickResponseResponse = S.suspend(() =>
+  S.Struct({ quickResponse: S.optional(QuickResponseData) }),
+).annotations({
+  identifier: "UpdateQuickResponseResponse",
+}) as any as S.Schema<UpdateQuickResponseResponse>;
+export interface GenerativeContentFeedbackData {
+  relevance: string;
+}
+export const GenerativeContentFeedbackData = S.suspend(() =>
+  S.Struct({ relevance: S.String }),
+).annotations({
+  identifier: "GenerativeContentFeedbackData",
+}) as any as S.Schema<GenerativeContentFeedbackData>;
+export interface QueryConditionItem {
+  field: string;
+  comparator: string;
+  value: string;
+}
+export const QueryConditionItem = S.suspend(() =>
+  S.Struct({ field: S.String, comparator: S.String, value: S.String }),
+).annotations({
+  identifier: "QueryConditionItem",
+}) as any as S.Schema<QueryConditionItem>;
+export interface QueryTextInputData {
+  text: string;
+}
+export const QueryTextInputData = S.suspend(() =>
+  S.Struct({ text: S.String }),
+).annotations({
+  identifier: "QueryTextInputData",
+}) as any as S.Schema<QueryTextInputData>;
+export interface IntentInputData {
+  intentId: string;
+}
+export const IntentInputData = S.suspend(() =>
+  S.Struct({ intentId: S.String }),
+).annotations({
+  identifier: "IntentInputData",
+}) as any as S.Schema<IntentInputData>;
+export interface CaseSummarizationInputData {
+  caseArn: string;
+}
+export const CaseSummarizationInputData = S.suspend(() =>
+  S.Struct({ caseArn: S.String }),
+).annotations({
+  identifier: "CaseSummarizationInputData",
+}) as any as S.Schema<CaseSummarizationInputData>;
 export const KnowledgeSource = S.Union(
   S.Struct({ assistantAssociationIds: AssistantAssociationIdList }),
 );
-export class ExternalBedrockKnowledgeBaseConfig extends S.Class<ExternalBedrockKnowledgeBaseConfig>(
-  "ExternalBedrockKnowledgeBaseConfig",
-)({ bedrockKnowledgeBaseArn: S.String, accessRoleArn: S.String }) {}
-export class SelfServiceConversationHistory extends S.Class<SelfServiceConversationHistory>(
-  "SelfServiceConversationHistory",
-)({
-  turnNumber: S.optional(S.Number),
-  inputTranscript: S.optional(S.String),
-  botResponse: S.optional(S.String),
-  timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface ExternalBedrockKnowledgeBaseConfig {
+  bedrockKnowledgeBaseArn: string;
+  accessRoleArn: string;
+}
+export const ExternalBedrockKnowledgeBaseConfig = S.suspend(() =>
+  S.Struct({ bedrockKnowledgeBaseArn: S.String, accessRoleArn: S.String }),
+).annotations({
+  identifier: "ExternalBedrockKnowledgeBaseConfig",
+}) as any as S.Schema<ExternalBedrockKnowledgeBaseConfig>;
+export interface SelfServiceConversationHistory {
+  turnNumber?: number;
+  inputTranscript?: string;
+  botResponse?: string;
+  timestamp?: Date;
+}
+export const SelfServiceConversationHistory = S.suspend(() =>
+  S.Struct({
+    turnNumber: S.optional(S.Number),
+    inputTranscript: S.optional(S.String),
+    botResponse: S.optional(S.String),
+    timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "SelfServiceConversationHistory",
+}) as any as S.Schema<SelfServiceConversationHistory>;
+export type SelfServiceConversationHistoryList =
+  SelfServiceConversationHistory[];
 export const SelfServiceConversationHistoryList = S.Array(
   SelfServiceConversationHistory,
 );
 export const RuntimeSessionDataValue = S.Union(
   S.Struct({ stringValue: S.String }),
 );
-export class MessageTemplateQueryField extends S.Class<MessageTemplateQueryField>(
-  "MessageTemplateQueryField",
-)({
-  name: S.String,
-  values: MessageTemplateQueryValueList,
-  operator: S.String,
-  allowFuzziness: S.optional(S.Boolean),
-  priority: S.optional(S.String),
-}) {}
+export interface MessageTemplateQueryField {
+  name: string;
+  values: MessageTemplateQueryValueList;
+  operator: string;
+  allowFuzziness?: boolean;
+  priority?: string;
+}
+export const MessageTemplateQueryField = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    values: MessageTemplateQueryValueList,
+    operator: S.String,
+    allowFuzziness: S.optional(S.Boolean),
+    priority: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "MessageTemplateQueryField",
+}) as any as S.Schema<MessageTemplateQueryField>;
+export type MessageTemplateQueryFieldList = MessageTemplateQueryField[];
 export const MessageTemplateQueryFieldList = S.Array(MessageTemplateQueryField);
-export class MessageTemplateFilterField extends S.Class<MessageTemplateFilterField>(
-  "MessageTemplateFilterField",
-)({
-  name: S.String,
-  values: S.optional(MessageTemplateFilterValueList),
-  operator: S.String,
-  includeNoExistence: S.optional(S.Boolean),
-}) {}
+export interface MessageTemplateFilterField {
+  name: string;
+  values?: MessageTemplateFilterValueList;
+  operator: string;
+  includeNoExistence?: boolean;
+}
+export const MessageTemplateFilterField = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    values: S.optional(MessageTemplateFilterValueList),
+    operator: S.String,
+    includeNoExistence: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "MessageTemplateFilterField",
+}) as any as S.Schema<MessageTemplateFilterField>;
+export type MessageTemplateFilterFieldList = MessageTemplateFilterField[];
 export const MessageTemplateFilterFieldList = S.Array(
   MessageTemplateFilterField,
 );
-export class MessageTemplateOrderField extends S.Class<MessageTemplateOrderField>(
-  "MessageTemplateOrderField",
-)({ name: S.String, order: S.optional(S.String) }) {}
-export class QuickResponseQueryField extends S.Class<QuickResponseQueryField>(
-  "QuickResponseQueryField",
-)({
-  name: S.String,
-  values: QuickResponseQueryValueList,
-  operator: S.String,
-  allowFuzziness: S.optional(S.Boolean),
-  priority: S.optional(S.String),
-}) {}
+export interface MessageTemplateOrderField {
+  name: string;
+  order?: string;
+}
+export const MessageTemplateOrderField = S.suspend(() =>
+  S.Struct({ name: S.String, order: S.optional(S.String) }),
+).annotations({
+  identifier: "MessageTemplateOrderField",
+}) as any as S.Schema<MessageTemplateOrderField>;
+export interface QuickResponseQueryField {
+  name: string;
+  values: QuickResponseQueryValueList;
+  operator: string;
+  allowFuzziness?: boolean;
+  priority?: string;
+}
+export const QuickResponseQueryField = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    values: QuickResponseQueryValueList,
+    operator: S.String,
+    allowFuzziness: S.optional(S.Boolean),
+    priority: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "QuickResponseQueryField",
+}) as any as S.Schema<QuickResponseQueryField>;
+export type QuickResponseQueryFieldList = QuickResponseQueryField[];
 export const QuickResponseQueryFieldList = S.Array(QuickResponseQueryField);
-export class QuickResponseFilterField extends S.Class<QuickResponseFilterField>(
-  "QuickResponseFilterField",
-)({
-  name: S.String,
-  values: S.optional(QuickResponseFilterValueList),
-  operator: S.String,
-  includeNoExistence: S.optional(S.Boolean),
-}) {}
+export interface QuickResponseFilterField {
+  name: string;
+  values?: QuickResponseFilterValueList;
+  operator: string;
+  includeNoExistence?: boolean;
+}
+export const QuickResponseFilterField = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    values: S.optional(QuickResponseFilterValueList),
+    operator: S.String,
+    includeNoExistence: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "QuickResponseFilterField",
+}) as any as S.Schema<QuickResponseFilterField>;
+export type QuickResponseFilterFieldList = QuickResponseFilterField[];
 export const QuickResponseFilterFieldList = S.Array(QuickResponseFilterField);
-export class QuickResponseOrderField extends S.Class<QuickResponseOrderField>(
-  "QuickResponseOrderField",
-)({ name: S.String, order: S.optional(S.String) }) {}
-export class AmazonConnectGuideAssociationData extends S.Class<AmazonConnectGuideAssociationData>(
-  "AmazonConnectGuideAssociationData",
-)({ flowId: S.optional(S.String) }) {}
-export class AssistantIntegrationConfiguration extends S.Class<AssistantIntegrationConfiguration>(
-  "AssistantIntegrationConfiguration",
-)({ topicIntegrationArn: S.optional(S.String) }) {}
-export class AssistantCapabilityConfiguration extends S.Class<AssistantCapabilityConfiguration>(
-  "AssistantCapabilityConfiguration",
-)({ type: S.optional(S.String) }) {}
-export class AssistantSummary extends S.Class<AssistantSummary>(
-  "AssistantSummary",
-)({
-  assistantId: S.String,
-  assistantArn: S.String,
-  name: S.String,
-  type: S.String,
-  status: S.String,
-  description: S.optional(S.String),
-  tags: S.optional(Tags),
-  serverSideEncryptionConfiguration: S.optional(
-    ServerSideEncryptionConfiguration,
-  ),
-  integrationConfiguration: S.optional(AssistantIntegrationConfiguration),
-  capabilityConfiguration: S.optional(AssistantCapabilityConfiguration),
-  aiAgentConfiguration: S.optional(AIAgentConfigurationMap),
-  orchestratorConfigurationList: S.optional(OrchestratorConfigurationList),
-}) {}
+export interface QuickResponseOrderField {
+  name: string;
+  order?: string;
+}
+export const QuickResponseOrderField = S.suspend(() =>
+  S.Struct({ name: S.String, order: S.optional(S.String) }),
+).annotations({
+  identifier: "QuickResponseOrderField",
+}) as any as S.Schema<QuickResponseOrderField>;
+export interface AmazonConnectGuideAssociationData {
+  flowId?: string;
+}
+export const AmazonConnectGuideAssociationData = S.suspend(() =>
+  S.Struct({ flowId: S.optional(S.String) }),
+).annotations({
+  identifier: "AmazonConnectGuideAssociationData",
+}) as any as S.Schema<AmazonConnectGuideAssociationData>;
+export interface AssistantIntegrationConfiguration {
+  topicIntegrationArn?: string;
+}
+export const AssistantIntegrationConfiguration = S.suspend(() =>
+  S.Struct({ topicIntegrationArn: S.optional(S.String) }),
+).annotations({
+  identifier: "AssistantIntegrationConfiguration",
+}) as any as S.Schema<AssistantIntegrationConfiguration>;
+export interface AssistantCapabilityConfiguration {
+  type?: string;
+}
+export const AssistantCapabilityConfiguration = S.suspend(() =>
+  S.Struct({ type: S.optional(S.String) }),
+).annotations({
+  identifier: "AssistantCapabilityConfiguration",
+}) as any as S.Schema<AssistantCapabilityConfiguration>;
+export interface AssistantSummary {
+  assistantId: string;
+  assistantArn: string;
+  name: string;
+  type: string;
+  status: string;
+  description?: string;
+  tags?: Tags;
+  serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
+  integrationConfiguration?: AssistantIntegrationConfiguration;
+  capabilityConfiguration?: AssistantCapabilityConfiguration;
+  aiAgentConfiguration?: AIAgentConfigurationMap;
+  orchestratorConfigurationList?: OrchestratorConfigurationList;
+}
+export const AssistantSummary = S.suspend(() =>
+  S.Struct({
+    assistantId: S.String,
+    assistantArn: S.String,
+    name: S.String,
+    type: S.String,
+    status: S.String,
+    description: S.optional(S.String),
+    tags: S.optional(Tags),
+    serverSideEncryptionConfiguration: S.optional(
+      ServerSideEncryptionConfiguration,
+    ),
+    integrationConfiguration: S.optional(AssistantIntegrationConfiguration),
+    capabilityConfiguration: S.optional(AssistantCapabilityConfiguration),
+    aiAgentConfiguration: S.optional(AIAgentConfigurationMap),
+    orchestratorConfigurationList: S.optional(OrchestratorConfigurationList),
+  }),
+).annotations({
+  identifier: "AssistantSummary",
+}) as any as S.Schema<AssistantSummary>;
+export type AssistantList = AssistantSummary[];
 export const AssistantList = S.Array(AssistantSummary);
-export class NotifyRecommendationsReceivedError extends S.Class<NotifyRecommendationsReceivedError>(
-  "NotifyRecommendationsReceivedError",
-)({ recommendationId: S.optional(S.String), message: S.optional(S.String) }) {}
+export interface NotifyRecommendationsReceivedError {
+  recommendationId?: string;
+  message?: string;
+}
+export const NotifyRecommendationsReceivedError = S.suspend(() =>
+  S.Struct({
+    recommendationId: S.optional(S.String),
+    message: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "NotifyRecommendationsReceivedError",
+}) as any as S.Schema<NotifyRecommendationsReceivedError>;
+export type NotifyRecommendationsReceivedErrorList =
+  NotifyRecommendationsReceivedError[];
 export const NotifyRecommendationsReceivedErrorList = S.Array(
   NotifyRecommendationsReceivedError,
 );
@@ -2950,85 +4634,162 @@ export const ContentFeedbackData = S.Union(
   S.Struct({ generativeContentFeedbackData: GenerativeContentFeedbackData }),
 );
 export const QueryCondition = S.Union(S.Struct({ single: QueryConditionItem }));
+export type QueryConditionExpression = (typeof QueryCondition)["Type"][];
 export const QueryConditionExpression = S.Array(QueryCondition);
 export const QueryInputData = S.Union(
   S.Struct({ queryTextInputData: QueryTextInputData }),
   S.Struct({ intentInputData: IntentInputData }),
   S.Struct({ caseSummarizationInputData: CaseSummarizationInputData }),
 );
-export class AIAgentSummary extends S.Class<AIAgentSummary>("AIAgentSummary")({
-  name: S.String,
-  assistantId: S.String,
-  assistantArn: S.String,
-  aiAgentId: S.String,
-  type: S.String,
-  aiAgentArn: S.String,
-  modifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  visibilityStatus: S.String,
-  configuration: S.optional(AIAgentConfiguration),
-  origin: S.optional(S.String),
-  description: S.optional(S.String),
-  status: S.optional(S.String),
-  tags: S.optional(Tags),
-}) {}
+export interface AIAgentSummary {
+  name: string;
+  assistantId: string;
+  assistantArn: string;
+  aiAgentId: string;
+  type: string;
+  aiAgentArn: string;
+  modifiedTime?: Date;
+  visibilityStatus: string;
+  configuration?: (typeof AIAgentConfiguration)["Type"];
+  origin?: string;
+  description?: string;
+  status?: string;
+  tags?: Tags;
+}
+export const AIAgentSummary = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    assistantId: S.String,
+    assistantArn: S.String,
+    aiAgentId: S.String,
+    type: S.String,
+    aiAgentArn: S.String,
+    modifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    visibilityStatus: S.String,
+    configuration: S.optional(AIAgentConfiguration),
+    origin: S.optional(S.String),
+    description: S.optional(S.String),
+    status: S.optional(S.String),
+    tags: S.optional(Tags),
+  }),
+).annotations({
+  identifier: "AIAgentSummary",
+}) as any as S.Schema<AIAgentSummary>;
+export type AIAgentSummaryList = AIAgentSummary[];
 export const AIAgentSummaryList = S.Array(AIAgentSummary);
-export class AIAgentVersionSummary extends S.Class<AIAgentVersionSummary>(
-  "AIAgentVersionSummary",
-)({
-  aiAgentSummary: S.optional(AIAgentSummary),
-  versionNumber: S.optional(S.Number),
-}) {}
+export interface AIAgentVersionSummary {
+  aiAgentSummary?: AIAgentSummary;
+  versionNumber?: number;
+}
+export const AIAgentVersionSummary = S.suspend(() =>
+  S.Struct({
+    aiAgentSummary: S.optional(AIAgentSummary),
+    versionNumber: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "AIAgentVersionSummary",
+}) as any as S.Schema<AIAgentVersionSummary>;
+export type AIAgentVersionSummariesList = AIAgentVersionSummary[];
 export const AIAgentVersionSummariesList = S.Array(AIAgentVersionSummary);
-export class AIGuardrailSummary extends S.Class<AIGuardrailSummary>(
-  "AIGuardrailSummary",
-)({
-  name: S.String,
-  assistantId: S.String,
-  assistantArn: S.String,
-  aiGuardrailId: S.String,
-  aiGuardrailArn: S.String,
-  modifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  visibilityStatus: S.String,
-  description: S.optional(S.String),
-  status: S.optional(S.String),
-  tags: S.optional(Tags),
-}) {}
+export interface AIGuardrailSummary {
+  name: string;
+  assistantId: string;
+  assistantArn: string;
+  aiGuardrailId: string;
+  aiGuardrailArn: string;
+  modifiedTime?: Date;
+  visibilityStatus: string;
+  description?: string;
+  status?: string;
+  tags?: Tags;
+}
+export const AIGuardrailSummary = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    assistantId: S.String,
+    assistantArn: S.String,
+    aiGuardrailId: S.String,
+    aiGuardrailArn: S.String,
+    modifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    visibilityStatus: S.String,
+    description: S.optional(S.String),
+    status: S.optional(S.String),
+    tags: S.optional(Tags),
+  }),
+).annotations({
+  identifier: "AIGuardrailSummary",
+}) as any as S.Schema<AIGuardrailSummary>;
+export type AIGuardrailSummariesList = AIGuardrailSummary[];
 export const AIGuardrailSummariesList = S.Array(AIGuardrailSummary);
-export class AIGuardrailVersionSummary extends S.Class<AIGuardrailVersionSummary>(
-  "AIGuardrailVersionSummary",
-)({
-  aiGuardrailSummary: S.optional(AIGuardrailSummary),
-  versionNumber: S.optional(S.Number),
-}) {}
+export interface AIGuardrailVersionSummary {
+  aiGuardrailSummary?: AIGuardrailSummary;
+  versionNumber?: number;
+}
+export const AIGuardrailVersionSummary = S.suspend(() =>
+  S.Struct({
+    aiGuardrailSummary: S.optional(AIGuardrailSummary),
+    versionNumber: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "AIGuardrailVersionSummary",
+}) as any as S.Schema<AIGuardrailVersionSummary>;
+export type AIGuardrailVersionSummariesList = AIGuardrailVersionSummary[];
 export const AIGuardrailVersionSummariesList = S.Array(
   AIGuardrailVersionSummary,
 );
-export class AIPromptSummary extends S.Class<AIPromptSummary>(
-  "AIPromptSummary",
-)({
-  name: S.String,
-  assistantId: S.String,
-  assistantArn: S.String,
-  aiPromptId: S.String,
-  type: S.String,
-  aiPromptArn: S.String,
-  modifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  templateType: S.String,
-  modelId: S.String,
-  apiFormat: S.String,
-  visibilityStatus: S.String,
-  origin: S.optional(S.String),
-  description: S.optional(S.String),
-  status: S.optional(S.String),
-  tags: S.optional(Tags),
-}) {}
+export interface AIPromptSummary {
+  name: string;
+  assistantId: string;
+  assistantArn: string;
+  aiPromptId: string;
+  type: string;
+  aiPromptArn: string;
+  modifiedTime?: Date;
+  templateType: string;
+  modelId: string;
+  apiFormat: string;
+  visibilityStatus: string;
+  origin?: string;
+  description?: string;
+  status?: string;
+  tags?: Tags;
+}
+export const AIPromptSummary = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    assistantId: S.String,
+    assistantArn: S.String,
+    aiPromptId: S.String,
+    type: S.String,
+    aiPromptArn: S.String,
+    modifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    templateType: S.String,
+    modelId: S.String,
+    apiFormat: S.String,
+    visibilityStatus: S.String,
+    origin: S.optional(S.String),
+    description: S.optional(S.String),
+    status: S.optional(S.String),
+    tags: S.optional(Tags),
+  }),
+).annotations({
+  identifier: "AIPromptSummary",
+}) as any as S.Schema<AIPromptSummary>;
+export type AIPromptSummaryList = AIPromptSummary[];
 export const AIPromptSummaryList = S.Array(AIPromptSummary);
-export class AIPromptVersionSummary extends S.Class<AIPromptVersionSummary>(
-  "AIPromptVersionSummary",
-)({
-  aiPromptSummary: S.optional(AIPromptSummary),
-  versionNumber: S.optional(S.Number),
-}) {}
+export interface AIPromptVersionSummary {
+  aiPromptSummary?: AIPromptSummary;
+  versionNumber?: number;
+}
+export const AIPromptVersionSummary = S.suspend(() =>
+  S.Struct({
+    aiPromptSummary: S.optional(AIPromptSummary),
+    versionNumber: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "AIPromptVersionSummary",
+}) as any as S.Schema<AIPromptVersionSummary>;
+export type AIPromptVersionSummariesList = AIPromptVersionSummary[];
 export const AIPromptVersionSummariesList = S.Array(AIPromptVersionSummary);
 export const AssistantAssociationInputData = S.Union(
   S.Struct({ knowledgeBaseId: S.String }),
@@ -3036,254 +4797,507 @@ export const AssistantAssociationInputData = S.Union(
     externalBedrockKnowledgeBaseConfig: ExternalBedrockKnowledgeBaseConfig,
   }),
 );
-export class KnowledgeBaseAssociationData extends S.Class<KnowledgeBaseAssociationData>(
-  "KnowledgeBaseAssociationData",
-)({
-  knowledgeBaseId: S.optional(S.String),
-  knowledgeBaseArn: S.optional(S.String),
-}) {}
+export interface KnowledgeBaseAssociationData {
+  knowledgeBaseId?: string;
+  knowledgeBaseArn?: string;
+}
+export const KnowledgeBaseAssociationData = S.suspend(() =>
+  S.Struct({
+    knowledgeBaseId: S.optional(S.String),
+    knowledgeBaseArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "KnowledgeBaseAssociationData",
+}) as any as S.Schema<KnowledgeBaseAssociationData>;
 export const AssistantAssociationOutputData = S.Union(
   S.Struct({ knowledgeBaseAssociation: KnowledgeBaseAssociationData }),
   S.Struct({
     externalBedrockKnowledgeBaseConfig: ExternalBedrockKnowledgeBaseConfig,
   }),
 );
-export class AssistantAssociationSummary extends S.Class<AssistantAssociationSummary>(
-  "AssistantAssociationSummary",
-)({
-  assistantAssociationId: S.String,
-  assistantAssociationArn: S.String,
-  assistantId: S.String,
-  assistantArn: S.String,
-  associationType: S.String,
-  associationData: AssistantAssociationOutputData,
-  tags: S.optional(Tags),
-}) {}
+export interface AssistantAssociationSummary {
+  assistantAssociationId: string;
+  assistantAssociationArn: string;
+  assistantId: string;
+  assistantArn: string;
+  associationType: string;
+  associationData: (typeof AssistantAssociationOutputData)["Type"];
+  tags?: Tags;
+}
+export const AssistantAssociationSummary = S.suspend(() =>
+  S.Struct({
+    assistantAssociationId: S.String,
+    assistantAssociationArn: S.String,
+    assistantId: S.String,
+    assistantArn: S.String,
+    associationType: S.String,
+    associationData: AssistantAssociationOutputData,
+    tags: S.optional(Tags),
+  }),
+).annotations({
+  identifier: "AssistantAssociationSummary",
+}) as any as S.Schema<AssistantAssociationSummary>;
+export type AssistantAssociationSummaryList = AssistantAssociationSummary[];
 export const AssistantAssociationSummaryList = S.Array(
   AssistantAssociationSummary,
 );
-export class ConversationState extends S.Class<ConversationState>(
-  "ConversationState",
-)({ status: S.String, reason: S.optional(S.String) }) {}
-export class ConversationContext extends S.Class<ConversationContext>(
-  "ConversationContext",
-)({ selfServiceConversationHistory: SelfServiceConversationHistoryList }) {}
-export class RuntimeSessionData extends S.Class<RuntimeSessionData>(
-  "RuntimeSessionData",
-)({ key: S.String, value: RuntimeSessionDataValue }) {}
+export interface ConversationState {
+  status: string;
+  reason?: string;
+}
+export const ConversationState = S.suspend(() =>
+  S.Struct({ status: S.String, reason: S.optional(S.String) }),
+).annotations({
+  identifier: "ConversationState",
+}) as any as S.Schema<ConversationState>;
+export interface ConversationContext {
+  selfServiceConversationHistory: SelfServiceConversationHistoryList;
+}
+export const ConversationContext = S.suspend(() =>
+  S.Struct({
+    selfServiceConversationHistory: SelfServiceConversationHistoryList,
+  }),
+).annotations({
+  identifier: "ConversationContext",
+}) as any as S.Schema<ConversationContext>;
+export interface RuntimeSessionData {
+  key: string;
+  value: (typeof RuntimeSessionDataValue)["Type"];
+}
+export const RuntimeSessionData = S.suspend(() =>
+  S.Struct({ key: S.String, value: RuntimeSessionDataValue }),
+).annotations({
+  identifier: "RuntimeSessionData",
+}) as any as S.Schema<RuntimeSessionData>;
+export type RuntimeSessionDataList = RuntimeSessionData[];
 export const RuntimeSessionDataList = S.Array(RuntimeSessionData);
-export class KnowledgeBaseSummary extends S.Class<KnowledgeBaseSummary>(
-  "KnowledgeBaseSummary",
-)({
-  knowledgeBaseId: S.String,
-  knowledgeBaseArn: S.String,
-  name: S.String,
-  knowledgeBaseType: S.String,
-  status: S.String,
-  sourceConfiguration: S.optional(SourceConfiguration),
-  vectorIngestionConfiguration: S.optional(VectorIngestionConfiguration),
-  renderingConfiguration: S.optional(RenderingConfiguration),
-  serverSideEncryptionConfiguration: S.optional(
-    ServerSideEncryptionConfiguration,
-  ),
-  description: S.optional(S.String),
-  tags: S.optional(Tags),
-}) {}
+export interface KnowledgeBaseSummary {
+  knowledgeBaseId: string;
+  knowledgeBaseArn: string;
+  name: string;
+  knowledgeBaseType: string;
+  status: string;
+  sourceConfiguration?: (typeof SourceConfiguration)["Type"];
+  vectorIngestionConfiguration?: VectorIngestionConfiguration;
+  renderingConfiguration?: RenderingConfiguration;
+  serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
+  description?: string;
+  tags?: Tags;
+}
+export const KnowledgeBaseSummary = S.suspend(() =>
+  S.Struct({
+    knowledgeBaseId: S.String,
+    knowledgeBaseArn: S.String,
+    name: S.String,
+    knowledgeBaseType: S.String,
+    status: S.String,
+    sourceConfiguration: S.optional(SourceConfiguration),
+    vectorIngestionConfiguration: S.optional(VectorIngestionConfiguration),
+    renderingConfiguration: S.optional(RenderingConfiguration),
+    serverSideEncryptionConfiguration: S.optional(
+      ServerSideEncryptionConfiguration,
+    ),
+    description: S.optional(S.String),
+    tags: S.optional(Tags),
+  }),
+).annotations({
+  identifier: "KnowledgeBaseSummary",
+}) as any as S.Schema<KnowledgeBaseSummary>;
+export type KnowledgeBaseList = KnowledgeBaseSummary[];
 export const KnowledgeBaseList = S.Array(KnowledgeBaseSummary);
-export class ConnectConfiguration extends S.Class<ConnectConfiguration>(
-  "ConnectConfiguration",
-)({ instanceId: S.optional(S.String) }) {}
+export interface ConnectConfiguration {
+  instanceId?: string;
+}
+export const ConnectConfiguration = S.suspend(() =>
+  S.Struct({ instanceId: S.optional(S.String) }),
+).annotations({
+  identifier: "ConnectConfiguration",
+}) as any as S.Schema<ConnectConfiguration>;
 export const Configuration = S.Union(
   S.Struct({ connectConfiguration: ConnectConfiguration }),
 );
-export class ExternalSourceConfiguration extends S.Class<ExternalSourceConfiguration>(
-  "ExternalSourceConfiguration",
-)({ source: S.String, configuration: Configuration }) {}
-export class ImportJobData extends S.Class<ImportJobData>("ImportJobData")({
-  importJobId: S.String,
-  knowledgeBaseId: S.String,
-  uploadId: S.String,
-  knowledgeBaseArn: S.String,
-  importJobType: S.String,
-  status: S.String,
-  url: S.String,
-  failedRecordReport: S.optional(S.String),
-  urlExpiry: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  createdTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  lastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  metadata: S.optional(ContentMetadata),
-  externalSourceConfiguration: S.optional(ExternalSourceConfiguration),
-}) {}
-export class ImportJobSummary extends S.Class<ImportJobSummary>(
-  "ImportJobSummary",
-)({
-  importJobId: S.String,
-  knowledgeBaseId: S.String,
-  uploadId: S.String,
-  knowledgeBaseArn: S.String,
-  importJobType: S.String,
-  status: S.String,
-  createdTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  lastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  metadata: S.optional(ContentMetadata),
-  externalSourceConfiguration: S.optional(ExternalSourceConfiguration),
-}) {}
+export interface ExternalSourceConfiguration {
+  source: string;
+  configuration: (typeof Configuration)["Type"];
+}
+export const ExternalSourceConfiguration = S.suspend(() =>
+  S.Struct({ source: S.String, configuration: Configuration }),
+).annotations({
+  identifier: "ExternalSourceConfiguration",
+}) as any as S.Schema<ExternalSourceConfiguration>;
+export interface ImportJobData {
+  importJobId: string;
+  knowledgeBaseId: string;
+  uploadId: string;
+  knowledgeBaseArn: string;
+  importJobType: string;
+  status: string;
+  url: string;
+  failedRecordReport?: string;
+  urlExpiry: Date;
+  createdTime: Date;
+  lastModifiedTime: Date;
+  metadata?: ContentMetadata;
+  externalSourceConfiguration?: ExternalSourceConfiguration;
+}
+export const ImportJobData = S.suspend(() =>
+  S.Struct({
+    importJobId: S.String,
+    knowledgeBaseId: S.String,
+    uploadId: S.String,
+    knowledgeBaseArn: S.String,
+    importJobType: S.String,
+    status: S.String,
+    url: S.String,
+    failedRecordReport: S.optional(S.String),
+    urlExpiry: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    createdTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    lastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    metadata: S.optional(ContentMetadata),
+    externalSourceConfiguration: S.optional(ExternalSourceConfiguration),
+  }),
+).annotations({
+  identifier: "ImportJobData",
+}) as any as S.Schema<ImportJobData>;
+export interface ImportJobSummary {
+  importJobId: string;
+  knowledgeBaseId: string;
+  uploadId: string;
+  knowledgeBaseArn: string;
+  importJobType: string;
+  status: string;
+  createdTime: Date;
+  lastModifiedTime: Date;
+  metadata?: ContentMetadata;
+  externalSourceConfiguration?: ExternalSourceConfiguration;
+}
+export const ImportJobSummary = S.suspend(() =>
+  S.Struct({
+    importJobId: S.String,
+    knowledgeBaseId: S.String,
+    uploadId: S.String,
+    knowledgeBaseArn: S.String,
+    importJobType: S.String,
+    status: S.String,
+    createdTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    lastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    metadata: S.optional(ContentMetadata),
+    externalSourceConfiguration: S.optional(ExternalSourceConfiguration),
+  }),
+).annotations({
+  identifier: "ImportJobSummary",
+}) as any as S.Schema<ImportJobSummary>;
+export type ImportJobList = ImportJobSummary[];
 export const ImportJobList = S.Array(ImportJobSummary);
-export class MessageTemplateSearchExpression extends S.Class<MessageTemplateSearchExpression>(
-  "MessageTemplateSearchExpression",
-)({
-  queries: S.optional(MessageTemplateQueryFieldList),
-  filters: S.optional(MessageTemplateFilterFieldList),
-  orderOnField: S.optional(MessageTemplateOrderField),
-}) {}
-export class QuickResponseSearchExpression extends S.Class<QuickResponseSearchExpression>(
-  "QuickResponseSearchExpression",
-)({
-  queries: S.optional(QuickResponseQueryFieldList),
-  filters: S.optional(QuickResponseFilterFieldList),
-  orderOnField: S.optional(QuickResponseOrderField),
-}) {}
+export interface MessageTemplateSearchExpression {
+  queries?: MessageTemplateQueryFieldList;
+  filters?: MessageTemplateFilterFieldList;
+  orderOnField?: MessageTemplateOrderField;
+}
+export const MessageTemplateSearchExpression = S.suspend(() =>
+  S.Struct({
+    queries: S.optional(MessageTemplateQueryFieldList),
+    filters: S.optional(MessageTemplateFilterFieldList),
+    orderOnField: S.optional(MessageTemplateOrderField),
+  }),
+).annotations({
+  identifier: "MessageTemplateSearchExpression",
+}) as any as S.Schema<MessageTemplateSearchExpression>;
+export interface QuickResponseSearchExpression {
+  queries?: QuickResponseQueryFieldList;
+  filters?: QuickResponseFilterFieldList;
+  orderOnField?: QuickResponseOrderField;
+}
+export const QuickResponseSearchExpression = S.suspend(() =>
+  S.Struct({
+    queries: S.optional(QuickResponseQueryFieldList),
+    filters: S.optional(QuickResponseFilterFieldList),
+    orderOnField: S.optional(QuickResponseOrderField),
+  }),
+).annotations({
+  identifier: "QuickResponseSearchExpression",
+}) as any as S.Schema<QuickResponseSearchExpression>;
+export type Headers = { [key: string]: string };
 export const Headers = S.Record({ key: S.String, value: S.String });
 export const ContentAssociationContents = S.Union(
   S.Struct({
     amazonConnectGuideAssociation: AmazonConnectGuideAssociationData,
   }),
 );
-export class ContentAssociationData extends S.Class<ContentAssociationData>(
-  "ContentAssociationData",
-)({
-  knowledgeBaseId: S.String,
-  knowledgeBaseArn: S.String,
-  contentId: S.String,
-  contentArn: S.String,
-  contentAssociationId: S.String,
-  contentAssociationArn: S.String,
-  associationType: S.String,
-  associationData: ContentAssociationContents,
-  tags: S.optional(Tags),
-}) {}
-export class ContentAssociationSummary extends S.Class<ContentAssociationSummary>(
-  "ContentAssociationSummary",
-)({
-  knowledgeBaseId: S.String,
-  knowledgeBaseArn: S.String,
-  contentId: S.String,
-  contentArn: S.String,
-  contentAssociationId: S.String,
-  contentAssociationArn: S.String,
-  associationType: S.String,
-  associationData: ContentAssociationContents,
-  tags: S.optional(Tags),
-}) {}
+export interface ContentAssociationData {
+  knowledgeBaseId: string;
+  knowledgeBaseArn: string;
+  contentId: string;
+  contentArn: string;
+  contentAssociationId: string;
+  contentAssociationArn: string;
+  associationType: string;
+  associationData: (typeof ContentAssociationContents)["Type"];
+  tags?: Tags;
+}
+export const ContentAssociationData = S.suspend(() =>
+  S.Struct({
+    knowledgeBaseId: S.String,
+    knowledgeBaseArn: S.String,
+    contentId: S.String,
+    contentArn: S.String,
+    contentAssociationId: S.String,
+    contentAssociationArn: S.String,
+    associationType: S.String,
+    associationData: ContentAssociationContents,
+    tags: S.optional(Tags),
+  }),
+).annotations({
+  identifier: "ContentAssociationData",
+}) as any as S.Schema<ContentAssociationData>;
+export interface ContentAssociationSummary {
+  knowledgeBaseId: string;
+  knowledgeBaseArn: string;
+  contentId: string;
+  contentArn: string;
+  contentAssociationId: string;
+  contentAssociationArn: string;
+  associationType: string;
+  associationData: (typeof ContentAssociationContents)["Type"];
+  tags?: Tags;
+}
+export const ContentAssociationSummary = S.suspend(() =>
+  S.Struct({
+    knowledgeBaseId: S.String,
+    knowledgeBaseArn: S.String,
+    contentId: S.String,
+    contentArn: S.String,
+    contentAssociationId: S.String,
+    contentAssociationArn: S.String,
+    associationType: S.String,
+    associationData: ContentAssociationContents,
+    tags: S.optional(Tags),
+  }),
+).annotations({
+  identifier: "ContentAssociationSummary",
+}) as any as S.Schema<ContentAssociationSummary>;
+export type ContentAssociationSummaryList = ContentAssociationSummary[];
 export const ContentAssociationSummaryList = S.Array(ContentAssociationSummary);
-export class MessageTemplateSummary extends S.Class<MessageTemplateSummary>(
-  "MessageTemplateSummary",
-)({
-  messageTemplateArn: S.String,
-  messageTemplateId: S.String,
-  knowledgeBaseArn: S.String,
-  knowledgeBaseId: S.String,
-  name: S.String,
-  channel: S.optional(S.String),
-  channelSubtype: S.String,
-  createdTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  lastModifiedTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  lastModifiedBy: S.String,
-  sourceConfiguration: S.optional(MessageTemplateSourceConfiguration),
-  activeVersionNumber: S.optional(S.Number),
-  description: S.optional(S.String),
-  tags: S.optional(Tags),
-}) {}
+export interface MessageTemplateSummary {
+  messageTemplateArn: string;
+  messageTemplateId: string;
+  knowledgeBaseArn: string;
+  knowledgeBaseId: string;
+  name: string;
+  channel?: string;
+  channelSubtype: string;
+  createdTime: Date;
+  lastModifiedTime: Date;
+  lastModifiedBy: string;
+  sourceConfiguration?: (typeof MessageTemplateSourceConfiguration)["Type"];
+  activeVersionNumber?: number;
+  description?: string;
+  tags?: Tags;
+}
+export const MessageTemplateSummary = S.suspend(() =>
+  S.Struct({
+    messageTemplateArn: S.String,
+    messageTemplateId: S.String,
+    knowledgeBaseArn: S.String,
+    knowledgeBaseId: S.String,
+    name: S.String,
+    channel: S.optional(S.String),
+    channelSubtype: S.String,
+    createdTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastModifiedTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastModifiedBy: S.String,
+    sourceConfiguration: S.optional(MessageTemplateSourceConfiguration),
+    activeVersionNumber: S.optional(S.Number),
+    description: S.optional(S.String),
+    tags: S.optional(Tags),
+  }),
+).annotations({
+  identifier: "MessageTemplateSummary",
+}) as any as S.Schema<MessageTemplateSummary>;
+export type MessageTemplateSummaryList = MessageTemplateSummary[];
 export const MessageTemplateSummaryList = S.Array(MessageTemplateSummary);
-export class MessageTemplateVersionSummary extends S.Class<MessageTemplateVersionSummary>(
-  "MessageTemplateVersionSummary",
-)({
-  messageTemplateArn: S.String,
-  messageTemplateId: S.String,
-  knowledgeBaseArn: S.String,
-  knowledgeBaseId: S.String,
-  name: S.String,
-  channel: S.optional(S.String),
-  channelSubtype: S.String,
-  isActive: S.Boolean,
-  versionNumber: S.Number,
-}) {}
+export interface MessageTemplateVersionSummary {
+  messageTemplateArn: string;
+  messageTemplateId: string;
+  knowledgeBaseArn: string;
+  knowledgeBaseId: string;
+  name: string;
+  channel?: string;
+  channelSubtype: string;
+  isActive: boolean;
+  versionNumber: number;
+}
+export const MessageTemplateVersionSummary = S.suspend(() =>
+  S.Struct({
+    messageTemplateArn: S.String,
+    messageTemplateId: S.String,
+    knowledgeBaseArn: S.String,
+    knowledgeBaseId: S.String,
+    name: S.String,
+    channel: S.optional(S.String),
+    channelSubtype: S.String,
+    isActive: S.Boolean,
+    versionNumber: S.Number,
+  }),
+).annotations({
+  identifier: "MessageTemplateVersionSummary",
+}) as any as S.Schema<MessageTemplateVersionSummary>;
+export type MessageTemplateVersionSummaryList = MessageTemplateVersionSummary[];
 export const MessageTemplateVersionSummaryList = S.Array(
   MessageTemplateVersionSummary,
 );
-export class QuickResponseSummary extends S.Class<QuickResponseSummary>(
-  "QuickResponseSummary",
-)({
-  quickResponseArn: S.String,
-  quickResponseId: S.String,
-  knowledgeBaseArn: S.String,
-  knowledgeBaseId: S.String,
-  name: S.String,
-  contentType: S.String,
-  status: S.String,
-  createdTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  lastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  description: S.optional(S.String),
-  lastModifiedBy: S.optional(S.String),
-  isActive: S.optional(S.Boolean),
-  channels: S.optional(Channels),
-  tags: S.optional(Tags),
-}) {}
+export interface QuickResponseSummary {
+  quickResponseArn: string;
+  quickResponseId: string;
+  knowledgeBaseArn: string;
+  knowledgeBaseId: string;
+  name: string;
+  contentType: string;
+  status: string;
+  createdTime: Date;
+  lastModifiedTime: Date;
+  description?: string;
+  lastModifiedBy?: string;
+  isActive?: boolean;
+  channels?: Channels;
+  tags?: Tags;
+}
+export const QuickResponseSummary = S.suspend(() =>
+  S.Struct({
+    quickResponseArn: S.String,
+    quickResponseId: S.String,
+    knowledgeBaseArn: S.String,
+    knowledgeBaseId: S.String,
+    name: S.String,
+    contentType: S.String,
+    status: S.String,
+    createdTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    lastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    description: S.optional(S.String),
+    lastModifiedBy: S.optional(S.String),
+    isActive: S.optional(S.Boolean),
+    channels: S.optional(Channels),
+    tags: S.optional(Tags),
+  }),
+).annotations({
+  identifier: "QuickResponseSummary",
+}) as any as S.Schema<QuickResponseSummary>;
+export type QuickResponseSummaryList = QuickResponseSummary[];
 export const QuickResponseSummaryList = S.Array(QuickResponseSummary);
-export class FilterAttribute extends S.Class<FilterAttribute>(
-  "FilterAttribute",
-)({ key: S.String, value: S.Any }) {}
+export interface FilterAttribute {
+  key: string;
+  value: any;
+}
+export const FilterAttribute = S.suspend(() =>
+  S.Struct({ key: S.String, value: S.Any }),
+).annotations({
+  identifier: "FilterAttribute",
+}) as any as S.Schema<FilterAttribute>;
+export type SpanFinishReasonList = string[];
 export const SpanFinishReasonList = S.Array(S.String);
-export class AssistantData extends S.Class<AssistantData>("AssistantData")({
-  assistantId: S.String,
-  assistantArn: S.String,
-  name: S.String,
-  type: S.String,
-  status: S.String,
-  description: S.optional(S.String),
-  tags: S.optional(Tags),
-  serverSideEncryptionConfiguration: S.optional(
-    ServerSideEncryptionConfiguration,
-  ),
-  integrationConfiguration: S.optional(AssistantIntegrationConfiguration),
-  capabilityConfiguration: S.optional(AssistantCapabilityConfiguration),
-  aiAgentConfiguration: S.optional(AIAgentConfigurationMap),
-  orchestratorConfigurationList: S.optional(OrchestratorConfigurationList),
-}) {}
-export class CreateAssistantResponse extends S.Class<CreateAssistantResponse>(
-  "CreateAssistantResponse",
-)({ assistant: S.optional(AssistantData) }) {}
-export class ListAssistantsResponse extends S.Class<ListAssistantsResponse>(
-  "ListAssistantsResponse",
-)({ assistantSummaries: AssistantList, nextToken: S.optional(S.String) }) {}
-export class NotifyRecommendationsReceivedResponse extends S.Class<NotifyRecommendationsReceivedResponse>(
-  "NotifyRecommendationsReceivedResponse",
-)({
-  recommendationIds: S.optional(RecommendationIdList),
-  errors: S.optional(NotifyRecommendationsReceivedErrorList),
-}) {}
-export class PutFeedbackRequest extends S.Class<PutFeedbackRequest>(
-  "PutFeedbackRequest",
-)(
-  {
+export interface AssistantData {
+  assistantId: string;
+  assistantArn: string;
+  name: string;
+  type: string;
+  status: string;
+  description?: string;
+  tags?: Tags;
+  serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
+  integrationConfiguration?: AssistantIntegrationConfiguration;
+  capabilityConfiguration?: AssistantCapabilityConfiguration;
+  aiAgentConfiguration?: AIAgentConfigurationMap;
+  orchestratorConfigurationList?: OrchestratorConfigurationList;
+}
+export const AssistantData = S.suspend(() =>
+  S.Struct({
+    assistantId: S.String,
+    assistantArn: S.String,
+    name: S.String,
+    type: S.String,
+    status: S.String,
+    description: S.optional(S.String),
+    tags: S.optional(Tags),
+    serverSideEncryptionConfiguration: S.optional(
+      ServerSideEncryptionConfiguration,
+    ),
+    integrationConfiguration: S.optional(AssistantIntegrationConfiguration),
+    capabilityConfiguration: S.optional(AssistantCapabilityConfiguration),
+    aiAgentConfiguration: S.optional(AIAgentConfigurationMap),
+    orchestratorConfigurationList: S.optional(OrchestratorConfigurationList),
+  }),
+).annotations({
+  identifier: "AssistantData",
+}) as any as S.Schema<AssistantData>;
+export interface CreateAssistantResponse {
+  assistant?: AssistantData;
+}
+export const CreateAssistantResponse = S.suspend(() =>
+  S.Struct({ assistant: S.optional(AssistantData) }),
+).annotations({
+  identifier: "CreateAssistantResponse",
+}) as any as S.Schema<CreateAssistantResponse>;
+export interface ListAssistantsResponse {
+  assistantSummaries: AssistantList;
+  nextToken?: string;
+}
+export const ListAssistantsResponse = S.suspend(() =>
+  S.Struct({
+    assistantSummaries: AssistantList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListAssistantsResponse",
+}) as any as S.Schema<ListAssistantsResponse>;
+export interface NotifyRecommendationsReceivedResponse {
+  recommendationIds?: RecommendationIdList;
+  errors?: NotifyRecommendationsReceivedErrorList;
+}
+export const NotifyRecommendationsReceivedResponse = S.suspend(() =>
+  S.Struct({
+    recommendationIds: S.optional(RecommendationIdList),
+    errors: S.optional(NotifyRecommendationsReceivedErrorList),
+  }),
+).annotations({
+  identifier: "NotifyRecommendationsReceivedResponse",
+}) as any as S.Schema<NotifyRecommendationsReceivedResponse>;
+export interface PutFeedbackRequest {
+  assistantId: string;
+  targetId: string;
+  targetType: string;
+  contentFeedback: (typeof ContentFeedbackData)["Type"];
+}
+export const PutFeedbackRequest = S.suspend(() =>
+  S.Struct({
     assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     targetId: S.String,
     targetType: S.String,
     contentFeedback: ContentFeedbackData,
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/assistants/{assistantId}/feedback" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/assistants/{assistantId}/feedback" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class QueryAssistantRequest extends S.Class<QueryAssistantRequest>(
-  "QueryAssistantRequest",
-)(
-  {
+).annotations({
+  identifier: "PutFeedbackRequest",
+}) as any as S.Schema<PutFeedbackRequest>;
+export interface QueryAssistantRequest {
+  assistantId: string;
+  queryText?: string;
+  nextToken?: string;
+  maxResults?: number;
+  sessionId?: string;
+  queryCondition?: QueryConditionExpression;
+  queryInputData?: (typeof QueryInputData)["Type"];
+  overrideKnowledgeBaseSearchType?: string;
+}
+export const QueryAssistantRequest = S.suspend(() =>
+  S.Struct({
     assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     queryText: S.optional(S.String),
     nextToken: S.optional(S.String),
@@ -3292,53 +5306,108 @@ export class QueryAssistantRequest extends S.Class<QueryAssistantRequest>(
     queryCondition: S.optional(QueryConditionExpression),
     queryInputData: S.optional(QueryInputData),
     overrideKnowledgeBaseSearchType: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/assistants/{assistantId}/query" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/assistants/{assistantId}/query" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SearchSessionsRequest extends S.Class<SearchSessionsRequest>(
-  "SearchSessionsRequest",
-)(
-  {
+).annotations({
+  identifier: "QueryAssistantRequest",
+}) as any as S.Schema<QueryAssistantRequest>;
+export interface SearchSessionsRequest {
+  nextToken?: string;
+  maxResults?: number;
+  assistantId: string;
+  searchExpression: SearchExpression;
+}
+export const SearchSessionsRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     searchExpression: SearchExpression,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/assistants/{assistantId}/searchSessions" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/assistants/{assistantId}/searchSessions",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateAssistantAIAgentResponse extends S.Class<UpdateAssistantAIAgentResponse>(
-  "UpdateAssistantAIAgentResponse",
-)({ assistant: S.optional(AssistantData) }) {}
-export class GetAIAgentResponse extends S.Class<GetAIAgentResponse>(
-  "GetAIAgentResponse",
-)({ aiAgent: S.optional(AIAgentData), versionNumber: S.optional(S.Number) }) {}
-export class ListAIAgentsResponse extends S.Class<ListAIAgentsResponse>(
-  "ListAIAgentsResponse",
-)({ aiAgentSummaries: AIAgentSummaryList, nextToken: S.optional(S.String) }) {}
-export class ListAIAgentVersionsResponse extends S.Class<ListAIAgentVersionsResponse>(
-  "ListAIAgentVersionsResponse",
-)({
-  aiAgentVersionSummaries: AIAgentVersionSummariesList,
-  nextToken: S.optional(S.String),
-}) {}
-export class CreateAIGuardrailRequest extends S.Class<CreateAIGuardrailRequest>(
-  "CreateAIGuardrailRequest",
-)(
-  {
+).annotations({
+  identifier: "SearchSessionsRequest",
+}) as any as S.Schema<SearchSessionsRequest>;
+export interface UpdateAssistantAIAgentResponse {
+  assistant?: AssistantData;
+}
+export const UpdateAssistantAIAgentResponse = S.suspend(() =>
+  S.Struct({ assistant: S.optional(AssistantData) }),
+).annotations({
+  identifier: "UpdateAssistantAIAgentResponse",
+}) as any as S.Schema<UpdateAssistantAIAgentResponse>;
+export interface GetAIAgentResponse {
+  aiAgent?: AIAgentData;
+  versionNumber?: number;
+}
+export const GetAIAgentResponse = S.suspend(() =>
+  S.Struct({
+    aiAgent: S.optional(AIAgentData),
+    versionNumber: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "GetAIAgentResponse",
+}) as any as S.Schema<GetAIAgentResponse>;
+export interface ListAIAgentsResponse {
+  aiAgentSummaries: AIAgentSummaryList;
+  nextToken?: string;
+}
+export const ListAIAgentsResponse = S.suspend(() =>
+  S.Struct({
+    aiAgentSummaries: AIAgentSummaryList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListAIAgentsResponse",
+}) as any as S.Schema<ListAIAgentsResponse>;
+export interface ListAIAgentVersionsResponse {
+  aiAgentVersionSummaries: AIAgentVersionSummariesList;
+  nextToken?: string;
+}
+export const ListAIAgentVersionsResponse = S.suspend(() =>
+  S.Struct({
+    aiAgentVersionSummaries: AIAgentVersionSummariesList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListAIAgentVersionsResponse",
+}) as any as S.Schema<ListAIAgentVersionsResponse>;
+export interface CreateAIGuardrailRequest {
+  clientToken?: string;
+  assistantId: string;
+  name: string;
+  blockedInputMessaging: string;
+  blockedOutputsMessaging: string;
+  visibilityStatus: string;
+  description?: string;
+  topicPolicyConfig?: AIGuardrailTopicPolicyConfig;
+  contentPolicyConfig?: AIGuardrailContentPolicyConfig;
+  wordPolicyConfig?: AIGuardrailWordPolicyConfig;
+  sensitiveInformationPolicyConfig?: AIGuardrailSensitiveInformationPolicyConfig;
+  contextualGroundingPolicyConfig?: AIGuardrailContextualGroundingPolicyConfig;
+  tags?: Tags;
+}
+export const CreateAIGuardrailRequest = S.suspend(() =>
+  S.Struct({
     clientToken: S.optional(S.String),
     assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     name: S.String,
@@ -3356,38 +5425,71 @@ export class CreateAIGuardrailRequest extends S.Class<CreateAIGuardrailRequest>(
       AIGuardrailContextualGroundingPolicyConfig,
     ),
     tags: S.optional(Tags),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/assistants/{assistantId}/aiguardrails" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/assistants/{assistantId}/aiguardrails" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetAIGuardrailResponse extends S.Class<GetAIGuardrailResponse>(
-  "GetAIGuardrailResponse",
-)({
-  aiGuardrail: S.optional(AIGuardrailData),
-  versionNumber: S.optional(S.Number),
-}) {}
-export class ListAIGuardrailsResponse extends S.Class<ListAIGuardrailsResponse>(
-  "ListAIGuardrailsResponse",
-)({
-  aiGuardrailSummaries: AIGuardrailSummariesList,
-  nextToken: S.optional(S.String),
-}) {}
-export class ListAIGuardrailVersionsResponse extends S.Class<ListAIGuardrailVersionsResponse>(
-  "ListAIGuardrailVersionsResponse",
-)({
-  aiGuardrailVersionSummaries: AIGuardrailVersionSummariesList,
-  nextToken: S.optional(S.String),
-}) {}
-export class CreateAIPromptRequest extends S.Class<CreateAIPromptRequest>(
-  "CreateAIPromptRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateAIGuardrailRequest",
+}) as any as S.Schema<CreateAIGuardrailRequest>;
+export interface GetAIGuardrailResponse {
+  aiGuardrail?: AIGuardrailData;
+  versionNumber?: number;
+}
+export const GetAIGuardrailResponse = S.suspend(() =>
+  S.Struct({
+    aiGuardrail: S.optional(AIGuardrailData),
+    versionNumber: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "GetAIGuardrailResponse",
+}) as any as S.Schema<GetAIGuardrailResponse>;
+export interface ListAIGuardrailsResponse {
+  aiGuardrailSummaries: AIGuardrailSummariesList;
+  nextToken?: string;
+}
+export const ListAIGuardrailsResponse = S.suspend(() =>
+  S.Struct({
+    aiGuardrailSummaries: AIGuardrailSummariesList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListAIGuardrailsResponse",
+}) as any as S.Schema<ListAIGuardrailsResponse>;
+export interface ListAIGuardrailVersionsResponse {
+  aiGuardrailVersionSummaries: AIGuardrailVersionSummariesList;
+  nextToken?: string;
+}
+export const ListAIGuardrailVersionsResponse = S.suspend(() =>
+  S.Struct({
+    aiGuardrailVersionSummaries: AIGuardrailVersionSummariesList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListAIGuardrailVersionsResponse",
+}) as any as S.Schema<ListAIGuardrailVersionsResponse>;
+export interface CreateAIPromptRequest {
+  clientToken?: string;
+  assistantId: string;
+  name: string;
+  type: string;
+  templateConfiguration: (typeof AIPromptTemplateConfiguration)["Type"];
+  visibilityStatus: string;
+  templateType: string;
+  modelId: string;
+  apiFormat: string;
+  tags?: Tags;
+  description?: string;
+  inferenceConfiguration?: (typeof AIPromptInferenceConfiguration)["Type"];
+}
+export const CreateAIPromptRequest = S.suspend(() =>
+  S.Struct({
     clientToken: S.optional(S.String),
     assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     name: S.String,
@@ -3400,63 +5502,108 @@ export class CreateAIPromptRequest extends S.Class<CreateAIPromptRequest>(
     tags: S.optional(Tags),
     description: S.optional(S.String),
     inferenceConfiguration: S.optional(AIPromptInferenceConfiguration),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/assistants/{assistantId}/aiprompts" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/assistants/{assistantId}/aiprompts" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetAIPromptResponse extends S.Class<GetAIPromptResponse>(
-  "GetAIPromptResponse",
-)({
-  aiPrompt: S.optional(AIPromptData),
-  versionNumber: S.optional(S.Number),
-}) {}
-export class ListAIPromptsResponse extends S.Class<ListAIPromptsResponse>(
-  "ListAIPromptsResponse",
-)({
-  aiPromptSummaries: AIPromptSummaryList,
-  nextToken: S.optional(S.String),
-}) {}
-export class ListAIPromptVersionsResponse extends S.Class<ListAIPromptVersionsResponse>(
-  "ListAIPromptVersionsResponse",
-)({
-  aiPromptVersionSummaries: AIPromptVersionSummariesList,
-  nextToken: S.optional(S.String),
-}) {}
-export class CreateAssistantAssociationRequest extends S.Class<CreateAssistantAssociationRequest>(
-  "CreateAssistantAssociationRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateAIPromptRequest",
+}) as any as S.Schema<CreateAIPromptRequest>;
+export interface GetAIPromptResponse {
+  aiPrompt?: AIPromptData;
+  versionNumber?: number;
+}
+export const GetAIPromptResponse = S.suspend(() =>
+  S.Struct({
+    aiPrompt: S.optional(AIPromptData),
+    versionNumber: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "GetAIPromptResponse",
+}) as any as S.Schema<GetAIPromptResponse>;
+export interface ListAIPromptsResponse {
+  aiPromptSummaries: AIPromptSummaryList;
+  nextToken?: string;
+}
+export const ListAIPromptsResponse = S.suspend(() =>
+  S.Struct({
+    aiPromptSummaries: AIPromptSummaryList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListAIPromptsResponse",
+}) as any as S.Schema<ListAIPromptsResponse>;
+export interface ListAIPromptVersionsResponse {
+  aiPromptVersionSummaries: AIPromptVersionSummariesList;
+  nextToken?: string;
+}
+export const ListAIPromptVersionsResponse = S.suspend(() =>
+  S.Struct({
+    aiPromptVersionSummaries: AIPromptVersionSummariesList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListAIPromptVersionsResponse",
+}) as any as S.Schema<ListAIPromptVersionsResponse>;
+export interface CreateAssistantAssociationRequest {
+  assistantId: string;
+  associationType: string;
+  association: (typeof AssistantAssociationInputData)["Type"];
+  clientToken?: string;
+  tags?: Tags;
+}
+export const CreateAssistantAssociationRequest = S.suspend(() =>
+  S.Struct({
     assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     associationType: S.String,
     association: AssistantAssociationInputData,
     clientToken: S.optional(S.String),
     tags: S.optional(Tags),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/assistants/{assistantId}/associations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/assistants/{assistantId}/associations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListAssistantAssociationsResponse extends S.Class<ListAssistantAssociationsResponse>(
-  "ListAssistantAssociationsResponse",
-)({
-  assistantAssociationSummaries: AssistantAssociationSummaryList,
-  nextToken: S.optional(S.String),
-}) {}
-export class CreateSessionRequest extends S.Class<CreateSessionRequest>(
-  "CreateSessionRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateAssistantAssociationRequest",
+}) as any as S.Schema<CreateAssistantAssociationRequest>;
+export interface ListAssistantAssociationsResponse {
+  assistantAssociationSummaries: AssistantAssociationSummaryList;
+  nextToken?: string;
+}
+export const ListAssistantAssociationsResponse = S.suspend(() =>
+  S.Struct({
+    assistantAssociationSummaries: AssistantAssociationSummaryList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListAssistantAssociationsResponse",
+}) as any as S.Schema<ListAssistantAssociationsResponse>;
+export interface CreateSessionRequest {
+  clientToken?: string;
+  assistantId: string;
+  name: string;
+  description?: string;
+  tags?: Tags;
+  tagFilter?: (typeof TagFilter)["Type"];
+  aiAgentConfiguration?: AIAgentConfigurationMap;
+  contactArn?: string;
+  orchestratorConfigurationList?: OrchestratorConfigurationList;
+  removeOrchestratorConfigurationList?: boolean;
+}
+export const CreateSessionRequest = S.suspend(() =>
+  S.Struct({
     clientToken: S.optional(S.String),
     assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     name: S.String,
@@ -3467,182 +5614,323 @@ export class CreateSessionRequest extends S.Class<CreateSessionRequest>(
     contactArn: S.optional(S.String),
     orchestratorConfigurationList: S.optional(OrchestratorConfigurationList),
     removeOrchestratorConfigurationList: S.optional(S.Boolean),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/assistants/{assistantId}/sessions" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/assistants/{assistantId}/sessions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetNextMessageResponse extends S.Class<GetNextMessageResponse>(
-  "GetNextMessageResponse",
-)({
-  type: S.String,
-  response: MessageOutput,
-  requestMessageId: S.String,
-  conversationState: ConversationState,
-  nextMessageToken: S.optional(S.String),
-  conversationSessionData: S.optional(RuntimeSessionDataList),
-  chunkedResponseTerminated: S.optional(S.Boolean),
-}) {}
-export class UpdateSessionDataRequest extends S.Class<UpdateSessionDataRequest>(
-  "UpdateSessionDataRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateSessionRequest",
+}) as any as S.Schema<CreateSessionRequest>;
+export interface GetNextMessageResponse {
+  type: string;
+  response: MessageOutput;
+  requestMessageId: string;
+  conversationState: ConversationState;
+  nextMessageToken?: string;
+  conversationSessionData?: RuntimeSessionDataList;
+  chunkedResponseTerminated?: boolean;
+}
+export const GetNextMessageResponse = S.suspend(() =>
+  S.Struct({
+    type: S.String,
+    response: MessageOutput,
+    requestMessageId: S.String,
+    conversationState: ConversationState,
+    nextMessageToken: S.optional(S.String),
+    conversationSessionData: S.optional(RuntimeSessionDataList),
+    chunkedResponseTerminated: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "GetNextMessageResponse",
+}) as any as S.Schema<GetNextMessageResponse>;
+export interface UpdateSessionDataRequest {
+  assistantId: string;
+  sessionId: string;
+  namespace?: string;
+  data: RuntimeSessionDataList;
+}
+export const UpdateSessionDataRequest = S.suspend(() =>
+  S.Struct({
     assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     sessionId: S.String.pipe(T.HttpLabel("sessionId")),
     namespace: S.optional(S.String),
     data: RuntimeSessionDataList,
-  },
-  T.all(
-    T.Http({
-      method: "PATCH",
-      uri: "/assistants/{assistantId}/sessions/{sessionId}/data",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/assistants/{assistantId}/sessions/{sessionId}/data",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetKnowledgeBaseResponse extends S.Class<GetKnowledgeBaseResponse>(
-  "GetKnowledgeBaseResponse",
-)({ knowledgeBase: S.optional(KnowledgeBaseData) }) {}
-export class ListKnowledgeBasesResponse extends S.Class<ListKnowledgeBasesResponse>(
-  "ListKnowledgeBasesResponse",
-)({
-  knowledgeBaseSummaries: KnowledgeBaseList,
-  nextToken: S.optional(S.String),
-}) {}
-export class GetImportJobResponse extends S.Class<GetImportJobResponse>(
-  "GetImportJobResponse",
-)({ importJob: S.optional(ImportJobData) }) {}
-export class ListImportJobsResponse extends S.Class<ListImportJobsResponse>(
-  "ListImportJobsResponse",
-)({ importJobSummaries: ImportJobList, nextToken: S.optional(S.String) }) {}
-export class SearchContentResponse extends S.Class<SearchContentResponse>(
-  "SearchContentResponse",
-)({ contentSummaries: ContentSummaryList, nextToken: S.optional(S.String) }) {}
-export class SearchMessageTemplatesRequest extends S.Class<SearchMessageTemplatesRequest>(
-  "SearchMessageTemplatesRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateSessionDataRequest",
+}) as any as S.Schema<UpdateSessionDataRequest>;
+export interface GetKnowledgeBaseResponse {
+  knowledgeBase?: KnowledgeBaseData;
+}
+export const GetKnowledgeBaseResponse = S.suspend(() =>
+  S.Struct({ knowledgeBase: S.optional(KnowledgeBaseData) }),
+).annotations({
+  identifier: "GetKnowledgeBaseResponse",
+}) as any as S.Schema<GetKnowledgeBaseResponse>;
+export interface ListKnowledgeBasesResponse {
+  knowledgeBaseSummaries: KnowledgeBaseList;
+  nextToken?: string;
+}
+export const ListKnowledgeBasesResponse = S.suspend(() =>
+  S.Struct({
+    knowledgeBaseSummaries: KnowledgeBaseList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListKnowledgeBasesResponse",
+}) as any as S.Schema<ListKnowledgeBasesResponse>;
+export interface GetImportJobResponse {
+  importJob?: ImportJobData;
+}
+export const GetImportJobResponse = S.suspend(() =>
+  S.Struct({ importJob: S.optional(ImportJobData) }),
+).annotations({
+  identifier: "GetImportJobResponse",
+}) as any as S.Schema<GetImportJobResponse>;
+export interface ListImportJobsResponse {
+  importJobSummaries: ImportJobList;
+  nextToken?: string;
+}
+export const ListImportJobsResponse = S.suspend(() =>
+  S.Struct({
+    importJobSummaries: ImportJobList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListImportJobsResponse",
+}) as any as S.Schema<ListImportJobsResponse>;
+export interface SearchContentResponse {
+  contentSummaries: ContentSummaryList;
+  nextToken?: string;
+}
+export const SearchContentResponse = S.suspend(() =>
+  S.Struct({
+    contentSummaries: ContentSummaryList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SearchContentResponse",
+}) as any as S.Schema<SearchContentResponse>;
+export interface SearchMessageTemplatesRequest {
+  knowledgeBaseId: string;
+  searchExpression: MessageTemplateSearchExpression;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const SearchMessageTemplatesRequest = S.suspend(() =>
+  S.Struct({
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     searchExpression: MessageTemplateSearchExpression,
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/knowledgeBases/{knowledgeBaseId}/search/messageTemplates",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/knowledgeBases/{knowledgeBaseId}/search/messageTemplates",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SearchQuickResponsesRequest extends S.Class<SearchQuickResponsesRequest>(
-  "SearchQuickResponsesRequest",
-)(
-  {
+).annotations({
+  identifier: "SearchMessageTemplatesRequest",
+}) as any as S.Schema<SearchMessageTemplatesRequest>;
+export interface SearchQuickResponsesRequest {
+  knowledgeBaseId: string;
+  searchExpression: QuickResponseSearchExpression;
+  nextToken?: string;
+  maxResults?: number;
+  attributes?: ContactAttributes;
+}
+export const SearchQuickResponsesRequest = S.suspend(() =>
+  S.Struct({
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     searchExpression: QuickResponseSearchExpression,
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     attributes: S.optional(ContactAttributes),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/knowledgeBases/{knowledgeBaseId}/search/quickResponses",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/knowledgeBases/{knowledgeBaseId}/search/quickResponses",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartContentUploadResponse extends S.Class<StartContentUploadResponse>(
-  "StartContentUploadResponse",
-)({
-  uploadId: S.String,
-  url: S.String,
-  urlExpiry: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  headersToInclude: Headers,
-}) {}
-export class CreateContentResponse extends S.Class<CreateContentResponse>(
-  "CreateContentResponse",
-)({ content: S.optional(ContentData) }) {}
-export class CreateContentAssociationRequest extends S.Class<CreateContentAssociationRequest>(
-  "CreateContentAssociationRequest",
-)(
-  {
+).annotations({
+  identifier: "SearchQuickResponsesRequest",
+}) as any as S.Schema<SearchQuickResponsesRequest>;
+export interface StartContentUploadResponse {
+  uploadId: string;
+  url: string;
+  urlExpiry: Date;
+  headersToInclude: Headers;
+}
+export const StartContentUploadResponse = S.suspend(() =>
+  S.Struct({
+    uploadId: S.String,
+    url: S.String,
+    urlExpiry: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    headersToInclude: Headers,
+  }),
+).annotations({
+  identifier: "StartContentUploadResponse",
+}) as any as S.Schema<StartContentUploadResponse>;
+export interface CreateContentResponse {
+  content?: ContentData;
+}
+export const CreateContentResponse = S.suspend(() =>
+  S.Struct({ content: S.optional(ContentData) }),
+).annotations({
+  identifier: "CreateContentResponse",
+}) as any as S.Schema<CreateContentResponse>;
+export interface CreateContentAssociationRequest {
+  clientToken?: string;
+  knowledgeBaseId: string;
+  contentId: string;
+  associationType: string;
+  association: (typeof ContentAssociationContents)["Type"];
+  tags?: Tags;
+}
+export const CreateContentAssociationRequest = S.suspend(() =>
+  S.Struct({
     clientToken: S.optional(S.String),
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     contentId: S.String.pipe(T.HttpLabel("contentId")),
     associationType: S.String,
     association: ContentAssociationContents,
     tags: S.optional(Tags),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/knowledgeBases/{knowledgeBaseId}/contents/{contentId}/associations",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/knowledgeBases/{knowledgeBaseId}/contents/{contentId}/associations",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetContentAssociationResponse extends S.Class<GetContentAssociationResponse>(
-  "GetContentAssociationResponse",
-)({ contentAssociation: S.optional(ContentAssociationData) }) {}
-export class ListContentAssociationsResponse extends S.Class<ListContentAssociationsResponse>(
-  "ListContentAssociationsResponse",
-)({
-  contentAssociationSummaries: ContentAssociationSummaryList,
-  nextToken: S.optional(S.String),
-}) {}
-export class GetMessageTemplateResponse extends S.Class<GetMessageTemplateResponse>(
-  "GetMessageTemplateResponse",
-)({ messageTemplate: S.optional(ExtendedMessageTemplateData) }) {}
-export class UpdateMessageTemplateResponse extends S.Class<UpdateMessageTemplateResponse>(
-  "UpdateMessageTemplateResponse",
-)({ messageTemplate: S.optional(MessageTemplateData) }) {}
-export class ListMessageTemplatesResponse extends S.Class<ListMessageTemplatesResponse>(
-  "ListMessageTemplatesResponse",
-)({
-  messageTemplateSummaries: MessageTemplateSummaryList,
-  nextToken: S.optional(S.String),
-}) {}
-export class CreateMessageTemplateAttachmentResponse extends S.Class<CreateMessageTemplateAttachmentResponse>(
-  "CreateMessageTemplateAttachmentResponse",
-)({ attachment: S.optional(MessageTemplateAttachment) }) {}
-export class ListMessageTemplateVersionsResponse extends S.Class<ListMessageTemplateVersionsResponse>(
-  "ListMessageTemplateVersionsResponse",
-)({
-  messageTemplateVersionSummaries: MessageTemplateVersionSummaryList,
-  nextToken: S.optional(S.String),
-}) {}
-export class CreateQuickResponseResponse extends S.Class<CreateQuickResponseResponse>(
-  "CreateQuickResponseResponse",
-)({ quickResponse: S.optional(QuickResponseData) }) {}
-export class ListQuickResponsesResponse extends S.Class<ListQuickResponsesResponse>(
-  "ListQuickResponsesResponse",
-)({
-  quickResponseSummaries: QuickResponseSummaryList,
-  nextToken: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "CreateContentAssociationRequest",
+}) as any as S.Schema<CreateContentAssociationRequest>;
+export interface GetContentAssociationResponse {
+  contentAssociation?: ContentAssociationData;
+}
+export const GetContentAssociationResponse = S.suspend(() =>
+  S.Struct({ contentAssociation: S.optional(ContentAssociationData) }),
+).annotations({
+  identifier: "GetContentAssociationResponse",
+}) as any as S.Schema<GetContentAssociationResponse>;
+export interface ListContentAssociationsResponse {
+  contentAssociationSummaries: ContentAssociationSummaryList;
+  nextToken?: string;
+}
+export const ListContentAssociationsResponse = S.suspend(() =>
+  S.Struct({
+    contentAssociationSummaries: ContentAssociationSummaryList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListContentAssociationsResponse",
+}) as any as S.Schema<ListContentAssociationsResponse>;
+export interface GetMessageTemplateResponse {
+  messageTemplate?: ExtendedMessageTemplateData;
+}
+export const GetMessageTemplateResponse = S.suspend(() =>
+  S.Struct({ messageTemplate: S.optional(ExtendedMessageTemplateData) }),
+).annotations({
+  identifier: "GetMessageTemplateResponse",
+}) as any as S.Schema<GetMessageTemplateResponse>;
+export interface UpdateMessageTemplateResponse {
+  messageTemplate?: MessageTemplateData;
+}
+export const UpdateMessageTemplateResponse = S.suspend(() =>
+  S.Struct({ messageTemplate: S.optional(MessageTemplateData) }),
+).annotations({
+  identifier: "UpdateMessageTemplateResponse",
+}) as any as S.Schema<UpdateMessageTemplateResponse>;
+export interface ListMessageTemplatesResponse {
+  messageTemplateSummaries: MessageTemplateSummaryList;
+  nextToken?: string;
+}
+export const ListMessageTemplatesResponse = S.suspend(() =>
+  S.Struct({
+    messageTemplateSummaries: MessageTemplateSummaryList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListMessageTemplatesResponse",
+}) as any as S.Schema<ListMessageTemplatesResponse>;
+export interface CreateMessageTemplateAttachmentResponse {
+  attachment?: MessageTemplateAttachment;
+}
+export const CreateMessageTemplateAttachmentResponse = S.suspend(() =>
+  S.Struct({ attachment: S.optional(MessageTemplateAttachment) }),
+).annotations({
+  identifier: "CreateMessageTemplateAttachmentResponse",
+}) as any as S.Schema<CreateMessageTemplateAttachmentResponse>;
+export interface ListMessageTemplateVersionsResponse {
+  messageTemplateVersionSummaries: MessageTemplateVersionSummaryList;
+  nextToken?: string;
+}
+export const ListMessageTemplateVersionsResponse = S.suspend(() =>
+  S.Struct({
+    messageTemplateVersionSummaries: MessageTemplateVersionSummaryList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListMessageTemplateVersionsResponse",
+}) as any as S.Schema<ListMessageTemplateVersionsResponse>;
+export interface CreateQuickResponseResponse {
+  quickResponse?: QuickResponseData;
+}
+export const CreateQuickResponseResponse = S.suspend(() =>
+  S.Struct({ quickResponse: S.optional(QuickResponseData) }),
+).annotations({
+  identifier: "CreateQuickResponseResponse",
+}) as any as S.Schema<CreateQuickResponseResponse>;
+export interface ListQuickResponsesResponse {
+  quickResponseSummaries: QuickResponseSummaryList;
+  nextToken?: string;
+}
+export const ListQuickResponsesResponse = S.suspend(() =>
+  S.Struct({
+    quickResponseSummaries: QuickResponseSummaryList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListQuickResponsesResponse",
+}) as any as S.Schema<ListQuickResponsesResponse>;
 export type RetrievalFilterConfiguration =
   | { andAll: RetrievalFilterList }
   | { equals: FilterAttribute }
@@ -3658,7 +5946,11 @@ export type RetrievalFilterConfiguration =
   | { startsWith: FilterAttribute }
   | { stringContains: FilterAttribute };
 export const RetrievalFilterConfiguration = S.Union(
-  S.Struct({ andAll: S.suspend(() => RetrievalFilterList) }),
+  S.Struct({
+    andAll: S.suspend(() => RetrievalFilterList).annotations({
+      identifier: "RetrievalFilterList",
+    }),
+  }),
   S.Struct({ equals: FilterAttribute }),
   S.Struct({ greaterThan: FilterAttribute }),
   S.Struct({ greaterThanOrEquals: FilterAttribute }),
@@ -3668,364 +5960,788 @@ export const RetrievalFilterConfiguration = S.Union(
   S.Struct({ listContains: FilterAttribute }),
   S.Struct({ notEquals: FilterAttribute }),
   S.Struct({ notIn: FilterAttribute }),
-  S.Struct({ orAll: S.suspend(() => RetrievalFilterList) }),
+  S.Struct({
+    orAll: S.suspend(() => RetrievalFilterList).annotations({
+      identifier: "RetrievalFilterList",
+    }),
+  }),
   S.Struct({ startsWith: FilterAttribute }),
   S.Struct({ stringContains: FilterAttribute }),
 ) as any as S.Schema<RetrievalFilterConfiguration>;
-export class RetrievalConfiguration extends S.Class<RetrievalConfiguration>(
-  "RetrievalConfiguration",
-)({
-  knowledgeSource: KnowledgeSource,
-  filter: S.optional(RetrievalFilterConfiguration),
-  numberOfResults: S.optional(S.Number),
-  overrideKnowledgeBaseSearchType: S.optional(S.String),
-}) {}
-export class ContentReference extends S.Class<ContentReference>(
-  "ContentReference",
-)({
-  knowledgeBaseArn: S.optional(S.String),
-  knowledgeBaseId: S.optional(S.String),
-  contentArn: S.optional(S.String),
-  contentId: S.optional(S.String),
-  sourceURL: S.optional(S.String),
-  referenceType: S.optional(S.String),
-}) {}
-export class QueryRecommendationTriggerData extends S.Class<QueryRecommendationTriggerData>(
-  "QueryRecommendationTriggerData",
-)({ text: S.optional(S.String) }) {}
+export interface RetrievalConfiguration {
+  knowledgeSource: (typeof KnowledgeSource)["Type"];
+  filter?: RetrievalFilterConfiguration;
+  numberOfResults?: number;
+  overrideKnowledgeBaseSearchType?: string;
+}
+export const RetrievalConfiguration = S.suspend(() =>
+  S.Struct({
+    knowledgeSource: KnowledgeSource,
+    filter: S.optional(RetrievalFilterConfiguration),
+    numberOfResults: S.optional(S.Number),
+    overrideKnowledgeBaseSearchType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RetrievalConfiguration",
+}) as any as S.Schema<RetrievalConfiguration>;
+export interface ContentReference {
+  knowledgeBaseArn?: string;
+  knowledgeBaseId?: string;
+  contentArn?: string;
+  contentId?: string;
+  sourceURL?: string;
+  referenceType?: string;
+}
+export const ContentReference = S.suspend(() =>
+  S.Struct({
+    knowledgeBaseArn: S.optional(S.String),
+    knowledgeBaseId: S.optional(S.String),
+    contentArn: S.optional(S.String),
+    contentId: S.optional(S.String),
+    sourceURL: S.optional(S.String),
+    referenceType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ContentReference",
+}) as any as S.Schema<ContentReference>;
+export interface QueryRecommendationTriggerData {
+  text?: string;
+}
+export const QueryRecommendationTriggerData = S.suspend(() =>
+  S.Struct({ text: S.optional(S.String) }),
+).annotations({
+  identifier: "QueryRecommendationTriggerData",
+}) as any as S.Schema<QueryRecommendationTriggerData>;
 export type SpanMessageValueList = SpanMessageValue[];
 export const SpanMessageValueList = S.Array(
-  S.suspend(() => SpanMessageValue),
+  S.suspend(() => SpanMessageValue).annotations({
+    identifier: "SpanMessageValue",
+  }),
 ) as any as S.Schema<SpanMessageValueList>;
-export class SpanMessage extends S.Class<SpanMessage>("SpanMessage")({
-  messageId: S.String,
-  participant: S.String,
-  timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  values: SpanMessageValueList,
-}) {}
+export interface SpanMessage {
+  messageId: string;
+  participant: string;
+  timestamp: Date;
+  values: SpanMessageValueList;
+}
+export const SpanMessage = S.suspend(() =>
+  S.Struct({
+    messageId: S.String,
+    participant: S.String,
+    timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    values: SpanMessageValueList,
+  }),
+).annotations({ identifier: "SpanMessage" }) as any as S.Schema<SpanMessage>;
+export type SpanMessageList = SpanMessage[];
 export const SpanMessageList = S.Array(SpanMessage);
-export class GetAssistantResponse extends S.Class<GetAssistantResponse>(
-  "GetAssistantResponse",
-)({ assistant: S.optional(AssistantData) }) {}
+export interface GetAssistantResponse {
+  assistant?: AssistantData;
+}
+export const GetAssistantResponse = S.suspend(() =>
+  S.Struct({ assistant: S.optional(AssistantData) }),
+).annotations({
+  identifier: "GetAssistantResponse",
+}) as any as S.Schema<GetAssistantResponse>;
 export type DataSummaryList = DataSummary[];
 export const DataSummaryList = S.Array(
-  S.suspend((): S.Schema<DataSummary, any> => DataSummary),
+  S.suspend((): S.Schema<DataSummary, any> => DataSummary).annotations({
+    identifier: "DataSummary",
+  }),
 ) as any as S.Schema<DataSummaryList>;
-export class PutFeedbackResponse extends S.Class<PutFeedbackResponse>(
-  "PutFeedbackResponse",
-)({
-  assistantId: S.String,
-  assistantArn: S.String,
-  targetId: S.String,
-  targetType: S.String,
-  contentFeedback: ContentFeedbackData,
-}) {}
-export class RetrieveRequest extends S.Class<RetrieveRequest>(
-  "RetrieveRequest",
-)(
-  {
+export interface PutFeedbackResponse {
+  assistantId: string;
+  assistantArn: string;
+  targetId: string;
+  targetType: string;
+  contentFeedback: (typeof ContentFeedbackData)["Type"];
+}
+export const PutFeedbackResponse = S.suspend(() =>
+  S.Struct({
+    assistantId: S.String,
+    assistantArn: S.String,
+    targetId: S.String,
+    targetType: S.String,
+    contentFeedback: ContentFeedbackData,
+  }),
+).annotations({
+  identifier: "PutFeedbackResponse",
+}) as any as S.Schema<PutFeedbackResponse>;
+export interface RetrieveRequest {
+  assistantId: string;
+  retrievalConfiguration: RetrievalConfiguration;
+  retrievalQuery: string;
+}
+export const RetrieveRequest = S.suspend(() =>
+  S.Struct({
     assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     retrievalConfiguration: RetrievalConfiguration,
     retrievalQuery: S.String,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/assistants/{assistantId}/retrieve" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/assistants/{assistantId}/retrieve" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateAIGuardrailResponse extends S.Class<CreateAIGuardrailResponse>(
-  "CreateAIGuardrailResponse",
-)({ aiGuardrail: S.optional(AIGuardrailData) }) {}
-export class CreateAIPromptResponse extends S.Class<CreateAIPromptResponse>(
-  "CreateAIPromptResponse",
-)({ aiPrompt: S.optional(AIPromptData) }) {}
-export class AssistantAssociationData extends S.Class<AssistantAssociationData>(
-  "AssistantAssociationData",
-)({
-  assistantAssociationId: S.String,
-  assistantAssociationArn: S.String,
-  assistantId: S.String,
-  assistantArn: S.String,
-  associationType: S.String,
-  associationData: AssistantAssociationOutputData,
-  tags: S.optional(Tags),
-}) {}
-export class CreateAssistantAssociationResponse extends S.Class<CreateAssistantAssociationResponse>(
-  "CreateAssistantAssociationResponse",
-)({ assistantAssociation: S.optional(AssistantAssociationData) }) {}
-export class CreateSessionResponse extends S.Class<CreateSessionResponse>(
-  "CreateSessionResponse",
-)({ session: S.optional(SessionData) }) {}
-export class GetSessionResponse extends S.Class<GetSessionResponse>(
-  "GetSessionResponse",
-)({ session: S.optional(SessionData) }) {}
-export class UpdateSessionDataResponse extends S.Class<UpdateSessionDataResponse>(
-  "UpdateSessionDataResponse",
-)({
-  sessionArn: S.String,
-  sessionId: S.String,
-  namespace: S.String,
-  data: RuntimeSessionDataList,
-}) {}
-export class StartImportJobRequest extends S.Class<StartImportJobRequest>(
-  "StartImportJobRequest",
-)(
-  {
+).annotations({
+  identifier: "RetrieveRequest",
+}) as any as S.Schema<RetrieveRequest>;
+export interface CreateAIGuardrailResponse {
+  aiGuardrail?: AIGuardrailData;
+}
+export const CreateAIGuardrailResponse = S.suspend(() =>
+  S.Struct({ aiGuardrail: S.optional(AIGuardrailData) }),
+).annotations({
+  identifier: "CreateAIGuardrailResponse",
+}) as any as S.Schema<CreateAIGuardrailResponse>;
+export interface CreateAIPromptResponse {
+  aiPrompt?: AIPromptData;
+}
+export const CreateAIPromptResponse = S.suspend(() =>
+  S.Struct({ aiPrompt: S.optional(AIPromptData) }),
+).annotations({
+  identifier: "CreateAIPromptResponse",
+}) as any as S.Schema<CreateAIPromptResponse>;
+export interface AssistantAssociationData {
+  assistantAssociationId: string;
+  assistantAssociationArn: string;
+  assistantId: string;
+  assistantArn: string;
+  associationType: string;
+  associationData: (typeof AssistantAssociationOutputData)["Type"];
+  tags?: Tags;
+}
+export const AssistantAssociationData = S.suspend(() =>
+  S.Struct({
+    assistantAssociationId: S.String,
+    assistantAssociationArn: S.String,
+    assistantId: S.String,
+    assistantArn: S.String,
+    associationType: S.String,
+    associationData: AssistantAssociationOutputData,
+    tags: S.optional(Tags),
+  }),
+).annotations({
+  identifier: "AssistantAssociationData",
+}) as any as S.Schema<AssistantAssociationData>;
+export interface CreateAssistantAssociationResponse {
+  assistantAssociation?: AssistantAssociationData;
+}
+export const CreateAssistantAssociationResponse = S.suspend(() =>
+  S.Struct({ assistantAssociation: S.optional(AssistantAssociationData) }),
+).annotations({
+  identifier: "CreateAssistantAssociationResponse",
+}) as any as S.Schema<CreateAssistantAssociationResponse>;
+export interface CreateSessionResponse {
+  session?: SessionData;
+}
+export const CreateSessionResponse = S.suspend(() =>
+  S.Struct({ session: S.optional(SessionData) }),
+).annotations({
+  identifier: "CreateSessionResponse",
+}) as any as S.Schema<CreateSessionResponse>;
+export interface GetSessionResponse {
+  session?: SessionData;
+}
+export const GetSessionResponse = S.suspend(() =>
+  S.Struct({ session: S.optional(SessionData) }),
+).annotations({
+  identifier: "GetSessionResponse",
+}) as any as S.Schema<GetSessionResponse>;
+export interface UpdateSessionDataResponse {
+  sessionArn: string;
+  sessionId: string;
+  namespace: string;
+  data: RuntimeSessionDataList;
+}
+export const UpdateSessionDataResponse = S.suspend(() =>
+  S.Struct({
+    sessionArn: S.String,
+    sessionId: S.String,
+    namespace: S.String,
+    data: RuntimeSessionDataList,
+  }),
+).annotations({
+  identifier: "UpdateSessionDataResponse",
+}) as any as S.Schema<UpdateSessionDataResponse>;
+export interface StartImportJobRequest {
+  knowledgeBaseId: string;
+  importJobType: string;
+  uploadId: string;
+  clientToken?: string;
+  metadata?: ContentMetadata;
+  externalSourceConfiguration?: ExternalSourceConfiguration;
+}
+export const StartImportJobRequest = S.suspend(() =>
+  S.Struct({
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     importJobType: S.String,
     uploadId: S.String,
     clientToken: S.optional(S.String),
     metadata: S.optional(ContentMetadata),
     externalSourceConfiguration: S.optional(ExternalSourceConfiguration),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/knowledgeBases/{knowledgeBaseId}/importJobs",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/knowledgeBases/{knowledgeBaseId}/importJobs",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateContentAssociationResponse extends S.Class<CreateContentAssociationResponse>(
-  "CreateContentAssociationResponse",
-)({ contentAssociation: S.optional(ContentAssociationData) }) {}
-export class RenderMessageTemplateResponse extends S.Class<RenderMessageTemplateResponse>(
-  "RenderMessageTemplateResponse",
-)({
-  content: S.optional(MessageTemplateContentProvider),
-  sourceConfigurationSummary: S.optional(
-    MessageTemplateSourceConfigurationSummary,
-  ),
-  attributesNotInterpolated: S.optional(MessageTemplateAttributeKeyList),
-  attachments: S.optional(MessageTemplateAttachmentList),
-}) {}
+).annotations({
+  identifier: "StartImportJobRequest",
+}) as any as S.Schema<StartImportJobRequest>;
+export interface CreateContentAssociationResponse {
+  contentAssociation?: ContentAssociationData;
+}
+export const CreateContentAssociationResponse = S.suspend(() =>
+  S.Struct({ contentAssociation: S.optional(ContentAssociationData) }),
+).annotations({
+  identifier: "CreateContentAssociationResponse",
+}) as any as S.Schema<CreateContentAssociationResponse>;
+export interface RenderMessageTemplateResponse {
+  content?: (typeof MessageTemplateContentProvider)["Type"];
+  sourceConfigurationSummary?: (typeof MessageTemplateSourceConfigurationSummary)["Type"];
+  attributesNotInterpolated?: MessageTemplateAttributeKeyList;
+  attachments?: MessageTemplateAttachmentList;
+}
+export const RenderMessageTemplateResponse = S.suspend(() =>
+  S.Struct({
+    content: S.optional(MessageTemplateContentProvider),
+    sourceConfigurationSummary: S.optional(
+      MessageTemplateSourceConfigurationSummary,
+    ),
+    attributesNotInterpolated: S.optional(MessageTemplateAttributeKeyList),
+    attachments: S.optional(MessageTemplateAttachmentList),
+  }),
+).annotations({
+  identifier: "RenderMessageTemplateResponse",
+}) as any as S.Schema<RenderMessageTemplateResponse>;
 export const RecommendationTriggerData = S.Union(
   S.Struct({ query: QueryRecommendationTriggerData }),
 );
+export type ContactAttributeKeys = string[];
 export const ContactAttributeKeys = S.Array(S.String);
-export class Highlight extends S.Class<Highlight>("Highlight")({
-  beginOffsetInclusive: S.optional(S.Number),
-  endOffsetExclusive: S.optional(S.Number),
-}) {}
+export interface Highlight {
+  beginOffsetInclusive?: number;
+  endOffsetExclusive?: number;
+}
+export const Highlight = S.suspend(() =>
+  S.Struct({
+    beginOffsetInclusive: S.optional(S.Number),
+    endOffsetExclusive: S.optional(S.Number),
+  }),
+).annotations({ identifier: "Highlight" }) as any as S.Schema<Highlight>;
+export type Highlights = Highlight[];
 export const Highlights = S.Array(Highlight);
-export class GenerativeReference extends S.Class<GenerativeReference>(
-  "GenerativeReference",
-)({ modelId: S.optional(S.String), generationId: S.optional(S.String) }) {}
-export class SuggestedMessageReference extends S.Class<SuggestedMessageReference>(
-  "SuggestedMessageReference",
-)({ aiAgentId: S.String, aiAgentArn: S.String }) {}
-export class RankingData extends S.Class<RankingData>("RankingData")({
-  relevanceScore: S.optional(S.Number),
-  relevanceLevel: S.optional(S.String),
-}) {}
-export class GenerativeDataDetails extends S.Class<GenerativeDataDetails>(
-  "GenerativeDataDetails",
-)({
-  completion: S.String,
-  references: S.suspend(() => DataSummaryList),
-  rankingData: RankingData,
-}) {}
-export class IntentDetectedDataDetails extends S.Class<IntentDetectedDataDetails>(
-  "IntentDetectedDataDetails",
-)({
-  intent: S.String,
-  intentId: S.String,
-  relevanceLevel: S.optional(S.String),
-}) {}
-export class DocumentText extends S.Class<DocumentText>("DocumentText")({
-  text: S.optional(S.String),
-  highlights: S.optional(Highlights),
-}) {}
-export class TextData extends S.Class<TextData>("TextData")({
-  title: S.optional(DocumentText),
-  excerpt: S.optional(DocumentText),
-}) {}
-export class SourceContentDataDetails extends S.Class<SourceContentDataDetails>(
-  "SourceContentDataDetails",
-)({
-  id: S.String,
-  type: S.String,
-  textData: TextData,
-  rankingData: RankingData,
-  citationSpan: S.optional(CitationSpan),
-}) {}
-export class GenerativeChunkDataDetails extends S.Class<GenerativeChunkDataDetails>(
-  "GenerativeChunkDataDetails",
-)({
-  completion: S.optional(S.String),
-  references: S.optional(S.suspend(() => DataSummaryList)),
-  nextChunkToken: S.optional(S.String),
-}) {}
-export class EmailResponseChunkDataDetails extends S.Class<EmailResponseChunkDataDetails>(
-  "EmailResponseChunkDataDetails",
-)({ completion: S.optional(S.String), nextChunkToken: S.optional(S.String) }) {}
-export class EmailOverviewChunkDataDetails extends S.Class<EmailOverviewChunkDataDetails>(
-  "EmailOverviewChunkDataDetails",
-)({ completion: S.optional(S.String), nextChunkToken: S.optional(S.String) }) {}
-export class EmailGenerativeAnswerChunkDataDetails extends S.Class<EmailGenerativeAnswerChunkDataDetails>(
-  "EmailGenerativeAnswerChunkDataDetails",
-)({
-  completion: S.optional(S.String),
-  references: S.optional(S.suspend(() => DataSummaryList)),
-  nextChunkToken: S.optional(S.String),
-}) {}
-export class CaseSummarizationChunkDataDetails extends S.Class<CaseSummarizationChunkDataDetails>(
-  "CaseSummarizationChunkDataDetails",
-)({ completion: S.optional(S.String), nextChunkToken: S.optional(S.String) }) {}
-export class SuggestedMessageDataDetails extends S.Class<SuggestedMessageDataDetails>(
-  "SuggestedMessageDataDetails",
-)({ messageText: S.String }) {}
-export class NotesDataDetails extends S.Class<NotesDataDetails>(
-  "NotesDataDetails",
-)({ completion: S.optional(S.String) }) {}
-export class NotesChunkDataDetails extends S.Class<NotesChunkDataDetails>(
-  "NotesChunkDataDetails",
-)({ completion: S.optional(S.String), nextChunkToken: S.optional(S.String) }) {}
-export class SpanToolUseValue extends S.Class<SpanToolUseValue>(
-  "SpanToolUseValue",
-)({ toolUseId: S.String, name: S.String, arguments: S.Any }) {}
-export class SpanToolResultValue extends S.Class<SpanToolResultValue>(
-  "SpanToolResultValue",
-)({
-  toolUseId: S.String,
-  values: S.suspend(() => SpanMessageValueList),
-  error: S.optional(S.String),
-}) {}
-export class RecommendationTrigger extends S.Class<RecommendationTrigger>(
-  "RecommendationTrigger",
-)({
-  id: S.String,
-  type: S.String,
-  source: S.String,
-  data: RecommendationTriggerData,
-  recommendationIds: RecommendationIdList,
-}) {}
+export interface GenerativeReference {
+  modelId?: string;
+  generationId?: string;
+}
+export const GenerativeReference = S.suspend(() =>
+  S.Struct({
+    modelId: S.optional(S.String),
+    generationId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GenerativeReference",
+}) as any as S.Schema<GenerativeReference>;
+export interface SuggestedMessageReference {
+  aiAgentId: string;
+  aiAgentArn: string;
+}
+export const SuggestedMessageReference = S.suspend(() =>
+  S.Struct({ aiAgentId: S.String, aiAgentArn: S.String }),
+).annotations({
+  identifier: "SuggestedMessageReference",
+}) as any as S.Schema<SuggestedMessageReference>;
+export interface RankingData {
+  relevanceScore?: number;
+  relevanceLevel?: string;
+}
+export const RankingData = S.suspend(() =>
+  S.Struct({
+    relevanceScore: S.optional(S.Number),
+    relevanceLevel: S.optional(S.String),
+  }),
+).annotations({ identifier: "RankingData" }) as any as S.Schema<RankingData>;
+export interface GenerativeDataDetails {
+  completion: string;
+  references: DataSummaryList;
+  rankingData: RankingData;
+}
+export const GenerativeDataDetails = S.suspend(() =>
+  S.Struct({
+    completion: S.String,
+    references: S.suspend(() => DataSummaryList).annotations({
+      identifier: "DataSummaryList",
+    }),
+    rankingData: RankingData,
+  }),
+).annotations({
+  identifier: "GenerativeDataDetails",
+}) as any as S.Schema<GenerativeDataDetails>;
+export interface IntentDetectedDataDetails {
+  intent: string;
+  intentId: string;
+  relevanceLevel?: string;
+}
+export const IntentDetectedDataDetails = S.suspend(() =>
+  S.Struct({
+    intent: S.String,
+    intentId: S.String,
+    relevanceLevel: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "IntentDetectedDataDetails",
+}) as any as S.Schema<IntentDetectedDataDetails>;
+export interface DocumentText {
+  text?: string;
+  highlights?: Highlights;
+}
+export const DocumentText = S.suspend(() =>
+  S.Struct({ text: S.optional(S.String), highlights: S.optional(Highlights) }),
+).annotations({ identifier: "DocumentText" }) as any as S.Schema<DocumentText>;
+export interface TextData {
+  title?: DocumentText;
+  excerpt?: DocumentText;
+}
+export const TextData = S.suspend(() =>
+  S.Struct({
+    title: S.optional(DocumentText),
+    excerpt: S.optional(DocumentText),
+  }),
+).annotations({ identifier: "TextData" }) as any as S.Schema<TextData>;
+export interface SourceContentDataDetails {
+  id: string;
+  type: string;
+  textData: TextData;
+  rankingData: RankingData;
+  citationSpan?: CitationSpan;
+}
+export const SourceContentDataDetails = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: S.String,
+    textData: TextData,
+    rankingData: RankingData,
+    citationSpan: S.optional(CitationSpan),
+  }),
+).annotations({
+  identifier: "SourceContentDataDetails",
+}) as any as S.Schema<SourceContentDataDetails>;
+export interface GenerativeChunkDataDetails {
+  completion?: string;
+  references?: DataSummaryList;
+  nextChunkToken?: string;
+}
+export const GenerativeChunkDataDetails = S.suspend(() =>
+  S.Struct({
+    completion: S.optional(S.String),
+    references: S.optional(
+      S.suspend(() => DataSummaryList).annotations({
+        identifier: "DataSummaryList",
+      }),
+    ),
+    nextChunkToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GenerativeChunkDataDetails",
+}) as any as S.Schema<GenerativeChunkDataDetails>;
+export interface EmailResponseChunkDataDetails {
+  completion?: string;
+  nextChunkToken?: string;
+}
+export const EmailResponseChunkDataDetails = S.suspend(() =>
+  S.Struct({
+    completion: S.optional(S.String),
+    nextChunkToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "EmailResponseChunkDataDetails",
+}) as any as S.Schema<EmailResponseChunkDataDetails>;
+export interface EmailOverviewChunkDataDetails {
+  completion?: string;
+  nextChunkToken?: string;
+}
+export const EmailOverviewChunkDataDetails = S.suspend(() =>
+  S.Struct({
+    completion: S.optional(S.String),
+    nextChunkToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "EmailOverviewChunkDataDetails",
+}) as any as S.Schema<EmailOverviewChunkDataDetails>;
+export interface EmailGenerativeAnswerChunkDataDetails {
+  completion?: string;
+  references?: DataSummaryList;
+  nextChunkToken?: string;
+}
+export const EmailGenerativeAnswerChunkDataDetails = S.suspend(() =>
+  S.Struct({
+    completion: S.optional(S.String),
+    references: S.optional(
+      S.suspend(() => DataSummaryList).annotations({
+        identifier: "DataSummaryList",
+      }),
+    ),
+    nextChunkToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "EmailGenerativeAnswerChunkDataDetails",
+}) as any as S.Schema<EmailGenerativeAnswerChunkDataDetails>;
+export interface CaseSummarizationChunkDataDetails {
+  completion?: string;
+  nextChunkToken?: string;
+}
+export const CaseSummarizationChunkDataDetails = S.suspend(() =>
+  S.Struct({
+    completion: S.optional(S.String),
+    nextChunkToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CaseSummarizationChunkDataDetails",
+}) as any as S.Schema<CaseSummarizationChunkDataDetails>;
+export interface SuggestedMessageDataDetails {
+  messageText: string;
+}
+export const SuggestedMessageDataDetails = S.suspend(() =>
+  S.Struct({ messageText: S.String }),
+).annotations({
+  identifier: "SuggestedMessageDataDetails",
+}) as any as S.Schema<SuggestedMessageDataDetails>;
+export interface NotesDataDetails {
+  completion?: string;
+}
+export const NotesDataDetails = S.suspend(() =>
+  S.Struct({ completion: S.optional(S.String) }),
+).annotations({
+  identifier: "NotesDataDetails",
+}) as any as S.Schema<NotesDataDetails>;
+export interface NotesChunkDataDetails {
+  completion?: string;
+  nextChunkToken?: string;
+}
+export const NotesChunkDataDetails = S.suspend(() =>
+  S.Struct({
+    completion: S.optional(S.String),
+    nextChunkToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "NotesChunkDataDetails",
+}) as any as S.Schema<NotesChunkDataDetails>;
+export interface SpanToolUseValue {
+  toolUseId: string;
+  name: string;
+  arguments: any;
+}
+export const SpanToolUseValue = S.suspend(() =>
+  S.Struct({ toolUseId: S.String, name: S.String, arguments: S.Any }),
+).annotations({
+  identifier: "SpanToolUseValue",
+}) as any as S.Schema<SpanToolUseValue>;
+export interface SpanToolResultValue {
+  toolUseId: string;
+  values: SpanMessageValueList;
+  error?: string;
+}
+export const SpanToolResultValue = S.suspend(() =>
+  S.Struct({
+    toolUseId: S.String,
+    values: S.suspend(() => SpanMessageValueList).annotations({
+      identifier: "SpanMessageValueList",
+    }),
+    error: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SpanToolResultValue",
+}) as any as S.Schema<SpanToolResultValue>;
+export interface RecommendationTrigger {
+  id: string;
+  type: string;
+  source: string;
+  data: (typeof RecommendationTriggerData)["Type"];
+  recommendationIds: RecommendationIdList;
+}
+export const RecommendationTrigger = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: S.String,
+    source: S.String,
+    data: RecommendationTriggerData,
+    recommendationIds: RecommendationIdList,
+  }),
+).annotations({
+  identifier: "RecommendationTrigger",
+}) as any as S.Schema<RecommendationTrigger>;
+export type RecommendationTriggerList = RecommendationTrigger[];
 export const RecommendationTriggerList = S.Array(RecommendationTrigger);
-export class Document extends S.Class<Document>("Document")({
-  contentReference: ContentReference,
-  title: S.optional(DocumentText),
-  excerpt: S.optional(DocumentText),
-}) {}
+export interface Document {
+  contentReference: ContentReference;
+  title?: DocumentText;
+  excerpt?: DocumentText;
+}
+export const Document = S.suspend(() =>
+  S.Struct({
+    contentReference: ContentReference,
+    title: S.optional(DocumentText),
+    excerpt: S.optional(DocumentText),
+  }),
+).annotations({ identifier: "Document" }) as any as S.Schema<Document>;
 export const DataReference = S.Union(
   S.Struct({ contentReference: ContentReference }),
   S.Struct({ generativeReference: GenerativeReference }),
   S.Struct({ suggestedMessageReference: SuggestedMessageReference }),
 );
-export class DataSummary extends S.Class<DataSummary>("DataSummary")({
-  reference: DataReference,
-  details: S.suspend(() => DataDetails),
-}) {}
-export class ResultData extends S.Class<ResultData>("ResultData")({
-  resultId: S.String,
-  document: S.optional(Document),
-  relevanceScore: S.optional(S.Number),
-  data: S.optional(DataSummary),
-  type: S.optional(S.String),
-}) {}
+export interface DataSummary {
+  reference: (typeof DataReference)["Type"];
+  details: DataDetails;
+}
+export const DataSummary = S.suspend(() =>
+  S.Struct({
+    reference: DataReference,
+    details: S.suspend(() => DataDetails).annotations({
+      identifier: "DataDetails",
+    }),
+  }),
+).annotations({ identifier: "DataSummary" }) as any as S.Schema<DataSummary>;
+export interface ResultData {
+  resultId: string;
+  document?: Document;
+  relevanceScore?: number;
+  data?: DataSummary;
+  type?: string;
+}
+export const ResultData = S.suspend(() =>
+  S.Struct({
+    resultId: S.String,
+    document: S.optional(Document),
+    relevanceScore: S.optional(S.Number),
+    data: S.optional(DataSummary),
+    type: S.optional(S.String),
+  }),
+).annotations({ identifier: "ResultData" }) as any as S.Schema<ResultData>;
+export type QueryResultsList = ResultData[];
 export const QueryResultsList = S.Array(ResultData);
-export class SessionSummary extends S.Class<SessionSummary>("SessionSummary")({
-  sessionId: S.String,
-  sessionArn: S.String,
-  assistantId: S.String,
-  assistantArn: S.String,
-}) {}
+export interface SessionSummary {
+  sessionId: string;
+  sessionArn: string;
+  assistantId: string;
+  assistantArn: string;
+}
+export const SessionSummary = S.suspend(() =>
+  S.Struct({
+    sessionId: S.String,
+    sessionArn: S.String,
+    assistantId: S.String,
+    assistantArn: S.String,
+  }),
+).annotations({
+  identifier: "SessionSummary",
+}) as any as S.Schema<SessionSummary>;
+export type SessionSummaries = SessionSummary[];
 export const SessionSummaries = S.Array(SessionSummary);
-export class MessageTemplateSearchResultData extends S.Class<MessageTemplateSearchResultData>(
-  "MessageTemplateSearchResultData",
-)({
-  messageTemplateArn: S.String,
-  messageTemplateId: S.String,
-  knowledgeBaseArn: S.String,
-  knowledgeBaseId: S.String,
-  name: S.String,
-  channel: S.optional(S.String),
-  channelSubtype: S.String,
-  createdTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  lastModifiedTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  lastModifiedBy: S.String,
-  isActive: S.optional(S.Boolean),
-  versionNumber: S.optional(S.Number),
-  description: S.optional(S.String),
-  sourceConfigurationSummary: S.optional(
-    MessageTemplateSourceConfigurationSummary,
-  ),
-  groupingConfiguration: S.optional(GroupingConfiguration),
-  language: S.optional(S.String),
-  tags: S.optional(Tags),
-}) {}
+export interface MessageTemplateSearchResultData {
+  messageTemplateArn: string;
+  messageTemplateId: string;
+  knowledgeBaseArn: string;
+  knowledgeBaseId: string;
+  name: string;
+  channel?: string;
+  channelSubtype: string;
+  createdTime: Date;
+  lastModifiedTime: Date;
+  lastModifiedBy: string;
+  isActive?: boolean;
+  versionNumber?: number;
+  description?: string;
+  sourceConfigurationSummary?: (typeof MessageTemplateSourceConfigurationSummary)["Type"];
+  groupingConfiguration?: GroupingConfiguration;
+  language?: string;
+  tags?: Tags;
+}
+export const MessageTemplateSearchResultData = S.suspend(() =>
+  S.Struct({
+    messageTemplateArn: S.String,
+    messageTemplateId: S.String,
+    knowledgeBaseArn: S.String,
+    knowledgeBaseId: S.String,
+    name: S.String,
+    channel: S.optional(S.String),
+    channelSubtype: S.String,
+    createdTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastModifiedTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastModifiedBy: S.String,
+    isActive: S.optional(S.Boolean),
+    versionNumber: S.optional(S.Number),
+    description: S.optional(S.String),
+    sourceConfigurationSummary: S.optional(
+      MessageTemplateSourceConfigurationSummary,
+    ),
+    groupingConfiguration: S.optional(GroupingConfiguration),
+    language: S.optional(S.String),
+    tags: S.optional(Tags),
+  }),
+).annotations({
+  identifier: "MessageTemplateSearchResultData",
+}) as any as S.Schema<MessageTemplateSearchResultData>;
+export type MessageTemplateSearchResultsList =
+  MessageTemplateSearchResultData[];
 export const MessageTemplateSearchResultsList = S.Array(
   MessageTemplateSearchResultData,
 );
-export class QuickResponseSearchResultData extends S.Class<QuickResponseSearchResultData>(
-  "QuickResponseSearchResultData",
-)({
-  quickResponseArn: S.String,
-  quickResponseId: S.String,
-  knowledgeBaseArn: S.String,
-  knowledgeBaseId: S.String,
-  name: S.String,
-  contentType: S.String,
-  status: S.String,
-  contents: QuickResponseContents,
-  createdTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  lastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  isActive: S.Boolean,
-  description: S.optional(S.String),
-  groupingConfiguration: S.optional(GroupingConfiguration),
-  shortcutKey: S.optional(S.String),
-  lastModifiedBy: S.optional(S.String),
-  channels: S.optional(Channels),
-  language: S.optional(S.String),
-  attributesNotInterpolated: S.optional(ContactAttributeKeys),
-  attributesInterpolated: S.optional(ContactAttributeKeys),
-  tags: S.optional(Tags),
-}) {}
+export interface QuickResponseSearchResultData {
+  quickResponseArn: string;
+  quickResponseId: string;
+  knowledgeBaseArn: string;
+  knowledgeBaseId: string;
+  name: string;
+  contentType: string;
+  status: string;
+  contents: QuickResponseContents;
+  createdTime: Date;
+  lastModifiedTime: Date;
+  isActive: boolean;
+  description?: string;
+  groupingConfiguration?: GroupingConfiguration;
+  shortcutKey?: string;
+  lastModifiedBy?: string;
+  channels?: Channels;
+  language?: string;
+  attributesNotInterpolated?: ContactAttributeKeys;
+  attributesInterpolated?: ContactAttributeKeys;
+  tags?: Tags;
+}
+export const QuickResponseSearchResultData = S.suspend(() =>
+  S.Struct({
+    quickResponseArn: S.String,
+    quickResponseId: S.String,
+    knowledgeBaseArn: S.String,
+    knowledgeBaseId: S.String,
+    name: S.String,
+    contentType: S.String,
+    status: S.String,
+    contents: QuickResponseContents,
+    createdTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    lastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    isActive: S.Boolean,
+    description: S.optional(S.String),
+    groupingConfiguration: S.optional(GroupingConfiguration),
+    shortcutKey: S.optional(S.String),
+    lastModifiedBy: S.optional(S.String),
+    channels: S.optional(Channels),
+    language: S.optional(S.String),
+    attributesNotInterpolated: S.optional(ContactAttributeKeys),
+    attributesInterpolated: S.optional(ContactAttributeKeys),
+    tags: S.optional(Tags),
+  }),
+).annotations({
+  identifier: "QuickResponseSearchResultData",
+}) as any as S.Schema<QuickResponseSearchResultData>;
+export type QuickResponseSearchResultsList = QuickResponseSearchResultData[];
 export const QuickResponseSearchResultsList = S.Array(
   QuickResponseSearchResultData,
 );
-export class QueryAssistantResponse extends S.Class<QueryAssistantResponse>(
-  "QueryAssistantResponse",
-)({ results: QueryResultsList, nextToken: S.optional(S.String) }) {}
-export class SearchSessionsResponse extends S.Class<SearchSessionsResponse>(
-  "SearchSessionsResponse",
-)({ sessionSummaries: SessionSummaries, nextToken: S.optional(S.String) }) {}
-export class GetAssistantAssociationResponse extends S.Class<GetAssistantAssociationResponse>(
-  "GetAssistantAssociationResponse",
-)({ assistantAssociation: S.optional(AssistantAssociationData) }) {}
-export class SpanCitation extends S.Class<SpanCitation>("SpanCitation")({
-  contentId: S.optional(S.String),
-  title: S.optional(S.String),
-  knowledgeBaseId: S.optional(S.String),
-  knowledgeBaseArn: S.optional(S.String),
-}) {}
+export interface QueryAssistantResponse {
+  results: QueryResultsList;
+  nextToken?: string;
+}
+export const QueryAssistantResponse = S.suspend(() =>
+  S.Struct({ results: QueryResultsList, nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "QueryAssistantResponse",
+}) as any as S.Schema<QueryAssistantResponse>;
+export interface SearchSessionsResponse {
+  sessionSummaries: SessionSummaries;
+  nextToken?: string;
+}
+export const SearchSessionsResponse = S.suspend(() =>
+  S.Struct({
+    sessionSummaries: SessionSummaries,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SearchSessionsResponse",
+}) as any as S.Schema<SearchSessionsResponse>;
+export interface GetAssistantAssociationResponse {
+  assistantAssociation?: AssistantAssociationData;
+}
+export const GetAssistantAssociationResponse = S.suspend(() =>
+  S.Struct({ assistantAssociation: S.optional(AssistantAssociationData) }),
+).annotations({
+  identifier: "GetAssistantAssociationResponse",
+}) as any as S.Schema<GetAssistantAssociationResponse>;
+export interface SpanCitation {
+  contentId?: string;
+  title?: string;
+  knowledgeBaseId?: string;
+  knowledgeBaseArn?: string;
+}
+export const SpanCitation = S.suspend(() =>
+  S.Struct({
+    contentId: S.optional(S.String),
+    title: S.optional(S.String),
+    knowledgeBaseId: S.optional(S.String),
+    knowledgeBaseArn: S.optional(S.String),
+  }),
+).annotations({ identifier: "SpanCitation" }) as any as S.Schema<SpanCitation>;
+export type SpanCitationList = SpanCitation[];
 export const SpanCitationList = S.Array(SpanCitation);
-export class SearchMessageTemplatesResponse extends S.Class<SearchMessageTemplatesResponse>(
-  "SearchMessageTemplatesResponse",
-)({
-  results: MessageTemplateSearchResultsList,
-  nextToken: S.optional(S.String),
-}) {}
-export class SearchQuickResponsesResponse extends S.Class<SearchQuickResponsesResponse>(
-  "SearchQuickResponsesResponse",
-)({
-  results: QuickResponseSearchResultsList,
-  nextToken: S.optional(S.String),
-}) {}
-export class StartImportJobResponse extends S.Class<StartImportJobResponse>(
-  "StartImportJobResponse",
-)({ importJob: S.optional(ImportJobData) }) {}
-export class CreateMessageTemplateRequest extends S.Class<CreateMessageTemplateRequest>(
-  "CreateMessageTemplateRequest",
-)(
-  {
+export interface SearchMessageTemplatesResponse {
+  results: MessageTemplateSearchResultsList;
+  nextToken?: string;
+}
+export const SearchMessageTemplatesResponse = S.suspend(() =>
+  S.Struct({
+    results: MessageTemplateSearchResultsList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SearchMessageTemplatesResponse",
+}) as any as S.Schema<SearchMessageTemplatesResponse>;
+export interface SearchQuickResponsesResponse {
+  results: QuickResponseSearchResultsList;
+  nextToken?: string;
+}
+export const SearchQuickResponsesResponse = S.suspend(() =>
+  S.Struct({
+    results: QuickResponseSearchResultsList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SearchQuickResponsesResponse",
+}) as any as S.Schema<SearchQuickResponsesResponse>;
+export interface StartImportJobResponse {
+  importJob?: ImportJobData;
+}
+export const StartImportJobResponse = S.suspend(() =>
+  S.Struct({ importJob: S.optional(ImportJobData) }),
+).annotations({
+  identifier: "StartImportJobResponse",
+}) as any as S.Schema<StartImportJobResponse>;
+export interface CreateMessageTemplateRequest {
+  knowledgeBaseId: string;
+  name?: string;
+  content?: (typeof MessageTemplateContentProvider)["Type"];
+  description?: string;
+  channelSubtype: string;
+  language?: string;
+  sourceConfiguration?: (typeof MessageTemplateSourceConfiguration)["Type"];
+  defaultAttributes?: MessageTemplateAttributes;
+  groupingConfiguration?: GroupingConfiguration;
+  clientToken?: string;
+  tags?: Tags;
+}
+export const CreateMessageTemplateRequest = S.suspend(() =>
+  S.Struct({
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     name: S.optional(S.String),
     content: S.optional(MessageTemplateContentProvider),
@@ -4037,40 +6753,77 @@ export class CreateMessageTemplateRequest extends S.Class<CreateMessageTemplateR
     groupingConfiguration: S.optional(GroupingConfiguration),
     clientToken: S.optional(S.String),
     tags: S.optional(Tags),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/knowledgeBases/{knowledgeBaseId}/messageTemplates",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/knowledgeBases/{knowledgeBaseId}/messageTemplates",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetQuickResponseResponse extends S.Class<GetQuickResponseResponse>(
-  "GetQuickResponseResponse",
-)({ quickResponse: S.optional(QuickResponseData) }) {}
-export class ContentDataDetails extends S.Class<ContentDataDetails>(
-  "ContentDataDetails",
-)({ textData: TextData, rankingData: RankingData }) {}
-export class SpanTextValue extends S.Class<SpanTextValue>("SpanTextValue")({
-  value: S.String,
-  citations: S.optional(SpanCitationList),
-  aiGuardrailAssessment: S.optional(AIGuardrailAssessment),
-}) {}
-export class RetrieveResult extends S.Class<RetrieveResult>("RetrieveResult")({
-  associationId: S.String,
-  sourceId: S.String,
-  referenceType: S.String,
-  contentText: S.String,
-}) {}
+).annotations({
+  identifier: "CreateMessageTemplateRequest",
+}) as any as S.Schema<CreateMessageTemplateRequest>;
+export interface GetQuickResponseResponse {
+  quickResponse?: QuickResponseData;
+}
+export const GetQuickResponseResponse = S.suspend(() =>
+  S.Struct({ quickResponse: S.optional(QuickResponseData) }),
+).annotations({
+  identifier: "GetQuickResponseResponse",
+}) as any as S.Schema<GetQuickResponseResponse>;
+export interface ContentDataDetails {
+  textData: TextData;
+  rankingData: RankingData;
+}
+export const ContentDataDetails = S.suspend(() =>
+  S.Struct({ textData: TextData, rankingData: RankingData }),
+).annotations({
+  identifier: "ContentDataDetails",
+}) as any as S.Schema<ContentDataDetails>;
+export interface SpanTextValue {
+  value: string;
+  citations?: SpanCitationList;
+  aiGuardrailAssessment?: AIGuardrailAssessment;
+}
+export const SpanTextValue = S.suspend(() =>
+  S.Struct({
+    value: S.String,
+    citations: S.optional(SpanCitationList),
+    aiGuardrailAssessment: S.optional(AIGuardrailAssessment),
+  }),
+).annotations({
+  identifier: "SpanTextValue",
+}) as any as S.Schema<SpanTextValue>;
+export interface RetrieveResult {
+  associationId: string;
+  sourceId: string;
+  referenceType: string;
+  contentText: string;
+}
+export const RetrieveResult = S.suspend(() =>
+  S.Struct({
+    associationId: S.String,
+    sourceId: S.String,
+    referenceType: S.String,
+    contentText: S.String,
+  }),
+).annotations({
+  identifier: "RetrieveResult",
+}) as any as S.Schema<RetrieveResult>;
+export type RetrieveResultList = RetrieveResult[];
 export const RetrieveResultList = S.Array(RetrieveResult);
-export class MessageInput extends S.Class<MessageInput>("MessageInput")({
-  value: MessageData,
-}) {}
+export interface MessageInput {
+  value: (typeof MessageData)["Type"];
+}
+export const MessageInput = S.suspend(() =>
+  S.Struct({ value: MessageData }),
+).annotations({ identifier: "MessageInput" }) as any as S.Schema<MessageInput>;
 export type DataDetails =
   | { contentData: ContentDataDetails }
   | { generativeData: GenerativeDataDetails }
@@ -4089,7 +6842,7 @@ export const DataDetails = S.Union(
   S.Struct({
     generativeData: S.suspend(
       (): S.Schema<GenerativeDataDetails, any> => GenerativeDataDetails,
-    ),
+    ).annotations({ identifier: "GenerativeDataDetails" }),
   }),
   S.Struct({ intentDetectedData: IntentDetectedDataDetails }),
   S.Struct({ sourceContentData: SourceContentDataDetails }),
@@ -4097,7 +6850,7 @@ export const DataDetails = S.Union(
     generativeChunkData: S.suspend(
       (): S.Schema<GenerativeChunkDataDetails, any> =>
         GenerativeChunkDataDetails,
-    ),
+    ).annotations({ identifier: "GenerativeChunkDataDetails" }),
   }),
   S.Struct({ emailResponseChunkData: EmailResponseChunkDataDetails }),
   S.Struct({ emailOverviewChunkData: EmailOverviewChunkDataDetails }),
@@ -4105,7 +6858,7 @@ export const DataDetails = S.Union(
     emailGenerativeAnswerChunkData: S.suspend(
       (): S.Schema<EmailGenerativeAnswerChunkDataDetails, any> =>
         EmailGenerativeAnswerChunkDataDetails,
-    ),
+    ).annotations({ identifier: "EmailGenerativeAnswerChunkDataDetails" }),
   }),
   S.Struct({ caseSummarizationChunkData: CaseSummarizationChunkDataDetails }),
   S.Struct({ suggestedMessageData: SuggestedMessageDataDetails }),
@@ -4122,16 +6875,31 @@ export const SpanMessageValue = S.Union(
   S.Struct({
     toolResult: S.suspend(
       (): S.Schema<SpanToolResultValue, any> => SpanToolResultValue,
-    ),
+    ).annotations({ identifier: "SpanToolResultValue" }),
   }),
 ) as any as S.Schema<SpanMessageValue>;
-export class RetrieveResponse extends S.Class<RetrieveResponse>(
-  "RetrieveResponse",
-)({ results: RetrieveResultList }) {}
-export class SendMessageRequest extends S.Class<SendMessageRequest>(
-  "SendMessageRequest",
-)(
-  {
+export interface RetrieveResponse {
+  results: RetrieveResultList;
+}
+export const RetrieveResponse = S.suspend(() =>
+  S.Struct({ results: RetrieveResultList }),
+).annotations({
+  identifier: "RetrieveResponse",
+}) as any as S.Schema<RetrieveResponse>;
+export interface SendMessageRequest {
+  assistantId: string;
+  sessionId: string;
+  type: string;
+  message: MessageInput;
+  aiAgentId?: string;
+  conversationContext?: ConversationContext;
+  configuration?: MessageConfiguration;
+  clientToken?: string;
+  orchestratorUseCase?: string;
+  metadata?: MessageMetadata;
+}
+export const SendMessageRequest = S.suspend(() =>
+  S.Struct({
     assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     sessionId: S.String.pipe(T.HttpLabel("sessionId")),
     type: S.String,
@@ -4142,23 +6910,35 @@ export class SendMessageRequest extends S.Class<SendMessageRequest>(
     clientToken: S.optional(S.String),
     orchestratorUseCase: S.optional(S.String),
     metadata: S.optional(MessageMetadata),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/assistants/{assistantId}/sessions/{sessionId}/message",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/assistants/{assistantId}/sessions/{sessionId}/message",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateKnowledgeBaseRequest extends S.Class<CreateKnowledgeBaseRequest>(
-  "CreateKnowledgeBaseRequest",
-)(
-  {
+).annotations({
+  identifier: "SendMessageRequest",
+}) as any as S.Schema<SendMessageRequest>;
+export interface CreateKnowledgeBaseRequest {
+  clientToken?: string;
+  name: string;
+  knowledgeBaseType: string;
+  sourceConfiguration?: (typeof SourceConfiguration)["Type"];
+  renderingConfiguration?: RenderingConfiguration;
+  vectorIngestionConfiguration?: VectorIngestionConfiguration;
+  serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
+  description?: string;
+  tags?: Tags;
+}
+export const CreateKnowledgeBaseRequest = S.suspend(() =>
+  S.Struct({
     clientToken: S.optional(S.String),
     name: S.String,
     knowledgeBaseType: S.String,
@@ -4170,90 +6950,179 @@ export class CreateKnowledgeBaseRequest extends S.Class<CreateKnowledgeBaseReque
     ),
     description: S.optional(S.String),
     tags: S.optional(Tags),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/knowledgeBases" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/knowledgeBases" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateMessageTemplateResponse extends S.Class<CreateMessageTemplateResponse>(
-  "CreateMessageTemplateResponse",
-)({ messageTemplate: S.optional(MessageTemplateData) }) {}
-export class SpanAttributes extends S.Class<SpanAttributes>("SpanAttributes")({
-  operationName: S.optional(S.String),
-  providerName: S.optional(S.String),
-  errorType: S.optional(S.String),
-  agentId: S.optional(S.String),
-  instanceArn: S.optional(S.String),
-  contactId: S.optional(S.String),
-  initialContactId: S.optional(S.String),
-  sessionName: S.optional(S.String),
-  aiAgentArn: S.optional(S.String),
-  aiAgentType: S.optional(S.String),
-  aiAgentName: S.optional(S.String),
-  aiAgentId: S.optional(S.String),
-  aiAgentVersion: S.optional(S.Number),
-  aiAgentInvoker: S.optional(S.String),
-  aiAgentOrchestratorUseCase: S.optional(S.String),
-  requestModel: S.optional(S.String),
-  requestMaxTokens: S.optional(S.Number),
-  temperature: S.optional(S.Number),
-  topP: S.optional(S.Number),
-  responseModel: S.optional(S.String),
-  responseFinishReasons: S.optional(SpanFinishReasonList),
-  usageInputTokens: S.optional(S.Number),
-  usageOutputTokens: S.optional(S.Number),
-  usageTotalTokens: S.optional(S.Number),
-  cacheReadInputTokens: S.optional(S.Number),
-  cacheWriteInputTokens: S.optional(S.Number),
-  inputMessages: S.optional(SpanMessageList),
-  outputMessages: S.optional(SpanMessageList),
-  systemInstructions: S.optional(SpanMessageValueList),
-  promptArn: S.optional(S.String),
-  promptId: S.optional(S.String),
-  promptType: S.optional(S.String),
-  promptName: S.optional(S.String),
-  promptVersion: S.optional(S.Number),
-}) {}
-export class RecommendationData extends S.Class<RecommendationData>(
-  "RecommendationData",
-)({
-  recommendationId: S.String,
-  document: S.optional(Document),
-  relevanceScore: S.optional(S.Number),
-  relevanceLevel: S.optional(S.String),
-  type: S.optional(S.String),
-  data: S.optional(DataSummary),
-}) {}
+).annotations({
+  identifier: "CreateKnowledgeBaseRequest",
+}) as any as S.Schema<CreateKnowledgeBaseRequest>;
+export interface CreateMessageTemplateResponse {
+  messageTemplate?: MessageTemplateData;
+}
+export const CreateMessageTemplateResponse = S.suspend(() =>
+  S.Struct({ messageTemplate: S.optional(MessageTemplateData) }),
+).annotations({
+  identifier: "CreateMessageTemplateResponse",
+}) as any as S.Schema<CreateMessageTemplateResponse>;
+export interface SpanAttributes {
+  operationName?: string;
+  providerName?: string;
+  errorType?: string;
+  agentId?: string;
+  instanceArn?: string;
+  contactId?: string;
+  initialContactId?: string;
+  sessionName?: string;
+  aiAgentArn?: string;
+  aiAgentType?: string;
+  aiAgentName?: string;
+  aiAgentId?: string;
+  aiAgentVersion?: number;
+  aiAgentInvoker?: string;
+  aiAgentOrchestratorUseCase?: string;
+  requestModel?: string;
+  requestMaxTokens?: number;
+  temperature?: number;
+  topP?: number;
+  responseModel?: string;
+  responseFinishReasons?: SpanFinishReasonList;
+  usageInputTokens?: number;
+  usageOutputTokens?: number;
+  usageTotalTokens?: number;
+  cacheReadInputTokens?: number;
+  cacheWriteInputTokens?: number;
+  inputMessages?: SpanMessageList;
+  outputMessages?: SpanMessageList;
+  systemInstructions?: SpanMessageValueList;
+  promptArn?: string;
+  promptId?: string;
+  promptType?: string;
+  promptName?: string;
+  promptVersion?: number;
+}
+export const SpanAttributes = S.suspend(() =>
+  S.Struct({
+    operationName: S.optional(S.String),
+    providerName: S.optional(S.String),
+    errorType: S.optional(S.String),
+    agentId: S.optional(S.String),
+    instanceArn: S.optional(S.String),
+    contactId: S.optional(S.String),
+    initialContactId: S.optional(S.String),
+    sessionName: S.optional(S.String),
+    aiAgentArn: S.optional(S.String),
+    aiAgentType: S.optional(S.String),
+    aiAgentName: S.optional(S.String),
+    aiAgentId: S.optional(S.String),
+    aiAgentVersion: S.optional(S.Number),
+    aiAgentInvoker: S.optional(S.String),
+    aiAgentOrchestratorUseCase: S.optional(S.String),
+    requestModel: S.optional(S.String),
+    requestMaxTokens: S.optional(S.Number),
+    temperature: S.optional(S.Number),
+    topP: S.optional(S.Number),
+    responseModel: S.optional(S.String),
+    responseFinishReasons: S.optional(SpanFinishReasonList),
+    usageInputTokens: S.optional(S.Number),
+    usageOutputTokens: S.optional(S.Number),
+    usageTotalTokens: S.optional(S.Number),
+    cacheReadInputTokens: S.optional(S.Number),
+    cacheWriteInputTokens: S.optional(S.Number),
+    inputMessages: S.optional(SpanMessageList),
+    outputMessages: S.optional(SpanMessageList),
+    systemInstructions: S.optional(SpanMessageValueList),
+    promptArn: S.optional(S.String),
+    promptId: S.optional(S.String),
+    promptType: S.optional(S.String),
+    promptName: S.optional(S.String),
+    promptVersion: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "SpanAttributes",
+}) as any as S.Schema<SpanAttributes>;
+export interface RecommendationData {
+  recommendationId: string;
+  document?: Document;
+  relevanceScore?: number;
+  relevanceLevel?: string;
+  type?: string;
+  data?: DataSummary;
+}
+export const RecommendationData = S.suspend(() =>
+  S.Struct({
+    recommendationId: S.String,
+    document: S.optional(Document),
+    relevanceScore: S.optional(S.Number),
+    relevanceLevel: S.optional(S.String),
+    type: S.optional(S.String),
+    data: S.optional(DataSummary),
+  }),
+).annotations({
+  identifier: "RecommendationData",
+}) as any as S.Schema<RecommendationData>;
+export type RecommendationList = RecommendationData[];
 export const RecommendationList = S.Array(RecommendationData);
-export class Span extends S.Class<Span>("Span")({
-  spanId: S.String,
-  assistantId: S.String,
-  sessionId: S.String,
-  parentSpanId: S.optional(S.String),
-  spanName: S.String,
-  spanType: S.String,
-  startTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  endTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  status: S.String,
-  requestId: S.String,
-  attributes: SpanAttributes,
-}) {}
+export interface Span {
+  spanId: string;
+  assistantId: string;
+  sessionId: string;
+  parentSpanId?: string;
+  spanName: string;
+  spanType: string;
+  startTimestamp: Date;
+  endTimestamp: Date;
+  status: string;
+  requestId: string;
+  attributes: SpanAttributes;
+}
+export const Span = S.suspend(() =>
+  S.Struct({
+    spanId: S.String,
+    assistantId: S.String,
+    sessionId: S.String,
+    parentSpanId: S.optional(S.String),
+    spanName: S.String,
+    spanType: S.String,
+    startTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    endTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    status: S.String,
+    requestId: S.String,
+    attributes: SpanAttributes,
+  }),
+).annotations({ identifier: "Span" }) as any as S.Schema<Span>;
+export type SpanList = Span[];
 export const SpanList = S.Array(Span);
-export class GetRecommendationsResponse extends S.Class<GetRecommendationsResponse>(
-  "GetRecommendationsResponse",
-)({
-  recommendations: RecommendationList,
-  triggers: S.optional(RecommendationTriggerList),
-}) {}
-export class CreateAIAgentRequest extends S.Class<CreateAIAgentRequest>(
-  "CreateAIAgentRequest",
-)(
-  {
+export interface GetRecommendationsResponse {
+  recommendations: RecommendationList;
+  triggers?: RecommendationTriggerList;
+}
+export const GetRecommendationsResponse = S.suspend(() =>
+  S.Struct({
+    recommendations: RecommendationList,
+    triggers: S.optional(RecommendationTriggerList),
+  }),
+).annotations({
+  identifier: "GetRecommendationsResponse",
+}) as any as S.Schema<GetRecommendationsResponse>;
+export interface CreateAIAgentRequest {
+  clientToken?: string;
+  assistantId: string;
+  name: string;
+  type: string;
+  configuration: (typeof AIAgentConfiguration)["Type"];
+  visibilityStatus: string;
+  tags?: Tags;
+  description?: string;
+}
+export const CreateAIAgentRequest = S.suspend(() =>
+  S.Struct({
     clientToken: S.optional(S.String),
     assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     name: S.String,
@@ -4262,32 +7131,58 @@ export class CreateAIAgentRequest extends S.Class<CreateAIAgentRequest>(
     visibilityStatus: S.String,
     tags: S.optional(Tags),
     description: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/assistants/{assistantId}/aiagents" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/assistants/{assistantId}/aiagents" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListSpansResponse extends S.Class<ListSpansResponse>(
-  "ListSpansResponse",
-)({ spans: SpanList, nextToken: S.optional(S.String) }) {}
-export class SendMessageResponse extends S.Class<SendMessageResponse>(
-  "SendMessageResponse",
-)({
-  requestMessageId: S.String,
-  configuration: S.optional(MessageConfiguration),
-  nextMessageToken: S.String,
-}) {}
-export class CreateKnowledgeBaseResponse extends S.Class<CreateKnowledgeBaseResponse>(
-  "CreateKnowledgeBaseResponse",
-)({ knowledgeBase: S.optional(KnowledgeBaseData) }) {}
-export class CreateAIAgentResponse extends S.Class<CreateAIAgentResponse>(
-  "CreateAIAgentResponse",
-)({ aiAgent: S.optional(AIAgentData) }) {}
+).annotations({
+  identifier: "CreateAIAgentRequest",
+}) as any as S.Schema<CreateAIAgentRequest>;
+export interface ListSpansResponse {
+  spans: SpanList;
+  nextToken?: string;
+}
+export const ListSpansResponse = S.suspend(() =>
+  S.Struct({ spans: SpanList, nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListSpansResponse",
+}) as any as S.Schema<ListSpansResponse>;
+export interface SendMessageResponse {
+  requestMessageId: string;
+  configuration?: MessageConfiguration;
+  nextMessageToken: string;
+}
+export const SendMessageResponse = S.suspend(() =>
+  S.Struct({
+    requestMessageId: S.String,
+    configuration: S.optional(MessageConfiguration),
+    nextMessageToken: S.String,
+  }),
+).annotations({
+  identifier: "SendMessageResponse",
+}) as any as S.Schema<SendMessageResponse>;
+export interface CreateKnowledgeBaseResponse {
+  knowledgeBase?: KnowledgeBaseData;
+}
+export const CreateKnowledgeBaseResponse = S.suspend(() =>
+  S.Struct({ knowledgeBase: S.optional(KnowledgeBaseData) }),
+).annotations({
+  identifier: "CreateKnowledgeBaseResponse",
+}) as any as S.Schema<CreateKnowledgeBaseResponse>;
+export interface CreateAIAgentResponse {
+  aiAgent?: AIAgentData;
+}
+export const CreateAIAgentResponse = S.suspend(() =>
+  S.Struct({ aiAgent: S.optional(AIAgentData) }),
+).annotations({
+  identifier: "CreateAIAgentResponse",
+}) as any as S.Schema<CreateAIAgentResponse>;
 
 //# Errors
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(

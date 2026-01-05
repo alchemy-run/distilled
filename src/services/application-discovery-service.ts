@@ -243,338 +243,808 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class ExportConfigurationsRequest extends S.Class<ExportConfigurationsRequest>(
-  "ExportConfigurationsRequest",
-)(
-  {},
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetDiscoverySummaryRequest extends S.Class<GetDiscoverySummaryRequest>(
-  "GetDiscoverySummaryRequest",
-)(
-  {},
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StartContinuousExportRequest extends S.Class<StartContinuousExportRequest>(
-  "StartContinuousExportRequest",
-)(
-  {},
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+export interface ExportConfigurationsRequest {}
+export const ExportConfigurationsRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ExportConfigurationsRequest",
+}) as any as S.Schema<ExportConfigurationsRequest>;
+export interface GetDiscoverySummaryRequest {}
+export const GetDiscoverySummaryRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetDiscoverySummaryRequest",
+}) as any as S.Schema<GetDiscoverySummaryRequest>;
+export interface StartContinuousExportRequest {}
+export const StartContinuousExportRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "StartContinuousExportRequest",
+}) as any as S.Schema<StartContinuousExportRequest>;
+export type ConfigurationIdList = string[];
 export const ConfigurationIdList = S.Array(S.String);
+export type ToDeleteIdentifierList = string[];
 export const ToDeleteIdentifierList = S.Array(S.String);
+export type ApplicationIdsList = string[];
 export const ApplicationIdsList = S.Array(S.String);
+export type AgentIds = string[];
 export const AgentIds = S.Array(S.String);
+export type ContinuousExportIds = string[];
 export const ContinuousExportIds = S.Array(S.String);
+export type ExportIds = string[];
 export const ExportIds = S.Array(S.String);
+export type ExportDataFormats = string[];
 export const ExportDataFormats = S.Array(S.String);
-export class AssociateConfigurationItemsToApplicationRequest extends S.Class<AssociateConfigurationItemsToApplicationRequest>(
-  "AssociateConfigurationItemsToApplicationRequest",
-)(
-  {
+export interface AssociateConfigurationItemsToApplicationRequest {
+  applicationConfigurationId: string;
+  configurationIds: ConfigurationIdList;
+}
+export const AssociateConfigurationItemsToApplicationRequest = S.suspend(() =>
+  S.Struct({
     applicationConfigurationId: S.String,
     configurationIds: ConfigurationIdList,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class AssociateConfigurationItemsToApplicationResponse extends S.Class<AssociateConfigurationItemsToApplicationResponse>(
-  "AssociateConfigurationItemsToApplicationResponse",
-)({}, ns) {}
-export class BatchDeleteImportDataRequest extends S.Class<BatchDeleteImportDataRequest>(
-  "BatchDeleteImportDataRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "AssociateConfigurationItemsToApplicationRequest",
+}) as any as S.Schema<AssociateConfigurationItemsToApplicationRequest>;
+export interface AssociateConfigurationItemsToApplicationResponse {}
+export const AssociateConfigurationItemsToApplicationResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "AssociateConfigurationItemsToApplicationResponse",
+}) as any as S.Schema<AssociateConfigurationItemsToApplicationResponse>;
+export interface BatchDeleteImportDataRequest {
+  importTaskIds: ToDeleteIdentifierList;
+  deleteHistory?: boolean;
+}
+export const BatchDeleteImportDataRequest = S.suspend(() =>
+  S.Struct({
     importTaskIds: ToDeleteIdentifierList,
     deleteHistory: S.optional(S.Boolean),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateApplicationRequest extends S.Class<CreateApplicationRequest>(
-  "CreateApplicationRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "BatchDeleteImportDataRequest",
+}) as any as S.Schema<BatchDeleteImportDataRequest>;
+export interface CreateApplicationRequest {
+  name: string;
+  description?: string;
+  wave?: string;
+}
+export const CreateApplicationRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     description: S.optional(S.String),
     wave: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteApplicationsRequest extends S.Class<DeleteApplicationsRequest>(
-  "DeleteApplicationsRequest",
-)(
-  { configurationIds: ApplicationIdsList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteApplicationsResponse extends S.Class<DeleteApplicationsResponse>(
-  "DeleteApplicationsResponse",
-)({}, ns) {}
-export class Tag extends S.Class<Tag>("Tag")({
-  key: S.String,
-  value: S.String,
-}) {}
-export const TagSet = S.Array(Tag.pipe(T.XmlName("item")));
-export class DeleteTagsRequest extends S.Class<DeleteTagsRequest>(
-  "DeleteTagsRequest",
-)(
-  { configurationIds: ConfigurationIdList, tags: S.optional(TagSet) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteTagsResponse extends S.Class<DeleteTagsResponse>(
-  "DeleteTagsResponse",
-)({}, ns) {}
-export class DescribeBatchDeleteConfigurationTaskRequest extends S.Class<DescribeBatchDeleteConfigurationTaskRequest>(
-  "DescribeBatchDeleteConfigurationTaskRequest",
-)(
-  { taskId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeConfigurationsRequest extends S.Class<DescribeConfigurationsRequest>(
-  "DescribeConfigurationsRequest",
-)(
-  { configurationIds: ConfigurationIdList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeContinuousExportsRequest extends S.Class<DescribeContinuousExportsRequest>(
-  "DescribeContinuousExportsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateApplicationRequest",
+}) as any as S.Schema<CreateApplicationRequest>;
+export interface DeleteApplicationsRequest {
+  configurationIds: ApplicationIdsList;
+}
+export const DeleteApplicationsRequest = S.suspend(() =>
+  S.Struct({ configurationIds: ApplicationIdsList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteApplicationsRequest",
+}) as any as S.Schema<DeleteApplicationsRequest>;
+export interface DeleteApplicationsResponse {}
+export const DeleteApplicationsResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteApplicationsResponse",
+}) as any as S.Schema<DeleteApplicationsResponse>;
+export interface Tag {
+  key: string;
+  value: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ key: S.String, value: S.String }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagSet = Tag[];
+export const TagSet = S.Array(
+  Tag.pipe(T.XmlName("item")).annotations({ identifier: "Tag" }),
+);
+export interface DeleteTagsRequest {
+  configurationIds: ConfigurationIdList;
+  tags?: TagSet;
+}
+export const DeleteTagsRequest = S.suspend(() =>
+  S.Struct({
+    configurationIds: ConfigurationIdList,
+    tags: S.optional(TagSet),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteTagsRequest",
+}) as any as S.Schema<DeleteTagsRequest>;
+export interface DeleteTagsResponse {}
+export const DeleteTagsResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteTagsResponse",
+}) as any as S.Schema<DeleteTagsResponse>;
+export interface DescribeBatchDeleteConfigurationTaskRequest {
+  taskId: string;
+}
+export const DescribeBatchDeleteConfigurationTaskRequest = S.suspend(() =>
+  S.Struct({ taskId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeBatchDeleteConfigurationTaskRequest",
+}) as any as S.Schema<DescribeBatchDeleteConfigurationTaskRequest>;
+export interface DescribeConfigurationsRequest {
+  configurationIds: ConfigurationIdList;
+}
+export const DescribeConfigurationsRequest = S.suspend(() =>
+  S.Struct({ configurationIds: ConfigurationIdList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeConfigurationsRequest",
+}) as any as S.Schema<DescribeConfigurationsRequest>;
+export interface DescribeContinuousExportsRequest {
+  exportIds?: ContinuousExportIds;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const DescribeContinuousExportsRequest = S.suspend(() =>
+  S.Struct({
     exportIds: S.optional(ContinuousExportIds),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeExportConfigurationsRequest extends S.Class<DescribeExportConfigurationsRequest>(
-  "DescribeExportConfigurationsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeContinuousExportsRequest",
+}) as any as S.Schema<DescribeContinuousExportsRequest>;
+export interface DescribeExportConfigurationsRequest {
+  exportIds?: ExportIds;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const DescribeExportConfigurationsRequest = S.suspend(() =>
+  S.Struct({
     exportIds: S.optional(ExportIds),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DisassociateConfigurationItemsFromApplicationRequest extends S.Class<DisassociateConfigurationItemsFromApplicationRequest>(
-  "DisassociateConfigurationItemsFromApplicationRequest",
-)(
-  {
-    applicationConfigurationId: S.String,
-    configurationIds: ConfigurationIdList,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DisassociateConfigurationItemsFromApplicationResponse extends S.Class<DisassociateConfigurationItemsFromApplicationResponse>(
-  "DisassociateConfigurationItemsFromApplicationResponse",
-)({}, ns) {}
-export class ExportConfigurationsResponse extends S.Class<ExportConfigurationsResponse>(
-  "ExportConfigurationsResponse",
-)({ exportId: S.optional(S.String) }, ns) {}
-export class ListServerNeighborsRequest extends S.Class<ListServerNeighborsRequest>(
-  "ListServerNeighborsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeExportConfigurationsRequest",
+}) as any as S.Schema<DescribeExportConfigurationsRequest>;
+export interface DisassociateConfigurationItemsFromApplicationRequest {
+  applicationConfigurationId: string;
+  configurationIds: ConfigurationIdList;
+}
+export const DisassociateConfigurationItemsFromApplicationRequest = S.suspend(
+  () =>
+    S.Struct({
+      applicationConfigurationId: S.String,
+      configurationIds: ConfigurationIdList,
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+).annotations({
+  identifier: "DisassociateConfigurationItemsFromApplicationRequest",
+}) as any as S.Schema<DisassociateConfigurationItemsFromApplicationRequest>;
+export interface DisassociateConfigurationItemsFromApplicationResponse {}
+export const DisassociateConfigurationItemsFromApplicationResponse = S.suspend(
+  () => S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DisassociateConfigurationItemsFromApplicationResponse",
+}) as any as S.Schema<DisassociateConfigurationItemsFromApplicationResponse>;
+export interface ExportConfigurationsResponse {
+  exportId?: string;
+}
+export const ExportConfigurationsResponse = S.suspend(() =>
+  S.Struct({ exportId: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "ExportConfigurationsResponse",
+}) as any as S.Schema<ExportConfigurationsResponse>;
+export interface ListServerNeighborsRequest {
+  configurationId: string;
+  portInformationNeeded?: boolean;
+  neighborConfigurationIds?: ConfigurationIdList;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListServerNeighborsRequest = S.suspend(() =>
+  S.Struct({
     configurationId: S.String,
     portInformationNeeded: S.optional(S.Boolean),
     neighborConfigurationIds: S.optional(ConfigurationIdList),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StartBatchDeleteConfigurationTaskRequest extends S.Class<StartBatchDeleteConfigurationTaskRequest>(
-  "StartBatchDeleteConfigurationTaskRequest",
-)(
-  { configurationType: S.String, configurationIds: ConfigurationIdList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StartDataCollectionByAgentIdsRequest extends S.Class<StartDataCollectionByAgentIdsRequest>(
-  "StartDataCollectionByAgentIdsRequest",
-)(
-  { agentIds: AgentIds },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StartImportTaskRequest extends S.Class<StartImportTaskRequest>(
-  "StartImportTaskRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListServerNeighborsRequest",
+}) as any as S.Schema<ListServerNeighborsRequest>;
+export interface StartBatchDeleteConfigurationTaskRequest {
+  configurationType: string;
+  configurationIds: ConfigurationIdList;
+}
+export const StartBatchDeleteConfigurationTaskRequest = S.suspend(() =>
+  S.Struct({
+    configurationType: S.String,
+    configurationIds: ConfigurationIdList,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "StartBatchDeleteConfigurationTaskRequest",
+}) as any as S.Schema<StartBatchDeleteConfigurationTaskRequest>;
+export interface StartDataCollectionByAgentIdsRequest {
+  agentIds: AgentIds;
+}
+export const StartDataCollectionByAgentIdsRequest = S.suspend(() =>
+  S.Struct({ agentIds: AgentIds }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "StartDataCollectionByAgentIdsRequest",
+}) as any as S.Schema<StartDataCollectionByAgentIdsRequest>;
+export interface StartImportTaskRequest {
+  clientRequestToken?: string;
+  name: string;
+  importUrl: string;
+}
+export const StartImportTaskRequest = S.suspend(() =>
+  S.Struct({
     clientRequestToken: S.optional(S.String),
     name: S.String,
     importUrl: S.String,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StopContinuousExportRequest extends S.Class<StopContinuousExportRequest>(
-  "StopContinuousExportRequest",
-)(
-  { exportId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StopDataCollectionByAgentIdsRequest extends S.Class<StopDataCollectionByAgentIdsRequest>(
-  "StopDataCollectionByAgentIdsRequest",
-)(
-  { agentIds: AgentIds },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateApplicationRequest extends S.Class<UpdateApplicationRequest>(
-  "UpdateApplicationRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "StartImportTaskRequest",
+}) as any as S.Schema<StartImportTaskRequest>;
+export interface StopContinuousExportRequest {
+  exportId: string;
+}
+export const StopContinuousExportRequest = S.suspend(() =>
+  S.Struct({ exportId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "StopContinuousExportRequest",
+}) as any as S.Schema<StopContinuousExportRequest>;
+export interface StopDataCollectionByAgentIdsRequest {
+  agentIds: AgentIds;
+}
+export const StopDataCollectionByAgentIdsRequest = S.suspend(() =>
+  S.Struct({ agentIds: AgentIds }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "StopDataCollectionByAgentIdsRequest",
+}) as any as S.Schema<StopDataCollectionByAgentIdsRequest>;
+export interface UpdateApplicationRequest {
+  configurationId: string;
+  name?: string;
+  description?: string;
+  wave?: string;
+}
+export const UpdateApplicationRequest = S.suspend(() =>
+  S.Struct({
     configurationId: S.String,
     name: S.optional(S.String),
     description: S.optional(S.String),
     wave: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateApplicationResponse extends S.Class<UpdateApplicationResponse>(
-  "UpdateApplicationResponse",
-)({}, ns) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateApplicationRequest",
+}) as any as S.Schema<UpdateApplicationRequest>;
+export interface UpdateApplicationResponse {}
+export const UpdateApplicationResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "UpdateApplicationResponse",
+}) as any as S.Schema<UpdateApplicationResponse>;
+export type FilterValues = string[];
 export const FilterValues = S.Array(S.String.pipe(T.XmlName("item")));
+export type ImportTaskFilterValueList = string[];
 export const ImportTaskFilterValueList = S.Array(S.String);
-export class DeleteAgent extends S.Class<DeleteAgent>("DeleteAgent")({
-  agentId: S.String,
-  force: S.optional(S.Boolean),
-}) {}
+export interface DeleteAgent {
+  agentId: string;
+  force?: boolean;
+}
+export const DeleteAgent = S.suspend(() =>
+  S.Struct({ agentId: S.String, force: S.optional(S.Boolean) }),
+).annotations({ identifier: "DeleteAgent" }) as any as S.Schema<DeleteAgent>;
+export type DeleteAgents = DeleteAgent[];
 export const DeleteAgents = S.Array(DeleteAgent);
-export class Filter extends S.Class<Filter>("Filter")({
-  name: S.String,
-  values: FilterValues,
-  condition: S.String,
-}) {}
+export interface Filter {
+  name: string;
+  values: FilterValues;
+  condition: string;
+}
+export const Filter = S.suspend(() =>
+  S.Struct({ name: S.String, values: FilterValues, condition: S.String }),
+).annotations({ identifier: "Filter" }) as any as S.Schema<Filter>;
+export type Filters = Filter[];
 export const Filters = S.Array(Filter);
-export class ExportFilter extends S.Class<ExportFilter>("ExportFilter")({
-  name: S.String,
-  values: FilterValues,
-  condition: S.String,
-}) {}
+export interface ExportFilter {
+  name: string;
+  values: FilterValues;
+  condition: string;
+}
+export const ExportFilter = S.suspend(() =>
+  S.Struct({ name: S.String, values: FilterValues, condition: S.String }),
+).annotations({ identifier: "ExportFilter" }) as any as S.Schema<ExportFilter>;
+export type ExportFilters = ExportFilter[];
 export const ExportFilters = S.Array(ExportFilter);
-export class ImportTaskFilter extends S.Class<ImportTaskFilter>(
-  "ImportTaskFilter",
-)({
-  name: S.optional(S.String),
-  values: S.optional(ImportTaskFilterValueList),
-}) {}
+export interface ImportTaskFilter {
+  name?: string;
+  values?: ImportTaskFilterValueList;
+}
+export const ImportTaskFilter = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    values: S.optional(ImportTaskFilterValueList),
+  }),
+).annotations({
+  identifier: "ImportTaskFilter",
+}) as any as S.Schema<ImportTaskFilter>;
+export type DescribeImportTasksFilterList = ImportTaskFilter[];
 export const DescribeImportTasksFilterList = S.Array(ImportTaskFilter);
-export class TagFilter extends S.Class<TagFilter>("TagFilter")({
-  name: S.String,
-  values: FilterValues,
-}) {}
+export interface TagFilter {
+  name: string;
+  values: FilterValues;
+}
+export const TagFilter = S.suspend(() =>
+  S.Struct({ name: S.String, values: FilterValues }),
+).annotations({ identifier: "TagFilter" }) as any as S.Schema<TagFilter>;
+export type TagFilters = TagFilter[];
 export const TagFilters = S.Array(TagFilter);
-export class CustomerAgentInfo extends S.Class<CustomerAgentInfo>(
-  "CustomerAgentInfo",
-)({
-  activeAgents: S.Number,
-  healthyAgents: S.Number,
-  blackListedAgents: S.Number,
-  shutdownAgents: S.Number,
-  unhealthyAgents: S.Number,
-  totalAgents: S.Number,
-  unknownAgents: S.Number,
-}) {}
-export class CustomerConnectorInfo extends S.Class<CustomerConnectorInfo>(
-  "CustomerConnectorInfo",
-)({
-  activeConnectors: S.Number,
-  healthyConnectors: S.Number,
-  blackListedConnectors: S.Number,
-  shutdownConnectors: S.Number,
-  unhealthyConnectors: S.Number,
-  totalConnectors: S.Number,
-  unknownConnectors: S.Number,
-}) {}
-export class CustomerMeCollectorInfo extends S.Class<CustomerMeCollectorInfo>(
-  "CustomerMeCollectorInfo",
-)({
-  activeMeCollectors: S.Number,
-  healthyMeCollectors: S.Number,
-  denyListedMeCollectors: S.Number,
-  shutdownMeCollectors: S.Number,
-  unhealthyMeCollectors: S.Number,
-  totalMeCollectors: S.Number,
-  unknownMeCollectors: S.Number,
-}) {}
-export class CustomerAgentlessCollectorInfo extends S.Class<CustomerAgentlessCollectorInfo>(
-  "CustomerAgentlessCollectorInfo",
-)({
-  activeAgentlessCollectors: S.Number,
-  healthyAgentlessCollectors: S.Number,
-  denyListedAgentlessCollectors: S.Number,
-  shutdownAgentlessCollectors: S.Number,
-  unhealthyAgentlessCollectors: S.Number,
-  totalAgentlessCollectors: S.Number,
-  unknownAgentlessCollectors: S.Number,
-}) {}
-export class OrderByElement extends S.Class<OrderByElement>("OrderByElement")({
-  fieldName: S.String,
-  sortOrder: S.optional(S.String),
-}) {}
+export interface CustomerAgentInfo {
+  activeAgents: number;
+  healthyAgents: number;
+  blackListedAgents: number;
+  shutdownAgents: number;
+  unhealthyAgents: number;
+  totalAgents: number;
+  unknownAgents: number;
+}
+export const CustomerAgentInfo = S.suspend(() =>
+  S.Struct({
+    activeAgents: S.Number,
+    healthyAgents: S.Number,
+    blackListedAgents: S.Number,
+    shutdownAgents: S.Number,
+    unhealthyAgents: S.Number,
+    totalAgents: S.Number,
+    unknownAgents: S.Number,
+  }),
+).annotations({
+  identifier: "CustomerAgentInfo",
+}) as any as S.Schema<CustomerAgentInfo>;
+export interface CustomerConnectorInfo {
+  activeConnectors: number;
+  healthyConnectors: number;
+  blackListedConnectors: number;
+  shutdownConnectors: number;
+  unhealthyConnectors: number;
+  totalConnectors: number;
+  unknownConnectors: number;
+}
+export const CustomerConnectorInfo = S.suspend(() =>
+  S.Struct({
+    activeConnectors: S.Number,
+    healthyConnectors: S.Number,
+    blackListedConnectors: S.Number,
+    shutdownConnectors: S.Number,
+    unhealthyConnectors: S.Number,
+    totalConnectors: S.Number,
+    unknownConnectors: S.Number,
+  }),
+).annotations({
+  identifier: "CustomerConnectorInfo",
+}) as any as S.Schema<CustomerConnectorInfo>;
+export interface CustomerMeCollectorInfo {
+  activeMeCollectors: number;
+  healthyMeCollectors: number;
+  denyListedMeCollectors: number;
+  shutdownMeCollectors: number;
+  unhealthyMeCollectors: number;
+  totalMeCollectors: number;
+  unknownMeCollectors: number;
+}
+export const CustomerMeCollectorInfo = S.suspend(() =>
+  S.Struct({
+    activeMeCollectors: S.Number,
+    healthyMeCollectors: S.Number,
+    denyListedMeCollectors: S.Number,
+    shutdownMeCollectors: S.Number,
+    unhealthyMeCollectors: S.Number,
+    totalMeCollectors: S.Number,
+    unknownMeCollectors: S.Number,
+  }),
+).annotations({
+  identifier: "CustomerMeCollectorInfo",
+}) as any as S.Schema<CustomerMeCollectorInfo>;
+export interface CustomerAgentlessCollectorInfo {
+  activeAgentlessCollectors: number;
+  healthyAgentlessCollectors: number;
+  denyListedAgentlessCollectors: number;
+  shutdownAgentlessCollectors: number;
+  unhealthyAgentlessCollectors: number;
+  totalAgentlessCollectors: number;
+  unknownAgentlessCollectors: number;
+}
+export const CustomerAgentlessCollectorInfo = S.suspend(() =>
+  S.Struct({
+    activeAgentlessCollectors: S.Number,
+    healthyAgentlessCollectors: S.Number,
+    denyListedAgentlessCollectors: S.Number,
+    shutdownAgentlessCollectors: S.Number,
+    unhealthyAgentlessCollectors: S.Number,
+    totalAgentlessCollectors: S.Number,
+    unknownAgentlessCollectors: S.Number,
+  }),
+).annotations({
+  identifier: "CustomerAgentlessCollectorInfo",
+}) as any as S.Schema<CustomerAgentlessCollectorInfo>;
+export interface OrderByElement {
+  fieldName: string;
+  sortOrder?: string;
+}
+export const OrderByElement = S.suspend(() =>
+  S.Struct({ fieldName: S.String, sortOrder: S.optional(S.String) }),
+).annotations({
+  identifier: "OrderByElement",
+}) as any as S.Schema<OrderByElement>;
+export type OrderByList = OrderByElement[];
 export const OrderByList = S.Array(OrderByElement);
+export type SchemaStorageConfig = { [key: string]: string };
 export const SchemaStorageConfig = S.Record({ key: S.String, value: S.String });
+export type ExcludedInstanceTypes = string[];
 export const ExcludedInstanceTypes = S.Array(S.String);
-export class BatchDeleteAgentsRequest extends S.Class<BatchDeleteAgentsRequest>(
-  "BatchDeleteAgentsRequest",
-)(
-  { deleteAgents: DeleteAgents },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateApplicationResponse extends S.Class<CreateApplicationResponse>(
-  "CreateApplicationResponse",
-)({ configurationId: S.optional(S.String) }, ns) {}
-export class CreateTagsRequest extends S.Class<CreateTagsRequest>(
-  "CreateTagsRequest",
-)(
-  { configurationIds: ConfigurationIdList, tags: TagSet },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateTagsResponse extends S.Class<CreateTagsResponse>(
-  "CreateTagsResponse",
-)({}, ns) {}
-export class DescribeAgentsRequest extends S.Class<DescribeAgentsRequest>(
-  "DescribeAgentsRequest",
-)(
-  {
+export interface BatchDeleteAgentsRequest {
+  deleteAgents: DeleteAgents;
+}
+export const BatchDeleteAgentsRequest = S.suspend(() =>
+  S.Struct({ deleteAgents: DeleteAgents }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "BatchDeleteAgentsRequest",
+}) as any as S.Schema<BatchDeleteAgentsRequest>;
+export interface CreateApplicationResponse {
+  configurationId?: string;
+}
+export const CreateApplicationResponse = S.suspend(() =>
+  S.Struct({ configurationId: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "CreateApplicationResponse",
+}) as any as S.Schema<CreateApplicationResponse>;
+export interface CreateTagsRequest {
+  configurationIds: ConfigurationIdList;
+  tags: TagSet;
+}
+export const CreateTagsRequest = S.suspend(() =>
+  S.Struct({ configurationIds: ConfigurationIdList, tags: TagSet }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateTagsRequest",
+}) as any as S.Schema<CreateTagsRequest>;
+export interface CreateTagsResponse {}
+export const CreateTagsResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "CreateTagsResponse",
+}) as any as S.Schema<CreateTagsResponse>;
+export interface DescribeAgentsRequest {
+  agentIds?: AgentIds;
+  filters?: Filters;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const DescribeAgentsRequest = S.suspend(() =>
+  S.Struct({
     agentIds: S.optional(AgentIds),
     filters: S.optional(Filters),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeExportTasksRequest extends S.Class<DescribeExportTasksRequest>(
-  "DescribeExportTasksRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeAgentsRequest",
+}) as any as S.Schema<DescribeAgentsRequest>;
+export interface DescribeExportTasksRequest {
+  exportIds?: ExportIds;
+  filters?: ExportFilters;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const DescribeExportTasksRequest = S.suspend(() =>
+  S.Struct({
     exportIds: S.optional(ExportIds),
     filters: S.optional(ExportFilters),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeImportTasksRequest extends S.Class<DescribeImportTasksRequest>(
-  "DescribeImportTasksRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeExportTasksRequest",
+}) as any as S.Schema<DescribeExportTasksRequest>;
+export interface DescribeImportTasksRequest {
+  filters?: DescribeImportTasksFilterList;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const DescribeImportTasksRequest = S.suspend(() =>
+  S.Struct({
     filters: S.optional(DescribeImportTasksFilterList),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeTagsRequest extends S.Class<DescribeTagsRequest>(
-  "DescribeTagsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeImportTasksRequest",
+}) as any as S.Schema<DescribeImportTasksRequest>;
+export interface DescribeTagsRequest {
+  filters?: TagFilters;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const DescribeTagsRequest = S.suspend(() =>
+  S.Struct({
     filters: S.optional(TagFilters),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetDiscoverySummaryResponse extends S.Class<GetDiscoverySummaryResponse>(
-  "GetDiscoverySummaryResponse",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeTagsRequest",
+}) as any as S.Schema<DescribeTagsRequest>;
+export interface GetDiscoverySummaryResponse {
+  servers?: number;
+  applications?: number;
+  serversMappedToApplications?: number;
+  serversMappedtoTags?: number;
+  agentSummary?: CustomerAgentInfo;
+  connectorSummary?: CustomerConnectorInfo;
+  meCollectorSummary?: CustomerMeCollectorInfo;
+  agentlessCollectorSummary?: CustomerAgentlessCollectorInfo;
+}
+export const GetDiscoverySummaryResponse = S.suspend(() =>
+  S.Struct({
     servers: S.optional(S.Number),
     applications: S.optional(S.Number),
     serversMappedToApplications: S.optional(S.Number),
@@ -583,318 +1053,627 @@ export class GetDiscoverySummaryResponse extends S.Class<GetDiscoverySummaryResp
     connectorSummary: S.optional(CustomerConnectorInfo),
     meCollectorSummary: S.optional(CustomerMeCollectorInfo),
     agentlessCollectorSummary: S.optional(CustomerAgentlessCollectorInfo),
-  },
-  ns,
-) {}
-export class ListConfigurationsRequest extends S.Class<ListConfigurationsRequest>(
-  "ListConfigurationsRequest",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetDiscoverySummaryResponse",
+}) as any as S.Schema<GetDiscoverySummaryResponse>;
+export interface ListConfigurationsRequest {
+  configurationType: string;
+  filters?: Filters;
+  maxResults?: number;
+  nextToken?: string;
+  orderBy?: OrderByList;
+}
+export const ListConfigurationsRequest = S.suspend(() =>
+  S.Struct({
     configurationType: S.String,
     filters: S.optional(Filters),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
     orderBy: S.optional(OrderByList),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StartBatchDeleteConfigurationTaskResponse extends S.Class<StartBatchDeleteConfigurationTaskResponse>(
-  "StartBatchDeleteConfigurationTaskResponse",
-)({ taskId: S.optional(S.String) }, ns) {}
-export class StartContinuousExportResponse extends S.Class<StartContinuousExportResponse>(
-  "StartContinuousExportResponse",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListConfigurationsRequest",
+}) as any as S.Schema<ListConfigurationsRequest>;
+export interface StartBatchDeleteConfigurationTaskResponse {
+  taskId?: string;
+}
+export const StartBatchDeleteConfigurationTaskResponse = S.suspend(() =>
+  S.Struct({ taskId: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "StartBatchDeleteConfigurationTaskResponse",
+}) as any as S.Schema<StartBatchDeleteConfigurationTaskResponse>;
+export interface StartContinuousExportResponse {
+  exportId?: string;
+  s3Bucket?: string;
+  startTime?: Date;
+  dataSource?: string;
+  schemaStorageConfig?: SchemaStorageConfig;
+}
+export const StartContinuousExportResponse = S.suspend(() =>
+  S.Struct({
     exportId: S.optional(S.String),
     s3Bucket: S.optional(S.String),
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     dataSource: S.optional(S.String),
     schemaStorageConfig: S.optional(SchemaStorageConfig),
-  },
-  ns,
-) {}
-export class StopContinuousExportResponse extends S.Class<StopContinuousExportResponse>(
-  "StopContinuousExportResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "StartContinuousExportResponse",
+}) as any as S.Schema<StartContinuousExportResponse>;
+export interface StopContinuousExportResponse {
+  startTime?: Date;
+  stopTime?: Date;
+}
+export const StopContinuousExportResponse = S.suspend(() =>
+  S.Struct({
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     stopTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  },
-  ns,
-) {}
-export class AgentConfigurationStatus extends S.Class<AgentConfigurationStatus>(
-  "AgentConfigurationStatus",
-)({
-  agentId: S.optional(S.String),
-  operationSucceeded: S.optional(S.Boolean),
-  description: S.optional(S.String),
-}) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "StopContinuousExportResponse",
+}) as any as S.Schema<StopContinuousExportResponse>;
+export interface AgentConfigurationStatus {
+  agentId?: string;
+  operationSucceeded?: boolean;
+  description?: string;
+}
+export const AgentConfigurationStatus = S.suspend(() =>
+  S.Struct({
+    agentId: S.optional(S.String),
+    operationSucceeded: S.optional(S.Boolean),
+    description: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AgentConfigurationStatus",
+}) as any as S.Schema<AgentConfigurationStatus>;
+export type AgentConfigurationStatusList = AgentConfigurationStatus[];
 export const AgentConfigurationStatusList = S.Array(AgentConfigurationStatus);
-export class StopDataCollectionByAgentIdsResponse extends S.Class<StopDataCollectionByAgentIdsResponse>(
-  "StopDataCollectionByAgentIdsResponse",
-)(
-  { agentsConfigurationStatus: S.optional(AgentConfigurationStatusList) },
-  ns,
-) {}
-export class BatchDeleteImportDataError extends S.Class<BatchDeleteImportDataError>(
-  "BatchDeleteImportDataError",
-)({
-  importTaskId: S.optional(S.String),
-  errorCode: S.optional(S.String),
-  errorDescription: S.optional(S.String),
-}) {}
+export interface StopDataCollectionByAgentIdsResponse {
+  agentsConfigurationStatus?: AgentConfigurationStatusList;
+}
+export const StopDataCollectionByAgentIdsResponse = S.suspend(() =>
+  S.Struct({
+    agentsConfigurationStatus: S.optional(AgentConfigurationStatusList),
+  }).pipe(ns),
+).annotations({
+  identifier: "StopDataCollectionByAgentIdsResponse",
+}) as any as S.Schema<StopDataCollectionByAgentIdsResponse>;
+export interface BatchDeleteImportDataError {
+  importTaskId?: string;
+  errorCode?: string;
+  errorDescription?: string;
+}
+export const BatchDeleteImportDataError = S.suspend(() =>
+  S.Struct({
+    importTaskId: S.optional(S.String),
+    errorCode: S.optional(S.String),
+    errorDescription: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "BatchDeleteImportDataError",
+}) as any as S.Schema<BatchDeleteImportDataError>;
+export type BatchDeleteImportDataErrorList = BatchDeleteImportDataError[];
 export const BatchDeleteImportDataErrorList = S.Array(
   BatchDeleteImportDataError,
 );
+export type DescribeConfigurationsAttribute = { [key: string]: string };
 export const DescribeConfigurationsAttribute = S.Record({
   key: S.String,
   value: S.String,
 });
+export type DescribeConfigurationsAttributes =
+  DescribeConfigurationsAttribute[];
 export const DescribeConfigurationsAttributes = S.Array(
   DescribeConfigurationsAttribute,
 );
-export class ContinuousExportDescription extends S.Class<ContinuousExportDescription>(
-  "ContinuousExportDescription",
-)({
-  exportId: S.optional(S.String),
-  status: S.optional(S.String),
-  statusDetail: S.optional(S.String),
-  s3Bucket: S.optional(S.String),
-  startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  stopTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  dataSource: S.optional(S.String),
-  schemaStorageConfig: S.optional(SchemaStorageConfig),
-}) {}
+export interface ContinuousExportDescription {
+  exportId?: string;
+  status?: string;
+  statusDetail?: string;
+  s3Bucket?: string;
+  startTime?: Date;
+  stopTime?: Date;
+  dataSource?: string;
+  schemaStorageConfig?: SchemaStorageConfig;
+}
+export const ContinuousExportDescription = S.suspend(() =>
+  S.Struct({
+    exportId: S.optional(S.String),
+    status: S.optional(S.String),
+    statusDetail: S.optional(S.String),
+    s3Bucket: S.optional(S.String),
+    startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    stopTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    dataSource: S.optional(S.String),
+    schemaStorageConfig: S.optional(SchemaStorageConfig),
+  }),
+).annotations({
+  identifier: "ContinuousExportDescription",
+}) as any as S.Schema<ContinuousExportDescription>;
+export type ContinuousExportDescriptions = ContinuousExportDescription[];
 export const ContinuousExportDescriptions = S.Array(
   ContinuousExportDescription,
 );
-export class ExportInfo extends S.Class<ExportInfo>("ExportInfo")({
-  exportId: S.String,
-  exportStatus: S.String,
-  statusMessage: S.String,
-  configurationsDownloadUrl: S.optional(S.String),
-  exportRequestTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  isTruncated: S.optional(S.Boolean),
-  requestedStartTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  requestedEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface ExportInfo {
+  exportId: string;
+  exportStatus: string;
+  statusMessage: string;
+  configurationsDownloadUrl?: string;
+  exportRequestTime: Date;
+  isTruncated?: boolean;
+  requestedStartTime?: Date;
+  requestedEndTime?: Date;
+}
+export const ExportInfo = S.suspend(() =>
+  S.Struct({
+    exportId: S.String,
+    exportStatus: S.String,
+    statusMessage: S.String,
+    configurationsDownloadUrl: S.optional(S.String),
+    exportRequestTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    isTruncated: S.optional(S.Boolean),
+    requestedStartTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    requestedEndTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({ identifier: "ExportInfo" }) as any as S.Schema<ExportInfo>;
+export type ExportsInfo = ExportInfo[];
 export const ExportsInfo = S.Array(ExportInfo);
-export class ImportTask extends S.Class<ImportTask>("ImportTask")({
-  importTaskId: S.optional(S.String),
-  clientRequestToken: S.optional(S.String),
-  name: S.optional(S.String),
-  importUrl: S.optional(S.String),
-  status: S.optional(S.String),
-  importRequestTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  importCompletionTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  importDeletedTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  fileClassification: S.optional(S.String),
-  serverImportSuccess: S.optional(S.Number),
-  serverImportFailure: S.optional(S.Number),
-  applicationImportSuccess: S.optional(S.Number),
-  applicationImportFailure: S.optional(S.Number),
-  errorsAndFailedEntriesZip: S.optional(S.String),
-}) {}
+export interface ImportTask {
+  importTaskId?: string;
+  clientRequestToken?: string;
+  name?: string;
+  importUrl?: string;
+  status?: string;
+  importRequestTime?: Date;
+  importCompletionTime?: Date;
+  importDeletedTime?: Date;
+  fileClassification?: string;
+  serverImportSuccess?: number;
+  serverImportFailure?: number;
+  applicationImportSuccess?: number;
+  applicationImportFailure?: number;
+  errorsAndFailedEntriesZip?: string;
+}
+export const ImportTask = S.suspend(() =>
+  S.Struct({
+    importTaskId: S.optional(S.String),
+    clientRequestToken: S.optional(S.String),
+    name: S.optional(S.String),
+    importUrl: S.optional(S.String),
+    status: S.optional(S.String),
+    importRequestTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    importCompletionTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    importDeletedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    fileClassification: S.optional(S.String),
+    serverImportSuccess: S.optional(S.Number),
+    serverImportFailure: S.optional(S.Number),
+    applicationImportSuccess: S.optional(S.Number),
+    applicationImportFailure: S.optional(S.Number),
+    errorsAndFailedEntriesZip: S.optional(S.String),
+  }),
+).annotations({ identifier: "ImportTask" }) as any as S.Schema<ImportTask>;
+export type ImportTaskList = ImportTask[];
 export const ImportTaskList = S.Array(ImportTask);
-export class NeighborConnectionDetail extends S.Class<NeighborConnectionDetail>(
-  "NeighborConnectionDetail",
-)({
-  sourceServerId: S.String,
-  destinationServerId: S.String,
-  destinationPort: S.optional(S.Number),
-  transportProtocol: S.optional(S.String),
-  connectionsCount: S.Number,
-}) {}
+export interface NeighborConnectionDetail {
+  sourceServerId: string;
+  destinationServerId: string;
+  destinationPort?: number;
+  transportProtocol?: string;
+  connectionsCount: number;
+}
+export const NeighborConnectionDetail = S.suspend(() =>
+  S.Struct({
+    sourceServerId: S.String,
+    destinationServerId: S.String,
+    destinationPort: S.optional(S.Number),
+    transportProtocol: S.optional(S.String),
+    connectionsCount: S.Number,
+  }),
+).annotations({
+  identifier: "NeighborConnectionDetail",
+}) as any as S.Schema<NeighborConnectionDetail>;
+export type NeighborDetailsList = NeighborConnectionDetail[];
 export const NeighborDetailsList = S.Array(NeighborConnectionDetail);
-export class UsageMetricBasis extends S.Class<UsageMetricBasis>(
-  "UsageMetricBasis",
-)({ name: S.optional(S.String), percentageAdjust: S.optional(S.Number) }) {}
-export class ReservedInstanceOptions extends S.Class<ReservedInstanceOptions>(
-  "ReservedInstanceOptions",
-)({
-  purchasingOption: S.String,
-  offeringClass: S.String,
-  termLength: S.String,
-}) {}
-export class BatchDeleteImportDataResponse extends S.Class<BatchDeleteImportDataResponse>(
-  "BatchDeleteImportDataResponse",
-)({ errors: S.optional(BatchDeleteImportDataErrorList) }, ns) {}
-export class DescribeConfigurationsResponse extends S.Class<DescribeConfigurationsResponse>(
-  "DescribeConfigurationsResponse",
-)({ configurations: S.optional(DescribeConfigurationsAttributes) }, ns) {}
-export class DescribeContinuousExportsResponse extends S.Class<DescribeContinuousExportsResponse>(
-  "DescribeContinuousExportsResponse",
-)(
-  {
+export interface UsageMetricBasis {
+  name?: string;
+  percentageAdjust?: number;
+}
+export const UsageMetricBasis = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    percentageAdjust: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "UsageMetricBasis",
+}) as any as S.Schema<UsageMetricBasis>;
+export interface ReservedInstanceOptions {
+  purchasingOption: string;
+  offeringClass: string;
+  termLength: string;
+}
+export const ReservedInstanceOptions = S.suspend(() =>
+  S.Struct({
+    purchasingOption: S.String,
+    offeringClass: S.String,
+    termLength: S.String,
+  }),
+).annotations({
+  identifier: "ReservedInstanceOptions",
+}) as any as S.Schema<ReservedInstanceOptions>;
+export interface BatchDeleteImportDataResponse {
+  errors?: BatchDeleteImportDataErrorList;
+}
+export const BatchDeleteImportDataResponse = S.suspend(() =>
+  S.Struct({ errors: S.optional(BatchDeleteImportDataErrorList) }).pipe(ns),
+).annotations({
+  identifier: "BatchDeleteImportDataResponse",
+}) as any as S.Schema<BatchDeleteImportDataResponse>;
+export interface DescribeConfigurationsResponse {
+  configurations?: DescribeConfigurationsAttributes;
+}
+export const DescribeConfigurationsResponse = S.suspend(() =>
+  S.Struct({
+    configurations: S.optional(DescribeConfigurationsAttributes),
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeConfigurationsResponse",
+}) as any as S.Schema<DescribeConfigurationsResponse>;
+export interface DescribeContinuousExportsResponse {
+  descriptions?: ContinuousExportDescriptions;
+  nextToken?: string;
+}
+export const DescribeContinuousExportsResponse = S.suspend(() =>
+  S.Struct({
     descriptions: S.optional(ContinuousExportDescriptions),
     nextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class DescribeExportConfigurationsResponse extends S.Class<DescribeExportConfigurationsResponse>(
-  "DescribeExportConfigurationsResponse",
-)(
-  { exportsInfo: S.optional(ExportsInfo), nextToken: S.optional(S.String) },
-  ns,
-) {}
-export class DescribeExportTasksResponse extends S.Class<DescribeExportTasksResponse>(
-  "DescribeExportTasksResponse",
-)(
-  { exportsInfo: S.optional(ExportsInfo), nextToken: S.optional(S.String) },
-  ns,
-) {}
-export class DescribeImportTasksResponse extends S.Class<DescribeImportTasksResponse>(
-  "DescribeImportTasksResponse",
-)({ nextToken: S.optional(S.String), tasks: S.optional(ImportTaskList) }, ns) {}
-export class ListServerNeighborsResponse extends S.Class<ListServerNeighborsResponse>(
-  "ListServerNeighborsResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeContinuousExportsResponse",
+}) as any as S.Schema<DescribeContinuousExportsResponse>;
+export interface DescribeExportConfigurationsResponse {
+  exportsInfo?: ExportsInfo;
+  nextToken?: string;
+}
+export const DescribeExportConfigurationsResponse = S.suspend(() =>
+  S.Struct({
+    exportsInfo: S.optional(ExportsInfo),
+    nextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeExportConfigurationsResponse",
+}) as any as S.Schema<DescribeExportConfigurationsResponse>;
+export interface DescribeExportTasksResponse {
+  exportsInfo?: ExportsInfo;
+  nextToken?: string;
+}
+export const DescribeExportTasksResponse = S.suspend(() =>
+  S.Struct({
+    exportsInfo: S.optional(ExportsInfo),
+    nextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeExportTasksResponse",
+}) as any as S.Schema<DescribeExportTasksResponse>;
+export interface DescribeImportTasksResponse {
+  nextToken?: string;
+  tasks?: ImportTaskList;
+}
+export const DescribeImportTasksResponse = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    tasks: S.optional(ImportTaskList),
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeImportTasksResponse",
+}) as any as S.Schema<DescribeImportTasksResponse>;
+export interface ListServerNeighborsResponse {
+  neighbors: NeighborDetailsList;
+  nextToken?: string;
+  knownDependencyCount?: number;
+}
+export const ListServerNeighborsResponse = S.suspend(() =>
+  S.Struct({
     neighbors: NeighborDetailsList,
     nextToken: S.optional(S.String),
     knownDependencyCount: S.optional(S.Number),
-  },
-  ns,
-) {}
-export class StartDataCollectionByAgentIdsResponse extends S.Class<StartDataCollectionByAgentIdsResponse>(
-  "StartDataCollectionByAgentIdsResponse",
-)(
-  { agentsConfigurationStatus: S.optional(AgentConfigurationStatusList) },
-  ns,
-) {}
-export class StartImportTaskResponse extends S.Class<StartImportTaskResponse>(
-  "StartImportTaskResponse",
-)({ task: S.optional(ImportTask) }, ns) {}
-export class FailedConfiguration extends S.Class<FailedConfiguration>(
-  "FailedConfiguration",
-)({
-  configurationId: S.optional(S.String),
-  errorStatusCode: S.optional(S.Number),
-  errorMessage: S.optional(S.String),
-}) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "ListServerNeighborsResponse",
+}) as any as S.Schema<ListServerNeighborsResponse>;
+export interface StartDataCollectionByAgentIdsResponse {
+  agentsConfigurationStatus?: AgentConfigurationStatusList;
+}
+export const StartDataCollectionByAgentIdsResponse = S.suspend(() =>
+  S.Struct({
+    agentsConfigurationStatus: S.optional(AgentConfigurationStatusList),
+  }).pipe(ns),
+).annotations({
+  identifier: "StartDataCollectionByAgentIdsResponse",
+}) as any as S.Schema<StartDataCollectionByAgentIdsResponse>;
+export interface StartImportTaskResponse {
+  task?: ImportTask;
+}
+export const StartImportTaskResponse = S.suspend(() =>
+  S.Struct({ task: S.optional(ImportTask) }).pipe(ns),
+).annotations({
+  identifier: "StartImportTaskResponse",
+}) as any as S.Schema<StartImportTaskResponse>;
+export interface FailedConfiguration {
+  configurationId?: string;
+  errorStatusCode?: number;
+  errorMessage?: string;
+}
+export const FailedConfiguration = S.suspend(() =>
+  S.Struct({
+    configurationId: S.optional(S.String),
+    errorStatusCode: S.optional(S.Number),
+    errorMessage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "FailedConfiguration",
+}) as any as S.Schema<FailedConfiguration>;
+export type FailedConfigurationList = FailedConfiguration[];
 export const FailedConfigurationList = S.Array(FailedConfiguration);
-export class DeletionWarning extends S.Class<DeletionWarning>(
-  "DeletionWarning",
-)({
-  configurationId: S.optional(S.String),
-  warningCode: S.optional(S.Number),
-  warningText: S.optional(S.String),
-}) {}
+export interface DeletionWarning {
+  configurationId?: string;
+  warningCode?: number;
+  warningText?: string;
+}
+export const DeletionWarning = S.suspend(() =>
+  S.Struct({
+    configurationId: S.optional(S.String),
+    warningCode: S.optional(S.Number),
+    warningText: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DeletionWarning",
+}) as any as S.Schema<DeletionWarning>;
+export type DeletionWarningsList = DeletionWarning[];
 export const DeletionWarningsList = S.Array(DeletionWarning);
-export class Ec2RecommendationsExportPreferences extends S.Class<Ec2RecommendationsExportPreferences>(
-  "Ec2RecommendationsExportPreferences",
-)({
-  enabled: S.optional(S.Boolean),
-  cpuPerformanceMetricBasis: S.optional(UsageMetricBasis),
-  ramPerformanceMetricBasis: S.optional(UsageMetricBasis),
-  tenancy: S.optional(S.String),
-  excludedInstanceTypes: S.optional(ExcludedInstanceTypes),
-  preferredRegion: S.optional(S.String),
-  reservedInstanceOptions: S.optional(ReservedInstanceOptions),
-}) {}
-export class BatchDeleteAgentError extends S.Class<BatchDeleteAgentError>(
-  "BatchDeleteAgentError",
-)({ agentId: S.String, errorMessage: S.String, errorCode: S.String }) {}
+export interface Ec2RecommendationsExportPreferences {
+  enabled?: boolean;
+  cpuPerformanceMetricBasis?: UsageMetricBasis;
+  ramPerformanceMetricBasis?: UsageMetricBasis;
+  tenancy?: string;
+  excludedInstanceTypes?: ExcludedInstanceTypes;
+  preferredRegion?: string;
+  reservedInstanceOptions?: ReservedInstanceOptions;
+}
+export const Ec2RecommendationsExportPreferences = S.suspend(() =>
+  S.Struct({
+    enabled: S.optional(S.Boolean),
+    cpuPerformanceMetricBasis: S.optional(UsageMetricBasis),
+    ramPerformanceMetricBasis: S.optional(UsageMetricBasis),
+    tenancy: S.optional(S.String),
+    excludedInstanceTypes: S.optional(ExcludedInstanceTypes),
+    preferredRegion: S.optional(S.String),
+    reservedInstanceOptions: S.optional(ReservedInstanceOptions),
+  }),
+).annotations({
+  identifier: "Ec2RecommendationsExportPreferences",
+}) as any as S.Schema<Ec2RecommendationsExportPreferences>;
+export interface BatchDeleteAgentError {
+  agentId: string;
+  errorMessage: string;
+  errorCode: string;
+}
+export const BatchDeleteAgentError = S.suspend(() =>
+  S.Struct({ agentId: S.String, errorMessage: S.String, errorCode: S.String }),
+).annotations({
+  identifier: "BatchDeleteAgentError",
+}) as any as S.Schema<BatchDeleteAgentError>;
+export type BatchDeleteAgentErrors = BatchDeleteAgentError[];
 export const BatchDeleteAgentErrors = S.Array(BatchDeleteAgentError);
-export class BatchDeleteConfigurationTask extends S.Class<BatchDeleteConfigurationTask>(
-  "BatchDeleteConfigurationTask",
-)({
-  taskId: S.optional(S.String),
-  status: S.optional(S.String),
-  startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  configurationType: S.optional(S.String),
-  requestedConfigurations: S.optional(ConfigurationIdList),
-  deletedConfigurations: S.optional(ConfigurationIdList),
-  failedConfigurations: S.optional(FailedConfigurationList),
-  deletionWarnings: S.optional(DeletionWarningsList),
-}) {}
-export class ConfigurationTag extends S.Class<ConfigurationTag>(
-  "ConfigurationTag",
-)({
-  configurationType: S.optional(S.String),
-  configurationId: S.optional(S.String),
-  key: S.optional(S.String),
-  value: S.optional(S.String),
-  timeOfCreation: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface BatchDeleteConfigurationTask {
+  taskId?: string;
+  status?: string;
+  startTime?: Date;
+  endTime?: Date;
+  configurationType?: string;
+  requestedConfigurations?: ConfigurationIdList;
+  deletedConfigurations?: ConfigurationIdList;
+  failedConfigurations?: FailedConfigurationList;
+  deletionWarnings?: DeletionWarningsList;
+}
+export const BatchDeleteConfigurationTask = S.suspend(() =>
+  S.Struct({
+    taskId: S.optional(S.String),
+    status: S.optional(S.String),
+    startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    configurationType: S.optional(S.String),
+    requestedConfigurations: S.optional(ConfigurationIdList),
+    deletedConfigurations: S.optional(ConfigurationIdList),
+    failedConfigurations: S.optional(FailedConfigurationList),
+    deletionWarnings: S.optional(DeletionWarningsList),
+  }),
+).annotations({
+  identifier: "BatchDeleteConfigurationTask",
+}) as any as S.Schema<BatchDeleteConfigurationTask>;
+export interface ConfigurationTag {
+  configurationType?: string;
+  configurationId?: string;
+  key?: string;
+  value?: string;
+  timeOfCreation?: Date;
+}
+export const ConfigurationTag = S.suspend(() =>
+  S.Struct({
+    configurationType: S.optional(S.String),
+    configurationId: S.optional(S.String),
+    key: S.optional(S.String),
+    value: S.optional(S.String),
+    timeOfCreation: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "ConfigurationTag",
+}) as any as S.Schema<ConfigurationTag>;
+export type ConfigurationTagSet = ConfigurationTag[];
 export const ConfigurationTagSet = S.Array(
-  ConfigurationTag.pipe(T.XmlName("item")),
+  ConfigurationTag.pipe(T.XmlName("item")).annotations({
+    identifier: "ConfigurationTag",
+  }),
 );
+export type Configuration = { [key: string]: string };
 export const Configuration = S.Record({ key: S.String, value: S.String });
+export type Configurations = Configuration[];
 export const Configurations = S.Array(Configuration);
 export const ExportPreferences = S.Union(
   S.Struct({
     ec2RecommendationsPreferences: Ec2RecommendationsExportPreferences,
   }),
 );
-export class BatchDeleteAgentsResponse extends S.Class<BatchDeleteAgentsResponse>(
-  "BatchDeleteAgentsResponse",
-)({ errors: S.optional(BatchDeleteAgentErrors) }, ns) {}
-export class DescribeBatchDeleteConfigurationTaskResponse extends S.Class<DescribeBatchDeleteConfigurationTaskResponse>(
-  "DescribeBatchDeleteConfigurationTaskResponse",
-)({ task: S.optional(BatchDeleteConfigurationTask) }, ns) {}
-export class DescribeTagsResponse extends S.Class<DescribeTagsResponse>(
-  "DescribeTagsResponse",
-)(
-  { tags: S.optional(ConfigurationTagSet), nextToken: S.optional(S.String) },
-  ns,
-) {}
-export class ListConfigurationsResponse extends S.Class<ListConfigurationsResponse>(
-  "ListConfigurationsResponse",
-)(
-  {
+export interface BatchDeleteAgentsResponse {
+  errors?: BatchDeleteAgentErrors;
+}
+export const BatchDeleteAgentsResponse = S.suspend(() =>
+  S.Struct({ errors: S.optional(BatchDeleteAgentErrors) }).pipe(ns),
+).annotations({
+  identifier: "BatchDeleteAgentsResponse",
+}) as any as S.Schema<BatchDeleteAgentsResponse>;
+export interface DescribeBatchDeleteConfigurationTaskResponse {
+  task?: BatchDeleteConfigurationTask;
+}
+export const DescribeBatchDeleteConfigurationTaskResponse = S.suspend(() =>
+  S.Struct({ task: S.optional(BatchDeleteConfigurationTask) }).pipe(ns),
+).annotations({
+  identifier: "DescribeBatchDeleteConfigurationTaskResponse",
+}) as any as S.Schema<DescribeBatchDeleteConfigurationTaskResponse>;
+export interface DescribeTagsResponse {
+  tags?: ConfigurationTagSet;
+  nextToken?: string;
+}
+export const DescribeTagsResponse = S.suspend(() =>
+  S.Struct({
+    tags: S.optional(ConfigurationTagSet),
+    nextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeTagsResponse",
+}) as any as S.Schema<DescribeTagsResponse>;
+export interface ListConfigurationsResponse {
+  configurations?: Configurations;
+  nextToken?: string;
+}
+export const ListConfigurationsResponse = S.suspend(() =>
+  S.Struct({
     configurations: S.optional(Configurations),
     nextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class StartExportTaskRequest extends S.Class<StartExportTaskRequest>(
-  "StartExportTaskRequest",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListConfigurationsResponse",
+}) as any as S.Schema<ListConfigurationsResponse>;
+export interface StartExportTaskRequest {
+  exportDataFormat?: ExportDataFormats;
+  filters?: ExportFilters;
+  startTime?: Date;
+  endTime?: Date;
+  preferences?: (typeof ExportPreferences)["Type"];
+}
+export const StartExportTaskRequest = S.suspend(() =>
+  S.Struct({
     exportDataFormat: S.optional(ExportDataFormats),
     filters: S.optional(ExportFilters),
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     preferences: S.optional(ExportPreferences),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class AgentNetworkInfo extends S.Class<AgentNetworkInfo>(
-  "AgentNetworkInfo",
-)({ ipAddress: S.optional(S.String), macAddress: S.optional(S.String) }) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "StartExportTaskRequest",
+}) as any as S.Schema<StartExportTaskRequest>;
+export interface AgentNetworkInfo {
+  ipAddress?: string;
+  macAddress?: string;
+}
+export const AgentNetworkInfo = S.suspend(() =>
+  S.Struct({
+    ipAddress: S.optional(S.String),
+    macAddress: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AgentNetworkInfo",
+}) as any as S.Schema<AgentNetworkInfo>;
+export type AgentNetworkInfoList = AgentNetworkInfo[];
 export const AgentNetworkInfoList = S.Array(AgentNetworkInfo);
-export class AgentInfo extends S.Class<AgentInfo>("AgentInfo")({
-  agentId: S.optional(S.String),
-  hostName: S.optional(S.String),
-  agentNetworkInfoList: S.optional(AgentNetworkInfoList),
-  connectorId: S.optional(S.String),
-  version: S.optional(S.String),
-  health: S.optional(S.String),
-  lastHealthPingTime: S.optional(S.String),
-  collectionStatus: S.optional(S.String),
-  agentType: S.optional(S.String),
-  registeredTime: S.optional(S.String),
-}) {}
+export interface AgentInfo {
+  agentId?: string;
+  hostName?: string;
+  agentNetworkInfoList?: AgentNetworkInfoList;
+  connectorId?: string;
+  version?: string;
+  health?: string;
+  lastHealthPingTime?: string;
+  collectionStatus?: string;
+  agentType?: string;
+  registeredTime?: string;
+}
+export const AgentInfo = S.suspend(() =>
+  S.Struct({
+    agentId: S.optional(S.String),
+    hostName: S.optional(S.String),
+    agentNetworkInfoList: S.optional(AgentNetworkInfoList),
+    connectorId: S.optional(S.String),
+    version: S.optional(S.String),
+    health: S.optional(S.String),
+    lastHealthPingTime: S.optional(S.String),
+    collectionStatus: S.optional(S.String),
+    agentType: S.optional(S.String),
+    registeredTime: S.optional(S.String),
+  }),
+).annotations({ identifier: "AgentInfo" }) as any as S.Schema<AgentInfo>;
+export type AgentsInfo = AgentInfo[];
 export const AgentsInfo = S.Array(AgentInfo);
-export class DescribeAgentsResponse extends S.Class<DescribeAgentsResponse>(
-  "DescribeAgentsResponse",
-)(
-  { agentsInfo: S.optional(AgentsInfo), nextToken: S.optional(S.String) },
-  ns,
-) {}
-export class StartExportTaskResponse extends S.Class<StartExportTaskResponse>(
-  "StartExportTaskResponse",
-)({ exportId: S.optional(S.String) }, ns) {}
+export interface DescribeAgentsResponse {
+  agentsInfo?: AgentsInfo;
+  nextToken?: string;
+}
+export const DescribeAgentsResponse = S.suspend(() =>
+  S.Struct({
+    agentsInfo: S.optional(AgentsInfo),
+    nextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeAgentsResponse",
+}) as any as S.Schema<DescribeAgentsResponse>;
+export interface StartExportTaskResponse {
+  exportId?: string;
+}
+export const StartExportTaskResponse = S.suspend(() =>
+  S.Struct({ exportId: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "StartExportTaskResponse",
+}) as any as S.Schema<StartExportTaskResponse>;
 
 //# Errors
 export class AuthorizationErrorException extends S.TaggedError<AuthorizationErrorException>()(

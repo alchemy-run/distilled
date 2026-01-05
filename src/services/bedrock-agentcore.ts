@@ -294,88 +294,134 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type ScopesListType = string[];
 export const ScopesListType = S.Array(S.String);
-export class GetResourceApiKeyRequest extends S.Class<GetResourceApiKeyRequest>(
-  "GetResourceApiKeyRequest",
-)(
-  { workloadIdentityToken: S.String, resourceCredentialProviderName: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/identities/api-key" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface GetResourceApiKeyRequest {
+  workloadIdentityToken: string;
+  resourceCredentialProviderName: string;
+}
+export const GetResourceApiKeyRequest = S.suspend(() =>
+  S.Struct({
+    workloadIdentityToken: S.String,
+    resourceCredentialProviderName: S.String,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/identities/api-key" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetWorkloadAccessTokenRequest extends S.Class<GetWorkloadAccessTokenRequest>(
-  "GetWorkloadAccessTokenRequest",
-)(
-  { workloadName: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/identities/GetWorkloadAccessToken" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetResourceApiKeyRequest",
+}) as any as S.Schema<GetResourceApiKeyRequest>;
+export interface GetWorkloadAccessTokenRequest {
+  workloadName: string;
+}
+export const GetWorkloadAccessTokenRequest = S.suspend(() =>
+  S.Struct({ workloadName: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/identities/GetWorkloadAccessToken" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetWorkloadAccessTokenForJWTRequest extends S.Class<GetWorkloadAccessTokenForJWTRequest>(
-  "GetWorkloadAccessTokenForJWTRequest",
-)(
-  { workloadName: S.String, userToken: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/identities/GetWorkloadAccessTokenForJWT" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetWorkloadAccessTokenRequest",
+}) as any as S.Schema<GetWorkloadAccessTokenRequest>;
+export interface GetWorkloadAccessTokenForJWTRequest {
+  workloadName: string;
+  userToken: string;
+}
+export const GetWorkloadAccessTokenForJWTRequest = S.suspend(() =>
+  S.Struct({ workloadName: S.String, userToken: S.String }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/identities/GetWorkloadAccessTokenForJWT",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetWorkloadAccessTokenForUserIdRequest extends S.Class<GetWorkloadAccessTokenForUserIdRequest>(
-  "GetWorkloadAccessTokenForUserIdRequest",
-)(
-  { workloadName: S.String, userId: S.String },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/identities/GetWorkloadAccessTokenForUserId",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetWorkloadAccessTokenForJWTRequest",
+}) as any as S.Schema<GetWorkloadAccessTokenForJWTRequest>;
+export interface GetWorkloadAccessTokenForUserIdRequest {
+  workloadName: string;
+  userId: string;
+}
+export const GetWorkloadAccessTokenForUserIdRequest = S.suspend(() =>
+  S.Struct({ workloadName: S.String, userId: S.String }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/identities/GetWorkloadAccessTokenForUserId",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetAgentCardRequest extends S.Class<GetAgentCardRequest>(
-  "GetAgentCardRequest",
-)(
-  {
+).annotations({
+  identifier: "GetWorkloadAccessTokenForUserIdRequest",
+}) as any as S.Schema<GetWorkloadAccessTokenForUserIdRequest>;
+export interface GetAgentCardRequest {
+  runtimeSessionId?: string;
+  agentRuntimeArn: string;
+  qualifier?: string;
+}
+export const GetAgentCardRequest = S.suspend(() =>
+  S.Struct({
     runtimeSessionId: S.optional(S.String).pipe(
       T.HttpHeader("X-Amzn-Bedrock-AgentCore-Runtime-Session-Id"),
     ),
     agentRuntimeArn: S.String.pipe(T.HttpLabel("agentRuntimeArn")),
     qualifier: S.optional(S.String).pipe(T.HttpQuery("qualifier")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/runtimes/{agentRuntimeArn}/invocations/.well-known/agent-card.json",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/runtimes/{agentRuntimeArn}/invocations/.well-known/agent-card.json",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class InvokeAgentRuntimeRequest extends S.Class<InvokeAgentRuntimeRequest>(
-  "InvokeAgentRuntimeRequest",
-)(
-  {
+).annotations({
+  identifier: "GetAgentCardRequest",
+}) as any as S.Schema<GetAgentCardRequest>;
+export interface InvokeAgentRuntimeRequest {
+  contentType?: string;
+  accept?: string;
+  mcpSessionId?: string;
+  runtimeSessionId?: string;
+  mcpProtocolVersion?: string;
+  runtimeUserId?: string;
+  traceId?: string;
+  traceParent?: string;
+  traceState?: string;
+  baggage?: string;
+  agentRuntimeArn: string;
+  qualifier?: string;
+  accountId?: string;
+  payload: T.StreamingInputBody;
+}
+export const InvokeAgentRuntimeRequest = S.suspend(() =>
+  S.Struct({
     contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
     accept: S.optional(S.String).pipe(T.HttpHeader("Accept")),
     mcpSessionId: S.optional(S.String).pipe(T.HttpHeader("Mcp-Session-Id")),
@@ -396,149 +442,200 @@ export class InvokeAgentRuntimeRequest extends S.Class<InvokeAgentRuntimeRequest
     qualifier: S.optional(S.String).pipe(T.HttpQuery("qualifier")),
     accountId: S.optional(S.String).pipe(T.HttpQuery("accountId")),
     payload: T.StreamingInput.pipe(T.HttpPayload()),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/runtimes/{agentRuntimeArn}/invocations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/runtimes/{agentRuntimeArn}/invocations",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StopRuntimeSessionRequest extends S.Class<StopRuntimeSessionRequest>(
-  "StopRuntimeSessionRequest",
-)(
-  {
+).annotations({
+  identifier: "InvokeAgentRuntimeRequest",
+}) as any as S.Schema<InvokeAgentRuntimeRequest>;
+export interface StopRuntimeSessionRequest {
+  runtimeSessionId: string;
+  agentRuntimeArn: string;
+  qualifier?: string;
+  clientToken?: string;
+}
+export const StopRuntimeSessionRequest = S.suspend(() =>
+  S.Struct({
     runtimeSessionId: S.String.pipe(
       T.HttpHeader("X-Amzn-Bedrock-AgentCore-Runtime-Session-Id"),
     ),
     agentRuntimeArn: S.String.pipe(T.HttpLabel("agentRuntimeArn")),
     qualifier: S.optional(S.String).pipe(T.HttpQuery("qualifier")),
     clientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/runtimes/{agentRuntimeArn}/stopruntimesession",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/runtimes/{agentRuntimeArn}/stopruntimesession",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetBrowserSessionRequest extends S.Class<GetBrowserSessionRequest>(
-  "GetBrowserSessionRequest",
-)(
-  {
+).annotations({
+  identifier: "StopRuntimeSessionRequest",
+}) as any as S.Schema<StopRuntimeSessionRequest>;
+export interface GetBrowserSessionRequest {
+  browserIdentifier: string;
+  sessionId: string;
+}
+export const GetBrowserSessionRequest = S.suspend(() =>
+  S.Struct({
     browserIdentifier: S.String.pipe(T.HttpLabel("browserIdentifier")),
     sessionId: S.String.pipe(T.HttpQuery("sessionId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/browsers/{browserIdentifier}/sessions/get",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/browsers/{browserIdentifier}/sessions/get",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListBrowserSessionsRequest extends S.Class<ListBrowserSessionsRequest>(
-  "ListBrowserSessionsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetBrowserSessionRequest",
+}) as any as S.Schema<GetBrowserSessionRequest>;
+export interface ListBrowserSessionsRequest {
+  browserIdentifier: string;
+  maxResults?: number;
+  nextToken?: string;
+  status?: string;
+}
+export const ListBrowserSessionsRequest = S.suspend(() =>
+  S.Struct({
     browserIdentifier: S.String.pipe(T.HttpLabel("browserIdentifier")),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
     status: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/browsers/{browserIdentifier}/sessions/list",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/browsers/{browserIdentifier}/sessions/list",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StopBrowserSessionRequest extends S.Class<StopBrowserSessionRequest>(
-  "StopBrowserSessionRequest",
-)(
-  {
+).annotations({
+  identifier: "ListBrowserSessionsRequest",
+}) as any as S.Schema<ListBrowserSessionsRequest>;
+export interface StopBrowserSessionRequest {
+  traceId?: string;
+  traceParent?: string;
+  browserIdentifier: string;
+  sessionId: string;
+  clientToken?: string;
+}
+export const StopBrowserSessionRequest = S.suspend(() =>
+  S.Struct({
     traceId: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Trace-Id")),
     traceParent: S.optional(S.String).pipe(T.HttpHeader("traceparent")),
     browserIdentifier: S.String.pipe(T.HttpLabel("browserIdentifier")),
     sessionId: S.String.pipe(T.HttpQuery("sessionId")),
     clientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/browsers/{browserIdentifier}/sessions/stop",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/browsers/{browserIdentifier}/sessions/stop",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetCodeInterpreterSessionRequest extends S.Class<GetCodeInterpreterSessionRequest>(
-  "GetCodeInterpreterSessionRequest",
-)(
-  {
+).annotations({
+  identifier: "StopBrowserSessionRequest",
+}) as any as S.Schema<StopBrowserSessionRequest>;
+export interface GetCodeInterpreterSessionRequest {
+  codeInterpreterIdentifier: string;
+  sessionId: string;
+}
+export const GetCodeInterpreterSessionRequest = S.suspend(() =>
+  S.Struct({
     codeInterpreterIdentifier: S.String.pipe(
       T.HttpLabel("codeInterpreterIdentifier"),
     ),
     sessionId: S.String.pipe(T.HttpQuery("sessionId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/code-interpreters/{codeInterpreterIdentifier}/sessions/get",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/code-interpreters/{codeInterpreterIdentifier}/sessions/get",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListCodeInterpreterSessionsRequest extends S.Class<ListCodeInterpreterSessionsRequest>(
-  "ListCodeInterpreterSessionsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetCodeInterpreterSessionRequest",
+}) as any as S.Schema<GetCodeInterpreterSessionRequest>;
+export interface ListCodeInterpreterSessionsRequest {
+  codeInterpreterIdentifier: string;
+  maxResults?: number;
+  nextToken?: string;
+  status?: string;
+}
+export const ListCodeInterpreterSessionsRequest = S.suspend(() =>
+  S.Struct({
     codeInterpreterIdentifier: S.String.pipe(
       T.HttpLabel("codeInterpreterIdentifier"),
     ),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
     status: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/code-interpreters/{codeInterpreterIdentifier}/sessions/list",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/code-interpreters/{codeInterpreterIdentifier}/sessions/list",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartCodeInterpreterSessionRequest extends S.Class<StartCodeInterpreterSessionRequest>(
-  "StartCodeInterpreterSessionRequest",
-)(
-  {
+).annotations({
+  identifier: "ListCodeInterpreterSessionsRequest",
+}) as any as S.Schema<ListCodeInterpreterSessionsRequest>;
+export interface StartCodeInterpreterSessionRequest {
+  traceId?: string;
+  traceParent?: string;
+  codeInterpreterIdentifier: string;
+  name?: string;
+  sessionTimeoutSeconds?: number;
+  clientToken?: string;
+}
+export const StartCodeInterpreterSessionRequest = S.suspend(() =>
+  S.Struct({
     traceId: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Trace-Id")),
     traceParent: S.optional(S.String).pipe(T.HttpHeader("traceparent")),
     codeInterpreterIdentifier: S.String.pipe(
@@ -547,23 +644,31 @@ export class StartCodeInterpreterSessionRequest extends S.Class<StartCodeInterpr
     name: S.optional(S.String),
     sessionTimeoutSeconds: S.optional(S.Number),
     clientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/code-interpreters/{codeInterpreterIdentifier}/sessions/start",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/code-interpreters/{codeInterpreterIdentifier}/sessions/start",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StopCodeInterpreterSessionRequest extends S.Class<StopCodeInterpreterSessionRequest>(
-  "StopCodeInterpreterSessionRequest",
-)(
-  {
+).annotations({
+  identifier: "StartCodeInterpreterSessionRequest",
+}) as any as S.Schema<StartCodeInterpreterSessionRequest>;
+export interface StopCodeInterpreterSessionRequest {
+  traceId?: string;
+  traceParent?: string;
+  codeInterpreterIdentifier: string;
+  sessionId: string;
+  clientToken?: string;
+}
+export const StopCodeInterpreterSessionRequest = S.suspend(() =>
+  S.Struct({
     traceId: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Trace-Id")),
     traceParent: S.optional(S.String).pipe(T.HttpHeader("traceparent")),
     codeInterpreterIdentifier: S.String.pipe(
@@ -571,229 +676,342 @@ export class StopCodeInterpreterSessionRequest extends S.Class<StopCodeInterpret
     ),
     sessionId: S.String.pipe(T.HttpQuery("sessionId")),
     clientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/code-interpreters/{codeInterpreterIdentifier}/sessions/stop",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/code-interpreters/{codeInterpreterIdentifier}/sessions/stop",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteEventInput extends S.Class<DeleteEventInput>(
-  "DeleteEventInput",
-)(
-  {
+).annotations({
+  identifier: "StopCodeInterpreterSessionRequest",
+}) as any as S.Schema<StopCodeInterpreterSessionRequest>;
+export interface DeleteEventInput {
+  memoryId: string;
+  sessionId: string;
+  eventId: string;
+  actorId: string;
+}
+export const DeleteEventInput = S.suspend(() =>
+  S.Struct({
     memoryId: S.String.pipe(T.HttpLabel("memoryId")),
     sessionId: S.String.pipe(T.HttpLabel("sessionId")),
     eventId: S.String.pipe(T.HttpLabel("eventId")),
     actorId: S.String.pipe(T.HttpLabel("actorId")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/memories/{memoryId}/actor/{actorId}/sessions/{sessionId}/events/{eventId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/memories/{memoryId}/actor/{actorId}/sessions/{sessionId}/events/{eventId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteMemoryRecordInput extends S.Class<DeleteMemoryRecordInput>(
-  "DeleteMemoryRecordInput",
-)(
-  {
+).annotations({
+  identifier: "DeleteEventInput",
+}) as any as S.Schema<DeleteEventInput>;
+export interface DeleteMemoryRecordInput {
+  memoryId: string;
+  memoryRecordId: string;
+}
+export const DeleteMemoryRecordInput = S.suspend(() =>
+  S.Struct({
     memoryId: S.String.pipe(T.HttpLabel("memoryId")),
     memoryRecordId: S.String.pipe(T.HttpLabel("memoryRecordId")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/memories/{memoryId}/memoryRecords/{memoryRecordId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/memories/{memoryId}/memoryRecords/{memoryRecordId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetEventInput extends S.Class<GetEventInput>("GetEventInput")(
-  {
+).annotations({
+  identifier: "DeleteMemoryRecordInput",
+}) as any as S.Schema<DeleteMemoryRecordInput>;
+export interface GetEventInput {
+  memoryId: string;
+  sessionId: string;
+  actorId: string;
+  eventId: string;
+}
+export const GetEventInput = S.suspend(() =>
+  S.Struct({
     memoryId: S.String.pipe(T.HttpLabel("memoryId")),
     sessionId: S.String.pipe(T.HttpLabel("sessionId")),
     actorId: S.String.pipe(T.HttpLabel("actorId")),
     eventId: S.String.pipe(T.HttpLabel("eventId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/memories/{memoryId}/actor/{actorId}/sessions/{sessionId}/events/{eventId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/memories/{memoryId}/actor/{actorId}/sessions/{sessionId}/events/{eventId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetMemoryRecordInput extends S.Class<GetMemoryRecordInput>(
-  "GetMemoryRecordInput",
-)(
-  {
+).annotations({
+  identifier: "GetEventInput",
+}) as any as S.Schema<GetEventInput>;
+export interface GetMemoryRecordInput {
+  memoryId: string;
+  memoryRecordId: string;
+}
+export const GetMemoryRecordInput = S.suspend(() =>
+  S.Struct({
     memoryId: S.String.pipe(T.HttpLabel("memoryId")),
     memoryRecordId: S.String.pipe(T.HttpLabel("memoryRecordId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/memories/{memoryId}/memoryRecord/{memoryRecordId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/memories/{memoryId}/memoryRecord/{memoryRecordId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListActorsInput extends S.Class<ListActorsInput>(
-  "ListActorsInput",
-)(
-  {
+).annotations({
+  identifier: "GetMemoryRecordInput",
+}) as any as S.Schema<GetMemoryRecordInput>;
+export interface ListActorsInput {
+  memoryId: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListActorsInput = S.suspend(() =>
+  S.Struct({
     memoryId: S.String.pipe(T.HttpLabel("memoryId")),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/memories/{memoryId}/actors" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/memories/{memoryId}/actors" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListMemoryRecordsInput extends S.Class<ListMemoryRecordsInput>(
-  "ListMemoryRecordsInput",
-)(
-  {
+).annotations({
+  identifier: "ListActorsInput",
+}) as any as S.Schema<ListActorsInput>;
+export interface ListMemoryRecordsInput {
+  memoryId: string;
+  namespace: string;
+  memoryStrategyId?: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListMemoryRecordsInput = S.suspend(() =>
+  S.Struct({
     memoryId: S.String.pipe(T.HttpLabel("memoryId")),
     namespace: S.String,
     memoryStrategyId: S.optional(S.String),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/memories/{memoryId}/memoryRecords" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/memories/{memoryId}/memoryRecords" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListSessionsInput extends S.Class<ListSessionsInput>(
-  "ListSessionsInput",
-)(
-  {
+).annotations({
+  identifier: "ListMemoryRecordsInput",
+}) as any as S.Schema<ListMemoryRecordsInput>;
+export interface ListSessionsInput {
+  memoryId: string;
+  actorId: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListSessionsInput = S.suspend(() =>
+  S.Struct({
     memoryId: S.String.pipe(T.HttpLabel("memoryId")),
     actorId: S.String.pipe(T.HttpLabel("actorId")),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/memories/{memoryId}/actor/{actorId}/sessions",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/memories/{memoryId}/actor/{actorId}/sessions",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "ListSessionsInput",
+}) as any as S.Schema<ListSessionsInput>;
+export type StringList = string[];
 export const StringList = S.Array(S.String);
+export type Spans = any[];
 export const Spans = S.Array(S.Any);
+export type SpanIds = string[];
 export const SpanIds = S.Array(S.String);
+export type TraceIds = string[];
 export const TraceIds = S.Array(S.String);
+export type NamespacesList = string[];
 export const NamespacesList = S.Array(S.String);
 export const UserIdentifier = S.Union(
   S.Struct({ userToken: S.String }),
   S.Struct({ userId: S.String }),
 );
+export type CustomRequestParametersType = { [key: string]: string };
 export const CustomRequestParametersType = S.Record({
   key: S.String,
   value: S.String,
 });
-export class ViewPort extends S.Class<ViewPort>("ViewPort")({
-  width: S.Number,
-  height: S.Number,
-}) {}
+export interface ViewPort {
+  width: number;
+  height: number;
+}
+export const ViewPort = S.suspend(() =>
+  S.Struct({ width: S.Number, height: S.Number }),
+).annotations({ identifier: "ViewPort" }) as any as S.Schema<ViewPort>;
 export const EvaluationInput = S.Union(S.Struct({ sessionSpans: Spans }));
 export const EvaluationTarget = S.Union(
   S.Struct({ spanIds: SpanIds }),
   S.Struct({ traceIds: TraceIds }),
 );
-export class MemoryRecordDeleteInput extends S.Class<MemoryRecordDeleteInput>(
-  "MemoryRecordDeleteInput",
-)({ memoryRecordId: S.String }) {}
+export interface MemoryRecordDeleteInput {
+  memoryRecordId: string;
+}
+export const MemoryRecordDeleteInput = S.suspend(() =>
+  S.Struct({ memoryRecordId: S.String }),
+).annotations({
+  identifier: "MemoryRecordDeleteInput",
+}) as any as S.Schema<MemoryRecordDeleteInput>;
+export type MemoryRecordsDeleteInputList = MemoryRecordDeleteInput[];
 export const MemoryRecordsDeleteInputList = S.Array(MemoryRecordDeleteInput);
 export const MemoryContent = S.Union(S.Struct({ text: S.String }));
-export class MemoryRecordUpdateInput extends S.Class<MemoryRecordUpdateInput>(
-  "MemoryRecordUpdateInput",
-)({
-  memoryRecordId: S.String,
-  timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  content: S.optional(MemoryContent),
-  namespaces: S.optional(NamespacesList),
-  memoryStrategyId: S.optional(S.String),
-}) {}
+export interface MemoryRecordUpdateInput {
+  memoryRecordId: string;
+  timestamp: Date;
+  content?: (typeof MemoryContent)["Type"];
+  namespaces?: NamespacesList;
+  memoryStrategyId?: string;
+}
+export const MemoryRecordUpdateInput = S.suspend(() =>
+  S.Struct({
+    memoryRecordId: S.String,
+    timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    content: S.optional(MemoryContent),
+    namespaces: S.optional(NamespacesList),
+    memoryStrategyId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "MemoryRecordUpdateInput",
+}) as any as S.Schema<MemoryRecordUpdateInput>;
+export type MemoryRecordsUpdateInputList = MemoryRecordUpdateInput[];
 export const MemoryRecordsUpdateInputList = S.Array(MemoryRecordUpdateInput);
-export class Branch extends S.Class<Branch>("Branch")({
-  rootEventId: S.optional(S.String),
-  name: S.String,
-}) {}
-export class ExtractionJobFilterInput extends S.Class<ExtractionJobFilterInput>(
-  "ExtractionJobFilterInput",
-)({
-  strategyId: S.optional(S.String),
-  sessionId: S.optional(S.String),
-  actorId: S.optional(S.String),
-  status: S.optional(S.String),
-}) {}
-export class ExtractionJob extends S.Class<ExtractionJob>("ExtractionJob")({
-  jobId: S.String,
-}) {}
-export class CompleteResourceTokenAuthRequest extends S.Class<CompleteResourceTokenAuthRequest>(
-  "CompleteResourceTokenAuthRequest",
-)(
-  { userIdentifier: UserIdentifier, sessionUri: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/identities/CompleteResourceTokenAuth" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface Branch {
+  rootEventId?: string;
+  name: string;
+}
+export const Branch = S.suspend(() =>
+  S.Struct({ rootEventId: S.optional(S.String), name: S.String }),
+).annotations({ identifier: "Branch" }) as any as S.Schema<Branch>;
+export interface ExtractionJobFilterInput {
+  strategyId?: string;
+  sessionId?: string;
+  actorId?: string;
+  status?: string;
+}
+export const ExtractionJobFilterInput = S.suspend(() =>
+  S.Struct({
+    strategyId: S.optional(S.String),
+    sessionId: S.optional(S.String),
+    actorId: S.optional(S.String),
+    status: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ExtractionJobFilterInput",
+}) as any as S.Schema<ExtractionJobFilterInput>;
+export interface ExtractionJob {
+  jobId: string;
+}
+export const ExtractionJob = S.suspend(() =>
+  S.Struct({ jobId: S.String }),
+).annotations({
+  identifier: "ExtractionJob",
+}) as any as S.Schema<ExtractionJob>;
+export interface CompleteResourceTokenAuthRequest {
+  userIdentifier: (typeof UserIdentifier)["Type"];
+  sessionUri: string;
+}
+export const CompleteResourceTokenAuthRequest = S.suspend(() =>
+  S.Struct({ userIdentifier: UserIdentifier, sessionUri: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/identities/CompleteResourceTokenAuth" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CompleteResourceTokenAuthResponse extends S.Class<CompleteResourceTokenAuthResponse>(
-  "CompleteResourceTokenAuthResponse",
-)({}) {}
-export class GetResourceApiKeyResponse extends S.Class<GetResourceApiKeyResponse>(
-  "GetResourceApiKeyResponse",
-)({ apiKey: S.String }) {}
-export class GetResourceOauth2TokenRequest extends S.Class<GetResourceOauth2TokenRequest>(
-  "GetResourceOauth2TokenRequest",
-)(
-  {
+).annotations({
+  identifier: "CompleteResourceTokenAuthRequest",
+}) as any as S.Schema<CompleteResourceTokenAuthRequest>;
+export interface CompleteResourceTokenAuthResponse {}
+export const CompleteResourceTokenAuthResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "CompleteResourceTokenAuthResponse",
+}) as any as S.Schema<CompleteResourceTokenAuthResponse>;
+export interface GetResourceApiKeyResponse {
+  apiKey: string;
+}
+export const GetResourceApiKeyResponse = S.suspend(() =>
+  S.Struct({ apiKey: S.String }),
+).annotations({
+  identifier: "GetResourceApiKeyResponse",
+}) as any as S.Schema<GetResourceApiKeyResponse>;
+export interface GetResourceOauth2TokenRequest {
+  workloadIdentityToken: string;
+  resourceCredentialProviderName: string;
+  scopes: ScopesListType;
+  oauth2Flow: string;
+  sessionUri?: string;
+  resourceOauth2ReturnUrl?: string;
+  forceAuthentication?: boolean;
+  customParameters?: CustomRequestParametersType;
+  customState?: string;
+}
+export const GetResourceOauth2TokenRequest = S.suspend(() =>
+  S.Struct({
     workloadIdentityToken: S.String,
     resourceCredentialProviderName: S.String,
     scopes: ScopesListType,
@@ -803,64 +1021,116 @@ export class GetResourceOauth2TokenRequest extends S.Class<GetResourceOauth2Toke
     forceAuthentication: S.optional(S.Boolean),
     customParameters: S.optional(CustomRequestParametersType),
     customState: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/identities/oauth2/token" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/identities/oauth2/token" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetWorkloadAccessTokenResponse extends S.Class<GetWorkloadAccessTokenResponse>(
-  "GetWorkloadAccessTokenResponse",
-)({ workloadAccessToken: S.String }) {}
-export class GetWorkloadAccessTokenForJWTResponse extends S.Class<GetWorkloadAccessTokenForJWTResponse>(
-  "GetWorkloadAccessTokenForJWTResponse",
-)({ workloadAccessToken: S.String }) {}
-export class GetWorkloadAccessTokenForUserIdResponse extends S.Class<GetWorkloadAccessTokenForUserIdResponse>(
-  "GetWorkloadAccessTokenForUserIdResponse",
-)({ workloadAccessToken: S.String }) {}
-export class GetAgentCardResponse extends S.Class<GetAgentCardResponse>(
-  "GetAgentCardResponse",
-)({
-  runtimeSessionId: S.optional(S.String).pipe(
-    T.HttpHeader("X-Amzn-Bedrock-AgentCore-Runtime-Session-Id"),
-  ),
-  agentCard: S.Any.pipe(T.HttpPayload()),
-  statusCode: S.optional(S.Number).pipe(T.HttpResponseCode()),
-}) {}
-export class InvokeAgentRuntimeResponse extends S.Class<InvokeAgentRuntimeResponse>(
-  "InvokeAgentRuntimeResponse",
-)({
-  runtimeSessionId: S.optional(S.String).pipe(
-    T.HttpHeader("X-Amzn-Bedrock-AgentCore-Runtime-Session-Id"),
-  ),
-  mcpSessionId: S.optional(S.String).pipe(T.HttpHeader("Mcp-Session-Id")),
-  mcpProtocolVersion: S.optional(S.String).pipe(
-    T.HttpHeader("Mcp-Protocol-Version"),
-  ),
-  traceId: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Trace-Id")),
-  traceParent: S.optional(S.String).pipe(T.HttpHeader("traceparent")),
-  traceState: S.optional(S.String).pipe(T.HttpHeader("tracestate")),
-  baggage: S.optional(S.String).pipe(T.HttpHeader("baggage")),
-  contentType: S.String.pipe(T.HttpHeader("Content-Type")),
-  response: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
-  statusCode: S.optional(S.Number).pipe(T.HttpResponseCode()),
-}) {}
-export class StopRuntimeSessionResponse extends S.Class<StopRuntimeSessionResponse>(
-  "StopRuntimeSessionResponse",
-)({
-  runtimeSessionId: S.optional(S.String).pipe(
-    T.HttpHeader("X-Amzn-Bedrock-AgentCore-Runtime-Session-Id"),
-  ),
-  statusCode: S.optional(S.Number).pipe(T.HttpResponseCode()),
-}) {}
-export class StartBrowserSessionRequest extends S.Class<StartBrowserSessionRequest>(
-  "StartBrowserSessionRequest",
-)(
-  {
+).annotations({
+  identifier: "GetResourceOauth2TokenRequest",
+}) as any as S.Schema<GetResourceOauth2TokenRequest>;
+export interface GetWorkloadAccessTokenResponse {
+  workloadAccessToken: string;
+}
+export const GetWorkloadAccessTokenResponse = S.suspend(() =>
+  S.Struct({ workloadAccessToken: S.String }),
+).annotations({
+  identifier: "GetWorkloadAccessTokenResponse",
+}) as any as S.Schema<GetWorkloadAccessTokenResponse>;
+export interface GetWorkloadAccessTokenForJWTResponse {
+  workloadAccessToken: string;
+}
+export const GetWorkloadAccessTokenForJWTResponse = S.suspend(() =>
+  S.Struct({ workloadAccessToken: S.String }),
+).annotations({
+  identifier: "GetWorkloadAccessTokenForJWTResponse",
+}) as any as S.Schema<GetWorkloadAccessTokenForJWTResponse>;
+export interface GetWorkloadAccessTokenForUserIdResponse {
+  workloadAccessToken: string;
+}
+export const GetWorkloadAccessTokenForUserIdResponse = S.suspend(() =>
+  S.Struct({ workloadAccessToken: S.String }),
+).annotations({
+  identifier: "GetWorkloadAccessTokenForUserIdResponse",
+}) as any as S.Schema<GetWorkloadAccessTokenForUserIdResponse>;
+export interface GetAgentCardResponse {
+  runtimeSessionId?: string;
+  agentCard: any;
+  statusCode?: number;
+}
+export const GetAgentCardResponse = S.suspend(() =>
+  S.Struct({
+    runtimeSessionId: S.optional(S.String).pipe(
+      T.HttpHeader("X-Amzn-Bedrock-AgentCore-Runtime-Session-Id"),
+    ),
+    agentCard: S.Any.pipe(T.HttpPayload()),
+    statusCode: S.optional(S.Number).pipe(T.HttpResponseCode()),
+  }),
+).annotations({
+  identifier: "GetAgentCardResponse",
+}) as any as S.Schema<GetAgentCardResponse>;
+export interface InvokeAgentRuntimeResponse {
+  runtimeSessionId?: string;
+  mcpSessionId?: string;
+  mcpProtocolVersion?: string;
+  traceId?: string;
+  traceParent?: string;
+  traceState?: string;
+  baggage?: string;
+  contentType: string;
+  response?: T.StreamingOutputBody;
+  statusCode?: number;
+}
+export const InvokeAgentRuntimeResponse = S.suspend(() =>
+  S.Struct({
+    runtimeSessionId: S.optional(S.String).pipe(
+      T.HttpHeader("X-Amzn-Bedrock-AgentCore-Runtime-Session-Id"),
+    ),
+    mcpSessionId: S.optional(S.String).pipe(T.HttpHeader("Mcp-Session-Id")),
+    mcpProtocolVersion: S.optional(S.String).pipe(
+      T.HttpHeader("Mcp-Protocol-Version"),
+    ),
+    traceId: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Trace-Id")),
+    traceParent: S.optional(S.String).pipe(T.HttpHeader("traceparent")),
+    traceState: S.optional(S.String).pipe(T.HttpHeader("tracestate")),
+    baggage: S.optional(S.String).pipe(T.HttpHeader("baggage")),
+    contentType: S.String.pipe(T.HttpHeader("Content-Type")),
+    response: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
+    statusCode: S.optional(S.Number).pipe(T.HttpResponseCode()),
+  }),
+).annotations({
+  identifier: "InvokeAgentRuntimeResponse",
+}) as any as S.Schema<InvokeAgentRuntimeResponse>;
+export interface StopRuntimeSessionResponse {
+  runtimeSessionId?: string;
+  statusCode?: number;
+}
+export const StopRuntimeSessionResponse = S.suspend(() =>
+  S.Struct({
+    runtimeSessionId: S.optional(S.String).pipe(
+      T.HttpHeader("X-Amzn-Bedrock-AgentCore-Runtime-Session-Id"),
+    ),
+    statusCode: S.optional(S.Number).pipe(T.HttpResponseCode()),
+  }),
+).annotations({
+  identifier: "StopRuntimeSessionResponse",
+}) as any as S.Schema<StopRuntimeSessionResponse>;
+export interface StartBrowserSessionRequest {
+  traceId?: string;
+  traceParent?: string;
+  browserIdentifier: string;
+  name?: string;
+  sessionTimeoutSeconds?: number;
+  viewPort?: ViewPort;
+  clientToken?: string;
+}
+export const StartBrowserSessionRequest = S.suspend(() =>
+  S.Struct({
     traceId: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Trace-Id")),
     traceParent: S.optional(S.String).pipe(T.HttpHeader("traceparent")),
     browserIdentifier: S.String.pipe(T.HttpLabel("browserIdentifier")),
@@ -868,290 +1138,517 @@ export class StartBrowserSessionRequest extends S.Class<StartBrowserSessionReque
     sessionTimeoutSeconds: S.optional(S.Number),
     viewPort: S.optional(ViewPort),
     clientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/browsers/{browserIdentifier}/sessions/start",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/browsers/{browserIdentifier}/sessions/start",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StopBrowserSessionResponse extends S.Class<StopBrowserSessionResponse>(
-  "StopBrowserSessionResponse",
-)({
-  browserIdentifier: S.String,
-  sessionId: S.String,
-  lastUpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class GetCodeInterpreterSessionResponse extends S.Class<GetCodeInterpreterSessionResponse>(
-  "GetCodeInterpreterSessionResponse",
-)({
-  codeInterpreterIdentifier: S.String,
-  sessionId: S.String,
-  name: S.optional(S.String),
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  sessionTimeoutSeconds: S.optional(S.Number),
-  status: S.optional(S.String),
-}) {}
-export class StartCodeInterpreterSessionResponse extends S.Class<StartCodeInterpreterSessionResponse>(
-  "StartCodeInterpreterSessionResponse",
-)({
-  codeInterpreterIdentifier: S.String,
-  sessionId: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class StopCodeInterpreterSessionResponse extends S.Class<StopCodeInterpreterSessionResponse>(
-  "StopCodeInterpreterSessionResponse",
-)({
-  codeInterpreterIdentifier: S.String,
-  sessionId: S.String,
-  lastUpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class EvaluateRequest extends S.Class<EvaluateRequest>(
-  "EvaluateRequest",
-)(
-  {
+).annotations({
+  identifier: "StartBrowserSessionRequest",
+}) as any as S.Schema<StartBrowserSessionRequest>;
+export interface StopBrowserSessionResponse {
+  browserIdentifier: string;
+  sessionId: string;
+  lastUpdatedAt: Date;
+}
+export const StopBrowserSessionResponse = S.suspend(() =>
+  S.Struct({
+    browserIdentifier: S.String,
+    sessionId: S.String,
+    lastUpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "StopBrowserSessionResponse",
+}) as any as S.Schema<StopBrowserSessionResponse>;
+export interface GetCodeInterpreterSessionResponse {
+  codeInterpreterIdentifier: string;
+  sessionId: string;
+  name?: string;
+  createdAt: Date;
+  sessionTimeoutSeconds?: number;
+  status?: string;
+}
+export const GetCodeInterpreterSessionResponse = S.suspend(() =>
+  S.Struct({
+    codeInterpreterIdentifier: S.String,
+    sessionId: S.String,
+    name: S.optional(S.String),
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    sessionTimeoutSeconds: S.optional(S.Number),
+    status: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetCodeInterpreterSessionResponse",
+}) as any as S.Schema<GetCodeInterpreterSessionResponse>;
+export interface StartCodeInterpreterSessionResponse {
+  codeInterpreterIdentifier: string;
+  sessionId: string;
+  createdAt: Date;
+}
+export const StartCodeInterpreterSessionResponse = S.suspend(() =>
+  S.Struct({
+    codeInterpreterIdentifier: S.String,
+    sessionId: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "StartCodeInterpreterSessionResponse",
+}) as any as S.Schema<StartCodeInterpreterSessionResponse>;
+export interface StopCodeInterpreterSessionResponse {
+  codeInterpreterIdentifier: string;
+  sessionId: string;
+  lastUpdatedAt: Date;
+}
+export const StopCodeInterpreterSessionResponse = S.suspend(() =>
+  S.Struct({
+    codeInterpreterIdentifier: S.String,
+    sessionId: S.String,
+    lastUpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "StopCodeInterpreterSessionResponse",
+}) as any as S.Schema<StopCodeInterpreterSessionResponse>;
+export interface EvaluateRequest {
+  evaluatorId: string;
+  evaluationInput: (typeof EvaluationInput)["Type"];
+  evaluationTarget?: (typeof EvaluationTarget)["Type"];
+}
+export const EvaluateRequest = S.suspend(() =>
+  S.Struct({
     evaluatorId: S.String.pipe(T.HttpLabel("evaluatorId")),
     evaluationInput: EvaluationInput,
     evaluationTarget: S.optional(EvaluationTarget),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/evaluations/evaluate/{evaluatorId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/evaluations/evaluate/{evaluatorId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class BatchDeleteMemoryRecordsInput extends S.Class<BatchDeleteMemoryRecordsInput>(
-  "BatchDeleteMemoryRecordsInput",
-)(
-  {
+).annotations({
+  identifier: "EvaluateRequest",
+}) as any as S.Schema<EvaluateRequest>;
+export interface BatchDeleteMemoryRecordsInput {
+  memoryId: string;
+  records: MemoryRecordsDeleteInputList;
+}
+export const BatchDeleteMemoryRecordsInput = S.suspend(() =>
+  S.Struct({
     memoryId: S.String.pipe(T.HttpLabel("memoryId")),
     records: MemoryRecordsDeleteInputList,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/memories/{memoryId}/memoryRecords/batchDelete",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/memories/{memoryId}/memoryRecords/batchDelete",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class BatchUpdateMemoryRecordsInput extends S.Class<BatchUpdateMemoryRecordsInput>(
-  "BatchUpdateMemoryRecordsInput",
-)(
-  {
+).annotations({
+  identifier: "BatchDeleteMemoryRecordsInput",
+}) as any as S.Schema<BatchDeleteMemoryRecordsInput>;
+export interface BatchUpdateMemoryRecordsInput {
+  memoryId: string;
+  records: MemoryRecordsUpdateInputList;
+}
+export const BatchUpdateMemoryRecordsInput = S.suspend(() =>
+  S.Struct({
     memoryId: S.String.pipe(T.HttpLabel("memoryId")),
     records: MemoryRecordsUpdateInputList,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/memories/{memoryId}/memoryRecords/batchUpdate",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/memories/{memoryId}/memoryRecords/batchUpdate",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteEventOutput extends S.Class<DeleteEventOutput>(
-  "DeleteEventOutput",
-)({ eventId: S.String }) {}
-export class DeleteMemoryRecordOutput extends S.Class<DeleteMemoryRecordOutput>(
-  "DeleteMemoryRecordOutput",
-)({ memoryRecordId: S.String }) {}
-export class ListMemoryExtractionJobsInput extends S.Class<ListMemoryExtractionJobsInput>(
-  "ListMemoryExtractionJobsInput",
-)(
-  {
+).annotations({
+  identifier: "BatchUpdateMemoryRecordsInput",
+}) as any as S.Schema<BatchUpdateMemoryRecordsInput>;
+export interface DeleteEventOutput {
+  eventId: string;
+}
+export const DeleteEventOutput = S.suspend(() =>
+  S.Struct({ eventId: S.String }),
+).annotations({
+  identifier: "DeleteEventOutput",
+}) as any as S.Schema<DeleteEventOutput>;
+export interface DeleteMemoryRecordOutput {
+  memoryRecordId: string;
+}
+export const DeleteMemoryRecordOutput = S.suspend(() =>
+  S.Struct({ memoryRecordId: S.String }),
+).annotations({
+  identifier: "DeleteMemoryRecordOutput",
+}) as any as S.Schema<DeleteMemoryRecordOutput>;
+export interface ListMemoryExtractionJobsInput {
+  memoryId: string;
+  maxResults?: number;
+  filter?: ExtractionJobFilterInput;
+  nextToken?: string;
+}
+export const ListMemoryExtractionJobsInput = S.suspend(() =>
+  S.Struct({
     memoryId: S.String.pipe(T.HttpLabel("memoryId")),
     maxResults: S.optional(S.Number),
     filter: S.optional(ExtractionJobFilterInput),
     nextToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/memories/{memoryId}/extractionJobs" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/memories/{memoryId}/extractionJobs" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartMemoryExtractionJobInput extends S.Class<StartMemoryExtractionJobInput>(
-  "StartMemoryExtractionJobInput",
-)(
-  {
+).annotations({
+  identifier: "ListMemoryExtractionJobsInput",
+}) as any as S.Schema<ListMemoryExtractionJobsInput>;
+export interface StartMemoryExtractionJobInput {
+  memoryId: string;
+  extractionJob: ExtractionJob;
+  clientToken?: string;
+}
+export const StartMemoryExtractionJobInput = S.suspend(() =>
+  S.Struct({
     memoryId: S.String.pipe(T.HttpLabel("memoryId")),
     extractionJob: ExtractionJob,
     clientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/memories/{memoryId}/extractionJobs/start",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/memories/{memoryId}/extractionJobs/start",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class InputContentBlock extends S.Class<InputContentBlock>(
-  "InputContentBlock",
-)({ path: S.String, text: S.optional(S.String), blob: S.optional(T.Blob) }) {}
+).annotations({
+  identifier: "StartMemoryExtractionJobInput",
+}) as any as S.Schema<StartMemoryExtractionJobInput>;
+export interface InputContentBlock {
+  path: string;
+  text?: string;
+  blob?: Uint8Array;
+}
+export const InputContentBlock = S.suspend(() =>
+  S.Struct({
+    path: S.String,
+    text: S.optional(S.String),
+    blob: S.optional(T.Blob),
+  }),
+).annotations({
+  identifier: "InputContentBlock",
+}) as any as S.Schema<InputContentBlock>;
+export type InputContentBlockList = InputContentBlock[];
 export const InputContentBlockList = S.Array(InputContentBlock);
-export class AutomationStreamUpdate extends S.Class<AutomationStreamUpdate>(
-  "AutomationStreamUpdate",
-)({ streamStatus: S.optional(S.String) }) {}
+export interface AutomationStreamUpdate {
+  streamStatus?: string;
+}
+export const AutomationStreamUpdate = S.suspend(() =>
+  S.Struct({ streamStatus: S.optional(S.String) }),
+).annotations({
+  identifier: "AutomationStreamUpdate",
+}) as any as S.Schema<AutomationStreamUpdate>;
 export const MetadataValue = S.Union(S.Struct({ stringValue: S.String }));
-export class BranchFilter extends S.Class<BranchFilter>("BranchFilter")({
-  name: S.String,
-  includeParentBranches: S.optional(S.Boolean),
-}) {}
+export interface BranchFilter {
+  name: string;
+  includeParentBranches?: boolean;
+}
+export const BranchFilter = S.suspend(() =>
+  S.Struct({ name: S.String, includeParentBranches: S.optional(S.Boolean) }),
+).annotations({ identifier: "BranchFilter" }) as any as S.Schema<BranchFilter>;
 export const LeftExpression = S.Union(S.Struct({ metadataKey: S.String }));
 export const RightExpression = S.Union(
   S.Struct({ metadataValue: MetadataValue }),
 );
-export class MemoryMetadataFilterExpression extends S.Class<MemoryMetadataFilterExpression>(
-  "MemoryMetadataFilterExpression",
-)({
-  left: LeftExpression,
-  operator: S.String,
-  right: S.optional(RightExpression),
-}) {}
+export interface MemoryMetadataFilterExpression {
+  left: (typeof LeftExpression)["Type"];
+  operator: string;
+  right?: (typeof RightExpression)["Type"];
+}
+export const MemoryMetadataFilterExpression = S.suspend(() =>
+  S.Struct({
+    left: LeftExpression,
+    operator: S.String,
+    right: S.optional(RightExpression),
+  }),
+).annotations({
+  identifier: "MemoryMetadataFilterExpression",
+}) as any as S.Schema<MemoryMetadataFilterExpression>;
+export type MemoryMetadataFilterList = MemoryMetadataFilterExpression[];
 export const MemoryMetadataFilterList = S.Array(MemoryMetadataFilterExpression);
-export class ToolArguments extends S.Class<ToolArguments>("ToolArguments")({
-  code: S.optional(S.String),
-  language: S.optional(S.String),
-  clearContext: S.optional(S.Boolean),
-  command: S.optional(S.String),
-  path: S.optional(S.String),
-  paths: S.optional(StringList),
-  content: S.optional(InputContentBlockList),
-  directoryPath: S.optional(S.String),
-  taskId: S.optional(S.String),
-}) {}
-export class BrowserSessionSummary extends S.Class<BrowserSessionSummary>(
-  "BrowserSessionSummary",
-)({
-  browserIdentifier: S.String,
-  sessionId: S.String,
-  name: S.optional(S.String),
-  status: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-}) {}
+export interface ToolArguments {
+  code?: string;
+  language?: string;
+  clearContext?: boolean;
+  command?: string;
+  path?: string;
+  paths?: StringList;
+  content?: InputContentBlockList;
+  directoryPath?: string;
+  taskId?: string;
+}
+export const ToolArguments = S.suspend(() =>
+  S.Struct({
+    code: S.optional(S.String),
+    language: S.optional(S.String),
+    clearContext: S.optional(S.Boolean),
+    command: S.optional(S.String),
+    path: S.optional(S.String),
+    paths: S.optional(StringList),
+    content: S.optional(InputContentBlockList),
+    directoryPath: S.optional(S.String),
+    taskId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ToolArguments",
+}) as any as S.Schema<ToolArguments>;
+export interface BrowserSessionSummary {
+  browserIdentifier: string;
+  sessionId: string;
+  name?: string;
+  status: string;
+  createdAt: Date;
+  lastUpdatedAt?: Date;
+}
+export const BrowserSessionSummary = S.suspend(() =>
+  S.Struct({
+    browserIdentifier: S.String,
+    sessionId: S.String,
+    name: S.optional(S.String),
+    status: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotations({
+  identifier: "BrowserSessionSummary",
+}) as any as S.Schema<BrowserSessionSummary>;
+export type BrowserSessionSummaries = BrowserSessionSummary[];
 export const BrowserSessionSummaries = S.Array(BrowserSessionSummary);
 export const StreamUpdate = S.Union(
   S.Struct({ automationStreamUpdate: AutomationStreamUpdate }),
 );
-export class CodeInterpreterSessionSummary extends S.Class<CodeInterpreterSessionSummary>(
-  "CodeInterpreterSessionSummary",
-)({
-  codeInterpreterIdentifier: S.String,
-  sessionId: S.String,
-  name: S.optional(S.String),
-  status: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-}) {}
+export interface CodeInterpreterSessionSummary {
+  codeInterpreterIdentifier: string;
+  sessionId: string;
+  name?: string;
+  status: string;
+  createdAt: Date;
+  lastUpdatedAt?: Date;
+}
+export const CodeInterpreterSessionSummary = S.suspend(() =>
+  S.Struct({
+    codeInterpreterIdentifier: S.String,
+    sessionId: S.String,
+    name: S.optional(S.String),
+    status: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotations({
+  identifier: "CodeInterpreterSessionSummary",
+}) as any as S.Schema<CodeInterpreterSessionSummary>;
+export type CodeInterpreterSessionSummaries = CodeInterpreterSessionSummary[];
 export const CodeInterpreterSessionSummaries = S.Array(
   CodeInterpreterSessionSummary,
 );
-export class MemoryRecordCreateInput extends S.Class<MemoryRecordCreateInput>(
-  "MemoryRecordCreateInput",
-)({
-  requestIdentifier: S.String,
-  namespaces: NamespacesList,
-  content: MemoryContent,
-  timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  memoryStrategyId: S.optional(S.String),
-}) {}
+export interface MemoryRecordCreateInput {
+  requestIdentifier: string;
+  namespaces: NamespacesList;
+  content: (typeof MemoryContent)["Type"];
+  timestamp: Date;
+  memoryStrategyId?: string;
+}
+export const MemoryRecordCreateInput = S.suspend(() =>
+  S.Struct({
+    requestIdentifier: S.String,
+    namespaces: NamespacesList,
+    content: MemoryContent,
+    timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    memoryStrategyId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "MemoryRecordCreateInput",
+}) as any as S.Schema<MemoryRecordCreateInput>;
+export type MemoryRecordsCreateInputList = MemoryRecordCreateInput[];
 export const MemoryRecordsCreateInputList = S.Array(MemoryRecordCreateInput);
+export type MetadataMap = { [key: string]: (typeof MetadataValue)["Type"] };
 export const MetadataMap = S.Record({ key: S.String, value: MetadataValue });
 export const Content = S.Union(S.Struct({ text: S.String }));
-export class Conversational extends S.Class<Conversational>("Conversational")({
-  content: Content,
-  role: S.String,
-}) {}
+export interface Conversational {
+  content: (typeof Content)["Type"];
+  role: string;
+}
+export const Conversational = S.suspend(() =>
+  S.Struct({ content: Content, role: S.String }),
+).annotations({
+  identifier: "Conversational",
+}) as any as S.Schema<Conversational>;
 export const PayloadType = S.Union(
   S.Struct({ conversational: Conversational }),
   S.Struct({ blob: S.Any }),
 );
+export type PayloadTypeList = (typeof PayloadType)["Type"][];
 export const PayloadTypeList = S.Array(PayloadType);
-export class Event extends S.Class<Event>("Event")({
-  memoryId: S.String,
-  actorId: S.String,
-  sessionId: S.String,
-  eventId: S.String,
-  eventTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  payload: PayloadTypeList,
-  branch: S.optional(Branch),
-  metadata: S.optional(MetadataMap),
-}) {}
-export class MemoryRecord extends S.Class<MemoryRecord>("MemoryRecord")({
-  memoryRecordId: S.String,
-  content: MemoryContent,
-  memoryStrategyId: S.String,
-  namespaces: NamespacesList,
-  createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  metadata: S.optional(MetadataMap),
-}) {}
-export class ActorSummary extends S.Class<ActorSummary>("ActorSummary")({
-  actorId: S.String,
-}) {}
+export interface Event {
+  memoryId: string;
+  actorId: string;
+  sessionId: string;
+  eventId: string;
+  eventTimestamp: Date;
+  payload: PayloadTypeList;
+  branch?: Branch;
+  metadata?: MetadataMap;
+}
+export const Event = S.suspend(() =>
+  S.Struct({
+    memoryId: S.String,
+    actorId: S.String,
+    sessionId: S.String,
+    eventId: S.String,
+    eventTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    payload: PayloadTypeList,
+    branch: S.optional(Branch),
+    metadata: S.optional(MetadataMap),
+  }),
+).annotations({ identifier: "Event" }) as any as S.Schema<Event>;
+export interface MemoryRecord {
+  memoryRecordId: string;
+  content: (typeof MemoryContent)["Type"];
+  memoryStrategyId: string;
+  namespaces: NamespacesList;
+  createdAt: Date;
+  metadata?: MetadataMap;
+}
+export const MemoryRecord = S.suspend(() =>
+  S.Struct({
+    memoryRecordId: S.String,
+    content: MemoryContent,
+    memoryStrategyId: S.String,
+    namespaces: NamespacesList,
+    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    metadata: S.optional(MetadataMap),
+  }),
+).annotations({ identifier: "MemoryRecord" }) as any as S.Schema<MemoryRecord>;
+export interface ActorSummary {
+  actorId: string;
+}
+export const ActorSummary = S.suspend(() =>
+  S.Struct({ actorId: S.String }),
+).annotations({ identifier: "ActorSummary" }) as any as S.Schema<ActorSummary>;
+export type ActorSummaryList = ActorSummary[];
 export const ActorSummaryList = S.Array(ActorSummary);
-export class MemoryRecordSummary extends S.Class<MemoryRecordSummary>(
-  "MemoryRecordSummary",
-)({
-  memoryRecordId: S.String,
-  content: MemoryContent,
-  memoryStrategyId: S.String,
-  namespaces: NamespacesList,
-  createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  score: S.optional(S.Number),
-  metadata: S.optional(MetadataMap),
-}) {}
+export interface MemoryRecordSummary {
+  memoryRecordId: string;
+  content: (typeof MemoryContent)["Type"];
+  memoryStrategyId: string;
+  namespaces: NamespacesList;
+  createdAt: Date;
+  score?: number;
+  metadata?: MetadataMap;
+}
+export const MemoryRecordSummary = S.suspend(() =>
+  S.Struct({
+    memoryRecordId: S.String,
+    content: MemoryContent,
+    memoryStrategyId: S.String,
+    namespaces: NamespacesList,
+    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    score: S.optional(S.Number),
+    metadata: S.optional(MetadataMap),
+  }),
+).annotations({
+  identifier: "MemoryRecordSummary",
+}) as any as S.Schema<MemoryRecordSummary>;
+export type MemoryRecordSummaryList = MemoryRecordSummary[];
 export const MemoryRecordSummaryList = S.Array(MemoryRecordSummary);
-export class SessionSummary extends S.Class<SessionSummary>("SessionSummary")({
-  sessionId: S.String,
-  actorId: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-}) {}
+export interface SessionSummary {
+  sessionId: string;
+  actorId: string;
+  createdAt: Date;
+}
+export const SessionSummary = S.suspend(() =>
+  S.Struct({
+    sessionId: S.String,
+    actorId: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotations({
+  identifier: "SessionSummary",
+}) as any as S.Schema<SessionSummary>;
+export type SessionSummaryList = SessionSummary[];
 export const SessionSummaryList = S.Array(SessionSummary);
-export class SearchCriteria extends S.Class<SearchCriteria>("SearchCriteria")({
-  searchQuery: S.String,
-  memoryStrategyId: S.optional(S.String),
-  topK: S.optional(S.Number),
-  metadataFilters: S.optional(MemoryMetadataFilterList),
-}) {}
-export class GetResourceOauth2TokenResponse extends S.Class<GetResourceOauth2TokenResponse>(
-  "GetResourceOauth2TokenResponse",
-)({
-  authorizationUrl: S.optional(S.String),
-  accessToken: S.optional(S.String),
-  sessionUri: S.optional(S.String),
-  sessionStatus: S.optional(S.String),
-}) {}
-export class InvokeCodeInterpreterRequest extends S.Class<InvokeCodeInterpreterRequest>(
-  "InvokeCodeInterpreterRequest",
-)(
-  {
+export interface SearchCriteria {
+  searchQuery: string;
+  memoryStrategyId?: string;
+  topK?: number;
+  metadataFilters?: MemoryMetadataFilterList;
+}
+export const SearchCriteria = S.suspend(() =>
+  S.Struct({
+    searchQuery: S.String,
+    memoryStrategyId: S.optional(S.String),
+    topK: S.optional(S.Number),
+    metadataFilters: S.optional(MemoryMetadataFilterList),
+  }),
+).annotations({
+  identifier: "SearchCriteria",
+}) as any as S.Schema<SearchCriteria>;
+export interface GetResourceOauth2TokenResponse {
+  authorizationUrl?: string;
+  accessToken?: string;
+  sessionUri?: string;
+  sessionStatus?: string;
+}
+export const GetResourceOauth2TokenResponse = S.suspend(() =>
+  S.Struct({
+    authorizationUrl: S.optional(S.String),
+    accessToken: S.optional(S.String),
+    sessionUri: S.optional(S.String),
+    sessionStatus: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetResourceOauth2TokenResponse",
+}) as any as S.Schema<GetResourceOauth2TokenResponse>;
+export interface InvokeCodeInterpreterRequest {
+  codeInterpreterIdentifier: string;
+  sessionId?: string;
+  traceId?: string;
+  traceParent?: string;
+  name: string;
+  arguments?: ToolArguments;
+}
+export const InvokeCodeInterpreterRequest = S.suspend(() =>
+  S.Struct({
     codeInterpreterIdentifier: S.String.pipe(
       T.HttpLabel("codeInterpreterIdentifier"),
     ),
@@ -1162,195 +1659,367 @@ export class InvokeCodeInterpreterRequest extends S.Class<InvokeCodeInterpreterR
     traceParent: S.optional(S.String).pipe(T.HttpHeader("traceparent")),
     name: S.String,
     arguments: S.optional(ToolArguments),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/code-interpreters/{codeInterpreterIdentifier}/tools/invoke",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/code-interpreters/{codeInterpreterIdentifier}/tools/invoke",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListBrowserSessionsResponse extends S.Class<ListBrowserSessionsResponse>(
-  "ListBrowserSessionsResponse",
-)({ items: BrowserSessionSummaries, nextToken: S.optional(S.String) }) {}
-export class AutomationStream extends S.Class<AutomationStream>(
-  "AutomationStream",
-)({ streamEndpoint: S.String, streamStatus: S.String }) {}
-export class LiveViewStream extends S.Class<LiveViewStream>("LiveViewStream")({
-  streamEndpoint: S.optional(S.String),
-}) {}
-export class BrowserSessionStream extends S.Class<BrowserSessionStream>(
-  "BrowserSessionStream",
-)({
-  automationStream: AutomationStream,
-  liveViewStream: S.optional(LiveViewStream),
-}) {}
-export class StartBrowserSessionResponse extends S.Class<StartBrowserSessionResponse>(
-  "StartBrowserSessionResponse",
-)({
-  browserIdentifier: S.String,
-  sessionId: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  streams: S.optional(BrowserSessionStream),
-}) {}
-export class UpdateBrowserStreamRequest extends S.Class<UpdateBrowserStreamRequest>(
-  "UpdateBrowserStreamRequest",
-)(
-  {
+).annotations({
+  identifier: "InvokeCodeInterpreterRequest",
+}) as any as S.Schema<InvokeCodeInterpreterRequest>;
+export interface ListBrowserSessionsResponse {
+  items: BrowserSessionSummaries;
+  nextToken?: string;
+}
+export const ListBrowserSessionsResponse = S.suspend(() =>
+  S.Struct({ items: BrowserSessionSummaries, nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListBrowserSessionsResponse",
+}) as any as S.Schema<ListBrowserSessionsResponse>;
+export interface AutomationStream {
+  streamEndpoint: string;
+  streamStatus: string;
+}
+export const AutomationStream = S.suspend(() =>
+  S.Struct({ streamEndpoint: S.String, streamStatus: S.String }),
+).annotations({
+  identifier: "AutomationStream",
+}) as any as S.Schema<AutomationStream>;
+export interface LiveViewStream {
+  streamEndpoint?: string;
+}
+export const LiveViewStream = S.suspend(() =>
+  S.Struct({ streamEndpoint: S.optional(S.String) }),
+).annotations({
+  identifier: "LiveViewStream",
+}) as any as S.Schema<LiveViewStream>;
+export interface BrowserSessionStream {
+  automationStream: AutomationStream;
+  liveViewStream?: LiveViewStream;
+}
+export const BrowserSessionStream = S.suspend(() =>
+  S.Struct({
+    automationStream: AutomationStream,
+    liveViewStream: S.optional(LiveViewStream),
+  }),
+).annotations({
+  identifier: "BrowserSessionStream",
+}) as any as S.Schema<BrowserSessionStream>;
+export interface StartBrowserSessionResponse {
+  browserIdentifier: string;
+  sessionId: string;
+  createdAt: Date;
+  streams?: BrowserSessionStream;
+}
+export const StartBrowserSessionResponse = S.suspend(() =>
+  S.Struct({
+    browserIdentifier: S.String,
+    sessionId: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    streams: S.optional(BrowserSessionStream),
+  }),
+).annotations({
+  identifier: "StartBrowserSessionResponse",
+}) as any as S.Schema<StartBrowserSessionResponse>;
+export interface UpdateBrowserStreamRequest {
+  browserIdentifier: string;
+  sessionId: string;
+  streamUpdate: (typeof StreamUpdate)["Type"];
+  clientToken?: string;
+}
+export const UpdateBrowserStreamRequest = S.suspend(() =>
+  S.Struct({
     browserIdentifier: S.String.pipe(T.HttpLabel("browserIdentifier")),
     sessionId: S.String.pipe(T.HttpQuery("sessionId")),
     streamUpdate: StreamUpdate,
     clientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/browsers/{browserIdentifier}/sessions/streams/update",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/browsers/{browserIdentifier}/sessions/streams/update",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListCodeInterpreterSessionsResponse extends S.Class<ListCodeInterpreterSessionsResponse>(
-  "ListCodeInterpreterSessionsResponse",
-)({
-  items: CodeInterpreterSessionSummaries,
-  nextToken: S.optional(S.String),
-}) {}
-export class BatchCreateMemoryRecordsInput extends S.Class<BatchCreateMemoryRecordsInput>(
-  "BatchCreateMemoryRecordsInput",
-)(
-  {
+).annotations({
+  identifier: "UpdateBrowserStreamRequest",
+}) as any as S.Schema<UpdateBrowserStreamRequest>;
+export interface ListCodeInterpreterSessionsResponse {
+  items: CodeInterpreterSessionSummaries;
+  nextToken?: string;
+}
+export const ListCodeInterpreterSessionsResponse = S.suspend(() =>
+  S.Struct({
+    items: CodeInterpreterSessionSummaries,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListCodeInterpreterSessionsResponse",
+}) as any as S.Schema<ListCodeInterpreterSessionsResponse>;
+export interface BatchCreateMemoryRecordsInput {
+  memoryId: string;
+  records: MemoryRecordsCreateInputList;
+  clientToken?: string;
+}
+export const BatchCreateMemoryRecordsInput = S.suspend(() =>
+  S.Struct({
     memoryId: S.String.pipe(T.HttpLabel("memoryId")),
     records: MemoryRecordsCreateInputList,
     clientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/memories/{memoryId}/memoryRecords/batchCreate",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/memories/{memoryId}/memoryRecords/batchCreate",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class MemoryRecordOutput extends S.Class<MemoryRecordOutput>(
-  "MemoryRecordOutput",
-)({
-  memoryRecordId: S.String,
-  status: S.String,
-  requestIdentifier: S.optional(S.String),
-  errorCode: S.optional(S.Number),
-  errorMessage: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "BatchCreateMemoryRecordsInput",
+}) as any as S.Schema<BatchCreateMemoryRecordsInput>;
+export interface MemoryRecordOutput {
+  memoryRecordId: string;
+  status: string;
+  requestIdentifier?: string;
+  errorCode?: number;
+  errorMessage?: string;
+}
+export const MemoryRecordOutput = S.suspend(() =>
+  S.Struct({
+    memoryRecordId: S.String,
+    status: S.String,
+    requestIdentifier: S.optional(S.String),
+    errorCode: S.optional(S.Number),
+    errorMessage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "MemoryRecordOutput",
+}) as any as S.Schema<MemoryRecordOutput>;
+export type MemoryRecordsOutputList = MemoryRecordOutput[];
 export const MemoryRecordsOutputList = S.Array(MemoryRecordOutput);
-export class BatchUpdateMemoryRecordsOutput extends S.Class<BatchUpdateMemoryRecordsOutput>(
-  "BatchUpdateMemoryRecordsOutput",
-)({
-  successfulRecords: MemoryRecordsOutputList,
-  failedRecords: MemoryRecordsOutputList,
-}) {}
-export class GetEventOutput extends S.Class<GetEventOutput>("GetEventOutput")({
-  event: Event,
-}) {}
-export class GetMemoryRecordOutput extends S.Class<GetMemoryRecordOutput>(
-  "GetMemoryRecordOutput",
-)({ memoryRecord: MemoryRecord }) {}
-export class ListActorsOutput extends S.Class<ListActorsOutput>(
-  "ListActorsOutput",
-)({ actorSummaries: ActorSummaryList, nextToken: S.optional(S.String) }) {}
-export class ListMemoryRecordsOutput extends S.Class<ListMemoryRecordsOutput>(
-  "ListMemoryRecordsOutput",
-)({
-  memoryRecordSummaries: MemoryRecordSummaryList,
-  nextToken: S.optional(S.String),
-}) {}
-export class ListSessionsOutput extends S.Class<ListSessionsOutput>(
-  "ListSessionsOutput",
-)({ sessionSummaries: SessionSummaryList, nextToken: S.optional(S.String) }) {}
-export class RetrieveMemoryRecordsInput extends S.Class<RetrieveMemoryRecordsInput>(
-  "RetrieveMemoryRecordsInput",
-)(
-  {
+export interface BatchUpdateMemoryRecordsOutput {
+  successfulRecords: MemoryRecordsOutputList;
+  failedRecords: MemoryRecordsOutputList;
+}
+export const BatchUpdateMemoryRecordsOutput = S.suspend(() =>
+  S.Struct({
+    successfulRecords: MemoryRecordsOutputList,
+    failedRecords: MemoryRecordsOutputList,
+  }),
+).annotations({
+  identifier: "BatchUpdateMemoryRecordsOutput",
+}) as any as S.Schema<BatchUpdateMemoryRecordsOutput>;
+export interface GetEventOutput {
+  event: Event;
+}
+export const GetEventOutput = S.suspend(() =>
+  S.Struct({ event: Event }),
+).annotations({
+  identifier: "GetEventOutput",
+}) as any as S.Schema<GetEventOutput>;
+export interface GetMemoryRecordOutput {
+  memoryRecord: MemoryRecord;
+}
+export const GetMemoryRecordOutput = S.suspend(() =>
+  S.Struct({ memoryRecord: MemoryRecord }),
+).annotations({
+  identifier: "GetMemoryRecordOutput",
+}) as any as S.Schema<GetMemoryRecordOutput>;
+export interface ListActorsOutput {
+  actorSummaries: ActorSummaryList;
+  nextToken?: string;
+}
+export const ListActorsOutput = S.suspend(() =>
+  S.Struct({
+    actorSummaries: ActorSummaryList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListActorsOutput",
+}) as any as S.Schema<ListActorsOutput>;
+export interface ListMemoryRecordsOutput {
+  memoryRecordSummaries: MemoryRecordSummaryList;
+  nextToken?: string;
+}
+export const ListMemoryRecordsOutput = S.suspend(() =>
+  S.Struct({
+    memoryRecordSummaries: MemoryRecordSummaryList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListMemoryRecordsOutput",
+}) as any as S.Schema<ListMemoryRecordsOutput>;
+export interface ListSessionsOutput {
+  sessionSummaries: SessionSummaryList;
+  nextToken?: string;
+}
+export const ListSessionsOutput = S.suspend(() =>
+  S.Struct({
+    sessionSummaries: SessionSummaryList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListSessionsOutput",
+}) as any as S.Schema<ListSessionsOutput>;
+export interface RetrieveMemoryRecordsInput {
+  memoryId: string;
+  namespace: string;
+  searchCriteria: SearchCriteria;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const RetrieveMemoryRecordsInput = S.suspend(() =>
+  S.Struct({
     memoryId: S.String.pipe(T.HttpLabel("memoryId")),
     namespace: S.String,
     searchCriteria: SearchCriteria,
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/memories/{memoryId}/retrieve" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/memories/{memoryId}/retrieve" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartMemoryExtractionJobOutput extends S.Class<StartMemoryExtractionJobOutput>(
-  "StartMemoryExtractionJobOutput",
-)({ jobId: S.String }) {}
-export class EventMetadataFilterExpression extends S.Class<EventMetadataFilterExpression>(
-  "EventMetadataFilterExpression",
-)({
-  left: LeftExpression,
-  operator: S.String,
-  right: S.optional(RightExpression),
-}) {}
+).annotations({
+  identifier: "RetrieveMemoryRecordsInput",
+}) as any as S.Schema<RetrieveMemoryRecordsInput>;
+export interface StartMemoryExtractionJobOutput {
+  jobId: string;
+}
+export const StartMemoryExtractionJobOutput = S.suspend(() =>
+  S.Struct({ jobId: S.String }),
+).annotations({
+  identifier: "StartMemoryExtractionJobOutput",
+}) as any as S.Schema<StartMemoryExtractionJobOutput>;
+export interface EventMetadataFilterExpression {
+  left: (typeof LeftExpression)["Type"];
+  operator: string;
+  right?: (typeof RightExpression)["Type"];
+}
+export const EventMetadataFilterExpression = S.suspend(() =>
+  S.Struct({
+    left: LeftExpression,
+    operator: S.String,
+    right: S.optional(RightExpression),
+  }),
+).annotations({
+  identifier: "EventMetadataFilterExpression",
+}) as any as S.Schema<EventMetadataFilterExpression>;
+export type EventMetadataFilterList = EventMetadataFilterExpression[];
 export const EventMetadataFilterList = S.Array(EventMetadataFilterExpression);
-export class FilterInput extends S.Class<FilterInput>("FilterInput")({
-  branch: S.optional(BranchFilter),
-  eventMetadata: S.optional(EventMetadataFilterList),
-}) {}
-export class GetBrowserSessionResponse extends S.Class<GetBrowserSessionResponse>(
-  "GetBrowserSessionResponse",
-)({
-  browserIdentifier: S.String,
-  sessionId: S.String,
-  name: S.optional(S.String),
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  viewPort: S.optional(ViewPort),
-  sessionTimeoutSeconds: S.optional(S.Number),
-  status: S.optional(S.String),
-  streams: S.optional(BrowserSessionStream),
-  sessionReplayArtifact: S.optional(S.String),
-  lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-}) {}
-export class UpdateBrowserStreamResponse extends S.Class<UpdateBrowserStreamResponse>(
-  "UpdateBrowserStreamResponse",
-)({
-  browserIdentifier: S.String,
-  sessionId: S.String,
-  streams: BrowserSessionStream,
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class BatchCreateMemoryRecordsOutput extends S.Class<BatchCreateMemoryRecordsOutput>(
-  "BatchCreateMemoryRecordsOutput",
-)({
-  successfulRecords: MemoryRecordsOutputList,
-  failedRecords: MemoryRecordsOutputList,
-}) {}
-export class BatchDeleteMemoryRecordsOutput extends S.Class<BatchDeleteMemoryRecordsOutput>(
-  "BatchDeleteMemoryRecordsOutput",
-)({
-  successfulRecords: MemoryRecordsOutputList,
-  failedRecords: MemoryRecordsOutputList,
-}) {}
-export class CreateEventInput extends S.Class<CreateEventInput>(
-  "CreateEventInput",
-)(
-  {
+export interface FilterInput {
+  branch?: BranchFilter;
+  eventMetadata?: EventMetadataFilterList;
+}
+export const FilterInput = S.suspend(() =>
+  S.Struct({
+    branch: S.optional(BranchFilter),
+    eventMetadata: S.optional(EventMetadataFilterList),
+  }),
+).annotations({ identifier: "FilterInput" }) as any as S.Schema<FilterInput>;
+export interface GetBrowserSessionResponse {
+  browserIdentifier: string;
+  sessionId: string;
+  name?: string;
+  createdAt: Date;
+  viewPort?: ViewPort;
+  sessionTimeoutSeconds?: number;
+  status?: string;
+  streams?: BrowserSessionStream;
+  sessionReplayArtifact?: string;
+  lastUpdatedAt?: Date;
+}
+export const GetBrowserSessionResponse = S.suspend(() =>
+  S.Struct({
+    browserIdentifier: S.String,
+    sessionId: S.String,
+    name: S.optional(S.String),
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    viewPort: S.optional(ViewPort),
+    sessionTimeoutSeconds: S.optional(S.Number),
+    status: S.optional(S.String),
+    streams: S.optional(BrowserSessionStream),
+    sessionReplayArtifact: S.optional(S.String),
+    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotations({
+  identifier: "GetBrowserSessionResponse",
+}) as any as S.Schema<GetBrowserSessionResponse>;
+export interface UpdateBrowserStreamResponse {
+  browserIdentifier: string;
+  sessionId: string;
+  streams: BrowserSessionStream;
+  updatedAt: Date;
+}
+export const UpdateBrowserStreamResponse = S.suspend(() =>
+  S.Struct({
+    browserIdentifier: S.String,
+    sessionId: S.String,
+    streams: BrowserSessionStream,
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "UpdateBrowserStreamResponse",
+}) as any as S.Schema<UpdateBrowserStreamResponse>;
+export interface BatchCreateMemoryRecordsOutput {
+  successfulRecords: MemoryRecordsOutputList;
+  failedRecords: MemoryRecordsOutputList;
+}
+export const BatchCreateMemoryRecordsOutput = S.suspend(() =>
+  S.Struct({
+    successfulRecords: MemoryRecordsOutputList,
+    failedRecords: MemoryRecordsOutputList,
+  }),
+).annotations({
+  identifier: "BatchCreateMemoryRecordsOutput",
+}) as any as S.Schema<BatchCreateMemoryRecordsOutput>;
+export interface BatchDeleteMemoryRecordsOutput {
+  successfulRecords: MemoryRecordsOutputList;
+  failedRecords: MemoryRecordsOutputList;
+}
+export const BatchDeleteMemoryRecordsOutput = S.suspend(() =>
+  S.Struct({
+    successfulRecords: MemoryRecordsOutputList,
+    failedRecords: MemoryRecordsOutputList,
+  }),
+).annotations({
+  identifier: "BatchDeleteMemoryRecordsOutput",
+}) as any as S.Schema<BatchDeleteMemoryRecordsOutput>;
+export interface CreateEventInput {
+  memoryId: string;
+  actorId: string;
+  sessionId?: string;
+  eventTimestamp: Date;
+  payload: PayloadTypeList;
+  branch?: Branch;
+  clientToken?: string;
+  metadata?: MetadataMap;
+}
+export const CreateEventInput = S.suspend(() =>
+  S.Struct({
     memoryId: S.String.pipe(T.HttpLabel("memoryId")),
     actorId: S.String,
     sessionId: S.optional(S.String),
@@ -1359,20 +2028,30 @@ export class CreateEventInput extends S.Class<CreateEventInput>(
     branch: S.optional(Branch),
     clientToken: S.optional(S.String),
     metadata: S.optional(MetadataMap),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/memories/{memoryId}/events" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/memories/{memoryId}/events" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListEventsInput extends S.Class<ListEventsInput>(
-  "ListEventsInput",
-)(
-  {
+).annotations({
+  identifier: "CreateEventInput",
+}) as any as S.Schema<CreateEventInput>;
+export interface ListEventsInput {
+  memoryId: string;
+  sessionId: string;
+  actorId: string;
+  includePayloads?: boolean;
+  filter?: FilterInput;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListEventsInput = S.suspend(() =>
+  S.Struct({
     memoryId: S.String.pipe(T.HttpLabel("memoryId")),
     sessionId: S.String.pipe(T.HttpLabel("sessionId")),
     actorId: S.String.pipe(T.HttpLabel("actorId")),
@@ -1380,153 +2059,309 @@ export class ListEventsInput extends S.Class<ListEventsInput>(
     filter: S.optional(FilterInput),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/memories/{memoryId}/actor/{actorId}/sessions/{sessionId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/memories/{memoryId}/actor/{actorId}/sessions/{sessionId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class RetrieveMemoryRecordsOutput extends S.Class<RetrieveMemoryRecordsOutput>(
-  "RetrieveMemoryRecordsOutput",
-)({
-  memoryRecordSummaries: MemoryRecordSummaryList,
-  nextToken: S.optional(S.String),
-}) {}
-export class TokenUsage extends S.Class<TokenUsage>("TokenUsage")({
-  inputTokens: S.optional(S.Number),
-  outputTokens: S.optional(S.Number),
-  totalTokens: S.optional(S.Number),
-}) {}
+).annotations({
+  identifier: "ListEventsInput",
+}) as any as S.Schema<ListEventsInput>;
+export interface RetrieveMemoryRecordsOutput {
+  memoryRecordSummaries: MemoryRecordSummaryList;
+  nextToken?: string;
+}
+export const RetrieveMemoryRecordsOutput = S.suspend(() =>
+  S.Struct({
+    memoryRecordSummaries: MemoryRecordSummaryList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RetrieveMemoryRecordsOutput",
+}) as any as S.Schema<RetrieveMemoryRecordsOutput>;
+export interface TokenUsage {
+  inputTokens?: number;
+  outputTokens?: number;
+  totalTokens?: number;
+}
+export const TokenUsage = S.suspend(() =>
+  S.Struct({
+    inputTokens: S.optional(S.Number),
+    outputTokens: S.optional(S.Number),
+    totalTokens: S.optional(S.Number),
+  }),
+).annotations({ identifier: "TokenUsage" }) as any as S.Schema<TokenUsage>;
+export type EventList = Event[];
 export const EventList = S.Array(Event);
-export class SpanContext extends S.Class<SpanContext>("SpanContext")({
-  sessionId: S.String,
-  traceId: S.optional(S.String),
-  spanId: S.optional(S.String),
-}) {}
-export class MessageMetadata extends S.Class<MessageMetadata>(
-  "MessageMetadata",
-)({ eventId: S.String, messageIndex: S.Number }) {}
+export interface SpanContext {
+  sessionId: string;
+  traceId?: string;
+  spanId?: string;
+}
+export const SpanContext = S.suspend(() =>
+  S.Struct({
+    sessionId: S.String,
+    traceId: S.optional(S.String),
+    spanId: S.optional(S.String),
+  }),
+).annotations({ identifier: "SpanContext" }) as any as S.Schema<SpanContext>;
+export interface MessageMetadata {
+  eventId: string;
+  messageIndex: number;
+}
+export const MessageMetadata = S.suspend(() =>
+  S.Struct({ eventId: S.String, messageIndex: S.Number }),
+).annotations({
+  identifier: "MessageMetadata",
+}) as any as S.Schema<MessageMetadata>;
+export type MessagesList = MessageMetadata[];
 export const MessagesList = S.Array(MessageMetadata);
-export class CreateEventOutput extends S.Class<CreateEventOutput>(
-  "CreateEventOutput",
-)({ event: Event }) {}
-export class ListEventsOutput extends S.Class<ListEventsOutput>(
-  "ListEventsOutput",
-)({ events: EventList, nextToken: S.optional(S.String) }) {}
+export interface CreateEventOutput {
+  event: Event;
+}
+export const CreateEventOutput = S.suspend(() =>
+  S.Struct({ event: Event }),
+).annotations({
+  identifier: "CreateEventOutput",
+}) as any as S.Schema<CreateEventOutput>;
+export interface ListEventsOutput {
+  events: EventList;
+  nextToken?: string;
+}
+export const ListEventsOutput = S.suspend(() =>
+  S.Struct({ events: EventList, nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListEventsOutput",
+}) as any as S.Schema<ListEventsOutput>;
 export const Context = S.Union(S.Struct({ spanContext: SpanContext }));
 export const ExtractionJobMessages = S.Union(
   S.Struct({ messagesList: MessagesList }),
 );
-export class EvaluationResultContent extends S.Class<EvaluationResultContent>(
-  "EvaluationResultContent",
-)({
-  evaluatorArn: S.String,
-  evaluatorId: S.String,
-  evaluatorName: S.String,
-  explanation: S.optional(S.String),
-  context: Context,
-  value: S.optional(S.Number),
-  label: S.optional(S.String),
-  tokenUsage: S.optional(TokenUsage),
-  errorMessage: S.optional(S.String),
-  errorCode: S.optional(S.String),
-}) {}
+export interface EvaluationResultContent {
+  evaluatorArn: string;
+  evaluatorId: string;
+  evaluatorName: string;
+  explanation?: string;
+  context: (typeof Context)["Type"];
+  value?: number;
+  label?: string;
+  tokenUsage?: TokenUsage;
+  errorMessage?: string;
+  errorCode?: string;
+}
+export const EvaluationResultContent = S.suspend(() =>
+  S.Struct({
+    evaluatorArn: S.String,
+    evaluatorId: S.String,
+    evaluatorName: S.String,
+    explanation: S.optional(S.String),
+    context: Context,
+    value: S.optional(S.Number),
+    label: S.optional(S.String),
+    tokenUsage: S.optional(TokenUsage),
+    errorMessage: S.optional(S.String),
+    errorCode: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "EvaluationResultContent",
+}) as any as S.Schema<EvaluationResultContent>;
+export type EvaluationResults = EvaluationResultContent[];
 export const EvaluationResults = S.Array(EvaluationResultContent);
-export class ExtractionJobMetadata extends S.Class<ExtractionJobMetadata>(
-  "ExtractionJobMetadata",
-)({
-  jobID: S.String,
-  messages: ExtractionJobMessages,
-  status: S.optional(S.String),
-  failureReason: S.optional(S.String),
-  strategyId: S.optional(S.String),
-  sessionId: S.optional(S.String),
-  actorId: S.optional(S.String),
-}) {}
+export interface ExtractionJobMetadata {
+  jobID: string;
+  messages: (typeof ExtractionJobMessages)["Type"];
+  status?: string;
+  failureReason?: string;
+  strategyId?: string;
+  sessionId?: string;
+  actorId?: string;
+}
+export const ExtractionJobMetadata = S.suspend(() =>
+  S.Struct({
+    jobID: S.String,
+    messages: ExtractionJobMessages,
+    status: S.optional(S.String),
+    failureReason: S.optional(S.String),
+    strategyId: S.optional(S.String),
+    sessionId: S.optional(S.String),
+    actorId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ExtractionJobMetadata",
+}) as any as S.Schema<ExtractionJobMetadata>;
+export type ExtractionJobMetadataList = ExtractionJobMetadata[];
 export const ExtractionJobMetadataList = S.Array(ExtractionJobMetadata);
-export class ToolResultStructuredContent extends S.Class<ToolResultStructuredContent>(
-  "ToolResultStructuredContent",
-)({
-  taskId: S.optional(S.String),
-  taskStatus: S.optional(S.String),
-  stdout: S.optional(S.String),
-  stderr: S.optional(S.String),
-  exitCode: S.optional(S.Number),
-  executionTime: S.optional(S.Number),
-}) {}
-export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
-  "ValidationExceptionField",
-)({ name: S.String, message: S.String }) {}
+export interface ToolResultStructuredContent {
+  taskId?: string;
+  taskStatus?: string;
+  stdout?: string;
+  stderr?: string;
+  exitCode?: number;
+  executionTime?: number;
+}
+export const ToolResultStructuredContent = S.suspend(() =>
+  S.Struct({
+    taskId: S.optional(S.String),
+    taskStatus: S.optional(S.String),
+    stdout: S.optional(S.String),
+    stderr: S.optional(S.String),
+    exitCode: S.optional(S.Number),
+    executionTime: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "ToolResultStructuredContent",
+}) as any as S.Schema<ToolResultStructuredContent>;
+export interface ValidationExceptionField {
+  name: string;
+  message: string;
+}
+export const ValidationExceptionField = S.suspend(() =>
+  S.Struct({ name: S.String, message: S.String }),
+).annotations({
+  identifier: "ValidationExceptionField",
+}) as any as S.Schema<ValidationExceptionField>;
+export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
-export class EvaluateResponse extends S.Class<EvaluateResponse>(
-  "EvaluateResponse",
-)({ evaluationResults: EvaluationResults }) {}
-export class ListMemoryExtractionJobsOutput extends S.Class<ListMemoryExtractionJobsOutput>(
-  "ListMemoryExtractionJobsOutput",
-)({ jobs: ExtractionJobMetadataList, nextToken: S.optional(S.String) }) {}
-export class ResourceContent extends S.Class<ResourceContent>(
-  "ResourceContent",
-)({
-  type: S.String,
-  uri: S.optional(S.String),
-  mimeType: S.optional(S.String),
-  text: S.optional(S.String),
-  blob: S.optional(T.Blob),
-}) {}
-export class ContentBlock extends S.Class<ContentBlock>("ContentBlock")({
-  type: S.String,
-  text: S.optional(S.String),
-  data: S.optional(T.Blob),
-  mimeType: S.optional(S.String),
-  uri: S.optional(S.String),
-  name: S.optional(S.String),
-  description: S.optional(S.String),
-  size: S.optional(S.Number),
-  resource: S.optional(ResourceContent),
-}) {}
+export interface EvaluateResponse {
+  evaluationResults: EvaluationResults;
+}
+export const EvaluateResponse = S.suspend(() =>
+  S.Struct({ evaluationResults: EvaluationResults }),
+).annotations({
+  identifier: "EvaluateResponse",
+}) as any as S.Schema<EvaluateResponse>;
+export interface ListMemoryExtractionJobsOutput {
+  jobs: ExtractionJobMetadataList;
+  nextToken?: string;
+}
+export const ListMemoryExtractionJobsOutput = S.suspend(() =>
+  S.Struct({
+    jobs: ExtractionJobMetadataList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListMemoryExtractionJobsOutput",
+}) as any as S.Schema<ListMemoryExtractionJobsOutput>;
+export interface ResourceContent {
+  type: string;
+  uri?: string;
+  mimeType?: string;
+  text?: string;
+  blob?: Uint8Array;
+}
+export const ResourceContent = S.suspend(() =>
+  S.Struct({
+    type: S.String,
+    uri: S.optional(S.String),
+    mimeType: S.optional(S.String),
+    text: S.optional(S.String),
+    blob: S.optional(T.Blob),
+  }),
+).annotations({
+  identifier: "ResourceContent",
+}) as any as S.Schema<ResourceContent>;
+export interface ContentBlock {
+  type: string;
+  text?: string;
+  data?: Uint8Array;
+  mimeType?: string;
+  uri?: string;
+  name?: string;
+  description?: string;
+  size?: number;
+  resource?: ResourceContent;
+}
+export const ContentBlock = S.suspend(() =>
+  S.Struct({
+    type: S.String,
+    text: S.optional(S.String),
+    data: S.optional(T.Blob),
+    mimeType: S.optional(S.String),
+    uri: S.optional(S.String),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    size: S.optional(S.Number),
+    resource: S.optional(ResourceContent),
+  }),
+).annotations({ identifier: "ContentBlock" }) as any as S.Schema<ContentBlock>;
+export type ContentBlockList = ContentBlock[];
 export const ContentBlockList = S.Array(ContentBlock);
-export class CodeInterpreterResult extends S.Class<CodeInterpreterResult>(
-  "CodeInterpreterResult",
-)({
-  content: ContentBlockList,
-  structuredContent: S.optional(ToolResultStructuredContent),
-  isError: S.optional(S.Boolean),
-}) {}
+export interface CodeInterpreterResult {
+  content: ContentBlockList;
+  structuredContent?: ToolResultStructuredContent;
+  isError?: boolean;
+}
+export const CodeInterpreterResult = S.suspend(() =>
+  S.Struct({
+    content: ContentBlockList,
+    structuredContent: S.optional(ToolResultStructuredContent),
+    isError: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "CodeInterpreterResult",
+}) as any as S.Schema<CodeInterpreterResult>;
 export const CodeInterpreterStreamOutput = T.EventStream(
   S.Union(
     S.Struct({ result: CodeInterpreterResult }),
-    S.Struct({ accessDeniedException: S.suspend(() => AccessDeniedException) }),
-    S.Struct({ conflictException: S.suspend(() => ConflictException) }),
     S.Struct({
-      internalServerException: S.suspend(() => InternalServerException),
+      accessDeniedException: S.suspend(() => AccessDeniedException).annotations(
+        { identifier: "AccessDeniedException" },
+      ),
     }),
     S.Struct({
-      resourceNotFoundException: S.suspend(() => ResourceNotFoundException),
+      conflictException: S.suspend(() => ConflictException).annotations({
+        identifier: "ConflictException",
+      }),
+    }),
+    S.Struct({
+      internalServerException: S.suspend(
+        () => InternalServerException,
+      ).annotations({ identifier: "InternalServerException" }),
+    }),
+    S.Struct({
+      resourceNotFoundException: S.suspend(
+        () => ResourceNotFoundException,
+      ).annotations({ identifier: "ResourceNotFoundException" }),
     }),
     S.Struct({
       serviceQuotaExceededException: S.suspend(
         () => ServiceQuotaExceededException,
-      ),
+      ).annotations({ identifier: "ServiceQuotaExceededException" }),
     }),
-    S.Struct({ throttlingException: S.suspend(() => ThrottlingException) }),
-    S.Struct({ validationException: S.suspend(() => ValidationException) }),
+    S.Struct({
+      throttlingException: S.suspend(() => ThrottlingException).annotations({
+        identifier: "ThrottlingException",
+      }),
+    }),
+    S.Struct({
+      validationException: S.suspend(() => ValidationException).annotations({
+        identifier: "ValidationException",
+      }),
+    }),
   ),
 );
-export class InvokeCodeInterpreterResponse extends S.Class<InvokeCodeInterpreterResponse>(
-  "InvokeCodeInterpreterResponse",
-)({
-  sessionId: S.optional(S.String).pipe(
-    T.HttpHeader("x-amzn-code-interpreter-session-id"),
-  ),
-  stream: CodeInterpreterStreamOutput.pipe(T.HttpPayload()),
-}) {}
+export interface InvokeCodeInterpreterResponse {
+  sessionId?: string;
+  stream: (typeof CodeInterpreterStreamOutput)["Type"];
+}
+export const InvokeCodeInterpreterResponse = S.suspend(() =>
+  S.Struct({
+    sessionId: S.optional(S.String).pipe(
+      T.HttpHeader("x-amzn-code-interpreter-session-id"),
+    ),
+    stream: CodeInterpreterStreamOutput.pipe(T.HttpPayload()),
+  }),
+).annotations({
+  identifier: "InvokeCodeInterpreterResponse",
+}) as any as S.Schema<InvokeCodeInterpreterResponse>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

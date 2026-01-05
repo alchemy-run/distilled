@@ -475,626 +475,1356 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type Position = number[];
 export const Position = S.Array(S.Number);
+export type LanguageTagList = string[];
 export const LanguageTagList = S.Array(S.String);
+export type RouteLegAdditionalFeatureList = string[];
 export const RouteLegAdditionalFeatureList = S.Array(S.String);
+export type RouteSpanAdditionalFeatureList = string[];
 export const RouteSpanAdditionalFeatureList = S.Array(S.String);
+export type TruckRoadTypeList = string[];
 export const TruckRoadTypeList = S.Array(S.String);
+export type DistanceThresholdList = number[];
 export const DistanceThresholdList = S.Array(S.Number);
+export type TimeThresholdList = number[];
 export const TimeThresholdList = S.Array(S.Number);
+export type CountryCodeList = string[];
 export const CountryCodeList = S.Array(S.String);
+export type BeforeWaypointsList = number[];
 export const BeforeWaypointsList = S.Array(S.Number);
-export class IsolineAllowOptions extends S.Class<IsolineAllowOptions>(
-  "IsolineAllowOptions",
-)({ Hot: S.optional(S.Boolean), Hov: S.optional(S.Boolean) }) {}
-export class IsolineGranularityOptions extends S.Class<IsolineGranularityOptions>(
-  "IsolineGranularityOptions",
-)({ MaxPoints: S.optional(S.Number), MaxResolution: S.optional(S.Number) }) {}
-export class IsolineMatchingOptions extends S.Class<IsolineMatchingOptions>(
-  "IsolineMatchingOptions",
-)({
-  NameHint: S.optional(S.String),
-  OnRoadThreshold: S.optional(S.Number),
-  Radius: S.optional(S.Number),
-  Strategy: S.optional(S.String),
-}) {}
-export class IsolineSideOfStreetOptions extends S.Class<IsolineSideOfStreetOptions>(
-  "IsolineSideOfStreetOptions",
-)({ Position: Position, UseWith: S.optional(S.String) }) {}
-export class IsolineOriginOptions extends S.Class<IsolineOriginOptions>(
-  "IsolineOriginOptions",
-)({
-  AvoidActionsForDistance: S.optional(S.Number),
-  Heading: S.optional(S.Number),
-  Matching: S.optional(IsolineMatchingOptions),
-  SideOfStreet: S.optional(IsolineSideOfStreetOptions),
-}) {}
-export class IsolineThresholds extends S.Class<IsolineThresholds>(
-  "IsolineThresholds",
-)({
-  Distance: S.optional(DistanceThresholdList),
-  Time: S.optional(TimeThresholdList),
-}) {}
-export class IsolineTrafficOptions extends S.Class<IsolineTrafficOptions>(
-  "IsolineTrafficOptions",
-)({
-  FlowEventThresholdOverride: S.optional(S.Number),
-  Usage: S.optional(S.String),
-}) {}
-export class RouteMatrixAllowOptions extends S.Class<RouteMatrixAllowOptions>(
-  "RouteMatrixAllowOptions",
-)({ Hot: S.optional(S.Boolean), Hov: S.optional(S.Boolean) }) {}
-export class RouteMatrixExclusionOptions extends S.Class<RouteMatrixExclusionOptions>(
-  "RouteMatrixExclusionOptions",
-)({ Countries: CountryCodeList }) {}
-export class RouteMatrixTrafficOptions extends S.Class<RouteMatrixTrafficOptions>(
-  "RouteMatrixTrafficOptions",
-)({
-  FlowEventThresholdOverride: S.optional(S.Number),
-  Usage: S.optional(S.String),
-}) {}
-export class RouteAllowOptions extends S.Class<RouteAllowOptions>(
-  "RouteAllowOptions",
-)({ Hot: S.optional(S.Boolean), Hov: S.optional(S.Boolean) }) {}
-export class RouteExclusionOptions extends S.Class<RouteExclusionOptions>(
-  "RouteExclusionOptions",
-)({ Countries: CountryCodeList }) {}
-export class RouteMatchingOptions extends S.Class<RouteMatchingOptions>(
-  "RouteMatchingOptions",
-)({
-  NameHint: S.optional(S.String),
-  OnRoadThreshold: S.optional(S.Number),
-  Radius: S.optional(S.Number),
-  Strategy: S.optional(S.String),
-}) {}
-export class RouteSideOfStreetOptions extends S.Class<RouteSideOfStreetOptions>(
-  "RouteSideOfStreetOptions",
-)({ Position: Position, UseWith: S.optional(S.String) }) {}
-export class RouteOriginOptions extends S.Class<RouteOriginOptions>(
-  "RouteOriginOptions",
-)({
-  AvoidActionsForDistance: S.optional(S.Number),
-  AvoidUTurns: S.optional(S.Boolean),
-  Heading: S.optional(S.Number),
-  Matching: S.optional(RouteMatchingOptions),
-  SideOfStreet: S.optional(RouteSideOfStreetOptions),
-}) {}
-export class RouteTrafficOptions extends S.Class<RouteTrafficOptions>(
-  "RouteTrafficOptions",
-)({
-  FlowEventThresholdOverride: S.optional(S.Number),
-  Usage: S.optional(S.String),
-}) {}
-export class RouteWaypoint extends S.Class<RouteWaypoint>("RouteWaypoint")({
-  AvoidActionsForDistance: S.optional(S.Number),
-  AvoidUTurns: S.optional(S.Boolean),
-  Heading: S.optional(S.Number),
-  Matching: S.optional(RouteMatchingOptions),
-  PassThrough: S.optional(S.Boolean),
-  Position: Position,
-  SideOfStreet: S.optional(RouteSideOfStreetOptions),
-  StopDuration: S.optional(S.Number),
-}) {}
+export interface IsolineAllowOptions {
+  Hot?: boolean;
+  Hov?: boolean;
+}
+export const IsolineAllowOptions = S.suspend(() =>
+  S.Struct({ Hot: S.optional(S.Boolean), Hov: S.optional(S.Boolean) }),
+).annotations({
+  identifier: "IsolineAllowOptions",
+}) as any as S.Schema<IsolineAllowOptions>;
+export interface IsolineGranularityOptions {
+  MaxPoints?: number;
+  MaxResolution?: number;
+}
+export const IsolineGranularityOptions = S.suspend(() =>
+  S.Struct({
+    MaxPoints: S.optional(S.Number),
+    MaxResolution: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "IsolineGranularityOptions",
+}) as any as S.Schema<IsolineGranularityOptions>;
+export interface IsolineMatchingOptions {
+  NameHint?: string;
+  OnRoadThreshold?: number;
+  Radius?: number;
+  Strategy?: string;
+}
+export const IsolineMatchingOptions = S.suspend(() =>
+  S.Struct({
+    NameHint: S.optional(S.String),
+    OnRoadThreshold: S.optional(S.Number),
+    Radius: S.optional(S.Number),
+    Strategy: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "IsolineMatchingOptions",
+}) as any as S.Schema<IsolineMatchingOptions>;
+export interface IsolineSideOfStreetOptions {
+  Position: Position;
+  UseWith?: string;
+}
+export const IsolineSideOfStreetOptions = S.suspend(() =>
+  S.Struct({ Position: Position, UseWith: S.optional(S.String) }),
+).annotations({
+  identifier: "IsolineSideOfStreetOptions",
+}) as any as S.Schema<IsolineSideOfStreetOptions>;
+export interface IsolineOriginOptions {
+  AvoidActionsForDistance?: number;
+  Heading?: number;
+  Matching?: IsolineMatchingOptions;
+  SideOfStreet?: IsolineSideOfStreetOptions;
+}
+export const IsolineOriginOptions = S.suspend(() =>
+  S.Struct({
+    AvoidActionsForDistance: S.optional(S.Number),
+    Heading: S.optional(S.Number),
+    Matching: S.optional(IsolineMatchingOptions),
+    SideOfStreet: S.optional(IsolineSideOfStreetOptions),
+  }),
+).annotations({
+  identifier: "IsolineOriginOptions",
+}) as any as S.Schema<IsolineOriginOptions>;
+export interface IsolineThresholds {
+  Distance?: DistanceThresholdList;
+  Time?: TimeThresholdList;
+}
+export const IsolineThresholds = S.suspend(() =>
+  S.Struct({
+    Distance: S.optional(DistanceThresholdList),
+    Time: S.optional(TimeThresholdList),
+  }),
+).annotations({
+  identifier: "IsolineThresholds",
+}) as any as S.Schema<IsolineThresholds>;
+export interface IsolineTrafficOptions {
+  FlowEventThresholdOverride?: number;
+  Usage?: string;
+}
+export const IsolineTrafficOptions = S.suspend(() =>
+  S.Struct({
+    FlowEventThresholdOverride: S.optional(S.Number),
+    Usage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "IsolineTrafficOptions",
+}) as any as S.Schema<IsolineTrafficOptions>;
+export interface RouteMatrixAllowOptions {
+  Hot?: boolean;
+  Hov?: boolean;
+}
+export const RouteMatrixAllowOptions = S.suspend(() =>
+  S.Struct({ Hot: S.optional(S.Boolean), Hov: S.optional(S.Boolean) }),
+).annotations({
+  identifier: "RouteMatrixAllowOptions",
+}) as any as S.Schema<RouteMatrixAllowOptions>;
+export interface RouteMatrixExclusionOptions {
+  Countries: CountryCodeList;
+}
+export const RouteMatrixExclusionOptions = S.suspend(() =>
+  S.Struct({ Countries: CountryCodeList }),
+).annotations({
+  identifier: "RouteMatrixExclusionOptions",
+}) as any as S.Schema<RouteMatrixExclusionOptions>;
+export interface RouteMatrixTrafficOptions {
+  FlowEventThresholdOverride?: number;
+  Usage?: string;
+}
+export const RouteMatrixTrafficOptions = S.suspend(() =>
+  S.Struct({
+    FlowEventThresholdOverride: S.optional(S.Number),
+    Usage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RouteMatrixTrafficOptions",
+}) as any as S.Schema<RouteMatrixTrafficOptions>;
+export interface RouteAllowOptions {
+  Hot?: boolean;
+  Hov?: boolean;
+}
+export const RouteAllowOptions = S.suspend(() =>
+  S.Struct({ Hot: S.optional(S.Boolean), Hov: S.optional(S.Boolean) }),
+).annotations({
+  identifier: "RouteAllowOptions",
+}) as any as S.Schema<RouteAllowOptions>;
+export interface RouteExclusionOptions {
+  Countries: CountryCodeList;
+}
+export const RouteExclusionOptions = S.suspend(() =>
+  S.Struct({ Countries: CountryCodeList }),
+).annotations({
+  identifier: "RouteExclusionOptions",
+}) as any as S.Schema<RouteExclusionOptions>;
+export interface RouteMatchingOptions {
+  NameHint?: string;
+  OnRoadThreshold?: number;
+  Radius?: number;
+  Strategy?: string;
+}
+export const RouteMatchingOptions = S.suspend(() =>
+  S.Struct({
+    NameHint: S.optional(S.String),
+    OnRoadThreshold: S.optional(S.Number),
+    Radius: S.optional(S.Number),
+    Strategy: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RouteMatchingOptions",
+}) as any as S.Schema<RouteMatchingOptions>;
+export interface RouteSideOfStreetOptions {
+  Position: Position;
+  UseWith?: string;
+}
+export const RouteSideOfStreetOptions = S.suspend(() =>
+  S.Struct({ Position: Position, UseWith: S.optional(S.String) }),
+).annotations({
+  identifier: "RouteSideOfStreetOptions",
+}) as any as S.Schema<RouteSideOfStreetOptions>;
+export interface RouteOriginOptions {
+  AvoidActionsForDistance?: number;
+  AvoidUTurns?: boolean;
+  Heading?: number;
+  Matching?: RouteMatchingOptions;
+  SideOfStreet?: RouteSideOfStreetOptions;
+}
+export const RouteOriginOptions = S.suspend(() =>
+  S.Struct({
+    AvoidActionsForDistance: S.optional(S.Number),
+    AvoidUTurns: S.optional(S.Boolean),
+    Heading: S.optional(S.Number),
+    Matching: S.optional(RouteMatchingOptions),
+    SideOfStreet: S.optional(RouteSideOfStreetOptions),
+  }),
+).annotations({
+  identifier: "RouteOriginOptions",
+}) as any as S.Schema<RouteOriginOptions>;
+export interface RouteTrafficOptions {
+  FlowEventThresholdOverride?: number;
+  Usage?: string;
+}
+export const RouteTrafficOptions = S.suspend(() =>
+  S.Struct({
+    FlowEventThresholdOverride: S.optional(S.Number),
+    Usage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RouteTrafficOptions",
+}) as any as S.Schema<RouteTrafficOptions>;
+export interface RouteWaypoint {
+  AvoidActionsForDistance?: number;
+  AvoidUTurns?: boolean;
+  Heading?: number;
+  Matching?: RouteMatchingOptions;
+  PassThrough?: boolean;
+  Position: Position;
+  SideOfStreet?: RouteSideOfStreetOptions;
+  StopDuration?: number;
+}
+export const RouteWaypoint = S.suspend(() =>
+  S.Struct({
+    AvoidActionsForDistance: S.optional(S.Number),
+    AvoidUTurns: S.optional(S.Boolean),
+    Heading: S.optional(S.Number),
+    Matching: S.optional(RouteMatchingOptions),
+    PassThrough: S.optional(S.Boolean),
+    Position: Position,
+    SideOfStreet: S.optional(RouteSideOfStreetOptions),
+    StopDuration: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "RouteWaypoint",
+}) as any as S.Schema<RouteWaypoint>;
+export type RouteWaypointList = RouteWaypoint[];
 export const RouteWaypointList = S.Array(RouteWaypoint);
-export class WaypointOptimizationExclusionOptions extends S.Class<WaypointOptimizationExclusionOptions>(
-  "WaypointOptimizationExclusionOptions",
-)({ Countries: CountryCodeList }) {}
-export class WaypointOptimizationOriginOptions extends S.Class<WaypointOptimizationOriginOptions>(
-  "WaypointOptimizationOriginOptions",
-)({ Id: S.optional(S.String) }) {}
-export class WaypointOptimizationTrafficOptions extends S.Class<WaypointOptimizationTrafficOptions>(
-  "WaypointOptimizationTrafficOptions",
-)({ Usage: S.optional(S.String) }) {}
-export class WaypointOptimizationAccessHoursEntry extends S.Class<WaypointOptimizationAccessHoursEntry>(
-  "WaypointOptimizationAccessHoursEntry",
-)({ DayOfWeek: S.String, TimeOfDay: S.String }) {}
-export class WaypointOptimizationAccessHours extends S.Class<WaypointOptimizationAccessHours>(
-  "WaypointOptimizationAccessHours",
-)({
-  From: WaypointOptimizationAccessHoursEntry,
-  To: WaypointOptimizationAccessHoursEntry,
-}) {}
-export class WaypointOptimizationSideOfStreetOptions extends S.Class<WaypointOptimizationSideOfStreetOptions>(
-  "WaypointOptimizationSideOfStreetOptions",
-)({ Position: Position, UseWith: S.optional(S.String) }) {}
-export class WaypointOptimizationWaypoint extends S.Class<WaypointOptimizationWaypoint>(
-  "WaypointOptimizationWaypoint",
-)({
-  AccessHours: S.optional(WaypointOptimizationAccessHours),
-  AppointmentTime: S.optional(S.String),
-  Before: S.optional(BeforeWaypointsList),
-  Heading: S.optional(S.Number),
-  Id: S.optional(S.String),
-  Position: Position,
-  ServiceDuration: S.optional(S.Number),
-  SideOfStreet: S.optional(WaypointOptimizationSideOfStreetOptions),
-}) {}
+export interface WaypointOptimizationExclusionOptions {
+  Countries: CountryCodeList;
+}
+export const WaypointOptimizationExclusionOptions = S.suspend(() =>
+  S.Struct({ Countries: CountryCodeList }),
+).annotations({
+  identifier: "WaypointOptimizationExclusionOptions",
+}) as any as S.Schema<WaypointOptimizationExclusionOptions>;
+export interface WaypointOptimizationOriginOptions {
+  Id?: string;
+}
+export const WaypointOptimizationOriginOptions = S.suspend(() =>
+  S.Struct({ Id: S.optional(S.String) }),
+).annotations({
+  identifier: "WaypointOptimizationOriginOptions",
+}) as any as S.Schema<WaypointOptimizationOriginOptions>;
+export interface WaypointOptimizationTrafficOptions {
+  Usage?: string;
+}
+export const WaypointOptimizationTrafficOptions = S.suspend(() =>
+  S.Struct({ Usage: S.optional(S.String) }),
+).annotations({
+  identifier: "WaypointOptimizationTrafficOptions",
+}) as any as S.Schema<WaypointOptimizationTrafficOptions>;
+export interface WaypointOptimizationAccessHoursEntry {
+  DayOfWeek: string;
+  TimeOfDay: string;
+}
+export const WaypointOptimizationAccessHoursEntry = S.suspend(() =>
+  S.Struct({ DayOfWeek: S.String, TimeOfDay: S.String }),
+).annotations({
+  identifier: "WaypointOptimizationAccessHoursEntry",
+}) as any as S.Schema<WaypointOptimizationAccessHoursEntry>;
+export interface WaypointOptimizationAccessHours {
+  From: WaypointOptimizationAccessHoursEntry;
+  To: WaypointOptimizationAccessHoursEntry;
+}
+export const WaypointOptimizationAccessHours = S.suspend(() =>
+  S.Struct({
+    From: WaypointOptimizationAccessHoursEntry,
+    To: WaypointOptimizationAccessHoursEntry,
+  }),
+).annotations({
+  identifier: "WaypointOptimizationAccessHours",
+}) as any as S.Schema<WaypointOptimizationAccessHours>;
+export interface WaypointOptimizationSideOfStreetOptions {
+  Position: Position;
+  UseWith?: string;
+}
+export const WaypointOptimizationSideOfStreetOptions = S.suspend(() =>
+  S.Struct({ Position: Position, UseWith: S.optional(S.String) }),
+).annotations({
+  identifier: "WaypointOptimizationSideOfStreetOptions",
+}) as any as S.Schema<WaypointOptimizationSideOfStreetOptions>;
+export interface WaypointOptimizationWaypoint {
+  AccessHours?: WaypointOptimizationAccessHours;
+  AppointmentTime?: string;
+  Before?: BeforeWaypointsList;
+  Heading?: number;
+  Id?: string;
+  Position: Position;
+  ServiceDuration?: number;
+  SideOfStreet?: WaypointOptimizationSideOfStreetOptions;
+}
+export const WaypointOptimizationWaypoint = S.suspend(() =>
+  S.Struct({
+    AccessHours: S.optional(WaypointOptimizationAccessHours),
+    AppointmentTime: S.optional(S.String),
+    Before: S.optional(BeforeWaypointsList),
+    Heading: S.optional(S.Number),
+    Id: S.optional(S.String),
+    Position: Position,
+    ServiceDuration: S.optional(S.Number),
+    SideOfStreet: S.optional(WaypointOptimizationSideOfStreetOptions),
+  }),
+).annotations({
+  identifier: "WaypointOptimizationWaypoint",
+}) as any as S.Schema<WaypointOptimizationWaypoint>;
+export type WaypointOptimizationWaypointList = WaypointOptimizationWaypoint[];
 export const WaypointOptimizationWaypointList = S.Array(
   WaypointOptimizationWaypoint,
 );
-export class RoadSnapTracePoint extends S.Class<RoadSnapTracePoint>(
-  "RoadSnapTracePoint",
-)({
-  Heading: S.optional(S.Number),
-  Position: Position,
-  Speed: S.optional(S.Number),
-  Timestamp: S.optional(S.String),
-}) {}
+export interface RoadSnapTracePoint {
+  Heading?: number;
+  Position: Position;
+  Speed?: number;
+  Timestamp?: string;
+}
+export const RoadSnapTracePoint = S.suspend(() =>
+  S.Struct({
+    Heading: S.optional(S.Number),
+    Position: Position,
+    Speed: S.optional(S.Number),
+    Timestamp: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RoadSnapTracePoint",
+}) as any as S.Schema<RoadSnapTracePoint>;
+export type RoadSnapTracePointList = RoadSnapTracePoint[];
 export const RoadSnapTracePointList = S.Array(RoadSnapTracePoint);
+export type IsolineHazardousCargoTypeList = string[];
 export const IsolineHazardousCargoTypeList = S.Array(S.String);
+export type BoundingBox = number[];
 export const BoundingBox = S.Array(S.Number);
+export type LinearRing = Position[];
 export const LinearRing = S.Array(Position);
+export type LinearRings = LinearRing[];
 export const LinearRings = S.Array(LinearRing);
+export type RouteMatrixHazardousCargoTypeList = string[];
 export const RouteMatrixHazardousCargoTypeList = S.Array(S.String);
+export type RouteHazardousCargoTypeList = string[];
 export const RouteHazardousCargoTypeList = S.Array(S.String);
+export type WaypointOptimizationHazardousCargoTypeList = string[];
 export const WaypointOptimizationHazardousCargoTypeList = S.Array(S.String);
+export type RoadSnapHazardousCargoTypeList = string[];
 export const RoadSnapHazardousCargoTypeList = S.Array(S.String);
-export class IsolineAvoidanceZoneCategory extends S.Class<IsolineAvoidanceZoneCategory>(
-  "IsolineAvoidanceZoneCategory",
-)({ Category: S.optional(S.String) }) {}
+export interface IsolineAvoidanceZoneCategory {
+  Category?: string;
+}
+export const IsolineAvoidanceZoneCategory = S.suspend(() =>
+  S.Struct({ Category: S.optional(S.String) }),
+).annotations({
+  identifier: "IsolineAvoidanceZoneCategory",
+}) as any as S.Schema<IsolineAvoidanceZoneCategory>;
+export type IsolineAvoidanceZoneCategoryList = IsolineAvoidanceZoneCategory[];
 export const IsolineAvoidanceZoneCategoryList = S.Array(
   IsolineAvoidanceZoneCategory,
 );
-export class IsolineVehicleLicensePlate extends S.Class<IsolineVehicleLicensePlate>(
-  "IsolineVehicleLicensePlate",
-)({ LastCharacter: S.optional(S.String) }) {}
-export class IsolineScooterOptions extends S.Class<IsolineScooterOptions>(
-  "IsolineScooterOptions",
-)({
-  EngineType: S.optional(S.String),
-  LicensePlate: S.optional(IsolineVehicleLicensePlate),
-  MaxSpeed: S.optional(S.Number),
-  Occupancy: S.optional(S.Number),
-}) {}
-export class RouteMatrixAvoidanceZoneCategory extends S.Class<RouteMatrixAvoidanceZoneCategory>(
-  "RouteMatrixAvoidanceZoneCategory",
-)({ Category: S.optional(S.String) }) {}
+export interface IsolineVehicleLicensePlate {
+  LastCharacter?: string;
+}
+export const IsolineVehicleLicensePlate = S.suspend(() =>
+  S.Struct({ LastCharacter: S.optional(S.String) }),
+).annotations({
+  identifier: "IsolineVehicleLicensePlate",
+}) as any as S.Schema<IsolineVehicleLicensePlate>;
+export interface IsolineScooterOptions {
+  EngineType?: string;
+  LicensePlate?: IsolineVehicleLicensePlate;
+  MaxSpeed?: number;
+  Occupancy?: number;
+}
+export const IsolineScooterOptions = S.suspend(() =>
+  S.Struct({
+    EngineType: S.optional(S.String),
+    LicensePlate: S.optional(IsolineVehicleLicensePlate),
+    MaxSpeed: S.optional(S.Number),
+    Occupancy: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "IsolineScooterOptions",
+}) as any as S.Schema<IsolineScooterOptions>;
+export interface RouteMatrixAvoidanceZoneCategory {
+  Category?: string;
+}
+export const RouteMatrixAvoidanceZoneCategory = S.suspend(() =>
+  S.Struct({ Category: S.optional(S.String) }),
+).annotations({
+  identifier: "RouteMatrixAvoidanceZoneCategory",
+}) as any as S.Schema<RouteMatrixAvoidanceZoneCategory>;
+export type RouteMatrixAvoidanceZoneCategoryList =
+  RouteMatrixAvoidanceZoneCategory[];
 export const RouteMatrixAvoidanceZoneCategoryList = S.Array(
   RouteMatrixAvoidanceZoneCategory,
 );
-export class RouteMatrixMatchingOptions extends S.Class<RouteMatrixMatchingOptions>(
-  "RouteMatrixMatchingOptions",
-)({
-  NameHint: S.optional(S.String),
-  OnRoadThreshold: S.optional(S.Number),
-  Radius: S.optional(S.Number),
-  Strategy: S.optional(S.String),
-}) {}
-export class RouteMatrixSideOfStreetOptions extends S.Class<RouteMatrixSideOfStreetOptions>(
-  "RouteMatrixSideOfStreetOptions",
-)({ Position: Position, UseWith: S.optional(S.String) }) {}
-export class RouteMatrixOriginOptions extends S.Class<RouteMatrixOriginOptions>(
-  "RouteMatrixOriginOptions",
-)({
-  AvoidActionsForDistance: S.optional(S.Number),
-  Heading: S.optional(S.Number),
-  Matching: S.optional(RouteMatrixMatchingOptions),
-  SideOfStreet: S.optional(RouteMatrixSideOfStreetOptions),
-}) {}
-export class RouteMatrixVehicleLicensePlate extends S.Class<RouteMatrixVehicleLicensePlate>(
-  "RouteMatrixVehicleLicensePlate",
-)({ LastCharacter: S.optional(S.String) }) {}
-export class RouteMatrixScooterOptions extends S.Class<RouteMatrixScooterOptions>(
-  "RouteMatrixScooterOptions",
-)({
-  LicensePlate: S.optional(RouteMatrixVehicleLicensePlate),
-  MaxSpeed: S.optional(S.Number),
-  Occupancy: S.optional(S.Number),
-}) {}
-export class RouteAvoidanceZoneCategory extends S.Class<RouteAvoidanceZoneCategory>(
-  "RouteAvoidanceZoneCategory",
-)({ Category: S.String }) {}
+export interface RouteMatrixMatchingOptions {
+  NameHint?: string;
+  OnRoadThreshold?: number;
+  Radius?: number;
+  Strategy?: string;
+}
+export const RouteMatrixMatchingOptions = S.suspend(() =>
+  S.Struct({
+    NameHint: S.optional(S.String),
+    OnRoadThreshold: S.optional(S.Number),
+    Radius: S.optional(S.Number),
+    Strategy: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RouteMatrixMatchingOptions",
+}) as any as S.Schema<RouteMatrixMatchingOptions>;
+export interface RouteMatrixSideOfStreetOptions {
+  Position: Position;
+  UseWith?: string;
+}
+export const RouteMatrixSideOfStreetOptions = S.suspend(() =>
+  S.Struct({ Position: Position, UseWith: S.optional(S.String) }),
+).annotations({
+  identifier: "RouteMatrixSideOfStreetOptions",
+}) as any as S.Schema<RouteMatrixSideOfStreetOptions>;
+export interface RouteMatrixOriginOptions {
+  AvoidActionsForDistance?: number;
+  Heading?: number;
+  Matching?: RouteMatrixMatchingOptions;
+  SideOfStreet?: RouteMatrixSideOfStreetOptions;
+}
+export const RouteMatrixOriginOptions = S.suspend(() =>
+  S.Struct({
+    AvoidActionsForDistance: S.optional(S.Number),
+    Heading: S.optional(S.Number),
+    Matching: S.optional(RouteMatrixMatchingOptions),
+    SideOfStreet: S.optional(RouteMatrixSideOfStreetOptions),
+  }),
+).annotations({
+  identifier: "RouteMatrixOriginOptions",
+}) as any as S.Schema<RouteMatrixOriginOptions>;
+export interface RouteMatrixVehicleLicensePlate {
+  LastCharacter?: string;
+}
+export const RouteMatrixVehicleLicensePlate = S.suspend(() =>
+  S.Struct({ LastCharacter: S.optional(S.String) }),
+).annotations({
+  identifier: "RouteMatrixVehicleLicensePlate",
+}) as any as S.Schema<RouteMatrixVehicleLicensePlate>;
+export interface RouteMatrixScooterOptions {
+  LicensePlate?: RouteMatrixVehicleLicensePlate;
+  MaxSpeed?: number;
+  Occupancy?: number;
+}
+export const RouteMatrixScooterOptions = S.suspend(() =>
+  S.Struct({
+    LicensePlate: S.optional(RouteMatrixVehicleLicensePlate),
+    MaxSpeed: S.optional(S.Number),
+    Occupancy: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "RouteMatrixScooterOptions",
+}) as any as S.Schema<RouteMatrixScooterOptions>;
+export interface RouteAvoidanceZoneCategory {
+  Category: string;
+}
+export const RouteAvoidanceZoneCategory = S.suspend(() =>
+  S.Struct({ Category: S.String }),
+).annotations({
+  identifier: "RouteAvoidanceZoneCategory",
+}) as any as S.Schema<RouteAvoidanceZoneCategory>;
+export type RouteAvoidanceZoneCategoryList = RouteAvoidanceZoneCategory[];
 export const RouteAvoidanceZoneCategoryList = S.Array(
   RouteAvoidanceZoneCategory,
 );
-export class RouteDriverScheduleInterval extends S.Class<RouteDriverScheduleInterval>(
-  "RouteDriverScheduleInterval",
-)({ DriveDuration: S.Number, RestDuration: S.Number }) {}
+export interface RouteDriverScheduleInterval {
+  DriveDuration: number;
+  RestDuration: number;
+}
+export const RouteDriverScheduleInterval = S.suspend(() =>
+  S.Struct({ DriveDuration: S.Number, RestDuration: S.Number }),
+).annotations({
+  identifier: "RouteDriverScheduleInterval",
+}) as any as S.Schema<RouteDriverScheduleInterval>;
+export type RouteDriverScheduleIntervalList = RouteDriverScheduleInterval[];
 export const RouteDriverScheduleIntervalList = S.Array(
   RouteDriverScheduleInterval,
 );
-export class RouteEmissionType extends S.Class<RouteEmissionType>(
-  "RouteEmissionType",
-)({ Co2EmissionClass: S.optional(S.String), Type: S.String }) {}
-export class RoutePedestrianOptions extends S.Class<RoutePedestrianOptions>(
-  "RoutePedestrianOptions",
-)({ Speed: S.optional(S.Number) }) {}
-export class RouteVehicleLicensePlate extends S.Class<RouteVehicleLicensePlate>(
-  "RouteVehicleLicensePlate",
-)({ LastCharacter: S.optional(S.String) }) {}
-export class RouteScooterOptions extends S.Class<RouteScooterOptions>(
-  "RouteScooterOptions",
-)({
-  EngineType: S.optional(S.String),
-  LicensePlate: S.optional(RouteVehicleLicensePlate),
-  MaxSpeed: S.optional(S.Number),
-  Occupancy: S.optional(S.Number),
-}) {}
-export class WaypointOptimizationDrivingDistanceOptions extends S.Class<WaypointOptimizationDrivingDistanceOptions>(
-  "WaypointOptimizationDrivingDistanceOptions",
-)({ DrivingDistance: S.Number }) {}
-export class WaypointOptimizationRestProfile extends S.Class<WaypointOptimizationRestProfile>(
-  "WaypointOptimizationRestProfile",
-)({ Profile: S.String }) {}
-export class WaypointOptimizationPedestrianOptions extends S.Class<WaypointOptimizationPedestrianOptions>(
-  "WaypointOptimizationPedestrianOptions",
-)({ Speed: S.optional(S.Number) }) {}
+export interface RouteEmissionType {
+  Co2EmissionClass?: string;
+  Type: string;
+}
+export const RouteEmissionType = S.suspend(() =>
+  S.Struct({ Co2EmissionClass: S.optional(S.String), Type: S.String }),
+).annotations({
+  identifier: "RouteEmissionType",
+}) as any as S.Schema<RouteEmissionType>;
+export interface RoutePedestrianOptions {
+  Speed?: number;
+}
+export const RoutePedestrianOptions = S.suspend(() =>
+  S.Struct({ Speed: S.optional(S.Number) }),
+).annotations({
+  identifier: "RoutePedestrianOptions",
+}) as any as S.Schema<RoutePedestrianOptions>;
+export interface RouteVehicleLicensePlate {
+  LastCharacter?: string;
+}
+export const RouteVehicleLicensePlate = S.suspend(() =>
+  S.Struct({ LastCharacter: S.optional(S.String) }),
+).annotations({
+  identifier: "RouteVehicleLicensePlate",
+}) as any as S.Schema<RouteVehicleLicensePlate>;
+export interface RouteScooterOptions {
+  EngineType?: string;
+  LicensePlate?: RouteVehicleLicensePlate;
+  MaxSpeed?: number;
+  Occupancy?: number;
+}
+export const RouteScooterOptions = S.suspend(() =>
+  S.Struct({
+    EngineType: S.optional(S.String),
+    LicensePlate: S.optional(RouteVehicleLicensePlate),
+    MaxSpeed: S.optional(S.Number),
+    Occupancy: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "RouteScooterOptions",
+}) as any as S.Schema<RouteScooterOptions>;
+export interface WaypointOptimizationDrivingDistanceOptions {
+  DrivingDistance: number;
+}
+export const WaypointOptimizationDrivingDistanceOptions = S.suspend(() =>
+  S.Struct({ DrivingDistance: S.Number }),
+).annotations({
+  identifier: "WaypointOptimizationDrivingDistanceOptions",
+}) as any as S.Schema<WaypointOptimizationDrivingDistanceOptions>;
+export interface WaypointOptimizationRestProfile {
+  Profile: string;
+}
+export const WaypointOptimizationRestProfile = S.suspend(() =>
+  S.Struct({ Profile: S.String }),
+).annotations({
+  identifier: "WaypointOptimizationRestProfile",
+}) as any as S.Schema<WaypointOptimizationRestProfile>;
+export interface WaypointOptimizationPedestrianOptions {
+  Speed?: number;
+}
+export const WaypointOptimizationPedestrianOptions = S.suspend(() =>
+  S.Struct({ Speed: S.optional(S.Number) }),
+).annotations({
+  identifier: "WaypointOptimizationPedestrianOptions",
+}) as any as S.Schema<WaypointOptimizationPedestrianOptions>;
+export type PolylineRingList = string[];
 export const PolylineRingList = S.Array(S.String);
-export class IsolineDestinationOptions extends S.Class<IsolineDestinationOptions>(
-  "IsolineDestinationOptions",
-)({
-  AvoidActionsForDistance: S.optional(S.Number),
-  Heading: S.optional(S.Number),
-  Matching: S.optional(IsolineMatchingOptions),
-  SideOfStreet: S.optional(IsolineSideOfStreetOptions),
-}) {}
-export class RouteMatrixOrigin extends S.Class<RouteMatrixOrigin>(
-  "RouteMatrixOrigin",
-)({ Options: S.optional(RouteMatrixOriginOptions), Position: Position }) {}
+export interface IsolineDestinationOptions {
+  AvoidActionsForDistance?: number;
+  Heading?: number;
+  Matching?: IsolineMatchingOptions;
+  SideOfStreet?: IsolineSideOfStreetOptions;
+}
+export const IsolineDestinationOptions = S.suspend(() =>
+  S.Struct({
+    AvoidActionsForDistance: S.optional(S.Number),
+    Heading: S.optional(S.Number),
+    Matching: S.optional(IsolineMatchingOptions),
+    SideOfStreet: S.optional(IsolineSideOfStreetOptions),
+  }),
+).annotations({
+  identifier: "IsolineDestinationOptions",
+}) as any as S.Schema<IsolineDestinationOptions>;
+export interface RouteMatrixOrigin {
+  Options?: RouteMatrixOriginOptions;
+  Position: Position;
+}
+export const RouteMatrixOrigin = S.suspend(() =>
+  S.Struct({
+    Options: S.optional(RouteMatrixOriginOptions),
+    Position: Position,
+  }),
+).annotations({
+  identifier: "RouteMatrixOrigin",
+}) as any as S.Schema<RouteMatrixOrigin>;
+export type RouteMatrixOriginList = RouteMatrixOrigin[];
 export const RouteMatrixOriginList = S.Array(RouteMatrixOrigin);
-export class RouteDestinationOptions extends S.Class<RouteDestinationOptions>(
-  "RouteDestinationOptions",
-)({
-  AvoidActionsForDistance: S.optional(S.Number),
-  AvoidUTurns: S.optional(S.Boolean),
-  Heading: S.optional(S.Number),
-  Matching: S.optional(RouteMatchingOptions),
-  SideOfStreet: S.optional(RouteSideOfStreetOptions),
-  StopDuration: S.optional(S.Number),
-}) {}
-export class RouteDriverOptions extends S.Class<RouteDriverOptions>(
-  "RouteDriverOptions",
-)({ Schedule: S.optional(RouteDriverScheduleIntervalList) }) {}
-export class RouteTollOptions extends S.Class<RouteTollOptions>(
-  "RouteTollOptions",
-)({
-  AllTransponders: S.optional(S.Boolean),
-  AllVignettes: S.optional(S.Boolean),
-  Currency: S.optional(S.String),
-  EmissionType: S.optional(RouteEmissionType),
-  VehicleCategory: S.optional(S.String),
-}) {}
-export class WaypointOptimizationClusteringOptions extends S.Class<WaypointOptimizationClusteringOptions>(
-  "WaypointOptimizationClusteringOptions",
-)({
-  Algorithm: S.String,
-  DrivingDistanceOptions: S.optional(
-    WaypointOptimizationDrivingDistanceOptions,
-  ),
-}) {}
-export class IsolineTrailerOptions extends S.Class<IsolineTrailerOptions>(
-  "IsolineTrailerOptions",
-)({ AxleCount: S.optional(S.Number), TrailerCount: S.optional(S.Number) }) {}
-export class WeightPerAxleGroup extends S.Class<WeightPerAxleGroup>(
-  "WeightPerAxleGroup",
-)({
-  Single: S.optional(S.Number),
-  Tandem: S.optional(S.Number),
-  Triple: S.optional(S.Number),
-  Quad: S.optional(S.Number),
-  Quint: S.optional(S.Number),
-}) {}
-export class RouteMatrixAvoidanceAreaGeometry extends S.Class<RouteMatrixAvoidanceAreaGeometry>(
-  "RouteMatrixAvoidanceAreaGeometry",
-)({
-  BoundingBox: S.optional(BoundingBox),
-  Polygon: S.optional(LinearRings),
-  PolylinePolygon: S.optional(PolylineRingList),
-}) {}
-export class RouteMatrixAutoCircle extends S.Class<RouteMatrixAutoCircle>(
-  "RouteMatrixAutoCircle",
-)({ Margin: S.optional(S.Number), MaxRadius: S.optional(S.Number) }) {}
-export class Circle extends S.Class<Circle>("Circle")({
-  Center: Position,
-  Radius: S.Number,
-}) {}
-export class RouteMatrixTrailerOptions extends S.Class<RouteMatrixTrailerOptions>(
-  "RouteMatrixTrailerOptions",
-)({ TrailerCount: S.optional(S.Number) }) {}
+export interface RouteDestinationOptions {
+  AvoidActionsForDistance?: number;
+  AvoidUTurns?: boolean;
+  Heading?: number;
+  Matching?: RouteMatchingOptions;
+  SideOfStreet?: RouteSideOfStreetOptions;
+  StopDuration?: number;
+}
+export const RouteDestinationOptions = S.suspend(() =>
+  S.Struct({
+    AvoidActionsForDistance: S.optional(S.Number),
+    AvoidUTurns: S.optional(S.Boolean),
+    Heading: S.optional(S.Number),
+    Matching: S.optional(RouteMatchingOptions),
+    SideOfStreet: S.optional(RouteSideOfStreetOptions),
+    StopDuration: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "RouteDestinationOptions",
+}) as any as S.Schema<RouteDestinationOptions>;
+export interface RouteDriverOptions {
+  Schedule?: RouteDriverScheduleIntervalList;
+}
+export const RouteDriverOptions = S.suspend(() =>
+  S.Struct({ Schedule: S.optional(RouteDriverScheduleIntervalList) }),
+).annotations({
+  identifier: "RouteDriverOptions",
+}) as any as S.Schema<RouteDriverOptions>;
+export interface RouteTollOptions {
+  AllTransponders?: boolean;
+  AllVignettes?: boolean;
+  Currency?: string;
+  EmissionType?: RouteEmissionType;
+  VehicleCategory?: string;
+}
+export const RouteTollOptions = S.suspend(() =>
+  S.Struct({
+    AllTransponders: S.optional(S.Boolean),
+    AllVignettes: S.optional(S.Boolean),
+    Currency: S.optional(S.String),
+    EmissionType: S.optional(RouteEmissionType),
+    VehicleCategory: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RouteTollOptions",
+}) as any as S.Schema<RouteTollOptions>;
+export interface WaypointOptimizationClusteringOptions {
+  Algorithm: string;
+  DrivingDistanceOptions?: WaypointOptimizationDrivingDistanceOptions;
+}
+export const WaypointOptimizationClusteringOptions = S.suspend(() =>
+  S.Struct({
+    Algorithm: S.String,
+    DrivingDistanceOptions: S.optional(
+      WaypointOptimizationDrivingDistanceOptions,
+    ),
+  }),
+).annotations({
+  identifier: "WaypointOptimizationClusteringOptions",
+}) as any as S.Schema<WaypointOptimizationClusteringOptions>;
+export interface IsolineTrailerOptions {
+  AxleCount?: number;
+  TrailerCount?: number;
+}
+export const IsolineTrailerOptions = S.suspend(() =>
+  S.Struct({
+    AxleCount: S.optional(S.Number),
+    TrailerCount: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "IsolineTrailerOptions",
+}) as any as S.Schema<IsolineTrailerOptions>;
+export interface WeightPerAxleGroup {
+  Single?: number;
+  Tandem?: number;
+  Triple?: number;
+  Quad?: number;
+  Quint?: number;
+}
+export const WeightPerAxleGroup = S.suspend(() =>
+  S.Struct({
+    Single: S.optional(S.Number),
+    Tandem: S.optional(S.Number),
+    Triple: S.optional(S.Number),
+    Quad: S.optional(S.Number),
+    Quint: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "WeightPerAxleGroup",
+}) as any as S.Schema<WeightPerAxleGroup>;
+export interface RouteMatrixAvoidanceAreaGeometry {
+  BoundingBox?: BoundingBox;
+  Polygon?: LinearRings;
+  PolylinePolygon?: PolylineRingList;
+}
+export const RouteMatrixAvoidanceAreaGeometry = S.suspend(() =>
+  S.Struct({
+    BoundingBox: S.optional(BoundingBox),
+    Polygon: S.optional(LinearRings),
+    PolylinePolygon: S.optional(PolylineRingList),
+  }),
+).annotations({
+  identifier: "RouteMatrixAvoidanceAreaGeometry",
+}) as any as S.Schema<RouteMatrixAvoidanceAreaGeometry>;
+export interface RouteMatrixAutoCircle {
+  Margin?: number;
+  MaxRadius?: number;
+}
+export const RouteMatrixAutoCircle = S.suspend(() =>
+  S.Struct({ Margin: S.optional(S.Number), MaxRadius: S.optional(S.Number) }),
+).annotations({
+  identifier: "RouteMatrixAutoCircle",
+}) as any as S.Schema<RouteMatrixAutoCircle>;
+export interface Circle {
+  Center: Position;
+  Radius: number;
+}
+export const Circle = S.suspend(() =>
+  S.Struct({ Center: Position, Radius: S.Number }),
+).annotations({ identifier: "Circle" }) as any as S.Schema<Circle>;
+export interface RouteMatrixTrailerOptions {
+  TrailerCount?: number;
+}
+export const RouteMatrixTrailerOptions = S.suspend(() =>
+  S.Struct({ TrailerCount: S.optional(S.Number) }),
+).annotations({
+  identifier: "RouteMatrixTrailerOptions",
+}) as any as S.Schema<RouteMatrixTrailerOptions>;
+export type LineString = Position[];
 export const LineString = S.Array(Position);
-export class Corridor extends S.Class<Corridor>("Corridor")({
-  LineString: LineString,
-  Radius: S.Number,
-}) {}
-export class PolylineCorridor extends S.Class<PolylineCorridor>(
-  "PolylineCorridor",
-)({ Polyline: S.String, Radius: S.Number }) {}
-export class RouteAvoidanceAreaGeometry extends S.Class<RouteAvoidanceAreaGeometry>(
-  "RouteAvoidanceAreaGeometry",
-)({
-  Corridor: S.optional(Corridor),
-  BoundingBox: S.optional(BoundingBox),
-  Polygon: S.optional(LinearRings),
-  PolylineCorridor: S.optional(PolylineCorridor),
-  PolylinePolygon: S.optional(PolylineRingList),
-}) {}
+export interface Corridor {
+  LineString: LineString;
+  Radius: number;
+}
+export const Corridor = S.suspend(() =>
+  S.Struct({ LineString: LineString, Radius: S.Number }),
+).annotations({ identifier: "Corridor" }) as any as S.Schema<Corridor>;
+export interface PolylineCorridor {
+  Polyline: string;
+  Radius: number;
+}
+export const PolylineCorridor = S.suspend(() =>
+  S.Struct({ Polyline: S.String, Radius: S.Number }),
+).annotations({
+  identifier: "PolylineCorridor",
+}) as any as S.Schema<PolylineCorridor>;
+export interface RouteAvoidanceAreaGeometry {
+  Corridor?: Corridor;
+  BoundingBox?: BoundingBox;
+  Polygon?: LinearRings;
+  PolylineCorridor?: PolylineCorridor;
+  PolylinePolygon?: PolylineRingList;
+}
+export const RouteAvoidanceAreaGeometry = S.suspend(() =>
+  S.Struct({
+    Corridor: S.optional(Corridor),
+    BoundingBox: S.optional(BoundingBox),
+    Polygon: S.optional(LinearRings),
+    PolylineCorridor: S.optional(PolylineCorridor),
+    PolylinePolygon: S.optional(PolylineRingList),
+  }),
+).annotations({
+  identifier: "RouteAvoidanceAreaGeometry",
+}) as any as S.Schema<RouteAvoidanceAreaGeometry>;
+export type RouteAvoidanceAreaGeometryList = RouteAvoidanceAreaGeometry[];
 export const RouteAvoidanceAreaGeometryList = S.Array(
   RouteAvoidanceAreaGeometry,
 );
-export class RouteTrailerOptions extends S.Class<RouteTrailerOptions>(
-  "RouteTrailerOptions",
-)({ AxleCount: S.optional(S.Number), TrailerCount: S.optional(S.Number) }) {}
-export class WaypointOptimizationAvoidanceAreaGeometry extends S.Class<WaypointOptimizationAvoidanceAreaGeometry>(
-  "WaypointOptimizationAvoidanceAreaGeometry",
-)({ BoundingBox: S.optional(BoundingBox) }) {}
-export class WaypointOptimizationRestCycleDurations extends S.Class<WaypointOptimizationRestCycleDurations>(
-  "WaypointOptimizationRestCycleDurations",
-)({ RestDuration: S.Number, WorkDuration: S.Number }) {}
-export class WaypointOptimizationTrailerOptions extends S.Class<WaypointOptimizationTrailerOptions>(
-  "WaypointOptimizationTrailerOptions",
-)({ TrailerCount: S.optional(S.Number) }) {}
-export class RoadSnapTrailerOptions extends S.Class<RoadSnapTrailerOptions>(
-  "RoadSnapTrailerOptions",
-)({ TrailerCount: S.optional(S.Number) }) {}
-export class IsolineCarOptions extends S.Class<IsolineCarOptions>(
-  "IsolineCarOptions",
-)({
-  EngineType: S.optional(S.String),
-  LicensePlate: S.optional(IsolineVehicleLicensePlate),
-  MaxSpeed: S.optional(S.Number),
-  Occupancy: S.optional(S.Number),
-}) {}
-export class IsolineTruckOptions extends S.Class<IsolineTruckOptions>(
-  "IsolineTruckOptions",
-)({
-  AxleCount: S.optional(S.Number),
-  EngineType: S.optional(S.String),
-  GrossWeight: S.optional(S.Number),
-  HazardousCargos: S.optional(IsolineHazardousCargoTypeList),
-  Height: S.optional(S.Number),
-  HeightAboveFirstAxle: S.optional(S.Number),
-  KpraLength: S.optional(S.Number),
-  Length: S.optional(S.Number),
-  LicensePlate: S.optional(IsolineVehicleLicensePlate),
-  MaxSpeed: S.optional(S.Number),
-  Occupancy: S.optional(S.Number),
-  PayloadCapacity: S.optional(S.Number),
-  TireCount: S.optional(S.Number),
-  Trailer: S.optional(IsolineTrailerOptions),
-  TruckType: S.optional(S.String),
-  TunnelRestrictionCode: S.optional(S.String),
-  WeightPerAxle: S.optional(S.Number),
-  WeightPerAxleGroup: S.optional(WeightPerAxleGroup),
-  Width: S.optional(S.Number),
-}) {}
-export class RouteMatrixAvoidanceArea extends S.Class<RouteMatrixAvoidanceArea>(
-  "RouteMatrixAvoidanceArea",
-)({ Geometry: RouteMatrixAvoidanceAreaGeometry }) {}
+export interface RouteTrailerOptions {
+  AxleCount?: number;
+  TrailerCount?: number;
+}
+export const RouteTrailerOptions = S.suspend(() =>
+  S.Struct({
+    AxleCount: S.optional(S.Number),
+    TrailerCount: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "RouteTrailerOptions",
+}) as any as S.Schema<RouteTrailerOptions>;
+export interface WaypointOptimizationAvoidanceAreaGeometry {
+  BoundingBox?: BoundingBox;
+}
+export const WaypointOptimizationAvoidanceAreaGeometry = S.suspend(() =>
+  S.Struct({ BoundingBox: S.optional(BoundingBox) }),
+).annotations({
+  identifier: "WaypointOptimizationAvoidanceAreaGeometry",
+}) as any as S.Schema<WaypointOptimizationAvoidanceAreaGeometry>;
+export interface WaypointOptimizationRestCycleDurations {
+  RestDuration: number;
+  WorkDuration: number;
+}
+export const WaypointOptimizationRestCycleDurations = S.suspend(() =>
+  S.Struct({ RestDuration: S.Number, WorkDuration: S.Number }),
+).annotations({
+  identifier: "WaypointOptimizationRestCycleDurations",
+}) as any as S.Schema<WaypointOptimizationRestCycleDurations>;
+export interface WaypointOptimizationTrailerOptions {
+  TrailerCount?: number;
+}
+export const WaypointOptimizationTrailerOptions = S.suspend(() =>
+  S.Struct({ TrailerCount: S.optional(S.Number) }),
+).annotations({
+  identifier: "WaypointOptimizationTrailerOptions",
+}) as any as S.Schema<WaypointOptimizationTrailerOptions>;
+export interface RoadSnapTrailerOptions {
+  TrailerCount?: number;
+}
+export const RoadSnapTrailerOptions = S.suspend(() =>
+  S.Struct({ TrailerCount: S.optional(S.Number) }),
+).annotations({
+  identifier: "RoadSnapTrailerOptions",
+}) as any as S.Schema<RoadSnapTrailerOptions>;
+export interface IsolineCarOptions {
+  EngineType?: string;
+  LicensePlate?: IsolineVehicleLicensePlate;
+  MaxSpeed?: number;
+  Occupancy?: number;
+}
+export const IsolineCarOptions = S.suspend(() =>
+  S.Struct({
+    EngineType: S.optional(S.String),
+    LicensePlate: S.optional(IsolineVehicleLicensePlate),
+    MaxSpeed: S.optional(S.Number),
+    Occupancy: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "IsolineCarOptions",
+}) as any as S.Schema<IsolineCarOptions>;
+export interface IsolineTruckOptions {
+  AxleCount?: number;
+  EngineType?: string;
+  GrossWeight?: number;
+  HazardousCargos?: IsolineHazardousCargoTypeList;
+  Height?: number;
+  HeightAboveFirstAxle?: number;
+  KpraLength?: number;
+  Length?: number;
+  LicensePlate?: IsolineVehicleLicensePlate;
+  MaxSpeed?: number;
+  Occupancy?: number;
+  PayloadCapacity?: number;
+  TireCount?: number;
+  Trailer?: IsolineTrailerOptions;
+  TruckType?: string;
+  TunnelRestrictionCode?: string;
+  WeightPerAxle?: number;
+  WeightPerAxleGroup?: WeightPerAxleGroup;
+  Width?: number;
+}
+export const IsolineTruckOptions = S.suspend(() =>
+  S.Struct({
+    AxleCount: S.optional(S.Number),
+    EngineType: S.optional(S.String),
+    GrossWeight: S.optional(S.Number),
+    HazardousCargos: S.optional(IsolineHazardousCargoTypeList),
+    Height: S.optional(S.Number),
+    HeightAboveFirstAxle: S.optional(S.Number),
+    KpraLength: S.optional(S.Number),
+    Length: S.optional(S.Number),
+    LicensePlate: S.optional(IsolineVehicleLicensePlate),
+    MaxSpeed: S.optional(S.Number),
+    Occupancy: S.optional(S.Number),
+    PayloadCapacity: S.optional(S.Number),
+    TireCount: S.optional(S.Number),
+    Trailer: S.optional(IsolineTrailerOptions),
+    TruckType: S.optional(S.String),
+    TunnelRestrictionCode: S.optional(S.String),
+    WeightPerAxle: S.optional(S.Number),
+    WeightPerAxleGroup: S.optional(WeightPerAxleGroup),
+    Width: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "IsolineTruckOptions",
+}) as any as S.Schema<IsolineTruckOptions>;
+export interface RouteMatrixAvoidanceArea {
+  Geometry: RouteMatrixAvoidanceAreaGeometry;
+}
+export const RouteMatrixAvoidanceArea = S.suspend(() =>
+  S.Struct({ Geometry: RouteMatrixAvoidanceAreaGeometry }),
+).annotations({
+  identifier: "RouteMatrixAvoidanceArea",
+}) as any as S.Schema<RouteMatrixAvoidanceArea>;
+export type RouteMatrixAvoidanceAreaList = RouteMatrixAvoidanceArea[];
 export const RouteMatrixAvoidanceAreaList = S.Array(RouteMatrixAvoidanceArea);
-export class RouteMatrixDestinationOptions extends S.Class<RouteMatrixDestinationOptions>(
-  "RouteMatrixDestinationOptions",
-)({
-  AvoidActionsForDistance: S.optional(S.Number),
-  Heading: S.optional(S.Number),
-  Matching: S.optional(RouteMatrixMatchingOptions),
-  SideOfStreet: S.optional(RouteMatrixSideOfStreetOptions),
-}) {}
-export class RouteMatrixBoundaryGeometry extends S.Class<RouteMatrixBoundaryGeometry>(
-  "RouteMatrixBoundaryGeometry",
-)({
-  AutoCircle: S.optional(RouteMatrixAutoCircle),
-  Circle: S.optional(Circle),
-  BoundingBox: S.optional(BoundingBox),
-  Polygon: S.optional(LinearRings),
-}) {}
-export class RouteMatrixCarOptions extends S.Class<RouteMatrixCarOptions>(
-  "RouteMatrixCarOptions",
-)({
-  LicensePlate: S.optional(RouteMatrixVehicleLicensePlate),
-  MaxSpeed: S.optional(S.Number),
-  Occupancy: S.optional(S.Number),
-}) {}
-export class RouteMatrixTruckOptions extends S.Class<RouteMatrixTruckOptions>(
-  "RouteMatrixTruckOptions",
-)({
-  AxleCount: S.optional(S.Number),
-  GrossWeight: S.optional(S.Number),
-  HazardousCargos: S.optional(RouteMatrixHazardousCargoTypeList),
-  Height: S.optional(S.Number),
-  KpraLength: S.optional(S.Number),
-  Length: S.optional(S.Number),
-  LicensePlate: S.optional(RouteMatrixVehicleLicensePlate),
-  MaxSpeed: S.optional(S.Number),
-  Occupancy: S.optional(S.Number),
-  PayloadCapacity: S.optional(S.Number),
-  Trailer: S.optional(RouteMatrixTrailerOptions),
-  TruckType: S.optional(S.String),
-  TunnelRestrictionCode: S.optional(S.String),
-  WeightPerAxle: S.optional(S.Number),
-  WeightPerAxleGroup: S.optional(WeightPerAxleGroup),
-  Width: S.optional(S.Number),
-}) {}
-export class RouteAvoidanceArea extends S.Class<RouteAvoidanceArea>(
-  "RouteAvoidanceArea",
-)({
-  Except: S.optional(RouteAvoidanceAreaGeometryList),
-  Geometry: RouteAvoidanceAreaGeometry,
-}) {}
+export interface RouteMatrixDestinationOptions {
+  AvoidActionsForDistance?: number;
+  Heading?: number;
+  Matching?: RouteMatrixMatchingOptions;
+  SideOfStreet?: RouteMatrixSideOfStreetOptions;
+}
+export const RouteMatrixDestinationOptions = S.suspend(() =>
+  S.Struct({
+    AvoidActionsForDistance: S.optional(S.Number),
+    Heading: S.optional(S.Number),
+    Matching: S.optional(RouteMatrixMatchingOptions),
+    SideOfStreet: S.optional(RouteMatrixSideOfStreetOptions),
+  }),
+).annotations({
+  identifier: "RouteMatrixDestinationOptions",
+}) as any as S.Schema<RouteMatrixDestinationOptions>;
+export interface RouteMatrixBoundaryGeometry {
+  AutoCircle?: RouteMatrixAutoCircle;
+  Circle?: Circle;
+  BoundingBox?: BoundingBox;
+  Polygon?: LinearRings;
+}
+export const RouteMatrixBoundaryGeometry = S.suspend(() =>
+  S.Struct({
+    AutoCircle: S.optional(RouteMatrixAutoCircle),
+    Circle: S.optional(Circle),
+    BoundingBox: S.optional(BoundingBox),
+    Polygon: S.optional(LinearRings),
+  }),
+).annotations({
+  identifier: "RouteMatrixBoundaryGeometry",
+}) as any as S.Schema<RouteMatrixBoundaryGeometry>;
+export interface RouteMatrixCarOptions {
+  LicensePlate?: RouteMatrixVehicleLicensePlate;
+  MaxSpeed?: number;
+  Occupancy?: number;
+}
+export const RouteMatrixCarOptions = S.suspend(() =>
+  S.Struct({
+    LicensePlate: S.optional(RouteMatrixVehicleLicensePlate),
+    MaxSpeed: S.optional(S.Number),
+    Occupancy: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "RouteMatrixCarOptions",
+}) as any as S.Schema<RouteMatrixCarOptions>;
+export interface RouteMatrixTruckOptions {
+  AxleCount?: number;
+  GrossWeight?: number;
+  HazardousCargos?: RouteMatrixHazardousCargoTypeList;
+  Height?: number;
+  KpraLength?: number;
+  Length?: number;
+  LicensePlate?: RouteMatrixVehicleLicensePlate;
+  MaxSpeed?: number;
+  Occupancy?: number;
+  PayloadCapacity?: number;
+  Trailer?: RouteMatrixTrailerOptions;
+  TruckType?: string;
+  TunnelRestrictionCode?: string;
+  WeightPerAxle?: number;
+  WeightPerAxleGroup?: WeightPerAxleGroup;
+  Width?: number;
+}
+export const RouteMatrixTruckOptions = S.suspend(() =>
+  S.Struct({
+    AxleCount: S.optional(S.Number),
+    GrossWeight: S.optional(S.Number),
+    HazardousCargos: S.optional(RouteMatrixHazardousCargoTypeList),
+    Height: S.optional(S.Number),
+    KpraLength: S.optional(S.Number),
+    Length: S.optional(S.Number),
+    LicensePlate: S.optional(RouteMatrixVehicleLicensePlate),
+    MaxSpeed: S.optional(S.Number),
+    Occupancy: S.optional(S.Number),
+    PayloadCapacity: S.optional(S.Number),
+    Trailer: S.optional(RouteMatrixTrailerOptions),
+    TruckType: S.optional(S.String),
+    TunnelRestrictionCode: S.optional(S.String),
+    WeightPerAxle: S.optional(S.Number),
+    WeightPerAxleGroup: S.optional(WeightPerAxleGroup),
+    Width: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "RouteMatrixTruckOptions",
+}) as any as S.Schema<RouteMatrixTruckOptions>;
+export interface RouteAvoidanceArea {
+  Except?: RouteAvoidanceAreaGeometryList;
+  Geometry: RouteAvoidanceAreaGeometry;
+}
+export const RouteAvoidanceArea = S.suspend(() =>
+  S.Struct({
+    Except: S.optional(RouteAvoidanceAreaGeometryList),
+    Geometry: RouteAvoidanceAreaGeometry,
+  }),
+).annotations({
+  identifier: "RouteAvoidanceArea",
+}) as any as S.Schema<RouteAvoidanceArea>;
+export type RouteAvoidanceAreaList = RouteAvoidanceArea[];
 export const RouteAvoidanceAreaList = S.Array(RouteAvoidanceArea);
-export class RouteCarOptions extends S.Class<RouteCarOptions>(
-  "RouteCarOptions",
-)({
-  EngineType: S.optional(S.String),
-  LicensePlate: S.optional(RouteVehicleLicensePlate),
-  MaxSpeed: S.optional(S.Number),
-  Occupancy: S.optional(S.Number),
-}) {}
-export class RouteTruckOptions extends S.Class<RouteTruckOptions>(
-  "RouteTruckOptions",
-)({
-  AxleCount: S.optional(S.Number),
-  EngineType: S.optional(S.String),
-  GrossWeight: S.optional(S.Number),
-  HazardousCargos: S.optional(RouteHazardousCargoTypeList),
-  Height: S.optional(S.Number),
-  HeightAboveFirstAxle: S.optional(S.Number),
-  KpraLength: S.optional(S.Number),
-  Length: S.optional(S.Number),
-  LicensePlate: S.optional(RouteVehicleLicensePlate),
-  MaxSpeed: S.optional(S.Number),
-  Occupancy: S.optional(S.Number),
-  PayloadCapacity: S.optional(S.Number),
-  TireCount: S.optional(S.Number),
-  Trailer: S.optional(RouteTrailerOptions),
-  TruckType: S.optional(S.String),
-  TunnelRestrictionCode: S.optional(S.String),
-  WeightPerAxle: S.optional(S.Number),
-  WeightPerAxleGroup: S.optional(WeightPerAxleGroup),
-  Width: S.optional(S.Number),
-}) {}
-export class WaypointOptimizationAvoidanceArea extends S.Class<WaypointOptimizationAvoidanceArea>(
-  "WaypointOptimizationAvoidanceArea",
-)({ Geometry: WaypointOptimizationAvoidanceAreaGeometry }) {}
+export interface RouteCarOptions {
+  EngineType?: string;
+  LicensePlate?: RouteVehicleLicensePlate;
+  MaxSpeed?: number;
+  Occupancy?: number;
+}
+export const RouteCarOptions = S.suspend(() =>
+  S.Struct({
+    EngineType: S.optional(S.String),
+    LicensePlate: S.optional(RouteVehicleLicensePlate),
+    MaxSpeed: S.optional(S.Number),
+    Occupancy: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "RouteCarOptions",
+}) as any as S.Schema<RouteCarOptions>;
+export interface RouteTruckOptions {
+  AxleCount?: number;
+  EngineType?: string;
+  GrossWeight?: number;
+  HazardousCargos?: RouteHazardousCargoTypeList;
+  Height?: number;
+  HeightAboveFirstAxle?: number;
+  KpraLength?: number;
+  Length?: number;
+  LicensePlate?: RouteVehicleLicensePlate;
+  MaxSpeed?: number;
+  Occupancy?: number;
+  PayloadCapacity?: number;
+  TireCount?: number;
+  Trailer?: RouteTrailerOptions;
+  TruckType?: string;
+  TunnelRestrictionCode?: string;
+  WeightPerAxle?: number;
+  WeightPerAxleGroup?: WeightPerAxleGroup;
+  Width?: number;
+}
+export const RouteTruckOptions = S.suspend(() =>
+  S.Struct({
+    AxleCount: S.optional(S.Number),
+    EngineType: S.optional(S.String),
+    GrossWeight: S.optional(S.Number),
+    HazardousCargos: S.optional(RouteHazardousCargoTypeList),
+    Height: S.optional(S.Number),
+    HeightAboveFirstAxle: S.optional(S.Number),
+    KpraLength: S.optional(S.Number),
+    Length: S.optional(S.Number),
+    LicensePlate: S.optional(RouteVehicleLicensePlate),
+    MaxSpeed: S.optional(S.Number),
+    Occupancy: S.optional(S.Number),
+    PayloadCapacity: S.optional(S.Number),
+    TireCount: S.optional(S.Number),
+    Trailer: S.optional(RouteTrailerOptions),
+    TruckType: S.optional(S.String),
+    TunnelRestrictionCode: S.optional(S.String),
+    WeightPerAxle: S.optional(S.Number),
+    WeightPerAxleGroup: S.optional(WeightPerAxleGroup),
+    Width: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "RouteTruckOptions",
+}) as any as S.Schema<RouteTruckOptions>;
+export interface WaypointOptimizationAvoidanceArea {
+  Geometry: WaypointOptimizationAvoidanceAreaGeometry;
+}
+export const WaypointOptimizationAvoidanceArea = S.suspend(() =>
+  S.Struct({ Geometry: WaypointOptimizationAvoidanceAreaGeometry }),
+).annotations({
+  identifier: "WaypointOptimizationAvoidanceArea",
+}) as any as S.Schema<WaypointOptimizationAvoidanceArea>;
+export type WaypointOptimizationAvoidanceAreaList =
+  WaypointOptimizationAvoidanceArea[];
 export const WaypointOptimizationAvoidanceAreaList = S.Array(
   WaypointOptimizationAvoidanceArea,
 );
-export class WaypointOptimizationRestCycles extends S.Class<WaypointOptimizationRestCycles>(
-  "WaypointOptimizationRestCycles",
-)({
-  LongCycle: WaypointOptimizationRestCycleDurations,
-  ShortCycle: WaypointOptimizationRestCycleDurations,
-}) {}
-export class WaypointOptimizationTruckOptions extends S.Class<WaypointOptimizationTruckOptions>(
-  "WaypointOptimizationTruckOptions",
-)({
-  GrossWeight: S.optional(S.Number),
-  HazardousCargos: S.optional(WaypointOptimizationHazardousCargoTypeList),
-  Height: S.optional(S.Number),
-  Length: S.optional(S.Number),
-  Trailer: S.optional(WaypointOptimizationTrailerOptions),
-  TruckType: S.optional(S.String),
-  TunnelRestrictionCode: S.optional(S.String),
-  WeightPerAxle: S.optional(S.Number),
-  Width: S.optional(S.Number),
-}) {}
-export class RoadSnapTruckOptions extends S.Class<RoadSnapTruckOptions>(
-  "RoadSnapTruckOptions",
-)({
-  GrossWeight: S.optional(S.Number),
-  HazardousCargos: S.optional(RoadSnapHazardousCargoTypeList),
-  Height: S.optional(S.Number),
-  Length: S.optional(S.Number),
-  Trailer: S.optional(RoadSnapTrailerOptions),
-  TunnelRestrictionCode: S.optional(S.String),
-  Width: S.optional(S.Number),
-}) {}
-export class IsolineTravelModeOptions extends S.Class<IsolineTravelModeOptions>(
-  "IsolineTravelModeOptions",
-)({
-  Car: S.optional(IsolineCarOptions),
-  Scooter: S.optional(IsolineScooterOptions),
-  Truck: S.optional(IsolineTruckOptions),
-}) {}
-export class RouteMatrixAvoidanceOptions extends S.Class<RouteMatrixAvoidanceOptions>(
-  "RouteMatrixAvoidanceOptions",
-)({
-  Areas: S.optional(RouteMatrixAvoidanceAreaList),
-  CarShuttleTrains: S.optional(S.Boolean),
-  ControlledAccessHighways: S.optional(S.Boolean),
-  DirtRoads: S.optional(S.Boolean),
-  Ferries: S.optional(S.Boolean),
-  TollRoads: S.optional(S.Boolean),
-  TollTransponders: S.optional(S.Boolean),
-  TruckRoadTypes: S.optional(TruckRoadTypeList),
-  Tunnels: S.optional(S.Boolean),
-  UTurns: S.optional(S.Boolean),
-  ZoneCategories: S.optional(RouteMatrixAvoidanceZoneCategoryList),
-}) {}
-export class RouteMatrixDestination extends S.Class<RouteMatrixDestination>(
-  "RouteMatrixDestination",
-)({ Options: S.optional(RouteMatrixDestinationOptions), Position: Position }) {}
+export interface WaypointOptimizationRestCycles {
+  LongCycle: WaypointOptimizationRestCycleDurations;
+  ShortCycle: WaypointOptimizationRestCycleDurations;
+}
+export const WaypointOptimizationRestCycles = S.suspend(() =>
+  S.Struct({
+    LongCycle: WaypointOptimizationRestCycleDurations,
+    ShortCycle: WaypointOptimizationRestCycleDurations,
+  }),
+).annotations({
+  identifier: "WaypointOptimizationRestCycles",
+}) as any as S.Schema<WaypointOptimizationRestCycles>;
+export interface WaypointOptimizationTruckOptions {
+  GrossWeight?: number;
+  HazardousCargos?: WaypointOptimizationHazardousCargoTypeList;
+  Height?: number;
+  Length?: number;
+  Trailer?: WaypointOptimizationTrailerOptions;
+  TruckType?: string;
+  TunnelRestrictionCode?: string;
+  WeightPerAxle?: number;
+  Width?: number;
+}
+export const WaypointOptimizationTruckOptions = S.suspend(() =>
+  S.Struct({
+    GrossWeight: S.optional(S.Number),
+    HazardousCargos: S.optional(WaypointOptimizationHazardousCargoTypeList),
+    Height: S.optional(S.Number),
+    Length: S.optional(S.Number),
+    Trailer: S.optional(WaypointOptimizationTrailerOptions),
+    TruckType: S.optional(S.String),
+    TunnelRestrictionCode: S.optional(S.String),
+    WeightPerAxle: S.optional(S.Number),
+    Width: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "WaypointOptimizationTruckOptions",
+}) as any as S.Schema<WaypointOptimizationTruckOptions>;
+export interface RoadSnapTruckOptions {
+  GrossWeight?: number;
+  HazardousCargos?: RoadSnapHazardousCargoTypeList;
+  Height?: number;
+  Length?: number;
+  Trailer?: RoadSnapTrailerOptions;
+  TunnelRestrictionCode?: string;
+  Width?: number;
+}
+export const RoadSnapTruckOptions = S.suspend(() =>
+  S.Struct({
+    GrossWeight: S.optional(S.Number),
+    HazardousCargos: S.optional(RoadSnapHazardousCargoTypeList),
+    Height: S.optional(S.Number),
+    Length: S.optional(S.Number),
+    Trailer: S.optional(RoadSnapTrailerOptions),
+    TunnelRestrictionCode: S.optional(S.String),
+    Width: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "RoadSnapTruckOptions",
+}) as any as S.Schema<RoadSnapTruckOptions>;
+export interface IsolineTravelModeOptions {
+  Car?: IsolineCarOptions;
+  Scooter?: IsolineScooterOptions;
+  Truck?: IsolineTruckOptions;
+}
+export const IsolineTravelModeOptions = S.suspend(() =>
+  S.Struct({
+    Car: S.optional(IsolineCarOptions),
+    Scooter: S.optional(IsolineScooterOptions),
+    Truck: S.optional(IsolineTruckOptions),
+  }),
+).annotations({
+  identifier: "IsolineTravelModeOptions",
+}) as any as S.Schema<IsolineTravelModeOptions>;
+export interface RouteMatrixAvoidanceOptions {
+  Areas?: RouteMatrixAvoidanceAreaList;
+  CarShuttleTrains?: boolean;
+  ControlledAccessHighways?: boolean;
+  DirtRoads?: boolean;
+  Ferries?: boolean;
+  TollRoads?: boolean;
+  TollTransponders?: boolean;
+  TruckRoadTypes?: TruckRoadTypeList;
+  Tunnels?: boolean;
+  UTurns?: boolean;
+  ZoneCategories?: RouteMatrixAvoidanceZoneCategoryList;
+}
+export const RouteMatrixAvoidanceOptions = S.suspend(() =>
+  S.Struct({
+    Areas: S.optional(RouteMatrixAvoidanceAreaList),
+    CarShuttleTrains: S.optional(S.Boolean),
+    ControlledAccessHighways: S.optional(S.Boolean),
+    DirtRoads: S.optional(S.Boolean),
+    Ferries: S.optional(S.Boolean),
+    TollRoads: S.optional(S.Boolean),
+    TollTransponders: S.optional(S.Boolean),
+    TruckRoadTypes: S.optional(TruckRoadTypeList),
+    Tunnels: S.optional(S.Boolean),
+    UTurns: S.optional(S.Boolean),
+    ZoneCategories: S.optional(RouteMatrixAvoidanceZoneCategoryList),
+  }),
+).annotations({
+  identifier: "RouteMatrixAvoidanceOptions",
+}) as any as S.Schema<RouteMatrixAvoidanceOptions>;
+export interface RouteMatrixDestination {
+  Options?: RouteMatrixDestinationOptions;
+  Position: Position;
+}
+export const RouteMatrixDestination = S.suspend(() =>
+  S.Struct({
+    Options: S.optional(RouteMatrixDestinationOptions),
+    Position: Position,
+  }),
+).annotations({
+  identifier: "RouteMatrixDestination",
+}) as any as S.Schema<RouteMatrixDestination>;
+export type RouteMatrixDestinationList = RouteMatrixDestination[];
 export const RouteMatrixDestinationList = S.Array(RouteMatrixDestination);
-export class RouteMatrixBoundary extends S.Class<RouteMatrixBoundary>(
-  "RouteMatrixBoundary",
-)({
-  Geometry: S.optional(RouteMatrixBoundaryGeometry),
-  Unbounded: S.optional(S.Boolean),
-}) {}
-export class RouteMatrixTravelModeOptions extends S.Class<RouteMatrixTravelModeOptions>(
-  "RouteMatrixTravelModeOptions",
-)({
-  Car: S.optional(RouteMatrixCarOptions),
-  Scooter: S.optional(RouteMatrixScooterOptions),
-  Truck: S.optional(RouteMatrixTruckOptions),
-}) {}
-export class RouteAvoidanceOptions extends S.Class<RouteAvoidanceOptions>(
-  "RouteAvoidanceOptions",
-)({
-  Areas: S.optional(RouteAvoidanceAreaList),
-  CarShuttleTrains: S.optional(S.Boolean),
-  ControlledAccessHighways: S.optional(S.Boolean),
-  DirtRoads: S.optional(S.Boolean),
-  Ferries: S.optional(S.Boolean),
-  SeasonalClosure: S.optional(S.Boolean),
-  TollRoads: S.optional(S.Boolean),
-  TollTransponders: S.optional(S.Boolean),
-  TruckRoadTypes: S.optional(TruckRoadTypeList),
-  Tunnels: S.optional(S.Boolean),
-  UTurns: S.optional(S.Boolean),
-  ZoneCategories: S.optional(RouteAvoidanceZoneCategoryList),
-}) {}
-export class RouteTravelModeOptions extends S.Class<RouteTravelModeOptions>(
-  "RouteTravelModeOptions",
-)({
-  Car: S.optional(RouteCarOptions),
-  Pedestrian: S.optional(RoutePedestrianOptions),
-  Scooter: S.optional(RouteScooterOptions),
-  Truck: S.optional(RouteTruckOptions),
-}) {}
-export class WaypointOptimizationAvoidanceOptions extends S.Class<WaypointOptimizationAvoidanceOptions>(
-  "WaypointOptimizationAvoidanceOptions",
-)({
-  Areas: S.optional(WaypointOptimizationAvoidanceAreaList),
-  CarShuttleTrains: S.optional(S.Boolean),
-  ControlledAccessHighways: S.optional(S.Boolean),
-  DirtRoads: S.optional(S.Boolean),
-  Ferries: S.optional(S.Boolean),
-  TollRoads: S.optional(S.Boolean),
-  Tunnels: S.optional(S.Boolean),
-  UTurns: S.optional(S.Boolean),
-}) {}
-export class WaypointOptimizationDestinationOptions extends S.Class<WaypointOptimizationDestinationOptions>(
-  "WaypointOptimizationDestinationOptions",
-)({
-  AccessHours: S.optional(WaypointOptimizationAccessHours),
-  AppointmentTime: S.optional(S.String),
-  Heading: S.optional(S.Number),
-  Id: S.optional(S.String),
-  ServiceDuration: S.optional(S.Number),
-  SideOfStreet: S.optional(WaypointOptimizationSideOfStreetOptions),
-}) {}
-export class WaypointOptimizationDriverOptions extends S.Class<WaypointOptimizationDriverOptions>(
-  "WaypointOptimizationDriverOptions",
-)({
-  RestCycles: S.optional(WaypointOptimizationRestCycles),
-  RestProfile: S.optional(WaypointOptimizationRestProfile),
-  TreatServiceTimeAs: S.optional(S.String),
-}) {}
-export class WaypointOptimizationTravelModeOptions extends S.Class<WaypointOptimizationTravelModeOptions>(
-  "WaypointOptimizationTravelModeOptions",
-)({
-  Pedestrian: S.optional(WaypointOptimizationPedestrianOptions),
-  Truck: S.optional(WaypointOptimizationTruckOptions),
-}) {}
-export class RoadSnapTravelModeOptions extends S.Class<RoadSnapTravelModeOptions>(
-  "RoadSnapTravelModeOptions",
-)({ Truck: S.optional(RoadSnapTruckOptions) }) {}
-export class IsolineAvoidanceAreaGeometry extends S.Class<IsolineAvoidanceAreaGeometry>(
-  "IsolineAvoidanceAreaGeometry",
-)({
-  BoundingBox: S.optional(BoundingBox),
-  Corridor: S.optional(Corridor),
-  Polygon: S.optional(LinearRings),
-  PolylineCorridor: S.optional(PolylineCorridor),
-  PolylinePolygon: S.optional(PolylineRingList),
-}) {}
+export interface RouteMatrixBoundary {
+  Geometry?: RouteMatrixBoundaryGeometry;
+  Unbounded?: boolean;
+}
+export const RouteMatrixBoundary = S.suspend(() =>
+  S.Struct({
+    Geometry: S.optional(RouteMatrixBoundaryGeometry),
+    Unbounded: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "RouteMatrixBoundary",
+}) as any as S.Schema<RouteMatrixBoundary>;
+export interface RouteMatrixTravelModeOptions {
+  Car?: RouteMatrixCarOptions;
+  Scooter?: RouteMatrixScooterOptions;
+  Truck?: RouteMatrixTruckOptions;
+}
+export const RouteMatrixTravelModeOptions = S.suspend(() =>
+  S.Struct({
+    Car: S.optional(RouteMatrixCarOptions),
+    Scooter: S.optional(RouteMatrixScooterOptions),
+    Truck: S.optional(RouteMatrixTruckOptions),
+  }),
+).annotations({
+  identifier: "RouteMatrixTravelModeOptions",
+}) as any as S.Schema<RouteMatrixTravelModeOptions>;
+export interface RouteAvoidanceOptions {
+  Areas?: RouteAvoidanceAreaList;
+  CarShuttleTrains?: boolean;
+  ControlledAccessHighways?: boolean;
+  DirtRoads?: boolean;
+  Ferries?: boolean;
+  SeasonalClosure?: boolean;
+  TollRoads?: boolean;
+  TollTransponders?: boolean;
+  TruckRoadTypes?: TruckRoadTypeList;
+  Tunnels?: boolean;
+  UTurns?: boolean;
+  ZoneCategories?: RouteAvoidanceZoneCategoryList;
+}
+export const RouteAvoidanceOptions = S.suspend(() =>
+  S.Struct({
+    Areas: S.optional(RouteAvoidanceAreaList),
+    CarShuttleTrains: S.optional(S.Boolean),
+    ControlledAccessHighways: S.optional(S.Boolean),
+    DirtRoads: S.optional(S.Boolean),
+    Ferries: S.optional(S.Boolean),
+    SeasonalClosure: S.optional(S.Boolean),
+    TollRoads: S.optional(S.Boolean),
+    TollTransponders: S.optional(S.Boolean),
+    TruckRoadTypes: S.optional(TruckRoadTypeList),
+    Tunnels: S.optional(S.Boolean),
+    UTurns: S.optional(S.Boolean),
+    ZoneCategories: S.optional(RouteAvoidanceZoneCategoryList),
+  }),
+).annotations({
+  identifier: "RouteAvoidanceOptions",
+}) as any as S.Schema<RouteAvoidanceOptions>;
+export interface RouteTravelModeOptions {
+  Car?: RouteCarOptions;
+  Pedestrian?: RoutePedestrianOptions;
+  Scooter?: RouteScooterOptions;
+  Truck?: RouteTruckOptions;
+}
+export const RouteTravelModeOptions = S.suspend(() =>
+  S.Struct({
+    Car: S.optional(RouteCarOptions),
+    Pedestrian: S.optional(RoutePedestrianOptions),
+    Scooter: S.optional(RouteScooterOptions),
+    Truck: S.optional(RouteTruckOptions),
+  }),
+).annotations({
+  identifier: "RouteTravelModeOptions",
+}) as any as S.Schema<RouteTravelModeOptions>;
+export interface WaypointOptimizationAvoidanceOptions {
+  Areas?: WaypointOptimizationAvoidanceAreaList;
+  CarShuttleTrains?: boolean;
+  ControlledAccessHighways?: boolean;
+  DirtRoads?: boolean;
+  Ferries?: boolean;
+  TollRoads?: boolean;
+  Tunnels?: boolean;
+  UTurns?: boolean;
+}
+export const WaypointOptimizationAvoidanceOptions = S.suspend(() =>
+  S.Struct({
+    Areas: S.optional(WaypointOptimizationAvoidanceAreaList),
+    CarShuttleTrains: S.optional(S.Boolean),
+    ControlledAccessHighways: S.optional(S.Boolean),
+    DirtRoads: S.optional(S.Boolean),
+    Ferries: S.optional(S.Boolean),
+    TollRoads: S.optional(S.Boolean),
+    Tunnels: S.optional(S.Boolean),
+    UTurns: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "WaypointOptimizationAvoidanceOptions",
+}) as any as S.Schema<WaypointOptimizationAvoidanceOptions>;
+export interface WaypointOptimizationDestinationOptions {
+  AccessHours?: WaypointOptimizationAccessHours;
+  AppointmentTime?: string;
+  Heading?: number;
+  Id?: string;
+  ServiceDuration?: number;
+  SideOfStreet?: WaypointOptimizationSideOfStreetOptions;
+}
+export const WaypointOptimizationDestinationOptions = S.suspend(() =>
+  S.Struct({
+    AccessHours: S.optional(WaypointOptimizationAccessHours),
+    AppointmentTime: S.optional(S.String),
+    Heading: S.optional(S.Number),
+    Id: S.optional(S.String),
+    ServiceDuration: S.optional(S.Number),
+    SideOfStreet: S.optional(WaypointOptimizationSideOfStreetOptions),
+  }),
+).annotations({
+  identifier: "WaypointOptimizationDestinationOptions",
+}) as any as S.Schema<WaypointOptimizationDestinationOptions>;
+export interface WaypointOptimizationDriverOptions {
+  RestCycles?: WaypointOptimizationRestCycles;
+  RestProfile?: WaypointOptimizationRestProfile;
+  TreatServiceTimeAs?: string;
+}
+export const WaypointOptimizationDriverOptions = S.suspend(() =>
+  S.Struct({
+    RestCycles: S.optional(WaypointOptimizationRestCycles),
+    RestProfile: S.optional(WaypointOptimizationRestProfile),
+    TreatServiceTimeAs: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "WaypointOptimizationDriverOptions",
+}) as any as S.Schema<WaypointOptimizationDriverOptions>;
+export interface WaypointOptimizationTravelModeOptions {
+  Pedestrian?: WaypointOptimizationPedestrianOptions;
+  Truck?: WaypointOptimizationTruckOptions;
+}
+export const WaypointOptimizationTravelModeOptions = S.suspend(() =>
+  S.Struct({
+    Pedestrian: S.optional(WaypointOptimizationPedestrianOptions),
+    Truck: S.optional(WaypointOptimizationTruckOptions),
+  }),
+).annotations({
+  identifier: "WaypointOptimizationTravelModeOptions",
+}) as any as S.Schema<WaypointOptimizationTravelModeOptions>;
+export interface RoadSnapTravelModeOptions {
+  Truck?: RoadSnapTruckOptions;
+}
+export const RoadSnapTravelModeOptions = S.suspend(() =>
+  S.Struct({ Truck: S.optional(RoadSnapTruckOptions) }),
+).annotations({
+  identifier: "RoadSnapTravelModeOptions",
+}) as any as S.Schema<RoadSnapTravelModeOptions>;
+export interface IsolineAvoidanceAreaGeometry {
+  BoundingBox?: BoundingBox;
+  Corridor?: Corridor;
+  Polygon?: LinearRings;
+  PolylineCorridor?: PolylineCorridor;
+  PolylinePolygon?: PolylineRingList;
+}
+export const IsolineAvoidanceAreaGeometry = S.suspend(() =>
+  S.Struct({
+    BoundingBox: S.optional(BoundingBox),
+    Corridor: S.optional(Corridor),
+    Polygon: S.optional(LinearRings),
+    PolylineCorridor: S.optional(PolylineCorridor),
+    PolylinePolygon: S.optional(PolylineRingList),
+  }),
+).annotations({
+  identifier: "IsolineAvoidanceAreaGeometry",
+}) as any as S.Schema<IsolineAvoidanceAreaGeometry>;
+export type IsolineAvoidanceAreaGeometryList = IsolineAvoidanceAreaGeometry[];
 export const IsolineAvoidanceAreaGeometryList = S.Array(
   IsolineAvoidanceAreaGeometry,
 );
-export class CalculateRouteMatrixRequest extends S.Class<CalculateRouteMatrixRequest>(
-  "CalculateRouteMatrixRequest",
-)(
-  {
+export interface CalculateRouteMatrixRequest {
+  Allow?: RouteMatrixAllowOptions;
+  Avoid?: RouteMatrixAvoidanceOptions;
+  DepartNow?: boolean;
+  DepartureTime?: string;
+  Destinations: RouteMatrixDestinationList;
+  Exclude?: RouteMatrixExclusionOptions;
+  Key?: string;
+  OptimizeRoutingFor?: string;
+  Origins: RouteMatrixOriginList;
+  RoutingBoundary: RouteMatrixBoundary;
+  Traffic?: RouteMatrixTrafficOptions;
+  TravelMode?: string;
+  TravelModeOptions?: RouteMatrixTravelModeOptions;
+}
+export const CalculateRouteMatrixRequest = S.suspend(() =>
+  S.Struct({
     Allow: S.optional(RouteMatrixAllowOptions),
     Avoid: S.optional(RouteMatrixAvoidanceOptions),
     DepartNow: S.optional(S.Boolean),
@@ -1108,20 +1838,48 @@ export class CalculateRouteMatrixRequest extends S.Class<CalculateRouteMatrixReq
     Traffic: S.optional(RouteMatrixTrafficOptions),
     TravelMode: S.optional(S.String),
     TravelModeOptions: S.optional(RouteMatrixTravelModeOptions),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/route-matrix" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/route-matrix" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CalculateRoutesRequest extends S.Class<CalculateRoutesRequest>(
-  "CalculateRoutesRequest",
-)(
-  {
+).annotations({
+  identifier: "CalculateRouteMatrixRequest",
+}) as any as S.Schema<CalculateRouteMatrixRequest>;
+export interface CalculateRoutesRequest {
+  Allow?: RouteAllowOptions;
+  ArrivalTime?: string;
+  Avoid?: RouteAvoidanceOptions;
+  DepartNow?: boolean;
+  DepartureTime?: string;
+  Destination: Position;
+  DestinationOptions?: RouteDestinationOptions;
+  Driver?: RouteDriverOptions;
+  Exclude?: RouteExclusionOptions;
+  InstructionsMeasurementSystem?: string;
+  Key?: string;
+  Languages?: LanguageTagList;
+  LegAdditionalFeatures?: RouteLegAdditionalFeatureList;
+  LegGeometryFormat?: string;
+  MaxAlternatives?: number;
+  OptimizeRoutingFor?: string;
+  Origin: Position;
+  OriginOptions?: RouteOriginOptions;
+  SpanAdditionalFeatures?: RouteSpanAdditionalFeatureList;
+  Tolls?: RouteTollOptions;
+  Traffic?: RouteTrafficOptions;
+  TravelMode?: string;
+  TravelModeOptions?: RouteTravelModeOptions;
+  TravelStepType?: string;
+  Waypoints?: RouteWaypointList;
+}
+export const CalculateRoutesRequest = S.suspend(() =>
+  S.Struct({
     Allow: S.optional(RouteAllowOptions),
     ArrivalTime: S.optional(S.String),
     Avoid: S.optional(RouteAvoidanceOptions),
@@ -1147,20 +1905,38 @@ export class CalculateRoutesRequest extends S.Class<CalculateRoutesRequest>(
     TravelModeOptions: S.optional(RouteTravelModeOptions),
     TravelStepType: S.optional(S.String),
     Waypoints: S.optional(RouteWaypointList),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/routes" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/routes" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class OptimizeWaypointsRequest extends S.Class<OptimizeWaypointsRequest>(
-  "OptimizeWaypointsRequest",
-)(
-  {
+).annotations({
+  identifier: "CalculateRoutesRequest",
+}) as any as S.Schema<CalculateRoutesRequest>;
+export interface OptimizeWaypointsRequest {
+  Avoid?: WaypointOptimizationAvoidanceOptions;
+  Clustering?: WaypointOptimizationClusteringOptions;
+  DepartureTime?: string;
+  Destination?: Position;
+  DestinationOptions?: WaypointOptimizationDestinationOptions;
+  Driver?: WaypointOptimizationDriverOptions;
+  Exclude?: WaypointOptimizationExclusionOptions;
+  Key?: string;
+  OptimizeSequencingFor?: string;
+  Origin: Position;
+  OriginOptions?: WaypointOptimizationOriginOptions;
+  Traffic?: WaypointOptimizationTrafficOptions;
+  TravelMode?: string;
+  TravelModeOptions?: WaypointOptimizationTravelModeOptions;
+  Waypoints?: WaypointOptimizationWaypointList;
+}
+export const OptimizeWaypointsRequest = S.suspend(() =>
+  S.Struct({
     Avoid: S.optional(WaypointOptimizationAvoidanceOptions),
     Clustering: S.optional(WaypointOptimizationClusteringOptions),
     DepartureTime: S.optional(S.String),
@@ -1176,63 +1952,116 @@ export class OptimizeWaypointsRequest extends S.Class<OptimizeWaypointsRequest>(
     TravelMode: S.optional(S.String),
     TravelModeOptions: S.optional(WaypointOptimizationTravelModeOptions),
     Waypoints: S.optional(WaypointOptimizationWaypointList),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/optimize-waypoints" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/optimize-waypoints" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SnapToRoadsRequest extends S.Class<SnapToRoadsRequest>(
-  "SnapToRoadsRequest",
-)(
-  {
+).annotations({
+  identifier: "OptimizeWaypointsRequest",
+}) as any as S.Schema<OptimizeWaypointsRequest>;
+export interface SnapToRoadsRequest {
+  Key?: string;
+  SnappedGeometryFormat?: string;
+  SnapRadius?: number;
+  TracePoints: RoadSnapTracePointList;
+  TravelMode?: string;
+  TravelModeOptions?: RoadSnapTravelModeOptions;
+}
+export const SnapToRoadsRequest = S.suspend(() =>
+  S.Struct({
     Key: S.optional(S.String).pipe(T.HttpQuery("key")),
     SnappedGeometryFormat: S.optional(S.String),
     SnapRadius: S.optional(S.Number),
     TracePoints: RoadSnapTracePointList,
     TravelMode: S.optional(S.String),
     TravelModeOptions: S.optional(RoadSnapTravelModeOptions),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/snap-to-roads" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/snap-to-roads" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class IsolineAvoidanceArea extends S.Class<IsolineAvoidanceArea>(
-  "IsolineAvoidanceArea",
-)({
-  Except: S.optional(IsolineAvoidanceAreaGeometryList),
-  Geometry: IsolineAvoidanceAreaGeometry,
-}) {}
+).annotations({
+  identifier: "SnapToRoadsRequest",
+}) as any as S.Schema<SnapToRoadsRequest>;
+export interface IsolineAvoidanceArea {
+  Except?: IsolineAvoidanceAreaGeometryList;
+  Geometry: IsolineAvoidanceAreaGeometry;
+}
+export const IsolineAvoidanceArea = S.suspend(() =>
+  S.Struct({
+    Except: S.optional(IsolineAvoidanceAreaGeometryList),
+    Geometry: IsolineAvoidanceAreaGeometry,
+  }),
+).annotations({
+  identifier: "IsolineAvoidanceArea",
+}) as any as S.Schema<IsolineAvoidanceArea>;
+export type IsolineAvoidanceAreaList = IsolineAvoidanceArea[];
 export const IsolineAvoidanceAreaList = S.Array(IsolineAvoidanceArea);
-export class IsolineAvoidanceOptions extends S.Class<IsolineAvoidanceOptions>(
-  "IsolineAvoidanceOptions",
-)({
-  Areas: S.optional(IsolineAvoidanceAreaList),
-  CarShuttleTrains: S.optional(S.Boolean),
-  ControlledAccessHighways: S.optional(S.Boolean),
-  DirtRoads: S.optional(S.Boolean),
-  Ferries: S.optional(S.Boolean),
-  SeasonalClosure: S.optional(S.Boolean),
-  TollRoads: S.optional(S.Boolean),
-  TollTransponders: S.optional(S.Boolean),
-  TruckRoadTypes: S.optional(TruckRoadTypeList),
-  Tunnels: S.optional(S.Boolean),
-  UTurns: S.optional(S.Boolean),
-  ZoneCategories: S.optional(IsolineAvoidanceZoneCategoryList),
-}) {}
-export class CalculateIsolinesRequest extends S.Class<CalculateIsolinesRequest>(
-  "CalculateIsolinesRequest",
-)(
-  {
+export interface IsolineAvoidanceOptions {
+  Areas?: IsolineAvoidanceAreaList;
+  CarShuttleTrains?: boolean;
+  ControlledAccessHighways?: boolean;
+  DirtRoads?: boolean;
+  Ferries?: boolean;
+  SeasonalClosure?: boolean;
+  TollRoads?: boolean;
+  TollTransponders?: boolean;
+  TruckRoadTypes?: TruckRoadTypeList;
+  Tunnels?: boolean;
+  UTurns?: boolean;
+  ZoneCategories?: IsolineAvoidanceZoneCategoryList;
+}
+export const IsolineAvoidanceOptions = S.suspend(() =>
+  S.Struct({
+    Areas: S.optional(IsolineAvoidanceAreaList),
+    CarShuttleTrains: S.optional(S.Boolean),
+    ControlledAccessHighways: S.optional(S.Boolean),
+    DirtRoads: S.optional(S.Boolean),
+    Ferries: S.optional(S.Boolean),
+    SeasonalClosure: S.optional(S.Boolean),
+    TollRoads: S.optional(S.Boolean),
+    TollTransponders: S.optional(S.Boolean),
+    TruckRoadTypes: S.optional(TruckRoadTypeList),
+    Tunnels: S.optional(S.Boolean),
+    UTurns: S.optional(S.Boolean),
+    ZoneCategories: S.optional(IsolineAvoidanceZoneCategoryList),
+  }),
+).annotations({
+  identifier: "IsolineAvoidanceOptions",
+}) as any as S.Schema<IsolineAvoidanceOptions>;
+export interface CalculateIsolinesRequest {
+  Allow?: IsolineAllowOptions;
+  ArrivalTime?: string;
+  Avoid?: IsolineAvoidanceOptions;
+  DepartNow?: boolean;
+  DepartureTime?: string;
+  Destination?: Position;
+  DestinationOptions?: IsolineDestinationOptions;
+  IsolineGeometryFormat?: string;
+  IsolineGranularity?: IsolineGranularityOptions;
+  Key?: string;
+  OptimizeIsolineFor?: string;
+  OptimizeRoutingFor?: string;
+  Origin?: Position;
+  OriginOptions?: IsolineOriginOptions;
+  Thresholds: IsolineThresholds;
+  Traffic?: IsolineTrafficOptions;
+  TravelMode?: string;
+  TravelModeOptions?: IsolineTravelModeOptions;
+}
+export const CalculateIsolinesRequest = S.suspend(() =>
+  S.Struct({
     Allow: S.optional(IsolineAllowOptions),
     ArrivalTime: S.optional(S.String),
     Avoid: S.optional(IsolineAvoidanceOptions),
@@ -1251,723 +2080,1582 @@ export class CalculateIsolinesRequest extends S.Class<CalculateIsolinesRequest>(
     Traffic: S.optional(IsolineTrafficOptions),
     TravelMode: S.optional(S.String),
     TravelModeOptions: S.optional(IsolineTravelModeOptions),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/isolines" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/isolines" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "CalculateIsolinesRequest",
+}) as any as S.Schema<CalculateIsolinesRequest>;
+export type RoadSnapTracePointIndexList = number[];
 export const RoadSnapTracePointIndexList = S.Array(S.Number);
-export class RouteMatrixEntry extends S.Class<RouteMatrixEntry>(
-  "RouteMatrixEntry",
-)({ Distance: S.Number, Duration: S.Number, Error: S.optional(S.String) }) {}
+export interface RouteMatrixEntry {
+  Distance: number;
+  Duration: number;
+  Error?: string;
+}
+export const RouteMatrixEntry = S.suspend(() =>
+  S.Struct({
+    Distance: S.Number,
+    Duration: S.Number,
+    Error: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RouteMatrixEntry",
+}) as any as S.Schema<RouteMatrixEntry>;
+export type RouteMatrixRow = RouteMatrixEntry[];
 export const RouteMatrixRow = S.Array(RouteMatrixEntry);
+export type RouteMatrix = RouteMatrixRow[];
 export const RouteMatrix = S.Array(RouteMatrixRow);
-export class RouteResponseNotice extends S.Class<RouteResponseNotice>(
-  "RouteResponseNotice",
-)({ Code: S.String, Impact: S.optional(S.String) }) {}
+export interface RouteResponseNotice {
+  Code: string;
+  Impact?: string;
+}
+export const RouteResponseNotice = S.suspend(() =>
+  S.Struct({ Code: S.String, Impact: S.optional(S.String) }),
+).annotations({
+  identifier: "RouteResponseNotice",
+}) as any as S.Schema<RouteResponseNotice>;
+export type RouteResponseNoticeList = RouteResponseNotice[];
 export const RouteResponseNoticeList = S.Array(RouteResponseNotice);
-export class WaypointOptimizationConnection extends S.Class<WaypointOptimizationConnection>(
-  "WaypointOptimizationConnection",
-)({
-  Distance: S.Number,
-  From: S.String,
-  RestDuration: S.Number,
-  To: S.String,
-  TravelDuration: S.Number,
-  WaitDuration: S.Number,
-}) {}
+export interface WaypointOptimizationConnection {
+  Distance: number;
+  From: string;
+  RestDuration: number;
+  To: string;
+  TravelDuration: number;
+  WaitDuration: number;
+}
+export const WaypointOptimizationConnection = S.suspend(() =>
+  S.Struct({
+    Distance: S.Number,
+    From: S.String,
+    RestDuration: S.Number,
+    To: S.String,
+    TravelDuration: S.Number,
+    WaitDuration: S.Number,
+  }),
+).annotations({
+  identifier: "WaypointOptimizationConnection",
+}) as any as S.Schema<WaypointOptimizationConnection>;
+export type WaypointOptimizationConnectionList =
+  WaypointOptimizationConnection[];
 export const WaypointOptimizationConnectionList = S.Array(
   WaypointOptimizationConnection,
 );
-export class WaypointOptimizationOptimizedWaypoint extends S.Class<WaypointOptimizationOptimizedWaypoint>(
-  "WaypointOptimizationOptimizedWaypoint",
-)({
-  ArrivalTime: S.optional(S.String),
-  ClusterIndex: S.optional(S.Number),
-  DepartureTime: S.String,
-  Id: S.String,
-  Position: Position,
-}) {}
+export interface WaypointOptimizationOptimizedWaypoint {
+  ArrivalTime?: string;
+  ClusterIndex?: number;
+  DepartureTime: string;
+  Id: string;
+  Position: Position;
+}
+export const WaypointOptimizationOptimizedWaypoint = S.suspend(() =>
+  S.Struct({
+    ArrivalTime: S.optional(S.String),
+    ClusterIndex: S.optional(S.Number),
+    DepartureTime: S.String,
+    Id: S.String,
+    Position: Position,
+  }),
+).annotations({
+  identifier: "WaypointOptimizationOptimizedWaypoint",
+}) as any as S.Schema<WaypointOptimizationOptimizedWaypoint>;
+export type WaypointOptimizationOptimizedWaypointList =
+  WaypointOptimizationOptimizedWaypoint[];
 export const WaypointOptimizationOptimizedWaypointList = S.Array(
   WaypointOptimizationOptimizedWaypoint,
 );
-export class WaypointOptimizationTimeBreakdown extends S.Class<WaypointOptimizationTimeBreakdown>(
-  "WaypointOptimizationTimeBreakdown",
-)({
-  RestDuration: S.Number,
-  ServiceDuration: S.Number,
-  TravelDuration: S.Number,
-  WaitDuration: S.Number,
-}) {}
-export class RoadSnapNotice extends S.Class<RoadSnapNotice>("RoadSnapNotice")({
-  Code: S.String,
-  Title: S.String,
-  TracePointIndexes: RoadSnapTracePointIndexList,
-}) {}
+export interface WaypointOptimizationTimeBreakdown {
+  RestDuration: number;
+  ServiceDuration: number;
+  TravelDuration: number;
+  WaitDuration: number;
+}
+export const WaypointOptimizationTimeBreakdown = S.suspend(() =>
+  S.Struct({
+    RestDuration: S.Number,
+    ServiceDuration: S.Number,
+    TravelDuration: S.Number,
+    WaitDuration: S.Number,
+  }),
+).annotations({
+  identifier: "WaypointOptimizationTimeBreakdown",
+}) as any as S.Schema<WaypointOptimizationTimeBreakdown>;
+export interface RoadSnapNotice {
+  Code: string;
+  Title: string;
+  TracePointIndexes: RoadSnapTracePointIndexList;
+}
+export const RoadSnapNotice = S.suspend(() =>
+  S.Struct({
+    Code: S.String,
+    Title: S.String,
+    TracePointIndexes: RoadSnapTracePointIndexList,
+  }),
+).annotations({
+  identifier: "RoadSnapNotice",
+}) as any as S.Schema<RoadSnapNotice>;
+export type RoadSnapNoticeList = RoadSnapNotice[];
 export const RoadSnapNoticeList = S.Array(RoadSnapNotice);
-export class RoadSnapSnappedGeometry extends S.Class<RoadSnapSnappedGeometry>(
-  "RoadSnapSnappedGeometry",
-)({ LineString: S.optional(LineString), Polyline: S.optional(S.String) }) {}
-export class RoadSnapSnappedTracePoint extends S.Class<RoadSnapSnappedTracePoint>(
-  "RoadSnapSnappedTracePoint",
-)({
-  Confidence: S.Number,
-  OriginalPosition: Position,
-  SnappedPosition: Position,
-}) {}
+export interface RoadSnapSnappedGeometry {
+  LineString?: LineString;
+  Polyline?: string;
+}
+export const RoadSnapSnappedGeometry = S.suspend(() =>
+  S.Struct({
+    LineString: S.optional(LineString),
+    Polyline: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RoadSnapSnappedGeometry",
+}) as any as S.Schema<RoadSnapSnappedGeometry>;
+export interface RoadSnapSnappedTracePoint {
+  Confidence: number;
+  OriginalPosition: Position;
+  SnappedPosition: Position;
+}
+export const RoadSnapSnappedTracePoint = S.suspend(() =>
+  S.Struct({
+    Confidence: S.Number,
+    OriginalPosition: Position,
+    SnappedPosition: Position,
+  }),
+).annotations({
+  identifier: "RoadSnapSnappedTracePoint",
+}) as any as S.Schema<RoadSnapSnappedTracePoint>;
+export type RoadSnapSnappedTracePointList = RoadSnapSnappedTracePoint[];
 export const RoadSnapSnappedTracePointList = S.Array(RoadSnapSnappedTracePoint);
-export class CalculateRouteMatrixResponse extends S.Class<CalculateRouteMatrixResponse>(
-  "CalculateRouteMatrixResponse",
-)({
-  ErrorCount: S.Number,
-  PricingBucket: S.String.pipe(T.HttpHeader("x-amz-geo-pricing-bucket")),
-  RouteMatrix: RouteMatrix,
-  RoutingBoundary: RouteMatrixBoundary,
-}) {}
-export class SnapToRoadsResponse extends S.Class<SnapToRoadsResponse>(
-  "SnapToRoadsResponse",
-)({
-  Notices: RoadSnapNoticeList,
-  PricingBucket: S.String.pipe(T.HttpHeader("x-amz-geo-pricing-bucket")),
-  SnappedGeometry: S.optional(RoadSnapSnappedGeometry),
-  SnappedGeometryFormat: S.String,
-  SnappedTracePoints: RoadSnapSnappedTracePointList,
-}) {}
-export class WaypointOptimizationFailedConstraint extends S.Class<WaypointOptimizationFailedConstraint>(
-  "WaypointOptimizationFailedConstraint",
-)({ Constraint: S.optional(S.String), Reason: S.optional(S.String) }) {}
+export interface CalculateRouteMatrixResponse {
+  ErrorCount: number;
+  PricingBucket: string;
+  RouteMatrix: RouteMatrix;
+  RoutingBoundary: RouteMatrixBoundary;
+}
+export const CalculateRouteMatrixResponse = S.suspend(() =>
+  S.Struct({
+    ErrorCount: S.Number,
+    PricingBucket: S.String.pipe(T.HttpHeader("x-amz-geo-pricing-bucket")),
+    RouteMatrix: RouteMatrix,
+    RoutingBoundary: RouteMatrixBoundary,
+  }),
+).annotations({
+  identifier: "CalculateRouteMatrixResponse",
+}) as any as S.Schema<CalculateRouteMatrixResponse>;
+export interface SnapToRoadsResponse {
+  Notices: RoadSnapNoticeList;
+  PricingBucket: string;
+  SnappedGeometry?: RoadSnapSnappedGeometry;
+  SnappedGeometryFormat: string;
+  SnappedTracePoints: RoadSnapSnappedTracePointList;
+}
+export const SnapToRoadsResponse = S.suspend(() =>
+  S.Struct({
+    Notices: RoadSnapNoticeList,
+    PricingBucket: S.String.pipe(T.HttpHeader("x-amz-geo-pricing-bucket")),
+    SnappedGeometry: S.optional(RoadSnapSnappedGeometry),
+    SnappedGeometryFormat: S.String,
+    SnappedTracePoints: RoadSnapSnappedTracePointList,
+  }),
+).annotations({
+  identifier: "SnapToRoadsResponse",
+}) as any as S.Schema<SnapToRoadsResponse>;
+export interface WaypointOptimizationFailedConstraint {
+  Constraint?: string;
+  Reason?: string;
+}
+export const WaypointOptimizationFailedConstraint = S.suspend(() =>
+  S.Struct({ Constraint: S.optional(S.String), Reason: S.optional(S.String) }),
+).annotations({
+  identifier: "WaypointOptimizationFailedConstraint",
+}) as any as S.Schema<WaypointOptimizationFailedConstraint>;
+export type WaypointOptimizationFailedConstraintList =
+  WaypointOptimizationFailedConstraint[];
 export const WaypointOptimizationFailedConstraintList = S.Array(
   WaypointOptimizationFailedConstraint,
 );
-export class WaypointOptimizationImpedingWaypoint extends S.Class<WaypointOptimizationImpedingWaypoint>(
-  "WaypointOptimizationImpedingWaypoint",
-)({
-  FailedConstraints: WaypointOptimizationFailedConstraintList,
-  Id: S.String,
-  Position: Position,
-}) {}
+export interface WaypointOptimizationImpedingWaypoint {
+  FailedConstraints: WaypointOptimizationFailedConstraintList;
+  Id: string;
+  Position: Position;
+}
+export const WaypointOptimizationImpedingWaypoint = S.suspend(() =>
+  S.Struct({
+    FailedConstraints: WaypointOptimizationFailedConstraintList,
+    Id: S.String,
+    Position: Position,
+  }),
+).annotations({
+  identifier: "WaypointOptimizationImpedingWaypoint",
+}) as any as S.Schema<WaypointOptimizationImpedingWaypoint>;
+export type WaypointOptimizationImpedingWaypointList =
+  WaypointOptimizationImpedingWaypoint[];
 export const WaypointOptimizationImpedingWaypointList = S.Array(
   WaypointOptimizationImpedingWaypoint,
 );
-export class RouteLegGeometry extends S.Class<RouteLegGeometry>(
-  "RouteLegGeometry",
-)({ LineString: S.optional(LineString), Polyline: S.optional(S.String) }) {}
-export class LocalizedString extends S.Class<LocalizedString>(
-  "LocalizedString",
-)({ Language: S.optional(S.String), Value: S.String }) {}
-export class RouteNumber extends S.Class<RouteNumber>("RouteNumber")({
-  Direction: S.optional(S.String),
-  Language: S.optional(S.String),
-  Value: S.String,
-}) {}
+export interface RouteLegGeometry {
+  LineString?: LineString;
+  Polyline?: string;
+}
+export const RouteLegGeometry = S.suspend(() =>
+  S.Struct({
+    LineString: S.optional(LineString),
+    Polyline: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RouteLegGeometry",
+}) as any as S.Schema<RouteLegGeometry>;
+export interface LocalizedString {
+  Language?: string;
+  Value: string;
+}
+export const LocalizedString = S.suspend(() =>
+  S.Struct({ Language: S.optional(S.String), Value: S.String }),
+).annotations({
+  identifier: "LocalizedString",
+}) as any as S.Schema<LocalizedString>;
+export interface RouteNumber {
+  Direction?: string;
+  Language?: string;
+  Value: string;
+}
+export const RouteNumber = S.suspend(() =>
+  S.Struct({
+    Direction: S.optional(S.String),
+    Language: S.optional(S.String),
+    Value: S.String,
+  }),
+).annotations({ identifier: "RouteNumber" }) as any as S.Schema<RouteNumber>;
+export type LocalizedStringList = LocalizedString[];
 export const LocalizedStringList = S.Array(LocalizedString);
+export type IndexList = number[];
 export const IndexList = S.Array(S.Number);
+export type RouteSpanPedestrianAccessAttributeList = string[];
 export const RouteSpanPedestrianAccessAttributeList = S.Array(S.String);
+export type RouteSpanRoadAttributeList = string[];
 export const RouteSpanRoadAttributeList = S.Array(S.String);
+export type RouteNumberList = RouteNumber[];
 export const RouteNumberList = S.Array(RouteNumber);
+export type RouteSpanCarAccessAttributeList = string[];
 export const RouteSpanCarAccessAttributeList = S.Array(S.String);
+export type RouteSpanScooterAccessAttributeList = string[];
 export const RouteSpanScooterAccessAttributeList = S.Array(S.String);
+export type RouteSpanTruckAccessAttributeList = string[];
 export const RouteSpanTruckAccessAttributeList = S.Array(S.String);
-export class OptimizeWaypointsResponse extends S.Class<OptimizeWaypointsResponse>(
-  "OptimizeWaypointsResponse",
-)({
-  Connections: WaypointOptimizationConnectionList,
-  Distance: S.Number,
-  Duration: S.Number,
-  ImpedingWaypoints: WaypointOptimizationImpedingWaypointList,
-  OptimizedWaypoints: WaypointOptimizationOptimizedWaypointList,
-  PricingBucket: S.String.pipe(T.HttpHeader("x-amz-geo-pricing-bucket")),
-  TimeBreakdown: WaypointOptimizationTimeBreakdown,
-}) {}
-export class IsolineShapeGeometry extends S.Class<IsolineShapeGeometry>(
-  "IsolineShapeGeometry",
-)({
-  Polygon: S.optional(LinearRings),
-  PolylinePolygon: S.optional(PolylineRingList),
-}) {}
+export interface OptimizeWaypointsResponse {
+  Connections: WaypointOptimizationConnectionList;
+  Distance: number;
+  Duration: number;
+  ImpedingWaypoints: WaypointOptimizationImpedingWaypointList;
+  OptimizedWaypoints: WaypointOptimizationOptimizedWaypointList;
+  PricingBucket: string;
+  TimeBreakdown: WaypointOptimizationTimeBreakdown;
+}
+export const OptimizeWaypointsResponse = S.suspend(() =>
+  S.Struct({
+    Connections: WaypointOptimizationConnectionList,
+    Distance: S.Number,
+    Duration: S.Number,
+    ImpedingWaypoints: WaypointOptimizationImpedingWaypointList,
+    OptimizedWaypoints: WaypointOptimizationOptimizedWaypointList,
+    PricingBucket: S.String.pipe(T.HttpHeader("x-amz-geo-pricing-bucket")),
+    TimeBreakdown: WaypointOptimizationTimeBreakdown,
+  }),
+).annotations({
+  identifier: "OptimizeWaypointsResponse",
+}) as any as S.Schema<OptimizeWaypointsResponse>;
+export interface IsolineShapeGeometry {
+  Polygon?: LinearRings;
+  PolylinePolygon?: PolylineRingList;
+}
+export const IsolineShapeGeometry = S.suspend(() =>
+  S.Struct({
+    Polygon: S.optional(LinearRings),
+    PolylinePolygon: S.optional(PolylineRingList),
+  }),
+).annotations({
+  identifier: "IsolineShapeGeometry",
+}) as any as S.Schema<IsolineShapeGeometry>;
+export type IsolineShapeGeometryList = IsolineShapeGeometry[];
 export const IsolineShapeGeometryList = S.Array(IsolineShapeGeometry);
-export class RouteMajorRoadLabel extends S.Class<RouteMajorRoadLabel>(
-  "RouteMajorRoadLabel",
-)({
-  RoadName: S.optional(LocalizedString),
-  RouteNumber: S.optional(RouteNumber),
-}) {}
+export interface RouteMajorRoadLabel {
+  RoadName?: LocalizedString;
+  RouteNumber?: RouteNumber;
+}
+export const RouteMajorRoadLabel = S.suspend(() =>
+  S.Struct({
+    RoadName: S.optional(LocalizedString),
+    RouteNumber: S.optional(RouteNumber),
+  }),
+).annotations({
+  identifier: "RouteMajorRoadLabel",
+}) as any as S.Schema<RouteMajorRoadLabel>;
+export type RouteMajorRoadLabelList = RouteMajorRoadLabel[];
 export const RouteMajorRoadLabelList = S.Array(RouteMajorRoadLabel);
-export class RouteFerryAfterTravelStep extends S.Class<RouteFerryAfterTravelStep>(
-  "RouteFerryAfterTravelStep",
-)({ Duration: S.Number, Instruction: S.optional(S.String), Type: S.String }) {}
+export interface RouteFerryAfterTravelStep {
+  Duration: number;
+  Instruction?: string;
+  Type: string;
+}
+export const RouteFerryAfterTravelStep = S.suspend(() =>
+  S.Struct({
+    Duration: S.Number,
+    Instruction: S.optional(S.String),
+    Type: S.String,
+  }),
+).annotations({
+  identifier: "RouteFerryAfterTravelStep",
+}) as any as S.Schema<RouteFerryAfterTravelStep>;
+export type RouteFerryAfterTravelStepList = RouteFerryAfterTravelStep[];
 export const RouteFerryAfterTravelStepList = S.Array(RouteFerryAfterTravelStep);
-export class RouteFerryBeforeTravelStep extends S.Class<RouteFerryBeforeTravelStep>(
-  "RouteFerryBeforeTravelStep",
-)({ Duration: S.Number, Instruction: S.optional(S.String), Type: S.String }) {}
+export interface RouteFerryBeforeTravelStep {
+  Duration: number;
+  Instruction?: string;
+  Type: string;
+}
+export const RouteFerryBeforeTravelStep = S.suspend(() =>
+  S.Struct({
+    Duration: S.Number,
+    Instruction: S.optional(S.String),
+    Type: S.String,
+  }),
+).annotations({
+  identifier: "RouteFerryBeforeTravelStep",
+}) as any as S.Schema<RouteFerryBeforeTravelStep>;
+export type RouteFerryBeforeTravelStepList = RouteFerryBeforeTravelStep[];
 export const RouteFerryBeforeTravelStepList = S.Array(
   RouteFerryBeforeTravelStep,
 );
+export type Position23 = number[];
 export const Position23 = S.Array(S.Number);
-export class RouteFerryPlace extends S.Class<RouteFerryPlace>(
-  "RouteFerryPlace",
-)({
-  Name: S.optional(S.String),
-  OriginalPosition: S.optional(Position23),
-  Position: Position23,
-  WaypointIndex: S.optional(S.Number),
-}) {}
-export class RouteFerryDeparture extends S.Class<RouteFerryDeparture>(
-  "RouteFerryDeparture",
-)({ Place: RouteFerryPlace, Time: S.optional(S.String) }) {}
-export class RouteFerryNotice extends S.Class<RouteFerryNotice>(
-  "RouteFerryNotice",
-)({ Code: S.String, Impact: S.optional(S.String) }) {}
+export interface RouteFerryPlace {
+  Name?: string;
+  OriginalPosition?: Position23;
+  Position: Position23;
+  WaypointIndex?: number;
+}
+export const RouteFerryPlace = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    OriginalPosition: S.optional(Position23),
+    Position: Position23,
+    WaypointIndex: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "RouteFerryPlace",
+}) as any as S.Schema<RouteFerryPlace>;
+export interface RouteFerryDeparture {
+  Place: RouteFerryPlace;
+  Time?: string;
+}
+export const RouteFerryDeparture = S.suspend(() =>
+  S.Struct({ Place: RouteFerryPlace, Time: S.optional(S.String) }),
+).annotations({
+  identifier: "RouteFerryDeparture",
+}) as any as S.Schema<RouteFerryDeparture>;
+export interface RouteFerryNotice {
+  Code: string;
+  Impact?: string;
+}
+export const RouteFerryNotice = S.suspend(() =>
+  S.Struct({ Code: S.String, Impact: S.optional(S.String) }),
+).annotations({
+  identifier: "RouteFerryNotice",
+}) as any as S.Schema<RouteFerryNotice>;
+export type RouteFerryNoticeList = RouteFerryNotice[];
 export const RouteFerryNoticeList = S.Array(RouteFerryNotice);
-export class RouteFerrySpan extends S.Class<RouteFerrySpan>("RouteFerrySpan")({
-  Country: S.optional(S.String),
-  Distance: S.optional(S.Number),
-  Duration: S.optional(S.Number),
-  GeometryOffset: S.optional(S.Number),
-  Names: S.optional(LocalizedStringList),
-  Region: S.optional(S.String),
-}) {}
+export interface RouteFerrySpan {
+  Country?: string;
+  Distance?: number;
+  Duration?: number;
+  GeometryOffset?: number;
+  Names?: LocalizedStringList;
+  Region?: string;
+}
+export const RouteFerrySpan = S.suspend(() =>
+  S.Struct({
+    Country: S.optional(S.String),
+    Distance: S.optional(S.Number),
+    Duration: S.optional(S.Number),
+    GeometryOffset: S.optional(S.Number),
+    Names: S.optional(LocalizedStringList),
+    Region: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RouteFerrySpan",
+}) as any as S.Schema<RouteFerrySpan>;
+export type RouteFerrySpanList = RouteFerrySpan[];
 export const RouteFerrySpanList = S.Array(RouteFerrySpan);
-export class RouteFerryTravelStep extends S.Class<RouteFerryTravelStep>(
-  "RouteFerryTravelStep",
-)({
-  Distance: S.optional(S.Number),
-  Duration: S.Number,
-  GeometryOffset: S.optional(S.Number),
-  Instruction: S.optional(S.String),
-  Type: S.String,
-}) {}
+export interface RouteFerryTravelStep {
+  Distance?: number;
+  Duration: number;
+  GeometryOffset?: number;
+  Instruction?: string;
+  Type: string;
+}
+export const RouteFerryTravelStep = S.suspend(() =>
+  S.Struct({
+    Distance: S.optional(S.Number),
+    Duration: S.Number,
+    GeometryOffset: S.optional(S.Number),
+    Instruction: S.optional(S.String),
+    Type: S.String,
+  }),
+).annotations({
+  identifier: "RouteFerryTravelStep",
+}) as any as S.Schema<RouteFerryTravelStep>;
+export type RouteFerryTravelStepList = RouteFerryTravelStep[];
 export const RouteFerryTravelStepList = S.Array(RouteFerryTravelStep);
-export class RoutePedestrianPlace extends S.Class<RoutePedestrianPlace>(
-  "RoutePedestrianPlace",
-)({
-  Name: S.optional(S.String),
-  OriginalPosition: S.optional(Position23),
-  Position: Position23,
-  SideOfStreet: S.optional(S.String),
-  WaypointIndex: S.optional(S.Number),
-}) {}
-export class RoutePedestrianDeparture extends S.Class<RoutePedestrianDeparture>(
-  "RoutePedestrianDeparture",
-)({ Place: RoutePedestrianPlace, Time: S.optional(S.String) }) {}
-export class RoutePedestrianNotice extends S.Class<RoutePedestrianNotice>(
-  "RoutePedestrianNotice",
-)({ Code: S.String, Impact: S.optional(S.String) }) {}
+export interface RoutePedestrianPlace {
+  Name?: string;
+  OriginalPosition?: Position23;
+  Position: Position23;
+  SideOfStreet?: string;
+  WaypointIndex?: number;
+}
+export const RoutePedestrianPlace = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    OriginalPosition: S.optional(Position23),
+    Position: Position23,
+    SideOfStreet: S.optional(S.String),
+    WaypointIndex: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "RoutePedestrianPlace",
+}) as any as S.Schema<RoutePedestrianPlace>;
+export interface RoutePedestrianDeparture {
+  Place: RoutePedestrianPlace;
+  Time?: string;
+}
+export const RoutePedestrianDeparture = S.suspend(() =>
+  S.Struct({ Place: RoutePedestrianPlace, Time: S.optional(S.String) }),
+).annotations({
+  identifier: "RoutePedestrianDeparture",
+}) as any as S.Schema<RoutePedestrianDeparture>;
+export interface RoutePedestrianNotice {
+  Code: string;
+  Impact?: string;
+}
+export const RoutePedestrianNotice = S.suspend(() =>
+  S.Struct({ Code: S.String, Impact: S.optional(S.String) }),
+).annotations({
+  identifier: "RoutePedestrianNotice",
+}) as any as S.Schema<RoutePedestrianNotice>;
+export type RoutePedestrianNoticeList = RoutePedestrianNotice[];
 export const RoutePedestrianNoticeList = S.Array(RoutePedestrianNotice);
-export class RouteVehiclePlace extends S.Class<RouteVehiclePlace>(
-  "RouteVehiclePlace",
-)({
-  Name: S.optional(S.String),
-  OriginalPosition: S.optional(Position23),
-  Position: Position23,
-  SideOfStreet: S.optional(S.String),
-  WaypointIndex: S.optional(S.Number),
-}) {}
-export class RouteVehicleDeparture extends S.Class<RouteVehicleDeparture>(
-  "RouteVehicleDeparture",
-)({ Place: RouteVehiclePlace, Time: S.optional(S.String) }) {}
-export class RouteVehicleIncident extends S.Class<RouteVehicleIncident>(
-  "RouteVehicleIncident",
-)({
-  Description: S.optional(S.String),
-  EndTime: S.optional(S.String),
-  Severity: S.optional(S.String),
-  StartTime: S.optional(S.String),
-  Type: S.optional(S.String),
-}) {}
+export interface RouteVehiclePlace {
+  Name?: string;
+  OriginalPosition?: Position23;
+  Position: Position23;
+  SideOfStreet?: string;
+  WaypointIndex?: number;
+}
+export const RouteVehiclePlace = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    OriginalPosition: S.optional(Position23),
+    Position: Position23,
+    SideOfStreet: S.optional(S.String),
+    WaypointIndex: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "RouteVehiclePlace",
+}) as any as S.Schema<RouteVehiclePlace>;
+export interface RouteVehicleDeparture {
+  Place: RouteVehiclePlace;
+  Time?: string;
+}
+export const RouteVehicleDeparture = S.suspend(() =>
+  S.Struct({ Place: RouteVehiclePlace, Time: S.optional(S.String) }),
+).annotations({
+  identifier: "RouteVehicleDeparture",
+}) as any as S.Schema<RouteVehicleDeparture>;
+export interface RouteVehicleIncident {
+  Description?: string;
+  EndTime?: string;
+  Severity?: string;
+  StartTime?: string;
+  Type?: string;
+}
+export const RouteVehicleIncident = S.suspend(() =>
+  S.Struct({
+    Description: S.optional(S.String),
+    EndTime: S.optional(S.String),
+    Severity: S.optional(S.String),
+    StartTime: S.optional(S.String),
+    Type: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RouteVehicleIncident",
+}) as any as S.Schema<RouteVehicleIncident>;
+export type RouteVehicleIncidentList = RouteVehicleIncident[];
 export const RouteVehicleIncidentList = S.Array(RouteVehicleIncident);
-export class RouteSpanDynamicSpeedDetails extends S.Class<RouteSpanDynamicSpeedDetails>(
-  "RouteSpanDynamicSpeedDetails",
-)({
-  BestCaseSpeed: S.optional(S.Number),
-  TurnDuration: S.optional(S.Number),
-  TypicalSpeed: S.optional(S.Number),
-}) {}
-export class RouteSpanSpeedLimitDetails extends S.Class<RouteSpanSpeedLimitDetails>(
-  "RouteSpanSpeedLimitDetails",
-)({ MaxSpeed: S.optional(S.Number), Unlimited: S.optional(S.Boolean) }) {}
-export class RouteVehicleSpan extends S.Class<RouteVehicleSpan>(
-  "RouteVehicleSpan",
-)({
-  BestCaseDuration: S.optional(S.Number),
-  CarAccess: S.optional(RouteSpanCarAccessAttributeList),
-  Country: S.optional(S.String),
-  Distance: S.optional(S.Number),
-  Duration: S.optional(S.Number),
-  DynamicSpeed: S.optional(RouteSpanDynamicSpeedDetails),
-  FunctionalClassification: S.optional(S.Number),
-  Gate: S.optional(S.String),
-  GeometryOffset: S.optional(S.Number),
-  Incidents: S.optional(IndexList),
-  Names: S.optional(LocalizedStringList),
-  Notices: S.optional(IndexList),
-  RailwayCrossing: S.optional(S.String),
-  Region: S.optional(S.String),
-  RoadAttributes: S.optional(RouteSpanRoadAttributeList),
-  RouteNumbers: S.optional(RouteNumberList),
-  ScooterAccess: S.optional(RouteSpanScooterAccessAttributeList),
-  SpeedLimit: S.optional(RouteSpanSpeedLimitDetails),
-  TollSystems: S.optional(IndexList),
-  TruckAccess: S.optional(RouteSpanTruckAccessAttributeList),
-  TruckRoadTypes: S.optional(IndexList),
-  TypicalDuration: S.optional(S.Number),
-  Zones: S.optional(IndexList),
-}) {}
+export interface RouteSpanDynamicSpeedDetails {
+  BestCaseSpeed?: number;
+  TurnDuration?: number;
+  TypicalSpeed?: number;
+}
+export const RouteSpanDynamicSpeedDetails = S.suspend(() =>
+  S.Struct({
+    BestCaseSpeed: S.optional(S.Number),
+    TurnDuration: S.optional(S.Number),
+    TypicalSpeed: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "RouteSpanDynamicSpeedDetails",
+}) as any as S.Schema<RouteSpanDynamicSpeedDetails>;
+export interface RouteSpanSpeedLimitDetails {
+  MaxSpeed?: number;
+  Unlimited?: boolean;
+}
+export const RouteSpanSpeedLimitDetails = S.suspend(() =>
+  S.Struct({
+    MaxSpeed: S.optional(S.Number),
+    Unlimited: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "RouteSpanSpeedLimitDetails",
+}) as any as S.Schema<RouteSpanSpeedLimitDetails>;
+export interface RouteVehicleSpan {
+  BestCaseDuration?: number;
+  CarAccess?: RouteSpanCarAccessAttributeList;
+  Country?: string;
+  Distance?: number;
+  Duration?: number;
+  DynamicSpeed?: RouteSpanDynamicSpeedDetails;
+  FunctionalClassification?: number;
+  Gate?: string;
+  GeometryOffset?: number;
+  Incidents?: IndexList;
+  Names?: LocalizedStringList;
+  Notices?: IndexList;
+  RailwayCrossing?: string;
+  Region?: string;
+  RoadAttributes?: RouteSpanRoadAttributeList;
+  RouteNumbers?: RouteNumberList;
+  ScooterAccess?: RouteSpanScooterAccessAttributeList;
+  SpeedLimit?: RouteSpanSpeedLimitDetails;
+  TollSystems?: IndexList;
+  TruckAccess?: RouteSpanTruckAccessAttributeList;
+  TruckRoadTypes?: IndexList;
+  TypicalDuration?: number;
+  Zones?: IndexList;
+}
+export const RouteVehicleSpan = S.suspend(() =>
+  S.Struct({
+    BestCaseDuration: S.optional(S.Number),
+    CarAccess: S.optional(RouteSpanCarAccessAttributeList),
+    Country: S.optional(S.String),
+    Distance: S.optional(S.Number),
+    Duration: S.optional(S.Number),
+    DynamicSpeed: S.optional(RouteSpanDynamicSpeedDetails),
+    FunctionalClassification: S.optional(S.Number),
+    Gate: S.optional(S.String),
+    GeometryOffset: S.optional(S.Number),
+    Incidents: S.optional(IndexList),
+    Names: S.optional(LocalizedStringList),
+    Notices: S.optional(IndexList),
+    RailwayCrossing: S.optional(S.String),
+    Region: S.optional(S.String),
+    RoadAttributes: S.optional(RouteSpanRoadAttributeList),
+    RouteNumbers: S.optional(RouteNumberList),
+    ScooterAccess: S.optional(RouteSpanScooterAccessAttributeList),
+    SpeedLimit: S.optional(RouteSpanSpeedLimitDetails),
+    TollSystems: S.optional(IndexList),
+    TruckAccess: S.optional(RouteSpanTruckAccessAttributeList),
+    TruckRoadTypes: S.optional(IndexList),
+    TypicalDuration: S.optional(S.Number),
+    Zones: S.optional(IndexList),
+  }),
+).annotations({
+  identifier: "RouteVehicleSpan",
+}) as any as S.Schema<RouteVehicleSpan>;
+export type RouteVehicleSpanList = RouteVehicleSpan[];
 export const RouteVehicleSpanList = S.Array(RouteVehicleSpan);
-export class RouteTollSystem extends S.Class<RouteTollSystem>(
-  "RouteTollSystem",
-)({ Name: S.optional(S.String) }) {}
+export interface RouteTollSystem {
+  Name?: string;
+}
+export const RouteTollSystem = S.suspend(() =>
+  S.Struct({ Name: S.optional(S.String) }),
+).annotations({
+  identifier: "RouteTollSystem",
+}) as any as S.Schema<RouteTollSystem>;
+export type RouteTollSystemList = RouteTollSystem[];
 export const RouteTollSystemList = S.Array(RouteTollSystem);
-export class RouteZone extends S.Class<RouteZone>("RouteZone")({
-  Category: S.optional(S.String),
-  Name: S.optional(S.String),
-}) {}
+export interface RouteZone {
+  Category?: string;
+  Name?: string;
+}
+export const RouteZone = S.suspend(() =>
+  S.Struct({ Category: S.optional(S.String), Name: S.optional(S.String) }),
+).annotations({ identifier: "RouteZone" }) as any as S.Schema<RouteZone>;
+export type RouteZoneList = RouteZone[];
 export const RouteZoneList = S.Array(RouteZone);
+export type RouteTollPaymentMethodList = string[];
 export const RouteTollPaymentMethodList = S.Array(S.String);
-export class IsolineConnectionGeometry extends S.Class<IsolineConnectionGeometry>(
-  "IsolineConnectionGeometry",
-)({ LineString: S.optional(LineString), Polyline: S.optional(S.String) }) {}
-export class RoutePassThroughPlace extends S.Class<RoutePassThroughPlace>(
-  "RoutePassThroughPlace",
-)({
-  OriginalPosition: S.optional(Position23),
-  Position: Position23,
-  WaypointIndex: S.optional(S.Number),
-}) {}
-export class RouteFerryOverviewSummary extends S.Class<RouteFerryOverviewSummary>(
-  "RouteFerryOverviewSummary",
-)({ Distance: S.Number, Duration: S.Number }) {}
-export class RouteFerryTravelOnlySummary extends S.Class<RouteFerryTravelOnlySummary>(
-  "RouteFerryTravelOnlySummary",
-)({ Duration: S.Number }) {}
-export class RoutePedestrianOverviewSummary extends S.Class<RoutePedestrianOverviewSummary>(
-  "RoutePedestrianOverviewSummary",
-)({ Distance: S.Number, Duration: S.Number }) {}
-export class RoutePedestrianTravelOnlySummary extends S.Class<RoutePedestrianTravelOnlySummary>(
-  "RoutePedestrianTravelOnlySummary",
-)({ Duration: S.Number }) {}
-export class RouteContinueStepDetails extends S.Class<RouteContinueStepDetails>(
-  "RouteContinueStepDetails",
-)({ Intersection: LocalizedStringList }) {}
-export class RouteRoad extends S.Class<RouteRoad>("RouteRoad")({
-  RoadName: LocalizedStringList,
-  RouteNumber: RouteNumberList,
-  Towards: LocalizedStringList,
-  Type: S.optional(S.String),
-}) {}
-export class RouteKeepStepDetails extends S.Class<RouteKeepStepDetails>(
-  "RouteKeepStepDetails",
-)({
-  Intersection: LocalizedStringList,
-  SteeringDirection: S.optional(S.String),
-  TurnAngle: S.optional(S.Number),
-  TurnIntensity: S.optional(S.String),
-}) {}
-export class RouteRoundaboutEnterStepDetails extends S.Class<RouteRoundaboutEnterStepDetails>(
-  "RouteRoundaboutEnterStepDetails",
-)({
-  Intersection: LocalizedStringList,
-  SteeringDirection: S.optional(S.String),
-  TurnAngle: S.optional(S.Number),
-  TurnIntensity: S.optional(S.String),
-}) {}
-export class RouteRoundaboutExitStepDetails extends S.Class<RouteRoundaboutExitStepDetails>(
-  "RouteRoundaboutExitStepDetails",
-)({
-  Intersection: LocalizedStringList,
-  RelativeExit: S.optional(S.Number),
-  RoundaboutAngle: S.optional(S.Number),
-  SteeringDirection: S.optional(S.String),
-}) {}
-export class RouteRoundaboutPassStepDetails extends S.Class<RouteRoundaboutPassStepDetails>(
-  "RouteRoundaboutPassStepDetails",
-)({
-  Intersection: LocalizedStringList,
-  SteeringDirection: S.optional(S.String),
-  TurnAngle: S.optional(S.Number),
-  TurnIntensity: S.optional(S.String),
-}) {}
-export class RouteTurnStepDetails extends S.Class<RouteTurnStepDetails>(
-  "RouteTurnStepDetails",
-)({
-  Intersection: LocalizedStringList,
-  SteeringDirection: S.optional(S.String),
-  TurnAngle: S.optional(S.Number),
-  TurnIntensity: S.optional(S.String),
-}) {}
-export class RouteVehicleOverviewSummary extends S.Class<RouteVehicleOverviewSummary>(
-  "RouteVehicleOverviewSummary",
-)({
-  BestCaseDuration: S.optional(S.Number),
-  Distance: S.Number,
-  Duration: S.Number,
-  TypicalDuration: S.optional(S.Number),
-}) {}
-export class RouteVehicleTravelOnlySummary extends S.Class<RouteVehicleTravelOnlySummary>(
-  "RouteVehicleTravelOnlySummary",
-)({
-  BestCaseDuration: S.optional(S.Number),
-  Duration: S.Number,
-  TypicalDuration: S.optional(S.Number),
-}) {}
-export class RouteTollPaymentSite extends S.Class<RouteTollPaymentSite>(
-  "RouteTollPaymentSite",
-)({ Name: S.optional(S.String), Position: Position23 }) {}
+export interface IsolineConnectionGeometry {
+  LineString?: LineString;
+  Polyline?: string;
+}
+export const IsolineConnectionGeometry = S.suspend(() =>
+  S.Struct({
+    LineString: S.optional(LineString),
+    Polyline: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "IsolineConnectionGeometry",
+}) as any as S.Schema<IsolineConnectionGeometry>;
+export interface RoutePassThroughPlace {
+  OriginalPosition?: Position23;
+  Position: Position23;
+  WaypointIndex?: number;
+}
+export const RoutePassThroughPlace = S.suspend(() =>
+  S.Struct({
+    OriginalPosition: S.optional(Position23),
+    Position: Position23,
+    WaypointIndex: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "RoutePassThroughPlace",
+}) as any as S.Schema<RoutePassThroughPlace>;
+export interface RouteFerryOverviewSummary {
+  Distance: number;
+  Duration: number;
+}
+export const RouteFerryOverviewSummary = S.suspend(() =>
+  S.Struct({ Distance: S.Number, Duration: S.Number }),
+).annotations({
+  identifier: "RouteFerryOverviewSummary",
+}) as any as S.Schema<RouteFerryOverviewSummary>;
+export interface RouteFerryTravelOnlySummary {
+  Duration: number;
+}
+export const RouteFerryTravelOnlySummary = S.suspend(() =>
+  S.Struct({ Duration: S.Number }),
+).annotations({
+  identifier: "RouteFerryTravelOnlySummary",
+}) as any as S.Schema<RouteFerryTravelOnlySummary>;
+export interface RoutePedestrianOverviewSummary {
+  Distance: number;
+  Duration: number;
+}
+export const RoutePedestrianOverviewSummary = S.suspend(() =>
+  S.Struct({ Distance: S.Number, Duration: S.Number }),
+).annotations({
+  identifier: "RoutePedestrianOverviewSummary",
+}) as any as S.Schema<RoutePedestrianOverviewSummary>;
+export interface RoutePedestrianTravelOnlySummary {
+  Duration: number;
+}
+export const RoutePedestrianTravelOnlySummary = S.suspend(() =>
+  S.Struct({ Duration: S.Number }),
+).annotations({
+  identifier: "RoutePedestrianTravelOnlySummary",
+}) as any as S.Schema<RoutePedestrianTravelOnlySummary>;
+export interface RouteContinueStepDetails {
+  Intersection: LocalizedStringList;
+}
+export const RouteContinueStepDetails = S.suspend(() =>
+  S.Struct({ Intersection: LocalizedStringList }),
+).annotations({
+  identifier: "RouteContinueStepDetails",
+}) as any as S.Schema<RouteContinueStepDetails>;
+export interface RouteRoad {
+  RoadName: LocalizedStringList;
+  RouteNumber: RouteNumberList;
+  Towards: LocalizedStringList;
+  Type?: string;
+}
+export const RouteRoad = S.suspend(() =>
+  S.Struct({
+    RoadName: LocalizedStringList,
+    RouteNumber: RouteNumberList,
+    Towards: LocalizedStringList,
+    Type: S.optional(S.String),
+  }),
+).annotations({ identifier: "RouteRoad" }) as any as S.Schema<RouteRoad>;
+export interface RouteKeepStepDetails {
+  Intersection: LocalizedStringList;
+  SteeringDirection?: string;
+  TurnAngle?: number;
+  TurnIntensity?: string;
+}
+export const RouteKeepStepDetails = S.suspend(() =>
+  S.Struct({
+    Intersection: LocalizedStringList,
+    SteeringDirection: S.optional(S.String),
+    TurnAngle: S.optional(S.Number),
+    TurnIntensity: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RouteKeepStepDetails",
+}) as any as S.Schema<RouteKeepStepDetails>;
+export interface RouteRoundaboutEnterStepDetails {
+  Intersection: LocalizedStringList;
+  SteeringDirection?: string;
+  TurnAngle?: number;
+  TurnIntensity?: string;
+}
+export const RouteRoundaboutEnterStepDetails = S.suspend(() =>
+  S.Struct({
+    Intersection: LocalizedStringList,
+    SteeringDirection: S.optional(S.String),
+    TurnAngle: S.optional(S.Number),
+    TurnIntensity: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RouteRoundaboutEnterStepDetails",
+}) as any as S.Schema<RouteRoundaboutEnterStepDetails>;
+export interface RouteRoundaboutExitStepDetails {
+  Intersection: LocalizedStringList;
+  RelativeExit?: number;
+  RoundaboutAngle?: number;
+  SteeringDirection?: string;
+}
+export const RouteRoundaboutExitStepDetails = S.suspend(() =>
+  S.Struct({
+    Intersection: LocalizedStringList,
+    RelativeExit: S.optional(S.Number),
+    RoundaboutAngle: S.optional(S.Number),
+    SteeringDirection: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RouteRoundaboutExitStepDetails",
+}) as any as S.Schema<RouteRoundaboutExitStepDetails>;
+export interface RouteRoundaboutPassStepDetails {
+  Intersection: LocalizedStringList;
+  SteeringDirection?: string;
+  TurnAngle?: number;
+  TurnIntensity?: string;
+}
+export const RouteRoundaboutPassStepDetails = S.suspend(() =>
+  S.Struct({
+    Intersection: LocalizedStringList,
+    SteeringDirection: S.optional(S.String),
+    TurnAngle: S.optional(S.Number),
+    TurnIntensity: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RouteRoundaboutPassStepDetails",
+}) as any as S.Schema<RouteRoundaboutPassStepDetails>;
+export interface RouteTurnStepDetails {
+  Intersection: LocalizedStringList;
+  SteeringDirection?: string;
+  TurnAngle?: number;
+  TurnIntensity?: string;
+}
+export const RouteTurnStepDetails = S.suspend(() =>
+  S.Struct({
+    Intersection: LocalizedStringList,
+    SteeringDirection: S.optional(S.String),
+    TurnAngle: S.optional(S.Number),
+    TurnIntensity: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RouteTurnStepDetails",
+}) as any as S.Schema<RouteTurnStepDetails>;
+export interface RouteVehicleOverviewSummary {
+  BestCaseDuration?: number;
+  Distance: number;
+  Duration: number;
+  TypicalDuration?: number;
+}
+export const RouteVehicleOverviewSummary = S.suspend(() =>
+  S.Struct({
+    BestCaseDuration: S.optional(S.Number),
+    Distance: S.Number,
+    Duration: S.Number,
+    TypicalDuration: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "RouteVehicleOverviewSummary",
+}) as any as S.Schema<RouteVehicleOverviewSummary>;
+export interface RouteVehicleTravelOnlySummary {
+  BestCaseDuration?: number;
+  Duration: number;
+  TypicalDuration?: number;
+}
+export const RouteVehicleTravelOnlySummary = S.suspend(() =>
+  S.Struct({
+    BestCaseDuration: S.optional(S.Number),
+    Duration: S.Number,
+    TypicalDuration: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "RouteVehicleTravelOnlySummary",
+}) as any as S.Schema<RouteVehicleTravelOnlySummary>;
+export interface RouteTollPaymentSite {
+  Name?: string;
+  Position: Position23;
+}
+export const RouteTollPaymentSite = S.suspend(() =>
+  S.Struct({ Name: S.optional(S.String), Position: Position23 }),
+).annotations({
+  identifier: "RouteTollPaymentSite",
+}) as any as S.Schema<RouteTollPaymentSite>;
+export type RouteTollPaymentSiteList = RouteTollPaymentSite[];
 export const RouteTollPaymentSiteList = S.Array(RouteTollPaymentSite);
-export class RouteContinueHighwayStepDetails extends S.Class<RouteContinueHighwayStepDetails>(
-  "RouteContinueHighwayStepDetails",
-)({
-  Intersection: LocalizedStringList,
-  SteeringDirection: S.optional(S.String),
-  TurnAngle: S.optional(S.Number),
-  TurnIntensity: S.optional(S.String),
-}) {}
-export class RouteEnterHighwayStepDetails extends S.Class<RouteEnterHighwayStepDetails>(
-  "RouteEnterHighwayStepDetails",
-)({
-  Intersection: LocalizedStringList,
-  SteeringDirection: S.optional(S.String),
-  TurnAngle: S.optional(S.Number),
-  TurnIntensity: S.optional(S.String),
-}) {}
-export class RouteExitStepDetails extends S.Class<RouteExitStepDetails>(
-  "RouteExitStepDetails",
-)({
-  Intersection: LocalizedStringList,
-  RelativeExit: S.optional(S.Number),
-  SteeringDirection: S.optional(S.String),
-  TurnAngle: S.optional(S.Number),
-  TurnIntensity: S.optional(S.String),
-}) {}
-export class RouteRampStepDetails extends S.Class<RouteRampStepDetails>(
-  "RouteRampStepDetails",
-)({
-  Intersection: LocalizedStringList,
-  SteeringDirection: S.optional(S.String),
-  TurnAngle: S.optional(S.Number),
-  TurnIntensity: S.optional(S.String),
-}) {}
-export class RouteUTurnStepDetails extends S.Class<RouteUTurnStepDetails>(
-  "RouteUTurnStepDetails",
-)({
-  Intersection: LocalizedStringList,
-  SteeringDirection: S.optional(S.String),
-  TurnAngle: S.optional(S.Number),
-  TurnIntensity: S.optional(S.String),
-}) {}
-export class RouteTollPriceValueRange extends S.Class<RouteTollPriceValueRange>(
-  "RouteTollPriceValueRange",
-)({ Min: S.Number, Max: S.Number }) {}
-export class IsolineConnection extends S.Class<IsolineConnection>(
-  "IsolineConnection",
-)({
-  FromPolygonIndex: S.Number,
-  Geometry: IsolineConnectionGeometry,
-  ToPolygonIndex: S.Number,
-}) {}
+export interface RouteContinueHighwayStepDetails {
+  Intersection: LocalizedStringList;
+  SteeringDirection?: string;
+  TurnAngle?: number;
+  TurnIntensity?: string;
+}
+export const RouteContinueHighwayStepDetails = S.suspend(() =>
+  S.Struct({
+    Intersection: LocalizedStringList,
+    SteeringDirection: S.optional(S.String),
+    TurnAngle: S.optional(S.Number),
+    TurnIntensity: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RouteContinueHighwayStepDetails",
+}) as any as S.Schema<RouteContinueHighwayStepDetails>;
+export interface RouteEnterHighwayStepDetails {
+  Intersection: LocalizedStringList;
+  SteeringDirection?: string;
+  TurnAngle?: number;
+  TurnIntensity?: string;
+}
+export const RouteEnterHighwayStepDetails = S.suspend(() =>
+  S.Struct({
+    Intersection: LocalizedStringList,
+    SteeringDirection: S.optional(S.String),
+    TurnAngle: S.optional(S.Number),
+    TurnIntensity: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RouteEnterHighwayStepDetails",
+}) as any as S.Schema<RouteEnterHighwayStepDetails>;
+export interface RouteExitStepDetails {
+  Intersection: LocalizedStringList;
+  RelativeExit?: number;
+  SteeringDirection?: string;
+  TurnAngle?: number;
+  TurnIntensity?: string;
+}
+export const RouteExitStepDetails = S.suspend(() =>
+  S.Struct({
+    Intersection: LocalizedStringList,
+    RelativeExit: S.optional(S.Number),
+    SteeringDirection: S.optional(S.String),
+    TurnAngle: S.optional(S.Number),
+    TurnIntensity: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RouteExitStepDetails",
+}) as any as S.Schema<RouteExitStepDetails>;
+export interface RouteRampStepDetails {
+  Intersection: LocalizedStringList;
+  SteeringDirection?: string;
+  TurnAngle?: number;
+  TurnIntensity?: string;
+}
+export const RouteRampStepDetails = S.suspend(() =>
+  S.Struct({
+    Intersection: LocalizedStringList,
+    SteeringDirection: S.optional(S.String),
+    TurnAngle: S.optional(S.Number),
+    TurnIntensity: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RouteRampStepDetails",
+}) as any as S.Schema<RouteRampStepDetails>;
+export interface RouteUTurnStepDetails {
+  Intersection: LocalizedStringList;
+  SteeringDirection?: string;
+  TurnAngle?: number;
+  TurnIntensity?: string;
+}
+export const RouteUTurnStepDetails = S.suspend(() =>
+  S.Struct({
+    Intersection: LocalizedStringList,
+    SteeringDirection: S.optional(S.String),
+    TurnAngle: S.optional(S.Number),
+    TurnIntensity: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RouteUTurnStepDetails",
+}) as any as S.Schema<RouteUTurnStepDetails>;
+export interface RouteTollPriceValueRange {
+  Min: number;
+  Max: number;
+}
+export const RouteTollPriceValueRange = S.suspend(() =>
+  S.Struct({ Min: S.Number, Max: S.Number }),
+).annotations({
+  identifier: "RouteTollPriceValueRange",
+}) as any as S.Schema<RouteTollPriceValueRange>;
+export interface IsolineConnection {
+  FromPolygonIndex: number;
+  Geometry: IsolineConnectionGeometry;
+  ToPolygonIndex: number;
+}
+export const IsolineConnection = S.suspend(() =>
+  S.Struct({
+    FromPolygonIndex: S.Number,
+    Geometry: IsolineConnectionGeometry,
+    ToPolygonIndex: S.Number,
+  }),
+).annotations({
+  identifier: "IsolineConnection",
+}) as any as S.Schema<IsolineConnection>;
+export type IsolineConnectionList = IsolineConnection[];
 export const IsolineConnectionList = S.Array(IsolineConnection);
-export class RouteFerryArrival extends S.Class<RouteFerryArrival>(
-  "RouteFerryArrival",
-)({ Place: RouteFerryPlace, Time: S.optional(S.String) }) {}
-export class RoutePassThroughWaypoint extends S.Class<RoutePassThroughWaypoint>(
-  "RoutePassThroughWaypoint",
-)({ GeometryOffset: S.optional(S.Number), Place: RoutePassThroughPlace }) {}
+export interface RouteFerryArrival {
+  Place: RouteFerryPlace;
+  Time?: string;
+}
+export const RouteFerryArrival = S.suspend(() =>
+  S.Struct({ Place: RouteFerryPlace, Time: S.optional(S.String) }),
+).annotations({
+  identifier: "RouteFerryArrival",
+}) as any as S.Schema<RouteFerryArrival>;
+export interface RoutePassThroughWaypoint {
+  GeometryOffset?: number;
+  Place: RoutePassThroughPlace;
+}
+export const RoutePassThroughWaypoint = S.suspend(() =>
+  S.Struct({
+    GeometryOffset: S.optional(S.Number),
+    Place: RoutePassThroughPlace,
+  }),
+).annotations({
+  identifier: "RoutePassThroughWaypoint",
+}) as any as S.Schema<RoutePassThroughWaypoint>;
+export type RoutePassThroughWaypointList = RoutePassThroughWaypoint[];
 export const RoutePassThroughWaypointList = S.Array(RoutePassThroughWaypoint);
-export class RouteFerrySummary extends S.Class<RouteFerrySummary>(
-  "RouteFerrySummary",
-)({
-  Overview: S.optional(RouteFerryOverviewSummary),
-  TravelOnly: S.optional(RouteFerryTravelOnlySummary),
-}) {}
-export class RoutePedestrianArrival extends S.Class<RoutePedestrianArrival>(
-  "RoutePedestrianArrival",
-)({ Place: RoutePedestrianPlace, Time: S.optional(S.String) }) {}
-export class RoutePedestrianSpan extends S.Class<RoutePedestrianSpan>(
-  "RoutePedestrianSpan",
-)({
-  BestCaseDuration: S.optional(S.Number),
-  Country: S.optional(S.String),
-  Distance: S.optional(S.Number),
-  Duration: S.optional(S.Number),
-  DynamicSpeed: S.optional(RouteSpanDynamicSpeedDetails),
-  FunctionalClassification: S.optional(S.Number),
-  GeometryOffset: S.optional(S.Number),
-  Incidents: S.optional(IndexList),
-  Names: S.optional(LocalizedStringList),
-  PedestrianAccess: S.optional(RouteSpanPedestrianAccessAttributeList),
-  Region: S.optional(S.String),
-  RoadAttributes: S.optional(RouteSpanRoadAttributeList),
-  RouteNumbers: S.optional(RouteNumberList),
-  SpeedLimit: S.optional(RouteSpanSpeedLimitDetails),
-  TypicalDuration: S.optional(S.Number),
-}) {}
+export interface RouteFerrySummary {
+  Overview?: RouteFerryOverviewSummary;
+  TravelOnly?: RouteFerryTravelOnlySummary;
+}
+export const RouteFerrySummary = S.suspend(() =>
+  S.Struct({
+    Overview: S.optional(RouteFerryOverviewSummary),
+    TravelOnly: S.optional(RouteFerryTravelOnlySummary),
+  }),
+).annotations({
+  identifier: "RouteFerrySummary",
+}) as any as S.Schema<RouteFerrySummary>;
+export interface RoutePedestrianArrival {
+  Place: RoutePedestrianPlace;
+  Time?: string;
+}
+export const RoutePedestrianArrival = S.suspend(() =>
+  S.Struct({ Place: RoutePedestrianPlace, Time: S.optional(S.String) }),
+).annotations({
+  identifier: "RoutePedestrianArrival",
+}) as any as S.Schema<RoutePedestrianArrival>;
+export interface RoutePedestrianSpan {
+  BestCaseDuration?: number;
+  Country?: string;
+  Distance?: number;
+  Duration?: number;
+  DynamicSpeed?: RouteSpanDynamicSpeedDetails;
+  FunctionalClassification?: number;
+  GeometryOffset?: number;
+  Incidents?: IndexList;
+  Names?: LocalizedStringList;
+  PedestrianAccess?: RouteSpanPedestrianAccessAttributeList;
+  Region?: string;
+  RoadAttributes?: RouteSpanRoadAttributeList;
+  RouteNumbers?: RouteNumberList;
+  SpeedLimit?: RouteSpanSpeedLimitDetails;
+  TypicalDuration?: number;
+}
+export const RoutePedestrianSpan = S.suspend(() =>
+  S.Struct({
+    BestCaseDuration: S.optional(S.Number),
+    Country: S.optional(S.String),
+    Distance: S.optional(S.Number),
+    Duration: S.optional(S.Number),
+    DynamicSpeed: S.optional(RouteSpanDynamicSpeedDetails),
+    FunctionalClassification: S.optional(S.Number),
+    GeometryOffset: S.optional(S.Number),
+    Incidents: S.optional(IndexList),
+    Names: S.optional(LocalizedStringList),
+    PedestrianAccess: S.optional(RouteSpanPedestrianAccessAttributeList),
+    Region: S.optional(S.String),
+    RoadAttributes: S.optional(RouteSpanRoadAttributeList),
+    RouteNumbers: S.optional(RouteNumberList),
+    SpeedLimit: S.optional(RouteSpanSpeedLimitDetails),
+    TypicalDuration: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "RoutePedestrianSpan",
+}) as any as S.Schema<RoutePedestrianSpan>;
+export type RoutePedestrianSpanList = RoutePedestrianSpan[];
 export const RoutePedestrianSpanList = S.Array(RoutePedestrianSpan);
-export class RoutePedestrianSummary extends S.Class<RoutePedestrianSummary>(
-  "RoutePedestrianSummary",
-)({
-  Overview: S.optional(RoutePedestrianOverviewSummary),
-  TravelOnly: S.optional(RoutePedestrianTravelOnlySummary),
-}) {}
-export class RouteVehicleArrival extends S.Class<RouteVehicleArrival>(
-  "RouteVehicleArrival",
-)({ Place: RouteVehiclePlace, Time: S.optional(S.String) }) {}
-export class RouteVehicleSummary extends S.Class<RouteVehicleSummary>(
-  "RouteVehicleSummary",
-)({
-  Overview: S.optional(RouteVehicleOverviewSummary),
-  TravelOnly: S.optional(RouteVehicleTravelOnlySummary),
-}) {}
-export class RouteSignpostLabel extends S.Class<RouteSignpostLabel>(
-  "RouteSignpostLabel",
-)({
-  RouteNumber: S.optional(RouteNumber),
-  Text: S.optional(LocalizedString),
-}) {}
+export interface RoutePedestrianSummary {
+  Overview?: RoutePedestrianOverviewSummary;
+  TravelOnly?: RoutePedestrianTravelOnlySummary;
+}
+export const RoutePedestrianSummary = S.suspend(() =>
+  S.Struct({
+    Overview: S.optional(RoutePedestrianOverviewSummary),
+    TravelOnly: S.optional(RoutePedestrianTravelOnlySummary),
+  }),
+).annotations({
+  identifier: "RoutePedestrianSummary",
+}) as any as S.Schema<RoutePedestrianSummary>;
+export interface RouteVehicleArrival {
+  Place: RouteVehiclePlace;
+  Time?: string;
+}
+export const RouteVehicleArrival = S.suspend(() =>
+  S.Struct({ Place: RouteVehiclePlace, Time: S.optional(S.String) }),
+).annotations({
+  identifier: "RouteVehicleArrival",
+}) as any as S.Schema<RouteVehicleArrival>;
+export interface RouteVehicleSummary {
+  Overview?: RouteVehicleOverviewSummary;
+  TravelOnly?: RouteVehicleTravelOnlySummary;
+}
+export const RouteVehicleSummary = S.suspend(() =>
+  S.Struct({
+    Overview: S.optional(RouteVehicleOverviewSummary),
+    TravelOnly: S.optional(RouteVehicleTravelOnlySummary),
+  }),
+).annotations({
+  identifier: "RouteVehicleSummary",
+}) as any as S.Schema<RouteVehicleSummary>;
+export interface RouteSignpostLabel {
+  RouteNumber?: RouteNumber;
+  Text?: LocalizedString;
+}
+export const RouteSignpostLabel = S.suspend(() =>
+  S.Struct({
+    RouteNumber: S.optional(RouteNumber),
+    Text: S.optional(LocalizedString),
+  }),
+).annotations({
+  identifier: "RouteSignpostLabel",
+}) as any as S.Schema<RouteSignpostLabel>;
+export type RouteSignpostLabelList = RouteSignpostLabel[];
 export const RouteSignpostLabelList = S.Array(RouteSignpostLabel);
-export class RouteSignpost extends S.Class<RouteSignpost>("RouteSignpost")({
-  Labels: RouteSignpostLabelList,
-}) {}
-export class RouteVehicleTravelStep extends S.Class<RouteVehicleTravelStep>(
-  "RouteVehicleTravelStep",
-)({
-  ContinueHighwayStepDetails: S.optional(RouteContinueHighwayStepDetails),
-  ContinueStepDetails: S.optional(RouteContinueStepDetails),
-  CurrentRoad: S.optional(RouteRoad),
-  Distance: S.optional(S.Number),
-  Duration: S.Number,
-  EnterHighwayStepDetails: S.optional(RouteEnterHighwayStepDetails),
-  ExitNumber: S.optional(LocalizedStringList),
-  ExitStepDetails: S.optional(RouteExitStepDetails),
-  GeometryOffset: S.optional(S.Number),
-  Instruction: S.optional(S.String),
-  KeepStepDetails: S.optional(RouteKeepStepDetails),
-  NextRoad: S.optional(RouteRoad),
-  RampStepDetails: S.optional(RouteRampStepDetails),
-  RoundaboutEnterStepDetails: S.optional(RouteRoundaboutEnterStepDetails),
-  RoundaboutExitStepDetails: S.optional(RouteRoundaboutExitStepDetails),
-  RoundaboutPassStepDetails: S.optional(RouteRoundaboutPassStepDetails),
-  Signpost: S.optional(RouteSignpost),
-  TurnStepDetails: S.optional(RouteTurnStepDetails),
-  Type: S.String,
-  UTurnStepDetails: S.optional(RouteUTurnStepDetails),
-}) {}
+export interface RouteSignpost {
+  Labels: RouteSignpostLabelList;
+}
+export const RouteSignpost = S.suspend(() =>
+  S.Struct({ Labels: RouteSignpostLabelList }),
+).annotations({
+  identifier: "RouteSignpost",
+}) as any as S.Schema<RouteSignpost>;
+export interface RouteVehicleTravelStep {
+  ContinueHighwayStepDetails?: RouteContinueHighwayStepDetails;
+  ContinueStepDetails?: RouteContinueStepDetails;
+  CurrentRoad?: RouteRoad;
+  Distance?: number;
+  Duration: number;
+  EnterHighwayStepDetails?: RouteEnterHighwayStepDetails;
+  ExitNumber?: LocalizedStringList;
+  ExitStepDetails?: RouteExitStepDetails;
+  GeometryOffset?: number;
+  Instruction?: string;
+  KeepStepDetails?: RouteKeepStepDetails;
+  NextRoad?: RouteRoad;
+  RampStepDetails?: RouteRampStepDetails;
+  RoundaboutEnterStepDetails?: RouteRoundaboutEnterStepDetails;
+  RoundaboutExitStepDetails?: RouteRoundaboutExitStepDetails;
+  RoundaboutPassStepDetails?: RouteRoundaboutPassStepDetails;
+  Signpost?: RouteSignpost;
+  TurnStepDetails?: RouteTurnStepDetails;
+  Type: string;
+  UTurnStepDetails?: RouteUTurnStepDetails;
+}
+export const RouteVehicleTravelStep = S.suspend(() =>
+  S.Struct({
+    ContinueHighwayStepDetails: S.optional(RouteContinueHighwayStepDetails),
+    ContinueStepDetails: S.optional(RouteContinueStepDetails),
+    CurrentRoad: S.optional(RouteRoad),
+    Distance: S.optional(S.Number),
+    Duration: S.Number,
+    EnterHighwayStepDetails: S.optional(RouteEnterHighwayStepDetails),
+    ExitNumber: S.optional(LocalizedStringList),
+    ExitStepDetails: S.optional(RouteExitStepDetails),
+    GeometryOffset: S.optional(S.Number),
+    Instruction: S.optional(S.String),
+    KeepStepDetails: S.optional(RouteKeepStepDetails),
+    NextRoad: S.optional(RouteRoad),
+    RampStepDetails: S.optional(RouteRampStepDetails),
+    RoundaboutEnterStepDetails: S.optional(RouteRoundaboutEnterStepDetails),
+    RoundaboutExitStepDetails: S.optional(RouteRoundaboutExitStepDetails),
+    RoundaboutPassStepDetails: S.optional(RouteRoundaboutPassStepDetails),
+    Signpost: S.optional(RouteSignpost),
+    TurnStepDetails: S.optional(RouteTurnStepDetails),
+    Type: S.String,
+    UTurnStepDetails: S.optional(RouteUTurnStepDetails),
+  }),
+).annotations({
+  identifier: "RouteVehicleTravelStep",
+}) as any as S.Schema<RouteVehicleTravelStep>;
+export type RouteVehicleTravelStepList = RouteVehicleTravelStep[];
 export const RouteVehicleTravelStepList = S.Array(RouteVehicleTravelStep);
-export class RouteTollPriceSummary extends S.Class<RouteTollPriceSummary>(
-  "RouteTollPriceSummary",
-)({
-  Currency: S.String,
-  Estimate: S.Boolean,
-  Range: S.Boolean,
-  RangeValue: S.optional(RouteTollPriceValueRange),
-  Value: S.Number,
-}) {}
-export class Isoline extends S.Class<Isoline>("Isoline")({
-  Connections: IsolineConnectionList,
-  DistanceThreshold: S.optional(S.Number),
-  Geometries: IsolineShapeGeometryList,
-  TimeThreshold: S.optional(S.Number),
-}) {}
+export interface RouteTollPriceSummary {
+  Currency: string;
+  Estimate: boolean;
+  Range: boolean;
+  RangeValue?: RouteTollPriceValueRange;
+  Value: number;
+}
+export const RouteTollPriceSummary = S.suspend(() =>
+  S.Struct({
+    Currency: S.String,
+    Estimate: S.Boolean,
+    Range: S.Boolean,
+    RangeValue: S.optional(RouteTollPriceValueRange),
+    Value: S.Number,
+  }),
+).annotations({
+  identifier: "RouteTollPriceSummary",
+}) as any as S.Schema<RouteTollPriceSummary>;
+export interface Isoline {
+  Connections: IsolineConnectionList;
+  DistanceThreshold?: number;
+  Geometries: IsolineShapeGeometryList;
+  TimeThreshold?: number;
+}
+export const Isoline = S.suspend(() =>
+  S.Struct({
+    Connections: IsolineConnectionList,
+    DistanceThreshold: S.optional(S.Number),
+    Geometries: IsolineShapeGeometryList,
+    TimeThreshold: S.optional(S.Number),
+  }),
+).annotations({ identifier: "Isoline" }) as any as S.Schema<Isoline>;
+export type IsolineList = Isoline[];
 export const IsolineList = S.Array(Isoline);
-export class RouteTollPrice extends S.Class<RouteTollPrice>("RouteTollPrice")({
-  Currency: S.String,
-  Estimate: S.Boolean,
-  PerDuration: S.optional(S.Number),
-  Range: S.Boolean,
-  RangeValue: S.optional(RouteTollPriceValueRange),
-  Value: S.Number,
-}) {}
-export class RouteTransponder extends S.Class<RouteTransponder>(
-  "RouteTransponder",
-)({ SystemName: S.optional(S.String) }) {}
+export interface RouteTollPrice {
+  Currency: string;
+  Estimate: boolean;
+  PerDuration?: number;
+  Range: boolean;
+  RangeValue?: RouteTollPriceValueRange;
+  Value: number;
+}
+export const RouteTollPrice = S.suspend(() =>
+  S.Struct({
+    Currency: S.String,
+    Estimate: S.Boolean,
+    PerDuration: S.optional(S.Number),
+    Range: S.Boolean,
+    RangeValue: S.optional(RouteTollPriceValueRange),
+    Value: S.Number,
+  }),
+).annotations({
+  identifier: "RouteTollPrice",
+}) as any as S.Schema<RouteTollPrice>;
+export interface RouteTransponder {
+  SystemName?: string;
+}
+export const RouteTransponder = S.suspend(() =>
+  S.Struct({ SystemName: S.optional(S.String) }),
+).annotations({
+  identifier: "RouteTransponder",
+}) as any as S.Schema<RouteTransponder>;
+export type RouteTransponderList = RouteTransponder[];
 export const RouteTransponderList = S.Array(RouteTransponder);
-export class RouteFerryLegDetails extends S.Class<RouteFerryLegDetails>(
-  "RouteFerryLegDetails",
-)({
-  AfterTravelSteps: RouteFerryAfterTravelStepList,
-  Arrival: RouteFerryArrival,
-  BeforeTravelSteps: RouteFerryBeforeTravelStepList,
-  Departure: RouteFerryDeparture,
-  Notices: RouteFerryNoticeList,
-  PassThroughWaypoints: RoutePassThroughWaypointList,
-  RouteName: S.optional(S.String),
-  Spans: RouteFerrySpanList,
-  Summary: S.optional(RouteFerrySummary),
-  TravelSteps: RouteFerryTravelStepList,
-}) {}
-export class RouteTollSummary extends S.Class<RouteTollSummary>(
-  "RouteTollSummary",
-)({ Total: S.optional(RouteTollPriceSummary) }) {}
-export class CalculateIsolinesResponse extends S.Class<CalculateIsolinesResponse>(
-  "CalculateIsolinesResponse",
-)({
-  ArrivalTime: S.optional(S.String),
-  DepartureTime: S.optional(S.String),
-  IsolineGeometryFormat: S.String,
-  Isolines: IsolineList,
-  PricingBucket: S.String.pipe(T.HttpHeader("x-amz-geo-pricing-bucket")),
-  SnappedDestination: S.optional(Position),
-  SnappedOrigin: S.optional(Position),
-}) {}
-export class RouteNoticeDetailRange extends S.Class<RouteNoticeDetailRange>(
-  "RouteNoticeDetailRange",
-)({ Min: S.optional(S.Number), Max: S.optional(S.Number) }) {}
-export class RouteWeightConstraint extends S.Class<RouteWeightConstraint>(
-  "RouteWeightConstraint",
-)({ Type: S.String, Value: S.Number }) {}
-export class RouteTollPassValidityPeriod extends S.Class<RouteTollPassValidityPeriod>(
-  "RouteTollPassValidityPeriod",
-)({ Period: S.String, PeriodCount: S.optional(S.Number) }) {}
-export class RouteSummary extends S.Class<RouteSummary>("RouteSummary")({
-  Distance: S.optional(S.Number),
-  Duration: S.optional(S.Number),
-  Tolls: S.optional(RouteTollSummary),
-}) {}
-export class RoutePedestrianTravelStep extends S.Class<RoutePedestrianTravelStep>(
-  "RoutePedestrianTravelStep",
-)({
-  ContinueStepDetails: S.optional(RouteContinueStepDetails),
-  CurrentRoad: S.optional(RouteRoad),
-  Distance: S.optional(S.Number),
-  Duration: S.Number,
-  ExitNumber: S.optional(LocalizedStringList),
-  GeometryOffset: S.optional(S.Number),
-  Instruction: S.optional(S.String),
-  KeepStepDetails: S.optional(RouteKeepStepDetails),
-  NextRoad: S.optional(RouteRoad),
-  RoundaboutEnterStepDetails: S.optional(RouteRoundaboutEnterStepDetails),
-  RoundaboutExitStepDetails: S.optional(RouteRoundaboutExitStepDetails),
-  RoundaboutPassStepDetails: S.optional(RouteRoundaboutPassStepDetails),
-  Signpost: S.optional(RouteSignpost),
-  TurnStepDetails: S.optional(RouteTurnStepDetails),
-  Type: S.String,
-}) {}
+export interface RouteFerryLegDetails {
+  AfterTravelSteps: RouteFerryAfterTravelStepList;
+  Arrival: RouteFerryArrival;
+  BeforeTravelSteps: RouteFerryBeforeTravelStepList;
+  Departure: RouteFerryDeparture;
+  Notices: RouteFerryNoticeList;
+  PassThroughWaypoints: RoutePassThroughWaypointList;
+  RouteName?: string;
+  Spans: RouteFerrySpanList;
+  Summary?: RouteFerrySummary;
+  TravelSteps: RouteFerryTravelStepList;
+}
+export const RouteFerryLegDetails = S.suspend(() =>
+  S.Struct({
+    AfterTravelSteps: RouteFerryAfterTravelStepList,
+    Arrival: RouteFerryArrival,
+    BeforeTravelSteps: RouteFerryBeforeTravelStepList,
+    Departure: RouteFerryDeparture,
+    Notices: RouteFerryNoticeList,
+    PassThroughWaypoints: RoutePassThroughWaypointList,
+    RouteName: S.optional(S.String),
+    Spans: RouteFerrySpanList,
+    Summary: S.optional(RouteFerrySummary),
+    TravelSteps: RouteFerryTravelStepList,
+  }),
+).annotations({
+  identifier: "RouteFerryLegDetails",
+}) as any as S.Schema<RouteFerryLegDetails>;
+export interface RouteTollSummary {
+  Total?: RouteTollPriceSummary;
+}
+export const RouteTollSummary = S.suspend(() =>
+  S.Struct({ Total: S.optional(RouteTollPriceSummary) }),
+).annotations({
+  identifier: "RouteTollSummary",
+}) as any as S.Schema<RouteTollSummary>;
+export interface CalculateIsolinesResponse {
+  ArrivalTime?: string;
+  DepartureTime?: string;
+  IsolineGeometryFormat: string;
+  Isolines: IsolineList;
+  PricingBucket: string;
+  SnappedDestination?: Position;
+  SnappedOrigin?: Position;
+}
+export const CalculateIsolinesResponse = S.suspend(() =>
+  S.Struct({
+    ArrivalTime: S.optional(S.String),
+    DepartureTime: S.optional(S.String),
+    IsolineGeometryFormat: S.String,
+    Isolines: IsolineList,
+    PricingBucket: S.String.pipe(T.HttpHeader("x-amz-geo-pricing-bucket")),
+    SnappedDestination: S.optional(Position),
+    SnappedOrigin: S.optional(Position),
+  }),
+).annotations({
+  identifier: "CalculateIsolinesResponse",
+}) as any as S.Schema<CalculateIsolinesResponse>;
+export interface RouteNoticeDetailRange {
+  Min?: number;
+  Max?: number;
+}
+export const RouteNoticeDetailRange = S.suspend(() =>
+  S.Struct({ Min: S.optional(S.Number), Max: S.optional(S.Number) }),
+).annotations({
+  identifier: "RouteNoticeDetailRange",
+}) as any as S.Schema<RouteNoticeDetailRange>;
+export interface RouteWeightConstraint {
+  Type: string;
+  Value: number;
+}
+export const RouteWeightConstraint = S.suspend(() =>
+  S.Struct({ Type: S.String, Value: S.Number }),
+).annotations({
+  identifier: "RouteWeightConstraint",
+}) as any as S.Schema<RouteWeightConstraint>;
+export interface RouteTollPassValidityPeriod {
+  Period: string;
+  PeriodCount?: number;
+}
+export const RouteTollPassValidityPeriod = S.suspend(() =>
+  S.Struct({ Period: S.String, PeriodCount: S.optional(S.Number) }),
+).annotations({
+  identifier: "RouteTollPassValidityPeriod",
+}) as any as S.Schema<RouteTollPassValidityPeriod>;
+export interface RouteSummary {
+  Distance?: number;
+  Duration?: number;
+  Tolls?: RouteTollSummary;
+}
+export const RouteSummary = S.suspend(() =>
+  S.Struct({
+    Distance: S.optional(S.Number),
+    Duration: S.optional(S.Number),
+    Tolls: S.optional(RouteTollSummary),
+  }),
+).annotations({ identifier: "RouteSummary" }) as any as S.Schema<RouteSummary>;
+export interface RoutePedestrianTravelStep {
+  ContinueStepDetails?: RouteContinueStepDetails;
+  CurrentRoad?: RouteRoad;
+  Distance?: number;
+  Duration: number;
+  ExitNumber?: LocalizedStringList;
+  GeometryOffset?: number;
+  Instruction?: string;
+  KeepStepDetails?: RouteKeepStepDetails;
+  NextRoad?: RouteRoad;
+  RoundaboutEnterStepDetails?: RouteRoundaboutEnterStepDetails;
+  RoundaboutExitStepDetails?: RouteRoundaboutExitStepDetails;
+  RoundaboutPassStepDetails?: RouteRoundaboutPassStepDetails;
+  Signpost?: RouteSignpost;
+  TurnStepDetails?: RouteTurnStepDetails;
+  Type: string;
+}
+export const RoutePedestrianTravelStep = S.suspend(() =>
+  S.Struct({
+    ContinueStepDetails: S.optional(RouteContinueStepDetails),
+    CurrentRoad: S.optional(RouteRoad),
+    Distance: S.optional(S.Number),
+    Duration: S.Number,
+    ExitNumber: S.optional(LocalizedStringList),
+    GeometryOffset: S.optional(S.Number),
+    Instruction: S.optional(S.String),
+    KeepStepDetails: S.optional(RouteKeepStepDetails),
+    NextRoad: S.optional(RouteRoad),
+    RoundaboutEnterStepDetails: S.optional(RouteRoundaboutEnterStepDetails),
+    RoundaboutExitStepDetails: S.optional(RouteRoundaboutExitStepDetails),
+    RoundaboutPassStepDetails: S.optional(RouteRoundaboutPassStepDetails),
+    Signpost: S.optional(RouteSignpost),
+    TurnStepDetails: S.optional(RouteTurnStepDetails),
+    Type: S.String,
+  }),
+).annotations({
+  identifier: "RoutePedestrianTravelStep",
+}) as any as S.Schema<RoutePedestrianTravelStep>;
+export type RoutePedestrianTravelStepList = RoutePedestrianTravelStep[];
 export const RoutePedestrianTravelStepList = S.Array(RoutePedestrianTravelStep);
-export class RouteViolatedConstraints extends S.Class<RouteViolatedConstraints>(
-  "RouteViolatedConstraints",
-)({
-  AllHazardsRestricted: S.optional(S.Boolean),
-  AxleCount: S.optional(RouteNoticeDetailRange),
-  HazardousCargos: RouteHazardousCargoTypeList,
-  MaxHeight: S.optional(S.Number),
-  MaxKpraLength: S.optional(S.Number),
-  MaxLength: S.optional(S.Number),
-  MaxPayloadCapacity: S.optional(S.Number),
-  MaxWeight: S.optional(RouteWeightConstraint),
-  MaxWeightPerAxle: S.optional(S.Number),
-  MaxWeightPerAxleGroup: S.optional(WeightPerAxleGroup),
-  MaxWidth: S.optional(S.Number),
-  Occupancy: S.optional(RouteNoticeDetailRange),
-  RestrictedTimes: S.optional(S.String),
-  TimeDependent: S.optional(S.Boolean),
-  TrailerCount: S.optional(RouteNoticeDetailRange),
-  TravelMode: S.optional(S.Boolean),
-  TruckRoadType: S.optional(S.String),
-  TruckType: S.optional(S.String),
-  TunnelRestrictionCode: S.optional(S.String),
-}) {}
-export class RouteTollPass extends S.Class<RouteTollPass>("RouteTollPass")({
-  IncludesReturnTrip: S.optional(S.Boolean),
-  SeniorPass: S.optional(S.Boolean),
-  TransferCount: S.optional(S.Number),
-  TripCount: S.optional(S.Number),
-  ValidityPeriod: S.optional(RouteTollPassValidityPeriod),
-}) {}
-export class RoutePedestrianLegDetails extends S.Class<RoutePedestrianLegDetails>(
-  "RoutePedestrianLegDetails",
-)({
-  Arrival: RoutePedestrianArrival,
-  Departure: RoutePedestrianDeparture,
-  Notices: RoutePedestrianNoticeList,
-  PassThroughWaypoints: RoutePassThroughWaypointList,
-  Spans: RoutePedestrianSpanList,
-  Summary: S.optional(RoutePedestrianSummary),
-  TravelSteps: RoutePedestrianTravelStepList,
-}) {}
-export class RouteVehicleNoticeDetail extends S.Class<RouteVehicleNoticeDetail>(
-  "RouteVehicleNoticeDetail",
-)({
-  Title: S.optional(S.String),
-  ViolatedConstraints: S.optional(RouteViolatedConstraints),
-}) {}
+export interface RouteViolatedConstraints {
+  AllHazardsRestricted?: boolean;
+  AxleCount?: RouteNoticeDetailRange;
+  HazardousCargos: RouteHazardousCargoTypeList;
+  MaxHeight?: number;
+  MaxKpraLength?: number;
+  MaxLength?: number;
+  MaxPayloadCapacity?: number;
+  MaxWeight?: RouteWeightConstraint;
+  MaxWeightPerAxle?: number;
+  MaxWeightPerAxleGroup?: WeightPerAxleGroup;
+  MaxWidth?: number;
+  Occupancy?: RouteNoticeDetailRange;
+  RestrictedTimes?: string;
+  TimeDependent?: boolean;
+  TrailerCount?: RouteNoticeDetailRange;
+  TravelMode?: boolean;
+  TruckRoadType?: string;
+  TruckType?: string;
+  TunnelRestrictionCode?: string;
+}
+export const RouteViolatedConstraints = S.suspend(() =>
+  S.Struct({
+    AllHazardsRestricted: S.optional(S.Boolean),
+    AxleCount: S.optional(RouteNoticeDetailRange),
+    HazardousCargos: RouteHazardousCargoTypeList,
+    MaxHeight: S.optional(S.Number),
+    MaxKpraLength: S.optional(S.Number),
+    MaxLength: S.optional(S.Number),
+    MaxPayloadCapacity: S.optional(S.Number),
+    MaxWeight: S.optional(RouteWeightConstraint),
+    MaxWeightPerAxle: S.optional(S.Number),
+    MaxWeightPerAxleGroup: S.optional(WeightPerAxleGroup),
+    MaxWidth: S.optional(S.Number),
+    Occupancy: S.optional(RouteNoticeDetailRange),
+    RestrictedTimes: S.optional(S.String),
+    TimeDependent: S.optional(S.Boolean),
+    TrailerCount: S.optional(RouteNoticeDetailRange),
+    TravelMode: S.optional(S.Boolean),
+    TruckRoadType: S.optional(S.String),
+    TruckType: S.optional(S.String),
+    TunnelRestrictionCode: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RouteViolatedConstraints",
+}) as any as S.Schema<RouteViolatedConstraints>;
+export interface RouteTollPass {
+  IncludesReturnTrip?: boolean;
+  SeniorPass?: boolean;
+  TransferCount?: number;
+  TripCount?: number;
+  ValidityPeriod?: RouteTollPassValidityPeriod;
+}
+export const RouteTollPass = S.suspend(() =>
+  S.Struct({
+    IncludesReturnTrip: S.optional(S.Boolean),
+    SeniorPass: S.optional(S.Boolean),
+    TransferCount: S.optional(S.Number),
+    TripCount: S.optional(S.Number),
+    ValidityPeriod: S.optional(RouteTollPassValidityPeriod),
+  }),
+).annotations({
+  identifier: "RouteTollPass",
+}) as any as S.Schema<RouteTollPass>;
+export interface RoutePedestrianLegDetails {
+  Arrival: RoutePedestrianArrival;
+  Departure: RoutePedestrianDeparture;
+  Notices: RoutePedestrianNoticeList;
+  PassThroughWaypoints: RoutePassThroughWaypointList;
+  Spans: RoutePedestrianSpanList;
+  Summary?: RoutePedestrianSummary;
+  TravelSteps: RoutePedestrianTravelStepList;
+}
+export const RoutePedestrianLegDetails = S.suspend(() =>
+  S.Struct({
+    Arrival: RoutePedestrianArrival,
+    Departure: RoutePedestrianDeparture,
+    Notices: RoutePedestrianNoticeList,
+    PassThroughWaypoints: RoutePassThroughWaypointList,
+    Spans: RoutePedestrianSpanList,
+    Summary: S.optional(RoutePedestrianSummary),
+    TravelSteps: RoutePedestrianTravelStepList,
+  }),
+).annotations({
+  identifier: "RoutePedestrianLegDetails",
+}) as any as S.Schema<RoutePedestrianLegDetails>;
+export interface RouteVehicleNoticeDetail {
+  Title?: string;
+  ViolatedConstraints?: RouteViolatedConstraints;
+}
+export const RouteVehicleNoticeDetail = S.suspend(() =>
+  S.Struct({
+    Title: S.optional(S.String),
+    ViolatedConstraints: S.optional(RouteViolatedConstraints),
+  }),
+).annotations({
+  identifier: "RouteVehicleNoticeDetail",
+}) as any as S.Schema<RouteVehicleNoticeDetail>;
+export type RouteVehicleNoticeDetailList = RouteVehicleNoticeDetail[];
 export const RouteVehicleNoticeDetailList = S.Array(RouteVehicleNoticeDetail);
-export class RouteTollRate extends S.Class<RouteTollRate>("RouteTollRate")({
-  ApplicableTimes: S.optional(S.String),
-  ConvertedPrice: S.optional(RouteTollPrice),
-  Id: S.String,
-  LocalPrice: RouteTollPrice,
-  Name: S.String,
-  Pass: S.optional(RouteTollPass),
-  PaymentMethods: RouteTollPaymentMethodList,
-  Transponders: RouteTransponderList,
-}) {}
+export interface RouteTollRate {
+  ApplicableTimes?: string;
+  ConvertedPrice?: RouteTollPrice;
+  Id: string;
+  LocalPrice: RouteTollPrice;
+  Name: string;
+  Pass?: RouteTollPass;
+  PaymentMethods: RouteTollPaymentMethodList;
+  Transponders: RouteTransponderList;
+}
+export const RouteTollRate = S.suspend(() =>
+  S.Struct({
+    ApplicableTimes: S.optional(S.String),
+    ConvertedPrice: S.optional(RouteTollPrice),
+    Id: S.String,
+    LocalPrice: RouteTollPrice,
+    Name: S.String,
+    Pass: S.optional(RouteTollPass),
+    PaymentMethods: RouteTollPaymentMethodList,
+    Transponders: RouteTransponderList,
+  }),
+).annotations({
+  identifier: "RouteTollRate",
+}) as any as S.Schema<RouteTollRate>;
+export type RouteTollRateList = RouteTollRate[];
 export const RouteTollRateList = S.Array(RouteTollRate);
-export class RouteVehicleNotice extends S.Class<RouteVehicleNotice>(
-  "RouteVehicleNotice",
-)({
-  Code: S.String,
-  Details: RouteVehicleNoticeDetailList,
-  Impact: S.optional(S.String),
-}) {}
+export interface RouteVehicleNotice {
+  Code: string;
+  Details: RouteVehicleNoticeDetailList;
+  Impact?: string;
+}
+export const RouteVehicleNotice = S.suspend(() =>
+  S.Struct({
+    Code: S.String,
+    Details: RouteVehicleNoticeDetailList,
+    Impact: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RouteVehicleNotice",
+}) as any as S.Schema<RouteVehicleNotice>;
+export type RouteVehicleNoticeList = RouteVehicleNotice[];
 export const RouteVehicleNoticeList = S.Array(RouteVehicleNotice);
-export class RouteToll extends S.Class<RouteToll>("RouteToll")({
-  Country: S.optional(S.String),
-  PaymentSites: RouteTollPaymentSiteList,
-  Rates: RouteTollRateList,
-  Systems: IndexList,
-}) {}
+export interface RouteToll {
+  Country?: string;
+  PaymentSites: RouteTollPaymentSiteList;
+  Rates: RouteTollRateList;
+  Systems: IndexList;
+}
+export const RouteToll = S.suspend(() =>
+  S.Struct({
+    Country: S.optional(S.String),
+    PaymentSites: RouteTollPaymentSiteList,
+    Rates: RouteTollRateList,
+    Systems: IndexList,
+  }),
+).annotations({ identifier: "RouteToll" }) as any as S.Schema<RouteToll>;
+export type RouteTollList = RouteToll[];
 export const RouteTollList = S.Array(RouteToll);
-export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
-  "ValidationExceptionField",
-)({
-  Name: S.String.pipe(T.JsonName("name")),
-  Message: S.String.pipe(T.JsonName("message")),
-}) {}
+export interface ValidationExceptionField {
+  Name: string;
+  Message: string;
+}
+export const ValidationExceptionField = S.suspend(() =>
+  S.Struct({
+    Name: S.String.pipe(T.JsonName("name")),
+    Message: S.String.pipe(T.JsonName("message")),
+  }),
+).annotations({
+  identifier: "ValidationExceptionField",
+}) as any as S.Schema<ValidationExceptionField>;
+export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
-export class RouteVehicleLegDetails extends S.Class<RouteVehicleLegDetails>(
-  "RouteVehicleLegDetails",
-)({
-  Arrival: RouteVehicleArrival,
-  Departure: RouteVehicleDeparture,
-  Incidents: RouteVehicleIncidentList,
-  Notices: RouteVehicleNoticeList,
-  PassThroughWaypoints: RoutePassThroughWaypointList,
-  Spans: RouteVehicleSpanList,
-  Summary: S.optional(RouteVehicleSummary),
-  Tolls: RouteTollList,
-  TollSystems: RouteTollSystemList,
-  TravelSteps: RouteVehicleTravelStepList,
-  TruckRoadTypes: TruckRoadTypeList,
-  Zones: RouteZoneList,
-}) {}
-export class RouteLeg extends S.Class<RouteLeg>("RouteLeg")({
-  FerryLegDetails: S.optional(RouteFerryLegDetails),
-  Geometry: RouteLegGeometry,
-  Language: S.optional(S.String),
-  PedestrianLegDetails: S.optional(RoutePedestrianLegDetails),
-  TravelMode: S.String,
-  Type: S.String,
-  VehicleLegDetails: S.optional(RouteVehicleLegDetails),
-}) {}
+export interface RouteVehicleLegDetails {
+  Arrival: RouteVehicleArrival;
+  Departure: RouteVehicleDeparture;
+  Incidents: RouteVehicleIncidentList;
+  Notices: RouteVehicleNoticeList;
+  PassThroughWaypoints: RoutePassThroughWaypointList;
+  Spans: RouteVehicleSpanList;
+  Summary?: RouteVehicleSummary;
+  Tolls: RouteTollList;
+  TollSystems: RouteTollSystemList;
+  TravelSteps: RouteVehicleTravelStepList;
+  TruckRoadTypes: TruckRoadTypeList;
+  Zones: RouteZoneList;
+}
+export const RouteVehicleLegDetails = S.suspend(() =>
+  S.Struct({
+    Arrival: RouteVehicleArrival,
+    Departure: RouteVehicleDeparture,
+    Incidents: RouteVehicleIncidentList,
+    Notices: RouteVehicleNoticeList,
+    PassThroughWaypoints: RoutePassThroughWaypointList,
+    Spans: RouteVehicleSpanList,
+    Summary: S.optional(RouteVehicleSummary),
+    Tolls: RouteTollList,
+    TollSystems: RouteTollSystemList,
+    TravelSteps: RouteVehicleTravelStepList,
+    TruckRoadTypes: TruckRoadTypeList,
+    Zones: RouteZoneList,
+  }),
+).annotations({
+  identifier: "RouteVehicleLegDetails",
+}) as any as S.Schema<RouteVehicleLegDetails>;
+export interface RouteLeg {
+  FerryLegDetails?: RouteFerryLegDetails;
+  Geometry: RouteLegGeometry;
+  Language?: string;
+  PedestrianLegDetails?: RoutePedestrianLegDetails;
+  TravelMode: string;
+  Type: string;
+  VehicleLegDetails?: RouteVehicleLegDetails;
+}
+export const RouteLeg = S.suspend(() =>
+  S.Struct({
+    FerryLegDetails: S.optional(RouteFerryLegDetails),
+    Geometry: RouteLegGeometry,
+    Language: S.optional(S.String),
+    PedestrianLegDetails: S.optional(RoutePedestrianLegDetails),
+    TravelMode: S.String,
+    Type: S.String,
+    VehicleLegDetails: S.optional(RouteVehicleLegDetails),
+  }),
+).annotations({ identifier: "RouteLeg" }) as any as S.Schema<RouteLeg>;
+export type RouteLegList = RouteLeg[];
 export const RouteLegList = S.Array(RouteLeg);
-export class Route extends S.Class<Route>("Route")({
-  Legs: RouteLegList,
-  MajorRoadLabels: RouteMajorRoadLabelList,
-  Summary: S.optional(RouteSummary),
-}) {}
+export interface Route {
+  Legs: RouteLegList;
+  MajorRoadLabels: RouteMajorRoadLabelList;
+  Summary?: RouteSummary;
+}
+export const Route = S.suspend(() =>
+  S.Struct({
+    Legs: RouteLegList,
+    MajorRoadLabels: RouteMajorRoadLabelList,
+    Summary: S.optional(RouteSummary),
+  }),
+).annotations({ identifier: "Route" }) as any as S.Schema<Route>;
+export type RouteList = Route[];
 export const RouteList = S.Array(Route);
-export class CalculateRoutesResponse extends S.Class<CalculateRoutesResponse>(
-  "CalculateRoutesResponse",
-)({
-  LegGeometryFormat: S.String,
-  Notices: RouteResponseNoticeList,
-  PricingBucket: S.String.pipe(T.HttpHeader("x-amz-geo-pricing-bucket")),
-  Routes: RouteList,
-}) {}
+export interface CalculateRoutesResponse {
+  LegGeometryFormat: string;
+  Notices: RouteResponseNoticeList;
+  PricingBucket: string;
+  Routes: RouteList;
+}
+export const CalculateRoutesResponse = S.suspend(() =>
+  S.Struct({
+    LegGeometryFormat: S.String,
+    Notices: RouteResponseNoticeList,
+    PricingBucket: S.String.pipe(T.HttpHeader("x-amz-geo-pricing-bucket")),
+    Routes: RouteList,
+  }),
+).annotations({
+  identifier: "CalculateRoutesResponse",
+}) as any as S.Schema<CalculateRoutesResponse>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

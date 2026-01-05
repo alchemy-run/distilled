@@ -242,73 +242,146 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type TenantIdList = string[];
 export const TenantIdList = S.Array(S.String);
-export class AttendeeCapabilities extends S.Class<AttendeeCapabilities>(
-  "AttendeeCapabilities",
-)({ Audio: S.String, Video: S.String, Content: S.String }) {}
-export class CreateAttendeeRequestItem extends S.Class<CreateAttendeeRequestItem>(
-  "CreateAttendeeRequestItem",
-)({
-  ExternalUserId: S.String,
-  Capabilities: S.optional(AttendeeCapabilities),
-}) {}
+export interface AttendeeCapabilities {
+  Audio: string;
+  Video: string;
+  Content: string;
+}
+export const AttendeeCapabilities = S.suspend(() =>
+  S.Struct({ Audio: S.String, Video: S.String, Content: S.String }),
+).annotations({
+  identifier: "AttendeeCapabilities",
+}) as any as S.Schema<AttendeeCapabilities>;
+export interface CreateAttendeeRequestItem {
+  ExternalUserId: string;
+  Capabilities?: AttendeeCapabilities;
+}
+export const CreateAttendeeRequestItem = S.suspend(() =>
+  S.Struct({
+    ExternalUserId: S.String,
+    Capabilities: S.optional(AttendeeCapabilities),
+  }),
+).annotations({
+  identifier: "CreateAttendeeRequestItem",
+}) as any as S.Schema<CreateAttendeeRequestItem>;
+export type CreateMeetingWithAttendeesRequestItemList =
+  CreateAttendeeRequestItem[];
 export const CreateMeetingWithAttendeesRequestItemList = S.Array(
   CreateAttendeeRequestItem,
 );
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class CreateAttendeeRequest extends S.Class<CreateAttendeeRequest>(
-  "CreateAttendeeRequest",
-)(
-  {
+export interface CreateAttendeeRequest {
+  MeetingId: string;
+  ExternalUserId: string;
+  Capabilities?: AttendeeCapabilities;
+}
+export const CreateAttendeeRequest = S.suspend(() =>
+  S.Struct({
     MeetingId: S.String.pipe(T.HttpLabel("MeetingId")),
     ExternalUserId: S.String,
     Capabilities: S.optional(AttendeeCapabilities),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/meetings/{MeetingId}/attendees" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/meetings/{MeetingId}/attendees" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AudioFeatures extends S.Class<AudioFeatures>("AudioFeatures")({
-  EchoReduction: S.optional(S.String),
-}) {}
-export class VideoFeatures extends S.Class<VideoFeatures>("VideoFeatures")({
-  MaxResolution: S.optional(S.String),
-}) {}
-export class ContentFeatures extends S.Class<ContentFeatures>(
-  "ContentFeatures",
-)({ MaxResolution: S.optional(S.String) }) {}
-export class AttendeeFeatures extends S.Class<AttendeeFeatures>(
-  "AttendeeFeatures",
-)({ MaxCount: S.optional(S.Number) }) {}
-export class MeetingFeaturesConfiguration extends S.Class<MeetingFeaturesConfiguration>(
-  "MeetingFeaturesConfiguration",
-)({
-  Audio: S.optional(AudioFeatures),
-  Video: S.optional(VideoFeatures),
-  Content: S.optional(ContentFeatures),
-  Attendee: S.optional(AttendeeFeatures),
-}) {}
-export class NotificationsConfiguration extends S.Class<NotificationsConfiguration>(
-  "NotificationsConfiguration",
-)({
-  LambdaFunctionArn: S.optional(S.String),
-  SnsTopicArn: S.optional(S.String),
-  SqsQueueArn: S.optional(S.String),
-}) {}
-export class Tag extends S.Class<Tag>("Tag")({
-  Key: S.String,
-  Value: S.String,
-}) {}
+).annotations({
+  identifier: "CreateAttendeeRequest",
+}) as any as S.Schema<CreateAttendeeRequest>;
+export interface AudioFeatures {
+  EchoReduction?: string;
+}
+export const AudioFeatures = S.suspend(() =>
+  S.Struct({ EchoReduction: S.optional(S.String) }),
+).annotations({
+  identifier: "AudioFeatures",
+}) as any as S.Schema<AudioFeatures>;
+export interface VideoFeatures {
+  MaxResolution?: string;
+}
+export const VideoFeatures = S.suspend(() =>
+  S.Struct({ MaxResolution: S.optional(S.String) }),
+).annotations({
+  identifier: "VideoFeatures",
+}) as any as S.Schema<VideoFeatures>;
+export interface ContentFeatures {
+  MaxResolution?: string;
+}
+export const ContentFeatures = S.suspend(() =>
+  S.Struct({ MaxResolution: S.optional(S.String) }),
+).annotations({
+  identifier: "ContentFeatures",
+}) as any as S.Schema<ContentFeatures>;
+export interface AttendeeFeatures {
+  MaxCount?: number;
+}
+export const AttendeeFeatures = S.suspend(() =>
+  S.Struct({ MaxCount: S.optional(S.Number) }),
+).annotations({
+  identifier: "AttendeeFeatures",
+}) as any as S.Schema<AttendeeFeatures>;
+export interface MeetingFeaturesConfiguration {
+  Audio?: AudioFeatures;
+  Video?: VideoFeatures;
+  Content?: ContentFeatures;
+  Attendee?: AttendeeFeatures;
+}
+export const MeetingFeaturesConfiguration = S.suspend(() =>
+  S.Struct({
+    Audio: S.optional(AudioFeatures),
+    Video: S.optional(VideoFeatures),
+    Content: S.optional(ContentFeatures),
+    Attendee: S.optional(AttendeeFeatures),
+  }),
+).annotations({
+  identifier: "MeetingFeaturesConfiguration",
+}) as any as S.Schema<MeetingFeaturesConfiguration>;
+export interface NotificationsConfiguration {
+  LambdaFunctionArn?: string;
+  SnsTopicArn?: string;
+  SqsQueueArn?: string;
+}
+export const NotificationsConfiguration = S.suspend(() =>
+  S.Struct({
+    LambdaFunctionArn: S.optional(S.String),
+    SnsTopicArn: S.optional(S.String),
+    SqsQueueArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "NotificationsConfiguration",
+}) as any as S.Schema<NotificationsConfiguration>;
+export interface Tag {
+  Key: string;
+  Value: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ Key: S.String, Value: S.String }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagList = Tag[];
 export const TagList = S.Array(Tag);
-export class CreateMeetingWithAttendeesRequest extends S.Class<CreateMeetingWithAttendeesRequest>(
-  "CreateMeetingWithAttendeesRequest",
-)(
-  {
+export interface CreateMeetingWithAttendeesRequest {
+  ClientRequestToken: string;
+  MediaRegion: string;
+  MeetingHostId?: string;
+  ExternalMeetingId: string;
+  MeetingFeatures?: MeetingFeaturesConfiguration;
+  NotificationsConfiguration?: NotificationsConfiguration;
+  Attendees: CreateMeetingWithAttendeesRequestItemList;
+  PrimaryMeetingId?: string;
+  TenantIds?: TenantIdList;
+  Tags?: TagList;
+  MediaPlacementNetworkType?: string;
+}
+export const CreateMeetingWithAttendeesRequest = S.suspend(() =>
+  S.Struct({
     ClientRequestToken: S.String,
     MediaRegion: S.String,
     MeetingHostId: S.optional(S.String),
@@ -320,327 +393,545 @@ export class CreateMeetingWithAttendeesRequest extends S.Class<CreateMeetingWith
     TenantIds: S.optional(TenantIdList),
     Tags: S.optional(TagList),
     MediaPlacementNetworkType: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/meetings?operation=create-attendees" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/meetings?operation=create-attendees" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAttendeeRequest extends S.Class<DeleteAttendeeRequest>(
-  "DeleteAttendeeRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateMeetingWithAttendeesRequest",
+}) as any as S.Schema<CreateMeetingWithAttendeesRequest>;
+export interface DeleteAttendeeRequest {
+  MeetingId: string;
+  AttendeeId: string;
+}
+export const DeleteAttendeeRequest = S.suspend(() =>
+  S.Struct({
     MeetingId: S.String.pipe(T.HttpLabel("MeetingId")),
     AttendeeId: S.String.pipe(T.HttpLabel("AttendeeId")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/meetings/{MeetingId}/attendees/{AttendeeId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/meetings/{MeetingId}/attendees/{AttendeeId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAttendeeResponse extends S.Class<DeleteAttendeeResponse>(
-  "DeleteAttendeeResponse",
-)({}) {}
-export class DeleteMeetingRequest extends S.Class<DeleteMeetingRequest>(
-  "DeleteMeetingRequest",
-)(
-  { MeetingId: S.String.pipe(T.HttpLabel("MeetingId")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/meetings/{MeetingId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteAttendeeRequest",
+}) as any as S.Schema<DeleteAttendeeRequest>;
+export interface DeleteAttendeeResponse {}
+export const DeleteAttendeeResponse = S.suspend(() => S.Struct({})).annotations(
+  { identifier: "DeleteAttendeeResponse" },
+) as any as S.Schema<DeleteAttendeeResponse>;
+export interface DeleteMeetingRequest {
+  MeetingId: string;
+}
+export const DeleteMeetingRequest = S.suspend(() =>
+  S.Struct({ MeetingId: S.String.pipe(T.HttpLabel("MeetingId")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/meetings/{MeetingId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteMeetingResponse extends S.Class<DeleteMeetingResponse>(
-  "DeleteMeetingResponse",
-)({}) {}
-export class GetAttendeeRequest extends S.Class<GetAttendeeRequest>(
-  "GetAttendeeRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteMeetingRequest",
+}) as any as S.Schema<DeleteMeetingRequest>;
+export interface DeleteMeetingResponse {}
+export const DeleteMeetingResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteMeetingResponse",
+}) as any as S.Schema<DeleteMeetingResponse>;
+export interface GetAttendeeRequest {
+  MeetingId: string;
+  AttendeeId: string;
+}
+export const GetAttendeeRequest = S.suspend(() =>
+  S.Struct({
     MeetingId: S.String.pipe(T.HttpLabel("MeetingId")),
     AttendeeId: S.String.pipe(T.HttpLabel("AttendeeId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/meetings/{MeetingId}/attendees/{AttendeeId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/meetings/{MeetingId}/attendees/{AttendeeId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetMeetingRequest extends S.Class<GetMeetingRequest>(
-  "GetMeetingRequest",
-)(
-  { MeetingId: S.String.pipe(T.HttpLabel("MeetingId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/meetings/{MeetingId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetAttendeeRequest",
+}) as any as S.Schema<GetAttendeeRequest>;
+export interface GetMeetingRequest {
+  MeetingId: string;
+}
+export const GetMeetingRequest = S.suspend(() =>
+  S.Struct({ MeetingId: S.String.pipe(T.HttpLabel("MeetingId")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/meetings/{MeetingId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListAttendeesRequest extends S.Class<ListAttendeesRequest>(
-  "ListAttendeesRequest",
-)(
-  {
+).annotations({
+  identifier: "GetMeetingRequest",
+}) as any as S.Schema<GetMeetingRequest>;
+export interface ListAttendeesRequest {
+  MeetingId: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListAttendeesRequest = S.suspend(() =>
+  S.Struct({
     MeetingId: S.String.pipe(T.HttpLabel("MeetingId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/meetings/{MeetingId}/attendees" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/meetings/{MeetingId}/attendees" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { ResourceARN: S.String.pipe(T.HttpQuery("arn")) },
-  T.all(T.Http({ method: "GET", uri: "/tags" }), svc, auth, proto, ver, rules),
-) {}
-export class StopMeetingTranscriptionRequest extends S.Class<StopMeetingTranscriptionRequest>(
-  "StopMeetingTranscriptionRequest",
-)(
-  { MeetingId: S.String.pipe(T.HttpLabel("MeetingId")) },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/meetings/{MeetingId}/transcription?operation=stop",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListAttendeesRequest",
+}) as any as S.Schema<ListAttendeesRequest>;
+export interface ListTagsForResourceRequest {
+  ResourceARN: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceARN: S.String.pipe(T.HttpQuery("arn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tags" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StopMeetingTranscriptionResponse extends S.Class<StopMeetingTranscriptionResponse>(
-  "StopMeetingTranscriptionResponse",
-)({}) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { ResourceARN: S.String, Tags: TagList },
-  T.all(
-    T.Http({ method: "POST", uri: "/tags?operation=tag-resource" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface StopMeetingTranscriptionRequest {
+  MeetingId: string;
+}
+export const StopMeetingTranscriptionRequest = S.suspend(() =>
+  S.Struct({ MeetingId: S.String.pipe(T.HttpLabel("MeetingId")) }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/meetings/{MeetingId}/transcription?operation=stop",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  { ResourceARN: S.String, TagKeys: TagKeyList },
-  T.all(
-    T.Http({ method: "POST", uri: "/tags?operation=untag-resource" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "StopMeetingTranscriptionRequest",
+}) as any as S.Schema<StopMeetingTranscriptionRequest>;
+export interface StopMeetingTranscriptionResponse {}
+export const StopMeetingTranscriptionResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "StopMeetingTranscriptionResponse",
+}) as any as S.Schema<StopMeetingTranscriptionResponse>;
+export interface TagResourceRequest {
+  ResourceARN: string;
+  Tags: TagList;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceARN: S.String, Tags: TagList }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tags?operation=tag-resource" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
-export class UpdateAttendeeCapabilitiesRequest extends S.Class<UpdateAttendeeCapabilitiesRequest>(
-  "UpdateAttendeeCapabilitiesRequest",
-)(
-  {
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UntagResourceRequest {
+  ResourceARN: string;
+  TagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceARN: S.String, TagKeys: TagKeyList }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tags?operation=untag-resource" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface UpdateAttendeeCapabilitiesRequest {
+  MeetingId: string;
+  AttendeeId: string;
+  Capabilities: AttendeeCapabilities;
+}
+export const UpdateAttendeeCapabilitiesRequest = S.suspend(() =>
+  S.Struct({
     MeetingId: S.String.pipe(T.HttpLabel("MeetingId")),
     AttendeeId: S.String.pipe(T.HttpLabel("AttendeeId")),
     Capabilities: AttendeeCapabilities,
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/meetings/{MeetingId}/attendees/{AttendeeId}/capabilities",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/meetings/{MeetingId}/attendees/{AttendeeId}/capabilities",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "UpdateAttendeeCapabilitiesRequest",
+}) as any as S.Schema<UpdateAttendeeCapabilitiesRequest>;
+export type CreateAttendeeRequestItemList = CreateAttendeeRequestItem[];
 export const CreateAttendeeRequestItemList = S.Array(CreateAttendeeRequestItem);
-export class AttendeeIdItem extends S.Class<AttendeeIdItem>("AttendeeIdItem")({
-  AttendeeId: S.String,
-}) {}
+export interface AttendeeIdItem {
+  AttendeeId: string;
+}
+export const AttendeeIdItem = S.suspend(() =>
+  S.Struct({ AttendeeId: S.String }),
+).annotations({
+  identifier: "AttendeeIdItem",
+}) as any as S.Schema<AttendeeIdItem>;
+export type AttendeeIdsList = AttendeeIdItem[];
 export const AttendeeIdsList = S.Array(AttendeeIdItem);
-export class Attendee extends S.Class<Attendee>("Attendee")({
-  ExternalUserId: S.optional(S.String),
-  AttendeeId: S.optional(S.String),
-  JoinToken: S.optional(S.String),
-  Capabilities: S.optional(AttendeeCapabilities),
-}) {}
+export interface Attendee {
+  ExternalUserId?: string;
+  AttendeeId?: string;
+  JoinToken?: string;
+  Capabilities?: AttendeeCapabilities;
+}
+export const Attendee = S.suspend(() =>
+  S.Struct({
+    ExternalUserId: S.optional(S.String),
+    AttendeeId: S.optional(S.String),
+    JoinToken: S.optional(S.String),
+    Capabilities: S.optional(AttendeeCapabilities),
+  }),
+).annotations({ identifier: "Attendee" }) as any as S.Schema<Attendee>;
+export type AttendeeList = Attendee[];
 export const AttendeeList = S.Array(Attendee);
-export class BatchCreateAttendeeRequest extends S.Class<BatchCreateAttendeeRequest>(
-  "BatchCreateAttendeeRequest",
-)(
-  {
+export interface BatchCreateAttendeeRequest {
+  MeetingId: string;
+  Attendees: CreateAttendeeRequestItemList;
+}
+export const BatchCreateAttendeeRequest = S.suspend(() =>
+  S.Struct({
     MeetingId: S.String.pipe(T.HttpLabel("MeetingId")),
     Attendees: CreateAttendeeRequestItemList,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/meetings/{MeetingId}/attendees?operation=batch-create",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/meetings/{MeetingId}/attendees?operation=batch-create",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class BatchUpdateAttendeeCapabilitiesExceptRequest extends S.Class<BatchUpdateAttendeeCapabilitiesExceptRequest>(
-  "BatchUpdateAttendeeCapabilitiesExceptRequest",
-)(
-  {
+).annotations({
+  identifier: "BatchCreateAttendeeRequest",
+}) as any as S.Schema<BatchCreateAttendeeRequest>;
+export interface BatchUpdateAttendeeCapabilitiesExceptRequest {
+  MeetingId: string;
+  ExcludedAttendeeIds: AttendeeIdsList;
+  Capabilities: AttendeeCapabilities;
+}
+export const BatchUpdateAttendeeCapabilitiesExceptRequest = S.suspend(() =>
+  S.Struct({
     MeetingId: S.String.pipe(T.HttpLabel("MeetingId")),
     ExcludedAttendeeIds: AttendeeIdsList,
     Capabilities: AttendeeCapabilities,
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/meetings/{MeetingId}/attendees/capabilities?operation=batch-update-except",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/meetings/{MeetingId}/attendees/capabilities?operation=batch-update-except",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class BatchUpdateAttendeeCapabilitiesExceptResponse extends S.Class<BatchUpdateAttendeeCapabilitiesExceptResponse>(
-  "BatchUpdateAttendeeCapabilitiesExceptResponse",
-)({}) {}
-export class GetAttendeeResponse extends S.Class<GetAttendeeResponse>(
-  "GetAttendeeResponse",
-)({ Attendee: S.optional(Attendee) }) {}
-export class MediaPlacement extends S.Class<MediaPlacement>("MediaPlacement")({
-  AudioHostUrl: S.optional(S.String),
-  AudioFallbackUrl: S.optional(S.String),
-  SignalingUrl: S.optional(S.String),
-  TurnControlUrl: S.optional(S.String),
-  ScreenDataUrl: S.optional(S.String),
-  ScreenViewingUrl: S.optional(S.String),
-  ScreenSharingUrl: S.optional(S.String),
-  EventIngestionUrl: S.optional(S.String),
-}) {}
-export class Meeting extends S.Class<Meeting>("Meeting")({
-  MeetingId: S.optional(S.String),
-  MeetingHostId: S.optional(S.String),
-  ExternalMeetingId: S.optional(S.String),
-  MediaRegion: S.optional(S.String),
-  MediaPlacement: S.optional(MediaPlacement),
-  MeetingFeatures: S.optional(MeetingFeaturesConfiguration),
-  PrimaryMeetingId: S.optional(S.String),
-  TenantIds: S.optional(TenantIdList),
-  MeetingArn: S.optional(S.String),
-}) {}
-export class GetMeetingResponse extends S.Class<GetMeetingResponse>(
-  "GetMeetingResponse",
-)({ Meeting: S.optional(Meeting) }) {}
-export class ListAttendeesResponse extends S.Class<ListAttendeesResponse>(
-  "ListAttendeesResponse",
-)({ Attendees: S.optional(AttendeeList), NextToken: S.optional(S.String) }) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ Tags: S.optional(TagList) }) {}
-export class UpdateAttendeeCapabilitiesResponse extends S.Class<UpdateAttendeeCapabilitiesResponse>(
-  "UpdateAttendeeCapabilitiesResponse",
-)({ Attendee: S.optional(Attendee) }) {}
-export class EngineTranscribeSettings extends S.Class<EngineTranscribeSettings>(
-  "EngineTranscribeSettings",
-)({
-  LanguageCode: S.optional(S.String),
-  VocabularyFilterMethod: S.optional(S.String),
-  VocabularyFilterName: S.optional(S.String),
-  VocabularyName: S.optional(S.String),
-  Region: S.optional(S.String),
-  EnablePartialResultsStabilization: S.optional(S.Boolean),
-  PartialResultsStability: S.optional(S.String),
-  ContentIdentificationType: S.optional(S.String),
-  ContentRedactionType: S.optional(S.String),
-  PiiEntityTypes: S.optional(S.String),
-  LanguageModelName: S.optional(S.String),
-  IdentifyLanguage: S.optional(S.Boolean),
-  LanguageOptions: S.optional(S.String),
-  PreferredLanguage: S.optional(S.String),
-  VocabularyNames: S.optional(S.String),
-  VocabularyFilterNames: S.optional(S.String),
-}) {}
-export class EngineTranscribeMedicalSettings extends S.Class<EngineTranscribeMedicalSettings>(
-  "EngineTranscribeMedicalSettings",
-)({
-  LanguageCode: S.String,
-  Specialty: S.String,
-  Type: S.String,
-  VocabularyName: S.optional(S.String),
-  Region: S.optional(S.String),
-  ContentIdentificationType: S.optional(S.String),
-}) {}
-export class CreateAttendeeError extends S.Class<CreateAttendeeError>(
-  "CreateAttendeeError",
-)({
-  ExternalUserId: S.optional(S.String),
-  ErrorCode: S.optional(S.String),
-  ErrorMessage: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "BatchUpdateAttendeeCapabilitiesExceptRequest",
+}) as any as S.Schema<BatchUpdateAttendeeCapabilitiesExceptRequest>;
+export interface BatchUpdateAttendeeCapabilitiesExceptResponse {}
+export const BatchUpdateAttendeeCapabilitiesExceptResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "BatchUpdateAttendeeCapabilitiesExceptResponse",
+}) as any as S.Schema<BatchUpdateAttendeeCapabilitiesExceptResponse>;
+export interface GetAttendeeResponse {
+  Attendee?: Attendee;
+}
+export const GetAttendeeResponse = S.suspend(() =>
+  S.Struct({ Attendee: S.optional(Attendee) }),
+).annotations({
+  identifier: "GetAttendeeResponse",
+}) as any as S.Schema<GetAttendeeResponse>;
+export interface MediaPlacement {
+  AudioHostUrl?: string;
+  AudioFallbackUrl?: string;
+  SignalingUrl?: string;
+  TurnControlUrl?: string;
+  ScreenDataUrl?: string;
+  ScreenViewingUrl?: string;
+  ScreenSharingUrl?: string;
+  EventIngestionUrl?: string;
+}
+export const MediaPlacement = S.suspend(() =>
+  S.Struct({
+    AudioHostUrl: S.optional(S.String),
+    AudioFallbackUrl: S.optional(S.String),
+    SignalingUrl: S.optional(S.String),
+    TurnControlUrl: S.optional(S.String),
+    ScreenDataUrl: S.optional(S.String),
+    ScreenViewingUrl: S.optional(S.String),
+    ScreenSharingUrl: S.optional(S.String),
+    EventIngestionUrl: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "MediaPlacement",
+}) as any as S.Schema<MediaPlacement>;
+export interface Meeting {
+  MeetingId?: string;
+  MeetingHostId?: string;
+  ExternalMeetingId?: string;
+  MediaRegion?: string;
+  MediaPlacement?: MediaPlacement;
+  MeetingFeatures?: MeetingFeaturesConfiguration;
+  PrimaryMeetingId?: string;
+  TenantIds?: TenantIdList;
+  MeetingArn?: string;
+}
+export const Meeting = S.suspend(() =>
+  S.Struct({
+    MeetingId: S.optional(S.String),
+    MeetingHostId: S.optional(S.String),
+    ExternalMeetingId: S.optional(S.String),
+    MediaRegion: S.optional(S.String),
+    MediaPlacement: S.optional(MediaPlacement),
+    MeetingFeatures: S.optional(MeetingFeaturesConfiguration),
+    PrimaryMeetingId: S.optional(S.String),
+    TenantIds: S.optional(TenantIdList),
+    MeetingArn: S.optional(S.String),
+  }),
+).annotations({ identifier: "Meeting" }) as any as S.Schema<Meeting>;
+export interface GetMeetingResponse {
+  Meeting?: Meeting;
+}
+export const GetMeetingResponse = S.suspend(() =>
+  S.Struct({ Meeting: S.optional(Meeting) }),
+).annotations({
+  identifier: "GetMeetingResponse",
+}) as any as S.Schema<GetMeetingResponse>;
+export interface ListAttendeesResponse {
+  Attendees?: AttendeeList;
+  NextToken?: string;
+}
+export const ListAttendeesResponse = S.suspend(() =>
+  S.Struct({
+    Attendees: S.optional(AttendeeList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListAttendeesResponse",
+}) as any as S.Schema<ListAttendeesResponse>;
+export interface ListTagsForResourceResponse {
+  Tags?: TagList;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ Tags: S.optional(TagList) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface UpdateAttendeeCapabilitiesResponse {
+  Attendee?: Attendee;
+}
+export const UpdateAttendeeCapabilitiesResponse = S.suspend(() =>
+  S.Struct({ Attendee: S.optional(Attendee) }),
+).annotations({
+  identifier: "UpdateAttendeeCapabilitiesResponse",
+}) as any as S.Schema<UpdateAttendeeCapabilitiesResponse>;
+export interface EngineTranscribeSettings {
+  LanguageCode?: string;
+  VocabularyFilterMethod?: string;
+  VocabularyFilterName?: string;
+  VocabularyName?: string;
+  Region?: string;
+  EnablePartialResultsStabilization?: boolean;
+  PartialResultsStability?: string;
+  ContentIdentificationType?: string;
+  ContentRedactionType?: string;
+  PiiEntityTypes?: string;
+  LanguageModelName?: string;
+  IdentifyLanguage?: boolean;
+  LanguageOptions?: string;
+  PreferredLanguage?: string;
+  VocabularyNames?: string;
+  VocabularyFilterNames?: string;
+}
+export const EngineTranscribeSettings = S.suspend(() =>
+  S.Struct({
+    LanguageCode: S.optional(S.String),
+    VocabularyFilterMethod: S.optional(S.String),
+    VocabularyFilterName: S.optional(S.String),
+    VocabularyName: S.optional(S.String),
+    Region: S.optional(S.String),
+    EnablePartialResultsStabilization: S.optional(S.Boolean),
+    PartialResultsStability: S.optional(S.String),
+    ContentIdentificationType: S.optional(S.String),
+    ContentRedactionType: S.optional(S.String),
+    PiiEntityTypes: S.optional(S.String),
+    LanguageModelName: S.optional(S.String),
+    IdentifyLanguage: S.optional(S.Boolean),
+    LanguageOptions: S.optional(S.String),
+    PreferredLanguage: S.optional(S.String),
+    VocabularyNames: S.optional(S.String),
+    VocabularyFilterNames: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "EngineTranscribeSettings",
+}) as any as S.Schema<EngineTranscribeSettings>;
+export interface EngineTranscribeMedicalSettings {
+  LanguageCode: string;
+  Specialty: string;
+  Type: string;
+  VocabularyName?: string;
+  Region?: string;
+  ContentIdentificationType?: string;
+}
+export const EngineTranscribeMedicalSettings = S.suspend(() =>
+  S.Struct({
+    LanguageCode: S.String,
+    Specialty: S.String,
+    Type: S.String,
+    VocabularyName: S.optional(S.String),
+    Region: S.optional(S.String),
+    ContentIdentificationType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "EngineTranscribeMedicalSettings",
+}) as any as S.Schema<EngineTranscribeMedicalSettings>;
+export interface CreateAttendeeError {
+  ExternalUserId?: string;
+  ErrorCode?: string;
+  ErrorMessage?: string;
+}
+export const CreateAttendeeError = S.suspend(() =>
+  S.Struct({
+    ExternalUserId: S.optional(S.String),
+    ErrorCode: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CreateAttendeeError",
+}) as any as S.Schema<CreateAttendeeError>;
+export type BatchCreateAttendeeErrorList = CreateAttendeeError[];
 export const BatchCreateAttendeeErrorList = S.Array(CreateAttendeeError);
-export class TranscriptionConfiguration extends S.Class<TranscriptionConfiguration>(
-  "TranscriptionConfiguration",
-)({
-  EngineTranscribeSettings: S.optional(EngineTranscribeSettings),
-  EngineTranscribeMedicalSettings: S.optional(EngineTranscribeMedicalSettings),
-}) {}
-export class BatchCreateAttendeeResponse extends S.Class<BatchCreateAttendeeResponse>(
-  "BatchCreateAttendeeResponse",
-)({
-  Attendees: S.optional(AttendeeList),
-  Errors: S.optional(BatchCreateAttendeeErrorList),
-}) {}
-export class CreateAttendeeResponse extends S.Class<CreateAttendeeResponse>(
-  "CreateAttendeeResponse",
-)({ Attendee: S.optional(Attendee) }) {}
-export class CreateMeetingRequest extends S.Class<CreateMeetingRequest>(
-  "CreateMeetingRequest",
-)(
-  {
+export interface TranscriptionConfiguration {
+  EngineTranscribeSettings?: EngineTranscribeSettings;
+  EngineTranscribeMedicalSettings?: EngineTranscribeMedicalSettings;
+}
+export const TranscriptionConfiguration = S.suspend(() =>
+  S.Struct({
+    EngineTranscribeSettings: S.optional(EngineTranscribeSettings),
+    EngineTranscribeMedicalSettings: S.optional(
+      EngineTranscribeMedicalSettings,
+    ),
+  }),
+).annotations({
+  identifier: "TranscriptionConfiguration",
+}) as any as S.Schema<TranscriptionConfiguration>;
+export interface BatchCreateAttendeeResponse {
+  Attendees?: AttendeeList;
+  Errors?: BatchCreateAttendeeErrorList;
+}
+export const BatchCreateAttendeeResponse = S.suspend(() =>
+  S.Struct({
+    Attendees: S.optional(AttendeeList),
+    Errors: S.optional(BatchCreateAttendeeErrorList),
+  }),
+).annotations({
+  identifier: "BatchCreateAttendeeResponse",
+}) as any as S.Schema<BatchCreateAttendeeResponse>;
+export interface CreateAttendeeResponse {
+  Attendee?: Attendee;
+}
+export const CreateAttendeeResponse = S.suspend(() =>
+  S.Struct({ Attendee: S.optional(Attendee) }),
+).annotations({
+  identifier: "CreateAttendeeResponse",
+}) as any as S.Schema<CreateAttendeeResponse>;
+export interface CreateMeetingRequest {
+  ClientRequestToken: string;
+  MediaRegion: string;
+  MeetingHostId?: string;
+  ExternalMeetingId: string;
+  NotificationsConfiguration?: NotificationsConfiguration;
+  MeetingFeatures?: MeetingFeaturesConfiguration;
+  PrimaryMeetingId?: string;
+  TenantIds?: TenantIdList;
+  Tags?: TagList;
+  MediaPlacementNetworkType?: string;
+}
+export const CreateMeetingRequest = S.suspend(() =>
+  S.Struct({
     ClientRequestToken: S.String,
     MediaRegion: S.String,
     MeetingHostId: S.optional(S.String),
@@ -651,48 +942,71 @@ export class CreateMeetingRequest extends S.Class<CreateMeetingRequest>(
     TenantIds: S.optional(TenantIdList),
     Tags: S.optional(TagList),
     MediaPlacementNetworkType: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/meetings" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/meetings" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartMeetingTranscriptionRequest extends S.Class<StartMeetingTranscriptionRequest>(
-  "StartMeetingTranscriptionRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateMeetingRequest",
+}) as any as S.Schema<CreateMeetingRequest>;
+export interface StartMeetingTranscriptionRequest {
+  MeetingId: string;
+  TranscriptionConfiguration: TranscriptionConfiguration;
+}
+export const StartMeetingTranscriptionRequest = S.suspend(() =>
+  S.Struct({
     MeetingId: S.String.pipe(T.HttpLabel("MeetingId")),
     TranscriptionConfiguration: TranscriptionConfiguration,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/meetings/{MeetingId}/transcription?operation=start",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/meetings/{MeetingId}/transcription?operation=start",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartMeetingTranscriptionResponse extends S.Class<StartMeetingTranscriptionResponse>(
-  "StartMeetingTranscriptionResponse",
-)({}) {}
-export class CreateMeetingResponse extends S.Class<CreateMeetingResponse>(
-  "CreateMeetingResponse",
-)({ Meeting: S.optional(Meeting) }) {}
-export class CreateMeetingWithAttendeesResponse extends S.Class<CreateMeetingWithAttendeesResponse>(
-  "CreateMeetingWithAttendeesResponse",
-)({
-  Meeting: S.optional(Meeting),
-  Attendees: S.optional(AttendeeList),
-  Errors: S.optional(BatchCreateAttendeeErrorList),
-}) {}
+).annotations({
+  identifier: "StartMeetingTranscriptionRequest",
+}) as any as S.Schema<StartMeetingTranscriptionRequest>;
+export interface StartMeetingTranscriptionResponse {}
+export const StartMeetingTranscriptionResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "StartMeetingTranscriptionResponse",
+}) as any as S.Schema<StartMeetingTranscriptionResponse>;
+export interface CreateMeetingResponse {
+  Meeting?: Meeting;
+}
+export const CreateMeetingResponse = S.suspend(() =>
+  S.Struct({ Meeting: S.optional(Meeting) }),
+).annotations({
+  identifier: "CreateMeetingResponse",
+}) as any as S.Schema<CreateMeetingResponse>;
+export interface CreateMeetingWithAttendeesResponse {
+  Meeting?: Meeting;
+  Attendees?: AttendeeList;
+  Errors?: BatchCreateAttendeeErrorList;
+}
+export const CreateMeetingWithAttendeesResponse = S.suspend(() =>
+  S.Struct({
+    Meeting: S.optional(Meeting),
+    Attendees: S.optional(AttendeeList),
+    Errors: S.optional(BatchCreateAttendeeErrorList),
+  }),
+).annotations({
+  identifier: "CreateMeetingWithAttendeesResponse",
+}) as any as S.Schema<CreateMeetingWithAttendeesResponse>;
 
 //# Errors
 export class BadRequestException extends S.TaggedError<BadRequestException>()(

@@ -262,13 +262,25 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type Scopes = string[];
 export const Scopes = S.Array(S.String);
+export type RedirectUris = string[];
 export const RedirectUris = S.Array(S.String);
+export type GrantTypes = string[];
 export const GrantTypes = S.Array(S.String);
-export class CreateTokenRequest extends S.Class<CreateTokenRequest>(
-  "CreateTokenRequest",
-)(
-  {
+export interface CreateTokenRequest {
+  clientId: string;
+  clientSecret: string;
+  grantType: string;
+  deviceCode?: string;
+  code?: string;
+  refreshToken?: string;
+  scope?: Scopes;
+  redirectUri?: string;
+  codeVerifier?: string;
+}
+export const CreateTokenRequest = S.suspend(() =>
+  S.Struct({
     clientId: S.String,
     clientSecret: S.String,
     grantType: S.String,
@@ -278,20 +290,34 @@ export class CreateTokenRequest extends S.Class<CreateTokenRequest>(
     scope: S.optional(Scopes),
     redirectUri: S.optional(S.String),
     codeVerifier: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/token" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/token" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateTokenWithIAMRequest extends S.Class<CreateTokenWithIAMRequest>(
-  "CreateTokenWithIAMRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateTokenRequest",
+}) as any as S.Schema<CreateTokenRequest>;
+export interface CreateTokenWithIAMRequest {
+  clientId: string;
+  grantType: string;
+  code?: string;
+  refreshToken?: string;
+  assertion?: string;
+  scope?: Scopes;
+  redirectUri?: string;
+  subjectToken?: string;
+  subjectTokenType?: string;
+  requestedTokenType?: string;
+  codeVerifier?: string;
+}
+export const CreateTokenWithIAMRequest = S.suspend(() =>
+  S.Struct({
     clientId: S.String,
     grantType: S.String,
     code: S.optional(S.String),
@@ -303,20 +329,30 @@ export class CreateTokenWithIAMRequest extends S.Class<CreateTokenWithIAMRequest
     subjectTokenType: S.optional(S.String),
     requestedTokenType: S.optional(S.String),
     codeVerifier: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/token?aws_iam=t" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/token?aws_iam=t" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class RegisterClientRequest extends S.Class<RegisterClientRequest>(
-  "RegisterClientRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateTokenWithIAMRequest",
+}) as any as S.Schema<CreateTokenWithIAMRequest>;
+export interface RegisterClientRequest {
+  clientName: string;
+  clientType: string;
+  scopes?: Scopes;
+  redirectUris?: RedirectUris;
+  grantTypes?: GrantTypes;
+  issuerUrl?: string;
+  entitledApplicationArn?: string;
+}
+export const RegisterClientRequest = S.suspend(() =>
+  S.Struct({
     clientName: S.String,
     clientType: S.String,
     scopes: S.optional(Scopes),
@@ -324,73 +360,132 @@ export class RegisterClientRequest extends S.Class<RegisterClientRequest>(
     grantTypes: S.optional(GrantTypes),
     issuerUrl: S.optional(S.String),
     entitledApplicationArn: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/client/register" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/client/register" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartDeviceAuthorizationRequest extends S.Class<StartDeviceAuthorizationRequest>(
-  "StartDeviceAuthorizationRequest",
-)(
-  { clientId: S.String, clientSecret: S.String, startUrl: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/device_authorization" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "RegisterClientRequest",
+}) as any as S.Schema<RegisterClientRequest>;
+export interface StartDeviceAuthorizationRequest {
+  clientId: string;
+  clientSecret: string;
+  startUrl: string;
+}
+export const StartDeviceAuthorizationRequest = S.suspend(() =>
+  S.Struct({
+    clientId: S.String,
+    clientSecret: S.String,
+    startUrl: S.String,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/device_authorization" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateTokenResponse extends S.Class<CreateTokenResponse>(
-  "CreateTokenResponse",
-)({
-  accessToken: S.optional(S.String),
-  tokenType: S.optional(S.String),
-  expiresIn: S.optional(S.Number),
-  refreshToken: S.optional(S.String),
-  idToken: S.optional(S.String),
-}) {}
-export class RegisterClientResponse extends S.Class<RegisterClientResponse>(
-  "RegisterClientResponse",
-)({
-  clientId: S.optional(S.String),
-  clientSecret: S.optional(S.String),
-  clientIdIssuedAt: S.optional(S.Number),
-  clientSecretExpiresAt: S.optional(S.Number),
-  authorizationEndpoint: S.optional(S.String),
-  tokenEndpoint: S.optional(S.String),
-}) {}
-export class StartDeviceAuthorizationResponse extends S.Class<StartDeviceAuthorizationResponse>(
-  "StartDeviceAuthorizationResponse",
-)({
-  deviceCode: S.optional(S.String),
-  userCode: S.optional(S.String),
-  verificationUri: S.optional(S.String),
-  verificationUriComplete: S.optional(S.String),
-  expiresIn: S.optional(S.Number),
-  interval: S.optional(S.Number),
-}) {}
-export class AwsAdditionalDetails extends S.Class<AwsAdditionalDetails>(
-  "AwsAdditionalDetails",
-)({ identityContext: S.optional(S.String) }) {}
-export class CreateTokenWithIAMResponse extends S.Class<CreateTokenWithIAMResponse>(
-  "CreateTokenWithIAMResponse",
-)({
-  accessToken: S.optional(S.String),
-  tokenType: S.optional(S.String),
-  expiresIn: S.optional(S.Number),
-  refreshToken: S.optional(S.String),
-  idToken: S.optional(S.String),
-  issuedTokenType: S.optional(S.String),
-  scope: S.optional(Scopes),
-  awsAdditionalDetails: S.optional(AwsAdditionalDetails),
-}) {}
+).annotations({
+  identifier: "StartDeviceAuthorizationRequest",
+}) as any as S.Schema<StartDeviceAuthorizationRequest>;
+export interface CreateTokenResponse {
+  accessToken?: string;
+  tokenType?: string;
+  expiresIn?: number;
+  refreshToken?: string;
+  idToken?: string;
+}
+export const CreateTokenResponse = S.suspend(() =>
+  S.Struct({
+    accessToken: S.optional(S.String),
+    tokenType: S.optional(S.String),
+    expiresIn: S.optional(S.Number),
+    refreshToken: S.optional(S.String),
+    idToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CreateTokenResponse",
+}) as any as S.Schema<CreateTokenResponse>;
+export interface RegisterClientResponse {
+  clientId?: string;
+  clientSecret?: string;
+  clientIdIssuedAt?: number;
+  clientSecretExpiresAt?: number;
+  authorizationEndpoint?: string;
+  tokenEndpoint?: string;
+}
+export const RegisterClientResponse = S.suspend(() =>
+  S.Struct({
+    clientId: S.optional(S.String),
+    clientSecret: S.optional(S.String),
+    clientIdIssuedAt: S.optional(S.Number),
+    clientSecretExpiresAt: S.optional(S.Number),
+    authorizationEndpoint: S.optional(S.String),
+    tokenEndpoint: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RegisterClientResponse",
+}) as any as S.Schema<RegisterClientResponse>;
+export interface StartDeviceAuthorizationResponse {
+  deviceCode?: string;
+  userCode?: string;
+  verificationUri?: string;
+  verificationUriComplete?: string;
+  expiresIn?: number;
+  interval?: number;
+}
+export const StartDeviceAuthorizationResponse = S.suspend(() =>
+  S.Struct({
+    deviceCode: S.optional(S.String),
+    userCode: S.optional(S.String),
+    verificationUri: S.optional(S.String),
+    verificationUriComplete: S.optional(S.String),
+    expiresIn: S.optional(S.Number),
+    interval: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "StartDeviceAuthorizationResponse",
+}) as any as S.Schema<StartDeviceAuthorizationResponse>;
+export interface AwsAdditionalDetails {
+  identityContext?: string;
+}
+export const AwsAdditionalDetails = S.suspend(() =>
+  S.Struct({ identityContext: S.optional(S.String) }),
+).annotations({
+  identifier: "AwsAdditionalDetails",
+}) as any as S.Schema<AwsAdditionalDetails>;
+export interface CreateTokenWithIAMResponse {
+  accessToken?: string;
+  tokenType?: string;
+  expiresIn?: number;
+  refreshToken?: string;
+  idToken?: string;
+  issuedTokenType?: string;
+  scope?: Scopes;
+  awsAdditionalDetails?: AwsAdditionalDetails;
+}
+export const CreateTokenWithIAMResponse = S.suspend(() =>
+  S.Struct({
+    accessToken: S.optional(S.String),
+    tokenType: S.optional(S.String),
+    expiresIn: S.optional(S.Number),
+    refreshToken: S.optional(S.String),
+    idToken: S.optional(S.String),
+    issuedTokenType: S.optional(S.String),
+    scope: S.optional(Scopes),
+    awsAdditionalDetails: S.optional(AwsAdditionalDetails),
+  }),
+).annotations({
+  identifier: "CreateTokenWithIAMResponse",
+}) as any as S.Schema<CreateTokenWithIAMResponse>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

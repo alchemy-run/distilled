@@ -304,299 +304,491 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type RegionOptStatusList = string[];
 export const RegionOptStatusList = S.Array(S.String);
-export class PutAccountNameRequest extends S.Class<PutAccountNameRequest>(
-  "PutAccountNameRequest",
-)(
-  { AccountName: S.String, AccountId: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/putAccountName" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface PutAccountNameRequest {
+  AccountName: string;
+  AccountId?: string;
+}
+export const PutAccountNameRequest = S.suspend(() =>
+  S.Struct({ AccountName: S.String, AccountId: S.optional(S.String) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/putAccountName" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutAccountNameResponse extends S.Class<PutAccountNameResponse>(
-  "PutAccountNameResponse",
-)({}) {}
-export class GetAccountInformationRequest extends S.Class<GetAccountInformationRequest>(
-  "GetAccountInformationRequest",
-)(
-  { AccountId: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/getAccountInformation" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "PutAccountNameRequest",
+}) as any as S.Schema<PutAccountNameRequest>;
+export interface PutAccountNameResponse {}
+export const PutAccountNameResponse = S.suspend(() => S.Struct({})).annotations(
+  { identifier: "PutAccountNameResponse" },
+) as any as S.Schema<PutAccountNameResponse>;
+export interface GetAccountInformationRequest {
+  AccountId?: string;
+}
+export const GetAccountInformationRequest = S.suspend(() =>
+  S.Struct({ AccountId: S.optional(S.String) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/getAccountInformation" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutAlternateContactRequest extends S.Class<PutAlternateContactRequest>(
-  "PutAlternateContactRequest",
-)(
-  {
+).annotations({
+  identifier: "GetAccountInformationRequest",
+}) as any as S.Schema<GetAccountInformationRequest>;
+export interface PutAlternateContactRequest {
+  Name: string;
+  Title: string;
+  EmailAddress: string;
+  PhoneNumber: string;
+  AlternateContactType: string;
+  AccountId?: string;
+}
+export const PutAlternateContactRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     Title: S.String,
     EmailAddress: S.String,
     PhoneNumber: S.String,
     AlternateContactType: S.String,
     AccountId: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/putAlternateContact" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/putAlternateContact" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutAlternateContactResponse extends S.Class<PutAlternateContactResponse>(
-  "PutAlternateContactResponse",
-)({}) {}
-export class GetAlternateContactRequest extends S.Class<GetAlternateContactRequest>(
-  "GetAlternateContactRequest",
-)(
-  { AlternateContactType: S.String, AccountId: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/getAlternateContact" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "PutAlternateContactRequest",
+}) as any as S.Schema<PutAlternateContactRequest>;
+export interface PutAlternateContactResponse {}
+export const PutAlternateContactResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "PutAlternateContactResponse",
+}) as any as S.Schema<PutAlternateContactResponse>;
+export interface GetAlternateContactRequest {
+  AlternateContactType: string;
+  AccountId?: string;
+}
+export const GetAlternateContactRequest = S.suspend(() =>
+  S.Struct({
+    AlternateContactType: S.String,
+    AccountId: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/getAlternateContact" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAlternateContactRequest extends S.Class<DeleteAlternateContactRequest>(
-  "DeleteAlternateContactRequest",
-)(
-  { AlternateContactType: S.String, AccountId: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/deleteAlternateContact" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetAlternateContactRequest",
+}) as any as S.Schema<GetAlternateContactRequest>;
+export interface DeleteAlternateContactRequest {
+  AlternateContactType: string;
+  AccountId?: string;
+}
+export const DeleteAlternateContactRequest = S.suspend(() =>
+  S.Struct({
+    AlternateContactType: S.String,
+    AccountId: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/deleteAlternateContact" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAlternateContactResponse extends S.Class<DeleteAlternateContactResponse>(
-  "DeleteAlternateContactResponse",
-)({}) {}
-export class GetGovCloudAccountInformationRequest extends S.Class<GetGovCloudAccountInformationRequest>(
-  "GetGovCloudAccountInformationRequest",
-)(
-  { StandardAccountId: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/getGovCloudAccountInformation" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteAlternateContactRequest",
+}) as any as S.Schema<DeleteAlternateContactRequest>;
+export interface DeleteAlternateContactResponse {}
+export const DeleteAlternateContactResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteAlternateContactResponse",
+}) as any as S.Schema<DeleteAlternateContactResponse>;
+export interface GetGovCloudAccountInformationRequest {
+  StandardAccountId?: string;
+}
+export const GetGovCloudAccountInformationRequest = S.suspend(() =>
+  S.Struct({ StandardAccountId: S.optional(S.String) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/getGovCloudAccountInformation" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetContactInformationRequest extends S.Class<GetContactInformationRequest>(
-  "GetContactInformationRequest",
-)(
-  { AccountId: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/getContactInformation" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetGovCloudAccountInformationRequest",
+}) as any as S.Schema<GetGovCloudAccountInformationRequest>;
+export interface GetContactInformationRequest {
+  AccountId?: string;
+}
+export const GetContactInformationRequest = S.suspend(() =>
+  S.Struct({ AccountId: S.optional(S.String) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/getContactInformation" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AcceptPrimaryEmailUpdateRequest extends S.Class<AcceptPrimaryEmailUpdateRequest>(
-  "AcceptPrimaryEmailUpdateRequest",
-)(
-  { AccountId: S.String, PrimaryEmail: S.String, Otp: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/acceptPrimaryEmailUpdate" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetContactInformationRequest",
+}) as any as S.Schema<GetContactInformationRequest>;
+export interface AcceptPrimaryEmailUpdateRequest {
+  AccountId: string;
+  PrimaryEmail: string;
+  Otp: string;
+}
+export const AcceptPrimaryEmailUpdateRequest = S.suspend(() =>
+  S.Struct({ AccountId: S.String, PrimaryEmail: S.String, Otp: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/acceptPrimaryEmailUpdate" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetPrimaryEmailRequest extends S.Class<GetPrimaryEmailRequest>(
-  "GetPrimaryEmailRequest",
-)(
-  { AccountId: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/getPrimaryEmail" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "AcceptPrimaryEmailUpdateRequest",
+}) as any as S.Schema<AcceptPrimaryEmailUpdateRequest>;
+export interface GetPrimaryEmailRequest {
+  AccountId: string;
+}
+export const GetPrimaryEmailRequest = S.suspend(() =>
+  S.Struct({ AccountId: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/getPrimaryEmail" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartPrimaryEmailUpdateRequest extends S.Class<StartPrimaryEmailUpdateRequest>(
-  "StartPrimaryEmailUpdateRequest",
-)(
-  { AccountId: S.String, PrimaryEmail: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/startPrimaryEmailUpdate" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetPrimaryEmailRequest",
+}) as any as S.Schema<GetPrimaryEmailRequest>;
+export interface StartPrimaryEmailUpdateRequest {
+  AccountId: string;
+  PrimaryEmail: string;
+}
+export const StartPrimaryEmailUpdateRequest = S.suspend(() =>
+  S.Struct({ AccountId: S.String, PrimaryEmail: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/startPrimaryEmailUpdate" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DisableRegionRequest extends S.Class<DisableRegionRequest>(
-  "DisableRegionRequest",
-)(
-  { AccountId: S.optional(S.String), RegionName: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/disableRegion" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "StartPrimaryEmailUpdateRequest",
+}) as any as S.Schema<StartPrimaryEmailUpdateRequest>;
+export interface DisableRegionRequest {
+  AccountId?: string;
+  RegionName: string;
+}
+export const DisableRegionRequest = S.suspend(() =>
+  S.Struct({ AccountId: S.optional(S.String), RegionName: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/disableRegion" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DisableRegionResponse extends S.Class<DisableRegionResponse>(
-  "DisableRegionResponse",
-)({}) {}
-export class EnableRegionRequest extends S.Class<EnableRegionRequest>(
-  "EnableRegionRequest",
-)(
-  { AccountId: S.optional(S.String), RegionName: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/enableRegion" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DisableRegionRequest",
+}) as any as S.Schema<DisableRegionRequest>;
+export interface DisableRegionResponse {}
+export const DisableRegionResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DisableRegionResponse",
+}) as any as S.Schema<DisableRegionResponse>;
+export interface EnableRegionRequest {
+  AccountId?: string;
+  RegionName: string;
+}
+export const EnableRegionRequest = S.suspend(() =>
+  S.Struct({ AccountId: S.optional(S.String), RegionName: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/enableRegion" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class EnableRegionResponse extends S.Class<EnableRegionResponse>(
-  "EnableRegionResponse",
-)({}) {}
-export class GetRegionOptStatusRequest extends S.Class<GetRegionOptStatusRequest>(
-  "GetRegionOptStatusRequest",
-)(
-  { AccountId: S.optional(S.String), RegionName: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/getRegionOptStatus" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "EnableRegionRequest",
+}) as any as S.Schema<EnableRegionRequest>;
+export interface EnableRegionResponse {}
+export const EnableRegionResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "EnableRegionResponse",
+}) as any as S.Schema<EnableRegionResponse>;
+export interface GetRegionOptStatusRequest {
+  AccountId?: string;
+  RegionName: string;
+}
+export const GetRegionOptStatusRequest = S.suspend(() =>
+  S.Struct({ AccountId: S.optional(S.String), RegionName: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/getRegionOptStatus" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListRegionsRequest extends S.Class<ListRegionsRequest>(
-  "ListRegionsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetRegionOptStatusRequest",
+}) as any as S.Schema<GetRegionOptStatusRequest>;
+export interface ListRegionsRequest {
+  AccountId?: string;
+  MaxResults?: number;
+  NextToken?: string;
+  RegionOptStatusContains?: RegionOptStatusList;
+}
+export const ListRegionsRequest = S.suspend(() =>
+  S.Struct({
     AccountId: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     RegionOptStatusContains: S.optional(RegionOptStatusList),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/listRegions" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/listRegions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ContactInformation extends S.Class<ContactInformation>(
-  "ContactInformation",
-)({
-  FullName: S.String,
-  AddressLine1: S.String,
-  AddressLine2: S.optional(S.String),
-  AddressLine3: S.optional(S.String),
-  City: S.String,
-  StateOrRegion: S.optional(S.String),
-  DistrictOrCounty: S.optional(S.String),
-  PostalCode: S.String,
-  CountryCode: S.String,
-  PhoneNumber: S.String,
-  CompanyName: S.optional(S.String),
-  WebsiteUrl: S.optional(S.String),
-}) {}
-export class GetAccountInformationResponse extends S.Class<GetAccountInformationResponse>(
-  "GetAccountInformationResponse",
-)({
-  AccountId: S.optional(S.String),
-  AccountName: S.optional(S.String),
-  AccountCreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-}) {}
-export class GetGovCloudAccountInformationResponse extends S.Class<GetGovCloudAccountInformationResponse>(
-  "GetGovCloudAccountInformationResponse",
-)({ GovCloudAccountId: S.String, AccountState: S.String }) {}
-export class PutContactInformationRequest extends S.Class<PutContactInformationRequest>(
-  "PutContactInformationRequest",
-)(
-  { ContactInformation: ContactInformation, AccountId: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/putContactInformation" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListRegionsRequest",
+}) as any as S.Schema<ListRegionsRequest>;
+export interface ContactInformation {
+  FullName: string;
+  AddressLine1: string;
+  AddressLine2?: string;
+  AddressLine3?: string;
+  City: string;
+  StateOrRegion?: string;
+  DistrictOrCounty?: string;
+  PostalCode: string;
+  CountryCode: string;
+  PhoneNumber: string;
+  CompanyName?: string;
+  WebsiteUrl?: string;
+}
+export const ContactInformation = S.suspend(() =>
+  S.Struct({
+    FullName: S.String,
+    AddressLine1: S.String,
+    AddressLine2: S.optional(S.String),
+    AddressLine3: S.optional(S.String),
+    City: S.String,
+    StateOrRegion: S.optional(S.String),
+    DistrictOrCounty: S.optional(S.String),
+    PostalCode: S.String,
+    CountryCode: S.String,
+    PhoneNumber: S.String,
+    CompanyName: S.optional(S.String),
+    WebsiteUrl: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ContactInformation",
+}) as any as S.Schema<ContactInformation>;
+export interface GetAccountInformationResponse {
+  AccountId?: string;
+  AccountName?: string;
+  AccountCreatedDate?: Date;
+}
+export const GetAccountInformationResponse = S.suspend(() =>
+  S.Struct({
+    AccountId: S.optional(S.String),
+    AccountName: S.optional(S.String),
+    AccountCreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotations({
+  identifier: "GetAccountInformationResponse",
+}) as any as S.Schema<GetAccountInformationResponse>;
+export interface GetGovCloudAccountInformationResponse {
+  GovCloudAccountId: string;
+  AccountState: string;
+}
+export const GetGovCloudAccountInformationResponse = S.suspend(() =>
+  S.Struct({ GovCloudAccountId: S.String, AccountState: S.String }),
+).annotations({
+  identifier: "GetGovCloudAccountInformationResponse",
+}) as any as S.Schema<GetGovCloudAccountInformationResponse>;
+export interface PutContactInformationRequest {
+  ContactInformation: ContactInformation;
+  AccountId?: string;
+}
+export const PutContactInformationRequest = S.suspend(() =>
+  S.Struct({
+    ContactInformation: ContactInformation,
+    AccountId: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/putContactInformation" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutContactInformationResponse extends S.Class<PutContactInformationResponse>(
-  "PutContactInformationResponse",
-)({}) {}
-export class GetContactInformationResponse extends S.Class<GetContactInformationResponse>(
-  "GetContactInformationResponse",
-)({ ContactInformation: S.optional(ContactInformation) }) {}
-export class AcceptPrimaryEmailUpdateResponse extends S.Class<AcceptPrimaryEmailUpdateResponse>(
-  "AcceptPrimaryEmailUpdateResponse",
-)({ Status: S.optional(S.String) }) {}
-export class GetPrimaryEmailResponse extends S.Class<GetPrimaryEmailResponse>(
-  "GetPrimaryEmailResponse",
-)({ PrimaryEmail: S.optional(S.String) }) {}
-export class StartPrimaryEmailUpdateResponse extends S.Class<StartPrimaryEmailUpdateResponse>(
-  "StartPrimaryEmailUpdateResponse",
-)({ Status: S.optional(S.String) }) {}
-export class GetRegionOptStatusResponse extends S.Class<GetRegionOptStatusResponse>(
-  "GetRegionOptStatusResponse",
-)({
-  RegionName: S.optional(S.String),
-  RegionOptStatus: S.optional(S.String),
-}) {}
-export class AlternateContact extends S.Class<AlternateContact>(
-  "AlternateContact",
-)({
-  Name: S.optional(S.String),
-  Title: S.optional(S.String),
-  EmailAddress: S.optional(S.String),
-  PhoneNumber: S.optional(S.String),
-  AlternateContactType: S.optional(S.String),
-}) {}
-export class Region extends S.Class<Region>("Region")({
-  RegionName: S.optional(S.String),
-  RegionOptStatus: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "PutContactInformationRequest",
+}) as any as S.Schema<PutContactInformationRequest>;
+export interface PutContactInformationResponse {}
+export const PutContactInformationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "PutContactInformationResponse",
+}) as any as S.Schema<PutContactInformationResponse>;
+export interface GetContactInformationResponse {
+  ContactInformation?: ContactInformation;
+}
+export const GetContactInformationResponse = S.suspend(() =>
+  S.Struct({ ContactInformation: S.optional(ContactInformation) }),
+).annotations({
+  identifier: "GetContactInformationResponse",
+}) as any as S.Schema<GetContactInformationResponse>;
+export interface AcceptPrimaryEmailUpdateResponse {
+  Status?: string;
+}
+export const AcceptPrimaryEmailUpdateResponse = S.suspend(() =>
+  S.Struct({ Status: S.optional(S.String) }),
+).annotations({
+  identifier: "AcceptPrimaryEmailUpdateResponse",
+}) as any as S.Schema<AcceptPrimaryEmailUpdateResponse>;
+export interface GetPrimaryEmailResponse {
+  PrimaryEmail?: string;
+}
+export const GetPrimaryEmailResponse = S.suspend(() =>
+  S.Struct({ PrimaryEmail: S.optional(S.String) }),
+).annotations({
+  identifier: "GetPrimaryEmailResponse",
+}) as any as S.Schema<GetPrimaryEmailResponse>;
+export interface StartPrimaryEmailUpdateResponse {
+  Status?: string;
+}
+export const StartPrimaryEmailUpdateResponse = S.suspend(() =>
+  S.Struct({ Status: S.optional(S.String) }),
+).annotations({
+  identifier: "StartPrimaryEmailUpdateResponse",
+}) as any as S.Schema<StartPrimaryEmailUpdateResponse>;
+export interface GetRegionOptStatusResponse {
+  RegionName?: string;
+  RegionOptStatus?: string;
+}
+export const GetRegionOptStatusResponse = S.suspend(() =>
+  S.Struct({
+    RegionName: S.optional(S.String),
+    RegionOptStatus: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetRegionOptStatusResponse",
+}) as any as S.Schema<GetRegionOptStatusResponse>;
+export interface AlternateContact {
+  Name?: string;
+  Title?: string;
+  EmailAddress?: string;
+  PhoneNumber?: string;
+  AlternateContactType?: string;
+}
+export const AlternateContact = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Title: S.optional(S.String),
+    EmailAddress: S.optional(S.String),
+    PhoneNumber: S.optional(S.String),
+    AlternateContactType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AlternateContact",
+}) as any as S.Schema<AlternateContact>;
+export interface Region {
+  RegionName?: string;
+  RegionOptStatus?: string;
+}
+export const Region = S.suspend(() =>
+  S.Struct({
+    RegionName: S.optional(S.String),
+    RegionOptStatus: S.optional(S.String),
+  }),
+).annotations({ identifier: "Region" }) as any as S.Schema<Region>;
+export type RegionOptList = Region[];
 export const RegionOptList = S.Array(Region);
-export class GetAlternateContactResponse extends S.Class<GetAlternateContactResponse>(
-  "GetAlternateContactResponse",
-)({ AlternateContact: S.optional(AlternateContact) }) {}
-export class ListRegionsResponse extends S.Class<ListRegionsResponse>(
-  "ListRegionsResponse",
-)({ NextToken: S.optional(S.String), Regions: S.optional(RegionOptList) }) {}
-export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
-  "ValidationExceptionField",
-)({ name: S.String, message: S.String }) {}
+export interface GetAlternateContactResponse {
+  AlternateContact?: AlternateContact;
+}
+export const GetAlternateContactResponse = S.suspend(() =>
+  S.Struct({ AlternateContact: S.optional(AlternateContact) }),
+).annotations({
+  identifier: "GetAlternateContactResponse",
+}) as any as S.Schema<GetAlternateContactResponse>;
+export interface ListRegionsResponse {
+  NextToken?: string;
+  Regions?: RegionOptList;
+}
+export const ListRegionsResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    Regions: S.optional(RegionOptList),
+  }),
+).annotations({
+  identifier: "ListRegionsResponse",
+}) as any as S.Schema<ListRegionsResponse>;
+export interface ValidationExceptionField {
+  name: string;
+  message: string;
+}
+export const ValidationExceptionField = S.suspend(() =>
+  S.Struct({ name: S.String, message: S.String }),
+).annotations({
+  identifier: "ValidationExceptionField",
+}) as any as S.Schema<ValidationExceptionField>;
+export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 
 //# Errors

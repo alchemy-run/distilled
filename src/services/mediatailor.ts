@@ -242,483 +242,683 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type __listOfLoggingStrategies = string[];
 export const __listOfLoggingStrategies = S.Array(S.String);
+export type __listOf__string = string[];
 export const __listOf__string = S.Array(S.String);
+export type Audiences = string[];
 export const Audiences = S.Array(S.String);
+export type LogTypes = string[];
 export const LogTypes = S.Array(S.String);
-export class ListAlertsRequest extends S.Class<ListAlertsRequest>(
-  "ListAlertsRequest",
-)(
-  {
+export interface ListAlertsRequest {
+  MaxResults?: number;
+  NextToken?: string;
+  ResourceArn: string;
+}
+export const ListAlertsRequest = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     ResourceArn: S.String.pipe(T.HttpQuery("resourceArn")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/alerts" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/alerts" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListAlertsRequest",
+}) as any as S.Schema<ListAlertsRequest>;
+export interface ListTagsForResourceRequest {
+  ResourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface UntagResourceRequest {
+  ResourceArn: string;
+  TagKeys: __listOf__string;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: __listOf__string.pipe(T.HttpQuery("tagKeys")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
-export class DescribeChannelRequest extends S.Class<DescribeChannelRequest>(
-  "DescribeChannelRequest",
-)(
-  { ChannelName: S.String.pipe(T.HttpLabel("ChannelName")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/channel/{ChannelName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface DescribeChannelRequest {
+  ChannelName: string;
+}
+export const DescribeChannelRequest = S.suspend(() =>
+  S.Struct({ ChannelName: S.String.pipe(T.HttpLabel("ChannelName")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/channel/{ChannelName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SlateSource extends S.Class<SlateSource>("SlateSource")({
-  SourceLocationName: S.optional(S.String),
-  VodSourceName: S.optional(S.String),
-}) {}
-export class DashPlaylistSettings extends S.Class<DashPlaylistSettings>(
-  "DashPlaylistSettings",
-)({
-  ManifestWindowSeconds: S.optional(S.Number),
-  MinBufferTimeSeconds: S.optional(S.Number),
-  MinUpdatePeriodSeconds: S.optional(S.Number),
-  SuggestedPresentationDelaySeconds: S.optional(S.Number),
-}) {}
+).annotations({
+  identifier: "DescribeChannelRequest",
+}) as any as S.Schema<DescribeChannelRequest>;
+export interface SlateSource {
+  SourceLocationName?: string;
+  VodSourceName?: string;
+}
+export const SlateSource = S.suspend(() =>
+  S.Struct({
+    SourceLocationName: S.optional(S.String),
+    VodSourceName: S.optional(S.String),
+  }),
+).annotations({ identifier: "SlateSource" }) as any as S.Schema<SlateSource>;
+export interface DashPlaylistSettings {
+  ManifestWindowSeconds?: number;
+  MinBufferTimeSeconds?: number;
+  MinUpdatePeriodSeconds?: number;
+  SuggestedPresentationDelaySeconds?: number;
+}
+export const DashPlaylistSettings = S.suspend(() =>
+  S.Struct({
+    ManifestWindowSeconds: S.optional(S.Number),
+    MinBufferTimeSeconds: S.optional(S.Number),
+    MinUpdatePeriodSeconds: S.optional(S.Number),
+    SuggestedPresentationDelaySeconds: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "DashPlaylistSettings",
+}) as any as S.Schema<DashPlaylistSettings>;
+export type adMarkupTypes = string[];
 export const adMarkupTypes = S.Array(S.String);
-export class HlsPlaylistSettings extends S.Class<HlsPlaylistSettings>(
-  "HlsPlaylistSettings",
-)({
-  ManifestWindowSeconds: S.optional(S.Number),
-  AdMarkupType: S.optional(adMarkupTypes),
-}) {}
-export class RequestOutputItem extends S.Class<RequestOutputItem>(
-  "RequestOutputItem",
-)({
-  DashPlaylistSettings: S.optional(DashPlaylistSettings),
-  HlsPlaylistSettings: S.optional(HlsPlaylistSettings),
-  ManifestName: S.String,
-  SourceGroup: S.String,
-}) {}
+export interface HlsPlaylistSettings {
+  ManifestWindowSeconds?: number;
+  AdMarkupType?: adMarkupTypes;
+}
+export const HlsPlaylistSettings = S.suspend(() =>
+  S.Struct({
+    ManifestWindowSeconds: S.optional(S.Number),
+    AdMarkupType: S.optional(adMarkupTypes),
+  }),
+).annotations({
+  identifier: "HlsPlaylistSettings",
+}) as any as S.Schema<HlsPlaylistSettings>;
+export interface RequestOutputItem {
+  DashPlaylistSettings?: DashPlaylistSettings;
+  HlsPlaylistSettings?: HlsPlaylistSettings;
+  ManifestName: string;
+  SourceGroup: string;
+}
+export const RequestOutputItem = S.suspend(() =>
+  S.Struct({
+    DashPlaylistSettings: S.optional(DashPlaylistSettings),
+    HlsPlaylistSettings: S.optional(HlsPlaylistSettings),
+    ManifestName: S.String,
+    SourceGroup: S.String,
+  }),
+).annotations({
+  identifier: "RequestOutputItem",
+}) as any as S.Schema<RequestOutputItem>;
+export type RequestOutputs = RequestOutputItem[];
 export const RequestOutputs = S.Array(RequestOutputItem);
-export class TimeShiftConfiguration extends S.Class<TimeShiftConfiguration>(
-  "TimeShiftConfiguration",
-)({ MaxTimeDelaySeconds: S.Number }) {}
-export class UpdateChannelRequest extends S.Class<UpdateChannelRequest>(
-  "UpdateChannelRequest",
-)(
-  {
+export interface TimeShiftConfiguration {
+  MaxTimeDelaySeconds: number;
+}
+export const TimeShiftConfiguration = S.suspend(() =>
+  S.Struct({ MaxTimeDelaySeconds: S.Number }),
+).annotations({
+  identifier: "TimeShiftConfiguration",
+}) as any as S.Schema<TimeShiftConfiguration>;
+export interface UpdateChannelRequest {
+  ChannelName: string;
+  FillerSlate?: SlateSource;
+  Outputs: RequestOutputs;
+  TimeShiftConfiguration?: TimeShiftConfiguration;
+  Audiences?: Audiences;
+}
+export const UpdateChannelRequest = S.suspend(() =>
+  S.Struct({
     ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
     FillerSlate: S.optional(SlateSource),
     Outputs: RequestOutputs,
     TimeShiftConfiguration: S.optional(TimeShiftConfiguration),
     Audiences: S.optional(Audiences),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/channel/{ChannelName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/channel/{ChannelName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteChannelRequest extends S.Class<DeleteChannelRequest>(
-  "DeleteChannelRequest",
-)(
-  { ChannelName: S.String.pipe(T.HttpLabel("ChannelName")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/channel/{ChannelName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UpdateChannelRequest",
+}) as any as S.Schema<UpdateChannelRequest>;
+export interface DeleteChannelRequest {
+  ChannelName: string;
+}
+export const DeleteChannelRequest = S.suspend(() =>
+  S.Struct({ ChannelName: S.String.pipe(T.HttpLabel("ChannelName")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/channel/{ChannelName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteChannelResponse extends S.Class<DeleteChannelResponse>(
-  "DeleteChannelResponse",
-)({}) {}
-export class ListChannelsRequest extends S.Class<ListChannelsRequest>(
-  "ListChannelsRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteChannelRequest",
+}) as any as S.Schema<DeleteChannelRequest>;
+export interface DeleteChannelResponse {}
+export const DeleteChannelResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteChannelResponse",
+}) as any as S.Schema<DeleteChannelResponse>;
+export interface ListChannelsRequest {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListChannelsRequest = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/channels" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/channels" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ConfigureLogsForChannelRequest extends S.Class<ConfigureLogsForChannelRequest>(
-  "ConfigureLogsForChannelRequest",
-)(
-  { ChannelName: S.String, LogTypes: LogTypes },
-  T.all(
-    T.Http({ method: "PUT", uri: "/configureLogs/channel" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListChannelsRequest",
+}) as any as S.Schema<ListChannelsRequest>;
+export interface ConfigureLogsForChannelRequest {
+  ChannelName: string;
+  LogTypes: LogTypes;
+}
+export const ConfigureLogsForChannelRequest = S.suspend(() =>
+  S.Struct({ ChannelName: S.String, LogTypes: LogTypes }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/configureLogs/channel" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetChannelScheduleRequest extends S.Class<GetChannelScheduleRequest>(
-  "GetChannelScheduleRequest",
-)(
-  {
+).annotations({
+  identifier: "ConfigureLogsForChannelRequest",
+}) as any as S.Schema<ConfigureLogsForChannelRequest>;
+export interface GetChannelScheduleRequest {
+  ChannelName: string;
+  DurationMinutes?: string;
+  MaxResults?: number;
+  NextToken?: string;
+  Audience?: string;
+}
+export const GetChannelScheduleRequest = S.suspend(() =>
+  S.Struct({
     ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
     DurationMinutes: S.optional(S.String).pipe(T.HttpQuery("durationMinutes")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     Audience: S.optional(S.String).pipe(T.HttpQuery("audience")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/channel/{ChannelName}/schedule" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/channel/{ChannelName}/schedule" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartChannelRequest extends S.Class<StartChannelRequest>(
-  "StartChannelRequest",
-)(
-  { ChannelName: S.String.pipe(T.HttpLabel("ChannelName")) },
-  T.all(
-    T.Http({ method: "PUT", uri: "/channel/{ChannelName}/start" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetChannelScheduleRequest",
+}) as any as S.Schema<GetChannelScheduleRequest>;
+export interface StartChannelRequest {
+  ChannelName: string;
+}
+export const StartChannelRequest = S.suspend(() =>
+  S.Struct({ ChannelName: S.String.pipe(T.HttpLabel("ChannelName")) }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/channel/{ChannelName}/start" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartChannelResponse extends S.Class<StartChannelResponse>(
-  "StartChannelResponse",
-)({}) {}
-export class StopChannelRequest extends S.Class<StopChannelRequest>(
-  "StopChannelRequest",
-)(
-  { ChannelName: S.String.pipe(T.HttpLabel("ChannelName")) },
-  T.all(
-    T.Http({ method: "PUT", uri: "/channel/{ChannelName}/stop" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "StartChannelRequest",
+}) as any as S.Schema<StartChannelRequest>;
+export interface StartChannelResponse {}
+export const StartChannelResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "StartChannelResponse",
+}) as any as S.Schema<StartChannelResponse>;
+export interface StopChannelRequest {
+  ChannelName: string;
+}
+export const StopChannelRequest = S.suspend(() =>
+  S.Struct({ ChannelName: S.String.pipe(T.HttpLabel("ChannelName")) }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/channel/{ChannelName}/stop" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StopChannelResponse extends S.Class<StopChannelResponse>(
-  "StopChannelResponse",
-)({}) {}
-export class PutChannelPolicyRequest extends S.Class<PutChannelPolicyRequest>(
-  "PutChannelPolicyRequest",
-)(
-  { ChannelName: S.String.pipe(T.HttpLabel("ChannelName")), Policy: S.String },
-  T.all(
-    T.Http({ method: "PUT", uri: "/channel/{ChannelName}/policy" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "StopChannelRequest",
+}) as any as S.Schema<StopChannelRequest>;
+export interface StopChannelResponse {}
+export const StopChannelResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "StopChannelResponse",
+}) as any as S.Schema<StopChannelResponse>;
+export interface PutChannelPolicyRequest {
+  ChannelName: string;
+  Policy: string;
+}
+export const PutChannelPolicyRequest = S.suspend(() =>
+  S.Struct({
+    ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
+    Policy: S.String,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/channel/{ChannelName}/policy" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutChannelPolicyResponse extends S.Class<PutChannelPolicyResponse>(
-  "PutChannelPolicyResponse",
-)({}) {}
-export class GetChannelPolicyRequest extends S.Class<GetChannelPolicyRequest>(
-  "GetChannelPolicyRequest",
-)(
-  { ChannelName: S.String.pipe(T.HttpLabel("ChannelName")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/channel/{ChannelName}/policy" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "PutChannelPolicyRequest",
+}) as any as S.Schema<PutChannelPolicyRequest>;
+export interface PutChannelPolicyResponse {}
+export const PutChannelPolicyResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "PutChannelPolicyResponse",
+}) as any as S.Schema<PutChannelPolicyResponse>;
+export interface GetChannelPolicyRequest {
+  ChannelName: string;
+}
+export const GetChannelPolicyRequest = S.suspend(() =>
+  S.Struct({ ChannelName: S.String.pipe(T.HttpLabel("ChannelName")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/channel/{ChannelName}/policy" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteChannelPolicyRequest extends S.Class<DeleteChannelPolicyRequest>(
-  "DeleteChannelPolicyRequest",
-)(
-  { ChannelName: S.String.pipe(T.HttpLabel("ChannelName")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/channel/{ChannelName}/policy" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetChannelPolicyRequest",
+}) as any as S.Schema<GetChannelPolicyRequest>;
+export interface DeleteChannelPolicyRequest {
+  ChannelName: string;
+}
+export const DeleteChannelPolicyRequest = S.suspend(() =>
+  S.Struct({ ChannelName: S.String.pipe(T.HttpLabel("ChannelName")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/channel/{ChannelName}/policy" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteChannelPolicyResponse extends S.Class<DeleteChannelPolicyResponse>(
-  "DeleteChannelPolicyResponse",
-)({}) {}
-export class DescribeProgramRequest extends S.Class<DescribeProgramRequest>(
-  "DescribeProgramRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteChannelPolicyRequest",
+}) as any as S.Schema<DeleteChannelPolicyRequest>;
+export interface DeleteChannelPolicyResponse {}
+export const DeleteChannelPolicyResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteChannelPolicyResponse",
+}) as any as S.Schema<DeleteChannelPolicyResponse>;
+export interface DescribeProgramRequest {
+  ChannelName: string;
+  ProgramName: string;
+}
+export const DescribeProgramRequest = S.suspend(() =>
+  S.Struct({
     ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
     ProgramName: S.String.pipe(T.HttpLabel("ProgramName")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/channel/{ChannelName}/program/{ProgramName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/channel/{ChannelName}/program/{ProgramName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteProgramRequest extends S.Class<DeleteProgramRequest>(
-  "DeleteProgramRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeProgramRequest",
+}) as any as S.Schema<DescribeProgramRequest>;
+export interface DeleteProgramRequest {
+  ChannelName: string;
+  ProgramName: string;
+}
+export const DeleteProgramRequest = S.suspend(() =>
+  S.Struct({
     ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
     ProgramName: S.String.pipe(T.HttpLabel("ProgramName")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/channel/{ChannelName}/program/{ProgramName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/channel/{ChannelName}/program/{ProgramName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteProgramResponse extends S.Class<DeleteProgramResponse>(
-  "DeleteProgramResponse",
-)({}) {}
-export class DescribeLiveSourceRequest extends S.Class<DescribeLiveSourceRequest>(
-  "DescribeLiveSourceRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteProgramRequest",
+}) as any as S.Schema<DeleteProgramRequest>;
+export interface DeleteProgramResponse {}
+export const DeleteProgramResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteProgramResponse",
+}) as any as S.Schema<DeleteProgramResponse>;
+export interface DescribeLiveSourceRequest {
+  LiveSourceName: string;
+  SourceLocationName: string;
+}
+export const DescribeLiveSourceRequest = S.suspend(() =>
+  S.Struct({
     LiveSourceName: S.String.pipe(T.HttpLabel("LiveSourceName")),
     SourceLocationName: S.String.pipe(T.HttpLabel("SourceLocationName")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/sourceLocation/{SourceLocationName}/liveSource/{LiveSourceName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/sourceLocation/{SourceLocationName}/liveSource/{LiveSourceName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class HttpPackageConfiguration extends S.Class<HttpPackageConfiguration>(
-  "HttpPackageConfiguration",
-)({ Path: S.String, SourceGroup: S.String, Type: S.String }) {}
+).annotations({
+  identifier: "DescribeLiveSourceRequest",
+}) as any as S.Schema<DescribeLiveSourceRequest>;
+export interface HttpPackageConfiguration {
+  Path: string;
+  SourceGroup: string;
+  Type: string;
+}
+export const HttpPackageConfiguration = S.suspend(() =>
+  S.Struct({ Path: S.String, SourceGroup: S.String, Type: S.String }),
+).annotations({
+  identifier: "HttpPackageConfiguration",
+}) as any as S.Schema<HttpPackageConfiguration>;
+export type HttpPackageConfigurations = HttpPackageConfiguration[];
 export const HttpPackageConfigurations = S.Array(HttpPackageConfiguration);
-export class UpdateLiveSourceRequest extends S.Class<UpdateLiveSourceRequest>(
-  "UpdateLiveSourceRequest",
-)(
-  {
+export interface UpdateLiveSourceRequest {
+  HttpPackageConfigurations: HttpPackageConfigurations;
+  LiveSourceName: string;
+  SourceLocationName: string;
+}
+export const UpdateLiveSourceRequest = S.suspend(() =>
+  S.Struct({
     HttpPackageConfigurations: HttpPackageConfigurations,
     LiveSourceName: S.String.pipe(T.HttpLabel("LiveSourceName")),
     SourceLocationName: S.String.pipe(T.HttpLabel("SourceLocationName")),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/sourceLocation/{SourceLocationName}/liveSource/{LiveSourceName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/sourceLocation/{SourceLocationName}/liveSource/{LiveSourceName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteLiveSourceRequest extends S.Class<DeleteLiveSourceRequest>(
-  "DeleteLiveSourceRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateLiveSourceRequest",
+}) as any as S.Schema<UpdateLiveSourceRequest>;
+export interface DeleteLiveSourceRequest {
+  LiveSourceName: string;
+  SourceLocationName: string;
+}
+export const DeleteLiveSourceRequest = S.suspend(() =>
+  S.Struct({
     LiveSourceName: S.String.pipe(T.HttpLabel("LiveSourceName")),
     SourceLocationName: S.String.pipe(T.HttpLabel("SourceLocationName")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/sourceLocation/{SourceLocationName}/liveSource/{LiveSourceName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/sourceLocation/{SourceLocationName}/liveSource/{LiveSourceName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteLiveSourceResponse extends S.Class<DeleteLiveSourceResponse>(
-  "DeleteLiveSourceResponse",
-)({}) {}
-export class ListLiveSourcesRequest extends S.Class<ListLiveSourcesRequest>(
-  "ListLiveSourcesRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteLiveSourceRequest",
+}) as any as S.Schema<DeleteLiveSourceRequest>;
+export interface DeleteLiveSourceResponse {}
+export const DeleteLiveSourceResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteLiveSourceResponse",
+}) as any as S.Schema<DeleteLiveSourceResponse>;
+export interface ListLiveSourcesRequest {
+  MaxResults?: number;
+  NextToken?: string;
+  SourceLocationName: string;
+}
+export const ListLiveSourcesRequest = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     SourceLocationName: S.String.pipe(T.HttpLabel("SourceLocationName")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/sourceLocation/{SourceLocationName}/liveSources",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/sourceLocation/{SourceLocationName}/liveSources",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetPlaybackConfigurationRequest extends S.Class<GetPlaybackConfigurationRequest>(
-  "GetPlaybackConfigurationRequest",
-)(
-  { Name: S.String.pipe(T.HttpLabel("Name")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/playbackConfiguration/{Name}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListLiveSourcesRequest",
+}) as any as S.Schema<ListLiveSourcesRequest>;
+export interface GetPlaybackConfigurationRequest {
+  Name: string;
+}
+export const GetPlaybackConfigurationRequest = S.suspend(() =>
+  S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/playbackConfiguration/{Name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeletePlaybackConfigurationRequest extends S.Class<DeletePlaybackConfigurationRequest>(
-  "DeletePlaybackConfigurationRequest",
-)(
-  { Name: S.String.pipe(T.HttpLabel("Name")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/playbackConfiguration/{Name}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetPlaybackConfigurationRequest",
+}) as any as S.Schema<GetPlaybackConfigurationRequest>;
+export interface DeletePlaybackConfigurationRequest {
+  Name: string;
+}
+export const DeletePlaybackConfigurationRequest = S.suspend(() =>
+  S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/playbackConfiguration/{Name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeletePlaybackConfigurationResponse extends S.Class<DeletePlaybackConfigurationResponse>(
-  "DeletePlaybackConfigurationResponse",
-)({}) {}
-export class ListPlaybackConfigurationsRequest extends S.Class<ListPlaybackConfigurationsRequest>(
-  "ListPlaybackConfigurationsRequest",
-)(
-  {
+).annotations({
+  identifier: "DeletePlaybackConfigurationRequest",
+}) as any as S.Schema<DeletePlaybackConfigurationRequest>;
+export interface DeletePlaybackConfigurationResponse {}
+export const DeletePlaybackConfigurationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeletePlaybackConfigurationResponse",
+}) as any as S.Schema<DeletePlaybackConfigurationResponse>;
+export interface ListPlaybackConfigurationsRequest {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListPlaybackConfigurationsRequest = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/playbackConfigurations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/playbackConfigurations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetPrefetchScheduleRequest extends S.Class<GetPrefetchScheduleRequest>(
-  "GetPrefetchScheduleRequest",
-)(
-  {
+).annotations({
+  identifier: "ListPlaybackConfigurationsRequest",
+}) as any as S.Schema<ListPlaybackConfigurationsRequest>;
+export interface GetPrefetchScheduleRequest {
+  Name: string;
+  PlaybackConfigurationName: string;
+}
+export const GetPrefetchScheduleRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String.pipe(T.HttpLabel("Name")),
     PlaybackConfigurationName: S.String.pipe(
       T.HttpLabel("PlaybackConfigurationName"),
     ),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/prefetchSchedule/{PlaybackConfigurationName}/{Name}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/prefetchSchedule/{PlaybackConfigurationName}/{Name}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeletePrefetchScheduleRequest extends S.Class<DeletePrefetchScheduleRequest>(
-  "DeletePrefetchScheduleRequest",
-)(
-  {
+).annotations({
+  identifier: "GetPrefetchScheduleRequest",
+}) as any as S.Schema<GetPrefetchScheduleRequest>;
+export interface DeletePrefetchScheduleRequest {
+  Name: string;
+  PlaybackConfigurationName: string;
+}
+export const DeletePrefetchScheduleRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String.pipe(T.HttpLabel("Name")),
     PlaybackConfigurationName: S.String.pipe(
       T.HttpLabel("PlaybackConfigurationName"),
     ),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/prefetchSchedule/{PlaybackConfigurationName}/{Name}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/prefetchSchedule/{PlaybackConfigurationName}/{Name}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeletePrefetchScheduleResponse extends S.Class<DeletePrefetchScheduleResponse>(
-  "DeletePrefetchScheduleResponse",
-)({}) {}
-export class ListPrefetchSchedulesRequest extends S.Class<ListPrefetchSchedulesRequest>(
-  "ListPrefetchSchedulesRequest",
-)(
-  {
+).annotations({
+  identifier: "DeletePrefetchScheduleRequest",
+}) as any as S.Schema<DeletePrefetchScheduleRequest>;
+export interface DeletePrefetchScheduleResponse {}
+export const DeletePrefetchScheduleResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeletePrefetchScheduleResponse",
+}) as any as S.Schema<DeletePrefetchScheduleResponse>;
+export interface ListPrefetchSchedulesRequest {
+  MaxResults?: number;
+  NextToken?: string;
+  PlaybackConfigurationName: string;
+  ScheduleType?: string;
+  StreamId?: string;
+}
+export const ListPrefetchSchedulesRequest = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     PlaybackConfigurationName: S.String.pipe(
@@ -726,63 +926,108 @@ export class ListPrefetchSchedulesRequest extends S.Class<ListPrefetchSchedulesR
     ),
     ScheduleType: S.optional(S.String),
     StreamId: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/prefetchSchedule/{PlaybackConfigurationName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/prefetchSchedule/{PlaybackConfigurationName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeSourceLocationRequest extends S.Class<DescribeSourceLocationRequest>(
-  "DescribeSourceLocationRequest",
-)(
-  { SourceLocationName: S.String.pipe(T.HttpLabel("SourceLocationName")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/sourceLocation/{SourceLocationName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListPrefetchSchedulesRequest",
+}) as any as S.Schema<ListPrefetchSchedulesRequest>;
+export interface DescribeSourceLocationRequest {
+  SourceLocationName: string;
+}
+export const DescribeSourceLocationRequest = S.suspend(() =>
+  S.Struct({
+    SourceLocationName: S.String.pipe(T.HttpLabel("SourceLocationName")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/sourceLocation/{SourceLocationName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SecretsManagerAccessTokenConfiguration extends S.Class<SecretsManagerAccessTokenConfiguration>(
-  "SecretsManagerAccessTokenConfiguration",
-)({
-  HeaderName: S.optional(S.String),
-  SecretArn: S.optional(S.String),
-  SecretStringKey: S.optional(S.String),
-}) {}
-export class AccessConfiguration extends S.Class<AccessConfiguration>(
-  "AccessConfiguration",
-)({
-  AccessType: S.optional(S.String),
-  SecretsManagerAccessTokenConfiguration: S.optional(
-    SecretsManagerAccessTokenConfiguration,
-  ),
-}) {}
-export class DefaultSegmentDeliveryConfiguration extends S.Class<DefaultSegmentDeliveryConfiguration>(
-  "DefaultSegmentDeliveryConfiguration",
-)({ BaseUrl: S.optional(S.String) }) {}
-export class HttpConfiguration extends S.Class<HttpConfiguration>(
-  "HttpConfiguration",
-)({ BaseUrl: S.String }) {}
-export class SegmentDeliveryConfiguration extends S.Class<SegmentDeliveryConfiguration>(
-  "SegmentDeliveryConfiguration",
-)({ BaseUrl: S.optional(S.String), Name: S.optional(S.String) }) {}
+).annotations({
+  identifier: "DescribeSourceLocationRequest",
+}) as any as S.Schema<DescribeSourceLocationRequest>;
+export interface SecretsManagerAccessTokenConfiguration {
+  HeaderName?: string;
+  SecretArn?: string;
+  SecretStringKey?: string;
+}
+export const SecretsManagerAccessTokenConfiguration = S.suspend(() =>
+  S.Struct({
+    HeaderName: S.optional(S.String),
+    SecretArn: S.optional(S.String),
+    SecretStringKey: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SecretsManagerAccessTokenConfiguration",
+}) as any as S.Schema<SecretsManagerAccessTokenConfiguration>;
+export interface AccessConfiguration {
+  AccessType?: string;
+  SecretsManagerAccessTokenConfiguration?: SecretsManagerAccessTokenConfiguration;
+}
+export const AccessConfiguration = S.suspend(() =>
+  S.Struct({
+    AccessType: S.optional(S.String),
+    SecretsManagerAccessTokenConfiguration: S.optional(
+      SecretsManagerAccessTokenConfiguration,
+    ),
+  }),
+).annotations({
+  identifier: "AccessConfiguration",
+}) as any as S.Schema<AccessConfiguration>;
+export interface DefaultSegmentDeliveryConfiguration {
+  BaseUrl?: string;
+}
+export const DefaultSegmentDeliveryConfiguration = S.suspend(() =>
+  S.Struct({ BaseUrl: S.optional(S.String) }),
+).annotations({
+  identifier: "DefaultSegmentDeliveryConfiguration",
+}) as any as S.Schema<DefaultSegmentDeliveryConfiguration>;
+export interface HttpConfiguration {
+  BaseUrl: string;
+}
+export const HttpConfiguration = S.suspend(() =>
+  S.Struct({ BaseUrl: S.String }),
+).annotations({
+  identifier: "HttpConfiguration",
+}) as any as S.Schema<HttpConfiguration>;
+export interface SegmentDeliveryConfiguration {
+  BaseUrl?: string;
+  Name?: string;
+}
+export const SegmentDeliveryConfiguration = S.suspend(() =>
+  S.Struct({ BaseUrl: S.optional(S.String), Name: S.optional(S.String) }),
+).annotations({
+  identifier: "SegmentDeliveryConfiguration",
+}) as any as S.Schema<SegmentDeliveryConfiguration>;
+export type __listOfSegmentDeliveryConfiguration =
+  SegmentDeliveryConfiguration[];
 export const __listOfSegmentDeliveryConfiguration = S.Array(
   SegmentDeliveryConfiguration,
 );
-export class UpdateSourceLocationRequest extends S.Class<UpdateSourceLocationRequest>(
-  "UpdateSourceLocationRequest",
-)(
-  {
+export interface UpdateSourceLocationRequest {
+  AccessConfiguration?: AccessConfiguration;
+  DefaultSegmentDeliveryConfiguration?: DefaultSegmentDeliveryConfiguration;
+  HttpConfiguration: HttpConfiguration;
+  SegmentDeliveryConfigurations?: __listOfSegmentDeliveryConfiguration;
+  SourceLocationName: string;
+}
+export const UpdateSourceLocationRequest = S.suspend(() =>
+  S.Struct({
     AccessConfiguration: S.optional(AccessConfiguration),
     DefaultSegmentDeliveryConfiguration: S.optional(
       DefaultSegmentDeliveryConfiguration,
@@ -792,696 +1037,1327 @@ export class UpdateSourceLocationRequest extends S.Class<UpdateSourceLocationReq
       __listOfSegmentDeliveryConfiguration,
     ),
     SourceLocationName: S.String.pipe(T.HttpLabel("SourceLocationName")),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/sourceLocation/{SourceLocationName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/sourceLocation/{SourceLocationName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteSourceLocationRequest extends S.Class<DeleteSourceLocationRequest>(
-  "DeleteSourceLocationRequest",
-)(
-  { SourceLocationName: S.String.pipe(T.HttpLabel("SourceLocationName")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/sourceLocation/{SourceLocationName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UpdateSourceLocationRequest",
+}) as any as S.Schema<UpdateSourceLocationRequest>;
+export interface DeleteSourceLocationRequest {
+  SourceLocationName: string;
+}
+export const DeleteSourceLocationRequest = S.suspend(() =>
+  S.Struct({
+    SourceLocationName: S.String.pipe(T.HttpLabel("SourceLocationName")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/sourceLocation/{SourceLocationName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteSourceLocationResponse extends S.Class<DeleteSourceLocationResponse>(
-  "DeleteSourceLocationResponse",
-)({}) {}
-export class ListSourceLocationsRequest extends S.Class<ListSourceLocationsRequest>(
-  "ListSourceLocationsRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteSourceLocationRequest",
+}) as any as S.Schema<DeleteSourceLocationRequest>;
+export interface DeleteSourceLocationResponse {}
+export const DeleteSourceLocationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteSourceLocationResponse",
+}) as any as S.Schema<DeleteSourceLocationResponse>;
+export interface ListSourceLocationsRequest {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListSourceLocationsRequest = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/sourceLocations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/sourceLocations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "ListSourceLocationsRequest",
+}) as any as S.Schema<ListSourceLocationsRequest>;
+export type __mapOf__string = { [key: string]: string };
 export const __mapOf__string = S.Record({ key: S.String, value: S.String });
-export class CreateVodSourceRequest extends S.Class<CreateVodSourceRequest>(
-  "CreateVodSourceRequest",
-)(
-  {
+export interface CreateVodSourceRequest {
+  HttpPackageConfigurations: HttpPackageConfigurations;
+  SourceLocationName: string;
+  Tags?: __mapOf__string;
+  VodSourceName: string;
+}
+export const CreateVodSourceRequest = S.suspend(() =>
+  S.Struct({
     HttpPackageConfigurations: HttpPackageConfigurations,
     SourceLocationName: S.String.pipe(T.HttpLabel("SourceLocationName")),
     Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
     VodSourceName: S.String.pipe(T.HttpLabel("VodSourceName")),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/sourceLocation/{SourceLocationName}/vodSource/{VodSourceName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/sourceLocation/{SourceLocationName}/vodSource/{VodSourceName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeVodSourceRequest extends S.Class<DescribeVodSourceRequest>(
-  "DescribeVodSourceRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateVodSourceRequest",
+}) as any as S.Schema<CreateVodSourceRequest>;
+export interface DescribeVodSourceRequest {
+  SourceLocationName: string;
+  VodSourceName: string;
+}
+export const DescribeVodSourceRequest = S.suspend(() =>
+  S.Struct({
     SourceLocationName: S.String.pipe(T.HttpLabel("SourceLocationName")),
     VodSourceName: S.String.pipe(T.HttpLabel("VodSourceName")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/sourceLocation/{SourceLocationName}/vodSource/{VodSourceName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/sourceLocation/{SourceLocationName}/vodSource/{VodSourceName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateVodSourceRequest extends S.Class<UpdateVodSourceRequest>(
-  "UpdateVodSourceRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeVodSourceRequest",
+}) as any as S.Schema<DescribeVodSourceRequest>;
+export interface UpdateVodSourceRequest {
+  HttpPackageConfigurations: HttpPackageConfigurations;
+  SourceLocationName: string;
+  VodSourceName: string;
+}
+export const UpdateVodSourceRequest = S.suspend(() =>
+  S.Struct({
     HttpPackageConfigurations: HttpPackageConfigurations,
     SourceLocationName: S.String.pipe(T.HttpLabel("SourceLocationName")),
     VodSourceName: S.String.pipe(T.HttpLabel("VodSourceName")),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/sourceLocation/{SourceLocationName}/vodSource/{VodSourceName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/sourceLocation/{SourceLocationName}/vodSource/{VodSourceName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteVodSourceRequest extends S.Class<DeleteVodSourceRequest>(
-  "DeleteVodSourceRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateVodSourceRequest",
+}) as any as S.Schema<UpdateVodSourceRequest>;
+export interface DeleteVodSourceRequest {
+  SourceLocationName: string;
+  VodSourceName: string;
+}
+export const DeleteVodSourceRequest = S.suspend(() =>
+  S.Struct({
     SourceLocationName: S.String.pipe(T.HttpLabel("SourceLocationName")),
     VodSourceName: S.String.pipe(T.HttpLabel("VodSourceName")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/sourceLocation/{SourceLocationName}/vodSource/{VodSourceName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/sourceLocation/{SourceLocationName}/vodSource/{VodSourceName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteVodSourceResponse extends S.Class<DeleteVodSourceResponse>(
-  "DeleteVodSourceResponse",
-)({}) {}
-export class ListVodSourcesRequest extends S.Class<ListVodSourcesRequest>(
-  "ListVodSourcesRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteVodSourceRequest",
+}) as any as S.Schema<DeleteVodSourceRequest>;
+export interface DeleteVodSourceResponse {}
+export const DeleteVodSourceResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteVodSourceResponse",
+}) as any as S.Schema<DeleteVodSourceResponse>;
+export interface ListVodSourcesRequest {
+  MaxResults?: number;
+  NextToken?: string;
+  SourceLocationName: string;
+}
+export const ListVodSourcesRequest = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     SourceLocationName: S.String.pipe(T.HttpLabel("SourceLocationName")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/sourceLocation/{SourceLocationName}/vodSources",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/sourceLocation/{SourceLocationName}/vodSources",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "ListVodSourcesRequest",
+}) as any as S.Schema<ListVodSourcesRequest>;
+export type __adsInteractionPublishOptInEventTypesList = string[];
 export const __adsInteractionPublishOptInEventTypesList = S.Array(S.String);
+export type __adsInteractionExcludeEventTypesList = string[];
 export const __adsInteractionExcludeEventTypesList = S.Array(S.String);
+export type __manifestServiceExcludeEventTypesList = string[];
 export const __manifestServiceExcludeEventTypesList = S.Array(S.String);
-export class AdsInteractionLog extends S.Class<AdsInteractionLog>(
-  "AdsInteractionLog",
-)({
-  PublishOptInEventTypes: S.optional(
-    __adsInteractionPublishOptInEventTypesList,
-  ),
-  ExcludeEventTypes: S.optional(__adsInteractionExcludeEventTypesList),
-}) {}
-export class ManifestServiceInteractionLog extends S.Class<ManifestServiceInteractionLog>(
-  "ManifestServiceInteractionLog",
-)({ ExcludeEventTypes: S.optional(__manifestServiceExcludeEventTypesList) }) {}
-export class AvailSuppression extends S.Class<AvailSuppression>(
-  "AvailSuppression",
-)({
-  Mode: S.optional(S.String),
-  Value: S.optional(S.String),
-  FillPolicy: S.optional(S.String),
-}) {}
-export class Bumper extends S.Class<Bumper>("Bumper")({
-  EndUrl: S.optional(S.String),
-  StartUrl: S.optional(S.String),
-}) {}
-export class CdnConfiguration extends S.Class<CdnConfiguration>(
-  "CdnConfiguration",
-)({
-  AdSegmentUrlPrefix: S.optional(S.String),
-  ContentSegmentUrlPrefix: S.optional(S.String),
-}) {}
+export interface AdsInteractionLog {
+  PublishOptInEventTypes?: __adsInteractionPublishOptInEventTypesList;
+  ExcludeEventTypes?: __adsInteractionExcludeEventTypesList;
+}
+export const AdsInteractionLog = S.suspend(() =>
+  S.Struct({
+    PublishOptInEventTypes: S.optional(
+      __adsInteractionPublishOptInEventTypesList,
+    ),
+    ExcludeEventTypes: S.optional(__adsInteractionExcludeEventTypesList),
+  }),
+).annotations({
+  identifier: "AdsInteractionLog",
+}) as any as S.Schema<AdsInteractionLog>;
+export interface ManifestServiceInteractionLog {
+  ExcludeEventTypes?: __manifestServiceExcludeEventTypesList;
+}
+export const ManifestServiceInteractionLog = S.suspend(() =>
+  S.Struct({
+    ExcludeEventTypes: S.optional(__manifestServiceExcludeEventTypesList),
+  }),
+).annotations({
+  identifier: "ManifestServiceInteractionLog",
+}) as any as S.Schema<ManifestServiceInteractionLog>;
+export interface AvailSuppression {
+  Mode?: string;
+  Value?: string;
+  FillPolicy?: string;
+}
+export const AvailSuppression = S.suspend(() =>
+  S.Struct({
+    Mode: S.optional(S.String),
+    Value: S.optional(S.String),
+    FillPolicy: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AvailSuppression",
+}) as any as S.Schema<AvailSuppression>;
+export interface Bumper {
+  EndUrl?: string;
+  StartUrl?: string;
+}
+export const Bumper = S.suspend(() =>
+  S.Struct({ EndUrl: S.optional(S.String), StartUrl: S.optional(S.String) }),
+).annotations({ identifier: "Bumper" }) as any as S.Schema<Bumper>;
+export interface CdnConfiguration {
+  AdSegmentUrlPrefix?: string;
+  ContentSegmentUrlPrefix?: string;
+}
+export const CdnConfiguration = S.suspend(() =>
+  S.Struct({
+    AdSegmentUrlPrefix: S.optional(S.String),
+    ContentSegmentUrlPrefix: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CdnConfiguration",
+}) as any as S.Schema<CdnConfiguration>;
+export type ConfigurationAliasesRequest = { [key: string]: __mapOf__string };
 export const ConfigurationAliasesRequest = S.Record({
   key: S.String,
   value: __mapOf__string,
 });
-export class DashConfigurationForPut extends S.Class<DashConfigurationForPut>(
-  "DashConfigurationForPut",
-)({
-  MpdLocation: S.optional(S.String),
-  OriginManifestType: S.optional(S.String),
-}) {}
-export class LivePreRollConfiguration extends S.Class<LivePreRollConfiguration>(
-  "LivePreRollConfiguration",
-)({
-  AdDecisionServerUrl: S.optional(S.String),
-  MaxDurationSeconds: S.optional(S.Number),
-}) {}
-export class AdConditioningConfiguration extends S.Class<AdConditioningConfiguration>(
-  "AdConditioningConfiguration",
-)({ StreamingMediaFileConditioning: S.String }) {}
-export class ConfigureLogsForPlaybackConfigurationRequest extends S.Class<ConfigureLogsForPlaybackConfigurationRequest>(
-  "ConfigureLogsForPlaybackConfigurationRequest",
-)(
-  {
+export interface DashConfigurationForPut {
+  MpdLocation?: string;
+  OriginManifestType?: string;
+}
+export const DashConfigurationForPut = S.suspend(() =>
+  S.Struct({
+    MpdLocation: S.optional(S.String),
+    OriginManifestType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DashConfigurationForPut",
+}) as any as S.Schema<DashConfigurationForPut>;
+export interface LivePreRollConfiguration {
+  AdDecisionServerUrl?: string;
+  MaxDurationSeconds?: number;
+}
+export const LivePreRollConfiguration = S.suspend(() =>
+  S.Struct({
+    AdDecisionServerUrl: S.optional(S.String),
+    MaxDurationSeconds: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "LivePreRollConfiguration",
+}) as any as S.Schema<LivePreRollConfiguration>;
+export interface AdConditioningConfiguration {
+  StreamingMediaFileConditioning: string;
+}
+export const AdConditioningConfiguration = S.suspend(() =>
+  S.Struct({ StreamingMediaFileConditioning: S.String }),
+).annotations({
+  identifier: "AdConditioningConfiguration",
+}) as any as S.Schema<AdConditioningConfiguration>;
+export interface ConfigureLogsForPlaybackConfigurationRequest {
+  PercentEnabled: number;
+  PlaybackConfigurationName: string;
+  EnabledLoggingStrategies?: __listOfLoggingStrategies;
+  AdsInteractionLog?: AdsInteractionLog;
+  ManifestServiceInteractionLog?: ManifestServiceInteractionLog;
+}
+export const ConfigureLogsForPlaybackConfigurationRequest = S.suspend(() =>
+  S.Struct({
     PercentEnabled: S.Number,
     PlaybackConfigurationName: S.String,
     EnabledLoggingStrategies: S.optional(__listOfLoggingStrategies),
     AdsInteractionLog: S.optional(AdsInteractionLog),
     ManifestServiceInteractionLog: S.optional(ManifestServiceInteractionLog),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/configureLogs/playbackConfiguration" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/configureLogs/playbackConfiguration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")) }) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "ConfigureLogsForPlaybackConfigurationRequest",
+}) as any as S.Schema<ConfigureLogsForPlaybackConfigurationRequest>;
+export interface ListTagsForResourceResponse {
+  Tags?: __mapOf__string;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface TagResourceRequest {
+  ResourceArn: string;
+  Tags: __mapOf__string;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     Tags: __mapOf__string.pipe(T.JsonName("tags")),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class ResponseOutputItem extends S.Class<ResponseOutputItem>(
-  "ResponseOutputItem",
-)({
-  DashPlaylistSettings: S.optional(DashPlaylistSettings),
-  HlsPlaylistSettings: S.optional(HlsPlaylistSettings),
-  ManifestName: S.String,
-  PlaybackUrl: S.String,
-  SourceGroup: S.String,
-}) {}
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface ResponseOutputItem {
+  DashPlaylistSettings?: DashPlaylistSettings;
+  HlsPlaylistSettings?: HlsPlaylistSettings;
+  ManifestName: string;
+  PlaybackUrl: string;
+  SourceGroup: string;
+}
+export const ResponseOutputItem = S.suspend(() =>
+  S.Struct({
+    DashPlaylistSettings: S.optional(DashPlaylistSettings),
+    HlsPlaylistSettings: S.optional(HlsPlaylistSettings),
+    ManifestName: S.String,
+    PlaybackUrl: S.String,
+    SourceGroup: S.String,
+  }),
+).annotations({
+  identifier: "ResponseOutputItem",
+}) as any as S.Schema<ResponseOutputItem>;
+export type ResponseOutputs = ResponseOutputItem[];
 export const ResponseOutputs = S.Array(ResponseOutputItem);
-export class UpdateChannelResponse extends S.Class<UpdateChannelResponse>(
-  "UpdateChannelResponse",
-)({
-  Arn: S.optional(S.String),
-  ChannelName: S.optional(S.String),
-  ChannelState: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  FillerSlate: S.optional(SlateSource),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Outputs: S.optional(ResponseOutputs),
-  PlaybackMode: S.optional(S.String),
-  Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
-  Tier: S.optional(S.String),
-  TimeShiftConfiguration: S.optional(TimeShiftConfiguration),
-  Audiences: S.optional(Audiences),
-}) {}
-export class ConfigureLogsForChannelResponse extends S.Class<ConfigureLogsForChannelResponse>(
-  "ConfigureLogsForChannelResponse",
-)({ ChannelName: S.optional(S.String), LogTypes: S.optional(LogTypes) }) {}
-export class GetChannelPolicyResponse extends S.Class<GetChannelPolicyResponse>(
-  "GetChannelPolicyResponse",
-)({ Policy: S.optional(S.String) }) {}
-export class SpliceInsertMessage extends S.Class<SpliceInsertMessage>(
-  "SpliceInsertMessage",
-)({
-  AvailNum: S.optional(S.Number),
-  AvailsExpected: S.optional(S.Number),
-  SpliceEventId: S.optional(S.Number),
-  UniqueProgramId: S.optional(S.Number),
-}) {}
-export class SegmentationDescriptor extends S.Class<SegmentationDescriptor>(
-  "SegmentationDescriptor",
-)({
-  SegmentationEventId: S.optional(S.Number),
-  SegmentationUpidType: S.optional(S.Number),
-  SegmentationUpid: S.optional(S.String),
-  SegmentationTypeId: S.optional(S.Number),
-  SegmentNum: S.optional(S.Number),
-  SegmentsExpected: S.optional(S.Number),
-  SubSegmentNum: S.optional(S.Number),
-  SubSegmentsExpected: S.optional(S.Number),
-}) {}
+export interface UpdateChannelResponse {
+  Arn?: string;
+  ChannelName?: string;
+  ChannelState?: string;
+  CreationTime?: Date;
+  FillerSlate?: SlateSource;
+  LastModifiedTime?: Date;
+  Outputs?: ResponseOutputs;
+  PlaybackMode?: string;
+  Tags?: __mapOf__string;
+  Tier?: string;
+  TimeShiftConfiguration?: TimeShiftConfiguration;
+  Audiences?: Audiences;
+}
+export const UpdateChannelResponse = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    ChannelName: S.optional(S.String),
+    ChannelState: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    FillerSlate: S.optional(SlateSource),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    Outputs: S.optional(ResponseOutputs),
+    PlaybackMode: S.optional(S.String),
+    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
+    Tier: S.optional(S.String),
+    TimeShiftConfiguration: S.optional(TimeShiftConfiguration),
+    Audiences: S.optional(Audiences),
+  }),
+).annotations({
+  identifier: "UpdateChannelResponse",
+}) as any as S.Schema<UpdateChannelResponse>;
+export interface ConfigureLogsForChannelResponse {
+  ChannelName?: string;
+  LogTypes?: LogTypes;
+}
+export const ConfigureLogsForChannelResponse = S.suspend(() =>
+  S.Struct({
+    ChannelName: S.optional(S.String),
+    LogTypes: S.optional(LogTypes),
+  }),
+).annotations({
+  identifier: "ConfigureLogsForChannelResponse",
+}) as any as S.Schema<ConfigureLogsForChannelResponse>;
+export interface GetChannelPolicyResponse {
+  Policy?: string;
+}
+export const GetChannelPolicyResponse = S.suspend(() =>
+  S.Struct({ Policy: S.optional(S.String) }),
+).annotations({
+  identifier: "GetChannelPolicyResponse",
+}) as any as S.Schema<GetChannelPolicyResponse>;
+export interface SpliceInsertMessage {
+  AvailNum?: number;
+  AvailsExpected?: number;
+  SpliceEventId?: number;
+  UniqueProgramId?: number;
+}
+export const SpliceInsertMessage = S.suspend(() =>
+  S.Struct({
+    AvailNum: S.optional(S.Number),
+    AvailsExpected: S.optional(S.Number),
+    SpliceEventId: S.optional(S.Number),
+    UniqueProgramId: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "SpliceInsertMessage",
+}) as any as S.Schema<SpliceInsertMessage>;
+export interface SegmentationDescriptor {
+  SegmentationEventId?: number;
+  SegmentationUpidType?: number;
+  SegmentationUpid?: string;
+  SegmentationTypeId?: number;
+  SegmentNum?: number;
+  SegmentsExpected?: number;
+  SubSegmentNum?: number;
+  SubSegmentsExpected?: number;
+}
+export const SegmentationDescriptor = S.suspend(() =>
+  S.Struct({
+    SegmentationEventId: S.optional(S.Number),
+    SegmentationUpidType: S.optional(S.Number),
+    SegmentationUpid: S.optional(S.String),
+    SegmentationTypeId: S.optional(S.Number),
+    SegmentNum: S.optional(S.Number),
+    SegmentsExpected: S.optional(S.Number),
+    SubSegmentNum: S.optional(S.Number),
+    SubSegmentsExpected: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "SegmentationDescriptor",
+}) as any as S.Schema<SegmentationDescriptor>;
+export type SegmentationDescriptorList = SegmentationDescriptor[];
 export const SegmentationDescriptorList = S.Array(SegmentationDescriptor);
-export class TimeSignalMessage extends S.Class<TimeSignalMessage>(
-  "TimeSignalMessage",
-)({ SegmentationDescriptors: S.optional(SegmentationDescriptorList) }) {}
-export class KeyValuePair extends S.Class<KeyValuePair>("KeyValuePair")({
-  Key: S.String,
-  Value: S.String,
-}) {}
+export interface TimeSignalMessage {
+  SegmentationDescriptors?: SegmentationDescriptorList;
+}
+export const TimeSignalMessage = S.suspend(() =>
+  S.Struct({ SegmentationDescriptors: S.optional(SegmentationDescriptorList) }),
+).annotations({
+  identifier: "TimeSignalMessage",
+}) as any as S.Schema<TimeSignalMessage>;
+export interface KeyValuePair {
+  Key: string;
+  Value: string;
+}
+export const KeyValuePair = S.suspend(() =>
+  S.Struct({ Key: S.String, Value: S.String }),
+).annotations({ identifier: "KeyValuePair" }) as any as S.Schema<KeyValuePair>;
+export type AdBreakMetadataList = KeyValuePair[];
 export const AdBreakMetadataList = S.Array(KeyValuePair);
-export class AdBreak extends S.Class<AdBreak>("AdBreak")({
-  MessageType: S.optional(S.String),
-  OffsetMillis: S.Number,
-  Slate: S.optional(SlateSource),
-  SpliceInsertMessage: S.optional(SpliceInsertMessage),
-  TimeSignalMessage: S.optional(TimeSignalMessage),
-  AdBreakMetadata: S.optional(AdBreakMetadataList),
-}) {}
+export interface AdBreak {
+  MessageType?: string;
+  OffsetMillis: number;
+  Slate?: SlateSource;
+  SpliceInsertMessage?: SpliceInsertMessage;
+  TimeSignalMessage?: TimeSignalMessage;
+  AdBreakMetadata?: AdBreakMetadataList;
+}
+export const AdBreak = S.suspend(() =>
+  S.Struct({
+    MessageType: S.optional(S.String),
+    OffsetMillis: S.Number,
+    Slate: S.optional(SlateSource),
+    SpliceInsertMessage: S.optional(SpliceInsertMessage),
+    TimeSignalMessage: S.optional(TimeSignalMessage),
+    AdBreakMetadata: S.optional(AdBreakMetadataList),
+  }),
+).annotations({ identifier: "AdBreak" }) as any as S.Schema<AdBreak>;
+export type __listOfAdBreak = AdBreak[];
 export const __listOfAdBreak = S.Array(AdBreak);
-export class ClipRange extends S.Class<ClipRange>("ClipRange")({
-  EndOffsetMillis: S.optional(S.Number),
-  StartOffsetMillis: S.optional(S.Number),
-}) {}
-export class AlternateMedia extends S.Class<AlternateMedia>("AlternateMedia")({
-  SourceLocationName: S.optional(S.String),
-  LiveSourceName: S.optional(S.String),
-  VodSourceName: S.optional(S.String),
-  ClipRange: S.optional(ClipRange),
-  ScheduledStartTimeMillis: S.optional(S.Number),
-  AdBreaks: S.optional(__listOfAdBreak),
-  DurationMillis: S.optional(S.Number),
-}) {}
+export interface ClipRange {
+  EndOffsetMillis?: number;
+  StartOffsetMillis?: number;
+}
+export const ClipRange = S.suspend(() =>
+  S.Struct({
+    EndOffsetMillis: S.optional(S.Number),
+    StartOffsetMillis: S.optional(S.Number),
+  }),
+).annotations({ identifier: "ClipRange" }) as any as S.Schema<ClipRange>;
+export interface AlternateMedia {
+  SourceLocationName?: string;
+  LiveSourceName?: string;
+  VodSourceName?: string;
+  ClipRange?: ClipRange;
+  ScheduledStartTimeMillis?: number;
+  AdBreaks?: __listOfAdBreak;
+  DurationMillis?: number;
+}
+export const AlternateMedia = S.suspend(() =>
+  S.Struct({
+    SourceLocationName: S.optional(S.String),
+    LiveSourceName: S.optional(S.String),
+    VodSourceName: S.optional(S.String),
+    ClipRange: S.optional(ClipRange),
+    ScheduledStartTimeMillis: S.optional(S.Number),
+    AdBreaks: S.optional(__listOfAdBreak),
+    DurationMillis: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "AlternateMedia",
+}) as any as S.Schema<AlternateMedia>;
+export type __listOfAlternateMedia = AlternateMedia[];
 export const __listOfAlternateMedia = S.Array(AlternateMedia);
-export class AudienceMedia extends S.Class<AudienceMedia>("AudienceMedia")({
-  Audience: S.optional(S.String),
-  AlternateMedia: S.optional(__listOfAlternateMedia),
-}) {}
+export interface AudienceMedia {
+  Audience?: string;
+  AlternateMedia?: __listOfAlternateMedia;
+}
+export const AudienceMedia = S.suspend(() =>
+  S.Struct({
+    Audience: S.optional(S.String),
+    AlternateMedia: S.optional(__listOfAlternateMedia),
+  }),
+).annotations({
+  identifier: "AudienceMedia",
+}) as any as S.Schema<AudienceMedia>;
+export type __listOfAudienceMedia = AudienceMedia[];
 export const __listOfAudienceMedia = S.Array(AudienceMedia);
-export class DescribeProgramResponse extends S.Class<DescribeProgramResponse>(
-  "DescribeProgramResponse",
-)({
-  AdBreaks: S.optional(__listOfAdBreak),
-  Arn: S.optional(S.String),
-  ChannelName: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LiveSourceName: S.optional(S.String),
-  ProgramName: S.optional(S.String),
-  ScheduledStartTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  SourceLocationName: S.optional(S.String),
-  VodSourceName: S.optional(S.String),
-  ClipRange: S.optional(ClipRange),
-  DurationMillis: S.optional(S.Number),
-  AudienceMedia: S.optional(__listOfAudienceMedia),
-}) {}
-export class CreateLiveSourceRequest extends S.Class<CreateLiveSourceRequest>(
-  "CreateLiveSourceRequest",
-)(
-  {
+export interface DescribeProgramResponse {
+  AdBreaks?: __listOfAdBreak;
+  Arn?: string;
+  ChannelName?: string;
+  CreationTime?: Date;
+  LiveSourceName?: string;
+  ProgramName?: string;
+  ScheduledStartTime?: Date;
+  SourceLocationName?: string;
+  VodSourceName?: string;
+  ClipRange?: ClipRange;
+  DurationMillis?: number;
+  AudienceMedia?: __listOfAudienceMedia;
+}
+export const DescribeProgramResponse = S.suspend(() =>
+  S.Struct({
+    AdBreaks: S.optional(__listOfAdBreak),
+    Arn: S.optional(S.String),
+    ChannelName: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LiveSourceName: S.optional(S.String),
+    ProgramName: S.optional(S.String),
+    ScheduledStartTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    SourceLocationName: S.optional(S.String),
+    VodSourceName: S.optional(S.String),
+    ClipRange: S.optional(ClipRange),
+    DurationMillis: S.optional(S.Number),
+    AudienceMedia: S.optional(__listOfAudienceMedia),
+  }),
+).annotations({
+  identifier: "DescribeProgramResponse",
+}) as any as S.Schema<DescribeProgramResponse>;
+export interface CreateLiveSourceRequest {
+  HttpPackageConfigurations: HttpPackageConfigurations;
+  LiveSourceName: string;
+  SourceLocationName: string;
+  Tags?: __mapOf__string;
+}
+export const CreateLiveSourceRequest = S.suspend(() =>
+  S.Struct({
     HttpPackageConfigurations: HttpPackageConfigurations,
     LiveSourceName: S.String.pipe(T.HttpLabel("LiveSourceName")),
     SourceLocationName: S.String.pipe(T.HttpLabel("SourceLocationName")),
     Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/sourceLocation/{SourceLocationName}/liveSource/{LiveSourceName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/sourceLocation/{SourceLocationName}/liveSource/{LiveSourceName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeLiveSourceResponse extends S.Class<DescribeLiveSourceResponse>(
-  "DescribeLiveSourceResponse",
-)({
-  Arn: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  HttpPackageConfigurations: S.optional(HttpPackageConfigurations),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LiveSourceName: S.optional(S.String),
-  SourceLocationName: S.optional(S.String),
-  Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
-}) {}
-export class UpdateLiveSourceResponse extends S.Class<UpdateLiveSourceResponse>(
-  "UpdateLiveSourceResponse",
-)({
-  Arn: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  HttpPackageConfigurations: S.optional(HttpPackageConfigurations),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LiveSourceName: S.optional(S.String),
-  SourceLocationName: S.optional(S.String),
-  Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
-}) {}
-export class AvailMatchingCriteria extends S.Class<AvailMatchingCriteria>(
-  "AvailMatchingCriteria",
-)({ DynamicVariable: S.String, Operator: S.String }) {}
+).annotations({
+  identifier: "CreateLiveSourceRequest",
+}) as any as S.Schema<CreateLiveSourceRequest>;
+export interface DescribeLiveSourceResponse {
+  Arn?: string;
+  CreationTime?: Date;
+  HttpPackageConfigurations?: HttpPackageConfigurations;
+  LastModifiedTime?: Date;
+  LiveSourceName?: string;
+  SourceLocationName?: string;
+  Tags?: __mapOf__string;
+}
+export const DescribeLiveSourceResponse = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    HttpPackageConfigurations: S.optional(HttpPackageConfigurations),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LiveSourceName: S.optional(S.String),
+    SourceLocationName: S.optional(S.String),
+    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
+  }),
+).annotations({
+  identifier: "DescribeLiveSourceResponse",
+}) as any as S.Schema<DescribeLiveSourceResponse>;
+export interface UpdateLiveSourceResponse {
+  Arn?: string;
+  CreationTime?: Date;
+  HttpPackageConfigurations?: HttpPackageConfigurations;
+  LastModifiedTime?: Date;
+  LiveSourceName?: string;
+  SourceLocationName?: string;
+  Tags?: __mapOf__string;
+}
+export const UpdateLiveSourceResponse = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    HttpPackageConfigurations: S.optional(HttpPackageConfigurations),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LiveSourceName: S.optional(S.String),
+    SourceLocationName: S.optional(S.String),
+    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
+  }),
+).annotations({
+  identifier: "UpdateLiveSourceResponse",
+}) as any as S.Schema<UpdateLiveSourceResponse>;
+export interface AvailMatchingCriteria {
+  DynamicVariable: string;
+  Operator: string;
+}
+export const AvailMatchingCriteria = S.suspend(() =>
+  S.Struct({ DynamicVariable: S.String, Operator: S.String }),
+).annotations({
+  identifier: "AvailMatchingCriteria",
+}) as any as S.Schema<AvailMatchingCriteria>;
+export type __listOfAvailMatchingCriteria = AvailMatchingCriteria[];
 export const __listOfAvailMatchingCriteria = S.Array(AvailMatchingCriteria);
-export class PrefetchConsumption extends S.Class<PrefetchConsumption>(
-  "PrefetchConsumption",
-)({
-  AvailMatchingCriteria: S.optional(__listOfAvailMatchingCriteria),
-  EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class TrafficShapingRetrievalWindow extends S.Class<TrafficShapingRetrievalWindow>(
-  "TrafficShapingRetrievalWindow",
-)({ RetrievalWindowDurationSeconds: S.optional(S.Number) }) {}
-export class TrafficShapingTpsConfiguration extends S.Class<TrafficShapingTpsConfiguration>(
-  "TrafficShapingTpsConfiguration",
-)({
-  PeakTps: S.optional(S.Number),
-  PeakConcurrentUsers: S.optional(S.Number),
-}) {}
-export class PrefetchRetrieval extends S.Class<PrefetchRetrieval>(
-  "PrefetchRetrieval",
-)({
-  DynamicVariables: S.optional(__mapOf__string),
-  EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  TrafficShapingType: S.optional(S.String),
-  TrafficShapingRetrievalWindow: S.optional(TrafficShapingRetrievalWindow),
-  TrafficShapingTpsConfiguration: S.optional(TrafficShapingTpsConfiguration),
-}) {}
-export class RecurringConsumption extends S.Class<RecurringConsumption>(
-  "RecurringConsumption",
-)({
-  RetrievedAdExpirationSeconds: S.optional(S.Number),
-  AvailMatchingCriteria: S.optional(__listOfAvailMatchingCriteria),
-}) {}
-export class RecurringRetrieval extends S.Class<RecurringRetrieval>(
-  "RecurringRetrieval",
-)({
-  DynamicVariables: S.optional(__mapOf__string),
-  DelayAfterAvailEndSeconds: S.optional(S.Number),
-  TrafficShapingType: S.optional(S.String),
-  TrafficShapingRetrievalWindow: S.optional(TrafficShapingRetrievalWindow),
-  TrafficShapingTpsConfiguration: S.optional(TrafficShapingTpsConfiguration),
-}) {}
-export class RecurringPrefetchConfiguration extends S.Class<RecurringPrefetchConfiguration>(
-  "RecurringPrefetchConfiguration",
-)({
-  StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  RecurringConsumption: RecurringConsumption,
-  RecurringRetrieval: RecurringRetrieval,
-}) {}
-export class GetPrefetchScheduleResponse extends S.Class<GetPrefetchScheduleResponse>(
-  "GetPrefetchScheduleResponse",
-)({
-  Arn: S.optional(S.String),
-  Consumption: S.optional(PrefetchConsumption),
-  Name: S.optional(S.String),
-  PlaybackConfigurationName: S.optional(S.String),
-  Retrieval: S.optional(PrefetchRetrieval),
-  ScheduleType: S.optional(S.String),
-  RecurringPrefetchConfiguration: S.optional(RecurringPrefetchConfiguration),
-  StreamId: S.optional(S.String),
-}) {}
-export class DescribeSourceLocationResponse extends S.Class<DescribeSourceLocationResponse>(
-  "DescribeSourceLocationResponse",
-)({
-  AccessConfiguration: S.optional(AccessConfiguration),
-  Arn: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  DefaultSegmentDeliveryConfiguration: S.optional(
-    DefaultSegmentDeliveryConfiguration,
-  ),
-  HttpConfiguration: S.optional(HttpConfiguration),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  SegmentDeliveryConfigurations: S.optional(
-    __listOfSegmentDeliveryConfiguration,
-  ),
-  SourceLocationName: S.optional(S.String),
-  Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
-}) {}
-export class UpdateSourceLocationResponse extends S.Class<UpdateSourceLocationResponse>(
-  "UpdateSourceLocationResponse",
-)({
-  AccessConfiguration: S.optional(AccessConfiguration),
-  Arn: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  DefaultSegmentDeliveryConfiguration: S.optional(
-    DefaultSegmentDeliveryConfiguration,
-  ),
-  HttpConfiguration: S.optional(HttpConfiguration),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  SegmentDeliveryConfigurations: S.optional(
-    __listOfSegmentDeliveryConfiguration,
-  ),
-  SourceLocationName: S.optional(S.String),
-  Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
-}) {}
-export class CreateVodSourceResponse extends S.Class<CreateVodSourceResponse>(
-  "CreateVodSourceResponse",
-)({
-  Arn: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  HttpPackageConfigurations: S.optional(HttpPackageConfigurations),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  SourceLocationName: S.optional(S.String),
-  Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
-  VodSourceName: S.optional(S.String),
-}) {}
-export class UpdateVodSourceResponse extends S.Class<UpdateVodSourceResponse>(
-  "UpdateVodSourceResponse",
-)({
-  Arn: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  HttpPackageConfigurations: S.optional(HttpPackageConfigurations),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  SourceLocationName: S.optional(S.String),
-  Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
-  VodSourceName: S.optional(S.String),
-}) {}
-export class Transition extends S.Class<Transition>("Transition")({
-  DurationMillis: S.optional(S.Number),
-  RelativePosition: S.String,
-  RelativeProgram: S.optional(S.String),
-  ScheduledStartTimeMillis: S.optional(S.Number),
-  Type: S.String,
-}) {}
-export class UpdateProgramTransition extends S.Class<UpdateProgramTransition>(
-  "UpdateProgramTransition",
-)({
-  ScheduledStartTimeMillis: S.optional(S.Number),
-  DurationMillis: S.optional(S.Number),
-}) {}
-export class AdMarkerPassthrough extends S.Class<AdMarkerPassthrough>(
-  "AdMarkerPassthrough",
-)({ Enabled: S.optional(S.Boolean) }) {}
-export class Alert extends S.Class<Alert>("Alert")({
-  AlertCode: S.String,
-  AlertMessage: S.String,
-  LastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  RelatedResourceArns: __listOf__string,
-  ResourceArn: S.String,
-  Category: S.optional(S.String),
-}) {}
+export interface PrefetchConsumption {
+  AvailMatchingCriteria?: __listOfAvailMatchingCriteria;
+  EndTime: Date;
+  StartTime?: Date;
+}
+export const PrefetchConsumption = S.suspend(() =>
+  S.Struct({
+    AvailMatchingCriteria: S.optional(__listOfAvailMatchingCriteria),
+    EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "PrefetchConsumption",
+}) as any as S.Schema<PrefetchConsumption>;
+export interface TrafficShapingRetrievalWindow {
+  RetrievalWindowDurationSeconds?: number;
+}
+export const TrafficShapingRetrievalWindow = S.suspend(() =>
+  S.Struct({ RetrievalWindowDurationSeconds: S.optional(S.Number) }),
+).annotations({
+  identifier: "TrafficShapingRetrievalWindow",
+}) as any as S.Schema<TrafficShapingRetrievalWindow>;
+export interface TrafficShapingTpsConfiguration {
+  PeakTps?: number;
+  PeakConcurrentUsers?: number;
+}
+export const TrafficShapingTpsConfiguration = S.suspend(() =>
+  S.Struct({
+    PeakTps: S.optional(S.Number),
+    PeakConcurrentUsers: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "TrafficShapingTpsConfiguration",
+}) as any as S.Schema<TrafficShapingTpsConfiguration>;
+export interface PrefetchRetrieval {
+  DynamicVariables?: __mapOf__string;
+  EndTime: Date;
+  StartTime?: Date;
+  TrafficShapingType?: string;
+  TrafficShapingRetrievalWindow?: TrafficShapingRetrievalWindow;
+  TrafficShapingTpsConfiguration?: TrafficShapingTpsConfiguration;
+}
+export const PrefetchRetrieval = S.suspend(() =>
+  S.Struct({
+    DynamicVariables: S.optional(__mapOf__string),
+    EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    TrafficShapingType: S.optional(S.String),
+    TrafficShapingRetrievalWindow: S.optional(TrafficShapingRetrievalWindow),
+    TrafficShapingTpsConfiguration: S.optional(TrafficShapingTpsConfiguration),
+  }),
+).annotations({
+  identifier: "PrefetchRetrieval",
+}) as any as S.Schema<PrefetchRetrieval>;
+export interface RecurringConsumption {
+  RetrievedAdExpirationSeconds?: number;
+  AvailMatchingCriteria?: __listOfAvailMatchingCriteria;
+}
+export const RecurringConsumption = S.suspend(() =>
+  S.Struct({
+    RetrievedAdExpirationSeconds: S.optional(S.Number),
+    AvailMatchingCriteria: S.optional(__listOfAvailMatchingCriteria),
+  }),
+).annotations({
+  identifier: "RecurringConsumption",
+}) as any as S.Schema<RecurringConsumption>;
+export interface RecurringRetrieval {
+  DynamicVariables?: __mapOf__string;
+  DelayAfterAvailEndSeconds?: number;
+  TrafficShapingType?: string;
+  TrafficShapingRetrievalWindow?: TrafficShapingRetrievalWindow;
+  TrafficShapingTpsConfiguration?: TrafficShapingTpsConfiguration;
+}
+export const RecurringRetrieval = S.suspend(() =>
+  S.Struct({
+    DynamicVariables: S.optional(__mapOf__string),
+    DelayAfterAvailEndSeconds: S.optional(S.Number),
+    TrafficShapingType: S.optional(S.String),
+    TrafficShapingRetrievalWindow: S.optional(TrafficShapingRetrievalWindow),
+    TrafficShapingTpsConfiguration: S.optional(TrafficShapingTpsConfiguration),
+  }),
+).annotations({
+  identifier: "RecurringRetrieval",
+}) as any as S.Schema<RecurringRetrieval>;
+export interface RecurringPrefetchConfiguration {
+  StartTime?: Date;
+  EndTime: Date;
+  RecurringConsumption: RecurringConsumption;
+  RecurringRetrieval: RecurringRetrieval;
+}
+export const RecurringPrefetchConfiguration = S.suspend(() =>
+  S.Struct({
+    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    RecurringConsumption: RecurringConsumption,
+    RecurringRetrieval: RecurringRetrieval,
+  }),
+).annotations({
+  identifier: "RecurringPrefetchConfiguration",
+}) as any as S.Schema<RecurringPrefetchConfiguration>;
+export interface GetPrefetchScheduleResponse {
+  Arn?: string;
+  Consumption?: PrefetchConsumption;
+  Name?: string;
+  PlaybackConfigurationName?: string;
+  Retrieval?: PrefetchRetrieval;
+  ScheduleType?: string;
+  RecurringPrefetchConfiguration?: RecurringPrefetchConfiguration;
+  StreamId?: string;
+}
+export const GetPrefetchScheduleResponse = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    Consumption: S.optional(PrefetchConsumption),
+    Name: S.optional(S.String),
+    PlaybackConfigurationName: S.optional(S.String),
+    Retrieval: S.optional(PrefetchRetrieval),
+    ScheduleType: S.optional(S.String),
+    RecurringPrefetchConfiguration: S.optional(RecurringPrefetchConfiguration),
+    StreamId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetPrefetchScheduleResponse",
+}) as any as S.Schema<GetPrefetchScheduleResponse>;
+export interface DescribeSourceLocationResponse {
+  AccessConfiguration?: AccessConfiguration;
+  Arn?: string;
+  CreationTime?: Date;
+  DefaultSegmentDeliveryConfiguration?: DefaultSegmentDeliveryConfiguration;
+  HttpConfiguration?: HttpConfiguration;
+  LastModifiedTime?: Date;
+  SegmentDeliveryConfigurations?: __listOfSegmentDeliveryConfiguration;
+  SourceLocationName?: string;
+  Tags?: __mapOf__string;
+}
+export const DescribeSourceLocationResponse = S.suspend(() =>
+  S.Struct({
+    AccessConfiguration: S.optional(AccessConfiguration),
+    Arn: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    DefaultSegmentDeliveryConfiguration: S.optional(
+      DefaultSegmentDeliveryConfiguration,
+    ),
+    HttpConfiguration: S.optional(HttpConfiguration),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    SegmentDeliveryConfigurations: S.optional(
+      __listOfSegmentDeliveryConfiguration,
+    ),
+    SourceLocationName: S.optional(S.String),
+    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
+  }),
+).annotations({
+  identifier: "DescribeSourceLocationResponse",
+}) as any as S.Schema<DescribeSourceLocationResponse>;
+export interface UpdateSourceLocationResponse {
+  AccessConfiguration?: AccessConfiguration;
+  Arn?: string;
+  CreationTime?: Date;
+  DefaultSegmentDeliveryConfiguration?: DefaultSegmentDeliveryConfiguration;
+  HttpConfiguration?: HttpConfiguration;
+  LastModifiedTime?: Date;
+  SegmentDeliveryConfigurations?: __listOfSegmentDeliveryConfiguration;
+  SourceLocationName?: string;
+  Tags?: __mapOf__string;
+}
+export const UpdateSourceLocationResponse = S.suspend(() =>
+  S.Struct({
+    AccessConfiguration: S.optional(AccessConfiguration),
+    Arn: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    DefaultSegmentDeliveryConfiguration: S.optional(
+      DefaultSegmentDeliveryConfiguration,
+    ),
+    HttpConfiguration: S.optional(HttpConfiguration),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    SegmentDeliveryConfigurations: S.optional(
+      __listOfSegmentDeliveryConfiguration,
+    ),
+    SourceLocationName: S.optional(S.String),
+    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
+  }),
+).annotations({
+  identifier: "UpdateSourceLocationResponse",
+}) as any as S.Schema<UpdateSourceLocationResponse>;
+export interface CreateVodSourceResponse {
+  Arn?: string;
+  CreationTime?: Date;
+  HttpPackageConfigurations?: HttpPackageConfigurations;
+  LastModifiedTime?: Date;
+  SourceLocationName?: string;
+  Tags?: __mapOf__string;
+  VodSourceName?: string;
+}
+export const CreateVodSourceResponse = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    HttpPackageConfigurations: S.optional(HttpPackageConfigurations),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    SourceLocationName: S.optional(S.String),
+    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
+    VodSourceName: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CreateVodSourceResponse",
+}) as any as S.Schema<CreateVodSourceResponse>;
+export interface UpdateVodSourceResponse {
+  Arn?: string;
+  CreationTime?: Date;
+  HttpPackageConfigurations?: HttpPackageConfigurations;
+  LastModifiedTime?: Date;
+  SourceLocationName?: string;
+  Tags?: __mapOf__string;
+  VodSourceName?: string;
+}
+export const UpdateVodSourceResponse = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    HttpPackageConfigurations: S.optional(HttpPackageConfigurations),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    SourceLocationName: S.optional(S.String),
+    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
+    VodSourceName: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "UpdateVodSourceResponse",
+}) as any as S.Schema<UpdateVodSourceResponse>;
+export interface Transition {
+  DurationMillis?: number;
+  RelativePosition: string;
+  RelativeProgram?: string;
+  ScheduledStartTimeMillis?: number;
+  Type: string;
+}
+export const Transition = S.suspend(() =>
+  S.Struct({
+    DurationMillis: S.optional(S.Number),
+    RelativePosition: S.String,
+    RelativeProgram: S.optional(S.String),
+    ScheduledStartTimeMillis: S.optional(S.Number),
+    Type: S.String,
+  }),
+).annotations({ identifier: "Transition" }) as any as S.Schema<Transition>;
+export interface UpdateProgramTransition {
+  ScheduledStartTimeMillis?: number;
+  DurationMillis?: number;
+}
+export const UpdateProgramTransition = S.suspend(() =>
+  S.Struct({
+    ScheduledStartTimeMillis: S.optional(S.Number),
+    DurationMillis: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "UpdateProgramTransition",
+}) as any as S.Schema<UpdateProgramTransition>;
+export interface AdMarkerPassthrough {
+  Enabled?: boolean;
+}
+export const AdMarkerPassthrough = S.suspend(() =>
+  S.Struct({ Enabled: S.optional(S.Boolean) }),
+).annotations({
+  identifier: "AdMarkerPassthrough",
+}) as any as S.Schema<AdMarkerPassthrough>;
+export interface Alert {
+  AlertCode: string;
+  AlertMessage: string;
+  LastModifiedTime: Date;
+  RelatedResourceArns: __listOf__string;
+  ResourceArn: string;
+  Category?: string;
+}
+export const Alert = S.suspend(() =>
+  S.Struct({
+    AlertCode: S.String,
+    AlertMessage: S.String,
+    LastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    RelatedResourceArns: __listOf__string,
+    ResourceArn: S.String,
+    Category: S.optional(S.String),
+  }),
+).annotations({ identifier: "Alert" }) as any as S.Schema<Alert>;
+export type __listOfAlert = Alert[];
 export const __listOfAlert = S.Array(Alert);
-export class LogConfigurationForChannel extends S.Class<LogConfigurationForChannel>(
-  "LogConfigurationForChannel",
-)({ LogTypes: S.optional(LogTypes) }) {}
-export class Channel extends S.Class<Channel>("Channel")({
-  Arn: S.String,
-  ChannelName: S.String,
-  ChannelState: S.String,
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  FillerSlate: S.optional(SlateSource),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Outputs: ResponseOutputs,
-  PlaybackMode: S.String,
-  Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
-  Tier: S.String,
-  LogConfiguration: LogConfigurationForChannel,
-  Audiences: S.optional(Audiences),
-}) {}
+export interface LogConfigurationForChannel {
+  LogTypes?: LogTypes;
+}
+export const LogConfigurationForChannel = S.suspend(() =>
+  S.Struct({ LogTypes: S.optional(LogTypes) }),
+).annotations({
+  identifier: "LogConfigurationForChannel",
+}) as any as S.Schema<LogConfigurationForChannel>;
+export interface Channel {
+  Arn: string;
+  ChannelName: string;
+  ChannelState: string;
+  CreationTime?: Date;
+  FillerSlate?: SlateSource;
+  LastModifiedTime?: Date;
+  Outputs: ResponseOutputs;
+  PlaybackMode: string;
+  Tags?: __mapOf__string;
+  Tier: string;
+  LogConfiguration: LogConfigurationForChannel;
+  Audiences?: Audiences;
+}
+export const Channel = S.suspend(() =>
+  S.Struct({
+    Arn: S.String,
+    ChannelName: S.String,
+    ChannelState: S.String,
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    FillerSlate: S.optional(SlateSource),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    Outputs: ResponseOutputs,
+    PlaybackMode: S.String,
+    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
+    Tier: S.String,
+    LogConfiguration: LogConfigurationForChannel,
+    Audiences: S.optional(Audiences),
+  }),
+).annotations({ identifier: "Channel" }) as any as S.Schema<Channel>;
+export type __listOfChannel = Channel[];
 export const __listOfChannel = S.Array(Channel);
-export class ScheduleConfiguration extends S.Class<ScheduleConfiguration>(
-  "ScheduleConfiguration",
-)({ Transition: Transition, ClipRange: S.optional(ClipRange) }) {}
-export class UpdateProgramScheduleConfiguration extends S.Class<UpdateProgramScheduleConfiguration>(
-  "UpdateProgramScheduleConfiguration",
-)({
-  Transition: S.optional(UpdateProgramTransition),
-  ClipRange: S.optional(ClipRange),
-}) {}
-export class LiveSource extends S.Class<LiveSource>("LiveSource")({
-  Arn: S.String,
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  HttpPackageConfigurations: HttpPackageConfigurations,
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LiveSourceName: S.String,
-  SourceLocationName: S.String,
-  Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
-}) {}
+export interface ScheduleConfiguration {
+  Transition: Transition;
+  ClipRange?: ClipRange;
+}
+export const ScheduleConfiguration = S.suspend(() =>
+  S.Struct({ Transition: Transition, ClipRange: S.optional(ClipRange) }),
+).annotations({
+  identifier: "ScheduleConfiguration",
+}) as any as S.Schema<ScheduleConfiguration>;
+export interface UpdateProgramScheduleConfiguration {
+  Transition?: UpdateProgramTransition;
+  ClipRange?: ClipRange;
+}
+export const UpdateProgramScheduleConfiguration = S.suspend(() =>
+  S.Struct({
+    Transition: S.optional(UpdateProgramTransition),
+    ClipRange: S.optional(ClipRange),
+  }),
+).annotations({
+  identifier: "UpdateProgramScheduleConfiguration",
+}) as any as S.Schema<UpdateProgramScheduleConfiguration>;
+export interface LiveSource {
+  Arn: string;
+  CreationTime?: Date;
+  HttpPackageConfigurations: HttpPackageConfigurations;
+  LastModifiedTime?: Date;
+  LiveSourceName: string;
+  SourceLocationName: string;
+  Tags?: __mapOf__string;
+}
+export const LiveSource = S.suspend(() =>
+  S.Struct({
+    Arn: S.String,
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    HttpPackageConfigurations: HttpPackageConfigurations,
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LiveSourceName: S.String,
+    SourceLocationName: S.String,
+    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
+  }),
+).annotations({ identifier: "LiveSource" }) as any as S.Schema<LiveSource>;
+export type __listOfLiveSource = LiveSource[];
 export const __listOfLiveSource = S.Array(LiveSource);
-export class ManifestProcessingRules extends S.Class<ManifestProcessingRules>(
-  "ManifestProcessingRules",
-)({ AdMarkerPassthrough: S.optional(AdMarkerPassthrough) }) {}
+export interface ManifestProcessingRules {
+  AdMarkerPassthrough?: AdMarkerPassthrough;
+}
+export const ManifestProcessingRules = S.suspend(() =>
+  S.Struct({ AdMarkerPassthrough: S.optional(AdMarkerPassthrough) }),
+).annotations({
+  identifier: "ManifestProcessingRules",
+}) as any as S.Schema<ManifestProcessingRules>;
+export type ConfigurationAliasesResponse = { [key: string]: __mapOf__string };
 export const ConfigurationAliasesResponse = S.Record({
   key: S.String,
   value: __mapOf__string,
 });
-export class DashConfiguration extends S.Class<DashConfiguration>(
-  "DashConfiguration",
-)({
-  ManifestEndpointPrefix: S.optional(S.String),
-  MpdLocation: S.optional(S.String),
-  OriginManifestType: S.optional(S.String),
-}) {}
-export class HlsConfiguration extends S.Class<HlsConfiguration>(
-  "HlsConfiguration",
-)({ ManifestEndpointPrefix: S.optional(S.String) }) {}
-export class LogConfiguration extends S.Class<LogConfiguration>(
-  "LogConfiguration",
-)({
-  PercentEnabled: S.Number,
-  EnabledLoggingStrategies: __listOfLoggingStrategies,
-  AdsInteractionLog: S.optional(AdsInteractionLog),
-  ManifestServiceInteractionLog: S.optional(ManifestServiceInteractionLog),
-}) {}
+export interface DashConfiguration {
+  ManifestEndpointPrefix?: string;
+  MpdLocation?: string;
+  OriginManifestType?: string;
+}
+export const DashConfiguration = S.suspend(() =>
+  S.Struct({
+    ManifestEndpointPrefix: S.optional(S.String),
+    MpdLocation: S.optional(S.String),
+    OriginManifestType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DashConfiguration",
+}) as any as S.Schema<DashConfiguration>;
+export interface HlsConfiguration {
+  ManifestEndpointPrefix?: string;
+}
+export const HlsConfiguration = S.suspend(() =>
+  S.Struct({ ManifestEndpointPrefix: S.optional(S.String) }),
+).annotations({
+  identifier: "HlsConfiguration",
+}) as any as S.Schema<HlsConfiguration>;
+export interface LogConfiguration {
+  PercentEnabled: number;
+  EnabledLoggingStrategies: __listOfLoggingStrategies;
+  AdsInteractionLog?: AdsInteractionLog;
+  ManifestServiceInteractionLog?: ManifestServiceInteractionLog;
+}
+export const LogConfiguration = S.suspend(() =>
+  S.Struct({
+    PercentEnabled: S.Number,
+    EnabledLoggingStrategies: __listOfLoggingStrategies,
+    AdsInteractionLog: S.optional(AdsInteractionLog),
+    ManifestServiceInteractionLog: S.optional(ManifestServiceInteractionLog),
+  }),
+).annotations({
+  identifier: "LogConfiguration",
+}) as any as S.Schema<LogConfiguration>;
+export type StringMap = { [key: string]: string };
 export const StringMap = S.Record({ key: S.String, value: S.String });
-export class HttpRequest extends S.Class<HttpRequest>("HttpRequest")({
-  Method: S.optional(S.String),
-  Body: S.optional(S.String),
-  Headers: S.optional(StringMap),
-  CompressRequest: S.optional(S.String),
-}) {}
-export class AdDecisionServerConfiguration extends S.Class<AdDecisionServerConfiguration>(
-  "AdDecisionServerConfiguration",
-)({ HttpRequest: S.optional(HttpRequest) }) {}
-export class PlaybackConfiguration extends S.Class<PlaybackConfiguration>(
-  "PlaybackConfiguration",
-)({
-  AdDecisionServerUrl: S.optional(S.String),
-  AvailSuppression: S.optional(AvailSuppression),
-  Bumper: S.optional(Bumper),
-  CdnConfiguration: S.optional(CdnConfiguration),
-  ConfigurationAliases: S.optional(ConfigurationAliasesResponse),
-  DashConfiguration: S.optional(DashConfiguration),
-  HlsConfiguration: S.optional(HlsConfiguration),
-  InsertionMode: S.optional(S.String),
-  LivePreRollConfiguration: S.optional(LivePreRollConfiguration),
-  LogConfiguration: S.optional(LogConfiguration),
-  ManifestProcessingRules: S.optional(ManifestProcessingRules),
-  Name: S.optional(S.String),
-  PersonalizationThresholdSeconds: S.optional(S.Number),
-  PlaybackConfigurationArn: S.optional(S.String),
-  PlaybackEndpointPrefix: S.optional(S.String),
-  SessionInitializationEndpointPrefix: S.optional(S.String),
-  SlateAdUrl: S.optional(S.String),
-  Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
-  TranscodeProfileName: S.optional(S.String),
-  VideoContentSourceUrl: S.optional(S.String),
-  AdConditioningConfiguration: S.optional(AdConditioningConfiguration),
-  AdDecisionServerConfiguration: S.optional(AdDecisionServerConfiguration),
-}) {}
+export interface HttpRequest {
+  Method?: string;
+  Body?: string;
+  Headers?: StringMap;
+  CompressRequest?: string;
+}
+export const HttpRequest = S.suspend(() =>
+  S.Struct({
+    Method: S.optional(S.String),
+    Body: S.optional(S.String),
+    Headers: S.optional(StringMap),
+    CompressRequest: S.optional(S.String),
+  }),
+).annotations({ identifier: "HttpRequest" }) as any as S.Schema<HttpRequest>;
+export interface AdDecisionServerConfiguration {
+  HttpRequest?: HttpRequest;
+}
+export const AdDecisionServerConfiguration = S.suspend(() =>
+  S.Struct({ HttpRequest: S.optional(HttpRequest) }),
+).annotations({
+  identifier: "AdDecisionServerConfiguration",
+}) as any as S.Schema<AdDecisionServerConfiguration>;
+export interface PlaybackConfiguration {
+  AdDecisionServerUrl?: string;
+  AvailSuppression?: AvailSuppression;
+  Bumper?: Bumper;
+  CdnConfiguration?: CdnConfiguration;
+  ConfigurationAliases?: ConfigurationAliasesResponse;
+  DashConfiguration?: DashConfiguration;
+  HlsConfiguration?: HlsConfiguration;
+  InsertionMode?: string;
+  LivePreRollConfiguration?: LivePreRollConfiguration;
+  LogConfiguration?: LogConfiguration;
+  ManifestProcessingRules?: ManifestProcessingRules;
+  Name?: string;
+  PersonalizationThresholdSeconds?: number;
+  PlaybackConfigurationArn?: string;
+  PlaybackEndpointPrefix?: string;
+  SessionInitializationEndpointPrefix?: string;
+  SlateAdUrl?: string;
+  Tags?: __mapOf__string;
+  TranscodeProfileName?: string;
+  VideoContentSourceUrl?: string;
+  AdConditioningConfiguration?: AdConditioningConfiguration;
+  AdDecisionServerConfiguration?: AdDecisionServerConfiguration;
+}
+export const PlaybackConfiguration = S.suspend(() =>
+  S.Struct({
+    AdDecisionServerUrl: S.optional(S.String),
+    AvailSuppression: S.optional(AvailSuppression),
+    Bumper: S.optional(Bumper),
+    CdnConfiguration: S.optional(CdnConfiguration),
+    ConfigurationAliases: S.optional(ConfigurationAliasesResponse),
+    DashConfiguration: S.optional(DashConfiguration),
+    HlsConfiguration: S.optional(HlsConfiguration),
+    InsertionMode: S.optional(S.String),
+    LivePreRollConfiguration: S.optional(LivePreRollConfiguration),
+    LogConfiguration: S.optional(LogConfiguration),
+    ManifestProcessingRules: S.optional(ManifestProcessingRules),
+    Name: S.optional(S.String),
+    PersonalizationThresholdSeconds: S.optional(S.Number),
+    PlaybackConfigurationArn: S.optional(S.String),
+    PlaybackEndpointPrefix: S.optional(S.String),
+    SessionInitializationEndpointPrefix: S.optional(S.String),
+    SlateAdUrl: S.optional(S.String),
+    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
+    TranscodeProfileName: S.optional(S.String),
+    VideoContentSourceUrl: S.optional(S.String),
+    AdConditioningConfiguration: S.optional(AdConditioningConfiguration),
+    AdDecisionServerConfiguration: S.optional(AdDecisionServerConfiguration),
+  }),
+).annotations({
+  identifier: "PlaybackConfiguration",
+}) as any as S.Schema<PlaybackConfiguration>;
+export type __listOfPlaybackConfiguration = PlaybackConfiguration[];
 export const __listOfPlaybackConfiguration = S.Array(PlaybackConfiguration);
-export class PrefetchSchedule extends S.Class<PrefetchSchedule>(
-  "PrefetchSchedule",
-)({
-  Arn: S.String,
-  Consumption: S.optional(PrefetchConsumption),
-  Name: S.String,
-  PlaybackConfigurationName: S.String,
-  Retrieval: S.optional(PrefetchRetrieval),
-  ScheduleType: S.optional(S.String),
-  RecurringPrefetchConfiguration: S.optional(RecurringPrefetchConfiguration),
-  StreamId: S.optional(S.String),
-}) {}
+export interface PrefetchSchedule {
+  Arn: string;
+  Consumption?: PrefetchConsumption;
+  Name: string;
+  PlaybackConfigurationName: string;
+  Retrieval?: PrefetchRetrieval;
+  ScheduleType?: string;
+  RecurringPrefetchConfiguration?: RecurringPrefetchConfiguration;
+  StreamId?: string;
+}
+export const PrefetchSchedule = S.suspend(() =>
+  S.Struct({
+    Arn: S.String,
+    Consumption: S.optional(PrefetchConsumption),
+    Name: S.String,
+    PlaybackConfigurationName: S.String,
+    Retrieval: S.optional(PrefetchRetrieval),
+    ScheduleType: S.optional(S.String),
+    RecurringPrefetchConfiguration: S.optional(RecurringPrefetchConfiguration),
+    StreamId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "PrefetchSchedule",
+}) as any as S.Schema<PrefetchSchedule>;
+export type __listOfPrefetchSchedule = PrefetchSchedule[];
 export const __listOfPrefetchSchedule = S.Array(PrefetchSchedule);
-export class SourceLocation extends S.Class<SourceLocation>("SourceLocation")({
-  AccessConfiguration: S.optional(AccessConfiguration),
-  Arn: S.String,
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  DefaultSegmentDeliveryConfiguration: S.optional(
-    DefaultSegmentDeliveryConfiguration,
-  ),
-  HttpConfiguration: HttpConfiguration,
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  SegmentDeliveryConfigurations: S.optional(
-    __listOfSegmentDeliveryConfiguration,
-  ),
-  SourceLocationName: S.String,
-  Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
-}) {}
+export interface SourceLocation {
+  AccessConfiguration?: AccessConfiguration;
+  Arn: string;
+  CreationTime?: Date;
+  DefaultSegmentDeliveryConfiguration?: DefaultSegmentDeliveryConfiguration;
+  HttpConfiguration: HttpConfiguration;
+  LastModifiedTime?: Date;
+  SegmentDeliveryConfigurations?: __listOfSegmentDeliveryConfiguration;
+  SourceLocationName: string;
+  Tags?: __mapOf__string;
+}
+export const SourceLocation = S.suspend(() =>
+  S.Struct({
+    AccessConfiguration: S.optional(AccessConfiguration),
+    Arn: S.String,
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    DefaultSegmentDeliveryConfiguration: S.optional(
+      DefaultSegmentDeliveryConfiguration,
+    ),
+    HttpConfiguration: HttpConfiguration,
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    SegmentDeliveryConfigurations: S.optional(
+      __listOfSegmentDeliveryConfiguration,
+    ),
+    SourceLocationName: S.String,
+    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
+  }),
+).annotations({
+  identifier: "SourceLocation",
+}) as any as S.Schema<SourceLocation>;
+export type __listOfSourceLocation = SourceLocation[];
 export const __listOfSourceLocation = S.Array(SourceLocation);
-export class AdBreakOpportunity extends S.Class<AdBreakOpportunity>(
-  "AdBreakOpportunity",
-)({ OffsetMillis: S.Number }) {}
+export interface AdBreakOpportunity {
+  OffsetMillis: number;
+}
+export const AdBreakOpportunity = S.suspend(() =>
+  S.Struct({ OffsetMillis: S.Number }),
+).annotations({
+  identifier: "AdBreakOpportunity",
+}) as any as S.Schema<AdBreakOpportunity>;
+export type AdBreakOpportunities = AdBreakOpportunity[];
 export const AdBreakOpportunities = S.Array(AdBreakOpportunity);
-export class VodSource extends S.Class<VodSource>("VodSource")({
-  Arn: S.String,
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  HttpPackageConfigurations: HttpPackageConfigurations,
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  SourceLocationName: S.String,
-  Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
-  VodSourceName: S.String,
-}) {}
+export interface VodSource {
+  Arn: string;
+  CreationTime?: Date;
+  HttpPackageConfigurations: HttpPackageConfigurations;
+  LastModifiedTime?: Date;
+  SourceLocationName: string;
+  Tags?: __mapOf__string;
+  VodSourceName: string;
+}
+export const VodSource = S.suspend(() =>
+  S.Struct({
+    Arn: S.String,
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    HttpPackageConfigurations: HttpPackageConfigurations,
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    SourceLocationName: S.String,
+    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
+    VodSourceName: S.String,
+  }),
+).annotations({ identifier: "VodSource" }) as any as S.Schema<VodSource>;
+export type __listOfVodSource = VodSource[];
 export const __listOfVodSource = S.Array(VodSource);
-export class ConfigureLogsForPlaybackConfigurationResponse extends S.Class<ConfigureLogsForPlaybackConfigurationResponse>(
-  "ConfigureLogsForPlaybackConfigurationResponse",
-)({
-  PercentEnabled: S.Number,
-  PlaybackConfigurationName: S.optional(S.String),
-  EnabledLoggingStrategies: S.optional(__listOfLoggingStrategies),
-  AdsInteractionLog: S.optional(AdsInteractionLog),
-  ManifestServiceInteractionLog: S.optional(ManifestServiceInteractionLog),
-}) {}
-export class ListAlertsResponse extends S.Class<ListAlertsResponse>(
-  "ListAlertsResponse",
-)({ Items: S.optional(__listOfAlert), NextToken: S.optional(S.String) }) {}
-export class CreateChannelRequest extends S.Class<CreateChannelRequest>(
-  "CreateChannelRequest",
-)(
-  {
+export interface ConfigureLogsForPlaybackConfigurationResponse {
+  PercentEnabled: number;
+  PlaybackConfigurationName?: string;
+  EnabledLoggingStrategies?: __listOfLoggingStrategies;
+  AdsInteractionLog?: AdsInteractionLog;
+  ManifestServiceInteractionLog?: ManifestServiceInteractionLog;
+}
+export const ConfigureLogsForPlaybackConfigurationResponse = S.suspend(() =>
+  S.Struct({
+    PercentEnabled: S.Number,
+    PlaybackConfigurationName: S.optional(S.String),
+    EnabledLoggingStrategies: S.optional(__listOfLoggingStrategies),
+    AdsInteractionLog: S.optional(AdsInteractionLog),
+    ManifestServiceInteractionLog: S.optional(ManifestServiceInteractionLog),
+  }),
+).annotations({
+  identifier: "ConfigureLogsForPlaybackConfigurationResponse",
+}) as any as S.Schema<ConfigureLogsForPlaybackConfigurationResponse>;
+export interface ListAlertsResponse {
+  Items?: __listOfAlert;
+  NextToken?: string;
+}
+export const ListAlertsResponse = S.suspend(() =>
+  S.Struct({
+    Items: S.optional(__listOfAlert),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListAlertsResponse",
+}) as any as S.Schema<ListAlertsResponse>;
+export interface CreateChannelRequest {
+  ChannelName: string;
+  FillerSlate?: SlateSource;
+  Outputs: RequestOutputs;
+  PlaybackMode: string;
+  Tags?: __mapOf__string;
+  Tier?: string;
+  TimeShiftConfiguration?: TimeShiftConfiguration;
+  Audiences?: Audiences;
+}
+export const CreateChannelRequest = S.suspend(() =>
+  S.Struct({
     ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
     FillerSlate: S.optional(SlateSource),
     Outputs: RequestOutputs,
@@ -1490,108 +2366,208 @@ export class CreateChannelRequest extends S.Class<CreateChannelRequest>(
     Tier: S.optional(S.String),
     TimeShiftConfiguration: S.optional(TimeShiftConfiguration),
     Audiences: S.optional(Audiences),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/channel/{ChannelName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/channel/{ChannelName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeChannelResponse extends S.Class<DescribeChannelResponse>(
-  "DescribeChannelResponse",
-)({
-  Arn: S.optional(S.String),
-  ChannelName: S.optional(S.String),
-  ChannelState: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  FillerSlate: S.optional(SlateSource),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Outputs: S.optional(ResponseOutputs),
-  PlaybackMode: S.optional(S.String),
-  Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
-  Tier: S.optional(S.String),
-  LogConfiguration: LogConfigurationForChannel,
-  TimeShiftConfiguration: S.optional(TimeShiftConfiguration),
-  Audiences: S.optional(Audiences),
-}) {}
-export class ListChannelsResponse extends S.Class<ListChannelsResponse>(
-  "ListChannelsResponse",
-)({ Items: S.optional(__listOfChannel), NextToken: S.optional(S.String) }) {}
-export class UpdateProgramRequest extends S.Class<UpdateProgramRequest>(
-  "UpdateProgramRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateChannelRequest",
+}) as any as S.Schema<CreateChannelRequest>;
+export interface DescribeChannelResponse {
+  Arn?: string;
+  ChannelName?: string;
+  ChannelState?: string;
+  CreationTime?: Date;
+  FillerSlate?: SlateSource;
+  LastModifiedTime?: Date;
+  Outputs?: ResponseOutputs;
+  PlaybackMode?: string;
+  Tags?: __mapOf__string;
+  Tier?: string;
+  LogConfiguration: LogConfigurationForChannel;
+  TimeShiftConfiguration?: TimeShiftConfiguration;
+  Audiences?: Audiences;
+}
+export const DescribeChannelResponse = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    ChannelName: S.optional(S.String),
+    ChannelState: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    FillerSlate: S.optional(SlateSource),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    Outputs: S.optional(ResponseOutputs),
+    PlaybackMode: S.optional(S.String),
+    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
+    Tier: S.optional(S.String),
+    LogConfiguration: LogConfigurationForChannel,
+    TimeShiftConfiguration: S.optional(TimeShiftConfiguration),
+    Audiences: S.optional(Audiences),
+  }),
+).annotations({
+  identifier: "DescribeChannelResponse",
+}) as any as S.Schema<DescribeChannelResponse>;
+export interface ListChannelsResponse {
+  Items?: __listOfChannel;
+  NextToken?: string;
+}
+export const ListChannelsResponse = S.suspend(() =>
+  S.Struct({
+    Items: S.optional(__listOfChannel),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListChannelsResponse",
+}) as any as S.Schema<ListChannelsResponse>;
+export interface UpdateProgramRequest {
+  AdBreaks?: __listOfAdBreak;
+  ChannelName: string;
+  ProgramName: string;
+  ScheduleConfiguration: UpdateProgramScheduleConfiguration;
+  AudienceMedia?: __listOfAudienceMedia;
+}
+export const UpdateProgramRequest = S.suspend(() =>
+  S.Struct({
     AdBreaks: S.optional(__listOfAdBreak),
     ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
     ProgramName: S.String.pipe(T.HttpLabel("ProgramName")),
     ScheduleConfiguration: UpdateProgramScheduleConfiguration,
     AudienceMedia: S.optional(__listOfAudienceMedia),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/channel/{ChannelName}/program/{ProgramName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/channel/{ChannelName}/program/{ProgramName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateLiveSourceResponse extends S.Class<CreateLiveSourceResponse>(
-  "CreateLiveSourceResponse",
-)({
-  Arn: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  HttpPackageConfigurations: S.optional(HttpPackageConfigurations),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LiveSourceName: S.optional(S.String),
-  SourceLocationName: S.optional(S.String),
-  Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
-}) {}
-export class ListLiveSourcesResponse extends S.Class<ListLiveSourcesResponse>(
-  "ListLiveSourcesResponse",
-)({ Items: S.optional(__listOfLiveSource), NextToken: S.optional(S.String) }) {}
-export class GetPlaybackConfigurationResponse extends S.Class<GetPlaybackConfigurationResponse>(
-  "GetPlaybackConfigurationResponse",
-)({
-  AdDecisionServerUrl: S.optional(S.String),
-  AvailSuppression: S.optional(AvailSuppression),
-  Bumper: S.optional(Bumper),
-  CdnConfiguration: S.optional(CdnConfiguration),
-  ConfigurationAliases: S.optional(ConfigurationAliasesResponse),
-  DashConfiguration: S.optional(DashConfiguration),
-  HlsConfiguration: S.optional(HlsConfiguration),
-  InsertionMode: S.optional(S.String),
-  LivePreRollConfiguration: S.optional(LivePreRollConfiguration),
-  LogConfiguration: S.optional(LogConfiguration),
-  ManifestProcessingRules: S.optional(ManifestProcessingRules),
-  Name: S.optional(S.String),
-  PersonalizationThresholdSeconds: S.optional(S.Number),
-  PlaybackConfigurationArn: S.optional(S.String),
-  PlaybackEndpointPrefix: S.optional(S.String),
-  SessionInitializationEndpointPrefix: S.optional(S.String),
-  SlateAdUrl: S.optional(S.String),
-  Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
-  TranscodeProfileName: S.optional(S.String),
-  VideoContentSourceUrl: S.optional(S.String),
-  AdConditioningConfiguration: S.optional(AdConditioningConfiguration),
-  AdDecisionServerConfiguration: S.optional(AdDecisionServerConfiguration),
-}) {}
-export class ListPlaybackConfigurationsResponse extends S.Class<ListPlaybackConfigurationsResponse>(
-  "ListPlaybackConfigurationsResponse",
-)({
-  Items: S.optional(__listOfPlaybackConfiguration),
-  NextToken: S.optional(S.String),
-}) {}
-export class CreatePrefetchScheduleRequest extends S.Class<CreatePrefetchScheduleRequest>(
-  "CreatePrefetchScheduleRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateProgramRequest",
+}) as any as S.Schema<UpdateProgramRequest>;
+export interface CreateLiveSourceResponse {
+  Arn?: string;
+  CreationTime?: Date;
+  HttpPackageConfigurations?: HttpPackageConfigurations;
+  LastModifiedTime?: Date;
+  LiveSourceName?: string;
+  SourceLocationName?: string;
+  Tags?: __mapOf__string;
+}
+export const CreateLiveSourceResponse = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    HttpPackageConfigurations: S.optional(HttpPackageConfigurations),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LiveSourceName: S.optional(S.String),
+    SourceLocationName: S.optional(S.String),
+    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
+  }),
+).annotations({
+  identifier: "CreateLiveSourceResponse",
+}) as any as S.Schema<CreateLiveSourceResponse>;
+export interface ListLiveSourcesResponse {
+  Items?: __listOfLiveSource;
+  NextToken?: string;
+}
+export const ListLiveSourcesResponse = S.suspend(() =>
+  S.Struct({
+    Items: S.optional(__listOfLiveSource),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListLiveSourcesResponse",
+}) as any as S.Schema<ListLiveSourcesResponse>;
+export interface GetPlaybackConfigurationResponse {
+  AdDecisionServerUrl?: string;
+  AvailSuppression?: AvailSuppression;
+  Bumper?: Bumper;
+  CdnConfiguration?: CdnConfiguration;
+  ConfigurationAliases?: ConfigurationAliasesResponse;
+  DashConfiguration?: DashConfiguration;
+  HlsConfiguration?: HlsConfiguration;
+  InsertionMode?: string;
+  LivePreRollConfiguration?: LivePreRollConfiguration;
+  LogConfiguration?: LogConfiguration;
+  ManifestProcessingRules?: ManifestProcessingRules;
+  Name?: string;
+  PersonalizationThresholdSeconds?: number;
+  PlaybackConfigurationArn?: string;
+  PlaybackEndpointPrefix?: string;
+  SessionInitializationEndpointPrefix?: string;
+  SlateAdUrl?: string;
+  Tags?: __mapOf__string;
+  TranscodeProfileName?: string;
+  VideoContentSourceUrl?: string;
+  AdConditioningConfiguration?: AdConditioningConfiguration;
+  AdDecisionServerConfiguration?: AdDecisionServerConfiguration;
+}
+export const GetPlaybackConfigurationResponse = S.suspend(() =>
+  S.Struct({
+    AdDecisionServerUrl: S.optional(S.String),
+    AvailSuppression: S.optional(AvailSuppression),
+    Bumper: S.optional(Bumper),
+    CdnConfiguration: S.optional(CdnConfiguration),
+    ConfigurationAliases: S.optional(ConfigurationAliasesResponse),
+    DashConfiguration: S.optional(DashConfiguration),
+    HlsConfiguration: S.optional(HlsConfiguration),
+    InsertionMode: S.optional(S.String),
+    LivePreRollConfiguration: S.optional(LivePreRollConfiguration),
+    LogConfiguration: S.optional(LogConfiguration),
+    ManifestProcessingRules: S.optional(ManifestProcessingRules),
+    Name: S.optional(S.String),
+    PersonalizationThresholdSeconds: S.optional(S.Number),
+    PlaybackConfigurationArn: S.optional(S.String),
+    PlaybackEndpointPrefix: S.optional(S.String),
+    SessionInitializationEndpointPrefix: S.optional(S.String),
+    SlateAdUrl: S.optional(S.String),
+    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
+    TranscodeProfileName: S.optional(S.String),
+    VideoContentSourceUrl: S.optional(S.String),
+    AdConditioningConfiguration: S.optional(AdConditioningConfiguration),
+    AdDecisionServerConfiguration: S.optional(AdDecisionServerConfiguration),
+  }),
+).annotations({
+  identifier: "GetPlaybackConfigurationResponse",
+}) as any as S.Schema<GetPlaybackConfigurationResponse>;
+export interface ListPlaybackConfigurationsResponse {
+  Items?: __listOfPlaybackConfiguration;
+  NextToken?: string;
+}
+export const ListPlaybackConfigurationsResponse = S.suspend(() =>
+  S.Struct({
+    Items: S.optional(__listOfPlaybackConfiguration),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListPlaybackConfigurationsResponse",
+}) as any as S.Schema<ListPlaybackConfigurationsResponse>;
+export interface CreatePrefetchScheduleRequest {
+  Consumption?: PrefetchConsumption;
+  Name: string;
+  PlaybackConfigurationName: string;
+  Retrieval?: PrefetchRetrieval;
+  RecurringPrefetchConfiguration?: RecurringPrefetchConfiguration;
+  ScheduleType?: string;
+  StreamId?: string;
+}
+export const CreatePrefetchScheduleRequest = S.suspend(() =>
+  S.Struct({
     Consumption: S.optional(PrefetchConsumption),
     Name: S.String.pipe(T.HttpLabel("Name")),
     PlaybackConfigurationName: S.String.pipe(
@@ -1601,29 +2577,44 @@ export class CreatePrefetchScheduleRequest extends S.Class<CreatePrefetchSchedul
     RecurringPrefetchConfiguration: S.optional(RecurringPrefetchConfiguration),
     ScheduleType: S.optional(S.String),
     StreamId: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/prefetchSchedule/{PlaybackConfigurationName}/{Name}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/prefetchSchedule/{PlaybackConfigurationName}/{Name}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListPrefetchSchedulesResponse extends S.Class<ListPrefetchSchedulesResponse>(
-  "ListPrefetchSchedulesResponse",
-)({
-  Items: S.optional(__listOfPrefetchSchedule),
-  NextToken: S.optional(S.String),
-}) {}
-export class CreateSourceLocationRequest extends S.Class<CreateSourceLocationRequest>(
-  "CreateSourceLocationRequest",
-)(
-  {
+).annotations({
+  identifier: "CreatePrefetchScheduleRequest",
+}) as any as S.Schema<CreatePrefetchScheduleRequest>;
+export interface ListPrefetchSchedulesResponse {
+  Items?: __listOfPrefetchSchedule;
+  NextToken?: string;
+}
+export const ListPrefetchSchedulesResponse = S.suspend(() =>
+  S.Struct({
+    Items: S.optional(__listOfPrefetchSchedule),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListPrefetchSchedulesResponse",
+}) as any as S.Schema<ListPrefetchSchedulesResponse>;
+export interface CreateSourceLocationRequest {
+  AccessConfiguration?: AccessConfiguration;
+  DefaultSegmentDeliveryConfiguration?: DefaultSegmentDeliveryConfiguration;
+  HttpConfiguration: HttpConfiguration;
+  SegmentDeliveryConfigurations?: __listOfSegmentDeliveryConfiguration;
+  SourceLocationName: string;
+  Tags?: __mapOf__string;
+}
+export const CreateSourceLocationRequest = S.suspend(() =>
+  S.Struct({
     AccessConfiguration: S.optional(AccessConfiguration),
     DefaultSegmentDeliveryConfiguration: S.optional(
       DefaultSegmentDeliveryConfiguration,
@@ -1634,90 +2625,181 @@ export class CreateSourceLocationRequest extends S.Class<CreateSourceLocationReq
     ),
     SourceLocationName: S.String.pipe(T.HttpLabel("SourceLocationName")),
     Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/sourceLocation/{SourceLocationName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/sourceLocation/{SourceLocationName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListSourceLocationsResponse extends S.Class<ListSourceLocationsResponse>(
-  "ListSourceLocationsResponse",
-)({
-  Items: S.optional(__listOfSourceLocation),
-  NextToken: S.optional(S.String),
-}) {}
-export class DescribeVodSourceResponse extends S.Class<DescribeVodSourceResponse>(
-  "DescribeVodSourceResponse",
-)({
-  AdBreakOpportunities: S.optional(AdBreakOpportunities),
-  Arn: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  HttpPackageConfigurations: S.optional(HttpPackageConfigurations),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  SourceLocationName: S.optional(S.String),
-  Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
-  VodSourceName: S.optional(S.String),
-}) {}
-export class ListVodSourcesResponse extends S.Class<ListVodSourcesResponse>(
-  "ListVodSourcesResponse",
-)({ Items: S.optional(__listOfVodSource), NextToken: S.optional(S.String) }) {}
-export class ScheduleAdBreak extends S.Class<ScheduleAdBreak>(
-  "ScheduleAdBreak",
-)({
-  ApproximateDurationSeconds: S.optional(S.Number),
-  ApproximateStartTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  SourceLocationName: S.optional(S.String),
-  VodSourceName: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "CreateSourceLocationRequest",
+}) as any as S.Schema<CreateSourceLocationRequest>;
+export interface ListSourceLocationsResponse {
+  Items?: __listOfSourceLocation;
+  NextToken?: string;
+}
+export const ListSourceLocationsResponse = S.suspend(() =>
+  S.Struct({
+    Items: S.optional(__listOfSourceLocation),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListSourceLocationsResponse",
+}) as any as S.Schema<ListSourceLocationsResponse>;
+export interface DescribeVodSourceResponse {
+  AdBreakOpportunities?: AdBreakOpportunities;
+  Arn?: string;
+  CreationTime?: Date;
+  HttpPackageConfigurations?: HttpPackageConfigurations;
+  LastModifiedTime?: Date;
+  SourceLocationName?: string;
+  Tags?: __mapOf__string;
+  VodSourceName?: string;
+}
+export const DescribeVodSourceResponse = S.suspend(() =>
+  S.Struct({
+    AdBreakOpportunities: S.optional(AdBreakOpportunities),
+    Arn: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    HttpPackageConfigurations: S.optional(HttpPackageConfigurations),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    SourceLocationName: S.optional(S.String),
+    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
+    VodSourceName: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DescribeVodSourceResponse",
+}) as any as S.Schema<DescribeVodSourceResponse>;
+export interface ListVodSourcesResponse {
+  Items?: __listOfVodSource;
+  NextToken?: string;
+}
+export const ListVodSourcesResponse = S.suspend(() =>
+  S.Struct({
+    Items: S.optional(__listOfVodSource),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListVodSourcesResponse",
+}) as any as S.Schema<ListVodSourcesResponse>;
+export interface ScheduleAdBreak {
+  ApproximateDurationSeconds?: number;
+  ApproximateStartTime?: Date;
+  SourceLocationName?: string;
+  VodSourceName?: string;
+}
+export const ScheduleAdBreak = S.suspend(() =>
+  S.Struct({
+    ApproximateDurationSeconds: S.optional(S.Number),
+    ApproximateStartTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    SourceLocationName: S.optional(S.String),
+    VodSourceName: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ScheduleAdBreak",
+}) as any as S.Schema<ScheduleAdBreak>;
+export type __listOfScheduleAdBreak = ScheduleAdBreak[];
 export const __listOfScheduleAdBreak = S.Array(ScheduleAdBreak);
-export class ScheduleEntry extends S.Class<ScheduleEntry>("ScheduleEntry")({
-  ApproximateDurationSeconds: S.optional(S.Number),
-  ApproximateStartTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  Arn: S.String,
-  ChannelName: S.String,
-  LiveSourceName: S.optional(S.String),
-  ProgramName: S.String,
-  ScheduleAdBreaks: S.optional(__listOfScheduleAdBreak),
-  ScheduleEntryType: S.optional(S.String),
-  SourceLocationName: S.String,
-  VodSourceName: S.optional(S.String),
-  Audiences: S.optional(Audiences),
-}) {}
+export interface ScheduleEntry {
+  ApproximateDurationSeconds?: number;
+  ApproximateStartTime?: Date;
+  Arn: string;
+  ChannelName: string;
+  LiveSourceName?: string;
+  ProgramName: string;
+  ScheduleAdBreaks?: __listOfScheduleAdBreak;
+  ScheduleEntryType?: string;
+  SourceLocationName: string;
+  VodSourceName?: string;
+  Audiences?: Audiences;
+}
+export const ScheduleEntry = S.suspend(() =>
+  S.Struct({
+    ApproximateDurationSeconds: S.optional(S.Number),
+    ApproximateStartTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    Arn: S.String,
+    ChannelName: S.String,
+    LiveSourceName: S.optional(S.String),
+    ProgramName: S.String,
+    ScheduleAdBreaks: S.optional(__listOfScheduleAdBreak),
+    ScheduleEntryType: S.optional(S.String),
+    SourceLocationName: S.String,
+    VodSourceName: S.optional(S.String),
+    Audiences: S.optional(Audiences),
+  }),
+).annotations({
+  identifier: "ScheduleEntry",
+}) as any as S.Schema<ScheduleEntry>;
+export type __listOfScheduleEntry = ScheduleEntry[];
 export const __listOfScheduleEntry = S.Array(ScheduleEntry);
-export class CreateChannelResponse extends S.Class<CreateChannelResponse>(
-  "CreateChannelResponse",
-)({
-  Arn: S.optional(S.String),
-  ChannelName: S.optional(S.String),
-  ChannelState: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  FillerSlate: S.optional(SlateSource),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Outputs: S.optional(ResponseOutputs),
-  PlaybackMode: S.optional(S.String),
-  Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
-  Tier: S.optional(S.String),
-  TimeShiftConfiguration: S.optional(TimeShiftConfiguration),
-  Audiences: S.optional(Audiences),
-}) {}
-export class GetChannelScheduleResponse extends S.Class<GetChannelScheduleResponse>(
-  "GetChannelScheduleResponse",
-)({
-  Items: S.optional(__listOfScheduleEntry),
-  NextToken: S.optional(S.String),
-}) {}
-export class CreateProgramRequest extends S.Class<CreateProgramRequest>(
-  "CreateProgramRequest",
-)(
-  {
+export interface CreateChannelResponse {
+  Arn?: string;
+  ChannelName?: string;
+  ChannelState?: string;
+  CreationTime?: Date;
+  FillerSlate?: SlateSource;
+  LastModifiedTime?: Date;
+  Outputs?: ResponseOutputs;
+  PlaybackMode?: string;
+  Tags?: __mapOf__string;
+  Tier?: string;
+  TimeShiftConfiguration?: TimeShiftConfiguration;
+  Audiences?: Audiences;
+}
+export const CreateChannelResponse = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    ChannelName: S.optional(S.String),
+    ChannelState: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    FillerSlate: S.optional(SlateSource),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    Outputs: S.optional(ResponseOutputs),
+    PlaybackMode: S.optional(S.String),
+    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
+    Tier: S.optional(S.String),
+    TimeShiftConfiguration: S.optional(TimeShiftConfiguration),
+    Audiences: S.optional(Audiences),
+  }),
+).annotations({
+  identifier: "CreateChannelResponse",
+}) as any as S.Schema<CreateChannelResponse>;
+export interface GetChannelScheduleResponse {
+  Items?: __listOfScheduleEntry;
+  NextToken?: string;
+}
+export const GetChannelScheduleResponse = S.suspend(() =>
+  S.Struct({
+    Items: S.optional(__listOfScheduleEntry),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetChannelScheduleResponse",
+}) as any as S.Schema<GetChannelScheduleResponse>;
+export interface CreateProgramRequest {
+  AdBreaks?: __listOfAdBreak;
+  ChannelName: string;
+  LiveSourceName?: string;
+  ProgramName: string;
+  ScheduleConfiguration: ScheduleConfiguration;
+  SourceLocationName: string;
+  VodSourceName?: string;
+  AudienceMedia?: __listOfAudienceMedia;
+}
+export const CreateProgramRequest = S.suspend(() =>
+  S.Struct({
     AdBreaks: S.optional(__listOfAdBreak),
     ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
     LiveSourceName: S.optional(S.String),
@@ -1726,41 +2808,77 @@ export class CreateProgramRequest extends S.Class<CreateProgramRequest>(
     SourceLocationName: S.String,
     VodSourceName: S.optional(S.String),
     AudienceMedia: S.optional(__listOfAudienceMedia),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/channel/{ChannelName}/program/{ProgramName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/channel/{ChannelName}/program/{ProgramName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateProgramResponse extends S.Class<UpdateProgramResponse>(
-  "UpdateProgramResponse",
-)({
-  AdBreaks: S.optional(__listOfAdBreak),
-  Arn: S.optional(S.String),
-  ChannelName: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  ProgramName: S.optional(S.String),
-  SourceLocationName: S.optional(S.String),
-  VodSourceName: S.optional(S.String),
-  LiveSourceName: S.optional(S.String),
-  ClipRange: S.optional(ClipRange),
-  DurationMillis: S.optional(S.Number),
-  ScheduledStartTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  AudienceMedia: S.optional(__listOfAudienceMedia),
-}) {}
-export class PutPlaybackConfigurationRequest extends S.Class<PutPlaybackConfigurationRequest>(
-  "PutPlaybackConfigurationRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateProgramRequest",
+}) as any as S.Schema<CreateProgramRequest>;
+export interface UpdateProgramResponse {
+  AdBreaks?: __listOfAdBreak;
+  Arn?: string;
+  ChannelName?: string;
+  CreationTime?: Date;
+  ProgramName?: string;
+  SourceLocationName?: string;
+  VodSourceName?: string;
+  LiveSourceName?: string;
+  ClipRange?: ClipRange;
+  DurationMillis?: number;
+  ScheduledStartTime?: Date;
+  AudienceMedia?: __listOfAudienceMedia;
+}
+export const UpdateProgramResponse = S.suspend(() =>
+  S.Struct({
+    AdBreaks: S.optional(__listOfAdBreak),
+    Arn: S.optional(S.String),
+    ChannelName: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ProgramName: S.optional(S.String),
+    SourceLocationName: S.optional(S.String),
+    VodSourceName: S.optional(S.String),
+    LiveSourceName: S.optional(S.String),
+    ClipRange: S.optional(ClipRange),
+    DurationMillis: S.optional(S.Number),
+    ScheduledStartTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    AudienceMedia: S.optional(__listOfAudienceMedia),
+  }),
+).annotations({
+  identifier: "UpdateProgramResponse",
+}) as any as S.Schema<UpdateProgramResponse>;
+export interface PutPlaybackConfigurationRequest {
+  AdDecisionServerUrl?: string;
+  AvailSuppression?: AvailSuppression;
+  Bumper?: Bumper;
+  CdnConfiguration?: CdnConfiguration;
+  ConfigurationAliases?: ConfigurationAliasesRequest;
+  DashConfiguration?: DashConfigurationForPut;
+  InsertionMode?: string;
+  LivePreRollConfiguration?: LivePreRollConfiguration;
+  ManifestProcessingRules?: ManifestProcessingRules;
+  Name: string;
+  PersonalizationThresholdSeconds?: number;
+  SlateAdUrl?: string;
+  Tags?: __mapOf__string;
+  TranscodeProfileName?: string;
+  VideoContentSourceUrl?: string;
+  AdConditioningConfiguration?: AdConditioningConfiguration;
+  AdDecisionServerConfiguration?: AdDecisionServerConfiguration;
+}
+export const PutPlaybackConfigurationRequest = S.suspend(() =>
+  S.Struct({
     AdDecisionServerUrl: S.optional(S.String),
     AvailSuppression: S.optional(AvailSuppression),
     Bumper: S.optional(Bumper),
@@ -1778,89 +2896,161 @@ export class PutPlaybackConfigurationRequest extends S.Class<PutPlaybackConfigur
     VideoContentSourceUrl: S.optional(S.String),
     AdConditioningConfiguration: S.optional(AdConditioningConfiguration),
     AdDecisionServerConfiguration: S.optional(AdDecisionServerConfiguration),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/playbackConfiguration" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/playbackConfiguration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreatePrefetchScheduleResponse extends S.Class<CreatePrefetchScheduleResponse>(
-  "CreatePrefetchScheduleResponse",
-)({
-  Arn: S.optional(S.String),
-  Consumption: S.optional(PrefetchConsumption),
-  Name: S.optional(S.String),
-  PlaybackConfigurationName: S.optional(S.String),
-  Retrieval: S.optional(PrefetchRetrieval),
-  RecurringPrefetchConfiguration: S.optional(RecurringPrefetchConfiguration),
-  ScheduleType: S.optional(S.String),
-  StreamId: S.optional(S.String),
-}) {}
-export class CreateSourceLocationResponse extends S.Class<CreateSourceLocationResponse>(
-  "CreateSourceLocationResponse",
-)({
-  AccessConfiguration: S.optional(AccessConfiguration),
-  Arn: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  DefaultSegmentDeliveryConfiguration: S.optional(
-    DefaultSegmentDeliveryConfiguration,
-  ),
-  HttpConfiguration: S.optional(HttpConfiguration),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  SegmentDeliveryConfigurations: S.optional(
-    __listOfSegmentDeliveryConfiguration,
-  ),
-  SourceLocationName: S.optional(S.String),
-  Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
-}) {}
-export class CreateProgramResponse extends S.Class<CreateProgramResponse>(
-  "CreateProgramResponse",
-)({
-  AdBreaks: S.optional(__listOfAdBreak),
-  Arn: S.optional(S.String),
-  ChannelName: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LiveSourceName: S.optional(S.String),
-  ProgramName: S.optional(S.String),
-  ScheduledStartTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  SourceLocationName: S.optional(S.String),
-  VodSourceName: S.optional(S.String),
-  ClipRange: S.optional(ClipRange),
-  DurationMillis: S.optional(S.Number),
-  AudienceMedia: S.optional(__listOfAudienceMedia),
-}) {}
-export class PutPlaybackConfigurationResponse extends S.Class<PutPlaybackConfigurationResponse>(
-  "PutPlaybackConfigurationResponse",
-)({
-  AdDecisionServerUrl: S.optional(S.String),
-  AvailSuppression: S.optional(AvailSuppression),
-  Bumper: S.optional(Bumper),
-  CdnConfiguration: S.optional(CdnConfiguration),
-  ConfigurationAliases: S.optional(ConfigurationAliasesResponse),
-  DashConfiguration: S.optional(DashConfiguration),
-  HlsConfiguration: S.optional(HlsConfiguration),
-  InsertionMode: S.optional(S.String),
-  LivePreRollConfiguration: S.optional(LivePreRollConfiguration),
-  LogConfiguration: S.optional(LogConfiguration),
-  ManifestProcessingRules: S.optional(ManifestProcessingRules),
-  Name: S.optional(S.String),
-  PersonalizationThresholdSeconds: S.optional(S.Number),
-  PlaybackConfigurationArn: S.optional(S.String),
-  PlaybackEndpointPrefix: S.optional(S.String),
-  SessionInitializationEndpointPrefix: S.optional(S.String),
-  SlateAdUrl: S.optional(S.String),
-  Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
-  TranscodeProfileName: S.optional(S.String),
-  VideoContentSourceUrl: S.optional(S.String),
-  AdConditioningConfiguration: S.optional(AdConditioningConfiguration),
-  AdDecisionServerConfiguration: S.optional(AdDecisionServerConfiguration),
-}) {}
+).annotations({
+  identifier: "PutPlaybackConfigurationRequest",
+}) as any as S.Schema<PutPlaybackConfigurationRequest>;
+export interface CreatePrefetchScheduleResponse {
+  Arn?: string;
+  Consumption?: PrefetchConsumption;
+  Name?: string;
+  PlaybackConfigurationName?: string;
+  Retrieval?: PrefetchRetrieval;
+  RecurringPrefetchConfiguration?: RecurringPrefetchConfiguration;
+  ScheduleType?: string;
+  StreamId?: string;
+}
+export const CreatePrefetchScheduleResponse = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    Consumption: S.optional(PrefetchConsumption),
+    Name: S.optional(S.String),
+    PlaybackConfigurationName: S.optional(S.String),
+    Retrieval: S.optional(PrefetchRetrieval),
+    RecurringPrefetchConfiguration: S.optional(RecurringPrefetchConfiguration),
+    ScheduleType: S.optional(S.String),
+    StreamId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CreatePrefetchScheduleResponse",
+}) as any as S.Schema<CreatePrefetchScheduleResponse>;
+export interface CreateSourceLocationResponse {
+  AccessConfiguration?: AccessConfiguration;
+  Arn?: string;
+  CreationTime?: Date;
+  DefaultSegmentDeliveryConfiguration?: DefaultSegmentDeliveryConfiguration;
+  HttpConfiguration?: HttpConfiguration;
+  LastModifiedTime?: Date;
+  SegmentDeliveryConfigurations?: __listOfSegmentDeliveryConfiguration;
+  SourceLocationName?: string;
+  Tags?: __mapOf__string;
+}
+export const CreateSourceLocationResponse = S.suspend(() =>
+  S.Struct({
+    AccessConfiguration: S.optional(AccessConfiguration),
+    Arn: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    DefaultSegmentDeliveryConfiguration: S.optional(
+      DefaultSegmentDeliveryConfiguration,
+    ),
+    HttpConfiguration: S.optional(HttpConfiguration),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    SegmentDeliveryConfigurations: S.optional(
+      __listOfSegmentDeliveryConfiguration,
+    ),
+    SourceLocationName: S.optional(S.String),
+    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
+  }),
+).annotations({
+  identifier: "CreateSourceLocationResponse",
+}) as any as S.Schema<CreateSourceLocationResponse>;
+export interface CreateProgramResponse {
+  AdBreaks?: __listOfAdBreak;
+  Arn?: string;
+  ChannelName?: string;
+  CreationTime?: Date;
+  LiveSourceName?: string;
+  ProgramName?: string;
+  ScheduledStartTime?: Date;
+  SourceLocationName?: string;
+  VodSourceName?: string;
+  ClipRange?: ClipRange;
+  DurationMillis?: number;
+  AudienceMedia?: __listOfAudienceMedia;
+}
+export const CreateProgramResponse = S.suspend(() =>
+  S.Struct({
+    AdBreaks: S.optional(__listOfAdBreak),
+    Arn: S.optional(S.String),
+    ChannelName: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LiveSourceName: S.optional(S.String),
+    ProgramName: S.optional(S.String),
+    ScheduledStartTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    SourceLocationName: S.optional(S.String),
+    VodSourceName: S.optional(S.String),
+    ClipRange: S.optional(ClipRange),
+    DurationMillis: S.optional(S.Number),
+    AudienceMedia: S.optional(__listOfAudienceMedia),
+  }),
+).annotations({
+  identifier: "CreateProgramResponse",
+}) as any as S.Schema<CreateProgramResponse>;
+export interface PutPlaybackConfigurationResponse {
+  AdDecisionServerUrl?: string;
+  AvailSuppression?: AvailSuppression;
+  Bumper?: Bumper;
+  CdnConfiguration?: CdnConfiguration;
+  ConfigurationAliases?: ConfigurationAliasesResponse;
+  DashConfiguration?: DashConfiguration;
+  HlsConfiguration?: HlsConfiguration;
+  InsertionMode?: string;
+  LivePreRollConfiguration?: LivePreRollConfiguration;
+  LogConfiguration?: LogConfiguration;
+  ManifestProcessingRules?: ManifestProcessingRules;
+  Name?: string;
+  PersonalizationThresholdSeconds?: number;
+  PlaybackConfigurationArn?: string;
+  PlaybackEndpointPrefix?: string;
+  SessionInitializationEndpointPrefix?: string;
+  SlateAdUrl?: string;
+  Tags?: __mapOf__string;
+  TranscodeProfileName?: string;
+  VideoContentSourceUrl?: string;
+  AdConditioningConfiguration?: AdConditioningConfiguration;
+  AdDecisionServerConfiguration?: AdDecisionServerConfiguration;
+}
+export const PutPlaybackConfigurationResponse = S.suspend(() =>
+  S.Struct({
+    AdDecisionServerUrl: S.optional(S.String),
+    AvailSuppression: S.optional(AvailSuppression),
+    Bumper: S.optional(Bumper),
+    CdnConfiguration: S.optional(CdnConfiguration),
+    ConfigurationAliases: S.optional(ConfigurationAliasesResponse),
+    DashConfiguration: S.optional(DashConfiguration),
+    HlsConfiguration: S.optional(HlsConfiguration),
+    InsertionMode: S.optional(S.String),
+    LivePreRollConfiguration: S.optional(LivePreRollConfiguration),
+    LogConfiguration: S.optional(LogConfiguration),
+    ManifestProcessingRules: S.optional(ManifestProcessingRules),
+    Name: S.optional(S.String),
+    PersonalizationThresholdSeconds: S.optional(S.Number),
+    PlaybackConfigurationArn: S.optional(S.String),
+    PlaybackEndpointPrefix: S.optional(S.String),
+    SessionInitializationEndpointPrefix: S.optional(S.String),
+    SlateAdUrl: S.optional(S.String),
+    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
+    TranscodeProfileName: S.optional(S.String),
+    VideoContentSourceUrl: S.optional(S.String),
+    AdConditioningConfiguration: S.optional(AdConditioningConfiguration),
+    AdDecisionServerConfiguration: S.optional(AdDecisionServerConfiguration),
+  }),
+).annotations({
+  identifier: "PutPlaybackConfigurationResponse",
+}) as any as S.Schema<PutPlaybackConfigurationResponse>;
 
 //# Errors
 export class BadRequestException extends S.TaggedError<BadRequestException>()(

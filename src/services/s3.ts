@@ -8781,12 +8781,20 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type ObjectAttributesList = string[];
 export const ObjectAttributesList = S.Array(S.String);
+export type OptionalObjectAttributesList = string[];
 export const OptionalObjectAttributesList = S.Array(S.String);
-export class AbortMultipartUploadRequest extends S.Class<AbortMultipartUploadRequest>(
-  "AbortMultipartUploadRequest",
-)(
-  {
+export interface AbortMultipartUploadRequest {
+  Bucket: string;
+  Key: string;
+  UploadId: string;
+  RequestPayer?: string;
+  ExpectedBucketOwner?: string;
+  IfMatchInitiatedTime?: Date;
+}
+export const AbortMultipartUploadRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     Key: S.String.pipe(T.HttpLabel("Key"), T.ContextParam("Key")),
     UploadId: S.String.pipe(T.HttpQuery("uploadId")),
@@ -8799,25 +8807,60 @@ export class AbortMultipartUploadRequest extends S.Class<AbortMultipartUploadReq
     IfMatchInitiatedTime: S.optional(
       S.Date.pipe(T.TimestampFormat("http-date")),
     ).pipe(T.HttpHeader("x-amz-if-match-initiated-time")),
-  },
-  T.all(
-    ns,
-    T.Http({
-      method: "DELETE",
-      uri: "/{Bucket}/{Key+}?x-id=AbortMultipartUpload",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "DELETE",
+        uri: "/{Bucket}/{Key+}?x-id=AbortMultipartUpload",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "AbortMultipartUploadRequest",
+}) as any as S.Schema<AbortMultipartUploadRequest>;
+export type Metadata = { [key: string]: string };
 export const Metadata = S.Record({ key: S.String, value: S.String });
-export class CreateMultipartUploadRequest extends S.Class<CreateMultipartUploadRequest>(
-  "CreateMultipartUploadRequest",
-)(
-  {
+export interface CreateMultipartUploadRequest {
+  ACL?: string;
+  Bucket: string;
+  CacheControl?: string;
+  ContentDisposition?: string;
+  ContentEncoding?: string;
+  ContentLanguage?: string;
+  ContentType?: string;
+  Expires?: string;
+  GrantFullControl?: string;
+  GrantRead?: string;
+  GrantReadACP?: string;
+  GrantWriteACP?: string;
+  Key: string;
+  Metadata?: Metadata;
+  ServerSideEncryption?: string;
+  StorageClass?: string;
+  WebsiteRedirectLocation?: string;
+  SSECustomerAlgorithm?: string;
+  SSECustomerKey?: string;
+  SSECustomerKeyMD5?: string;
+  SSEKMSKeyId?: string;
+  SSEKMSEncryptionContext?: string;
+  BucketKeyEnabled?: boolean;
+  RequestPayer?: string;
+  Tagging?: string;
+  ObjectLockMode?: string;
+  ObjectLockRetainUntilDate?: Date;
+  ObjectLockLegalHoldStatus?: string;
+  ExpectedBucketOwner?: string;
+  ChecksumAlgorithm?: string;
+  ChecksumType?: string;
+}
+export const CreateMultipartUploadRequest = S.suspend(() =>
+  S.Struct({
     ACL: S.optional(S.String).pipe(T.HttpHeader("x-amz-acl")),
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
@@ -8893,21 +8936,30 @@ export class CreateMultipartUploadRequest extends S.Class<CreateMultipartUploadR
     ChecksumType: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-checksum-type"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/{Bucket}/{Key+}?uploads" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/{Bucket}/{Key+}?uploads" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateSessionRequest extends S.Class<CreateSessionRequest>(
-  "CreateSessionRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateMultipartUploadRequest",
+}) as any as S.Schema<CreateMultipartUploadRequest>;
+export interface CreateSessionRequest {
+  SessionMode?: string;
+  Bucket: string;
+  ServerSideEncryption?: string;
+  SSEKMSKeyId?: string;
+  SSEKMSEncryptionContext?: string;
+  BucketKeyEnabled?: boolean;
+}
+export const CreateSessionRequest = S.suspend(() =>
+  S.Struct({
     SessionMode: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-create-session-mode"),
     ),
@@ -8924,371 +8976,509 @@ export class CreateSessionRequest extends S.Class<CreateSessionRequest>(
     BucketKeyEnabled: S.optional(S.Boolean).pipe(
       T.HttpHeader("x-amz-server-side-encryption-bucket-key-enabled"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/{Bucket}?session" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ DisableS3ExpressSessionAuth: { value: true } }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/{Bucket}?session" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ DisableS3ExpressSessionAuth: { value: true } }),
+    ),
   ),
-) {}
-export class DeleteBucketRequest extends S.Class<DeleteBucketRequest>(
-  "DeleteBucketRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateSessionRequest",
+}) as any as S.Schema<CreateSessionRequest>;
+export interface DeleteBucketRequest {
+  Bucket: string;
+  ExpectedBucketOwner?: string;
+}
+export const DeleteBucketRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "DELETE", uri: "/{Bucket}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-  ),
-) {}
-export class DeleteBucketResponse extends S.Class<DeleteBucketResponse>(
-  "DeleteBucketResponse",
-)({}, ns) {}
-export class DeleteBucketAnalyticsConfigurationRequest extends S.Class<DeleteBucketAnalyticsConfigurationRequest>(
-  "DeleteBucketAnalyticsConfigurationRequest",
-)(
-  {
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    Id: S.String.pipe(T.HttpQuery("id")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "DELETE", uri: "/{Bucket}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "DELETE", uri: "/{Bucket}?analytics" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
   ),
-) {}
-export class DeleteBucketAnalyticsConfigurationResponse extends S.Class<DeleteBucketAnalyticsConfigurationResponse>(
-  "DeleteBucketAnalyticsConfigurationResponse",
-)({}, ns) {}
-export class DeleteBucketCorsRequest extends S.Class<DeleteBucketCorsRequest>(
-  "DeleteBucketCorsRequest",
-)(
-  {
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "DELETE", uri: "/{Bucket}?cors" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-  ),
-) {}
-export class DeleteBucketCorsResponse extends S.Class<DeleteBucketCorsResponse>(
-  "DeleteBucketCorsResponse",
-)({}, ns) {}
-export class DeleteBucketEncryptionRequest extends S.Class<DeleteBucketEncryptionRequest>(
-  "DeleteBucketEncryptionRequest",
-)(
-  {
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "DELETE", uri: "/{Bucket}?encryption" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-  ),
-) {}
-export class DeleteBucketEncryptionResponse extends S.Class<DeleteBucketEncryptionResponse>(
-  "DeleteBucketEncryptionResponse",
-)({}, ns) {}
-export class DeleteBucketIntelligentTieringConfigurationRequest extends S.Class<DeleteBucketIntelligentTieringConfigurationRequest>(
-  "DeleteBucketIntelligentTieringConfigurationRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteBucketRequest",
+}) as any as S.Schema<DeleteBucketRequest>;
+export interface DeleteBucketResponse {}
+export const DeleteBucketResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteBucketResponse",
+}) as any as S.Schema<DeleteBucketResponse>;
+export interface DeleteBucketAnalyticsConfigurationRequest {
+  Bucket: string;
+  Id: string;
+  ExpectedBucketOwner?: string;
+}
+export const DeleteBucketAnalyticsConfigurationRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     Id: S.String.pipe(T.HttpQuery("id")),
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "DELETE", uri: "/{Bucket}?intelligent-tiering" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "DELETE", uri: "/{Bucket}?analytics" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
   ),
-) {}
-export class DeleteBucketIntelligentTieringConfigurationResponse extends S.Class<DeleteBucketIntelligentTieringConfigurationResponse>(
-  "DeleteBucketIntelligentTieringConfigurationResponse",
-)({}, ns) {}
-export class DeleteBucketInventoryConfigurationRequest extends S.Class<DeleteBucketInventoryConfigurationRequest>(
-  "DeleteBucketInventoryConfigurationRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteBucketAnalyticsConfigurationRequest",
+}) as any as S.Schema<DeleteBucketAnalyticsConfigurationRequest>;
+export interface DeleteBucketAnalyticsConfigurationResponse {}
+export const DeleteBucketAnalyticsConfigurationResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteBucketAnalyticsConfigurationResponse",
+}) as any as S.Schema<DeleteBucketAnalyticsConfigurationResponse>;
+export interface DeleteBucketCorsRequest {
+  Bucket: string;
+  ExpectedBucketOwner?: string;
+}
+export const DeleteBucketCorsRequest = S.suspend(() =>
+  S.Struct({
+    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
+    ExpectedBucketOwner: S.optional(S.String).pipe(
+      T.HttpHeader("x-amz-expected-bucket-owner"),
+    ),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "DELETE", uri: "/{Bucket}?cors" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
+  ),
+).annotations({
+  identifier: "DeleteBucketCorsRequest",
+}) as any as S.Schema<DeleteBucketCorsRequest>;
+export interface DeleteBucketCorsResponse {}
+export const DeleteBucketCorsResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteBucketCorsResponse",
+}) as any as S.Schema<DeleteBucketCorsResponse>;
+export interface DeleteBucketEncryptionRequest {
+  Bucket: string;
+  ExpectedBucketOwner?: string;
+}
+export const DeleteBucketEncryptionRequest = S.suspend(() =>
+  S.Struct({
+    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
+    ExpectedBucketOwner: S.optional(S.String).pipe(
+      T.HttpHeader("x-amz-expected-bucket-owner"),
+    ),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "DELETE", uri: "/{Bucket}?encryption" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
+  ),
+).annotations({
+  identifier: "DeleteBucketEncryptionRequest",
+}) as any as S.Schema<DeleteBucketEncryptionRequest>;
+export interface DeleteBucketEncryptionResponse {}
+export const DeleteBucketEncryptionResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteBucketEncryptionResponse",
+}) as any as S.Schema<DeleteBucketEncryptionResponse>;
+export interface DeleteBucketIntelligentTieringConfigurationRequest {
+  Bucket: string;
+  Id: string;
+  ExpectedBucketOwner?: string;
+}
+export const DeleteBucketIntelligentTieringConfigurationRequest = S.suspend(
+  () =>
+    S.Struct({
+      Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
+      Id: S.String.pipe(T.HttpQuery("id")),
+      ExpectedBucketOwner: S.optional(S.String).pipe(
+        T.HttpHeader("x-amz-expected-bucket-owner"),
+      ),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "DELETE", uri: "/{Bucket}?intelligent-tiering" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+        T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+      ),
+    ),
+).annotations({
+  identifier: "DeleteBucketIntelligentTieringConfigurationRequest",
+}) as any as S.Schema<DeleteBucketIntelligentTieringConfigurationRequest>;
+export interface DeleteBucketIntelligentTieringConfigurationResponse {}
+export const DeleteBucketIntelligentTieringConfigurationResponse = S.suspend(
+  () => S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteBucketIntelligentTieringConfigurationResponse",
+}) as any as S.Schema<DeleteBucketIntelligentTieringConfigurationResponse>;
+export interface DeleteBucketInventoryConfigurationRequest {
+  Bucket: string;
+  Id: string;
+  ExpectedBucketOwner?: string;
+}
+export const DeleteBucketInventoryConfigurationRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     Id: S.String.pipe(T.HttpQuery("id")),
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "DELETE", uri: "/{Bucket}?inventory" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "DELETE", uri: "/{Bucket}?inventory" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
   ),
-) {}
-export class DeleteBucketInventoryConfigurationResponse extends S.Class<DeleteBucketInventoryConfigurationResponse>(
-  "DeleteBucketInventoryConfigurationResponse",
-)({}, ns) {}
-export class DeleteBucketLifecycleRequest extends S.Class<DeleteBucketLifecycleRequest>(
-  "DeleteBucketLifecycleRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteBucketInventoryConfigurationRequest",
+}) as any as S.Schema<DeleteBucketInventoryConfigurationRequest>;
+export interface DeleteBucketInventoryConfigurationResponse {}
+export const DeleteBucketInventoryConfigurationResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteBucketInventoryConfigurationResponse",
+}) as any as S.Schema<DeleteBucketInventoryConfigurationResponse>;
+export interface DeleteBucketLifecycleRequest {
+  Bucket: string;
+  ExpectedBucketOwner?: string;
+}
+export const DeleteBucketLifecycleRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "DELETE", uri: "/{Bucket}?lifecycle" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "DELETE", uri: "/{Bucket}?lifecycle" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
   ),
-) {}
-export class DeleteBucketLifecycleResponse extends S.Class<DeleteBucketLifecycleResponse>(
-  "DeleteBucketLifecycleResponse",
-)({}, ns) {}
-export class DeleteBucketMetadataConfigurationRequest extends S.Class<DeleteBucketMetadataConfigurationRequest>(
-  "DeleteBucketMetadataConfigurationRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteBucketLifecycleRequest",
+}) as any as S.Schema<DeleteBucketLifecycleRequest>;
+export interface DeleteBucketLifecycleResponse {}
+export const DeleteBucketLifecycleResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteBucketLifecycleResponse",
+}) as any as S.Schema<DeleteBucketLifecycleResponse>;
+export interface DeleteBucketMetadataConfigurationRequest {
+  Bucket: string;
+  ExpectedBucketOwner?: string;
+}
+export const DeleteBucketMetadataConfigurationRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "DELETE", uri: "/{Bucket}?metadataConfiguration" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "DELETE", uri: "/{Bucket}?metadataConfiguration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
   ),
-) {}
-export class DeleteBucketMetadataConfigurationResponse extends S.Class<DeleteBucketMetadataConfigurationResponse>(
-  "DeleteBucketMetadataConfigurationResponse",
-)({}, ns) {}
-export class DeleteBucketMetadataTableConfigurationRequest extends S.Class<DeleteBucketMetadataTableConfigurationRequest>(
-  "DeleteBucketMetadataTableConfigurationRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteBucketMetadataConfigurationRequest",
+}) as any as S.Schema<DeleteBucketMetadataConfigurationRequest>;
+export interface DeleteBucketMetadataConfigurationResponse {}
+export const DeleteBucketMetadataConfigurationResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteBucketMetadataConfigurationResponse",
+}) as any as S.Schema<DeleteBucketMetadataConfigurationResponse>;
+export interface DeleteBucketMetadataTableConfigurationRequest {
+  Bucket: string;
+  ExpectedBucketOwner?: string;
+}
+export const DeleteBucketMetadataTableConfigurationRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "DELETE", uri: "/{Bucket}?metadataTable" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "DELETE", uri: "/{Bucket}?metadataTable" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
   ),
-) {}
-export class DeleteBucketMetadataTableConfigurationResponse extends S.Class<DeleteBucketMetadataTableConfigurationResponse>(
-  "DeleteBucketMetadataTableConfigurationResponse",
-)({}, ns) {}
-export class DeleteBucketMetricsConfigurationRequest extends S.Class<DeleteBucketMetricsConfigurationRequest>(
-  "DeleteBucketMetricsConfigurationRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteBucketMetadataTableConfigurationRequest",
+}) as any as S.Schema<DeleteBucketMetadataTableConfigurationRequest>;
+export interface DeleteBucketMetadataTableConfigurationResponse {}
+export const DeleteBucketMetadataTableConfigurationResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteBucketMetadataTableConfigurationResponse",
+}) as any as S.Schema<DeleteBucketMetadataTableConfigurationResponse>;
+export interface DeleteBucketMetricsConfigurationRequest {
+  Bucket: string;
+  Id: string;
+  ExpectedBucketOwner?: string;
+}
+export const DeleteBucketMetricsConfigurationRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     Id: S.String.pipe(T.HttpQuery("id")),
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "DELETE", uri: "/{Bucket}?metrics" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "DELETE", uri: "/{Bucket}?metrics" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
   ),
-) {}
-export class DeleteBucketMetricsConfigurationResponse extends S.Class<DeleteBucketMetricsConfigurationResponse>(
-  "DeleteBucketMetricsConfigurationResponse",
-)({}, ns) {}
-export class DeleteBucketOwnershipControlsRequest extends S.Class<DeleteBucketOwnershipControlsRequest>(
-  "DeleteBucketOwnershipControlsRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteBucketMetricsConfigurationRequest",
+}) as any as S.Schema<DeleteBucketMetricsConfigurationRequest>;
+export interface DeleteBucketMetricsConfigurationResponse {}
+export const DeleteBucketMetricsConfigurationResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteBucketMetricsConfigurationResponse",
+}) as any as S.Schema<DeleteBucketMetricsConfigurationResponse>;
+export interface DeleteBucketOwnershipControlsRequest {
+  Bucket: string;
+  ExpectedBucketOwner?: string;
+}
+export const DeleteBucketOwnershipControlsRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "DELETE", uri: "/{Bucket}?ownershipControls" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "DELETE", uri: "/{Bucket}?ownershipControls" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
   ),
-) {}
-export class DeleteBucketOwnershipControlsResponse extends S.Class<DeleteBucketOwnershipControlsResponse>(
-  "DeleteBucketOwnershipControlsResponse",
-)({}, ns) {}
-export class DeleteBucketPolicyRequest extends S.Class<DeleteBucketPolicyRequest>(
-  "DeleteBucketPolicyRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteBucketOwnershipControlsRequest",
+}) as any as S.Schema<DeleteBucketOwnershipControlsRequest>;
+export interface DeleteBucketOwnershipControlsResponse {}
+export const DeleteBucketOwnershipControlsResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteBucketOwnershipControlsResponse",
+}) as any as S.Schema<DeleteBucketOwnershipControlsResponse>;
+export interface DeleteBucketPolicyRequest {
+  Bucket: string;
+  ExpectedBucketOwner?: string;
+}
+export const DeleteBucketPolicyRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "DELETE", uri: "/{Bucket}?policy" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "DELETE", uri: "/{Bucket}?policy" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
   ),
-) {}
-export class DeleteBucketPolicyResponse extends S.Class<DeleteBucketPolicyResponse>(
-  "DeleteBucketPolicyResponse",
-)({}, ns) {}
-export class DeleteBucketReplicationRequest extends S.Class<DeleteBucketReplicationRequest>(
-  "DeleteBucketReplicationRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteBucketPolicyRequest",
+}) as any as S.Schema<DeleteBucketPolicyRequest>;
+export interface DeleteBucketPolicyResponse {}
+export const DeleteBucketPolicyResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteBucketPolicyResponse",
+}) as any as S.Schema<DeleteBucketPolicyResponse>;
+export interface DeleteBucketReplicationRequest {
+  Bucket: string;
+  ExpectedBucketOwner?: string;
+}
+export const DeleteBucketReplicationRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "DELETE", uri: "/{Bucket}?replication" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "DELETE", uri: "/{Bucket}?replication" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
   ),
-) {}
-export class DeleteBucketReplicationResponse extends S.Class<DeleteBucketReplicationResponse>(
-  "DeleteBucketReplicationResponse",
-)({}, ns) {}
-export class DeleteBucketTaggingRequest extends S.Class<DeleteBucketTaggingRequest>(
-  "DeleteBucketTaggingRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteBucketReplicationRequest",
+}) as any as S.Schema<DeleteBucketReplicationRequest>;
+export interface DeleteBucketReplicationResponse {}
+export const DeleteBucketReplicationResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteBucketReplicationResponse",
+}) as any as S.Schema<DeleteBucketReplicationResponse>;
+export interface DeleteBucketTaggingRequest {
+  Bucket: string;
+  ExpectedBucketOwner?: string;
+}
+export const DeleteBucketTaggingRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "DELETE", uri: "/{Bucket}?tagging" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "DELETE", uri: "/{Bucket}?tagging" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
   ),
-) {}
-export class DeleteBucketTaggingResponse extends S.Class<DeleteBucketTaggingResponse>(
-  "DeleteBucketTaggingResponse",
-)({}, ns) {}
-export class DeleteBucketWebsiteRequest extends S.Class<DeleteBucketWebsiteRequest>(
-  "DeleteBucketWebsiteRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteBucketTaggingRequest",
+}) as any as S.Schema<DeleteBucketTaggingRequest>;
+export interface DeleteBucketTaggingResponse {}
+export const DeleteBucketTaggingResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteBucketTaggingResponse",
+}) as any as S.Schema<DeleteBucketTaggingResponse>;
+export interface DeleteBucketWebsiteRequest {
+  Bucket: string;
+  ExpectedBucketOwner?: string;
+}
+export const DeleteBucketWebsiteRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "DELETE", uri: "/{Bucket}?website" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "DELETE", uri: "/{Bucket}?website" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
   ),
-) {}
-export class DeleteBucketWebsiteResponse extends S.Class<DeleteBucketWebsiteResponse>(
-  "DeleteBucketWebsiteResponse",
-)({}, ns) {}
-export class DeleteObjectRequest extends S.Class<DeleteObjectRequest>(
-  "DeleteObjectRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteBucketWebsiteRequest",
+}) as any as S.Schema<DeleteBucketWebsiteRequest>;
+export interface DeleteBucketWebsiteResponse {}
+export const DeleteBucketWebsiteResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteBucketWebsiteResponse",
+}) as any as S.Schema<DeleteBucketWebsiteResponse>;
+export interface DeleteObjectRequest {
+  Bucket: string;
+  Key: string;
+  MFA?: string;
+  VersionId?: string;
+  RequestPayer?: string;
+  BypassGovernanceRetention?: boolean;
+  ExpectedBucketOwner?: string;
+  IfMatch?: string;
+  IfMatchLastModifiedTime?: Date;
+  IfMatchSize?: number;
+}
+export const DeleteObjectRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     Key: S.String.pipe(T.HttpLabel("Key"), T.ContextParam("Key")),
     MFA: S.optional(S.String).pipe(T.HttpHeader("x-amz-mfa")),
@@ -9307,84 +9497,110 @@ export class DeleteObjectRequest extends S.Class<DeleteObjectRequest>(
       S.Date.pipe(T.TimestampFormat("http-date")),
     ).pipe(T.HttpHeader("x-amz-if-match-last-modified-time")),
     IfMatchSize: S.optional(S.Number).pipe(T.HttpHeader("x-amz-if-match-size")),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "DELETE", uri: "/{Bucket}/{Key+}?x-id=DeleteObject" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "DELETE", uri: "/{Bucket}/{Key+}?x-id=DeleteObject" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteObjectTaggingRequest extends S.Class<DeleteObjectTaggingRequest>(
-  "DeleteObjectTaggingRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteObjectRequest",
+}) as any as S.Schema<DeleteObjectRequest>;
+export interface DeleteObjectTaggingRequest {
+  Bucket: string;
+  Key: string;
+  VersionId?: string;
+  ExpectedBucketOwner?: string;
+}
+export const DeleteObjectTaggingRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     Key: S.String.pipe(T.HttpLabel("Key")),
     VersionId: S.optional(S.String).pipe(T.HttpQuery("versionId")),
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "DELETE", uri: "/{Bucket}/{Key+}?tagging" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "DELETE", uri: "/{Bucket}/{Key+}?tagging" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeletePublicAccessBlockRequest extends S.Class<DeletePublicAccessBlockRequest>(
-  "DeletePublicAccessBlockRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteObjectTaggingRequest",
+}) as any as S.Schema<DeleteObjectTaggingRequest>;
+export interface DeletePublicAccessBlockRequest {
+  Bucket: string;
+  ExpectedBucketOwner?: string;
+}
+export const DeletePublicAccessBlockRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "DELETE", uri: "/{Bucket}?publicAccessBlock" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "DELETE", uri: "/{Bucket}?publicAccessBlock" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
   ),
-) {}
-export class DeletePublicAccessBlockResponse extends S.Class<DeletePublicAccessBlockResponse>(
-  "DeletePublicAccessBlockResponse",
-)({}, ns) {}
-export class GetBucketAbacRequest extends S.Class<GetBucketAbacRequest>(
-  "GetBucketAbacRequest",
-)(
-  {
+).annotations({
+  identifier: "DeletePublicAccessBlockRequest",
+}) as any as S.Schema<DeletePublicAccessBlockRequest>;
+export interface DeletePublicAccessBlockResponse {}
+export const DeletePublicAccessBlockResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeletePublicAccessBlockResponse",
+}) as any as S.Schema<DeletePublicAccessBlockResponse>;
+export interface GetBucketAbacRequest {
+  Bucket: string;
+  ExpectedBucketOwner?: string;
+}
+export const GetBucketAbacRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/{Bucket}?abac" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/{Bucket}?abac" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetBucketAccelerateConfigurationRequest extends S.Class<GetBucketAccelerateConfigurationRequest>(
-  "GetBucketAccelerateConfigurationRequest",
-)(
-  {
+).annotations({
+  identifier: "GetBucketAbacRequest",
+}) as any as S.Schema<GetBucketAbacRequest>;
+export interface GetBucketAccelerateConfigurationRequest {
+  Bucket: string;
+  ExpectedBucketOwner?: string;
+  RequestPayer?: string;
+}
+export const GetBucketAccelerateConfigurationRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
@@ -9392,458 +9608,591 @@ export class GetBucketAccelerateConfigurationRequest extends S.Class<GetBucketAc
     RequestPayer: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-request-payer"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/{Bucket}?accelerate" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/{Bucket}?accelerate" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
   ),
-) {}
-export class GetBucketAclRequest extends S.Class<GetBucketAclRequest>(
-  "GetBucketAclRequest",
-)(
-  {
+).annotations({
+  identifier: "GetBucketAccelerateConfigurationRequest",
+}) as any as S.Schema<GetBucketAccelerateConfigurationRequest>;
+export interface GetBucketAclRequest {
+  Bucket: string;
+  ExpectedBucketOwner?: string;
+}
+export const GetBucketAclRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/{Bucket}?acl" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-  ),
-) {}
-export class GetBucketAnalyticsConfigurationRequest extends S.Class<GetBucketAnalyticsConfigurationRequest>(
-  "GetBucketAnalyticsConfigurationRequest",
-)(
-  {
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    Id: S.String.pipe(T.HttpQuery("id")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/{Bucket}?acl" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({
-      method: "GET",
-      uri: "/{Bucket}?analytics&x-id=GetBucketAnalyticsConfiguration",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
   ),
-) {}
-export class GetBucketCorsRequest extends S.Class<GetBucketCorsRequest>(
-  "GetBucketCorsRequest",
-)(
-  {
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/{Bucket}?cors" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-  ),
-) {}
-export class GetBucketEncryptionRequest extends S.Class<GetBucketEncryptionRequest>(
-  "GetBucketEncryptionRequest",
-)(
-  {
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/{Bucket}?encryption" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-  ),
-) {}
-export class GetBucketIntelligentTieringConfigurationRequest extends S.Class<GetBucketIntelligentTieringConfigurationRequest>(
-  "GetBucketIntelligentTieringConfigurationRequest",
-)(
-  {
+).annotations({
+  identifier: "GetBucketAclRequest",
+}) as any as S.Schema<GetBucketAclRequest>;
+export interface GetBucketAnalyticsConfigurationRequest {
+  Bucket: string;
+  Id: string;
+  ExpectedBucketOwner?: string;
+}
+export const GetBucketAnalyticsConfigurationRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     Id: S.String.pipe(T.HttpQuery("id")),
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({
-      method: "GET",
-      uri: "/{Bucket}?intelligent-tiering&x-id=GetBucketIntelligentTieringConfiguration",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "GET",
+        uri: "/{Bucket}?analytics&x-id=GetBucketAnalyticsConfiguration",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
   ),
-) {}
-export class GetBucketInventoryConfigurationRequest extends S.Class<GetBucketInventoryConfigurationRequest>(
-  "GetBucketInventoryConfigurationRequest",
-)(
-  {
+).annotations({
+  identifier: "GetBucketAnalyticsConfigurationRequest",
+}) as any as S.Schema<GetBucketAnalyticsConfigurationRequest>;
+export interface GetBucketCorsRequest {
+  Bucket: string;
+  ExpectedBucketOwner?: string;
+}
+export const GetBucketCorsRequest = S.suspend(() =>
+  S.Struct({
+    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
+    ExpectedBucketOwner: S.optional(S.String).pipe(
+      T.HttpHeader("x-amz-expected-bucket-owner"),
+    ),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/{Bucket}?cors" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
+  ),
+).annotations({
+  identifier: "GetBucketCorsRequest",
+}) as any as S.Schema<GetBucketCorsRequest>;
+export interface GetBucketEncryptionRequest {
+  Bucket: string;
+  ExpectedBucketOwner?: string;
+}
+export const GetBucketEncryptionRequest = S.suspend(() =>
+  S.Struct({
+    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
+    ExpectedBucketOwner: S.optional(S.String).pipe(
+      T.HttpHeader("x-amz-expected-bucket-owner"),
+    ),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/{Bucket}?encryption" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
+  ),
+).annotations({
+  identifier: "GetBucketEncryptionRequest",
+}) as any as S.Schema<GetBucketEncryptionRequest>;
+export interface GetBucketIntelligentTieringConfigurationRequest {
+  Bucket: string;
+  Id: string;
+  ExpectedBucketOwner?: string;
+}
+export const GetBucketIntelligentTieringConfigurationRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     Id: S.String.pipe(T.HttpQuery("id")),
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({
-      method: "GET",
-      uri: "/{Bucket}?inventory&x-id=GetBucketInventoryConfiguration",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-  ),
-) {}
-export class GetBucketLifecycleConfigurationRequest extends S.Class<GetBucketLifecycleConfigurationRequest>(
-  "GetBucketLifecycleConfigurationRequest",
-)(
-  {
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "GET",
+        uri: "/{Bucket}?intelligent-tiering&x-id=GetBucketIntelligentTieringConfiguration",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/{Bucket}?lifecycle" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
   ),
-) {}
-export class GetBucketLocationRequest extends S.Class<GetBucketLocationRequest>(
-  "GetBucketLocationRequest",
-)(
-  {
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/{Bucket}?location" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-  ),
-) {}
-export class GetBucketLoggingRequest extends S.Class<GetBucketLoggingRequest>(
-  "GetBucketLoggingRequest",
-)(
-  {
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/{Bucket}?logging" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-  ),
-) {}
-export class GetBucketMetadataConfigurationRequest extends S.Class<GetBucketMetadataConfigurationRequest>(
-  "GetBucketMetadataConfigurationRequest",
-)(
-  {
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/{Bucket}?metadataConfiguration" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-  ),
-) {}
-export class GetBucketMetadataTableConfigurationRequest extends S.Class<GetBucketMetadataTableConfigurationRequest>(
-  "GetBucketMetadataTableConfigurationRequest",
-)(
-  {
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/{Bucket}?metadataTable" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-  ),
-) {}
-export class GetBucketMetricsConfigurationRequest extends S.Class<GetBucketMetricsConfigurationRequest>(
-  "GetBucketMetricsConfigurationRequest",
-)(
-  {
+).annotations({
+  identifier: "GetBucketIntelligentTieringConfigurationRequest",
+}) as any as S.Schema<GetBucketIntelligentTieringConfigurationRequest>;
+export interface GetBucketInventoryConfigurationRequest {
+  Bucket: string;
+  Id: string;
+  ExpectedBucketOwner?: string;
+}
+export const GetBucketInventoryConfigurationRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     Id: S.String.pipe(T.HttpQuery("id")),
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({
-      method: "GET",
-      uri: "/{Bucket}?metrics&x-id=GetBucketMetricsConfiguration",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "GET",
+        uri: "/{Bucket}?inventory&x-id=GetBucketInventoryConfiguration",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
   ),
-) {}
-export class GetBucketNotificationConfigurationRequest extends S.Class<GetBucketNotificationConfigurationRequest>(
-  "GetBucketNotificationConfigurationRequest",
-)(
-  {
+).annotations({
+  identifier: "GetBucketInventoryConfigurationRequest",
+}) as any as S.Schema<GetBucketInventoryConfigurationRequest>;
+export interface GetBucketLifecycleConfigurationRequest {
+  Bucket: string;
+  ExpectedBucketOwner?: string;
+}
+export const GetBucketLifecycleConfigurationRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/{Bucket}?notification" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/{Bucket}?lifecycle" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
   ),
-) {}
-export class GetBucketOwnershipControlsRequest extends S.Class<GetBucketOwnershipControlsRequest>(
-  "GetBucketOwnershipControlsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetBucketLifecycleConfigurationRequest",
+}) as any as S.Schema<GetBucketLifecycleConfigurationRequest>;
+export interface GetBucketLocationRequest {
+  Bucket: string;
+  ExpectedBucketOwner?: string;
+}
+export const GetBucketLocationRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/{Bucket}?ownershipControls" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/{Bucket}?location" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
   ),
-) {}
-export class GetBucketPolicyRequest extends S.Class<GetBucketPolicyRequest>(
-  "GetBucketPolicyRequest",
-)(
-  {
+).annotations({
+  identifier: "GetBucketLocationRequest",
+}) as any as S.Schema<GetBucketLocationRequest>;
+export interface GetBucketLoggingRequest {
+  Bucket: string;
+  ExpectedBucketOwner?: string;
+}
+export const GetBucketLoggingRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/{Bucket}?policy" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/{Bucket}?logging" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
   ),
-) {}
-export class GetBucketPolicyStatusRequest extends S.Class<GetBucketPolicyStatusRequest>(
-  "GetBucketPolicyStatusRequest",
-)(
-  {
+).annotations({
+  identifier: "GetBucketLoggingRequest",
+}) as any as S.Schema<GetBucketLoggingRequest>;
+export interface GetBucketMetadataConfigurationRequest {
+  Bucket: string;
+  ExpectedBucketOwner?: string;
+}
+export const GetBucketMetadataConfigurationRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/{Bucket}?policyStatus" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/{Bucket}?metadataConfiguration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
   ),
-) {}
-export class GetBucketReplicationRequest extends S.Class<GetBucketReplicationRequest>(
-  "GetBucketReplicationRequest",
-)(
-  {
+).annotations({
+  identifier: "GetBucketMetadataConfigurationRequest",
+}) as any as S.Schema<GetBucketMetadataConfigurationRequest>;
+export interface GetBucketMetadataTableConfigurationRequest {
+  Bucket: string;
+  ExpectedBucketOwner?: string;
+}
+export const GetBucketMetadataTableConfigurationRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/{Bucket}?replication" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/{Bucket}?metadataTable" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
   ),
-) {}
-export class GetBucketRequestPaymentRequest extends S.Class<GetBucketRequestPaymentRequest>(
-  "GetBucketRequestPaymentRequest",
-)(
-  {
+).annotations({
+  identifier: "GetBucketMetadataTableConfigurationRequest",
+}) as any as S.Schema<GetBucketMetadataTableConfigurationRequest>;
+export interface GetBucketMetricsConfigurationRequest {
+  Bucket: string;
+  Id: string;
+  ExpectedBucketOwner?: string;
+}
+export const GetBucketMetricsConfigurationRequest = S.suspend(() =>
+  S.Struct({
+    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
+    Id: S.String.pipe(T.HttpQuery("id")),
+    ExpectedBucketOwner: S.optional(S.String).pipe(
+      T.HttpHeader("x-amz-expected-bucket-owner"),
+    ),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "GET",
+        uri: "/{Bucket}?metrics&x-id=GetBucketMetricsConfiguration",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
+  ),
+).annotations({
+  identifier: "GetBucketMetricsConfigurationRequest",
+}) as any as S.Schema<GetBucketMetricsConfigurationRequest>;
+export interface GetBucketNotificationConfigurationRequest {
+  Bucket: string;
+  ExpectedBucketOwner?: string;
+}
+export const GetBucketNotificationConfigurationRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/{Bucket}?requestPayment" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/{Bucket}?notification" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
   ),
-) {}
-export class GetBucketTaggingRequest extends S.Class<GetBucketTaggingRequest>(
-  "GetBucketTaggingRequest",
-)(
-  {
+).annotations({
+  identifier: "GetBucketNotificationConfigurationRequest",
+}) as any as S.Schema<GetBucketNotificationConfigurationRequest>;
+export interface GetBucketOwnershipControlsRequest {
+  Bucket: string;
+  ExpectedBucketOwner?: string;
+}
+export const GetBucketOwnershipControlsRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/{Bucket}?tagging" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/{Bucket}?ownershipControls" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
   ),
-) {}
-export class GetBucketVersioningRequest extends S.Class<GetBucketVersioningRequest>(
-  "GetBucketVersioningRequest",
-)(
-  {
+).annotations({
+  identifier: "GetBucketOwnershipControlsRequest",
+}) as any as S.Schema<GetBucketOwnershipControlsRequest>;
+export interface GetBucketPolicyRequest {
+  Bucket: string;
+  ExpectedBucketOwner?: string;
+}
+export const GetBucketPolicyRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/{Bucket}?versioning" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/{Bucket}?policy" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
   ),
-) {}
-export class GetBucketWebsiteRequest extends S.Class<GetBucketWebsiteRequest>(
-  "GetBucketWebsiteRequest",
-)(
-  {
+).annotations({
+  identifier: "GetBucketPolicyRequest",
+}) as any as S.Schema<GetBucketPolicyRequest>;
+export interface GetBucketPolicyStatusRequest {
+  Bucket: string;
+  ExpectedBucketOwner?: string;
+}
+export const GetBucketPolicyStatusRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/{Bucket}?website" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/{Bucket}?policyStatus" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
   ),
-) {}
-export class GetObjectRequest extends S.Class<GetObjectRequest>(
-  "GetObjectRequest",
-)(
-  {
+).annotations({
+  identifier: "GetBucketPolicyStatusRequest",
+}) as any as S.Schema<GetBucketPolicyStatusRequest>;
+export interface GetBucketReplicationRequest {
+  Bucket: string;
+  ExpectedBucketOwner?: string;
+}
+export const GetBucketReplicationRequest = S.suspend(() =>
+  S.Struct({
+    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
+    ExpectedBucketOwner: S.optional(S.String).pipe(
+      T.HttpHeader("x-amz-expected-bucket-owner"),
+    ),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/{Bucket}?replication" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
+  ),
+).annotations({
+  identifier: "GetBucketReplicationRequest",
+}) as any as S.Schema<GetBucketReplicationRequest>;
+export interface GetBucketRequestPaymentRequest {
+  Bucket: string;
+  ExpectedBucketOwner?: string;
+}
+export const GetBucketRequestPaymentRequest = S.suspend(() =>
+  S.Struct({
+    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
+    ExpectedBucketOwner: S.optional(S.String).pipe(
+      T.HttpHeader("x-amz-expected-bucket-owner"),
+    ),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/{Bucket}?requestPayment" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
+  ),
+).annotations({
+  identifier: "GetBucketRequestPaymentRequest",
+}) as any as S.Schema<GetBucketRequestPaymentRequest>;
+export interface GetBucketTaggingRequest {
+  Bucket: string;
+  ExpectedBucketOwner?: string;
+}
+export const GetBucketTaggingRequest = S.suspend(() =>
+  S.Struct({
+    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
+    ExpectedBucketOwner: S.optional(S.String).pipe(
+      T.HttpHeader("x-amz-expected-bucket-owner"),
+    ),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/{Bucket}?tagging" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
+  ),
+).annotations({
+  identifier: "GetBucketTaggingRequest",
+}) as any as S.Schema<GetBucketTaggingRequest>;
+export interface GetBucketVersioningRequest {
+  Bucket: string;
+  ExpectedBucketOwner?: string;
+}
+export const GetBucketVersioningRequest = S.suspend(() =>
+  S.Struct({
+    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
+    ExpectedBucketOwner: S.optional(S.String).pipe(
+      T.HttpHeader("x-amz-expected-bucket-owner"),
+    ),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/{Bucket}?versioning" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
+  ),
+).annotations({
+  identifier: "GetBucketVersioningRequest",
+}) as any as S.Schema<GetBucketVersioningRequest>;
+export interface GetBucketWebsiteRequest {
+  Bucket: string;
+  ExpectedBucketOwner?: string;
+}
+export const GetBucketWebsiteRequest = S.suspend(() =>
+  S.Struct({
+    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
+    ExpectedBucketOwner: S.optional(S.String).pipe(
+      T.HttpHeader("x-amz-expected-bucket-owner"),
+    ),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/{Bucket}?website" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
+  ),
+).annotations({
+  identifier: "GetBucketWebsiteRequest",
+}) as any as S.Schema<GetBucketWebsiteRequest>;
+export interface GetObjectRequest {
+  Bucket: string;
+  IfMatch?: string;
+  IfModifiedSince?: Date;
+  IfNoneMatch?: string;
+  IfUnmodifiedSince?: Date;
+  Key: string;
+  Range?: string;
+  ResponseCacheControl?: string;
+  ResponseContentDisposition?: string;
+  ResponseContentEncoding?: string;
+  ResponseContentLanguage?: string;
+  ResponseContentType?: string;
+  ResponseExpires?: Date;
+  VersionId?: string;
+  SSECustomerAlgorithm?: string;
+  SSECustomerKey?: string;
+  SSECustomerKeyMD5?: string;
+  RequestPayer?: string;
+  PartNumber?: number;
+  ExpectedBucketOwner?: string;
+  ChecksumMode?: string;
+}
+export const GetObjectRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     IfMatch: S.optional(S.String).pipe(T.HttpHeader("If-Match")),
     IfModifiedSince: S.optional(
@@ -9893,24 +10242,32 @@ export class GetObjectRequest extends S.Class<GetObjectRequest>(
     ChecksumMode: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-checksum-mode"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/{Bucket}/{Key+}?x-id=GetObject" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.AwsProtocolsHttpChecksum({
-      responseAlgorithms: ["CRC64NVME", "CRC32", "CRC32C", "SHA256", "SHA1"],
-    }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/{Bucket}/{Key+}?x-id=GetObject" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.AwsProtocolsHttpChecksum({
+        responseAlgorithms: ["CRC64NVME", "CRC32", "CRC32C", "SHA256", "SHA1"],
+      }),
+    ),
   ),
-) {}
-export class GetObjectAclRequest extends S.Class<GetObjectAclRequest>(
-  "GetObjectAclRequest",
-)(
-  {
+).annotations({
+  identifier: "GetObjectRequest",
+}) as any as S.Schema<GetObjectRequest>;
+export interface GetObjectAclRequest {
+  Bucket: string;
+  Key: string;
+  VersionId?: string;
+  RequestPayer?: string;
+  ExpectedBucketOwner?: string;
+}
+export const GetObjectAclRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     Key: S.String.pipe(T.HttpLabel("Key"), T.ContextParam("Key")),
     VersionId: S.optional(S.String).pipe(T.HttpQuery("versionId")),
@@ -9920,21 +10277,35 @@ export class GetObjectAclRequest extends S.Class<GetObjectAclRequest>(
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/{Bucket}/{Key+}?acl" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/{Bucket}/{Key+}?acl" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetObjectAttributesRequest extends S.Class<GetObjectAttributesRequest>(
-  "GetObjectAttributesRequest",
-)(
-  {
+).annotations({
+  identifier: "GetObjectAclRequest",
+}) as any as S.Schema<GetObjectAclRequest>;
+export interface GetObjectAttributesRequest {
+  Bucket: string;
+  Key: string;
+  VersionId?: string;
+  MaxParts?: number;
+  PartNumberMarker?: string;
+  SSECustomerAlgorithm?: string;
+  SSECustomerKey?: string;
+  SSECustomerKeyMD5?: string;
+  RequestPayer?: string;
+  ExpectedBucketOwner?: string;
+  ObjectAttributes: ObjectAttributesList;
+}
+export const GetObjectAttributesRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     Key: S.String.pipe(T.HttpLabel("Key")),
     VersionId: S.optional(S.String).pipe(T.HttpQuery("versionId")),
@@ -9960,21 +10331,29 @@ export class GetObjectAttributesRequest extends S.Class<GetObjectAttributesReque
     ObjectAttributes: ObjectAttributesList.pipe(
       T.HttpHeader("x-amz-object-attributes"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/{Bucket}/{Key+}?attributes" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/{Bucket}/{Key+}?attributes" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetObjectLegalHoldRequest extends S.Class<GetObjectLegalHoldRequest>(
-  "GetObjectLegalHoldRequest",
-)(
-  {
+).annotations({
+  identifier: "GetObjectAttributesRequest",
+}) as any as S.Schema<GetObjectAttributesRequest>;
+export interface GetObjectLegalHoldRequest {
+  Bucket: string;
+  Key: string;
+  VersionId?: string;
+  RequestPayer?: string;
+  ExpectedBucketOwner?: string;
+}
+export const GetObjectLegalHoldRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     Key: S.String.pipe(T.HttpLabel("Key")),
     VersionId: S.optional(S.String).pipe(T.HttpQuery("versionId")),
@@ -9984,88 +10363,116 @@ export class GetObjectLegalHoldRequest extends S.Class<GetObjectLegalHoldRequest
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/{Bucket}/{Key+}?legal-hold" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/{Bucket}/{Key+}?legal-hold" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetObjectLockConfigurationRequest extends S.Class<GetObjectLockConfigurationRequest>(
-  "GetObjectLockConfigurationRequest",
-)(
-  {
+).annotations({
+  identifier: "GetObjectLegalHoldRequest",
+}) as any as S.Schema<GetObjectLegalHoldRequest>;
+export interface GetObjectLockConfigurationRequest {
+  Bucket: string;
+  ExpectedBucketOwner?: string;
+}
+export const GetObjectLockConfigurationRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/{Bucket}?object-lock" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-  ),
-) {}
-export class GetObjectRetentionRequest extends S.Class<GetObjectRetentionRequest>(
-  "GetObjectRetentionRequest",
-)(
-  {
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    Key: S.String.pipe(T.HttpLabel("Key")),
-    VersionId: S.optional(S.String).pipe(T.HttpQuery("versionId")),
-    RequestPayer: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-request-payer"),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/{Bucket}?object-lock" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/{Bucket}/{Key+}?retention" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
   ),
-) {}
-export class GetObjectTaggingRequest extends S.Class<GetObjectTaggingRequest>(
-  "GetObjectTaggingRequest",
-)(
-  {
+).annotations({
+  identifier: "GetObjectLockConfigurationRequest",
+}) as any as S.Schema<GetObjectLockConfigurationRequest>;
+export interface GetObjectRetentionRequest {
+  Bucket: string;
+  Key: string;
+  VersionId?: string;
+  RequestPayer?: string;
+  ExpectedBucketOwner?: string;
+}
+export const GetObjectRetentionRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     Key: S.String.pipe(T.HttpLabel("Key")),
     VersionId: S.optional(S.String).pipe(T.HttpQuery("versionId")),
+    RequestPayer: S.optional(S.String).pipe(
+      T.HttpHeader("x-amz-request-payer"),
+    ),
+    ExpectedBucketOwner: S.optional(S.String).pipe(
+      T.HttpHeader("x-amz-expected-bucket-owner"),
+    ),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/{Bucket}/{Key+}?retention" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetObjectRetentionRequest",
+}) as any as S.Schema<GetObjectRetentionRequest>;
+export interface GetObjectTaggingRequest {
+  Bucket: string;
+  Key: string;
+  VersionId?: string;
+  ExpectedBucketOwner?: string;
+  RequestPayer?: string;
+}
+export const GetObjectTaggingRequest = S.suspend(() =>
+  S.Struct({
+    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
+    Key: S.String.pipe(T.HttpLabel("Key")),
+    VersionId: S.optional(S.String).pipe(T.HttpQuery("versionId")),
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
     RequestPayer: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-request-payer"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/{Bucket}/{Key+}?tagging" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/{Bucket}/{Key+}?tagging" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetObjectTorrentRequest extends S.Class<GetObjectTorrentRequest>(
-  "GetObjectTorrentRequest",
-)(
-  {
+).annotations({
+  identifier: "GetObjectTaggingRequest",
+}) as any as S.Schema<GetObjectTaggingRequest>;
+export interface GetObjectTorrentRequest {
+  Bucket: string;
+  Key: string;
+  RequestPayer?: string;
+  ExpectedBucketOwner?: string;
+}
+export const GetObjectTorrentRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     Key: S.String.pipe(T.HttpLabel("Key")),
     RequestPayer: S.optional(S.String).pipe(
@@ -10074,60 +10481,94 @@ export class GetObjectTorrentRequest extends S.Class<GetObjectTorrentRequest>(
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/{Bucket}/{Key+}?torrent" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/{Bucket}/{Key+}?torrent" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetPublicAccessBlockRequest extends S.Class<GetPublicAccessBlockRequest>(
-  "GetPublicAccessBlockRequest",
-)(
-  {
+).annotations({
+  identifier: "GetObjectTorrentRequest",
+}) as any as S.Schema<GetObjectTorrentRequest>;
+export interface GetPublicAccessBlockRequest {
+  Bucket: string;
+  ExpectedBucketOwner?: string;
+}
+export const GetPublicAccessBlockRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/{Bucket}?publicAccessBlock" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/{Bucket}?publicAccessBlock" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
   ),
-) {}
-export class HeadBucketRequest extends S.Class<HeadBucketRequest>(
-  "HeadBucketRequest",
-)(
-  {
+).annotations({
+  identifier: "GetPublicAccessBlockRequest",
+}) as any as S.Schema<GetPublicAccessBlockRequest>;
+export interface HeadBucketRequest {
+  Bucket: string;
+  ExpectedBucketOwner?: string;
+}
+export const HeadBucketRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "HEAD", uri: "/{Bucket}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "HEAD", uri: "/{Bucket}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class HeadObjectRequest extends S.Class<HeadObjectRequest>(
-  "HeadObjectRequest",
-)(
-  {
+).annotations({
+  identifier: "HeadBucketRequest",
+}) as any as S.Schema<HeadBucketRequest>;
+export interface HeadObjectRequest {
+  Bucket: string;
+  IfMatch?: string;
+  IfModifiedSince?: Date;
+  IfNoneMatch?: string;
+  IfUnmodifiedSince?: Date;
+  Key: string;
+  Range?: string;
+  ResponseCacheControl?: string;
+  ResponseContentDisposition?: string;
+  ResponseContentEncoding?: string;
+  ResponseContentLanguage?: string;
+  ResponseContentType?: string;
+  ResponseExpires?: Date;
+  VersionId?: string;
+  SSECustomerAlgorithm?: string;
+  SSECustomerKey?: string;
+  SSECustomerKeyMD5?: string;
+  RequestPayer?: string;
+  PartNumber?: number;
+  ExpectedBucketOwner?: string;
+  ChecksumMode?: string;
+}
+export const HeadObjectRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     IfMatch: S.optional(S.String).pipe(T.HttpHeader("If-Match")),
     IfModifiedSince: S.optional(
@@ -10177,21 +10618,27 @@ export class HeadObjectRequest extends S.Class<HeadObjectRequest>(
     ChecksumMode: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-checksum-mode"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "HEAD", uri: "/{Bucket}/{Key+}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "HEAD", uri: "/{Bucket}/{Key+}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListBucketAnalyticsConfigurationsRequest extends S.Class<ListBucketAnalyticsConfigurationsRequest>(
-  "ListBucketAnalyticsConfigurationsRequest",
-)(
-  {
+).annotations({
+  identifier: "HeadObjectRequest",
+}) as any as S.Schema<HeadObjectRequest>;
+export interface ListBucketAnalyticsConfigurationsRequest {
+  Bucket: string;
+  ContinuationToken?: string;
+  ExpectedBucketOwner?: string;
+}
+export const ListBucketAnalyticsConfigurationsRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ContinuationToken: S.optional(S.String).pipe(
       T.HttpQuery("continuation-token"),
@@ -10199,25 +10646,31 @@ export class ListBucketAnalyticsConfigurationsRequest extends S.Class<ListBucket
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({
-      method: "GET",
-      uri: "/{Bucket}?analytics&x-id=ListBucketAnalyticsConfigurations",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "GET",
+        uri: "/{Bucket}?analytics&x-id=ListBucketAnalyticsConfigurations",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
   ),
-) {}
-export class ListBucketIntelligentTieringConfigurationsRequest extends S.Class<ListBucketIntelligentTieringConfigurationsRequest>(
-  "ListBucketIntelligentTieringConfigurationsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListBucketAnalyticsConfigurationsRequest",
+}) as any as S.Schema<ListBucketAnalyticsConfigurationsRequest>;
+export interface ListBucketIntelligentTieringConfigurationsRequest {
+  Bucket: string;
+  ContinuationToken?: string;
+  ExpectedBucketOwner?: string;
+}
+export const ListBucketIntelligentTieringConfigurationsRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ContinuationToken: S.optional(S.String).pipe(
       T.HttpQuery("continuation-token"),
@@ -10225,25 +10678,31 @@ export class ListBucketIntelligentTieringConfigurationsRequest extends S.Class<L
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({
-      method: "GET",
-      uri: "/{Bucket}?intelligent-tiering&x-id=ListBucketIntelligentTieringConfigurations",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "GET",
+        uri: "/{Bucket}?intelligent-tiering&x-id=ListBucketIntelligentTieringConfigurations",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
   ),
-) {}
-export class ListBucketInventoryConfigurationsRequest extends S.Class<ListBucketInventoryConfigurationsRequest>(
-  "ListBucketInventoryConfigurationsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListBucketIntelligentTieringConfigurationsRequest",
+}) as any as S.Schema<ListBucketIntelligentTieringConfigurationsRequest>;
+export interface ListBucketInventoryConfigurationsRequest {
+  Bucket: string;
+  ContinuationToken?: string;
+  ExpectedBucketOwner?: string;
+}
+export const ListBucketInventoryConfigurationsRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ContinuationToken: S.optional(S.String).pipe(
       T.HttpQuery("continuation-token"),
@@ -10251,25 +10710,31 @@ export class ListBucketInventoryConfigurationsRequest extends S.Class<ListBucket
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({
-      method: "GET",
-      uri: "/{Bucket}?inventory&x-id=ListBucketInventoryConfigurations",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "GET",
+        uri: "/{Bucket}?inventory&x-id=ListBucketInventoryConfigurations",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
   ),
-) {}
-export class ListBucketMetricsConfigurationsRequest extends S.Class<ListBucketMetricsConfigurationsRequest>(
-  "ListBucketMetricsConfigurationsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListBucketInventoryConfigurationsRequest",
+}) as any as S.Schema<ListBucketInventoryConfigurationsRequest>;
+export interface ListBucketMetricsConfigurationsRequest {
+  Bucket: string;
+  ContinuationToken?: string;
+  ExpectedBucketOwner?: string;
+}
+export const ListBucketMetricsConfigurationsRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ContinuationToken: S.optional(S.String).pipe(
       T.HttpQuery("continuation-token"),
@@ -10277,67 +10742,91 @@ export class ListBucketMetricsConfigurationsRequest extends S.Class<ListBucketMe
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({
-      method: "GET",
-      uri: "/{Bucket}?metrics&x-id=ListBucketMetricsConfigurations",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "GET",
+        uri: "/{Bucket}?metrics&x-id=ListBucketMetricsConfigurations",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListBucketsRequest extends S.Class<ListBucketsRequest>(
-  "ListBucketsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListBucketMetricsConfigurationsRequest",
+}) as any as S.Schema<ListBucketMetricsConfigurationsRequest>;
+export interface ListBucketsRequest {
+  MaxBuckets?: number;
+  ContinuationToken?: string;
+  Prefix?: string;
+  BucketRegion?: string;
+}
+export const ListBucketsRequest = S.suspend(() =>
+  S.Struct({
     MaxBuckets: S.optional(S.Number).pipe(T.HttpQuery("max-buckets")),
     ContinuationToken: S.optional(S.String).pipe(
       T.HttpQuery("continuation-token"),
     ),
     Prefix: S.optional(S.String).pipe(T.HttpQuery("prefix")),
     BucketRegion: S.optional(S.String).pipe(T.HttpQuery("bucket-region")),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/?x-id=ListBuckets" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/?x-id=ListBuckets" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListDirectoryBucketsRequest extends S.Class<ListDirectoryBucketsRequest>(
-  "ListDirectoryBucketsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListBucketsRequest",
+}) as any as S.Schema<ListBucketsRequest>;
+export interface ListDirectoryBucketsRequest {
+  ContinuationToken?: string;
+  MaxDirectoryBuckets?: number;
+}
+export const ListDirectoryBucketsRequest = S.suspend(() =>
+  S.Struct({
     ContinuationToken: S.optional(S.String).pipe(
       T.HttpQuery("continuation-token"),
     ),
     MaxDirectoryBuckets: S.optional(S.Number).pipe(
       T.HttpQuery("max-directory-buckets"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/?x-id=ListDirectoryBuckets" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/?x-id=ListDirectoryBuckets" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
   ),
-) {}
-export class ListMultipartUploadsRequest extends S.Class<ListMultipartUploadsRequest>(
-  "ListMultipartUploadsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListDirectoryBucketsRequest",
+}) as any as S.Schema<ListDirectoryBucketsRequest>;
+export interface ListMultipartUploadsRequest {
+  Bucket: string;
+  Delimiter?: string;
+  EncodingType?: string;
+  KeyMarker?: string;
+  MaxUploads?: number;
+  Prefix?: string;
+  UploadIdMarker?: string;
+  ExpectedBucketOwner?: string;
+  RequestPayer?: string;
+}
+export const ListMultipartUploadsRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     Delimiter: S.optional(S.String).pipe(T.HttpQuery("delimiter")),
     EncodingType: S.optional(S.String).pipe(T.HttpQuery("encoding-type")),
@@ -10354,21 +10843,33 @@ export class ListMultipartUploadsRequest extends S.Class<ListMultipartUploadsReq
     RequestPayer: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-request-payer"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/{Bucket}?uploads" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/{Bucket}?uploads" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListObjectsRequest extends S.Class<ListObjectsRequest>(
-  "ListObjectsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListMultipartUploadsRequest",
+}) as any as S.Schema<ListMultipartUploadsRequest>;
+export interface ListObjectsRequest {
+  Bucket: string;
+  Delimiter?: string;
+  EncodingType?: string;
+  Marker?: string;
+  MaxKeys?: number;
+  Prefix?: string;
+  RequestPayer?: string;
+  ExpectedBucketOwner?: string;
+  OptionalObjectAttributes?: OptionalObjectAttributesList;
+}
+export const ListObjectsRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     Delimiter: S.optional(S.String).pipe(T.HttpQuery("delimiter")),
     EncodingType: S.optional(S.String).pipe(T.HttpQuery("encoding-type")),
@@ -10387,21 +10888,35 @@ export class ListObjectsRequest extends S.Class<ListObjectsRequest>(
     OptionalObjectAttributes: S.optional(OptionalObjectAttributesList).pipe(
       T.HttpHeader("x-amz-optional-object-attributes"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/{Bucket}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/{Bucket}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListObjectsV2Request extends S.Class<ListObjectsV2Request>(
-  "ListObjectsV2Request",
-)(
-  {
+).annotations({
+  identifier: "ListObjectsRequest",
+}) as any as S.Schema<ListObjectsRequest>;
+export interface ListObjectsV2Request {
+  Bucket: string;
+  Delimiter?: string;
+  EncodingType?: string;
+  MaxKeys?: number;
+  Prefix?: string;
+  ContinuationToken?: string;
+  FetchOwner?: boolean;
+  StartAfter?: string;
+  RequestPayer?: string;
+  ExpectedBucketOwner?: string;
+  OptionalObjectAttributes?: OptionalObjectAttributesList;
+}
+export const ListObjectsV2Request = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     Delimiter: S.optional(S.String).pipe(T.HttpQuery("delimiter")),
     EncodingType: S.optional(S.String).pipe(T.HttpQuery("encoding-type")),
@@ -10424,21 +10939,34 @@ export class ListObjectsV2Request extends S.Class<ListObjectsV2Request>(
     OptionalObjectAttributes: S.optional(OptionalObjectAttributesList).pipe(
       T.HttpHeader("x-amz-optional-object-attributes"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/{Bucket}?list-type=2" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/{Bucket}?list-type=2" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListObjectVersionsRequest extends S.Class<ListObjectVersionsRequest>(
-  "ListObjectVersionsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListObjectsV2Request",
+}) as any as S.Schema<ListObjectsV2Request>;
+export interface ListObjectVersionsRequest {
+  Bucket: string;
+  Delimiter?: string;
+  EncodingType?: string;
+  KeyMarker?: string;
+  MaxKeys?: number;
+  Prefix?: string;
+  VersionIdMarker?: string;
+  ExpectedBucketOwner?: string;
+  RequestPayer?: string;
+  OptionalObjectAttributes?: OptionalObjectAttributesList;
+}
+export const ListObjectVersionsRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     Delimiter: S.optional(S.String).pipe(T.HttpQuery("delimiter")),
     EncodingType: S.optional(S.String).pipe(T.HttpQuery("encoding-type")),
@@ -10460,21 +10988,34 @@ export class ListObjectVersionsRequest extends S.Class<ListObjectVersionsRequest
     OptionalObjectAttributes: S.optional(OptionalObjectAttributesList).pipe(
       T.HttpHeader("x-amz-optional-object-attributes"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/{Bucket}?versions" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/{Bucket}?versions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListPartsRequest extends S.Class<ListPartsRequest>(
-  "ListPartsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListObjectVersionsRequest",
+}) as any as S.Schema<ListObjectVersionsRequest>;
+export interface ListPartsRequest {
+  Bucket: string;
+  Key: string;
+  MaxParts?: number;
+  PartNumberMarker?: string;
+  UploadId: string;
+  RequestPayer?: string;
+  ExpectedBucketOwner?: string;
+  SSECustomerAlgorithm?: string;
+  SSECustomerKey?: string;
+  SSECustomerKeyMD5?: string;
+}
+export const ListPartsRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     Key: S.String.pipe(T.HttpLabel("Key"), T.ContextParam("Key")),
     MaxParts: S.optional(S.Number).pipe(T.HttpQuery("max-parts")),
@@ -10497,21 +11038,30 @@ export class ListPartsRequest extends S.Class<ListPartsRequest>(
     SSECustomerKeyMD5: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-server-side-encryption-customer-key-MD5"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/{Bucket}/{Key+}?x-id=ListParts" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/{Bucket}/{Key+}?x-id=ListParts" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutBucketPolicyRequest extends S.Class<PutBucketPolicyRequest>(
-  "PutBucketPolicyRequest",
-)(
-  {
+).annotations({
+  identifier: "ListPartsRequest",
+}) as any as S.Schema<ListPartsRequest>;
+export interface PutBucketPolicyRequest {
+  Bucket: string;
+  ContentMD5?: string;
+  ChecksumAlgorithm?: string;
+  ConfirmRemoveSelfBucketAccess?: boolean;
+  Policy: string;
+  ExpectedBucketOwner?: string;
+}
+export const PutBucketPolicyRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
     ChecksumAlgorithm: S.optional(S.String).pipe(
@@ -10524,29 +11074,76 @@ export class PutBucketPolicyRequest extends S.Class<PutBucketPolicyRequest>(
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "PUT", uri: "/{Bucket}?policy" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.AwsProtocolsHttpChecksum({
-      requestAlgorithmMember: "ChecksumAlgorithm",
-      requestChecksumRequired: true,
-    }),
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "PUT", uri: "/{Bucket}?policy" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.AwsProtocolsHttpChecksum({
+        requestAlgorithmMember: "ChecksumAlgorithm",
+        requestChecksumRequired: true,
+      }),
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
   ),
-) {}
-export class PutBucketPolicyResponse extends S.Class<PutBucketPolicyResponse>(
-  "PutBucketPolicyResponse",
-)({}, ns) {}
-export class PutObjectRequest extends S.Class<PutObjectRequest>(
-  "PutObjectRequest",
-)(
-  {
+).annotations({
+  identifier: "PutBucketPolicyRequest",
+}) as any as S.Schema<PutBucketPolicyRequest>;
+export interface PutBucketPolicyResponse {}
+export const PutBucketPolicyResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "PutBucketPolicyResponse",
+}) as any as S.Schema<PutBucketPolicyResponse>;
+export interface PutObjectRequest {
+  ACL?: string;
+  Body?: T.StreamingInputBody;
+  Bucket: string;
+  CacheControl?: string;
+  ContentDisposition?: string;
+  ContentEncoding?: string;
+  ContentLanguage?: string;
+  ContentLength?: number;
+  ContentMD5?: string;
+  ContentType?: string;
+  ChecksumAlgorithm?: string;
+  ChecksumCRC32?: string;
+  ChecksumCRC32C?: string;
+  ChecksumCRC64NVME?: string;
+  ChecksumSHA1?: string;
+  ChecksumSHA256?: string;
+  Expires?: string;
+  IfMatch?: string;
+  IfNoneMatch?: string;
+  GrantFullControl?: string;
+  GrantRead?: string;
+  GrantReadACP?: string;
+  GrantWriteACP?: string;
+  Key: string;
+  WriteOffsetBytes?: number;
+  Metadata?: Metadata;
+  ServerSideEncryption?: string;
+  StorageClass?: string;
+  WebsiteRedirectLocation?: string;
+  SSECustomerAlgorithm?: string;
+  SSECustomerKey?: string;
+  SSECustomerKeyMD5?: string;
+  SSEKMSKeyId?: string;
+  SSEKMSEncryptionContext?: string;
+  BucketKeyEnabled?: boolean;
+  RequestPayer?: string;
+  Tagging?: string;
+  ObjectLockMode?: string;
+  ObjectLockRetainUntilDate?: Date;
+  ObjectLockLegalHoldStatus?: string;
+  ExpectedBucketOwner?: string;
+}
+export const PutObjectRequest = S.suspend(() =>
+  S.Struct({
     ACL: S.optional(S.String).pipe(T.HttpHeader("x-amz-acl")),
     Body: S.optional(T.StreamingInput).pipe(T.HttpPayload()),
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
@@ -10642,49 +11239,91 @@ export class PutObjectRequest extends S.Class<PutObjectRequest>(
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "PUT", uri: "/{Bucket}/{Key+}?x-id=PutObject" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.AwsProtocolsHttpChecksum({ requestAlgorithmMember: "ChecksumAlgorithm" }),
-  ),
-) {}
-export class Grantee extends S.Class<Grantee>("Grantee")({
-  DisplayName: S.optional(S.String),
-  EmailAddress: S.optional(S.String),
-  ID: S.optional(S.String),
-  URI: S.optional(S.String),
-  Type: S.String.pipe(T.XmlName("xsi:type"), T.XmlAttribute()),
-}) {}
-export class Grant extends S.Class<Grant>("Grant")({
-  Grantee: S.optional(Grantee),
-  Permission: S.optional(S.String),
-}) {}
-export const Grants = S.Array(Grant.pipe(T.XmlName("Grant")));
-export class Owner extends S.Class<Owner>("Owner")({
-  DisplayName: S.optional(S.String),
-  ID: S.optional(S.String),
-}) {}
-export class AccessControlPolicy extends S.Class<AccessControlPolicy>(
-  "AccessControlPolicy",
-)({
-  Grants: S.optional(Grants).pipe(T.XmlName("AccessControlList")),
-  Owner: S.optional(Owner),
-}) {}
-export class PutObjectAclRequest extends S.Class<PutObjectAclRequest>(
-  "PutObjectAclRequest",
-)(
-  {
-    ACL: S.optional(S.String).pipe(T.HttpHeader("x-amz-acl")),
-    AccessControlPolicy: S.optional(AccessControlPolicy).pipe(
-      T.HttpPayload(),
-      T.XmlName("AccessControlPolicy"),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "PUT", uri: "/{Bucket}/{Key+}?x-id=PutObject" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.AwsProtocolsHttpChecksum({
+        requestAlgorithmMember: "ChecksumAlgorithm",
+      }),
     ),
+  ),
+).annotations({
+  identifier: "PutObjectRequest",
+}) as any as S.Schema<PutObjectRequest>;
+export interface Grantee {
+  DisplayName?: string;
+  EmailAddress?: string;
+  ID?: string;
+  URI?: string;
+  Type: string;
+}
+export const Grantee = S.suspend(() =>
+  S.Struct({
+    DisplayName: S.optional(S.String),
+    EmailAddress: S.optional(S.String),
+    ID: S.optional(S.String),
+    URI: S.optional(S.String),
+    Type: S.String.pipe(T.XmlName("xsi:type"), T.XmlAttribute()),
+  }),
+).annotations({ identifier: "Grantee" }) as any as S.Schema<Grantee>;
+export interface Grant {
+  Grantee?: Grantee;
+  Permission?: string;
+}
+export const Grant = S.suspend(() =>
+  S.Struct({ Grantee: S.optional(Grantee), Permission: S.optional(S.String) }),
+).annotations({ identifier: "Grant" }) as any as S.Schema<Grant>;
+export type Grants = Grant[];
+export const Grants = S.Array(
+  Grant.pipe(T.XmlName("Grant")).annotations({ identifier: "Grant" }),
+);
+export interface Owner {
+  DisplayName?: string;
+  ID?: string;
+}
+export const Owner = S.suspend(() =>
+  S.Struct({ DisplayName: S.optional(S.String), ID: S.optional(S.String) }),
+).annotations({ identifier: "Owner" }) as any as S.Schema<Owner>;
+export interface AccessControlPolicy {
+  Grants?: Grants;
+  Owner?: Owner;
+}
+export const AccessControlPolicy = S.suspend(() =>
+  S.Struct({
+    Grants: S.optional(Grants).pipe(T.XmlName("AccessControlList")),
+    Owner: S.optional(Owner),
+  }),
+).annotations({
+  identifier: "AccessControlPolicy",
+}) as any as S.Schema<AccessControlPolicy>;
+export interface PutObjectAclRequest {
+  ACL?: string;
+  AccessControlPolicy?: AccessControlPolicy;
+  Bucket: string;
+  ContentMD5?: string;
+  ChecksumAlgorithm?: string;
+  GrantFullControl?: string;
+  GrantRead?: string;
+  GrantReadACP?: string;
+  GrantWrite?: string;
+  GrantWriteACP?: string;
+  Key: string;
+  RequestPayer?: string;
+  VersionId?: string;
+  ExpectedBucketOwner?: string;
+}
+export const PutObjectAclRequest = S.suspend(() =>
+  S.Struct({
+    ACL: S.optional(S.String).pipe(T.HttpHeader("x-amz-acl")),
+    AccessControlPolicy: S.optional(AccessControlPolicy)
+      .pipe(T.HttpPayload(), T.XmlName("AccessControlPolicy"))
+      .annotations({ identifier: "AccessControlPolicy" }),
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
     ChecksumAlgorithm: S.optional(S.String).pipe(
@@ -10709,31 +11348,53 @@ export class PutObjectAclRequest extends S.Class<PutObjectAclRequest>(
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "PUT", uri: "/{Bucket}/{Key+}?acl" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.AwsProtocolsHttpChecksum({
-      requestAlgorithmMember: "ChecksumAlgorithm",
-      requestChecksumRequired: true,
-    }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "PUT", uri: "/{Bucket}/{Key+}?acl" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.AwsProtocolsHttpChecksum({
+        requestAlgorithmMember: "ChecksumAlgorithm",
+        requestChecksumRequired: true,
+      }),
+    ),
   ),
-) {}
-export class Tag extends S.Class<Tag>("Tag")({
-  Key: S.String,
-  Value: S.String,
-}) {}
-export const TagSet = S.Array(Tag.pipe(T.XmlName("Tag")));
-export class Tagging extends S.Class<Tagging>("Tagging")({ TagSet: TagSet }) {}
-export class PutObjectTaggingRequest extends S.Class<PutObjectTaggingRequest>(
-  "PutObjectTaggingRequest",
-)(
-  {
+).annotations({
+  identifier: "PutObjectAclRequest",
+}) as any as S.Schema<PutObjectAclRequest>;
+export interface Tag {
+  Key: string;
+  Value: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ Key: S.String, Value: S.String }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagSet = Tag[];
+export const TagSet = S.Array(
+  Tag.pipe(T.XmlName("Tag")).annotations({ identifier: "Tag" }),
+);
+export interface Tagging {
+  TagSet: TagSet;
+}
+export const Tagging = S.suspend(() =>
+  S.Struct({ TagSet: TagSet }),
+).annotations({ identifier: "Tagging" }) as any as S.Schema<Tagging>;
+export interface PutObjectTaggingRequest {
+  Bucket: string;
+  Key: string;
+  VersionId?: string;
+  ContentMD5?: string;
+  ChecksumAlgorithm?: string;
+  Tagging: Tagging;
+  ExpectedBucketOwner?: string;
+  RequestPayer?: string;
+}
+export const PutObjectTaggingRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     Key: S.String.pipe(T.HttpLabel("Key")),
     VersionId: S.optional(S.String).pipe(T.HttpQuery("versionId")),
@@ -10741,32 +11402,49 @@ export class PutObjectTaggingRequest extends S.Class<PutObjectTaggingRequest>(
     ChecksumAlgorithm: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-sdk-checksum-algorithm"),
     ),
-    Tagging: Tagging.pipe(T.HttpPayload(), T.XmlName("Tagging")),
+    Tagging: Tagging.pipe(T.HttpPayload(), T.XmlName("Tagging")).annotations({
+      identifier: "Tagging",
+    }),
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
     RequestPayer: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-request-payer"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "PUT", uri: "/{Bucket}/{Key+}?tagging" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.AwsProtocolsHttpChecksum({
-      requestAlgorithmMember: "ChecksumAlgorithm",
-      requestChecksumRequired: true,
-    }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "PUT", uri: "/{Bucket}/{Key+}?tagging" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.AwsProtocolsHttpChecksum({
+        requestAlgorithmMember: "ChecksumAlgorithm",
+        requestChecksumRequired: true,
+      }),
+    ),
   ),
-) {}
-export class RenameObjectRequest extends S.Class<RenameObjectRequest>(
-  "RenameObjectRequest",
-)(
-  {
+).annotations({
+  identifier: "PutObjectTaggingRequest",
+}) as any as S.Schema<PutObjectTaggingRequest>;
+export interface RenameObjectRequest {
+  Bucket: string;
+  Key: string;
+  RenameSource: string;
+  DestinationIfMatch?: string;
+  DestinationIfNoneMatch?: string;
+  DestinationIfModifiedSince?: Date;
+  DestinationIfUnmodifiedSince?: Date;
+  SourceIfMatch?: string;
+  SourceIfNoneMatch?: string;
+  SourceIfModifiedSince?: Date;
+  SourceIfUnmodifiedSince?: Date;
+  ClientToken?: string;
+}
+export const RenameObjectRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     Key: S.String.pipe(T.HttpLabel("Key"), T.ContextParam("Key")),
     RenameSource: S.String.pipe(T.HttpHeader("x-amz-rename-source")),
@@ -10793,24 +11471,48 @@ export class RenameObjectRequest extends S.Class<RenameObjectRequest>(
       S.Date.pipe(T.TimestampFormat("http-date")),
     ).pipe(T.HttpHeader("x-amz-rename-source-if-unmodified-since")),
     ClientToken: S.optional(S.String).pipe(T.HttpHeader("x-amz-client-token")),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "PUT", uri: "/{Bucket}/{Key+}?renameObject" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "PUT", uri: "/{Bucket}/{Key+}?renameObject" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class RenameObjectOutput extends S.Class<RenameObjectOutput>(
-  "RenameObjectOutput",
-)({}, ns) {}
-export class UploadPartRequest extends S.Class<UploadPartRequest>(
-  "UploadPartRequest",
-)(
-  {
+).annotations({
+  identifier: "RenameObjectRequest",
+}) as any as S.Schema<RenameObjectRequest>;
+export interface RenameObjectOutput {}
+export const RenameObjectOutput = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "RenameObjectOutput",
+}) as any as S.Schema<RenameObjectOutput>;
+export interface UploadPartRequest {
+  Body?: T.StreamingInputBody;
+  Bucket: string;
+  ContentLength?: number;
+  ContentMD5?: string;
+  ChecksumAlgorithm?: string;
+  ChecksumCRC32?: string;
+  ChecksumCRC32C?: string;
+  ChecksumCRC64NVME?: string;
+  ChecksumSHA1?: string;
+  ChecksumSHA256?: string;
+  Key: string;
+  PartNumber: number;
+  UploadId: string;
+  SSECustomerAlgorithm?: string;
+  SSECustomerKey?: string;
+  SSECustomerKeyMD5?: string;
+  RequestPayer?: string;
+  ExpectedBucketOwner?: string;
+}
+export const UploadPartRequest = S.suspend(() =>
+  S.Struct({
     Body: S.optional(T.StreamingInput).pipe(T.HttpPayload()),
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ContentLength: S.optional(S.Number).pipe(T.HttpHeader("Content-Length")),
@@ -10851,22 +11553,46 @@ export class UploadPartRequest extends S.Class<UploadPartRequest>(
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "PUT", uri: "/{Bucket}/{Key+}?x-id=UploadPart" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.AwsProtocolsHttpChecksum({ requestAlgorithmMember: "ChecksumAlgorithm" }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "PUT", uri: "/{Bucket}/{Key+}?x-id=UploadPart" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.AwsProtocolsHttpChecksum({
+        requestAlgorithmMember: "ChecksumAlgorithm",
+      }),
+    ),
   ),
-) {}
-export class UploadPartCopyRequest extends S.Class<UploadPartCopyRequest>(
-  "UploadPartCopyRequest",
-)(
-  {
+).annotations({
+  identifier: "UploadPartRequest",
+}) as any as S.Schema<UploadPartRequest>;
+export interface UploadPartCopyRequest {
+  Bucket: string;
+  CopySource: string;
+  CopySourceIfMatch?: string;
+  CopySourceIfModifiedSince?: Date;
+  CopySourceIfNoneMatch?: string;
+  CopySourceIfUnmodifiedSince?: Date;
+  CopySourceRange?: string;
+  Key: string;
+  PartNumber: number;
+  UploadId: string;
+  SSECustomerAlgorithm?: string;
+  SSECustomerKey?: string;
+  SSECustomerKeyMD5?: string;
+  CopySourceSSECustomerAlgorithm?: string;
+  CopySourceSSECustomerKey?: string;
+  CopySourceSSECustomerKeyMD5?: string;
+  RequestPayer?: string;
+  ExpectedBucketOwner?: string;
+  ExpectedSourceBucketOwner?: string;
+}
+export const UploadPartCopyRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     CopySource: S.String.pipe(T.HttpHeader("x-amz-copy-source")),
     CopySourceIfMatch: S.optional(S.String).pipe(
@@ -10916,22 +11642,66 @@ export class UploadPartCopyRequest extends S.Class<UploadPartCopyRequest>(
     ExpectedSourceBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-source-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "PUT", uri: "/{Bucket}/{Key+}?x-id=UploadPartCopy" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ DisableS3ExpressSessionAuth: { value: true } }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "PUT", uri: "/{Bucket}/{Key+}?x-id=UploadPartCopy" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ DisableS3ExpressSessionAuth: { value: true } }),
+    ),
   ),
-) {}
-export class WriteGetObjectResponseRequest extends S.Class<WriteGetObjectResponseRequest>(
-  "WriteGetObjectResponseRequest",
-)(
-  {
+).annotations({
+  identifier: "UploadPartCopyRequest",
+}) as any as S.Schema<UploadPartCopyRequest>;
+export interface WriteGetObjectResponseRequest {
+  RequestRoute: string;
+  RequestToken: string;
+  Body?: T.StreamingInputBody;
+  StatusCode?: number;
+  ErrorCode?: string;
+  ErrorMessage?: string;
+  AcceptRanges?: string;
+  CacheControl?: string;
+  ContentDisposition?: string;
+  ContentEncoding?: string;
+  ContentLanguage?: string;
+  ContentLength?: number;
+  ContentRange?: string;
+  ContentType?: string;
+  ChecksumCRC32?: string;
+  ChecksumCRC32C?: string;
+  ChecksumCRC64NVME?: string;
+  ChecksumSHA1?: string;
+  ChecksumSHA256?: string;
+  DeleteMarker?: boolean;
+  ETag?: string;
+  Expires?: string;
+  Expiration?: string;
+  LastModified?: Date;
+  MissingMeta?: number;
+  Metadata?: Metadata;
+  ObjectLockMode?: string;
+  ObjectLockLegalHoldStatus?: string;
+  ObjectLockRetainUntilDate?: Date;
+  PartsCount?: number;
+  ReplicationStatus?: string;
+  RequestCharged?: string;
+  Restore?: string;
+  ServerSideEncryption?: string;
+  SSECustomerAlgorithm?: string;
+  SSEKMSKeyId?: string;
+  SSECustomerKeyMD5?: string;
+  StorageClass?: string;
+  TagCount?: number;
+  VersionId?: string;
+  BucketKeyEnabled?: boolean;
+}
+export const WriteGetObjectResponseRequest = S.suspend(() =>
+  S.Struct({
     RequestRoute: S.String.pipe(
       T.HttpHeader("x-amz-request-route"),
       T.HostLabel(),
@@ -11052,211 +11822,455 @@ export class WriteGetObjectResponseRequest extends S.Class<WriteGetObjectRespons
         "x-amz-fwd-header-x-amz-server-side-encryption-bucket-key-enabled",
       ),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/WriteGetObjectResponse" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseObjectLambdaEndpoint: { value: true } }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/WriteGetObjectResponse" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseObjectLambdaEndpoint: { value: true } }),
+    ),
   ),
-) {}
-export class WriteGetObjectResponseResponse extends S.Class<WriteGetObjectResponseResponse>(
-  "WriteGetObjectResponseResponse",
-)({}, ns) {}
+).annotations({
+  identifier: "WriteGetObjectResponseRequest",
+}) as any as S.Schema<WriteGetObjectResponseRequest>;
+export interface WriteGetObjectResponseResponse {}
+export const WriteGetObjectResponseResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "WriteGetObjectResponseResponse",
+}) as any as S.Schema<WriteGetObjectResponseResponse>;
+export type InventoryOptionalFields = string[];
 export const InventoryOptionalFields = S.Array(
   S.String.pipe(T.XmlName("Field")),
 );
-export class EventBridgeConfiguration extends S.Class<EventBridgeConfiguration>(
-  "EventBridgeConfiguration",
-)({}) {}
-export class ParquetInput extends S.Class<ParquetInput>("ParquetInput")({}) {}
-export class AnalyticsAndOperator extends S.Class<AnalyticsAndOperator>(
-  "AnalyticsAndOperator",
-)({
-  Prefix: S.optional(S.String),
-  Tags: S.optional(TagSet).pipe(T.XmlName("Tag"), T.XmlFlattened()),
-}) {}
+export interface EventBridgeConfiguration {}
+export const EventBridgeConfiguration = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "EventBridgeConfiguration",
+}) as any as S.Schema<EventBridgeConfiguration>;
+export interface ParquetInput {}
+export const ParquetInput = S.suspend(() => S.Struct({})).annotations({
+  identifier: "ParquetInput",
+}) as any as S.Schema<ParquetInput>;
+export interface AnalyticsAndOperator {
+  Prefix?: string;
+  Tags?: TagSet;
+}
+export const AnalyticsAndOperator = S.suspend(() =>
+  S.Struct({
+    Prefix: S.optional(S.String),
+    Tags: S.optional(TagSet).pipe(T.XmlName("Tag"), T.XmlFlattened()),
+  }),
+).annotations({
+  identifier: "AnalyticsAndOperator",
+}) as any as S.Schema<AnalyticsAndOperator>;
 export const AnalyticsFilter = S.Union(
   S.Struct({ Prefix: S.String }),
   S.Struct({ Tag: Tag }),
   S.Struct({ And: AnalyticsAndOperator }),
 );
-export class AnalyticsS3BucketDestination extends S.Class<AnalyticsS3BucketDestination>(
-  "AnalyticsS3BucketDestination",
-)({
-  Format: S.String,
-  BucketAccountId: S.optional(S.String),
-  Bucket: S.String,
-  Prefix: S.optional(S.String),
-}) {}
-export class AnalyticsExportDestination extends S.Class<AnalyticsExportDestination>(
-  "AnalyticsExportDestination",
-)({ S3BucketDestination: AnalyticsS3BucketDestination }) {}
-export class StorageClassAnalysisDataExport extends S.Class<StorageClassAnalysisDataExport>(
-  "StorageClassAnalysisDataExport",
-)({ OutputSchemaVersion: S.String, Destination: AnalyticsExportDestination }) {}
-export class StorageClassAnalysis extends S.Class<StorageClassAnalysis>(
-  "StorageClassAnalysis",
-)({ DataExport: S.optional(StorageClassAnalysisDataExport) }) {}
-export class AnalyticsConfiguration extends S.Class<AnalyticsConfiguration>(
-  "AnalyticsConfiguration",
-)({
-  Id: S.String,
-  Filter: S.optional(AnalyticsFilter),
-  StorageClassAnalysis: StorageClassAnalysis,
-}) {}
+export interface AnalyticsS3BucketDestination {
+  Format: string;
+  BucketAccountId?: string;
+  Bucket: string;
+  Prefix?: string;
+}
+export const AnalyticsS3BucketDestination = S.suspend(() =>
+  S.Struct({
+    Format: S.String,
+    BucketAccountId: S.optional(S.String),
+    Bucket: S.String,
+    Prefix: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AnalyticsS3BucketDestination",
+}) as any as S.Schema<AnalyticsS3BucketDestination>;
+export interface AnalyticsExportDestination {
+  S3BucketDestination: AnalyticsS3BucketDestination;
+}
+export const AnalyticsExportDestination = S.suspend(() =>
+  S.Struct({ S3BucketDestination: AnalyticsS3BucketDestination }),
+).annotations({
+  identifier: "AnalyticsExportDestination",
+}) as any as S.Schema<AnalyticsExportDestination>;
+export interface StorageClassAnalysisDataExport {
+  OutputSchemaVersion: string;
+  Destination: AnalyticsExportDestination;
+}
+export const StorageClassAnalysisDataExport = S.suspend(() =>
+  S.Struct({
+    OutputSchemaVersion: S.String,
+    Destination: AnalyticsExportDestination,
+  }),
+).annotations({
+  identifier: "StorageClassAnalysisDataExport",
+}) as any as S.Schema<StorageClassAnalysisDataExport>;
+export interface StorageClassAnalysis {
+  DataExport?: StorageClassAnalysisDataExport;
+}
+export const StorageClassAnalysis = S.suspend(() =>
+  S.Struct({ DataExport: S.optional(StorageClassAnalysisDataExport) }),
+).annotations({
+  identifier: "StorageClassAnalysis",
+}) as any as S.Schema<StorageClassAnalysis>;
+export interface AnalyticsConfiguration {
+  Id: string;
+  Filter?: (typeof AnalyticsFilter)["Type"];
+  StorageClassAnalysis: StorageClassAnalysis;
+}
+export const AnalyticsConfiguration = S.suspend(() =>
+  S.Struct({
+    Id: S.String,
+    Filter: S.optional(AnalyticsFilter),
+    StorageClassAnalysis: StorageClassAnalysis,
+  }),
+).annotations({
+  identifier: "AnalyticsConfiguration",
+}) as any as S.Schema<AnalyticsConfiguration>;
+export type AnalyticsConfigurationList = AnalyticsConfiguration[];
 export const AnalyticsConfigurationList = S.Array(AnalyticsConfiguration);
-export class IntelligentTieringAndOperator extends S.Class<IntelligentTieringAndOperator>(
-  "IntelligentTieringAndOperator",
-)({
-  Prefix: S.optional(S.String),
-  Tags: S.optional(TagSet).pipe(T.XmlName("Tag"), T.XmlFlattened()),
-}) {}
-export class IntelligentTieringFilter extends S.Class<IntelligentTieringFilter>(
-  "IntelligentTieringFilter",
-)({
-  Prefix: S.optional(S.String),
-  Tag: S.optional(Tag),
-  And: S.optional(IntelligentTieringAndOperator),
-}) {}
-export class Tiering extends S.Class<Tiering>("Tiering")({
-  Days: S.Number,
-  AccessTier: S.String,
-}) {}
+export interface IntelligentTieringAndOperator {
+  Prefix?: string;
+  Tags?: TagSet;
+}
+export const IntelligentTieringAndOperator = S.suspend(() =>
+  S.Struct({
+    Prefix: S.optional(S.String),
+    Tags: S.optional(TagSet).pipe(T.XmlName("Tag"), T.XmlFlattened()),
+  }),
+).annotations({
+  identifier: "IntelligentTieringAndOperator",
+}) as any as S.Schema<IntelligentTieringAndOperator>;
+export interface IntelligentTieringFilter {
+  Prefix?: string;
+  Tag?: Tag;
+  And?: IntelligentTieringAndOperator;
+}
+export const IntelligentTieringFilter = S.suspend(() =>
+  S.Struct({
+    Prefix: S.optional(S.String),
+    Tag: S.optional(Tag),
+    And: S.optional(IntelligentTieringAndOperator),
+  }),
+).annotations({
+  identifier: "IntelligentTieringFilter",
+}) as any as S.Schema<IntelligentTieringFilter>;
+export interface Tiering {
+  Days: number;
+  AccessTier: string;
+}
+export const Tiering = S.suspend(() =>
+  S.Struct({ Days: S.Number, AccessTier: S.String }),
+).annotations({ identifier: "Tiering" }) as any as S.Schema<Tiering>;
+export type TieringList = Tiering[];
 export const TieringList = S.Array(Tiering);
-export class IntelligentTieringConfiguration extends S.Class<IntelligentTieringConfiguration>(
-  "IntelligentTieringConfiguration",
-)({
-  Id: S.String,
-  Filter: S.optional(IntelligentTieringFilter),
-  Status: S.String,
-  Tierings: TieringList.pipe(T.XmlName("Tiering"), T.XmlFlattened()),
-}) {}
+export interface IntelligentTieringConfiguration {
+  Id: string;
+  Filter?: IntelligentTieringFilter;
+  Status: string;
+  Tierings: TieringList;
+}
+export const IntelligentTieringConfiguration = S.suspend(() =>
+  S.Struct({
+    Id: S.String,
+    Filter: S.optional(IntelligentTieringFilter),
+    Status: S.String,
+    Tierings: TieringList.pipe(T.XmlName("Tiering"), T.XmlFlattened()),
+  }),
+).annotations({
+  identifier: "IntelligentTieringConfiguration",
+}) as any as S.Schema<IntelligentTieringConfiguration>;
+export type IntelligentTieringConfigurationList =
+  IntelligentTieringConfiguration[];
 export const IntelligentTieringConfigurationList = S.Array(
   IntelligentTieringConfiguration,
 );
-export class SSES3 extends S.Class<SSES3>("SSES3")({}, T.XmlName("SSE-S3")) {}
-export class SSEKMS extends S.Class<SSEKMS>("SSEKMS")(
-  { KeyId: S.String },
-  T.XmlName("SSE-KMS"),
-) {}
-export class InventoryEncryption extends S.Class<InventoryEncryption>(
-  "InventoryEncryption",
-)({
-  SSES3: S.optional(SSES3).pipe(T.XmlName("SSE-S3")),
-  SSEKMS: S.optional(SSEKMS).pipe(T.XmlName("SSE-KMS")),
-}) {}
-export class InventoryS3BucketDestination extends S.Class<InventoryS3BucketDestination>(
-  "InventoryS3BucketDestination",
-)({
-  AccountId: S.optional(S.String),
-  Bucket: S.String,
-  Format: S.String,
-  Prefix: S.optional(S.String),
-  Encryption: S.optional(InventoryEncryption),
-}) {}
-export class InventoryDestination extends S.Class<InventoryDestination>(
-  "InventoryDestination",
-)({ S3BucketDestination: InventoryS3BucketDestination }) {}
-export class InventoryFilter extends S.Class<InventoryFilter>(
-  "InventoryFilter",
-)({ Prefix: S.String }) {}
-export class InventorySchedule extends S.Class<InventorySchedule>(
-  "InventorySchedule",
-)({ Frequency: S.String }) {}
-export class InventoryConfiguration extends S.Class<InventoryConfiguration>(
-  "InventoryConfiguration",
-)({
-  Destination: InventoryDestination,
-  IsEnabled: S.Boolean,
-  Filter: S.optional(InventoryFilter),
-  Id: S.String,
-  IncludedObjectVersions: S.String,
-  OptionalFields: S.optional(InventoryOptionalFields),
-  Schedule: InventorySchedule,
-}) {}
+export interface SSES3 {}
+export const SSES3 = S.suspend(() =>
+  S.Struct({}).pipe(T.XmlName("SSE-S3")),
+).annotations({ identifier: "SSES3" }) as any as S.Schema<SSES3>;
+export interface SSEKMS {
+  KeyId: string;
+}
+export const SSEKMS = S.suspend(() =>
+  S.Struct({ KeyId: S.String }).pipe(T.XmlName("SSE-KMS")),
+).annotations({ identifier: "SSEKMS" }) as any as S.Schema<SSEKMS>;
+export interface InventoryEncryption {
+  SSES3?: SSES3;
+  SSEKMS?: SSEKMS;
+}
+export const InventoryEncryption = S.suspend(() =>
+  S.Struct({
+    SSES3: S.optional(SSES3)
+      .pipe(T.XmlName("SSE-S3"))
+      .annotations({ identifier: "SSES3" }),
+    SSEKMS: S.optional(SSEKMS)
+      .pipe(T.XmlName("SSE-KMS"))
+      .annotations({ identifier: "SSEKMS" }),
+  }),
+).annotations({
+  identifier: "InventoryEncryption",
+}) as any as S.Schema<InventoryEncryption>;
+export interface InventoryS3BucketDestination {
+  AccountId?: string;
+  Bucket: string;
+  Format: string;
+  Prefix?: string;
+  Encryption?: InventoryEncryption;
+}
+export const InventoryS3BucketDestination = S.suspend(() =>
+  S.Struct({
+    AccountId: S.optional(S.String),
+    Bucket: S.String,
+    Format: S.String,
+    Prefix: S.optional(S.String),
+    Encryption: S.optional(InventoryEncryption),
+  }),
+).annotations({
+  identifier: "InventoryS3BucketDestination",
+}) as any as S.Schema<InventoryS3BucketDestination>;
+export interface InventoryDestination {
+  S3BucketDestination: InventoryS3BucketDestination;
+}
+export const InventoryDestination = S.suspend(() =>
+  S.Struct({ S3BucketDestination: InventoryS3BucketDestination }),
+).annotations({
+  identifier: "InventoryDestination",
+}) as any as S.Schema<InventoryDestination>;
+export interface InventoryFilter {
+  Prefix: string;
+}
+export const InventoryFilter = S.suspend(() =>
+  S.Struct({ Prefix: S.String }),
+).annotations({
+  identifier: "InventoryFilter",
+}) as any as S.Schema<InventoryFilter>;
+export interface InventorySchedule {
+  Frequency: string;
+}
+export const InventorySchedule = S.suspend(() =>
+  S.Struct({ Frequency: S.String }),
+).annotations({
+  identifier: "InventorySchedule",
+}) as any as S.Schema<InventorySchedule>;
+export interface InventoryConfiguration {
+  Destination: InventoryDestination;
+  IsEnabled: boolean;
+  Filter?: InventoryFilter;
+  Id: string;
+  IncludedObjectVersions: string;
+  OptionalFields?: InventoryOptionalFields;
+  Schedule: InventorySchedule;
+}
+export const InventoryConfiguration = S.suspend(() =>
+  S.Struct({
+    Destination: InventoryDestination,
+    IsEnabled: S.Boolean,
+    Filter: S.optional(InventoryFilter),
+    Id: S.String,
+    IncludedObjectVersions: S.String,
+    OptionalFields: S.optional(InventoryOptionalFields),
+    Schedule: InventorySchedule,
+  }),
+).annotations({
+  identifier: "InventoryConfiguration",
+}) as any as S.Schema<InventoryConfiguration>;
+export type InventoryConfigurationList = InventoryConfiguration[];
 export const InventoryConfigurationList = S.Array(InventoryConfiguration);
-export class MetricsAndOperator extends S.Class<MetricsAndOperator>(
-  "MetricsAndOperator",
-)({
-  Prefix: S.optional(S.String),
-  Tags: S.optional(TagSet).pipe(T.XmlName("Tag"), T.XmlFlattened()),
-  AccessPointArn: S.optional(S.String),
-}) {}
+export interface MetricsAndOperator {
+  Prefix?: string;
+  Tags?: TagSet;
+  AccessPointArn?: string;
+}
+export const MetricsAndOperator = S.suspend(() =>
+  S.Struct({
+    Prefix: S.optional(S.String),
+    Tags: S.optional(TagSet).pipe(T.XmlName("Tag"), T.XmlFlattened()),
+    AccessPointArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "MetricsAndOperator",
+}) as any as S.Schema<MetricsAndOperator>;
 export const MetricsFilter = S.Union(
   S.Struct({ Prefix: S.String }),
   S.Struct({ Tag: Tag }),
   S.Struct({ AccessPointArn: S.String }),
   S.Struct({ And: MetricsAndOperator }),
 );
-export class MetricsConfiguration extends S.Class<MetricsConfiguration>(
-  "MetricsConfiguration",
-)({ Id: S.String, Filter: S.optional(MetricsFilter) }) {}
+export interface MetricsConfiguration {
+  Id: string;
+  Filter?: (typeof MetricsFilter)["Type"];
+}
+export const MetricsConfiguration = S.suspend(() =>
+  S.Struct({ Id: S.String, Filter: S.optional(MetricsFilter) }),
+).annotations({
+  identifier: "MetricsConfiguration",
+}) as any as S.Schema<MetricsConfiguration>;
+export type MetricsConfigurationList = MetricsConfiguration[];
 export const MetricsConfigurationList = S.Array(MetricsConfiguration);
-export class AbacStatus extends S.Class<AbacStatus>("AbacStatus")({
-  Status: S.optional(S.String),
-}) {}
-export class AccelerateConfiguration extends S.Class<AccelerateConfiguration>(
-  "AccelerateConfiguration",
-)({ Status: S.optional(S.String) }) {}
-export class RequestPaymentConfiguration extends S.Class<RequestPaymentConfiguration>(
-  "RequestPaymentConfiguration",
-)({ Payer: S.String }) {}
-export class VersioningConfiguration extends S.Class<VersioningConfiguration>(
-  "VersioningConfiguration",
-)({
-  MFADelete: S.optional(S.String).pipe(T.XmlName("MfaDelete")),
-  Status: S.optional(S.String),
-}) {}
-export class ObjectLockLegalHold extends S.Class<ObjectLockLegalHold>(
-  "ObjectLockLegalHold",
-)({ Status: S.optional(S.String) }) {}
-export class ObjectLockRetention extends S.Class<ObjectLockRetention>(
-  "ObjectLockRetention",
-)({
-  Mode: S.optional(S.String),
-  RetainUntilDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-}) {}
-export class PublicAccessBlockConfiguration extends S.Class<PublicAccessBlockConfiguration>(
-  "PublicAccessBlockConfiguration",
-)({
-  BlockPublicAcls: S.optional(S.Boolean).pipe(T.XmlName("BlockPublicAcls")),
-  IgnorePublicAcls: S.optional(S.Boolean).pipe(T.XmlName("IgnorePublicAcls")),
-  BlockPublicPolicy: S.optional(S.Boolean).pipe(T.XmlName("BlockPublicPolicy")),
-  RestrictPublicBuckets: S.optional(S.Boolean).pipe(
-    T.XmlName("RestrictPublicBuckets"),
-  ),
-}) {}
-export class RequestProgress extends S.Class<RequestProgress>(
-  "RequestProgress",
-)({ Enabled: S.optional(S.Boolean) }) {}
-export class ScanRange extends S.Class<ScanRange>("ScanRange")({
-  Start: S.optional(S.Number),
-  End: S.optional(S.Number),
-}) {}
+export interface AbacStatus {
+  Status?: string;
+}
+export const AbacStatus = S.suspend(() =>
+  S.Struct({ Status: S.optional(S.String) }),
+).annotations({ identifier: "AbacStatus" }) as any as S.Schema<AbacStatus>;
+export interface AccelerateConfiguration {
+  Status?: string;
+}
+export const AccelerateConfiguration = S.suspend(() =>
+  S.Struct({ Status: S.optional(S.String) }),
+).annotations({
+  identifier: "AccelerateConfiguration",
+}) as any as S.Schema<AccelerateConfiguration>;
+export interface RequestPaymentConfiguration {
+  Payer: string;
+}
+export const RequestPaymentConfiguration = S.suspend(() =>
+  S.Struct({ Payer: S.String }),
+).annotations({
+  identifier: "RequestPaymentConfiguration",
+}) as any as S.Schema<RequestPaymentConfiguration>;
+export interface VersioningConfiguration {
+  MFADelete?: string;
+  Status?: string;
+}
+export const VersioningConfiguration = S.suspend(() =>
+  S.Struct({
+    MFADelete: S.optional(S.String).pipe(T.XmlName("MfaDelete")),
+    Status: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "VersioningConfiguration",
+}) as any as S.Schema<VersioningConfiguration>;
+export interface ObjectLockLegalHold {
+  Status?: string;
+}
+export const ObjectLockLegalHold = S.suspend(() =>
+  S.Struct({ Status: S.optional(S.String) }),
+).annotations({
+  identifier: "ObjectLockLegalHold",
+}) as any as S.Schema<ObjectLockLegalHold>;
+export interface ObjectLockRetention {
+  Mode?: string;
+  RetainUntilDate?: Date;
+}
+export const ObjectLockRetention = S.suspend(() =>
+  S.Struct({
+    Mode: S.optional(S.String),
+    RetainUntilDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotations({
+  identifier: "ObjectLockRetention",
+}) as any as S.Schema<ObjectLockRetention>;
+export interface PublicAccessBlockConfiguration {
+  BlockPublicAcls?: boolean;
+  IgnorePublicAcls?: boolean;
+  BlockPublicPolicy?: boolean;
+  RestrictPublicBuckets?: boolean;
+}
+export const PublicAccessBlockConfiguration = S.suspend(() =>
+  S.Struct({
+    BlockPublicAcls: S.optional(S.Boolean).pipe(T.XmlName("BlockPublicAcls")),
+    IgnorePublicAcls: S.optional(S.Boolean).pipe(T.XmlName("IgnorePublicAcls")),
+    BlockPublicPolicy: S.optional(S.Boolean).pipe(
+      T.XmlName("BlockPublicPolicy"),
+    ),
+    RestrictPublicBuckets: S.optional(S.Boolean).pipe(
+      T.XmlName("RestrictPublicBuckets"),
+    ),
+  }),
+).annotations({
+  identifier: "PublicAccessBlockConfiguration",
+}) as any as S.Schema<PublicAccessBlockConfiguration>;
+export interface RequestProgress {
+  Enabled?: boolean;
+}
+export const RequestProgress = S.suspend(() =>
+  S.Struct({ Enabled: S.optional(S.Boolean) }),
+).annotations({
+  identifier: "RequestProgress",
+}) as any as S.Schema<RequestProgress>;
+export interface ScanRange {
+  Start?: number;
+  End?: number;
+}
+export const ScanRange = S.suspend(() =>
+  S.Struct({ Start: S.optional(S.Number), End: S.optional(S.Number) }),
+).annotations({ identifier: "ScanRange" }) as any as S.Schema<ScanRange>;
+export type AllowedHeaders = string[];
 export const AllowedHeaders = S.Array(S.String);
+export type AllowedMethods = string[];
 export const AllowedMethods = S.Array(S.String);
+export type AllowedOrigins = string[];
 export const AllowedOrigins = S.Array(S.String);
+export type ExposeHeaders = string[];
 export const ExposeHeaders = S.Array(S.String);
+export type EventList = string[];
 export const EventList = S.Array(S.String);
-export class AbortMultipartUploadOutput extends S.Class<AbortMultipartUploadOutput>(
-  "AbortMultipartUploadOutput",
-)(
-  {
+export interface AbortMultipartUploadOutput {
+  RequestCharged?: string;
+}
+export const AbortMultipartUploadOutput = S.suspend(() =>
+  S.Struct({
     RequestCharged: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-request-charged"),
     ),
-  },
-  ns,
-) {}
-export class CopyObjectRequest extends S.Class<CopyObjectRequest>(
-  "CopyObjectRequest",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "AbortMultipartUploadOutput",
+}) as any as S.Schema<AbortMultipartUploadOutput>;
+export interface CopyObjectRequest {
+  ACL?: string;
+  Bucket: string;
+  CacheControl?: string;
+  ChecksumAlgorithm?: string;
+  ContentDisposition?: string;
+  ContentEncoding?: string;
+  ContentLanguage?: string;
+  ContentType?: string;
+  CopySource: string;
+  CopySourceIfMatch?: string;
+  CopySourceIfModifiedSince?: Date;
+  CopySourceIfNoneMatch?: string;
+  CopySourceIfUnmodifiedSince?: Date;
+  Expires?: string;
+  GrantFullControl?: string;
+  GrantRead?: string;
+  GrantReadACP?: string;
+  GrantWriteACP?: string;
+  IfMatch?: string;
+  IfNoneMatch?: string;
+  Key: string;
+  Metadata?: Metadata;
+  MetadataDirective?: string;
+  TaggingDirective?: string;
+  ServerSideEncryption?: string;
+  StorageClass?: string;
+  WebsiteRedirectLocation?: string;
+  SSECustomerAlgorithm?: string;
+  SSECustomerKey?: string;
+  SSECustomerKeyMD5?: string;
+  SSEKMSKeyId?: string;
+  SSEKMSEncryptionContext?: string;
+  BucketKeyEnabled?: boolean;
+  CopySourceSSECustomerAlgorithm?: string;
+  CopySourceSSECustomerKey?: string;
+  CopySourceSSECustomerKeyMD5?: string;
+  RequestPayer?: string;
+  Tagging?: string;
+  ObjectLockMode?: string;
+  ObjectLockRetainUntilDate?: Date;
+  ObjectLockLegalHoldStatus?: string;
+  ExpectedBucketOwner?: string;
+  ExpectedSourceBucketOwner?: string;
+}
+export const CopyObjectRequest = S.suspend(() =>
+  S.Struct({
     ACL: S.optional(S.String).pipe(T.HttpHeader("x-amz-acl")),
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
@@ -11367,22 +12381,39 @@ export class CopyObjectRequest extends S.Class<CopyObjectRequest>(
     ExpectedSourceBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-source-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "PUT", uri: "/{Bucket}/{Key+}?x-id=CopyObject" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ DisableS3ExpressSessionAuth: { value: true } }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "PUT", uri: "/{Bucket}/{Key+}?x-id=CopyObject" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ DisableS3ExpressSessionAuth: { value: true } }),
+    ),
   ),
-) {}
-export class CreateMultipartUploadOutput extends S.Class<CreateMultipartUploadOutput>(
-  "CreateMultipartUploadOutput",
-)(
-  {
+).annotations({
+  identifier: "CopyObjectRequest",
+}) as any as S.Schema<CopyObjectRequest>;
+export interface CreateMultipartUploadOutput {
+  AbortDate?: Date;
+  AbortRuleId?: string;
+  Bucket?: string;
+  Key?: string;
+  UploadId?: string;
+  ServerSideEncryption?: string;
+  SSECustomerAlgorithm?: string;
+  SSECustomerKeyMD5?: string;
+  SSEKMSKeyId?: string;
+  SSEKMSEncryptionContext?: string;
+  BucketKeyEnabled?: boolean;
+  RequestCharged?: string;
+  ChecksumAlgorithm?: string;
+  ChecksumType?: string;
+}
+export const CreateMultipartUploadOutput = S.suspend(() =>
+  S.Struct({
     AbortDate: S.optional(S.Date.pipe(T.TimestampFormat("http-date"))).pipe(
       T.HttpHeader("x-amz-abort-date"),
     ),
@@ -11417,13 +12448,17 @@ export class CreateMultipartUploadOutput extends S.Class<CreateMultipartUploadOu
     ChecksumType: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-checksum-type"),
     ),
-  },
-  T.all(T.XmlName("InitiateMultipartUploadResult"), ns),
-) {}
-export class DeleteObjectOutput extends S.Class<DeleteObjectOutput>(
-  "DeleteObjectOutput",
-)(
-  {
+  }).pipe(T.all(T.XmlName("InitiateMultipartUploadResult"), ns)),
+).annotations({
+  identifier: "CreateMultipartUploadOutput",
+}) as any as S.Schema<CreateMultipartUploadOutput>;
+export interface DeleteObjectOutput {
+  DeleteMarker?: boolean;
+  VersionId?: string;
+  RequestCharged?: string;
+}
+export const DeleteObjectOutput = S.suspend(() =>
+  S.Struct({
     DeleteMarker: S.optional(S.Boolean).pipe(
       T.HttpHeader("x-amz-delete-marker"),
     ),
@@ -11431,422 +12466,819 @@ export class DeleteObjectOutput extends S.Class<DeleteObjectOutput>(
     RequestCharged: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-request-charged"),
     ),
-  },
-  ns,
-) {}
-export class DeleteObjectTaggingOutput extends S.Class<DeleteObjectTaggingOutput>(
-  "DeleteObjectTaggingOutput",
-)(
-  { VersionId: S.optional(S.String).pipe(T.HttpHeader("x-amz-version-id")) },
-  ns,
-) {}
-export class GetBucketAbacOutput extends S.Class<GetBucketAbacOutput>(
-  "GetBucketAbacOutput",
-)({ AbacStatus: S.optional(AbacStatus).pipe(T.HttpPayload()) }, ns) {}
-export class GetBucketAccelerateConfigurationOutput extends S.Class<GetBucketAccelerateConfigurationOutput>(
-  "GetBucketAccelerateConfigurationOutput",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DeleteObjectOutput",
+}) as any as S.Schema<DeleteObjectOutput>;
+export interface DeleteObjectTaggingOutput {
+  VersionId?: string;
+}
+export const DeleteObjectTaggingOutput = S.suspend(() =>
+  S.Struct({
+    VersionId: S.optional(S.String).pipe(T.HttpHeader("x-amz-version-id")),
+  }).pipe(ns),
+).annotations({
+  identifier: "DeleteObjectTaggingOutput",
+}) as any as S.Schema<DeleteObjectTaggingOutput>;
+export interface GetBucketAbacOutput {
+  AbacStatus?: AbacStatus;
+}
+export const GetBucketAbacOutput = S.suspend(() =>
+  S.Struct({
+    AbacStatus: S.optional(AbacStatus)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "AbacStatus" }),
+  }).pipe(ns),
+).annotations({
+  identifier: "GetBucketAbacOutput",
+}) as any as S.Schema<GetBucketAbacOutput>;
+export interface GetBucketAccelerateConfigurationOutput {
+  Status?: string;
+  RequestCharged?: string;
+}
+export const GetBucketAccelerateConfigurationOutput = S.suspend(() =>
+  S.Struct({
     Status: S.optional(S.String),
     RequestCharged: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-request-charged"),
     ),
-  },
-  T.all(T.XmlName("AccelerateConfiguration"), ns),
-) {}
-export class GetBucketAclOutput extends S.Class<GetBucketAclOutput>(
-  "GetBucketAclOutput",
-)(
-  {
+  }).pipe(T.all(T.XmlName("AccelerateConfiguration"), ns)),
+).annotations({
+  identifier: "GetBucketAccelerateConfigurationOutput",
+}) as any as S.Schema<GetBucketAccelerateConfigurationOutput>;
+export interface GetBucketAclOutput {
+  Owner?: Owner;
+  Grants?: Grants;
+}
+export const GetBucketAclOutput = S.suspend(() =>
+  S.Struct({
     Owner: S.optional(Owner),
     Grants: S.optional(Grants).pipe(T.XmlName("AccessControlList")),
-  },
-  T.all(T.XmlName("AccessControlPolicy"), ns),
-) {}
-export class GetBucketAnalyticsConfigurationOutput extends S.Class<GetBucketAnalyticsConfigurationOutput>(
-  "GetBucketAnalyticsConfigurationOutput",
-)(
-  {
-    AnalyticsConfiguration: S.optional(AnalyticsConfiguration).pipe(
-      T.HttpPayload(),
+  }).pipe(T.all(T.XmlName("AccessControlPolicy"), ns)),
+).annotations({
+  identifier: "GetBucketAclOutput",
+}) as any as S.Schema<GetBucketAclOutput>;
+export interface GetBucketAnalyticsConfigurationOutput {
+  AnalyticsConfiguration?: AnalyticsConfiguration;
+}
+export const GetBucketAnalyticsConfigurationOutput = S.suspend(() =>
+  S.Struct({
+    AnalyticsConfiguration: S.optional(AnalyticsConfiguration)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "AnalyticsConfiguration" }),
+  }).pipe(ns),
+).annotations({
+  identifier: "GetBucketAnalyticsConfigurationOutput",
+}) as any as S.Schema<GetBucketAnalyticsConfigurationOutput>;
+export interface CORSRule {
+  ID?: string;
+  AllowedHeaders?: AllowedHeaders;
+  AllowedMethods: AllowedMethods;
+  AllowedOrigins: AllowedOrigins;
+  ExposeHeaders?: ExposeHeaders;
+  MaxAgeSeconds?: number;
+}
+export const CORSRule = S.suspend(() =>
+  S.Struct({
+    ID: S.optional(S.String),
+    AllowedHeaders: S.optional(AllowedHeaders).pipe(
+      T.XmlName("AllowedHeader"),
+      T.XmlFlattened(),
     ),
-  },
-  ns,
-) {}
-export class CORSRule extends S.Class<CORSRule>("CORSRule")({
-  ID: S.optional(S.String),
-  AllowedHeaders: S.optional(AllowedHeaders).pipe(
-    T.XmlName("AllowedHeader"),
-    T.XmlFlattened(),
-  ),
-  AllowedMethods: AllowedMethods.pipe(
-    T.XmlName("AllowedMethod"),
-    T.XmlFlattened(),
-  ),
-  AllowedOrigins: AllowedOrigins.pipe(
-    T.XmlName("AllowedOrigin"),
-    T.XmlFlattened(),
-  ),
-  ExposeHeaders: S.optional(ExposeHeaders).pipe(
-    T.XmlName("ExposeHeader"),
-    T.XmlFlattened(),
-  ),
-  MaxAgeSeconds: S.optional(S.Number),
-}) {}
+    AllowedMethods: AllowedMethods.pipe(
+      T.XmlName("AllowedMethod"),
+      T.XmlFlattened(),
+    ),
+    AllowedOrigins: AllowedOrigins.pipe(
+      T.XmlName("AllowedOrigin"),
+      T.XmlFlattened(),
+    ),
+    ExposeHeaders: S.optional(ExposeHeaders).pipe(
+      T.XmlName("ExposeHeader"),
+      T.XmlFlattened(),
+    ),
+    MaxAgeSeconds: S.optional(S.Number),
+  }),
+).annotations({ identifier: "CORSRule" }) as any as S.Schema<CORSRule>;
+export type CORSRules = CORSRule[];
 export const CORSRules = S.Array(CORSRule);
-export class GetBucketCorsOutput extends S.Class<GetBucketCorsOutput>(
-  "GetBucketCorsOutput",
-)(
-  {
+export interface GetBucketCorsOutput {
+  CORSRules?: CORSRules;
+}
+export const GetBucketCorsOutput = S.suspend(() =>
+  S.Struct({
     CORSRules: S.optional(CORSRules).pipe(
       T.XmlName("CORSRule"),
       T.XmlFlattened(),
     ),
-  },
-  T.all(T.XmlName("CORSConfiguration"), ns),
-) {}
-export class ServerSideEncryptionByDefault extends S.Class<ServerSideEncryptionByDefault>(
-  "ServerSideEncryptionByDefault",
-)({ SSEAlgorithm: S.String, KMSMasterKeyID: S.optional(S.String) }) {}
+  }).pipe(T.all(T.XmlName("CORSConfiguration"), ns)),
+).annotations({
+  identifier: "GetBucketCorsOutput",
+}) as any as S.Schema<GetBucketCorsOutput>;
+export interface ServerSideEncryptionByDefault {
+  SSEAlgorithm: string;
+  KMSMasterKeyID?: string;
+}
+export const ServerSideEncryptionByDefault = S.suspend(() =>
+  S.Struct({ SSEAlgorithm: S.String, KMSMasterKeyID: S.optional(S.String) }),
+).annotations({
+  identifier: "ServerSideEncryptionByDefault",
+}) as any as S.Schema<ServerSideEncryptionByDefault>;
+export type EncryptionTypeList = string[];
 export const EncryptionTypeList = S.Array(
   S.String.pipe(T.XmlName("EncryptionType")),
 );
-export class BlockedEncryptionTypes extends S.Class<BlockedEncryptionTypes>(
-  "BlockedEncryptionTypes",
-)({ EncryptionType: S.optional(EncryptionTypeList).pipe(T.XmlFlattened()) }) {}
-export class ServerSideEncryptionRule extends S.Class<ServerSideEncryptionRule>(
-  "ServerSideEncryptionRule",
-)({
-  ApplyServerSideEncryptionByDefault: S.optional(ServerSideEncryptionByDefault),
-  BucketKeyEnabled: S.optional(S.Boolean),
-  BlockedEncryptionTypes: S.optional(BlockedEncryptionTypes),
-}) {}
+export interface BlockedEncryptionTypes {
+  EncryptionType?: EncryptionTypeList;
+}
+export const BlockedEncryptionTypes = S.suspend(() =>
+  S.Struct({
+    EncryptionType: S.optional(EncryptionTypeList).pipe(T.XmlFlattened()),
+  }),
+).annotations({
+  identifier: "BlockedEncryptionTypes",
+}) as any as S.Schema<BlockedEncryptionTypes>;
+export interface ServerSideEncryptionRule {
+  ApplyServerSideEncryptionByDefault?: ServerSideEncryptionByDefault;
+  BucketKeyEnabled?: boolean;
+  BlockedEncryptionTypes?: BlockedEncryptionTypes;
+}
+export const ServerSideEncryptionRule = S.suspend(() =>
+  S.Struct({
+    ApplyServerSideEncryptionByDefault: S.optional(
+      ServerSideEncryptionByDefault,
+    ),
+    BucketKeyEnabled: S.optional(S.Boolean),
+    BlockedEncryptionTypes: S.optional(BlockedEncryptionTypes),
+  }),
+).annotations({
+  identifier: "ServerSideEncryptionRule",
+}) as any as S.Schema<ServerSideEncryptionRule>;
+export type ServerSideEncryptionRules = ServerSideEncryptionRule[];
 export const ServerSideEncryptionRules = S.Array(ServerSideEncryptionRule);
-export class ServerSideEncryptionConfiguration extends S.Class<ServerSideEncryptionConfiguration>(
-  "ServerSideEncryptionConfiguration",
-)({
-  Rules: ServerSideEncryptionRules.pipe(T.XmlName("Rule"), T.XmlFlattened()),
-}) {}
-export class GetBucketEncryptionOutput extends S.Class<GetBucketEncryptionOutput>(
-  "GetBucketEncryptionOutput",
-)(
-  {
+export interface ServerSideEncryptionConfiguration {
+  Rules: ServerSideEncryptionRules;
+}
+export const ServerSideEncryptionConfiguration = S.suspend(() =>
+  S.Struct({
+    Rules: ServerSideEncryptionRules.pipe(T.XmlName("Rule"), T.XmlFlattened()),
+  }),
+).annotations({
+  identifier: "ServerSideEncryptionConfiguration",
+}) as any as S.Schema<ServerSideEncryptionConfiguration>;
+export interface GetBucketEncryptionOutput {
+  ServerSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
+}
+export const GetBucketEncryptionOutput = S.suspend(() =>
+  S.Struct({
     ServerSideEncryptionConfiguration: S.optional(
       ServerSideEncryptionConfiguration,
-    ).pipe(T.HttpPayload()),
-  },
-  ns,
-) {}
-export class GetBucketIntelligentTieringConfigurationOutput extends S.Class<GetBucketIntelligentTieringConfigurationOutput>(
-  "GetBucketIntelligentTieringConfigurationOutput",
-)(
-  {
-    IntelligentTieringConfiguration: S.optional(
-      IntelligentTieringConfiguration,
-    ).pipe(T.HttpPayload()),
-  },
-  ns,
-) {}
-export class GetBucketInventoryConfigurationOutput extends S.Class<GetBucketInventoryConfigurationOutput>(
-  "GetBucketInventoryConfigurationOutput",
-)(
-  {
-    InventoryConfiguration: S.optional(InventoryConfiguration).pipe(
-      T.HttpPayload(),
-    ),
-  },
-  ns,
-) {}
-export class LifecycleExpiration extends S.Class<LifecycleExpiration>(
-  "LifecycleExpiration",
-)({
-  Date: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  Days: S.optional(S.Number),
-  ExpiredObjectDeleteMarker: S.optional(S.Boolean),
-}) {}
-export class LifecycleRuleAndOperator extends S.Class<LifecycleRuleAndOperator>(
-  "LifecycleRuleAndOperator",
-)({
-  Prefix: S.optional(S.String),
-  Tags: S.optional(TagSet).pipe(T.XmlName("Tag"), T.XmlFlattened()),
-  ObjectSizeGreaterThan: S.optional(S.Number),
-  ObjectSizeLessThan: S.optional(S.Number),
-}) {}
-export class LifecycleRuleFilter extends S.Class<LifecycleRuleFilter>(
-  "LifecycleRuleFilter",
-)({
-  Prefix: S.optional(S.String),
-  Tag: S.optional(Tag),
-  ObjectSizeGreaterThan: S.optional(S.Number),
-  ObjectSizeLessThan: S.optional(S.Number),
-  And: S.optional(LifecycleRuleAndOperator),
-}) {}
-export class Transition extends S.Class<Transition>("Transition")({
-  Date: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  Days: S.optional(S.Number),
-  StorageClass: S.optional(S.String),
-}) {}
+    )
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "ServerSideEncryptionConfiguration" }),
+  }).pipe(ns),
+).annotations({
+  identifier: "GetBucketEncryptionOutput",
+}) as any as S.Schema<GetBucketEncryptionOutput>;
+export interface GetBucketIntelligentTieringConfigurationOutput {
+  IntelligentTieringConfiguration?: IntelligentTieringConfiguration;
+}
+export const GetBucketIntelligentTieringConfigurationOutput = S.suspend(() =>
+  S.Struct({
+    IntelligentTieringConfiguration: S.optional(IntelligentTieringConfiguration)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "IntelligentTieringConfiguration" }),
+  }).pipe(ns),
+).annotations({
+  identifier: "GetBucketIntelligentTieringConfigurationOutput",
+}) as any as S.Schema<GetBucketIntelligentTieringConfigurationOutput>;
+export interface GetBucketInventoryConfigurationOutput {
+  InventoryConfiguration?: InventoryConfiguration;
+}
+export const GetBucketInventoryConfigurationOutput = S.suspend(() =>
+  S.Struct({
+    InventoryConfiguration: S.optional(InventoryConfiguration)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "InventoryConfiguration" }),
+  }).pipe(ns),
+).annotations({
+  identifier: "GetBucketInventoryConfigurationOutput",
+}) as any as S.Schema<GetBucketInventoryConfigurationOutput>;
+export interface LifecycleExpiration {
+  Date?: Date;
+  Days?: number;
+  ExpiredObjectDeleteMarker?: boolean;
+}
+export const LifecycleExpiration = S.suspend(() =>
+  S.Struct({
+    Date: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    Days: S.optional(S.Number),
+    ExpiredObjectDeleteMarker: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "LifecycleExpiration",
+}) as any as S.Schema<LifecycleExpiration>;
+export interface LifecycleRuleAndOperator {
+  Prefix?: string;
+  Tags?: TagSet;
+  ObjectSizeGreaterThan?: number;
+  ObjectSizeLessThan?: number;
+}
+export const LifecycleRuleAndOperator = S.suspend(() =>
+  S.Struct({
+    Prefix: S.optional(S.String),
+    Tags: S.optional(TagSet).pipe(T.XmlName("Tag"), T.XmlFlattened()),
+    ObjectSizeGreaterThan: S.optional(S.Number),
+    ObjectSizeLessThan: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "LifecycleRuleAndOperator",
+}) as any as S.Schema<LifecycleRuleAndOperator>;
+export interface LifecycleRuleFilter {
+  Prefix?: string;
+  Tag?: Tag;
+  ObjectSizeGreaterThan?: number;
+  ObjectSizeLessThan?: number;
+  And?: LifecycleRuleAndOperator;
+}
+export const LifecycleRuleFilter = S.suspend(() =>
+  S.Struct({
+    Prefix: S.optional(S.String),
+    Tag: S.optional(Tag),
+    ObjectSizeGreaterThan: S.optional(S.Number),
+    ObjectSizeLessThan: S.optional(S.Number),
+    And: S.optional(LifecycleRuleAndOperator),
+  }),
+).annotations({
+  identifier: "LifecycleRuleFilter",
+}) as any as S.Schema<LifecycleRuleFilter>;
+export interface Transition {
+  Date?: Date;
+  Days?: number;
+  StorageClass?: string;
+}
+export const Transition = S.suspend(() =>
+  S.Struct({
+    Date: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    Days: S.optional(S.Number),
+    StorageClass: S.optional(S.String),
+  }),
+).annotations({ identifier: "Transition" }) as any as S.Schema<Transition>;
+export type TransitionList = Transition[];
 export const TransitionList = S.Array(Transition);
-export class NoncurrentVersionTransition extends S.Class<NoncurrentVersionTransition>(
-  "NoncurrentVersionTransition",
-)({
-  NoncurrentDays: S.optional(S.Number),
-  StorageClass: S.optional(S.String),
-  NewerNoncurrentVersions: S.optional(S.Number),
-}) {}
+export interface NoncurrentVersionTransition {
+  NoncurrentDays?: number;
+  StorageClass?: string;
+  NewerNoncurrentVersions?: number;
+}
+export const NoncurrentVersionTransition = S.suspend(() =>
+  S.Struct({
+    NoncurrentDays: S.optional(S.Number),
+    StorageClass: S.optional(S.String),
+    NewerNoncurrentVersions: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "NoncurrentVersionTransition",
+}) as any as S.Schema<NoncurrentVersionTransition>;
+export type NoncurrentVersionTransitionList = NoncurrentVersionTransition[];
 export const NoncurrentVersionTransitionList = S.Array(
   NoncurrentVersionTransition,
 );
-export class NoncurrentVersionExpiration extends S.Class<NoncurrentVersionExpiration>(
-  "NoncurrentVersionExpiration",
-)({
-  NoncurrentDays: S.optional(S.Number),
-  NewerNoncurrentVersions: S.optional(S.Number),
-}) {}
-export class AbortIncompleteMultipartUpload extends S.Class<AbortIncompleteMultipartUpload>(
-  "AbortIncompleteMultipartUpload",
-)({ DaysAfterInitiation: S.optional(S.Number) }) {}
-export class LifecycleRule extends S.Class<LifecycleRule>("LifecycleRule")({
-  Expiration: S.optional(LifecycleExpiration),
-  ID: S.optional(S.String),
-  Prefix: S.optional(S.String),
-  Filter: S.optional(LifecycleRuleFilter),
-  Status: S.String,
-  Transitions: S.optional(TransitionList).pipe(
-    T.XmlName("Transition"),
-    T.XmlFlattened(),
-  ),
-  NoncurrentVersionTransitions: S.optional(
-    NoncurrentVersionTransitionList,
-  ).pipe(T.XmlName("NoncurrentVersionTransition"), T.XmlFlattened()),
-  NoncurrentVersionExpiration: S.optional(NoncurrentVersionExpiration),
-  AbortIncompleteMultipartUpload: S.optional(AbortIncompleteMultipartUpload),
-}) {}
+export interface NoncurrentVersionExpiration {
+  NoncurrentDays?: number;
+  NewerNoncurrentVersions?: number;
+}
+export const NoncurrentVersionExpiration = S.suspend(() =>
+  S.Struct({
+    NoncurrentDays: S.optional(S.Number),
+    NewerNoncurrentVersions: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "NoncurrentVersionExpiration",
+}) as any as S.Schema<NoncurrentVersionExpiration>;
+export interface AbortIncompleteMultipartUpload {
+  DaysAfterInitiation?: number;
+}
+export const AbortIncompleteMultipartUpload = S.suspend(() =>
+  S.Struct({ DaysAfterInitiation: S.optional(S.Number) }),
+).annotations({
+  identifier: "AbortIncompleteMultipartUpload",
+}) as any as S.Schema<AbortIncompleteMultipartUpload>;
+export interface LifecycleRule {
+  Expiration?: LifecycleExpiration;
+  ID?: string;
+  Prefix?: string;
+  Filter?: LifecycleRuleFilter;
+  Status: string;
+  Transitions?: TransitionList;
+  NoncurrentVersionTransitions?: NoncurrentVersionTransitionList;
+  NoncurrentVersionExpiration?: NoncurrentVersionExpiration;
+  AbortIncompleteMultipartUpload?: AbortIncompleteMultipartUpload;
+}
+export const LifecycleRule = S.suspend(() =>
+  S.Struct({
+    Expiration: S.optional(LifecycleExpiration),
+    ID: S.optional(S.String),
+    Prefix: S.optional(S.String),
+    Filter: S.optional(LifecycleRuleFilter),
+    Status: S.String,
+    Transitions: S.optional(TransitionList).pipe(
+      T.XmlName("Transition"),
+      T.XmlFlattened(),
+    ),
+    NoncurrentVersionTransitions: S.optional(
+      NoncurrentVersionTransitionList,
+    ).pipe(T.XmlName("NoncurrentVersionTransition"), T.XmlFlattened()),
+    NoncurrentVersionExpiration: S.optional(NoncurrentVersionExpiration),
+    AbortIncompleteMultipartUpload: S.optional(AbortIncompleteMultipartUpload),
+  }),
+).annotations({
+  identifier: "LifecycleRule",
+}) as any as S.Schema<LifecycleRule>;
+export type LifecycleRules = LifecycleRule[];
 export const LifecycleRules = S.Array(LifecycleRule);
-export class GetBucketLifecycleConfigurationOutput extends S.Class<GetBucketLifecycleConfigurationOutput>(
-  "GetBucketLifecycleConfigurationOutput",
-)(
-  {
+export interface GetBucketLifecycleConfigurationOutput {
+  Rules?: LifecycleRules;
+  TransitionDefaultMinimumObjectSize?: string;
+}
+export const GetBucketLifecycleConfigurationOutput = S.suspend(() =>
+  S.Struct({
     Rules: S.optional(LifecycleRules).pipe(T.XmlName("Rule"), T.XmlFlattened()),
     TransitionDefaultMinimumObjectSize: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-transition-default-minimum-object-size"),
     ),
-  },
-  T.all(T.XmlName("LifecycleConfiguration"), ns),
-) {}
-export class GetBucketLocationOutput extends S.Class<GetBucketLocationOutput>(
-  "GetBucketLocationOutput",
-)(
-  { LocationConstraint: S.optional(S.String) },
-  T.all(T.XmlName("LocationConstraint"), ns, T.S3UnwrappedXmlOutput()),
-) {}
-export class TargetGrant extends S.Class<TargetGrant>("TargetGrant")({
-  Grantee: S.optional(Grantee),
-  Permission: S.optional(S.String),
-}) {}
-export const TargetGrants = S.Array(TargetGrant.pipe(T.XmlName("Grant")));
-export class SimplePrefix extends S.Class<SimplePrefix>("SimplePrefix")(
-  {},
-  T.XmlName("SimplePrefix"),
-) {}
-export class PartitionedPrefix extends S.Class<PartitionedPrefix>(
-  "PartitionedPrefix",
-)(
-  { PartitionDateSource: S.optional(S.String) },
-  T.XmlName("PartitionedPrefix"),
-) {}
-export class TargetObjectKeyFormat extends S.Class<TargetObjectKeyFormat>(
-  "TargetObjectKeyFormat",
-)({
-  SimplePrefix: S.optional(SimplePrefix).pipe(T.XmlName("SimplePrefix")),
-  PartitionedPrefix: S.optional(PartitionedPrefix).pipe(
+  }).pipe(T.all(T.XmlName("LifecycleConfiguration"), ns)),
+).annotations({
+  identifier: "GetBucketLifecycleConfigurationOutput",
+}) as any as S.Schema<GetBucketLifecycleConfigurationOutput>;
+export interface GetBucketLocationOutput {
+  LocationConstraint?: string;
+}
+export const GetBucketLocationOutput = S.suspend(() =>
+  S.Struct({ LocationConstraint: S.optional(S.String) }).pipe(
+    T.all(T.XmlName("LocationConstraint"), ns, T.S3UnwrappedXmlOutput()),
+  ),
+).annotations({
+  identifier: "GetBucketLocationOutput",
+}) as any as S.Schema<GetBucketLocationOutput>;
+export interface TargetGrant {
+  Grantee?: Grantee;
+  Permission?: string;
+}
+export const TargetGrant = S.suspend(() =>
+  S.Struct({ Grantee: S.optional(Grantee), Permission: S.optional(S.String) }),
+).annotations({ identifier: "TargetGrant" }) as any as S.Schema<TargetGrant>;
+export type TargetGrants = TargetGrant[];
+export const TargetGrants = S.Array(
+  TargetGrant.pipe(T.XmlName("Grant")).annotations({
+    identifier: "TargetGrant",
+  }),
+);
+export interface SimplePrefix {}
+export const SimplePrefix = S.suspend(() =>
+  S.Struct({}).pipe(T.XmlName("SimplePrefix")),
+).annotations({ identifier: "SimplePrefix" }) as any as S.Schema<SimplePrefix>;
+export interface PartitionedPrefix {
+  PartitionDateSource?: string;
+}
+export const PartitionedPrefix = S.suspend(() =>
+  S.Struct({ PartitionDateSource: S.optional(S.String) }).pipe(
     T.XmlName("PartitionedPrefix"),
   ),
-}) {}
-export class LoggingEnabled extends S.Class<LoggingEnabled>("LoggingEnabled")({
-  TargetBucket: S.String,
-  TargetGrants: S.optional(TargetGrants),
-  TargetPrefix: S.String,
-  TargetObjectKeyFormat: S.optional(TargetObjectKeyFormat),
-}) {}
-export class GetBucketLoggingOutput extends S.Class<GetBucketLoggingOutput>(
-  "GetBucketLoggingOutput",
-)(
-  { LoggingEnabled: S.optional(LoggingEnabled) },
-  T.all(T.XmlName("BucketLoggingStatus"), ns),
-) {}
-export class GetBucketMetricsConfigurationOutput extends S.Class<GetBucketMetricsConfigurationOutput>(
-  "GetBucketMetricsConfigurationOutput",
-)(
-  {
-    MetricsConfiguration: S.optional(MetricsConfiguration).pipe(
-      T.HttpPayload(),
-    ),
-  },
-  ns,
-) {}
-export class OwnershipControlsRule extends S.Class<OwnershipControlsRule>(
-  "OwnershipControlsRule",
-)({ ObjectOwnership: S.String }) {}
+).annotations({
+  identifier: "PartitionedPrefix",
+}) as any as S.Schema<PartitionedPrefix>;
+export interface TargetObjectKeyFormat {
+  SimplePrefix?: SimplePrefix;
+  PartitionedPrefix?: PartitionedPrefix;
+}
+export const TargetObjectKeyFormat = S.suspend(() =>
+  S.Struct({
+    SimplePrefix: S.optional(SimplePrefix)
+      .pipe(T.XmlName("SimplePrefix"))
+      .annotations({ identifier: "SimplePrefix" }),
+    PartitionedPrefix: S.optional(PartitionedPrefix)
+      .pipe(T.XmlName("PartitionedPrefix"))
+      .annotations({ identifier: "PartitionedPrefix" }),
+  }),
+).annotations({
+  identifier: "TargetObjectKeyFormat",
+}) as any as S.Schema<TargetObjectKeyFormat>;
+export interface LoggingEnabled {
+  TargetBucket: string;
+  TargetGrants?: TargetGrants;
+  TargetPrefix: string;
+  TargetObjectKeyFormat?: TargetObjectKeyFormat;
+}
+export const LoggingEnabled = S.suspend(() =>
+  S.Struct({
+    TargetBucket: S.String,
+    TargetGrants: S.optional(TargetGrants),
+    TargetPrefix: S.String,
+    TargetObjectKeyFormat: S.optional(TargetObjectKeyFormat),
+  }),
+).annotations({
+  identifier: "LoggingEnabled",
+}) as any as S.Schema<LoggingEnabled>;
+export interface GetBucketLoggingOutput {
+  LoggingEnabled?: LoggingEnabled;
+}
+export const GetBucketLoggingOutput = S.suspend(() =>
+  S.Struct({ LoggingEnabled: S.optional(LoggingEnabled) }).pipe(
+    T.all(T.XmlName("BucketLoggingStatus"), ns),
+  ),
+).annotations({
+  identifier: "GetBucketLoggingOutput",
+}) as any as S.Schema<GetBucketLoggingOutput>;
+export interface GetBucketMetricsConfigurationOutput {
+  MetricsConfiguration?: MetricsConfiguration;
+}
+export const GetBucketMetricsConfigurationOutput = S.suspend(() =>
+  S.Struct({
+    MetricsConfiguration: S.optional(MetricsConfiguration)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "MetricsConfiguration" }),
+  }).pipe(ns),
+).annotations({
+  identifier: "GetBucketMetricsConfigurationOutput",
+}) as any as S.Schema<GetBucketMetricsConfigurationOutput>;
+export interface OwnershipControlsRule {
+  ObjectOwnership: string;
+}
+export const OwnershipControlsRule = S.suspend(() =>
+  S.Struct({ ObjectOwnership: S.String }),
+).annotations({
+  identifier: "OwnershipControlsRule",
+}) as any as S.Schema<OwnershipControlsRule>;
+export type OwnershipControlsRules = OwnershipControlsRule[];
 export const OwnershipControlsRules = S.Array(OwnershipControlsRule);
-export class OwnershipControls extends S.Class<OwnershipControls>(
-  "OwnershipControls",
-)({
-  Rules: OwnershipControlsRules.pipe(T.XmlName("Rule"), T.XmlFlattened()),
-}) {}
-export class GetBucketOwnershipControlsOutput extends S.Class<GetBucketOwnershipControlsOutput>(
-  "GetBucketOwnershipControlsOutput",
-)(
-  { OwnershipControls: S.optional(OwnershipControls).pipe(T.HttpPayload()) },
-  ns,
-) {}
-export class GetBucketPolicyOutput extends S.Class<GetBucketPolicyOutput>(
-  "GetBucketPolicyOutput",
-)({ Policy: S.optional(S.String).pipe(T.HttpPayload()) }, ns) {}
-export class ReplicationRuleAndOperator extends S.Class<ReplicationRuleAndOperator>(
-  "ReplicationRuleAndOperator",
-)({
-  Prefix: S.optional(S.String),
-  Tags: S.optional(TagSet).pipe(T.XmlName("Tag"), T.XmlFlattened()),
-}) {}
-export class ReplicationRuleFilter extends S.Class<ReplicationRuleFilter>(
-  "ReplicationRuleFilter",
-)({
-  Prefix: S.optional(S.String),
-  Tag: S.optional(Tag),
-  And: S.optional(ReplicationRuleAndOperator),
-}) {}
-export class SseKmsEncryptedObjects extends S.Class<SseKmsEncryptedObjects>(
-  "SseKmsEncryptedObjects",
-)({ Status: S.String }) {}
-export class ReplicaModifications extends S.Class<ReplicaModifications>(
-  "ReplicaModifications",
-)({ Status: S.String }) {}
-export class SourceSelectionCriteria extends S.Class<SourceSelectionCriteria>(
-  "SourceSelectionCriteria",
-)({
-  SseKmsEncryptedObjects: S.optional(SseKmsEncryptedObjects),
-  ReplicaModifications: S.optional(ReplicaModifications),
-}) {}
-export class ExistingObjectReplication extends S.Class<ExistingObjectReplication>(
-  "ExistingObjectReplication",
-)({ Status: S.String }) {}
-export class AccessControlTranslation extends S.Class<AccessControlTranslation>(
-  "AccessControlTranslation",
-)({ Owner: S.String }) {}
-export class EncryptionConfiguration extends S.Class<EncryptionConfiguration>(
-  "EncryptionConfiguration",
-)({ ReplicaKmsKeyID: S.optional(S.String) }) {}
-export class ReplicationTimeValue extends S.Class<ReplicationTimeValue>(
-  "ReplicationTimeValue",
-)({ Minutes: S.optional(S.Number) }) {}
-export class ReplicationTime extends S.Class<ReplicationTime>(
-  "ReplicationTime",
-)({ Status: S.String, Time: ReplicationTimeValue }) {}
-export class Metrics extends S.Class<Metrics>("Metrics")({
-  Status: S.String,
-  EventThreshold: S.optional(ReplicationTimeValue),
-}) {}
-export class Destination extends S.Class<Destination>("Destination")({
-  Bucket: S.String,
-  Account: S.optional(S.String),
-  StorageClass: S.optional(S.String),
-  AccessControlTranslation: S.optional(AccessControlTranslation),
-  EncryptionConfiguration: S.optional(EncryptionConfiguration),
-  ReplicationTime: S.optional(ReplicationTime),
-  Metrics: S.optional(Metrics),
-}) {}
-export class DeleteMarkerReplication extends S.Class<DeleteMarkerReplication>(
-  "DeleteMarkerReplication",
-)({ Status: S.optional(S.String) }) {}
-export class ReplicationRule extends S.Class<ReplicationRule>(
-  "ReplicationRule",
-)({
-  ID: S.optional(S.String),
-  Priority: S.optional(S.Number),
-  Prefix: S.optional(S.String),
-  Filter: S.optional(ReplicationRuleFilter),
-  Status: S.String,
-  SourceSelectionCriteria: S.optional(SourceSelectionCriteria),
-  ExistingObjectReplication: S.optional(ExistingObjectReplication),
-  Destination: Destination,
-  DeleteMarkerReplication: S.optional(DeleteMarkerReplication),
-}) {}
+export interface OwnershipControls {
+  Rules: OwnershipControlsRules;
+}
+export const OwnershipControls = S.suspend(() =>
+  S.Struct({
+    Rules: OwnershipControlsRules.pipe(T.XmlName("Rule"), T.XmlFlattened()),
+  }),
+).annotations({
+  identifier: "OwnershipControls",
+}) as any as S.Schema<OwnershipControls>;
+export interface GetBucketOwnershipControlsOutput {
+  OwnershipControls?: OwnershipControls;
+}
+export const GetBucketOwnershipControlsOutput = S.suspend(() =>
+  S.Struct({
+    OwnershipControls: S.optional(OwnershipControls)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "OwnershipControls" }),
+  }).pipe(ns),
+).annotations({
+  identifier: "GetBucketOwnershipControlsOutput",
+}) as any as S.Schema<GetBucketOwnershipControlsOutput>;
+export interface GetBucketPolicyOutput {
+  Policy?: string;
+}
+export const GetBucketPolicyOutput = S.suspend(() =>
+  S.Struct({ Policy: S.optional(S.String).pipe(T.HttpPayload()) }).pipe(ns),
+).annotations({
+  identifier: "GetBucketPolicyOutput",
+}) as any as S.Schema<GetBucketPolicyOutput>;
+export interface ReplicationRuleAndOperator {
+  Prefix?: string;
+  Tags?: TagSet;
+}
+export const ReplicationRuleAndOperator = S.suspend(() =>
+  S.Struct({
+    Prefix: S.optional(S.String),
+    Tags: S.optional(TagSet).pipe(T.XmlName("Tag"), T.XmlFlattened()),
+  }),
+).annotations({
+  identifier: "ReplicationRuleAndOperator",
+}) as any as S.Schema<ReplicationRuleAndOperator>;
+export interface ReplicationRuleFilter {
+  Prefix?: string;
+  Tag?: Tag;
+  And?: ReplicationRuleAndOperator;
+}
+export const ReplicationRuleFilter = S.suspend(() =>
+  S.Struct({
+    Prefix: S.optional(S.String),
+    Tag: S.optional(Tag),
+    And: S.optional(ReplicationRuleAndOperator),
+  }),
+).annotations({
+  identifier: "ReplicationRuleFilter",
+}) as any as S.Schema<ReplicationRuleFilter>;
+export interface SseKmsEncryptedObjects {
+  Status: string;
+}
+export const SseKmsEncryptedObjects = S.suspend(() =>
+  S.Struct({ Status: S.String }),
+).annotations({
+  identifier: "SseKmsEncryptedObjects",
+}) as any as S.Schema<SseKmsEncryptedObjects>;
+export interface ReplicaModifications {
+  Status: string;
+}
+export const ReplicaModifications = S.suspend(() =>
+  S.Struct({ Status: S.String }),
+).annotations({
+  identifier: "ReplicaModifications",
+}) as any as S.Schema<ReplicaModifications>;
+export interface SourceSelectionCriteria {
+  SseKmsEncryptedObjects?: SseKmsEncryptedObjects;
+  ReplicaModifications?: ReplicaModifications;
+}
+export const SourceSelectionCriteria = S.suspend(() =>
+  S.Struct({
+    SseKmsEncryptedObjects: S.optional(SseKmsEncryptedObjects),
+    ReplicaModifications: S.optional(ReplicaModifications),
+  }),
+).annotations({
+  identifier: "SourceSelectionCriteria",
+}) as any as S.Schema<SourceSelectionCriteria>;
+export interface ExistingObjectReplication {
+  Status: string;
+}
+export const ExistingObjectReplication = S.suspend(() =>
+  S.Struct({ Status: S.String }),
+).annotations({
+  identifier: "ExistingObjectReplication",
+}) as any as S.Schema<ExistingObjectReplication>;
+export interface AccessControlTranslation {
+  Owner: string;
+}
+export const AccessControlTranslation = S.suspend(() =>
+  S.Struct({ Owner: S.String }),
+).annotations({
+  identifier: "AccessControlTranslation",
+}) as any as S.Schema<AccessControlTranslation>;
+export interface EncryptionConfiguration {
+  ReplicaKmsKeyID?: string;
+}
+export const EncryptionConfiguration = S.suspend(() =>
+  S.Struct({ ReplicaKmsKeyID: S.optional(S.String) }),
+).annotations({
+  identifier: "EncryptionConfiguration",
+}) as any as S.Schema<EncryptionConfiguration>;
+export interface ReplicationTimeValue {
+  Minutes?: number;
+}
+export const ReplicationTimeValue = S.suspend(() =>
+  S.Struct({ Minutes: S.optional(S.Number) }),
+).annotations({
+  identifier: "ReplicationTimeValue",
+}) as any as S.Schema<ReplicationTimeValue>;
+export interface ReplicationTime {
+  Status: string;
+  Time: ReplicationTimeValue;
+}
+export const ReplicationTime = S.suspend(() =>
+  S.Struct({ Status: S.String, Time: ReplicationTimeValue }),
+).annotations({
+  identifier: "ReplicationTime",
+}) as any as S.Schema<ReplicationTime>;
+export interface Metrics {
+  Status: string;
+  EventThreshold?: ReplicationTimeValue;
+}
+export const Metrics = S.suspend(() =>
+  S.Struct({
+    Status: S.String,
+    EventThreshold: S.optional(ReplicationTimeValue),
+  }),
+).annotations({ identifier: "Metrics" }) as any as S.Schema<Metrics>;
+export interface Destination {
+  Bucket: string;
+  Account?: string;
+  StorageClass?: string;
+  AccessControlTranslation?: AccessControlTranslation;
+  EncryptionConfiguration?: EncryptionConfiguration;
+  ReplicationTime?: ReplicationTime;
+  Metrics?: Metrics;
+}
+export const Destination = S.suspend(() =>
+  S.Struct({
+    Bucket: S.String,
+    Account: S.optional(S.String),
+    StorageClass: S.optional(S.String),
+    AccessControlTranslation: S.optional(AccessControlTranslation),
+    EncryptionConfiguration: S.optional(EncryptionConfiguration),
+    ReplicationTime: S.optional(ReplicationTime),
+    Metrics: S.optional(Metrics),
+  }),
+).annotations({ identifier: "Destination" }) as any as S.Schema<Destination>;
+export interface DeleteMarkerReplication {
+  Status?: string;
+}
+export const DeleteMarkerReplication = S.suspend(() =>
+  S.Struct({ Status: S.optional(S.String) }),
+).annotations({
+  identifier: "DeleteMarkerReplication",
+}) as any as S.Schema<DeleteMarkerReplication>;
+export interface ReplicationRule {
+  ID?: string;
+  Priority?: number;
+  Prefix?: string;
+  Filter?: ReplicationRuleFilter;
+  Status: string;
+  SourceSelectionCriteria?: SourceSelectionCriteria;
+  ExistingObjectReplication?: ExistingObjectReplication;
+  Destination: Destination;
+  DeleteMarkerReplication?: DeleteMarkerReplication;
+}
+export const ReplicationRule = S.suspend(() =>
+  S.Struct({
+    ID: S.optional(S.String),
+    Priority: S.optional(S.Number),
+    Prefix: S.optional(S.String),
+    Filter: S.optional(ReplicationRuleFilter),
+    Status: S.String,
+    SourceSelectionCriteria: S.optional(SourceSelectionCriteria),
+    ExistingObjectReplication: S.optional(ExistingObjectReplication),
+    Destination: Destination,
+    DeleteMarkerReplication: S.optional(DeleteMarkerReplication),
+  }),
+).annotations({
+  identifier: "ReplicationRule",
+}) as any as S.Schema<ReplicationRule>;
+export type ReplicationRules = ReplicationRule[];
 export const ReplicationRules = S.Array(ReplicationRule);
-export class ReplicationConfiguration extends S.Class<ReplicationConfiguration>(
-  "ReplicationConfiguration",
-)({
-  Role: S.String,
-  Rules: ReplicationRules.pipe(T.XmlName("Rule"), T.XmlFlattened()),
-}) {}
-export class GetBucketReplicationOutput extends S.Class<GetBucketReplicationOutput>(
-  "GetBucketReplicationOutput",
-)(
-  {
-    ReplicationConfiguration: S.optional(ReplicationConfiguration).pipe(
-      T.HttpPayload(),
-    ),
-  },
-  ns,
-) {}
-export class GetBucketRequestPaymentOutput extends S.Class<GetBucketRequestPaymentOutput>(
-  "GetBucketRequestPaymentOutput",
-)(
-  { Payer: S.optional(S.String) },
-  T.all(T.XmlName("RequestPaymentConfiguration"), ns),
-) {}
-export class GetBucketTaggingOutput extends S.Class<GetBucketTaggingOutput>(
-  "GetBucketTaggingOutput",
-)({ TagSet: TagSet }, T.all(T.XmlName("Tagging"), ns)) {}
-export class GetBucketVersioningOutput extends S.Class<GetBucketVersioningOutput>(
-  "GetBucketVersioningOutput",
-)(
-  {
+export interface ReplicationConfiguration {
+  Role: string;
+  Rules: ReplicationRules;
+}
+export const ReplicationConfiguration = S.suspend(() =>
+  S.Struct({
+    Role: S.String,
+    Rules: ReplicationRules.pipe(T.XmlName("Rule"), T.XmlFlattened()),
+  }),
+).annotations({
+  identifier: "ReplicationConfiguration",
+}) as any as S.Schema<ReplicationConfiguration>;
+export interface GetBucketReplicationOutput {
+  ReplicationConfiguration?: ReplicationConfiguration;
+}
+export const GetBucketReplicationOutput = S.suspend(() =>
+  S.Struct({
+    ReplicationConfiguration: S.optional(ReplicationConfiguration)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "ReplicationConfiguration" }),
+  }).pipe(ns),
+).annotations({
+  identifier: "GetBucketReplicationOutput",
+}) as any as S.Schema<GetBucketReplicationOutput>;
+export interface GetBucketRequestPaymentOutput {
+  Payer?: string;
+}
+export const GetBucketRequestPaymentOutput = S.suspend(() =>
+  S.Struct({ Payer: S.optional(S.String) }).pipe(
+    T.all(T.XmlName("RequestPaymentConfiguration"), ns),
+  ),
+).annotations({
+  identifier: "GetBucketRequestPaymentOutput",
+}) as any as S.Schema<GetBucketRequestPaymentOutput>;
+export interface GetBucketTaggingOutput {
+  TagSet: TagSet;
+}
+export const GetBucketTaggingOutput = S.suspend(() =>
+  S.Struct({ TagSet: TagSet }).pipe(T.all(T.XmlName("Tagging"), ns)),
+).annotations({
+  identifier: "GetBucketTaggingOutput",
+}) as any as S.Schema<GetBucketTaggingOutput>;
+export interface GetBucketVersioningOutput {
+  Status?: string;
+  MFADelete?: string;
+}
+export const GetBucketVersioningOutput = S.suspend(() =>
+  S.Struct({
     Status: S.optional(S.String),
     MFADelete: S.optional(S.String).pipe(T.XmlName("MfaDelete")),
-  },
-  T.all(T.XmlName("VersioningConfiguration"), ns),
-) {}
-export class RedirectAllRequestsTo extends S.Class<RedirectAllRequestsTo>(
-  "RedirectAllRequestsTo",
-)({ HostName: S.String, Protocol: S.optional(S.String) }) {}
-export class IndexDocument extends S.Class<IndexDocument>("IndexDocument")({
-  Suffix: S.String,
-}) {}
-export class ErrorDocument extends S.Class<ErrorDocument>("ErrorDocument")({
-  Key: S.String,
-}) {}
-export class Condition extends S.Class<Condition>("Condition")({
-  HttpErrorCodeReturnedEquals: S.optional(S.String),
-  KeyPrefixEquals: S.optional(S.String),
-}) {}
-export class Redirect extends S.Class<Redirect>("Redirect")({
-  HostName: S.optional(S.String),
-  HttpRedirectCode: S.optional(S.String),
-  Protocol: S.optional(S.String),
-  ReplaceKeyPrefixWith: S.optional(S.String),
-  ReplaceKeyWith: S.optional(S.String),
-}) {}
-export class RoutingRule extends S.Class<RoutingRule>("RoutingRule")({
-  Condition: S.optional(Condition),
-  Redirect: Redirect,
-}) {}
-export const RoutingRules = S.Array(RoutingRule.pipe(T.XmlName("RoutingRule")));
-export class GetBucketWebsiteOutput extends S.Class<GetBucketWebsiteOutput>(
-  "GetBucketWebsiteOutput",
-)(
-  {
+  }).pipe(T.all(T.XmlName("VersioningConfiguration"), ns)),
+).annotations({
+  identifier: "GetBucketVersioningOutput",
+}) as any as S.Schema<GetBucketVersioningOutput>;
+export interface RedirectAllRequestsTo {
+  HostName: string;
+  Protocol?: string;
+}
+export const RedirectAllRequestsTo = S.suspend(() =>
+  S.Struct({ HostName: S.String, Protocol: S.optional(S.String) }),
+).annotations({
+  identifier: "RedirectAllRequestsTo",
+}) as any as S.Schema<RedirectAllRequestsTo>;
+export interface IndexDocument {
+  Suffix: string;
+}
+export const IndexDocument = S.suspend(() =>
+  S.Struct({ Suffix: S.String }),
+).annotations({
+  identifier: "IndexDocument",
+}) as any as S.Schema<IndexDocument>;
+export interface ErrorDocument {
+  Key: string;
+}
+export const ErrorDocument = S.suspend(() =>
+  S.Struct({ Key: S.String }),
+).annotations({
+  identifier: "ErrorDocument",
+}) as any as S.Schema<ErrorDocument>;
+export interface Condition {
+  HttpErrorCodeReturnedEquals?: string;
+  KeyPrefixEquals?: string;
+}
+export const Condition = S.suspend(() =>
+  S.Struct({
+    HttpErrorCodeReturnedEquals: S.optional(S.String),
+    KeyPrefixEquals: S.optional(S.String),
+  }),
+).annotations({ identifier: "Condition" }) as any as S.Schema<Condition>;
+export interface Redirect {
+  HostName?: string;
+  HttpRedirectCode?: string;
+  Protocol?: string;
+  ReplaceKeyPrefixWith?: string;
+  ReplaceKeyWith?: string;
+}
+export const Redirect = S.suspend(() =>
+  S.Struct({
+    HostName: S.optional(S.String),
+    HttpRedirectCode: S.optional(S.String),
+    Protocol: S.optional(S.String),
+    ReplaceKeyPrefixWith: S.optional(S.String),
+    ReplaceKeyWith: S.optional(S.String),
+  }),
+).annotations({ identifier: "Redirect" }) as any as S.Schema<Redirect>;
+export interface RoutingRule {
+  Condition?: Condition;
+  Redirect: Redirect;
+}
+export const RoutingRule = S.suspend(() =>
+  S.Struct({ Condition: S.optional(Condition), Redirect: Redirect }),
+).annotations({ identifier: "RoutingRule" }) as any as S.Schema<RoutingRule>;
+export type RoutingRules = RoutingRule[];
+export const RoutingRules = S.Array(
+  RoutingRule.pipe(T.XmlName("RoutingRule")).annotations({
+    identifier: "RoutingRule",
+  }),
+);
+export interface GetBucketWebsiteOutput {
+  RedirectAllRequestsTo?: RedirectAllRequestsTo;
+  IndexDocument?: IndexDocument;
+  ErrorDocument?: ErrorDocument;
+  RoutingRules?: RoutingRules;
+}
+export const GetBucketWebsiteOutput = S.suspend(() =>
+  S.Struct({
     RedirectAllRequestsTo: S.optional(RedirectAllRequestsTo),
     IndexDocument: S.optional(IndexDocument),
     ErrorDocument: S.optional(ErrorDocument),
     RoutingRules: S.optional(RoutingRules),
-  },
-  T.all(T.XmlName("WebsiteConfiguration"), ns),
-) {}
-export class GetObjectOutput extends S.Class<GetObjectOutput>(
-  "GetObjectOutput",
-)(
-  {
+  }).pipe(T.all(T.XmlName("WebsiteConfiguration"), ns)),
+).annotations({
+  identifier: "GetBucketWebsiteOutput",
+}) as any as S.Schema<GetBucketWebsiteOutput>;
+export interface GetObjectOutput {
+  Body?: T.StreamingOutputBody;
+  DeleteMarker?: boolean;
+  AcceptRanges?: string;
+  Expiration?: string;
+  Restore?: string;
+  LastModified?: Date;
+  ContentLength?: number;
+  ETag?: string;
+  ChecksumCRC32?: string;
+  ChecksumCRC32C?: string;
+  ChecksumCRC64NVME?: string;
+  ChecksumSHA1?: string;
+  ChecksumSHA256?: string;
+  ChecksumType?: string;
+  MissingMeta?: number;
+  VersionId?: string;
+  CacheControl?: string;
+  ContentDisposition?: string;
+  ContentEncoding?: string;
+  ContentLanguage?: string;
+  ContentRange?: string;
+  ContentType?: string;
+  Expires?: string;
+  WebsiteRedirectLocation?: string;
+  ServerSideEncryption?: string;
+  Metadata?: Metadata;
+  SSECustomerAlgorithm?: string;
+  SSECustomerKeyMD5?: string;
+  SSEKMSKeyId?: string;
+  BucketKeyEnabled?: boolean;
+  StorageClass?: string;
+  RequestCharged?: string;
+  ReplicationStatus?: string;
+  PartsCount?: number;
+  TagCount?: number;
+  ObjectLockMode?: string;
+  ObjectLockRetainUntilDate?: Date;
+  ObjectLockLegalHoldStatus?: string;
+}
+export const GetObjectOutput = S.suspend(() =>
+  S.Struct({
     Body: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
     DeleteMarker: S.optional(S.Boolean).pipe(
       T.HttpHeader("x-amz-delete-marker"),
@@ -11931,103 +13363,143 @@ export class GetObjectOutput extends S.Class<GetObjectOutput>(
     ObjectLockLegalHoldStatus: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-object-lock-legal-hold"),
     ),
-  },
-  ns,
-) {}
-export class GetObjectAclOutput extends S.Class<GetObjectAclOutput>(
-  "GetObjectAclOutput",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetObjectOutput",
+}) as any as S.Schema<GetObjectOutput>;
+export interface GetObjectAclOutput {
+  Owner?: Owner;
+  Grants?: Grants;
+  RequestCharged?: string;
+}
+export const GetObjectAclOutput = S.suspend(() =>
+  S.Struct({
     Owner: S.optional(Owner),
     Grants: S.optional(Grants).pipe(T.XmlName("AccessControlList")),
     RequestCharged: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-request-charged"),
     ),
-  },
-  T.all(T.XmlName("AccessControlPolicy"), ns),
-) {}
-export class GetObjectLegalHoldOutput extends S.Class<GetObjectLegalHoldOutput>(
-  "GetObjectLegalHoldOutput",
-)(
-  {
-    LegalHold: S.optional(ObjectLockLegalHold).pipe(
-      T.HttpPayload(),
-      T.XmlName("LegalHold"),
-    ),
-  },
-  ns,
-) {}
-export class DefaultRetention extends S.Class<DefaultRetention>(
-  "DefaultRetention",
-)({
-  Mode: S.optional(S.String),
-  Days: S.optional(S.Number),
-  Years: S.optional(S.Number),
-}) {}
-export class ObjectLockRule extends S.Class<ObjectLockRule>("ObjectLockRule")({
-  DefaultRetention: S.optional(DefaultRetention),
-}) {}
-export class ObjectLockConfiguration extends S.Class<ObjectLockConfiguration>(
-  "ObjectLockConfiguration",
-)({
-  ObjectLockEnabled: S.optional(S.String),
-  Rule: S.optional(ObjectLockRule),
-}) {}
-export class GetObjectLockConfigurationOutput extends S.Class<GetObjectLockConfigurationOutput>(
-  "GetObjectLockConfigurationOutput",
-)(
-  {
-    ObjectLockConfiguration: S.optional(ObjectLockConfiguration).pipe(
-      T.HttpPayload(),
-    ),
-  },
-  ns,
-) {}
-export class GetObjectRetentionOutput extends S.Class<GetObjectRetentionOutput>(
-  "GetObjectRetentionOutput",
-)(
-  {
-    Retention: S.optional(ObjectLockRetention).pipe(
-      T.HttpPayload(),
-      T.XmlName("Retention"),
-    ),
-  },
-  ns,
-) {}
-export class GetObjectTaggingOutput extends S.Class<GetObjectTaggingOutput>(
-  "GetObjectTaggingOutput",
-)(
-  {
+  }).pipe(T.all(T.XmlName("AccessControlPolicy"), ns)),
+).annotations({
+  identifier: "GetObjectAclOutput",
+}) as any as S.Schema<GetObjectAclOutput>;
+export interface GetObjectLegalHoldOutput {
+  LegalHold?: ObjectLockLegalHold;
+}
+export const GetObjectLegalHoldOutput = S.suspend(() =>
+  S.Struct({
+    LegalHold: S.optional(ObjectLockLegalHold)
+      .pipe(T.HttpPayload(), T.XmlName("LegalHold"))
+      .annotations({ identifier: "ObjectLockLegalHold" }),
+  }).pipe(ns),
+).annotations({
+  identifier: "GetObjectLegalHoldOutput",
+}) as any as S.Schema<GetObjectLegalHoldOutput>;
+export interface DefaultRetention {
+  Mode?: string;
+  Days?: number;
+  Years?: number;
+}
+export const DefaultRetention = S.suspend(() =>
+  S.Struct({
+    Mode: S.optional(S.String),
+    Days: S.optional(S.Number),
+    Years: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "DefaultRetention",
+}) as any as S.Schema<DefaultRetention>;
+export interface ObjectLockRule {
+  DefaultRetention?: DefaultRetention;
+}
+export const ObjectLockRule = S.suspend(() =>
+  S.Struct({ DefaultRetention: S.optional(DefaultRetention) }),
+).annotations({
+  identifier: "ObjectLockRule",
+}) as any as S.Schema<ObjectLockRule>;
+export interface ObjectLockConfiguration {
+  ObjectLockEnabled?: string;
+  Rule?: ObjectLockRule;
+}
+export const ObjectLockConfiguration = S.suspend(() =>
+  S.Struct({
+    ObjectLockEnabled: S.optional(S.String),
+    Rule: S.optional(ObjectLockRule),
+  }),
+).annotations({
+  identifier: "ObjectLockConfiguration",
+}) as any as S.Schema<ObjectLockConfiguration>;
+export interface GetObjectLockConfigurationOutput {
+  ObjectLockConfiguration?: ObjectLockConfiguration;
+}
+export const GetObjectLockConfigurationOutput = S.suspend(() =>
+  S.Struct({
+    ObjectLockConfiguration: S.optional(ObjectLockConfiguration)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "ObjectLockConfiguration" }),
+  }).pipe(ns),
+).annotations({
+  identifier: "GetObjectLockConfigurationOutput",
+}) as any as S.Schema<GetObjectLockConfigurationOutput>;
+export interface GetObjectRetentionOutput {
+  Retention?: ObjectLockRetention;
+}
+export const GetObjectRetentionOutput = S.suspend(() =>
+  S.Struct({
+    Retention: S.optional(ObjectLockRetention)
+      .pipe(T.HttpPayload(), T.XmlName("Retention"))
+      .annotations({ identifier: "ObjectLockRetention" }),
+  }).pipe(ns),
+).annotations({
+  identifier: "GetObjectRetentionOutput",
+}) as any as S.Schema<GetObjectRetentionOutput>;
+export interface GetObjectTaggingOutput {
+  VersionId?: string;
+  TagSet: TagSet;
+}
+export const GetObjectTaggingOutput = S.suspend(() =>
+  S.Struct({
     VersionId: S.optional(S.String).pipe(T.HttpHeader("x-amz-version-id")),
     TagSet: TagSet,
-  },
-  T.all(T.XmlName("Tagging"), ns),
-) {}
-export class GetObjectTorrentOutput extends S.Class<GetObjectTorrentOutput>(
-  "GetObjectTorrentOutput",
-)(
-  {
+  }).pipe(T.all(T.XmlName("Tagging"), ns)),
+).annotations({
+  identifier: "GetObjectTaggingOutput",
+}) as any as S.Schema<GetObjectTaggingOutput>;
+export interface GetObjectTorrentOutput {
+  Body?: T.StreamingOutputBody;
+  RequestCharged?: string;
+}
+export const GetObjectTorrentOutput = S.suspend(() =>
+  S.Struct({
     Body: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
     RequestCharged: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-request-charged"),
     ),
-  },
-  ns,
-) {}
-export class GetPublicAccessBlockOutput extends S.Class<GetPublicAccessBlockOutput>(
-  "GetPublicAccessBlockOutput",
-)(
-  {
-    PublicAccessBlockConfiguration: S.optional(
-      PublicAccessBlockConfiguration,
-    ).pipe(T.HttpPayload()),
-  },
-  ns,
-) {}
-export class HeadBucketOutput extends S.Class<HeadBucketOutput>(
-  "HeadBucketOutput",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetObjectTorrentOutput",
+}) as any as S.Schema<GetObjectTorrentOutput>;
+export interface GetPublicAccessBlockOutput {
+  PublicAccessBlockConfiguration?: PublicAccessBlockConfiguration;
+}
+export const GetPublicAccessBlockOutput = S.suspend(() =>
+  S.Struct({
+    PublicAccessBlockConfiguration: S.optional(PublicAccessBlockConfiguration)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "PublicAccessBlockConfiguration" }),
+  }).pipe(ns),
+).annotations({
+  identifier: "GetPublicAccessBlockOutput",
+}) as any as S.Schema<GetPublicAccessBlockOutput>;
+export interface HeadBucketOutput {
+  BucketArn?: string;
+  BucketLocationType?: string;
+  BucketLocationName?: string;
+  BucketRegion?: string;
+  AccessPointAlias?: boolean;
+}
+export const HeadBucketOutput = S.suspend(() =>
+  S.Struct({
     BucketArn: S.optional(S.String).pipe(T.HttpHeader("x-amz-bucket-arn")),
     BucketLocationType: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-bucket-location-type"),
@@ -12041,13 +13513,52 @@ export class HeadBucketOutput extends S.Class<HeadBucketOutput>(
     AccessPointAlias: S.optional(S.Boolean).pipe(
       T.HttpHeader("x-amz-access-point-alias"),
     ),
-  },
-  ns,
-) {}
-export class HeadObjectOutput extends S.Class<HeadObjectOutput>(
-  "HeadObjectOutput",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "HeadBucketOutput",
+}) as any as S.Schema<HeadBucketOutput>;
+export interface HeadObjectOutput {
+  DeleteMarker?: boolean;
+  AcceptRanges?: string;
+  Expiration?: string;
+  Restore?: string;
+  ArchiveStatus?: string;
+  LastModified?: Date;
+  ContentLength?: number;
+  ChecksumCRC32?: string;
+  ChecksumCRC32C?: string;
+  ChecksumCRC64NVME?: string;
+  ChecksumSHA1?: string;
+  ChecksumSHA256?: string;
+  ChecksumType?: string;
+  ETag?: string;
+  MissingMeta?: number;
+  VersionId?: string;
+  CacheControl?: string;
+  ContentDisposition?: string;
+  ContentEncoding?: string;
+  ContentLanguage?: string;
+  ContentType?: string;
+  ContentRange?: string;
+  Expires?: string;
+  WebsiteRedirectLocation?: string;
+  ServerSideEncryption?: string;
+  Metadata?: Metadata;
+  SSECustomerAlgorithm?: string;
+  SSECustomerKeyMD5?: string;
+  SSEKMSKeyId?: string;
+  BucketKeyEnabled?: boolean;
+  StorageClass?: string;
+  RequestCharged?: string;
+  ReplicationStatus?: string;
+  PartsCount?: number;
+  TagCount?: number;
+  ObjectLockMode?: string;
+  ObjectLockRetainUntilDate?: Date;
+  ObjectLockLegalHoldStatus?: string;
+}
+export const HeadObjectOutput = S.suspend(() =>
+  S.Struct({
     DeleteMarker: S.optional(S.Boolean).pipe(
       T.HttpHeader("x-amz-delete-marker"),
     ),
@@ -12134,13 +13645,18 @@ export class HeadObjectOutput extends S.Class<HeadObjectOutput>(
     ObjectLockLegalHoldStatus: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-object-lock-legal-hold"),
     ),
-  },
-  ns,
-) {}
-export class ListBucketAnalyticsConfigurationsOutput extends S.Class<ListBucketAnalyticsConfigurationsOutput>(
-  "ListBucketAnalyticsConfigurationsOutput",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "HeadObjectOutput",
+}) as any as S.Schema<HeadObjectOutput>;
+export interface ListBucketAnalyticsConfigurationsOutput {
+  IsTruncated?: boolean;
+  ContinuationToken?: string;
+  NextContinuationToken?: string;
+  AnalyticsConfigurationList?: AnalyticsConfigurationList;
+}
+export const ListBucketAnalyticsConfigurationsOutput = S.suspend(() =>
+  S.Struct({
     IsTruncated: S.optional(S.Boolean),
     ContinuationToken: S.optional(S.String),
     NextContinuationToken: S.optional(S.String),
@@ -12148,26 +13664,36 @@ export class ListBucketAnalyticsConfigurationsOutput extends S.Class<ListBucketA
       T.XmlName("AnalyticsConfiguration"),
       T.XmlFlattened(),
     ),
-  },
-  T.all(T.XmlName("ListBucketAnalyticsConfigurationResult"), ns),
-) {}
-export class ListBucketIntelligentTieringConfigurationsOutput extends S.Class<ListBucketIntelligentTieringConfigurationsOutput>(
-  "ListBucketIntelligentTieringConfigurationsOutput",
-)(
-  {
+  }).pipe(T.all(T.XmlName("ListBucketAnalyticsConfigurationResult"), ns)),
+).annotations({
+  identifier: "ListBucketAnalyticsConfigurationsOutput",
+}) as any as S.Schema<ListBucketAnalyticsConfigurationsOutput>;
+export interface ListBucketIntelligentTieringConfigurationsOutput {
+  IsTruncated?: boolean;
+  ContinuationToken?: string;
+  NextContinuationToken?: string;
+  IntelligentTieringConfigurationList?: IntelligentTieringConfigurationList;
+}
+export const ListBucketIntelligentTieringConfigurationsOutput = S.suspend(() =>
+  S.Struct({
     IsTruncated: S.optional(S.Boolean),
     ContinuationToken: S.optional(S.String),
     NextContinuationToken: S.optional(S.String),
     IntelligentTieringConfigurationList: S.optional(
       IntelligentTieringConfigurationList,
     ).pipe(T.XmlName("IntelligentTieringConfiguration"), T.XmlFlattened()),
-  },
-  ns,
-) {}
-export class ListBucketInventoryConfigurationsOutput extends S.Class<ListBucketInventoryConfigurationsOutput>(
-  "ListBucketInventoryConfigurationsOutput",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListBucketIntelligentTieringConfigurationsOutput",
+}) as any as S.Schema<ListBucketIntelligentTieringConfigurationsOutput>;
+export interface ListBucketInventoryConfigurationsOutput {
+  ContinuationToken?: string;
+  InventoryConfigurationList?: InventoryConfigurationList;
+  IsTruncated?: boolean;
+  NextContinuationToken?: string;
+}
+export const ListBucketInventoryConfigurationsOutput = S.suspend(() =>
+  S.Struct({
     ContinuationToken: S.optional(S.String),
     InventoryConfigurationList: S.optional(InventoryConfigurationList).pipe(
       T.XmlName("InventoryConfiguration"),
@@ -12175,13 +13701,18 @@ export class ListBucketInventoryConfigurationsOutput extends S.Class<ListBucketI
     ),
     IsTruncated: S.optional(S.Boolean),
     NextContinuationToken: S.optional(S.String),
-  },
-  T.all(T.XmlName("ListInventoryConfigurationsResult"), ns),
-) {}
-export class ListBucketMetricsConfigurationsOutput extends S.Class<ListBucketMetricsConfigurationsOutput>(
-  "ListBucketMetricsConfigurationsOutput",
-)(
-  {
+  }).pipe(T.all(T.XmlName("ListInventoryConfigurationsResult"), ns)),
+).annotations({
+  identifier: "ListBucketInventoryConfigurationsOutput",
+}) as any as S.Schema<ListBucketInventoryConfigurationsOutput>;
+export interface ListBucketMetricsConfigurationsOutput {
+  IsTruncated?: boolean;
+  ContinuationToken?: string;
+  NextContinuationToken?: string;
+  MetricsConfigurationList?: MetricsConfigurationList;
+}
+export const ListBucketMetricsConfigurationsOutput = S.suspend(() =>
+  S.Struct({
     IsTruncated: S.optional(S.Boolean),
     ContinuationToken: S.optional(S.String),
     NextContinuationToken: S.optional(S.String),
@@ -12189,47 +13720,105 @@ export class ListBucketMetricsConfigurationsOutput extends S.Class<ListBucketMet
       T.XmlName("MetricsConfiguration"),
       T.XmlFlattened(),
     ),
-  },
-  T.all(T.XmlName("ListMetricsConfigurationsResult"), ns),
-) {}
-export class Bucket extends S.Class<Bucket>("Bucket")({
-  Name: S.optional(S.String),
-  CreationDate: S.optional(S.Date),
-  BucketRegion: S.optional(S.String),
-  BucketArn: S.optional(S.String),
-}) {}
-export const Buckets = S.Array(Bucket.pipe(T.XmlName("Bucket")));
-export class ListDirectoryBucketsOutput extends S.Class<ListDirectoryBucketsOutput>(
-  "ListDirectoryBucketsOutput",
-)(
-  { Buckets: S.optional(Buckets), ContinuationToken: S.optional(S.String) },
-  T.all(T.XmlName("ListAllMyDirectoryBucketsResult"), ns),
-) {}
+  }).pipe(T.all(T.XmlName("ListMetricsConfigurationsResult"), ns)),
+).annotations({
+  identifier: "ListBucketMetricsConfigurationsOutput",
+}) as any as S.Schema<ListBucketMetricsConfigurationsOutput>;
+export interface Bucket {
+  Name?: string;
+  CreationDate?: Date;
+  BucketRegion?: string;
+  BucketArn?: string;
+}
+export const Bucket = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    CreationDate: S.optional(S.Date),
+    BucketRegion: S.optional(S.String),
+    BucketArn: S.optional(S.String),
+  }),
+).annotations({ identifier: "Bucket" }) as any as S.Schema<Bucket>;
+export type Buckets = Bucket[];
+export const Buckets = S.Array(
+  Bucket.pipe(T.XmlName("Bucket")).annotations({ identifier: "Bucket" }),
+);
+export interface ListDirectoryBucketsOutput {
+  Buckets?: Buckets;
+  ContinuationToken?: string;
+}
+export const ListDirectoryBucketsOutput = S.suspend(() =>
+  S.Struct({
+    Buckets: S.optional(Buckets),
+    ContinuationToken: S.optional(S.String),
+  }).pipe(T.all(T.XmlName("ListAllMyDirectoryBucketsResult"), ns)),
+).annotations({
+  identifier: "ListDirectoryBucketsOutput",
+}) as any as S.Schema<ListDirectoryBucketsOutput>;
+export type ChecksumAlgorithmList = string[];
 export const ChecksumAlgorithmList = S.Array(S.String);
-export class RestoreStatus extends S.Class<RestoreStatus>("RestoreStatus")({
-  IsRestoreInProgress: S.optional(S.Boolean),
-  RestoreExpiryDate: S.optional(S.Date),
-}) {}
-export class Object extends S.Class<Object>("Object")({
-  Key: S.optional(S.String),
-  LastModified: S.optional(S.Date),
-  ETag: S.optional(S.String),
-  ChecksumAlgorithm: S.optional(ChecksumAlgorithmList).pipe(T.XmlFlattened()),
-  ChecksumType: S.optional(S.String),
-  Size: S.optional(S.Number),
-  StorageClass: S.optional(S.String),
-  Owner: S.optional(Owner),
-  RestoreStatus: S.optional(RestoreStatus),
-}) {}
+export interface RestoreStatus {
+  IsRestoreInProgress?: boolean;
+  RestoreExpiryDate?: Date;
+}
+export const RestoreStatus = S.suspend(() =>
+  S.Struct({
+    IsRestoreInProgress: S.optional(S.Boolean),
+    RestoreExpiryDate: S.optional(S.Date),
+  }),
+).annotations({
+  identifier: "RestoreStatus",
+}) as any as S.Schema<RestoreStatus>;
+export interface Object {
+  Key?: string;
+  LastModified?: Date;
+  ETag?: string;
+  ChecksumAlgorithm?: ChecksumAlgorithmList;
+  ChecksumType?: string;
+  Size?: number;
+  StorageClass?: string;
+  Owner?: Owner;
+  RestoreStatus?: RestoreStatus;
+}
+export const Object = S.suspend(() =>
+  S.Struct({
+    Key: S.optional(S.String),
+    LastModified: S.optional(S.Date),
+    ETag: S.optional(S.String),
+    ChecksumAlgorithm: S.optional(ChecksumAlgorithmList).pipe(T.XmlFlattened()),
+    ChecksumType: S.optional(S.String),
+    Size: S.optional(S.Number),
+    StorageClass: S.optional(S.String),
+    Owner: S.optional(Owner),
+    RestoreStatus: S.optional(RestoreStatus),
+  }),
+).annotations({ identifier: "Object" }) as any as S.Schema<Object>;
+export type ObjectList = Object[];
 export const ObjectList = S.Array(Object);
-export class CommonPrefix extends S.Class<CommonPrefix>("CommonPrefix")({
-  Prefix: S.optional(S.String),
-}) {}
+export interface CommonPrefix {
+  Prefix?: string;
+}
+export const CommonPrefix = S.suspend(() =>
+  S.Struct({ Prefix: S.optional(S.String) }),
+).annotations({ identifier: "CommonPrefix" }) as any as S.Schema<CommonPrefix>;
+export type CommonPrefixList = CommonPrefix[];
 export const CommonPrefixList = S.Array(CommonPrefix);
-export class ListObjectsV2Output extends S.Class<ListObjectsV2Output>(
-  "ListObjectsV2Output",
-)(
-  {
+export interface ListObjectsV2Output {
+  IsTruncated?: boolean;
+  Contents?: ObjectList;
+  Name?: string;
+  Prefix?: string;
+  Delimiter?: string;
+  MaxKeys?: number;
+  CommonPrefixes?: CommonPrefixList;
+  EncodingType?: string;
+  KeyCount?: number;
+  ContinuationToken?: string;
+  NextContinuationToken?: string;
+  StartAfter?: string;
+  RequestCharged?: string;
+}
+export const ListObjectsV2Output = S.suspend(() =>
+  S.Struct({
     IsTruncated: S.optional(S.Boolean),
     Contents: S.optional(ObjectList).pipe(T.XmlFlattened()),
     Name: S.optional(S.String),
@@ -12245,13 +13834,19 @@ export class ListObjectsV2Output extends S.Class<ListObjectsV2Output>(
     RequestCharged: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-request-charged"),
     ),
-  },
-  T.all(T.XmlName("ListBucketResult"), ns),
-) {}
-export class PutBucketAbacRequest extends S.Class<PutBucketAbacRequest>(
-  "PutBucketAbacRequest",
-)(
-  {
+  }).pipe(T.all(T.XmlName("ListBucketResult"), ns)),
+).annotations({
+  identifier: "ListObjectsV2Output",
+}) as any as S.Schema<ListObjectsV2Output>;
+export interface PutBucketAbacRequest {
+  Bucket: string;
+  ContentMD5?: string;
+  ChecksumAlgorithm?: string;
+  ExpectedBucketOwner?: string;
+  AbacStatus: AbacStatus;
+}
+export const PutBucketAbacRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
     ChecksumAlgorithm: S.optional(S.String).pipe(
@@ -12260,57 +13855,85 @@ export class PutBucketAbacRequest extends S.Class<PutBucketAbacRequest>(
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-    AbacStatus: AbacStatus.pipe(T.HttpPayload(), T.XmlName("AbacStatus")),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "PUT", uri: "/{Bucket}?abac" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.AwsProtocolsHttpChecksum({ requestAlgorithmMember: "ChecksumAlgorithm" }),
+    AbacStatus: AbacStatus.pipe(
+      T.HttpPayload(),
+      T.XmlName("AbacStatus"),
+    ).annotations({ identifier: "AbacStatus" }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "PUT", uri: "/{Bucket}?abac" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.AwsProtocolsHttpChecksum({
+        requestAlgorithmMember: "ChecksumAlgorithm",
+      }),
+    ),
   ),
-) {}
-export class PutBucketAbacResponse extends S.Class<PutBucketAbacResponse>(
-  "PutBucketAbacResponse",
-)({}, ns) {}
-export class PutBucketAccelerateConfigurationRequest extends S.Class<PutBucketAccelerateConfigurationRequest>(
-  "PutBucketAccelerateConfigurationRequest",
-)(
-  {
+).annotations({
+  identifier: "PutBucketAbacRequest",
+}) as any as S.Schema<PutBucketAbacRequest>;
+export interface PutBucketAbacResponse {}
+export const PutBucketAbacResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "PutBucketAbacResponse",
+}) as any as S.Schema<PutBucketAbacResponse>;
+export interface PutBucketAccelerateConfigurationRequest {
+  Bucket: string;
+  AccelerateConfiguration: AccelerateConfiguration;
+  ExpectedBucketOwner?: string;
+  ChecksumAlgorithm?: string;
+}
+export const PutBucketAccelerateConfigurationRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     AccelerateConfiguration: AccelerateConfiguration.pipe(
       T.HttpPayload(),
       T.XmlName("AccelerateConfiguration"),
-    ),
+    ).annotations({ identifier: "AccelerateConfiguration" }),
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
     ChecksumAlgorithm: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-sdk-checksum-algorithm"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "PUT", uri: "/{Bucket}?accelerate" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.AwsProtocolsHttpChecksum({ requestAlgorithmMember: "ChecksumAlgorithm" }),
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "PUT", uri: "/{Bucket}?accelerate" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.AwsProtocolsHttpChecksum({
+        requestAlgorithmMember: "ChecksumAlgorithm",
+      }),
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
   ),
-) {}
-export class PutBucketAccelerateConfigurationResponse extends S.Class<PutBucketAccelerateConfigurationResponse>(
-  "PutBucketAccelerateConfigurationResponse",
-)({}, ns) {}
-export class PutBucketRequestPaymentRequest extends S.Class<PutBucketRequestPaymentRequest>(
-  "PutBucketRequestPaymentRequest",
-)(
-  {
+).annotations({
+  identifier: "PutBucketAccelerateConfigurationRequest",
+}) as any as S.Schema<PutBucketAccelerateConfigurationRequest>;
+export interface PutBucketAccelerateConfigurationResponse {}
+export const PutBucketAccelerateConfigurationResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "PutBucketAccelerateConfigurationResponse",
+}) as any as S.Schema<PutBucketAccelerateConfigurationResponse>;
+export interface PutBucketRequestPaymentRequest {
+  Bucket: string;
+  ContentMD5?: string;
+  ChecksumAlgorithm?: string;
+  RequestPaymentConfiguration: RequestPaymentConfiguration;
+  ExpectedBucketOwner?: string;
+}
+export const PutBucketRequestPaymentRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
     ChecksumAlgorithm: S.optional(S.String).pipe(
@@ -12319,65 +13942,90 @@ export class PutBucketRequestPaymentRequest extends S.Class<PutBucketRequestPaym
     RequestPaymentConfiguration: RequestPaymentConfiguration.pipe(
       T.HttpPayload(),
       T.XmlName("RequestPaymentConfiguration"),
-    ),
+    ).annotations({ identifier: "RequestPaymentConfiguration" }),
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "PUT", uri: "/{Bucket}?requestPayment" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.AwsProtocolsHttpChecksum({
-      requestAlgorithmMember: "ChecksumAlgorithm",
-      requestChecksumRequired: true,
-    }),
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "PUT", uri: "/{Bucket}?requestPayment" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.AwsProtocolsHttpChecksum({
+        requestAlgorithmMember: "ChecksumAlgorithm",
+        requestChecksumRequired: true,
+      }),
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
   ),
-) {}
-export class PutBucketRequestPaymentResponse extends S.Class<PutBucketRequestPaymentResponse>(
-  "PutBucketRequestPaymentResponse",
-)({}, ns) {}
-export class PutBucketTaggingRequest extends S.Class<PutBucketTaggingRequest>(
-  "PutBucketTaggingRequest",
-)(
-  {
+).annotations({
+  identifier: "PutBucketRequestPaymentRequest",
+}) as any as S.Schema<PutBucketRequestPaymentRequest>;
+export interface PutBucketRequestPaymentResponse {}
+export const PutBucketRequestPaymentResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "PutBucketRequestPaymentResponse",
+}) as any as S.Schema<PutBucketRequestPaymentResponse>;
+export interface PutBucketTaggingRequest {
+  Bucket: string;
+  ContentMD5?: string;
+  ChecksumAlgorithm?: string;
+  Tagging: Tagging;
+  ExpectedBucketOwner?: string;
+}
+export const PutBucketTaggingRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
     ChecksumAlgorithm: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-sdk-checksum-algorithm"),
     ),
-    Tagging: Tagging.pipe(T.HttpPayload(), T.XmlName("Tagging")),
+    Tagging: Tagging.pipe(T.HttpPayload(), T.XmlName("Tagging")).annotations({
+      identifier: "Tagging",
+    }),
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "PUT", uri: "/{Bucket}?tagging" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.AwsProtocolsHttpChecksum({
-      requestAlgorithmMember: "ChecksumAlgorithm",
-      requestChecksumRequired: true,
-    }),
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "PUT", uri: "/{Bucket}?tagging" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.AwsProtocolsHttpChecksum({
+        requestAlgorithmMember: "ChecksumAlgorithm",
+        requestChecksumRequired: true,
+      }),
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
   ),
-) {}
-export class PutBucketTaggingResponse extends S.Class<PutBucketTaggingResponse>(
-  "PutBucketTaggingResponse",
-)({}, ns) {}
-export class PutBucketVersioningRequest extends S.Class<PutBucketVersioningRequest>(
-  "PutBucketVersioningRequest",
-)(
-  {
+).annotations({
+  identifier: "PutBucketTaggingRequest",
+}) as any as S.Schema<PutBucketTaggingRequest>;
+export interface PutBucketTaggingResponse {}
+export const PutBucketTaggingResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "PutBucketTaggingResponse",
+}) as any as S.Schema<PutBucketTaggingResponse>;
+export interface PutBucketVersioningRequest {
+  Bucket: string;
+  ContentMD5?: string;
+  ChecksumAlgorithm?: string;
+  MFA?: string;
+  VersioningConfiguration: VersioningConfiguration;
+  ExpectedBucketOwner?: string;
+}
+export const PutBucketVersioningRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
     ChecksumAlgorithm: S.optional(S.String).pipe(
@@ -12387,33 +14035,56 @@ export class PutBucketVersioningRequest extends S.Class<PutBucketVersioningReque
     VersioningConfiguration: VersioningConfiguration.pipe(
       T.HttpPayload(),
       T.XmlName("VersioningConfiguration"),
-    ),
+    ).annotations({ identifier: "VersioningConfiguration" }),
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "PUT", uri: "/{Bucket}?versioning" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.AwsProtocolsHttpChecksum({
-      requestAlgorithmMember: "ChecksumAlgorithm",
-      requestChecksumRequired: true,
-    }),
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "PUT", uri: "/{Bucket}?versioning" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.AwsProtocolsHttpChecksum({
+        requestAlgorithmMember: "ChecksumAlgorithm",
+        requestChecksumRequired: true,
+      }),
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
   ),
-) {}
-export class PutBucketVersioningResponse extends S.Class<PutBucketVersioningResponse>(
-  "PutBucketVersioningResponse",
-)({}, ns) {}
-export class PutObjectOutput extends S.Class<PutObjectOutput>(
-  "PutObjectOutput",
-)(
-  {
+).annotations({
+  identifier: "PutBucketVersioningRequest",
+}) as any as S.Schema<PutBucketVersioningRequest>;
+export interface PutBucketVersioningResponse {}
+export const PutBucketVersioningResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "PutBucketVersioningResponse",
+}) as any as S.Schema<PutBucketVersioningResponse>;
+export interface PutObjectOutput {
+  Expiration?: string;
+  ETag?: string;
+  ChecksumCRC32?: string;
+  ChecksumCRC32C?: string;
+  ChecksumCRC64NVME?: string;
+  ChecksumSHA1?: string;
+  ChecksumSHA256?: string;
+  ChecksumType?: string;
+  ServerSideEncryption?: string;
+  VersionId?: string;
+  SSECustomerAlgorithm?: string;
+  SSECustomerKeyMD5?: string;
+  SSEKMSKeyId?: string;
+  SSEKMSEncryptionContext?: string;
+  BucketKeyEnabled?: boolean;
+  Size?: number;
+  RequestCharged?: string;
+}
+export const PutObjectOutput = S.suspend(() =>
+  S.Struct({
     Expiration: S.optional(S.String).pipe(T.HttpHeader("x-amz-expiration")),
     ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
     ChecksumCRC32: S.optional(S.String).pipe(
@@ -12457,29 +14128,39 @@ export class PutObjectOutput extends S.Class<PutObjectOutput>(
     RequestCharged: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-request-charged"),
     ),
-  },
-  ns,
-) {}
-export class PutObjectAclOutput extends S.Class<PutObjectAclOutput>(
-  "PutObjectAclOutput",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "PutObjectOutput",
+}) as any as S.Schema<PutObjectOutput>;
+export interface PutObjectAclOutput {
+  RequestCharged?: string;
+}
+export const PutObjectAclOutput = S.suspend(() =>
+  S.Struct({
     RequestCharged: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-request-charged"),
     ),
-  },
-  ns,
-) {}
-export class PutObjectLegalHoldRequest extends S.Class<PutObjectLegalHoldRequest>(
-  "PutObjectLegalHoldRequest",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "PutObjectAclOutput",
+}) as any as S.Schema<PutObjectAclOutput>;
+export interface PutObjectLegalHoldRequest {
+  Bucket: string;
+  Key: string;
+  LegalHold?: ObjectLockLegalHold;
+  RequestPayer?: string;
+  VersionId?: string;
+  ContentMD5?: string;
+  ChecksumAlgorithm?: string;
+  ExpectedBucketOwner?: string;
+}
+export const PutObjectLegalHoldRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     Key: S.String.pipe(T.HttpLabel("Key")),
-    LegalHold: S.optional(ObjectLockLegalHold).pipe(
-      T.HttpPayload(),
-      T.XmlName("LegalHold"),
-    ),
+    LegalHold: S.optional(ObjectLockLegalHold)
+      .pipe(T.HttpPayload(), T.XmlName("LegalHold"))
+      .annotations({ identifier: "ObjectLockLegalHold" }),
     RequestPayer: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-request-payer"),
     ),
@@ -12491,31 +14172,42 @@ export class PutObjectLegalHoldRequest extends S.Class<PutObjectLegalHoldRequest
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "PUT", uri: "/{Bucket}/{Key+}?legal-hold" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.AwsProtocolsHttpChecksum({
-      requestAlgorithmMember: "ChecksumAlgorithm",
-      requestChecksumRequired: true,
-    }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "PUT", uri: "/{Bucket}/{Key+}?legal-hold" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.AwsProtocolsHttpChecksum({
+        requestAlgorithmMember: "ChecksumAlgorithm",
+        requestChecksumRequired: true,
+      }),
+    ),
   ),
-) {}
-export class PutObjectRetentionRequest extends S.Class<PutObjectRetentionRequest>(
-  "PutObjectRetentionRequest",
-)(
-  {
+).annotations({
+  identifier: "PutObjectLegalHoldRequest",
+}) as any as S.Schema<PutObjectLegalHoldRequest>;
+export interface PutObjectRetentionRequest {
+  Bucket: string;
+  Key: string;
+  Retention?: ObjectLockRetention;
+  RequestPayer?: string;
+  VersionId?: string;
+  BypassGovernanceRetention?: boolean;
+  ContentMD5?: string;
+  ChecksumAlgorithm?: string;
+  ExpectedBucketOwner?: string;
+}
+export const PutObjectRetentionRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     Key: S.String.pipe(T.HttpLabel("Key")),
-    Retention: S.optional(ObjectLockRetention).pipe(
-      T.HttpPayload(),
-      T.XmlName("Retention"),
-    ),
+    Retention: S.optional(ObjectLockRetention)
+      .pipe(T.HttpPayload(), T.XmlName("Retention"))
+      .annotations({ identifier: "ObjectLockRetention" }),
     RequestPayer: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-request-payer"),
     ),
@@ -12530,31 +14222,43 @@ export class PutObjectRetentionRequest extends S.Class<PutObjectRetentionRequest
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "PUT", uri: "/{Bucket}/{Key+}?retention" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.AwsProtocolsHttpChecksum({
-      requestAlgorithmMember: "ChecksumAlgorithm",
-      requestChecksumRequired: true,
-    }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "PUT", uri: "/{Bucket}/{Key+}?retention" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.AwsProtocolsHttpChecksum({
+        requestAlgorithmMember: "ChecksumAlgorithm",
+        requestChecksumRequired: true,
+      }),
+    ),
   ),
-) {}
-export class PutObjectTaggingOutput extends S.Class<PutObjectTaggingOutput>(
-  "PutObjectTaggingOutput",
-)(
-  { VersionId: S.optional(S.String).pipe(T.HttpHeader("x-amz-version-id")) },
-  ns,
-) {}
-export class PutPublicAccessBlockRequest extends S.Class<PutPublicAccessBlockRequest>(
-  "PutPublicAccessBlockRequest",
-)(
-  {
+).annotations({
+  identifier: "PutObjectRetentionRequest",
+}) as any as S.Schema<PutObjectRetentionRequest>;
+export interface PutObjectTaggingOutput {
+  VersionId?: string;
+}
+export const PutObjectTaggingOutput = S.suspend(() =>
+  S.Struct({
+    VersionId: S.optional(S.String).pipe(T.HttpHeader("x-amz-version-id")),
+  }).pipe(ns),
+).annotations({
+  identifier: "PutObjectTaggingOutput",
+}) as any as S.Schema<PutObjectTaggingOutput>;
+export interface PutPublicAccessBlockRequest {
+  Bucket: string;
+  ContentMD5?: string;
+  ChecksumAlgorithm?: string;
+  PublicAccessBlockConfiguration: PublicAccessBlockConfiguration;
+  ExpectedBucketOwner?: string;
+}
+export const PutPublicAccessBlockRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
     ChecksumAlgorithm: S.optional(S.String).pipe(
@@ -12563,33 +14267,51 @@ export class PutPublicAccessBlockRequest extends S.Class<PutPublicAccessBlockReq
     PublicAccessBlockConfiguration: PublicAccessBlockConfiguration.pipe(
       T.HttpPayload(),
       T.XmlName("PublicAccessBlockConfiguration"),
-    ),
+    ).annotations({ identifier: "PublicAccessBlockConfiguration" }),
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "PUT", uri: "/{Bucket}?publicAccessBlock" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.AwsProtocolsHttpChecksum({
-      requestAlgorithmMember: "ChecksumAlgorithm",
-      requestChecksumRequired: true,
-    }),
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "PUT", uri: "/{Bucket}?publicAccessBlock" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.AwsProtocolsHttpChecksum({
+        requestAlgorithmMember: "ChecksumAlgorithm",
+        requestChecksumRequired: true,
+      }),
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
   ),
-) {}
-export class PutPublicAccessBlockResponse extends S.Class<PutPublicAccessBlockResponse>(
-  "PutPublicAccessBlockResponse",
-)({}, ns) {}
-export class UploadPartOutput extends S.Class<UploadPartOutput>(
-  "UploadPartOutput",
-)(
-  {
+).annotations({
+  identifier: "PutPublicAccessBlockRequest",
+}) as any as S.Schema<PutPublicAccessBlockRequest>;
+export interface PutPublicAccessBlockResponse {}
+export const PutPublicAccessBlockResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "PutPublicAccessBlockResponse",
+}) as any as S.Schema<PutPublicAccessBlockResponse>;
+export interface UploadPartOutput {
+  ServerSideEncryption?: string;
+  ETag?: string;
+  ChecksumCRC32?: string;
+  ChecksumCRC32C?: string;
+  ChecksumCRC64NVME?: string;
+  ChecksumSHA1?: string;
+  ChecksumSHA256?: string;
+  SSECustomerAlgorithm?: string;
+  SSECustomerKeyMD5?: string;
+  SSEKMSKeyId?: string;
+  BucketKeyEnabled?: boolean;
+  RequestCharged?: string;
+}
+export const UploadPartOutput = S.suspend(() =>
+  S.Struct({
     ServerSideEncryption: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-server-side-encryption"),
     ),
@@ -12624,268 +14346,578 @@ export class UploadPartOutput extends S.Class<UploadPartOutput>(
     RequestCharged: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-request-charged"),
     ),
-  },
-  ns,
-) {}
-export class CompletedPart extends S.Class<CompletedPart>("CompletedPart")({
-  ETag: S.optional(S.String),
-  ChecksumCRC32: S.optional(S.String),
-  ChecksumCRC32C: S.optional(S.String),
-  ChecksumCRC64NVME: S.optional(S.String),
-  ChecksumSHA1: S.optional(S.String),
-  ChecksumSHA256: S.optional(S.String),
-  PartNumber: S.optional(S.Number),
-}) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "UploadPartOutput",
+}) as any as S.Schema<UploadPartOutput>;
+export interface CompletedPart {
+  ETag?: string;
+  ChecksumCRC32?: string;
+  ChecksumCRC32C?: string;
+  ChecksumCRC64NVME?: string;
+  ChecksumSHA1?: string;
+  ChecksumSHA256?: string;
+  PartNumber?: number;
+}
+export const CompletedPart = S.suspend(() =>
+  S.Struct({
+    ETag: S.optional(S.String),
+    ChecksumCRC32: S.optional(S.String),
+    ChecksumCRC32C: S.optional(S.String),
+    ChecksumCRC64NVME: S.optional(S.String),
+    ChecksumSHA1: S.optional(S.String),
+    ChecksumSHA256: S.optional(S.String),
+    PartNumber: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "CompletedPart",
+}) as any as S.Schema<CompletedPart>;
+export type CompletedPartList = CompletedPart[];
 export const CompletedPartList = S.Array(CompletedPart);
-export class LocationInfo extends S.Class<LocationInfo>("LocationInfo")({
-  Type: S.optional(S.String),
-  Name: S.optional(S.String),
-}) {}
-export class BucketInfo extends S.Class<BucketInfo>("BucketInfo")({
-  DataRedundancy: S.optional(S.String),
-  Type: S.optional(S.String),
-}) {}
-export class RecordExpiration extends S.Class<RecordExpiration>(
-  "RecordExpiration",
-)({ Expiration: S.String, Days: S.optional(S.Number) }) {}
-export class MetadataTableEncryptionConfiguration extends S.Class<MetadataTableEncryptionConfiguration>(
-  "MetadataTableEncryptionConfiguration",
-)({ SseAlgorithm: S.String, KmsKeyArn: S.optional(S.String) }) {}
-export class JournalTableConfiguration extends S.Class<JournalTableConfiguration>(
-  "JournalTableConfiguration",
-)({
-  RecordExpiration: RecordExpiration,
-  EncryptionConfiguration: S.optional(MetadataTableEncryptionConfiguration),
-}) {}
-export class InventoryTableConfiguration extends S.Class<InventoryTableConfiguration>(
-  "InventoryTableConfiguration",
-)({
-  ConfigurationState: S.String,
-  EncryptionConfiguration: S.optional(MetadataTableEncryptionConfiguration),
-}) {}
-export class S3TablesDestination extends S.Class<S3TablesDestination>(
-  "S3TablesDestination",
-)({ TableBucketArn: S.String, TableName: S.String }) {}
-export class ObjectIdentifier extends S.Class<ObjectIdentifier>(
-  "ObjectIdentifier",
-)({
-  Key: S.String,
-  VersionId: S.optional(S.String),
-  ETag: S.optional(S.String),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("http-date"))),
-  Size: S.optional(S.Number),
-}) {}
+export interface LocationInfo {
+  Type?: string;
+  Name?: string;
+}
+export const LocationInfo = S.suspend(() =>
+  S.Struct({ Type: S.optional(S.String), Name: S.optional(S.String) }),
+).annotations({ identifier: "LocationInfo" }) as any as S.Schema<LocationInfo>;
+export interface BucketInfo {
+  DataRedundancy?: string;
+  Type?: string;
+}
+export const BucketInfo = S.suspend(() =>
+  S.Struct({
+    DataRedundancy: S.optional(S.String),
+    Type: S.optional(S.String),
+  }),
+).annotations({ identifier: "BucketInfo" }) as any as S.Schema<BucketInfo>;
+export interface RecordExpiration {
+  Expiration: string;
+  Days?: number;
+}
+export const RecordExpiration = S.suspend(() =>
+  S.Struct({ Expiration: S.String, Days: S.optional(S.Number) }),
+).annotations({
+  identifier: "RecordExpiration",
+}) as any as S.Schema<RecordExpiration>;
+export interface MetadataTableEncryptionConfiguration {
+  SseAlgorithm: string;
+  KmsKeyArn?: string;
+}
+export const MetadataTableEncryptionConfiguration = S.suspend(() =>
+  S.Struct({ SseAlgorithm: S.String, KmsKeyArn: S.optional(S.String) }),
+).annotations({
+  identifier: "MetadataTableEncryptionConfiguration",
+}) as any as S.Schema<MetadataTableEncryptionConfiguration>;
+export interface JournalTableConfiguration {
+  RecordExpiration: RecordExpiration;
+  EncryptionConfiguration?: MetadataTableEncryptionConfiguration;
+}
+export const JournalTableConfiguration = S.suspend(() =>
+  S.Struct({
+    RecordExpiration: RecordExpiration,
+    EncryptionConfiguration: S.optional(MetadataTableEncryptionConfiguration),
+  }),
+).annotations({
+  identifier: "JournalTableConfiguration",
+}) as any as S.Schema<JournalTableConfiguration>;
+export interface InventoryTableConfiguration {
+  ConfigurationState: string;
+  EncryptionConfiguration?: MetadataTableEncryptionConfiguration;
+}
+export const InventoryTableConfiguration = S.suspend(() =>
+  S.Struct({
+    ConfigurationState: S.String,
+    EncryptionConfiguration: S.optional(MetadataTableEncryptionConfiguration),
+  }),
+).annotations({
+  identifier: "InventoryTableConfiguration",
+}) as any as S.Schema<InventoryTableConfiguration>;
+export interface S3TablesDestination {
+  TableBucketArn: string;
+  TableName: string;
+}
+export const S3TablesDestination = S.suspend(() =>
+  S.Struct({ TableBucketArn: S.String, TableName: S.String }),
+).annotations({
+  identifier: "S3TablesDestination",
+}) as any as S.Schema<S3TablesDestination>;
+export interface ObjectIdentifier {
+  Key: string;
+  VersionId?: string;
+  ETag?: string;
+  LastModifiedTime?: Date;
+  Size?: number;
+}
+export const ObjectIdentifier = S.suspend(() =>
+  S.Struct({
+    Key: S.String,
+    VersionId: S.optional(S.String),
+    ETag: S.optional(S.String),
+    LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("http-date"))),
+    Size: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "ObjectIdentifier",
+}) as any as S.Schema<ObjectIdentifier>;
+export type ObjectIdentifierList = ObjectIdentifier[];
 export const ObjectIdentifierList = S.Array(ObjectIdentifier);
-export class FilterRule extends S.Class<FilterRule>("FilterRule")({
-  Name: S.optional(S.String),
-  Value: S.optional(S.String),
-}) {}
+export interface FilterRule {
+  Name?: string;
+  Value?: string;
+}
+export const FilterRule = S.suspend(() =>
+  S.Struct({ Name: S.optional(S.String), Value: S.optional(S.String) }),
+).annotations({ identifier: "FilterRule" }) as any as S.Schema<FilterRule>;
+export type FilterRuleList = FilterRule[];
 export const FilterRuleList = S.Array(FilterRule);
-export class S3KeyFilter extends S.Class<S3KeyFilter>("S3KeyFilter")({
-  FilterRules: S.optional(FilterRuleList).pipe(
-    T.XmlName("FilterRule"),
-    T.XmlFlattened(),
-  ),
-}) {}
-export class NotificationConfigurationFilter extends S.Class<NotificationConfigurationFilter>(
-  "NotificationConfigurationFilter",
-)({ Key: S.optional(S3KeyFilter).pipe(T.XmlName("S3Key")) }) {}
-export class QueueConfiguration extends S.Class<QueueConfiguration>(
-  "QueueConfiguration",
-)({
-  Id: S.optional(S.String),
-  QueueArn: S.String.pipe(T.XmlName("Queue")),
-  Events: EventList.pipe(T.XmlName("Event"), T.XmlFlattened()),
-  Filter: S.optional(NotificationConfigurationFilter),
-}) {}
+export interface S3KeyFilter {
+  FilterRules?: FilterRuleList;
+}
+export const S3KeyFilter = S.suspend(() =>
+  S.Struct({
+    FilterRules: S.optional(FilterRuleList).pipe(
+      T.XmlName("FilterRule"),
+      T.XmlFlattened(),
+    ),
+  }),
+).annotations({ identifier: "S3KeyFilter" }) as any as S.Schema<S3KeyFilter>;
+export interface NotificationConfigurationFilter {
+  Key?: S3KeyFilter;
+}
+export const NotificationConfigurationFilter = S.suspend(() =>
+  S.Struct({
+    Key: S.optional(S3KeyFilter)
+      .pipe(T.XmlName("S3Key"))
+      .annotations({ identifier: "S3KeyFilter" }),
+  }),
+).annotations({
+  identifier: "NotificationConfigurationFilter",
+}) as any as S.Schema<NotificationConfigurationFilter>;
+export interface QueueConfiguration {
+  Id?: string;
+  QueueArn: string;
+  Events: EventList;
+  Filter?: NotificationConfigurationFilter;
+}
+export const QueueConfiguration = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    QueueArn: S.String.pipe(T.XmlName("Queue")),
+    Events: EventList.pipe(T.XmlName("Event"), T.XmlFlattened()),
+    Filter: S.optional(NotificationConfigurationFilter),
+  }),
+).annotations({
+  identifier: "QueueConfiguration",
+}) as any as S.Schema<QueueConfiguration>;
+export type QueueConfigurationList = QueueConfiguration[];
 export const QueueConfigurationList = S.Array(QueueConfiguration);
-export class LambdaFunctionConfiguration extends S.Class<LambdaFunctionConfiguration>(
-  "LambdaFunctionConfiguration",
-)({
-  Id: S.optional(S.String),
-  LambdaFunctionArn: S.String.pipe(T.XmlName("CloudFunction")),
-  Events: EventList.pipe(T.XmlName("Event"), T.XmlFlattened()),
-  Filter: S.optional(NotificationConfigurationFilter),
-}) {}
+export interface LambdaFunctionConfiguration {
+  Id?: string;
+  LambdaFunctionArn: string;
+  Events: EventList;
+  Filter?: NotificationConfigurationFilter;
+}
+export const LambdaFunctionConfiguration = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    LambdaFunctionArn: S.String.pipe(T.XmlName("CloudFunction")),
+    Events: EventList.pipe(T.XmlName("Event"), T.XmlFlattened()),
+    Filter: S.optional(NotificationConfigurationFilter),
+  }),
+).annotations({
+  identifier: "LambdaFunctionConfiguration",
+}) as any as S.Schema<LambdaFunctionConfiguration>;
+export type LambdaFunctionConfigurationList = LambdaFunctionConfiguration[];
 export const LambdaFunctionConfigurationList = S.Array(
   LambdaFunctionConfiguration,
 );
-export class GlacierJobParameters extends S.Class<GlacierJobParameters>(
-  "GlacierJobParameters",
-)({ Tier: S.String }) {}
-export class CSVInput extends S.Class<CSVInput>("CSVInput")({
-  FileHeaderInfo: S.optional(S.String),
-  Comments: S.optional(S.String),
-  QuoteEscapeCharacter: S.optional(S.String),
-  RecordDelimiter: S.optional(S.String),
-  FieldDelimiter: S.optional(S.String),
-  QuoteCharacter: S.optional(S.String),
-  AllowQuotedRecordDelimiter: S.optional(S.Boolean),
-}) {}
-export class JSONInput extends S.Class<JSONInput>("JSONInput")({
-  Type: S.optional(S.String),
-}) {}
-export class InputSerialization extends S.Class<InputSerialization>(
-  "InputSerialization",
-)({
-  CSV: S.optional(CSVInput),
-  CompressionType: S.optional(S.String),
-  JSON: S.optional(JSONInput),
-  Parquet: S.optional(ParquetInput),
-}) {}
-export class CSVOutput extends S.Class<CSVOutput>("CSVOutput")({
-  QuoteFields: S.optional(S.String),
-  QuoteEscapeCharacter: S.optional(S.String),
-  RecordDelimiter: S.optional(S.String),
-  FieldDelimiter: S.optional(S.String),
-  QuoteCharacter: S.optional(S.String),
-}) {}
-export class JSONOutput extends S.Class<JSONOutput>("JSONOutput")({
-  RecordDelimiter: S.optional(S.String),
-}) {}
-export class OutputSerialization extends S.Class<OutputSerialization>(
-  "OutputSerialization",
-)({ CSV: S.optional(CSVOutput), JSON: S.optional(JSONOutput) }) {}
-export class SelectParameters extends S.Class<SelectParameters>(
-  "SelectParameters",
-)({
-  InputSerialization: InputSerialization,
-  ExpressionType: S.String,
-  Expression: S.String,
-  OutputSerialization: OutputSerialization,
-}) {}
-export class CompletedMultipartUpload extends S.Class<CompletedMultipartUpload>(
-  "CompletedMultipartUpload",
-)({
-  Parts: S.optional(CompletedPartList).pipe(
-    T.XmlName("Part"),
-    T.XmlFlattened(),
-  ),
-}) {}
-export class CreateBucketConfiguration extends S.Class<CreateBucketConfiguration>(
-  "CreateBucketConfiguration",
-)({
-  LocationConstraint: S.optional(S.String),
-  Location: S.optional(LocationInfo),
-  Bucket: S.optional(BucketInfo),
-  Tags: S.optional(TagSet),
-}) {}
-export class MetadataConfiguration extends S.Class<MetadataConfiguration>(
-  "MetadataConfiguration",
-)({
-  JournalTableConfiguration: JournalTableConfiguration,
-  InventoryTableConfiguration: S.optional(InventoryTableConfiguration),
-}) {}
-export class MetadataTableConfiguration extends S.Class<MetadataTableConfiguration>(
-  "MetadataTableConfiguration",
-)({ S3TablesDestination: S3TablesDestination }) {}
-export class SessionCredentials extends S.Class<SessionCredentials>(
-  "SessionCredentials",
-)({
-  AccessKeyId: S.String.pipe(T.XmlName("AccessKeyId")),
-  SecretAccessKey: S.String.pipe(T.XmlName("SecretAccessKey")),
-  SessionToken: S.String.pipe(T.XmlName("SessionToken")),
-  Expiration: S.Date.pipe(T.XmlName("Expiration")),
-}) {}
-export class Delete extends S.Class<Delete>("Delete")({
-  Objects: ObjectIdentifierList.pipe(T.XmlName("Object"), T.XmlFlattened()),
-  Quiet: S.optional(S.Boolean),
-}) {}
-export class PolicyStatus extends S.Class<PolicyStatus>("PolicyStatus")({
-  IsPublic: S.optional(S.Boolean).pipe(T.XmlName("IsPublic")),
-}) {}
-export class Checksum extends S.Class<Checksum>("Checksum")({
-  ChecksumCRC32: S.optional(S.String),
-  ChecksumCRC32C: S.optional(S.String),
-  ChecksumCRC64NVME: S.optional(S.String),
-  ChecksumSHA1: S.optional(S.String),
-  ChecksumSHA256: S.optional(S.String),
-  ChecksumType: S.optional(S.String),
-}) {}
-export class Initiator extends S.Class<Initiator>("Initiator")({
-  ID: S.optional(S.String),
-  DisplayName: S.optional(S.String),
-}) {}
-export class MultipartUpload extends S.Class<MultipartUpload>(
-  "MultipartUpload",
-)({
-  UploadId: S.optional(S.String),
-  Key: S.optional(S.String),
-  Initiated: S.optional(S.Date),
-  StorageClass: S.optional(S.String),
-  Owner: S.optional(Owner),
-  Initiator: S.optional(Initiator),
-  ChecksumAlgorithm: S.optional(S.String),
-  ChecksumType: S.optional(S.String),
-}) {}
+export interface GlacierJobParameters {
+  Tier: string;
+}
+export const GlacierJobParameters = S.suspend(() =>
+  S.Struct({ Tier: S.String }),
+).annotations({
+  identifier: "GlacierJobParameters",
+}) as any as S.Schema<GlacierJobParameters>;
+export interface CSVInput {
+  FileHeaderInfo?: string;
+  Comments?: string;
+  QuoteEscapeCharacter?: string;
+  RecordDelimiter?: string;
+  FieldDelimiter?: string;
+  QuoteCharacter?: string;
+  AllowQuotedRecordDelimiter?: boolean;
+}
+export const CSVInput = S.suspend(() =>
+  S.Struct({
+    FileHeaderInfo: S.optional(S.String),
+    Comments: S.optional(S.String),
+    QuoteEscapeCharacter: S.optional(S.String),
+    RecordDelimiter: S.optional(S.String),
+    FieldDelimiter: S.optional(S.String),
+    QuoteCharacter: S.optional(S.String),
+    AllowQuotedRecordDelimiter: S.optional(S.Boolean),
+  }),
+).annotations({ identifier: "CSVInput" }) as any as S.Schema<CSVInput>;
+export interface JSONInput {
+  Type?: string;
+}
+export const JSONInput = S.suspend(() =>
+  S.Struct({ Type: S.optional(S.String) }),
+).annotations({ identifier: "JSONInput" }) as any as S.Schema<JSONInput>;
+export interface InputSerialization {
+  CSV?: CSVInput;
+  CompressionType?: string;
+  JSON?: JSONInput;
+  Parquet?: ParquetInput;
+}
+export const InputSerialization = S.suspend(() =>
+  S.Struct({
+    CSV: S.optional(CSVInput),
+    CompressionType: S.optional(S.String),
+    JSON: S.optional(JSONInput),
+    Parquet: S.optional(ParquetInput),
+  }),
+).annotations({
+  identifier: "InputSerialization",
+}) as any as S.Schema<InputSerialization>;
+export interface CSVOutput {
+  QuoteFields?: string;
+  QuoteEscapeCharacter?: string;
+  RecordDelimiter?: string;
+  FieldDelimiter?: string;
+  QuoteCharacter?: string;
+}
+export const CSVOutput = S.suspend(() =>
+  S.Struct({
+    QuoteFields: S.optional(S.String),
+    QuoteEscapeCharacter: S.optional(S.String),
+    RecordDelimiter: S.optional(S.String),
+    FieldDelimiter: S.optional(S.String),
+    QuoteCharacter: S.optional(S.String),
+  }),
+).annotations({ identifier: "CSVOutput" }) as any as S.Schema<CSVOutput>;
+export interface JSONOutput {
+  RecordDelimiter?: string;
+}
+export const JSONOutput = S.suspend(() =>
+  S.Struct({ RecordDelimiter: S.optional(S.String) }),
+).annotations({ identifier: "JSONOutput" }) as any as S.Schema<JSONOutput>;
+export interface OutputSerialization {
+  CSV?: CSVOutput;
+  JSON?: JSONOutput;
+}
+export const OutputSerialization = S.suspend(() =>
+  S.Struct({ CSV: S.optional(CSVOutput), JSON: S.optional(JSONOutput) }),
+).annotations({
+  identifier: "OutputSerialization",
+}) as any as S.Schema<OutputSerialization>;
+export interface SelectParameters {
+  InputSerialization: InputSerialization;
+  ExpressionType: string;
+  Expression: string;
+  OutputSerialization: OutputSerialization;
+}
+export const SelectParameters = S.suspend(() =>
+  S.Struct({
+    InputSerialization: InputSerialization,
+    ExpressionType: S.String,
+    Expression: S.String,
+    OutputSerialization: OutputSerialization,
+  }),
+).annotations({
+  identifier: "SelectParameters",
+}) as any as S.Schema<SelectParameters>;
+export interface CompletedMultipartUpload {
+  Parts?: CompletedPartList;
+}
+export const CompletedMultipartUpload = S.suspend(() =>
+  S.Struct({
+    Parts: S.optional(CompletedPartList).pipe(
+      T.XmlName("Part"),
+      T.XmlFlattened(),
+    ),
+  }),
+).annotations({
+  identifier: "CompletedMultipartUpload",
+}) as any as S.Schema<CompletedMultipartUpload>;
+export interface CreateBucketConfiguration {
+  LocationConstraint?: string;
+  Location?: LocationInfo;
+  Bucket?: BucketInfo;
+  Tags?: TagSet;
+}
+export const CreateBucketConfiguration = S.suspend(() =>
+  S.Struct({
+    LocationConstraint: S.optional(S.String),
+    Location: S.optional(LocationInfo),
+    Bucket: S.optional(BucketInfo),
+    Tags: S.optional(TagSet),
+  }),
+).annotations({
+  identifier: "CreateBucketConfiguration",
+}) as any as S.Schema<CreateBucketConfiguration>;
+export interface MetadataConfiguration {
+  JournalTableConfiguration: JournalTableConfiguration;
+  InventoryTableConfiguration?: InventoryTableConfiguration;
+}
+export const MetadataConfiguration = S.suspend(() =>
+  S.Struct({
+    JournalTableConfiguration: JournalTableConfiguration,
+    InventoryTableConfiguration: S.optional(InventoryTableConfiguration),
+  }),
+).annotations({
+  identifier: "MetadataConfiguration",
+}) as any as S.Schema<MetadataConfiguration>;
+export interface MetadataTableConfiguration {
+  S3TablesDestination: S3TablesDestination;
+}
+export const MetadataTableConfiguration = S.suspend(() =>
+  S.Struct({ S3TablesDestination: S3TablesDestination }),
+).annotations({
+  identifier: "MetadataTableConfiguration",
+}) as any as S.Schema<MetadataTableConfiguration>;
+export interface SessionCredentials {
+  AccessKeyId: string;
+  SecretAccessKey: string;
+  SessionToken: string;
+  Expiration: Date;
+}
+export const SessionCredentials = S.suspend(() =>
+  S.Struct({
+    AccessKeyId: S.String.pipe(T.XmlName("AccessKeyId")),
+    SecretAccessKey: S.String.pipe(T.XmlName("SecretAccessKey")),
+    SessionToken: S.String.pipe(T.XmlName("SessionToken")),
+    Expiration: S.Date.pipe(T.XmlName("Expiration")),
+  }),
+).annotations({
+  identifier: "SessionCredentials",
+}) as any as S.Schema<SessionCredentials>;
+export interface Delete {
+  Objects: ObjectIdentifierList;
+  Quiet?: boolean;
+}
+export const Delete = S.suspend(() =>
+  S.Struct({
+    Objects: ObjectIdentifierList.pipe(T.XmlName("Object"), T.XmlFlattened()),
+    Quiet: S.optional(S.Boolean),
+  }),
+).annotations({ identifier: "Delete" }) as any as S.Schema<Delete>;
+export interface PolicyStatus {
+  IsPublic?: boolean;
+}
+export const PolicyStatus = S.suspend(() =>
+  S.Struct({ IsPublic: S.optional(S.Boolean).pipe(T.XmlName("IsPublic")) }),
+).annotations({ identifier: "PolicyStatus" }) as any as S.Schema<PolicyStatus>;
+export interface Checksum {
+  ChecksumCRC32?: string;
+  ChecksumCRC32C?: string;
+  ChecksumCRC64NVME?: string;
+  ChecksumSHA1?: string;
+  ChecksumSHA256?: string;
+  ChecksumType?: string;
+}
+export const Checksum = S.suspend(() =>
+  S.Struct({
+    ChecksumCRC32: S.optional(S.String),
+    ChecksumCRC32C: S.optional(S.String),
+    ChecksumCRC64NVME: S.optional(S.String),
+    ChecksumSHA1: S.optional(S.String),
+    ChecksumSHA256: S.optional(S.String),
+    ChecksumType: S.optional(S.String),
+  }),
+).annotations({ identifier: "Checksum" }) as any as S.Schema<Checksum>;
+export interface Initiator {
+  ID?: string;
+  DisplayName?: string;
+}
+export const Initiator = S.suspend(() =>
+  S.Struct({ ID: S.optional(S.String), DisplayName: S.optional(S.String) }),
+).annotations({ identifier: "Initiator" }) as any as S.Schema<Initiator>;
+export interface MultipartUpload {
+  UploadId?: string;
+  Key?: string;
+  Initiated?: Date;
+  StorageClass?: string;
+  Owner?: Owner;
+  Initiator?: Initiator;
+  ChecksumAlgorithm?: string;
+  ChecksumType?: string;
+}
+export const MultipartUpload = S.suspend(() =>
+  S.Struct({
+    UploadId: S.optional(S.String),
+    Key: S.optional(S.String),
+    Initiated: S.optional(S.Date),
+    StorageClass: S.optional(S.String),
+    Owner: S.optional(Owner),
+    Initiator: S.optional(Initiator),
+    ChecksumAlgorithm: S.optional(S.String),
+    ChecksumType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "MultipartUpload",
+}) as any as S.Schema<MultipartUpload>;
+export type MultipartUploadList = MultipartUpload[];
 export const MultipartUploadList = S.Array(MultipartUpload);
-export class ObjectVersion extends S.Class<ObjectVersion>("ObjectVersion")({
-  ETag: S.optional(S.String),
-  ChecksumAlgorithm: S.optional(ChecksumAlgorithmList).pipe(T.XmlFlattened()),
-  ChecksumType: S.optional(S.String),
-  Size: S.optional(S.Number),
-  StorageClass: S.optional(S.String),
-  Key: S.optional(S.String),
-  VersionId: S.optional(S.String),
-  IsLatest: S.optional(S.Boolean),
-  LastModified: S.optional(S.Date),
-  Owner: S.optional(Owner),
-  RestoreStatus: S.optional(RestoreStatus),
-}) {}
+export interface ObjectVersion {
+  ETag?: string;
+  ChecksumAlgorithm?: ChecksumAlgorithmList;
+  ChecksumType?: string;
+  Size?: number;
+  StorageClass?: string;
+  Key?: string;
+  VersionId?: string;
+  IsLatest?: boolean;
+  LastModified?: Date;
+  Owner?: Owner;
+  RestoreStatus?: RestoreStatus;
+}
+export const ObjectVersion = S.suspend(() =>
+  S.Struct({
+    ETag: S.optional(S.String),
+    ChecksumAlgorithm: S.optional(ChecksumAlgorithmList).pipe(T.XmlFlattened()),
+    ChecksumType: S.optional(S.String),
+    Size: S.optional(S.Number),
+    StorageClass: S.optional(S.String),
+    Key: S.optional(S.String),
+    VersionId: S.optional(S.String),
+    IsLatest: S.optional(S.Boolean),
+    LastModified: S.optional(S.Date),
+    Owner: S.optional(Owner),
+    RestoreStatus: S.optional(RestoreStatus),
+  }),
+).annotations({
+  identifier: "ObjectVersion",
+}) as any as S.Schema<ObjectVersion>;
+export type ObjectVersionList = ObjectVersion[];
 export const ObjectVersionList = S.Array(ObjectVersion);
-export class DeleteMarkerEntry extends S.Class<DeleteMarkerEntry>(
-  "DeleteMarkerEntry",
-)({
-  Owner: S.optional(Owner),
-  Key: S.optional(S.String),
-  VersionId: S.optional(S.String),
-  IsLatest: S.optional(S.Boolean),
-  LastModified: S.optional(S.Date),
-}) {}
+export interface DeleteMarkerEntry {
+  Owner?: Owner;
+  Key?: string;
+  VersionId?: string;
+  IsLatest?: boolean;
+  LastModified?: Date;
+}
+export const DeleteMarkerEntry = S.suspend(() =>
+  S.Struct({
+    Owner: S.optional(Owner),
+    Key: S.optional(S.String),
+    VersionId: S.optional(S.String),
+    IsLatest: S.optional(S.Boolean),
+    LastModified: S.optional(S.Date),
+  }),
+).annotations({
+  identifier: "DeleteMarkerEntry",
+}) as any as S.Schema<DeleteMarkerEntry>;
+export type DeleteMarkers = DeleteMarkerEntry[];
 export const DeleteMarkers = S.Array(DeleteMarkerEntry);
-export class Part extends S.Class<Part>("Part")({
-  PartNumber: S.optional(S.Number),
-  LastModified: S.optional(S.Date),
-  ETag: S.optional(S.String),
-  Size: S.optional(S.Number),
-  ChecksumCRC32: S.optional(S.String),
-  ChecksumCRC32C: S.optional(S.String),
-  ChecksumCRC64NVME: S.optional(S.String),
-  ChecksumSHA1: S.optional(S.String),
-  ChecksumSHA256: S.optional(S.String),
-}) {}
+export interface Part {
+  PartNumber?: number;
+  LastModified?: Date;
+  ETag?: string;
+  Size?: number;
+  ChecksumCRC32?: string;
+  ChecksumCRC32C?: string;
+  ChecksumCRC64NVME?: string;
+  ChecksumSHA1?: string;
+  ChecksumSHA256?: string;
+}
+export const Part = S.suspend(() =>
+  S.Struct({
+    PartNumber: S.optional(S.Number),
+    LastModified: S.optional(S.Date),
+    ETag: S.optional(S.String),
+    Size: S.optional(S.Number),
+    ChecksumCRC32: S.optional(S.String),
+    ChecksumCRC32C: S.optional(S.String),
+    ChecksumCRC64NVME: S.optional(S.String),
+    ChecksumSHA1: S.optional(S.String),
+    ChecksumSHA256: S.optional(S.String),
+  }),
+).annotations({ identifier: "Part" }) as any as S.Schema<Part>;
+export type Parts = Part[];
 export const Parts = S.Array(Part);
-export class CORSConfiguration extends S.Class<CORSConfiguration>(
-  "CORSConfiguration",
-)({ CORSRules: CORSRules.pipe(T.XmlName("CORSRule"), T.XmlFlattened()) }) {}
-export class InventoryTableConfigurationUpdates extends S.Class<InventoryTableConfigurationUpdates>(
-  "InventoryTableConfigurationUpdates",
-)({
-  ConfigurationState: S.String,
-  EncryptionConfiguration: S.optional(MetadataTableEncryptionConfiguration),
-}) {}
-export class JournalTableConfigurationUpdates extends S.Class<JournalTableConfigurationUpdates>(
-  "JournalTableConfigurationUpdates",
-)({ RecordExpiration: RecordExpiration }) {}
-export class CopyPartResult extends S.Class<CopyPartResult>("CopyPartResult")({
-  ETag: S.optional(S.String),
-  LastModified: S.optional(S.Date),
-  ChecksumCRC32: S.optional(S.String),
-  ChecksumCRC32C: S.optional(S.String),
-  ChecksumCRC64NVME: S.optional(S.String),
-  ChecksumSHA1: S.optional(S.String),
-  ChecksumSHA256: S.optional(S.String),
-}) {}
-export class CompleteMultipartUploadRequest extends S.Class<CompleteMultipartUploadRequest>(
-  "CompleteMultipartUploadRequest",
-)(
-  {
+export interface CORSConfiguration {
+  CORSRules: CORSRules;
+}
+export const CORSConfiguration = S.suspend(() =>
+  S.Struct({
+    CORSRules: CORSRules.pipe(T.XmlName("CORSRule"), T.XmlFlattened()),
+  }),
+).annotations({
+  identifier: "CORSConfiguration",
+}) as any as S.Schema<CORSConfiguration>;
+export interface InventoryTableConfigurationUpdates {
+  ConfigurationState: string;
+  EncryptionConfiguration?: MetadataTableEncryptionConfiguration;
+}
+export const InventoryTableConfigurationUpdates = S.suspend(() =>
+  S.Struct({
+    ConfigurationState: S.String,
+    EncryptionConfiguration: S.optional(MetadataTableEncryptionConfiguration),
+  }),
+).annotations({
+  identifier: "InventoryTableConfigurationUpdates",
+}) as any as S.Schema<InventoryTableConfigurationUpdates>;
+export interface JournalTableConfigurationUpdates {
+  RecordExpiration: RecordExpiration;
+}
+export const JournalTableConfigurationUpdates = S.suspend(() =>
+  S.Struct({ RecordExpiration: RecordExpiration }),
+).annotations({
+  identifier: "JournalTableConfigurationUpdates",
+}) as any as S.Schema<JournalTableConfigurationUpdates>;
+export interface CopyPartResult {
+  ETag?: string;
+  LastModified?: Date;
+  ChecksumCRC32?: string;
+  ChecksumCRC32C?: string;
+  ChecksumCRC64NVME?: string;
+  ChecksumSHA1?: string;
+  ChecksumSHA256?: string;
+}
+export const CopyPartResult = S.suspend(() =>
+  S.Struct({
+    ETag: S.optional(S.String),
+    LastModified: S.optional(S.Date),
+    ChecksumCRC32: S.optional(S.String),
+    ChecksumCRC32C: S.optional(S.String),
+    ChecksumCRC64NVME: S.optional(S.String),
+    ChecksumSHA1: S.optional(S.String),
+    ChecksumSHA256: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CopyPartResult",
+}) as any as S.Schema<CopyPartResult>;
+export interface CompleteMultipartUploadRequest {
+  Bucket: string;
+  Key: string;
+  MultipartUpload?: CompletedMultipartUpload;
+  UploadId: string;
+  ChecksumCRC32?: string;
+  ChecksumCRC32C?: string;
+  ChecksumCRC64NVME?: string;
+  ChecksumSHA1?: string;
+  ChecksumSHA256?: string;
+  ChecksumType?: string;
+  MpuObjectSize?: number;
+  RequestPayer?: string;
+  ExpectedBucketOwner?: string;
+  IfMatch?: string;
+  IfNoneMatch?: string;
+  SSECustomerAlgorithm?: string;
+  SSECustomerKey?: string;
+  SSECustomerKeyMD5?: string;
+}
+export const CompleteMultipartUploadRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     Key: S.String.pipe(T.HttpLabel("Key"), T.ContextParam("Key")),
-    MultipartUpload: S.optional(CompletedMultipartUpload).pipe(
-      T.HttpPayload(),
-      T.XmlName("CompleteMultipartUpload"),
-    ),
+    MultipartUpload: S.optional(CompletedMultipartUpload)
+      .pipe(T.HttpPayload(), T.XmlName("CompleteMultipartUpload"))
+      .annotations({ identifier: "CompletedMultipartUpload" }),
     UploadId: S.String.pipe(T.HttpQuery("uploadId")),
     ChecksumCRC32: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-checksum-crc32"),
@@ -12925,27 +14957,39 @@ export class CompleteMultipartUploadRequest extends S.Class<CompleteMultipartUpl
     SSECustomerKeyMD5: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-server-side-encryption-customer-key-MD5"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/{Bucket}/{Key+}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/{Bucket}/{Key+}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateBucketRequest extends S.Class<CreateBucketRequest>(
-  "CreateBucketRequest",
-)(
-  {
+).annotations({
+  identifier: "CompleteMultipartUploadRequest",
+}) as any as S.Schema<CompleteMultipartUploadRequest>;
+export interface CreateBucketRequest {
+  ACL?: string;
+  Bucket: string;
+  CreateBucketConfiguration?: CreateBucketConfiguration;
+  GrantFullControl?: string;
+  GrantRead?: string;
+  GrantReadACP?: string;
+  GrantWrite?: string;
+  GrantWriteACP?: string;
+  ObjectLockEnabledForBucket?: boolean;
+  ObjectOwnership?: string;
+}
+export const CreateBucketRequest = S.suspend(() =>
+  S.Struct({
     ACL: S.optional(S.String).pipe(T.HttpHeader("x-amz-acl")),
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    CreateBucketConfiguration: S.optional(CreateBucketConfiguration).pipe(
-      T.HttpPayload(),
-      T.XmlName("CreateBucketConfiguration"),
-    ),
+    CreateBucketConfiguration: S.optional(CreateBucketConfiguration)
+      .pipe(T.HttpPayload(), T.XmlName("CreateBucketConfiguration"))
+      .annotations({ identifier: "CreateBucketConfiguration" }),
     GrantFullControl: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-grant-full-control"),
     ),
@@ -12963,25 +15007,33 @@ export class CreateBucketRequest extends S.Class<CreateBucketRequest>(
     ObjectOwnership: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-object-ownership"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "PUT", uri: "/{Bucket}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({
-      UseS3ExpressControlEndpoint: { value: true },
-      DisableAccessPoints: { value: true },
-    }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "PUT", uri: "/{Bucket}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({
+        UseS3ExpressControlEndpoint: { value: true },
+        DisableAccessPoints: { value: true },
+      }),
+    ),
   ),
-) {}
-export class CreateBucketMetadataConfigurationRequest extends S.Class<CreateBucketMetadataConfigurationRequest>(
-  "CreateBucketMetadataConfigurationRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateBucketRequest",
+}) as any as S.Schema<CreateBucketRequest>;
+export interface CreateBucketMetadataConfigurationRequest {
+  Bucket: string;
+  ContentMD5?: string;
+  ChecksumAlgorithm?: string;
+  MetadataConfiguration: MetadataConfiguration;
+  ExpectedBucketOwner?: string;
+}
+export const CreateBucketMetadataConfigurationRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
     ChecksumAlgorithm: S.optional(S.String).pipe(
@@ -12990,33 +15042,44 @@ export class CreateBucketMetadataConfigurationRequest extends S.Class<CreateBuck
     MetadataConfiguration: MetadataConfiguration.pipe(
       T.HttpPayload(),
       T.XmlName("MetadataConfiguration"),
-    ),
+    ).annotations({ identifier: "MetadataConfiguration" }),
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/{Bucket}?metadataConfiguration" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.AwsProtocolsHttpChecksum({
-      requestAlgorithmMember: "ChecksumAlgorithm",
-      requestChecksumRequired: true,
-    }),
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/{Bucket}?metadataConfiguration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.AwsProtocolsHttpChecksum({
+        requestAlgorithmMember: "ChecksumAlgorithm",
+        requestChecksumRequired: true,
+      }),
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
   ),
-) {}
-export class CreateBucketMetadataConfigurationResponse extends S.Class<CreateBucketMetadataConfigurationResponse>(
-  "CreateBucketMetadataConfigurationResponse",
-)({}, ns) {}
-export class CreateBucketMetadataTableConfigurationRequest extends S.Class<CreateBucketMetadataTableConfigurationRequest>(
-  "CreateBucketMetadataTableConfigurationRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateBucketMetadataConfigurationRequest",
+}) as any as S.Schema<CreateBucketMetadataConfigurationRequest>;
+export interface CreateBucketMetadataConfigurationResponse {}
+export const CreateBucketMetadataConfigurationResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "CreateBucketMetadataConfigurationResponse",
+}) as any as S.Schema<CreateBucketMetadataConfigurationResponse>;
+export interface CreateBucketMetadataTableConfigurationRequest {
+  Bucket: string;
+  ContentMD5?: string;
+  ChecksumAlgorithm?: string;
+  MetadataTableConfiguration: MetadataTableConfiguration;
+  ExpectedBucketOwner?: string;
+}
+export const CreateBucketMetadataTableConfigurationRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
     ChecksumAlgorithm: S.optional(S.String).pipe(
@@ -13025,33 +15088,44 @@ export class CreateBucketMetadataTableConfigurationRequest extends S.Class<Creat
     MetadataTableConfiguration: MetadataTableConfiguration.pipe(
       T.HttpPayload(),
       T.XmlName("MetadataTableConfiguration"),
-    ),
+    ).annotations({ identifier: "MetadataTableConfiguration" }),
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/{Bucket}?metadataTable" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.AwsProtocolsHttpChecksum({
-      requestAlgorithmMember: "ChecksumAlgorithm",
-      requestChecksumRequired: true,
-    }),
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/{Bucket}?metadataTable" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.AwsProtocolsHttpChecksum({
+        requestAlgorithmMember: "ChecksumAlgorithm",
+        requestChecksumRequired: true,
+      }),
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
   ),
-) {}
-export class CreateBucketMetadataTableConfigurationResponse extends S.Class<CreateBucketMetadataTableConfigurationResponse>(
-  "CreateBucketMetadataTableConfigurationResponse",
-)({}, ns) {}
-export class CreateSessionOutput extends S.Class<CreateSessionOutput>(
-  "CreateSessionOutput",
-)(
-  {
+).annotations({
+  identifier: "CreateBucketMetadataTableConfigurationRequest",
+}) as any as S.Schema<CreateBucketMetadataTableConfigurationRequest>;
+export interface CreateBucketMetadataTableConfigurationResponse {}
+export const CreateBucketMetadataTableConfigurationResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "CreateBucketMetadataTableConfigurationResponse",
+}) as any as S.Schema<CreateBucketMetadataTableConfigurationResponse>;
+export interface CreateSessionOutput {
+  ServerSideEncryption?: string;
+  SSEKMSKeyId?: string;
+  SSEKMSEncryptionContext?: string;
+  BucketKeyEnabled?: boolean;
+  Credentials: SessionCredentials;
+}
+export const CreateSessionOutput = S.suspend(() =>
+  S.Struct({
     ServerSideEncryption: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-server-side-encryption"),
     ),
@@ -13064,16 +15138,28 @@ export class CreateSessionOutput extends S.Class<CreateSessionOutput>(
     BucketKeyEnabled: S.optional(S.Boolean).pipe(
       T.HttpHeader("x-amz-server-side-encryption-bucket-key-enabled"),
     ),
-    Credentials: SessionCredentials.pipe(T.XmlName("Credentials")),
-  },
-  T.all(T.XmlName("CreateSessionResult"), ns),
-) {}
-export class DeleteObjectsRequest extends S.Class<DeleteObjectsRequest>(
-  "DeleteObjectsRequest",
-)(
-  {
+    Credentials: SessionCredentials.pipe(T.XmlName("Credentials")).annotations({
+      identifier: "SessionCredentials",
+    }),
+  }).pipe(T.all(T.XmlName("CreateSessionResult"), ns)),
+).annotations({
+  identifier: "CreateSessionOutput",
+}) as any as S.Schema<CreateSessionOutput>;
+export interface DeleteObjectsRequest {
+  Bucket: string;
+  Delete: Delete;
+  MFA?: string;
+  RequestPayer?: string;
+  BypassGovernanceRetention?: boolean;
+  ExpectedBucketOwner?: string;
+  ChecksumAlgorithm?: string;
+}
+export const DeleteObjectsRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    Delete: Delete.pipe(T.HttpPayload(), T.XmlName("Delete")),
+    Delete: Delete.pipe(T.HttpPayload(), T.XmlName("Delete")).annotations({
+      identifier: "Delete",
+    }),
     MFA: S.optional(S.String).pipe(T.HttpHeader("x-amz-mfa")),
     RequestPayer: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-request-payer"),
@@ -13087,39 +15173,69 @@ export class DeleteObjectsRequest extends S.Class<DeleteObjectsRequest>(
     ChecksumAlgorithm: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-sdk-checksum-algorithm"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/{Bucket}?delete" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.AwsProtocolsHttpChecksum({
-      requestAlgorithmMember: "ChecksumAlgorithm",
-      requestChecksumRequired: true,
-    }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/{Bucket}?delete" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.AwsProtocolsHttpChecksum({
+        requestAlgorithmMember: "ChecksumAlgorithm",
+        requestChecksumRequired: true,
+      }),
+    ),
   ),
-) {}
-export class GetBucketPolicyStatusOutput extends S.Class<GetBucketPolicyStatusOutput>(
-  "GetBucketPolicyStatusOutput",
-)({ PolicyStatus: S.optional(PolicyStatus).pipe(T.HttpPayload()) }, ns) {}
-export class ListBucketsOutput extends S.Class<ListBucketsOutput>(
-  "ListBucketsOutput",
-)(
-  {
+).annotations({
+  identifier: "DeleteObjectsRequest",
+}) as any as S.Schema<DeleteObjectsRequest>;
+export interface GetBucketPolicyStatusOutput {
+  PolicyStatus?: PolicyStatus;
+}
+export const GetBucketPolicyStatusOutput = S.suspend(() =>
+  S.Struct({
+    PolicyStatus: S.optional(PolicyStatus)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "PolicyStatus" }),
+  }).pipe(ns),
+).annotations({
+  identifier: "GetBucketPolicyStatusOutput",
+}) as any as S.Schema<GetBucketPolicyStatusOutput>;
+export interface ListBucketsOutput {
+  Buckets?: Buckets;
+  Owner?: Owner;
+  ContinuationToken?: string;
+  Prefix?: string;
+}
+export const ListBucketsOutput = S.suspend(() =>
+  S.Struct({
     Buckets: S.optional(Buckets),
     Owner: S.optional(Owner),
     ContinuationToken: S.optional(S.String),
     Prefix: S.optional(S.String),
-  },
-  T.all(T.XmlName("ListAllMyBucketsResult"), ns),
-) {}
-export class ListMultipartUploadsOutput extends S.Class<ListMultipartUploadsOutput>(
-  "ListMultipartUploadsOutput",
-)(
-  {
+  }).pipe(T.all(T.XmlName("ListAllMyBucketsResult"), ns)),
+).annotations({
+  identifier: "ListBucketsOutput",
+}) as any as S.Schema<ListBucketsOutput>;
+export interface ListMultipartUploadsOutput {
+  Bucket?: string;
+  KeyMarker?: string;
+  UploadIdMarker?: string;
+  NextKeyMarker?: string;
+  Prefix?: string;
+  Delimiter?: string;
+  NextUploadIdMarker?: string;
+  MaxUploads?: number;
+  IsTruncated?: boolean;
+  Uploads?: MultipartUploadList;
+  CommonPrefixes?: CommonPrefixList;
+  EncodingType?: string;
+  RequestCharged?: string;
+}
+export const ListMultipartUploadsOutput = S.suspend(() =>
+  S.Struct({
     Bucket: S.optional(S.String),
     KeyMarker: S.optional(S.String),
     UploadIdMarker: S.optional(S.String),
@@ -13138,13 +15254,28 @@ export class ListMultipartUploadsOutput extends S.Class<ListMultipartUploadsOutp
     RequestCharged: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-request-charged"),
     ),
-  },
-  T.all(T.XmlName("ListMultipartUploadsResult"), ns),
-) {}
-export class ListObjectVersionsOutput extends S.Class<ListObjectVersionsOutput>(
-  "ListObjectVersionsOutput",
-)(
-  {
+  }).pipe(T.all(T.XmlName("ListMultipartUploadsResult"), ns)),
+).annotations({
+  identifier: "ListMultipartUploadsOutput",
+}) as any as S.Schema<ListMultipartUploadsOutput>;
+export interface ListObjectVersionsOutput {
+  IsTruncated?: boolean;
+  KeyMarker?: string;
+  VersionIdMarker?: string;
+  NextKeyMarker?: string;
+  NextVersionIdMarker?: string;
+  Versions?: ObjectVersionList;
+  DeleteMarkers?: DeleteMarkers;
+  Name?: string;
+  Prefix?: string;
+  Delimiter?: string;
+  MaxKeys?: number;
+  CommonPrefixes?: CommonPrefixList;
+  EncodingType?: string;
+  RequestCharged?: string;
+}
+export const ListObjectVersionsOutput = S.suspend(() =>
+  S.Struct({
     IsTruncated: S.optional(S.Boolean),
     KeyMarker: S.optional(S.String),
     VersionIdMarker: S.optional(S.String),
@@ -13167,13 +15298,30 @@ export class ListObjectVersionsOutput extends S.Class<ListObjectVersionsOutput>(
     RequestCharged: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-request-charged"),
     ),
-  },
-  T.all(T.XmlName("ListVersionsResult"), ns),
-) {}
-export class ListPartsOutput extends S.Class<ListPartsOutput>(
-  "ListPartsOutput",
-)(
-  {
+  }).pipe(T.all(T.XmlName("ListVersionsResult"), ns)),
+).annotations({
+  identifier: "ListObjectVersionsOutput",
+}) as any as S.Schema<ListObjectVersionsOutput>;
+export interface ListPartsOutput {
+  AbortDate?: Date;
+  AbortRuleId?: string;
+  Bucket?: string;
+  Key?: string;
+  UploadId?: string;
+  PartNumberMarker?: string;
+  NextPartNumberMarker?: string;
+  MaxParts?: number;
+  IsTruncated?: boolean;
+  Parts?: Parts;
+  Initiator?: Initiator;
+  Owner?: Owner;
+  StorageClass?: string;
+  RequestCharged?: string;
+  ChecksumAlgorithm?: string;
+  ChecksumType?: string;
+}
+export const ListPartsOutput = S.suspend(() =>
+  S.Struct({
     AbortDate: S.optional(S.Date.pipe(T.TimestampFormat("http-date"))).pipe(
       T.HttpHeader("x-amz-abort-date"),
     ),
@@ -13194,18 +15342,24 @@ export class ListPartsOutput extends S.Class<ListPartsOutput>(
     ),
     ChecksumAlgorithm: S.optional(S.String),
     ChecksumType: S.optional(S.String),
-  },
-  T.all(T.XmlName("ListPartsResult"), ns),
-) {}
-export class PutBucketCorsRequest extends S.Class<PutBucketCorsRequest>(
-  "PutBucketCorsRequest",
-)(
-  {
+  }).pipe(T.all(T.XmlName("ListPartsResult"), ns)),
+).annotations({
+  identifier: "ListPartsOutput",
+}) as any as S.Schema<ListPartsOutput>;
+export interface PutBucketCorsRequest {
+  Bucket: string;
+  CORSConfiguration: CORSConfiguration;
+  ContentMD5?: string;
+  ChecksumAlgorithm?: string;
+  ExpectedBucketOwner?: string;
+}
+export const PutBucketCorsRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     CORSConfiguration: CORSConfiguration.pipe(
       T.HttpPayload(),
       T.XmlName("CORSConfiguration"),
-    ),
+    ).annotations({ identifier: "CORSConfiguration" }),
     ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
     ChecksumAlgorithm: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-sdk-checksum-algorithm"),
@@ -13213,29 +15367,40 @@ export class PutBucketCorsRequest extends S.Class<PutBucketCorsRequest>(
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "PUT", uri: "/{Bucket}?cors" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.AwsProtocolsHttpChecksum({
-      requestAlgorithmMember: "ChecksumAlgorithm",
-      requestChecksumRequired: true,
-    }),
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "PUT", uri: "/{Bucket}?cors" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.AwsProtocolsHttpChecksum({
+        requestAlgorithmMember: "ChecksumAlgorithm",
+        requestChecksumRequired: true,
+      }),
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
   ),
-) {}
-export class PutBucketCorsResponse extends S.Class<PutBucketCorsResponse>(
-  "PutBucketCorsResponse",
-)({}, ns) {}
-export class PutBucketOwnershipControlsRequest extends S.Class<PutBucketOwnershipControlsRequest>(
-  "PutBucketOwnershipControlsRequest",
-)(
-  {
+).annotations({
+  identifier: "PutBucketCorsRequest",
+}) as any as S.Schema<PutBucketCorsRequest>;
+export interface PutBucketCorsResponse {}
+export const PutBucketCorsResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "PutBucketCorsResponse",
+}) as any as S.Schema<PutBucketCorsResponse>;
+export interface PutBucketOwnershipControlsRequest {
+  Bucket: string;
+  ContentMD5?: string;
+  ExpectedBucketOwner?: string;
+  OwnershipControls: OwnershipControls;
+  ChecksumAlgorithm?: string;
+}
+export const PutBucketOwnershipControlsRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
     ExpectedBucketOwner: S.optional(S.String).pipe(
@@ -13244,53 +15409,75 @@ export class PutBucketOwnershipControlsRequest extends S.Class<PutBucketOwnershi
     OwnershipControls: OwnershipControls.pipe(
       T.HttpPayload(),
       T.XmlName("OwnershipControls"),
-    ),
+    ).annotations({ identifier: "OwnershipControls" }),
     ChecksumAlgorithm: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-sdk-checksum-algorithm"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "PUT", uri: "/{Bucket}?ownershipControls" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.AwsProtocolsHttpChecksum({
-      requestAlgorithmMember: "ChecksumAlgorithm",
-      requestChecksumRequired: true,
-    }),
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "PUT", uri: "/{Bucket}?ownershipControls" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.AwsProtocolsHttpChecksum({
+        requestAlgorithmMember: "ChecksumAlgorithm",
+        requestChecksumRequired: true,
+      }),
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
   ),
-) {}
-export class PutBucketOwnershipControlsResponse extends S.Class<PutBucketOwnershipControlsResponse>(
-  "PutBucketOwnershipControlsResponse",
-)({}, ns) {}
-export class PutObjectLegalHoldOutput extends S.Class<PutObjectLegalHoldOutput>(
-  "PutObjectLegalHoldOutput",
-)(
-  {
+).annotations({
+  identifier: "PutBucketOwnershipControlsRequest",
+}) as any as S.Schema<PutBucketOwnershipControlsRequest>;
+export interface PutBucketOwnershipControlsResponse {}
+export const PutBucketOwnershipControlsResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "PutBucketOwnershipControlsResponse",
+}) as any as S.Schema<PutBucketOwnershipControlsResponse>;
+export interface PutObjectLegalHoldOutput {
+  RequestCharged?: string;
+}
+export const PutObjectLegalHoldOutput = S.suspend(() =>
+  S.Struct({
     RequestCharged: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-request-charged"),
     ),
-  },
-  ns,
-) {}
-export class PutObjectRetentionOutput extends S.Class<PutObjectRetentionOutput>(
-  "PutObjectRetentionOutput",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "PutObjectLegalHoldOutput",
+}) as any as S.Schema<PutObjectLegalHoldOutput>;
+export interface PutObjectRetentionOutput {
+  RequestCharged?: string;
+}
+export const PutObjectRetentionOutput = S.suspend(() =>
+  S.Struct({
     RequestCharged: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-request-charged"),
     ),
-  },
-  ns,
-) {}
-export class SelectObjectContentRequest extends S.Class<SelectObjectContentRequest>(
-  "SelectObjectContentRequest",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "PutObjectRetentionOutput",
+}) as any as S.Schema<PutObjectRetentionOutput>;
+export interface SelectObjectContentRequest {
+  Bucket: string;
+  Key: string;
+  SSECustomerAlgorithm?: string;
+  SSECustomerKey?: string;
+  SSECustomerKeyMD5?: string;
+  Expression: string;
+  ExpressionType: string;
+  RequestProgress?: RequestProgress;
+  InputSerialization: InputSerialization;
+  OutputSerialization: OutputSerialization;
+  ScanRange?: ScanRange;
+  ExpectedBucketOwner?: string;
+}
+export const SelectObjectContentRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     Key: S.String.pipe(T.HttpLabel("Key")),
     SSECustomerAlgorithm: S.optional(S.String).pipe(
@@ -13311,95 +15498,131 @@ export class SelectObjectContentRequest extends S.Class<SelectObjectContentReque
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/{Bucket}/{Key+}?select&select-type=2" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/{Bucket}/{Key+}?select&select-type=2" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateBucketMetadataInventoryTableConfigurationRequest extends S.Class<UpdateBucketMetadataInventoryTableConfigurationRequest>(
-  "UpdateBucketMetadataInventoryTableConfigurationRequest",
-)(
-  {
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
-    ChecksumAlgorithm: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-sdk-checksum-algorithm"),
+).annotations({
+  identifier: "SelectObjectContentRequest",
+}) as any as S.Schema<SelectObjectContentRequest>;
+export interface UpdateBucketMetadataInventoryTableConfigurationRequest {
+  Bucket: string;
+  ContentMD5?: string;
+  ChecksumAlgorithm?: string;
+  InventoryTableConfiguration: InventoryTableConfigurationUpdates;
+  ExpectedBucketOwner?: string;
+}
+export const UpdateBucketMetadataInventoryTableConfigurationRequest = S.suspend(
+  () =>
+    S.Struct({
+      Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
+      ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
+      ChecksumAlgorithm: S.optional(S.String).pipe(
+        T.HttpHeader("x-amz-sdk-checksum-algorithm"),
+      ),
+      InventoryTableConfiguration: InventoryTableConfigurationUpdates.pipe(
+        T.HttpPayload(),
+        T.XmlName("InventoryTableConfiguration"),
+      ).annotations({ identifier: "InventoryTableConfigurationUpdates" }),
+      ExpectedBucketOwner: S.optional(S.String).pipe(
+        T.HttpHeader("x-amz-expected-bucket-owner"),
+      ),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "PUT", uri: "/{Bucket}?metadataInventoryTable" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+        T.AwsProtocolsHttpChecksum({
+          requestAlgorithmMember: "ChecksumAlgorithm",
+          requestChecksumRequired: true,
+        }),
+        T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+      ),
     ),
-    InventoryTableConfiguration: InventoryTableConfigurationUpdates.pipe(
-      T.HttpPayload(),
-      T.XmlName("InventoryTableConfiguration"),
+).annotations({
+  identifier: "UpdateBucketMetadataInventoryTableConfigurationRequest",
+}) as any as S.Schema<UpdateBucketMetadataInventoryTableConfigurationRequest>;
+export interface UpdateBucketMetadataInventoryTableConfigurationResponse {}
+export const UpdateBucketMetadataInventoryTableConfigurationResponse =
+  S.suspend(() => S.Struct({}).pipe(ns)).annotations({
+    identifier: "UpdateBucketMetadataInventoryTableConfigurationResponse",
+  }) as any as S.Schema<UpdateBucketMetadataInventoryTableConfigurationResponse>;
+export interface UpdateBucketMetadataJournalTableConfigurationRequest {
+  Bucket: string;
+  ContentMD5?: string;
+  ChecksumAlgorithm?: string;
+  JournalTableConfiguration: JournalTableConfigurationUpdates;
+  ExpectedBucketOwner?: string;
+}
+export const UpdateBucketMetadataJournalTableConfigurationRequest = S.suspend(
+  () =>
+    S.Struct({
+      Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
+      ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
+      ChecksumAlgorithm: S.optional(S.String).pipe(
+        T.HttpHeader("x-amz-sdk-checksum-algorithm"),
+      ),
+      JournalTableConfiguration: JournalTableConfigurationUpdates.pipe(
+        T.HttpPayload(),
+        T.XmlName("JournalTableConfiguration"),
+      ).annotations({ identifier: "JournalTableConfigurationUpdates" }),
+      ExpectedBucketOwner: S.optional(S.String).pipe(
+        T.HttpHeader("x-amz-expected-bucket-owner"),
+      ),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "PUT", uri: "/{Bucket}?metadataJournalTable" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+        T.AwsProtocolsHttpChecksum({
+          requestAlgorithmMember: "ChecksumAlgorithm",
+          requestChecksumRequired: true,
+        }),
+        T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+      ),
     ),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "PUT", uri: "/{Bucket}?metadataInventoryTable" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.AwsProtocolsHttpChecksum({
-      requestAlgorithmMember: "ChecksumAlgorithm",
-      requestChecksumRequired: true,
-    }),
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-  ),
-) {}
-export class UpdateBucketMetadataInventoryTableConfigurationResponse extends S.Class<UpdateBucketMetadataInventoryTableConfigurationResponse>(
-  "UpdateBucketMetadataInventoryTableConfigurationResponse",
-)({}, ns) {}
-export class UpdateBucketMetadataJournalTableConfigurationRequest extends S.Class<UpdateBucketMetadataJournalTableConfigurationRequest>(
-  "UpdateBucketMetadataJournalTableConfigurationRequest",
-)(
-  {
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
-    ChecksumAlgorithm: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-sdk-checksum-algorithm"),
-    ),
-    JournalTableConfiguration: JournalTableConfigurationUpdates.pipe(
-      T.HttpPayload(),
-      T.XmlName("JournalTableConfiguration"),
-    ),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "PUT", uri: "/{Bucket}?metadataJournalTable" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.AwsProtocolsHttpChecksum({
-      requestAlgorithmMember: "ChecksumAlgorithm",
-      requestChecksumRequired: true,
-    }),
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-  ),
-) {}
-export class UpdateBucketMetadataJournalTableConfigurationResponse extends S.Class<UpdateBucketMetadataJournalTableConfigurationResponse>(
-  "UpdateBucketMetadataJournalTableConfigurationResponse",
-)({}, ns) {}
-export class UploadPartCopyOutput extends S.Class<UploadPartCopyOutput>(
-  "UploadPartCopyOutput",
-)(
-  {
+).annotations({
+  identifier: "UpdateBucketMetadataJournalTableConfigurationRequest",
+}) as any as S.Schema<UpdateBucketMetadataJournalTableConfigurationRequest>;
+export interface UpdateBucketMetadataJournalTableConfigurationResponse {}
+export const UpdateBucketMetadataJournalTableConfigurationResponse = S.suspend(
+  () => S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "UpdateBucketMetadataJournalTableConfigurationResponse",
+}) as any as S.Schema<UpdateBucketMetadataJournalTableConfigurationResponse>;
+export interface UploadPartCopyOutput {
+  CopySourceVersionId?: string;
+  CopyPartResult?: CopyPartResult;
+  ServerSideEncryption?: string;
+  SSECustomerAlgorithm?: string;
+  SSECustomerKeyMD5?: string;
+  SSEKMSKeyId?: string;
+  BucketKeyEnabled?: boolean;
+  RequestCharged?: string;
+}
+export const UploadPartCopyOutput = S.suspend(() =>
+  S.Struct({
     CopySourceVersionId: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-copy-source-version-id"),
     ),
-    CopyPartResult: S.optional(CopyPartResult).pipe(T.HttpPayload()),
+    CopyPartResult: S.optional(CopyPartResult)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "CopyPartResult" }),
     ServerSideEncryption: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-server-side-encryption"),
     ),
@@ -13418,112 +15641,237 @@ export class UploadPartCopyOutput extends S.Class<UploadPartCopyOutput>(
     RequestCharged: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-request-charged"),
     ),
-  },
-  ns,
-) {}
-export class ErrorDetails extends S.Class<ErrorDetails>("ErrorDetails")({
-  ErrorCode: S.optional(S.String),
-  ErrorMessage: S.optional(S.String),
-}) {}
-export class ObjectPart extends S.Class<ObjectPart>("ObjectPart")({
-  PartNumber: S.optional(S.Number),
-  Size: S.optional(S.Number),
-  ChecksumCRC32: S.optional(S.String),
-  ChecksumCRC32C: S.optional(S.String),
-  ChecksumCRC64NVME: S.optional(S.String),
-  ChecksumSHA1: S.optional(S.String),
-  ChecksumSHA256: S.optional(S.String),
-}) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "UploadPartCopyOutput",
+}) as any as S.Schema<UploadPartCopyOutput>;
+export interface ErrorDetails {
+  ErrorCode?: string;
+  ErrorMessage?: string;
+}
+export const ErrorDetails = S.suspend(() =>
+  S.Struct({
+    ErrorCode: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
+  }),
+).annotations({ identifier: "ErrorDetails" }) as any as S.Schema<ErrorDetails>;
+export interface ObjectPart {
+  PartNumber?: number;
+  Size?: number;
+  ChecksumCRC32?: string;
+  ChecksumCRC32C?: string;
+  ChecksumCRC64NVME?: string;
+  ChecksumSHA1?: string;
+  ChecksumSHA256?: string;
+}
+export const ObjectPart = S.suspend(() =>
+  S.Struct({
+    PartNumber: S.optional(S.Number),
+    Size: S.optional(S.Number),
+    ChecksumCRC32: S.optional(S.String),
+    ChecksumCRC32C: S.optional(S.String),
+    ChecksumCRC64NVME: S.optional(S.String),
+    ChecksumSHA1: S.optional(S.String),
+    ChecksumSHA256: S.optional(S.String),
+  }),
+).annotations({ identifier: "ObjectPart" }) as any as S.Schema<ObjectPart>;
+export type PartsList = ObjectPart[];
 export const PartsList = S.Array(ObjectPart);
-export class Encryption extends S.Class<Encryption>("Encryption")({
-  EncryptionType: S.String,
-  KMSKeyId: S.optional(S.String),
-  KMSContext: S.optional(S.String),
-}) {}
-export class MetadataEntry extends S.Class<MetadataEntry>("MetadataEntry")({
-  Name: S.optional(S.String),
-  Value: S.optional(S.String),
-}) {}
+export interface Encryption {
+  EncryptionType: string;
+  KMSKeyId?: string;
+  KMSContext?: string;
+}
+export const Encryption = S.suspend(() =>
+  S.Struct({
+    EncryptionType: S.String,
+    KMSKeyId: S.optional(S.String),
+    KMSContext: S.optional(S.String),
+  }),
+).annotations({ identifier: "Encryption" }) as any as S.Schema<Encryption>;
+export interface MetadataEntry {
+  Name?: string;
+  Value?: string;
+}
+export const MetadataEntry = S.suspend(() =>
+  S.Struct({ Name: S.optional(S.String), Value: S.optional(S.String) }),
+).annotations({
+  identifier: "MetadataEntry",
+}) as any as S.Schema<MetadataEntry>;
+export type UserMetadata = MetadataEntry[];
 export const UserMetadata = S.Array(
-  MetadataEntry.pipe(T.XmlName("MetadataEntry")),
+  MetadataEntry.pipe(T.XmlName("MetadataEntry")).annotations({
+    identifier: "MetadataEntry",
+  }),
 );
-export class CopyObjectResult extends S.Class<CopyObjectResult>(
-  "CopyObjectResult",
-)({
-  ETag: S.optional(S.String),
-  LastModified: S.optional(S.Date),
-  ChecksumType: S.optional(S.String),
-  ChecksumCRC32: S.optional(S.String),
-  ChecksumCRC32C: S.optional(S.String),
-  ChecksumCRC64NVME: S.optional(S.String),
-  ChecksumSHA1: S.optional(S.String),
-  ChecksumSHA256: S.optional(S.String),
-}) {}
-export class GetObjectAttributesParts extends S.Class<GetObjectAttributesParts>(
-  "GetObjectAttributesParts",
-)({
-  TotalPartsCount: S.optional(S.Number).pipe(T.XmlName("PartsCount")),
-  PartNumberMarker: S.optional(S.String),
-  NextPartNumberMarker: S.optional(S.String),
-  MaxParts: S.optional(S.Number),
-  IsTruncated: S.optional(S.Boolean),
-  Parts: S.optional(PartsList).pipe(T.XmlName("Part"), T.XmlFlattened()),
-}) {}
-export class WebsiteConfiguration extends S.Class<WebsiteConfiguration>(
-  "WebsiteConfiguration",
-)({
-  ErrorDocument: S.optional(ErrorDocument),
-  IndexDocument: S.optional(IndexDocument),
-  RedirectAllRequestsTo: S.optional(RedirectAllRequestsTo),
-  RoutingRules: S.optional(RoutingRules),
-}) {}
-export class DestinationResult extends S.Class<DestinationResult>(
-  "DestinationResult",
-)({
-  TableBucketType: S.optional(S.String),
-  TableBucketArn: S.optional(S.String),
-  TableNamespace: S.optional(S.String),
-}) {}
-export class JournalTableConfigurationResult extends S.Class<JournalTableConfigurationResult>(
-  "JournalTableConfigurationResult",
-)({
-  TableStatus: S.String,
-  Error: S.optional(ErrorDetails),
-  TableName: S.String,
-  TableArn: S.optional(S.String),
-  RecordExpiration: RecordExpiration,
-}) {}
-export class InventoryTableConfigurationResult extends S.Class<InventoryTableConfigurationResult>(
-  "InventoryTableConfigurationResult",
-)({
-  ConfigurationState: S.String,
-  TableStatus: S.optional(S.String),
-  Error: S.optional(ErrorDetails),
-  TableName: S.optional(S.String),
-  TableArn: S.optional(S.String),
-}) {}
-export class S3TablesDestinationResult extends S.Class<S3TablesDestinationResult>(
-  "S3TablesDestinationResult",
-)({
-  TableBucketArn: S.String,
-  TableName: S.String,
-  TableArn: S.String,
-  TableNamespace: S.String,
-}) {}
-export class S3Location extends S.Class<S3Location>("S3Location")({
-  BucketName: S.String,
-  Prefix: S.String,
-  Encryption: S.optional(Encryption),
-  CannedACL: S.optional(S.String),
-  AccessControlList: S.optional(Grants),
-  Tagging: S.optional(Tagging),
-  UserMetadata: S.optional(UserMetadata),
-  StorageClass: S.optional(S.String),
-}) {}
-export class CompleteMultipartUploadOutput extends S.Class<CompleteMultipartUploadOutput>(
-  "CompleteMultipartUploadOutput",
-)(
-  {
+export interface CopyObjectResult {
+  ETag?: string;
+  LastModified?: Date;
+  ChecksumType?: string;
+  ChecksumCRC32?: string;
+  ChecksumCRC32C?: string;
+  ChecksumCRC64NVME?: string;
+  ChecksumSHA1?: string;
+  ChecksumSHA256?: string;
+}
+export const CopyObjectResult = S.suspend(() =>
+  S.Struct({
+    ETag: S.optional(S.String),
+    LastModified: S.optional(S.Date),
+    ChecksumType: S.optional(S.String),
+    ChecksumCRC32: S.optional(S.String),
+    ChecksumCRC32C: S.optional(S.String),
+    ChecksumCRC64NVME: S.optional(S.String),
+    ChecksumSHA1: S.optional(S.String),
+    ChecksumSHA256: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CopyObjectResult",
+}) as any as S.Schema<CopyObjectResult>;
+export interface GetObjectAttributesParts {
+  TotalPartsCount?: number;
+  PartNumberMarker?: string;
+  NextPartNumberMarker?: string;
+  MaxParts?: number;
+  IsTruncated?: boolean;
+  Parts?: PartsList;
+}
+export const GetObjectAttributesParts = S.suspend(() =>
+  S.Struct({
+    TotalPartsCount: S.optional(S.Number).pipe(T.XmlName("PartsCount")),
+    PartNumberMarker: S.optional(S.String),
+    NextPartNumberMarker: S.optional(S.String),
+    MaxParts: S.optional(S.Number),
+    IsTruncated: S.optional(S.Boolean),
+    Parts: S.optional(PartsList).pipe(T.XmlName("Part"), T.XmlFlattened()),
+  }),
+).annotations({
+  identifier: "GetObjectAttributesParts",
+}) as any as S.Schema<GetObjectAttributesParts>;
+export interface WebsiteConfiguration {
+  ErrorDocument?: ErrorDocument;
+  IndexDocument?: IndexDocument;
+  RedirectAllRequestsTo?: RedirectAllRequestsTo;
+  RoutingRules?: RoutingRules;
+}
+export const WebsiteConfiguration = S.suspend(() =>
+  S.Struct({
+    ErrorDocument: S.optional(ErrorDocument),
+    IndexDocument: S.optional(IndexDocument),
+    RedirectAllRequestsTo: S.optional(RedirectAllRequestsTo),
+    RoutingRules: S.optional(RoutingRules),
+  }),
+).annotations({
+  identifier: "WebsiteConfiguration",
+}) as any as S.Schema<WebsiteConfiguration>;
+export interface DestinationResult {
+  TableBucketType?: string;
+  TableBucketArn?: string;
+  TableNamespace?: string;
+}
+export const DestinationResult = S.suspend(() =>
+  S.Struct({
+    TableBucketType: S.optional(S.String),
+    TableBucketArn: S.optional(S.String),
+    TableNamespace: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DestinationResult",
+}) as any as S.Schema<DestinationResult>;
+export interface JournalTableConfigurationResult {
+  TableStatus: string;
+  Error?: ErrorDetails;
+  TableName: string;
+  TableArn?: string;
+  RecordExpiration: RecordExpiration;
+}
+export const JournalTableConfigurationResult = S.suspend(() =>
+  S.Struct({
+    TableStatus: S.String,
+    Error: S.optional(ErrorDetails),
+    TableName: S.String,
+    TableArn: S.optional(S.String),
+    RecordExpiration: RecordExpiration,
+  }),
+).annotations({
+  identifier: "JournalTableConfigurationResult",
+}) as any as S.Schema<JournalTableConfigurationResult>;
+export interface InventoryTableConfigurationResult {
+  ConfigurationState: string;
+  TableStatus?: string;
+  Error?: ErrorDetails;
+  TableName?: string;
+  TableArn?: string;
+}
+export const InventoryTableConfigurationResult = S.suspend(() =>
+  S.Struct({
+    ConfigurationState: S.String,
+    TableStatus: S.optional(S.String),
+    Error: S.optional(ErrorDetails),
+    TableName: S.optional(S.String),
+    TableArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "InventoryTableConfigurationResult",
+}) as any as S.Schema<InventoryTableConfigurationResult>;
+export interface S3TablesDestinationResult {
+  TableBucketArn: string;
+  TableName: string;
+  TableArn: string;
+  TableNamespace: string;
+}
+export const S3TablesDestinationResult = S.suspend(() =>
+  S.Struct({
+    TableBucketArn: S.String,
+    TableName: S.String,
+    TableArn: S.String,
+    TableNamespace: S.String,
+  }),
+).annotations({
+  identifier: "S3TablesDestinationResult",
+}) as any as S.Schema<S3TablesDestinationResult>;
+export interface S3Location {
+  BucketName: string;
+  Prefix: string;
+  Encryption?: Encryption;
+  CannedACL?: string;
+  AccessControlList?: Grants;
+  Tagging?: Tagging;
+  UserMetadata?: UserMetadata;
+  StorageClass?: string;
+}
+export const S3Location = S.suspend(() =>
+  S.Struct({
+    BucketName: S.String,
+    Prefix: S.String,
+    Encryption: S.optional(Encryption),
+    CannedACL: S.optional(S.String),
+    AccessControlList: S.optional(Grants),
+    Tagging: S.optional(Tagging),
+    UserMetadata: S.optional(UserMetadata),
+    StorageClass: S.optional(S.String),
+  }),
+).annotations({ identifier: "S3Location" }) as any as S.Schema<S3Location>;
+export interface CompleteMultipartUploadOutput {
+  Location?: string;
+  Bucket?: string;
+  Key?: string;
+  Expiration?: string;
+  ETag?: string;
+  ChecksumCRC32?: string;
+  ChecksumCRC32C?: string;
+  ChecksumCRC64NVME?: string;
+  ChecksumSHA1?: string;
+  ChecksumSHA256?: string;
+  ChecksumType?: string;
+  ServerSideEncryption?: string;
+  VersionId?: string;
+  SSEKMSKeyId?: string;
+  BucketKeyEnabled?: boolean;
+  RequestCharged?: string;
+}
+export const CompleteMultipartUploadOutput = S.suspend(() =>
+  S.Struct({
     Location: S.optional(S.String),
     Bucket: S.optional(S.String),
     Key: S.optional(S.String),
@@ -13548,14 +15896,28 @@ export class CompleteMultipartUploadOutput extends S.Class<CompleteMultipartUplo
     RequestCharged: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-request-charged"),
     ),
-  },
-  T.all(T.XmlName("CompleteMultipartUploadResult"), ns),
-) {}
-export class CopyObjectOutput extends S.Class<CopyObjectOutput>(
-  "CopyObjectOutput",
-)(
-  {
-    CopyObjectResult: S.optional(CopyObjectResult).pipe(T.HttpPayload()),
+  }).pipe(T.all(T.XmlName("CompleteMultipartUploadResult"), ns)),
+).annotations({
+  identifier: "CompleteMultipartUploadOutput",
+}) as any as S.Schema<CompleteMultipartUploadOutput>;
+export interface CopyObjectOutput {
+  CopyObjectResult?: CopyObjectResult;
+  Expiration?: string;
+  CopySourceVersionId?: string;
+  VersionId?: string;
+  ServerSideEncryption?: string;
+  SSECustomerAlgorithm?: string;
+  SSECustomerKeyMD5?: string;
+  SSEKMSKeyId?: string;
+  SSEKMSEncryptionContext?: string;
+  BucketKeyEnabled?: boolean;
+  RequestCharged?: string;
+}
+export const CopyObjectOutput = S.suspend(() =>
+  S.Struct({
+    CopyObjectResult: S.optional(CopyObjectResult)
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "CopyObjectResult" }),
     Expiration: S.optional(S.String).pipe(T.HttpHeader("x-amz-expiration")),
     CopySourceVersionId: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-copy-source-version-id"),
@@ -13582,22 +15944,35 @@ export class CopyObjectOutput extends S.Class<CopyObjectOutput>(
     RequestCharged: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-request-charged"),
     ),
-  },
-  ns,
-) {}
-export class CreateBucketOutput extends S.Class<CreateBucketOutput>(
-  "CreateBucketOutput",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "CopyObjectOutput",
+}) as any as S.Schema<CopyObjectOutput>;
+export interface CreateBucketOutput {
+  Location?: string;
+  BucketArn?: string;
+}
+export const CreateBucketOutput = S.suspend(() =>
+  S.Struct({
     Location: S.optional(S.String).pipe(T.HttpHeader("Location")),
     BucketArn: S.optional(S.String).pipe(T.HttpHeader("x-amz-bucket-arn")),
-  },
-  ns,
-) {}
-export class GetObjectAttributesOutput extends S.Class<GetObjectAttributesOutput>(
-  "GetObjectAttributesOutput",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "CreateBucketOutput",
+}) as any as S.Schema<CreateBucketOutput>;
+export interface GetObjectAttributesOutput {
+  DeleteMarker?: boolean;
+  LastModified?: Date;
+  VersionId?: string;
+  RequestCharged?: string;
+  ETag?: string;
+  Checksum?: Checksum;
+  ObjectParts?: GetObjectAttributesParts;
+  StorageClass?: string;
+  ObjectSize?: number;
+}
+export const GetObjectAttributesOutput = S.suspend(() =>
+  S.Struct({
     DeleteMarker: S.optional(S.Boolean).pipe(
       T.HttpHeader("x-amz-delete-marker"),
     ),
@@ -13613,13 +15988,25 @@ export class GetObjectAttributesOutput extends S.Class<GetObjectAttributesOutput
     ObjectParts: S.optional(GetObjectAttributesParts),
     StorageClass: S.optional(S.String),
     ObjectSize: S.optional(S.Number),
-  },
-  T.all(T.XmlName("GetObjectAttributesResponse"), ns),
-) {}
-export class ListObjectsOutput extends S.Class<ListObjectsOutput>(
-  "ListObjectsOutput",
-)(
-  {
+  }).pipe(T.all(T.XmlName("GetObjectAttributesResponse"), ns)),
+).annotations({
+  identifier: "GetObjectAttributesOutput",
+}) as any as S.Schema<GetObjectAttributesOutput>;
+export interface ListObjectsOutput {
+  IsTruncated?: boolean;
+  Marker?: string;
+  NextMarker?: string;
+  Contents?: ObjectList;
+  Name?: string;
+  Prefix?: string;
+  Delimiter?: string;
+  MaxKeys?: number;
+  CommonPrefixes?: CommonPrefixList;
+  EncodingType?: string;
+  RequestCharged?: string;
+}
+export const ListObjectsOutput = S.suspend(() =>
+  S.Struct({
     IsTruncated: S.optional(S.Boolean),
     Marker: S.optional(S.String),
     NextMarker: S.optional(S.String),
@@ -13633,18 +16020,29 @@ export class ListObjectsOutput extends S.Class<ListObjectsOutput>(
     RequestCharged: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-request-charged"),
     ),
-  },
-  T.all(T.XmlName("ListBucketResult"), ns),
-) {}
-export class PutBucketAclRequest extends S.Class<PutBucketAclRequest>(
-  "PutBucketAclRequest",
-)(
-  {
+  }).pipe(T.all(T.XmlName("ListBucketResult"), ns)),
+).annotations({
+  identifier: "ListObjectsOutput",
+}) as any as S.Schema<ListObjectsOutput>;
+export interface PutBucketAclRequest {
+  ACL?: string;
+  AccessControlPolicy?: AccessControlPolicy;
+  Bucket: string;
+  ContentMD5?: string;
+  ChecksumAlgorithm?: string;
+  GrantFullControl?: string;
+  GrantRead?: string;
+  GrantReadACP?: string;
+  GrantWrite?: string;
+  GrantWriteACP?: string;
+  ExpectedBucketOwner?: string;
+}
+export const PutBucketAclRequest = S.suspend(() =>
+  S.Struct({
     ACL: S.optional(S.String).pipe(T.HttpHeader("x-amz-acl")),
-    AccessControlPolicy: S.optional(AccessControlPolicy).pipe(
-      T.HttpPayload(),
-      T.XmlName("AccessControlPolicy"),
-    ),
+    AccessControlPolicy: S.optional(AccessControlPolicy)
+      .pipe(T.HttpPayload(), T.XmlName("AccessControlPolicy"))
+      .annotations({ identifier: "AccessControlPolicy" }),
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
     ChecksumAlgorithm: S.optional(S.String).pipe(
@@ -13664,29 +16062,40 @@ export class PutBucketAclRequest extends S.Class<PutBucketAclRequest>(
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "PUT", uri: "/{Bucket}?acl" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.AwsProtocolsHttpChecksum({
-      requestAlgorithmMember: "ChecksumAlgorithm",
-      requestChecksumRequired: true,
-    }),
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "PUT", uri: "/{Bucket}?acl" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.AwsProtocolsHttpChecksum({
+        requestAlgorithmMember: "ChecksumAlgorithm",
+        requestChecksumRequired: true,
+      }),
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
   ),
-) {}
-export class PutBucketAclResponse extends S.Class<PutBucketAclResponse>(
-  "PutBucketAclResponse",
-)({}, ns) {}
-export class PutBucketEncryptionRequest extends S.Class<PutBucketEncryptionRequest>(
-  "PutBucketEncryptionRequest",
-)(
-  {
+).annotations({
+  identifier: "PutBucketAclRequest",
+}) as any as S.Schema<PutBucketAclRequest>;
+export interface PutBucketAclResponse {}
+export const PutBucketAclResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "PutBucketAclResponse",
+}) as any as S.Schema<PutBucketAclResponse>;
+export interface PutBucketEncryptionRequest {
+  Bucket: string;
+  ContentMD5?: string;
+  ChecksumAlgorithm?: string;
+  ServerSideEncryptionConfiguration: ServerSideEncryptionConfiguration;
+  ExpectedBucketOwner?: string;
+}
+export const PutBucketEncryptionRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
     ChecksumAlgorithm: S.optional(S.String).pipe(
@@ -13695,33 +16104,43 @@ export class PutBucketEncryptionRequest extends S.Class<PutBucketEncryptionReque
     ServerSideEncryptionConfiguration: ServerSideEncryptionConfiguration.pipe(
       T.HttpPayload(),
       T.XmlName("ServerSideEncryptionConfiguration"),
-    ),
+    ).annotations({ identifier: "ServerSideEncryptionConfiguration" }),
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "PUT", uri: "/{Bucket}?encryption" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.AwsProtocolsHttpChecksum({
-      requestAlgorithmMember: "ChecksumAlgorithm",
-      requestChecksumRequired: true,
-    }),
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "PUT", uri: "/{Bucket}?encryption" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.AwsProtocolsHttpChecksum({
+        requestAlgorithmMember: "ChecksumAlgorithm",
+        requestChecksumRequired: true,
+      }),
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
   ),
-) {}
-export class PutBucketEncryptionResponse extends S.Class<PutBucketEncryptionResponse>(
-  "PutBucketEncryptionResponse",
-)({}, ns) {}
-export class PutBucketIntelligentTieringConfigurationRequest extends S.Class<PutBucketIntelligentTieringConfigurationRequest>(
-  "PutBucketIntelligentTieringConfigurationRequest",
-)(
-  {
+).annotations({
+  identifier: "PutBucketEncryptionRequest",
+}) as any as S.Schema<PutBucketEncryptionRequest>;
+export interface PutBucketEncryptionResponse {}
+export const PutBucketEncryptionResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "PutBucketEncryptionResponse",
+}) as any as S.Schema<PutBucketEncryptionResponse>;
+export interface PutBucketIntelligentTieringConfigurationRequest {
+  Bucket: string;
+  Id: string;
+  ExpectedBucketOwner?: string;
+  IntelligentTieringConfiguration: IntelligentTieringConfiguration;
+}
+export const PutBucketIntelligentTieringConfigurationRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     Id: S.String.pipe(T.HttpQuery("id")),
     ExpectedBucketOwner: S.optional(S.String).pipe(
@@ -13730,54 +16149,75 @@ export class PutBucketIntelligentTieringConfigurationRequest extends S.Class<Put
     IntelligentTieringConfiguration: IntelligentTieringConfiguration.pipe(
       T.HttpPayload(),
       T.XmlName("IntelligentTieringConfiguration"),
+    ).annotations({ identifier: "IntelligentTieringConfiguration" }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "PUT", uri: "/{Bucket}?intelligent-tiering" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "PUT", uri: "/{Bucket}?intelligent-tiering" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
   ),
-) {}
-export class PutBucketIntelligentTieringConfigurationResponse extends S.Class<PutBucketIntelligentTieringConfigurationResponse>(
-  "PutBucketIntelligentTieringConfigurationResponse",
-)({}, ns) {}
-export class PutBucketMetricsConfigurationRequest extends S.Class<PutBucketMetricsConfigurationRequest>(
-  "PutBucketMetricsConfigurationRequest",
-)(
-  {
+).annotations({
+  identifier: "PutBucketIntelligentTieringConfigurationRequest",
+}) as any as S.Schema<PutBucketIntelligentTieringConfigurationRequest>;
+export interface PutBucketIntelligentTieringConfigurationResponse {}
+export const PutBucketIntelligentTieringConfigurationResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "PutBucketIntelligentTieringConfigurationResponse",
+}) as any as S.Schema<PutBucketIntelligentTieringConfigurationResponse>;
+export interface PutBucketMetricsConfigurationRequest {
+  Bucket: string;
+  Id: string;
+  MetricsConfiguration: MetricsConfiguration;
+  ExpectedBucketOwner?: string;
+}
+export const PutBucketMetricsConfigurationRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     Id: S.String.pipe(T.HttpQuery("id")),
     MetricsConfiguration: MetricsConfiguration.pipe(
       T.HttpPayload(),
       T.XmlName("MetricsConfiguration"),
-    ),
+    ).annotations({ identifier: "MetricsConfiguration" }),
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "PUT", uri: "/{Bucket}?metrics" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "PUT", uri: "/{Bucket}?metrics" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
   ),
-) {}
-export class PutBucketMetricsConfigurationResponse extends S.Class<PutBucketMetricsConfigurationResponse>(
-  "PutBucketMetricsConfigurationResponse",
-)({}, ns) {}
-export class PutBucketWebsiteRequest extends S.Class<PutBucketWebsiteRequest>(
-  "PutBucketWebsiteRequest",
-)(
-  {
+).annotations({
+  identifier: "PutBucketMetricsConfigurationRequest",
+}) as any as S.Schema<PutBucketMetricsConfigurationRequest>;
+export interface PutBucketMetricsConfigurationResponse {}
+export const PutBucketMetricsConfigurationResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "PutBucketMetricsConfigurationResponse",
+}) as any as S.Schema<PutBucketMetricsConfigurationResponse>;
+export interface PutBucketWebsiteRequest {
+  Bucket: string;
+  ContentMD5?: string;
+  ChecksumAlgorithm?: string;
+  WebsiteConfiguration: WebsiteConfiguration;
+  ExpectedBucketOwner?: string;
+}
+export const PutBucketWebsiteRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
     ChecksumAlgorithm: S.optional(S.String).pipe(
@@ -13786,38 +16226,50 @@ export class PutBucketWebsiteRequest extends S.Class<PutBucketWebsiteRequest>(
     WebsiteConfiguration: WebsiteConfiguration.pipe(
       T.HttpPayload(),
       T.XmlName("WebsiteConfiguration"),
-    ),
+    ).annotations({ identifier: "WebsiteConfiguration" }),
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "PUT", uri: "/{Bucket}?website" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.AwsProtocolsHttpChecksum({
-      requestAlgorithmMember: "ChecksumAlgorithm",
-      requestChecksumRequired: true,
-    }),
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-  ),
-) {}
-export class PutBucketWebsiteResponse extends S.Class<PutBucketWebsiteResponse>(
-  "PutBucketWebsiteResponse",
-)({}, ns) {}
-export class PutObjectLockConfigurationRequest extends S.Class<PutObjectLockConfigurationRequest>(
-  "PutObjectLockConfigurationRequest",
-)(
-  {
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    ObjectLockConfiguration: S.optional(ObjectLockConfiguration).pipe(
-      T.HttpPayload(),
-      T.XmlName("ObjectLockConfiguration"),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "PUT", uri: "/{Bucket}?website" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.AwsProtocolsHttpChecksum({
+        requestAlgorithmMember: "ChecksumAlgorithm",
+        requestChecksumRequired: true,
+      }),
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
     ),
+  ),
+).annotations({
+  identifier: "PutBucketWebsiteRequest",
+}) as any as S.Schema<PutBucketWebsiteRequest>;
+export interface PutBucketWebsiteResponse {}
+export const PutBucketWebsiteResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "PutBucketWebsiteResponse",
+}) as any as S.Schema<PutBucketWebsiteResponse>;
+export interface PutObjectLockConfigurationRequest {
+  Bucket: string;
+  ObjectLockConfiguration?: ObjectLockConfiguration;
+  RequestPayer?: string;
+  Token?: string;
+  ContentMD5?: string;
+  ChecksumAlgorithm?: string;
+  ExpectedBucketOwner?: string;
+}
+export const PutObjectLockConfigurationRequest = S.suspend(() =>
+  S.Struct({
+    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
+    ObjectLockConfiguration: S.optional(ObjectLockConfiguration)
+      .pipe(T.HttpPayload(), T.XmlName("ObjectLockConfiguration"))
+      .annotations({ identifier: "ObjectLockConfiguration" }),
     RequestPayer: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-request-payer"),
     ),
@@ -13831,154 +16283,259 @@ export class PutObjectLockConfigurationRequest extends S.Class<PutObjectLockConf
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "PUT", uri: "/{Bucket}?object-lock" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.AwsProtocolsHttpChecksum({
-      requestAlgorithmMember: "ChecksumAlgorithm",
-      requestChecksumRequired: true,
-    }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "PUT", uri: "/{Bucket}?object-lock" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.AwsProtocolsHttpChecksum({
+        requestAlgorithmMember: "ChecksumAlgorithm",
+        requestChecksumRequired: true,
+      }),
+    ),
   ),
-) {}
-export class MetadataConfigurationResult extends S.Class<MetadataConfigurationResult>(
-  "MetadataConfigurationResult",
-)({
-  DestinationResult: DestinationResult,
-  JournalTableConfigurationResult: S.optional(JournalTableConfigurationResult),
-  InventoryTableConfigurationResult: S.optional(
-    InventoryTableConfigurationResult,
-  ),
-}) {}
-export class MetadataTableConfigurationResult extends S.Class<MetadataTableConfigurationResult>(
-  "MetadataTableConfigurationResult",
-)({ S3TablesDestinationResult: S3TablesDestinationResult }) {}
-export class OutputLocation extends S.Class<OutputLocation>("OutputLocation")({
-  S3: S.optional(S3Location),
-}) {}
-export class ContinuationEvent extends S.Class<ContinuationEvent>(
-  "ContinuationEvent",
-)({}) {}
-export class EndEvent extends S.Class<EndEvent>("EndEvent")({}) {}
-export class DeletedObject extends S.Class<DeletedObject>("DeletedObject")({
-  Key: S.optional(S.String),
-  VersionId: S.optional(S.String),
-  DeleteMarker: S.optional(S.Boolean),
-  DeleteMarkerVersionId: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "PutObjectLockConfigurationRequest",
+}) as any as S.Schema<PutObjectLockConfigurationRequest>;
+export interface MetadataConfigurationResult {
+  DestinationResult: DestinationResult;
+  JournalTableConfigurationResult?: JournalTableConfigurationResult;
+  InventoryTableConfigurationResult?: InventoryTableConfigurationResult;
+}
+export const MetadataConfigurationResult = S.suspend(() =>
+  S.Struct({
+    DestinationResult: DestinationResult,
+    JournalTableConfigurationResult: S.optional(
+      JournalTableConfigurationResult,
+    ),
+    InventoryTableConfigurationResult: S.optional(
+      InventoryTableConfigurationResult,
+    ),
+  }),
+).annotations({
+  identifier: "MetadataConfigurationResult",
+}) as any as S.Schema<MetadataConfigurationResult>;
+export interface MetadataTableConfigurationResult {
+  S3TablesDestinationResult: S3TablesDestinationResult;
+}
+export const MetadataTableConfigurationResult = S.suspend(() =>
+  S.Struct({ S3TablesDestinationResult: S3TablesDestinationResult }),
+).annotations({
+  identifier: "MetadataTableConfigurationResult",
+}) as any as S.Schema<MetadataTableConfigurationResult>;
+export interface OutputLocation {
+  S3?: S3Location;
+}
+export const OutputLocation = S.suspend(() =>
+  S.Struct({ S3: S.optional(S3Location) }),
+).annotations({
+  identifier: "OutputLocation",
+}) as any as S.Schema<OutputLocation>;
+export interface ContinuationEvent {}
+export const ContinuationEvent = S.suspend(() => S.Struct({})).annotations({
+  identifier: "ContinuationEvent",
+}) as any as S.Schema<ContinuationEvent>;
+export interface EndEvent {}
+export const EndEvent = S.suspend(() => S.Struct({})).annotations({
+  identifier: "EndEvent",
+}) as any as S.Schema<EndEvent>;
+export interface DeletedObject {
+  Key?: string;
+  VersionId?: string;
+  DeleteMarker?: boolean;
+  DeleteMarkerVersionId?: string;
+}
+export const DeletedObject = S.suspend(() =>
+  S.Struct({
+    Key: S.optional(S.String),
+    VersionId: S.optional(S.String),
+    DeleteMarker: S.optional(S.Boolean),
+    DeleteMarkerVersionId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DeletedObject",
+}) as any as S.Schema<DeletedObject>;
+export type DeletedObjects = DeletedObject[];
 export const DeletedObjects = S.Array(DeletedObject);
-export class Error extends S.Class<Error>("Error")({
-  Key: S.optional(S.String),
-  VersionId: S.optional(S.String),
-  Code: S.optional(S.String),
-  Message: S.optional(S.String),
-}) {}
+export interface Error {
+  Key?: string;
+  VersionId?: string;
+  Code?: string;
+  Message?: string;
+}
+export const Error = S.suspend(() =>
+  S.Struct({
+    Key: S.optional(S.String),
+    VersionId: S.optional(S.String),
+    Code: S.optional(S.String),
+    Message: S.optional(S.String),
+  }),
+).annotations({ identifier: "Error" }) as any as S.Schema<Error>;
+export type Errors = Error[];
 export const Errors = S.Array(Error);
-export class GetBucketMetadataConfigurationResult extends S.Class<GetBucketMetadataConfigurationResult>(
-  "GetBucketMetadataConfigurationResult",
-)({ MetadataConfigurationResult: MetadataConfigurationResult }) {}
-export class GetBucketMetadataTableConfigurationResult extends S.Class<GetBucketMetadataTableConfigurationResult>(
-  "GetBucketMetadataTableConfigurationResult",
-)({
-  MetadataTableConfigurationResult: MetadataTableConfigurationResult,
-  Status: S.String,
-  Error: S.optional(ErrorDetails),
-}) {}
-export class BucketLifecycleConfiguration extends S.Class<BucketLifecycleConfiguration>(
-  "BucketLifecycleConfiguration",
-)({ Rules: LifecycleRules.pipe(T.XmlName("Rule"), T.XmlFlattened()) }) {}
-export class BucketLoggingStatus extends S.Class<BucketLoggingStatus>(
-  "BucketLoggingStatus",
-)({ LoggingEnabled: S.optional(LoggingEnabled) }) {}
-export class RestoreRequest extends S.Class<RestoreRequest>("RestoreRequest")({
-  Days: S.optional(S.Number),
-  GlacierJobParameters: S.optional(GlacierJobParameters),
-  Type: S.optional(S.String),
-  Tier: S.optional(S.String),
-  Description: S.optional(S.String),
-  SelectParameters: S.optional(SelectParameters),
-  OutputLocation: S.optional(OutputLocation),
-}) {}
-export class DeleteObjectsOutput extends S.Class<DeleteObjectsOutput>(
-  "DeleteObjectsOutput",
-)(
-  {
+export interface GetBucketMetadataConfigurationResult {
+  MetadataConfigurationResult: MetadataConfigurationResult;
+}
+export const GetBucketMetadataConfigurationResult = S.suspend(() =>
+  S.Struct({ MetadataConfigurationResult: MetadataConfigurationResult }),
+).annotations({
+  identifier: "GetBucketMetadataConfigurationResult",
+}) as any as S.Schema<GetBucketMetadataConfigurationResult>;
+export interface GetBucketMetadataTableConfigurationResult {
+  MetadataTableConfigurationResult: MetadataTableConfigurationResult;
+  Status: string;
+  Error?: ErrorDetails;
+}
+export const GetBucketMetadataTableConfigurationResult = S.suspend(() =>
+  S.Struct({
+    MetadataTableConfigurationResult: MetadataTableConfigurationResult,
+    Status: S.String,
+    Error: S.optional(ErrorDetails),
+  }),
+).annotations({
+  identifier: "GetBucketMetadataTableConfigurationResult",
+}) as any as S.Schema<GetBucketMetadataTableConfigurationResult>;
+export interface BucketLifecycleConfiguration {
+  Rules: LifecycleRules;
+}
+export const BucketLifecycleConfiguration = S.suspend(() =>
+  S.Struct({ Rules: LifecycleRules.pipe(T.XmlName("Rule"), T.XmlFlattened()) }),
+).annotations({
+  identifier: "BucketLifecycleConfiguration",
+}) as any as S.Schema<BucketLifecycleConfiguration>;
+export interface BucketLoggingStatus {
+  LoggingEnabled?: LoggingEnabled;
+}
+export const BucketLoggingStatus = S.suspend(() =>
+  S.Struct({ LoggingEnabled: S.optional(LoggingEnabled) }),
+).annotations({
+  identifier: "BucketLoggingStatus",
+}) as any as S.Schema<BucketLoggingStatus>;
+export interface RestoreRequest {
+  Days?: number;
+  GlacierJobParameters?: GlacierJobParameters;
+  Type?: string;
+  Tier?: string;
+  Description?: string;
+  SelectParameters?: SelectParameters;
+  OutputLocation?: OutputLocation;
+}
+export const RestoreRequest = S.suspend(() =>
+  S.Struct({
+    Days: S.optional(S.Number),
+    GlacierJobParameters: S.optional(GlacierJobParameters),
+    Type: S.optional(S.String),
+    Tier: S.optional(S.String),
+    Description: S.optional(S.String),
+    SelectParameters: S.optional(SelectParameters),
+    OutputLocation: S.optional(OutputLocation),
+  }),
+).annotations({
+  identifier: "RestoreRequest",
+}) as any as S.Schema<RestoreRequest>;
+export interface DeleteObjectsOutput {
+  Deleted?: DeletedObjects;
+  RequestCharged?: string;
+  Errors?: Errors;
+}
+export const DeleteObjectsOutput = S.suspend(() =>
+  S.Struct({
     Deleted: S.optional(DeletedObjects).pipe(T.XmlFlattened()),
     RequestCharged: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-request-charged"),
     ),
     Errors: S.optional(Errors).pipe(T.XmlName("Error"), T.XmlFlattened()),
-  },
-  T.all(T.XmlName("DeleteResult"), ns),
-) {}
-export class GetBucketMetadataConfigurationOutput extends S.Class<GetBucketMetadataConfigurationOutput>(
-  "GetBucketMetadataConfigurationOutput",
-)(
-  {
+  }).pipe(T.all(T.XmlName("DeleteResult"), ns)),
+).annotations({
+  identifier: "DeleteObjectsOutput",
+}) as any as S.Schema<DeleteObjectsOutput>;
+export interface GetBucketMetadataConfigurationOutput {
+  GetBucketMetadataConfigurationResult?: GetBucketMetadataConfigurationResult;
+}
+export const GetBucketMetadataConfigurationOutput = S.suspend(() =>
+  S.Struct({
     GetBucketMetadataConfigurationResult: S.optional(
       GetBucketMetadataConfigurationResult,
-    ).pipe(T.HttpPayload()),
-  },
-  ns,
-) {}
-export class GetBucketMetadataTableConfigurationOutput extends S.Class<GetBucketMetadataTableConfigurationOutput>(
-  "GetBucketMetadataTableConfigurationOutput",
-)(
-  {
+    )
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "GetBucketMetadataConfigurationResult" }),
+  }).pipe(ns),
+).annotations({
+  identifier: "GetBucketMetadataConfigurationOutput",
+}) as any as S.Schema<GetBucketMetadataConfigurationOutput>;
+export interface GetBucketMetadataTableConfigurationOutput {
+  GetBucketMetadataTableConfigurationResult?: GetBucketMetadataTableConfigurationResult;
+}
+export const GetBucketMetadataTableConfigurationOutput = S.suspend(() =>
+  S.Struct({
     GetBucketMetadataTableConfigurationResult: S.optional(
       GetBucketMetadataTableConfigurationResult,
-    ).pipe(T.HttpPayload()),
-  },
-  ns,
-) {}
-export class PutBucketLifecycleConfigurationRequest extends S.Class<PutBucketLifecycleConfigurationRequest>(
-  "PutBucketLifecycleConfigurationRequest",
-)(
-  {
+    )
+      .pipe(T.HttpPayload())
+      .annotations({ identifier: "GetBucketMetadataTableConfigurationResult" }),
+  }).pipe(ns),
+).annotations({
+  identifier: "GetBucketMetadataTableConfigurationOutput",
+}) as any as S.Schema<GetBucketMetadataTableConfigurationOutput>;
+export interface PutBucketLifecycleConfigurationRequest {
+  Bucket: string;
+  ChecksumAlgorithm?: string;
+  LifecycleConfiguration?: BucketLifecycleConfiguration;
+  ExpectedBucketOwner?: string;
+  TransitionDefaultMinimumObjectSize?: string;
+}
+export const PutBucketLifecycleConfigurationRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ChecksumAlgorithm: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-sdk-checksum-algorithm"),
     ),
-    LifecycleConfiguration: S.optional(BucketLifecycleConfiguration).pipe(
-      T.HttpPayload(),
-      T.XmlName("LifecycleConfiguration"),
-    ),
+    LifecycleConfiguration: S.optional(BucketLifecycleConfiguration)
+      .pipe(T.HttpPayload(), T.XmlName("LifecycleConfiguration"))
+      .annotations({ identifier: "BucketLifecycleConfiguration" }),
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
     TransitionDefaultMinimumObjectSize: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-transition-default-minimum-object-size"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "PUT", uri: "/{Bucket}?lifecycle" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.AwsProtocolsHttpChecksum({
-      requestAlgorithmMember: "ChecksumAlgorithm",
-      requestChecksumRequired: true,
-    }),
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "PUT", uri: "/{Bucket}?lifecycle" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.AwsProtocolsHttpChecksum({
+        requestAlgorithmMember: "ChecksumAlgorithm",
+        requestChecksumRequired: true,
+      }),
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
   ),
-) {}
-export class PutBucketLoggingRequest extends S.Class<PutBucketLoggingRequest>(
-  "PutBucketLoggingRequest",
-)(
-  {
+).annotations({
+  identifier: "PutBucketLifecycleConfigurationRequest",
+}) as any as S.Schema<PutBucketLifecycleConfigurationRequest>;
+export interface PutBucketLoggingRequest {
+  Bucket: string;
+  BucketLoggingStatus: BucketLoggingStatus;
+  ContentMD5?: string;
+  ChecksumAlgorithm?: string;
+  ExpectedBucketOwner?: string;
+}
+export const PutBucketLoggingRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     BucketLoggingStatus: BucketLoggingStatus.pipe(
       T.HttpPayload(),
       T.XmlName("BucketLoggingStatus"),
-    ),
+    ).annotations({ identifier: "BucketLoggingStatus" }),
     ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
     ChecksumAlgorithm: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-sdk-checksum-algorithm"),
@@ -13986,46 +16543,60 @@ export class PutBucketLoggingRequest extends S.Class<PutBucketLoggingRequest>(
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "PUT", uri: "/{Bucket}?logging" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.AwsProtocolsHttpChecksum({
-      requestAlgorithmMember: "ChecksumAlgorithm",
-      requestChecksumRequired: true,
-    }),
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "PUT", uri: "/{Bucket}?logging" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.AwsProtocolsHttpChecksum({
+        requestAlgorithmMember: "ChecksumAlgorithm",
+        requestChecksumRequired: true,
+      }),
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
   ),
-) {}
-export class PutBucketLoggingResponse extends S.Class<PutBucketLoggingResponse>(
-  "PutBucketLoggingResponse",
-)({}, ns) {}
-export class PutObjectLockConfigurationOutput extends S.Class<PutObjectLockConfigurationOutput>(
-  "PutObjectLockConfigurationOutput",
-)(
-  {
+).annotations({
+  identifier: "PutBucketLoggingRequest",
+}) as any as S.Schema<PutBucketLoggingRequest>;
+export interface PutBucketLoggingResponse {}
+export const PutBucketLoggingResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "PutBucketLoggingResponse",
+}) as any as S.Schema<PutBucketLoggingResponse>;
+export interface PutObjectLockConfigurationOutput {
+  RequestCharged?: string;
+}
+export const PutObjectLockConfigurationOutput = S.suspend(() =>
+  S.Struct({
     RequestCharged: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-request-charged"),
     ),
-  },
-  ns,
-) {}
-export class RestoreObjectRequest extends S.Class<RestoreObjectRequest>(
-  "RestoreObjectRequest",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "PutObjectLockConfigurationOutput",
+}) as any as S.Schema<PutObjectLockConfigurationOutput>;
+export interface RestoreObjectRequest {
+  Bucket: string;
+  Key: string;
+  VersionId?: string;
+  RestoreRequest?: RestoreRequest;
+  RequestPayer?: string;
+  ChecksumAlgorithm?: string;
+  ExpectedBucketOwner?: string;
+}
+export const RestoreObjectRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     Key: S.String.pipe(T.HttpLabel("Key")),
     VersionId: S.optional(S.String).pipe(T.HttpQuery("versionId")),
-    RestoreRequest: S.optional(RestoreRequest).pipe(
-      T.HttpPayload(),
-      T.XmlName("RestoreRequest"),
-    ),
+    RestoreRequest: S.optional(RestoreRequest)
+      .pipe(T.HttpPayload(), T.XmlName("RestoreRequest"))
+      .annotations({ identifier: "RestoreRequest" }),
     RequestPayer: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-request-payer"),
     ),
@@ -14035,34 +16606,55 @@ export class RestoreObjectRequest extends S.Class<RestoreObjectRequest>(
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/{Bucket}/{Key+}?restore" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.AwsProtocolsHttpChecksum({ requestAlgorithmMember: "ChecksumAlgorithm" }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/{Bucket}/{Key+}?restore" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.AwsProtocolsHttpChecksum({
+        requestAlgorithmMember: "ChecksumAlgorithm",
+      }),
+    ),
   ),
-) {}
-export class TopicConfiguration extends S.Class<TopicConfiguration>(
-  "TopicConfiguration",
-)({
-  Id: S.optional(S.String),
-  TopicArn: S.String.pipe(T.XmlName("Topic")),
-  Events: EventList.pipe(T.XmlName("Event"), T.XmlFlattened()),
-  Filter: S.optional(NotificationConfigurationFilter),
-}) {}
+).annotations({
+  identifier: "RestoreObjectRequest",
+}) as any as S.Schema<RestoreObjectRequest>;
+export interface TopicConfiguration {
+  Id?: string;
+  TopicArn: string;
+  Events: EventList;
+  Filter?: NotificationConfigurationFilter;
+}
+export const TopicConfiguration = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    TopicArn: S.String.pipe(T.XmlName("Topic")),
+    Events: EventList.pipe(T.XmlName("Event"), T.XmlFlattened()),
+    Filter: S.optional(NotificationConfigurationFilter),
+  }),
+).annotations({
+  identifier: "TopicConfiguration",
+}) as any as S.Schema<TopicConfiguration>;
+export type TopicConfigurationList = TopicConfiguration[];
 export const TopicConfigurationList = S.Array(TopicConfiguration);
-export class RecordsEvent extends S.Class<RecordsEvent>("RecordsEvent")({
-  Payload: S.optional(T.Blob).pipe(T.EventPayload()),
-}) {}
-export class NotificationConfiguration extends S.Class<NotificationConfiguration>(
-  "NotificationConfiguration",
-)(
-  {
+export interface RecordsEvent {
+  Payload?: Uint8Array;
+}
+export const RecordsEvent = S.suspend(() =>
+  S.Struct({ Payload: S.optional(T.Blob).pipe(T.EventPayload()) }),
+).annotations({ identifier: "RecordsEvent" }) as any as S.Schema<RecordsEvent>;
+export interface NotificationConfiguration {
+  TopicConfigurations?: TopicConfigurationList;
+  QueueConfigurations?: QueueConfigurationList;
+  LambdaFunctionConfigurations?: LambdaFunctionConfigurationList;
+  EventBridgeConfiguration?: EventBridgeConfiguration;
+}
+export const NotificationConfiguration = S.suspend(() =>
+  S.Struct({
     TopicConfigurations: S.optional(TopicConfigurationList).pipe(
       T.XmlName("TopicConfiguration"),
       T.XmlFlattened(),
@@ -14075,119 +16667,172 @@ export class NotificationConfiguration extends S.Class<NotificationConfiguration
       LambdaFunctionConfigurationList,
     ).pipe(T.XmlName("CloudFunctionConfiguration"), T.XmlFlattened()),
     EventBridgeConfiguration: S.optional(EventBridgeConfiguration),
-  },
-  ns,
-) {}
-export class Stats extends S.Class<Stats>("Stats")({
-  BytesScanned: S.optional(S.Number),
-  BytesProcessed: S.optional(S.Number),
-  BytesReturned: S.optional(S.Number),
-}) {}
-export class Progress extends S.Class<Progress>("Progress")({
-  BytesScanned: S.optional(S.Number),
-  BytesProcessed: S.optional(S.Number),
-  BytesReturned: S.optional(S.Number),
-}) {}
-export class PutBucketAnalyticsConfigurationRequest extends S.Class<PutBucketAnalyticsConfigurationRequest>(
-  "PutBucketAnalyticsConfigurationRequest",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "NotificationConfiguration",
+}) as any as S.Schema<NotificationConfiguration>;
+export interface Stats {
+  BytesScanned?: number;
+  BytesProcessed?: number;
+  BytesReturned?: number;
+}
+export const Stats = S.suspend(() =>
+  S.Struct({
+    BytesScanned: S.optional(S.Number),
+    BytesProcessed: S.optional(S.Number),
+    BytesReturned: S.optional(S.Number),
+  }),
+).annotations({ identifier: "Stats" }) as any as S.Schema<Stats>;
+export interface Progress {
+  BytesScanned?: number;
+  BytesProcessed?: number;
+  BytesReturned?: number;
+}
+export const Progress = S.suspend(() =>
+  S.Struct({
+    BytesScanned: S.optional(S.Number),
+    BytesProcessed: S.optional(S.Number),
+    BytesReturned: S.optional(S.Number),
+  }),
+).annotations({ identifier: "Progress" }) as any as S.Schema<Progress>;
+export interface PutBucketAnalyticsConfigurationRequest {
+  Bucket: string;
+  Id: string;
+  AnalyticsConfiguration: AnalyticsConfiguration;
+  ExpectedBucketOwner?: string;
+}
+export const PutBucketAnalyticsConfigurationRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     Id: S.String.pipe(T.HttpQuery("id")),
     AnalyticsConfiguration: AnalyticsConfiguration.pipe(
       T.HttpPayload(),
       T.XmlName("AnalyticsConfiguration"),
-    ),
+    ).annotations({ identifier: "AnalyticsConfiguration" }),
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "PUT", uri: "/{Bucket}?analytics" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "PUT", uri: "/{Bucket}?analytics" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
   ),
-) {}
-export class PutBucketAnalyticsConfigurationResponse extends S.Class<PutBucketAnalyticsConfigurationResponse>(
-  "PutBucketAnalyticsConfigurationResponse",
-)({}, ns) {}
-export class PutBucketInventoryConfigurationRequest extends S.Class<PutBucketInventoryConfigurationRequest>(
-  "PutBucketInventoryConfigurationRequest",
-)(
-  {
+).annotations({
+  identifier: "PutBucketAnalyticsConfigurationRequest",
+}) as any as S.Schema<PutBucketAnalyticsConfigurationRequest>;
+export interface PutBucketAnalyticsConfigurationResponse {}
+export const PutBucketAnalyticsConfigurationResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "PutBucketAnalyticsConfigurationResponse",
+}) as any as S.Schema<PutBucketAnalyticsConfigurationResponse>;
+export interface PutBucketInventoryConfigurationRequest {
+  Bucket: string;
+  Id: string;
+  InventoryConfiguration: InventoryConfiguration;
+  ExpectedBucketOwner?: string;
+}
+export const PutBucketInventoryConfigurationRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     Id: S.String.pipe(T.HttpQuery("id")),
     InventoryConfiguration: InventoryConfiguration.pipe(
       T.HttpPayload(),
       T.XmlName("InventoryConfiguration"),
-    ),
+    ).annotations({ identifier: "InventoryConfiguration" }),
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "PUT", uri: "/{Bucket}?inventory" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "PUT", uri: "/{Bucket}?inventory" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
   ),
-) {}
-export class PutBucketInventoryConfigurationResponse extends S.Class<PutBucketInventoryConfigurationResponse>(
-  "PutBucketInventoryConfigurationResponse",
-)({}, ns) {}
-export class PutBucketLifecycleConfigurationOutput extends S.Class<PutBucketLifecycleConfigurationOutput>(
-  "PutBucketLifecycleConfigurationOutput",
-)(
-  {
+).annotations({
+  identifier: "PutBucketInventoryConfigurationRequest",
+}) as any as S.Schema<PutBucketInventoryConfigurationRequest>;
+export interface PutBucketInventoryConfigurationResponse {}
+export const PutBucketInventoryConfigurationResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "PutBucketInventoryConfigurationResponse",
+}) as any as S.Schema<PutBucketInventoryConfigurationResponse>;
+export interface PutBucketLifecycleConfigurationOutput {
+  TransitionDefaultMinimumObjectSize?: string;
+}
+export const PutBucketLifecycleConfigurationOutput = S.suspend(() =>
+  S.Struct({
     TransitionDefaultMinimumObjectSize: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-transition-default-minimum-object-size"),
     ),
-  },
-  ns,
-) {}
-export class PutBucketNotificationConfigurationRequest extends S.Class<PutBucketNotificationConfigurationRequest>(
-  "PutBucketNotificationConfigurationRequest",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "PutBucketLifecycleConfigurationOutput",
+}) as any as S.Schema<PutBucketLifecycleConfigurationOutput>;
+export interface PutBucketNotificationConfigurationRequest {
+  Bucket: string;
+  NotificationConfiguration: NotificationConfiguration;
+  ExpectedBucketOwner?: string;
+  SkipDestinationValidation?: boolean;
+}
+export const PutBucketNotificationConfigurationRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     NotificationConfiguration: NotificationConfiguration.pipe(
       T.HttpPayload(),
       T.XmlName("NotificationConfiguration"),
-    ),
+    ).annotations({ identifier: "NotificationConfiguration" }),
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
     SkipDestinationValidation: S.optional(S.Boolean).pipe(
       T.HttpHeader("x-amz-skip-destination-validation"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "PUT", uri: "/{Bucket}?notification" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "PUT", uri: "/{Bucket}?notification" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
   ),
-) {}
-export class PutBucketNotificationConfigurationResponse extends S.Class<PutBucketNotificationConfigurationResponse>(
-  "PutBucketNotificationConfigurationResponse",
-)({}, ns) {}
-export class PutBucketReplicationRequest extends S.Class<PutBucketReplicationRequest>(
-  "PutBucketReplicationRequest",
-)(
-  {
+).annotations({
+  identifier: "PutBucketNotificationConfigurationRequest",
+}) as any as S.Schema<PutBucketNotificationConfigurationRequest>;
+export interface PutBucketNotificationConfigurationResponse {}
+export const PutBucketNotificationConfigurationResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "PutBucketNotificationConfigurationResponse",
+}) as any as S.Schema<PutBucketNotificationConfigurationResponse>;
+export interface PutBucketReplicationRequest {
+  Bucket: string;
+  ContentMD5?: string;
+  ChecksumAlgorithm?: string;
+  ReplicationConfiguration: ReplicationConfiguration;
+  Token?: string;
+  ExpectedBucketOwner?: string;
+}
+export const PutBucketReplicationRequest = S.suspend(() =>
+  S.Struct({
     Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
     ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
     ChecksumAlgorithm: S.optional(S.String).pipe(
@@ -14196,51 +16841,76 @@ export class PutBucketReplicationRequest extends S.Class<PutBucketReplicationReq
     ReplicationConfiguration: ReplicationConfiguration.pipe(
       T.HttpPayload(),
       T.XmlName("ReplicationConfiguration"),
-    ),
+    ).annotations({ identifier: "ReplicationConfiguration" }),
     Token: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-bucket-object-lock-token"),
     ),
     ExpectedBucketOwner: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-expected-bucket-owner"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "PUT", uri: "/{Bucket}?replication" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.AwsProtocolsHttpChecksum({
-      requestAlgorithmMember: "ChecksumAlgorithm",
-      requestChecksumRequired: true,
-    }),
-    T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "PUT", uri: "/{Bucket}?replication" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.AwsProtocolsHttpChecksum({
+        requestAlgorithmMember: "ChecksumAlgorithm",
+        requestChecksumRequired: true,
+      }),
+      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+    ),
   ),
-) {}
-export class PutBucketReplicationResponse extends S.Class<PutBucketReplicationResponse>(
-  "PutBucketReplicationResponse",
-)({}, ns) {}
-export class RestoreObjectOutput extends S.Class<RestoreObjectOutput>(
-  "RestoreObjectOutput",
-)(
-  {
+).annotations({
+  identifier: "PutBucketReplicationRequest",
+}) as any as S.Schema<PutBucketReplicationRequest>;
+export interface PutBucketReplicationResponse {}
+export const PutBucketReplicationResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "PutBucketReplicationResponse",
+}) as any as S.Schema<PutBucketReplicationResponse>;
+export interface RestoreObjectOutput {
+  RequestCharged?: string;
+  RestoreOutputPath?: string;
+}
+export const RestoreObjectOutput = S.suspend(() =>
+  S.Struct({
     RequestCharged: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-request-charged"),
     ),
     RestoreOutputPath: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-restore-output-path"),
     ),
-  },
-  ns,
-) {}
-export class StatsEvent extends S.Class<StatsEvent>("StatsEvent")({
-  Details: S.optional(Stats).pipe(T.EventPayload()),
-}) {}
-export class ProgressEvent extends S.Class<ProgressEvent>("ProgressEvent")({
-  Details: S.optional(Progress).pipe(T.EventPayload()),
-}) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "RestoreObjectOutput",
+}) as any as S.Schema<RestoreObjectOutput>;
+export interface StatsEvent {
+  Details?: Stats;
+}
+export const StatsEvent = S.suspend(() =>
+  S.Struct({
+    Details: S.optional(Stats)
+      .pipe(T.EventPayload())
+      .annotations({ identifier: "Stats" }),
+  }),
+).annotations({ identifier: "StatsEvent" }) as any as S.Schema<StatsEvent>;
+export interface ProgressEvent {
+  Details?: Progress;
+}
+export const ProgressEvent = S.suspend(() =>
+  S.Struct({
+    Details: S.optional(Progress)
+      .pipe(T.EventPayload())
+      .annotations({ identifier: "Progress" }),
+  }),
+).annotations({
+  identifier: "ProgressEvent",
+}) as any as S.Schema<ProgressEvent>;
 export const SelectObjectContentEventStream = T.EventStream(
   S.Union(
     S.Struct({ Records: RecordsEvent }),
@@ -14250,12 +16920,16 @@ export const SelectObjectContentEventStream = T.EventStream(
     S.Struct({ End: EndEvent }),
   ),
 );
-export class SelectObjectContentOutput extends S.Class<SelectObjectContentOutput>(
-  "SelectObjectContentOutput",
-)(
-  { Payload: S.optional(SelectObjectContentEventStream).pipe(T.HttpPayload()) },
-  ns,
-) {}
+export interface SelectObjectContentOutput {
+  Payload?: (typeof SelectObjectContentEventStream)["Type"];
+}
+export const SelectObjectContentOutput = S.suspend(() =>
+  S.Struct({
+    Payload: S.optional(SelectObjectContentEventStream).pipe(T.HttpPayload()),
+  }).pipe(ns),
+).annotations({
+  identifier: "SelectObjectContentOutput",
+}) as any as S.Schema<SelectObjectContentOutput>;
 
 //# Errors
 export class BucketNotEmpty extends S.TaggedError<BucketNotEmpty>()(

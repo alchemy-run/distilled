@@ -243,8 +243,24 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class SearchRequest extends S.Class<SearchRequest>("SearchRequest")(
-  {
+export interface SearchRequest {
+  cursor?: string;
+  expr?: string;
+  facet?: string;
+  filterQuery?: string;
+  highlight?: string;
+  partial?: boolean;
+  query: string;
+  queryOptions?: string;
+  queryParser?: string;
+  return?: string;
+  size?: number;
+  sort?: string;
+  start?: number;
+  stats?: string;
+}
+export const SearchRequest = S.suspend(() =>
+  S.Struct({
     cursor: S.optional(S.String).pipe(T.HttpQuery("cursor")),
     expr: S.optional(S.String).pipe(T.HttpQuery("expr")),
     facet: S.optional(S.String).pipe(T.HttpQuery("facet")),
@@ -259,141 +275,249 @@ export class SearchRequest extends S.Class<SearchRequest>("SearchRequest")(
     sort: S.optional(S.String).pipe(T.HttpQuery("sort")),
     start: S.optional(S.Number).pipe(T.HttpQuery("start")),
     stats: S.optional(S.String).pipe(T.HttpQuery("stats")),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/2013-01-01/search?format=sdk&pretty=true" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "GET",
+        uri: "/2013-01-01/search?format=sdk&pretty=true",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SuggestRequest extends S.Class<SuggestRequest>("SuggestRequest")(
-  {
+).annotations({
+  identifier: "SearchRequest",
+}) as any as S.Schema<SearchRequest>;
+export interface SuggestRequest {
+  query: string;
+  suggester: string;
+  size?: number;
+}
+export const SuggestRequest = S.suspend(() =>
+  S.Struct({
     query: S.String.pipe(T.HttpQuery("q")),
     suggester: S.String.pipe(T.HttpQuery("suggester")),
     size: S.optional(S.Number).pipe(T.HttpQuery("size")),
-  },
-  T.all(
-    ns,
-    T.Http({
-      method: "GET",
-      uri: "/2013-01-01/suggest?format=sdk&pretty=true",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "GET",
+        uri: "/2013-01-01/suggest?format=sdk&pretty=true",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UploadDocumentsRequest extends S.Class<UploadDocumentsRequest>(
-  "UploadDocumentsRequest",
-)(
-  {
+).annotations({
+  identifier: "SuggestRequest",
+}) as any as S.Schema<SuggestRequest>;
+export interface UploadDocumentsRequest {
+  documents: T.StreamingInputBody;
+  contentType: string;
+}
+export const UploadDocumentsRequest = S.suspend(() =>
+  S.Struct({
     documents: T.StreamingInput.pipe(T.HttpPayload()),
     contentType: S.String.pipe(T.HttpHeader("Content-Type")),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/2013-01-01/documents/batch?format=sdk" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/2013-01-01/documents/batch?format=sdk" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SearchStatus extends S.Class<SearchStatus>("SearchStatus")({
-  timems: S.optional(S.Number),
-  rid: S.optional(S.String),
-}) {}
-export class SuggestStatus extends S.Class<SuggestStatus>("SuggestStatus")({
-  timems: S.optional(S.Number),
-  rid: S.optional(S.String),
-}) {}
-export class DocumentServiceWarning extends S.Class<DocumentServiceWarning>(
-  "DocumentServiceWarning",
-)({ message: S.optional(S.String) }) {}
+).annotations({
+  identifier: "UploadDocumentsRequest",
+}) as any as S.Schema<UploadDocumentsRequest>;
+export interface SearchStatus {
+  timems?: number;
+  rid?: string;
+}
+export const SearchStatus = S.suspend(() =>
+  S.Struct({ timems: S.optional(S.Number), rid: S.optional(S.String) }),
+).annotations({ identifier: "SearchStatus" }) as any as S.Schema<SearchStatus>;
+export interface SuggestStatus {
+  timems?: number;
+  rid?: string;
+}
+export const SuggestStatus = S.suspend(() =>
+  S.Struct({ timems: S.optional(S.Number), rid: S.optional(S.String) }),
+).annotations({
+  identifier: "SuggestStatus",
+}) as any as S.Schema<SuggestStatus>;
+export interface DocumentServiceWarning {
+  message?: string;
+}
+export const DocumentServiceWarning = S.suspend(() =>
+  S.Struct({ message: S.optional(S.String) }),
+).annotations({
+  identifier: "DocumentServiceWarning",
+}) as any as S.Schema<DocumentServiceWarning>;
+export type DocumentServiceWarnings = DocumentServiceWarning[];
 export const DocumentServiceWarnings = S.Array(DocumentServiceWarning);
-export class UploadDocumentsResponse extends S.Class<UploadDocumentsResponse>(
-  "UploadDocumentsResponse",
-)(
-  {
+export interface UploadDocumentsResponse {
+  status?: string;
+  adds?: number;
+  deletes?: number;
+  warnings?: DocumentServiceWarnings;
+}
+export const UploadDocumentsResponse = S.suspend(() =>
+  S.Struct({
     status: S.optional(S.String),
     adds: S.optional(S.Number),
     deletes: S.optional(S.Number),
     warnings: S.optional(DocumentServiceWarnings),
-  },
-  ns,
-) {}
-export class FieldStats extends S.Class<FieldStats>("FieldStats")({
-  min: S.optional(S.String),
-  max: S.optional(S.String),
-  count: S.optional(S.Number),
-  missing: S.optional(S.Number),
-  sum: S.optional(S.Number),
-  sumOfSquares: S.optional(S.Number),
-  mean: S.optional(S.String),
-  stddev: S.optional(S.Number),
-}) {}
-export class SuggestionMatch extends S.Class<SuggestionMatch>(
-  "SuggestionMatch",
-)({
-  suggestion: S.optional(S.String),
-  score: S.optional(S.Number),
-  id: S.optional(S.String),
-}) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "UploadDocumentsResponse",
+}) as any as S.Schema<UploadDocumentsResponse>;
+export interface FieldStats {
+  min?: string;
+  max?: string;
+  count?: number;
+  missing?: number;
+  sum?: number;
+  sumOfSquares?: number;
+  mean?: string;
+  stddev?: number;
+}
+export const FieldStats = S.suspend(() =>
+  S.Struct({
+    min: S.optional(S.String),
+    max: S.optional(S.String),
+    count: S.optional(S.Number),
+    missing: S.optional(S.Number),
+    sum: S.optional(S.Number),
+    sumOfSquares: S.optional(S.Number),
+    mean: S.optional(S.String),
+    stddev: S.optional(S.Number),
+  }),
+).annotations({ identifier: "FieldStats" }) as any as S.Schema<FieldStats>;
+export interface SuggestionMatch {
+  suggestion?: string;
+  score?: number;
+  id?: string;
+}
+export const SuggestionMatch = S.suspend(() =>
+  S.Struct({
+    suggestion: S.optional(S.String),
+    score: S.optional(S.Number),
+    id: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SuggestionMatch",
+}) as any as S.Schema<SuggestionMatch>;
+export type Suggestions = SuggestionMatch[];
 export const Suggestions = S.Array(SuggestionMatch);
+export type FieldValue = string[];
 export const FieldValue = S.Array(S.String);
+export type Stats = { [key: string]: FieldStats };
 export const Stats = S.Record({ key: S.String, value: FieldStats });
-export class SuggestModel extends S.Class<SuggestModel>("SuggestModel")({
-  query: S.optional(S.String),
-  found: S.optional(S.Number),
-  suggestions: S.optional(Suggestions),
-}) {}
+export interface SuggestModel {
+  query?: string;
+  found?: number;
+  suggestions?: Suggestions;
+}
+export const SuggestModel = S.suspend(() =>
+  S.Struct({
+    query: S.optional(S.String),
+    found: S.optional(S.Number),
+    suggestions: S.optional(Suggestions),
+  }),
+).annotations({ identifier: "SuggestModel" }) as any as S.Schema<SuggestModel>;
+export type Fields = { [key: string]: FieldValue };
 export const Fields = S.Record({ key: S.String, value: FieldValue });
+export type Exprs = { [key: string]: string };
 export const Exprs = S.Record({ key: S.String, value: S.String });
+export type Highlights = { [key: string]: string };
 export const Highlights = S.Record({ key: S.String, value: S.String });
-export class Bucket extends S.Class<Bucket>("Bucket")({
-  value: S.optional(S.String),
-  count: S.optional(S.Number),
-}) {}
+export interface Bucket {
+  value?: string;
+  count?: number;
+}
+export const Bucket = S.suspend(() =>
+  S.Struct({ value: S.optional(S.String), count: S.optional(S.Number) }),
+).annotations({ identifier: "Bucket" }) as any as S.Schema<Bucket>;
+export type BucketList = Bucket[];
 export const BucketList = S.Array(Bucket);
-export class SuggestResponse extends S.Class<SuggestResponse>(
-  "SuggestResponse",
-)(
-  { status: S.optional(SuggestStatus), suggest: S.optional(SuggestModel) },
-  ns,
-) {}
-export class Hit extends S.Class<Hit>("Hit")({
-  id: S.optional(S.String),
-  fields: S.optional(Fields),
-  exprs: S.optional(Exprs),
-  highlights: S.optional(Highlights),
-}) {}
+export interface SuggestResponse {
+  status?: SuggestStatus;
+  suggest?: SuggestModel;
+}
+export const SuggestResponse = S.suspend(() =>
+  S.Struct({
+    status: S.optional(SuggestStatus),
+    suggest: S.optional(SuggestModel),
+  }).pipe(ns),
+).annotations({
+  identifier: "SuggestResponse",
+}) as any as S.Schema<SuggestResponse>;
+export interface Hit {
+  id?: string;
+  fields?: Fields;
+  exprs?: Exprs;
+  highlights?: Highlights;
+}
+export const Hit = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    fields: S.optional(Fields),
+    exprs: S.optional(Exprs),
+    highlights: S.optional(Highlights),
+  }),
+).annotations({ identifier: "Hit" }) as any as S.Schema<Hit>;
+export type HitList = Hit[];
 export const HitList = S.Array(Hit);
-export class BucketInfo extends S.Class<BucketInfo>("BucketInfo")({
-  buckets: S.optional(BucketList),
-}) {}
-export class Hits extends S.Class<Hits>("Hits")({
-  found: S.optional(S.Number),
-  start: S.optional(S.Number),
-  cursor: S.optional(S.String),
-  hit: S.optional(HitList),
-}) {}
+export interface BucketInfo {
+  buckets?: BucketList;
+}
+export const BucketInfo = S.suspend(() =>
+  S.Struct({ buckets: S.optional(BucketList) }),
+).annotations({ identifier: "BucketInfo" }) as any as S.Schema<BucketInfo>;
+export interface Hits {
+  found?: number;
+  start?: number;
+  cursor?: string;
+  hit?: HitList;
+}
+export const Hits = S.suspend(() =>
+  S.Struct({
+    found: S.optional(S.Number),
+    start: S.optional(S.Number),
+    cursor: S.optional(S.String),
+    hit: S.optional(HitList),
+  }),
+).annotations({ identifier: "Hits" }) as any as S.Schema<Hits>;
+export type Facets = { [key: string]: BucketInfo };
 export const Facets = S.Record({ key: S.String, value: BucketInfo });
-export class SearchResponse extends S.Class<SearchResponse>("SearchResponse")(
-  {
+export interface SearchResponse {
+  status?: SearchStatus;
+  hits?: Hits;
+  facets?: Facets;
+  stats?: Stats;
+}
+export const SearchResponse = S.suspend(() =>
+  S.Struct({
     status: S.optional(SearchStatus),
     hits: S.optional(Hits),
     facets: S.optional(Facets),
     stats: S.optional(Stats),
-  },
-  ns,
-) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "SearchResponse",
+}) as any as S.Schema<SearchResponse>;
 
 //# Errors
 export class DocumentServiceException extends S.TaggedError<DocumentServiceException>()(

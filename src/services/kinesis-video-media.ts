@@ -242,31 +242,57 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class StartSelector extends S.Class<StartSelector>("StartSelector")({
-  StartSelectorType: S.String,
-  AfterFragmentNumber: S.optional(S.String),
-  StartTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  ContinuationToken: S.optional(S.String),
-}) {}
-export class GetMediaInput extends S.Class<GetMediaInput>("GetMediaInput")(
-  {
+export interface StartSelector {
+  StartSelectorType: string;
+  AfterFragmentNumber?: string;
+  StartTimestamp?: Date;
+  ContinuationToken?: string;
+}
+export const StartSelector = S.suspend(() =>
+  S.Struct({
+    StartSelectorType: S.String,
+    AfterFragmentNumber: S.optional(S.String),
+    StartTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ContinuationToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "StartSelector",
+}) as any as S.Schema<StartSelector>;
+export interface GetMediaInput {
+  StreamName?: string;
+  StreamARN?: string;
+  StartSelector: StartSelector;
+}
+export const GetMediaInput = S.suspend(() =>
+  S.Struct({
     StreamName: S.optional(S.String),
     StreamARN: S.optional(S.String),
     StartSelector: StartSelector,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/getMedia" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/getMedia" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetMediaOutput extends S.Class<GetMediaOutput>("GetMediaOutput")({
-  ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-  Payload: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
-}) {}
+).annotations({
+  identifier: "GetMediaInput",
+}) as any as S.Schema<GetMediaInput>;
+export interface GetMediaOutput {
+  ContentType?: string;
+  Payload?: T.StreamingOutputBody;
+}
+export const GetMediaOutput = S.suspend(() =>
+  S.Struct({
+    ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
+    Payload: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
+  }),
+).annotations({
+  identifier: "GetMediaOutput",
+}) as any as S.Schema<GetMediaOutput>;
 
 //# Errors
 export class ClientLimitExceededException extends S.TaggedError<ClientLimitExceededException>()(

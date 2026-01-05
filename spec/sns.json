@@ -1,0 +1,109 @@
+{
+  "operations": {
+    "getTopicAttributes": {
+      "errors": [
+        "InvalidClientTokenId"
+      ]
+    },
+    "deleteTopic": {
+      "errors": [
+        "InvalidClientTokenId"
+      ]
+    },
+    "setTopicAttributes": {
+      "errors": [
+        "InvalidClientTokenId"
+      ]
+    },
+    "subscribe": {
+      "errors": [
+        "InvalidClientTokenId"
+      ]
+    },
+    "tagResource": {
+      "errors": [
+        "InvalidClientTokenId"
+      ]
+    },
+    "untagResource": {
+      "errors": [
+        "InvalidClientTokenId"
+      ]
+    },
+    "listTagsForResource": {
+      "errors": [
+        "InvalidClientTokenId"
+      ]
+    },
+    "getDataProtectionPolicy": {
+      "errors": [
+        "InvalidClientTokenId"
+      ]
+    },
+    "putDataProtectionPolicy": {
+      "errors": [
+        "InvalidClientTokenId"
+      ]
+    },
+    "addPermission": {
+      "errors": [
+        "InvalidClientTokenId"
+      ]
+    },
+    "removePermission": {
+      "errors": [
+        "InvalidClientTokenId"
+      ]
+    },
+    "getPlatformApplicationAttributes": {
+      "errors": [
+        "InvalidClientTokenId"
+      ]
+    },
+    "deletePlatformApplication": {
+      "errors": [
+        "InvalidClientTokenId"
+      ]
+    },
+    "createPlatformEndpoint": {
+      "errors": [
+        "InvalidClientTokenId"
+      ]
+    },
+    "setPlatformApplicationAttributes": {
+      "errors": [
+        "InvalidClientTokenId"
+      ]
+    },
+    "listSubscriptionsByTopic": {
+      "errors": [
+        "InvalidClientTokenId"
+      ]
+    },
+    "listEndpointsByPlatformApplication": {
+      "errors": [
+        "InvalidClientTokenId"
+      ]
+    },
+    "publish": {
+      "errors": [
+        "InvalidClientTokenId"
+      ]
+    },
+    "getEndpointAttributes": {
+      "errors": [
+        "InvalidClientTokenId"
+      ]
+    },
+    "setEndpointAttributes": {
+      "errors": [
+        "InvalidClientTokenId"
+      ]
+    },
+    "deleteEndpoint": {
+      "errors": [
+        "InvalidClientTokenId"
+      ]
+    }
+  }
+}

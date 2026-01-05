@@ -242,349 +242,599 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type EnabledAnalysisTypes = string[];
 export const EnabledAnalysisTypes = S.Array(S.String);
+export type ResourceNameList = string[];
 export const ResourceNameList = S.Array(S.String);
+export type ResourceArnList = string[];
 export const ResourceArnList = S.Array(S.String);
+export type AzSubnets = string[];
 export const AzSubnets = S.Array(S.String);
+export type VpcIds = string[];
 export const VpcIds = S.Array(S.String);
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class AcceptNetworkFirewallTransitGatewayAttachmentRequest extends S.Class<AcceptNetworkFirewallTransitGatewayAttachmentRequest>(
-  "AcceptNetworkFirewallTransitGatewayAttachmentRequest",
-)(
-  { TransitGatewayAttachmentId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class AssociateFirewallPolicyRequest extends S.Class<AssociateFirewallPolicyRequest>(
-  "AssociateFirewallPolicyRequest",
-)(
-  {
+export interface AcceptNetworkFirewallTransitGatewayAttachmentRequest {
+  TransitGatewayAttachmentId: string;
+}
+export const AcceptNetworkFirewallTransitGatewayAttachmentRequest = S.suspend(
+  () =>
+    S.Struct({ TransitGatewayAttachmentId: S.String }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+).annotations({
+  identifier: "AcceptNetworkFirewallTransitGatewayAttachmentRequest",
+}) as any as S.Schema<AcceptNetworkFirewallTransitGatewayAttachmentRequest>;
+export interface AssociateFirewallPolicyRequest {
+  UpdateToken?: string;
+  FirewallArn?: string;
+  FirewallName?: string;
+  FirewallPolicyArn: string;
+}
+export const AssociateFirewallPolicyRequest = S.suspend(() =>
+  S.Struct({
     UpdateToken: S.optional(S.String),
     FirewallArn: S.optional(S.String),
     FirewallName: S.optional(S.String),
     FirewallPolicyArn: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class SubnetMapping extends S.Class<SubnetMapping>("SubnetMapping")({
-  SubnetId: S.String,
-  IPAddressType: S.optional(S.String),
-}) {}
-export class Tag extends S.Class<Tag>("Tag")({
-  Key: S.String,
-  Value: S.String,
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "AssociateFirewallPolicyRequest",
+}) as any as S.Schema<AssociateFirewallPolicyRequest>;
+export interface SubnetMapping {
+  SubnetId: string;
+  IPAddressType?: string;
+}
+export const SubnetMapping = S.suspend(() =>
+  S.Struct({ SubnetId: S.String, IPAddressType: S.optional(S.String) }),
+).annotations({
+  identifier: "SubnetMapping",
+}) as any as S.Schema<SubnetMapping>;
+export interface Tag {
+  Key: string;
+  Value: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ Key: S.String, Value: S.String }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagList = Tag[];
 export const TagList = S.Array(Tag);
-export class CreateVpcEndpointAssociationRequest extends S.Class<CreateVpcEndpointAssociationRequest>(
-  "CreateVpcEndpointAssociationRequest",
-)(
-  {
+export interface CreateVpcEndpointAssociationRequest {
+  FirewallArn: string;
+  VpcId: string;
+  SubnetMapping: SubnetMapping;
+  Description?: string;
+  Tags?: TagList;
+}
+export const CreateVpcEndpointAssociationRequest = S.suspend(() =>
+  S.Struct({
     FirewallArn: S.String,
     VpcId: S.String,
     SubnetMapping: SubnetMapping,
     Description: S.optional(S.String),
     Tags: S.optional(TagList),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteFirewallRequest extends S.Class<DeleteFirewallRequest>(
-  "DeleteFirewallRequest",
-)(
-  { FirewallName: S.optional(S.String), FirewallArn: S.optional(S.String) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteFirewallPolicyRequest extends S.Class<DeleteFirewallPolicyRequest>(
-  "DeleteFirewallPolicyRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateVpcEndpointAssociationRequest",
+}) as any as S.Schema<CreateVpcEndpointAssociationRequest>;
+export interface DeleteFirewallRequest {
+  FirewallName?: string;
+  FirewallArn?: string;
+}
+export const DeleteFirewallRequest = S.suspend(() =>
+  S.Struct({
+    FirewallName: S.optional(S.String),
+    FirewallArn: S.optional(S.String),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteFirewallRequest",
+}) as any as S.Schema<DeleteFirewallRequest>;
+export interface DeleteFirewallPolicyRequest {
+  FirewallPolicyName?: string;
+  FirewallPolicyArn?: string;
+}
+export const DeleteFirewallPolicyRequest = S.suspend(() =>
+  S.Struct({
     FirewallPolicyName: S.optional(S.String),
     FirewallPolicyArn: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteNetworkFirewallTransitGatewayAttachmentRequest extends S.Class<DeleteNetworkFirewallTransitGatewayAttachmentRequest>(
-  "DeleteNetworkFirewallTransitGatewayAttachmentRequest",
-)(
-  { TransitGatewayAttachmentId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteProxyRequest extends S.Class<DeleteProxyRequest>(
-  "DeleteProxyRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteFirewallPolicyRequest",
+}) as any as S.Schema<DeleteFirewallPolicyRequest>;
+export interface DeleteNetworkFirewallTransitGatewayAttachmentRequest {
+  TransitGatewayAttachmentId: string;
+}
+export const DeleteNetworkFirewallTransitGatewayAttachmentRequest = S.suspend(
+  () =>
+    S.Struct({ TransitGatewayAttachmentId: S.String }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+).annotations({
+  identifier: "DeleteNetworkFirewallTransitGatewayAttachmentRequest",
+}) as any as S.Schema<DeleteNetworkFirewallTransitGatewayAttachmentRequest>;
+export interface DeleteProxyRequest {
+  NatGatewayId: string;
+  ProxyName?: string;
+  ProxyArn?: string;
+}
+export const DeleteProxyRequest = S.suspend(() =>
+  S.Struct({
     NatGatewayId: S.String,
     ProxyName: S.optional(S.String),
     ProxyArn: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteProxyConfigurationRequest extends S.Class<DeleteProxyConfigurationRequest>(
-  "DeleteProxyConfigurationRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteProxyRequest",
+}) as any as S.Schema<DeleteProxyRequest>;
+export interface DeleteProxyConfigurationRequest {
+  ProxyConfigurationName?: string;
+  ProxyConfigurationArn?: string;
+}
+export const DeleteProxyConfigurationRequest = S.suspend(() =>
+  S.Struct({
     ProxyConfigurationName: S.optional(S.String),
     ProxyConfigurationArn: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteProxyRuleGroupRequest extends S.Class<DeleteProxyRuleGroupRequest>(
-  "DeleteProxyRuleGroupRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteProxyConfigurationRequest",
+}) as any as S.Schema<DeleteProxyConfigurationRequest>;
+export interface DeleteProxyRuleGroupRequest {
+  ProxyRuleGroupName?: string;
+  ProxyRuleGroupArn?: string;
+}
+export const DeleteProxyRuleGroupRequest = S.suspend(() =>
+  S.Struct({
     ProxyRuleGroupName: S.optional(S.String),
     ProxyRuleGroupArn: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteProxyRulesRequest extends S.Class<DeleteProxyRulesRequest>(
-  "DeleteProxyRulesRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteProxyRuleGroupRequest",
+}) as any as S.Schema<DeleteProxyRuleGroupRequest>;
+export interface DeleteProxyRulesRequest {
+  ProxyRuleGroupArn?: string;
+  ProxyRuleGroupName?: string;
+  Rules: ResourceNameList;
+}
+export const DeleteProxyRulesRequest = S.suspend(() =>
+  S.Struct({
     ProxyRuleGroupArn: S.optional(S.String),
     ProxyRuleGroupName: S.optional(S.String),
     Rules: ResourceNameList,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteResourcePolicyRequest extends S.Class<DeleteResourcePolicyRequest>(
-  "DeleteResourcePolicyRequest",
-)(
-  { ResourceArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteResourcePolicyResponse extends S.Class<DeleteResourcePolicyResponse>(
-  "DeleteResourcePolicyResponse",
-)({}) {}
-export class DeleteRuleGroupRequest extends S.Class<DeleteRuleGroupRequest>(
-  "DeleteRuleGroupRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteProxyRulesRequest",
+}) as any as S.Schema<DeleteProxyRulesRequest>;
+export interface DeleteResourcePolicyRequest {
+  ResourceArn: string;
+}
+export const DeleteResourcePolicyRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteResourcePolicyRequest",
+}) as any as S.Schema<DeleteResourcePolicyRequest>;
+export interface DeleteResourcePolicyResponse {}
+export const DeleteResourcePolicyResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteResourcePolicyResponse",
+}) as any as S.Schema<DeleteResourcePolicyResponse>;
+export interface DeleteRuleGroupRequest {
+  RuleGroupName?: string;
+  RuleGroupArn?: string;
+  Type?: string;
+}
+export const DeleteRuleGroupRequest = S.suspend(() =>
+  S.Struct({
     RuleGroupName: S.optional(S.String),
     RuleGroupArn: S.optional(S.String),
     Type: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteTLSInspectionConfigurationRequest extends S.Class<DeleteTLSInspectionConfigurationRequest>(
-  "DeleteTLSInspectionConfigurationRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteRuleGroupRequest",
+}) as any as S.Schema<DeleteRuleGroupRequest>;
+export interface DeleteTLSInspectionConfigurationRequest {
+  TLSInspectionConfigurationArn?: string;
+  TLSInspectionConfigurationName?: string;
+}
+export const DeleteTLSInspectionConfigurationRequest = S.suspend(() =>
+  S.Struct({
     TLSInspectionConfigurationArn: S.optional(S.String),
     TLSInspectionConfigurationName: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteVpcEndpointAssociationRequest extends S.Class<DeleteVpcEndpointAssociationRequest>(
-  "DeleteVpcEndpointAssociationRequest",
-)(
-  { VpcEndpointAssociationArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeFirewallRequest extends S.Class<DescribeFirewallRequest>(
-  "DescribeFirewallRequest",
-)(
-  { FirewallName: S.optional(S.String), FirewallArn: S.optional(S.String) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeFirewallMetadataRequest extends S.Class<DescribeFirewallMetadataRequest>(
-  "DescribeFirewallMetadataRequest",
-)(
-  { FirewallArn: S.optional(S.String) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeFirewallPolicyRequest extends S.Class<DescribeFirewallPolicyRequest>(
-  "DescribeFirewallPolicyRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteTLSInspectionConfigurationRequest",
+}) as any as S.Schema<DeleteTLSInspectionConfigurationRequest>;
+export interface DeleteVpcEndpointAssociationRequest {
+  VpcEndpointAssociationArn: string;
+}
+export const DeleteVpcEndpointAssociationRequest = S.suspend(() =>
+  S.Struct({ VpcEndpointAssociationArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteVpcEndpointAssociationRequest",
+}) as any as S.Schema<DeleteVpcEndpointAssociationRequest>;
+export interface DescribeFirewallRequest {
+  FirewallName?: string;
+  FirewallArn?: string;
+}
+export const DescribeFirewallRequest = S.suspend(() =>
+  S.Struct({
+    FirewallName: S.optional(S.String),
+    FirewallArn: S.optional(S.String),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeFirewallRequest",
+}) as any as S.Schema<DescribeFirewallRequest>;
+export interface DescribeFirewallMetadataRequest {
+  FirewallArn?: string;
+}
+export const DescribeFirewallMetadataRequest = S.suspend(() =>
+  S.Struct({ FirewallArn: S.optional(S.String) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeFirewallMetadataRequest",
+}) as any as S.Schema<DescribeFirewallMetadataRequest>;
+export interface DescribeFirewallPolicyRequest {
+  FirewallPolicyName?: string;
+  FirewallPolicyArn?: string;
+}
+export const DescribeFirewallPolicyRequest = S.suspend(() =>
+  S.Struct({
     FirewallPolicyName: S.optional(S.String),
     FirewallPolicyArn: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeFlowOperationRequest extends S.Class<DescribeFlowOperationRequest>(
-  "DescribeFlowOperationRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeFirewallPolicyRequest",
+}) as any as S.Schema<DescribeFirewallPolicyRequest>;
+export interface DescribeFlowOperationRequest {
+  FirewallArn: string;
+  AvailabilityZone?: string;
+  VpcEndpointAssociationArn?: string;
+  VpcEndpointId?: string;
+  FlowOperationId: string;
+}
+export const DescribeFlowOperationRequest = S.suspend(() =>
+  S.Struct({
     FirewallArn: S.String,
     AvailabilityZone: S.optional(S.String),
     VpcEndpointAssociationArn: S.optional(S.String),
     VpcEndpointId: S.optional(S.String),
     FlowOperationId: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeLoggingConfigurationRequest extends S.Class<DescribeLoggingConfigurationRequest>(
-  "DescribeLoggingConfigurationRequest",
-)(
-  { FirewallArn: S.optional(S.String), FirewallName: S.optional(S.String) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeProxyRequest extends S.Class<DescribeProxyRequest>(
-  "DescribeProxyRequest",
-)(
-  { ProxyName: S.optional(S.String), ProxyArn: S.optional(S.String) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeProxyConfigurationRequest extends S.Class<DescribeProxyConfigurationRequest>(
-  "DescribeProxyConfigurationRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeFlowOperationRequest",
+}) as any as S.Schema<DescribeFlowOperationRequest>;
+export interface DescribeLoggingConfigurationRequest {
+  FirewallArn?: string;
+  FirewallName?: string;
+}
+export const DescribeLoggingConfigurationRequest = S.suspend(() =>
+  S.Struct({
+    FirewallArn: S.optional(S.String),
+    FirewallName: S.optional(S.String),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeLoggingConfigurationRequest",
+}) as any as S.Schema<DescribeLoggingConfigurationRequest>;
+export interface DescribeProxyRequest {
+  ProxyName?: string;
+  ProxyArn?: string;
+}
+export const DescribeProxyRequest = S.suspend(() =>
+  S.Struct({
+    ProxyName: S.optional(S.String),
+    ProxyArn: S.optional(S.String),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeProxyRequest",
+}) as any as S.Schema<DescribeProxyRequest>;
+export interface DescribeProxyConfigurationRequest {
+  ProxyConfigurationName?: string;
+  ProxyConfigurationArn?: string;
+}
+export const DescribeProxyConfigurationRequest = S.suspend(() =>
+  S.Struct({
     ProxyConfigurationName: S.optional(S.String),
     ProxyConfigurationArn: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeProxyRuleRequest extends S.Class<DescribeProxyRuleRequest>(
-  "DescribeProxyRuleRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeProxyConfigurationRequest",
+}) as any as S.Schema<DescribeProxyConfigurationRequest>;
+export interface DescribeProxyRuleRequest {
+  ProxyRuleName: string;
+  ProxyRuleGroupName?: string;
+  ProxyRuleGroupArn?: string;
+}
+export const DescribeProxyRuleRequest = S.suspend(() =>
+  S.Struct({
     ProxyRuleName: S.String,
     ProxyRuleGroupName: S.optional(S.String),
     ProxyRuleGroupArn: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeProxyRuleGroupRequest extends S.Class<DescribeProxyRuleGroupRequest>(
-  "DescribeProxyRuleGroupRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeProxyRuleRequest",
+}) as any as S.Schema<DescribeProxyRuleRequest>;
+export interface DescribeProxyRuleGroupRequest {
+  ProxyRuleGroupName?: string;
+  ProxyRuleGroupArn?: string;
+}
+export const DescribeProxyRuleGroupRequest = S.suspend(() =>
+  S.Struct({
     ProxyRuleGroupName: S.optional(S.String),
     ProxyRuleGroupArn: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeResourcePolicyRequest extends S.Class<DescribeResourcePolicyRequest>(
-  "DescribeResourcePolicyRequest",
-)(
-  { ResourceArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeRuleGroupRequest extends S.Class<DescribeRuleGroupRequest>(
-  "DescribeRuleGroupRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeProxyRuleGroupRequest",
+}) as any as S.Schema<DescribeProxyRuleGroupRequest>;
+export interface DescribeResourcePolicyRequest {
+  ResourceArn: string;
+}
+export const DescribeResourcePolicyRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeResourcePolicyRequest",
+}) as any as S.Schema<DescribeResourcePolicyRequest>;
+export interface DescribeRuleGroupRequest {
+  RuleGroupName?: string;
+  RuleGroupArn?: string;
+  Type?: string;
+  AnalyzeRuleGroup?: boolean;
+}
+export const DescribeRuleGroupRequest = S.suspend(() =>
+  S.Struct({
     RuleGroupName: S.optional(S.String),
     RuleGroupArn: S.optional(S.String),
     Type: S.optional(S.String),
     AnalyzeRuleGroup: S.optional(S.Boolean),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeRuleGroupMetadataRequest extends S.Class<DescribeRuleGroupMetadataRequest>(
-  "DescribeRuleGroupMetadataRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeRuleGroupRequest",
+}) as any as S.Schema<DescribeRuleGroupRequest>;
+export interface DescribeRuleGroupMetadataRequest {
+  RuleGroupName?: string;
+  RuleGroupArn?: string;
+  Type?: string;
+}
+export const DescribeRuleGroupMetadataRequest = S.suspend(() =>
+  S.Struct({
     RuleGroupName: S.optional(S.String),
     RuleGroupArn: S.optional(S.String),
     Type: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeRuleGroupSummaryRequest extends S.Class<DescribeRuleGroupSummaryRequest>(
-  "DescribeRuleGroupSummaryRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeRuleGroupMetadataRequest",
+}) as any as S.Schema<DescribeRuleGroupMetadataRequest>;
+export interface DescribeRuleGroupSummaryRequest {
+  RuleGroupName?: string;
+  RuleGroupArn?: string;
+  Type?: string;
+}
+export const DescribeRuleGroupSummaryRequest = S.suspend(() =>
+  S.Struct({
     RuleGroupName: S.optional(S.String),
     RuleGroupArn: S.optional(S.String),
     Type: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeTLSInspectionConfigurationRequest extends S.Class<DescribeTLSInspectionConfigurationRequest>(
-  "DescribeTLSInspectionConfigurationRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeRuleGroupSummaryRequest",
+}) as any as S.Schema<DescribeRuleGroupSummaryRequest>;
+export interface DescribeTLSInspectionConfigurationRequest {
+  TLSInspectionConfigurationArn?: string;
+  TLSInspectionConfigurationName?: string;
+}
+export const DescribeTLSInspectionConfigurationRequest = S.suspend(() =>
+  S.Struct({
     TLSInspectionConfigurationArn: S.optional(S.String),
     TLSInspectionConfigurationName: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeVpcEndpointAssociationRequest extends S.Class<DescribeVpcEndpointAssociationRequest>(
-  "DescribeVpcEndpointAssociationRequest",
-)(
-  { VpcEndpointAssociationArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DetachRuleGroupsFromProxyConfigurationRequest extends S.Class<DetachRuleGroupsFromProxyConfigurationRequest>(
-  "DetachRuleGroupsFromProxyConfigurationRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeTLSInspectionConfigurationRequest",
+}) as any as S.Schema<DescribeTLSInspectionConfigurationRequest>;
+export interface DescribeVpcEndpointAssociationRequest {
+  VpcEndpointAssociationArn: string;
+}
+export const DescribeVpcEndpointAssociationRequest = S.suspend(() =>
+  S.Struct({ VpcEndpointAssociationArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeVpcEndpointAssociationRequest",
+}) as any as S.Schema<DescribeVpcEndpointAssociationRequest>;
+export interface DetachRuleGroupsFromProxyConfigurationRequest {
+  ProxyConfigurationName?: string;
+  ProxyConfigurationArn?: string;
+  RuleGroupNames?: ResourceNameList;
+  RuleGroupArns?: ResourceArnList;
+  UpdateToken: string;
+}
+export const DetachRuleGroupsFromProxyConfigurationRequest = S.suspend(() =>
+  S.Struct({
     ProxyConfigurationName: S.optional(S.String),
     ProxyConfigurationArn: S.optional(S.String),
     RuleGroupNames: S.optional(ResourceNameList),
     RuleGroupArns: S.optional(ResourceArnList),
     UpdateToken: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class AvailabilityZoneMapping extends S.Class<AvailabilityZoneMapping>(
-  "AvailabilityZoneMapping",
-)({ AvailabilityZone: S.String }) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DetachRuleGroupsFromProxyConfigurationRequest",
+}) as any as S.Schema<DetachRuleGroupsFromProxyConfigurationRequest>;
+export interface AvailabilityZoneMapping {
+  AvailabilityZone: string;
+}
+export const AvailabilityZoneMapping = S.suspend(() =>
+  S.Struct({ AvailabilityZone: S.String }),
+).annotations({
+  identifier: "AvailabilityZoneMapping",
+}) as any as S.Schema<AvailabilityZoneMapping>;
+export type AvailabilityZoneMappings = AvailabilityZoneMapping[];
 export const AvailabilityZoneMappings = S.Array(AvailabilityZoneMapping);
-export class DisassociateAvailabilityZonesRequest extends S.Class<DisassociateAvailabilityZonesRequest>(
-  "DisassociateAvailabilityZonesRequest",
-)(
-  {
+export interface DisassociateAvailabilityZonesRequest {
+  UpdateToken?: string;
+  FirewallArn?: string;
+  FirewallName?: string;
+  AvailabilityZoneMappings: AvailabilityZoneMappings;
+}
+export const DisassociateAvailabilityZonesRequest = S.suspend(() =>
+  S.Struct({
     UpdateToken: S.optional(S.String),
     FirewallArn: S.optional(S.String),
     FirewallName: S.optional(S.String),
     AvailabilityZoneMappings: AvailabilityZoneMappings,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DisassociateSubnetsRequest extends S.Class<DisassociateSubnetsRequest>(
-  "DisassociateSubnetsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DisassociateAvailabilityZonesRequest",
+}) as any as S.Schema<DisassociateAvailabilityZonesRequest>;
+export interface DisassociateSubnetsRequest {
+  UpdateToken?: string;
+  FirewallArn?: string;
+  FirewallName?: string;
+  SubnetIds: AzSubnets;
+}
+export const DisassociateSubnetsRequest = S.suspend(() =>
+  S.Struct({
     UpdateToken: S.optional(S.String),
     FirewallArn: S.optional(S.String),
     FirewallName: S.optional(S.String),
     SubnetIds: AzSubnets,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetAnalysisReportResultsRequest extends S.Class<GetAnalysisReportResultsRequest>(
-  "GetAnalysisReportResultsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DisassociateSubnetsRequest",
+}) as any as S.Schema<DisassociateSubnetsRequest>;
+export interface GetAnalysisReportResultsRequest {
+  FirewallName?: string;
+  AnalysisReportId: string;
+  FirewallArn?: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const GetAnalysisReportResultsRequest = S.suspend(() =>
+  S.Struct({
     FirewallName: S.optional(S.String),
     AnalysisReportId: S.String,
     FirewallArn: S.optional(S.String),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListAnalysisReportsRequest extends S.Class<ListAnalysisReportsRequest>(
-  "ListAnalysisReportsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetAnalysisReportResultsRequest",
+}) as any as S.Schema<GetAnalysisReportResultsRequest>;
+export interface ListAnalysisReportsRequest {
+  FirewallName?: string;
+  FirewallArn?: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListAnalysisReportsRequest = S.suspend(() =>
+  S.Struct({
     FirewallName: S.optional(S.String),
     FirewallArn: S.optional(S.String),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListFirewallPoliciesRequest extends S.Class<ListFirewallPoliciesRequest>(
-  "ListFirewallPoliciesRequest",
-)(
-  { NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListFirewallsRequest extends S.Class<ListFirewallsRequest>(
-  "ListFirewallsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListAnalysisReportsRequest",
+}) as any as S.Schema<ListAnalysisReportsRequest>;
+export interface ListFirewallPoliciesRequest {
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListFirewallPoliciesRequest = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListFirewallPoliciesRequest",
+}) as any as S.Schema<ListFirewallPoliciesRequest>;
+export interface ListFirewallsRequest {
+  NextToken?: string;
+  VpcIds?: VpcIds;
+  MaxResults?: number;
+}
+export const ListFirewallsRequest = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String),
     VpcIds: S.optional(VpcIds),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListFlowOperationResultsRequest extends S.Class<ListFlowOperationResultsRequest>(
-  "ListFlowOperationResultsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListFirewallsRequest",
+}) as any as S.Schema<ListFirewallsRequest>;
+export interface ListFlowOperationResultsRequest {
+  FirewallArn: string;
+  FlowOperationId: string;
+  NextToken?: string;
+  MaxResults?: number;
+  AvailabilityZone?: string;
+  VpcEndpointId?: string;
+  VpcEndpointAssociationArn?: string;
+}
+export const ListFlowOperationResultsRequest = S.suspend(() =>
+  S.Struct({
     FirewallArn: S.String,
     FlowOperationId: S.String,
     NextToken: S.optional(S.String),
@@ -592,13 +842,23 @@ export class ListFlowOperationResultsRequest extends S.Class<ListFlowOperationRe
     AvailabilityZone: S.optional(S.String),
     VpcEndpointId: S.optional(S.String),
     VpcEndpointAssociationArn: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListFlowOperationsRequest extends S.Class<ListFlowOperationsRequest>(
-  "ListFlowOperationsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListFlowOperationResultsRequest",
+}) as any as S.Schema<ListFlowOperationResultsRequest>;
+export interface ListFlowOperationsRequest {
+  FirewallArn: string;
+  AvailabilityZone?: string;
+  VpcEndpointAssociationArn?: string;
+  VpcEndpointId?: string;
+  FlowOperationType?: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListFlowOperationsRequest = S.suspend(() =>
+  S.Struct({
     FirewallArn: S.String,
     AvailabilityZone: S.optional(S.String),
     VpcEndpointAssociationArn: S.optional(S.String),
@@ -606,261 +866,496 @@ export class ListFlowOperationsRequest extends S.Class<ListFlowOperationsRequest
     FlowOperationType: S.optional(S.String),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListProxiesRequest extends S.Class<ListProxiesRequest>(
-  "ListProxiesRequest",
-)(
-  { NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListProxyConfigurationsRequest extends S.Class<ListProxyConfigurationsRequest>(
-  "ListProxyConfigurationsRequest",
-)(
-  { NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListProxyRuleGroupsRequest extends S.Class<ListProxyRuleGroupsRequest>(
-  "ListProxyRuleGroupsRequest",
-)(
-  { NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListRuleGroupsRequest extends S.Class<ListRuleGroupsRequest>(
-  "ListRuleGroupsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListFlowOperationsRequest",
+}) as any as S.Schema<ListFlowOperationsRequest>;
+export interface ListProxiesRequest {
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListProxiesRequest = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListProxiesRequest",
+}) as any as S.Schema<ListProxiesRequest>;
+export interface ListProxyConfigurationsRequest {
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListProxyConfigurationsRequest = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListProxyConfigurationsRequest",
+}) as any as S.Schema<ListProxyConfigurationsRequest>;
+export interface ListProxyRuleGroupsRequest {
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListProxyRuleGroupsRequest = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListProxyRuleGroupsRequest",
+}) as any as S.Schema<ListProxyRuleGroupsRequest>;
+export interface ListRuleGroupsRequest {
+  NextToken?: string;
+  MaxResults?: number;
+  Scope?: string;
+  ManagedType?: string;
+  SubscriptionStatus?: string;
+  Type?: string;
+}
+export const ListRuleGroupsRequest = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     Scope: S.optional(S.String),
     ManagedType: S.optional(S.String),
     SubscriptionStatus: S.optional(S.String),
     Type: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListRuleGroupsRequest",
+}) as any as S.Schema<ListRuleGroupsRequest>;
+export interface ListTagsForResourceRequest {
+  NextToken?: string;
+  MaxResults?: number;
+  ResourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     ResourceArn: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTLSInspectionConfigurationsRequest extends S.Class<ListTLSInspectionConfigurationsRequest>(
-  "ListTLSInspectionConfigurationsRequest",
-)(
-  { NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListVpcEndpointAssociationsRequest extends S.Class<ListVpcEndpointAssociationsRequest>(
-  "ListVpcEndpointAssociationsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface ListTLSInspectionConfigurationsRequest {
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListTLSInspectionConfigurationsRequest = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListTLSInspectionConfigurationsRequest",
+}) as any as S.Schema<ListTLSInspectionConfigurationsRequest>;
+export interface ListVpcEndpointAssociationsRequest {
+  NextToken?: string;
+  MaxResults?: number;
+  FirewallArn?: string;
+}
+export const ListVpcEndpointAssociationsRequest = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     FirewallArn: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutResourcePolicyRequest extends S.Class<PutResourcePolicyRequest>(
-  "PutResourcePolicyRequest",
-)(
-  { ResourceArn: S.String, Policy: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutResourcePolicyResponse extends S.Class<PutResourcePolicyResponse>(
-  "PutResourcePolicyResponse",
-)({}) {}
-export class RejectNetworkFirewallTransitGatewayAttachmentRequest extends S.Class<RejectNetworkFirewallTransitGatewayAttachmentRequest>(
-  "RejectNetworkFirewallTransitGatewayAttachmentRequest",
-)(
-  { TransitGatewayAttachmentId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StartAnalysisReportRequest extends S.Class<StartAnalysisReportRequest>(
-  "StartAnalysisReportRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListVpcEndpointAssociationsRequest",
+}) as any as S.Schema<ListVpcEndpointAssociationsRequest>;
+export interface PutResourcePolicyRequest {
+  ResourceArn: string;
+  Policy: string;
+}
+export const PutResourcePolicyRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String, Policy: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "PutResourcePolicyRequest",
+}) as any as S.Schema<PutResourcePolicyRequest>;
+export interface PutResourcePolicyResponse {}
+export const PutResourcePolicyResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "PutResourcePolicyResponse",
+}) as any as S.Schema<PutResourcePolicyResponse>;
+export interface RejectNetworkFirewallTransitGatewayAttachmentRequest {
+  TransitGatewayAttachmentId: string;
+}
+export const RejectNetworkFirewallTransitGatewayAttachmentRequest = S.suspend(
+  () =>
+    S.Struct({ TransitGatewayAttachmentId: S.String }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+).annotations({
+  identifier: "RejectNetworkFirewallTransitGatewayAttachmentRequest",
+}) as any as S.Schema<RejectNetworkFirewallTransitGatewayAttachmentRequest>;
+export interface StartAnalysisReportRequest {
+  FirewallName?: string;
+  FirewallArn?: string;
+  AnalysisType: string;
+}
+export const StartAnalysisReportRequest = S.suspend(() =>
+  S.Struct({
     FirewallName: S.optional(S.String),
     FirewallArn: S.optional(S.String),
     AnalysisType: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class Address extends S.Class<Address>("Address")({
-  AddressDefinition: S.String,
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StartAnalysisReportRequest",
+}) as any as S.Schema<StartAnalysisReportRequest>;
+export interface Address {
+  AddressDefinition: string;
+}
+export const Address = S.suspend(() =>
+  S.Struct({ AddressDefinition: S.String }),
+).annotations({ identifier: "Address" }) as any as S.Schema<Address>;
+export type ProtocolStrings = string[];
 export const ProtocolStrings = S.Array(S.String);
-export class FlowFilter extends S.Class<FlowFilter>("FlowFilter")({
-  SourceAddress: S.optional(Address),
-  DestinationAddress: S.optional(Address),
-  SourcePort: S.optional(S.String),
-  DestinationPort: S.optional(S.String),
-  Protocols: S.optional(ProtocolStrings),
-}) {}
+export interface FlowFilter {
+  SourceAddress?: Address;
+  DestinationAddress?: Address;
+  SourcePort?: string;
+  DestinationPort?: string;
+  Protocols?: ProtocolStrings;
+}
+export const FlowFilter = S.suspend(() =>
+  S.Struct({
+    SourceAddress: S.optional(Address),
+    DestinationAddress: S.optional(Address),
+    SourcePort: S.optional(S.String),
+    DestinationPort: S.optional(S.String),
+    Protocols: S.optional(ProtocolStrings),
+  }),
+).annotations({ identifier: "FlowFilter" }) as any as S.Schema<FlowFilter>;
+export type FlowFilters = FlowFilter[];
 export const FlowFilters = S.Array(FlowFilter);
-export class StartFlowFlushRequest extends S.Class<StartFlowFlushRequest>(
-  "StartFlowFlushRequest",
-)(
-  {
+export interface StartFlowFlushRequest {
+  FirewallArn: string;
+  AvailabilityZone?: string;
+  VpcEndpointAssociationArn?: string;
+  VpcEndpointId?: string;
+  MinimumFlowAgeInSeconds?: number;
+  FlowFilters: FlowFilters;
+}
+export const StartFlowFlushRequest = S.suspend(() =>
+  S.Struct({
     FirewallArn: S.String,
     AvailabilityZone: S.optional(S.String),
     VpcEndpointAssociationArn: S.optional(S.String),
     VpcEndpointId: S.optional(S.String),
     MinimumFlowAgeInSeconds: S.optional(S.Number),
     FlowFilters: FlowFilters,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { ResourceArn: S.String, Tags: TagList },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  { ResourceArn: S.String, TagKeys: TagKeyList },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
-export class UpdateAvailabilityZoneChangeProtectionRequest extends S.Class<UpdateAvailabilityZoneChangeProtectionRequest>(
-  "UpdateAvailabilityZoneChangeProtectionRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StartFlowFlushRequest",
+}) as any as S.Schema<StartFlowFlushRequest>;
+export interface TagResourceRequest {
+  ResourceArn: string;
+  Tags: TagList;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String, Tags: TagList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UntagResourceRequest {
+  ResourceArn: string;
+  TagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String, TagKeys: TagKeyList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface UpdateAvailabilityZoneChangeProtectionRequest {
+  UpdateToken?: string;
+  FirewallArn?: string;
+  FirewallName?: string;
+  AvailabilityZoneChangeProtection: boolean;
+}
+export const UpdateAvailabilityZoneChangeProtectionRequest = S.suspend(() =>
+  S.Struct({
     UpdateToken: S.optional(S.String),
     FirewallArn: S.optional(S.String),
     FirewallName: S.optional(S.String),
     AvailabilityZoneChangeProtection: S.Boolean,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateFirewallAnalysisSettingsRequest extends S.Class<UpdateFirewallAnalysisSettingsRequest>(
-  "UpdateFirewallAnalysisSettingsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateAvailabilityZoneChangeProtectionRequest",
+}) as any as S.Schema<UpdateAvailabilityZoneChangeProtectionRequest>;
+export interface UpdateFirewallAnalysisSettingsRequest {
+  EnabledAnalysisTypes?: EnabledAnalysisTypes;
+  FirewallArn?: string;
+  FirewallName?: string;
+  UpdateToken?: string;
+}
+export const UpdateFirewallAnalysisSettingsRequest = S.suspend(() =>
+  S.Struct({
     EnabledAnalysisTypes: S.optional(EnabledAnalysisTypes),
     FirewallArn: S.optional(S.String),
     FirewallName: S.optional(S.String),
     UpdateToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateFirewallDeleteProtectionRequest extends S.Class<UpdateFirewallDeleteProtectionRequest>(
-  "UpdateFirewallDeleteProtectionRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateFirewallAnalysisSettingsRequest",
+}) as any as S.Schema<UpdateFirewallAnalysisSettingsRequest>;
+export interface UpdateFirewallDeleteProtectionRequest {
+  UpdateToken?: string;
+  FirewallArn?: string;
+  FirewallName?: string;
+  DeleteProtection: boolean;
+}
+export const UpdateFirewallDeleteProtectionRequest = S.suspend(() =>
+  S.Struct({
     UpdateToken: S.optional(S.String),
     FirewallArn: S.optional(S.String),
     FirewallName: S.optional(S.String),
     DeleteProtection: S.Boolean,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateFirewallDescriptionRequest extends S.Class<UpdateFirewallDescriptionRequest>(
-  "UpdateFirewallDescriptionRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateFirewallDeleteProtectionRequest",
+}) as any as S.Schema<UpdateFirewallDeleteProtectionRequest>;
+export interface UpdateFirewallDescriptionRequest {
+  UpdateToken?: string;
+  FirewallArn?: string;
+  FirewallName?: string;
+  Description?: string;
+}
+export const UpdateFirewallDescriptionRequest = S.suspend(() =>
+  S.Struct({
     UpdateToken: S.optional(S.String),
     FirewallArn: S.optional(S.String),
     FirewallName: S.optional(S.String),
     Description: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class EncryptionConfiguration extends S.Class<EncryptionConfiguration>(
-  "EncryptionConfiguration",
-)({ KeyId: S.optional(S.String), Type: S.String }) {}
-export class UpdateFirewallEncryptionConfigurationRequest extends S.Class<UpdateFirewallEncryptionConfigurationRequest>(
-  "UpdateFirewallEncryptionConfigurationRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateFirewallDescriptionRequest",
+}) as any as S.Schema<UpdateFirewallDescriptionRequest>;
+export interface EncryptionConfiguration {
+  KeyId?: string;
+  Type: string;
+}
+export const EncryptionConfiguration = S.suspend(() =>
+  S.Struct({ KeyId: S.optional(S.String), Type: S.String }),
+).annotations({
+  identifier: "EncryptionConfiguration",
+}) as any as S.Schema<EncryptionConfiguration>;
+export interface UpdateFirewallEncryptionConfigurationRequest {
+  UpdateToken?: string;
+  FirewallArn?: string;
+  FirewallName?: string;
+  EncryptionConfiguration?: EncryptionConfiguration;
+}
+export const UpdateFirewallEncryptionConfigurationRequest = S.suspend(() =>
+  S.Struct({
     UpdateToken: S.optional(S.String),
     FirewallArn: S.optional(S.String),
     FirewallName: S.optional(S.String),
     EncryptionConfiguration: S.optional(EncryptionConfiguration),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StatelessRuleGroupReference extends S.Class<StatelessRuleGroupReference>(
-  "StatelessRuleGroupReference",
-)({ ResourceArn: S.String, Priority: S.Number }) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateFirewallEncryptionConfigurationRequest",
+}) as any as S.Schema<UpdateFirewallEncryptionConfigurationRequest>;
+export interface StatelessRuleGroupReference {
+  ResourceArn: string;
+  Priority: number;
+}
+export const StatelessRuleGroupReference = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String, Priority: S.Number }),
+).annotations({
+  identifier: "StatelessRuleGroupReference",
+}) as any as S.Schema<StatelessRuleGroupReference>;
+export type StatelessRuleGroupReferences = StatelessRuleGroupReference[];
 export const StatelessRuleGroupReferences = S.Array(
   StatelessRuleGroupReference,
 );
+export type StatelessActions = string[];
 export const StatelessActions = S.Array(S.String);
-export class Dimension extends S.Class<Dimension>("Dimension")({
-  Value: S.String,
-}) {}
+export interface Dimension {
+  Value: string;
+}
+export const Dimension = S.suspend(() =>
+  S.Struct({ Value: S.String }),
+).annotations({ identifier: "Dimension" }) as any as S.Schema<Dimension>;
+export type Dimensions = Dimension[];
 export const Dimensions = S.Array(Dimension);
-export class PublishMetricAction extends S.Class<PublishMetricAction>(
-  "PublishMetricAction",
-)({ Dimensions: Dimensions }) {}
-export class ActionDefinition extends S.Class<ActionDefinition>(
-  "ActionDefinition",
-)({ PublishMetricAction: S.optional(PublishMetricAction) }) {}
-export class CustomAction extends S.Class<CustomAction>("CustomAction")({
-  ActionName: S.String,
-  ActionDefinition: ActionDefinition,
-}) {}
+export interface PublishMetricAction {
+  Dimensions: Dimensions;
+}
+export const PublishMetricAction = S.suspend(() =>
+  S.Struct({ Dimensions: Dimensions }),
+).annotations({
+  identifier: "PublishMetricAction",
+}) as any as S.Schema<PublishMetricAction>;
+export interface ActionDefinition {
+  PublishMetricAction?: PublishMetricAction;
+}
+export const ActionDefinition = S.suspend(() =>
+  S.Struct({ PublishMetricAction: S.optional(PublishMetricAction) }),
+).annotations({
+  identifier: "ActionDefinition",
+}) as any as S.Schema<ActionDefinition>;
+export interface CustomAction {
+  ActionName: string;
+  ActionDefinition: ActionDefinition;
+}
+export const CustomAction = S.suspend(() =>
+  S.Struct({ ActionName: S.String, ActionDefinition: ActionDefinition }),
+).annotations({ identifier: "CustomAction" }) as any as S.Schema<CustomAction>;
+export type CustomActions = CustomAction[];
 export const CustomActions = S.Array(CustomAction);
-export class StatefulRuleGroupOverride extends S.Class<StatefulRuleGroupOverride>(
-  "StatefulRuleGroupOverride",
-)({ Action: S.optional(S.String) }) {}
-export class StatefulRuleGroupReference extends S.Class<StatefulRuleGroupReference>(
-  "StatefulRuleGroupReference",
-)({
-  ResourceArn: S.String,
-  Priority: S.optional(S.Number),
-  Override: S.optional(StatefulRuleGroupOverride),
-  DeepThreatInspection: S.optional(S.Boolean),
-}) {}
+export interface StatefulRuleGroupOverride {
+  Action?: string;
+}
+export const StatefulRuleGroupOverride = S.suspend(() =>
+  S.Struct({ Action: S.optional(S.String) }),
+).annotations({
+  identifier: "StatefulRuleGroupOverride",
+}) as any as S.Schema<StatefulRuleGroupOverride>;
+export interface StatefulRuleGroupReference {
+  ResourceArn: string;
+  Priority?: number;
+  Override?: StatefulRuleGroupOverride;
+  DeepThreatInspection?: boolean;
+}
+export const StatefulRuleGroupReference = S.suspend(() =>
+  S.Struct({
+    ResourceArn: S.String,
+    Priority: S.optional(S.Number),
+    Override: S.optional(StatefulRuleGroupOverride),
+    DeepThreatInspection: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "StatefulRuleGroupReference",
+}) as any as S.Schema<StatefulRuleGroupReference>;
+export type StatefulRuleGroupReferences = StatefulRuleGroupReference[];
 export const StatefulRuleGroupReferences = S.Array(StatefulRuleGroupReference);
+export type StatefulActions = string[];
 export const StatefulActions = S.Array(S.String);
-export class FlowTimeouts extends S.Class<FlowTimeouts>("FlowTimeouts")({
-  TcpIdleTimeoutSeconds: S.optional(S.Number),
-}) {}
-export class StatefulEngineOptions extends S.Class<StatefulEngineOptions>(
-  "StatefulEngineOptions",
-)({
-  RuleOrder: S.optional(S.String),
-  StreamExceptionPolicy: S.optional(S.String),
-  FlowTimeouts: S.optional(FlowTimeouts),
-}) {}
+export interface FlowTimeouts {
+  TcpIdleTimeoutSeconds?: number;
+}
+export const FlowTimeouts = S.suspend(() =>
+  S.Struct({ TcpIdleTimeoutSeconds: S.optional(S.Number) }),
+).annotations({ identifier: "FlowTimeouts" }) as any as S.Schema<FlowTimeouts>;
+export interface StatefulEngineOptions {
+  RuleOrder?: string;
+  StreamExceptionPolicy?: string;
+  FlowTimeouts?: FlowTimeouts;
+}
+export const StatefulEngineOptions = S.suspend(() =>
+  S.Struct({
+    RuleOrder: S.optional(S.String),
+    StreamExceptionPolicy: S.optional(S.String),
+    FlowTimeouts: S.optional(FlowTimeouts),
+  }),
+).annotations({
+  identifier: "StatefulEngineOptions",
+}) as any as S.Schema<StatefulEngineOptions>;
+export type VariableDefinitionList = string[];
 export const VariableDefinitionList = S.Array(S.String);
-export class IPSet extends S.Class<IPSet>("IPSet")({
-  Definition: VariableDefinitionList,
-}) {}
+export interface IPSet {
+  Definition: VariableDefinitionList;
+}
+export const IPSet = S.suspend(() =>
+  S.Struct({ Definition: VariableDefinitionList }),
+).annotations({ identifier: "IPSet" }) as any as S.Schema<IPSet>;
+export type IPSets = { [key: string]: IPSet };
 export const IPSets = S.Record({ key: S.String, value: IPSet });
-export class PolicyVariables extends S.Class<PolicyVariables>(
-  "PolicyVariables",
-)({ RuleVariables: S.optional(IPSets) }) {}
-export class FirewallPolicy extends S.Class<FirewallPolicy>("FirewallPolicy")({
-  StatelessRuleGroupReferences: S.optional(StatelessRuleGroupReferences),
-  StatelessDefaultActions: StatelessActions,
-  StatelessFragmentDefaultActions: StatelessActions,
-  StatelessCustomActions: S.optional(CustomActions),
-  StatefulRuleGroupReferences: S.optional(StatefulRuleGroupReferences),
-  StatefulDefaultActions: S.optional(StatefulActions),
-  StatefulEngineOptions: S.optional(StatefulEngineOptions),
-  TLSInspectionConfigurationArn: S.optional(S.String),
-  PolicyVariables: S.optional(PolicyVariables),
-  EnableTLSSessionHolding: S.optional(S.Boolean),
-}) {}
-export class UpdateFirewallPolicyRequest extends S.Class<UpdateFirewallPolicyRequest>(
-  "UpdateFirewallPolicyRequest",
-)(
-  {
+export interface PolicyVariables {
+  RuleVariables?: IPSets;
+}
+export const PolicyVariables = S.suspend(() =>
+  S.Struct({ RuleVariables: S.optional(IPSets) }),
+).annotations({
+  identifier: "PolicyVariables",
+}) as any as S.Schema<PolicyVariables>;
+export interface FirewallPolicy {
+  StatelessRuleGroupReferences?: StatelessRuleGroupReferences;
+  StatelessDefaultActions: StatelessActions;
+  StatelessFragmentDefaultActions: StatelessActions;
+  StatelessCustomActions?: CustomActions;
+  StatefulRuleGroupReferences?: StatefulRuleGroupReferences;
+  StatefulDefaultActions?: StatefulActions;
+  StatefulEngineOptions?: StatefulEngineOptions;
+  TLSInspectionConfigurationArn?: string;
+  PolicyVariables?: PolicyVariables;
+  EnableTLSSessionHolding?: boolean;
+}
+export const FirewallPolicy = S.suspend(() =>
+  S.Struct({
+    StatelessRuleGroupReferences: S.optional(StatelessRuleGroupReferences),
+    StatelessDefaultActions: StatelessActions,
+    StatelessFragmentDefaultActions: StatelessActions,
+    StatelessCustomActions: S.optional(CustomActions),
+    StatefulRuleGroupReferences: S.optional(StatefulRuleGroupReferences),
+    StatefulDefaultActions: S.optional(StatefulActions),
+    StatefulEngineOptions: S.optional(StatefulEngineOptions),
+    TLSInspectionConfigurationArn: S.optional(S.String),
+    PolicyVariables: S.optional(PolicyVariables),
+    EnableTLSSessionHolding: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "FirewallPolicy",
+}) as any as S.Schema<FirewallPolicy>;
+export interface UpdateFirewallPolicyRequest {
+  UpdateToken: string;
+  FirewallPolicyArn?: string;
+  FirewallPolicyName?: string;
+  FirewallPolicy: FirewallPolicy;
+  Description?: string;
+  DryRun?: boolean;
+  EncryptionConfiguration?: EncryptionConfiguration;
+}
+export const UpdateFirewallPolicyRequest = S.suspend(() =>
+  S.Struct({
     UpdateToken: S.String,
     FirewallPolicyArn: S.optional(S.String),
     FirewallPolicyName: S.optional(S.String),
@@ -868,31 +1363,64 @@ export class UpdateFirewallPolicyRequest extends S.Class<UpdateFirewallPolicyReq
     Description: S.optional(S.String),
     DryRun: S.optional(S.Boolean),
     EncryptionConfiguration: S.optional(EncryptionConfiguration),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateFirewallPolicyChangeProtectionRequest extends S.Class<UpdateFirewallPolicyChangeProtectionRequest>(
-  "UpdateFirewallPolicyChangeProtectionRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateFirewallPolicyRequest",
+}) as any as S.Schema<UpdateFirewallPolicyRequest>;
+export interface UpdateFirewallPolicyChangeProtectionRequest {
+  UpdateToken?: string;
+  FirewallArn?: string;
+  FirewallName?: string;
+  FirewallPolicyChangeProtection: boolean;
+}
+export const UpdateFirewallPolicyChangeProtectionRequest = S.suspend(() =>
+  S.Struct({
     UpdateToken: S.optional(S.String),
     FirewallArn: S.optional(S.String),
     FirewallName: S.optional(S.String),
     FirewallPolicyChangeProtection: S.Boolean,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListenerPropertyRequest extends S.Class<ListenerPropertyRequest>(
-  "ListenerPropertyRequest",
-)({ Port: S.Number, Type: S.String }) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateFirewallPolicyChangeProtectionRequest",
+}) as any as S.Schema<UpdateFirewallPolicyChangeProtectionRequest>;
+export interface ListenerPropertyRequest {
+  Port: number;
+  Type: string;
+}
+export const ListenerPropertyRequest = S.suspend(() =>
+  S.Struct({ Port: S.Number, Type: S.String }),
+).annotations({
+  identifier: "ListenerPropertyRequest",
+}) as any as S.Schema<ListenerPropertyRequest>;
+export type ListenerPropertiesRequest = ListenerPropertyRequest[];
 export const ListenerPropertiesRequest = S.Array(ListenerPropertyRequest);
-export class TlsInterceptPropertiesRequest extends S.Class<TlsInterceptPropertiesRequest>(
-  "TlsInterceptPropertiesRequest",
-)({ PcaArn: S.optional(S.String), TlsInterceptMode: S.optional(S.String) }) {}
-export class UpdateProxyRequest extends S.Class<UpdateProxyRequest>(
-  "UpdateProxyRequest",
-)(
-  {
+export interface TlsInterceptPropertiesRequest {
+  PcaArn?: string;
+  TlsInterceptMode?: string;
+}
+export const TlsInterceptPropertiesRequest = S.suspend(() =>
+  S.Struct({
+    PcaArn: S.optional(S.String),
+    TlsInterceptMode: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "TlsInterceptPropertiesRequest",
+}) as any as S.Schema<TlsInterceptPropertiesRequest>;
+export interface UpdateProxyRequest {
+  NatGatewayId: string;
+  ProxyName?: string;
+  ProxyArn?: string;
+  ListenerPropertiesToAdd?: ListenerPropertiesRequest;
+  ListenerPropertiesToRemove?: ListenerPropertiesRequest;
+  TlsInterceptProperties?: TlsInterceptPropertiesRequest;
+  UpdateToken: string;
+}
+export const UpdateProxyRequest = S.suspend(() =>
+  S.Struct({
     NatGatewayId: S.String,
     ProxyName: S.optional(S.String),
     ProxyArn: S.optional(S.String),
@@ -900,139 +1428,289 @@ export class UpdateProxyRequest extends S.Class<UpdateProxyRequest>(
     ListenerPropertiesToRemove: S.optional(ListenerPropertiesRequest),
     TlsInterceptProperties: S.optional(TlsInterceptPropertiesRequest),
     UpdateToken: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ProxyConfigDefaultRulePhaseActionsRequest extends S.Class<ProxyConfigDefaultRulePhaseActionsRequest>(
-  "ProxyConfigDefaultRulePhaseActionsRequest",
-)({
-  PreDNS: S.optional(S.String),
-  PreREQUEST: S.optional(S.String),
-  PostRESPONSE: S.optional(S.String),
-}) {}
-export class UpdateProxyConfigurationRequest extends S.Class<UpdateProxyConfigurationRequest>(
-  "UpdateProxyConfigurationRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateProxyRequest",
+}) as any as S.Schema<UpdateProxyRequest>;
+export interface ProxyConfigDefaultRulePhaseActionsRequest {
+  PreDNS?: string;
+  PreREQUEST?: string;
+  PostRESPONSE?: string;
+}
+export const ProxyConfigDefaultRulePhaseActionsRequest = S.suspend(() =>
+  S.Struct({
+    PreDNS: S.optional(S.String),
+    PreREQUEST: S.optional(S.String),
+    PostRESPONSE: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ProxyConfigDefaultRulePhaseActionsRequest",
+}) as any as S.Schema<ProxyConfigDefaultRulePhaseActionsRequest>;
+export interface UpdateProxyConfigurationRequest {
+  ProxyConfigurationName?: string;
+  ProxyConfigurationArn?: string;
+  DefaultRulePhaseActions: ProxyConfigDefaultRulePhaseActionsRequest;
+  UpdateToken: string;
+}
+export const UpdateProxyConfigurationRequest = S.suspend(() =>
+  S.Struct({
     ProxyConfigurationName: S.optional(S.String),
     ProxyConfigurationArn: S.optional(S.String),
     DefaultRulePhaseActions: ProxyConfigDefaultRulePhaseActionsRequest,
     UpdateToken: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PortSet extends S.Class<PortSet>("PortSet")({
-  Definition: S.optional(VariableDefinitionList),
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateProxyConfigurationRequest",
+}) as any as S.Schema<UpdateProxyConfigurationRequest>;
+export interface PortSet {
+  Definition?: VariableDefinitionList;
+}
+export const PortSet = S.suspend(() =>
+  S.Struct({ Definition: S.optional(VariableDefinitionList) }),
+).annotations({ identifier: "PortSet" }) as any as S.Schema<PortSet>;
+export type PortSets = { [key: string]: PortSet };
 export const PortSets = S.Record({ key: S.String, value: PortSet });
-export class RuleVariables extends S.Class<RuleVariables>("RuleVariables")({
-  IPSets: S.optional(IPSets),
-  PortSets: S.optional(PortSets),
-}) {}
-export class IPSetReference extends S.Class<IPSetReference>("IPSetReference")({
-  ReferenceArn: S.optional(S.String),
-}) {}
+export interface RuleVariables {
+  IPSets?: IPSets;
+  PortSets?: PortSets;
+}
+export const RuleVariables = S.suspend(() =>
+  S.Struct({ IPSets: S.optional(IPSets), PortSets: S.optional(PortSets) }),
+).annotations({
+  identifier: "RuleVariables",
+}) as any as S.Schema<RuleVariables>;
+export interface IPSetReference {
+  ReferenceArn?: string;
+}
+export const IPSetReference = S.suspend(() =>
+  S.Struct({ ReferenceArn: S.optional(S.String) }),
+).annotations({
+  identifier: "IPSetReference",
+}) as any as S.Schema<IPSetReference>;
+export type IPSetReferenceMap = { [key: string]: IPSetReference };
 export const IPSetReferenceMap = S.Record({
   key: S.String,
   value: IPSetReference,
 });
-export class ReferenceSets extends S.Class<ReferenceSets>("ReferenceSets")({
-  IPSetReferences: S.optional(IPSetReferenceMap),
-}) {}
+export interface ReferenceSets {
+  IPSetReferences?: IPSetReferenceMap;
+}
+export const ReferenceSets = S.suspend(() =>
+  S.Struct({ IPSetReferences: S.optional(IPSetReferenceMap) }),
+).annotations({
+  identifier: "ReferenceSets",
+}) as any as S.Schema<ReferenceSets>;
+export type RuleTargets = string[];
 export const RuleTargets = S.Array(S.String);
+export type TargetTypes = string[];
 export const TargetTypes = S.Array(S.String);
-export class RulesSourceList extends S.Class<RulesSourceList>(
-  "RulesSourceList",
-)({
-  Targets: RuleTargets,
-  TargetTypes: TargetTypes,
-  GeneratedRulesType: S.String,
-}) {}
-export class Header extends S.Class<Header>("Header")({
-  Protocol: S.String,
-  Source: S.String,
-  SourcePort: S.String,
-  Direction: S.String,
-  Destination: S.String,
-  DestinationPort: S.String,
-}) {}
+export interface RulesSourceList {
+  Targets: RuleTargets;
+  TargetTypes: TargetTypes;
+  GeneratedRulesType: string;
+}
+export const RulesSourceList = S.suspend(() =>
+  S.Struct({
+    Targets: RuleTargets,
+    TargetTypes: TargetTypes,
+    GeneratedRulesType: S.String,
+  }),
+).annotations({
+  identifier: "RulesSourceList",
+}) as any as S.Schema<RulesSourceList>;
+export interface Header {
+  Protocol: string;
+  Source: string;
+  SourcePort: string;
+  Direction: string;
+  Destination: string;
+  DestinationPort: string;
+}
+export const Header = S.suspend(() =>
+  S.Struct({
+    Protocol: S.String,
+    Source: S.String,
+    SourcePort: S.String,
+    Direction: S.String,
+    Destination: S.String,
+    DestinationPort: S.String,
+  }),
+).annotations({ identifier: "Header" }) as any as S.Schema<Header>;
+export type Settings = string[];
 export const Settings = S.Array(S.String);
-export class RuleOption extends S.Class<RuleOption>("RuleOption")({
-  Keyword: S.String,
-  Settings: S.optional(Settings),
-}) {}
+export interface RuleOption {
+  Keyword: string;
+  Settings?: Settings;
+}
+export const RuleOption = S.suspend(() =>
+  S.Struct({ Keyword: S.String, Settings: S.optional(Settings) }),
+).annotations({ identifier: "RuleOption" }) as any as S.Schema<RuleOption>;
+export type RuleOptions = RuleOption[];
 export const RuleOptions = S.Array(RuleOption);
-export class StatefulRule extends S.Class<StatefulRule>("StatefulRule")({
-  Action: S.String,
-  Header: Header,
-  RuleOptions: RuleOptions,
-}) {}
+export interface StatefulRule {
+  Action: string;
+  Header: Header;
+  RuleOptions: RuleOptions;
+}
+export const StatefulRule = S.suspend(() =>
+  S.Struct({ Action: S.String, Header: Header, RuleOptions: RuleOptions }),
+).annotations({ identifier: "StatefulRule" }) as any as S.Schema<StatefulRule>;
+export type StatefulRules = StatefulRule[];
 export const StatefulRules = S.Array(StatefulRule);
+export type Addresses = Address[];
 export const Addresses = S.Array(Address);
-export class PortRange extends S.Class<PortRange>("PortRange")({
-  FromPort: S.Number,
-  ToPort: S.Number,
-}) {}
+export interface PortRange {
+  FromPort: number;
+  ToPort: number;
+}
+export const PortRange = S.suspend(() =>
+  S.Struct({ FromPort: S.Number, ToPort: S.Number }),
+).annotations({ identifier: "PortRange" }) as any as S.Schema<PortRange>;
+export type PortRanges = PortRange[];
 export const PortRanges = S.Array(PortRange);
+export type ProtocolNumbers = number[];
 export const ProtocolNumbers = S.Array(S.Number);
+export type Flags = string[];
 export const Flags = S.Array(S.String);
-export class TCPFlagField extends S.Class<TCPFlagField>("TCPFlagField")({
-  Flags: Flags,
-  Masks: S.optional(Flags),
-}) {}
+export interface TCPFlagField {
+  Flags: Flags;
+  Masks?: Flags;
+}
+export const TCPFlagField = S.suspend(() =>
+  S.Struct({ Flags: Flags, Masks: S.optional(Flags) }),
+).annotations({ identifier: "TCPFlagField" }) as any as S.Schema<TCPFlagField>;
+export type TCPFlags = TCPFlagField[];
 export const TCPFlags = S.Array(TCPFlagField);
-export class MatchAttributes extends S.Class<MatchAttributes>(
-  "MatchAttributes",
-)({
-  Sources: S.optional(Addresses),
-  Destinations: S.optional(Addresses),
-  SourcePorts: S.optional(PortRanges),
-  DestinationPorts: S.optional(PortRanges),
-  Protocols: S.optional(ProtocolNumbers),
-  TCPFlags: S.optional(TCPFlags),
-}) {}
-export class RuleDefinition extends S.Class<RuleDefinition>("RuleDefinition")({
-  MatchAttributes: MatchAttributes,
-  Actions: StatelessActions,
-}) {}
-export class StatelessRule extends S.Class<StatelessRule>("StatelessRule")({
-  RuleDefinition: RuleDefinition,
-  Priority: S.Number,
-}) {}
+export interface MatchAttributes {
+  Sources?: Addresses;
+  Destinations?: Addresses;
+  SourcePorts?: PortRanges;
+  DestinationPorts?: PortRanges;
+  Protocols?: ProtocolNumbers;
+  TCPFlags?: TCPFlags;
+}
+export const MatchAttributes = S.suspend(() =>
+  S.Struct({
+    Sources: S.optional(Addresses),
+    Destinations: S.optional(Addresses),
+    SourcePorts: S.optional(PortRanges),
+    DestinationPorts: S.optional(PortRanges),
+    Protocols: S.optional(ProtocolNumbers),
+    TCPFlags: S.optional(TCPFlags),
+  }),
+).annotations({
+  identifier: "MatchAttributes",
+}) as any as S.Schema<MatchAttributes>;
+export interface RuleDefinition {
+  MatchAttributes: MatchAttributes;
+  Actions: StatelessActions;
+}
+export const RuleDefinition = S.suspend(() =>
+  S.Struct({ MatchAttributes: MatchAttributes, Actions: StatelessActions }),
+).annotations({
+  identifier: "RuleDefinition",
+}) as any as S.Schema<RuleDefinition>;
+export interface StatelessRule {
+  RuleDefinition: RuleDefinition;
+  Priority: number;
+}
+export const StatelessRule = S.suspend(() =>
+  S.Struct({ RuleDefinition: RuleDefinition, Priority: S.Number }),
+).annotations({
+  identifier: "StatelessRule",
+}) as any as S.Schema<StatelessRule>;
+export type StatelessRules = StatelessRule[];
 export const StatelessRules = S.Array(StatelessRule);
-export class StatelessRulesAndCustomActions extends S.Class<StatelessRulesAndCustomActions>(
-  "StatelessRulesAndCustomActions",
-)({
-  StatelessRules: StatelessRules,
-  CustomActions: S.optional(CustomActions),
-}) {}
-export class RulesSource extends S.Class<RulesSource>("RulesSource")({
-  RulesString: S.optional(S.String),
-  RulesSourceList: S.optional(RulesSourceList),
-  StatefulRules: S.optional(StatefulRules),
-  StatelessRulesAndCustomActions: S.optional(StatelessRulesAndCustomActions),
-}) {}
-export class StatefulRuleOptions extends S.Class<StatefulRuleOptions>(
-  "StatefulRuleOptions",
-)({ RuleOrder: S.optional(S.String) }) {}
-export class RuleGroup extends S.Class<RuleGroup>("RuleGroup")({
-  RuleVariables: S.optional(RuleVariables),
-  ReferenceSets: S.optional(ReferenceSets),
-  RulesSource: RulesSource,
-  StatefulRuleOptions: S.optional(StatefulRuleOptions),
-}) {}
-export class SourceMetadata extends S.Class<SourceMetadata>("SourceMetadata")({
-  SourceArn: S.optional(S.String),
-  SourceUpdateToken: S.optional(S.String),
-}) {}
+export interface StatelessRulesAndCustomActions {
+  StatelessRules: StatelessRules;
+  CustomActions?: CustomActions;
+}
+export const StatelessRulesAndCustomActions = S.suspend(() =>
+  S.Struct({
+    StatelessRules: StatelessRules,
+    CustomActions: S.optional(CustomActions),
+  }),
+).annotations({
+  identifier: "StatelessRulesAndCustomActions",
+}) as any as S.Schema<StatelessRulesAndCustomActions>;
+export interface RulesSource {
+  RulesString?: string;
+  RulesSourceList?: RulesSourceList;
+  StatefulRules?: StatefulRules;
+  StatelessRulesAndCustomActions?: StatelessRulesAndCustomActions;
+}
+export const RulesSource = S.suspend(() =>
+  S.Struct({
+    RulesString: S.optional(S.String),
+    RulesSourceList: S.optional(RulesSourceList),
+    StatefulRules: S.optional(StatefulRules),
+    StatelessRulesAndCustomActions: S.optional(StatelessRulesAndCustomActions),
+  }),
+).annotations({ identifier: "RulesSource" }) as any as S.Schema<RulesSource>;
+export interface StatefulRuleOptions {
+  RuleOrder?: string;
+}
+export const StatefulRuleOptions = S.suspend(() =>
+  S.Struct({ RuleOrder: S.optional(S.String) }),
+).annotations({
+  identifier: "StatefulRuleOptions",
+}) as any as S.Schema<StatefulRuleOptions>;
+export interface RuleGroup {
+  RuleVariables?: RuleVariables;
+  ReferenceSets?: ReferenceSets;
+  RulesSource: RulesSource;
+  StatefulRuleOptions?: StatefulRuleOptions;
+}
+export const RuleGroup = S.suspend(() =>
+  S.Struct({
+    RuleVariables: S.optional(RuleVariables),
+    ReferenceSets: S.optional(ReferenceSets),
+    RulesSource: RulesSource,
+    StatefulRuleOptions: S.optional(StatefulRuleOptions),
+  }),
+).annotations({ identifier: "RuleGroup" }) as any as S.Schema<RuleGroup>;
+export interface SourceMetadata {
+  SourceArn?: string;
+  SourceUpdateToken?: string;
+}
+export const SourceMetadata = S.suspend(() =>
+  S.Struct({
+    SourceArn: S.optional(S.String),
+    SourceUpdateToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SourceMetadata",
+}) as any as S.Schema<SourceMetadata>;
+export type SummaryRuleOptions = string[];
 export const SummaryRuleOptions = S.Array(S.String);
-export class SummaryConfiguration extends S.Class<SummaryConfiguration>(
-  "SummaryConfiguration",
-)({ RuleOptions: S.optional(SummaryRuleOptions) }) {}
-export class UpdateRuleGroupRequest extends S.Class<UpdateRuleGroupRequest>(
-  "UpdateRuleGroupRequest",
-)(
-  {
+export interface SummaryConfiguration {
+  RuleOptions?: SummaryRuleOptions;
+}
+export const SummaryConfiguration = S.suspend(() =>
+  S.Struct({ RuleOptions: S.optional(SummaryRuleOptions) }),
+).annotations({
+  identifier: "SummaryConfiguration",
+}) as any as S.Schema<SummaryConfiguration>;
+export interface UpdateRuleGroupRequest {
+  UpdateToken: string;
+  RuleGroupArn?: string;
+  RuleGroupName?: string;
+  RuleGroup?: RuleGroup;
+  Rules?: string;
+  Type?: string;
+  Description?: string;
+  DryRun?: boolean;
+  EncryptionConfiguration?: EncryptionConfiguration;
+  SourceMetadata?: SourceMetadata;
+  AnalyzeRuleGroup?: boolean;
+  SummaryConfiguration?: SummaryConfiguration;
+}
+export const UpdateRuleGroupRequest = S.suspend(() =>
+  S.Struct({
     UpdateToken: S.String,
     RuleGroupArn: S.optional(S.String),
     RuleGroupName: S.optional(S.String),
@@ -1045,150 +1723,291 @@ export class UpdateRuleGroupRequest extends S.Class<UpdateRuleGroupRequest>(
     SourceMetadata: S.optional(SourceMetadata),
     AnalyzeRuleGroup: S.optional(S.Boolean),
     SummaryConfiguration: S.optional(SummaryConfiguration),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateSubnetChangeProtectionRequest extends S.Class<UpdateSubnetChangeProtectionRequest>(
-  "UpdateSubnetChangeProtectionRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateRuleGroupRequest",
+}) as any as S.Schema<UpdateRuleGroupRequest>;
+export interface UpdateSubnetChangeProtectionRequest {
+  UpdateToken?: string;
+  FirewallArn?: string;
+  FirewallName?: string;
+  SubnetChangeProtection: boolean;
+}
+export const UpdateSubnetChangeProtectionRequest = S.suspend(() =>
+  S.Struct({
     UpdateToken: S.optional(S.String),
     FirewallArn: S.optional(S.String),
     FirewallName: S.optional(S.String),
     SubnetChangeProtection: S.Boolean,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ServerCertificate extends S.Class<ServerCertificate>(
-  "ServerCertificate",
-)({ ResourceArn: S.optional(S.String) }) {}
-export const ServerCertificates = S.Array(ServerCertificate);
-export class ServerCertificateScope extends S.Class<ServerCertificateScope>(
-  "ServerCertificateScope",
-)({
-  Sources: S.optional(Addresses),
-  Destinations: S.optional(Addresses),
-  SourcePorts: S.optional(PortRanges),
-  DestinationPorts: S.optional(PortRanges),
-  Protocols: S.optional(ProtocolNumbers),
-}) {}
-export const ServerCertificateScopes = S.Array(ServerCertificateScope);
-export class CheckCertificateRevocationStatusActions extends S.Class<CheckCertificateRevocationStatusActions>(
-  "CheckCertificateRevocationStatusActions",
-)({
-  RevokedStatusAction: S.optional(S.String),
-  UnknownStatusAction: S.optional(S.String),
-}) {}
-export class ServerCertificateConfiguration extends S.Class<ServerCertificateConfiguration>(
-  "ServerCertificateConfiguration",
-)({
-  ServerCertificates: S.optional(ServerCertificates),
-  Scopes: S.optional(ServerCertificateScopes),
-  CertificateAuthorityArn: S.optional(S.String),
-  CheckCertificateRevocationStatus: S.optional(
-    CheckCertificateRevocationStatusActions,
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-}) {}
+).annotations({
+  identifier: "UpdateSubnetChangeProtectionRequest",
+}) as any as S.Schema<UpdateSubnetChangeProtectionRequest>;
+export interface ServerCertificate {
+  ResourceArn?: string;
+}
+export const ServerCertificate = S.suspend(() =>
+  S.Struct({ ResourceArn: S.optional(S.String) }),
+).annotations({
+  identifier: "ServerCertificate",
+}) as any as S.Schema<ServerCertificate>;
+export type ServerCertificates = ServerCertificate[];
+export const ServerCertificates = S.Array(ServerCertificate);
+export interface ServerCertificateScope {
+  Sources?: Addresses;
+  Destinations?: Addresses;
+  SourcePorts?: PortRanges;
+  DestinationPorts?: PortRanges;
+  Protocols?: ProtocolNumbers;
+}
+export const ServerCertificateScope = S.suspend(() =>
+  S.Struct({
+    Sources: S.optional(Addresses),
+    Destinations: S.optional(Addresses),
+    SourcePorts: S.optional(PortRanges),
+    DestinationPorts: S.optional(PortRanges),
+    Protocols: S.optional(ProtocolNumbers),
+  }),
+).annotations({
+  identifier: "ServerCertificateScope",
+}) as any as S.Schema<ServerCertificateScope>;
+export type ServerCertificateScopes = ServerCertificateScope[];
+export const ServerCertificateScopes = S.Array(ServerCertificateScope);
+export interface CheckCertificateRevocationStatusActions {
+  RevokedStatusAction?: string;
+  UnknownStatusAction?: string;
+}
+export const CheckCertificateRevocationStatusActions = S.suspend(() =>
+  S.Struct({
+    RevokedStatusAction: S.optional(S.String),
+    UnknownStatusAction: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CheckCertificateRevocationStatusActions",
+}) as any as S.Schema<CheckCertificateRevocationStatusActions>;
+export interface ServerCertificateConfiguration {
+  ServerCertificates?: ServerCertificates;
+  Scopes?: ServerCertificateScopes;
+  CertificateAuthorityArn?: string;
+  CheckCertificateRevocationStatus?: CheckCertificateRevocationStatusActions;
+}
+export const ServerCertificateConfiguration = S.suspend(() =>
+  S.Struct({
+    ServerCertificates: S.optional(ServerCertificates),
+    Scopes: S.optional(ServerCertificateScopes),
+    CertificateAuthorityArn: S.optional(S.String),
+    CheckCertificateRevocationStatus: S.optional(
+      CheckCertificateRevocationStatusActions,
+    ),
+  }),
+).annotations({
+  identifier: "ServerCertificateConfiguration",
+}) as any as S.Schema<ServerCertificateConfiguration>;
+export type ServerCertificateConfigurations = ServerCertificateConfiguration[];
 export const ServerCertificateConfigurations = S.Array(
   ServerCertificateConfiguration,
 );
-export class TLSInspectionConfiguration extends S.Class<TLSInspectionConfiguration>(
-  "TLSInspectionConfiguration",
-)({
-  ServerCertificateConfigurations: S.optional(ServerCertificateConfigurations),
-}) {}
-export class UpdateTLSInspectionConfigurationRequest extends S.Class<UpdateTLSInspectionConfigurationRequest>(
-  "UpdateTLSInspectionConfigurationRequest",
-)(
-  {
+export interface TLSInspectionConfiguration {
+  ServerCertificateConfigurations?: ServerCertificateConfigurations;
+}
+export const TLSInspectionConfiguration = S.suspend(() =>
+  S.Struct({
+    ServerCertificateConfigurations: S.optional(
+      ServerCertificateConfigurations,
+    ),
+  }),
+).annotations({
+  identifier: "TLSInspectionConfiguration",
+}) as any as S.Schema<TLSInspectionConfiguration>;
+export interface UpdateTLSInspectionConfigurationRequest {
+  TLSInspectionConfigurationArn?: string;
+  TLSInspectionConfigurationName?: string;
+  TLSInspectionConfiguration: TLSInspectionConfiguration;
+  Description?: string;
+  EncryptionConfiguration?: EncryptionConfiguration;
+  UpdateToken: string;
+}
+export const UpdateTLSInspectionConfigurationRequest = S.suspend(() =>
+  S.Struct({
     TLSInspectionConfigurationArn: S.optional(S.String),
     TLSInspectionConfigurationName: S.optional(S.String),
     TLSInspectionConfiguration: TLSInspectionConfiguration,
     Description: S.optional(S.String),
     EncryptionConfiguration: S.optional(EncryptionConfiguration),
     UpdateToken: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateTLSInspectionConfigurationRequest",
+}) as any as S.Schema<UpdateTLSInspectionConfigurationRequest>;
+export type ProxyConditionValueList = string[];
 export const ProxyConditionValueList = S.Array(S.String);
+export type SubnetMappings = SubnetMapping[];
 export const SubnetMappings = S.Array(SubnetMapping);
-export class ProxyRuleGroupAttachment extends S.Class<ProxyRuleGroupAttachment>(
-  "ProxyRuleGroupAttachment",
-)({
-  ProxyRuleGroupName: S.optional(S.String),
-  InsertPosition: S.optional(S.Number),
-}) {}
+export interface ProxyRuleGroupAttachment {
+  ProxyRuleGroupName?: string;
+  InsertPosition?: number;
+}
+export const ProxyRuleGroupAttachment = S.suspend(() =>
+  S.Struct({
+    ProxyRuleGroupName: S.optional(S.String),
+    InsertPosition: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "ProxyRuleGroupAttachment",
+}) as any as S.Schema<ProxyRuleGroupAttachment>;
+export type ProxyRuleGroupAttachmentList = ProxyRuleGroupAttachment[];
 export const ProxyRuleGroupAttachmentList = S.Array(ProxyRuleGroupAttachment);
-export class ProxyRuleCondition extends S.Class<ProxyRuleCondition>(
-  "ProxyRuleCondition",
-)({
-  ConditionOperator: S.optional(S.String),
-  ConditionKey: S.optional(S.String),
-  ConditionValues: S.optional(ProxyConditionValueList),
-}) {}
+export interface ProxyRuleCondition {
+  ConditionOperator?: string;
+  ConditionKey?: string;
+  ConditionValues?: ProxyConditionValueList;
+}
+export const ProxyRuleCondition = S.suspend(() =>
+  S.Struct({
+    ConditionOperator: S.optional(S.String),
+    ConditionKey: S.optional(S.String),
+    ConditionValues: S.optional(ProxyConditionValueList),
+  }),
+).annotations({
+  identifier: "ProxyRuleCondition",
+}) as any as S.Schema<ProxyRuleCondition>;
+export type ProxyRuleConditionList = ProxyRuleCondition[];
 export const ProxyRuleConditionList = S.Array(ProxyRuleCondition);
-export class ProxyRuleGroupPriority extends S.Class<ProxyRuleGroupPriority>(
-  "ProxyRuleGroupPriority",
-)({
-  ProxyRuleGroupName: S.optional(S.String),
-  NewPosition: S.optional(S.Number),
-}) {}
+export interface ProxyRuleGroupPriority {
+  ProxyRuleGroupName?: string;
+  NewPosition?: number;
+}
+export const ProxyRuleGroupPriority = S.suspend(() =>
+  S.Struct({
+    ProxyRuleGroupName: S.optional(S.String),
+    NewPosition: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "ProxyRuleGroupPriority",
+}) as any as S.Schema<ProxyRuleGroupPriority>;
+export type ProxyRuleGroupPriorityList = ProxyRuleGroupPriority[];
 export const ProxyRuleGroupPriorityList = S.Array(ProxyRuleGroupPriority);
-export class ProxyRulePriority extends S.Class<ProxyRulePriority>(
-  "ProxyRulePriority",
-)({ ProxyRuleName: S.optional(S.String), NewPosition: S.optional(S.Number) }) {}
+export interface ProxyRulePriority {
+  ProxyRuleName?: string;
+  NewPosition?: number;
+}
+export const ProxyRulePriority = S.suspend(() =>
+  S.Struct({
+    ProxyRuleName: S.optional(S.String),
+    NewPosition: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "ProxyRulePriority",
+}) as any as S.Schema<ProxyRulePriority>;
+export type ProxyRulePriorityList = ProxyRulePriority[];
 export const ProxyRulePriorityList = S.Array(ProxyRulePriority);
-export class AcceptNetworkFirewallTransitGatewayAttachmentResponse extends S.Class<AcceptNetworkFirewallTransitGatewayAttachmentResponse>(
-  "AcceptNetworkFirewallTransitGatewayAttachmentResponse",
-)({
-  TransitGatewayAttachmentId: S.String,
-  TransitGatewayAttachmentStatus: S.String,
-}) {}
-export class AssociateAvailabilityZonesRequest extends S.Class<AssociateAvailabilityZonesRequest>(
-  "AssociateAvailabilityZonesRequest",
-)(
-  {
+export interface AcceptNetworkFirewallTransitGatewayAttachmentResponse {
+  TransitGatewayAttachmentId: string;
+  TransitGatewayAttachmentStatus: string;
+}
+export const AcceptNetworkFirewallTransitGatewayAttachmentResponse = S.suspend(
+  () =>
+    S.Struct({
+      TransitGatewayAttachmentId: S.String,
+      TransitGatewayAttachmentStatus: S.String,
+    }),
+).annotations({
+  identifier: "AcceptNetworkFirewallTransitGatewayAttachmentResponse",
+}) as any as S.Schema<AcceptNetworkFirewallTransitGatewayAttachmentResponse>;
+export interface AssociateAvailabilityZonesRequest {
+  UpdateToken?: string;
+  FirewallArn?: string;
+  FirewallName?: string;
+  AvailabilityZoneMappings: AvailabilityZoneMappings;
+}
+export const AssociateAvailabilityZonesRequest = S.suspend(() =>
+  S.Struct({
     UpdateToken: S.optional(S.String),
     FirewallArn: S.optional(S.String),
     FirewallName: S.optional(S.String),
     AvailabilityZoneMappings: AvailabilityZoneMappings,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class AssociateFirewallPolicyResponse extends S.Class<AssociateFirewallPolicyResponse>(
-  "AssociateFirewallPolicyResponse",
-)({
-  FirewallArn: S.optional(S.String),
-  FirewallName: S.optional(S.String),
-  FirewallPolicyArn: S.optional(S.String),
-  UpdateToken: S.optional(S.String),
-}) {}
-export class AssociateSubnetsRequest extends S.Class<AssociateSubnetsRequest>(
-  "AssociateSubnetsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "AssociateAvailabilityZonesRequest",
+}) as any as S.Schema<AssociateAvailabilityZonesRequest>;
+export interface AssociateFirewallPolicyResponse {
+  FirewallArn?: string;
+  FirewallName?: string;
+  FirewallPolicyArn?: string;
+  UpdateToken?: string;
+}
+export const AssociateFirewallPolicyResponse = S.suspend(() =>
+  S.Struct({
+    FirewallArn: S.optional(S.String),
+    FirewallName: S.optional(S.String),
+    FirewallPolicyArn: S.optional(S.String),
+    UpdateToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AssociateFirewallPolicyResponse",
+}) as any as S.Schema<AssociateFirewallPolicyResponse>;
+export interface AssociateSubnetsRequest {
+  UpdateToken?: string;
+  FirewallArn?: string;
+  FirewallName?: string;
+  SubnetMappings: SubnetMappings;
+}
+export const AssociateSubnetsRequest = S.suspend(() =>
+  S.Struct({
     UpdateToken: S.optional(S.String),
     FirewallArn: S.optional(S.String),
     FirewallName: S.optional(S.String),
     SubnetMappings: SubnetMappings,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class AttachRuleGroupsToProxyConfigurationRequest extends S.Class<AttachRuleGroupsToProxyConfigurationRequest>(
-  "AttachRuleGroupsToProxyConfigurationRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "AssociateSubnetsRequest",
+}) as any as S.Schema<AssociateSubnetsRequest>;
+export interface AttachRuleGroupsToProxyConfigurationRequest {
+  ProxyConfigurationName?: string;
+  ProxyConfigurationArn?: string;
+  RuleGroups: ProxyRuleGroupAttachmentList;
+  UpdateToken: string;
+}
+export const AttachRuleGroupsToProxyConfigurationRequest = S.suspend(() =>
+  S.Struct({
     ProxyConfigurationName: S.optional(S.String),
     ProxyConfigurationArn: S.optional(S.String),
     RuleGroups: ProxyRuleGroupAttachmentList,
     UpdateToken: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateFirewallRequest extends S.Class<CreateFirewallRequest>(
-  "CreateFirewallRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "AttachRuleGroupsToProxyConfigurationRequest",
+}) as any as S.Schema<AttachRuleGroupsToProxyConfigurationRequest>;
+export interface CreateFirewallRequest {
+  FirewallName: string;
+  FirewallPolicyArn: string;
+  VpcId?: string;
+  SubnetMappings?: SubnetMappings;
+  DeleteProtection?: boolean;
+  SubnetChangeProtection?: boolean;
+  FirewallPolicyChangeProtection?: boolean;
+  Description?: string;
+  Tags?: TagList;
+  EncryptionConfiguration?: EncryptionConfiguration;
+  EnabledAnalysisTypes?: EnabledAnalysisTypes;
+  TransitGatewayId?: string;
+  AvailabilityZoneMappings?: AvailabilityZoneMappings;
+  AvailabilityZoneChangeProtection?: boolean;
+}
+export const CreateFirewallRequest = S.suspend(() =>
+  S.Struct({
     FirewallName: S.String,
     FirewallPolicyArn: S.String,
     VpcId: S.optional(S.String),
@@ -1203,13 +2022,23 @@ export class CreateFirewallRequest extends S.Class<CreateFirewallRequest>(
     TransitGatewayId: S.optional(S.String),
     AvailabilityZoneMappings: S.optional(AvailabilityZoneMappings),
     AvailabilityZoneChangeProtection: S.optional(S.Boolean),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateProxyRequest extends S.Class<CreateProxyRequest>(
-  "CreateProxyRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateFirewallRequest",
+}) as any as S.Schema<CreateFirewallRequest>;
+export interface CreateProxyRequest {
+  ProxyName: string;
+  NatGatewayId: string;
+  ProxyConfigurationName?: string;
+  ProxyConfigurationArn?: string;
+  ListenerProperties?: ListenerPropertiesRequest;
+  TlsInterceptProperties: TlsInterceptPropertiesRequest;
+  Tags?: TagList;
+}
+export const CreateProxyRequest = S.suspend(() =>
+  S.Struct({
     ProxyName: S.String,
     NatGatewayId: S.String,
     ProxyConfigurationName: S.optional(S.String),
@@ -1217,439 +2046,922 @@ export class CreateProxyRequest extends S.Class<CreateProxyRequest>(
     ListenerProperties: S.optional(ListenerPropertiesRequest),
     TlsInterceptProperties: TlsInterceptPropertiesRequest,
     Tags: S.optional(TagList),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateProxyConfigurationRequest extends S.Class<CreateProxyConfigurationRequest>(
-  "CreateProxyConfigurationRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateProxyRequest",
+}) as any as S.Schema<CreateProxyRequest>;
+export interface CreateProxyConfigurationRequest {
+  ProxyConfigurationName: string;
+  Description?: string;
+  RuleGroupNames?: ResourceNameList;
+  RuleGroupArns?: ResourceArnList;
+  DefaultRulePhaseActions: ProxyConfigDefaultRulePhaseActionsRequest;
+  Tags?: TagList;
+}
+export const CreateProxyConfigurationRequest = S.suspend(() =>
+  S.Struct({
     ProxyConfigurationName: S.String,
     Description: S.optional(S.String),
     RuleGroupNames: S.optional(ResourceNameList),
     RuleGroupArns: S.optional(ResourceArnList),
     DefaultRulePhaseActions: ProxyConfigDefaultRulePhaseActionsRequest,
     Tags: S.optional(TagList),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteNetworkFirewallTransitGatewayAttachmentResponse extends S.Class<DeleteNetworkFirewallTransitGatewayAttachmentResponse>(
-  "DeleteNetworkFirewallTransitGatewayAttachmentResponse",
-)({
-  TransitGatewayAttachmentId: S.String,
-  TransitGatewayAttachmentStatus: S.String,
-}) {}
-export class DeleteProxyResponse extends S.Class<DeleteProxyResponse>(
-  "DeleteProxyResponse",
-)({
-  NatGatewayId: S.optional(S.String),
-  ProxyName: S.optional(S.String),
-  ProxyArn: S.optional(S.String),
-}) {}
-export class DeleteProxyConfigurationResponse extends S.Class<DeleteProxyConfigurationResponse>(
-  "DeleteProxyConfigurationResponse",
-)({
-  ProxyConfigurationName: S.optional(S.String),
-  ProxyConfigurationArn: S.optional(S.String),
-}) {}
-export class DeleteProxyRuleGroupResponse extends S.Class<DeleteProxyRuleGroupResponse>(
-  "DeleteProxyRuleGroupResponse",
-)({
-  ProxyRuleGroupName: S.optional(S.String),
-  ProxyRuleGroupArn: S.optional(S.String),
-}) {}
-export class VpcEndpointAssociation extends S.Class<VpcEndpointAssociation>(
-  "VpcEndpointAssociation",
-)({
-  VpcEndpointAssociationId: S.optional(S.String),
-  VpcEndpointAssociationArn: S.String,
-  FirewallArn: S.String,
-  VpcId: S.String,
-  SubnetMapping: SubnetMapping,
-  Description: S.optional(S.String),
-  Tags: S.optional(TagList),
-}) {}
-export class Attachment extends S.Class<Attachment>("Attachment")({
-  SubnetId: S.optional(S.String),
-  EndpointId: S.optional(S.String),
-  Status: S.optional(S.String),
-  StatusMessage: S.optional(S.String),
-}) {}
-export class AZSyncState extends S.Class<AZSyncState>("AZSyncState")({
-  Attachment: S.optional(Attachment),
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateProxyConfigurationRequest",
+}) as any as S.Schema<CreateProxyConfigurationRequest>;
+export interface DeleteNetworkFirewallTransitGatewayAttachmentResponse {
+  TransitGatewayAttachmentId: string;
+  TransitGatewayAttachmentStatus: string;
+}
+export const DeleteNetworkFirewallTransitGatewayAttachmentResponse = S.suspend(
+  () =>
+    S.Struct({
+      TransitGatewayAttachmentId: S.String,
+      TransitGatewayAttachmentStatus: S.String,
+    }),
+).annotations({
+  identifier: "DeleteNetworkFirewallTransitGatewayAttachmentResponse",
+}) as any as S.Schema<DeleteNetworkFirewallTransitGatewayAttachmentResponse>;
+export interface DeleteProxyResponse {
+  NatGatewayId?: string;
+  ProxyName?: string;
+  ProxyArn?: string;
+}
+export const DeleteProxyResponse = S.suspend(() =>
+  S.Struct({
+    NatGatewayId: S.optional(S.String),
+    ProxyName: S.optional(S.String),
+    ProxyArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DeleteProxyResponse",
+}) as any as S.Schema<DeleteProxyResponse>;
+export interface DeleteProxyConfigurationResponse {
+  ProxyConfigurationName?: string;
+  ProxyConfigurationArn?: string;
+}
+export const DeleteProxyConfigurationResponse = S.suspend(() =>
+  S.Struct({
+    ProxyConfigurationName: S.optional(S.String),
+    ProxyConfigurationArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DeleteProxyConfigurationResponse",
+}) as any as S.Schema<DeleteProxyConfigurationResponse>;
+export interface DeleteProxyRuleGroupResponse {
+  ProxyRuleGroupName?: string;
+  ProxyRuleGroupArn?: string;
+}
+export const DeleteProxyRuleGroupResponse = S.suspend(() =>
+  S.Struct({
+    ProxyRuleGroupName: S.optional(S.String),
+    ProxyRuleGroupArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DeleteProxyRuleGroupResponse",
+}) as any as S.Schema<DeleteProxyRuleGroupResponse>;
+export interface VpcEndpointAssociation {
+  VpcEndpointAssociationId?: string;
+  VpcEndpointAssociationArn: string;
+  FirewallArn: string;
+  VpcId: string;
+  SubnetMapping: SubnetMapping;
+  Description?: string;
+  Tags?: TagList;
+}
+export const VpcEndpointAssociation = S.suspend(() =>
+  S.Struct({
+    VpcEndpointAssociationId: S.optional(S.String),
+    VpcEndpointAssociationArn: S.String,
+    FirewallArn: S.String,
+    VpcId: S.String,
+    SubnetMapping: SubnetMapping,
+    Description: S.optional(S.String),
+    Tags: S.optional(TagList),
+  }),
+).annotations({
+  identifier: "VpcEndpointAssociation",
+}) as any as S.Schema<VpcEndpointAssociation>;
+export interface Attachment {
+  SubnetId?: string;
+  EndpointId?: string;
+  Status?: string;
+  StatusMessage?: string;
+}
+export const Attachment = S.suspend(() =>
+  S.Struct({
+    SubnetId: S.optional(S.String),
+    EndpointId: S.optional(S.String),
+    Status: S.optional(S.String),
+    StatusMessage: S.optional(S.String),
+  }),
+).annotations({ identifier: "Attachment" }) as any as S.Schema<Attachment>;
+export interface AZSyncState {
+  Attachment?: Attachment;
+}
+export const AZSyncState = S.suspend(() =>
+  S.Struct({ Attachment: S.optional(Attachment) }),
+).annotations({ identifier: "AZSyncState" }) as any as S.Schema<AZSyncState>;
+export type AssociationSyncState = { [key: string]: AZSyncState };
 export const AssociationSyncState = S.Record({
   key: S.String,
   value: AZSyncState,
 });
-export class VpcEndpointAssociationStatus extends S.Class<VpcEndpointAssociationStatus>(
-  "VpcEndpointAssociationStatus",
-)({
-  Status: S.String,
-  AssociationSyncState: S.optional(AssociationSyncState),
-}) {}
-export class DeleteVpcEndpointAssociationResponse extends S.Class<DeleteVpcEndpointAssociationResponse>(
-  "DeleteVpcEndpointAssociationResponse",
-)({
-  VpcEndpointAssociation: S.optional(VpcEndpointAssociation),
-  VpcEndpointAssociationStatus: S.optional(VpcEndpointAssociationStatus),
-}) {}
-export class Firewall extends S.Class<Firewall>("Firewall")({
-  FirewallName: S.optional(S.String),
-  FirewallArn: S.optional(S.String),
-  FirewallPolicyArn: S.String,
-  VpcId: S.String,
-  SubnetMappings: SubnetMappings,
-  DeleteProtection: S.optional(S.Boolean),
-  SubnetChangeProtection: S.optional(S.Boolean),
-  FirewallPolicyChangeProtection: S.optional(S.Boolean),
-  Description: S.optional(S.String),
-  FirewallId: S.String,
-  Tags: S.optional(TagList),
-  EncryptionConfiguration: S.optional(EncryptionConfiguration),
-  NumberOfAssociations: S.optional(S.Number),
-  EnabledAnalysisTypes: S.optional(EnabledAnalysisTypes),
-  TransitGatewayId: S.optional(S.String),
-  TransitGatewayOwnerAccountId: S.optional(S.String),
-  AvailabilityZoneMappings: S.optional(AvailabilityZoneMappings),
-  AvailabilityZoneChangeProtection: S.optional(S.Boolean),
-}) {}
-export class PerObjectStatus extends S.Class<PerObjectStatus>(
-  "PerObjectStatus",
-)({ SyncStatus: S.optional(S.String), UpdateToken: S.optional(S.String) }) {}
+export interface VpcEndpointAssociationStatus {
+  Status: string;
+  AssociationSyncState?: AssociationSyncState;
+}
+export const VpcEndpointAssociationStatus = S.suspend(() =>
+  S.Struct({
+    Status: S.String,
+    AssociationSyncState: S.optional(AssociationSyncState),
+  }),
+).annotations({
+  identifier: "VpcEndpointAssociationStatus",
+}) as any as S.Schema<VpcEndpointAssociationStatus>;
+export interface DeleteVpcEndpointAssociationResponse {
+  VpcEndpointAssociation?: VpcEndpointAssociation;
+  VpcEndpointAssociationStatus?: VpcEndpointAssociationStatus;
+}
+export const DeleteVpcEndpointAssociationResponse = S.suspend(() =>
+  S.Struct({
+    VpcEndpointAssociation: S.optional(VpcEndpointAssociation),
+    VpcEndpointAssociationStatus: S.optional(VpcEndpointAssociationStatus),
+  }),
+).annotations({
+  identifier: "DeleteVpcEndpointAssociationResponse",
+}) as any as S.Schema<DeleteVpcEndpointAssociationResponse>;
+export interface Firewall {
+  FirewallName?: string;
+  FirewallArn?: string;
+  FirewallPolicyArn: string;
+  VpcId: string;
+  SubnetMappings: SubnetMappings;
+  DeleteProtection?: boolean;
+  SubnetChangeProtection?: boolean;
+  FirewallPolicyChangeProtection?: boolean;
+  Description?: string;
+  FirewallId: string;
+  Tags?: TagList;
+  EncryptionConfiguration?: EncryptionConfiguration;
+  NumberOfAssociations?: number;
+  EnabledAnalysisTypes?: EnabledAnalysisTypes;
+  TransitGatewayId?: string;
+  TransitGatewayOwnerAccountId?: string;
+  AvailabilityZoneMappings?: AvailabilityZoneMappings;
+  AvailabilityZoneChangeProtection?: boolean;
+}
+export const Firewall = S.suspend(() =>
+  S.Struct({
+    FirewallName: S.optional(S.String),
+    FirewallArn: S.optional(S.String),
+    FirewallPolicyArn: S.String,
+    VpcId: S.String,
+    SubnetMappings: SubnetMappings,
+    DeleteProtection: S.optional(S.Boolean),
+    SubnetChangeProtection: S.optional(S.Boolean),
+    FirewallPolicyChangeProtection: S.optional(S.Boolean),
+    Description: S.optional(S.String),
+    FirewallId: S.String,
+    Tags: S.optional(TagList),
+    EncryptionConfiguration: S.optional(EncryptionConfiguration),
+    NumberOfAssociations: S.optional(S.Number),
+    EnabledAnalysisTypes: S.optional(EnabledAnalysisTypes),
+    TransitGatewayId: S.optional(S.String),
+    TransitGatewayOwnerAccountId: S.optional(S.String),
+    AvailabilityZoneMappings: S.optional(AvailabilityZoneMappings),
+    AvailabilityZoneChangeProtection: S.optional(S.Boolean),
+  }),
+).annotations({ identifier: "Firewall" }) as any as S.Schema<Firewall>;
+export interface PerObjectStatus {
+  SyncStatus?: string;
+  UpdateToken?: string;
+}
+export const PerObjectStatus = S.suspend(() =>
+  S.Struct({
+    SyncStatus: S.optional(S.String),
+    UpdateToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "PerObjectStatus",
+}) as any as S.Schema<PerObjectStatus>;
+export type SyncStateConfig = { [key: string]: PerObjectStatus };
 export const SyncStateConfig = S.Record({
   key: S.String,
   value: PerObjectStatus,
 });
-export class SyncState extends S.Class<SyncState>("SyncState")({
-  Attachment: S.optional(Attachment),
-  Config: S.optional(SyncStateConfig),
-}) {}
+export interface SyncState {
+  Attachment?: Attachment;
+  Config?: SyncStateConfig;
+}
+export const SyncState = S.suspend(() =>
+  S.Struct({
+    Attachment: S.optional(Attachment),
+    Config: S.optional(SyncStateConfig),
+  }),
+).annotations({ identifier: "SyncState" }) as any as S.Schema<SyncState>;
+export type SyncStates = { [key: string]: SyncState };
 export const SyncStates = S.Record({ key: S.String, value: SyncState });
-export class IPSetMetadata extends S.Class<IPSetMetadata>("IPSetMetadata")({
-  ResolvedCIDRCount: S.optional(S.Number),
-}) {}
+export interface IPSetMetadata {
+  ResolvedCIDRCount?: number;
+}
+export const IPSetMetadata = S.suspend(() =>
+  S.Struct({ ResolvedCIDRCount: S.optional(S.Number) }),
+).annotations({
+  identifier: "IPSetMetadata",
+}) as any as S.Schema<IPSetMetadata>;
+export type IPSetMetadataMap = { [key: string]: IPSetMetadata };
 export const IPSetMetadataMap = S.Record({
   key: S.String,
   value: IPSetMetadata,
 });
-export class CIDRSummary extends S.Class<CIDRSummary>("CIDRSummary")({
-  AvailableCIDRCount: S.optional(S.Number),
-  UtilizedCIDRCount: S.optional(S.Number),
-  IPSetReferences: S.optional(IPSetMetadataMap),
-}) {}
-export class CapacityUsageSummary extends S.Class<CapacityUsageSummary>(
-  "CapacityUsageSummary",
-)({ CIDRs: S.optional(CIDRSummary) }) {}
-export class TransitGatewayAttachmentSyncState extends S.Class<TransitGatewayAttachmentSyncState>(
-  "TransitGatewayAttachmentSyncState",
-)({
-  AttachmentId: S.optional(S.String),
-  TransitGatewayAttachmentStatus: S.optional(S.String),
-  StatusMessage: S.optional(S.String),
-}) {}
-export class FirewallStatus extends S.Class<FirewallStatus>("FirewallStatus")({
-  Status: S.String,
-  ConfigurationSyncStateSummary: S.String,
-  SyncStates: S.optional(SyncStates),
-  CapacityUsageSummary: S.optional(CapacityUsageSummary),
-  TransitGatewayAttachmentSyncState: S.optional(
-    TransitGatewayAttachmentSyncState,
-  ),
-}) {}
-export class DescribeFirewallResponse extends S.Class<DescribeFirewallResponse>(
-  "DescribeFirewallResponse",
-)({
-  UpdateToken: S.optional(S.String),
-  Firewall: S.optional(Firewall),
-  FirewallStatus: S.optional(FirewallStatus),
-}) {}
-export class FirewallPolicyResponse extends S.Class<FirewallPolicyResponse>(
-  "FirewallPolicyResponse",
-)({
-  FirewallPolicyName: S.String,
-  FirewallPolicyArn: S.String,
-  FirewallPolicyId: S.String,
-  Description: S.optional(S.String),
-  FirewallPolicyStatus: S.optional(S.String),
-  Tags: S.optional(TagList),
-  ConsumedStatelessRuleCapacity: S.optional(S.Number),
-  ConsumedStatefulRuleCapacity: S.optional(S.Number),
-  NumberOfAssociations: S.optional(S.Number),
-  EncryptionConfiguration: S.optional(EncryptionConfiguration),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class DescribeFirewallPolicyResponse extends S.Class<DescribeFirewallPolicyResponse>(
-  "DescribeFirewallPolicyResponse",
-)({
-  UpdateToken: S.String,
-  FirewallPolicyResponse: FirewallPolicyResponse,
-  FirewallPolicy: S.optional(FirewallPolicy),
-}) {}
+export interface CIDRSummary {
+  AvailableCIDRCount?: number;
+  UtilizedCIDRCount?: number;
+  IPSetReferences?: IPSetMetadataMap;
+}
+export const CIDRSummary = S.suspend(() =>
+  S.Struct({
+    AvailableCIDRCount: S.optional(S.Number),
+    UtilizedCIDRCount: S.optional(S.Number),
+    IPSetReferences: S.optional(IPSetMetadataMap),
+  }),
+).annotations({ identifier: "CIDRSummary" }) as any as S.Schema<CIDRSummary>;
+export interface CapacityUsageSummary {
+  CIDRs?: CIDRSummary;
+}
+export const CapacityUsageSummary = S.suspend(() =>
+  S.Struct({ CIDRs: S.optional(CIDRSummary) }),
+).annotations({
+  identifier: "CapacityUsageSummary",
+}) as any as S.Schema<CapacityUsageSummary>;
+export interface TransitGatewayAttachmentSyncState {
+  AttachmentId?: string;
+  TransitGatewayAttachmentStatus?: string;
+  StatusMessage?: string;
+}
+export const TransitGatewayAttachmentSyncState = S.suspend(() =>
+  S.Struct({
+    AttachmentId: S.optional(S.String),
+    TransitGatewayAttachmentStatus: S.optional(S.String),
+    StatusMessage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "TransitGatewayAttachmentSyncState",
+}) as any as S.Schema<TransitGatewayAttachmentSyncState>;
+export interface FirewallStatus {
+  Status: string;
+  ConfigurationSyncStateSummary: string;
+  SyncStates?: SyncStates;
+  CapacityUsageSummary?: CapacityUsageSummary;
+  TransitGatewayAttachmentSyncState?: TransitGatewayAttachmentSyncState;
+}
+export const FirewallStatus = S.suspend(() =>
+  S.Struct({
+    Status: S.String,
+    ConfigurationSyncStateSummary: S.String,
+    SyncStates: S.optional(SyncStates),
+    CapacityUsageSummary: S.optional(CapacityUsageSummary),
+    TransitGatewayAttachmentSyncState: S.optional(
+      TransitGatewayAttachmentSyncState,
+    ),
+  }),
+).annotations({
+  identifier: "FirewallStatus",
+}) as any as S.Schema<FirewallStatus>;
+export interface DescribeFirewallResponse {
+  UpdateToken?: string;
+  Firewall?: Firewall;
+  FirewallStatus?: FirewallStatus;
+}
+export const DescribeFirewallResponse = S.suspend(() =>
+  S.Struct({
+    UpdateToken: S.optional(S.String),
+    Firewall: S.optional(Firewall),
+    FirewallStatus: S.optional(FirewallStatus),
+  }),
+).annotations({
+  identifier: "DescribeFirewallResponse",
+}) as any as S.Schema<DescribeFirewallResponse>;
+export interface FirewallPolicyResponse {
+  FirewallPolicyName: string;
+  FirewallPolicyArn: string;
+  FirewallPolicyId: string;
+  Description?: string;
+  FirewallPolicyStatus?: string;
+  Tags?: TagList;
+  ConsumedStatelessRuleCapacity?: number;
+  ConsumedStatefulRuleCapacity?: number;
+  NumberOfAssociations?: number;
+  EncryptionConfiguration?: EncryptionConfiguration;
+  LastModifiedTime?: Date;
+}
+export const FirewallPolicyResponse = S.suspend(() =>
+  S.Struct({
+    FirewallPolicyName: S.String,
+    FirewallPolicyArn: S.String,
+    FirewallPolicyId: S.String,
+    Description: S.optional(S.String),
+    FirewallPolicyStatus: S.optional(S.String),
+    Tags: S.optional(TagList),
+    ConsumedStatelessRuleCapacity: S.optional(S.Number),
+    ConsumedStatefulRuleCapacity: S.optional(S.Number),
+    NumberOfAssociations: S.optional(S.Number),
+    EncryptionConfiguration: S.optional(EncryptionConfiguration),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "FirewallPolicyResponse",
+}) as any as S.Schema<FirewallPolicyResponse>;
+export interface DescribeFirewallPolicyResponse {
+  UpdateToken: string;
+  FirewallPolicyResponse: FirewallPolicyResponse;
+  FirewallPolicy?: FirewallPolicy;
+}
+export const DescribeFirewallPolicyResponse = S.suspend(() =>
+  S.Struct({
+    UpdateToken: S.String,
+    FirewallPolicyResponse: FirewallPolicyResponse,
+    FirewallPolicy: S.optional(FirewallPolicy),
+  }),
+).annotations({
+  identifier: "DescribeFirewallPolicyResponse",
+}) as any as S.Schema<DescribeFirewallPolicyResponse>;
+export type LogDestinationMap = { [key: string]: string };
 export const LogDestinationMap = S.Record({ key: S.String, value: S.String });
-export class LogDestinationConfig extends S.Class<LogDestinationConfig>(
-  "LogDestinationConfig",
-)({
-  LogType: S.String,
-  LogDestinationType: S.String,
-  LogDestination: LogDestinationMap,
-}) {}
+export interface LogDestinationConfig {
+  LogType: string;
+  LogDestinationType: string;
+  LogDestination: LogDestinationMap;
+}
+export const LogDestinationConfig = S.suspend(() =>
+  S.Struct({
+    LogType: S.String,
+    LogDestinationType: S.String,
+    LogDestination: LogDestinationMap,
+  }),
+).annotations({
+  identifier: "LogDestinationConfig",
+}) as any as S.Schema<LogDestinationConfig>;
+export type LogDestinationConfigs = LogDestinationConfig[];
 export const LogDestinationConfigs = S.Array(LogDestinationConfig);
-export class LoggingConfiguration extends S.Class<LoggingConfiguration>(
-  "LoggingConfiguration",
-)({ LogDestinationConfigs: LogDestinationConfigs }) {}
-export class DescribeLoggingConfigurationResponse extends S.Class<DescribeLoggingConfigurationResponse>(
-  "DescribeLoggingConfigurationResponse",
-)({
-  FirewallArn: S.optional(S.String),
-  LoggingConfiguration: S.optional(LoggingConfiguration),
-  EnableMonitoringDashboard: S.optional(S.Boolean),
-}) {}
-export class ProxyRule extends S.Class<ProxyRule>("ProxyRule")({
-  ProxyRuleName: S.optional(S.String),
-  Description: S.optional(S.String),
-  Action: S.optional(S.String),
-  Conditions: S.optional(ProxyRuleConditionList),
-}) {}
-export class DescribeProxyRuleResponse extends S.Class<DescribeProxyRuleResponse>(
-  "DescribeProxyRuleResponse",
-)({ ProxyRule: S.optional(ProxyRule), UpdateToken: S.optional(S.String) }) {}
+export interface LoggingConfiguration {
+  LogDestinationConfigs: LogDestinationConfigs;
+}
+export const LoggingConfiguration = S.suspend(() =>
+  S.Struct({ LogDestinationConfigs: LogDestinationConfigs }),
+).annotations({
+  identifier: "LoggingConfiguration",
+}) as any as S.Schema<LoggingConfiguration>;
+export interface DescribeLoggingConfigurationResponse {
+  FirewallArn?: string;
+  LoggingConfiguration?: LoggingConfiguration;
+  EnableMonitoringDashboard?: boolean;
+}
+export const DescribeLoggingConfigurationResponse = S.suspend(() =>
+  S.Struct({
+    FirewallArn: S.optional(S.String),
+    LoggingConfiguration: S.optional(LoggingConfiguration),
+    EnableMonitoringDashboard: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "DescribeLoggingConfigurationResponse",
+}) as any as S.Schema<DescribeLoggingConfigurationResponse>;
+export interface ProxyRule {
+  ProxyRuleName?: string;
+  Description?: string;
+  Action?: string;
+  Conditions?: ProxyRuleConditionList;
+}
+export const ProxyRule = S.suspend(() =>
+  S.Struct({
+    ProxyRuleName: S.optional(S.String),
+    Description: S.optional(S.String),
+    Action: S.optional(S.String),
+    Conditions: S.optional(ProxyRuleConditionList),
+  }),
+).annotations({ identifier: "ProxyRule" }) as any as S.Schema<ProxyRule>;
+export interface DescribeProxyRuleResponse {
+  ProxyRule?: ProxyRule;
+  UpdateToken?: string;
+}
+export const DescribeProxyRuleResponse = S.suspend(() =>
+  S.Struct({
+    ProxyRule: S.optional(ProxyRule),
+    UpdateToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DescribeProxyRuleResponse",
+}) as any as S.Schema<DescribeProxyRuleResponse>;
+export type ProxyRuleList = ProxyRule[];
 export const ProxyRuleList = S.Array(ProxyRule);
-export class ProxyRulesByRequestPhase extends S.Class<ProxyRulesByRequestPhase>(
-  "ProxyRulesByRequestPhase",
-)({
-  PreDNS: S.optional(ProxyRuleList),
-  PreREQUEST: S.optional(ProxyRuleList),
-  PostRESPONSE: S.optional(ProxyRuleList),
-}) {}
-export class ProxyRuleGroup extends S.Class<ProxyRuleGroup>("ProxyRuleGroup")({
-  ProxyRuleGroupName: S.optional(S.String),
-  ProxyRuleGroupArn: S.optional(S.String),
-  CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  DeleteTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Rules: S.optional(ProxyRulesByRequestPhase),
-  Description: S.optional(S.String),
-  Tags: S.optional(TagList),
-}) {}
-export class DescribeProxyRuleGroupResponse extends S.Class<DescribeProxyRuleGroupResponse>(
-  "DescribeProxyRuleGroupResponse",
-)({
-  ProxyRuleGroup: S.optional(ProxyRuleGroup),
-  UpdateToken: S.optional(S.String),
-}) {}
-export class DescribeResourcePolicyResponse extends S.Class<DescribeResourcePolicyResponse>(
-  "DescribeResourcePolicyResponse",
-)({ Policy: S.optional(S.String) }) {}
+export interface ProxyRulesByRequestPhase {
+  PreDNS?: ProxyRuleList;
+  PreREQUEST?: ProxyRuleList;
+  PostRESPONSE?: ProxyRuleList;
+}
+export const ProxyRulesByRequestPhase = S.suspend(() =>
+  S.Struct({
+    PreDNS: S.optional(ProxyRuleList),
+    PreREQUEST: S.optional(ProxyRuleList),
+    PostRESPONSE: S.optional(ProxyRuleList),
+  }),
+).annotations({
+  identifier: "ProxyRulesByRequestPhase",
+}) as any as S.Schema<ProxyRulesByRequestPhase>;
+export interface ProxyRuleGroup {
+  ProxyRuleGroupName?: string;
+  ProxyRuleGroupArn?: string;
+  CreateTime?: Date;
+  DeleteTime?: Date;
+  Rules?: ProxyRulesByRequestPhase;
+  Description?: string;
+  Tags?: TagList;
+}
+export const ProxyRuleGroup = S.suspend(() =>
+  S.Struct({
+    ProxyRuleGroupName: S.optional(S.String),
+    ProxyRuleGroupArn: S.optional(S.String),
+    CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    DeleteTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Rules: S.optional(ProxyRulesByRequestPhase),
+    Description: S.optional(S.String),
+    Tags: S.optional(TagList),
+  }),
+).annotations({
+  identifier: "ProxyRuleGroup",
+}) as any as S.Schema<ProxyRuleGroup>;
+export interface DescribeProxyRuleGroupResponse {
+  ProxyRuleGroup?: ProxyRuleGroup;
+  UpdateToken?: string;
+}
+export const DescribeProxyRuleGroupResponse = S.suspend(() =>
+  S.Struct({
+    ProxyRuleGroup: S.optional(ProxyRuleGroup),
+    UpdateToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DescribeProxyRuleGroupResponse",
+}) as any as S.Schema<DescribeProxyRuleGroupResponse>;
+export interface DescribeResourcePolicyResponse {
+  Policy?: string;
+}
+export const DescribeResourcePolicyResponse = S.suspend(() =>
+  S.Struct({ Policy: S.optional(S.String) }),
+).annotations({
+  identifier: "DescribeResourcePolicyResponse",
+}) as any as S.Schema<DescribeResourcePolicyResponse>;
+export type RuleIdList = string[];
 export const RuleIdList = S.Array(S.String);
-export class AnalysisResult extends S.Class<AnalysisResult>("AnalysisResult")({
-  IdentifiedRuleIds: S.optional(RuleIdList),
-  IdentifiedType: S.optional(S.String),
-  AnalysisDetail: S.optional(S.String),
-}) {}
+export interface AnalysisResult {
+  IdentifiedRuleIds?: RuleIdList;
+  IdentifiedType?: string;
+  AnalysisDetail?: string;
+}
+export const AnalysisResult = S.suspend(() =>
+  S.Struct({
+    IdentifiedRuleIds: S.optional(RuleIdList),
+    IdentifiedType: S.optional(S.String),
+    AnalysisDetail: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AnalysisResult",
+}) as any as S.Schema<AnalysisResult>;
+export type AnalysisResultList = AnalysisResult[];
 export const AnalysisResultList = S.Array(AnalysisResult);
-export class RuleGroupResponse extends S.Class<RuleGroupResponse>(
-  "RuleGroupResponse",
-)({
-  RuleGroupArn: S.String,
-  RuleGroupName: S.String,
-  RuleGroupId: S.String,
-  Description: S.optional(S.String),
-  Type: S.optional(S.String),
-  Capacity: S.optional(S.Number),
-  RuleGroupStatus: S.optional(S.String),
-  Tags: S.optional(TagList),
-  ConsumedCapacity: S.optional(S.Number),
-  NumberOfAssociations: S.optional(S.Number),
-  EncryptionConfiguration: S.optional(EncryptionConfiguration),
-  SourceMetadata: S.optional(SourceMetadata),
-  SnsTopic: S.optional(S.String),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  AnalysisResults: S.optional(AnalysisResultList),
-  SummaryConfiguration: S.optional(SummaryConfiguration),
-}) {}
-export class DescribeRuleGroupResponse extends S.Class<DescribeRuleGroupResponse>(
-  "DescribeRuleGroupResponse",
-)({
-  UpdateToken: S.String,
-  RuleGroup: S.optional(RuleGroup),
-  RuleGroupResponse: RuleGroupResponse,
-}) {}
-export class DescribeRuleGroupMetadataResponse extends S.Class<DescribeRuleGroupMetadataResponse>(
-  "DescribeRuleGroupMetadataResponse",
-)({
-  RuleGroupArn: S.String,
-  RuleGroupName: S.String,
-  Description: S.optional(S.String),
-  Type: S.optional(S.String),
-  Capacity: S.optional(S.Number),
-  StatefulRuleOptions: S.optional(StatefulRuleOptions),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  VendorName: S.optional(S.String),
-  ProductId: S.optional(S.String),
-  ListingName: S.optional(S.String),
-}) {}
-export class TlsCertificateData extends S.Class<TlsCertificateData>(
-  "TlsCertificateData",
-)({
-  CertificateArn: S.optional(S.String),
-  CertificateSerial: S.optional(S.String),
-  Status: S.optional(S.String),
-  StatusMessage: S.optional(S.String),
-}) {}
+export interface RuleGroupResponse {
+  RuleGroupArn: string;
+  RuleGroupName: string;
+  RuleGroupId: string;
+  Description?: string;
+  Type?: string;
+  Capacity?: number;
+  RuleGroupStatus?: string;
+  Tags?: TagList;
+  ConsumedCapacity?: number;
+  NumberOfAssociations?: number;
+  EncryptionConfiguration?: EncryptionConfiguration;
+  SourceMetadata?: SourceMetadata;
+  SnsTopic?: string;
+  LastModifiedTime?: Date;
+  AnalysisResults?: AnalysisResultList;
+  SummaryConfiguration?: SummaryConfiguration;
+}
+export const RuleGroupResponse = S.suspend(() =>
+  S.Struct({
+    RuleGroupArn: S.String,
+    RuleGroupName: S.String,
+    RuleGroupId: S.String,
+    Description: S.optional(S.String),
+    Type: S.optional(S.String),
+    Capacity: S.optional(S.Number),
+    RuleGroupStatus: S.optional(S.String),
+    Tags: S.optional(TagList),
+    ConsumedCapacity: S.optional(S.Number),
+    NumberOfAssociations: S.optional(S.Number),
+    EncryptionConfiguration: S.optional(EncryptionConfiguration),
+    SourceMetadata: S.optional(SourceMetadata),
+    SnsTopic: S.optional(S.String),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    AnalysisResults: S.optional(AnalysisResultList),
+    SummaryConfiguration: S.optional(SummaryConfiguration),
+  }),
+).annotations({
+  identifier: "RuleGroupResponse",
+}) as any as S.Schema<RuleGroupResponse>;
+export interface DescribeRuleGroupResponse {
+  UpdateToken: string;
+  RuleGroup?: RuleGroup;
+  RuleGroupResponse: RuleGroupResponse;
+}
+export const DescribeRuleGroupResponse = S.suspend(() =>
+  S.Struct({
+    UpdateToken: S.String,
+    RuleGroup: S.optional(RuleGroup),
+    RuleGroupResponse: RuleGroupResponse,
+  }),
+).annotations({
+  identifier: "DescribeRuleGroupResponse",
+}) as any as S.Schema<DescribeRuleGroupResponse>;
+export interface DescribeRuleGroupMetadataResponse {
+  RuleGroupArn: string;
+  RuleGroupName: string;
+  Description?: string;
+  Type?: string;
+  Capacity?: number;
+  StatefulRuleOptions?: StatefulRuleOptions;
+  LastModifiedTime?: Date;
+  VendorName?: string;
+  ProductId?: string;
+  ListingName?: string;
+}
+export const DescribeRuleGroupMetadataResponse = S.suspend(() =>
+  S.Struct({
+    RuleGroupArn: S.String,
+    RuleGroupName: S.String,
+    Description: S.optional(S.String),
+    Type: S.optional(S.String),
+    Capacity: S.optional(S.Number),
+    StatefulRuleOptions: S.optional(StatefulRuleOptions),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    VendorName: S.optional(S.String),
+    ProductId: S.optional(S.String),
+    ListingName: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DescribeRuleGroupMetadataResponse",
+}) as any as S.Schema<DescribeRuleGroupMetadataResponse>;
+export interface TlsCertificateData {
+  CertificateArn?: string;
+  CertificateSerial?: string;
+  Status?: string;
+  StatusMessage?: string;
+}
+export const TlsCertificateData = S.suspend(() =>
+  S.Struct({
+    CertificateArn: S.optional(S.String),
+    CertificateSerial: S.optional(S.String),
+    Status: S.optional(S.String),
+    StatusMessage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "TlsCertificateData",
+}) as any as S.Schema<TlsCertificateData>;
+export type Certificates = TlsCertificateData[];
 export const Certificates = S.Array(TlsCertificateData);
-export class TLSInspectionConfigurationResponse extends S.Class<TLSInspectionConfigurationResponse>(
-  "TLSInspectionConfigurationResponse",
-)({
-  TLSInspectionConfigurationArn: S.String,
-  TLSInspectionConfigurationName: S.String,
-  TLSInspectionConfigurationId: S.String,
-  TLSInspectionConfigurationStatus: S.optional(S.String),
-  Description: S.optional(S.String),
-  Tags: S.optional(TagList),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  NumberOfAssociations: S.optional(S.Number),
-  EncryptionConfiguration: S.optional(EncryptionConfiguration),
-  Certificates: S.optional(Certificates),
-  CertificateAuthority: S.optional(TlsCertificateData),
-}) {}
-export class DescribeTLSInspectionConfigurationResponse extends S.Class<DescribeTLSInspectionConfigurationResponse>(
-  "DescribeTLSInspectionConfigurationResponse",
-)({
-  UpdateToken: S.String,
-  TLSInspectionConfiguration: S.optional(TLSInspectionConfiguration),
-  TLSInspectionConfigurationResponse: TLSInspectionConfigurationResponse,
-}) {}
-export class DescribeVpcEndpointAssociationResponse extends S.Class<DescribeVpcEndpointAssociationResponse>(
-  "DescribeVpcEndpointAssociationResponse",
-)({
-  VpcEndpointAssociation: S.optional(VpcEndpointAssociation),
-  VpcEndpointAssociationStatus: S.optional(VpcEndpointAssociationStatus),
-}) {}
-export class ProxyConfigRuleGroup extends S.Class<ProxyConfigRuleGroup>(
-  "ProxyConfigRuleGroup",
-)({
-  ProxyRuleGroupName: S.optional(S.String),
-  ProxyRuleGroupArn: S.optional(S.String),
-  Type: S.optional(S.String),
-  Priority: S.optional(S.Number),
-}) {}
+export interface TLSInspectionConfigurationResponse {
+  TLSInspectionConfigurationArn: string;
+  TLSInspectionConfigurationName: string;
+  TLSInspectionConfigurationId: string;
+  TLSInspectionConfigurationStatus?: string;
+  Description?: string;
+  Tags?: TagList;
+  LastModifiedTime?: Date;
+  NumberOfAssociations?: number;
+  EncryptionConfiguration?: EncryptionConfiguration;
+  Certificates?: Certificates;
+  CertificateAuthority?: TlsCertificateData;
+}
+export const TLSInspectionConfigurationResponse = S.suspend(() =>
+  S.Struct({
+    TLSInspectionConfigurationArn: S.String,
+    TLSInspectionConfigurationName: S.String,
+    TLSInspectionConfigurationId: S.String,
+    TLSInspectionConfigurationStatus: S.optional(S.String),
+    Description: S.optional(S.String),
+    Tags: S.optional(TagList),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    NumberOfAssociations: S.optional(S.Number),
+    EncryptionConfiguration: S.optional(EncryptionConfiguration),
+    Certificates: S.optional(Certificates),
+    CertificateAuthority: S.optional(TlsCertificateData),
+  }),
+).annotations({
+  identifier: "TLSInspectionConfigurationResponse",
+}) as any as S.Schema<TLSInspectionConfigurationResponse>;
+export interface DescribeTLSInspectionConfigurationResponse {
+  UpdateToken: string;
+  TLSInspectionConfiguration?: TLSInspectionConfiguration;
+  TLSInspectionConfigurationResponse: TLSInspectionConfigurationResponse;
+}
+export const DescribeTLSInspectionConfigurationResponse = S.suspend(() =>
+  S.Struct({
+    UpdateToken: S.String,
+    TLSInspectionConfiguration: S.optional(TLSInspectionConfiguration),
+    TLSInspectionConfigurationResponse: TLSInspectionConfigurationResponse,
+  }),
+).annotations({
+  identifier: "DescribeTLSInspectionConfigurationResponse",
+}) as any as S.Schema<DescribeTLSInspectionConfigurationResponse>;
+export interface DescribeVpcEndpointAssociationResponse {
+  VpcEndpointAssociation?: VpcEndpointAssociation;
+  VpcEndpointAssociationStatus?: VpcEndpointAssociationStatus;
+}
+export const DescribeVpcEndpointAssociationResponse = S.suspend(() =>
+  S.Struct({
+    VpcEndpointAssociation: S.optional(VpcEndpointAssociation),
+    VpcEndpointAssociationStatus: S.optional(VpcEndpointAssociationStatus),
+  }),
+).annotations({
+  identifier: "DescribeVpcEndpointAssociationResponse",
+}) as any as S.Schema<DescribeVpcEndpointAssociationResponse>;
+export interface ProxyConfigRuleGroup {
+  ProxyRuleGroupName?: string;
+  ProxyRuleGroupArn?: string;
+  Type?: string;
+  Priority?: number;
+}
+export const ProxyConfigRuleGroup = S.suspend(() =>
+  S.Struct({
+    ProxyRuleGroupName: S.optional(S.String),
+    ProxyRuleGroupArn: S.optional(S.String),
+    Type: S.optional(S.String),
+    Priority: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "ProxyConfigRuleGroup",
+}) as any as S.Schema<ProxyConfigRuleGroup>;
+export type ProxyConfigRuleGroupSet = ProxyConfigRuleGroup[];
 export const ProxyConfigRuleGroupSet = S.Array(ProxyConfigRuleGroup);
-export class ProxyConfiguration extends S.Class<ProxyConfiguration>(
-  "ProxyConfiguration",
-)({
-  ProxyConfigurationName: S.optional(S.String),
-  ProxyConfigurationArn: S.optional(S.String),
-  Description: S.optional(S.String),
-  CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  DeleteTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  RuleGroups: S.optional(ProxyConfigRuleGroupSet),
-  DefaultRulePhaseActions: S.optional(
-    ProxyConfigDefaultRulePhaseActionsRequest,
-  ),
-  Tags: S.optional(TagList),
-}) {}
-export class DetachRuleGroupsFromProxyConfigurationResponse extends S.Class<DetachRuleGroupsFromProxyConfigurationResponse>(
-  "DetachRuleGroupsFromProxyConfigurationResponse",
-)({
-  ProxyConfiguration: S.optional(ProxyConfiguration),
-  UpdateToken: S.optional(S.String),
-}) {}
-export class DisassociateAvailabilityZonesResponse extends S.Class<DisassociateAvailabilityZonesResponse>(
-  "DisassociateAvailabilityZonesResponse",
-)({
-  FirewallArn: S.optional(S.String),
-  FirewallName: S.optional(S.String),
-  AvailabilityZoneMappings: S.optional(AvailabilityZoneMappings),
-  UpdateToken: S.optional(S.String),
-}) {}
-export class DisassociateSubnetsResponse extends S.Class<DisassociateSubnetsResponse>(
-  "DisassociateSubnetsResponse",
-)({
-  FirewallArn: S.optional(S.String),
-  FirewallName: S.optional(S.String),
-  SubnetMappings: S.optional(SubnetMappings),
-  UpdateToken: S.optional(S.String),
-}) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ NextToken: S.optional(S.String), Tags: S.optional(TagList) }) {}
-export class RejectNetworkFirewallTransitGatewayAttachmentResponse extends S.Class<RejectNetworkFirewallTransitGatewayAttachmentResponse>(
-  "RejectNetworkFirewallTransitGatewayAttachmentResponse",
-)({
-  TransitGatewayAttachmentId: S.String,
-  TransitGatewayAttachmentStatus: S.String,
-}) {}
-export class StartAnalysisReportResponse extends S.Class<StartAnalysisReportResponse>(
-  "StartAnalysisReportResponse",
-)({ AnalysisReportId: S.String }) {}
-export class StartFlowFlushResponse extends S.Class<StartFlowFlushResponse>(
-  "StartFlowFlushResponse",
-)({
-  FirewallArn: S.optional(S.String),
-  FlowOperationId: S.optional(S.String),
-  FlowOperationStatus: S.optional(S.String),
-}) {}
-export class UpdateAvailabilityZoneChangeProtectionResponse extends S.Class<UpdateAvailabilityZoneChangeProtectionResponse>(
-  "UpdateAvailabilityZoneChangeProtectionResponse",
-)({
-  UpdateToken: S.optional(S.String),
-  FirewallArn: S.optional(S.String),
-  FirewallName: S.optional(S.String),
-  AvailabilityZoneChangeProtection: S.optional(S.Boolean),
-}) {}
-export class UpdateFirewallAnalysisSettingsResponse extends S.Class<UpdateFirewallAnalysisSettingsResponse>(
-  "UpdateFirewallAnalysisSettingsResponse",
-)({
-  EnabledAnalysisTypes: S.optional(EnabledAnalysisTypes),
-  FirewallArn: S.optional(S.String),
-  FirewallName: S.optional(S.String),
-  UpdateToken: S.optional(S.String),
-}) {}
-export class UpdateFirewallDeleteProtectionResponse extends S.Class<UpdateFirewallDeleteProtectionResponse>(
-  "UpdateFirewallDeleteProtectionResponse",
-)({
-  FirewallArn: S.optional(S.String),
-  FirewallName: S.optional(S.String),
-  DeleteProtection: S.optional(S.Boolean),
-  UpdateToken: S.optional(S.String),
-}) {}
-export class UpdateFirewallDescriptionResponse extends S.Class<UpdateFirewallDescriptionResponse>(
-  "UpdateFirewallDescriptionResponse",
-)({
-  FirewallArn: S.optional(S.String),
-  FirewallName: S.optional(S.String),
-  Description: S.optional(S.String),
-  UpdateToken: S.optional(S.String),
-}) {}
-export class UpdateFirewallEncryptionConfigurationResponse extends S.Class<UpdateFirewallEncryptionConfigurationResponse>(
-  "UpdateFirewallEncryptionConfigurationResponse",
-)({
-  FirewallArn: S.optional(S.String),
-  FirewallName: S.optional(S.String),
-  UpdateToken: S.optional(S.String),
-  EncryptionConfiguration: S.optional(EncryptionConfiguration),
-}) {}
-export class UpdateFirewallPolicyResponse extends S.Class<UpdateFirewallPolicyResponse>(
-  "UpdateFirewallPolicyResponse",
-)({ UpdateToken: S.String, FirewallPolicyResponse: FirewallPolicyResponse }) {}
-export class UpdateFirewallPolicyChangeProtectionResponse extends S.Class<UpdateFirewallPolicyChangeProtectionResponse>(
-  "UpdateFirewallPolicyChangeProtectionResponse",
-)({
-  UpdateToken: S.optional(S.String),
-  FirewallArn: S.optional(S.String),
-  FirewallName: S.optional(S.String),
-  FirewallPolicyChangeProtection: S.optional(S.Boolean),
-}) {}
-export class UpdateProxyConfigurationResponse extends S.Class<UpdateProxyConfigurationResponse>(
-  "UpdateProxyConfigurationResponse",
-)({
-  ProxyConfiguration: S.optional(ProxyConfiguration),
-  UpdateToken: S.optional(S.String),
-}) {}
-export class UpdateProxyRuleRequest extends S.Class<UpdateProxyRuleRequest>(
-  "UpdateProxyRuleRequest",
-)(
-  {
+export interface ProxyConfiguration {
+  ProxyConfigurationName?: string;
+  ProxyConfigurationArn?: string;
+  Description?: string;
+  CreateTime?: Date;
+  DeleteTime?: Date;
+  RuleGroups?: ProxyConfigRuleGroupSet;
+  DefaultRulePhaseActions?: ProxyConfigDefaultRulePhaseActionsRequest;
+  Tags?: TagList;
+}
+export const ProxyConfiguration = S.suspend(() =>
+  S.Struct({
+    ProxyConfigurationName: S.optional(S.String),
+    ProxyConfigurationArn: S.optional(S.String),
+    Description: S.optional(S.String),
+    CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    DeleteTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    RuleGroups: S.optional(ProxyConfigRuleGroupSet),
+    DefaultRulePhaseActions: S.optional(
+      ProxyConfigDefaultRulePhaseActionsRequest,
+    ),
+    Tags: S.optional(TagList),
+  }),
+).annotations({
+  identifier: "ProxyConfiguration",
+}) as any as S.Schema<ProxyConfiguration>;
+export interface DetachRuleGroupsFromProxyConfigurationResponse {
+  ProxyConfiguration?: ProxyConfiguration;
+  UpdateToken?: string;
+}
+export const DetachRuleGroupsFromProxyConfigurationResponse = S.suspend(() =>
+  S.Struct({
+    ProxyConfiguration: S.optional(ProxyConfiguration),
+    UpdateToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DetachRuleGroupsFromProxyConfigurationResponse",
+}) as any as S.Schema<DetachRuleGroupsFromProxyConfigurationResponse>;
+export interface DisassociateAvailabilityZonesResponse {
+  FirewallArn?: string;
+  FirewallName?: string;
+  AvailabilityZoneMappings?: AvailabilityZoneMappings;
+  UpdateToken?: string;
+}
+export const DisassociateAvailabilityZonesResponse = S.suspend(() =>
+  S.Struct({
+    FirewallArn: S.optional(S.String),
+    FirewallName: S.optional(S.String),
+    AvailabilityZoneMappings: S.optional(AvailabilityZoneMappings),
+    UpdateToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DisassociateAvailabilityZonesResponse",
+}) as any as S.Schema<DisassociateAvailabilityZonesResponse>;
+export interface DisassociateSubnetsResponse {
+  FirewallArn?: string;
+  FirewallName?: string;
+  SubnetMappings?: SubnetMappings;
+  UpdateToken?: string;
+}
+export const DisassociateSubnetsResponse = S.suspend(() =>
+  S.Struct({
+    FirewallArn: S.optional(S.String),
+    FirewallName: S.optional(S.String),
+    SubnetMappings: S.optional(SubnetMappings),
+    UpdateToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DisassociateSubnetsResponse",
+}) as any as S.Schema<DisassociateSubnetsResponse>;
+export interface ListTagsForResourceResponse {
+  NextToken?: string;
+  Tags?: TagList;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ NextToken: S.optional(S.String), Tags: S.optional(TagList) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface RejectNetworkFirewallTransitGatewayAttachmentResponse {
+  TransitGatewayAttachmentId: string;
+  TransitGatewayAttachmentStatus: string;
+}
+export const RejectNetworkFirewallTransitGatewayAttachmentResponse = S.suspend(
+  () =>
+    S.Struct({
+      TransitGatewayAttachmentId: S.String,
+      TransitGatewayAttachmentStatus: S.String,
+    }),
+).annotations({
+  identifier: "RejectNetworkFirewallTransitGatewayAttachmentResponse",
+}) as any as S.Schema<RejectNetworkFirewallTransitGatewayAttachmentResponse>;
+export interface StartAnalysisReportResponse {
+  AnalysisReportId: string;
+}
+export const StartAnalysisReportResponse = S.suspend(() =>
+  S.Struct({ AnalysisReportId: S.String }),
+).annotations({
+  identifier: "StartAnalysisReportResponse",
+}) as any as S.Schema<StartAnalysisReportResponse>;
+export interface StartFlowFlushResponse {
+  FirewallArn?: string;
+  FlowOperationId?: string;
+  FlowOperationStatus?: string;
+}
+export const StartFlowFlushResponse = S.suspend(() =>
+  S.Struct({
+    FirewallArn: S.optional(S.String),
+    FlowOperationId: S.optional(S.String),
+    FlowOperationStatus: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "StartFlowFlushResponse",
+}) as any as S.Schema<StartFlowFlushResponse>;
+export interface UpdateAvailabilityZoneChangeProtectionResponse {
+  UpdateToken?: string;
+  FirewallArn?: string;
+  FirewallName?: string;
+  AvailabilityZoneChangeProtection?: boolean;
+}
+export const UpdateAvailabilityZoneChangeProtectionResponse = S.suspend(() =>
+  S.Struct({
+    UpdateToken: S.optional(S.String),
+    FirewallArn: S.optional(S.String),
+    FirewallName: S.optional(S.String),
+    AvailabilityZoneChangeProtection: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "UpdateAvailabilityZoneChangeProtectionResponse",
+}) as any as S.Schema<UpdateAvailabilityZoneChangeProtectionResponse>;
+export interface UpdateFirewallAnalysisSettingsResponse {
+  EnabledAnalysisTypes?: EnabledAnalysisTypes;
+  FirewallArn?: string;
+  FirewallName?: string;
+  UpdateToken?: string;
+}
+export const UpdateFirewallAnalysisSettingsResponse = S.suspend(() =>
+  S.Struct({
+    EnabledAnalysisTypes: S.optional(EnabledAnalysisTypes),
+    FirewallArn: S.optional(S.String),
+    FirewallName: S.optional(S.String),
+    UpdateToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "UpdateFirewallAnalysisSettingsResponse",
+}) as any as S.Schema<UpdateFirewallAnalysisSettingsResponse>;
+export interface UpdateFirewallDeleteProtectionResponse {
+  FirewallArn?: string;
+  FirewallName?: string;
+  DeleteProtection?: boolean;
+  UpdateToken?: string;
+}
+export const UpdateFirewallDeleteProtectionResponse = S.suspend(() =>
+  S.Struct({
+    FirewallArn: S.optional(S.String),
+    FirewallName: S.optional(S.String),
+    DeleteProtection: S.optional(S.Boolean),
+    UpdateToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "UpdateFirewallDeleteProtectionResponse",
+}) as any as S.Schema<UpdateFirewallDeleteProtectionResponse>;
+export interface UpdateFirewallDescriptionResponse {
+  FirewallArn?: string;
+  FirewallName?: string;
+  Description?: string;
+  UpdateToken?: string;
+}
+export const UpdateFirewallDescriptionResponse = S.suspend(() =>
+  S.Struct({
+    FirewallArn: S.optional(S.String),
+    FirewallName: S.optional(S.String),
+    Description: S.optional(S.String),
+    UpdateToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "UpdateFirewallDescriptionResponse",
+}) as any as S.Schema<UpdateFirewallDescriptionResponse>;
+export interface UpdateFirewallEncryptionConfigurationResponse {
+  FirewallArn?: string;
+  FirewallName?: string;
+  UpdateToken?: string;
+  EncryptionConfiguration?: EncryptionConfiguration;
+}
+export const UpdateFirewallEncryptionConfigurationResponse = S.suspend(() =>
+  S.Struct({
+    FirewallArn: S.optional(S.String),
+    FirewallName: S.optional(S.String),
+    UpdateToken: S.optional(S.String),
+    EncryptionConfiguration: S.optional(EncryptionConfiguration),
+  }),
+).annotations({
+  identifier: "UpdateFirewallEncryptionConfigurationResponse",
+}) as any as S.Schema<UpdateFirewallEncryptionConfigurationResponse>;
+export interface UpdateFirewallPolicyResponse {
+  UpdateToken: string;
+  FirewallPolicyResponse: FirewallPolicyResponse;
+}
+export const UpdateFirewallPolicyResponse = S.suspend(() =>
+  S.Struct({
+    UpdateToken: S.String,
+    FirewallPolicyResponse: FirewallPolicyResponse,
+  }),
+).annotations({
+  identifier: "UpdateFirewallPolicyResponse",
+}) as any as S.Schema<UpdateFirewallPolicyResponse>;
+export interface UpdateFirewallPolicyChangeProtectionResponse {
+  UpdateToken?: string;
+  FirewallArn?: string;
+  FirewallName?: string;
+  FirewallPolicyChangeProtection?: boolean;
+}
+export const UpdateFirewallPolicyChangeProtectionResponse = S.suspend(() =>
+  S.Struct({
+    UpdateToken: S.optional(S.String),
+    FirewallArn: S.optional(S.String),
+    FirewallName: S.optional(S.String),
+    FirewallPolicyChangeProtection: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "UpdateFirewallPolicyChangeProtectionResponse",
+}) as any as S.Schema<UpdateFirewallPolicyChangeProtectionResponse>;
+export interface UpdateProxyConfigurationResponse {
+  ProxyConfiguration?: ProxyConfiguration;
+  UpdateToken?: string;
+}
+export const UpdateProxyConfigurationResponse = S.suspend(() =>
+  S.Struct({
+    ProxyConfiguration: S.optional(ProxyConfiguration),
+    UpdateToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "UpdateProxyConfigurationResponse",
+}) as any as S.Schema<UpdateProxyConfigurationResponse>;
+export interface UpdateProxyRuleRequest {
+  ProxyRuleGroupName?: string;
+  ProxyRuleGroupArn?: string;
+  ProxyRuleName: string;
+  Description?: string;
+  Action?: string;
+  AddConditions?: ProxyRuleConditionList;
+  RemoveConditions?: ProxyRuleConditionList;
+  UpdateToken: string;
+}
+export const UpdateProxyRuleRequest = S.suspend(() =>
+  S.Struct({
     ProxyRuleGroupName: S.optional(S.String),
     ProxyRuleGroupArn: S.optional(S.String),
     ProxyRuleName: S.String,
@@ -1658,548 +2970,1137 @@ export class UpdateProxyRuleRequest extends S.Class<UpdateProxyRuleRequest>(
     AddConditions: S.optional(ProxyRuleConditionList),
     RemoveConditions: S.optional(ProxyRuleConditionList),
     UpdateToken: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateProxyRuleGroupPrioritiesRequest extends S.Class<UpdateProxyRuleGroupPrioritiesRequest>(
-  "UpdateProxyRuleGroupPrioritiesRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateProxyRuleRequest",
+}) as any as S.Schema<UpdateProxyRuleRequest>;
+export interface UpdateProxyRuleGroupPrioritiesRequest {
+  ProxyConfigurationName?: string;
+  ProxyConfigurationArn?: string;
+  RuleGroups: ProxyRuleGroupPriorityList;
+  UpdateToken: string;
+}
+export const UpdateProxyRuleGroupPrioritiesRequest = S.suspend(() =>
+  S.Struct({
     ProxyConfigurationName: S.optional(S.String),
     ProxyConfigurationArn: S.optional(S.String),
     RuleGroups: ProxyRuleGroupPriorityList,
     UpdateToken: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateProxyRulePrioritiesRequest extends S.Class<UpdateProxyRulePrioritiesRequest>(
-  "UpdateProxyRulePrioritiesRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateProxyRuleGroupPrioritiesRequest",
+}) as any as S.Schema<UpdateProxyRuleGroupPrioritiesRequest>;
+export interface UpdateProxyRulePrioritiesRequest {
+  ProxyRuleGroupName?: string;
+  ProxyRuleGroupArn?: string;
+  RuleGroupRequestPhase: string;
+  Rules: ProxyRulePriorityList;
+  UpdateToken: string;
+}
+export const UpdateProxyRulePrioritiesRequest = S.suspend(() =>
+  S.Struct({
     ProxyRuleGroupName: S.optional(S.String),
     ProxyRuleGroupArn: S.optional(S.String),
     RuleGroupRequestPhase: S.String,
     Rules: ProxyRulePriorityList,
     UpdateToken: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateRuleGroupResponse extends S.Class<UpdateRuleGroupResponse>(
-  "UpdateRuleGroupResponse",
-)({ UpdateToken: S.String, RuleGroupResponse: RuleGroupResponse }) {}
-export class UpdateSubnetChangeProtectionResponse extends S.Class<UpdateSubnetChangeProtectionResponse>(
-  "UpdateSubnetChangeProtectionResponse",
-)({
-  UpdateToken: S.optional(S.String),
-  FirewallArn: S.optional(S.String),
-  FirewallName: S.optional(S.String),
-  SubnetChangeProtection: S.optional(S.Boolean),
-}) {}
-export class UpdateTLSInspectionConfigurationResponse extends S.Class<UpdateTLSInspectionConfigurationResponse>(
-  "UpdateTLSInspectionConfigurationResponse",
-)({
-  UpdateToken: S.String,
-  TLSInspectionConfigurationResponse: TLSInspectionConfigurationResponse,
-}) {}
-export class CreateProxyRule extends S.Class<CreateProxyRule>(
-  "CreateProxyRule",
-)({
-  ProxyRuleName: S.optional(S.String),
-  Description: S.optional(S.String),
-  Action: S.optional(S.String),
-  Conditions: S.optional(ProxyRuleConditionList),
-  InsertPosition: S.optional(S.Number),
-}) {}
-export const CreateProxyRuleList = S.Array(CreateProxyRule);
-export class CreateProxyRulesByRequestPhase extends S.Class<CreateProxyRulesByRequestPhase>(
-  "CreateProxyRulesByRequestPhase",
-)({
-  PreDNS: S.optional(CreateProxyRuleList),
-  PreREQUEST: S.optional(CreateProxyRuleList),
-  PostRESPONSE: S.optional(CreateProxyRuleList),
-}) {}
-export class FlowOperation extends S.Class<FlowOperation>("FlowOperation")({
-  MinimumFlowAgeInSeconds: S.optional(S.Number),
-  FlowFilters: S.optional(FlowFilters),
-}) {}
-export class AnalysisReport extends S.Class<AnalysisReport>("AnalysisReport")({
-  AnalysisReportId: S.optional(S.String),
-  AnalysisType: S.optional(S.String),
-  ReportTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Status: S.optional(S.String),
-}) {}
-export const AnalysisReports = S.Array(AnalysisReport);
-export class FirewallPolicyMetadata extends S.Class<FirewallPolicyMetadata>(
-  "FirewallPolicyMetadata",
-)({ Name: S.optional(S.String), Arn: S.optional(S.String) }) {}
-export const FirewallPolicies = S.Array(FirewallPolicyMetadata);
-export class FirewallMetadata extends S.Class<FirewallMetadata>(
-  "FirewallMetadata",
-)({
-  FirewallName: S.optional(S.String),
-  FirewallArn: S.optional(S.String),
-  TransitGatewayAttachmentId: S.optional(S.String),
-}) {}
-export const Firewalls = S.Array(FirewallMetadata);
-export class Flow extends S.Class<Flow>("Flow")({
-  SourceAddress: S.optional(Address),
-  DestinationAddress: S.optional(Address),
-  SourcePort: S.optional(S.String),
-  DestinationPort: S.optional(S.String),
-  Protocol: S.optional(S.String),
-  Age: S.optional(S.Number),
-  PacketCount: S.optional(S.Number),
-  ByteCount: S.optional(S.Number),
-}) {}
-export const Flows = S.Array(Flow);
-export class FlowOperationMetadata extends S.Class<FlowOperationMetadata>(
-  "FlowOperationMetadata",
-)({
-  FlowOperationId: S.optional(S.String),
-  FlowOperationType: S.optional(S.String),
-  FlowRequestTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-  FlowOperationStatus: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "UpdateProxyRulePrioritiesRequest",
+}) as any as S.Schema<UpdateProxyRulePrioritiesRequest>;
+export interface UpdateRuleGroupResponse {
+  UpdateToken: string;
+  RuleGroupResponse: RuleGroupResponse;
+}
+export const UpdateRuleGroupResponse = S.suspend(() =>
+  S.Struct({ UpdateToken: S.String, RuleGroupResponse: RuleGroupResponse }),
+).annotations({
+  identifier: "UpdateRuleGroupResponse",
+}) as any as S.Schema<UpdateRuleGroupResponse>;
+export interface UpdateSubnetChangeProtectionResponse {
+  UpdateToken?: string;
+  FirewallArn?: string;
+  FirewallName?: string;
+  SubnetChangeProtection?: boolean;
+}
+export const UpdateSubnetChangeProtectionResponse = S.suspend(() =>
+  S.Struct({
+    UpdateToken: S.optional(S.String),
+    FirewallArn: S.optional(S.String),
+    FirewallName: S.optional(S.String),
+    SubnetChangeProtection: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "UpdateSubnetChangeProtectionResponse",
+}) as any as S.Schema<UpdateSubnetChangeProtectionResponse>;
+export interface UpdateTLSInspectionConfigurationResponse {
+  UpdateToken: string;
+  TLSInspectionConfigurationResponse: TLSInspectionConfigurationResponse;
+}
+export const UpdateTLSInspectionConfigurationResponse = S.suspend(() =>
+  S.Struct({
+    UpdateToken: S.String,
+    TLSInspectionConfigurationResponse: TLSInspectionConfigurationResponse,
+  }),
+).annotations({
+  identifier: "UpdateTLSInspectionConfigurationResponse",
+}) as any as S.Schema<UpdateTLSInspectionConfigurationResponse>;
+export interface CreateProxyRule {
+  ProxyRuleName?: string;
+  Description?: string;
+  Action?: string;
+  Conditions?: ProxyRuleConditionList;
+  InsertPosition?: number;
+}
+export const CreateProxyRule = S.suspend(() =>
+  S.Struct({
+    ProxyRuleName: S.optional(S.String),
+    Description: S.optional(S.String),
+    Action: S.optional(S.String),
+    Conditions: S.optional(ProxyRuleConditionList),
+    InsertPosition: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "CreateProxyRule",
+}) as any as S.Schema<CreateProxyRule>;
+export type CreateProxyRuleList = CreateProxyRule[];
+export const CreateProxyRuleList = S.Array(CreateProxyRule);
+export interface CreateProxyRulesByRequestPhase {
+  PreDNS?: CreateProxyRuleList;
+  PreREQUEST?: CreateProxyRuleList;
+  PostRESPONSE?: CreateProxyRuleList;
+}
+export const CreateProxyRulesByRequestPhase = S.suspend(() =>
+  S.Struct({
+    PreDNS: S.optional(CreateProxyRuleList),
+    PreREQUEST: S.optional(CreateProxyRuleList),
+    PostRESPONSE: S.optional(CreateProxyRuleList),
+  }),
+).annotations({
+  identifier: "CreateProxyRulesByRequestPhase",
+}) as any as S.Schema<CreateProxyRulesByRequestPhase>;
+export interface FlowOperation {
+  MinimumFlowAgeInSeconds?: number;
+  FlowFilters?: FlowFilters;
+}
+export const FlowOperation = S.suspend(() =>
+  S.Struct({
+    MinimumFlowAgeInSeconds: S.optional(S.Number),
+    FlowFilters: S.optional(FlowFilters),
+  }),
+).annotations({
+  identifier: "FlowOperation",
+}) as any as S.Schema<FlowOperation>;
+export interface AnalysisReport {
+  AnalysisReportId?: string;
+  AnalysisType?: string;
+  ReportTime?: Date;
+  Status?: string;
+}
+export const AnalysisReport = S.suspend(() =>
+  S.Struct({
+    AnalysisReportId: S.optional(S.String),
+    AnalysisType: S.optional(S.String),
+    ReportTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Status: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AnalysisReport",
+}) as any as S.Schema<AnalysisReport>;
+export type AnalysisReports = AnalysisReport[];
+export const AnalysisReports = S.Array(AnalysisReport);
+export interface FirewallPolicyMetadata {
+  Name?: string;
+  Arn?: string;
+}
+export const FirewallPolicyMetadata = S.suspend(() =>
+  S.Struct({ Name: S.optional(S.String), Arn: S.optional(S.String) }),
+).annotations({
+  identifier: "FirewallPolicyMetadata",
+}) as any as S.Schema<FirewallPolicyMetadata>;
+export type FirewallPolicies = FirewallPolicyMetadata[];
+export const FirewallPolicies = S.Array(FirewallPolicyMetadata);
+export interface FirewallMetadata {
+  FirewallName?: string;
+  FirewallArn?: string;
+  TransitGatewayAttachmentId?: string;
+}
+export const FirewallMetadata = S.suspend(() =>
+  S.Struct({
+    FirewallName: S.optional(S.String),
+    FirewallArn: S.optional(S.String),
+    TransitGatewayAttachmentId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "FirewallMetadata",
+}) as any as S.Schema<FirewallMetadata>;
+export type Firewalls = FirewallMetadata[];
+export const Firewalls = S.Array(FirewallMetadata);
+export interface Flow {
+  SourceAddress?: Address;
+  DestinationAddress?: Address;
+  SourcePort?: string;
+  DestinationPort?: string;
+  Protocol?: string;
+  Age?: number;
+  PacketCount?: number;
+  ByteCount?: number;
+}
+export const Flow = S.suspend(() =>
+  S.Struct({
+    SourceAddress: S.optional(Address),
+    DestinationAddress: S.optional(Address),
+    SourcePort: S.optional(S.String),
+    DestinationPort: S.optional(S.String),
+    Protocol: S.optional(S.String),
+    Age: S.optional(S.Number),
+    PacketCount: S.optional(S.Number),
+    ByteCount: S.optional(S.Number),
+  }),
+).annotations({ identifier: "Flow" }) as any as S.Schema<Flow>;
+export type Flows = Flow[];
+export const Flows = S.Array(Flow);
+export interface FlowOperationMetadata {
+  FlowOperationId?: string;
+  FlowOperationType?: string;
+  FlowRequestTimestamp?: Date;
+  FlowOperationStatus?: string;
+}
+export const FlowOperationMetadata = S.suspend(() =>
+  S.Struct({
+    FlowOperationId: S.optional(S.String),
+    FlowOperationType: S.optional(S.String),
+    FlowRequestTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    FlowOperationStatus: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "FlowOperationMetadata",
+}) as any as S.Schema<FlowOperationMetadata>;
+export type FlowOperations = FlowOperationMetadata[];
 export const FlowOperations = S.Array(FlowOperationMetadata);
-export class ProxyMetadata extends S.Class<ProxyMetadata>("ProxyMetadata")({
-  Name: S.optional(S.String),
-  Arn: S.optional(S.String),
-}) {}
+export interface ProxyMetadata {
+  Name?: string;
+  Arn?: string;
+}
+export const ProxyMetadata = S.suspend(() =>
+  S.Struct({ Name: S.optional(S.String), Arn: S.optional(S.String) }),
+).annotations({
+  identifier: "ProxyMetadata",
+}) as any as S.Schema<ProxyMetadata>;
+export type Proxies = ProxyMetadata[];
 export const Proxies = S.Array(ProxyMetadata);
-export class ProxyConfigurationMetadata extends S.Class<ProxyConfigurationMetadata>(
-  "ProxyConfigurationMetadata",
-)({ Name: S.optional(S.String), Arn: S.optional(S.String) }) {}
+export interface ProxyConfigurationMetadata {
+  Name?: string;
+  Arn?: string;
+}
+export const ProxyConfigurationMetadata = S.suspend(() =>
+  S.Struct({ Name: S.optional(S.String), Arn: S.optional(S.String) }),
+).annotations({
+  identifier: "ProxyConfigurationMetadata",
+}) as any as S.Schema<ProxyConfigurationMetadata>;
+export type ProxyConfigurations = ProxyConfigurationMetadata[];
 export const ProxyConfigurations = S.Array(ProxyConfigurationMetadata);
-export class ProxyRuleGroupMetadata extends S.Class<ProxyRuleGroupMetadata>(
-  "ProxyRuleGroupMetadata",
-)({ Name: S.optional(S.String), Arn: S.optional(S.String) }) {}
+export interface ProxyRuleGroupMetadata {
+  Name?: string;
+  Arn?: string;
+}
+export const ProxyRuleGroupMetadata = S.suspend(() =>
+  S.Struct({ Name: S.optional(S.String), Arn: S.optional(S.String) }),
+).annotations({
+  identifier: "ProxyRuleGroupMetadata",
+}) as any as S.Schema<ProxyRuleGroupMetadata>;
+export type ProxyRuleGroups = ProxyRuleGroupMetadata[];
 export const ProxyRuleGroups = S.Array(ProxyRuleGroupMetadata);
-export class RuleGroupMetadata extends S.Class<RuleGroupMetadata>(
-  "RuleGroupMetadata",
-)({
-  Name: S.optional(S.String),
-  Arn: S.optional(S.String),
-  VendorName: S.optional(S.String),
-}) {}
+export interface RuleGroupMetadata {
+  Name?: string;
+  Arn?: string;
+  VendorName?: string;
+}
+export const RuleGroupMetadata = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Arn: S.optional(S.String),
+    VendorName: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RuleGroupMetadata",
+}) as any as S.Schema<RuleGroupMetadata>;
+export type RuleGroups = RuleGroupMetadata[];
 export const RuleGroups = S.Array(RuleGroupMetadata);
-export class TLSInspectionConfigurationMetadata extends S.Class<TLSInspectionConfigurationMetadata>(
-  "TLSInspectionConfigurationMetadata",
-)({ Name: S.optional(S.String), Arn: S.optional(S.String) }) {}
+export interface TLSInspectionConfigurationMetadata {
+  Name?: string;
+  Arn?: string;
+}
+export const TLSInspectionConfigurationMetadata = S.suspend(() =>
+  S.Struct({ Name: S.optional(S.String), Arn: S.optional(S.String) }),
+).annotations({
+  identifier: "TLSInspectionConfigurationMetadata",
+}) as any as S.Schema<TLSInspectionConfigurationMetadata>;
+export type TLSInspectionConfigurations = TLSInspectionConfigurationMetadata[];
 export const TLSInspectionConfigurations = S.Array(
   TLSInspectionConfigurationMetadata,
 );
-export class VpcEndpointAssociationMetadata extends S.Class<VpcEndpointAssociationMetadata>(
-  "VpcEndpointAssociationMetadata",
-)({ VpcEndpointAssociationArn: S.optional(S.String) }) {}
+export interface VpcEndpointAssociationMetadata {
+  VpcEndpointAssociationArn?: string;
+}
+export const VpcEndpointAssociationMetadata = S.suspend(() =>
+  S.Struct({ VpcEndpointAssociationArn: S.optional(S.String) }),
+).annotations({
+  identifier: "VpcEndpointAssociationMetadata",
+}) as any as S.Schema<VpcEndpointAssociationMetadata>;
+export type VpcEndpointAssociations = VpcEndpointAssociationMetadata[];
 export const VpcEndpointAssociations = S.Array(VpcEndpointAssociationMetadata);
-export class ListenerProperty extends S.Class<ListenerProperty>(
-  "ListenerProperty",
-)({ Port: S.optional(S.Number), Type: S.optional(S.String) }) {}
+export interface ListenerProperty {
+  Port?: number;
+  Type?: string;
+}
+export const ListenerProperty = S.suspend(() =>
+  S.Struct({ Port: S.optional(S.Number), Type: S.optional(S.String) }),
+).annotations({
+  identifier: "ListenerProperty",
+}) as any as S.Schema<ListenerProperty>;
+export type ListenerProperties = ListenerProperty[];
 export const ListenerProperties = S.Array(ListenerProperty);
-export class TlsInterceptProperties extends S.Class<TlsInterceptProperties>(
-  "TlsInterceptProperties",
-)({ PcaArn: S.optional(S.String), TlsInterceptMode: S.optional(S.String) }) {}
-export class Proxy extends S.Class<Proxy>("Proxy")({
-  CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  DeleteTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  UpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  FailureCode: S.optional(S.String),
-  FailureMessage: S.optional(S.String),
-  ProxyState: S.optional(S.String),
-  ProxyModifyState: S.optional(S.String),
-  NatGatewayId: S.optional(S.String),
-  ProxyConfigurationName: S.optional(S.String),
-  ProxyConfigurationArn: S.optional(S.String),
-  ProxyName: S.optional(S.String),
-  ProxyArn: S.optional(S.String),
-  ListenerProperties: S.optional(ListenerProperties),
-  TlsInterceptProperties: S.optional(TlsInterceptProperties),
-  Tags: S.optional(TagList),
-}) {}
-export class AssociateAvailabilityZonesResponse extends S.Class<AssociateAvailabilityZonesResponse>(
-  "AssociateAvailabilityZonesResponse",
-)({
-  FirewallArn: S.optional(S.String),
-  FirewallName: S.optional(S.String),
-  AvailabilityZoneMappings: S.optional(AvailabilityZoneMappings),
-  UpdateToken: S.optional(S.String),
-}) {}
-export class AssociateSubnetsResponse extends S.Class<AssociateSubnetsResponse>(
-  "AssociateSubnetsResponse",
-)({
-  FirewallArn: S.optional(S.String),
-  FirewallName: S.optional(S.String),
-  SubnetMappings: S.optional(SubnetMappings),
-  UpdateToken: S.optional(S.String),
-}) {}
-export class AttachRuleGroupsToProxyConfigurationResponse extends S.Class<AttachRuleGroupsToProxyConfigurationResponse>(
-  "AttachRuleGroupsToProxyConfigurationResponse",
-)({
-  ProxyConfiguration: S.optional(ProxyConfiguration),
-  UpdateToken: S.optional(S.String),
-}) {}
-export class CreateFirewallResponse extends S.Class<CreateFirewallResponse>(
-  "CreateFirewallResponse",
-)({
-  Firewall: S.optional(Firewall),
-  FirewallStatus: S.optional(FirewallStatus),
-}) {}
-export class CreateProxyResponse extends S.Class<CreateProxyResponse>(
-  "CreateProxyResponse",
-)({ Proxy: S.optional(Proxy), UpdateToken: S.optional(S.String) }) {}
-export class CreateProxyConfigurationResponse extends S.Class<CreateProxyConfigurationResponse>(
-  "CreateProxyConfigurationResponse",
-)({
-  ProxyConfiguration: S.optional(ProxyConfiguration),
-  UpdateToken: S.optional(S.String),
-}) {}
-export class CreateProxyRuleGroupRequest extends S.Class<CreateProxyRuleGroupRequest>(
-  "CreateProxyRuleGroupRequest",
-)(
-  {
+export interface TlsInterceptProperties {
+  PcaArn?: string;
+  TlsInterceptMode?: string;
+}
+export const TlsInterceptProperties = S.suspend(() =>
+  S.Struct({
+    PcaArn: S.optional(S.String),
+    TlsInterceptMode: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "TlsInterceptProperties",
+}) as any as S.Schema<TlsInterceptProperties>;
+export interface Proxy {
+  CreateTime?: Date;
+  DeleteTime?: Date;
+  UpdateTime?: Date;
+  FailureCode?: string;
+  FailureMessage?: string;
+  ProxyState?: string;
+  ProxyModifyState?: string;
+  NatGatewayId?: string;
+  ProxyConfigurationName?: string;
+  ProxyConfigurationArn?: string;
+  ProxyName?: string;
+  ProxyArn?: string;
+  ListenerProperties?: ListenerProperties;
+  TlsInterceptProperties?: TlsInterceptProperties;
+  Tags?: TagList;
+}
+export const Proxy = S.suspend(() =>
+  S.Struct({
+    CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    DeleteTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    FailureCode: S.optional(S.String),
+    FailureMessage: S.optional(S.String),
+    ProxyState: S.optional(S.String),
+    ProxyModifyState: S.optional(S.String),
+    NatGatewayId: S.optional(S.String),
+    ProxyConfigurationName: S.optional(S.String),
+    ProxyConfigurationArn: S.optional(S.String),
+    ProxyName: S.optional(S.String),
+    ProxyArn: S.optional(S.String),
+    ListenerProperties: S.optional(ListenerProperties),
+    TlsInterceptProperties: S.optional(TlsInterceptProperties),
+    Tags: S.optional(TagList),
+  }),
+).annotations({ identifier: "Proxy" }) as any as S.Schema<Proxy>;
+export interface AssociateAvailabilityZonesResponse {
+  FirewallArn?: string;
+  FirewallName?: string;
+  AvailabilityZoneMappings?: AvailabilityZoneMappings;
+  UpdateToken?: string;
+}
+export const AssociateAvailabilityZonesResponse = S.suspend(() =>
+  S.Struct({
+    FirewallArn: S.optional(S.String),
+    FirewallName: S.optional(S.String),
+    AvailabilityZoneMappings: S.optional(AvailabilityZoneMappings),
+    UpdateToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AssociateAvailabilityZonesResponse",
+}) as any as S.Schema<AssociateAvailabilityZonesResponse>;
+export interface AssociateSubnetsResponse {
+  FirewallArn?: string;
+  FirewallName?: string;
+  SubnetMappings?: SubnetMappings;
+  UpdateToken?: string;
+}
+export const AssociateSubnetsResponse = S.suspend(() =>
+  S.Struct({
+    FirewallArn: S.optional(S.String),
+    FirewallName: S.optional(S.String),
+    SubnetMappings: S.optional(SubnetMappings),
+    UpdateToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AssociateSubnetsResponse",
+}) as any as S.Schema<AssociateSubnetsResponse>;
+export interface AttachRuleGroupsToProxyConfigurationResponse {
+  ProxyConfiguration?: ProxyConfiguration;
+  UpdateToken?: string;
+}
+export const AttachRuleGroupsToProxyConfigurationResponse = S.suspend(() =>
+  S.Struct({
+    ProxyConfiguration: S.optional(ProxyConfiguration),
+    UpdateToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AttachRuleGroupsToProxyConfigurationResponse",
+}) as any as S.Schema<AttachRuleGroupsToProxyConfigurationResponse>;
+export interface CreateFirewallResponse {
+  Firewall?: Firewall;
+  FirewallStatus?: FirewallStatus;
+}
+export const CreateFirewallResponse = S.suspend(() =>
+  S.Struct({
+    Firewall: S.optional(Firewall),
+    FirewallStatus: S.optional(FirewallStatus),
+  }),
+).annotations({
+  identifier: "CreateFirewallResponse",
+}) as any as S.Schema<CreateFirewallResponse>;
+export interface CreateProxyResponse {
+  Proxy?: Proxy;
+  UpdateToken?: string;
+}
+export const CreateProxyResponse = S.suspend(() =>
+  S.Struct({ Proxy: S.optional(Proxy), UpdateToken: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateProxyResponse",
+}) as any as S.Schema<CreateProxyResponse>;
+export interface CreateProxyConfigurationResponse {
+  ProxyConfiguration?: ProxyConfiguration;
+  UpdateToken?: string;
+}
+export const CreateProxyConfigurationResponse = S.suspend(() =>
+  S.Struct({
+    ProxyConfiguration: S.optional(ProxyConfiguration),
+    UpdateToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CreateProxyConfigurationResponse",
+}) as any as S.Schema<CreateProxyConfigurationResponse>;
+export interface CreateProxyRuleGroupRequest {
+  ProxyRuleGroupName: string;
+  Description?: string;
+  Rules?: ProxyRulesByRequestPhase;
+  Tags?: TagList;
+}
+export const CreateProxyRuleGroupRequest = S.suspend(() =>
+  S.Struct({
     ProxyRuleGroupName: S.String,
     Description: S.optional(S.String),
     Rules: S.optional(ProxyRulesByRequestPhase),
     Tags: S.optional(TagList),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateProxyRulesRequest extends S.Class<CreateProxyRulesRequest>(
-  "CreateProxyRulesRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateProxyRuleGroupRequest",
+}) as any as S.Schema<CreateProxyRuleGroupRequest>;
+export interface CreateProxyRulesRequest {
+  ProxyRuleGroupArn?: string;
+  ProxyRuleGroupName?: string;
+  Rules: CreateProxyRulesByRequestPhase;
+}
+export const CreateProxyRulesRequest = S.suspend(() =>
+  S.Struct({
     ProxyRuleGroupArn: S.optional(S.String),
     ProxyRuleGroupName: S.optional(S.String),
     Rules: CreateProxyRulesByRequestPhase,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteFirewallPolicyResponse extends S.Class<DeleteFirewallPolicyResponse>(
-  "DeleteFirewallPolicyResponse",
-)({ FirewallPolicyResponse: FirewallPolicyResponse }) {}
-export class DeleteProxyRulesResponse extends S.Class<DeleteProxyRulesResponse>(
-  "DeleteProxyRulesResponse",
-)({ ProxyRuleGroup: S.optional(ProxyRuleGroup) }) {}
-export class DescribeFlowOperationResponse extends S.Class<DescribeFlowOperationResponse>(
-  "DescribeFlowOperationResponse",
-)({
-  FirewallArn: S.optional(S.String),
-  AvailabilityZone: S.optional(S.String),
-  VpcEndpointAssociationArn: S.optional(S.String),
-  VpcEndpointId: S.optional(S.String),
-  FlowOperationId: S.optional(S.String),
-  FlowOperationType: S.optional(S.String),
-  FlowOperationStatus: S.optional(S.String),
-  StatusMessage: S.optional(S.String),
-  FlowRequestTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-  FlowOperation: S.optional(FlowOperation),
-}) {}
-export class ListAnalysisReportsResponse extends S.Class<ListAnalysisReportsResponse>(
-  "ListAnalysisReportsResponse",
-)({
-  AnalysisReports: S.optional(AnalysisReports),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListFirewallPoliciesResponse extends S.Class<ListFirewallPoliciesResponse>(
-  "ListFirewallPoliciesResponse",
-)({
-  NextToken: S.optional(S.String),
-  FirewallPolicies: S.optional(FirewallPolicies),
-}) {}
-export class ListFirewallsResponse extends S.Class<ListFirewallsResponse>(
-  "ListFirewallsResponse",
-)({ NextToken: S.optional(S.String), Firewalls: S.optional(Firewalls) }) {}
-export class ListFlowOperationResultsResponse extends S.Class<ListFlowOperationResultsResponse>(
-  "ListFlowOperationResultsResponse",
-)({
-  FirewallArn: S.optional(S.String),
-  AvailabilityZone: S.optional(S.String),
-  VpcEndpointAssociationArn: S.optional(S.String),
-  VpcEndpointId: S.optional(S.String),
-  FlowOperationId: S.optional(S.String),
-  FlowOperationStatus: S.optional(S.String),
-  StatusMessage: S.optional(S.String),
-  FlowRequestTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  Flows: S.optional(Flows),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListFlowOperationsResponse extends S.Class<ListFlowOperationsResponse>(
-  "ListFlowOperationsResponse",
-)({
-  FlowOperations: S.optional(FlowOperations),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListProxiesResponse extends S.Class<ListProxiesResponse>(
-  "ListProxiesResponse",
-)({ Proxies: S.optional(Proxies), NextToken: S.optional(S.String) }) {}
-export class ListProxyConfigurationsResponse extends S.Class<ListProxyConfigurationsResponse>(
-  "ListProxyConfigurationsResponse",
-)({
-  ProxyConfigurations: S.optional(ProxyConfigurations),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListProxyRuleGroupsResponse extends S.Class<ListProxyRuleGroupsResponse>(
-  "ListProxyRuleGroupsResponse",
-)({
-  ProxyRuleGroups: S.optional(ProxyRuleGroups),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListRuleGroupsResponse extends S.Class<ListRuleGroupsResponse>(
-  "ListRuleGroupsResponse",
-)({ NextToken: S.optional(S.String), RuleGroups: S.optional(RuleGroups) }) {}
-export class ListTLSInspectionConfigurationsResponse extends S.Class<ListTLSInspectionConfigurationsResponse>(
-  "ListTLSInspectionConfigurationsResponse",
-)({
-  NextToken: S.optional(S.String),
-  TLSInspectionConfigurations: S.optional(TLSInspectionConfigurations),
-}) {}
-export class ListVpcEndpointAssociationsResponse extends S.Class<ListVpcEndpointAssociationsResponse>(
-  "ListVpcEndpointAssociationsResponse",
-)({
-  NextToken: S.optional(S.String),
-  VpcEndpointAssociations: S.optional(VpcEndpointAssociations),
-}) {}
-export class StartFlowCaptureRequest extends S.Class<StartFlowCaptureRequest>(
-  "StartFlowCaptureRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateProxyRulesRequest",
+}) as any as S.Schema<CreateProxyRulesRequest>;
+export interface DeleteFirewallPolicyResponse {
+  FirewallPolicyResponse: FirewallPolicyResponse;
+}
+export const DeleteFirewallPolicyResponse = S.suspend(() =>
+  S.Struct({ FirewallPolicyResponse: FirewallPolicyResponse }),
+).annotations({
+  identifier: "DeleteFirewallPolicyResponse",
+}) as any as S.Schema<DeleteFirewallPolicyResponse>;
+export interface DeleteProxyRulesResponse {
+  ProxyRuleGroup?: ProxyRuleGroup;
+}
+export const DeleteProxyRulesResponse = S.suspend(() =>
+  S.Struct({ ProxyRuleGroup: S.optional(ProxyRuleGroup) }),
+).annotations({
+  identifier: "DeleteProxyRulesResponse",
+}) as any as S.Schema<DeleteProxyRulesResponse>;
+export interface DescribeFlowOperationResponse {
+  FirewallArn?: string;
+  AvailabilityZone?: string;
+  VpcEndpointAssociationArn?: string;
+  VpcEndpointId?: string;
+  FlowOperationId?: string;
+  FlowOperationType?: string;
+  FlowOperationStatus?: string;
+  StatusMessage?: string;
+  FlowRequestTimestamp?: Date;
+  FlowOperation?: FlowOperation;
+}
+export const DescribeFlowOperationResponse = S.suspend(() =>
+  S.Struct({
+    FirewallArn: S.optional(S.String),
+    AvailabilityZone: S.optional(S.String),
+    VpcEndpointAssociationArn: S.optional(S.String),
+    VpcEndpointId: S.optional(S.String),
+    FlowOperationId: S.optional(S.String),
+    FlowOperationType: S.optional(S.String),
+    FlowOperationStatus: S.optional(S.String),
+    StatusMessage: S.optional(S.String),
+    FlowRequestTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    FlowOperation: S.optional(FlowOperation),
+  }),
+).annotations({
+  identifier: "DescribeFlowOperationResponse",
+}) as any as S.Schema<DescribeFlowOperationResponse>;
+export interface ListAnalysisReportsResponse {
+  AnalysisReports?: AnalysisReports;
+  NextToken?: string;
+}
+export const ListAnalysisReportsResponse = S.suspend(() =>
+  S.Struct({
+    AnalysisReports: S.optional(AnalysisReports),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListAnalysisReportsResponse",
+}) as any as S.Schema<ListAnalysisReportsResponse>;
+export interface ListFirewallPoliciesResponse {
+  NextToken?: string;
+  FirewallPolicies?: FirewallPolicies;
+}
+export const ListFirewallPoliciesResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    FirewallPolicies: S.optional(FirewallPolicies),
+  }),
+).annotations({
+  identifier: "ListFirewallPoliciesResponse",
+}) as any as S.Schema<ListFirewallPoliciesResponse>;
+export interface ListFirewallsResponse {
+  NextToken?: string;
+  Firewalls?: Firewalls;
+}
+export const ListFirewallsResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    Firewalls: S.optional(Firewalls),
+  }),
+).annotations({
+  identifier: "ListFirewallsResponse",
+}) as any as S.Schema<ListFirewallsResponse>;
+export interface ListFlowOperationResultsResponse {
+  FirewallArn?: string;
+  AvailabilityZone?: string;
+  VpcEndpointAssociationArn?: string;
+  VpcEndpointId?: string;
+  FlowOperationId?: string;
+  FlowOperationStatus?: string;
+  StatusMessage?: string;
+  FlowRequestTimestamp?: Date;
+  Flows?: Flows;
+  NextToken?: string;
+}
+export const ListFlowOperationResultsResponse = S.suspend(() =>
+  S.Struct({
+    FirewallArn: S.optional(S.String),
+    AvailabilityZone: S.optional(S.String),
+    VpcEndpointAssociationArn: S.optional(S.String),
+    VpcEndpointId: S.optional(S.String),
+    FlowOperationId: S.optional(S.String),
+    FlowOperationStatus: S.optional(S.String),
+    StatusMessage: S.optional(S.String),
+    FlowRequestTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    Flows: S.optional(Flows),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListFlowOperationResultsResponse",
+}) as any as S.Schema<ListFlowOperationResultsResponse>;
+export interface ListFlowOperationsResponse {
+  FlowOperations?: FlowOperations;
+  NextToken?: string;
+}
+export const ListFlowOperationsResponse = S.suspend(() =>
+  S.Struct({
+    FlowOperations: S.optional(FlowOperations),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListFlowOperationsResponse",
+}) as any as S.Schema<ListFlowOperationsResponse>;
+export interface ListProxiesResponse {
+  Proxies?: Proxies;
+  NextToken?: string;
+}
+export const ListProxiesResponse = S.suspend(() =>
+  S.Struct({ Proxies: S.optional(Proxies), NextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListProxiesResponse",
+}) as any as S.Schema<ListProxiesResponse>;
+export interface ListProxyConfigurationsResponse {
+  ProxyConfigurations?: ProxyConfigurations;
+  NextToken?: string;
+}
+export const ListProxyConfigurationsResponse = S.suspend(() =>
+  S.Struct({
+    ProxyConfigurations: S.optional(ProxyConfigurations),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListProxyConfigurationsResponse",
+}) as any as S.Schema<ListProxyConfigurationsResponse>;
+export interface ListProxyRuleGroupsResponse {
+  ProxyRuleGroups?: ProxyRuleGroups;
+  NextToken?: string;
+}
+export const ListProxyRuleGroupsResponse = S.suspend(() =>
+  S.Struct({
+    ProxyRuleGroups: S.optional(ProxyRuleGroups),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListProxyRuleGroupsResponse",
+}) as any as S.Schema<ListProxyRuleGroupsResponse>;
+export interface ListRuleGroupsResponse {
+  NextToken?: string;
+  RuleGroups?: RuleGroups;
+}
+export const ListRuleGroupsResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    RuleGroups: S.optional(RuleGroups),
+  }),
+).annotations({
+  identifier: "ListRuleGroupsResponse",
+}) as any as S.Schema<ListRuleGroupsResponse>;
+export interface ListTLSInspectionConfigurationsResponse {
+  NextToken?: string;
+  TLSInspectionConfigurations?: TLSInspectionConfigurations;
+}
+export const ListTLSInspectionConfigurationsResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    TLSInspectionConfigurations: S.optional(TLSInspectionConfigurations),
+  }),
+).annotations({
+  identifier: "ListTLSInspectionConfigurationsResponse",
+}) as any as S.Schema<ListTLSInspectionConfigurationsResponse>;
+export interface ListVpcEndpointAssociationsResponse {
+  NextToken?: string;
+  VpcEndpointAssociations?: VpcEndpointAssociations;
+}
+export const ListVpcEndpointAssociationsResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    VpcEndpointAssociations: S.optional(VpcEndpointAssociations),
+  }),
+).annotations({
+  identifier: "ListVpcEndpointAssociationsResponse",
+}) as any as S.Schema<ListVpcEndpointAssociationsResponse>;
+export interface StartFlowCaptureRequest {
+  FirewallArn: string;
+  AvailabilityZone?: string;
+  VpcEndpointAssociationArn?: string;
+  VpcEndpointId?: string;
+  MinimumFlowAgeInSeconds?: number;
+  FlowFilters: FlowFilters;
+}
+export const StartFlowCaptureRequest = S.suspend(() =>
+  S.Struct({
     FirewallArn: S.String,
     AvailabilityZone: S.optional(S.String),
     VpcEndpointAssociationArn: S.optional(S.String),
     VpcEndpointId: S.optional(S.String),
     MinimumFlowAgeInSeconds: S.optional(S.Number),
     FlowFilters: FlowFilters,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateProxyResponse extends S.Class<UpdateProxyResponse>(
-  "UpdateProxyResponse",
-)({ Proxy: S.optional(Proxy), UpdateToken: S.optional(S.String) }) {}
-export class UpdateProxyRuleResponse extends S.Class<UpdateProxyRuleResponse>(
-  "UpdateProxyRuleResponse",
-)({
-  ProxyRule: S.optional(ProxyRule),
-  RemovedConditions: S.optional(ProxyRuleConditionList),
-  UpdateToken: S.optional(S.String),
-}) {}
-export class UpdateProxyRulePrioritiesResponse extends S.Class<UpdateProxyRulePrioritiesResponse>(
-  "UpdateProxyRulePrioritiesResponse",
-)({
-  ProxyRuleGroupName: S.optional(S.String),
-  ProxyRuleGroupArn: S.optional(S.String),
-  RuleGroupRequestPhase: S.optional(S.String),
-  Rules: S.optional(ProxyRulePriorityList),
-  UpdateToken: S.optional(S.String),
-}) {}
-export class AvailabilityZoneMetadata extends S.Class<AvailabilityZoneMetadata>(
-  "AvailabilityZoneMetadata",
-)({ IPAddressType: S.optional(S.String) }) {}
-export class RuleSummary extends S.Class<RuleSummary>("RuleSummary")({
-  SID: S.optional(S.String),
-  Msg: S.optional(S.String),
-  Metadata: S.optional(S.String),
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StartFlowCaptureRequest",
+}) as any as S.Schema<StartFlowCaptureRequest>;
+export interface UpdateProxyResponse {
+  Proxy?: Proxy;
+  UpdateToken?: string;
+}
+export const UpdateProxyResponse = S.suspend(() =>
+  S.Struct({ Proxy: S.optional(Proxy), UpdateToken: S.optional(S.String) }),
+).annotations({
+  identifier: "UpdateProxyResponse",
+}) as any as S.Schema<UpdateProxyResponse>;
+export interface UpdateProxyRuleResponse {
+  ProxyRule?: ProxyRule;
+  RemovedConditions?: ProxyRuleConditionList;
+  UpdateToken?: string;
+}
+export const UpdateProxyRuleResponse = S.suspend(() =>
+  S.Struct({
+    ProxyRule: S.optional(ProxyRule),
+    RemovedConditions: S.optional(ProxyRuleConditionList),
+    UpdateToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "UpdateProxyRuleResponse",
+}) as any as S.Schema<UpdateProxyRuleResponse>;
+export interface UpdateProxyRulePrioritiesResponse {
+  ProxyRuleGroupName?: string;
+  ProxyRuleGroupArn?: string;
+  RuleGroupRequestPhase?: string;
+  Rules?: ProxyRulePriorityList;
+  UpdateToken?: string;
+}
+export const UpdateProxyRulePrioritiesResponse = S.suspend(() =>
+  S.Struct({
+    ProxyRuleGroupName: S.optional(S.String),
+    ProxyRuleGroupArn: S.optional(S.String),
+    RuleGroupRequestPhase: S.optional(S.String),
+    Rules: S.optional(ProxyRulePriorityList),
+    UpdateToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "UpdateProxyRulePrioritiesResponse",
+}) as any as S.Schema<UpdateProxyRulePrioritiesResponse>;
+export interface AvailabilityZoneMetadata {
+  IPAddressType?: string;
+}
+export const AvailabilityZoneMetadata = S.suspend(() =>
+  S.Struct({ IPAddressType: S.optional(S.String) }),
+).annotations({
+  identifier: "AvailabilityZoneMetadata",
+}) as any as S.Schema<AvailabilityZoneMetadata>;
+export interface RuleSummary {
+  SID?: string;
+  Msg?: string;
+  Metadata?: string;
+}
+export const RuleSummary = S.suspend(() =>
+  S.Struct({
+    SID: S.optional(S.String),
+    Msg: S.optional(S.String),
+    Metadata: S.optional(S.String),
+  }),
+).annotations({ identifier: "RuleSummary" }) as any as S.Schema<RuleSummary>;
+export type RuleSummaries = RuleSummary[];
 export const RuleSummaries = S.Array(RuleSummary);
-export class Hits extends S.Class<Hits>("Hits")({
-  Count: S.optional(S.Number),
-}) {}
-export class UniqueSources extends S.Class<UniqueSources>("UniqueSources")({
-  Count: S.optional(S.Number),
-}) {}
+export interface Hits {
+  Count?: number;
+}
+export const Hits = S.suspend(() =>
+  S.Struct({ Count: S.optional(S.Number) }),
+).annotations({ identifier: "Hits" }) as any as S.Schema<Hits>;
+export interface UniqueSources {
+  Count?: number;
+}
+export const UniqueSources = S.suspend(() =>
+  S.Struct({ Count: S.optional(S.Number) }),
+).annotations({
+  identifier: "UniqueSources",
+}) as any as S.Schema<UniqueSources>;
+export type SupportedAvailabilityZones = {
+  [key: string]: AvailabilityZoneMetadata;
+};
 export const SupportedAvailabilityZones = S.Record({
   key: S.String,
   value: AvailabilityZoneMetadata,
 });
-export class DescribeProxyResource extends S.Class<DescribeProxyResource>(
-  "DescribeProxyResource",
-)({
-  ProxyName: S.optional(S.String),
-  ProxyArn: S.optional(S.String),
-  ProxyConfigurationName: S.optional(S.String),
-  ProxyConfigurationArn: S.optional(S.String),
-  NatGatewayId: S.optional(S.String),
-  ProxyState: S.optional(S.String),
-  ProxyModifyState: S.optional(S.String),
-  ListenerProperties: S.optional(ListenerProperties),
-  TlsInterceptProperties: S.optional(TlsInterceptProperties),
-  VpcEndpointServiceName: S.optional(S.String),
-  PrivateDNSName: S.optional(S.String),
-  CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  DeleteTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  UpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  FailureCode: S.optional(S.String),
-  FailureMessage: S.optional(S.String),
-  Tags: S.optional(TagList),
-}) {}
-export class Summary extends S.Class<Summary>("Summary")({
-  RuleSummaries: S.optional(RuleSummaries),
-}) {}
-export class AnalysisTypeReportResult extends S.Class<AnalysisTypeReportResult>(
-  "AnalysisTypeReportResult",
-)({
-  Protocol: S.optional(S.String),
-  FirstAccessed: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastAccessed: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Domain: S.optional(S.String),
-  Hits: S.optional(Hits),
-  UniqueSources: S.optional(UniqueSources),
-}) {}
+export interface DescribeProxyResource {
+  ProxyName?: string;
+  ProxyArn?: string;
+  ProxyConfigurationName?: string;
+  ProxyConfigurationArn?: string;
+  NatGatewayId?: string;
+  ProxyState?: string;
+  ProxyModifyState?: string;
+  ListenerProperties?: ListenerProperties;
+  TlsInterceptProperties?: TlsInterceptProperties;
+  VpcEndpointServiceName?: string;
+  PrivateDNSName?: string;
+  CreateTime?: Date;
+  DeleteTime?: Date;
+  UpdateTime?: Date;
+  FailureCode?: string;
+  FailureMessage?: string;
+  Tags?: TagList;
+}
+export const DescribeProxyResource = S.suspend(() =>
+  S.Struct({
+    ProxyName: S.optional(S.String),
+    ProxyArn: S.optional(S.String),
+    ProxyConfigurationName: S.optional(S.String),
+    ProxyConfigurationArn: S.optional(S.String),
+    NatGatewayId: S.optional(S.String),
+    ProxyState: S.optional(S.String),
+    ProxyModifyState: S.optional(S.String),
+    ListenerProperties: S.optional(ListenerProperties),
+    TlsInterceptProperties: S.optional(TlsInterceptProperties),
+    VpcEndpointServiceName: S.optional(S.String),
+    PrivateDNSName: S.optional(S.String),
+    CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    DeleteTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    FailureCode: S.optional(S.String),
+    FailureMessage: S.optional(S.String),
+    Tags: S.optional(TagList),
+  }),
+).annotations({
+  identifier: "DescribeProxyResource",
+}) as any as S.Schema<DescribeProxyResource>;
+export interface Summary {
+  RuleSummaries?: RuleSummaries;
+}
+export const Summary = S.suspend(() =>
+  S.Struct({ RuleSummaries: S.optional(RuleSummaries) }),
+).annotations({ identifier: "Summary" }) as any as S.Schema<Summary>;
+export interface AnalysisTypeReportResult {
+  Protocol?: string;
+  FirstAccessed?: Date;
+  LastAccessed?: Date;
+  Domain?: string;
+  Hits?: Hits;
+  UniqueSources?: UniqueSources;
+}
+export const AnalysisTypeReportResult = S.suspend(() =>
+  S.Struct({
+    Protocol: S.optional(S.String),
+    FirstAccessed: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastAccessed: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Domain: S.optional(S.String),
+    Hits: S.optional(Hits),
+    UniqueSources: S.optional(UniqueSources),
+  }),
+).annotations({
+  identifier: "AnalysisTypeReportResult",
+}) as any as S.Schema<AnalysisTypeReportResult>;
+export type AnalysisReportResults = AnalysisTypeReportResult[];
 export const AnalysisReportResults = S.Array(AnalysisTypeReportResult);
-export class ProxyRuleGroupPriorityResult extends S.Class<ProxyRuleGroupPriorityResult>(
-  "ProxyRuleGroupPriorityResult",
-)({
-  ProxyRuleGroupName: S.optional(S.String),
-  Priority: S.optional(S.Number),
-}) {}
+export interface ProxyRuleGroupPriorityResult {
+  ProxyRuleGroupName?: string;
+  Priority?: number;
+}
+export const ProxyRuleGroupPriorityResult = S.suspend(() =>
+  S.Struct({
+    ProxyRuleGroupName: S.optional(S.String),
+    Priority: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "ProxyRuleGroupPriorityResult",
+}) as any as S.Schema<ProxyRuleGroupPriorityResult>;
+export type ProxyRuleGroupPriorityResultList = ProxyRuleGroupPriorityResult[];
 export const ProxyRuleGroupPriorityResultList = S.Array(
   ProxyRuleGroupPriorityResult,
 );
-export class CreateProxyRuleGroupResponse extends S.Class<CreateProxyRuleGroupResponse>(
-  "CreateProxyRuleGroupResponse",
-)({
-  ProxyRuleGroup: S.optional(ProxyRuleGroup),
-  UpdateToken: S.optional(S.String),
-}) {}
-export class CreateProxyRulesResponse extends S.Class<CreateProxyRulesResponse>(
-  "CreateProxyRulesResponse",
-)({
-  ProxyRuleGroup: S.optional(ProxyRuleGroup),
-  UpdateToken: S.optional(S.String),
-}) {}
-export class DeleteRuleGroupResponse extends S.Class<DeleteRuleGroupResponse>(
-  "DeleteRuleGroupResponse",
-)({ RuleGroupResponse: RuleGroupResponse }) {}
-export class DeleteTLSInspectionConfigurationResponse extends S.Class<DeleteTLSInspectionConfigurationResponse>(
-  "DeleteTLSInspectionConfigurationResponse",
-)({ TLSInspectionConfigurationResponse: TLSInspectionConfigurationResponse }) {}
-export class DescribeFirewallMetadataResponse extends S.Class<DescribeFirewallMetadataResponse>(
-  "DescribeFirewallMetadataResponse",
-)({
-  FirewallArn: S.optional(S.String),
-  FirewallPolicyArn: S.optional(S.String),
-  Description: S.optional(S.String),
-  Status: S.optional(S.String),
-  SupportedAvailabilityZones: S.optional(SupportedAvailabilityZones),
-  TransitGatewayAttachmentId: S.optional(S.String),
-}) {}
-export class DescribeProxyResponse extends S.Class<DescribeProxyResponse>(
-  "DescribeProxyResponse",
-)({
-  Proxy: S.optional(DescribeProxyResource),
-  UpdateToken: S.optional(S.String),
-}) {}
-export class DescribeProxyConfigurationResponse extends S.Class<DescribeProxyConfigurationResponse>(
-  "DescribeProxyConfigurationResponse",
-)({
-  ProxyConfiguration: S.optional(ProxyConfiguration),
-  UpdateToken: S.optional(S.String),
-}) {}
-export class DescribeRuleGroupSummaryResponse extends S.Class<DescribeRuleGroupSummaryResponse>(
-  "DescribeRuleGroupSummaryResponse",
-)({
-  RuleGroupName: S.String,
-  Description: S.optional(S.String),
-  Summary: S.optional(Summary),
-}) {}
-export class GetAnalysisReportResultsResponse extends S.Class<GetAnalysisReportResultsResponse>(
-  "GetAnalysisReportResultsResponse",
-)({
-  Status: S.optional(S.String),
-  StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  ReportTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  AnalysisType: S.optional(S.String),
-  NextToken: S.optional(S.String),
-  AnalysisReportResults: S.optional(AnalysisReportResults),
-}) {}
-export class StartFlowCaptureResponse extends S.Class<StartFlowCaptureResponse>(
-  "StartFlowCaptureResponse",
-)({
-  FirewallArn: S.optional(S.String),
-  FlowOperationId: S.optional(S.String),
-  FlowOperationStatus: S.optional(S.String),
-}) {}
-export class UpdateLoggingConfigurationRequest extends S.Class<UpdateLoggingConfigurationRequest>(
-  "UpdateLoggingConfigurationRequest",
-)(
-  {
+export interface CreateProxyRuleGroupResponse {
+  ProxyRuleGroup?: ProxyRuleGroup;
+  UpdateToken?: string;
+}
+export const CreateProxyRuleGroupResponse = S.suspend(() =>
+  S.Struct({
+    ProxyRuleGroup: S.optional(ProxyRuleGroup),
+    UpdateToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CreateProxyRuleGroupResponse",
+}) as any as S.Schema<CreateProxyRuleGroupResponse>;
+export interface CreateProxyRulesResponse {
+  ProxyRuleGroup?: ProxyRuleGroup;
+  UpdateToken?: string;
+}
+export const CreateProxyRulesResponse = S.suspend(() =>
+  S.Struct({
+    ProxyRuleGroup: S.optional(ProxyRuleGroup),
+    UpdateToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CreateProxyRulesResponse",
+}) as any as S.Schema<CreateProxyRulesResponse>;
+export interface DeleteRuleGroupResponse {
+  RuleGroupResponse: RuleGroupResponse;
+}
+export const DeleteRuleGroupResponse = S.suspend(() =>
+  S.Struct({ RuleGroupResponse: RuleGroupResponse }),
+).annotations({
+  identifier: "DeleteRuleGroupResponse",
+}) as any as S.Schema<DeleteRuleGroupResponse>;
+export interface DeleteTLSInspectionConfigurationResponse {
+  TLSInspectionConfigurationResponse: TLSInspectionConfigurationResponse;
+}
+export const DeleteTLSInspectionConfigurationResponse = S.suspend(() =>
+  S.Struct({
+    TLSInspectionConfigurationResponse: TLSInspectionConfigurationResponse,
+  }),
+).annotations({
+  identifier: "DeleteTLSInspectionConfigurationResponse",
+}) as any as S.Schema<DeleteTLSInspectionConfigurationResponse>;
+export interface DescribeFirewallMetadataResponse {
+  FirewallArn?: string;
+  FirewallPolicyArn?: string;
+  Description?: string;
+  Status?: string;
+  SupportedAvailabilityZones?: SupportedAvailabilityZones;
+  TransitGatewayAttachmentId?: string;
+}
+export const DescribeFirewallMetadataResponse = S.suspend(() =>
+  S.Struct({
+    FirewallArn: S.optional(S.String),
+    FirewallPolicyArn: S.optional(S.String),
+    Description: S.optional(S.String),
+    Status: S.optional(S.String),
+    SupportedAvailabilityZones: S.optional(SupportedAvailabilityZones),
+    TransitGatewayAttachmentId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DescribeFirewallMetadataResponse",
+}) as any as S.Schema<DescribeFirewallMetadataResponse>;
+export interface DescribeProxyResponse {
+  Proxy?: DescribeProxyResource;
+  UpdateToken?: string;
+}
+export const DescribeProxyResponse = S.suspend(() =>
+  S.Struct({
+    Proxy: S.optional(DescribeProxyResource),
+    UpdateToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DescribeProxyResponse",
+}) as any as S.Schema<DescribeProxyResponse>;
+export interface DescribeProxyConfigurationResponse {
+  ProxyConfiguration?: ProxyConfiguration;
+  UpdateToken?: string;
+}
+export const DescribeProxyConfigurationResponse = S.suspend(() =>
+  S.Struct({
+    ProxyConfiguration: S.optional(ProxyConfiguration),
+    UpdateToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DescribeProxyConfigurationResponse",
+}) as any as S.Schema<DescribeProxyConfigurationResponse>;
+export interface DescribeRuleGroupSummaryResponse {
+  RuleGroupName: string;
+  Description?: string;
+  Summary?: Summary;
+}
+export const DescribeRuleGroupSummaryResponse = S.suspend(() =>
+  S.Struct({
+    RuleGroupName: S.String,
+    Description: S.optional(S.String),
+    Summary: S.optional(Summary),
+  }),
+).annotations({
+  identifier: "DescribeRuleGroupSummaryResponse",
+}) as any as S.Schema<DescribeRuleGroupSummaryResponse>;
+export interface GetAnalysisReportResultsResponse {
+  Status?: string;
+  StartTime?: Date;
+  EndTime?: Date;
+  ReportTime?: Date;
+  AnalysisType?: string;
+  NextToken?: string;
+  AnalysisReportResults?: AnalysisReportResults;
+}
+export const GetAnalysisReportResultsResponse = S.suspend(() =>
+  S.Struct({
+    Status: S.optional(S.String),
+    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ReportTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    AnalysisType: S.optional(S.String),
+    NextToken: S.optional(S.String),
+    AnalysisReportResults: S.optional(AnalysisReportResults),
+  }),
+).annotations({
+  identifier: "GetAnalysisReportResultsResponse",
+}) as any as S.Schema<GetAnalysisReportResultsResponse>;
+export interface StartFlowCaptureResponse {
+  FirewallArn?: string;
+  FlowOperationId?: string;
+  FlowOperationStatus?: string;
+}
+export const StartFlowCaptureResponse = S.suspend(() =>
+  S.Struct({
+    FirewallArn: S.optional(S.String),
+    FlowOperationId: S.optional(S.String),
+    FlowOperationStatus: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "StartFlowCaptureResponse",
+}) as any as S.Schema<StartFlowCaptureResponse>;
+export interface UpdateLoggingConfigurationRequest {
+  FirewallArn?: string;
+  FirewallName?: string;
+  LoggingConfiguration?: LoggingConfiguration;
+  EnableMonitoringDashboard?: boolean;
+}
+export const UpdateLoggingConfigurationRequest = S.suspend(() =>
+  S.Struct({
     FirewallArn: S.optional(S.String),
     FirewallName: S.optional(S.String),
     LoggingConfiguration: S.optional(LoggingConfiguration),
     EnableMonitoringDashboard: S.optional(S.Boolean),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateProxyRuleGroupPrioritiesResponse extends S.Class<UpdateProxyRuleGroupPrioritiesResponse>(
-  "UpdateProxyRuleGroupPrioritiesResponse",
-)({
-  ProxyRuleGroups: S.optional(ProxyRuleGroupPriorityResultList),
-  UpdateToken: S.optional(S.String),
-}) {}
-export class CreateTLSInspectionConfigurationRequest extends S.Class<CreateTLSInspectionConfigurationRequest>(
-  "CreateTLSInspectionConfigurationRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateLoggingConfigurationRequest",
+}) as any as S.Schema<UpdateLoggingConfigurationRequest>;
+export interface UpdateProxyRuleGroupPrioritiesResponse {
+  ProxyRuleGroups?: ProxyRuleGroupPriorityResultList;
+  UpdateToken?: string;
+}
+export const UpdateProxyRuleGroupPrioritiesResponse = S.suspend(() =>
+  S.Struct({
+    ProxyRuleGroups: S.optional(ProxyRuleGroupPriorityResultList),
+    UpdateToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "UpdateProxyRuleGroupPrioritiesResponse",
+}) as any as S.Schema<UpdateProxyRuleGroupPrioritiesResponse>;
+export interface CreateTLSInspectionConfigurationRequest {
+  TLSInspectionConfigurationName: string;
+  TLSInspectionConfiguration: TLSInspectionConfiguration;
+  Description?: string;
+  Tags?: TagList;
+  EncryptionConfiguration?: EncryptionConfiguration;
+}
+export const CreateTLSInspectionConfigurationRequest = S.suspend(() =>
+  S.Struct({
     TLSInspectionConfigurationName: S.String,
     TLSInspectionConfiguration: TLSInspectionConfiguration,
     Description: S.optional(S.String),
     Tags: S.optional(TagList),
     EncryptionConfiguration: S.optional(EncryptionConfiguration),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateLoggingConfigurationResponse extends S.Class<UpdateLoggingConfigurationResponse>(
-  "UpdateLoggingConfigurationResponse",
-)({
-  FirewallArn: S.optional(S.String),
-  FirewallName: S.optional(S.String),
-  LoggingConfiguration: S.optional(LoggingConfiguration),
-  EnableMonitoringDashboard: S.optional(S.Boolean),
-}) {}
-export class CreateFirewallPolicyRequest extends S.Class<CreateFirewallPolicyRequest>(
-  "CreateFirewallPolicyRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateTLSInspectionConfigurationRequest",
+}) as any as S.Schema<CreateTLSInspectionConfigurationRequest>;
+export interface UpdateLoggingConfigurationResponse {
+  FirewallArn?: string;
+  FirewallName?: string;
+  LoggingConfiguration?: LoggingConfiguration;
+  EnableMonitoringDashboard?: boolean;
+}
+export const UpdateLoggingConfigurationResponse = S.suspend(() =>
+  S.Struct({
+    FirewallArn: S.optional(S.String),
+    FirewallName: S.optional(S.String),
+    LoggingConfiguration: S.optional(LoggingConfiguration),
+    EnableMonitoringDashboard: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "UpdateLoggingConfigurationResponse",
+}) as any as S.Schema<UpdateLoggingConfigurationResponse>;
+export interface CreateFirewallPolicyRequest {
+  FirewallPolicyName: string;
+  FirewallPolicy: FirewallPolicy;
+  Description?: string;
+  Tags?: TagList;
+  DryRun?: boolean;
+  EncryptionConfiguration?: EncryptionConfiguration;
+}
+export const CreateFirewallPolicyRequest = S.suspend(() =>
+  S.Struct({
     FirewallPolicyName: S.String,
     FirewallPolicy: FirewallPolicy,
     Description: S.optional(S.String),
     Tags: S.optional(TagList),
     DryRun: S.optional(S.Boolean),
     EncryptionConfiguration: S.optional(EncryptionConfiguration),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateTLSInspectionConfigurationResponse extends S.Class<CreateTLSInspectionConfigurationResponse>(
-  "CreateTLSInspectionConfigurationResponse",
-)({
-  UpdateToken: S.String,
-  TLSInspectionConfigurationResponse: TLSInspectionConfigurationResponse,
-}) {}
-export class CreateVpcEndpointAssociationResponse extends S.Class<CreateVpcEndpointAssociationResponse>(
-  "CreateVpcEndpointAssociationResponse",
-)({
-  VpcEndpointAssociation: S.optional(VpcEndpointAssociation),
-  VpcEndpointAssociationStatus: S.optional(VpcEndpointAssociationStatus),
-}) {}
-export class CreateFirewallPolicyResponse extends S.Class<CreateFirewallPolicyResponse>(
-  "CreateFirewallPolicyResponse",
-)({ UpdateToken: S.String, FirewallPolicyResponse: FirewallPolicyResponse }) {}
-export class DeleteFirewallResponse extends S.Class<DeleteFirewallResponse>(
-  "DeleteFirewallResponse",
-)({
-  Firewall: S.optional(Firewall),
-  FirewallStatus: S.optional(FirewallStatus),
-}) {}
-export class CreateRuleGroupRequest extends S.Class<CreateRuleGroupRequest>(
-  "CreateRuleGroupRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateFirewallPolicyRequest",
+}) as any as S.Schema<CreateFirewallPolicyRequest>;
+export interface CreateTLSInspectionConfigurationResponse {
+  UpdateToken: string;
+  TLSInspectionConfigurationResponse: TLSInspectionConfigurationResponse;
+}
+export const CreateTLSInspectionConfigurationResponse = S.suspend(() =>
+  S.Struct({
+    UpdateToken: S.String,
+    TLSInspectionConfigurationResponse: TLSInspectionConfigurationResponse,
+  }),
+).annotations({
+  identifier: "CreateTLSInspectionConfigurationResponse",
+}) as any as S.Schema<CreateTLSInspectionConfigurationResponse>;
+export interface CreateVpcEndpointAssociationResponse {
+  VpcEndpointAssociation?: VpcEndpointAssociation;
+  VpcEndpointAssociationStatus?: VpcEndpointAssociationStatus;
+}
+export const CreateVpcEndpointAssociationResponse = S.suspend(() =>
+  S.Struct({
+    VpcEndpointAssociation: S.optional(VpcEndpointAssociation),
+    VpcEndpointAssociationStatus: S.optional(VpcEndpointAssociationStatus),
+  }),
+).annotations({
+  identifier: "CreateVpcEndpointAssociationResponse",
+}) as any as S.Schema<CreateVpcEndpointAssociationResponse>;
+export interface CreateFirewallPolicyResponse {
+  UpdateToken: string;
+  FirewallPolicyResponse: FirewallPolicyResponse;
+}
+export const CreateFirewallPolicyResponse = S.suspend(() =>
+  S.Struct({
+    UpdateToken: S.String,
+    FirewallPolicyResponse: FirewallPolicyResponse,
+  }),
+).annotations({
+  identifier: "CreateFirewallPolicyResponse",
+}) as any as S.Schema<CreateFirewallPolicyResponse>;
+export interface DeleteFirewallResponse {
+  Firewall?: Firewall;
+  FirewallStatus?: FirewallStatus;
+}
+export const DeleteFirewallResponse = S.suspend(() =>
+  S.Struct({
+    Firewall: S.optional(Firewall),
+    FirewallStatus: S.optional(FirewallStatus),
+  }),
+).annotations({
+  identifier: "DeleteFirewallResponse",
+}) as any as S.Schema<DeleteFirewallResponse>;
+export interface CreateRuleGroupRequest {
+  RuleGroupName: string;
+  RuleGroup?: RuleGroup;
+  Rules?: string;
+  Type: string;
+  Description?: string;
+  Capacity: number;
+  Tags?: TagList;
+  DryRun?: boolean;
+  EncryptionConfiguration?: EncryptionConfiguration;
+  SourceMetadata?: SourceMetadata;
+  AnalyzeRuleGroup?: boolean;
+  SummaryConfiguration?: SummaryConfiguration;
+}
+export const CreateRuleGroupRequest = S.suspend(() =>
+  S.Struct({
     RuleGroupName: S.String,
     RuleGroup: S.optional(RuleGroup),
     Rules: S.optional(S.String),
@@ -2212,12 +4113,21 @@ export class CreateRuleGroupRequest extends S.Class<CreateRuleGroupRequest>(
     SourceMetadata: S.optional(SourceMetadata),
     AnalyzeRuleGroup: S.optional(S.Boolean),
     SummaryConfiguration: S.optional(SummaryConfiguration),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateRuleGroupResponse extends S.Class<CreateRuleGroupResponse>(
-  "CreateRuleGroupResponse",
-)({ UpdateToken: S.String, RuleGroupResponse: RuleGroupResponse }) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateRuleGroupRequest",
+}) as any as S.Schema<CreateRuleGroupRequest>;
+export interface CreateRuleGroupResponse {
+  UpdateToken: string;
+  RuleGroupResponse: RuleGroupResponse;
+}
+export const CreateRuleGroupResponse = S.suspend(() =>
+  S.Struct({ UpdateToken: S.String, RuleGroupResponse: RuleGroupResponse }),
+).annotations({
+  identifier: "CreateRuleGroupResponse",
+}) as any as S.Schema<CreateRuleGroupResponse>;
 
 //# Errors
 export class InternalServerError extends S.TaggedError<InternalServerError>()(

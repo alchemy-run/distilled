@@ -375,45 +375,79 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type FilterValueList = string[];
 export const FilterValueList = S.Array(S.String);
+export type GetEntitlementFilters = { [key: string]: FilterValueList };
 export const GetEntitlementFilters = S.Record({
   key: S.String,
   value: FilterValueList,
 });
-export class GetEntitlementsRequest extends S.Class<GetEntitlementsRequest>(
-  "GetEntitlementsRequest",
-)(
-  {
+export interface GetEntitlementsRequest {
+  ProductCode: string;
+  Filter?: GetEntitlementFilters;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const GetEntitlementsRequest = S.suspend(() =>
+  S.Struct({
     ProductCode: S.String,
     Filter: S.optional(GetEntitlementFilters),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class EntitlementValue extends S.Class<EntitlementValue>(
-  "EntitlementValue",
-)({
-  IntegerValue: S.optional(S.Number),
-  DoubleValue: S.optional(S.Number),
-  BooleanValue: S.optional(S.Boolean),
-  StringValue: S.optional(S.String),
-}) {}
-export class Entitlement extends S.Class<Entitlement>("Entitlement")({
-  ProductCode: S.optional(S.String),
-  Dimension: S.optional(S.String),
-  CustomerIdentifier: S.optional(S.String),
-  CustomerAWSAccountId: S.optional(S.String),
-  Value: S.optional(EntitlementValue),
-  ExpirationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetEntitlementsRequest",
+}) as any as S.Schema<GetEntitlementsRequest>;
+export interface EntitlementValue {
+  IntegerValue?: number;
+  DoubleValue?: number;
+  BooleanValue?: boolean;
+  StringValue?: string;
+}
+export const EntitlementValue = S.suspend(() =>
+  S.Struct({
+    IntegerValue: S.optional(S.Number),
+    DoubleValue: S.optional(S.Number),
+    BooleanValue: S.optional(S.Boolean),
+    StringValue: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "EntitlementValue",
+}) as any as S.Schema<EntitlementValue>;
+export interface Entitlement {
+  ProductCode?: string;
+  Dimension?: string;
+  CustomerIdentifier?: string;
+  CustomerAWSAccountId?: string;
+  Value?: EntitlementValue;
+  ExpirationDate?: Date;
+}
+export const Entitlement = S.suspend(() =>
+  S.Struct({
+    ProductCode: S.optional(S.String),
+    Dimension: S.optional(S.String),
+    CustomerIdentifier: S.optional(S.String),
+    CustomerAWSAccountId: S.optional(S.String),
+    Value: S.optional(EntitlementValue),
+    ExpirationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({ identifier: "Entitlement" }) as any as S.Schema<Entitlement>;
+export type EntitlementList = Entitlement[];
 export const EntitlementList = S.Array(Entitlement);
-export class GetEntitlementsResult extends S.Class<GetEntitlementsResult>(
-  "GetEntitlementsResult",
-)({
-  Entitlements: S.optional(EntitlementList),
-  NextToken: S.optional(S.String),
-}) {}
+export interface GetEntitlementsResult {
+  Entitlements?: EntitlementList;
+  NextToken?: string;
+}
+export const GetEntitlementsResult = S.suspend(() =>
+  S.Struct({
+    Entitlements: S.optional(EntitlementList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetEntitlementsResult",
+}) as any as S.Schema<GetEntitlementsResult>;
 
 //# Errors
 export class InternalServiceErrorException extends S.TaggedError<InternalServiceErrorException>()(

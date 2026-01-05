@@ -256,223 +256,401 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type RegionList = string[];
 export const RegionList = S.Array(S.String);
+export type TagKeys = string[];
 export const TagKeys = S.Array(S.String);
-export class ApprovePlanExecutionStepRequest extends S.Class<ApprovePlanExecutionStepRequest>(
-  "ApprovePlanExecutionStepRequest",
-)(
-  {
+export interface ApprovePlanExecutionStepRequest {
+  planArn: string;
+  executionId: string;
+  stepName: string;
+  approval: string;
+  comment?: string;
+}
+export const ApprovePlanExecutionStepRequest = S.suspend(() =>
+  S.Struct({
     planArn: S.String,
     executionId: S.String,
     stepName: S.String,
     approval: S.String,
     comment: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ApprovePlanExecutionStepResponse extends S.Class<ApprovePlanExecutionStepResponse>(
-  "ApprovePlanExecutionStepResponse",
-)({}) {}
-export class CancelPlanExecutionRequest extends S.Class<CancelPlanExecutionRequest>(
-  "CancelPlanExecutionRequest",
-)(
-  { planArn: S.String, executionId: S.String, comment: S.optional(S.String) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CancelPlanExecutionResponse extends S.Class<CancelPlanExecutionResponse>(
-  "CancelPlanExecutionResponse",
-)({}) {}
-export class GetPlanEvaluationStatusRequest extends S.Class<GetPlanEvaluationStatusRequest>(
-  "GetPlanEvaluationStatusRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ApprovePlanExecutionStepRequest",
+}) as any as S.Schema<ApprovePlanExecutionStepRequest>;
+export interface ApprovePlanExecutionStepResponse {}
+export const ApprovePlanExecutionStepResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "ApprovePlanExecutionStepResponse",
+}) as any as S.Schema<ApprovePlanExecutionStepResponse>;
+export interface CancelPlanExecutionRequest {
+  planArn: string;
+  executionId: string;
+  comment?: string;
+}
+export const CancelPlanExecutionRequest = S.suspend(() =>
+  S.Struct({
+    planArn: S.String,
+    executionId: S.String,
+    comment: S.optional(S.String),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CancelPlanExecutionRequest",
+}) as any as S.Schema<CancelPlanExecutionRequest>;
+export interface CancelPlanExecutionResponse {}
+export const CancelPlanExecutionResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "CancelPlanExecutionResponse",
+}) as any as S.Schema<CancelPlanExecutionResponse>;
+export interface GetPlanEvaluationStatusRequest {
+  planArn: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const GetPlanEvaluationStatusRequest = S.suspend(() =>
+  S.Struct({
     planArn: S.String,
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetPlanExecutionRequest extends S.Class<GetPlanExecutionRequest>(
-  "GetPlanExecutionRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetPlanEvaluationStatusRequest",
+}) as any as S.Schema<GetPlanEvaluationStatusRequest>;
+export interface GetPlanExecutionRequest {
+  planArn: string;
+  executionId: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const GetPlanExecutionRequest = S.suspend(() =>
+  S.Struct({
     planArn: S.String,
     executionId: S.String,
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetPlanInRegionRequest extends S.Class<GetPlanInRegionRequest>(
-  "GetPlanInRegionRequest",
-)(
-  { arn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListPlanExecutionEventsRequest extends S.Class<ListPlanExecutionEventsRequest>(
-  "ListPlanExecutionEventsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetPlanExecutionRequest",
+}) as any as S.Schema<GetPlanExecutionRequest>;
+export interface GetPlanInRegionRequest {
+  arn: string;
+}
+export const GetPlanInRegionRequest = S.suspend(() =>
+  S.Struct({ arn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetPlanInRegionRequest",
+}) as any as S.Schema<GetPlanInRegionRequest>;
+export interface ListPlanExecutionEventsRequest {
+  planArn: string;
+  executionId: string;
+  maxResults?: number;
+  nextToken?: string;
+  name?: string;
+}
+export const ListPlanExecutionEventsRequest = S.suspend(() =>
+  S.Struct({
     planArn: S.String,
     executionId: S.String,
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
     name: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListPlanExecutionsRequest extends S.Class<ListPlanExecutionsRequest>(
-  "ListPlanExecutionsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListPlanExecutionEventsRequest",
+}) as any as S.Schema<ListPlanExecutionEventsRequest>;
+export interface ListPlanExecutionsRequest {
+  planArn: string;
+  maxResults?: number;
+  nextToken?: string;
+  state?: string;
+}
+export const ListPlanExecutionsRequest = S.suspend(() =>
+  S.Struct({
     planArn: S.String,
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
     state: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListPlansInRegionRequest extends S.Class<ListPlansInRegionRequest>(
-  "ListPlansInRegionRequest",
-)(
-  { maxResults: S.optional(S.Number), nextToken: S.optional(S.String) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListRoute53HealthChecksRequest extends S.Class<ListRoute53HealthChecksRequest>(
-  "ListRoute53HealthChecksRequest",
-)(
-  {
-    arn: S.String,
-    hostedZoneId: S.optional(S.String),
-    recordName: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseControlPlaneEndpoint: { value: true } }),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-) {}
-export class ListRoute53HealthChecksInRegionRequest extends S.Class<ListRoute53HealthChecksInRegionRequest>(
-  "ListRoute53HealthChecksInRegionRequest",
-)(
-  {
+).annotations({
+  identifier: "ListPlanExecutionsRequest",
+}) as any as S.Schema<ListPlanExecutionsRequest>;
+export interface ListPlansInRegionRequest {
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListPlansInRegionRequest = S.suspend(() =>
+  S.Struct({
+    maxResults: S.optional(S.Number),
+    nextToken: S.optional(S.String),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListPlansInRegionRequest",
+}) as any as S.Schema<ListPlansInRegionRequest>;
+export interface ListRoute53HealthChecksRequest {
+  arn: string;
+  hostedZoneId?: string;
+  recordName?: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListRoute53HealthChecksRequest = S.suspend(() =>
+  S.Struct({
     arn: S.String,
     hostedZoneId: S.optional(S.String),
     recordName: S.optional(S.String),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StartPlanExecutionRequest extends S.Class<StartPlanExecutionRequest>(
-  "StartPlanExecutionRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseControlPlaneEndpoint: { value: true } }),
+    ),
+  ),
+).annotations({
+  identifier: "ListRoute53HealthChecksRequest",
+}) as any as S.Schema<ListRoute53HealthChecksRequest>;
+export interface ListRoute53HealthChecksInRegionRequest {
+  arn: string;
+  hostedZoneId?: string;
+  recordName?: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListRoute53HealthChecksInRegionRequest = S.suspend(() =>
+  S.Struct({
+    arn: S.String,
+    hostedZoneId: S.optional(S.String),
+    recordName: S.optional(S.String),
+    maxResults: S.optional(S.Number),
+    nextToken: S.optional(S.String),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListRoute53HealthChecksInRegionRequest",
+}) as any as S.Schema<ListRoute53HealthChecksInRegionRequest>;
+export interface StartPlanExecutionRequest {
+  planArn: string;
+  targetRegion: string;
+  action: string;
+  mode?: string;
+  comment?: string;
+  latestVersion?: string;
+}
+export const StartPlanExecutionRequest = S.suspend(() =>
+  S.Struct({
     planArn: S.String,
     targetRegion: S.String,
     action: S.String,
     mode: S.optional(S.String),
     comment: S.optional(S.String),
     latestVersion: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdatePlanExecutionRequest extends S.Class<UpdatePlanExecutionRequest>(
-  "UpdatePlanExecutionRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StartPlanExecutionRequest",
+}) as any as S.Schema<StartPlanExecutionRequest>;
+export interface UpdatePlanExecutionRequest {
+  planArn: string;
+  executionId: string;
+  action: string;
+  comment?: string;
+}
+export const UpdatePlanExecutionRequest = S.suspend(() =>
+  S.Struct({
     planArn: S.String,
     executionId: S.String,
     action: S.String,
     comment: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdatePlanExecutionResponse extends S.Class<UpdatePlanExecutionResponse>(
-  "UpdatePlanExecutionResponse",
-)({}) {}
-export class UpdatePlanExecutionStepRequest extends S.Class<UpdatePlanExecutionStepRequest>(
-  "UpdatePlanExecutionStepRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdatePlanExecutionRequest",
+}) as any as S.Schema<UpdatePlanExecutionRequest>;
+export interface UpdatePlanExecutionResponse {}
+export const UpdatePlanExecutionResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdatePlanExecutionResponse",
+}) as any as S.Schema<UpdatePlanExecutionResponse>;
+export interface UpdatePlanExecutionStepRequest {
+  planArn: string;
+  executionId: string;
+  comment: string;
+  stepName: string;
+  actionToTake: string;
+}
+export const UpdatePlanExecutionStepRequest = S.suspend(() =>
+  S.Struct({
     planArn: S.String,
     executionId: S.String,
     comment: S.String,
     stepName: S.String,
     actionToTake: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdatePlanExecutionStepResponse extends S.Class<UpdatePlanExecutionStepResponse>(
-  "UpdatePlanExecutionStepResponse",
-)({}) {}
-export class GetPlanRequest extends S.Class<GetPlanRequest>("GetPlanRequest")(
-  { arn: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseControlPlaneEndpoint: { value: true } }),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-) {}
+).annotations({
+  identifier: "UpdatePlanExecutionStepRequest",
+}) as any as S.Schema<UpdatePlanExecutionStepRequest>;
+export interface UpdatePlanExecutionStepResponse {}
+export const UpdatePlanExecutionStepResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdatePlanExecutionStepResponse",
+}) as any as S.Schema<UpdatePlanExecutionStepResponse>;
+export interface GetPlanRequest {
+  arn: string;
+}
+export const GetPlanRequest = S.suspend(() =>
+  S.Struct({ arn: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseControlPlaneEndpoint: { value: true } }),
+    ),
+  ),
+).annotations({
+  identifier: "GetPlanRequest",
+}) as any as S.Schema<GetPlanRequest>;
 export type Steps = Step[];
 export const Steps = S.Array(
-  S.suspend((): S.Schema<Step, any> => Step),
+  S.suspend((): S.Schema<Step, any> => Step).annotations({
+    identifier: "Step",
+  }),
 ) as any as S.Schema<Steps>;
-export class Workflow extends S.Class<Workflow>("Workflow")({
-  steps: S.optional(Steps),
-  workflowTargetAction: S.String,
-  workflowTargetRegion: S.optional(S.String),
-  workflowDescription: S.optional(S.String),
-}) {}
+export interface Workflow {
+  steps?: Steps;
+  workflowTargetAction: string;
+  workflowTargetRegion?: string;
+  workflowDescription?: string;
+}
+export const Workflow = S.suspend(() =>
+  S.Struct({
+    steps: S.optional(Steps),
+    workflowTargetAction: S.String,
+    workflowTargetRegion: S.optional(S.String),
+    workflowDescription: S.optional(S.String),
+  }),
+).annotations({ identifier: "Workflow" }) as any as S.Schema<Workflow>;
+export type WorkflowList = Workflow[];
 export const WorkflowList = S.Array(Workflow);
-export class AssociatedAlarm extends S.Class<AssociatedAlarm>(
-  "AssociatedAlarm",
-)({
-  crossAccountRole: S.optional(S.String),
-  externalId: S.optional(S.String),
-  resourceIdentifier: S.String,
-  alarmType: S.String,
-}) {}
+export interface AssociatedAlarm {
+  crossAccountRole?: string;
+  externalId?: string;
+  resourceIdentifier: string;
+  alarmType: string;
+}
+export const AssociatedAlarm = S.suspend(() =>
+  S.Struct({
+    crossAccountRole: S.optional(S.String),
+    externalId: S.optional(S.String),
+    resourceIdentifier: S.String,
+    alarmType: S.String,
+  }),
+).annotations({
+  identifier: "AssociatedAlarm",
+}) as any as S.Schema<AssociatedAlarm>;
+export type AssociatedAlarmMap = { [key: string]: AssociatedAlarm };
 export const AssociatedAlarmMap = S.Record({
   key: S.String,
   value: AssociatedAlarm,
 });
-export class TriggerCondition extends S.Class<TriggerCondition>(
-  "TriggerCondition",
-)({ associatedAlarmName: S.String, condition: S.String }) {}
+export interface TriggerCondition {
+  associatedAlarmName: string;
+  condition: string;
+}
+export const TriggerCondition = S.suspend(() =>
+  S.Struct({ associatedAlarmName: S.String, condition: S.String }),
+).annotations({
+  identifier: "TriggerCondition",
+}) as any as S.Schema<TriggerCondition>;
+export type TriggerConditionList = TriggerCondition[];
 export const TriggerConditionList = S.Array(TriggerCondition);
-export class Trigger extends S.Class<Trigger>("Trigger")({
-  description: S.optional(S.String),
-  targetRegion: S.String,
-  action: S.String,
-  conditions: TriggerConditionList,
-  minDelayMinutesBetweenExecutions: S.Number,
-}) {}
+export interface Trigger {
+  description?: string;
+  targetRegion: string;
+  action: string;
+  conditions: TriggerConditionList;
+  minDelayMinutesBetweenExecutions: number;
+}
+export const Trigger = S.suspend(() =>
+  S.Struct({
+    description: S.optional(S.String),
+    targetRegion: S.String,
+    action: S.String,
+    conditions: TriggerConditionList,
+    minDelayMinutesBetweenExecutions: S.Number,
+  }),
+).annotations({ identifier: "Trigger" }) as any as S.Schema<Trigger>;
+export type TriggerList = Trigger[];
 export const TriggerList = S.Array(Trigger);
-export class S3ReportOutputConfiguration extends S.Class<S3ReportOutputConfiguration>(
-  "S3ReportOutputConfiguration",
-)({ bucketPath: S.optional(S.String), bucketOwner: S.optional(S.String) }) {}
+export interface S3ReportOutputConfiguration {
+  bucketPath?: string;
+  bucketOwner?: string;
+}
+export const S3ReportOutputConfiguration = S.suspend(() =>
+  S.Struct({
+    bucketPath: S.optional(S.String),
+    bucketOwner: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "S3ReportOutputConfiguration",
+}) as any as S.Schema<S3ReportOutputConfiguration>;
 export const ReportOutputConfiguration = S.Union(
   S.Struct({ s3Configuration: S3ReportOutputConfiguration }),
 );
+export type ReportOutputList = (typeof ReportOutputConfiguration)["Type"][];
 export const ReportOutputList = S.Array(ReportOutputConfiguration);
-export class ReportConfiguration extends S.Class<ReportConfiguration>(
-  "ReportConfiguration",
-)({ reportOutput: S.optional(ReportOutputList) }) {}
-export class UpdatePlanRequest extends S.Class<UpdatePlanRequest>(
-  "UpdatePlanRequest",
-)(
-  {
+export interface ReportConfiguration {
+  reportOutput?: ReportOutputList;
+}
+export const ReportConfiguration = S.suspend(() =>
+  S.Struct({ reportOutput: S.optional(ReportOutputList) }),
+).annotations({
+  identifier: "ReportConfiguration",
+}) as any as S.Schema<ReportConfiguration>;
+export interface UpdatePlanRequest {
+  arn: string;
+  description?: string;
+  workflows: WorkflowList;
+  executionRole: string;
+  recoveryTimeObjectiveMinutes?: number;
+  associatedAlarms?: AssociatedAlarmMap;
+  triggers?: TriggerList;
+  reportConfiguration?: ReportConfiguration;
+}
+export const UpdatePlanRequest = S.suspend(() =>
+  S.Struct({
     arn: S.String,
     description: S.optional(S.String),
     workflows: WorkflowList,
@@ -481,460 +659,925 @@ export class UpdatePlanRequest extends S.Class<UpdatePlanRequest>(
     associatedAlarms: S.optional(AssociatedAlarmMap),
     triggers: S.optional(TriggerList),
     reportConfiguration: S.optional(ReportConfiguration),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseControlPlaneEndpoint: { value: true } }),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseControlPlaneEndpoint: { value: true } }),
+    ),
   ),
-) {}
-export class DeletePlanRequest extends S.Class<DeletePlanRequest>(
-  "DeletePlanRequest",
-)(
-  { arn: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseControlPlaneEndpoint: { value: true } }),
+).annotations({
+  identifier: "UpdatePlanRequest",
+}) as any as S.Schema<UpdatePlanRequest>;
+export interface DeletePlanRequest {
+  arn: string;
+}
+export const DeletePlanRequest = S.suspend(() =>
+  S.Struct({ arn: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseControlPlaneEndpoint: { value: true } }),
+    ),
   ),
-) {}
-export class DeletePlanResponse extends S.Class<DeletePlanResponse>(
-  "DeletePlanResponse",
-)({}) {}
-export class ListPlansRequest extends S.Class<ListPlansRequest>(
-  "ListPlansRequest",
-)(
-  { maxResults: S.optional(S.Number), nextToken: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseControlPlaneEndpoint: { value: true } }),
+).annotations({
+  identifier: "DeletePlanRequest",
+}) as any as S.Schema<DeletePlanRequest>;
+export interface DeletePlanResponse {}
+export const DeletePlanResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeletePlanResponse",
+}) as any as S.Schema<DeletePlanResponse>;
+export interface ListPlansRequest {
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListPlansRequest = S.suspend(() =>
+  S.Struct({
+    maxResults: S.optional(S.Number),
+    nextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseControlPlaneEndpoint: { value: true } }),
+    ),
   ),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { arn: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseControlPlaneEndpoint: { value: true } }),
+).annotations({
+  identifier: "ListPlansRequest",
+}) as any as S.Schema<ListPlansRequest>;
+export interface ListTagsForResourceRequest {
+  arn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ arn: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseControlPlaneEndpoint: { value: true } }),
+    ),
   ),
-) {}
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export type Tags = { [key: string]: string };
 export const Tags = S.Record({ key: S.String, value: S.String });
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { arn: S.String, tags: Tags },
-  T.all(
-    T.Http({ method: "POST", uri: "/" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseControlPlaneEndpoint: { value: true } }),
+export interface TagResourceRequest {
+  arn: string;
+  tags: Tags;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ arn: S.String, tags: Tags }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseControlPlaneEndpoint: { value: true } }),
+    ),
   ),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  { arn: S.String, resourceTagKeys: TagKeys },
-  T.all(
-    T.Http({ method: "POST", uri: "/" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseControlPlaneEndpoint: { value: true } }),
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UntagResourceRequest {
+  arn: string;
+  resourceTagKeys: TagKeys;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({ arn: S.String, resourceTagKeys: TagKeys }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseControlPlaneEndpoint: { value: true } }),
+    ),
   ),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
-export class Plan extends S.Class<Plan>("Plan")({
-  arn: S.String,
-  description: S.optional(S.String),
-  workflows: WorkflowList,
-  executionRole: S.String,
-  recoveryTimeObjectiveMinutes: S.optional(S.Number),
-  associatedAlarms: S.optional(AssociatedAlarmMap),
-  triggers: S.optional(TriggerList),
-  reportConfiguration: S.optional(ReportConfiguration),
-  name: S.String,
-  regions: RegionList,
-  recoveryApproach: S.String,
-  primaryRegion: S.optional(S.String),
-  owner: S.String,
-  version: S.optional(S.String),
-  updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class GetPlanInRegionResponse extends S.Class<GetPlanInRegionResponse>(
-  "GetPlanInRegionResponse",
-)({ plan: S.optional(Plan) }) {}
-export class Route53HealthCheck extends S.Class<Route53HealthCheck>(
-  "Route53HealthCheck",
-)({
-  hostedZoneId: S.String,
-  recordName: S.String,
-  healthCheckId: S.optional(S.String),
-  status: S.optional(S.String),
-  region: S.String,
-}) {}
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface Plan {
+  arn: string;
+  description?: string;
+  workflows: WorkflowList;
+  executionRole: string;
+  recoveryTimeObjectiveMinutes?: number;
+  associatedAlarms?: AssociatedAlarmMap;
+  triggers?: TriggerList;
+  reportConfiguration?: ReportConfiguration;
+  name: string;
+  regions: RegionList;
+  recoveryApproach: string;
+  primaryRegion?: string;
+  owner: string;
+  version?: string;
+  updatedAt?: Date;
+}
+export const Plan = S.suspend(() =>
+  S.Struct({
+    arn: S.String,
+    description: S.optional(S.String),
+    workflows: WorkflowList,
+    executionRole: S.String,
+    recoveryTimeObjectiveMinutes: S.optional(S.Number),
+    associatedAlarms: S.optional(AssociatedAlarmMap),
+    triggers: S.optional(TriggerList),
+    reportConfiguration: S.optional(ReportConfiguration),
+    name: S.String,
+    regions: RegionList,
+    recoveryApproach: S.String,
+    primaryRegion: S.optional(S.String),
+    owner: S.String,
+    version: S.optional(S.String),
+    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({ identifier: "Plan" }) as any as S.Schema<Plan>;
+export interface GetPlanInRegionResponse {
+  plan?: Plan;
+}
+export const GetPlanInRegionResponse = S.suspend(() =>
+  S.Struct({ plan: S.optional(Plan) }),
+).annotations({
+  identifier: "GetPlanInRegionResponse",
+}) as any as S.Schema<GetPlanInRegionResponse>;
+export interface Route53HealthCheck {
+  hostedZoneId: string;
+  recordName: string;
+  healthCheckId?: string;
+  status?: string;
+  region: string;
+}
+export const Route53HealthCheck = S.suspend(() =>
+  S.Struct({
+    hostedZoneId: S.String,
+    recordName: S.String,
+    healthCheckId: S.optional(S.String),
+    status: S.optional(S.String),
+    region: S.String,
+  }),
+).annotations({
+  identifier: "Route53HealthCheck",
+}) as any as S.Schema<Route53HealthCheck>;
+export type Route53HealthCheckList = Route53HealthCheck[];
 export const Route53HealthCheckList = S.Array(Route53HealthCheck);
-export class ListRoute53HealthChecksInRegionResponse extends S.Class<ListRoute53HealthChecksInRegionResponse>(
-  "ListRoute53HealthChecksInRegionResponse",
-)({
-  healthChecks: S.optional(Route53HealthCheckList),
-  nextToken: S.optional(S.String),
-}) {}
-export class StartPlanExecutionResponse extends S.Class<StartPlanExecutionResponse>(
-  "StartPlanExecutionResponse",
-)({
-  executionId: S.optional(S.String),
-  plan: S.optional(S.String),
-  planVersion: S.optional(S.String),
-  activateRegion: S.optional(S.String),
-  deactivateRegion: S.optional(S.String),
-}) {}
-export class GetPlanResponse extends S.Class<GetPlanResponse>(
-  "GetPlanResponse",
-)({ plan: S.optional(Plan) }) {}
-export class UpdatePlanResponse extends S.Class<UpdatePlanResponse>(
-  "UpdatePlanResponse",
-)({ plan: S.optional(Plan) }) {}
-export class AbbreviatedPlan extends S.Class<AbbreviatedPlan>(
-  "AbbreviatedPlan",
-)({
-  arn: S.String,
-  owner: S.String,
-  name: S.String,
-  regions: RegionList,
-  recoveryApproach: S.String,
-  primaryRegion: S.optional(S.String),
-  version: S.optional(S.String),
-  updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  description: S.optional(S.String),
-  executionRole: S.optional(S.String),
-  activePlanExecution: S.optional(S.String),
-  recoveryTimeObjectiveMinutes: S.optional(S.Number),
-}) {}
+export interface ListRoute53HealthChecksInRegionResponse {
+  healthChecks?: Route53HealthCheckList;
+  nextToken?: string;
+}
+export const ListRoute53HealthChecksInRegionResponse = S.suspend(() =>
+  S.Struct({
+    healthChecks: S.optional(Route53HealthCheckList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListRoute53HealthChecksInRegionResponse",
+}) as any as S.Schema<ListRoute53HealthChecksInRegionResponse>;
+export interface StartPlanExecutionResponse {
+  executionId?: string;
+  plan?: string;
+  planVersion?: string;
+  activateRegion?: string;
+  deactivateRegion?: string;
+}
+export const StartPlanExecutionResponse = S.suspend(() =>
+  S.Struct({
+    executionId: S.optional(S.String),
+    plan: S.optional(S.String),
+    planVersion: S.optional(S.String),
+    activateRegion: S.optional(S.String),
+    deactivateRegion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "StartPlanExecutionResponse",
+}) as any as S.Schema<StartPlanExecutionResponse>;
+export interface GetPlanResponse {
+  plan?: Plan;
+}
+export const GetPlanResponse = S.suspend(() =>
+  S.Struct({ plan: S.optional(Plan) }),
+).annotations({
+  identifier: "GetPlanResponse",
+}) as any as S.Schema<GetPlanResponse>;
+export interface UpdatePlanResponse {
+  plan?: Plan;
+}
+export const UpdatePlanResponse = S.suspend(() =>
+  S.Struct({ plan: S.optional(Plan) }),
+).annotations({
+  identifier: "UpdatePlanResponse",
+}) as any as S.Schema<UpdatePlanResponse>;
+export interface AbbreviatedPlan {
+  arn: string;
+  owner: string;
+  name: string;
+  regions: RegionList;
+  recoveryApproach: string;
+  primaryRegion?: string;
+  version?: string;
+  updatedAt?: Date;
+  description?: string;
+  executionRole?: string;
+  activePlanExecution?: string;
+  recoveryTimeObjectiveMinutes?: number;
+}
+export const AbbreviatedPlan = S.suspend(() =>
+  S.Struct({
+    arn: S.String,
+    owner: S.String,
+    name: S.String,
+    regions: RegionList,
+    recoveryApproach: S.String,
+    primaryRegion: S.optional(S.String),
+    version: S.optional(S.String),
+    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    description: S.optional(S.String),
+    executionRole: S.optional(S.String),
+    activePlanExecution: S.optional(S.String),
+    recoveryTimeObjectiveMinutes: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "AbbreviatedPlan",
+}) as any as S.Schema<AbbreviatedPlan>;
+export type PlanList = AbbreviatedPlan[];
 export const PlanList = S.Array(AbbreviatedPlan);
-export class ListPlansResponse extends S.Class<ListPlansResponse>(
-  "ListPlansResponse",
-)({ plans: S.optional(PlanList), nextToken: S.optional(S.String) }) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ resourceTags: S.optional(Tags) }) {}
+export interface ListPlansResponse {
+  plans?: PlanList;
+  nextToken?: string;
+}
+export const ListPlansResponse = S.suspend(() =>
+  S.Struct({ plans: S.optional(PlanList), nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListPlansResponse",
+}) as any as S.Schema<ListPlansResponse>;
+export interface ListTagsForResourceResponse {
+  resourceTags?: Tags;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ resourceTags: S.optional(Tags) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export type Resources = string[];
 export const Resources = S.Array(S.String);
-export class StepState extends S.Class<StepState>("StepState")({
-  name: S.optional(S.String),
-  status: S.optional(S.String),
-  startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  stepMode: S.optional(S.String),
-}) {}
+export interface StepState {
+  name?: string;
+  status?: string;
+  startTime?: Date;
+  endTime?: Date;
+  stepMode?: string;
+}
+export const StepState = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    status: S.optional(S.String),
+    startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    stepMode: S.optional(S.String),
+  }),
+).annotations({ identifier: "StepState" }) as any as S.Schema<StepState>;
+export type StepStates = StepState[];
 export const StepStates = S.Array(StepState);
-export class ExecutionEvent extends S.Class<ExecutionEvent>("ExecutionEvent")({
-  timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  type: S.optional(S.String),
-  stepName: S.optional(S.String),
-  executionBlockType: S.optional(S.String),
-  resources: S.optional(Resources),
-  error: S.optional(S.String),
-  description: S.optional(S.String),
-  eventId: S.String,
-  previousEventId: S.optional(S.String),
-}) {}
+export interface ExecutionEvent {
+  timestamp?: Date;
+  type?: string;
+  stepName?: string;
+  executionBlockType?: string;
+  resources?: Resources;
+  error?: string;
+  description?: string;
+  eventId: string;
+  previousEventId?: string;
+}
+export const ExecutionEvent = S.suspend(() =>
+  S.Struct({
+    timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    type: S.optional(S.String),
+    stepName: S.optional(S.String),
+    executionBlockType: S.optional(S.String),
+    resources: S.optional(Resources),
+    error: S.optional(S.String),
+    description: S.optional(S.String),
+    eventId: S.String,
+    previousEventId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ExecutionEvent",
+}) as any as S.Schema<ExecutionEvent>;
+export type ExecutionEventList = ExecutionEvent[];
 export const ExecutionEventList = S.Array(ExecutionEvent);
-export class AbbreviatedExecution extends S.Class<AbbreviatedExecution>(
-  "AbbreviatedExecution",
-)({
-  planArn: S.String,
-  executionId: S.String,
-  version: S.optional(S.String),
-  updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  comment: S.optional(S.String),
-  startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  mode: S.String,
-  executionState: S.String,
-  executionAction: S.String,
-  executionRegion: S.String,
-  actualRecoveryTime: S.optional(S.String),
-}) {}
+export interface AbbreviatedExecution {
+  planArn: string;
+  executionId: string;
+  version?: string;
+  updatedAt?: Date;
+  comment?: string;
+  startTime: Date;
+  endTime?: Date;
+  mode: string;
+  executionState: string;
+  executionAction: string;
+  executionRegion: string;
+  actualRecoveryTime?: string;
+}
+export const AbbreviatedExecution = S.suspend(() =>
+  S.Struct({
+    planArn: S.String,
+    executionId: S.String,
+    version: S.optional(S.String),
+    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    comment: S.optional(S.String),
+    startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    mode: S.String,
+    executionState: S.String,
+    executionAction: S.String,
+    executionRegion: S.String,
+    actualRecoveryTime: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AbbreviatedExecution",
+}) as any as S.Schema<AbbreviatedExecution>;
+export type AbbreviatedExecutionsList = AbbreviatedExecution[];
 export const AbbreviatedExecutionsList = S.Array(AbbreviatedExecution);
-export class ListPlanExecutionEventsResponse extends S.Class<ListPlanExecutionEventsResponse>(
-  "ListPlanExecutionEventsResponse",
-)({ items: S.optional(ExecutionEventList), nextToken: S.optional(S.String) }) {}
-export class ListPlanExecutionsResponse extends S.Class<ListPlanExecutionsResponse>(
-  "ListPlanExecutionsResponse",
-)({
-  items: S.optional(AbbreviatedExecutionsList),
-  nextToken: S.optional(S.String),
-}) {}
-export class ListPlansInRegionResponse extends S.Class<ListPlansInRegionResponse>(
-  "ListPlansInRegionResponse",
-)({ plans: S.optional(PlanList), nextToken: S.optional(S.String) }) {}
-export class ListRoute53HealthChecksResponse extends S.Class<ListRoute53HealthChecksResponse>(
-  "ListRoute53HealthChecksResponse",
-)({
-  healthChecks: S.optional(Route53HealthCheckList),
-  nextToken: S.optional(S.String),
-}) {}
+export interface ListPlanExecutionEventsResponse {
+  items?: ExecutionEventList;
+  nextToken?: string;
+}
+export const ListPlanExecutionEventsResponse = S.suspend(() =>
+  S.Struct({
+    items: S.optional(ExecutionEventList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListPlanExecutionEventsResponse",
+}) as any as S.Schema<ListPlanExecutionEventsResponse>;
+export interface ListPlanExecutionsResponse {
+  items?: AbbreviatedExecutionsList;
+  nextToken?: string;
+}
+export const ListPlanExecutionsResponse = S.suspend(() =>
+  S.Struct({
+    items: S.optional(AbbreviatedExecutionsList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListPlanExecutionsResponse",
+}) as any as S.Schema<ListPlanExecutionsResponse>;
+export interface ListPlansInRegionResponse {
+  plans?: PlanList;
+  nextToken?: string;
+}
+export const ListPlansInRegionResponse = S.suspend(() =>
+  S.Struct({ plans: S.optional(PlanList), nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListPlansInRegionResponse",
+}) as any as S.Schema<ListPlansInRegionResponse>;
+export interface ListRoute53HealthChecksResponse {
+  healthChecks?: Route53HealthCheckList;
+  nextToken?: string;
+}
+export const ListRoute53HealthChecksResponse = S.suspend(() =>
+  S.Struct({
+    healthChecks: S.optional(Route53HealthCheckList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListRoute53HealthChecksResponse",
+}) as any as S.Schema<ListRoute53HealthChecksResponse>;
+export type AuroraClusterArns = string[];
 export const AuroraClusterArns = S.Array(S.String);
+export type DocumentDbClusterArns = string[];
 export const DocumentDbClusterArns = S.Array(S.String);
-export class MinimalWorkflow extends S.Class<MinimalWorkflow>(
-  "MinimalWorkflow",
-)({ action: S.optional(S.String), name: S.optional(S.String) }) {}
-export class ExecutionApprovalConfiguration extends S.Class<ExecutionApprovalConfiguration>(
-  "ExecutionApprovalConfiguration",
-)({ timeoutMinutes: S.optional(S.Number), approvalRole: S.String }) {}
-export class ParallelExecutionBlockConfiguration extends S.Class<ParallelExecutionBlockConfiguration>(
-  "ParallelExecutionBlockConfiguration",
-)({ steps: S.suspend(() => Steps) }) {}
-export class RegionSwitchPlanConfiguration extends S.Class<RegionSwitchPlanConfiguration>(
-  "RegionSwitchPlanConfiguration",
-)({
-  crossAccountRole: S.optional(S.String),
-  externalId: S.optional(S.String),
-  arn: S.String,
-}) {}
-export class ResourceWarning extends S.Class<ResourceWarning>(
-  "ResourceWarning",
-)({
-  workflow: S.optional(MinimalWorkflow),
-  version: S.String,
-  stepName: S.optional(S.String),
-  resourceArn: S.optional(S.String),
-  warningStatus: S.String,
-  warningUpdatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  warningMessage: S.String,
-}) {}
+export interface MinimalWorkflow {
+  action?: string;
+  name?: string;
+}
+export const MinimalWorkflow = S.suspend(() =>
+  S.Struct({ action: S.optional(S.String), name: S.optional(S.String) }),
+).annotations({
+  identifier: "MinimalWorkflow",
+}) as any as S.Schema<MinimalWorkflow>;
+export interface ExecutionApprovalConfiguration {
+  timeoutMinutes?: number;
+  approvalRole: string;
+}
+export const ExecutionApprovalConfiguration = S.suspend(() =>
+  S.Struct({ timeoutMinutes: S.optional(S.Number), approvalRole: S.String }),
+).annotations({
+  identifier: "ExecutionApprovalConfiguration",
+}) as any as S.Schema<ExecutionApprovalConfiguration>;
+export interface ParallelExecutionBlockConfiguration {
+  steps: Steps;
+}
+export const ParallelExecutionBlockConfiguration = S.suspend(() =>
+  S.Struct({
+    steps: S.suspend(() => Steps).annotations({ identifier: "Steps" }),
+  }),
+).annotations({
+  identifier: "ParallelExecutionBlockConfiguration",
+}) as any as S.Schema<ParallelExecutionBlockConfiguration>;
+export interface RegionSwitchPlanConfiguration {
+  crossAccountRole?: string;
+  externalId?: string;
+  arn: string;
+}
+export const RegionSwitchPlanConfiguration = S.suspend(() =>
+  S.Struct({
+    crossAccountRole: S.optional(S.String),
+    externalId: S.optional(S.String),
+    arn: S.String,
+  }),
+).annotations({
+  identifier: "RegionSwitchPlanConfiguration",
+}) as any as S.Schema<RegionSwitchPlanConfiguration>;
+export interface ResourceWarning {
+  workflow?: MinimalWorkflow;
+  version: string;
+  stepName?: string;
+  resourceArn?: string;
+  warningStatus: string;
+  warningUpdatedTime: Date;
+  warningMessage: string;
+}
+export const ResourceWarning = S.suspend(() =>
+  S.Struct({
+    workflow: S.optional(MinimalWorkflow),
+    version: S.String,
+    stepName: S.optional(S.String),
+    resourceArn: S.optional(S.String),
+    warningStatus: S.String,
+    warningUpdatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    warningMessage: S.String,
+  }),
+).annotations({
+  identifier: "ResourceWarning",
+}) as any as S.Schema<ResourceWarning>;
+export type PlanWarnings = ResourceWarning[];
 export const PlanWarnings = S.Array(ResourceWarning);
-export class S3ReportOutput extends S.Class<S3ReportOutput>("S3ReportOutput")({
-  s3ObjectKey: S.optional(S.String),
-}) {}
-export class FailedReportOutput extends S.Class<FailedReportOutput>(
-  "FailedReportOutput",
-)({ errorCode: S.optional(S.String), errorMessage: S.optional(S.String) }) {}
-export class GetPlanEvaluationStatusResponse extends S.Class<GetPlanEvaluationStatusResponse>(
-  "GetPlanEvaluationStatusResponse",
-)({
-  planArn: S.String,
-  lastEvaluationTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  lastEvaluatedVersion: S.optional(S.String),
-  region: S.optional(S.String),
-  evaluationState: S.optional(S.String),
-  warnings: S.optional(PlanWarnings),
-  nextToken: S.optional(S.String),
-}) {}
-export class Lambdas extends S.Class<Lambdas>("Lambdas")({
-  crossAccountRole: S.optional(S.String),
-  externalId: S.optional(S.String),
-  arn: S.optional(S.String),
-}) {}
+export interface S3ReportOutput {
+  s3ObjectKey?: string;
+}
+export const S3ReportOutput = S.suspend(() =>
+  S.Struct({ s3ObjectKey: S.optional(S.String) }),
+).annotations({
+  identifier: "S3ReportOutput",
+}) as any as S.Schema<S3ReportOutput>;
+export interface FailedReportOutput {
+  errorCode?: string;
+  errorMessage?: string;
+}
+export const FailedReportOutput = S.suspend(() =>
+  S.Struct({
+    errorCode: S.optional(S.String),
+    errorMessage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "FailedReportOutput",
+}) as any as S.Schema<FailedReportOutput>;
+export interface GetPlanEvaluationStatusResponse {
+  planArn: string;
+  lastEvaluationTime?: Date;
+  lastEvaluatedVersion?: string;
+  region?: string;
+  evaluationState?: string;
+  warnings?: PlanWarnings;
+  nextToken?: string;
+}
+export const GetPlanEvaluationStatusResponse = S.suspend(() =>
+  S.Struct({
+    planArn: S.String,
+    lastEvaluationTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    lastEvaluatedVersion: S.optional(S.String),
+    region: S.optional(S.String),
+    evaluationState: S.optional(S.String),
+    warnings: S.optional(PlanWarnings),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetPlanEvaluationStatusResponse",
+}) as any as S.Schema<GetPlanEvaluationStatusResponse>;
+export interface Lambdas {
+  crossAccountRole?: string;
+  externalId?: string;
+  arn?: string;
+}
+export const Lambdas = S.suspend(() =>
+  S.Struct({
+    crossAccountRole: S.optional(S.String),
+    externalId: S.optional(S.String),
+    arn: S.optional(S.String),
+  }),
+).annotations({ identifier: "Lambdas" }) as any as S.Schema<Lambdas>;
+export type LambdaList = Lambdas[];
 export const LambdaList = S.Array(Lambdas);
-export class LambdaUngraceful extends S.Class<LambdaUngraceful>(
-  "LambdaUngraceful",
-)({ behavior: S.optional(S.String) }) {}
-export class Asg extends S.Class<Asg>("Asg")({
-  crossAccountRole: S.optional(S.String),
-  externalId: S.optional(S.String),
-  arn: S.optional(S.String),
-}) {}
+export interface LambdaUngraceful {
+  behavior?: string;
+}
+export const LambdaUngraceful = S.suspend(() =>
+  S.Struct({ behavior: S.optional(S.String) }),
+).annotations({
+  identifier: "LambdaUngraceful",
+}) as any as S.Schema<LambdaUngraceful>;
+export interface Asg {
+  crossAccountRole?: string;
+  externalId?: string;
+  arn?: string;
+}
+export const Asg = S.suspend(() =>
+  S.Struct({
+    crossAccountRole: S.optional(S.String),
+    externalId: S.optional(S.String),
+    arn: S.optional(S.String),
+  }),
+).annotations({ identifier: "Asg" }) as any as S.Schema<Asg>;
+export type AsgList = Asg[];
 export const AsgList = S.Array(Asg);
-export class Ec2Ungraceful extends S.Class<Ec2Ungraceful>("Ec2Ungraceful")({
-  minimumSuccessPercentage: S.Number,
-}) {}
-export class GlobalAuroraUngraceful extends S.Class<GlobalAuroraUngraceful>(
-  "GlobalAuroraUngraceful",
-)({ ungraceful: S.optional(S.String) }) {}
-export class Service extends S.Class<Service>("Service")({
-  crossAccountRole: S.optional(S.String),
-  externalId: S.optional(S.String),
-  clusterArn: S.optional(S.String),
-  serviceArn: S.optional(S.String),
-}) {}
+export interface Ec2Ungraceful {
+  minimumSuccessPercentage: number;
+}
+export const Ec2Ungraceful = S.suspend(() =>
+  S.Struct({ minimumSuccessPercentage: S.Number }),
+).annotations({
+  identifier: "Ec2Ungraceful",
+}) as any as S.Schema<Ec2Ungraceful>;
+export interface GlobalAuroraUngraceful {
+  ungraceful?: string;
+}
+export const GlobalAuroraUngraceful = S.suspend(() =>
+  S.Struct({ ungraceful: S.optional(S.String) }),
+).annotations({
+  identifier: "GlobalAuroraUngraceful",
+}) as any as S.Schema<GlobalAuroraUngraceful>;
+export interface Service {
+  crossAccountRole?: string;
+  externalId?: string;
+  clusterArn?: string;
+  serviceArn?: string;
+}
+export const Service = S.suspend(() =>
+  S.Struct({
+    crossAccountRole: S.optional(S.String),
+    externalId: S.optional(S.String),
+    clusterArn: S.optional(S.String),
+    serviceArn: S.optional(S.String),
+  }),
+).annotations({ identifier: "Service" }) as any as S.Schema<Service>;
+export type ServiceList = Service[];
 export const ServiceList = S.Array(Service);
-export class EcsUngraceful extends S.Class<EcsUngraceful>("EcsUngraceful")({
-  minimumSuccessPercentage: S.Number,
-}) {}
-export class KubernetesResourceType extends S.Class<KubernetesResourceType>(
-  "KubernetesResourceType",
-)({ apiVersion: S.String, kind: S.String }) {}
-export class EksCluster extends S.Class<EksCluster>("EksCluster")({
-  crossAccountRole: S.optional(S.String),
-  externalId: S.optional(S.String),
-  clusterArn: S.String,
-}) {}
+export interface EcsUngraceful {
+  minimumSuccessPercentage: number;
+}
+export const EcsUngraceful = S.suspend(() =>
+  S.Struct({ minimumSuccessPercentage: S.Number }),
+).annotations({
+  identifier: "EcsUngraceful",
+}) as any as S.Schema<EcsUngraceful>;
+export interface KubernetesResourceType {
+  apiVersion: string;
+  kind: string;
+}
+export const KubernetesResourceType = S.suspend(() =>
+  S.Struct({ apiVersion: S.String, kind: S.String }),
+).annotations({
+  identifier: "KubernetesResourceType",
+}) as any as S.Schema<KubernetesResourceType>;
+export interface EksCluster {
+  crossAccountRole?: string;
+  externalId?: string;
+  clusterArn: string;
+}
+export const EksCluster = S.suspend(() =>
+  S.Struct({
+    crossAccountRole: S.optional(S.String),
+    externalId: S.optional(S.String),
+    clusterArn: S.String,
+  }),
+).annotations({ identifier: "EksCluster" }) as any as S.Schema<EksCluster>;
+export type EksClusters = EksCluster[];
 export const EksClusters = S.Array(EksCluster);
-export class EksResourceScalingUngraceful extends S.Class<EksResourceScalingUngraceful>(
-  "EksResourceScalingUngraceful",
-)({ minimumSuccessPercentage: S.Number }) {}
-export class Route53ResourceRecordSet extends S.Class<Route53ResourceRecordSet>(
-  "Route53ResourceRecordSet",
-)({
-  recordSetIdentifier: S.optional(S.String),
-  region: S.optional(S.String),
-}) {}
+export interface EksResourceScalingUngraceful {
+  minimumSuccessPercentage: number;
+}
+export const EksResourceScalingUngraceful = S.suspend(() =>
+  S.Struct({ minimumSuccessPercentage: S.Number }),
+).annotations({
+  identifier: "EksResourceScalingUngraceful",
+}) as any as S.Schema<EksResourceScalingUngraceful>;
+export interface Route53ResourceRecordSet {
+  recordSetIdentifier?: string;
+  region?: string;
+}
+export const Route53ResourceRecordSet = S.suspend(() =>
+  S.Struct({
+    recordSetIdentifier: S.optional(S.String),
+    region: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "Route53ResourceRecordSet",
+}) as any as S.Schema<Route53ResourceRecordSet>;
+export type Route53ResourceRecordSetList = Route53ResourceRecordSet[];
 export const Route53ResourceRecordSetList = S.Array(Route53ResourceRecordSet);
-export class DocumentDbUngraceful extends S.Class<DocumentDbUngraceful>(
-  "DocumentDbUngraceful",
-)({ ungraceful: S.optional(S.String) }) {}
+export interface DocumentDbUngraceful {
+  ungraceful?: string;
+}
+export const DocumentDbUngraceful = S.suspend(() =>
+  S.Struct({ ungraceful: S.optional(S.String) }),
+).annotations({
+  identifier: "DocumentDbUngraceful",
+}) as any as S.Schema<DocumentDbUngraceful>;
 export const ReportOutput = S.Union(
   S.Struct({ s3ReportOutput: S3ReportOutput }),
   S.Struct({ failedReportOutput: FailedReportOutput }),
 );
-export class CustomActionLambdaConfiguration extends S.Class<CustomActionLambdaConfiguration>(
-  "CustomActionLambdaConfiguration",
-)({
-  timeoutMinutes: S.optional(S.Number),
-  lambdas: LambdaList,
-  retryIntervalMinutes: S.Number,
-  regionToRun: S.String,
-  ungraceful: S.optional(LambdaUngraceful),
-}) {}
-export class Ec2AsgCapacityIncreaseConfiguration extends S.Class<Ec2AsgCapacityIncreaseConfiguration>(
-  "Ec2AsgCapacityIncreaseConfiguration",
-)({
-  timeoutMinutes: S.optional(S.Number),
-  asgs: AsgList,
-  ungraceful: S.optional(Ec2Ungraceful),
-  targetPercent: S.optional(S.Number),
-  capacityMonitoringApproach: S.optional(S.String),
-}) {}
-export class GlobalAuroraConfiguration extends S.Class<GlobalAuroraConfiguration>(
-  "GlobalAuroraConfiguration",
-)({
-  timeoutMinutes: S.optional(S.Number),
-  crossAccountRole: S.optional(S.String),
-  externalId: S.optional(S.String),
-  behavior: S.String,
-  ungraceful: S.optional(GlobalAuroraUngraceful),
-  globalClusterIdentifier: S.String,
-  databaseClusterArns: AuroraClusterArns,
-}) {}
-export class EcsCapacityIncreaseConfiguration extends S.Class<EcsCapacityIncreaseConfiguration>(
-  "EcsCapacityIncreaseConfiguration",
-)({
-  timeoutMinutes: S.optional(S.Number),
-  services: ServiceList,
-  ungraceful: S.optional(EcsUngraceful),
-  targetPercent: S.optional(S.Number),
-  capacityMonitoringApproach: S.optional(S.String),
-}) {}
-export class Route53HealthCheckConfiguration extends S.Class<Route53HealthCheckConfiguration>(
-  "Route53HealthCheckConfiguration",
-)({
-  timeoutMinutes: S.optional(S.Number),
-  crossAccountRole: S.optional(S.String),
-  externalId: S.optional(S.String),
-  hostedZoneId: S.String,
-  recordName: S.String,
-  recordSets: S.optional(Route53ResourceRecordSetList),
-}) {}
-export class DocumentDbConfiguration extends S.Class<DocumentDbConfiguration>(
-  "DocumentDbConfiguration",
-)({
-  timeoutMinutes: S.optional(S.Number),
-  crossAccountRole: S.optional(S.String),
-  externalId: S.optional(S.String),
-  behavior: S.String,
-  ungraceful: S.optional(DocumentDbUngraceful),
-  globalClusterIdentifier: S.String,
-  databaseClusterArns: DocumentDbClusterArns,
-}) {}
-export class GeneratedReport extends S.Class<GeneratedReport>(
-  "GeneratedReport",
-)({
-  reportGenerationTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  reportOutput: S.optional(ReportOutput),
-}) {}
+export interface CustomActionLambdaConfiguration {
+  timeoutMinutes?: number;
+  lambdas: LambdaList;
+  retryIntervalMinutes: number;
+  regionToRun: string;
+  ungraceful?: LambdaUngraceful;
+}
+export const CustomActionLambdaConfiguration = S.suspend(() =>
+  S.Struct({
+    timeoutMinutes: S.optional(S.Number),
+    lambdas: LambdaList,
+    retryIntervalMinutes: S.Number,
+    regionToRun: S.String,
+    ungraceful: S.optional(LambdaUngraceful),
+  }),
+).annotations({
+  identifier: "CustomActionLambdaConfiguration",
+}) as any as S.Schema<CustomActionLambdaConfiguration>;
+export interface Ec2AsgCapacityIncreaseConfiguration {
+  timeoutMinutes?: number;
+  asgs: AsgList;
+  ungraceful?: Ec2Ungraceful;
+  targetPercent?: number;
+  capacityMonitoringApproach?: string;
+}
+export const Ec2AsgCapacityIncreaseConfiguration = S.suspend(() =>
+  S.Struct({
+    timeoutMinutes: S.optional(S.Number),
+    asgs: AsgList,
+    ungraceful: S.optional(Ec2Ungraceful),
+    targetPercent: S.optional(S.Number),
+    capacityMonitoringApproach: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "Ec2AsgCapacityIncreaseConfiguration",
+}) as any as S.Schema<Ec2AsgCapacityIncreaseConfiguration>;
+export interface GlobalAuroraConfiguration {
+  timeoutMinutes?: number;
+  crossAccountRole?: string;
+  externalId?: string;
+  behavior: string;
+  ungraceful?: GlobalAuroraUngraceful;
+  globalClusterIdentifier: string;
+  databaseClusterArns: AuroraClusterArns;
+}
+export const GlobalAuroraConfiguration = S.suspend(() =>
+  S.Struct({
+    timeoutMinutes: S.optional(S.Number),
+    crossAccountRole: S.optional(S.String),
+    externalId: S.optional(S.String),
+    behavior: S.String,
+    ungraceful: S.optional(GlobalAuroraUngraceful),
+    globalClusterIdentifier: S.String,
+    databaseClusterArns: AuroraClusterArns,
+  }),
+).annotations({
+  identifier: "GlobalAuroraConfiguration",
+}) as any as S.Schema<GlobalAuroraConfiguration>;
+export interface EcsCapacityIncreaseConfiguration {
+  timeoutMinutes?: number;
+  services: ServiceList;
+  ungraceful?: EcsUngraceful;
+  targetPercent?: number;
+  capacityMonitoringApproach?: string;
+}
+export const EcsCapacityIncreaseConfiguration = S.suspend(() =>
+  S.Struct({
+    timeoutMinutes: S.optional(S.Number),
+    services: ServiceList,
+    ungraceful: S.optional(EcsUngraceful),
+    targetPercent: S.optional(S.Number),
+    capacityMonitoringApproach: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "EcsCapacityIncreaseConfiguration",
+}) as any as S.Schema<EcsCapacityIncreaseConfiguration>;
+export interface Route53HealthCheckConfiguration {
+  timeoutMinutes?: number;
+  crossAccountRole?: string;
+  externalId?: string;
+  hostedZoneId: string;
+  recordName: string;
+  recordSets?: Route53ResourceRecordSetList;
+}
+export const Route53HealthCheckConfiguration = S.suspend(() =>
+  S.Struct({
+    timeoutMinutes: S.optional(S.Number),
+    crossAccountRole: S.optional(S.String),
+    externalId: S.optional(S.String),
+    hostedZoneId: S.String,
+    recordName: S.String,
+    recordSets: S.optional(Route53ResourceRecordSetList),
+  }),
+).annotations({
+  identifier: "Route53HealthCheckConfiguration",
+}) as any as S.Schema<Route53HealthCheckConfiguration>;
+export interface DocumentDbConfiguration {
+  timeoutMinutes?: number;
+  crossAccountRole?: string;
+  externalId?: string;
+  behavior: string;
+  ungraceful?: DocumentDbUngraceful;
+  globalClusterIdentifier: string;
+  databaseClusterArns: DocumentDbClusterArns;
+}
+export const DocumentDbConfiguration = S.suspend(() =>
+  S.Struct({
+    timeoutMinutes: S.optional(S.Number),
+    crossAccountRole: S.optional(S.String),
+    externalId: S.optional(S.String),
+    behavior: S.String,
+    ungraceful: S.optional(DocumentDbUngraceful),
+    globalClusterIdentifier: S.String,
+    databaseClusterArns: DocumentDbClusterArns,
+  }),
+).annotations({
+  identifier: "DocumentDbConfiguration",
+}) as any as S.Schema<DocumentDbConfiguration>;
+export interface GeneratedReport {
+  reportGenerationTime?: Date;
+  reportOutput?: (typeof ReportOutput)["Type"];
+}
+export const GeneratedReport = S.suspend(() =>
+  S.Struct({
+    reportGenerationTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    reportOutput: S.optional(ReportOutput),
+  }),
+).annotations({
+  identifier: "GeneratedReport",
+}) as any as S.Schema<GeneratedReport>;
+export type GeneratedReportDetails = GeneratedReport[];
 export const GeneratedReportDetails = S.Array(GeneratedReport);
-export class ArcRoutingControlState extends S.Class<ArcRoutingControlState>(
-  "ArcRoutingControlState",
-)({ routingControlArn: S.String, state: S.String }) {}
+export interface ArcRoutingControlState {
+  routingControlArn: string;
+  state: string;
+}
+export const ArcRoutingControlState = S.suspend(() =>
+  S.Struct({ routingControlArn: S.String, state: S.String }),
+).annotations({
+  identifier: "ArcRoutingControlState",
+}) as any as S.Schema<ArcRoutingControlState>;
+export type ArcRoutingControlStates = ArcRoutingControlState[];
 export const ArcRoutingControlStates = S.Array(ArcRoutingControlState);
-export class GetPlanExecutionResponse extends S.Class<GetPlanExecutionResponse>(
-  "GetPlanExecutionResponse",
-)({
-  planArn: S.String,
-  executionId: S.String,
-  version: S.optional(S.String),
-  updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  comment: S.optional(S.String),
-  startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  mode: S.String,
-  executionState: S.String,
-  executionAction: S.String,
-  executionRegion: S.String,
-  stepStates: S.optional(StepStates),
-  plan: S.optional(Plan),
-  actualRecoveryTime: S.optional(S.String),
-  generatedReportDetails: S.optional(GeneratedReportDetails),
-  nextToken: S.optional(S.String),
-}) {}
+export interface GetPlanExecutionResponse {
+  planArn: string;
+  executionId: string;
+  version?: string;
+  updatedAt?: Date;
+  comment?: string;
+  startTime: Date;
+  endTime?: Date;
+  mode: string;
+  executionState: string;
+  executionAction: string;
+  executionRegion: string;
+  stepStates?: StepStates;
+  plan?: Plan;
+  actualRecoveryTime?: string;
+  generatedReportDetails?: GeneratedReportDetails;
+  nextToken?: string;
+}
+export const GetPlanExecutionResponse = S.suspend(() =>
+  S.Struct({
+    planArn: S.String,
+    executionId: S.String,
+    version: S.optional(S.String),
+    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    comment: S.optional(S.String),
+    startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    mode: S.String,
+    executionState: S.String,
+    executionAction: S.String,
+    executionRegion: S.String,
+    stepStates: S.optional(StepStates),
+    plan: S.optional(Plan),
+    actualRecoveryTime: S.optional(S.String),
+    generatedReportDetails: S.optional(GeneratedReportDetails),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetPlanExecutionResponse",
+}) as any as S.Schema<GetPlanExecutionResponse>;
+export type RegionAndRoutingControls = {
+  [key: string]: ArcRoutingControlStates;
+};
 export const RegionAndRoutingControls = S.Record({
   key: S.String,
   value: ArcRoutingControlStates,
 });
-export class KubernetesScalingResource extends S.Class<KubernetesScalingResource>(
-  "KubernetesScalingResource",
-)({ namespace: S.String, name: S.String, hpaName: S.optional(S.String) }) {}
-export class ArcRoutingControlConfiguration extends S.Class<ArcRoutingControlConfiguration>(
-  "ArcRoutingControlConfiguration",
-)({
-  timeoutMinutes: S.optional(S.Number),
-  crossAccountRole: S.optional(S.String),
-  externalId: S.optional(S.String),
-  regionAndRoutingControls: RegionAndRoutingControls,
-}) {}
+export interface KubernetesScalingResource {
+  namespace: string;
+  name: string;
+  hpaName?: string;
+}
+export const KubernetesScalingResource = S.suspend(() =>
+  S.Struct({
+    namespace: S.String,
+    name: S.String,
+    hpaName: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "KubernetesScalingResource",
+}) as any as S.Schema<KubernetesScalingResource>;
+export interface ArcRoutingControlConfiguration {
+  timeoutMinutes?: number;
+  crossAccountRole?: string;
+  externalId?: string;
+  regionAndRoutingControls: RegionAndRoutingControls;
+}
+export const ArcRoutingControlConfiguration = S.suspend(() =>
+  S.Struct({
+    timeoutMinutes: S.optional(S.Number),
+    crossAccountRole: S.optional(S.String),
+    externalId: S.optional(S.String),
+    regionAndRoutingControls: RegionAndRoutingControls,
+  }),
+).annotations({
+  identifier: "ArcRoutingControlConfiguration",
+}) as any as S.Schema<ArcRoutingControlConfiguration>;
+export type RegionalScalingResource = {
+  [key: string]: KubernetesScalingResource;
+};
 export const RegionalScalingResource = S.Record({
   key: S.String,
   value: KubernetesScalingResource,
 });
+export type KubernetesScalingApplication = {
+  [key: string]: RegionalScalingResource;
+};
 export const KubernetesScalingApplication = S.Record({
   key: S.String,
   value: RegionalScalingResource,
 });
+export type KubernetesScalingApps = KubernetesScalingApplication[];
 export const KubernetesScalingApps = S.Array(KubernetesScalingApplication);
-export class EksResourceScalingConfiguration extends S.Class<EksResourceScalingConfiguration>(
-  "EksResourceScalingConfiguration",
-)({
-  timeoutMinutes: S.optional(S.Number),
-  kubernetesResourceType: KubernetesResourceType,
-  scalingResources: S.optional(KubernetesScalingApps),
-  eksClusters: S.optional(EksClusters),
-  ungraceful: S.optional(EksResourceScalingUngraceful),
-  targetPercent: S.optional(S.Number),
-  capacityMonitoringApproach: S.optional(S.String),
-}) {}
+export interface EksResourceScalingConfiguration {
+  timeoutMinutes?: number;
+  kubernetesResourceType: KubernetesResourceType;
+  scalingResources?: KubernetesScalingApps;
+  eksClusters?: EksClusters;
+  ungraceful?: EksResourceScalingUngraceful;
+  targetPercent?: number;
+  capacityMonitoringApproach?: string;
+}
+export const EksResourceScalingConfiguration = S.suspend(() =>
+  S.Struct({
+    timeoutMinutes: S.optional(S.Number),
+    kubernetesResourceType: KubernetesResourceType,
+    scalingResources: S.optional(KubernetesScalingApps),
+    eksClusters: S.optional(EksClusters),
+    ungraceful: S.optional(EksResourceScalingUngraceful),
+    targetPercent: S.optional(S.Number),
+    capacityMonitoringApproach: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "EksResourceScalingConfiguration",
+}) as any as S.Schema<EksResourceScalingConfiguration>;
 export type ExecutionBlockConfiguration =
   | { customActionLambdaConfig: CustomActionLambdaConfiguration }
   | { ec2AsgCapacityIncreaseConfig: Ec2AsgCapacityIncreaseConfiguration }
@@ -959,7 +1602,7 @@ export const ExecutionBlockConfiguration = S.Union(
     parallelConfig: S.suspend(
       (): S.Schema<ParallelExecutionBlockConfiguration, any> =>
         ParallelExecutionBlockConfiguration,
-    ),
+    ).annotations({ identifier: "ParallelExecutionBlockConfiguration" }),
   }),
   S.Struct({ regionSwitchPlanConfig: RegionSwitchPlanConfiguration }),
   S.Struct({ ecsCapacityIncreaseConfig: EcsCapacityIncreaseConfiguration }),
@@ -967,16 +1610,38 @@ export const ExecutionBlockConfiguration = S.Union(
   S.Struct({ route53HealthCheckConfig: Route53HealthCheckConfiguration }),
   S.Struct({ documentDbConfig: DocumentDbConfiguration }),
 ) as any as S.Schema<ExecutionBlockConfiguration>;
-export class Step extends S.Class<Step>("Step")({
-  name: S.String,
-  description: S.optional(S.String),
-  executionBlockConfiguration: S.suspend(() => ExecutionBlockConfiguration),
-  executionBlockType: S.String,
-}) {}
-export class CreatePlanRequest extends S.Class<CreatePlanRequest>(
-  "CreatePlanRequest",
-)(
-  {
+export interface Step {
+  name: string;
+  description?: string;
+  executionBlockConfiguration: ExecutionBlockConfiguration;
+  executionBlockType: string;
+}
+export const Step = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    description: S.optional(S.String),
+    executionBlockConfiguration: S.suspend(
+      () => ExecutionBlockConfiguration,
+    ).annotations({ identifier: "ExecutionBlockConfiguration" }),
+    executionBlockType: S.String,
+  }),
+).annotations({ identifier: "Step" }) as any as S.Schema<Step>;
+export interface CreatePlanRequest {
+  description?: string;
+  workflows: WorkflowList;
+  executionRole: string;
+  recoveryTimeObjectiveMinutes?: number;
+  associatedAlarms?: AssociatedAlarmMap;
+  triggers?: TriggerList;
+  reportConfiguration?: ReportConfiguration;
+  name: string;
+  regions: RegionList;
+  recoveryApproach: string;
+  primaryRegion?: string;
+  tags?: Tags;
+}
+export const CreatePlanRequest = S.suspend(() =>
+  S.Struct({
     description: S.optional(S.String),
     workflows: WorkflowList,
     executionRole: S.String,
@@ -989,20 +1654,28 @@ export class CreatePlanRequest extends S.Class<CreatePlanRequest>(
     recoveryApproach: S.String,
     primaryRegion: S.optional(S.String),
     tags: S.optional(Tags),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-    T.StaticContextParams({ UseControlPlaneEndpoint: { value: true } }),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ UseControlPlaneEndpoint: { value: true } }),
+    ),
   ),
-) {}
-export class CreatePlanResponse extends S.Class<CreatePlanResponse>(
-  "CreatePlanResponse",
-)({ plan: S.optional(Plan) }) {}
+).annotations({
+  identifier: "CreatePlanRequest",
+}) as any as S.Schema<CreatePlanRequest>;
+export interface CreatePlanResponse {
+  plan?: Plan;
+}
+export const CreatePlanResponse = S.suspend(() =>
+  S.Struct({ plan: S.optional(Plan) }),
+).annotations({
+  identifier: "CreatePlanResponse",
+}) as any as S.Schema<CreatePlanResponse>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

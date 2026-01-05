@@ -262,110 +262,209 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class DescribeServicesRequest extends S.Class<DescribeServicesRequest>(
-  "DescribeServicesRequest",
-)(
-  {
+export interface DescribeServicesRequest {
+  ServiceCode?: string;
+  FormatVersion?: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const DescribeServicesRequest = S.suspend(() =>
+  S.Struct({
     ServiceCode: S.optional(S.String),
     FormatVersion: S.optional(S.String),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetAttributeValuesRequest extends S.Class<GetAttributeValuesRequest>(
-  "GetAttributeValuesRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeServicesRequest",
+}) as any as S.Schema<DescribeServicesRequest>;
+export interface GetAttributeValuesRequest {
+  ServiceCode: string;
+  AttributeName: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const GetAttributeValuesRequest = S.suspend(() =>
+  S.Struct({
     ServiceCode: S.String,
     AttributeName: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetPriceListFileUrlRequest extends S.Class<GetPriceListFileUrlRequest>(
-  "GetPriceListFileUrlRequest",
-)(
-  { PriceListArn: S.String, FileFormat: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListPriceListsRequest extends S.Class<ListPriceListsRequest>(
-  "ListPriceListsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetAttributeValuesRequest",
+}) as any as S.Schema<GetAttributeValuesRequest>;
+export interface GetPriceListFileUrlRequest {
+  PriceListArn: string;
+  FileFormat: string;
+}
+export const GetPriceListFileUrlRequest = S.suspend(() =>
+  S.Struct({ PriceListArn: S.String, FileFormat: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetPriceListFileUrlRequest",
+}) as any as S.Schema<GetPriceListFileUrlRequest>;
+export interface ListPriceListsRequest {
+  ServiceCode: string;
+  EffectiveDate: Date;
+  RegionCode?: string;
+  CurrencyCode: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListPriceListsRequest = S.suspend(() =>
+  S.Struct({
     ServiceCode: S.String,
     EffectiveDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     RegionCode: S.optional(S.String),
     CurrencyCode: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class Filter extends S.Class<Filter>("Filter")({
-  Type: S.String,
-  Field: S.String,
-  Value: S.String,
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListPriceListsRequest",
+}) as any as S.Schema<ListPriceListsRequest>;
+export interface Filter {
+  Type: string;
+  Field: string;
+  Value: string;
+}
+export const Filter = S.suspend(() =>
+  S.Struct({ Type: S.String, Field: S.String, Value: S.String }),
+).annotations({ identifier: "Filter" }) as any as S.Schema<Filter>;
+export type Filters = Filter[];
 export const Filters = S.Array(Filter);
-export class GetPriceListFileUrlResponse extends S.Class<GetPriceListFileUrlResponse>(
-  "GetPriceListFileUrlResponse",
-)({ Url: S.optional(S.String) }) {}
-export class GetProductsRequest extends S.Class<GetProductsRequest>(
-  "GetProductsRequest",
-)(
-  {
+export interface GetPriceListFileUrlResponse {
+  Url?: string;
+}
+export const GetPriceListFileUrlResponse = S.suspend(() =>
+  S.Struct({ Url: S.optional(S.String) }),
+).annotations({
+  identifier: "GetPriceListFileUrlResponse",
+}) as any as S.Schema<GetPriceListFileUrlResponse>;
+export interface GetProductsRequest {
+  ServiceCode: string;
+  Filters?: Filters;
+  FormatVersion?: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const GetProductsRequest = S.suspend(() =>
+  S.Struct({
     ServiceCode: S.String,
     Filters: S.optional(Filters),
     FormatVersion: S.optional(S.String),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetProductsRequest",
+}) as any as S.Schema<GetProductsRequest>;
+export type AttributeNameList = string[];
 export const AttributeNameList = S.Array(S.String);
+export type FileFormats = string[];
 export const FileFormats = S.Array(S.String);
-export class Service extends S.Class<Service>("Service")({
-  ServiceCode: S.String,
-  AttributeNames: S.optional(AttributeNameList),
-}) {}
+export interface Service {
+  ServiceCode: string;
+  AttributeNames?: AttributeNameList;
+}
+export const Service = S.suspend(() =>
+  S.Struct({
+    ServiceCode: S.String,
+    AttributeNames: S.optional(AttributeNameList),
+  }),
+).annotations({ identifier: "Service" }) as any as S.Schema<Service>;
+export type ServiceList = Service[];
 export const ServiceList = S.Array(Service);
-export class AttributeValue extends S.Class<AttributeValue>("AttributeValue")({
-  Value: S.optional(S.String),
-}) {}
+export interface AttributeValue {
+  Value?: string;
+}
+export const AttributeValue = S.suspend(() =>
+  S.Struct({ Value: S.optional(S.String) }),
+).annotations({
+  identifier: "AttributeValue",
+}) as any as S.Schema<AttributeValue>;
+export type AttributeValueList = AttributeValue[];
 export const AttributeValueList = S.Array(AttributeValue);
+export type PriceListJsonItems = string[];
 export const PriceListJsonItems = S.Array(S.String);
-export class PriceList extends S.Class<PriceList>("PriceList")({
-  PriceListArn: S.optional(S.String),
-  RegionCode: S.optional(S.String),
-  CurrencyCode: S.optional(S.String),
-  FileFormats: S.optional(FileFormats),
-}) {}
+export interface PriceList {
+  PriceListArn?: string;
+  RegionCode?: string;
+  CurrencyCode?: string;
+  FileFormats?: FileFormats;
+}
+export const PriceList = S.suspend(() =>
+  S.Struct({
+    PriceListArn: S.optional(S.String),
+    RegionCode: S.optional(S.String),
+    CurrencyCode: S.optional(S.String),
+    FileFormats: S.optional(FileFormats),
+  }),
+).annotations({ identifier: "PriceList" }) as any as S.Schema<PriceList>;
+export type PriceLists = PriceList[];
 export const PriceLists = S.Array(PriceList);
-export class DescribeServicesResponse extends S.Class<DescribeServicesResponse>(
-  "DescribeServicesResponse",
-)({
-  Services: S.optional(ServiceList),
-  FormatVersion: S.optional(S.String),
-  NextToken: S.optional(S.String),
-}) {}
-export class GetAttributeValuesResponse extends S.Class<GetAttributeValuesResponse>(
-  "GetAttributeValuesResponse",
-)({
-  AttributeValues: S.optional(AttributeValueList),
-  NextToken: S.optional(S.String),
-}) {}
-export class GetProductsResponse extends S.Class<GetProductsResponse>(
-  "GetProductsResponse",
-)({
-  FormatVersion: S.optional(S.String),
-  PriceList: S.optional(PriceListJsonItems),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListPriceListsResponse extends S.Class<ListPriceListsResponse>(
-  "ListPriceListsResponse",
-)({ PriceLists: S.optional(PriceLists), NextToken: S.optional(S.String) }) {}
+export interface DescribeServicesResponse {
+  Services?: ServiceList;
+  FormatVersion?: string;
+  NextToken?: string;
+}
+export const DescribeServicesResponse = S.suspend(() =>
+  S.Struct({
+    Services: S.optional(ServiceList),
+    FormatVersion: S.optional(S.String),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DescribeServicesResponse",
+}) as any as S.Schema<DescribeServicesResponse>;
+export interface GetAttributeValuesResponse {
+  AttributeValues?: AttributeValueList;
+  NextToken?: string;
+}
+export const GetAttributeValuesResponse = S.suspend(() =>
+  S.Struct({
+    AttributeValues: S.optional(AttributeValueList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetAttributeValuesResponse",
+}) as any as S.Schema<GetAttributeValuesResponse>;
+export interface GetProductsResponse {
+  FormatVersion?: string;
+  PriceList?: PriceListJsonItems;
+  NextToken?: string;
+}
+export const GetProductsResponse = S.suspend(() =>
+  S.Struct({
+    FormatVersion: S.optional(S.String),
+    PriceList: S.optional(PriceListJsonItems),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetProductsResponse",
+}) as any as S.Schema<GetProductsResponse>;
+export interface ListPriceListsResponse {
+  PriceLists?: PriceLists;
+  NextToken?: string;
+}
+export const ListPriceListsResponse = S.suspend(() =>
+  S.Struct({
+    PriceLists: S.optional(PriceLists),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListPriceListsResponse",
+}) as any as S.Schema<ListPriceListsResponse>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

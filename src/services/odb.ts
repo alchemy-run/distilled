@@ -291,318 +291,548 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class GetOciOnboardingStatusInput extends S.Class<GetOciOnboardingStatusInput>(
-  "GetOciOnboardingStatusInput",
-)(
-  {},
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+export interface GetOciOnboardingStatusInput {}
+export const GetOciOnboardingStatusInput = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetOciOnboardingStatusInput",
+}) as any as S.Schema<GetOciOnboardingStatusInput>;
+export type TagKeys = string[];
 export const TagKeys = S.Array(S.String);
+export type StringList = string[];
 export const StringList = S.Array(S.String);
+export type PeeredCidrList = string[];
 export const PeeredCidrList = S.Array(S.String);
-export class AcceptMarketplaceRegistrationInput extends S.Class<AcceptMarketplaceRegistrationInput>(
-  "AcceptMarketplaceRegistrationInput",
-)(
-  { marketplaceRegistrationToken: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class AcceptMarketplaceRegistrationOutput extends S.Class<AcceptMarketplaceRegistrationOutput>(
-  "AcceptMarketplaceRegistrationOutput",
-)({}) {}
-export class AssociateIamRoleToResourceInput extends S.Class<AssociateIamRoleToResourceInput>(
-  "AssociateIamRoleToResourceInput",
-)(
-  { iamRoleArn: S.String, awsIntegration: S.String, resourceArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class AssociateIamRoleToResourceOutput extends S.Class<AssociateIamRoleToResourceOutput>(
-  "AssociateIamRoleToResourceOutput",
-)({}) {}
-export class DisassociateIamRoleFromResourceInput extends S.Class<DisassociateIamRoleFromResourceInput>(
-  "DisassociateIamRoleFromResourceInput",
-)(
-  { iamRoleArn: S.String, awsIntegration: S.String, resourceArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DisassociateIamRoleFromResourceOutput extends S.Class<DisassociateIamRoleFromResourceOutput>(
-  "DisassociateIamRoleFromResourceOutput",
-)({}) {}
-export class InitializeServiceInput extends S.Class<InitializeServiceInput>(
-  "InitializeServiceInput",
-)(
-  { ociIdentityDomain: S.optional(S.Boolean) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class InitializeServiceOutput extends S.Class<InitializeServiceOutput>(
-  "InitializeServiceOutput",
-)({}) {}
-export class ListDbSystemShapesInput extends S.Class<ListDbSystemShapesInput>(
-  "ListDbSystemShapesInput",
-)(
-  {
+export interface AcceptMarketplaceRegistrationInput {
+  marketplaceRegistrationToken: string;
+}
+export const AcceptMarketplaceRegistrationInput = S.suspend(() =>
+  S.Struct({ marketplaceRegistrationToken: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "AcceptMarketplaceRegistrationInput",
+}) as any as S.Schema<AcceptMarketplaceRegistrationInput>;
+export interface AcceptMarketplaceRegistrationOutput {}
+export const AcceptMarketplaceRegistrationOutput = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "AcceptMarketplaceRegistrationOutput",
+}) as any as S.Schema<AcceptMarketplaceRegistrationOutput>;
+export interface AssociateIamRoleToResourceInput {
+  iamRoleArn: string;
+  awsIntegration: string;
+  resourceArn: string;
+}
+export const AssociateIamRoleToResourceInput = S.suspend(() =>
+  S.Struct({
+    iamRoleArn: S.String,
+    awsIntegration: S.String,
+    resourceArn: S.String,
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "AssociateIamRoleToResourceInput",
+}) as any as S.Schema<AssociateIamRoleToResourceInput>;
+export interface AssociateIamRoleToResourceOutput {}
+export const AssociateIamRoleToResourceOutput = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "AssociateIamRoleToResourceOutput",
+}) as any as S.Schema<AssociateIamRoleToResourceOutput>;
+export interface DisassociateIamRoleFromResourceInput {
+  iamRoleArn: string;
+  awsIntegration: string;
+  resourceArn: string;
+}
+export const DisassociateIamRoleFromResourceInput = S.suspend(() =>
+  S.Struct({
+    iamRoleArn: S.String,
+    awsIntegration: S.String,
+    resourceArn: S.String,
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DisassociateIamRoleFromResourceInput",
+}) as any as S.Schema<DisassociateIamRoleFromResourceInput>;
+export interface DisassociateIamRoleFromResourceOutput {}
+export const DisassociateIamRoleFromResourceOutput = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DisassociateIamRoleFromResourceOutput",
+}) as any as S.Schema<DisassociateIamRoleFromResourceOutput>;
+export interface InitializeServiceInput {
+  ociIdentityDomain?: boolean;
+}
+export const InitializeServiceInput = S.suspend(() =>
+  S.Struct({ ociIdentityDomain: S.optional(S.Boolean) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "InitializeServiceInput",
+}) as any as S.Schema<InitializeServiceInput>;
+export interface InitializeServiceOutput {}
+export const InitializeServiceOutput = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "InitializeServiceOutput",
+}) as any as S.Schema<InitializeServiceOutput>;
+export interface ListDbSystemShapesInput {
+  maxResults?: number;
+  nextToken?: string;
+  availabilityZone?: string;
+  availabilityZoneId?: string;
+}
+export const ListDbSystemShapesInput = S.suspend(() =>
+  S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     availabilityZone: S.optional(S.String),
     availabilityZoneId: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListGiVersionsInput extends S.Class<ListGiVersionsInput>(
-  "ListGiVersionsInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListDbSystemShapesInput",
+}) as any as S.Schema<ListDbSystemShapesInput>;
+export interface ListGiVersionsInput {
+  maxResults?: number;
+  nextToken?: string;
+  shape?: string;
+}
+export const ListGiVersionsInput = S.suspend(() =>
+  S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     shape: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListSystemVersionsInput extends S.Class<ListSystemVersionsInput>(
-  "ListSystemVersionsInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListGiVersionsInput",
+}) as any as S.Schema<ListGiVersionsInput>;
+export interface ListSystemVersionsInput {
+  maxResults?: number;
+  nextToken?: string;
+  giVersion: string;
+  shape: string;
+}
+export const ListSystemVersionsInput = S.suspend(() =>
+  S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     giVersion: S.String,
     shape: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { resourceArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tagKeys: TagKeys },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
-export class GetCloudAutonomousVmClusterInput extends S.Class<GetCloudAutonomousVmClusterInput>(
-  "GetCloudAutonomousVmClusterInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListSystemVersionsInput",
+}) as any as S.Schema<ListSystemVersionsInput>;
+export interface ListTagsForResourceRequest {
+  resourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface UntagResourceRequest {
+  resourceArn: string;
+  tagKeys: TagKeys;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+    tagKeys: TagKeys,
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface GetCloudAutonomousVmClusterInput {
+  cloudAutonomousVmClusterId: string;
+}
+export const GetCloudAutonomousVmClusterInput = S.suspend(() =>
+  S.Struct({
     cloudAutonomousVmClusterId: S.String.pipe(
       T.HttpLabel("cloudAutonomousVmClusterId"),
     ),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteCloudAutonomousVmClusterInput extends S.Class<DeleteCloudAutonomousVmClusterInput>(
-  "DeleteCloudAutonomousVmClusterInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetCloudAutonomousVmClusterInput",
+}) as any as S.Schema<GetCloudAutonomousVmClusterInput>;
+export interface DeleteCloudAutonomousVmClusterInput {
+  cloudAutonomousVmClusterId: string;
+}
+export const DeleteCloudAutonomousVmClusterInput = S.suspend(() =>
+  S.Struct({
     cloudAutonomousVmClusterId: S.String.pipe(
       T.HttpLabel("cloudAutonomousVmClusterId"),
     ),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteCloudAutonomousVmClusterOutput extends S.Class<DeleteCloudAutonomousVmClusterOutput>(
-  "DeleteCloudAutonomousVmClusterOutput",
-)({}) {}
-export class ListCloudAutonomousVmClustersInput extends S.Class<ListCloudAutonomousVmClustersInput>(
-  "ListCloudAutonomousVmClustersInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteCloudAutonomousVmClusterInput",
+}) as any as S.Schema<DeleteCloudAutonomousVmClusterInput>;
+export interface DeleteCloudAutonomousVmClusterOutput {}
+export const DeleteCloudAutonomousVmClusterOutput = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteCloudAutonomousVmClusterOutput",
+}) as any as S.Schema<DeleteCloudAutonomousVmClusterOutput>;
+export interface ListCloudAutonomousVmClustersInput {
+  maxResults?: number;
+  nextToken?: string;
+  cloudExadataInfrastructureId?: string;
+}
+export const ListCloudAutonomousVmClustersInput = S.suspend(() =>
+  S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     cloudExadataInfrastructureId: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListAutonomousVirtualMachinesInput extends S.Class<ListAutonomousVirtualMachinesInput>(
-  "ListAutonomousVirtualMachinesInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListCloudAutonomousVmClustersInput",
+}) as any as S.Schema<ListCloudAutonomousVmClustersInput>;
+export interface ListAutonomousVirtualMachinesInput {
+  maxResults?: number;
+  nextToken?: string;
+  cloudAutonomousVmClusterId: string;
+}
+export const ListAutonomousVirtualMachinesInput = S.suspend(() =>
+  S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     cloudAutonomousVmClusterId: S.String.pipe(
       T.HttpLabel("cloudAutonomousVmClusterId"),
     ),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetCloudExadataInfrastructureInput extends S.Class<GetCloudExadataInfrastructureInput>(
-  "GetCloudExadataInfrastructureInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListAutonomousVirtualMachinesInput",
+}) as any as S.Schema<ListAutonomousVirtualMachinesInput>;
+export interface GetCloudExadataInfrastructureInput {
+  cloudExadataInfrastructureId: string;
+}
+export const GetCloudExadataInfrastructureInput = S.suspend(() =>
+  S.Struct({
     cloudExadataInfrastructureId: S.String.pipe(
       T.HttpLabel("cloudExadataInfrastructureId"),
     ),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DayOfWeek extends S.Class<DayOfWeek>("DayOfWeek")({
-  name: S.optional(S.String),
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetCloudExadataInfrastructureInput",
+}) as any as S.Schema<GetCloudExadataInfrastructureInput>;
+export interface DayOfWeek {
+  name?: string;
+}
+export const DayOfWeek = S.suspend(() =>
+  S.Struct({ name: S.optional(S.String) }),
+).annotations({ identifier: "DayOfWeek" }) as any as S.Schema<DayOfWeek>;
+export type DaysOfWeek = DayOfWeek[];
 export const DaysOfWeek = S.Array(DayOfWeek);
+export type HoursOfDay = number[];
 export const HoursOfDay = S.Array(S.Number);
-export class Month extends S.Class<Month>("Month")({
-  name: S.optional(S.String),
-}) {}
+export interface Month {
+  name?: string;
+}
+export const Month = S.suspend(() =>
+  S.Struct({ name: S.optional(S.String) }),
+).annotations({ identifier: "Month" }) as any as S.Schema<Month>;
+export type Months = Month[];
 export const Months = S.Array(Month);
+export type WeeksOfMonth = number[];
 export const WeeksOfMonth = S.Array(S.Number);
-export class MaintenanceWindow extends S.Class<MaintenanceWindow>(
-  "MaintenanceWindow",
-)({
-  customActionTimeoutInMins: S.optional(S.Number),
-  daysOfWeek: S.optional(DaysOfWeek),
-  hoursOfDay: S.optional(HoursOfDay),
-  isCustomActionTimeoutEnabled: S.optional(S.Boolean),
-  leadTimeInWeeks: S.optional(S.Number),
-  months: S.optional(Months),
-  patchingMode: S.optional(S.String),
-  preference: S.optional(S.String),
-  skipRu: S.optional(S.Boolean),
-  weeksOfMonth: S.optional(WeeksOfMonth),
-}) {}
-export class UpdateCloudExadataInfrastructureInput extends S.Class<UpdateCloudExadataInfrastructureInput>(
-  "UpdateCloudExadataInfrastructureInput",
-)(
-  {
+export interface MaintenanceWindow {
+  customActionTimeoutInMins?: number;
+  daysOfWeek?: DaysOfWeek;
+  hoursOfDay?: HoursOfDay;
+  isCustomActionTimeoutEnabled?: boolean;
+  leadTimeInWeeks?: number;
+  months?: Months;
+  patchingMode?: string;
+  preference?: string;
+  skipRu?: boolean;
+  weeksOfMonth?: WeeksOfMonth;
+}
+export const MaintenanceWindow = S.suspend(() =>
+  S.Struct({
+    customActionTimeoutInMins: S.optional(S.Number),
+    daysOfWeek: S.optional(DaysOfWeek),
+    hoursOfDay: S.optional(HoursOfDay),
+    isCustomActionTimeoutEnabled: S.optional(S.Boolean),
+    leadTimeInWeeks: S.optional(S.Number),
+    months: S.optional(Months),
+    patchingMode: S.optional(S.String),
+    preference: S.optional(S.String),
+    skipRu: S.optional(S.Boolean),
+    weeksOfMonth: S.optional(WeeksOfMonth),
+  }),
+).annotations({
+  identifier: "MaintenanceWindow",
+}) as any as S.Schema<MaintenanceWindow>;
+export interface UpdateCloudExadataInfrastructureInput {
+  cloudExadataInfrastructureId: string;
+  maintenanceWindow?: MaintenanceWindow;
+}
+export const UpdateCloudExadataInfrastructureInput = S.suspend(() =>
+  S.Struct({
     cloudExadataInfrastructureId: S.String.pipe(
       T.HttpLabel("cloudExadataInfrastructureId"),
     ),
     maintenanceWindow: S.optional(MaintenanceWindow),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteCloudExadataInfrastructureInput extends S.Class<DeleteCloudExadataInfrastructureInput>(
-  "DeleteCloudExadataInfrastructureInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateCloudExadataInfrastructureInput",
+}) as any as S.Schema<UpdateCloudExadataInfrastructureInput>;
+export interface DeleteCloudExadataInfrastructureInput {
+  cloudExadataInfrastructureId: string;
+}
+export const DeleteCloudExadataInfrastructureInput = S.suspend(() =>
+  S.Struct({
     cloudExadataInfrastructureId: S.String.pipe(
       T.HttpLabel("cloudExadataInfrastructureId"),
     ),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteCloudExadataInfrastructureOutput extends S.Class<DeleteCloudExadataInfrastructureOutput>(
-  "DeleteCloudExadataInfrastructureOutput",
-)({}) {}
-export class ListCloudExadataInfrastructuresInput extends S.Class<ListCloudExadataInfrastructuresInput>(
-  "ListCloudExadataInfrastructuresInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteCloudExadataInfrastructureInput",
+}) as any as S.Schema<DeleteCloudExadataInfrastructureInput>;
+export interface DeleteCloudExadataInfrastructureOutput {}
+export const DeleteCloudExadataInfrastructureOutput = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteCloudExadataInfrastructureOutput",
+}) as any as S.Schema<DeleteCloudExadataInfrastructureOutput>;
+export interface ListCloudExadataInfrastructuresInput {
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListCloudExadataInfrastructuresInput = S.suspend(() =>
+  S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetCloudExadataInfrastructureUnallocatedResourcesInput extends S.Class<GetCloudExadataInfrastructureUnallocatedResourcesInput>(
-  "GetCloudExadataInfrastructureUnallocatedResourcesInput",
-)(
-  {
-    cloudExadataInfrastructureId: S.String.pipe(
-      T.HttpLabel("cloudExadataInfrastructureId"),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListCloudExadataInfrastructuresInput",
+}) as any as S.Schema<ListCloudExadataInfrastructuresInput>;
+export interface GetCloudExadataInfrastructureUnallocatedResourcesInput {
+  cloudExadataInfrastructureId: string;
+  dbServers?: StringList;
+}
+export const GetCloudExadataInfrastructureUnallocatedResourcesInput = S.suspend(
+  () =>
+    S.Struct({
+      cloudExadataInfrastructureId: S.String.pipe(
+        T.HttpLabel("cloudExadataInfrastructureId"),
+      ),
+      dbServers: S.optional(StringList),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
     ),
-    dbServers: S.optional(StringList),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetDbServerInput extends S.Class<GetDbServerInput>(
-  "GetDbServerInput",
-)(
-  {
+).annotations({
+  identifier: "GetCloudExadataInfrastructureUnallocatedResourcesInput",
+}) as any as S.Schema<GetCloudExadataInfrastructureUnallocatedResourcesInput>;
+export interface GetDbServerInput {
+  cloudExadataInfrastructureId: string;
+  dbServerId: string;
+}
+export const GetDbServerInput = S.suspend(() =>
+  S.Struct({
     cloudExadataInfrastructureId: S.String.pipe(
       T.HttpLabel("cloudExadataInfrastructureId"),
     ),
     dbServerId: S.String.pipe(T.HttpLabel("dbServerId")),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListDbServersInput extends S.Class<ListDbServersInput>(
-  "ListDbServersInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetDbServerInput",
+}) as any as S.Schema<GetDbServerInput>;
+export interface ListDbServersInput {
+  cloudExadataInfrastructureId: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListDbServersInput = S.suspend(() =>
+  S.Struct({
     cloudExadataInfrastructureId: S.String.pipe(
       T.HttpLabel("cloudExadataInfrastructureId"),
     ),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetCloudVmClusterInput extends S.Class<GetCloudVmClusterInput>(
-  "GetCloudVmClusterInput",
-)(
-  { cloudVmClusterId: S.String.pipe(T.HttpLabel("cloudVmClusterId")) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteCloudVmClusterInput extends S.Class<DeleteCloudVmClusterInput>(
-  "DeleteCloudVmClusterInput",
-)(
-  { cloudVmClusterId: S.String.pipe(T.HttpLabel("cloudVmClusterId")) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteCloudVmClusterOutput extends S.Class<DeleteCloudVmClusterOutput>(
-  "DeleteCloudVmClusterOutput",
-)({}) {}
-export class ListCloudVmClustersInput extends S.Class<ListCloudVmClustersInput>(
-  "ListCloudVmClustersInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListDbServersInput",
+}) as any as S.Schema<ListDbServersInput>;
+export interface GetCloudVmClusterInput {
+  cloudVmClusterId: string;
+}
+export const GetCloudVmClusterInput = S.suspend(() =>
+  S.Struct({
+    cloudVmClusterId: S.String.pipe(T.HttpLabel("cloudVmClusterId")),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetCloudVmClusterInput",
+}) as any as S.Schema<GetCloudVmClusterInput>;
+export interface DeleteCloudVmClusterInput {
+  cloudVmClusterId: string;
+}
+export const DeleteCloudVmClusterInput = S.suspend(() =>
+  S.Struct({
+    cloudVmClusterId: S.String.pipe(T.HttpLabel("cloudVmClusterId")),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteCloudVmClusterInput",
+}) as any as S.Schema<DeleteCloudVmClusterInput>;
+export interface DeleteCloudVmClusterOutput {}
+export const DeleteCloudVmClusterOutput = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteCloudVmClusterOutput",
+}) as any as S.Schema<DeleteCloudVmClusterOutput>;
+export interface ListCloudVmClustersInput {
+  maxResults?: number;
+  nextToken?: string;
+  cloudExadataInfrastructureId?: string;
+}
+export const ListCloudVmClustersInput = S.suspend(() =>
+  S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     cloudExadataInfrastructureId: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetDbNodeInput extends S.Class<GetDbNodeInput>("GetDbNodeInput")(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListCloudVmClustersInput",
+}) as any as S.Schema<ListCloudVmClustersInput>;
+export interface GetDbNodeInput {
+  cloudVmClusterId: string;
+  dbNodeId: string;
+}
+export const GetDbNodeInput = S.suspend(() =>
+  S.Struct({
     cloudVmClusterId: S.String.pipe(T.HttpLabel("cloudVmClusterId")),
     dbNodeId: S.String.pipe(T.HttpLabel("dbNodeId")),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListDbNodesInput extends S.Class<ListDbNodesInput>(
-  "ListDbNodesInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetDbNodeInput",
+}) as any as S.Schema<GetDbNodeInput>;
+export interface ListDbNodesInput {
+  maxResults?: number;
+  nextToken?: string;
+  cloudVmClusterId: string;
+}
+export const ListDbNodesInput = S.suspend(() =>
+  S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     cloudVmClusterId: S.String.pipe(T.HttpLabel("cloudVmClusterId")),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class RebootDbNodeInput extends S.Class<RebootDbNodeInput>(
-  "RebootDbNodeInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListDbNodesInput",
+}) as any as S.Schema<ListDbNodesInput>;
+export interface RebootDbNodeInput {
+  cloudVmClusterId: string;
+  dbNodeId: string;
+}
+export const RebootDbNodeInput = S.suspend(() =>
+  S.Struct({
     cloudVmClusterId: S.String.pipe(T.HttpLabel("cloudVmClusterId")),
     dbNodeId: S.String.pipe(T.HttpLabel("dbNodeId")),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StartDbNodeInput extends S.Class<StartDbNodeInput>(
-  "StartDbNodeInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "RebootDbNodeInput",
+}) as any as S.Schema<RebootDbNodeInput>;
+export interface StartDbNodeInput {
+  cloudVmClusterId: string;
+  dbNodeId: string;
+}
+export const StartDbNodeInput = S.suspend(() =>
+  S.Struct({
     cloudVmClusterId: S.String.pipe(T.HttpLabel("cloudVmClusterId")),
     dbNodeId: S.String.pipe(T.HttpLabel("dbNodeId")),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StopDbNodeInput extends S.Class<StopDbNodeInput>(
-  "StopDbNodeInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StartDbNodeInput",
+}) as any as S.Schema<StartDbNodeInput>;
+export interface StopDbNodeInput {
+  cloudVmClusterId: string;
+  dbNodeId: string;
+}
+export const StopDbNodeInput = S.suspend(() =>
+  S.Struct({
     cloudVmClusterId: S.String.pipe(T.HttpLabel("cloudVmClusterId")),
     dbNodeId: S.String.pipe(T.HttpLabel("dbNodeId")),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StopDbNodeInput",
+}) as any as S.Schema<StopDbNodeInput>;
+export type RequestTagMap = { [key: string]: string };
 export const RequestTagMap = S.Record({ key: S.String, value: S.String });
-export class CreateOdbNetworkInput extends S.Class<CreateOdbNetworkInput>(
-  "CreateOdbNetworkInput",
-)(
-  {
+export interface CreateOdbNetworkInput {
+  displayName: string;
+  availabilityZone?: string;
+  availabilityZoneId?: string;
+  clientSubnetCidr: string;
+  backupSubnetCidr?: string;
+  customDomainName?: string;
+  defaultDnsPrefix?: string;
+  clientToken?: string;
+  s3Access?: string;
+  zeroEtlAccess?: string;
+  stsAccess?: string;
+  kmsAccess?: string;
+  s3PolicyDocument?: string;
+  stsPolicyDocument?: string;
+  kmsPolicyDocument?: string;
+  crossRegionS3RestoreSourcesToEnable?: StringList;
+  tags?: RequestTagMap;
+}
+export const CreateOdbNetworkInput = S.suspend(() =>
+  S.Struct({
     displayName: S.String,
     availabilityZone: S.optional(S.String),
     availabilityZoneId: S.optional(S.String),
@@ -620,19 +850,39 @@ export class CreateOdbNetworkInput extends S.Class<CreateOdbNetworkInput>(
     kmsPolicyDocument: S.optional(S.String),
     crossRegionS3RestoreSourcesToEnable: S.optional(StringList),
     tags: S.optional(RequestTagMap),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetOdbNetworkInput extends S.Class<GetOdbNetworkInput>(
-  "GetOdbNetworkInput",
-)(
-  { odbNetworkId: S.String.pipe(T.HttpLabel("odbNetworkId")) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateOdbNetworkInput extends S.Class<UpdateOdbNetworkInput>(
-  "UpdateOdbNetworkInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateOdbNetworkInput",
+}) as any as S.Schema<CreateOdbNetworkInput>;
+export interface GetOdbNetworkInput {
+  odbNetworkId: string;
+}
+export const GetOdbNetworkInput = S.suspend(() =>
+  S.Struct({ odbNetworkId: S.String.pipe(T.HttpLabel("odbNetworkId")) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetOdbNetworkInput",
+}) as any as S.Schema<GetOdbNetworkInput>;
+export interface UpdateOdbNetworkInput {
+  odbNetworkId: string;
+  displayName?: string;
+  peeredCidrsToBeAdded?: StringList;
+  peeredCidrsToBeRemoved?: StringList;
+  s3Access?: string;
+  zeroEtlAccess?: string;
+  stsAccess?: string;
+  kmsAccess?: string;
+  s3PolicyDocument?: string;
+  stsPolicyDocument?: string;
+  kmsPolicyDocument?: string;
+  crossRegionS3RestoreSourcesToEnable?: StringList;
+  crossRegionS3RestoreSourcesToDisable?: StringList;
+}
+export const UpdateOdbNetworkInput = S.suspend(() =>
+  S.Struct({
     odbNetworkId: S.String.pipe(T.HttpLabel("odbNetworkId")),
     displayName: S.optional(S.String),
     peeredCidrsToBeAdded: S.optional(StringList),
@@ -646,131 +896,227 @@ export class UpdateOdbNetworkInput extends S.Class<UpdateOdbNetworkInput>(
     kmsPolicyDocument: S.optional(S.String),
     crossRegionS3RestoreSourcesToEnable: S.optional(StringList),
     crossRegionS3RestoreSourcesToDisable: S.optional(StringList),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteOdbNetworkInput extends S.Class<DeleteOdbNetworkInput>(
-  "DeleteOdbNetworkInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateOdbNetworkInput",
+}) as any as S.Schema<UpdateOdbNetworkInput>;
+export interface DeleteOdbNetworkInput {
+  odbNetworkId: string;
+  deleteAssociatedResources: boolean;
+}
+export const DeleteOdbNetworkInput = S.suspend(() =>
+  S.Struct({
     odbNetworkId: S.String.pipe(T.HttpLabel("odbNetworkId")),
     deleteAssociatedResources: S.Boolean,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteOdbNetworkOutput extends S.Class<DeleteOdbNetworkOutput>(
-  "DeleteOdbNetworkOutput",
-)({}) {}
-export class ListOdbNetworksInput extends S.Class<ListOdbNetworksInput>(
-  "ListOdbNetworksInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteOdbNetworkInput",
+}) as any as S.Schema<DeleteOdbNetworkInput>;
+export interface DeleteOdbNetworkOutput {}
+export const DeleteOdbNetworkOutput = S.suspend(() => S.Struct({})).annotations(
+  { identifier: "DeleteOdbNetworkOutput" },
+) as any as S.Schema<DeleteOdbNetworkOutput>;
+export interface ListOdbNetworksInput {
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListOdbNetworksInput = S.suspend(() =>
+  S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateOdbPeeringConnectionInput extends S.Class<CreateOdbPeeringConnectionInput>(
-  "CreateOdbPeeringConnectionInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListOdbNetworksInput",
+}) as any as S.Schema<ListOdbNetworksInput>;
+export interface CreateOdbPeeringConnectionInput {
+  odbNetworkId: string;
+  peerNetworkId: string;
+  displayName?: string;
+  peerNetworkCidrsToBeAdded?: PeeredCidrList;
+  clientToken?: string;
+  tags?: RequestTagMap;
+}
+export const CreateOdbPeeringConnectionInput = S.suspend(() =>
+  S.Struct({
     odbNetworkId: S.String,
     peerNetworkId: S.String,
     displayName: S.optional(S.String),
     peerNetworkCidrsToBeAdded: S.optional(PeeredCidrList),
     clientToken: S.optional(S.String),
     tags: S.optional(RequestTagMap),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetOdbPeeringConnectionInput extends S.Class<GetOdbPeeringConnectionInput>(
-  "GetOdbPeeringConnectionInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateOdbPeeringConnectionInput",
+}) as any as S.Schema<CreateOdbPeeringConnectionInput>;
+export interface GetOdbPeeringConnectionInput {
+  odbPeeringConnectionId: string;
+}
+export const GetOdbPeeringConnectionInput = S.suspend(() =>
+  S.Struct({
     odbPeeringConnectionId: S.String.pipe(
       T.HttpLabel("odbPeeringConnectionId"),
     ),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateOdbPeeringConnectionInput extends S.Class<UpdateOdbPeeringConnectionInput>(
-  "UpdateOdbPeeringConnectionInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetOdbPeeringConnectionInput",
+}) as any as S.Schema<GetOdbPeeringConnectionInput>;
+export interface UpdateOdbPeeringConnectionInput {
+  odbPeeringConnectionId: string;
+  displayName?: string;
+  peerNetworkCidrsToBeAdded?: PeeredCidrList;
+  peerNetworkCidrsToBeRemoved?: PeeredCidrList;
+}
+export const UpdateOdbPeeringConnectionInput = S.suspend(() =>
+  S.Struct({
     odbPeeringConnectionId: S.String.pipe(
       T.HttpLabel("odbPeeringConnectionId"),
     ),
     displayName: S.optional(S.String),
     peerNetworkCidrsToBeAdded: S.optional(PeeredCidrList),
     peerNetworkCidrsToBeRemoved: S.optional(PeeredCidrList),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteOdbPeeringConnectionInput extends S.Class<DeleteOdbPeeringConnectionInput>(
-  "DeleteOdbPeeringConnectionInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateOdbPeeringConnectionInput",
+}) as any as S.Schema<UpdateOdbPeeringConnectionInput>;
+export interface DeleteOdbPeeringConnectionInput {
+  odbPeeringConnectionId: string;
+}
+export const DeleteOdbPeeringConnectionInput = S.suspend(() =>
+  S.Struct({
     odbPeeringConnectionId: S.String.pipe(
       T.HttpLabel("odbPeeringConnectionId"),
     ),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteOdbPeeringConnectionOutput extends S.Class<DeleteOdbPeeringConnectionOutput>(
-  "DeleteOdbPeeringConnectionOutput",
-)({}) {}
-export class ListOdbPeeringConnectionsInput extends S.Class<ListOdbPeeringConnectionsInput>(
-  "ListOdbPeeringConnectionsInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteOdbPeeringConnectionInput",
+}) as any as S.Schema<DeleteOdbPeeringConnectionInput>;
+export interface DeleteOdbPeeringConnectionOutput {}
+export const DeleteOdbPeeringConnectionOutput = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteOdbPeeringConnectionOutput",
+}) as any as S.Schema<DeleteOdbPeeringConnectionOutput>;
+export interface ListOdbPeeringConnectionsInput {
+  maxResults?: number;
+  nextToken?: string;
+  odbNetworkId?: string;
+}
+export const ListOdbPeeringConnectionsInput = S.suspend(() =>
+  S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     odbNetworkId: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class OciIdentityDomain extends S.Class<OciIdentityDomain>(
-  "OciIdentityDomain",
-)({
-  ociIdentityDomainId: S.optional(S.String),
-  ociIdentityDomainResourceUrl: S.optional(S.String),
-  ociIdentityDomainUrl: S.optional(S.String),
-  status: S.optional(S.String),
-  statusReason: S.optional(S.String),
-  accountSetupCloudFormationUrl: S.optional(S.String),
-}) {}
-export class CustomerContact extends S.Class<CustomerContact>(
-  "CustomerContact",
-)({ email: S.optional(S.String) }) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListOdbPeeringConnectionsInput",
+}) as any as S.Schema<ListOdbPeeringConnectionsInput>;
+export interface OciIdentityDomain {
+  ociIdentityDomainId?: string;
+  ociIdentityDomainResourceUrl?: string;
+  ociIdentityDomainUrl?: string;
+  status?: string;
+  statusReason?: string;
+  accountSetupCloudFormationUrl?: string;
+}
+export const OciIdentityDomain = S.suspend(() =>
+  S.Struct({
+    ociIdentityDomainId: S.optional(S.String),
+    ociIdentityDomainResourceUrl: S.optional(S.String),
+    ociIdentityDomainUrl: S.optional(S.String),
+    status: S.optional(S.String),
+    statusReason: S.optional(S.String),
+    accountSetupCloudFormationUrl: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "OciIdentityDomain",
+}) as any as S.Schema<OciIdentityDomain>;
+export interface CustomerContact {
+  email?: string;
+}
+export const CustomerContact = S.suspend(() =>
+  S.Struct({ email: S.optional(S.String) }),
+).annotations({
+  identifier: "CustomerContact",
+}) as any as S.Schema<CustomerContact>;
+export type CustomerContacts = CustomerContact[];
 export const CustomerContacts = S.Array(CustomerContact);
-export class DataCollectionOptions extends S.Class<DataCollectionOptions>(
-  "DataCollectionOptions",
-)({
-  isDiagnosticsEventsEnabled: S.optional(S.Boolean),
-  isHealthMonitoringEnabled: S.optional(S.Boolean),
-  isIncidentLogsEnabled: S.optional(S.Boolean),
-}) {}
-export class GetOciOnboardingStatusOutput extends S.Class<GetOciOnboardingStatusOutput>(
-  "GetOciOnboardingStatusOutput",
-)({
-  status: S.optional(S.String),
-  existingTenancyActivationLink: S.optional(S.String),
-  newTenancyActivationLink: S.optional(S.String),
-  ociIdentityDomain: S.optional(OciIdentityDomain),
-}) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { resourceArn: S.String, tags: RequestTagMap },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class CreateCloudExadataInfrastructureInput extends S.Class<CreateCloudExadataInfrastructureInput>(
-  "CreateCloudExadataInfrastructureInput",
-)(
-  {
+export interface DataCollectionOptions {
+  isDiagnosticsEventsEnabled?: boolean;
+  isHealthMonitoringEnabled?: boolean;
+  isIncidentLogsEnabled?: boolean;
+}
+export const DataCollectionOptions = S.suspend(() =>
+  S.Struct({
+    isDiagnosticsEventsEnabled: S.optional(S.Boolean),
+    isHealthMonitoringEnabled: S.optional(S.Boolean),
+    isIncidentLogsEnabled: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "DataCollectionOptions",
+}) as any as S.Schema<DataCollectionOptions>;
+export interface GetOciOnboardingStatusOutput {
+  status?: string;
+  existingTenancyActivationLink?: string;
+  newTenancyActivationLink?: string;
+  ociIdentityDomain?: OciIdentityDomain;
+}
+export const GetOciOnboardingStatusOutput = S.suspend(() =>
+  S.Struct({
+    status: S.optional(S.String),
+    existingTenancyActivationLink: S.optional(S.String),
+    newTenancyActivationLink: S.optional(S.String),
+    ociIdentityDomain: S.optional(OciIdentityDomain),
+  }),
+).annotations({
+  identifier: "GetOciOnboardingStatusOutput",
+}) as any as S.Schema<GetOciOnboardingStatusOutput>;
+export interface TagResourceRequest {
+  resourceArn: string;
+  tags: RequestTagMap;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String, tags: RequestTagMap }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface CreateCloudExadataInfrastructureInput {
+  displayName: string;
+  shape: string;
+  availabilityZone?: string;
+  availabilityZoneId?: string;
+  tags?: RequestTagMap;
+  computeCount: number;
+  customerContactsToSendToOCI?: CustomerContacts;
+  maintenanceWindow?: MaintenanceWindow;
+  storageCount: number;
+  clientToken?: string;
+  databaseServerType?: string;
+  storageServerType?: string;
+}
+export const CreateCloudExadataInfrastructureInput = S.suspend(() =>
+  S.Struct({
     displayName: S.String,
     shape: S.String,
     availabilityZone: S.optional(S.String),
@@ -783,21 +1129,53 @@ export class CreateCloudExadataInfrastructureInput extends S.Class<CreateCloudEx
     clientToken: S.optional(S.String),
     databaseServerType: S.optional(S.String),
     storageServerType: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateCloudExadataInfrastructureOutput extends S.Class<UpdateCloudExadataInfrastructureOutput>(
-  "UpdateCloudExadataInfrastructureOutput",
-)({
-  displayName: S.optional(S.String),
-  status: S.optional(S.String),
-  statusReason: S.optional(S.String),
-  cloudExadataInfrastructureId: S.String,
-}) {}
-export class CreateCloudVmClusterInput extends S.Class<CreateCloudVmClusterInput>(
-  "CreateCloudVmClusterInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateCloudExadataInfrastructureInput",
+}) as any as S.Schema<CreateCloudExadataInfrastructureInput>;
+export interface UpdateCloudExadataInfrastructureOutput {
+  displayName?: string;
+  status?: string;
+  statusReason?: string;
+  cloudExadataInfrastructureId: string;
+}
+export const UpdateCloudExadataInfrastructureOutput = S.suspend(() =>
+  S.Struct({
+    displayName: S.optional(S.String),
+    status: S.optional(S.String),
+    statusReason: S.optional(S.String),
+    cloudExadataInfrastructureId: S.String,
+  }),
+).annotations({
+  identifier: "UpdateCloudExadataInfrastructureOutput",
+}) as any as S.Schema<UpdateCloudExadataInfrastructureOutput>;
+export interface CreateCloudVmClusterInput {
+  cloudExadataInfrastructureId: string;
+  cpuCoreCount: number;
+  displayName: string;
+  giVersion: string;
+  hostname: string;
+  sshPublicKeys: StringList;
+  odbNetworkId: string;
+  clusterName?: string;
+  dataCollectionOptions?: DataCollectionOptions;
+  dataStorageSizeInTBs?: number;
+  dbNodeStorageSizeInGBs?: number;
+  dbServers?: StringList;
+  tags?: RequestTagMap;
+  isLocalBackupEnabled?: boolean;
+  isSparseDiskgroupEnabled?: boolean;
+  licenseModel?: string;
+  memorySizeInGBs?: number;
+  systemVersion?: string;
+  timeZone?: string;
+  clientToken?: string;
+  scanListenerPortTcp?: number;
+}
+export const CreateCloudVmClusterInput = S.suspend(() =>
+  S.Struct({
     cloudExadataInfrastructureId: S.String,
     cpuCoreCount: S.Number,
     displayName: S.String,
@@ -819,631 +1197,1295 @@ export class CreateCloudVmClusterInput extends S.Class<CreateCloudVmClusterInput
     timeZone: S.optional(S.String),
     clientToken: S.optional(S.String),
     scanListenerPortTcp: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class RebootDbNodeOutput extends S.Class<RebootDbNodeOutput>(
-  "RebootDbNodeOutput",
-)({
-  dbNodeId: S.String,
-  status: S.optional(S.String),
-  statusReason: S.optional(S.String),
-}) {}
-export class StartDbNodeOutput extends S.Class<StartDbNodeOutput>(
-  "StartDbNodeOutput",
-)({
-  dbNodeId: S.String,
-  status: S.optional(S.String),
-  statusReason: S.optional(S.String),
-}) {}
-export class StopDbNodeOutput extends S.Class<StopDbNodeOutput>(
-  "StopDbNodeOutput",
-)({
-  dbNodeId: S.String,
-  status: S.optional(S.String),
-  statusReason: S.optional(S.String),
-}) {}
-export class CreateOdbNetworkOutput extends S.Class<CreateOdbNetworkOutput>(
-  "CreateOdbNetworkOutput",
-)({
-  displayName: S.optional(S.String),
-  status: S.optional(S.String),
-  statusReason: S.optional(S.String),
-  odbNetworkId: S.String,
-}) {}
-export class UpdateOdbNetworkOutput extends S.Class<UpdateOdbNetworkOutput>(
-  "UpdateOdbNetworkOutput",
-)({
-  displayName: S.optional(S.String),
-  status: S.optional(S.String),
-  statusReason: S.optional(S.String),
-  odbNetworkId: S.String,
-}) {}
-export class CreateOdbPeeringConnectionOutput extends S.Class<CreateOdbPeeringConnectionOutput>(
-  "CreateOdbPeeringConnectionOutput",
-)({
-  displayName: S.optional(S.String),
-  status: S.optional(S.String),
-  statusReason: S.optional(S.String),
-  odbPeeringConnectionId: S.String,
-}) {}
-export class UpdateOdbPeeringConnectionOutput extends S.Class<UpdateOdbPeeringConnectionOutput>(
-  "UpdateOdbPeeringConnectionOutput",
-)({
-  displayName: S.optional(S.String),
-  status: S.optional(S.String),
-  statusReason: S.optional(S.String),
-  odbPeeringConnectionId: S.String,
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateCloudVmClusterInput",
+}) as any as S.Schema<CreateCloudVmClusterInput>;
+export interface RebootDbNodeOutput {
+  dbNodeId: string;
+  status?: string;
+  statusReason?: string;
+}
+export const RebootDbNodeOutput = S.suspend(() =>
+  S.Struct({
+    dbNodeId: S.String,
+    status: S.optional(S.String),
+    statusReason: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RebootDbNodeOutput",
+}) as any as S.Schema<RebootDbNodeOutput>;
+export interface StartDbNodeOutput {
+  dbNodeId: string;
+  status?: string;
+  statusReason?: string;
+}
+export const StartDbNodeOutput = S.suspend(() =>
+  S.Struct({
+    dbNodeId: S.String,
+    status: S.optional(S.String),
+    statusReason: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "StartDbNodeOutput",
+}) as any as S.Schema<StartDbNodeOutput>;
+export interface StopDbNodeOutput {
+  dbNodeId: string;
+  status?: string;
+  statusReason?: string;
+}
+export const StopDbNodeOutput = S.suspend(() =>
+  S.Struct({
+    dbNodeId: S.String,
+    status: S.optional(S.String),
+    statusReason: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "StopDbNodeOutput",
+}) as any as S.Schema<StopDbNodeOutput>;
+export interface CreateOdbNetworkOutput {
+  displayName?: string;
+  status?: string;
+  statusReason?: string;
+  odbNetworkId: string;
+}
+export const CreateOdbNetworkOutput = S.suspend(() =>
+  S.Struct({
+    displayName: S.optional(S.String),
+    status: S.optional(S.String),
+    statusReason: S.optional(S.String),
+    odbNetworkId: S.String,
+  }),
+).annotations({
+  identifier: "CreateOdbNetworkOutput",
+}) as any as S.Schema<CreateOdbNetworkOutput>;
+export interface UpdateOdbNetworkOutput {
+  displayName?: string;
+  status?: string;
+  statusReason?: string;
+  odbNetworkId: string;
+}
+export const UpdateOdbNetworkOutput = S.suspend(() =>
+  S.Struct({
+    displayName: S.optional(S.String),
+    status: S.optional(S.String),
+    statusReason: S.optional(S.String),
+    odbNetworkId: S.String,
+  }),
+).annotations({
+  identifier: "UpdateOdbNetworkOutput",
+}) as any as S.Schema<UpdateOdbNetworkOutput>;
+export interface CreateOdbPeeringConnectionOutput {
+  displayName?: string;
+  status?: string;
+  statusReason?: string;
+  odbPeeringConnectionId: string;
+}
+export const CreateOdbPeeringConnectionOutput = S.suspend(() =>
+  S.Struct({
+    displayName: S.optional(S.String),
+    status: S.optional(S.String),
+    statusReason: S.optional(S.String),
+    odbPeeringConnectionId: S.String,
+  }),
+).annotations({
+  identifier: "CreateOdbPeeringConnectionOutput",
+}) as any as S.Schema<CreateOdbPeeringConnectionOutput>;
+export interface UpdateOdbPeeringConnectionOutput {
+  displayName?: string;
+  status?: string;
+  statusReason?: string;
+  odbPeeringConnectionId: string;
+}
+export const UpdateOdbPeeringConnectionOutput = S.suspend(() =>
+  S.Struct({
+    displayName: S.optional(S.String),
+    status: S.optional(S.String),
+    statusReason: S.optional(S.String),
+    odbPeeringConnectionId: S.String,
+  }),
+).annotations({
+  identifier: "UpdateOdbPeeringConnectionOutput",
+}) as any as S.Schema<UpdateOdbPeeringConnectionOutput>;
+export type SensitiveStringList = string[];
 export const SensitiveStringList = S.Array(S.String);
-export class DbSystemShapeSummary extends S.Class<DbSystemShapeSummary>(
-  "DbSystemShapeSummary",
-)({
-  availableCoreCount: S.optional(S.Number),
-  availableCoreCountPerNode: S.optional(S.Number),
-  availableDataStorageInTBs: S.optional(S.Number),
-  availableDataStoragePerServerInTBs: S.optional(S.Number),
-  availableDbNodePerNodeInGBs: S.optional(S.Number),
-  availableDbNodeStorageInGBs: S.optional(S.Number),
-  availableMemoryInGBs: S.optional(S.Number),
-  availableMemoryPerNodeInGBs: S.optional(S.Number),
-  coreCountIncrement: S.optional(S.Number),
-  maxStorageCount: S.optional(S.Number),
-  maximumNodeCount: S.optional(S.Number),
-  minCoreCountPerNode: S.optional(S.Number),
-  minDataStorageInTBs: S.optional(S.Number),
-  minDbNodeStoragePerNodeInGBs: S.optional(S.Number),
-  minMemoryPerNodeInGBs: S.optional(S.Number),
-  minStorageCount: S.optional(S.Number),
-  minimumCoreCount: S.optional(S.Number),
-  minimumNodeCount: S.optional(S.Number),
-  runtimeMinimumCoreCount: S.optional(S.Number),
-  shapeFamily: S.optional(S.String),
-  shapeType: S.optional(S.String),
-  name: S.optional(S.String),
-  computeModel: S.optional(S.String),
-  areServerTypesSupported: S.optional(S.Boolean),
-}) {}
+export interface DbSystemShapeSummary {
+  availableCoreCount?: number;
+  availableCoreCountPerNode?: number;
+  availableDataStorageInTBs?: number;
+  availableDataStoragePerServerInTBs?: number;
+  availableDbNodePerNodeInGBs?: number;
+  availableDbNodeStorageInGBs?: number;
+  availableMemoryInGBs?: number;
+  availableMemoryPerNodeInGBs?: number;
+  coreCountIncrement?: number;
+  maxStorageCount?: number;
+  maximumNodeCount?: number;
+  minCoreCountPerNode?: number;
+  minDataStorageInTBs?: number;
+  minDbNodeStoragePerNodeInGBs?: number;
+  minMemoryPerNodeInGBs?: number;
+  minStorageCount?: number;
+  minimumCoreCount?: number;
+  minimumNodeCount?: number;
+  runtimeMinimumCoreCount?: number;
+  shapeFamily?: string;
+  shapeType?: string;
+  name?: string;
+  computeModel?: string;
+  areServerTypesSupported?: boolean;
+}
+export const DbSystemShapeSummary = S.suspend(() =>
+  S.Struct({
+    availableCoreCount: S.optional(S.Number),
+    availableCoreCountPerNode: S.optional(S.Number),
+    availableDataStorageInTBs: S.optional(S.Number),
+    availableDataStoragePerServerInTBs: S.optional(S.Number),
+    availableDbNodePerNodeInGBs: S.optional(S.Number),
+    availableDbNodeStorageInGBs: S.optional(S.Number),
+    availableMemoryInGBs: S.optional(S.Number),
+    availableMemoryPerNodeInGBs: S.optional(S.Number),
+    coreCountIncrement: S.optional(S.Number),
+    maxStorageCount: S.optional(S.Number),
+    maximumNodeCount: S.optional(S.Number),
+    minCoreCountPerNode: S.optional(S.Number),
+    minDataStorageInTBs: S.optional(S.Number),
+    minDbNodeStoragePerNodeInGBs: S.optional(S.Number),
+    minMemoryPerNodeInGBs: S.optional(S.Number),
+    minStorageCount: S.optional(S.Number),
+    minimumCoreCount: S.optional(S.Number),
+    minimumNodeCount: S.optional(S.Number),
+    runtimeMinimumCoreCount: S.optional(S.Number),
+    shapeFamily: S.optional(S.String),
+    shapeType: S.optional(S.String),
+    name: S.optional(S.String),
+    computeModel: S.optional(S.String),
+    areServerTypesSupported: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "DbSystemShapeSummary",
+}) as any as S.Schema<DbSystemShapeSummary>;
+export type DbSystemShapeList = DbSystemShapeSummary[];
 export const DbSystemShapeList = S.Array(DbSystemShapeSummary);
-export class GiVersionSummary extends S.Class<GiVersionSummary>(
-  "GiVersionSummary",
-)({ version: S.optional(S.String) }) {}
+export interface GiVersionSummary {
+  version?: string;
+}
+export const GiVersionSummary = S.suspend(() =>
+  S.Struct({ version: S.optional(S.String) }),
+).annotations({
+  identifier: "GiVersionSummary",
+}) as any as S.Schema<GiVersionSummary>;
+export type GiVersionList = GiVersionSummary[];
 export const GiVersionList = S.Array(GiVersionSummary);
-export class SystemVersionSummary extends S.Class<SystemVersionSummary>(
-  "SystemVersionSummary",
-)({
-  giVersion: S.optional(S.String),
-  shape: S.optional(S.String),
-  systemVersions: S.optional(StringList),
-}) {}
+export interface SystemVersionSummary {
+  giVersion?: string;
+  shape?: string;
+  systemVersions?: StringList;
+}
+export const SystemVersionSummary = S.suspend(() =>
+  S.Struct({
+    giVersion: S.optional(S.String),
+    shape: S.optional(S.String),
+    systemVersions: S.optional(StringList),
+  }),
+).annotations({
+  identifier: "SystemVersionSummary",
+}) as any as S.Schema<SystemVersionSummary>;
+export type SystemVersionList = SystemVersionSummary[];
 export const SystemVersionList = S.Array(SystemVersionSummary);
+export type ResponseTagMap = { [key: string]: string };
 export const ResponseTagMap = S.Record({ key: S.String, value: S.String });
-export class CloudAutonomousVmCluster extends S.Class<CloudAutonomousVmCluster>(
-  "CloudAutonomousVmCluster",
-)({
-  cloudAutonomousVmClusterId: S.String,
-  cloudAutonomousVmClusterArn: S.optional(S.String),
-  odbNetworkId: S.optional(S.String),
-  odbNetworkArn: S.optional(S.String),
-  ociResourceAnchorName: S.optional(S.String),
-  percentProgress: S.optional(S.Number),
-  displayName: S.optional(S.String),
-  status: S.optional(S.String),
-  statusReason: S.optional(S.String),
-  cloudExadataInfrastructureId: S.optional(S.String),
-  cloudExadataInfrastructureArn: S.optional(S.String),
-  autonomousDataStoragePercentage: S.optional(S.Number),
-  autonomousDataStorageSizeInTBs: S.optional(S.Number),
-  availableAutonomousDataStorageSizeInTBs: S.optional(S.Number),
-  availableContainerDatabases: S.optional(S.Number),
-  availableCpus: S.optional(S.Number),
-  computeModel: S.optional(S.String),
-  cpuCoreCount: S.optional(S.Number),
-  cpuCoreCountPerNode: S.optional(S.Number),
-  cpuPercentage: S.optional(S.Number),
-  dataStorageSizeInGBs: S.optional(S.Number),
-  dataStorageSizeInTBs: S.optional(S.Number),
-  dbNodeStorageSizeInGBs: S.optional(S.Number),
-  dbServers: S.optional(StringList),
-  description: S.optional(S.String),
-  domain: S.optional(S.String),
-  exadataStorageInTBsLowestScaledValue: S.optional(S.Number),
-  hostname: S.optional(S.String),
-  ocid: S.optional(S.String),
-  ociUrl: S.optional(S.String),
-  isMtlsEnabledVmCluster: S.optional(S.Boolean),
-  licenseModel: S.optional(S.String),
-  maintenanceWindow: S.optional(MaintenanceWindow),
-  maxAcdsLowestScaledValue: S.optional(S.Number),
-  memoryPerOracleComputeUnitInGBs: S.optional(S.Number),
-  memorySizeInGBs: S.optional(S.Number),
-  nodeCount: S.optional(S.Number),
-  nonProvisionableAutonomousContainerDatabases: S.optional(S.Number),
-  provisionableAutonomousContainerDatabases: S.optional(S.Number),
-  provisionedAutonomousContainerDatabases: S.optional(S.Number),
-  provisionedCpus: S.optional(S.Number),
-  reclaimableCpus: S.optional(S.Number),
-  reservedCpus: S.optional(S.Number),
-  scanListenerPortNonTls: S.optional(S.Number),
-  scanListenerPortTls: S.optional(S.Number),
-  shape: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  timeDatabaseSslCertificateExpires: S.optional(
-    S.Date.pipe(T.TimestampFormat("date-time")),
-  ),
-  timeOrdsCertificateExpires: S.optional(
-    S.Date.pipe(T.TimestampFormat("date-time")),
-  ),
-  timeZone: S.optional(S.String),
-  totalContainerDatabases: S.optional(S.Number),
-}) {}
-export class CloudAutonomousVmClusterSummary extends S.Class<CloudAutonomousVmClusterSummary>(
-  "CloudAutonomousVmClusterSummary",
-)({
-  cloudAutonomousVmClusterId: S.String,
-  cloudAutonomousVmClusterArn: S.optional(S.String),
-  odbNetworkId: S.optional(S.String),
-  odbNetworkArn: S.optional(S.String),
-  ociResourceAnchorName: S.optional(S.String),
-  percentProgress: S.optional(S.Number),
-  displayName: S.optional(S.String),
-  status: S.optional(S.String),
-  statusReason: S.optional(S.String),
-  cloudExadataInfrastructureId: S.optional(S.String),
-  cloudExadataInfrastructureArn: S.optional(S.String),
-  autonomousDataStoragePercentage: S.optional(S.Number),
-  autonomousDataStorageSizeInTBs: S.optional(S.Number),
-  availableAutonomousDataStorageSizeInTBs: S.optional(S.Number),
-  availableContainerDatabases: S.optional(S.Number),
-  availableCpus: S.optional(S.Number),
-  computeModel: S.optional(S.String),
-  cpuCoreCount: S.optional(S.Number),
-  cpuCoreCountPerNode: S.optional(S.Number),
-  cpuPercentage: S.optional(S.Number),
-  dataStorageSizeInGBs: S.optional(S.Number),
-  dataStorageSizeInTBs: S.optional(S.Number),
-  dbNodeStorageSizeInGBs: S.optional(S.Number),
-  dbServers: S.optional(StringList),
-  description: S.optional(S.String),
-  domain: S.optional(S.String),
-  exadataStorageInTBsLowestScaledValue: S.optional(S.Number),
-  hostname: S.optional(S.String),
-  ocid: S.optional(S.String),
-  ociUrl: S.optional(S.String),
-  isMtlsEnabledVmCluster: S.optional(S.Boolean),
-  licenseModel: S.optional(S.String),
-  maintenanceWindow: S.optional(MaintenanceWindow),
-  maxAcdsLowestScaledValue: S.optional(S.Number),
-  memoryPerOracleComputeUnitInGBs: S.optional(S.Number),
-  memorySizeInGBs: S.optional(S.Number),
-  nodeCount: S.optional(S.Number),
-  nonProvisionableAutonomousContainerDatabases: S.optional(S.Number),
-  provisionableAutonomousContainerDatabases: S.optional(S.Number),
-  provisionedAutonomousContainerDatabases: S.optional(S.Number),
-  provisionedCpus: S.optional(S.Number),
-  reclaimableCpus: S.optional(S.Number),
-  reservedCpus: S.optional(S.Number),
-  scanListenerPortNonTls: S.optional(S.Number),
-  scanListenerPortTls: S.optional(S.Number),
-  shape: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  timeDatabaseSslCertificateExpires: S.optional(
-    S.Date.pipe(T.TimestampFormat("date-time")),
-  ),
-  timeOrdsCertificateExpires: S.optional(
-    S.Date.pipe(T.TimestampFormat("date-time")),
-  ),
-  timeZone: S.optional(S.String),
-  totalContainerDatabases: S.optional(S.Number),
-}) {}
+export interface CloudAutonomousVmCluster {
+  cloudAutonomousVmClusterId: string;
+  cloudAutonomousVmClusterArn?: string;
+  odbNetworkId?: string;
+  odbNetworkArn?: string;
+  ociResourceAnchorName?: string;
+  percentProgress?: number;
+  displayName?: string;
+  status?: string;
+  statusReason?: string;
+  cloudExadataInfrastructureId?: string;
+  cloudExadataInfrastructureArn?: string;
+  autonomousDataStoragePercentage?: number;
+  autonomousDataStorageSizeInTBs?: number;
+  availableAutonomousDataStorageSizeInTBs?: number;
+  availableContainerDatabases?: number;
+  availableCpus?: number;
+  computeModel?: string;
+  cpuCoreCount?: number;
+  cpuCoreCountPerNode?: number;
+  cpuPercentage?: number;
+  dataStorageSizeInGBs?: number;
+  dataStorageSizeInTBs?: number;
+  dbNodeStorageSizeInGBs?: number;
+  dbServers?: StringList;
+  description?: string;
+  domain?: string;
+  exadataStorageInTBsLowestScaledValue?: number;
+  hostname?: string;
+  ocid?: string;
+  ociUrl?: string;
+  isMtlsEnabledVmCluster?: boolean;
+  licenseModel?: string;
+  maintenanceWindow?: MaintenanceWindow;
+  maxAcdsLowestScaledValue?: number;
+  memoryPerOracleComputeUnitInGBs?: number;
+  memorySizeInGBs?: number;
+  nodeCount?: number;
+  nonProvisionableAutonomousContainerDatabases?: number;
+  provisionableAutonomousContainerDatabases?: number;
+  provisionedAutonomousContainerDatabases?: number;
+  provisionedCpus?: number;
+  reclaimableCpus?: number;
+  reservedCpus?: number;
+  scanListenerPortNonTls?: number;
+  scanListenerPortTls?: number;
+  shape?: string;
+  createdAt?: Date;
+  timeDatabaseSslCertificateExpires?: Date;
+  timeOrdsCertificateExpires?: Date;
+  timeZone?: string;
+  totalContainerDatabases?: number;
+}
+export const CloudAutonomousVmCluster = S.suspend(() =>
+  S.Struct({
+    cloudAutonomousVmClusterId: S.String,
+    cloudAutonomousVmClusterArn: S.optional(S.String),
+    odbNetworkId: S.optional(S.String),
+    odbNetworkArn: S.optional(S.String),
+    ociResourceAnchorName: S.optional(S.String),
+    percentProgress: S.optional(S.Number),
+    displayName: S.optional(S.String),
+    status: S.optional(S.String),
+    statusReason: S.optional(S.String),
+    cloudExadataInfrastructureId: S.optional(S.String),
+    cloudExadataInfrastructureArn: S.optional(S.String),
+    autonomousDataStoragePercentage: S.optional(S.Number),
+    autonomousDataStorageSizeInTBs: S.optional(S.Number),
+    availableAutonomousDataStorageSizeInTBs: S.optional(S.Number),
+    availableContainerDatabases: S.optional(S.Number),
+    availableCpus: S.optional(S.Number),
+    computeModel: S.optional(S.String),
+    cpuCoreCount: S.optional(S.Number),
+    cpuCoreCountPerNode: S.optional(S.Number),
+    cpuPercentage: S.optional(S.Number),
+    dataStorageSizeInGBs: S.optional(S.Number),
+    dataStorageSizeInTBs: S.optional(S.Number),
+    dbNodeStorageSizeInGBs: S.optional(S.Number),
+    dbServers: S.optional(StringList),
+    description: S.optional(S.String),
+    domain: S.optional(S.String),
+    exadataStorageInTBsLowestScaledValue: S.optional(S.Number),
+    hostname: S.optional(S.String),
+    ocid: S.optional(S.String),
+    ociUrl: S.optional(S.String),
+    isMtlsEnabledVmCluster: S.optional(S.Boolean),
+    licenseModel: S.optional(S.String),
+    maintenanceWindow: S.optional(MaintenanceWindow),
+    maxAcdsLowestScaledValue: S.optional(S.Number),
+    memoryPerOracleComputeUnitInGBs: S.optional(S.Number),
+    memorySizeInGBs: S.optional(S.Number),
+    nodeCount: S.optional(S.Number),
+    nonProvisionableAutonomousContainerDatabases: S.optional(S.Number),
+    provisionableAutonomousContainerDatabases: S.optional(S.Number),
+    provisionedAutonomousContainerDatabases: S.optional(S.Number),
+    provisionedCpus: S.optional(S.Number),
+    reclaimableCpus: S.optional(S.Number),
+    reservedCpus: S.optional(S.Number),
+    scanListenerPortNonTls: S.optional(S.Number),
+    scanListenerPortTls: S.optional(S.Number),
+    shape: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    timeDatabaseSslCertificateExpires: S.optional(
+      S.Date.pipe(T.TimestampFormat("date-time")),
+    ),
+    timeOrdsCertificateExpires: S.optional(
+      S.Date.pipe(T.TimestampFormat("date-time")),
+    ),
+    timeZone: S.optional(S.String),
+    totalContainerDatabases: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "CloudAutonomousVmCluster",
+}) as any as S.Schema<CloudAutonomousVmCluster>;
+export interface CloudAutonomousVmClusterSummary {
+  cloudAutonomousVmClusterId: string;
+  cloudAutonomousVmClusterArn?: string;
+  odbNetworkId?: string;
+  odbNetworkArn?: string;
+  ociResourceAnchorName?: string;
+  percentProgress?: number;
+  displayName?: string;
+  status?: string;
+  statusReason?: string;
+  cloudExadataInfrastructureId?: string;
+  cloudExadataInfrastructureArn?: string;
+  autonomousDataStoragePercentage?: number;
+  autonomousDataStorageSizeInTBs?: number;
+  availableAutonomousDataStorageSizeInTBs?: number;
+  availableContainerDatabases?: number;
+  availableCpus?: number;
+  computeModel?: string;
+  cpuCoreCount?: number;
+  cpuCoreCountPerNode?: number;
+  cpuPercentage?: number;
+  dataStorageSizeInGBs?: number;
+  dataStorageSizeInTBs?: number;
+  dbNodeStorageSizeInGBs?: number;
+  dbServers?: StringList;
+  description?: string;
+  domain?: string;
+  exadataStorageInTBsLowestScaledValue?: number;
+  hostname?: string;
+  ocid?: string;
+  ociUrl?: string;
+  isMtlsEnabledVmCluster?: boolean;
+  licenseModel?: string;
+  maintenanceWindow?: MaintenanceWindow;
+  maxAcdsLowestScaledValue?: number;
+  memoryPerOracleComputeUnitInGBs?: number;
+  memorySizeInGBs?: number;
+  nodeCount?: number;
+  nonProvisionableAutonomousContainerDatabases?: number;
+  provisionableAutonomousContainerDatabases?: number;
+  provisionedAutonomousContainerDatabases?: number;
+  provisionedCpus?: number;
+  reclaimableCpus?: number;
+  reservedCpus?: number;
+  scanListenerPortNonTls?: number;
+  scanListenerPortTls?: number;
+  shape?: string;
+  createdAt?: Date;
+  timeDatabaseSslCertificateExpires?: Date;
+  timeOrdsCertificateExpires?: Date;
+  timeZone?: string;
+  totalContainerDatabases?: number;
+}
+export const CloudAutonomousVmClusterSummary = S.suspend(() =>
+  S.Struct({
+    cloudAutonomousVmClusterId: S.String,
+    cloudAutonomousVmClusterArn: S.optional(S.String),
+    odbNetworkId: S.optional(S.String),
+    odbNetworkArn: S.optional(S.String),
+    ociResourceAnchorName: S.optional(S.String),
+    percentProgress: S.optional(S.Number),
+    displayName: S.optional(S.String),
+    status: S.optional(S.String),
+    statusReason: S.optional(S.String),
+    cloudExadataInfrastructureId: S.optional(S.String),
+    cloudExadataInfrastructureArn: S.optional(S.String),
+    autonomousDataStoragePercentage: S.optional(S.Number),
+    autonomousDataStorageSizeInTBs: S.optional(S.Number),
+    availableAutonomousDataStorageSizeInTBs: S.optional(S.Number),
+    availableContainerDatabases: S.optional(S.Number),
+    availableCpus: S.optional(S.Number),
+    computeModel: S.optional(S.String),
+    cpuCoreCount: S.optional(S.Number),
+    cpuCoreCountPerNode: S.optional(S.Number),
+    cpuPercentage: S.optional(S.Number),
+    dataStorageSizeInGBs: S.optional(S.Number),
+    dataStorageSizeInTBs: S.optional(S.Number),
+    dbNodeStorageSizeInGBs: S.optional(S.Number),
+    dbServers: S.optional(StringList),
+    description: S.optional(S.String),
+    domain: S.optional(S.String),
+    exadataStorageInTBsLowestScaledValue: S.optional(S.Number),
+    hostname: S.optional(S.String),
+    ocid: S.optional(S.String),
+    ociUrl: S.optional(S.String),
+    isMtlsEnabledVmCluster: S.optional(S.Boolean),
+    licenseModel: S.optional(S.String),
+    maintenanceWindow: S.optional(MaintenanceWindow),
+    maxAcdsLowestScaledValue: S.optional(S.Number),
+    memoryPerOracleComputeUnitInGBs: S.optional(S.Number),
+    memorySizeInGBs: S.optional(S.Number),
+    nodeCount: S.optional(S.Number),
+    nonProvisionableAutonomousContainerDatabases: S.optional(S.Number),
+    provisionableAutonomousContainerDatabases: S.optional(S.Number),
+    provisionedAutonomousContainerDatabases: S.optional(S.Number),
+    provisionedCpus: S.optional(S.Number),
+    reclaimableCpus: S.optional(S.Number),
+    reservedCpus: S.optional(S.Number),
+    scanListenerPortNonTls: S.optional(S.Number),
+    scanListenerPortTls: S.optional(S.Number),
+    shape: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    timeDatabaseSslCertificateExpires: S.optional(
+      S.Date.pipe(T.TimestampFormat("date-time")),
+    ),
+    timeOrdsCertificateExpires: S.optional(
+      S.Date.pipe(T.TimestampFormat("date-time")),
+    ),
+    timeZone: S.optional(S.String),
+    totalContainerDatabases: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "CloudAutonomousVmClusterSummary",
+}) as any as S.Schema<CloudAutonomousVmClusterSummary>;
+export type CloudAutonomousVmClusterList = CloudAutonomousVmClusterSummary[];
 export const CloudAutonomousVmClusterList = S.Array(
   CloudAutonomousVmClusterSummary,
 );
-export class AutonomousVirtualMachineSummary extends S.Class<AutonomousVirtualMachineSummary>(
-  "AutonomousVirtualMachineSummary",
-)({
-  autonomousVirtualMachineId: S.optional(S.String),
-  status: S.optional(S.String),
-  statusReason: S.optional(S.String),
-  vmName: S.optional(S.String),
-  dbServerId: S.optional(S.String),
-  dbServerDisplayName: S.optional(S.String),
-  cpuCoreCount: S.optional(S.Number),
-  memorySizeInGBs: S.optional(S.Number),
-  dbNodeStorageSizeInGBs: S.optional(S.Number),
-  clientIpAddress: S.optional(S.String),
-  cloudAutonomousVmClusterId: S.optional(S.String),
-  ocid: S.optional(S.String),
-  ociResourceAnchorName: S.optional(S.String),
-}) {}
+export interface AutonomousVirtualMachineSummary {
+  autonomousVirtualMachineId?: string;
+  status?: string;
+  statusReason?: string;
+  vmName?: string;
+  dbServerId?: string;
+  dbServerDisplayName?: string;
+  cpuCoreCount?: number;
+  memorySizeInGBs?: number;
+  dbNodeStorageSizeInGBs?: number;
+  clientIpAddress?: string;
+  cloudAutonomousVmClusterId?: string;
+  ocid?: string;
+  ociResourceAnchorName?: string;
+}
+export const AutonomousVirtualMachineSummary = S.suspend(() =>
+  S.Struct({
+    autonomousVirtualMachineId: S.optional(S.String),
+    status: S.optional(S.String),
+    statusReason: S.optional(S.String),
+    vmName: S.optional(S.String),
+    dbServerId: S.optional(S.String),
+    dbServerDisplayName: S.optional(S.String),
+    cpuCoreCount: S.optional(S.Number),
+    memorySizeInGBs: S.optional(S.Number),
+    dbNodeStorageSizeInGBs: S.optional(S.Number),
+    clientIpAddress: S.optional(S.String),
+    cloudAutonomousVmClusterId: S.optional(S.String),
+    ocid: S.optional(S.String),
+    ociResourceAnchorName: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AutonomousVirtualMachineSummary",
+}) as any as S.Schema<AutonomousVirtualMachineSummary>;
+export type AutonomousVirtualMachineList = AutonomousVirtualMachineSummary[];
 export const AutonomousVirtualMachineList = S.Array(
   AutonomousVirtualMachineSummary,
 );
-export class CloudExadataInfrastructure extends S.Class<CloudExadataInfrastructure>(
-  "CloudExadataInfrastructure",
-)({
-  cloudExadataInfrastructureId: S.String,
-  displayName: S.optional(S.String),
-  status: S.optional(S.String),
-  statusReason: S.optional(S.String),
-  cloudExadataInfrastructureArn: S.optional(S.String),
-  activatedStorageCount: S.optional(S.Number),
-  additionalStorageCount: S.optional(S.Number),
-  availableStorageSizeInGBs: S.optional(S.Number),
-  availabilityZone: S.optional(S.String),
-  availabilityZoneId: S.optional(S.String),
-  computeCount: S.optional(S.Number),
-  cpuCount: S.optional(S.Number),
-  customerContactsToSendToOCI: S.optional(CustomerContacts),
-  dataStorageSizeInTBs: S.optional(S.Number),
-  dbNodeStorageSizeInGBs: S.optional(S.Number),
-  dbServerVersion: S.optional(S.String),
-  lastMaintenanceRunId: S.optional(S.String),
-  maintenanceWindow: S.optional(MaintenanceWindow),
-  maxCpuCount: S.optional(S.Number),
-  maxDataStorageInTBs: S.optional(S.Number),
-  maxDbNodeStorageSizeInGBs: S.optional(S.Number),
-  maxMemoryInGBs: S.optional(S.Number),
-  memorySizeInGBs: S.optional(S.Number),
-  monthlyDbServerVersion: S.optional(S.String),
-  monthlyStorageServerVersion: S.optional(S.String),
-  nextMaintenanceRunId: S.optional(S.String),
-  ociResourceAnchorName: S.optional(S.String),
-  ociUrl: S.optional(S.String),
-  ocid: S.optional(S.String),
-  shape: S.optional(S.String),
-  storageCount: S.optional(S.Number),
-  storageServerVersion: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  totalStorageSizeInGBs: S.optional(S.Number),
-  percentProgress: S.optional(S.Number),
-  databaseServerType: S.optional(S.String),
-  storageServerType: S.optional(S.String),
-  computeModel: S.optional(S.String),
-}) {}
-export class CloudExadataInfrastructureSummary extends S.Class<CloudExadataInfrastructureSummary>(
-  "CloudExadataInfrastructureSummary",
-)({
-  cloudExadataInfrastructureId: S.String,
-  displayName: S.optional(S.String),
-  status: S.optional(S.String),
-  statusReason: S.optional(S.String),
-  cloudExadataInfrastructureArn: S.optional(S.String),
-  activatedStorageCount: S.optional(S.Number),
-  additionalStorageCount: S.optional(S.Number),
-  availableStorageSizeInGBs: S.optional(S.Number),
-  availabilityZone: S.optional(S.String),
-  availabilityZoneId: S.optional(S.String),
-  computeCount: S.optional(S.Number),
-  cpuCount: S.optional(S.Number),
-  customerContactsToSendToOCI: S.optional(CustomerContacts),
-  dataStorageSizeInTBs: S.optional(S.Number),
-  dbNodeStorageSizeInGBs: S.optional(S.Number),
-  dbServerVersion: S.optional(S.String),
-  lastMaintenanceRunId: S.optional(S.String),
-  maintenanceWindow: S.optional(MaintenanceWindow),
-  maxCpuCount: S.optional(S.Number),
-  maxDataStorageInTBs: S.optional(S.Number),
-  maxDbNodeStorageSizeInGBs: S.optional(S.Number),
-  maxMemoryInGBs: S.optional(S.Number),
-  memorySizeInGBs: S.optional(S.Number),
-  monthlyDbServerVersion: S.optional(S.String),
-  monthlyStorageServerVersion: S.optional(S.String),
-  nextMaintenanceRunId: S.optional(S.String),
-  ociResourceAnchorName: S.optional(S.String),
-  ociUrl: S.optional(S.String),
-  ocid: S.optional(S.String),
-  shape: S.optional(S.String),
-  storageCount: S.optional(S.Number),
-  storageServerVersion: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  totalStorageSizeInGBs: S.optional(S.Number),
-  percentProgress: S.optional(S.Number),
-  databaseServerType: S.optional(S.String),
-  storageServerType: S.optional(S.String),
-  computeModel: S.optional(S.String),
-}) {}
+export interface CloudExadataInfrastructure {
+  cloudExadataInfrastructureId: string;
+  displayName?: string;
+  status?: string;
+  statusReason?: string;
+  cloudExadataInfrastructureArn?: string;
+  activatedStorageCount?: number;
+  additionalStorageCount?: number;
+  availableStorageSizeInGBs?: number;
+  availabilityZone?: string;
+  availabilityZoneId?: string;
+  computeCount?: number;
+  cpuCount?: number;
+  customerContactsToSendToOCI?: CustomerContacts;
+  dataStorageSizeInTBs?: number;
+  dbNodeStorageSizeInGBs?: number;
+  dbServerVersion?: string;
+  lastMaintenanceRunId?: string;
+  maintenanceWindow?: MaintenanceWindow;
+  maxCpuCount?: number;
+  maxDataStorageInTBs?: number;
+  maxDbNodeStorageSizeInGBs?: number;
+  maxMemoryInGBs?: number;
+  memorySizeInGBs?: number;
+  monthlyDbServerVersion?: string;
+  monthlyStorageServerVersion?: string;
+  nextMaintenanceRunId?: string;
+  ociResourceAnchorName?: string;
+  ociUrl?: string;
+  ocid?: string;
+  shape?: string;
+  storageCount?: number;
+  storageServerVersion?: string;
+  createdAt?: Date;
+  totalStorageSizeInGBs?: number;
+  percentProgress?: number;
+  databaseServerType?: string;
+  storageServerType?: string;
+  computeModel?: string;
+}
+export const CloudExadataInfrastructure = S.suspend(() =>
+  S.Struct({
+    cloudExadataInfrastructureId: S.String,
+    displayName: S.optional(S.String),
+    status: S.optional(S.String),
+    statusReason: S.optional(S.String),
+    cloudExadataInfrastructureArn: S.optional(S.String),
+    activatedStorageCount: S.optional(S.Number),
+    additionalStorageCount: S.optional(S.Number),
+    availableStorageSizeInGBs: S.optional(S.Number),
+    availabilityZone: S.optional(S.String),
+    availabilityZoneId: S.optional(S.String),
+    computeCount: S.optional(S.Number),
+    cpuCount: S.optional(S.Number),
+    customerContactsToSendToOCI: S.optional(CustomerContacts),
+    dataStorageSizeInTBs: S.optional(S.Number),
+    dbNodeStorageSizeInGBs: S.optional(S.Number),
+    dbServerVersion: S.optional(S.String),
+    lastMaintenanceRunId: S.optional(S.String),
+    maintenanceWindow: S.optional(MaintenanceWindow),
+    maxCpuCount: S.optional(S.Number),
+    maxDataStorageInTBs: S.optional(S.Number),
+    maxDbNodeStorageSizeInGBs: S.optional(S.Number),
+    maxMemoryInGBs: S.optional(S.Number),
+    memorySizeInGBs: S.optional(S.Number),
+    monthlyDbServerVersion: S.optional(S.String),
+    monthlyStorageServerVersion: S.optional(S.String),
+    nextMaintenanceRunId: S.optional(S.String),
+    ociResourceAnchorName: S.optional(S.String),
+    ociUrl: S.optional(S.String),
+    ocid: S.optional(S.String),
+    shape: S.optional(S.String),
+    storageCount: S.optional(S.Number),
+    storageServerVersion: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    totalStorageSizeInGBs: S.optional(S.Number),
+    percentProgress: S.optional(S.Number),
+    databaseServerType: S.optional(S.String),
+    storageServerType: S.optional(S.String),
+    computeModel: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CloudExadataInfrastructure",
+}) as any as S.Schema<CloudExadataInfrastructure>;
+export interface CloudExadataInfrastructureSummary {
+  cloudExadataInfrastructureId: string;
+  displayName?: string;
+  status?: string;
+  statusReason?: string;
+  cloudExadataInfrastructureArn?: string;
+  activatedStorageCount?: number;
+  additionalStorageCount?: number;
+  availableStorageSizeInGBs?: number;
+  availabilityZone?: string;
+  availabilityZoneId?: string;
+  computeCount?: number;
+  cpuCount?: number;
+  customerContactsToSendToOCI?: CustomerContacts;
+  dataStorageSizeInTBs?: number;
+  dbNodeStorageSizeInGBs?: number;
+  dbServerVersion?: string;
+  lastMaintenanceRunId?: string;
+  maintenanceWindow?: MaintenanceWindow;
+  maxCpuCount?: number;
+  maxDataStorageInTBs?: number;
+  maxDbNodeStorageSizeInGBs?: number;
+  maxMemoryInGBs?: number;
+  memorySizeInGBs?: number;
+  monthlyDbServerVersion?: string;
+  monthlyStorageServerVersion?: string;
+  nextMaintenanceRunId?: string;
+  ociResourceAnchorName?: string;
+  ociUrl?: string;
+  ocid?: string;
+  shape?: string;
+  storageCount?: number;
+  storageServerVersion?: string;
+  createdAt?: Date;
+  totalStorageSizeInGBs?: number;
+  percentProgress?: number;
+  databaseServerType?: string;
+  storageServerType?: string;
+  computeModel?: string;
+}
+export const CloudExadataInfrastructureSummary = S.suspend(() =>
+  S.Struct({
+    cloudExadataInfrastructureId: S.String,
+    displayName: S.optional(S.String),
+    status: S.optional(S.String),
+    statusReason: S.optional(S.String),
+    cloudExadataInfrastructureArn: S.optional(S.String),
+    activatedStorageCount: S.optional(S.Number),
+    additionalStorageCount: S.optional(S.Number),
+    availableStorageSizeInGBs: S.optional(S.Number),
+    availabilityZone: S.optional(S.String),
+    availabilityZoneId: S.optional(S.String),
+    computeCount: S.optional(S.Number),
+    cpuCount: S.optional(S.Number),
+    customerContactsToSendToOCI: S.optional(CustomerContacts),
+    dataStorageSizeInTBs: S.optional(S.Number),
+    dbNodeStorageSizeInGBs: S.optional(S.Number),
+    dbServerVersion: S.optional(S.String),
+    lastMaintenanceRunId: S.optional(S.String),
+    maintenanceWindow: S.optional(MaintenanceWindow),
+    maxCpuCount: S.optional(S.Number),
+    maxDataStorageInTBs: S.optional(S.Number),
+    maxDbNodeStorageSizeInGBs: S.optional(S.Number),
+    maxMemoryInGBs: S.optional(S.Number),
+    memorySizeInGBs: S.optional(S.Number),
+    monthlyDbServerVersion: S.optional(S.String),
+    monthlyStorageServerVersion: S.optional(S.String),
+    nextMaintenanceRunId: S.optional(S.String),
+    ociResourceAnchorName: S.optional(S.String),
+    ociUrl: S.optional(S.String),
+    ocid: S.optional(S.String),
+    shape: S.optional(S.String),
+    storageCount: S.optional(S.Number),
+    storageServerVersion: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    totalStorageSizeInGBs: S.optional(S.Number),
+    percentProgress: S.optional(S.Number),
+    databaseServerType: S.optional(S.String),
+    storageServerType: S.optional(S.String),
+    computeModel: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CloudExadataInfrastructureSummary",
+}) as any as S.Schema<CloudExadataInfrastructureSummary>;
+export type CloudExadataInfrastructureList =
+  CloudExadataInfrastructureSummary[];
 export const CloudExadataInfrastructureList = S.Array(
   CloudExadataInfrastructureSummary,
 );
-export class DbServerPatchingDetails extends S.Class<DbServerPatchingDetails>(
-  "DbServerPatchingDetails",
-)({
-  estimatedPatchDuration: S.optional(S.Number),
-  patchingStatus: S.optional(S.String),
-  timePatchingEnded: S.optional(S.String),
-  timePatchingStarted: S.optional(S.String),
-}) {}
-export class DbServerSummary extends S.Class<DbServerSummary>(
-  "DbServerSummary",
-)({
-  dbServerId: S.optional(S.String),
-  status: S.optional(S.String),
-  statusReason: S.optional(S.String),
-  cpuCoreCount: S.optional(S.Number),
-  dbNodeStorageSizeInGBs: S.optional(S.Number),
-  dbServerPatchingDetails: S.optional(DbServerPatchingDetails),
-  displayName: S.optional(S.String),
-  exadataInfrastructureId: S.optional(S.String),
-  ocid: S.optional(S.String),
-  ociResourceAnchorName: S.optional(S.String),
-  maxCpuCount: S.optional(S.Number),
-  maxDbNodeStorageInGBs: S.optional(S.Number),
-  maxMemoryInGBs: S.optional(S.Number),
-  memorySizeInGBs: S.optional(S.Number),
-  shape: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  vmClusterIds: S.optional(StringList),
-  computeModel: S.optional(S.String),
-  autonomousVmClusterIds: S.optional(StringList),
-  autonomousVirtualMachineIds: S.optional(StringList),
-}) {}
+export interface DbServerPatchingDetails {
+  estimatedPatchDuration?: number;
+  patchingStatus?: string;
+  timePatchingEnded?: string;
+  timePatchingStarted?: string;
+}
+export const DbServerPatchingDetails = S.suspend(() =>
+  S.Struct({
+    estimatedPatchDuration: S.optional(S.Number),
+    patchingStatus: S.optional(S.String),
+    timePatchingEnded: S.optional(S.String),
+    timePatchingStarted: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DbServerPatchingDetails",
+}) as any as S.Schema<DbServerPatchingDetails>;
+export interface DbServerSummary {
+  dbServerId?: string;
+  status?: string;
+  statusReason?: string;
+  cpuCoreCount?: number;
+  dbNodeStorageSizeInGBs?: number;
+  dbServerPatchingDetails?: DbServerPatchingDetails;
+  displayName?: string;
+  exadataInfrastructureId?: string;
+  ocid?: string;
+  ociResourceAnchorName?: string;
+  maxCpuCount?: number;
+  maxDbNodeStorageInGBs?: number;
+  maxMemoryInGBs?: number;
+  memorySizeInGBs?: number;
+  shape?: string;
+  createdAt?: Date;
+  vmClusterIds?: StringList;
+  computeModel?: string;
+  autonomousVmClusterIds?: StringList;
+  autonomousVirtualMachineIds?: StringList;
+}
+export const DbServerSummary = S.suspend(() =>
+  S.Struct({
+    dbServerId: S.optional(S.String),
+    status: S.optional(S.String),
+    statusReason: S.optional(S.String),
+    cpuCoreCount: S.optional(S.Number),
+    dbNodeStorageSizeInGBs: S.optional(S.Number),
+    dbServerPatchingDetails: S.optional(DbServerPatchingDetails),
+    displayName: S.optional(S.String),
+    exadataInfrastructureId: S.optional(S.String),
+    ocid: S.optional(S.String),
+    ociResourceAnchorName: S.optional(S.String),
+    maxCpuCount: S.optional(S.Number),
+    maxDbNodeStorageInGBs: S.optional(S.Number),
+    maxMemoryInGBs: S.optional(S.Number),
+    memorySizeInGBs: S.optional(S.Number),
+    shape: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    vmClusterIds: S.optional(StringList),
+    computeModel: S.optional(S.String),
+    autonomousVmClusterIds: S.optional(StringList),
+    autonomousVirtualMachineIds: S.optional(StringList),
+  }),
+).annotations({
+  identifier: "DbServerSummary",
+}) as any as S.Schema<DbServerSummary>;
+export type DbServerList = DbServerSummary[];
 export const DbServerList = S.Array(DbServerSummary);
-export class DbIormConfig extends S.Class<DbIormConfig>("DbIormConfig")({
-  dbName: S.optional(S.String),
-  flashCacheLimit: S.optional(S.String),
-  share: S.optional(S.Number),
-}) {}
+export interface DbIormConfig {
+  dbName?: string;
+  flashCacheLimit?: string;
+  share?: number;
+}
+export const DbIormConfig = S.suspend(() =>
+  S.Struct({
+    dbName: S.optional(S.String),
+    flashCacheLimit: S.optional(S.String),
+    share: S.optional(S.Number),
+  }),
+).annotations({ identifier: "DbIormConfig" }) as any as S.Schema<DbIormConfig>;
+export type DbIormConfigList = DbIormConfig[];
 export const DbIormConfigList = S.Array(DbIormConfig);
-export class ExadataIormConfig extends S.Class<ExadataIormConfig>(
-  "ExadataIormConfig",
-)({
-  dbPlans: S.optional(DbIormConfigList),
-  lifecycleDetails: S.optional(S.String),
-  lifecycleState: S.optional(S.String),
-  objective: S.optional(S.String),
-}) {}
-export class IamRole extends S.Class<IamRole>("IamRole")({
-  iamRoleArn: S.optional(S.String),
-  status: S.optional(S.String),
-  statusReason: S.optional(S.String),
-  awsIntegration: S.optional(S.String),
-}) {}
+export interface ExadataIormConfig {
+  dbPlans?: DbIormConfigList;
+  lifecycleDetails?: string;
+  lifecycleState?: string;
+  objective?: string;
+}
+export const ExadataIormConfig = S.suspend(() =>
+  S.Struct({
+    dbPlans: S.optional(DbIormConfigList),
+    lifecycleDetails: S.optional(S.String),
+    lifecycleState: S.optional(S.String),
+    objective: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ExadataIormConfig",
+}) as any as S.Schema<ExadataIormConfig>;
+export interface IamRole {
+  iamRoleArn?: string;
+  status?: string;
+  statusReason?: string;
+  awsIntegration?: string;
+}
+export const IamRole = S.suspend(() =>
+  S.Struct({
+    iamRoleArn: S.optional(S.String),
+    status: S.optional(S.String),
+    statusReason: S.optional(S.String),
+    awsIntegration: S.optional(S.String),
+  }),
+).annotations({ identifier: "IamRole" }) as any as S.Schema<IamRole>;
+export type IamRoleList = IamRole[];
 export const IamRoleList = S.Array(IamRole);
-export class CloudVmClusterSummary extends S.Class<CloudVmClusterSummary>(
-  "CloudVmClusterSummary",
-)({
-  cloudVmClusterId: S.String,
-  displayName: S.optional(S.String),
-  status: S.optional(S.String),
-  statusReason: S.optional(S.String),
-  cloudVmClusterArn: S.optional(S.String),
-  cloudExadataInfrastructureId: S.optional(S.String),
-  cloudExadataInfrastructureArn: S.optional(S.String),
-  clusterName: S.optional(S.String),
-  cpuCoreCount: S.optional(S.Number),
-  dataCollectionOptions: S.optional(DataCollectionOptions),
-  dataStorageSizeInTBs: S.optional(S.Number),
-  dbNodeStorageSizeInGBs: S.optional(S.Number),
-  dbServers: S.optional(StringList),
-  diskRedundancy: S.optional(S.String),
-  giVersion: S.optional(S.String),
-  hostname: S.optional(S.String),
-  iormConfigCache: S.optional(ExadataIormConfig),
-  isLocalBackupEnabled: S.optional(S.Boolean),
-  isSparseDiskgroupEnabled: S.optional(S.Boolean),
-  lastUpdateHistoryEntryId: S.optional(S.String),
-  licenseModel: S.optional(S.String),
-  listenerPort: S.optional(S.Number),
-  memorySizeInGBs: S.optional(S.Number),
-  nodeCount: S.optional(S.Number),
-  ocid: S.optional(S.String),
-  ociResourceAnchorName: S.optional(S.String),
-  ociUrl: S.optional(S.String),
-  domain: S.optional(S.String),
-  scanDnsName: S.optional(S.String),
-  scanDnsRecordId: S.optional(S.String),
-  scanIpIds: S.optional(StringList),
-  shape: S.optional(S.String),
-  sshPublicKeys: S.optional(SensitiveStringList),
-  storageSizeInGBs: S.optional(S.Number),
-  systemVersion: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  timeZone: S.optional(S.String),
-  vipIds: S.optional(StringList),
-  odbNetworkId: S.optional(S.String),
-  odbNetworkArn: S.optional(S.String),
-  percentProgress: S.optional(S.Number),
-  computeModel: S.optional(S.String),
-  iamRoles: S.optional(IamRoleList),
-}) {}
+export interface CloudVmClusterSummary {
+  cloudVmClusterId: string;
+  displayName?: string;
+  status?: string;
+  statusReason?: string;
+  cloudVmClusterArn?: string;
+  cloudExadataInfrastructureId?: string;
+  cloudExadataInfrastructureArn?: string;
+  clusterName?: string;
+  cpuCoreCount?: number;
+  dataCollectionOptions?: DataCollectionOptions;
+  dataStorageSizeInTBs?: number;
+  dbNodeStorageSizeInGBs?: number;
+  dbServers?: StringList;
+  diskRedundancy?: string;
+  giVersion?: string;
+  hostname?: string;
+  iormConfigCache?: ExadataIormConfig;
+  isLocalBackupEnabled?: boolean;
+  isSparseDiskgroupEnabled?: boolean;
+  lastUpdateHistoryEntryId?: string;
+  licenseModel?: string;
+  listenerPort?: number;
+  memorySizeInGBs?: number;
+  nodeCount?: number;
+  ocid?: string;
+  ociResourceAnchorName?: string;
+  ociUrl?: string;
+  domain?: string;
+  scanDnsName?: string;
+  scanDnsRecordId?: string;
+  scanIpIds?: StringList;
+  shape?: string;
+  sshPublicKeys?: SensitiveStringList;
+  storageSizeInGBs?: number;
+  systemVersion?: string;
+  createdAt?: Date;
+  timeZone?: string;
+  vipIds?: StringList;
+  odbNetworkId?: string;
+  odbNetworkArn?: string;
+  percentProgress?: number;
+  computeModel?: string;
+  iamRoles?: IamRoleList;
+}
+export const CloudVmClusterSummary = S.suspend(() =>
+  S.Struct({
+    cloudVmClusterId: S.String,
+    displayName: S.optional(S.String),
+    status: S.optional(S.String),
+    statusReason: S.optional(S.String),
+    cloudVmClusterArn: S.optional(S.String),
+    cloudExadataInfrastructureId: S.optional(S.String),
+    cloudExadataInfrastructureArn: S.optional(S.String),
+    clusterName: S.optional(S.String),
+    cpuCoreCount: S.optional(S.Number),
+    dataCollectionOptions: S.optional(DataCollectionOptions),
+    dataStorageSizeInTBs: S.optional(S.Number),
+    dbNodeStorageSizeInGBs: S.optional(S.Number),
+    dbServers: S.optional(StringList),
+    diskRedundancy: S.optional(S.String),
+    giVersion: S.optional(S.String),
+    hostname: S.optional(S.String),
+    iormConfigCache: S.optional(ExadataIormConfig),
+    isLocalBackupEnabled: S.optional(S.Boolean),
+    isSparseDiskgroupEnabled: S.optional(S.Boolean),
+    lastUpdateHistoryEntryId: S.optional(S.String),
+    licenseModel: S.optional(S.String),
+    listenerPort: S.optional(S.Number),
+    memorySizeInGBs: S.optional(S.Number),
+    nodeCount: S.optional(S.Number),
+    ocid: S.optional(S.String),
+    ociResourceAnchorName: S.optional(S.String),
+    ociUrl: S.optional(S.String),
+    domain: S.optional(S.String),
+    scanDnsName: S.optional(S.String),
+    scanDnsRecordId: S.optional(S.String),
+    scanIpIds: S.optional(StringList),
+    shape: S.optional(S.String),
+    sshPublicKeys: S.optional(SensitiveStringList),
+    storageSizeInGBs: S.optional(S.Number),
+    systemVersion: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    timeZone: S.optional(S.String),
+    vipIds: S.optional(StringList),
+    odbNetworkId: S.optional(S.String),
+    odbNetworkArn: S.optional(S.String),
+    percentProgress: S.optional(S.Number),
+    computeModel: S.optional(S.String),
+    iamRoles: S.optional(IamRoleList),
+  }),
+).annotations({
+  identifier: "CloudVmClusterSummary",
+}) as any as S.Schema<CloudVmClusterSummary>;
+export type CloudVmClusterList = CloudVmClusterSummary[];
 export const CloudVmClusterList = S.Array(CloudVmClusterSummary);
-export class DbNode extends S.Class<DbNode>("DbNode")({
-  dbNodeId: S.optional(S.String),
-  dbNodeArn: S.optional(S.String),
-  status: S.optional(S.String),
-  statusReason: S.optional(S.String),
-  additionalDetails: S.optional(S.String),
-  backupIpId: S.optional(S.String),
-  backupVnic2Id: S.optional(S.String),
-  backupVnicId: S.optional(S.String),
-  cpuCoreCount: S.optional(S.Number),
-  dbNodeStorageSizeInGBs: S.optional(S.Number),
-  dbServerId: S.optional(S.String),
-  dbSystemId: S.optional(S.String),
-  faultDomain: S.optional(S.String),
-  hostIpId: S.optional(S.String),
-  hostname: S.optional(S.String),
-  ocid: S.optional(S.String),
-  ociResourceAnchorName: S.optional(S.String),
-  maintenanceType: S.optional(S.String),
-  memorySizeInGBs: S.optional(S.Number),
-  softwareStorageSizeInGB: S.optional(S.Number),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  timeMaintenanceWindowEnd: S.optional(S.String),
-  timeMaintenanceWindowStart: S.optional(S.String),
-  totalCpuCoreCount: S.optional(S.Number),
-  vnic2Id: S.optional(S.String),
-  vnicId: S.optional(S.String),
-  privateIpAddress: S.optional(S.String),
-  floatingIpAddress: S.optional(S.String),
-}) {}
-export class DbNodeSummary extends S.Class<DbNodeSummary>("DbNodeSummary")({
-  dbNodeId: S.optional(S.String),
-  dbNodeArn: S.optional(S.String),
-  status: S.optional(S.String),
-  statusReason: S.optional(S.String),
-  additionalDetails: S.optional(S.String),
-  backupIpId: S.optional(S.String),
-  backupVnic2Id: S.optional(S.String),
-  backupVnicId: S.optional(S.String),
-  cpuCoreCount: S.optional(S.Number),
-  dbNodeStorageSizeInGBs: S.optional(S.Number),
-  dbServerId: S.optional(S.String),
-  dbSystemId: S.optional(S.String),
-  faultDomain: S.optional(S.String),
-  hostIpId: S.optional(S.String),
-  hostname: S.optional(S.String),
-  ocid: S.optional(S.String),
-  ociResourceAnchorName: S.optional(S.String),
-  maintenanceType: S.optional(S.String),
-  memorySizeInGBs: S.optional(S.Number),
-  softwareStorageSizeInGB: S.optional(S.Number),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  timeMaintenanceWindowEnd: S.optional(S.String),
-  timeMaintenanceWindowStart: S.optional(S.String),
-  totalCpuCoreCount: S.optional(S.Number),
-  vnic2Id: S.optional(S.String),
-  vnicId: S.optional(S.String),
-}) {}
+export interface DbNode {
+  dbNodeId?: string;
+  dbNodeArn?: string;
+  status?: string;
+  statusReason?: string;
+  additionalDetails?: string;
+  backupIpId?: string;
+  backupVnic2Id?: string;
+  backupVnicId?: string;
+  cpuCoreCount?: number;
+  dbNodeStorageSizeInGBs?: number;
+  dbServerId?: string;
+  dbSystemId?: string;
+  faultDomain?: string;
+  hostIpId?: string;
+  hostname?: string;
+  ocid?: string;
+  ociResourceAnchorName?: string;
+  maintenanceType?: string;
+  memorySizeInGBs?: number;
+  softwareStorageSizeInGB?: number;
+  createdAt?: Date;
+  timeMaintenanceWindowEnd?: string;
+  timeMaintenanceWindowStart?: string;
+  totalCpuCoreCount?: number;
+  vnic2Id?: string;
+  vnicId?: string;
+  privateIpAddress?: string;
+  floatingIpAddress?: string;
+}
+export const DbNode = S.suspend(() =>
+  S.Struct({
+    dbNodeId: S.optional(S.String),
+    dbNodeArn: S.optional(S.String),
+    status: S.optional(S.String),
+    statusReason: S.optional(S.String),
+    additionalDetails: S.optional(S.String),
+    backupIpId: S.optional(S.String),
+    backupVnic2Id: S.optional(S.String),
+    backupVnicId: S.optional(S.String),
+    cpuCoreCount: S.optional(S.Number),
+    dbNodeStorageSizeInGBs: S.optional(S.Number),
+    dbServerId: S.optional(S.String),
+    dbSystemId: S.optional(S.String),
+    faultDomain: S.optional(S.String),
+    hostIpId: S.optional(S.String),
+    hostname: S.optional(S.String),
+    ocid: S.optional(S.String),
+    ociResourceAnchorName: S.optional(S.String),
+    maintenanceType: S.optional(S.String),
+    memorySizeInGBs: S.optional(S.Number),
+    softwareStorageSizeInGB: S.optional(S.Number),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    timeMaintenanceWindowEnd: S.optional(S.String),
+    timeMaintenanceWindowStart: S.optional(S.String),
+    totalCpuCoreCount: S.optional(S.Number),
+    vnic2Id: S.optional(S.String),
+    vnicId: S.optional(S.String),
+    privateIpAddress: S.optional(S.String),
+    floatingIpAddress: S.optional(S.String),
+  }),
+).annotations({ identifier: "DbNode" }) as any as S.Schema<DbNode>;
+export interface DbNodeSummary {
+  dbNodeId?: string;
+  dbNodeArn?: string;
+  status?: string;
+  statusReason?: string;
+  additionalDetails?: string;
+  backupIpId?: string;
+  backupVnic2Id?: string;
+  backupVnicId?: string;
+  cpuCoreCount?: number;
+  dbNodeStorageSizeInGBs?: number;
+  dbServerId?: string;
+  dbSystemId?: string;
+  faultDomain?: string;
+  hostIpId?: string;
+  hostname?: string;
+  ocid?: string;
+  ociResourceAnchorName?: string;
+  maintenanceType?: string;
+  memorySizeInGBs?: number;
+  softwareStorageSizeInGB?: number;
+  createdAt?: Date;
+  timeMaintenanceWindowEnd?: string;
+  timeMaintenanceWindowStart?: string;
+  totalCpuCoreCount?: number;
+  vnic2Id?: string;
+  vnicId?: string;
+}
+export const DbNodeSummary = S.suspend(() =>
+  S.Struct({
+    dbNodeId: S.optional(S.String),
+    dbNodeArn: S.optional(S.String),
+    status: S.optional(S.String),
+    statusReason: S.optional(S.String),
+    additionalDetails: S.optional(S.String),
+    backupIpId: S.optional(S.String),
+    backupVnic2Id: S.optional(S.String),
+    backupVnicId: S.optional(S.String),
+    cpuCoreCount: S.optional(S.Number),
+    dbNodeStorageSizeInGBs: S.optional(S.Number),
+    dbServerId: S.optional(S.String),
+    dbSystemId: S.optional(S.String),
+    faultDomain: S.optional(S.String),
+    hostIpId: S.optional(S.String),
+    hostname: S.optional(S.String),
+    ocid: S.optional(S.String),
+    ociResourceAnchorName: S.optional(S.String),
+    maintenanceType: S.optional(S.String),
+    memorySizeInGBs: S.optional(S.Number),
+    softwareStorageSizeInGB: S.optional(S.Number),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    timeMaintenanceWindowEnd: S.optional(S.String),
+    timeMaintenanceWindowStart: S.optional(S.String),
+    totalCpuCoreCount: S.optional(S.Number),
+    vnic2Id: S.optional(S.String),
+    vnicId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DbNodeSummary",
+}) as any as S.Schema<DbNodeSummary>;
+export type DbNodeList = DbNodeSummary[];
 export const DbNodeList = S.Array(DbNodeSummary);
-export class OciDnsForwardingConfig extends S.Class<OciDnsForwardingConfig>(
-  "OciDnsForwardingConfig",
-)({
-  domainName: S.optional(S.String),
-  ociDnsListenerIp: S.optional(S.String),
-}) {}
+export interface OciDnsForwardingConfig {
+  domainName?: string;
+  ociDnsListenerIp?: string;
+}
+export const OciDnsForwardingConfig = S.suspend(() =>
+  S.Struct({
+    domainName: S.optional(S.String),
+    ociDnsListenerIp: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "OciDnsForwardingConfig",
+}) as any as S.Schema<OciDnsForwardingConfig>;
+export type OciDnsForwardingConfigList = OciDnsForwardingConfig[];
 export const OciDnsForwardingConfigList = S.Array(OciDnsForwardingConfig);
-export class ServiceNetworkEndpoint extends S.Class<ServiceNetworkEndpoint>(
-  "ServiceNetworkEndpoint",
-)({
-  vpcEndpointId: S.optional(S.String),
-  vpcEndpointType: S.optional(S.String),
-}) {}
-export class ManagedS3BackupAccess extends S.Class<ManagedS3BackupAccess>(
-  "ManagedS3BackupAccess",
-)({ status: S.optional(S.String), ipv4Addresses: S.optional(StringList) }) {}
-export class ZeroEtlAccess extends S.Class<ZeroEtlAccess>("ZeroEtlAccess")({
-  status: S.optional(S.String),
-  cidr: S.optional(S.String),
-}) {}
-export class S3Access extends S.Class<S3Access>("S3Access")({
-  status: S.optional(S.String),
-  ipv4Addresses: S.optional(StringList),
-  domainName: S.optional(S.String),
-  s3PolicyDocument: S.optional(S.String),
-}) {}
-export class StsAccess extends S.Class<StsAccess>("StsAccess")({
-  status: S.optional(S.String),
-  ipv4Addresses: S.optional(StringList),
-  domainName: S.optional(S.String),
-  stsPolicyDocument: S.optional(S.String),
-}) {}
-export class KmsAccess extends S.Class<KmsAccess>("KmsAccess")({
-  status: S.optional(S.String),
-  ipv4Addresses: S.optional(StringList),
-  domainName: S.optional(S.String),
-  kmsPolicyDocument: S.optional(S.String),
-}) {}
-export class CrossRegionS3RestoreSourcesAccess extends S.Class<CrossRegionS3RestoreSourcesAccess>(
-  "CrossRegionS3RestoreSourcesAccess",
-)({
-  region: S.optional(S.String),
-  ipv4Addresses: S.optional(StringList),
-  status: S.optional(S.String),
-}) {}
+export interface ServiceNetworkEndpoint {
+  vpcEndpointId?: string;
+  vpcEndpointType?: string;
+}
+export const ServiceNetworkEndpoint = S.suspend(() =>
+  S.Struct({
+    vpcEndpointId: S.optional(S.String),
+    vpcEndpointType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ServiceNetworkEndpoint",
+}) as any as S.Schema<ServiceNetworkEndpoint>;
+export interface ManagedS3BackupAccess {
+  status?: string;
+  ipv4Addresses?: StringList;
+}
+export const ManagedS3BackupAccess = S.suspend(() =>
+  S.Struct({
+    status: S.optional(S.String),
+    ipv4Addresses: S.optional(StringList),
+  }),
+).annotations({
+  identifier: "ManagedS3BackupAccess",
+}) as any as S.Schema<ManagedS3BackupAccess>;
+export interface ZeroEtlAccess {
+  status?: string;
+  cidr?: string;
+}
+export const ZeroEtlAccess = S.suspend(() =>
+  S.Struct({ status: S.optional(S.String), cidr: S.optional(S.String) }),
+).annotations({
+  identifier: "ZeroEtlAccess",
+}) as any as S.Schema<ZeroEtlAccess>;
+export interface S3Access {
+  status?: string;
+  ipv4Addresses?: StringList;
+  domainName?: string;
+  s3PolicyDocument?: string;
+}
+export const S3Access = S.suspend(() =>
+  S.Struct({
+    status: S.optional(S.String),
+    ipv4Addresses: S.optional(StringList),
+    domainName: S.optional(S.String),
+    s3PolicyDocument: S.optional(S.String),
+  }),
+).annotations({ identifier: "S3Access" }) as any as S.Schema<S3Access>;
+export interface StsAccess {
+  status?: string;
+  ipv4Addresses?: StringList;
+  domainName?: string;
+  stsPolicyDocument?: string;
+}
+export const StsAccess = S.suspend(() =>
+  S.Struct({
+    status: S.optional(S.String),
+    ipv4Addresses: S.optional(StringList),
+    domainName: S.optional(S.String),
+    stsPolicyDocument: S.optional(S.String),
+  }),
+).annotations({ identifier: "StsAccess" }) as any as S.Schema<StsAccess>;
+export interface KmsAccess {
+  status?: string;
+  ipv4Addresses?: StringList;
+  domainName?: string;
+  kmsPolicyDocument?: string;
+}
+export const KmsAccess = S.suspend(() =>
+  S.Struct({
+    status: S.optional(S.String),
+    ipv4Addresses: S.optional(StringList),
+    domainName: S.optional(S.String),
+    kmsPolicyDocument: S.optional(S.String),
+  }),
+).annotations({ identifier: "KmsAccess" }) as any as S.Schema<KmsAccess>;
+export interface CrossRegionS3RestoreSourcesAccess {
+  region?: string;
+  ipv4Addresses?: StringList;
+  status?: string;
+}
+export const CrossRegionS3RestoreSourcesAccess = S.suspend(() =>
+  S.Struct({
+    region: S.optional(S.String),
+    ipv4Addresses: S.optional(StringList),
+    status: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CrossRegionS3RestoreSourcesAccess",
+}) as any as S.Schema<CrossRegionS3RestoreSourcesAccess>;
+export type CrossRegionS3RestoreSourcesAccessList =
+  CrossRegionS3RestoreSourcesAccess[];
 export const CrossRegionS3RestoreSourcesAccessList = S.Array(
   CrossRegionS3RestoreSourcesAccess,
 );
-export class ManagedServices extends S.Class<ManagedServices>(
-  "ManagedServices",
-)({
-  serviceNetworkArn: S.optional(S.String),
-  resourceGatewayArn: S.optional(S.String),
-  managedServicesIpv4Cidrs: S.optional(StringList),
-  serviceNetworkEndpoint: S.optional(ServiceNetworkEndpoint),
-  managedS3BackupAccess: S.optional(ManagedS3BackupAccess),
-  zeroEtlAccess: S.optional(ZeroEtlAccess),
-  s3Access: S.optional(S3Access),
-  stsAccess: S.optional(StsAccess),
-  kmsAccess: S.optional(KmsAccess),
-  crossRegionS3RestoreSourcesAccess: S.optional(
-    CrossRegionS3RestoreSourcesAccessList,
-  ),
-}) {}
-export class OdbNetworkSummary extends S.Class<OdbNetworkSummary>(
-  "OdbNetworkSummary",
-)({
-  odbNetworkId: S.String,
-  displayName: S.optional(S.String),
-  status: S.optional(S.String),
-  statusReason: S.optional(S.String),
-  odbNetworkArn: S.optional(S.String),
-  availabilityZone: S.optional(S.String),
-  availabilityZoneId: S.optional(S.String),
-  clientSubnetCidr: S.optional(S.String),
-  backupSubnetCidr: S.optional(S.String),
-  customDomainName: S.optional(S.String),
-  defaultDnsPrefix: S.optional(S.String),
-  peeredCidrs: S.optional(StringList),
-  ociNetworkAnchorId: S.optional(S.String),
-  ociNetworkAnchorUrl: S.optional(S.String),
-  ociResourceAnchorName: S.optional(S.String),
-  ociVcnId: S.optional(S.String),
-  ociVcnUrl: S.optional(S.String),
-  ociDnsForwardingConfigs: S.optional(OciDnsForwardingConfigList),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  percentProgress: S.optional(S.Number),
-  managedServices: S.optional(ManagedServices),
-}) {}
+export interface ManagedServices {
+  serviceNetworkArn?: string;
+  resourceGatewayArn?: string;
+  managedServicesIpv4Cidrs?: StringList;
+  serviceNetworkEndpoint?: ServiceNetworkEndpoint;
+  managedS3BackupAccess?: ManagedS3BackupAccess;
+  zeroEtlAccess?: ZeroEtlAccess;
+  s3Access?: S3Access;
+  stsAccess?: StsAccess;
+  kmsAccess?: KmsAccess;
+  crossRegionS3RestoreSourcesAccess?: CrossRegionS3RestoreSourcesAccessList;
+}
+export const ManagedServices = S.suspend(() =>
+  S.Struct({
+    serviceNetworkArn: S.optional(S.String),
+    resourceGatewayArn: S.optional(S.String),
+    managedServicesIpv4Cidrs: S.optional(StringList),
+    serviceNetworkEndpoint: S.optional(ServiceNetworkEndpoint),
+    managedS3BackupAccess: S.optional(ManagedS3BackupAccess),
+    zeroEtlAccess: S.optional(ZeroEtlAccess),
+    s3Access: S.optional(S3Access),
+    stsAccess: S.optional(StsAccess),
+    kmsAccess: S.optional(KmsAccess),
+    crossRegionS3RestoreSourcesAccess: S.optional(
+      CrossRegionS3RestoreSourcesAccessList,
+    ),
+  }),
+).annotations({
+  identifier: "ManagedServices",
+}) as any as S.Schema<ManagedServices>;
+export interface OdbNetworkSummary {
+  odbNetworkId: string;
+  displayName?: string;
+  status?: string;
+  statusReason?: string;
+  odbNetworkArn?: string;
+  availabilityZone?: string;
+  availabilityZoneId?: string;
+  clientSubnetCidr?: string;
+  backupSubnetCidr?: string;
+  customDomainName?: string;
+  defaultDnsPrefix?: string;
+  peeredCidrs?: StringList;
+  ociNetworkAnchorId?: string;
+  ociNetworkAnchorUrl?: string;
+  ociResourceAnchorName?: string;
+  ociVcnId?: string;
+  ociVcnUrl?: string;
+  ociDnsForwardingConfigs?: OciDnsForwardingConfigList;
+  createdAt?: Date;
+  percentProgress?: number;
+  managedServices?: ManagedServices;
+}
+export const OdbNetworkSummary = S.suspend(() =>
+  S.Struct({
+    odbNetworkId: S.String,
+    displayName: S.optional(S.String),
+    status: S.optional(S.String),
+    statusReason: S.optional(S.String),
+    odbNetworkArn: S.optional(S.String),
+    availabilityZone: S.optional(S.String),
+    availabilityZoneId: S.optional(S.String),
+    clientSubnetCidr: S.optional(S.String),
+    backupSubnetCidr: S.optional(S.String),
+    customDomainName: S.optional(S.String),
+    defaultDnsPrefix: S.optional(S.String),
+    peeredCidrs: S.optional(StringList),
+    ociNetworkAnchorId: S.optional(S.String),
+    ociNetworkAnchorUrl: S.optional(S.String),
+    ociResourceAnchorName: S.optional(S.String),
+    ociVcnId: S.optional(S.String),
+    ociVcnUrl: S.optional(S.String),
+    ociDnsForwardingConfigs: S.optional(OciDnsForwardingConfigList),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    percentProgress: S.optional(S.Number),
+    managedServices: S.optional(ManagedServices),
+  }),
+).annotations({
+  identifier: "OdbNetworkSummary",
+}) as any as S.Schema<OdbNetworkSummary>;
+export type OdbNetworkList = OdbNetworkSummary[];
 export const OdbNetworkList = S.Array(OdbNetworkSummary);
-export class OdbPeeringConnection extends S.Class<OdbPeeringConnection>(
-  "OdbPeeringConnection",
-)({
-  odbPeeringConnectionId: S.String,
-  displayName: S.optional(S.String),
-  status: S.optional(S.String),
-  statusReason: S.optional(S.String),
-  odbPeeringConnectionArn: S.optional(S.String),
-  odbNetworkArn: S.optional(S.String),
-  peerNetworkArn: S.optional(S.String),
-  odbPeeringConnectionType: S.optional(S.String),
-  peerNetworkCidrs: S.optional(PeeredCidrList),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  percentProgress: S.optional(S.Number),
-}) {}
-export class OdbPeeringConnectionSummary extends S.Class<OdbPeeringConnectionSummary>(
-  "OdbPeeringConnectionSummary",
-)({
-  odbPeeringConnectionId: S.String,
-  displayName: S.optional(S.String),
-  status: S.optional(S.String),
-  statusReason: S.optional(S.String),
-  odbPeeringConnectionArn: S.optional(S.String),
-  odbNetworkArn: S.optional(S.String),
-  peerNetworkArn: S.optional(S.String),
-  odbPeeringConnectionType: S.optional(S.String),
-  peerNetworkCidrs: S.optional(PeeredCidrList),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  percentProgress: S.optional(S.Number),
-}) {}
+export interface OdbPeeringConnection {
+  odbPeeringConnectionId: string;
+  displayName?: string;
+  status?: string;
+  statusReason?: string;
+  odbPeeringConnectionArn?: string;
+  odbNetworkArn?: string;
+  peerNetworkArn?: string;
+  odbPeeringConnectionType?: string;
+  peerNetworkCidrs?: PeeredCidrList;
+  createdAt?: Date;
+  percentProgress?: number;
+}
+export const OdbPeeringConnection = S.suspend(() =>
+  S.Struct({
+    odbPeeringConnectionId: S.String,
+    displayName: S.optional(S.String),
+    status: S.optional(S.String),
+    statusReason: S.optional(S.String),
+    odbPeeringConnectionArn: S.optional(S.String),
+    odbNetworkArn: S.optional(S.String),
+    peerNetworkArn: S.optional(S.String),
+    odbPeeringConnectionType: S.optional(S.String),
+    peerNetworkCidrs: S.optional(PeeredCidrList),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    percentProgress: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "OdbPeeringConnection",
+}) as any as S.Schema<OdbPeeringConnection>;
+export interface OdbPeeringConnectionSummary {
+  odbPeeringConnectionId: string;
+  displayName?: string;
+  status?: string;
+  statusReason?: string;
+  odbPeeringConnectionArn?: string;
+  odbNetworkArn?: string;
+  peerNetworkArn?: string;
+  odbPeeringConnectionType?: string;
+  peerNetworkCidrs?: PeeredCidrList;
+  createdAt?: Date;
+  percentProgress?: number;
+}
+export const OdbPeeringConnectionSummary = S.suspend(() =>
+  S.Struct({
+    odbPeeringConnectionId: S.String,
+    displayName: S.optional(S.String),
+    status: S.optional(S.String),
+    statusReason: S.optional(S.String),
+    odbPeeringConnectionArn: S.optional(S.String),
+    odbNetworkArn: S.optional(S.String),
+    peerNetworkArn: S.optional(S.String),
+    odbPeeringConnectionType: S.optional(S.String),
+    peerNetworkCidrs: S.optional(PeeredCidrList),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    percentProgress: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "OdbPeeringConnectionSummary",
+}) as any as S.Schema<OdbPeeringConnectionSummary>;
+export type OdbPeeringConnectionList = OdbPeeringConnectionSummary[];
 export const OdbPeeringConnectionList = S.Array(OdbPeeringConnectionSummary);
-export class ListDbSystemShapesOutput extends S.Class<ListDbSystemShapesOutput>(
-  "ListDbSystemShapesOutput",
-)({ nextToken: S.optional(S.String), dbSystemShapes: DbSystemShapeList }) {}
-export class ListGiVersionsOutput extends S.Class<ListGiVersionsOutput>(
-  "ListGiVersionsOutput",
-)({ nextToken: S.optional(S.String), giVersions: GiVersionList }) {}
-export class ListSystemVersionsOutput extends S.Class<ListSystemVersionsOutput>(
-  "ListSystemVersionsOutput",
-)({ nextToken: S.optional(S.String), systemVersions: SystemVersionList }) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ tags: S.optional(ResponseTagMap) }) {}
-export class CreateCloudAutonomousVmClusterInput extends S.Class<CreateCloudAutonomousVmClusterInput>(
-  "CreateCloudAutonomousVmClusterInput",
-)(
-  {
+export interface ListDbSystemShapesOutput {
+  nextToken?: string;
+  dbSystemShapes: DbSystemShapeList;
+}
+export const ListDbSystemShapesOutput = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    dbSystemShapes: DbSystemShapeList,
+  }),
+).annotations({
+  identifier: "ListDbSystemShapesOutput",
+}) as any as S.Schema<ListDbSystemShapesOutput>;
+export interface ListGiVersionsOutput {
+  nextToken?: string;
+  giVersions: GiVersionList;
+}
+export const ListGiVersionsOutput = S.suspend(() =>
+  S.Struct({ nextToken: S.optional(S.String), giVersions: GiVersionList }),
+).annotations({
+  identifier: "ListGiVersionsOutput",
+}) as any as S.Schema<ListGiVersionsOutput>;
+export interface ListSystemVersionsOutput {
+  nextToken?: string;
+  systemVersions: SystemVersionList;
+}
+export const ListSystemVersionsOutput = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    systemVersions: SystemVersionList,
+  }),
+).annotations({
+  identifier: "ListSystemVersionsOutput",
+}) as any as S.Schema<ListSystemVersionsOutput>;
+export interface ListTagsForResourceResponse {
+  tags?: ResponseTagMap;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ tags: S.optional(ResponseTagMap) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface CreateCloudAutonomousVmClusterInput {
+  cloudExadataInfrastructureId: string;
+  odbNetworkId: string;
+  displayName: string;
+  clientToken?: string;
+  autonomousDataStorageSizeInTBs: number;
+  cpuCoreCountPerNode: number;
+  dbServers?: StringList;
+  description?: string;
+  isMtlsEnabledVmCluster?: boolean;
+  licenseModel?: string;
+  maintenanceWindow?: MaintenanceWindow;
+  memoryPerOracleComputeUnitInGBs: number;
+  scanListenerPortNonTls?: number;
+  scanListenerPortTls?: number;
+  tags?: RequestTagMap;
+  timeZone?: string;
+  totalContainerDatabases: number;
+}
+export const CreateCloudAutonomousVmClusterInput = S.suspend(() =>
+  S.Struct({
     cloudExadataInfrastructureId: S.String,
     odbNetworkId: S.String,
     displayName: S.String,
@@ -1461,213 +2503,458 @@ export class CreateCloudAutonomousVmClusterInput extends S.Class<CreateCloudAuto
     tags: S.optional(RequestTagMap),
     timeZone: S.optional(S.String),
     totalContainerDatabases: S.Number,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetCloudAutonomousVmClusterOutput extends S.Class<GetCloudAutonomousVmClusterOutput>(
-  "GetCloudAutonomousVmClusterOutput",
-)({ cloudAutonomousVmCluster: S.optional(CloudAutonomousVmCluster) }) {}
-export class ListCloudAutonomousVmClustersOutput extends S.Class<ListCloudAutonomousVmClustersOutput>(
-  "ListCloudAutonomousVmClustersOutput",
-)({
-  nextToken: S.optional(S.String),
-  cloudAutonomousVmClusters: CloudAutonomousVmClusterList,
-}) {}
-export class ListAutonomousVirtualMachinesOutput extends S.Class<ListAutonomousVirtualMachinesOutput>(
-  "ListAutonomousVirtualMachinesOutput",
-)({
-  nextToken: S.optional(S.String),
-  autonomousVirtualMachines: AutonomousVirtualMachineList,
-}) {}
-export class CreateCloudExadataInfrastructureOutput extends S.Class<CreateCloudExadataInfrastructureOutput>(
-  "CreateCloudExadataInfrastructureOutput",
-)({
-  displayName: S.optional(S.String),
-  status: S.optional(S.String),
-  statusReason: S.optional(S.String),
-  cloudExadataInfrastructureId: S.String,
-}) {}
-export class GetCloudExadataInfrastructureOutput extends S.Class<GetCloudExadataInfrastructureOutput>(
-  "GetCloudExadataInfrastructureOutput",
-)({ cloudExadataInfrastructure: S.optional(CloudExadataInfrastructure) }) {}
-export class ListCloudExadataInfrastructuresOutput extends S.Class<ListCloudExadataInfrastructuresOutput>(
-  "ListCloudExadataInfrastructuresOutput",
-)({
-  nextToken: S.optional(S.String),
-  cloudExadataInfrastructures: CloudExadataInfrastructureList,
-}) {}
-export class ListDbServersOutput extends S.Class<ListDbServersOutput>(
-  "ListDbServersOutput",
-)({ nextToken: S.optional(S.String), dbServers: DbServerList }) {}
-export class CreateCloudVmClusterOutput extends S.Class<CreateCloudVmClusterOutput>(
-  "CreateCloudVmClusterOutput",
-)({
-  displayName: S.optional(S.String),
-  status: S.optional(S.String),
-  statusReason: S.optional(S.String),
-  cloudVmClusterId: S.String,
-}) {}
-export class ListCloudVmClustersOutput extends S.Class<ListCloudVmClustersOutput>(
-  "ListCloudVmClustersOutput",
-)({ nextToken: S.optional(S.String), cloudVmClusters: CloudVmClusterList }) {}
-export class GetDbNodeOutput extends S.Class<GetDbNodeOutput>(
-  "GetDbNodeOutput",
-)({ dbNode: S.optional(DbNode) }) {}
-export class ListDbNodesOutput extends S.Class<ListDbNodesOutput>(
-  "ListDbNodesOutput",
-)({ nextToken: S.optional(S.String), dbNodes: DbNodeList }) {}
-export class ListOdbNetworksOutput extends S.Class<ListOdbNetworksOutput>(
-  "ListOdbNetworksOutput",
-)({ nextToken: S.optional(S.String), odbNetworks: OdbNetworkList }) {}
-export class GetOdbPeeringConnectionOutput extends S.Class<GetOdbPeeringConnectionOutput>(
-  "GetOdbPeeringConnectionOutput",
-)({ odbPeeringConnection: S.optional(OdbPeeringConnection) }) {}
-export class ListOdbPeeringConnectionsOutput extends S.Class<ListOdbPeeringConnectionsOutput>(
-  "ListOdbPeeringConnectionsOutput",
-)({
-  nextToken: S.optional(S.String),
-  odbPeeringConnections: OdbPeeringConnectionList,
-}) {}
-export class CloudAutonomousVmClusterResourceDetails extends S.Class<CloudAutonomousVmClusterResourceDetails>(
-  "CloudAutonomousVmClusterResourceDetails",
-)({
-  cloudAutonomousVmClusterId: S.optional(S.String),
-  unallocatedAdbStorageInTBs: S.optional(S.Number),
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateCloudAutonomousVmClusterInput",
+}) as any as S.Schema<CreateCloudAutonomousVmClusterInput>;
+export interface GetCloudAutonomousVmClusterOutput {
+  cloudAutonomousVmCluster?: CloudAutonomousVmCluster;
+}
+export const GetCloudAutonomousVmClusterOutput = S.suspend(() =>
+  S.Struct({ cloudAutonomousVmCluster: S.optional(CloudAutonomousVmCluster) }),
+).annotations({
+  identifier: "GetCloudAutonomousVmClusterOutput",
+}) as any as S.Schema<GetCloudAutonomousVmClusterOutput>;
+export interface ListCloudAutonomousVmClustersOutput {
+  nextToken?: string;
+  cloudAutonomousVmClusters: CloudAutonomousVmClusterList;
+}
+export const ListCloudAutonomousVmClustersOutput = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    cloudAutonomousVmClusters: CloudAutonomousVmClusterList,
+  }),
+).annotations({
+  identifier: "ListCloudAutonomousVmClustersOutput",
+}) as any as S.Schema<ListCloudAutonomousVmClustersOutput>;
+export interface ListAutonomousVirtualMachinesOutput {
+  nextToken?: string;
+  autonomousVirtualMachines: AutonomousVirtualMachineList;
+}
+export const ListAutonomousVirtualMachinesOutput = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    autonomousVirtualMachines: AutonomousVirtualMachineList,
+  }),
+).annotations({
+  identifier: "ListAutonomousVirtualMachinesOutput",
+}) as any as S.Schema<ListAutonomousVirtualMachinesOutput>;
+export interface CreateCloudExadataInfrastructureOutput {
+  displayName?: string;
+  status?: string;
+  statusReason?: string;
+  cloudExadataInfrastructureId: string;
+}
+export const CreateCloudExadataInfrastructureOutput = S.suspend(() =>
+  S.Struct({
+    displayName: S.optional(S.String),
+    status: S.optional(S.String),
+    statusReason: S.optional(S.String),
+    cloudExadataInfrastructureId: S.String,
+  }),
+).annotations({
+  identifier: "CreateCloudExadataInfrastructureOutput",
+}) as any as S.Schema<CreateCloudExadataInfrastructureOutput>;
+export interface GetCloudExadataInfrastructureOutput {
+  cloudExadataInfrastructure?: CloudExadataInfrastructure;
+}
+export const GetCloudExadataInfrastructureOutput = S.suspend(() =>
+  S.Struct({
+    cloudExadataInfrastructure: S.optional(CloudExadataInfrastructure),
+  }),
+).annotations({
+  identifier: "GetCloudExadataInfrastructureOutput",
+}) as any as S.Schema<GetCloudExadataInfrastructureOutput>;
+export interface ListCloudExadataInfrastructuresOutput {
+  nextToken?: string;
+  cloudExadataInfrastructures: CloudExadataInfrastructureList;
+}
+export const ListCloudExadataInfrastructuresOutput = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    cloudExadataInfrastructures: CloudExadataInfrastructureList,
+  }),
+).annotations({
+  identifier: "ListCloudExadataInfrastructuresOutput",
+}) as any as S.Schema<ListCloudExadataInfrastructuresOutput>;
+export interface ListDbServersOutput {
+  nextToken?: string;
+  dbServers: DbServerList;
+}
+export const ListDbServersOutput = S.suspend(() =>
+  S.Struct({ nextToken: S.optional(S.String), dbServers: DbServerList }),
+).annotations({
+  identifier: "ListDbServersOutput",
+}) as any as S.Schema<ListDbServersOutput>;
+export interface CreateCloudVmClusterOutput {
+  displayName?: string;
+  status?: string;
+  statusReason?: string;
+  cloudVmClusterId: string;
+}
+export const CreateCloudVmClusterOutput = S.suspend(() =>
+  S.Struct({
+    displayName: S.optional(S.String),
+    status: S.optional(S.String),
+    statusReason: S.optional(S.String),
+    cloudVmClusterId: S.String,
+  }),
+).annotations({
+  identifier: "CreateCloudVmClusterOutput",
+}) as any as S.Schema<CreateCloudVmClusterOutput>;
+export interface ListCloudVmClustersOutput {
+  nextToken?: string;
+  cloudVmClusters: CloudVmClusterList;
+}
+export const ListCloudVmClustersOutput = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    cloudVmClusters: CloudVmClusterList,
+  }),
+).annotations({
+  identifier: "ListCloudVmClustersOutput",
+}) as any as S.Schema<ListCloudVmClustersOutput>;
+export interface GetDbNodeOutput {
+  dbNode?: DbNode;
+}
+export const GetDbNodeOutput = S.suspend(() =>
+  S.Struct({ dbNode: S.optional(DbNode) }),
+).annotations({
+  identifier: "GetDbNodeOutput",
+}) as any as S.Schema<GetDbNodeOutput>;
+export interface ListDbNodesOutput {
+  nextToken?: string;
+  dbNodes: DbNodeList;
+}
+export const ListDbNodesOutput = S.suspend(() =>
+  S.Struct({ nextToken: S.optional(S.String), dbNodes: DbNodeList }),
+).annotations({
+  identifier: "ListDbNodesOutput",
+}) as any as S.Schema<ListDbNodesOutput>;
+export interface ListOdbNetworksOutput {
+  nextToken?: string;
+  odbNetworks: OdbNetworkList;
+}
+export const ListOdbNetworksOutput = S.suspend(() =>
+  S.Struct({ nextToken: S.optional(S.String), odbNetworks: OdbNetworkList }),
+).annotations({
+  identifier: "ListOdbNetworksOutput",
+}) as any as S.Schema<ListOdbNetworksOutput>;
+export interface GetOdbPeeringConnectionOutput {
+  odbPeeringConnection?: OdbPeeringConnection;
+}
+export const GetOdbPeeringConnectionOutput = S.suspend(() =>
+  S.Struct({ odbPeeringConnection: S.optional(OdbPeeringConnection) }),
+).annotations({
+  identifier: "GetOdbPeeringConnectionOutput",
+}) as any as S.Schema<GetOdbPeeringConnectionOutput>;
+export interface ListOdbPeeringConnectionsOutput {
+  nextToken?: string;
+  odbPeeringConnections: OdbPeeringConnectionList;
+}
+export const ListOdbPeeringConnectionsOutput = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    odbPeeringConnections: OdbPeeringConnectionList,
+  }),
+).annotations({
+  identifier: "ListOdbPeeringConnectionsOutput",
+}) as any as S.Schema<ListOdbPeeringConnectionsOutput>;
+export interface CloudAutonomousVmClusterResourceDetails {
+  cloudAutonomousVmClusterId?: string;
+  unallocatedAdbStorageInTBs?: number;
+}
+export const CloudAutonomousVmClusterResourceDetails = S.suspend(() =>
+  S.Struct({
+    cloudAutonomousVmClusterId: S.optional(S.String),
+    unallocatedAdbStorageInTBs: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "CloudAutonomousVmClusterResourceDetails",
+}) as any as S.Schema<CloudAutonomousVmClusterResourceDetails>;
+export type CloudAutonomousVmClusterResourceDetailsList =
+  CloudAutonomousVmClusterResourceDetails[];
 export const CloudAutonomousVmClusterResourceDetailsList = S.Array(
   CloudAutonomousVmClusterResourceDetails,
 );
-export class CloudExadataInfrastructureUnallocatedResources extends S.Class<CloudExadataInfrastructureUnallocatedResources>(
-  "CloudExadataInfrastructureUnallocatedResources",
-)({
-  cloudAutonomousVmClusters: S.optional(
-    CloudAutonomousVmClusterResourceDetailsList,
-  ),
-  cloudExadataInfrastructureDisplayName: S.optional(S.String),
-  exadataStorageInTBs: S.optional(S.Number),
-  cloudExadataInfrastructureId: S.optional(S.String),
-  localStorageInGBs: S.optional(S.Number),
-  memoryInGBs: S.optional(S.Number),
-  ocpus: S.optional(S.Number),
-}) {}
-export class DbServer extends S.Class<DbServer>("DbServer")({
-  dbServerId: S.optional(S.String),
-  status: S.optional(S.String),
-  statusReason: S.optional(S.String),
-  cpuCoreCount: S.optional(S.Number),
-  dbNodeStorageSizeInGBs: S.optional(S.Number),
-  dbServerPatchingDetails: S.optional(DbServerPatchingDetails),
-  displayName: S.optional(S.String),
-  exadataInfrastructureId: S.optional(S.String),
-  ocid: S.optional(S.String),
-  ociResourceAnchorName: S.optional(S.String),
-  maxCpuCount: S.optional(S.Number),
-  maxDbNodeStorageInGBs: S.optional(S.Number),
-  maxMemoryInGBs: S.optional(S.Number),
-  memorySizeInGBs: S.optional(S.Number),
-  shape: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  vmClusterIds: S.optional(StringList),
-  computeModel: S.optional(S.String),
-  autonomousVmClusterIds: S.optional(StringList),
-  autonomousVirtualMachineIds: S.optional(StringList),
-}) {}
-export class CreateCloudAutonomousVmClusterOutput extends S.Class<CreateCloudAutonomousVmClusterOutput>(
-  "CreateCloudAutonomousVmClusterOutput",
-)({
-  displayName: S.optional(S.String),
-  status: S.optional(S.String),
-  statusReason: S.optional(S.String),
-  cloudAutonomousVmClusterId: S.String,
-}) {}
-export class GetCloudExadataInfrastructureUnallocatedResourcesOutput extends S.Class<GetCloudExadataInfrastructureUnallocatedResourcesOutput>(
-  "GetCloudExadataInfrastructureUnallocatedResourcesOutput",
-)({
-  cloudExadataInfrastructureUnallocatedResources: S.optional(
-    CloudExadataInfrastructureUnallocatedResources,
-  ),
-}) {}
-export class GetDbServerOutput extends S.Class<GetDbServerOutput>(
-  "GetDbServerOutput",
-)({ dbServer: S.optional(DbServer) }) {}
-export class CloudVmCluster extends S.Class<CloudVmCluster>("CloudVmCluster")({
-  cloudVmClusterId: S.String,
-  displayName: S.optional(S.String),
-  status: S.optional(S.String),
-  statusReason: S.optional(S.String),
-  cloudVmClusterArn: S.optional(S.String),
-  cloudExadataInfrastructureId: S.optional(S.String),
-  cloudExadataInfrastructureArn: S.optional(S.String),
-  clusterName: S.optional(S.String),
-  cpuCoreCount: S.optional(S.Number),
-  dataCollectionOptions: S.optional(DataCollectionOptions),
-  dataStorageSizeInTBs: S.optional(S.Number),
-  dbNodeStorageSizeInGBs: S.optional(S.Number),
-  dbServers: S.optional(StringList),
-  diskRedundancy: S.optional(S.String),
-  giVersion: S.optional(S.String),
-  hostname: S.optional(S.String),
-  iormConfigCache: S.optional(ExadataIormConfig),
-  isLocalBackupEnabled: S.optional(S.Boolean),
-  isSparseDiskgroupEnabled: S.optional(S.Boolean),
-  lastUpdateHistoryEntryId: S.optional(S.String),
-  licenseModel: S.optional(S.String),
-  listenerPort: S.optional(S.Number),
-  memorySizeInGBs: S.optional(S.Number),
-  nodeCount: S.optional(S.Number),
-  ocid: S.optional(S.String),
-  ociResourceAnchorName: S.optional(S.String),
-  ociUrl: S.optional(S.String),
-  domain: S.optional(S.String),
-  scanDnsName: S.optional(S.String),
-  scanDnsRecordId: S.optional(S.String),
-  scanIpIds: S.optional(StringList),
-  shape: S.optional(S.String),
-  sshPublicKeys: S.optional(SensitiveStringList),
-  storageSizeInGBs: S.optional(S.Number),
-  systemVersion: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  timeZone: S.optional(S.String),
-  vipIds: S.optional(StringList),
-  odbNetworkId: S.optional(S.String),
-  odbNetworkArn: S.optional(S.String),
-  percentProgress: S.optional(S.Number),
-  computeModel: S.optional(S.String),
-  iamRoles: S.optional(IamRoleList),
-}) {}
-export class OdbNetwork extends S.Class<OdbNetwork>("OdbNetwork")({
-  odbNetworkId: S.String,
-  displayName: S.optional(S.String),
-  status: S.optional(S.String),
-  statusReason: S.optional(S.String),
-  odbNetworkArn: S.optional(S.String),
-  availabilityZone: S.optional(S.String),
-  availabilityZoneId: S.optional(S.String),
-  clientSubnetCidr: S.optional(S.String),
-  backupSubnetCidr: S.optional(S.String),
-  customDomainName: S.optional(S.String),
-  defaultDnsPrefix: S.optional(S.String),
-  peeredCidrs: S.optional(StringList),
-  ociNetworkAnchorId: S.optional(S.String),
-  ociNetworkAnchorUrl: S.optional(S.String),
-  ociResourceAnchorName: S.optional(S.String),
-  ociVcnId: S.optional(S.String),
-  ociVcnUrl: S.optional(S.String),
-  ociDnsForwardingConfigs: S.optional(OciDnsForwardingConfigList),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  percentProgress: S.optional(S.Number),
-  managedServices: S.optional(ManagedServices),
-}) {}
-export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
-  "ValidationExceptionField",
-)({ name: S.String, message: S.String }) {}
+export interface CloudExadataInfrastructureUnallocatedResources {
+  cloudAutonomousVmClusters?: CloudAutonomousVmClusterResourceDetailsList;
+  cloudExadataInfrastructureDisplayName?: string;
+  exadataStorageInTBs?: number;
+  cloudExadataInfrastructureId?: string;
+  localStorageInGBs?: number;
+  memoryInGBs?: number;
+  ocpus?: number;
+}
+export const CloudExadataInfrastructureUnallocatedResources = S.suspend(() =>
+  S.Struct({
+    cloudAutonomousVmClusters: S.optional(
+      CloudAutonomousVmClusterResourceDetailsList,
+    ),
+    cloudExadataInfrastructureDisplayName: S.optional(S.String),
+    exadataStorageInTBs: S.optional(S.Number),
+    cloudExadataInfrastructureId: S.optional(S.String),
+    localStorageInGBs: S.optional(S.Number),
+    memoryInGBs: S.optional(S.Number),
+    ocpus: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "CloudExadataInfrastructureUnallocatedResources",
+}) as any as S.Schema<CloudExadataInfrastructureUnallocatedResources>;
+export interface DbServer {
+  dbServerId?: string;
+  status?: string;
+  statusReason?: string;
+  cpuCoreCount?: number;
+  dbNodeStorageSizeInGBs?: number;
+  dbServerPatchingDetails?: DbServerPatchingDetails;
+  displayName?: string;
+  exadataInfrastructureId?: string;
+  ocid?: string;
+  ociResourceAnchorName?: string;
+  maxCpuCount?: number;
+  maxDbNodeStorageInGBs?: number;
+  maxMemoryInGBs?: number;
+  memorySizeInGBs?: number;
+  shape?: string;
+  createdAt?: Date;
+  vmClusterIds?: StringList;
+  computeModel?: string;
+  autonomousVmClusterIds?: StringList;
+  autonomousVirtualMachineIds?: StringList;
+}
+export const DbServer = S.suspend(() =>
+  S.Struct({
+    dbServerId: S.optional(S.String),
+    status: S.optional(S.String),
+    statusReason: S.optional(S.String),
+    cpuCoreCount: S.optional(S.Number),
+    dbNodeStorageSizeInGBs: S.optional(S.Number),
+    dbServerPatchingDetails: S.optional(DbServerPatchingDetails),
+    displayName: S.optional(S.String),
+    exadataInfrastructureId: S.optional(S.String),
+    ocid: S.optional(S.String),
+    ociResourceAnchorName: S.optional(S.String),
+    maxCpuCount: S.optional(S.Number),
+    maxDbNodeStorageInGBs: S.optional(S.Number),
+    maxMemoryInGBs: S.optional(S.Number),
+    memorySizeInGBs: S.optional(S.Number),
+    shape: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    vmClusterIds: S.optional(StringList),
+    computeModel: S.optional(S.String),
+    autonomousVmClusterIds: S.optional(StringList),
+    autonomousVirtualMachineIds: S.optional(StringList),
+  }),
+).annotations({ identifier: "DbServer" }) as any as S.Schema<DbServer>;
+export interface CreateCloudAutonomousVmClusterOutput {
+  displayName?: string;
+  status?: string;
+  statusReason?: string;
+  cloudAutonomousVmClusterId: string;
+}
+export const CreateCloudAutonomousVmClusterOutput = S.suspend(() =>
+  S.Struct({
+    displayName: S.optional(S.String),
+    status: S.optional(S.String),
+    statusReason: S.optional(S.String),
+    cloudAutonomousVmClusterId: S.String,
+  }),
+).annotations({
+  identifier: "CreateCloudAutonomousVmClusterOutput",
+}) as any as S.Schema<CreateCloudAutonomousVmClusterOutput>;
+export interface GetCloudExadataInfrastructureUnallocatedResourcesOutput {
+  cloudExadataInfrastructureUnallocatedResources?: CloudExadataInfrastructureUnallocatedResources;
+}
+export const GetCloudExadataInfrastructureUnallocatedResourcesOutput =
+  S.suspend(() =>
+    S.Struct({
+      cloudExadataInfrastructureUnallocatedResources: S.optional(
+        CloudExadataInfrastructureUnallocatedResources,
+      ),
+    }),
+  ).annotations({
+    identifier: "GetCloudExadataInfrastructureUnallocatedResourcesOutput",
+  }) as any as S.Schema<GetCloudExadataInfrastructureUnallocatedResourcesOutput>;
+export interface GetDbServerOutput {
+  dbServer?: DbServer;
+}
+export const GetDbServerOutput = S.suspend(() =>
+  S.Struct({ dbServer: S.optional(DbServer) }),
+).annotations({
+  identifier: "GetDbServerOutput",
+}) as any as S.Schema<GetDbServerOutput>;
+export interface CloudVmCluster {
+  cloudVmClusterId: string;
+  displayName?: string;
+  status?: string;
+  statusReason?: string;
+  cloudVmClusterArn?: string;
+  cloudExadataInfrastructureId?: string;
+  cloudExadataInfrastructureArn?: string;
+  clusterName?: string;
+  cpuCoreCount?: number;
+  dataCollectionOptions?: DataCollectionOptions;
+  dataStorageSizeInTBs?: number;
+  dbNodeStorageSizeInGBs?: number;
+  dbServers?: StringList;
+  diskRedundancy?: string;
+  giVersion?: string;
+  hostname?: string;
+  iormConfigCache?: ExadataIormConfig;
+  isLocalBackupEnabled?: boolean;
+  isSparseDiskgroupEnabled?: boolean;
+  lastUpdateHistoryEntryId?: string;
+  licenseModel?: string;
+  listenerPort?: number;
+  memorySizeInGBs?: number;
+  nodeCount?: number;
+  ocid?: string;
+  ociResourceAnchorName?: string;
+  ociUrl?: string;
+  domain?: string;
+  scanDnsName?: string;
+  scanDnsRecordId?: string;
+  scanIpIds?: StringList;
+  shape?: string;
+  sshPublicKeys?: SensitiveStringList;
+  storageSizeInGBs?: number;
+  systemVersion?: string;
+  createdAt?: Date;
+  timeZone?: string;
+  vipIds?: StringList;
+  odbNetworkId?: string;
+  odbNetworkArn?: string;
+  percentProgress?: number;
+  computeModel?: string;
+  iamRoles?: IamRoleList;
+}
+export const CloudVmCluster = S.suspend(() =>
+  S.Struct({
+    cloudVmClusterId: S.String,
+    displayName: S.optional(S.String),
+    status: S.optional(S.String),
+    statusReason: S.optional(S.String),
+    cloudVmClusterArn: S.optional(S.String),
+    cloudExadataInfrastructureId: S.optional(S.String),
+    cloudExadataInfrastructureArn: S.optional(S.String),
+    clusterName: S.optional(S.String),
+    cpuCoreCount: S.optional(S.Number),
+    dataCollectionOptions: S.optional(DataCollectionOptions),
+    dataStorageSizeInTBs: S.optional(S.Number),
+    dbNodeStorageSizeInGBs: S.optional(S.Number),
+    dbServers: S.optional(StringList),
+    diskRedundancy: S.optional(S.String),
+    giVersion: S.optional(S.String),
+    hostname: S.optional(S.String),
+    iormConfigCache: S.optional(ExadataIormConfig),
+    isLocalBackupEnabled: S.optional(S.Boolean),
+    isSparseDiskgroupEnabled: S.optional(S.Boolean),
+    lastUpdateHistoryEntryId: S.optional(S.String),
+    licenseModel: S.optional(S.String),
+    listenerPort: S.optional(S.Number),
+    memorySizeInGBs: S.optional(S.Number),
+    nodeCount: S.optional(S.Number),
+    ocid: S.optional(S.String),
+    ociResourceAnchorName: S.optional(S.String),
+    ociUrl: S.optional(S.String),
+    domain: S.optional(S.String),
+    scanDnsName: S.optional(S.String),
+    scanDnsRecordId: S.optional(S.String),
+    scanIpIds: S.optional(StringList),
+    shape: S.optional(S.String),
+    sshPublicKeys: S.optional(SensitiveStringList),
+    storageSizeInGBs: S.optional(S.Number),
+    systemVersion: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    timeZone: S.optional(S.String),
+    vipIds: S.optional(StringList),
+    odbNetworkId: S.optional(S.String),
+    odbNetworkArn: S.optional(S.String),
+    percentProgress: S.optional(S.Number),
+    computeModel: S.optional(S.String),
+    iamRoles: S.optional(IamRoleList),
+  }),
+).annotations({
+  identifier: "CloudVmCluster",
+}) as any as S.Schema<CloudVmCluster>;
+export interface OdbNetwork {
+  odbNetworkId: string;
+  displayName?: string;
+  status?: string;
+  statusReason?: string;
+  odbNetworkArn?: string;
+  availabilityZone?: string;
+  availabilityZoneId?: string;
+  clientSubnetCidr?: string;
+  backupSubnetCidr?: string;
+  customDomainName?: string;
+  defaultDnsPrefix?: string;
+  peeredCidrs?: StringList;
+  ociNetworkAnchorId?: string;
+  ociNetworkAnchorUrl?: string;
+  ociResourceAnchorName?: string;
+  ociVcnId?: string;
+  ociVcnUrl?: string;
+  ociDnsForwardingConfigs?: OciDnsForwardingConfigList;
+  createdAt?: Date;
+  percentProgress?: number;
+  managedServices?: ManagedServices;
+}
+export const OdbNetwork = S.suspend(() =>
+  S.Struct({
+    odbNetworkId: S.String,
+    displayName: S.optional(S.String),
+    status: S.optional(S.String),
+    statusReason: S.optional(S.String),
+    odbNetworkArn: S.optional(S.String),
+    availabilityZone: S.optional(S.String),
+    availabilityZoneId: S.optional(S.String),
+    clientSubnetCidr: S.optional(S.String),
+    backupSubnetCidr: S.optional(S.String),
+    customDomainName: S.optional(S.String),
+    defaultDnsPrefix: S.optional(S.String),
+    peeredCidrs: S.optional(StringList),
+    ociNetworkAnchorId: S.optional(S.String),
+    ociNetworkAnchorUrl: S.optional(S.String),
+    ociResourceAnchorName: S.optional(S.String),
+    ociVcnId: S.optional(S.String),
+    ociVcnUrl: S.optional(S.String),
+    ociDnsForwardingConfigs: S.optional(OciDnsForwardingConfigList),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    percentProgress: S.optional(S.Number),
+    managedServices: S.optional(ManagedServices),
+  }),
+).annotations({ identifier: "OdbNetwork" }) as any as S.Schema<OdbNetwork>;
+export interface ValidationExceptionField {
+  name: string;
+  message: string;
+}
+export const ValidationExceptionField = S.suspend(() =>
+  S.Struct({ name: S.String, message: S.String }),
+).annotations({
+  identifier: "ValidationExceptionField",
+}) as any as S.Schema<ValidationExceptionField>;
+export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
-export class GetCloudVmClusterOutput extends S.Class<GetCloudVmClusterOutput>(
-  "GetCloudVmClusterOutput",
-)({ cloudVmCluster: S.optional(CloudVmCluster) }) {}
-export class GetOdbNetworkOutput extends S.Class<GetOdbNetworkOutput>(
-  "GetOdbNetworkOutput",
-)({ odbNetwork: S.optional(OdbNetwork) }) {}
+export interface GetCloudVmClusterOutput {
+  cloudVmCluster?: CloudVmCluster;
+}
+export const GetCloudVmClusterOutput = S.suspend(() =>
+  S.Struct({ cloudVmCluster: S.optional(CloudVmCluster) }),
+).annotations({
+  identifier: "GetCloudVmClusterOutput",
+}) as any as S.Schema<GetCloudVmClusterOutput>;
+export interface GetOdbNetworkOutput {
+  odbNetwork?: OdbNetwork;
+}
+export const GetOdbNetworkOutput = S.suspend(() =>
+  S.Struct({ odbNetwork: S.optional(OdbNetwork) }),
+).annotations({
+  identifier: "GetOdbNetworkOutput",
+}) as any as S.Schema<GetOdbNetworkOutput>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

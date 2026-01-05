@@ -262,157 +262,214 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class GetConfigurationRequest extends S.Class<GetConfigurationRequest>(
-  "GetConfigurationRequest",
-)(
-  {},
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+export interface GetConfigurationRequest {}
+export const GetConfigurationRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetConfigurationRequest",
+}) as any as S.Schema<GetConfigurationRequest>;
+export type Options = string[];
 export const Options = S.Array(S.String);
+export type GetAssociatedResourceFilter = string[];
 export const GetAssociatedResourceFilter = S.Array(S.String);
+export type TagKeys = string[];
 export const TagKeys = S.Array(S.String);
-export class AssociateAttributeGroupRequest extends S.Class<AssociateAttributeGroupRequest>(
-  "AssociateAttributeGroupRequest",
-)(
-  {
+export interface AssociateAttributeGroupRequest {
+  application: string;
+  attributeGroup: string;
+}
+export const AssociateAttributeGroupRequest = S.suspend(() =>
+  S.Struct({
     application: S.String.pipe(T.HttpLabel("application")),
     attributeGroup: S.String.pipe(T.HttpLabel("attributeGroup")),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/applications/{application}/attribute-groups/{attributeGroup}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/applications/{application}/attribute-groups/{attributeGroup}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AssociateResourceRequest extends S.Class<AssociateResourceRequest>(
-  "AssociateResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "AssociateAttributeGroupRequest",
+}) as any as S.Schema<AssociateAttributeGroupRequest>;
+export interface AssociateResourceRequest {
+  application: string;
+  resourceType: string;
+  resource: string;
+  options?: Options;
+}
+export const AssociateResourceRequest = S.suspend(() =>
+  S.Struct({
     application: S.String.pipe(T.HttpLabel("application")),
     resourceType: S.String.pipe(T.HttpLabel("resourceType")),
     resource: S.String.pipe(T.HttpLabel("resource")),
     options: S.optional(Options),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/applications/{application}/resources/{resourceType}/{resource}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/applications/{application}/resources/{resourceType}/{resource}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "AssociateResourceRequest",
+}) as any as S.Schema<AssociateResourceRequest>;
+export type Tags = { [key: string]: string };
 export const Tags = S.Record({ key: S.String, value: S.String });
-export class CreateAttributeGroupRequest extends S.Class<CreateAttributeGroupRequest>(
-  "CreateAttributeGroupRequest",
-)(
-  {
+export interface CreateAttributeGroupRequest {
+  name: string;
+  description?: string;
+  attributes: string;
+  tags?: Tags;
+  clientToken: string;
+}
+export const CreateAttributeGroupRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     description: S.optional(S.String),
     attributes: S.String,
     tags: S.optional(Tags),
     clientToken: S.String,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/attribute-groups" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/attribute-groups" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteApplicationRequest extends S.Class<DeleteApplicationRequest>(
-  "DeleteApplicationRequest",
-)(
-  { application: S.String.pipe(T.HttpLabel("application")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/applications/{application}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CreateAttributeGroupRequest",
+}) as any as S.Schema<CreateAttributeGroupRequest>;
+export interface DeleteApplicationRequest {
+  application: string;
+}
+export const DeleteApplicationRequest = S.suspend(() =>
+  S.Struct({ application: S.String.pipe(T.HttpLabel("application")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/applications/{application}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAttributeGroupRequest extends S.Class<DeleteAttributeGroupRequest>(
-  "DeleteAttributeGroupRequest",
-)(
-  { attributeGroup: S.String.pipe(T.HttpLabel("attributeGroup")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/attribute-groups/{attributeGroup}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteApplicationRequest",
+}) as any as S.Schema<DeleteApplicationRequest>;
+export interface DeleteAttributeGroupRequest {
+  attributeGroup: string;
+}
+export const DeleteAttributeGroupRequest = S.suspend(() =>
+  S.Struct({
+    attributeGroup: S.String.pipe(T.HttpLabel("attributeGroup")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/attribute-groups/{attributeGroup}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DisassociateAttributeGroupRequest extends S.Class<DisassociateAttributeGroupRequest>(
-  "DisassociateAttributeGroupRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteAttributeGroupRequest",
+}) as any as S.Schema<DeleteAttributeGroupRequest>;
+export interface DisassociateAttributeGroupRequest {
+  application: string;
+  attributeGroup: string;
+}
+export const DisassociateAttributeGroupRequest = S.suspend(() =>
+  S.Struct({
     application: S.String.pipe(T.HttpLabel("application")),
     attributeGroup: S.String.pipe(T.HttpLabel("attributeGroup")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/applications/{application}/attribute-groups/{attributeGroup}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/applications/{application}/attribute-groups/{attributeGroup}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DisassociateResourceRequest extends S.Class<DisassociateResourceRequest>(
-  "DisassociateResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "DisassociateAttributeGroupRequest",
+}) as any as S.Schema<DisassociateAttributeGroupRequest>;
+export interface DisassociateResourceRequest {
+  application: string;
+  resourceType: string;
+  resource: string;
+}
+export const DisassociateResourceRequest = S.suspend(() =>
+  S.Struct({
     application: S.String.pipe(T.HttpLabel("application")),
     resourceType: S.String.pipe(T.HttpLabel("resourceType")),
     resource: S.String.pipe(T.HttpLabel("resource")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/applications/{application}/resources/{resourceType}/{resource}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/applications/{application}/resources/{resourceType}/{resource}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetApplicationRequest extends S.Class<GetApplicationRequest>(
-  "GetApplicationRequest",
-)(
-  { application: S.String.pipe(T.HttpLabel("application")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/applications/{application}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DisassociateResourceRequest",
+}) as any as S.Schema<DisassociateResourceRequest>;
+export interface GetApplicationRequest {
+  application: string;
+}
+export const GetApplicationRequest = S.suspend(() =>
+  S.Struct({ application: S.String.pipe(T.HttpLabel("application")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/applications/{application}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetAssociatedResourceRequest extends S.Class<GetAssociatedResourceRequest>(
-  "GetAssociatedResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "GetApplicationRequest",
+}) as any as S.Schema<GetApplicationRequest>;
+export interface GetAssociatedResourceRequest {
+  application: string;
+  resourceType: string;
+  resource: string;
+  nextToken?: string;
+  resourceTagStatus?: GetAssociatedResourceFilter;
+  maxResults?: number;
+}
+export const GetAssociatedResourceRequest = S.suspend(() =>
+  S.Struct({
     application: S.String.pipe(T.HttpLabel("application")),
     resourceType: S.String.pipe(T.HttpLabel("resourceType")),
     resource: S.String.pipe(T.HttpLabel("resource")),
@@ -421,479 +478,835 @@ export class GetAssociatedResourceRequest extends S.Class<GetAssociatedResourceR
       T.HttpQuery("resourceTagStatus"),
     ),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/applications/{application}/resources/{resourceType}/{resource}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/applications/{application}/resources/{resourceType}/{resource}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetAttributeGroupRequest extends S.Class<GetAttributeGroupRequest>(
-  "GetAttributeGroupRequest",
-)(
-  { attributeGroup: S.String.pipe(T.HttpLabel("attributeGroup")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/attribute-groups/{attributeGroup}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetAssociatedResourceRequest",
+}) as any as S.Schema<GetAssociatedResourceRequest>;
+export interface GetAttributeGroupRequest {
+  attributeGroup: string;
+}
+export const GetAttributeGroupRequest = S.suspend(() =>
+  S.Struct({
+    attributeGroup: S.String.pipe(T.HttpLabel("attributeGroup")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/attribute-groups/{attributeGroup}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListApplicationsRequest extends S.Class<ListApplicationsRequest>(
-  "ListApplicationsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetAttributeGroupRequest",
+}) as any as S.Schema<GetAttributeGroupRequest>;
+export interface ListApplicationsRequest {
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListApplicationsRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/applications" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/applications" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListAssociatedAttributeGroupsRequest extends S.Class<ListAssociatedAttributeGroupsRequest>(
-  "ListAssociatedAttributeGroupsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListApplicationsRequest",
+}) as any as S.Schema<ListApplicationsRequest>;
+export interface ListAssociatedAttributeGroupsRequest {
+  application: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListAssociatedAttributeGroupsRequest = S.suspend(() =>
+  S.Struct({
     application: S.String.pipe(T.HttpLabel("application")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/applications/{application}/attribute-groups",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/applications/{application}/attribute-groups",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListAssociatedResourcesRequest extends S.Class<ListAssociatedResourcesRequest>(
-  "ListAssociatedResourcesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListAssociatedAttributeGroupsRequest",
+}) as any as S.Schema<ListAssociatedAttributeGroupsRequest>;
+export interface ListAssociatedResourcesRequest {
+  application: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListAssociatedResourcesRequest = S.suspend(() =>
+  S.Struct({
     application: S.String.pipe(T.HttpLabel("application")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/applications/{application}/resources" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/applications/{application}/resources" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListAttributeGroupsRequest extends S.Class<ListAttributeGroupsRequest>(
-  "ListAttributeGroupsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListAssociatedResourcesRequest",
+}) as any as S.Schema<ListAssociatedResourcesRequest>;
+export interface ListAttributeGroupsRequest {
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListAttributeGroupsRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/attribute-groups" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/attribute-groups" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListAttributeGroupsForApplicationRequest extends S.Class<ListAttributeGroupsForApplicationRequest>(
-  "ListAttributeGroupsForApplicationRequest",
-)(
-  {
+).annotations({
+  identifier: "ListAttributeGroupsRequest",
+}) as any as S.Schema<ListAttributeGroupsRequest>;
+export interface ListAttributeGroupsForApplicationRequest {
+  application: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListAttributeGroupsForApplicationRequest = S.suspend(() =>
+  S.Struct({
     application: S.String.pipe(T.HttpLabel("application")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/applications/{application}/attribute-group-details",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/applications/{application}/attribute-group-details",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListAttributeGroupsForApplicationRequest",
+}) as any as S.Schema<ListAttributeGroupsForApplicationRequest>;
+export interface ListTagsForResourceRequest {
+  resourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagQueryConfiguration extends S.Class<TagQueryConfiguration>(
-  "TagQueryConfiguration",
-)({ tagKey: S.optional(S.String) }) {}
-export class AppRegistryConfiguration extends S.Class<AppRegistryConfiguration>(
-  "AppRegistryConfiguration",
-)({ tagQueryConfiguration: S.optional(TagQueryConfiguration) }) {}
-export class PutConfigurationRequest extends S.Class<PutConfigurationRequest>(
-  "PutConfigurationRequest",
-)(
-  { configuration: AppRegistryConfiguration },
-  T.all(
-    T.Http({ method: "PUT", uri: "/configuration" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface TagQueryConfiguration {
+  tagKey?: string;
+}
+export const TagQueryConfiguration = S.suspend(() =>
+  S.Struct({ tagKey: S.optional(S.String) }),
+).annotations({
+  identifier: "TagQueryConfiguration",
+}) as any as S.Schema<TagQueryConfiguration>;
+export interface AppRegistryConfiguration {
+  tagQueryConfiguration?: TagQueryConfiguration;
+}
+export const AppRegistryConfiguration = S.suspend(() =>
+  S.Struct({ tagQueryConfiguration: S.optional(TagQueryConfiguration) }),
+).annotations({
+  identifier: "AppRegistryConfiguration",
+}) as any as S.Schema<AppRegistryConfiguration>;
+export interface PutConfigurationRequest {
+  configuration: AppRegistryConfiguration;
+}
+export const PutConfigurationRequest = S.suspend(() =>
+  S.Struct({ configuration: AppRegistryConfiguration }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/configuration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutConfigurationResponse extends S.Class<PutConfigurationResponse>(
-  "PutConfigurationResponse",
-)({}) {}
-export class SyncResourceRequest extends S.Class<SyncResourceRequest>(
-  "SyncResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "PutConfigurationRequest",
+}) as any as S.Schema<PutConfigurationRequest>;
+export interface PutConfigurationResponse {}
+export const PutConfigurationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "PutConfigurationResponse",
+}) as any as S.Schema<PutConfigurationResponse>;
+export interface SyncResourceRequest {
+  resourceType: string;
+  resource: string;
+}
+export const SyncResourceRequest = S.suspend(() =>
+  S.Struct({
     resourceType: S.String.pipe(T.HttpLabel("resourceType")),
     resource: S.String.pipe(T.HttpLabel("resource")),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/sync/{resourceType}/{resource}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/sync/{resourceType}/{resource}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: Tags },
-  T.all(
-    T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "SyncResourceRequest",
+}) as any as S.Schema<SyncResourceRequest>;
+export interface TagResourceRequest {
+  resourceArn: string;
+  tags: Tags;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+    tags: Tags,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UntagResourceRequest {
+  resourceArn: string;
+  tagKeys: TagKeys;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
-export class UpdateApplicationRequest extends S.Class<UpdateApplicationRequest>(
-  "UpdateApplicationRequest",
-)(
-  {
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface UpdateApplicationRequest {
+  application: string;
+  name?: string;
+  description?: string;
+}
+export const UpdateApplicationRequest = S.suspend(() =>
+  S.Struct({
     application: S.String.pipe(T.HttpLabel("application")),
     name: S.optional(S.String),
     description: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "PATCH", uri: "/applications/{application}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PATCH", uri: "/applications/{application}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateAttributeGroupRequest extends S.Class<UpdateAttributeGroupRequest>(
-  "UpdateAttributeGroupRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateApplicationRequest",
+}) as any as S.Schema<UpdateApplicationRequest>;
+export interface UpdateAttributeGroupRequest {
+  attributeGroup: string;
+  name?: string;
+  description?: string;
+  attributes?: string;
+}
+export const UpdateAttributeGroupRequest = S.suspend(() =>
+  S.Struct({
     attributeGroup: S.String.pipe(T.HttpLabel("attributeGroup")),
     name: S.optional(S.String),
     description: S.optional(S.String),
     attributes: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "PATCH", uri: "/attribute-groups/{attributeGroup}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PATCH", uri: "/attribute-groups/{attributeGroup}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ApplicationSummary extends S.Class<ApplicationSummary>(
-  "ApplicationSummary",
-)({
-  id: S.optional(S.String),
-  arn: S.optional(S.String),
-  name: S.optional(S.String),
-  description: S.optional(S.String),
-  creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  lastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-}) {}
+).annotations({
+  identifier: "UpdateAttributeGroupRequest",
+}) as any as S.Schema<UpdateAttributeGroupRequest>;
+export interface ApplicationSummary {
+  id?: string;
+  arn?: string;
+  name?: string;
+  description?: string;
+  creationTime?: Date;
+  lastUpdateTime?: Date;
+}
+export const ApplicationSummary = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    arn: S.optional(S.String),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    lastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotations({
+  identifier: "ApplicationSummary",
+}) as any as S.Schema<ApplicationSummary>;
+export type ApplicationSummaries = ApplicationSummary[];
 export const ApplicationSummaries = S.Array(ApplicationSummary);
+export type AttributeGroupIds = string[];
 export const AttributeGroupIds = S.Array(S.String);
-export class AttributeGroupSummary extends S.Class<AttributeGroupSummary>(
-  "AttributeGroupSummary",
-)({
-  id: S.optional(S.String),
-  arn: S.optional(S.String),
-  name: S.optional(S.String),
-  description: S.optional(S.String),
-  creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  lastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  createdBy: S.optional(S.String),
-}) {}
+export interface AttributeGroupSummary {
+  id?: string;
+  arn?: string;
+  name?: string;
+  description?: string;
+  creationTime?: Date;
+  lastUpdateTime?: Date;
+  createdBy?: string;
+}
+export const AttributeGroupSummary = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    arn: S.optional(S.String),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    lastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdBy: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AttributeGroupSummary",
+}) as any as S.Schema<AttributeGroupSummary>;
+export type AttributeGroupSummaries = AttributeGroupSummary[];
 export const AttributeGroupSummaries = S.Array(AttributeGroupSummary);
-export class AssociateAttributeGroupResponse extends S.Class<AssociateAttributeGroupResponse>(
-  "AssociateAttributeGroupResponse",
-)({
-  applicationArn: S.optional(S.String),
-  attributeGroupArn: S.optional(S.String),
-}) {}
-export class AssociateResourceResponse extends S.Class<AssociateResourceResponse>(
-  "AssociateResourceResponse",
-)({
-  applicationArn: S.optional(S.String),
-  resourceArn: S.optional(S.String),
-  options: S.optional(Options),
-}) {}
-export class CreateApplicationRequest extends S.Class<CreateApplicationRequest>(
-  "CreateApplicationRequest",
-)(
-  {
+export interface AssociateAttributeGroupResponse {
+  applicationArn?: string;
+  attributeGroupArn?: string;
+}
+export const AssociateAttributeGroupResponse = S.suspend(() =>
+  S.Struct({
+    applicationArn: S.optional(S.String),
+    attributeGroupArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AssociateAttributeGroupResponse",
+}) as any as S.Schema<AssociateAttributeGroupResponse>;
+export interface AssociateResourceResponse {
+  applicationArn?: string;
+  resourceArn?: string;
+  options?: Options;
+}
+export const AssociateResourceResponse = S.suspend(() =>
+  S.Struct({
+    applicationArn: S.optional(S.String),
+    resourceArn: S.optional(S.String),
+    options: S.optional(Options),
+  }),
+).annotations({
+  identifier: "AssociateResourceResponse",
+}) as any as S.Schema<AssociateResourceResponse>;
+export interface CreateApplicationRequest {
+  name: string;
+  description?: string;
+  tags?: Tags;
+  clientToken: string;
+}
+export const CreateApplicationRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     description: S.optional(S.String),
     tags: S.optional(Tags),
     clientToken: S.String,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/applications" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/applications" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DisassociateAttributeGroupResponse extends S.Class<DisassociateAttributeGroupResponse>(
-  "DisassociateAttributeGroupResponse",
-)({
-  applicationArn: S.optional(S.String),
-  attributeGroupArn: S.optional(S.String),
-}) {}
-export class DisassociateResourceResponse extends S.Class<DisassociateResourceResponse>(
-  "DisassociateResourceResponse",
-)({
-  applicationArn: S.optional(S.String),
-  resourceArn: S.optional(S.String),
-}) {}
-export class GetAttributeGroupResponse extends S.Class<GetAttributeGroupResponse>(
-  "GetAttributeGroupResponse",
-)({
-  id: S.optional(S.String),
-  arn: S.optional(S.String),
-  name: S.optional(S.String),
-  description: S.optional(S.String),
-  attributes: S.optional(S.String),
-  creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  lastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  tags: S.optional(Tags),
-  createdBy: S.optional(S.String),
-}) {}
-export class ListApplicationsResponse extends S.Class<ListApplicationsResponse>(
-  "ListApplicationsResponse",
-)({
-  applications: S.optional(ApplicationSummaries),
-  nextToken: S.optional(S.String),
-}) {}
-export class ListAssociatedAttributeGroupsResponse extends S.Class<ListAssociatedAttributeGroupsResponse>(
-  "ListAssociatedAttributeGroupsResponse",
-)({
-  attributeGroups: S.optional(AttributeGroupIds),
-  nextToken: S.optional(S.String),
-}) {}
-export class ListAttributeGroupsResponse extends S.Class<ListAttributeGroupsResponse>(
-  "ListAttributeGroupsResponse",
-)({
-  attributeGroups: S.optional(AttributeGroupSummaries),
-  nextToken: S.optional(S.String),
-}) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ tags: S.optional(Tags) }) {}
-export class SyncResourceResponse extends S.Class<SyncResourceResponse>(
-  "SyncResourceResponse",
-)({
-  applicationArn: S.optional(S.String),
-  resourceArn: S.optional(S.String),
-  actionTaken: S.optional(S.String),
-}) {}
-export class AttributeGroup extends S.Class<AttributeGroup>("AttributeGroup")({
-  id: S.optional(S.String),
-  arn: S.optional(S.String),
-  name: S.optional(S.String),
-  description: S.optional(S.String),
-  creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  lastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  tags: S.optional(Tags),
-}) {}
-export class UpdateAttributeGroupResponse extends S.Class<UpdateAttributeGroupResponse>(
-  "UpdateAttributeGroupResponse",
-)({ attributeGroup: S.optional(AttributeGroup) }) {}
+).annotations({
+  identifier: "CreateApplicationRequest",
+}) as any as S.Schema<CreateApplicationRequest>;
+export interface DisassociateAttributeGroupResponse {
+  applicationArn?: string;
+  attributeGroupArn?: string;
+}
+export const DisassociateAttributeGroupResponse = S.suspend(() =>
+  S.Struct({
+    applicationArn: S.optional(S.String),
+    attributeGroupArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DisassociateAttributeGroupResponse",
+}) as any as S.Schema<DisassociateAttributeGroupResponse>;
+export interface DisassociateResourceResponse {
+  applicationArn?: string;
+  resourceArn?: string;
+}
+export const DisassociateResourceResponse = S.suspend(() =>
+  S.Struct({
+    applicationArn: S.optional(S.String),
+    resourceArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DisassociateResourceResponse",
+}) as any as S.Schema<DisassociateResourceResponse>;
+export interface GetAttributeGroupResponse {
+  id?: string;
+  arn?: string;
+  name?: string;
+  description?: string;
+  attributes?: string;
+  creationTime?: Date;
+  lastUpdateTime?: Date;
+  tags?: Tags;
+  createdBy?: string;
+}
+export const GetAttributeGroupResponse = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    arn: S.optional(S.String),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    attributes: S.optional(S.String),
+    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    lastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    tags: S.optional(Tags),
+    createdBy: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetAttributeGroupResponse",
+}) as any as S.Schema<GetAttributeGroupResponse>;
+export interface ListApplicationsResponse {
+  applications?: ApplicationSummaries;
+  nextToken?: string;
+}
+export const ListApplicationsResponse = S.suspend(() =>
+  S.Struct({
+    applications: S.optional(ApplicationSummaries),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListApplicationsResponse",
+}) as any as S.Schema<ListApplicationsResponse>;
+export interface ListAssociatedAttributeGroupsResponse {
+  attributeGroups?: AttributeGroupIds;
+  nextToken?: string;
+}
+export const ListAssociatedAttributeGroupsResponse = S.suspend(() =>
+  S.Struct({
+    attributeGroups: S.optional(AttributeGroupIds),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListAssociatedAttributeGroupsResponse",
+}) as any as S.Schema<ListAssociatedAttributeGroupsResponse>;
+export interface ListAttributeGroupsResponse {
+  attributeGroups?: AttributeGroupSummaries;
+  nextToken?: string;
+}
+export const ListAttributeGroupsResponse = S.suspend(() =>
+  S.Struct({
+    attributeGroups: S.optional(AttributeGroupSummaries),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListAttributeGroupsResponse",
+}) as any as S.Schema<ListAttributeGroupsResponse>;
+export interface ListTagsForResourceResponse {
+  tags?: Tags;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ tags: S.optional(Tags) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface SyncResourceResponse {
+  applicationArn?: string;
+  resourceArn?: string;
+  actionTaken?: string;
+}
+export const SyncResourceResponse = S.suspend(() =>
+  S.Struct({
+    applicationArn: S.optional(S.String),
+    resourceArn: S.optional(S.String),
+    actionTaken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SyncResourceResponse",
+}) as any as S.Schema<SyncResourceResponse>;
+export interface AttributeGroup {
+  id?: string;
+  arn?: string;
+  name?: string;
+  description?: string;
+  creationTime?: Date;
+  lastUpdateTime?: Date;
+  tags?: Tags;
+}
+export const AttributeGroup = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    arn: S.optional(S.String),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    lastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    tags: S.optional(Tags),
+  }),
+).annotations({
+  identifier: "AttributeGroup",
+}) as any as S.Schema<AttributeGroup>;
+export interface UpdateAttributeGroupResponse {
+  attributeGroup?: AttributeGroup;
+}
+export const UpdateAttributeGroupResponse = S.suspend(() =>
+  S.Struct({ attributeGroup: S.optional(AttributeGroup) }),
+).annotations({
+  identifier: "UpdateAttributeGroupResponse",
+}) as any as S.Schema<UpdateAttributeGroupResponse>;
+export type ApplicationTagDefinition = { [key: string]: string };
 export const ApplicationTagDefinition = S.Record({
   key: S.String,
   value: S.String,
 });
-export class AttributeGroupDetails extends S.Class<AttributeGroupDetails>(
-  "AttributeGroupDetails",
-)({
-  id: S.optional(S.String),
-  arn: S.optional(S.String),
-  name: S.optional(S.String),
-  createdBy: S.optional(S.String),
-}) {}
+export interface AttributeGroupDetails {
+  id?: string;
+  arn?: string;
+  name?: string;
+  createdBy?: string;
+}
+export const AttributeGroupDetails = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    arn: S.optional(S.String),
+    name: S.optional(S.String),
+    createdBy: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AttributeGroupDetails",
+}) as any as S.Schema<AttributeGroupDetails>;
+export type AttributeGroupDetailsList = AttributeGroupDetails[];
 export const AttributeGroupDetailsList = S.Array(AttributeGroupDetails);
-export class Application extends S.Class<Application>("Application")({
-  id: S.optional(S.String),
-  arn: S.optional(S.String),
-  name: S.optional(S.String),
-  description: S.optional(S.String),
-  creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  lastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  tags: S.optional(Tags),
-  applicationTag: S.optional(ApplicationTagDefinition),
-}) {}
-export class CreateApplicationResponse extends S.Class<CreateApplicationResponse>(
-  "CreateApplicationResponse",
-)({ application: S.optional(Application) }) {}
-export class CreateAttributeGroupResponse extends S.Class<CreateAttributeGroupResponse>(
-  "CreateAttributeGroupResponse",
-)({ attributeGroup: S.optional(AttributeGroup) }) {}
-export class DeleteApplicationResponse extends S.Class<DeleteApplicationResponse>(
-  "DeleteApplicationResponse",
-)({ application: S.optional(ApplicationSummary) }) {}
-export class DeleteAttributeGroupResponse extends S.Class<DeleteAttributeGroupResponse>(
-  "DeleteAttributeGroupResponse",
-)({ attributeGroup: S.optional(AttributeGroupSummary) }) {}
-export class GetConfigurationResponse extends S.Class<GetConfigurationResponse>(
-  "GetConfigurationResponse",
-)({ configuration: S.optional(AppRegistryConfiguration) }) {}
-export class ListAttributeGroupsForApplicationResponse extends S.Class<ListAttributeGroupsForApplicationResponse>(
-  "ListAttributeGroupsForApplicationResponse",
-)({
-  attributeGroupsDetails: S.optional(AttributeGroupDetailsList),
-  nextToken: S.optional(S.String),
-}) {}
-export class UpdateApplicationResponse extends S.Class<UpdateApplicationResponse>(
-  "UpdateApplicationResponse",
-)({ application: S.optional(Application) }) {}
-export class ResourceGroup extends S.Class<ResourceGroup>("ResourceGroup")({
-  state: S.optional(S.String),
-  arn: S.optional(S.String),
-  errorMessage: S.optional(S.String),
-}) {}
-export class ResourceIntegrations extends S.Class<ResourceIntegrations>(
-  "ResourceIntegrations",
-)({ resourceGroup: S.optional(ResourceGroup) }) {}
-export class ResourcesListItem extends S.Class<ResourcesListItem>(
-  "ResourcesListItem",
-)({
-  resourceArn: S.optional(S.String),
-  errorMessage: S.optional(S.String),
-  status: S.optional(S.String),
-  resourceType: S.optional(S.String),
-}) {}
+export interface Application {
+  id?: string;
+  arn?: string;
+  name?: string;
+  description?: string;
+  creationTime?: Date;
+  lastUpdateTime?: Date;
+  tags?: Tags;
+  applicationTag?: ApplicationTagDefinition;
+}
+export const Application = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    arn: S.optional(S.String),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    lastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    tags: S.optional(Tags),
+    applicationTag: S.optional(ApplicationTagDefinition),
+  }),
+).annotations({ identifier: "Application" }) as any as S.Schema<Application>;
+export interface CreateApplicationResponse {
+  application?: Application;
+}
+export const CreateApplicationResponse = S.suspend(() =>
+  S.Struct({ application: S.optional(Application) }),
+).annotations({
+  identifier: "CreateApplicationResponse",
+}) as any as S.Schema<CreateApplicationResponse>;
+export interface CreateAttributeGroupResponse {
+  attributeGroup?: AttributeGroup;
+}
+export const CreateAttributeGroupResponse = S.suspend(() =>
+  S.Struct({ attributeGroup: S.optional(AttributeGroup) }),
+).annotations({
+  identifier: "CreateAttributeGroupResponse",
+}) as any as S.Schema<CreateAttributeGroupResponse>;
+export interface DeleteApplicationResponse {
+  application?: ApplicationSummary;
+}
+export const DeleteApplicationResponse = S.suspend(() =>
+  S.Struct({ application: S.optional(ApplicationSummary) }),
+).annotations({
+  identifier: "DeleteApplicationResponse",
+}) as any as S.Schema<DeleteApplicationResponse>;
+export interface DeleteAttributeGroupResponse {
+  attributeGroup?: AttributeGroupSummary;
+}
+export const DeleteAttributeGroupResponse = S.suspend(() =>
+  S.Struct({ attributeGroup: S.optional(AttributeGroupSummary) }),
+).annotations({
+  identifier: "DeleteAttributeGroupResponse",
+}) as any as S.Schema<DeleteAttributeGroupResponse>;
+export interface GetConfigurationResponse {
+  configuration?: AppRegistryConfiguration;
+}
+export const GetConfigurationResponse = S.suspend(() =>
+  S.Struct({ configuration: S.optional(AppRegistryConfiguration) }),
+).annotations({
+  identifier: "GetConfigurationResponse",
+}) as any as S.Schema<GetConfigurationResponse>;
+export interface ListAttributeGroupsForApplicationResponse {
+  attributeGroupsDetails?: AttributeGroupDetailsList;
+  nextToken?: string;
+}
+export const ListAttributeGroupsForApplicationResponse = S.suspend(() =>
+  S.Struct({
+    attributeGroupsDetails: S.optional(AttributeGroupDetailsList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListAttributeGroupsForApplicationResponse",
+}) as any as S.Schema<ListAttributeGroupsForApplicationResponse>;
+export interface UpdateApplicationResponse {
+  application?: Application;
+}
+export const UpdateApplicationResponse = S.suspend(() =>
+  S.Struct({ application: S.optional(Application) }),
+).annotations({
+  identifier: "UpdateApplicationResponse",
+}) as any as S.Schema<UpdateApplicationResponse>;
+export interface ResourceGroup {
+  state?: string;
+  arn?: string;
+  errorMessage?: string;
+}
+export const ResourceGroup = S.suspend(() =>
+  S.Struct({
+    state: S.optional(S.String),
+    arn: S.optional(S.String),
+    errorMessage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ResourceGroup",
+}) as any as S.Schema<ResourceGroup>;
+export interface ResourceIntegrations {
+  resourceGroup?: ResourceGroup;
+}
+export const ResourceIntegrations = S.suspend(() =>
+  S.Struct({ resourceGroup: S.optional(ResourceGroup) }),
+).annotations({
+  identifier: "ResourceIntegrations",
+}) as any as S.Schema<ResourceIntegrations>;
+export interface ResourcesListItem {
+  resourceArn?: string;
+  errorMessage?: string;
+  status?: string;
+  resourceType?: string;
+}
+export const ResourcesListItem = S.suspend(() =>
+  S.Struct({
+    resourceArn: S.optional(S.String),
+    errorMessage: S.optional(S.String),
+    status: S.optional(S.String),
+    resourceType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ResourcesListItem",
+}) as any as S.Schema<ResourcesListItem>;
+export type ResourcesList = ResourcesListItem[];
 export const ResourcesList = S.Array(ResourcesListItem);
-export class ResourceDetails extends S.Class<ResourceDetails>(
-  "ResourceDetails",
-)({ tagValue: S.optional(S.String) }) {}
-export class Integrations extends S.Class<Integrations>("Integrations")({
-  resourceGroup: S.optional(ResourceGroup),
-  applicationTagResourceGroup: S.optional(ResourceGroup),
-}) {}
-export class Resource extends S.Class<Resource>("Resource")({
-  name: S.optional(S.String),
-  arn: S.optional(S.String),
-  associationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  integrations: S.optional(ResourceIntegrations),
-}) {}
-export class ApplicationTagResult extends S.Class<ApplicationTagResult>(
-  "ApplicationTagResult",
-)({
-  applicationTagStatus: S.optional(S.String),
-  errorMessage: S.optional(S.String),
-  resources: S.optional(ResourcesList),
-  nextToken: S.optional(S.String),
-}) {}
-export class ResourceInfo extends S.Class<ResourceInfo>("ResourceInfo")({
-  name: S.optional(S.String),
-  arn: S.optional(S.String),
-  resourceType: S.optional(S.String),
-  resourceDetails: S.optional(ResourceDetails),
-  options: S.optional(Options),
-}) {}
+export interface ResourceDetails {
+  tagValue?: string;
+}
+export const ResourceDetails = S.suspend(() =>
+  S.Struct({ tagValue: S.optional(S.String) }),
+).annotations({
+  identifier: "ResourceDetails",
+}) as any as S.Schema<ResourceDetails>;
+export interface Integrations {
+  resourceGroup?: ResourceGroup;
+  applicationTagResourceGroup?: ResourceGroup;
+}
+export const Integrations = S.suspend(() =>
+  S.Struct({
+    resourceGroup: S.optional(ResourceGroup),
+    applicationTagResourceGroup: S.optional(ResourceGroup),
+  }),
+).annotations({ identifier: "Integrations" }) as any as S.Schema<Integrations>;
+export interface Resource {
+  name?: string;
+  arn?: string;
+  associationTime?: Date;
+  integrations?: ResourceIntegrations;
+}
+export const Resource = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    arn: S.optional(S.String),
+    associationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    integrations: S.optional(ResourceIntegrations),
+  }),
+).annotations({ identifier: "Resource" }) as any as S.Schema<Resource>;
+export interface ApplicationTagResult {
+  applicationTagStatus?: string;
+  errorMessage?: string;
+  resources?: ResourcesList;
+  nextToken?: string;
+}
+export const ApplicationTagResult = S.suspend(() =>
+  S.Struct({
+    applicationTagStatus: S.optional(S.String),
+    errorMessage: S.optional(S.String),
+    resources: S.optional(ResourcesList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ApplicationTagResult",
+}) as any as S.Schema<ApplicationTagResult>;
+export interface ResourceInfo {
+  name?: string;
+  arn?: string;
+  resourceType?: string;
+  resourceDetails?: ResourceDetails;
+  options?: Options;
+}
+export const ResourceInfo = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    arn: S.optional(S.String),
+    resourceType: S.optional(S.String),
+    resourceDetails: S.optional(ResourceDetails),
+    options: S.optional(Options),
+  }),
+).annotations({ identifier: "ResourceInfo" }) as any as S.Schema<ResourceInfo>;
+export type Resources = ResourceInfo[];
 export const Resources = S.Array(ResourceInfo);
-export class GetApplicationResponse extends S.Class<GetApplicationResponse>(
-  "GetApplicationResponse",
-)({
-  id: S.optional(S.String),
-  arn: S.optional(S.String),
-  name: S.optional(S.String),
-  description: S.optional(S.String),
-  creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  lastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  associatedResourceCount: S.optional(S.Number),
-  tags: S.optional(Tags),
-  integrations: S.optional(Integrations),
-  applicationTag: S.optional(ApplicationTagDefinition),
-}) {}
-export class GetAssociatedResourceResponse extends S.Class<GetAssociatedResourceResponse>(
-  "GetAssociatedResourceResponse",
-)({
-  resource: S.optional(Resource),
-  options: S.optional(Options),
-  applicationTagResult: S.optional(ApplicationTagResult),
-}) {}
-export class ListAssociatedResourcesResponse extends S.Class<ListAssociatedResourcesResponse>(
-  "ListAssociatedResourcesResponse",
-)({ resources: S.optional(Resources), nextToken: S.optional(S.String) }) {}
+export interface GetApplicationResponse {
+  id?: string;
+  arn?: string;
+  name?: string;
+  description?: string;
+  creationTime?: Date;
+  lastUpdateTime?: Date;
+  associatedResourceCount?: number;
+  tags?: Tags;
+  integrations?: Integrations;
+  applicationTag?: ApplicationTagDefinition;
+}
+export const GetApplicationResponse = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    arn: S.optional(S.String),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    lastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    associatedResourceCount: S.optional(S.Number),
+    tags: S.optional(Tags),
+    integrations: S.optional(Integrations),
+    applicationTag: S.optional(ApplicationTagDefinition),
+  }),
+).annotations({
+  identifier: "GetApplicationResponse",
+}) as any as S.Schema<GetApplicationResponse>;
+export interface GetAssociatedResourceResponse {
+  resource?: Resource;
+  options?: Options;
+  applicationTagResult?: ApplicationTagResult;
+}
+export const GetAssociatedResourceResponse = S.suspend(() =>
+  S.Struct({
+    resource: S.optional(Resource),
+    options: S.optional(Options),
+    applicationTagResult: S.optional(ApplicationTagResult),
+  }),
+).annotations({
+  identifier: "GetAssociatedResourceResponse",
+}) as any as S.Schema<GetAssociatedResourceResponse>;
+export interface ListAssociatedResourcesResponse {
+  resources?: Resources;
+  nextToken?: string;
+}
+export const ListAssociatedResourcesResponse = S.suspend(() =>
+  S.Struct({
+    resources: S.optional(Resources),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListAssociatedResourcesResponse",
+}) as any as S.Schema<ListAssociatedResourcesResponse>;
 
 //# Errors
 export class ConflictException extends S.TaggedError<ConflictException>()(

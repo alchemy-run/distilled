@@ -294,617 +294,945 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type TaskIdList = string[];
 export const TaskIdList = S.Array(S.String);
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class BatchGetUserAccessTasksRequest extends S.Class<BatchGetUserAccessTasksRequest>(
-  "BatchGetUserAccessTasksRequest",
-)(
-  { appBundleIdentifier: S.String, taskIdList: TaskIdList },
-  T.all(
-    T.Http({ method: "POST", uri: "/useraccess/batchget" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface BatchGetUserAccessTasksRequest {
+  appBundleIdentifier: string;
+  taskIdList: TaskIdList;
+}
+export const BatchGetUserAccessTasksRequest = S.suspend(() =>
+  S.Struct({ appBundleIdentifier: S.String, taskIdList: TaskIdList }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/useraccess/batchget" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class Tag extends S.Class<Tag>("Tag")({
-  key: S.String,
-  value: S.String,
-}) {}
+).annotations({
+  identifier: "BatchGetUserAccessTasksRequest",
+}) as any as S.Schema<BatchGetUserAccessTasksRequest>;
+export interface Tag {
+  key: string;
+  value: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ key: S.String, value: S.String }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagList = Tag[];
 export const TagList = S.Array(Tag);
-export class CreateAppBundleRequest extends S.Class<CreateAppBundleRequest>(
-  "CreateAppBundleRequest",
-)(
-  {
+export interface CreateAppBundleRequest {
+  clientToken?: string;
+  customerManagedKeyIdentifier?: string;
+  tags?: TagList;
+}
+export const CreateAppBundleRequest = S.suspend(() =>
+  S.Struct({
     clientToken: S.optional(S.String),
     customerManagedKeyIdentifier: S.optional(S.String),
     tags: S.optional(TagList),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/appbundles" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/appbundles" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateIngestionRequest extends S.Class<CreateIngestionRequest>(
-  "CreateIngestionRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateAppBundleRequest",
+}) as any as S.Schema<CreateAppBundleRequest>;
+export interface CreateIngestionRequest {
+  appBundleIdentifier: string;
+  app: string;
+  tenantId: string;
+  ingestionType: string;
+  clientToken?: string;
+  tags?: TagList;
+}
+export const CreateIngestionRequest = S.suspend(() =>
+  S.Struct({
     appBundleIdentifier: S.String.pipe(T.HttpLabel("appBundleIdentifier")),
     app: S.String,
     tenantId: S.String,
     ingestionType: S.String,
     clientToken: S.optional(S.String),
     tags: S.optional(TagList),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/appbundles/{appBundleIdentifier}/ingestions",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/appbundles/{appBundleIdentifier}/ingestions",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAppAuthorizationRequest extends S.Class<DeleteAppAuthorizationRequest>(
-  "DeleteAppAuthorizationRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateIngestionRequest",
+}) as any as S.Schema<CreateIngestionRequest>;
+export interface DeleteAppAuthorizationRequest {
+  appBundleIdentifier: string;
+  appAuthorizationIdentifier: string;
+}
+export const DeleteAppAuthorizationRequest = S.suspend(() =>
+  S.Struct({
     appBundleIdentifier: S.String.pipe(T.HttpLabel("appBundleIdentifier")),
     appAuthorizationIdentifier: S.String.pipe(
       T.HttpLabel("appAuthorizationIdentifier"),
     ),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/appbundles/{appBundleIdentifier}/appauthorizations/{appAuthorizationIdentifier}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/appbundles/{appBundleIdentifier}/appauthorizations/{appAuthorizationIdentifier}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAppAuthorizationResponse extends S.Class<DeleteAppAuthorizationResponse>(
-  "DeleteAppAuthorizationResponse",
-)({}) {}
-export class DeleteAppBundleRequest extends S.Class<DeleteAppBundleRequest>(
-  "DeleteAppBundleRequest",
-)(
-  { appBundleIdentifier: S.String.pipe(T.HttpLabel("appBundleIdentifier")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/appbundles/{appBundleIdentifier}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteAppAuthorizationRequest",
+}) as any as S.Schema<DeleteAppAuthorizationRequest>;
+export interface DeleteAppAuthorizationResponse {}
+export const DeleteAppAuthorizationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteAppAuthorizationResponse",
+}) as any as S.Schema<DeleteAppAuthorizationResponse>;
+export interface DeleteAppBundleRequest {
+  appBundleIdentifier: string;
+}
+export const DeleteAppBundleRequest = S.suspend(() =>
+  S.Struct({
+    appBundleIdentifier: S.String.pipe(T.HttpLabel("appBundleIdentifier")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/appbundles/{appBundleIdentifier}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAppBundleResponse extends S.Class<DeleteAppBundleResponse>(
-  "DeleteAppBundleResponse",
-)({}) {}
-export class DeleteIngestionRequest extends S.Class<DeleteIngestionRequest>(
-  "DeleteIngestionRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteAppBundleRequest",
+}) as any as S.Schema<DeleteAppBundleRequest>;
+export interface DeleteAppBundleResponse {}
+export const DeleteAppBundleResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteAppBundleResponse",
+}) as any as S.Schema<DeleteAppBundleResponse>;
+export interface DeleteIngestionRequest {
+  appBundleIdentifier: string;
+  ingestionIdentifier: string;
+}
+export const DeleteIngestionRequest = S.suspend(() =>
+  S.Struct({
     appBundleIdentifier: S.String.pipe(T.HttpLabel("appBundleIdentifier")),
     ingestionIdentifier: S.String.pipe(T.HttpLabel("ingestionIdentifier")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/appbundles/{appBundleIdentifier}/ingestions/{ingestionIdentifier}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/appbundles/{appBundleIdentifier}/ingestions/{ingestionIdentifier}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteIngestionResponse extends S.Class<DeleteIngestionResponse>(
-  "DeleteIngestionResponse",
-)({}) {}
-export class DeleteIngestionDestinationRequest extends S.Class<DeleteIngestionDestinationRequest>(
-  "DeleteIngestionDestinationRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteIngestionRequest",
+}) as any as S.Schema<DeleteIngestionRequest>;
+export interface DeleteIngestionResponse {}
+export const DeleteIngestionResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteIngestionResponse",
+}) as any as S.Schema<DeleteIngestionResponse>;
+export interface DeleteIngestionDestinationRequest {
+  appBundleIdentifier: string;
+  ingestionIdentifier: string;
+  ingestionDestinationIdentifier: string;
+}
+export const DeleteIngestionDestinationRequest = S.suspend(() =>
+  S.Struct({
     appBundleIdentifier: S.String.pipe(T.HttpLabel("appBundleIdentifier")),
     ingestionIdentifier: S.String.pipe(T.HttpLabel("ingestionIdentifier")),
     ingestionDestinationIdentifier: S.String.pipe(
       T.HttpLabel("ingestionDestinationIdentifier"),
     ),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/appbundles/{appBundleIdentifier}/ingestions/{ingestionIdentifier}/ingestiondestinations/{ingestionDestinationIdentifier}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/appbundles/{appBundleIdentifier}/ingestions/{ingestionIdentifier}/ingestiondestinations/{ingestionDestinationIdentifier}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteIngestionDestinationResponse extends S.Class<DeleteIngestionDestinationResponse>(
-  "DeleteIngestionDestinationResponse",
-)({}) {}
-export class GetAppAuthorizationRequest extends S.Class<GetAppAuthorizationRequest>(
-  "GetAppAuthorizationRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteIngestionDestinationRequest",
+}) as any as S.Schema<DeleteIngestionDestinationRequest>;
+export interface DeleteIngestionDestinationResponse {}
+export const DeleteIngestionDestinationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteIngestionDestinationResponse",
+}) as any as S.Schema<DeleteIngestionDestinationResponse>;
+export interface GetAppAuthorizationRequest {
+  appBundleIdentifier: string;
+  appAuthorizationIdentifier: string;
+}
+export const GetAppAuthorizationRequest = S.suspend(() =>
+  S.Struct({
     appBundleIdentifier: S.String.pipe(T.HttpLabel("appBundleIdentifier")),
     appAuthorizationIdentifier: S.String.pipe(
       T.HttpLabel("appAuthorizationIdentifier"),
     ),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/appbundles/{appBundleIdentifier}/appauthorizations/{appAuthorizationIdentifier}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/appbundles/{appBundleIdentifier}/appauthorizations/{appAuthorizationIdentifier}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetAppBundleRequest extends S.Class<GetAppBundleRequest>(
-  "GetAppBundleRequest",
-)(
-  { appBundleIdentifier: S.String.pipe(T.HttpLabel("appBundleIdentifier")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/appbundles/{appBundleIdentifier}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetAppAuthorizationRequest",
+}) as any as S.Schema<GetAppAuthorizationRequest>;
+export interface GetAppBundleRequest {
+  appBundleIdentifier: string;
+}
+export const GetAppBundleRequest = S.suspend(() =>
+  S.Struct({
+    appBundleIdentifier: S.String.pipe(T.HttpLabel("appBundleIdentifier")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/appbundles/{appBundleIdentifier}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetIngestionRequest extends S.Class<GetIngestionRequest>(
-  "GetIngestionRequest",
-)(
-  {
+).annotations({
+  identifier: "GetAppBundleRequest",
+}) as any as S.Schema<GetAppBundleRequest>;
+export interface GetIngestionRequest {
+  appBundleIdentifier: string;
+  ingestionIdentifier: string;
+}
+export const GetIngestionRequest = S.suspend(() =>
+  S.Struct({
     appBundleIdentifier: S.String.pipe(T.HttpLabel("appBundleIdentifier")),
     ingestionIdentifier: S.String.pipe(T.HttpLabel("ingestionIdentifier")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/appbundles/{appBundleIdentifier}/ingestions/{ingestionIdentifier}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/appbundles/{appBundleIdentifier}/ingestions/{ingestionIdentifier}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetIngestionDestinationRequest extends S.Class<GetIngestionDestinationRequest>(
-  "GetIngestionDestinationRequest",
-)(
-  {
+).annotations({
+  identifier: "GetIngestionRequest",
+}) as any as S.Schema<GetIngestionRequest>;
+export interface GetIngestionDestinationRequest {
+  appBundleIdentifier: string;
+  ingestionIdentifier: string;
+  ingestionDestinationIdentifier: string;
+}
+export const GetIngestionDestinationRequest = S.suspend(() =>
+  S.Struct({
     appBundleIdentifier: S.String.pipe(T.HttpLabel("appBundleIdentifier")),
     ingestionIdentifier: S.String.pipe(T.HttpLabel("ingestionIdentifier")),
     ingestionDestinationIdentifier: S.String.pipe(
       T.HttpLabel("ingestionDestinationIdentifier"),
     ),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/appbundles/{appBundleIdentifier}/ingestions/{ingestionIdentifier}/ingestiondestinations/{ingestionDestinationIdentifier}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/appbundles/{appBundleIdentifier}/ingestions/{ingestionIdentifier}/ingestiondestinations/{ingestionDestinationIdentifier}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListAppAuthorizationsRequest extends S.Class<ListAppAuthorizationsRequest>(
-  "ListAppAuthorizationsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetIngestionDestinationRequest",
+}) as any as S.Schema<GetIngestionDestinationRequest>;
+export interface ListAppAuthorizationsRequest {
+  appBundleIdentifier: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListAppAuthorizationsRequest = S.suspend(() =>
+  S.Struct({
     appBundleIdentifier: S.String.pipe(T.HttpLabel("appBundleIdentifier")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/appbundles/{appBundleIdentifier}/appauthorizations",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/appbundles/{appBundleIdentifier}/appauthorizations",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListAppBundlesRequest extends S.Class<ListAppBundlesRequest>(
-  "ListAppBundlesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListAppAuthorizationsRequest",
+}) as any as S.Schema<ListAppAuthorizationsRequest>;
+export interface ListAppBundlesRequest {
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListAppBundlesRequest = S.suspend(() =>
+  S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/appbundles" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/appbundles" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListIngestionDestinationsRequest extends S.Class<ListIngestionDestinationsRequest>(
-  "ListIngestionDestinationsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListAppBundlesRequest",
+}) as any as S.Schema<ListAppBundlesRequest>;
+export interface ListIngestionDestinationsRequest {
+  appBundleIdentifier: string;
+  ingestionIdentifier: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListIngestionDestinationsRequest = S.suspend(() =>
+  S.Struct({
     appBundleIdentifier: S.String.pipe(T.HttpLabel("appBundleIdentifier")),
     ingestionIdentifier: S.String.pipe(T.HttpLabel("ingestionIdentifier")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/appbundles/{appBundleIdentifier}/ingestions/{ingestionIdentifier}/ingestiondestinations",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/appbundles/{appBundleIdentifier}/ingestions/{ingestionIdentifier}/ingestiondestinations",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListIngestionsRequest extends S.Class<ListIngestionsRequest>(
-  "ListIngestionsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListIngestionDestinationsRequest",
+}) as any as S.Schema<ListIngestionDestinationsRequest>;
+export interface ListIngestionsRequest {
+  appBundleIdentifier: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListIngestionsRequest = S.suspend(() =>
+  S.Struct({
     appBundleIdentifier: S.String.pipe(T.HttpLabel("appBundleIdentifier")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/appbundles/{appBundleIdentifier}/ingestions",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/appbundles/{appBundleIdentifier}/ingestions",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListIngestionsRequest",
+}) as any as S.Schema<ListIngestionsRequest>;
+export interface ListTagsForResourceRequest {
+  resourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartIngestionRequest extends S.Class<StartIngestionRequest>(
-  "StartIngestionRequest",
-)(
-  {
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface StartIngestionRequest {
+  ingestionIdentifier: string;
+  appBundleIdentifier: string;
+}
+export const StartIngestionRequest = S.suspend(() =>
+  S.Struct({
     ingestionIdentifier: S.String.pipe(T.HttpLabel("ingestionIdentifier")),
     appBundleIdentifier: S.String.pipe(T.HttpLabel("appBundleIdentifier")),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/appbundles/{appBundleIdentifier}/ingestions/{ingestionIdentifier}/start",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/appbundles/{appBundleIdentifier}/ingestions/{ingestionIdentifier}/start",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartIngestionResponse extends S.Class<StartIngestionResponse>(
-  "StartIngestionResponse",
-)({}) {}
-export class StartUserAccessTasksRequest extends S.Class<StartUserAccessTasksRequest>(
-  "StartUserAccessTasksRequest",
-)(
-  { appBundleIdentifier: S.String, email: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/useraccess/start" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "StartIngestionRequest",
+}) as any as S.Schema<StartIngestionRequest>;
+export interface StartIngestionResponse {}
+export const StartIngestionResponse = S.suspend(() => S.Struct({})).annotations(
+  { identifier: "StartIngestionResponse" },
+) as any as S.Schema<StartIngestionResponse>;
+export interface StartUserAccessTasksRequest {
+  appBundleIdentifier: string;
+  email: string;
+}
+export const StartUserAccessTasksRequest = S.suspend(() =>
+  S.Struct({ appBundleIdentifier: S.String, email: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/useraccess/start" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StopIngestionRequest extends S.Class<StopIngestionRequest>(
-  "StopIngestionRequest",
-)(
-  {
+).annotations({
+  identifier: "StartUserAccessTasksRequest",
+}) as any as S.Schema<StartUserAccessTasksRequest>;
+export interface StopIngestionRequest {
+  ingestionIdentifier: string;
+  appBundleIdentifier: string;
+}
+export const StopIngestionRequest = S.suspend(() =>
+  S.Struct({
     ingestionIdentifier: S.String.pipe(T.HttpLabel("ingestionIdentifier")),
     appBundleIdentifier: S.String.pipe(T.HttpLabel("appBundleIdentifier")),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/appbundles/{appBundleIdentifier}/ingestions/{ingestionIdentifier}/stop",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/appbundles/{appBundleIdentifier}/ingestions/{ingestionIdentifier}/stop",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StopIngestionResponse extends S.Class<StopIngestionResponse>(
-  "StopIngestionResponse",
-)({}) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagList },
-  T.all(
-    T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "StopIngestionRequest",
+}) as any as S.Schema<StopIngestionRequest>;
+export interface StopIngestionResponse {}
+export const StopIngestionResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "StopIngestionResponse",
+}) as any as S.Schema<StopIngestionResponse>;
+export interface TagResourceRequest {
+  resourceArn: string;
+  tags: TagList;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+    tags: TagList,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UntagResourceRequest {
+  resourceArn: string;
+  tagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
-export class Oauth2Credential extends S.Class<Oauth2Credential>(
-  "Oauth2Credential",
-)({ clientId: S.String, clientSecret: S.String }) {}
-export class ApiKeyCredential extends S.Class<ApiKeyCredential>(
-  "ApiKeyCredential",
-)({ apiKey: S.String }) {}
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface Oauth2Credential {
+  clientId: string;
+  clientSecret: string;
+}
+export const Oauth2Credential = S.suspend(() =>
+  S.Struct({ clientId: S.String, clientSecret: S.String }),
+).annotations({
+  identifier: "Oauth2Credential",
+}) as any as S.Schema<Oauth2Credential>;
+export interface ApiKeyCredential {
+  apiKey: string;
+}
+export const ApiKeyCredential = S.suspend(() =>
+  S.Struct({ apiKey: S.String }),
+).annotations({
+  identifier: "ApiKeyCredential",
+}) as any as S.Schema<ApiKeyCredential>;
 export const Credential = S.Union(
   S.Struct({ oauth2Credential: Oauth2Credential }),
   S.Struct({ apiKeyCredential: ApiKeyCredential }),
 );
-export class Tenant extends S.Class<Tenant>("Tenant")({
-  tenantIdentifier: S.String,
-  tenantDisplayName: S.String,
-}) {}
-export class UpdateAppAuthorizationRequest extends S.Class<UpdateAppAuthorizationRequest>(
-  "UpdateAppAuthorizationRequest",
-)(
-  {
+export interface Tenant {
+  tenantIdentifier: string;
+  tenantDisplayName: string;
+}
+export const Tenant = S.suspend(() =>
+  S.Struct({ tenantIdentifier: S.String, tenantDisplayName: S.String }),
+).annotations({ identifier: "Tenant" }) as any as S.Schema<Tenant>;
+export interface UpdateAppAuthorizationRequest {
+  appBundleIdentifier: string;
+  appAuthorizationIdentifier: string;
+  credential?: (typeof Credential)["Type"];
+  tenant?: Tenant;
+}
+export const UpdateAppAuthorizationRequest = S.suspend(() =>
+  S.Struct({
     appBundleIdentifier: S.String.pipe(T.HttpLabel("appBundleIdentifier")),
     appAuthorizationIdentifier: S.String.pipe(
       T.HttpLabel("appAuthorizationIdentifier"),
     ),
     credential: S.optional(Credential),
     tenant: S.optional(Tenant),
-  },
-  T.all(
-    T.Http({
-      method: "PATCH",
-      uri: "/appbundles/{appBundleIdentifier}/appauthorizations/{appAuthorizationIdentifier}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/appbundles/{appBundleIdentifier}/appauthorizations/{appAuthorizationIdentifier}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class S3Bucket extends S.Class<S3Bucket>("S3Bucket")({
-  bucketName: S.String,
-  prefix: S.optional(S.String),
-}) {}
-export class FirehoseStream extends S.Class<FirehoseStream>("FirehoseStream")({
-  streamName: S.String,
-}) {}
+).annotations({
+  identifier: "UpdateAppAuthorizationRequest",
+}) as any as S.Schema<UpdateAppAuthorizationRequest>;
+export interface S3Bucket {
+  bucketName: string;
+  prefix?: string;
+}
+export const S3Bucket = S.suspend(() =>
+  S.Struct({ bucketName: S.String, prefix: S.optional(S.String) }),
+).annotations({ identifier: "S3Bucket" }) as any as S.Schema<S3Bucket>;
+export interface FirehoseStream {
+  streamName: string;
+}
+export const FirehoseStream = S.suspend(() =>
+  S.Struct({ streamName: S.String }),
+).annotations({
+  identifier: "FirehoseStream",
+}) as any as S.Schema<FirehoseStream>;
 export const Destination = S.Union(
   S.Struct({ s3Bucket: S3Bucket }),
   S.Struct({ firehoseStream: FirehoseStream }),
 );
-export class AuditLogDestinationConfiguration extends S.Class<AuditLogDestinationConfiguration>(
-  "AuditLogDestinationConfiguration",
-)({ destination: Destination }) {}
+export interface AuditLogDestinationConfiguration {
+  destination: (typeof Destination)["Type"];
+}
+export const AuditLogDestinationConfiguration = S.suspend(() =>
+  S.Struct({ destination: Destination }),
+).annotations({
+  identifier: "AuditLogDestinationConfiguration",
+}) as any as S.Schema<AuditLogDestinationConfiguration>;
 export const DestinationConfiguration = S.Union(
   S.Struct({ auditLog: AuditLogDestinationConfiguration }),
 );
-export class UpdateIngestionDestinationRequest extends S.Class<UpdateIngestionDestinationRequest>(
-  "UpdateIngestionDestinationRequest",
-)(
-  {
+export interface UpdateIngestionDestinationRequest {
+  appBundleIdentifier: string;
+  ingestionIdentifier: string;
+  ingestionDestinationIdentifier: string;
+  destinationConfiguration: (typeof DestinationConfiguration)["Type"];
+}
+export const UpdateIngestionDestinationRequest = S.suspend(() =>
+  S.Struct({
     appBundleIdentifier: S.String.pipe(T.HttpLabel("appBundleIdentifier")),
     ingestionIdentifier: S.String.pipe(T.HttpLabel("ingestionIdentifier")),
     ingestionDestinationIdentifier: S.String.pipe(
       T.HttpLabel("ingestionDestinationIdentifier"),
     ),
     destinationConfiguration: DestinationConfiguration,
-  },
-  T.all(
-    T.Http({
-      method: "PATCH",
-      uri: "/appbundles/{appBundleIdentifier}/ingestions/{ingestionIdentifier}/ingestiondestinations/{ingestionDestinationIdentifier}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/appbundles/{appBundleIdentifier}/ingestions/{ingestionIdentifier}/ingestiondestinations/{ingestionDestinationIdentifier}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AuthRequest extends S.Class<AuthRequest>("AuthRequest")({
-  redirectUri: S.String,
-  code: S.String,
-}) {}
-export class ConnectAppAuthorizationRequest extends S.Class<ConnectAppAuthorizationRequest>(
-  "ConnectAppAuthorizationRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateIngestionDestinationRequest",
+}) as any as S.Schema<UpdateIngestionDestinationRequest>;
+export interface AuthRequest {
+  redirectUri: string;
+  code: string;
+}
+export const AuthRequest = S.suspend(() =>
+  S.Struct({ redirectUri: S.String, code: S.String }),
+).annotations({ identifier: "AuthRequest" }) as any as S.Schema<AuthRequest>;
+export interface ConnectAppAuthorizationRequest {
+  appBundleIdentifier: string;
+  appAuthorizationIdentifier: string;
+  authRequest?: AuthRequest;
+}
+export const ConnectAppAuthorizationRequest = S.suspend(() =>
+  S.Struct({
     appBundleIdentifier: S.String.pipe(T.HttpLabel("appBundleIdentifier")),
     appAuthorizationIdentifier: S.String.pipe(
       T.HttpLabel("appAuthorizationIdentifier"),
     ),
     authRequest: S.optional(AuthRequest),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/appbundles/{appBundleIdentifier}/appauthorizations/{appAuthorizationIdentifier}/connect",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/appbundles/{appBundleIdentifier}/appauthorizations/{appAuthorizationIdentifier}/connect",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AppBundle extends S.Class<AppBundle>("AppBundle")({
-  arn: S.String,
-  customerManagedKeyArn: S.optional(S.String),
-}) {}
-export class GetAppBundleResponse extends S.Class<GetAppBundleResponse>(
-  "GetAppBundleResponse",
-)({ appBundle: AppBundle }) {}
-export class Ingestion extends S.Class<Ingestion>("Ingestion")({
-  arn: S.String,
-  appBundleArn: S.String,
-  app: S.String,
-  tenantId: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  state: S.String,
-  ingestionType: S.String,
-}) {}
-export class GetIngestionResponse extends S.Class<GetIngestionResponse>(
-  "GetIngestionResponse",
-)({ ingestion: Ingestion }) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ tags: S.optional(TagList) }) {}
-export class AppAuthorization extends S.Class<AppAuthorization>(
-  "AppAuthorization",
-)({
-  appAuthorizationArn: S.String,
-  appBundleArn: S.String,
-  app: S.String,
-  tenant: Tenant,
-  authType: S.String,
-  status: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  persona: S.optional(S.String),
-  authUrl: S.optional(S.String),
-}) {}
-export class UpdateAppAuthorizationResponse extends S.Class<UpdateAppAuthorizationResponse>(
-  "UpdateAppAuthorizationResponse",
-)({ appAuthorization: AppAuthorization }) {}
-export class AuditLogProcessingConfiguration extends S.Class<AuditLogProcessingConfiguration>(
-  "AuditLogProcessingConfiguration",
-)({ schema: S.String, format: S.String }) {}
+).annotations({
+  identifier: "ConnectAppAuthorizationRequest",
+}) as any as S.Schema<ConnectAppAuthorizationRequest>;
+export interface AppBundle {
+  arn: string;
+  customerManagedKeyArn?: string;
+}
+export const AppBundle = S.suspend(() =>
+  S.Struct({ arn: S.String, customerManagedKeyArn: S.optional(S.String) }),
+).annotations({ identifier: "AppBundle" }) as any as S.Schema<AppBundle>;
+export interface GetAppBundleResponse {
+  appBundle: AppBundle;
+}
+export const GetAppBundleResponse = S.suspend(() =>
+  S.Struct({ appBundle: AppBundle }),
+).annotations({
+  identifier: "GetAppBundleResponse",
+}) as any as S.Schema<GetAppBundleResponse>;
+export interface Ingestion {
+  arn: string;
+  appBundleArn: string;
+  app: string;
+  tenantId: string;
+  createdAt: Date;
+  updatedAt: Date;
+  state: string;
+  ingestionType: string;
+}
+export const Ingestion = S.suspend(() =>
+  S.Struct({
+    arn: S.String,
+    appBundleArn: S.String,
+    app: S.String,
+    tenantId: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    state: S.String,
+    ingestionType: S.String,
+  }),
+).annotations({ identifier: "Ingestion" }) as any as S.Schema<Ingestion>;
+export interface GetIngestionResponse {
+  ingestion: Ingestion;
+}
+export const GetIngestionResponse = S.suspend(() =>
+  S.Struct({ ingestion: Ingestion }),
+).annotations({
+  identifier: "GetIngestionResponse",
+}) as any as S.Schema<GetIngestionResponse>;
+export interface ListTagsForResourceResponse {
+  tags?: TagList;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ tags: S.optional(TagList) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface AppAuthorization {
+  appAuthorizationArn: string;
+  appBundleArn: string;
+  app: string;
+  tenant: Tenant;
+  authType: string;
+  status: string;
+  createdAt: Date;
+  updatedAt: Date;
+  persona?: string;
+  authUrl?: string;
+}
+export const AppAuthorization = S.suspend(() =>
+  S.Struct({
+    appAuthorizationArn: S.String,
+    appBundleArn: S.String,
+    app: S.String,
+    tenant: Tenant,
+    authType: S.String,
+    status: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    persona: S.optional(S.String),
+    authUrl: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AppAuthorization",
+}) as any as S.Schema<AppAuthorization>;
+export interface UpdateAppAuthorizationResponse {
+  appAuthorization: AppAuthorization;
+}
+export const UpdateAppAuthorizationResponse = S.suspend(() =>
+  S.Struct({ appAuthorization: AppAuthorization }),
+).annotations({
+  identifier: "UpdateAppAuthorizationResponse",
+}) as any as S.Schema<UpdateAppAuthorizationResponse>;
+export interface AuditLogProcessingConfiguration {
+  schema: string;
+  format: string;
+}
+export const AuditLogProcessingConfiguration = S.suspend(() =>
+  S.Struct({ schema: S.String, format: S.String }),
+).annotations({
+  identifier: "AuditLogProcessingConfiguration",
+}) as any as S.Schema<AuditLogProcessingConfiguration>;
 export const ProcessingConfiguration = S.Union(
   S.Struct({ auditLog: AuditLogProcessingConfiguration }),
 );
-export class IngestionDestination extends S.Class<IngestionDestination>(
-  "IngestionDestination",
-)({
-  arn: S.String,
-  ingestionArn: S.String,
-  processingConfiguration: ProcessingConfiguration,
-  destinationConfiguration: DestinationConfiguration,
-  status: S.optional(S.String),
-  statusReason: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-}) {}
-export class UpdateIngestionDestinationResponse extends S.Class<UpdateIngestionDestinationResponse>(
-  "UpdateIngestionDestinationResponse",
-)({ ingestionDestination: IngestionDestination }) {}
-export class AppAuthorizationSummary extends S.Class<AppAuthorizationSummary>(
-  "AppAuthorizationSummary",
-)({
-  appAuthorizationArn: S.String,
-  appBundleArn: S.String,
-  app: S.String,
-  tenant: Tenant,
-  status: S.String,
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
+export interface IngestionDestination {
+  arn: string;
+  ingestionArn: string;
+  processingConfiguration: (typeof ProcessingConfiguration)["Type"];
+  destinationConfiguration: (typeof DestinationConfiguration)["Type"];
+  status?: string;
+  statusReason?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+export const IngestionDestination = S.suspend(() =>
+  S.Struct({
+    arn: S.String,
+    ingestionArn: S.String,
+    processingConfiguration: ProcessingConfiguration,
+    destinationConfiguration: DestinationConfiguration,
+    status: S.optional(S.String),
+    statusReason: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotations({
+  identifier: "IngestionDestination",
+}) as any as S.Schema<IngestionDestination>;
+export interface UpdateIngestionDestinationResponse {
+  ingestionDestination: IngestionDestination;
+}
+export const UpdateIngestionDestinationResponse = S.suspend(() =>
+  S.Struct({ ingestionDestination: IngestionDestination }),
+).annotations({
+  identifier: "UpdateIngestionDestinationResponse",
+}) as any as S.Schema<UpdateIngestionDestinationResponse>;
+export interface AppAuthorizationSummary {
+  appAuthorizationArn: string;
+  appBundleArn: string;
+  app: string;
+  tenant: Tenant;
+  status: string;
+  updatedAt: Date;
+}
+export const AppAuthorizationSummary = S.suspend(() =>
+  S.Struct({
+    appAuthorizationArn: S.String,
+    appBundleArn: S.String,
+    app: S.String,
+    tenant: Tenant,
+    status: S.String,
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "AppAuthorizationSummary",
+}) as any as S.Schema<AppAuthorizationSummary>;
+export type AppAuthorizationSummaryList = AppAuthorizationSummary[];
 export const AppAuthorizationSummaryList = S.Array(AppAuthorizationSummary);
-export class AppBundleSummary extends S.Class<AppBundleSummary>(
-  "AppBundleSummary",
-)({ arn: S.String }) {}
+export interface AppBundleSummary {
+  arn: string;
+}
+export const AppBundleSummary = S.suspend(() =>
+  S.Struct({ arn: S.String }),
+).annotations({
+  identifier: "AppBundleSummary",
+}) as any as S.Schema<AppBundleSummary>;
+export type AppBundleSummaryList = AppBundleSummary[];
 export const AppBundleSummaryList = S.Array(AppBundleSummary);
-export class IngestionDestinationSummary extends S.Class<IngestionDestinationSummary>(
-  "IngestionDestinationSummary",
-)({ arn: S.String }) {}
+export interface IngestionDestinationSummary {
+  arn: string;
+}
+export const IngestionDestinationSummary = S.suspend(() =>
+  S.Struct({ arn: S.String }),
+).annotations({
+  identifier: "IngestionDestinationSummary",
+}) as any as S.Schema<IngestionDestinationSummary>;
+export type IngestionDestinationList = IngestionDestinationSummary[];
 export const IngestionDestinationList = S.Array(IngestionDestinationSummary);
-export class IngestionSummary extends S.Class<IngestionSummary>(
-  "IngestionSummary",
-)({ arn: S.String, app: S.String, tenantId: S.String, state: S.String }) {}
+export interface IngestionSummary {
+  arn: string;
+  app: string;
+  tenantId: string;
+  state: string;
+}
+export const IngestionSummary = S.suspend(() =>
+  S.Struct({
+    arn: S.String,
+    app: S.String,
+    tenantId: S.String,
+    state: S.String,
+  }),
+).annotations({
+  identifier: "IngestionSummary",
+}) as any as S.Schema<IngestionSummary>;
+export type IngestionList = IngestionSummary[];
 export const IngestionList = S.Array(IngestionSummary);
-export class TaskError extends S.Class<TaskError>("TaskError")({
-  errorCode: S.optional(S.String),
-  errorMessage: S.optional(S.String),
-}) {}
-export class UserAccessTaskItem extends S.Class<UserAccessTaskItem>(
-  "UserAccessTaskItem",
-)({
-  app: S.String,
-  tenantId: S.String,
-  taskId: S.optional(S.String),
-  error: S.optional(TaskError),
-}) {}
+export interface TaskError {
+  errorCode?: string;
+  errorMessage?: string;
+}
+export const TaskError = S.suspend(() =>
+  S.Struct({
+    errorCode: S.optional(S.String),
+    errorMessage: S.optional(S.String),
+  }),
+).annotations({ identifier: "TaskError" }) as any as S.Schema<TaskError>;
+export interface UserAccessTaskItem {
+  app: string;
+  tenantId: string;
+  taskId?: string;
+  error?: TaskError;
+}
+export const UserAccessTaskItem = S.suspend(() =>
+  S.Struct({
+    app: S.String,
+    tenantId: S.String,
+    taskId: S.optional(S.String),
+    error: S.optional(TaskError),
+  }),
+).annotations({
+  identifier: "UserAccessTaskItem",
+}) as any as S.Schema<UserAccessTaskItem>;
+export type UserAccessTasksList = UserAccessTaskItem[];
 export const UserAccessTasksList = S.Array(UserAccessTaskItem);
-export class ConnectAppAuthorizationResponse extends S.Class<ConnectAppAuthorizationResponse>(
-  "ConnectAppAuthorizationResponse",
-)({ appAuthorizationSummary: AppAuthorizationSummary }) {}
-export class CreateAppAuthorizationRequest extends S.Class<CreateAppAuthorizationRequest>(
-  "CreateAppAuthorizationRequest",
-)(
-  {
+export interface ConnectAppAuthorizationResponse {
+  appAuthorizationSummary: AppAuthorizationSummary;
+}
+export const ConnectAppAuthorizationResponse = S.suspend(() =>
+  S.Struct({ appAuthorizationSummary: AppAuthorizationSummary }),
+).annotations({
+  identifier: "ConnectAppAuthorizationResponse",
+}) as any as S.Schema<ConnectAppAuthorizationResponse>;
+export interface CreateAppAuthorizationRequest {
+  appBundleIdentifier: string;
+  app: string;
+  credential: (typeof Credential)["Type"];
+  tenant: Tenant;
+  authType: string;
+  clientToken?: string;
+  tags?: TagList;
+}
+export const CreateAppAuthorizationRequest = S.suspend(() =>
+  S.Struct({
     appBundleIdentifier: S.String.pipe(T.HttpLabel("appBundleIdentifier")),
     app: S.String,
     credential: Credential,
@@ -912,108 +1240,208 @@ export class CreateAppAuthorizationRequest extends S.Class<CreateAppAuthorizatio
     authType: S.String,
     clientToken: S.optional(S.String),
     tags: S.optional(TagList),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/appbundles/{appBundleIdentifier}/appauthorizations",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/appbundles/{appBundleIdentifier}/appauthorizations",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateAppBundleResponse extends S.Class<CreateAppBundleResponse>(
-  "CreateAppBundleResponse",
-)({ appBundle: AppBundle }) {}
-export class CreateIngestionResponse extends S.Class<CreateIngestionResponse>(
-  "CreateIngestionResponse",
-)({ ingestion: Ingestion }) {}
-export class GetAppAuthorizationResponse extends S.Class<GetAppAuthorizationResponse>(
-  "GetAppAuthorizationResponse",
-)({ appAuthorization: AppAuthorization }) {}
-export class GetIngestionDestinationResponse extends S.Class<GetIngestionDestinationResponse>(
-  "GetIngestionDestinationResponse",
-)({ ingestionDestination: IngestionDestination }) {}
-export class ListAppAuthorizationsResponse extends S.Class<ListAppAuthorizationsResponse>(
-  "ListAppAuthorizationsResponse",
-)({
-  appAuthorizationSummaryList: AppAuthorizationSummaryList,
-  nextToken: S.optional(S.String),
-}) {}
-export class ListAppBundlesResponse extends S.Class<ListAppBundlesResponse>(
-  "ListAppBundlesResponse",
-)({
-  appBundleSummaryList: AppBundleSummaryList,
-  nextToken: S.optional(S.String),
-}) {}
-export class ListIngestionDestinationsResponse extends S.Class<ListIngestionDestinationsResponse>(
-  "ListIngestionDestinationsResponse",
-)({
-  ingestionDestinations: IngestionDestinationList,
-  nextToken: S.optional(S.String),
-}) {}
-export class ListIngestionsResponse extends S.Class<ListIngestionsResponse>(
-  "ListIngestionsResponse",
-)({ ingestions: IngestionList, nextToken: S.optional(S.String) }) {}
-export class StartUserAccessTasksResponse extends S.Class<StartUserAccessTasksResponse>(
-  "StartUserAccessTasksResponse",
-)({ userAccessTasksList: S.optional(UserAccessTasksList) }) {}
-export class UserAccessResultItem extends S.Class<UserAccessResultItem>(
-  "UserAccessResultItem",
-)({
-  app: S.optional(S.String),
-  tenantId: S.optional(S.String),
-  tenantDisplayName: S.optional(S.String),
-  taskId: S.optional(S.String),
-  resultStatus: S.optional(S.String),
-  email: S.optional(S.String),
-  userId: S.optional(S.String),
-  userFullName: S.optional(S.String),
-  userFirstName: S.optional(S.String),
-  userLastName: S.optional(S.String),
-  userStatus: S.optional(S.String),
-  taskError: S.optional(TaskError),
-}) {}
+).annotations({
+  identifier: "CreateAppAuthorizationRequest",
+}) as any as S.Schema<CreateAppAuthorizationRequest>;
+export interface CreateAppBundleResponse {
+  appBundle: AppBundle;
+}
+export const CreateAppBundleResponse = S.suspend(() =>
+  S.Struct({ appBundle: AppBundle }),
+).annotations({
+  identifier: "CreateAppBundleResponse",
+}) as any as S.Schema<CreateAppBundleResponse>;
+export interface CreateIngestionResponse {
+  ingestion: Ingestion;
+}
+export const CreateIngestionResponse = S.suspend(() =>
+  S.Struct({ ingestion: Ingestion }),
+).annotations({
+  identifier: "CreateIngestionResponse",
+}) as any as S.Schema<CreateIngestionResponse>;
+export interface GetAppAuthorizationResponse {
+  appAuthorization: AppAuthorization;
+}
+export const GetAppAuthorizationResponse = S.suspend(() =>
+  S.Struct({ appAuthorization: AppAuthorization }),
+).annotations({
+  identifier: "GetAppAuthorizationResponse",
+}) as any as S.Schema<GetAppAuthorizationResponse>;
+export interface GetIngestionDestinationResponse {
+  ingestionDestination: IngestionDestination;
+}
+export const GetIngestionDestinationResponse = S.suspend(() =>
+  S.Struct({ ingestionDestination: IngestionDestination }),
+).annotations({
+  identifier: "GetIngestionDestinationResponse",
+}) as any as S.Schema<GetIngestionDestinationResponse>;
+export interface ListAppAuthorizationsResponse {
+  appAuthorizationSummaryList: AppAuthorizationSummaryList;
+  nextToken?: string;
+}
+export const ListAppAuthorizationsResponse = S.suspend(() =>
+  S.Struct({
+    appAuthorizationSummaryList: AppAuthorizationSummaryList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListAppAuthorizationsResponse",
+}) as any as S.Schema<ListAppAuthorizationsResponse>;
+export interface ListAppBundlesResponse {
+  appBundleSummaryList: AppBundleSummaryList;
+  nextToken?: string;
+}
+export const ListAppBundlesResponse = S.suspend(() =>
+  S.Struct({
+    appBundleSummaryList: AppBundleSummaryList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListAppBundlesResponse",
+}) as any as S.Schema<ListAppBundlesResponse>;
+export interface ListIngestionDestinationsResponse {
+  ingestionDestinations: IngestionDestinationList;
+  nextToken?: string;
+}
+export const ListIngestionDestinationsResponse = S.suspend(() =>
+  S.Struct({
+    ingestionDestinations: IngestionDestinationList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListIngestionDestinationsResponse",
+}) as any as S.Schema<ListIngestionDestinationsResponse>;
+export interface ListIngestionsResponse {
+  ingestions: IngestionList;
+  nextToken?: string;
+}
+export const ListIngestionsResponse = S.suspend(() =>
+  S.Struct({ ingestions: IngestionList, nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListIngestionsResponse",
+}) as any as S.Schema<ListIngestionsResponse>;
+export interface StartUserAccessTasksResponse {
+  userAccessTasksList?: UserAccessTasksList;
+}
+export const StartUserAccessTasksResponse = S.suspend(() =>
+  S.Struct({ userAccessTasksList: S.optional(UserAccessTasksList) }),
+).annotations({
+  identifier: "StartUserAccessTasksResponse",
+}) as any as S.Schema<StartUserAccessTasksResponse>;
+export interface UserAccessResultItem {
+  app?: string;
+  tenantId?: string;
+  tenantDisplayName?: string;
+  taskId?: string;
+  resultStatus?: string;
+  email?: string;
+  userId?: string;
+  userFullName?: string;
+  userFirstName?: string;
+  userLastName?: string;
+  userStatus?: string;
+  taskError?: TaskError;
+}
+export const UserAccessResultItem = S.suspend(() =>
+  S.Struct({
+    app: S.optional(S.String),
+    tenantId: S.optional(S.String),
+    tenantDisplayName: S.optional(S.String),
+    taskId: S.optional(S.String),
+    resultStatus: S.optional(S.String),
+    email: S.optional(S.String),
+    userId: S.optional(S.String),
+    userFullName: S.optional(S.String),
+    userFirstName: S.optional(S.String),
+    userLastName: S.optional(S.String),
+    userStatus: S.optional(S.String),
+    taskError: S.optional(TaskError),
+  }),
+).annotations({
+  identifier: "UserAccessResultItem",
+}) as any as S.Schema<UserAccessResultItem>;
+export type UserAccessResultsList = UserAccessResultItem[];
 export const UserAccessResultsList = S.Array(UserAccessResultItem);
-export class BatchGetUserAccessTasksResponse extends S.Class<BatchGetUserAccessTasksResponse>(
-  "BatchGetUserAccessTasksResponse",
-)({ userAccessResultsList: S.optional(UserAccessResultsList) }) {}
-export class CreateAppAuthorizationResponse extends S.Class<CreateAppAuthorizationResponse>(
-  "CreateAppAuthorizationResponse",
-)({ appAuthorization: AppAuthorization }) {}
-export class CreateIngestionDestinationRequest extends S.Class<CreateIngestionDestinationRequest>(
-  "CreateIngestionDestinationRequest",
-)(
-  {
+export interface BatchGetUserAccessTasksResponse {
+  userAccessResultsList?: UserAccessResultsList;
+}
+export const BatchGetUserAccessTasksResponse = S.suspend(() =>
+  S.Struct({ userAccessResultsList: S.optional(UserAccessResultsList) }),
+).annotations({
+  identifier: "BatchGetUserAccessTasksResponse",
+}) as any as S.Schema<BatchGetUserAccessTasksResponse>;
+export interface CreateAppAuthorizationResponse {
+  appAuthorization: AppAuthorization;
+}
+export const CreateAppAuthorizationResponse = S.suspend(() =>
+  S.Struct({ appAuthorization: AppAuthorization }),
+).annotations({
+  identifier: "CreateAppAuthorizationResponse",
+}) as any as S.Schema<CreateAppAuthorizationResponse>;
+export interface CreateIngestionDestinationRequest {
+  appBundleIdentifier: string;
+  ingestionIdentifier: string;
+  processingConfiguration: (typeof ProcessingConfiguration)["Type"];
+  destinationConfiguration: (typeof DestinationConfiguration)["Type"];
+  clientToken?: string;
+  tags?: TagList;
+}
+export const CreateIngestionDestinationRequest = S.suspend(() =>
+  S.Struct({
     appBundleIdentifier: S.String.pipe(T.HttpLabel("appBundleIdentifier")),
     ingestionIdentifier: S.String.pipe(T.HttpLabel("ingestionIdentifier")),
     processingConfiguration: ProcessingConfiguration,
     destinationConfiguration: DestinationConfiguration,
     clientToken: S.optional(S.String),
     tags: S.optional(TagList),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/appbundles/{appBundleIdentifier}/ingestions/{ingestionIdentifier}/ingestiondestinations",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/appbundles/{appBundleIdentifier}/ingestions/{ingestionIdentifier}/ingestiondestinations",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
-  "ValidationExceptionField",
-)({ name: S.String, message: S.String }) {}
+).annotations({
+  identifier: "CreateIngestionDestinationRequest",
+}) as any as S.Schema<CreateIngestionDestinationRequest>;
+export interface ValidationExceptionField {
+  name: string;
+  message: string;
+}
+export const ValidationExceptionField = S.suspend(() =>
+  S.Struct({ name: S.String, message: S.String }),
+).annotations({
+  identifier: "ValidationExceptionField",
+}) as any as S.Schema<ValidationExceptionField>;
+export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
-export class CreateIngestionDestinationResponse extends S.Class<CreateIngestionDestinationResponse>(
-  "CreateIngestionDestinationResponse",
-)({ ingestionDestination: IngestionDestination }) {}
+export interface CreateIngestionDestinationResponse {
+  ingestionDestination: IngestionDestination;
+}
+export const CreateIngestionDestinationResponse = S.suspend(() =>
+  S.Struct({ ingestionDestination: IngestionDestination }),
+).annotations({
+  identifier: "CreateIngestionDestinationResponse",
+}) as any as S.Schema<CreateIngestionDestinationResponse>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

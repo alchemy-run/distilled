@@ -1875,6 +1875,76 @@ describe("restXml protocol", () => {
         });
       }),
     );
+
+    it.effect(
+      "should parse HTML error response (S3 503 Slow Down rate limiting)",
+      () =>
+        Effect.gen(function* () {
+          // S3 sometimes returns HTML error pages instead of XML for rate limiting
+          const response: Response = {
+            status: 503,
+            statusText: "Slow Down",
+            headers: {},
+            body: `<html><head><title>503 Slow Down</title></head><body><h1>503 Slow Down</h1><ul><li>Code: SlowDown</li><li>Message: Please reduce your request rate.</li><li>RequestId: 5DE775E75ED42248</li><li>HostId: 0cUpx5CTQ/FCM/BeLYxATn1Vt0hPrZF9b/OZ6dN2+YLipYzX6oYyizTxcPyHyKhdbZ7Jevc9KsxBppUYLyEQR5tH8J4mVUb5enUJ/NN1GwOsPeqKBU1+epIwkq4Jh4YS</li></ul><hr/></body></html>`,
+          };
+
+          const result = yield* parseResponse(
+            GetBucketAclRequest,
+            response,
+            [],
+          ).pipe(Effect.flip);
+
+          expect(result).toBeInstanceOf(UnknownAwsError);
+          expect((result as UnknownAwsError).errorTag).toBe("SlowDown");
+          expect((result as UnknownAwsError).errorData).toMatchObject({
+            Message: "Please reduce your request rate.",
+          });
+        }),
+    );
+
+    it.effect("should parse HTML error response with minimal content", () =>
+      Effect.gen(function* () {
+        // Minimal HTML error with just Code (no Message)
+        const response: Response = {
+          status: 503,
+          statusText: "Service Unavailable",
+          headers: {},
+          body: `<html><body><ul><li>Code: BandwidthLimitExceeded</li></ul></body></html>`,
+        };
+
+        const result = yield* parseResponse(
+          GetBucketAclRequest,
+          response,
+          [],
+        ).pipe(Effect.flip);
+
+        expect(result).toBeInstanceOf(UnknownAwsError);
+        expect((result as UnknownAwsError).errorTag).toBe(
+          "BandwidthLimitExceeded",
+        );
+      }),
+    );
+
+    it.effect("should parse HTML error response case-insensitively", () =>
+      Effect.gen(function* () {
+        // HTML tag in uppercase
+        const response: Response = {
+          status: 503,
+          statusText: "Slow Down",
+          headers: {},
+          body: `<HTML><head><title>503 Slow Down</title></head><body><ul><li>Code: SlowDown</li><li>Message: Rate limited</li></ul></body></HTML>`,
+        };
+
+        const result = yield* parseResponse(
+          GetBucketAclRequest,
+          response,
+          [],
+        ).pipe(Effect.flip);
+
+        expect(result).toBeInstanceOf(UnknownAwsError);
+        expect((result as UnknownAwsError).errorTag).toBe("SlowDown");
+      }),
+    );
   });
 
   // ==========================================================================

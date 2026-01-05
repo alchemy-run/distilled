@@ -245,68 +245,104 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class DeleteObjectRequest extends S.Class<DeleteObjectRequest>(
-  "DeleteObjectRequest",
-)(
-  { Path: S.String.pipe(T.HttpLabel("Path")) },
-  T.all(
-    ns,
-    T.Http({ method: "DELETE", uri: "/{Path+}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface DeleteObjectRequest {
+  Path: string;
+}
+export const DeleteObjectRequest = S.suspend(() =>
+  S.Struct({ Path: S.String.pipe(T.HttpLabel("Path")) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "DELETE", uri: "/{Path+}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteObjectResponse extends S.Class<DeleteObjectResponse>(
-  "DeleteObjectResponse",
-)({}, ns) {}
-export class DescribeObjectRequest extends S.Class<DescribeObjectRequest>(
-  "DescribeObjectRequest",
-)(
-  { Path: S.String.pipe(T.HttpLabel("Path")) },
-  T.all(
-    ns,
-    T.Http({ method: "HEAD", uri: "/{Path+}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteObjectRequest",
+}) as any as S.Schema<DeleteObjectRequest>;
+export interface DeleteObjectResponse {}
+export const DeleteObjectResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteObjectResponse",
+}) as any as S.Schema<DeleteObjectResponse>;
+export interface DescribeObjectRequest {
+  Path: string;
+}
+export const DescribeObjectRequest = S.suspend(() =>
+  S.Struct({ Path: S.String.pipe(T.HttpLabel("Path")) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "HEAD", uri: "/{Path+}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetObjectRequest extends S.Class<GetObjectRequest>(
-  "GetObjectRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeObjectRequest",
+}) as any as S.Schema<DescribeObjectRequest>;
+export interface GetObjectRequest {
+  Path: string;
+  Range?: string;
+}
+export const GetObjectRequest = S.suspend(() =>
+  S.Struct({
     Path: S.String.pipe(T.HttpLabel("Path")),
     Range: S.optional(S.String).pipe(T.HttpHeader("Range")),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "GET", uri: "/{Path+}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/{Path+}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListItemsRequest extends S.Class<ListItemsRequest>(
-  "ListItemsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetObjectRequest",
+}) as any as S.Schema<GetObjectRequest>;
+export interface ListItemsRequest {
+  Path?: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListItemsRequest = S.suspend(() =>
+  S.Struct({
     Path: S.optional(S.String).pipe(T.HttpQuery("Path")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-  },
-  T.all(ns, T.Http({ method: "GET", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutObjectRequest extends S.Class<PutObjectRequest>(
-  "PutObjectRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListItemsRequest",
+}) as any as S.Schema<ListItemsRequest>;
+export interface PutObjectRequest {
+  Body: T.StreamingInputBody;
+  Path: string;
+  ContentType?: string;
+  CacheControl?: string;
+  StorageClass?: string;
+  UploadAvailability?: string;
+}
+export const PutObjectRequest = S.suspend(() =>
+  S.Struct({
     Body: T.StreamingInput.pipe(T.HttpPayload()),
     Path: S.String.pipe(T.HttpLabel("Path")),
     ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
@@ -317,21 +353,29 @@ export class PutObjectRequest extends S.Class<PutObjectRequest>(
     UploadAvailability: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-upload-availability"),
     ),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "PUT", uri: "/{Path+}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "PUT", uri: "/{Path+}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeObjectResponse extends S.Class<DescribeObjectResponse>(
-  "DescribeObjectResponse",
-)(
-  {
+).annotations({
+  identifier: "PutObjectRequest",
+}) as any as S.Schema<PutObjectRequest>;
+export interface DescribeObjectResponse {
+  ETag?: string;
+  ContentType?: string;
+  ContentLength?: number;
+  CacheControl?: string;
+  LastModified?: Date;
+}
+export const DescribeObjectResponse = S.suspend(() =>
+  S.Struct({
     ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
     ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
     ContentLength: S.optional(S.Number).pipe(T.HttpHeader("Content-Length")),
@@ -339,13 +383,22 @@ export class DescribeObjectResponse extends S.Class<DescribeObjectResponse>(
     LastModified: S.optional(S.Date.pipe(T.TimestampFormat("http-date"))).pipe(
       T.HttpHeader("Last-Modified"),
     ),
-  },
-  ns,
-) {}
-export class GetObjectResponse extends S.Class<GetObjectResponse>(
-  "GetObjectResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeObjectResponse",
+}) as any as S.Schema<DescribeObjectResponse>;
+export interface GetObjectResponse {
+  Body?: T.StreamingOutputBody;
+  CacheControl?: string;
+  ContentRange?: string;
+  ContentLength?: number;
+  ContentType?: string;
+  ETag?: string;
+  LastModified?: Date;
+  StatusCode: number;
+}
+export const GetObjectResponse = S.suspend(() =>
+  S.Struct({
     Body: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
     CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
     ContentRange: S.optional(S.String).pipe(T.HttpHeader("Content-Range")),
@@ -356,31 +409,56 @@ export class GetObjectResponse extends S.Class<GetObjectResponse>(
       T.HttpHeader("Last-Modified"),
     ),
     StatusCode: S.Number.pipe(T.HttpResponseCode()),
-  },
-  ns,
-) {}
-export class PutObjectResponse extends S.Class<PutObjectResponse>(
-  "PutObjectResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetObjectResponse",
+}) as any as S.Schema<GetObjectResponse>;
+export interface PutObjectResponse {
+  ContentSHA256?: string;
+  ETag?: string;
+  StorageClass?: string;
+}
+export const PutObjectResponse = S.suspend(() =>
+  S.Struct({
     ContentSHA256: S.optional(S.String),
     ETag: S.optional(S.String),
     StorageClass: S.optional(S.String),
-  },
-  ns,
-) {}
-export class Item extends S.Class<Item>("Item")({
-  Name: S.optional(S.String),
-  Type: S.optional(S.String),
-  ETag: S.optional(S.String),
-  LastModified: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  ContentType: S.optional(S.String),
-  ContentLength: S.optional(S.Number),
-}) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "PutObjectResponse",
+}) as any as S.Schema<PutObjectResponse>;
+export interface Item {
+  Name?: string;
+  Type?: string;
+  ETag?: string;
+  LastModified?: Date;
+  ContentType?: string;
+  ContentLength?: number;
+}
+export const Item = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Type: S.optional(S.String),
+    ETag: S.optional(S.String),
+    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ContentType: S.optional(S.String),
+    ContentLength: S.optional(S.Number),
+  }),
+).annotations({ identifier: "Item" }) as any as S.Schema<Item>;
+export type ItemList = Item[];
 export const ItemList = S.Array(Item);
-export class ListItemsResponse extends S.Class<ListItemsResponse>(
-  "ListItemsResponse",
-)({ Items: S.optional(ItemList), NextToken: S.optional(S.String) }, ns) {}
+export interface ListItemsResponse {
+  Items?: ItemList;
+  NextToken?: string;
+}
+export const ListItemsResponse = S.suspend(() =>
+  S.Struct({
+    Items: S.optional(ItemList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListItemsResponse",
+}) as any as S.Schema<ListItemsResponse>;
 
 //# Errors
 export class ContainerNotFoundException extends S.TaggedError<ContainerNotFoundException>()(

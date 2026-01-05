@@ -242,299 +242,493 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class CancelChangeSetRequest extends S.Class<CancelChangeSetRequest>(
-  "CancelChangeSetRequest",
-)(
-  {
+export interface CancelChangeSetRequest {
+  Catalog: string;
+  ChangeSetId: string;
+}
+export const CancelChangeSetRequest = S.suspend(() =>
+  S.Struct({
     Catalog: S.String.pipe(T.HttpQuery("catalog")),
     ChangeSetId: S.String.pipe(T.HttpQuery("changeSetId")),
-  },
-  T.all(
-    T.Http({ method: "PATCH", uri: "/CancelChangeSet" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PATCH", uri: "/CancelChangeSet" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteResourcePolicyRequest extends S.Class<DeleteResourcePolicyRequest>(
-  "DeleteResourcePolicyRequest",
-)(
-  { ResourceArn: S.String.pipe(T.HttpQuery("resourceArn")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/DeleteResourcePolicy" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CancelChangeSetRequest",
+}) as any as S.Schema<CancelChangeSetRequest>;
+export interface DeleteResourcePolicyRequest {
+  ResourceArn: string;
+}
+export const DeleteResourcePolicyRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String.pipe(T.HttpQuery("resourceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/DeleteResourcePolicy" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteResourcePolicyResponse extends S.Class<DeleteResourcePolicyResponse>(
-  "DeleteResourcePolicyResponse",
-)({}) {}
-export class DescribeChangeSetRequest extends S.Class<DescribeChangeSetRequest>(
-  "DescribeChangeSetRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteResourcePolicyRequest",
+}) as any as S.Schema<DeleteResourcePolicyRequest>;
+export interface DeleteResourcePolicyResponse {}
+export const DeleteResourcePolicyResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteResourcePolicyResponse",
+}) as any as S.Schema<DeleteResourcePolicyResponse>;
+export interface DescribeChangeSetRequest {
+  Catalog: string;
+  ChangeSetId: string;
+}
+export const DescribeChangeSetRequest = S.suspend(() =>
+  S.Struct({
     Catalog: S.String.pipe(T.HttpQuery("catalog")),
     ChangeSetId: S.String.pipe(T.HttpQuery("changeSetId")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/DescribeChangeSet" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/DescribeChangeSet" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeEntityRequest extends S.Class<DescribeEntityRequest>(
-  "DescribeEntityRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeChangeSetRequest",
+}) as any as S.Schema<DescribeChangeSetRequest>;
+export interface DescribeEntityRequest {
+  Catalog: string;
+  EntityId: string;
+}
+export const DescribeEntityRequest = S.suspend(() =>
+  S.Struct({
     Catalog: S.String.pipe(T.HttpQuery("catalog")),
     EntityId: S.String.pipe(T.HttpQuery("entityId")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/DescribeEntity" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/DescribeEntity" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetResourcePolicyRequest extends S.Class<GetResourcePolicyRequest>(
-  "GetResourcePolicyRequest",
-)(
-  { ResourceArn: S.String.pipe(T.HttpQuery("resourceArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/GetResourcePolicy" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DescribeEntityRequest",
+}) as any as S.Schema<DescribeEntityRequest>;
+export interface GetResourcePolicyRequest {
+  ResourceArn: string;
+}
+export const GetResourcePolicyRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String.pipe(T.HttpQuery("resourceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/GetResourcePolicy" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { ResourceArn: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/ListTagsForResource" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetResourcePolicyRequest",
+}) as any as S.Schema<GetResourcePolicyRequest>;
+export interface ListTagsForResourceRequest {
+  ResourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ListTagsForResource" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutResourcePolicyRequest extends S.Class<PutResourcePolicyRequest>(
-  "PutResourcePolicyRequest",
-)(
-  { ResourceArn: S.String, Policy: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/PutResourcePolicy" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface PutResourcePolicyRequest {
+  ResourceArn: string;
+  Policy: string;
+}
+export const PutResourcePolicyRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String, Policy: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/PutResourcePolicy" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutResourcePolicyResponse extends S.Class<PutResourcePolicyResponse>(
-  "PutResourcePolicyResponse",
-)({}) {}
-export class Tag extends S.Class<Tag>("Tag")({
-  Key: S.String,
-  Value: S.String,
-}) {}
+).annotations({
+  identifier: "PutResourcePolicyRequest",
+}) as any as S.Schema<PutResourcePolicyRequest>;
+export interface PutResourcePolicyResponse {}
+export const PutResourcePolicyResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "PutResourcePolicyResponse",
+}) as any as S.Schema<PutResourcePolicyResponse>;
+export interface Tag {
+  Key: string;
+  Value: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ Key: S.String, Value: S.String }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagList = Tag[];
 export const TagList = S.Array(Tag);
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { ResourceArn: S.String, Tags: TagList },
-  T.all(
-    T.Http({ method: "POST", uri: "/TagResource" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface TagResourceRequest {
+  ResourceArn: string;
+  Tags: TagList;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String, Tags: TagList }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/TagResource" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  { ResourceArn: S.String, TagKeys: TagKeyList },
-  T.all(
-    T.Http({ method: "POST", uri: "/UntagResource" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UntagResourceRequest {
+  ResourceArn: string;
+  TagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String, TagKeys: TagKeyList }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/UntagResource" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export type ValueList = string[];
 export const ValueList = S.Array(S.String);
-export class EntityRequest extends S.Class<EntityRequest>("EntityRequest")({
-  Catalog: S.String,
-  EntityId: S.String,
-}) {}
+export interface EntityRequest {
+  Catalog: string;
+  EntityId: string;
+}
+export const EntityRequest = S.suspend(() =>
+  S.Struct({ Catalog: S.String, EntityId: S.String }),
+).annotations({
+  identifier: "EntityRequest",
+}) as any as S.Schema<EntityRequest>;
+export type EntityRequestList = EntityRequest[];
 export const EntityRequestList = S.Array(EntityRequest);
-export class Filter extends S.Class<Filter>("Filter")({
-  Name: S.optional(S.String),
-  ValueList: S.optional(ValueList),
-}) {}
+export interface Filter {
+  Name?: string;
+  ValueList?: ValueList;
+}
+export const Filter = S.suspend(() =>
+  S.Struct({ Name: S.optional(S.String), ValueList: S.optional(ValueList) }),
+).annotations({ identifier: "Filter" }) as any as S.Schema<Filter>;
+export type FilterList = Filter[];
 export const FilterList = S.Array(Filter);
-export class Sort extends S.Class<Sort>("Sort")({
-  SortBy: S.optional(S.String),
-  SortOrder: S.optional(S.String),
-}) {}
-export class BatchDescribeEntitiesRequest extends S.Class<BatchDescribeEntitiesRequest>(
-  "BatchDescribeEntitiesRequest",
-)(
-  { EntityRequestList: EntityRequestList },
-  T.all(
-    T.Http({ method: "POST", uri: "/BatchDescribeEntities" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface Sort {
+  SortBy?: string;
+  SortOrder?: string;
+}
+export const Sort = S.suspend(() =>
+  S.Struct({ SortBy: S.optional(S.String), SortOrder: S.optional(S.String) }),
+).annotations({ identifier: "Sort" }) as any as S.Schema<Sort>;
+export interface BatchDescribeEntitiesRequest {
+  EntityRequestList: EntityRequestList;
+}
+export const BatchDescribeEntitiesRequest = S.suspend(() =>
+  S.Struct({ EntityRequestList: EntityRequestList }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/BatchDescribeEntities" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CancelChangeSetResponse extends S.Class<CancelChangeSetResponse>(
-  "CancelChangeSetResponse",
-)({ ChangeSetId: S.optional(S.String), ChangeSetArn: S.optional(S.String) }) {}
-export class DescribeEntityResponse extends S.Class<DescribeEntityResponse>(
-  "DescribeEntityResponse",
-)({
-  EntityType: S.optional(S.String),
-  EntityIdentifier: S.optional(S.String),
-  EntityArn: S.optional(S.String),
-  LastModifiedDate: S.optional(S.String),
-  Details: S.optional(S.String),
-  DetailsDocument: S.optional(S.Any),
-}) {}
-export class GetResourcePolicyResponse extends S.Class<GetResourcePolicyResponse>(
-  "GetResourcePolicyResponse",
-)({ Policy: S.optional(S.String) }) {}
-export class ListChangeSetsRequest extends S.Class<ListChangeSetsRequest>(
-  "ListChangeSetsRequest",
-)(
-  {
+).annotations({
+  identifier: "BatchDescribeEntitiesRequest",
+}) as any as S.Schema<BatchDescribeEntitiesRequest>;
+export interface CancelChangeSetResponse {
+  ChangeSetId?: string;
+  ChangeSetArn?: string;
+}
+export const CancelChangeSetResponse = S.suspend(() =>
+  S.Struct({
+    ChangeSetId: S.optional(S.String),
+    ChangeSetArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CancelChangeSetResponse",
+}) as any as S.Schema<CancelChangeSetResponse>;
+export interface DescribeEntityResponse {
+  EntityType?: string;
+  EntityIdentifier?: string;
+  EntityArn?: string;
+  LastModifiedDate?: string;
+  Details?: string;
+  DetailsDocument?: any;
+}
+export const DescribeEntityResponse = S.suspend(() =>
+  S.Struct({
+    EntityType: S.optional(S.String),
+    EntityIdentifier: S.optional(S.String),
+    EntityArn: S.optional(S.String),
+    LastModifiedDate: S.optional(S.String),
+    Details: S.optional(S.String),
+    DetailsDocument: S.optional(S.Any),
+  }),
+).annotations({
+  identifier: "DescribeEntityResponse",
+}) as any as S.Schema<DescribeEntityResponse>;
+export interface GetResourcePolicyResponse {
+  Policy?: string;
+}
+export const GetResourcePolicyResponse = S.suspend(() =>
+  S.Struct({ Policy: S.optional(S.String) }),
+).annotations({
+  identifier: "GetResourcePolicyResponse",
+}) as any as S.Schema<GetResourcePolicyResponse>;
+export interface ListChangeSetsRequest {
+  Catalog: string;
+  FilterList?: FilterList;
+  Sort?: Sort;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListChangeSetsRequest = S.suspend(() =>
+  S.Struct({
     Catalog: S.String,
     FilterList: S.optional(FilterList),
     Sort: S.optional(Sort),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/ListChangeSets" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ListChangeSets" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ ResourceArn: S.optional(S.String), Tags: S.optional(TagList) }) {}
-export class DataProductSort extends S.Class<DataProductSort>(
-  "DataProductSort",
-)({ SortBy: S.optional(S.String), SortOrder: S.optional(S.String) }) {}
-export class SaaSProductSort extends S.Class<SaaSProductSort>(
-  "SaaSProductSort",
-)({ SortBy: S.optional(S.String), SortOrder: S.optional(S.String) }) {}
-export class AmiProductSort extends S.Class<AmiProductSort>("AmiProductSort")({
-  SortBy: S.optional(S.String),
-  SortOrder: S.optional(S.String),
-}) {}
-export class OfferSort extends S.Class<OfferSort>("OfferSort")({
-  SortBy: S.optional(S.String),
-  SortOrder: S.optional(S.String),
-}) {}
-export class ContainerProductSort extends S.Class<ContainerProductSort>(
-  "ContainerProductSort",
-)({ SortBy: S.optional(S.String), SortOrder: S.optional(S.String) }) {}
-export class ResaleAuthorizationSort extends S.Class<ResaleAuthorizationSort>(
-  "ResaleAuthorizationSort",
-)({ SortBy: S.optional(S.String), SortOrder: S.optional(S.String) }) {}
-export class MachineLearningProductSort extends S.Class<MachineLearningProductSort>(
-  "MachineLearningProductSort",
-)({ SortBy: S.optional(S.String), SortOrder: S.optional(S.String) }) {}
-export class OfferSetSort extends S.Class<OfferSetSort>("OfferSetSort")({
-  SortBy: S.optional(S.String),
-  SortOrder: S.optional(S.String),
-}) {}
-export class Entity extends S.Class<Entity>("Entity")({
-  Type: S.String,
-  Identifier: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "ListChangeSetsRequest",
+}) as any as S.Schema<ListChangeSetsRequest>;
+export interface ListTagsForResourceResponse {
+  ResourceArn?: string;
+  Tags?: TagList;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ ResourceArn: S.optional(S.String), Tags: S.optional(TagList) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface DataProductSort {
+  SortBy?: string;
+  SortOrder?: string;
+}
+export const DataProductSort = S.suspend(() =>
+  S.Struct({ SortBy: S.optional(S.String), SortOrder: S.optional(S.String) }),
+).annotations({
+  identifier: "DataProductSort",
+}) as any as S.Schema<DataProductSort>;
+export interface SaaSProductSort {
+  SortBy?: string;
+  SortOrder?: string;
+}
+export const SaaSProductSort = S.suspend(() =>
+  S.Struct({ SortBy: S.optional(S.String), SortOrder: S.optional(S.String) }),
+).annotations({
+  identifier: "SaaSProductSort",
+}) as any as S.Schema<SaaSProductSort>;
+export interface AmiProductSort {
+  SortBy?: string;
+  SortOrder?: string;
+}
+export const AmiProductSort = S.suspend(() =>
+  S.Struct({ SortBy: S.optional(S.String), SortOrder: S.optional(S.String) }),
+).annotations({
+  identifier: "AmiProductSort",
+}) as any as S.Schema<AmiProductSort>;
+export interface OfferSort {
+  SortBy?: string;
+  SortOrder?: string;
+}
+export const OfferSort = S.suspend(() =>
+  S.Struct({ SortBy: S.optional(S.String), SortOrder: S.optional(S.String) }),
+).annotations({ identifier: "OfferSort" }) as any as S.Schema<OfferSort>;
+export interface ContainerProductSort {
+  SortBy?: string;
+  SortOrder?: string;
+}
+export const ContainerProductSort = S.suspend(() =>
+  S.Struct({ SortBy: S.optional(S.String), SortOrder: S.optional(S.String) }),
+).annotations({
+  identifier: "ContainerProductSort",
+}) as any as S.Schema<ContainerProductSort>;
+export interface ResaleAuthorizationSort {
+  SortBy?: string;
+  SortOrder?: string;
+}
+export const ResaleAuthorizationSort = S.suspend(() =>
+  S.Struct({ SortBy: S.optional(S.String), SortOrder: S.optional(S.String) }),
+).annotations({
+  identifier: "ResaleAuthorizationSort",
+}) as any as S.Schema<ResaleAuthorizationSort>;
+export interface MachineLearningProductSort {
+  SortBy?: string;
+  SortOrder?: string;
+}
+export const MachineLearningProductSort = S.suspend(() =>
+  S.Struct({ SortBy: S.optional(S.String), SortOrder: S.optional(S.String) }),
+).annotations({
+  identifier: "MachineLearningProductSort",
+}) as any as S.Schema<MachineLearningProductSort>;
+export interface OfferSetSort {
+  SortBy?: string;
+  SortOrder?: string;
+}
+export const OfferSetSort = S.suspend(() =>
+  S.Struct({ SortBy: S.optional(S.String), SortOrder: S.optional(S.String) }),
+).annotations({ identifier: "OfferSetSort" }) as any as S.Schema<OfferSetSort>;
+export interface Entity {
+  Type: string;
+  Identifier?: string;
+}
+export const Entity = S.suspend(() =>
+  S.Struct({ Type: S.String, Identifier: S.optional(S.String) }),
+).annotations({ identifier: "Entity" }) as any as S.Schema<Entity>;
+export type DataProductEntityIdFilterValueList = string[];
 export const DataProductEntityIdFilterValueList = S.Array(S.String);
+export type DataProductTitleFilterValueList = string[];
 export const DataProductTitleFilterValueList = S.Array(S.String);
+export type DataProductVisibilityFilterValueList = string[];
 export const DataProductVisibilityFilterValueList = S.Array(S.String);
+export type SaaSProductEntityIdFilterValueList = string[];
 export const SaaSProductEntityIdFilterValueList = S.Array(S.String);
+export type SaaSProductTitleFilterValueList = string[];
 export const SaaSProductTitleFilterValueList = S.Array(S.String);
+export type SaaSProductVisibilityFilterValueList = string[];
 export const SaaSProductVisibilityFilterValueList = S.Array(S.String);
+export type AmiProductEntityIdFilterValueList = string[];
 export const AmiProductEntityIdFilterValueList = S.Array(S.String);
+export type AmiProductTitleFilterValueList = string[];
 export const AmiProductTitleFilterValueList = S.Array(S.String);
+export type AmiProductVisibilityFilterValueList = string[];
 export const AmiProductVisibilityFilterValueList = S.Array(S.String);
+export type OfferEntityIdFilterValueList = string[];
 export const OfferEntityIdFilterValueList = S.Array(S.String);
+export type OfferNameFilterValueList = string[];
 export const OfferNameFilterValueList = S.Array(S.String);
+export type OfferProductIdFilterValueList = string[];
 export const OfferProductIdFilterValueList = S.Array(S.String);
+export type OfferResaleAuthorizationIdFilterValueList = string[];
 export const OfferResaleAuthorizationIdFilterValueList = S.Array(S.String);
+export type OfferStateFilterValueList = string[];
 export const OfferStateFilterValueList = S.Array(S.String);
+export type OfferTargetingFilterValueList = string[];
 export const OfferTargetingFilterValueList = S.Array(S.String);
+export type OfferSetIdFilterValueList = string[];
 export const OfferSetIdFilterValueList = S.Array(S.String);
+export type ContainerProductEntityIdFilterValueList = string[];
 export const ContainerProductEntityIdFilterValueList = S.Array(S.String);
+export type ContainerProductTitleFilterValueList = string[];
 export const ContainerProductTitleFilterValueList = S.Array(S.String);
+export type ContainerProductVisibilityFilterValueList = string[];
 export const ContainerProductVisibilityFilterValueList = S.Array(S.String);
+export type ResaleAuthorizationEntityIdFilterValueList = string[];
 export const ResaleAuthorizationEntityIdFilterValueList = S.Array(S.String);
+export type ResaleAuthorizationNameFilterValueList = string[];
 export const ResaleAuthorizationNameFilterValueList = S.Array(S.String);
+export type ResaleAuthorizationProductIdFilterValueList = string[];
 export const ResaleAuthorizationProductIdFilterValueList = S.Array(S.String);
+export type ResaleAuthorizationCreatedDateFilterValueList = string[];
 export const ResaleAuthorizationCreatedDateFilterValueList = S.Array(S.String);
+export type ResaleAuthorizationAvailabilityEndDateFilterValueList = string[];
 export const ResaleAuthorizationAvailabilityEndDateFilterValueList = S.Array(
   S.String,
 );
+export type ResaleAuthorizationManufacturerAccountIdFilterValueList = string[];
 export const ResaleAuthorizationManufacturerAccountIdFilterValueList = S.Array(
   S.String,
 );
+export type ResaleAuthorizationProductNameFilterValueList = string[];
 export const ResaleAuthorizationProductNameFilterValueList = S.Array(S.String);
+export type ResaleAuthorizationManufacturerLegalNameFilterValueList = string[];
 export const ResaleAuthorizationManufacturerLegalNameFilterValueList = S.Array(
   S.String,
 );
+export type ResaleAuthorizationResellerAccountIDFilterValueList = string[];
 export const ResaleAuthorizationResellerAccountIDFilterValueList = S.Array(
   S.String,
 );
+export type ResaleAuthorizationResellerLegalNameFilterValueList = string[];
 export const ResaleAuthorizationResellerLegalNameFilterValueList = S.Array(
   S.String,
 );
+export type ResaleAuthorizationStatusFilterValueList = string[];
 export const ResaleAuthorizationStatusFilterValueList = S.Array(S.String);
+export type ResaleAuthorizationOfferExtendedStatusFilterValueList = string[];
 export const ResaleAuthorizationOfferExtendedStatusFilterValueList = S.Array(
   S.String,
 );
+export type MachineLearningProductEntityIdFilterValueList = string[];
 export const MachineLearningProductEntityIdFilterValueList = S.Array(S.String);
+export type MachineLearningProductTitleFilterValueList = string[];
 export const MachineLearningProductTitleFilterValueList = S.Array(S.String);
+export type MachineLearningProductVisibilityFilterValueList = string[];
 export const MachineLearningProductVisibilityFilterValueList = S.Array(
   S.String,
 );
+export type OfferSetEntityIdFilterValueList = string[];
 export const OfferSetEntityIdFilterValueList = S.Array(S.String);
+export type OfferSetNameFilterValueList = string[];
 export const OfferSetNameFilterValueList = S.Array(S.String);
+export type OfferSetStateFilterValueList = string[];
 export const OfferSetStateFilterValueList = S.Array(S.String);
+export type OfferSetAssociatedOfferIdsFilterValueList = string[];
 export const OfferSetAssociatedOfferIdsFilterValueList = S.Array(S.String);
+export type OfferSetSolutionIdFilterValueList = string[];
 export const OfferSetSolutionIdFilterValueList = S.Array(S.String);
 export const EntityTypeSort = S.Union(
   S.Struct({ DataProductSort: DataProductSort }),
@@ -546,429 +740,1037 @@ export const EntityTypeSort = S.Union(
   S.Struct({ MachineLearningProductSort: MachineLearningProductSort }),
   S.Struct({ OfferSetSort: OfferSetSort }),
 );
-export class Change extends S.Class<Change>("Change")({
-  ChangeType: S.String,
-  Entity: Entity,
-  EntityTags: S.optional(TagList),
-  Details: S.optional(S.String),
-  DetailsDocument: S.optional(S.Any),
-  ChangeName: S.optional(S.String),
-}) {}
+export interface Change {
+  ChangeType: string;
+  Entity: Entity;
+  EntityTags?: TagList;
+  Details?: string;
+  DetailsDocument?: any;
+  ChangeName?: string;
+}
+export const Change = S.suspend(() =>
+  S.Struct({
+    ChangeType: S.String,
+    Entity: Entity,
+    EntityTags: S.optional(TagList),
+    Details: S.optional(S.String),
+    DetailsDocument: S.optional(S.Any),
+    ChangeName: S.optional(S.String),
+  }),
+).annotations({ identifier: "Change" }) as any as S.Schema<Change>;
+export type RequestedChangeList = Change[];
 export const RequestedChangeList = S.Array(Change);
-export class DataProductEntityIdFilter extends S.Class<DataProductEntityIdFilter>(
-  "DataProductEntityIdFilter",
-)({ ValueList: S.optional(DataProductEntityIdFilterValueList) }) {}
-export class DataProductTitleFilter extends S.Class<DataProductTitleFilter>(
-  "DataProductTitleFilter",
-)({
-  ValueList: S.optional(DataProductTitleFilterValueList),
-  WildCardValue: S.optional(S.String),
-}) {}
-export class DataProductVisibilityFilter extends S.Class<DataProductVisibilityFilter>(
-  "DataProductVisibilityFilter",
-)({ ValueList: S.optional(DataProductVisibilityFilterValueList) }) {}
-export class SaaSProductEntityIdFilter extends S.Class<SaaSProductEntityIdFilter>(
-  "SaaSProductEntityIdFilter",
-)({ ValueList: S.optional(SaaSProductEntityIdFilterValueList) }) {}
-export class SaaSProductTitleFilter extends S.Class<SaaSProductTitleFilter>(
-  "SaaSProductTitleFilter",
-)({
-  ValueList: S.optional(SaaSProductTitleFilterValueList),
-  WildCardValue: S.optional(S.String),
-}) {}
-export class SaaSProductVisibilityFilter extends S.Class<SaaSProductVisibilityFilter>(
-  "SaaSProductVisibilityFilter",
-)({ ValueList: S.optional(SaaSProductVisibilityFilterValueList) }) {}
-export class AmiProductEntityIdFilter extends S.Class<AmiProductEntityIdFilter>(
-  "AmiProductEntityIdFilter",
-)({ ValueList: S.optional(AmiProductEntityIdFilterValueList) }) {}
-export class AmiProductTitleFilter extends S.Class<AmiProductTitleFilter>(
-  "AmiProductTitleFilter",
-)({
-  ValueList: S.optional(AmiProductTitleFilterValueList),
-  WildCardValue: S.optional(S.String),
-}) {}
-export class AmiProductVisibilityFilter extends S.Class<AmiProductVisibilityFilter>(
-  "AmiProductVisibilityFilter",
-)({ ValueList: S.optional(AmiProductVisibilityFilterValueList) }) {}
-export class OfferEntityIdFilter extends S.Class<OfferEntityIdFilter>(
-  "OfferEntityIdFilter",
-)({ ValueList: S.optional(OfferEntityIdFilterValueList) }) {}
-export class OfferNameFilter extends S.Class<OfferNameFilter>(
-  "OfferNameFilter",
-)({
-  ValueList: S.optional(OfferNameFilterValueList),
-  WildCardValue: S.optional(S.String),
-}) {}
-export class OfferProductIdFilter extends S.Class<OfferProductIdFilter>(
-  "OfferProductIdFilter",
-)({ ValueList: S.optional(OfferProductIdFilterValueList) }) {}
-export class OfferResaleAuthorizationIdFilter extends S.Class<OfferResaleAuthorizationIdFilter>(
-  "OfferResaleAuthorizationIdFilter",
-)({ ValueList: S.optional(OfferResaleAuthorizationIdFilterValueList) }) {}
-export class OfferBuyerAccountsFilter extends S.Class<OfferBuyerAccountsFilter>(
-  "OfferBuyerAccountsFilter",
-)({ WildCardValue: S.optional(S.String) }) {}
-export class OfferStateFilter extends S.Class<OfferStateFilter>(
-  "OfferStateFilter",
-)({ ValueList: S.optional(OfferStateFilterValueList) }) {}
-export class OfferTargetingFilter extends S.Class<OfferTargetingFilter>(
-  "OfferTargetingFilter",
-)({ ValueList: S.optional(OfferTargetingFilterValueList) }) {}
-export class OfferSetIdFilter extends S.Class<OfferSetIdFilter>(
-  "OfferSetIdFilter",
-)({ ValueList: S.optional(OfferSetIdFilterValueList) }) {}
-export class ContainerProductEntityIdFilter extends S.Class<ContainerProductEntityIdFilter>(
-  "ContainerProductEntityIdFilter",
-)({ ValueList: S.optional(ContainerProductEntityIdFilterValueList) }) {}
-export class ContainerProductTitleFilter extends S.Class<ContainerProductTitleFilter>(
-  "ContainerProductTitleFilter",
-)({
-  ValueList: S.optional(ContainerProductTitleFilterValueList),
-  WildCardValue: S.optional(S.String),
-}) {}
-export class ContainerProductVisibilityFilter extends S.Class<ContainerProductVisibilityFilter>(
-  "ContainerProductVisibilityFilter",
-)({ ValueList: S.optional(ContainerProductVisibilityFilterValueList) }) {}
-export class ResaleAuthorizationEntityIdFilter extends S.Class<ResaleAuthorizationEntityIdFilter>(
-  "ResaleAuthorizationEntityIdFilter",
-)({ ValueList: S.optional(ResaleAuthorizationEntityIdFilterValueList) }) {}
-export class ResaleAuthorizationNameFilter extends S.Class<ResaleAuthorizationNameFilter>(
-  "ResaleAuthorizationNameFilter",
-)({
-  ValueList: S.optional(ResaleAuthorizationNameFilterValueList),
-  WildCardValue: S.optional(S.String),
-}) {}
-export class ResaleAuthorizationProductIdFilter extends S.Class<ResaleAuthorizationProductIdFilter>(
-  "ResaleAuthorizationProductIdFilter",
-)({
-  ValueList: S.optional(ResaleAuthorizationProductIdFilterValueList),
-  WildCardValue: S.optional(S.String),
-}) {}
-export class ResaleAuthorizationManufacturerAccountIdFilter extends S.Class<ResaleAuthorizationManufacturerAccountIdFilter>(
-  "ResaleAuthorizationManufacturerAccountIdFilter",
-)({
-  ValueList: S.optional(
-    ResaleAuthorizationManufacturerAccountIdFilterValueList,
-  ),
-  WildCardValue: S.optional(S.String),
-}) {}
-export class ResaleAuthorizationProductNameFilter extends S.Class<ResaleAuthorizationProductNameFilter>(
-  "ResaleAuthorizationProductNameFilter",
-)({
-  ValueList: S.optional(ResaleAuthorizationProductNameFilterValueList),
-  WildCardValue: S.optional(S.String),
-}) {}
-export class ResaleAuthorizationManufacturerLegalNameFilter extends S.Class<ResaleAuthorizationManufacturerLegalNameFilter>(
-  "ResaleAuthorizationManufacturerLegalNameFilter",
-)({
-  ValueList: S.optional(
-    ResaleAuthorizationManufacturerLegalNameFilterValueList,
-  ),
-  WildCardValue: S.optional(S.String),
-}) {}
-export class ResaleAuthorizationResellerAccountIDFilter extends S.Class<ResaleAuthorizationResellerAccountIDFilter>(
-  "ResaleAuthorizationResellerAccountIDFilter",
-)({
-  ValueList: S.optional(ResaleAuthorizationResellerAccountIDFilterValueList),
-  WildCardValue: S.optional(S.String),
-}) {}
-export class ResaleAuthorizationResellerLegalNameFilter extends S.Class<ResaleAuthorizationResellerLegalNameFilter>(
-  "ResaleAuthorizationResellerLegalNameFilter",
-)({
-  ValueList: S.optional(ResaleAuthorizationResellerLegalNameFilterValueList),
-  WildCardValue: S.optional(S.String),
-}) {}
-export class ResaleAuthorizationStatusFilter extends S.Class<ResaleAuthorizationStatusFilter>(
-  "ResaleAuthorizationStatusFilter",
-)({ ValueList: S.optional(ResaleAuthorizationStatusFilterValueList) }) {}
-export class ResaleAuthorizationOfferExtendedStatusFilter extends S.Class<ResaleAuthorizationOfferExtendedStatusFilter>(
-  "ResaleAuthorizationOfferExtendedStatusFilter",
-)({
-  ValueList: S.optional(ResaleAuthorizationOfferExtendedStatusFilterValueList),
-}) {}
-export class MachineLearningProductEntityIdFilter extends S.Class<MachineLearningProductEntityIdFilter>(
-  "MachineLearningProductEntityIdFilter",
-)({ ValueList: S.optional(MachineLearningProductEntityIdFilterValueList) }) {}
-export class MachineLearningProductTitleFilter extends S.Class<MachineLearningProductTitleFilter>(
-  "MachineLearningProductTitleFilter",
-)({
-  ValueList: S.optional(MachineLearningProductTitleFilterValueList),
-  WildCardValue: S.optional(S.String),
-}) {}
-export class MachineLearningProductVisibilityFilter extends S.Class<MachineLearningProductVisibilityFilter>(
-  "MachineLearningProductVisibilityFilter",
-)({ ValueList: S.optional(MachineLearningProductVisibilityFilterValueList) }) {}
-export class OfferSetEntityIdFilter extends S.Class<OfferSetEntityIdFilter>(
-  "OfferSetEntityIdFilter",
-)({ ValueList: S.optional(OfferSetEntityIdFilterValueList) }) {}
-export class OfferSetNameFilter extends S.Class<OfferSetNameFilter>(
-  "OfferSetNameFilter",
-)({ ValueList: S.optional(OfferSetNameFilterValueList) }) {}
-export class OfferSetStateFilter extends S.Class<OfferSetStateFilter>(
-  "OfferSetStateFilter",
-)({ ValueList: S.optional(OfferSetStateFilterValueList) }) {}
-export class OfferSetAssociatedOfferIdsFilter extends S.Class<OfferSetAssociatedOfferIdsFilter>(
-  "OfferSetAssociatedOfferIdsFilter",
-)({ ValueList: S.optional(OfferSetAssociatedOfferIdsFilterValueList) }) {}
-export class OfferSetSolutionIdFilter extends S.Class<OfferSetSolutionIdFilter>(
-  "OfferSetSolutionIdFilter",
-)({ ValueList: S.optional(OfferSetSolutionIdFilterValueList) }) {}
-export class StartChangeSetRequest extends S.Class<StartChangeSetRequest>(
-  "StartChangeSetRequest",
-)(
-  {
+export interface DataProductEntityIdFilter {
+  ValueList?: DataProductEntityIdFilterValueList;
+}
+export const DataProductEntityIdFilter = S.suspend(() =>
+  S.Struct({ ValueList: S.optional(DataProductEntityIdFilterValueList) }),
+).annotations({
+  identifier: "DataProductEntityIdFilter",
+}) as any as S.Schema<DataProductEntityIdFilter>;
+export interface DataProductTitleFilter {
+  ValueList?: DataProductTitleFilterValueList;
+  WildCardValue?: string;
+}
+export const DataProductTitleFilter = S.suspend(() =>
+  S.Struct({
+    ValueList: S.optional(DataProductTitleFilterValueList),
+    WildCardValue: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DataProductTitleFilter",
+}) as any as S.Schema<DataProductTitleFilter>;
+export interface DataProductVisibilityFilter {
+  ValueList?: DataProductVisibilityFilterValueList;
+}
+export const DataProductVisibilityFilter = S.suspend(() =>
+  S.Struct({ ValueList: S.optional(DataProductVisibilityFilterValueList) }),
+).annotations({
+  identifier: "DataProductVisibilityFilter",
+}) as any as S.Schema<DataProductVisibilityFilter>;
+export interface SaaSProductEntityIdFilter {
+  ValueList?: SaaSProductEntityIdFilterValueList;
+}
+export const SaaSProductEntityIdFilter = S.suspend(() =>
+  S.Struct({ ValueList: S.optional(SaaSProductEntityIdFilterValueList) }),
+).annotations({
+  identifier: "SaaSProductEntityIdFilter",
+}) as any as S.Schema<SaaSProductEntityIdFilter>;
+export interface SaaSProductTitleFilter {
+  ValueList?: SaaSProductTitleFilterValueList;
+  WildCardValue?: string;
+}
+export const SaaSProductTitleFilter = S.suspend(() =>
+  S.Struct({
+    ValueList: S.optional(SaaSProductTitleFilterValueList),
+    WildCardValue: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SaaSProductTitleFilter",
+}) as any as S.Schema<SaaSProductTitleFilter>;
+export interface SaaSProductVisibilityFilter {
+  ValueList?: SaaSProductVisibilityFilterValueList;
+}
+export const SaaSProductVisibilityFilter = S.suspend(() =>
+  S.Struct({ ValueList: S.optional(SaaSProductVisibilityFilterValueList) }),
+).annotations({
+  identifier: "SaaSProductVisibilityFilter",
+}) as any as S.Schema<SaaSProductVisibilityFilter>;
+export interface AmiProductEntityIdFilter {
+  ValueList?: AmiProductEntityIdFilterValueList;
+}
+export const AmiProductEntityIdFilter = S.suspend(() =>
+  S.Struct({ ValueList: S.optional(AmiProductEntityIdFilterValueList) }),
+).annotations({
+  identifier: "AmiProductEntityIdFilter",
+}) as any as S.Schema<AmiProductEntityIdFilter>;
+export interface AmiProductTitleFilter {
+  ValueList?: AmiProductTitleFilterValueList;
+  WildCardValue?: string;
+}
+export const AmiProductTitleFilter = S.suspend(() =>
+  S.Struct({
+    ValueList: S.optional(AmiProductTitleFilterValueList),
+    WildCardValue: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AmiProductTitleFilter",
+}) as any as S.Schema<AmiProductTitleFilter>;
+export interface AmiProductVisibilityFilter {
+  ValueList?: AmiProductVisibilityFilterValueList;
+}
+export const AmiProductVisibilityFilter = S.suspend(() =>
+  S.Struct({ ValueList: S.optional(AmiProductVisibilityFilterValueList) }),
+).annotations({
+  identifier: "AmiProductVisibilityFilter",
+}) as any as S.Schema<AmiProductVisibilityFilter>;
+export interface OfferEntityIdFilter {
+  ValueList?: OfferEntityIdFilterValueList;
+}
+export const OfferEntityIdFilter = S.suspend(() =>
+  S.Struct({ ValueList: S.optional(OfferEntityIdFilterValueList) }),
+).annotations({
+  identifier: "OfferEntityIdFilter",
+}) as any as S.Schema<OfferEntityIdFilter>;
+export interface OfferNameFilter {
+  ValueList?: OfferNameFilterValueList;
+  WildCardValue?: string;
+}
+export const OfferNameFilter = S.suspend(() =>
+  S.Struct({
+    ValueList: S.optional(OfferNameFilterValueList),
+    WildCardValue: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "OfferNameFilter",
+}) as any as S.Schema<OfferNameFilter>;
+export interface OfferProductIdFilter {
+  ValueList?: OfferProductIdFilterValueList;
+}
+export const OfferProductIdFilter = S.suspend(() =>
+  S.Struct({ ValueList: S.optional(OfferProductIdFilterValueList) }),
+).annotations({
+  identifier: "OfferProductIdFilter",
+}) as any as S.Schema<OfferProductIdFilter>;
+export interface OfferResaleAuthorizationIdFilter {
+  ValueList?: OfferResaleAuthorizationIdFilterValueList;
+}
+export const OfferResaleAuthorizationIdFilter = S.suspend(() =>
+  S.Struct({
+    ValueList: S.optional(OfferResaleAuthorizationIdFilterValueList),
+  }),
+).annotations({
+  identifier: "OfferResaleAuthorizationIdFilter",
+}) as any as S.Schema<OfferResaleAuthorizationIdFilter>;
+export interface OfferBuyerAccountsFilter {
+  WildCardValue?: string;
+}
+export const OfferBuyerAccountsFilter = S.suspend(() =>
+  S.Struct({ WildCardValue: S.optional(S.String) }),
+).annotations({
+  identifier: "OfferBuyerAccountsFilter",
+}) as any as S.Schema<OfferBuyerAccountsFilter>;
+export interface OfferStateFilter {
+  ValueList?: OfferStateFilterValueList;
+}
+export const OfferStateFilter = S.suspend(() =>
+  S.Struct({ ValueList: S.optional(OfferStateFilterValueList) }),
+).annotations({
+  identifier: "OfferStateFilter",
+}) as any as S.Schema<OfferStateFilter>;
+export interface OfferTargetingFilter {
+  ValueList?: OfferTargetingFilterValueList;
+}
+export const OfferTargetingFilter = S.suspend(() =>
+  S.Struct({ ValueList: S.optional(OfferTargetingFilterValueList) }),
+).annotations({
+  identifier: "OfferTargetingFilter",
+}) as any as S.Schema<OfferTargetingFilter>;
+export interface OfferSetIdFilter {
+  ValueList?: OfferSetIdFilterValueList;
+}
+export const OfferSetIdFilter = S.suspend(() =>
+  S.Struct({ ValueList: S.optional(OfferSetIdFilterValueList) }),
+).annotations({
+  identifier: "OfferSetIdFilter",
+}) as any as S.Schema<OfferSetIdFilter>;
+export interface ContainerProductEntityIdFilter {
+  ValueList?: ContainerProductEntityIdFilterValueList;
+}
+export const ContainerProductEntityIdFilter = S.suspend(() =>
+  S.Struct({ ValueList: S.optional(ContainerProductEntityIdFilterValueList) }),
+).annotations({
+  identifier: "ContainerProductEntityIdFilter",
+}) as any as S.Schema<ContainerProductEntityIdFilter>;
+export interface ContainerProductTitleFilter {
+  ValueList?: ContainerProductTitleFilterValueList;
+  WildCardValue?: string;
+}
+export const ContainerProductTitleFilter = S.suspend(() =>
+  S.Struct({
+    ValueList: S.optional(ContainerProductTitleFilterValueList),
+    WildCardValue: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ContainerProductTitleFilter",
+}) as any as S.Schema<ContainerProductTitleFilter>;
+export interface ContainerProductVisibilityFilter {
+  ValueList?: ContainerProductVisibilityFilterValueList;
+}
+export const ContainerProductVisibilityFilter = S.suspend(() =>
+  S.Struct({
+    ValueList: S.optional(ContainerProductVisibilityFilterValueList),
+  }),
+).annotations({
+  identifier: "ContainerProductVisibilityFilter",
+}) as any as S.Schema<ContainerProductVisibilityFilter>;
+export interface ResaleAuthorizationEntityIdFilter {
+  ValueList?: ResaleAuthorizationEntityIdFilterValueList;
+}
+export const ResaleAuthorizationEntityIdFilter = S.suspend(() =>
+  S.Struct({
+    ValueList: S.optional(ResaleAuthorizationEntityIdFilterValueList),
+  }),
+).annotations({
+  identifier: "ResaleAuthorizationEntityIdFilter",
+}) as any as S.Schema<ResaleAuthorizationEntityIdFilter>;
+export interface ResaleAuthorizationNameFilter {
+  ValueList?: ResaleAuthorizationNameFilterValueList;
+  WildCardValue?: string;
+}
+export const ResaleAuthorizationNameFilter = S.suspend(() =>
+  S.Struct({
+    ValueList: S.optional(ResaleAuthorizationNameFilterValueList),
+    WildCardValue: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ResaleAuthorizationNameFilter",
+}) as any as S.Schema<ResaleAuthorizationNameFilter>;
+export interface ResaleAuthorizationProductIdFilter {
+  ValueList?: ResaleAuthorizationProductIdFilterValueList;
+  WildCardValue?: string;
+}
+export const ResaleAuthorizationProductIdFilter = S.suspend(() =>
+  S.Struct({
+    ValueList: S.optional(ResaleAuthorizationProductIdFilterValueList),
+    WildCardValue: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ResaleAuthorizationProductIdFilter",
+}) as any as S.Schema<ResaleAuthorizationProductIdFilter>;
+export interface ResaleAuthorizationManufacturerAccountIdFilter {
+  ValueList?: ResaleAuthorizationManufacturerAccountIdFilterValueList;
+  WildCardValue?: string;
+}
+export const ResaleAuthorizationManufacturerAccountIdFilter = S.suspend(() =>
+  S.Struct({
+    ValueList: S.optional(
+      ResaleAuthorizationManufacturerAccountIdFilterValueList,
+    ),
+    WildCardValue: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ResaleAuthorizationManufacturerAccountIdFilter",
+}) as any as S.Schema<ResaleAuthorizationManufacturerAccountIdFilter>;
+export interface ResaleAuthorizationProductNameFilter {
+  ValueList?: ResaleAuthorizationProductNameFilterValueList;
+  WildCardValue?: string;
+}
+export const ResaleAuthorizationProductNameFilter = S.suspend(() =>
+  S.Struct({
+    ValueList: S.optional(ResaleAuthorizationProductNameFilterValueList),
+    WildCardValue: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ResaleAuthorizationProductNameFilter",
+}) as any as S.Schema<ResaleAuthorizationProductNameFilter>;
+export interface ResaleAuthorizationManufacturerLegalNameFilter {
+  ValueList?: ResaleAuthorizationManufacturerLegalNameFilterValueList;
+  WildCardValue?: string;
+}
+export const ResaleAuthorizationManufacturerLegalNameFilter = S.suspend(() =>
+  S.Struct({
+    ValueList: S.optional(
+      ResaleAuthorizationManufacturerLegalNameFilterValueList,
+    ),
+    WildCardValue: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ResaleAuthorizationManufacturerLegalNameFilter",
+}) as any as S.Schema<ResaleAuthorizationManufacturerLegalNameFilter>;
+export interface ResaleAuthorizationResellerAccountIDFilter {
+  ValueList?: ResaleAuthorizationResellerAccountIDFilterValueList;
+  WildCardValue?: string;
+}
+export const ResaleAuthorizationResellerAccountIDFilter = S.suspend(() =>
+  S.Struct({
+    ValueList: S.optional(ResaleAuthorizationResellerAccountIDFilterValueList),
+    WildCardValue: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ResaleAuthorizationResellerAccountIDFilter",
+}) as any as S.Schema<ResaleAuthorizationResellerAccountIDFilter>;
+export interface ResaleAuthorizationResellerLegalNameFilter {
+  ValueList?: ResaleAuthorizationResellerLegalNameFilterValueList;
+  WildCardValue?: string;
+}
+export const ResaleAuthorizationResellerLegalNameFilter = S.suspend(() =>
+  S.Struct({
+    ValueList: S.optional(ResaleAuthorizationResellerLegalNameFilterValueList),
+    WildCardValue: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ResaleAuthorizationResellerLegalNameFilter",
+}) as any as S.Schema<ResaleAuthorizationResellerLegalNameFilter>;
+export interface ResaleAuthorizationStatusFilter {
+  ValueList?: ResaleAuthorizationStatusFilterValueList;
+}
+export const ResaleAuthorizationStatusFilter = S.suspend(() =>
+  S.Struct({ ValueList: S.optional(ResaleAuthorizationStatusFilterValueList) }),
+).annotations({
+  identifier: "ResaleAuthorizationStatusFilter",
+}) as any as S.Schema<ResaleAuthorizationStatusFilter>;
+export interface ResaleAuthorizationOfferExtendedStatusFilter {
+  ValueList?: ResaleAuthorizationOfferExtendedStatusFilterValueList;
+}
+export const ResaleAuthorizationOfferExtendedStatusFilter = S.suspend(() =>
+  S.Struct({
+    ValueList: S.optional(
+      ResaleAuthorizationOfferExtendedStatusFilterValueList,
+    ),
+  }),
+).annotations({
+  identifier: "ResaleAuthorizationOfferExtendedStatusFilter",
+}) as any as S.Schema<ResaleAuthorizationOfferExtendedStatusFilter>;
+export interface MachineLearningProductEntityIdFilter {
+  ValueList?: MachineLearningProductEntityIdFilterValueList;
+}
+export const MachineLearningProductEntityIdFilter = S.suspend(() =>
+  S.Struct({
+    ValueList: S.optional(MachineLearningProductEntityIdFilterValueList),
+  }),
+).annotations({
+  identifier: "MachineLearningProductEntityIdFilter",
+}) as any as S.Schema<MachineLearningProductEntityIdFilter>;
+export interface MachineLearningProductTitleFilter {
+  ValueList?: MachineLearningProductTitleFilterValueList;
+  WildCardValue?: string;
+}
+export const MachineLearningProductTitleFilter = S.suspend(() =>
+  S.Struct({
+    ValueList: S.optional(MachineLearningProductTitleFilterValueList),
+    WildCardValue: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "MachineLearningProductTitleFilter",
+}) as any as S.Schema<MachineLearningProductTitleFilter>;
+export interface MachineLearningProductVisibilityFilter {
+  ValueList?: MachineLearningProductVisibilityFilterValueList;
+}
+export const MachineLearningProductVisibilityFilter = S.suspend(() =>
+  S.Struct({
+    ValueList: S.optional(MachineLearningProductVisibilityFilterValueList),
+  }),
+).annotations({
+  identifier: "MachineLearningProductVisibilityFilter",
+}) as any as S.Schema<MachineLearningProductVisibilityFilter>;
+export interface OfferSetEntityIdFilter {
+  ValueList?: OfferSetEntityIdFilterValueList;
+}
+export const OfferSetEntityIdFilter = S.suspend(() =>
+  S.Struct({ ValueList: S.optional(OfferSetEntityIdFilterValueList) }),
+).annotations({
+  identifier: "OfferSetEntityIdFilter",
+}) as any as S.Schema<OfferSetEntityIdFilter>;
+export interface OfferSetNameFilter {
+  ValueList?: OfferSetNameFilterValueList;
+}
+export const OfferSetNameFilter = S.suspend(() =>
+  S.Struct({ ValueList: S.optional(OfferSetNameFilterValueList) }),
+).annotations({
+  identifier: "OfferSetNameFilter",
+}) as any as S.Schema<OfferSetNameFilter>;
+export interface OfferSetStateFilter {
+  ValueList?: OfferSetStateFilterValueList;
+}
+export const OfferSetStateFilter = S.suspend(() =>
+  S.Struct({ ValueList: S.optional(OfferSetStateFilterValueList) }),
+).annotations({
+  identifier: "OfferSetStateFilter",
+}) as any as S.Schema<OfferSetStateFilter>;
+export interface OfferSetAssociatedOfferIdsFilter {
+  ValueList?: OfferSetAssociatedOfferIdsFilterValueList;
+}
+export const OfferSetAssociatedOfferIdsFilter = S.suspend(() =>
+  S.Struct({
+    ValueList: S.optional(OfferSetAssociatedOfferIdsFilterValueList),
+  }),
+).annotations({
+  identifier: "OfferSetAssociatedOfferIdsFilter",
+}) as any as S.Schema<OfferSetAssociatedOfferIdsFilter>;
+export interface OfferSetSolutionIdFilter {
+  ValueList?: OfferSetSolutionIdFilterValueList;
+}
+export const OfferSetSolutionIdFilter = S.suspend(() =>
+  S.Struct({ ValueList: S.optional(OfferSetSolutionIdFilterValueList) }),
+).annotations({
+  identifier: "OfferSetSolutionIdFilter",
+}) as any as S.Schema<OfferSetSolutionIdFilter>;
+export interface StartChangeSetRequest {
+  Catalog: string;
+  ChangeSet: RequestedChangeList;
+  ChangeSetName?: string;
+  ClientRequestToken?: string;
+  ChangeSetTags?: TagList;
+  Intent?: string;
+}
+export const StartChangeSetRequest = S.suspend(() =>
+  S.Struct({
     Catalog: S.String,
     ChangeSet: RequestedChangeList,
     ChangeSetName: S.optional(S.String),
     ClientRequestToken: S.optional(S.String),
     ChangeSetTags: S.optional(TagList),
     Intent: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/StartChangeSet" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/StartChangeSet" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ErrorDetail extends S.Class<ErrorDetail>("ErrorDetail")({
-  ErrorCode: S.optional(S.String),
-  ErrorMessage: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "StartChangeSetRequest",
+}) as any as S.Schema<StartChangeSetRequest>;
+export interface ErrorDetail {
+  ErrorCode?: string;
+  ErrorMessage?: string;
+}
+export const ErrorDetail = S.suspend(() =>
+  S.Struct({
+    ErrorCode: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
+  }),
+).annotations({ identifier: "ErrorDetail" }) as any as S.Schema<ErrorDetail>;
+export type ErrorDetailList = ErrorDetail[];
 export const ErrorDetailList = S.Array(ErrorDetail);
+export type ResourceIdList = string[];
 export const ResourceIdList = S.Array(S.String);
-export class DataProductLastModifiedDateFilterDateRange extends S.Class<DataProductLastModifiedDateFilterDateRange>(
-  "DataProductLastModifiedDateFilterDateRange",
-)({ AfterValue: S.optional(S.String), BeforeValue: S.optional(S.String) }) {}
-export class SaaSProductLastModifiedDateFilterDateRange extends S.Class<SaaSProductLastModifiedDateFilterDateRange>(
-  "SaaSProductLastModifiedDateFilterDateRange",
-)({ AfterValue: S.optional(S.String), BeforeValue: S.optional(S.String) }) {}
-export class AmiProductLastModifiedDateFilterDateRange extends S.Class<AmiProductLastModifiedDateFilterDateRange>(
-  "AmiProductLastModifiedDateFilterDateRange",
-)({ AfterValue: S.optional(S.String), BeforeValue: S.optional(S.String) }) {}
-export class OfferReleaseDateFilterDateRange extends S.Class<OfferReleaseDateFilterDateRange>(
-  "OfferReleaseDateFilterDateRange",
-)({ AfterValue: S.optional(S.String), BeforeValue: S.optional(S.String) }) {}
-export class OfferAvailabilityEndDateFilterDateRange extends S.Class<OfferAvailabilityEndDateFilterDateRange>(
-  "OfferAvailabilityEndDateFilterDateRange",
-)({ AfterValue: S.optional(S.String), BeforeValue: S.optional(S.String) }) {}
-export class OfferLastModifiedDateFilterDateRange extends S.Class<OfferLastModifiedDateFilterDateRange>(
-  "OfferLastModifiedDateFilterDateRange",
-)({ AfterValue: S.optional(S.String), BeforeValue: S.optional(S.String) }) {}
-export class ContainerProductLastModifiedDateFilterDateRange extends S.Class<ContainerProductLastModifiedDateFilterDateRange>(
-  "ContainerProductLastModifiedDateFilterDateRange",
-)({ AfterValue: S.optional(S.String), BeforeValue: S.optional(S.String) }) {}
-export class ResaleAuthorizationCreatedDateFilterDateRange extends S.Class<ResaleAuthorizationCreatedDateFilterDateRange>(
-  "ResaleAuthorizationCreatedDateFilterDateRange",
-)({ AfterValue: S.optional(S.String), BeforeValue: S.optional(S.String) }) {}
-export class ResaleAuthorizationAvailabilityEndDateFilterDateRange extends S.Class<ResaleAuthorizationAvailabilityEndDateFilterDateRange>(
-  "ResaleAuthorizationAvailabilityEndDateFilterDateRange",
-)({ AfterValue: S.optional(S.String), BeforeValue: S.optional(S.String) }) {}
-export class ResaleAuthorizationLastModifiedDateFilterDateRange extends S.Class<ResaleAuthorizationLastModifiedDateFilterDateRange>(
-  "ResaleAuthorizationLastModifiedDateFilterDateRange",
-)({ AfterValue: S.optional(S.String), BeforeValue: S.optional(S.String) }) {}
-export class MachineLearningProductLastModifiedDateFilterDateRange extends S.Class<MachineLearningProductLastModifiedDateFilterDateRange>(
-  "MachineLearningProductLastModifiedDateFilterDateRange",
-)({ AfterValue: S.optional(S.String), BeforeValue: S.optional(S.String) }) {}
-export class OfferSetReleaseDateFilterDateRange extends S.Class<OfferSetReleaseDateFilterDateRange>(
-  "OfferSetReleaseDateFilterDateRange",
-)({ AfterValue: S.optional(S.String), BeforeValue: S.optional(S.String) }) {}
-export class OfferSetLastModifiedDateFilterDateRange extends S.Class<OfferSetLastModifiedDateFilterDateRange>(
-  "OfferSetLastModifiedDateFilterDateRange",
-)({ AfterValue: S.optional(S.String), BeforeValue: S.optional(S.String) }) {}
-export class ChangeSummary extends S.Class<ChangeSummary>("ChangeSummary")({
-  ChangeType: S.optional(S.String),
-  Entity: S.optional(Entity),
-  Details: S.optional(S.String),
-  DetailsDocument: S.optional(S.Any),
-  ErrorDetailList: S.optional(ErrorDetailList),
-  ChangeName: S.optional(S.String),
-}) {}
+export interface DataProductLastModifiedDateFilterDateRange {
+  AfterValue?: string;
+  BeforeValue?: string;
+}
+export const DataProductLastModifiedDateFilterDateRange = S.suspend(() =>
+  S.Struct({
+    AfterValue: S.optional(S.String),
+    BeforeValue: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DataProductLastModifiedDateFilterDateRange",
+}) as any as S.Schema<DataProductLastModifiedDateFilterDateRange>;
+export interface SaaSProductLastModifiedDateFilterDateRange {
+  AfterValue?: string;
+  BeforeValue?: string;
+}
+export const SaaSProductLastModifiedDateFilterDateRange = S.suspend(() =>
+  S.Struct({
+    AfterValue: S.optional(S.String),
+    BeforeValue: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SaaSProductLastModifiedDateFilterDateRange",
+}) as any as S.Schema<SaaSProductLastModifiedDateFilterDateRange>;
+export interface AmiProductLastModifiedDateFilterDateRange {
+  AfterValue?: string;
+  BeforeValue?: string;
+}
+export const AmiProductLastModifiedDateFilterDateRange = S.suspend(() =>
+  S.Struct({
+    AfterValue: S.optional(S.String),
+    BeforeValue: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AmiProductLastModifiedDateFilterDateRange",
+}) as any as S.Schema<AmiProductLastModifiedDateFilterDateRange>;
+export interface OfferReleaseDateFilterDateRange {
+  AfterValue?: string;
+  BeforeValue?: string;
+}
+export const OfferReleaseDateFilterDateRange = S.suspend(() =>
+  S.Struct({
+    AfterValue: S.optional(S.String),
+    BeforeValue: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "OfferReleaseDateFilterDateRange",
+}) as any as S.Schema<OfferReleaseDateFilterDateRange>;
+export interface OfferAvailabilityEndDateFilterDateRange {
+  AfterValue?: string;
+  BeforeValue?: string;
+}
+export const OfferAvailabilityEndDateFilterDateRange = S.suspend(() =>
+  S.Struct({
+    AfterValue: S.optional(S.String),
+    BeforeValue: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "OfferAvailabilityEndDateFilterDateRange",
+}) as any as S.Schema<OfferAvailabilityEndDateFilterDateRange>;
+export interface OfferLastModifiedDateFilterDateRange {
+  AfterValue?: string;
+  BeforeValue?: string;
+}
+export const OfferLastModifiedDateFilterDateRange = S.suspend(() =>
+  S.Struct({
+    AfterValue: S.optional(S.String),
+    BeforeValue: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "OfferLastModifiedDateFilterDateRange",
+}) as any as S.Schema<OfferLastModifiedDateFilterDateRange>;
+export interface ContainerProductLastModifiedDateFilterDateRange {
+  AfterValue?: string;
+  BeforeValue?: string;
+}
+export const ContainerProductLastModifiedDateFilterDateRange = S.suspend(() =>
+  S.Struct({
+    AfterValue: S.optional(S.String),
+    BeforeValue: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ContainerProductLastModifiedDateFilterDateRange",
+}) as any as S.Schema<ContainerProductLastModifiedDateFilterDateRange>;
+export interface ResaleAuthorizationCreatedDateFilterDateRange {
+  AfterValue?: string;
+  BeforeValue?: string;
+}
+export const ResaleAuthorizationCreatedDateFilterDateRange = S.suspend(() =>
+  S.Struct({
+    AfterValue: S.optional(S.String),
+    BeforeValue: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ResaleAuthorizationCreatedDateFilterDateRange",
+}) as any as S.Schema<ResaleAuthorizationCreatedDateFilterDateRange>;
+export interface ResaleAuthorizationAvailabilityEndDateFilterDateRange {
+  AfterValue?: string;
+  BeforeValue?: string;
+}
+export const ResaleAuthorizationAvailabilityEndDateFilterDateRange = S.suspend(
+  () =>
+    S.Struct({
+      AfterValue: S.optional(S.String),
+      BeforeValue: S.optional(S.String),
+    }),
+).annotations({
+  identifier: "ResaleAuthorizationAvailabilityEndDateFilterDateRange",
+}) as any as S.Schema<ResaleAuthorizationAvailabilityEndDateFilterDateRange>;
+export interface ResaleAuthorizationLastModifiedDateFilterDateRange {
+  AfterValue?: string;
+  BeforeValue?: string;
+}
+export const ResaleAuthorizationLastModifiedDateFilterDateRange = S.suspend(
+  () =>
+    S.Struct({
+      AfterValue: S.optional(S.String),
+      BeforeValue: S.optional(S.String),
+    }),
+).annotations({
+  identifier: "ResaleAuthorizationLastModifiedDateFilterDateRange",
+}) as any as S.Schema<ResaleAuthorizationLastModifiedDateFilterDateRange>;
+export interface MachineLearningProductLastModifiedDateFilterDateRange {
+  AfterValue?: string;
+  BeforeValue?: string;
+}
+export const MachineLearningProductLastModifiedDateFilterDateRange = S.suspend(
+  () =>
+    S.Struct({
+      AfterValue: S.optional(S.String),
+      BeforeValue: S.optional(S.String),
+    }),
+).annotations({
+  identifier: "MachineLearningProductLastModifiedDateFilterDateRange",
+}) as any as S.Schema<MachineLearningProductLastModifiedDateFilterDateRange>;
+export interface OfferSetReleaseDateFilterDateRange {
+  AfterValue?: string;
+  BeforeValue?: string;
+}
+export const OfferSetReleaseDateFilterDateRange = S.suspend(() =>
+  S.Struct({
+    AfterValue: S.optional(S.String),
+    BeforeValue: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "OfferSetReleaseDateFilterDateRange",
+}) as any as S.Schema<OfferSetReleaseDateFilterDateRange>;
+export interface OfferSetLastModifiedDateFilterDateRange {
+  AfterValue?: string;
+  BeforeValue?: string;
+}
+export const OfferSetLastModifiedDateFilterDateRange = S.suspend(() =>
+  S.Struct({
+    AfterValue: S.optional(S.String),
+    BeforeValue: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "OfferSetLastModifiedDateFilterDateRange",
+}) as any as S.Schema<OfferSetLastModifiedDateFilterDateRange>;
+export interface ChangeSummary {
+  ChangeType?: string;
+  Entity?: Entity;
+  Details?: string;
+  DetailsDocument?: any;
+  ErrorDetailList?: ErrorDetailList;
+  ChangeName?: string;
+}
+export const ChangeSummary = S.suspend(() =>
+  S.Struct({
+    ChangeType: S.optional(S.String),
+    Entity: S.optional(Entity),
+    Details: S.optional(S.String),
+    DetailsDocument: S.optional(S.Any),
+    ErrorDetailList: S.optional(ErrorDetailList),
+    ChangeName: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ChangeSummary",
+}) as any as S.Schema<ChangeSummary>;
+export type ChangeSetDescription = ChangeSummary[];
 export const ChangeSetDescription = S.Array(ChangeSummary);
-export class ChangeSetSummaryListItem extends S.Class<ChangeSetSummaryListItem>(
-  "ChangeSetSummaryListItem",
-)({
-  ChangeSetId: S.optional(S.String),
-  ChangeSetArn: S.optional(S.String),
-  ChangeSetName: S.optional(S.String),
-  StartTime: S.optional(S.String),
-  EndTime: S.optional(S.String),
-  Status: S.optional(S.String),
-  EntityIdList: S.optional(ResourceIdList),
-  FailureCode: S.optional(S.String),
-}) {}
+export interface ChangeSetSummaryListItem {
+  ChangeSetId?: string;
+  ChangeSetArn?: string;
+  ChangeSetName?: string;
+  StartTime?: string;
+  EndTime?: string;
+  Status?: string;
+  EntityIdList?: ResourceIdList;
+  FailureCode?: string;
+}
+export const ChangeSetSummaryListItem = S.suspend(() =>
+  S.Struct({
+    ChangeSetId: S.optional(S.String),
+    ChangeSetArn: S.optional(S.String),
+    ChangeSetName: S.optional(S.String),
+    StartTime: S.optional(S.String),
+    EndTime: S.optional(S.String),
+    Status: S.optional(S.String),
+    EntityIdList: S.optional(ResourceIdList),
+    FailureCode: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ChangeSetSummaryListItem",
+}) as any as S.Schema<ChangeSetSummaryListItem>;
+export type ChangeSetSummaryList = ChangeSetSummaryListItem[];
 export const ChangeSetSummaryList = S.Array(ChangeSetSummaryListItem);
-export class DataProductLastModifiedDateFilter extends S.Class<DataProductLastModifiedDateFilter>(
-  "DataProductLastModifiedDateFilter",
-)({ DateRange: S.optional(DataProductLastModifiedDateFilterDateRange) }) {}
-export class SaaSProductLastModifiedDateFilter extends S.Class<SaaSProductLastModifiedDateFilter>(
-  "SaaSProductLastModifiedDateFilter",
-)({ DateRange: S.optional(SaaSProductLastModifiedDateFilterDateRange) }) {}
-export class AmiProductLastModifiedDateFilter extends S.Class<AmiProductLastModifiedDateFilter>(
-  "AmiProductLastModifiedDateFilter",
-)({ DateRange: S.optional(AmiProductLastModifiedDateFilterDateRange) }) {}
-export class OfferReleaseDateFilter extends S.Class<OfferReleaseDateFilter>(
-  "OfferReleaseDateFilter",
-)({ DateRange: S.optional(OfferReleaseDateFilterDateRange) }) {}
-export class OfferAvailabilityEndDateFilter extends S.Class<OfferAvailabilityEndDateFilter>(
-  "OfferAvailabilityEndDateFilter",
-)({ DateRange: S.optional(OfferAvailabilityEndDateFilterDateRange) }) {}
-export class OfferLastModifiedDateFilter extends S.Class<OfferLastModifiedDateFilter>(
-  "OfferLastModifiedDateFilter",
-)({ DateRange: S.optional(OfferLastModifiedDateFilterDateRange) }) {}
-export class ContainerProductLastModifiedDateFilter extends S.Class<ContainerProductLastModifiedDateFilter>(
-  "ContainerProductLastModifiedDateFilter",
-)({ DateRange: S.optional(ContainerProductLastModifiedDateFilterDateRange) }) {}
-export class ResaleAuthorizationCreatedDateFilter extends S.Class<ResaleAuthorizationCreatedDateFilter>(
-  "ResaleAuthorizationCreatedDateFilter",
-)({
-  DateRange: S.optional(ResaleAuthorizationCreatedDateFilterDateRange),
-  ValueList: S.optional(ResaleAuthorizationCreatedDateFilterValueList),
-}) {}
-export class ResaleAuthorizationAvailabilityEndDateFilter extends S.Class<ResaleAuthorizationAvailabilityEndDateFilter>(
-  "ResaleAuthorizationAvailabilityEndDateFilter",
-)({
-  DateRange: S.optional(ResaleAuthorizationAvailabilityEndDateFilterDateRange),
-  ValueList: S.optional(ResaleAuthorizationAvailabilityEndDateFilterValueList),
-}) {}
-export class ResaleAuthorizationLastModifiedDateFilter extends S.Class<ResaleAuthorizationLastModifiedDateFilter>(
-  "ResaleAuthorizationLastModifiedDateFilter",
-)({
-  DateRange: S.optional(ResaleAuthorizationLastModifiedDateFilterDateRange),
-}) {}
-export class MachineLearningProductLastModifiedDateFilter extends S.Class<MachineLearningProductLastModifiedDateFilter>(
-  "MachineLearningProductLastModifiedDateFilter",
-)({
-  DateRange: S.optional(MachineLearningProductLastModifiedDateFilterDateRange),
-}) {}
-export class OfferSetReleaseDateFilter extends S.Class<OfferSetReleaseDateFilter>(
-  "OfferSetReleaseDateFilter",
-)({ DateRange: S.optional(OfferSetReleaseDateFilterDateRange) }) {}
-export class OfferSetLastModifiedDateFilter extends S.Class<OfferSetLastModifiedDateFilter>(
-  "OfferSetLastModifiedDateFilter",
-)({ DateRange: S.optional(OfferSetLastModifiedDateFilterDateRange) }) {}
-export class DescribeChangeSetResponse extends S.Class<DescribeChangeSetResponse>(
-  "DescribeChangeSetResponse",
-)({
-  ChangeSetId: S.optional(S.String),
-  ChangeSetArn: S.optional(S.String),
-  ChangeSetName: S.optional(S.String),
-  Intent: S.optional(S.String),
-  StartTime: S.optional(S.String),
-  EndTime: S.optional(S.String),
-  Status: S.optional(S.String),
-  FailureCode: S.optional(S.String),
-  FailureDescription: S.optional(S.String),
-  ChangeSet: S.optional(ChangeSetDescription),
-}) {}
-export class ListChangeSetsResponse extends S.Class<ListChangeSetsResponse>(
-  "ListChangeSetsResponse",
-)({
-  ChangeSetSummaryList: S.optional(ChangeSetSummaryList),
-  NextToken: S.optional(S.String),
-}) {}
-export class StartChangeSetResponse extends S.Class<StartChangeSetResponse>(
-  "StartChangeSetResponse",
-)({ ChangeSetId: S.optional(S.String), ChangeSetArn: S.optional(S.String) }) {}
-export class EntityDetail extends S.Class<EntityDetail>("EntityDetail")({
-  EntityType: S.optional(S.String),
-  EntityArn: S.optional(S.String),
-  EntityIdentifier: S.optional(S.String),
-  LastModifiedDate: S.optional(S.String),
-  DetailsDocument: S.optional(S.Any),
-}) {}
-export class BatchDescribeErrorDetail extends S.Class<BatchDescribeErrorDetail>(
-  "BatchDescribeErrorDetail",
-)({ ErrorCode: S.optional(S.String), ErrorMessage: S.optional(S.String) }) {}
-export class DataProductFilters extends S.Class<DataProductFilters>(
-  "DataProductFilters",
-)({
-  EntityId: S.optional(DataProductEntityIdFilter),
-  ProductTitle: S.optional(DataProductTitleFilter),
-  Visibility: S.optional(DataProductVisibilityFilter),
-  LastModifiedDate: S.optional(DataProductLastModifiedDateFilter),
-}) {}
-export class SaaSProductFilters extends S.Class<SaaSProductFilters>(
-  "SaaSProductFilters",
-)({
-  EntityId: S.optional(SaaSProductEntityIdFilter),
-  ProductTitle: S.optional(SaaSProductTitleFilter),
-  Visibility: S.optional(SaaSProductVisibilityFilter),
-  LastModifiedDate: S.optional(SaaSProductLastModifiedDateFilter),
-}) {}
-export class AmiProductFilters extends S.Class<AmiProductFilters>(
-  "AmiProductFilters",
-)({
-  EntityId: S.optional(AmiProductEntityIdFilter),
-  LastModifiedDate: S.optional(AmiProductLastModifiedDateFilter),
-  ProductTitle: S.optional(AmiProductTitleFilter),
-  Visibility: S.optional(AmiProductVisibilityFilter),
-}) {}
-export class OfferFilters extends S.Class<OfferFilters>("OfferFilters")({
-  EntityId: S.optional(OfferEntityIdFilter),
-  Name: S.optional(OfferNameFilter),
-  ProductId: S.optional(OfferProductIdFilter),
-  ResaleAuthorizationId: S.optional(OfferResaleAuthorizationIdFilter),
-  ReleaseDate: S.optional(OfferReleaseDateFilter),
-  AvailabilityEndDate: S.optional(OfferAvailabilityEndDateFilter),
-  BuyerAccounts: S.optional(OfferBuyerAccountsFilter),
-  State: S.optional(OfferStateFilter),
-  Targeting: S.optional(OfferTargetingFilter),
-  LastModifiedDate: S.optional(OfferLastModifiedDateFilter),
-  OfferSetId: S.optional(OfferSetIdFilter),
-}) {}
-export class ContainerProductFilters extends S.Class<ContainerProductFilters>(
-  "ContainerProductFilters",
-)({
-  EntityId: S.optional(ContainerProductEntityIdFilter),
-  LastModifiedDate: S.optional(ContainerProductLastModifiedDateFilter),
-  ProductTitle: S.optional(ContainerProductTitleFilter),
-  Visibility: S.optional(ContainerProductVisibilityFilter),
-}) {}
-export class ResaleAuthorizationFilters extends S.Class<ResaleAuthorizationFilters>(
-  "ResaleAuthorizationFilters",
-)({
-  EntityId: S.optional(ResaleAuthorizationEntityIdFilter),
-  Name: S.optional(ResaleAuthorizationNameFilter),
-  ProductId: S.optional(ResaleAuthorizationProductIdFilter),
-  CreatedDate: S.optional(ResaleAuthorizationCreatedDateFilter),
-  AvailabilityEndDate: S.optional(ResaleAuthorizationAvailabilityEndDateFilter),
-  ManufacturerAccountId: S.optional(
-    ResaleAuthorizationManufacturerAccountIdFilter,
-  ),
-  ProductName: S.optional(ResaleAuthorizationProductNameFilter),
-  ManufacturerLegalName: S.optional(
-    ResaleAuthorizationManufacturerLegalNameFilter,
-  ),
-  ResellerAccountID: S.optional(ResaleAuthorizationResellerAccountIDFilter),
-  ResellerLegalName: S.optional(ResaleAuthorizationResellerLegalNameFilter),
-  Status: S.optional(ResaleAuthorizationStatusFilter),
-  OfferExtendedStatus: S.optional(ResaleAuthorizationOfferExtendedStatusFilter),
-  LastModifiedDate: S.optional(ResaleAuthorizationLastModifiedDateFilter),
-}) {}
-export class MachineLearningProductFilters extends S.Class<MachineLearningProductFilters>(
-  "MachineLearningProductFilters",
-)({
-  EntityId: S.optional(MachineLearningProductEntityIdFilter),
-  LastModifiedDate: S.optional(MachineLearningProductLastModifiedDateFilter),
-  ProductTitle: S.optional(MachineLearningProductTitleFilter),
-  Visibility: S.optional(MachineLearningProductVisibilityFilter),
-}) {}
-export class OfferSetFilters extends S.Class<OfferSetFilters>(
-  "OfferSetFilters",
-)({
-  EntityId: S.optional(OfferSetEntityIdFilter),
-  Name: S.optional(OfferSetNameFilter),
-  State: S.optional(OfferSetStateFilter),
-  ReleaseDate: S.optional(OfferSetReleaseDateFilter),
-  AssociatedOfferIds: S.optional(OfferSetAssociatedOfferIdsFilter),
-  SolutionId: S.optional(OfferSetSolutionIdFilter),
-  LastModifiedDate: S.optional(OfferSetLastModifiedDateFilter),
-}) {}
+export interface DataProductLastModifiedDateFilter {
+  DateRange?: DataProductLastModifiedDateFilterDateRange;
+}
+export const DataProductLastModifiedDateFilter = S.suspend(() =>
+  S.Struct({
+    DateRange: S.optional(DataProductLastModifiedDateFilterDateRange),
+  }),
+).annotations({
+  identifier: "DataProductLastModifiedDateFilter",
+}) as any as S.Schema<DataProductLastModifiedDateFilter>;
+export interface SaaSProductLastModifiedDateFilter {
+  DateRange?: SaaSProductLastModifiedDateFilterDateRange;
+}
+export const SaaSProductLastModifiedDateFilter = S.suspend(() =>
+  S.Struct({
+    DateRange: S.optional(SaaSProductLastModifiedDateFilterDateRange),
+  }),
+).annotations({
+  identifier: "SaaSProductLastModifiedDateFilter",
+}) as any as S.Schema<SaaSProductLastModifiedDateFilter>;
+export interface AmiProductLastModifiedDateFilter {
+  DateRange?: AmiProductLastModifiedDateFilterDateRange;
+}
+export const AmiProductLastModifiedDateFilter = S.suspend(() =>
+  S.Struct({
+    DateRange: S.optional(AmiProductLastModifiedDateFilterDateRange),
+  }),
+).annotations({
+  identifier: "AmiProductLastModifiedDateFilter",
+}) as any as S.Schema<AmiProductLastModifiedDateFilter>;
+export interface OfferReleaseDateFilter {
+  DateRange?: OfferReleaseDateFilterDateRange;
+}
+export const OfferReleaseDateFilter = S.suspend(() =>
+  S.Struct({ DateRange: S.optional(OfferReleaseDateFilterDateRange) }),
+).annotations({
+  identifier: "OfferReleaseDateFilter",
+}) as any as S.Schema<OfferReleaseDateFilter>;
+export interface OfferAvailabilityEndDateFilter {
+  DateRange?: OfferAvailabilityEndDateFilterDateRange;
+}
+export const OfferAvailabilityEndDateFilter = S.suspend(() =>
+  S.Struct({ DateRange: S.optional(OfferAvailabilityEndDateFilterDateRange) }),
+).annotations({
+  identifier: "OfferAvailabilityEndDateFilter",
+}) as any as S.Schema<OfferAvailabilityEndDateFilter>;
+export interface OfferLastModifiedDateFilter {
+  DateRange?: OfferLastModifiedDateFilterDateRange;
+}
+export const OfferLastModifiedDateFilter = S.suspend(() =>
+  S.Struct({ DateRange: S.optional(OfferLastModifiedDateFilterDateRange) }),
+).annotations({
+  identifier: "OfferLastModifiedDateFilter",
+}) as any as S.Schema<OfferLastModifiedDateFilter>;
+export interface ContainerProductLastModifiedDateFilter {
+  DateRange?: ContainerProductLastModifiedDateFilterDateRange;
+}
+export const ContainerProductLastModifiedDateFilter = S.suspend(() =>
+  S.Struct({
+    DateRange: S.optional(ContainerProductLastModifiedDateFilterDateRange),
+  }),
+).annotations({
+  identifier: "ContainerProductLastModifiedDateFilter",
+}) as any as S.Schema<ContainerProductLastModifiedDateFilter>;
+export interface ResaleAuthorizationCreatedDateFilter {
+  DateRange?: ResaleAuthorizationCreatedDateFilterDateRange;
+  ValueList?: ResaleAuthorizationCreatedDateFilterValueList;
+}
+export const ResaleAuthorizationCreatedDateFilter = S.suspend(() =>
+  S.Struct({
+    DateRange: S.optional(ResaleAuthorizationCreatedDateFilterDateRange),
+    ValueList: S.optional(ResaleAuthorizationCreatedDateFilterValueList),
+  }),
+).annotations({
+  identifier: "ResaleAuthorizationCreatedDateFilter",
+}) as any as S.Schema<ResaleAuthorizationCreatedDateFilter>;
+export interface ResaleAuthorizationAvailabilityEndDateFilter {
+  DateRange?: ResaleAuthorizationAvailabilityEndDateFilterDateRange;
+  ValueList?: ResaleAuthorizationAvailabilityEndDateFilterValueList;
+}
+export const ResaleAuthorizationAvailabilityEndDateFilter = S.suspend(() =>
+  S.Struct({
+    DateRange: S.optional(
+      ResaleAuthorizationAvailabilityEndDateFilterDateRange,
+    ),
+    ValueList: S.optional(
+      ResaleAuthorizationAvailabilityEndDateFilterValueList,
+    ),
+  }),
+).annotations({
+  identifier: "ResaleAuthorizationAvailabilityEndDateFilter",
+}) as any as S.Schema<ResaleAuthorizationAvailabilityEndDateFilter>;
+export interface ResaleAuthorizationLastModifiedDateFilter {
+  DateRange?: ResaleAuthorizationLastModifiedDateFilterDateRange;
+}
+export const ResaleAuthorizationLastModifiedDateFilter = S.suspend(() =>
+  S.Struct({
+    DateRange: S.optional(ResaleAuthorizationLastModifiedDateFilterDateRange),
+  }),
+).annotations({
+  identifier: "ResaleAuthorizationLastModifiedDateFilter",
+}) as any as S.Schema<ResaleAuthorizationLastModifiedDateFilter>;
+export interface MachineLearningProductLastModifiedDateFilter {
+  DateRange?: MachineLearningProductLastModifiedDateFilterDateRange;
+}
+export const MachineLearningProductLastModifiedDateFilter = S.suspend(() =>
+  S.Struct({
+    DateRange: S.optional(
+      MachineLearningProductLastModifiedDateFilterDateRange,
+    ),
+  }),
+).annotations({
+  identifier: "MachineLearningProductLastModifiedDateFilter",
+}) as any as S.Schema<MachineLearningProductLastModifiedDateFilter>;
+export interface OfferSetReleaseDateFilter {
+  DateRange?: OfferSetReleaseDateFilterDateRange;
+}
+export const OfferSetReleaseDateFilter = S.suspend(() =>
+  S.Struct({ DateRange: S.optional(OfferSetReleaseDateFilterDateRange) }),
+).annotations({
+  identifier: "OfferSetReleaseDateFilter",
+}) as any as S.Schema<OfferSetReleaseDateFilter>;
+export interface OfferSetLastModifiedDateFilter {
+  DateRange?: OfferSetLastModifiedDateFilterDateRange;
+}
+export const OfferSetLastModifiedDateFilter = S.suspend(() =>
+  S.Struct({ DateRange: S.optional(OfferSetLastModifiedDateFilterDateRange) }),
+).annotations({
+  identifier: "OfferSetLastModifiedDateFilter",
+}) as any as S.Schema<OfferSetLastModifiedDateFilter>;
+export interface DescribeChangeSetResponse {
+  ChangeSetId?: string;
+  ChangeSetArn?: string;
+  ChangeSetName?: string;
+  Intent?: string;
+  StartTime?: string;
+  EndTime?: string;
+  Status?: string;
+  FailureCode?: string;
+  FailureDescription?: string;
+  ChangeSet?: ChangeSetDescription;
+}
+export const DescribeChangeSetResponse = S.suspend(() =>
+  S.Struct({
+    ChangeSetId: S.optional(S.String),
+    ChangeSetArn: S.optional(S.String),
+    ChangeSetName: S.optional(S.String),
+    Intent: S.optional(S.String),
+    StartTime: S.optional(S.String),
+    EndTime: S.optional(S.String),
+    Status: S.optional(S.String),
+    FailureCode: S.optional(S.String),
+    FailureDescription: S.optional(S.String),
+    ChangeSet: S.optional(ChangeSetDescription),
+  }),
+).annotations({
+  identifier: "DescribeChangeSetResponse",
+}) as any as S.Schema<DescribeChangeSetResponse>;
+export interface ListChangeSetsResponse {
+  ChangeSetSummaryList?: ChangeSetSummaryList;
+  NextToken?: string;
+}
+export const ListChangeSetsResponse = S.suspend(() =>
+  S.Struct({
+    ChangeSetSummaryList: S.optional(ChangeSetSummaryList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListChangeSetsResponse",
+}) as any as S.Schema<ListChangeSetsResponse>;
+export interface StartChangeSetResponse {
+  ChangeSetId?: string;
+  ChangeSetArn?: string;
+}
+export const StartChangeSetResponse = S.suspend(() =>
+  S.Struct({
+    ChangeSetId: S.optional(S.String),
+    ChangeSetArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "StartChangeSetResponse",
+}) as any as S.Schema<StartChangeSetResponse>;
+export interface EntityDetail {
+  EntityType?: string;
+  EntityArn?: string;
+  EntityIdentifier?: string;
+  LastModifiedDate?: string;
+  DetailsDocument?: any;
+}
+export const EntityDetail = S.suspend(() =>
+  S.Struct({
+    EntityType: S.optional(S.String),
+    EntityArn: S.optional(S.String),
+    EntityIdentifier: S.optional(S.String),
+    LastModifiedDate: S.optional(S.String),
+    DetailsDocument: S.optional(S.Any),
+  }),
+).annotations({ identifier: "EntityDetail" }) as any as S.Schema<EntityDetail>;
+export interface BatchDescribeErrorDetail {
+  ErrorCode?: string;
+  ErrorMessage?: string;
+}
+export const BatchDescribeErrorDetail = S.suspend(() =>
+  S.Struct({
+    ErrorCode: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "BatchDescribeErrorDetail",
+}) as any as S.Schema<BatchDescribeErrorDetail>;
+export interface DataProductFilters {
+  EntityId?: DataProductEntityIdFilter;
+  ProductTitle?: DataProductTitleFilter;
+  Visibility?: DataProductVisibilityFilter;
+  LastModifiedDate?: DataProductLastModifiedDateFilter;
+}
+export const DataProductFilters = S.suspend(() =>
+  S.Struct({
+    EntityId: S.optional(DataProductEntityIdFilter),
+    ProductTitle: S.optional(DataProductTitleFilter),
+    Visibility: S.optional(DataProductVisibilityFilter),
+    LastModifiedDate: S.optional(DataProductLastModifiedDateFilter),
+  }),
+).annotations({
+  identifier: "DataProductFilters",
+}) as any as S.Schema<DataProductFilters>;
+export interface SaaSProductFilters {
+  EntityId?: SaaSProductEntityIdFilter;
+  ProductTitle?: SaaSProductTitleFilter;
+  Visibility?: SaaSProductVisibilityFilter;
+  LastModifiedDate?: SaaSProductLastModifiedDateFilter;
+}
+export const SaaSProductFilters = S.suspend(() =>
+  S.Struct({
+    EntityId: S.optional(SaaSProductEntityIdFilter),
+    ProductTitle: S.optional(SaaSProductTitleFilter),
+    Visibility: S.optional(SaaSProductVisibilityFilter),
+    LastModifiedDate: S.optional(SaaSProductLastModifiedDateFilter),
+  }),
+).annotations({
+  identifier: "SaaSProductFilters",
+}) as any as S.Schema<SaaSProductFilters>;
+export interface AmiProductFilters {
+  EntityId?: AmiProductEntityIdFilter;
+  LastModifiedDate?: AmiProductLastModifiedDateFilter;
+  ProductTitle?: AmiProductTitleFilter;
+  Visibility?: AmiProductVisibilityFilter;
+}
+export const AmiProductFilters = S.suspend(() =>
+  S.Struct({
+    EntityId: S.optional(AmiProductEntityIdFilter),
+    LastModifiedDate: S.optional(AmiProductLastModifiedDateFilter),
+    ProductTitle: S.optional(AmiProductTitleFilter),
+    Visibility: S.optional(AmiProductVisibilityFilter),
+  }),
+).annotations({
+  identifier: "AmiProductFilters",
+}) as any as S.Schema<AmiProductFilters>;
+export interface OfferFilters {
+  EntityId?: OfferEntityIdFilter;
+  Name?: OfferNameFilter;
+  ProductId?: OfferProductIdFilter;
+  ResaleAuthorizationId?: OfferResaleAuthorizationIdFilter;
+  ReleaseDate?: OfferReleaseDateFilter;
+  AvailabilityEndDate?: OfferAvailabilityEndDateFilter;
+  BuyerAccounts?: OfferBuyerAccountsFilter;
+  State?: OfferStateFilter;
+  Targeting?: OfferTargetingFilter;
+  LastModifiedDate?: OfferLastModifiedDateFilter;
+  OfferSetId?: OfferSetIdFilter;
+}
+export const OfferFilters = S.suspend(() =>
+  S.Struct({
+    EntityId: S.optional(OfferEntityIdFilter),
+    Name: S.optional(OfferNameFilter),
+    ProductId: S.optional(OfferProductIdFilter),
+    ResaleAuthorizationId: S.optional(OfferResaleAuthorizationIdFilter),
+    ReleaseDate: S.optional(OfferReleaseDateFilter),
+    AvailabilityEndDate: S.optional(OfferAvailabilityEndDateFilter),
+    BuyerAccounts: S.optional(OfferBuyerAccountsFilter),
+    State: S.optional(OfferStateFilter),
+    Targeting: S.optional(OfferTargetingFilter),
+    LastModifiedDate: S.optional(OfferLastModifiedDateFilter),
+    OfferSetId: S.optional(OfferSetIdFilter),
+  }),
+).annotations({ identifier: "OfferFilters" }) as any as S.Schema<OfferFilters>;
+export interface ContainerProductFilters {
+  EntityId?: ContainerProductEntityIdFilter;
+  LastModifiedDate?: ContainerProductLastModifiedDateFilter;
+  ProductTitle?: ContainerProductTitleFilter;
+  Visibility?: ContainerProductVisibilityFilter;
+}
+export const ContainerProductFilters = S.suspend(() =>
+  S.Struct({
+    EntityId: S.optional(ContainerProductEntityIdFilter),
+    LastModifiedDate: S.optional(ContainerProductLastModifiedDateFilter),
+    ProductTitle: S.optional(ContainerProductTitleFilter),
+    Visibility: S.optional(ContainerProductVisibilityFilter),
+  }),
+).annotations({
+  identifier: "ContainerProductFilters",
+}) as any as S.Schema<ContainerProductFilters>;
+export interface ResaleAuthorizationFilters {
+  EntityId?: ResaleAuthorizationEntityIdFilter;
+  Name?: ResaleAuthorizationNameFilter;
+  ProductId?: ResaleAuthorizationProductIdFilter;
+  CreatedDate?: ResaleAuthorizationCreatedDateFilter;
+  AvailabilityEndDate?: ResaleAuthorizationAvailabilityEndDateFilter;
+  ManufacturerAccountId?: ResaleAuthorizationManufacturerAccountIdFilter;
+  ProductName?: ResaleAuthorizationProductNameFilter;
+  ManufacturerLegalName?: ResaleAuthorizationManufacturerLegalNameFilter;
+  ResellerAccountID?: ResaleAuthorizationResellerAccountIDFilter;
+  ResellerLegalName?: ResaleAuthorizationResellerLegalNameFilter;
+  Status?: ResaleAuthorizationStatusFilter;
+  OfferExtendedStatus?: ResaleAuthorizationOfferExtendedStatusFilter;
+  LastModifiedDate?: ResaleAuthorizationLastModifiedDateFilter;
+}
+export const ResaleAuthorizationFilters = S.suspend(() =>
+  S.Struct({
+    EntityId: S.optional(ResaleAuthorizationEntityIdFilter),
+    Name: S.optional(ResaleAuthorizationNameFilter),
+    ProductId: S.optional(ResaleAuthorizationProductIdFilter),
+    CreatedDate: S.optional(ResaleAuthorizationCreatedDateFilter),
+    AvailabilityEndDate: S.optional(
+      ResaleAuthorizationAvailabilityEndDateFilter,
+    ),
+    ManufacturerAccountId: S.optional(
+      ResaleAuthorizationManufacturerAccountIdFilter,
+    ),
+    ProductName: S.optional(ResaleAuthorizationProductNameFilter),
+    ManufacturerLegalName: S.optional(
+      ResaleAuthorizationManufacturerLegalNameFilter,
+    ),
+    ResellerAccountID: S.optional(ResaleAuthorizationResellerAccountIDFilter),
+    ResellerLegalName: S.optional(ResaleAuthorizationResellerLegalNameFilter),
+    Status: S.optional(ResaleAuthorizationStatusFilter),
+    OfferExtendedStatus: S.optional(
+      ResaleAuthorizationOfferExtendedStatusFilter,
+    ),
+    LastModifiedDate: S.optional(ResaleAuthorizationLastModifiedDateFilter),
+  }),
+).annotations({
+  identifier: "ResaleAuthorizationFilters",
+}) as any as S.Schema<ResaleAuthorizationFilters>;
+export interface MachineLearningProductFilters {
+  EntityId?: MachineLearningProductEntityIdFilter;
+  LastModifiedDate?: MachineLearningProductLastModifiedDateFilter;
+  ProductTitle?: MachineLearningProductTitleFilter;
+  Visibility?: MachineLearningProductVisibilityFilter;
+}
+export const MachineLearningProductFilters = S.suspend(() =>
+  S.Struct({
+    EntityId: S.optional(MachineLearningProductEntityIdFilter),
+    LastModifiedDate: S.optional(MachineLearningProductLastModifiedDateFilter),
+    ProductTitle: S.optional(MachineLearningProductTitleFilter),
+    Visibility: S.optional(MachineLearningProductVisibilityFilter),
+  }),
+).annotations({
+  identifier: "MachineLearningProductFilters",
+}) as any as S.Schema<MachineLearningProductFilters>;
+export interface OfferSetFilters {
+  EntityId?: OfferSetEntityIdFilter;
+  Name?: OfferSetNameFilter;
+  State?: OfferSetStateFilter;
+  ReleaseDate?: OfferSetReleaseDateFilter;
+  AssociatedOfferIds?: OfferSetAssociatedOfferIdsFilter;
+  SolutionId?: OfferSetSolutionIdFilter;
+  LastModifiedDate?: OfferSetLastModifiedDateFilter;
+}
+export const OfferSetFilters = S.suspend(() =>
+  S.Struct({
+    EntityId: S.optional(OfferSetEntityIdFilter),
+    Name: S.optional(OfferSetNameFilter),
+    State: S.optional(OfferSetStateFilter),
+    ReleaseDate: S.optional(OfferSetReleaseDateFilter),
+    AssociatedOfferIds: S.optional(OfferSetAssociatedOfferIdsFilter),
+    SolutionId: S.optional(OfferSetSolutionIdFilter),
+    LastModifiedDate: S.optional(OfferSetLastModifiedDateFilter),
+  }),
+).annotations({
+  identifier: "OfferSetFilters",
+}) as any as S.Schema<OfferSetFilters>;
+export type EntityDetails = { [key: string]: EntityDetail };
 export const EntityDetails = S.Record({ key: S.String, value: EntityDetail });
+export type Errors = { [key: string]: BatchDescribeErrorDetail };
 export const Errors = S.Record({
   key: S.String,
   value: BatchDescribeErrorDetail,
@@ -983,13 +1785,31 @@ export const EntityTypeFilters = S.Union(
   S.Struct({ MachineLearningProductFilters: MachineLearningProductFilters }),
   S.Struct({ OfferSetFilters: OfferSetFilters }),
 );
-export class BatchDescribeEntitiesResponse extends S.Class<BatchDescribeEntitiesResponse>(
-  "BatchDescribeEntitiesResponse",
-)({ EntityDetails: S.optional(EntityDetails), Errors: S.optional(Errors) }) {}
-export class ListEntitiesRequest extends S.Class<ListEntitiesRequest>(
-  "ListEntitiesRequest",
-)(
-  {
+export interface BatchDescribeEntitiesResponse {
+  EntityDetails?: EntityDetails;
+  Errors?: Errors;
+}
+export const BatchDescribeEntitiesResponse = S.suspend(() =>
+  S.Struct({
+    EntityDetails: S.optional(EntityDetails),
+    Errors: S.optional(Errors),
+  }),
+).annotations({
+  identifier: "BatchDescribeEntitiesResponse",
+}) as any as S.Schema<BatchDescribeEntitiesResponse>;
+export interface ListEntitiesRequest {
+  Catalog: string;
+  EntityType: string;
+  FilterList?: FilterList;
+  Sort?: Sort;
+  NextToken?: string;
+  MaxResults?: number;
+  OwnershipType?: string;
+  EntityTypeFilters?: (typeof EntityTypeFilters)["Type"];
+  EntityTypeSort?: (typeof EntityTypeSort)["Type"];
+}
+export const ListEntitiesRequest = S.suspend(() =>
+  S.Struct({
     Catalog: S.String,
     EntityType: S.String,
     FilterList: S.optional(FilterList),
@@ -999,92 +1819,207 @@ export class ListEntitiesRequest extends S.Class<ListEntitiesRequest>(
     OwnershipType: S.optional(S.String),
     EntityTypeFilters: S.optional(EntityTypeFilters),
     EntityTypeSort: S.optional(EntityTypeSort),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/ListEntities" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ListEntities" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "ListEntitiesRequest",
+}) as any as S.Schema<ListEntitiesRequest>;
+export type OfferBuyerAccountsList = string[];
 export const OfferBuyerAccountsList = S.Array(S.String);
+export type OfferTargetingList = string[];
 export const OfferTargetingList = S.Array(S.String);
+export type OfferSetAssociatedOfferIdsList = string[];
 export const OfferSetAssociatedOfferIdsList = S.Array(S.String);
-export class AmiProductSummary extends S.Class<AmiProductSummary>(
-  "AmiProductSummary",
-)({ ProductTitle: S.optional(S.String), Visibility: S.optional(S.String) }) {}
-export class ContainerProductSummary extends S.Class<ContainerProductSummary>(
-  "ContainerProductSummary",
-)({ ProductTitle: S.optional(S.String), Visibility: S.optional(S.String) }) {}
-export class DataProductSummary extends S.Class<DataProductSummary>(
-  "DataProductSummary",
-)({ ProductTitle: S.optional(S.String), Visibility: S.optional(S.String) }) {}
-export class SaaSProductSummary extends S.Class<SaaSProductSummary>(
-  "SaaSProductSummary",
-)({ ProductTitle: S.optional(S.String), Visibility: S.optional(S.String) }) {}
-export class OfferSummary extends S.Class<OfferSummary>("OfferSummary")({
-  Name: S.optional(S.String),
-  ProductId: S.optional(S.String),
-  ResaleAuthorizationId: S.optional(S.String),
-  ReleaseDate: S.optional(S.String),
-  AvailabilityEndDate: S.optional(S.String),
-  BuyerAccounts: S.optional(OfferBuyerAccountsList),
-  State: S.optional(S.String),
-  Targeting: S.optional(OfferTargetingList),
-  OfferSetId: S.optional(S.String),
-}) {}
-export class ResaleAuthorizationSummary extends S.Class<ResaleAuthorizationSummary>(
-  "ResaleAuthorizationSummary",
-)({
-  Name: S.optional(S.String),
-  ProductId: S.optional(S.String),
-  ProductName: S.optional(S.String),
-  ManufacturerAccountId: S.optional(S.String),
-  ManufacturerLegalName: S.optional(S.String),
-  ResellerAccountID: S.optional(S.String),
-  ResellerLegalName: S.optional(S.String),
-  Status: S.optional(S.String),
-  OfferExtendedStatus: S.optional(S.String),
-  CreatedDate: S.optional(S.String),
-  AvailabilityEndDate: S.optional(S.String),
-}) {}
-export class MachineLearningProductSummary extends S.Class<MachineLearningProductSummary>(
-  "MachineLearningProductSummary",
-)({ ProductTitle: S.optional(S.String), Visibility: S.optional(S.String) }) {}
-export class OfferSetSummary extends S.Class<OfferSetSummary>(
-  "OfferSetSummary",
-)({
-  Name: S.optional(S.String),
-  State: S.optional(S.String),
-  ReleaseDate: S.optional(S.String),
-  AssociatedOfferIds: S.optional(OfferSetAssociatedOfferIdsList),
-  SolutionId: S.optional(S.String),
-}) {}
-export class EntitySummary extends S.Class<EntitySummary>("EntitySummary")({
-  Name: S.optional(S.String),
-  EntityType: S.optional(S.String),
-  EntityId: S.optional(S.String),
-  EntityArn: S.optional(S.String),
-  LastModifiedDate: S.optional(S.String),
-  Visibility: S.optional(S.String),
-  AmiProductSummary: S.optional(AmiProductSummary),
-  ContainerProductSummary: S.optional(ContainerProductSummary),
-  DataProductSummary: S.optional(DataProductSummary),
-  SaaSProductSummary: S.optional(SaaSProductSummary),
-  OfferSummary: S.optional(OfferSummary),
-  ResaleAuthorizationSummary: S.optional(ResaleAuthorizationSummary),
-  MachineLearningProductSummary: S.optional(MachineLearningProductSummary),
-  OfferSetSummary: S.optional(OfferSetSummary),
-}) {}
+export interface AmiProductSummary {
+  ProductTitle?: string;
+  Visibility?: string;
+}
+export const AmiProductSummary = S.suspend(() =>
+  S.Struct({
+    ProductTitle: S.optional(S.String),
+    Visibility: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AmiProductSummary",
+}) as any as S.Schema<AmiProductSummary>;
+export interface ContainerProductSummary {
+  ProductTitle?: string;
+  Visibility?: string;
+}
+export const ContainerProductSummary = S.suspend(() =>
+  S.Struct({
+    ProductTitle: S.optional(S.String),
+    Visibility: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ContainerProductSummary",
+}) as any as S.Schema<ContainerProductSummary>;
+export interface DataProductSummary {
+  ProductTitle?: string;
+  Visibility?: string;
+}
+export const DataProductSummary = S.suspend(() =>
+  S.Struct({
+    ProductTitle: S.optional(S.String),
+    Visibility: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DataProductSummary",
+}) as any as S.Schema<DataProductSummary>;
+export interface SaaSProductSummary {
+  ProductTitle?: string;
+  Visibility?: string;
+}
+export const SaaSProductSummary = S.suspend(() =>
+  S.Struct({
+    ProductTitle: S.optional(S.String),
+    Visibility: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SaaSProductSummary",
+}) as any as S.Schema<SaaSProductSummary>;
+export interface OfferSummary {
+  Name?: string;
+  ProductId?: string;
+  ResaleAuthorizationId?: string;
+  ReleaseDate?: string;
+  AvailabilityEndDate?: string;
+  BuyerAccounts?: OfferBuyerAccountsList;
+  State?: string;
+  Targeting?: OfferTargetingList;
+  OfferSetId?: string;
+}
+export const OfferSummary = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    ProductId: S.optional(S.String),
+    ResaleAuthorizationId: S.optional(S.String),
+    ReleaseDate: S.optional(S.String),
+    AvailabilityEndDate: S.optional(S.String),
+    BuyerAccounts: S.optional(OfferBuyerAccountsList),
+    State: S.optional(S.String),
+    Targeting: S.optional(OfferTargetingList),
+    OfferSetId: S.optional(S.String),
+  }),
+).annotations({ identifier: "OfferSummary" }) as any as S.Schema<OfferSummary>;
+export interface ResaleAuthorizationSummary {
+  Name?: string;
+  ProductId?: string;
+  ProductName?: string;
+  ManufacturerAccountId?: string;
+  ManufacturerLegalName?: string;
+  ResellerAccountID?: string;
+  ResellerLegalName?: string;
+  Status?: string;
+  OfferExtendedStatus?: string;
+  CreatedDate?: string;
+  AvailabilityEndDate?: string;
+}
+export const ResaleAuthorizationSummary = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    ProductId: S.optional(S.String),
+    ProductName: S.optional(S.String),
+    ManufacturerAccountId: S.optional(S.String),
+    ManufacturerLegalName: S.optional(S.String),
+    ResellerAccountID: S.optional(S.String),
+    ResellerLegalName: S.optional(S.String),
+    Status: S.optional(S.String),
+    OfferExtendedStatus: S.optional(S.String),
+    CreatedDate: S.optional(S.String),
+    AvailabilityEndDate: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ResaleAuthorizationSummary",
+}) as any as S.Schema<ResaleAuthorizationSummary>;
+export interface MachineLearningProductSummary {
+  ProductTitle?: string;
+  Visibility?: string;
+}
+export const MachineLearningProductSummary = S.suspend(() =>
+  S.Struct({
+    ProductTitle: S.optional(S.String),
+    Visibility: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "MachineLearningProductSummary",
+}) as any as S.Schema<MachineLearningProductSummary>;
+export interface OfferSetSummary {
+  Name?: string;
+  State?: string;
+  ReleaseDate?: string;
+  AssociatedOfferIds?: OfferSetAssociatedOfferIdsList;
+  SolutionId?: string;
+}
+export const OfferSetSummary = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    State: S.optional(S.String),
+    ReleaseDate: S.optional(S.String),
+    AssociatedOfferIds: S.optional(OfferSetAssociatedOfferIdsList),
+    SolutionId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "OfferSetSummary",
+}) as any as S.Schema<OfferSetSummary>;
+export interface EntitySummary {
+  Name?: string;
+  EntityType?: string;
+  EntityId?: string;
+  EntityArn?: string;
+  LastModifiedDate?: string;
+  Visibility?: string;
+  AmiProductSummary?: AmiProductSummary;
+  ContainerProductSummary?: ContainerProductSummary;
+  DataProductSummary?: DataProductSummary;
+  SaaSProductSummary?: SaaSProductSummary;
+  OfferSummary?: OfferSummary;
+  ResaleAuthorizationSummary?: ResaleAuthorizationSummary;
+  MachineLearningProductSummary?: MachineLearningProductSummary;
+  OfferSetSummary?: OfferSetSummary;
+}
+export const EntitySummary = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    EntityType: S.optional(S.String),
+    EntityId: S.optional(S.String),
+    EntityArn: S.optional(S.String),
+    LastModifiedDate: S.optional(S.String),
+    Visibility: S.optional(S.String),
+    AmiProductSummary: S.optional(AmiProductSummary),
+    ContainerProductSummary: S.optional(ContainerProductSummary),
+    DataProductSummary: S.optional(DataProductSummary),
+    SaaSProductSummary: S.optional(SaaSProductSummary),
+    OfferSummary: S.optional(OfferSummary),
+    ResaleAuthorizationSummary: S.optional(ResaleAuthorizationSummary),
+    MachineLearningProductSummary: S.optional(MachineLearningProductSummary),
+    OfferSetSummary: S.optional(OfferSetSummary),
+  }),
+).annotations({
+  identifier: "EntitySummary",
+}) as any as S.Schema<EntitySummary>;
+export type EntitySummaryList = EntitySummary[];
 export const EntitySummaryList = S.Array(EntitySummary);
-export class ListEntitiesResponse extends S.Class<ListEntitiesResponse>(
-  "ListEntitiesResponse",
-)({
-  EntitySummaryList: S.optional(EntitySummaryList),
-  NextToken: S.optional(S.String),
-}) {}
+export interface ListEntitiesResponse {
+  EntitySummaryList?: EntitySummaryList;
+  NextToken?: string;
+}
+export const ListEntitiesResponse = S.suspend(() =>
+  S.Struct({
+    EntitySummaryList: S.optional(EntitySummaryList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListEntitiesResponse",
+}) as any as S.Schema<ListEntitiesResponse>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

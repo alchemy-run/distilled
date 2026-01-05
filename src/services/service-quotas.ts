@@ -262,465 +262,869 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class AssociateServiceQuotaTemplateRequest extends S.Class<AssociateServiceQuotaTemplateRequest>(
-  "AssociateServiceQuotaTemplateRequest",
-)(
-  {},
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class AssociateServiceQuotaTemplateResponse extends S.Class<AssociateServiceQuotaTemplateResponse>(
-  "AssociateServiceQuotaTemplateResponse",
-)({}) {}
-export class DisassociateServiceQuotaTemplateRequest extends S.Class<DisassociateServiceQuotaTemplateRequest>(
-  "DisassociateServiceQuotaTemplateRequest",
-)(
-  {},
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DisassociateServiceQuotaTemplateResponse extends S.Class<DisassociateServiceQuotaTemplateResponse>(
-  "DisassociateServiceQuotaTemplateResponse",
-)({}) {}
-export class GetAssociationForServiceQuotaTemplateRequest extends S.Class<GetAssociationForServiceQuotaTemplateRequest>(
-  "GetAssociationForServiceQuotaTemplateRequest",
-)(
-  {},
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetAutoManagementConfigurationRequest extends S.Class<GetAutoManagementConfigurationRequest>(
-  "GetAutoManagementConfigurationRequest",
-)(
-  {},
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StartQuotaUtilizationReportRequest extends S.Class<StartQuotaUtilizationReportRequest>(
-  "StartQuotaUtilizationReportRequest",
-)(
-  {},
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StopAutoManagementRequest extends S.Class<StopAutoManagementRequest>(
-  "StopAutoManagementRequest",
-)(
-  {},
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StopAutoManagementResponse extends S.Class<StopAutoManagementResponse>(
-  "StopAutoManagementResponse",
-)({}) {}
+export interface AssociateServiceQuotaTemplateRequest {}
+export const AssociateServiceQuotaTemplateRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "AssociateServiceQuotaTemplateRequest",
+}) as any as S.Schema<AssociateServiceQuotaTemplateRequest>;
+export interface AssociateServiceQuotaTemplateResponse {}
+export const AssociateServiceQuotaTemplateResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "AssociateServiceQuotaTemplateResponse",
+}) as any as S.Schema<AssociateServiceQuotaTemplateResponse>;
+export interface DisassociateServiceQuotaTemplateRequest {}
+export const DisassociateServiceQuotaTemplateRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DisassociateServiceQuotaTemplateRequest",
+}) as any as S.Schema<DisassociateServiceQuotaTemplateRequest>;
+export interface DisassociateServiceQuotaTemplateResponse {}
+export const DisassociateServiceQuotaTemplateResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DisassociateServiceQuotaTemplateResponse",
+}) as any as S.Schema<DisassociateServiceQuotaTemplateResponse>;
+export interface GetAssociationForServiceQuotaTemplateRequest {}
+export const GetAssociationForServiceQuotaTemplateRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetAssociationForServiceQuotaTemplateRequest",
+}) as any as S.Schema<GetAssociationForServiceQuotaTemplateRequest>;
+export interface GetAutoManagementConfigurationRequest {}
+export const GetAutoManagementConfigurationRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetAutoManagementConfigurationRequest",
+}) as any as S.Schema<GetAutoManagementConfigurationRequest>;
+export interface StartQuotaUtilizationReportRequest {}
+export const StartQuotaUtilizationReportRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StartQuotaUtilizationReportRequest",
+}) as any as S.Schema<StartQuotaUtilizationReportRequest>;
+export interface StopAutoManagementRequest {}
+export const StopAutoManagementRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StopAutoManagementRequest",
+}) as any as S.Schema<StopAutoManagementRequest>;
+export interface StopAutoManagementResponse {}
+export const StopAutoManagementResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "StopAutoManagementResponse",
+}) as any as S.Schema<StopAutoManagementResponse>;
+export type InputTagKeys = string[];
 export const InputTagKeys = S.Array(S.String);
-export class CreateSupportCaseRequest extends S.Class<CreateSupportCaseRequest>(
-  "CreateSupportCaseRequest",
-)(
-  { RequestId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateSupportCaseResponse extends S.Class<CreateSupportCaseResponse>(
-  "CreateSupportCaseResponse",
-)({}) {}
-export class DeleteServiceQuotaIncreaseRequestFromTemplateRequest extends S.Class<DeleteServiceQuotaIncreaseRequestFromTemplateRequest>(
-  "DeleteServiceQuotaIncreaseRequestFromTemplateRequest",
-)(
-  { ServiceCode: S.String, QuotaCode: S.String, AwsRegion: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteServiceQuotaIncreaseRequestFromTemplateResponse extends S.Class<DeleteServiceQuotaIncreaseRequestFromTemplateResponse>(
-  "DeleteServiceQuotaIncreaseRequestFromTemplateResponse",
-)({}) {}
-export class GetAssociationForServiceQuotaTemplateResponse extends S.Class<GetAssociationForServiceQuotaTemplateResponse>(
-  "GetAssociationForServiceQuotaTemplateResponse",
-)({ ServiceQuotaTemplateAssociationStatus: S.optional(S.String) }) {}
-export class GetAWSDefaultServiceQuotaRequest extends S.Class<GetAWSDefaultServiceQuotaRequest>(
-  "GetAWSDefaultServiceQuotaRequest",
-)(
-  { ServiceCode: S.String, QuotaCode: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetQuotaUtilizationReportRequest extends S.Class<GetQuotaUtilizationReportRequest>(
-  "GetQuotaUtilizationReportRequest",
-)(
-  {
+export interface CreateSupportCaseRequest {
+  RequestId: string;
+}
+export const CreateSupportCaseRequest = S.suspend(() =>
+  S.Struct({ RequestId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateSupportCaseRequest",
+}) as any as S.Schema<CreateSupportCaseRequest>;
+export interface CreateSupportCaseResponse {}
+export const CreateSupportCaseResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "CreateSupportCaseResponse",
+}) as any as S.Schema<CreateSupportCaseResponse>;
+export interface DeleteServiceQuotaIncreaseRequestFromTemplateRequest {
+  ServiceCode: string;
+  QuotaCode: string;
+  AwsRegion: string;
+}
+export const DeleteServiceQuotaIncreaseRequestFromTemplateRequest = S.suspend(
+  () =>
+    S.Struct({
+      ServiceCode: S.String,
+      QuotaCode: S.String,
+      AwsRegion: S.String,
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+).annotations({
+  identifier: "DeleteServiceQuotaIncreaseRequestFromTemplateRequest",
+}) as any as S.Schema<DeleteServiceQuotaIncreaseRequestFromTemplateRequest>;
+export interface DeleteServiceQuotaIncreaseRequestFromTemplateResponse {}
+export const DeleteServiceQuotaIncreaseRequestFromTemplateResponse = S.suspend(
+  () => S.Struct({}),
+).annotations({
+  identifier: "DeleteServiceQuotaIncreaseRequestFromTemplateResponse",
+}) as any as S.Schema<DeleteServiceQuotaIncreaseRequestFromTemplateResponse>;
+export interface GetAssociationForServiceQuotaTemplateResponse {
+  ServiceQuotaTemplateAssociationStatus?: string;
+}
+export const GetAssociationForServiceQuotaTemplateResponse = S.suspend(() =>
+  S.Struct({ ServiceQuotaTemplateAssociationStatus: S.optional(S.String) }),
+).annotations({
+  identifier: "GetAssociationForServiceQuotaTemplateResponse",
+}) as any as S.Schema<GetAssociationForServiceQuotaTemplateResponse>;
+export interface GetAWSDefaultServiceQuotaRequest {
+  ServiceCode: string;
+  QuotaCode: string;
+}
+export const GetAWSDefaultServiceQuotaRequest = S.suspend(() =>
+  S.Struct({ ServiceCode: S.String, QuotaCode: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetAWSDefaultServiceQuotaRequest",
+}) as any as S.Schema<GetAWSDefaultServiceQuotaRequest>;
+export interface GetQuotaUtilizationReportRequest {
+  ReportId: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const GetQuotaUtilizationReportRequest = S.suspend(() =>
+  S.Struct({
     ReportId: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetRequestedServiceQuotaChangeRequest extends S.Class<GetRequestedServiceQuotaChangeRequest>(
-  "GetRequestedServiceQuotaChangeRequest",
-)(
-  { RequestId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetServiceQuotaRequest extends S.Class<GetServiceQuotaRequest>(
-  "GetServiceQuotaRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetQuotaUtilizationReportRequest",
+}) as any as S.Schema<GetQuotaUtilizationReportRequest>;
+export interface GetRequestedServiceQuotaChangeRequest {
+  RequestId: string;
+}
+export const GetRequestedServiceQuotaChangeRequest = S.suspend(() =>
+  S.Struct({ RequestId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetRequestedServiceQuotaChangeRequest",
+}) as any as S.Schema<GetRequestedServiceQuotaChangeRequest>;
+export interface GetServiceQuotaRequest {
+  ServiceCode: string;
+  QuotaCode: string;
+  ContextId?: string;
+}
+export const GetServiceQuotaRequest = S.suspend(() =>
+  S.Struct({
     ServiceCode: S.String,
     QuotaCode: S.String,
     ContextId: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetServiceQuotaIncreaseRequestFromTemplateRequest extends S.Class<GetServiceQuotaIncreaseRequestFromTemplateRequest>(
-  "GetServiceQuotaIncreaseRequestFromTemplateRequest",
-)(
-  { ServiceCode: S.String, QuotaCode: S.String, AwsRegion: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListAWSDefaultServiceQuotasRequest extends S.Class<ListAWSDefaultServiceQuotasRequest>(
-  "ListAWSDefaultServiceQuotasRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetServiceQuotaRequest",
+}) as any as S.Schema<GetServiceQuotaRequest>;
+export interface GetServiceQuotaIncreaseRequestFromTemplateRequest {
+  ServiceCode: string;
+  QuotaCode: string;
+  AwsRegion: string;
+}
+export const GetServiceQuotaIncreaseRequestFromTemplateRequest = S.suspend(() =>
+  S.Struct({
+    ServiceCode: S.String,
+    QuotaCode: S.String,
+    AwsRegion: S.String,
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetServiceQuotaIncreaseRequestFromTemplateRequest",
+}) as any as S.Schema<GetServiceQuotaIncreaseRequestFromTemplateRequest>;
+export interface ListAWSDefaultServiceQuotasRequest {
+  ServiceCode: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListAWSDefaultServiceQuotasRequest = S.suspend(() =>
+  S.Struct({
     ServiceCode: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListRequestedServiceQuotaChangeHistoryRequest extends S.Class<ListRequestedServiceQuotaChangeHistoryRequest>(
-  "ListRequestedServiceQuotaChangeHistoryRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListAWSDefaultServiceQuotasRequest",
+}) as any as S.Schema<ListAWSDefaultServiceQuotasRequest>;
+export interface ListRequestedServiceQuotaChangeHistoryRequest {
+  ServiceCode?: string;
+  Status?: string;
+  NextToken?: string;
+  MaxResults?: number;
+  QuotaRequestedAtLevel?: string;
+}
+export const ListRequestedServiceQuotaChangeHistoryRequest = S.suspend(() =>
+  S.Struct({
     ServiceCode: S.optional(S.String),
     Status: S.optional(S.String),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     QuotaRequestedAtLevel: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListRequestedServiceQuotaChangeHistoryByQuotaRequest extends S.Class<ListRequestedServiceQuotaChangeHistoryByQuotaRequest>(
-  "ListRequestedServiceQuotaChangeHistoryByQuotaRequest",
-)(
-  {
-    ServiceCode: S.String,
-    QuotaCode: S.String,
-    Status: S.optional(S.String),
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    QuotaRequestedAtLevel: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListServiceQuotaIncreaseRequestsInTemplateRequest extends S.Class<ListServiceQuotaIncreaseRequestsInTemplateRequest>(
-  "ListServiceQuotaIncreaseRequestsInTemplateRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListRequestedServiceQuotaChangeHistoryRequest",
+}) as any as S.Schema<ListRequestedServiceQuotaChangeHistoryRequest>;
+export interface ListRequestedServiceQuotaChangeHistoryByQuotaRequest {
+  ServiceCode: string;
+  QuotaCode: string;
+  Status?: string;
+  NextToken?: string;
+  MaxResults?: number;
+  QuotaRequestedAtLevel?: string;
+}
+export const ListRequestedServiceQuotaChangeHistoryByQuotaRequest = S.suspend(
+  () =>
+    S.Struct({
+      ServiceCode: S.String,
+      QuotaCode: S.String,
+      Status: S.optional(S.String),
+      NextToken: S.optional(S.String),
+      MaxResults: S.optional(S.Number),
+      QuotaRequestedAtLevel: S.optional(S.String),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+).annotations({
+  identifier: "ListRequestedServiceQuotaChangeHistoryByQuotaRequest",
+}) as any as S.Schema<ListRequestedServiceQuotaChangeHistoryByQuotaRequest>;
+export interface ListServiceQuotaIncreaseRequestsInTemplateRequest {
+  ServiceCode?: string;
+  AwsRegion?: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListServiceQuotaIncreaseRequestsInTemplateRequest = S.suspend(() =>
+  S.Struct({
     ServiceCode: S.optional(S.String),
     AwsRegion: S.optional(S.String),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListServiceQuotasRequest extends S.Class<ListServiceQuotasRequest>(
-  "ListServiceQuotasRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListServiceQuotaIncreaseRequestsInTemplateRequest",
+}) as any as S.Schema<ListServiceQuotaIncreaseRequestsInTemplateRequest>;
+export interface ListServiceQuotasRequest {
+  ServiceCode: string;
+  NextToken?: string;
+  MaxResults?: number;
+  QuotaCode?: string;
+  QuotaAppliedAtLevel?: string;
+}
+export const ListServiceQuotasRequest = S.suspend(() =>
+  S.Struct({
     ServiceCode: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     QuotaCode: S.optional(S.String),
     QuotaAppliedAtLevel: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListServicesRequest extends S.Class<ListServicesRequest>(
-  "ListServicesRequest",
-)(
-  { NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { ResourceARN: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutServiceQuotaIncreaseRequestIntoTemplateRequest extends S.Class<PutServiceQuotaIncreaseRequestIntoTemplateRequest>(
-  "PutServiceQuotaIncreaseRequestIntoTemplateRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListServiceQuotasRequest",
+}) as any as S.Schema<ListServiceQuotasRequest>;
+export interface ListServicesRequest {
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListServicesRequest = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListServicesRequest",
+}) as any as S.Schema<ListServicesRequest>;
+export interface ListTagsForResourceRequest {
+  ResourceARN: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceARN: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface PutServiceQuotaIncreaseRequestIntoTemplateRequest {
+  QuotaCode: string;
+  ServiceCode: string;
+  AwsRegion: string;
+  DesiredValue: number;
+}
+export const PutServiceQuotaIncreaseRequestIntoTemplateRequest = S.suspend(() =>
+  S.Struct({
     QuotaCode: S.String,
     ServiceCode: S.String,
     AwsRegion: S.String,
     DesiredValue: S.Number,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class RequestServiceQuotaIncreaseRequest extends S.Class<RequestServiceQuotaIncreaseRequest>(
-  "RequestServiceQuotaIncreaseRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "PutServiceQuotaIncreaseRequestIntoTemplateRequest",
+}) as any as S.Schema<PutServiceQuotaIncreaseRequestIntoTemplateRequest>;
+export interface RequestServiceQuotaIncreaseRequest {
+  ServiceCode: string;
+  QuotaCode: string;
+  DesiredValue: number;
+  ContextId?: string;
+  SupportCaseAllowed?: boolean;
+}
+export const RequestServiceQuotaIncreaseRequest = S.suspend(() =>
+  S.Struct({
     ServiceCode: S.String,
     QuotaCode: S.String,
     DesiredValue: S.Number,
     ContextId: S.optional(S.String),
     SupportCaseAllowed: S.optional(S.Boolean),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StartQuotaUtilizationReportResponse extends S.Class<StartQuotaUtilizationReportResponse>(
-  "StartQuotaUtilizationReportResponse",
-)({
-  ReportId: S.optional(S.String),
-  Status: S.optional(S.String),
-  Message: S.optional(S.String),
-}) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  { ResourceARN: S.String, TagKeys: InputTagKeys },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "RequestServiceQuotaIncreaseRequest",
+}) as any as S.Schema<RequestServiceQuotaIncreaseRequest>;
+export interface StartQuotaUtilizationReportResponse {
+  ReportId?: string;
+  Status?: string;
+  Message?: string;
+}
+export const StartQuotaUtilizationReportResponse = S.suspend(() =>
+  S.Struct({
+    ReportId: S.optional(S.String),
+    Status: S.optional(S.String),
+    Message: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "StartQuotaUtilizationReportResponse",
+}) as any as S.Schema<StartQuotaUtilizationReportResponse>;
+export interface UntagResourceRequest {
+  ResourceARN: string;
+  TagKeys: InputTagKeys;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceARN: S.String, TagKeys: InputTagKeys }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export type ExcludedQuotaList = string[];
 export const ExcludedQuotaList = S.Array(S.String);
+export type ExclusionList = { [key: string]: ExcludedQuotaList };
 export const ExclusionList = S.Record({
   key: S.String,
   value: ExcludedQuotaList,
 });
-export class UpdateAutoManagementRequest extends S.Class<UpdateAutoManagementRequest>(
-  "UpdateAutoManagementRequest",
-)(
-  {
+export interface UpdateAutoManagementRequest {
+  OptInType?: string;
+  NotificationArn?: string;
+  ExclusionList?: ExclusionList;
+}
+export const UpdateAutoManagementRequest = S.suspend(() =>
+  S.Struct({
     OptInType: S.optional(S.String),
     NotificationArn: S.optional(S.String),
     ExclusionList: S.optional(ExclusionList),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateAutoManagementResponse extends S.Class<UpdateAutoManagementResponse>(
-  "UpdateAutoManagementResponse",
-)({}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateAutoManagementRequest",
+}) as any as S.Schema<UpdateAutoManagementRequest>;
+export interface UpdateAutoManagementResponse {}
+export const UpdateAutoManagementResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateAutoManagementResponse",
+}) as any as S.Schema<UpdateAutoManagementResponse>;
+export type MetricDimensionsMapDefinition = { [key: string]: string };
 export const MetricDimensionsMapDefinition = S.Record({
   key: S.String,
   value: S.String,
 });
-export class MetricInfo extends S.Class<MetricInfo>("MetricInfo")({
-  MetricNamespace: S.optional(S.String),
-  MetricName: S.optional(S.String),
-  MetricDimensions: S.optional(MetricDimensionsMapDefinition),
-  MetricStatisticRecommendation: S.optional(S.String),
-}) {}
-export class QuotaPeriod extends S.Class<QuotaPeriod>("QuotaPeriod")({
-  PeriodValue: S.optional(S.Number),
-  PeriodUnit: S.optional(S.String),
-}) {}
-export class ErrorReason extends S.Class<ErrorReason>("ErrorReason")({
-  ErrorCode: S.optional(S.String),
-  ErrorMessage: S.optional(S.String),
-}) {}
-export class QuotaContextInfo extends S.Class<QuotaContextInfo>(
-  "QuotaContextInfo",
-)({
-  ContextScope: S.optional(S.String),
-  ContextScopeType: S.optional(S.String),
-  ContextId: S.optional(S.String),
-}) {}
-export class ServiceQuota extends S.Class<ServiceQuota>("ServiceQuota")({
-  ServiceCode: S.optional(S.String),
-  ServiceName: S.optional(S.String),
-  QuotaArn: S.optional(S.String),
-  QuotaCode: S.optional(S.String),
-  QuotaName: S.optional(S.String),
-  Value: S.optional(S.Number),
-  Unit: S.optional(S.String),
-  Adjustable: S.optional(S.Boolean),
-  GlobalQuota: S.optional(S.Boolean),
-  UsageMetric: S.optional(MetricInfo),
-  Period: S.optional(QuotaPeriod),
-  ErrorReason: S.optional(ErrorReason),
-  QuotaAppliedAtLevel: S.optional(S.String),
-  QuotaContext: S.optional(QuotaContextInfo),
-  Description: S.optional(S.String),
-}) {}
+export interface MetricInfo {
+  MetricNamespace?: string;
+  MetricName?: string;
+  MetricDimensions?: MetricDimensionsMapDefinition;
+  MetricStatisticRecommendation?: string;
+}
+export const MetricInfo = S.suspend(() =>
+  S.Struct({
+    MetricNamespace: S.optional(S.String),
+    MetricName: S.optional(S.String),
+    MetricDimensions: S.optional(MetricDimensionsMapDefinition),
+    MetricStatisticRecommendation: S.optional(S.String),
+  }),
+).annotations({ identifier: "MetricInfo" }) as any as S.Schema<MetricInfo>;
+export interface QuotaPeriod {
+  PeriodValue?: number;
+  PeriodUnit?: string;
+}
+export const QuotaPeriod = S.suspend(() =>
+  S.Struct({
+    PeriodValue: S.optional(S.Number),
+    PeriodUnit: S.optional(S.String),
+  }),
+).annotations({ identifier: "QuotaPeriod" }) as any as S.Schema<QuotaPeriod>;
+export interface ErrorReason {
+  ErrorCode?: string;
+  ErrorMessage?: string;
+}
+export const ErrorReason = S.suspend(() =>
+  S.Struct({
+    ErrorCode: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
+  }),
+).annotations({ identifier: "ErrorReason" }) as any as S.Schema<ErrorReason>;
+export interface QuotaContextInfo {
+  ContextScope?: string;
+  ContextScopeType?: string;
+  ContextId?: string;
+}
+export const QuotaContextInfo = S.suspend(() =>
+  S.Struct({
+    ContextScope: S.optional(S.String),
+    ContextScopeType: S.optional(S.String),
+    ContextId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "QuotaContextInfo",
+}) as any as S.Schema<QuotaContextInfo>;
+export interface ServiceQuota {
+  ServiceCode?: string;
+  ServiceName?: string;
+  QuotaArn?: string;
+  QuotaCode?: string;
+  QuotaName?: string;
+  Value?: number;
+  Unit?: string;
+  Adjustable?: boolean;
+  GlobalQuota?: boolean;
+  UsageMetric?: MetricInfo;
+  Period?: QuotaPeriod;
+  ErrorReason?: ErrorReason;
+  QuotaAppliedAtLevel?: string;
+  QuotaContext?: QuotaContextInfo;
+  Description?: string;
+}
+export const ServiceQuota = S.suspend(() =>
+  S.Struct({
+    ServiceCode: S.optional(S.String),
+    ServiceName: S.optional(S.String),
+    QuotaArn: S.optional(S.String),
+    QuotaCode: S.optional(S.String),
+    QuotaName: S.optional(S.String),
+    Value: S.optional(S.Number),
+    Unit: S.optional(S.String),
+    Adjustable: S.optional(S.Boolean),
+    GlobalQuota: S.optional(S.Boolean),
+    UsageMetric: S.optional(MetricInfo),
+    Period: S.optional(QuotaPeriod),
+    ErrorReason: S.optional(ErrorReason),
+    QuotaAppliedAtLevel: S.optional(S.String),
+    QuotaContext: S.optional(QuotaContextInfo),
+    Description: S.optional(S.String),
+  }),
+).annotations({ identifier: "ServiceQuota" }) as any as S.Schema<ServiceQuota>;
+export type ServiceQuotaListDefinition = ServiceQuota[];
 export const ServiceQuotaListDefinition = S.Array(ServiceQuota);
-export class RequestedServiceQuotaChange extends S.Class<RequestedServiceQuotaChange>(
-  "RequestedServiceQuotaChange",
-)({
-  Id: S.optional(S.String),
-  RequestType: S.optional(S.String),
-  CaseId: S.optional(S.String),
-  ServiceCode: S.optional(S.String),
-  ServiceName: S.optional(S.String),
-  QuotaCode: S.optional(S.String),
-  QuotaName: S.optional(S.String),
-  DesiredValue: S.optional(S.Number),
-  Status: S.optional(S.String),
-  Created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Requester: S.optional(S.String),
-  QuotaArn: S.optional(S.String),
-  GlobalQuota: S.optional(S.Boolean),
-  Unit: S.optional(S.String),
-  QuotaRequestedAtLevel: S.optional(S.String),
-  QuotaContext: S.optional(QuotaContextInfo),
-}) {}
+export interface RequestedServiceQuotaChange {
+  Id?: string;
+  RequestType?: string;
+  CaseId?: string;
+  ServiceCode?: string;
+  ServiceName?: string;
+  QuotaCode?: string;
+  QuotaName?: string;
+  DesiredValue?: number;
+  Status?: string;
+  Created?: Date;
+  LastUpdated?: Date;
+  Requester?: string;
+  QuotaArn?: string;
+  GlobalQuota?: boolean;
+  Unit?: string;
+  QuotaRequestedAtLevel?: string;
+  QuotaContext?: QuotaContextInfo;
+}
+export const RequestedServiceQuotaChange = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    RequestType: S.optional(S.String),
+    CaseId: S.optional(S.String),
+    ServiceCode: S.optional(S.String),
+    ServiceName: S.optional(S.String),
+    QuotaCode: S.optional(S.String),
+    QuotaName: S.optional(S.String),
+    DesiredValue: S.optional(S.Number),
+    Status: S.optional(S.String),
+    Created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Requester: S.optional(S.String),
+    QuotaArn: S.optional(S.String),
+    GlobalQuota: S.optional(S.Boolean),
+    Unit: S.optional(S.String),
+    QuotaRequestedAtLevel: S.optional(S.String),
+    QuotaContext: S.optional(QuotaContextInfo),
+  }),
+).annotations({
+  identifier: "RequestedServiceQuotaChange",
+}) as any as S.Schema<RequestedServiceQuotaChange>;
+export type RequestedServiceQuotaChangeHistoryListDefinition =
+  RequestedServiceQuotaChange[];
 export const RequestedServiceQuotaChangeHistoryListDefinition = S.Array(
   RequestedServiceQuotaChange,
 );
-export class ServiceQuotaIncreaseRequestInTemplate extends S.Class<ServiceQuotaIncreaseRequestInTemplate>(
-  "ServiceQuotaIncreaseRequestInTemplate",
-)({
-  ServiceCode: S.optional(S.String),
-  ServiceName: S.optional(S.String),
-  QuotaCode: S.optional(S.String),
-  QuotaName: S.optional(S.String),
-  DesiredValue: S.optional(S.Number),
-  AwsRegion: S.optional(S.String),
-  Unit: S.optional(S.String),
-  GlobalQuota: S.optional(S.Boolean),
-}) {}
+export interface ServiceQuotaIncreaseRequestInTemplate {
+  ServiceCode?: string;
+  ServiceName?: string;
+  QuotaCode?: string;
+  QuotaName?: string;
+  DesiredValue?: number;
+  AwsRegion?: string;
+  Unit?: string;
+  GlobalQuota?: boolean;
+}
+export const ServiceQuotaIncreaseRequestInTemplate = S.suspend(() =>
+  S.Struct({
+    ServiceCode: S.optional(S.String),
+    ServiceName: S.optional(S.String),
+    QuotaCode: S.optional(S.String),
+    QuotaName: S.optional(S.String),
+    DesiredValue: S.optional(S.Number),
+    AwsRegion: S.optional(S.String),
+    Unit: S.optional(S.String),
+    GlobalQuota: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "ServiceQuotaIncreaseRequestInTemplate",
+}) as any as S.Schema<ServiceQuotaIncreaseRequestInTemplate>;
+export type ServiceQuotaIncreaseRequestInTemplateList =
+  ServiceQuotaIncreaseRequestInTemplate[];
 export const ServiceQuotaIncreaseRequestInTemplateList = S.Array(
   ServiceQuotaIncreaseRequestInTemplate,
 );
-export class Tag extends S.Class<Tag>("Tag")({
-  Key: S.String,
-  Value: S.String,
-}) {}
+export interface Tag {
+  Key: string;
+  Value: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ Key: S.String, Value: S.String }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type OutputTags = Tag[];
 export const OutputTags = S.Array(Tag);
+export type InputTags = Tag[];
 export const InputTags = S.Array(Tag);
-export class GetServiceQuotaResponse extends S.Class<GetServiceQuotaResponse>(
-  "GetServiceQuotaResponse",
-)({ Quota: S.optional(ServiceQuota) }) {}
-export class ListAWSDefaultServiceQuotasResponse extends S.Class<ListAWSDefaultServiceQuotasResponse>(
-  "ListAWSDefaultServiceQuotasResponse",
-)({
-  NextToken: S.optional(S.String),
-  Quotas: S.optional(ServiceQuotaListDefinition),
-}) {}
-export class ListRequestedServiceQuotaChangeHistoryResponse extends S.Class<ListRequestedServiceQuotaChangeHistoryResponse>(
-  "ListRequestedServiceQuotaChangeHistoryResponse",
-)({
-  NextToken: S.optional(S.String),
-  RequestedQuotas: S.optional(RequestedServiceQuotaChangeHistoryListDefinition),
-}) {}
-export class ListRequestedServiceQuotaChangeHistoryByQuotaResponse extends S.Class<ListRequestedServiceQuotaChangeHistoryByQuotaResponse>(
-  "ListRequestedServiceQuotaChangeHistoryByQuotaResponse",
-)({
-  NextToken: S.optional(S.String),
-  RequestedQuotas: S.optional(RequestedServiceQuotaChangeHistoryListDefinition),
-}) {}
-export class ListServiceQuotaIncreaseRequestsInTemplateResponse extends S.Class<ListServiceQuotaIncreaseRequestsInTemplateResponse>(
-  "ListServiceQuotaIncreaseRequestsInTemplateResponse",
-)({
-  ServiceQuotaIncreaseRequestInTemplateList: S.optional(
-    ServiceQuotaIncreaseRequestInTemplateList,
-  ),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListServiceQuotasResponse extends S.Class<ListServiceQuotasResponse>(
-  "ListServiceQuotasResponse",
-)({
-  NextToken: S.optional(S.String),
-  Quotas: S.optional(ServiceQuotaListDefinition),
-}) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ Tags: S.optional(OutputTags) }) {}
-export class PutServiceQuotaIncreaseRequestIntoTemplateResponse extends S.Class<PutServiceQuotaIncreaseRequestIntoTemplateResponse>(
-  "PutServiceQuotaIncreaseRequestIntoTemplateResponse",
-)({
-  ServiceQuotaIncreaseRequestInTemplate: S.optional(
-    ServiceQuotaIncreaseRequestInTemplate,
-  ),
-}) {}
-export class RequestServiceQuotaIncreaseResponse extends S.Class<RequestServiceQuotaIncreaseResponse>(
-  "RequestServiceQuotaIncreaseResponse",
-)({ RequestedQuota: S.optional(RequestedServiceQuotaChange) }) {}
-export class StartAutoManagementRequest extends S.Class<StartAutoManagementRequest>(
-  "StartAutoManagementRequest",
-)(
-  {
+export interface GetServiceQuotaResponse {
+  Quota?: ServiceQuota;
+}
+export const GetServiceQuotaResponse = S.suspend(() =>
+  S.Struct({ Quota: S.optional(ServiceQuota) }),
+).annotations({
+  identifier: "GetServiceQuotaResponse",
+}) as any as S.Schema<GetServiceQuotaResponse>;
+export interface ListAWSDefaultServiceQuotasResponse {
+  NextToken?: string;
+  Quotas?: ServiceQuotaListDefinition;
+}
+export const ListAWSDefaultServiceQuotasResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    Quotas: S.optional(ServiceQuotaListDefinition),
+  }),
+).annotations({
+  identifier: "ListAWSDefaultServiceQuotasResponse",
+}) as any as S.Schema<ListAWSDefaultServiceQuotasResponse>;
+export interface ListRequestedServiceQuotaChangeHistoryResponse {
+  NextToken?: string;
+  RequestedQuotas?: RequestedServiceQuotaChangeHistoryListDefinition;
+}
+export const ListRequestedServiceQuotaChangeHistoryResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    RequestedQuotas: S.optional(
+      RequestedServiceQuotaChangeHistoryListDefinition,
+    ),
+  }),
+).annotations({
+  identifier: "ListRequestedServiceQuotaChangeHistoryResponse",
+}) as any as S.Schema<ListRequestedServiceQuotaChangeHistoryResponse>;
+export interface ListRequestedServiceQuotaChangeHistoryByQuotaResponse {
+  NextToken?: string;
+  RequestedQuotas?: RequestedServiceQuotaChangeHistoryListDefinition;
+}
+export const ListRequestedServiceQuotaChangeHistoryByQuotaResponse = S.suspend(
+  () =>
+    S.Struct({
+      NextToken: S.optional(S.String),
+      RequestedQuotas: S.optional(
+        RequestedServiceQuotaChangeHistoryListDefinition,
+      ),
+    }),
+).annotations({
+  identifier: "ListRequestedServiceQuotaChangeHistoryByQuotaResponse",
+}) as any as S.Schema<ListRequestedServiceQuotaChangeHistoryByQuotaResponse>;
+export interface ListServiceQuotaIncreaseRequestsInTemplateResponse {
+  ServiceQuotaIncreaseRequestInTemplateList?: ServiceQuotaIncreaseRequestInTemplateList;
+  NextToken?: string;
+}
+export const ListServiceQuotaIncreaseRequestsInTemplateResponse = S.suspend(
+  () =>
+    S.Struct({
+      ServiceQuotaIncreaseRequestInTemplateList: S.optional(
+        ServiceQuotaIncreaseRequestInTemplateList,
+      ),
+      NextToken: S.optional(S.String),
+    }),
+).annotations({
+  identifier: "ListServiceQuotaIncreaseRequestsInTemplateResponse",
+}) as any as S.Schema<ListServiceQuotaIncreaseRequestsInTemplateResponse>;
+export interface ListServiceQuotasResponse {
+  NextToken?: string;
+  Quotas?: ServiceQuotaListDefinition;
+}
+export const ListServiceQuotasResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    Quotas: S.optional(ServiceQuotaListDefinition),
+  }),
+).annotations({
+  identifier: "ListServiceQuotasResponse",
+}) as any as S.Schema<ListServiceQuotasResponse>;
+export interface ListTagsForResourceResponse {
+  Tags?: OutputTags;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ Tags: S.optional(OutputTags) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface PutServiceQuotaIncreaseRequestIntoTemplateResponse {
+  ServiceQuotaIncreaseRequestInTemplate?: ServiceQuotaIncreaseRequestInTemplate;
+}
+export const PutServiceQuotaIncreaseRequestIntoTemplateResponse = S.suspend(
+  () =>
+    S.Struct({
+      ServiceQuotaIncreaseRequestInTemplate: S.optional(
+        ServiceQuotaIncreaseRequestInTemplate,
+      ),
+    }),
+).annotations({
+  identifier: "PutServiceQuotaIncreaseRequestIntoTemplateResponse",
+}) as any as S.Schema<PutServiceQuotaIncreaseRequestIntoTemplateResponse>;
+export interface RequestServiceQuotaIncreaseResponse {
+  RequestedQuota?: RequestedServiceQuotaChange;
+}
+export const RequestServiceQuotaIncreaseResponse = S.suspend(() =>
+  S.Struct({ RequestedQuota: S.optional(RequestedServiceQuotaChange) }),
+).annotations({
+  identifier: "RequestServiceQuotaIncreaseResponse",
+}) as any as S.Schema<RequestServiceQuotaIncreaseResponse>;
+export interface StartAutoManagementRequest {
+  OptInLevel: string;
+  OptInType: string;
+  NotificationArn?: string;
+  ExclusionList?: ExclusionList;
+}
+export const StartAutoManagementRequest = S.suspend(() =>
+  S.Struct({
     OptInLevel: S.String,
     OptInType: S.String,
     NotificationArn: S.optional(S.String),
     ExclusionList: S.optional(ExclusionList),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StartAutoManagementResponse extends S.Class<StartAutoManagementResponse>(
-  "StartAutoManagementResponse",
-)({}) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { ResourceARN: S.String, Tags: InputTags },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class QuotaInfo extends S.Class<QuotaInfo>("QuotaInfo")({
-  QuotaCode: S.optional(S.String),
-  QuotaName: S.optional(S.String),
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StartAutoManagementRequest",
+}) as any as S.Schema<StartAutoManagementRequest>;
+export interface StartAutoManagementResponse {}
+export const StartAutoManagementResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "StartAutoManagementResponse",
+}) as any as S.Schema<StartAutoManagementResponse>;
+export interface TagResourceRequest {
+  ResourceARN: string;
+  Tags: InputTags;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceARN: S.String, Tags: InputTags }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface QuotaInfo {
+  QuotaCode?: string;
+  QuotaName?: string;
+}
+export const QuotaInfo = S.suspend(() =>
+  S.Struct({
+    QuotaCode: S.optional(S.String),
+    QuotaName: S.optional(S.String),
+  }),
+).annotations({ identifier: "QuotaInfo" }) as any as S.Schema<QuotaInfo>;
+export type QuotaInfoList = QuotaInfo[];
 export const QuotaInfoList = S.Array(QuotaInfo);
+export type ExclusionQuotaList = { [key: string]: QuotaInfoList };
 export const ExclusionQuotaList = S.Record({
   key: S.String,
   value: QuotaInfoList,
 });
-export class QuotaUtilizationInfo extends S.Class<QuotaUtilizationInfo>(
-  "QuotaUtilizationInfo",
-)({
-  QuotaCode: S.optional(S.String),
-  ServiceCode: S.optional(S.String),
-  QuotaName: S.optional(S.String),
-  Namespace: S.optional(S.String),
-  Utilization: S.optional(S.Number),
-  DefaultValue: S.optional(S.Number),
-  AppliedValue: S.optional(S.Number),
-  ServiceName: S.optional(S.String),
-  Adjustable: S.optional(S.Boolean),
-}) {}
+export interface QuotaUtilizationInfo {
+  QuotaCode?: string;
+  ServiceCode?: string;
+  QuotaName?: string;
+  Namespace?: string;
+  Utilization?: number;
+  DefaultValue?: number;
+  AppliedValue?: number;
+  ServiceName?: string;
+  Adjustable?: boolean;
+}
+export const QuotaUtilizationInfo = S.suspend(() =>
+  S.Struct({
+    QuotaCode: S.optional(S.String),
+    ServiceCode: S.optional(S.String),
+    QuotaName: S.optional(S.String),
+    Namespace: S.optional(S.String),
+    Utilization: S.optional(S.Number),
+    DefaultValue: S.optional(S.Number),
+    AppliedValue: S.optional(S.Number),
+    ServiceName: S.optional(S.String),
+    Adjustable: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "QuotaUtilizationInfo",
+}) as any as S.Schema<QuotaUtilizationInfo>;
+export type QuotaUtilizationInfoList = QuotaUtilizationInfo[];
 export const QuotaUtilizationInfoList = S.Array(QuotaUtilizationInfo);
-export class ServiceInfo extends S.Class<ServiceInfo>("ServiceInfo")({
-  ServiceCode: S.optional(S.String),
-  ServiceName: S.optional(S.String),
-}) {}
+export interface ServiceInfo {
+  ServiceCode?: string;
+  ServiceName?: string;
+}
+export const ServiceInfo = S.suspend(() =>
+  S.Struct({
+    ServiceCode: S.optional(S.String),
+    ServiceName: S.optional(S.String),
+  }),
+).annotations({ identifier: "ServiceInfo" }) as any as S.Schema<ServiceInfo>;
+export type ServiceInfoListDefinition = ServiceInfo[];
 export const ServiceInfoListDefinition = S.Array(ServiceInfo);
-export class GetAutoManagementConfigurationResponse extends S.Class<GetAutoManagementConfigurationResponse>(
-  "GetAutoManagementConfigurationResponse",
-)({
-  OptInLevel: S.optional(S.String),
-  OptInType: S.optional(S.String),
-  NotificationArn: S.optional(S.String),
-  OptInStatus: S.optional(S.String),
-  ExclusionList: S.optional(ExclusionQuotaList),
-}) {}
-export class GetQuotaUtilizationReportResponse extends S.Class<GetQuotaUtilizationReportResponse>(
-  "GetQuotaUtilizationReportResponse",
-)({
-  ReportId: S.optional(S.String),
-  Status: S.optional(S.String),
-  GeneratedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  TotalCount: S.optional(S.Number),
-  Quotas: S.optional(QuotaUtilizationInfoList),
-  NextToken: S.optional(S.String),
-  ErrorCode: S.optional(S.String),
-  ErrorMessage: S.optional(S.String),
-}) {}
-export class GetRequestedServiceQuotaChangeResponse extends S.Class<GetRequestedServiceQuotaChangeResponse>(
-  "GetRequestedServiceQuotaChangeResponse",
-)({ RequestedQuota: S.optional(RequestedServiceQuotaChange) }) {}
-export class GetServiceQuotaIncreaseRequestFromTemplateResponse extends S.Class<GetServiceQuotaIncreaseRequestFromTemplateResponse>(
-  "GetServiceQuotaIncreaseRequestFromTemplateResponse",
-)({
-  ServiceQuotaIncreaseRequestInTemplate: S.optional(
-    ServiceQuotaIncreaseRequestInTemplate,
-  ),
-}) {}
-export class ListServicesResponse extends S.Class<ListServicesResponse>(
-  "ListServicesResponse",
-)({
-  NextToken: S.optional(S.String),
-  Services: S.optional(ServiceInfoListDefinition),
-}) {}
-export class GetAWSDefaultServiceQuotaResponse extends S.Class<GetAWSDefaultServiceQuotaResponse>(
-  "GetAWSDefaultServiceQuotaResponse",
-)({ Quota: S.optional(ServiceQuota) }) {}
+export interface GetAutoManagementConfigurationResponse {
+  OptInLevel?: string;
+  OptInType?: string;
+  NotificationArn?: string;
+  OptInStatus?: string;
+  ExclusionList?: ExclusionQuotaList;
+}
+export const GetAutoManagementConfigurationResponse = S.suspend(() =>
+  S.Struct({
+    OptInLevel: S.optional(S.String),
+    OptInType: S.optional(S.String),
+    NotificationArn: S.optional(S.String),
+    OptInStatus: S.optional(S.String),
+    ExclusionList: S.optional(ExclusionQuotaList),
+  }),
+).annotations({
+  identifier: "GetAutoManagementConfigurationResponse",
+}) as any as S.Schema<GetAutoManagementConfigurationResponse>;
+export interface GetQuotaUtilizationReportResponse {
+  ReportId?: string;
+  Status?: string;
+  GeneratedAt?: Date;
+  TotalCount?: number;
+  Quotas?: QuotaUtilizationInfoList;
+  NextToken?: string;
+  ErrorCode?: string;
+  ErrorMessage?: string;
+}
+export const GetQuotaUtilizationReportResponse = S.suspend(() =>
+  S.Struct({
+    ReportId: S.optional(S.String),
+    Status: S.optional(S.String),
+    GeneratedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    TotalCount: S.optional(S.Number),
+    Quotas: S.optional(QuotaUtilizationInfoList),
+    NextToken: S.optional(S.String),
+    ErrorCode: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetQuotaUtilizationReportResponse",
+}) as any as S.Schema<GetQuotaUtilizationReportResponse>;
+export interface GetRequestedServiceQuotaChangeResponse {
+  RequestedQuota?: RequestedServiceQuotaChange;
+}
+export const GetRequestedServiceQuotaChangeResponse = S.suspend(() =>
+  S.Struct({ RequestedQuota: S.optional(RequestedServiceQuotaChange) }),
+).annotations({
+  identifier: "GetRequestedServiceQuotaChangeResponse",
+}) as any as S.Schema<GetRequestedServiceQuotaChangeResponse>;
+export interface GetServiceQuotaIncreaseRequestFromTemplateResponse {
+  ServiceQuotaIncreaseRequestInTemplate?: ServiceQuotaIncreaseRequestInTemplate;
+}
+export const GetServiceQuotaIncreaseRequestFromTemplateResponse = S.suspend(
+  () =>
+    S.Struct({
+      ServiceQuotaIncreaseRequestInTemplate: S.optional(
+        ServiceQuotaIncreaseRequestInTemplate,
+      ),
+    }),
+).annotations({
+  identifier: "GetServiceQuotaIncreaseRequestFromTemplateResponse",
+}) as any as S.Schema<GetServiceQuotaIncreaseRequestFromTemplateResponse>;
+export interface ListServicesResponse {
+  NextToken?: string;
+  Services?: ServiceInfoListDefinition;
+}
+export const ListServicesResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    Services: S.optional(ServiceInfoListDefinition),
+  }),
+).annotations({
+  identifier: "ListServicesResponse",
+}) as any as S.Schema<ListServicesResponse>;
+export interface GetAWSDefaultServiceQuotaResponse {
+  Quota?: ServiceQuota;
+}
+export const GetAWSDefaultServiceQuotaResponse = S.suspend(() =>
+  S.Struct({ Quota: S.optional(ServiceQuota) }),
+).annotations({
+  identifier: "GetAWSDefaultServiceQuotaResponse",
+}) as any as S.Schema<GetAWSDefaultServiceQuotaResponse>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

@@ -294,24 +294,36 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type AdditionalModelResponseFieldPaths = string[];
 export const AdditionalModelResponseFieldPaths = S.Array(S.String);
-export class GetAsyncInvokeRequest extends S.Class<GetAsyncInvokeRequest>(
-  "GetAsyncInvokeRequest",
-)(
-  { invocationArn: S.String.pipe(T.HttpLabel("invocationArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/async-invoke/{invocationArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface GetAsyncInvokeRequest {
+  invocationArn: string;
+}
+export const GetAsyncInvokeRequest = S.suspend(() =>
+  S.Struct({ invocationArn: S.String.pipe(T.HttpLabel("invocationArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/async-invoke/{invocationArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListAsyncInvokesRequest extends S.Class<ListAsyncInvokesRequest>(
-  "ListAsyncInvokesRequest",
-)(
-  {
+).annotations({
+  identifier: "GetAsyncInvokeRequest",
+}) as any as S.Schema<GetAsyncInvokeRequest>;
+export interface ListAsyncInvokesRequest {
+  submitTimeAfter?: Date;
+  submitTimeBefore?: Date;
+  statusEquals?: string;
+  maxResults?: number;
+  nextToken?: string;
+  sortBy?: string;
+  sortOrder?: string;
+}
+export const ListAsyncInvokesRequest = S.suspend(() =>
+  S.Struct({
     submitTimeAfter: S.optional(
       S.Date.pipe(T.TimestampFormat("date-time")),
     ).pipe(T.HttpQuery("submitTimeAfter")),
@@ -323,20 +335,32 @@ export class ListAsyncInvokesRequest extends S.Class<ListAsyncInvokesRequest>(
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     sortBy: S.optional(S.String).pipe(T.HttpQuery("sortBy")),
     sortOrder: S.optional(S.String).pipe(T.HttpQuery("sortOrder")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/async-invoke" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/async-invoke" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class InvokeModelRequest extends S.Class<InvokeModelRequest>(
-  "InvokeModelRequest",
-)(
-  {
+).annotations({
+  identifier: "ListAsyncInvokesRequest",
+}) as any as S.Schema<ListAsyncInvokesRequest>;
+export interface InvokeModelRequest {
+  body?: T.StreamingInputBody;
+  contentType?: string;
+  accept?: string;
+  modelId: string;
+  trace?: string;
+  guardrailIdentifier?: string;
+  guardrailVersion?: string;
+  performanceConfigLatency?: string;
+  serviceTier?: string;
+}
+export const InvokeModelRequest = S.suspend(() =>
+  S.Struct({
     body: S.optional(T.StreamingInput).pipe(T.HttpPayload()),
     contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
     accept: S.optional(S.String).pipe(T.HttpHeader("Accept")),
@@ -354,20 +378,32 @@ export class InvokeModelRequest extends S.Class<InvokeModelRequest>(
     serviceTier: S.optional(S.String).pipe(
       T.HttpHeader("X-Amzn-Bedrock-Service-Tier"),
     ),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/model/{modelId}/invoke" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/model/{modelId}/invoke" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class InvokeModelWithResponseStreamRequest extends S.Class<InvokeModelWithResponseStreamRequest>(
-  "InvokeModelWithResponseStreamRequest",
-)(
-  {
+).annotations({
+  identifier: "InvokeModelRequest",
+}) as any as S.Schema<InvokeModelRequest>;
+export interface InvokeModelWithResponseStreamRequest {
+  body?: T.StreamingInputBody;
+  contentType?: string;
+  accept?: string;
+  modelId: string;
+  trace?: string;
+  guardrailIdentifier?: string;
+  guardrailVersion?: string;
+  performanceConfigLatency?: string;
+  serviceTier?: string;
+}
+export const InvokeModelWithResponseStreamRequest = S.suspend(() =>
+  S.Struct({
     body: S.optional(T.StreamingInput).pipe(T.HttpPayload()),
     contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
     accept: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Bedrock-Accept")),
@@ -385,102 +421,179 @@ export class InvokeModelWithResponseStreamRequest extends S.Class<InvokeModelWit
     serviceTier: S.optional(S.String).pipe(
       T.HttpHeader("X-Amzn-Bedrock-Service-Tier"),
     ),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/model/{modelId}/invoke-with-response-stream",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/model/{modelId}/invoke-with-response-stream",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "InvokeModelWithResponseStreamRequest",
+}) as any as S.Schema<InvokeModelWithResponseStreamRequest>;
+export type NonEmptyStringList = string[];
 export const NonEmptyStringList = S.Array(S.String);
-export class Tag extends S.Class<Tag>("Tag")({
-  key: S.String,
-  value: S.String,
-}) {}
+export interface Tag {
+  key: string;
+  value: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ key: S.String, value: S.String }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagList = Tag[];
 export const TagList = S.Array(Tag);
-export class InferenceConfiguration extends S.Class<InferenceConfiguration>(
-  "InferenceConfiguration",
-)({
-  maxTokens: S.optional(S.Number),
-  temperature: S.optional(S.Number),
-  topP: S.optional(S.Number),
-  stopSequences: S.optional(NonEmptyStringList),
-}) {}
-export class GuardrailConfiguration extends S.Class<GuardrailConfiguration>(
-  "GuardrailConfiguration",
-)({
-  guardrailIdentifier: S.optional(S.String),
-  guardrailVersion: S.optional(S.String),
-  trace: S.optional(S.String),
-}) {}
+export interface InferenceConfiguration {
+  maxTokens?: number;
+  temperature?: number;
+  topP?: number;
+  stopSequences?: NonEmptyStringList;
+}
+export const InferenceConfiguration = S.suspend(() =>
+  S.Struct({
+    maxTokens: S.optional(S.Number),
+    temperature: S.optional(S.Number),
+    topP: S.optional(S.Number),
+    stopSequences: S.optional(NonEmptyStringList),
+  }),
+).annotations({
+  identifier: "InferenceConfiguration",
+}) as any as S.Schema<InferenceConfiguration>;
+export interface GuardrailConfiguration {
+  guardrailIdentifier?: string;
+  guardrailVersion?: string;
+  trace?: string;
+}
+export const GuardrailConfiguration = S.suspend(() =>
+  S.Struct({
+    guardrailIdentifier: S.optional(S.String),
+    guardrailVersion: S.optional(S.String),
+    trace: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GuardrailConfiguration",
+}) as any as S.Schema<GuardrailConfiguration>;
+export type RequestMetadata = { [key: string]: string };
 export const RequestMetadata = S.Record({ key: S.String, value: S.String });
-export class PerformanceConfiguration extends S.Class<PerformanceConfiguration>(
-  "PerformanceConfiguration",
-)({ latency: S.optional(S.String) }) {}
-export class ServiceTier extends S.Class<ServiceTier>("ServiceTier")({
-  type: S.String,
-}) {}
-export class GuardrailStreamConfiguration extends S.Class<GuardrailStreamConfiguration>(
-  "GuardrailStreamConfiguration",
-)({
-  guardrailIdentifier: S.optional(S.String),
-  guardrailVersion: S.optional(S.String),
-  trace: S.optional(S.String),
-  streamProcessingMode: S.optional(S.String),
-}) {}
+export interface PerformanceConfiguration {
+  latency?: string;
+}
+export const PerformanceConfiguration = S.suspend(() =>
+  S.Struct({ latency: S.optional(S.String) }),
+).annotations({
+  identifier: "PerformanceConfiguration",
+}) as any as S.Schema<PerformanceConfiguration>;
+export interface ServiceTier {
+  type: string;
+}
+export const ServiceTier = S.suspend(() =>
+  S.Struct({ type: S.String }),
+).annotations({ identifier: "ServiceTier" }) as any as S.Schema<ServiceTier>;
+export interface GuardrailStreamConfiguration {
+  guardrailIdentifier?: string;
+  guardrailVersion?: string;
+  trace?: string;
+  streamProcessingMode?: string;
+}
+export const GuardrailStreamConfiguration = S.suspend(() =>
+  S.Struct({
+    guardrailIdentifier: S.optional(S.String),
+    guardrailVersion: S.optional(S.String),
+    trace: S.optional(S.String),
+    streamProcessingMode: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GuardrailStreamConfiguration",
+}) as any as S.Schema<GuardrailStreamConfiguration>;
+export type GuardrailContentQualifierList = string[];
 export const GuardrailContentQualifierList = S.Array(S.String);
-export class AutoToolChoice extends S.Class<AutoToolChoice>("AutoToolChoice")(
-  {},
-) {}
-export class AnyToolChoice extends S.Class<AnyToolChoice>("AnyToolChoice")(
-  {},
-) {}
-export class AsyncInvokeS3OutputDataConfig extends S.Class<AsyncInvokeS3OutputDataConfig>(
-  "AsyncInvokeS3OutputDataConfig",
-)({
-  s3Uri: S.String,
-  kmsKeyId: S.optional(S.String),
-  bucketOwner: S.optional(S.String),
-}) {}
+export interface AutoToolChoice {}
+export const AutoToolChoice = S.suspend(() => S.Struct({})).annotations({
+  identifier: "AutoToolChoice",
+}) as any as S.Schema<AutoToolChoice>;
+export interface AnyToolChoice {}
+export const AnyToolChoice = S.suspend(() => S.Struct({})).annotations({
+  identifier: "AnyToolChoice",
+}) as any as S.Schema<AnyToolChoice>;
+export interface AsyncInvokeS3OutputDataConfig {
+  s3Uri: string;
+  kmsKeyId?: string;
+  bucketOwner?: string;
+}
+export const AsyncInvokeS3OutputDataConfig = S.suspend(() =>
+  S.Struct({
+    s3Uri: S.String,
+    kmsKeyId: S.optional(S.String),
+    bucketOwner: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AsyncInvokeS3OutputDataConfig",
+}) as any as S.Schema<AsyncInvokeS3OutputDataConfig>;
 export const AsyncInvokeOutputDataConfig = S.Union(
   S.Struct({ s3OutputDataConfig: AsyncInvokeS3OutputDataConfig }),
 );
-export class GetAsyncInvokeResponse extends S.Class<GetAsyncInvokeResponse>(
-  "GetAsyncInvokeResponse",
-)({
-  invocationArn: S.String,
-  modelArn: S.String,
-  clientRequestToken: S.optional(S.String),
-  status: S.String,
-  failureMessage: S.optional(S.String),
-  submitTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  lastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  outputDataConfig: AsyncInvokeOutputDataConfig,
-}) {}
-export class S3Location extends S.Class<S3Location>("S3Location")({
-  uri: S.String,
-  bucketOwner: S.optional(S.String),
-}) {}
+export interface GetAsyncInvokeResponse {
+  invocationArn: string;
+  modelArn: string;
+  clientRequestToken?: string;
+  status: string;
+  failureMessage?: string;
+  submitTime: Date;
+  lastModifiedTime?: Date;
+  endTime?: Date;
+  outputDataConfig: (typeof AsyncInvokeOutputDataConfig)["Type"];
+}
+export const GetAsyncInvokeResponse = S.suspend(() =>
+  S.Struct({
+    invocationArn: S.String,
+    modelArn: S.String,
+    clientRequestToken: S.optional(S.String),
+    status: S.String,
+    failureMessage: S.optional(S.String),
+    submitTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    outputDataConfig: AsyncInvokeOutputDataConfig,
+  }),
+).annotations({
+  identifier: "GetAsyncInvokeResponse",
+}) as any as S.Schema<GetAsyncInvokeResponse>;
+export interface S3Location {
+  uri: string;
+  bucketOwner?: string;
+}
+export const S3Location = S.suspend(() =>
+  S.Struct({ uri: S.String, bucketOwner: S.optional(S.String) }),
+).annotations({ identifier: "S3Location" }) as any as S.Schema<S3Location>;
 export const ImageSource = S.Union(
   S.Struct({ bytes: T.Blob }),
   S.Struct({ s3Location: S3Location }),
 );
-export class ErrorBlock extends S.Class<ErrorBlock>("ErrorBlock")({
-  message: S.optional(S.String),
-}) {}
-export class ImageBlock extends S.Class<ImageBlock>("ImageBlock")({
-  format: S.String,
-  source: ImageSource,
-  error: S.optional(ErrorBlock),
-}) {}
+export interface ErrorBlock {
+  message?: string;
+}
+export const ErrorBlock = S.suspend(() =>
+  S.Struct({ message: S.optional(S.String) }),
+).annotations({ identifier: "ErrorBlock" }) as any as S.Schema<ErrorBlock>;
+export interface ImageBlock {
+  format: string;
+  source: (typeof ImageSource)["Type"];
+  error?: ErrorBlock;
+}
+export const ImageBlock = S.suspend(() =>
+  S.Struct({
+    format: S.String,
+    source: ImageSource,
+    error: S.optional(ErrorBlock),
+  }),
+).annotations({ identifier: "ImageBlock" }) as any as S.Schema<ImageBlock>;
 export const DocumentContentBlock = S.Union(S.Struct({ text: S.String }));
+export type DocumentContentBlocks = (typeof DocumentContentBlock)["Type"][];
 export const DocumentContentBlocks = S.Array(DocumentContentBlock);
 export const DocumentSource = S.Union(
   S.Struct({ bytes: T.Blob }),
@@ -488,51 +601,99 @@ export const DocumentSource = S.Union(
   S.Struct({ text: S.String }),
   S.Struct({ content: DocumentContentBlocks }),
 );
-export class CitationsConfig extends S.Class<CitationsConfig>(
-  "CitationsConfig",
-)({ enabled: S.Boolean }) {}
-export class DocumentBlock extends S.Class<DocumentBlock>("DocumentBlock")({
-  format: S.optional(S.String),
-  name: S.String,
-  source: DocumentSource,
-  context: S.optional(S.String),
-  citations: S.optional(CitationsConfig),
-}) {}
+export interface CitationsConfig {
+  enabled: boolean;
+}
+export const CitationsConfig = S.suspend(() =>
+  S.Struct({ enabled: S.Boolean }),
+).annotations({
+  identifier: "CitationsConfig",
+}) as any as S.Schema<CitationsConfig>;
+export interface DocumentBlock {
+  format?: string;
+  name: string;
+  source: (typeof DocumentSource)["Type"];
+  context?: string;
+  citations?: CitationsConfig;
+}
+export const DocumentBlock = S.suspend(() =>
+  S.Struct({
+    format: S.optional(S.String),
+    name: S.String,
+    source: DocumentSource,
+    context: S.optional(S.String),
+    citations: S.optional(CitationsConfig),
+  }),
+).annotations({
+  identifier: "DocumentBlock",
+}) as any as S.Schema<DocumentBlock>;
 export const VideoSource = S.Union(
   S.Struct({ bytes: T.Blob }),
   S.Struct({ s3Location: S3Location }),
 );
-export class VideoBlock extends S.Class<VideoBlock>("VideoBlock")({
-  format: S.String,
-  source: VideoSource,
-}) {}
+export interface VideoBlock {
+  format: string;
+  source: (typeof VideoSource)["Type"];
+}
+export const VideoBlock = S.suspend(() =>
+  S.Struct({ format: S.String, source: VideoSource }),
+).annotations({ identifier: "VideoBlock" }) as any as S.Schema<VideoBlock>;
 export const AudioSource = S.Union(
   S.Struct({ bytes: T.Blob }),
   S.Struct({ s3Location: S3Location }),
 );
-export class AudioBlock extends S.Class<AudioBlock>("AudioBlock")({
-  format: S.String,
-  source: AudioSource,
-  error: S.optional(ErrorBlock),
-}) {}
-export class ToolUseBlock extends S.Class<ToolUseBlock>("ToolUseBlock")({
-  toolUseId: S.String,
-  name: S.String,
-  input: S.Any,
-  type: S.optional(S.String),
-}) {}
-export class SearchResultContentBlock extends S.Class<SearchResultContentBlock>(
-  "SearchResultContentBlock",
-)({ text: S.String }) {}
+export interface AudioBlock {
+  format: string;
+  source: (typeof AudioSource)["Type"];
+  error?: ErrorBlock;
+}
+export const AudioBlock = S.suspend(() =>
+  S.Struct({
+    format: S.String,
+    source: AudioSource,
+    error: S.optional(ErrorBlock),
+  }),
+).annotations({ identifier: "AudioBlock" }) as any as S.Schema<AudioBlock>;
+export interface ToolUseBlock {
+  toolUseId: string;
+  name: string;
+  input: any;
+  type?: string;
+}
+export const ToolUseBlock = S.suspend(() =>
+  S.Struct({
+    toolUseId: S.String,
+    name: S.String,
+    input: S.Any,
+    type: S.optional(S.String),
+  }),
+).annotations({ identifier: "ToolUseBlock" }) as any as S.Schema<ToolUseBlock>;
+export interface SearchResultContentBlock {
+  text: string;
+}
+export const SearchResultContentBlock = S.suspend(() =>
+  S.Struct({ text: S.String }),
+).annotations({
+  identifier: "SearchResultContentBlock",
+}) as any as S.Schema<SearchResultContentBlock>;
+export type SearchResultContentBlocks = SearchResultContentBlock[];
 export const SearchResultContentBlocks = S.Array(SearchResultContentBlock);
-export class SearchResultBlock extends S.Class<SearchResultBlock>(
-  "SearchResultBlock",
-)({
-  source: S.String,
-  title: S.String,
-  content: SearchResultContentBlocks,
-  citations: S.optional(CitationsConfig),
-}) {}
+export interface SearchResultBlock {
+  source: string;
+  title: string;
+  content: SearchResultContentBlocks;
+  citations?: CitationsConfig;
+}
+export const SearchResultBlock = S.suspend(() =>
+  S.Struct({
+    source: S.String,
+    title: S.String,
+    content: SearchResultContentBlocks,
+    citations: S.optional(CitationsConfig),
+  }),
+).annotations({
+  identifier: "SearchResultBlock",
+}) as any as S.Schema<SearchResultBlock>;
 export const ToolResultContentBlock = S.Union(
   S.Struct({ json: S.Any }),
   S.Struct({ text: S.String }),
@@ -541,78 +702,146 @@ export const ToolResultContentBlock = S.Union(
   S.Struct({ video: VideoBlock }),
   S.Struct({ searchResult: SearchResultBlock }),
 );
+export type ToolResultContentBlocks = (typeof ToolResultContentBlock)["Type"][];
 export const ToolResultContentBlocks = S.Array(ToolResultContentBlock);
-export class ToolResultBlock extends S.Class<ToolResultBlock>(
-  "ToolResultBlock",
-)({
-  toolUseId: S.String,
-  content: ToolResultContentBlocks,
-  status: S.optional(S.String),
-  type: S.optional(S.String),
-}) {}
+export interface ToolResultBlock {
+  toolUseId: string;
+  content: ToolResultContentBlocks;
+  status?: string;
+  type?: string;
+}
+export const ToolResultBlock = S.suspend(() =>
+  S.Struct({
+    toolUseId: S.String,
+    content: ToolResultContentBlocks,
+    status: S.optional(S.String),
+    type: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ToolResultBlock",
+}) as any as S.Schema<ToolResultBlock>;
+export type GuardrailConverseContentQualifierList = string[];
 export const GuardrailConverseContentQualifierList = S.Array(S.String);
-export class GuardrailConverseTextBlock extends S.Class<GuardrailConverseTextBlock>(
-  "GuardrailConverseTextBlock",
-)({
-  text: S.String,
-  qualifiers: S.optional(GuardrailConverseContentQualifierList),
-}) {}
+export interface GuardrailConverseTextBlock {
+  text: string;
+  qualifiers?: GuardrailConverseContentQualifierList;
+}
+export const GuardrailConverseTextBlock = S.suspend(() =>
+  S.Struct({
+    text: S.String,
+    qualifiers: S.optional(GuardrailConverseContentQualifierList),
+  }),
+).annotations({
+  identifier: "GuardrailConverseTextBlock",
+}) as any as S.Schema<GuardrailConverseTextBlock>;
 export const GuardrailConverseImageSource = S.Union(
   S.Struct({ bytes: T.Blob }),
 );
-export class GuardrailConverseImageBlock extends S.Class<GuardrailConverseImageBlock>(
-  "GuardrailConverseImageBlock",
-)({ format: S.String, source: GuardrailConverseImageSource }) {}
+export interface GuardrailConverseImageBlock {
+  format: string;
+  source: (typeof GuardrailConverseImageSource)["Type"];
+}
+export const GuardrailConverseImageBlock = S.suspend(() =>
+  S.Struct({ format: S.String, source: GuardrailConverseImageSource }),
+).annotations({
+  identifier: "GuardrailConverseImageBlock",
+}) as any as S.Schema<GuardrailConverseImageBlock>;
 export const GuardrailConverseContentBlock = S.Union(
   S.Struct({ text: GuardrailConverseTextBlock }),
   S.Struct({ image: GuardrailConverseImageBlock }),
 );
-export class CachePointBlock extends S.Class<CachePointBlock>(
-  "CachePointBlock",
-)({ type: S.String }) {}
-export class ReasoningTextBlock extends S.Class<ReasoningTextBlock>(
-  "ReasoningTextBlock",
-)({ text: S.String, signature: S.optional(S.String) }) {}
+export interface CachePointBlock {
+  type: string;
+}
+export const CachePointBlock = S.suspend(() =>
+  S.Struct({ type: S.String }),
+).annotations({
+  identifier: "CachePointBlock",
+}) as any as S.Schema<CachePointBlock>;
+export interface ReasoningTextBlock {
+  text: string;
+  signature?: string;
+}
+export const ReasoningTextBlock = S.suspend(() =>
+  S.Struct({ text: S.String, signature: S.optional(S.String) }),
+).annotations({
+  identifier: "ReasoningTextBlock",
+}) as any as S.Schema<ReasoningTextBlock>;
 export const ReasoningContentBlock = S.Union(
   S.Struct({ reasoningText: ReasoningTextBlock }),
   S.Struct({ redactedContent: T.Blob }),
 );
 export const CitationGeneratedContent = S.Union(S.Struct({ text: S.String }));
+export type CitationGeneratedContentList =
+  (typeof CitationGeneratedContent)["Type"][];
 export const CitationGeneratedContentList = S.Array(CitationGeneratedContent);
 export const CitationSourceContent = S.Union(S.Struct({ text: S.String }));
+export type CitationSourceContentList =
+  (typeof CitationSourceContent)["Type"][];
 export const CitationSourceContentList = S.Array(CitationSourceContent);
-export class WebLocation extends S.Class<WebLocation>("WebLocation")({
-  url: S.optional(S.String),
-  domain: S.optional(S.String),
-}) {}
-export class DocumentCharLocation extends S.Class<DocumentCharLocation>(
-  "DocumentCharLocation",
-)({
-  documentIndex: S.optional(S.Number),
-  start: S.optional(S.Number),
-  end: S.optional(S.Number),
-}) {}
-export class DocumentPageLocation extends S.Class<DocumentPageLocation>(
-  "DocumentPageLocation",
-)({
-  documentIndex: S.optional(S.Number),
-  start: S.optional(S.Number),
-  end: S.optional(S.Number),
-}) {}
-export class DocumentChunkLocation extends S.Class<DocumentChunkLocation>(
-  "DocumentChunkLocation",
-)({
-  documentIndex: S.optional(S.Number),
-  start: S.optional(S.Number),
-  end: S.optional(S.Number),
-}) {}
-export class SearchResultLocation extends S.Class<SearchResultLocation>(
-  "SearchResultLocation",
-)({
-  searchResultIndex: S.optional(S.Number),
-  start: S.optional(S.Number),
-  end: S.optional(S.Number),
-}) {}
+export interface WebLocation {
+  url?: string;
+  domain?: string;
+}
+export const WebLocation = S.suspend(() =>
+  S.Struct({ url: S.optional(S.String), domain: S.optional(S.String) }),
+).annotations({ identifier: "WebLocation" }) as any as S.Schema<WebLocation>;
+export interface DocumentCharLocation {
+  documentIndex?: number;
+  start?: number;
+  end?: number;
+}
+export const DocumentCharLocation = S.suspend(() =>
+  S.Struct({
+    documentIndex: S.optional(S.Number),
+    start: S.optional(S.Number),
+    end: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "DocumentCharLocation",
+}) as any as S.Schema<DocumentCharLocation>;
+export interface DocumentPageLocation {
+  documentIndex?: number;
+  start?: number;
+  end?: number;
+}
+export const DocumentPageLocation = S.suspend(() =>
+  S.Struct({
+    documentIndex: S.optional(S.Number),
+    start: S.optional(S.Number),
+    end: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "DocumentPageLocation",
+}) as any as S.Schema<DocumentPageLocation>;
+export interface DocumentChunkLocation {
+  documentIndex?: number;
+  start?: number;
+  end?: number;
+}
+export const DocumentChunkLocation = S.suspend(() =>
+  S.Struct({
+    documentIndex: S.optional(S.Number),
+    start: S.optional(S.Number),
+    end: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "DocumentChunkLocation",
+}) as any as S.Schema<DocumentChunkLocation>;
+export interface SearchResultLocation {
+  searchResultIndex?: number;
+  start?: number;
+  end?: number;
+}
+export const SearchResultLocation = S.suspend(() =>
+  S.Struct({
+    searchResultIndex: S.optional(S.Number),
+    start: S.optional(S.Number),
+    end: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "SearchResultLocation",
+}) as any as S.Schema<SearchResultLocation>;
 export const CitationLocation = S.Union(
   S.Struct({ web: WebLocation }),
   S.Struct({ documentChar: DocumentCharLocation }),
@@ -620,19 +849,34 @@ export const CitationLocation = S.Union(
   S.Struct({ documentChunk: DocumentChunkLocation }),
   S.Struct({ searchResultLocation: SearchResultLocation }),
 );
-export class Citation extends S.Class<Citation>("Citation")({
-  title: S.optional(S.String),
-  source: S.optional(S.String),
-  sourceContent: S.optional(CitationSourceContentList),
-  location: S.optional(CitationLocation),
-}) {}
+export interface Citation {
+  title?: string;
+  source?: string;
+  sourceContent?: CitationSourceContentList;
+  location?: (typeof CitationLocation)["Type"];
+}
+export const Citation = S.suspend(() =>
+  S.Struct({
+    title: S.optional(S.String),
+    source: S.optional(S.String),
+    sourceContent: S.optional(CitationSourceContentList),
+    location: S.optional(CitationLocation),
+  }),
+).annotations({ identifier: "Citation" }) as any as S.Schema<Citation>;
+export type Citations = Citation[];
 export const Citations = S.Array(Citation);
-export class CitationsContentBlock extends S.Class<CitationsContentBlock>(
-  "CitationsContentBlock",
-)({
-  content: S.optional(CitationGeneratedContentList),
-  citations: S.optional(Citations),
-}) {}
+export interface CitationsContentBlock {
+  content?: CitationGeneratedContentList;
+  citations?: Citations;
+}
+export const CitationsContentBlock = S.suspend(() =>
+  S.Struct({
+    content: S.optional(CitationGeneratedContentList),
+    citations: S.optional(Citations),
+  }),
+).annotations({
+  identifier: "CitationsContentBlock",
+}) as any as S.Schema<CitationsContentBlock>;
 export const ContentBlock = S.Union(
   S.Struct({ text: S.String }),
   S.Struct({ image: ImageBlock }),
@@ -647,55 +891,98 @@ export const ContentBlock = S.Union(
   S.Struct({ citationsContent: CitationsContentBlock }),
   S.Struct({ searchResult: SearchResultBlock }),
 );
+export type ContentBlocks = (typeof ContentBlock)["Type"][];
 export const ContentBlocks = S.Array(ContentBlock);
-export class Message extends S.Class<Message>("Message")({
-  role: S.String,
-  content: ContentBlocks,
-}) {}
+export interface Message {
+  role: string;
+  content: ContentBlocks;
+}
+export const Message = S.suspend(() =>
+  S.Struct({ role: S.String, content: ContentBlocks }),
+).annotations({ identifier: "Message" }) as any as S.Schema<Message>;
+export type Messages = Message[];
 export const Messages = S.Array(Message);
 export const SystemContentBlock = S.Union(
   S.Struct({ text: S.String }),
   S.Struct({ guardContent: GuardrailConverseContentBlock }),
   S.Struct({ cachePoint: CachePointBlock }),
 );
+export type SystemContentBlocks = (typeof SystemContentBlock)["Type"][];
 export const SystemContentBlocks = S.Array(SystemContentBlock);
 export const ToolInputSchema = S.Union(S.Struct({ json: S.Any }));
-export class ToolSpecification extends S.Class<ToolSpecification>(
-  "ToolSpecification",
-)({
-  name: S.String,
-  description: S.optional(S.String),
-  inputSchema: ToolInputSchema,
-}) {}
-export class SystemTool extends S.Class<SystemTool>("SystemTool")({
-  name: S.String,
-}) {}
+export interface ToolSpecification {
+  name: string;
+  description?: string;
+  inputSchema: (typeof ToolInputSchema)["Type"];
+}
+export const ToolSpecification = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    description: S.optional(S.String),
+    inputSchema: ToolInputSchema,
+  }),
+).annotations({
+  identifier: "ToolSpecification",
+}) as any as S.Schema<ToolSpecification>;
+export interface SystemTool {
+  name: string;
+}
+export const SystemTool = S.suspend(() =>
+  S.Struct({ name: S.String }),
+).annotations({ identifier: "SystemTool" }) as any as S.Schema<SystemTool>;
 export const Tool = S.Union(
   S.Struct({ toolSpec: ToolSpecification }),
   S.Struct({ systemTool: SystemTool }),
   S.Struct({ cachePoint: CachePointBlock }),
 );
+export type Tools = (typeof Tool)["Type"][];
 export const Tools = S.Array(Tool);
-export class SpecificToolChoice extends S.Class<SpecificToolChoice>(
-  "SpecificToolChoice",
-)({ name: S.String }) {}
+export interface SpecificToolChoice {
+  name: string;
+}
+export const SpecificToolChoice = S.suspend(() =>
+  S.Struct({ name: S.String }),
+).annotations({
+  identifier: "SpecificToolChoice",
+}) as any as S.Schema<SpecificToolChoice>;
 export const ToolChoice = S.Union(
   S.Struct({ auto: AutoToolChoice }),
   S.Struct({ any: AnyToolChoice }),
   S.Struct({ tool: SpecificToolChoice }),
 );
-export class ToolConfiguration extends S.Class<ToolConfiguration>(
-  "ToolConfiguration",
-)({ tools: Tools, toolChoice: S.optional(ToolChoice) }) {}
+export interface ToolConfiguration {
+  tools: Tools;
+  toolChoice?: (typeof ToolChoice)["Type"];
+}
+export const ToolConfiguration = S.suspend(() =>
+  S.Struct({ tools: Tools, toolChoice: S.optional(ToolChoice) }),
+).annotations({
+  identifier: "ToolConfiguration",
+}) as any as S.Schema<ToolConfiguration>;
 export const PromptVariableValues = S.Union(S.Struct({ text: S.String }));
+export type PromptVariableMap = {
+  [key: string]: (typeof PromptVariableValues)["Type"];
+};
 export const PromptVariableMap = S.Record({
   key: S.String,
   value: PromptVariableValues,
 });
-export class ConverseStreamRequest extends S.Class<ConverseStreamRequest>(
-  "ConverseStreamRequest",
-)(
-  {
+export interface ConverseStreamRequest {
+  modelId: string;
+  messages?: Messages;
+  system?: SystemContentBlocks;
+  inferenceConfig?: InferenceConfiguration;
+  toolConfig?: ToolConfiguration;
+  guardrailConfig?: GuardrailStreamConfiguration;
+  additionalModelRequestFields?: any;
+  promptVariables?: PromptVariableMap;
+  additionalModelResponseFieldPaths?: AdditionalModelResponseFieldPaths;
+  requestMetadata?: RequestMetadata;
+  performanceConfig?: PerformanceConfiguration;
+  serviceTier?: ServiceTier;
+}
+export const ConverseStreamRequest = S.suspend(() =>
+  S.Struct({
     modelId: S.String.pipe(T.HttpLabel("modelId")),
     messages: S.optional(Messages),
     system: S.optional(SystemContentBlocks),
@@ -710,58 +997,110 @@ export class ConverseStreamRequest extends S.Class<ConverseStreamRequest>(
     requestMetadata: S.optional(RequestMetadata),
     performanceConfig: S.optional(PerformanceConfiguration),
     serviceTier: S.optional(ServiceTier),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/model/{modelId}/converse-stream" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/model/{modelId}/converse-stream" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class InvokeModelResponse extends S.Class<InvokeModelResponse>(
-  "InvokeModelResponse",
-)({
-  body: T.StreamingOutput.pipe(T.HttpPayload()),
-  contentType: S.String.pipe(T.HttpHeader("Content-Type")),
-  performanceConfigLatency: S.optional(S.String).pipe(
-    T.HttpHeader("X-Amzn-Bedrock-PerformanceConfig-Latency"),
-  ),
-  serviceTier: S.optional(S.String).pipe(
-    T.HttpHeader("X-Amzn-Bedrock-Service-Tier"),
-  ),
-}) {}
-export class GuardrailTextBlock extends S.Class<GuardrailTextBlock>(
-  "GuardrailTextBlock",
-)({ text: S.String, qualifiers: S.optional(GuardrailContentQualifierList) }) {}
-export class BidirectionalInputPayloadPart extends S.Class<BidirectionalInputPayloadPart>(
-  "BidirectionalInputPayloadPart",
-)({ bytes: S.optional(T.Blob) }) {}
-export class InvokeModelTokensRequest extends S.Class<InvokeModelTokensRequest>(
-  "InvokeModelTokensRequest",
-)({ body: T.Blob }) {}
-export class ConverseTokensRequest extends S.Class<ConverseTokensRequest>(
-  "ConverseTokensRequest",
-)({
-  messages: S.optional(Messages),
-  system: S.optional(SystemContentBlocks),
-  toolConfig: S.optional(ToolConfiguration),
-  additionalModelRequestFields: S.optional(S.Any),
-}) {}
-export class AsyncInvokeSummary extends S.Class<AsyncInvokeSummary>(
-  "AsyncInvokeSummary",
-)({
-  invocationArn: S.String,
-  modelArn: S.String,
-  clientRequestToken: S.optional(S.String),
-  status: S.optional(S.String),
-  failureMessage: S.optional(S.String),
-  submitTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  lastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  outputDataConfig: AsyncInvokeOutputDataConfig,
-}) {}
+).annotations({
+  identifier: "ConverseStreamRequest",
+}) as any as S.Schema<ConverseStreamRequest>;
+export interface InvokeModelResponse {
+  body: T.StreamingOutputBody;
+  contentType: string;
+  performanceConfigLatency?: string;
+  serviceTier?: string;
+}
+export const InvokeModelResponse = S.suspend(() =>
+  S.Struct({
+    body: T.StreamingOutput.pipe(T.HttpPayload()),
+    contentType: S.String.pipe(T.HttpHeader("Content-Type")),
+    performanceConfigLatency: S.optional(S.String).pipe(
+      T.HttpHeader("X-Amzn-Bedrock-PerformanceConfig-Latency"),
+    ),
+    serviceTier: S.optional(S.String).pipe(
+      T.HttpHeader("X-Amzn-Bedrock-Service-Tier"),
+    ),
+  }),
+).annotations({
+  identifier: "InvokeModelResponse",
+}) as any as S.Schema<InvokeModelResponse>;
+export interface GuardrailTextBlock {
+  text: string;
+  qualifiers?: GuardrailContentQualifierList;
+}
+export const GuardrailTextBlock = S.suspend(() =>
+  S.Struct({
+    text: S.String,
+    qualifiers: S.optional(GuardrailContentQualifierList),
+  }),
+).annotations({
+  identifier: "GuardrailTextBlock",
+}) as any as S.Schema<GuardrailTextBlock>;
+export interface BidirectionalInputPayloadPart {
+  bytes?: Uint8Array;
+}
+export const BidirectionalInputPayloadPart = S.suspend(() =>
+  S.Struct({ bytes: S.optional(T.Blob) }),
+).annotations({
+  identifier: "BidirectionalInputPayloadPart",
+}) as any as S.Schema<BidirectionalInputPayloadPart>;
+export interface InvokeModelTokensRequest {
+  body: Uint8Array;
+}
+export const InvokeModelTokensRequest = S.suspend(() =>
+  S.Struct({ body: T.Blob }),
+).annotations({
+  identifier: "InvokeModelTokensRequest",
+}) as any as S.Schema<InvokeModelTokensRequest>;
+export interface ConverseTokensRequest {
+  messages?: Messages;
+  system?: SystemContentBlocks;
+  toolConfig?: ToolConfiguration;
+  additionalModelRequestFields?: any;
+}
+export const ConverseTokensRequest = S.suspend(() =>
+  S.Struct({
+    messages: S.optional(Messages),
+    system: S.optional(SystemContentBlocks),
+    toolConfig: S.optional(ToolConfiguration),
+    additionalModelRequestFields: S.optional(S.Any),
+  }),
+).annotations({
+  identifier: "ConverseTokensRequest",
+}) as any as S.Schema<ConverseTokensRequest>;
+export interface AsyncInvokeSummary {
+  invocationArn: string;
+  modelArn: string;
+  clientRequestToken?: string;
+  status?: string;
+  failureMessage?: string;
+  submitTime: Date;
+  lastModifiedTime?: Date;
+  endTime?: Date;
+  outputDataConfig: (typeof AsyncInvokeOutputDataConfig)["Type"];
+}
+export const AsyncInvokeSummary = S.suspend(() =>
+  S.Struct({
+    invocationArn: S.String,
+    modelArn: S.String,
+    clientRequestToken: S.optional(S.String),
+    status: S.optional(S.String),
+    failureMessage: S.optional(S.String),
+    submitTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    outputDataConfig: AsyncInvokeOutputDataConfig,
+  }),
+).annotations({
+  identifier: "AsyncInvokeSummary",
+}) as any as S.Schema<AsyncInvokeSummary>;
+export type AsyncInvokeSummaries = AsyncInvokeSummary[];
 export const AsyncInvokeSummaries = S.Array(AsyncInvokeSummary);
 export const InvokeModelWithBidirectionalStreamInput = T.InputEventStream(
   S.Union(S.Struct({ chunk: BidirectionalInputPayloadPart })),
@@ -771,412 +1110,819 @@ export const CountTokensInput = S.Union(
   S.Struct({ converse: ConverseTokensRequest }),
 );
 export const GuardrailImageSource = S.Union(S.Struct({ bytes: T.Blob }));
-export class ListAsyncInvokesResponse extends S.Class<ListAsyncInvokesResponse>(
-  "ListAsyncInvokesResponse",
-)({
-  nextToken: S.optional(S.String),
-  asyncInvokeSummaries: S.optional(AsyncInvokeSummaries),
-}) {}
-export class StartAsyncInvokeRequest extends S.Class<StartAsyncInvokeRequest>(
-  "StartAsyncInvokeRequest",
-)(
-  {
+export interface ListAsyncInvokesResponse {
+  nextToken?: string;
+  asyncInvokeSummaries?: AsyncInvokeSummaries;
+}
+export const ListAsyncInvokesResponse = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    asyncInvokeSummaries: S.optional(AsyncInvokeSummaries),
+  }),
+).annotations({
+  identifier: "ListAsyncInvokesResponse",
+}) as any as S.Schema<ListAsyncInvokesResponse>;
+export interface StartAsyncInvokeRequest {
+  clientRequestToken?: string;
+  modelId: string;
+  modelInput: any;
+  outputDataConfig: (typeof AsyncInvokeOutputDataConfig)["Type"];
+  tags?: TagList;
+}
+export const StartAsyncInvokeRequest = S.suspend(() =>
+  S.Struct({
     clientRequestToken: S.optional(S.String),
     modelId: S.String,
     modelInput: S.Any,
     outputDataConfig: AsyncInvokeOutputDataConfig,
     tags: S.optional(TagList),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/async-invoke" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/async-invoke" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class InvokeModelWithBidirectionalStreamRequest extends S.Class<InvokeModelWithBidirectionalStreamRequest>(
-  "InvokeModelWithBidirectionalStreamRequest",
-)(
-  {
+).annotations({
+  identifier: "StartAsyncInvokeRequest",
+}) as any as S.Schema<StartAsyncInvokeRequest>;
+export interface InvokeModelWithBidirectionalStreamRequest {
+  modelId: string;
+  body: (typeof InvokeModelWithBidirectionalStreamInput)["Type"];
+}
+export const InvokeModelWithBidirectionalStreamRequest = S.suspend(() =>
+  S.Struct({
     modelId: S.String.pipe(T.HttpLabel("modelId")),
     body: InvokeModelWithBidirectionalStreamInput.pipe(T.HttpPayload()),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/model/{modelId}/invoke-with-bidirectional-stream",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/model/{modelId}/invoke-with-bidirectional-stream",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CountTokensRequest extends S.Class<CountTokensRequest>(
-  "CountTokensRequest",
-)(
-  { modelId: S.String.pipe(T.HttpLabel("modelId")), input: CountTokensInput },
-  T.all(
-    T.Http({ method: "POST", uri: "/model/{modelId}/count-tokens" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "InvokeModelWithBidirectionalStreamRequest",
+}) as any as S.Schema<InvokeModelWithBidirectionalStreamRequest>;
+export interface CountTokensRequest {
+  modelId: string;
+  input: (typeof CountTokensInput)["Type"];
+}
+export const CountTokensRequest = S.suspend(() =>
+  S.Struct({
+    modelId: S.String.pipe(T.HttpLabel("modelId")),
+    input: CountTokensInput,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/model/{modelId}/count-tokens" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GuardrailImageBlock extends S.Class<GuardrailImageBlock>(
-  "GuardrailImageBlock",
-)({ format: S.String, source: GuardrailImageSource }) {}
-export class PayloadPart extends S.Class<PayloadPart>("PayloadPart")({
-  bytes: S.optional(T.Blob),
-}) {}
+).annotations({
+  identifier: "CountTokensRequest",
+}) as any as S.Schema<CountTokensRequest>;
+export interface GuardrailImageBlock {
+  format: string;
+  source: (typeof GuardrailImageSource)["Type"];
+}
+export const GuardrailImageBlock = S.suspend(() =>
+  S.Struct({ format: S.String, source: GuardrailImageSource }),
+).annotations({
+  identifier: "GuardrailImageBlock",
+}) as any as S.Schema<GuardrailImageBlock>;
+export interface PayloadPart {
+  bytes?: Uint8Array;
+}
+export const PayloadPart = S.suspend(() =>
+  S.Struct({ bytes: S.optional(T.Blob) }),
+).annotations({ identifier: "PayloadPart" }) as any as S.Schema<PayloadPart>;
 export const GuardrailContentBlock = S.Union(
   S.Struct({ text: GuardrailTextBlock }),
   S.Struct({ image: GuardrailImageBlock }),
 );
+export type GuardrailContentBlockList =
+  (typeof GuardrailContentBlock)["Type"][];
 export const GuardrailContentBlockList = S.Array(GuardrailContentBlock);
 export const ResponseStream = T.EventStream(
   S.Union(
     S.Struct({ chunk: PayloadPart }),
     S.Struct({
-      internalServerException: S.suspend(() => InternalServerException),
+      internalServerException: S.suspend(
+        () => InternalServerException,
+      ).annotations({ identifier: "InternalServerException" }),
     }),
     S.Struct({
-      modelStreamErrorException: S.suspend(() => ModelStreamErrorException),
+      modelStreamErrorException: S.suspend(
+        () => ModelStreamErrorException,
+      ).annotations({ identifier: "ModelStreamErrorException" }),
     }),
-    S.Struct({ validationException: S.suspend(() => ValidationException) }),
-    S.Struct({ throttlingException: S.suspend(() => ThrottlingException) }),
-    S.Struct({ modelTimeoutException: S.suspend(() => ModelTimeoutException) }),
     S.Struct({
-      serviceUnavailableException: S.suspend(() => ServiceUnavailableException),
+      validationException: S.suspend(() => ValidationException).annotations({
+        identifier: "ValidationException",
+      }),
+    }),
+    S.Struct({
+      throttlingException: S.suspend(() => ThrottlingException).annotations({
+        identifier: "ThrottlingException",
+      }),
+    }),
+    S.Struct({
+      modelTimeoutException: S.suspend(() => ModelTimeoutException).annotations(
+        { identifier: "ModelTimeoutException" },
+      ),
+    }),
+    S.Struct({
+      serviceUnavailableException: S.suspend(
+        () => ServiceUnavailableException,
+      ).annotations({ identifier: "ServiceUnavailableException" }),
     }),
   ),
 );
-export class StartAsyncInvokeResponse extends S.Class<StartAsyncInvokeResponse>(
-  "StartAsyncInvokeResponse",
-)({ invocationArn: S.String }) {}
-export class ApplyGuardrailRequest extends S.Class<ApplyGuardrailRequest>(
-  "ApplyGuardrailRequest",
-)(
-  {
+export interface StartAsyncInvokeResponse {
+  invocationArn: string;
+}
+export const StartAsyncInvokeResponse = S.suspend(() =>
+  S.Struct({ invocationArn: S.String }),
+).annotations({
+  identifier: "StartAsyncInvokeResponse",
+}) as any as S.Schema<StartAsyncInvokeResponse>;
+export interface ApplyGuardrailRequest {
+  guardrailIdentifier: string;
+  guardrailVersion: string;
+  source: string;
+  content: GuardrailContentBlockList;
+  outputScope?: string;
+}
+export const ApplyGuardrailRequest = S.suspend(() =>
+  S.Struct({
     guardrailIdentifier: S.String.pipe(T.HttpLabel("guardrailIdentifier")),
     guardrailVersion: S.String.pipe(T.HttpLabel("guardrailVersion")),
     source: S.String,
     content: GuardrailContentBlockList,
     outputScope: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/guardrail/{guardrailIdentifier}/version/{guardrailVersion}/apply",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/guardrail/{guardrailIdentifier}/version/{guardrailVersion}/apply",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class InvokeModelWithResponseStreamResponse extends S.Class<InvokeModelWithResponseStreamResponse>(
-  "InvokeModelWithResponseStreamResponse",
-)({
-  body: ResponseStream.pipe(T.HttpPayload()),
-  contentType: S.String.pipe(T.HttpHeader("X-Amzn-Bedrock-Content-Type")),
-  performanceConfigLatency: S.optional(S.String).pipe(
-    T.HttpHeader("X-Amzn-Bedrock-PerformanceConfig-Latency"),
-  ),
-  serviceTier: S.optional(S.String).pipe(
-    T.HttpHeader("X-Amzn-Bedrock-Service-Tier"),
-  ),
-}) {}
-export class CountTokensResponse extends S.Class<CountTokensResponse>(
-  "CountTokensResponse",
-)({ inputTokens: S.Number }) {}
-export class MessageStartEvent extends S.Class<MessageStartEvent>(
-  "MessageStartEvent",
-)({ role: S.String }) {}
-export class ContentBlockStopEvent extends S.Class<ContentBlockStopEvent>(
-  "ContentBlockStopEvent",
-)({ contentBlockIndex: S.Number }) {}
-export class MessageStopEvent extends S.Class<MessageStopEvent>(
-  "MessageStopEvent",
-)({ stopReason: S.String, additionalModelResponseFields: S.optional(S.Any) }) {}
-export class TokenUsage extends S.Class<TokenUsage>("TokenUsage")({
-  inputTokens: S.Number,
-  outputTokens: S.Number,
-  totalTokens: S.Number,
-  cacheReadInputTokens: S.optional(S.Number),
-  cacheWriteInputTokens: S.optional(S.Number),
-}) {}
-export class ConverseStreamMetrics extends S.Class<ConverseStreamMetrics>(
-  "ConverseStreamMetrics",
-)({ latencyMs: S.Number }) {}
+).annotations({
+  identifier: "ApplyGuardrailRequest",
+}) as any as S.Schema<ApplyGuardrailRequest>;
+export interface InvokeModelWithResponseStreamResponse {
+  body: (typeof ResponseStream)["Type"];
+  contentType: string;
+  performanceConfigLatency?: string;
+  serviceTier?: string;
+}
+export const InvokeModelWithResponseStreamResponse = S.suspend(() =>
+  S.Struct({
+    body: ResponseStream.pipe(T.HttpPayload()),
+    contentType: S.String.pipe(T.HttpHeader("X-Amzn-Bedrock-Content-Type")),
+    performanceConfigLatency: S.optional(S.String).pipe(
+      T.HttpHeader("X-Amzn-Bedrock-PerformanceConfig-Latency"),
+    ),
+    serviceTier: S.optional(S.String).pipe(
+      T.HttpHeader("X-Amzn-Bedrock-Service-Tier"),
+    ),
+  }),
+).annotations({
+  identifier: "InvokeModelWithResponseStreamResponse",
+}) as any as S.Schema<InvokeModelWithResponseStreamResponse>;
+export interface CountTokensResponse {
+  inputTokens: number;
+}
+export const CountTokensResponse = S.suspend(() =>
+  S.Struct({ inputTokens: S.Number }),
+).annotations({
+  identifier: "CountTokensResponse",
+}) as any as S.Schema<CountTokensResponse>;
+export interface MessageStartEvent {
+  role: string;
+}
+export const MessageStartEvent = S.suspend(() =>
+  S.Struct({ role: S.String }),
+).annotations({
+  identifier: "MessageStartEvent",
+}) as any as S.Schema<MessageStartEvent>;
+export interface ContentBlockStopEvent {
+  contentBlockIndex: number;
+}
+export const ContentBlockStopEvent = S.suspend(() =>
+  S.Struct({ contentBlockIndex: S.Number }),
+).annotations({
+  identifier: "ContentBlockStopEvent",
+}) as any as S.Schema<ContentBlockStopEvent>;
+export interface MessageStopEvent {
+  stopReason: string;
+  additionalModelResponseFields?: any;
+}
+export const MessageStopEvent = S.suspend(() =>
+  S.Struct({
+    stopReason: S.String,
+    additionalModelResponseFields: S.optional(S.Any),
+  }),
+).annotations({
+  identifier: "MessageStopEvent",
+}) as any as S.Schema<MessageStopEvent>;
+export interface TokenUsage {
+  inputTokens: number;
+  outputTokens: number;
+  totalTokens: number;
+  cacheReadInputTokens?: number;
+  cacheWriteInputTokens?: number;
+}
+export const TokenUsage = S.suspend(() =>
+  S.Struct({
+    inputTokens: S.Number,
+    outputTokens: S.Number,
+    totalTokens: S.Number,
+    cacheReadInputTokens: S.optional(S.Number),
+    cacheWriteInputTokens: S.optional(S.Number),
+  }),
+).annotations({ identifier: "TokenUsage" }) as any as S.Schema<TokenUsage>;
+export interface ConverseStreamMetrics {
+  latencyMs: number;
+}
+export const ConverseStreamMetrics = S.suspend(() =>
+  S.Struct({ latencyMs: S.Number }),
+).annotations({
+  identifier: "ConverseStreamMetrics",
+}) as any as S.Schema<ConverseStreamMetrics>;
+export type ModelOutputs = string[];
 export const ModelOutputs = S.Array(S.String);
-export class BidirectionalOutputPayloadPart extends S.Class<BidirectionalOutputPayloadPart>(
-  "BidirectionalOutputPayloadPart",
-)({ bytes: S.optional(T.Blob) }) {}
-export class ToolUseBlockStart extends S.Class<ToolUseBlockStart>(
-  "ToolUseBlockStart",
-)({ toolUseId: S.String, name: S.String, type: S.optional(S.String) }) {}
-export class ToolResultBlockStart extends S.Class<ToolResultBlockStart>(
-  "ToolResultBlockStart",
-)({
-  toolUseId: S.String,
-  type: S.optional(S.String),
-  status: S.optional(S.String),
-}) {}
-export class ImageBlockStart extends S.Class<ImageBlockStart>(
-  "ImageBlockStart",
-)({ format: S.String }) {}
-export class ToolUseBlockDelta extends S.Class<ToolUseBlockDelta>(
-  "ToolUseBlockDelta",
-)({ input: S.String }) {}
+export interface BidirectionalOutputPayloadPart {
+  bytes?: Uint8Array;
+}
+export const BidirectionalOutputPayloadPart = S.suspend(() =>
+  S.Struct({ bytes: S.optional(T.Blob) }),
+).annotations({
+  identifier: "BidirectionalOutputPayloadPart",
+}) as any as S.Schema<BidirectionalOutputPayloadPart>;
+export interface ToolUseBlockStart {
+  toolUseId: string;
+  name: string;
+  type?: string;
+}
+export const ToolUseBlockStart = S.suspend(() =>
+  S.Struct({ toolUseId: S.String, name: S.String, type: S.optional(S.String) }),
+).annotations({
+  identifier: "ToolUseBlockStart",
+}) as any as S.Schema<ToolUseBlockStart>;
+export interface ToolResultBlockStart {
+  toolUseId: string;
+  type?: string;
+  status?: string;
+}
+export const ToolResultBlockStart = S.suspend(() =>
+  S.Struct({
+    toolUseId: S.String,
+    type: S.optional(S.String),
+    status: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ToolResultBlockStart",
+}) as any as S.Schema<ToolResultBlockStart>;
+export interface ImageBlockStart {
+  format: string;
+}
+export const ImageBlockStart = S.suspend(() =>
+  S.Struct({ format: S.String }),
+).annotations({
+  identifier: "ImageBlockStart",
+}) as any as S.Schema<ImageBlockStart>;
+export interface ToolUseBlockDelta {
+  input: string;
+}
+export const ToolUseBlockDelta = S.suspend(() =>
+  S.Struct({ input: S.String }),
+).annotations({
+  identifier: "ToolUseBlockDelta",
+}) as any as S.Schema<ToolUseBlockDelta>;
 export const ToolResultBlockDelta = S.Union(
   S.Struct({ text: S.String }),
   S.Struct({ json: S.Any }),
 );
+export type ToolResultBlocksDelta = (typeof ToolResultBlockDelta)["Type"][];
 export const ToolResultBlocksDelta = S.Array(ToolResultBlockDelta);
 export const ReasoningContentBlockDelta = S.Union(
   S.Struct({ text: S.String }),
   S.Struct({ redactedContent: T.Blob }),
   S.Struct({ signature: S.String }),
 );
-export class ImageBlockDelta extends S.Class<ImageBlockDelta>(
-  "ImageBlockDelta",
-)({ source: S.optional(ImageSource), error: S.optional(ErrorBlock) }) {}
-export class PromptRouterTrace extends S.Class<PromptRouterTrace>(
-  "PromptRouterTrace",
-)({ invokedModelId: S.optional(S.String) }) {}
-export class GuardrailUsage extends S.Class<GuardrailUsage>("GuardrailUsage")({
-  topicPolicyUnits: S.Number,
-  contentPolicyUnits: S.Number,
-  wordPolicyUnits: S.Number,
-  sensitiveInformationPolicyUnits: S.Number,
-  sensitiveInformationPolicyFreeUnits: S.Number,
-  contextualGroundingPolicyUnits: S.Number,
-  contentPolicyImageUnits: S.optional(S.Number),
-  automatedReasoningPolicyUnits: S.optional(S.Number),
-  automatedReasoningPolicies: S.optional(S.Number),
-}) {}
-export class GuardrailOutputContent extends S.Class<GuardrailOutputContent>(
-  "GuardrailOutputContent",
-)({ text: S.optional(S.String) }) {}
+export interface ImageBlockDelta {
+  source?: (typeof ImageSource)["Type"];
+  error?: ErrorBlock;
+}
+export const ImageBlockDelta = S.suspend(() =>
+  S.Struct({ source: S.optional(ImageSource), error: S.optional(ErrorBlock) }),
+).annotations({
+  identifier: "ImageBlockDelta",
+}) as any as S.Schema<ImageBlockDelta>;
+export interface PromptRouterTrace {
+  invokedModelId?: string;
+}
+export const PromptRouterTrace = S.suspend(() =>
+  S.Struct({ invokedModelId: S.optional(S.String) }),
+).annotations({
+  identifier: "PromptRouterTrace",
+}) as any as S.Schema<PromptRouterTrace>;
+export interface GuardrailUsage {
+  topicPolicyUnits: number;
+  contentPolicyUnits: number;
+  wordPolicyUnits: number;
+  sensitiveInformationPolicyUnits: number;
+  sensitiveInformationPolicyFreeUnits: number;
+  contextualGroundingPolicyUnits: number;
+  contentPolicyImageUnits?: number;
+  automatedReasoningPolicyUnits?: number;
+  automatedReasoningPolicies?: number;
+}
+export const GuardrailUsage = S.suspend(() =>
+  S.Struct({
+    topicPolicyUnits: S.Number,
+    contentPolicyUnits: S.Number,
+    wordPolicyUnits: S.Number,
+    sensitiveInformationPolicyUnits: S.Number,
+    sensitiveInformationPolicyFreeUnits: S.Number,
+    contextualGroundingPolicyUnits: S.Number,
+    contentPolicyImageUnits: S.optional(S.Number),
+    automatedReasoningPolicyUnits: S.optional(S.Number),
+    automatedReasoningPolicies: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "GuardrailUsage",
+}) as any as S.Schema<GuardrailUsage>;
+export interface GuardrailOutputContent {
+  text?: string;
+}
+export const GuardrailOutputContent = S.suspend(() =>
+  S.Struct({ text: S.optional(S.String) }),
+).annotations({
+  identifier: "GuardrailOutputContent",
+}) as any as S.Schema<GuardrailOutputContent>;
+export type GuardrailOutputContentList = GuardrailOutputContent[];
 export const GuardrailOutputContentList = S.Array(GuardrailOutputContent);
 export const InvokeModelWithBidirectionalStreamOutput = T.EventStream(
   S.Union(
     S.Struct({ chunk: BidirectionalOutputPayloadPart }),
     S.Struct({
-      internalServerException: S.suspend(() => InternalServerException),
+      internalServerException: S.suspend(
+        () => InternalServerException,
+      ).annotations({ identifier: "InternalServerException" }),
     }),
     S.Struct({
-      modelStreamErrorException: S.suspend(() => ModelStreamErrorException),
+      modelStreamErrorException: S.suspend(
+        () => ModelStreamErrorException,
+      ).annotations({ identifier: "ModelStreamErrorException" }),
     }),
-    S.Struct({ validationException: S.suspend(() => ValidationException) }),
-    S.Struct({ throttlingException: S.suspend(() => ThrottlingException) }),
-    S.Struct({ modelTimeoutException: S.suspend(() => ModelTimeoutException) }),
     S.Struct({
-      serviceUnavailableException: S.suspend(() => ServiceUnavailableException),
+      validationException: S.suspend(() => ValidationException).annotations({
+        identifier: "ValidationException",
+      }),
+    }),
+    S.Struct({
+      throttlingException: S.suspend(() => ThrottlingException).annotations({
+        identifier: "ThrottlingException",
+      }),
+    }),
+    S.Struct({
+      modelTimeoutException: S.suspend(() => ModelTimeoutException).annotations(
+        { identifier: "ModelTimeoutException" },
+      ),
+    }),
+    S.Struct({
+      serviceUnavailableException: S.suspend(
+        () => ServiceUnavailableException,
+      ).annotations({ identifier: "ServiceUnavailableException" }),
     }),
   ),
 );
+export type GuardrailOriginList = string[];
 export const GuardrailOriginList = S.Array(S.String);
 export const ContentBlockStart = S.Union(
   S.Struct({ toolUse: ToolUseBlockStart }),
   S.Struct({ toolResult: ToolResultBlockStart }),
   S.Struct({ image: ImageBlockStart }),
 );
-export class CitationSourceContentDelta extends S.Class<CitationSourceContentDelta>(
-  "CitationSourceContentDelta",
-)({ text: S.optional(S.String) }) {}
+export interface CitationSourceContentDelta {
+  text?: string;
+}
+export const CitationSourceContentDelta = S.suspend(() =>
+  S.Struct({ text: S.optional(S.String) }),
+).annotations({
+  identifier: "CitationSourceContentDelta",
+}) as any as S.Schema<CitationSourceContentDelta>;
+export type CitationSourceContentListDelta = CitationSourceContentDelta[];
 export const CitationSourceContentListDelta = S.Array(
   CitationSourceContentDelta,
 );
-export class GuardrailTopic extends S.Class<GuardrailTopic>("GuardrailTopic")({
-  name: S.String,
-  type: S.String,
-  action: S.String,
-  detected: S.optional(S.Boolean),
-}) {}
+export interface GuardrailTopic {
+  name: string;
+  type: string;
+  action: string;
+  detected?: boolean;
+}
+export const GuardrailTopic = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    type: S.String,
+    action: S.String,
+    detected: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "GuardrailTopic",
+}) as any as S.Schema<GuardrailTopic>;
+export type GuardrailTopicList = GuardrailTopic[];
 export const GuardrailTopicList = S.Array(GuardrailTopic);
-export class GuardrailTopicPolicyAssessment extends S.Class<GuardrailTopicPolicyAssessment>(
-  "GuardrailTopicPolicyAssessment",
-)({ topics: GuardrailTopicList }) {}
-export class GuardrailContentFilter extends S.Class<GuardrailContentFilter>(
-  "GuardrailContentFilter",
-)({
-  type: S.String,
-  confidence: S.String,
-  filterStrength: S.optional(S.String),
-  action: S.String,
-  detected: S.optional(S.Boolean),
-}) {}
+export interface GuardrailTopicPolicyAssessment {
+  topics: GuardrailTopicList;
+}
+export const GuardrailTopicPolicyAssessment = S.suspend(() =>
+  S.Struct({ topics: GuardrailTopicList }),
+).annotations({
+  identifier: "GuardrailTopicPolicyAssessment",
+}) as any as S.Schema<GuardrailTopicPolicyAssessment>;
+export interface GuardrailContentFilter {
+  type: string;
+  confidence: string;
+  filterStrength?: string;
+  action: string;
+  detected?: boolean;
+}
+export const GuardrailContentFilter = S.suspend(() =>
+  S.Struct({
+    type: S.String,
+    confidence: S.String,
+    filterStrength: S.optional(S.String),
+    action: S.String,
+    detected: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "GuardrailContentFilter",
+}) as any as S.Schema<GuardrailContentFilter>;
+export type GuardrailContentFilterList = GuardrailContentFilter[];
 export const GuardrailContentFilterList = S.Array(GuardrailContentFilter);
-export class GuardrailContentPolicyAssessment extends S.Class<GuardrailContentPolicyAssessment>(
-  "GuardrailContentPolicyAssessment",
-)({ filters: GuardrailContentFilterList }) {}
-export class GuardrailCustomWord extends S.Class<GuardrailCustomWord>(
-  "GuardrailCustomWord",
-)({ match: S.String, action: S.String, detected: S.optional(S.Boolean) }) {}
+export interface GuardrailContentPolicyAssessment {
+  filters: GuardrailContentFilterList;
+}
+export const GuardrailContentPolicyAssessment = S.suspend(() =>
+  S.Struct({ filters: GuardrailContentFilterList }),
+).annotations({
+  identifier: "GuardrailContentPolicyAssessment",
+}) as any as S.Schema<GuardrailContentPolicyAssessment>;
+export interface GuardrailCustomWord {
+  match: string;
+  action: string;
+  detected?: boolean;
+}
+export const GuardrailCustomWord = S.suspend(() =>
+  S.Struct({
+    match: S.String,
+    action: S.String,
+    detected: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "GuardrailCustomWord",
+}) as any as S.Schema<GuardrailCustomWord>;
+export type GuardrailCustomWordList = GuardrailCustomWord[];
 export const GuardrailCustomWordList = S.Array(GuardrailCustomWord);
-export class GuardrailManagedWord extends S.Class<GuardrailManagedWord>(
-  "GuardrailManagedWord",
-)({
-  match: S.String,
-  type: S.String,
-  action: S.String,
-  detected: S.optional(S.Boolean),
-}) {}
+export interface GuardrailManagedWord {
+  match: string;
+  type: string;
+  action: string;
+  detected?: boolean;
+}
+export const GuardrailManagedWord = S.suspend(() =>
+  S.Struct({
+    match: S.String,
+    type: S.String,
+    action: S.String,
+    detected: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "GuardrailManagedWord",
+}) as any as S.Schema<GuardrailManagedWord>;
+export type GuardrailManagedWordList = GuardrailManagedWord[];
 export const GuardrailManagedWordList = S.Array(GuardrailManagedWord);
-export class GuardrailWordPolicyAssessment extends S.Class<GuardrailWordPolicyAssessment>(
-  "GuardrailWordPolicyAssessment",
-)({
-  customWords: GuardrailCustomWordList,
-  managedWordLists: GuardrailManagedWordList,
-}) {}
-export class GuardrailPiiEntityFilter extends S.Class<GuardrailPiiEntityFilter>(
-  "GuardrailPiiEntityFilter",
-)({
-  match: S.String,
-  type: S.String,
-  action: S.String,
-  detected: S.optional(S.Boolean),
-}) {}
+export interface GuardrailWordPolicyAssessment {
+  customWords: GuardrailCustomWordList;
+  managedWordLists: GuardrailManagedWordList;
+}
+export const GuardrailWordPolicyAssessment = S.suspend(() =>
+  S.Struct({
+    customWords: GuardrailCustomWordList,
+    managedWordLists: GuardrailManagedWordList,
+  }),
+).annotations({
+  identifier: "GuardrailWordPolicyAssessment",
+}) as any as S.Schema<GuardrailWordPolicyAssessment>;
+export interface GuardrailPiiEntityFilter {
+  match: string;
+  type: string;
+  action: string;
+  detected?: boolean;
+}
+export const GuardrailPiiEntityFilter = S.suspend(() =>
+  S.Struct({
+    match: S.String,
+    type: S.String,
+    action: S.String,
+    detected: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "GuardrailPiiEntityFilter",
+}) as any as S.Schema<GuardrailPiiEntityFilter>;
+export type GuardrailPiiEntityFilterList = GuardrailPiiEntityFilter[];
 export const GuardrailPiiEntityFilterList = S.Array(GuardrailPiiEntityFilter);
-export class GuardrailRegexFilter extends S.Class<GuardrailRegexFilter>(
-  "GuardrailRegexFilter",
-)({
-  name: S.optional(S.String),
-  match: S.optional(S.String),
-  regex: S.optional(S.String),
-  action: S.String,
-  detected: S.optional(S.Boolean),
-}) {}
+export interface GuardrailRegexFilter {
+  name?: string;
+  match?: string;
+  regex?: string;
+  action: string;
+  detected?: boolean;
+}
+export const GuardrailRegexFilter = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    match: S.optional(S.String),
+    regex: S.optional(S.String),
+    action: S.String,
+    detected: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "GuardrailRegexFilter",
+}) as any as S.Schema<GuardrailRegexFilter>;
+export type GuardrailRegexFilterList = GuardrailRegexFilter[];
 export const GuardrailRegexFilterList = S.Array(GuardrailRegexFilter);
-export class GuardrailSensitiveInformationPolicyAssessment extends S.Class<GuardrailSensitiveInformationPolicyAssessment>(
-  "GuardrailSensitiveInformationPolicyAssessment",
-)({
-  piiEntities: GuardrailPiiEntityFilterList,
-  regexes: GuardrailRegexFilterList,
-}) {}
-export class GuardrailContextualGroundingFilter extends S.Class<GuardrailContextualGroundingFilter>(
-  "GuardrailContextualGroundingFilter",
-)({
-  type: S.String,
-  threshold: S.Number,
-  score: S.Number,
-  action: S.String,
-  detected: S.optional(S.Boolean),
-}) {}
+export interface GuardrailSensitiveInformationPolicyAssessment {
+  piiEntities: GuardrailPiiEntityFilterList;
+  regexes: GuardrailRegexFilterList;
+}
+export const GuardrailSensitiveInformationPolicyAssessment = S.suspend(() =>
+  S.Struct({
+    piiEntities: GuardrailPiiEntityFilterList,
+    regexes: GuardrailRegexFilterList,
+  }),
+).annotations({
+  identifier: "GuardrailSensitiveInformationPolicyAssessment",
+}) as any as S.Schema<GuardrailSensitiveInformationPolicyAssessment>;
+export interface GuardrailContextualGroundingFilter {
+  type: string;
+  threshold: number;
+  score: number;
+  action: string;
+  detected?: boolean;
+}
+export const GuardrailContextualGroundingFilter = S.suspend(() =>
+  S.Struct({
+    type: S.String,
+    threshold: S.Number,
+    score: S.Number,
+    action: S.String,
+    detected: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "GuardrailContextualGroundingFilter",
+}) as any as S.Schema<GuardrailContextualGroundingFilter>;
+export type GuardrailContextualGroundingFilters =
+  GuardrailContextualGroundingFilter[];
 export const GuardrailContextualGroundingFilters = S.Array(
   GuardrailContextualGroundingFilter,
 );
-export class GuardrailContextualGroundingPolicyAssessment extends S.Class<GuardrailContextualGroundingPolicyAssessment>(
-  "GuardrailContextualGroundingPolicyAssessment",
-)({ filters: S.optional(GuardrailContextualGroundingFilters) }) {}
-export class GuardrailAutomatedReasoningStatement extends S.Class<GuardrailAutomatedReasoningStatement>(
-  "GuardrailAutomatedReasoningStatement",
-)({ logic: S.optional(S.String), naturalLanguage: S.optional(S.String) }) {}
+export interface GuardrailContextualGroundingPolicyAssessment {
+  filters?: GuardrailContextualGroundingFilters;
+}
+export const GuardrailContextualGroundingPolicyAssessment = S.suspend(() =>
+  S.Struct({ filters: S.optional(GuardrailContextualGroundingFilters) }),
+).annotations({
+  identifier: "GuardrailContextualGroundingPolicyAssessment",
+}) as any as S.Schema<GuardrailContextualGroundingPolicyAssessment>;
+export interface GuardrailAutomatedReasoningStatement {
+  logic?: string;
+  naturalLanguage?: string;
+}
+export const GuardrailAutomatedReasoningStatement = S.suspend(() =>
+  S.Struct({
+    logic: S.optional(S.String),
+    naturalLanguage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GuardrailAutomatedReasoningStatement",
+}) as any as S.Schema<GuardrailAutomatedReasoningStatement>;
+export type GuardrailAutomatedReasoningStatementList =
+  GuardrailAutomatedReasoningStatement[];
 export const GuardrailAutomatedReasoningStatementList = S.Array(
   GuardrailAutomatedReasoningStatement,
 );
-export class GuardrailAutomatedReasoningInputTextReference extends S.Class<GuardrailAutomatedReasoningInputTextReference>(
-  "GuardrailAutomatedReasoningInputTextReference",
-)({ text: S.optional(S.String) }) {}
+export interface GuardrailAutomatedReasoningInputTextReference {
+  text?: string;
+}
+export const GuardrailAutomatedReasoningInputTextReference = S.suspend(() =>
+  S.Struct({ text: S.optional(S.String) }),
+).annotations({
+  identifier: "GuardrailAutomatedReasoningInputTextReference",
+}) as any as S.Schema<GuardrailAutomatedReasoningInputTextReference>;
+export type GuardrailAutomatedReasoningInputTextReferenceList =
+  GuardrailAutomatedReasoningInputTextReference[];
 export const GuardrailAutomatedReasoningInputTextReferenceList = S.Array(
   GuardrailAutomatedReasoningInputTextReference,
 );
-export class GuardrailAutomatedReasoningTranslation extends S.Class<GuardrailAutomatedReasoningTranslation>(
-  "GuardrailAutomatedReasoningTranslation",
-)({
-  premises: S.optional(GuardrailAutomatedReasoningStatementList),
-  claims: S.optional(GuardrailAutomatedReasoningStatementList),
-  untranslatedPremises: S.optional(
-    GuardrailAutomatedReasoningInputTextReferenceList,
-  ),
-  untranslatedClaims: S.optional(
-    GuardrailAutomatedReasoningInputTextReferenceList,
-  ),
-  confidence: S.optional(S.Number),
-}) {}
-export class GuardrailAutomatedReasoningScenario extends S.Class<GuardrailAutomatedReasoningScenario>(
-  "GuardrailAutomatedReasoningScenario",
-)({ statements: S.optional(GuardrailAutomatedReasoningStatementList) }) {}
-export class GuardrailAutomatedReasoningRule extends S.Class<GuardrailAutomatedReasoningRule>(
-  "GuardrailAutomatedReasoningRule",
-)({
-  identifier: S.optional(S.String),
-  policyVersionArn: S.optional(S.String),
-}) {}
+export interface GuardrailAutomatedReasoningTranslation {
+  premises?: GuardrailAutomatedReasoningStatementList;
+  claims?: GuardrailAutomatedReasoningStatementList;
+  untranslatedPremises?: GuardrailAutomatedReasoningInputTextReferenceList;
+  untranslatedClaims?: GuardrailAutomatedReasoningInputTextReferenceList;
+  confidence?: number;
+}
+export const GuardrailAutomatedReasoningTranslation = S.suspend(() =>
+  S.Struct({
+    premises: S.optional(GuardrailAutomatedReasoningStatementList),
+    claims: S.optional(GuardrailAutomatedReasoningStatementList),
+    untranslatedPremises: S.optional(
+      GuardrailAutomatedReasoningInputTextReferenceList,
+    ),
+    untranslatedClaims: S.optional(
+      GuardrailAutomatedReasoningInputTextReferenceList,
+    ),
+    confidence: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "GuardrailAutomatedReasoningTranslation",
+}) as any as S.Schema<GuardrailAutomatedReasoningTranslation>;
+export interface GuardrailAutomatedReasoningScenario {
+  statements?: GuardrailAutomatedReasoningStatementList;
+}
+export const GuardrailAutomatedReasoningScenario = S.suspend(() =>
+  S.Struct({
+    statements: S.optional(GuardrailAutomatedReasoningStatementList),
+  }),
+).annotations({
+  identifier: "GuardrailAutomatedReasoningScenario",
+}) as any as S.Schema<GuardrailAutomatedReasoningScenario>;
+export interface GuardrailAutomatedReasoningRule {
+  identifier?: string;
+  policyVersionArn?: string;
+}
+export const GuardrailAutomatedReasoningRule = S.suspend(() =>
+  S.Struct({
+    identifier: S.optional(S.String),
+    policyVersionArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GuardrailAutomatedReasoningRule",
+}) as any as S.Schema<GuardrailAutomatedReasoningRule>;
+export type GuardrailAutomatedReasoningRuleList =
+  GuardrailAutomatedReasoningRule[];
 export const GuardrailAutomatedReasoningRuleList = S.Array(
   GuardrailAutomatedReasoningRule,
 );
-export class GuardrailAutomatedReasoningLogicWarning extends S.Class<GuardrailAutomatedReasoningLogicWarning>(
-  "GuardrailAutomatedReasoningLogicWarning",
-)({
-  type: S.optional(S.String),
-  premises: S.optional(GuardrailAutomatedReasoningStatementList),
-  claims: S.optional(GuardrailAutomatedReasoningStatementList),
-}) {}
-export class GuardrailAutomatedReasoningValidFinding extends S.Class<GuardrailAutomatedReasoningValidFinding>(
-  "GuardrailAutomatedReasoningValidFinding",
-)({
-  translation: S.optional(GuardrailAutomatedReasoningTranslation),
-  claimsTrueScenario: S.optional(GuardrailAutomatedReasoningScenario),
-  supportingRules: S.optional(GuardrailAutomatedReasoningRuleList),
-  logicWarning: S.optional(GuardrailAutomatedReasoningLogicWarning),
-}) {}
-export class GuardrailAutomatedReasoningInvalidFinding extends S.Class<GuardrailAutomatedReasoningInvalidFinding>(
-  "GuardrailAutomatedReasoningInvalidFinding",
-)({
-  translation: S.optional(GuardrailAutomatedReasoningTranslation),
-  contradictingRules: S.optional(GuardrailAutomatedReasoningRuleList),
-  logicWarning: S.optional(GuardrailAutomatedReasoningLogicWarning),
-}) {}
-export class GuardrailAutomatedReasoningSatisfiableFinding extends S.Class<GuardrailAutomatedReasoningSatisfiableFinding>(
-  "GuardrailAutomatedReasoningSatisfiableFinding",
-)({
-  translation: S.optional(GuardrailAutomatedReasoningTranslation),
-  claimsTrueScenario: S.optional(GuardrailAutomatedReasoningScenario),
-  claimsFalseScenario: S.optional(GuardrailAutomatedReasoningScenario),
-  logicWarning: S.optional(GuardrailAutomatedReasoningLogicWarning),
-}) {}
-export class GuardrailAutomatedReasoningImpossibleFinding extends S.Class<GuardrailAutomatedReasoningImpossibleFinding>(
-  "GuardrailAutomatedReasoningImpossibleFinding",
-)({
-  translation: S.optional(GuardrailAutomatedReasoningTranslation),
-  contradictingRules: S.optional(GuardrailAutomatedReasoningRuleList),
-  logicWarning: S.optional(GuardrailAutomatedReasoningLogicWarning),
-}) {}
+export interface GuardrailAutomatedReasoningLogicWarning {
+  type?: string;
+  premises?: GuardrailAutomatedReasoningStatementList;
+  claims?: GuardrailAutomatedReasoningStatementList;
+}
+export const GuardrailAutomatedReasoningLogicWarning = S.suspend(() =>
+  S.Struct({
+    type: S.optional(S.String),
+    premises: S.optional(GuardrailAutomatedReasoningStatementList),
+    claims: S.optional(GuardrailAutomatedReasoningStatementList),
+  }),
+).annotations({
+  identifier: "GuardrailAutomatedReasoningLogicWarning",
+}) as any as S.Schema<GuardrailAutomatedReasoningLogicWarning>;
+export interface GuardrailAutomatedReasoningValidFinding {
+  translation?: GuardrailAutomatedReasoningTranslation;
+  claimsTrueScenario?: GuardrailAutomatedReasoningScenario;
+  supportingRules?: GuardrailAutomatedReasoningRuleList;
+  logicWarning?: GuardrailAutomatedReasoningLogicWarning;
+}
+export const GuardrailAutomatedReasoningValidFinding = S.suspend(() =>
+  S.Struct({
+    translation: S.optional(GuardrailAutomatedReasoningTranslation),
+    claimsTrueScenario: S.optional(GuardrailAutomatedReasoningScenario),
+    supportingRules: S.optional(GuardrailAutomatedReasoningRuleList),
+    logicWarning: S.optional(GuardrailAutomatedReasoningLogicWarning),
+  }),
+).annotations({
+  identifier: "GuardrailAutomatedReasoningValidFinding",
+}) as any as S.Schema<GuardrailAutomatedReasoningValidFinding>;
+export interface GuardrailAutomatedReasoningInvalidFinding {
+  translation?: GuardrailAutomatedReasoningTranslation;
+  contradictingRules?: GuardrailAutomatedReasoningRuleList;
+  logicWarning?: GuardrailAutomatedReasoningLogicWarning;
+}
+export const GuardrailAutomatedReasoningInvalidFinding = S.suspend(() =>
+  S.Struct({
+    translation: S.optional(GuardrailAutomatedReasoningTranslation),
+    contradictingRules: S.optional(GuardrailAutomatedReasoningRuleList),
+    logicWarning: S.optional(GuardrailAutomatedReasoningLogicWarning),
+  }),
+).annotations({
+  identifier: "GuardrailAutomatedReasoningInvalidFinding",
+}) as any as S.Schema<GuardrailAutomatedReasoningInvalidFinding>;
+export interface GuardrailAutomatedReasoningSatisfiableFinding {
+  translation?: GuardrailAutomatedReasoningTranslation;
+  claimsTrueScenario?: GuardrailAutomatedReasoningScenario;
+  claimsFalseScenario?: GuardrailAutomatedReasoningScenario;
+  logicWarning?: GuardrailAutomatedReasoningLogicWarning;
+}
+export const GuardrailAutomatedReasoningSatisfiableFinding = S.suspend(() =>
+  S.Struct({
+    translation: S.optional(GuardrailAutomatedReasoningTranslation),
+    claimsTrueScenario: S.optional(GuardrailAutomatedReasoningScenario),
+    claimsFalseScenario: S.optional(GuardrailAutomatedReasoningScenario),
+    logicWarning: S.optional(GuardrailAutomatedReasoningLogicWarning),
+  }),
+).annotations({
+  identifier: "GuardrailAutomatedReasoningSatisfiableFinding",
+}) as any as S.Schema<GuardrailAutomatedReasoningSatisfiableFinding>;
+export interface GuardrailAutomatedReasoningImpossibleFinding {
+  translation?: GuardrailAutomatedReasoningTranslation;
+  contradictingRules?: GuardrailAutomatedReasoningRuleList;
+  logicWarning?: GuardrailAutomatedReasoningLogicWarning;
+}
+export const GuardrailAutomatedReasoningImpossibleFinding = S.suspend(() =>
+  S.Struct({
+    translation: S.optional(GuardrailAutomatedReasoningTranslation),
+    contradictingRules: S.optional(GuardrailAutomatedReasoningRuleList),
+    logicWarning: S.optional(GuardrailAutomatedReasoningLogicWarning),
+  }),
+).annotations({
+  identifier: "GuardrailAutomatedReasoningImpossibleFinding",
+}) as any as S.Schema<GuardrailAutomatedReasoningImpossibleFinding>;
+export type GuardrailAutomatedReasoningTranslationList =
+  GuardrailAutomatedReasoningTranslation[];
 export const GuardrailAutomatedReasoningTranslationList = S.Array(
   GuardrailAutomatedReasoningTranslation,
 );
-export class GuardrailAutomatedReasoningTranslationOption extends S.Class<GuardrailAutomatedReasoningTranslationOption>(
-  "GuardrailAutomatedReasoningTranslationOption",
-)({ translations: S.optional(GuardrailAutomatedReasoningTranslationList) }) {}
+export interface GuardrailAutomatedReasoningTranslationOption {
+  translations?: GuardrailAutomatedReasoningTranslationList;
+}
+export const GuardrailAutomatedReasoningTranslationOption = S.suspend(() =>
+  S.Struct({
+    translations: S.optional(GuardrailAutomatedReasoningTranslationList),
+  }),
+).annotations({
+  identifier: "GuardrailAutomatedReasoningTranslationOption",
+}) as any as S.Schema<GuardrailAutomatedReasoningTranslationOption>;
+export type GuardrailAutomatedReasoningTranslationOptionList =
+  GuardrailAutomatedReasoningTranslationOption[];
 export const GuardrailAutomatedReasoningTranslationOptionList = S.Array(
   GuardrailAutomatedReasoningTranslationOption,
 );
+export type GuardrailAutomatedReasoningDifferenceScenarioList =
+  GuardrailAutomatedReasoningScenario[];
 export const GuardrailAutomatedReasoningDifferenceScenarioList = S.Array(
   GuardrailAutomatedReasoningScenario,
 );
-export class GuardrailAutomatedReasoningTranslationAmbiguousFinding extends S.Class<GuardrailAutomatedReasoningTranslationAmbiguousFinding>(
-  "GuardrailAutomatedReasoningTranslationAmbiguousFinding",
-)({
-  options: S.optional(GuardrailAutomatedReasoningTranslationOptionList),
-  differenceScenarios: S.optional(
-    GuardrailAutomatedReasoningDifferenceScenarioList,
-  ),
-}) {}
-export class GuardrailAutomatedReasoningTooComplexFinding extends S.Class<GuardrailAutomatedReasoningTooComplexFinding>(
-  "GuardrailAutomatedReasoningTooComplexFinding",
-)({}) {}
-export class GuardrailAutomatedReasoningNoTranslationsFinding extends S.Class<GuardrailAutomatedReasoningNoTranslationsFinding>(
-  "GuardrailAutomatedReasoningNoTranslationsFinding",
-)({}) {}
+export interface GuardrailAutomatedReasoningTranslationAmbiguousFinding {
+  options?: GuardrailAutomatedReasoningTranslationOptionList;
+  differenceScenarios?: GuardrailAutomatedReasoningDifferenceScenarioList;
+}
+export const GuardrailAutomatedReasoningTranslationAmbiguousFinding = S.suspend(
+  () =>
+    S.Struct({
+      options: S.optional(GuardrailAutomatedReasoningTranslationOptionList),
+      differenceScenarios: S.optional(
+        GuardrailAutomatedReasoningDifferenceScenarioList,
+      ),
+    }),
+).annotations({
+  identifier: "GuardrailAutomatedReasoningTranslationAmbiguousFinding",
+}) as any as S.Schema<GuardrailAutomatedReasoningTranslationAmbiguousFinding>;
+export interface GuardrailAutomatedReasoningTooComplexFinding {}
+export const GuardrailAutomatedReasoningTooComplexFinding = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "GuardrailAutomatedReasoningTooComplexFinding",
+}) as any as S.Schema<GuardrailAutomatedReasoningTooComplexFinding>;
+export interface GuardrailAutomatedReasoningNoTranslationsFinding {}
+export const GuardrailAutomatedReasoningNoTranslationsFinding = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "GuardrailAutomatedReasoningNoTranslationsFinding",
+}) as any as S.Schema<GuardrailAutomatedReasoningNoTranslationsFinding>;
 export const GuardrailAutomatedReasoningFinding = S.Union(
   S.Struct({ valid: GuardrailAutomatedReasoningValidFinding }),
   S.Struct({ invalid: GuardrailAutomatedReasoningInvalidFinding }),
@@ -1191,87 +1937,176 @@ export const GuardrailAutomatedReasoningFinding = S.Union(
     noTranslations: GuardrailAutomatedReasoningNoTranslationsFinding,
   }),
 );
+export type GuardrailAutomatedReasoningFindingList =
+  (typeof GuardrailAutomatedReasoningFinding)["Type"][];
 export const GuardrailAutomatedReasoningFindingList = S.Array(
   GuardrailAutomatedReasoningFinding,
 );
-export class GuardrailAutomatedReasoningPolicyAssessment extends S.Class<GuardrailAutomatedReasoningPolicyAssessment>(
-  "GuardrailAutomatedReasoningPolicyAssessment",
-)({ findings: S.optional(GuardrailAutomatedReasoningFindingList) }) {}
-export class GuardrailTextCharactersCoverage extends S.Class<GuardrailTextCharactersCoverage>(
-  "GuardrailTextCharactersCoverage",
-)({ guarded: S.optional(S.Number), total: S.optional(S.Number) }) {}
-export class GuardrailImageCoverage extends S.Class<GuardrailImageCoverage>(
-  "GuardrailImageCoverage",
-)({ guarded: S.optional(S.Number), total: S.optional(S.Number) }) {}
-export class GuardrailCoverage extends S.Class<GuardrailCoverage>(
-  "GuardrailCoverage",
-)({
-  textCharacters: S.optional(GuardrailTextCharactersCoverage),
-  images: S.optional(GuardrailImageCoverage),
-}) {}
-export class GuardrailInvocationMetrics extends S.Class<GuardrailInvocationMetrics>(
-  "GuardrailInvocationMetrics",
-)({
-  guardrailProcessingLatency: S.optional(S.Number),
-  usage: S.optional(GuardrailUsage),
-  guardrailCoverage: S.optional(GuardrailCoverage),
-}) {}
-export class AppliedGuardrailDetails extends S.Class<AppliedGuardrailDetails>(
-  "AppliedGuardrailDetails",
-)({
-  guardrailId: S.optional(S.String),
-  guardrailVersion: S.optional(S.String),
-  guardrailArn: S.optional(S.String),
-  guardrailOrigin: S.optional(GuardrailOriginList),
-  guardrailOwnership: S.optional(S.String),
-}) {}
-export class GuardrailAssessment extends S.Class<GuardrailAssessment>(
-  "GuardrailAssessment",
-)({
-  topicPolicy: S.optional(GuardrailTopicPolicyAssessment),
-  contentPolicy: S.optional(GuardrailContentPolicyAssessment),
-  wordPolicy: S.optional(GuardrailWordPolicyAssessment),
-  sensitiveInformationPolicy: S.optional(
-    GuardrailSensitiveInformationPolicyAssessment,
-  ),
-  contextualGroundingPolicy: S.optional(
-    GuardrailContextualGroundingPolicyAssessment,
-  ),
-  automatedReasoningPolicy: S.optional(
-    GuardrailAutomatedReasoningPolicyAssessment,
-  ),
-  invocationMetrics: S.optional(GuardrailInvocationMetrics),
-  appliedGuardrailDetails: S.optional(AppliedGuardrailDetails),
-}) {}
+export interface GuardrailAutomatedReasoningPolicyAssessment {
+  findings?: GuardrailAutomatedReasoningFindingList;
+}
+export const GuardrailAutomatedReasoningPolicyAssessment = S.suspend(() =>
+  S.Struct({ findings: S.optional(GuardrailAutomatedReasoningFindingList) }),
+).annotations({
+  identifier: "GuardrailAutomatedReasoningPolicyAssessment",
+}) as any as S.Schema<GuardrailAutomatedReasoningPolicyAssessment>;
+export interface GuardrailTextCharactersCoverage {
+  guarded?: number;
+  total?: number;
+}
+export const GuardrailTextCharactersCoverage = S.suspend(() =>
+  S.Struct({ guarded: S.optional(S.Number), total: S.optional(S.Number) }),
+).annotations({
+  identifier: "GuardrailTextCharactersCoverage",
+}) as any as S.Schema<GuardrailTextCharactersCoverage>;
+export interface GuardrailImageCoverage {
+  guarded?: number;
+  total?: number;
+}
+export const GuardrailImageCoverage = S.suspend(() =>
+  S.Struct({ guarded: S.optional(S.Number), total: S.optional(S.Number) }),
+).annotations({
+  identifier: "GuardrailImageCoverage",
+}) as any as S.Schema<GuardrailImageCoverage>;
+export interface GuardrailCoverage {
+  textCharacters?: GuardrailTextCharactersCoverage;
+  images?: GuardrailImageCoverage;
+}
+export const GuardrailCoverage = S.suspend(() =>
+  S.Struct({
+    textCharacters: S.optional(GuardrailTextCharactersCoverage),
+    images: S.optional(GuardrailImageCoverage),
+  }),
+).annotations({
+  identifier: "GuardrailCoverage",
+}) as any as S.Schema<GuardrailCoverage>;
+export interface GuardrailInvocationMetrics {
+  guardrailProcessingLatency?: number;
+  usage?: GuardrailUsage;
+  guardrailCoverage?: GuardrailCoverage;
+}
+export const GuardrailInvocationMetrics = S.suspend(() =>
+  S.Struct({
+    guardrailProcessingLatency: S.optional(S.Number),
+    usage: S.optional(GuardrailUsage),
+    guardrailCoverage: S.optional(GuardrailCoverage),
+  }),
+).annotations({
+  identifier: "GuardrailInvocationMetrics",
+}) as any as S.Schema<GuardrailInvocationMetrics>;
+export interface AppliedGuardrailDetails {
+  guardrailId?: string;
+  guardrailVersion?: string;
+  guardrailArn?: string;
+  guardrailOrigin?: GuardrailOriginList;
+  guardrailOwnership?: string;
+}
+export const AppliedGuardrailDetails = S.suspend(() =>
+  S.Struct({
+    guardrailId: S.optional(S.String),
+    guardrailVersion: S.optional(S.String),
+    guardrailArn: S.optional(S.String),
+    guardrailOrigin: S.optional(GuardrailOriginList),
+    guardrailOwnership: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AppliedGuardrailDetails",
+}) as any as S.Schema<AppliedGuardrailDetails>;
+export interface GuardrailAssessment {
+  topicPolicy?: GuardrailTopicPolicyAssessment;
+  contentPolicy?: GuardrailContentPolicyAssessment;
+  wordPolicy?: GuardrailWordPolicyAssessment;
+  sensitiveInformationPolicy?: GuardrailSensitiveInformationPolicyAssessment;
+  contextualGroundingPolicy?: GuardrailContextualGroundingPolicyAssessment;
+  automatedReasoningPolicy?: GuardrailAutomatedReasoningPolicyAssessment;
+  invocationMetrics?: GuardrailInvocationMetrics;
+  appliedGuardrailDetails?: AppliedGuardrailDetails;
+}
+export const GuardrailAssessment = S.suspend(() =>
+  S.Struct({
+    topicPolicy: S.optional(GuardrailTopicPolicyAssessment),
+    contentPolicy: S.optional(GuardrailContentPolicyAssessment),
+    wordPolicy: S.optional(GuardrailWordPolicyAssessment),
+    sensitiveInformationPolicy: S.optional(
+      GuardrailSensitiveInformationPolicyAssessment,
+    ),
+    contextualGroundingPolicy: S.optional(
+      GuardrailContextualGroundingPolicyAssessment,
+    ),
+    automatedReasoningPolicy: S.optional(
+      GuardrailAutomatedReasoningPolicyAssessment,
+    ),
+    invocationMetrics: S.optional(GuardrailInvocationMetrics),
+    appliedGuardrailDetails: S.optional(AppliedGuardrailDetails),
+  }),
+).annotations({
+  identifier: "GuardrailAssessment",
+}) as any as S.Schema<GuardrailAssessment>;
+export type GuardrailAssessmentMap = { [key: string]: GuardrailAssessment };
 export const GuardrailAssessmentMap = S.Record({
   key: S.String,
   value: GuardrailAssessment,
 });
+export type GuardrailAssessmentList = GuardrailAssessment[];
 export const GuardrailAssessmentList = S.Array(GuardrailAssessment);
+export type GuardrailAssessmentListMap = {
+  [key: string]: GuardrailAssessmentList;
+};
 export const GuardrailAssessmentListMap = S.Record({
   key: S.String,
   value: GuardrailAssessmentList,
 });
-export class InvokeModelWithBidirectionalStreamResponse extends S.Class<InvokeModelWithBidirectionalStreamResponse>(
-  "InvokeModelWithBidirectionalStreamResponse",
-)({ body: InvokeModelWithBidirectionalStreamOutput.pipe(T.HttpPayload()) }) {}
-export class ContentBlockStartEvent extends S.Class<ContentBlockStartEvent>(
-  "ContentBlockStartEvent",
-)({ start: ContentBlockStart, contentBlockIndex: S.Number }) {}
-export class CitationsDelta extends S.Class<CitationsDelta>("CitationsDelta")({
-  title: S.optional(S.String),
-  source: S.optional(S.String),
-  sourceContent: S.optional(CitationSourceContentListDelta),
-  location: S.optional(CitationLocation),
-}) {}
-export class GuardrailTraceAssessment extends S.Class<GuardrailTraceAssessment>(
-  "GuardrailTraceAssessment",
-)({
-  modelOutput: S.optional(ModelOutputs),
-  inputAssessment: S.optional(GuardrailAssessmentMap),
-  outputAssessments: S.optional(GuardrailAssessmentListMap),
-  actionReason: S.optional(S.String),
-}) {}
+export interface InvokeModelWithBidirectionalStreamResponse {
+  body: (typeof InvokeModelWithBidirectionalStreamOutput)["Type"];
+}
+export const InvokeModelWithBidirectionalStreamResponse = S.suspend(() =>
+  S.Struct({
+    body: InvokeModelWithBidirectionalStreamOutput.pipe(T.HttpPayload()),
+  }),
+).annotations({
+  identifier: "InvokeModelWithBidirectionalStreamResponse",
+}) as any as S.Schema<InvokeModelWithBidirectionalStreamResponse>;
+export interface ContentBlockStartEvent {
+  start: (typeof ContentBlockStart)["Type"];
+  contentBlockIndex: number;
+}
+export const ContentBlockStartEvent = S.suspend(() =>
+  S.Struct({ start: ContentBlockStart, contentBlockIndex: S.Number }),
+).annotations({
+  identifier: "ContentBlockStartEvent",
+}) as any as S.Schema<ContentBlockStartEvent>;
+export interface CitationsDelta {
+  title?: string;
+  source?: string;
+  sourceContent?: CitationSourceContentListDelta;
+  location?: (typeof CitationLocation)["Type"];
+}
+export const CitationsDelta = S.suspend(() =>
+  S.Struct({
+    title: S.optional(S.String),
+    source: S.optional(S.String),
+    sourceContent: S.optional(CitationSourceContentListDelta),
+    location: S.optional(CitationLocation),
+  }),
+).annotations({
+  identifier: "CitationsDelta",
+}) as any as S.Schema<CitationsDelta>;
+export interface GuardrailTraceAssessment {
+  modelOutput?: ModelOutputs;
+  inputAssessment?: GuardrailAssessmentMap;
+  outputAssessments?: GuardrailAssessmentListMap;
+  actionReason?: string;
+}
+export const GuardrailTraceAssessment = S.suspend(() =>
+  S.Struct({
+    modelOutput: S.optional(ModelOutputs),
+    inputAssessment: S.optional(GuardrailAssessmentMap),
+    outputAssessments: S.optional(GuardrailAssessmentListMap),
+    actionReason: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GuardrailTraceAssessment",
+}) as any as S.Schema<GuardrailTraceAssessment>;
 export const ContentBlockDelta = S.Union(
   S.Struct({ text: S.String }),
   S.Struct({ toolUse: ToolUseBlockDelta }),
@@ -1280,16 +2115,34 @@ export const ContentBlockDelta = S.Union(
   S.Struct({ citation: CitationsDelta }),
   S.Struct({ image: ImageBlockDelta }),
 );
-export class ConverseStreamTrace extends S.Class<ConverseStreamTrace>(
-  "ConverseStreamTrace",
-)({
-  guardrail: S.optional(GuardrailTraceAssessment),
-  promptRouter: S.optional(PromptRouterTrace),
-}) {}
-export class ConverseRequest extends S.Class<ConverseRequest>(
-  "ConverseRequest",
-)(
-  {
+export interface ConverseStreamTrace {
+  guardrail?: GuardrailTraceAssessment;
+  promptRouter?: PromptRouterTrace;
+}
+export const ConverseStreamTrace = S.suspend(() =>
+  S.Struct({
+    guardrail: S.optional(GuardrailTraceAssessment),
+    promptRouter: S.optional(PromptRouterTrace),
+  }),
+).annotations({
+  identifier: "ConverseStreamTrace",
+}) as any as S.Schema<ConverseStreamTrace>;
+export interface ConverseRequest {
+  modelId: string;
+  messages?: Messages;
+  system?: SystemContentBlocks;
+  inferenceConfig?: InferenceConfiguration;
+  toolConfig?: ToolConfiguration;
+  guardrailConfig?: GuardrailConfiguration;
+  additionalModelRequestFields?: any;
+  promptVariables?: PromptVariableMap;
+  additionalModelResponseFieldPaths?: AdditionalModelResponseFieldPaths;
+  requestMetadata?: RequestMetadata;
+  performanceConfig?: PerformanceConfiguration;
+  serviceTier?: ServiceTier;
+}
+export const ConverseRequest = S.suspend(() =>
+  S.Struct({
     modelId: S.String.pipe(T.HttpLabel("modelId")),
     messages: S.optional(Messages),
     system: S.optional(SystemContentBlocks),
@@ -1304,28 +2157,46 @@ export class ConverseRequest extends S.Class<ConverseRequest>(
     requestMetadata: S.optional(RequestMetadata),
     performanceConfig: S.optional(PerformanceConfiguration),
     serviceTier: S.optional(ServiceTier),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/model/{modelId}/converse" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/model/{modelId}/converse" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ContentBlockDeltaEvent extends S.Class<ContentBlockDeltaEvent>(
-  "ContentBlockDeltaEvent",
-)({ delta: ContentBlockDelta, contentBlockIndex: S.Number }) {}
-export class ConverseStreamMetadataEvent extends S.Class<ConverseStreamMetadataEvent>(
-  "ConverseStreamMetadataEvent",
-)({
-  usage: TokenUsage,
-  metrics: ConverseStreamMetrics,
-  trace: S.optional(ConverseStreamTrace),
-  performanceConfig: S.optional(PerformanceConfiguration),
-  serviceTier: S.optional(ServiceTier),
-}) {}
+).annotations({
+  identifier: "ConverseRequest",
+}) as any as S.Schema<ConverseRequest>;
+export interface ContentBlockDeltaEvent {
+  delta: (typeof ContentBlockDelta)["Type"];
+  contentBlockIndex: number;
+}
+export const ContentBlockDeltaEvent = S.suspend(() =>
+  S.Struct({ delta: ContentBlockDelta, contentBlockIndex: S.Number }),
+).annotations({
+  identifier: "ContentBlockDeltaEvent",
+}) as any as S.Schema<ContentBlockDeltaEvent>;
+export interface ConverseStreamMetadataEvent {
+  usage: TokenUsage;
+  metrics: ConverseStreamMetrics;
+  trace?: ConverseStreamTrace;
+  performanceConfig?: PerformanceConfiguration;
+  serviceTier?: ServiceTier;
+}
+export const ConverseStreamMetadataEvent = S.suspend(() =>
+  S.Struct({
+    usage: TokenUsage,
+    metrics: ConverseStreamMetrics,
+    trace: S.optional(ConverseStreamTrace),
+    performanceConfig: S.optional(PerformanceConfiguration),
+    serviceTier: S.optional(ServiceTier),
+  }),
+).annotations({
+  identifier: "ConverseStreamMetadataEvent",
+}) as any as S.Schema<ConverseStreamMetadataEvent>;
 export const ConverseStreamOutput = T.EventStream(
   S.Union(
     S.Struct({ messageStart: MessageStartEvent }),
@@ -1335,51 +2206,105 @@ export const ConverseStreamOutput = T.EventStream(
     S.Struct({ messageStop: MessageStopEvent }),
     S.Struct({ metadata: ConverseStreamMetadataEvent }),
     S.Struct({
-      internalServerException: S.suspend(() => InternalServerException),
+      internalServerException: S.suspend(
+        () => InternalServerException,
+      ).annotations({ identifier: "InternalServerException" }),
     }),
     S.Struct({
-      modelStreamErrorException: S.suspend(() => ModelStreamErrorException),
+      modelStreamErrorException: S.suspend(
+        () => ModelStreamErrorException,
+      ).annotations({ identifier: "ModelStreamErrorException" }),
     }),
-    S.Struct({ validationException: S.suspend(() => ValidationException) }),
-    S.Struct({ throttlingException: S.suspend(() => ThrottlingException) }),
     S.Struct({
-      serviceUnavailableException: S.suspend(() => ServiceUnavailableException),
+      validationException: S.suspend(() => ValidationException).annotations({
+        identifier: "ValidationException",
+      }),
+    }),
+    S.Struct({
+      throttlingException: S.suspend(() => ThrottlingException).annotations({
+        identifier: "ThrottlingException",
+      }),
+    }),
+    S.Struct({
+      serviceUnavailableException: S.suspend(
+        () => ServiceUnavailableException,
+      ).annotations({ identifier: "ServiceUnavailableException" }),
     }),
   ),
 );
-export class ConverseStreamResponse extends S.Class<ConverseStreamResponse>(
-  "ConverseStreamResponse",
-)({ stream: S.optional(ConverseStreamOutput).pipe(T.HttpPayload()) }) {}
+export interface ConverseStreamResponse {
+  stream?: (typeof ConverseStreamOutput)["Type"];
+}
+export const ConverseStreamResponse = S.suspend(() =>
+  S.Struct({ stream: S.optional(ConverseStreamOutput).pipe(T.HttpPayload()) }),
+).annotations({
+  identifier: "ConverseStreamResponse",
+}) as any as S.Schema<ConverseStreamResponse>;
 export const ConverseOutput = S.Union(S.Struct({ message: Message }));
-export class ConverseMetrics extends S.Class<ConverseMetrics>(
-  "ConverseMetrics",
-)({ latencyMs: S.Number }) {}
-export class ConverseTrace extends S.Class<ConverseTrace>("ConverseTrace")({
-  guardrail: S.optional(GuardrailTraceAssessment),
-  promptRouter: S.optional(PromptRouterTrace),
-}) {}
-export class ConverseResponse extends S.Class<ConverseResponse>(
-  "ConverseResponse",
-)({
-  output: ConverseOutput,
-  stopReason: S.String,
-  usage: TokenUsage,
-  metrics: ConverseMetrics,
-  additionalModelResponseFields: S.optional(S.Any),
-  trace: S.optional(ConverseTrace),
-  performanceConfig: S.optional(PerformanceConfiguration),
-  serviceTier: S.optional(ServiceTier),
-}) {}
-export class ApplyGuardrailResponse extends S.Class<ApplyGuardrailResponse>(
-  "ApplyGuardrailResponse",
-)({
-  usage: GuardrailUsage,
-  action: S.String,
-  actionReason: S.optional(S.String),
-  outputs: GuardrailOutputContentList,
-  assessments: GuardrailAssessmentList,
-  guardrailCoverage: S.optional(GuardrailCoverage),
-}) {}
+export interface ConverseMetrics {
+  latencyMs: number;
+}
+export const ConverseMetrics = S.suspend(() =>
+  S.Struct({ latencyMs: S.Number }),
+).annotations({
+  identifier: "ConverseMetrics",
+}) as any as S.Schema<ConverseMetrics>;
+export interface ConverseTrace {
+  guardrail?: GuardrailTraceAssessment;
+  promptRouter?: PromptRouterTrace;
+}
+export const ConverseTrace = S.suspend(() =>
+  S.Struct({
+    guardrail: S.optional(GuardrailTraceAssessment),
+    promptRouter: S.optional(PromptRouterTrace),
+  }),
+).annotations({
+  identifier: "ConverseTrace",
+}) as any as S.Schema<ConverseTrace>;
+export interface ConverseResponse {
+  output: (typeof ConverseOutput)["Type"];
+  stopReason: string;
+  usage: TokenUsage;
+  metrics: ConverseMetrics;
+  additionalModelResponseFields?: any;
+  trace?: ConverseTrace;
+  performanceConfig?: PerformanceConfiguration;
+  serviceTier?: ServiceTier;
+}
+export const ConverseResponse = S.suspend(() =>
+  S.Struct({
+    output: ConverseOutput,
+    stopReason: S.String,
+    usage: TokenUsage,
+    metrics: ConverseMetrics,
+    additionalModelResponseFields: S.optional(S.Any),
+    trace: S.optional(ConverseTrace),
+    performanceConfig: S.optional(PerformanceConfiguration),
+    serviceTier: S.optional(ServiceTier),
+  }),
+).annotations({
+  identifier: "ConverseResponse",
+}) as any as S.Schema<ConverseResponse>;
+export interface ApplyGuardrailResponse {
+  usage: GuardrailUsage;
+  action: string;
+  actionReason?: string;
+  outputs: GuardrailOutputContentList;
+  assessments: GuardrailAssessmentList;
+  guardrailCoverage?: GuardrailCoverage;
+}
+export const ApplyGuardrailResponse = S.suspend(() =>
+  S.Struct({
+    usage: GuardrailUsage,
+    action: S.String,
+    actionReason: S.optional(S.String),
+    outputs: GuardrailOutputContentList,
+    assessments: GuardrailAssessmentList,
+    guardrailCoverage: S.optional(GuardrailCoverage),
+  }),
+).annotations({
+  identifier: "ApplyGuardrailResponse",
+}) as any as S.Schema<ApplyGuardrailResponse>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

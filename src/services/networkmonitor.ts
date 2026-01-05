@@ -294,119 +294,167 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class ListTagsForResourceInput extends S.Class<ListTagsForResourceInput>(
-  "ListTagsForResourceInput",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface ListTagsForResourceInput {
+  resourceArn: string;
+}
+export const ListTagsForResourceInput = S.suspend(() =>
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceInput extends S.Class<UntagResourceInput>(
-  "UntagResourceInput",
-)(
-  {
+).annotations({
+  identifier: "ListTagsForResourceInput",
+}) as any as S.Schema<ListTagsForResourceInput>;
+export interface UntagResourceInput {
+  resourceArn: string;
+  tagKeys: TagKeyList;
+}
+export const UntagResourceInput = S.suspend(() =>
+  S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceOutput extends S.Class<UntagResourceOutput>(
-  "UntagResourceOutput",
-)({}) {}
-export class GetMonitorInput extends S.Class<GetMonitorInput>(
-  "GetMonitorInput",
-)(
-  { monitorName: S.String.pipe(T.HttpLabel("monitorName")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/monitors/{monitorName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UntagResourceInput",
+}) as any as S.Schema<UntagResourceInput>;
+export interface UntagResourceOutput {}
+export const UntagResourceOutput = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceOutput",
+}) as any as S.Schema<UntagResourceOutput>;
+export interface GetMonitorInput {
+  monitorName: string;
+}
+export const GetMonitorInput = S.suspend(() =>
+  S.Struct({ monitorName: S.String.pipe(T.HttpLabel("monitorName")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/monitors/{monitorName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateMonitorInput extends S.Class<UpdateMonitorInput>(
-  "UpdateMonitorInput",
-)(
-  {
+).annotations({
+  identifier: "GetMonitorInput",
+}) as any as S.Schema<GetMonitorInput>;
+export interface UpdateMonitorInput {
+  monitorName: string;
+  aggregationPeriod: number;
+}
+export const UpdateMonitorInput = S.suspend(() =>
+  S.Struct({
     monitorName: S.String.pipe(T.HttpLabel("monitorName")),
     aggregationPeriod: S.Number,
-  },
-  T.all(
-    T.Http({ method: "PATCH", uri: "/monitors/{monitorName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PATCH", uri: "/monitors/{monitorName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteMonitorInput extends S.Class<DeleteMonitorInput>(
-  "DeleteMonitorInput",
-)(
-  { monitorName: S.String.pipe(T.HttpLabel("monitorName")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/monitors/{monitorName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UpdateMonitorInput",
+}) as any as S.Schema<UpdateMonitorInput>;
+export interface DeleteMonitorInput {
+  monitorName: string;
+}
+export const DeleteMonitorInput = S.suspend(() =>
+  S.Struct({ monitorName: S.String.pipe(T.HttpLabel("monitorName")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/monitors/{monitorName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteMonitorOutput extends S.Class<DeleteMonitorOutput>(
-  "DeleteMonitorOutput",
-)({}) {}
-export class ListMonitorsInput extends S.Class<ListMonitorsInput>(
-  "ListMonitorsInput",
-)(
-  {
+).annotations({
+  identifier: "DeleteMonitorInput",
+}) as any as S.Schema<DeleteMonitorInput>;
+export interface DeleteMonitorOutput {}
+export const DeleteMonitorOutput = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteMonitorOutput",
+}) as any as S.Schema<DeleteMonitorOutput>;
+export interface ListMonitorsInput {
+  nextToken?: string;
+  maxResults?: number;
+  state?: string;
+}
+export const ListMonitorsInput = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     state: S.optional(S.String).pipe(T.HttpQuery("state")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/monitors" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/monitors" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetProbeInput extends S.Class<GetProbeInput>("GetProbeInput")(
-  {
+).annotations({
+  identifier: "ListMonitorsInput",
+}) as any as S.Schema<ListMonitorsInput>;
+export interface GetProbeInput {
+  monitorName: string;
+  probeId: string;
+}
+export const GetProbeInput = S.suspend(() =>
+  S.Struct({
     monitorName: S.String.pipe(T.HttpLabel("monitorName")),
     probeId: S.String.pipe(T.HttpLabel("probeId")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/monitors/{monitorName}/probes/{probeId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/monitors/{monitorName}/probes/{probeId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateProbeInput extends S.Class<UpdateProbeInput>(
-  "UpdateProbeInput",
-)(
-  {
+).annotations({
+  identifier: "GetProbeInput",
+}) as any as S.Schema<GetProbeInput>;
+export interface UpdateProbeInput {
+  monitorName: string;
+  probeId: string;
+  state?: string;
+  destination?: string;
+  destinationPort?: number;
+  protocol?: string;
+  packetSize?: number;
+}
+export const UpdateProbeInput = S.suspend(() =>
+  S.Struct({
     monitorName: S.String.pipe(T.HttpLabel("monitorName")),
     probeId: S.String.pipe(T.HttpLabel("probeId")),
     state: S.optional(S.String),
@@ -414,223 +462,402 @@ export class UpdateProbeInput extends S.Class<UpdateProbeInput>(
     destinationPort: S.optional(S.Number),
     protocol: S.optional(S.String),
     packetSize: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({
-      method: "PATCH",
-      uri: "/monitors/{monitorName}/probes/{probeId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/monitors/{monitorName}/probes/{probeId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteProbeInput extends S.Class<DeleteProbeInput>(
-  "DeleteProbeInput",
-)(
-  {
+).annotations({
+  identifier: "UpdateProbeInput",
+}) as any as S.Schema<UpdateProbeInput>;
+export interface DeleteProbeInput {
+  monitorName: string;
+  probeId: string;
+}
+export const DeleteProbeInput = S.suspend(() =>
+  S.Struct({
     monitorName: S.String.pipe(T.HttpLabel("monitorName")),
     probeId: S.String.pipe(T.HttpLabel("probeId")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/monitors/{monitorName}/probes/{probeId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/monitors/{monitorName}/probes/{probeId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteProbeOutput extends S.Class<DeleteProbeOutput>(
-  "DeleteProbeOutput",
-)({}) {}
+).annotations({
+  identifier: "DeleteProbeInput",
+}) as any as S.Schema<DeleteProbeInput>;
+export interface DeleteProbeOutput {}
+export const DeleteProbeOutput = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteProbeOutput",
+}) as any as S.Schema<DeleteProbeOutput>;
+export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
-export class CreateMonitorProbeInput extends S.Class<CreateMonitorProbeInput>(
-  "CreateMonitorProbeInput",
-)({
-  sourceArn: S.String,
-  destination: S.String,
-  destinationPort: S.optional(S.Number),
-  protocol: S.String,
-  packetSize: S.optional(S.Number),
-  probeTags: S.optional(TagMap),
-}) {}
+export interface CreateMonitorProbeInput {
+  sourceArn: string;
+  destination: string;
+  destinationPort?: number;
+  protocol: string;
+  packetSize?: number;
+  probeTags?: TagMap;
+}
+export const CreateMonitorProbeInput = S.suspend(() =>
+  S.Struct({
+    sourceArn: S.String,
+    destination: S.String,
+    destinationPort: S.optional(S.Number),
+    protocol: S.String,
+    packetSize: S.optional(S.Number),
+    probeTags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "CreateMonitorProbeInput",
+}) as any as S.Schema<CreateMonitorProbeInput>;
+export type CreateMonitorProbeInputList = CreateMonitorProbeInput[];
 export const CreateMonitorProbeInputList = S.Array(CreateMonitorProbeInput);
-export class ProbeInput extends S.Class<ProbeInput>("ProbeInput")({
-  sourceArn: S.String,
-  destination: S.String,
-  destinationPort: S.optional(S.Number),
-  protocol: S.String,
-  packetSize: S.optional(S.Number),
-  tags: S.optional(TagMap),
-}) {}
-export class ListTagsForResourceOutput extends S.Class<ListTagsForResourceOutput>(
-  "ListTagsForResourceOutput",
-)({ tags: S.optional(TagMap) }) {}
-export class TagResourceInput extends S.Class<TagResourceInput>(
-  "TagResourceInput",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap },
-  T.all(
-    T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface ProbeInput {
+  sourceArn: string;
+  destination: string;
+  destinationPort?: number;
+  protocol: string;
+  packetSize?: number;
+  tags?: TagMap;
+}
+export const ProbeInput = S.suspend(() =>
+  S.Struct({
+    sourceArn: S.String,
+    destination: S.String,
+    destinationPort: S.optional(S.Number),
+    protocol: S.String,
+    packetSize: S.optional(S.Number),
+    tags: S.optional(TagMap),
+  }),
+).annotations({ identifier: "ProbeInput" }) as any as S.Schema<ProbeInput>;
+export interface ListTagsForResourceOutput {
+  tags?: TagMap;
+}
+export const ListTagsForResourceOutput = S.suspend(() =>
+  S.Struct({ tags: S.optional(TagMap) }),
+).annotations({
+  identifier: "ListTagsForResourceOutput",
+}) as any as S.Schema<ListTagsForResourceOutput>;
+export interface TagResourceInput {
+  resourceArn: string;
+  tags: TagMap;
+}
+export const TagResourceInput = S.suspend(() =>
+  S.Struct({
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+    tags: TagMap,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceOutput extends S.Class<TagResourceOutput>(
-  "TagResourceOutput",
-)({}) {}
-export class CreateMonitorInput extends S.Class<CreateMonitorInput>(
-  "CreateMonitorInput",
-)(
-  {
+).annotations({
+  identifier: "TagResourceInput",
+}) as any as S.Schema<TagResourceInput>;
+export interface TagResourceOutput {}
+export const TagResourceOutput = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceOutput",
+}) as any as S.Schema<TagResourceOutput>;
+export interface CreateMonitorInput {
+  monitorName: string;
+  probes?: CreateMonitorProbeInputList;
+  aggregationPeriod?: number;
+  clientToken?: string;
+  tags?: TagMap;
+}
+export const CreateMonitorInput = S.suspend(() =>
+  S.Struct({
     monitorName: S.String,
     probes: S.optional(CreateMonitorProbeInputList),
     aggregationPeriod: S.optional(S.Number),
     clientToken: S.optional(S.String),
     tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/monitors" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/monitors" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateMonitorOutput extends S.Class<UpdateMonitorOutput>(
-  "UpdateMonitorOutput",
-)({
-  monitorArn: S.String,
-  monitorName: S.String,
-  state: S.String,
-  aggregationPeriod: S.optional(S.Number),
-  tags: S.optional(TagMap),
-}) {}
-export class CreateProbeInput extends S.Class<CreateProbeInput>(
-  "CreateProbeInput",
-)(
-  {
+).annotations({
+  identifier: "CreateMonitorInput",
+}) as any as S.Schema<CreateMonitorInput>;
+export interface UpdateMonitorOutput {
+  monitorArn: string;
+  monitorName: string;
+  state: string;
+  aggregationPeriod?: number;
+  tags?: TagMap;
+}
+export const UpdateMonitorOutput = S.suspend(() =>
+  S.Struct({
+    monitorArn: S.String,
+    monitorName: S.String,
+    state: S.String,
+    aggregationPeriod: S.optional(S.Number),
+    tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "UpdateMonitorOutput",
+}) as any as S.Schema<UpdateMonitorOutput>;
+export interface CreateProbeInput {
+  monitorName: string;
+  probe: ProbeInput;
+  clientToken?: string;
+  tags?: TagMap;
+}
+export const CreateProbeInput = S.suspend(() =>
+  S.Struct({
     monitorName: S.String.pipe(T.HttpLabel("monitorName")),
     probe: ProbeInput,
     clientToken: S.optional(S.String),
     tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/monitors/{monitorName}/probes" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/monitors/{monitorName}/probes" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetProbeOutput extends S.Class<GetProbeOutput>("GetProbeOutput")({
-  probeId: S.optional(S.String),
-  probeArn: S.optional(S.String),
-  sourceArn: S.String,
-  destination: S.String,
-  destinationPort: S.optional(S.Number),
-  protocol: S.String,
-  packetSize: S.optional(S.Number),
-  addressFamily: S.optional(S.String),
-  vpcId: S.optional(S.String),
-  state: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  tags: S.optional(TagMap),
-}) {}
-export class UpdateProbeOutput extends S.Class<UpdateProbeOutput>(
-  "UpdateProbeOutput",
-)({
-  probeId: S.optional(S.String),
-  probeArn: S.optional(S.String),
-  sourceArn: S.String,
-  destination: S.String,
-  destinationPort: S.optional(S.Number),
-  protocol: S.String,
-  packetSize: S.optional(S.Number),
-  addressFamily: S.optional(S.String),
-  vpcId: S.optional(S.String),
-  state: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  tags: S.optional(TagMap),
-}) {}
-export class Probe extends S.Class<Probe>("Probe")({
-  probeId: S.optional(S.String),
-  probeArn: S.optional(S.String),
-  sourceArn: S.String,
-  destination: S.String,
-  destinationPort: S.optional(S.Number),
-  protocol: S.String,
-  packetSize: S.optional(S.Number),
-  addressFamily: S.optional(S.String),
-  vpcId: S.optional(S.String),
-  state: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  tags: S.optional(TagMap),
-}) {}
+).annotations({
+  identifier: "CreateProbeInput",
+}) as any as S.Schema<CreateProbeInput>;
+export interface GetProbeOutput {
+  probeId?: string;
+  probeArn?: string;
+  sourceArn: string;
+  destination: string;
+  destinationPort?: number;
+  protocol: string;
+  packetSize?: number;
+  addressFamily?: string;
+  vpcId?: string;
+  state?: string;
+  createdAt?: Date;
+  modifiedAt?: Date;
+  tags?: TagMap;
+}
+export const GetProbeOutput = S.suspend(() =>
+  S.Struct({
+    probeId: S.optional(S.String),
+    probeArn: S.optional(S.String),
+    sourceArn: S.String,
+    destination: S.String,
+    destinationPort: S.optional(S.Number),
+    protocol: S.String,
+    packetSize: S.optional(S.Number),
+    addressFamily: S.optional(S.String),
+    vpcId: S.optional(S.String),
+    state: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "GetProbeOutput",
+}) as any as S.Schema<GetProbeOutput>;
+export interface UpdateProbeOutput {
+  probeId?: string;
+  probeArn?: string;
+  sourceArn: string;
+  destination: string;
+  destinationPort?: number;
+  protocol: string;
+  packetSize?: number;
+  addressFamily?: string;
+  vpcId?: string;
+  state?: string;
+  createdAt?: Date;
+  modifiedAt?: Date;
+  tags?: TagMap;
+}
+export const UpdateProbeOutput = S.suspend(() =>
+  S.Struct({
+    probeId: S.optional(S.String),
+    probeArn: S.optional(S.String),
+    sourceArn: S.String,
+    destination: S.String,
+    destinationPort: S.optional(S.Number),
+    protocol: S.String,
+    packetSize: S.optional(S.Number),
+    addressFamily: S.optional(S.String),
+    vpcId: S.optional(S.String),
+    state: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "UpdateProbeOutput",
+}) as any as S.Schema<UpdateProbeOutput>;
+export interface Probe {
+  probeId?: string;
+  probeArn?: string;
+  sourceArn: string;
+  destination: string;
+  destinationPort?: number;
+  protocol: string;
+  packetSize?: number;
+  addressFamily?: string;
+  vpcId?: string;
+  state?: string;
+  createdAt?: Date;
+  modifiedAt?: Date;
+  tags?: TagMap;
+}
+export const Probe = S.suspend(() =>
+  S.Struct({
+    probeId: S.optional(S.String),
+    probeArn: S.optional(S.String),
+    sourceArn: S.String,
+    destination: S.String,
+    destinationPort: S.optional(S.Number),
+    protocol: S.String,
+    packetSize: S.optional(S.Number),
+    addressFamily: S.optional(S.String),
+    vpcId: S.optional(S.String),
+    state: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    tags: S.optional(TagMap),
+  }),
+).annotations({ identifier: "Probe" }) as any as S.Schema<Probe>;
+export type ProbeList = Probe[];
 export const ProbeList = S.Array(Probe);
-export class MonitorSummary extends S.Class<MonitorSummary>("MonitorSummary")({
-  monitorArn: S.String,
-  monitorName: S.String,
-  state: S.String,
-  aggregationPeriod: S.optional(S.Number),
-  tags: S.optional(TagMap),
-}) {}
+export interface MonitorSummary {
+  monitorArn: string;
+  monitorName: string;
+  state: string;
+  aggregationPeriod?: number;
+  tags?: TagMap;
+}
+export const MonitorSummary = S.suspend(() =>
+  S.Struct({
+    monitorArn: S.String,
+    monitorName: S.String,
+    state: S.String,
+    aggregationPeriod: S.optional(S.Number),
+    tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "MonitorSummary",
+}) as any as S.Schema<MonitorSummary>;
+export type MonitorList = MonitorSummary[];
 export const MonitorList = S.Array(MonitorSummary);
-export class CreateMonitorOutput extends S.Class<CreateMonitorOutput>(
-  "CreateMonitorOutput",
-)({
-  monitorArn: S.String,
-  monitorName: S.String,
-  state: S.String,
-  aggregationPeriod: S.optional(S.Number),
-  tags: S.optional(TagMap),
-}) {}
-export class GetMonitorOutput extends S.Class<GetMonitorOutput>(
-  "GetMonitorOutput",
-)({
-  monitorArn: S.String,
-  monitorName: S.String,
-  state: S.String,
-  aggregationPeriod: S.Number,
-  tags: S.optional(TagMap),
-  probes: S.optional(ProbeList),
-  createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  modifiedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-}) {}
-export class ListMonitorsOutput extends S.Class<ListMonitorsOutput>(
-  "ListMonitorsOutput",
-)({ monitors: MonitorList, nextToken: S.optional(S.String) }) {}
-export class CreateProbeOutput extends S.Class<CreateProbeOutput>(
-  "CreateProbeOutput",
-)({
-  probeId: S.optional(S.String),
-  probeArn: S.optional(S.String),
-  sourceArn: S.String,
-  destination: S.String,
-  destinationPort: S.optional(S.Number),
-  protocol: S.String,
-  packetSize: S.optional(S.Number),
-  addressFamily: S.optional(S.String),
-  vpcId: S.optional(S.String),
-  state: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  tags: S.optional(TagMap),
-}) {}
+export interface CreateMonitorOutput {
+  monitorArn: string;
+  monitorName: string;
+  state: string;
+  aggregationPeriod?: number;
+  tags?: TagMap;
+}
+export const CreateMonitorOutput = S.suspend(() =>
+  S.Struct({
+    monitorArn: S.String,
+    monitorName: S.String,
+    state: S.String,
+    aggregationPeriod: S.optional(S.Number),
+    tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "CreateMonitorOutput",
+}) as any as S.Schema<CreateMonitorOutput>;
+export interface GetMonitorOutput {
+  monitorArn: string;
+  monitorName: string;
+  state: string;
+  aggregationPeriod: number;
+  tags?: TagMap;
+  probes?: ProbeList;
+  createdAt: Date;
+  modifiedAt: Date;
+}
+export const GetMonitorOutput = S.suspend(() =>
+  S.Struct({
+    monitorArn: S.String,
+    monitorName: S.String,
+    state: S.String,
+    aggregationPeriod: S.Number,
+    tags: S.optional(TagMap),
+    probes: S.optional(ProbeList),
+    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    modifiedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotations({
+  identifier: "GetMonitorOutput",
+}) as any as S.Schema<GetMonitorOutput>;
+export interface ListMonitorsOutput {
+  monitors: MonitorList;
+  nextToken?: string;
+}
+export const ListMonitorsOutput = S.suspend(() =>
+  S.Struct({ monitors: MonitorList, nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListMonitorsOutput",
+}) as any as S.Schema<ListMonitorsOutput>;
+export interface CreateProbeOutput {
+  probeId?: string;
+  probeArn?: string;
+  sourceArn: string;
+  destination: string;
+  destinationPort?: number;
+  protocol: string;
+  packetSize?: number;
+  addressFamily?: string;
+  vpcId?: string;
+  state?: string;
+  createdAt?: Date;
+  modifiedAt?: Date;
+  tags?: TagMap;
+}
+export const CreateProbeOutput = S.suspend(() =>
+  S.Struct({
+    probeId: S.optional(S.String),
+    probeArn: S.optional(S.String),
+    sourceArn: S.String,
+    destination: S.String,
+    destinationPort: S.optional(S.Number),
+    protocol: S.String,
+    packetSize: S.optional(S.Number),
+    addressFamily: S.optional(S.String),
+    vpcId: S.optional(S.String),
+    state: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "CreateProbeOutput",
+}) as any as S.Schema<CreateProbeOutput>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

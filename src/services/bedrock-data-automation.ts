@@ -294,108 +294,156 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class CopyBlueprintStageRequest extends S.Class<CopyBlueprintStageRequest>(
-  "CopyBlueprintStageRequest",
-)(
-  {
+export interface CopyBlueprintStageRequest {
+  blueprintArn: string;
+  sourceStage: string;
+  targetStage: string;
+  clientToken?: string;
+}
+export const CopyBlueprintStageRequest = S.suspend(() =>
+  S.Struct({
     blueprintArn: S.String.pipe(T.HttpLabel("blueprintArn")),
     sourceStage: S.String,
     targetStage: S.String,
     clientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/blueprints/{blueprintArn}/copy-stage" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/blueprints/{blueprintArn}/copy-stage" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CopyBlueprintStageResponse extends S.Class<CopyBlueprintStageResponse>(
-  "CopyBlueprintStageResponse",
-)({}) {}
-export class CreateBlueprintVersionRequest extends S.Class<CreateBlueprintVersionRequest>(
-  "CreateBlueprintVersionRequest",
-)(
-  {
+).annotations({
+  identifier: "CopyBlueprintStageRequest",
+}) as any as S.Schema<CopyBlueprintStageRequest>;
+export interface CopyBlueprintStageResponse {}
+export const CopyBlueprintStageResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "CopyBlueprintStageResponse",
+}) as any as S.Schema<CopyBlueprintStageResponse>;
+export interface CreateBlueprintVersionRequest {
+  blueprintArn: string;
+  clientToken?: string;
+}
+export const CreateBlueprintVersionRequest = S.suspend(() =>
+  S.Struct({
     blueprintArn: S.String.pipe(T.HttpLabel("blueprintArn")),
     clientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/blueprints/{blueprintArn}/versions/" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/blueprints/{blueprintArn}/versions/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { resourceARN: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/listTagsForResource" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CreateBlueprintVersionRequest",
+}) as any as S.Schema<CreateBlueprintVersionRequest>;
+export interface ListTagsForResourceRequest {
+  resourceARN: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ resourceARN: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/listTagsForResource" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  { resourceARN: S.String, tagKeys: TagKeyList },
-  T.all(
-    T.Http({ method: "POST", uri: "/untagResource" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface UntagResourceRequest {
+  resourceARN: string;
+  tagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({ resourceARN: S.String, tagKeys: TagKeyList }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/untagResource" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
-export class GetBlueprintOptimizationStatusRequest extends S.Class<GetBlueprintOptimizationStatusRequest>(
-  "GetBlueprintOptimizationStatusRequest",
-)(
-  { invocationArn: S.String.pipe(T.HttpLabel("invocationArn")) },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/getBlueprintOptimizationStatus/{invocationArn}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface GetBlueprintOptimizationStatusRequest {
+  invocationArn: string;
+}
+export const GetBlueprintOptimizationStatusRequest = S.suspend(() =>
+  S.Struct({ invocationArn: S.String.pipe(T.HttpLabel("invocationArn")) }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/getBlueprintOptimizationStatus/{invocationArn}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "GetBlueprintOptimizationStatusRequest",
+}) as any as S.Schema<GetBlueprintOptimizationStatusRequest>;
+export type KmsEncryptionContext = { [key: string]: string };
 export const KmsEncryptionContext = S.Record({
   key: S.String,
   value: S.String,
 });
-export class EncryptionConfiguration extends S.Class<EncryptionConfiguration>(
-  "EncryptionConfiguration",
-)({
-  kmsKeyId: S.String,
-  kmsEncryptionContext: S.optional(KmsEncryptionContext),
-}) {}
-export class Tag extends S.Class<Tag>("Tag")({
-  key: S.String,
-  value: S.String,
-}) {}
+export interface EncryptionConfiguration {
+  kmsKeyId: string;
+  kmsEncryptionContext?: KmsEncryptionContext;
+}
+export const EncryptionConfiguration = S.suspend(() =>
+  S.Struct({
+    kmsKeyId: S.String,
+    kmsEncryptionContext: S.optional(KmsEncryptionContext),
+  }),
+).annotations({
+  identifier: "EncryptionConfiguration",
+}) as any as S.Schema<EncryptionConfiguration>;
+export interface Tag {
+  key: string;
+  value: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ key: S.String, value: S.String }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagList = Tag[];
 export const TagList = S.Array(Tag);
-export class CreateBlueprintRequest extends S.Class<CreateBlueprintRequest>(
-  "CreateBlueprintRequest",
-)(
-  {
+export interface CreateBlueprintRequest {
+  blueprintName: string;
+  type: string;
+  blueprintStage?: string;
+  schema: string;
+  clientToken?: string;
+  encryptionConfiguration?: EncryptionConfiguration;
+  tags?: TagList;
+}
+export const CreateBlueprintRequest = S.suspend(() =>
+  S.Struct({
     blueprintName: S.String,
     type: S.String,
     blueprintStage: S.optional(S.String),
@@ -403,293 +451,607 @@ export class CreateBlueprintRequest extends S.Class<CreateBlueprintRequest>(
     clientToken: S.optional(S.String),
     encryptionConfiguration: S.optional(EncryptionConfiguration),
     tags: S.optional(TagList),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/blueprints/" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/blueprints/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetBlueprintRequest extends S.Class<GetBlueprintRequest>(
-  "GetBlueprintRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateBlueprintRequest",
+}) as any as S.Schema<CreateBlueprintRequest>;
+export interface GetBlueprintRequest {
+  blueprintArn: string;
+  blueprintVersion?: string;
+  blueprintStage?: string;
+}
+export const GetBlueprintRequest = S.suspend(() =>
+  S.Struct({
     blueprintArn: S.String.pipe(T.HttpLabel("blueprintArn")),
     blueprintVersion: S.optional(S.String),
     blueprintStage: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/blueprints/{blueprintArn}/" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/blueprints/{blueprintArn}/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateBlueprintRequest extends S.Class<UpdateBlueprintRequest>(
-  "UpdateBlueprintRequest",
-)(
-  {
+).annotations({
+  identifier: "GetBlueprintRequest",
+}) as any as S.Schema<GetBlueprintRequest>;
+export interface UpdateBlueprintRequest {
+  blueprintArn: string;
+  schema: string;
+  blueprintStage?: string;
+  encryptionConfiguration?: EncryptionConfiguration;
+}
+export const UpdateBlueprintRequest = S.suspend(() =>
+  S.Struct({
     blueprintArn: S.String.pipe(T.HttpLabel("blueprintArn")),
     schema: S.String,
     blueprintStage: S.optional(S.String),
     encryptionConfiguration: S.optional(EncryptionConfiguration),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/blueprints/{blueprintArn}/" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/blueprints/{blueprintArn}/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteBlueprintRequest extends S.Class<DeleteBlueprintRequest>(
-  "DeleteBlueprintRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateBlueprintRequest",
+}) as any as S.Schema<UpdateBlueprintRequest>;
+export interface DeleteBlueprintRequest {
+  blueprintArn: string;
+  blueprintVersion?: string;
+}
+export const DeleteBlueprintRequest = S.suspend(() =>
+  S.Struct({
     blueprintArn: S.String.pipe(T.HttpLabel("blueprintArn")),
     blueprintVersion: S.optional(S.String).pipe(
       T.HttpQuery("blueprintVersion"),
     ),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/blueprints/{blueprintArn}/" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/blueprints/{blueprintArn}/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteBlueprintResponse extends S.Class<DeleteBlueprintResponse>(
-  "DeleteBlueprintResponse",
-)({}) {}
-export class GetDataAutomationProjectRequest extends S.Class<GetDataAutomationProjectRequest>(
-  "GetDataAutomationProjectRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteBlueprintRequest",
+}) as any as S.Schema<DeleteBlueprintRequest>;
+export interface DeleteBlueprintResponse {}
+export const DeleteBlueprintResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteBlueprintResponse",
+}) as any as S.Schema<DeleteBlueprintResponse>;
+export interface GetDataAutomationProjectRequest {
+  projectArn: string;
+  projectStage?: string;
+}
+export const GetDataAutomationProjectRequest = S.suspend(() =>
+  S.Struct({
     projectArn: S.String.pipe(T.HttpLabel("projectArn")),
     projectStage: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/data-automation-projects/{projectArn}/" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/data-automation-projects/{projectArn}/",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "GetDataAutomationProjectRequest",
+}) as any as S.Schema<GetDataAutomationProjectRequest>;
+export type DocumentExtractionGranularityTypes = string[];
 export const DocumentExtractionGranularityTypes = S.Array(S.String);
-export class DocumentExtractionGranularity extends S.Class<DocumentExtractionGranularity>(
-  "DocumentExtractionGranularity",
-)({ types: S.optional(DocumentExtractionGranularityTypes) }) {}
-export class DocumentBoundingBox extends S.Class<DocumentBoundingBox>(
-  "DocumentBoundingBox",
-)({ state: S.String }) {}
-export class DocumentStandardExtraction extends S.Class<DocumentStandardExtraction>(
-  "DocumentStandardExtraction",
-)({
-  granularity: DocumentExtractionGranularity,
-  boundingBox: DocumentBoundingBox,
-}) {}
-export class DocumentStandardGenerativeField extends S.Class<DocumentStandardGenerativeField>(
-  "DocumentStandardGenerativeField",
-)({ state: S.String }) {}
+export interface DocumentExtractionGranularity {
+  types?: DocumentExtractionGranularityTypes;
+}
+export const DocumentExtractionGranularity = S.suspend(() =>
+  S.Struct({ types: S.optional(DocumentExtractionGranularityTypes) }),
+).annotations({
+  identifier: "DocumentExtractionGranularity",
+}) as any as S.Schema<DocumentExtractionGranularity>;
+export interface DocumentBoundingBox {
+  state: string;
+}
+export const DocumentBoundingBox = S.suspend(() =>
+  S.Struct({ state: S.String }),
+).annotations({
+  identifier: "DocumentBoundingBox",
+}) as any as S.Schema<DocumentBoundingBox>;
+export interface DocumentStandardExtraction {
+  granularity: DocumentExtractionGranularity;
+  boundingBox: DocumentBoundingBox;
+}
+export const DocumentStandardExtraction = S.suspend(() =>
+  S.Struct({
+    granularity: DocumentExtractionGranularity,
+    boundingBox: DocumentBoundingBox,
+  }),
+).annotations({
+  identifier: "DocumentStandardExtraction",
+}) as any as S.Schema<DocumentStandardExtraction>;
+export interface DocumentStandardGenerativeField {
+  state: string;
+}
+export const DocumentStandardGenerativeField = S.suspend(() =>
+  S.Struct({ state: S.String }),
+).annotations({
+  identifier: "DocumentStandardGenerativeField",
+}) as any as S.Schema<DocumentStandardGenerativeField>;
+export type DocumentOutputTextFormatTypes = string[];
 export const DocumentOutputTextFormatTypes = S.Array(S.String);
-export class DocumentOutputTextFormat extends S.Class<DocumentOutputTextFormat>(
-  "DocumentOutputTextFormat",
-)({ types: S.optional(DocumentOutputTextFormatTypes) }) {}
-export class DocumentOutputAdditionalFileFormat extends S.Class<DocumentOutputAdditionalFileFormat>(
-  "DocumentOutputAdditionalFileFormat",
-)({ state: S.String }) {}
-export class DocumentOutputFormat extends S.Class<DocumentOutputFormat>(
-  "DocumentOutputFormat",
-)({
-  textFormat: DocumentOutputTextFormat,
-  additionalFileFormat: DocumentOutputAdditionalFileFormat,
-}) {}
-export class DocumentStandardOutputConfiguration extends S.Class<DocumentStandardOutputConfiguration>(
-  "DocumentStandardOutputConfiguration",
-)({
-  extraction: S.optional(DocumentStandardExtraction),
-  generativeField: S.optional(DocumentStandardGenerativeField),
-  outputFormat: S.optional(DocumentOutputFormat),
-}) {}
+export interface DocumentOutputTextFormat {
+  types?: DocumentOutputTextFormatTypes;
+}
+export const DocumentOutputTextFormat = S.suspend(() =>
+  S.Struct({ types: S.optional(DocumentOutputTextFormatTypes) }),
+).annotations({
+  identifier: "DocumentOutputTextFormat",
+}) as any as S.Schema<DocumentOutputTextFormat>;
+export interface DocumentOutputAdditionalFileFormat {
+  state: string;
+}
+export const DocumentOutputAdditionalFileFormat = S.suspend(() =>
+  S.Struct({ state: S.String }),
+).annotations({
+  identifier: "DocumentOutputAdditionalFileFormat",
+}) as any as S.Schema<DocumentOutputAdditionalFileFormat>;
+export interface DocumentOutputFormat {
+  textFormat: DocumentOutputTextFormat;
+  additionalFileFormat: DocumentOutputAdditionalFileFormat;
+}
+export const DocumentOutputFormat = S.suspend(() =>
+  S.Struct({
+    textFormat: DocumentOutputTextFormat,
+    additionalFileFormat: DocumentOutputAdditionalFileFormat,
+  }),
+).annotations({
+  identifier: "DocumentOutputFormat",
+}) as any as S.Schema<DocumentOutputFormat>;
+export interface DocumentStandardOutputConfiguration {
+  extraction?: DocumentStandardExtraction;
+  generativeField?: DocumentStandardGenerativeField;
+  outputFormat?: DocumentOutputFormat;
+}
+export const DocumentStandardOutputConfiguration = S.suspend(() =>
+  S.Struct({
+    extraction: S.optional(DocumentStandardExtraction),
+    generativeField: S.optional(DocumentStandardGenerativeField),
+    outputFormat: S.optional(DocumentOutputFormat),
+  }),
+).annotations({
+  identifier: "DocumentStandardOutputConfiguration",
+}) as any as S.Schema<DocumentStandardOutputConfiguration>;
+export type ImageExtractionCategoryTypes = string[];
 export const ImageExtractionCategoryTypes = S.Array(S.String);
-export class ImageExtractionCategory extends S.Class<ImageExtractionCategory>(
-  "ImageExtractionCategory",
-)({ state: S.String, types: S.optional(ImageExtractionCategoryTypes) }) {}
-export class ImageBoundingBox extends S.Class<ImageBoundingBox>(
-  "ImageBoundingBox",
-)({ state: S.String }) {}
-export class ImageStandardExtraction extends S.Class<ImageStandardExtraction>(
-  "ImageStandardExtraction",
-)({ category: ImageExtractionCategory, boundingBox: ImageBoundingBox }) {}
+export interface ImageExtractionCategory {
+  state: string;
+  types?: ImageExtractionCategoryTypes;
+}
+export const ImageExtractionCategory = S.suspend(() =>
+  S.Struct({
+    state: S.String,
+    types: S.optional(ImageExtractionCategoryTypes),
+  }),
+).annotations({
+  identifier: "ImageExtractionCategory",
+}) as any as S.Schema<ImageExtractionCategory>;
+export interface ImageBoundingBox {
+  state: string;
+}
+export const ImageBoundingBox = S.suspend(() =>
+  S.Struct({ state: S.String }),
+).annotations({
+  identifier: "ImageBoundingBox",
+}) as any as S.Schema<ImageBoundingBox>;
+export interface ImageStandardExtraction {
+  category: ImageExtractionCategory;
+  boundingBox: ImageBoundingBox;
+}
+export const ImageStandardExtraction = S.suspend(() =>
+  S.Struct({
+    category: ImageExtractionCategory,
+    boundingBox: ImageBoundingBox,
+  }),
+).annotations({
+  identifier: "ImageStandardExtraction",
+}) as any as S.Schema<ImageStandardExtraction>;
+export type ImageStandardGenerativeFieldTypes = string[];
 export const ImageStandardGenerativeFieldTypes = S.Array(S.String);
-export class ImageStandardGenerativeField extends S.Class<ImageStandardGenerativeField>(
-  "ImageStandardGenerativeField",
-)({ state: S.String, types: S.optional(ImageStandardGenerativeFieldTypes) }) {}
-export class ImageStandardOutputConfiguration extends S.Class<ImageStandardOutputConfiguration>(
-  "ImageStandardOutputConfiguration",
-)({
-  extraction: S.optional(ImageStandardExtraction),
-  generativeField: S.optional(ImageStandardGenerativeField),
-}) {}
+export interface ImageStandardGenerativeField {
+  state: string;
+  types?: ImageStandardGenerativeFieldTypes;
+}
+export const ImageStandardGenerativeField = S.suspend(() =>
+  S.Struct({
+    state: S.String,
+    types: S.optional(ImageStandardGenerativeFieldTypes),
+  }),
+).annotations({
+  identifier: "ImageStandardGenerativeField",
+}) as any as S.Schema<ImageStandardGenerativeField>;
+export interface ImageStandardOutputConfiguration {
+  extraction?: ImageStandardExtraction;
+  generativeField?: ImageStandardGenerativeField;
+}
+export const ImageStandardOutputConfiguration = S.suspend(() =>
+  S.Struct({
+    extraction: S.optional(ImageStandardExtraction),
+    generativeField: S.optional(ImageStandardGenerativeField),
+  }),
+).annotations({
+  identifier: "ImageStandardOutputConfiguration",
+}) as any as S.Schema<ImageStandardOutputConfiguration>;
+export type VideoExtractionCategoryTypes = string[];
 export const VideoExtractionCategoryTypes = S.Array(S.String);
-export class VideoExtractionCategory extends S.Class<VideoExtractionCategory>(
-  "VideoExtractionCategory",
-)({ state: S.String, types: S.optional(VideoExtractionCategoryTypes) }) {}
-export class VideoBoundingBox extends S.Class<VideoBoundingBox>(
-  "VideoBoundingBox",
-)({ state: S.String }) {}
-export class VideoStandardExtraction extends S.Class<VideoStandardExtraction>(
-  "VideoStandardExtraction",
-)({ category: VideoExtractionCategory, boundingBox: VideoBoundingBox }) {}
+export interface VideoExtractionCategory {
+  state: string;
+  types?: VideoExtractionCategoryTypes;
+}
+export const VideoExtractionCategory = S.suspend(() =>
+  S.Struct({
+    state: S.String,
+    types: S.optional(VideoExtractionCategoryTypes),
+  }),
+).annotations({
+  identifier: "VideoExtractionCategory",
+}) as any as S.Schema<VideoExtractionCategory>;
+export interface VideoBoundingBox {
+  state: string;
+}
+export const VideoBoundingBox = S.suspend(() =>
+  S.Struct({ state: S.String }),
+).annotations({
+  identifier: "VideoBoundingBox",
+}) as any as S.Schema<VideoBoundingBox>;
+export interface VideoStandardExtraction {
+  category: VideoExtractionCategory;
+  boundingBox: VideoBoundingBox;
+}
+export const VideoStandardExtraction = S.suspend(() =>
+  S.Struct({
+    category: VideoExtractionCategory,
+    boundingBox: VideoBoundingBox,
+  }),
+).annotations({
+  identifier: "VideoStandardExtraction",
+}) as any as S.Schema<VideoStandardExtraction>;
+export type VideoStandardGenerativeFieldTypes = string[];
 export const VideoStandardGenerativeFieldTypes = S.Array(S.String);
-export class VideoStandardGenerativeField extends S.Class<VideoStandardGenerativeField>(
-  "VideoStandardGenerativeField",
-)({ state: S.String, types: S.optional(VideoStandardGenerativeFieldTypes) }) {}
-export class VideoStandardOutputConfiguration extends S.Class<VideoStandardOutputConfiguration>(
-  "VideoStandardOutputConfiguration",
-)({
-  extraction: S.optional(VideoStandardExtraction),
-  generativeField: S.optional(VideoStandardGenerativeField),
-}) {}
+export interface VideoStandardGenerativeField {
+  state: string;
+  types?: VideoStandardGenerativeFieldTypes;
+}
+export const VideoStandardGenerativeField = S.suspend(() =>
+  S.Struct({
+    state: S.String,
+    types: S.optional(VideoStandardGenerativeFieldTypes),
+  }),
+).annotations({
+  identifier: "VideoStandardGenerativeField",
+}) as any as S.Schema<VideoStandardGenerativeField>;
+export interface VideoStandardOutputConfiguration {
+  extraction?: VideoStandardExtraction;
+  generativeField?: VideoStandardGenerativeField;
+}
+export const VideoStandardOutputConfiguration = S.suspend(() =>
+  S.Struct({
+    extraction: S.optional(VideoStandardExtraction),
+    generativeField: S.optional(VideoStandardGenerativeField),
+  }),
+).annotations({
+  identifier: "VideoStandardOutputConfiguration",
+}) as any as S.Schema<VideoStandardOutputConfiguration>;
+export type AudioExtractionCategoryTypes = string[];
 export const AudioExtractionCategoryTypes = S.Array(S.String);
-export class SpeakerLabelingConfiguration extends S.Class<SpeakerLabelingConfiguration>(
-  "SpeakerLabelingConfiguration",
-)({ state: S.String }) {}
-export class ChannelLabelingConfiguration extends S.Class<ChannelLabelingConfiguration>(
-  "ChannelLabelingConfiguration",
-)({ state: S.String }) {}
-export class TranscriptConfiguration extends S.Class<TranscriptConfiguration>(
-  "TranscriptConfiguration",
-)({
-  speakerLabeling: S.optional(SpeakerLabelingConfiguration),
-  channelLabeling: S.optional(ChannelLabelingConfiguration),
-}) {}
-export class AudioExtractionCategoryTypeConfiguration extends S.Class<AudioExtractionCategoryTypeConfiguration>(
-  "AudioExtractionCategoryTypeConfiguration",
-)({ transcript: S.optional(TranscriptConfiguration) }) {}
-export class AudioExtractionCategory extends S.Class<AudioExtractionCategory>(
-  "AudioExtractionCategory",
-)({
-  state: S.String,
-  types: S.optional(AudioExtractionCategoryTypes),
-  typeConfiguration: S.optional(AudioExtractionCategoryTypeConfiguration),
-}) {}
-export class AudioStandardExtraction extends S.Class<AudioStandardExtraction>(
-  "AudioStandardExtraction",
-)({ category: AudioExtractionCategory }) {}
+export interface SpeakerLabelingConfiguration {
+  state: string;
+}
+export const SpeakerLabelingConfiguration = S.suspend(() =>
+  S.Struct({ state: S.String }),
+).annotations({
+  identifier: "SpeakerLabelingConfiguration",
+}) as any as S.Schema<SpeakerLabelingConfiguration>;
+export interface ChannelLabelingConfiguration {
+  state: string;
+}
+export const ChannelLabelingConfiguration = S.suspend(() =>
+  S.Struct({ state: S.String }),
+).annotations({
+  identifier: "ChannelLabelingConfiguration",
+}) as any as S.Schema<ChannelLabelingConfiguration>;
+export interface TranscriptConfiguration {
+  speakerLabeling?: SpeakerLabelingConfiguration;
+  channelLabeling?: ChannelLabelingConfiguration;
+}
+export const TranscriptConfiguration = S.suspend(() =>
+  S.Struct({
+    speakerLabeling: S.optional(SpeakerLabelingConfiguration),
+    channelLabeling: S.optional(ChannelLabelingConfiguration),
+  }),
+).annotations({
+  identifier: "TranscriptConfiguration",
+}) as any as S.Schema<TranscriptConfiguration>;
+export interface AudioExtractionCategoryTypeConfiguration {
+  transcript?: TranscriptConfiguration;
+}
+export const AudioExtractionCategoryTypeConfiguration = S.suspend(() =>
+  S.Struct({ transcript: S.optional(TranscriptConfiguration) }),
+).annotations({
+  identifier: "AudioExtractionCategoryTypeConfiguration",
+}) as any as S.Schema<AudioExtractionCategoryTypeConfiguration>;
+export interface AudioExtractionCategory {
+  state: string;
+  types?: AudioExtractionCategoryTypes;
+  typeConfiguration?: AudioExtractionCategoryTypeConfiguration;
+}
+export const AudioExtractionCategory = S.suspend(() =>
+  S.Struct({
+    state: S.String,
+    types: S.optional(AudioExtractionCategoryTypes),
+    typeConfiguration: S.optional(AudioExtractionCategoryTypeConfiguration),
+  }),
+).annotations({
+  identifier: "AudioExtractionCategory",
+}) as any as S.Schema<AudioExtractionCategory>;
+export interface AudioStandardExtraction {
+  category: AudioExtractionCategory;
+}
+export const AudioStandardExtraction = S.suspend(() =>
+  S.Struct({ category: AudioExtractionCategory }),
+).annotations({
+  identifier: "AudioStandardExtraction",
+}) as any as S.Schema<AudioStandardExtraction>;
+export type AudioStandardGenerativeFieldTypes = string[];
 export const AudioStandardGenerativeFieldTypes = S.Array(S.String);
-export class AudioStandardGenerativeField extends S.Class<AudioStandardGenerativeField>(
-  "AudioStandardGenerativeField",
-)({ state: S.String, types: S.optional(AudioStandardGenerativeFieldTypes) }) {}
-export class AudioStandardOutputConfiguration extends S.Class<AudioStandardOutputConfiguration>(
-  "AudioStandardOutputConfiguration",
-)({
-  extraction: S.optional(AudioStandardExtraction),
-  generativeField: S.optional(AudioStandardGenerativeField),
-}) {}
-export class StandardOutputConfiguration extends S.Class<StandardOutputConfiguration>(
-  "StandardOutputConfiguration",
-)({
-  document: S.optional(DocumentStandardOutputConfiguration),
-  image: S.optional(ImageStandardOutputConfiguration),
-  video: S.optional(VideoStandardOutputConfiguration),
-  audio: S.optional(AudioStandardOutputConfiguration),
-}) {}
-export class BlueprintItem extends S.Class<BlueprintItem>("BlueprintItem")({
-  blueprintArn: S.String,
-  blueprintVersion: S.optional(S.String),
-  blueprintStage: S.optional(S.String),
-}) {}
+export interface AudioStandardGenerativeField {
+  state: string;
+  types?: AudioStandardGenerativeFieldTypes;
+}
+export const AudioStandardGenerativeField = S.suspend(() =>
+  S.Struct({
+    state: S.String,
+    types: S.optional(AudioStandardGenerativeFieldTypes),
+  }),
+).annotations({
+  identifier: "AudioStandardGenerativeField",
+}) as any as S.Schema<AudioStandardGenerativeField>;
+export interface AudioStandardOutputConfiguration {
+  extraction?: AudioStandardExtraction;
+  generativeField?: AudioStandardGenerativeField;
+}
+export const AudioStandardOutputConfiguration = S.suspend(() =>
+  S.Struct({
+    extraction: S.optional(AudioStandardExtraction),
+    generativeField: S.optional(AudioStandardGenerativeField),
+  }),
+).annotations({
+  identifier: "AudioStandardOutputConfiguration",
+}) as any as S.Schema<AudioStandardOutputConfiguration>;
+export interface StandardOutputConfiguration {
+  document?: DocumentStandardOutputConfiguration;
+  image?: ImageStandardOutputConfiguration;
+  video?: VideoStandardOutputConfiguration;
+  audio?: AudioStandardOutputConfiguration;
+}
+export const StandardOutputConfiguration = S.suspend(() =>
+  S.Struct({
+    document: S.optional(DocumentStandardOutputConfiguration),
+    image: S.optional(ImageStandardOutputConfiguration),
+    video: S.optional(VideoStandardOutputConfiguration),
+    audio: S.optional(AudioStandardOutputConfiguration),
+  }),
+).annotations({
+  identifier: "StandardOutputConfiguration",
+}) as any as S.Schema<StandardOutputConfiguration>;
+export interface BlueprintItem {
+  blueprintArn: string;
+  blueprintVersion?: string;
+  blueprintStage?: string;
+}
+export const BlueprintItem = S.suspend(() =>
+  S.Struct({
+    blueprintArn: S.String,
+    blueprintVersion: S.optional(S.String),
+    blueprintStage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "BlueprintItem",
+}) as any as S.Schema<BlueprintItem>;
+export type BlueprintItems = BlueprintItem[];
 export const BlueprintItems = S.Array(BlueprintItem);
-export class CustomOutputConfiguration extends S.Class<CustomOutputConfiguration>(
-  "CustomOutputConfiguration",
-)({ blueprints: S.optional(BlueprintItems) }) {}
-export class SplitterConfiguration extends S.Class<SplitterConfiguration>(
-  "SplitterConfiguration",
-)({ state: S.optional(S.String) }) {}
-export class ModalityProcessingConfiguration extends S.Class<ModalityProcessingConfiguration>(
-  "ModalityProcessingConfiguration",
-)({ state: S.optional(S.String) }) {}
+export interface CustomOutputConfiguration {
+  blueprints?: BlueprintItems;
+}
+export const CustomOutputConfiguration = S.suspend(() =>
+  S.Struct({ blueprints: S.optional(BlueprintItems) }),
+).annotations({
+  identifier: "CustomOutputConfiguration",
+}) as any as S.Schema<CustomOutputConfiguration>;
+export interface SplitterConfiguration {
+  state?: string;
+}
+export const SplitterConfiguration = S.suspend(() =>
+  S.Struct({ state: S.optional(S.String) }),
+).annotations({
+  identifier: "SplitterConfiguration",
+}) as any as S.Schema<SplitterConfiguration>;
+export interface ModalityProcessingConfiguration {
+  state?: string;
+}
+export const ModalityProcessingConfiguration = S.suspend(() =>
+  S.Struct({ state: S.optional(S.String) }),
+).annotations({
+  identifier: "ModalityProcessingConfiguration",
+}) as any as S.Schema<ModalityProcessingConfiguration>;
+export type SensitiveDataDetectionScope = string[];
 export const SensitiveDataDetectionScope = S.Array(S.String);
+export type PIIEntityTypes = string[];
 export const PIIEntityTypes = S.Array(S.String);
-export class PIIEntitiesConfiguration extends S.Class<PIIEntitiesConfiguration>(
-  "PIIEntitiesConfiguration",
-)({
-  piiEntityTypes: S.optional(PIIEntityTypes),
-  redactionMaskMode: S.optional(S.String),
-}) {}
-export class SensitiveDataConfiguration extends S.Class<SensitiveDataConfiguration>(
-  "SensitiveDataConfiguration",
-)({
-  detectionMode: S.String,
-  detectionScope: S.optional(SensitiveDataDetectionScope),
-  piiEntitiesConfiguration: S.optional(PIIEntitiesConfiguration),
-}) {}
-export class DocumentOverrideConfiguration extends S.Class<DocumentOverrideConfiguration>(
-  "DocumentOverrideConfiguration",
-)({
-  splitter: S.optional(SplitterConfiguration),
-  modalityProcessing: S.optional(ModalityProcessingConfiguration),
-  sensitiveDataConfiguration: S.optional(SensitiveDataConfiguration),
-}) {}
-export class ImageOverrideConfiguration extends S.Class<ImageOverrideConfiguration>(
-  "ImageOverrideConfiguration",
-)({
-  modalityProcessing: S.optional(ModalityProcessingConfiguration),
-  sensitiveDataConfiguration: S.optional(SensitiveDataConfiguration),
-}) {}
-export class VideoOverrideConfiguration extends S.Class<VideoOverrideConfiguration>(
-  "VideoOverrideConfiguration",
-)({
-  modalityProcessing: S.optional(ModalityProcessingConfiguration),
-  sensitiveDataConfiguration: S.optional(SensitiveDataConfiguration),
-}) {}
+export interface PIIEntitiesConfiguration {
+  piiEntityTypes?: PIIEntityTypes;
+  redactionMaskMode?: string;
+}
+export const PIIEntitiesConfiguration = S.suspend(() =>
+  S.Struct({
+    piiEntityTypes: S.optional(PIIEntityTypes),
+    redactionMaskMode: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "PIIEntitiesConfiguration",
+}) as any as S.Schema<PIIEntitiesConfiguration>;
+export interface SensitiveDataConfiguration {
+  detectionMode: string;
+  detectionScope?: SensitiveDataDetectionScope;
+  piiEntitiesConfiguration?: PIIEntitiesConfiguration;
+}
+export const SensitiveDataConfiguration = S.suspend(() =>
+  S.Struct({
+    detectionMode: S.String,
+    detectionScope: S.optional(SensitiveDataDetectionScope),
+    piiEntitiesConfiguration: S.optional(PIIEntitiesConfiguration),
+  }),
+).annotations({
+  identifier: "SensitiveDataConfiguration",
+}) as any as S.Schema<SensitiveDataConfiguration>;
+export interface DocumentOverrideConfiguration {
+  splitter?: SplitterConfiguration;
+  modalityProcessing?: ModalityProcessingConfiguration;
+  sensitiveDataConfiguration?: SensitiveDataConfiguration;
+}
+export const DocumentOverrideConfiguration = S.suspend(() =>
+  S.Struct({
+    splitter: S.optional(SplitterConfiguration),
+    modalityProcessing: S.optional(ModalityProcessingConfiguration),
+    sensitiveDataConfiguration: S.optional(SensitiveDataConfiguration),
+  }),
+).annotations({
+  identifier: "DocumentOverrideConfiguration",
+}) as any as S.Schema<DocumentOverrideConfiguration>;
+export interface ImageOverrideConfiguration {
+  modalityProcessing?: ModalityProcessingConfiguration;
+  sensitiveDataConfiguration?: SensitiveDataConfiguration;
+}
+export const ImageOverrideConfiguration = S.suspend(() =>
+  S.Struct({
+    modalityProcessing: S.optional(ModalityProcessingConfiguration),
+    sensitiveDataConfiguration: S.optional(SensitiveDataConfiguration),
+  }),
+).annotations({
+  identifier: "ImageOverrideConfiguration",
+}) as any as S.Schema<ImageOverrideConfiguration>;
+export interface VideoOverrideConfiguration {
+  modalityProcessing?: ModalityProcessingConfiguration;
+  sensitiveDataConfiguration?: SensitiveDataConfiguration;
+}
+export const VideoOverrideConfiguration = S.suspend(() =>
+  S.Struct({
+    modalityProcessing: S.optional(ModalityProcessingConfiguration),
+    sensitiveDataConfiguration: S.optional(SensitiveDataConfiguration),
+  }),
+).annotations({
+  identifier: "VideoOverrideConfiguration",
+}) as any as S.Schema<VideoOverrideConfiguration>;
+export type AudioInputLanguages = string[];
 export const AudioInputLanguages = S.Array(S.String);
-export class AudioLanguageConfiguration extends S.Class<AudioLanguageConfiguration>(
-  "AudioLanguageConfiguration",
-)({
-  inputLanguages: S.optional(AudioInputLanguages),
-  generativeOutputLanguage: S.optional(S.String),
-  identifyMultipleLanguages: S.optional(S.Boolean),
-}) {}
-export class AudioOverrideConfiguration extends S.Class<AudioOverrideConfiguration>(
-  "AudioOverrideConfiguration",
-)({
-  modalityProcessing: S.optional(ModalityProcessingConfiguration),
-  languageConfiguration: S.optional(AudioLanguageConfiguration),
-  sensitiveDataConfiguration: S.optional(SensitiveDataConfiguration),
-}) {}
-export class ModalityRoutingConfiguration extends S.Class<ModalityRoutingConfiguration>(
-  "ModalityRoutingConfiguration",
-)({
-  jpeg: S.optional(S.String),
-  png: S.optional(S.String),
-  mp4: S.optional(S.String),
-  mov: S.optional(S.String),
-}) {}
-export class OverrideConfiguration extends S.Class<OverrideConfiguration>(
-  "OverrideConfiguration",
-)({
-  document: S.optional(DocumentOverrideConfiguration),
-  image: S.optional(ImageOverrideConfiguration),
-  video: S.optional(VideoOverrideConfiguration),
-  audio: S.optional(AudioOverrideConfiguration),
-  modalityRouting: S.optional(ModalityRoutingConfiguration),
-}) {}
-export class UpdateDataAutomationProjectRequest extends S.Class<UpdateDataAutomationProjectRequest>(
-  "UpdateDataAutomationProjectRequest",
-)(
-  {
+export interface AudioLanguageConfiguration {
+  inputLanguages?: AudioInputLanguages;
+  generativeOutputLanguage?: string;
+  identifyMultipleLanguages?: boolean;
+}
+export const AudioLanguageConfiguration = S.suspend(() =>
+  S.Struct({
+    inputLanguages: S.optional(AudioInputLanguages),
+    generativeOutputLanguage: S.optional(S.String),
+    identifyMultipleLanguages: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "AudioLanguageConfiguration",
+}) as any as S.Schema<AudioLanguageConfiguration>;
+export interface AudioOverrideConfiguration {
+  modalityProcessing?: ModalityProcessingConfiguration;
+  languageConfiguration?: AudioLanguageConfiguration;
+  sensitiveDataConfiguration?: SensitiveDataConfiguration;
+}
+export const AudioOverrideConfiguration = S.suspend(() =>
+  S.Struct({
+    modalityProcessing: S.optional(ModalityProcessingConfiguration),
+    languageConfiguration: S.optional(AudioLanguageConfiguration),
+    sensitiveDataConfiguration: S.optional(SensitiveDataConfiguration),
+  }),
+).annotations({
+  identifier: "AudioOverrideConfiguration",
+}) as any as S.Schema<AudioOverrideConfiguration>;
+export interface ModalityRoutingConfiguration {
+  jpeg?: string;
+  png?: string;
+  mp4?: string;
+  mov?: string;
+}
+export const ModalityRoutingConfiguration = S.suspend(() =>
+  S.Struct({
+    jpeg: S.optional(S.String),
+    png: S.optional(S.String),
+    mp4: S.optional(S.String),
+    mov: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ModalityRoutingConfiguration",
+}) as any as S.Schema<ModalityRoutingConfiguration>;
+export interface OverrideConfiguration {
+  document?: DocumentOverrideConfiguration;
+  image?: ImageOverrideConfiguration;
+  video?: VideoOverrideConfiguration;
+  audio?: AudioOverrideConfiguration;
+  modalityRouting?: ModalityRoutingConfiguration;
+}
+export const OverrideConfiguration = S.suspend(() =>
+  S.Struct({
+    document: S.optional(DocumentOverrideConfiguration),
+    image: S.optional(ImageOverrideConfiguration),
+    video: S.optional(VideoOverrideConfiguration),
+    audio: S.optional(AudioOverrideConfiguration),
+    modalityRouting: S.optional(ModalityRoutingConfiguration),
+  }),
+).annotations({
+  identifier: "OverrideConfiguration",
+}) as any as S.Schema<OverrideConfiguration>;
+export interface UpdateDataAutomationProjectRequest {
+  projectArn: string;
+  projectStage?: string;
+  projectDescription?: string;
+  standardOutputConfiguration: StandardOutputConfiguration;
+  customOutputConfiguration?: CustomOutputConfiguration;
+  overrideConfiguration?: OverrideConfiguration;
+  encryptionConfiguration?: EncryptionConfiguration;
+}
+export const UpdateDataAutomationProjectRequest = S.suspend(() =>
+  S.Struct({
     projectArn: S.String.pipe(T.HttpLabel("projectArn")),
     projectStage: S.optional(S.String),
     projectDescription: S.optional(S.String),
@@ -697,243 +1059,455 @@ export class UpdateDataAutomationProjectRequest extends S.Class<UpdateDataAutoma
     customOutputConfiguration: S.optional(CustomOutputConfiguration),
     overrideConfiguration: S.optional(OverrideConfiguration),
     encryptionConfiguration: S.optional(EncryptionConfiguration),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/data-automation-projects/{projectArn}/" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/data-automation-projects/{projectArn}/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteDataAutomationProjectRequest extends S.Class<DeleteDataAutomationProjectRequest>(
-  "DeleteDataAutomationProjectRequest",
-)(
-  { projectArn: S.String.pipe(T.HttpLabel("projectArn")) },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/data-automation-projects/{projectArn}/",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UpdateDataAutomationProjectRequest",
+}) as any as S.Schema<UpdateDataAutomationProjectRequest>;
+export interface DeleteDataAutomationProjectRequest {
+  projectArn: string;
+}
+export const DeleteDataAutomationProjectRequest = S.suspend(() =>
+  S.Struct({ projectArn: S.String.pipe(T.HttpLabel("projectArn")) }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/data-automation-projects/{projectArn}/",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class BlueprintOptimizationObject extends S.Class<BlueprintOptimizationObject>(
-  "BlueprintOptimizationObject",
-)({ blueprintArn: S.String, stage: S.optional(S.String) }) {}
-export class S3Object extends S.Class<S3Object>("S3Object")({
-  s3Uri: S.String,
-  version: S.optional(S.String),
-}) {}
-export class BlueprintOptimizationOutputConfiguration extends S.Class<BlueprintOptimizationOutputConfiguration>(
-  "BlueprintOptimizationOutputConfiguration",
-)({ s3Object: S3Object }) {}
-export class DataAutomationProjectFilter extends S.Class<DataAutomationProjectFilter>(
-  "DataAutomationProjectFilter",
-)({ projectArn: S.String, projectStage: S.optional(S.String) }) {}
-export class BlueprintFilter extends S.Class<BlueprintFilter>(
-  "BlueprintFilter",
-)({
-  blueprintArn: S.String,
-  blueprintVersion: S.optional(S.String),
-  blueprintStage: S.optional(S.String),
-}) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ tags: S.optional(TagList) }) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { resourceARN: S.String, tags: TagList },
-  T.all(
-    T.Http({ method: "POST", uri: "/tagResource" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteDataAutomationProjectRequest",
+}) as any as S.Schema<DeleteDataAutomationProjectRequest>;
+export interface BlueprintOptimizationObject {
+  blueprintArn: string;
+  stage?: string;
+}
+export const BlueprintOptimizationObject = S.suspend(() =>
+  S.Struct({ blueprintArn: S.String, stage: S.optional(S.String) }),
+).annotations({
+  identifier: "BlueprintOptimizationObject",
+}) as any as S.Schema<BlueprintOptimizationObject>;
+export interface S3Object {
+  s3Uri: string;
+  version?: string;
+}
+export const S3Object = S.suspend(() =>
+  S.Struct({ s3Uri: S.String, version: S.optional(S.String) }),
+).annotations({ identifier: "S3Object" }) as any as S.Schema<S3Object>;
+export interface BlueprintOptimizationOutputConfiguration {
+  s3Object: S3Object;
+}
+export const BlueprintOptimizationOutputConfiguration = S.suspend(() =>
+  S.Struct({ s3Object: S3Object }),
+).annotations({
+  identifier: "BlueprintOptimizationOutputConfiguration",
+}) as any as S.Schema<BlueprintOptimizationOutputConfiguration>;
+export interface DataAutomationProjectFilter {
+  projectArn: string;
+  projectStage?: string;
+}
+export const DataAutomationProjectFilter = S.suspend(() =>
+  S.Struct({ projectArn: S.String, projectStage: S.optional(S.String) }),
+).annotations({
+  identifier: "DataAutomationProjectFilter",
+}) as any as S.Schema<DataAutomationProjectFilter>;
+export interface BlueprintFilter {
+  blueprintArn: string;
+  blueprintVersion?: string;
+  blueprintStage?: string;
+}
+export const BlueprintFilter = S.suspend(() =>
+  S.Struct({
+    blueprintArn: S.String,
+    blueprintVersion: S.optional(S.String),
+    blueprintStage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "BlueprintFilter",
+}) as any as S.Schema<BlueprintFilter>;
+export interface ListTagsForResourceResponse {
+  tags?: TagList;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ tags: S.optional(TagList) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface TagResourceRequest {
+  resourceARN: string;
+  tags: TagList;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ resourceARN: S.String, tags: TagList }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tagResource" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class GetBlueprintOptimizationStatusResponse extends S.Class<GetBlueprintOptimizationStatusResponse>(
-  "GetBlueprintOptimizationStatusResponse",
-)({
-  status: S.optional(S.String),
-  errorType: S.optional(S.String),
-  errorMessage: S.optional(S.String),
-  outputConfiguration: S.optional(BlueprintOptimizationOutputConfiguration),
-}) {}
-export class BlueprintOptimizationSample extends S.Class<BlueprintOptimizationSample>(
-  "BlueprintOptimizationSample",
-)({ assetS3Object: S3Object, groundTruthS3Object: S3Object }) {}
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface GetBlueprintOptimizationStatusResponse {
+  status?: string;
+  errorType?: string;
+  errorMessage?: string;
+  outputConfiguration?: BlueprintOptimizationOutputConfiguration;
+}
+export const GetBlueprintOptimizationStatusResponse = S.suspend(() =>
+  S.Struct({
+    status: S.optional(S.String),
+    errorType: S.optional(S.String),
+    errorMessage: S.optional(S.String),
+    outputConfiguration: S.optional(BlueprintOptimizationOutputConfiguration),
+  }),
+).annotations({
+  identifier: "GetBlueprintOptimizationStatusResponse",
+}) as any as S.Schema<GetBlueprintOptimizationStatusResponse>;
+export interface BlueprintOptimizationSample {
+  assetS3Object: S3Object;
+  groundTruthS3Object: S3Object;
+}
+export const BlueprintOptimizationSample = S.suspend(() =>
+  S.Struct({ assetS3Object: S3Object, groundTruthS3Object: S3Object }),
+).annotations({
+  identifier: "BlueprintOptimizationSample",
+}) as any as S.Schema<BlueprintOptimizationSample>;
+export type BlueprintOptimizationSamples = BlueprintOptimizationSample[];
 export const BlueprintOptimizationSamples = S.Array(
   BlueprintOptimizationSample,
 );
-export class Blueprint extends S.Class<Blueprint>("Blueprint")({
-  blueprintArn: S.String,
-  schema: S.String,
-  type: S.String,
-  creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  lastModifiedTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  blueprintName: S.String,
-  blueprintVersion: S.optional(S.String),
-  blueprintStage: S.optional(S.String),
-  kmsKeyId: S.optional(S.String),
-  kmsEncryptionContext: S.optional(KmsEncryptionContext),
-  optimizationSamples: S.optional(BlueprintOptimizationSamples),
-  optimizationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-}) {}
-export class CreateBlueprintResponse extends S.Class<CreateBlueprintResponse>(
-  "CreateBlueprintResponse",
-)({ blueprint: Blueprint }) {}
-export class GetBlueprintResponse extends S.Class<GetBlueprintResponse>(
-  "GetBlueprintResponse",
-)({ blueprint: Blueprint }) {}
-export class UpdateBlueprintResponse extends S.Class<UpdateBlueprintResponse>(
-  "UpdateBlueprintResponse",
-)({ blueprint: Blueprint }) {}
-export class ListBlueprintsRequest extends S.Class<ListBlueprintsRequest>(
-  "ListBlueprintsRequest",
-)(
-  {
+export interface Blueprint {
+  blueprintArn: string;
+  schema: string;
+  type: string;
+  creationTime: Date;
+  lastModifiedTime: Date;
+  blueprintName: string;
+  blueprintVersion?: string;
+  blueprintStage?: string;
+  kmsKeyId?: string;
+  kmsEncryptionContext?: KmsEncryptionContext;
+  optimizationSamples?: BlueprintOptimizationSamples;
+  optimizationTime?: Date;
+}
+export const Blueprint = S.suspend(() =>
+  S.Struct({
+    blueprintArn: S.String,
+    schema: S.String,
+    type: S.String,
+    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastModifiedTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    blueprintName: S.String,
+    blueprintVersion: S.optional(S.String),
+    blueprintStage: S.optional(S.String),
+    kmsKeyId: S.optional(S.String),
+    kmsEncryptionContext: S.optional(KmsEncryptionContext),
+    optimizationSamples: S.optional(BlueprintOptimizationSamples),
+    optimizationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotations({ identifier: "Blueprint" }) as any as S.Schema<Blueprint>;
+export interface CreateBlueprintResponse {
+  blueprint: Blueprint;
+}
+export const CreateBlueprintResponse = S.suspend(() =>
+  S.Struct({ blueprint: Blueprint }),
+).annotations({
+  identifier: "CreateBlueprintResponse",
+}) as any as S.Schema<CreateBlueprintResponse>;
+export interface GetBlueprintResponse {
+  blueprint: Blueprint;
+}
+export const GetBlueprintResponse = S.suspend(() =>
+  S.Struct({ blueprint: Blueprint }),
+).annotations({
+  identifier: "GetBlueprintResponse",
+}) as any as S.Schema<GetBlueprintResponse>;
+export interface UpdateBlueprintResponse {
+  blueprint: Blueprint;
+}
+export const UpdateBlueprintResponse = S.suspend(() =>
+  S.Struct({ blueprint: Blueprint }),
+).annotations({
+  identifier: "UpdateBlueprintResponse",
+}) as any as S.Schema<UpdateBlueprintResponse>;
+export interface ListBlueprintsRequest {
+  blueprintArn?: string;
+  resourceOwner?: string;
+  blueprintStageFilter?: string;
+  maxResults?: number;
+  nextToken?: string;
+  projectFilter?: DataAutomationProjectFilter;
+}
+export const ListBlueprintsRequest = S.suspend(() =>
+  S.Struct({
     blueprintArn: S.optional(S.String),
     resourceOwner: S.optional(S.String),
     blueprintStageFilter: S.optional(S.String),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
     projectFilter: S.optional(DataAutomationProjectFilter),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/blueprints/" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/blueprints/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateDataAutomationProjectResponse extends S.Class<UpdateDataAutomationProjectResponse>(
-  "UpdateDataAutomationProjectResponse",
-)({
-  projectArn: S.String,
-  projectStage: S.optional(S.String),
-  status: S.optional(S.String),
-}) {}
-export class DeleteDataAutomationProjectResponse extends S.Class<DeleteDataAutomationProjectResponse>(
-  "DeleteDataAutomationProjectResponse",
-)({ projectArn: S.String, status: S.optional(S.String) }) {}
-export class ListDataAutomationProjectsRequest extends S.Class<ListDataAutomationProjectsRequest>(
-  "ListDataAutomationProjectsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListBlueprintsRequest",
+}) as any as S.Schema<ListBlueprintsRequest>;
+export interface UpdateDataAutomationProjectResponse {
+  projectArn: string;
+  projectStage?: string;
+  status?: string;
+}
+export const UpdateDataAutomationProjectResponse = S.suspend(() =>
+  S.Struct({
+    projectArn: S.String,
+    projectStage: S.optional(S.String),
+    status: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "UpdateDataAutomationProjectResponse",
+}) as any as S.Schema<UpdateDataAutomationProjectResponse>;
+export interface DeleteDataAutomationProjectResponse {
+  projectArn: string;
+  status?: string;
+}
+export const DeleteDataAutomationProjectResponse = S.suspend(() =>
+  S.Struct({ projectArn: S.String, status: S.optional(S.String) }),
+).annotations({
+  identifier: "DeleteDataAutomationProjectResponse",
+}) as any as S.Schema<DeleteDataAutomationProjectResponse>;
+export interface ListDataAutomationProjectsRequest {
+  maxResults?: number;
+  nextToken?: string;
+  projectStageFilter?: string;
+  blueprintFilter?: BlueprintFilter;
+  resourceOwner?: string;
+}
+export const ListDataAutomationProjectsRequest = S.suspend(() =>
+  S.Struct({
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
     projectStageFilter: S.optional(S.String),
     blueprintFilter: S.optional(BlueprintFilter),
     resourceOwner: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/data-automation-projects/" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/data-automation-projects/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DataAutomationProject extends S.Class<DataAutomationProject>(
-  "DataAutomationProject",
-)({
-  projectArn: S.String,
-  creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  lastModifiedTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  projectName: S.String,
-  projectStage: S.optional(S.String),
-  projectType: S.optional(S.String),
-  projectDescription: S.optional(S.String),
-  standardOutputConfiguration: S.optional(StandardOutputConfiguration),
-  customOutputConfiguration: S.optional(CustomOutputConfiguration),
-  overrideConfiguration: S.optional(OverrideConfiguration),
-  status: S.String,
-  kmsKeyId: S.optional(S.String),
-  kmsEncryptionContext: S.optional(KmsEncryptionContext),
-}) {}
-export class CreateBlueprintVersionResponse extends S.Class<CreateBlueprintVersionResponse>(
-  "CreateBlueprintVersionResponse",
-)({ blueprint: Blueprint }) {}
-export class InvokeBlueprintOptimizationAsyncRequest extends S.Class<InvokeBlueprintOptimizationAsyncRequest>(
-  "InvokeBlueprintOptimizationAsyncRequest",
-)(
-  {
+).annotations({
+  identifier: "ListDataAutomationProjectsRequest",
+}) as any as S.Schema<ListDataAutomationProjectsRequest>;
+export interface DataAutomationProject {
+  projectArn: string;
+  creationTime: Date;
+  lastModifiedTime: Date;
+  projectName: string;
+  projectStage?: string;
+  projectType?: string;
+  projectDescription?: string;
+  standardOutputConfiguration?: StandardOutputConfiguration;
+  customOutputConfiguration?: CustomOutputConfiguration;
+  overrideConfiguration?: OverrideConfiguration;
+  status: string;
+  kmsKeyId?: string;
+  kmsEncryptionContext?: KmsEncryptionContext;
+}
+export const DataAutomationProject = S.suspend(() =>
+  S.Struct({
+    projectArn: S.String,
+    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastModifiedTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    projectName: S.String,
+    projectStage: S.optional(S.String),
+    projectType: S.optional(S.String),
+    projectDescription: S.optional(S.String),
+    standardOutputConfiguration: S.optional(StandardOutputConfiguration),
+    customOutputConfiguration: S.optional(CustomOutputConfiguration),
+    overrideConfiguration: S.optional(OverrideConfiguration),
+    status: S.String,
+    kmsKeyId: S.optional(S.String),
+    kmsEncryptionContext: S.optional(KmsEncryptionContext),
+  }),
+).annotations({
+  identifier: "DataAutomationProject",
+}) as any as S.Schema<DataAutomationProject>;
+export interface CreateBlueprintVersionResponse {
+  blueprint: Blueprint;
+}
+export const CreateBlueprintVersionResponse = S.suspend(() =>
+  S.Struct({ blueprint: Blueprint }),
+).annotations({
+  identifier: "CreateBlueprintVersionResponse",
+}) as any as S.Schema<CreateBlueprintVersionResponse>;
+export interface InvokeBlueprintOptimizationAsyncRequest {
+  blueprint: BlueprintOptimizationObject;
+  samples: BlueprintOptimizationSamples;
+  outputConfiguration: BlueprintOptimizationOutputConfiguration;
+  dataAutomationProfileArn: string;
+  encryptionConfiguration?: EncryptionConfiguration;
+  tags?: TagList;
+}
+export const InvokeBlueprintOptimizationAsyncRequest = S.suspend(() =>
+  S.Struct({
     blueprint: BlueprintOptimizationObject,
     samples: BlueprintOptimizationSamples,
     outputConfiguration: BlueprintOptimizationOutputConfiguration,
     dataAutomationProfileArn: S.String,
     encryptionConfiguration: S.optional(EncryptionConfiguration),
     tags: S.optional(TagList),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/invokeBlueprintOptimizationAsync" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/invokeBlueprintOptimizationAsync" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetDataAutomationProjectResponse extends S.Class<GetDataAutomationProjectResponse>(
-  "GetDataAutomationProjectResponse",
-)({ project: DataAutomationProject }) {}
-export class BlueprintSummary extends S.Class<BlueprintSummary>(
-  "BlueprintSummary",
-)({
-  blueprintArn: S.String,
-  blueprintVersion: S.optional(S.String),
-  blueprintStage: S.optional(S.String),
-  blueprintName: S.optional(S.String),
-  creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  lastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-}) {}
+).annotations({
+  identifier: "InvokeBlueprintOptimizationAsyncRequest",
+}) as any as S.Schema<InvokeBlueprintOptimizationAsyncRequest>;
+export interface GetDataAutomationProjectResponse {
+  project: DataAutomationProject;
+}
+export const GetDataAutomationProjectResponse = S.suspend(() =>
+  S.Struct({ project: DataAutomationProject }),
+).annotations({
+  identifier: "GetDataAutomationProjectResponse",
+}) as any as S.Schema<GetDataAutomationProjectResponse>;
+export interface BlueprintSummary {
+  blueprintArn: string;
+  blueprintVersion?: string;
+  blueprintStage?: string;
+  blueprintName?: string;
+  creationTime: Date;
+  lastModifiedTime?: Date;
+}
+export const BlueprintSummary = S.suspend(() =>
+  S.Struct({
+    blueprintArn: S.String,
+    blueprintVersion: S.optional(S.String),
+    blueprintStage: S.optional(S.String),
+    blueprintName: S.optional(S.String),
+    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotations({
+  identifier: "BlueprintSummary",
+}) as any as S.Schema<BlueprintSummary>;
+export type Blueprints = BlueprintSummary[];
 export const Blueprints = S.Array(BlueprintSummary);
-export class DataAutomationProjectSummary extends S.Class<DataAutomationProjectSummary>(
-  "DataAutomationProjectSummary",
-)({
-  projectArn: S.String,
-  projectStage: S.optional(S.String),
-  projectType: S.optional(S.String),
-  projectName: S.optional(S.String),
-  creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
+export interface DataAutomationProjectSummary {
+  projectArn: string;
+  projectStage?: string;
+  projectType?: string;
+  projectName?: string;
+  creationTime: Date;
+}
+export const DataAutomationProjectSummary = S.suspend(() =>
+  S.Struct({
+    projectArn: S.String,
+    projectStage: S.optional(S.String),
+    projectType: S.optional(S.String),
+    projectName: S.optional(S.String),
+    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "DataAutomationProjectSummary",
+}) as any as S.Schema<DataAutomationProjectSummary>;
+export type DataAutomationProjectSummaries = DataAutomationProjectSummary[];
 export const DataAutomationProjectSummaries = S.Array(
   DataAutomationProjectSummary,
 );
-export class InvokeBlueprintOptimizationAsyncResponse extends S.Class<InvokeBlueprintOptimizationAsyncResponse>(
-  "InvokeBlueprintOptimizationAsyncResponse",
-)({ invocationArn: S.String }) {}
-export class ListBlueprintsResponse extends S.Class<ListBlueprintsResponse>(
-  "ListBlueprintsResponse",
-)({ blueprints: Blueprints, nextToken: S.optional(S.String) }) {}
-export class ListDataAutomationProjectsResponse extends S.Class<ListDataAutomationProjectsResponse>(
-  "ListDataAutomationProjectsResponse",
-)({
-  projects: DataAutomationProjectSummaries,
-  nextToken: S.optional(S.String),
-}) {}
-export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
-  "ValidationExceptionField",
-)({ name: S.String, message: S.String }) {}
+export interface InvokeBlueprintOptimizationAsyncResponse {
+  invocationArn: string;
+}
+export const InvokeBlueprintOptimizationAsyncResponse = S.suspend(() =>
+  S.Struct({ invocationArn: S.String }),
+).annotations({
+  identifier: "InvokeBlueprintOptimizationAsyncResponse",
+}) as any as S.Schema<InvokeBlueprintOptimizationAsyncResponse>;
+export interface ListBlueprintsResponse {
+  blueprints: Blueprints;
+  nextToken?: string;
+}
+export const ListBlueprintsResponse = S.suspend(() =>
+  S.Struct({ blueprints: Blueprints, nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListBlueprintsResponse",
+}) as any as S.Schema<ListBlueprintsResponse>;
+export interface ListDataAutomationProjectsResponse {
+  projects: DataAutomationProjectSummaries;
+  nextToken?: string;
+}
+export const ListDataAutomationProjectsResponse = S.suspend(() =>
+  S.Struct({
+    projects: DataAutomationProjectSummaries,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListDataAutomationProjectsResponse",
+}) as any as S.Schema<ListDataAutomationProjectsResponse>;
+export interface ValidationExceptionField {
+  name: string;
+  message: string;
+}
+export const ValidationExceptionField = S.suspend(() =>
+  S.Struct({ name: S.String, message: S.String }),
+).annotations({
+  identifier: "ValidationExceptionField",
+}) as any as S.Schema<ValidationExceptionField>;
+export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
-export class CreateDataAutomationProjectRequest extends S.Class<CreateDataAutomationProjectRequest>(
-  "CreateDataAutomationProjectRequest",
-)(
-  {
+export interface CreateDataAutomationProjectRequest {
+  projectName: string;
+  projectDescription?: string;
+  projectStage?: string;
+  projectType?: string;
+  standardOutputConfiguration: StandardOutputConfiguration;
+  customOutputConfiguration?: CustomOutputConfiguration;
+  overrideConfiguration?: OverrideConfiguration;
+  clientToken?: string;
+  encryptionConfiguration?: EncryptionConfiguration;
+  tags?: TagList;
+}
+export const CreateDataAutomationProjectRequest = S.suspend(() =>
+  S.Struct({
     projectName: S.String,
     projectDescription: S.optional(S.String),
     projectStage: S.optional(S.String),
@@ -944,23 +1518,33 @@ export class CreateDataAutomationProjectRequest extends S.Class<CreateDataAutoma
     clientToken: S.optional(S.String),
     encryptionConfiguration: S.optional(EncryptionConfiguration),
     tags: S.optional(TagList),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/data-automation-projects/" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/data-automation-projects/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateDataAutomationProjectResponse extends S.Class<CreateDataAutomationProjectResponse>(
-  "CreateDataAutomationProjectResponse",
-)({
-  projectArn: S.String,
-  projectStage: S.optional(S.String),
-  status: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "CreateDataAutomationProjectRequest",
+}) as any as S.Schema<CreateDataAutomationProjectRequest>;
+export interface CreateDataAutomationProjectResponse {
+  projectArn: string;
+  projectStage?: string;
+  status?: string;
+}
+export const CreateDataAutomationProjectResponse = S.suspend(() =>
+  S.Struct({
+    projectArn: S.String,
+    projectStage: S.optional(S.String),
+    status: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CreateDataAutomationProjectResponse",
+}) as any as S.Schema<CreateDataAutomationProjectResponse>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

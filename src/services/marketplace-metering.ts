@@ -375,65 +375,122 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class RegisterUsageRequest extends S.Class<RegisterUsageRequest>(
-  "RegisterUsageRequest",
-)(
-  {
+export interface RegisterUsageRequest {
+  ProductCode: string;
+  PublicKeyVersion: number;
+  Nonce?: string;
+}
+export const RegisterUsageRequest = S.suspend(() =>
+  S.Struct({
     ProductCode: S.String,
     PublicKeyVersion: S.Number,
     Nonce: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ResolveCustomerRequest extends S.Class<ResolveCustomerRequest>(
-  "ResolveCustomerRequest",
-)(
-  { RegistrationToken: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class Tag extends S.Class<Tag>("Tag")({
-  Key: S.String,
-  Value: S.String,
-}) {}
-export const TagList = S.Array(Tag);
-export class UsageAllocation extends S.Class<UsageAllocation>(
-  "UsageAllocation",
-)({ AllocatedUsageQuantity: S.Number, Tags: S.optional(TagList) }) {}
-export const UsageAllocations = S.Array(UsageAllocation);
-export class UsageRecord extends S.Class<UsageRecord>("UsageRecord")({
-  Timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  CustomerIdentifier: S.optional(S.String),
-  Dimension: S.String,
-  Quantity: S.optional(S.Number),
-  UsageAllocations: S.optional(UsageAllocations),
-  CustomerAWSAccountId: S.optional(S.String),
-}) {}
-export const UsageRecordList = S.Array(UsageRecord);
-export class BatchMeterUsageRequest extends S.Class<BatchMeterUsageRequest>(
-  "BatchMeterUsageRequest",
-)(
-  { UsageRecords: UsageRecordList, ProductCode: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class RegisterUsageResult extends S.Class<RegisterUsageResult>(
-  "RegisterUsageResult",
-)({
-  PublicKeyRotationTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-  Signature: S.optional(S.String),
-}) {}
-export class ResolveCustomerResult extends S.Class<ResolveCustomerResult>(
-  "ResolveCustomerResult",
-)({
-  CustomerIdentifier: S.optional(S.String),
-  ProductCode: S.optional(S.String),
-  CustomerAWSAccountId: S.optional(S.String),
-}) {}
-export class MeterUsageRequest extends S.Class<MeterUsageRequest>(
-  "MeterUsageRequest",
-)(
-  {
+).annotations({
+  identifier: "RegisterUsageRequest",
+}) as any as S.Schema<RegisterUsageRequest>;
+export interface ResolveCustomerRequest {
+  RegistrationToken: string;
+}
+export const ResolveCustomerRequest = S.suspend(() =>
+  S.Struct({ RegistrationToken: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ResolveCustomerRequest",
+}) as any as S.Schema<ResolveCustomerRequest>;
+export interface Tag {
+  Key: string;
+  Value: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ Key: S.String, Value: S.String }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagList = Tag[];
+export const TagList = S.Array(Tag);
+export interface UsageAllocation {
+  AllocatedUsageQuantity: number;
+  Tags?: TagList;
+}
+export const UsageAllocation = S.suspend(() =>
+  S.Struct({ AllocatedUsageQuantity: S.Number, Tags: S.optional(TagList) }),
+).annotations({
+  identifier: "UsageAllocation",
+}) as any as S.Schema<UsageAllocation>;
+export type UsageAllocations = UsageAllocation[];
+export const UsageAllocations = S.Array(UsageAllocation);
+export interface UsageRecord {
+  Timestamp: Date;
+  CustomerIdentifier?: string;
+  Dimension: string;
+  Quantity?: number;
+  UsageAllocations?: UsageAllocations;
+  CustomerAWSAccountId?: string;
+}
+export const UsageRecord = S.suspend(() =>
+  S.Struct({
+    Timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    CustomerIdentifier: S.optional(S.String),
+    Dimension: S.String,
+    Quantity: S.optional(S.Number),
+    UsageAllocations: S.optional(UsageAllocations),
+    CustomerAWSAccountId: S.optional(S.String),
+  }),
+).annotations({ identifier: "UsageRecord" }) as any as S.Schema<UsageRecord>;
+export type UsageRecordList = UsageRecord[];
+export const UsageRecordList = S.Array(UsageRecord);
+export interface BatchMeterUsageRequest {
+  UsageRecords: UsageRecordList;
+  ProductCode: string;
+}
+export const BatchMeterUsageRequest = S.suspend(() =>
+  S.Struct({ UsageRecords: UsageRecordList, ProductCode: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "BatchMeterUsageRequest",
+}) as any as S.Schema<BatchMeterUsageRequest>;
+export interface RegisterUsageResult {
+  PublicKeyRotationTimestamp?: Date;
+  Signature?: string;
+}
+export const RegisterUsageResult = S.suspend(() =>
+  S.Struct({
+    PublicKeyRotationTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    Signature: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RegisterUsageResult",
+}) as any as S.Schema<RegisterUsageResult>;
+export interface ResolveCustomerResult {
+  CustomerIdentifier?: string;
+  ProductCode?: string;
+  CustomerAWSAccountId?: string;
+}
+export const ResolveCustomerResult = S.suspend(() =>
+  S.Struct({
+    CustomerIdentifier: S.optional(S.String),
+    ProductCode: S.optional(S.String),
+    CustomerAWSAccountId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ResolveCustomerResult",
+}) as any as S.Schema<ResolveCustomerResult>;
+export interface MeterUsageRequest {
+  ProductCode: string;
+  Timestamp: Date;
+  UsageDimension: string;
+  UsageQuantity?: number;
+  DryRun?: boolean;
+  UsageAllocations?: UsageAllocations;
+  ClientToken?: string;
+}
+export const MeterUsageRequest = S.suspend(() =>
+  S.Struct({
     ProductCode: S.String,
     Timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     UsageDimension: S.String,
@@ -441,26 +498,48 @@ export class MeterUsageRequest extends S.Class<MeterUsageRequest>(
     DryRun: S.optional(S.Boolean),
     UsageAllocations: S.optional(UsageAllocations),
     ClientToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UsageRecordResult extends S.Class<UsageRecordResult>(
-  "UsageRecordResult",
-)({
-  UsageRecord: S.optional(UsageRecord),
-  MeteringRecordId: S.optional(S.String),
-  Status: S.optional(S.String),
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "MeterUsageRequest",
+}) as any as S.Schema<MeterUsageRequest>;
+export interface UsageRecordResult {
+  UsageRecord?: UsageRecord;
+  MeteringRecordId?: string;
+  Status?: string;
+}
+export const UsageRecordResult = S.suspend(() =>
+  S.Struct({
+    UsageRecord: S.optional(UsageRecord),
+    MeteringRecordId: S.optional(S.String),
+    Status: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "UsageRecordResult",
+}) as any as S.Schema<UsageRecordResult>;
+export type UsageRecordResultList = UsageRecordResult[];
 export const UsageRecordResultList = S.Array(UsageRecordResult);
-export class BatchMeterUsageResult extends S.Class<BatchMeterUsageResult>(
-  "BatchMeterUsageResult",
-)({
-  Results: S.optional(UsageRecordResultList),
-  UnprocessedRecords: S.optional(UsageRecordList),
-}) {}
-export class MeterUsageResult extends S.Class<MeterUsageResult>(
-  "MeterUsageResult",
-)({ MeteringRecordId: S.optional(S.String) }) {}
+export interface BatchMeterUsageResult {
+  Results?: UsageRecordResultList;
+  UnprocessedRecords?: UsageRecordList;
+}
+export const BatchMeterUsageResult = S.suspend(() =>
+  S.Struct({
+    Results: S.optional(UsageRecordResultList),
+    UnprocessedRecords: S.optional(UsageRecordList),
+  }),
+).annotations({
+  identifier: "BatchMeterUsageResult",
+}) as any as S.Schema<BatchMeterUsageResult>;
+export interface MeterUsageResult {
+  MeteringRecordId?: string;
+}
+export const MeterUsageResult = S.suspend(() =>
+  S.Struct({ MeteringRecordId: S.optional(S.String) }),
+).annotations({
+  identifier: "MeterUsageResult",
+}) as any as S.Schema<MeterUsageResult>;
 
 //# Errors
 export class CustomerNotEntitledException extends S.TaggedError<CustomerNotEntitledException>()(

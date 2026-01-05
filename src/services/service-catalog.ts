@@ -242,134 +242,232 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class DisableAWSOrganizationsAccessInput extends S.Class<DisableAWSOrganizationsAccessInput>(
-  "DisableAWSOrganizationsAccessInput",
-)(
-  {},
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DisableAWSOrganizationsAccessOutput extends S.Class<DisableAWSOrganizationsAccessOutput>(
-  "DisableAWSOrganizationsAccessOutput",
-)({}) {}
-export class EnableAWSOrganizationsAccessInput extends S.Class<EnableAWSOrganizationsAccessInput>(
-  "EnableAWSOrganizationsAccessInput",
-)(
-  {},
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class EnableAWSOrganizationsAccessOutput extends S.Class<EnableAWSOrganizationsAccessOutput>(
-  "EnableAWSOrganizationsAccessOutput",
-)({}) {}
-export class GetAWSOrganizationsAccessStatusInput extends S.Class<GetAWSOrganizationsAccessStatusInput>(
-  "GetAWSOrganizationsAccessStatusInput",
-)(
-  {},
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+export interface DisableAWSOrganizationsAccessInput {}
+export const DisableAWSOrganizationsAccessInput = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DisableAWSOrganizationsAccessInput",
+}) as any as S.Schema<DisableAWSOrganizationsAccessInput>;
+export interface DisableAWSOrganizationsAccessOutput {}
+export const DisableAWSOrganizationsAccessOutput = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DisableAWSOrganizationsAccessOutput",
+}) as any as S.Schema<DisableAWSOrganizationsAccessOutput>;
+export interface EnableAWSOrganizationsAccessInput {}
+export const EnableAWSOrganizationsAccessInput = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "EnableAWSOrganizationsAccessInput",
+}) as any as S.Schema<EnableAWSOrganizationsAccessInput>;
+export interface EnableAWSOrganizationsAccessOutput {}
+export const EnableAWSOrganizationsAccessOutput = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "EnableAWSOrganizationsAccessOutput",
+}) as any as S.Schema<EnableAWSOrganizationsAccessOutput>;
+export interface GetAWSOrganizationsAccessStatusInput {}
+export const GetAWSOrganizationsAccessStatusInput = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetAWSOrganizationsAccessStatusInput",
+}) as any as S.Schema<GetAWSOrganizationsAccessStatusInput>;
+export type CopyOptions = string[];
 export const CopyOptions = S.Array(S.String);
+export type NotificationArns = string[];
 export const NotificationArns = S.Array(S.String);
-export class Tag extends S.Class<Tag>("Tag")({
-  Key: S.String,
-  Value: S.String,
-}) {}
+export interface Tag {
+  Key: string;
+  Value: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ Key: S.String, Value: S.String }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type Tags = Tag[];
 export const Tags = S.Array(Tag);
+export type OutputKeys = string[];
 export const OutputKeys = S.Array(S.String);
+export type TagKeys = string[];
 export const TagKeys = S.Array(S.String);
-export class AcceptPortfolioShareInput extends S.Class<AcceptPortfolioShareInput>(
-  "AcceptPortfolioShareInput",
-)(
-  {
+export interface AcceptPortfolioShareInput {
+  AcceptLanguage?: string;
+  PortfolioId: string;
+  PortfolioShareType?: string;
+}
+export const AcceptPortfolioShareInput = S.suspend(() =>
+  S.Struct({
     AcceptLanguage: S.optional(S.String),
     PortfolioId: S.String,
     PortfolioShareType: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class AcceptPortfolioShareOutput extends S.Class<AcceptPortfolioShareOutput>(
-  "AcceptPortfolioShareOutput",
-)({}) {}
-export class AssociateBudgetWithResourceInput extends S.Class<AssociateBudgetWithResourceInput>(
-  "AssociateBudgetWithResourceInput",
-)(
-  { BudgetName: S.String, ResourceId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class AssociateBudgetWithResourceOutput extends S.Class<AssociateBudgetWithResourceOutput>(
-  "AssociateBudgetWithResourceOutput",
-)({}) {}
-export class AssociatePrincipalWithPortfolioInput extends S.Class<AssociatePrincipalWithPortfolioInput>(
-  "AssociatePrincipalWithPortfolioInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "AcceptPortfolioShareInput",
+}) as any as S.Schema<AcceptPortfolioShareInput>;
+export interface AcceptPortfolioShareOutput {}
+export const AcceptPortfolioShareOutput = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "AcceptPortfolioShareOutput",
+}) as any as S.Schema<AcceptPortfolioShareOutput>;
+export interface AssociateBudgetWithResourceInput {
+  BudgetName: string;
+  ResourceId: string;
+}
+export const AssociateBudgetWithResourceInput = S.suspend(() =>
+  S.Struct({ BudgetName: S.String, ResourceId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "AssociateBudgetWithResourceInput",
+}) as any as S.Schema<AssociateBudgetWithResourceInput>;
+export interface AssociateBudgetWithResourceOutput {}
+export const AssociateBudgetWithResourceOutput = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "AssociateBudgetWithResourceOutput",
+}) as any as S.Schema<AssociateBudgetWithResourceOutput>;
+export interface AssociatePrincipalWithPortfolioInput {
+  AcceptLanguage?: string;
+  PortfolioId: string;
+  PrincipalARN: string;
+  PrincipalType: string;
+}
+export const AssociatePrincipalWithPortfolioInput = S.suspend(() =>
+  S.Struct({
     AcceptLanguage: S.optional(S.String),
     PortfolioId: S.String,
     PrincipalARN: S.String,
     PrincipalType: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class AssociatePrincipalWithPortfolioOutput extends S.Class<AssociatePrincipalWithPortfolioOutput>(
-  "AssociatePrincipalWithPortfolioOutput",
-)({}) {}
-export class AssociateProductWithPortfolioInput extends S.Class<AssociateProductWithPortfolioInput>(
-  "AssociateProductWithPortfolioInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "AssociatePrincipalWithPortfolioInput",
+}) as any as S.Schema<AssociatePrincipalWithPortfolioInput>;
+export interface AssociatePrincipalWithPortfolioOutput {}
+export const AssociatePrincipalWithPortfolioOutput = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "AssociatePrincipalWithPortfolioOutput",
+}) as any as S.Schema<AssociatePrincipalWithPortfolioOutput>;
+export interface AssociateProductWithPortfolioInput {
+  AcceptLanguage?: string;
+  ProductId: string;
+  PortfolioId: string;
+  SourcePortfolioId?: string;
+}
+export const AssociateProductWithPortfolioInput = S.suspend(() =>
+  S.Struct({
     AcceptLanguage: S.optional(S.String),
     ProductId: S.String,
     PortfolioId: S.String,
     SourcePortfolioId: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class AssociateProductWithPortfolioOutput extends S.Class<AssociateProductWithPortfolioOutput>(
-  "AssociateProductWithPortfolioOutput",
-)({}) {}
-export class AssociateServiceActionWithProvisioningArtifactInput extends S.Class<AssociateServiceActionWithProvisioningArtifactInput>(
-  "AssociateServiceActionWithProvisioningArtifactInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "AssociateProductWithPortfolioInput",
+}) as any as S.Schema<AssociateProductWithPortfolioInput>;
+export interface AssociateProductWithPortfolioOutput {}
+export const AssociateProductWithPortfolioOutput = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "AssociateProductWithPortfolioOutput",
+}) as any as S.Schema<AssociateProductWithPortfolioOutput>;
+export interface AssociateServiceActionWithProvisioningArtifactInput {
+  ProductId: string;
+  ProvisioningArtifactId: string;
+  ServiceActionId: string;
+  AcceptLanguage?: string;
+  IdempotencyToken?: string;
+}
+export const AssociateServiceActionWithProvisioningArtifactInput = S.suspend(
+  () =>
+    S.Struct({
+      ProductId: S.String,
+      ProvisioningArtifactId: S.String,
+      ServiceActionId: S.String,
+      AcceptLanguage: S.optional(S.String),
+      IdempotencyToken: S.optional(S.String),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+).annotations({
+  identifier: "AssociateServiceActionWithProvisioningArtifactInput",
+}) as any as S.Schema<AssociateServiceActionWithProvisioningArtifactInput>;
+export interface AssociateServiceActionWithProvisioningArtifactOutput {}
+export const AssociateServiceActionWithProvisioningArtifactOutput = S.suspend(
+  () => S.Struct({}),
+).annotations({
+  identifier: "AssociateServiceActionWithProvisioningArtifactOutput",
+}) as any as S.Schema<AssociateServiceActionWithProvisioningArtifactOutput>;
+export interface AssociateTagOptionWithResourceInput {
+  ResourceId: string;
+  TagOptionId: string;
+}
+export const AssociateTagOptionWithResourceInput = S.suspend(() =>
+  S.Struct({ ResourceId: S.String, TagOptionId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "AssociateTagOptionWithResourceInput",
+}) as any as S.Schema<AssociateTagOptionWithResourceInput>;
+export interface AssociateTagOptionWithResourceOutput {}
+export const AssociateTagOptionWithResourceOutput = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "AssociateTagOptionWithResourceOutput",
+}) as any as S.Schema<AssociateTagOptionWithResourceOutput>;
+export interface ServiceActionAssociation {
+  ServiceActionId: string;
+  ProductId: string;
+  ProvisioningArtifactId: string;
+}
+export const ServiceActionAssociation = S.suspend(() =>
+  S.Struct({
+    ServiceActionId: S.String,
     ProductId: S.String,
     ProvisioningArtifactId: S.String,
-    ServiceActionId: S.String,
-    AcceptLanguage: S.optional(S.String),
-    IdempotencyToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class AssociateServiceActionWithProvisioningArtifactOutput extends S.Class<AssociateServiceActionWithProvisioningArtifactOutput>(
-  "AssociateServiceActionWithProvisioningArtifactOutput",
-)({}) {}
-export class AssociateTagOptionWithResourceInput extends S.Class<AssociateTagOptionWithResourceInput>(
-  "AssociateTagOptionWithResourceInput",
-)(
-  { ResourceId: S.String, TagOptionId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class AssociateTagOptionWithResourceOutput extends S.Class<AssociateTagOptionWithResourceOutput>(
-  "AssociateTagOptionWithResourceOutput",
-)({}) {}
-export class ServiceActionAssociation extends S.Class<ServiceActionAssociation>(
-  "ServiceActionAssociation",
-)({
-  ServiceActionId: S.String,
-  ProductId: S.String,
-  ProvisioningArtifactId: S.String,
-}) {}
+  }),
+).annotations({
+  identifier: "ServiceActionAssociation",
+}) as any as S.Schema<ServiceActionAssociation>;
+export type ServiceActionAssociations = ServiceActionAssociation[];
 export const ServiceActionAssociations = S.Array(ServiceActionAssociation);
-export class BatchDisassociateServiceActionFromProvisioningArtifactInput extends S.Class<BatchDisassociateServiceActionFromProvisioningArtifactInput>(
-  "BatchDisassociateServiceActionFromProvisioningArtifactInput",
-)(
-  {
-    ServiceActionAssociations: ServiceActionAssociations,
-    AcceptLanguage: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateConstraintInput extends S.Class<CreateConstraintInput>(
-  "CreateConstraintInput",
-)(
-  {
+export interface BatchDisassociateServiceActionFromProvisioningArtifactInput {
+  ServiceActionAssociations: ServiceActionAssociations;
+  AcceptLanguage?: string;
+}
+export const BatchDisassociateServiceActionFromProvisioningArtifactInput =
+  S.suspend(() =>
+    S.Struct({
+      ServiceActionAssociations: ServiceActionAssociations,
+      AcceptLanguage: S.optional(S.String),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotations({
+    identifier: "BatchDisassociateServiceActionFromProvisioningArtifactInput",
+  }) as any as S.Schema<BatchDisassociateServiceActionFromProvisioningArtifactInput>;
+export interface CreateConstraintInput {
+  AcceptLanguage?: string;
+  PortfolioId: string;
+  ProductId: string;
+  Parameters: string;
+  Type: string;
+  Description?: string;
+  IdempotencyToken: string;
+}
+export const CreateConstraintInput = S.suspend(() =>
+  S.Struct({
     AcceptLanguage: S.optional(S.String),
     PortfolioId: S.String,
     ProductId: S.String,
@@ -377,215 +475,370 @@ export class CreateConstraintInput extends S.Class<CreateConstraintInput>(
     Type: S.String,
     Description: S.optional(S.String),
     IdempotencyToken: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateConstraintInput",
+}) as any as S.Schema<CreateConstraintInput>;
+export type ProvisioningArtifactInfo = { [key: string]: string };
 export const ProvisioningArtifactInfo = S.Record({
   key: S.String,
   value: S.String,
 });
-export class ProvisioningArtifactProperties extends S.Class<ProvisioningArtifactProperties>(
-  "ProvisioningArtifactProperties",
-)({
-  Name: S.optional(S.String),
-  Description: S.optional(S.String),
-  Info: S.optional(ProvisioningArtifactInfo),
-  Type: S.optional(S.String),
-  DisableTemplateValidation: S.optional(S.Boolean),
-}) {}
-export class CreateProvisioningArtifactInput extends S.Class<CreateProvisioningArtifactInput>(
-  "CreateProvisioningArtifactInput",
-)(
-  {
+export interface ProvisioningArtifactProperties {
+  Name?: string;
+  Description?: string;
+  Info?: ProvisioningArtifactInfo;
+  Type?: string;
+  DisableTemplateValidation?: boolean;
+}
+export const ProvisioningArtifactProperties = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Description: S.optional(S.String),
+    Info: S.optional(ProvisioningArtifactInfo),
+    Type: S.optional(S.String),
+    DisableTemplateValidation: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "ProvisioningArtifactProperties",
+}) as any as S.Schema<ProvisioningArtifactProperties>;
+export interface CreateProvisioningArtifactInput {
+  AcceptLanguage?: string;
+  ProductId: string;
+  Parameters: ProvisioningArtifactProperties;
+  IdempotencyToken: string;
+}
+export const CreateProvisioningArtifactInput = S.suspend(() =>
+  S.Struct({
     AcceptLanguage: S.optional(S.String),
     ProductId: S.String,
     Parameters: ProvisioningArtifactProperties,
     IdempotencyToken: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateTagOptionInput extends S.Class<CreateTagOptionInput>(
-  "CreateTagOptionInput",
-)(
-  { Key: S.String, Value: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteConstraintInput extends S.Class<DeleteConstraintInput>(
-  "DeleteConstraintInput",
-)(
-  { AcceptLanguage: S.optional(S.String), Id: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteConstraintOutput extends S.Class<DeleteConstraintOutput>(
-  "DeleteConstraintOutput",
-)({}) {}
-export class DeletePortfolioInput extends S.Class<DeletePortfolioInput>(
-  "DeletePortfolioInput",
-)(
-  { AcceptLanguage: S.optional(S.String), Id: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeletePortfolioOutput extends S.Class<DeletePortfolioOutput>(
-  "DeletePortfolioOutput",
-)({}) {}
-export class OrganizationNode extends S.Class<OrganizationNode>(
-  "OrganizationNode",
-)({ Type: S.optional(S.String), Value: S.optional(S.String) }) {}
-export class DeletePortfolioShareInput extends S.Class<DeletePortfolioShareInput>(
-  "DeletePortfolioShareInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateProvisioningArtifactInput",
+}) as any as S.Schema<CreateProvisioningArtifactInput>;
+export interface CreateTagOptionInput {
+  Key: string;
+  Value: string;
+}
+export const CreateTagOptionInput = S.suspend(() =>
+  S.Struct({ Key: S.String, Value: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateTagOptionInput",
+}) as any as S.Schema<CreateTagOptionInput>;
+export interface DeleteConstraintInput {
+  AcceptLanguage?: string;
+  Id: string;
+}
+export const DeleteConstraintInput = S.suspend(() =>
+  S.Struct({ AcceptLanguage: S.optional(S.String), Id: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteConstraintInput",
+}) as any as S.Schema<DeleteConstraintInput>;
+export interface DeleteConstraintOutput {}
+export const DeleteConstraintOutput = S.suspend(() => S.Struct({})).annotations(
+  { identifier: "DeleteConstraintOutput" },
+) as any as S.Schema<DeleteConstraintOutput>;
+export interface DeletePortfolioInput {
+  AcceptLanguage?: string;
+  Id: string;
+}
+export const DeletePortfolioInput = S.suspend(() =>
+  S.Struct({ AcceptLanguage: S.optional(S.String), Id: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeletePortfolioInput",
+}) as any as S.Schema<DeletePortfolioInput>;
+export interface DeletePortfolioOutput {}
+export const DeletePortfolioOutput = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeletePortfolioOutput",
+}) as any as S.Schema<DeletePortfolioOutput>;
+export interface OrganizationNode {
+  Type?: string;
+  Value?: string;
+}
+export const OrganizationNode = S.suspend(() =>
+  S.Struct({ Type: S.optional(S.String), Value: S.optional(S.String) }),
+).annotations({
+  identifier: "OrganizationNode",
+}) as any as S.Schema<OrganizationNode>;
+export interface DeletePortfolioShareInput {
+  AcceptLanguage?: string;
+  PortfolioId: string;
+  AccountId?: string;
+  OrganizationNode?: OrganizationNode;
+}
+export const DeletePortfolioShareInput = S.suspend(() =>
+  S.Struct({
     AcceptLanguage: S.optional(S.String),
     PortfolioId: S.String,
     AccountId: S.optional(S.String),
     OrganizationNode: S.optional(OrganizationNode),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteProductInput extends S.Class<DeleteProductInput>(
-  "DeleteProductInput",
-)(
-  { AcceptLanguage: S.optional(S.String), Id: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteProductOutput extends S.Class<DeleteProductOutput>(
-  "DeleteProductOutput",
-)({}) {}
-export class DeleteProvisionedProductPlanInput extends S.Class<DeleteProvisionedProductPlanInput>(
-  "DeleteProvisionedProductPlanInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeletePortfolioShareInput",
+}) as any as S.Schema<DeletePortfolioShareInput>;
+export interface DeleteProductInput {
+  AcceptLanguage?: string;
+  Id: string;
+}
+export const DeleteProductInput = S.suspend(() =>
+  S.Struct({ AcceptLanguage: S.optional(S.String), Id: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteProductInput",
+}) as any as S.Schema<DeleteProductInput>;
+export interface DeleteProductOutput {}
+export const DeleteProductOutput = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteProductOutput",
+}) as any as S.Schema<DeleteProductOutput>;
+export interface DeleteProvisionedProductPlanInput {
+  AcceptLanguage?: string;
+  PlanId: string;
+  IgnoreErrors?: boolean;
+}
+export const DeleteProvisionedProductPlanInput = S.suspend(() =>
+  S.Struct({
     AcceptLanguage: S.optional(S.String),
     PlanId: S.String,
     IgnoreErrors: S.optional(S.Boolean),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteProvisionedProductPlanOutput extends S.Class<DeleteProvisionedProductPlanOutput>(
-  "DeleteProvisionedProductPlanOutput",
-)({}) {}
-export class DeleteProvisioningArtifactInput extends S.Class<DeleteProvisioningArtifactInput>(
-  "DeleteProvisioningArtifactInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteProvisionedProductPlanInput",
+}) as any as S.Schema<DeleteProvisionedProductPlanInput>;
+export interface DeleteProvisionedProductPlanOutput {}
+export const DeleteProvisionedProductPlanOutput = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteProvisionedProductPlanOutput",
+}) as any as S.Schema<DeleteProvisionedProductPlanOutput>;
+export interface DeleteProvisioningArtifactInput {
+  AcceptLanguage?: string;
+  ProductId: string;
+  ProvisioningArtifactId: string;
+}
+export const DeleteProvisioningArtifactInput = S.suspend(() =>
+  S.Struct({
     AcceptLanguage: S.optional(S.String),
     ProductId: S.String,
     ProvisioningArtifactId: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteProvisioningArtifactOutput extends S.Class<DeleteProvisioningArtifactOutput>(
-  "DeleteProvisioningArtifactOutput",
-)({}) {}
-export class DeleteServiceActionInput extends S.Class<DeleteServiceActionInput>(
-  "DeleteServiceActionInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteProvisioningArtifactInput",
+}) as any as S.Schema<DeleteProvisioningArtifactInput>;
+export interface DeleteProvisioningArtifactOutput {}
+export const DeleteProvisioningArtifactOutput = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteProvisioningArtifactOutput",
+}) as any as S.Schema<DeleteProvisioningArtifactOutput>;
+export interface DeleteServiceActionInput {
+  Id: string;
+  AcceptLanguage?: string;
+  IdempotencyToken?: string;
+}
+export const DeleteServiceActionInput = S.suspend(() =>
+  S.Struct({
     Id: S.String,
     AcceptLanguage: S.optional(S.String),
     IdempotencyToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteServiceActionOutput extends S.Class<DeleteServiceActionOutput>(
-  "DeleteServiceActionOutput",
-)({}) {}
-export class DeleteTagOptionInput extends S.Class<DeleteTagOptionInput>(
-  "DeleteTagOptionInput",
-)(
-  { Id: S.String.pipe(T.HttpQuery("id")) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteTagOptionOutput extends S.Class<DeleteTagOptionOutput>(
-  "DeleteTagOptionOutput",
-)({}) {}
-export class DescribeConstraintInput extends S.Class<DescribeConstraintInput>(
-  "DescribeConstraintInput",
-)(
-  { AcceptLanguage: S.optional(S.String), Id: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeCopyProductStatusInput extends S.Class<DescribeCopyProductStatusInput>(
-  "DescribeCopyProductStatusInput",
-)(
-  { AcceptLanguage: S.optional(S.String), CopyProductToken: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribePortfolioInput extends S.Class<DescribePortfolioInput>(
-  "DescribePortfolioInput",
-)(
-  { AcceptLanguage: S.optional(S.String), Id: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribePortfolioSharesInput extends S.Class<DescribePortfolioSharesInput>(
-  "DescribePortfolioSharesInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteServiceActionInput",
+}) as any as S.Schema<DeleteServiceActionInput>;
+export interface DeleteServiceActionOutput {}
+export const DeleteServiceActionOutput = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteServiceActionOutput",
+}) as any as S.Schema<DeleteServiceActionOutput>;
+export interface DeleteTagOptionInput {
+  Id: string;
+}
+export const DeleteTagOptionInput = S.suspend(() =>
+  S.Struct({ Id: S.String.pipe(T.HttpQuery("id")) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteTagOptionInput",
+}) as any as S.Schema<DeleteTagOptionInput>;
+export interface DeleteTagOptionOutput {}
+export const DeleteTagOptionOutput = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteTagOptionOutput",
+}) as any as S.Schema<DeleteTagOptionOutput>;
+export interface DescribeConstraintInput {
+  AcceptLanguage?: string;
+  Id: string;
+}
+export const DescribeConstraintInput = S.suspend(() =>
+  S.Struct({ AcceptLanguage: S.optional(S.String), Id: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeConstraintInput",
+}) as any as S.Schema<DescribeConstraintInput>;
+export interface DescribeCopyProductStatusInput {
+  AcceptLanguage?: string;
+  CopyProductToken: string;
+}
+export const DescribeCopyProductStatusInput = S.suspend(() =>
+  S.Struct({
+    AcceptLanguage: S.optional(S.String),
+    CopyProductToken: S.String,
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeCopyProductStatusInput",
+}) as any as S.Schema<DescribeCopyProductStatusInput>;
+export interface DescribePortfolioInput {
+  AcceptLanguage?: string;
+  Id: string;
+}
+export const DescribePortfolioInput = S.suspend(() =>
+  S.Struct({ AcceptLanguage: S.optional(S.String), Id: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribePortfolioInput",
+}) as any as S.Schema<DescribePortfolioInput>;
+export interface DescribePortfolioSharesInput {
+  PortfolioId: string;
+  Type: string;
+  PageToken?: string;
+  PageSize?: number;
+}
+export const DescribePortfolioSharesInput = S.suspend(() =>
+  S.Struct({
     PortfolioId: S.String,
     Type: S.String,
     PageToken: S.optional(S.String),
     PageSize: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribePortfolioShareStatusInput extends S.Class<DescribePortfolioShareStatusInput>(
-  "DescribePortfolioShareStatusInput",
-)(
-  { PortfolioShareToken: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeProductInput extends S.Class<DescribeProductInput>(
-  "DescribeProductInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribePortfolioSharesInput",
+}) as any as S.Schema<DescribePortfolioSharesInput>;
+export interface DescribePortfolioShareStatusInput {
+  PortfolioShareToken: string;
+}
+export const DescribePortfolioShareStatusInput = S.suspend(() =>
+  S.Struct({ PortfolioShareToken: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribePortfolioShareStatusInput",
+}) as any as S.Schema<DescribePortfolioShareStatusInput>;
+export interface DescribeProductInput {
+  AcceptLanguage?: string;
+  Id?: string;
+  Name?: string;
+}
+export const DescribeProductInput = S.suspend(() =>
+  S.Struct({
     AcceptLanguage: S.optional(S.String),
     Id: S.optional(S.String),
     Name: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeProductAsAdminInput extends S.Class<DescribeProductAsAdminInput>(
-  "DescribeProductAsAdminInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeProductInput",
+}) as any as S.Schema<DescribeProductInput>;
+export interface DescribeProductAsAdminInput {
+  AcceptLanguage?: string;
+  Id?: string;
+  Name?: string;
+  SourcePortfolioId?: string;
+}
+export const DescribeProductAsAdminInput = S.suspend(() =>
+  S.Struct({
     AcceptLanguage: S.optional(S.String),
     Id: S.optional(S.String),
     Name: S.optional(S.String),
     SourcePortfolioId: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeProductViewInput extends S.Class<DescribeProductViewInput>(
-  "DescribeProductViewInput",
-)(
-  { AcceptLanguage: S.optional(S.String), Id: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeProvisionedProductInput extends S.Class<DescribeProvisionedProductInput>(
-  "DescribeProvisionedProductInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeProductAsAdminInput",
+}) as any as S.Schema<DescribeProductAsAdminInput>;
+export interface DescribeProductViewInput {
+  AcceptLanguage?: string;
+  Id: string;
+}
+export const DescribeProductViewInput = S.suspend(() =>
+  S.Struct({ AcceptLanguage: S.optional(S.String), Id: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeProductViewInput",
+}) as any as S.Schema<DescribeProductViewInput>;
+export interface DescribeProvisionedProductInput {
+  AcceptLanguage?: string;
+  Id?: string;
+  Name?: string;
+}
+export const DescribeProvisionedProductInput = S.suspend(() =>
+  S.Struct({
     AcceptLanguage: S.optional(S.String),
     Id: S.optional(S.String),
     Name: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeProvisionedProductPlanInput extends S.Class<DescribeProvisionedProductPlanInput>(
-  "DescribeProvisionedProductPlanInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeProvisionedProductInput",
+}) as any as S.Schema<DescribeProvisionedProductInput>;
+export interface DescribeProvisionedProductPlanInput {
+  AcceptLanguage?: string;
+  PlanId: string;
+  PageSize?: number;
+  PageToken?: string;
+}
+export const DescribeProvisionedProductPlanInput = S.suspend(() =>
+  S.Struct({
     AcceptLanguage: S.optional(S.String),
     PlanId: S.String,
     PageSize: S.optional(S.Number),
     PageToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeProvisioningArtifactInput extends S.Class<DescribeProvisioningArtifactInput>(
-  "DescribeProvisioningArtifactInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeProvisionedProductPlanInput",
+}) as any as S.Schema<DescribeProvisionedProductPlanInput>;
+export interface DescribeProvisioningArtifactInput {
+  AcceptLanguage?: string;
+  ProvisioningArtifactId?: string;
+  ProductId?: string;
+  ProvisioningArtifactName?: string;
+  ProductName?: string;
+  Verbose?: boolean;
+  IncludeProvisioningArtifactParameters?: boolean;
+}
+export const DescribeProvisioningArtifactInput = S.suspend(() =>
+  S.Struct({
     AcceptLanguage: S.optional(S.String),
     ProvisioningArtifactId: S.optional(S.String),
     ProductId: S.optional(S.String),
@@ -593,13 +846,23 @@ export class DescribeProvisioningArtifactInput extends S.Class<DescribeProvision
     ProductName: S.optional(S.String),
     Verbose: S.optional(S.Boolean),
     IncludeProvisioningArtifactParameters: S.optional(S.Boolean),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeProvisioningParametersInput extends S.Class<DescribeProvisioningParametersInput>(
-  "DescribeProvisioningParametersInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeProvisioningArtifactInput",
+}) as any as S.Schema<DescribeProvisioningArtifactInput>;
+export interface DescribeProvisioningParametersInput {
+  AcceptLanguage?: string;
+  ProductId?: string;
+  ProductName?: string;
+  ProvisioningArtifactId?: string;
+  ProvisioningArtifactName?: string;
+  PathId?: string;
+  PathName?: string;
+}
+export const DescribeProvisioningParametersInput = S.suspend(() =>
+  S.Struct({
     AcceptLanguage: S.optional(S.String),
     ProductId: S.optional(S.String),
     ProductName: S.optional(S.String),
@@ -607,379 +870,647 @@ export class DescribeProvisioningParametersInput extends S.Class<DescribeProvisi
     ProvisioningArtifactName: S.optional(S.String),
     PathId: S.optional(S.String),
     PathName: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeRecordInput extends S.Class<DescribeRecordInput>(
-  "DescribeRecordInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeProvisioningParametersInput",
+}) as any as S.Schema<DescribeProvisioningParametersInput>;
+export interface DescribeRecordInput {
+  AcceptLanguage?: string;
+  Id: string;
+  PageToken?: string;
+  PageSize?: number;
+}
+export const DescribeRecordInput = S.suspend(() =>
+  S.Struct({
     AcceptLanguage: S.optional(S.String),
     Id: S.String,
     PageToken: S.optional(S.String),
     PageSize: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeServiceActionInput extends S.Class<DescribeServiceActionInput>(
-  "DescribeServiceActionInput",
-)(
-  { Id: S.String, AcceptLanguage: S.optional(S.String) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeServiceActionExecutionParametersInput extends S.Class<DescribeServiceActionExecutionParametersInput>(
-  "DescribeServiceActionExecutionParametersInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeRecordInput",
+}) as any as S.Schema<DescribeRecordInput>;
+export interface DescribeServiceActionInput {
+  Id: string;
+  AcceptLanguage?: string;
+}
+export const DescribeServiceActionInput = S.suspend(() =>
+  S.Struct({ Id: S.String, AcceptLanguage: S.optional(S.String) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeServiceActionInput",
+}) as any as S.Schema<DescribeServiceActionInput>;
+export interface DescribeServiceActionExecutionParametersInput {
+  ProvisionedProductId: string;
+  ServiceActionId: string;
+  AcceptLanguage?: string;
+}
+export const DescribeServiceActionExecutionParametersInput = S.suspend(() =>
+  S.Struct({
     ProvisionedProductId: S.String,
     ServiceActionId: S.String,
     AcceptLanguage: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeTagOptionInput extends S.Class<DescribeTagOptionInput>(
-  "DescribeTagOptionInput",
-)(
-  { Id: S.String.pipe(T.HttpQuery("id")) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DisassociateBudgetFromResourceInput extends S.Class<DisassociateBudgetFromResourceInput>(
-  "DisassociateBudgetFromResourceInput",
-)(
-  { BudgetName: S.String, ResourceId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DisassociateBudgetFromResourceOutput extends S.Class<DisassociateBudgetFromResourceOutput>(
-  "DisassociateBudgetFromResourceOutput",
-)({}) {}
-export class DisassociatePrincipalFromPortfolioInput extends S.Class<DisassociatePrincipalFromPortfolioInput>(
-  "DisassociatePrincipalFromPortfolioInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeServiceActionExecutionParametersInput",
+}) as any as S.Schema<DescribeServiceActionExecutionParametersInput>;
+export interface DescribeTagOptionInput {
+  Id: string;
+}
+export const DescribeTagOptionInput = S.suspend(() =>
+  S.Struct({ Id: S.String.pipe(T.HttpQuery("id")) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeTagOptionInput",
+}) as any as S.Schema<DescribeTagOptionInput>;
+export interface DisassociateBudgetFromResourceInput {
+  BudgetName: string;
+  ResourceId: string;
+}
+export const DisassociateBudgetFromResourceInput = S.suspend(() =>
+  S.Struct({ BudgetName: S.String, ResourceId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DisassociateBudgetFromResourceInput",
+}) as any as S.Schema<DisassociateBudgetFromResourceInput>;
+export interface DisassociateBudgetFromResourceOutput {}
+export const DisassociateBudgetFromResourceOutput = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DisassociateBudgetFromResourceOutput",
+}) as any as S.Schema<DisassociateBudgetFromResourceOutput>;
+export interface DisassociatePrincipalFromPortfolioInput {
+  AcceptLanguage?: string;
+  PortfolioId: string;
+  PrincipalARN: string;
+  PrincipalType?: string;
+}
+export const DisassociatePrincipalFromPortfolioInput = S.suspend(() =>
+  S.Struct({
     AcceptLanguage: S.optional(S.String),
     PortfolioId: S.String,
     PrincipalARN: S.String,
     PrincipalType: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DisassociatePrincipalFromPortfolioOutput extends S.Class<DisassociatePrincipalFromPortfolioOutput>(
-  "DisassociatePrincipalFromPortfolioOutput",
-)({}) {}
-export class DisassociateProductFromPortfolioInput extends S.Class<DisassociateProductFromPortfolioInput>(
-  "DisassociateProductFromPortfolioInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DisassociatePrincipalFromPortfolioInput",
+}) as any as S.Schema<DisassociatePrincipalFromPortfolioInput>;
+export interface DisassociatePrincipalFromPortfolioOutput {}
+export const DisassociatePrincipalFromPortfolioOutput = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DisassociatePrincipalFromPortfolioOutput",
+}) as any as S.Schema<DisassociatePrincipalFromPortfolioOutput>;
+export interface DisassociateProductFromPortfolioInput {
+  AcceptLanguage?: string;
+  ProductId: string;
+  PortfolioId: string;
+}
+export const DisassociateProductFromPortfolioInput = S.suspend(() =>
+  S.Struct({
     AcceptLanguage: S.optional(S.String),
     ProductId: S.String,
     PortfolioId: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DisassociateProductFromPortfolioOutput extends S.Class<DisassociateProductFromPortfolioOutput>(
-  "DisassociateProductFromPortfolioOutput",
-)({}) {}
-export class DisassociateServiceActionFromProvisioningArtifactInput extends S.Class<DisassociateServiceActionFromProvisioningArtifactInput>(
-  "DisassociateServiceActionFromProvisioningArtifactInput",
-)(
-  {
-    ProductId: S.String,
-    ProvisioningArtifactId: S.String,
-    ServiceActionId: S.String,
-    AcceptLanguage: S.optional(S.String),
-    IdempotencyToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DisassociateServiceActionFromProvisioningArtifactOutput extends S.Class<DisassociateServiceActionFromProvisioningArtifactOutput>(
-  "DisassociateServiceActionFromProvisioningArtifactOutput",
-)({}) {}
-export class DisassociateTagOptionFromResourceInput extends S.Class<DisassociateTagOptionFromResourceInput>(
-  "DisassociateTagOptionFromResourceInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DisassociateProductFromPortfolioInput",
+}) as any as S.Schema<DisassociateProductFromPortfolioInput>;
+export interface DisassociateProductFromPortfolioOutput {}
+export const DisassociateProductFromPortfolioOutput = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DisassociateProductFromPortfolioOutput",
+}) as any as S.Schema<DisassociateProductFromPortfolioOutput>;
+export interface DisassociateServiceActionFromProvisioningArtifactInput {
+  ProductId: string;
+  ProvisioningArtifactId: string;
+  ServiceActionId: string;
+  AcceptLanguage?: string;
+  IdempotencyToken?: string;
+}
+export const DisassociateServiceActionFromProvisioningArtifactInput = S.suspend(
+  () =>
+    S.Struct({
+      ProductId: S.String,
+      ProvisioningArtifactId: S.String,
+      ServiceActionId: S.String,
+      AcceptLanguage: S.optional(S.String),
+      IdempotencyToken: S.optional(S.String),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+).annotations({
+  identifier: "DisassociateServiceActionFromProvisioningArtifactInput",
+}) as any as S.Schema<DisassociateServiceActionFromProvisioningArtifactInput>;
+export interface DisassociateServiceActionFromProvisioningArtifactOutput {}
+export const DisassociateServiceActionFromProvisioningArtifactOutput =
+  S.suspend(() => S.Struct({})).annotations({
+    identifier: "DisassociateServiceActionFromProvisioningArtifactOutput",
+  }) as any as S.Schema<DisassociateServiceActionFromProvisioningArtifactOutput>;
+export interface DisassociateTagOptionFromResourceInput {
+  ResourceId: string;
+  TagOptionId: string;
+}
+export const DisassociateTagOptionFromResourceInput = S.suspend(() =>
+  S.Struct({
     ResourceId: S.String.pipe(T.HttpQuery("resourceId")),
     TagOptionId: S.String.pipe(T.HttpQuery("tagOptionId")),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DisassociateTagOptionFromResourceOutput extends S.Class<DisassociateTagOptionFromResourceOutput>(
-  "DisassociateTagOptionFromResourceOutput",
-)({}) {}
-export class ExecuteProvisionedProductPlanInput extends S.Class<ExecuteProvisionedProductPlanInput>(
-  "ExecuteProvisionedProductPlanInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DisassociateTagOptionFromResourceInput",
+}) as any as S.Schema<DisassociateTagOptionFromResourceInput>;
+export interface DisassociateTagOptionFromResourceOutput {}
+export const DisassociateTagOptionFromResourceOutput = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DisassociateTagOptionFromResourceOutput",
+}) as any as S.Schema<DisassociateTagOptionFromResourceOutput>;
+export interface ExecuteProvisionedProductPlanInput {
+  AcceptLanguage?: string;
+  PlanId: string;
+  IdempotencyToken: string;
+}
+export const ExecuteProvisionedProductPlanInput = S.suspend(() =>
+  S.Struct({
     AcceptLanguage: S.optional(S.String),
     PlanId: S.String,
     IdempotencyToken: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetAWSOrganizationsAccessStatusOutput extends S.Class<GetAWSOrganizationsAccessStatusOutput>(
-  "GetAWSOrganizationsAccessStatusOutput",
-)({ AccessStatus: S.optional(S.String) }) {}
-export class GetProvisionedProductOutputsInput extends S.Class<GetProvisionedProductOutputsInput>(
-  "GetProvisionedProductOutputsInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ExecuteProvisionedProductPlanInput",
+}) as any as S.Schema<ExecuteProvisionedProductPlanInput>;
+export interface GetAWSOrganizationsAccessStatusOutput {
+  AccessStatus?: string;
+}
+export const GetAWSOrganizationsAccessStatusOutput = S.suspend(() =>
+  S.Struct({ AccessStatus: S.optional(S.String) }),
+).annotations({
+  identifier: "GetAWSOrganizationsAccessStatusOutput",
+}) as any as S.Schema<GetAWSOrganizationsAccessStatusOutput>;
+export interface GetProvisionedProductOutputsInput {
+  AcceptLanguage?: string;
+  ProvisionedProductId?: string;
+  ProvisionedProductName?: string;
+  OutputKeys?: OutputKeys;
+  PageSize?: number;
+  PageToken?: string;
+}
+export const GetProvisionedProductOutputsInput = S.suspend(() =>
+  S.Struct({
     AcceptLanguage: S.optional(S.String),
     ProvisionedProductId: S.optional(S.String),
     ProvisionedProductName: S.optional(S.String),
     OutputKeys: S.optional(OutputKeys),
     PageSize: S.optional(S.Number),
     PageToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ImportAsProvisionedProductInput extends S.Class<ImportAsProvisionedProductInput>(
-  "ImportAsProvisionedProductInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetProvisionedProductOutputsInput",
+}) as any as S.Schema<GetProvisionedProductOutputsInput>;
+export interface ImportAsProvisionedProductInput {
+  AcceptLanguage?: string;
+  ProductId: string;
+  ProvisioningArtifactId: string;
+  ProvisionedProductName: string;
+  PhysicalId: string;
+  IdempotencyToken: string;
+}
+export const ImportAsProvisionedProductInput = S.suspend(() =>
+  S.Struct({
     AcceptLanguage: S.optional(S.String),
     ProductId: S.String,
     ProvisioningArtifactId: S.String,
     ProvisionedProductName: S.String,
     PhysicalId: S.String,
     IdempotencyToken: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListAcceptedPortfolioSharesInput extends S.Class<ListAcceptedPortfolioSharesInput>(
-  "ListAcceptedPortfolioSharesInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ImportAsProvisionedProductInput",
+}) as any as S.Schema<ImportAsProvisionedProductInput>;
+export interface ListAcceptedPortfolioSharesInput {
+  AcceptLanguage?: string;
+  PageToken?: string;
+  PageSize?: number;
+  PortfolioShareType?: string;
+}
+export const ListAcceptedPortfolioSharesInput = S.suspend(() =>
+  S.Struct({
     AcceptLanguage: S.optional(S.String),
     PageToken: S.optional(S.String),
     PageSize: S.optional(S.Number),
     PortfolioShareType: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListBudgetsForResourceInput extends S.Class<ListBudgetsForResourceInput>(
-  "ListBudgetsForResourceInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListAcceptedPortfolioSharesInput",
+}) as any as S.Schema<ListAcceptedPortfolioSharesInput>;
+export interface ListBudgetsForResourceInput {
+  AcceptLanguage?: string;
+  ResourceId: string;
+  PageSize?: number;
+  PageToken?: string;
+}
+export const ListBudgetsForResourceInput = S.suspend(() =>
+  S.Struct({
     AcceptLanguage: S.optional(S.String),
     ResourceId: S.String,
     PageSize: S.optional(S.Number),
     PageToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListConstraintsForPortfolioInput extends S.Class<ListConstraintsForPortfolioInput>(
-  "ListConstraintsForPortfolioInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListBudgetsForResourceInput",
+}) as any as S.Schema<ListBudgetsForResourceInput>;
+export interface ListConstraintsForPortfolioInput {
+  AcceptLanguage?: string;
+  PortfolioId: string;
+  ProductId?: string;
+  PageSize?: number;
+  PageToken?: string;
+}
+export const ListConstraintsForPortfolioInput = S.suspend(() =>
+  S.Struct({
     AcceptLanguage: S.optional(S.String),
     PortfolioId: S.String,
     ProductId: S.optional(S.String),
     PageSize: S.optional(S.Number),
     PageToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListLaunchPathsInput extends S.Class<ListLaunchPathsInput>(
-  "ListLaunchPathsInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListConstraintsForPortfolioInput",
+}) as any as S.Schema<ListConstraintsForPortfolioInput>;
+export interface ListLaunchPathsInput {
+  AcceptLanguage?: string;
+  ProductId: string;
+  PageSize?: number;
+  PageToken?: string;
+}
+export const ListLaunchPathsInput = S.suspend(() =>
+  S.Struct({
     AcceptLanguage: S.optional(S.String),
     ProductId: S.String,
     PageSize: S.optional(S.Number),
     PageToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListOrganizationPortfolioAccessInput extends S.Class<ListOrganizationPortfolioAccessInput>(
-  "ListOrganizationPortfolioAccessInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListLaunchPathsInput",
+}) as any as S.Schema<ListLaunchPathsInput>;
+export interface ListOrganizationPortfolioAccessInput {
+  AcceptLanguage?: string;
+  PortfolioId: string;
+  OrganizationNodeType: string;
+  PageToken?: string;
+  PageSize?: number;
+}
+export const ListOrganizationPortfolioAccessInput = S.suspend(() =>
+  S.Struct({
     AcceptLanguage: S.optional(S.String),
     PortfolioId: S.String,
     OrganizationNodeType: S.String,
     PageToken: S.optional(S.String),
     PageSize: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListPortfolioAccessInput extends S.Class<ListPortfolioAccessInput>(
-  "ListPortfolioAccessInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListOrganizationPortfolioAccessInput",
+}) as any as S.Schema<ListOrganizationPortfolioAccessInput>;
+export interface ListPortfolioAccessInput {
+  AcceptLanguage?: string;
+  PortfolioId: string;
+  OrganizationParentId?: string;
+  PageToken?: string;
+  PageSize?: number;
+}
+export const ListPortfolioAccessInput = S.suspend(() =>
+  S.Struct({
     AcceptLanguage: S.optional(S.String),
     PortfolioId: S.String,
     OrganizationParentId: S.optional(S.String),
     PageToken: S.optional(S.String),
     PageSize: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListPortfoliosInput extends S.Class<ListPortfoliosInput>(
-  "ListPortfoliosInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListPortfolioAccessInput",
+}) as any as S.Schema<ListPortfolioAccessInput>;
+export interface ListPortfoliosInput {
+  AcceptLanguage?: string;
+  PageToken?: string;
+  PageSize?: number;
+}
+export const ListPortfoliosInput = S.suspend(() =>
+  S.Struct({
     AcceptLanguage: S.optional(S.String),
     PageToken: S.optional(S.String),
     PageSize: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListPortfoliosForProductInput extends S.Class<ListPortfoliosForProductInput>(
-  "ListPortfoliosForProductInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListPortfoliosInput",
+}) as any as S.Schema<ListPortfoliosInput>;
+export interface ListPortfoliosForProductInput {
+  AcceptLanguage?: string;
+  ProductId: string;
+  PageToken?: string;
+  PageSize?: number;
+}
+export const ListPortfoliosForProductInput = S.suspend(() =>
+  S.Struct({
     AcceptLanguage: S.optional(S.String),
     ProductId: S.String,
     PageToken: S.optional(S.String),
     PageSize: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListPrincipalsForPortfolioInput extends S.Class<ListPrincipalsForPortfolioInput>(
-  "ListPrincipalsForPortfolioInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListPortfoliosForProductInput",
+}) as any as S.Schema<ListPortfoliosForProductInput>;
+export interface ListPrincipalsForPortfolioInput {
+  AcceptLanguage?: string;
+  PortfolioId: string;
+  PageSize?: number;
+  PageToken?: string;
+}
+export const ListPrincipalsForPortfolioInput = S.suspend(() =>
+  S.Struct({
     AcceptLanguage: S.optional(S.String),
     PortfolioId: S.String,
     PageSize: S.optional(S.Number),
     PageToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListProvisioningArtifactsInput extends S.Class<ListProvisioningArtifactsInput>(
-  "ListProvisioningArtifactsInput",
-)(
-  { AcceptLanguage: S.optional(S.String), ProductId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListProvisioningArtifactsForServiceActionInput extends S.Class<ListProvisioningArtifactsForServiceActionInput>(
-  "ListProvisioningArtifactsForServiceActionInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListPrincipalsForPortfolioInput",
+}) as any as S.Schema<ListPrincipalsForPortfolioInput>;
+export interface ListProvisioningArtifactsInput {
+  AcceptLanguage?: string;
+  ProductId: string;
+}
+export const ListProvisioningArtifactsInput = S.suspend(() =>
+  S.Struct({ AcceptLanguage: S.optional(S.String), ProductId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListProvisioningArtifactsInput",
+}) as any as S.Schema<ListProvisioningArtifactsInput>;
+export interface ListProvisioningArtifactsForServiceActionInput {
+  ServiceActionId: string;
+  PageSize?: number;
+  PageToken?: string;
+  AcceptLanguage?: string;
+}
+export const ListProvisioningArtifactsForServiceActionInput = S.suspend(() =>
+  S.Struct({
     ServiceActionId: S.String,
     PageSize: S.optional(S.Number),
     PageToken: S.optional(S.String),
     AcceptLanguage: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListResourcesForTagOptionInput extends S.Class<ListResourcesForTagOptionInput>(
-  "ListResourcesForTagOptionInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListProvisioningArtifactsForServiceActionInput",
+}) as any as S.Schema<ListProvisioningArtifactsForServiceActionInput>;
+export interface ListResourcesForTagOptionInput {
+  TagOptionId: string;
+  ResourceType?: string;
+  PageSize?: number;
+  PageToken?: string;
+}
+export const ListResourcesForTagOptionInput = S.suspend(() =>
+  S.Struct({
     TagOptionId: S.String.pipe(T.HttpQuery("tagOptionId")),
     ResourceType: S.optional(S.String).pipe(T.HttpQuery("resourceType")),
     PageSize: S.optional(S.Number).pipe(T.HttpQuery("pageSize")),
     PageToken: S.optional(S.String).pipe(T.HttpQuery("pageToken")),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListServiceActionsInput extends S.Class<ListServiceActionsInput>(
-  "ListServiceActionsInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListResourcesForTagOptionInput",
+}) as any as S.Schema<ListResourcesForTagOptionInput>;
+export interface ListServiceActionsInput {
+  AcceptLanguage?: string;
+  PageSize?: number;
+  PageToken?: string;
+}
+export const ListServiceActionsInput = S.suspend(() =>
+  S.Struct({
     AcceptLanguage: S.optional(S.String),
     PageSize: S.optional(S.Number),
     PageToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListServiceActionsForProvisioningArtifactInput extends S.Class<ListServiceActionsForProvisioningArtifactInput>(
-  "ListServiceActionsForProvisioningArtifactInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListServiceActionsInput",
+}) as any as S.Schema<ListServiceActionsInput>;
+export interface ListServiceActionsForProvisioningArtifactInput {
+  ProductId: string;
+  ProvisioningArtifactId: string;
+  PageSize?: number;
+  PageToken?: string;
+  AcceptLanguage?: string;
+}
+export const ListServiceActionsForProvisioningArtifactInput = S.suspend(() =>
+  S.Struct({
     ProductId: S.String,
     ProvisioningArtifactId: S.String,
     PageSize: S.optional(S.Number),
     PageToken: S.optional(S.String),
     AcceptLanguage: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListStackInstancesForProvisionedProductInput extends S.Class<ListStackInstancesForProvisionedProductInput>(
-  "ListStackInstancesForProvisionedProductInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListServiceActionsForProvisioningArtifactInput",
+}) as any as S.Schema<ListServiceActionsForProvisioningArtifactInput>;
+export interface ListStackInstancesForProvisionedProductInput {
+  AcceptLanguage?: string;
+  ProvisionedProductId: string;
+  PageToken?: string;
+  PageSize?: number;
+}
+export const ListStackInstancesForProvisionedProductInput = S.suspend(() =>
+  S.Struct({
     AcceptLanguage: S.optional(S.String),
     ProvisionedProductId: S.String,
     PageToken: S.optional(S.String),
     PageSize: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class NotifyTerminateProvisionedProductEngineWorkflowResultInput extends S.Class<NotifyTerminateProvisionedProductEngineWorkflowResultInput>(
-  "NotifyTerminateProvisionedProductEngineWorkflowResultInput",
-)(
-  {
-    WorkflowToken: S.String,
-    RecordId: S.String,
-    Status: S.String,
-    FailureReason: S.optional(S.String),
-    IdempotencyToken: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class NotifyTerminateProvisionedProductEngineWorkflowResultOutput extends S.Class<NotifyTerminateProvisionedProductEngineWorkflowResultOutput>(
-  "NotifyTerminateProvisionedProductEngineWorkflowResultOutput",
-)({}) {}
-export class RecordOutput extends S.Class<RecordOutput>("RecordOutput")({
-  OutputKey: S.optional(S.String),
-  OutputValue: S.optional(S.String),
-  Description: S.optional(S.String),
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListStackInstancesForProvisionedProductInput",
+}) as any as S.Schema<ListStackInstancesForProvisionedProductInput>;
+export interface NotifyTerminateProvisionedProductEngineWorkflowResultInput {
+  WorkflowToken: string;
+  RecordId: string;
+  Status: string;
+  FailureReason?: string;
+  IdempotencyToken: string;
+}
+export const NotifyTerminateProvisionedProductEngineWorkflowResultInput =
+  S.suspend(() =>
+    S.Struct({
+      WorkflowToken: S.String,
+      RecordId: S.String,
+      Status: S.String,
+      FailureReason: S.optional(S.String),
+      IdempotencyToken: S.String,
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotations({
+    identifier: "NotifyTerminateProvisionedProductEngineWorkflowResultInput",
+  }) as any as S.Schema<NotifyTerminateProvisionedProductEngineWorkflowResultInput>;
+export interface NotifyTerminateProvisionedProductEngineWorkflowResultOutput {}
+export const NotifyTerminateProvisionedProductEngineWorkflowResultOutput =
+  S.suspend(() => S.Struct({})).annotations({
+    identifier: "NotifyTerminateProvisionedProductEngineWorkflowResultOutput",
+  }) as any as S.Schema<NotifyTerminateProvisionedProductEngineWorkflowResultOutput>;
+export interface RecordOutput {
+  OutputKey?: string;
+  OutputValue?: string;
+  Description?: string;
+}
+export const RecordOutput = S.suspend(() =>
+  S.Struct({
+    OutputKey: S.optional(S.String),
+    OutputValue: S.optional(S.String),
+    Description: S.optional(S.String),
+  }),
+).annotations({ identifier: "RecordOutput" }) as any as S.Schema<RecordOutput>;
+export type RecordOutputs = RecordOutput[];
 export const RecordOutputs = S.Array(RecordOutput);
-export class NotifyUpdateProvisionedProductEngineWorkflowResultInput extends S.Class<NotifyUpdateProvisionedProductEngineWorkflowResultInput>(
-  "NotifyUpdateProvisionedProductEngineWorkflowResultInput",
-)(
-  {
-    WorkflowToken: S.String,
-    RecordId: S.String,
-    Status: S.String,
-    FailureReason: S.optional(S.String),
-    Outputs: S.optional(RecordOutputs),
-    IdempotencyToken: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class NotifyUpdateProvisionedProductEngineWorkflowResultOutput extends S.Class<NotifyUpdateProvisionedProductEngineWorkflowResultOutput>(
-  "NotifyUpdateProvisionedProductEngineWorkflowResultOutput",
-)({}) {}
-export class RejectPortfolioShareInput extends S.Class<RejectPortfolioShareInput>(
-  "RejectPortfolioShareInput",
-)(
-  {
+export interface NotifyUpdateProvisionedProductEngineWorkflowResultInput {
+  WorkflowToken: string;
+  RecordId: string;
+  Status: string;
+  FailureReason?: string;
+  Outputs?: RecordOutputs;
+  IdempotencyToken: string;
+}
+export const NotifyUpdateProvisionedProductEngineWorkflowResultInput =
+  S.suspend(() =>
+    S.Struct({
+      WorkflowToken: S.String,
+      RecordId: S.String,
+      Status: S.String,
+      FailureReason: S.optional(S.String),
+      Outputs: S.optional(RecordOutputs),
+      IdempotencyToken: S.String,
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotations({
+    identifier: "NotifyUpdateProvisionedProductEngineWorkflowResultInput",
+  }) as any as S.Schema<NotifyUpdateProvisionedProductEngineWorkflowResultInput>;
+export interface NotifyUpdateProvisionedProductEngineWorkflowResultOutput {}
+export const NotifyUpdateProvisionedProductEngineWorkflowResultOutput =
+  S.suspend(() => S.Struct({})).annotations({
+    identifier: "NotifyUpdateProvisionedProductEngineWorkflowResultOutput",
+  }) as any as S.Schema<NotifyUpdateProvisionedProductEngineWorkflowResultOutput>;
+export interface RejectPortfolioShareInput {
+  AcceptLanguage?: string;
+  PortfolioId: string;
+  PortfolioShareType?: string;
+}
+export const RejectPortfolioShareInput = S.suspend(() =>
+  S.Struct({
     AcceptLanguage: S.optional(S.String),
     PortfolioId: S.String,
     PortfolioShareType: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class RejectPortfolioShareOutput extends S.Class<RejectPortfolioShareOutput>(
-  "RejectPortfolioShareOutput",
-)({}) {}
-export class AccessLevelFilter extends S.Class<AccessLevelFilter>(
-  "AccessLevelFilter",
-)({ Key: S.optional(S.String), Value: S.optional(S.String) }) {}
-export class ScanProvisionedProductsInput extends S.Class<ScanProvisionedProductsInput>(
-  "ScanProvisionedProductsInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "RejectPortfolioShareInput",
+}) as any as S.Schema<RejectPortfolioShareInput>;
+export interface RejectPortfolioShareOutput {}
+export const RejectPortfolioShareOutput = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "RejectPortfolioShareOutput",
+}) as any as S.Schema<RejectPortfolioShareOutput>;
+export interface AccessLevelFilter {
+  Key?: string;
+  Value?: string;
+}
+export const AccessLevelFilter = S.suspend(() =>
+  S.Struct({ Key: S.optional(S.String), Value: S.optional(S.String) }),
+).annotations({
+  identifier: "AccessLevelFilter",
+}) as any as S.Schema<AccessLevelFilter>;
+export interface ScanProvisionedProductsInput {
+  AcceptLanguage?: string;
+  AccessLevelFilter?: AccessLevelFilter;
+  PageSize?: number;
+  PageToken?: string;
+}
+export const ScanProvisionedProductsInput = S.suspend(() =>
+  S.Struct({
     AcceptLanguage: S.optional(S.String),
     AccessLevelFilter: S.optional(AccessLevelFilter),
     PageSize: S.optional(S.Number),
     PageToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ScanProvisionedProductsInput",
+}) as any as S.Schema<ScanProvisionedProductsInput>;
+export type ProductViewFilterValues = string[];
 export const ProductViewFilterValues = S.Array(S.String);
+export type ProductViewFilters = { [key: string]: ProductViewFilterValues };
 export const ProductViewFilters = S.Record({
   key: S.String,
   value: ProductViewFilterValues,
 });
-export class SearchProductsAsAdminInput extends S.Class<SearchProductsAsAdminInput>(
-  "SearchProductsAsAdminInput",
-)(
-  {
+export interface SearchProductsAsAdminInput {
+  AcceptLanguage?: string;
+  PortfolioId?: string;
+  Filters?: ProductViewFilters;
+  SortBy?: string;
+  SortOrder?: string;
+  PageToken?: string;
+  PageSize?: number;
+  ProductSource?: string;
+}
+export const SearchProductsAsAdminInput = S.suspend(() =>
+  S.Struct({
     AcceptLanguage: S.optional(S.String),
     PortfolioId: S.optional(S.String),
     Filters: S.optional(ProductViewFilters),
@@ -988,38 +1519,65 @@ export class SearchProductsAsAdminInput extends S.Class<SearchProductsAsAdminInp
     PageToken: S.optional(S.String),
     PageSize: S.optional(S.Number),
     ProductSource: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TerminateProvisionedProductInput extends S.Class<TerminateProvisionedProductInput>(
-  "TerminateProvisionedProductInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "SearchProductsAsAdminInput",
+}) as any as S.Schema<SearchProductsAsAdminInput>;
+export interface TerminateProvisionedProductInput {
+  ProvisionedProductName?: string;
+  ProvisionedProductId?: string;
+  TerminateToken: string;
+  IgnoreErrors?: boolean;
+  AcceptLanguage?: string;
+  RetainPhysicalResources?: boolean;
+}
+export const TerminateProvisionedProductInput = S.suspend(() =>
+  S.Struct({
     ProvisionedProductName: S.optional(S.String),
     ProvisionedProductId: S.optional(S.String),
     TerminateToken: S.String,
     IgnoreErrors: S.optional(S.Boolean),
     AcceptLanguage: S.optional(S.String),
     RetainPhysicalResources: S.optional(S.Boolean),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateConstraintInput extends S.Class<UpdateConstraintInput>(
-  "UpdateConstraintInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "TerminateProvisionedProductInput",
+}) as any as S.Schema<TerminateProvisionedProductInput>;
+export interface UpdateConstraintInput {
+  AcceptLanguage?: string;
+  Id: string;
+  Description?: string;
+  Parameters?: string;
+}
+export const UpdateConstraintInput = S.suspend(() =>
+  S.Struct({
     AcceptLanguage: S.optional(S.String),
     Id: S.String,
     Description: S.optional(S.String),
     Parameters: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateConstraintInput",
+}) as any as S.Schema<UpdateConstraintInput>;
+export type AddTags = Tag[];
 export const AddTags = S.Array(Tag);
-export class UpdatePortfolioInput extends S.Class<UpdatePortfolioInput>(
-  "UpdatePortfolioInput",
-)(
-  {
+export interface UpdatePortfolioInput {
+  AcceptLanguage?: string;
+  Id: string;
+  DisplayName?: string;
+  Description?: string;
+  ProviderName?: string;
+  AddTags?: AddTags;
+  RemoveTags?: TagKeys;
+}
+export const UpdatePortfolioInput = S.suspend(() =>
+  S.Struct({
     AcceptLanguage: S.optional(S.String),
     Id: S.String,
     DisplayName: S.optional(S.String),
@@ -1027,43 +1585,86 @@ export class UpdatePortfolioInput extends S.Class<UpdatePortfolioInput>(
     ProviderName: S.optional(S.String),
     AddTags: S.optional(AddTags),
     RemoveTags: S.optional(TagKeys),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdatePortfolioShareInput extends S.Class<UpdatePortfolioShareInput>(
-  "UpdatePortfolioShareInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdatePortfolioInput",
+}) as any as S.Schema<UpdatePortfolioInput>;
+export interface UpdatePortfolioShareInput {
+  AcceptLanguage?: string;
+  PortfolioId: string;
+  AccountId?: string;
+  OrganizationNode?: OrganizationNode;
+  ShareTagOptions?: boolean;
+  SharePrincipals?: boolean;
+}
+export const UpdatePortfolioShareInput = S.suspend(() =>
+  S.Struct({
     AcceptLanguage: S.optional(S.String),
     PortfolioId: S.String,
     AccountId: S.optional(S.String),
     OrganizationNode: S.optional(OrganizationNode),
     ShareTagOptions: S.optional(S.Boolean),
     SharePrincipals: S.optional(S.Boolean),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CodeStarParameters extends S.Class<CodeStarParameters>(
-  "CodeStarParameters",
-)({
-  ConnectionArn: S.String,
-  Repository: S.String,
-  Branch: S.String,
-  ArtifactPath: S.String,
-}) {}
-export class SourceConnectionParameters extends S.Class<SourceConnectionParameters>(
-  "SourceConnectionParameters",
-)({ CodeStar: S.optional(CodeStarParameters) }) {}
-export class SourceConnection extends S.Class<SourceConnection>(
-  "SourceConnection",
-)({
-  Type: S.optional(S.String),
-  ConnectionParameters: SourceConnectionParameters,
-}) {}
-export class UpdateProductInput extends S.Class<UpdateProductInput>(
-  "UpdateProductInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdatePortfolioShareInput",
+}) as any as S.Schema<UpdatePortfolioShareInput>;
+export interface CodeStarParameters {
+  ConnectionArn: string;
+  Repository: string;
+  Branch: string;
+  ArtifactPath: string;
+}
+export const CodeStarParameters = S.suspend(() =>
+  S.Struct({
+    ConnectionArn: S.String,
+    Repository: S.String,
+    Branch: S.String,
+    ArtifactPath: S.String,
+  }),
+).annotations({
+  identifier: "CodeStarParameters",
+}) as any as S.Schema<CodeStarParameters>;
+export interface SourceConnectionParameters {
+  CodeStar?: CodeStarParameters;
+}
+export const SourceConnectionParameters = S.suspend(() =>
+  S.Struct({ CodeStar: S.optional(CodeStarParameters) }),
+).annotations({
+  identifier: "SourceConnectionParameters",
+}) as any as S.Schema<SourceConnectionParameters>;
+export interface SourceConnection {
+  Type?: string;
+  ConnectionParameters: SourceConnectionParameters;
+}
+export const SourceConnection = S.suspend(() =>
+  S.Struct({
+    Type: S.optional(S.String),
+    ConnectionParameters: SourceConnectionParameters,
+  }),
+).annotations({
+  identifier: "SourceConnection",
+}) as any as S.Schema<SourceConnection>;
+export interface UpdateProductInput {
+  AcceptLanguage?: string;
+  Id: string;
+  Name?: string;
+  Owner?: string;
+  Description?: string;
+  Distributor?: string;
+  SupportDescription?: string;
+  SupportEmail?: string;
+  SupportUrl?: string;
+  AddTags?: AddTags;
+  RemoveTags?: TagKeys;
+  SourceConnection?: SourceConnection;
+}
+export const UpdateProductInput = S.suspend(() =>
+  S.Struct({
     AcceptLanguage: S.optional(S.String),
     Id: S.String,
     Name: S.optional(S.String),
@@ -1076,13 +1677,23 @@ export class UpdateProductInput extends S.Class<UpdateProductInput>(
     AddTags: S.optional(AddTags),
     RemoveTags: S.optional(TagKeys),
     SourceConnection: S.optional(SourceConnection),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateProvisioningArtifactInput extends S.Class<UpdateProvisioningArtifactInput>(
-  "UpdateProvisioningArtifactInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateProductInput",
+}) as any as S.Schema<UpdateProductInput>;
+export interface UpdateProvisioningArtifactInput {
+  AcceptLanguage?: string;
+  ProductId: string;
+  ProvisioningArtifactId: string;
+  Name?: string;
+  Description?: string;
+  Active?: boolean;
+  Guidance?: string;
+}
+export const UpdateProvisioningArtifactInput = S.suspend(() =>
+  S.Struct({
     AcceptLanguage: S.optional(S.String),
     ProductId: S.String,
     ProvisioningArtifactId: S.String,
@@ -1090,219 +1701,424 @@ export class UpdateProvisioningArtifactInput extends S.Class<UpdateProvisioningA
     Description: S.optional(S.String),
     Active: S.optional(S.Boolean),
     Guidance: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateProvisioningArtifactInput",
+}) as any as S.Schema<UpdateProvisioningArtifactInput>;
+export type ServiceActionDefinitionMap = { [key: string]: string };
 export const ServiceActionDefinitionMap = S.Record({
   key: S.String,
   value: S.String,
 });
-export class UpdateServiceActionInput extends S.Class<UpdateServiceActionInput>(
-  "UpdateServiceActionInput",
-)(
-  {
+export interface UpdateServiceActionInput {
+  Id: string;
+  Name?: string;
+  Definition?: ServiceActionDefinitionMap;
+  Description?: string;
+  AcceptLanguage?: string;
+}
+export const UpdateServiceActionInput = S.suspend(() =>
+  S.Struct({
     Id: S.String,
     Name: S.optional(S.String),
     Definition: S.optional(ServiceActionDefinitionMap),
     Description: S.optional(S.String),
     AcceptLanguage: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateTagOptionInput extends S.Class<UpdateTagOptionInput>(
-  "UpdateTagOptionInput",
-)(
-  { Id: S.String, Value: S.optional(S.String), Active: S.optional(S.Boolean) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateServiceActionInput",
+}) as any as S.Schema<UpdateServiceActionInput>;
+export interface UpdateTagOptionInput {
+  Id: string;
+  Value?: string;
+  Active?: boolean;
+}
+export const UpdateTagOptionInput = S.suspend(() =>
+  S.Struct({
+    Id: S.String,
+    Value: S.optional(S.String),
+    Active: S.optional(S.Boolean),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateTagOptionInput",
+}) as any as S.Schema<UpdateTagOptionInput>;
+export type ExecutionParameterValueList = string[];
 export const ExecutionParameterValueList = S.Array(S.String);
+export type StackSetAccounts = string[];
 export const StackSetAccounts = S.Array(S.String);
+export type StackSetRegions = string[];
 export const StackSetRegions = S.Array(S.String);
+export type ProvisionedProductViewFilterValues = string[];
 export const ProvisionedProductViewFilterValues = S.Array(S.String);
+export type SourceProvisioningArtifactPropertiesMap = { [key: string]: string };
 export const SourceProvisioningArtifactPropertiesMap = S.Record({
   key: S.String,
   value: S.String,
 });
+export type SourceProvisioningArtifactProperties =
+  SourceProvisioningArtifactPropertiesMap[];
 export const SourceProvisioningArtifactProperties = S.Array(
   SourceProvisioningArtifactPropertiesMap,
 );
-export class UpdateProvisioningParameter extends S.Class<UpdateProvisioningParameter>(
-  "UpdateProvisioningParameter",
-)({
-  Key: S.optional(S.String),
-  Value: S.optional(S.String),
-  UsePreviousValue: S.optional(S.Boolean),
-}) {}
+export interface UpdateProvisioningParameter {
+  Key?: string;
+  Value?: string;
+  UsePreviousValue?: boolean;
+}
+export const UpdateProvisioningParameter = S.suspend(() =>
+  S.Struct({
+    Key: S.optional(S.String),
+    Value: S.optional(S.String),
+    UsePreviousValue: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "UpdateProvisioningParameter",
+}) as any as S.Schema<UpdateProvisioningParameter>;
+export type UpdateProvisioningParameters = UpdateProvisioningParameter[];
 export const UpdateProvisioningParameters = S.Array(
   UpdateProvisioningParameter,
 );
-export class TagOptionDetail extends S.Class<TagOptionDetail>(
-  "TagOptionDetail",
-)({
-  Key: S.optional(S.String),
-  Value: S.optional(S.String),
-  Active: S.optional(S.Boolean),
-  Id: S.optional(S.String),
-  Owner: S.optional(S.String),
-}) {}
+export interface TagOptionDetail {
+  Key?: string;
+  Value?: string;
+  Active?: boolean;
+  Id?: string;
+  Owner?: string;
+}
+export const TagOptionDetail = S.suspend(() =>
+  S.Struct({
+    Key: S.optional(S.String),
+    Value: S.optional(S.String),
+    Active: S.optional(S.Boolean),
+    Id: S.optional(S.String),
+    Owner: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "TagOptionDetail",
+}) as any as S.Schema<TagOptionDetail>;
+export type TagOptionDetails = TagOptionDetail[];
 export const TagOptionDetails = S.Array(TagOptionDetail);
+export type ExecutionParameterMap = {
+  [key: string]: ExecutionParameterValueList;
+};
 export const ExecutionParameterMap = S.Record({
   key: S.String,
   value: ExecutionParameterValueList,
 });
-export class PortfolioDetail extends S.Class<PortfolioDetail>(
-  "PortfolioDetail",
-)({
-  Id: S.optional(S.String),
-  ARN: S.optional(S.String),
-  DisplayName: S.optional(S.String),
-  Description: S.optional(S.String),
-  CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  ProviderName: S.optional(S.String),
-}) {}
+export interface PortfolioDetail {
+  Id?: string;
+  ARN?: string;
+  DisplayName?: string;
+  Description?: string;
+  CreatedTime?: Date;
+  ProviderName?: string;
+}
+export const PortfolioDetail = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    ARN: S.optional(S.String),
+    DisplayName: S.optional(S.String),
+    Description: S.optional(S.String),
+    CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ProviderName: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "PortfolioDetail",
+}) as any as S.Schema<PortfolioDetail>;
+export type PortfolioDetails = PortfolioDetail[];
 export const PortfolioDetails = S.Array(PortfolioDetail);
-export class ConstraintDetail extends S.Class<ConstraintDetail>(
-  "ConstraintDetail",
-)({
-  ConstraintId: S.optional(S.String),
-  Type: S.optional(S.String),
-  Description: S.optional(S.String),
-  Owner: S.optional(S.String),
-  ProductId: S.optional(S.String),
-  PortfolioId: S.optional(S.String),
-}) {}
+export interface ConstraintDetail {
+  ConstraintId?: string;
+  Type?: string;
+  Description?: string;
+  Owner?: string;
+  ProductId?: string;
+  PortfolioId?: string;
+}
+export const ConstraintDetail = S.suspend(() =>
+  S.Struct({
+    ConstraintId: S.optional(S.String),
+    Type: S.optional(S.String),
+    Description: S.optional(S.String),
+    Owner: S.optional(S.String),
+    ProductId: S.optional(S.String),
+    PortfolioId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ConstraintDetail",
+}) as any as S.Schema<ConstraintDetail>;
+export type ConstraintDetails = ConstraintDetail[];
 export const ConstraintDetails = S.Array(ConstraintDetail);
+export type OrganizationNodes = OrganizationNode[];
 export const OrganizationNodes = S.Array(OrganizationNode);
+export type AccountIds = string[];
 export const AccountIds = S.Array(S.String);
-export class ProvisioningArtifactDetail extends S.Class<ProvisioningArtifactDetail>(
-  "ProvisioningArtifactDetail",
-)({
-  Id: S.optional(S.String),
-  Name: S.optional(S.String),
-  Description: S.optional(S.String),
-  Type: S.optional(S.String),
-  CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Active: S.optional(S.Boolean),
-  Guidance: S.optional(S.String),
-  SourceRevision: S.optional(S.String),
-}) {}
+export interface ProvisioningArtifactDetail {
+  Id?: string;
+  Name?: string;
+  Description?: string;
+  Type?: string;
+  CreatedTime?: Date;
+  Active?: boolean;
+  Guidance?: string;
+  SourceRevision?: string;
+}
+export const ProvisioningArtifactDetail = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Name: S.optional(S.String),
+    Description: S.optional(S.String),
+    Type: S.optional(S.String),
+    CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Active: S.optional(S.Boolean),
+    Guidance: S.optional(S.String),
+    SourceRevision: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ProvisioningArtifactDetail",
+}) as any as S.Schema<ProvisioningArtifactDetail>;
+export type ProvisioningArtifactDetails = ProvisioningArtifactDetail[];
 export const ProvisioningArtifactDetails = S.Array(ProvisioningArtifactDetail);
-export class ListRecordHistorySearchFilter extends S.Class<ListRecordHistorySearchFilter>(
-  "ListRecordHistorySearchFilter",
-)({ Key: S.optional(S.String), Value: S.optional(S.String) }) {}
-export class ListTagOptionsFilters extends S.Class<ListTagOptionsFilters>(
-  "ListTagOptionsFilters",
-)({
-  Key: S.optional(S.String),
-  Value: S.optional(S.String),
-  Active: S.optional(S.Boolean),
-}) {}
-export class ProvisioningParameter extends S.Class<ProvisioningParameter>(
-  "ProvisioningParameter",
-)({ Key: S.optional(S.String), Value: S.optional(S.String) }) {}
+export interface ListRecordHistorySearchFilter {
+  Key?: string;
+  Value?: string;
+}
+export const ListRecordHistorySearchFilter = S.suspend(() =>
+  S.Struct({ Key: S.optional(S.String), Value: S.optional(S.String) }),
+).annotations({
+  identifier: "ListRecordHistorySearchFilter",
+}) as any as S.Schema<ListRecordHistorySearchFilter>;
+export interface ListTagOptionsFilters {
+  Key?: string;
+  Value?: string;
+  Active?: boolean;
+}
+export const ListTagOptionsFilters = S.suspend(() =>
+  S.Struct({
+    Key: S.optional(S.String),
+    Value: S.optional(S.String),
+    Active: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "ListTagOptionsFilters",
+}) as any as S.Schema<ListTagOptionsFilters>;
+export interface ProvisioningParameter {
+  Key?: string;
+  Value?: string;
+}
+export const ProvisioningParameter = S.suspend(() =>
+  S.Struct({ Key: S.optional(S.String), Value: S.optional(S.String) }),
+).annotations({
+  identifier: "ProvisioningParameter",
+}) as any as S.Schema<ProvisioningParameter>;
+export type ProvisioningParameters = ProvisioningParameter[];
 export const ProvisioningParameters = S.Array(ProvisioningParameter);
-export class ProvisioningPreferences extends S.Class<ProvisioningPreferences>(
-  "ProvisioningPreferences",
-)({
-  StackSetAccounts: S.optional(StackSetAccounts),
-  StackSetRegions: S.optional(StackSetRegions),
-  StackSetFailureToleranceCount: S.optional(S.Number),
-  StackSetFailureTolerancePercentage: S.optional(S.Number),
-  StackSetMaxConcurrencyCount: S.optional(S.Number),
-  StackSetMaxConcurrencyPercentage: S.optional(S.Number),
-}) {}
-export class ProvisionedProductDetail extends S.Class<ProvisionedProductDetail>(
-  "ProvisionedProductDetail",
-)({
-  Name: S.optional(S.String),
-  Arn: S.optional(S.String),
-  Type: S.optional(S.String),
-  Id: S.optional(S.String),
-  Status: S.optional(S.String),
-  StatusMessage: S.optional(S.String),
-  CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  IdempotencyToken: S.optional(S.String),
-  LastRecordId: S.optional(S.String),
-  LastProvisioningRecordId: S.optional(S.String),
-  LastSuccessfulProvisioningRecordId: S.optional(S.String),
-  ProductId: S.optional(S.String),
-  ProvisioningArtifactId: S.optional(S.String),
-  LaunchRoleArn: S.optional(S.String),
-}) {}
+export interface ProvisioningPreferences {
+  StackSetAccounts?: StackSetAccounts;
+  StackSetRegions?: StackSetRegions;
+  StackSetFailureToleranceCount?: number;
+  StackSetFailureTolerancePercentage?: number;
+  StackSetMaxConcurrencyCount?: number;
+  StackSetMaxConcurrencyPercentage?: number;
+}
+export const ProvisioningPreferences = S.suspend(() =>
+  S.Struct({
+    StackSetAccounts: S.optional(StackSetAccounts),
+    StackSetRegions: S.optional(StackSetRegions),
+    StackSetFailureToleranceCount: S.optional(S.Number),
+    StackSetFailureTolerancePercentage: S.optional(S.Number),
+    StackSetMaxConcurrencyCount: S.optional(S.Number),
+    StackSetMaxConcurrencyPercentage: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "ProvisioningPreferences",
+}) as any as S.Schema<ProvisioningPreferences>;
+export interface ProvisionedProductDetail {
+  Name?: string;
+  Arn?: string;
+  Type?: string;
+  Id?: string;
+  Status?: string;
+  StatusMessage?: string;
+  CreatedTime?: Date;
+  IdempotencyToken?: string;
+  LastRecordId?: string;
+  LastProvisioningRecordId?: string;
+  LastSuccessfulProvisioningRecordId?: string;
+  ProductId?: string;
+  ProvisioningArtifactId?: string;
+  LaunchRoleArn?: string;
+}
+export const ProvisionedProductDetail = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Arn: S.optional(S.String),
+    Type: S.optional(S.String),
+    Id: S.optional(S.String),
+    Status: S.optional(S.String),
+    StatusMessage: S.optional(S.String),
+    CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    IdempotencyToken: S.optional(S.String),
+    LastRecordId: S.optional(S.String),
+    LastProvisioningRecordId: S.optional(S.String),
+    LastSuccessfulProvisioningRecordId: S.optional(S.String),
+    ProductId: S.optional(S.String),
+    ProvisioningArtifactId: S.optional(S.String),
+    LaunchRoleArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ProvisionedProductDetail",
+}) as any as S.Schema<ProvisionedProductDetail>;
+export type ProvisionedProductDetails = ProvisionedProductDetail[];
 export const ProvisionedProductDetails = S.Array(ProvisionedProductDetail);
-export class ProductViewSummary extends S.Class<ProductViewSummary>(
-  "ProductViewSummary",
-)({
-  Id: S.optional(S.String),
-  ProductId: S.optional(S.String),
-  Name: S.optional(S.String),
-  Owner: S.optional(S.String),
-  ShortDescription: S.optional(S.String),
-  Type: S.optional(S.String),
-  Distributor: S.optional(S.String),
-  HasDefaultPath: S.optional(S.Boolean),
-  SupportEmail: S.optional(S.String),
-  SupportDescription: S.optional(S.String),
-  SupportUrl: S.optional(S.String),
-}) {}
-export class LastSync extends S.Class<LastSync>("LastSync")({
-  LastSyncTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastSyncStatus: S.optional(S.String),
-  LastSyncStatusMessage: S.optional(S.String),
-  LastSuccessfulSyncTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  LastSuccessfulSyncProvisioningArtifactId: S.optional(S.String),
-}) {}
-export class SourceConnectionDetail extends S.Class<SourceConnectionDetail>(
-  "SourceConnectionDetail",
-)({
-  Type: S.optional(S.String),
-  ConnectionParameters: S.optional(SourceConnectionParameters),
-  LastSync: S.optional(LastSync),
-}) {}
-export class ProductViewDetail extends S.Class<ProductViewDetail>(
-  "ProductViewDetail",
-)({
-  ProductViewSummary: S.optional(ProductViewSummary),
-  Status: S.optional(S.String),
-  ProductARN: S.optional(S.String),
-  CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  SourceConnection: S.optional(SourceConnectionDetail),
-}) {}
+export interface ProductViewSummary {
+  Id?: string;
+  ProductId?: string;
+  Name?: string;
+  Owner?: string;
+  ShortDescription?: string;
+  Type?: string;
+  Distributor?: string;
+  HasDefaultPath?: boolean;
+  SupportEmail?: string;
+  SupportDescription?: string;
+  SupportUrl?: string;
+}
+export const ProductViewSummary = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    ProductId: S.optional(S.String),
+    Name: S.optional(S.String),
+    Owner: S.optional(S.String),
+    ShortDescription: S.optional(S.String),
+    Type: S.optional(S.String),
+    Distributor: S.optional(S.String),
+    HasDefaultPath: S.optional(S.Boolean),
+    SupportEmail: S.optional(S.String),
+    SupportDescription: S.optional(S.String),
+    SupportUrl: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ProductViewSummary",
+}) as any as S.Schema<ProductViewSummary>;
+export interface LastSync {
+  LastSyncTime?: Date;
+  LastSyncStatus?: string;
+  LastSyncStatusMessage?: string;
+  LastSuccessfulSyncTime?: Date;
+  LastSuccessfulSyncProvisioningArtifactId?: string;
+}
+export const LastSync = S.suspend(() =>
+  S.Struct({
+    LastSyncTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastSyncStatus: S.optional(S.String),
+    LastSyncStatusMessage: S.optional(S.String),
+    LastSuccessfulSyncTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastSuccessfulSyncProvisioningArtifactId: S.optional(S.String),
+  }),
+).annotations({ identifier: "LastSync" }) as any as S.Schema<LastSync>;
+export interface SourceConnectionDetail {
+  Type?: string;
+  ConnectionParameters?: SourceConnectionParameters;
+  LastSync?: LastSync;
+}
+export const SourceConnectionDetail = S.suspend(() =>
+  S.Struct({
+    Type: S.optional(S.String),
+    ConnectionParameters: S.optional(SourceConnectionParameters),
+    LastSync: S.optional(LastSync),
+  }),
+).annotations({
+  identifier: "SourceConnectionDetail",
+}) as any as S.Schema<SourceConnectionDetail>;
+export interface ProductViewDetail {
+  ProductViewSummary?: ProductViewSummary;
+  Status?: string;
+  ProductARN?: string;
+  CreatedTime?: Date;
+  SourceConnection?: SourceConnectionDetail;
+}
+export const ProductViewDetail = S.suspend(() =>
+  S.Struct({
+    ProductViewSummary: S.optional(ProductViewSummary),
+    Status: S.optional(S.String),
+    ProductARN: S.optional(S.String),
+    CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    SourceConnection: S.optional(SourceConnectionDetail),
+  }),
+).annotations({
+  identifier: "ProductViewDetail",
+}) as any as S.Schema<ProductViewDetail>;
+export type ProductViewDetails = ProductViewDetail[];
 export const ProductViewDetails = S.Array(ProductViewDetail);
+export type ProvisionedProductFilters = {
+  [key: string]: ProvisionedProductViewFilterValues;
+};
 export const ProvisionedProductFilters = S.Record({
   key: S.String,
   value: ProvisionedProductViewFilterValues,
 });
-export class UpdateProvisioningPreferences extends S.Class<UpdateProvisioningPreferences>(
-  "UpdateProvisioningPreferences",
-)({
-  StackSetAccounts: S.optional(StackSetAccounts),
-  StackSetRegions: S.optional(StackSetRegions),
-  StackSetFailureToleranceCount: S.optional(S.Number),
-  StackSetFailureTolerancePercentage: S.optional(S.Number),
-  StackSetMaxConcurrencyCount: S.optional(S.Number),
-  StackSetMaxConcurrencyPercentage: S.optional(S.Number),
-  StackSetOperationType: S.optional(S.String),
-}) {}
+export interface UpdateProvisioningPreferences {
+  StackSetAccounts?: StackSetAccounts;
+  StackSetRegions?: StackSetRegions;
+  StackSetFailureToleranceCount?: number;
+  StackSetFailureTolerancePercentage?: number;
+  StackSetMaxConcurrencyCount?: number;
+  StackSetMaxConcurrencyPercentage?: number;
+  StackSetOperationType?: string;
+}
+export const UpdateProvisioningPreferences = S.suspend(() =>
+  S.Struct({
+    StackSetAccounts: S.optional(StackSetAccounts),
+    StackSetRegions: S.optional(StackSetRegions),
+    StackSetFailureToleranceCount: S.optional(S.Number),
+    StackSetFailureTolerancePercentage: S.optional(S.Number),
+    StackSetMaxConcurrencyCount: S.optional(S.Number),
+    StackSetMaxConcurrencyPercentage: S.optional(S.Number),
+    StackSetOperationType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "UpdateProvisioningPreferences",
+}) as any as S.Schema<UpdateProvisioningPreferences>;
+export type ProvisionedProductProperties = { [key: string]: string };
 export const ProvisionedProductProperties = S.Record({
   key: S.String,
   value: S.String,
 });
-export class BatchAssociateServiceActionWithProvisioningArtifactInput extends S.Class<BatchAssociateServiceActionWithProvisioningArtifactInput>(
-  "BatchAssociateServiceActionWithProvisioningArtifactInput",
-)(
-  {
-    ServiceActionAssociations: ServiceActionAssociations,
-    AcceptLanguage: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CopyProductInput extends S.Class<CopyProductInput>(
-  "CopyProductInput",
-)(
-  {
+export interface BatchAssociateServiceActionWithProvisioningArtifactInput {
+  ServiceActionAssociations: ServiceActionAssociations;
+  AcceptLanguage?: string;
+}
+export const BatchAssociateServiceActionWithProvisioningArtifactInput =
+  S.suspend(() =>
+    S.Struct({
+      ServiceActionAssociations: ServiceActionAssociations,
+      AcceptLanguage: S.optional(S.String),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotations({
+    identifier: "BatchAssociateServiceActionWithProvisioningArtifactInput",
+  }) as any as S.Schema<BatchAssociateServiceActionWithProvisioningArtifactInput>;
+export interface CopyProductInput {
+  AcceptLanguage?: string;
+  SourceProductArn: string;
+  TargetProductId?: string;
+  TargetProductName?: string;
+  SourceProvisioningArtifactIdentifiers?: SourceProvisioningArtifactProperties;
+  CopyOptions?: CopyOptions;
+  IdempotencyToken: string;
+}
+export const CopyProductInput = S.suspend(() =>
+  S.Struct({
     AcceptLanguage: S.optional(S.String),
     SourceProductArn: S.String,
     TargetProductId: S.optional(S.String),
@@ -1312,39 +2128,71 @@ export class CopyProductInput extends S.Class<CopyProductInput>(
     ),
     CopyOptions: S.optional(CopyOptions),
     IdempotencyToken: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreatePortfolioInput extends S.Class<CreatePortfolioInput>(
-  "CreatePortfolioInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CopyProductInput",
+}) as any as S.Schema<CopyProductInput>;
+export interface CreatePortfolioInput {
+  AcceptLanguage?: string;
+  DisplayName: string;
+  Description?: string;
+  ProviderName: string;
+  Tags?: AddTags;
+  IdempotencyToken: string;
+}
+export const CreatePortfolioInput = S.suspend(() =>
+  S.Struct({
     AcceptLanguage: S.optional(S.String),
     DisplayName: S.String,
     Description: S.optional(S.String),
     ProviderName: S.String,
     Tags: S.optional(AddTags),
     IdempotencyToken: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreatePortfolioShareInput extends S.Class<CreatePortfolioShareInput>(
-  "CreatePortfolioShareInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreatePortfolioInput",
+}) as any as S.Schema<CreatePortfolioInput>;
+export interface CreatePortfolioShareInput {
+  AcceptLanguage?: string;
+  PortfolioId: string;
+  AccountId?: string;
+  OrganizationNode?: OrganizationNode;
+  ShareTagOptions?: boolean;
+  SharePrincipals?: boolean;
+}
+export const CreatePortfolioShareInput = S.suspend(() =>
+  S.Struct({
     AcceptLanguage: S.optional(S.String),
     PortfolioId: S.String,
     AccountId: S.optional(S.String),
     OrganizationNode: S.optional(OrganizationNode),
     ShareTagOptions: S.optional(S.Boolean),
     SharePrincipals: S.optional(S.Boolean),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateProvisionedProductPlanInput extends S.Class<CreateProvisionedProductPlanInput>(
-  "CreateProvisionedProductPlanInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreatePortfolioShareInput",
+}) as any as S.Schema<CreatePortfolioShareInput>;
+export interface CreateProvisionedProductPlanInput {
+  AcceptLanguage?: string;
+  PlanName: string;
+  PlanType: string;
+  NotificationArns?: NotificationArns;
+  PathId?: string;
+  ProductId: string;
+  ProvisionedProductName: string;
+  ProvisioningArtifactId: string;
+  ProvisioningParameters?: UpdateProvisioningParameters;
+  IdempotencyToken: string;
+  Tags?: Tags;
+}
+export const CreateProvisionedProductPlanInput = S.suspend(() =>
+  S.Struct({
     AcceptLanguage: S.optional(S.String),
     PlanName: S.String,
     PlanType: S.String,
@@ -1356,210 +2204,417 @@ export class CreateProvisionedProductPlanInput extends S.Class<CreateProvisioned
     ProvisioningParameters: S.optional(UpdateProvisioningParameters),
     IdempotencyToken: S.String,
     Tags: S.optional(Tags),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateServiceActionInput extends S.Class<CreateServiceActionInput>(
-  "CreateServiceActionInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateProvisionedProductPlanInput",
+}) as any as S.Schema<CreateProvisionedProductPlanInput>;
+export interface CreateServiceActionInput {
+  Name: string;
+  DefinitionType: string;
+  Definition: ServiceActionDefinitionMap;
+  Description?: string;
+  AcceptLanguage?: string;
+  IdempotencyToken: string;
+}
+export const CreateServiceActionInput = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     DefinitionType: S.String,
     Definition: ServiceActionDefinitionMap,
     Description: S.optional(S.String),
     AcceptLanguage: S.optional(S.String),
     IdempotencyToken: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeletePortfolioShareOutput extends S.Class<DeletePortfolioShareOutput>(
-  "DeletePortfolioShareOutput",
-)({ PortfolioShareToken: S.optional(S.String) }) {}
-export class DescribeConstraintOutput extends S.Class<DescribeConstraintOutput>(
-  "DescribeConstraintOutput",
-)({
-  ConstraintDetail: S.optional(ConstraintDetail),
-  ConstraintParameters: S.optional(S.String),
-  Status: S.optional(S.String),
-}) {}
-export class DescribeCopyProductStatusOutput extends S.Class<DescribeCopyProductStatusOutput>(
-  "DescribeCopyProductStatusOutput",
-)({
-  CopyProductStatus: S.optional(S.String),
-  TargetProductId: S.optional(S.String),
-  StatusDetail: S.optional(S.String),
-}) {}
-export class ProvisioningArtifact extends S.Class<ProvisioningArtifact>(
-  "ProvisioningArtifact",
-)({
-  Id: S.optional(S.String),
-  Name: S.optional(S.String),
-  Description: S.optional(S.String),
-  CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Guidance: S.optional(S.String),
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateServiceActionInput",
+}) as any as S.Schema<CreateServiceActionInput>;
+export interface DeletePortfolioShareOutput {
+  PortfolioShareToken?: string;
+}
+export const DeletePortfolioShareOutput = S.suspend(() =>
+  S.Struct({ PortfolioShareToken: S.optional(S.String) }),
+).annotations({
+  identifier: "DeletePortfolioShareOutput",
+}) as any as S.Schema<DeletePortfolioShareOutput>;
+export interface DescribeConstraintOutput {
+  ConstraintDetail?: ConstraintDetail;
+  ConstraintParameters?: string;
+  Status?: string;
+}
+export const DescribeConstraintOutput = S.suspend(() =>
+  S.Struct({
+    ConstraintDetail: S.optional(ConstraintDetail),
+    ConstraintParameters: S.optional(S.String),
+    Status: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DescribeConstraintOutput",
+}) as any as S.Schema<DescribeConstraintOutput>;
+export interface DescribeCopyProductStatusOutput {
+  CopyProductStatus?: string;
+  TargetProductId?: string;
+  StatusDetail?: string;
+}
+export const DescribeCopyProductStatusOutput = S.suspend(() =>
+  S.Struct({
+    CopyProductStatus: S.optional(S.String),
+    TargetProductId: S.optional(S.String),
+    StatusDetail: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DescribeCopyProductStatusOutput",
+}) as any as S.Schema<DescribeCopyProductStatusOutput>;
+export interface ProvisioningArtifact {
+  Id?: string;
+  Name?: string;
+  Description?: string;
+  CreatedTime?: Date;
+  Guidance?: string;
+}
+export const ProvisioningArtifact = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Name: S.optional(S.String),
+    Description: S.optional(S.String),
+    CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Guidance: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ProvisioningArtifact",
+}) as any as S.Schema<ProvisioningArtifact>;
+export type ProvisioningArtifacts = ProvisioningArtifact[];
 export const ProvisioningArtifacts = S.Array(ProvisioningArtifact);
-export class DescribeProductViewOutput extends S.Class<DescribeProductViewOutput>(
-  "DescribeProductViewOutput",
-)({
-  ProductViewSummary: S.optional(ProductViewSummary),
-  ProvisioningArtifacts: S.optional(ProvisioningArtifacts),
-}) {}
-export class DescribeTagOptionOutput extends S.Class<DescribeTagOptionOutput>(
-  "DescribeTagOptionOutput",
-)({ TagOptionDetail: S.optional(TagOptionDetail) }) {}
-export class RecordError extends S.Class<RecordError>("RecordError")({
-  Code: S.optional(S.String),
-  Description: S.optional(S.String),
-}) {}
+export interface DescribeProductViewOutput {
+  ProductViewSummary?: ProductViewSummary;
+  ProvisioningArtifacts?: ProvisioningArtifacts;
+}
+export const DescribeProductViewOutput = S.suspend(() =>
+  S.Struct({
+    ProductViewSummary: S.optional(ProductViewSummary),
+    ProvisioningArtifacts: S.optional(ProvisioningArtifacts),
+  }),
+).annotations({
+  identifier: "DescribeProductViewOutput",
+}) as any as S.Schema<DescribeProductViewOutput>;
+export interface DescribeTagOptionOutput {
+  TagOptionDetail?: TagOptionDetail;
+}
+export const DescribeTagOptionOutput = S.suspend(() =>
+  S.Struct({ TagOptionDetail: S.optional(TagOptionDetail) }),
+).annotations({
+  identifier: "DescribeTagOptionOutput",
+}) as any as S.Schema<DescribeTagOptionOutput>;
+export interface RecordError {
+  Code?: string;
+  Description?: string;
+}
+export const RecordError = S.suspend(() =>
+  S.Struct({ Code: S.optional(S.String), Description: S.optional(S.String) }),
+).annotations({ identifier: "RecordError" }) as any as S.Schema<RecordError>;
+export type RecordErrors = RecordError[];
 export const RecordErrors = S.Array(RecordError);
-export class RecordTag extends S.Class<RecordTag>("RecordTag")({
-  Key: S.optional(S.String),
-  Value: S.optional(S.String),
-}) {}
+export interface RecordTag {
+  Key?: string;
+  Value?: string;
+}
+export const RecordTag = S.suspend(() =>
+  S.Struct({ Key: S.optional(S.String), Value: S.optional(S.String) }),
+).annotations({ identifier: "RecordTag" }) as any as S.Schema<RecordTag>;
+export type RecordTags = RecordTag[];
 export const RecordTags = S.Array(RecordTag);
-export class RecordDetail extends S.Class<RecordDetail>("RecordDetail")({
-  RecordId: S.optional(S.String),
-  ProvisionedProductName: S.optional(S.String),
-  Status: S.optional(S.String),
-  CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  UpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  ProvisionedProductType: S.optional(S.String),
-  RecordType: S.optional(S.String),
-  ProvisionedProductId: S.optional(S.String),
-  ProductId: S.optional(S.String),
-  ProvisioningArtifactId: S.optional(S.String),
-  PathId: S.optional(S.String),
-  RecordErrors: S.optional(RecordErrors),
-  RecordTags: S.optional(RecordTags),
-  LaunchRoleArn: S.optional(S.String),
-}) {}
-export class ExecuteProvisionedProductPlanOutput extends S.Class<ExecuteProvisionedProductPlanOutput>(
-  "ExecuteProvisionedProductPlanOutput",
-)({ RecordDetail: S.optional(RecordDetail) }) {}
-export class ExecuteProvisionedProductServiceActionInput extends S.Class<ExecuteProvisionedProductServiceActionInput>(
-  "ExecuteProvisionedProductServiceActionInput",
-)(
-  {
+export interface RecordDetail {
+  RecordId?: string;
+  ProvisionedProductName?: string;
+  Status?: string;
+  CreatedTime?: Date;
+  UpdatedTime?: Date;
+  ProvisionedProductType?: string;
+  RecordType?: string;
+  ProvisionedProductId?: string;
+  ProductId?: string;
+  ProvisioningArtifactId?: string;
+  PathId?: string;
+  RecordErrors?: RecordErrors;
+  RecordTags?: RecordTags;
+  LaunchRoleArn?: string;
+}
+export const RecordDetail = S.suspend(() =>
+  S.Struct({
+    RecordId: S.optional(S.String),
+    ProvisionedProductName: S.optional(S.String),
+    Status: S.optional(S.String),
+    CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ProvisionedProductType: S.optional(S.String),
+    RecordType: S.optional(S.String),
+    ProvisionedProductId: S.optional(S.String),
+    ProductId: S.optional(S.String),
+    ProvisioningArtifactId: S.optional(S.String),
+    PathId: S.optional(S.String),
+    RecordErrors: S.optional(RecordErrors),
+    RecordTags: S.optional(RecordTags),
+    LaunchRoleArn: S.optional(S.String),
+  }),
+).annotations({ identifier: "RecordDetail" }) as any as S.Schema<RecordDetail>;
+export interface ExecuteProvisionedProductPlanOutput {
+  RecordDetail?: RecordDetail;
+}
+export const ExecuteProvisionedProductPlanOutput = S.suspend(() =>
+  S.Struct({ RecordDetail: S.optional(RecordDetail) }),
+).annotations({
+  identifier: "ExecuteProvisionedProductPlanOutput",
+}) as any as S.Schema<ExecuteProvisionedProductPlanOutput>;
+export interface ExecuteProvisionedProductServiceActionInput {
+  ProvisionedProductId: string;
+  ServiceActionId: string;
+  ExecuteToken: string;
+  AcceptLanguage?: string;
+  Parameters?: ExecutionParameterMap;
+}
+export const ExecuteProvisionedProductServiceActionInput = S.suspend(() =>
+  S.Struct({
     ProvisionedProductId: S.String,
     ServiceActionId: S.String,
     ExecuteToken: S.String,
     AcceptLanguage: S.optional(S.String),
     Parameters: S.optional(ExecutionParameterMap),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetProvisionedProductOutputsOutput extends S.Class<GetProvisionedProductOutputsOutput>(
-  "GetProvisionedProductOutputsOutput",
-)({
-  Outputs: S.optional(RecordOutputs),
-  NextPageToken: S.optional(S.String),
-}) {}
-export class ImportAsProvisionedProductOutput extends S.Class<ImportAsProvisionedProductOutput>(
-  "ImportAsProvisionedProductOutput",
-)({ RecordDetail: S.optional(RecordDetail) }) {}
-export class ListAcceptedPortfolioSharesOutput extends S.Class<ListAcceptedPortfolioSharesOutput>(
-  "ListAcceptedPortfolioSharesOutput",
-)({
-  PortfolioDetails: S.optional(PortfolioDetails),
-  NextPageToken: S.optional(S.String),
-}) {}
-export class BudgetDetail extends S.Class<BudgetDetail>("BudgetDetail")({
-  BudgetName: S.optional(S.String),
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ExecuteProvisionedProductServiceActionInput",
+}) as any as S.Schema<ExecuteProvisionedProductServiceActionInput>;
+export interface GetProvisionedProductOutputsOutput {
+  Outputs?: RecordOutputs;
+  NextPageToken?: string;
+}
+export const GetProvisionedProductOutputsOutput = S.suspend(() =>
+  S.Struct({
+    Outputs: S.optional(RecordOutputs),
+    NextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetProvisionedProductOutputsOutput",
+}) as any as S.Schema<GetProvisionedProductOutputsOutput>;
+export interface ImportAsProvisionedProductOutput {
+  RecordDetail?: RecordDetail;
+}
+export const ImportAsProvisionedProductOutput = S.suspend(() =>
+  S.Struct({ RecordDetail: S.optional(RecordDetail) }),
+).annotations({
+  identifier: "ImportAsProvisionedProductOutput",
+}) as any as S.Schema<ImportAsProvisionedProductOutput>;
+export interface ListAcceptedPortfolioSharesOutput {
+  PortfolioDetails?: PortfolioDetails;
+  NextPageToken?: string;
+}
+export const ListAcceptedPortfolioSharesOutput = S.suspend(() =>
+  S.Struct({
+    PortfolioDetails: S.optional(PortfolioDetails),
+    NextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListAcceptedPortfolioSharesOutput",
+}) as any as S.Schema<ListAcceptedPortfolioSharesOutput>;
+export interface BudgetDetail {
+  BudgetName?: string;
+}
+export const BudgetDetail = S.suspend(() =>
+  S.Struct({ BudgetName: S.optional(S.String) }),
+).annotations({ identifier: "BudgetDetail" }) as any as S.Schema<BudgetDetail>;
+export type Budgets = BudgetDetail[];
 export const Budgets = S.Array(BudgetDetail);
-export class ListBudgetsForResourceOutput extends S.Class<ListBudgetsForResourceOutput>(
-  "ListBudgetsForResourceOutput",
-)({ Budgets: S.optional(Budgets), NextPageToken: S.optional(S.String) }) {}
-export class ListConstraintsForPortfolioOutput extends S.Class<ListConstraintsForPortfolioOutput>(
-  "ListConstraintsForPortfolioOutput",
-)({
-  ConstraintDetails: S.optional(ConstraintDetails),
-  NextPageToken: S.optional(S.String),
-}) {}
-export class ListOrganizationPortfolioAccessOutput extends S.Class<ListOrganizationPortfolioAccessOutput>(
-  "ListOrganizationPortfolioAccessOutput",
-)({
-  OrganizationNodes: S.optional(OrganizationNodes),
-  NextPageToken: S.optional(S.String),
-}) {}
-export class ListPortfolioAccessOutput extends S.Class<ListPortfolioAccessOutput>(
-  "ListPortfolioAccessOutput",
-)({
-  AccountIds: S.optional(AccountIds),
-  NextPageToken: S.optional(S.String),
-}) {}
-export class ListPortfoliosOutput extends S.Class<ListPortfoliosOutput>(
-  "ListPortfoliosOutput",
-)({
-  PortfolioDetails: S.optional(PortfolioDetails),
-  NextPageToken: S.optional(S.String),
-}) {}
-export class ListPortfoliosForProductOutput extends S.Class<ListPortfoliosForProductOutput>(
-  "ListPortfoliosForProductOutput",
-)({
-  PortfolioDetails: S.optional(PortfolioDetails),
-  NextPageToken: S.optional(S.String),
-}) {}
-export class ListProvisionedProductPlansInput extends S.Class<ListProvisionedProductPlansInput>(
-  "ListProvisionedProductPlansInput",
-)(
-  {
+export interface ListBudgetsForResourceOutput {
+  Budgets?: Budgets;
+  NextPageToken?: string;
+}
+export const ListBudgetsForResourceOutput = S.suspend(() =>
+  S.Struct({
+    Budgets: S.optional(Budgets),
+    NextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListBudgetsForResourceOutput",
+}) as any as S.Schema<ListBudgetsForResourceOutput>;
+export interface ListConstraintsForPortfolioOutput {
+  ConstraintDetails?: ConstraintDetails;
+  NextPageToken?: string;
+}
+export const ListConstraintsForPortfolioOutput = S.suspend(() =>
+  S.Struct({
+    ConstraintDetails: S.optional(ConstraintDetails),
+    NextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListConstraintsForPortfolioOutput",
+}) as any as S.Schema<ListConstraintsForPortfolioOutput>;
+export interface ListOrganizationPortfolioAccessOutput {
+  OrganizationNodes?: OrganizationNodes;
+  NextPageToken?: string;
+}
+export const ListOrganizationPortfolioAccessOutput = S.suspend(() =>
+  S.Struct({
+    OrganizationNodes: S.optional(OrganizationNodes),
+    NextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListOrganizationPortfolioAccessOutput",
+}) as any as S.Schema<ListOrganizationPortfolioAccessOutput>;
+export interface ListPortfolioAccessOutput {
+  AccountIds?: AccountIds;
+  NextPageToken?: string;
+}
+export const ListPortfolioAccessOutput = S.suspend(() =>
+  S.Struct({
+    AccountIds: S.optional(AccountIds),
+    NextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListPortfolioAccessOutput",
+}) as any as S.Schema<ListPortfolioAccessOutput>;
+export interface ListPortfoliosOutput {
+  PortfolioDetails?: PortfolioDetails;
+  NextPageToken?: string;
+}
+export const ListPortfoliosOutput = S.suspend(() =>
+  S.Struct({
+    PortfolioDetails: S.optional(PortfolioDetails),
+    NextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListPortfoliosOutput",
+}) as any as S.Schema<ListPortfoliosOutput>;
+export interface ListPortfoliosForProductOutput {
+  PortfolioDetails?: PortfolioDetails;
+  NextPageToken?: string;
+}
+export const ListPortfoliosForProductOutput = S.suspend(() =>
+  S.Struct({
+    PortfolioDetails: S.optional(PortfolioDetails),
+    NextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListPortfoliosForProductOutput",
+}) as any as S.Schema<ListPortfoliosForProductOutput>;
+export interface ListProvisionedProductPlansInput {
+  AcceptLanguage?: string;
+  ProvisionProductId?: string;
+  PageSize?: number;
+  PageToken?: string;
+  AccessLevelFilter?: AccessLevelFilter;
+}
+export const ListProvisionedProductPlansInput = S.suspend(() =>
+  S.Struct({
     AcceptLanguage: S.optional(S.String),
     ProvisionProductId: S.optional(S.String),
     PageSize: S.optional(S.Number),
     PageToken: S.optional(S.String),
     AccessLevelFilter: S.optional(AccessLevelFilter),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListProvisioningArtifactsOutput extends S.Class<ListProvisioningArtifactsOutput>(
-  "ListProvisioningArtifactsOutput",
-)({
-  ProvisioningArtifactDetails: S.optional(ProvisioningArtifactDetails),
-  NextPageToken: S.optional(S.String),
-}) {}
-export class ListRecordHistoryInput extends S.Class<ListRecordHistoryInput>(
-  "ListRecordHistoryInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListProvisionedProductPlansInput",
+}) as any as S.Schema<ListProvisionedProductPlansInput>;
+export interface ListProvisioningArtifactsOutput {
+  ProvisioningArtifactDetails?: ProvisioningArtifactDetails;
+  NextPageToken?: string;
+}
+export const ListProvisioningArtifactsOutput = S.suspend(() =>
+  S.Struct({
+    ProvisioningArtifactDetails: S.optional(ProvisioningArtifactDetails),
+    NextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListProvisioningArtifactsOutput",
+}) as any as S.Schema<ListProvisioningArtifactsOutput>;
+export interface ListRecordHistoryInput {
+  AcceptLanguage?: string;
+  AccessLevelFilter?: AccessLevelFilter;
+  SearchFilter?: ListRecordHistorySearchFilter;
+  PageSize?: number;
+  PageToken?: string;
+}
+export const ListRecordHistoryInput = S.suspend(() =>
+  S.Struct({
     AcceptLanguage: S.optional(S.String),
     AccessLevelFilter: S.optional(AccessLevelFilter),
     SearchFilter: S.optional(ListRecordHistorySearchFilter),
     PageSize: S.optional(S.Number),
     PageToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ServiceActionSummary extends S.Class<ServiceActionSummary>(
-  "ServiceActionSummary",
-)({
-  Id: S.optional(S.String),
-  Name: S.optional(S.String),
-  Description: S.optional(S.String),
-  DefinitionType: S.optional(S.String),
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListRecordHistoryInput",
+}) as any as S.Schema<ListRecordHistoryInput>;
+export interface ServiceActionSummary {
+  Id?: string;
+  Name?: string;
+  Description?: string;
+  DefinitionType?: string;
+}
+export const ServiceActionSummary = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Name: S.optional(S.String),
+    Description: S.optional(S.String),
+    DefinitionType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ServiceActionSummary",
+}) as any as S.Schema<ServiceActionSummary>;
+export type ServiceActionSummaries = ServiceActionSummary[];
 export const ServiceActionSummaries = S.Array(ServiceActionSummary);
-export class ListServiceActionsForProvisioningArtifactOutput extends S.Class<ListServiceActionsForProvisioningArtifactOutput>(
-  "ListServiceActionsForProvisioningArtifactOutput",
-)({
-  ServiceActionSummaries: S.optional(ServiceActionSummaries),
-  NextPageToken: S.optional(S.String),
-}) {}
-export class ListTagOptionsInput extends S.Class<ListTagOptionsInput>(
-  "ListTagOptionsInput",
-)(
-  {
+export interface ListServiceActionsForProvisioningArtifactOutput {
+  ServiceActionSummaries?: ServiceActionSummaries;
+  NextPageToken?: string;
+}
+export const ListServiceActionsForProvisioningArtifactOutput = S.suspend(() =>
+  S.Struct({
+    ServiceActionSummaries: S.optional(ServiceActionSummaries),
+    NextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListServiceActionsForProvisioningArtifactOutput",
+}) as any as S.Schema<ListServiceActionsForProvisioningArtifactOutput>;
+export interface ListTagOptionsInput {
+  Filters?: ListTagOptionsFilters;
+  PageSize?: number;
+  PageToken?: string;
+}
+export const ListTagOptionsInput = S.suspend(() =>
+  S.Struct({
     Filters: S.optional(ListTagOptionsFilters),
     PageSize: S.optional(S.Number),
     PageToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ProvisionProductInput extends S.Class<ProvisionProductInput>(
-  "ProvisionProductInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListTagOptionsInput",
+}) as any as S.Schema<ListTagOptionsInput>;
+export interface ProvisionProductInput {
+  AcceptLanguage?: string;
+  ProductId?: string;
+  ProductName?: string;
+  ProvisioningArtifactId?: string;
+  ProvisioningArtifactName?: string;
+  PathId?: string;
+  PathName?: string;
+  ProvisionedProductName: string;
+  ProvisioningParameters?: ProvisioningParameters;
+  ProvisioningPreferences?: ProvisioningPreferences;
+  Tags?: Tags;
+  NotificationArns?: NotificationArns;
+  ProvisionToken: string;
+}
+export const ProvisionProductInput = S.suspend(() =>
+  S.Struct({
     AcceptLanguage: S.optional(S.String),
     ProductId: S.optional(S.String),
     ProductName: S.optional(S.String),
@@ -1573,38 +2628,69 @@ export class ProvisionProductInput extends S.Class<ProvisionProductInput>(
     Tags: S.optional(Tags),
     NotificationArns: S.optional(NotificationArns),
     ProvisionToken: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ScanProvisionedProductsOutput extends S.Class<ScanProvisionedProductsOutput>(
-  "ScanProvisionedProductsOutput",
-)({
-  ProvisionedProducts: S.optional(ProvisionedProductDetails),
-  NextPageToken: S.optional(S.String),
-}) {}
-export class SearchProductsInput extends S.Class<SearchProductsInput>(
-  "SearchProductsInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ProvisionProductInput",
+}) as any as S.Schema<ProvisionProductInput>;
+export interface ScanProvisionedProductsOutput {
+  ProvisionedProducts?: ProvisionedProductDetails;
+  NextPageToken?: string;
+}
+export const ScanProvisionedProductsOutput = S.suspend(() =>
+  S.Struct({
+    ProvisionedProducts: S.optional(ProvisionedProductDetails),
+    NextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ScanProvisionedProductsOutput",
+}) as any as S.Schema<ScanProvisionedProductsOutput>;
+export interface SearchProductsInput {
+  AcceptLanguage?: string;
+  Filters?: ProductViewFilters;
+  PageSize?: number;
+  SortBy?: string;
+  SortOrder?: string;
+  PageToken?: string;
+}
+export const SearchProductsInput = S.suspend(() =>
+  S.Struct({
     AcceptLanguage: S.optional(S.String),
     Filters: S.optional(ProductViewFilters),
     PageSize: S.optional(S.Number),
     SortBy: S.optional(S.String),
     SortOrder: S.optional(S.String),
     PageToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class SearchProductsAsAdminOutput extends S.Class<SearchProductsAsAdminOutput>(
-  "SearchProductsAsAdminOutput",
-)({
-  ProductViewDetails: S.optional(ProductViewDetails),
-  NextPageToken: S.optional(S.String),
-}) {}
-export class SearchProvisionedProductsInput extends S.Class<SearchProvisionedProductsInput>(
-  "SearchProvisionedProductsInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "SearchProductsInput",
+}) as any as S.Schema<SearchProductsInput>;
+export interface SearchProductsAsAdminOutput {
+  ProductViewDetails?: ProductViewDetails;
+  NextPageToken?: string;
+}
+export const SearchProductsAsAdminOutput = S.suspend(() =>
+  S.Struct({
+    ProductViewDetails: S.optional(ProductViewDetails),
+    NextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SearchProductsAsAdminOutput",
+}) as any as S.Schema<SearchProductsAsAdminOutput>;
+export interface SearchProvisionedProductsInput {
+  AcceptLanguage?: string;
+  AccessLevelFilter?: AccessLevelFilter;
+  Filters?: ProvisionedProductFilters;
+  SortBy?: string;
+  SortOrder?: string;
+  PageSize?: number;
+  PageToken?: string;
+}
+export const SearchProvisionedProductsInput = S.suspend(() =>
+  S.Struct({
     AcceptLanguage: S.optional(S.String),
     AccessLevelFilter: S.optional(AccessLevelFilter),
     Filters: S.optional(ProvisionedProductFilters),
@@ -1612,38 +2698,87 @@ export class SearchProvisionedProductsInput extends S.Class<SearchProvisionedPro
     SortOrder: S.optional(S.String),
     PageSize: S.optional(S.Number),
     PageToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TerminateProvisionedProductOutput extends S.Class<TerminateProvisionedProductOutput>(
-  "TerminateProvisionedProductOutput",
-)({ RecordDetail: S.optional(RecordDetail) }) {}
-export class UpdateConstraintOutput extends S.Class<UpdateConstraintOutput>(
-  "UpdateConstraintOutput",
-)({
-  ConstraintDetail: S.optional(ConstraintDetail),
-  ConstraintParameters: S.optional(S.String),
-  Status: S.optional(S.String),
-}) {}
-export class UpdatePortfolioOutput extends S.Class<UpdatePortfolioOutput>(
-  "UpdatePortfolioOutput",
-)({ PortfolioDetail: S.optional(PortfolioDetail), Tags: S.optional(Tags) }) {}
-export class UpdatePortfolioShareOutput extends S.Class<UpdatePortfolioShareOutput>(
-  "UpdatePortfolioShareOutput",
-)({
-  PortfolioShareToken: S.optional(S.String),
-  Status: S.optional(S.String),
-}) {}
-export class UpdateProductOutput extends S.Class<UpdateProductOutput>(
-  "UpdateProductOutput",
-)({
-  ProductViewDetail: S.optional(ProductViewDetail),
-  Tags: S.optional(Tags),
-}) {}
-export class UpdateProvisionedProductInput extends S.Class<UpdateProvisionedProductInput>(
-  "UpdateProvisionedProductInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "SearchProvisionedProductsInput",
+}) as any as S.Schema<SearchProvisionedProductsInput>;
+export interface TerminateProvisionedProductOutput {
+  RecordDetail?: RecordDetail;
+}
+export const TerminateProvisionedProductOutput = S.suspend(() =>
+  S.Struct({ RecordDetail: S.optional(RecordDetail) }),
+).annotations({
+  identifier: "TerminateProvisionedProductOutput",
+}) as any as S.Schema<TerminateProvisionedProductOutput>;
+export interface UpdateConstraintOutput {
+  ConstraintDetail?: ConstraintDetail;
+  ConstraintParameters?: string;
+  Status?: string;
+}
+export const UpdateConstraintOutput = S.suspend(() =>
+  S.Struct({
+    ConstraintDetail: S.optional(ConstraintDetail),
+    ConstraintParameters: S.optional(S.String),
+    Status: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "UpdateConstraintOutput",
+}) as any as S.Schema<UpdateConstraintOutput>;
+export interface UpdatePortfolioOutput {
+  PortfolioDetail?: PortfolioDetail;
+  Tags?: Tags;
+}
+export const UpdatePortfolioOutput = S.suspend(() =>
+  S.Struct({
+    PortfolioDetail: S.optional(PortfolioDetail),
+    Tags: S.optional(Tags),
+  }),
+).annotations({
+  identifier: "UpdatePortfolioOutput",
+}) as any as S.Schema<UpdatePortfolioOutput>;
+export interface UpdatePortfolioShareOutput {
+  PortfolioShareToken?: string;
+  Status?: string;
+}
+export const UpdatePortfolioShareOutput = S.suspend(() =>
+  S.Struct({
+    PortfolioShareToken: S.optional(S.String),
+    Status: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "UpdatePortfolioShareOutput",
+}) as any as S.Schema<UpdatePortfolioShareOutput>;
+export interface UpdateProductOutput {
+  ProductViewDetail?: ProductViewDetail;
+  Tags?: Tags;
+}
+export const UpdateProductOutput = S.suspend(() =>
+  S.Struct({
+    ProductViewDetail: S.optional(ProductViewDetail),
+    Tags: S.optional(Tags),
+  }),
+).annotations({
+  identifier: "UpdateProductOutput",
+}) as any as S.Schema<UpdateProductOutput>;
+export interface UpdateProvisionedProductInput {
+  AcceptLanguage?: string;
+  ProvisionedProductName?: string;
+  ProvisionedProductId?: string;
+  ProductId?: string;
+  ProductName?: string;
+  ProvisioningArtifactId?: string;
+  ProvisioningArtifactName?: string;
+  PathId?: string;
+  PathName?: string;
+  ProvisioningParameters?: UpdateProvisioningParameters;
+  ProvisioningPreferences?: UpdateProvisioningPreferences;
+  Tags?: Tags;
+  UpdateToken: string;
+}
+export const UpdateProvisionedProductInput = S.suspend(() =>
+  S.Struct({
     AcceptLanguage: S.optional(S.String),
     ProvisionedProductName: S.optional(S.String),
     ProvisionedProductId: S.optional(S.String),
@@ -1657,351 +2792,749 @@ export class UpdateProvisionedProductInput extends S.Class<UpdateProvisionedProd
     ProvisioningPreferences: S.optional(UpdateProvisioningPreferences),
     Tags: S.optional(Tags),
     UpdateToken: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateProvisionedProductPropertiesInput extends S.Class<UpdateProvisionedProductPropertiesInput>(
-  "UpdateProvisionedProductPropertiesInput",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateProvisionedProductInput",
+}) as any as S.Schema<UpdateProvisionedProductInput>;
+export interface UpdateProvisionedProductPropertiesInput {
+  AcceptLanguage?: string;
+  ProvisionedProductId: string;
+  ProvisionedProductProperties: ProvisionedProductProperties;
+  IdempotencyToken: string;
+}
+export const UpdateProvisionedProductPropertiesInput = S.suspend(() =>
+  S.Struct({
     AcceptLanguage: S.optional(S.String),
     ProvisionedProductId: S.String,
     ProvisionedProductProperties: ProvisionedProductProperties,
     IdempotencyToken: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateProvisioningArtifactOutput extends S.Class<UpdateProvisioningArtifactOutput>(
-  "UpdateProvisioningArtifactOutput",
-)({
-  ProvisioningArtifactDetail: S.optional(ProvisioningArtifactDetail),
-  Info: S.optional(ProvisioningArtifactInfo),
-  Status: S.optional(S.String),
-}) {}
-export class ServiceActionDetail extends S.Class<ServiceActionDetail>(
-  "ServiceActionDetail",
-)({
-  ServiceActionSummary: S.optional(ServiceActionSummary),
-  Definition: S.optional(ServiceActionDefinitionMap),
-}) {}
-export class UpdateServiceActionOutput extends S.Class<UpdateServiceActionOutput>(
-  "UpdateServiceActionOutput",
-)({ ServiceActionDetail: S.optional(ServiceActionDetail) }) {}
-export class UpdateTagOptionOutput extends S.Class<UpdateTagOptionOutput>(
-  "UpdateTagOptionOutput",
-)({ TagOptionDetail: S.optional(TagOptionDetail) }) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateProvisionedProductPropertiesInput",
+}) as any as S.Schema<UpdateProvisionedProductPropertiesInput>;
+export interface UpdateProvisioningArtifactOutput {
+  ProvisioningArtifactDetail?: ProvisioningArtifactDetail;
+  Info?: ProvisioningArtifactInfo;
+  Status?: string;
+}
+export const UpdateProvisioningArtifactOutput = S.suspend(() =>
+  S.Struct({
+    ProvisioningArtifactDetail: S.optional(ProvisioningArtifactDetail),
+    Info: S.optional(ProvisioningArtifactInfo),
+    Status: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "UpdateProvisioningArtifactOutput",
+}) as any as S.Schema<UpdateProvisioningArtifactOutput>;
+export interface ServiceActionDetail {
+  ServiceActionSummary?: ServiceActionSummary;
+  Definition?: ServiceActionDefinitionMap;
+}
+export const ServiceActionDetail = S.suspend(() =>
+  S.Struct({
+    ServiceActionSummary: S.optional(ServiceActionSummary),
+    Definition: S.optional(ServiceActionDefinitionMap),
+  }),
+).annotations({
+  identifier: "ServiceActionDetail",
+}) as any as S.Schema<ServiceActionDetail>;
+export interface UpdateServiceActionOutput {
+  ServiceActionDetail?: ServiceActionDetail;
+}
+export const UpdateServiceActionOutput = S.suspend(() =>
+  S.Struct({ ServiceActionDetail: S.optional(ServiceActionDetail) }),
+).annotations({
+  identifier: "UpdateServiceActionOutput",
+}) as any as S.Schema<UpdateServiceActionOutput>;
+export interface UpdateTagOptionOutput {
+  TagOptionDetail?: TagOptionDetail;
+}
+export const UpdateTagOptionOutput = S.suspend(() =>
+  S.Struct({ TagOptionDetail: S.optional(TagOptionDetail) }),
+).annotations({
+  identifier: "UpdateTagOptionOutput",
+}) as any as S.Schema<UpdateTagOptionOutput>;
+export type SuccessfulShares = string[];
 export const SuccessfulShares = S.Array(S.String);
+export type Scope = string[];
 export const Scope = S.Array(S.String);
+export type TagOptionValues = string[];
 export const TagOptionValues = S.Array(S.String);
-export class UniqueTagResourceIdentifier extends S.Class<UniqueTagResourceIdentifier>(
-  "UniqueTagResourceIdentifier",
-)({ Key: S.optional(S.String), Value: S.optional(S.String) }) {}
-export class FailedServiceActionAssociation extends S.Class<FailedServiceActionAssociation>(
-  "FailedServiceActionAssociation",
-)({
-  ServiceActionId: S.optional(S.String),
-  ProductId: S.optional(S.String),
-  ProvisioningArtifactId: S.optional(S.String),
-  ErrorCode: S.optional(S.String),
-  ErrorMessage: S.optional(S.String),
-}) {}
+export interface UniqueTagResourceIdentifier {
+  Key?: string;
+  Value?: string;
+}
+export const UniqueTagResourceIdentifier = S.suspend(() =>
+  S.Struct({ Key: S.optional(S.String), Value: S.optional(S.String) }),
+).annotations({
+  identifier: "UniqueTagResourceIdentifier",
+}) as any as S.Schema<UniqueTagResourceIdentifier>;
+export interface FailedServiceActionAssociation {
+  ServiceActionId?: string;
+  ProductId?: string;
+  ProvisioningArtifactId?: string;
+  ErrorCode?: string;
+  ErrorMessage?: string;
+}
+export const FailedServiceActionAssociation = S.suspend(() =>
+  S.Struct({
+    ServiceActionId: S.optional(S.String),
+    ProductId: S.optional(S.String),
+    ProvisioningArtifactId: S.optional(S.String),
+    ErrorCode: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "FailedServiceActionAssociation",
+}) as any as S.Schema<FailedServiceActionAssociation>;
+export type FailedServiceActionAssociations = FailedServiceActionAssociation[];
 export const FailedServiceActionAssociations = S.Array(
   FailedServiceActionAssociation,
 );
-export class PortfolioShareDetail extends S.Class<PortfolioShareDetail>(
-  "PortfolioShareDetail",
-)({
-  PrincipalId: S.optional(S.String),
-  Type: S.optional(S.String),
-  Accepted: S.optional(S.Boolean),
-  ShareTagOptions: S.optional(S.Boolean),
-  SharePrincipals: S.optional(S.Boolean),
-}) {}
+export interface PortfolioShareDetail {
+  PrincipalId?: string;
+  Type?: string;
+  Accepted?: boolean;
+  ShareTagOptions?: boolean;
+  SharePrincipals?: boolean;
+}
+export const PortfolioShareDetail = S.suspend(() =>
+  S.Struct({
+    PrincipalId: S.optional(S.String),
+    Type: S.optional(S.String),
+    Accepted: S.optional(S.Boolean),
+    ShareTagOptions: S.optional(S.Boolean),
+    SharePrincipals: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "PortfolioShareDetail",
+}) as any as S.Schema<PortfolioShareDetail>;
+export type PortfolioShareDetails = PortfolioShareDetail[];
 export const PortfolioShareDetails = S.Array(PortfolioShareDetail);
-export class LaunchPath extends S.Class<LaunchPath>("LaunchPath")({
-  Id: S.optional(S.String),
-  Name: S.optional(S.String),
-}) {}
+export interface LaunchPath {
+  Id?: string;
+  Name?: string;
+}
+export const LaunchPath = S.suspend(() =>
+  S.Struct({ Id: S.optional(S.String), Name: S.optional(S.String) }),
+).annotations({ identifier: "LaunchPath" }) as any as S.Schema<LaunchPath>;
+export type LaunchPaths = LaunchPath[];
 export const LaunchPaths = S.Array(LaunchPath);
-export class ProvisioningArtifactSummary extends S.Class<ProvisioningArtifactSummary>(
-  "ProvisioningArtifactSummary",
-)({
-  Id: S.optional(S.String),
-  Name: S.optional(S.String),
-  Description: S.optional(S.String),
-  CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  ProvisioningArtifactMetadata: S.optional(ProvisioningArtifactInfo),
-}) {}
+export interface ProvisioningArtifactSummary {
+  Id?: string;
+  Name?: string;
+  Description?: string;
+  CreatedTime?: Date;
+  ProvisioningArtifactMetadata?: ProvisioningArtifactInfo;
+}
+export const ProvisioningArtifactSummary = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Name: S.optional(S.String),
+    Description: S.optional(S.String),
+    CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ProvisioningArtifactMetadata: S.optional(ProvisioningArtifactInfo),
+  }),
+).annotations({
+  identifier: "ProvisioningArtifactSummary",
+}) as any as S.Schema<ProvisioningArtifactSummary>;
+export type ProvisioningArtifactSummaries = ProvisioningArtifactSummary[];
 export const ProvisioningArtifactSummaries = S.Array(
   ProvisioningArtifactSummary,
 );
-export class CloudWatchDashboard extends S.Class<CloudWatchDashboard>(
-  "CloudWatchDashboard",
-)({ Name: S.optional(S.String) }) {}
+export interface CloudWatchDashboard {
+  Name?: string;
+}
+export const CloudWatchDashboard = S.suspend(() =>
+  S.Struct({ Name: S.optional(S.String) }),
+).annotations({
+  identifier: "CloudWatchDashboard",
+}) as any as S.Schema<CloudWatchDashboard>;
+export type CloudWatchDashboards = CloudWatchDashboard[];
 export const CloudWatchDashboards = S.Array(CloudWatchDashboard);
-export class ProvisionedProductPlanDetails extends S.Class<ProvisionedProductPlanDetails>(
-  "ProvisionedProductPlanDetails",
-)({
-  CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  PathId: S.optional(S.String),
-  ProductId: S.optional(S.String),
-  PlanName: S.optional(S.String),
-  PlanId: S.optional(S.String),
-  ProvisionProductId: S.optional(S.String),
-  ProvisionProductName: S.optional(S.String),
-  PlanType: S.optional(S.String),
-  ProvisioningArtifactId: S.optional(S.String),
-  Status: S.optional(S.String),
-  UpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  NotificationArns: S.optional(NotificationArns),
-  ProvisioningParameters: S.optional(UpdateProvisioningParameters),
-  Tags: S.optional(Tags),
-  StatusMessage: S.optional(S.String),
-}) {}
-export class ConstraintSummary extends S.Class<ConstraintSummary>(
-  "ConstraintSummary",
-)({ Type: S.optional(S.String), Description: S.optional(S.String) }) {}
+export interface ProvisionedProductPlanDetails {
+  CreatedTime?: Date;
+  PathId?: string;
+  ProductId?: string;
+  PlanName?: string;
+  PlanId?: string;
+  ProvisionProductId?: string;
+  ProvisionProductName?: string;
+  PlanType?: string;
+  ProvisioningArtifactId?: string;
+  Status?: string;
+  UpdatedTime?: Date;
+  NotificationArns?: NotificationArns;
+  ProvisioningParameters?: UpdateProvisioningParameters;
+  Tags?: Tags;
+  StatusMessage?: string;
+}
+export const ProvisionedProductPlanDetails = S.suspend(() =>
+  S.Struct({
+    CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    PathId: S.optional(S.String),
+    ProductId: S.optional(S.String),
+    PlanName: S.optional(S.String),
+    PlanId: S.optional(S.String),
+    ProvisionProductId: S.optional(S.String),
+    ProvisionProductName: S.optional(S.String),
+    PlanType: S.optional(S.String),
+    ProvisioningArtifactId: S.optional(S.String),
+    Status: S.optional(S.String),
+    UpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    NotificationArns: S.optional(NotificationArns),
+    ProvisioningParameters: S.optional(UpdateProvisioningParameters),
+    Tags: S.optional(Tags),
+    StatusMessage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ProvisionedProductPlanDetails",
+}) as any as S.Schema<ProvisionedProductPlanDetails>;
+export interface ConstraintSummary {
+  Type?: string;
+  Description?: string;
+}
+export const ConstraintSummary = S.suspend(() =>
+  S.Struct({ Type: S.optional(S.String), Description: S.optional(S.String) }),
+).annotations({
+  identifier: "ConstraintSummary",
+}) as any as S.Schema<ConstraintSummary>;
+export type ConstraintSummaries = ConstraintSummary[];
 export const ConstraintSummaries = S.Array(ConstraintSummary);
-export class UsageInstruction extends S.Class<UsageInstruction>(
-  "UsageInstruction",
-)({ Type: S.optional(S.String), Value: S.optional(S.String) }) {}
+export interface UsageInstruction {
+  Type?: string;
+  Value?: string;
+}
+export const UsageInstruction = S.suspend(() =>
+  S.Struct({ Type: S.optional(S.String), Value: S.optional(S.String) }),
+).annotations({
+  identifier: "UsageInstruction",
+}) as any as S.Schema<UsageInstruction>;
+export type UsageInstructions = UsageInstruction[];
 export const UsageInstructions = S.Array(UsageInstruction);
-export class TagOptionSummary extends S.Class<TagOptionSummary>(
-  "TagOptionSummary",
-)({ Key: S.optional(S.String), Values: S.optional(TagOptionValues) }) {}
+export interface TagOptionSummary {
+  Key?: string;
+  Values?: TagOptionValues;
+}
+export const TagOptionSummary = S.suspend(() =>
+  S.Struct({ Key: S.optional(S.String), Values: S.optional(TagOptionValues) }),
+).annotations({
+  identifier: "TagOptionSummary",
+}) as any as S.Schema<TagOptionSummary>;
+export type TagOptionSummaries = TagOptionSummary[];
 export const TagOptionSummaries = S.Array(TagOptionSummary);
-export class ProvisioningArtifactPreferences extends S.Class<ProvisioningArtifactPreferences>(
-  "ProvisioningArtifactPreferences",
-)({
-  StackSetAccounts: S.optional(StackSetAccounts),
-  StackSetRegions: S.optional(StackSetRegions),
-}) {}
-export class ProvisioningArtifactOutput extends S.Class<ProvisioningArtifactOutput>(
-  "ProvisioningArtifactOutput",
-)({ Key: S.optional(S.String), Description: S.optional(S.String) }) {}
+export interface ProvisioningArtifactPreferences {
+  StackSetAccounts?: StackSetAccounts;
+  StackSetRegions?: StackSetRegions;
+}
+export const ProvisioningArtifactPreferences = S.suspend(() =>
+  S.Struct({
+    StackSetAccounts: S.optional(StackSetAccounts),
+    StackSetRegions: S.optional(StackSetRegions),
+  }),
+).annotations({
+  identifier: "ProvisioningArtifactPreferences",
+}) as any as S.Schema<ProvisioningArtifactPreferences>;
+export interface ProvisioningArtifactOutput {
+  Key?: string;
+  Description?: string;
+}
+export const ProvisioningArtifactOutput = S.suspend(() =>
+  S.Struct({ Key: S.optional(S.String), Description: S.optional(S.String) }),
+).annotations({
+  identifier: "ProvisioningArtifactOutput",
+}) as any as S.Schema<ProvisioningArtifactOutput>;
+export type ProvisioningArtifactOutputs = ProvisioningArtifactOutput[];
 export const ProvisioningArtifactOutputs = S.Array(ProvisioningArtifactOutput);
-export class ExecutionParameter extends S.Class<ExecutionParameter>(
-  "ExecutionParameter",
-)({
-  Name: S.optional(S.String),
-  Type: S.optional(S.String),
-  DefaultValues: S.optional(ExecutionParameterValueList),
-}) {}
+export interface ExecutionParameter {
+  Name?: string;
+  Type?: string;
+  DefaultValues?: ExecutionParameterValueList;
+}
+export const ExecutionParameter = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Type: S.optional(S.String),
+    DefaultValues: S.optional(ExecutionParameterValueList),
+  }),
+).annotations({
+  identifier: "ExecutionParameter",
+}) as any as S.Schema<ExecutionParameter>;
+export type ExecutionParameters = ExecutionParameter[];
 export const ExecutionParameters = S.Array(ExecutionParameter);
-export class LaunchPathSummary extends S.Class<LaunchPathSummary>(
-  "LaunchPathSummary",
-)({
-  Id: S.optional(S.String),
-  ConstraintSummaries: S.optional(ConstraintSummaries),
-  Tags: S.optional(Tags),
-  Name: S.optional(S.String),
-}) {}
+export interface LaunchPathSummary {
+  Id?: string;
+  ConstraintSummaries?: ConstraintSummaries;
+  Tags?: Tags;
+  Name?: string;
+}
+export const LaunchPathSummary = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    ConstraintSummaries: S.optional(ConstraintSummaries),
+    Tags: S.optional(Tags),
+    Name: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "LaunchPathSummary",
+}) as any as S.Schema<LaunchPathSummary>;
+export type LaunchPathSummaries = LaunchPathSummary[];
 export const LaunchPathSummaries = S.Array(LaunchPathSummary);
-export class Principal extends S.Class<Principal>("Principal")({
-  PrincipalARN: S.optional(S.String),
-  PrincipalType: S.optional(S.String),
-}) {}
+export interface Principal {
+  PrincipalARN?: string;
+  PrincipalType?: string;
+}
+export const Principal = S.suspend(() =>
+  S.Struct({
+    PrincipalARN: S.optional(S.String),
+    PrincipalType: S.optional(S.String),
+  }),
+).annotations({ identifier: "Principal" }) as any as S.Schema<Principal>;
+export type Principals = Principal[];
 export const Principals = S.Array(Principal);
-export class ProvisioningArtifactView extends S.Class<ProvisioningArtifactView>(
-  "ProvisioningArtifactView",
-)({
-  ProductViewSummary: S.optional(ProductViewSummary),
-  ProvisioningArtifact: S.optional(ProvisioningArtifact),
-}) {}
+export interface ProvisioningArtifactView {
+  ProductViewSummary?: ProductViewSummary;
+  ProvisioningArtifact?: ProvisioningArtifact;
+}
+export const ProvisioningArtifactView = S.suspend(() =>
+  S.Struct({
+    ProductViewSummary: S.optional(ProductViewSummary),
+    ProvisioningArtifact: S.optional(ProvisioningArtifact),
+  }),
+).annotations({
+  identifier: "ProvisioningArtifactView",
+}) as any as S.Schema<ProvisioningArtifactView>;
+export type ProvisioningArtifactViews = ProvisioningArtifactView[];
 export const ProvisioningArtifactViews = S.Array(ProvisioningArtifactView);
+export type RecordDetails = RecordDetail[];
 export const RecordDetails = S.Array(RecordDetail);
-export class ResourceDetail extends S.Class<ResourceDetail>("ResourceDetail")({
-  Id: S.optional(S.String),
-  ARN: S.optional(S.String),
-  Name: S.optional(S.String),
-  Description: S.optional(S.String),
-  CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface ResourceDetail {
+  Id?: string;
+  ARN?: string;
+  Name?: string;
+  Description?: string;
+  CreatedTime?: Date;
+}
+export const ResourceDetail = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    ARN: S.optional(S.String),
+    Name: S.optional(S.String),
+    Description: S.optional(S.String),
+    CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "ResourceDetail",
+}) as any as S.Schema<ResourceDetail>;
+export type ResourceDetails = ResourceDetail[];
 export const ResourceDetails = S.Array(ResourceDetail);
-export class StackInstance extends S.Class<StackInstance>("StackInstance")({
-  Account: S.optional(S.String),
-  Region: S.optional(S.String),
-  StackInstanceStatus: S.optional(S.String),
-}) {}
+export interface StackInstance {
+  Account?: string;
+  Region?: string;
+  StackInstanceStatus?: string;
+}
+export const StackInstance = S.suspend(() =>
+  S.Struct({
+    Account: S.optional(S.String),
+    Region: S.optional(S.String),
+    StackInstanceStatus: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "StackInstance",
+}) as any as S.Schema<StackInstance>;
+export type StackInstances = StackInstance[];
 export const StackInstances = S.Array(StackInstance);
-export class EngineWorkflowResourceIdentifier extends S.Class<EngineWorkflowResourceIdentifier>(
-  "EngineWorkflowResourceIdentifier",
-)({ UniqueTag: S.optional(UniqueTagResourceIdentifier) }) {}
+export interface EngineWorkflowResourceIdentifier {
+  UniqueTag?: UniqueTagResourceIdentifier;
+}
+export const EngineWorkflowResourceIdentifier = S.suspend(() =>
+  S.Struct({ UniqueTag: S.optional(UniqueTagResourceIdentifier) }),
+).annotations({
+  identifier: "EngineWorkflowResourceIdentifier",
+}) as any as S.Schema<EngineWorkflowResourceIdentifier>;
+export type ProductViewSummaries = ProductViewSummary[];
 export const ProductViewSummaries = S.Array(ProductViewSummary);
+export type Namespaces = string[];
 export const Namespaces = S.Array(S.String);
+export type AllowedValues = string[];
 export const AllowedValues = S.Array(S.String);
-export class BatchAssociateServiceActionWithProvisioningArtifactOutput extends S.Class<BatchAssociateServiceActionWithProvisioningArtifactOutput>(
-  "BatchAssociateServiceActionWithProvisioningArtifactOutput",
-)({
-  FailedServiceActionAssociations: S.optional(FailedServiceActionAssociations),
-}) {}
-export class BatchDisassociateServiceActionFromProvisioningArtifactOutput extends S.Class<BatchDisassociateServiceActionFromProvisioningArtifactOutput>(
-  "BatchDisassociateServiceActionFromProvisioningArtifactOutput",
-)({
-  FailedServiceActionAssociations: S.optional(FailedServiceActionAssociations),
-}) {}
-export class CopyProductOutput extends S.Class<CopyProductOutput>(
-  "CopyProductOutput",
-)({ CopyProductToken: S.optional(S.String) }) {}
-export class CreateConstraintOutput extends S.Class<CreateConstraintOutput>(
-  "CreateConstraintOutput",
-)({
-  ConstraintDetail: S.optional(ConstraintDetail),
-  ConstraintParameters: S.optional(S.String),
-  Status: S.optional(S.String),
-}) {}
-export class CreatePortfolioOutput extends S.Class<CreatePortfolioOutput>(
-  "CreatePortfolioOutput",
-)({ PortfolioDetail: S.optional(PortfolioDetail), Tags: S.optional(Tags) }) {}
-export class CreatePortfolioShareOutput extends S.Class<CreatePortfolioShareOutput>(
-  "CreatePortfolioShareOutput",
-)({ PortfolioShareToken: S.optional(S.String) }) {}
-export class CreateProvisionedProductPlanOutput extends S.Class<CreateProvisionedProductPlanOutput>(
-  "CreateProvisionedProductPlanOutput",
-)({
-  PlanName: S.optional(S.String),
-  PlanId: S.optional(S.String),
-  ProvisionProductId: S.optional(S.String),
-  ProvisionedProductName: S.optional(S.String),
-  ProvisioningArtifactId: S.optional(S.String),
-}) {}
-export class CreateProvisioningArtifactOutput extends S.Class<CreateProvisioningArtifactOutput>(
-  "CreateProvisioningArtifactOutput",
-)({
-  ProvisioningArtifactDetail: S.optional(ProvisioningArtifactDetail),
-  Info: S.optional(ProvisioningArtifactInfo),
-  Status: S.optional(S.String),
-}) {}
-export class CreateServiceActionOutput extends S.Class<CreateServiceActionOutput>(
-  "CreateServiceActionOutput",
-)({ ServiceActionDetail: S.optional(ServiceActionDetail) }) {}
-export class CreateTagOptionOutput extends S.Class<CreateTagOptionOutput>(
-  "CreateTagOptionOutput",
-)({ TagOptionDetail: S.optional(TagOptionDetail) }) {}
-export class DescribePortfolioOutput extends S.Class<DescribePortfolioOutput>(
-  "DescribePortfolioOutput",
-)({
-  PortfolioDetail: S.optional(PortfolioDetail),
-  Tags: S.optional(Tags),
-  TagOptions: S.optional(TagOptionDetails),
-  Budgets: S.optional(Budgets),
-}) {}
-export class DescribePortfolioSharesOutput extends S.Class<DescribePortfolioSharesOutput>(
-  "DescribePortfolioSharesOutput",
-)({
-  NextPageToken: S.optional(S.String),
-  PortfolioShareDetails: S.optional(PortfolioShareDetails),
-}) {}
-export class DescribeProductOutput extends S.Class<DescribeProductOutput>(
-  "DescribeProductOutput",
-)({
-  ProductViewSummary: S.optional(ProductViewSummary),
-  ProvisioningArtifacts: S.optional(ProvisioningArtifacts),
-  Budgets: S.optional(Budgets),
-  LaunchPaths: S.optional(LaunchPaths),
-}) {}
-export class DescribeProvisionedProductOutput extends S.Class<DescribeProvisionedProductOutput>(
-  "DescribeProvisionedProductOutput",
-)({
-  ProvisionedProductDetail: S.optional(ProvisionedProductDetail),
-  CloudWatchDashboards: S.optional(CloudWatchDashboards),
-}) {}
-export class ParameterConstraints extends S.Class<ParameterConstraints>(
-  "ParameterConstraints",
-)({
-  AllowedValues: S.optional(AllowedValues),
-  AllowedPattern: S.optional(S.String),
-  ConstraintDescription: S.optional(S.String),
-  MaxLength: S.optional(S.String),
-  MinLength: S.optional(S.String),
-  MaxValue: S.optional(S.String),
-  MinValue: S.optional(S.String),
-}) {}
-export class ProvisioningArtifactParameter extends S.Class<ProvisioningArtifactParameter>(
-  "ProvisioningArtifactParameter",
-)({
-  ParameterKey: S.optional(S.String),
-  DefaultValue: S.optional(S.String),
-  ParameterType: S.optional(S.String),
-  IsNoEcho: S.optional(S.Boolean),
-  Description: S.optional(S.String),
-  ParameterConstraints: S.optional(ParameterConstraints),
-}) {}
+export interface BatchAssociateServiceActionWithProvisioningArtifactOutput {
+  FailedServiceActionAssociations?: FailedServiceActionAssociations;
+}
+export const BatchAssociateServiceActionWithProvisioningArtifactOutput =
+  S.suspend(() =>
+    S.Struct({
+      FailedServiceActionAssociations: S.optional(
+        FailedServiceActionAssociations,
+      ),
+    }),
+  ).annotations({
+    identifier: "BatchAssociateServiceActionWithProvisioningArtifactOutput",
+  }) as any as S.Schema<BatchAssociateServiceActionWithProvisioningArtifactOutput>;
+export interface BatchDisassociateServiceActionFromProvisioningArtifactOutput {
+  FailedServiceActionAssociations?: FailedServiceActionAssociations;
+}
+export const BatchDisassociateServiceActionFromProvisioningArtifactOutput =
+  S.suspend(() =>
+    S.Struct({
+      FailedServiceActionAssociations: S.optional(
+        FailedServiceActionAssociations,
+      ),
+    }),
+  ).annotations({
+    identifier: "BatchDisassociateServiceActionFromProvisioningArtifactOutput",
+  }) as any as S.Schema<BatchDisassociateServiceActionFromProvisioningArtifactOutput>;
+export interface CopyProductOutput {
+  CopyProductToken?: string;
+}
+export const CopyProductOutput = S.suspend(() =>
+  S.Struct({ CopyProductToken: S.optional(S.String) }),
+).annotations({
+  identifier: "CopyProductOutput",
+}) as any as S.Schema<CopyProductOutput>;
+export interface CreateConstraintOutput {
+  ConstraintDetail?: ConstraintDetail;
+  ConstraintParameters?: string;
+  Status?: string;
+}
+export const CreateConstraintOutput = S.suspend(() =>
+  S.Struct({
+    ConstraintDetail: S.optional(ConstraintDetail),
+    ConstraintParameters: S.optional(S.String),
+    Status: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CreateConstraintOutput",
+}) as any as S.Schema<CreateConstraintOutput>;
+export interface CreatePortfolioOutput {
+  PortfolioDetail?: PortfolioDetail;
+  Tags?: Tags;
+}
+export const CreatePortfolioOutput = S.suspend(() =>
+  S.Struct({
+    PortfolioDetail: S.optional(PortfolioDetail),
+    Tags: S.optional(Tags),
+  }),
+).annotations({
+  identifier: "CreatePortfolioOutput",
+}) as any as S.Schema<CreatePortfolioOutput>;
+export interface CreatePortfolioShareOutput {
+  PortfolioShareToken?: string;
+}
+export const CreatePortfolioShareOutput = S.suspend(() =>
+  S.Struct({ PortfolioShareToken: S.optional(S.String) }),
+).annotations({
+  identifier: "CreatePortfolioShareOutput",
+}) as any as S.Schema<CreatePortfolioShareOutput>;
+export interface CreateProvisionedProductPlanOutput {
+  PlanName?: string;
+  PlanId?: string;
+  ProvisionProductId?: string;
+  ProvisionedProductName?: string;
+  ProvisioningArtifactId?: string;
+}
+export const CreateProvisionedProductPlanOutput = S.suspend(() =>
+  S.Struct({
+    PlanName: S.optional(S.String),
+    PlanId: S.optional(S.String),
+    ProvisionProductId: S.optional(S.String),
+    ProvisionedProductName: S.optional(S.String),
+    ProvisioningArtifactId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CreateProvisionedProductPlanOutput",
+}) as any as S.Schema<CreateProvisionedProductPlanOutput>;
+export interface CreateProvisioningArtifactOutput {
+  ProvisioningArtifactDetail?: ProvisioningArtifactDetail;
+  Info?: ProvisioningArtifactInfo;
+  Status?: string;
+}
+export const CreateProvisioningArtifactOutput = S.suspend(() =>
+  S.Struct({
+    ProvisioningArtifactDetail: S.optional(ProvisioningArtifactDetail),
+    Info: S.optional(ProvisioningArtifactInfo),
+    Status: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CreateProvisioningArtifactOutput",
+}) as any as S.Schema<CreateProvisioningArtifactOutput>;
+export interface CreateServiceActionOutput {
+  ServiceActionDetail?: ServiceActionDetail;
+}
+export const CreateServiceActionOutput = S.suspend(() =>
+  S.Struct({ ServiceActionDetail: S.optional(ServiceActionDetail) }),
+).annotations({
+  identifier: "CreateServiceActionOutput",
+}) as any as S.Schema<CreateServiceActionOutput>;
+export interface CreateTagOptionOutput {
+  TagOptionDetail?: TagOptionDetail;
+}
+export const CreateTagOptionOutput = S.suspend(() =>
+  S.Struct({ TagOptionDetail: S.optional(TagOptionDetail) }),
+).annotations({
+  identifier: "CreateTagOptionOutput",
+}) as any as S.Schema<CreateTagOptionOutput>;
+export interface DescribePortfolioOutput {
+  PortfolioDetail?: PortfolioDetail;
+  Tags?: Tags;
+  TagOptions?: TagOptionDetails;
+  Budgets?: Budgets;
+}
+export const DescribePortfolioOutput = S.suspend(() =>
+  S.Struct({
+    PortfolioDetail: S.optional(PortfolioDetail),
+    Tags: S.optional(Tags),
+    TagOptions: S.optional(TagOptionDetails),
+    Budgets: S.optional(Budgets),
+  }),
+).annotations({
+  identifier: "DescribePortfolioOutput",
+}) as any as S.Schema<DescribePortfolioOutput>;
+export interface DescribePortfolioSharesOutput {
+  NextPageToken?: string;
+  PortfolioShareDetails?: PortfolioShareDetails;
+}
+export const DescribePortfolioSharesOutput = S.suspend(() =>
+  S.Struct({
+    NextPageToken: S.optional(S.String),
+    PortfolioShareDetails: S.optional(PortfolioShareDetails),
+  }),
+).annotations({
+  identifier: "DescribePortfolioSharesOutput",
+}) as any as S.Schema<DescribePortfolioSharesOutput>;
+export interface DescribeProductOutput {
+  ProductViewSummary?: ProductViewSummary;
+  ProvisioningArtifacts?: ProvisioningArtifacts;
+  Budgets?: Budgets;
+  LaunchPaths?: LaunchPaths;
+}
+export const DescribeProductOutput = S.suspend(() =>
+  S.Struct({
+    ProductViewSummary: S.optional(ProductViewSummary),
+    ProvisioningArtifacts: S.optional(ProvisioningArtifacts),
+    Budgets: S.optional(Budgets),
+    LaunchPaths: S.optional(LaunchPaths),
+  }),
+).annotations({
+  identifier: "DescribeProductOutput",
+}) as any as S.Schema<DescribeProductOutput>;
+export interface DescribeProvisionedProductOutput {
+  ProvisionedProductDetail?: ProvisionedProductDetail;
+  CloudWatchDashboards?: CloudWatchDashboards;
+}
+export const DescribeProvisionedProductOutput = S.suspend(() =>
+  S.Struct({
+    ProvisionedProductDetail: S.optional(ProvisionedProductDetail),
+    CloudWatchDashboards: S.optional(CloudWatchDashboards),
+  }),
+).annotations({
+  identifier: "DescribeProvisionedProductOutput",
+}) as any as S.Schema<DescribeProvisionedProductOutput>;
+export interface ParameterConstraints {
+  AllowedValues?: AllowedValues;
+  AllowedPattern?: string;
+  ConstraintDescription?: string;
+  MaxLength?: string;
+  MinLength?: string;
+  MaxValue?: string;
+  MinValue?: string;
+}
+export const ParameterConstraints = S.suspend(() =>
+  S.Struct({
+    AllowedValues: S.optional(AllowedValues),
+    AllowedPattern: S.optional(S.String),
+    ConstraintDescription: S.optional(S.String),
+    MaxLength: S.optional(S.String),
+    MinLength: S.optional(S.String),
+    MaxValue: S.optional(S.String),
+    MinValue: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ParameterConstraints",
+}) as any as S.Schema<ParameterConstraints>;
+export interface ProvisioningArtifactParameter {
+  ParameterKey?: string;
+  DefaultValue?: string;
+  ParameterType?: string;
+  IsNoEcho?: boolean;
+  Description?: string;
+  ParameterConstraints?: ParameterConstraints;
+}
+export const ProvisioningArtifactParameter = S.suspend(() =>
+  S.Struct({
+    ParameterKey: S.optional(S.String),
+    DefaultValue: S.optional(S.String),
+    ParameterType: S.optional(S.String),
+    IsNoEcho: S.optional(S.Boolean),
+    Description: S.optional(S.String),
+    ParameterConstraints: S.optional(ParameterConstraints),
+  }),
+).annotations({
+  identifier: "ProvisioningArtifactParameter",
+}) as any as S.Schema<ProvisioningArtifactParameter>;
+export type ProvisioningArtifactParameters = ProvisioningArtifactParameter[];
 export const ProvisioningArtifactParameters = S.Array(
   ProvisioningArtifactParameter,
 );
-export class DescribeProvisioningParametersOutput extends S.Class<DescribeProvisioningParametersOutput>(
-  "DescribeProvisioningParametersOutput",
-)({
-  ProvisioningArtifactParameters: S.optional(ProvisioningArtifactParameters),
-  ConstraintSummaries: S.optional(ConstraintSummaries),
-  UsageInstructions: S.optional(UsageInstructions),
-  TagOptions: S.optional(TagOptionSummaries),
-  ProvisioningArtifactPreferences: S.optional(ProvisioningArtifactPreferences),
-  ProvisioningArtifactOutputs: S.optional(ProvisioningArtifactOutputs),
-  ProvisioningArtifactOutputKeys: S.optional(ProvisioningArtifactOutputs),
-}) {}
-export class DescribeServiceActionOutput extends S.Class<DescribeServiceActionOutput>(
-  "DescribeServiceActionOutput",
-)({ ServiceActionDetail: S.optional(ServiceActionDetail) }) {}
-export class DescribeServiceActionExecutionParametersOutput extends S.Class<DescribeServiceActionExecutionParametersOutput>(
-  "DescribeServiceActionExecutionParametersOutput",
-)({ ServiceActionParameters: S.optional(ExecutionParameters) }) {}
-export class ExecuteProvisionedProductServiceActionOutput extends S.Class<ExecuteProvisionedProductServiceActionOutput>(
-  "ExecuteProvisionedProductServiceActionOutput",
-)({ RecordDetail: S.optional(RecordDetail) }) {}
-export class ListLaunchPathsOutput extends S.Class<ListLaunchPathsOutput>(
-  "ListLaunchPathsOutput",
-)({
-  LaunchPathSummaries: S.optional(LaunchPathSummaries),
-  NextPageToken: S.optional(S.String),
-}) {}
-export class ListPrincipalsForPortfolioOutput extends S.Class<ListPrincipalsForPortfolioOutput>(
-  "ListPrincipalsForPortfolioOutput",
-)({
-  Principals: S.optional(Principals),
-  NextPageToken: S.optional(S.String),
-}) {}
-export class ListProvisioningArtifactsForServiceActionOutput extends S.Class<ListProvisioningArtifactsForServiceActionOutput>(
-  "ListProvisioningArtifactsForServiceActionOutput",
-)({
-  ProvisioningArtifactViews: S.optional(ProvisioningArtifactViews),
-  NextPageToken: S.optional(S.String),
-}) {}
-export class ListRecordHistoryOutput extends S.Class<ListRecordHistoryOutput>(
-  "ListRecordHistoryOutput",
-)({
-  RecordDetails: S.optional(RecordDetails),
-  NextPageToken: S.optional(S.String),
-}) {}
-export class ListResourcesForTagOptionOutput extends S.Class<ListResourcesForTagOptionOutput>(
-  "ListResourcesForTagOptionOutput",
-)({
-  ResourceDetails: S.optional(ResourceDetails),
-  PageToken: S.optional(S.String),
-}) {}
-export class ListServiceActionsOutput extends S.Class<ListServiceActionsOutput>(
-  "ListServiceActionsOutput",
-)({
-  ServiceActionSummaries: S.optional(ServiceActionSummaries),
-  NextPageToken: S.optional(S.String),
-}) {}
-export class ListStackInstancesForProvisionedProductOutput extends S.Class<ListStackInstancesForProvisionedProductOutput>(
-  "ListStackInstancesForProvisionedProductOutput",
-)({
-  StackInstances: S.optional(StackInstances),
-  NextPageToken: S.optional(S.String),
-}) {}
-export class ListTagOptionsOutput extends S.Class<ListTagOptionsOutput>(
-  "ListTagOptionsOutput",
-)({
-  TagOptionDetails: S.optional(TagOptionDetails),
-  PageToken: S.optional(S.String),
-}) {}
-export class NotifyProvisionProductEngineWorkflowResultInput extends S.Class<NotifyProvisionProductEngineWorkflowResultInput>(
-  "NotifyProvisionProductEngineWorkflowResultInput",
-)(
-  {
+export interface DescribeProvisioningParametersOutput {
+  ProvisioningArtifactParameters?: ProvisioningArtifactParameters;
+  ConstraintSummaries?: ConstraintSummaries;
+  UsageInstructions?: UsageInstructions;
+  TagOptions?: TagOptionSummaries;
+  ProvisioningArtifactPreferences?: ProvisioningArtifactPreferences;
+  ProvisioningArtifactOutputs?: ProvisioningArtifactOutputs;
+  ProvisioningArtifactOutputKeys?: ProvisioningArtifactOutputs;
+}
+export const DescribeProvisioningParametersOutput = S.suspend(() =>
+  S.Struct({
+    ProvisioningArtifactParameters: S.optional(ProvisioningArtifactParameters),
+    ConstraintSummaries: S.optional(ConstraintSummaries),
+    UsageInstructions: S.optional(UsageInstructions),
+    TagOptions: S.optional(TagOptionSummaries),
+    ProvisioningArtifactPreferences: S.optional(
+      ProvisioningArtifactPreferences,
+    ),
+    ProvisioningArtifactOutputs: S.optional(ProvisioningArtifactOutputs),
+    ProvisioningArtifactOutputKeys: S.optional(ProvisioningArtifactOutputs),
+  }),
+).annotations({
+  identifier: "DescribeProvisioningParametersOutput",
+}) as any as S.Schema<DescribeProvisioningParametersOutput>;
+export interface DescribeServiceActionOutput {
+  ServiceActionDetail?: ServiceActionDetail;
+}
+export const DescribeServiceActionOutput = S.suspend(() =>
+  S.Struct({ ServiceActionDetail: S.optional(ServiceActionDetail) }),
+).annotations({
+  identifier: "DescribeServiceActionOutput",
+}) as any as S.Schema<DescribeServiceActionOutput>;
+export interface DescribeServiceActionExecutionParametersOutput {
+  ServiceActionParameters?: ExecutionParameters;
+}
+export const DescribeServiceActionExecutionParametersOutput = S.suspend(() =>
+  S.Struct({ ServiceActionParameters: S.optional(ExecutionParameters) }),
+).annotations({
+  identifier: "DescribeServiceActionExecutionParametersOutput",
+}) as any as S.Schema<DescribeServiceActionExecutionParametersOutput>;
+export interface ExecuteProvisionedProductServiceActionOutput {
+  RecordDetail?: RecordDetail;
+}
+export const ExecuteProvisionedProductServiceActionOutput = S.suspend(() =>
+  S.Struct({ RecordDetail: S.optional(RecordDetail) }),
+).annotations({
+  identifier: "ExecuteProvisionedProductServiceActionOutput",
+}) as any as S.Schema<ExecuteProvisionedProductServiceActionOutput>;
+export interface ListLaunchPathsOutput {
+  LaunchPathSummaries?: LaunchPathSummaries;
+  NextPageToken?: string;
+}
+export const ListLaunchPathsOutput = S.suspend(() =>
+  S.Struct({
+    LaunchPathSummaries: S.optional(LaunchPathSummaries),
+    NextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListLaunchPathsOutput",
+}) as any as S.Schema<ListLaunchPathsOutput>;
+export interface ListPrincipalsForPortfolioOutput {
+  Principals?: Principals;
+  NextPageToken?: string;
+}
+export const ListPrincipalsForPortfolioOutput = S.suspend(() =>
+  S.Struct({
+    Principals: S.optional(Principals),
+    NextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListPrincipalsForPortfolioOutput",
+}) as any as S.Schema<ListPrincipalsForPortfolioOutput>;
+export interface ListProvisioningArtifactsForServiceActionOutput {
+  ProvisioningArtifactViews?: ProvisioningArtifactViews;
+  NextPageToken?: string;
+}
+export const ListProvisioningArtifactsForServiceActionOutput = S.suspend(() =>
+  S.Struct({
+    ProvisioningArtifactViews: S.optional(ProvisioningArtifactViews),
+    NextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListProvisioningArtifactsForServiceActionOutput",
+}) as any as S.Schema<ListProvisioningArtifactsForServiceActionOutput>;
+export interface ListRecordHistoryOutput {
+  RecordDetails?: RecordDetails;
+  NextPageToken?: string;
+}
+export const ListRecordHistoryOutput = S.suspend(() =>
+  S.Struct({
+    RecordDetails: S.optional(RecordDetails),
+    NextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListRecordHistoryOutput",
+}) as any as S.Schema<ListRecordHistoryOutput>;
+export interface ListResourcesForTagOptionOutput {
+  ResourceDetails?: ResourceDetails;
+  PageToken?: string;
+}
+export const ListResourcesForTagOptionOutput = S.suspend(() =>
+  S.Struct({
+    ResourceDetails: S.optional(ResourceDetails),
+    PageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListResourcesForTagOptionOutput",
+}) as any as S.Schema<ListResourcesForTagOptionOutput>;
+export interface ListServiceActionsOutput {
+  ServiceActionSummaries?: ServiceActionSummaries;
+  NextPageToken?: string;
+}
+export const ListServiceActionsOutput = S.suspend(() =>
+  S.Struct({
+    ServiceActionSummaries: S.optional(ServiceActionSummaries),
+    NextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListServiceActionsOutput",
+}) as any as S.Schema<ListServiceActionsOutput>;
+export interface ListStackInstancesForProvisionedProductOutput {
+  StackInstances?: StackInstances;
+  NextPageToken?: string;
+}
+export const ListStackInstancesForProvisionedProductOutput = S.suspend(() =>
+  S.Struct({
+    StackInstances: S.optional(StackInstances),
+    NextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListStackInstancesForProvisionedProductOutput",
+}) as any as S.Schema<ListStackInstancesForProvisionedProductOutput>;
+export interface ListTagOptionsOutput {
+  TagOptionDetails?: TagOptionDetails;
+  PageToken?: string;
+}
+export const ListTagOptionsOutput = S.suspend(() =>
+  S.Struct({
+    TagOptionDetails: S.optional(TagOptionDetails),
+    PageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListTagOptionsOutput",
+}) as any as S.Schema<ListTagOptionsOutput>;
+export interface NotifyProvisionProductEngineWorkflowResultInput {
+  WorkflowToken: string;
+  RecordId: string;
+  Status: string;
+  FailureReason?: string;
+  ResourceIdentifier?: EngineWorkflowResourceIdentifier;
+  Outputs?: RecordOutputs;
+  IdempotencyToken: string;
+}
+export const NotifyProvisionProductEngineWorkflowResultInput = S.suspend(() =>
+  S.Struct({
     WorkflowToken: S.String,
     RecordId: S.String,
     Status: S.String,
@@ -2009,84 +3542,177 @@ export class NotifyProvisionProductEngineWorkflowResultInput extends S.Class<Not
     ResourceIdentifier: S.optional(EngineWorkflowResourceIdentifier),
     Outputs: S.optional(RecordOutputs),
     IdempotencyToken: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class NotifyProvisionProductEngineWorkflowResultOutput extends S.Class<NotifyProvisionProductEngineWorkflowResultOutput>(
-  "NotifyProvisionProductEngineWorkflowResultOutput",
-)({}) {}
-export class ProvisionProductOutput extends S.Class<ProvisionProductOutput>(
-  "ProvisionProductOutput",
-)({ RecordDetail: S.optional(RecordDetail) }) {}
-export class UpdateProvisionedProductOutput extends S.Class<UpdateProvisionedProductOutput>(
-  "UpdateProvisionedProductOutput",
-)({ RecordDetail: S.optional(RecordDetail) }) {}
-export class UpdateProvisionedProductPropertiesOutput extends S.Class<UpdateProvisionedProductPropertiesOutput>(
-  "UpdateProvisionedProductPropertiesOutput",
-)({
-  ProvisionedProductId: S.optional(S.String),
-  ProvisionedProductProperties: S.optional(ProvisionedProductProperties),
-  RecordId: S.optional(S.String),
-  Status: S.optional(S.String),
-}) {}
-export class ShareError extends S.Class<ShareError>("ShareError")({
-  Accounts: S.optional(Namespaces),
-  Message: S.optional(S.String),
-  Error: S.optional(S.String),
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "NotifyProvisionProductEngineWorkflowResultInput",
+}) as any as S.Schema<NotifyProvisionProductEngineWorkflowResultInput>;
+export interface NotifyProvisionProductEngineWorkflowResultOutput {}
+export const NotifyProvisionProductEngineWorkflowResultOutput = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "NotifyProvisionProductEngineWorkflowResultOutput",
+}) as any as S.Schema<NotifyProvisionProductEngineWorkflowResultOutput>;
+export interface ProvisionProductOutput {
+  RecordDetail?: RecordDetail;
+}
+export const ProvisionProductOutput = S.suspend(() =>
+  S.Struct({ RecordDetail: S.optional(RecordDetail) }),
+).annotations({
+  identifier: "ProvisionProductOutput",
+}) as any as S.Schema<ProvisionProductOutput>;
+export interface UpdateProvisionedProductOutput {
+  RecordDetail?: RecordDetail;
+}
+export const UpdateProvisionedProductOutput = S.suspend(() =>
+  S.Struct({ RecordDetail: S.optional(RecordDetail) }),
+).annotations({
+  identifier: "UpdateProvisionedProductOutput",
+}) as any as S.Schema<UpdateProvisionedProductOutput>;
+export interface UpdateProvisionedProductPropertiesOutput {
+  ProvisionedProductId?: string;
+  ProvisionedProductProperties?: ProvisionedProductProperties;
+  RecordId?: string;
+  Status?: string;
+}
+export const UpdateProvisionedProductPropertiesOutput = S.suspend(() =>
+  S.Struct({
+    ProvisionedProductId: S.optional(S.String),
+    ProvisionedProductProperties: S.optional(ProvisionedProductProperties),
+    RecordId: S.optional(S.String),
+    Status: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "UpdateProvisionedProductPropertiesOutput",
+}) as any as S.Schema<UpdateProvisionedProductPropertiesOutput>;
+export interface ShareError {
+  Accounts?: Namespaces;
+  Message?: string;
+  Error?: string;
+}
+export const ShareError = S.suspend(() =>
+  S.Struct({
+    Accounts: S.optional(Namespaces),
+    Message: S.optional(S.String),
+    Error: S.optional(S.String),
+  }),
+).annotations({ identifier: "ShareError" }) as any as S.Schema<ShareError>;
+export type ShareErrors = ShareError[];
 export const ShareErrors = S.Array(ShareError);
-export class ShareDetails extends S.Class<ShareDetails>("ShareDetails")({
-  SuccessfulShares: S.optional(SuccessfulShares),
-  ShareErrors: S.optional(ShareErrors),
-}) {}
-export class ProvisionedProductPlanSummary extends S.Class<ProvisionedProductPlanSummary>(
-  "ProvisionedProductPlanSummary",
-)({
-  PlanName: S.optional(S.String),
-  PlanId: S.optional(S.String),
-  ProvisionProductId: S.optional(S.String),
-  ProvisionProductName: S.optional(S.String),
-  PlanType: S.optional(S.String),
-  ProvisioningArtifactId: S.optional(S.String),
-}) {}
+export interface ShareDetails {
+  SuccessfulShares?: SuccessfulShares;
+  ShareErrors?: ShareErrors;
+}
+export const ShareDetails = S.suspend(() =>
+  S.Struct({
+    SuccessfulShares: S.optional(SuccessfulShares),
+    ShareErrors: S.optional(ShareErrors),
+  }),
+).annotations({ identifier: "ShareDetails" }) as any as S.Schema<ShareDetails>;
+export interface ProvisionedProductPlanSummary {
+  PlanName?: string;
+  PlanId?: string;
+  ProvisionProductId?: string;
+  ProvisionProductName?: string;
+  PlanType?: string;
+  ProvisioningArtifactId?: string;
+}
+export const ProvisionedProductPlanSummary = S.suspend(() =>
+  S.Struct({
+    PlanName: S.optional(S.String),
+    PlanId: S.optional(S.String),
+    ProvisionProductId: S.optional(S.String),
+    ProvisionProductName: S.optional(S.String),
+    PlanType: S.optional(S.String),
+    ProvisioningArtifactId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ProvisionedProductPlanSummary",
+}) as any as S.Schema<ProvisionedProductPlanSummary>;
+export type ProvisionedProductPlans = ProvisionedProductPlanSummary[];
 export const ProvisionedProductPlans = S.Array(ProvisionedProductPlanSummary);
-export class ProvisionedProductAttribute extends S.Class<ProvisionedProductAttribute>(
-  "ProvisionedProductAttribute",
-)({
-  Name: S.optional(S.String),
-  Arn: S.optional(S.String),
-  Type: S.optional(S.String),
-  Id: S.optional(S.String),
-  Status: S.optional(S.String),
-  StatusMessage: S.optional(S.String),
-  CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  IdempotencyToken: S.optional(S.String),
-  LastRecordId: S.optional(S.String),
-  LastProvisioningRecordId: S.optional(S.String),
-  LastSuccessfulProvisioningRecordId: S.optional(S.String),
-  Tags: S.optional(Tags),
-  PhysicalId: S.optional(S.String),
-  ProductId: S.optional(S.String),
-  ProductName: S.optional(S.String),
-  ProvisioningArtifactId: S.optional(S.String),
-  ProvisioningArtifactName: S.optional(S.String),
-  UserArn: S.optional(S.String),
-  UserArnSession: S.optional(S.String),
-}) {}
+export interface ProvisionedProductAttribute {
+  Name?: string;
+  Arn?: string;
+  Type?: string;
+  Id?: string;
+  Status?: string;
+  StatusMessage?: string;
+  CreatedTime?: Date;
+  IdempotencyToken?: string;
+  LastRecordId?: string;
+  LastProvisioningRecordId?: string;
+  LastSuccessfulProvisioningRecordId?: string;
+  Tags?: Tags;
+  PhysicalId?: string;
+  ProductId?: string;
+  ProductName?: string;
+  ProvisioningArtifactId?: string;
+  ProvisioningArtifactName?: string;
+  UserArn?: string;
+  UserArnSession?: string;
+}
+export const ProvisionedProductAttribute = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Arn: S.optional(S.String),
+    Type: S.optional(S.String),
+    Id: S.optional(S.String),
+    Status: S.optional(S.String),
+    StatusMessage: S.optional(S.String),
+    CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    IdempotencyToken: S.optional(S.String),
+    LastRecordId: S.optional(S.String),
+    LastProvisioningRecordId: S.optional(S.String),
+    LastSuccessfulProvisioningRecordId: S.optional(S.String),
+    Tags: S.optional(Tags),
+    PhysicalId: S.optional(S.String),
+    ProductId: S.optional(S.String),
+    ProductName: S.optional(S.String),
+    ProvisioningArtifactId: S.optional(S.String),
+    ProvisioningArtifactName: S.optional(S.String),
+    UserArn: S.optional(S.String),
+    UserArnSession: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ProvisionedProductAttribute",
+}) as any as S.Schema<ProvisionedProductAttribute>;
+export type ProvisionedProductAttributes = ProvisionedProductAttribute[];
 export const ProvisionedProductAttributes = S.Array(
   ProvisionedProductAttribute,
 );
-export class ResourceTargetDefinition extends S.Class<ResourceTargetDefinition>(
-  "ResourceTargetDefinition",
-)({
-  Attribute: S.optional(S.String),
-  Name: S.optional(S.String),
-  RequiresRecreation: S.optional(S.String),
-}) {}
-export class CreateProductInput extends S.Class<CreateProductInput>(
-  "CreateProductInput",
-)(
-  {
+export interface ResourceTargetDefinition {
+  Attribute?: string;
+  Name?: string;
+  RequiresRecreation?: string;
+}
+export const ResourceTargetDefinition = S.suspend(() =>
+  S.Struct({
+    Attribute: S.optional(S.String),
+    Name: S.optional(S.String),
+    RequiresRecreation: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ResourceTargetDefinition",
+}) as any as S.Schema<ResourceTargetDefinition>;
+export interface CreateProductInput {
+  AcceptLanguage?: string;
+  Name: string;
+  Owner: string;
+  Description?: string;
+  Distributor?: string;
+  SupportDescription?: string;
+  SupportEmail?: string;
+  SupportUrl?: string;
+  ProductType: string;
+  Tags?: AddTags;
+  ProvisioningArtifactParameters?: ProvisioningArtifactProperties;
+  IdempotencyToken: string;
+  SourceConnection?: SourceConnection;
+}
+export const CreateProductInput = S.suspend(() =>
+  S.Struct({
     AcceptLanguage: S.optional(S.String),
     Name: S.String,
     Owner: S.String,
@@ -2100,104 +3726,209 @@ export class CreateProductInput extends S.Class<CreateProductInput>(
     ProvisioningArtifactParameters: S.optional(ProvisioningArtifactProperties),
     IdempotencyToken: S.String,
     SourceConnection: S.optional(SourceConnection),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribePortfolioShareStatusOutput extends S.Class<DescribePortfolioShareStatusOutput>(
-  "DescribePortfolioShareStatusOutput",
-)({
-  PortfolioShareToken: S.optional(S.String),
-  PortfolioId: S.optional(S.String),
-  OrganizationNodeValue: S.optional(S.String),
-  Status: S.optional(S.String),
-  ShareDetails: S.optional(ShareDetails),
-}) {}
-export class DescribeProvisioningArtifactOutput extends S.Class<DescribeProvisioningArtifactOutput>(
-  "DescribeProvisioningArtifactOutput",
-)({
-  ProvisioningArtifactDetail: S.optional(ProvisioningArtifactDetail),
-  Info: S.optional(ProvisioningArtifactInfo),
-  Status: S.optional(S.String),
-  ProvisioningArtifactParameters: S.optional(ProvisioningArtifactParameters),
-}) {}
-export class DescribeRecordOutput extends S.Class<DescribeRecordOutput>(
-  "DescribeRecordOutput",
-)({
-  RecordDetail: S.optional(RecordDetail),
-  RecordOutputs: S.optional(RecordOutputs),
-  NextPageToken: S.optional(S.String),
-}) {}
-export class ListProvisionedProductPlansOutput extends S.Class<ListProvisionedProductPlansOutput>(
-  "ListProvisionedProductPlansOutput",
-)({
-  ProvisionedProductPlans: S.optional(ProvisionedProductPlans),
-  NextPageToken: S.optional(S.String),
-}) {}
-export class SearchProvisionedProductsOutput extends S.Class<SearchProvisionedProductsOutput>(
-  "SearchProvisionedProductsOutput",
-)({
-  ProvisionedProducts: S.optional(ProvisionedProductAttributes),
-  TotalResultsCount: S.optional(S.Number),
-  NextPageToken: S.optional(S.String),
-}) {}
-export class ResourceChangeDetail extends S.Class<ResourceChangeDetail>(
-  "ResourceChangeDetail",
-)({
-  Target: S.optional(ResourceTargetDefinition),
-  Evaluation: S.optional(S.String),
-  CausingEntity: S.optional(S.String),
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateProductInput",
+}) as any as S.Schema<CreateProductInput>;
+export interface DescribePortfolioShareStatusOutput {
+  PortfolioShareToken?: string;
+  PortfolioId?: string;
+  OrganizationNodeValue?: string;
+  Status?: string;
+  ShareDetails?: ShareDetails;
+}
+export const DescribePortfolioShareStatusOutput = S.suspend(() =>
+  S.Struct({
+    PortfolioShareToken: S.optional(S.String),
+    PortfolioId: S.optional(S.String),
+    OrganizationNodeValue: S.optional(S.String),
+    Status: S.optional(S.String),
+    ShareDetails: S.optional(ShareDetails),
+  }),
+).annotations({
+  identifier: "DescribePortfolioShareStatusOutput",
+}) as any as S.Schema<DescribePortfolioShareStatusOutput>;
+export interface DescribeProvisioningArtifactOutput {
+  ProvisioningArtifactDetail?: ProvisioningArtifactDetail;
+  Info?: ProvisioningArtifactInfo;
+  Status?: string;
+  ProvisioningArtifactParameters?: ProvisioningArtifactParameters;
+}
+export const DescribeProvisioningArtifactOutput = S.suspend(() =>
+  S.Struct({
+    ProvisioningArtifactDetail: S.optional(ProvisioningArtifactDetail),
+    Info: S.optional(ProvisioningArtifactInfo),
+    Status: S.optional(S.String),
+    ProvisioningArtifactParameters: S.optional(ProvisioningArtifactParameters),
+  }),
+).annotations({
+  identifier: "DescribeProvisioningArtifactOutput",
+}) as any as S.Schema<DescribeProvisioningArtifactOutput>;
+export interface DescribeRecordOutput {
+  RecordDetail?: RecordDetail;
+  RecordOutputs?: RecordOutputs;
+  NextPageToken?: string;
+}
+export const DescribeRecordOutput = S.suspend(() =>
+  S.Struct({
+    RecordDetail: S.optional(RecordDetail),
+    RecordOutputs: S.optional(RecordOutputs),
+    NextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DescribeRecordOutput",
+}) as any as S.Schema<DescribeRecordOutput>;
+export interface ListProvisionedProductPlansOutput {
+  ProvisionedProductPlans?: ProvisionedProductPlans;
+  NextPageToken?: string;
+}
+export const ListProvisionedProductPlansOutput = S.suspend(() =>
+  S.Struct({
+    ProvisionedProductPlans: S.optional(ProvisionedProductPlans),
+    NextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListProvisionedProductPlansOutput",
+}) as any as S.Schema<ListProvisionedProductPlansOutput>;
+export interface SearchProvisionedProductsOutput {
+  ProvisionedProducts?: ProvisionedProductAttributes;
+  TotalResultsCount?: number;
+  NextPageToken?: string;
+}
+export const SearchProvisionedProductsOutput = S.suspend(() =>
+  S.Struct({
+    ProvisionedProducts: S.optional(ProvisionedProductAttributes),
+    TotalResultsCount: S.optional(S.Number),
+    NextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SearchProvisionedProductsOutput",
+}) as any as S.Schema<SearchProvisionedProductsOutput>;
+export interface ResourceChangeDetail {
+  Target?: ResourceTargetDefinition;
+  Evaluation?: string;
+  CausingEntity?: string;
+}
+export const ResourceChangeDetail = S.suspend(() =>
+  S.Struct({
+    Target: S.optional(ResourceTargetDefinition),
+    Evaluation: S.optional(S.String),
+    CausingEntity: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ResourceChangeDetail",
+}) as any as S.Schema<ResourceChangeDetail>;
+export type ResourceChangeDetails = ResourceChangeDetail[];
 export const ResourceChangeDetails = S.Array(ResourceChangeDetail);
-export class ProductViewAggregationValue extends S.Class<ProductViewAggregationValue>(
-  "ProductViewAggregationValue",
-)({ Value: S.optional(S.String), ApproximateCount: S.optional(S.Number) }) {}
+export interface ProductViewAggregationValue {
+  Value?: string;
+  ApproximateCount?: number;
+}
+export const ProductViewAggregationValue = S.suspend(() =>
+  S.Struct({
+    Value: S.optional(S.String),
+    ApproximateCount: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "ProductViewAggregationValue",
+}) as any as S.Schema<ProductViewAggregationValue>;
+export type ProductViewAggregationValues = ProductViewAggregationValue[];
 export const ProductViewAggregationValues = S.Array(
   ProductViewAggregationValue,
 );
-export class ResourceChange extends S.Class<ResourceChange>("ResourceChange")({
-  Action: S.optional(S.String),
-  LogicalResourceId: S.optional(S.String),
-  PhysicalResourceId: S.optional(S.String),
-  ResourceType: S.optional(S.String),
-  Replacement: S.optional(S.String),
-  Scope: S.optional(Scope),
-  Details: S.optional(ResourceChangeDetails),
-}) {}
+export interface ResourceChange {
+  Action?: string;
+  LogicalResourceId?: string;
+  PhysicalResourceId?: string;
+  ResourceType?: string;
+  Replacement?: string;
+  Scope?: Scope;
+  Details?: ResourceChangeDetails;
+}
+export const ResourceChange = S.suspend(() =>
+  S.Struct({
+    Action: S.optional(S.String),
+    LogicalResourceId: S.optional(S.String),
+    PhysicalResourceId: S.optional(S.String),
+    ResourceType: S.optional(S.String),
+    Replacement: S.optional(S.String),
+    Scope: S.optional(Scope),
+    Details: S.optional(ResourceChangeDetails),
+  }),
+).annotations({
+  identifier: "ResourceChange",
+}) as any as S.Schema<ResourceChange>;
+export type ResourceChanges = ResourceChange[];
 export const ResourceChanges = S.Array(ResourceChange);
+export type ProductViewAggregations = {
+  [key: string]: ProductViewAggregationValues;
+};
 export const ProductViewAggregations = S.Record({
   key: S.String,
   value: ProductViewAggregationValues,
 });
-export class CreateProductOutput extends S.Class<CreateProductOutput>(
-  "CreateProductOutput",
-)({
-  ProductViewDetail: S.optional(ProductViewDetail),
-  ProvisioningArtifactDetail: S.optional(ProvisioningArtifactDetail),
-  Tags: S.optional(Tags),
-}) {}
-export class DescribeProductAsAdminOutput extends S.Class<DescribeProductAsAdminOutput>(
-  "DescribeProductAsAdminOutput",
-)({
-  ProductViewDetail: S.optional(ProductViewDetail),
-  ProvisioningArtifactSummaries: S.optional(ProvisioningArtifactSummaries),
-  Tags: S.optional(Tags),
-  TagOptions: S.optional(TagOptionDetails),
-  Budgets: S.optional(Budgets),
-}) {}
-export class DescribeProvisionedProductPlanOutput extends S.Class<DescribeProvisionedProductPlanOutput>(
-  "DescribeProvisionedProductPlanOutput",
-)({
-  ProvisionedProductPlanDetails: S.optional(ProvisionedProductPlanDetails),
-  ResourceChanges: S.optional(ResourceChanges),
-  NextPageToken: S.optional(S.String),
-}) {}
-export class SearchProductsOutput extends S.Class<SearchProductsOutput>(
-  "SearchProductsOutput",
-)({
-  ProductViewSummaries: S.optional(ProductViewSummaries),
-  ProductViewAggregations: S.optional(ProductViewAggregations),
-  NextPageToken: S.optional(S.String),
-}) {}
+export interface CreateProductOutput {
+  ProductViewDetail?: ProductViewDetail;
+  ProvisioningArtifactDetail?: ProvisioningArtifactDetail;
+  Tags?: Tags;
+}
+export const CreateProductOutput = S.suspend(() =>
+  S.Struct({
+    ProductViewDetail: S.optional(ProductViewDetail),
+    ProvisioningArtifactDetail: S.optional(ProvisioningArtifactDetail),
+    Tags: S.optional(Tags),
+  }),
+).annotations({
+  identifier: "CreateProductOutput",
+}) as any as S.Schema<CreateProductOutput>;
+export interface DescribeProductAsAdminOutput {
+  ProductViewDetail?: ProductViewDetail;
+  ProvisioningArtifactSummaries?: ProvisioningArtifactSummaries;
+  Tags?: Tags;
+  TagOptions?: TagOptionDetails;
+  Budgets?: Budgets;
+}
+export const DescribeProductAsAdminOutput = S.suspend(() =>
+  S.Struct({
+    ProductViewDetail: S.optional(ProductViewDetail),
+    ProvisioningArtifactSummaries: S.optional(ProvisioningArtifactSummaries),
+    Tags: S.optional(Tags),
+    TagOptions: S.optional(TagOptionDetails),
+    Budgets: S.optional(Budgets),
+  }),
+).annotations({
+  identifier: "DescribeProductAsAdminOutput",
+}) as any as S.Schema<DescribeProductAsAdminOutput>;
+export interface DescribeProvisionedProductPlanOutput {
+  ProvisionedProductPlanDetails?: ProvisionedProductPlanDetails;
+  ResourceChanges?: ResourceChanges;
+  NextPageToken?: string;
+}
+export const DescribeProvisionedProductPlanOutput = S.suspend(() =>
+  S.Struct({
+    ProvisionedProductPlanDetails: S.optional(ProvisionedProductPlanDetails),
+    ResourceChanges: S.optional(ResourceChanges),
+    NextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DescribeProvisionedProductPlanOutput",
+}) as any as S.Schema<DescribeProvisionedProductPlanOutput>;
+export interface SearchProductsOutput {
+  ProductViewSummaries?: ProductViewSummaries;
+  ProductViewAggregations?: ProductViewAggregations;
+  NextPageToken?: string;
+}
+export const SearchProductsOutput = S.suspend(() =>
+  S.Struct({
+    ProductViewSummaries: S.optional(ProductViewSummaries),
+    ProductViewAggregations: S.optional(ProductViewAggregations),
+    NextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SearchProductsOutput",
+}) as any as S.Schema<SearchProductsOutput>;
 
 //# Errors
 export class InvalidStateException extends S.TaggedError<InvalidStateException>()(

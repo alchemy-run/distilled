@@ -239,277 +239,528 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class AssociateFraudsterRequest extends S.Class<AssociateFraudsterRequest>(
-  "AssociateFraudsterRequest",
-)(
-  { DomainId: S.String, WatchlistId: S.String, FraudsterId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateWatchlistRequest extends S.Class<CreateWatchlistRequest>(
-  "CreateWatchlistRequest",
-)(
-  {
+export interface AssociateFraudsterRequest {
+  DomainId: string;
+  WatchlistId: string;
+  FraudsterId: string;
+}
+export const AssociateFraudsterRequest = S.suspend(() =>
+  S.Struct({
+    DomainId: S.String,
+    WatchlistId: S.String,
+    FraudsterId: S.String,
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "AssociateFraudsterRequest",
+}) as any as S.Schema<AssociateFraudsterRequest>;
+export interface CreateWatchlistRequest {
+  DomainId: string;
+  Name: string;
+  Description?: string;
+  ClientToken?: string;
+}
+export const CreateWatchlistRequest = S.suspend(() =>
+  S.Struct({
     DomainId: S.String,
     Name: S.String,
     Description: S.optional(S.String),
     ClientToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteFraudsterRequest extends S.Class<DeleteFraudsterRequest>(
-  "DeleteFraudsterRequest",
-)(
-  { DomainId: S.String, FraudsterId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteFraudsterResponse extends S.Class<DeleteFraudsterResponse>(
-  "DeleteFraudsterResponse",
-)({}) {}
-export class DeleteSpeakerRequest extends S.Class<DeleteSpeakerRequest>(
-  "DeleteSpeakerRequest",
-)(
-  { DomainId: S.String, SpeakerId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteSpeakerResponse extends S.Class<DeleteSpeakerResponse>(
-  "DeleteSpeakerResponse",
-)({}) {}
-export class DeleteWatchlistRequest extends S.Class<DeleteWatchlistRequest>(
-  "DeleteWatchlistRequest",
-)(
-  { DomainId: S.String, WatchlistId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteWatchlistResponse extends S.Class<DeleteWatchlistResponse>(
-  "DeleteWatchlistResponse",
-)({}) {}
-export class DescribeFraudsterRequest extends S.Class<DescribeFraudsterRequest>(
-  "DescribeFraudsterRequest",
-)(
-  { DomainId: S.String, FraudsterId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeFraudsterRegistrationJobRequest extends S.Class<DescribeFraudsterRegistrationJobRequest>(
-  "DescribeFraudsterRegistrationJobRequest",
-)(
-  { DomainId: S.String, JobId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeSpeakerRequest extends S.Class<DescribeSpeakerRequest>(
-  "DescribeSpeakerRequest",
-)(
-  { DomainId: S.String, SpeakerId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeSpeakerEnrollmentJobRequest extends S.Class<DescribeSpeakerEnrollmentJobRequest>(
-  "DescribeSpeakerEnrollmentJobRequest",
-)(
-  { DomainId: S.String, JobId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeWatchlistRequest extends S.Class<DescribeWatchlistRequest>(
-  "DescribeWatchlistRequest",
-)(
-  { DomainId: S.String, WatchlistId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DisassociateFraudsterRequest extends S.Class<DisassociateFraudsterRequest>(
-  "DisassociateFraudsterRequest",
-)(
-  { DomainId: S.String, WatchlistId: S.String, FraudsterId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class EvaluateSessionRequest extends S.Class<EvaluateSessionRequest>(
-  "EvaluateSessionRequest",
-)(
-  { DomainId: S.String, SessionNameOrId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListFraudsterRegistrationJobsRequest extends S.Class<ListFraudsterRegistrationJobsRequest>(
-  "ListFraudsterRegistrationJobsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateWatchlistRequest",
+}) as any as S.Schema<CreateWatchlistRequest>;
+export interface DeleteFraudsterRequest {
+  DomainId: string;
+  FraudsterId: string;
+}
+export const DeleteFraudsterRequest = S.suspend(() =>
+  S.Struct({ DomainId: S.String, FraudsterId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteFraudsterRequest",
+}) as any as S.Schema<DeleteFraudsterRequest>;
+export interface DeleteFraudsterResponse {}
+export const DeleteFraudsterResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteFraudsterResponse",
+}) as any as S.Schema<DeleteFraudsterResponse>;
+export interface DeleteSpeakerRequest {
+  DomainId: string;
+  SpeakerId: string;
+}
+export const DeleteSpeakerRequest = S.suspend(() =>
+  S.Struct({ DomainId: S.String, SpeakerId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteSpeakerRequest",
+}) as any as S.Schema<DeleteSpeakerRequest>;
+export interface DeleteSpeakerResponse {}
+export const DeleteSpeakerResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteSpeakerResponse",
+}) as any as S.Schema<DeleteSpeakerResponse>;
+export interface DeleteWatchlistRequest {
+  DomainId: string;
+  WatchlistId: string;
+}
+export const DeleteWatchlistRequest = S.suspend(() =>
+  S.Struct({ DomainId: S.String, WatchlistId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteWatchlistRequest",
+}) as any as S.Schema<DeleteWatchlistRequest>;
+export interface DeleteWatchlistResponse {}
+export const DeleteWatchlistResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteWatchlistResponse",
+}) as any as S.Schema<DeleteWatchlistResponse>;
+export interface DescribeFraudsterRequest {
+  DomainId: string;
+  FraudsterId: string;
+}
+export const DescribeFraudsterRequest = S.suspend(() =>
+  S.Struct({ DomainId: S.String, FraudsterId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeFraudsterRequest",
+}) as any as S.Schema<DescribeFraudsterRequest>;
+export interface DescribeFraudsterRegistrationJobRequest {
+  DomainId: string;
+  JobId: string;
+}
+export const DescribeFraudsterRegistrationJobRequest = S.suspend(() =>
+  S.Struct({ DomainId: S.String, JobId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeFraudsterRegistrationJobRequest",
+}) as any as S.Schema<DescribeFraudsterRegistrationJobRequest>;
+export interface DescribeSpeakerRequest {
+  DomainId: string;
+  SpeakerId: string;
+}
+export const DescribeSpeakerRequest = S.suspend(() =>
+  S.Struct({ DomainId: S.String, SpeakerId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeSpeakerRequest",
+}) as any as S.Schema<DescribeSpeakerRequest>;
+export interface DescribeSpeakerEnrollmentJobRequest {
+  DomainId: string;
+  JobId: string;
+}
+export const DescribeSpeakerEnrollmentJobRequest = S.suspend(() =>
+  S.Struct({ DomainId: S.String, JobId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeSpeakerEnrollmentJobRequest",
+}) as any as S.Schema<DescribeSpeakerEnrollmentJobRequest>;
+export interface DescribeWatchlistRequest {
+  DomainId: string;
+  WatchlistId: string;
+}
+export const DescribeWatchlistRequest = S.suspend(() =>
+  S.Struct({ DomainId: S.String, WatchlistId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeWatchlistRequest",
+}) as any as S.Schema<DescribeWatchlistRequest>;
+export interface DisassociateFraudsterRequest {
+  DomainId: string;
+  WatchlistId: string;
+  FraudsterId: string;
+}
+export const DisassociateFraudsterRequest = S.suspend(() =>
+  S.Struct({
+    DomainId: S.String,
+    WatchlistId: S.String,
+    FraudsterId: S.String,
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DisassociateFraudsterRequest",
+}) as any as S.Schema<DisassociateFraudsterRequest>;
+export interface EvaluateSessionRequest {
+  DomainId: string;
+  SessionNameOrId: string;
+}
+export const EvaluateSessionRequest = S.suspend(() =>
+  S.Struct({ DomainId: S.String, SessionNameOrId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "EvaluateSessionRequest",
+}) as any as S.Schema<EvaluateSessionRequest>;
+export interface ListFraudsterRegistrationJobsRequest {
+  DomainId: string;
+  JobStatus?: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListFraudsterRegistrationJobsRequest = S.suspend(() =>
+  S.Struct({
     DomainId: S.String,
     JobStatus: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListFraudstersRequest extends S.Class<ListFraudstersRequest>(
-  "ListFraudstersRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListFraudsterRegistrationJobsRequest",
+}) as any as S.Schema<ListFraudsterRegistrationJobsRequest>;
+export interface ListFraudstersRequest {
+  DomainId: string;
+  WatchlistId?: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListFraudstersRequest = S.suspend(() =>
+  S.Struct({
     DomainId: S.String,
     WatchlistId: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListSpeakerEnrollmentJobsRequest extends S.Class<ListSpeakerEnrollmentJobsRequest>(
-  "ListSpeakerEnrollmentJobsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListFraudstersRequest",
+}) as any as S.Schema<ListFraudstersRequest>;
+export interface ListSpeakerEnrollmentJobsRequest {
+  DomainId: string;
+  JobStatus?: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListSpeakerEnrollmentJobsRequest = S.suspend(() =>
+  S.Struct({
     DomainId: S.String,
     JobStatus: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListSpeakersRequest extends S.Class<ListSpeakersRequest>(
-  "ListSpeakersRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListSpeakerEnrollmentJobsRequest",
+}) as any as S.Schema<ListSpeakerEnrollmentJobsRequest>;
+export interface ListSpeakersRequest {
+  DomainId: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListSpeakersRequest = S.suspend(() =>
+  S.Struct({
     DomainId: S.String,
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { ResourceArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListWatchlistsRequest extends S.Class<ListWatchlistsRequest>(
-  "ListWatchlistsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListSpeakersRequest",
+}) as any as S.Schema<ListSpeakersRequest>;
+export interface ListTagsForResourceRequest {
+  ResourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface ListWatchlistsRequest {
+  DomainId: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListWatchlistsRequest = S.suspend(() =>
+  S.Struct({
     DomainId: S.String,
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class OptOutSpeakerRequest extends S.Class<OptOutSpeakerRequest>(
-  "OptOutSpeakerRequest",
-)(
-  { DomainId: S.String, SpeakerId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  { ResourceArn: S.String, TagKeys: TagKeyList },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
-export class UpdateWatchlistRequest extends S.Class<UpdateWatchlistRequest>(
-  "UpdateWatchlistRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListWatchlistsRequest",
+}) as any as S.Schema<ListWatchlistsRequest>;
+export interface OptOutSpeakerRequest {
+  DomainId: string;
+  SpeakerId: string;
+}
+export const OptOutSpeakerRequest = S.suspend(() =>
+  S.Struct({ DomainId: S.String, SpeakerId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "OptOutSpeakerRequest",
+}) as any as S.Schema<OptOutSpeakerRequest>;
+export interface UntagResourceRequest {
+  ResourceArn: string;
+  TagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String, TagKeys: TagKeyList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface UpdateWatchlistRequest {
+  DomainId: string;
+  WatchlistId: string;
+  Name?: string;
+  Description?: string;
+}
+export const UpdateWatchlistRequest = S.suspend(() =>
+  S.Struct({
     DomainId: S.String,
     WatchlistId: S.String,
     Name: S.optional(S.String),
     Description: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeDomainRequest extends S.Class<DescribeDomainRequest>(
-  "DescribeDomainRequest",
-)(
-  { DomainId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ServerSideEncryptionConfiguration extends S.Class<ServerSideEncryptionConfiguration>(
-  "ServerSideEncryptionConfiguration",
-)({ KmsKeyId: S.String }) {}
-export class UpdateDomainRequest extends S.Class<UpdateDomainRequest>(
-  "UpdateDomainRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateWatchlistRequest",
+}) as any as S.Schema<UpdateWatchlistRequest>;
+export interface DescribeDomainRequest {
+  DomainId: string;
+}
+export const DescribeDomainRequest = S.suspend(() =>
+  S.Struct({ DomainId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeDomainRequest",
+}) as any as S.Schema<DescribeDomainRequest>;
+export interface ServerSideEncryptionConfiguration {
+  KmsKeyId: string;
+}
+export const ServerSideEncryptionConfiguration = S.suspend(() =>
+  S.Struct({ KmsKeyId: S.String }),
+).annotations({
+  identifier: "ServerSideEncryptionConfiguration",
+}) as any as S.Schema<ServerSideEncryptionConfiguration>;
+export interface UpdateDomainRequest {
+  DomainId: string;
+  Name: string;
+  Description?: string;
+  ServerSideEncryptionConfiguration: ServerSideEncryptionConfiguration;
+}
+export const UpdateDomainRequest = S.suspend(() =>
+  S.Struct({
     DomainId: S.String,
     Name: S.String,
     Description: S.optional(S.String),
     ServerSideEncryptionConfiguration: ServerSideEncryptionConfiguration,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteDomainRequest extends S.Class<DeleteDomainRequest>(
-  "DeleteDomainRequest",
-)(
-  { DomainId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteDomainResponse extends S.Class<DeleteDomainResponse>(
-  "DeleteDomainResponse",
-)({}) {}
-export class ListDomainsRequest extends S.Class<ListDomainsRequest>(
-  "ListDomainsRequest",
-)(
-  { MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateDomainRequest",
+}) as any as S.Schema<UpdateDomainRequest>;
+export interface DeleteDomainRequest {
+  DomainId: string;
+}
+export const DeleteDomainRequest = S.suspend(() =>
+  S.Struct({ DomainId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteDomainRequest",
+}) as any as S.Schema<DeleteDomainRequest>;
+export interface DeleteDomainResponse {}
+export const DeleteDomainResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteDomainResponse",
+}) as any as S.Schema<DeleteDomainResponse>;
+export interface ListDomainsRequest {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListDomainsRequest = S.suspend(() =>
+  S.Struct({
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListDomainsRequest",
+}) as any as S.Schema<ListDomainsRequest>;
+export type RegistrationConfigWatchlistIds = string[];
 export const RegistrationConfigWatchlistIds = S.Array(S.String);
-export class RegistrationConfig extends S.Class<RegistrationConfig>(
-  "RegistrationConfig",
-)({
-  DuplicateRegistrationAction: S.optional(S.String),
-  FraudsterSimilarityThreshold: S.optional(S.Number),
-  WatchlistIds: S.optional(RegistrationConfigWatchlistIds),
-}) {}
-export class InputDataConfig extends S.Class<InputDataConfig>(
-  "InputDataConfig",
-)({ S3Uri: S.String }) {}
-export class OutputDataConfig extends S.Class<OutputDataConfig>(
-  "OutputDataConfig",
-)({ S3Uri: S.String, KmsKeyId: S.optional(S.String) }) {}
-export class Tag extends S.Class<Tag>("Tag")({
-  Key: S.String,
-  Value: S.String,
-}) {}
+export interface RegistrationConfig {
+  DuplicateRegistrationAction?: string;
+  FraudsterSimilarityThreshold?: number;
+  WatchlistIds?: RegistrationConfigWatchlistIds;
+}
+export const RegistrationConfig = S.suspend(() =>
+  S.Struct({
+    DuplicateRegistrationAction: S.optional(S.String),
+    FraudsterSimilarityThreshold: S.optional(S.Number),
+    WatchlistIds: S.optional(RegistrationConfigWatchlistIds),
+  }),
+).annotations({
+  identifier: "RegistrationConfig",
+}) as any as S.Schema<RegistrationConfig>;
+export interface InputDataConfig {
+  S3Uri: string;
+}
+export const InputDataConfig = S.suspend(() =>
+  S.Struct({ S3Uri: S.String }),
+).annotations({
+  identifier: "InputDataConfig",
+}) as any as S.Schema<InputDataConfig>;
+export interface OutputDataConfig {
+  S3Uri: string;
+  KmsKeyId?: string;
+}
+export const OutputDataConfig = S.suspend(() =>
+  S.Struct({ S3Uri: S.String, KmsKeyId: S.optional(S.String) }),
+).annotations({
+  identifier: "OutputDataConfig",
+}) as any as S.Schema<OutputDataConfig>;
+export interface Tag {
+  Key: string;
+  Value: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ Key: S.String, Value: S.String }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagList = Tag[];
 export const TagList = S.Array(Tag);
+export type EnrollmentJobFraudDetectionConfigWatchlistIds = string[];
 export const EnrollmentJobFraudDetectionConfigWatchlistIds = S.Array(S.String);
+export type ResponseWatchlistIds = string[];
 export const ResponseWatchlistIds = S.Array(S.String);
-export class Fraudster extends S.Class<Fraudster>("Fraudster")({
-  DomainId: S.optional(S.String),
-  GeneratedFraudsterId: S.optional(S.String),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  WatchlistIds: S.optional(ResponseWatchlistIds),
-}) {}
-export class DescribeFraudsterResponse extends S.Class<DescribeFraudsterResponse>(
-  "DescribeFraudsterResponse",
-)({ Fraudster: S.optional(Fraudster) }) {}
-export class Watchlist extends S.Class<Watchlist>("Watchlist")({
-  DomainId: S.optional(S.String),
-  WatchlistId: S.optional(S.String),
-  Name: S.optional(S.String),
-  Description: S.optional(S.String),
-  DefaultWatchlist: S.optional(S.Boolean),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class DescribeWatchlistResponse extends S.Class<DescribeWatchlistResponse>(
-  "DescribeWatchlistResponse",
-)({ Watchlist: S.optional(Watchlist) }) {}
-export class DisassociateFraudsterResponse extends S.Class<DisassociateFraudsterResponse>(
-  "DisassociateFraudsterResponse",
-)({ Fraudster: S.optional(Fraudster) }) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ Tags: S.optional(TagList) }) {}
-export class Speaker extends S.Class<Speaker>("Speaker")({
-  DomainId: S.optional(S.String),
-  CustomerSpeakerId: S.optional(S.String),
-  GeneratedSpeakerId: S.optional(S.String),
-  Status: S.optional(S.String),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastAccessedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class OptOutSpeakerResponse extends S.Class<OptOutSpeakerResponse>(
-  "OptOutSpeakerResponse",
-)({ Speaker: S.optional(Speaker) }) {}
-export class StartFraudsterRegistrationJobRequest extends S.Class<StartFraudsterRegistrationJobRequest>(
-  "StartFraudsterRegistrationJobRequest",
-)(
-  {
+export interface Fraudster {
+  DomainId?: string;
+  GeneratedFraudsterId?: string;
+  CreatedAt?: Date;
+  WatchlistIds?: ResponseWatchlistIds;
+}
+export const Fraudster = S.suspend(() =>
+  S.Struct({
+    DomainId: S.optional(S.String),
+    GeneratedFraudsterId: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    WatchlistIds: S.optional(ResponseWatchlistIds),
+  }),
+).annotations({ identifier: "Fraudster" }) as any as S.Schema<Fraudster>;
+export interface DescribeFraudsterResponse {
+  Fraudster?: Fraudster;
+}
+export const DescribeFraudsterResponse = S.suspend(() =>
+  S.Struct({ Fraudster: S.optional(Fraudster) }),
+).annotations({
+  identifier: "DescribeFraudsterResponse",
+}) as any as S.Schema<DescribeFraudsterResponse>;
+export interface Watchlist {
+  DomainId?: string;
+  WatchlistId?: string;
+  Name?: string;
+  Description?: string;
+  DefaultWatchlist?: boolean;
+  CreatedAt?: Date;
+  UpdatedAt?: Date;
+}
+export const Watchlist = S.suspend(() =>
+  S.Struct({
+    DomainId: S.optional(S.String),
+    WatchlistId: S.optional(S.String),
+    Name: S.optional(S.String),
+    Description: S.optional(S.String),
+    DefaultWatchlist: S.optional(S.Boolean),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({ identifier: "Watchlist" }) as any as S.Schema<Watchlist>;
+export interface DescribeWatchlistResponse {
+  Watchlist?: Watchlist;
+}
+export const DescribeWatchlistResponse = S.suspend(() =>
+  S.Struct({ Watchlist: S.optional(Watchlist) }),
+).annotations({
+  identifier: "DescribeWatchlistResponse",
+}) as any as S.Schema<DescribeWatchlistResponse>;
+export interface DisassociateFraudsterResponse {
+  Fraudster?: Fraudster;
+}
+export const DisassociateFraudsterResponse = S.suspend(() =>
+  S.Struct({ Fraudster: S.optional(Fraudster) }),
+).annotations({
+  identifier: "DisassociateFraudsterResponse",
+}) as any as S.Schema<DisassociateFraudsterResponse>;
+export interface ListTagsForResourceResponse {
+  Tags?: TagList;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ Tags: S.optional(TagList) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface Speaker {
+  DomainId?: string;
+  CustomerSpeakerId?: string;
+  GeneratedSpeakerId?: string;
+  Status?: string;
+  CreatedAt?: Date;
+  UpdatedAt?: Date;
+  LastAccessedAt?: Date;
+}
+export const Speaker = S.suspend(() =>
+  S.Struct({
+    DomainId: S.optional(S.String),
+    CustomerSpeakerId: S.optional(S.String),
+    GeneratedSpeakerId: S.optional(S.String),
+    Status: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastAccessedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({ identifier: "Speaker" }) as any as S.Schema<Speaker>;
+export interface OptOutSpeakerResponse {
+  Speaker?: Speaker;
+}
+export const OptOutSpeakerResponse = S.suspend(() =>
+  S.Struct({ Speaker: S.optional(Speaker) }),
+).annotations({
+  identifier: "OptOutSpeakerResponse",
+}) as any as S.Schema<OptOutSpeakerResponse>;
+export interface StartFraudsterRegistrationJobRequest {
+  ClientToken?: string;
+  JobName?: string;
+  DomainId: string;
+  DataAccessRoleArn: string;
+  RegistrationConfig?: RegistrationConfig;
+  InputDataConfig: InputDataConfig;
+  OutputDataConfig: OutputDataConfig;
+}
+export const StartFraudsterRegistrationJobRequest = S.suspend(() =>
+  S.Struct({
     ClientToken: S.optional(S.String),
     JobName: S.optional(S.String),
     DomainId: S.String,
@@ -517,242 +768,490 @@ export class StartFraudsterRegistrationJobRequest extends S.Class<StartFraudster
     RegistrationConfig: S.optional(RegistrationConfig),
     InputDataConfig: InputDataConfig,
     OutputDataConfig: OutputDataConfig,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { ResourceArn: S.String, Tags: TagList },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class UpdateWatchlistResponse extends S.Class<UpdateWatchlistResponse>(
-  "UpdateWatchlistResponse",
-)({ Watchlist: S.optional(Watchlist) }) {}
-export class CreateDomainRequest extends S.Class<CreateDomainRequest>(
-  "CreateDomainRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StartFraudsterRegistrationJobRequest",
+}) as any as S.Schema<StartFraudsterRegistrationJobRequest>;
+export interface TagResourceRequest {
+  ResourceArn: string;
+  Tags: TagList;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String, Tags: TagList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UpdateWatchlistResponse {
+  Watchlist?: Watchlist;
+}
+export const UpdateWatchlistResponse = S.suspend(() =>
+  S.Struct({ Watchlist: S.optional(Watchlist) }),
+).annotations({
+  identifier: "UpdateWatchlistResponse",
+}) as any as S.Schema<UpdateWatchlistResponse>;
+export interface CreateDomainRequest {
+  Name: string;
+  Description?: string;
+  ServerSideEncryptionConfiguration: ServerSideEncryptionConfiguration;
+  ClientToken?: string;
+  Tags?: TagList;
+}
+export const CreateDomainRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     Description: S.optional(S.String),
     ServerSideEncryptionConfiguration: ServerSideEncryptionConfiguration,
     ClientToken: S.optional(S.String),
     Tags: S.optional(TagList),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ServerSideEncryptionUpdateDetails extends S.Class<ServerSideEncryptionUpdateDetails>(
-  "ServerSideEncryptionUpdateDetails",
-)({
-  OldKmsKeyId: S.optional(S.String),
-  UpdateStatus: S.optional(S.String),
-  Message: S.optional(S.String),
-}) {}
-export class WatchlistDetails extends S.Class<WatchlistDetails>(
-  "WatchlistDetails",
-)({ DefaultWatchlistId: S.String }) {}
-export class Domain extends S.Class<Domain>("Domain")({
-  DomainId: S.optional(S.String),
-  Arn: S.optional(S.String),
-  Name: S.optional(S.String),
-  Description: S.optional(S.String),
-  DomainStatus: S.optional(S.String),
-  ServerSideEncryptionConfiguration: S.optional(
-    ServerSideEncryptionConfiguration,
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  ServerSideEncryptionUpdateDetails: S.optional(
-    ServerSideEncryptionUpdateDetails,
-  ),
-  WatchlistDetails: S.optional(WatchlistDetails),
-}) {}
-export class UpdateDomainResponse extends S.Class<UpdateDomainResponse>(
-  "UpdateDomainResponse",
-)({ Domain: S.optional(Domain) }) {}
+).annotations({
+  identifier: "CreateDomainRequest",
+}) as any as S.Schema<CreateDomainRequest>;
+export interface ServerSideEncryptionUpdateDetails {
+  OldKmsKeyId?: string;
+  UpdateStatus?: string;
+  Message?: string;
+}
+export const ServerSideEncryptionUpdateDetails = S.suspend(() =>
+  S.Struct({
+    OldKmsKeyId: S.optional(S.String),
+    UpdateStatus: S.optional(S.String),
+    Message: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ServerSideEncryptionUpdateDetails",
+}) as any as S.Schema<ServerSideEncryptionUpdateDetails>;
+export interface WatchlistDetails {
+  DefaultWatchlistId: string;
+}
+export const WatchlistDetails = S.suspend(() =>
+  S.Struct({ DefaultWatchlistId: S.String }),
+).annotations({
+  identifier: "WatchlistDetails",
+}) as any as S.Schema<WatchlistDetails>;
+export interface Domain {
+  DomainId?: string;
+  Arn?: string;
+  Name?: string;
+  Description?: string;
+  DomainStatus?: string;
+  ServerSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
+  CreatedAt?: Date;
+  UpdatedAt?: Date;
+  ServerSideEncryptionUpdateDetails?: ServerSideEncryptionUpdateDetails;
+  WatchlistDetails?: WatchlistDetails;
+}
+export const Domain = S.suspend(() =>
+  S.Struct({
+    DomainId: S.optional(S.String),
+    Arn: S.optional(S.String),
+    Name: S.optional(S.String),
+    Description: S.optional(S.String),
+    DomainStatus: S.optional(S.String),
+    ServerSideEncryptionConfiguration: S.optional(
+      ServerSideEncryptionConfiguration,
+    ),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ServerSideEncryptionUpdateDetails: S.optional(
+      ServerSideEncryptionUpdateDetails,
+    ),
+    WatchlistDetails: S.optional(WatchlistDetails),
+  }),
+).annotations({ identifier: "Domain" }) as any as S.Schema<Domain>;
+export interface UpdateDomainResponse {
+  Domain?: Domain;
+}
+export const UpdateDomainResponse = S.suspend(() =>
+  S.Struct({ Domain: S.optional(Domain) }),
+).annotations({
+  identifier: "UpdateDomainResponse",
+}) as any as S.Schema<UpdateDomainResponse>;
+export type FraudDetectionReasons = string[];
 export const FraudDetectionReasons = S.Array(S.String);
-export class EnrollmentJobFraudDetectionConfig extends S.Class<EnrollmentJobFraudDetectionConfig>(
-  "EnrollmentJobFraudDetectionConfig",
-)({
-  FraudDetectionAction: S.optional(S.String),
-  RiskThreshold: S.optional(S.Number),
-  WatchlistIds: S.optional(EnrollmentJobFraudDetectionConfigWatchlistIds),
-}) {}
-export class EnrollmentConfig extends S.Class<EnrollmentConfig>(
-  "EnrollmentConfig",
-)({
-  ExistingEnrollmentAction: S.optional(S.String),
-  FraudDetectionConfig: S.optional(EnrollmentJobFraudDetectionConfig),
-}) {}
-export class FailureDetails extends S.Class<FailureDetails>("FailureDetails")({
-  StatusCode: S.optional(S.Number),
-  Message: S.optional(S.String),
-}) {}
-export class JobProgress extends S.Class<JobProgress>("JobProgress")({
-  PercentComplete: S.optional(S.Number),
-}) {}
-export class SpeakerEnrollmentJob extends S.Class<SpeakerEnrollmentJob>(
-  "SpeakerEnrollmentJob",
-)({
-  JobName: S.optional(S.String),
-  JobId: S.optional(S.String),
-  JobStatus: S.optional(S.String),
-  DomainId: S.optional(S.String),
-  DataAccessRoleArn: S.optional(S.String),
-  EnrollmentConfig: S.optional(EnrollmentConfig),
-  InputDataConfig: S.optional(InputDataConfig),
-  OutputDataConfig: S.optional(OutputDataConfig),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  EndedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  FailureDetails: S.optional(FailureDetails),
-  JobProgress: S.optional(JobProgress),
-}) {}
-export class FraudsterRegistrationJobSummary extends S.Class<FraudsterRegistrationJobSummary>(
-  "FraudsterRegistrationJobSummary",
-)({
-  JobName: S.optional(S.String),
-  JobId: S.optional(S.String),
-  JobStatus: S.optional(S.String),
-  DomainId: S.optional(S.String),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  EndedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  FailureDetails: S.optional(FailureDetails),
-  JobProgress: S.optional(JobProgress),
-}) {}
+export interface EnrollmentJobFraudDetectionConfig {
+  FraudDetectionAction?: string;
+  RiskThreshold?: number;
+  WatchlistIds?: EnrollmentJobFraudDetectionConfigWatchlistIds;
+}
+export const EnrollmentJobFraudDetectionConfig = S.suspend(() =>
+  S.Struct({
+    FraudDetectionAction: S.optional(S.String),
+    RiskThreshold: S.optional(S.Number),
+    WatchlistIds: S.optional(EnrollmentJobFraudDetectionConfigWatchlistIds),
+  }),
+).annotations({
+  identifier: "EnrollmentJobFraudDetectionConfig",
+}) as any as S.Schema<EnrollmentJobFraudDetectionConfig>;
+export interface EnrollmentConfig {
+  ExistingEnrollmentAction?: string;
+  FraudDetectionConfig?: EnrollmentJobFraudDetectionConfig;
+}
+export const EnrollmentConfig = S.suspend(() =>
+  S.Struct({
+    ExistingEnrollmentAction: S.optional(S.String),
+    FraudDetectionConfig: S.optional(EnrollmentJobFraudDetectionConfig),
+  }),
+).annotations({
+  identifier: "EnrollmentConfig",
+}) as any as S.Schema<EnrollmentConfig>;
+export interface FailureDetails {
+  StatusCode?: number;
+  Message?: string;
+}
+export const FailureDetails = S.suspend(() =>
+  S.Struct({ StatusCode: S.optional(S.Number), Message: S.optional(S.String) }),
+).annotations({
+  identifier: "FailureDetails",
+}) as any as S.Schema<FailureDetails>;
+export interface JobProgress {
+  PercentComplete?: number;
+}
+export const JobProgress = S.suspend(() =>
+  S.Struct({ PercentComplete: S.optional(S.Number) }),
+).annotations({ identifier: "JobProgress" }) as any as S.Schema<JobProgress>;
+export interface SpeakerEnrollmentJob {
+  JobName?: string;
+  JobId?: string;
+  JobStatus?: string;
+  DomainId?: string;
+  DataAccessRoleArn?: string;
+  EnrollmentConfig?: EnrollmentConfig;
+  InputDataConfig?: InputDataConfig;
+  OutputDataConfig?: OutputDataConfig;
+  CreatedAt?: Date;
+  EndedAt?: Date;
+  FailureDetails?: FailureDetails;
+  JobProgress?: JobProgress;
+}
+export const SpeakerEnrollmentJob = S.suspend(() =>
+  S.Struct({
+    JobName: S.optional(S.String),
+    JobId: S.optional(S.String),
+    JobStatus: S.optional(S.String),
+    DomainId: S.optional(S.String),
+    DataAccessRoleArn: S.optional(S.String),
+    EnrollmentConfig: S.optional(EnrollmentConfig),
+    InputDataConfig: S.optional(InputDataConfig),
+    OutputDataConfig: S.optional(OutputDataConfig),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EndedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    FailureDetails: S.optional(FailureDetails),
+    JobProgress: S.optional(JobProgress),
+  }),
+).annotations({
+  identifier: "SpeakerEnrollmentJob",
+}) as any as S.Schema<SpeakerEnrollmentJob>;
+export interface FraudsterRegistrationJobSummary {
+  JobName?: string;
+  JobId?: string;
+  JobStatus?: string;
+  DomainId?: string;
+  CreatedAt?: Date;
+  EndedAt?: Date;
+  FailureDetails?: FailureDetails;
+  JobProgress?: JobProgress;
+}
+export const FraudsterRegistrationJobSummary = S.suspend(() =>
+  S.Struct({
+    JobName: S.optional(S.String),
+    JobId: S.optional(S.String),
+    JobStatus: S.optional(S.String),
+    DomainId: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EndedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    FailureDetails: S.optional(FailureDetails),
+    JobProgress: S.optional(JobProgress),
+  }),
+).annotations({
+  identifier: "FraudsterRegistrationJobSummary",
+}) as any as S.Schema<FraudsterRegistrationJobSummary>;
+export type FraudsterRegistrationJobSummaries =
+  FraudsterRegistrationJobSummary[];
 export const FraudsterRegistrationJobSummaries = S.Array(
   FraudsterRegistrationJobSummary,
 );
-export class FraudsterSummary extends S.Class<FraudsterSummary>(
-  "FraudsterSummary",
-)({
-  DomainId: S.optional(S.String),
-  GeneratedFraudsterId: S.optional(S.String),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  WatchlistIds: S.optional(ResponseWatchlistIds),
-}) {}
+export interface FraudsterSummary {
+  DomainId?: string;
+  GeneratedFraudsterId?: string;
+  CreatedAt?: Date;
+  WatchlistIds?: ResponseWatchlistIds;
+}
+export const FraudsterSummary = S.suspend(() =>
+  S.Struct({
+    DomainId: S.optional(S.String),
+    GeneratedFraudsterId: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    WatchlistIds: S.optional(ResponseWatchlistIds),
+  }),
+).annotations({
+  identifier: "FraudsterSummary",
+}) as any as S.Schema<FraudsterSummary>;
+export type FraudsterSummaries = FraudsterSummary[];
 export const FraudsterSummaries = S.Array(FraudsterSummary);
-export class SpeakerEnrollmentJobSummary extends S.Class<SpeakerEnrollmentJobSummary>(
-  "SpeakerEnrollmentJobSummary",
-)({
-  JobName: S.optional(S.String),
-  JobId: S.optional(S.String),
-  JobStatus: S.optional(S.String),
-  DomainId: S.optional(S.String),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  EndedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  FailureDetails: S.optional(FailureDetails),
-  JobProgress: S.optional(JobProgress),
-}) {}
+export interface SpeakerEnrollmentJobSummary {
+  JobName?: string;
+  JobId?: string;
+  JobStatus?: string;
+  DomainId?: string;
+  CreatedAt?: Date;
+  EndedAt?: Date;
+  FailureDetails?: FailureDetails;
+  JobProgress?: JobProgress;
+}
+export const SpeakerEnrollmentJobSummary = S.suspend(() =>
+  S.Struct({
+    JobName: S.optional(S.String),
+    JobId: S.optional(S.String),
+    JobStatus: S.optional(S.String),
+    DomainId: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EndedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    FailureDetails: S.optional(FailureDetails),
+    JobProgress: S.optional(JobProgress),
+  }),
+).annotations({
+  identifier: "SpeakerEnrollmentJobSummary",
+}) as any as S.Schema<SpeakerEnrollmentJobSummary>;
+export type SpeakerEnrollmentJobSummaries = SpeakerEnrollmentJobSummary[];
 export const SpeakerEnrollmentJobSummaries = S.Array(
   SpeakerEnrollmentJobSummary,
 );
-export class SpeakerSummary extends S.Class<SpeakerSummary>("SpeakerSummary")({
-  DomainId: S.optional(S.String),
-  CustomerSpeakerId: S.optional(S.String),
-  GeneratedSpeakerId: S.optional(S.String),
-  Status: S.optional(S.String),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastAccessedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface SpeakerSummary {
+  DomainId?: string;
+  CustomerSpeakerId?: string;
+  GeneratedSpeakerId?: string;
+  Status?: string;
+  CreatedAt?: Date;
+  UpdatedAt?: Date;
+  LastAccessedAt?: Date;
+}
+export const SpeakerSummary = S.suspend(() =>
+  S.Struct({
+    DomainId: S.optional(S.String),
+    CustomerSpeakerId: S.optional(S.String),
+    GeneratedSpeakerId: S.optional(S.String),
+    Status: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastAccessedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "SpeakerSummary",
+}) as any as S.Schema<SpeakerSummary>;
+export type SpeakerSummaries = SpeakerSummary[];
 export const SpeakerSummaries = S.Array(SpeakerSummary);
-export class WatchlistSummary extends S.Class<WatchlistSummary>(
-  "WatchlistSummary",
-)({
-  DomainId: S.optional(S.String),
-  WatchlistId: S.optional(S.String),
-  Name: S.optional(S.String),
-  Description: S.optional(S.String),
-  DefaultWatchlist: S.optional(S.Boolean),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface WatchlistSummary {
+  DomainId?: string;
+  WatchlistId?: string;
+  Name?: string;
+  Description?: string;
+  DefaultWatchlist?: boolean;
+  CreatedAt?: Date;
+  UpdatedAt?: Date;
+}
+export const WatchlistSummary = S.suspend(() =>
+  S.Struct({
+    DomainId: S.optional(S.String),
+    WatchlistId: S.optional(S.String),
+    Name: S.optional(S.String),
+    Description: S.optional(S.String),
+    DefaultWatchlist: S.optional(S.Boolean),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "WatchlistSummary",
+}) as any as S.Schema<WatchlistSummary>;
+export type WatchlistSummaries = WatchlistSummary[];
 export const WatchlistSummaries = S.Array(WatchlistSummary);
-export class DomainSummary extends S.Class<DomainSummary>("DomainSummary")({
-  DomainId: S.optional(S.String),
-  Arn: S.optional(S.String),
-  Name: S.optional(S.String),
-  Description: S.optional(S.String),
-  DomainStatus: S.optional(S.String),
-  ServerSideEncryptionConfiguration: S.optional(
-    ServerSideEncryptionConfiguration,
-  ),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  ServerSideEncryptionUpdateDetails: S.optional(
-    ServerSideEncryptionUpdateDetails,
-  ),
-  WatchlistDetails: S.optional(WatchlistDetails),
-}) {}
+export interface DomainSummary {
+  DomainId?: string;
+  Arn?: string;
+  Name?: string;
+  Description?: string;
+  DomainStatus?: string;
+  ServerSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
+  CreatedAt?: Date;
+  UpdatedAt?: Date;
+  ServerSideEncryptionUpdateDetails?: ServerSideEncryptionUpdateDetails;
+  WatchlistDetails?: WatchlistDetails;
+}
+export const DomainSummary = S.suspend(() =>
+  S.Struct({
+    DomainId: S.optional(S.String),
+    Arn: S.optional(S.String),
+    Name: S.optional(S.String),
+    Description: S.optional(S.String),
+    DomainStatus: S.optional(S.String),
+    ServerSideEncryptionConfiguration: S.optional(
+      ServerSideEncryptionConfiguration,
+    ),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ServerSideEncryptionUpdateDetails: S.optional(
+      ServerSideEncryptionUpdateDetails,
+    ),
+    WatchlistDetails: S.optional(WatchlistDetails),
+  }),
+).annotations({
+  identifier: "DomainSummary",
+}) as any as S.Schema<DomainSummary>;
+export type DomainSummaries = DomainSummary[];
 export const DomainSummaries = S.Array(DomainSummary);
-export class AssociateFraudsterResponse extends S.Class<AssociateFraudsterResponse>(
-  "AssociateFraudsterResponse",
-)({ Fraudster: S.optional(Fraudster) }) {}
-export class CreateWatchlistResponse extends S.Class<CreateWatchlistResponse>(
-  "CreateWatchlistResponse",
-)({ Watchlist: S.optional(Watchlist) }) {}
-export class DescribeSpeakerResponse extends S.Class<DescribeSpeakerResponse>(
-  "DescribeSpeakerResponse",
-)({ Speaker: S.optional(Speaker) }) {}
-export class DescribeSpeakerEnrollmentJobResponse extends S.Class<DescribeSpeakerEnrollmentJobResponse>(
-  "DescribeSpeakerEnrollmentJobResponse",
-)({ Job: S.optional(SpeakerEnrollmentJob) }) {}
-export class ListFraudsterRegistrationJobsResponse extends S.Class<ListFraudsterRegistrationJobsResponse>(
-  "ListFraudsterRegistrationJobsResponse",
-)({
-  JobSummaries: S.optional(FraudsterRegistrationJobSummaries),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListFraudstersResponse extends S.Class<ListFraudstersResponse>(
-  "ListFraudstersResponse",
-)({
-  FraudsterSummaries: S.optional(FraudsterSummaries),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListSpeakerEnrollmentJobsResponse extends S.Class<ListSpeakerEnrollmentJobsResponse>(
-  "ListSpeakerEnrollmentJobsResponse",
-)({
-  JobSummaries: S.optional(SpeakerEnrollmentJobSummaries),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListSpeakersResponse extends S.Class<ListSpeakersResponse>(
-  "ListSpeakersResponse",
-)({
-  SpeakerSummaries: S.optional(SpeakerSummaries),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListWatchlistsResponse extends S.Class<ListWatchlistsResponse>(
-  "ListWatchlistsResponse",
-)({
-  WatchlistSummaries: S.optional(WatchlistSummaries),
-  NextToken: S.optional(S.String),
-}) {}
-export class FraudsterRegistrationJob extends S.Class<FraudsterRegistrationJob>(
-  "FraudsterRegistrationJob",
-)({
-  JobName: S.optional(S.String),
-  JobId: S.optional(S.String),
-  JobStatus: S.optional(S.String),
-  DomainId: S.optional(S.String),
-  DataAccessRoleArn: S.optional(S.String),
-  RegistrationConfig: S.optional(RegistrationConfig),
-  InputDataConfig: S.optional(InputDataConfig),
-  OutputDataConfig: S.optional(OutputDataConfig),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  EndedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  FailureDetails: S.optional(FailureDetails),
-  JobProgress: S.optional(JobProgress),
-}) {}
-export class StartFraudsterRegistrationJobResponse extends S.Class<StartFraudsterRegistrationJobResponse>(
-  "StartFraudsterRegistrationJobResponse",
-)({ Job: S.optional(FraudsterRegistrationJob) }) {}
-export class StartSpeakerEnrollmentJobRequest extends S.Class<StartSpeakerEnrollmentJobRequest>(
-  "StartSpeakerEnrollmentJobRequest",
-)(
-  {
+export interface AssociateFraudsterResponse {
+  Fraudster?: Fraudster;
+}
+export const AssociateFraudsterResponse = S.suspend(() =>
+  S.Struct({ Fraudster: S.optional(Fraudster) }),
+).annotations({
+  identifier: "AssociateFraudsterResponse",
+}) as any as S.Schema<AssociateFraudsterResponse>;
+export interface CreateWatchlistResponse {
+  Watchlist?: Watchlist;
+}
+export const CreateWatchlistResponse = S.suspend(() =>
+  S.Struct({ Watchlist: S.optional(Watchlist) }),
+).annotations({
+  identifier: "CreateWatchlistResponse",
+}) as any as S.Schema<CreateWatchlistResponse>;
+export interface DescribeSpeakerResponse {
+  Speaker?: Speaker;
+}
+export const DescribeSpeakerResponse = S.suspend(() =>
+  S.Struct({ Speaker: S.optional(Speaker) }),
+).annotations({
+  identifier: "DescribeSpeakerResponse",
+}) as any as S.Schema<DescribeSpeakerResponse>;
+export interface DescribeSpeakerEnrollmentJobResponse {
+  Job?: SpeakerEnrollmentJob;
+}
+export const DescribeSpeakerEnrollmentJobResponse = S.suspend(() =>
+  S.Struct({ Job: S.optional(SpeakerEnrollmentJob) }),
+).annotations({
+  identifier: "DescribeSpeakerEnrollmentJobResponse",
+}) as any as S.Schema<DescribeSpeakerEnrollmentJobResponse>;
+export interface ListFraudsterRegistrationJobsResponse {
+  JobSummaries?: FraudsterRegistrationJobSummaries;
+  NextToken?: string;
+}
+export const ListFraudsterRegistrationJobsResponse = S.suspend(() =>
+  S.Struct({
+    JobSummaries: S.optional(FraudsterRegistrationJobSummaries),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListFraudsterRegistrationJobsResponse",
+}) as any as S.Schema<ListFraudsterRegistrationJobsResponse>;
+export interface ListFraudstersResponse {
+  FraudsterSummaries?: FraudsterSummaries;
+  NextToken?: string;
+}
+export const ListFraudstersResponse = S.suspend(() =>
+  S.Struct({
+    FraudsterSummaries: S.optional(FraudsterSummaries),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListFraudstersResponse",
+}) as any as S.Schema<ListFraudstersResponse>;
+export interface ListSpeakerEnrollmentJobsResponse {
+  JobSummaries?: SpeakerEnrollmentJobSummaries;
+  NextToken?: string;
+}
+export const ListSpeakerEnrollmentJobsResponse = S.suspend(() =>
+  S.Struct({
+    JobSummaries: S.optional(SpeakerEnrollmentJobSummaries),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListSpeakerEnrollmentJobsResponse",
+}) as any as S.Schema<ListSpeakerEnrollmentJobsResponse>;
+export interface ListSpeakersResponse {
+  SpeakerSummaries?: SpeakerSummaries;
+  NextToken?: string;
+}
+export const ListSpeakersResponse = S.suspend(() =>
+  S.Struct({
+    SpeakerSummaries: S.optional(SpeakerSummaries),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListSpeakersResponse",
+}) as any as S.Schema<ListSpeakersResponse>;
+export interface ListWatchlistsResponse {
+  WatchlistSummaries?: WatchlistSummaries;
+  NextToken?: string;
+}
+export const ListWatchlistsResponse = S.suspend(() =>
+  S.Struct({
+    WatchlistSummaries: S.optional(WatchlistSummaries),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListWatchlistsResponse",
+}) as any as S.Schema<ListWatchlistsResponse>;
+export interface FraudsterRegistrationJob {
+  JobName?: string;
+  JobId?: string;
+  JobStatus?: string;
+  DomainId?: string;
+  DataAccessRoleArn?: string;
+  RegistrationConfig?: RegistrationConfig;
+  InputDataConfig?: InputDataConfig;
+  OutputDataConfig?: OutputDataConfig;
+  CreatedAt?: Date;
+  EndedAt?: Date;
+  FailureDetails?: FailureDetails;
+  JobProgress?: JobProgress;
+}
+export const FraudsterRegistrationJob = S.suspend(() =>
+  S.Struct({
+    JobName: S.optional(S.String),
+    JobId: S.optional(S.String),
+    JobStatus: S.optional(S.String),
+    DomainId: S.optional(S.String),
+    DataAccessRoleArn: S.optional(S.String),
+    RegistrationConfig: S.optional(RegistrationConfig),
+    InputDataConfig: S.optional(InputDataConfig),
+    OutputDataConfig: S.optional(OutputDataConfig),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EndedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    FailureDetails: S.optional(FailureDetails),
+    JobProgress: S.optional(JobProgress),
+  }),
+).annotations({
+  identifier: "FraudsterRegistrationJob",
+}) as any as S.Schema<FraudsterRegistrationJob>;
+export interface StartFraudsterRegistrationJobResponse {
+  Job?: FraudsterRegistrationJob;
+}
+export const StartFraudsterRegistrationJobResponse = S.suspend(() =>
+  S.Struct({ Job: S.optional(FraudsterRegistrationJob) }),
+).annotations({
+  identifier: "StartFraudsterRegistrationJobResponse",
+}) as any as S.Schema<StartFraudsterRegistrationJobResponse>;
+export interface StartSpeakerEnrollmentJobRequest {
+  ClientToken?: string;
+  JobName?: string;
+  DomainId: string;
+  DataAccessRoleArn: string;
+  EnrollmentConfig?: EnrollmentConfig;
+  InputDataConfig: InputDataConfig;
+  OutputDataConfig: OutputDataConfig;
+}
+export const StartSpeakerEnrollmentJobRequest = S.suspend(() =>
+  S.Struct({
     ClientToken: S.optional(S.String),
     JobName: S.optional(S.String),
     DomainId: S.String,
@@ -760,86 +1259,179 @@ export class StartSpeakerEnrollmentJobRequest extends S.Class<StartSpeakerEnroll
     EnrollmentConfig: S.optional(EnrollmentConfig),
     InputDataConfig: InputDataConfig,
     OutputDataConfig: OutputDataConfig,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateDomainResponse extends S.Class<CreateDomainResponse>(
-  "CreateDomainResponse",
-)({ Domain: S.optional(Domain) }) {}
-export class ListDomainsResponse extends S.Class<ListDomainsResponse>(
-  "ListDomainsResponse",
-)({
-  DomainSummaries: S.optional(DomainSummaries),
-  NextToken: S.optional(S.String),
-}) {}
-export class AuthenticationConfiguration extends S.Class<AuthenticationConfiguration>(
-  "AuthenticationConfiguration",
-)({ AcceptanceThreshold: S.Number }) {}
-export class FraudDetectionConfiguration extends S.Class<FraudDetectionConfiguration>(
-  "FraudDetectionConfiguration",
-)({ RiskThreshold: S.optional(S.Number), WatchlistId: S.optional(S.String) }) {}
-export class AuthenticationResult extends S.Class<AuthenticationResult>(
-  "AuthenticationResult",
-)({
-  AuthenticationResultId: S.optional(S.String),
-  AudioAggregationStartedAt: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-  AudioAggregationEndedAt: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  CustomerSpeakerId: S.optional(S.String),
-  GeneratedSpeakerId: S.optional(S.String),
-  Decision: S.optional(S.String),
-  Score: S.optional(S.Number),
-  Configuration: S.optional(AuthenticationConfiguration),
-}) {}
-export class KnownFraudsterRisk extends S.Class<KnownFraudsterRisk>(
-  "KnownFraudsterRisk",
-)({ RiskScore: S.Number, GeneratedFraudsterId: S.optional(S.String) }) {}
-export class VoiceSpoofingRisk extends S.Class<VoiceSpoofingRisk>(
-  "VoiceSpoofingRisk",
-)({ RiskScore: S.Number }) {}
-export class DescribeFraudsterRegistrationJobResponse extends S.Class<DescribeFraudsterRegistrationJobResponse>(
-  "DescribeFraudsterRegistrationJobResponse",
-)({ Job: S.optional(FraudsterRegistrationJob) }) {}
-export class StartSpeakerEnrollmentJobResponse extends S.Class<StartSpeakerEnrollmentJobResponse>(
-  "StartSpeakerEnrollmentJobResponse",
-)({ Job: S.optional(SpeakerEnrollmentJob) }) {}
-export class DescribeDomainResponse extends S.Class<DescribeDomainResponse>(
-  "DescribeDomainResponse",
-)({ Domain: S.optional(Domain) }) {}
-export class FraudRiskDetails extends S.Class<FraudRiskDetails>(
-  "FraudRiskDetails",
-)({
-  KnownFraudsterRisk: KnownFraudsterRisk,
-  VoiceSpoofingRisk: VoiceSpoofingRisk,
-}) {}
-export class FraudDetectionResult extends S.Class<FraudDetectionResult>(
-  "FraudDetectionResult",
-)({
-  FraudDetectionResultId: S.optional(S.String),
-  AudioAggregationStartedAt: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  AudioAggregationEndedAt: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  Configuration: S.optional(FraudDetectionConfiguration),
-  Decision: S.optional(S.String),
-  Reasons: S.optional(FraudDetectionReasons),
-  RiskDetails: S.optional(FraudRiskDetails),
-}) {}
-export class EvaluateSessionResponse extends S.Class<EvaluateSessionResponse>(
-  "EvaluateSessionResponse",
-)({
-  DomainId: S.optional(S.String),
-  SessionId: S.optional(S.String),
-  SessionName: S.optional(S.String),
-  StreamingStatus: S.optional(S.String),
-  AuthenticationResult: S.optional(AuthenticationResult),
-  FraudDetectionResult: S.optional(FraudDetectionResult),
-}) {}
+).annotations({
+  identifier: "StartSpeakerEnrollmentJobRequest",
+}) as any as S.Schema<StartSpeakerEnrollmentJobRequest>;
+export interface CreateDomainResponse {
+  Domain?: Domain;
+}
+export const CreateDomainResponse = S.suspend(() =>
+  S.Struct({ Domain: S.optional(Domain) }),
+).annotations({
+  identifier: "CreateDomainResponse",
+}) as any as S.Schema<CreateDomainResponse>;
+export interface ListDomainsResponse {
+  DomainSummaries?: DomainSummaries;
+  NextToken?: string;
+}
+export const ListDomainsResponse = S.suspend(() =>
+  S.Struct({
+    DomainSummaries: S.optional(DomainSummaries),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListDomainsResponse",
+}) as any as S.Schema<ListDomainsResponse>;
+export interface AuthenticationConfiguration {
+  AcceptanceThreshold: number;
+}
+export const AuthenticationConfiguration = S.suspend(() =>
+  S.Struct({ AcceptanceThreshold: S.Number }),
+).annotations({
+  identifier: "AuthenticationConfiguration",
+}) as any as S.Schema<AuthenticationConfiguration>;
+export interface FraudDetectionConfiguration {
+  RiskThreshold?: number;
+  WatchlistId?: string;
+}
+export const FraudDetectionConfiguration = S.suspend(() =>
+  S.Struct({
+    RiskThreshold: S.optional(S.Number),
+    WatchlistId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "FraudDetectionConfiguration",
+}) as any as S.Schema<FraudDetectionConfiguration>;
+export interface AuthenticationResult {
+  AuthenticationResultId?: string;
+  AudioAggregationStartedAt?: Date;
+  AudioAggregationEndedAt?: Date;
+  CustomerSpeakerId?: string;
+  GeneratedSpeakerId?: string;
+  Decision?: string;
+  Score?: number;
+  Configuration?: AuthenticationConfiguration;
+}
+export const AuthenticationResult = S.suspend(() =>
+  S.Struct({
+    AuthenticationResultId: S.optional(S.String),
+    AudioAggregationStartedAt: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    AudioAggregationEndedAt: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    CustomerSpeakerId: S.optional(S.String),
+    GeneratedSpeakerId: S.optional(S.String),
+    Decision: S.optional(S.String),
+    Score: S.optional(S.Number),
+    Configuration: S.optional(AuthenticationConfiguration),
+  }),
+).annotations({
+  identifier: "AuthenticationResult",
+}) as any as S.Schema<AuthenticationResult>;
+export interface KnownFraudsterRisk {
+  RiskScore: number;
+  GeneratedFraudsterId?: string;
+}
+export const KnownFraudsterRisk = S.suspend(() =>
+  S.Struct({ RiskScore: S.Number, GeneratedFraudsterId: S.optional(S.String) }),
+).annotations({
+  identifier: "KnownFraudsterRisk",
+}) as any as S.Schema<KnownFraudsterRisk>;
+export interface VoiceSpoofingRisk {
+  RiskScore: number;
+}
+export const VoiceSpoofingRisk = S.suspend(() =>
+  S.Struct({ RiskScore: S.Number }),
+).annotations({
+  identifier: "VoiceSpoofingRisk",
+}) as any as S.Schema<VoiceSpoofingRisk>;
+export interface DescribeFraudsterRegistrationJobResponse {
+  Job?: FraudsterRegistrationJob;
+}
+export const DescribeFraudsterRegistrationJobResponse = S.suspend(() =>
+  S.Struct({ Job: S.optional(FraudsterRegistrationJob) }),
+).annotations({
+  identifier: "DescribeFraudsterRegistrationJobResponse",
+}) as any as S.Schema<DescribeFraudsterRegistrationJobResponse>;
+export interface StartSpeakerEnrollmentJobResponse {
+  Job?: SpeakerEnrollmentJob;
+}
+export const StartSpeakerEnrollmentJobResponse = S.suspend(() =>
+  S.Struct({ Job: S.optional(SpeakerEnrollmentJob) }),
+).annotations({
+  identifier: "StartSpeakerEnrollmentJobResponse",
+}) as any as S.Schema<StartSpeakerEnrollmentJobResponse>;
+export interface DescribeDomainResponse {
+  Domain?: Domain;
+}
+export const DescribeDomainResponse = S.suspend(() =>
+  S.Struct({ Domain: S.optional(Domain) }),
+).annotations({
+  identifier: "DescribeDomainResponse",
+}) as any as S.Schema<DescribeDomainResponse>;
+export interface FraudRiskDetails {
+  KnownFraudsterRisk: KnownFraudsterRisk;
+  VoiceSpoofingRisk: VoiceSpoofingRisk;
+}
+export const FraudRiskDetails = S.suspend(() =>
+  S.Struct({
+    KnownFraudsterRisk: KnownFraudsterRisk,
+    VoiceSpoofingRisk: VoiceSpoofingRisk,
+  }),
+).annotations({
+  identifier: "FraudRiskDetails",
+}) as any as S.Schema<FraudRiskDetails>;
+export interface FraudDetectionResult {
+  FraudDetectionResultId?: string;
+  AudioAggregationStartedAt?: Date;
+  AudioAggregationEndedAt?: Date;
+  Configuration?: FraudDetectionConfiguration;
+  Decision?: string;
+  Reasons?: FraudDetectionReasons;
+  RiskDetails?: FraudRiskDetails;
+}
+export const FraudDetectionResult = S.suspend(() =>
+  S.Struct({
+    FraudDetectionResultId: S.optional(S.String),
+    AudioAggregationStartedAt: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    AudioAggregationEndedAt: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    Configuration: S.optional(FraudDetectionConfiguration),
+    Decision: S.optional(S.String),
+    Reasons: S.optional(FraudDetectionReasons),
+    RiskDetails: S.optional(FraudRiskDetails),
+  }),
+).annotations({
+  identifier: "FraudDetectionResult",
+}) as any as S.Schema<FraudDetectionResult>;
+export interface EvaluateSessionResponse {
+  DomainId?: string;
+  SessionId?: string;
+  SessionName?: string;
+  StreamingStatus?: string;
+  AuthenticationResult?: AuthenticationResult;
+  FraudDetectionResult?: FraudDetectionResult;
+}
+export const EvaluateSessionResponse = S.suspend(() =>
+  S.Struct({
+    DomainId: S.optional(S.String),
+    SessionId: S.optional(S.String),
+    SessionName: S.optional(S.String),
+    StreamingStatus: S.optional(S.String),
+    AuthenticationResult: S.optional(AuthenticationResult),
+    FraudDetectionResult: S.optional(FraudDetectionResult),
+  }),
+).annotations({
+  identifier: "EvaluateSessionResponse",
+}) as any as S.Schema<EvaluateSessionResponse>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

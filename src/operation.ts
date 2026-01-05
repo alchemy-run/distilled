@@ -1,8 +1,4 @@
-import type { Effect } from "effect/Effect";
 import * as S from "effect/Schema";
-import type { Credentials } from "./aws/credentials.ts";
-import type { Endpoint } from "./aws/endpoint.ts";
-import type { Region } from "./aws/region.ts";
 import type { PaginatedTrait } from "./traits.ts";
 
 export declare namespace Operation {

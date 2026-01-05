@@ -243,29 +243,79 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type RepositoryNameList = string[];
 export const RepositoryNameList = S.Array(S.String);
+export type FilePaths = string[];
 export const FilePaths = S.Array(S.String);
+export type CommitIdsInputList = string[];
 export const CommitIdsInputList = S.Array(S.String);
+export type TagKeysList = string[];
 export const TagKeysList = S.Array(S.String);
-export class AssociateApprovalRuleTemplateWithRepositoryInput extends S.Class<AssociateApprovalRuleTemplateWithRepositoryInput>(
-  "AssociateApprovalRuleTemplateWithRepositoryInput",
-)(
-  { approvalRuleTemplateName: S.String, repositoryName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class AssociateApprovalRuleTemplateWithRepositoryResponse extends S.Class<AssociateApprovalRuleTemplateWithRepositoryResponse>(
-  "AssociateApprovalRuleTemplateWithRepositoryResponse",
-)({}, ns) {}
-export class BatchAssociateApprovalRuleTemplateWithRepositoriesInput extends S.Class<BatchAssociateApprovalRuleTemplateWithRepositoriesInput>(
-  "BatchAssociateApprovalRuleTemplateWithRepositoriesInput",
-)(
-  { approvalRuleTemplateName: S.String, repositoryNames: RepositoryNameList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class BatchDescribeMergeConflictsInput extends S.Class<BatchDescribeMergeConflictsInput>(
-  "BatchDescribeMergeConflictsInput",
-)(
-  {
+export interface AssociateApprovalRuleTemplateWithRepositoryInput {
+  approvalRuleTemplateName: string;
+  repositoryName: string;
+}
+export const AssociateApprovalRuleTemplateWithRepositoryInput = S.suspend(() =>
+  S.Struct({
+    approvalRuleTemplateName: S.String,
+    repositoryName: S.String,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "AssociateApprovalRuleTemplateWithRepositoryInput",
+}) as any as S.Schema<AssociateApprovalRuleTemplateWithRepositoryInput>;
+export interface AssociateApprovalRuleTemplateWithRepositoryResponse {}
+export const AssociateApprovalRuleTemplateWithRepositoryResponse = S.suspend(
+  () => S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "AssociateApprovalRuleTemplateWithRepositoryResponse",
+}) as any as S.Schema<AssociateApprovalRuleTemplateWithRepositoryResponse>;
+export interface BatchAssociateApprovalRuleTemplateWithRepositoriesInput {
+  approvalRuleTemplateName: string;
+  repositoryNames: RepositoryNameList;
+}
+export const BatchAssociateApprovalRuleTemplateWithRepositoriesInput =
+  S.suspend(() =>
+    S.Struct({
+      approvalRuleTemplateName: S.String,
+      repositoryNames: RepositoryNameList,
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+  ).annotations({
+    identifier: "BatchAssociateApprovalRuleTemplateWithRepositoriesInput",
+  }) as any as S.Schema<BatchAssociateApprovalRuleTemplateWithRepositoriesInput>;
+export interface BatchDescribeMergeConflictsInput {
+  repositoryName: string;
+  destinationCommitSpecifier: string;
+  sourceCommitSpecifier: string;
+  mergeOption: string;
+  maxMergeHunks?: number;
+  maxConflictFiles?: number;
+  filePaths?: FilePaths;
+  conflictDetailLevel?: string;
+  conflictResolutionStrategy?: string;
+  nextToken?: string;
+}
+export const BatchDescribeMergeConflictsInput = S.suspend(() =>
+  S.Struct({
     repositoryName: S.String,
     destinationCommitSpecifier: S.String,
     sourceCommitSpecifier: S.String,
@@ -276,78 +326,225 @@ export class BatchDescribeMergeConflictsInput extends S.Class<BatchDescribeMerge
     conflictDetailLevel: S.optional(S.String),
     conflictResolutionStrategy: S.optional(S.String),
     nextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class BatchDisassociateApprovalRuleTemplateFromRepositoriesInput extends S.Class<BatchDisassociateApprovalRuleTemplateFromRepositoriesInput>(
-  "BatchDisassociateApprovalRuleTemplateFromRepositoriesInput",
-)(
-  { approvalRuleTemplateName: S.String, repositoryNames: RepositoryNameList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class BatchGetCommitsInput extends S.Class<BatchGetCommitsInput>(
-  "BatchGetCommitsInput",
-)(
-  { commitIds: CommitIdsInputList, repositoryName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class BatchGetRepositoriesInput extends S.Class<BatchGetRepositoriesInput>(
-  "BatchGetRepositoriesInput",
-)(
-  { repositoryNames: RepositoryNameList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateApprovalRuleTemplateInput extends S.Class<CreateApprovalRuleTemplateInput>(
-  "CreateApprovalRuleTemplateInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "BatchDescribeMergeConflictsInput",
+}) as any as S.Schema<BatchDescribeMergeConflictsInput>;
+export interface BatchDisassociateApprovalRuleTemplateFromRepositoriesInput {
+  approvalRuleTemplateName: string;
+  repositoryNames: RepositoryNameList;
+}
+export const BatchDisassociateApprovalRuleTemplateFromRepositoriesInput =
+  S.suspend(() =>
+    S.Struct({
+      approvalRuleTemplateName: S.String,
+      repositoryNames: RepositoryNameList,
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+  ).annotations({
+    identifier: "BatchDisassociateApprovalRuleTemplateFromRepositoriesInput",
+  }) as any as S.Schema<BatchDisassociateApprovalRuleTemplateFromRepositoriesInput>;
+export interface BatchGetCommitsInput {
+  commitIds: CommitIdsInputList;
+  repositoryName: string;
+}
+export const BatchGetCommitsInput = S.suspend(() =>
+  S.Struct({ commitIds: CommitIdsInputList, repositoryName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "BatchGetCommitsInput",
+}) as any as S.Schema<BatchGetCommitsInput>;
+export interface BatchGetRepositoriesInput {
+  repositoryNames: RepositoryNameList;
+}
+export const BatchGetRepositoriesInput = S.suspend(() =>
+  S.Struct({ repositoryNames: RepositoryNameList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "BatchGetRepositoriesInput",
+}) as any as S.Schema<BatchGetRepositoriesInput>;
+export interface CreateApprovalRuleTemplateInput {
+  approvalRuleTemplateName: string;
+  approvalRuleTemplateContent: string;
+  approvalRuleTemplateDescription?: string;
+}
+export const CreateApprovalRuleTemplateInput = S.suspend(() =>
+  S.Struct({
     approvalRuleTemplateName: S.String,
     approvalRuleTemplateContent: S.String,
     approvalRuleTemplateDescription: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateBranchInput extends S.Class<CreateBranchInput>(
-  "CreateBranchInput",
-)(
-  { repositoryName: S.String, branchName: S.String, commitId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateBranchResponse extends S.Class<CreateBranchResponse>(
-  "CreateBranchResponse",
-)({}, ns) {}
-export class CreatePullRequestApprovalRuleInput extends S.Class<CreatePullRequestApprovalRuleInput>(
-  "CreatePullRequestApprovalRuleInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateApprovalRuleTemplateInput",
+}) as any as S.Schema<CreateApprovalRuleTemplateInput>;
+export interface CreateBranchInput {
+  repositoryName: string;
+  branchName: string;
+  commitId: string;
+}
+export const CreateBranchInput = S.suspend(() =>
+  S.Struct({
+    repositoryName: S.String,
+    branchName: S.String,
+    commitId: S.String,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateBranchInput",
+}) as any as S.Schema<CreateBranchInput>;
+export interface CreateBranchResponse {}
+export const CreateBranchResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "CreateBranchResponse",
+}) as any as S.Schema<CreateBranchResponse>;
+export interface CreatePullRequestApprovalRuleInput {
+  pullRequestId: string;
+  approvalRuleName: string;
+  approvalRuleContent: string;
+}
+export const CreatePullRequestApprovalRuleInput = S.suspend(() =>
+  S.Struct({
     pullRequestId: S.String,
     approvalRuleName: S.String,
     approvalRuleContent: S.String,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteApprovalRuleTemplateInput extends S.Class<DeleteApprovalRuleTemplateInput>(
-  "DeleteApprovalRuleTemplateInput",
-)(
-  { approvalRuleTemplateName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteBranchInput extends S.Class<DeleteBranchInput>(
-  "DeleteBranchInput",
-)(
-  { repositoryName: S.String, branchName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteCommentContentInput extends S.Class<DeleteCommentContentInput>(
-  "DeleteCommentContentInput",
-)(
-  { commentId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteFileInput extends S.Class<DeleteFileInput>(
-  "DeleteFileInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreatePullRequestApprovalRuleInput",
+}) as any as S.Schema<CreatePullRequestApprovalRuleInput>;
+export interface DeleteApprovalRuleTemplateInput {
+  approvalRuleTemplateName: string;
+}
+export const DeleteApprovalRuleTemplateInput = S.suspend(() =>
+  S.Struct({ approvalRuleTemplateName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteApprovalRuleTemplateInput",
+}) as any as S.Schema<DeleteApprovalRuleTemplateInput>;
+export interface DeleteBranchInput {
+  repositoryName: string;
+  branchName: string;
+}
+export const DeleteBranchInput = S.suspend(() =>
+  S.Struct({ repositoryName: S.String, branchName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteBranchInput",
+}) as any as S.Schema<DeleteBranchInput>;
+export interface DeleteCommentContentInput {
+  commentId: string;
+}
+export const DeleteCommentContentInput = S.suspend(() =>
+  S.Struct({ commentId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteCommentContentInput",
+}) as any as S.Schema<DeleteCommentContentInput>;
+export interface DeleteFileInput {
+  repositoryName: string;
+  branchName: string;
+  filePath: string;
+  parentCommitId: string;
+  keepEmptyFolders?: boolean;
+  commitMessage?: string;
+  name?: string;
+  email?: string;
+}
+export const DeleteFileInput = S.suspend(() =>
+  S.Struct({
     repositoryName: S.String,
     branchName: S.String,
     filePath: S.String,
@@ -356,25 +553,70 @@ export class DeleteFileInput extends S.Class<DeleteFileInput>(
     commitMessage: S.optional(S.String),
     name: S.optional(S.String),
     email: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeletePullRequestApprovalRuleInput extends S.Class<DeletePullRequestApprovalRuleInput>(
-  "DeletePullRequestApprovalRuleInput",
-)(
-  { pullRequestId: S.String, approvalRuleName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteRepositoryInput extends S.Class<DeleteRepositoryInput>(
-  "DeleteRepositoryInput",
-)(
-  { repositoryName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeMergeConflictsInput extends S.Class<DescribeMergeConflictsInput>(
-  "DescribeMergeConflictsInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteFileInput",
+}) as any as S.Schema<DeleteFileInput>;
+export interface DeletePullRequestApprovalRuleInput {
+  pullRequestId: string;
+  approvalRuleName: string;
+}
+export const DeletePullRequestApprovalRuleInput = S.suspend(() =>
+  S.Struct({ pullRequestId: S.String, approvalRuleName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeletePullRequestApprovalRuleInput",
+}) as any as S.Schema<DeletePullRequestApprovalRuleInput>;
+export interface DeleteRepositoryInput {
+  repositoryName: string;
+}
+export const DeleteRepositoryInput = S.suspend(() =>
+  S.Struct({ repositoryName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteRepositoryInput",
+}) as any as S.Schema<DeleteRepositoryInput>;
+export interface DescribeMergeConflictsInput {
+  repositoryName: string;
+  destinationCommitSpecifier: string;
+  sourceCommitSpecifier: string;
+  mergeOption: string;
+  maxMergeHunks?: number;
+  filePath: string;
+  conflictDetailLevel?: string;
+  conflictResolutionStrategy?: string;
+  nextToken?: string;
+}
+export const DescribeMergeConflictsInput = S.suspend(() =>
+  S.Struct({
     repositoryName: S.String,
     destinationCommitSpecifier: S.String,
     sourceCommitSpecifier: S.String,
@@ -384,100 +626,285 @@ export class DescribeMergeConflictsInput extends S.Class<DescribeMergeConflictsI
     conflictDetailLevel: S.optional(S.String),
     conflictResolutionStrategy: S.optional(S.String),
     nextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribePullRequestEventsInput extends S.Class<DescribePullRequestEventsInput>(
-  "DescribePullRequestEventsInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeMergeConflictsInput",
+}) as any as S.Schema<DescribeMergeConflictsInput>;
+export interface DescribePullRequestEventsInput {
+  pullRequestId: string;
+  pullRequestEventType?: string;
+  actorArn?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const DescribePullRequestEventsInput = S.suspend(() =>
+  S.Struct({
     pullRequestId: S.String,
     pullRequestEventType: S.optional(S.String),
     actorArn: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DisassociateApprovalRuleTemplateFromRepositoryInput extends S.Class<DisassociateApprovalRuleTemplateFromRepositoryInput>(
-  "DisassociateApprovalRuleTemplateFromRepositoryInput",
-)(
-  { approvalRuleTemplateName: S.String, repositoryName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DisassociateApprovalRuleTemplateFromRepositoryResponse extends S.Class<DisassociateApprovalRuleTemplateFromRepositoryResponse>(
-  "DisassociateApprovalRuleTemplateFromRepositoryResponse",
-)({}, ns) {}
-export class EvaluatePullRequestApprovalRulesInput extends S.Class<EvaluatePullRequestApprovalRulesInput>(
-  "EvaluatePullRequestApprovalRulesInput",
-)(
-  { pullRequestId: S.String, revisionId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetApprovalRuleTemplateInput extends S.Class<GetApprovalRuleTemplateInput>(
-  "GetApprovalRuleTemplateInput",
-)(
-  { approvalRuleTemplateName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetBlobInput extends S.Class<GetBlobInput>("GetBlobInput")(
-  { repositoryName: S.String, blobId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetBranchInput extends S.Class<GetBranchInput>("GetBranchInput")(
-  { repositoryName: S.optional(S.String), branchName: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetCommentInput extends S.Class<GetCommentInput>(
-  "GetCommentInput",
-)(
-  { commentId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetCommentReactionsInput extends S.Class<GetCommentReactionsInput>(
-  "GetCommentReactionsInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribePullRequestEventsInput",
+}) as any as S.Schema<DescribePullRequestEventsInput>;
+export interface DisassociateApprovalRuleTemplateFromRepositoryInput {
+  approvalRuleTemplateName: string;
+  repositoryName: string;
+}
+export const DisassociateApprovalRuleTemplateFromRepositoryInput = S.suspend(
+  () =>
+    S.Struct({
+      approvalRuleTemplateName: S.String,
+      repositoryName: S.String,
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+).annotations({
+  identifier: "DisassociateApprovalRuleTemplateFromRepositoryInput",
+}) as any as S.Schema<DisassociateApprovalRuleTemplateFromRepositoryInput>;
+export interface DisassociateApprovalRuleTemplateFromRepositoryResponse {}
+export const DisassociateApprovalRuleTemplateFromRepositoryResponse = S.suspend(
+  () => S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DisassociateApprovalRuleTemplateFromRepositoryResponse",
+}) as any as S.Schema<DisassociateApprovalRuleTemplateFromRepositoryResponse>;
+export interface EvaluatePullRequestApprovalRulesInput {
+  pullRequestId: string;
+  revisionId: string;
+}
+export const EvaluatePullRequestApprovalRulesInput = S.suspend(() =>
+  S.Struct({ pullRequestId: S.String, revisionId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "EvaluatePullRequestApprovalRulesInput",
+}) as any as S.Schema<EvaluatePullRequestApprovalRulesInput>;
+export interface GetApprovalRuleTemplateInput {
+  approvalRuleTemplateName: string;
+}
+export const GetApprovalRuleTemplateInput = S.suspend(() =>
+  S.Struct({ approvalRuleTemplateName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetApprovalRuleTemplateInput",
+}) as any as S.Schema<GetApprovalRuleTemplateInput>;
+export interface GetBlobInput {
+  repositoryName: string;
+  blobId: string;
+}
+export const GetBlobInput = S.suspend(() =>
+  S.Struct({ repositoryName: S.String, blobId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({ identifier: "GetBlobInput" }) as any as S.Schema<GetBlobInput>;
+export interface GetBranchInput {
+  repositoryName?: string;
+  branchName?: string;
+}
+export const GetBranchInput = S.suspend(() =>
+  S.Struct({
+    repositoryName: S.optional(S.String),
+    branchName: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetBranchInput",
+}) as any as S.Schema<GetBranchInput>;
+export interface GetCommentInput {
+  commentId: string;
+}
+export const GetCommentInput = S.suspend(() =>
+  S.Struct({ commentId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetCommentInput",
+}) as any as S.Schema<GetCommentInput>;
+export interface GetCommentReactionsInput {
+  commentId: string;
+  reactionUserArn?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const GetCommentReactionsInput = S.suspend(() =>
+  S.Struct({
     commentId: S.String,
     reactionUserArn: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetCommentsForComparedCommitInput extends S.Class<GetCommentsForComparedCommitInput>(
-  "GetCommentsForComparedCommitInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetCommentReactionsInput",
+}) as any as S.Schema<GetCommentReactionsInput>;
+export interface GetCommentsForComparedCommitInput {
+  repositoryName: string;
+  beforeCommitId?: string;
+  afterCommitId: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const GetCommentsForComparedCommitInput = S.suspend(() =>
+  S.Struct({
     repositoryName: S.String,
     beforeCommitId: S.optional(S.String),
     afterCommitId: S.String,
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetCommentsForPullRequestInput extends S.Class<GetCommentsForPullRequestInput>(
-  "GetCommentsForPullRequestInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetCommentsForComparedCommitInput",
+}) as any as S.Schema<GetCommentsForComparedCommitInput>;
+export interface GetCommentsForPullRequestInput {
+  pullRequestId: string;
+  repositoryName?: string;
+  beforeCommitId?: string;
+  afterCommitId?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const GetCommentsForPullRequestInput = S.suspend(() =>
+  S.Struct({
     pullRequestId: S.String,
     repositoryName: S.optional(S.String),
     beforeCommitId: S.optional(S.String),
     afterCommitId: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetCommitInput extends S.Class<GetCommitInput>("GetCommitInput")(
-  { repositoryName: S.String, commitId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetDifferencesInput extends S.Class<GetDifferencesInput>(
-  "GetDifferencesInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetCommentsForPullRequestInput",
+}) as any as S.Schema<GetCommentsForPullRequestInput>;
+export interface GetCommitInput {
+  repositoryName: string;
+  commitId: string;
+}
+export const GetCommitInput = S.suspend(() =>
+  S.Struct({ repositoryName: S.String, commitId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetCommitInput",
+}) as any as S.Schema<GetCommitInput>;
+export interface GetDifferencesInput {
+  repositoryName: string;
+  beforeCommitSpecifier?: string;
+  afterCommitSpecifier: string;
+  beforePath?: string;
+  afterPath?: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const GetDifferencesInput = S.suspend(() =>
+  S.Struct({
     repositoryName: S.String,
     beforeCommitSpecifier: S.optional(S.String),
     afterCommitSpecifier: S.String,
@@ -485,41 +912,106 @@ export class GetDifferencesInput extends S.Class<GetDifferencesInput>(
     afterPath: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetFileInput extends S.Class<GetFileInput>("GetFileInput")(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetDifferencesInput",
+}) as any as S.Schema<GetDifferencesInput>;
+export interface GetFileInput {
+  repositoryName: string;
+  commitSpecifier?: string;
+  filePath: string;
+}
+export const GetFileInput = S.suspend(() =>
+  S.Struct({
     repositoryName: S.String,
     commitSpecifier: S.optional(S.String),
     filePath: S.String,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetFolderInput extends S.Class<GetFolderInput>("GetFolderInput")(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({ identifier: "GetFileInput" }) as any as S.Schema<GetFileInput>;
+export interface GetFolderInput {
+  repositoryName: string;
+  commitSpecifier?: string;
+  folderPath: string;
+}
+export const GetFolderInput = S.suspend(() =>
+  S.Struct({
     repositoryName: S.String,
     commitSpecifier: S.optional(S.String),
     folderPath: S.String,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetMergeCommitInput extends S.Class<GetMergeCommitInput>(
-  "GetMergeCommitInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetFolderInput",
+}) as any as S.Schema<GetFolderInput>;
+export interface GetMergeCommitInput {
+  repositoryName: string;
+  sourceCommitSpecifier: string;
+  destinationCommitSpecifier: string;
+  conflictDetailLevel?: string;
+  conflictResolutionStrategy?: string;
+}
+export const GetMergeCommitInput = S.suspend(() =>
+  S.Struct({
     repositoryName: S.String,
     sourceCommitSpecifier: S.String,
     destinationCommitSpecifier: S.String,
     conflictDetailLevel: S.optional(S.String),
     conflictResolutionStrategy: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetMergeConflictsInput extends S.Class<GetMergeConflictsInput>(
-  "GetMergeConflictsInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetMergeCommitInput",
+}) as any as S.Schema<GetMergeCommitInput>;
+export interface GetMergeConflictsInput {
+  repositoryName: string;
+  destinationCommitSpecifier: string;
+  sourceCommitSpecifier: string;
+  mergeOption: string;
+  conflictDetailLevel?: string;
+  maxConflictFiles?: number;
+  conflictResolutionStrategy?: string;
+  nextToken?: string;
+}
+export const GetMergeConflictsInput = S.suspend(() =>
+  S.Struct({
     repositoryName: S.String,
     destinationCommitSpecifier: S.String,
     sourceCommitSpecifier: S.String,
@@ -528,162 +1020,423 @@ export class GetMergeConflictsInput extends S.Class<GetMergeConflictsInput>(
     maxConflictFiles: S.optional(S.Number),
     conflictResolutionStrategy: S.optional(S.String),
     nextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetMergeOptionsInput extends S.Class<GetMergeOptionsInput>(
-  "GetMergeOptionsInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetMergeConflictsInput",
+}) as any as S.Schema<GetMergeConflictsInput>;
+export interface GetMergeOptionsInput {
+  repositoryName: string;
+  sourceCommitSpecifier: string;
+  destinationCommitSpecifier: string;
+  conflictDetailLevel?: string;
+  conflictResolutionStrategy?: string;
+}
+export const GetMergeOptionsInput = S.suspend(() =>
+  S.Struct({
     repositoryName: S.String,
     sourceCommitSpecifier: S.String,
     destinationCommitSpecifier: S.String,
     conflictDetailLevel: S.optional(S.String),
     conflictResolutionStrategy: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetPullRequestInput extends S.Class<GetPullRequestInput>(
-  "GetPullRequestInput",
-)(
-  { pullRequestId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetPullRequestApprovalStatesInput extends S.Class<GetPullRequestApprovalStatesInput>(
-  "GetPullRequestApprovalStatesInput",
-)(
-  { pullRequestId: S.String, revisionId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetPullRequestOverrideStateInput extends S.Class<GetPullRequestOverrideStateInput>(
-  "GetPullRequestOverrideStateInput",
-)(
-  { pullRequestId: S.String, revisionId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetRepositoryInput extends S.Class<GetRepositoryInput>(
-  "GetRepositoryInput",
-)(
-  { repositoryName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetRepositoryTriggersInput extends S.Class<GetRepositoryTriggersInput>(
-  "GetRepositoryTriggersInput",
-)(
-  { repositoryName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListApprovalRuleTemplatesInput extends S.Class<ListApprovalRuleTemplatesInput>(
-  "ListApprovalRuleTemplatesInput",
-)(
-  { nextToken: S.optional(S.String), maxResults: S.optional(S.Number) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListAssociatedApprovalRuleTemplatesForRepositoryInput extends S.Class<ListAssociatedApprovalRuleTemplatesForRepositoryInput>(
-  "ListAssociatedApprovalRuleTemplatesForRepositoryInput",
-)(
-  {
-    repositoryName: S.String,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetMergeOptionsInput",
+}) as any as S.Schema<GetMergeOptionsInput>;
+export interface GetPullRequestInput {
+  pullRequestId: string;
+}
+export const GetPullRequestInput = S.suspend(() =>
+  S.Struct({ pullRequestId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetPullRequestInput",
+}) as any as S.Schema<GetPullRequestInput>;
+export interface GetPullRequestApprovalStatesInput {
+  pullRequestId: string;
+  revisionId: string;
+}
+export const GetPullRequestApprovalStatesInput = S.suspend(() =>
+  S.Struct({ pullRequestId: S.String, revisionId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetPullRequestApprovalStatesInput",
+}) as any as S.Schema<GetPullRequestApprovalStatesInput>;
+export interface GetPullRequestOverrideStateInput {
+  pullRequestId: string;
+  revisionId: string;
+}
+export const GetPullRequestOverrideStateInput = S.suspend(() =>
+  S.Struct({ pullRequestId: S.String, revisionId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetPullRequestOverrideStateInput",
+}) as any as S.Schema<GetPullRequestOverrideStateInput>;
+export interface GetRepositoryInput {
+  repositoryName: string;
+}
+export const GetRepositoryInput = S.suspend(() =>
+  S.Struct({ repositoryName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetRepositoryInput",
+}) as any as S.Schema<GetRepositoryInput>;
+export interface GetRepositoryTriggersInput {
+  repositoryName: string;
+}
+export const GetRepositoryTriggersInput = S.suspend(() =>
+  S.Struct({ repositoryName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetRepositoryTriggersInput",
+}) as any as S.Schema<GetRepositoryTriggersInput>;
+export interface ListApprovalRuleTemplatesInput {
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListApprovalRuleTemplatesInput = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListBranchesInput extends S.Class<ListBranchesInput>(
-  "ListBranchesInput",
-)(
-  { repositoryName: S.String, nextToken: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListFileCommitHistoryRequest extends S.Class<ListFileCommitHistoryRequest>(
-  "ListFileCommitHistoryRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListApprovalRuleTemplatesInput",
+}) as any as S.Schema<ListApprovalRuleTemplatesInput>;
+export interface ListAssociatedApprovalRuleTemplatesForRepositoryInput {
+  repositoryName: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListAssociatedApprovalRuleTemplatesForRepositoryInput = S.suspend(
+  () =>
+    S.Struct({
+      repositoryName: S.String,
+      nextToken: S.optional(S.String),
+      maxResults: S.optional(S.Number),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+).annotations({
+  identifier: "ListAssociatedApprovalRuleTemplatesForRepositoryInput",
+}) as any as S.Schema<ListAssociatedApprovalRuleTemplatesForRepositoryInput>;
+export interface ListBranchesInput {
+  repositoryName: string;
+  nextToken?: string;
+}
+export const ListBranchesInput = S.suspend(() =>
+  S.Struct({ repositoryName: S.String, nextToken: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListBranchesInput",
+}) as any as S.Schema<ListBranchesInput>;
+export interface ListFileCommitHistoryRequest {
+  repositoryName: string;
+  commitSpecifier?: string;
+  filePath: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListFileCommitHistoryRequest = S.suspend(() =>
+  S.Struct({
     repositoryName: S.String,
     commitSpecifier: S.optional(S.String),
     filePath: S.String,
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListPullRequestsInput extends S.Class<ListPullRequestsInput>(
-  "ListPullRequestsInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListFileCommitHistoryRequest",
+}) as any as S.Schema<ListFileCommitHistoryRequest>;
+export interface ListPullRequestsInput {
+  repositoryName: string;
+  authorArn?: string;
+  pullRequestStatus?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListPullRequestsInput = S.suspend(() =>
+  S.Struct({
     repositoryName: S.String,
     authorArn: S.optional(S.String),
     pullRequestStatus: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListRepositoriesInput extends S.Class<ListRepositoriesInput>(
-  "ListRepositoriesInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListPullRequestsInput",
+}) as any as S.Schema<ListPullRequestsInput>;
+export interface ListRepositoriesInput {
+  nextToken?: string;
+  sortBy?: string;
+  order?: string;
+}
+export const ListRepositoriesInput = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String),
     sortBy: S.optional(S.String),
     order: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListRepositoriesForApprovalRuleTemplateInput extends S.Class<ListRepositoriesForApprovalRuleTemplateInput>(
-  "ListRepositoriesForApprovalRuleTemplateInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListRepositoriesInput",
+}) as any as S.Schema<ListRepositoriesInput>;
+export interface ListRepositoriesForApprovalRuleTemplateInput {
+  approvalRuleTemplateName: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListRepositoriesForApprovalRuleTemplateInput = S.suspend(() =>
+  S.Struct({
     approvalRuleTemplateName: S.String,
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTagsForResourceInput extends S.Class<ListTagsForResourceInput>(
-  "ListTagsForResourceInput",
-)(
-  { resourceArn: S.String, nextToken: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class MergeBranchesByFastForwardInput extends S.Class<MergeBranchesByFastForwardInput>(
-  "MergeBranchesByFastForwardInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListRepositoriesForApprovalRuleTemplateInput",
+}) as any as S.Schema<ListRepositoriesForApprovalRuleTemplateInput>;
+export interface ListTagsForResourceInput {
+  resourceArn: string;
+  nextToken?: string;
+}
+export const ListTagsForResourceInput = S.suspend(() =>
+  S.Struct({ resourceArn: S.String, nextToken: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListTagsForResourceInput",
+}) as any as S.Schema<ListTagsForResourceInput>;
+export interface MergeBranchesByFastForwardInput {
+  repositoryName: string;
+  sourceCommitSpecifier: string;
+  destinationCommitSpecifier: string;
+  targetBranch?: string;
+}
+export const MergeBranchesByFastForwardInput = S.suspend(() =>
+  S.Struct({
     repositoryName: S.String,
     sourceCommitSpecifier: S.String,
     destinationCommitSpecifier: S.String,
     targetBranch: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ReplaceContentEntry extends S.Class<ReplaceContentEntry>(
-  "ReplaceContentEntry",
-)({
-  filePath: S.String,
-  replacementType: S.String,
-  content: S.optional(T.Blob),
-  fileMode: S.optional(S.String),
-}) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "MergeBranchesByFastForwardInput",
+}) as any as S.Schema<MergeBranchesByFastForwardInput>;
+export interface ReplaceContentEntry {
+  filePath: string;
+  replacementType: string;
+  content?: Uint8Array;
+  fileMode?: string;
+}
+export const ReplaceContentEntry = S.suspend(() =>
+  S.Struct({
+    filePath: S.String,
+    replacementType: S.String,
+    content: S.optional(T.Blob),
+    fileMode: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ReplaceContentEntry",
+}) as any as S.Schema<ReplaceContentEntry>;
+export type ReplaceContentEntries = ReplaceContentEntry[];
 export const ReplaceContentEntries = S.Array(ReplaceContentEntry);
-export class DeleteFileEntry extends S.Class<DeleteFileEntry>(
-  "DeleteFileEntry",
-)({ filePath: S.String }) {}
+export interface DeleteFileEntry {
+  filePath: string;
+}
+export const DeleteFileEntry = S.suspend(() =>
+  S.Struct({ filePath: S.String }),
+).annotations({
+  identifier: "DeleteFileEntry",
+}) as any as S.Schema<DeleteFileEntry>;
+export type DeleteFileEntries = DeleteFileEntry[];
 export const DeleteFileEntries = S.Array(DeleteFileEntry);
-export class SetFileModeEntry extends S.Class<SetFileModeEntry>(
-  "SetFileModeEntry",
-)({ filePath: S.String, fileMode: S.String }) {}
+export interface SetFileModeEntry {
+  filePath: string;
+  fileMode: string;
+}
+export const SetFileModeEntry = S.suspend(() =>
+  S.Struct({ filePath: S.String, fileMode: S.String }),
+).annotations({
+  identifier: "SetFileModeEntry",
+}) as any as S.Schema<SetFileModeEntry>;
+export type SetFileModeEntries = SetFileModeEntry[];
 export const SetFileModeEntries = S.Array(SetFileModeEntry);
-export class ConflictResolution extends S.Class<ConflictResolution>(
-  "ConflictResolution",
-)({
-  replaceContents: S.optional(ReplaceContentEntries),
-  deleteFiles: S.optional(DeleteFileEntries),
-  setFileModes: S.optional(SetFileModeEntries),
-}) {}
-export class MergeBranchesBySquashInput extends S.Class<MergeBranchesBySquashInput>(
-  "MergeBranchesBySquashInput",
-)(
-  {
+export interface ConflictResolution {
+  replaceContents?: ReplaceContentEntries;
+  deleteFiles?: DeleteFileEntries;
+  setFileModes?: SetFileModeEntries;
+}
+export const ConflictResolution = S.suspend(() =>
+  S.Struct({
+    replaceContents: S.optional(ReplaceContentEntries),
+    deleteFiles: S.optional(DeleteFileEntries),
+    setFileModes: S.optional(SetFileModeEntries),
+  }),
+).annotations({
+  identifier: "ConflictResolution",
+}) as any as S.Schema<ConflictResolution>;
+export interface MergeBranchesBySquashInput {
+  repositoryName: string;
+  sourceCommitSpecifier: string;
+  destinationCommitSpecifier: string;
+  targetBranch?: string;
+  conflictDetailLevel?: string;
+  conflictResolutionStrategy?: string;
+  authorName?: string;
+  email?: string;
+  commitMessage?: string;
+  keepEmptyFolders?: boolean;
+  conflictResolution?: ConflictResolution;
+}
+export const MergeBranchesBySquashInput = S.suspend(() =>
+  S.Struct({
     repositoryName: S.String,
     sourceCommitSpecifier: S.String,
     destinationCommitSpecifier: S.String,
@@ -695,13 +1448,35 @@ export class MergeBranchesBySquashInput extends S.Class<MergeBranchesBySquashInp
     commitMessage: S.optional(S.String),
     keepEmptyFolders: S.optional(S.Boolean),
     conflictResolution: S.optional(ConflictResolution),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class MergeBranchesByThreeWayInput extends S.Class<MergeBranchesByThreeWayInput>(
-  "MergeBranchesByThreeWayInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "MergeBranchesBySquashInput",
+}) as any as S.Schema<MergeBranchesBySquashInput>;
+export interface MergeBranchesByThreeWayInput {
+  repositoryName: string;
+  sourceCommitSpecifier: string;
+  destinationCommitSpecifier: string;
+  targetBranch?: string;
+  conflictDetailLevel?: string;
+  conflictResolutionStrategy?: string;
+  authorName?: string;
+  email?: string;
+  commitMessage?: string;
+  keepEmptyFolders?: boolean;
+  conflictResolution?: ConflictResolution;
+}
+export const MergeBranchesByThreeWayInput = S.suspend(() =>
+  S.Struct({
     repositoryName: S.String,
     sourceCommitSpecifier: S.String,
     destinationCommitSpecifier: S.String,
@@ -713,23 +1488,58 @@ export class MergeBranchesByThreeWayInput extends S.Class<MergeBranchesByThreeWa
     commitMessage: S.optional(S.String),
     keepEmptyFolders: S.optional(S.Boolean),
     conflictResolution: S.optional(ConflictResolution),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class MergePullRequestByFastForwardInput extends S.Class<MergePullRequestByFastForwardInput>(
-  "MergePullRequestByFastForwardInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "MergeBranchesByThreeWayInput",
+}) as any as S.Schema<MergeBranchesByThreeWayInput>;
+export interface MergePullRequestByFastForwardInput {
+  pullRequestId: string;
+  repositoryName: string;
+  sourceCommitId?: string;
+}
+export const MergePullRequestByFastForwardInput = S.suspend(() =>
+  S.Struct({
     pullRequestId: S.String,
     repositoryName: S.String,
     sourceCommitId: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class MergePullRequestBySquashInput extends S.Class<MergePullRequestBySquashInput>(
-  "MergePullRequestBySquashInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "MergePullRequestByFastForwardInput",
+}) as any as S.Schema<MergePullRequestByFastForwardInput>;
+export interface MergePullRequestBySquashInput {
+  pullRequestId: string;
+  repositoryName: string;
+  sourceCommitId?: string;
+  conflictDetailLevel?: string;
+  conflictResolutionStrategy?: string;
+  commitMessage?: string;
+  authorName?: string;
+  email?: string;
+  keepEmptyFolders?: boolean;
+  conflictResolution?: ConflictResolution;
+}
+export const MergePullRequestBySquashInput = S.suspend(() =>
+  S.Struct({
     pullRequestId: S.String,
     repositoryName: S.String,
     sourceCommitId: S.optional(S.String),
@@ -740,13 +1550,34 @@ export class MergePullRequestBySquashInput extends S.Class<MergePullRequestBySqu
     email: S.optional(S.String),
     keepEmptyFolders: S.optional(S.Boolean),
     conflictResolution: S.optional(ConflictResolution),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class MergePullRequestByThreeWayInput extends S.Class<MergePullRequestByThreeWayInput>(
-  "MergePullRequestByThreeWayInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "MergePullRequestBySquashInput",
+}) as any as S.Schema<MergePullRequestBySquashInput>;
+export interface MergePullRequestByThreeWayInput {
+  pullRequestId: string;
+  repositoryName: string;
+  sourceCommitId?: string;
+  conflictDetailLevel?: string;
+  conflictResolutionStrategy?: string;
+  commitMessage?: string;
+  authorName?: string;
+  email?: string;
+  keepEmptyFolders?: boolean;
+  conflictResolution?: ConflictResolution;
+}
+export const MergePullRequestByThreeWayInput = S.suspend(() =>
+  S.Struct({
     pullRequestId: S.String,
     repositoryName: S.String,
     sourceCommitId: S.optional(S.String),
@@ -757,27 +1588,73 @@ export class MergePullRequestByThreeWayInput extends S.Class<MergePullRequestByT
     email: S.optional(S.String),
     keepEmptyFolders: S.optional(S.Boolean),
     conflictResolution: S.optional(ConflictResolution),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class OverridePullRequestApprovalRulesInput extends S.Class<OverridePullRequestApprovalRulesInput>(
-  "OverridePullRequestApprovalRulesInput",
-)(
-  { pullRequestId: S.String, revisionId: S.String, overrideStatus: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class OverridePullRequestApprovalRulesResponse extends S.Class<OverridePullRequestApprovalRulesResponse>(
-  "OverridePullRequestApprovalRulesResponse",
-)({}, ns) {}
-export class Location extends S.Class<Location>("Location")({
-  filePath: S.optional(S.String),
-  filePosition: S.optional(S.Number),
-  relativeFileVersion: S.optional(S.String),
-}) {}
-export class PostCommentForPullRequestInput extends S.Class<PostCommentForPullRequestInput>(
-  "PostCommentForPullRequestInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "MergePullRequestByThreeWayInput",
+}) as any as S.Schema<MergePullRequestByThreeWayInput>;
+export interface OverridePullRequestApprovalRulesInput {
+  pullRequestId: string;
+  revisionId: string;
+  overrideStatus: string;
+}
+export const OverridePullRequestApprovalRulesInput = S.suspend(() =>
+  S.Struct({
+    pullRequestId: S.String,
+    revisionId: S.String,
+    overrideStatus: S.String,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "OverridePullRequestApprovalRulesInput",
+}) as any as S.Schema<OverridePullRequestApprovalRulesInput>;
+export interface OverridePullRequestApprovalRulesResponse {}
+export const OverridePullRequestApprovalRulesResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "OverridePullRequestApprovalRulesResponse",
+}) as any as S.Schema<OverridePullRequestApprovalRulesResponse>;
+export interface Location {
+  filePath?: string;
+  filePosition?: number;
+  relativeFileVersion?: string;
+}
+export const Location = S.suspend(() =>
+  S.Struct({
+    filePath: S.optional(S.String),
+    filePosition: S.optional(S.Number),
+    relativeFileVersion: S.optional(S.String),
+  }),
+).annotations({ identifier: "Location" }) as any as S.Schema<Location>;
+export interface PostCommentForPullRequestInput {
+  pullRequestId: string;
+  repositoryName: string;
+  beforeCommitId: string;
+  afterCommitId: string;
+  location?: Location;
+  content: string;
+  clientRequestToken?: string;
+}
+export const PostCommentForPullRequestInput = S.suspend(() =>
+  S.Struct({
     pullRequestId: S.String,
     repositoryName: S.String,
     beforeCommitId: S.String,
@@ -785,30 +1662,82 @@ export class PostCommentForPullRequestInput extends S.Class<PostCommentForPullRe
     location: S.optional(Location),
     content: S.String,
     clientRequestToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PostCommentReplyInput extends S.Class<PostCommentReplyInput>(
-  "PostCommentReplyInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PostCommentForPullRequestInput",
+}) as any as S.Schema<PostCommentForPullRequestInput>;
+export interface PostCommentReplyInput {
+  inReplyTo: string;
+  clientRequestToken?: string;
+  content: string;
+}
+export const PostCommentReplyInput = S.suspend(() =>
+  S.Struct({
     inReplyTo: S.String,
     clientRequestToken: S.optional(S.String),
     content: S.String,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutCommentReactionInput extends S.Class<PutCommentReactionInput>(
-  "PutCommentReactionInput",
-)(
-  { commentId: S.String, reactionValue: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutCommentReactionResponse extends S.Class<PutCommentReactionResponse>(
-  "PutCommentReactionResponse",
-)({}, ns) {}
-export class PutFileInput extends S.Class<PutFileInput>("PutFileInput")(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PostCommentReplyInput",
+}) as any as S.Schema<PostCommentReplyInput>;
+export interface PutCommentReactionInput {
+  commentId: string;
+  reactionValue: string;
+}
+export const PutCommentReactionInput = S.suspend(() =>
+  S.Struct({ commentId: S.String, reactionValue: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutCommentReactionInput",
+}) as any as S.Schema<PutCommentReactionInput>;
+export interface PutCommentReactionResponse {}
+export const PutCommentReactionResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "PutCommentReactionResponse",
+}) as any as S.Schema<PutCommentReactionResponse>;
+export interface PutFileInput {
+  repositoryName: string;
+  branchName: string;
+  fileContent: Uint8Array;
+  filePath: string;
+  fileMode?: string;
+  parentCommitId?: string;
+  commitMessage?: string;
+  name?: string;
+  email?: string;
+}
+export const PutFileInput = S.suspend(() =>
+  S.Struct({
     repositoryName: S.String,
     branchName: S.String,
     fileContent: T.Blob,
@@ -818,501 +1747,1173 @@ export class PutFileInput extends S.Class<PutFileInput>("PutFileInput")(
     commitMessage: S.optional(S.String),
     name: S.optional(S.String),
     email: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({ identifier: "PutFileInput" }) as any as S.Schema<PutFileInput>;
+export type TagsMap = { [key: string]: string };
 export const TagsMap = S.Record({ key: S.String, value: S.String });
-export class TagResourceInput extends S.Class<TagResourceInput>(
-  "TagResourceInput",
-)(
-  { resourceArn: S.String, tags: TagsMap },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}, ns) {}
+export interface TagResourceInput {
+  resourceArn: string;
+  tags: TagsMap;
+}
+export const TagResourceInput = S.suspend(() =>
+  S.Struct({ resourceArn: S.String, tags: TagsMap }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "TagResourceInput",
+}) as any as S.Schema<TagResourceInput>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export type BranchNameList = string[];
 export const BranchNameList = S.Array(S.String);
+export type RepositoryTriggerEventList = string[];
 export const RepositoryTriggerEventList = S.Array(S.String);
-export class RepositoryTrigger extends S.Class<RepositoryTrigger>(
-  "RepositoryTrigger",
-)({
-  name: S.String,
-  destinationArn: S.String,
-  customData: S.optional(S.String),
-  branches: S.optional(BranchNameList),
-  events: RepositoryTriggerEventList,
-}) {}
+export interface RepositoryTrigger {
+  name: string;
+  destinationArn: string;
+  customData?: string;
+  branches?: BranchNameList;
+  events: RepositoryTriggerEventList;
+}
+export const RepositoryTrigger = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    destinationArn: S.String,
+    customData: S.optional(S.String),
+    branches: S.optional(BranchNameList),
+    events: RepositoryTriggerEventList,
+  }),
+).annotations({
+  identifier: "RepositoryTrigger",
+}) as any as S.Schema<RepositoryTrigger>;
+export type RepositoryTriggersList = RepositoryTrigger[];
 export const RepositoryTriggersList = S.Array(RepositoryTrigger);
-export class TestRepositoryTriggersInput extends S.Class<TestRepositoryTriggersInput>(
-  "TestRepositoryTriggersInput",
-)(
-  { repositoryName: S.String, triggers: RepositoryTriggersList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UntagResourceInput extends S.Class<UntagResourceInput>(
-  "UntagResourceInput",
-)(
-  { resourceArn: S.String, tagKeys: TagKeysList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}, ns) {}
-export class UpdateApprovalRuleTemplateContentInput extends S.Class<UpdateApprovalRuleTemplateContentInput>(
-  "UpdateApprovalRuleTemplateContentInput",
-)(
-  {
+export interface TestRepositoryTriggersInput {
+  repositoryName: string;
+  triggers: RepositoryTriggersList;
+}
+export const TestRepositoryTriggersInput = S.suspend(() =>
+  S.Struct({ repositoryName: S.String, triggers: RepositoryTriggersList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "TestRepositoryTriggersInput",
+}) as any as S.Schema<TestRepositoryTriggersInput>;
+export interface UntagResourceInput {
+  resourceArn: string;
+  tagKeys: TagKeysList;
+}
+export const UntagResourceInput = S.suspend(() =>
+  S.Struct({ resourceArn: S.String, tagKeys: TagKeysList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UntagResourceInput",
+}) as any as S.Schema<UntagResourceInput>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface UpdateApprovalRuleTemplateContentInput {
+  approvalRuleTemplateName: string;
+  newRuleContent: string;
+  existingRuleContentSha256?: string;
+}
+export const UpdateApprovalRuleTemplateContentInput = S.suspend(() =>
+  S.Struct({
     approvalRuleTemplateName: S.String,
     newRuleContent: S.String,
     existingRuleContentSha256: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateApprovalRuleTemplateDescriptionInput extends S.Class<UpdateApprovalRuleTemplateDescriptionInput>(
-  "UpdateApprovalRuleTemplateDescriptionInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateApprovalRuleTemplateContentInput",
+}) as any as S.Schema<UpdateApprovalRuleTemplateContentInput>;
+export interface UpdateApprovalRuleTemplateDescriptionInput {
+  approvalRuleTemplateName: string;
+  approvalRuleTemplateDescription: string;
+}
+export const UpdateApprovalRuleTemplateDescriptionInput = S.suspend(() =>
+  S.Struct({
     approvalRuleTemplateName: S.String,
     approvalRuleTemplateDescription: S.String,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateApprovalRuleTemplateNameInput extends S.Class<UpdateApprovalRuleTemplateNameInput>(
-  "UpdateApprovalRuleTemplateNameInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateApprovalRuleTemplateDescriptionInput",
+}) as any as S.Schema<UpdateApprovalRuleTemplateDescriptionInput>;
+export interface UpdateApprovalRuleTemplateNameInput {
+  oldApprovalRuleTemplateName: string;
+  newApprovalRuleTemplateName: string;
+}
+export const UpdateApprovalRuleTemplateNameInput = S.suspend(() =>
+  S.Struct({
     oldApprovalRuleTemplateName: S.String,
     newApprovalRuleTemplateName: S.String,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateCommentInput extends S.Class<UpdateCommentInput>(
-  "UpdateCommentInput",
-)(
-  { commentId: S.String, content: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateDefaultBranchInput extends S.Class<UpdateDefaultBranchInput>(
-  "UpdateDefaultBranchInput",
-)(
-  { repositoryName: S.String, defaultBranchName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateDefaultBranchResponse extends S.Class<UpdateDefaultBranchResponse>(
-  "UpdateDefaultBranchResponse",
-)({}, ns) {}
-export class UpdatePullRequestApprovalRuleContentInput extends S.Class<UpdatePullRequestApprovalRuleContentInput>(
-  "UpdatePullRequestApprovalRuleContentInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateApprovalRuleTemplateNameInput",
+}) as any as S.Schema<UpdateApprovalRuleTemplateNameInput>;
+export interface UpdateCommentInput {
+  commentId: string;
+  content: string;
+}
+export const UpdateCommentInput = S.suspend(() =>
+  S.Struct({ commentId: S.String, content: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateCommentInput",
+}) as any as S.Schema<UpdateCommentInput>;
+export interface UpdateDefaultBranchInput {
+  repositoryName: string;
+  defaultBranchName: string;
+}
+export const UpdateDefaultBranchInput = S.suspend(() =>
+  S.Struct({ repositoryName: S.String, defaultBranchName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateDefaultBranchInput",
+}) as any as S.Schema<UpdateDefaultBranchInput>;
+export interface UpdateDefaultBranchResponse {}
+export const UpdateDefaultBranchResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "UpdateDefaultBranchResponse",
+}) as any as S.Schema<UpdateDefaultBranchResponse>;
+export interface UpdatePullRequestApprovalRuleContentInput {
+  pullRequestId: string;
+  approvalRuleName: string;
+  existingRuleContentSha256?: string;
+  newRuleContent: string;
+}
+export const UpdatePullRequestApprovalRuleContentInput = S.suspend(() =>
+  S.Struct({
     pullRequestId: S.String,
     approvalRuleName: S.String,
     existingRuleContentSha256: S.optional(S.String),
     newRuleContent: S.String,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdatePullRequestApprovalStateInput extends S.Class<UpdatePullRequestApprovalStateInput>(
-  "UpdatePullRequestApprovalStateInput",
-)(
-  { pullRequestId: S.String, revisionId: S.String, approvalState: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdatePullRequestApprovalStateResponse extends S.Class<UpdatePullRequestApprovalStateResponse>(
-  "UpdatePullRequestApprovalStateResponse",
-)({}, ns) {}
-export class UpdatePullRequestDescriptionInput extends S.Class<UpdatePullRequestDescriptionInput>(
-  "UpdatePullRequestDescriptionInput",
-)(
-  { pullRequestId: S.String, description: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdatePullRequestStatusInput extends S.Class<UpdatePullRequestStatusInput>(
-  "UpdatePullRequestStatusInput",
-)(
-  { pullRequestId: S.String, pullRequestStatus: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdatePullRequestTitleInput extends S.Class<UpdatePullRequestTitleInput>(
-  "UpdatePullRequestTitleInput",
-)(
-  { pullRequestId: S.String, title: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateRepositoryDescriptionInput extends S.Class<UpdateRepositoryDescriptionInput>(
-  "UpdateRepositoryDescriptionInput",
-)(
-  { repositoryName: S.String, repositoryDescription: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateRepositoryDescriptionResponse extends S.Class<UpdateRepositoryDescriptionResponse>(
-  "UpdateRepositoryDescriptionResponse",
-)({}, ns) {}
-export class UpdateRepositoryEncryptionKeyInput extends S.Class<UpdateRepositoryEncryptionKeyInput>(
-  "UpdateRepositoryEncryptionKeyInput",
-)(
-  { repositoryName: S.String, kmsKeyId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateRepositoryNameInput extends S.Class<UpdateRepositoryNameInput>(
-  "UpdateRepositoryNameInput",
-)(
-  { oldName: S.String, newName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateRepositoryNameResponse extends S.Class<UpdateRepositoryNameResponse>(
-  "UpdateRepositoryNameResponse",
-)({}, ns) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdatePullRequestApprovalRuleContentInput",
+}) as any as S.Schema<UpdatePullRequestApprovalRuleContentInput>;
+export interface UpdatePullRequestApprovalStateInput {
+  pullRequestId: string;
+  revisionId: string;
+  approvalState: string;
+}
+export const UpdatePullRequestApprovalStateInput = S.suspend(() =>
+  S.Struct({
+    pullRequestId: S.String,
+    revisionId: S.String,
+    approvalState: S.String,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdatePullRequestApprovalStateInput",
+}) as any as S.Schema<UpdatePullRequestApprovalStateInput>;
+export interface UpdatePullRequestApprovalStateResponse {}
+export const UpdatePullRequestApprovalStateResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "UpdatePullRequestApprovalStateResponse",
+}) as any as S.Schema<UpdatePullRequestApprovalStateResponse>;
+export interface UpdatePullRequestDescriptionInput {
+  pullRequestId: string;
+  description: string;
+}
+export const UpdatePullRequestDescriptionInput = S.suspend(() =>
+  S.Struct({ pullRequestId: S.String, description: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdatePullRequestDescriptionInput",
+}) as any as S.Schema<UpdatePullRequestDescriptionInput>;
+export interface UpdatePullRequestStatusInput {
+  pullRequestId: string;
+  pullRequestStatus: string;
+}
+export const UpdatePullRequestStatusInput = S.suspend(() =>
+  S.Struct({ pullRequestId: S.String, pullRequestStatus: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdatePullRequestStatusInput",
+}) as any as S.Schema<UpdatePullRequestStatusInput>;
+export interface UpdatePullRequestTitleInput {
+  pullRequestId: string;
+  title: string;
+}
+export const UpdatePullRequestTitleInput = S.suspend(() =>
+  S.Struct({ pullRequestId: S.String, title: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdatePullRequestTitleInput",
+}) as any as S.Schema<UpdatePullRequestTitleInput>;
+export interface UpdateRepositoryDescriptionInput {
+  repositoryName: string;
+  repositoryDescription?: string;
+}
+export const UpdateRepositoryDescriptionInput = S.suspend(() =>
+  S.Struct({
+    repositoryName: S.String,
+    repositoryDescription: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateRepositoryDescriptionInput",
+}) as any as S.Schema<UpdateRepositoryDescriptionInput>;
+export interface UpdateRepositoryDescriptionResponse {}
+export const UpdateRepositoryDescriptionResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "UpdateRepositoryDescriptionResponse",
+}) as any as S.Schema<UpdateRepositoryDescriptionResponse>;
+export interface UpdateRepositoryEncryptionKeyInput {
+  repositoryName: string;
+  kmsKeyId: string;
+}
+export const UpdateRepositoryEncryptionKeyInput = S.suspend(() =>
+  S.Struct({ repositoryName: S.String, kmsKeyId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateRepositoryEncryptionKeyInput",
+}) as any as S.Schema<UpdateRepositoryEncryptionKeyInput>;
+export interface UpdateRepositoryNameInput {
+  oldName: string;
+  newName: string;
+}
+export const UpdateRepositoryNameInput = S.suspend(() =>
+  S.Struct({ oldName: S.String, newName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateRepositoryNameInput",
+}) as any as S.Schema<UpdateRepositoryNameInput>;
+export interface UpdateRepositoryNameResponse {}
+export const UpdateRepositoryNameResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "UpdateRepositoryNameResponse",
+}) as any as S.Schema<UpdateRepositoryNameResponse>;
+export type RepositoryNotFoundList = string[];
 export const RepositoryNotFoundList = S.Array(S.String);
-export class Target extends S.Class<Target>("Target")({
-  repositoryName: S.String,
-  sourceReference: S.String,
-  destinationReference: S.optional(S.String),
-}) {}
+export interface Target {
+  repositoryName: string;
+  sourceReference: string;
+  destinationReference?: string;
+}
+export const Target = S.suspend(() =>
+  S.Struct({
+    repositoryName: S.String,
+    sourceReference: S.String,
+    destinationReference: S.optional(S.String),
+  }),
+).annotations({ identifier: "Target" }) as any as S.Schema<Target>;
+export type TargetList = Target[];
 export const TargetList = S.Array(Target);
-export class FileSizes extends S.Class<FileSizes>("FileSizes")({
-  source: S.optional(S.Number),
-  destination: S.optional(S.Number),
-  base: S.optional(S.Number),
-}) {}
-export class FileModes extends S.Class<FileModes>("FileModes")({
-  source: S.optional(S.String),
-  destination: S.optional(S.String),
-  base: S.optional(S.String),
-}) {}
-export class ObjectTypes extends S.Class<ObjectTypes>("ObjectTypes")({
-  source: S.optional(S.String),
-  destination: S.optional(S.String),
-  base: S.optional(S.String),
-}) {}
-export class IsBinaryFile extends S.Class<IsBinaryFile>("IsBinaryFile")({
-  source: S.optional(S.Boolean),
-  destination: S.optional(S.Boolean),
-  base: S.optional(S.Boolean),
-}) {}
-export class MergeOperations extends S.Class<MergeOperations>(
-  "MergeOperations",
-)({ source: S.optional(S.String), destination: S.optional(S.String) }) {}
-export class ConflictMetadata extends S.Class<ConflictMetadata>(
-  "ConflictMetadata",
-)({
-  filePath: S.optional(S.String),
-  fileSizes: S.optional(FileSizes),
-  fileModes: S.optional(FileModes),
-  objectTypes: S.optional(ObjectTypes),
-  numberOfConflicts: S.optional(S.Number),
-  isBinaryFile: S.optional(IsBinaryFile),
-  contentConflict: S.optional(S.Boolean),
-  fileModeConflict: S.optional(S.Boolean),
-  objectTypeConflict: S.optional(S.Boolean),
-  mergeOperations: S.optional(MergeOperations),
-}) {}
+export interface FileSizes {
+  source?: number;
+  destination?: number;
+  base?: number;
+}
+export const FileSizes = S.suspend(() =>
+  S.Struct({
+    source: S.optional(S.Number),
+    destination: S.optional(S.Number),
+    base: S.optional(S.Number),
+  }),
+).annotations({ identifier: "FileSizes" }) as any as S.Schema<FileSizes>;
+export interface FileModes {
+  source?: string;
+  destination?: string;
+  base?: string;
+}
+export const FileModes = S.suspend(() =>
+  S.Struct({
+    source: S.optional(S.String),
+    destination: S.optional(S.String),
+    base: S.optional(S.String),
+  }),
+).annotations({ identifier: "FileModes" }) as any as S.Schema<FileModes>;
+export interface ObjectTypes {
+  source?: string;
+  destination?: string;
+  base?: string;
+}
+export const ObjectTypes = S.suspend(() =>
+  S.Struct({
+    source: S.optional(S.String),
+    destination: S.optional(S.String),
+    base: S.optional(S.String),
+  }),
+).annotations({ identifier: "ObjectTypes" }) as any as S.Schema<ObjectTypes>;
+export interface IsBinaryFile {
+  source?: boolean;
+  destination?: boolean;
+  base?: boolean;
+}
+export const IsBinaryFile = S.suspend(() =>
+  S.Struct({
+    source: S.optional(S.Boolean),
+    destination: S.optional(S.Boolean),
+    base: S.optional(S.Boolean),
+  }),
+).annotations({ identifier: "IsBinaryFile" }) as any as S.Schema<IsBinaryFile>;
+export interface MergeOperations {
+  source?: string;
+  destination?: string;
+}
+export const MergeOperations = S.suspend(() =>
+  S.Struct({ source: S.optional(S.String), destination: S.optional(S.String) }),
+).annotations({
+  identifier: "MergeOperations",
+}) as any as S.Schema<MergeOperations>;
+export interface ConflictMetadata {
+  filePath?: string;
+  fileSizes?: FileSizes;
+  fileModes?: FileModes;
+  objectTypes?: ObjectTypes;
+  numberOfConflicts?: number;
+  isBinaryFile?: IsBinaryFile;
+  contentConflict?: boolean;
+  fileModeConflict?: boolean;
+  objectTypeConflict?: boolean;
+  mergeOperations?: MergeOperations;
+}
+export const ConflictMetadata = S.suspend(() =>
+  S.Struct({
+    filePath: S.optional(S.String),
+    fileSizes: S.optional(FileSizes),
+    fileModes: S.optional(FileModes),
+    objectTypes: S.optional(ObjectTypes),
+    numberOfConflicts: S.optional(S.Number),
+    isBinaryFile: S.optional(IsBinaryFile),
+    contentConflict: S.optional(S.Boolean),
+    fileModeConflict: S.optional(S.Boolean),
+    objectTypeConflict: S.optional(S.Boolean),
+    mergeOperations: S.optional(MergeOperations),
+  }),
+).annotations({
+  identifier: "ConflictMetadata",
+}) as any as S.Schema<ConflictMetadata>;
+export type ConflictMetadataList = ConflictMetadata[];
 export const ConflictMetadataList = S.Array(ConflictMetadata);
+export type MergeOptions = string[];
 export const MergeOptions = S.Array(S.String);
+export type ApprovalRuleTemplateNameList = string[];
 export const ApprovalRuleTemplateNameList = S.Array(S.String);
+export type PullRequestIdList = string[];
 export const PullRequestIdList = S.Array(S.String);
+export type RepositoryTriggerNameList = string[];
 export const RepositoryTriggerNameList = S.Array(S.String);
-export class CreatePullRequestInput extends S.Class<CreatePullRequestInput>(
-  "CreatePullRequestInput",
-)(
-  {
+export interface CreatePullRequestInput {
+  title: string;
+  description?: string;
+  targets: TargetList;
+  clientRequestToken?: string;
+}
+export const CreatePullRequestInput = S.suspend(() =>
+  S.Struct({
     title: S.String,
     description: S.optional(S.String),
     targets: TargetList,
     clientRequestToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateRepositoryInput extends S.Class<CreateRepositoryInput>(
-  "CreateRepositoryInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreatePullRequestInput",
+}) as any as S.Schema<CreatePullRequestInput>;
+export interface CreateRepositoryInput {
+  repositoryName: string;
+  repositoryDescription?: string;
+  tags?: TagsMap;
+  kmsKeyId?: string;
+}
+export const CreateRepositoryInput = S.suspend(() =>
+  S.Struct({
     repositoryName: S.String,
     repositoryDescription: S.optional(S.String),
     tags: S.optional(TagsMap),
     kmsKeyId: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteApprovalRuleTemplateOutput extends S.Class<DeleteApprovalRuleTemplateOutput>(
-  "DeleteApprovalRuleTemplateOutput",
-)({ approvalRuleTemplateId: S.String }, ns) {}
-export class DeleteFileOutput extends S.Class<DeleteFileOutput>(
-  "DeleteFileOutput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateRepositoryInput",
+}) as any as S.Schema<CreateRepositoryInput>;
+export interface DeleteApprovalRuleTemplateOutput {
+  approvalRuleTemplateId: string;
+}
+export const DeleteApprovalRuleTemplateOutput = S.suspend(() =>
+  S.Struct({ approvalRuleTemplateId: S.String }).pipe(ns),
+).annotations({
+  identifier: "DeleteApprovalRuleTemplateOutput",
+}) as any as S.Schema<DeleteApprovalRuleTemplateOutput>;
+export interface DeleteFileOutput {
+  commitId: string;
+  blobId: string;
+  treeId: string;
+  filePath: string;
+}
+export const DeleteFileOutput = S.suspend(() =>
+  S.Struct({
     commitId: S.String,
     blobId: S.String,
     treeId: S.String,
     filePath: S.String,
-  },
-  ns,
-) {}
-export class DeletePullRequestApprovalRuleOutput extends S.Class<DeletePullRequestApprovalRuleOutput>(
-  "DeletePullRequestApprovalRuleOutput",
-)({ approvalRuleId: S.String }, ns) {}
-export class DeleteRepositoryOutput extends S.Class<DeleteRepositoryOutput>(
-  "DeleteRepositoryOutput",
-)({ repositoryId: S.optional(S.String) }, ns) {}
-export class ApprovalRuleTemplate extends S.Class<ApprovalRuleTemplate>(
-  "ApprovalRuleTemplate",
-)({
-  approvalRuleTemplateId: S.optional(S.String),
-  approvalRuleTemplateName: S.optional(S.String),
-  approvalRuleTemplateDescription: S.optional(S.String),
-  approvalRuleTemplateContent: S.optional(S.String),
-  ruleContentSha256: S.optional(S.String),
-  lastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  creationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastModifiedUser: S.optional(S.String),
-}) {}
-export class GetApprovalRuleTemplateOutput extends S.Class<GetApprovalRuleTemplateOutput>(
-  "GetApprovalRuleTemplateOutput",
-)({ approvalRuleTemplate: ApprovalRuleTemplate }, ns) {}
-export class GetBlobOutput extends S.Class<GetBlobOutput>("GetBlobOutput")(
-  { content: T.Blob },
-  ns,
-) {}
-export class BranchInfo extends S.Class<BranchInfo>("BranchInfo")({
-  branchName: S.optional(S.String),
-  commitId: S.optional(S.String),
-}) {}
-export class GetBranchOutput extends S.Class<GetBranchOutput>(
-  "GetBranchOutput",
-)({ branch: S.optional(BranchInfo) }, ns) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "DeleteFileOutput",
+}) as any as S.Schema<DeleteFileOutput>;
+export interface DeletePullRequestApprovalRuleOutput {
+  approvalRuleId: string;
+}
+export const DeletePullRequestApprovalRuleOutput = S.suspend(() =>
+  S.Struct({ approvalRuleId: S.String }).pipe(ns),
+).annotations({
+  identifier: "DeletePullRequestApprovalRuleOutput",
+}) as any as S.Schema<DeletePullRequestApprovalRuleOutput>;
+export interface DeleteRepositoryOutput {
+  repositoryId?: string;
+}
+export const DeleteRepositoryOutput = S.suspend(() =>
+  S.Struct({ repositoryId: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "DeleteRepositoryOutput",
+}) as any as S.Schema<DeleteRepositoryOutput>;
+export interface ApprovalRuleTemplate {
+  approvalRuleTemplateId?: string;
+  approvalRuleTemplateName?: string;
+  approvalRuleTemplateDescription?: string;
+  approvalRuleTemplateContent?: string;
+  ruleContentSha256?: string;
+  lastModifiedDate?: Date;
+  creationDate?: Date;
+  lastModifiedUser?: string;
+}
+export const ApprovalRuleTemplate = S.suspend(() =>
+  S.Struct({
+    approvalRuleTemplateId: S.optional(S.String),
+    approvalRuleTemplateName: S.optional(S.String),
+    approvalRuleTemplateDescription: S.optional(S.String),
+    approvalRuleTemplateContent: S.optional(S.String),
+    ruleContentSha256: S.optional(S.String),
+    lastModifiedDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    creationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastModifiedUser: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ApprovalRuleTemplate",
+}) as any as S.Schema<ApprovalRuleTemplate>;
+export interface GetApprovalRuleTemplateOutput {
+  approvalRuleTemplate: ApprovalRuleTemplate;
+}
+export const GetApprovalRuleTemplateOutput = S.suspend(() =>
+  S.Struct({ approvalRuleTemplate: ApprovalRuleTemplate }).pipe(ns),
+).annotations({
+  identifier: "GetApprovalRuleTemplateOutput",
+}) as any as S.Schema<GetApprovalRuleTemplateOutput>;
+export interface GetBlobOutput {
+  content: Uint8Array;
+}
+export const GetBlobOutput = S.suspend(() =>
+  S.Struct({ content: T.Blob }).pipe(ns),
+).annotations({
+  identifier: "GetBlobOutput",
+}) as any as S.Schema<GetBlobOutput>;
+export interface BranchInfo {
+  branchName?: string;
+  commitId?: string;
+}
+export const BranchInfo = S.suspend(() =>
+  S.Struct({
+    branchName: S.optional(S.String),
+    commitId: S.optional(S.String),
+  }),
+).annotations({ identifier: "BranchInfo" }) as any as S.Schema<BranchInfo>;
+export interface GetBranchOutput {
+  branch?: BranchInfo;
+}
+export const GetBranchOutput = S.suspend(() =>
+  S.Struct({ branch: S.optional(BranchInfo) }).pipe(ns),
+).annotations({
+  identifier: "GetBranchOutput",
+}) as any as S.Schema<GetBranchOutput>;
+export type CallerReactions = string[];
 export const CallerReactions = S.Array(S.String);
+export type ReactionCountsMap = { [key: string]: number };
 export const ReactionCountsMap = S.Record({ key: S.String, value: S.Number });
-export class Comment extends S.Class<Comment>("Comment")({
-  commentId: S.optional(S.String),
-  content: S.optional(S.String),
-  inReplyTo: S.optional(S.String),
-  creationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  authorArn: S.optional(S.String),
-  deleted: S.optional(S.Boolean),
-  clientRequestToken: S.optional(S.String),
-  callerReactions: S.optional(CallerReactions),
-  reactionCounts: S.optional(ReactionCountsMap),
-}) {}
-export class GetCommentOutput extends S.Class<GetCommentOutput>(
-  "GetCommentOutput",
-)({ comment: S.optional(Comment) }, ns) {}
+export interface Comment {
+  commentId?: string;
+  content?: string;
+  inReplyTo?: string;
+  creationDate?: Date;
+  lastModifiedDate?: Date;
+  authorArn?: string;
+  deleted?: boolean;
+  clientRequestToken?: string;
+  callerReactions?: CallerReactions;
+  reactionCounts?: ReactionCountsMap;
+}
+export const Comment = S.suspend(() =>
+  S.Struct({
+    commentId: S.optional(S.String),
+    content: S.optional(S.String),
+    inReplyTo: S.optional(S.String),
+    creationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastModifiedDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    authorArn: S.optional(S.String),
+    deleted: S.optional(S.Boolean),
+    clientRequestToken: S.optional(S.String),
+    callerReactions: S.optional(CallerReactions),
+    reactionCounts: S.optional(ReactionCountsMap),
+  }),
+).annotations({ identifier: "Comment" }) as any as S.Schema<Comment>;
+export interface GetCommentOutput {
+  comment?: Comment;
+}
+export const GetCommentOutput = S.suspend(() =>
+  S.Struct({ comment: S.optional(Comment) }).pipe(ns),
+).annotations({
+  identifier: "GetCommentOutput",
+}) as any as S.Schema<GetCommentOutput>;
+export type ParentList = string[];
 export const ParentList = S.Array(S.String);
-export class UserInfo extends S.Class<UserInfo>("UserInfo")({
-  name: S.optional(S.String),
-  email: S.optional(S.String),
-  date: S.optional(S.String),
-}) {}
-export class Commit extends S.Class<Commit>("Commit")({
-  commitId: S.optional(S.String),
-  treeId: S.optional(S.String),
-  parents: S.optional(ParentList),
-  message: S.optional(S.String),
-  author: S.optional(UserInfo),
-  committer: S.optional(UserInfo),
-  additionalData: S.optional(S.String),
-}) {}
-export class GetCommitOutput extends S.Class<GetCommitOutput>(
-  "GetCommitOutput",
-)({ commit: Commit }, ns) {}
-export class GetFileOutput extends S.Class<GetFileOutput>("GetFileOutput")(
-  {
+export interface UserInfo {
+  name?: string;
+  email?: string;
+  date?: string;
+}
+export const UserInfo = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    email: S.optional(S.String),
+    date: S.optional(S.String),
+  }),
+).annotations({ identifier: "UserInfo" }) as any as S.Schema<UserInfo>;
+export interface Commit {
+  commitId?: string;
+  treeId?: string;
+  parents?: ParentList;
+  message?: string;
+  author?: UserInfo;
+  committer?: UserInfo;
+  additionalData?: string;
+}
+export const Commit = S.suspend(() =>
+  S.Struct({
+    commitId: S.optional(S.String),
+    treeId: S.optional(S.String),
+    parents: S.optional(ParentList),
+    message: S.optional(S.String),
+    author: S.optional(UserInfo),
+    committer: S.optional(UserInfo),
+    additionalData: S.optional(S.String),
+  }),
+).annotations({ identifier: "Commit" }) as any as S.Schema<Commit>;
+export interface GetCommitOutput {
+  commit: Commit;
+}
+export const GetCommitOutput = S.suspend(() =>
+  S.Struct({ commit: Commit }).pipe(ns),
+).annotations({
+  identifier: "GetCommitOutput",
+}) as any as S.Schema<GetCommitOutput>;
+export interface GetFileOutput {
+  commitId: string;
+  blobId: string;
+  filePath: string;
+  fileMode: string;
+  fileSize: number;
+  fileContent: Uint8Array;
+}
+export const GetFileOutput = S.suspend(() =>
+  S.Struct({
     commitId: S.String,
     blobId: S.String,
     filePath: S.String,
     fileMode: S.String,
     fileSize: S.Number,
     fileContent: T.Blob,
-  },
-  ns,
-) {}
-export class GetMergeCommitOutput extends S.Class<GetMergeCommitOutput>(
-  "GetMergeCommitOutput",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetFileOutput",
+}) as any as S.Schema<GetFileOutput>;
+export interface GetMergeCommitOutput {
+  sourceCommitId?: string;
+  destinationCommitId?: string;
+  baseCommitId?: string;
+  mergedCommitId?: string;
+}
+export const GetMergeCommitOutput = S.suspend(() =>
+  S.Struct({
     sourceCommitId: S.optional(S.String),
     destinationCommitId: S.optional(S.String),
     baseCommitId: S.optional(S.String),
     mergedCommitId: S.optional(S.String),
-  },
-  ns,
-) {}
-export class GetMergeConflictsOutput extends S.Class<GetMergeConflictsOutput>(
-  "GetMergeConflictsOutput",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetMergeCommitOutput",
+}) as any as S.Schema<GetMergeCommitOutput>;
+export interface GetMergeConflictsOutput {
+  mergeable: boolean;
+  destinationCommitId: string;
+  sourceCommitId: string;
+  baseCommitId?: string;
+  conflictMetadataList: ConflictMetadataList;
+  nextToken?: string;
+}
+export const GetMergeConflictsOutput = S.suspend(() =>
+  S.Struct({
     mergeable: S.Boolean,
     destinationCommitId: S.String,
     sourceCommitId: S.String,
     baseCommitId: S.optional(S.String),
     conflictMetadataList: ConflictMetadataList,
     nextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class GetMergeOptionsOutput extends S.Class<GetMergeOptionsOutput>(
-  "GetMergeOptionsOutput",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetMergeConflictsOutput",
+}) as any as S.Schema<GetMergeConflictsOutput>;
+export interface GetMergeOptionsOutput {
+  mergeOptions: MergeOptions;
+  sourceCommitId: string;
+  destinationCommitId: string;
+  baseCommitId: string;
+}
+export const GetMergeOptionsOutput = S.suspend(() =>
+  S.Struct({
     mergeOptions: MergeOptions,
     sourceCommitId: S.String,
     destinationCommitId: S.String,
     baseCommitId: S.String,
-  },
-  ns,
-) {}
-export class GetPullRequestOverrideStateOutput extends S.Class<GetPullRequestOverrideStateOutput>(
-  "GetPullRequestOverrideStateOutput",
-)({ overridden: S.optional(S.Boolean), overrider: S.optional(S.String) }, ns) {}
-export class RepositoryMetadata extends S.Class<RepositoryMetadata>(
-  "RepositoryMetadata",
-)({
-  accountId: S.optional(S.String),
-  repositoryId: S.optional(S.String),
-  repositoryName: S.optional(S.String),
-  repositoryDescription: S.optional(S.String),
-  defaultBranch: S.optional(S.String),
-  lastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  creationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  cloneUrlHttp: S.optional(S.String),
-  cloneUrlSsh: S.optional(S.String),
-  Arn: S.optional(S.String),
-  kmsKeyId: S.optional(S.String),
-}) {}
-export class GetRepositoryOutput extends S.Class<GetRepositoryOutput>(
-  "GetRepositoryOutput",
-)({ repositoryMetadata: S.optional(RepositoryMetadata) }, ns) {}
-export class GetRepositoryTriggersOutput extends S.Class<GetRepositoryTriggersOutput>(
-  "GetRepositoryTriggersOutput",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetMergeOptionsOutput",
+}) as any as S.Schema<GetMergeOptionsOutput>;
+export interface GetPullRequestOverrideStateOutput {
+  overridden?: boolean;
+  overrider?: string;
+}
+export const GetPullRequestOverrideStateOutput = S.suspend(() =>
+  S.Struct({
+    overridden: S.optional(S.Boolean),
+    overrider: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "GetPullRequestOverrideStateOutput",
+}) as any as S.Schema<GetPullRequestOverrideStateOutput>;
+export interface RepositoryMetadata {
+  accountId?: string;
+  repositoryId?: string;
+  repositoryName?: string;
+  repositoryDescription?: string;
+  defaultBranch?: string;
+  lastModifiedDate?: Date;
+  creationDate?: Date;
+  cloneUrlHttp?: string;
+  cloneUrlSsh?: string;
+  Arn?: string;
+  kmsKeyId?: string;
+}
+export const RepositoryMetadata = S.suspend(() =>
+  S.Struct({
+    accountId: S.optional(S.String),
+    repositoryId: S.optional(S.String),
+    repositoryName: S.optional(S.String),
+    repositoryDescription: S.optional(S.String),
+    defaultBranch: S.optional(S.String),
+    lastModifiedDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    creationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    cloneUrlHttp: S.optional(S.String),
+    cloneUrlSsh: S.optional(S.String),
+    Arn: S.optional(S.String),
+    kmsKeyId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RepositoryMetadata",
+}) as any as S.Schema<RepositoryMetadata>;
+export interface GetRepositoryOutput {
+  repositoryMetadata?: RepositoryMetadata;
+}
+export const GetRepositoryOutput = S.suspend(() =>
+  S.Struct({ repositoryMetadata: S.optional(RepositoryMetadata) }).pipe(ns),
+).annotations({
+  identifier: "GetRepositoryOutput",
+}) as any as S.Schema<GetRepositoryOutput>;
+export interface GetRepositoryTriggersOutput {
+  configurationId?: string;
+  triggers?: RepositoryTriggersList;
+}
+export const GetRepositoryTriggersOutput = S.suspend(() =>
+  S.Struct({
     configurationId: S.optional(S.String),
     triggers: S.optional(RepositoryTriggersList),
-  },
-  ns,
-) {}
-export class ListApprovalRuleTemplatesOutput extends S.Class<ListApprovalRuleTemplatesOutput>(
-  "ListApprovalRuleTemplatesOutput",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetRepositoryTriggersOutput",
+}) as any as S.Schema<GetRepositoryTriggersOutput>;
+export interface ListApprovalRuleTemplatesOutput {
+  approvalRuleTemplateNames?: ApprovalRuleTemplateNameList;
+  nextToken?: string;
+}
+export const ListApprovalRuleTemplatesOutput = S.suspend(() =>
+  S.Struct({
     approvalRuleTemplateNames: S.optional(ApprovalRuleTemplateNameList),
     nextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListAssociatedApprovalRuleTemplatesForRepositoryOutput extends S.Class<ListAssociatedApprovalRuleTemplatesForRepositoryOutput>(
-  "ListAssociatedApprovalRuleTemplatesForRepositoryOutput",
-)(
-  {
-    approvalRuleTemplateNames: S.optional(ApprovalRuleTemplateNameList),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListApprovalRuleTemplatesOutput",
+}) as any as S.Schema<ListApprovalRuleTemplatesOutput>;
+export interface ListAssociatedApprovalRuleTemplatesForRepositoryOutput {
+  approvalRuleTemplateNames?: ApprovalRuleTemplateNameList;
+  nextToken?: string;
+}
+export const ListAssociatedApprovalRuleTemplatesForRepositoryOutput = S.suspend(
+  () =>
+    S.Struct({
+      approvalRuleTemplateNames: S.optional(ApprovalRuleTemplateNameList),
+      nextToken: S.optional(S.String),
+    }).pipe(ns),
+).annotations({
+  identifier: "ListAssociatedApprovalRuleTemplatesForRepositoryOutput",
+}) as any as S.Schema<ListAssociatedApprovalRuleTemplatesForRepositoryOutput>;
+export interface ListBranchesOutput {
+  branches?: BranchNameList;
+  nextToken?: string;
+}
+export const ListBranchesOutput = S.suspend(() =>
+  S.Struct({
+    branches: S.optional(BranchNameList),
     nextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListBranchesOutput extends S.Class<ListBranchesOutput>(
-  "ListBranchesOutput",
-)(
-  { branches: S.optional(BranchNameList), nextToken: S.optional(S.String) },
-  ns,
-) {}
-export class ListPullRequestsOutput extends S.Class<ListPullRequestsOutput>(
-  "ListPullRequestsOutput",
-)({ pullRequestIds: PullRequestIdList, nextToken: S.optional(S.String) }, ns) {}
-export class ListRepositoriesForApprovalRuleTemplateOutput extends S.Class<ListRepositoriesForApprovalRuleTemplateOutput>(
-  "ListRepositoriesForApprovalRuleTemplateOutput",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListBranchesOutput",
+}) as any as S.Schema<ListBranchesOutput>;
+export interface ListPullRequestsOutput {
+  pullRequestIds: PullRequestIdList;
+  nextToken?: string;
+}
+export const ListPullRequestsOutput = S.suspend(() =>
+  S.Struct({
+    pullRequestIds: PullRequestIdList,
+    nextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListPullRequestsOutput",
+}) as any as S.Schema<ListPullRequestsOutput>;
+export interface ListRepositoriesForApprovalRuleTemplateOutput {
+  repositoryNames?: RepositoryNameList;
+  nextToken?: string;
+}
+export const ListRepositoriesForApprovalRuleTemplateOutput = S.suspend(() =>
+  S.Struct({
     repositoryNames: S.optional(RepositoryNameList),
     nextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListTagsForResourceOutput extends S.Class<ListTagsForResourceOutput>(
-  "ListTagsForResourceOutput",
-)({ tags: S.optional(TagsMap), nextToken: S.optional(S.String) }, ns) {}
-export class MergeBranchesByFastForwardOutput extends S.Class<MergeBranchesByFastForwardOutput>(
-  "MergeBranchesByFastForwardOutput",
-)({ commitId: S.optional(S.String), treeId: S.optional(S.String) }, ns) {}
-export class MergeBranchesBySquashOutput extends S.Class<MergeBranchesBySquashOutput>(
-  "MergeBranchesBySquashOutput",
-)({ commitId: S.optional(S.String), treeId: S.optional(S.String) }, ns) {}
-export class MergeBranchesByThreeWayOutput extends S.Class<MergeBranchesByThreeWayOutput>(
-  "MergeBranchesByThreeWayOutput",
-)({ commitId: S.optional(S.String), treeId: S.optional(S.String) }, ns) {}
-export class MergeMetadata extends S.Class<MergeMetadata>("MergeMetadata")({
-  isMerged: S.optional(S.Boolean),
-  mergedBy: S.optional(S.String),
-  mergeCommitId: S.optional(S.String),
-  mergeOption: S.optional(S.String),
-}) {}
-export class PullRequestTarget extends S.Class<PullRequestTarget>(
-  "PullRequestTarget",
-)({
-  repositoryName: S.optional(S.String),
-  sourceReference: S.optional(S.String),
-  destinationReference: S.optional(S.String),
-  destinationCommit: S.optional(S.String),
-  sourceCommit: S.optional(S.String),
-  mergeBase: S.optional(S.String),
-  mergeMetadata: S.optional(MergeMetadata),
-}) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "ListRepositoriesForApprovalRuleTemplateOutput",
+}) as any as S.Schema<ListRepositoriesForApprovalRuleTemplateOutput>;
+export interface ListTagsForResourceOutput {
+  tags?: TagsMap;
+  nextToken?: string;
+}
+export const ListTagsForResourceOutput = S.suspend(() =>
+  S.Struct({ tags: S.optional(TagsMap), nextToken: S.optional(S.String) }).pipe(
+    ns,
+  ),
+).annotations({
+  identifier: "ListTagsForResourceOutput",
+}) as any as S.Schema<ListTagsForResourceOutput>;
+export interface MergeBranchesByFastForwardOutput {
+  commitId?: string;
+  treeId?: string;
+}
+export const MergeBranchesByFastForwardOutput = S.suspend(() =>
+  S.Struct({
+    commitId: S.optional(S.String),
+    treeId: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "MergeBranchesByFastForwardOutput",
+}) as any as S.Schema<MergeBranchesByFastForwardOutput>;
+export interface MergeBranchesBySquashOutput {
+  commitId?: string;
+  treeId?: string;
+}
+export const MergeBranchesBySquashOutput = S.suspend(() =>
+  S.Struct({
+    commitId: S.optional(S.String),
+    treeId: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "MergeBranchesBySquashOutput",
+}) as any as S.Schema<MergeBranchesBySquashOutput>;
+export interface MergeBranchesByThreeWayOutput {
+  commitId?: string;
+  treeId?: string;
+}
+export const MergeBranchesByThreeWayOutput = S.suspend(() =>
+  S.Struct({
+    commitId: S.optional(S.String),
+    treeId: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "MergeBranchesByThreeWayOutput",
+}) as any as S.Schema<MergeBranchesByThreeWayOutput>;
+export interface MergeMetadata {
+  isMerged?: boolean;
+  mergedBy?: string;
+  mergeCommitId?: string;
+  mergeOption?: string;
+}
+export const MergeMetadata = S.suspend(() =>
+  S.Struct({
+    isMerged: S.optional(S.Boolean),
+    mergedBy: S.optional(S.String),
+    mergeCommitId: S.optional(S.String),
+    mergeOption: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "MergeMetadata",
+}) as any as S.Schema<MergeMetadata>;
+export interface PullRequestTarget {
+  repositoryName?: string;
+  sourceReference?: string;
+  destinationReference?: string;
+  destinationCommit?: string;
+  sourceCommit?: string;
+  mergeBase?: string;
+  mergeMetadata?: MergeMetadata;
+}
+export const PullRequestTarget = S.suspend(() =>
+  S.Struct({
+    repositoryName: S.optional(S.String),
+    sourceReference: S.optional(S.String),
+    destinationReference: S.optional(S.String),
+    destinationCommit: S.optional(S.String),
+    sourceCommit: S.optional(S.String),
+    mergeBase: S.optional(S.String),
+    mergeMetadata: S.optional(MergeMetadata),
+  }),
+).annotations({
+  identifier: "PullRequestTarget",
+}) as any as S.Schema<PullRequestTarget>;
+export type PullRequestTargetList = PullRequestTarget[];
 export const PullRequestTargetList = S.Array(PullRequestTarget);
-export class OriginApprovalRuleTemplate extends S.Class<OriginApprovalRuleTemplate>(
-  "OriginApprovalRuleTemplate",
-)({
-  approvalRuleTemplateId: S.optional(S.String),
-  approvalRuleTemplateName: S.optional(S.String),
-}) {}
-export class ApprovalRule extends S.Class<ApprovalRule>("ApprovalRule")({
-  approvalRuleId: S.optional(S.String),
-  approvalRuleName: S.optional(S.String),
-  approvalRuleContent: S.optional(S.String),
-  ruleContentSha256: S.optional(S.String),
-  lastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  creationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastModifiedUser: S.optional(S.String),
-  originApprovalRuleTemplate: S.optional(OriginApprovalRuleTemplate),
-}) {}
+export interface OriginApprovalRuleTemplate {
+  approvalRuleTemplateId?: string;
+  approvalRuleTemplateName?: string;
+}
+export const OriginApprovalRuleTemplate = S.suspend(() =>
+  S.Struct({
+    approvalRuleTemplateId: S.optional(S.String),
+    approvalRuleTemplateName: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "OriginApprovalRuleTemplate",
+}) as any as S.Schema<OriginApprovalRuleTemplate>;
+export interface ApprovalRule {
+  approvalRuleId?: string;
+  approvalRuleName?: string;
+  approvalRuleContent?: string;
+  ruleContentSha256?: string;
+  lastModifiedDate?: Date;
+  creationDate?: Date;
+  lastModifiedUser?: string;
+  originApprovalRuleTemplate?: OriginApprovalRuleTemplate;
+}
+export const ApprovalRule = S.suspend(() =>
+  S.Struct({
+    approvalRuleId: S.optional(S.String),
+    approvalRuleName: S.optional(S.String),
+    approvalRuleContent: S.optional(S.String),
+    ruleContentSha256: S.optional(S.String),
+    lastModifiedDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    creationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastModifiedUser: S.optional(S.String),
+    originApprovalRuleTemplate: S.optional(OriginApprovalRuleTemplate),
+  }),
+).annotations({ identifier: "ApprovalRule" }) as any as S.Schema<ApprovalRule>;
+export type ApprovalRulesList = ApprovalRule[];
 export const ApprovalRulesList = S.Array(ApprovalRule);
-export class PullRequest extends S.Class<PullRequest>("PullRequest")({
-  pullRequestId: S.optional(S.String),
-  title: S.optional(S.String),
-  description: S.optional(S.String),
-  lastActivityDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  creationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  pullRequestStatus: S.optional(S.String),
-  authorArn: S.optional(S.String),
-  pullRequestTargets: S.optional(PullRequestTargetList),
-  clientRequestToken: S.optional(S.String),
-  revisionId: S.optional(S.String),
-  approvalRules: S.optional(ApprovalRulesList),
-}) {}
-export class MergePullRequestByFastForwardOutput extends S.Class<MergePullRequestByFastForwardOutput>(
-  "MergePullRequestByFastForwardOutput",
-)({ pullRequest: S.optional(PullRequest) }, ns) {}
-export class MergePullRequestBySquashOutput extends S.Class<MergePullRequestBySquashOutput>(
-  "MergePullRequestBySquashOutput",
-)({ pullRequest: S.optional(PullRequest) }, ns) {}
-export class MergePullRequestByThreeWayOutput extends S.Class<MergePullRequestByThreeWayOutput>(
-  "MergePullRequestByThreeWayOutput",
-)({ pullRequest: S.optional(PullRequest) }, ns) {}
-export class PostCommentForComparedCommitInput extends S.Class<PostCommentForComparedCommitInput>(
-  "PostCommentForComparedCommitInput",
-)(
-  {
+export interface PullRequest {
+  pullRequestId?: string;
+  title?: string;
+  description?: string;
+  lastActivityDate?: Date;
+  creationDate?: Date;
+  pullRequestStatus?: string;
+  authorArn?: string;
+  pullRequestTargets?: PullRequestTargetList;
+  clientRequestToken?: string;
+  revisionId?: string;
+  approvalRules?: ApprovalRulesList;
+}
+export const PullRequest = S.suspend(() =>
+  S.Struct({
+    pullRequestId: S.optional(S.String),
+    title: S.optional(S.String),
+    description: S.optional(S.String),
+    lastActivityDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    creationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    pullRequestStatus: S.optional(S.String),
+    authorArn: S.optional(S.String),
+    pullRequestTargets: S.optional(PullRequestTargetList),
+    clientRequestToken: S.optional(S.String),
+    revisionId: S.optional(S.String),
+    approvalRules: S.optional(ApprovalRulesList),
+  }),
+).annotations({ identifier: "PullRequest" }) as any as S.Schema<PullRequest>;
+export interface MergePullRequestByFastForwardOutput {
+  pullRequest?: PullRequest;
+}
+export const MergePullRequestByFastForwardOutput = S.suspend(() =>
+  S.Struct({ pullRequest: S.optional(PullRequest) }).pipe(ns),
+).annotations({
+  identifier: "MergePullRequestByFastForwardOutput",
+}) as any as S.Schema<MergePullRequestByFastForwardOutput>;
+export interface MergePullRequestBySquashOutput {
+  pullRequest?: PullRequest;
+}
+export const MergePullRequestBySquashOutput = S.suspend(() =>
+  S.Struct({ pullRequest: S.optional(PullRequest) }).pipe(ns),
+).annotations({
+  identifier: "MergePullRequestBySquashOutput",
+}) as any as S.Schema<MergePullRequestBySquashOutput>;
+export interface MergePullRequestByThreeWayOutput {
+  pullRequest?: PullRequest;
+}
+export const MergePullRequestByThreeWayOutput = S.suspend(() =>
+  S.Struct({ pullRequest: S.optional(PullRequest) }).pipe(ns),
+).annotations({
+  identifier: "MergePullRequestByThreeWayOutput",
+}) as any as S.Schema<MergePullRequestByThreeWayOutput>;
+export interface PostCommentForComparedCommitInput {
+  repositoryName: string;
+  beforeCommitId?: string;
+  afterCommitId: string;
+  location?: Location;
+  content: string;
+  clientRequestToken?: string;
+}
+export const PostCommentForComparedCommitInput = S.suspend(() =>
+  S.Struct({
     repositoryName: S.String,
     beforeCommitId: S.optional(S.String),
     afterCommitId: S.String,
     location: S.optional(Location),
     content: S.String,
     clientRequestToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PostCommentForPullRequestOutput extends S.Class<PostCommentForPullRequestOutput>(
-  "PostCommentForPullRequestOutput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PostCommentForComparedCommitInput",
+}) as any as S.Schema<PostCommentForComparedCommitInput>;
+export interface PostCommentForPullRequestOutput {
+  repositoryName?: string;
+  pullRequestId?: string;
+  beforeCommitId?: string;
+  afterCommitId?: string;
+  beforeBlobId?: string;
+  afterBlobId?: string;
+  location?: Location;
+  comment?: Comment;
+}
+export const PostCommentForPullRequestOutput = S.suspend(() =>
+  S.Struct({
     repositoryName: S.optional(S.String),
     pullRequestId: S.optional(S.String),
     beforeCommitId: S.optional(S.String),
@@ -1321,264 +2922,558 @@ export class PostCommentForPullRequestOutput extends S.Class<PostCommentForPullR
     afterBlobId: S.optional(S.String),
     location: S.optional(Location),
     comment: S.optional(Comment),
-  },
-  ns,
-) {}
-export class PostCommentReplyOutput extends S.Class<PostCommentReplyOutput>(
-  "PostCommentReplyOutput",
-)({ comment: S.optional(Comment) }, ns) {}
-export class PutFileOutput extends S.Class<PutFileOutput>("PutFileOutput")(
-  { commitId: S.String, blobId: S.String, treeId: S.String },
-  ns,
-) {}
-export class PutRepositoryTriggersInput extends S.Class<PutRepositoryTriggersInput>(
-  "PutRepositoryTriggersInput",
-)(
-  { repositoryName: S.String, triggers: RepositoryTriggersList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateApprovalRuleTemplateContentOutput extends S.Class<UpdateApprovalRuleTemplateContentOutput>(
-  "UpdateApprovalRuleTemplateContentOutput",
-)({ approvalRuleTemplate: ApprovalRuleTemplate }, ns) {}
-export class UpdateApprovalRuleTemplateDescriptionOutput extends S.Class<UpdateApprovalRuleTemplateDescriptionOutput>(
-  "UpdateApprovalRuleTemplateDescriptionOutput",
-)({ approvalRuleTemplate: ApprovalRuleTemplate }, ns) {}
-export class UpdateApprovalRuleTemplateNameOutput extends S.Class<UpdateApprovalRuleTemplateNameOutput>(
-  "UpdateApprovalRuleTemplateNameOutput",
-)({ approvalRuleTemplate: ApprovalRuleTemplate }, ns) {}
-export class UpdateCommentOutput extends S.Class<UpdateCommentOutput>(
-  "UpdateCommentOutput",
-)({ comment: S.optional(Comment) }, ns) {}
-export class UpdatePullRequestApprovalRuleContentOutput extends S.Class<UpdatePullRequestApprovalRuleContentOutput>(
-  "UpdatePullRequestApprovalRuleContentOutput",
-)({ approvalRule: ApprovalRule }, ns) {}
-export class UpdatePullRequestDescriptionOutput extends S.Class<UpdatePullRequestDescriptionOutput>(
-  "UpdatePullRequestDescriptionOutput",
-)({ pullRequest: PullRequest }, ns) {}
-export class UpdatePullRequestStatusOutput extends S.Class<UpdatePullRequestStatusOutput>(
-  "UpdatePullRequestStatusOutput",
-)({ pullRequest: PullRequest }, ns) {}
-export class UpdatePullRequestTitleOutput extends S.Class<UpdatePullRequestTitleOutput>(
-  "UpdatePullRequestTitleOutput",
-)({ pullRequest: PullRequest }, ns) {}
-export class UpdateRepositoryEncryptionKeyOutput extends S.Class<UpdateRepositoryEncryptionKeyOutput>(
-  "UpdateRepositoryEncryptionKeyOutput",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "PostCommentForPullRequestOutput",
+}) as any as S.Schema<PostCommentForPullRequestOutput>;
+export interface PostCommentReplyOutput {
+  comment?: Comment;
+}
+export const PostCommentReplyOutput = S.suspend(() =>
+  S.Struct({ comment: S.optional(Comment) }).pipe(ns),
+).annotations({
+  identifier: "PostCommentReplyOutput",
+}) as any as S.Schema<PostCommentReplyOutput>;
+export interface PutFileOutput {
+  commitId: string;
+  blobId: string;
+  treeId: string;
+}
+export const PutFileOutput = S.suspend(() =>
+  S.Struct({ commitId: S.String, blobId: S.String, treeId: S.String }).pipe(ns),
+).annotations({
+  identifier: "PutFileOutput",
+}) as any as S.Schema<PutFileOutput>;
+export interface PutRepositoryTriggersInput {
+  repositoryName: string;
+  triggers: RepositoryTriggersList;
+}
+export const PutRepositoryTriggersInput = S.suspend(() =>
+  S.Struct({ repositoryName: S.String, triggers: RepositoryTriggersList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutRepositoryTriggersInput",
+}) as any as S.Schema<PutRepositoryTriggersInput>;
+export interface UpdateApprovalRuleTemplateContentOutput {
+  approvalRuleTemplate: ApprovalRuleTemplate;
+}
+export const UpdateApprovalRuleTemplateContentOutput = S.suspend(() =>
+  S.Struct({ approvalRuleTemplate: ApprovalRuleTemplate }).pipe(ns),
+).annotations({
+  identifier: "UpdateApprovalRuleTemplateContentOutput",
+}) as any as S.Schema<UpdateApprovalRuleTemplateContentOutput>;
+export interface UpdateApprovalRuleTemplateDescriptionOutput {
+  approvalRuleTemplate: ApprovalRuleTemplate;
+}
+export const UpdateApprovalRuleTemplateDescriptionOutput = S.suspend(() =>
+  S.Struct({ approvalRuleTemplate: ApprovalRuleTemplate }).pipe(ns),
+).annotations({
+  identifier: "UpdateApprovalRuleTemplateDescriptionOutput",
+}) as any as S.Schema<UpdateApprovalRuleTemplateDescriptionOutput>;
+export interface UpdateApprovalRuleTemplateNameOutput {
+  approvalRuleTemplate: ApprovalRuleTemplate;
+}
+export const UpdateApprovalRuleTemplateNameOutput = S.suspend(() =>
+  S.Struct({ approvalRuleTemplate: ApprovalRuleTemplate }).pipe(ns),
+).annotations({
+  identifier: "UpdateApprovalRuleTemplateNameOutput",
+}) as any as S.Schema<UpdateApprovalRuleTemplateNameOutput>;
+export interface UpdateCommentOutput {
+  comment?: Comment;
+}
+export const UpdateCommentOutput = S.suspend(() =>
+  S.Struct({ comment: S.optional(Comment) }).pipe(ns),
+).annotations({
+  identifier: "UpdateCommentOutput",
+}) as any as S.Schema<UpdateCommentOutput>;
+export interface UpdatePullRequestApprovalRuleContentOutput {
+  approvalRule: ApprovalRule;
+}
+export const UpdatePullRequestApprovalRuleContentOutput = S.suspend(() =>
+  S.Struct({ approvalRule: ApprovalRule }).pipe(ns),
+).annotations({
+  identifier: "UpdatePullRequestApprovalRuleContentOutput",
+}) as any as S.Schema<UpdatePullRequestApprovalRuleContentOutput>;
+export interface UpdatePullRequestDescriptionOutput {
+  pullRequest: PullRequest;
+}
+export const UpdatePullRequestDescriptionOutput = S.suspend(() =>
+  S.Struct({ pullRequest: PullRequest }).pipe(ns),
+).annotations({
+  identifier: "UpdatePullRequestDescriptionOutput",
+}) as any as S.Schema<UpdatePullRequestDescriptionOutput>;
+export interface UpdatePullRequestStatusOutput {
+  pullRequest: PullRequest;
+}
+export const UpdatePullRequestStatusOutput = S.suspend(() =>
+  S.Struct({ pullRequest: PullRequest }).pipe(ns),
+).annotations({
+  identifier: "UpdatePullRequestStatusOutput",
+}) as any as S.Schema<UpdatePullRequestStatusOutput>;
+export interface UpdatePullRequestTitleOutput {
+  pullRequest: PullRequest;
+}
+export const UpdatePullRequestTitleOutput = S.suspend(() =>
+  S.Struct({ pullRequest: PullRequest }).pipe(ns),
+).annotations({
+  identifier: "UpdatePullRequestTitleOutput",
+}) as any as S.Schema<UpdatePullRequestTitleOutput>;
+export interface UpdateRepositoryEncryptionKeyOutput {
+  repositoryId?: string;
+  kmsKeyId?: string;
+  originalKmsKeyId?: string;
+}
+export const UpdateRepositoryEncryptionKeyOutput = S.suspend(() =>
+  S.Struct({
     repositoryId: S.optional(S.String),
     kmsKeyId: S.optional(S.String),
     originalKmsKeyId: S.optional(S.String),
-  },
-  ns,
-) {}
-export class SourceFileSpecifier extends S.Class<SourceFileSpecifier>(
-  "SourceFileSpecifier",
-)({ filePath: S.String, isMove: S.optional(S.Boolean) }) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "UpdateRepositoryEncryptionKeyOutput",
+}) as any as S.Schema<UpdateRepositoryEncryptionKeyOutput>;
+export interface SourceFileSpecifier {
+  filePath: string;
+  isMove?: boolean;
+}
+export const SourceFileSpecifier = S.suspend(() =>
+  S.Struct({ filePath: S.String, isMove: S.optional(S.Boolean) }),
+).annotations({
+  identifier: "SourceFileSpecifier",
+}) as any as S.Schema<SourceFileSpecifier>;
+export type ApprovalRulesSatisfiedList = string[];
 export const ApprovalRulesSatisfiedList = S.Array(S.String);
+export type ApprovalRulesNotSatisfiedList = string[];
 export const ApprovalRulesNotSatisfiedList = S.Array(S.String);
+export type ReactionUsersList = string[];
 export const ReactionUsersList = S.Array(S.String);
+export type Comments = Comment[];
 export const Comments = S.Array(Comment);
+export type RevisionChildren = string[];
 export const RevisionChildren = S.Array(S.String);
-export class BatchAssociateApprovalRuleTemplateWithRepositoriesError extends S.Class<BatchAssociateApprovalRuleTemplateWithRepositoriesError>(
-  "BatchAssociateApprovalRuleTemplateWithRepositoriesError",
-)({
-  repositoryName: S.optional(S.String),
-  errorCode: S.optional(S.String),
-  errorMessage: S.optional(S.String),
-}) {}
+export interface BatchAssociateApprovalRuleTemplateWithRepositoriesError {
+  repositoryName?: string;
+  errorCode?: string;
+  errorMessage?: string;
+}
+export const BatchAssociateApprovalRuleTemplateWithRepositoriesError =
+  S.suspend(() =>
+    S.Struct({
+      repositoryName: S.optional(S.String),
+      errorCode: S.optional(S.String),
+      errorMessage: S.optional(S.String),
+    }),
+  ).annotations({
+    identifier: "BatchAssociateApprovalRuleTemplateWithRepositoriesError",
+  }) as any as S.Schema<BatchAssociateApprovalRuleTemplateWithRepositoriesError>;
+export type BatchAssociateApprovalRuleTemplateWithRepositoriesErrorsList =
+  BatchAssociateApprovalRuleTemplateWithRepositoriesError[];
 export const BatchAssociateApprovalRuleTemplateWithRepositoriesErrorsList =
   S.Array(BatchAssociateApprovalRuleTemplateWithRepositoriesError);
-export class MergeHunkDetail extends S.Class<MergeHunkDetail>(
-  "MergeHunkDetail",
-)({
-  startLine: S.optional(S.Number),
-  endLine: S.optional(S.Number),
-  hunkContent: S.optional(S.String),
-}) {}
-export class MergeHunk extends S.Class<MergeHunk>("MergeHunk")({
-  isConflict: S.optional(S.Boolean),
-  source: S.optional(MergeHunkDetail),
-  destination: S.optional(MergeHunkDetail),
-  base: S.optional(MergeHunkDetail),
-}) {}
+export interface MergeHunkDetail {
+  startLine?: number;
+  endLine?: number;
+  hunkContent?: string;
+}
+export const MergeHunkDetail = S.suspend(() =>
+  S.Struct({
+    startLine: S.optional(S.Number),
+    endLine: S.optional(S.Number),
+    hunkContent: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "MergeHunkDetail",
+}) as any as S.Schema<MergeHunkDetail>;
+export interface MergeHunk {
+  isConflict?: boolean;
+  source?: MergeHunkDetail;
+  destination?: MergeHunkDetail;
+  base?: MergeHunkDetail;
+}
+export const MergeHunk = S.suspend(() =>
+  S.Struct({
+    isConflict: S.optional(S.Boolean),
+    source: S.optional(MergeHunkDetail),
+    destination: S.optional(MergeHunkDetail),
+    base: S.optional(MergeHunkDetail),
+  }),
+).annotations({ identifier: "MergeHunk" }) as any as S.Schema<MergeHunk>;
+export type MergeHunks = MergeHunk[];
 export const MergeHunks = S.Array(MergeHunk);
-export class Conflict extends S.Class<Conflict>("Conflict")({
-  conflictMetadata: S.optional(ConflictMetadata),
-  mergeHunks: S.optional(MergeHunks),
-}) {}
+export interface Conflict {
+  conflictMetadata?: ConflictMetadata;
+  mergeHunks?: MergeHunks;
+}
+export const Conflict = S.suspend(() =>
+  S.Struct({
+    conflictMetadata: S.optional(ConflictMetadata),
+    mergeHunks: S.optional(MergeHunks),
+  }),
+).annotations({ identifier: "Conflict" }) as any as S.Schema<Conflict>;
+export type Conflicts = Conflict[];
 export const Conflicts = S.Array(Conflict);
-export class BatchDescribeMergeConflictsError extends S.Class<BatchDescribeMergeConflictsError>(
-  "BatchDescribeMergeConflictsError",
-)({ filePath: S.String, exceptionName: S.String, message: S.String }) {}
+export interface BatchDescribeMergeConflictsError {
+  filePath: string;
+  exceptionName: string;
+  message: string;
+}
+export const BatchDescribeMergeConflictsError = S.suspend(() =>
+  S.Struct({ filePath: S.String, exceptionName: S.String, message: S.String }),
+).annotations({
+  identifier: "BatchDescribeMergeConflictsError",
+}) as any as S.Schema<BatchDescribeMergeConflictsError>;
+export type BatchDescribeMergeConflictsErrors =
+  BatchDescribeMergeConflictsError[];
 export const BatchDescribeMergeConflictsErrors = S.Array(
   BatchDescribeMergeConflictsError,
 );
-export class BatchDisassociateApprovalRuleTemplateFromRepositoriesError extends S.Class<BatchDisassociateApprovalRuleTemplateFromRepositoriesError>(
-  "BatchDisassociateApprovalRuleTemplateFromRepositoriesError",
-)({
-  repositoryName: S.optional(S.String),
-  errorCode: S.optional(S.String),
-  errorMessage: S.optional(S.String),
-}) {}
+export interface BatchDisassociateApprovalRuleTemplateFromRepositoriesError {
+  repositoryName?: string;
+  errorCode?: string;
+  errorMessage?: string;
+}
+export const BatchDisassociateApprovalRuleTemplateFromRepositoriesError =
+  S.suspend(() =>
+    S.Struct({
+      repositoryName: S.optional(S.String),
+      errorCode: S.optional(S.String),
+      errorMessage: S.optional(S.String),
+    }),
+  ).annotations({
+    identifier: "BatchDisassociateApprovalRuleTemplateFromRepositoriesError",
+  }) as any as S.Schema<BatchDisassociateApprovalRuleTemplateFromRepositoriesError>;
+export type BatchDisassociateApprovalRuleTemplateFromRepositoriesErrorsList =
+  BatchDisassociateApprovalRuleTemplateFromRepositoriesError[];
 export const BatchDisassociateApprovalRuleTemplateFromRepositoriesErrorsList =
   S.Array(BatchDisassociateApprovalRuleTemplateFromRepositoriesError);
-export class BatchGetCommitsError extends S.Class<BatchGetCommitsError>(
-  "BatchGetCommitsError",
-)({
-  commitId: S.optional(S.String),
-  errorCode: S.optional(S.String),
-  errorMessage: S.optional(S.String),
-}) {}
+export interface BatchGetCommitsError {
+  commitId?: string;
+  errorCode?: string;
+  errorMessage?: string;
+}
+export const BatchGetCommitsError = S.suspend(() =>
+  S.Struct({
+    commitId: S.optional(S.String),
+    errorCode: S.optional(S.String),
+    errorMessage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "BatchGetCommitsError",
+}) as any as S.Schema<BatchGetCommitsError>;
+export type BatchGetCommitsErrorsList = BatchGetCommitsError[];
 export const BatchGetCommitsErrorsList = S.Array(BatchGetCommitsError);
+export type RepositoryMetadataList = RepositoryMetadata[];
 export const RepositoryMetadataList = S.Array(RepositoryMetadata);
-export class BatchGetRepositoriesError extends S.Class<BatchGetRepositoriesError>(
-  "BatchGetRepositoriesError",
-)({
-  repositoryId: S.optional(S.String),
-  repositoryName: S.optional(S.String),
-  errorCode: S.optional(S.String),
-  errorMessage: S.optional(S.String),
-}) {}
+export interface BatchGetRepositoriesError {
+  repositoryId?: string;
+  repositoryName?: string;
+  errorCode?: string;
+  errorMessage?: string;
+}
+export const BatchGetRepositoriesError = S.suspend(() =>
+  S.Struct({
+    repositoryId: S.optional(S.String),
+    repositoryName: S.optional(S.String),
+    errorCode: S.optional(S.String),
+    errorMessage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "BatchGetRepositoriesError",
+}) as any as S.Schema<BatchGetRepositoriesError>;
+export type BatchGetRepositoriesErrorsList = BatchGetRepositoriesError[];
 export const BatchGetRepositoriesErrorsList = S.Array(
   BatchGetRepositoriesError,
 );
-export class PutFileEntry extends S.Class<PutFileEntry>("PutFileEntry")({
-  filePath: S.String,
-  fileMode: S.optional(S.String),
-  fileContent: S.optional(T.Blob),
-  sourceFile: S.optional(SourceFileSpecifier),
-}) {}
+export interface PutFileEntry {
+  filePath: string;
+  fileMode?: string;
+  fileContent?: Uint8Array;
+  sourceFile?: SourceFileSpecifier;
+}
+export const PutFileEntry = S.suspend(() =>
+  S.Struct({
+    filePath: S.String,
+    fileMode: S.optional(S.String),
+    fileContent: S.optional(T.Blob),
+    sourceFile: S.optional(SourceFileSpecifier),
+  }),
+).annotations({ identifier: "PutFileEntry" }) as any as S.Schema<PutFileEntry>;
+export type PutFileEntries = PutFileEntry[];
 export const PutFileEntries = S.Array(PutFileEntry);
-export class Evaluation extends S.Class<Evaluation>("Evaluation")({
-  approved: S.optional(S.Boolean),
-  overridden: S.optional(S.Boolean),
-  approvalRulesSatisfied: S.optional(ApprovalRulesSatisfiedList),
-  approvalRulesNotSatisfied: S.optional(ApprovalRulesNotSatisfiedList),
-}) {}
-export class CommentsForComparedCommit extends S.Class<CommentsForComparedCommit>(
-  "CommentsForComparedCommit",
-)({
-  repositoryName: S.optional(S.String),
-  beforeCommitId: S.optional(S.String),
-  afterCommitId: S.optional(S.String),
-  beforeBlobId: S.optional(S.String),
-  afterBlobId: S.optional(S.String),
-  location: S.optional(Location),
-  comments: S.optional(Comments),
-}) {}
+export interface Evaluation {
+  approved?: boolean;
+  overridden?: boolean;
+  approvalRulesSatisfied?: ApprovalRulesSatisfiedList;
+  approvalRulesNotSatisfied?: ApprovalRulesNotSatisfiedList;
+}
+export const Evaluation = S.suspend(() =>
+  S.Struct({
+    approved: S.optional(S.Boolean),
+    overridden: S.optional(S.Boolean),
+    approvalRulesSatisfied: S.optional(ApprovalRulesSatisfiedList),
+    approvalRulesNotSatisfied: S.optional(ApprovalRulesNotSatisfiedList),
+  }),
+).annotations({ identifier: "Evaluation" }) as any as S.Schema<Evaluation>;
+export interface CommentsForComparedCommit {
+  repositoryName?: string;
+  beforeCommitId?: string;
+  afterCommitId?: string;
+  beforeBlobId?: string;
+  afterBlobId?: string;
+  location?: Location;
+  comments?: Comments;
+}
+export const CommentsForComparedCommit = S.suspend(() =>
+  S.Struct({
+    repositoryName: S.optional(S.String),
+    beforeCommitId: S.optional(S.String),
+    afterCommitId: S.optional(S.String),
+    beforeBlobId: S.optional(S.String),
+    afterBlobId: S.optional(S.String),
+    location: S.optional(Location),
+    comments: S.optional(Comments),
+  }),
+).annotations({
+  identifier: "CommentsForComparedCommit",
+}) as any as S.Schema<CommentsForComparedCommit>;
+export type CommentsForComparedCommitData = CommentsForComparedCommit[];
 export const CommentsForComparedCommitData = S.Array(CommentsForComparedCommit);
-export class CommentsForPullRequest extends S.Class<CommentsForPullRequest>(
-  "CommentsForPullRequest",
-)({
-  pullRequestId: S.optional(S.String),
-  repositoryName: S.optional(S.String),
-  beforeCommitId: S.optional(S.String),
-  afterCommitId: S.optional(S.String),
-  beforeBlobId: S.optional(S.String),
-  afterBlobId: S.optional(S.String),
-  location: S.optional(Location),
-  comments: S.optional(Comments),
-}) {}
+export interface CommentsForPullRequest {
+  pullRequestId?: string;
+  repositoryName?: string;
+  beforeCommitId?: string;
+  afterCommitId?: string;
+  beforeBlobId?: string;
+  afterBlobId?: string;
+  location?: Location;
+  comments?: Comments;
+}
+export const CommentsForPullRequest = S.suspend(() =>
+  S.Struct({
+    pullRequestId: S.optional(S.String),
+    repositoryName: S.optional(S.String),
+    beforeCommitId: S.optional(S.String),
+    afterCommitId: S.optional(S.String),
+    beforeBlobId: S.optional(S.String),
+    afterBlobId: S.optional(S.String),
+    location: S.optional(Location),
+    comments: S.optional(Comments),
+  }),
+).annotations({
+  identifier: "CommentsForPullRequest",
+}) as any as S.Schema<CommentsForPullRequest>;
+export type CommentsForPullRequestData = CommentsForPullRequest[];
 export const CommentsForPullRequestData = S.Array(CommentsForPullRequest);
-export class Folder extends S.Class<Folder>("Folder")({
-  treeId: S.optional(S.String),
-  absolutePath: S.optional(S.String),
-  relativePath: S.optional(S.String),
-}) {}
+export interface Folder {
+  treeId?: string;
+  absolutePath?: string;
+  relativePath?: string;
+}
+export const Folder = S.suspend(() =>
+  S.Struct({
+    treeId: S.optional(S.String),
+    absolutePath: S.optional(S.String),
+    relativePath: S.optional(S.String),
+  }),
+).annotations({ identifier: "Folder" }) as any as S.Schema<Folder>;
+export type FolderList = Folder[];
 export const FolderList = S.Array(Folder);
-export class File extends S.Class<File>("File")({
-  blobId: S.optional(S.String),
-  absolutePath: S.optional(S.String),
-  relativePath: S.optional(S.String),
-  fileMode: S.optional(S.String),
-}) {}
+export interface File {
+  blobId?: string;
+  absolutePath?: string;
+  relativePath?: string;
+  fileMode?: string;
+}
+export const File = S.suspend(() =>
+  S.Struct({
+    blobId: S.optional(S.String),
+    absolutePath: S.optional(S.String),
+    relativePath: S.optional(S.String),
+    fileMode: S.optional(S.String),
+  }),
+).annotations({ identifier: "File" }) as any as S.Schema<File>;
+export type FileList = File[];
 export const FileList = S.Array(File);
-export class SymbolicLink extends S.Class<SymbolicLink>("SymbolicLink")({
-  blobId: S.optional(S.String),
-  absolutePath: S.optional(S.String),
-  relativePath: S.optional(S.String),
-  fileMode: S.optional(S.String),
-}) {}
+export interface SymbolicLink {
+  blobId?: string;
+  absolutePath?: string;
+  relativePath?: string;
+  fileMode?: string;
+}
+export const SymbolicLink = S.suspend(() =>
+  S.Struct({
+    blobId: S.optional(S.String),
+    absolutePath: S.optional(S.String),
+    relativePath: S.optional(S.String),
+    fileMode: S.optional(S.String),
+  }),
+).annotations({ identifier: "SymbolicLink" }) as any as S.Schema<SymbolicLink>;
+export type SymbolicLinkList = SymbolicLink[];
 export const SymbolicLinkList = S.Array(SymbolicLink);
-export class SubModule extends S.Class<SubModule>("SubModule")({
-  commitId: S.optional(S.String),
-  absolutePath: S.optional(S.String),
-  relativePath: S.optional(S.String),
-}) {}
+export interface SubModule {
+  commitId?: string;
+  absolutePath?: string;
+  relativePath?: string;
+}
+export const SubModule = S.suspend(() =>
+  S.Struct({
+    commitId: S.optional(S.String),
+    absolutePath: S.optional(S.String),
+    relativePath: S.optional(S.String),
+  }),
+).annotations({ identifier: "SubModule" }) as any as S.Schema<SubModule>;
+export type SubModuleList = SubModule[];
 export const SubModuleList = S.Array(SubModule);
-export class Approval extends S.Class<Approval>("Approval")({
-  userArn: S.optional(S.String),
-  approvalState: S.optional(S.String),
-}) {}
+export interface Approval {
+  userArn?: string;
+  approvalState?: string;
+}
+export const Approval = S.suspend(() =>
+  S.Struct({
+    userArn: S.optional(S.String),
+    approvalState: S.optional(S.String),
+  }),
+).annotations({ identifier: "Approval" }) as any as S.Schema<Approval>;
+export type ApprovalList = Approval[];
 export const ApprovalList = S.Array(Approval);
-export class FileVersion extends S.Class<FileVersion>("FileVersion")({
-  commit: S.optional(Commit),
-  blobId: S.optional(S.String),
-  path: S.optional(S.String),
-  revisionChildren: S.optional(RevisionChildren),
-}) {}
+export interface FileVersion {
+  commit?: Commit;
+  blobId?: string;
+  path?: string;
+  revisionChildren?: RevisionChildren;
+}
+export const FileVersion = S.suspend(() =>
+  S.Struct({
+    commit: S.optional(Commit),
+    blobId: S.optional(S.String),
+    path: S.optional(S.String),
+    revisionChildren: S.optional(RevisionChildren),
+  }),
+).annotations({ identifier: "FileVersion" }) as any as S.Schema<FileVersion>;
+export type RevisionDag = FileVersion[];
 export const RevisionDag = S.Array(FileVersion);
-export class RepositoryNameIdPair extends S.Class<RepositoryNameIdPair>(
-  "RepositoryNameIdPair",
-)({
-  repositoryName: S.optional(S.String),
-  repositoryId: S.optional(S.String),
-}) {}
+export interface RepositoryNameIdPair {
+  repositoryName?: string;
+  repositoryId?: string;
+}
+export const RepositoryNameIdPair = S.suspend(() =>
+  S.Struct({
+    repositoryName: S.optional(S.String),
+    repositoryId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RepositoryNameIdPair",
+}) as any as S.Schema<RepositoryNameIdPair>;
+export type RepositoryNameIdPairList = RepositoryNameIdPair[];
 export const RepositoryNameIdPairList = S.Array(RepositoryNameIdPair);
-export class RepositoryTriggerExecutionFailure extends S.Class<RepositoryTriggerExecutionFailure>(
-  "RepositoryTriggerExecutionFailure",
-)({ trigger: S.optional(S.String), failureMessage: S.optional(S.String) }) {}
+export interface RepositoryTriggerExecutionFailure {
+  trigger?: string;
+  failureMessage?: string;
+}
+export const RepositoryTriggerExecutionFailure = S.suspend(() =>
+  S.Struct({
+    trigger: S.optional(S.String),
+    failureMessage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RepositoryTriggerExecutionFailure",
+}) as any as S.Schema<RepositoryTriggerExecutionFailure>;
+export type RepositoryTriggerExecutionFailureList =
+  RepositoryTriggerExecutionFailure[];
 export const RepositoryTriggerExecutionFailureList = S.Array(
   RepositoryTriggerExecutionFailure,
 );
-export class BatchAssociateApprovalRuleTemplateWithRepositoriesOutput extends S.Class<BatchAssociateApprovalRuleTemplateWithRepositoriesOutput>(
-  "BatchAssociateApprovalRuleTemplateWithRepositoriesOutput",
-)(
-  {
-    associatedRepositoryNames: RepositoryNameList,
-    errors: BatchAssociateApprovalRuleTemplateWithRepositoriesErrorsList,
-  },
-  ns,
-) {}
-export class BatchDescribeMergeConflictsOutput extends S.Class<BatchDescribeMergeConflictsOutput>(
-  "BatchDescribeMergeConflictsOutput",
-)(
-  {
+export interface BatchAssociateApprovalRuleTemplateWithRepositoriesOutput {
+  associatedRepositoryNames: RepositoryNameList;
+  errors: BatchAssociateApprovalRuleTemplateWithRepositoriesErrorsList;
+}
+export const BatchAssociateApprovalRuleTemplateWithRepositoriesOutput =
+  S.suspend(() =>
+    S.Struct({
+      associatedRepositoryNames: RepositoryNameList,
+      errors: BatchAssociateApprovalRuleTemplateWithRepositoriesErrorsList,
+    }).pipe(ns),
+  ).annotations({
+    identifier: "BatchAssociateApprovalRuleTemplateWithRepositoriesOutput",
+  }) as any as S.Schema<BatchAssociateApprovalRuleTemplateWithRepositoriesOutput>;
+export interface BatchDescribeMergeConflictsOutput {
+  conflicts: Conflicts;
+  nextToken?: string;
+  errors?: BatchDescribeMergeConflictsErrors;
+  destinationCommitId: string;
+  sourceCommitId: string;
+  baseCommitId?: string;
+}
+export const BatchDescribeMergeConflictsOutput = S.suspend(() =>
+  S.Struct({
     conflicts: Conflicts,
     nextToken: S.optional(S.String),
     errors: S.optional(BatchDescribeMergeConflictsErrors),
     destinationCommitId: S.String,
     sourceCommitId: S.String,
     baseCommitId: S.optional(S.String),
-  },
-  ns,
-) {}
-export class BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput extends S.Class<BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput>(
-  "BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput",
-)(
-  {
-    disassociatedRepositoryNames: RepositoryNameList,
-    errors: BatchDisassociateApprovalRuleTemplateFromRepositoriesErrorsList,
-  },
-  ns,
-) {}
-export class BatchGetRepositoriesOutput extends S.Class<BatchGetRepositoriesOutput>(
-  "BatchGetRepositoriesOutput",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "BatchDescribeMergeConflictsOutput",
+}) as any as S.Schema<BatchDescribeMergeConflictsOutput>;
+export interface BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput {
+  disassociatedRepositoryNames: RepositoryNameList;
+  errors: BatchDisassociateApprovalRuleTemplateFromRepositoriesErrorsList;
+}
+export const BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput =
+  S.suspend(() =>
+    S.Struct({
+      disassociatedRepositoryNames: RepositoryNameList,
+      errors: BatchDisassociateApprovalRuleTemplateFromRepositoriesErrorsList,
+    }).pipe(ns),
+  ).annotations({
+    identifier: "BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput",
+  }) as any as S.Schema<BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput>;
+export interface BatchGetRepositoriesOutput {
+  repositories?: RepositoryMetadataList;
+  repositoriesNotFound?: RepositoryNotFoundList;
+  errors?: BatchGetRepositoriesErrorsList;
+}
+export const BatchGetRepositoriesOutput = S.suspend(() =>
+  S.Struct({
     repositories: S.optional(RepositoryMetadataList),
     repositoriesNotFound: S.optional(RepositoryNotFoundList),
     errors: S.optional(BatchGetRepositoriesErrorsList),
-  },
-  ns,
-) {}
-export class CreateApprovalRuleTemplateOutput extends S.Class<CreateApprovalRuleTemplateOutput>(
-  "CreateApprovalRuleTemplateOutput",
-)({ approvalRuleTemplate: ApprovalRuleTemplate }, ns) {}
-export class CreateCommitInput extends S.Class<CreateCommitInput>(
-  "CreateCommitInput",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "BatchGetRepositoriesOutput",
+}) as any as S.Schema<BatchGetRepositoriesOutput>;
+export interface CreateApprovalRuleTemplateOutput {
+  approvalRuleTemplate: ApprovalRuleTemplate;
+}
+export const CreateApprovalRuleTemplateOutput = S.suspend(() =>
+  S.Struct({ approvalRuleTemplate: ApprovalRuleTemplate }).pipe(ns),
+).annotations({
+  identifier: "CreateApprovalRuleTemplateOutput",
+}) as any as S.Schema<CreateApprovalRuleTemplateOutput>;
+export interface CreateCommitInput {
+  repositoryName: string;
+  branchName: string;
+  parentCommitId?: string;
+  authorName?: string;
+  email?: string;
+  commitMessage?: string;
+  keepEmptyFolders?: boolean;
+  putFiles?: PutFileEntries;
+  deleteFiles?: DeleteFileEntries;
+  setFileModes?: SetFileModeEntries;
+}
+export const CreateCommitInput = S.suspend(() =>
+  S.Struct({
     repositoryName: S.String,
     branchName: S.String,
     parentCommitId: S.optional(S.String),
@@ -1589,19 +3484,51 @@ export class CreateCommitInput extends S.Class<CreateCommitInput>(
     putFiles: S.optional(PutFileEntries),
     deleteFiles: S.optional(DeleteFileEntries),
     setFileModes: S.optional(SetFileModeEntries),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreatePullRequestOutput extends S.Class<CreatePullRequestOutput>(
-  "CreatePullRequestOutput",
-)({ pullRequest: PullRequest }, ns) {}
-export class CreateRepositoryOutput extends S.Class<CreateRepositoryOutput>(
-  "CreateRepositoryOutput",
-)({ repositoryMetadata: S.optional(RepositoryMetadata) }, ns) {}
-export class CreateUnreferencedMergeCommitInput extends S.Class<CreateUnreferencedMergeCommitInput>(
-  "CreateUnreferencedMergeCommitInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateCommitInput",
+}) as any as S.Schema<CreateCommitInput>;
+export interface CreatePullRequestOutput {
+  pullRequest: PullRequest;
+}
+export const CreatePullRequestOutput = S.suspend(() =>
+  S.Struct({ pullRequest: PullRequest }).pipe(ns),
+).annotations({
+  identifier: "CreatePullRequestOutput",
+}) as any as S.Schema<CreatePullRequestOutput>;
+export interface CreateRepositoryOutput {
+  repositoryMetadata?: RepositoryMetadata;
+}
+export const CreateRepositoryOutput = S.suspend(() =>
+  S.Struct({ repositoryMetadata: S.optional(RepositoryMetadata) }).pipe(ns),
+).annotations({
+  identifier: "CreateRepositoryOutput",
+}) as any as S.Schema<CreateRepositoryOutput>;
+export interface CreateUnreferencedMergeCommitInput {
+  repositoryName: string;
+  sourceCommitSpecifier: string;
+  destinationCommitSpecifier: string;
+  mergeOption: string;
+  conflictDetailLevel?: string;
+  conflictResolutionStrategy?: string;
+  authorName?: string;
+  email?: string;
+  commitMessage?: string;
+  keepEmptyFolders?: boolean;
+  conflictResolution?: ConflictResolution;
+}
+export const CreateUnreferencedMergeCommitInput = S.suspend(() =>
+  S.Struct({
     repositoryName: S.String,
     sourceCommitSpecifier: S.String,
     destinationCommitSpecifier: S.String,
@@ -1613,37 +3540,71 @@ export class CreateUnreferencedMergeCommitInput extends S.Class<CreateUnreferenc
     commitMessage: S.optional(S.String),
     keepEmptyFolders: S.optional(S.Boolean),
     conflictResolution: S.optional(ConflictResolution),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteBranchOutput extends S.Class<DeleteBranchOutput>(
-  "DeleteBranchOutput",
-)({ deletedBranch: S.optional(BranchInfo) }, ns) {}
-export class EvaluatePullRequestApprovalRulesOutput extends S.Class<EvaluatePullRequestApprovalRulesOutput>(
-  "EvaluatePullRequestApprovalRulesOutput",
-)({ evaluation: Evaluation }, ns) {}
-export class GetCommentsForComparedCommitOutput extends S.Class<GetCommentsForComparedCommitOutput>(
-  "GetCommentsForComparedCommitOutput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateUnreferencedMergeCommitInput",
+}) as any as S.Schema<CreateUnreferencedMergeCommitInput>;
+export interface DeleteBranchOutput {
+  deletedBranch?: BranchInfo;
+}
+export const DeleteBranchOutput = S.suspend(() =>
+  S.Struct({ deletedBranch: S.optional(BranchInfo) }).pipe(ns),
+).annotations({
+  identifier: "DeleteBranchOutput",
+}) as any as S.Schema<DeleteBranchOutput>;
+export interface EvaluatePullRequestApprovalRulesOutput {
+  evaluation: Evaluation;
+}
+export const EvaluatePullRequestApprovalRulesOutput = S.suspend(() =>
+  S.Struct({ evaluation: Evaluation }).pipe(ns),
+).annotations({
+  identifier: "EvaluatePullRequestApprovalRulesOutput",
+}) as any as S.Schema<EvaluatePullRequestApprovalRulesOutput>;
+export interface GetCommentsForComparedCommitOutput {
+  commentsForComparedCommitData?: CommentsForComparedCommitData;
+  nextToken?: string;
+}
+export const GetCommentsForComparedCommitOutput = S.suspend(() =>
+  S.Struct({
     commentsForComparedCommitData: S.optional(CommentsForComparedCommitData),
     nextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class GetCommentsForPullRequestOutput extends S.Class<GetCommentsForPullRequestOutput>(
-  "GetCommentsForPullRequestOutput",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetCommentsForComparedCommitOutput",
+}) as any as S.Schema<GetCommentsForComparedCommitOutput>;
+export interface GetCommentsForPullRequestOutput {
+  commentsForPullRequestData?: CommentsForPullRequestData;
+  nextToken?: string;
+}
+export const GetCommentsForPullRequestOutput = S.suspend(() =>
+  S.Struct({
     commentsForPullRequestData: S.optional(CommentsForPullRequestData),
     nextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class GetFolderOutput extends S.Class<GetFolderOutput>(
-  "GetFolderOutput",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetCommentsForPullRequestOutput",
+}) as any as S.Schema<GetCommentsForPullRequestOutput>;
+export interface GetFolderOutput {
+  commitId: string;
+  folderPath: string;
+  treeId?: string;
+  subFolders?: FolderList;
+  files?: FileList;
+  symbolicLinks?: SymbolicLinkList;
+  subModules?: SubModuleList;
+}
+export const GetFolderOutput = S.suspend(() =>
+  S.Struct({
     commitId: S.String,
     folderPath: S.String,
     treeId: S.optional(S.String),
@@ -1651,28 +3612,52 @@ export class GetFolderOutput extends S.Class<GetFolderOutput>(
     files: S.optional(FileList),
     symbolicLinks: S.optional(SymbolicLinkList),
     subModules: S.optional(SubModuleList),
-  },
-  ns,
-) {}
-export class GetPullRequestApprovalStatesOutput extends S.Class<GetPullRequestApprovalStatesOutput>(
-  "GetPullRequestApprovalStatesOutput",
-)({ approvals: S.optional(ApprovalList) }, ns) {}
-export class ListFileCommitHistoryResponse extends S.Class<ListFileCommitHistoryResponse>(
-  "ListFileCommitHistoryResponse",
-)({ revisionDag: RevisionDag, nextToken: S.optional(S.String) }, ns) {}
-export class ListRepositoriesOutput extends S.Class<ListRepositoriesOutput>(
-  "ListRepositoriesOutput",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetFolderOutput",
+}) as any as S.Schema<GetFolderOutput>;
+export interface GetPullRequestApprovalStatesOutput {
+  approvals?: ApprovalList;
+}
+export const GetPullRequestApprovalStatesOutput = S.suspend(() =>
+  S.Struct({ approvals: S.optional(ApprovalList) }).pipe(ns),
+).annotations({
+  identifier: "GetPullRequestApprovalStatesOutput",
+}) as any as S.Schema<GetPullRequestApprovalStatesOutput>;
+export interface ListFileCommitHistoryResponse {
+  revisionDag: RevisionDag;
+  nextToken?: string;
+}
+export const ListFileCommitHistoryResponse = S.suspend(() =>
+  S.Struct({ revisionDag: RevisionDag, nextToken: S.optional(S.String) }).pipe(
+    ns,
+  ),
+).annotations({
+  identifier: "ListFileCommitHistoryResponse",
+}) as any as S.Schema<ListFileCommitHistoryResponse>;
+export interface ListRepositoriesOutput {
+  repositories?: RepositoryNameIdPairList;
+  nextToken?: string;
+}
+export const ListRepositoriesOutput = S.suspend(() =>
+  S.Struct({
     repositories: S.optional(RepositoryNameIdPairList),
     nextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class PostCommentForComparedCommitOutput extends S.Class<PostCommentForComparedCommitOutput>(
-  "PostCommentForComparedCommitOutput",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListRepositoriesOutput",
+}) as any as S.Schema<ListRepositoriesOutput>;
+export interface PostCommentForComparedCommitOutput {
+  repositoryName?: string;
+  beforeCommitId?: string;
+  afterCommitId?: string;
+  beforeBlobId?: string;
+  afterBlobId?: string;
+  location?: Location;
+  comment?: Comment;
+}
+export const PostCommentForComparedCommitOutput = S.suspend(() =>
+  S.Struct({
     repositoryName: S.optional(S.String),
     beforeCommitId: S.optional(S.String),
     afterCommitId: S.optional(S.String),
@@ -1680,186 +3665,360 @@ export class PostCommentForComparedCommitOutput extends S.Class<PostCommentForCo
     afterBlobId: S.optional(S.String),
     location: S.optional(Location),
     comment: S.optional(Comment),
-  },
-  ns,
-) {}
-export class PutRepositoryTriggersOutput extends S.Class<PutRepositoryTriggersOutput>(
-  "PutRepositoryTriggersOutput",
-)({ configurationId: S.optional(S.String) }, ns) {}
-export class TestRepositoryTriggersOutput extends S.Class<TestRepositoryTriggersOutput>(
-  "TestRepositoryTriggersOutput",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "PostCommentForComparedCommitOutput",
+}) as any as S.Schema<PostCommentForComparedCommitOutput>;
+export interface PutRepositoryTriggersOutput {
+  configurationId?: string;
+}
+export const PutRepositoryTriggersOutput = S.suspend(() =>
+  S.Struct({ configurationId: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "PutRepositoryTriggersOutput",
+}) as any as S.Schema<PutRepositoryTriggersOutput>;
+export interface TestRepositoryTriggersOutput {
+  successfulExecutions?: RepositoryTriggerNameList;
+  failedExecutions?: RepositoryTriggerExecutionFailureList;
+}
+export const TestRepositoryTriggersOutput = S.suspend(() =>
+  S.Struct({
     successfulExecutions: S.optional(RepositoryTriggerNameList),
     failedExecutions: S.optional(RepositoryTriggerExecutionFailureList),
-  },
-  ns,
-) {}
-export class PullRequestCreatedEventMetadata extends S.Class<PullRequestCreatedEventMetadata>(
-  "PullRequestCreatedEventMetadata",
-)({
-  repositoryName: S.optional(S.String),
-  sourceCommitId: S.optional(S.String),
-  destinationCommitId: S.optional(S.String),
-  mergeBase: S.optional(S.String),
-}) {}
-export class PullRequestStatusChangedEventMetadata extends S.Class<PullRequestStatusChangedEventMetadata>(
-  "PullRequestStatusChangedEventMetadata",
-)({ pullRequestStatus: S.optional(S.String) }) {}
-export class PullRequestSourceReferenceUpdatedEventMetadata extends S.Class<PullRequestSourceReferenceUpdatedEventMetadata>(
-  "PullRequestSourceReferenceUpdatedEventMetadata",
-)({
-  repositoryName: S.optional(S.String),
-  beforeCommitId: S.optional(S.String),
-  afterCommitId: S.optional(S.String),
-  mergeBase: S.optional(S.String),
-}) {}
-export class ApprovalRuleEventMetadata extends S.Class<ApprovalRuleEventMetadata>(
-  "ApprovalRuleEventMetadata",
-)({
-  approvalRuleName: S.optional(S.String),
-  approvalRuleId: S.optional(S.String),
-  approvalRuleContent: S.optional(S.String),
-}) {}
-export class ApprovalStateChangedEventMetadata extends S.Class<ApprovalStateChangedEventMetadata>(
-  "ApprovalStateChangedEventMetadata",
-)({ revisionId: S.optional(S.String), approvalStatus: S.optional(S.String) }) {}
-export class ApprovalRuleOverriddenEventMetadata extends S.Class<ApprovalRuleOverriddenEventMetadata>(
-  "ApprovalRuleOverriddenEventMetadata",
-)({ revisionId: S.optional(S.String), overrideStatus: S.optional(S.String) }) {}
-export class ReactionValueFormats extends S.Class<ReactionValueFormats>(
-  "ReactionValueFormats",
-)({
-  emoji: S.optional(S.String),
-  shortCode: S.optional(S.String),
-  unicode: S.optional(S.String),
-}) {}
-export class BlobMetadata extends S.Class<BlobMetadata>("BlobMetadata")({
-  blobId: S.optional(S.String),
-  path: S.optional(S.String),
-  mode: S.optional(S.String),
-}) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "TestRepositoryTriggersOutput",
+}) as any as S.Schema<TestRepositoryTriggersOutput>;
+export interface PullRequestCreatedEventMetadata {
+  repositoryName?: string;
+  sourceCommitId?: string;
+  destinationCommitId?: string;
+  mergeBase?: string;
+}
+export const PullRequestCreatedEventMetadata = S.suspend(() =>
+  S.Struct({
+    repositoryName: S.optional(S.String),
+    sourceCommitId: S.optional(S.String),
+    destinationCommitId: S.optional(S.String),
+    mergeBase: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "PullRequestCreatedEventMetadata",
+}) as any as S.Schema<PullRequestCreatedEventMetadata>;
+export interface PullRequestStatusChangedEventMetadata {
+  pullRequestStatus?: string;
+}
+export const PullRequestStatusChangedEventMetadata = S.suspend(() =>
+  S.Struct({ pullRequestStatus: S.optional(S.String) }),
+).annotations({
+  identifier: "PullRequestStatusChangedEventMetadata",
+}) as any as S.Schema<PullRequestStatusChangedEventMetadata>;
+export interface PullRequestSourceReferenceUpdatedEventMetadata {
+  repositoryName?: string;
+  beforeCommitId?: string;
+  afterCommitId?: string;
+  mergeBase?: string;
+}
+export const PullRequestSourceReferenceUpdatedEventMetadata = S.suspend(() =>
+  S.Struct({
+    repositoryName: S.optional(S.String),
+    beforeCommitId: S.optional(S.String),
+    afterCommitId: S.optional(S.String),
+    mergeBase: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "PullRequestSourceReferenceUpdatedEventMetadata",
+}) as any as S.Schema<PullRequestSourceReferenceUpdatedEventMetadata>;
+export interface ApprovalRuleEventMetadata {
+  approvalRuleName?: string;
+  approvalRuleId?: string;
+  approvalRuleContent?: string;
+}
+export const ApprovalRuleEventMetadata = S.suspend(() =>
+  S.Struct({
+    approvalRuleName: S.optional(S.String),
+    approvalRuleId: S.optional(S.String),
+    approvalRuleContent: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ApprovalRuleEventMetadata",
+}) as any as S.Schema<ApprovalRuleEventMetadata>;
+export interface ApprovalStateChangedEventMetadata {
+  revisionId?: string;
+  approvalStatus?: string;
+}
+export const ApprovalStateChangedEventMetadata = S.suspend(() =>
+  S.Struct({
+    revisionId: S.optional(S.String),
+    approvalStatus: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ApprovalStateChangedEventMetadata",
+}) as any as S.Schema<ApprovalStateChangedEventMetadata>;
+export interface ApprovalRuleOverriddenEventMetadata {
+  revisionId?: string;
+  overrideStatus?: string;
+}
+export const ApprovalRuleOverriddenEventMetadata = S.suspend(() =>
+  S.Struct({
+    revisionId: S.optional(S.String),
+    overrideStatus: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ApprovalRuleOverriddenEventMetadata",
+}) as any as S.Schema<ApprovalRuleOverriddenEventMetadata>;
+export interface ReactionValueFormats {
+  emoji?: string;
+  shortCode?: string;
+  unicode?: string;
+}
+export const ReactionValueFormats = S.suspend(() =>
+  S.Struct({
+    emoji: S.optional(S.String),
+    shortCode: S.optional(S.String),
+    unicode: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ReactionValueFormats",
+}) as any as S.Schema<ReactionValueFormats>;
+export interface BlobMetadata {
+  blobId?: string;
+  path?: string;
+  mode?: string;
+}
+export const BlobMetadata = S.suspend(() =>
+  S.Struct({
+    blobId: S.optional(S.String),
+    path: S.optional(S.String),
+    mode: S.optional(S.String),
+  }),
+).annotations({ identifier: "BlobMetadata" }) as any as S.Schema<BlobMetadata>;
+export type CommitObjectsList = Commit[];
 export const CommitObjectsList = S.Array(Commit);
-export class ReactionForComment extends S.Class<ReactionForComment>(
-  "ReactionForComment",
-)({
-  reaction: S.optional(ReactionValueFormats),
-  reactionUsers: S.optional(ReactionUsersList),
-  reactionsFromDeletedUsersCount: S.optional(S.Number),
-}) {}
+export interface ReactionForComment {
+  reaction?: ReactionValueFormats;
+  reactionUsers?: ReactionUsersList;
+  reactionsFromDeletedUsersCount?: number;
+}
+export const ReactionForComment = S.suspend(() =>
+  S.Struct({
+    reaction: S.optional(ReactionValueFormats),
+    reactionUsers: S.optional(ReactionUsersList),
+    reactionsFromDeletedUsersCount: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "ReactionForComment",
+}) as any as S.Schema<ReactionForComment>;
+export type ReactionsForCommentList = ReactionForComment[];
 export const ReactionsForCommentList = S.Array(ReactionForComment);
-export class Difference extends S.Class<Difference>("Difference")({
-  beforeBlob: S.optional(BlobMetadata),
-  afterBlob: S.optional(BlobMetadata),
-  changeType: S.optional(S.String),
-}) {}
+export interface Difference {
+  beforeBlob?: BlobMetadata;
+  afterBlob?: BlobMetadata;
+  changeType?: string;
+}
+export const Difference = S.suspend(() =>
+  S.Struct({
+    beforeBlob: S.optional(BlobMetadata),
+    afterBlob: S.optional(BlobMetadata),
+    changeType: S.optional(S.String),
+  }),
+).annotations({ identifier: "Difference" }) as any as S.Schema<Difference>;
+export type DifferenceList = Difference[];
 export const DifferenceList = S.Array(Difference);
-export class BatchGetCommitsOutput extends S.Class<BatchGetCommitsOutput>(
-  "BatchGetCommitsOutput",
-)(
-  {
+export interface BatchGetCommitsOutput {
+  commits?: CommitObjectsList;
+  errors?: BatchGetCommitsErrorsList;
+}
+export const BatchGetCommitsOutput = S.suspend(() =>
+  S.Struct({
     commits: S.optional(CommitObjectsList),
     errors: S.optional(BatchGetCommitsErrorsList),
-  },
-  ns,
-) {}
-export class CreatePullRequestApprovalRuleOutput extends S.Class<CreatePullRequestApprovalRuleOutput>(
-  "CreatePullRequestApprovalRuleOutput",
-)({ approvalRule: ApprovalRule }, ns) {}
-export class CreateUnreferencedMergeCommitOutput extends S.Class<CreateUnreferencedMergeCommitOutput>(
-  "CreateUnreferencedMergeCommitOutput",
-)({ commitId: S.optional(S.String), treeId: S.optional(S.String) }, ns) {}
-export class DeleteCommentContentOutput extends S.Class<DeleteCommentContentOutput>(
-  "DeleteCommentContentOutput",
-)({ comment: S.optional(Comment) }, ns) {}
-export class DescribeMergeConflictsOutput extends S.Class<DescribeMergeConflictsOutput>(
-  "DescribeMergeConflictsOutput",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "BatchGetCommitsOutput",
+}) as any as S.Schema<BatchGetCommitsOutput>;
+export interface CreatePullRequestApprovalRuleOutput {
+  approvalRule: ApprovalRule;
+}
+export const CreatePullRequestApprovalRuleOutput = S.suspend(() =>
+  S.Struct({ approvalRule: ApprovalRule }).pipe(ns),
+).annotations({
+  identifier: "CreatePullRequestApprovalRuleOutput",
+}) as any as S.Schema<CreatePullRequestApprovalRuleOutput>;
+export interface CreateUnreferencedMergeCommitOutput {
+  commitId?: string;
+  treeId?: string;
+}
+export const CreateUnreferencedMergeCommitOutput = S.suspend(() =>
+  S.Struct({
+    commitId: S.optional(S.String),
+    treeId: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "CreateUnreferencedMergeCommitOutput",
+}) as any as S.Schema<CreateUnreferencedMergeCommitOutput>;
+export interface DeleteCommentContentOutput {
+  comment?: Comment;
+}
+export const DeleteCommentContentOutput = S.suspend(() =>
+  S.Struct({ comment: S.optional(Comment) }).pipe(ns),
+).annotations({
+  identifier: "DeleteCommentContentOutput",
+}) as any as S.Schema<DeleteCommentContentOutput>;
+export interface DescribeMergeConflictsOutput {
+  conflictMetadata: ConflictMetadata;
+  mergeHunks: MergeHunks;
+  nextToken?: string;
+  destinationCommitId: string;
+  sourceCommitId: string;
+  baseCommitId?: string;
+}
+export const DescribeMergeConflictsOutput = S.suspend(() =>
+  S.Struct({
     conflictMetadata: ConflictMetadata,
     mergeHunks: MergeHunks,
     nextToken: S.optional(S.String),
     destinationCommitId: S.String,
     sourceCommitId: S.String,
     baseCommitId: S.optional(S.String),
-  },
-  ns,
-) {}
-export class GetCommentReactionsOutput extends S.Class<GetCommentReactionsOutput>(
-  "GetCommentReactionsOutput",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeMergeConflictsOutput",
+}) as any as S.Schema<DescribeMergeConflictsOutput>;
+export interface GetCommentReactionsOutput {
+  reactionsForComment: ReactionsForCommentList;
+  nextToken?: string;
+}
+export const GetCommentReactionsOutput = S.suspend(() =>
+  S.Struct({
     reactionsForComment: ReactionsForCommentList,
     nextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class GetDifferencesOutput extends S.Class<GetDifferencesOutput>(
-  "GetDifferencesOutput",
-)(
-  { differences: S.optional(DifferenceList), NextToken: S.optional(S.String) },
-  ns,
-) {}
-export class GetPullRequestOutput extends S.Class<GetPullRequestOutput>(
-  "GetPullRequestOutput",
-)({ pullRequest: PullRequest }, ns) {}
-export class PullRequestMergedStateChangedEventMetadata extends S.Class<PullRequestMergedStateChangedEventMetadata>(
-  "PullRequestMergedStateChangedEventMetadata",
-)({
-  repositoryName: S.optional(S.String),
-  destinationReference: S.optional(S.String),
-  mergeMetadata: S.optional(MergeMetadata),
-}) {}
-export class FileMetadata extends S.Class<FileMetadata>("FileMetadata")({
-  absolutePath: S.optional(S.String),
-  blobId: S.optional(S.String),
-  fileMode: S.optional(S.String),
-}) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "GetCommentReactionsOutput",
+}) as any as S.Schema<GetCommentReactionsOutput>;
+export interface GetDifferencesOutput {
+  differences?: DifferenceList;
+  NextToken?: string;
+}
+export const GetDifferencesOutput = S.suspend(() =>
+  S.Struct({
+    differences: S.optional(DifferenceList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "GetDifferencesOutput",
+}) as any as S.Schema<GetDifferencesOutput>;
+export interface GetPullRequestOutput {
+  pullRequest: PullRequest;
+}
+export const GetPullRequestOutput = S.suspend(() =>
+  S.Struct({ pullRequest: PullRequest }).pipe(ns),
+).annotations({
+  identifier: "GetPullRequestOutput",
+}) as any as S.Schema<GetPullRequestOutput>;
+export interface PullRequestMergedStateChangedEventMetadata {
+  repositoryName?: string;
+  destinationReference?: string;
+  mergeMetadata?: MergeMetadata;
+}
+export const PullRequestMergedStateChangedEventMetadata = S.suspend(() =>
+  S.Struct({
+    repositoryName: S.optional(S.String),
+    destinationReference: S.optional(S.String),
+    mergeMetadata: S.optional(MergeMetadata),
+  }),
+).annotations({
+  identifier: "PullRequestMergedStateChangedEventMetadata",
+}) as any as S.Schema<PullRequestMergedStateChangedEventMetadata>;
+export interface FileMetadata {
+  absolutePath?: string;
+  blobId?: string;
+  fileMode?: string;
+}
+export const FileMetadata = S.suspend(() =>
+  S.Struct({
+    absolutePath: S.optional(S.String),
+    blobId: S.optional(S.String),
+    fileMode: S.optional(S.String),
+  }),
+).annotations({ identifier: "FileMetadata" }) as any as S.Schema<FileMetadata>;
+export type FilesMetadata = FileMetadata[];
 export const FilesMetadata = S.Array(FileMetadata);
-export class PullRequestEvent extends S.Class<PullRequestEvent>(
-  "PullRequestEvent",
-)({
-  pullRequestId: S.optional(S.String),
-  eventDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  pullRequestEventType: S.optional(S.String),
-  actorArn: S.optional(S.String),
-  pullRequestCreatedEventMetadata: S.optional(PullRequestCreatedEventMetadata),
-  pullRequestStatusChangedEventMetadata: S.optional(
-    PullRequestStatusChangedEventMetadata,
-  ),
-  pullRequestSourceReferenceUpdatedEventMetadata: S.optional(
-    PullRequestSourceReferenceUpdatedEventMetadata,
-  ),
-  pullRequestMergedStateChangedEventMetadata: S.optional(
-    PullRequestMergedStateChangedEventMetadata,
-  ),
-  approvalRuleEventMetadata: S.optional(ApprovalRuleEventMetadata),
-  approvalStateChangedEventMetadata: S.optional(
-    ApprovalStateChangedEventMetadata,
-  ),
-  approvalRuleOverriddenEventMetadata: S.optional(
-    ApprovalRuleOverriddenEventMetadata,
-  ),
-}) {}
+export interface PullRequestEvent {
+  pullRequestId?: string;
+  eventDate?: Date;
+  pullRequestEventType?: string;
+  actorArn?: string;
+  pullRequestCreatedEventMetadata?: PullRequestCreatedEventMetadata;
+  pullRequestStatusChangedEventMetadata?: PullRequestStatusChangedEventMetadata;
+  pullRequestSourceReferenceUpdatedEventMetadata?: PullRequestSourceReferenceUpdatedEventMetadata;
+  pullRequestMergedStateChangedEventMetadata?: PullRequestMergedStateChangedEventMetadata;
+  approvalRuleEventMetadata?: ApprovalRuleEventMetadata;
+  approvalStateChangedEventMetadata?: ApprovalStateChangedEventMetadata;
+  approvalRuleOverriddenEventMetadata?: ApprovalRuleOverriddenEventMetadata;
+}
+export const PullRequestEvent = S.suspend(() =>
+  S.Struct({
+    pullRequestId: S.optional(S.String),
+    eventDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    pullRequestEventType: S.optional(S.String),
+    actorArn: S.optional(S.String),
+    pullRequestCreatedEventMetadata: S.optional(
+      PullRequestCreatedEventMetadata,
+    ),
+    pullRequestStatusChangedEventMetadata: S.optional(
+      PullRequestStatusChangedEventMetadata,
+    ),
+    pullRequestSourceReferenceUpdatedEventMetadata: S.optional(
+      PullRequestSourceReferenceUpdatedEventMetadata,
+    ),
+    pullRequestMergedStateChangedEventMetadata: S.optional(
+      PullRequestMergedStateChangedEventMetadata,
+    ),
+    approvalRuleEventMetadata: S.optional(ApprovalRuleEventMetadata),
+    approvalStateChangedEventMetadata: S.optional(
+      ApprovalStateChangedEventMetadata,
+    ),
+    approvalRuleOverriddenEventMetadata: S.optional(
+      ApprovalRuleOverriddenEventMetadata,
+    ),
+  }),
+).annotations({
+  identifier: "PullRequestEvent",
+}) as any as S.Schema<PullRequestEvent>;
+export type PullRequestEventList = PullRequestEvent[];
 export const PullRequestEventList = S.Array(PullRequestEvent);
-export class CreateCommitOutput extends S.Class<CreateCommitOutput>(
-  "CreateCommitOutput",
-)(
-  {
+export interface CreateCommitOutput {
+  commitId?: string;
+  treeId?: string;
+  filesAdded?: FilesMetadata;
+  filesUpdated?: FilesMetadata;
+  filesDeleted?: FilesMetadata;
+}
+export const CreateCommitOutput = S.suspend(() =>
+  S.Struct({
     commitId: S.optional(S.String),
     treeId: S.optional(S.String),
     filesAdded: S.optional(FilesMetadata),
     filesUpdated: S.optional(FilesMetadata),
     filesDeleted: S.optional(FilesMetadata),
-  },
-  ns,
-) {}
-export class DescribePullRequestEventsOutput extends S.Class<DescribePullRequestEventsOutput>(
-  "DescribePullRequestEventsOutput",
-)(
-  { pullRequestEvents: PullRequestEventList, nextToken: S.optional(S.String) },
-  ns,
-) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "CreateCommitOutput",
+}) as any as S.Schema<CreateCommitOutput>;
+export interface DescribePullRequestEventsOutput {
+  pullRequestEvents: PullRequestEventList;
+  nextToken?: string;
+}
+export const DescribePullRequestEventsOutput = S.suspend(() =>
+  S.Struct({
+    pullRequestEvents: PullRequestEventList,
+    nextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribePullRequestEventsOutput",
+}) as any as S.Schema<DescribePullRequestEventsOutput>;
 
 //# Errors
 export class ApprovalRuleTemplateDoesNotExistException extends S.TaggedError<ApprovalRuleTemplateDoesNotExistException>()(

@@ -106,62 +106,88 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type TagKeys = string[];
 export const TagKeys = S.Array(S.String);
+export type Domains = string[];
 export const Domains = S.Array(S.String);
+export type Regions = string[];
 export const Regions = S.Array(S.String);
-export class DisassociateHostedZoneInput extends S.Class<DisassociateHostedZoneInput>(
-  "DisassociateHostedZoneInput",
-)(
-  {
+export interface DisassociateHostedZoneInput {
+  hostedZoneId: string;
+  resourceArn: string;
+}
+export const DisassociateHostedZoneInput = S.suspend(() =>
+  S.Struct({
     hostedZoneId: S.String.pipe(T.HttpLabel("hostedZoneId")),
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/hosted-zone-associations/hosted-zone/{hostedZoneId}/resource-arn/{resourceArn+}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/hosted-zone-associations/hosted-zone/{hostedZoneId}/resource-arn/{resourceArn+}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { resourceArn: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/get-all-tags" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DisassociateHostedZoneInput",
+}) as any as S.Schema<DisassociateHostedZoneInput>;
+export interface ListTagsForResourceRequest {
+  resourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/get-all-tags" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  { resourceArn: S.String, tagKeys: TagKeys },
-  T.all(
-    T.Http({ method: "POST", uri: "/untag-resource" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface UntagResourceRequest {
+  resourceArn: string;
+  tagKeys: TagKeys;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String, tagKeys: TagKeys }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/untag-resource" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export type Tags = { [key: string]: string };
 export const Tags = S.Record({ key: S.String, value: S.String });
-export class CreateAccessSourceInput extends S.Class<CreateAccessSourceInput>(
-  "CreateAccessSourceInput",
-)(
-  {
+export interface CreateAccessSourceInput {
+  cidr: string;
+  clientToken?: string;
+  ipAddressType?: string;
+  name?: string;
+  dnsViewId: string;
+  protocol: string;
+  tags?: Tags;
+}
+export const CreateAccessSourceInput = S.suspend(() =>
+  S.Struct({
     cidr: S.String,
     clientToken: S.optional(S.String),
     ipAddressType: S.optional(S.String),
@@ -169,146 +195,207 @@ export class CreateAccessSourceInput extends S.Class<CreateAccessSourceInput>(
     dnsViewId: S.String,
     protocol: S.String,
     tags: S.optional(Tags),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/access-sources" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/access-sources" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetAccessSourceInput extends S.Class<GetAccessSourceInput>(
-  "GetAccessSourceInput",
-)(
-  { accessSourceId: S.String.pipe(T.HttpLabel("accessSourceId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/access-sources/{accessSourceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CreateAccessSourceInput",
+}) as any as S.Schema<CreateAccessSourceInput>;
+export interface GetAccessSourceInput {
+  accessSourceId: string;
+}
+export const GetAccessSourceInput = S.suspend(() =>
+  S.Struct({
+    accessSourceId: S.String.pipe(T.HttpLabel("accessSourceId")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/access-sources/{accessSourceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateAccessSourceInput extends S.Class<UpdateAccessSourceInput>(
-  "UpdateAccessSourceInput",
-)(
-  {
+).annotations({
+  identifier: "GetAccessSourceInput",
+}) as any as S.Schema<GetAccessSourceInput>;
+export interface UpdateAccessSourceInput {
+  accessSourceId: string;
+  cidr?: string;
+  ipAddressType?: string;
+  name?: string;
+  protocol?: string;
+}
+export const UpdateAccessSourceInput = S.suspend(() =>
+  S.Struct({
     accessSourceId: S.String.pipe(T.HttpLabel("accessSourceId")),
     cidr: S.optional(S.String),
     ipAddressType: S.optional(S.String),
     name: S.optional(S.String),
     protocol: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "PATCH", uri: "/access-sources/{accessSourceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PATCH", uri: "/access-sources/{accessSourceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAccessSourceInput extends S.Class<DeleteAccessSourceInput>(
-  "DeleteAccessSourceInput",
-)(
-  { accessSourceId: S.String.pipe(T.HttpLabel("accessSourceId")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/access-sources/{accessSourceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UpdateAccessSourceInput",
+}) as any as S.Schema<UpdateAccessSourceInput>;
+export interface DeleteAccessSourceInput {
+  accessSourceId: string;
+}
+export const DeleteAccessSourceInput = S.suspend(() =>
+  S.Struct({
+    accessSourceId: S.String.pipe(T.HttpLabel("accessSourceId")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/access-sources/{accessSourceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateAccessTokenInput extends S.Class<CreateAccessTokenInput>(
-  "CreateAccessTokenInput",
-)(
-  {
+).annotations({
+  identifier: "DeleteAccessSourceInput",
+}) as any as S.Schema<DeleteAccessSourceInput>;
+export interface CreateAccessTokenInput {
+  clientToken?: string;
+  dnsViewId: string;
+  expiresAt?: Date;
+  name?: string;
+  tags?: Tags;
+}
+export const CreateAccessTokenInput = S.suspend(() =>
+  S.Struct({
     clientToken: S.optional(S.String),
     dnsViewId: S.String.pipe(T.HttpLabel("dnsViewId")),
     expiresAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     name: S.optional(S.String),
     tags: S.optional(Tags),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/tokens/{dnsViewId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tokens/{dnsViewId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetAccessTokenInput extends S.Class<GetAccessTokenInput>(
-  "GetAccessTokenInput",
-)(
-  { accessTokenId: S.String.pipe(T.HttpLabel("accessTokenId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/tokens/{accessTokenId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CreateAccessTokenInput",
+}) as any as S.Schema<CreateAccessTokenInput>;
+export interface GetAccessTokenInput {
+  accessTokenId: string;
+}
+export const GetAccessTokenInput = S.suspend(() =>
+  S.Struct({ accessTokenId: S.String.pipe(T.HttpLabel("accessTokenId")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tokens/{accessTokenId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateAccessTokenInput extends S.Class<UpdateAccessTokenInput>(
-  "UpdateAccessTokenInput",
-)(
-  {
+).annotations({
+  identifier: "GetAccessTokenInput",
+}) as any as S.Schema<GetAccessTokenInput>;
+export interface UpdateAccessTokenInput {
+  accessTokenId: string;
+  name: string;
+}
+export const UpdateAccessTokenInput = S.suspend(() =>
+  S.Struct({
     accessTokenId: S.String.pipe(T.HttpLabel("accessTokenId")),
     name: S.String,
-  },
-  T.all(
-    T.Http({ method: "PATCH", uri: "/tokens/{accessTokenId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PATCH", uri: "/tokens/{accessTokenId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAccessTokenInput extends S.Class<DeleteAccessTokenInput>(
-  "DeleteAccessTokenInput",
-)(
-  { accessTokenId: S.String.pipe(T.HttpLabel("accessTokenId")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/tokens/{accessTokenId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UpdateAccessTokenInput",
+}) as any as S.Schema<UpdateAccessTokenInput>;
+export interface DeleteAccessTokenInput {
+  accessTokenId: string;
+}
+export const DeleteAccessTokenInput = S.suspend(() =>
+  S.Struct({ accessTokenId: S.String.pipe(T.HttpLabel("accessTokenId")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tokens/{accessTokenId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "DeleteAccessTokenInput",
+}) as any as S.Schema<DeleteAccessTokenInput>;
+export type Strings = string[];
 export const Strings = S.Array(S.String);
+export type Filters = { [key: string]: Strings };
 export const Filters = S.Record({ key: S.String, value: Strings });
-export class ListAccessTokensInput extends S.Class<ListAccessTokensInput>(
-  "ListAccessTokensInput",
-)(
-  {
+export interface ListAccessTokensInput {
+  maxResults?: number;
+  nextToken?: string;
+  dnsViewId: string;
+  filters?: Filters;
+}
+export const ListAccessTokensInput = S.suspend(() =>
+  S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("max_results")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("next_token")),
     dnsViewId: S.String.pipe(T.HttpLabel("dnsViewId")),
     filters: S.optional(Filters).pipe(T.HttpQueryParams()),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/tokens/dns-view/{dnsViewId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tokens/dns-view/{dnsViewId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateDNSViewInput extends S.Class<CreateDNSViewInput>(
-  "CreateDNSViewInput",
-)(
-  {
+).annotations({
+  identifier: "ListAccessTokensInput",
+}) as any as S.Schema<ListAccessTokensInput>;
+export interface CreateDNSViewInput {
+  globalResolverId: string;
+  clientToken?: string;
+  name: string;
+  dnssecValidation?: string;
+  ednsClientSubnet?: string;
+  firewallRulesFailOpen?: string;
+  description?: string;
+  tags?: Tags;
+}
+export const CreateDNSViewInput = S.suspend(() =>
+  S.Struct({
     globalResolverId: S.String.pipe(T.HttpLabel("globalResolverId")),
     clientToken: S.optional(S.String),
     name: S.String,
@@ -317,242 +404,334 @@ export class CreateDNSViewInput extends S.Class<CreateDNSViewInput>(
     firewallRulesFailOpen: S.optional(S.String),
     description: S.optional(S.String),
     tags: S.optional(Tags),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/dns-views/{globalResolverId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/dns-views/{globalResolverId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetDNSViewInput extends S.Class<GetDNSViewInput>(
-  "GetDNSViewInput",
-)(
-  { dnsViewId: S.String.pipe(T.HttpLabel("dnsViewId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/dns-views/{dnsViewId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CreateDNSViewInput",
+}) as any as S.Schema<CreateDNSViewInput>;
+export interface GetDNSViewInput {
+  dnsViewId: string;
+}
+export const GetDNSViewInput = S.suspend(() =>
+  S.Struct({ dnsViewId: S.String.pipe(T.HttpLabel("dnsViewId")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/dns-views/{dnsViewId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateDNSViewInput extends S.Class<UpdateDNSViewInput>(
-  "UpdateDNSViewInput",
-)(
-  {
+).annotations({
+  identifier: "GetDNSViewInput",
+}) as any as S.Schema<GetDNSViewInput>;
+export interface UpdateDNSViewInput {
+  dnsViewId: string;
+  name?: string;
+  description?: string;
+  dnssecValidation?: string;
+  ednsClientSubnet?: string;
+  firewallRulesFailOpen?: string;
+}
+export const UpdateDNSViewInput = S.suspend(() =>
+  S.Struct({
     dnsViewId: S.String.pipe(T.HttpLabel("dnsViewId")),
     name: S.optional(S.String),
     description: S.optional(S.String),
     dnssecValidation: S.optional(S.String),
     ednsClientSubnet: S.optional(S.String),
     firewallRulesFailOpen: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "PATCH", uri: "/dns-views/{dnsViewId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PATCH", uri: "/dns-views/{dnsViewId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteDNSViewInput extends S.Class<DeleteDNSViewInput>(
-  "DeleteDNSViewInput",
-)(
-  { dnsViewId: S.String.pipe(T.HttpLabel("dnsViewId")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/dns-views/{dnsViewId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UpdateDNSViewInput",
+}) as any as S.Schema<UpdateDNSViewInput>;
+export interface DeleteDNSViewInput {
+  dnsViewId: string;
+}
+export const DeleteDNSViewInput = S.suspend(() =>
+  S.Struct({ dnsViewId: S.String.pipe(T.HttpLabel("dnsViewId")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/dns-views/{dnsViewId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListDNSViewsInput extends S.Class<ListDNSViewsInput>(
-  "ListDNSViewsInput",
-)(
-  {
+).annotations({
+  identifier: "DeleteDNSViewInput",
+}) as any as S.Schema<DeleteDNSViewInput>;
+export interface ListDNSViewsInput {
+  maxResults?: number;
+  nextToken?: string;
+  globalResolverId: string;
+}
+export const ListDNSViewsInput = S.suspend(() =>
+  S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("max_results")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("next_token")),
     globalResolverId: S.String.pipe(T.HttpLabel("globalResolverId")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/dns-views/resolver/{globalResolverId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/dns-views/resolver/{globalResolverId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DisableDNSViewInput extends S.Class<DisableDNSViewInput>(
-  "DisableDNSViewInput",
-)(
-  { dnsViewId: S.String.pipe(T.HttpLabel("dnsViewId")) },
-  T.all(
-    T.Http({ method: "PATCH", uri: "/dns-views/{dnsViewId}/disable" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListDNSViewsInput",
+}) as any as S.Schema<ListDNSViewsInput>;
+export interface DisableDNSViewInput {
+  dnsViewId: string;
+}
+export const DisableDNSViewInput = S.suspend(() =>
+  S.Struct({ dnsViewId: S.String.pipe(T.HttpLabel("dnsViewId")) }).pipe(
+    T.all(
+      T.Http({ method: "PATCH", uri: "/dns-views/{dnsViewId}/disable" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class EnableDNSViewInput extends S.Class<EnableDNSViewInput>(
-  "EnableDNSViewInput",
-)(
-  { dnsViewId: S.String.pipe(T.HttpLabel("dnsViewId")) },
-  T.all(
-    T.Http({ method: "PATCH", uri: "/dns-views/{dnsViewId}/enable" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DisableDNSViewInput",
+}) as any as S.Schema<DisableDNSViewInput>;
+export interface EnableDNSViewInput {
+  dnsViewId: string;
+}
+export const EnableDNSViewInput = S.suspend(() =>
+  S.Struct({ dnsViewId: S.String.pipe(T.HttpLabel("dnsViewId")) }).pipe(
+    T.all(
+      T.Http({ method: "PATCH", uri: "/dns-views/{dnsViewId}/enable" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateFirewallDomainListInput extends S.Class<CreateFirewallDomainListInput>(
-  "CreateFirewallDomainListInput",
-)(
-  {
+).annotations({
+  identifier: "EnableDNSViewInput",
+}) as any as S.Schema<EnableDNSViewInput>;
+export interface CreateFirewallDomainListInput {
+  clientToken?: string;
+  globalResolverId: string;
+  description?: string;
+  name: string;
+  tags?: Tags;
+}
+export const CreateFirewallDomainListInput = S.suspend(() =>
+  S.Struct({
     clientToken: S.optional(S.String),
     globalResolverId: S.String.pipe(T.HttpLabel("globalResolverId")),
     description: S.optional(S.String),
     name: S.String,
     tags: S.optional(Tags),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/firewall-domain-lists/{globalResolverId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/firewall-domain-lists/{globalResolverId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetFirewallDomainListInput extends S.Class<GetFirewallDomainListInput>(
-  "GetFirewallDomainListInput",
-)(
-  { firewallDomainListId: S.String.pipe(T.HttpLabel("firewallDomainListId")) },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/firewall-domain-lists/{firewallDomainListId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CreateFirewallDomainListInput",
+}) as any as S.Schema<CreateFirewallDomainListInput>;
+export interface GetFirewallDomainListInput {
+  firewallDomainListId: string;
+}
+export const GetFirewallDomainListInput = S.suspend(() =>
+  S.Struct({
+    firewallDomainListId: S.String.pipe(T.HttpLabel("firewallDomainListId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/firewall-domain-lists/{firewallDomainListId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteFirewallDomainListInput extends S.Class<DeleteFirewallDomainListInput>(
-  "DeleteFirewallDomainListInput",
-)(
-  { firewallDomainListId: S.String.pipe(T.HttpLabel("firewallDomainListId")) },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/firewall-domain-lists/{firewallDomainListId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetFirewallDomainListInput",
+}) as any as S.Schema<GetFirewallDomainListInput>;
+export interface DeleteFirewallDomainListInput {
+  firewallDomainListId: string;
+}
+export const DeleteFirewallDomainListInput = S.suspend(() =>
+  S.Struct({
+    firewallDomainListId: S.String.pipe(T.HttpLabel("firewallDomainListId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/firewall-domain-lists/{firewallDomainListId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListFirewallDomainListsInput extends S.Class<ListFirewallDomainListsInput>(
-  "ListFirewallDomainListsInput",
-)(
-  {
+).annotations({
+  identifier: "DeleteFirewallDomainListInput",
+}) as any as S.Schema<DeleteFirewallDomainListInput>;
+export interface ListFirewallDomainListsInput {
+  maxResults?: number;
+  nextToken?: string;
+  globalResolverId?: string;
+}
+export const ListFirewallDomainListsInput = S.suspend(() =>
+  S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("max_results")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("next_token")),
     globalResolverId: S.optional(S.String).pipe(
       T.HttpQuery("global_resolver_id"),
     ),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/firewall-domain-lists" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/firewall-domain-lists" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ImportFirewallDomainsInput extends S.Class<ImportFirewallDomainsInput>(
-  "ImportFirewallDomainsInput",
-)(
-  {
+).annotations({
+  identifier: "ListFirewallDomainListsInput",
+}) as any as S.Schema<ListFirewallDomainListsInput>;
+export interface ImportFirewallDomainsInput {
+  domainFileUrl: string;
+  firewallDomainListId: string;
+  operation: string;
+}
+export const ImportFirewallDomainsInput = S.suspend(() =>
+  S.Struct({
     domainFileUrl: S.String,
     firewallDomainListId: S.String.pipe(T.HttpLabel("firewallDomainListId")),
     operation: S.String,
-  },
-  T.all(
-    T.Http({
-      method: "PATCH",
-      uri: "/firewall-domain-lists/{firewallDomainListId}/domains/s3_file_url",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/firewall-domain-lists/{firewallDomainListId}/domains/s3_file_url",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListFirewallDomainsInput extends S.Class<ListFirewallDomainsInput>(
-  "ListFirewallDomainsInput",
-)(
-  {
+).annotations({
+  identifier: "ImportFirewallDomainsInput",
+}) as any as S.Schema<ImportFirewallDomainsInput>;
+export interface ListFirewallDomainsInput {
+  maxResults?: number;
+  nextToken?: string;
+  firewallDomainListId: string;
+}
+export const ListFirewallDomainsInput = S.suspend(() =>
+  S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("max_results")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("next_token")),
     firewallDomainListId: S.String.pipe(T.HttpLabel("firewallDomainListId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/firewall-domain-lists/{firewallDomainListId}/domains",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/firewall-domain-lists/{firewallDomainListId}/domains",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateFirewallDomainsInput extends S.Class<UpdateFirewallDomainsInput>(
-  "UpdateFirewallDomainsInput",
-)(
-  {
+).annotations({
+  identifier: "ListFirewallDomainsInput",
+}) as any as S.Schema<ListFirewallDomainsInput>;
+export interface UpdateFirewallDomainsInput {
+  domains: Domains;
+  firewallDomainListId: string;
+  operation: string;
+}
+export const UpdateFirewallDomainsInput = S.suspend(() =>
+  S.Struct({
     domains: Domains,
     firewallDomainListId: S.String.pipe(T.HttpLabel("firewallDomainListId")),
     operation: S.String,
-  },
-  T.all(
-    T.Http({
-      method: "PATCH",
-      uri: "/firewall-domain-lists/{firewallDomainListId}/domains",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/firewall-domain-lists/{firewallDomainListId}/domains",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateFirewallRuleInput extends S.Class<CreateFirewallRuleInput>(
-  "CreateFirewallRuleInput",
-)(
-  {
+).annotations({
+  identifier: "UpdateFirewallDomainsInput",
+}) as any as S.Schema<UpdateFirewallDomainsInput>;
+export interface CreateFirewallRuleInput {
+  action: string;
+  blockOverrideDnsType?: string;
+  blockOverrideDomain?: string;
+  blockOverrideTtl?: number;
+  blockResponse?: string;
+  clientToken?: string;
+  confidenceThreshold?: string;
+  description?: string;
+  dnsAdvancedProtection?: string;
+  firewallDomainListId?: string;
+  name: string;
+  priority?: number;
+  dnsViewId: string;
+  qType?: string;
+}
+export const CreateFirewallRuleInput = S.suspend(() =>
+  S.Struct({
     action: S.String,
     blockOverrideDnsType: S.optional(S.String),
     blockOverrideDomain: S.optional(S.String),
@@ -567,33 +746,54 @@ export class CreateFirewallRuleInput extends S.Class<CreateFirewallRuleInput>(
     priority: S.optional(S.Number),
     dnsViewId: S.String,
     qType: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/firewall-rules" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/firewall-rules" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetFirewallRuleInput extends S.Class<GetFirewallRuleInput>(
-  "GetFirewallRuleInput",
-)(
-  { firewallRuleId: S.String.pipe(T.HttpLabel("firewallRuleId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/firewall-rules/{firewallRuleId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CreateFirewallRuleInput",
+}) as any as S.Schema<CreateFirewallRuleInput>;
+export interface GetFirewallRuleInput {
+  firewallRuleId: string;
+}
+export const GetFirewallRuleInput = S.suspend(() =>
+  S.Struct({
+    firewallRuleId: S.String.pipe(T.HttpLabel("firewallRuleId")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/firewall-rules/{firewallRuleId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateFirewallRuleInput extends S.Class<UpdateFirewallRuleInput>(
-  "UpdateFirewallRuleInput",
-)(
-  {
+).annotations({
+  identifier: "GetFirewallRuleInput",
+}) as any as S.Schema<GetFirewallRuleInput>;
+export interface UpdateFirewallRuleInput {
+  action?: string;
+  blockOverrideDnsType?: string;
+  blockOverrideDomain?: string;
+  blockOverrideTtl?: number;
+  blockResponse?: string;
+  clientToken: string;
+  confidenceThreshold?: string;
+  description?: string;
+  dnsAdvancedProtection?: string;
+  firewallRuleId: string;
+  name?: string;
+  priority?: number;
+}
+export const UpdateFirewallRuleInput = S.suspend(() =>
+  S.Struct({
     action: S.optional(S.String),
     blockOverrideDnsType: S.optional(S.String),
     blockOverrideDomain: S.optional(S.String),
@@ -606,1063 +806,1951 @@ export class UpdateFirewallRuleInput extends S.Class<UpdateFirewallRuleInput>(
     firewallRuleId: S.String.pipe(T.HttpLabel("firewallRuleId")),
     name: S.optional(S.String),
     priority: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "PATCH", uri: "/firewall-rules/{firewallRuleId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PATCH", uri: "/firewall-rules/{firewallRuleId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteFirewallRuleInput extends S.Class<DeleteFirewallRuleInput>(
-  "DeleteFirewallRuleInput",
-)(
-  { firewallRuleId: S.String.pipe(T.HttpLabel("firewallRuleId")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/firewall-rules/{firewallRuleId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UpdateFirewallRuleInput",
+}) as any as S.Schema<UpdateFirewallRuleInput>;
+export interface DeleteFirewallRuleInput {
+  firewallRuleId: string;
+}
+export const DeleteFirewallRuleInput = S.suspend(() =>
+  S.Struct({
+    firewallRuleId: S.String.pipe(T.HttpLabel("firewallRuleId")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/firewall-rules/{firewallRuleId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListFirewallRulesInput extends S.Class<ListFirewallRulesInput>(
-  "ListFirewallRulesInput",
-)(
-  {
+).annotations({
+  identifier: "DeleteFirewallRuleInput",
+}) as any as S.Schema<DeleteFirewallRuleInput>;
+export interface ListFirewallRulesInput {
+  maxResults?: number;
+  nextToken?: string;
+  dnsViewId: string;
+  filters?: Filters;
+}
+export const ListFirewallRulesInput = S.suspend(() =>
+  S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("max_results")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("next_token")),
     dnsViewId: S.String.pipe(T.HttpQuery("dnsview_id")),
     filters: S.optional(Filters).pipe(T.HttpQueryParams()),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/firewall-rules" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/firewall-rules" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateGlobalResolverInput extends S.Class<CreateGlobalResolverInput>(
-  "CreateGlobalResolverInput",
-)(
-  {
+).annotations({
+  identifier: "ListFirewallRulesInput",
+}) as any as S.Schema<ListFirewallRulesInput>;
+export interface CreateGlobalResolverInput {
+  clientToken?: string;
+  description?: string;
+  name: string;
+  observabilityRegion?: string;
+  regions: Regions;
+  tags?: Tags;
+}
+export const CreateGlobalResolverInput = S.suspend(() =>
+  S.Struct({
     clientToken: S.optional(S.String),
     description: S.optional(S.String),
     name: S.String,
     observabilityRegion: S.optional(S.String),
     regions: Regions,
     tags: S.optional(Tags),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/global-resolver" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/global-resolver" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetGlobalResolverInput extends S.Class<GetGlobalResolverInput>(
-  "GetGlobalResolverInput",
-)(
-  { globalResolverId: S.String.pipe(T.HttpLabel("globalResolverId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/global-resolver/{globalResolverId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CreateGlobalResolverInput",
+}) as any as S.Schema<CreateGlobalResolverInput>;
+export interface GetGlobalResolverInput {
+  globalResolverId: string;
+}
+export const GetGlobalResolverInput = S.suspend(() =>
+  S.Struct({
+    globalResolverId: S.String.pipe(T.HttpLabel("globalResolverId")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/global-resolver/{globalResolverId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateGlobalResolverInput extends S.Class<UpdateGlobalResolverInput>(
-  "UpdateGlobalResolverInput",
-)(
-  {
+).annotations({
+  identifier: "GetGlobalResolverInput",
+}) as any as S.Schema<GetGlobalResolverInput>;
+export interface UpdateGlobalResolverInput {
+  globalResolverId: string;
+  name?: string;
+  observabilityRegion?: string;
+  description?: string;
+}
+export const UpdateGlobalResolverInput = S.suspend(() =>
+  S.Struct({
     globalResolverId: S.String.pipe(T.HttpLabel("globalResolverId")),
     name: S.optional(S.String),
     observabilityRegion: S.optional(S.String),
     description: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "PATCH", uri: "/global-resolver/{globalResolverId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PATCH", uri: "/global-resolver/{globalResolverId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteGlobalResolverInput extends S.Class<DeleteGlobalResolverInput>(
-  "DeleteGlobalResolverInput",
-)(
-  { globalResolverId: S.String.pipe(T.HttpLabel("globalResolverId")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/global-resolver/{globalResolverId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UpdateGlobalResolverInput",
+}) as any as S.Schema<UpdateGlobalResolverInput>;
+export interface DeleteGlobalResolverInput {
+  globalResolverId: string;
+}
+export const DeleteGlobalResolverInput = S.suspend(() =>
+  S.Struct({
+    globalResolverId: S.String.pipe(T.HttpLabel("globalResolverId")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/global-resolver/{globalResolverId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListGlobalResolversInput extends S.Class<ListGlobalResolversInput>(
-  "ListGlobalResolversInput",
-)(
-  {
+).annotations({
+  identifier: "DeleteGlobalResolverInput",
+}) as any as S.Schema<DeleteGlobalResolverInput>;
+export interface ListGlobalResolversInput {
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListGlobalResolversInput = S.suspend(() =>
+  S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("max_results")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("next_token")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/global-resolver" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/global-resolver" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AssociateHostedZoneInput extends S.Class<AssociateHostedZoneInput>(
-  "AssociateHostedZoneInput",
-)(
-  {
+).annotations({
+  identifier: "ListGlobalResolversInput",
+}) as any as S.Schema<ListGlobalResolversInput>;
+export interface AssociateHostedZoneInput {
+  hostedZoneId: string;
+  resourceArn: string;
+  name: string;
+}
+export const AssociateHostedZoneInput = S.suspend(() =>
+  S.Struct({
     hostedZoneId: S.String.pipe(T.HttpLabel("hostedZoneId")),
     resourceArn: S.String,
     name: S.String,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/hosted-zone-associations/{hostedZoneId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/hosted-zone-associations/{hostedZoneId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetHostedZoneAssociationInput extends S.Class<GetHostedZoneAssociationInput>(
-  "GetHostedZoneAssociationInput",
-)(
-  {
+).annotations({
+  identifier: "AssociateHostedZoneInput",
+}) as any as S.Schema<AssociateHostedZoneInput>;
+export interface GetHostedZoneAssociationInput {
+  hostedZoneAssociationId: string;
+}
+export const GetHostedZoneAssociationInput = S.suspend(() =>
+  S.Struct({
     hostedZoneAssociationId: S.String.pipe(
       T.HttpLabel("hostedZoneAssociationId"),
     ),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/hosted-zone-associations/{hostedZoneAssociationId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/hosted-zone-associations/{hostedZoneAssociationId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateHostedZoneAssociationInput extends S.Class<UpdateHostedZoneAssociationInput>(
-  "UpdateHostedZoneAssociationInput",
-)(
-  {
+).annotations({
+  identifier: "GetHostedZoneAssociationInput",
+}) as any as S.Schema<GetHostedZoneAssociationInput>;
+export interface UpdateHostedZoneAssociationInput {
+  hostedZoneAssociationId: string;
+  name?: string;
+}
+export const UpdateHostedZoneAssociationInput = S.suspend(() =>
+  S.Struct({
     hostedZoneAssociationId: S.String.pipe(
       T.HttpLabel("hostedZoneAssociationId"),
     ),
     name: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "PATCH",
-      uri: "/hosted-zone-associations/{hostedZoneAssociationId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/hosted-zone-associations/{hostedZoneAssociationId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListHostedZoneAssociationsInput extends S.Class<ListHostedZoneAssociationsInput>(
-  "ListHostedZoneAssociationsInput",
-)(
-  {
+).annotations({
+  identifier: "UpdateHostedZoneAssociationInput",
+}) as any as S.Schema<UpdateHostedZoneAssociationInput>;
+export interface ListHostedZoneAssociationsInput {
+  maxResults?: number;
+  nextToken?: string;
+  resourceArn: string;
+}
+export const ListHostedZoneAssociationsInput = S.suspend(() =>
+  S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("max_results")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("next_token")),
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/hosted-zone-associations/resource-arn/{resourceArn+}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/hosted-zone-associations/resource-arn/{resourceArn+}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetManagedFirewallDomainListInput extends S.Class<GetManagedFirewallDomainListInput>(
-  "GetManagedFirewallDomainListInput",
-)(
-  {
+).annotations({
+  identifier: "ListHostedZoneAssociationsInput",
+}) as any as S.Schema<ListHostedZoneAssociationsInput>;
+export interface GetManagedFirewallDomainListInput {
+  managedFirewallDomainListId: string;
+}
+export const GetManagedFirewallDomainListInput = S.suspend(() =>
+  S.Struct({
     managedFirewallDomainListId: S.String.pipe(
       T.HttpLabel("managedFirewallDomainListId"),
     ),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/managed-firewall-domain-lists/{managedFirewallDomainListId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/managed-firewall-domain-lists/{managedFirewallDomainListId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListManagedFirewallDomainListsInput extends S.Class<ListManagedFirewallDomainListsInput>(
-  "ListManagedFirewallDomainListsInput",
-)(
-  {
+).annotations({
+  identifier: "GetManagedFirewallDomainListInput",
+}) as any as S.Schema<GetManagedFirewallDomainListInput>;
+export interface ListManagedFirewallDomainListsInput {
+  maxResults?: number;
+  nextToken?: string;
+  managedFirewallDomainListType: string;
+}
+export const ListManagedFirewallDomainListsInput = S.suspend(() =>
+  S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("max_results")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("next_token")),
     managedFirewallDomainListType: S.String.pipe(
       T.HttpLabel("managedFirewallDomainListType"),
     ),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/list-managed-firewall-domain-lists/{managedFirewallDomainListType}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/list-managed-firewall-domain-lists/{managedFirewallDomainListType}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class BatchCreateFirewallRuleInputItem extends S.Class<BatchCreateFirewallRuleInputItem>(
-  "BatchCreateFirewallRuleInputItem",
-)({
-  action: S.String,
-  blockOverrideDnsType: S.optional(S.String),
-  blockOverrideDomain: S.optional(S.String),
-  blockOverrideTtl: S.optional(S.Number),
-  blockResponse: S.optional(S.String),
-  clientToken: S.String,
-  confidenceThreshold: S.optional(S.String),
-  description: S.optional(S.String),
-  dnsAdvancedProtection: S.optional(S.String),
-  firewallDomainListId: S.optional(S.String),
-  name: S.String,
-  priority: S.optional(S.Number),
-  dnsViewId: S.String,
-  qType: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "ListManagedFirewallDomainListsInput",
+}) as any as S.Schema<ListManagedFirewallDomainListsInput>;
+export interface BatchCreateFirewallRuleInputItem {
+  action: string;
+  blockOverrideDnsType?: string;
+  blockOverrideDomain?: string;
+  blockOverrideTtl?: number;
+  blockResponse?: string;
+  clientToken: string;
+  confidenceThreshold?: string;
+  description?: string;
+  dnsAdvancedProtection?: string;
+  firewallDomainListId?: string;
+  name: string;
+  priority?: number;
+  dnsViewId: string;
+  qType?: string;
+}
+export const BatchCreateFirewallRuleInputItem = S.suspend(() =>
+  S.Struct({
+    action: S.String,
+    blockOverrideDnsType: S.optional(S.String),
+    blockOverrideDomain: S.optional(S.String),
+    blockOverrideTtl: S.optional(S.Number),
+    blockResponse: S.optional(S.String),
+    clientToken: S.String,
+    confidenceThreshold: S.optional(S.String),
+    description: S.optional(S.String),
+    dnsAdvancedProtection: S.optional(S.String),
+    firewallDomainListId: S.optional(S.String),
+    name: S.String,
+    priority: S.optional(S.Number),
+    dnsViewId: S.String,
+    qType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "BatchCreateFirewallRuleInputItem",
+}) as any as S.Schema<BatchCreateFirewallRuleInputItem>;
+export type BatchCreateFirewallRuleInputItems =
+  BatchCreateFirewallRuleInputItem[];
 export const BatchCreateFirewallRuleInputItems = S.Array(
   BatchCreateFirewallRuleInputItem,
 );
-export class BatchDeleteFirewallRuleInputItem extends S.Class<BatchDeleteFirewallRuleInputItem>(
-  "BatchDeleteFirewallRuleInputItem",
-)({ firewallRuleId: S.String }) {}
+export interface BatchDeleteFirewallRuleInputItem {
+  firewallRuleId: string;
+}
+export const BatchDeleteFirewallRuleInputItem = S.suspend(() =>
+  S.Struct({ firewallRuleId: S.String }),
+).annotations({
+  identifier: "BatchDeleteFirewallRuleInputItem",
+}) as any as S.Schema<BatchDeleteFirewallRuleInputItem>;
+export type BatchDeleteFirewallRuleInputItems =
+  BatchDeleteFirewallRuleInputItem[];
 export const BatchDeleteFirewallRuleInputItems = S.Array(
   BatchDeleteFirewallRuleInputItem,
 );
-export class BatchUpdateFirewallRuleInputItem extends S.Class<BatchUpdateFirewallRuleInputItem>(
-  "BatchUpdateFirewallRuleInputItem",
-)({
-  action: S.optional(S.String),
-  blockOverrideDnsType: S.optional(S.String),
-  blockOverrideDomain: S.optional(S.String),
-  blockOverrideTtl: S.optional(S.Number),
-  blockResponse: S.optional(S.String),
-  confidenceThreshold: S.optional(S.String),
-  description: S.optional(S.String),
-  dnsAdvancedProtection: S.optional(S.String),
-  firewallRuleId: S.String,
-  name: S.optional(S.String),
-  priority: S.optional(S.Number),
-}) {}
+export interface BatchUpdateFirewallRuleInputItem {
+  action?: string;
+  blockOverrideDnsType?: string;
+  blockOverrideDomain?: string;
+  blockOverrideTtl?: number;
+  blockResponse?: string;
+  confidenceThreshold?: string;
+  description?: string;
+  dnsAdvancedProtection?: string;
+  firewallRuleId: string;
+  name?: string;
+  priority?: number;
+}
+export const BatchUpdateFirewallRuleInputItem = S.suspend(() =>
+  S.Struct({
+    action: S.optional(S.String),
+    blockOverrideDnsType: S.optional(S.String),
+    blockOverrideDomain: S.optional(S.String),
+    blockOverrideTtl: S.optional(S.Number),
+    blockResponse: S.optional(S.String),
+    confidenceThreshold: S.optional(S.String),
+    description: S.optional(S.String),
+    dnsAdvancedProtection: S.optional(S.String),
+    firewallRuleId: S.String,
+    name: S.optional(S.String),
+    priority: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "BatchUpdateFirewallRuleInputItem",
+}) as any as S.Schema<BatchUpdateFirewallRuleInputItem>;
+export type BatchUpdateFirewallRuleInputItems =
+  BatchUpdateFirewallRuleInputItem[];
 export const BatchUpdateFirewallRuleInputItems = S.Array(
   BatchUpdateFirewallRuleInputItem,
 );
+export type IPv4Addresses = string[];
 export const IPv4Addresses = S.Array(S.String);
-export class DisassociateHostedZoneOutput extends S.Class<DisassociateHostedZoneOutput>(
-  "DisassociateHostedZoneOutput",
-)({
-  id: S.String,
-  resourceArn: S.String,
-  hostedZoneId: S.String,
-  hostedZoneName: S.String,
-  name: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  status: S.String,
-}) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ tags: S.optional(Tags) }) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { resourceArn: S.String, tags: Tags },
-  T.all(
-    T.Http({ method: "POST", uri: "/tag-resource" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface DisassociateHostedZoneOutput {
+  id: string;
+  resourceArn: string;
+  hostedZoneId: string;
+  hostedZoneName: string;
+  name: string;
+  createdAt: Date;
+  updatedAt: Date;
+  status: string;
+}
+export const DisassociateHostedZoneOutput = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    resourceArn: S.String,
+    hostedZoneId: S.String,
+    hostedZoneName: S.String,
+    name: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    status: S.String,
+  }),
+).annotations({
+  identifier: "DisassociateHostedZoneOutput",
+}) as any as S.Schema<DisassociateHostedZoneOutput>;
+export interface ListTagsForResourceResponse {
+  tags?: Tags;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ tags: S.optional(Tags) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface TagResourceRequest {
+  resourceArn: string;
+  tags: Tags;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String, tags: Tags }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tag-resource" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class CreateAccessSourceOutput extends S.Class<CreateAccessSourceOutput>(
-  "CreateAccessSourceOutput",
-)({
-  arn: S.String,
-  cidr: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  id: S.String,
-  ipAddressType: S.String,
-  name: S.optional(S.String),
-  dnsViewId: S.String,
-  protocol: S.String,
-  status: S.String,
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class GetAccessSourceOutput extends S.Class<GetAccessSourceOutput>(
-  "GetAccessSourceOutput",
-)({
-  arn: S.String,
-  cidr: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  id: S.String,
-  ipAddressType: S.String,
-  name: S.optional(S.String),
-  dnsViewId: S.String,
-  protocol: S.String,
-  status: S.String,
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class UpdateAccessSourceOutput extends S.Class<UpdateAccessSourceOutput>(
-  "UpdateAccessSourceOutput",
-)({
-  arn: S.String,
-  cidr: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  id: S.String,
-  ipAddressType: S.String,
-  name: S.optional(S.String),
-  dnsViewId: S.String,
-  protocol: S.String,
-  status: S.String,
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class DeleteAccessSourceOutput extends S.Class<DeleteAccessSourceOutput>(
-  "DeleteAccessSourceOutput",
-)({
-  arn: S.String,
-  cidr: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  id: S.String,
-  ipAddressType: S.String,
-  name: S.optional(S.String),
-  dnsViewId: S.String,
-  protocol: S.String,
-  status: S.String,
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class ListAccessSourcesInput extends S.Class<ListAccessSourcesInput>(
-  "ListAccessSourcesInput",
-)(
-  {
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface CreateAccessSourceOutput {
+  arn: string;
+  cidr: string;
+  createdAt: Date;
+  id: string;
+  ipAddressType: string;
+  name?: string;
+  dnsViewId: string;
+  protocol: string;
+  status: string;
+  updatedAt: Date;
+}
+export const CreateAccessSourceOutput = S.suspend(() =>
+  S.Struct({
+    arn: S.String,
+    cidr: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    id: S.String,
+    ipAddressType: S.String,
+    name: S.optional(S.String),
+    dnsViewId: S.String,
+    protocol: S.String,
+    status: S.String,
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "CreateAccessSourceOutput",
+}) as any as S.Schema<CreateAccessSourceOutput>;
+export interface GetAccessSourceOutput {
+  arn: string;
+  cidr: string;
+  createdAt: Date;
+  id: string;
+  ipAddressType: string;
+  name?: string;
+  dnsViewId: string;
+  protocol: string;
+  status: string;
+  updatedAt: Date;
+}
+export const GetAccessSourceOutput = S.suspend(() =>
+  S.Struct({
+    arn: S.String,
+    cidr: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    id: S.String,
+    ipAddressType: S.String,
+    name: S.optional(S.String),
+    dnsViewId: S.String,
+    protocol: S.String,
+    status: S.String,
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "GetAccessSourceOutput",
+}) as any as S.Schema<GetAccessSourceOutput>;
+export interface UpdateAccessSourceOutput {
+  arn: string;
+  cidr: string;
+  createdAt: Date;
+  id: string;
+  ipAddressType: string;
+  name?: string;
+  dnsViewId: string;
+  protocol: string;
+  status: string;
+  updatedAt: Date;
+}
+export const UpdateAccessSourceOutput = S.suspend(() =>
+  S.Struct({
+    arn: S.String,
+    cidr: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    id: S.String,
+    ipAddressType: S.String,
+    name: S.optional(S.String),
+    dnsViewId: S.String,
+    protocol: S.String,
+    status: S.String,
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "UpdateAccessSourceOutput",
+}) as any as S.Schema<UpdateAccessSourceOutput>;
+export interface DeleteAccessSourceOutput {
+  arn: string;
+  cidr: string;
+  createdAt: Date;
+  id: string;
+  ipAddressType: string;
+  name?: string;
+  dnsViewId: string;
+  protocol: string;
+  status: string;
+  updatedAt: Date;
+}
+export const DeleteAccessSourceOutput = S.suspend(() =>
+  S.Struct({
+    arn: S.String,
+    cidr: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    id: S.String,
+    ipAddressType: S.String,
+    name: S.optional(S.String),
+    dnsViewId: S.String,
+    protocol: S.String,
+    status: S.String,
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "DeleteAccessSourceOutput",
+}) as any as S.Schema<DeleteAccessSourceOutput>;
+export interface ListAccessSourcesInput {
+  maxResults?: number;
+  nextToken?: string;
+  filters?: Filters;
+}
+export const ListAccessSourcesInput = S.suspend(() =>
+  S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("max_results")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("next_token")),
     filters: S.optional(Filters).pipe(T.HttpQueryParams()),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/access-sources" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/access-sources" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateAccessTokenOutput extends S.Class<CreateAccessTokenOutput>(
-  "CreateAccessTokenOutput",
-)({
-  id: S.String,
-  arn: S.String,
-  clientToken: S.optional(S.String),
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  dnsViewId: S.String,
-  expiresAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  name: S.optional(S.String),
-  status: S.String,
-  value: S.String,
-}) {}
-export class GetAccessTokenOutput extends S.Class<GetAccessTokenOutput>(
-  "GetAccessTokenOutput",
-)({
-  id: S.String,
-  arn: S.String,
-  clientToken: S.optional(S.String),
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  dnsViewId: S.String,
-  expiresAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  globalResolverId: S.String,
-  name: S.optional(S.String),
-  status: S.String,
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  value: S.String,
-}) {}
-export class UpdateAccessTokenOutput extends S.Class<UpdateAccessTokenOutput>(
-  "UpdateAccessTokenOutput",
-)({ id: S.String, name: S.String }) {}
-export class DeleteAccessTokenOutput extends S.Class<DeleteAccessTokenOutput>(
-  "DeleteAccessTokenOutput",
-)({
-  id: S.String,
-  status: S.String,
-  deletedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class CreateDNSViewOutput extends S.Class<CreateDNSViewOutput>(
-  "CreateDNSViewOutput",
-)({
-  id: S.String,
-  arn: S.String,
-  clientToken: S.optional(S.String),
-  dnssecValidation: S.String,
-  ednsClientSubnet: S.String,
-  firewallRulesFailOpen: S.String,
-  name: S.String,
-  description: S.optional(S.String),
-  globalResolverId: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  status: S.String,
-}) {}
-export class GetDNSViewOutput extends S.Class<GetDNSViewOutput>(
-  "GetDNSViewOutput",
-)({
-  id: S.String,
-  arn: S.String,
-  clientToken: S.optional(S.String),
-  dnssecValidation: S.String,
-  ednsClientSubnet: S.String,
-  firewallRulesFailOpen: S.String,
-  name: S.String,
-  description: S.optional(S.String),
-  globalResolverId: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  status: S.String,
-}) {}
-export class UpdateDNSViewOutput extends S.Class<UpdateDNSViewOutput>(
-  "UpdateDNSViewOutput",
-)({
-  id: S.String,
-  arn: S.String,
-  clientToken: S.optional(S.String),
-  dnssecValidation: S.String,
-  ednsClientSubnet: S.String,
-  firewallRulesFailOpen: S.String,
-  name: S.String,
-  description: S.optional(S.String),
-  globalResolverId: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  status: S.String,
-}) {}
-export class DeleteDNSViewOutput extends S.Class<DeleteDNSViewOutput>(
-  "DeleteDNSViewOutput",
-)({
-  id: S.String,
-  arn: S.String,
-  clientToken: S.optional(S.String),
-  dnssecValidation: S.String,
-  ednsClientSubnet: S.String,
-  firewallRulesFailOpen: S.String,
-  name: S.String,
-  description: S.optional(S.String),
-  globalResolverId: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  status: S.String,
-}) {}
-export class DisableDNSViewOutput extends S.Class<DisableDNSViewOutput>(
-  "DisableDNSViewOutput",
-)({
-  id: S.String,
-  arn: S.String,
-  clientToken: S.optional(S.String),
-  dnssecValidation: S.String,
-  ednsClientSubnet: S.String,
-  firewallRulesFailOpen: S.String,
-  name: S.String,
-  description: S.optional(S.String),
-  globalResolverId: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  status: S.String,
-}) {}
-export class EnableDNSViewOutput extends S.Class<EnableDNSViewOutput>(
-  "EnableDNSViewOutput",
-)({
-  id: S.String,
-  arn: S.String,
-  clientToken: S.optional(S.String),
-  dnssecValidation: S.String,
-  ednsClientSubnet: S.String,
-  firewallRulesFailOpen: S.String,
-  name: S.String,
-  description: S.optional(S.String),
-  globalResolverId: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  status: S.String,
-}) {}
-export class CreateFirewallDomainListOutput extends S.Class<CreateFirewallDomainListOutput>(
-  "CreateFirewallDomainListOutput",
-)({
-  arn: S.String,
-  globalResolverId: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  description: S.optional(S.String),
-  domainCount: S.Number,
-  id: S.String,
-  name: S.String,
-  status: S.String,
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class GetFirewallDomainListOutput extends S.Class<GetFirewallDomainListOutput>(
-  "GetFirewallDomainListOutput",
-)({
-  arn: S.String,
-  globalResolverId: S.String,
-  clientToken: S.optional(S.String),
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  description: S.optional(S.String),
-  domainCount: S.Number,
-  id: S.String,
-  name: S.String,
-  status: S.String,
-  statusMessage: S.optional(S.String),
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class DeleteFirewallDomainListOutput extends S.Class<DeleteFirewallDomainListOutput>(
-  "DeleteFirewallDomainListOutput",
-)({ arn: S.String, id: S.String, name: S.String, status: S.String }) {}
-export class ImportFirewallDomainsOutput extends S.Class<ImportFirewallDomainsOutput>(
-  "ImportFirewallDomainsOutput",
-)({ id: S.String, name: S.String, status: S.String }) {}
-export class ListFirewallDomainsOutput extends S.Class<ListFirewallDomainsOutput>(
-  "ListFirewallDomainsOutput",
-)({ nextToken: S.optional(S.String), domains: Domains }) {}
-export class UpdateFirewallDomainsOutput extends S.Class<UpdateFirewallDomainsOutput>(
-  "UpdateFirewallDomainsOutput",
-)({ id: S.String, name: S.String, status: S.String }) {}
-export class CreateFirewallRuleOutput extends S.Class<CreateFirewallRuleOutput>(
-  "CreateFirewallRuleOutput",
-)({
-  action: S.String,
-  blockOverrideDnsType: S.optional(S.String),
-  blockOverrideDomain: S.optional(S.String),
-  blockOverrideTtl: S.optional(S.Number),
-  blockResponse: S.optional(S.String),
-  confidenceThreshold: S.optional(S.String),
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  description: S.optional(S.String),
-  dnsAdvancedProtection: S.optional(S.String),
-  firewallDomainListId: S.optional(S.String),
-  id: S.String,
-  name: S.String,
-  priority: S.Number,
-  dnsViewId: S.String,
-  queryType: S.optional(S.String),
-  status: S.String,
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class GetFirewallRuleOutput extends S.Class<GetFirewallRuleOutput>(
-  "GetFirewallRuleOutput",
-)({
-  action: S.String,
-  blockOverrideDnsType: S.optional(S.String),
-  blockOverrideDomain: S.optional(S.String),
-  blockOverrideTtl: S.optional(S.Number),
-  blockResponse: S.optional(S.String),
-  confidenceThreshold: S.optional(S.String),
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  description: S.optional(S.String),
-  dnsAdvancedProtection: S.optional(S.String),
-  firewallDomainListId: S.optional(S.String),
-  id: S.String,
-  name: S.String,
-  priority: S.Number,
-  dnsViewId: S.String,
-  queryType: S.optional(S.String),
-  status: S.String,
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class UpdateFirewallRuleOutput extends S.Class<UpdateFirewallRuleOutput>(
-  "UpdateFirewallRuleOutput",
-)({
-  action: S.String,
-  blockOverrideDnsType: S.optional(S.String),
-  blockOverrideDomain: S.optional(S.String),
-  blockOverrideTtl: S.optional(S.Number),
-  blockResponse: S.optional(S.String),
-  confidenceThreshold: S.optional(S.String),
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  description: S.optional(S.String),
-  dnsAdvancedProtection: S.optional(S.String),
-  firewallDomainListId: S.optional(S.String),
-  id: S.String,
-  name: S.String,
-  priority: S.Number,
-  dnsViewId: S.String,
-  queryType: S.optional(S.String),
-  status: S.String,
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class DeleteFirewallRuleOutput extends S.Class<DeleteFirewallRuleOutput>(
-  "DeleteFirewallRuleOutput",
-)({
-  action: S.String,
-  blockOverrideDnsType: S.optional(S.String),
-  blockOverrideDomain: S.optional(S.String),
-  blockOverrideTtl: S.optional(S.Number),
-  blockResponse: S.optional(S.String),
-  confidenceThreshold: S.optional(S.String),
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  description: S.optional(S.String),
-  dnsAdvancedProtection: S.optional(S.String),
-  firewallDomainListId: S.optional(S.String),
-  id: S.String,
-  name: S.String,
-  priority: S.Number,
-  dnsViewId: S.String,
-  queryType: S.optional(S.String),
-  status: S.String,
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class BatchCreateFirewallRuleInput extends S.Class<BatchCreateFirewallRuleInput>(
-  "BatchCreateFirewallRuleInput",
-)(
-  { firewallRules: BatchCreateFirewallRuleInputItems },
-  T.all(
-    T.Http({ method: "POST", uri: "/firewall-rules/batch-create" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListAccessSourcesInput",
+}) as any as S.Schema<ListAccessSourcesInput>;
+export interface CreateAccessTokenOutput {
+  id: string;
+  arn: string;
+  clientToken?: string;
+  createdAt: Date;
+  dnsViewId: string;
+  expiresAt: Date;
+  name?: string;
+  status: string;
+  value: string;
+}
+export const CreateAccessTokenOutput = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    arn: S.String,
+    clientToken: S.optional(S.String),
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    dnsViewId: S.String,
+    expiresAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    name: S.optional(S.String),
+    status: S.String,
+    value: S.String,
+  }),
+).annotations({
+  identifier: "CreateAccessTokenOutput",
+}) as any as S.Schema<CreateAccessTokenOutput>;
+export interface GetAccessTokenOutput {
+  id: string;
+  arn: string;
+  clientToken?: string;
+  createdAt: Date;
+  dnsViewId: string;
+  expiresAt: Date;
+  globalResolverId: string;
+  name?: string;
+  status: string;
+  updatedAt: Date;
+  value: string;
+}
+export const GetAccessTokenOutput = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    arn: S.String,
+    clientToken: S.optional(S.String),
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    dnsViewId: S.String,
+    expiresAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    globalResolverId: S.String,
+    name: S.optional(S.String),
+    status: S.String,
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    value: S.String,
+  }),
+).annotations({
+  identifier: "GetAccessTokenOutput",
+}) as any as S.Schema<GetAccessTokenOutput>;
+export interface UpdateAccessTokenOutput {
+  id: string;
+  name: string;
+}
+export const UpdateAccessTokenOutput = S.suspend(() =>
+  S.Struct({ id: S.String, name: S.String }),
+).annotations({
+  identifier: "UpdateAccessTokenOutput",
+}) as any as S.Schema<UpdateAccessTokenOutput>;
+export interface DeleteAccessTokenOutput {
+  id: string;
+  status: string;
+  deletedAt: Date;
+}
+export const DeleteAccessTokenOutput = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    status: S.String,
+    deletedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "DeleteAccessTokenOutput",
+}) as any as S.Schema<DeleteAccessTokenOutput>;
+export interface CreateDNSViewOutput {
+  id: string;
+  arn: string;
+  clientToken?: string;
+  dnssecValidation: string;
+  ednsClientSubnet: string;
+  firewallRulesFailOpen: string;
+  name: string;
+  description?: string;
+  globalResolverId: string;
+  createdAt: Date;
+  updatedAt: Date;
+  status: string;
+}
+export const CreateDNSViewOutput = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    arn: S.String,
+    clientToken: S.optional(S.String),
+    dnssecValidation: S.String,
+    ednsClientSubnet: S.String,
+    firewallRulesFailOpen: S.String,
+    name: S.String,
+    description: S.optional(S.String),
+    globalResolverId: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    status: S.String,
+  }),
+).annotations({
+  identifier: "CreateDNSViewOutput",
+}) as any as S.Schema<CreateDNSViewOutput>;
+export interface GetDNSViewOutput {
+  id: string;
+  arn: string;
+  clientToken?: string;
+  dnssecValidation: string;
+  ednsClientSubnet: string;
+  firewallRulesFailOpen: string;
+  name: string;
+  description?: string;
+  globalResolverId: string;
+  createdAt: Date;
+  updatedAt: Date;
+  status: string;
+}
+export const GetDNSViewOutput = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    arn: S.String,
+    clientToken: S.optional(S.String),
+    dnssecValidation: S.String,
+    ednsClientSubnet: S.String,
+    firewallRulesFailOpen: S.String,
+    name: S.String,
+    description: S.optional(S.String),
+    globalResolverId: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    status: S.String,
+  }),
+).annotations({
+  identifier: "GetDNSViewOutput",
+}) as any as S.Schema<GetDNSViewOutput>;
+export interface UpdateDNSViewOutput {
+  id: string;
+  arn: string;
+  clientToken?: string;
+  dnssecValidation: string;
+  ednsClientSubnet: string;
+  firewallRulesFailOpen: string;
+  name: string;
+  description?: string;
+  globalResolverId: string;
+  createdAt: Date;
+  updatedAt: Date;
+  status: string;
+}
+export const UpdateDNSViewOutput = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    arn: S.String,
+    clientToken: S.optional(S.String),
+    dnssecValidation: S.String,
+    ednsClientSubnet: S.String,
+    firewallRulesFailOpen: S.String,
+    name: S.String,
+    description: S.optional(S.String),
+    globalResolverId: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    status: S.String,
+  }),
+).annotations({
+  identifier: "UpdateDNSViewOutput",
+}) as any as S.Schema<UpdateDNSViewOutput>;
+export interface DeleteDNSViewOutput {
+  id: string;
+  arn: string;
+  clientToken?: string;
+  dnssecValidation: string;
+  ednsClientSubnet: string;
+  firewallRulesFailOpen: string;
+  name: string;
+  description?: string;
+  globalResolverId: string;
+  createdAt: Date;
+  updatedAt: Date;
+  status: string;
+}
+export const DeleteDNSViewOutput = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    arn: S.String,
+    clientToken: S.optional(S.String),
+    dnssecValidation: S.String,
+    ednsClientSubnet: S.String,
+    firewallRulesFailOpen: S.String,
+    name: S.String,
+    description: S.optional(S.String),
+    globalResolverId: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    status: S.String,
+  }),
+).annotations({
+  identifier: "DeleteDNSViewOutput",
+}) as any as S.Schema<DeleteDNSViewOutput>;
+export interface DisableDNSViewOutput {
+  id: string;
+  arn: string;
+  clientToken?: string;
+  dnssecValidation: string;
+  ednsClientSubnet: string;
+  firewallRulesFailOpen: string;
+  name: string;
+  description?: string;
+  globalResolverId: string;
+  createdAt: Date;
+  updatedAt: Date;
+  status: string;
+}
+export const DisableDNSViewOutput = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    arn: S.String,
+    clientToken: S.optional(S.String),
+    dnssecValidation: S.String,
+    ednsClientSubnet: S.String,
+    firewallRulesFailOpen: S.String,
+    name: S.String,
+    description: S.optional(S.String),
+    globalResolverId: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    status: S.String,
+  }),
+).annotations({
+  identifier: "DisableDNSViewOutput",
+}) as any as S.Schema<DisableDNSViewOutput>;
+export interface EnableDNSViewOutput {
+  id: string;
+  arn: string;
+  clientToken?: string;
+  dnssecValidation: string;
+  ednsClientSubnet: string;
+  firewallRulesFailOpen: string;
+  name: string;
+  description?: string;
+  globalResolverId: string;
+  createdAt: Date;
+  updatedAt: Date;
+  status: string;
+}
+export const EnableDNSViewOutput = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    arn: S.String,
+    clientToken: S.optional(S.String),
+    dnssecValidation: S.String,
+    ednsClientSubnet: S.String,
+    firewallRulesFailOpen: S.String,
+    name: S.String,
+    description: S.optional(S.String),
+    globalResolverId: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    status: S.String,
+  }),
+).annotations({
+  identifier: "EnableDNSViewOutput",
+}) as any as S.Schema<EnableDNSViewOutput>;
+export interface CreateFirewallDomainListOutput {
+  arn: string;
+  globalResolverId: string;
+  createdAt: Date;
+  description?: string;
+  domainCount: number;
+  id: string;
+  name: string;
+  status: string;
+  updatedAt: Date;
+}
+export const CreateFirewallDomainListOutput = S.suspend(() =>
+  S.Struct({
+    arn: S.String,
+    globalResolverId: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    description: S.optional(S.String),
+    domainCount: S.Number,
+    id: S.String,
+    name: S.String,
+    status: S.String,
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "CreateFirewallDomainListOutput",
+}) as any as S.Schema<CreateFirewallDomainListOutput>;
+export interface GetFirewallDomainListOutput {
+  arn: string;
+  globalResolverId: string;
+  clientToken?: string;
+  createdAt: Date;
+  description?: string;
+  domainCount: number;
+  id: string;
+  name: string;
+  status: string;
+  statusMessage?: string;
+  updatedAt: Date;
+}
+export const GetFirewallDomainListOutput = S.suspend(() =>
+  S.Struct({
+    arn: S.String,
+    globalResolverId: S.String,
+    clientToken: S.optional(S.String),
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    description: S.optional(S.String),
+    domainCount: S.Number,
+    id: S.String,
+    name: S.String,
+    status: S.String,
+    statusMessage: S.optional(S.String),
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "GetFirewallDomainListOutput",
+}) as any as S.Schema<GetFirewallDomainListOutput>;
+export interface DeleteFirewallDomainListOutput {
+  arn: string;
+  id: string;
+  name: string;
+  status: string;
+}
+export const DeleteFirewallDomainListOutput = S.suspend(() =>
+  S.Struct({ arn: S.String, id: S.String, name: S.String, status: S.String }),
+).annotations({
+  identifier: "DeleteFirewallDomainListOutput",
+}) as any as S.Schema<DeleteFirewallDomainListOutput>;
+export interface ImportFirewallDomainsOutput {
+  id: string;
+  name: string;
+  status: string;
+}
+export const ImportFirewallDomainsOutput = S.suspend(() =>
+  S.Struct({ id: S.String, name: S.String, status: S.String }),
+).annotations({
+  identifier: "ImportFirewallDomainsOutput",
+}) as any as S.Schema<ImportFirewallDomainsOutput>;
+export interface ListFirewallDomainsOutput {
+  nextToken?: string;
+  domains: Domains;
+}
+export const ListFirewallDomainsOutput = S.suspend(() =>
+  S.Struct({ nextToken: S.optional(S.String), domains: Domains }),
+).annotations({
+  identifier: "ListFirewallDomainsOutput",
+}) as any as S.Schema<ListFirewallDomainsOutput>;
+export interface UpdateFirewallDomainsOutput {
+  id: string;
+  name: string;
+  status: string;
+}
+export const UpdateFirewallDomainsOutput = S.suspend(() =>
+  S.Struct({ id: S.String, name: S.String, status: S.String }),
+).annotations({
+  identifier: "UpdateFirewallDomainsOutput",
+}) as any as S.Schema<UpdateFirewallDomainsOutput>;
+export interface CreateFirewallRuleOutput {
+  action: string;
+  blockOverrideDnsType?: string;
+  blockOverrideDomain?: string;
+  blockOverrideTtl?: number;
+  blockResponse?: string;
+  confidenceThreshold?: string;
+  createdAt: Date;
+  description?: string;
+  dnsAdvancedProtection?: string;
+  firewallDomainListId?: string;
+  id: string;
+  name: string;
+  priority: number;
+  dnsViewId: string;
+  queryType?: string;
+  status: string;
+  updatedAt: Date;
+}
+export const CreateFirewallRuleOutput = S.suspend(() =>
+  S.Struct({
+    action: S.String,
+    blockOverrideDnsType: S.optional(S.String),
+    blockOverrideDomain: S.optional(S.String),
+    blockOverrideTtl: S.optional(S.Number),
+    blockResponse: S.optional(S.String),
+    confidenceThreshold: S.optional(S.String),
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    description: S.optional(S.String),
+    dnsAdvancedProtection: S.optional(S.String),
+    firewallDomainListId: S.optional(S.String),
+    id: S.String,
+    name: S.String,
+    priority: S.Number,
+    dnsViewId: S.String,
+    queryType: S.optional(S.String),
+    status: S.String,
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "CreateFirewallRuleOutput",
+}) as any as S.Schema<CreateFirewallRuleOutput>;
+export interface GetFirewallRuleOutput {
+  action: string;
+  blockOverrideDnsType?: string;
+  blockOverrideDomain?: string;
+  blockOverrideTtl?: number;
+  blockResponse?: string;
+  confidenceThreshold?: string;
+  createdAt: Date;
+  description?: string;
+  dnsAdvancedProtection?: string;
+  firewallDomainListId?: string;
+  id: string;
+  name: string;
+  priority: number;
+  dnsViewId: string;
+  queryType?: string;
+  status: string;
+  updatedAt: Date;
+}
+export const GetFirewallRuleOutput = S.suspend(() =>
+  S.Struct({
+    action: S.String,
+    blockOverrideDnsType: S.optional(S.String),
+    blockOverrideDomain: S.optional(S.String),
+    blockOverrideTtl: S.optional(S.Number),
+    blockResponse: S.optional(S.String),
+    confidenceThreshold: S.optional(S.String),
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    description: S.optional(S.String),
+    dnsAdvancedProtection: S.optional(S.String),
+    firewallDomainListId: S.optional(S.String),
+    id: S.String,
+    name: S.String,
+    priority: S.Number,
+    dnsViewId: S.String,
+    queryType: S.optional(S.String),
+    status: S.String,
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "GetFirewallRuleOutput",
+}) as any as S.Schema<GetFirewallRuleOutput>;
+export interface UpdateFirewallRuleOutput {
+  action: string;
+  blockOverrideDnsType?: string;
+  blockOverrideDomain?: string;
+  blockOverrideTtl?: number;
+  blockResponse?: string;
+  confidenceThreshold?: string;
+  createdAt: Date;
+  description?: string;
+  dnsAdvancedProtection?: string;
+  firewallDomainListId?: string;
+  id: string;
+  name: string;
+  priority: number;
+  dnsViewId: string;
+  queryType?: string;
+  status: string;
+  updatedAt: Date;
+}
+export const UpdateFirewallRuleOutput = S.suspend(() =>
+  S.Struct({
+    action: S.String,
+    blockOverrideDnsType: S.optional(S.String),
+    blockOverrideDomain: S.optional(S.String),
+    blockOverrideTtl: S.optional(S.Number),
+    blockResponse: S.optional(S.String),
+    confidenceThreshold: S.optional(S.String),
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    description: S.optional(S.String),
+    dnsAdvancedProtection: S.optional(S.String),
+    firewallDomainListId: S.optional(S.String),
+    id: S.String,
+    name: S.String,
+    priority: S.Number,
+    dnsViewId: S.String,
+    queryType: S.optional(S.String),
+    status: S.String,
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "UpdateFirewallRuleOutput",
+}) as any as S.Schema<UpdateFirewallRuleOutput>;
+export interface DeleteFirewallRuleOutput {
+  action: string;
+  blockOverrideDnsType?: string;
+  blockOverrideDomain?: string;
+  blockOverrideTtl?: number;
+  blockResponse?: string;
+  confidenceThreshold?: string;
+  createdAt: Date;
+  description?: string;
+  dnsAdvancedProtection?: string;
+  firewallDomainListId?: string;
+  id: string;
+  name: string;
+  priority: number;
+  dnsViewId: string;
+  queryType?: string;
+  status: string;
+  updatedAt: Date;
+}
+export const DeleteFirewallRuleOutput = S.suspend(() =>
+  S.Struct({
+    action: S.String,
+    blockOverrideDnsType: S.optional(S.String),
+    blockOverrideDomain: S.optional(S.String),
+    blockOverrideTtl: S.optional(S.Number),
+    blockResponse: S.optional(S.String),
+    confidenceThreshold: S.optional(S.String),
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    description: S.optional(S.String),
+    dnsAdvancedProtection: S.optional(S.String),
+    firewallDomainListId: S.optional(S.String),
+    id: S.String,
+    name: S.String,
+    priority: S.Number,
+    dnsViewId: S.String,
+    queryType: S.optional(S.String),
+    status: S.String,
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "DeleteFirewallRuleOutput",
+}) as any as S.Schema<DeleteFirewallRuleOutput>;
+export interface BatchCreateFirewallRuleInput {
+  firewallRules: BatchCreateFirewallRuleInputItems;
+}
+export const BatchCreateFirewallRuleInput = S.suspend(() =>
+  S.Struct({ firewallRules: BatchCreateFirewallRuleInputItems }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/firewall-rules/batch-create" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class BatchDeleteFirewallRuleInput extends S.Class<BatchDeleteFirewallRuleInput>(
-  "BatchDeleteFirewallRuleInput",
-)(
-  { firewallRules: BatchDeleteFirewallRuleInputItems },
-  T.all(
-    T.Http({ method: "POST", uri: "/firewall-rules/batch-delete" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "BatchCreateFirewallRuleInput",
+}) as any as S.Schema<BatchCreateFirewallRuleInput>;
+export interface BatchDeleteFirewallRuleInput {
+  firewallRules: BatchDeleteFirewallRuleInputItems;
+}
+export const BatchDeleteFirewallRuleInput = S.suspend(() =>
+  S.Struct({ firewallRules: BatchDeleteFirewallRuleInputItems }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/firewall-rules/batch-delete" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class BatchUpdateFirewallRuleInput extends S.Class<BatchUpdateFirewallRuleInput>(
-  "BatchUpdateFirewallRuleInput",
-)(
-  { firewallRules: BatchUpdateFirewallRuleInputItems },
-  T.all(
-    T.Http({ method: "POST", uri: "/firewall-rules/batch-update" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "BatchDeleteFirewallRuleInput",
+}) as any as S.Schema<BatchDeleteFirewallRuleInput>;
+export interface BatchUpdateFirewallRuleInput {
+  firewallRules: BatchUpdateFirewallRuleInputItems;
+}
+export const BatchUpdateFirewallRuleInput = S.suspend(() =>
+  S.Struct({ firewallRules: BatchUpdateFirewallRuleInputItems }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/firewall-rules/batch-update" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateGlobalResolverOutput extends S.Class<CreateGlobalResolverOutput>(
-  "CreateGlobalResolverOutput",
-)({
-  id: S.String,
-  arn: S.String,
-  clientToken: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  description: S.optional(S.String),
-  dnsName: S.String,
-  ipv4Addresses: IPv4Addresses,
-  name: S.String,
-  observabilityRegion: S.optional(S.String),
-  regions: Regions,
-  status: S.String,
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class GetGlobalResolverOutput extends S.Class<GetGlobalResolverOutput>(
-  "GetGlobalResolverOutput",
-)({
-  id: S.String,
-  arn: S.String,
-  clientToken: S.String,
-  dnsName: S.String,
-  observabilityRegion: S.optional(S.String),
-  name: S.String,
-  description: S.optional(S.String),
-  regions: Regions,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  status: S.String,
-  ipv4Addresses: IPv4Addresses,
-}) {}
-export class UpdateGlobalResolverOutput extends S.Class<UpdateGlobalResolverOutput>(
-  "UpdateGlobalResolverOutput",
-)({
-  id: S.String,
-  arn: S.String,
-  clientToken: S.String,
-  dnsName: S.String,
-  observabilityRegion: S.optional(S.String),
-  name: S.String,
-  description: S.optional(S.String),
-  regions: Regions,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  status: S.String,
-  ipv4Addresses: IPv4Addresses,
-}) {}
-export class DeleteGlobalResolverOutput extends S.Class<DeleteGlobalResolverOutput>(
-  "DeleteGlobalResolverOutput",
-)({
-  id: S.String,
-  arn: S.String,
-  clientToken: S.String,
-  dnsName: S.String,
-  observabilityRegion: S.optional(S.String),
-  name: S.String,
-  description: S.optional(S.String),
-  regions: Regions,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  status: S.String,
-  ipv4Addresses: IPv4Addresses,
-}) {}
-export class AssociateHostedZoneOutput extends S.Class<AssociateHostedZoneOutput>(
-  "AssociateHostedZoneOutput",
-)({
-  id: S.String,
-  resourceArn: S.String,
-  hostedZoneId: S.String,
-  hostedZoneName: S.String,
-  name: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  status: S.String,
-}) {}
-export class GetHostedZoneAssociationOutput extends S.Class<GetHostedZoneAssociationOutput>(
-  "GetHostedZoneAssociationOutput",
-)({
-  id: S.String,
-  resourceArn: S.String,
-  hostedZoneId: S.String,
-  hostedZoneName: S.String,
-  name: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  status: S.String,
-}) {}
-export class UpdateHostedZoneAssociationOutput extends S.Class<UpdateHostedZoneAssociationOutput>(
-  "UpdateHostedZoneAssociationOutput",
-)({
-  id: S.String,
-  resourceArn: S.String,
-  hostedZoneId: S.String,
-  hostedZoneName: S.String,
-  name: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  status: S.String,
-}) {}
-export class GetManagedFirewallDomainListOutput extends S.Class<GetManagedFirewallDomainListOutput>(
-  "GetManagedFirewallDomainListOutput",
-)({
-  description: S.optional(S.String),
-  id: S.String,
-  name: S.String,
-  managedListType: S.String,
-}) {}
-export class AccessTokenItem extends S.Class<AccessTokenItem>(
-  "AccessTokenItem",
-)({
-  id: S.String,
-  arn: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  dnsViewId: S.String,
-  expiresAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  globalResolverId: S.String,
-  name: S.optional(S.String),
-  status: S.String,
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
+).annotations({
+  identifier: "BatchUpdateFirewallRuleInput",
+}) as any as S.Schema<BatchUpdateFirewallRuleInput>;
+export interface CreateGlobalResolverOutput {
+  id: string;
+  arn: string;
+  clientToken: string;
+  createdAt: Date;
+  description?: string;
+  dnsName: string;
+  ipv4Addresses: IPv4Addresses;
+  name: string;
+  observabilityRegion?: string;
+  regions: Regions;
+  status: string;
+  updatedAt: Date;
+}
+export const CreateGlobalResolverOutput = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    arn: S.String,
+    clientToken: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    description: S.optional(S.String),
+    dnsName: S.String,
+    ipv4Addresses: IPv4Addresses,
+    name: S.String,
+    observabilityRegion: S.optional(S.String),
+    regions: Regions,
+    status: S.String,
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "CreateGlobalResolverOutput",
+}) as any as S.Schema<CreateGlobalResolverOutput>;
+export interface GetGlobalResolverOutput {
+  id: string;
+  arn: string;
+  clientToken: string;
+  dnsName: string;
+  observabilityRegion?: string;
+  name: string;
+  description?: string;
+  regions: Regions;
+  createdAt: Date;
+  updatedAt: Date;
+  status: string;
+  ipv4Addresses: IPv4Addresses;
+}
+export const GetGlobalResolverOutput = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    arn: S.String,
+    clientToken: S.String,
+    dnsName: S.String,
+    observabilityRegion: S.optional(S.String),
+    name: S.String,
+    description: S.optional(S.String),
+    regions: Regions,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    status: S.String,
+    ipv4Addresses: IPv4Addresses,
+  }),
+).annotations({
+  identifier: "GetGlobalResolverOutput",
+}) as any as S.Schema<GetGlobalResolverOutput>;
+export interface UpdateGlobalResolverOutput {
+  id: string;
+  arn: string;
+  clientToken: string;
+  dnsName: string;
+  observabilityRegion?: string;
+  name: string;
+  description?: string;
+  regions: Regions;
+  createdAt: Date;
+  updatedAt: Date;
+  status: string;
+  ipv4Addresses: IPv4Addresses;
+}
+export const UpdateGlobalResolverOutput = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    arn: S.String,
+    clientToken: S.String,
+    dnsName: S.String,
+    observabilityRegion: S.optional(S.String),
+    name: S.String,
+    description: S.optional(S.String),
+    regions: Regions,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    status: S.String,
+    ipv4Addresses: IPv4Addresses,
+  }),
+).annotations({
+  identifier: "UpdateGlobalResolverOutput",
+}) as any as S.Schema<UpdateGlobalResolverOutput>;
+export interface DeleteGlobalResolverOutput {
+  id: string;
+  arn: string;
+  clientToken: string;
+  dnsName: string;
+  observabilityRegion?: string;
+  name: string;
+  description?: string;
+  regions: Regions;
+  createdAt: Date;
+  updatedAt: Date;
+  status: string;
+  ipv4Addresses: IPv4Addresses;
+}
+export const DeleteGlobalResolverOutput = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    arn: S.String,
+    clientToken: S.String,
+    dnsName: S.String,
+    observabilityRegion: S.optional(S.String),
+    name: S.String,
+    description: S.optional(S.String),
+    regions: Regions,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    status: S.String,
+    ipv4Addresses: IPv4Addresses,
+  }),
+).annotations({
+  identifier: "DeleteGlobalResolverOutput",
+}) as any as S.Schema<DeleteGlobalResolverOutput>;
+export interface AssociateHostedZoneOutput {
+  id: string;
+  resourceArn: string;
+  hostedZoneId: string;
+  hostedZoneName: string;
+  name: string;
+  createdAt: Date;
+  updatedAt: Date;
+  status: string;
+}
+export const AssociateHostedZoneOutput = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    resourceArn: S.String,
+    hostedZoneId: S.String,
+    hostedZoneName: S.String,
+    name: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    status: S.String,
+  }),
+).annotations({
+  identifier: "AssociateHostedZoneOutput",
+}) as any as S.Schema<AssociateHostedZoneOutput>;
+export interface GetHostedZoneAssociationOutput {
+  id: string;
+  resourceArn: string;
+  hostedZoneId: string;
+  hostedZoneName: string;
+  name: string;
+  createdAt: Date;
+  updatedAt: Date;
+  status: string;
+}
+export const GetHostedZoneAssociationOutput = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    resourceArn: S.String,
+    hostedZoneId: S.String,
+    hostedZoneName: S.String,
+    name: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    status: S.String,
+  }),
+).annotations({
+  identifier: "GetHostedZoneAssociationOutput",
+}) as any as S.Schema<GetHostedZoneAssociationOutput>;
+export interface UpdateHostedZoneAssociationOutput {
+  id: string;
+  resourceArn: string;
+  hostedZoneId: string;
+  hostedZoneName: string;
+  name: string;
+  createdAt: Date;
+  updatedAt: Date;
+  status: string;
+}
+export const UpdateHostedZoneAssociationOutput = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    resourceArn: S.String,
+    hostedZoneId: S.String,
+    hostedZoneName: S.String,
+    name: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    status: S.String,
+  }),
+).annotations({
+  identifier: "UpdateHostedZoneAssociationOutput",
+}) as any as S.Schema<UpdateHostedZoneAssociationOutput>;
+export interface GetManagedFirewallDomainListOutput {
+  description?: string;
+  id: string;
+  name: string;
+  managedListType: string;
+}
+export const GetManagedFirewallDomainListOutput = S.suspend(() =>
+  S.Struct({
+    description: S.optional(S.String),
+    id: S.String,
+    name: S.String,
+    managedListType: S.String,
+  }),
+).annotations({
+  identifier: "GetManagedFirewallDomainListOutput",
+}) as any as S.Schema<GetManagedFirewallDomainListOutput>;
+export interface AccessTokenItem {
+  id: string;
+  arn: string;
+  createdAt: Date;
+  dnsViewId: string;
+  expiresAt: Date;
+  globalResolverId: string;
+  name?: string;
+  status: string;
+  updatedAt: Date;
+}
+export const AccessTokenItem = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    arn: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    dnsViewId: S.String,
+    expiresAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    globalResolverId: S.String,
+    name: S.optional(S.String),
+    status: S.String,
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "AccessTokenItem",
+}) as any as S.Schema<AccessTokenItem>;
+export type AccessTokens = AccessTokenItem[];
 export const AccessTokens = S.Array(AccessTokenItem);
-export class DNSViewSummary extends S.Class<DNSViewSummary>("DNSViewSummary")({
-  id: S.String,
-  arn: S.String,
-  clientToken: S.String,
-  dnssecValidation: S.String,
-  ednsClientSubnet: S.String,
-  firewallRulesFailOpen: S.String,
-  name: S.String,
-  description: S.optional(S.String),
-  globalResolverId: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  status: S.String,
-}) {}
+export interface DNSViewSummary {
+  id: string;
+  arn: string;
+  clientToken: string;
+  dnssecValidation: string;
+  ednsClientSubnet: string;
+  firewallRulesFailOpen: string;
+  name: string;
+  description?: string;
+  globalResolverId: string;
+  createdAt: Date;
+  updatedAt: Date;
+  status: string;
+}
+export const DNSViewSummary = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    arn: S.String,
+    clientToken: S.String,
+    dnssecValidation: S.String,
+    ednsClientSubnet: S.String,
+    firewallRulesFailOpen: S.String,
+    name: S.String,
+    description: S.optional(S.String),
+    globalResolverId: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    status: S.String,
+  }),
+).annotations({
+  identifier: "DNSViewSummary",
+}) as any as S.Schema<DNSViewSummary>;
+export type DNSViews = DNSViewSummary[];
 export const DNSViews = S.Array(DNSViewSummary);
-export class FirewallDomainListsItem extends S.Class<FirewallDomainListsItem>(
-  "FirewallDomainListsItem",
-)({
-  arn: S.String,
-  globalResolverId: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  description: S.optional(S.String),
-  id: S.String,
-  name: S.String,
-  status: S.String,
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
+export interface FirewallDomainListsItem {
+  arn: string;
+  globalResolverId: string;
+  createdAt: Date;
+  description?: string;
+  id: string;
+  name: string;
+  status: string;
+  updatedAt: Date;
+}
+export const FirewallDomainListsItem = S.suspend(() =>
+  S.Struct({
+    arn: S.String,
+    globalResolverId: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    description: S.optional(S.String),
+    id: S.String,
+    name: S.String,
+    status: S.String,
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "FirewallDomainListsItem",
+}) as any as S.Schema<FirewallDomainListsItem>;
+export type FirewallDomainLists = FirewallDomainListsItem[];
 export const FirewallDomainLists = S.Array(FirewallDomainListsItem);
-export class FirewallRulesItem extends S.Class<FirewallRulesItem>(
-  "FirewallRulesItem",
-)({
-  action: S.String,
-  blockOverrideDnsType: S.optional(S.String),
-  blockOverrideDomain: S.optional(S.String),
-  blockOverrideTtl: S.optional(S.Number),
-  blockResponse: S.optional(S.String),
-  confidenceThreshold: S.optional(S.String),
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  description: S.optional(S.String),
-  dnsAdvancedProtection: S.optional(S.String),
-  firewallDomainListId: S.optional(S.String),
-  id: S.String,
-  name: S.String,
-  priority: S.Number,
-  dnsViewId: S.String,
-  queryType: S.optional(S.String),
-  status: S.String,
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
+export interface FirewallRulesItem {
+  action: string;
+  blockOverrideDnsType?: string;
+  blockOverrideDomain?: string;
+  blockOverrideTtl?: number;
+  blockResponse?: string;
+  confidenceThreshold?: string;
+  createdAt: Date;
+  description?: string;
+  dnsAdvancedProtection?: string;
+  firewallDomainListId?: string;
+  id: string;
+  name: string;
+  priority: number;
+  dnsViewId: string;
+  queryType?: string;
+  status: string;
+  updatedAt: Date;
+}
+export const FirewallRulesItem = S.suspend(() =>
+  S.Struct({
+    action: S.String,
+    blockOverrideDnsType: S.optional(S.String),
+    blockOverrideDomain: S.optional(S.String),
+    blockOverrideTtl: S.optional(S.Number),
+    blockResponse: S.optional(S.String),
+    confidenceThreshold: S.optional(S.String),
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    description: S.optional(S.String),
+    dnsAdvancedProtection: S.optional(S.String),
+    firewallDomainListId: S.optional(S.String),
+    id: S.String,
+    name: S.String,
+    priority: S.Number,
+    dnsViewId: S.String,
+    queryType: S.optional(S.String),
+    status: S.String,
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "FirewallRulesItem",
+}) as any as S.Schema<FirewallRulesItem>;
+export type FirewallRules = FirewallRulesItem[];
 export const FirewallRules = S.Array(FirewallRulesItem);
-export class GlobalResolversItem extends S.Class<GlobalResolversItem>(
-  "GlobalResolversItem",
-)({
-  id: S.String,
-  arn: S.String,
-  clientToken: S.String,
-  dnsName: S.String,
-  observabilityRegion: S.optional(S.String),
-  name: S.String,
-  description: S.optional(S.String),
-  regions: Regions,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  status: S.String,
-  ipv4Addresses: IPv4Addresses,
-}) {}
+export interface GlobalResolversItem {
+  id: string;
+  arn: string;
+  clientToken: string;
+  dnsName: string;
+  observabilityRegion?: string;
+  name: string;
+  description?: string;
+  regions: Regions;
+  createdAt: Date;
+  updatedAt: Date;
+  status: string;
+  ipv4Addresses: IPv4Addresses;
+}
+export const GlobalResolversItem = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    arn: S.String,
+    clientToken: S.String,
+    dnsName: S.String,
+    observabilityRegion: S.optional(S.String),
+    name: S.String,
+    description: S.optional(S.String),
+    regions: Regions,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    status: S.String,
+    ipv4Addresses: IPv4Addresses,
+  }),
+).annotations({
+  identifier: "GlobalResolversItem",
+}) as any as S.Schema<GlobalResolversItem>;
+export type GlobalResolvers = GlobalResolversItem[];
 export const GlobalResolvers = S.Array(GlobalResolversItem);
-export class HostedZoneAssociationSummary extends S.Class<HostedZoneAssociationSummary>(
-  "HostedZoneAssociationSummary",
-)({
-  id: S.String,
-  resourceArn: S.String,
-  hostedZoneId: S.String,
-  hostedZoneName: S.String,
-  name: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  status: S.String,
-}) {}
+export interface HostedZoneAssociationSummary {
+  id: string;
+  resourceArn: string;
+  hostedZoneId: string;
+  hostedZoneName: string;
+  name: string;
+  createdAt: Date;
+  updatedAt: Date;
+  status: string;
+}
+export const HostedZoneAssociationSummary = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    resourceArn: S.String,
+    hostedZoneId: S.String,
+    hostedZoneName: S.String,
+    name: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    status: S.String,
+  }),
+).annotations({
+  identifier: "HostedZoneAssociationSummary",
+}) as any as S.Schema<HostedZoneAssociationSummary>;
+export type HostedZoneAssociations = HostedZoneAssociationSummary[];
 export const HostedZoneAssociations = S.Array(HostedZoneAssociationSummary);
-export class ManagedFirewallDomainListsItem extends S.Class<ManagedFirewallDomainListsItem>(
-  "ManagedFirewallDomainListsItem",
-)({
-  description: S.optional(S.String),
-  id: S.String,
-  name: S.String,
-  managedListType: S.String,
-}) {}
+export interface ManagedFirewallDomainListsItem {
+  description?: string;
+  id: string;
+  name: string;
+  managedListType: string;
+}
+export const ManagedFirewallDomainListsItem = S.suspend(() =>
+  S.Struct({
+    description: S.optional(S.String),
+    id: S.String,
+    name: S.String,
+    managedListType: S.String,
+  }),
+).annotations({
+  identifier: "ManagedFirewallDomainListsItem",
+}) as any as S.Schema<ManagedFirewallDomainListsItem>;
+export type ManagedFirewallDomainLists = ManagedFirewallDomainListsItem[];
 export const ManagedFirewallDomainLists = S.Array(
   ManagedFirewallDomainListsItem,
 );
-export class ListAccessTokensOutput extends S.Class<ListAccessTokensOutput>(
-  "ListAccessTokensOutput",
-)({
-  nextToken: S.optional(S.String),
-  accessTokens: S.optional(AccessTokens),
-}) {}
-export class ListDNSViewsOutput extends S.Class<ListDNSViewsOutput>(
-  "ListDNSViewsOutput",
-)({ nextToken: S.optional(S.String), dnsViews: DNSViews }) {}
-export class ListFirewallDomainListsOutput extends S.Class<ListFirewallDomainListsOutput>(
-  "ListFirewallDomainListsOutput",
-)({
-  nextToken: S.optional(S.String),
-  firewallDomainLists: FirewallDomainLists,
-}) {}
-export class ListFirewallRulesOutput extends S.Class<ListFirewallRulesOutput>(
-  "ListFirewallRulesOutput",
-)({ nextToken: S.optional(S.String), firewallRules: FirewallRules }) {}
-export class ListGlobalResolversOutput extends S.Class<ListGlobalResolversOutput>(
-  "ListGlobalResolversOutput",
-)({ nextToken: S.optional(S.String), globalResolvers: GlobalResolvers }) {}
-export class ListHostedZoneAssociationsOutput extends S.Class<ListHostedZoneAssociationsOutput>(
-  "ListHostedZoneAssociationsOutput",
-)({
-  nextToken: S.optional(S.String),
-  hostedZoneAssociations: HostedZoneAssociations,
-}) {}
-export class ListManagedFirewallDomainListsOutput extends S.Class<ListManagedFirewallDomainListsOutput>(
-  "ListManagedFirewallDomainListsOutput",
-)({
-  nextToken: S.optional(S.String),
-  managedFirewallDomainLists: ManagedFirewallDomainLists,
-}) {}
-export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
-  "ValidationExceptionField",
-)({ name: S.String, message: S.String }) {}
+export interface ListAccessTokensOutput {
+  nextToken?: string;
+  accessTokens?: AccessTokens;
+}
+export const ListAccessTokensOutput = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    accessTokens: S.optional(AccessTokens),
+  }),
+).annotations({
+  identifier: "ListAccessTokensOutput",
+}) as any as S.Schema<ListAccessTokensOutput>;
+export interface ListDNSViewsOutput {
+  nextToken?: string;
+  dnsViews: DNSViews;
+}
+export const ListDNSViewsOutput = S.suspend(() =>
+  S.Struct({ nextToken: S.optional(S.String), dnsViews: DNSViews }),
+).annotations({
+  identifier: "ListDNSViewsOutput",
+}) as any as S.Schema<ListDNSViewsOutput>;
+export interface ListFirewallDomainListsOutput {
+  nextToken?: string;
+  firewallDomainLists: FirewallDomainLists;
+}
+export const ListFirewallDomainListsOutput = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    firewallDomainLists: FirewallDomainLists,
+  }),
+).annotations({
+  identifier: "ListFirewallDomainListsOutput",
+}) as any as S.Schema<ListFirewallDomainListsOutput>;
+export interface ListFirewallRulesOutput {
+  nextToken?: string;
+  firewallRules: FirewallRules;
+}
+export const ListFirewallRulesOutput = S.suspend(() =>
+  S.Struct({ nextToken: S.optional(S.String), firewallRules: FirewallRules }),
+).annotations({
+  identifier: "ListFirewallRulesOutput",
+}) as any as S.Schema<ListFirewallRulesOutput>;
+export interface ListGlobalResolversOutput {
+  nextToken?: string;
+  globalResolvers: GlobalResolvers;
+}
+export const ListGlobalResolversOutput = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    globalResolvers: GlobalResolvers,
+  }),
+).annotations({
+  identifier: "ListGlobalResolversOutput",
+}) as any as S.Schema<ListGlobalResolversOutput>;
+export interface ListHostedZoneAssociationsOutput {
+  nextToken?: string;
+  hostedZoneAssociations: HostedZoneAssociations;
+}
+export const ListHostedZoneAssociationsOutput = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    hostedZoneAssociations: HostedZoneAssociations,
+  }),
+).annotations({
+  identifier: "ListHostedZoneAssociationsOutput",
+}) as any as S.Schema<ListHostedZoneAssociationsOutput>;
+export interface ListManagedFirewallDomainListsOutput {
+  nextToken?: string;
+  managedFirewallDomainLists: ManagedFirewallDomainLists;
+}
+export const ListManagedFirewallDomainListsOutput = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    managedFirewallDomainLists: ManagedFirewallDomainLists,
+  }),
+).annotations({
+  identifier: "ListManagedFirewallDomainListsOutput",
+}) as any as S.Schema<ListManagedFirewallDomainListsOutput>;
+export interface ValidationExceptionField {
+  name: string;
+  message: string;
+}
+export const ValidationExceptionField = S.suspend(() =>
+  S.Struct({ name: S.String, message: S.String }),
+).annotations({
+  identifier: "ValidationExceptionField",
+}) as any as S.Schema<ValidationExceptionField>;
+export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
-export class AccessSourcesItem extends S.Class<AccessSourcesItem>(
-  "AccessSourcesItem",
-)({
-  arn: S.String,
-  cidr: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  id: S.String,
-  ipAddressType: S.String,
-  name: S.optional(S.String),
-  dnsViewId: S.String,
-  protocol: S.String,
-  status: S.String,
-  updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
+export interface AccessSourcesItem {
+  arn: string;
+  cidr: string;
+  createdAt: Date;
+  id: string;
+  ipAddressType: string;
+  name?: string;
+  dnsViewId: string;
+  protocol: string;
+  status: string;
+  updatedAt: Date;
+}
+export const AccessSourcesItem = S.suspend(() =>
+  S.Struct({
+    arn: S.String,
+    cidr: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    id: S.String,
+    ipAddressType: S.String,
+    name: S.optional(S.String),
+    dnsViewId: S.String,
+    protocol: S.String,
+    status: S.String,
+    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "AccessSourcesItem",
+}) as any as S.Schema<AccessSourcesItem>;
+export type AccessSources = AccessSourcesItem[];
 export const AccessSources = S.Array(AccessSourcesItem);
-export class ListAccessSourcesOutput extends S.Class<ListAccessSourcesOutput>(
-  "ListAccessSourcesOutput",
-)({ nextToken: S.optional(S.String), accessSources: AccessSources }) {}
-export class BatchCreateFirewallRuleResult extends S.Class<BatchCreateFirewallRuleResult>(
-  "BatchCreateFirewallRuleResult",
-)({
-  action: S.String,
-  blockOverrideDnsType: S.optional(S.String),
-  blockOverrideDomain: S.optional(S.String),
-  blockOverrideTtl: S.optional(S.Number),
-  blockResponse: S.optional(S.String),
-  clientToken: S.String,
-  confidenceThreshold: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  description: S.optional(S.String),
-  dnsAdvancedProtection: S.optional(S.String),
-  firewallDomainListId: S.optional(S.String),
-  id: S.optional(S.String),
-  managedDomainListName: S.optional(S.String),
-  name: S.String,
-  priority: S.optional(S.Number),
-  dnsViewId: S.String,
-  queryType: S.optional(S.String),
-  status: S.optional(S.String),
-  updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-}) {}
-export class BatchDeleteFirewallRuleResult extends S.Class<BatchDeleteFirewallRuleResult>(
-  "BatchDeleteFirewallRuleResult",
-)({
-  clientToken: S.optional(S.String),
-  id: S.String,
-  name: S.optional(S.String),
-  status: S.optional(S.String),
-}) {}
-export class BatchUpdateFirewallRuleResult extends S.Class<BatchUpdateFirewallRuleResult>(
-  "BatchUpdateFirewallRuleResult",
-)({
-  action: S.optional(S.String),
-  blockOverrideDnsType: S.optional(S.String),
-  blockOverrideDomain: S.optional(S.String),
-  blockOverrideTtl: S.optional(S.Number),
-  blockResponse: S.optional(S.String),
-  clientToken: S.optional(S.String),
-  confidenceThreshold: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  description: S.optional(S.String),
-  dnsAdvancedProtection: S.optional(S.String),
-  firewallDomainListId: S.optional(S.String),
-  id: S.String,
-  name: S.optional(S.String),
-  priority: S.optional(S.Number),
-  dnsViewId: S.optional(S.String),
-  queryType: S.optional(S.String),
-  status: S.optional(S.String),
-  updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-}) {}
-export class BatchCreateFirewallRuleOutputItem extends S.Class<BatchCreateFirewallRuleOutputItem>(
-  "BatchCreateFirewallRuleOutputItem",
-)({
-  firewallRule: BatchCreateFirewallRuleResult,
-  code: S.Number,
-  message: S.optional(S.String),
-}) {}
+export interface ListAccessSourcesOutput {
+  nextToken?: string;
+  accessSources: AccessSources;
+}
+export const ListAccessSourcesOutput = S.suspend(() =>
+  S.Struct({ nextToken: S.optional(S.String), accessSources: AccessSources }),
+).annotations({
+  identifier: "ListAccessSourcesOutput",
+}) as any as S.Schema<ListAccessSourcesOutput>;
+export interface BatchCreateFirewallRuleResult {
+  action: string;
+  blockOverrideDnsType?: string;
+  blockOverrideDomain?: string;
+  blockOverrideTtl?: number;
+  blockResponse?: string;
+  clientToken: string;
+  confidenceThreshold?: string;
+  createdAt?: Date;
+  description?: string;
+  dnsAdvancedProtection?: string;
+  firewallDomainListId?: string;
+  id?: string;
+  managedDomainListName?: string;
+  name: string;
+  priority?: number;
+  dnsViewId: string;
+  queryType?: string;
+  status?: string;
+  updatedAt?: Date;
+}
+export const BatchCreateFirewallRuleResult = S.suspend(() =>
+  S.Struct({
+    action: S.String,
+    blockOverrideDnsType: S.optional(S.String),
+    blockOverrideDomain: S.optional(S.String),
+    blockOverrideTtl: S.optional(S.Number),
+    blockResponse: S.optional(S.String),
+    clientToken: S.String,
+    confidenceThreshold: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    description: S.optional(S.String),
+    dnsAdvancedProtection: S.optional(S.String),
+    firewallDomainListId: S.optional(S.String),
+    id: S.optional(S.String),
+    managedDomainListName: S.optional(S.String),
+    name: S.String,
+    priority: S.optional(S.Number),
+    dnsViewId: S.String,
+    queryType: S.optional(S.String),
+    status: S.optional(S.String),
+    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotations({
+  identifier: "BatchCreateFirewallRuleResult",
+}) as any as S.Schema<BatchCreateFirewallRuleResult>;
+export interface BatchDeleteFirewallRuleResult {
+  clientToken?: string;
+  id: string;
+  name?: string;
+  status?: string;
+}
+export const BatchDeleteFirewallRuleResult = S.suspend(() =>
+  S.Struct({
+    clientToken: S.optional(S.String),
+    id: S.String,
+    name: S.optional(S.String),
+    status: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "BatchDeleteFirewallRuleResult",
+}) as any as S.Schema<BatchDeleteFirewallRuleResult>;
+export interface BatchUpdateFirewallRuleResult {
+  action?: string;
+  blockOverrideDnsType?: string;
+  blockOverrideDomain?: string;
+  blockOverrideTtl?: number;
+  blockResponse?: string;
+  clientToken?: string;
+  confidenceThreshold?: string;
+  createdAt?: Date;
+  description?: string;
+  dnsAdvancedProtection?: string;
+  firewallDomainListId?: string;
+  id: string;
+  name?: string;
+  priority?: number;
+  dnsViewId?: string;
+  queryType?: string;
+  status?: string;
+  updatedAt?: Date;
+}
+export const BatchUpdateFirewallRuleResult = S.suspend(() =>
+  S.Struct({
+    action: S.optional(S.String),
+    blockOverrideDnsType: S.optional(S.String),
+    blockOverrideDomain: S.optional(S.String),
+    blockOverrideTtl: S.optional(S.Number),
+    blockResponse: S.optional(S.String),
+    clientToken: S.optional(S.String),
+    confidenceThreshold: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    description: S.optional(S.String),
+    dnsAdvancedProtection: S.optional(S.String),
+    firewallDomainListId: S.optional(S.String),
+    id: S.String,
+    name: S.optional(S.String),
+    priority: S.optional(S.Number),
+    dnsViewId: S.optional(S.String),
+    queryType: S.optional(S.String),
+    status: S.optional(S.String),
+    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotations({
+  identifier: "BatchUpdateFirewallRuleResult",
+}) as any as S.Schema<BatchUpdateFirewallRuleResult>;
+export interface BatchCreateFirewallRuleOutputItem {
+  firewallRule: BatchCreateFirewallRuleResult;
+  code: number;
+  message?: string;
+}
+export const BatchCreateFirewallRuleOutputItem = S.suspend(() =>
+  S.Struct({
+    firewallRule: BatchCreateFirewallRuleResult,
+    code: S.Number,
+    message: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "BatchCreateFirewallRuleOutputItem",
+}) as any as S.Schema<BatchCreateFirewallRuleOutputItem>;
+export type BatchCreateFirewallRuleOutputItems =
+  BatchCreateFirewallRuleOutputItem[];
 export const BatchCreateFirewallRuleOutputItems = S.Array(
   BatchCreateFirewallRuleOutputItem,
 );
-export class BatchDeleteFirewallRuleOutputItem extends S.Class<BatchDeleteFirewallRuleOutputItem>(
-  "BatchDeleteFirewallRuleOutputItem",
-)({
-  firewallRule: BatchDeleteFirewallRuleResult,
-  code: S.Number,
-  message: S.optional(S.String),
-}) {}
+export interface BatchDeleteFirewallRuleOutputItem {
+  firewallRule: BatchDeleteFirewallRuleResult;
+  code: number;
+  message?: string;
+}
+export const BatchDeleteFirewallRuleOutputItem = S.suspend(() =>
+  S.Struct({
+    firewallRule: BatchDeleteFirewallRuleResult,
+    code: S.Number,
+    message: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "BatchDeleteFirewallRuleOutputItem",
+}) as any as S.Schema<BatchDeleteFirewallRuleOutputItem>;
+export type BatchDeleteFirewallRuleOutputItems =
+  BatchDeleteFirewallRuleOutputItem[];
 export const BatchDeleteFirewallRuleOutputItems = S.Array(
   BatchDeleteFirewallRuleOutputItem,
 );
-export class BatchUpdateFirewallRuleOutputItem extends S.Class<BatchUpdateFirewallRuleOutputItem>(
-  "BatchUpdateFirewallRuleOutputItem",
-)({
-  firewallRule: BatchUpdateFirewallRuleResult,
-  code: S.Number,
-  message: S.optional(S.String),
-}) {}
+export interface BatchUpdateFirewallRuleOutputItem {
+  firewallRule: BatchUpdateFirewallRuleResult;
+  code: number;
+  message?: string;
+}
+export const BatchUpdateFirewallRuleOutputItem = S.suspend(() =>
+  S.Struct({
+    firewallRule: BatchUpdateFirewallRuleResult,
+    code: S.Number,
+    message: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "BatchUpdateFirewallRuleOutputItem",
+}) as any as S.Schema<BatchUpdateFirewallRuleOutputItem>;
+export type BatchUpdateFirewallRuleOutputItems =
+  BatchUpdateFirewallRuleOutputItem[];
 export const BatchUpdateFirewallRuleOutputItems = S.Array(
   BatchUpdateFirewallRuleOutputItem,
 );
-export class BatchCreateFirewallRuleOutput extends S.Class<BatchCreateFirewallRuleOutput>(
-  "BatchCreateFirewallRuleOutput",
-)({
-  failures: BatchCreateFirewallRuleOutputItems,
-  successes: BatchCreateFirewallRuleOutputItems,
-}) {}
-export class BatchDeleteFirewallRuleOutput extends S.Class<BatchDeleteFirewallRuleOutput>(
-  "BatchDeleteFirewallRuleOutput",
-)({
-  failures: BatchDeleteFirewallRuleOutputItems,
-  successes: BatchDeleteFirewallRuleOutputItems,
-}) {}
-export class BatchUpdateFirewallRuleOutput extends S.Class<BatchUpdateFirewallRuleOutput>(
-  "BatchUpdateFirewallRuleOutput",
-)({
-  failures: BatchUpdateFirewallRuleOutputItems,
-  successes: BatchUpdateFirewallRuleOutputItems,
-}) {}
+export interface BatchCreateFirewallRuleOutput {
+  failures: BatchCreateFirewallRuleOutputItems;
+  successes: BatchCreateFirewallRuleOutputItems;
+}
+export const BatchCreateFirewallRuleOutput = S.suspend(() =>
+  S.Struct({
+    failures: BatchCreateFirewallRuleOutputItems,
+    successes: BatchCreateFirewallRuleOutputItems,
+  }),
+).annotations({
+  identifier: "BatchCreateFirewallRuleOutput",
+}) as any as S.Schema<BatchCreateFirewallRuleOutput>;
+export interface BatchDeleteFirewallRuleOutput {
+  failures: BatchDeleteFirewallRuleOutputItems;
+  successes: BatchDeleteFirewallRuleOutputItems;
+}
+export const BatchDeleteFirewallRuleOutput = S.suspend(() =>
+  S.Struct({
+    failures: BatchDeleteFirewallRuleOutputItems,
+    successes: BatchDeleteFirewallRuleOutputItems,
+  }),
+).annotations({
+  identifier: "BatchDeleteFirewallRuleOutput",
+}) as any as S.Schema<BatchDeleteFirewallRuleOutput>;
+export interface BatchUpdateFirewallRuleOutput {
+  failures: BatchUpdateFirewallRuleOutputItems;
+  successes: BatchUpdateFirewallRuleOutputItems;
+}
+export const BatchUpdateFirewallRuleOutput = S.suspend(() =>
+  S.Struct({
+    failures: BatchUpdateFirewallRuleOutputItems,
+    successes: BatchUpdateFirewallRuleOutputItems,
+  }),
+).annotations({
+  identifier: "BatchUpdateFirewallRuleOutput",
+}) as any as S.Schema<BatchUpdateFirewallRuleOutput>;
 
 //# Errors
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(

@@ -242,359 +242,486 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class GetSignedBluinsightsUrlRequest extends S.Class<GetSignedBluinsightsUrlRequest>(
-  "GetSignedBluinsightsUrlRequest",
-)(
-  {},
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+export interface GetSignedBluinsightsUrlRequest {}
+export const GetSignedBluinsightsUrlRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetSignedBluinsightsUrlRequest",
+}) as any as S.Schema<GetSignedBluinsightsUrlRequest>;
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
+export type EntityNameList = string[];
 export const EntityNameList = S.Array(S.String);
+export type IdentifierList = string[];
 export const IdentifierList = S.Array(S.String);
+export type String50List = string[];
 export const String50List = S.Array(S.String);
-export class GetSignedBluinsightsUrlResponse extends S.Class<GetSignedBluinsightsUrlResponse>(
-  "GetSignedBluinsightsUrlResponse",
-)({ signedBiUrl: S.String }) {}
-export class ListEngineVersionsRequest extends S.Class<ListEngineVersionsRequest>(
-  "ListEngineVersionsRequest",
-)(
-  {
+export interface GetSignedBluinsightsUrlResponse {
+  signedBiUrl: string;
+}
+export const GetSignedBluinsightsUrlResponse = S.suspend(() =>
+  S.Struct({ signedBiUrl: S.String }),
+).annotations({
+  identifier: "GetSignedBluinsightsUrlResponse",
+}) as any as S.Schema<GetSignedBluinsightsUrlResponse>;
+export interface ListEngineVersionsRequest {
+  engineType?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListEngineVersionsRequest = S.suspend(() =>
+  S.Struct({
     engineType: S.optional(S.String).pipe(T.HttpQuery("engineType")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/engine-versions" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/engine-versions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListEngineVersionsRequest",
+}) as any as S.Schema<ListEngineVersionsRequest>;
+export interface ListTagsForResourceRequest {
+  resourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface UntagResourceRequest {
+  resourceArn: string;
+  tagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
-export class GetApplicationRequest extends S.Class<GetApplicationRequest>(
-  "GetApplicationRequest",
-)(
-  { applicationId: S.String.pipe(T.HttpLabel("applicationId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/applications/{applicationId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface GetApplicationRequest {
+  applicationId: string;
+}
+export const GetApplicationRequest = S.suspend(() =>
+  S.Struct({ applicationId: S.String.pipe(T.HttpLabel("applicationId")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/applications/{applicationId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "GetApplicationRequest",
+}) as any as S.Schema<GetApplicationRequest>;
 export const Definition = S.Union(
   S.Struct({ s3Location: S.String }),
   S.Struct({ content: S.String }),
 );
-export class UpdateApplicationRequest extends S.Class<UpdateApplicationRequest>(
-  "UpdateApplicationRequest",
-)(
-  {
+export interface UpdateApplicationRequest {
+  applicationId: string;
+  description?: string;
+  currentApplicationVersion: number;
+  definition?: (typeof Definition)["Type"];
+}
+export const UpdateApplicationRequest = S.suspend(() =>
+  S.Struct({
     applicationId: S.String.pipe(T.HttpLabel("applicationId")),
     description: S.optional(S.String),
     currentApplicationVersion: S.Number,
     definition: S.optional(Definition),
-  },
-  T.all(
-    T.Http({ method: "PATCH", uri: "/applications/{applicationId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PATCH", uri: "/applications/{applicationId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteApplicationRequest extends S.Class<DeleteApplicationRequest>(
-  "DeleteApplicationRequest",
-)(
-  { applicationId: S.String.pipe(T.HttpLabel("applicationId")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/applications/{applicationId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UpdateApplicationRequest",
+}) as any as S.Schema<UpdateApplicationRequest>;
+export interface DeleteApplicationRequest {
+  applicationId: string;
+}
+export const DeleteApplicationRequest = S.suspend(() =>
+  S.Struct({ applicationId: S.String.pipe(T.HttpLabel("applicationId")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/applications/{applicationId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteApplicationResponse extends S.Class<DeleteApplicationResponse>(
-  "DeleteApplicationResponse",
-)({}) {}
-export class ListApplicationsRequest extends S.Class<ListApplicationsRequest>(
-  "ListApplicationsRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteApplicationRequest",
+}) as any as S.Schema<DeleteApplicationRequest>;
+export interface DeleteApplicationResponse {}
+export const DeleteApplicationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteApplicationResponse",
+}) as any as S.Schema<DeleteApplicationResponse>;
+export interface ListApplicationsRequest {
+  nextToken?: string;
+  maxResults?: number;
+  names?: EntityNameList;
+  environmentId?: string;
+}
+export const ListApplicationsRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     names: S.optional(EntityNameList).pipe(T.HttpQuery("names")),
     environmentId: S.optional(S.String).pipe(T.HttpQuery("environmentId")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/applications" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/applications" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CancelBatchJobExecutionRequest extends S.Class<CancelBatchJobExecutionRequest>(
-  "CancelBatchJobExecutionRequest",
-)(
-  {
+).annotations({
+  identifier: "ListApplicationsRequest",
+}) as any as S.Schema<ListApplicationsRequest>;
+export interface CancelBatchJobExecutionRequest {
+  applicationId: string;
+  executionId: string;
+  authSecretsManagerArn?: string;
+}
+export const CancelBatchJobExecutionRequest = S.suspend(() =>
+  S.Struct({
     applicationId: S.String.pipe(T.HttpLabel("applicationId")),
     executionId: S.String.pipe(T.HttpLabel("executionId")),
     authSecretsManagerArn: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/applications/{applicationId}/batch-job-executions/{executionId}/cancel",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/applications/{applicationId}/batch-job-executions/{executionId}/cancel",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CancelBatchJobExecutionResponse extends S.Class<CancelBatchJobExecutionResponse>(
-  "CancelBatchJobExecutionResponse",
-)({}) {}
-export class CreateDeploymentRequest extends S.Class<CreateDeploymentRequest>(
-  "CreateDeploymentRequest",
-)(
-  {
+).annotations({
+  identifier: "CancelBatchJobExecutionRequest",
+}) as any as S.Schema<CancelBatchJobExecutionRequest>;
+export interface CancelBatchJobExecutionResponse {}
+export const CancelBatchJobExecutionResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "CancelBatchJobExecutionResponse",
+}) as any as S.Schema<CancelBatchJobExecutionResponse>;
+export interface CreateDeploymentRequest {
+  environmentId: string;
+  applicationId: string;
+  applicationVersion: number;
+  clientToken?: string;
+}
+export const CreateDeploymentRequest = S.suspend(() =>
+  S.Struct({
     environmentId: S.String,
     applicationId: S.String.pipe(T.HttpLabel("applicationId")),
     applicationVersion: S.Number,
     clientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/applications/{applicationId}/deployments",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/applications/{applicationId}/deployments",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteApplicationFromEnvironmentRequest extends S.Class<DeleteApplicationFromEnvironmentRequest>(
-  "DeleteApplicationFromEnvironmentRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateDeploymentRequest",
+}) as any as S.Schema<CreateDeploymentRequest>;
+export interface DeleteApplicationFromEnvironmentRequest {
+  applicationId: string;
+  environmentId: string;
+}
+export const DeleteApplicationFromEnvironmentRequest = S.suspend(() =>
+  S.Struct({
     applicationId: S.String.pipe(T.HttpLabel("applicationId")),
     environmentId: S.String.pipe(T.HttpLabel("environmentId")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/applications/{applicationId}/environment/{environmentId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/applications/{applicationId}/environment/{environmentId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteApplicationFromEnvironmentResponse extends S.Class<DeleteApplicationFromEnvironmentResponse>(
-  "DeleteApplicationFromEnvironmentResponse",
-)({}) {}
-export class GetApplicationVersionRequest extends S.Class<GetApplicationVersionRequest>(
-  "GetApplicationVersionRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteApplicationFromEnvironmentRequest",
+}) as any as S.Schema<DeleteApplicationFromEnvironmentRequest>;
+export interface DeleteApplicationFromEnvironmentResponse {}
+export const DeleteApplicationFromEnvironmentResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteApplicationFromEnvironmentResponse",
+}) as any as S.Schema<DeleteApplicationFromEnvironmentResponse>;
+export interface GetApplicationVersionRequest {
+  applicationId: string;
+  applicationVersion: number;
+}
+export const GetApplicationVersionRequest = S.suspend(() =>
+  S.Struct({
     applicationId: S.String.pipe(T.HttpLabel("applicationId")),
     applicationVersion: S.Number.pipe(T.HttpLabel("applicationVersion")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/applications/{applicationId}/versions/{applicationVersion}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/applications/{applicationId}/versions/{applicationVersion}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetBatchJobExecutionRequest extends S.Class<GetBatchJobExecutionRequest>(
-  "GetBatchJobExecutionRequest",
-)(
-  {
+).annotations({
+  identifier: "GetApplicationVersionRequest",
+}) as any as S.Schema<GetApplicationVersionRequest>;
+export interface GetBatchJobExecutionRequest {
+  applicationId: string;
+  executionId: string;
+}
+export const GetBatchJobExecutionRequest = S.suspend(() =>
+  S.Struct({
     applicationId: S.String.pipe(T.HttpLabel("applicationId")),
     executionId: S.String.pipe(T.HttpLabel("executionId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/applications/{applicationId}/batch-job-executions/{executionId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/applications/{applicationId}/batch-job-executions/{executionId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetDataSetDetailsRequest extends S.Class<GetDataSetDetailsRequest>(
-  "GetDataSetDetailsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetBatchJobExecutionRequest",
+}) as any as S.Schema<GetBatchJobExecutionRequest>;
+export interface GetDataSetDetailsRequest {
+  applicationId: string;
+  dataSetName: string;
+}
+export const GetDataSetDetailsRequest = S.suspend(() =>
+  S.Struct({
     applicationId: S.String.pipe(T.HttpLabel("applicationId")),
     dataSetName: S.String.pipe(T.HttpLabel("dataSetName")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/applications/{applicationId}/datasets/{dataSetName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/applications/{applicationId}/datasets/{dataSetName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetDataSetExportTaskRequest extends S.Class<GetDataSetExportTaskRequest>(
-  "GetDataSetExportTaskRequest",
-)(
-  {
+).annotations({
+  identifier: "GetDataSetDetailsRequest",
+}) as any as S.Schema<GetDataSetDetailsRequest>;
+export interface GetDataSetExportTaskRequest {
+  applicationId: string;
+  taskId: string;
+}
+export const GetDataSetExportTaskRequest = S.suspend(() =>
+  S.Struct({
     applicationId: S.String.pipe(T.HttpLabel("applicationId")),
     taskId: S.String.pipe(T.HttpLabel("taskId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/applications/{applicationId}/dataset-export-tasks/{taskId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/applications/{applicationId}/dataset-export-tasks/{taskId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetDataSetImportTaskRequest extends S.Class<GetDataSetImportTaskRequest>(
-  "GetDataSetImportTaskRequest",
-)(
-  {
+).annotations({
+  identifier: "GetDataSetExportTaskRequest",
+}) as any as S.Schema<GetDataSetExportTaskRequest>;
+export interface GetDataSetImportTaskRequest {
+  applicationId: string;
+  taskId: string;
+}
+export const GetDataSetImportTaskRequest = S.suspend(() =>
+  S.Struct({
     applicationId: S.String.pipe(T.HttpLabel("applicationId")),
     taskId: S.String.pipe(T.HttpLabel("taskId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/applications/{applicationId}/dataset-import-tasks/{taskId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/applications/{applicationId}/dataset-import-tasks/{taskId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetDeploymentRequest extends S.Class<GetDeploymentRequest>(
-  "GetDeploymentRequest",
-)(
-  {
+).annotations({
+  identifier: "GetDataSetImportTaskRequest",
+}) as any as S.Schema<GetDataSetImportTaskRequest>;
+export interface GetDeploymentRequest {
+  deploymentId: string;
+  applicationId: string;
+}
+export const GetDeploymentRequest = S.suspend(() =>
+  S.Struct({
     deploymentId: S.String.pipe(T.HttpLabel("deploymentId")),
     applicationId: S.String.pipe(T.HttpLabel("applicationId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/applications/{applicationId}/deployments/{deploymentId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/applications/{applicationId}/deployments/{deploymentId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListApplicationVersionsRequest extends S.Class<ListApplicationVersionsRequest>(
-  "ListApplicationVersionsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetDeploymentRequest",
+}) as any as S.Schema<GetDeploymentRequest>;
+export interface ListApplicationVersionsRequest {
+  nextToken?: string;
+  maxResults?: number;
+  applicationId: string;
+}
+export const ListApplicationVersionsRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     applicationId: S.String.pipe(T.HttpLabel("applicationId")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/applications/{applicationId}/versions" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/applications/{applicationId}/versions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListBatchJobDefinitionsRequest extends S.Class<ListBatchJobDefinitionsRequest>(
-  "ListBatchJobDefinitionsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListApplicationVersionsRequest",
+}) as any as S.Schema<ListApplicationVersionsRequest>;
+export interface ListBatchJobDefinitionsRequest {
+  nextToken?: string;
+  maxResults?: number;
+  applicationId: string;
+  prefix?: string;
+}
+export const ListBatchJobDefinitionsRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     applicationId: S.String.pipe(T.HttpLabel("applicationId")),
     prefix: S.optional(S.String).pipe(T.HttpQuery("prefix")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/applications/{applicationId}/batch-job-definitions",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/applications/{applicationId}/batch-job-definitions",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListBatchJobExecutionsRequest extends S.Class<ListBatchJobExecutionsRequest>(
-  "ListBatchJobExecutionsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListBatchJobDefinitionsRequest",
+}) as any as S.Schema<ListBatchJobDefinitionsRequest>;
+export interface ListBatchJobExecutionsRequest {
+  nextToken?: string;
+  maxResults?: number;
+  applicationId: string;
+  executionIds?: IdentifierList;
+  jobName?: string;
+  status?: string;
+  startedAfter?: Date;
+  startedBefore?: Date;
+}
+export const ListBatchJobExecutionsRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     applicationId: S.String.pipe(T.HttpLabel("applicationId")),
@@ -607,169 +734,233 @@ export class ListBatchJobExecutionsRequest extends S.Class<ListBatchJobExecution
     startedBefore: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ).pipe(T.HttpQuery("startedBefore")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/applications/{applicationId}/batch-job-executions",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/applications/{applicationId}/batch-job-executions",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListBatchJobRestartPointsRequest extends S.Class<ListBatchJobRestartPointsRequest>(
-  "ListBatchJobRestartPointsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListBatchJobExecutionsRequest",
+}) as any as S.Schema<ListBatchJobExecutionsRequest>;
+export interface ListBatchJobRestartPointsRequest {
+  applicationId: string;
+  executionId: string;
+  authSecretsManagerArn?: string;
+}
+export const ListBatchJobRestartPointsRequest = S.suspend(() =>
+  S.Struct({
     applicationId: S.String.pipe(T.HttpLabel("applicationId")),
     executionId: S.String.pipe(T.HttpLabel("executionId")),
     authSecretsManagerArn: S.optional(S.String).pipe(
       T.HttpQuery("authSecretsManagerArn"),
     ),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/applications/{applicationId}/batch-job-executions/{executionId}/steps",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/applications/{applicationId}/batch-job-executions/{executionId}/steps",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListDataSetExportHistoryRequest extends S.Class<ListDataSetExportHistoryRequest>(
-  "ListDataSetExportHistoryRequest",
-)(
-  {
+).annotations({
+  identifier: "ListBatchJobRestartPointsRequest",
+}) as any as S.Schema<ListBatchJobRestartPointsRequest>;
+export interface ListDataSetExportHistoryRequest {
+  nextToken?: string;
+  maxResults?: number;
+  applicationId: string;
+}
+export const ListDataSetExportHistoryRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     applicationId: S.String.pipe(T.HttpLabel("applicationId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/applications/{applicationId}/dataset-export-tasks",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/applications/{applicationId}/dataset-export-tasks",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListDataSetImportHistoryRequest extends S.Class<ListDataSetImportHistoryRequest>(
-  "ListDataSetImportHistoryRequest",
-)(
-  {
+).annotations({
+  identifier: "ListDataSetExportHistoryRequest",
+}) as any as S.Schema<ListDataSetExportHistoryRequest>;
+export interface ListDataSetImportHistoryRequest {
+  nextToken?: string;
+  maxResults?: number;
+  applicationId: string;
+}
+export const ListDataSetImportHistoryRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     applicationId: S.String.pipe(T.HttpLabel("applicationId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/applications/{applicationId}/dataset-import-tasks",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/applications/{applicationId}/dataset-import-tasks",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListDataSetsRequest extends S.Class<ListDataSetsRequest>(
-  "ListDataSetsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListDataSetImportHistoryRequest",
+}) as any as S.Schema<ListDataSetImportHistoryRequest>;
+export interface ListDataSetsRequest {
+  applicationId: string;
+  nextToken?: string;
+  maxResults?: number;
+  prefix?: string;
+  nameFilter?: string;
+}
+export const ListDataSetsRequest = S.suspend(() =>
+  S.Struct({
     applicationId: S.String.pipe(T.HttpLabel("applicationId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     prefix: S.optional(S.String).pipe(T.HttpQuery("prefix")),
     nameFilter: S.optional(S.String).pipe(T.HttpQuery("nameFilter")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/applications/{applicationId}/datasets" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/applications/{applicationId}/datasets" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListDeploymentsRequest extends S.Class<ListDeploymentsRequest>(
-  "ListDeploymentsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListDataSetsRequest",
+}) as any as S.Schema<ListDataSetsRequest>;
+export interface ListDeploymentsRequest {
+  nextToken?: string;
+  maxResults?: number;
+  applicationId: string;
+}
+export const ListDeploymentsRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     applicationId: S.String.pipe(T.HttpLabel("applicationId")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/applications/{applicationId}/deployments" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/applications/{applicationId}/deployments",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartApplicationRequest extends S.Class<StartApplicationRequest>(
-  "StartApplicationRequest",
-)(
-  { applicationId: S.String.pipe(T.HttpLabel("applicationId")) },
-  T.all(
-    T.Http({ method: "POST", uri: "/applications/{applicationId}/start" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListDeploymentsRequest",
+}) as any as S.Schema<ListDeploymentsRequest>;
+export interface StartApplicationRequest {
+  applicationId: string;
+}
+export const StartApplicationRequest = S.suspend(() =>
+  S.Struct({ applicationId: S.String.pipe(T.HttpLabel("applicationId")) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/applications/{applicationId}/start" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartApplicationResponse extends S.Class<StartApplicationResponse>(
-  "StartApplicationResponse",
-)({}) {}
-export class StopApplicationRequest extends S.Class<StopApplicationRequest>(
-  "StopApplicationRequest",
-)(
-  {
+).annotations({
+  identifier: "StartApplicationRequest",
+}) as any as S.Schema<StartApplicationRequest>;
+export interface StartApplicationResponse {}
+export const StartApplicationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "StartApplicationResponse",
+}) as any as S.Schema<StartApplicationResponse>;
+export interface StopApplicationRequest {
+  applicationId: string;
+  forceStop?: boolean;
+}
+export const StopApplicationRequest = S.suspend(() =>
+  S.Struct({
     applicationId: S.String.pipe(T.HttpLabel("applicationId")),
     forceStop: S.optional(S.Boolean),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/applications/{applicationId}/stop" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/applications/{applicationId}/stop" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StopApplicationResponse extends S.Class<StopApplicationResponse>(
-  "StopApplicationResponse",
-)({}) {}
-export class GetEnvironmentRequest extends S.Class<GetEnvironmentRequest>(
-  "GetEnvironmentRequest",
-)(
-  { environmentId: S.String.pipe(T.HttpLabel("environmentId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/environments/{environmentId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "StopApplicationRequest",
+}) as any as S.Schema<StopApplicationRequest>;
+export interface StopApplicationResponse {}
+export const StopApplicationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "StopApplicationResponse",
+}) as any as S.Schema<StopApplicationResponse>;
+export interface GetEnvironmentRequest {
+  environmentId: string;
+}
+export const GetEnvironmentRequest = S.suspend(() =>
+  S.Struct({ environmentId: S.String.pipe(T.HttpLabel("environmentId")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/environments/{environmentId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateEnvironmentRequest extends S.Class<UpdateEnvironmentRequest>(
-  "UpdateEnvironmentRequest",
-)(
-  {
+).annotations({
+  identifier: "GetEnvironmentRequest",
+}) as any as S.Schema<GetEnvironmentRequest>;
+export interface UpdateEnvironmentRequest {
+  environmentId: string;
+  desiredCapacity?: number;
+  instanceType?: string;
+  engineVersion?: string;
+  preferredMaintenanceWindow?: string;
+  applyDuringMaintenanceWindow?: boolean;
+  forceUpdate?: boolean;
+}
+export const UpdateEnvironmentRequest = S.suspend(() =>
+  S.Struct({
     environmentId: S.String.pipe(T.HttpLabel("environmentId")),
     desiredCapacity: S.optional(S.Number),
     instanceType: S.optional(S.String),
@@ -777,92 +968,149 @@ export class UpdateEnvironmentRequest extends S.Class<UpdateEnvironmentRequest>(
     preferredMaintenanceWindow: S.optional(S.String),
     applyDuringMaintenanceWindow: S.optional(S.Boolean),
     forceUpdate: S.optional(S.Boolean),
-  },
-  T.all(
-    T.Http({ method: "PATCH", uri: "/environments/{environmentId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PATCH", uri: "/environments/{environmentId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteEnvironmentRequest extends S.Class<DeleteEnvironmentRequest>(
-  "DeleteEnvironmentRequest",
-)(
-  { environmentId: S.String.pipe(T.HttpLabel("environmentId")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/environments/{environmentId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UpdateEnvironmentRequest",
+}) as any as S.Schema<UpdateEnvironmentRequest>;
+export interface DeleteEnvironmentRequest {
+  environmentId: string;
+}
+export const DeleteEnvironmentRequest = S.suspend(() =>
+  S.Struct({ environmentId: S.String.pipe(T.HttpLabel("environmentId")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/environments/{environmentId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteEnvironmentResponse extends S.Class<DeleteEnvironmentResponse>(
-  "DeleteEnvironmentResponse",
-)({}) {}
-export class ListEnvironmentsRequest extends S.Class<ListEnvironmentsRequest>(
-  "ListEnvironmentsRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteEnvironmentRequest",
+}) as any as S.Schema<DeleteEnvironmentRequest>;
+export interface DeleteEnvironmentResponse {}
+export const DeleteEnvironmentResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteEnvironmentResponse",
+}) as any as S.Schema<DeleteEnvironmentResponse>;
+export interface ListEnvironmentsRequest {
+  nextToken?: string;
+  maxResults?: number;
+  names?: EntityNameList;
+  engineType?: string;
+}
+export const ListEnvironmentsRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     names: S.optional(EntityNameList).pipe(T.HttpQuery("names")),
     engineType: S.optional(S.String).pipe(T.HttpQuery("engineType")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/environments" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/environments" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "ListEnvironmentsRequest",
+}) as any as S.Schema<ListEnvironmentsRequest>;
+export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
+export type ArnList = string[];
 export const ArnList = S.Array(S.String);
+export type PortList = number[];
 export const PortList = S.Array(S.Number);
-export class ApplicationVersionSummary extends S.Class<ApplicationVersionSummary>(
-  "ApplicationVersionSummary",
-)({
-  applicationVersion: S.Number,
-  status: S.String,
-  statusReason: S.optional(S.String),
-  creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-}) {}
+export interface ApplicationVersionSummary {
+  applicationVersion: number;
+  status: string;
+  statusReason?: string;
+  creationTime: Date;
+}
+export const ApplicationVersionSummary = S.suspend(() =>
+  S.Struct({
+    applicationVersion: S.Number,
+    status: S.String,
+    statusReason: S.optional(S.String),
+    creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotations({
+  identifier: "ApplicationVersionSummary",
+}) as any as S.Schema<ApplicationVersionSummary>;
+export type ApplicationVersionSummaryList = ApplicationVersionSummary[];
 export const ApplicationVersionSummaryList = S.Array(ApplicationVersionSummary);
+export type BatchJobParametersMap = { [key: string]: string };
 export const BatchJobParametersMap = S.Record({
   key: S.String,
   value: S.String,
 });
-export class HighAvailabilityConfig extends S.Class<HighAvailabilityConfig>(
-  "HighAvailabilityConfig",
-)({ desiredCapacity: S.Number }) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ tags: TagMap }) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap },
-  T.all(
-    T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface HighAvailabilityConfig {
+  desiredCapacity: number;
+}
+export const HighAvailabilityConfig = S.suspend(() =>
+  S.Struct({ desiredCapacity: S.Number }),
+).annotations({
+  identifier: "HighAvailabilityConfig",
+}) as any as S.Schema<HighAvailabilityConfig>;
+export interface ListTagsForResourceResponse {
+  tags: TagMap;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ tags: TagMap }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface TagResourceRequest {
+  resourceArn: string;
+  tags: TagMap;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+    tags: TagMap,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class CreateApplicationRequest extends S.Class<CreateApplicationRequest>(
-  "CreateApplicationRequest",
-)(
-  {
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface CreateApplicationRequest {
+  name: string;
+  description?: string;
+  engineType: string;
+  definition: (typeof Definition)["Type"];
+  tags?: TagMap;
+  clientToken?: string;
+  kmsKeyId?: string;
+  roleArn?: string;
+}
+export const CreateApplicationRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     description: S.optional(S.String),
     engineType: S.String,
@@ -871,346 +1119,716 @@ export class CreateApplicationRequest extends S.Class<CreateApplicationRequest>(
     clientToken: S.optional(S.String),
     kmsKeyId: S.optional(S.String),
     roleArn: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/applications" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/applications" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateApplicationResponse extends S.Class<UpdateApplicationResponse>(
-  "UpdateApplicationResponse",
-)({ applicationVersion: S.Number }) {}
-export class CreateDeploymentResponse extends S.Class<CreateDeploymentResponse>(
-  "CreateDeploymentResponse",
-)({ deploymentId: S.String }) {}
-export class GetApplicationVersionResponse extends S.Class<GetApplicationVersionResponse>(
-  "GetApplicationVersionResponse",
-)({
-  name: S.String,
-  applicationVersion: S.Number,
-  description: S.optional(S.String),
-  definitionContent: S.String,
-  status: S.String,
-  creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  statusReason: S.optional(S.String),
-}) {}
-export class GetDeploymentResponse extends S.Class<GetDeploymentResponse>(
-  "GetDeploymentResponse",
-)({
-  deploymentId: S.String,
-  applicationId: S.String,
-  environmentId: S.String,
-  applicationVersion: S.Number,
-  status: S.String,
-  creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  statusReason: S.optional(S.String),
-}) {}
-export class ListApplicationVersionsResponse extends S.Class<ListApplicationVersionsResponse>(
-  "ListApplicationVersionsResponse",
-)({
-  applicationVersions: ApplicationVersionSummaryList,
-  nextToken: S.optional(S.String),
-}) {}
-export class UpdateEnvironmentResponse extends S.Class<UpdateEnvironmentResponse>(
-  "UpdateEnvironmentResponse",
-)({ environmentId: S.String }) {}
-export class FileBatchJobIdentifier extends S.Class<FileBatchJobIdentifier>(
-  "FileBatchJobIdentifier",
-)({ fileName: S.String, folderPath: S.optional(S.String) }) {}
-export class ScriptBatchJobIdentifier extends S.Class<ScriptBatchJobIdentifier>(
-  "ScriptBatchJobIdentifier",
-)({ scriptName: S.String }) {}
-export class JobStepRestartMarker extends S.Class<JobStepRestartMarker>(
-  "JobStepRestartMarker",
-)({
-  fromStep: S.String,
-  fromProcStep: S.optional(S.String),
-  toStep: S.optional(S.String),
-  toProcStep: S.optional(S.String),
-  stepCheckpoint: S.optional(S.Number),
-  skip: S.optional(S.Boolean),
-}) {}
-export class RestartBatchJobIdentifier extends S.Class<RestartBatchJobIdentifier>(
-  "RestartBatchJobIdentifier",
-)({ executionId: S.String, jobStepRestartMarker: JobStepRestartMarker }) {}
-export class EfsStorageConfiguration extends S.Class<EfsStorageConfiguration>(
-  "EfsStorageConfiguration",
-)({
-  fileSystemId: S.String.pipe(T.JsonName("file-system-id")),
-  mountPoint: S.String.pipe(T.JsonName("mount-point")),
-}) {}
-export class FsxStorageConfiguration extends S.Class<FsxStorageConfiguration>(
-  "FsxStorageConfiguration",
-)({
-  fileSystemId: S.String.pipe(T.JsonName("file-system-id")),
-  mountPoint: S.String.pipe(T.JsonName("mount-point")),
-}) {}
-export class EngineVersionsSummary extends S.Class<EngineVersionsSummary>(
-  "EngineVersionsSummary",
-)({ engineType: S.String, engineVersion: S.String }) {}
+).annotations({
+  identifier: "CreateApplicationRequest",
+}) as any as S.Schema<CreateApplicationRequest>;
+export interface UpdateApplicationResponse {
+  applicationVersion: number;
+}
+export const UpdateApplicationResponse = S.suspend(() =>
+  S.Struct({ applicationVersion: S.Number }),
+).annotations({
+  identifier: "UpdateApplicationResponse",
+}) as any as S.Schema<UpdateApplicationResponse>;
+export interface CreateDeploymentResponse {
+  deploymentId: string;
+}
+export const CreateDeploymentResponse = S.suspend(() =>
+  S.Struct({ deploymentId: S.String }),
+).annotations({
+  identifier: "CreateDeploymentResponse",
+}) as any as S.Schema<CreateDeploymentResponse>;
+export interface GetApplicationVersionResponse {
+  name: string;
+  applicationVersion: number;
+  description?: string;
+  definitionContent: string;
+  status: string;
+  creationTime: Date;
+  statusReason?: string;
+}
+export const GetApplicationVersionResponse = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    applicationVersion: S.Number,
+    description: S.optional(S.String),
+    definitionContent: S.String,
+    status: S.String,
+    creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    statusReason: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetApplicationVersionResponse",
+}) as any as S.Schema<GetApplicationVersionResponse>;
+export interface GetDeploymentResponse {
+  deploymentId: string;
+  applicationId: string;
+  environmentId: string;
+  applicationVersion: number;
+  status: string;
+  creationTime: Date;
+  statusReason?: string;
+}
+export const GetDeploymentResponse = S.suspend(() =>
+  S.Struct({
+    deploymentId: S.String,
+    applicationId: S.String,
+    environmentId: S.String,
+    applicationVersion: S.Number,
+    status: S.String,
+    creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    statusReason: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetDeploymentResponse",
+}) as any as S.Schema<GetDeploymentResponse>;
+export interface ListApplicationVersionsResponse {
+  applicationVersions: ApplicationVersionSummaryList;
+  nextToken?: string;
+}
+export const ListApplicationVersionsResponse = S.suspend(() =>
+  S.Struct({
+    applicationVersions: ApplicationVersionSummaryList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListApplicationVersionsResponse",
+}) as any as S.Schema<ListApplicationVersionsResponse>;
+export interface UpdateEnvironmentResponse {
+  environmentId: string;
+}
+export const UpdateEnvironmentResponse = S.suspend(() =>
+  S.Struct({ environmentId: S.String }),
+).annotations({
+  identifier: "UpdateEnvironmentResponse",
+}) as any as S.Schema<UpdateEnvironmentResponse>;
+export interface FileBatchJobIdentifier {
+  fileName: string;
+  folderPath?: string;
+}
+export const FileBatchJobIdentifier = S.suspend(() =>
+  S.Struct({ fileName: S.String, folderPath: S.optional(S.String) }),
+).annotations({
+  identifier: "FileBatchJobIdentifier",
+}) as any as S.Schema<FileBatchJobIdentifier>;
+export interface ScriptBatchJobIdentifier {
+  scriptName: string;
+}
+export const ScriptBatchJobIdentifier = S.suspend(() =>
+  S.Struct({ scriptName: S.String }),
+).annotations({
+  identifier: "ScriptBatchJobIdentifier",
+}) as any as S.Schema<ScriptBatchJobIdentifier>;
+export interface JobStepRestartMarker {
+  fromStep: string;
+  fromProcStep?: string;
+  toStep?: string;
+  toProcStep?: string;
+  stepCheckpoint?: number;
+  skip?: boolean;
+}
+export const JobStepRestartMarker = S.suspend(() =>
+  S.Struct({
+    fromStep: S.String,
+    fromProcStep: S.optional(S.String),
+    toStep: S.optional(S.String),
+    toProcStep: S.optional(S.String),
+    stepCheckpoint: S.optional(S.Number),
+    skip: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "JobStepRestartMarker",
+}) as any as S.Schema<JobStepRestartMarker>;
+export interface RestartBatchJobIdentifier {
+  executionId: string;
+  jobStepRestartMarker: JobStepRestartMarker;
+}
+export const RestartBatchJobIdentifier = S.suspend(() =>
+  S.Struct({
+    executionId: S.String,
+    jobStepRestartMarker: JobStepRestartMarker,
+  }),
+).annotations({
+  identifier: "RestartBatchJobIdentifier",
+}) as any as S.Schema<RestartBatchJobIdentifier>;
+export interface EfsStorageConfiguration {
+  fileSystemId: string;
+  mountPoint: string;
+}
+export const EfsStorageConfiguration = S.suspend(() =>
+  S.Struct({
+    fileSystemId: S.String.pipe(T.JsonName("file-system-id")),
+    mountPoint: S.String.pipe(T.JsonName("mount-point")),
+  }),
+).annotations({
+  identifier: "EfsStorageConfiguration",
+}) as any as S.Schema<EfsStorageConfiguration>;
+export interface FsxStorageConfiguration {
+  fileSystemId: string;
+  mountPoint: string;
+}
+export const FsxStorageConfiguration = S.suspend(() =>
+  S.Struct({
+    fileSystemId: S.String.pipe(T.JsonName("file-system-id")),
+    mountPoint: S.String.pipe(T.JsonName("mount-point")),
+  }),
+).annotations({
+  identifier: "FsxStorageConfiguration",
+}) as any as S.Schema<FsxStorageConfiguration>;
+export interface EngineVersionsSummary {
+  engineType: string;
+  engineVersion: string;
+}
+export const EngineVersionsSummary = S.suspend(() =>
+  S.Struct({ engineType: S.String, engineVersion: S.String }),
+).annotations({
+  identifier: "EngineVersionsSummary",
+}) as any as S.Schema<EngineVersionsSummary>;
+export type EngineVersionsSummaryList = EngineVersionsSummary[];
 export const EngineVersionsSummaryList = S.Array(EngineVersionsSummary);
-export class DeployedVersionSummary extends S.Class<DeployedVersionSummary>(
-  "DeployedVersionSummary",
-)({
-  applicationVersion: S.Number,
-  status: S.String,
-  statusReason: S.optional(S.String),
-}) {}
-export class LogGroupSummary extends S.Class<LogGroupSummary>(
-  "LogGroupSummary",
-)({ logType: S.String, logGroupName: S.String }) {}
+export interface DeployedVersionSummary {
+  applicationVersion: number;
+  status: string;
+  statusReason?: string;
+}
+export const DeployedVersionSummary = S.suspend(() =>
+  S.Struct({
+    applicationVersion: S.Number,
+    status: S.String,
+    statusReason: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DeployedVersionSummary",
+}) as any as S.Schema<DeployedVersionSummary>;
+export interface LogGroupSummary {
+  logType: string;
+  logGroupName: string;
+}
+export const LogGroupSummary = S.suspend(() =>
+  S.Struct({ logType: S.String, logGroupName: S.String }),
+).annotations({
+  identifier: "LogGroupSummary",
+}) as any as S.Schema<LogGroupSummary>;
+export type LogGroupSummaries = LogGroupSummary[];
 export const LogGroupSummaries = S.Array(LogGroupSummary);
-export class ApplicationSummary extends S.Class<ApplicationSummary>(
-  "ApplicationSummary",
-)({
-  name: S.String,
-  description: S.optional(S.String),
-  applicationId: S.String,
-  applicationArn: S.String,
-  applicationVersion: S.Number,
-  status: S.String,
-  engineType: S.String,
-  creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  environmentId: S.optional(S.String),
-  lastStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  versionStatus: S.optional(S.String),
-  deploymentStatus: S.optional(S.String),
-  roleArn: S.optional(S.String),
-}) {}
+export interface ApplicationSummary {
+  name: string;
+  description?: string;
+  applicationId: string;
+  applicationArn: string;
+  applicationVersion: number;
+  status: string;
+  engineType: string;
+  creationTime: Date;
+  environmentId?: string;
+  lastStartTime?: Date;
+  versionStatus?: string;
+  deploymentStatus?: string;
+  roleArn?: string;
+}
+export const ApplicationSummary = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    description: S.optional(S.String),
+    applicationId: S.String,
+    applicationArn: S.String,
+    applicationVersion: S.Number,
+    status: S.String,
+    engineType: S.String,
+    creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    environmentId: S.optional(S.String),
+    lastStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    versionStatus: S.optional(S.String),
+    deploymentStatus: S.optional(S.String),
+    roleArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ApplicationSummary",
+}) as any as S.Schema<ApplicationSummary>;
+export type ApplicationSummaryList = ApplicationSummary[];
 export const ApplicationSummaryList = S.Array(ApplicationSummary);
-export class DataSetExportSummary extends S.Class<DataSetExportSummary>(
-  "DataSetExportSummary",
-)({
-  total: S.Number,
-  succeeded: S.Number,
-  failed: S.Number,
-  pending: S.Number,
-  inProgress: S.Number,
-}) {}
-export class DataSetImportSummary extends S.Class<DataSetImportSummary>(
-  "DataSetImportSummary",
-)({
-  total: S.Number,
-  succeeded: S.Number,
-  failed: S.Number,
-  pending: S.Number,
-  inProgress: S.Number,
-}) {}
+export interface DataSetExportSummary {
+  total: number;
+  succeeded: number;
+  failed: number;
+  pending: number;
+  inProgress: number;
+}
+export const DataSetExportSummary = S.suspend(() =>
+  S.Struct({
+    total: S.Number,
+    succeeded: S.Number,
+    failed: S.Number,
+    pending: S.Number,
+    inProgress: S.Number,
+  }),
+).annotations({
+  identifier: "DataSetExportSummary",
+}) as any as S.Schema<DataSetExportSummary>;
+export interface DataSetImportSummary {
+  total: number;
+  succeeded: number;
+  failed: number;
+  pending: number;
+  inProgress: number;
+}
+export const DataSetImportSummary = S.suspend(() =>
+  S.Struct({
+    total: S.Number,
+    succeeded: S.Number,
+    failed: S.Number,
+    pending: S.Number,
+    inProgress: S.Number,
+  }),
+).annotations({
+  identifier: "DataSetImportSummary",
+}) as any as S.Schema<DataSetImportSummary>;
 export const JobIdentifier = S.Union(
   S.Struct({ fileName: S.String }),
   S.Struct({ scriptName: S.String }),
 );
-export class S3BatchJobIdentifier extends S.Class<S3BatchJobIdentifier>(
-  "S3BatchJobIdentifier",
-)({
-  bucket: S.String,
-  keyPrefix: S.optional(S.String),
-  identifier: JobIdentifier,
-}) {}
+export interface S3BatchJobIdentifier {
+  bucket: string;
+  keyPrefix?: string;
+  identifier: (typeof JobIdentifier)["Type"];
+}
+export const S3BatchJobIdentifier = S.suspend(() =>
+  S.Struct({
+    bucket: S.String,
+    keyPrefix: S.optional(S.String),
+    identifier: JobIdentifier,
+  }),
+).annotations({
+  identifier: "S3BatchJobIdentifier",
+}) as any as S.Schema<S3BatchJobIdentifier>;
 export const BatchJobIdentifier = S.Union(
   S.Struct({ fileBatchJobIdentifier: FileBatchJobIdentifier }),
   S.Struct({ scriptBatchJobIdentifier: ScriptBatchJobIdentifier }),
   S.Struct({ s3BatchJobIdentifier: S3BatchJobIdentifier }),
   S.Struct({ restartBatchJobIdentifier: RestartBatchJobIdentifier }),
 );
-export class BatchJobExecutionSummary extends S.Class<BatchJobExecutionSummary>(
-  "BatchJobExecutionSummary",
-)({
-  executionId: S.String,
-  applicationId: S.String,
-  jobId: S.optional(S.String),
-  jobName: S.optional(S.String),
-  jobType: S.optional(S.String),
-  status: S.String,
-  startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  returnCode: S.optional(S.String),
-  batchJobIdentifier: S.optional(BatchJobIdentifier),
-}) {}
+export interface BatchJobExecutionSummary {
+  executionId: string;
+  applicationId: string;
+  jobId?: string;
+  jobName?: string;
+  jobType?: string;
+  status: string;
+  startTime: Date;
+  endTime?: Date;
+  returnCode?: string;
+  batchJobIdentifier?: (typeof BatchJobIdentifier)["Type"];
+}
+export const BatchJobExecutionSummary = S.suspend(() =>
+  S.Struct({
+    executionId: S.String,
+    applicationId: S.String,
+    jobId: S.optional(S.String),
+    jobName: S.optional(S.String),
+    jobType: S.optional(S.String),
+    status: S.String,
+    startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    returnCode: S.optional(S.String),
+    batchJobIdentifier: S.optional(BatchJobIdentifier),
+  }),
+).annotations({
+  identifier: "BatchJobExecutionSummary",
+}) as any as S.Schema<BatchJobExecutionSummary>;
+export type BatchJobExecutionSummaryList = BatchJobExecutionSummary[];
 export const BatchJobExecutionSummaryList = S.Array(BatchJobExecutionSummary);
-export class JobStep extends S.Class<JobStep>("JobStep")({
-  stepNumber: S.optional(S.Number),
-  stepName: S.optional(S.String),
-  procStepNumber: S.optional(S.Number),
-  procStepName: S.optional(S.String),
-  stepCondCode: S.optional(S.String),
-  stepRestartable: S.optional(S.Boolean),
-  stepCheckpoint: S.optional(S.Number),
-  stepCheckpointStatus: S.optional(S.String),
-  stepCheckpointTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
+export interface JobStep {
+  stepNumber?: number;
+  stepName?: string;
+  procStepNumber?: number;
+  procStepName?: string;
+  stepCondCode?: string;
+  stepRestartable?: boolean;
+  stepCheckpoint?: number;
+  stepCheckpointStatus?: string;
+  stepCheckpointTime?: Date;
+}
+export const JobStep = S.suspend(() =>
+  S.Struct({
+    stepNumber: S.optional(S.Number),
+    stepName: S.optional(S.String),
+    procStepNumber: S.optional(S.Number),
+    procStepName: S.optional(S.String),
+    stepCondCode: S.optional(S.String),
+    stepRestartable: S.optional(S.Boolean),
+    stepCheckpoint: S.optional(S.Number),
+    stepCheckpointStatus: S.optional(S.String),
+    stepCheckpointTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({ identifier: "JobStep" }) as any as S.Schema<JobStep>;
+export type BatchJobStepList = JobStep[];
 export const BatchJobStepList = S.Array(JobStep);
-export class DataSetExportTask extends S.Class<DataSetExportTask>(
-  "DataSetExportTask",
-)({
-  taskId: S.String,
-  status: S.String,
-  summary: DataSetExportSummary,
-  statusReason: S.optional(S.String),
-}) {}
+export interface DataSetExportTask {
+  taskId: string;
+  status: string;
+  summary: DataSetExportSummary;
+  statusReason?: string;
+}
+export const DataSetExportTask = S.suspend(() =>
+  S.Struct({
+    taskId: S.String,
+    status: S.String,
+    summary: DataSetExportSummary,
+    statusReason: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DataSetExportTask",
+}) as any as S.Schema<DataSetExportTask>;
+export type DataSetExportTaskList = DataSetExportTask[];
 export const DataSetExportTaskList = S.Array(DataSetExportTask);
-export class DataSetImportTask extends S.Class<DataSetImportTask>(
-  "DataSetImportTask",
-)({
-  taskId: S.String,
-  status: S.String,
-  summary: DataSetImportSummary,
-  statusReason: S.optional(S.String),
-}) {}
+export interface DataSetImportTask {
+  taskId: string;
+  status: string;
+  summary: DataSetImportSummary;
+  statusReason?: string;
+}
+export const DataSetImportTask = S.suspend(() =>
+  S.Struct({
+    taskId: S.String,
+    status: S.String,
+    summary: DataSetImportSummary,
+    statusReason: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DataSetImportTask",
+}) as any as S.Schema<DataSetImportTask>;
+export type DataSetImportTaskList = DataSetImportTask[];
 export const DataSetImportTaskList = S.Array(DataSetImportTask);
-export class DataSetSummary extends S.Class<DataSetSummary>("DataSetSummary")({
-  dataSetName: S.String,
-  dataSetOrg: S.optional(S.String),
-  format: S.optional(S.String),
-  creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastReferencedTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
+export interface DataSetSummary {
+  dataSetName: string;
+  dataSetOrg?: string;
+  format?: string;
+  creationTime?: Date;
+  lastUpdatedTime?: Date;
+  lastReferencedTime?: Date;
+}
+export const DataSetSummary = S.suspend(() =>
+  S.Struct({
+    dataSetName: S.String,
+    dataSetOrg: S.optional(S.String),
+    format: S.optional(S.String),
+    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdatedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    lastReferencedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "DataSetSummary",
+}) as any as S.Schema<DataSetSummary>;
+export type DataSetsSummaryList = DataSetSummary[];
 export const DataSetsSummaryList = S.Array(DataSetSummary);
-export class DeploymentSummary extends S.Class<DeploymentSummary>(
-  "DeploymentSummary",
-)({
-  deploymentId: S.String,
-  applicationId: S.String,
-  environmentId: S.String,
-  applicationVersion: S.Number,
-  status: S.String,
-  creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  statusReason: S.optional(S.String),
-}) {}
+export interface DeploymentSummary {
+  deploymentId: string;
+  applicationId: string;
+  environmentId: string;
+  applicationVersion: number;
+  status: string;
+  creationTime: Date;
+  statusReason?: string;
+}
+export const DeploymentSummary = S.suspend(() =>
+  S.Struct({
+    deploymentId: S.String,
+    applicationId: S.String,
+    environmentId: S.String,
+    applicationVersion: S.Number,
+    status: S.String,
+    creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    statusReason: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DeploymentSummary",
+}) as any as S.Schema<DeploymentSummary>;
+export type DeploymentList = DeploymentSummary[];
 export const DeploymentList = S.Array(DeploymentSummary);
 export const StorageConfiguration = S.Union(
   S.Struct({ efs: EfsStorageConfiguration }),
   S.Struct({ fsx: FsxStorageConfiguration }),
 );
+export type StorageConfigurationList = (typeof StorageConfiguration)["Type"][];
 export const StorageConfigurationList = S.Array(StorageConfiguration);
-export class EnvironmentSummary extends S.Class<EnvironmentSummary>(
-  "EnvironmentSummary",
-)({
-  name: S.String,
-  environmentArn: S.String,
-  environmentId: S.String,
-  instanceType: S.String,
-  status: S.String,
-  engineType: S.String,
-  engineVersion: S.String,
-  creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  networkType: S.optional(S.String),
-}) {}
+export interface EnvironmentSummary {
+  name: string;
+  environmentArn: string;
+  environmentId: string;
+  instanceType: string;
+  status: string;
+  engineType: string;
+  engineVersion: string;
+  creationTime: Date;
+  networkType?: string;
+}
+export const EnvironmentSummary = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    environmentArn: S.String,
+    environmentId: S.String,
+    instanceType: S.String,
+    status: S.String,
+    engineType: S.String,
+    engineVersion: S.String,
+    creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    networkType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "EnvironmentSummary",
+}) as any as S.Schema<EnvironmentSummary>;
+export type EnvironmentSummaryList = EnvironmentSummary[];
 export const EnvironmentSummaryList = S.Array(EnvironmentSummary);
 export const ExternalLocation = S.Union(S.Struct({ s3Location: S.String }));
-export class ListEngineVersionsResponse extends S.Class<ListEngineVersionsResponse>(
-  "ListEngineVersionsResponse",
-)({
-  engineVersions: EngineVersionsSummaryList,
-  nextToken: S.optional(S.String),
-}) {}
-export class CreateApplicationResponse extends S.Class<CreateApplicationResponse>(
-  "CreateApplicationResponse",
-)({
-  applicationArn: S.String,
-  applicationId: S.String,
-  applicationVersion: S.Number,
-}) {}
-export class GetApplicationResponse extends S.Class<GetApplicationResponse>(
-  "GetApplicationResponse",
-)({
-  name: S.String,
-  description: S.optional(S.String),
-  applicationId: S.String,
-  applicationArn: S.String,
-  status: S.String,
-  latestVersion: ApplicationVersionSummary,
-  deployedVersion: S.optional(DeployedVersionSummary),
-  engineType: S.String,
-  logGroups: S.optional(LogGroupSummaries),
-  creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  lastStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  tags: S.optional(TagMap),
-  environmentId: S.optional(S.String),
-  targetGroupArns: S.optional(ArnList),
-  listenerArns: S.optional(ArnList),
-  listenerPorts: S.optional(PortList),
-  loadBalancerDnsName: S.optional(S.String),
-  statusReason: S.optional(S.String),
-  kmsKeyId: S.optional(S.String),
-  roleArn: S.optional(S.String),
-}) {}
-export class ListApplicationsResponse extends S.Class<ListApplicationsResponse>(
-  "ListApplicationsResponse",
-)({ applications: ApplicationSummaryList, nextToken: S.optional(S.String) }) {}
-export class GetBatchJobExecutionResponse extends S.Class<GetBatchJobExecutionResponse>(
-  "GetBatchJobExecutionResponse",
-)({
-  executionId: S.String,
-  applicationId: S.String,
-  jobId: S.optional(S.String),
-  jobName: S.optional(S.String),
-  jobUser: S.optional(S.String),
-  jobType: S.optional(S.String),
-  status: S.String,
-  startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  statusReason: S.optional(S.String),
-  returnCode: S.optional(S.String),
-  batchJobIdentifier: S.optional(BatchJobIdentifier),
-  jobStepRestartMarker: S.optional(JobStepRestartMarker),
-}) {}
-export class GetDataSetExportTaskResponse extends S.Class<GetDataSetExportTaskResponse>(
-  "GetDataSetExportTaskResponse",
-)({
-  taskId: S.String,
-  status: S.String,
-  summary: S.optional(DataSetExportSummary),
-  statusReason: S.optional(S.String),
-  kmsKeyArn: S.optional(S.String),
-}) {}
-export class GetDataSetImportTaskResponse extends S.Class<GetDataSetImportTaskResponse>(
-  "GetDataSetImportTaskResponse",
-)({
-  taskId: S.String,
-  status: S.String,
-  summary: S.optional(DataSetImportSummary),
-}) {}
-export class ListBatchJobExecutionsResponse extends S.Class<ListBatchJobExecutionsResponse>(
-  "ListBatchJobExecutionsResponse",
-)({
-  batchJobExecutions: BatchJobExecutionSummaryList,
-  nextToken: S.optional(S.String),
-}) {}
-export class ListBatchJobRestartPointsResponse extends S.Class<ListBatchJobRestartPointsResponse>(
-  "ListBatchJobRestartPointsResponse",
-)({ batchJobSteps: S.optional(BatchJobStepList) }) {}
-export class ListDataSetExportHistoryResponse extends S.Class<ListDataSetExportHistoryResponse>(
-  "ListDataSetExportHistoryResponse",
-)({
-  dataSetExportTasks: DataSetExportTaskList,
-  nextToken: S.optional(S.String),
-}) {}
-export class ListDataSetImportHistoryResponse extends S.Class<ListDataSetImportHistoryResponse>(
-  "ListDataSetImportHistoryResponse",
-)({
-  dataSetImportTasks: DataSetImportTaskList,
-  nextToken: S.optional(S.String),
-}) {}
-export class ListDataSetsResponse extends S.Class<ListDataSetsResponse>(
-  "ListDataSetsResponse",
-)({ dataSets: DataSetsSummaryList, nextToken: S.optional(S.String) }) {}
-export class ListDeploymentsResponse extends S.Class<ListDeploymentsResponse>(
-  "ListDeploymentsResponse",
-)({ deployments: DeploymentList, nextToken: S.optional(S.String) }) {}
-export class CreateEnvironmentRequest extends S.Class<CreateEnvironmentRequest>(
-  "CreateEnvironmentRequest",
-)(
-  {
+export interface ListEngineVersionsResponse {
+  engineVersions: EngineVersionsSummaryList;
+  nextToken?: string;
+}
+export const ListEngineVersionsResponse = S.suspend(() =>
+  S.Struct({
+    engineVersions: EngineVersionsSummaryList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListEngineVersionsResponse",
+}) as any as S.Schema<ListEngineVersionsResponse>;
+export interface CreateApplicationResponse {
+  applicationArn: string;
+  applicationId: string;
+  applicationVersion: number;
+}
+export const CreateApplicationResponse = S.suspend(() =>
+  S.Struct({
+    applicationArn: S.String,
+    applicationId: S.String,
+    applicationVersion: S.Number,
+  }),
+).annotations({
+  identifier: "CreateApplicationResponse",
+}) as any as S.Schema<CreateApplicationResponse>;
+export interface GetApplicationResponse {
+  name: string;
+  description?: string;
+  applicationId: string;
+  applicationArn: string;
+  status: string;
+  latestVersion: ApplicationVersionSummary;
+  deployedVersion?: DeployedVersionSummary;
+  engineType: string;
+  logGroups?: LogGroupSummaries;
+  creationTime: Date;
+  lastStartTime?: Date;
+  tags?: TagMap;
+  environmentId?: string;
+  targetGroupArns?: ArnList;
+  listenerArns?: ArnList;
+  listenerPorts?: PortList;
+  loadBalancerDnsName?: string;
+  statusReason?: string;
+  kmsKeyId?: string;
+  roleArn?: string;
+}
+export const GetApplicationResponse = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    description: S.optional(S.String),
+    applicationId: S.String,
+    applicationArn: S.String,
+    status: S.String,
+    latestVersion: ApplicationVersionSummary,
+    deployedVersion: S.optional(DeployedVersionSummary),
+    engineType: S.String,
+    logGroups: S.optional(LogGroupSummaries),
+    creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    lastStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    tags: S.optional(TagMap),
+    environmentId: S.optional(S.String),
+    targetGroupArns: S.optional(ArnList),
+    listenerArns: S.optional(ArnList),
+    listenerPorts: S.optional(PortList),
+    loadBalancerDnsName: S.optional(S.String),
+    statusReason: S.optional(S.String),
+    kmsKeyId: S.optional(S.String),
+    roleArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetApplicationResponse",
+}) as any as S.Schema<GetApplicationResponse>;
+export interface ListApplicationsResponse {
+  applications: ApplicationSummaryList;
+  nextToken?: string;
+}
+export const ListApplicationsResponse = S.suspend(() =>
+  S.Struct({
+    applications: ApplicationSummaryList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListApplicationsResponse",
+}) as any as S.Schema<ListApplicationsResponse>;
+export interface GetBatchJobExecutionResponse {
+  executionId: string;
+  applicationId: string;
+  jobId?: string;
+  jobName?: string;
+  jobUser?: string;
+  jobType?: string;
+  status: string;
+  startTime: Date;
+  endTime?: Date;
+  statusReason?: string;
+  returnCode?: string;
+  batchJobIdentifier?: (typeof BatchJobIdentifier)["Type"];
+  jobStepRestartMarker?: JobStepRestartMarker;
+}
+export const GetBatchJobExecutionResponse = S.suspend(() =>
+  S.Struct({
+    executionId: S.String,
+    applicationId: S.String,
+    jobId: S.optional(S.String),
+    jobName: S.optional(S.String),
+    jobUser: S.optional(S.String),
+    jobType: S.optional(S.String),
+    status: S.String,
+    startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    statusReason: S.optional(S.String),
+    returnCode: S.optional(S.String),
+    batchJobIdentifier: S.optional(BatchJobIdentifier),
+    jobStepRestartMarker: S.optional(JobStepRestartMarker),
+  }),
+).annotations({
+  identifier: "GetBatchJobExecutionResponse",
+}) as any as S.Schema<GetBatchJobExecutionResponse>;
+export interface GetDataSetExportTaskResponse {
+  taskId: string;
+  status: string;
+  summary?: DataSetExportSummary;
+  statusReason?: string;
+  kmsKeyArn?: string;
+}
+export const GetDataSetExportTaskResponse = S.suspend(() =>
+  S.Struct({
+    taskId: S.String,
+    status: S.String,
+    summary: S.optional(DataSetExportSummary),
+    statusReason: S.optional(S.String),
+    kmsKeyArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetDataSetExportTaskResponse",
+}) as any as S.Schema<GetDataSetExportTaskResponse>;
+export interface GetDataSetImportTaskResponse {
+  taskId: string;
+  status: string;
+  summary?: DataSetImportSummary;
+}
+export const GetDataSetImportTaskResponse = S.suspend(() =>
+  S.Struct({
+    taskId: S.String,
+    status: S.String,
+    summary: S.optional(DataSetImportSummary),
+  }),
+).annotations({
+  identifier: "GetDataSetImportTaskResponse",
+}) as any as S.Schema<GetDataSetImportTaskResponse>;
+export interface ListBatchJobExecutionsResponse {
+  batchJobExecutions: BatchJobExecutionSummaryList;
+  nextToken?: string;
+}
+export const ListBatchJobExecutionsResponse = S.suspend(() =>
+  S.Struct({
+    batchJobExecutions: BatchJobExecutionSummaryList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListBatchJobExecutionsResponse",
+}) as any as S.Schema<ListBatchJobExecutionsResponse>;
+export interface ListBatchJobRestartPointsResponse {
+  batchJobSteps?: BatchJobStepList;
+}
+export const ListBatchJobRestartPointsResponse = S.suspend(() =>
+  S.Struct({ batchJobSteps: S.optional(BatchJobStepList) }),
+).annotations({
+  identifier: "ListBatchJobRestartPointsResponse",
+}) as any as S.Schema<ListBatchJobRestartPointsResponse>;
+export interface ListDataSetExportHistoryResponse {
+  dataSetExportTasks: DataSetExportTaskList;
+  nextToken?: string;
+}
+export const ListDataSetExportHistoryResponse = S.suspend(() =>
+  S.Struct({
+    dataSetExportTasks: DataSetExportTaskList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListDataSetExportHistoryResponse",
+}) as any as S.Schema<ListDataSetExportHistoryResponse>;
+export interface ListDataSetImportHistoryResponse {
+  dataSetImportTasks: DataSetImportTaskList;
+  nextToken?: string;
+}
+export const ListDataSetImportHistoryResponse = S.suspend(() =>
+  S.Struct({
+    dataSetImportTasks: DataSetImportTaskList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListDataSetImportHistoryResponse",
+}) as any as S.Schema<ListDataSetImportHistoryResponse>;
+export interface ListDataSetsResponse {
+  dataSets: DataSetsSummaryList;
+  nextToken?: string;
+}
+export const ListDataSetsResponse = S.suspend(() =>
+  S.Struct({ dataSets: DataSetsSummaryList, nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListDataSetsResponse",
+}) as any as S.Schema<ListDataSetsResponse>;
+export interface ListDeploymentsResponse {
+  deployments: DeploymentList;
+  nextToken?: string;
+}
+export const ListDeploymentsResponse = S.suspend(() =>
+  S.Struct({ deployments: DeploymentList, nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListDeploymentsResponse",
+}) as any as S.Schema<ListDeploymentsResponse>;
+export interface CreateEnvironmentRequest {
+  name: string;
+  instanceType: string;
+  description?: string;
+  engineType: string;
+  engineVersion?: string;
+  subnetIds?: String50List;
+  securityGroupIds?: String50List;
+  storageConfigurations?: StorageConfigurationList;
+  publiclyAccessible?: boolean;
+  highAvailabilityConfig?: HighAvailabilityConfig;
+  tags?: TagMap;
+  preferredMaintenanceWindow?: string;
+  networkType?: string;
+  clientToken?: string;
+  kmsKeyId?: string;
+}
+export const CreateEnvironmentRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     instanceType: S.String,
     description: S.optional(S.String),
@@ -1226,181 +1844,355 @@ export class CreateEnvironmentRequest extends S.Class<CreateEnvironmentRequest>(
     networkType: S.optional(S.String),
     clientToken: S.optional(S.String),
     kmsKeyId: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/environments" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/environments" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListEnvironmentsResponse extends S.Class<ListEnvironmentsResponse>(
-  "ListEnvironmentsResponse",
-)({ environments: EnvironmentSummaryList, nextToken: S.optional(S.String) }) {}
-export class DataSetExportItem extends S.Class<DataSetExportItem>(
-  "DataSetExportItem",
-)({ datasetName: S.String, externalLocation: ExternalLocation }) {}
+).annotations({
+  identifier: "CreateEnvironmentRequest",
+}) as any as S.Schema<CreateEnvironmentRequest>;
+export interface ListEnvironmentsResponse {
+  environments: EnvironmentSummaryList;
+  nextToken?: string;
+}
+export const ListEnvironmentsResponse = S.suspend(() =>
+  S.Struct({
+    environments: EnvironmentSummaryList,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListEnvironmentsResponse",
+}) as any as S.Schema<ListEnvironmentsResponse>;
+export interface DataSetExportItem {
+  datasetName: string;
+  externalLocation: (typeof ExternalLocation)["Type"];
+}
+export const DataSetExportItem = S.suspend(() =>
+  S.Struct({ datasetName: S.String, externalLocation: ExternalLocation }),
+).annotations({
+  identifier: "DataSetExportItem",
+}) as any as S.Schema<DataSetExportItem>;
+export type DataSetExportList = DataSetExportItem[];
 export const DataSetExportList = S.Array(DataSetExportItem);
-export class GdgDetailAttributes extends S.Class<GdgDetailAttributes>(
-  "GdgDetailAttributes",
-)({ limit: S.optional(S.Number), rollDisposition: S.optional(S.String) }) {}
-export class PoDetailAttributes extends S.Class<PoDetailAttributes>(
-  "PoDetailAttributes",
-)({ format: S.String, encoding: S.String }) {}
-export class PsDetailAttributes extends S.Class<PsDetailAttributes>(
-  "PsDetailAttributes",
-)({ format: S.String, encoding: S.String }) {}
-export class FileBatchJobDefinition extends S.Class<FileBatchJobDefinition>(
-  "FileBatchJobDefinition",
-)({ fileName: S.String, folderPath: S.optional(S.String) }) {}
-export class ScriptBatchJobDefinition extends S.Class<ScriptBatchJobDefinition>(
-  "ScriptBatchJobDefinition",
-)({ scriptName: S.String }) {}
-export class MaintenanceSchedule extends S.Class<MaintenanceSchedule>(
-  "MaintenanceSchedule",
-)({
-  startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class RecordLength extends S.Class<RecordLength>("RecordLength")({
-  min: S.Number,
-  max: S.Number,
-}) {}
+export interface GdgDetailAttributes {
+  limit?: number;
+  rollDisposition?: string;
+}
+export const GdgDetailAttributes = S.suspend(() =>
+  S.Struct({
+    limit: S.optional(S.Number),
+    rollDisposition: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GdgDetailAttributes",
+}) as any as S.Schema<GdgDetailAttributes>;
+export interface PoDetailAttributes {
+  format: string;
+  encoding: string;
+}
+export const PoDetailAttributes = S.suspend(() =>
+  S.Struct({ format: S.String, encoding: S.String }),
+).annotations({
+  identifier: "PoDetailAttributes",
+}) as any as S.Schema<PoDetailAttributes>;
+export interface PsDetailAttributes {
+  format: string;
+  encoding: string;
+}
+export const PsDetailAttributes = S.suspend(() =>
+  S.Struct({ format: S.String, encoding: S.String }),
+).annotations({
+  identifier: "PsDetailAttributes",
+}) as any as S.Schema<PsDetailAttributes>;
+export interface FileBatchJobDefinition {
+  fileName: string;
+  folderPath?: string;
+}
+export const FileBatchJobDefinition = S.suspend(() =>
+  S.Struct({ fileName: S.String, folderPath: S.optional(S.String) }),
+).annotations({
+  identifier: "FileBatchJobDefinition",
+}) as any as S.Schema<FileBatchJobDefinition>;
+export interface ScriptBatchJobDefinition {
+  scriptName: string;
+}
+export const ScriptBatchJobDefinition = S.suspend(() =>
+  S.Struct({ scriptName: S.String }),
+).annotations({
+  identifier: "ScriptBatchJobDefinition",
+}) as any as S.Schema<ScriptBatchJobDefinition>;
+export interface MaintenanceSchedule {
+  startTime?: Date;
+  endTime?: Date;
+}
+export const MaintenanceSchedule = S.suspend(() =>
+  S.Struct({
+    startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "MaintenanceSchedule",
+}) as any as S.Schema<MaintenanceSchedule>;
+export interface RecordLength {
+  min: number;
+  max: number;
+}
+export const RecordLength = S.suspend(() =>
+  S.Struct({ min: S.Number, max: S.Number }),
+).annotations({ identifier: "RecordLength" }) as any as S.Schema<RecordLength>;
 export const DataSetExportConfig = S.Union(
   S.Struct({ s3Location: S.String }),
   S.Struct({ dataSets: DataSetExportList }),
 );
+export type String20List = string[];
 export const String20List = S.Array(S.String);
 export const BatchJobDefinition = S.Union(
   S.Struct({ fileBatchJobDefinition: FileBatchJobDefinition }),
   S.Struct({ scriptBatchJobDefinition: ScriptBatchJobDefinition }),
 );
+export type BatchJobDefinitions = (typeof BatchJobDefinition)["Type"][];
 export const BatchJobDefinitions = S.Array(BatchJobDefinition);
-export class PendingMaintenance extends S.Class<PendingMaintenance>(
-  "PendingMaintenance",
-)({
-  schedule: S.optional(MaintenanceSchedule),
-  engineVersion: S.optional(S.String),
-}) {}
-export class PrimaryKey extends S.Class<PrimaryKey>("PrimaryKey")({
-  name: S.optional(S.String),
-  offset: S.Number,
-  length: S.Number,
-}) {}
-export class AlternateKey extends S.Class<AlternateKey>("AlternateKey")({
-  name: S.optional(S.String),
-  offset: S.Number,
-  length: S.Number,
-  allowDuplicates: S.optional(S.Boolean),
-}) {}
+export interface PendingMaintenance {
+  schedule?: MaintenanceSchedule;
+  engineVersion?: string;
+}
+export const PendingMaintenance = S.suspend(() =>
+  S.Struct({
+    schedule: S.optional(MaintenanceSchedule),
+    engineVersion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "PendingMaintenance",
+}) as any as S.Schema<PendingMaintenance>;
+export interface PrimaryKey {
+  name?: string;
+  offset: number;
+  length: number;
+}
+export const PrimaryKey = S.suspend(() =>
+  S.Struct({ name: S.optional(S.String), offset: S.Number, length: S.Number }),
+).annotations({ identifier: "PrimaryKey" }) as any as S.Schema<PrimaryKey>;
+export interface AlternateKey {
+  name?: string;
+  offset: number;
+  length: number;
+  allowDuplicates?: boolean;
+}
+export const AlternateKey = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    offset: S.Number,
+    length: S.Number,
+    allowDuplicates: S.optional(S.Boolean),
+  }),
+).annotations({ identifier: "AlternateKey" }) as any as S.Schema<AlternateKey>;
+export type AlternateKeyList = AlternateKey[];
 export const AlternateKeyList = S.Array(AlternateKey);
-export class CreateDataSetExportTaskRequest extends S.Class<CreateDataSetExportTaskRequest>(
-  "CreateDataSetExportTaskRequest",
-)(
-  {
+export interface CreateDataSetExportTaskRequest {
+  applicationId: string;
+  exportConfig: (typeof DataSetExportConfig)["Type"];
+  clientToken?: string;
+  kmsKeyId?: string;
+}
+export const CreateDataSetExportTaskRequest = S.suspend(() =>
+  S.Struct({
     applicationId: S.String.pipe(T.HttpLabel("applicationId")),
     exportConfig: DataSetExportConfig,
     clientToken: S.optional(S.String),
     kmsKeyId: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/applications/{applicationId}/dataset-export-task",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/applications/{applicationId}/dataset-export-task",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class VsamAttributes extends S.Class<VsamAttributes>("VsamAttributes")({
-  format: S.String,
-  encoding: S.optional(S.String),
-  compressed: S.optional(S.Boolean),
-  primaryKey: S.optional(PrimaryKey),
-  alternateKeys: S.optional(AlternateKeyList),
-}) {}
-export class GdgAttributes extends S.Class<GdgAttributes>("GdgAttributes")({
-  limit: S.optional(S.Number),
-  rollDisposition: S.optional(S.String),
-}) {}
-export class PoAttributes extends S.Class<PoAttributes>("PoAttributes")({
-  format: S.String,
-  encoding: S.optional(S.String),
-  memberFileExtensions: String20List,
-}) {}
-export class PsAttributes extends S.Class<PsAttributes>("PsAttributes")({
-  format: S.String,
-  encoding: S.optional(S.String),
-}) {}
-export class ListBatchJobDefinitionsResponse extends S.Class<ListBatchJobDefinitionsResponse>(
-  "ListBatchJobDefinitionsResponse",
-)({
-  batchJobDefinitions: BatchJobDefinitions,
-  nextToken: S.optional(S.String),
-}) {}
-export class StartBatchJobRequest extends S.Class<StartBatchJobRequest>(
-  "StartBatchJobRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateDataSetExportTaskRequest",
+}) as any as S.Schema<CreateDataSetExportTaskRequest>;
+export interface VsamAttributes {
+  format: string;
+  encoding?: string;
+  compressed?: boolean;
+  primaryKey?: PrimaryKey;
+  alternateKeys?: AlternateKeyList;
+}
+export const VsamAttributes = S.suspend(() =>
+  S.Struct({
+    format: S.String,
+    encoding: S.optional(S.String),
+    compressed: S.optional(S.Boolean),
+    primaryKey: S.optional(PrimaryKey),
+    alternateKeys: S.optional(AlternateKeyList),
+  }),
+).annotations({
+  identifier: "VsamAttributes",
+}) as any as S.Schema<VsamAttributes>;
+export interface GdgAttributes {
+  limit?: number;
+  rollDisposition?: string;
+}
+export const GdgAttributes = S.suspend(() =>
+  S.Struct({
+    limit: S.optional(S.Number),
+    rollDisposition: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GdgAttributes",
+}) as any as S.Schema<GdgAttributes>;
+export interface PoAttributes {
+  format: string;
+  encoding?: string;
+  memberFileExtensions: String20List;
+}
+export const PoAttributes = S.suspend(() =>
+  S.Struct({
+    format: S.String,
+    encoding: S.optional(S.String),
+    memberFileExtensions: String20List,
+  }),
+).annotations({ identifier: "PoAttributes" }) as any as S.Schema<PoAttributes>;
+export interface PsAttributes {
+  format: string;
+  encoding?: string;
+}
+export const PsAttributes = S.suspend(() =>
+  S.Struct({ format: S.String, encoding: S.optional(S.String) }),
+).annotations({ identifier: "PsAttributes" }) as any as S.Schema<PsAttributes>;
+export interface ListBatchJobDefinitionsResponse {
+  batchJobDefinitions: BatchJobDefinitions;
+  nextToken?: string;
+}
+export const ListBatchJobDefinitionsResponse = S.suspend(() =>
+  S.Struct({
+    batchJobDefinitions: BatchJobDefinitions,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListBatchJobDefinitionsResponse",
+}) as any as S.Schema<ListBatchJobDefinitionsResponse>;
+export interface StartBatchJobRequest {
+  applicationId: string;
+  batchJobIdentifier: (typeof BatchJobIdentifier)["Type"];
+  jobParams?: BatchJobParametersMap;
+  authSecretsManagerArn?: string;
+}
+export const StartBatchJobRequest = S.suspend(() =>
+  S.Struct({
     applicationId: S.String.pipe(T.HttpLabel("applicationId")),
     batchJobIdentifier: BatchJobIdentifier,
     jobParams: S.optional(BatchJobParametersMap),
     authSecretsManagerArn: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/applications/{applicationId}/batch-job" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/applications/{applicationId}/batch-job",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateEnvironmentResponse extends S.Class<CreateEnvironmentResponse>(
-  "CreateEnvironmentResponse",
-)({ environmentId: S.String }) {}
-export class GetEnvironmentResponse extends S.Class<GetEnvironmentResponse>(
-  "GetEnvironmentResponse",
-)({
-  name: S.String,
-  description: S.optional(S.String),
-  environmentArn: S.String,
-  environmentId: S.String,
-  instanceType: S.String,
-  status: S.String,
-  engineType: S.String,
-  engineVersion: S.String,
-  vpcId: S.String,
-  subnetIds: String50List,
-  securityGroupIds: String50List,
-  creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  storageConfigurations: S.optional(StorageConfigurationList),
-  tags: S.optional(TagMap),
-  highAvailabilityConfig: S.optional(HighAvailabilityConfig),
-  publiclyAccessible: S.optional(S.Boolean),
-  actualCapacity: S.optional(S.Number),
-  loadBalancerArn: S.optional(S.String),
-  statusReason: S.optional(S.String),
-  preferredMaintenanceWindow: S.optional(S.String),
-  pendingMaintenance: S.optional(PendingMaintenance),
-  kmsKeyId: S.optional(S.String),
-  networkType: S.optional(S.String),
-}) {}
-export class VsamDetailAttributes extends S.Class<VsamDetailAttributes>(
-  "VsamDetailAttributes",
-)({
-  encoding: S.optional(S.String),
-  recordFormat: S.optional(S.String),
-  compressed: S.optional(S.Boolean),
-  cacheAtStartup: S.optional(S.Boolean),
-  primaryKey: S.optional(PrimaryKey),
-  alternateKeys: S.optional(AlternateKeyList),
-}) {}
+).annotations({
+  identifier: "StartBatchJobRequest",
+}) as any as S.Schema<StartBatchJobRequest>;
+export interface CreateEnvironmentResponse {
+  environmentId: string;
+}
+export const CreateEnvironmentResponse = S.suspend(() =>
+  S.Struct({ environmentId: S.String }),
+).annotations({
+  identifier: "CreateEnvironmentResponse",
+}) as any as S.Schema<CreateEnvironmentResponse>;
+export interface GetEnvironmentResponse {
+  name: string;
+  description?: string;
+  environmentArn: string;
+  environmentId: string;
+  instanceType: string;
+  status: string;
+  engineType: string;
+  engineVersion: string;
+  vpcId: string;
+  subnetIds: String50List;
+  securityGroupIds: String50List;
+  creationTime: Date;
+  storageConfigurations?: StorageConfigurationList;
+  tags?: TagMap;
+  highAvailabilityConfig?: HighAvailabilityConfig;
+  publiclyAccessible?: boolean;
+  actualCapacity?: number;
+  loadBalancerArn?: string;
+  statusReason?: string;
+  preferredMaintenanceWindow?: string;
+  pendingMaintenance?: PendingMaintenance;
+  kmsKeyId?: string;
+  networkType?: string;
+}
+export const GetEnvironmentResponse = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    description: S.optional(S.String),
+    environmentArn: S.String,
+    environmentId: S.String,
+    instanceType: S.String,
+    status: S.String,
+    engineType: S.String,
+    engineVersion: S.String,
+    vpcId: S.String,
+    subnetIds: String50List,
+    securityGroupIds: String50List,
+    creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    storageConfigurations: S.optional(StorageConfigurationList),
+    tags: S.optional(TagMap),
+    highAvailabilityConfig: S.optional(HighAvailabilityConfig),
+    publiclyAccessible: S.optional(S.Boolean),
+    actualCapacity: S.optional(S.Number),
+    loadBalancerArn: S.optional(S.String),
+    statusReason: S.optional(S.String),
+    preferredMaintenanceWindow: S.optional(S.String),
+    pendingMaintenance: S.optional(PendingMaintenance),
+    kmsKeyId: S.optional(S.String),
+    networkType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetEnvironmentResponse",
+}) as any as S.Schema<GetEnvironmentResponse>;
+export interface VsamDetailAttributes {
+  encoding?: string;
+  recordFormat?: string;
+  compressed?: boolean;
+  cacheAtStartup?: boolean;
+  primaryKey?: PrimaryKey;
+  alternateKeys?: AlternateKeyList;
+}
+export const VsamDetailAttributes = S.suspend(() =>
+  S.Struct({
+    encoding: S.optional(S.String),
+    recordFormat: S.optional(S.String),
+    compressed: S.optional(S.Boolean),
+    cacheAtStartup: S.optional(S.Boolean),
+    primaryKey: S.optional(PrimaryKey),
+    alternateKeys: S.optional(AlternateKeyList),
+  }),
+).annotations({
+  identifier: "VsamDetailAttributes",
+}) as any as S.Schema<VsamDetailAttributes>;
 export const DatasetOrgAttributes = S.Union(
   S.Struct({ vsam: VsamAttributes }),
   S.Struct({ gdg: GdgAttributes }),
@@ -1413,69 +2205,128 @@ export const DatasetDetailOrgAttributes = S.Union(
   S.Struct({ po: PoDetailAttributes }),
   S.Struct({ ps: PsDetailAttributes }),
 );
-export class DataSet extends S.Class<DataSet>("DataSet")({
-  storageType: S.optional(S.String),
-  datasetName: S.String,
-  datasetOrg: DatasetOrgAttributes,
-  relativePath: S.optional(S.String),
-  recordLength: RecordLength,
-}) {}
-export class CreateDataSetExportTaskResponse extends S.Class<CreateDataSetExportTaskResponse>(
-  "CreateDataSetExportTaskResponse",
-)({ taskId: S.String }) {}
-export class GetDataSetDetailsResponse extends S.Class<GetDataSetDetailsResponse>(
-  "GetDataSetDetailsResponse",
-)({
-  dataSetName: S.String,
-  dataSetOrg: S.optional(DatasetDetailOrgAttributes),
-  recordLength: S.optional(S.Number),
-  location: S.optional(S.String),
-  blocksize: S.optional(S.Number),
-  creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastReferencedTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  fileSize: S.optional(S.Number),
-}) {}
-export class StartBatchJobResponse extends S.Class<StartBatchJobResponse>(
-  "StartBatchJobResponse",
-)({ executionId: S.String }) {}
-export class DataSetImportItem extends S.Class<DataSetImportItem>(
-  "DataSetImportItem",
-)({ dataSet: DataSet, externalLocation: ExternalLocation }) {}
+export interface DataSet {
+  storageType?: string;
+  datasetName: string;
+  datasetOrg: (typeof DatasetOrgAttributes)["Type"];
+  relativePath?: string;
+  recordLength: RecordLength;
+}
+export const DataSet = S.suspend(() =>
+  S.Struct({
+    storageType: S.optional(S.String),
+    datasetName: S.String,
+    datasetOrg: DatasetOrgAttributes,
+    relativePath: S.optional(S.String),
+    recordLength: RecordLength,
+  }),
+).annotations({ identifier: "DataSet" }) as any as S.Schema<DataSet>;
+export interface CreateDataSetExportTaskResponse {
+  taskId: string;
+}
+export const CreateDataSetExportTaskResponse = S.suspend(() =>
+  S.Struct({ taskId: S.String }),
+).annotations({
+  identifier: "CreateDataSetExportTaskResponse",
+}) as any as S.Schema<CreateDataSetExportTaskResponse>;
+export interface GetDataSetDetailsResponse {
+  dataSetName: string;
+  dataSetOrg?: (typeof DatasetDetailOrgAttributes)["Type"];
+  recordLength?: number;
+  location?: string;
+  blocksize?: number;
+  creationTime?: Date;
+  lastUpdatedTime?: Date;
+  lastReferencedTime?: Date;
+  fileSize?: number;
+}
+export const GetDataSetDetailsResponse = S.suspend(() =>
+  S.Struct({
+    dataSetName: S.String,
+    dataSetOrg: S.optional(DatasetDetailOrgAttributes),
+    recordLength: S.optional(S.Number),
+    location: S.optional(S.String),
+    blocksize: S.optional(S.Number),
+    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdatedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    lastReferencedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    fileSize: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "GetDataSetDetailsResponse",
+}) as any as S.Schema<GetDataSetDetailsResponse>;
+export interface StartBatchJobResponse {
+  executionId: string;
+}
+export const StartBatchJobResponse = S.suspend(() =>
+  S.Struct({ executionId: S.String }),
+).annotations({
+  identifier: "StartBatchJobResponse",
+}) as any as S.Schema<StartBatchJobResponse>;
+export interface DataSetImportItem {
+  dataSet: DataSet;
+  externalLocation: (typeof ExternalLocation)["Type"];
+}
+export const DataSetImportItem = S.suspend(() =>
+  S.Struct({ dataSet: DataSet, externalLocation: ExternalLocation }),
+).annotations({
+  identifier: "DataSetImportItem",
+}) as any as S.Schema<DataSetImportItem>;
+export type DataSetImportList = DataSetImportItem[];
 export const DataSetImportList = S.Array(DataSetImportItem);
-export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
-  "ValidationExceptionField",
-)({ name: S.String, message: S.String }) {}
+export interface ValidationExceptionField {
+  name: string;
+  message: string;
+}
+export const ValidationExceptionField = S.suspend(() =>
+  S.Struct({ name: S.String, message: S.String }),
+).annotations({
+  identifier: "ValidationExceptionField",
+}) as any as S.Schema<ValidationExceptionField>;
+export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export const DataSetImportConfig = S.Union(
   S.Struct({ s3Location: S.String }),
   S.Struct({ dataSets: DataSetImportList }),
 );
-export class CreateDataSetImportTaskRequest extends S.Class<CreateDataSetImportTaskRequest>(
-  "CreateDataSetImportTaskRequest",
-)(
-  {
+export interface CreateDataSetImportTaskRequest {
+  applicationId: string;
+  importConfig: (typeof DataSetImportConfig)["Type"];
+  clientToken?: string;
+}
+export const CreateDataSetImportTaskRequest = S.suspend(() =>
+  S.Struct({
     applicationId: S.String.pipe(T.HttpLabel("applicationId")),
     importConfig: DataSetImportConfig,
     clientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/applications/{applicationId}/dataset-import-task",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/applications/{applicationId}/dataset-import-task",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateDataSetImportTaskResponse extends S.Class<CreateDataSetImportTaskResponse>(
-  "CreateDataSetImportTaskResponse",
-)({ taskId: S.String }) {}
+).annotations({
+  identifier: "CreateDataSetImportTaskRequest",
+}) as any as S.Schema<CreateDataSetImportTaskRequest>;
+export interface CreateDataSetImportTaskResponse {
+  taskId: string;
+}
+export const CreateDataSetImportTaskResponse = S.suspend(() =>
+  S.Struct({ taskId: S.String }),
+).annotations({
+  identifier: "CreateDataSetImportTaskResponse",
+}) as any as S.Schema<CreateDataSetImportTaskResponse>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

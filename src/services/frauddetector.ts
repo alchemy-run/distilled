@@ -243,66 +243,155 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class GetKMSEncryptionKeyRequest extends S.Class<GetKMSEncryptionKeyRequest>(
-  "GetKMSEncryptionKeyRequest",
-)(
-  {},
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+export interface GetKMSEncryptionKeyRequest {}
+export const GetKMSEncryptionKeyRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetKMSEncryptionKeyRequest",
+}) as any as S.Schema<GetKMSEncryptionKeyRequest>;
+export type NameList = string[];
 export const NameList = S.Array(S.String);
+export type ListOfStrings = string[];
 export const ListOfStrings = S.Array(S.String);
+export type ElementsList = string[];
 export const ElementsList = S.Array(S.String);
+export type NonEmptyListOfStrings = string[];
 export const NonEmptyListOfStrings = S.Array(S.String);
+export type tagKeyList = string[];
 export const tagKeyList = S.Array(S.String);
-export class BatchGetVariableRequest extends S.Class<BatchGetVariableRequest>(
-  "BatchGetVariableRequest",
-)(
-  { names: NameList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CancelBatchImportJobRequest extends S.Class<CancelBatchImportJobRequest>(
-  "CancelBatchImportJobRequest",
-)(
-  { jobId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CancelBatchImportJobResult extends S.Class<CancelBatchImportJobResult>(
-  "CancelBatchImportJobResult",
-)({}, ns) {}
-export class CancelBatchPredictionJobRequest extends S.Class<CancelBatchPredictionJobRequest>(
-  "CancelBatchPredictionJobRequest",
-)(
-  { jobId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CancelBatchPredictionJobResult extends S.Class<CancelBatchPredictionJobResult>(
-  "CancelBatchPredictionJobResult",
-)({}, ns) {}
-export class Tag extends S.Class<Tag>("Tag")({
-  key: S.String,
-  value: S.String,
-}) {}
+export interface BatchGetVariableRequest {
+  names: NameList;
+}
+export const BatchGetVariableRequest = S.suspend(() =>
+  S.Struct({ names: NameList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "BatchGetVariableRequest",
+}) as any as S.Schema<BatchGetVariableRequest>;
+export interface CancelBatchImportJobRequest {
+  jobId: string;
+}
+export const CancelBatchImportJobRequest = S.suspend(() =>
+  S.Struct({ jobId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CancelBatchImportJobRequest",
+}) as any as S.Schema<CancelBatchImportJobRequest>;
+export interface CancelBatchImportJobResult {}
+export const CancelBatchImportJobResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "CancelBatchImportJobResult",
+}) as any as S.Schema<CancelBatchImportJobResult>;
+export interface CancelBatchPredictionJobRequest {
+  jobId: string;
+}
+export const CancelBatchPredictionJobRequest = S.suspend(() =>
+  S.Struct({ jobId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CancelBatchPredictionJobRequest",
+}) as any as S.Schema<CancelBatchPredictionJobRequest>;
+export interface CancelBatchPredictionJobResult {}
+export const CancelBatchPredictionJobResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "CancelBatchPredictionJobResult",
+}) as any as S.Schema<CancelBatchPredictionJobResult>;
+export interface Tag {
+  key: string;
+  value: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ key: S.String, value: S.String }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type tagList = Tag[];
 export const tagList = S.Array(Tag);
-export class CreateBatchImportJobRequest extends S.Class<CreateBatchImportJobRequest>(
-  "CreateBatchImportJobRequest",
-)(
-  {
+export interface CreateBatchImportJobRequest {
+  jobId: string;
+  inputPath: string;
+  outputPath: string;
+  eventTypeName: string;
+  iamRoleArn: string;
+  tags?: tagList;
+}
+export const CreateBatchImportJobRequest = S.suspend(() =>
+  S.Struct({
     jobId: S.String,
     inputPath: S.String,
     outputPath: S.String,
     eventTypeName: S.String,
     iamRoleArn: S.String,
     tags: S.optional(tagList),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateBatchImportJobResult extends S.Class<CreateBatchImportJobResult>(
-  "CreateBatchImportJobResult",
-)({}, ns) {}
-export class CreateBatchPredictionJobRequest extends S.Class<CreateBatchPredictionJobRequest>(
-  "CreateBatchPredictionJobRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateBatchImportJobRequest",
+}) as any as S.Schema<CreateBatchImportJobRequest>;
+export interface CreateBatchImportJobResult {}
+export const CreateBatchImportJobResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "CreateBatchImportJobResult",
+}) as any as S.Schema<CreateBatchImportJobResult>;
+export interface CreateBatchPredictionJobRequest {
+  jobId: string;
+  inputPath: string;
+  outputPath: string;
+  eventTypeName: string;
+  detectorName: string;
+  detectorVersion?: string;
+  iamRoleArn: string;
+  tags?: tagList;
+}
+export const CreateBatchPredictionJobRequest = S.suspend(() =>
+  S.Struct({
     jobId: S.String,
     inputPath: S.String,
     outputPath: S.String,
@@ -311,46 +400,105 @@ export class CreateBatchPredictionJobRequest extends S.Class<CreateBatchPredicti
     detectorVersion: S.optional(S.String),
     iamRoleArn: S.String,
     tags: S.optional(tagList),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateBatchPredictionJobResult extends S.Class<CreateBatchPredictionJobResult>(
-  "CreateBatchPredictionJobResult",
-)({}, ns) {}
-export class CreateListRequest extends S.Class<CreateListRequest>(
-  "CreateListRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateBatchPredictionJobRequest",
+}) as any as S.Schema<CreateBatchPredictionJobRequest>;
+export interface CreateBatchPredictionJobResult {}
+export const CreateBatchPredictionJobResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "CreateBatchPredictionJobResult",
+}) as any as S.Schema<CreateBatchPredictionJobResult>;
+export interface CreateListRequest {
+  name: string;
+  elements?: ElementsList;
+  variableType?: string;
+  description?: string;
+  tags?: tagList;
+}
+export const CreateListRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     elements: S.optional(ElementsList),
     variableType: S.optional(S.String),
     description: S.optional(S.String),
     tags: S.optional(tagList),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateListResult extends S.Class<CreateListResult>(
-  "CreateListResult",
-)({}, ns) {}
-export class CreateModelRequest extends S.Class<CreateModelRequest>(
-  "CreateModelRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateListRequest",
+}) as any as S.Schema<CreateListRequest>;
+export interface CreateListResult {}
+export const CreateListResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "CreateListResult",
+}) as any as S.Schema<CreateListResult>;
+export interface CreateModelRequest {
+  modelId: string;
+  modelType: string;
+  description?: string;
+  eventTypeName: string;
+  tags?: tagList;
+}
+export const CreateModelRequest = S.suspend(() =>
+  S.Struct({
     modelId: S.String,
     modelType: S.String,
     description: S.optional(S.String),
     eventTypeName: S.String,
     tags: S.optional(tagList),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateModelResult extends S.Class<CreateModelResult>(
-  "CreateModelResult",
-)({}, ns) {}
-export class CreateRuleRequest extends S.Class<CreateRuleRequest>(
-  "CreateRuleRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateModelRequest",
+}) as any as S.Schema<CreateModelRequest>;
+export interface CreateModelResult {}
+export const CreateModelResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "CreateModelResult",
+}) as any as S.Schema<CreateModelResult>;
+export interface CreateRuleRequest {
+  ruleId: string;
+  detectorId: string;
+  description?: string;
+  expression: string;
+  language: string;
+  outcomes: NonEmptyListOfStrings;
+  tags?: tagList;
+}
+export const CreateRuleRequest = S.suspend(() =>
+  S.Struct({
     ruleId: S.String,
     detectorId: S.String,
     description: S.optional(S.String),
@@ -358,13 +506,31 @@ export class CreateRuleRequest extends S.Class<CreateRuleRequest>(
     language: S.String,
     outcomes: NonEmptyListOfStrings,
     tags: S.optional(tagList),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateVariableRequest extends S.Class<CreateVariableRequest>(
-  "CreateVariableRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateRuleRequest",
+}) as any as S.Schema<CreateRuleRequest>;
+export interface CreateVariableRequest {
+  name: string;
+  dataType: string;
+  dataSource: string;
+  defaultValue: string;
+  description?: string;
+  variableType?: string;
+  tags?: tagList;
+}
+export const CreateVariableRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     dataType: S.String,
     dataSource: S.String,
@@ -372,436 +538,1096 @@ export class CreateVariableRequest extends S.Class<CreateVariableRequest>(
     description: S.optional(S.String),
     variableType: S.optional(S.String),
     tags: S.optional(tagList),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateVariableResult extends S.Class<CreateVariableResult>(
-  "CreateVariableResult",
-)({}, ns) {}
-export class DeleteBatchImportJobRequest extends S.Class<DeleteBatchImportJobRequest>(
-  "DeleteBatchImportJobRequest",
-)(
-  { jobId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteBatchImportJobResult extends S.Class<DeleteBatchImportJobResult>(
-  "DeleteBatchImportJobResult",
-)({}, ns) {}
-export class DeleteBatchPredictionJobRequest extends S.Class<DeleteBatchPredictionJobRequest>(
-  "DeleteBatchPredictionJobRequest",
-)(
-  { jobId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteBatchPredictionJobResult extends S.Class<DeleteBatchPredictionJobResult>(
-  "DeleteBatchPredictionJobResult",
-)({}, ns) {}
-export class DeleteDetectorRequest extends S.Class<DeleteDetectorRequest>(
-  "DeleteDetectorRequest",
-)(
-  { detectorId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteDetectorResult extends S.Class<DeleteDetectorResult>(
-  "DeleteDetectorResult",
-)({}, ns) {}
-export class DeleteDetectorVersionRequest extends S.Class<DeleteDetectorVersionRequest>(
-  "DeleteDetectorVersionRequest",
-)(
-  { detectorId: S.String, detectorVersionId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteDetectorVersionResult extends S.Class<DeleteDetectorVersionResult>(
-  "DeleteDetectorVersionResult",
-)({}, ns) {}
-export class DeleteEntityTypeRequest extends S.Class<DeleteEntityTypeRequest>(
-  "DeleteEntityTypeRequest",
-)(
-  { name: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteEntityTypeResult extends S.Class<DeleteEntityTypeResult>(
-  "DeleteEntityTypeResult",
-)({}, ns) {}
-export class DeleteEventRequest extends S.Class<DeleteEventRequest>(
-  "DeleteEventRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateVariableRequest",
+}) as any as S.Schema<CreateVariableRequest>;
+export interface CreateVariableResult {}
+export const CreateVariableResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "CreateVariableResult",
+}) as any as S.Schema<CreateVariableResult>;
+export interface DeleteBatchImportJobRequest {
+  jobId: string;
+}
+export const DeleteBatchImportJobRequest = S.suspend(() =>
+  S.Struct({ jobId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteBatchImportJobRequest",
+}) as any as S.Schema<DeleteBatchImportJobRequest>;
+export interface DeleteBatchImportJobResult {}
+export const DeleteBatchImportJobResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteBatchImportJobResult",
+}) as any as S.Schema<DeleteBatchImportJobResult>;
+export interface DeleteBatchPredictionJobRequest {
+  jobId: string;
+}
+export const DeleteBatchPredictionJobRequest = S.suspend(() =>
+  S.Struct({ jobId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteBatchPredictionJobRequest",
+}) as any as S.Schema<DeleteBatchPredictionJobRequest>;
+export interface DeleteBatchPredictionJobResult {}
+export const DeleteBatchPredictionJobResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteBatchPredictionJobResult",
+}) as any as S.Schema<DeleteBatchPredictionJobResult>;
+export interface DeleteDetectorRequest {
+  detectorId: string;
+}
+export const DeleteDetectorRequest = S.suspend(() =>
+  S.Struct({ detectorId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteDetectorRequest",
+}) as any as S.Schema<DeleteDetectorRequest>;
+export interface DeleteDetectorResult {}
+export const DeleteDetectorResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteDetectorResult",
+}) as any as S.Schema<DeleteDetectorResult>;
+export interface DeleteDetectorVersionRequest {
+  detectorId: string;
+  detectorVersionId: string;
+}
+export const DeleteDetectorVersionRequest = S.suspend(() =>
+  S.Struct({ detectorId: S.String, detectorVersionId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteDetectorVersionRequest",
+}) as any as S.Schema<DeleteDetectorVersionRequest>;
+export interface DeleteDetectorVersionResult {}
+export const DeleteDetectorVersionResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteDetectorVersionResult",
+}) as any as S.Schema<DeleteDetectorVersionResult>;
+export interface DeleteEntityTypeRequest {
+  name: string;
+}
+export const DeleteEntityTypeRequest = S.suspend(() =>
+  S.Struct({ name: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteEntityTypeRequest",
+}) as any as S.Schema<DeleteEntityTypeRequest>;
+export interface DeleteEntityTypeResult {}
+export const DeleteEntityTypeResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteEntityTypeResult",
+}) as any as S.Schema<DeleteEntityTypeResult>;
+export interface DeleteEventRequest {
+  eventId: string;
+  eventTypeName: string;
+  deleteAuditHistory?: boolean;
+}
+export const DeleteEventRequest = S.suspend(() =>
+  S.Struct({
     eventId: S.String,
     eventTypeName: S.String,
     deleteAuditHistory: S.optional(S.Boolean),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteEventResult extends S.Class<DeleteEventResult>(
-  "DeleteEventResult",
-)({}, ns) {}
-export class DeleteEventsByEventTypeRequest extends S.Class<DeleteEventsByEventTypeRequest>(
-  "DeleteEventsByEventTypeRequest",
-)(
-  { eventTypeName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteEventTypeRequest extends S.Class<DeleteEventTypeRequest>(
-  "DeleteEventTypeRequest",
-)(
-  { name: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteEventTypeResult extends S.Class<DeleteEventTypeResult>(
-  "DeleteEventTypeResult",
-)({}, ns) {}
-export class DeleteExternalModelRequest extends S.Class<DeleteExternalModelRequest>(
-  "DeleteExternalModelRequest",
-)(
-  { modelEndpoint: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteExternalModelResult extends S.Class<DeleteExternalModelResult>(
-  "DeleteExternalModelResult",
-)({}, ns) {}
-export class DeleteLabelRequest extends S.Class<DeleteLabelRequest>(
-  "DeleteLabelRequest",
-)(
-  { name: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteLabelResult extends S.Class<DeleteLabelResult>(
-  "DeleteLabelResult",
-)({}, ns) {}
-export class DeleteListRequest extends S.Class<DeleteListRequest>(
-  "DeleteListRequest",
-)(
-  { name: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteListResult extends S.Class<DeleteListResult>(
-  "DeleteListResult",
-)({}, ns) {}
-export class DeleteModelRequest extends S.Class<DeleteModelRequest>(
-  "DeleteModelRequest",
-)(
-  { modelId: S.String, modelType: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteModelResult extends S.Class<DeleteModelResult>(
-  "DeleteModelResult",
-)({}, ns) {}
-export class DeleteModelVersionRequest extends S.Class<DeleteModelVersionRequest>(
-  "DeleteModelVersionRequest",
-)(
-  { modelId: S.String, modelType: S.String, modelVersionNumber: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteModelVersionResult extends S.Class<DeleteModelVersionResult>(
-  "DeleteModelVersionResult",
-)({}, ns) {}
-export class DeleteOutcomeRequest extends S.Class<DeleteOutcomeRequest>(
-  "DeleteOutcomeRequest",
-)(
-  { name: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteOutcomeResult extends S.Class<DeleteOutcomeResult>(
-  "DeleteOutcomeResult",
-)({}, ns) {}
-export class Rule extends S.Class<Rule>("Rule")({
-  detectorId: S.String,
-  ruleId: S.String,
-  ruleVersion: S.String,
-}) {}
-export class DeleteRuleRequest extends S.Class<DeleteRuleRequest>(
-  "DeleteRuleRequest",
-)(
-  { rule: Rule },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteRuleResult extends S.Class<DeleteRuleResult>(
-  "DeleteRuleResult",
-)({}, ns) {}
-export class DeleteVariableRequest extends S.Class<DeleteVariableRequest>(
-  "DeleteVariableRequest",
-)(
-  { name: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteVariableResult extends S.Class<DeleteVariableResult>(
-  "DeleteVariableResult",
-)({}, ns) {}
-export class DescribeDetectorRequest extends S.Class<DescribeDetectorRequest>(
-  "DescribeDetectorRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteEventRequest",
+}) as any as S.Schema<DeleteEventRequest>;
+export interface DeleteEventResult {}
+export const DeleteEventResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteEventResult",
+}) as any as S.Schema<DeleteEventResult>;
+export interface DeleteEventsByEventTypeRequest {
+  eventTypeName: string;
+}
+export const DeleteEventsByEventTypeRequest = S.suspend(() =>
+  S.Struct({ eventTypeName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteEventsByEventTypeRequest",
+}) as any as S.Schema<DeleteEventsByEventTypeRequest>;
+export interface DeleteEventTypeRequest {
+  name: string;
+}
+export const DeleteEventTypeRequest = S.suspend(() =>
+  S.Struct({ name: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteEventTypeRequest",
+}) as any as S.Schema<DeleteEventTypeRequest>;
+export interface DeleteEventTypeResult {}
+export const DeleteEventTypeResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteEventTypeResult",
+}) as any as S.Schema<DeleteEventTypeResult>;
+export interface DeleteExternalModelRequest {
+  modelEndpoint: string;
+}
+export const DeleteExternalModelRequest = S.suspend(() =>
+  S.Struct({ modelEndpoint: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteExternalModelRequest",
+}) as any as S.Schema<DeleteExternalModelRequest>;
+export interface DeleteExternalModelResult {}
+export const DeleteExternalModelResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteExternalModelResult",
+}) as any as S.Schema<DeleteExternalModelResult>;
+export interface DeleteLabelRequest {
+  name: string;
+}
+export const DeleteLabelRequest = S.suspend(() =>
+  S.Struct({ name: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteLabelRequest",
+}) as any as S.Schema<DeleteLabelRequest>;
+export interface DeleteLabelResult {}
+export const DeleteLabelResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteLabelResult",
+}) as any as S.Schema<DeleteLabelResult>;
+export interface DeleteListRequest {
+  name: string;
+}
+export const DeleteListRequest = S.suspend(() =>
+  S.Struct({ name: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteListRequest",
+}) as any as S.Schema<DeleteListRequest>;
+export interface DeleteListResult {}
+export const DeleteListResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteListResult",
+}) as any as S.Schema<DeleteListResult>;
+export interface DeleteModelRequest {
+  modelId: string;
+  modelType: string;
+}
+export const DeleteModelRequest = S.suspend(() =>
+  S.Struct({ modelId: S.String, modelType: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteModelRequest",
+}) as any as S.Schema<DeleteModelRequest>;
+export interface DeleteModelResult {}
+export const DeleteModelResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteModelResult",
+}) as any as S.Schema<DeleteModelResult>;
+export interface DeleteModelVersionRequest {
+  modelId: string;
+  modelType: string;
+  modelVersionNumber: string;
+}
+export const DeleteModelVersionRequest = S.suspend(() =>
+  S.Struct({
+    modelId: S.String,
+    modelType: S.String,
+    modelVersionNumber: S.String,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteModelVersionRequest",
+}) as any as S.Schema<DeleteModelVersionRequest>;
+export interface DeleteModelVersionResult {}
+export const DeleteModelVersionResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteModelVersionResult",
+}) as any as S.Schema<DeleteModelVersionResult>;
+export interface DeleteOutcomeRequest {
+  name: string;
+}
+export const DeleteOutcomeRequest = S.suspend(() =>
+  S.Struct({ name: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteOutcomeRequest",
+}) as any as S.Schema<DeleteOutcomeRequest>;
+export interface DeleteOutcomeResult {}
+export const DeleteOutcomeResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteOutcomeResult",
+}) as any as S.Schema<DeleteOutcomeResult>;
+export interface Rule {
+  detectorId: string;
+  ruleId: string;
+  ruleVersion: string;
+}
+export const Rule = S.suspend(() =>
+  S.Struct({ detectorId: S.String, ruleId: S.String, ruleVersion: S.String }),
+).annotations({ identifier: "Rule" }) as any as S.Schema<Rule>;
+export interface DeleteRuleRequest {
+  rule: Rule;
+}
+export const DeleteRuleRequest = S.suspend(() =>
+  S.Struct({ rule: Rule }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteRuleRequest",
+}) as any as S.Schema<DeleteRuleRequest>;
+export interface DeleteRuleResult {}
+export const DeleteRuleResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteRuleResult",
+}) as any as S.Schema<DeleteRuleResult>;
+export interface DeleteVariableRequest {
+  name: string;
+}
+export const DeleteVariableRequest = S.suspend(() =>
+  S.Struct({ name: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteVariableRequest",
+}) as any as S.Schema<DeleteVariableRequest>;
+export interface DeleteVariableResult {}
+export const DeleteVariableResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteVariableResult",
+}) as any as S.Schema<DeleteVariableResult>;
+export interface DescribeDetectorRequest {
+  detectorId: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const DescribeDetectorRequest = S.suspend(() =>
+  S.Struct({
     detectorId: S.String,
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeModelVersionsRequest extends S.Class<DescribeModelVersionsRequest>(
-  "DescribeModelVersionsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeDetectorRequest",
+}) as any as S.Schema<DescribeDetectorRequest>;
+export interface DescribeModelVersionsRequest {
+  modelId?: string;
+  modelVersionNumber?: string;
+  modelType?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const DescribeModelVersionsRequest = S.suspend(() =>
+  S.Struct({
     modelId: S.optional(S.String),
     modelVersionNumber: S.optional(S.String),
     modelType: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetBatchImportJobsRequest extends S.Class<GetBatchImportJobsRequest>(
-  "GetBatchImportJobsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeModelVersionsRequest",
+}) as any as S.Schema<DescribeModelVersionsRequest>;
+export interface GetBatchImportJobsRequest {
+  jobId?: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const GetBatchImportJobsRequest = S.suspend(() =>
+  S.Struct({
     jobId: S.optional(S.String),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetBatchPredictionJobsRequest extends S.Class<GetBatchPredictionJobsRequest>(
-  "GetBatchPredictionJobsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetBatchImportJobsRequest",
+}) as any as S.Schema<GetBatchImportJobsRequest>;
+export interface GetBatchPredictionJobsRequest {
+  jobId?: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const GetBatchPredictionJobsRequest = S.suspend(() =>
+  S.Struct({
     jobId: S.optional(S.String),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetDeleteEventsByEventTypeStatusRequest extends S.Class<GetDeleteEventsByEventTypeStatusRequest>(
-  "GetDeleteEventsByEventTypeStatusRequest",
-)(
-  { eventTypeName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetDetectorsRequest extends S.Class<GetDetectorsRequest>(
-  "GetDetectorsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetBatchPredictionJobsRequest",
+}) as any as S.Schema<GetBatchPredictionJobsRequest>;
+export interface GetDeleteEventsByEventTypeStatusRequest {
+  eventTypeName: string;
+}
+export const GetDeleteEventsByEventTypeStatusRequest = S.suspend(() =>
+  S.Struct({ eventTypeName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetDeleteEventsByEventTypeStatusRequest",
+}) as any as S.Schema<GetDeleteEventsByEventTypeStatusRequest>;
+export interface GetDetectorsRequest {
+  detectorId?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const GetDetectorsRequest = S.suspend(() =>
+  S.Struct({
     detectorId: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetDetectorVersionRequest extends S.Class<GetDetectorVersionRequest>(
-  "GetDetectorVersionRequest",
-)(
-  { detectorId: S.String, detectorVersionId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetEntityTypesRequest extends S.Class<GetEntityTypesRequest>(
-  "GetEntityTypesRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetDetectorsRequest",
+}) as any as S.Schema<GetDetectorsRequest>;
+export interface GetDetectorVersionRequest {
+  detectorId: string;
+  detectorVersionId: string;
+}
+export const GetDetectorVersionRequest = S.suspend(() =>
+  S.Struct({ detectorId: S.String, detectorVersionId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetDetectorVersionRequest",
+}) as any as S.Schema<GetDetectorVersionRequest>;
+export interface GetEntityTypesRequest {
+  name?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const GetEntityTypesRequest = S.suspend(() =>
+  S.Struct({
     name: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetEventRequest extends S.Class<GetEventRequest>(
-  "GetEventRequest",
-)(
-  { eventId: S.String, eventTypeName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetEventPredictionMetadataRequest extends S.Class<GetEventPredictionMetadataRequest>(
-  "GetEventPredictionMetadataRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetEntityTypesRequest",
+}) as any as S.Schema<GetEntityTypesRequest>;
+export interface GetEventRequest {
+  eventId: string;
+  eventTypeName: string;
+}
+export const GetEventRequest = S.suspend(() =>
+  S.Struct({ eventId: S.String, eventTypeName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetEventRequest",
+}) as any as S.Schema<GetEventRequest>;
+export interface GetEventPredictionMetadataRequest {
+  eventId: string;
+  eventTypeName: string;
+  detectorId: string;
+  detectorVersionId: string;
+  predictionTimestamp: string;
+}
+export const GetEventPredictionMetadataRequest = S.suspend(() =>
+  S.Struct({
     eventId: S.String,
     eventTypeName: S.String,
     detectorId: S.String,
     detectorVersionId: S.String,
     predictionTimestamp: S.String,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetEventTypesRequest extends S.Class<GetEventTypesRequest>(
-  "GetEventTypesRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetEventPredictionMetadataRequest",
+}) as any as S.Schema<GetEventPredictionMetadataRequest>;
+export interface GetEventTypesRequest {
+  name?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const GetEventTypesRequest = S.suspend(() =>
+  S.Struct({
     name: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetExternalModelsRequest extends S.Class<GetExternalModelsRequest>(
-  "GetExternalModelsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetEventTypesRequest",
+}) as any as S.Schema<GetEventTypesRequest>;
+export interface GetExternalModelsRequest {
+  modelEndpoint?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const GetExternalModelsRequest = S.suspend(() =>
+  S.Struct({
     modelEndpoint: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetLabelsRequest extends S.Class<GetLabelsRequest>(
-  "GetLabelsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetExternalModelsRequest",
+}) as any as S.Schema<GetExternalModelsRequest>;
+export interface GetLabelsRequest {
+  name?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const GetLabelsRequest = S.suspend(() =>
+  S.Struct({
     name: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetListElementsRequest extends S.Class<GetListElementsRequest>(
-  "GetListElementsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetLabelsRequest",
+}) as any as S.Schema<GetLabelsRequest>;
+export interface GetListElementsRequest {
+  name: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const GetListElementsRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetListsMetadataRequest extends S.Class<GetListsMetadataRequest>(
-  "GetListsMetadataRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetListElementsRequest",
+}) as any as S.Schema<GetListElementsRequest>;
+export interface GetListsMetadataRequest {
+  name?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const GetListsMetadataRequest = S.suspend(() =>
+  S.Struct({
     name: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetModelsRequest extends S.Class<GetModelsRequest>(
-  "GetModelsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetListsMetadataRequest",
+}) as any as S.Schema<GetListsMetadataRequest>;
+export interface GetModelsRequest {
+  modelId?: string;
+  modelType?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const GetModelsRequest = S.suspend(() =>
+  S.Struct({
     modelId: S.optional(S.String),
     modelType: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetModelVersionRequest extends S.Class<GetModelVersionRequest>(
-  "GetModelVersionRequest",
-)(
-  { modelId: S.String, modelType: S.String, modelVersionNumber: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetOutcomesRequest extends S.Class<GetOutcomesRequest>(
-  "GetOutcomesRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetModelsRequest",
+}) as any as S.Schema<GetModelsRequest>;
+export interface GetModelVersionRequest {
+  modelId: string;
+  modelType: string;
+  modelVersionNumber: string;
+}
+export const GetModelVersionRequest = S.suspend(() =>
+  S.Struct({
+    modelId: S.String,
+    modelType: S.String,
+    modelVersionNumber: S.String,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetModelVersionRequest",
+}) as any as S.Schema<GetModelVersionRequest>;
+export interface GetOutcomesRequest {
+  name?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const GetOutcomesRequest = S.suspend(() =>
+  S.Struct({
     name: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetRulesRequest extends S.Class<GetRulesRequest>(
-  "GetRulesRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetOutcomesRequest",
+}) as any as S.Schema<GetOutcomesRequest>;
+export interface GetRulesRequest {
+  ruleId?: string;
+  detectorId: string;
+  ruleVersion?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const GetRulesRequest = S.suspend(() =>
+  S.Struct({
     ruleId: S.optional(S.String),
     detectorId: S.String,
     ruleVersion: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetVariablesRequest extends S.Class<GetVariablesRequest>(
-  "GetVariablesRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetRulesRequest",
+}) as any as S.Schema<GetRulesRequest>;
+export interface GetVariablesRequest {
+  name?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const GetVariablesRequest = S.suspend(() =>
+  S.Struct({
     name: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetVariablesRequest",
+}) as any as S.Schema<GetVariablesRequest>;
+export interface ListTagsForResourceRequest {
+  resourceARN: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({
     resourceARN: S.String,
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutDetectorRequest extends S.Class<PutDetectorRequest>(
-  "PutDetectorRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface PutDetectorRequest {
+  detectorId: string;
+  description?: string;
+  eventTypeName: string;
+  tags?: tagList;
+}
+export const PutDetectorRequest = S.suspend(() =>
+  S.Struct({
     detectorId: S.String,
     description: S.optional(S.String),
     eventTypeName: S.String,
     tags: S.optional(tagList),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutDetectorResult extends S.Class<PutDetectorResult>(
-  "PutDetectorResult",
-)({}, ns) {}
-export class PutEntityTypeRequest extends S.Class<PutEntityTypeRequest>(
-  "PutEntityTypeRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutDetectorRequest",
+}) as any as S.Schema<PutDetectorRequest>;
+export interface PutDetectorResult {}
+export const PutDetectorResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "PutDetectorResult",
+}) as any as S.Schema<PutDetectorResult>;
+export interface PutEntityTypeRequest {
+  name: string;
+  description?: string;
+  tags?: tagList;
+}
+export const PutEntityTypeRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     description: S.optional(S.String),
     tags: S.optional(tagList),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutEntityTypeResult extends S.Class<PutEntityTypeResult>(
-  "PutEntityTypeResult",
-)({}, ns) {}
-export class PutKMSEncryptionKeyRequest extends S.Class<PutKMSEncryptionKeyRequest>(
-  "PutKMSEncryptionKeyRequest",
-)(
-  { kmsEncryptionKeyArn: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutKMSEncryptionKeyResult extends S.Class<PutKMSEncryptionKeyResult>(
-  "PutKMSEncryptionKeyResult",
-)({}, ns) {}
-export class PutLabelRequest extends S.Class<PutLabelRequest>(
-  "PutLabelRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutEntityTypeRequest",
+}) as any as S.Schema<PutEntityTypeRequest>;
+export interface PutEntityTypeResult {}
+export const PutEntityTypeResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "PutEntityTypeResult",
+}) as any as S.Schema<PutEntityTypeResult>;
+export interface PutKMSEncryptionKeyRequest {
+  kmsEncryptionKeyArn: string;
+}
+export const PutKMSEncryptionKeyRequest = S.suspend(() =>
+  S.Struct({ kmsEncryptionKeyArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutKMSEncryptionKeyRequest",
+}) as any as S.Schema<PutKMSEncryptionKeyRequest>;
+export interface PutKMSEncryptionKeyResult {}
+export const PutKMSEncryptionKeyResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "PutKMSEncryptionKeyResult",
+}) as any as S.Schema<PutKMSEncryptionKeyResult>;
+export interface PutLabelRequest {
+  name: string;
+  description?: string;
+  tags?: tagList;
+}
+export const PutLabelRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     description: S.optional(S.String),
     tags: S.optional(tagList),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutLabelResult extends S.Class<PutLabelResult>("PutLabelResult")(
-  {},
-  ns,
-) {}
-export class PutOutcomeRequest extends S.Class<PutOutcomeRequest>(
-  "PutOutcomeRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutLabelRequest",
+}) as any as S.Schema<PutLabelRequest>;
+export interface PutLabelResult {}
+export const PutLabelResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "PutLabelResult",
+}) as any as S.Schema<PutLabelResult>;
+export interface PutOutcomeRequest {
+  name: string;
+  description?: string;
+  tags?: tagList;
+}
+export const PutOutcomeRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     description: S.optional(S.String),
     tags: S.optional(tagList),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutOutcomeResult extends S.Class<PutOutcomeResult>(
-  "PutOutcomeResult",
-)({}, ns) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutOutcomeRequest",
+}) as any as S.Schema<PutOutcomeRequest>;
+export interface PutOutcomeResult {}
+export const PutOutcomeResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "PutOutcomeResult",
+}) as any as S.Schema<PutOutcomeResult>;
+export type EventVariableMap = { [key: string]: string };
 export const EventVariableMap = S.Record({ key: S.String, value: S.String });
-export class Entity extends S.Class<Entity>("Entity")({
-  entityType: S.String,
-  entityId: S.String,
-}) {}
+export interface Entity {
+  entityType: string;
+  entityId: string;
+}
+export const Entity = S.suspend(() =>
+  S.Struct({ entityType: S.String, entityId: S.String }),
+).annotations({ identifier: "Entity" }) as any as S.Schema<Entity>;
+export type listOfEntities = Entity[];
 export const listOfEntities = S.Array(Entity);
-export class SendEventRequest extends S.Class<SendEventRequest>(
-  "SendEventRequest",
-)(
-  {
+export interface SendEventRequest {
+  eventId: string;
+  eventTypeName: string;
+  eventTimestamp: string;
+  eventVariables: EventVariableMap;
+  assignedLabel?: string;
+  labelTimestamp?: string;
+  entities: listOfEntities;
+}
+export const SendEventRequest = S.suspend(() =>
+  S.Struct({
     eventId: S.String,
     eventTypeName: S.String,
     eventTimestamp: S.String,
@@ -809,42 +1635,105 @@ export class SendEventRequest extends S.Class<SendEventRequest>(
     assignedLabel: S.optional(S.String),
     labelTimestamp: S.optional(S.String),
     entities: listOfEntities,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class SendEventResult extends S.Class<SendEventResult>(
-  "SendEventResult",
-)({}, ns) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { resourceARN: S.String, tags: tagList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TagResourceResult extends S.Class<TagResourceResult>(
-  "TagResourceResult",
-)({}, ns) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  { resourceARN: S.String, tagKeys: tagKeyList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UntagResourceResult extends S.Class<UntagResourceResult>(
-  "UntagResourceResult",
-)({}, ns) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "SendEventRequest",
+}) as any as S.Schema<SendEventRequest>;
+export interface SendEventResult {}
+export const SendEventResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "SendEventResult",
+}) as any as S.Schema<SendEventResult>;
+export interface TagResourceRequest {
+  resourceARN: string;
+  tags: tagList;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ resourceARN: S.String, tags: tagList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResult {}
+export const TagResourceResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "TagResourceResult",
+}) as any as S.Schema<TagResourceResult>;
+export interface UntagResourceRequest {
+  resourceARN: string;
+  tagKeys: tagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({ resourceARN: S.String, tagKeys: tagKeyList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResult {}
+export const UntagResourceResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "UntagResourceResult",
+}) as any as S.Schema<UntagResourceResult>;
+export type RuleList = Rule[];
 export const RuleList = S.Array(Rule);
-export class ModelVersion extends S.Class<ModelVersion>("ModelVersion")({
-  modelId: S.String,
-  modelType: S.String,
-  modelVersionNumber: S.String,
-  arn: S.optional(S.String),
-}) {}
+export interface ModelVersion {
+  modelId: string;
+  modelType: string;
+  modelVersionNumber: string;
+  arn?: string;
+}
+export const ModelVersion = S.suspend(() =>
+  S.Struct({
+    modelId: S.String,
+    modelType: S.String,
+    modelVersionNumber: S.String,
+    arn: S.optional(S.String),
+  }),
+).annotations({ identifier: "ModelVersion" }) as any as S.Schema<ModelVersion>;
+export type ListOfModelVersions = ModelVersion[];
 export const ListOfModelVersions = S.Array(ModelVersion);
-export class UpdateDetectorVersionRequest extends S.Class<UpdateDetectorVersionRequest>(
-  "UpdateDetectorVersionRequest",
-)(
-  {
+export interface UpdateDetectorVersionRequest {
+  detectorId: string;
+  detectorVersionId: string;
+  externalModelEndpoints: ListOfStrings;
+  rules: RuleList;
+  description?: string;
+  modelVersions?: ListOfModelVersions;
+  ruleExecutionMode?: string;
+}
+export const UpdateDetectorVersionRequest = S.suspend(() =>
+  S.Struct({
     detectorId: S.String,
     detectorVersionId: S.String,
     externalModelEndpoints: ListOfStrings,
@@ -852,180 +1741,461 @@ export class UpdateDetectorVersionRequest extends S.Class<UpdateDetectorVersionR
     description: S.optional(S.String),
     modelVersions: S.optional(ListOfModelVersions),
     ruleExecutionMode: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateDetectorVersionResult extends S.Class<UpdateDetectorVersionResult>(
-  "UpdateDetectorVersionResult",
-)({}, ns) {}
-export class UpdateDetectorVersionMetadataRequest extends S.Class<UpdateDetectorVersionMetadataRequest>(
-  "UpdateDetectorVersionMetadataRequest",
-)(
-  { detectorId: S.String, detectorVersionId: S.String, description: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateDetectorVersionMetadataResult extends S.Class<UpdateDetectorVersionMetadataResult>(
-  "UpdateDetectorVersionMetadataResult",
-)({}, ns) {}
-export class UpdateDetectorVersionStatusRequest extends S.Class<UpdateDetectorVersionStatusRequest>(
-  "UpdateDetectorVersionStatusRequest",
-)(
-  { detectorId: S.String, detectorVersionId: S.String, status: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateDetectorVersionStatusResult extends S.Class<UpdateDetectorVersionStatusResult>(
-  "UpdateDetectorVersionStatusResult",
-)({}, ns) {}
-export class UpdateEventLabelRequest extends S.Class<UpdateEventLabelRequest>(
-  "UpdateEventLabelRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateDetectorVersionRequest",
+}) as any as S.Schema<UpdateDetectorVersionRequest>;
+export interface UpdateDetectorVersionResult {}
+export const UpdateDetectorVersionResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "UpdateDetectorVersionResult",
+}) as any as S.Schema<UpdateDetectorVersionResult>;
+export interface UpdateDetectorVersionMetadataRequest {
+  detectorId: string;
+  detectorVersionId: string;
+  description: string;
+}
+export const UpdateDetectorVersionMetadataRequest = S.suspend(() =>
+  S.Struct({
+    detectorId: S.String,
+    detectorVersionId: S.String,
+    description: S.String,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateDetectorVersionMetadataRequest",
+}) as any as S.Schema<UpdateDetectorVersionMetadataRequest>;
+export interface UpdateDetectorVersionMetadataResult {}
+export const UpdateDetectorVersionMetadataResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "UpdateDetectorVersionMetadataResult",
+}) as any as S.Schema<UpdateDetectorVersionMetadataResult>;
+export interface UpdateDetectorVersionStatusRequest {
+  detectorId: string;
+  detectorVersionId: string;
+  status: string;
+}
+export const UpdateDetectorVersionStatusRequest = S.suspend(() =>
+  S.Struct({
+    detectorId: S.String,
+    detectorVersionId: S.String,
+    status: S.String,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateDetectorVersionStatusRequest",
+}) as any as S.Schema<UpdateDetectorVersionStatusRequest>;
+export interface UpdateDetectorVersionStatusResult {}
+export const UpdateDetectorVersionStatusResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "UpdateDetectorVersionStatusResult",
+}) as any as S.Schema<UpdateDetectorVersionStatusResult>;
+export interface UpdateEventLabelRequest {
+  eventId: string;
+  eventTypeName: string;
+  assignedLabel: string;
+  labelTimestamp: string;
+}
+export const UpdateEventLabelRequest = S.suspend(() =>
+  S.Struct({
     eventId: S.String,
     eventTypeName: S.String,
     assignedLabel: S.String,
     labelTimestamp: S.String,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateEventLabelResult extends S.Class<UpdateEventLabelResult>(
-  "UpdateEventLabelResult",
-)({}, ns) {}
-export class UpdateListRequest extends S.Class<UpdateListRequest>(
-  "UpdateListRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateEventLabelRequest",
+}) as any as S.Schema<UpdateEventLabelRequest>;
+export interface UpdateEventLabelResult {}
+export const UpdateEventLabelResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "UpdateEventLabelResult",
+}) as any as S.Schema<UpdateEventLabelResult>;
+export interface UpdateListRequest {
+  name: string;
+  elements?: ElementsList;
+  description?: string;
+  updateMode?: string;
+  variableType?: string;
+}
+export const UpdateListRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     elements: S.optional(ElementsList),
     description: S.optional(S.String),
     updateMode: S.optional(S.String),
     variableType: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateListResult extends S.Class<UpdateListResult>(
-  "UpdateListResult",
-)({}, ns) {}
-export class UpdateModelRequest extends S.Class<UpdateModelRequest>(
-  "UpdateModelRequest",
-)(
-  { modelId: S.String, modelType: S.String, description: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateModelResult extends S.Class<UpdateModelResult>(
-  "UpdateModelResult",
-)({}, ns) {}
-export class ExternalEventsDetail extends S.Class<ExternalEventsDetail>(
-  "ExternalEventsDetail",
-)({ dataLocation: S.String, dataAccessRoleArn: S.String }) {}
-export class IngestedEventsTimeWindow extends S.Class<IngestedEventsTimeWindow>(
-  "IngestedEventsTimeWindow",
-)({ startTime: S.String, endTime: S.String }) {}
-export class IngestedEventsDetail extends S.Class<IngestedEventsDetail>(
-  "IngestedEventsDetail",
-)({ ingestedEventsTimeWindow: IngestedEventsTimeWindow }) {}
-export class UpdateModelVersionRequest extends S.Class<UpdateModelVersionRequest>(
-  "UpdateModelVersionRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateListRequest",
+}) as any as S.Schema<UpdateListRequest>;
+export interface UpdateListResult {}
+export const UpdateListResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "UpdateListResult",
+}) as any as S.Schema<UpdateListResult>;
+export interface UpdateModelRequest {
+  modelId: string;
+  modelType: string;
+  description?: string;
+}
+export const UpdateModelRequest = S.suspend(() =>
+  S.Struct({
+    modelId: S.String,
+    modelType: S.String,
+    description: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateModelRequest",
+}) as any as S.Schema<UpdateModelRequest>;
+export interface UpdateModelResult {}
+export const UpdateModelResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "UpdateModelResult",
+}) as any as S.Schema<UpdateModelResult>;
+export interface ExternalEventsDetail {
+  dataLocation: string;
+  dataAccessRoleArn: string;
+}
+export const ExternalEventsDetail = S.suspend(() =>
+  S.Struct({ dataLocation: S.String, dataAccessRoleArn: S.String }),
+).annotations({
+  identifier: "ExternalEventsDetail",
+}) as any as S.Schema<ExternalEventsDetail>;
+export interface IngestedEventsTimeWindow {
+  startTime: string;
+  endTime: string;
+}
+export const IngestedEventsTimeWindow = S.suspend(() =>
+  S.Struct({ startTime: S.String, endTime: S.String }),
+).annotations({
+  identifier: "IngestedEventsTimeWindow",
+}) as any as S.Schema<IngestedEventsTimeWindow>;
+export interface IngestedEventsDetail {
+  ingestedEventsTimeWindow: IngestedEventsTimeWindow;
+}
+export const IngestedEventsDetail = S.suspend(() =>
+  S.Struct({ ingestedEventsTimeWindow: IngestedEventsTimeWindow }),
+).annotations({
+  identifier: "IngestedEventsDetail",
+}) as any as S.Schema<IngestedEventsDetail>;
+export interface UpdateModelVersionRequest {
+  modelId: string;
+  modelType: string;
+  majorVersionNumber: string;
+  externalEventsDetail?: ExternalEventsDetail;
+  ingestedEventsDetail?: IngestedEventsDetail;
+  tags?: tagList;
+}
+export const UpdateModelVersionRequest = S.suspend(() =>
+  S.Struct({
     modelId: S.String,
     modelType: S.String,
     majorVersionNumber: S.String,
     externalEventsDetail: S.optional(ExternalEventsDetail),
     ingestedEventsDetail: S.optional(IngestedEventsDetail),
     tags: S.optional(tagList),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateModelVersionStatusRequest extends S.Class<UpdateModelVersionStatusRequest>(
-  "UpdateModelVersionStatusRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateModelVersionRequest",
+}) as any as S.Schema<UpdateModelVersionRequest>;
+export interface UpdateModelVersionStatusRequest {
+  modelId: string;
+  modelType: string;
+  modelVersionNumber: string;
+  status: string;
+}
+export const UpdateModelVersionStatusRequest = S.suspend(() =>
+  S.Struct({
     modelId: S.String,
     modelType: S.String,
     modelVersionNumber: S.String,
     status: S.String,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateModelVersionStatusResult extends S.Class<UpdateModelVersionStatusResult>(
-  "UpdateModelVersionStatusResult",
-)({}, ns) {}
-export class UpdateRuleMetadataRequest extends S.Class<UpdateRuleMetadataRequest>(
-  "UpdateRuleMetadataRequest",
-)(
-  { rule: Rule, description: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateRuleMetadataResult extends S.Class<UpdateRuleMetadataResult>(
-  "UpdateRuleMetadataResult",
-)({}, ns) {}
-export class UpdateRuleVersionRequest extends S.Class<UpdateRuleVersionRequest>(
-  "UpdateRuleVersionRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateModelVersionStatusRequest",
+}) as any as S.Schema<UpdateModelVersionStatusRequest>;
+export interface UpdateModelVersionStatusResult {}
+export const UpdateModelVersionStatusResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "UpdateModelVersionStatusResult",
+}) as any as S.Schema<UpdateModelVersionStatusResult>;
+export interface UpdateRuleMetadataRequest {
+  rule: Rule;
+  description: string;
+}
+export const UpdateRuleMetadataRequest = S.suspend(() =>
+  S.Struct({ rule: Rule, description: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateRuleMetadataRequest",
+}) as any as S.Schema<UpdateRuleMetadataRequest>;
+export interface UpdateRuleMetadataResult {}
+export const UpdateRuleMetadataResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "UpdateRuleMetadataResult",
+}) as any as S.Schema<UpdateRuleMetadataResult>;
+export interface UpdateRuleVersionRequest {
+  rule: Rule;
+  description?: string;
+  expression: string;
+  language: string;
+  outcomes: NonEmptyListOfStrings;
+  tags?: tagList;
+}
+export const UpdateRuleVersionRequest = S.suspend(() =>
+  S.Struct({
     rule: Rule,
     description: S.optional(S.String),
     expression: S.String,
     language: S.String,
     outcomes: NonEmptyListOfStrings,
     tags: S.optional(tagList),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateVariableRequest extends S.Class<UpdateVariableRequest>(
-  "UpdateVariableRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateRuleVersionRequest",
+}) as any as S.Schema<UpdateRuleVersionRequest>;
+export interface UpdateVariableRequest {
+  name: string;
+  defaultValue?: string;
+  description?: string;
+  variableType?: string;
+}
+export const UpdateVariableRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     defaultValue: S.optional(S.String),
     description: S.optional(S.String),
     variableType: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateVariableResult extends S.Class<UpdateVariableResult>(
-  "UpdateVariableResult",
-)({}, ns) {}
-export class VariableEntry extends S.Class<VariableEntry>("VariableEntry")({
-  name: S.optional(S.String),
-  dataType: S.optional(S.String),
-  dataSource: S.optional(S.String),
-  defaultValue: S.optional(S.String),
-  description: S.optional(S.String),
-  variableType: S.optional(S.String),
-}) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateVariableRequest",
+}) as any as S.Schema<UpdateVariableRequest>;
+export interface UpdateVariableResult {}
+export const UpdateVariableResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "UpdateVariableResult",
+}) as any as S.Schema<UpdateVariableResult>;
+export interface VariableEntry {
+  name?: string;
+  dataType?: string;
+  dataSource?: string;
+  defaultValue?: string;
+  description?: string;
+  variableType?: string;
+}
+export const VariableEntry = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    dataType: S.optional(S.String),
+    dataSource: S.optional(S.String),
+    defaultValue: S.optional(S.String),
+    description: S.optional(S.String),
+    variableType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "VariableEntry",
+}) as any as S.Schema<VariableEntry>;
+export type VariableEntryList = VariableEntry[];
 export const VariableEntryList = S.Array(VariableEntry);
-export class KMSKey extends S.Class<KMSKey>("KMSKey")({
-  kmsEncryptionKeyArn: S.optional(S.String),
-}) {}
-export class FilterCondition extends S.Class<FilterCondition>(
-  "FilterCondition",
-)({ value: S.optional(S.String) }) {}
-export class PredictionTimeRange extends S.Class<PredictionTimeRange>(
-  "PredictionTimeRange",
-)({ startTime: S.String, endTime: S.String }) {}
-export class EventOrchestration extends S.Class<EventOrchestration>(
-  "EventOrchestration",
-)({ eventBridgeEnabled: S.Boolean }) {}
-export class ModelInputConfiguration extends S.Class<ModelInputConfiguration>(
-  "ModelInputConfiguration",
-)({
-  eventTypeName: S.optional(S.String),
-  format: S.optional(S.String),
-  useEventVariables: S.Boolean,
-  jsonInputTemplate: S.optional(S.String),
-  csvInputTemplate: S.optional(S.String),
-}) {}
-export class BatchCreateVariableRequest extends S.Class<BatchCreateVariableRequest>(
-  "BatchCreateVariableRequest",
-)(
-  { variableEntries: VariableEntryList, tags: S.optional(tagList) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateDetectorVersionRequest extends S.Class<CreateDetectorVersionRequest>(
-  "CreateDetectorVersionRequest",
-)(
-  {
+export interface KMSKey {
+  kmsEncryptionKeyArn?: string;
+}
+export const KMSKey = S.suspend(() =>
+  S.Struct({ kmsEncryptionKeyArn: S.optional(S.String) }),
+).annotations({ identifier: "KMSKey" }) as any as S.Schema<KMSKey>;
+export interface FilterCondition {
+  value?: string;
+}
+export const FilterCondition = S.suspend(() =>
+  S.Struct({ value: S.optional(S.String) }),
+).annotations({
+  identifier: "FilterCondition",
+}) as any as S.Schema<FilterCondition>;
+export interface PredictionTimeRange {
+  startTime: string;
+  endTime: string;
+}
+export const PredictionTimeRange = S.suspend(() =>
+  S.Struct({ startTime: S.String, endTime: S.String }),
+).annotations({
+  identifier: "PredictionTimeRange",
+}) as any as S.Schema<PredictionTimeRange>;
+export interface EventOrchestration {
+  eventBridgeEnabled: boolean;
+}
+export const EventOrchestration = S.suspend(() =>
+  S.Struct({ eventBridgeEnabled: S.Boolean }),
+).annotations({
+  identifier: "EventOrchestration",
+}) as any as S.Schema<EventOrchestration>;
+export interface ModelInputConfiguration {
+  eventTypeName?: string;
+  format?: string;
+  useEventVariables: boolean;
+  jsonInputTemplate?: string;
+  csvInputTemplate?: string;
+}
+export const ModelInputConfiguration = S.suspend(() =>
+  S.Struct({
+    eventTypeName: S.optional(S.String),
+    format: S.optional(S.String),
+    useEventVariables: S.Boolean,
+    jsonInputTemplate: S.optional(S.String),
+    csvInputTemplate: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ModelInputConfiguration",
+}) as any as S.Schema<ModelInputConfiguration>;
+export interface BatchCreateVariableRequest {
+  variableEntries: VariableEntryList;
+  tags?: tagList;
+}
+export const BatchCreateVariableRequest = S.suspend(() =>
+  S.Struct({
+    variableEntries: VariableEntryList,
+    tags: S.optional(tagList),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "BatchCreateVariableRequest",
+}) as any as S.Schema<BatchCreateVariableRequest>;
+export interface CreateDetectorVersionRequest {
+  detectorId: string;
+  description?: string;
+  externalModelEndpoints?: ListOfStrings;
+  rules: RuleList;
+  modelVersions?: ListOfModelVersions;
+  ruleExecutionMode?: string;
+  tags?: tagList;
+}
+export const CreateDetectorVersionRequest = S.suspend(() =>
+  S.Struct({
     detectorId: S.String,
     description: S.optional(S.String),
     externalModelEndpoints: S.optional(ListOfStrings),
@@ -1033,34 +2203,67 @@ export class CreateDetectorVersionRequest extends S.Class<CreateDetectorVersionR
     modelVersions: S.optional(ListOfModelVersions),
     ruleExecutionMode: S.optional(S.String),
     tags: S.optional(tagList),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateRuleResult extends S.Class<CreateRuleResult>(
-  "CreateRuleResult",
-)({ rule: S.optional(Rule) }, ns) {}
-export class DeleteEventsByEventTypeResult extends S.Class<DeleteEventsByEventTypeResult>(
-  "DeleteEventsByEventTypeResult",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateDetectorVersionRequest",
+}) as any as S.Schema<CreateDetectorVersionRequest>;
+export interface CreateRuleResult {
+  rule?: Rule;
+}
+export const CreateRuleResult = S.suspend(() =>
+  S.Struct({ rule: S.optional(Rule) }).pipe(ns),
+).annotations({
+  identifier: "CreateRuleResult",
+}) as any as S.Schema<CreateRuleResult>;
+export interface DeleteEventsByEventTypeResult {
+  eventTypeName?: string;
+  eventsDeletionStatus?: string;
+}
+export const DeleteEventsByEventTypeResult = S.suspend(() =>
+  S.Struct({
     eventTypeName: S.optional(S.String),
     eventsDeletionStatus: S.optional(S.String),
-  },
-  ns,
-) {}
-export class GetDeleteEventsByEventTypeStatusResult extends S.Class<GetDeleteEventsByEventTypeStatusResult>(
-  "GetDeleteEventsByEventTypeStatusResult",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DeleteEventsByEventTypeResult",
+}) as any as S.Schema<DeleteEventsByEventTypeResult>;
+export interface GetDeleteEventsByEventTypeStatusResult {
+  eventTypeName?: string;
+  eventsDeletionStatus?: string;
+}
+export const GetDeleteEventsByEventTypeStatusResult = S.suspend(() =>
+  S.Struct({
     eventTypeName: S.optional(S.String),
     eventsDeletionStatus: S.optional(S.String),
-  },
-  ns,
-) {}
-export class GetDetectorVersionResult extends S.Class<GetDetectorVersionResult>(
-  "GetDetectorVersionResult",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetDeleteEventsByEventTypeStatusResult",
+}) as any as S.Schema<GetDeleteEventsByEventTypeStatusResult>;
+export interface GetDetectorVersionResult {
+  detectorId?: string;
+  detectorVersionId?: string;
+  description?: string;
+  externalModelEndpoints?: ListOfStrings;
+  modelVersions?: ListOfModelVersions;
+  rules?: RuleList;
+  status?: string;
+  lastUpdatedTime?: string;
+  createdTime?: string;
+  ruleExecutionMode?: string;
+  arn?: string;
+}
+export const GetDetectorVersionResult = S.suspend(() =>
+  S.Struct({
     detectorId: S.optional(S.String),
     detectorVersionId: S.optional(S.String),
     description: S.optional(S.String),
@@ -1072,30 +2275,67 @@ export class GetDetectorVersionResult extends S.Class<GetDetectorVersionResult>(
     createdTime: S.optional(S.String),
     ruleExecutionMode: S.optional(S.String),
     arn: S.optional(S.String),
-  },
-  ns,
-) {}
-export class GetKMSEncryptionKeyResult extends S.Class<GetKMSEncryptionKeyResult>(
-  "GetKMSEncryptionKeyResult",
-)({ kmsKey: S.optional(KMSKey) }, ns) {}
-export class GetListElementsResult extends S.Class<GetListElementsResult>(
-  "GetListElementsResult",
-)(
-  { elements: S.optional(ElementsList), nextToken: S.optional(S.String) },
-  ns,
-) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "GetDetectorVersionResult",
+}) as any as S.Schema<GetDetectorVersionResult>;
+export interface GetKMSEncryptionKeyResult {
+  kmsKey?: KMSKey;
+}
+export const GetKMSEncryptionKeyResult = S.suspend(() =>
+  S.Struct({ kmsKey: S.optional(KMSKey) }).pipe(ns),
+).annotations({
+  identifier: "GetKMSEncryptionKeyResult",
+}) as any as S.Schema<GetKMSEncryptionKeyResult>;
+export interface GetListElementsResult {
+  elements?: ElementsList;
+  nextToken?: string;
+}
+export const GetListElementsResult = S.suspend(() =>
+  S.Struct({
+    elements: S.optional(ElementsList),
+    nextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "GetListElementsResult",
+}) as any as S.Schema<GetListElementsResult>;
+export type labelMapper = { [key: string]: ListOfStrings };
 export const labelMapper = S.Record({ key: S.String, value: ListOfStrings });
-export class LabelSchema extends S.Class<LabelSchema>("LabelSchema")({
-  labelMapper: S.optional(labelMapper),
-  unlabeledEventsTreatment: S.optional(S.String),
-}) {}
-export class TrainingDataSchema extends S.Class<TrainingDataSchema>(
-  "TrainingDataSchema",
-)({ modelVariables: ListOfStrings, labelSchema: S.optional(LabelSchema) }) {}
-export class GetModelVersionResult extends S.Class<GetModelVersionResult>(
-  "GetModelVersionResult",
-)(
-  {
+export interface LabelSchema {
+  labelMapper?: labelMapper;
+  unlabeledEventsTreatment?: string;
+}
+export const LabelSchema = S.suspend(() =>
+  S.Struct({
+    labelMapper: S.optional(labelMapper),
+    unlabeledEventsTreatment: S.optional(S.String),
+  }),
+).annotations({ identifier: "LabelSchema" }) as any as S.Schema<LabelSchema>;
+export interface TrainingDataSchema {
+  modelVariables: ListOfStrings;
+  labelSchema?: LabelSchema;
+}
+export const TrainingDataSchema = S.suspend(() =>
+  S.Struct({
+    modelVariables: ListOfStrings,
+    labelSchema: S.optional(LabelSchema),
+  }),
+).annotations({
+  identifier: "TrainingDataSchema",
+}) as any as S.Schema<TrainingDataSchema>;
+export interface GetModelVersionResult {
+  modelId?: string;
+  modelType?: string;
+  modelVersionNumber?: string;
+  trainingDataSource?: string;
+  trainingDataSchema?: TrainingDataSchema;
+  externalEventsDetail?: ExternalEventsDetail;
+  ingestedEventsDetail?: IngestedEventsDetail;
+  status?: string;
+  arn?: string;
+}
+export const GetModelVersionResult = S.suspend(() =>
+  S.Struct({
     modelId: S.optional(S.String),
     modelType: S.optional(S.String),
     modelVersionNumber: S.optional(S.String),
@@ -1105,31 +2345,59 @@ export class GetModelVersionResult extends S.Class<GetModelVersionResult>(
     ingestedEventsDetail: S.optional(IngestedEventsDetail),
     status: S.optional(S.String),
     arn: S.optional(S.String),
-  },
-  ns,
-) {}
-export class Variable extends S.Class<Variable>("Variable")({
-  name: S.optional(S.String),
-  dataType: S.optional(S.String),
-  dataSource: S.optional(S.String),
-  defaultValue: S.optional(S.String),
-  description: S.optional(S.String),
-  variableType: S.optional(S.String),
-  lastUpdatedTime: S.optional(S.String),
-  createdTime: S.optional(S.String),
-  arn: S.optional(S.String),
-}) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "GetModelVersionResult",
+}) as any as S.Schema<GetModelVersionResult>;
+export interface Variable {
+  name?: string;
+  dataType?: string;
+  dataSource?: string;
+  defaultValue?: string;
+  description?: string;
+  variableType?: string;
+  lastUpdatedTime?: string;
+  createdTime?: string;
+  arn?: string;
+}
+export const Variable = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    dataType: S.optional(S.String),
+    dataSource: S.optional(S.String),
+    defaultValue: S.optional(S.String),
+    description: S.optional(S.String),
+    variableType: S.optional(S.String),
+    lastUpdatedTime: S.optional(S.String),
+    createdTime: S.optional(S.String),
+    arn: S.optional(S.String),
+  }),
+).annotations({ identifier: "Variable" }) as any as S.Schema<Variable>;
+export type VariableList = Variable[];
 export const VariableList = S.Array(Variable);
-export class GetVariablesResult extends S.Class<GetVariablesResult>(
-  "GetVariablesResult",
-)(
-  { variables: S.optional(VariableList), nextToken: S.optional(S.String) },
-  ns,
-) {}
-export class ListEventPredictionsRequest extends S.Class<ListEventPredictionsRequest>(
-  "ListEventPredictionsRequest",
-)(
-  {
+export interface GetVariablesResult {
+  variables?: VariableList;
+  nextToken?: string;
+}
+export const GetVariablesResult = S.suspend(() =>
+  S.Struct({
+    variables: S.optional(VariableList),
+    nextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "GetVariablesResult",
+}) as any as S.Schema<GetVariablesResult>;
+export interface ListEventPredictionsRequest {
+  eventId?: FilterCondition;
+  eventType?: FilterCondition;
+  detectorId?: FilterCondition;
+  detectorVersionId?: FilterCondition;
+  predictionTimeRange?: PredictionTimeRange;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListEventPredictionsRequest = S.suspend(() =>
+  S.Struct({
     eventId: S.optional(FilterCondition),
     eventType: S.optional(FilterCondition),
     detectorId: S.optional(FilterCondition),
@@ -1137,16 +2405,43 @@ export class ListEventPredictionsRequest extends S.Class<ListEventPredictionsReq
     predictionTimeRange: S.optional(PredictionTimeRange),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTagsForResourceResult extends S.Class<ListTagsForResourceResult>(
-  "ListTagsForResourceResult",
-)({ tags: S.optional(tagList), nextToken: S.optional(S.String) }, ns) {}
-export class PutEventTypeRequest extends S.Class<PutEventTypeRequest>(
-  "PutEventTypeRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListEventPredictionsRequest",
+}) as any as S.Schema<ListEventPredictionsRequest>;
+export interface ListTagsForResourceResult {
+  tags?: tagList;
+  nextToken?: string;
+}
+export const ListTagsForResourceResult = S.suspend(() =>
+  S.Struct({ tags: S.optional(tagList), nextToken: S.optional(S.String) }).pipe(
+    ns,
+  ),
+).annotations({
+  identifier: "ListTagsForResourceResult",
+}) as any as S.Schema<ListTagsForResourceResult>;
+export interface PutEventTypeRequest {
+  name: string;
+  description?: string;
+  eventVariables: NonEmptyListOfStrings;
+  labels?: ListOfStrings;
+  entityTypes: NonEmptyListOfStrings;
+  eventIngestion?: string;
+  tags?: tagList;
+  eventOrchestration?: EventOrchestration;
+}
+export const PutEventTypeRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     description: S.optional(S.String),
     eventVariables: NonEmptyListOfStrings,
@@ -1155,260 +2450,517 @@ export class PutEventTypeRequest extends S.Class<PutEventTypeRequest>(
     eventIngestion: S.optional(S.String),
     tags: S.optional(tagList),
     eventOrchestration: S.optional(EventOrchestration),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutEventTypeResult extends S.Class<PutEventTypeResult>(
-  "PutEventTypeResult",
-)({}, ns) {}
-export class UpdateModelVersionResult extends S.Class<UpdateModelVersionResult>(
-  "UpdateModelVersionResult",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutEventTypeRequest",
+}) as any as S.Schema<PutEventTypeRequest>;
+export interface PutEventTypeResult {}
+export const PutEventTypeResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "PutEventTypeResult",
+}) as any as S.Schema<PutEventTypeResult>;
+export interface UpdateModelVersionResult {
+  modelId?: string;
+  modelType?: string;
+  modelVersionNumber?: string;
+  status?: string;
+}
+export const UpdateModelVersionResult = S.suspend(() =>
+  S.Struct({
     modelId: S.optional(S.String),
     modelType: S.optional(S.String),
     modelVersionNumber: S.optional(S.String),
     status: S.optional(S.String),
-  },
-  ns,
-) {}
-export class UpdateRuleVersionResult extends S.Class<UpdateRuleVersionResult>(
-  "UpdateRuleVersionResult",
-)({ rule: S.optional(Rule) }, ns) {}
-export class ModelEndpointDataBlob extends S.Class<ModelEndpointDataBlob>(
-  "ModelEndpointDataBlob",
-)({ byteBuffer: S.optional(T.Blob), contentType: S.optional(S.String) }) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "UpdateModelVersionResult",
+}) as any as S.Schema<UpdateModelVersionResult>;
+export interface UpdateRuleVersionResult {
+  rule?: Rule;
+}
+export const UpdateRuleVersionResult = S.suspend(() =>
+  S.Struct({ rule: S.optional(Rule) }).pipe(ns),
+).annotations({
+  identifier: "UpdateRuleVersionResult",
+}) as any as S.Schema<UpdateRuleVersionResult>;
+export interface ModelEndpointDataBlob {
+  byteBuffer?: Uint8Array;
+  contentType?: string;
+}
+export const ModelEndpointDataBlob = S.suspend(() =>
+  S.Struct({
+    byteBuffer: S.optional(T.Blob),
+    contentType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ModelEndpointDataBlob",
+}) as any as S.Schema<ModelEndpointDataBlob>;
+export type JsonKeyToVariableMap = { [key: string]: string };
 export const JsonKeyToVariableMap = S.Record({
   key: S.String,
   value: S.String,
 });
+export type CsvIndexToVariableMap = { [key: string]: string };
 export const CsvIndexToVariableMap = S.Record({
   key: S.String,
   value: S.String,
 });
-export class BatchGetVariableError extends S.Class<BatchGetVariableError>(
-  "BatchGetVariableError",
-)({
-  name: S.optional(S.String),
-  code: S.optional(S.Number),
-  message: S.optional(S.String),
-}) {}
+export interface BatchGetVariableError {
+  name?: string;
+  code?: number;
+  message?: string;
+}
+export const BatchGetVariableError = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    code: S.optional(S.Number),
+    message: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "BatchGetVariableError",
+}) as any as S.Schema<BatchGetVariableError>;
+export type BatchGetVariableErrorList = BatchGetVariableError[];
 export const BatchGetVariableErrorList = S.Array(BatchGetVariableError);
-export class DetectorVersionSummary extends S.Class<DetectorVersionSummary>(
-  "DetectorVersionSummary",
-)({
-  detectorVersionId: S.optional(S.String),
-  status: S.optional(S.String),
-  description: S.optional(S.String),
-  lastUpdatedTime: S.optional(S.String),
-}) {}
+export interface DetectorVersionSummary {
+  detectorVersionId?: string;
+  status?: string;
+  description?: string;
+  lastUpdatedTime?: string;
+}
+export const DetectorVersionSummary = S.suspend(() =>
+  S.Struct({
+    detectorVersionId: S.optional(S.String),
+    status: S.optional(S.String),
+    description: S.optional(S.String),
+    lastUpdatedTime: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DetectorVersionSummary",
+}) as any as S.Schema<DetectorVersionSummary>;
+export type DetectorVersionSummaryList = DetectorVersionSummary[];
 export const DetectorVersionSummaryList = S.Array(DetectorVersionSummary);
-export class BatchImport extends S.Class<BatchImport>("BatchImport")({
-  jobId: S.optional(S.String),
-  status: S.optional(S.String),
-  failureReason: S.optional(S.String),
-  startTime: S.optional(S.String),
-  completionTime: S.optional(S.String),
-  inputPath: S.optional(S.String),
-  outputPath: S.optional(S.String),
-  eventTypeName: S.optional(S.String),
-  iamRoleArn: S.optional(S.String),
-  arn: S.optional(S.String),
-  processedRecordsCount: S.optional(S.Number),
-  failedRecordsCount: S.optional(S.Number),
-  totalRecordsCount: S.optional(S.Number),
-}) {}
+export interface BatchImport {
+  jobId?: string;
+  status?: string;
+  failureReason?: string;
+  startTime?: string;
+  completionTime?: string;
+  inputPath?: string;
+  outputPath?: string;
+  eventTypeName?: string;
+  iamRoleArn?: string;
+  arn?: string;
+  processedRecordsCount?: number;
+  failedRecordsCount?: number;
+  totalRecordsCount?: number;
+}
+export const BatchImport = S.suspend(() =>
+  S.Struct({
+    jobId: S.optional(S.String),
+    status: S.optional(S.String),
+    failureReason: S.optional(S.String),
+    startTime: S.optional(S.String),
+    completionTime: S.optional(S.String),
+    inputPath: S.optional(S.String),
+    outputPath: S.optional(S.String),
+    eventTypeName: S.optional(S.String),
+    iamRoleArn: S.optional(S.String),
+    arn: S.optional(S.String),
+    processedRecordsCount: S.optional(S.Number),
+    failedRecordsCount: S.optional(S.Number),
+    totalRecordsCount: S.optional(S.Number),
+  }),
+).annotations({ identifier: "BatchImport" }) as any as S.Schema<BatchImport>;
+export type BatchImportList = BatchImport[];
 export const BatchImportList = S.Array(BatchImport);
-export class BatchPrediction extends S.Class<BatchPrediction>(
-  "BatchPrediction",
-)({
-  jobId: S.optional(S.String),
-  status: S.optional(S.String),
-  failureReason: S.optional(S.String),
-  startTime: S.optional(S.String),
-  completionTime: S.optional(S.String),
-  lastHeartbeatTime: S.optional(S.String),
-  inputPath: S.optional(S.String),
-  outputPath: S.optional(S.String),
-  eventTypeName: S.optional(S.String),
-  detectorName: S.optional(S.String),
-  detectorVersion: S.optional(S.String),
-  iamRoleArn: S.optional(S.String),
-  arn: S.optional(S.String),
-  processedRecordsCount: S.optional(S.Number),
-  totalRecordsCount: S.optional(S.Number),
-}) {}
+export interface BatchPrediction {
+  jobId?: string;
+  status?: string;
+  failureReason?: string;
+  startTime?: string;
+  completionTime?: string;
+  lastHeartbeatTime?: string;
+  inputPath?: string;
+  outputPath?: string;
+  eventTypeName?: string;
+  detectorName?: string;
+  detectorVersion?: string;
+  iamRoleArn?: string;
+  arn?: string;
+  processedRecordsCount?: number;
+  totalRecordsCount?: number;
+}
+export const BatchPrediction = S.suspend(() =>
+  S.Struct({
+    jobId: S.optional(S.String),
+    status: S.optional(S.String),
+    failureReason: S.optional(S.String),
+    startTime: S.optional(S.String),
+    completionTime: S.optional(S.String),
+    lastHeartbeatTime: S.optional(S.String),
+    inputPath: S.optional(S.String),
+    outputPath: S.optional(S.String),
+    eventTypeName: S.optional(S.String),
+    detectorName: S.optional(S.String),
+    detectorVersion: S.optional(S.String),
+    iamRoleArn: S.optional(S.String),
+    arn: S.optional(S.String),
+    processedRecordsCount: S.optional(S.Number),
+    totalRecordsCount: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "BatchPrediction",
+}) as any as S.Schema<BatchPrediction>;
+export type BatchPredictionList = BatchPrediction[];
 export const BatchPredictionList = S.Array(BatchPrediction);
-export class Detector extends S.Class<Detector>("Detector")({
-  detectorId: S.optional(S.String),
-  description: S.optional(S.String),
-  eventTypeName: S.optional(S.String),
-  lastUpdatedTime: S.optional(S.String),
-  createdTime: S.optional(S.String),
-  arn: S.optional(S.String),
-}) {}
+export interface Detector {
+  detectorId?: string;
+  description?: string;
+  eventTypeName?: string;
+  lastUpdatedTime?: string;
+  createdTime?: string;
+  arn?: string;
+}
+export const Detector = S.suspend(() =>
+  S.Struct({
+    detectorId: S.optional(S.String),
+    description: S.optional(S.String),
+    eventTypeName: S.optional(S.String),
+    lastUpdatedTime: S.optional(S.String),
+    createdTime: S.optional(S.String),
+    arn: S.optional(S.String),
+  }),
+).annotations({ identifier: "Detector" }) as any as S.Schema<Detector>;
+export type DetectorList = Detector[];
 export const DetectorList = S.Array(Detector);
-export class EntityType extends S.Class<EntityType>("EntityType")({
-  name: S.optional(S.String),
-  description: S.optional(S.String),
-  lastUpdatedTime: S.optional(S.String),
-  createdTime: S.optional(S.String),
-  arn: S.optional(S.String),
-}) {}
+export interface EntityType {
+  name?: string;
+  description?: string;
+  lastUpdatedTime?: string;
+  createdTime?: string;
+  arn?: string;
+}
+export const EntityType = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    lastUpdatedTime: S.optional(S.String),
+    createdTime: S.optional(S.String),
+    arn: S.optional(S.String),
+  }),
+).annotations({ identifier: "EntityType" }) as any as S.Schema<EntityType>;
+export type entityTypeList = EntityType[];
 export const entityTypeList = S.Array(EntityType);
+export type ExternalModelEndpointDataBlobMap = {
+  [key: string]: ModelEndpointDataBlob;
+};
 export const ExternalModelEndpointDataBlobMap = S.Record({
   key: S.String,
   value: ModelEndpointDataBlob,
 });
-export class EventVariableSummary extends S.Class<EventVariableSummary>(
-  "EventVariableSummary",
-)({
-  name: S.optional(S.String),
-  value: S.optional(S.String),
-  source: S.optional(S.String),
-}) {}
+export interface EventVariableSummary {
+  name?: string;
+  value?: string;
+  source?: string;
+}
+export const EventVariableSummary = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    value: S.optional(S.String),
+    source: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "EventVariableSummary",
+}) as any as S.Schema<EventVariableSummary>;
+export type ListOfEventVariableSummaries = EventVariableSummary[];
 export const ListOfEventVariableSummaries = S.Array(EventVariableSummary);
-export class EvaluatedRule extends S.Class<EvaluatedRule>("EvaluatedRule")({
-  ruleId: S.optional(S.String),
-  ruleVersion: S.optional(S.String),
-  expression: S.optional(S.String),
-  expressionWithValues: S.optional(S.String),
-  outcomes: S.optional(ListOfStrings),
-  evaluated: S.optional(S.Boolean),
-  matched: S.optional(S.Boolean),
-}) {}
+export interface EvaluatedRule {
+  ruleId?: string;
+  ruleVersion?: string;
+  expression?: string;
+  expressionWithValues?: string;
+  outcomes?: ListOfStrings;
+  evaluated?: boolean;
+  matched?: boolean;
+}
+export const EvaluatedRule = S.suspend(() =>
+  S.Struct({
+    ruleId: S.optional(S.String),
+    ruleVersion: S.optional(S.String),
+    expression: S.optional(S.String),
+    expressionWithValues: S.optional(S.String),
+    outcomes: S.optional(ListOfStrings),
+    evaluated: S.optional(S.Boolean),
+    matched: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "EvaluatedRule",
+}) as any as S.Schema<EvaluatedRule>;
+export type EvaluatedRuleList = EvaluatedRule[];
 export const EvaluatedRuleList = S.Array(EvaluatedRule);
-export class ModelOutputConfiguration extends S.Class<ModelOutputConfiguration>(
-  "ModelOutputConfiguration",
-)({
-  format: S.String,
-  jsonKeyToVariableMap: S.optional(JsonKeyToVariableMap),
-  csvIndexToVariableMap: S.optional(CsvIndexToVariableMap),
-}) {}
-export class ExternalModel extends S.Class<ExternalModel>("ExternalModel")({
-  modelEndpoint: S.optional(S.String),
-  modelSource: S.optional(S.String),
-  invokeModelEndpointRoleArn: S.optional(S.String),
-  inputConfiguration: S.optional(ModelInputConfiguration),
-  outputConfiguration: S.optional(ModelOutputConfiguration),
-  modelEndpointStatus: S.optional(S.String),
-  lastUpdatedTime: S.optional(S.String),
-  createdTime: S.optional(S.String),
-  arn: S.optional(S.String),
-}) {}
+export interface ModelOutputConfiguration {
+  format: string;
+  jsonKeyToVariableMap?: JsonKeyToVariableMap;
+  csvIndexToVariableMap?: CsvIndexToVariableMap;
+}
+export const ModelOutputConfiguration = S.suspend(() =>
+  S.Struct({
+    format: S.String,
+    jsonKeyToVariableMap: S.optional(JsonKeyToVariableMap),
+    csvIndexToVariableMap: S.optional(CsvIndexToVariableMap),
+  }),
+).annotations({
+  identifier: "ModelOutputConfiguration",
+}) as any as S.Schema<ModelOutputConfiguration>;
+export interface ExternalModel {
+  modelEndpoint?: string;
+  modelSource?: string;
+  invokeModelEndpointRoleArn?: string;
+  inputConfiguration?: ModelInputConfiguration;
+  outputConfiguration?: ModelOutputConfiguration;
+  modelEndpointStatus?: string;
+  lastUpdatedTime?: string;
+  createdTime?: string;
+  arn?: string;
+}
+export const ExternalModel = S.suspend(() =>
+  S.Struct({
+    modelEndpoint: S.optional(S.String),
+    modelSource: S.optional(S.String),
+    invokeModelEndpointRoleArn: S.optional(S.String),
+    inputConfiguration: S.optional(ModelInputConfiguration),
+    outputConfiguration: S.optional(ModelOutputConfiguration),
+    modelEndpointStatus: S.optional(S.String),
+    lastUpdatedTime: S.optional(S.String),
+    createdTime: S.optional(S.String),
+    arn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ExternalModel",
+}) as any as S.Schema<ExternalModel>;
+export type ExternalModelList = ExternalModel[];
 export const ExternalModelList = S.Array(ExternalModel);
-export class Label extends S.Class<Label>("Label")({
-  name: S.optional(S.String),
-  description: S.optional(S.String),
-  lastUpdatedTime: S.optional(S.String),
-  createdTime: S.optional(S.String),
-  arn: S.optional(S.String),
-}) {}
+export interface Label {
+  name?: string;
+  description?: string;
+  lastUpdatedTime?: string;
+  createdTime?: string;
+  arn?: string;
+}
+export const Label = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    lastUpdatedTime: S.optional(S.String),
+    createdTime: S.optional(S.String),
+    arn: S.optional(S.String),
+  }),
+).annotations({ identifier: "Label" }) as any as S.Schema<Label>;
+export type labelList = Label[];
 export const labelList = S.Array(Label);
-export class AllowDenyList extends S.Class<AllowDenyList>("AllowDenyList")({
-  name: S.String,
-  description: S.optional(S.String),
-  variableType: S.optional(S.String),
-  createdTime: S.optional(S.String),
-  updatedTime: S.optional(S.String),
-  arn: S.optional(S.String),
-}) {}
+export interface AllowDenyList {
+  name: string;
+  description?: string;
+  variableType?: string;
+  createdTime?: string;
+  updatedTime?: string;
+  arn?: string;
+}
+export const AllowDenyList = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    description: S.optional(S.String),
+    variableType: S.optional(S.String),
+    createdTime: S.optional(S.String),
+    updatedTime: S.optional(S.String),
+    arn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AllowDenyList",
+}) as any as S.Schema<AllowDenyList>;
+export type AllowDenyLists = AllowDenyList[];
 export const AllowDenyLists = S.Array(AllowDenyList);
-export class Model extends S.Class<Model>("Model")({
-  modelId: S.optional(S.String),
-  modelType: S.optional(S.String),
-  description: S.optional(S.String),
-  eventTypeName: S.optional(S.String),
-  createdTime: S.optional(S.String),
-  lastUpdatedTime: S.optional(S.String),
-  arn: S.optional(S.String),
-}) {}
+export interface Model {
+  modelId?: string;
+  modelType?: string;
+  description?: string;
+  eventTypeName?: string;
+  createdTime?: string;
+  lastUpdatedTime?: string;
+  arn?: string;
+}
+export const Model = S.suspend(() =>
+  S.Struct({
+    modelId: S.optional(S.String),
+    modelType: S.optional(S.String),
+    description: S.optional(S.String),
+    eventTypeName: S.optional(S.String),
+    createdTime: S.optional(S.String),
+    lastUpdatedTime: S.optional(S.String),
+    arn: S.optional(S.String),
+  }),
+).annotations({ identifier: "Model" }) as any as S.Schema<Model>;
+export type modelList = Model[];
 export const modelList = S.Array(Model);
-export class Outcome extends S.Class<Outcome>("Outcome")({
-  name: S.optional(S.String),
-  description: S.optional(S.String),
-  lastUpdatedTime: S.optional(S.String),
-  createdTime: S.optional(S.String),
-  arn: S.optional(S.String),
-}) {}
+export interface Outcome {
+  name?: string;
+  description?: string;
+  lastUpdatedTime?: string;
+  createdTime?: string;
+  arn?: string;
+}
+export const Outcome = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    lastUpdatedTime: S.optional(S.String),
+    createdTime: S.optional(S.String),
+    arn: S.optional(S.String),
+  }),
+).annotations({ identifier: "Outcome" }) as any as S.Schema<Outcome>;
+export type OutcomeList = Outcome[];
 export const OutcomeList = S.Array(Outcome);
-export class RuleDetail extends S.Class<RuleDetail>("RuleDetail")({
-  ruleId: S.optional(S.String),
-  description: S.optional(S.String),
-  detectorId: S.optional(S.String),
-  ruleVersion: S.optional(S.String),
-  expression: S.optional(S.String),
-  language: S.optional(S.String),
-  outcomes: S.optional(NonEmptyListOfStrings),
-  lastUpdatedTime: S.optional(S.String),
-  createdTime: S.optional(S.String),
-  arn: S.optional(S.String),
-}) {}
+export interface RuleDetail {
+  ruleId?: string;
+  description?: string;
+  detectorId?: string;
+  ruleVersion?: string;
+  expression?: string;
+  language?: string;
+  outcomes?: NonEmptyListOfStrings;
+  lastUpdatedTime?: string;
+  createdTime?: string;
+  arn?: string;
+}
+export const RuleDetail = S.suspend(() =>
+  S.Struct({
+    ruleId: S.optional(S.String),
+    description: S.optional(S.String),
+    detectorId: S.optional(S.String),
+    ruleVersion: S.optional(S.String),
+    expression: S.optional(S.String),
+    language: S.optional(S.String),
+    outcomes: S.optional(NonEmptyListOfStrings),
+    lastUpdatedTime: S.optional(S.String),
+    createdTime: S.optional(S.String),
+    arn: S.optional(S.String),
+  }),
+).annotations({ identifier: "RuleDetail" }) as any as S.Schema<RuleDetail>;
+export type RuleDetailList = RuleDetail[];
 export const RuleDetailList = S.Array(RuleDetail);
-export class BatchGetVariableResult extends S.Class<BatchGetVariableResult>(
-  "BatchGetVariableResult",
-)(
-  {
+export interface BatchGetVariableResult {
+  variables?: VariableList;
+  errors?: BatchGetVariableErrorList;
+}
+export const BatchGetVariableResult = S.suspend(() =>
+  S.Struct({
     variables: S.optional(VariableList),
     errors: S.optional(BatchGetVariableErrorList),
-  },
-  ns,
-) {}
-export class CreateDetectorVersionResult extends S.Class<CreateDetectorVersionResult>(
-  "CreateDetectorVersionResult",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "BatchGetVariableResult",
+}) as any as S.Schema<BatchGetVariableResult>;
+export interface CreateDetectorVersionResult {
+  detectorId?: string;
+  detectorVersionId?: string;
+  status?: string;
+}
+export const CreateDetectorVersionResult = S.suspend(() =>
+  S.Struct({
     detectorId: S.optional(S.String),
     detectorVersionId: S.optional(S.String),
     status: S.optional(S.String),
-  },
-  ns,
-) {}
-export class DescribeDetectorResult extends S.Class<DescribeDetectorResult>(
-  "DescribeDetectorResult",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "CreateDetectorVersionResult",
+}) as any as S.Schema<CreateDetectorVersionResult>;
+export interface DescribeDetectorResult {
+  detectorId?: string;
+  detectorVersionSummaries?: DetectorVersionSummaryList;
+  nextToken?: string;
+  arn?: string;
+}
+export const DescribeDetectorResult = S.suspend(() =>
+  S.Struct({
     detectorId: S.optional(S.String),
     detectorVersionSummaries: S.optional(DetectorVersionSummaryList),
     nextToken: S.optional(S.String),
     arn: S.optional(S.String),
-  },
-  ns,
-) {}
-export class GetBatchImportJobsResult extends S.Class<GetBatchImportJobsResult>(
-  "GetBatchImportJobsResult",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeDetectorResult",
+}) as any as S.Schema<DescribeDetectorResult>;
+export interface GetBatchImportJobsResult {
+  batchImports?: BatchImportList;
+  nextToken?: string;
+}
+export const GetBatchImportJobsResult = S.suspend(() =>
+  S.Struct({
     batchImports: S.optional(BatchImportList),
     nextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class GetBatchPredictionJobsResult extends S.Class<GetBatchPredictionJobsResult>(
-  "GetBatchPredictionJobsResult",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetBatchImportJobsResult",
+}) as any as S.Schema<GetBatchImportJobsResult>;
+export interface GetBatchPredictionJobsResult {
+  batchPredictions?: BatchPredictionList;
+  nextToken?: string;
+}
+export const GetBatchPredictionJobsResult = S.suspend(() =>
+  S.Struct({
     batchPredictions: S.optional(BatchPredictionList),
     nextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class GetDetectorsResult extends S.Class<GetDetectorsResult>(
-  "GetDetectorsResult",
-)(
-  { detectors: S.optional(DetectorList), nextToken: S.optional(S.String) },
-  ns,
-) {}
-export class GetEntityTypesResult extends S.Class<GetEntityTypesResult>(
-  "GetEntityTypesResult",
-)(
-  { entityTypes: S.optional(entityTypeList), nextToken: S.optional(S.String) },
-  ns,
-) {}
-export class GetEventPredictionRequest extends S.Class<GetEventPredictionRequest>(
-  "GetEventPredictionRequest",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetBatchPredictionJobsResult",
+}) as any as S.Schema<GetBatchPredictionJobsResult>;
+export interface GetDetectorsResult {
+  detectors?: DetectorList;
+  nextToken?: string;
+}
+export const GetDetectorsResult = S.suspend(() =>
+  S.Struct({
+    detectors: S.optional(DetectorList),
+    nextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "GetDetectorsResult",
+}) as any as S.Schema<GetDetectorsResult>;
+export interface GetEntityTypesResult {
+  entityTypes?: entityTypeList;
+  nextToken?: string;
+}
+export const GetEntityTypesResult = S.suspend(() =>
+  S.Struct({
+    entityTypes: S.optional(entityTypeList),
+    nextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "GetEntityTypesResult",
+}) as any as S.Schema<GetEntityTypesResult>;
+export interface GetEventPredictionRequest {
+  detectorId: string;
+  detectorVersionId?: string;
+  eventId: string;
+  eventTypeName: string;
+  entities: listOfEntities;
+  eventTimestamp: string;
+  eventVariables: EventVariableMap;
+  externalModelEndpointDataBlobs?: ExternalModelEndpointDataBlobMap;
+}
+export const GetEventPredictionRequest = S.suspend(() =>
+  S.Struct({
     detectorId: S.String,
     detectorVersionId: S.optional(S.String),
     eventId: S.String,
@@ -1419,38 +2971,103 @@ export class GetEventPredictionRequest extends S.Class<GetEventPredictionRequest
     externalModelEndpointDataBlobs: S.optional(
       ExternalModelEndpointDataBlobMap,
     ),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetExternalModelsResult extends S.Class<GetExternalModelsResult>(
-  "GetExternalModelsResult",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetEventPredictionRequest",
+}) as any as S.Schema<GetEventPredictionRequest>;
+export interface GetExternalModelsResult {
+  externalModels?: ExternalModelList;
+  nextToken?: string;
+}
+export const GetExternalModelsResult = S.suspend(() =>
+  S.Struct({
     externalModels: S.optional(ExternalModelList),
     nextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class GetLabelsResult extends S.Class<GetLabelsResult>(
-  "GetLabelsResult",
-)({ labels: S.optional(labelList), nextToken: S.optional(S.String) }, ns) {}
-export class GetListsMetadataResult extends S.Class<GetListsMetadataResult>(
-  "GetListsMetadataResult",
-)({ lists: S.optional(AllowDenyLists), nextToken: S.optional(S.String) }, ns) {}
-export class GetModelsResult extends S.Class<GetModelsResult>(
-  "GetModelsResult",
-)({ nextToken: S.optional(S.String), models: S.optional(modelList) }, ns) {}
-export class GetOutcomesResult extends S.Class<GetOutcomesResult>(
-  "GetOutcomesResult",
-)({ outcomes: S.optional(OutcomeList), nextToken: S.optional(S.String) }, ns) {}
-export class GetRulesResult extends S.Class<GetRulesResult>("GetRulesResult")(
-  { ruleDetails: S.optional(RuleDetailList), nextToken: S.optional(S.String) },
-  ns,
-) {}
-export class PutExternalModelRequest extends S.Class<PutExternalModelRequest>(
-  "PutExternalModelRequest",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetExternalModelsResult",
+}) as any as S.Schema<GetExternalModelsResult>;
+export interface GetLabelsResult {
+  labels?: labelList;
+  nextToken?: string;
+}
+export const GetLabelsResult = S.suspend(() =>
+  S.Struct({
+    labels: S.optional(labelList),
+    nextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "GetLabelsResult",
+}) as any as S.Schema<GetLabelsResult>;
+export interface GetListsMetadataResult {
+  lists?: AllowDenyLists;
+  nextToken?: string;
+}
+export const GetListsMetadataResult = S.suspend(() =>
+  S.Struct({
+    lists: S.optional(AllowDenyLists),
+    nextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "GetListsMetadataResult",
+}) as any as S.Schema<GetListsMetadataResult>;
+export interface GetModelsResult {
+  nextToken?: string;
+  models?: modelList;
+}
+export const GetModelsResult = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    models: S.optional(modelList),
+  }).pipe(ns),
+).annotations({
+  identifier: "GetModelsResult",
+}) as any as S.Schema<GetModelsResult>;
+export interface GetOutcomesResult {
+  outcomes?: OutcomeList;
+  nextToken?: string;
+}
+export const GetOutcomesResult = S.suspend(() =>
+  S.Struct({
+    outcomes: S.optional(OutcomeList),
+    nextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "GetOutcomesResult",
+}) as any as S.Schema<GetOutcomesResult>;
+export interface GetRulesResult {
+  ruleDetails?: RuleDetailList;
+  nextToken?: string;
+}
+export const GetRulesResult = S.suspend(() =>
+  S.Struct({
+    ruleDetails: S.optional(RuleDetailList),
+    nextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "GetRulesResult",
+}) as any as S.Schema<GetRulesResult>;
+export interface PutExternalModelRequest {
+  modelEndpoint: string;
+  modelSource: string;
+  invokeModelEndpointRoleArn: string;
+  inputConfiguration: ModelInputConfiguration;
+  outputConfiguration: ModelOutputConfiguration;
+  modelEndpointStatus: string;
+  tags?: tagList;
+}
+export const PutExternalModelRequest = S.suspend(() =>
+  S.Struct({
     modelEndpoint: S.String,
     modelSource: S.String,
     invokeModelEndpointRoleArn: S.String,
@@ -1458,81 +3075,173 @@ export class PutExternalModelRequest extends S.Class<PutExternalModelRequest>(
     outputConfiguration: ModelOutputConfiguration,
     modelEndpointStatus: S.String,
     tags: S.optional(tagList),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutExternalModelResult extends S.Class<PutExternalModelResult>(
-  "PutExternalModelResult",
-)({}, ns) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutExternalModelRequest",
+}) as any as S.Schema<PutExternalModelRequest>;
+export interface PutExternalModelResult {}
+export const PutExternalModelResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "PutExternalModelResult",
+}) as any as S.Schema<PutExternalModelResult>;
+export type EventAttributeMap = { [key: string]: string };
 export const EventAttributeMap = S.Record({ key: S.String, value: S.String });
+export type MapOfStrings = { [key: string]: string };
 export const MapOfStrings = S.Record({ key: S.String, value: S.String });
-export class IngestedEventStatistics extends S.Class<IngestedEventStatistics>(
-  "IngestedEventStatistics",
-)({
-  numberOfEvents: S.optional(S.Number),
-  eventDataSizeInBytes: S.optional(S.Number),
-  leastRecentEvent: S.optional(S.String),
-  mostRecentEvent: S.optional(S.String),
-  lastUpdatedTime: S.optional(S.String),
-}) {}
-export class BatchCreateVariableError extends S.Class<BatchCreateVariableError>(
-  "BatchCreateVariableError",
-)({
-  name: S.optional(S.String),
-  code: S.optional(S.Number),
-  message: S.optional(S.String),
-}) {}
+export interface IngestedEventStatistics {
+  numberOfEvents?: number;
+  eventDataSizeInBytes?: number;
+  leastRecentEvent?: string;
+  mostRecentEvent?: string;
+  lastUpdatedTime?: string;
+}
+export const IngestedEventStatistics = S.suspend(() =>
+  S.Struct({
+    numberOfEvents: S.optional(S.Number),
+    eventDataSizeInBytes: S.optional(S.Number),
+    leastRecentEvent: S.optional(S.String),
+    mostRecentEvent: S.optional(S.String),
+    lastUpdatedTime: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "IngestedEventStatistics",
+}) as any as S.Schema<IngestedEventStatistics>;
+export interface BatchCreateVariableError {
+  name?: string;
+  code?: number;
+  message?: string;
+}
+export const BatchCreateVariableError = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    code: S.optional(S.Number),
+    message: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "BatchCreateVariableError",
+}) as any as S.Schema<BatchCreateVariableError>;
+export type BatchCreateVariableErrorList = BatchCreateVariableError[];
 export const BatchCreateVariableErrorList = S.Array(BatchCreateVariableError);
-export class Event extends S.Class<Event>("Event")({
-  eventId: S.optional(S.String),
-  eventTypeName: S.optional(S.String),
-  eventTimestamp: S.optional(S.String),
-  eventVariables: S.optional(EventAttributeMap),
-  currentLabel: S.optional(S.String),
-  labelTimestamp: S.optional(S.String),
-  entities: S.optional(listOfEntities),
-}) {}
-export class EvaluatedExternalModel extends S.Class<EvaluatedExternalModel>(
-  "EvaluatedExternalModel",
-)({
-  modelEndpoint: S.optional(S.String),
-  useEventVariables: S.optional(S.Boolean),
-  inputVariables: S.optional(MapOfStrings),
-  outputVariables: S.optional(MapOfStrings),
-}) {}
+export interface Event {
+  eventId?: string;
+  eventTypeName?: string;
+  eventTimestamp?: string;
+  eventVariables?: EventAttributeMap;
+  currentLabel?: string;
+  labelTimestamp?: string;
+  entities?: listOfEntities;
+}
+export const Event = S.suspend(() =>
+  S.Struct({
+    eventId: S.optional(S.String),
+    eventTypeName: S.optional(S.String),
+    eventTimestamp: S.optional(S.String),
+    eventVariables: S.optional(EventAttributeMap),
+    currentLabel: S.optional(S.String),
+    labelTimestamp: S.optional(S.String),
+    entities: S.optional(listOfEntities),
+  }),
+).annotations({ identifier: "Event" }) as any as S.Schema<Event>;
+export interface EvaluatedExternalModel {
+  modelEndpoint?: string;
+  useEventVariables?: boolean;
+  inputVariables?: MapOfStrings;
+  outputVariables?: MapOfStrings;
+}
+export const EvaluatedExternalModel = S.suspend(() =>
+  S.Struct({
+    modelEndpoint: S.optional(S.String),
+    useEventVariables: S.optional(S.Boolean),
+    inputVariables: S.optional(MapOfStrings),
+    outputVariables: S.optional(MapOfStrings),
+  }),
+).annotations({
+  identifier: "EvaluatedExternalModel",
+}) as any as S.Schema<EvaluatedExternalModel>;
+export type ListOfEvaluatedExternalModels = EvaluatedExternalModel[];
 export const ListOfEvaluatedExternalModels = S.Array(EvaluatedExternalModel);
-export class EventType extends S.Class<EventType>("EventType")({
-  name: S.optional(S.String),
-  description: S.optional(S.String),
-  eventVariables: S.optional(ListOfStrings),
-  labels: S.optional(ListOfStrings),
-  entityTypes: S.optional(NonEmptyListOfStrings),
-  eventIngestion: S.optional(S.String),
-  ingestedEventStatistics: S.optional(IngestedEventStatistics),
-  lastUpdatedTime: S.optional(S.String),
-  createdTime: S.optional(S.String),
-  arn: S.optional(S.String),
-  eventOrchestration: S.optional(EventOrchestration),
-}) {}
+export interface EventType {
+  name?: string;
+  description?: string;
+  eventVariables?: ListOfStrings;
+  labels?: ListOfStrings;
+  entityTypes?: NonEmptyListOfStrings;
+  eventIngestion?: string;
+  ingestedEventStatistics?: IngestedEventStatistics;
+  lastUpdatedTime?: string;
+  createdTime?: string;
+  arn?: string;
+  eventOrchestration?: EventOrchestration;
+}
+export const EventType = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    eventVariables: S.optional(ListOfStrings),
+    labels: S.optional(ListOfStrings),
+    entityTypes: S.optional(NonEmptyListOfStrings),
+    eventIngestion: S.optional(S.String),
+    ingestedEventStatistics: S.optional(IngestedEventStatistics),
+    lastUpdatedTime: S.optional(S.String),
+    createdTime: S.optional(S.String),
+    arn: S.optional(S.String),
+    eventOrchestration: S.optional(EventOrchestration),
+  }),
+).annotations({ identifier: "EventType" }) as any as S.Schema<EventType>;
+export type eventTypeList = EventType[];
 export const eventTypeList = S.Array(EventType);
-export class EventPredictionSummary extends S.Class<EventPredictionSummary>(
-  "EventPredictionSummary",
-)({
-  eventId: S.optional(S.String),
-  eventTypeName: S.optional(S.String),
-  eventTimestamp: S.optional(S.String),
-  predictionTimestamp: S.optional(S.String),
-  detectorId: S.optional(S.String),
-  detectorVersionId: S.optional(S.String),
-}) {}
+export interface EventPredictionSummary {
+  eventId?: string;
+  eventTypeName?: string;
+  eventTimestamp?: string;
+  predictionTimestamp?: string;
+  detectorId?: string;
+  detectorVersionId?: string;
+}
+export const EventPredictionSummary = S.suspend(() =>
+  S.Struct({
+    eventId: S.optional(S.String),
+    eventTypeName: S.optional(S.String),
+    eventTimestamp: S.optional(S.String),
+    predictionTimestamp: S.optional(S.String),
+    detectorId: S.optional(S.String),
+    detectorVersionId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "EventPredictionSummary",
+}) as any as S.Schema<EventPredictionSummary>;
+export type ListOfEventPredictionSummaries = EventPredictionSummary[];
 export const ListOfEventPredictionSummaries = S.Array(EventPredictionSummary);
-export class BatchCreateVariableResult extends S.Class<BatchCreateVariableResult>(
-  "BatchCreateVariableResult",
-)({ errors: S.optional(BatchCreateVariableErrorList) }, ns) {}
-export class CreateModelVersionRequest extends S.Class<CreateModelVersionRequest>(
-  "CreateModelVersionRequest",
-)(
-  {
+export interface BatchCreateVariableResult {
+  errors?: BatchCreateVariableErrorList;
+}
+export const BatchCreateVariableResult = S.suspend(() =>
+  S.Struct({ errors: S.optional(BatchCreateVariableErrorList) }).pipe(ns),
+).annotations({
+  identifier: "BatchCreateVariableResult",
+}) as any as S.Schema<BatchCreateVariableResult>;
+export interface CreateModelVersionRequest {
+  modelId: string;
+  modelType: string;
+  trainingDataSource: string;
+  trainingDataSchema: TrainingDataSchema;
+  externalEventsDetail?: ExternalEventsDetail;
+  ingestedEventsDetail?: IngestedEventsDetail;
+  tags?: tagList;
+}
+export const CreateModelVersionRequest = S.suspend(() =>
+  S.Struct({
     modelId: S.String,
     modelType: S.String,
     trainingDataSource: S.String,
@@ -1540,240 +3249,500 @@ export class CreateModelVersionRequest extends S.Class<CreateModelVersionRequest
     externalEventsDetail: S.optional(ExternalEventsDetail),
     ingestedEventsDetail: S.optional(IngestedEventsDetail),
     tags: S.optional(tagList),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetEventResult extends S.Class<GetEventResult>("GetEventResult")(
-  { event: S.optional(Event) },
-  ns,
-) {}
-export class GetEventTypesResult extends S.Class<GetEventTypesResult>(
-  "GetEventTypesResult",
-)(
-  { eventTypes: S.optional(eventTypeList), nextToken: S.optional(S.String) },
-  ns,
-) {}
-export class ListEventPredictionsResult extends S.Class<ListEventPredictionsResult>(
-  "ListEventPredictionsResult",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateModelVersionRequest",
+}) as any as S.Schema<CreateModelVersionRequest>;
+export interface GetEventResult {
+  event?: Event;
+}
+export const GetEventResult = S.suspend(() =>
+  S.Struct({ event: S.optional(Event) }).pipe(ns),
+).annotations({
+  identifier: "GetEventResult",
+}) as any as S.Schema<GetEventResult>;
+export interface GetEventTypesResult {
+  eventTypes?: eventTypeList;
+  nextToken?: string;
+}
+export const GetEventTypesResult = S.suspend(() =>
+  S.Struct({
+    eventTypes: S.optional(eventTypeList),
+    nextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "GetEventTypesResult",
+}) as any as S.Schema<GetEventTypesResult>;
+export interface ListEventPredictionsResult {
+  eventPredictionSummaries?: ListOfEventPredictionSummaries;
+  nextToken?: string;
+}
+export const ListEventPredictionsResult = S.suspend(() =>
+  S.Struct({
     eventPredictionSummaries: S.optional(ListOfEventPredictionSummaries),
     nextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class FileValidationMessage extends S.Class<FileValidationMessage>(
-  "FileValidationMessage",
-)({
-  title: S.optional(S.String),
-  content: S.optional(S.String),
-  type: S.optional(S.String),
-}) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "ListEventPredictionsResult",
+}) as any as S.Schema<ListEventPredictionsResult>;
+export interface FileValidationMessage {
+  title?: string;
+  content?: string;
+  type?: string;
+}
+export const FileValidationMessage = S.suspend(() =>
+  S.Struct({
+    title: S.optional(S.String),
+    content: S.optional(S.String),
+    type: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "FileValidationMessage",
+}) as any as S.Schema<FileValidationMessage>;
+export type fileValidationMessageList = FileValidationMessage[];
 export const fileValidationMessageList = S.Array(FileValidationMessage);
-export class FieldValidationMessage extends S.Class<FieldValidationMessage>(
-  "FieldValidationMessage",
-)({
-  fieldName: S.optional(S.String),
-  identifier: S.optional(S.String),
-  title: S.optional(S.String),
-  content: S.optional(S.String),
-  type: S.optional(S.String),
-}) {}
+export interface FieldValidationMessage {
+  fieldName?: string;
+  identifier?: string;
+  title?: string;
+  content?: string;
+  type?: string;
+}
+export const FieldValidationMessage = S.suspend(() =>
+  S.Struct({
+    fieldName: S.optional(S.String),
+    identifier: S.optional(S.String),
+    title: S.optional(S.String),
+    content: S.optional(S.String),
+    type: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "FieldValidationMessage",
+}) as any as S.Schema<FieldValidationMessage>;
+export type fieldValidationMessageList = FieldValidationMessage[];
 export const fieldValidationMessageList = S.Array(FieldValidationMessage);
-export class MetricDataPoint extends S.Class<MetricDataPoint>(
-  "MetricDataPoint",
-)({
-  fpr: S.optional(S.Number),
-  precision: S.optional(S.Number),
-  tpr: S.optional(S.Number),
-  threshold: S.optional(S.Number),
-}) {}
+export interface MetricDataPoint {
+  fpr?: number;
+  precision?: number;
+  tpr?: number;
+  threshold?: number;
+}
+export const MetricDataPoint = S.suspend(() =>
+  S.Struct({
+    fpr: S.optional(S.Number),
+    precision: S.optional(S.Number),
+    tpr: S.optional(S.Number),
+    threshold: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "MetricDataPoint",
+}) as any as S.Schema<MetricDataPoint>;
+export type metricDataPointsList = MetricDataPoint[];
 export const metricDataPointsList = S.Array(MetricDataPoint);
-export class LogOddsMetric extends S.Class<LogOddsMetric>("LogOddsMetric")({
-  variableName: S.String,
-  variableType: S.String,
-  variableImportance: S.Number,
-}) {}
+export interface LogOddsMetric {
+  variableName: string;
+  variableType: string;
+  variableImportance: number;
+}
+export const LogOddsMetric = S.suspend(() =>
+  S.Struct({
+    variableName: S.String,
+    variableType: S.String,
+    variableImportance: S.Number,
+  }),
+).annotations({
+  identifier: "LogOddsMetric",
+}) as any as S.Schema<LogOddsMetric>;
+export type ListOfLogOddsMetrics = LogOddsMetric[];
 export const ListOfLogOddsMetrics = S.Array(LogOddsMetric);
-export class AggregatedLogOddsMetric extends S.Class<AggregatedLogOddsMetric>(
-  "AggregatedLogOddsMetric",
-)({ variableNames: ListOfStrings, aggregatedVariablesImportance: S.Number }) {}
+export interface AggregatedLogOddsMetric {
+  variableNames: ListOfStrings;
+  aggregatedVariablesImportance: number;
+}
+export const AggregatedLogOddsMetric = S.suspend(() =>
+  S.Struct({
+    variableNames: ListOfStrings,
+    aggregatedVariablesImportance: S.Number,
+  }),
+).annotations({
+  identifier: "AggregatedLogOddsMetric",
+}) as any as S.Schema<AggregatedLogOddsMetric>;
+export type ListOfAggregatedLogOddsMetrics = AggregatedLogOddsMetric[];
 export const ListOfAggregatedLogOddsMetrics = S.Array(AggregatedLogOddsMetric);
-export class VariableImpactExplanation extends S.Class<VariableImpactExplanation>(
-  "VariableImpactExplanation",
-)({
-  eventVariableName: S.optional(S.String),
-  relativeImpact: S.optional(S.String),
-  logOddsImpact: S.optional(S.Number),
-}) {}
+export interface VariableImpactExplanation {
+  eventVariableName?: string;
+  relativeImpact?: string;
+  logOddsImpact?: number;
+}
+export const VariableImpactExplanation = S.suspend(() =>
+  S.Struct({
+    eventVariableName: S.optional(S.String),
+    relativeImpact: S.optional(S.String),
+    logOddsImpact: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "VariableImpactExplanation",
+}) as any as S.Schema<VariableImpactExplanation>;
+export type listOfVariableImpactExplanations = VariableImpactExplanation[];
 export const listOfVariableImpactExplanations = S.Array(
   VariableImpactExplanation,
 );
-export class AggregatedVariablesImpactExplanation extends S.Class<AggregatedVariablesImpactExplanation>(
-  "AggregatedVariablesImpactExplanation",
-)({
-  eventVariableNames: S.optional(ListOfStrings),
-  relativeImpact: S.optional(S.String),
-  logOddsImpact: S.optional(S.Number),
-}) {}
+export interface AggregatedVariablesImpactExplanation {
+  eventVariableNames?: ListOfStrings;
+  relativeImpact?: string;
+  logOddsImpact?: number;
+}
+export const AggregatedVariablesImpactExplanation = S.suspend(() =>
+  S.Struct({
+    eventVariableNames: S.optional(ListOfStrings),
+    relativeImpact: S.optional(S.String),
+    logOddsImpact: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "AggregatedVariablesImpactExplanation",
+}) as any as S.Schema<AggregatedVariablesImpactExplanation>;
+export type ListOfAggregatedVariablesImpactExplanations =
+  AggregatedVariablesImpactExplanation[];
 export const ListOfAggregatedVariablesImpactExplanations = S.Array(
   AggregatedVariablesImpactExplanation,
 );
-export class RuleResult extends S.Class<RuleResult>("RuleResult")({
-  ruleId: S.optional(S.String),
-  outcomes: S.optional(ListOfStrings),
-}) {}
+export interface RuleResult {
+  ruleId?: string;
+  outcomes?: ListOfStrings;
+}
+export const RuleResult = S.suspend(() =>
+  S.Struct({
+    ruleId: S.optional(S.String),
+    outcomes: S.optional(ListOfStrings),
+  }),
+).annotations({ identifier: "RuleResult" }) as any as S.Schema<RuleResult>;
+export type ListOfRuleResults = RuleResult[];
 export const ListOfRuleResults = S.Array(RuleResult);
-export class DataValidationMetrics extends S.Class<DataValidationMetrics>(
-  "DataValidationMetrics",
-)({
-  fileLevelMessages: S.optional(fileValidationMessageList),
-  fieldLevelMessages: S.optional(fieldValidationMessageList),
-}) {}
-export class TrainingMetrics extends S.Class<TrainingMetrics>(
-  "TrainingMetrics",
-)({
-  auc: S.optional(S.Number),
-  metricDataPoints: S.optional(metricDataPointsList),
-}) {}
-export class VariableImportanceMetrics extends S.Class<VariableImportanceMetrics>(
-  "VariableImportanceMetrics",
-)({ logOddsMetrics: S.optional(ListOfLogOddsMetrics) }) {}
-export class AggregatedVariablesImportanceMetrics extends S.Class<AggregatedVariablesImportanceMetrics>(
-  "AggregatedVariablesImportanceMetrics",
-)({ logOddsMetrics: S.optional(ListOfAggregatedLogOddsMetrics) }) {}
-export class PredictionExplanations extends S.Class<PredictionExplanations>(
-  "PredictionExplanations",
-)({
-  variableImpactExplanations: S.optional(listOfVariableImpactExplanations),
-  aggregatedVariablesImpactExplanations: S.optional(
-    ListOfAggregatedVariablesImpactExplanations,
-  ),
-}) {}
-export class CreateModelVersionResult extends S.Class<CreateModelVersionResult>(
-  "CreateModelVersionResult",
-)(
-  {
+export interface DataValidationMetrics {
+  fileLevelMessages?: fileValidationMessageList;
+  fieldLevelMessages?: fieldValidationMessageList;
+}
+export const DataValidationMetrics = S.suspend(() =>
+  S.Struct({
+    fileLevelMessages: S.optional(fileValidationMessageList),
+    fieldLevelMessages: S.optional(fieldValidationMessageList),
+  }),
+).annotations({
+  identifier: "DataValidationMetrics",
+}) as any as S.Schema<DataValidationMetrics>;
+export interface TrainingMetrics {
+  auc?: number;
+  metricDataPoints?: metricDataPointsList;
+}
+export const TrainingMetrics = S.suspend(() =>
+  S.Struct({
+    auc: S.optional(S.Number),
+    metricDataPoints: S.optional(metricDataPointsList),
+  }),
+).annotations({
+  identifier: "TrainingMetrics",
+}) as any as S.Schema<TrainingMetrics>;
+export interface VariableImportanceMetrics {
+  logOddsMetrics?: ListOfLogOddsMetrics;
+}
+export const VariableImportanceMetrics = S.suspend(() =>
+  S.Struct({ logOddsMetrics: S.optional(ListOfLogOddsMetrics) }),
+).annotations({
+  identifier: "VariableImportanceMetrics",
+}) as any as S.Schema<VariableImportanceMetrics>;
+export interface AggregatedVariablesImportanceMetrics {
+  logOddsMetrics?: ListOfAggregatedLogOddsMetrics;
+}
+export const AggregatedVariablesImportanceMetrics = S.suspend(() =>
+  S.Struct({ logOddsMetrics: S.optional(ListOfAggregatedLogOddsMetrics) }),
+).annotations({
+  identifier: "AggregatedVariablesImportanceMetrics",
+}) as any as S.Schema<AggregatedVariablesImportanceMetrics>;
+export interface PredictionExplanations {
+  variableImpactExplanations?: listOfVariableImpactExplanations;
+  aggregatedVariablesImpactExplanations?: ListOfAggregatedVariablesImpactExplanations;
+}
+export const PredictionExplanations = S.suspend(() =>
+  S.Struct({
+    variableImpactExplanations: S.optional(listOfVariableImpactExplanations),
+    aggregatedVariablesImpactExplanations: S.optional(
+      ListOfAggregatedVariablesImpactExplanations,
+    ),
+  }),
+).annotations({
+  identifier: "PredictionExplanations",
+}) as any as S.Schema<PredictionExplanations>;
+export interface CreateModelVersionResult {
+  modelId?: string;
+  modelType?: string;
+  modelVersionNumber?: string;
+  status?: string;
+}
+export const CreateModelVersionResult = S.suspend(() =>
+  S.Struct({
     modelId: S.optional(S.String),
     modelType: S.optional(S.String),
     modelVersionNumber: S.optional(S.String),
     status: S.optional(S.String),
-  },
-  ns,
-) {}
-export class OFIMetricDataPoint extends S.Class<OFIMetricDataPoint>(
-  "OFIMetricDataPoint",
-)({
-  fpr: S.optional(S.Number),
-  precision: S.optional(S.Number),
-  tpr: S.optional(S.Number),
-  threshold: S.optional(S.Number),
-}) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "CreateModelVersionResult",
+}) as any as S.Schema<CreateModelVersionResult>;
+export interface OFIMetricDataPoint {
+  fpr?: number;
+  precision?: number;
+  tpr?: number;
+  threshold?: number;
+}
+export const OFIMetricDataPoint = S.suspend(() =>
+  S.Struct({
+    fpr: S.optional(S.Number),
+    precision: S.optional(S.Number),
+    tpr: S.optional(S.Number),
+    threshold: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "OFIMetricDataPoint",
+}) as any as S.Schema<OFIMetricDataPoint>;
+export type OFIMetricDataPointsList = OFIMetricDataPoint[];
 export const OFIMetricDataPointsList = S.Array(OFIMetricDataPoint);
-export class TFIMetricDataPoint extends S.Class<TFIMetricDataPoint>(
-  "TFIMetricDataPoint",
-)({
-  fpr: S.optional(S.Number),
-  precision: S.optional(S.Number),
-  tpr: S.optional(S.Number),
-  threshold: S.optional(S.Number),
-}) {}
+export interface TFIMetricDataPoint {
+  fpr?: number;
+  precision?: number;
+  tpr?: number;
+  threshold?: number;
+}
+export const TFIMetricDataPoint = S.suspend(() =>
+  S.Struct({
+    fpr: S.optional(S.Number),
+    precision: S.optional(S.Number),
+    tpr: S.optional(S.Number),
+    threshold: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "TFIMetricDataPoint",
+}) as any as S.Schema<TFIMetricDataPoint>;
+export type TFIMetricDataPointsList = TFIMetricDataPoint[];
 export const TFIMetricDataPointsList = S.Array(TFIMetricDataPoint);
-export class UncertaintyRange extends S.Class<UncertaintyRange>(
-  "UncertaintyRange",
-)({ lowerBoundValue: S.Number, upperBoundValue: S.Number }) {}
-export class TFIModelPerformance extends S.Class<TFIModelPerformance>(
-  "TFIModelPerformance",
-)({
-  auc: S.optional(S.Number),
-  uncertaintyRange: S.optional(UncertaintyRange),
-}) {}
-export class ATIMetricDataPoint extends S.Class<ATIMetricDataPoint>(
-  "ATIMetricDataPoint",
-)({
-  cr: S.optional(S.Number),
-  adr: S.optional(S.Number),
-  threshold: S.optional(S.Number),
-  atodr: S.optional(S.Number),
-}) {}
+export interface UncertaintyRange {
+  lowerBoundValue: number;
+  upperBoundValue: number;
+}
+export const UncertaintyRange = S.suspend(() =>
+  S.Struct({ lowerBoundValue: S.Number, upperBoundValue: S.Number }),
+).annotations({
+  identifier: "UncertaintyRange",
+}) as any as S.Schema<UncertaintyRange>;
+export interface TFIModelPerformance {
+  auc?: number;
+  uncertaintyRange?: UncertaintyRange;
+}
+export const TFIModelPerformance = S.suspend(() =>
+  S.Struct({
+    auc: S.optional(S.Number),
+    uncertaintyRange: S.optional(UncertaintyRange),
+  }),
+).annotations({
+  identifier: "TFIModelPerformance",
+}) as any as S.Schema<TFIModelPerformance>;
+export interface ATIMetricDataPoint {
+  cr?: number;
+  adr?: number;
+  threshold?: number;
+  atodr?: number;
+}
+export const ATIMetricDataPoint = S.suspend(() =>
+  S.Struct({
+    cr: S.optional(S.Number),
+    adr: S.optional(S.Number),
+    threshold: S.optional(S.Number),
+    atodr: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "ATIMetricDataPoint",
+}) as any as S.Schema<ATIMetricDataPoint>;
+export type ATIMetricDataPointsList = ATIMetricDataPoint[];
 export const ATIMetricDataPointsList = S.Array(ATIMetricDataPoint);
-export class ATIModelPerformance extends S.Class<ATIModelPerformance>(
-  "ATIModelPerformance",
-)({ asi: S.optional(S.Number) }) {}
-export class TrainingResult extends S.Class<TrainingResult>("TrainingResult")({
-  dataValidationMetrics: S.optional(DataValidationMetrics),
-  trainingMetrics: S.optional(TrainingMetrics),
-  variableImportanceMetrics: S.optional(VariableImportanceMetrics),
-}) {}
+export interface ATIModelPerformance {
+  asi?: number;
+}
+export const ATIModelPerformance = S.suspend(() =>
+  S.Struct({ asi: S.optional(S.Number) }),
+).annotations({
+  identifier: "ATIModelPerformance",
+}) as any as S.Schema<ATIModelPerformance>;
+export interface TrainingResult {
+  dataValidationMetrics?: DataValidationMetrics;
+  trainingMetrics?: TrainingMetrics;
+  variableImportanceMetrics?: VariableImportanceMetrics;
+}
+export const TrainingResult = S.suspend(() =>
+  S.Struct({
+    dataValidationMetrics: S.optional(DataValidationMetrics),
+    trainingMetrics: S.optional(TrainingMetrics),
+    variableImportanceMetrics: S.optional(VariableImportanceMetrics),
+  }),
+).annotations({
+  identifier: "TrainingResult",
+}) as any as S.Schema<TrainingResult>;
+export type ModelPredictionMap = { [key: string]: number };
 export const ModelPredictionMap = S.Record({ key: S.String, value: S.Number });
-export class ExternalModelSummary extends S.Class<ExternalModelSummary>(
-  "ExternalModelSummary",
-)({ modelEndpoint: S.optional(S.String), modelSource: S.optional(S.String) }) {}
+export interface ExternalModelSummary {
+  modelEndpoint?: string;
+  modelSource?: string;
+}
+export const ExternalModelSummary = S.suspend(() =>
+  S.Struct({
+    modelEndpoint: S.optional(S.String),
+    modelSource: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ExternalModelSummary",
+}) as any as S.Schema<ExternalModelSummary>;
+export type ExternalModelPredictionMap = { [key: string]: string };
 export const ExternalModelPredictionMap = S.Record({
   key: S.String,
   value: S.String,
 });
-export class ModelVersionEvaluation extends S.Class<ModelVersionEvaluation>(
-  "ModelVersionEvaluation",
-)({
-  outputVariableName: S.optional(S.String),
-  evaluationScore: S.optional(S.String),
-  predictionExplanations: S.optional(PredictionExplanations),
-}) {}
+export interface ModelVersionEvaluation {
+  outputVariableName?: string;
+  evaluationScore?: string;
+  predictionExplanations?: PredictionExplanations;
+}
+export const ModelVersionEvaluation = S.suspend(() =>
+  S.Struct({
+    outputVariableName: S.optional(S.String),
+    evaluationScore: S.optional(S.String),
+    predictionExplanations: S.optional(PredictionExplanations),
+  }),
+).annotations({
+  identifier: "ModelVersionEvaluation",
+}) as any as S.Schema<ModelVersionEvaluation>;
+export type ListOfModelVersionEvaluations = ModelVersionEvaluation[];
 export const ListOfModelVersionEvaluations = S.Array(ModelVersionEvaluation);
-export class TFITrainingMetricsValue extends S.Class<TFITrainingMetricsValue>(
-  "TFITrainingMetricsValue",
-)({
-  metricDataPoints: S.optional(TFIMetricDataPointsList),
-  modelPerformance: S.optional(TFIModelPerformance),
-}) {}
-export class ATITrainingMetricsValue extends S.Class<ATITrainingMetricsValue>(
-  "ATITrainingMetricsValue",
-)({
-  metricDataPoints: S.optional(ATIMetricDataPointsList),
-  modelPerformance: S.optional(ATIModelPerformance),
-}) {}
-export class ModelScores extends S.Class<ModelScores>("ModelScores")({
-  modelVersion: S.optional(ModelVersion),
-  scores: S.optional(ModelPredictionMap),
-}) {}
+export interface TFITrainingMetricsValue {
+  metricDataPoints?: TFIMetricDataPointsList;
+  modelPerformance?: TFIModelPerformance;
+}
+export const TFITrainingMetricsValue = S.suspend(() =>
+  S.Struct({
+    metricDataPoints: S.optional(TFIMetricDataPointsList),
+    modelPerformance: S.optional(TFIModelPerformance),
+  }),
+).annotations({
+  identifier: "TFITrainingMetricsValue",
+}) as any as S.Schema<TFITrainingMetricsValue>;
+export interface ATITrainingMetricsValue {
+  metricDataPoints?: ATIMetricDataPointsList;
+  modelPerformance?: ATIModelPerformance;
+}
+export const ATITrainingMetricsValue = S.suspend(() =>
+  S.Struct({
+    metricDataPoints: S.optional(ATIMetricDataPointsList),
+    modelPerformance: S.optional(ATIModelPerformance),
+  }),
+).annotations({
+  identifier: "ATITrainingMetricsValue",
+}) as any as S.Schema<ATITrainingMetricsValue>;
+export interface ModelScores {
+  modelVersion?: ModelVersion;
+  scores?: ModelPredictionMap;
+}
+export const ModelScores = S.suspend(() =>
+  S.Struct({
+    modelVersion: S.optional(ModelVersion),
+    scores: S.optional(ModelPredictionMap),
+  }),
+).annotations({ identifier: "ModelScores" }) as any as S.Schema<ModelScores>;
+export type ListOfModelScores = ModelScores[];
 export const ListOfModelScores = S.Array(ModelScores);
-export class ExternalModelOutputs extends S.Class<ExternalModelOutputs>(
-  "ExternalModelOutputs",
-)({
-  externalModel: S.optional(ExternalModelSummary),
-  outputs: S.optional(ExternalModelPredictionMap),
-}) {}
+export interface ExternalModelOutputs {
+  externalModel?: ExternalModelSummary;
+  outputs?: ExternalModelPredictionMap;
+}
+export const ExternalModelOutputs = S.suspend(() =>
+  S.Struct({
+    externalModel: S.optional(ExternalModelSummary),
+    outputs: S.optional(ExternalModelPredictionMap),
+  }),
+).annotations({
+  identifier: "ExternalModelOutputs",
+}) as any as S.Schema<ExternalModelOutputs>;
+export type ListOfExternalModelOutputs = ExternalModelOutputs[];
 export const ListOfExternalModelOutputs = S.Array(ExternalModelOutputs);
-export class EvaluatedModelVersion extends S.Class<EvaluatedModelVersion>(
-  "EvaluatedModelVersion",
-)({
-  modelId: S.optional(S.String),
-  modelVersion: S.optional(S.String),
-  modelType: S.optional(S.String),
-  evaluations: S.optional(ListOfModelVersionEvaluations),
-}) {}
+export interface EvaluatedModelVersion {
+  modelId?: string;
+  modelVersion?: string;
+  modelType?: string;
+  evaluations?: ListOfModelVersionEvaluations;
+}
+export const EvaluatedModelVersion = S.suspend(() =>
+  S.Struct({
+    modelId: S.optional(S.String),
+    modelVersion: S.optional(S.String),
+    modelType: S.optional(S.String),
+    evaluations: S.optional(ListOfModelVersionEvaluations),
+  }),
+).annotations({
+  identifier: "EvaluatedModelVersion",
+}) as any as S.Schema<EvaluatedModelVersion>;
+export type ListOfEvaluatedModelVersions = EvaluatedModelVersion[];
 export const ListOfEvaluatedModelVersions = S.Array(EvaluatedModelVersion);
-export class OFIModelPerformance extends S.Class<OFIModelPerformance>(
-  "OFIModelPerformance",
-)({
-  auc: S.optional(S.Number),
-  uncertaintyRange: S.optional(UncertaintyRange),
-}) {}
-export class GetEventPredictionResult extends S.Class<GetEventPredictionResult>(
-  "GetEventPredictionResult",
-)(
-  {
+export interface OFIModelPerformance {
+  auc?: number;
+  uncertaintyRange?: UncertaintyRange;
+}
+export const OFIModelPerformance = S.suspend(() =>
+  S.Struct({
+    auc: S.optional(S.Number),
+    uncertaintyRange: S.optional(UncertaintyRange),
+  }),
+).annotations({
+  identifier: "OFIModelPerformance",
+}) as any as S.Schema<OFIModelPerformance>;
+export interface GetEventPredictionResult {
+  modelScores?: ListOfModelScores;
+  ruleResults?: ListOfRuleResults;
+  externalModelOutputs?: ListOfExternalModelOutputs;
+}
+export const GetEventPredictionResult = S.suspend(() =>
+  S.Struct({
     modelScores: S.optional(ListOfModelScores),
     ruleResults: S.optional(ListOfRuleResults),
     externalModelOutputs: S.optional(ListOfExternalModelOutputs),
-  },
-  ns,
-) {}
-export class GetEventPredictionMetadataResult extends S.Class<GetEventPredictionMetadataResult>(
-  "GetEventPredictionMetadataResult",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetEventPredictionResult",
+}) as any as S.Schema<GetEventPredictionResult>;
+export interface GetEventPredictionMetadataResult {
+  eventId?: string;
+  eventTypeName?: string;
+  entityId?: string;
+  entityType?: string;
+  eventTimestamp?: string;
+  detectorId?: string;
+  detectorVersionId?: string;
+  detectorVersionStatus?: string;
+  eventVariables?: ListOfEventVariableSummaries;
+  rules?: EvaluatedRuleList;
+  ruleExecutionMode?: string;
+  outcomes?: ListOfStrings;
+  evaluatedModelVersions?: ListOfEvaluatedModelVersions;
+  evaluatedExternalModels?: ListOfEvaluatedExternalModels;
+  predictionTimestamp?: string;
+}
+export const GetEventPredictionMetadataResult = S.suspend(() =>
+  S.Struct({
     eventId: S.optional(S.String),
     eventTypeName: S.optional(S.String),
     entityId: S.optional(S.String),
@@ -1789,59 +3758,102 @@ export class GetEventPredictionMetadataResult extends S.Class<GetEventPrediction
     evaluatedModelVersions: S.optional(ListOfEvaluatedModelVersions),
     evaluatedExternalModels: S.optional(ListOfEvaluatedExternalModels),
     predictionTimestamp: S.optional(S.String),
-  },
-  ns,
-) {}
-export class OFITrainingMetricsValue extends S.Class<OFITrainingMetricsValue>(
-  "OFITrainingMetricsValue",
-)({
-  metricDataPoints: S.optional(OFIMetricDataPointsList),
-  modelPerformance: S.optional(OFIModelPerformance),
-}) {}
-export class TrainingMetricsV2 extends S.Class<TrainingMetricsV2>(
-  "TrainingMetricsV2",
-)({
-  ofi: S.optional(OFITrainingMetricsValue),
-  tfi: S.optional(TFITrainingMetricsValue),
-  ati: S.optional(ATITrainingMetricsValue),
-}) {}
-export class TrainingResultV2 extends S.Class<TrainingResultV2>(
-  "TrainingResultV2",
-)({
-  dataValidationMetrics: S.optional(DataValidationMetrics),
-  trainingMetricsV2: S.optional(TrainingMetricsV2),
-  variableImportanceMetrics: S.optional(VariableImportanceMetrics),
-  aggregatedVariablesImportanceMetrics: S.optional(
-    AggregatedVariablesImportanceMetrics,
-  ),
-}) {}
-export class ModelVersionDetail extends S.Class<ModelVersionDetail>(
-  "ModelVersionDetail",
-)({
-  modelId: S.optional(S.String),
-  modelType: S.optional(S.String),
-  modelVersionNumber: S.optional(S.String),
-  status: S.optional(S.String),
-  trainingDataSource: S.optional(S.String),
-  trainingDataSchema: S.optional(TrainingDataSchema),
-  externalEventsDetail: S.optional(ExternalEventsDetail),
-  ingestedEventsDetail: S.optional(IngestedEventsDetail),
-  trainingResult: S.optional(TrainingResult),
-  lastUpdatedTime: S.optional(S.String),
-  createdTime: S.optional(S.String),
-  arn: S.optional(S.String),
-  trainingResultV2: S.optional(TrainingResultV2),
-}) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "GetEventPredictionMetadataResult",
+}) as any as S.Schema<GetEventPredictionMetadataResult>;
+export interface OFITrainingMetricsValue {
+  metricDataPoints?: OFIMetricDataPointsList;
+  modelPerformance?: OFIModelPerformance;
+}
+export const OFITrainingMetricsValue = S.suspend(() =>
+  S.Struct({
+    metricDataPoints: S.optional(OFIMetricDataPointsList),
+    modelPerformance: S.optional(OFIModelPerformance),
+  }),
+).annotations({
+  identifier: "OFITrainingMetricsValue",
+}) as any as S.Schema<OFITrainingMetricsValue>;
+export interface TrainingMetricsV2 {
+  ofi?: OFITrainingMetricsValue;
+  tfi?: TFITrainingMetricsValue;
+  ati?: ATITrainingMetricsValue;
+}
+export const TrainingMetricsV2 = S.suspend(() =>
+  S.Struct({
+    ofi: S.optional(OFITrainingMetricsValue),
+    tfi: S.optional(TFITrainingMetricsValue),
+    ati: S.optional(ATITrainingMetricsValue),
+  }),
+).annotations({
+  identifier: "TrainingMetricsV2",
+}) as any as S.Schema<TrainingMetricsV2>;
+export interface TrainingResultV2 {
+  dataValidationMetrics?: DataValidationMetrics;
+  trainingMetricsV2?: TrainingMetricsV2;
+  variableImportanceMetrics?: VariableImportanceMetrics;
+  aggregatedVariablesImportanceMetrics?: AggregatedVariablesImportanceMetrics;
+}
+export const TrainingResultV2 = S.suspend(() =>
+  S.Struct({
+    dataValidationMetrics: S.optional(DataValidationMetrics),
+    trainingMetricsV2: S.optional(TrainingMetricsV2),
+    variableImportanceMetrics: S.optional(VariableImportanceMetrics),
+    aggregatedVariablesImportanceMetrics: S.optional(
+      AggregatedVariablesImportanceMetrics,
+    ),
+  }),
+).annotations({
+  identifier: "TrainingResultV2",
+}) as any as S.Schema<TrainingResultV2>;
+export interface ModelVersionDetail {
+  modelId?: string;
+  modelType?: string;
+  modelVersionNumber?: string;
+  status?: string;
+  trainingDataSource?: string;
+  trainingDataSchema?: TrainingDataSchema;
+  externalEventsDetail?: ExternalEventsDetail;
+  ingestedEventsDetail?: IngestedEventsDetail;
+  trainingResult?: TrainingResult;
+  lastUpdatedTime?: string;
+  createdTime?: string;
+  arn?: string;
+  trainingResultV2?: TrainingResultV2;
+}
+export const ModelVersionDetail = S.suspend(() =>
+  S.Struct({
+    modelId: S.optional(S.String),
+    modelType: S.optional(S.String),
+    modelVersionNumber: S.optional(S.String),
+    status: S.optional(S.String),
+    trainingDataSource: S.optional(S.String),
+    trainingDataSchema: S.optional(TrainingDataSchema),
+    externalEventsDetail: S.optional(ExternalEventsDetail),
+    ingestedEventsDetail: S.optional(IngestedEventsDetail),
+    trainingResult: S.optional(TrainingResult),
+    lastUpdatedTime: S.optional(S.String),
+    createdTime: S.optional(S.String),
+    arn: S.optional(S.String),
+    trainingResultV2: S.optional(TrainingResultV2),
+  }),
+).annotations({
+  identifier: "ModelVersionDetail",
+}) as any as S.Schema<ModelVersionDetail>;
+export type modelVersionDetailList = ModelVersionDetail[];
 export const modelVersionDetailList = S.Array(ModelVersionDetail);
-export class DescribeModelVersionsResult extends S.Class<DescribeModelVersionsResult>(
-  "DescribeModelVersionsResult",
-)(
-  {
+export interface DescribeModelVersionsResult {
+  modelVersionDetails?: modelVersionDetailList;
+  nextToken?: string;
+}
+export const DescribeModelVersionsResult = S.suspend(() =>
+  S.Struct({
     modelVersionDetails: S.optional(modelVersionDetailList),
     nextToken: S.optional(S.String),
-  },
-  ns,
-) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeModelVersionsResult",
+}) as any as S.Schema<DescribeModelVersionsResult>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

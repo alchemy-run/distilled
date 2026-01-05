@@ -282,196 +282,359 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type SubnetIds = string[];
 export const SubnetIds = S.Array(S.String);
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class CreateHsmRequest extends S.Class<CreateHsmRequest>(
-  "CreateHsmRequest",
-)(
-  {
+export interface CreateHsmRequest {
+  ClusterId: string;
+  AvailabilityZone: string;
+  IpAddress?: string;
+}
+export const CreateHsmRequest = S.suspend(() =>
+  S.Struct({
     ClusterId: S.String,
     AvailabilityZone: S.String,
     IpAddress: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteBackupRequest extends S.Class<DeleteBackupRequest>(
-  "DeleteBackupRequest",
-)(
-  { BackupId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteClusterRequest extends S.Class<DeleteClusterRequest>(
-  "DeleteClusterRequest",
-)(
-  { ClusterId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteHsmRequest extends S.Class<DeleteHsmRequest>(
-  "DeleteHsmRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateHsmRequest",
+}) as any as S.Schema<CreateHsmRequest>;
+export interface DeleteBackupRequest {
+  BackupId: string;
+}
+export const DeleteBackupRequest = S.suspend(() =>
+  S.Struct({ BackupId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteBackupRequest",
+}) as any as S.Schema<DeleteBackupRequest>;
+export interface DeleteClusterRequest {
+  ClusterId: string;
+}
+export const DeleteClusterRequest = S.suspend(() =>
+  S.Struct({ ClusterId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteClusterRequest",
+}) as any as S.Schema<DeleteClusterRequest>;
+export interface DeleteHsmRequest {
+  ClusterId: string;
+  HsmId?: string;
+  EniId?: string;
+  EniIp?: string;
+}
+export const DeleteHsmRequest = S.suspend(() =>
+  S.Struct({
     ClusterId: S.String,
     HsmId: S.optional(S.String),
     EniId: S.optional(S.String),
     EniIp: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteResourcePolicyRequest extends S.Class<DeleteResourcePolicyRequest>(
-  "DeleteResourcePolicyRequest",
-)(
-  { ResourceArn: S.optional(S.String) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteHsmRequest",
+}) as any as S.Schema<DeleteHsmRequest>;
+export interface DeleteResourcePolicyRequest {
+  ResourceArn?: string;
+}
+export const DeleteResourcePolicyRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.optional(S.String) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteResourcePolicyRequest",
+}) as any as S.Schema<DeleteResourcePolicyRequest>;
+export type Strings = string[];
 export const Strings = S.Array(S.String);
+export type Filters = { [key: string]: Strings };
 export const Filters = S.Record({ key: S.String, value: Strings });
-export class DescribeClustersRequest extends S.Class<DescribeClustersRequest>(
-  "DescribeClustersRequest",
-)(
-  {
+export interface DescribeClustersRequest {
+  Filters?: Filters;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const DescribeClustersRequest = S.suspend(() =>
+  S.Struct({
     Filters: S.optional(Filters),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetResourcePolicyRequest extends S.Class<GetResourcePolicyRequest>(
-  "GetResourcePolicyRequest",
-)(
-  { ResourceArn: S.optional(S.String) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class InitializeClusterRequest extends S.Class<InitializeClusterRequest>(
-  "InitializeClusterRequest",
-)(
-  { ClusterId: S.String, SignedCert: S.String, TrustAnchor: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTagsRequest extends S.Class<ListTagsRequest>(
-  "ListTagsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeClustersRequest",
+}) as any as S.Schema<DescribeClustersRequest>;
+export interface GetResourcePolicyRequest {
+  ResourceArn?: string;
+}
+export const GetResourcePolicyRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.optional(S.String) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetResourcePolicyRequest",
+}) as any as S.Schema<GetResourcePolicyRequest>;
+export interface InitializeClusterRequest {
+  ClusterId: string;
+  SignedCert: string;
+  TrustAnchor: string;
+}
+export const InitializeClusterRequest = S.suspend(() =>
+  S.Struct({
+    ClusterId: S.String,
+    SignedCert: S.String,
+    TrustAnchor: S.String,
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "InitializeClusterRequest",
+}) as any as S.Schema<InitializeClusterRequest>;
+export interface ListTagsRequest {
+  ResourceId: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListTagsRequest = S.suspend(() =>
+  S.Struct({
     ResourceId: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ModifyBackupAttributesRequest extends S.Class<ModifyBackupAttributesRequest>(
-  "ModifyBackupAttributesRequest",
-)(
-  { BackupId: S.String, NeverExpires: S.Boolean },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class BackupRetentionPolicy extends S.Class<BackupRetentionPolicy>(
-  "BackupRetentionPolicy",
-)({ Type: S.optional(S.String), Value: S.optional(S.String) }) {}
-export class ModifyClusterRequest extends S.Class<ModifyClusterRequest>(
-  "ModifyClusterRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListTagsRequest",
+}) as any as S.Schema<ListTagsRequest>;
+export interface ModifyBackupAttributesRequest {
+  BackupId: string;
+  NeverExpires: boolean;
+}
+export const ModifyBackupAttributesRequest = S.suspend(() =>
+  S.Struct({ BackupId: S.String, NeverExpires: S.Boolean }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ModifyBackupAttributesRequest",
+}) as any as S.Schema<ModifyBackupAttributesRequest>;
+export interface BackupRetentionPolicy {
+  Type?: string;
+  Value?: string;
+}
+export const BackupRetentionPolicy = S.suspend(() =>
+  S.Struct({ Type: S.optional(S.String), Value: S.optional(S.String) }),
+).annotations({
+  identifier: "BackupRetentionPolicy",
+}) as any as S.Schema<BackupRetentionPolicy>;
+export interface ModifyClusterRequest {
+  HsmType?: string;
+  BackupRetentionPolicy?: BackupRetentionPolicy;
+  ClusterId: string;
+}
+export const ModifyClusterRequest = S.suspend(() =>
+  S.Struct({
     HsmType: S.optional(S.String),
     BackupRetentionPolicy: S.optional(BackupRetentionPolicy),
     ClusterId: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutResourcePolicyRequest extends S.Class<PutResourcePolicyRequest>(
-  "PutResourcePolicyRequest",
-)(
-  { ResourceArn: S.optional(S.String), Policy: S.optional(S.String) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class RestoreBackupRequest extends S.Class<RestoreBackupRequest>(
-  "RestoreBackupRequest",
-)(
-  { BackupId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class Tag extends S.Class<Tag>("Tag")({
-  Key: S.String,
-  Value: S.String,
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ModifyClusterRequest",
+}) as any as S.Schema<ModifyClusterRequest>;
+export interface PutResourcePolicyRequest {
+  ResourceArn?: string;
+  Policy?: string;
+}
+export const PutResourcePolicyRequest = S.suspend(() =>
+  S.Struct({
+    ResourceArn: S.optional(S.String),
+    Policy: S.optional(S.String),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "PutResourcePolicyRequest",
+}) as any as S.Schema<PutResourcePolicyRequest>;
+export interface RestoreBackupRequest {
+  BackupId: string;
+}
+export const RestoreBackupRequest = S.suspend(() =>
+  S.Struct({ BackupId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "RestoreBackupRequest",
+}) as any as S.Schema<RestoreBackupRequest>;
+export interface Tag {
+  Key: string;
+  Value: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ Key: S.String, Value: S.String }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagList = Tag[];
 export const TagList = S.Array(Tag);
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { ResourceId: S.String, TagList: TagList },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  { ResourceId: S.String, TagKeyList: TagKeyList },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
-export class Hsm extends S.Class<Hsm>("Hsm")({
-  AvailabilityZone: S.optional(S.String),
-  ClusterId: S.optional(S.String),
-  SubnetId: S.optional(S.String),
-  EniId: S.optional(S.String),
-  EniIp: S.optional(S.String),
-  EniIpV6: S.optional(S.String),
-  HsmId: S.String,
-  HsmType: S.optional(S.String),
-  State: S.optional(S.String),
-  StateMessage: S.optional(S.String),
-}) {}
+export interface TagResourceRequest {
+  ResourceId: string;
+  TagList: TagList;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceId: S.String, TagList: TagList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UntagResourceRequest {
+  ResourceId: string;
+  TagKeyList: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceId: S.String, TagKeyList: TagKeyList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface Hsm {
+  AvailabilityZone?: string;
+  ClusterId?: string;
+  SubnetId?: string;
+  EniId?: string;
+  EniIp?: string;
+  EniIpV6?: string;
+  HsmId: string;
+  HsmType?: string;
+  State?: string;
+  StateMessage?: string;
+}
+export const Hsm = S.suspend(() =>
+  S.Struct({
+    AvailabilityZone: S.optional(S.String),
+    ClusterId: S.optional(S.String),
+    SubnetId: S.optional(S.String),
+    EniId: S.optional(S.String),
+    EniIp: S.optional(S.String),
+    EniIpV6: S.optional(S.String),
+    HsmId: S.String,
+    HsmType: S.optional(S.String),
+    State: S.optional(S.String),
+    StateMessage: S.optional(S.String),
+  }),
+).annotations({ identifier: "Hsm" }) as any as S.Schema<Hsm>;
+export type Hsms = Hsm[];
 export const Hsms = S.Array(Hsm);
+export type ExternalSubnetMapping = { [key: string]: string };
 export const ExternalSubnetMapping = S.Record({
   key: S.String,
   value: S.String,
 });
-export class Certificates extends S.Class<Certificates>("Certificates")({
-  ClusterCsr: S.optional(S.String),
-  HsmCertificate: S.optional(S.String),
-  AwsHardwareCertificate: S.optional(S.String),
-  ManufacturerHardwareCertificate: S.optional(S.String),
-  ClusterCertificate: S.optional(S.String),
-}) {}
-export class Cluster extends S.Class<Cluster>("Cluster")({
-  BackupPolicy: S.optional(S.String),
-  BackupRetentionPolicy: S.optional(BackupRetentionPolicy),
-  ClusterId: S.optional(S.String),
-  CreateTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Hsms: S.optional(Hsms),
-  HsmType: S.optional(S.String),
-  HsmTypeRollbackExpiration: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  PreCoPassword: S.optional(S.String),
-  SecurityGroup: S.optional(S.String),
-  SourceBackupId: S.optional(S.String),
-  State: S.optional(S.String),
-  StateMessage: S.optional(S.String),
-  SubnetMapping: S.optional(ExternalSubnetMapping),
-  VpcId: S.optional(S.String),
-  NetworkType: S.optional(S.String),
-  Certificates: S.optional(Certificates),
-  TagList: S.optional(TagList),
-  Mode: S.optional(S.String),
-}) {}
+export interface Certificates {
+  ClusterCsr?: string;
+  HsmCertificate?: string;
+  AwsHardwareCertificate?: string;
+  ManufacturerHardwareCertificate?: string;
+  ClusterCertificate?: string;
+}
+export const Certificates = S.suspend(() =>
+  S.Struct({
+    ClusterCsr: S.optional(S.String),
+    HsmCertificate: S.optional(S.String),
+    AwsHardwareCertificate: S.optional(S.String),
+    ManufacturerHardwareCertificate: S.optional(S.String),
+    ClusterCertificate: S.optional(S.String),
+  }),
+).annotations({ identifier: "Certificates" }) as any as S.Schema<Certificates>;
+export interface Cluster {
+  BackupPolicy?: string;
+  BackupRetentionPolicy?: BackupRetentionPolicy;
+  ClusterId?: string;
+  CreateTimestamp?: Date;
+  Hsms?: Hsms;
+  HsmType?: string;
+  HsmTypeRollbackExpiration?: Date;
+  PreCoPassword?: string;
+  SecurityGroup?: string;
+  SourceBackupId?: string;
+  State?: string;
+  StateMessage?: string;
+  SubnetMapping?: ExternalSubnetMapping;
+  VpcId?: string;
+  NetworkType?: string;
+  Certificates?: Certificates;
+  TagList?: TagList;
+  Mode?: string;
+}
+export const Cluster = S.suspend(() =>
+  S.Struct({
+    BackupPolicy: S.optional(S.String),
+    BackupRetentionPolicy: S.optional(BackupRetentionPolicy),
+    ClusterId: S.optional(S.String),
+    CreateTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    Hsms: S.optional(Hsms),
+    HsmType: S.optional(S.String),
+    HsmTypeRollbackExpiration: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    PreCoPassword: S.optional(S.String),
+    SecurityGroup: S.optional(S.String),
+    SourceBackupId: S.optional(S.String),
+    State: S.optional(S.String),
+    StateMessage: S.optional(S.String),
+    SubnetMapping: S.optional(ExternalSubnetMapping),
+    VpcId: S.optional(S.String),
+    NetworkType: S.optional(S.String),
+    Certificates: S.optional(Certificates),
+    TagList: S.optional(TagList),
+    Mode: S.optional(S.String),
+  }),
+).annotations({ identifier: "Cluster" }) as any as S.Schema<Cluster>;
+export type Clusters = Cluster[];
 export const Clusters = S.Array(Cluster);
-export class CopyBackupToRegionRequest extends S.Class<CopyBackupToRegionRequest>(
-  "CopyBackupToRegionRequest",
-)(
-  {
+export interface CopyBackupToRegionRequest {
+  DestinationRegion: string;
+  BackupId: string;
+  TagList?: TagList;
+}
+export const CopyBackupToRegionRequest = S.suspend(() =>
+  S.Struct({
     DestinationRegion: S.String,
     BackupId: S.String,
     TagList: S.optional(TagList),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateClusterRequest extends S.Class<CreateClusterRequest>(
-  "CreateClusterRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CopyBackupToRegionRequest",
+}) as any as S.Schema<CopyBackupToRegionRequest>;
+export interface CreateClusterRequest {
+  BackupRetentionPolicy?: BackupRetentionPolicy;
+  HsmType: string;
+  SourceBackupId?: string;
+  SubnetIds: SubnetIds;
+  NetworkType?: string;
+  TagList?: TagList;
+  Mode?: string;
+}
+export const CreateClusterRequest = S.suspend(() =>
+  S.Struct({
     BackupRetentionPolicy: S.optional(BackupRetentionPolicy),
     HsmType: S.String,
     SourceBackupId: S.optional(S.String),
@@ -479,94 +642,224 @@ export class CreateClusterRequest extends S.Class<CreateClusterRequest>(
     NetworkType: S.optional(S.String),
     TagList: S.optional(TagList),
     Mode: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteHsmResponse extends S.Class<DeleteHsmResponse>(
-  "DeleteHsmResponse",
-)({ HsmId: S.optional(S.String) }) {}
-export class DeleteResourcePolicyResponse extends S.Class<DeleteResourcePolicyResponse>(
-  "DeleteResourcePolicyResponse",
-)({ ResourceArn: S.optional(S.String), Policy: S.optional(S.String) }) {}
-export class DescribeBackupsRequest extends S.Class<DescribeBackupsRequest>(
-  "DescribeBackupsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateClusterRequest",
+}) as any as S.Schema<CreateClusterRequest>;
+export interface DeleteHsmResponse {
+  HsmId?: string;
+}
+export const DeleteHsmResponse = S.suspend(() =>
+  S.Struct({ HsmId: S.optional(S.String) }),
+).annotations({
+  identifier: "DeleteHsmResponse",
+}) as any as S.Schema<DeleteHsmResponse>;
+export interface DeleteResourcePolicyResponse {
+  ResourceArn?: string;
+  Policy?: string;
+}
+export const DeleteResourcePolicyResponse = S.suspend(() =>
+  S.Struct({ ResourceArn: S.optional(S.String), Policy: S.optional(S.String) }),
+).annotations({
+  identifier: "DeleteResourcePolicyResponse",
+}) as any as S.Schema<DeleteResourcePolicyResponse>;
+export interface DescribeBackupsRequest {
+  NextToken?: string;
+  MaxResults?: number;
+  Filters?: Filters;
+  Shared?: boolean;
+  SortAscending?: boolean;
+}
+export const DescribeBackupsRequest = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     Filters: S.optional(Filters),
     Shared: S.optional(S.Boolean),
     SortAscending: S.optional(S.Boolean),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeClustersResponse extends S.Class<DescribeClustersResponse>(
-  "DescribeClustersResponse",
-)({ Clusters: S.optional(Clusters), NextToken: S.optional(S.String) }) {}
-export class GetResourcePolicyResponse extends S.Class<GetResourcePolicyResponse>(
-  "GetResourcePolicyResponse",
-)({ Policy: S.optional(S.String) }) {}
-export class InitializeClusterResponse extends S.Class<InitializeClusterResponse>(
-  "InitializeClusterResponse",
-)({ State: S.optional(S.String), StateMessage: S.optional(S.String) }) {}
-export class ListTagsResponse extends S.Class<ListTagsResponse>(
-  "ListTagsResponse",
-)({ TagList: TagList, NextToken: S.optional(S.String) }) {}
-export class Backup extends S.Class<Backup>("Backup")({
-  BackupId: S.String,
-  BackupArn: S.optional(S.String),
-  BackupState: S.optional(S.String),
-  ClusterId: S.optional(S.String),
-  CreateTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  CopyTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  NeverExpires: S.optional(S.Boolean),
-  SourceRegion: S.optional(S.String),
-  SourceBackup: S.optional(S.String),
-  SourceCluster: S.optional(S.String),
-  DeleteTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  TagList: S.optional(TagList),
-  HsmType: S.optional(S.String),
-  Mode: S.optional(S.String),
-}) {}
-export class ModifyBackupAttributesResponse extends S.Class<ModifyBackupAttributesResponse>(
-  "ModifyBackupAttributesResponse",
-)({ Backup: S.optional(Backup) }) {}
-export class ModifyClusterResponse extends S.Class<ModifyClusterResponse>(
-  "ModifyClusterResponse",
-)({ Cluster: S.optional(Cluster) }) {}
-export class PutResourcePolicyResponse extends S.Class<PutResourcePolicyResponse>(
-  "PutResourcePolicyResponse",
-)({ ResourceArn: S.optional(S.String), Policy: S.optional(S.String) }) {}
-export class RestoreBackupResponse extends S.Class<RestoreBackupResponse>(
-  "RestoreBackupResponse",
-)({ Backup: S.optional(Backup) }) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeBackupsRequest",
+}) as any as S.Schema<DescribeBackupsRequest>;
+export interface DescribeClustersResponse {
+  Clusters?: Clusters;
+  NextToken?: string;
+}
+export const DescribeClustersResponse = S.suspend(() =>
+  S.Struct({ Clusters: S.optional(Clusters), NextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "DescribeClustersResponse",
+}) as any as S.Schema<DescribeClustersResponse>;
+export interface GetResourcePolicyResponse {
+  Policy?: string;
+}
+export const GetResourcePolicyResponse = S.suspend(() =>
+  S.Struct({ Policy: S.optional(S.String) }),
+).annotations({
+  identifier: "GetResourcePolicyResponse",
+}) as any as S.Schema<GetResourcePolicyResponse>;
+export interface InitializeClusterResponse {
+  State?: string;
+  StateMessage?: string;
+}
+export const InitializeClusterResponse = S.suspend(() =>
+  S.Struct({ State: S.optional(S.String), StateMessage: S.optional(S.String) }),
+).annotations({
+  identifier: "InitializeClusterResponse",
+}) as any as S.Schema<InitializeClusterResponse>;
+export interface ListTagsResponse {
+  TagList: TagList;
+  NextToken?: string;
+}
+export const ListTagsResponse = S.suspend(() =>
+  S.Struct({ TagList: TagList, NextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListTagsResponse",
+}) as any as S.Schema<ListTagsResponse>;
+export interface Backup {
+  BackupId: string;
+  BackupArn?: string;
+  BackupState?: string;
+  ClusterId?: string;
+  CreateTimestamp?: Date;
+  CopyTimestamp?: Date;
+  NeverExpires?: boolean;
+  SourceRegion?: string;
+  SourceBackup?: string;
+  SourceCluster?: string;
+  DeleteTimestamp?: Date;
+  TagList?: TagList;
+  HsmType?: string;
+  Mode?: string;
+}
+export const Backup = S.suspend(() =>
+  S.Struct({
+    BackupId: S.String,
+    BackupArn: S.optional(S.String),
+    BackupState: S.optional(S.String),
+    ClusterId: S.optional(S.String),
+    CreateTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    CopyTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    NeverExpires: S.optional(S.Boolean),
+    SourceRegion: S.optional(S.String),
+    SourceBackup: S.optional(S.String),
+    SourceCluster: S.optional(S.String),
+    DeleteTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    TagList: S.optional(TagList),
+    HsmType: S.optional(S.String),
+    Mode: S.optional(S.String),
+  }),
+).annotations({ identifier: "Backup" }) as any as S.Schema<Backup>;
+export interface ModifyBackupAttributesResponse {
+  Backup?: Backup;
+}
+export const ModifyBackupAttributesResponse = S.suspend(() =>
+  S.Struct({ Backup: S.optional(Backup) }),
+).annotations({
+  identifier: "ModifyBackupAttributesResponse",
+}) as any as S.Schema<ModifyBackupAttributesResponse>;
+export interface ModifyClusterResponse {
+  Cluster?: Cluster;
+}
+export const ModifyClusterResponse = S.suspend(() =>
+  S.Struct({ Cluster: S.optional(Cluster) }),
+).annotations({
+  identifier: "ModifyClusterResponse",
+}) as any as S.Schema<ModifyClusterResponse>;
+export interface PutResourcePolicyResponse {
+  ResourceArn?: string;
+  Policy?: string;
+}
+export const PutResourcePolicyResponse = S.suspend(() =>
+  S.Struct({ ResourceArn: S.optional(S.String), Policy: S.optional(S.String) }),
+).annotations({
+  identifier: "PutResourcePolicyResponse",
+}) as any as S.Schema<PutResourcePolicyResponse>;
+export interface RestoreBackupResponse {
+  Backup?: Backup;
+}
+export const RestoreBackupResponse = S.suspend(() =>
+  S.Struct({ Backup: S.optional(Backup) }),
+).annotations({
+  identifier: "RestoreBackupResponse",
+}) as any as S.Schema<RestoreBackupResponse>;
+export type Backups = Backup[];
 export const Backups = S.Array(Backup);
-export class CreateClusterResponse extends S.Class<CreateClusterResponse>(
-  "CreateClusterResponse",
-)({ Cluster: S.optional(Cluster) }) {}
-export class CreateHsmResponse extends S.Class<CreateHsmResponse>(
-  "CreateHsmResponse",
-)({ Hsm: S.optional(Hsm) }) {}
-export class DeleteBackupResponse extends S.Class<DeleteBackupResponse>(
-  "DeleteBackupResponse",
-)({ Backup: S.optional(Backup) }) {}
-export class DescribeBackupsResponse extends S.Class<DescribeBackupsResponse>(
-  "DescribeBackupsResponse",
-)({ Backups: S.optional(Backups), NextToken: S.optional(S.String) }) {}
-export class DestinationBackup extends S.Class<DestinationBackup>(
-  "DestinationBackup",
-)({
-  CreateTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  SourceRegion: S.optional(S.String),
-  SourceBackup: S.optional(S.String),
-  SourceCluster: S.optional(S.String),
-}) {}
-export class CopyBackupToRegionResponse extends S.Class<CopyBackupToRegionResponse>(
-  "CopyBackupToRegionResponse",
-)({ DestinationBackup: S.optional(DestinationBackup) }) {}
-export class DeleteClusterResponse extends S.Class<DeleteClusterResponse>(
-  "DeleteClusterResponse",
-)({ Cluster: S.optional(Cluster) }) {}
+export interface CreateClusterResponse {
+  Cluster?: Cluster;
+}
+export const CreateClusterResponse = S.suspend(() =>
+  S.Struct({ Cluster: S.optional(Cluster) }),
+).annotations({
+  identifier: "CreateClusterResponse",
+}) as any as S.Schema<CreateClusterResponse>;
+export interface CreateHsmResponse {
+  Hsm?: Hsm;
+}
+export const CreateHsmResponse = S.suspend(() =>
+  S.Struct({ Hsm: S.optional(Hsm) }),
+).annotations({
+  identifier: "CreateHsmResponse",
+}) as any as S.Schema<CreateHsmResponse>;
+export interface DeleteBackupResponse {
+  Backup?: Backup;
+}
+export const DeleteBackupResponse = S.suspend(() =>
+  S.Struct({ Backup: S.optional(Backup) }),
+).annotations({
+  identifier: "DeleteBackupResponse",
+}) as any as S.Schema<DeleteBackupResponse>;
+export interface DescribeBackupsResponse {
+  Backups?: Backups;
+  NextToken?: string;
+}
+export const DescribeBackupsResponse = S.suspend(() =>
+  S.Struct({ Backups: S.optional(Backups), NextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "DescribeBackupsResponse",
+}) as any as S.Schema<DescribeBackupsResponse>;
+export interface DestinationBackup {
+  CreateTimestamp?: Date;
+  SourceRegion?: string;
+  SourceBackup?: string;
+  SourceCluster?: string;
+}
+export const DestinationBackup = S.suspend(() =>
+  S.Struct({
+    CreateTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    SourceRegion: S.optional(S.String),
+    SourceBackup: S.optional(S.String),
+    SourceCluster: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DestinationBackup",
+}) as any as S.Schema<DestinationBackup>;
+export interface CopyBackupToRegionResponse {
+  DestinationBackup?: DestinationBackup;
+}
+export const CopyBackupToRegionResponse = S.suspend(() =>
+  S.Struct({ DestinationBackup: S.optional(DestinationBackup) }),
+).annotations({
+  identifier: "CopyBackupToRegionResponse",
+}) as any as S.Schema<CopyBackupToRegionResponse>;
+export interface DeleteClusterResponse {
+  Cluster?: Cluster;
+}
+export const DeleteClusterResponse = S.suspend(() =>
+  S.Struct({ Cluster: S.optional(Cluster) }),
+).annotations({
+  identifier: "DeleteClusterResponse",
+}) as any as S.Schema<DeleteClusterResponse>;
 
 //# Errors
 export class CloudHsmAccessDeniedException extends S.TaggedError<CloudHsmAccessDeniedException>()(

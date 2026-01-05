@@ -262,475 +262,694 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type QuickConnectsList = string[];
 export const QuickConnectsList = S.Array(S.String);
+export type WorkspaceResourceArnList = string[];
 export const WorkspaceResourceArnList = S.Array(S.String);
+export type DataSetIds = string[];
 export const DataSetIds = S.Array(S.String);
+export type FileIdList = string[];
 export const FileIdList = S.Array(S.String);
+export type resourceArnListMaxLimit100 = string[];
 export const resourceArnListMaxLimit100 = S.Array(S.String);
+export type PredefinedAttributePurposeNameList = string[];
 export const PredefinedAttributePurposeNameList = S.Array(S.String);
+export type PermissionsList = string[];
 export const PermissionsList = S.Array(S.String);
+export type TagRestrictedResourceList = string[];
 export const TagRestrictedResourceList = S.Array(S.String);
+export type HierarchyRestrictedResourceList = string[];
 export const HierarchyRestrictedResourceList = S.Array(S.String);
+export type SecurityProfileIds = string[];
 export const SecurityProfileIds = S.Array(S.String);
+export type Groupings = string[];
 export const Groupings = S.Array(S.String);
+export type GroupingsV2 = string[];
 export const GroupingsV2 = S.Array(S.String);
+export type AgentStatusTypes = string[];
 export const AgentStatusTypes = S.Array(S.String);
+export type ContactFlowTypes = string[];
 export const ContactFlowTypes = S.Array(S.String);
+export type ReferenceTypes = string[];
 export const ReferenceTypes = S.Array(S.String);
+export type AttributeIds = string[];
 export const AttributeIds = S.Array(S.String);
+export type RecordIds = string[];
 export const RecordIds = S.Array(S.String);
+export type PhoneNumberTypes = string[];
 export const PhoneNumberTypes = S.Array(S.String);
+export type PhoneNumberCountryCodes = string[];
 export const PhoneNumberCountryCodes = S.Array(S.String);
+export type QueueTypes = string[];
 export const QueueTypes = S.Array(S.String);
+export type QuickConnectTypes = string[];
 export const QuickConnectTypes = S.Array(S.String);
+export type RealTimeContactAnalysisSegmentTypes = string[];
 export const RealTimeContactAnalysisSegmentTypes = S.Array(S.String);
+export type AllowedMonitorCapabilities = string[];
 export const AllowedMonitorCapabilities = S.Array(S.String);
+export type ResourceTypeList = string[];
 export const ResourceTypeList = S.Array(S.String);
+export type SupportedMessagingContentTypes = string[];
 export const SupportedMessagingContentTypes = S.Array(S.String);
+export type DisconnectOnCustomerExit = string[];
 export const DisconnectOnCustomerExit = S.Array(S.String);
+export type ContactTagKeys = string[];
 export const ContactTagKeys = S.Array(S.String);
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
+export type IpCidrList = string[];
 export const IpCidrList = S.Array(S.String);
-export class ActivateEvaluationFormRequest extends S.Class<ActivateEvaluationFormRequest>(
-  "ActivateEvaluationFormRequest",
-)(
-  {
+export interface ActivateEvaluationFormRequest {
+  InstanceId: string;
+  EvaluationFormId: string;
+  EvaluationFormVersion: number;
+}
+export const ActivateEvaluationFormRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     EvaluationFormId: S.String.pipe(T.HttpLabel("EvaluationFormId")),
     EvaluationFormVersion: S.Number,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/evaluation-forms/{InstanceId}/{EvaluationFormId}/activate",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/evaluation-forms/{InstanceId}/{EvaluationFormId}/activate",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AssociateAnalyticsDataSetRequest extends S.Class<AssociateAnalyticsDataSetRequest>(
-  "AssociateAnalyticsDataSetRequest",
-)(
-  {
+).annotations({
+  identifier: "ActivateEvaluationFormRequest",
+}) as any as S.Schema<ActivateEvaluationFormRequest>;
+export interface AssociateAnalyticsDataSetRequest {
+  InstanceId: string;
+  DataSetId: string;
+  TargetAccountId?: string;
+}
+export const AssociateAnalyticsDataSetRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     DataSetId: S.String,
     TargetAccountId: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/analytics-data/instance/{InstanceId}/association",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/analytics-data/instance/{InstanceId}/association",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AssociateApprovedOriginRequest extends S.Class<AssociateApprovedOriginRequest>(
-  "AssociateApprovedOriginRequest",
-)(
-  {
+).annotations({
+  identifier: "AssociateAnalyticsDataSetRequest",
+}) as any as S.Schema<AssociateAnalyticsDataSetRequest>;
+export interface AssociateApprovedOriginRequest {
+  InstanceId: string;
+  Origin: string;
+  ClientToken?: string;
+}
+export const AssociateApprovedOriginRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Origin: S.String,
     ClientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/instance/{InstanceId}/approved-origin" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/instance/{InstanceId}/approved-origin" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AssociateApprovedOriginResponse extends S.Class<AssociateApprovedOriginResponse>(
-  "AssociateApprovedOriginResponse",
-)({}) {}
-export class AssociateContactWithUserRequest extends S.Class<AssociateContactWithUserRequest>(
-  "AssociateContactWithUserRequest",
-)(
-  {
+).annotations({
+  identifier: "AssociateApprovedOriginRequest",
+}) as any as S.Schema<AssociateApprovedOriginRequest>;
+export interface AssociateApprovedOriginResponse {}
+export const AssociateApprovedOriginResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "AssociateApprovedOriginResponse",
+}) as any as S.Schema<AssociateApprovedOriginResponse>;
+export interface AssociateContactWithUserRequest {
+  InstanceId: string;
+  ContactId: string;
+  UserId: string;
+}
+export const AssociateContactWithUserRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ContactId: S.String.pipe(T.HttpLabel("ContactId")),
     UserId: S.String,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/contacts/{InstanceId}/{ContactId}/associate-user",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/contacts/{InstanceId}/{ContactId}/associate-user",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AssociateContactWithUserResponse extends S.Class<AssociateContactWithUserResponse>(
-  "AssociateContactWithUserResponse",
-)({}) {}
-export class AssociateDefaultVocabularyRequest extends S.Class<AssociateDefaultVocabularyRequest>(
-  "AssociateDefaultVocabularyRequest",
-)(
-  {
+).annotations({
+  identifier: "AssociateContactWithUserRequest",
+}) as any as S.Schema<AssociateContactWithUserRequest>;
+export interface AssociateContactWithUserResponse {}
+export const AssociateContactWithUserResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "AssociateContactWithUserResponse",
+}) as any as S.Schema<AssociateContactWithUserResponse>;
+export interface AssociateDefaultVocabularyRequest {
+  InstanceId: string;
+  LanguageCode: string;
+  VocabularyId?: string;
+}
+export const AssociateDefaultVocabularyRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     LanguageCode: S.String.pipe(T.HttpLabel("LanguageCode")),
     VocabularyId: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/default-vocabulary/{InstanceId}/{LanguageCode}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/default-vocabulary/{InstanceId}/{LanguageCode}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AssociateDefaultVocabularyResponse extends S.Class<AssociateDefaultVocabularyResponse>(
-  "AssociateDefaultVocabularyResponse",
-)({}) {}
-export class AssociateFlowRequest extends S.Class<AssociateFlowRequest>(
-  "AssociateFlowRequest",
-)(
-  {
+).annotations({
+  identifier: "AssociateDefaultVocabularyRequest",
+}) as any as S.Schema<AssociateDefaultVocabularyRequest>;
+export interface AssociateDefaultVocabularyResponse {}
+export const AssociateDefaultVocabularyResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "AssociateDefaultVocabularyResponse",
+}) as any as S.Schema<AssociateDefaultVocabularyResponse>;
+export interface AssociateFlowRequest {
+  InstanceId: string;
+  ResourceId: string;
+  FlowId: string;
+  ResourceType: string;
+}
+export const AssociateFlowRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ResourceId: S.String,
     FlowId: S.String,
     ResourceType: S.String,
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/flow-associations/{InstanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/flow-associations/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AssociateFlowResponse extends S.Class<AssociateFlowResponse>(
-  "AssociateFlowResponse",
-)({}) {}
-export class AssociateLambdaFunctionRequest extends S.Class<AssociateLambdaFunctionRequest>(
-  "AssociateLambdaFunctionRequest",
-)(
-  {
+).annotations({
+  identifier: "AssociateFlowRequest",
+}) as any as S.Schema<AssociateFlowRequest>;
+export interface AssociateFlowResponse {}
+export const AssociateFlowResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "AssociateFlowResponse",
+}) as any as S.Schema<AssociateFlowResponse>;
+export interface AssociateLambdaFunctionRequest {
+  InstanceId: string;
+  FunctionArn: string;
+  ClientToken?: string;
+}
+export const AssociateLambdaFunctionRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     FunctionArn: S.String,
     ClientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/instance/{InstanceId}/lambda-function" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/instance/{InstanceId}/lambda-function" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AssociateLambdaFunctionResponse extends S.Class<AssociateLambdaFunctionResponse>(
-  "AssociateLambdaFunctionResponse",
-)({}) {}
-export class LexBot extends S.Class<LexBot>("LexBot")({
-  Name: S.String,
-  LexRegion: S.String,
-}) {}
-export class AssociateLexBotRequest extends S.Class<AssociateLexBotRequest>(
-  "AssociateLexBotRequest",
-)(
-  {
+).annotations({
+  identifier: "AssociateLambdaFunctionRequest",
+}) as any as S.Schema<AssociateLambdaFunctionRequest>;
+export interface AssociateLambdaFunctionResponse {}
+export const AssociateLambdaFunctionResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "AssociateLambdaFunctionResponse",
+}) as any as S.Schema<AssociateLambdaFunctionResponse>;
+export interface LexBot {
+  Name: string;
+  LexRegion: string;
+}
+export const LexBot = S.suspend(() =>
+  S.Struct({ Name: S.String, LexRegion: S.String }),
+).annotations({ identifier: "LexBot" }) as any as S.Schema<LexBot>;
+export interface AssociateLexBotRequest {
+  InstanceId: string;
+  LexBot: LexBot;
+  ClientToken?: string;
+}
+export const AssociateLexBotRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     LexBot: LexBot,
     ClientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/instance/{InstanceId}/lex-bot" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/instance/{InstanceId}/lex-bot" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AssociateLexBotResponse extends S.Class<AssociateLexBotResponse>(
-  "AssociateLexBotResponse",
-)({}) {}
-export class AssociatePhoneNumberContactFlowRequest extends S.Class<AssociatePhoneNumberContactFlowRequest>(
-  "AssociatePhoneNumberContactFlowRequest",
-)(
-  {
+).annotations({
+  identifier: "AssociateLexBotRequest",
+}) as any as S.Schema<AssociateLexBotRequest>;
+export interface AssociateLexBotResponse {}
+export const AssociateLexBotResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "AssociateLexBotResponse",
+}) as any as S.Schema<AssociateLexBotResponse>;
+export interface AssociatePhoneNumberContactFlowRequest {
+  PhoneNumberId: string;
+  InstanceId: string;
+  ContactFlowId: string;
+}
+export const AssociatePhoneNumberContactFlowRequest = S.suspend(() =>
+  S.Struct({
     PhoneNumberId: S.String.pipe(T.HttpLabel("PhoneNumberId")),
     InstanceId: S.String,
     ContactFlowId: S.String,
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/phone-number/{PhoneNumberId}/contact-flow",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/phone-number/{PhoneNumberId}/contact-flow",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AssociatePhoneNumberContactFlowResponse extends S.Class<AssociatePhoneNumberContactFlowResponse>(
-  "AssociatePhoneNumberContactFlowResponse",
-)({}) {}
-export class AssociateQueueQuickConnectsRequest extends S.Class<AssociateQueueQuickConnectsRequest>(
-  "AssociateQueueQuickConnectsRequest",
-)(
-  {
+).annotations({
+  identifier: "AssociatePhoneNumberContactFlowRequest",
+}) as any as S.Schema<AssociatePhoneNumberContactFlowRequest>;
+export interface AssociatePhoneNumberContactFlowResponse {}
+export const AssociatePhoneNumberContactFlowResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "AssociatePhoneNumberContactFlowResponse",
+}) as any as S.Schema<AssociatePhoneNumberContactFlowResponse>;
+export interface AssociateQueueQuickConnectsRequest {
+  InstanceId: string;
+  QueueId: string;
+  QuickConnectIds: QuickConnectsList;
+}
+export const AssociateQueueQuickConnectsRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     QueueId: S.String.pipe(T.HttpLabel("QueueId")),
     QuickConnectIds: QuickConnectsList,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/queues/{InstanceId}/{QueueId}/associate-quick-connects",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/queues/{InstanceId}/{QueueId}/associate-quick-connects",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AssociateQueueQuickConnectsResponse extends S.Class<AssociateQueueQuickConnectsResponse>(
-  "AssociateQueueQuickConnectsResponse",
-)({}) {}
-export class AssociateSecurityKeyRequest extends S.Class<AssociateSecurityKeyRequest>(
-  "AssociateSecurityKeyRequest",
-)(
-  {
+).annotations({
+  identifier: "AssociateQueueQuickConnectsRequest",
+}) as any as S.Schema<AssociateQueueQuickConnectsRequest>;
+export interface AssociateQueueQuickConnectsResponse {}
+export const AssociateQueueQuickConnectsResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "AssociateQueueQuickConnectsResponse",
+}) as any as S.Schema<AssociateQueueQuickConnectsResponse>;
+export interface AssociateSecurityKeyRequest {
+  InstanceId: string;
+  Key: string;
+  ClientToken?: string;
+}
+export const AssociateSecurityKeyRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Key: S.String,
     ClientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/instance/{InstanceId}/security-key" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/instance/{InstanceId}/security-key" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AssociateTrafficDistributionGroupUserRequest extends S.Class<AssociateTrafficDistributionGroupUserRequest>(
-  "AssociateTrafficDistributionGroupUserRequest",
-)(
-  {
+).annotations({
+  identifier: "AssociateSecurityKeyRequest",
+}) as any as S.Schema<AssociateSecurityKeyRequest>;
+export interface AssociateTrafficDistributionGroupUserRequest {
+  TrafficDistributionGroupId: string;
+  UserId: string;
+  InstanceId: string;
+}
+export const AssociateTrafficDistributionGroupUserRequest = S.suspend(() =>
+  S.Struct({
     TrafficDistributionGroupId: S.String.pipe(
       T.HttpLabel("TrafficDistributionGroupId"),
     ),
     UserId: S.String,
     InstanceId: S.String,
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/traffic-distribution-group/{TrafficDistributionGroupId}/user",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/traffic-distribution-group/{TrafficDistributionGroupId}/user",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AssociateTrafficDistributionGroupUserResponse extends S.Class<AssociateTrafficDistributionGroupUserResponse>(
-  "AssociateTrafficDistributionGroupUserResponse",
-)({}) {}
-export class AssociateWorkspaceRequest extends S.Class<AssociateWorkspaceRequest>(
-  "AssociateWorkspaceRequest",
-)(
-  {
+).annotations({
+  identifier: "AssociateTrafficDistributionGroupUserRequest",
+}) as any as S.Schema<AssociateTrafficDistributionGroupUserRequest>;
+export interface AssociateTrafficDistributionGroupUserResponse {}
+export const AssociateTrafficDistributionGroupUserResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "AssociateTrafficDistributionGroupUserResponse",
+}) as any as S.Schema<AssociateTrafficDistributionGroupUserResponse>;
+export interface AssociateWorkspaceRequest {
+  InstanceId: string;
+  WorkspaceId: string;
+  ResourceArns: WorkspaceResourceArnList;
+}
+export const AssociateWorkspaceRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     WorkspaceId: S.String.pipe(T.HttpLabel("WorkspaceId")),
     ResourceArns: WorkspaceResourceArnList,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/workspaces/{InstanceId}/{WorkspaceId}/associate",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/workspaces/{InstanceId}/{WorkspaceId}/associate",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class BatchAssociateAnalyticsDataSetRequest extends S.Class<BatchAssociateAnalyticsDataSetRequest>(
-  "BatchAssociateAnalyticsDataSetRequest",
-)(
-  {
+).annotations({
+  identifier: "AssociateWorkspaceRequest",
+}) as any as S.Schema<AssociateWorkspaceRequest>;
+export interface BatchAssociateAnalyticsDataSetRequest {
+  InstanceId: string;
+  DataSetIds: DataSetIds;
+  TargetAccountId?: string;
+}
+export const BatchAssociateAnalyticsDataSetRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     DataSetIds: DataSetIds,
     TargetAccountId: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/analytics-data/instance/{InstanceId}/associations",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/analytics-data/instance/{InstanceId}/associations",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class BatchDisassociateAnalyticsDataSetRequest extends S.Class<BatchDisassociateAnalyticsDataSetRequest>(
-  "BatchDisassociateAnalyticsDataSetRequest",
-)(
-  {
+).annotations({
+  identifier: "BatchAssociateAnalyticsDataSetRequest",
+}) as any as S.Schema<BatchAssociateAnalyticsDataSetRequest>;
+export interface BatchDisassociateAnalyticsDataSetRequest {
+  InstanceId: string;
+  DataSetIds: DataSetIds;
+  TargetAccountId?: string;
+}
+export const BatchDisassociateAnalyticsDataSetRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     DataSetIds: DataSetIds,
     TargetAccountId: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/analytics-data/instance/{InstanceId}/associations",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/analytics-data/instance/{InstanceId}/associations",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class BatchGetAttachedFileMetadataRequest extends S.Class<BatchGetAttachedFileMetadataRequest>(
-  "BatchGetAttachedFileMetadataRequest",
-)(
-  {
+).annotations({
+  identifier: "BatchDisassociateAnalyticsDataSetRequest",
+}) as any as S.Schema<BatchDisassociateAnalyticsDataSetRequest>;
+export interface BatchGetAttachedFileMetadataRequest {
+  FileIds: FileIdList;
+  InstanceId: string;
+  AssociatedResourceArn: string;
+}
+export const BatchGetAttachedFileMetadataRequest = S.suspend(() =>
+  S.Struct({
     FileIds: FileIdList,
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     AssociatedResourceArn: S.String.pipe(T.HttpQuery("associatedResourceArn")),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/attached-files/{InstanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/attached-files/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class BatchGetFlowAssociationRequest extends S.Class<BatchGetFlowAssociationRequest>(
-  "BatchGetFlowAssociationRequest",
-)(
-  {
+).annotations({
+  identifier: "BatchGetAttachedFileMetadataRequest",
+}) as any as S.Schema<BatchGetAttachedFileMetadataRequest>;
+export interface BatchGetFlowAssociationRequest {
+  InstanceId: string;
+  ResourceIds: resourceArnListMaxLimit100;
+  ResourceType?: string;
+}
+export const BatchGetFlowAssociationRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ResourceIds: resourceArnListMaxLimit100,
     ResourceType: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/flow-associations-batch/{InstanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/flow-associations-batch/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PrimaryValue extends S.Class<PrimaryValue>("PrimaryValue")({
-  AttributeName: S.String,
-  Value: S.String,
-}) {}
+).annotations({
+  identifier: "BatchGetFlowAssociationRequest",
+}) as any as S.Schema<BatchGetFlowAssociationRequest>;
+export interface PrimaryValue {
+  AttributeName: string;
+  Value: string;
+}
+export const PrimaryValue = S.suspend(() =>
+  S.Struct({ AttributeName: S.String, Value: S.String }),
+).annotations({ identifier: "PrimaryValue" }) as any as S.Schema<PrimaryValue>;
+export type PrimaryValuesSet = PrimaryValue[];
 export const PrimaryValuesSet = S.Array(PrimaryValue);
-export class DataTableLockVersion extends S.Class<DataTableLockVersion>(
-  "DataTableLockVersion",
-)({
-  DataTable: S.optional(S.String),
-  Attribute: S.optional(S.String),
-  PrimaryValues: S.optional(S.String),
-  Value: S.optional(S.String),
-}) {}
-export class DataTableValue extends S.Class<DataTableValue>("DataTableValue")({
-  PrimaryValues: S.optional(PrimaryValuesSet),
-  AttributeName: S.String,
-  Value: S.String,
-  LockVersion: S.optional(DataTableLockVersion),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedRegion: S.optional(S.String),
-}) {}
+export interface DataTableLockVersion {
+  DataTable?: string;
+  Attribute?: string;
+  PrimaryValues?: string;
+  Value?: string;
+}
+export const DataTableLockVersion = S.suspend(() =>
+  S.Struct({
+    DataTable: S.optional(S.String),
+    Attribute: S.optional(S.String),
+    PrimaryValues: S.optional(S.String),
+    Value: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DataTableLockVersion",
+}) as any as S.Schema<DataTableLockVersion>;
+export interface DataTableValue {
+  PrimaryValues?: PrimaryValuesSet;
+  AttributeName: string;
+  Value: string;
+  LockVersion?: DataTableLockVersion;
+  LastModifiedTime?: Date;
+  LastModifiedRegion?: string;
+}
+export const DataTableValue = S.suspend(() =>
+  S.Struct({
+    PrimaryValues: S.optional(PrimaryValuesSet),
+    AttributeName: S.String,
+    Value: S.String,
+    LockVersion: S.optional(DataTableLockVersion),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastModifiedRegion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DataTableValue",
+}) as any as S.Schema<DataTableValue>;
+export type DataTableValueList = DataTableValue[];
 export const DataTableValueList = S.Array(DataTableValue);
-export class BatchUpdateDataTableValueRequest extends S.Class<BatchUpdateDataTableValueRequest>(
-  "BatchUpdateDataTableValueRequest",
-)(
-  {
+export interface BatchUpdateDataTableValueRequest {
+  InstanceId: string;
+  DataTableId: string;
+  Values: DataTableValueList;
+}
+export const BatchUpdateDataTableValueRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     DataTableId: S.String.pipe(T.HttpLabel("DataTableId")),
     Values: DataTableValueList,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/data-tables/{InstanceId}/{DataTableId}/values/update",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/data-tables/{InstanceId}/{DataTableId}/values/update",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CompleteAttachedFileUploadRequest extends S.Class<CompleteAttachedFileUploadRequest>(
-  "CompleteAttachedFileUploadRequest",
-)(
-  {
+).annotations({
+  identifier: "BatchUpdateDataTableValueRequest",
+}) as any as S.Schema<BatchUpdateDataTableValueRequest>;
+export interface CompleteAttachedFileUploadRequest {
+  InstanceId: string;
+  FileId: string;
+  AssociatedResourceArn: string;
+}
+export const CompleteAttachedFileUploadRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     FileId: S.String.pipe(T.HttpLabel("FileId")),
     AssociatedResourceArn: S.String.pipe(T.HttpQuery("associatedResourceArn")),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/attached-files/{InstanceId}/{FileId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/attached-files/{InstanceId}/{FileId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CompleteAttachedFileUploadResponse extends S.Class<CompleteAttachedFileUploadResponse>(
-  "CompleteAttachedFileUploadResponse",
-)({}) {}
+).annotations({
+  identifier: "CompleteAttachedFileUploadRequest",
+}) as any as S.Schema<CompleteAttachedFileUploadRequest>;
+export interface CompleteAttachedFileUploadResponse {}
+export const CompleteAttachedFileUploadResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "CompleteAttachedFileUploadResponse",
+}) as any as S.Schema<CompleteAttachedFileUploadResponse>;
+export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
-export class CreateAgentStatusRequest extends S.Class<CreateAgentStatusRequest>(
-  "CreateAgentStatusRequest",
-)(
-  {
+export interface CreateAgentStatusRequest {
+  InstanceId: string;
+  Name: string;
+  Description?: string;
+  State: string;
+  DisplayOrder?: number;
+  Tags?: TagMap;
+}
+export const CreateAgentStatusRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Name: S.String,
     Description: S.optional(S.String),
     State: S.String,
     DisplayOrder: S.optional(S.Number),
     Tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/agent-status/{InstanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/agent-status/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateContactFlowRequest extends S.Class<CreateContactFlowRequest>(
-  "CreateContactFlowRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateAgentStatusRequest",
+}) as any as S.Schema<CreateAgentStatusRequest>;
+export interface CreateContactFlowRequest {
+  InstanceId: string;
+  Name: string;
+  Type: string;
+  Description?: string;
+  Content: string;
+  Status?: string;
+  Tags?: TagMap;
+}
+export const CreateContactFlowRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Name: S.String,
     Type: S.String,
@@ -738,63 +957,88 @@ export class CreateContactFlowRequest extends S.Class<CreateContactFlowRequest>(
     Content: S.String,
     Status: S.optional(S.String),
     Tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/contact-flows/{InstanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/contact-flows/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateContactFlowModuleAliasRequest extends S.Class<CreateContactFlowModuleAliasRequest>(
-  "CreateContactFlowModuleAliasRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateContactFlowRequest",
+}) as any as S.Schema<CreateContactFlowRequest>;
+export interface CreateContactFlowModuleAliasRequest {
+  InstanceId: string;
+  Description?: string;
+  ContactFlowModuleId: string;
+  ContactFlowModuleVersion: number;
+  AliasName: string;
+}
+export const CreateContactFlowModuleAliasRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Description: S.optional(S.String),
     ContactFlowModuleId: S.String.pipe(T.HttpLabel("ContactFlowModuleId")),
     ContactFlowModuleVersion: S.Number,
     AliasName: S.String,
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/contact-flow-modules/{InstanceId}/{ContactFlowModuleId}/alias",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/contact-flow-modules/{InstanceId}/{ContactFlowModuleId}/alias",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateContactFlowModuleVersionRequest extends S.Class<CreateContactFlowModuleVersionRequest>(
-  "CreateContactFlowModuleVersionRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateContactFlowModuleAliasRequest",
+}) as any as S.Schema<CreateContactFlowModuleAliasRequest>;
+export interface CreateContactFlowModuleVersionRequest {
+  InstanceId: string;
+  Description?: string;
+  ContactFlowModuleId: string;
+  FlowModuleContentSha256?: string;
+}
+export const CreateContactFlowModuleVersionRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Description: S.optional(S.String),
     ContactFlowModuleId: S.String.pipe(T.HttpLabel("ContactFlowModuleId")),
     FlowModuleContentSha256: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/contact-flow-modules/{InstanceId}/{ContactFlowModuleId}/version",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/contact-flow-modules/{InstanceId}/{ContactFlowModuleId}/version",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateContactFlowVersionRequest extends S.Class<CreateContactFlowVersionRequest>(
-  "CreateContactFlowVersionRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateContactFlowModuleVersionRequest",
+}) as any as S.Schema<CreateContactFlowModuleVersionRequest>;
+export interface CreateContactFlowVersionRequest {
+  InstanceId: string;
+  Description?: string;
+  ContactFlowId: string;
+  FlowContentSha256?: string;
+  ContactFlowVersion?: number;
+  LastModifiedTime?: Date;
+  LastModifiedRegion?: string;
+}
+export const CreateContactFlowVersionRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Description: S.optional(S.String),
     ContactFlowId: S.String.pipe(T.HttpLabel("ContactFlowId")),
@@ -804,23 +1048,33 @@ export class CreateContactFlowVersionRequest extends S.Class<CreateContactFlowVe
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     LastModifiedRegion: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/contact-flows/{InstanceId}/{ContactFlowId}/version",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/contact-flows/{InstanceId}/{ContactFlowId}/version",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateDataTableRequest extends S.Class<CreateDataTableRequest>(
-  "CreateDataTableRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateContactFlowVersionRequest",
+}) as any as S.Schema<CreateContactFlowVersionRequest>;
+export interface CreateDataTableRequest {
+  InstanceId: string;
+  Name: string;
+  Description?: string;
+  TimeZone: string;
+  ValueLockLevel: string;
+  Status: string;
+  Tags?: TagMap;
+}
+export const CreateDataTableRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Name: S.String,
     Description: S.optional(S.String),
@@ -828,40 +1082,59 @@ export class CreateDataTableRequest extends S.Class<CreateDataTableRequest>(
     ValueLockLevel: S.String,
     Status: S.String,
     Tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/data-tables/{InstanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/data-tables/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateEmailAddressRequest extends S.Class<CreateEmailAddressRequest>(
-  "CreateEmailAddressRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateDataTableRequest",
+}) as any as S.Schema<CreateDataTableRequest>;
+export interface CreateEmailAddressRequest {
+  Description?: string;
+  InstanceId: string;
+  EmailAddress: string;
+  DisplayName?: string;
+  Tags?: TagMap;
+  ClientToken?: string;
+}
+export const CreateEmailAddressRequest = S.suspend(() =>
+  S.Struct({
     Description: S.optional(S.String),
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     EmailAddress: S.String,
     DisplayName: S.optional(S.String),
     Tags: S.optional(TagMap),
     ClientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/email-addresses/{InstanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/email-addresses/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateInstanceRequest extends S.Class<CreateInstanceRequest>(
-  "CreateInstanceRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateEmailAddressRequest",
+}) as any as S.Schema<CreateEmailAddressRequest>;
+export interface CreateInstanceRequest {
+  ClientToken?: string;
+  IdentityManagementType: string;
+  InstanceAlias?: string;
+  DirectoryId?: string;
+  InboundCallsEnabled: boolean;
+  OutboundCallsEnabled: boolean;
+  Tags?: TagMap;
+}
+export const CreateInstanceRequest = S.suspend(() =>
+  S.Struct({
     ClientToken: S.optional(S.String),
     IdentityManagementType: S.String,
     InstanceAlias: S.optional(S.String),
@@ -869,20 +1142,30 @@ export class CreateInstanceRequest extends S.Class<CreateInstanceRequest>(
     InboundCallsEnabled: S.Boolean,
     OutboundCallsEnabled: S.Boolean,
     Tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/instance" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/instance" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateIntegrationAssociationRequest extends S.Class<CreateIntegrationAssociationRequest>(
-  "CreateIntegrationAssociationRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateInstanceRequest",
+}) as any as S.Schema<CreateInstanceRequest>;
+export interface CreateIntegrationAssociationRequest {
+  InstanceId: string;
+  IntegrationType: string;
+  IntegrationArn: string;
+  SourceApplicationUrl?: string;
+  SourceApplicationName?: string;
+  SourceType?: string;
+  Tags?: TagMap;
+}
+export const CreateIntegrationAssociationRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     IntegrationType: S.String,
     IntegrationArn: S.String,
@@ -890,2615 +1173,3555 @@ export class CreateIntegrationAssociationRequest extends S.Class<CreateIntegrati
     SourceApplicationName: S.optional(S.String),
     SourceType: S.optional(S.String),
     Tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/instance/{InstanceId}/integration-associations",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/instance/{InstanceId}/integration-associations",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreatePersistentContactAssociationRequest extends S.Class<CreatePersistentContactAssociationRequest>(
-  "CreatePersistentContactAssociationRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateIntegrationAssociationRequest",
+}) as any as S.Schema<CreateIntegrationAssociationRequest>;
+export interface CreatePersistentContactAssociationRequest {
+  InstanceId: string;
+  InitialContactId: string;
+  RehydrationType: string;
+  SourceContactId: string;
+  ClientToken?: string;
+}
+export const CreatePersistentContactAssociationRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     InitialContactId: S.String.pipe(T.HttpLabel("InitialContactId")),
     RehydrationType: S.String,
     SourceContactId: S.String,
     ClientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/contact/persistent-contact-association/{InstanceId}/{InitialContactId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/contact/persistent-contact-association/{InstanceId}/{InitialContactId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreatePromptRequest extends S.Class<CreatePromptRequest>(
-  "CreatePromptRequest",
-)(
-  {
+).annotations({
+  identifier: "CreatePersistentContactAssociationRequest",
+}) as any as S.Schema<CreatePersistentContactAssociationRequest>;
+export interface CreatePromptRequest {
+  InstanceId: string;
+  Name: string;
+  Description?: string;
+  S3Uri: string;
+  Tags?: TagMap;
+}
+export const CreatePromptRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Name: S.String,
     Description: S.optional(S.String),
     S3Uri: S.String,
     Tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/prompts/{InstanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/prompts/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateTrafficDistributionGroupRequest extends S.Class<CreateTrafficDistributionGroupRequest>(
-  "CreateTrafficDistributionGroupRequest",
-)(
-  {
+).annotations({
+  identifier: "CreatePromptRequest",
+}) as any as S.Schema<CreatePromptRequest>;
+export interface CreateTrafficDistributionGroupRequest {
+  Name: string;
+  Description?: string;
+  InstanceId: string;
+  ClientToken?: string;
+  Tags?: TagMap;
+}
+export const CreateTrafficDistributionGroupRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     Description: S.optional(S.String),
     InstanceId: S.String,
     ClientToken: S.optional(S.String),
     Tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/traffic-distribution-group" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/traffic-distribution-group" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateUseCaseRequest extends S.Class<CreateUseCaseRequest>(
-  "CreateUseCaseRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateTrafficDistributionGroupRequest",
+}) as any as S.Schema<CreateTrafficDistributionGroupRequest>;
+export interface CreateUseCaseRequest {
+  InstanceId: string;
+  IntegrationAssociationId: string;
+  UseCaseType: string;
+  Tags?: TagMap;
+}
+export const CreateUseCaseRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     IntegrationAssociationId: S.String.pipe(
       T.HttpLabel("IntegrationAssociationId"),
     ),
     UseCaseType: S.String,
     Tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/instance/{InstanceId}/integration-associations/{IntegrationAssociationId}/use-cases",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/instance/{InstanceId}/integration-associations/{IntegrationAssociationId}/use-cases",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateUserHierarchyGroupRequest extends S.Class<CreateUserHierarchyGroupRequest>(
-  "CreateUserHierarchyGroupRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateUseCaseRequest",
+}) as any as S.Schema<CreateUseCaseRequest>;
+export interface CreateUserHierarchyGroupRequest {
+  Name: string;
+  ParentGroupId?: string;
+  InstanceId: string;
+  Tags?: TagMap;
+}
+export const CreateUserHierarchyGroupRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     ParentGroupId: S.optional(S.String),
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/user-hierarchy-groups/{InstanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/user-hierarchy-groups/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateViewVersionRequest extends S.Class<CreateViewVersionRequest>(
-  "CreateViewVersionRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateUserHierarchyGroupRequest",
+}) as any as S.Schema<CreateUserHierarchyGroupRequest>;
+export interface CreateViewVersionRequest {
+  InstanceId: string;
+  ViewId: string;
+  VersionDescription?: string;
+  ViewContentSha256?: string;
+}
+export const CreateViewVersionRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ViewId: S.String.pipe(T.HttpLabel("ViewId")),
     VersionDescription: S.optional(S.String),
     ViewContentSha256: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/views/{InstanceId}/{ViewId}/versions" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/views/{InstanceId}/{ViewId}/versions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateVocabularyRequest extends S.Class<CreateVocabularyRequest>(
-  "CreateVocabularyRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateViewVersionRequest",
+}) as any as S.Schema<CreateViewVersionRequest>;
+export interface CreateVocabularyRequest {
+  ClientToken?: string;
+  InstanceId: string;
+  VocabularyName: string;
+  LanguageCode: string;
+  Content: string;
+  Tags?: TagMap;
+}
+export const CreateVocabularyRequest = S.suspend(() =>
+  S.Struct({
     ClientToken: S.optional(S.String),
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     VocabularyName: S.String,
     LanguageCode: S.String,
     Content: S.String,
     Tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/vocabulary/{InstanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/vocabulary/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateWorkspacePageRequest extends S.Class<CreateWorkspacePageRequest>(
-  "CreateWorkspacePageRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateVocabularyRequest",
+}) as any as S.Schema<CreateVocabularyRequest>;
+export interface CreateWorkspacePageRequest {
+  InstanceId: string;
+  WorkspaceId: string;
+  ResourceArn: string;
+  Page: string;
+  Slug?: string;
+  InputData?: string;
+}
+export const CreateWorkspacePageRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     WorkspaceId: S.String.pipe(T.HttpLabel("WorkspaceId")),
     ResourceArn: S.String,
     Page: S.String,
     Slug: S.optional(S.String),
     InputData: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/workspaces/{InstanceId}/{WorkspaceId}/pages",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/workspaces/{InstanceId}/{WorkspaceId}/pages",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateWorkspacePageResponse extends S.Class<CreateWorkspacePageResponse>(
-  "CreateWorkspacePageResponse",
-)({}) {}
-export class DeactivateEvaluationFormRequest extends S.Class<DeactivateEvaluationFormRequest>(
-  "DeactivateEvaluationFormRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateWorkspacePageRequest",
+}) as any as S.Schema<CreateWorkspacePageRequest>;
+export interface CreateWorkspacePageResponse {}
+export const CreateWorkspacePageResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "CreateWorkspacePageResponse",
+}) as any as S.Schema<CreateWorkspacePageResponse>;
+export interface DeactivateEvaluationFormRequest {
+  InstanceId: string;
+  EvaluationFormId: string;
+  EvaluationFormVersion: number;
+}
+export const DeactivateEvaluationFormRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     EvaluationFormId: S.String.pipe(T.HttpLabel("EvaluationFormId")),
     EvaluationFormVersion: S.Number,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/evaluation-forms/{InstanceId}/{EvaluationFormId}/deactivate",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/evaluation-forms/{InstanceId}/{EvaluationFormId}/deactivate",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAttachedFileRequest extends S.Class<DeleteAttachedFileRequest>(
-  "DeleteAttachedFileRequest",
-)(
-  {
+).annotations({
+  identifier: "DeactivateEvaluationFormRequest",
+}) as any as S.Schema<DeactivateEvaluationFormRequest>;
+export interface DeleteAttachedFileRequest {
+  InstanceId: string;
+  FileId: string;
+  AssociatedResourceArn: string;
+}
+export const DeleteAttachedFileRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     FileId: S.String.pipe(T.HttpLabel("FileId")),
     AssociatedResourceArn: S.String.pipe(T.HttpQuery("associatedResourceArn")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/attached-files/{InstanceId}/{FileId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/attached-files/{InstanceId}/{FileId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAttachedFileResponse extends S.Class<DeleteAttachedFileResponse>(
-  "DeleteAttachedFileResponse",
-)({}) {}
-export class DeleteContactEvaluationRequest extends S.Class<DeleteContactEvaluationRequest>(
-  "DeleteContactEvaluationRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteAttachedFileRequest",
+}) as any as S.Schema<DeleteAttachedFileRequest>;
+export interface DeleteAttachedFileResponse {}
+export const DeleteAttachedFileResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteAttachedFileResponse",
+}) as any as S.Schema<DeleteAttachedFileResponse>;
+export interface DeleteContactEvaluationRequest {
+  InstanceId: string;
+  EvaluationId: string;
+}
+export const DeleteContactEvaluationRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     EvaluationId: S.String.pipe(T.HttpLabel("EvaluationId")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/contact-evaluations/{InstanceId}/{EvaluationId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/contact-evaluations/{InstanceId}/{EvaluationId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteContactEvaluationResponse extends S.Class<DeleteContactEvaluationResponse>(
-  "DeleteContactEvaluationResponse",
-)({}) {}
-export class DeleteContactFlowRequest extends S.Class<DeleteContactFlowRequest>(
-  "DeleteContactFlowRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteContactEvaluationRequest",
+}) as any as S.Schema<DeleteContactEvaluationRequest>;
+export interface DeleteContactEvaluationResponse {}
+export const DeleteContactEvaluationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteContactEvaluationResponse",
+}) as any as S.Schema<DeleteContactEvaluationResponse>;
+export interface DeleteContactFlowRequest {
+  InstanceId: string;
+  ContactFlowId: string;
+}
+export const DeleteContactFlowRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ContactFlowId: S.String.pipe(T.HttpLabel("ContactFlowId")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/contact-flows/{InstanceId}/{ContactFlowId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/contact-flows/{InstanceId}/{ContactFlowId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteContactFlowResponse extends S.Class<DeleteContactFlowResponse>(
-  "DeleteContactFlowResponse",
-)({}) {}
-export class DeleteContactFlowModuleRequest extends S.Class<DeleteContactFlowModuleRequest>(
-  "DeleteContactFlowModuleRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteContactFlowRequest",
+}) as any as S.Schema<DeleteContactFlowRequest>;
+export interface DeleteContactFlowResponse {}
+export const DeleteContactFlowResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteContactFlowResponse",
+}) as any as S.Schema<DeleteContactFlowResponse>;
+export interface DeleteContactFlowModuleRequest {
+  InstanceId: string;
+  ContactFlowModuleId: string;
+}
+export const DeleteContactFlowModuleRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ContactFlowModuleId: S.String.pipe(T.HttpLabel("ContactFlowModuleId")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/contact-flow-modules/{InstanceId}/{ContactFlowModuleId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/contact-flow-modules/{InstanceId}/{ContactFlowModuleId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteContactFlowModuleResponse extends S.Class<DeleteContactFlowModuleResponse>(
-  "DeleteContactFlowModuleResponse",
-)({}) {}
-export class DeleteContactFlowModuleAliasRequest extends S.Class<DeleteContactFlowModuleAliasRequest>(
-  "DeleteContactFlowModuleAliasRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteContactFlowModuleRequest",
+}) as any as S.Schema<DeleteContactFlowModuleRequest>;
+export interface DeleteContactFlowModuleResponse {}
+export const DeleteContactFlowModuleResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteContactFlowModuleResponse",
+}) as any as S.Schema<DeleteContactFlowModuleResponse>;
+export interface DeleteContactFlowModuleAliasRequest {
+  InstanceId: string;
+  ContactFlowModuleId: string;
+  AliasId: string;
+}
+export const DeleteContactFlowModuleAliasRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ContactFlowModuleId: S.String.pipe(T.HttpLabel("ContactFlowModuleId")),
     AliasId: S.String.pipe(T.HttpLabel("AliasId")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/contact-flow-modules/{InstanceId}/{ContactFlowModuleId}/alias/{AliasId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/contact-flow-modules/{InstanceId}/{ContactFlowModuleId}/alias/{AliasId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteContactFlowModuleAliasResponse extends S.Class<DeleteContactFlowModuleAliasResponse>(
-  "DeleteContactFlowModuleAliasResponse",
-)({}) {}
-export class DeleteContactFlowModuleVersionRequest extends S.Class<DeleteContactFlowModuleVersionRequest>(
-  "DeleteContactFlowModuleVersionRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteContactFlowModuleAliasRequest",
+}) as any as S.Schema<DeleteContactFlowModuleAliasRequest>;
+export interface DeleteContactFlowModuleAliasResponse {}
+export const DeleteContactFlowModuleAliasResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteContactFlowModuleAliasResponse",
+}) as any as S.Schema<DeleteContactFlowModuleAliasResponse>;
+export interface DeleteContactFlowModuleVersionRequest {
+  InstanceId: string;
+  ContactFlowModuleId: string;
+  ContactFlowModuleVersion: number;
+}
+export const DeleteContactFlowModuleVersionRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ContactFlowModuleId: S.String.pipe(T.HttpLabel("ContactFlowModuleId")),
     ContactFlowModuleVersion: S.Number.pipe(
       T.HttpLabel("ContactFlowModuleVersion"),
     ),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/contact-flow-modules/{InstanceId}/{ContactFlowModuleId}/version/{ContactFlowModuleVersion}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/contact-flow-modules/{InstanceId}/{ContactFlowModuleId}/version/{ContactFlowModuleVersion}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteContactFlowModuleVersionResponse extends S.Class<DeleteContactFlowModuleVersionResponse>(
-  "DeleteContactFlowModuleVersionResponse",
-)({}) {}
-export class DeleteContactFlowVersionRequest extends S.Class<DeleteContactFlowVersionRequest>(
-  "DeleteContactFlowVersionRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteContactFlowModuleVersionRequest",
+}) as any as S.Schema<DeleteContactFlowModuleVersionRequest>;
+export interface DeleteContactFlowModuleVersionResponse {}
+export const DeleteContactFlowModuleVersionResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteContactFlowModuleVersionResponse",
+}) as any as S.Schema<DeleteContactFlowModuleVersionResponse>;
+export interface DeleteContactFlowVersionRequest {
+  InstanceId: string;
+  ContactFlowId: string;
+  ContactFlowVersion: number;
+}
+export const DeleteContactFlowVersionRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ContactFlowId: S.String.pipe(T.HttpLabel("ContactFlowId")),
     ContactFlowVersion: S.Number.pipe(T.HttpLabel("ContactFlowVersion")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/contact-flows/{InstanceId}/{ContactFlowId}/version/{ContactFlowVersion}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/contact-flows/{InstanceId}/{ContactFlowId}/version/{ContactFlowVersion}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteContactFlowVersionResponse extends S.Class<DeleteContactFlowVersionResponse>(
-  "DeleteContactFlowVersionResponse",
-)({}) {}
-export class DeleteDataTableRequest extends S.Class<DeleteDataTableRequest>(
-  "DeleteDataTableRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteContactFlowVersionRequest",
+}) as any as S.Schema<DeleteContactFlowVersionRequest>;
+export interface DeleteContactFlowVersionResponse {}
+export const DeleteContactFlowVersionResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteContactFlowVersionResponse",
+}) as any as S.Schema<DeleteContactFlowVersionResponse>;
+export interface DeleteDataTableRequest {
+  InstanceId: string;
+  DataTableId: string;
+}
+export const DeleteDataTableRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     DataTableId: S.String.pipe(T.HttpLabel("DataTableId")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/data-tables/{InstanceId}/{DataTableId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/data-tables/{InstanceId}/{DataTableId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteDataTableResponse extends S.Class<DeleteDataTableResponse>(
-  "DeleteDataTableResponse",
-)({}) {}
-export class DeleteDataTableAttributeRequest extends S.Class<DeleteDataTableAttributeRequest>(
-  "DeleteDataTableAttributeRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteDataTableRequest",
+}) as any as S.Schema<DeleteDataTableRequest>;
+export interface DeleteDataTableResponse {}
+export const DeleteDataTableResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteDataTableResponse",
+}) as any as S.Schema<DeleteDataTableResponse>;
+export interface DeleteDataTableAttributeRequest {
+  InstanceId: string;
+  DataTableId: string;
+  AttributeName: string;
+}
+export const DeleteDataTableAttributeRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     DataTableId: S.String.pipe(T.HttpLabel("DataTableId")),
     AttributeName: S.String.pipe(T.HttpLabel("AttributeName")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/data-tables/{InstanceId}/{DataTableId}/attributes/{AttributeName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/data-tables/{InstanceId}/{DataTableId}/attributes/{AttributeName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteEmailAddressRequest extends S.Class<DeleteEmailAddressRequest>(
-  "DeleteEmailAddressRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteDataTableAttributeRequest",
+}) as any as S.Schema<DeleteDataTableAttributeRequest>;
+export interface DeleteEmailAddressRequest {
+  InstanceId: string;
+  EmailAddressId: string;
+}
+export const DeleteEmailAddressRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     EmailAddressId: S.String.pipe(T.HttpLabel("EmailAddressId")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/email-addresses/{InstanceId}/{EmailAddressId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/email-addresses/{InstanceId}/{EmailAddressId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteEmailAddressResponse extends S.Class<DeleteEmailAddressResponse>(
-  "DeleteEmailAddressResponse",
-)({}) {}
-export class DeleteEvaluationFormRequest extends S.Class<DeleteEvaluationFormRequest>(
-  "DeleteEvaluationFormRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteEmailAddressRequest",
+}) as any as S.Schema<DeleteEmailAddressRequest>;
+export interface DeleteEmailAddressResponse {}
+export const DeleteEmailAddressResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteEmailAddressResponse",
+}) as any as S.Schema<DeleteEmailAddressResponse>;
+export interface DeleteEvaluationFormRequest {
+  InstanceId: string;
+  EvaluationFormId: string;
+  EvaluationFormVersion?: number;
+}
+export const DeleteEvaluationFormRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     EvaluationFormId: S.String.pipe(T.HttpLabel("EvaluationFormId")),
     EvaluationFormVersion: S.optional(S.Number).pipe(T.HttpQuery("version")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/evaluation-forms/{InstanceId}/{EvaluationFormId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/evaluation-forms/{InstanceId}/{EvaluationFormId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteEvaluationFormResponse extends S.Class<DeleteEvaluationFormResponse>(
-  "DeleteEvaluationFormResponse",
-)({}) {}
-export class DeleteHoursOfOperationRequest extends S.Class<DeleteHoursOfOperationRequest>(
-  "DeleteHoursOfOperationRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteEvaluationFormRequest",
+}) as any as S.Schema<DeleteEvaluationFormRequest>;
+export interface DeleteEvaluationFormResponse {}
+export const DeleteEvaluationFormResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteEvaluationFormResponse",
+}) as any as S.Schema<DeleteEvaluationFormResponse>;
+export interface DeleteHoursOfOperationRequest {
+  InstanceId: string;
+  HoursOfOperationId: string;
+}
+export const DeleteHoursOfOperationRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     HoursOfOperationId: S.String.pipe(T.HttpLabel("HoursOfOperationId")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/hours-of-operations/{InstanceId}/{HoursOfOperationId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/hours-of-operations/{InstanceId}/{HoursOfOperationId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteHoursOfOperationResponse extends S.Class<DeleteHoursOfOperationResponse>(
-  "DeleteHoursOfOperationResponse",
-)({}) {}
-export class DeleteHoursOfOperationOverrideRequest extends S.Class<DeleteHoursOfOperationOverrideRequest>(
-  "DeleteHoursOfOperationOverrideRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteHoursOfOperationRequest",
+}) as any as S.Schema<DeleteHoursOfOperationRequest>;
+export interface DeleteHoursOfOperationResponse {}
+export const DeleteHoursOfOperationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteHoursOfOperationResponse",
+}) as any as S.Schema<DeleteHoursOfOperationResponse>;
+export interface DeleteHoursOfOperationOverrideRequest {
+  InstanceId: string;
+  HoursOfOperationId: string;
+  HoursOfOperationOverrideId: string;
+}
+export const DeleteHoursOfOperationOverrideRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     HoursOfOperationId: S.String.pipe(T.HttpLabel("HoursOfOperationId")),
     HoursOfOperationOverrideId: S.String.pipe(
       T.HttpLabel("HoursOfOperationOverrideId"),
     ),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/hours-of-operations/{InstanceId}/{HoursOfOperationId}/overrides/{HoursOfOperationOverrideId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/hours-of-operations/{InstanceId}/{HoursOfOperationId}/overrides/{HoursOfOperationOverrideId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteHoursOfOperationOverrideResponse extends S.Class<DeleteHoursOfOperationOverrideResponse>(
-  "DeleteHoursOfOperationOverrideResponse",
-)({}) {}
-export class DeleteInstanceRequest extends S.Class<DeleteInstanceRequest>(
-  "DeleteInstanceRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteHoursOfOperationOverrideRequest",
+}) as any as S.Schema<DeleteHoursOfOperationOverrideRequest>;
+export interface DeleteHoursOfOperationOverrideResponse {}
+export const DeleteHoursOfOperationOverrideResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteHoursOfOperationOverrideResponse",
+}) as any as S.Schema<DeleteHoursOfOperationOverrideResponse>;
+export interface DeleteInstanceRequest {
+  InstanceId: string;
+  ClientToken?: string;
+}
+export const DeleteInstanceRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ClientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/instance/{InstanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/instance/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteInstanceResponse extends S.Class<DeleteInstanceResponse>(
-  "DeleteInstanceResponse",
-)({}) {}
-export class DeleteIntegrationAssociationRequest extends S.Class<DeleteIntegrationAssociationRequest>(
-  "DeleteIntegrationAssociationRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteInstanceRequest",
+}) as any as S.Schema<DeleteInstanceRequest>;
+export interface DeleteInstanceResponse {}
+export const DeleteInstanceResponse = S.suspend(() => S.Struct({})).annotations(
+  { identifier: "DeleteInstanceResponse" },
+) as any as S.Schema<DeleteInstanceResponse>;
+export interface DeleteIntegrationAssociationRequest {
+  InstanceId: string;
+  IntegrationAssociationId: string;
+}
+export const DeleteIntegrationAssociationRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     IntegrationAssociationId: S.String.pipe(
       T.HttpLabel("IntegrationAssociationId"),
     ),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/instance/{InstanceId}/integration-associations/{IntegrationAssociationId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/instance/{InstanceId}/integration-associations/{IntegrationAssociationId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteIntegrationAssociationResponse extends S.Class<DeleteIntegrationAssociationResponse>(
-  "DeleteIntegrationAssociationResponse",
-)({}) {}
-export class DeletePredefinedAttributeRequest extends S.Class<DeletePredefinedAttributeRequest>(
-  "DeletePredefinedAttributeRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteIntegrationAssociationRequest",
+}) as any as S.Schema<DeleteIntegrationAssociationRequest>;
+export interface DeleteIntegrationAssociationResponse {}
+export const DeleteIntegrationAssociationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteIntegrationAssociationResponse",
+}) as any as S.Schema<DeleteIntegrationAssociationResponse>;
+export interface DeletePredefinedAttributeRequest {
+  InstanceId: string;
+  Name: string;
+}
+export const DeletePredefinedAttributeRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Name: S.String.pipe(T.HttpLabel("Name")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/predefined-attributes/{InstanceId}/{Name}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/predefined-attributes/{InstanceId}/{Name}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeletePredefinedAttributeResponse extends S.Class<DeletePredefinedAttributeResponse>(
-  "DeletePredefinedAttributeResponse",
-)({}) {}
-export class DeletePromptRequest extends S.Class<DeletePromptRequest>(
-  "DeletePromptRequest",
-)(
-  {
+).annotations({
+  identifier: "DeletePredefinedAttributeRequest",
+}) as any as S.Schema<DeletePredefinedAttributeRequest>;
+export interface DeletePredefinedAttributeResponse {}
+export const DeletePredefinedAttributeResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeletePredefinedAttributeResponse",
+}) as any as S.Schema<DeletePredefinedAttributeResponse>;
+export interface DeletePromptRequest {
+  InstanceId: string;
+  PromptId: string;
+}
+export const DeletePromptRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     PromptId: S.String.pipe(T.HttpLabel("PromptId")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/prompts/{InstanceId}/{PromptId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/prompts/{InstanceId}/{PromptId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeletePromptResponse extends S.Class<DeletePromptResponse>(
-  "DeletePromptResponse",
-)({}) {}
-export class DeletePushNotificationRegistrationRequest extends S.Class<DeletePushNotificationRegistrationRequest>(
-  "DeletePushNotificationRegistrationRequest",
-)(
-  {
+).annotations({
+  identifier: "DeletePromptRequest",
+}) as any as S.Schema<DeletePromptRequest>;
+export interface DeletePromptResponse {}
+export const DeletePromptResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeletePromptResponse",
+}) as any as S.Schema<DeletePromptResponse>;
+export interface DeletePushNotificationRegistrationRequest {
+  InstanceId: string;
+  RegistrationId: string;
+  ContactId: string;
+}
+export const DeletePushNotificationRegistrationRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     RegistrationId: S.String.pipe(T.HttpLabel("RegistrationId")),
     ContactId: S.String.pipe(T.HttpQuery("contactId")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/push-notification/{InstanceId}/registrations/{RegistrationId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/push-notification/{InstanceId}/registrations/{RegistrationId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeletePushNotificationRegistrationResponse extends S.Class<DeletePushNotificationRegistrationResponse>(
-  "DeletePushNotificationRegistrationResponse",
-)({}) {}
-export class DeleteQueueRequest extends S.Class<DeleteQueueRequest>(
-  "DeleteQueueRequest",
-)(
-  {
+).annotations({
+  identifier: "DeletePushNotificationRegistrationRequest",
+}) as any as S.Schema<DeletePushNotificationRegistrationRequest>;
+export interface DeletePushNotificationRegistrationResponse {}
+export const DeletePushNotificationRegistrationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeletePushNotificationRegistrationResponse",
+}) as any as S.Schema<DeletePushNotificationRegistrationResponse>;
+export interface DeleteQueueRequest {
+  InstanceId: string;
+  QueueId: string;
+}
+export const DeleteQueueRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     QueueId: S.String.pipe(T.HttpLabel("QueueId")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/queues/{InstanceId}/{QueueId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/queues/{InstanceId}/{QueueId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteQueueResponse extends S.Class<DeleteQueueResponse>(
-  "DeleteQueueResponse",
-)({}) {}
-export class DeleteQuickConnectRequest extends S.Class<DeleteQuickConnectRequest>(
-  "DeleteQuickConnectRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteQueueRequest",
+}) as any as S.Schema<DeleteQueueRequest>;
+export interface DeleteQueueResponse {}
+export const DeleteQueueResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteQueueResponse",
+}) as any as S.Schema<DeleteQueueResponse>;
+export interface DeleteQuickConnectRequest {
+  InstanceId: string;
+  QuickConnectId: string;
+}
+export const DeleteQuickConnectRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     QuickConnectId: S.String.pipe(T.HttpLabel("QuickConnectId")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/quick-connects/{InstanceId}/{QuickConnectId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/quick-connects/{InstanceId}/{QuickConnectId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteQuickConnectResponse extends S.Class<DeleteQuickConnectResponse>(
-  "DeleteQuickConnectResponse",
-)({}) {}
-export class DeleteRoutingProfileRequest extends S.Class<DeleteRoutingProfileRequest>(
-  "DeleteRoutingProfileRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteQuickConnectRequest",
+}) as any as S.Schema<DeleteQuickConnectRequest>;
+export interface DeleteQuickConnectResponse {}
+export const DeleteQuickConnectResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteQuickConnectResponse",
+}) as any as S.Schema<DeleteQuickConnectResponse>;
+export interface DeleteRoutingProfileRequest {
+  InstanceId: string;
+  RoutingProfileId: string;
+}
+export const DeleteRoutingProfileRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     RoutingProfileId: S.String.pipe(T.HttpLabel("RoutingProfileId")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/routing-profiles/{InstanceId}/{RoutingProfileId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/routing-profiles/{InstanceId}/{RoutingProfileId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteRoutingProfileResponse extends S.Class<DeleteRoutingProfileResponse>(
-  "DeleteRoutingProfileResponse",
-)({}) {}
-export class DeleteRuleRequest extends S.Class<DeleteRuleRequest>(
-  "DeleteRuleRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteRoutingProfileRequest",
+}) as any as S.Schema<DeleteRoutingProfileRequest>;
+export interface DeleteRoutingProfileResponse {}
+export const DeleteRoutingProfileResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteRoutingProfileResponse",
+}) as any as S.Schema<DeleteRoutingProfileResponse>;
+export interface DeleteRuleRequest {
+  InstanceId: string;
+  RuleId: string;
+}
+export const DeleteRuleRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     RuleId: S.String.pipe(T.HttpLabel("RuleId")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/rules/{InstanceId}/{RuleId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/rules/{InstanceId}/{RuleId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteRuleResponse extends S.Class<DeleteRuleResponse>(
-  "DeleteRuleResponse",
-)({}) {}
-export class DeleteSecurityProfileRequest extends S.Class<DeleteSecurityProfileRequest>(
-  "DeleteSecurityProfileRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteRuleRequest",
+}) as any as S.Schema<DeleteRuleRequest>;
+export interface DeleteRuleResponse {}
+export const DeleteRuleResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteRuleResponse",
+}) as any as S.Schema<DeleteRuleResponse>;
+export interface DeleteSecurityProfileRequest {
+  InstanceId: string;
+  SecurityProfileId: string;
+}
+export const DeleteSecurityProfileRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     SecurityProfileId: S.String.pipe(T.HttpLabel("SecurityProfileId")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/security-profiles/{InstanceId}/{SecurityProfileId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/security-profiles/{InstanceId}/{SecurityProfileId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteSecurityProfileResponse extends S.Class<DeleteSecurityProfileResponse>(
-  "DeleteSecurityProfileResponse",
-)({}) {}
-export class DeleteTaskTemplateRequest extends S.Class<DeleteTaskTemplateRequest>(
-  "DeleteTaskTemplateRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteSecurityProfileRequest",
+}) as any as S.Schema<DeleteSecurityProfileRequest>;
+export interface DeleteSecurityProfileResponse {}
+export const DeleteSecurityProfileResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteSecurityProfileResponse",
+}) as any as S.Schema<DeleteSecurityProfileResponse>;
+export interface DeleteTaskTemplateRequest {
+  InstanceId: string;
+  TaskTemplateId: string;
+}
+export const DeleteTaskTemplateRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     TaskTemplateId: S.String.pipe(T.HttpLabel("TaskTemplateId")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/instance/{InstanceId}/task/template/{TaskTemplateId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/instance/{InstanceId}/task/template/{TaskTemplateId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteTaskTemplateResponse extends S.Class<DeleteTaskTemplateResponse>(
-  "DeleteTaskTemplateResponse",
-)({}) {}
-export class DeleteTrafficDistributionGroupRequest extends S.Class<DeleteTrafficDistributionGroupRequest>(
-  "DeleteTrafficDistributionGroupRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteTaskTemplateRequest",
+}) as any as S.Schema<DeleteTaskTemplateRequest>;
+export interface DeleteTaskTemplateResponse {}
+export const DeleteTaskTemplateResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteTaskTemplateResponse",
+}) as any as S.Schema<DeleteTaskTemplateResponse>;
+export interface DeleteTrafficDistributionGroupRequest {
+  TrafficDistributionGroupId: string;
+}
+export const DeleteTrafficDistributionGroupRequest = S.suspend(() =>
+  S.Struct({
     TrafficDistributionGroupId: S.String.pipe(
       T.HttpLabel("TrafficDistributionGroupId"),
     ),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/traffic-distribution-group/{TrafficDistributionGroupId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/traffic-distribution-group/{TrafficDistributionGroupId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteTrafficDistributionGroupResponse extends S.Class<DeleteTrafficDistributionGroupResponse>(
-  "DeleteTrafficDistributionGroupResponse",
-)({}) {}
-export class DeleteUseCaseRequest extends S.Class<DeleteUseCaseRequest>(
-  "DeleteUseCaseRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteTrafficDistributionGroupRequest",
+}) as any as S.Schema<DeleteTrafficDistributionGroupRequest>;
+export interface DeleteTrafficDistributionGroupResponse {}
+export const DeleteTrafficDistributionGroupResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteTrafficDistributionGroupResponse",
+}) as any as S.Schema<DeleteTrafficDistributionGroupResponse>;
+export interface DeleteUseCaseRequest {
+  InstanceId: string;
+  IntegrationAssociationId: string;
+  UseCaseId: string;
+}
+export const DeleteUseCaseRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     IntegrationAssociationId: S.String.pipe(
       T.HttpLabel("IntegrationAssociationId"),
     ),
     UseCaseId: S.String.pipe(T.HttpLabel("UseCaseId")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/instance/{InstanceId}/integration-associations/{IntegrationAssociationId}/use-cases/{UseCaseId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/instance/{InstanceId}/integration-associations/{IntegrationAssociationId}/use-cases/{UseCaseId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteUseCaseResponse extends S.Class<DeleteUseCaseResponse>(
-  "DeleteUseCaseResponse",
-)({}) {}
-export class DeleteUserRequest extends S.Class<DeleteUserRequest>(
-  "DeleteUserRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteUseCaseRequest",
+}) as any as S.Schema<DeleteUseCaseRequest>;
+export interface DeleteUseCaseResponse {}
+export const DeleteUseCaseResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteUseCaseResponse",
+}) as any as S.Schema<DeleteUseCaseResponse>;
+export interface DeleteUserRequest {
+  InstanceId: string;
+  UserId: string;
+}
+export const DeleteUserRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     UserId: S.String.pipe(T.HttpLabel("UserId")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/users/{InstanceId}/{UserId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/users/{InstanceId}/{UserId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteUserResponse extends S.Class<DeleteUserResponse>(
-  "DeleteUserResponse",
-)({}) {}
-export class DeleteUserHierarchyGroupRequest extends S.Class<DeleteUserHierarchyGroupRequest>(
-  "DeleteUserHierarchyGroupRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteUserRequest",
+}) as any as S.Schema<DeleteUserRequest>;
+export interface DeleteUserResponse {}
+export const DeleteUserResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteUserResponse",
+}) as any as S.Schema<DeleteUserResponse>;
+export interface DeleteUserHierarchyGroupRequest {
+  HierarchyGroupId: string;
+  InstanceId: string;
+}
+export const DeleteUserHierarchyGroupRequest = S.suspend(() =>
+  S.Struct({
     HierarchyGroupId: S.String.pipe(T.HttpLabel("HierarchyGroupId")),
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/user-hierarchy-groups/{InstanceId}/{HierarchyGroupId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/user-hierarchy-groups/{InstanceId}/{HierarchyGroupId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteUserHierarchyGroupResponse extends S.Class<DeleteUserHierarchyGroupResponse>(
-  "DeleteUserHierarchyGroupResponse",
-)({}) {}
-export class DeleteViewRequest extends S.Class<DeleteViewRequest>(
-  "DeleteViewRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteUserHierarchyGroupRequest",
+}) as any as S.Schema<DeleteUserHierarchyGroupRequest>;
+export interface DeleteUserHierarchyGroupResponse {}
+export const DeleteUserHierarchyGroupResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteUserHierarchyGroupResponse",
+}) as any as S.Schema<DeleteUserHierarchyGroupResponse>;
+export interface DeleteViewRequest {
+  InstanceId: string;
+  ViewId: string;
+}
+export const DeleteViewRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ViewId: S.String.pipe(T.HttpLabel("ViewId")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/views/{InstanceId}/{ViewId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/views/{InstanceId}/{ViewId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteViewResponse extends S.Class<DeleteViewResponse>(
-  "DeleteViewResponse",
-)({}) {}
-export class DeleteViewVersionRequest extends S.Class<DeleteViewVersionRequest>(
-  "DeleteViewVersionRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteViewRequest",
+}) as any as S.Schema<DeleteViewRequest>;
+export interface DeleteViewResponse {}
+export const DeleteViewResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteViewResponse",
+}) as any as S.Schema<DeleteViewResponse>;
+export interface DeleteViewVersionRequest {
+  InstanceId: string;
+  ViewId: string;
+  ViewVersion: number;
+}
+export const DeleteViewVersionRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ViewId: S.String.pipe(T.HttpLabel("ViewId")),
     ViewVersion: S.Number.pipe(T.HttpLabel("ViewVersion")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/views/{InstanceId}/{ViewId}/versions/{ViewVersion}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/views/{InstanceId}/{ViewId}/versions/{ViewVersion}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteViewVersionResponse extends S.Class<DeleteViewVersionResponse>(
-  "DeleteViewVersionResponse",
-)({}) {}
-export class DeleteVocabularyRequest extends S.Class<DeleteVocabularyRequest>(
-  "DeleteVocabularyRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteViewVersionRequest",
+}) as any as S.Schema<DeleteViewVersionRequest>;
+export interface DeleteViewVersionResponse {}
+export const DeleteViewVersionResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteViewVersionResponse",
+}) as any as S.Schema<DeleteViewVersionResponse>;
+export interface DeleteVocabularyRequest {
+  InstanceId: string;
+  VocabularyId: string;
+}
+export const DeleteVocabularyRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     VocabularyId: S.String.pipe(T.HttpLabel("VocabularyId")),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/vocabulary-remove/{InstanceId}/{VocabularyId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/vocabulary-remove/{InstanceId}/{VocabularyId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteWorkspaceRequest extends S.Class<DeleteWorkspaceRequest>(
-  "DeleteWorkspaceRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteVocabularyRequest",
+}) as any as S.Schema<DeleteVocabularyRequest>;
+export interface DeleteWorkspaceRequest {
+  InstanceId: string;
+  WorkspaceId: string;
+}
+export const DeleteWorkspaceRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     WorkspaceId: S.String.pipe(T.HttpLabel("WorkspaceId")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/workspaces/{InstanceId}/{WorkspaceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/workspaces/{InstanceId}/{WorkspaceId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteWorkspaceResponse extends S.Class<DeleteWorkspaceResponse>(
-  "DeleteWorkspaceResponse",
-)({}) {}
-export class DeleteWorkspaceMediaRequest extends S.Class<DeleteWorkspaceMediaRequest>(
-  "DeleteWorkspaceMediaRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteWorkspaceRequest",
+}) as any as S.Schema<DeleteWorkspaceRequest>;
+export interface DeleteWorkspaceResponse {}
+export const DeleteWorkspaceResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteWorkspaceResponse",
+}) as any as S.Schema<DeleteWorkspaceResponse>;
+export interface DeleteWorkspaceMediaRequest {
+  InstanceId: string;
+  WorkspaceId: string;
+  MediaType: string;
+}
+export const DeleteWorkspaceMediaRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     WorkspaceId: S.String.pipe(T.HttpLabel("WorkspaceId")),
     MediaType: S.String.pipe(T.HttpQuery("mediaType")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/workspaces/{InstanceId}/{WorkspaceId}/media",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/workspaces/{InstanceId}/{WorkspaceId}/media",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteWorkspaceMediaResponse extends S.Class<DeleteWorkspaceMediaResponse>(
-  "DeleteWorkspaceMediaResponse",
-)({}) {}
-export class DeleteWorkspacePageRequest extends S.Class<DeleteWorkspacePageRequest>(
-  "DeleteWorkspacePageRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteWorkspaceMediaRequest",
+}) as any as S.Schema<DeleteWorkspaceMediaRequest>;
+export interface DeleteWorkspaceMediaResponse {}
+export const DeleteWorkspaceMediaResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteWorkspaceMediaResponse",
+}) as any as S.Schema<DeleteWorkspaceMediaResponse>;
+export interface DeleteWorkspacePageRequest {
+  InstanceId: string;
+  WorkspaceId: string;
+  Page: string;
+}
+export const DeleteWorkspacePageRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     WorkspaceId: S.String.pipe(T.HttpLabel("WorkspaceId")),
     Page: S.String.pipe(T.HttpLabel("Page")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/workspaces/{InstanceId}/{WorkspaceId}/pages/{Page}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/workspaces/{InstanceId}/{WorkspaceId}/pages/{Page}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteWorkspacePageResponse extends S.Class<DeleteWorkspacePageResponse>(
-  "DeleteWorkspacePageResponse",
-)({}) {}
-export class DescribeAgentStatusRequest extends S.Class<DescribeAgentStatusRequest>(
-  "DescribeAgentStatusRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteWorkspacePageRequest",
+}) as any as S.Schema<DeleteWorkspacePageRequest>;
+export interface DeleteWorkspacePageResponse {}
+export const DeleteWorkspacePageResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteWorkspacePageResponse",
+}) as any as S.Schema<DeleteWorkspacePageResponse>;
+export interface DescribeAgentStatusRequest {
+  InstanceId: string;
+  AgentStatusId: string;
+}
+export const DescribeAgentStatusRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     AgentStatusId: S.String.pipe(T.HttpLabel("AgentStatusId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/agent-status/{InstanceId}/{AgentStatusId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/agent-status/{InstanceId}/{AgentStatusId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeAuthenticationProfileRequest extends S.Class<DescribeAuthenticationProfileRequest>(
-  "DescribeAuthenticationProfileRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeAgentStatusRequest",
+}) as any as S.Schema<DescribeAgentStatusRequest>;
+export interface DescribeAuthenticationProfileRequest {
+  AuthenticationProfileId: string;
+  InstanceId: string;
+}
+export const DescribeAuthenticationProfileRequest = S.suspend(() =>
+  S.Struct({
     AuthenticationProfileId: S.String.pipe(
       T.HttpLabel("AuthenticationProfileId"),
     ),
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/authentication-profiles/{InstanceId}/{AuthenticationProfileId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/authentication-profiles/{InstanceId}/{AuthenticationProfileId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeContactRequest extends S.Class<DescribeContactRequest>(
-  "DescribeContactRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeAuthenticationProfileRequest",
+}) as any as S.Schema<DescribeAuthenticationProfileRequest>;
+export interface DescribeContactRequest {
+  InstanceId: string;
+  ContactId: string;
+}
+export const DescribeContactRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ContactId: S.String.pipe(T.HttpLabel("ContactId")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/contacts/{InstanceId}/{ContactId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/contacts/{InstanceId}/{ContactId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeContactEvaluationRequest extends S.Class<DescribeContactEvaluationRequest>(
-  "DescribeContactEvaluationRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeContactRequest",
+}) as any as S.Schema<DescribeContactRequest>;
+export interface DescribeContactEvaluationRequest {
+  InstanceId: string;
+  EvaluationId: string;
+}
+export const DescribeContactEvaluationRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     EvaluationId: S.String.pipe(T.HttpLabel("EvaluationId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/contact-evaluations/{InstanceId}/{EvaluationId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/contact-evaluations/{InstanceId}/{EvaluationId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeContactFlowRequest extends S.Class<DescribeContactFlowRequest>(
-  "DescribeContactFlowRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeContactEvaluationRequest",
+}) as any as S.Schema<DescribeContactEvaluationRequest>;
+export interface DescribeContactFlowRequest {
+  InstanceId: string;
+  ContactFlowId: string;
+}
+export const DescribeContactFlowRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ContactFlowId: S.String.pipe(T.HttpLabel("ContactFlowId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/contact-flows/{InstanceId}/{ContactFlowId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/contact-flows/{InstanceId}/{ContactFlowId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeContactFlowModuleRequest extends S.Class<DescribeContactFlowModuleRequest>(
-  "DescribeContactFlowModuleRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeContactFlowRequest",
+}) as any as S.Schema<DescribeContactFlowRequest>;
+export interface DescribeContactFlowModuleRequest {
+  InstanceId: string;
+  ContactFlowModuleId: string;
+}
+export const DescribeContactFlowModuleRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ContactFlowModuleId: S.String.pipe(T.HttpLabel("ContactFlowModuleId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/contact-flow-modules/{InstanceId}/{ContactFlowModuleId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/contact-flow-modules/{InstanceId}/{ContactFlowModuleId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeContactFlowModuleAliasRequest extends S.Class<DescribeContactFlowModuleAliasRequest>(
-  "DescribeContactFlowModuleAliasRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeContactFlowModuleRequest",
+}) as any as S.Schema<DescribeContactFlowModuleRequest>;
+export interface DescribeContactFlowModuleAliasRequest {
+  InstanceId: string;
+  ContactFlowModuleId: string;
+  AliasId: string;
+}
+export const DescribeContactFlowModuleAliasRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ContactFlowModuleId: S.String.pipe(T.HttpLabel("ContactFlowModuleId")),
     AliasId: S.String.pipe(T.HttpLabel("AliasId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/contact-flow-modules/{InstanceId}/{ContactFlowModuleId}/alias/{AliasId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/contact-flow-modules/{InstanceId}/{ContactFlowModuleId}/alias/{AliasId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeDataTableRequest extends S.Class<DescribeDataTableRequest>(
-  "DescribeDataTableRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeContactFlowModuleAliasRequest",
+}) as any as S.Schema<DescribeContactFlowModuleAliasRequest>;
+export interface DescribeDataTableRequest {
+  InstanceId: string;
+  DataTableId: string;
+}
+export const DescribeDataTableRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     DataTableId: S.String.pipe(T.HttpLabel("DataTableId")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/data-tables/{InstanceId}/{DataTableId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/data-tables/{InstanceId}/{DataTableId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeDataTableAttributeRequest extends S.Class<DescribeDataTableAttributeRequest>(
-  "DescribeDataTableAttributeRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeDataTableRequest",
+}) as any as S.Schema<DescribeDataTableRequest>;
+export interface DescribeDataTableAttributeRequest {
+  InstanceId: string;
+  DataTableId: string;
+  AttributeName: string;
+}
+export const DescribeDataTableAttributeRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     DataTableId: S.String.pipe(T.HttpLabel("DataTableId")),
     AttributeName: S.String.pipe(T.HttpLabel("AttributeName")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/data-tables/{InstanceId}/{DataTableId}/attributes/{AttributeName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/data-tables/{InstanceId}/{DataTableId}/attributes/{AttributeName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeEmailAddressRequest extends S.Class<DescribeEmailAddressRequest>(
-  "DescribeEmailAddressRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeDataTableAttributeRequest",
+}) as any as S.Schema<DescribeDataTableAttributeRequest>;
+export interface DescribeEmailAddressRequest {
+  InstanceId: string;
+  EmailAddressId: string;
+}
+export const DescribeEmailAddressRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     EmailAddressId: S.String.pipe(T.HttpLabel("EmailAddressId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/email-addresses/{InstanceId}/{EmailAddressId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/email-addresses/{InstanceId}/{EmailAddressId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeEvaluationFormRequest extends S.Class<DescribeEvaluationFormRequest>(
-  "DescribeEvaluationFormRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeEmailAddressRequest",
+}) as any as S.Schema<DescribeEmailAddressRequest>;
+export interface DescribeEvaluationFormRequest {
+  InstanceId: string;
+  EvaluationFormId: string;
+  EvaluationFormVersion?: number;
+}
+export const DescribeEvaluationFormRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     EvaluationFormId: S.String.pipe(T.HttpLabel("EvaluationFormId")),
     EvaluationFormVersion: S.optional(S.Number).pipe(T.HttpQuery("version")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/evaluation-forms/{InstanceId}/{EvaluationFormId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/evaluation-forms/{InstanceId}/{EvaluationFormId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeHoursOfOperationRequest extends S.Class<DescribeHoursOfOperationRequest>(
-  "DescribeHoursOfOperationRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeEvaluationFormRequest",
+}) as any as S.Schema<DescribeEvaluationFormRequest>;
+export interface DescribeHoursOfOperationRequest {
+  InstanceId: string;
+  HoursOfOperationId: string;
+}
+export const DescribeHoursOfOperationRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     HoursOfOperationId: S.String.pipe(T.HttpLabel("HoursOfOperationId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/hours-of-operations/{InstanceId}/{HoursOfOperationId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/hours-of-operations/{InstanceId}/{HoursOfOperationId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeHoursOfOperationOverrideRequest extends S.Class<DescribeHoursOfOperationOverrideRequest>(
-  "DescribeHoursOfOperationOverrideRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeHoursOfOperationRequest",
+}) as any as S.Schema<DescribeHoursOfOperationRequest>;
+export interface DescribeHoursOfOperationOverrideRequest {
+  InstanceId: string;
+  HoursOfOperationId: string;
+  HoursOfOperationOverrideId: string;
+}
+export const DescribeHoursOfOperationOverrideRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     HoursOfOperationId: S.String.pipe(T.HttpLabel("HoursOfOperationId")),
     HoursOfOperationOverrideId: S.String.pipe(
       T.HttpLabel("HoursOfOperationOverrideId"),
     ),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/hours-of-operations/{InstanceId}/{HoursOfOperationId}/overrides/{HoursOfOperationOverrideId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/hours-of-operations/{InstanceId}/{HoursOfOperationId}/overrides/{HoursOfOperationOverrideId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeInstanceRequest extends S.Class<DescribeInstanceRequest>(
-  "DescribeInstanceRequest",
-)(
-  { InstanceId: S.String.pipe(T.HttpLabel("InstanceId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/instance/{InstanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DescribeHoursOfOperationOverrideRequest",
+}) as any as S.Schema<DescribeHoursOfOperationOverrideRequest>;
+export interface DescribeInstanceRequest {
+  InstanceId: string;
+}
+export const DescribeInstanceRequest = S.suspend(() =>
+  S.Struct({ InstanceId: S.String.pipe(T.HttpLabel("InstanceId")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/instance/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeInstanceAttributeRequest extends S.Class<DescribeInstanceAttributeRequest>(
-  "DescribeInstanceAttributeRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeInstanceRequest",
+}) as any as S.Schema<DescribeInstanceRequest>;
+export interface DescribeInstanceAttributeRequest {
+  InstanceId: string;
+  AttributeType: string;
+}
+export const DescribeInstanceAttributeRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     AttributeType: S.String.pipe(T.HttpLabel("AttributeType")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/instance/{InstanceId}/attribute/{AttributeType}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/instance/{InstanceId}/attribute/{AttributeType}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeInstanceStorageConfigRequest extends S.Class<DescribeInstanceStorageConfigRequest>(
-  "DescribeInstanceStorageConfigRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeInstanceAttributeRequest",
+}) as any as S.Schema<DescribeInstanceAttributeRequest>;
+export interface DescribeInstanceStorageConfigRequest {
+  InstanceId: string;
+  AssociationId: string;
+  ResourceType: string;
+}
+export const DescribeInstanceStorageConfigRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     AssociationId: S.String.pipe(T.HttpLabel("AssociationId")),
     ResourceType: S.String.pipe(T.HttpQuery("resourceType")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/instance/{InstanceId}/storage-config/{AssociationId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/instance/{InstanceId}/storage-config/{AssociationId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribePhoneNumberRequest extends S.Class<DescribePhoneNumberRequest>(
-  "DescribePhoneNumberRequest",
-)(
-  { PhoneNumberId: S.String.pipe(T.HttpLabel("PhoneNumberId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/phone-number/{PhoneNumberId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DescribeInstanceStorageConfigRequest",
+}) as any as S.Schema<DescribeInstanceStorageConfigRequest>;
+export interface DescribePhoneNumberRequest {
+  PhoneNumberId: string;
+}
+export const DescribePhoneNumberRequest = S.suspend(() =>
+  S.Struct({ PhoneNumberId: S.String.pipe(T.HttpLabel("PhoneNumberId")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/phone-number/{PhoneNumberId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribePredefinedAttributeRequest extends S.Class<DescribePredefinedAttributeRequest>(
-  "DescribePredefinedAttributeRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribePhoneNumberRequest",
+}) as any as S.Schema<DescribePhoneNumberRequest>;
+export interface DescribePredefinedAttributeRequest {
+  InstanceId: string;
+  Name: string;
+}
+export const DescribePredefinedAttributeRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Name: S.String.pipe(T.HttpLabel("Name")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/predefined-attributes/{InstanceId}/{Name}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/predefined-attributes/{InstanceId}/{Name}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribePromptRequest extends S.Class<DescribePromptRequest>(
-  "DescribePromptRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribePredefinedAttributeRequest",
+}) as any as S.Schema<DescribePredefinedAttributeRequest>;
+export interface DescribePromptRequest {
+  InstanceId: string;
+  PromptId: string;
+}
+export const DescribePromptRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     PromptId: S.String.pipe(T.HttpLabel("PromptId")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/prompts/{InstanceId}/{PromptId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/prompts/{InstanceId}/{PromptId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeQueueRequest extends S.Class<DescribeQueueRequest>(
-  "DescribeQueueRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribePromptRequest",
+}) as any as S.Schema<DescribePromptRequest>;
+export interface DescribeQueueRequest {
+  InstanceId: string;
+  QueueId: string;
+}
+export const DescribeQueueRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     QueueId: S.String.pipe(T.HttpLabel("QueueId")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/queues/{InstanceId}/{QueueId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/queues/{InstanceId}/{QueueId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeQuickConnectRequest extends S.Class<DescribeQuickConnectRequest>(
-  "DescribeQuickConnectRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeQueueRequest",
+}) as any as S.Schema<DescribeQueueRequest>;
+export interface DescribeQuickConnectRequest {
+  InstanceId: string;
+  QuickConnectId: string;
+}
+export const DescribeQuickConnectRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     QuickConnectId: S.String.pipe(T.HttpLabel("QuickConnectId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/quick-connects/{InstanceId}/{QuickConnectId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/quick-connects/{InstanceId}/{QuickConnectId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeRoutingProfileRequest extends S.Class<DescribeRoutingProfileRequest>(
-  "DescribeRoutingProfileRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeQuickConnectRequest",
+}) as any as S.Schema<DescribeQuickConnectRequest>;
+export interface DescribeRoutingProfileRequest {
+  InstanceId: string;
+  RoutingProfileId: string;
+}
+export const DescribeRoutingProfileRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     RoutingProfileId: S.String.pipe(T.HttpLabel("RoutingProfileId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/routing-profiles/{InstanceId}/{RoutingProfileId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/routing-profiles/{InstanceId}/{RoutingProfileId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeRuleRequest extends S.Class<DescribeRuleRequest>(
-  "DescribeRuleRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeRoutingProfileRequest",
+}) as any as S.Schema<DescribeRoutingProfileRequest>;
+export interface DescribeRuleRequest {
+  InstanceId: string;
+  RuleId: string;
+}
+export const DescribeRuleRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     RuleId: S.String.pipe(T.HttpLabel("RuleId")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/rules/{InstanceId}/{RuleId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/rules/{InstanceId}/{RuleId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeSecurityProfileRequest extends S.Class<DescribeSecurityProfileRequest>(
-  "DescribeSecurityProfileRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeRuleRequest",
+}) as any as S.Schema<DescribeRuleRequest>;
+export interface DescribeSecurityProfileRequest {
+  SecurityProfileId: string;
+  InstanceId: string;
+}
+export const DescribeSecurityProfileRequest = S.suspend(() =>
+  S.Struct({
     SecurityProfileId: S.String.pipe(T.HttpLabel("SecurityProfileId")),
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/security-profiles/{InstanceId}/{SecurityProfileId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/security-profiles/{InstanceId}/{SecurityProfileId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeTrafficDistributionGroupRequest extends S.Class<DescribeTrafficDistributionGroupRequest>(
-  "DescribeTrafficDistributionGroupRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeSecurityProfileRequest",
+}) as any as S.Schema<DescribeSecurityProfileRequest>;
+export interface DescribeTrafficDistributionGroupRequest {
+  TrafficDistributionGroupId: string;
+}
+export const DescribeTrafficDistributionGroupRequest = S.suspend(() =>
+  S.Struct({
     TrafficDistributionGroupId: S.String.pipe(
       T.HttpLabel("TrafficDistributionGroupId"),
     ),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/traffic-distribution-group/{TrafficDistributionGroupId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/traffic-distribution-group/{TrafficDistributionGroupId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeUserRequest extends S.Class<DescribeUserRequest>(
-  "DescribeUserRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeTrafficDistributionGroupRequest",
+}) as any as S.Schema<DescribeTrafficDistributionGroupRequest>;
+export interface DescribeUserRequest {
+  UserId: string;
+  InstanceId: string;
+}
+export const DescribeUserRequest = S.suspend(() =>
+  S.Struct({
     UserId: S.String.pipe(T.HttpLabel("UserId")),
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/users/{InstanceId}/{UserId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/users/{InstanceId}/{UserId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeUserHierarchyGroupRequest extends S.Class<DescribeUserHierarchyGroupRequest>(
-  "DescribeUserHierarchyGroupRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeUserRequest",
+}) as any as S.Schema<DescribeUserRequest>;
+export interface DescribeUserHierarchyGroupRequest {
+  HierarchyGroupId: string;
+  InstanceId: string;
+}
+export const DescribeUserHierarchyGroupRequest = S.suspend(() =>
+  S.Struct({
     HierarchyGroupId: S.String.pipe(T.HttpLabel("HierarchyGroupId")),
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/user-hierarchy-groups/{InstanceId}/{HierarchyGroupId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/user-hierarchy-groups/{InstanceId}/{HierarchyGroupId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeUserHierarchyStructureRequest extends S.Class<DescribeUserHierarchyStructureRequest>(
-  "DescribeUserHierarchyStructureRequest",
-)(
-  { InstanceId: S.String.pipe(T.HttpLabel("InstanceId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/user-hierarchy-structure/{InstanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DescribeUserHierarchyGroupRequest",
+}) as any as S.Schema<DescribeUserHierarchyGroupRequest>;
+export interface DescribeUserHierarchyStructureRequest {
+  InstanceId: string;
+}
+export const DescribeUserHierarchyStructureRequest = S.suspend(() =>
+  S.Struct({ InstanceId: S.String.pipe(T.HttpLabel("InstanceId")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/user-hierarchy-structure/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeViewRequest extends S.Class<DescribeViewRequest>(
-  "DescribeViewRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeUserHierarchyStructureRequest",
+}) as any as S.Schema<DescribeUserHierarchyStructureRequest>;
+export interface DescribeViewRequest {
+  InstanceId: string;
+  ViewId: string;
+}
+export const DescribeViewRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ViewId: S.String.pipe(T.HttpLabel("ViewId")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/views/{InstanceId}/{ViewId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/views/{InstanceId}/{ViewId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeVocabularyRequest extends S.Class<DescribeVocabularyRequest>(
-  "DescribeVocabularyRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeViewRequest",
+}) as any as S.Schema<DescribeViewRequest>;
+export interface DescribeVocabularyRequest {
+  InstanceId: string;
+  VocabularyId: string;
+}
+export const DescribeVocabularyRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     VocabularyId: S.String.pipe(T.HttpLabel("VocabularyId")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/vocabulary/{InstanceId}/{VocabularyId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/vocabulary/{InstanceId}/{VocabularyId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeWorkspaceRequest extends S.Class<DescribeWorkspaceRequest>(
-  "DescribeWorkspaceRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeVocabularyRequest",
+}) as any as S.Schema<DescribeVocabularyRequest>;
+export interface DescribeWorkspaceRequest {
+  InstanceId: string;
+  WorkspaceId: string;
+}
+export const DescribeWorkspaceRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     WorkspaceId: S.String.pipe(T.HttpLabel("WorkspaceId")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/workspaces/{InstanceId}/{WorkspaceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/workspaces/{InstanceId}/{WorkspaceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DisassociateAnalyticsDataSetRequest extends S.Class<DisassociateAnalyticsDataSetRequest>(
-  "DisassociateAnalyticsDataSetRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeWorkspaceRequest",
+}) as any as S.Schema<DescribeWorkspaceRequest>;
+export interface DisassociateAnalyticsDataSetRequest {
+  InstanceId: string;
+  DataSetId: string;
+  TargetAccountId?: string;
+}
+export const DisassociateAnalyticsDataSetRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     DataSetId: S.String,
     TargetAccountId: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/analytics-data/instance/{InstanceId}/association",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/analytics-data/instance/{InstanceId}/association",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DisassociateAnalyticsDataSetResponse extends S.Class<DisassociateAnalyticsDataSetResponse>(
-  "DisassociateAnalyticsDataSetResponse",
-)({}) {}
-export class DisassociateApprovedOriginRequest extends S.Class<DisassociateApprovedOriginRequest>(
-  "DisassociateApprovedOriginRequest",
-)(
-  {
+).annotations({
+  identifier: "DisassociateAnalyticsDataSetRequest",
+}) as any as S.Schema<DisassociateAnalyticsDataSetRequest>;
+export interface DisassociateAnalyticsDataSetResponse {}
+export const DisassociateAnalyticsDataSetResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DisassociateAnalyticsDataSetResponse",
+}) as any as S.Schema<DisassociateAnalyticsDataSetResponse>;
+export interface DisassociateApprovedOriginRequest {
+  InstanceId: string;
+  Origin: string;
+  ClientToken?: string;
+}
+export const DisassociateApprovedOriginRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Origin: S.String.pipe(T.HttpQuery("origin")),
     ClientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/instance/{InstanceId}/approved-origin" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/instance/{InstanceId}/approved-origin",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DisassociateApprovedOriginResponse extends S.Class<DisassociateApprovedOriginResponse>(
-  "DisassociateApprovedOriginResponse",
-)({}) {}
-export class LexV2Bot extends S.Class<LexV2Bot>("LexV2Bot")({
-  AliasArn: S.optional(S.String),
-}) {}
-export class DisassociateBotRequest extends S.Class<DisassociateBotRequest>(
-  "DisassociateBotRequest",
-)(
-  {
+).annotations({
+  identifier: "DisassociateApprovedOriginRequest",
+}) as any as S.Schema<DisassociateApprovedOriginRequest>;
+export interface DisassociateApprovedOriginResponse {}
+export const DisassociateApprovedOriginResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DisassociateApprovedOriginResponse",
+}) as any as S.Schema<DisassociateApprovedOriginResponse>;
+export interface LexV2Bot {
+  AliasArn?: string;
+}
+export const LexV2Bot = S.suspend(() =>
+  S.Struct({ AliasArn: S.optional(S.String) }),
+).annotations({ identifier: "LexV2Bot" }) as any as S.Schema<LexV2Bot>;
+export interface DisassociateBotRequest {
+  InstanceId: string;
+  LexBot?: LexBot;
+  LexV2Bot?: LexV2Bot;
+  ClientToken?: string;
+}
+export const DisassociateBotRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     LexBot: S.optional(LexBot),
     LexV2Bot: S.optional(LexV2Bot),
     ClientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/instance/{InstanceId}/bot" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/instance/{InstanceId}/bot" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DisassociateBotResponse extends S.Class<DisassociateBotResponse>(
-  "DisassociateBotResponse",
-)({}) {}
-export class AliasConfiguration extends S.Class<AliasConfiguration>(
-  "AliasConfiguration",
-)({ EmailAddressId: S.String }) {}
-export class DisassociateEmailAddressAliasRequest extends S.Class<DisassociateEmailAddressAliasRequest>(
-  "DisassociateEmailAddressAliasRequest",
-)(
-  {
+).annotations({
+  identifier: "DisassociateBotRequest",
+}) as any as S.Schema<DisassociateBotRequest>;
+export interface DisassociateBotResponse {}
+export const DisassociateBotResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DisassociateBotResponse",
+}) as any as S.Schema<DisassociateBotResponse>;
+export interface AliasConfiguration {
+  EmailAddressId: string;
+}
+export const AliasConfiguration = S.suspend(() =>
+  S.Struct({ EmailAddressId: S.String }),
+).annotations({
+  identifier: "AliasConfiguration",
+}) as any as S.Schema<AliasConfiguration>;
+export interface DisassociateEmailAddressAliasRequest {
+  EmailAddressId: string;
+  InstanceId: string;
+  AliasConfiguration: AliasConfiguration;
+  ClientToken?: string;
+}
+export const DisassociateEmailAddressAliasRequest = S.suspend(() =>
+  S.Struct({
     EmailAddressId: S.String.pipe(T.HttpLabel("EmailAddressId")),
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     AliasConfiguration: AliasConfiguration,
     ClientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/email-addresses/{InstanceId}/{EmailAddressId}/disassociate-alias",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/email-addresses/{InstanceId}/{EmailAddressId}/disassociate-alias",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DisassociateEmailAddressAliasResponse extends S.Class<DisassociateEmailAddressAliasResponse>(
-  "DisassociateEmailAddressAliasResponse",
-)({}) {}
-export class DisassociateFlowRequest extends S.Class<DisassociateFlowRequest>(
-  "DisassociateFlowRequest",
-)(
-  {
+).annotations({
+  identifier: "DisassociateEmailAddressAliasRequest",
+}) as any as S.Schema<DisassociateEmailAddressAliasRequest>;
+export interface DisassociateEmailAddressAliasResponse {}
+export const DisassociateEmailAddressAliasResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DisassociateEmailAddressAliasResponse",
+}) as any as S.Schema<DisassociateEmailAddressAliasResponse>;
+export interface DisassociateFlowRequest {
+  InstanceId: string;
+  ResourceId: string;
+  ResourceType: string;
+}
+export const DisassociateFlowRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ResourceId: S.String.pipe(T.HttpLabel("ResourceId")),
     ResourceType: S.String.pipe(T.HttpLabel("ResourceType")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/flow-associations/{InstanceId}/{ResourceId}/{ResourceType}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/flow-associations/{InstanceId}/{ResourceId}/{ResourceType}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DisassociateFlowResponse extends S.Class<DisassociateFlowResponse>(
-  "DisassociateFlowResponse",
-)({}) {}
-export class DisassociateInstanceStorageConfigRequest extends S.Class<DisassociateInstanceStorageConfigRequest>(
-  "DisassociateInstanceStorageConfigRequest",
-)(
-  {
+).annotations({
+  identifier: "DisassociateFlowRequest",
+}) as any as S.Schema<DisassociateFlowRequest>;
+export interface DisassociateFlowResponse {}
+export const DisassociateFlowResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DisassociateFlowResponse",
+}) as any as S.Schema<DisassociateFlowResponse>;
+export interface DisassociateInstanceStorageConfigRequest {
+  InstanceId: string;
+  AssociationId: string;
+  ResourceType: string;
+  ClientToken?: string;
+}
+export const DisassociateInstanceStorageConfigRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     AssociationId: S.String.pipe(T.HttpLabel("AssociationId")),
     ResourceType: S.String.pipe(T.HttpQuery("resourceType")),
     ClientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/instance/{InstanceId}/storage-config/{AssociationId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/instance/{InstanceId}/storage-config/{AssociationId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DisassociateInstanceStorageConfigResponse extends S.Class<DisassociateInstanceStorageConfigResponse>(
-  "DisassociateInstanceStorageConfigResponse",
-)({}) {}
-export class DisassociateLambdaFunctionRequest extends S.Class<DisassociateLambdaFunctionRequest>(
-  "DisassociateLambdaFunctionRequest",
-)(
-  {
+).annotations({
+  identifier: "DisassociateInstanceStorageConfigRequest",
+}) as any as S.Schema<DisassociateInstanceStorageConfigRequest>;
+export interface DisassociateInstanceStorageConfigResponse {}
+export const DisassociateInstanceStorageConfigResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DisassociateInstanceStorageConfigResponse",
+}) as any as S.Schema<DisassociateInstanceStorageConfigResponse>;
+export interface DisassociateLambdaFunctionRequest {
+  InstanceId: string;
+  FunctionArn: string;
+  ClientToken?: string;
+}
+export const DisassociateLambdaFunctionRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     FunctionArn: S.String.pipe(T.HttpQuery("functionArn")),
     ClientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/instance/{InstanceId}/lambda-function" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/instance/{InstanceId}/lambda-function",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DisassociateLambdaFunctionResponse extends S.Class<DisassociateLambdaFunctionResponse>(
-  "DisassociateLambdaFunctionResponse",
-)({}) {}
-export class DisassociateLexBotRequest extends S.Class<DisassociateLexBotRequest>(
-  "DisassociateLexBotRequest",
-)(
-  {
+).annotations({
+  identifier: "DisassociateLambdaFunctionRequest",
+}) as any as S.Schema<DisassociateLambdaFunctionRequest>;
+export interface DisassociateLambdaFunctionResponse {}
+export const DisassociateLambdaFunctionResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DisassociateLambdaFunctionResponse",
+}) as any as S.Schema<DisassociateLambdaFunctionResponse>;
+export interface DisassociateLexBotRequest {
+  InstanceId: string;
+  BotName: string;
+  LexRegion: string;
+  ClientToken?: string;
+}
+export const DisassociateLexBotRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     BotName: S.String.pipe(T.HttpQuery("botName")),
     LexRegion: S.String.pipe(T.HttpQuery("lexRegion")),
     ClientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/instance/{InstanceId}/lex-bot" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/instance/{InstanceId}/lex-bot" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DisassociateLexBotResponse extends S.Class<DisassociateLexBotResponse>(
-  "DisassociateLexBotResponse",
-)({}) {}
-export class DisassociatePhoneNumberContactFlowRequest extends S.Class<DisassociatePhoneNumberContactFlowRequest>(
-  "DisassociatePhoneNumberContactFlowRequest",
-)(
-  {
+).annotations({
+  identifier: "DisassociateLexBotRequest",
+}) as any as S.Schema<DisassociateLexBotRequest>;
+export interface DisassociateLexBotResponse {}
+export const DisassociateLexBotResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DisassociateLexBotResponse",
+}) as any as S.Schema<DisassociateLexBotResponse>;
+export interface DisassociatePhoneNumberContactFlowRequest {
+  PhoneNumberId: string;
+  InstanceId: string;
+}
+export const DisassociatePhoneNumberContactFlowRequest = S.suspend(() =>
+  S.Struct({
     PhoneNumberId: S.String.pipe(T.HttpLabel("PhoneNumberId")),
     InstanceId: S.String.pipe(T.HttpQuery("instanceId")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/phone-number/{PhoneNumberId}/contact-flow",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/phone-number/{PhoneNumberId}/contact-flow",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DisassociatePhoneNumberContactFlowResponse extends S.Class<DisassociatePhoneNumberContactFlowResponse>(
-  "DisassociatePhoneNumberContactFlowResponse",
-)({}) {}
-export class DisassociateQueueQuickConnectsRequest extends S.Class<DisassociateQueueQuickConnectsRequest>(
-  "DisassociateQueueQuickConnectsRequest",
-)(
-  {
+).annotations({
+  identifier: "DisassociatePhoneNumberContactFlowRequest",
+}) as any as S.Schema<DisassociatePhoneNumberContactFlowRequest>;
+export interface DisassociatePhoneNumberContactFlowResponse {}
+export const DisassociatePhoneNumberContactFlowResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DisassociatePhoneNumberContactFlowResponse",
+}) as any as S.Schema<DisassociatePhoneNumberContactFlowResponse>;
+export interface DisassociateQueueQuickConnectsRequest {
+  InstanceId: string;
+  QueueId: string;
+  QuickConnectIds: QuickConnectsList;
+}
+export const DisassociateQueueQuickConnectsRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     QueueId: S.String.pipe(T.HttpLabel("QueueId")),
     QuickConnectIds: QuickConnectsList,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/queues/{InstanceId}/{QueueId}/disassociate-quick-connects",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/queues/{InstanceId}/{QueueId}/disassociate-quick-connects",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DisassociateQueueQuickConnectsResponse extends S.Class<DisassociateQueueQuickConnectsResponse>(
-  "DisassociateQueueQuickConnectsResponse",
-)({}) {}
-export class DisassociateSecurityKeyRequest extends S.Class<DisassociateSecurityKeyRequest>(
-  "DisassociateSecurityKeyRequest",
-)(
-  {
+).annotations({
+  identifier: "DisassociateQueueQuickConnectsRequest",
+}) as any as S.Schema<DisassociateQueueQuickConnectsRequest>;
+export interface DisassociateQueueQuickConnectsResponse {}
+export const DisassociateQueueQuickConnectsResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DisassociateQueueQuickConnectsResponse",
+}) as any as S.Schema<DisassociateQueueQuickConnectsResponse>;
+export interface DisassociateSecurityKeyRequest {
+  InstanceId: string;
+  AssociationId: string;
+  ClientToken?: string;
+}
+export const DisassociateSecurityKeyRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     AssociationId: S.String.pipe(T.HttpLabel("AssociationId")),
     ClientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/instance/{InstanceId}/security-key/{AssociationId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/instance/{InstanceId}/security-key/{AssociationId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DisassociateSecurityKeyResponse extends S.Class<DisassociateSecurityKeyResponse>(
-  "DisassociateSecurityKeyResponse",
-)({}) {}
-export class SecurityProfileItem extends S.Class<SecurityProfileItem>(
-  "SecurityProfileItem",
-)({ Id: S.optional(S.String) }) {}
+).annotations({
+  identifier: "DisassociateSecurityKeyRequest",
+}) as any as S.Schema<DisassociateSecurityKeyRequest>;
+export interface DisassociateSecurityKeyResponse {}
+export const DisassociateSecurityKeyResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DisassociateSecurityKeyResponse",
+}) as any as S.Schema<DisassociateSecurityKeyResponse>;
+export interface SecurityProfileItem {
+  Id?: string;
+}
+export const SecurityProfileItem = S.suspend(() =>
+  S.Struct({ Id: S.optional(S.String) }),
+).annotations({
+  identifier: "SecurityProfileItem",
+}) as any as S.Schema<SecurityProfileItem>;
+export type SecurityProfiles = SecurityProfileItem[];
 export const SecurityProfiles = S.Array(SecurityProfileItem);
-export class DisassociateSecurityProfilesRequest extends S.Class<DisassociateSecurityProfilesRequest>(
-  "DisassociateSecurityProfilesRequest",
-)(
-  {
+export interface DisassociateSecurityProfilesRequest {
+  InstanceId: string;
+  SecurityProfiles: SecurityProfiles;
+  EntityType: string;
+  EntityArn: string;
+}
+export const DisassociateSecurityProfilesRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     SecurityProfiles: SecurityProfiles,
     EntityType: S.String,
     EntityArn: S.String,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/disassociate-security-profiles/{InstanceId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/disassociate-security-profiles/{InstanceId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DisassociateSecurityProfilesResponse extends S.Class<DisassociateSecurityProfilesResponse>(
-  "DisassociateSecurityProfilesResponse",
-)({}) {}
-export class DisassociateTrafficDistributionGroupUserRequest extends S.Class<DisassociateTrafficDistributionGroupUserRequest>(
-  "DisassociateTrafficDistributionGroupUserRequest",
-)(
-  {
+).annotations({
+  identifier: "DisassociateSecurityProfilesRequest",
+}) as any as S.Schema<DisassociateSecurityProfilesRequest>;
+export interface DisassociateSecurityProfilesResponse {}
+export const DisassociateSecurityProfilesResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DisassociateSecurityProfilesResponse",
+}) as any as S.Schema<DisassociateSecurityProfilesResponse>;
+export interface DisassociateTrafficDistributionGroupUserRequest {
+  TrafficDistributionGroupId: string;
+  UserId: string;
+  InstanceId: string;
+}
+export const DisassociateTrafficDistributionGroupUserRequest = S.suspend(() =>
+  S.Struct({
     TrafficDistributionGroupId: S.String.pipe(
       T.HttpLabel("TrafficDistributionGroupId"),
     ),
     UserId: S.String.pipe(T.HttpQuery("UserId")),
     InstanceId: S.String.pipe(T.HttpQuery("InstanceId")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/traffic-distribution-group/{TrafficDistributionGroupId}/user",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/traffic-distribution-group/{TrafficDistributionGroupId}/user",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DisassociateTrafficDistributionGroupUserResponse extends S.Class<DisassociateTrafficDistributionGroupUserResponse>(
-  "DisassociateTrafficDistributionGroupUserResponse",
-)({}) {}
-export class DisassociateWorkspaceRequest extends S.Class<DisassociateWorkspaceRequest>(
-  "DisassociateWorkspaceRequest",
-)(
-  {
+).annotations({
+  identifier: "DisassociateTrafficDistributionGroupUserRequest",
+}) as any as S.Schema<DisassociateTrafficDistributionGroupUserRequest>;
+export interface DisassociateTrafficDistributionGroupUserResponse {}
+export const DisassociateTrafficDistributionGroupUserResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DisassociateTrafficDistributionGroupUserResponse",
+}) as any as S.Schema<DisassociateTrafficDistributionGroupUserResponse>;
+export interface DisassociateWorkspaceRequest {
+  InstanceId: string;
+  WorkspaceId: string;
+  ResourceArns: WorkspaceResourceArnList;
+}
+export const DisassociateWorkspaceRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     WorkspaceId: S.String.pipe(T.HttpLabel("WorkspaceId")),
     ResourceArns: WorkspaceResourceArnList,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/workspaces/{InstanceId}/{WorkspaceId}/disassociate",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/workspaces/{InstanceId}/{WorkspaceId}/disassociate",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DismissUserContactRequest extends S.Class<DismissUserContactRequest>(
-  "DismissUserContactRequest",
-)(
-  {
+).annotations({
+  identifier: "DisassociateWorkspaceRequest",
+}) as any as S.Schema<DisassociateWorkspaceRequest>;
+export interface DismissUserContactRequest {
+  UserId: string;
+  InstanceId: string;
+  ContactId: string;
+}
+export const DismissUserContactRequest = S.suspend(() =>
+  S.Struct({
     UserId: S.String.pipe(T.HttpLabel("UserId")),
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ContactId: S.String,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/users/{InstanceId}/{UserId}/contact" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/users/{InstanceId}/{UserId}/contact" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DismissUserContactResponse extends S.Class<DismissUserContactResponse>(
-  "DismissUserContactResponse",
-)({}) {}
-export class GetAttachedFileRequest extends S.Class<GetAttachedFileRequest>(
-  "GetAttachedFileRequest",
-)(
-  {
+).annotations({
+  identifier: "DismissUserContactRequest",
+}) as any as S.Schema<DismissUserContactRequest>;
+export interface DismissUserContactResponse {}
+export const DismissUserContactResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DismissUserContactResponse",
+}) as any as S.Schema<DismissUserContactResponse>;
+export interface GetAttachedFileRequest {
+  InstanceId: string;
+  FileId: string;
+  UrlExpiryInSeconds?: number;
+  AssociatedResourceArn: string;
+}
+export const GetAttachedFileRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     FileId: S.String.pipe(T.HttpLabel("FileId")),
     UrlExpiryInSeconds: S.optional(S.Number).pipe(
       T.HttpQuery("urlExpiryInSeconds"),
     ),
     AssociatedResourceArn: S.String.pipe(T.HttpQuery("associatedResourceArn")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/attached-files/{InstanceId}/{FileId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/attached-files/{InstanceId}/{FileId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetContactAttributesRequest extends S.Class<GetContactAttributesRequest>(
-  "GetContactAttributesRequest",
-)(
-  {
+).annotations({
+  identifier: "GetAttachedFileRequest",
+}) as any as S.Schema<GetAttachedFileRequest>;
+export interface GetContactAttributesRequest {
+  InstanceId: string;
+  InitialContactId: string;
+}
+export const GetContactAttributesRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     InitialContactId: S.String.pipe(T.HttpLabel("InitialContactId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/contact/attributes/{InstanceId}/{InitialContactId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/contact/attributes/{InstanceId}/{InitialContactId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetEffectiveHoursOfOperationsRequest extends S.Class<GetEffectiveHoursOfOperationsRequest>(
-  "GetEffectiveHoursOfOperationsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetContactAttributesRequest",
+}) as any as S.Schema<GetContactAttributesRequest>;
+export interface GetEffectiveHoursOfOperationsRequest {
+  InstanceId: string;
+  HoursOfOperationId: string;
+  FromDate: string;
+  ToDate: string;
+}
+export const GetEffectiveHoursOfOperationsRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     HoursOfOperationId: S.String.pipe(T.HttpLabel("HoursOfOperationId")),
     FromDate: S.String.pipe(T.HttpQuery("fromDate")),
     ToDate: S.String.pipe(T.HttpQuery("toDate")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/effective-hours-of-operations/{InstanceId}/{HoursOfOperationId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/effective-hours-of-operations/{InstanceId}/{HoursOfOperationId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetFederationTokenRequest extends S.Class<GetFederationTokenRequest>(
-  "GetFederationTokenRequest",
-)(
-  { InstanceId: S.String.pipe(T.HttpLabel("InstanceId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/user/federate/{InstanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetEffectiveHoursOfOperationsRequest",
+}) as any as S.Schema<GetEffectiveHoursOfOperationsRequest>;
+export interface GetFederationTokenRequest {
+  InstanceId: string;
+}
+export const GetFederationTokenRequest = S.suspend(() =>
+  S.Struct({ InstanceId: S.String.pipe(T.HttpLabel("InstanceId")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/user/federate/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetFlowAssociationRequest extends S.Class<GetFlowAssociationRequest>(
-  "GetFlowAssociationRequest",
-)(
-  {
+).annotations({
+  identifier: "GetFederationTokenRequest",
+}) as any as S.Schema<GetFederationTokenRequest>;
+export interface GetFlowAssociationRequest {
+  InstanceId: string;
+  ResourceId: string;
+  ResourceType: string;
+}
+export const GetFlowAssociationRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ResourceId: S.String.pipe(T.HttpLabel("ResourceId")),
     ResourceType: S.String.pipe(T.HttpLabel("ResourceType")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/flow-associations/{InstanceId}/{ResourceId}/{ResourceType}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/flow-associations/{InstanceId}/{ResourceId}/{ResourceType}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetPromptFileRequest extends S.Class<GetPromptFileRequest>(
-  "GetPromptFileRequest",
-)(
-  {
+).annotations({
+  identifier: "GetFlowAssociationRequest",
+}) as any as S.Schema<GetFlowAssociationRequest>;
+export interface GetPromptFileRequest {
+  InstanceId: string;
+  PromptId: string;
+}
+export const GetPromptFileRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     PromptId: S.String.pipe(T.HttpLabel("PromptId")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/prompts/{InstanceId}/{PromptId}/file" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/prompts/{InstanceId}/{PromptId}/file" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetTaskTemplateRequest extends S.Class<GetTaskTemplateRequest>(
-  "GetTaskTemplateRequest",
-)(
-  {
+).annotations({
+  identifier: "GetPromptFileRequest",
+}) as any as S.Schema<GetPromptFileRequest>;
+export interface GetTaskTemplateRequest {
+  InstanceId: string;
+  TaskTemplateId: string;
+  SnapshotVersion?: string;
+}
+export const GetTaskTemplateRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     TaskTemplateId: S.String.pipe(T.HttpLabel("TaskTemplateId")),
     SnapshotVersion: S.optional(S.String).pipe(T.HttpQuery("snapshotVersion")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/instance/{InstanceId}/task/template/{TaskTemplateId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/instance/{InstanceId}/task/template/{TaskTemplateId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetTrafficDistributionRequest extends S.Class<GetTrafficDistributionRequest>(
-  "GetTrafficDistributionRequest",
-)(
-  { Id: S.String.pipe(T.HttpLabel("Id")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/traffic-distribution/{Id}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetTaskTemplateRequest",
+}) as any as S.Schema<GetTaskTemplateRequest>;
+export interface GetTrafficDistributionRequest {
+  Id: string;
+}
+export const GetTrafficDistributionRequest = S.suspend(() =>
+  S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/traffic-distribution/{Id}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ImportPhoneNumberRequest extends S.Class<ImportPhoneNumberRequest>(
-  "ImportPhoneNumberRequest",
-)(
-  {
+).annotations({
+  identifier: "GetTrafficDistributionRequest",
+}) as any as S.Schema<GetTrafficDistributionRequest>;
+export interface ImportPhoneNumberRequest {
+  InstanceId: string;
+  SourcePhoneNumberArn: string;
+  PhoneNumberDescription?: string;
+  Tags?: TagMap;
+  ClientToken?: string;
+}
+export const ImportPhoneNumberRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String,
     SourcePhoneNumberArn: S.String,
     PhoneNumberDescription: S.optional(S.String),
     Tags: S.optional(TagMap),
     ClientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/phone-number/import" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/phone-number/import" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ImportWorkspaceMediaRequest extends S.Class<ImportWorkspaceMediaRequest>(
-  "ImportWorkspaceMediaRequest",
-)(
-  {
+).annotations({
+  identifier: "ImportPhoneNumberRequest",
+}) as any as S.Schema<ImportPhoneNumberRequest>;
+export interface ImportWorkspaceMediaRequest {
+  InstanceId: string;
+  WorkspaceId: string;
+  MediaType: string;
+  MediaSource: string;
+}
+export const ImportWorkspaceMediaRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     WorkspaceId: S.String.pipe(T.HttpLabel("WorkspaceId")),
     MediaType: S.String,
     MediaSource: S.String,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/workspaces/{InstanceId}/{WorkspaceId}/media",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/workspaces/{InstanceId}/{WorkspaceId}/media",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ImportWorkspaceMediaResponse extends S.Class<ImportWorkspaceMediaResponse>(
-  "ImportWorkspaceMediaResponse",
-)({}) {}
-export class ListAgentStatusRequest extends S.Class<ListAgentStatusRequest>(
-  "ListAgentStatusRequest",
-)(
-  {
+).annotations({
+  identifier: "ImportWorkspaceMediaRequest",
+}) as any as S.Schema<ImportWorkspaceMediaRequest>;
+export interface ImportWorkspaceMediaResponse {}
+export const ImportWorkspaceMediaResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "ImportWorkspaceMediaResponse",
+}) as any as S.Schema<ImportWorkspaceMediaResponse>;
+export interface ListAgentStatusRequest {
+  InstanceId: string;
+  NextToken?: string;
+  MaxResults?: number;
+  AgentStatusTypes?: AgentStatusTypes;
+}
+export const ListAgentStatusRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     AgentStatusTypes: S.optional(AgentStatusTypes).pipe(
       T.HttpQuery("AgentStatusTypes"),
     ),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/agent-status/{InstanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/agent-status/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListAnalyticsDataAssociationsRequest extends S.Class<ListAnalyticsDataAssociationsRequest>(
-  "ListAnalyticsDataAssociationsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListAgentStatusRequest",
+}) as any as S.Schema<ListAgentStatusRequest>;
+export interface ListAnalyticsDataAssociationsRequest {
+  InstanceId: string;
+  DataSetId?: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListAnalyticsDataAssociationsRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     DataSetId: S.optional(S.String).pipe(T.HttpQuery("DataSetId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/analytics-data/instance/{InstanceId}/association",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/analytics-data/instance/{InstanceId}/association",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListAnalyticsDataLakeDataSetsRequest extends S.Class<ListAnalyticsDataLakeDataSetsRequest>(
-  "ListAnalyticsDataLakeDataSetsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListAnalyticsDataAssociationsRequest",
+}) as any as S.Schema<ListAnalyticsDataAssociationsRequest>;
+export interface ListAnalyticsDataLakeDataSetsRequest {
+  InstanceId: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListAnalyticsDataLakeDataSetsRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/analytics-data/instance/{InstanceId}/datasets",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/analytics-data/instance/{InstanceId}/datasets",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListApprovedOriginsRequest extends S.Class<ListApprovedOriginsRequest>(
-  "ListApprovedOriginsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListAnalyticsDataLakeDataSetsRequest",
+}) as any as S.Schema<ListAnalyticsDataLakeDataSetsRequest>;
+export interface ListApprovedOriginsRequest {
+  InstanceId: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListApprovedOriginsRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/instance/{InstanceId}/approved-origins" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/instance/{InstanceId}/approved-origins" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListAssociatedContactsRequest extends S.Class<ListAssociatedContactsRequest>(
-  "ListAssociatedContactsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListApprovedOriginsRequest",
+}) as any as S.Schema<ListApprovedOriginsRequest>;
+export interface ListAssociatedContactsRequest {
+  InstanceId: string;
+  ContactId: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListAssociatedContactsRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ContactId: S.String.pipe(T.HttpQuery("contactId")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/contact/associated/{InstanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/contact/associated/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListAuthenticationProfilesRequest extends S.Class<ListAuthenticationProfilesRequest>(
-  "ListAuthenticationProfilesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListAssociatedContactsRequest",
+}) as any as S.Schema<ListAssociatedContactsRequest>;
+export interface ListAuthenticationProfilesRequest {
+  InstanceId: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListAuthenticationProfilesRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/authentication-profiles-summary/{InstanceId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/authentication-profiles-summary/{InstanceId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListBotsRequest extends S.Class<ListBotsRequest>(
-  "ListBotsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListAuthenticationProfilesRequest",
+}) as any as S.Schema<ListAuthenticationProfilesRequest>;
+export interface ListBotsRequest {
+  InstanceId: string;
+  NextToken?: string;
+  MaxResults?: number;
+  LexVersion: string;
+}
+export const ListBotsRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     LexVersion: S.String.pipe(T.HttpQuery("lexVersion")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/instance/{InstanceId}/bots" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/instance/{InstanceId}/bots" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListContactEvaluationsRequest extends S.Class<ListContactEvaluationsRequest>(
-  "ListContactEvaluationsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListBotsRequest",
+}) as any as S.Schema<ListBotsRequest>;
+export interface ListContactEvaluationsRequest {
+  InstanceId: string;
+  ContactId: string;
+  NextToken?: string;
+}
+export const ListContactEvaluationsRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ContactId: S.String.pipe(T.HttpQuery("contactId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/contact-evaluations/{InstanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/contact-evaluations/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListContactFlowModuleAliasesRequest extends S.Class<ListContactFlowModuleAliasesRequest>(
-  "ListContactFlowModuleAliasesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListContactEvaluationsRequest",
+}) as any as S.Schema<ListContactEvaluationsRequest>;
+export interface ListContactFlowModuleAliasesRequest {
+  InstanceId: string;
+  ContactFlowModuleId: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListContactFlowModuleAliasesRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ContactFlowModuleId: S.String.pipe(T.HttpLabel("ContactFlowModuleId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/contact-flow-modules/{InstanceId}/{ContactFlowModuleId}/aliases",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/contact-flow-modules/{InstanceId}/{ContactFlowModuleId}/aliases",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListContactFlowModulesRequest extends S.Class<ListContactFlowModulesRequest>(
-  "ListContactFlowModulesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListContactFlowModuleAliasesRequest",
+}) as any as S.Schema<ListContactFlowModuleAliasesRequest>;
+export interface ListContactFlowModulesRequest {
+  InstanceId: string;
+  NextToken?: string;
+  MaxResults?: number;
+  ContactFlowModuleState?: string;
+}
+export const ListContactFlowModulesRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     ContactFlowModuleState: S.optional(S.String).pipe(T.HttpQuery("state")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/contact-flow-modules-summary/{InstanceId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/contact-flow-modules-summary/{InstanceId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListContactFlowModuleVersionsRequest extends S.Class<ListContactFlowModuleVersionsRequest>(
-  "ListContactFlowModuleVersionsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListContactFlowModulesRequest",
+}) as any as S.Schema<ListContactFlowModulesRequest>;
+export interface ListContactFlowModuleVersionsRequest {
+  InstanceId: string;
+  ContactFlowModuleId: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListContactFlowModuleVersionsRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ContactFlowModuleId: S.String.pipe(T.HttpLabel("ContactFlowModuleId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/contact-flow-modules/{InstanceId}/{ContactFlowModuleId}/versions",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/contact-flow-modules/{InstanceId}/{ContactFlowModuleId}/versions",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListContactFlowsRequest extends S.Class<ListContactFlowsRequest>(
-  "ListContactFlowsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListContactFlowModuleVersionsRequest",
+}) as any as S.Schema<ListContactFlowModuleVersionsRequest>;
+export interface ListContactFlowsRequest {
+  InstanceId: string;
+  ContactFlowTypes?: ContactFlowTypes;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListContactFlowsRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ContactFlowTypes: S.optional(ContactFlowTypes).pipe(
       T.HttpQuery("contactFlowTypes"),
     ),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/contact-flows-summary/{InstanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/contact-flows-summary/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListContactFlowVersionsRequest extends S.Class<ListContactFlowVersionsRequest>(
-  "ListContactFlowVersionsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListContactFlowsRequest",
+}) as any as S.Schema<ListContactFlowsRequest>;
+export interface ListContactFlowVersionsRequest {
+  InstanceId: string;
+  ContactFlowId: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListContactFlowVersionsRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ContactFlowId: S.String.pipe(T.HttpLabel("ContactFlowId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/contact-flows/{InstanceId}/{ContactFlowId}/versions",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/contact-flows/{InstanceId}/{ContactFlowId}/versions",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListContactReferencesRequest extends S.Class<ListContactReferencesRequest>(
-  "ListContactReferencesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListContactFlowVersionsRequest",
+}) as any as S.Schema<ListContactFlowVersionsRequest>;
+export interface ListContactReferencesRequest {
+  InstanceId: string;
+  ContactId: string;
+  ReferenceTypes: ReferenceTypes;
+  NextToken?: string;
+}
+export const ListContactReferencesRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ContactId: S.String.pipe(T.HttpLabel("ContactId")),
     ReferenceTypes: ReferenceTypes.pipe(T.HttpQuery("referenceTypes")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/contact/references/{InstanceId}/{ContactId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/contact/references/{InstanceId}/{ContactId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListDataTableAttributesRequest extends S.Class<ListDataTableAttributesRequest>(
-  "ListDataTableAttributesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListContactReferencesRequest",
+}) as any as S.Schema<ListContactReferencesRequest>;
+export interface ListDataTableAttributesRequest {
+  InstanceId: string;
+  DataTableId: string;
+  AttributeIds?: AttributeIds;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListDataTableAttributesRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     DataTableId: S.String.pipe(T.HttpLabel("DataTableId")),
     AttributeIds: S.optional(AttributeIds),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/data-tables/{InstanceId}/{DataTableId}/attributes",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/data-tables/{InstanceId}/{DataTableId}/attributes",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListDataTablesRequest extends S.Class<ListDataTablesRequest>(
-  "ListDataTablesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListDataTableAttributesRequest",
+}) as any as S.Schema<ListDataTableAttributesRequest>;
+export interface ListDataTablesRequest {
+  InstanceId: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListDataTablesRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/data-tables/{InstanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/data-tables/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "ListDataTablesRequest",
+}) as any as S.Schema<ListDataTablesRequest>;
+export type ValueList = string[];
 export const ValueList = S.Array(S.String);
-export class PrimaryAttributeValueFilter extends S.Class<PrimaryAttributeValueFilter>(
-  "PrimaryAttributeValueFilter",
-)({ AttributeName: S.String, Values: ValueList }) {}
+export interface PrimaryAttributeValueFilter {
+  AttributeName: string;
+  Values: ValueList;
+}
+export const PrimaryAttributeValueFilter = S.suspend(() =>
+  S.Struct({ AttributeName: S.String, Values: ValueList }),
+).annotations({
+  identifier: "PrimaryAttributeValueFilter",
+}) as any as S.Schema<PrimaryAttributeValueFilter>;
+export type PrimaryAttributeValueFilters = PrimaryAttributeValueFilter[];
 export const PrimaryAttributeValueFilters = S.Array(
   PrimaryAttributeValueFilter,
 );
-export class ListDataTableValuesRequest extends S.Class<ListDataTableValuesRequest>(
-  "ListDataTableValuesRequest",
-)(
-  {
+export interface ListDataTableValuesRequest {
+  InstanceId: string;
+  DataTableId: string;
+  RecordIds?: RecordIds;
+  PrimaryAttributeValues?: PrimaryAttributeValueFilters;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListDataTableValuesRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     DataTableId: S.String.pipe(T.HttpLabel("DataTableId")),
     RecordIds: S.optional(RecordIds),
     PrimaryAttributeValues: S.optional(PrimaryAttributeValueFilters),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/data-tables/{InstanceId}/{DataTableId}/values/list",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/data-tables/{InstanceId}/{DataTableId}/values/list",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListDefaultVocabulariesRequest extends S.Class<ListDefaultVocabulariesRequest>(
-  "ListDefaultVocabulariesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListDataTableValuesRequest",
+}) as any as S.Schema<ListDataTableValuesRequest>;
+export interface ListDefaultVocabulariesRequest {
+  InstanceId: string;
+  LanguageCode?: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListDefaultVocabulariesRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     LanguageCode: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/default-vocabulary-summary/{InstanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/default-vocabulary-summary/{InstanceId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListEntitySecurityProfilesRequest extends S.Class<ListEntitySecurityProfilesRequest>(
-  "ListEntitySecurityProfilesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListDefaultVocabulariesRequest",
+}) as any as S.Schema<ListDefaultVocabulariesRequest>;
+export interface ListEntitySecurityProfilesRequest {
+  InstanceId: string;
+  EntityType: string;
+  EntityArn: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListEntitySecurityProfilesRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     EntityType: S.String,
     EntityArn: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/entity-security-profiles-summary/{InstanceId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/entity-security-profiles-summary/{InstanceId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListEvaluationFormsRequest extends S.Class<ListEvaluationFormsRequest>(
-  "ListEvaluationFormsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListEntitySecurityProfilesRequest",
+}) as any as S.Schema<ListEntitySecurityProfilesRequest>;
+export interface ListEvaluationFormsRequest {
+  InstanceId: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListEvaluationFormsRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/evaluation-forms/{InstanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/evaluation-forms/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListEvaluationFormVersionsRequest extends S.Class<ListEvaluationFormVersionsRequest>(
-  "ListEvaluationFormVersionsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListEvaluationFormsRequest",
+}) as any as S.Schema<ListEvaluationFormsRequest>;
+export interface ListEvaluationFormVersionsRequest {
+  InstanceId: string;
+  EvaluationFormId: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListEvaluationFormVersionsRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     EvaluationFormId: S.String.pipe(T.HttpLabel("EvaluationFormId")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/evaluation-forms/{InstanceId}/{EvaluationFormId}/versions",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/evaluation-forms/{InstanceId}/{EvaluationFormId}/versions",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListFlowAssociationsRequest extends S.Class<ListFlowAssociationsRequest>(
-  "ListFlowAssociationsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListEvaluationFormVersionsRequest",
+}) as any as S.Schema<ListEvaluationFormVersionsRequest>;
+export interface ListFlowAssociationsRequest {
+  InstanceId: string;
+  ResourceType?: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListFlowAssociationsRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ResourceType: S.optional(S.String).pipe(T.HttpQuery("ResourceType")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/flow-associations-summary/{InstanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/flow-associations-summary/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListHoursOfOperationOverridesRequest extends S.Class<ListHoursOfOperationOverridesRequest>(
-  "ListHoursOfOperationOverridesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListFlowAssociationsRequest",
+}) as any as S.Schema<ListFlowAssociationsRequest>;
+export interface ListHoursOfOperationOverridesRequest {
+  InstanceId: string;
+  HoursOfOperationId: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListHoursOfOperationOverridesRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     HoursOfOperationId: S.String.pipe(T.HttpLabel("HoursOfOperationId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/hours-of-operations/{InstanceId}/{HoursOfOperationId}/overrides",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/hours-of-operations/{InstanceId}/{HoursOfOperationId}/overrides",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListHoursOfOperationsRequest extends S.Class<ListHoursOfOperationsRequest>(
-  "ListHoursOfOperationsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListHoursOfOperationOverridesRequest",
+}) as any as S.Schema<ListHoursOfOperationOverridesRequest>;
+export interface ListHoursOfOperationsRequest {
+  InstanceId: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListHoursOfOperationsRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/hours-of-operations-summary/{InstanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/hours-of-operations-summary/{InstanceId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListInstanceAttributesRequest extends S.Class<ListInstanceAttributesRequest>(
-  "ListInstanceAttributesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListHoursOfOperationsRequest",
+}) as any as S.Schema<ListHoursOfOperationsRequest>;
+export interface ListInstanceAttributesRequest {
+  InstanceId: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListInstanceAttributesRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/instance/{InstanceId}/attributes" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/instance/{InstanceId}/attributes" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListInstancesRequest extends S.Class<ListInstancesRequest>(
-  "ListInstancesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListInstanceAttributesRequest",
+}) as any as S.Schema<ListInstanceAttributesRequest>;
+export interface ListInstancesRequest {
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListInstancesRequest = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/instance" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/instance" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListInstanceStorageConfigsRequest extends S.Class<ListInstanceStorageConfigsRequest>(
-  "ListInstanceStorageConfigsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListInstancesRequest",
+}) as any as S.Schema<ListInstancesRequest>;
+export interface ListInstanceStorageConfigsRequest {
+  InstanceId: string;
+  ResourceType: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListInstanceStorageConfigsRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ResourceType: S.String.pipe(T.HttpQuery("resourceType")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/instance/{InstanceId}/storage-configs" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/instance/{InstanceId}/storage-configs" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListIntegrationAssociationsRequest extends S.Class<ListIntegrationAssociationsRequest>(
-  "ListIntegrationAssociationsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListInstanceStorageConfigsRequest",
+}) as any as S.Schema<ListInstanceStorageConfigsRequest>;
+export interface ListIntegrationAssociationsRequest {
+  InstanceId: string;
+  IntegrationType?: string;
+  NextToken?: string;
+  MaxResults?: number;
+  IntegrationArn?: string;
+}
+export const ListIntegrationAssociationsRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     IntegrationType: S.optional(S.String).pipe(T.HttpQuery("integrationType")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     IntegrationArn: S.optional(S.String).pipe(T.HttpQuery("integrationArn")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/instance/{InstanceId}/integration-associations",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/instance/{InstanceId}/integration-associations",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListLambdaFunctionsRequest extends S.Class<ListLambdaFunctionsRequest>(
-  "ListLambdaFunctionsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListIntegrationAssociationsRequest",
+}) as any as S.Schema<ListIntegrationAssociationsRequest>;
+export interface ListLambdaFunctionsRequest {
+  InstanceId: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListLambdaFunctionsRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/instance/{InstanceId}/lambda-functions" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/instance/{InstanceId}/lambda-functions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListLexBotsRequest extends S.Class<ListLexBotsRequest>(
-  "ListLexBotsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListLambdaFunctionsRequest",
+}) as any as S.Schema<ListLambdaFunctionsRequest>;
+export interface ListLexBotsRequest {
+  InstanceId: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListLexBotsRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/instance/{InstanceId}/lex-bots" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/instance/{InstanceId}/lex-bots" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListPhoneNumbersRequest extends S.Class<ListPhoneNumbersRequest>(
-  "ListPhoneNumbersRequest",
-)(
-  {
+).annotations({
+  identifier: "ListLexBotsRequest",
+}) as any as S.Schema<ListLexBotsRequest>;
+export interface ListPhoneNumbersRequest {
+  InstanceId: string;
+  PhoneNumberTypes?: PhoneNumberTypes;
+  PhoneNumberCountryCodes?: PhoneNumberCountryCodes;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListPhoneNumbersRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     PhoneNumberTypes: S.optional(PhoneNumberTypes).pipe(
       T.HttpQuery("phoneNumberTypes"),
@@ -3508,20 +4731,30 @@ export class ListPhoneNumbersRequest extends S.Class<ListPhoneNumbersRequest>(
     ),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/phone-numbers-summary/{InstanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/phone-numbers-summary/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListPhoneNumbersV2Request extends S.Class<ListPhoneNumbersV2Request>(
-  "ListPhoneNumbersV2Request",
-)(
-  {
+).annotations({
+  identifier: "ListPhoneNumbersRequest",
+}) as any as S.Schema<ListPhoneNumbersRequest>;
+export interface ListPhoneNumbersV2Request {
+  TargetArn?: string;
+  InstanceId?: string;
+  MaxResults?: number;
+  NextToken?: string;
+  PhoneNumberCountryCodes?: PhoneNumberCountryCodes;
+  PhoneNumberTypes?: PhoneNumberTypes;
+  PhoneNumberPrefix?: string;
+}
+export const ListPhoneNumbersV2Request = S.suspend(() =>
+  S.Struct({
     TargetArn: S.optional(S.String),
     InstanceId: S.optional(S.String),
     MaxResults: S.optional(S.Number),
@@ -3529,693 +4762,942 @@ export class ListPhoneNumbersV2Request extends S.Class<ListPhoneNumbersV2Request
     PhoneNumberCountryCodes: S.optional(PhoneNumberCountryCodes),
     PhoneNumberTypes: S.optional(PhoneNumberTypes),
     PhoneNumberPrefix: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/phone-number/list" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/phone-number/list" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListPredefinedAttributesRequest extends S.Class<ListPredefinedAttributesRequest>(
-  "ListPredefinedAttributesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListPhoneNumbersV2Request",
+}) as any as S.Schema<ListPhoneNumbersV2Request>;
+export interface ListPredefinedAttributesRequest {
+  InstanceId: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListPredefinedAttributesRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/predefined-attributes/{InstanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/predefined-attributes/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListPromptsRequest extends S.Class<ListPromptsRequest>(
-  "ListPromptsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListPredefinedAttributesRequest",
+}) as any as S.Schema<ListPredefinedAttributesRequest>;
+export interface ListPromptsRequest {
+  InstanceId: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListPromptsRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/prompts-summary/{InstanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/prompts-summary/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListQueueQuickConnectsRequest extends S.Class<ListQueueQuickConnectsRequest>(
-  "ListQueueQuickConnectsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListPromptsRequest",
+}) as any as S.Schema<ListPromptsRequest>;
+export interface ListQueueQuickConnectsRequest {
+  InstanceId: string;
+  QueueId: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListQueueQuickConnectsRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     QueueId: S.String.pipe(T.HttpLabel("QueueId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/queues/{InstanceId}/{QueueId}/quick-connects",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/queues/{InstanceId}/{QueueId}/quick-connects",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListQueuesRequest extends S.Class<ListQueuesRequest>(
-  "ListQueuesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListQueueQuickConnectsRequest",
+}) as any as S.Schema<ListQueueQuickConnectsRequest>;
+export interface ListQueuesRequest {
+  InstanceId: string;
+  QueueTypes?: QueueTypes;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListQueuesRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     QueueTypes: S.optional(QueueTypes).pipe(T.HttpQuery("queueTypes")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/queues-summary/{InstanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/queues-summary/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListQuickConnectsRequest extends S.Class<ListQuickConnectsRequest>(
-  "ListQuickConnectsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListQueuesRequest",
+}) as any as S.Schema<ListQueuesRequest>;
+export interface ListQuickConnectsRequest {
+  InstanceId: string;
+  NextToken?: string;
+  MaxResults?: number;
+  QuickConnectTypes?: QuickConnectTypes;
+}
+export const ListQuickConnectsRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     QuickConnectTypes: S.optional(QuickConnectTypes).pipe(
       T.HttpQuery("QuickConnectTypes"),
     ),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/quick-connects/{InstanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/quick-connects/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListRealtimeContactAnalysisSegmentsV2Request extends S.Class<ListRealtimeContactAnalysisSegmentsV2Request>(
-  "ListRealtimeContactAnalysisSegmentsV2Request",
-)(
-  {
+).annotations({
+  identifier: "ListQuickConnectsRequest",
+}) as any as S.Schema<ListQuickConnectsRequest>;
+export interface ListRealtimeContactAnalysisSegmentsV2Request {
+  InstanceId: string;
+  ContactId: string;
+  MaxResults?: number;
+  NextToken?: string;
+  OutputType: string;
+  SegmentTypes: RealTimeContactAnalysisSegmentTypes;
+}
+export const ListRealtimeContactAnalysisSegmentsV2Request = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ContactId: S.String.pipe(T.HttpLabel("ContactId")),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     OutputType: S.String,
     SegmentTypes: RealTimeContactAnalysisSegmentTypes,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/contact/list-real-time-analysis-segments-v2/{InstanceId}/{ContactId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/contact/list-real-time-analysis-segments-v2/{InstanceId}/{ContactId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListRoutingProfileManualAssignmentQueuesRequest extends S.Class<ListRoutingProfileManualAssignmentQueuesRequest>(
-  "ListRoutingProfileManualAssignmentQueuesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListRealtimeContactAnalysisSegmentsV2Request",
+}) as any as S.Schema<ListRealtimeContactAnalysisSegmentsV2Request>;
+export interface ListRoutingProfileManualAssignmentQueuesRequest {
+  InstanceId: string;
+  RoutingProfileId: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListRoutingProfileManualAssignmentQueuesRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     RoutingProfileId: S.String.pipe(T.HttpLabel("RoutingProfileId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/routing-profiles/{InstanceId}/{RoutingProfileId}/manual-assignment-queues",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/routing-profiles/{InstanceId}/{RoutingProfileId}/manual-assignment-queues",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListRoutingProfileQueuesRequest extends S.Class<ListRoutingProfileQueuesRequest>(
-  "ListRoutingProfileQueuesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListRoutingProfileManualAssignmentQueuesRequest",
+}) as any as S.Schema<ListRoutingProfileManualAssignmentQueuesRequest>;
+export interface ListRoutingProfileQueuesRequest {
+  InstanceId: string;
+  RoutingProfileId: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListRoutingProfileQueuesRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     RoutingProfileId: S.String.pipe(T.HttpLabel("RoutingProfileId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/routing-profiles/{InstanceId}/{RoutingProfileId}/queues",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/routing-profiles/{InstanceId}/{RoutingProfileId}/queues",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListRoutingProfilesRequest extends S.Class<ListRoutingProfilesRequest>(
-  "ListRoutingProfilesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListRoutingProfileQueuesRequest",
+}) as any as S.Schema<ListRoutingProfileQueuesRequest>;
+export interface ListRoutingProfilesRequest {
+  InstanceId: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListRoutingProfilesRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/routing-profiles-summary/{InstanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/routing-profiles-summary/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListRulesRequest extends S.Class<ListRulesRequest>(
-  "ListRulesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListRoutingProfilesRequest",
+}) as any as S.Schema<ListRoutingProfilesRequest>;
+export interface ListRulesRequest {
+  InstanceId: string;
+  PublishStatus?: string;
+  EventSourceName?: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListRulesRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     PublishStatus: S.optional(S.String).pipe(T.HttpQuery("publishStatus")),
     EventSourceName: S.optional(S.String).pipe(T.HttpQuery("eventSourceName")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/rules/{InstanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/rules/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListSecurityKeysRequest extends S.Class<ListSecurityKeysRequest>(
-  "ListSecurityKeysRequest",
-)(
-  {
+).annotations({
+  identifier: "ListRulesRequest",
+}) as any as S.Schema<ListRulesRequest>;
+export interface ListSecurityKeysRequest {
+  InstanceId: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListSecurityKeysRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/instance/{InstanceId}/security-keys" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/instance/{InstanceId}/security-keys" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListSecurityProfileApplicationsRequest extends S.Class<ListSecurityProfileApplicationsRequest>(
-  "ListSecurityProfileApplicationsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListSecurityKeysRequest",
+}) as any as S.Schema<ListSecurityKeysRequest>;
+export interface ListSecurityProfileApplicationsRequest {
+  SecurityProfileId: string;
+  InstanceId: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListSecurityProfileApplicationsRequest = S.suspend(() =>
+  S.Struct({
     SecurityProfileId: S.String.pipe(T.HttpLabel("SecurityProfileId")),
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/security-profiles-applications/{InstanceId}/{SecurityProfileId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/security-profiles-applications/{InstanceId}/{SecurityProfileId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListSecurityProfileFlowModulesRequest extends S.Class<ListSecurityProfileFlowModulesRequest>(
-  "ListSecurityProfileFlowModulesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListSecurityProfileApplicationsRequest",
+}) as any as S.Schema<ListSecurityProfileApplicationsRequest>;
+export interface ListSecurityProfileFlowModulesRequest {
+  SecurityProfileId: string;
+  InstanceId: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListSecurityProfileFlowModulesRequest = S.suspend(() =>
+  S.Struct({
     SecurityProfileId: S.String.pipe(T.HttpLabel("SecurityProfileId")),
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/security-profiles-flow-modules/{InstanceId}/{SecurityProfileId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/security-profiles-flow-modules/{InstanceId}/{SecurityProfileId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListSecurityProfilePermissionsRequest extends S.Class<ListSecurityProfilePermissionsRequest>(
-  "ListSecurityProfilePermissionsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListSecurityProfileFlowModulesRequest",
+}) as any as S.Schema<ListSecurityProfileFlowModulesRequest>;
+export interface ListSecurityProfilePermissionsRequest {
+  SecurityProfileId: string;
+  InstanceId: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListSecurityProfilePermissionsRequest = S.suspend(() =>
+  S.Struct({
     SecurityProfileId: S.String.pipe(T.HttpLabel("SecurityProfileId")),
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/security-profiles-permissions/{InstanceId}/{SecurityProfileId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/security-profiles-permissions/{InstanceId}/{SecurityProfileId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListSecurityProfilesRequest extends S.Class<ListSecurityProfilesRequest>(
-  "ListSecurityProfilesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListSecurityProfilePermissionsRequest",
+}) as any as S.Schema<ListSecurityProfilePermissionsRequest>;
+export interface ListSecurityProfilesRequest {
+  InstanceId: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListSecurityProfilesRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/security-profiles-summary/{InstanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/security-profiles-summary/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListSecurityProfilesRequest",
+}) as any as S.Schema<ListSecurityProfilesRequest>;
+export interface ListTagsForResourceRequest {
+  resourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTaskTemplatesRequest extends S.Class<ListTaskTemplatesRequest>(
-  "ListTaskTemplatesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface ListTaskTemplatesRequest {
+  InstanceId: string;
+  NextToken?: string;
+  MaxResults?: number;
+  Status?: string;
+  Name?: string;
+}
+export const ListTaskTemplatesRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     Status: S.optional(S.String).pipe(T.HttpQuery("status")),
     Name: S.optional(S.String).pipe(T.HttpQuery("name")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/instance/{InstanceId}/task/template" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/instance/{InstanceId}/task/template" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTrafficDistributionGroupsRequest extends S.Class<ListTrafficDistributionGroupsRequest>(
-  "ListTrafficDistributionGroupsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListTaskTemplatesRequest",
+}) as any as S.Schema<ListTaskTemplatesRequest>;
+export interface ListTrafficDistributionGroupsRequest {
+  MaxResults?: number;
+  NextToken?: string;
+  InstanceId?: string;
+}
+export const ListTrafficDistributionGroupsRequest = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     InstanceId: S.optional(S.String).pipe(T.HttpQuery("instanceId")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/traffic-distribution-groups" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/traffic-distribution-groups" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTrafficDistributionGroupUsersRequest extends S.Class<ListTrafficDistributionGroupUsersRequest>(
-  "ListTrafficDistributionGroupUsersRequest",
-)(
-  {
+).annotations({
+  identifier: "ListTrafficDistributionGroupsRequest",
+}) as any as S.Schema<ListTrafficDistributionGroupsRequest>;
+export interface ListTrafficDistributionGroupUsersRequest {
+  TrafficDistributionGroupId: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListTrafficDistributionGroupUsersRequest = S.suspend(() =>
+  S.Struct({
     TrafficDistributionGroupId: S.String.pipe(
       T.HttpLabel("TrafficDistributionGroupId"),
     ),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/traffic-distribution-group/{TrafficDistributionGroupId}/user",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/traffic-distribution-group/{TrafficDistributionGroupId}/user",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListUseCasesRequest extends S.Class<ListUseCasesRequest>(
-  "ListUseCasesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListTrafficDistributionGroupUsersRequest",
+}) as any as S.Schema<ListTrafficDistributionGroupUsersRequest>;
+export interface ListUseCasesRequest {
+  InstanceId: string;
+  IntegrationAssociationId: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListUseCasesRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     IntegrationAssociationId: S.String.pipe(
       T.HttpLabel("IntegrationAssociationId"),
     ),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/instance/{InstanceId}/integration-associations/{IntegrationAssociationId}/use-cases",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/instance/{InstanceId}/integration-associations/{IntegrationAssociationId}/use-cases",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListUserHierarchyGroupsRequest extends S.Class<ListUserHierarchyGroupsRequest>(
-  "ListUserHierarchyGroupsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListUseCasesRequest",
+}) as any as S.Schema<ListUseCasesRequest>;
+export interface ListUserHierarchyGroupsRequest {
+  InstanceId: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListUserHierarchyGroupsRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/user-hierarchy-groups-summary/{InstanceId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/user-hierarchy-groups-summary/{InstanceId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListUserProficienciesRequest extends S.Class<ListUserProficienciesRequest>(
-  "ListUserProficienciesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListUserHierarchyGroupsRequest",
+}) as any as S.Schema<ListUserHierarchyGroupsRequest>;
+export interface ListUserProficienciesRequest {
+  InstanceId: string;
+  UserId: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListUserProficienciesRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     UserId: S.String.pipe(T.HttpLabel("UserId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/users/{InstanceId}/{UserId}/proficiencies",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/users/{InstanceId}/{UserId}/proficiencies",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListUsersRequest extends S.Class<ListUsersRequest>(
-  "ListUsersRequest",
-)(
-  {
+).annotations({
+  identifier: "ListUserProficienciesRequest",
+}) as any as S.Schema<ListUserProficienciesRequest>;
+export interface ListUsersRequest {
+  InstanceId: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListUsersRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/users-summary/{InstanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/users-summary/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListViewsRequest extends S.Class<ListViewsRequest>(
-  "ListViewsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListUsersRequest",
+}) as any as S.Schema<ListUsersRequest>;
+export interface ListViewsRequest {
+  InstanceId: string;
+  Type?: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListViewsRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Type: S.optional(S.String).pipe(T.HttpQuery("type")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/views/{InstanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/views/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListViewVersionsRequest extends S.Class<ListViewVersionsRequest>(
-  "ListViewVersionsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListViewsRequest",
+}) as any as S.Schema<ListViewsRequest>;
+export interface ListViewVersionsRequest {
+  InstanceId: string;
+  ViewId: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListViewVersionsRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ViewId: S.String.pipe(T.HttpLabel("ViewId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/views/{InstanceId}/{ViewId}/versions" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/views/{InstanceId}/{ViewId}/versions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListWorkspaceMediaRequest extends S.Class<ListWorkspaceMediaRequest>(
-  "ListWorkspaceMediaRequest",
-)(
-  {
+).annotations({
+  identifier: "ListViewVersionsRequest",
+}) as any as S.Schema<ListViewVersionsRequest>;
+export interface ListWorkspaceMediaRequest {
+  InstanceId: string;
+  WorkspaceId: string;
+}
+export const ListWorkspaceMediaRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     WorkspaceId: S.String.pipe(T.HttpLabel("WorkspaceId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/workspaces/{InstanceId}/{WorkspaceId}/media",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/workspaces/{InstanceId}/{WorkspaceId}/media",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListWorkspacePagesRequest extends S.Class<ListWorkspacePagesRequest>(
-  "ListWorkspacePagesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListWorkspaceMediaRequest",
+}) as any as S.Schema<ListWorkspaceMediaRequest>;
+export interface ListWorkspacePagesRequest {
+  InstanceId: string;
+  WorkspaceId: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListWorkspacePagesRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     WorkspaceId: S.String.pipe(T.HttpLabel("WorkspaceId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/workspaces/{InstanceId}/{WorkspaceId}/pages",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/workspaces/{InstanceId}/{WorkspaceId}/pages",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListWorkspacesRequest extends S.Class<ListWorkspacesRequest>(
-  "ListWorkspacesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListWorkspacePagesRequest",
+}) as any as S.Schema<ListWorkspacePagesRequest>;
+export interface ListWorkspacesRequest {
+  InstanceId: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListWorkspacesRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/workspaces/{InstanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/workspaces/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class MonitorContactRequest extends S.Class<MonitorContactRequest>(
-  "MonitorContactRequest",
-)(
-  {
+).annotations({
+  identifier: "ListWorkspacesRequest",
+}) as any as S.Schema<ListWorkspacesRequest>;
+export interface MonitorContactRequest {
+  InstanceId: string;
+  ContactId: string;
+  UserId: string;
+  AllowedMonitorCapabilities?: AllowedMonitorCapabilities;
+  ClientToken?: string;
+}
+export const MonitorContactRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String,
     ContactId: S.String,
     UserId: S.String,
     AllowedMonitorCapabilities: S.optional(AllowedMonitorCapabilities),
     ClientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/contact/monitor" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/contact/monitor" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PauseContactRequest extends S.Class<PauseContactRequest>(
-  "PauseContactRequest",
-)(
-  {
+).annotations({
+  identifier: "MonitorContactRequest",
+}) as any as S.Schema<MonitorContactRequest>;
+export interface PauseContactRequest {
+  ContactId: string;
+  InstanceId: string;
+  ContactFlowId?: string;
+}
+export const PauseContactRequest = S.suspend(() =>
+  S.Struct({
     ContactId: S.String,
     InstanceId: S.String,
     ContactFlowId: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/contact/pause" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/contact/pause" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PauseContactResponse extends S.Class<PauseContactResponse>(
-  "PauseContactResponse",
-)({}) {}
-export class PutUserStatusRequest extends S.Class<PutUserStatusRequest>(
-  "PutUserStatusRequest",
-)(
-  {
+).annotations({
+  identifier: "PauseContactRequest",
+}) as any as S.Schema<PauseContactRequest>;
+export interface PauseContactResponse {}
+export const PauseContactResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "PauseContactResponse",
+}) as any as S.Schema<PauseContactResponse>;
+export interface PutUserStatusRequest {
+  UserId: string;
+  InstanceId: string;
+  AgentStatusId: string;
+}
+export const PutUserStatusRequest = S.suspend(() =>
+  S.Struct({
     UserId: S.String.pipe(T.HttpLabel("UserId")),
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     AgentStatusId: S.String,
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/users/{InstanceId}/{UserId}/status" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/users/{InstanceId}/{UserId}/status" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutUserStatusResponse extends S.Class<PutUserStatusResponse>(
-  "PutUserStatusResponse",
-)({}) {}
-export class ReleasePhoneNumberRequest extends S.Class<ReleasePhoneNumberRequest>(
-  "ReleasePhoneNumberRequest",
-)(
-  {
+).annotations({
+  identifier: "PutUserStatusRequest",
+}) as any as S.Schema<PutUserStatusRequest>;
+export interface PutUserStatusResponse {}
+export const PutUserStatusResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "PutUserStatusResponse",
+}) as any as S.Schema<PutUserStatusResponse>;
+export interface ReleasePhoneNumberRequest {
+  PhoneNumberId: string;
+  ClientToken?: string;
+}
+export const ReleasePhoneNumberRequest = S.suspend(() =>
+  S.Struct({
     PhoneNumberId: S.String.pipe(T.HttpLabel("PhoneNumberId")),
     ClientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/phone-number/{PhoneNumberId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/phone-number/{PhoneNumberId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ReleasePhoneNumberResponse extends S.Class<ReleasePhoneNumberResponse>(
-  "ReleasePhoneNumberResponse",
-)({}) {}
-export class ReplicateInstanceRequest extends S.Class<ReplicateInstanceRequest>(
-  "ReplicateInstanceRequest",
-)(
-  {
+).annotations({
+  identifier: "ReleasePhoneNumberRequest",
+}) as any as S.Schema<ReleasePhoneNumberRequest>;
+export interface ReleasePhoneNumberResponse {}
+export const ReleasePhoneNumberResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "ReleasePhoneNumberResponse",
+}) as any as S.Schema<ReleasePhoneNumberResponse>;
+export interface ReplicateInstanceRequest {
+  InstanceId: string;
+  ReplicaRegion: string;
+  ClientToken?: string;
+  ReplicaAlias: string;
+}
+export const ReplicateInstanceRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ReplicaRegion: S.String,
     ClientToken: S.optional(S.String),
     ReplicaAlias: S.String,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/instance/{InstanceId}/replicate" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/instance/{InstanceId}/replicate" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ResumeContactRequest extends S.Class<ResumeContactRequest>(
-  "ResumeContactRequest",
-)(
-  {
+).annotations({
+  identifier: "ReplicateInstanceRequest",
+}) as any as S.Schema<ReplicateInstanceRequest>;
+export interface ResumeContactRequest {
+  ContactId: string;
+  InstanceId: string;
+  ContactFlowId?: string;
+}
+export const ResumeContactRequest = S.suspend(() =>
+  S.Struct({
     ContactId: S.String,
     InstanceId: S.String,
     ContactFlowId: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/contact/resume" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/contact/resume" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ResumeContactResponse extends S.Class<ResumeContactResponse>(
-  "ResumeContactResponse",
-)({}) {}
-export class ResumeContactRecordingRequest extends S.Class<ResumeContactRecordingRequest>(
-  "ResumeContactRecordingRequest",
-)(
-  {
+).annotations({
+  identifier: "ResumeContactRequest",
+}) as any as S.Schema<ResumeContactRequest>;
+export interface ResumeContactResponse {}
+export const ResumeContactResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "ResumeContactResponse",
+}) as any as S.Schema<ResumeContactResponse>;
+export interface ResumeContactRecordingRequest {
+  InstanceId: string;
+  ContactId: string;
+  InitialContactId: string;
+  ContactRecordingType?: string;
+}
+export const ResumeContactRecordingRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String,
     ContactId: S.String,
     InitialContactId: S.String,
     ContactRecordingType: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/contact/resume-recording" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/contact/resume-recording" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ResumeContactRecordingResponse extends S.Class<ResumeContactRecordingResponse>(
-  "ResumeContactRecordingResponse",
-)({}) {}
-export class SearchAvailablePhoneNumbersRequest extends S.Class<SearchAvailablePhoneNumbersRequest>(
-  "SearchAvailablePhoneNumbersRequest",
-)(
-  {
+).annotations({
+  identifier: "ResumeContactRecordingRequest",
+}) as any as S.Schema<ResumeContactRecordingRequest>;
+export interface ResumeContactRecordingResponse {}
+export const ResumeContactRecordingResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "ResumeContactRecordingResponse",
+}) as any as S.Schema<ResumeContactRecordingResponse>;
+export interface SearchAvailablePhoneNumbersRequest {
+  TargetArn?: string;
+  InstanceId?: string;
+  PhoneNumberCountryCode: string;
+  PhoneNumberType: string;
+  PhoneNumberPrefix?: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const SearchAvailablePhoneNumbersRequest = S.suspend(() =>
+  S.Struct({
     TargetArn: S.optional(S.String),
     InstanceId: S.optional(S.String),
     PhoneNumberCountryCode: S.String,
@@ -4223,92 +5705,164 @@ export class SearchAvailablePhoneNumbersRequest extends S.Class<SearchAvailableP
     PhoneNumberPrefix: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/phone-number/search-available" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/phone-number/search-available" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SearchVocabulariesRequest extends S.Class<SearchVocabulariesRequest>(
-  "SearchVocabulariesRequest",
-)(
-  {
+).annotations({
+  identifier: "SearchAvailablePhoneNumbersRequest",
+}) as any as S.Schema<SearchAvailablePhoneNumbersRequest>;
+export interface SearchVocabulariesRequest {
+  InstanceId: string;
+  MaxResults?: number;
+  NextToken?: string;
+  State?: string;
+  NameStartsWith?: string;
+  LanguageCode?: string;
+}
+export const SearchVocabulariesRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     State: S.optional(S.String),
     NameStartsWith: S.optional(S.String),
     LanguageCode: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/vocabulary-summary/{InstanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/vocabulary-summary/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartContactMediaProcessingRequest extends S.Class<StartContactMediaProcessingRequest>(
-  "StartContactMediaProcessingRequest",
-)(
-  {
+).annotations({
+  identifier: "SearchVocabulariesRequest",
+}) as any as S.Schema<SearchVocabulariesRequest>;
+export interface StartContactMediaProcessingRequest {
+  InstanceId?: string;
+  ContactId?: string;
+  ProcessorArn?: string;
+  FailureMode?: string;
+}
+export const StartContactMediaProcessingRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.optional(S.String),
     ContactId: S.optional(S.String),
     ProcessorArn: S.optional(S.String),
     FailureMode: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/contact/start-contact-media-processing" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/contact/start-contact-media-processing",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartContactMediaProcessingResponse extends S.Class<StartContactMediaProcessingResponse>(
-  "StartContactMediaProcessingResponse",
-)({}) {}
-export class EmailAddressInfo extends S.Class<EmailAddressInfo>(
-  "EmailAddressInfo",
-)({ EmailAddress: S.String, DisplayName: S.optional(S.String) }) {}
+).annotations({
+  identifier: "StartContactMediaProcessingRequest",
+}) as any as S.Schema<StartContactMediaProcessingRequest>;
+export interface StartContactMediaProcessingResponse {}
+export const StartContactMediaProcessingResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "StartContactMediaProcessingResponse",
+}) as any as S.Schema<StartContactMediaProcessingResponse>;
+export interface EmailAddressInfo {
+  EmailAddress: string;
+  DisplayName?: string;
+}
+export const EmailAddressInfo = S.suspend(() =>
+  S.Struct({ EmailAddress: S.String, DisplayName: S.optional(S.String) }),
+).annotations({
+  identifier: "EmailAddressInfo",
+}) as any as S.Schema<EmailAddressInfo>;
+export type EmailAddressRecipientList = EmailAddressInfo[];
 export const EmailAddressRecipientList = S.Array(EmailAddressInfo);
-export class OutboundAdditionalRecipients extends S.Class<OutboundAdditionalRecipients>(
-  "OutboundAdditionalRecipients",
-)({ CcEmailAddresses: S.optional(EmailAddressRecipientList) }) {}
+export interface OutboundAdditionalRecipients {
+  CcEmailAddresses?: EmailAddressRecipientList;
+}
+export const OutboundAdditionalRecipients = S.suspend(() =>
+  S.Struct({ CcEmailAddresses: S.optional(EmailAddressRecipientList) }),
+).annotations({
+  identifier: "OutboundAdditionalRecipients",
+}) as any as S.Schema<OutboundAdditionalRecipients>;
+export type Attributes = { [key: string]: string };
 export const Attributes = S.Record({ key: S.String, value: S.String });
-export class TemplateAttributes extends S.Class<TemplateAttributes>(
-  "TemplateAttributes",
-)({
-  CustomAttributes: S.optional(Attributes),
-  CustomerProfileAttributes: S.optional(S.String),
-}) {}
-export class TemplatedMessageConfig extends S.Class<TemplatedMessageConfig>(
-  "TemplatedMessageConfig",
-)({
-  KnowledgeBaseId: S.String,
-  MessageTemplateId: S.String,
-  TemplateAttributes: TemplateAttributes,
-}) {}
-export class OutboundRawMessage extends S.Class<OutboundRawMessage>(
-  "OutboundRawMessage",
-)({ Subject: S.String, Body: S.String, ContentType: S.String }) {}
-export class OutboundEmailContent extends S.Class<OutboundEmailContent>(
-  "OutboundEmailContent",
-)({
-  MessageSourceType: S.String,
-  TemplatedMessageConfig: S.optional(TemplatedMessageConfig),
-  RawMessage: S.optional(OutboundRawMessage),
-}) {}
-export class StartOutboundEmailContactRequest extends S.Class<StartOutboundEmailContactRequest>(
-  "StartOutboundEmailContactRequest",
-)(
-  {
+export interface TemplateAttributes {
+  CustomAttributes?: Attributes;
+  CustomerProfileAttributes?: string;
+}
+export const TemplateAttributes = S.suspend(() =>
+  S.Struct({
+    CustomAttributes: S.optional(Attributes),
+    CustomerProfileAttributes: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "TemplateAttributes",
+}) as any as S.Schema<TemplateAttributes>;
+export interface TemplatedMessageConfig {
+  KnowledgeBaseId: string;
+  MessageTemplateId: string;
+  TemplateAttributes: TemplateAttributes;
+}
+export const TemplatedMessageConfig = S.suspend(() =>
+  S.Struct({
+    KnowledgeBaseId: S.String,
+    MessageTemplateId: S.String,
+    TemplateAttributes: TemplateAttributes,
+  }),
+).annotations({
+  identifier: "TemplatedMessageConfig",
+}) as any as S.Schema<TemplatedMessageConfig>;
+export interface OutboundRawMessage {
+  Subject: string;
+  Body: string;
+  ContentType: string;
+}
+export const OutboundRawMessage = S.suspend(() =>
+  S.Struct({ Subject: S.String, Body: S.String, ContentType: S.String }),
+).annotations({
+  identifier: "OutboundRawMessage",
+}) as any as S.Schema<OutboundRawMessage>;
+export interface OutboundEmailContent {
+  MessageSourceType: string;
+  TemplatedMessageConfig?: TemplatedMessageConfig;
+  RawMessage?: OutboundRawMessage;
+}
+export const OutboundEmailContent = S.suspend(() =>
+  S.Struct({
+    MessageSourceType: S.String,
+    TemplatedMessageConfig: S.optional(TemplatedMessageConfig),
+    RawMessage: S.optional(OutboundRawMessage),
+  }),
+).annotations({
+  identifier: "OutboundEmailContent",
+}) as any as S.Schema<OutboundEmailContent>;
+export interface StartOutboundEmailContactRequest {
+  InstanceId: string;
+  ContactId: string;
+  FromEmailAddress?: EmailAddressInfo;
+  DestinationEmailAddress: EmailAddressInfo;
+  AdditionalRecipients?: OutboundAdditionalRecipients;
+  EmailMessage: OutboundEmailContent;
+  ClientToken?: string;
+}
+export const StartOutboundEmailContactRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String,
     ContactId: S.String,
     FromEmailAddress: S.optional(EmailAddressInfo),
@@ -4316,63 +5870,116 @@ export class StartOutboundEmailContactRequest extends S.Class<StartOutboundEmail
     AdditionalRecipients: S.optional(OutboundAdditionalRecipients),
     EmailMessage: OutboundEmailContent,
     ClientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/contact/outbound-email" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/contact/outbound-email" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartScreenSharingRequest extends S.Class<StartScreenSharingRequest>(
-  "StartScreenSharingRequest",
-)(
-  {
+).annotations({
+  identifier: "StartOutboundEmailContactRequest",
+}) as any as S.Schema<StartOutboundEmailContactRequest>;
+export interface StartScreenSharingRequest {
+  ClientToken?: string;
+  InstanceId: string;
+  ContactId: string;
+}
+export const StartScreenSharingRequest = S.suspend(() =>
+  S.Struct({
     ClientToken: S.optional(S.String),
     InstanceId: S.String,
     ContactId: S.String,
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/contact/screen-sharing" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/contact/screen-sharing" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartScreenSharingResponse extends S.Class<StartScreenSharingResponse>(
-  "StartScreenSharingResponse",
-)({}) {}
-export class Reference extends S.Class<Reference>("Reference")({
-  Value: S.optional(S.String),
-  Type: S.String,
-  Status: S.optional(S.String),
-  Arn: S.optional(S.String),
-  StatusReason: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "StartScreenSharingRequest",
+}) as any as S.Schema<StartScreenSharingRequest>;
+export interface StartScreenSharingResponse {}
+export const StartScreenSharingResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "StartScreenSharingResponse",
+}) as any as S.Schema<StartScreenSharingResponse>;
+export interface Reference {
+  Value?: string;
+  Type: string;
+  Status?: string;
+  Arn?: string;
+  StatusReason?: string;
+}
+export const Reference = S.suspend(() =>
+  S.Struct({
+    Value: S.optional(S.String),
+    Type: S.String,
+    Status: S.optional(S.String),
+    Arn: S.optional(S.String),
+    StatusReason: S.optional(S.String),
+  }),
+).annotations({ identifier: "Reference" }) as any as S.Schema<Reference>;
+export type ContactReferences = { [key: string]: Reference };
 export const ContactReferences = S.Record({ key: S.String, value: Reference });
-export class SegmentAttributeValue extends S.Class<SegmentAttributeValue>(
-  "SegmentAttributeValue",
-)({
-  ValueString: S.optional(S.String),
-  ValueMap: S.optional(S.suspend(() => SegmentAttributeValueMap)),
-  ValueInteger: S.optional(S.Number),
-  ValueList: S.optional(S.suspend(() => SegmentAttributeValueList)),
-  ValueArn: S.optional(S.String),
-}) {}
+export interface SegmentAttributeValue {
+  ValueString?: string;
+  ValueMap?: SegmentAttributeValueMap;
+  ValueInteger?: number;
+  ValueList?: SegmentAttributeValueList;
+  ValueArn?: string;
+}
+export const SegmentAttributeValue = S.suspend(() =>
+  S.Struct({
+    ValueString: S.optional(S.String),
+    ValueMap: S.optional(
+      S.suspend(() => SegmentAttributeValueMap).annotations({
+        identifier: "SegmentAttributeValueMap",
+      }),
+    ),
+    ValueInteger: S.optional(S.Number),
+    ValueList: S.optional(
+      S.suspend(() => SegmentAttributeValueList).annotations({
+        identifier: "SegmentAttributeValueList",
+      }),
+    ),
+    ValueArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SegmentAttributeValue",
+}) as any as S.Schema<SegmentAttributeValue>;
+export type SegmentAttributes = { [key: string]: SegmentAttributeValue };
 export const SegmentAttributes = S.Record({
   key: S.String,
   value: S.suspend(
     (): S.Schema<SegmentAttributeValue, any> => SegmentAttributeValue,
-  ),
+  ).annotations({ identifier: "SegmentAttributeValue" }),
 });
-export class StartTaskContactRequest extends S.Class<StartTaskContactRequest>(
-  "StartTaskContactRequest",
-)(
-  {
+export interface StartTaskContactRequest {
+  InstanceId: string;
+  PreviousContactId?: string;
+  ContactFlowId?: string;
+  Attributes?: Attributes;
+  Name: string;
+  References?: ContactReferences;
+  Description?: string;
+  ClientToken?: string;
+  ScheduledTime?: Date;
+  TaskTemplateId?: string;
+  QuickConnectId?: string;
+  RelatedContactId?: string;
+  SegmentAttributes?: SegmentAttributes;
+}
+export const StartTaskContactRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String,
     PreviousContactId: S.optional(S.String),
     ContactFlowId: S.optional(S.String),
@@ -4386,169 +5993,257 @@ export class StartTaskContactRequest extends S.Class<StartTaskContactRequest>(
     QuickConnectId: S.optional(S.String),
     RelatedContactId: S.optional(S.String),
     SegmentAttributes: S.optional(SegmentAttributes),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/contact/task" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/contact/task" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StopContactMediaProcessingRequest extends S.Class<StopContactMediaProcessingRequest>(
-  "StopContactMediaProcessingRequest",
-)(
-  { InstanceId: S.optional(S.String), ContactId: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/contact/stop-contact-media-processing" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "StartTaskContactRequest",
+}) as any as S.Schema<StartTaskContactRequest>;
+export interface StopContactMediaProcessingRequest {
+  InstanceId?: string;
+  ContactId?: string;
+}
+export const StopContactMediaProcessingRequest = S.suspend(() =>
+  S.Struct({
+    InstanceId: S.optional(S.String),
+    ContactId: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/contact/stop-contact-media-processing" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StopContactMediaProcessingResponse extends S.Class<StopContactMediaProcessingResponse>(
-  "StopContactMediaProcessingResponse",
-)({}) {}
-export class StopContactRecordingRequest extends S.Class<StopContactRecordingRequest>(
-  "StopContactRecordingRequest",
-)(
-  {
+).annotations({
+  identifier: "StopContactMediaProcessingRequest",
+}) as any as S.Schema<StopContactMediaProcessingRequest>;
+export interface StopContactMediaProcessingResponse {}
+export const StopContactMediaProcessingResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "StopContactMediaProcessingResponse",
+}) as any as S.Schema<StopContactMediaProcessingResponse>;
+export interface StopContactRecordingRequest {
+  InstanceId: string;
+  ContactId: string;
+  InitialContactId: string;
+  ContactRecordingType?: string;
+}
+export const StopContactRecordingRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String,
     ContactId: S.String,
     InitialContactId: S.String,
     ContactRecordingType: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/contact/stop-recording" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/contact/stop-recording" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StopContactRecordingResponse extends S.Class<StopContactRecordingResponse>(
-  "StopContactRecordingResponse",
-)({}) {}
-export class StopContactStreamingRequest extends S.Class<StopContactStreamingRequest>(
-  "StopContactStreamingRequest",
-)(
-  { InstanceId: S.String, ContactId: S.String, StreamingId: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/contact/stop-streaming" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "StopContactRecordingRequest",
+}) as any as S.Schema<StopContactRecordingRequest>;
+export interface StopContactRecordingResponse {}
+export const StopContactRecordingResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "StopContactRecordingResponse",
+}) as any as S.Schema<StopContactRecordingResponse>;
+export interface StopContactStreamingRequest {
+  InstanceId: string;
+  ContactId: string;
+  StreamingId: string;
+}
+export const StopContactStreamingRequest = S.suspend(() =>
+  S.Struct({
+    InstanceId: S.String,
+    ContactId: S.String,
+    StreamingId: S.String,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/contact/stop-streaming" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StopContactStreamingResponse extends S.Class<StopContactStreamingResponse>(
-  "StopContactStreamingResponse",
-)({}) {}
-export class SuspendContactRecordingRequest extends S.Class<SuspendContactRecordingRequest>(
-  "SuspendContactRecordingRequest",
-)(
-  {
+).annotations({
+  identifier: "StopContactStreamingRequest",
+}) as any as S.Schema<StopContactStreamingRequest>;
+export interface StopContactStreamingResponse {}
+export const StopContactStreamingResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "StopContactStreamingResponse",
+}) as any as S.Schema<StopContactStreamingResponse>;
+export interface SuspendContactRecordingRequest {
+  InstanceId: string;
+  ContactId: string;
+  InitialContactId: string;
+  ContactRecordingType?: string;
+}
+export const SuspendContactRecordingRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String,
     ContactId: S.String,
     InitialContactId: S.String,
     ContactRecordingType: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/contact/suspend-recording" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/contact/suspend-recording" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SuspendContactRecordingResponse extends S.Class<SuspendContactRecordingResponse>(
-  "SuspendContactRecordingResponse",
-)({}) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap },
-  T.all(
-    T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "SuspendContactRecordingRequest",
+}) as any as S.Schema<SuspendContactRecordingRequest>;
+export interface SuspendContactRecordingResponse {}
+export const SuspendContactRecordingResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "SuspendContactRecordingResponse",
+}) as any as S.Schema<SuspendContactRecordingResponse>;
+export interface TagResourceRequest {
+  resourceArn: string;
+  tags: TagMap;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+    tags: TagMap,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class TransferContactRequest extends S.Class<TransferContactRequest>(
-  "TransferContactRequest",
-)(
-  {
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface TransferContactRequest {
+  InstanceId: string;
+  ContactId: string;
+  QueueId?: string;
+  UserId?: string;
+  ContactFlowId: string;
+  ClientToken?: string;
+}
+export const TransferContactRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String,
     ContactId: S.String,
     QueueId: S.optional(S.String),
     UserId: S.optional(S.String),
     ContactFlowId: S.String,
     ClientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/contact/transfer" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/contact/transfer" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagContactRequest extends S.Class<UntagContactRequest>(
-  "UntagContactRequest",
-)(
-  {
+).annotations({
+  identifier: "TransferContactRequest",
+}) as any as S.Schema<TransferContactRequest>;
+export interface UntagContactRequest {
+  ContactId: string;
+  InstanceId: string;
+  TagKeys: ContactTagKeys;
+}
+export const UntagContactRequest = S.suspend(() =>
+  S.Struct({
     ContactId: S.String.pipe(T.HttpLabel("ContactId")),
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     TagKeys: ContactTagKeys.pipe(T.HttpQuery("TagKeys")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/contact/tags/{InstanceId}/{ContactId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/contact/tags/{InstanceId}/{ContactId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagContactResponse extends S.Class<UntagContactResponse>(
-  "UntagContactResponse",
-)({}) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "UntagContactRequest",
+}) as any as S.Schema<UntagContactRequest>;
+export interface UntagContactResponse {}
+export const UntagContactResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagContactResponse",
+}) as any as S.Schema<UntagContactResponse>;
+export interface UntagResourceRequest {
+  resourceArn: string;
+  tagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
-export class UpdateAgentStatusRequest extends S.Class<UpdateAgentStatusRequest>(
-  "UpdateAgentStatusRequest",
-)(
-  {
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface UpdateAgentStatusRequest {
+  InstanceId: string;
+  AgentStatusId: string;
+  Name?: string;
+  Description?: string;
+  State?: string;
+  DisplayOrder?: number;
+  ResetOrderNumber?: boolean;
+}
+export const UpdateAgentStatusRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     AgentStatusId: S.String.pipe(T.HttpLabel("AgentStatusId")),
     Name: S.optional(S.String),
@@ -4556,26 +6251,41 @@ export class UpdateAgentStatusRequest extends S.Class<UpdateAgentStatusRequest>(
     State: S.optional(S.String),
     DisplayOrder: S.optional(S.Number),
     ResetOrderNumber: S.optional(S.Boolean),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/agent-status/{InstanceId}/{AgentStatusId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/agent-status/{InstanceId}/{AgentStatusId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateAgentStatusResponse extends S.Class<UpdateAgentStatusResponse>(
-  "UpdateAgentStatusResponse",
-)({}) {}
-export class UpdateAuthenticationProfileRequest extends S.Class<UpdateAuthenticationProfileRequest>(
-  "UpdateAuthenticationProfileRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateAgentStatusRequest",
+}) as any as S.Schema<UpdateAgentStatusRequest>;
+export interface UpdateAgentStatusResponse {}
+export const UpdateAgentStatusResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateAgentStatusResponse",
+}) as any as S.Schema<UpdateAgentStatusResponse>;
+export interface UpdateAuthenticationProfileRequest {
+  AuthenticationProfileId: string;
+  InstanceId: string;
+  Name?: string;
+  Description?: string;
+  AllowedIps?: IpCidrList;
+  BlockedIps?: IpCidrList;
+  PeriodicSessionDuration?: number;
+  SessionInactivityDuration?: number;
+  SessionInactivityHandlingEnabled?: boolean;
+}
+export const UpdateAuthenticationProfileRequest = S.suspend(() =>
+  S.Struct({
     AuthenticationProfileId: S.String.pipe(
       T.HttpLabel("AuthenticationProfileId"),
     ),
@@ -4587,38 +6297,58 @@ export class UpdateAuthenticationProfileRequest extends S.Class<UpdateAuthentica
     PeriodicSessionDuration: S.optional(S.Number),
     SessionInactivityDuration: S.optional(S.Number),
     SessionInactivityHandlingEnabled: S.optional(S.Boolean),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/authentication-profiles/{InstanceId}/{AuthenticationProfileId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/authentication-profiles/{InstanceId}/{AuthenticationProfileId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateAuthenticationProfileResponse extends S.Class<UpdateAuthenticationProfileResponse>(
-  "UpdateAuthenticationProfileResponse",
-)({}) {}
-export class UpdateContactAttributesRequest extends S.Class<UpdateContactAttributesRequest>(
-  "UpdateContactAttributesRequest",
-)(
-  { InitialContactId: S.String, InstanceId: S.String, Attributes: Attributes },
-  T.all(
-    T.Http({ method: "POST", uri: "/contact/attributes" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UpdateAuthenticationProfileRequest",
+}) as any as S.Schema<UpdateAuthenticationProfileRequest>;
+export interface UpdateAuthenticationProfileResponse {}
+export const UpdateAuthenticationProfileResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateAuthenticationProfileResponse",
+}) as any as S.Schema<UpdateAuthenticationProfileResponse>;
+export interface UpdateContactAttributesRequest {
+  InitialContactId: string;
+  InstanceId: string;
+  Attributes: Attributes;
+}
+export const UpdateContactAttributesRequest = S.suspend(() =>
+  S.Struct({
+    InitialContactId: S.String,
+    InstanceId: S.String,
+    Attributes: Attributes,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/contact/attributes" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateContactAttributesResponse extends S.Class<UpdateContactAttributesResponse>(
-  "UpdateContactAttributesResponse",
-)({}) {}
+).annotations({
+  identifier: "UpdateContactAttributesRequest",
+}) as any as S.Schema<UpdateContactAttributesRequest>;
+export interface UpdateContactAttributesResponse {}
+export const UpdateContactAttributesResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateContactAttributesResponse",
+}) as any as S.Schema<UpdateContactAttributesResponse>;
+export type EvaluationAnswerDataStringValueList = string[];
 export const EvaluationAnswerDataStringValueList = S.Array(S.String);
 export const EvaluationAnswerData = S.Union(
   S.Struct({ StringValue: S.String }),
@@ -4627,16 +6357,30 @@ export const EvaluationAnswerData = S.Union(
   S.Struct({ DateTimeValue: S.String }),
   S.Struct({ NotApplicable: S.Boolean }),
 );
-export class EvaluationAnswerInput extends S.Class<EvaluationAnswerInput>(
-  "EvaluationAnswerInput",
-)({ Value: S.optional(EvaluationAnswerData) }) {}
+export interface EvaluationAnswerInput {
+  Value?: (typeof EvaluationAnswerData)["Type"];
+}
+export const EvaluationAnswerInput = S.suspend(() =>
+  S.Struct({ Value: S.optional(EvaluationAnswerData) }),
+).annotations({
+  identifier: "EvaluationAnswerInput",
+}) as any as S.Schema<EvaluationAnswerInput>;
+export type EvaluationAnswersInputMap = {
+  [key: string]: EvaluationAnswerInput;
+};
 export const EvaluationAnswersInputMap = S.Record({
   key: S.String,
   value: EvaluationAnswerInput,
 });
-export class EvaluationNote extends S.Class<EvaluationNote>("EvaluationNote")({
-  Value: S.optional(S.String),
-}) {}
+export interface EvaluationNote {
+  Value?: string;
+}
+export const EvaluationNote = S.suspend(() =>
+  S.Struct({ Value: S.optional(S.String) }),
+).annotations({
+  identifier: "EvaluationNote",
+}) as any as S.Schema<EvaluationNote>;
+export type EvaluationNotesMap = { [key: string]: EvaluationNote };
 export const EvaluationNotesMap = S.Record({
   key: S.String,
   value: EvaluationNote,
@@ -4644,217 +6388,329 @@ export const EvaluationNotesMap = S.Record({
 export const EvaluatorUserUnion = S.Union(
   S.Struct({ ConnectUserArn: S.String }),
 );
-export class UpdateContactEvaluationRequest extends S.Class<UpdateContactEvaluationRequest>(
-  "UpdateContactEvaluationRequest",
-)(
-  {
+export interface UpdateContactEvaluationRequest {
+  InstanceId: string;
+  EvaluationId: string;
+  Answers?: EvaluationAnswersInputMap;
+  Notes?: EvaluationNotesMap;
+  UpdatedBy?: (typeof EvaluatorUserUnion)["Type"];
+}
+export const UpdateContactEvaluationRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     EvaluationId: S.String.pipe(T.HttpLabel("EvaluationId")),
     Answers: S.optional(EvaluationAnswersInputMap),
     Notes: S.optional(EvaluationNotesMap),
     UpdatedBy: S.optional(EvaluatorUserUnion),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/contact-evaluations/{InstanceId}/{EvaluationId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/contact-evaluations/{InstanceId}/{EvaluationId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateContactFlowContentRequest extends S.Class<UpdateContactFlowContentRequest>(
-  "UpdateContactFlowContentRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateContactEvaluationRequest",
+}) as any as S.Schema<UpdateContactEvaluationRequest>;
+export interface UpdateContactFlowContentRequest {
+  InstanceId: string;
+  ContactFlowId: string;
+  Content: string;
+}
+export const UpdateContactFlowContentRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ContactFlowId: S.String.pipe(T.HttpLabel("ContactFlowId")),
     Content: S.String,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/contact-flows/{InstanceId}/{ContactFlowId}/content",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/contact-flows/{InstanceId}/{ContactFlowId}/content",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateContactFlowContentResponse extends S.Class<UpdateContactFlowContentResponse>(
-  "UpdateContactFlowContentResponse",
-)({}) {}
-export class UpdateContactFlowMetadataRequest extends S.Class<UpdateContactFlowMetadataRequest>(
-  "UpdateContactFlowMetadataRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateContactFlowContentRequest",
+}) as any as S.Schema<UpdateContactFlowContentRequest>;
+export interface UpdateContactFlowContentResponse {}
+export const UpdateContactFlowContentResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateContactFlowContentResponse",
+}) as any as S.Schema<UpdateContactFlowContentResponse>;
+export interface UpdateContactFlowMetadataRequest {
+  InstanceId: string;
+  ContactFlowId: string;
+  Name?: string;
+  Description?: string;
+  ContactFlowState?: string;
+}
+export const UpdateContactFlowMetadataRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ContactFlowId: S.String.pipe(T.HttpLabel("ContactFlowId")),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     ContactFlowState: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/contact-flows/{InstanceId}/{ContactFlowId}/metadata",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/contact-flows/{InstanceId}/{ContactFlowId}/metadata",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateContactFlowMetadataResponse extends S.Class<UpdateContactFlowMetadataResponse>(
-  "UpdateContactFlowMetadataResponse",
-)({}) {}
-export class UpdateContactFlowModuleAliasRequest extends S.Class<UpdateContactFlowModuleAliasRequest>(
-  "UpdateContactFlowModuleAliasRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateContactFlowMetadataRequest",
+}) as any as S.Schema<UpdateContactFlowMetadataRequest>;
+export interface UpdateContactFlowMetadataResponse {}
+export const UpdateContactFlowMetadataResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateContactFlowMetadataResponse",
+}) as any as S.Schema<UpdateContactFlowMetadataResponse>;
+export interface UpdateContactFlowModuleAliasRequest {
+  InstanceId: string;
+  ContactFlowModuleId: string;
+  AliasId: string;
+  Name?: string;
+  Description?: string;
+  ContactFlowModuleVersion?: number;
+}
+export const UpdateContactFlowModuleAliasRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ContactFlowModuleId: S.String.pipe(T.HttpLabel("ContactFlowModuleId")),
     AliasId: S.String.pipe(T.HttpLabel("AliasId")),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     ContactFlowModuleVersion: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/contact-flow-modules/{InstanceId}/{ContactFlowModuleId}/alias/{AliasId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/contact-flow-modules/{InstanceId}/{ContactFlowModuleId}/alias/{AliasId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateContactFlowModuleAliasResponse extends S.Class<UpdateContactFlowModuleAliasResponse>(
-  "UpdateContactFlowModuleAliasResponse",
-)({}) {}
-export class UpdateContactFlowModuleContentRequest extends S.Class<UpdateContactFlowModuleContentRequest>(
-  "UpdateContactFlowModuleContentRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateContactFlowModuleAliasRequest",
+}) as any as S.Schema<UpdateContactFlowModuleAliasRequest>;
+export interface UpdateContactFlowModuleAliasResponse {}
+export const UpdateContactFlowModuleAliasResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateContactFlowModuleAliasResponse",
+}) as any as S.Schema<UpdateContactFlowModuleAliasResponse>;
+export interface UpdateContactFlowModuleContentRequest {
+  InstanceId: string;
+  ContactFlowModuleId: string;
+  Content?: string;
+  Settings?: string;
+}
+export const UpdateContactFlowModuleContentRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ContactFlowModuleId: S.String.pipe(T.HttpLabel("ContactFlowModuleId")),
     Content: S.optional(S.String),
     Settings: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/contact-flow-modules/{InstanceId}/{ContactFlowModuleId}/content",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/contact-flow-modules/{InstanceId}/{ContactFlowModuleId}/content",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateContactFlowModuleContentResponse extends S.Class<UpdateContactFlowModuleContentResponse>(
-  "UpdateContactFlowModuleContentResponse",
-)({}) {}
-export class UpdateContactFlowModuleMetadataRequest extends S.Class<UpdateContactFlowModuleMetadataRequest>(
-  "UpdateContactFlowModuleMetadataRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateContactFlowModuleContentRequest",
+}) as any as S.Schema<UpdateContactFlowModuleContentRequest>;
+export interface UpdateContactFlowModuleContentResponse {}
+export const UpdateContactFlowModuleContentResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateContactFlowModuleContentResponse",
+}) as any as S.Schema<UpdateContactFlowModuleContentResponse>;
+export interface UpdateContactFlowModuleMetadataRequest {
+  InstanceId: string;
+  ContactFlowModuleId: string;
+  Name?: string;
+  Description?: string;
+  State?: string;
+}
+export const UpdateContactFlowModuleMetadataRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ContactFlowModuleId: S.String.pipe(T.HttpLabel("ContactFlowModuleId")),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     State: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/contact-flow-modules/{InstanceId}/{ContactFlowModuleId}/metadata",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/contact-flow-modules/{InstanceId}/{ContactFlowModuleId}/metadata",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateContactFlowModuleMetadataResponse extends S.Class<UpdateContactFlowModuleMetadataResponse>(
-  "UpdateContactFlowModuleMetadataResponse",
-)({}) {}
-export class UpdateContactFlowNameRequest extends S.Class<UpdateContactFlowNameRequest>(
-  "UpdateContactFlowNameRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateContactFlowModuleMetadataRequest",
+}) as any as S.Schema<UpdateContactFlowModuleMetadataRequest>;
+export interface UpdateContactFlowModuleMetadataResponse {}
+export const UpdateContactFlowModuleMetadataResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateContactFlowModuleMetadataResponse",
+}) as any as S.Schema<UpdateContactFlowModuleMetadataResponse>;
+export interface UpdateContactFlowNameRequest {
+  InstanceId: string;
+  ContactFlowId: string;
+  Name?: string;
+  Description?: string;
+}
+export const UpdateContactFlowNameRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ContactFlowId: S.String.pipe(T.HttpLabel("ContactFlowId")),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/contact-flows/{InstanceId}/{ContactFlowId}/name",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/contact-flows/{InstanceId}/{ContactFlowId}/name",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateContactFlowNameResponse extends S.Class<UpdateContactFlowNameResponse>(
-  "UpdateContactFlowNameResponse",
-)({}) {}
-export class UpdateContactScheduleRequest extends S.Class<UpdateContactScheduleRequest>(
-  "UpdateContactScheduleRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateContactFlowNameRequest",
+}) as any as S.Schema<UpdateContactFlowNameRequest>;
+export interface UpdateContactFlowNameResponse {}
+export const UpdateContactFlowNameResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateContactFlowNameResponse",
+}) as any as S.Schema<UpdateContactFlowNameResponse>;
+export interface UpdateContactScheduleRequest {
+  InstanceId: string;
+  ContactId: string;
+  ScheduledTime: Date;
+}
+export const UpdateContactScheduleRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String,
     ContactId: S.String,
     ScheduledTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/contact/schedule" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/contact/schedule" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateContactScheduleResponse extends S.Class<UpdateContactScheduleResponse>(
-  "UpdateContactScheduleResponse",
-)({}) {}
+).annotations({
+  identifier: "UpdateContactScheduleRequest",
+}) as any as S.Schema<UpdateContactScheduleRequest>;
+export interface UpdateContactScheduleResponse {}
+export const UpdateContactScheduleResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateContactScheduleResponse",
+}) as any as S.Schema<UpdateContactScheduleResponse>;
+export type ValidationEnumValues = string[];
 export const ValidationEnumValues = S.Array(S.String);
-export class ValidationEnum extends S.Class<ValidationEnum>("ValidationEnum")({
-  Strict: S.optional(S.Boolean),
-  Values: S.optional(ValidationEnumValues),
-}) {}
-export class Validation extends S.Class<Validation>("Validation")({
-  MinLength: S.optional(S.Number),
-  MaxLength: S.optional(S.Number),
-  MinValues: S.optional(S.Number),
-  MaxValues: S.optional(S.Number),
-  IgnoreCase: S.optional(S.Boolean),
-  Minimum: S.optional(S.Number),
-  Maximum: S.optional(S.Number),
-  ExclusiveMinimum: S.optional(S.Number),
-  ExclusiveMaximum: S.optional(S.Number),
-  MultipleOf: S.optional(S.Number),
-  Enum: S.optional(ValidationEnum),
-}) {}
-export class UpdateDataTableAttributeRequest extends S.Class<UpdateDataTableAttributeRequest>(
-  "UpdateDataTableAttributeRequest",
-)(
-  {
+export interface ValidationEnum {
+  Strict?: boolean;
+  Values?: ValidationEnumValues;
+}
+export const ValidationEnum = S.suspend(() =>
+  S.Struct({
+    Strict: S.optional(S.Boolean),
+    Values: S.optional(ValidationEnumValues),
+  }),
+).annotations({
+  identifier: "ValidationEnum",
+}) as any as S.Schema<ValidationEnum>;
+export interface Validation {
+  MinLength?: number;
+  MaxLength?: number;
+  MinValues?: number;
+  MaxValues?: number;
+  IgnoreCase?: boolean;
+  Minimum?: number;
+  Maximum?: number;
+  ExclusiveMinimum?: number;
+  ExclusiveMaximum?: number;
+  MultipleOf?: number;
+  Enum?: ValidationEnum;
+}
+export const Validation = S.suspend(() =>
+  S.Struct({
+    MinLength: S.optional(S.Number),
+    MaxLength: S.optional(S.Number),
+    MinValues: S.optional(S.Number),
+    MaxValues: S.optional(S.Number),
+    IgnoreCase: S.optional(S.Boolean),
+    Minimum: S.optional(S.Number),
+    Maximum: S.optional(S.Number),
+    ExclusiveMinimum: S.optional(S.Number),
+    ExclusiveMaximum: S.optional(S.Number),
+    MultipleOf: S.optional(S.Number),
+    Enum: S.optional(ValidationEnum),
+  }),
+).annotations({ identifier: "Validation" }) as any as S.Schema<Validation>;
+export interface UpdateDataTableAttributeRequest {
+  InstanceId: string;
+  DataTableId: string;
+  AttributeName: string;
+  Name: string;
+  ValueType: string;
+  Description?: string;
+  Primary?: boolean;
+  Validation?: Validation;
+}
+export const UpdateDataTableAttributeRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     DataTableId: S.String.pipe(T.HttpLabel("DataTableId")),
     AttributeName: S.String.pipe(T.HttpLabel("AttributeName")),
@@ -4863,81 +6719,140 @@ export class UpdateDataTableAttributeRequest extends S.Class<UpdateDataTableAttr
     Description: S.optional(S.String),
     Primary: S.optional(S.Boolean),
     Validation: S.optional(Validation),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/data-tables/{InstanceId}/{DataTableId}/attributes/{AttributeName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/data-tables/{InstanceId}/{DataTableId}/attributes/{AttributeName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateDataTableMetadataRequest extends S.Class<UpdateDataTableMetadataRequest>(
-  "UpdateDataTableMetadataRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateDataTableAttributeRequest",
+}) as any as S.Schema<UpdateDataTableAttributeRequest>;
+export interface UpdateDataTableMetadataRequest {
+  InstanceId: string;
+  DataTableId: string;
+  Name: string;
+  Description?: string;
+  ValueLockLevel: string;
+  TimeZone: string;
+}
+export const UpdateDataTableMetadataRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     DataTableId: S.String.pipe(T.HttpLabel("DataTableId")),
     Name: S.String,
     Description: S.optional(S.String),
     ValueLockLevel: S.String,
     TimeZone: S.String,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/data-tables/{InstanceId}/{DataTableId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/data-tables/{InstanceId}/{DataTableId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateEmailAddressMetadataRequest extends S.Class<UpdateEmailAddressMetadataRequest>(
-  "UpdateEmailAddressMetadataRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateDataTableMetadataRequest",
+}) as any as S.Schema<UpdateDataTableMetadataRequest>;
+export interface UpdateEmailAddressMetadataRequest {
+  InstanceId: string;
+  EmailAddressId: string;
+  Description?: string;
+  DisplayName?: string;
+  ClientToken?: string;
+}
+export const UpdateEmailAddressMetadataRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     EmailAddressId: S.String.pipe(T.HttpLabel("EmailAddressId")),
     Description: S.optional(S.String),
     DisplayName: S.optional(S.String),
     ClientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/email-addresses/{InstanceId}/{EmailAddressId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/email-addresses/{InstanceId}/{EmailAddressId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "UpdateEmailAddressMetadataRequest",
+}) as any as S.Schema<UpdateEmailAddressMetadataRequest>;
 export type EvaluationFormItemsList = EvaluationFormItem[];
 export const EvaluationFormItemsList = S.Array(
-  S.suspend(() => EvaluationFormItem),
+  S.suspend(() => EvaluationFormItem).annotations({
+    identifier: "EvaluationFormItem",
+  }),
 ) as any as S.Schema<EvaluationFormItemsList>;
-export class EvaluationFormScoringStrategy extends S.Class<EvaluationFormScoringStrategy>(
-  "EvaluationFormScoringStrategy",
-)({ Mode: S.String, Status: S.String }) {}
-export class EvaluationFormAutoEvaluationConfiguration extends S.Class<EvaluationFormAutoEvaluationConfiguration>(
-  "EvaluationFormAutoEvaluationConfiguration",
-)({ Enabled: S.Boolean }) {}
-export class EvaluationFormTargetConfiguration extends S.Class<EvaluationFormTargetConfiguration>(
-  "EvaluationFormTargetConfiguration",
-)({ ContactInteractionType: S.String }) {}
-export class EvaluationFormLanguageConfiguration extends S.Class<EvaluationFormLanguageConfiguration>(
-  "EvaluationFormLanguageConfiguration",
-)({ FormLanguage: S.optional(S.String) }) {}
-export class UpdateEvaluationFormRequest extends S.Class<UpdateEvaluationFormRequest>(
-  "UpdateEvaluationFormRequest",
-)(
-  {
+export interface EvaluationFormScoringStrategy {
+  Mode: string;
+  Status: string;
+}
+export const EvaluationFormScoringStrategy = S.suspend(() =>
+  S.Struct({ Mode: S.String, Status: S.String }),
+).annotations({
+  identifier: "EvaluationFormScoringStrategy",
+}) as any as S.Schema<EvaluationFormScoringStrategy>;
+export interface EvaluationFormAutoEvaluationConfiguration {
+  Enabled: boolean;
+}
+export const EvaluationFormAutoEvaluationConfiguration = S.suspend(() =>
+  S.Struct({ Enabled: S.Boolean }),
+).annotations({
+  identifier: "EvaluationFormAutoEvaluationConfiguration",
+}) as any as S.Schema<EvaluationFormAutoEvaluationConfiguration>;
+export interface EvaluationFormTargetConfiguration {
+  ContactInteractionType: string;
+}
+export const EvaluationFormTargetConfiguration = S.suspend(() =>
+  S.Struct({ ContactInteractionType: S.String }),
+).annotations({
+  identifier: "EvaluationFormTargetConfiguration",
+}) as any as S.Schema<EvaluationFormTargetConfiguration>;
+export interface EvaluationFormLanguageConfiguration {
+  FormLanguage?: string;
+}
+export const EvaluationFormLanguageConfiguration = S.suspend(() =>
+  S.Struct({ FormLanguage: S.optional(S.String) }),
+).annotations({
+  identifier: "EvaluationFormLanguageConfiguration",
+}) as any as S.Schema<EvaluationFormLanguageConfiguration>;
+export interface UpdateEvaluationFormRequest {
+  InstanceId: string;
+  EvaluationFormId: string;
+  EvaluationFormVersion: number;
+  CreateNewVersion?: boolean;
+  Title: string;
+  Description?: string;
+  Items: EvaluationFormItemsList;
+  ScoringStrategy?: EvaluationFormScoringStrategy;
+  AutoEvaluationConfiguration?: EvaluationFormAutoEvaluationConfiguration;
+  AsDraft?: boolean;
+  ClientToken?: string;
+  TargetConfiguration?: EvaluationFormTargetConfiguration;
+  LanguageConfiguration?: EvaluationFormLanguageConfiguration;
+}
+export const UpdateEvaluationFormRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     EvaluationFormId: S.String.pipe(T.HttpLabel("EvaluationFormId")),
     EvaluationFormVersion: S.Number,
@@ -4953,73 +6868,125 @@ export class UpdateEvaluationFormRequest extends S.Class<UpdateEvaluationFormReq
     ClientToken: S.optional(S.String),
     TargetConfiguration: S.optional(EvaluationFormTargetConfiguration),
     LanguageConfiguration: S.optional(EvaluationFormLanguageConfiguration),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/evaluation-forms/{InstanceId}/{EvaluationFormId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/evaluation-forms/{InstanceId}/{EvaluationFormId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class HoursOfOperationTimeSlice extends S.Class<HoursOfOperationTimeSlice>(
-  "HoursOfOperationTimeSlice",
-)({ Hours: S.Number, Minutes: S.Number }) {}
-export class HoursOfOperationConfig extends S.Class<HoursOfOperationConfig>(
-  "HoursOfOperationConfig",
-)({
-  Day: S.String,
-  StartTime: HoursOfOperationTimeSlice,
-  EndTime: HoursOfOperationTimeSlice,
-}) {}
+).annotations({
+  identifier: "UpdateEvaluationFormRequest",
+}) as any as S.Schema<UpdateEvaluationFormRequest>;
+export interface HoursOfOperationTimeSlice {
+  Hours: number;
+  Minutes: number;
+}
+export const HoursOfOperationTimeSlice = S.suspend(() =>
+  S.Struct({ Hours: S.Number, Minutes: S.Number }),
+).annotations({
+  identifier: "HoursOfOperationTimeSlice",
+}) as any as S.Schema<HoursOfOperationTimeSlice>;
+export interface HoursOfOperationConfig {
+  Day: string;
+  StartTime: HoursOfOperationTimeSlice;
+  EndTime: HoursOfOperationTimeSlice;
+}
+export const HoursOfOperationConfig = S.suspend(() =>
+  S.Struct({
+    Day: S.String,
+    StartTime: HoursOfOperationTimeSlice,
+    EndTime: HoursOfOperationTimeSlice,
+  }),
+).annotations({
+  identifier: "HoursOfOperationConfig",
+}) as any as S.Schema<HoursOfOperationConfig>;
+export type HoursOfOperationConfigList = HoursOfOperationConfig[];
 export const HoursOfOperationConfigList = S.Array(HoursOfOperationConfig);
-export class UpdateHoursOfOperationRequest extends S.Class<UpdateHoursOfOperationRequest>(
-  "UpdateHoursOfOperationRequest",
-)(
-  {
+export interface UpdateHoursOfOperationRequest {
+  InstanceId: string;
+  HoursOfOperationId: string;
+  Name?: string;
+  Description?: string;
+  TimeZone?: string;
+  Config?: HoursOfOperationConfigList;
+}
+export const UpdateHoursOfOperationRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     HoursOfOperationId: S.String.pipe(T.HttpLabel("HoursOfOperationId")),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     TimeZone: S.optional(S.String),
     Config: S.optional(HoursOfOperationConfigList),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/hours-of-operations/{InstanceId}/{HoursOfOperationId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/hours-of-operations/{InstanceId}/{HoursOfOperationId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateHoursOfOperationResponse extends S.Class<UpdateHoursOfOperationResponse>(
-  "UpdateHoursOfOperationResponse",
-)({}) {}
-export class OverrideTimeSlice extends S.Class<OverrideTimeSlice>(
-  "OverrideTimeSlice",
-)({ Hours: S.Number, Minutes: S.Number }) {}
-export class HoursOfOperationOverrideConfig extends S.Class<HoursOfOperationOverrideConfig>(
-  "HoursOfOperationOverrideConfig",
-)({
-  Day: S.optional(S.String),
-  StartTime: S.optional(OverrideTimeSlice),
-  EndTime: S.optional(OverrideTimeSlice),
-}) {}
+).annotations({
+  identifier: "UpdateHoursOfOperationRequest",
+}) as any as S.Schema<UpdateHoursOfOperationRequest>;
+export interface UpdateHoursOfOperationResponse {}
+export const UpdateHoursOfOperationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateHoursOfOperationResponse",
+}) as any as S.Schema<UpdateHoursOfOperationResponse>;
+export interface OverrideTimeSlice {
+  Hours: number;
+  Minutes: number;
+}
+export const OverrideTimeSlice = S.suspend(() =>
+  S.Struct({ Hours: S.Number, Minutes: S.Number }),
+).annotations({
+  identifier: "OverrideTimeSlice",
+}) as any as S.Schema<OverrideTimeSlice>;
+export interface HoursOfOperationOverrideConfig {
+  Day?: string;
+  StartTime?: OverrideTimeSlice;
+  EndTime?: OverrideTimeSlice;
+}
+export const HoursOfOperationOverrideConfig = S.suspend(() =>
+  S.Struct({
+    Day: S.optional(S.String),
+    StartTime: S.optional(OverrideTimeSlice),
+    EndTime: S.optional(OverrideTimeSlice),
+  }),
+).annotations({
+  identifier: "HoursOfOperationOverrideConfig",
+}) as any as S.Schema<HoursOfOperationOverrideConfig>;
+export type HoursOfOperationOverrideConfigList =
+  HoursOfOperationOverrideConfig[];
 export const HoursOfOperationOverrideConfigList = S.Array(
   HoursOfOperationOverrideConfig,
 );
-export class UpdateHoursOfOperationOverrideRequest extends S.Class<UpdateHoursOfOperationOverrideRequest>(
-  "UpdateHoursOfOperationOverrideRequest",
-)(
-  {
+export interface UpdateHoursOfOperationOverrideRequest {
+  InstanceId: string;
+  HoursOfOperationId: string;
+  HoursOfOperationOverrideId: string;
+  Name?: string;
+  Description?: string;
+  Config?: HoursOfOperationOverrideConfigList;
+  EffectiveFrom?: string;
+  EffectiveTill?: string;
+}
+export const UpdateHoursOfOperationOverrideRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     HoursOfOperationId: S.String.pipe(T.HttpLabel("HoursOfOperationId")),
     HoursOfOperationOverrideId: S.String.pipe(
@@ -5030,722 +6997,1192 @@ export class UpdateHoursOfOperationOverrideRequest extends S.Class<UpdateHoursOf
     Config: S.optional(HoursOfOperationOverrideConfigList),
     EffectiveFrom: S.optional(S.String),
     EffectiveTill: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/hours-of-operations/{InstanceId}/{HoursOfOperationId}/overrides/{HoursOfOperationOverrideId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/hours-of-operations/{InstanceId}/{HoursOfOperationId}/overrides/{HoursOfOperationOverrideId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateHoursOfOperationOverrideResponse extends S.Class<UpdateHoursOfOperationOverrideResponse>(
-  "UpdateHoursOfOperationOverrideResponse",
-)({}) {}
-export class UpdateInstanceAttributeRequest extends S.Class<UpdateInstanceAttributeRequest>(
-  "UpdateInstanceAttributeRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateHoursOfOperationOverrideRequest",
+}) as any as S.Schema<UpdateHoursOfOperationOverrideRequest>;
+export interface UpdateHoursOfOperationOverrideResponse {}
+export const UpdateHoursOfOperationOverrideResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateHoursOfOperationOverrideResponse",
+}) as any as S.Schema<UpdateHoursOfOperationOverrideResponse>;
+export interface UpdateInstanceAttributeRequest {
+  InstanceId: string;
+  AttributeType: string;
+  Value: string;
+  ClientToken?: string;
+}
+export const UpdateInstanceAttributeRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     AttributeType: S.String.pipe(T.HttpLabel("AttributeType")),
     Value: S.String,
     ClientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/instance/{InstanceId}/attribute/{AttributeType}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/instance/{InstanceId}/attribute/{AttributeType}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateInstanceAttributeResponse extends S.Class<UpdateInstanceAttributeResponse>(
-  "UpdateInstanceAttributeResponse",
-)({}) {}
-export class EncryptionConfig extends S.Class<EncryptionConfig>(
-  "EncryptionConfig",
-)({ EncryptionType: S.String, KeyId: S.String }) {}
-export class S3Config extends S.Class<S3Config>("S3Config")({
-  BucketName: S.String,
-  BucketPrefix: S.String,
-  EncryptionConfig: S.optional(EncryptionConfig),
-}) {}
-export class KinesisVideoStreamConfig extends S.Class<KinesisVideoStreamConfig>(
-  "KinesisVideoStreamConfig",
-)({
-  Prefix: S.String,
-  RetentionPeriodHours: S.Number,
-  EncryptionConfig: EncryptionConfig,
-}) {}
-export class KinesisStreamConfig extends S.Class<KinesisStreamConfig>(
-  "KinesisStreamConfig",
-)({ StreamArn: S.String }) {}
-export class KinesisFirehoseConfig extends S.Class<KinesisFirehoseConfig>(
-  "KinesisFirehoseConfig",
-)({ FirehoseArn: S.String }) {}
-export class InstanceStorageConfig extends S.Class<InstanceStorageConfig>(
-  "InstanceStorageConfig",
-)({
-  AssociationId: S.optional(S.String),
-  StorageType: S.String,
-  S3Config: S.optional(S3Config),
-  KinesisVideoStreamConfig: S.optional(KinesisVideoStreamConfig),
-  KinesisStreamConfig: S.optional(KinesisStreamConfig),
-  KinesisFirehoseConfig: S.optional(KinesisFirehoseConfig),
-}) {}
-export class UpdateInstanceStorageConfigRequest extends S.Class<UpdateInstanceStorageConfigRequest>(
-  "UpdateInstanceStorageConfigRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateInstanceAttributeRequest",
+}) as any as S.Schema<UpdateInstanceAttributeRequest>;
+export interface UpdateInstanceAttributeResponse {}
+export const UpdateInstanceAttributeResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateInstanceAttributeResponse",
+}) as any as S.Schema<UpdateInstanceAttributeResponse>;
+export interface EncryptionConfig {
+  EncryptionType: string;
+  KeyId: string;
+}
+export const EncryptionConfig = S.suspend(() =>
+  S.Struct({ EncryptionType: S.String, KeyId: S.String }),
+).annotations({
+  identifier: "EncryptionConfig",
+}) as any as S.Schema<EncryptionConfig>;
+export interface S3Config {
+  BucketName: string;
+  BucketPrefix: string;
+  EncryptionConfig?: EncryptionConfig;
+}
+export const S3Config = S.suspend(() =>
+  S.Struct({
+    BucketName: S.String,
+    BucketPrefix: S.String,
+    EncryptionConfig: S.optional(EncryptionConfig),
+  }),
+).annotations({ identifier: "S3Config" }) as any as S.Schema<S3Config>;
+export interface KinesisVideoStreamConfig {
+  Prefix: string;
+  RetentionPeriodHours: number;
+  EncryptionConfig: EncryptionConfig;
+}
+export const KinesisVideoStreamConfig = S.suspend(() =>
+  S.Struct({
+    Prefix: S.String,
+    RetentionPeriodHours: S.Number,
+    EncryptionConfig: EncryptionConfig,
+  }),
+).annotations({
+  identifier: "KinesisVideoStreamConfig",
+}) as any as S.Schema<KinesisVideoStreamConfig>;
+export interface KinesisStreamConfig {
+  StreamArn: string;
+}
+export const KinesisStreamConfig = S.suspend(() =>
+  S.Struct({ StreamArn: S.String }),
+).annotations({
+  identifier: "KinesisStreamConfig",
+}) as any as S.Schema<KinesisStreamConfig>;
+export interface KinesisFirehoseConfig {
+  FirehoseArn: string;
+}
+export const KinesisFirehoseConfig = S.suspend(() =>
+  S.Struct({ FirehoseArn: S.String }),
+).annotations({
+  identifier: "KinesisFirehoseConfig",
+}) as any as S.Schema<KinesisFirehoseConfig>;
+export interface InstanceStorageConfig {
+  AssociationId?: string;
+  StorageType: string;
+  S3Config?: S3Config;
+  KinesisVideoStreamConfig?: KinesisVideoStreamConfig;
+  KinesisStreamConfig?: KinesisStreamConfig;
+  KinesisFirehoseConfig?: KinesisFirehoseConfig;
+}
+export const InstanceStorageConfig = S.suspend(() =>
+  S.Struct({
+    AssociationId: S.optional(S.String),
+    StorageType: S.String,
+    S3Config: S.optional(S3Config),
+    KinesisVideoStreamConfig: S.optional(KinesisVideoStreamConfig),
+    KinesisStreamConfig: S.optional(KinesisStreamConfig),
+    KinesisFirehoseConfig: S.optional(KinesisFirehoseConfig),
+  }),
+).annotations({
+  identifier: "InstanceStorageConfig",
+}) as any as S.Schema<InstanceStorageConfig>;
+export interface UpdateInstanceStorageConfigRequest {
+  InstanceId: string;
+  AssociationId: string;
+  ResourceType: string;
+  StorageConfig: InstanceStorageConfig;
+  ClientToken?: string;
+}
+export const UpdateInstanceStorageConfigRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     AssociationId: S.String.pipe(T.HttpLabel("AssociationId")),
     ResourceType: S.String.pipe(T.HttpQuery("resourceType")),
     StorageConfig: InstanceStorageConfig,
     ClientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/instance/{InstanceId}/storage-config/{AssociationId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/instance/{InstanceId}/storage-config/{AssociationId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateInstanceStorageConfigResponse extends S.Class<UpdateInstanceStorageConfigResponse>(
-  "UpdateInstanceStorageConfigResponse",
-)({}) {}
-export class UpdateParticipantAuthenticationRequest extends S.Class<UpdateParticipantAuthenticationRequest>(
-  "UpdateParticipantAuthenticationRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateInstanceStorageConfigRequest",
+}) as any as S.Schema<UpdateInstanceStorageConfigRequest>;
+export interface UpdateInstanceStorageConfigResponse {}
+export const UpdateInstanceStorageConfigResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateInstanceStorageConfigResponse",
+}) as any as S.Schema<UpdateInstanceStorageConfigResponse>;
+export interface UpdateParticipantAuthenticationRequest {
+  State: string;
+  InstanceId: string;
+  Code?: string;
+  Error?: string;
+  ErrorDescription?: string;
+}
+export const UpdateParticipantAuthenticationRequest = S.suspend(() =>
+  S.Struct({
     State: S.String,
     InstanceId: S.String,
     Code: S.optional(S.String),
     Error: S.optional(S.String),
     ErrorDescription: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/contact/update-participant-authentication",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/contact/update-participant-authentication",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateParticipantAuthenticationResponse extends S.Class<UpdateParticipantAuthenticationResponse>(
-  "UpdateParticipantAuthenticationResponse",
-)({}) {}
-export class UpdatePhoneNumberRequest extends S.Class<UpdatePhoneNumberRequest>(
-  "UpdatePhoneNumberRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateParticipantAuthenticationRequest",
+}) as any as S.Schema<UpdateParticipantAuthenticationRequest>;
+export interface UpdateParticipantAuthenticationResponse {}
+export const UpdateParticipantAuthenticationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateParticipantAuthenticationResponse",
+}) as any as S.Schema<UpdateParticipantAuthenticationResponse>;
+export interface UpdatePhoneNumberRequest {
+  PhoneNumberId: string;
+  TargetArn?: string;
+  InstanceId?: string;
+  ClientToken?: string;
+}
+export const UpdatePhoneNumberRequest = S.suspend(() =>
+  S.Struct({
     PhoneNumberId: S.String.pipe(T.HttpLabel("PhoneNumberId")),
     TargetArn: S.optional(S.String),
     InstanceId: S.optional(S.String),
     ClientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/phone-number/{PhoneNumberId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/phone-number/{PhoneNumberId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdatePhoneNumberMetadataRequest extends S.Class<UpdatePhoneNumberMetadataRequest>(
-  "UpdatePhoneNumberMetadataRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdatePhoneNumberRequest",
+}) as any as S.Schema<UpdatePhoneNumberRequest>;
+export interface UpdatePhoneNumberMetadataRequest {
+  PhoneNumberId: string;
+  PhoneNumberDescription?: string;
+  ClientToken?: string;
+}
+export const UpdatePhoneNumberMetadataRequest = S.suspend(() =>
+  S.Struct({
     PhoneNumberId: S.String.pipe(T.HttpLabel("PhoneNumberId")),
     PhoneNumberDescription: S.optional(S.String),
     ClientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/phone-number/{PhoneNumberId}/metadata" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/phone-number/{PhoneNumberId}/metadata" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdatePhoneNumberMetadataResponse extends S.Class<UpdatePhoneNumberMetadataResponse>(
-  "UpdatePhoneNumberMetadataResponse",
-)({}) {}
+).annotations({
+  identifier: "UpdatePhoneNumberMetadataRequest",
+}) as any as S.Schema<UpdatePhoneNumberMetadataRequest>;
+export interface UpdatePhoneNumberMetadataResponse {}
+export const UpdatePhoneNumberMetadataResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdatePhoneNumberMetadataResponse",
+}) as any as S.Schema<UpdatePhoneNumberMetadataResponse>;
+export type PredefinedAttributeStringValuesList = string[];
 export const PredefinedAttributeStringValuesList = S.Array(S.String);
 export const PredefinedAttributeValues = S.Union(
   S.Struct({ StringList: PredefinedAttributeStringValuesList }),
 );
-export class InputPredefinedAttributeConfiguration extends S.Class<InputPredefinedAttributeConfiguration>(
-  "InputPredefinedAttributeConfiguration",
-)({ EnableValueValidationOnAssociation: S.optional(S.Boolean) }) {}
-export class UpdatePredefinedAttributeRequest extends S.Class<UpdatePredefinedAttributeRequest>(
-  "UpdatePredefinedAttributeRequest",
-)(
-  {
+export interface InputPredefinedAttributeConfiguration {
+  EnableValueValidationOnAssociation?: boolean;
+}
+export const InputPredefinedAttributeConfiguration = S.suspend(() =>
+  S.Struct({ EnableValueValidationOnAssociation: S.optional(S.Boolean) }),
+).annotations({
+  identifier: "InputPredefinedAttributeConfiguration",
+}) as any as S.Schema<InputPredefinedAttributeConfiguration>;
+export interface UpdatePredefinedAttributeRequest {
+  InstanceId: string;
+  Name: string;
+  Values?: (typeof PredefinedAttributeValues)["Type"];
+  Purposes?: PredefinedAttributePurposeNameList;
+  AttributeConfiguration?: InputPredefinedAttributeConfiguration;
+}
+export const UpdatePredefinedAttributeRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Name: S.String.pipe(T.HttpLabel("Name")),
     Values: S.optional(PredefinedAttributeValues),
     Purposes: S.optional(PredefinedAttributePurposeNameList),
     AttributeConfiguration: S.optional(InputPredefinedAttributeConfiguration),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/predefined-attributes/{InstanceId}/{Name}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/predefined-attributes/{InstanceId}/{Name}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdatePredefinedAttributeResponse extends S.Class<UpdatePredefinedAttributeResponse>(
-  "UpdatePredefinedAttributeResponse",
-)({}) {}
-export class UpdatePromptRequest extends S.Class<UpdatePromptRequest>(
-  "UpdatePromptRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdatePredefinedAttributeRequest",
+}) as any as S.Schema<UpdatePredefinedAttributeRequest>;
+export interface UpdatePredefinedAttributeResponse {}
+export const UpdatePredefinedAttributeResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdatePredefinedAttributeResponse",
+}) as any as S.Schema<UpdatePredefinedAttributeResponse>;
+export interface UpdatePromptRequest {
+  InstanceId: string;
+  PromptId: string;
+  Name?: string;
+  Description?: string;
+  S3Uri?: string;
+}
+export const UpdatePromptRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     PromptId: S.String.pipe(T.HttpLabel("PromptId")),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     S3Uri: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/prompts/{InstanceId}/{PromptId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/prompts/{InstanceId}/{PromptId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateQueueHoursOfOperationRequest extends S.Class<UpdateQueueHoursOfOperationRequest>(
-  "UpdateQueueHoursOfOperationRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdatePromptRequest",
+}) as any as S.Schema<UpdatePromptRequest>;
+export interface UpdateQueueHoursOfOperationRequest {
+  InstanceId: string;
+  QueueId: string;
+  HoursOfOperationId: string;
+}
+export const UpdateQueueHoursOfOperationRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     QueueId: S.String.pipe(T.HttpLabel("QueueId")),
     HoursOfOperationId: S.String,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/queues/{InstanceId}/{QueueId}/hours-of-operation",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/queues/{InstanceId}/{QueueId}/hours-of-operation",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateQueueHoursOfOperationResponse extends S.Class<UpdateQueueHoursOfOperationResponse>(
-  "UpdateQueueHoursOfOperationResponse",
-)({}) {}
-export class UpdateQueueMaxContactsRequest extends S.Class<UpdateQueueMaxContactsRequest>(
-  "UpdateQueueMaxContactsRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateQueueHoursOfOperationRequest",
+}) as any as S.Schema<UpdateQueueHoursOfOperationRequest>;
+export interface UpdateQueueHoursOfOperationResponse {}
+export const UpdateQueueHoursOfOperationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateQueueHoursOfOperationResponse",
+}) as any as S.Schema<UpdateQueueHoursOfOperationResponse>;
+export interface UpdateQueueMaxContactsRequest {
+  InstanceId: string;
+  QueueId: string;
+  MaxContacts?: number;
+}
+export const UpdateQueueMaxContactsRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     QueueId: S.String.pipe(T.HttpLabel("QueueId")),
     MaxContacts: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/queues/{InstanceId}/{QueueId}/max-contacts",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/queues/{InstanceId}/{QueueId}/max-contacts",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateQueueMaxContactsResponse extends S.Class<UpdateQueueMaxContactsResponse>(
-  "UpdateQueueMaxContactsResponse",
-)({}) {}
-export class UpdateQueueNameRequest extends S.Class<UpdateQueueNameRequest>(
-  "UpdateQueueNameRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateQueueMaxContactsRequest",
+}) as any as S.Schema<UpdateQueueMaxContactsRequest>;
+export interface UpdateQueueMaxContactsResponse {}
+export const UpdateQueueMaxContactsResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateQueueMaxContactsResponse",
+}) as any as S.Schema<UpdateQueueMaxContactsResponse>;
+export interface UpdateQueueNameRequest {
+  InstanceId: string;
+  QueueId: string;
+  Name?: string;
+  Description?: string;
+}
+export const UpdateQueueNameRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     QueueId: S.String.pipe(T.HttpLabel("QueueId")),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/queues/{InstanceId}/{QueueId}/name" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/queues/{InstanceId}/{QueueId}/name" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateQueueNameResponse extends S.Class<UpdateQueueNameResponse>(
-  "UpdateQueueNameResponse",
-)({}) {}
-export class OutboundCallerConfig extends S.Class<OutboundCallerConfig>(
-  "OutboundCallerConfig",
-)({
-  OutboundCallerIdName: S.optional(S.String),
-  OutboundCallerIdNumberId: S.optional(S.String),
-  OutboundFlowId: S.optional(S.String),
-}) {}
-export class UpdateQueueOutboundCallerConfigRequest extends S.Class<UpdateQueueOutboundCallerConfigRequest>(
-  "UpdateQueueOutboundCallerConfigRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateQueueNameRequest",
+}) as any as S.Schema<UpdateQueueNameRequest>;
+export interface UpdateQueueNameResponse {}
+export const UpdateQueueNameResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateQueueNameResponse",
+}) as any as S.Schema<UpdateQueueNameResponse>;
+export interface OutboundCallerConfig {
+  OutboundCallerIdName?: string;
+  OutboundCallerIdNumberId?: string;
+  OutboundFlowId?: string;
+}
+export const OutboundCallerConfig = S.suspend(() =>
+  S.Struct({
+    OutboundCallerIdName: S.optional(S.String),
+    OutboundCallerIdNumberId: S.optional(S.String),
+    OutboundFlowId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "OutboundCallerConfig",
+}) as any as S.Schema<OutboundCallerConfig>;
+export interface UpdateQueueOutboundCallerConfigRequest {
+  InstanceId: string;
+  QueueId: string;
+  OutboundCallerConfig: OutboundCallerConfig;
+}
+export const UpdateQueueOutboundCallerConfigRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     QueueId: S.String.pipe(T.HttpLabel("QueueId")),
     OutboundCallerConfig: OutboundCallerConfig,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/queues/{InstanceId}/{QueueId}/outbound-caller-config",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/queues/{InstanceId}/{QueueId}/outbound-caller-config",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateQueueOutboundCallerConfigResponse extends S.Class<UpdateQueueOutboundCallerConfigResponse>(
-  "UpdateQueueOutboundCallerConfigResponse",
-)({}) {}
-export class OutboundEmailConfig extends S.Class<OutboundEmailConfig>(
-  "OutboundEmailConfig",
-)({ OutboundEmailAddressId: S.optional(S.String) }) {}
-export class UpdateQueueOutboundEmailConfigRequest extends S.Class<UpdateQueueOutboundEmailConfigRequest>(
-  "UpdateQueueOutboundEmailConfigRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateQueueOutboundCallerConfigRequest",
+}) as any as S.Schema<UpdateQueueOutboundCallerConfigRequest>;
+export interface UpdateQueueOutboundCallerConfigResponse {}
+export const UpdateQueueOutboundCallerConfigResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateQueueOutboundCallerConfigResponse",
+}) as any as S.Schema<UpdateQueueOutboundCallerConfigResponse>;
+export interface OutboundEmailConfig {
+  OutboundEmailAddressId?: string;
+}
+export const OutboundEmailConfig = S.suspend(() =>
+  S.Struct({ OutboundEmailAddressId: S.optional(S.String) }),
+).annotations({
+  identifier: "OutboundEmailConfig",
+}) as any as S.Schema<OutboundEmailConfig>;
+export interface UpdateQueueOutboundEmailConfigRequest {
+  InstanceId: string;
+  QueueId: string;
+  OutboundEmailConfig: OutboundEmailConfig;
+}
+export const UpdateQueueOutboundEmailConfigRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     QueueId: S.String.pipe(T.HttpLabel("QueueId")),
     OutboundEmailConfig: OutboundEmailConfig,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/queues/{InstanceId}/{QueueId}/outbound-email-config",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/queues/{InstanceId}/{QueueId}/outbound-email-config",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateQueueOutboundEmailConfigResponse extends S.Class<UpdateQueueOutboundEmailConfigResponse>(
-  "UpdateQueueOutboundEmailConfigResponse",
-)({}) {}
-export class UpdateQueueStatusRequest extends S.Class<UpdateQueueStatusRequest>(
-  "UpdateQueueStatusRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateQueueOutboundEmailConfigRequest",
+}) as any as S.Schema<UpdateQueueOutboundEmailConfigRequest>;
+export interface UpdateQueueOutboundEmailConfigResponse {}
+export const UpdateQueueOutboundEmailConfigResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateQueueOutboundEmailConfigResponse",
+}) as any as S.Schema<UpdateQueueOutboundEmailConfigResponse>;
+export interface UpdateQueueStatusRequest {
+  InstanceId: string;
+  QueueId: string;
+  Status: string;
+}
+export const UpdateQueueStatusRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     QueueId: S.String.pipe(T.HttpLabel("QueueId")),
     Status: S.String,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/queues/{InstanceId}/{QueueId}/status" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/queues/{InstanceId}/{QueueId}/status" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateQueueStatusResponse extends S.Class<UpdateQueueStatusResponse>(
-  "UpdateQueueStatusResponse",
-)({}) {}
-export class UserQuickConnectConfig extends S.Class<UserQuickConnectConfig>(
-  "UserQuickConnectConfig",
-)({ UserId: S.String, ContactFlowId: S.String }) {}
-export class QueueQuickConnectConfig extends S.Class<QueueQuickConnectConfig>(
-  "QueueQuickConnectConfig",
-)({ QueueId: S.String, ContactFlowId: S.String }) {}
-export class PhoneNumberQuickConnectConfig extends S.Class<PhoneNumberQuickConnectConfig>(
-  "PhoneNumberQuickConnectConfig",
-)({ PhoneNumber: S.String }) {}
-export class FlowQuickConnectConfig extends S.Class<FlowQuickConnectConfig>(
-  "FlowQuickConnectConfig",
-)({ ContactFlowId: S.String }) {}
-export class QuickConnectConfig extends S.Class<QuickConnectConfig>(
-  "QuickConnectConfig",
-)({
-  QuickConnectType: S.String,
-  UserConfig: S.optional(UserQuickConnectConfig),
-  QueueConfig: S.optional(QueueQuickConnectConfig),
-  PhoneConfig: S.optional(PhoneNumberQuickConnectConfig),
-  FlowConfig: S.optional(FlowQuickConnectConfig),
-}) {}
-export class UpdateQuickConnectConfigRequest extends S.Class<UpdateQuickConnectConfigRequest>(
-  "UpdateQuickConnectConfigRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateQueueStatusRequest",
+}) as any as S.Schema<UpdateQueueStatusRequest>;
+export interface UpdateQueueStatusResponse {}
+export const UpdateQueueStatusResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateQueueStatusResponse",
+}) as any as S.Schema<UpdateQueueStatusResponse>;
+export interface UserQuickConnectConfig {
+  UserId: string;
+  ContactFlowId: string;
+}
+export const UserQuickConnectConfig = S.suspend(() =>
+  S.Struct({ UserId: S.String, ContactFlowId: S.String }),
+).annotations({
+  identifier: "UserQuickConnectConfig",
+}) as any as S.Schema<UserQuickConnectConfig>;
+export interface QueueQuickConnectConfig {
+  QueueId: string;
+  ContactFlowId: string;
+}
+export const QueueQuickConnectConfig = S.suspend(() =>
+  S.Struct({ QueueId: S.String, ContactFlowId: S.String }),
+).annotations({
+  identifier: "QueueQuickConnectConfig",
+}) as any as S.Schema<QueueQuickConnectConfig>;
+export interface PhoneNumberQuickConnectConfig {
+  PhoneNumber: string;
+}
+export const PhoneNumberQuickConnectConfig = S.suspend(() =>
+  S.Struct({ PhoneNumber: S.String }),
+).annotations({
+  identifier: "PhoneNumberQuickConnectConfig",
+}) as any as S.Schema<PhoneNumberQuickConnectConfig>;
+export interface FlowQuickConnectConfig {
+  ContactFlowId: string;
+}
+export const FlowQuickConnectConfig = S.suspend(() =>
+  S.Struct({ ContactFlowId: S.String }),
+).annotations({
+  identifier: "FlowQuickConnectConfig",
+}) as any as S.Schema<FlowQuickConnectConfig>;
+export interface QuickConnectConfig {
+  QuickConnectType: string;
+  UserConfig?: UserQuickConnectConfig;
+  QueueConfig?: QueueQuickConnectConfig;
+  PhoneConfig?: PhoneNumberQuickConnectConfig;
+  FlowConfig?: FlowQuickConnectConfig;
+}
+export const QuickConnectConfig = S.suspend(() =>
+  S.Struct({
+    QuickConnectType: S.String,
+    UserConfig: S.optional(UserQuickConnectConfig),
+    QueueConfig: S.optional(QueueQuickConnectConfig),
+    PhoneConfig: S.optional(PhoneNumberQuickConnectConfig),
+    FlowConfig: S.optional(FlowQuickConnectConfig),
+  }),
+).annotations({
+  identifier: "QuickConnectConfig",
+}) as any as S.Schema<QuickConnectConfig>;
+export interface UpdateQuickConnectConfigRequest {
+  InstanceId: string;
+  QuickConnectId: string;
+  QuickConnectConfig: QuickConnectConfig;
+}
+export const UpdateQuickConnectConfigRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     QuickConnectId: S.String.pipe(T.HttpLabel("QuickConnectId")),
     QuickConnectConfig: QuickConnectConfig,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/quick-connects/{InstanceId}/{QuickConnectId}/config",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/quick-connects/{InstanceId}/{QuickConnectId}/config",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateQuickConnectConfigResponse extends S.Class<UpdateQuickConnectConfigResponse>(
-  "UpdateQuickConnectConfigResponse",
-)({}) {}
-export class UpdateQuickConnectNameRequest extends S.Class<UpdateQuickConnectNameRequest>(
-  "UpdateQuickConnectNameRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateQuickConnectConfigRequest",
+}) as any as S.Schema<UpdateQuickConnectConfigRequest>;
+export interface UpdateQuickConnectConfigResponse {}
+export const UpdateQuickConnectConfigResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateQuickConnectConfigResponse",
+}) as any as S.Schema<UpdateQuickConnectConfigResponse>;
+export interface UpdateQuickConnectNameRequest {
+  InstanceId: string;
+  QuickConnectId: string;
+  Name?: string;
+  Description?: string;
+}
+export const UpdateQuickConnectNameRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     QuickConnectId: S.String.pipe(T.HttpLabel("QuickConnectId")),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/quick-connects/{InstanceId}/{QuickConnectId}/name",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/quick-connects/{InstanceId}/{QuickConnectId}/name",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateQuickConnectNameResponse extends S.Class<UpdateQuickConnectNameResponse>(
-  "UpdateQuickConnectNameResponse",
-)({}) {}
-export class UpdateRoutingProfileAgentAvailabilityTimerRequest extends S.Class<UpdateRoutingProfileAgentAvailabilityTimerRequest>(
-  "UpdateRoutingProfileAgentAvailabilityTimerRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateQuickConnectNameRequest",
+}) as any as S.Schema<UpdateQuickConnectNameRequest>;
+export interface UpdateQuickConnectNameResponse {}
+export const UpdateQuickConnectNameResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateQuickConnectNameResponse",
+}) as any as S.Schema<UpdateQuickConnectNameResponse>;
+export interface UpdateRoutingProfileAgentAvailabilityTimerRequest {
+  InstanceId: string;
+  RoutingProfileId: string;
+  AgentAvailabilityTimer: string;
+}
+export const UpdateRoutingProfileAgentAvailabilityTimerRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     RoutingProfileId: S.String.pipe(T.HttpLabel("RoutingProfileId")),
     AgentAvailabilityTimer: S.String,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/routing-profiles/{InstanceId}/{RoutingProfileId}/agent-availability-timer",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/routing-profiles/{InstanceId}/{RoutingProfileId}/agent-availability-timer",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateRoutingProfileAgentAvailabilityTimerResponse extends S.Class<UpdateRoutingProfileAgentAvailabilityTimerResponse>(
-  "UpdateRoutingProfileAgentAvailabilityTimerResponse",
-)({}) {}
-export class CrossChannelBehavior extends S.Class<CrossChannelBehavior>(
-  "CrossChannelBehavior",
-)({ BehaviorType: S.String }) {}
-export class MediaConcurrency extends S.Class<MediaConcurrency>(
-  "MediaConcurrency",
-)({
-  Channel: S.String,
-  Concurrency: S.Number,
-  CrossChannelBehavior: S.optional(CrossChannelBehavior),
-}) {}
+).annotations({
+  identifier: "UpdateRoutingProfileAgentAvailabilityTimerRequest",
+}) as any as S.Schema<UpdateRoutingProfileAgentAvailabilityTimerRequest>;
+export interface UpdateRoutingProfileAgentAvailabilityTimerResponse {}
+export const UpdateRoutingProfileAgentAvailabilityTimerResponse = S.suspend(
+  () => S.Struct({}),
+).annotations({
+  identifier: "UpdateRoutingProfileAgentAvailabilityTimerResponse",
+}) as any as S.Schema<UpdateRoutingProfileAgentAvailabilityTimerResponse>;
+export interface CrossChannelBehavior {
+  BehaviorType: string;
+}
+export const CrossChannelBehavior = S.suspend(() =>
+  S.Struct({ BehaviorType: S.String }),
+).annotations({
+  identifier: "CrossChannelBehavior",
+}) as any as S.Schema<CrossChannelBehavior>;
+export interface MediaConcurrency {
+  Channel: string;
+  Concurrency: number;
+  CrossChannelBehavior?: CrossChannelBehavior;
+}
+export const MediaConcurrency = S.suspend(() =>
+  S.Struct({
+    Channel: S.String,
+    Concurrency: S.Number,
+    CrossChannelBehavior: S.optional(CrossChannelBehavior),
+  }),
+).annotations({
+  identifier: "MediaConcurrency",
+}) as any as S.Schema<MediaConcurrency>;
+export type MediaConcurrencies = MediaConcurrency[];
 export const MediaConcurrencies = S.Array(MediaConcurrency);
-export class UpdateRoutingProfileConcurrencyRequest extends S.Class<UpdateRoutingProfileConcurrencyRequest>(
-  "UpdateRoutingProfileConcurrencyRequest",
-)(
-  {
+export interface UpdateRoutingProfileConcurrencyRequest {
+  InstanceId: string;
+  RoutingProfileId: string;
+  MediaConcurrencies: MediaConcurrencies;
+}
+export const UpdateRoutingProfileConcurrencyRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     RoutingProfileId: S.String.pipe(T.HttpLabel("RoutingProfileId")),
     MediaConcurrencies: MediaConcurrencies,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/routing-profiles/{InstanceId}/{RoutingProfileId}/concurrency",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/routing-profiles/{InstanceId}/{RoutingProfileId}/concurrency",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateRoutingProfileConcurrencyResponse extends S.Class<UpdateRoutingProfileConcurrencyResponse>(
-  "UpdateRoutingProfileConcurrencyResponse",
-)({}) {}
-export class UpdateRoutingProfileDefaultOutboundQueueRequest extends S.Class<UpdateRoutingProfileDefaultOutboundQueueRequest>(
-  "UpdateRoutingProfileDefaultOutboundQueueRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateRoutingProfileConcurrencyRequest",
+}) as any as S.Schema<UpdateRoutingProfileConcurrencyRequest>;
+export interface UpdateRoutingProfileConcurrencyResponse {}
+export const UpdateRoutingProfileConcurrencyResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateRoutingProfileConcurrencyResponse",
+}) as any as S.Schema<UpdateRoutingProfileConcurrencyResponse>;
+export interface UpdateRoutingProfileDefaultOutboundQueueRequest {
+  InstanceId: string;
+  RoutingProfileId: string;
+  DefaultOutboundQueueId: string;
+}
+export const UpdateRoutingProfileDefaultOutboundQueueRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     RoutingProfileId: S.String.pipe(T.HttpLabel("RoutingProfileId")),
     DefaultOutboundQueueId: S.String,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/routing-profiles/{InstanceId}/{RoutingProfileId}/default-outbound-queue",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/routing-profiles/{InstanceId}/{RoutingProfileId}/default-outbound-queue",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateRoutingProfileDefaultOutboundQueueResponse extends S.Class<UpdateRoutingProfileDefaultOutboundQueueResponse>(
-  "UpdateRoutingProfileDefaultOutboundQueueResponse",
-)({}) {}
-export class UpdateRoutingProfileNameRequest extends S.Class<UpdateRoutingProfileNameRequest>(
-  "UpdateRoutingProfileNameRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateRoutingProfileDefaultOutboundQueueRequest",
+}) as any as S.Schema<UpdateRoutingProfileDefaultOutboundQueueRequest>;
+export interface UpdateRoutingProfileDefaultOutboundQueueResponse {}
+export const UpdateRoutingProfileDefaultOutboundQueueResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateRoutingProfileDefaultOutboundQueueResponse",
+}) as any as S.Schema<UpdateRoutingProfileDefaultOutboundQueueResponse>;
+export interface UpdateRoutingProfileNameRequest {
+  InstanceId: string;
+  RoutingProfileId: string;
+  Name?: string;
+  Description?: string;
+}
+export const UpdateRoutingProfileNameRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     RoutingProfileId: S.String.pipe(T.HttpLabel("RoutingProfileId")),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/routing-profiles/{InstanceId}/{RoutingProfileId}/name",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/routing-profiles/{InstanceId}/{RoutingProfileId}/name",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateRoutingProfileNameResponse extends S.Class<UpdateRoutingProfileNameResponse>(
-  "UpdateRoutingProfileNameResponse",
-)({}) {}
-export class RoutingProfileQueueReference extends S.Class<RoutingProfileQueueReference>(
-  "RoutingProfileQueueReference",
-)({ QueueId: S.String, Channel: S.String }) {}
-export class RoutingProfileQueueConfig extends S.Class<RoutingProfileQueueConfig>(
-  "RoutingProfileQueueConfig",
-)({
-  QueueReference: RoutingProfileQueueReference,
-  Priority: S.Number,
-  Delay: S.Number,
-}) {}
+).annotations({
+  identifier: "UpdateRoutingProfileNameRequest",
+}) as any as S.Schema<UpdateRoutingProfileNameRequest>;
+export interface UpdateRoutingProfileNameResponse {}
+export const UpdateRoutingProfileNameResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateRoutingProfileNameResponse",
+}) as any as S.Schema<UpdateRoutingProfileNameResponse>;
+export interface RoutingProfileQueueReference {
+  QueueId: string;
+  Channel: string;
+}
+export const RoutingProfileQueueReference = S.suspend(() =>
+  S.Struct({ QueueId: S.String, Channel: S.String }),
+).annotations({
+  identifier: "RoutingProfileQueueReference",
+}) as any as S.Schema<RoutingProfileQueueReference>;
+export interface RoutingProfileQueueConfig {
+  QueueReference: RoutingProfileQueueReference;
+  Priority: number;
+  Delay: number;
+}
+export const RoutingProfileQueueConfig = S.suspend(() =>
+  S.Struct({
+    QueueReference: RoutingProfileQueueReference,
+    Priority: S.Number,
+    Delay: S.Number,
+  }),
+).annotations({
+  identifier: "RoutingProfileQueueConfig",
+}) as any as S.Schema<RoutingProfileQueueConfig>;
+export type RoutingProfileQueueConfigList = RoutingProfileQueueConfig[];
 export const RoutingProfileQueueConfigList = S.Array(RoutingProfileQueueConfig);
-export class UpdateRoutingProfileQueuesRequest extends S.Class<UpdateRoutingProfileQueuesRequest>(
-  "UpdateRoutingProfileQueuesRequest",
-)(
-  {
+export interface UpdateRoutingProfileQueuesRequest {
+  InstanceId: string;
+  RoutingProfileId: string;
+  QueueConfigs: RoutingProfileQueueConfigList;
+}
+export const UpdateRoutingProfileQueuesRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     RoutingProfileId: S.String.pipe(T.HttpLabel("RoutingProfileId")),
     QueueConfigs: RoutingProfileQueueConfigList,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/routing-profiles/{InstanceId}/{RoutingProfileId}/queues",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/routing-profiles/{InstanceId}/{RoutingProfileId}/queues",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateRoutingProfileQueuesResponse extends S.Class<UpdateRoutingProfileQueuesResponse>(
-  "UpdateRoutingProfileQueuesResponse",
-)({}) {}
-export class TaskActionDefinition extends S.Class<TaskActionDefinition>(
-  "TaskActionDefinition",
-)({
-  Name: S.String,
-  Description: S.optional(S.String),
-  ContactFlowId: S.String,
-  References: S.optional(ContactReferences),
-}) {}
-export class EventBridgeActionDefinition extends S.Class<EventBridgeActionDefinition>(
-  "EventBridgeActionDefinition",
-)({ Name: S.String }) {}
-export class AssignContactCategoryActionDefinition extends S.Class<AssignContactCategoryActionDefinition>(
-  "AssignContactCategoryActionDefinition",
-)({}) {}
+).annotations({
+  identifier: "UpdateRoutingProfileQueuesRequest",
+}) as any as S.Schema<UpdateRoutingProfileQueuesRequest>;
+export interface UpdateRoutingProfileQueuesResponse {}
+export const UpdateRoutingProfileQueuesResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateRoutingProfileQueuesResponse",
+}) as any as S.Schema<UpdateRoutingProfileQueuesResponse>;
+export interface TaskActionDefinition {
+  Name: string;
+  Description?: string;
+  ContactFlowId: string;
+  References?: ContactReferences;
+}
+export const TaskActionDefinition = S.suspend(() =>
+  S.Struct({
+    Name: S.String,
+    Description: S.optional(S.String),
+    ContactFlowId: S.String,
+    References: S.optional(ContactReferences),
+  }),
+).annotations({
+  identifier: "TaskActionDefinition",
+}) as any as S.Schema<TaskActionDefinition>;
+export interface EventBridgeActionDefinition {
+  Name: string;
+}
+export const EventBridgeActionDefinition = S.suspend(() =>
+  S.Struct({ Name: S.String }),
+).annotations({
+  identifier: "EventBridgeActionDefinition",
+}) as any as S.Schema<EventBridgeActionDefinition>;
+export interface AssignContactCategoryActionDefinition {}
+export const AssignContactCategoryActionDefinition = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "AssignContactCategoryActionDefinition",
+}) as any as S.Schema<AssignContactCategoryActionDefinition>;
+export type UserTagMap = { [key: string]: string };
 export const UserTagMap = S.Record({ key: S.String, value: S.String });
+export type UserIdList = string[];
 export const UserIdList = S.Array(S.String);
-export class NotificationRecipientType extends S.Class<NotificationRecipientType>(
-  "NotificationRecipientType",
-)({ UserTags: S.optional(UserTagMap), UserIds: S.optional(UserIdList) }) {}
-export class SendNotificationActionDefinition extends S.Class<SendNotificationActionDefinition>(
-  "SendNotificationActionDefinition",
-)({
-  DeliveryMethod: S.String,
-  Subject: S.optional(S.String),
-  Content: S.String,
-  ContentType: S.String,
-  Recipient: NotificationRecipientType,
-  Exclusion: S.optional(NotificationRecipientType),
-}) {}
-export class EmptyFieldValue extends S.Class<EmptyFieldValue>(
-  "EmptyFieldValue",
-)({}) {}
-export class FieldValueUnion extends S.Class<FieldValueUnion>(
-  "FieldValueUnion",
-)({
-  BooleanValue: S.optional(S.Boolean),
-  DoubleValue: S.optional(S.Number),
-  EmptyValue: S.optional(EmptyFieldValue),
-  StringValue: S.optional(S.String),
-}) {}
-export class FieldValue extends S.Class<FieldValue>("FieldValue")({
-  Id: S.String,
-  Value: FieldValueUnion,
-}) {}
+export interface NotificationRecipientType {
+  UserTags?: UserTagMap;
+  UserIds?: UserIdList;
+}
+export const NotificationRecipientType = S.suspend(() =>
+  S.Struct({
+    UserTags: S.optional(UserTagMap),
+    UserIds: S.optional(UserIdList),
+  }),
+).annotations({
+  identifier: "NotificationRecipientType",
+}) as any as S.Schema<NotificationRecipientType>;
+export interface SendNotificationActionDefinition {
+  DeliveryMethod: string;
+  Subject?: string;
+  Content: string;
+  ContentType: string;
+  Recipient: NotificationRecipientType;
+  Exclusion?: NotificationRecipientType;
+}
+export const SendNotificationActionDefinition = S.suspend(() =>
+  S.Struct({
+    DeliveryMethod: S.String,
+    Subject: S.optional(S.String),
+    Content: S.String,
+    ContentType: S.String,
+    Recipient: NotificationRecipientType,
+    Exclusion: S.optional(NotificationRecipientType),
+  }),
+).annotations({
+  identifier: "SendNotificationActionDefinition",
+}) as any as S.Schema<SendNotificationActionDefinition>;
+export interface EmptyFieldValue {}
+export const EmptyFieldValue = S.suspend(() => S.Struct({})).annotations({
+  identifier: "EmptyFieldValue",
+}) as any as S.Schema<EmptyFieldValue>;
+export interface FieldValueUnion {
+  BooleanValue?: boolean;
+  DoubleValue?: number;
+  EmptyValue?: EmptyFieldValue;
+  StringValue?: string;
+}
+export const FieldValueUnion = S.suspend(() =>
+  S.Struct({
+    BooleanValue: S.optional(S.Boolean),
+    DoubleValue: S.optional(S.Number),
+    EmptyValue: S.optional(EmptyFieldValue),
+    StringValue: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "FieldValueUnion",
+}) as any as S.Schema<FieldValueUnion>;
+export interface FieldValue {
+  Id: string;
+  Value: FieldValueUnion;
+}
+export const FieldValue = S.suspend(() =>
+  S.Struct({ Id: S.String, Value: FieldValueUnion }),
+).annotations({ identifier: "FieldValue" }) as any as S.Schema<FieldValue>;
+export type FieldValues = FieldValue[];
 export const FieldValues = S.Array(FieldValue);
-export class CreateCaseActionDefinition extends S.Class<CreateCaseActionDefinition>(
-  "CreateCaseActionDefinition",
-)({ Fields: FieldValues, TemplateId: S.String }) {}
-export class UpdateCaseActionDefinition extends S.Class<UpdateCaseActionDefinition>(
-  "UpdateCaseActionDefinition",
-)({ Fields: FieldValues }) {}
+export interface CreateCaseActionDefinition {
+  Fields: FieldValues;
+  TemplateId: string;
+}
+export const CreateCaseActionDefinition = S.suspend(() =>
+  S.Struct({ Fields: FieldValues, TemplateId: S.String }),
+).annotations({
+  identifier: "CreateCaseActionDefinition",
+}) as any as S.Schema<CreateCaseActionDefinition>;
+export interface UpdateCaseActionDefinition {
+  Fields: FieldValues;
+}
+export const UpdateCaseActionDefinition = S.suspend(() =>
+  S.Struct({ Fields: FieldValues }),
+).annotations({
+  identifier: "UpdateCaseActionDefinition",
+}) as any as S.Schema<UpdateCaseActionDefinition>;
+export type SlaFieldValueUnionList = FieldValueUnion[];
 export const SlaFieldValueUnionList = S.Array(FieldValueUnion);
-export class CaseSlaConfiguration extends S.Class<CaseSlaConfiguration>(
-  "CaseSlaConfiguration",
-)({
-  Name: S.String,
-  Type: S.String,
-  FieldId: S.optional(S.String),
-  TargetFieldValues: S.optional(SlaFieldValueUnionList),
-  TargetSlaMinutes: S.Number,
-}) {}
-export class AssignSlaActionDefinition extends S.Class<AssignSlaActionDefinition>(
-  "AssignSlaActionDefinition",
-)({
-  SlaAssignmentType: S.String,
-  CaseSlaConfiguration: S.optional(CaseSlaConfiguration),
-}) {}
-export class EndAssociatedTasksActionDefinition extends S.Class<EndAssociatedTasksActionDefinition>(
-  "EndAssociatedTasksActionDefinition",
-)({}) {}
-export class SubmitAutoEvaluationActionDefinition extends S.Class<SubmitAutoEvaluationActionDefinition>(
-  "SubmitAutoEvaluationActionDefinition",
-)({ EvaluationFormId: S.String }) {}
-export class RuleAction extends S.Class<RuleAction>("RuleAction")({
-  ActionType: S.String,
-  TaskAction: S.optional(TaskActionDefinition),
-  EventBridgeAction: S.optional(EventBridgeActionDefinition),
-  AssignContactCategoryAction: S.optional(
-    AssignContactCategoryActionDefinition,
-  ),
-  SendNotificationAction: S.optional(SendNotificationActionDefinition),
-  CreateCaseAction: S.optional(CreateCaseActionDefinition),
-  UpdateCaseAction: S.optional(UpdateCaseActionDefinition),
-  AssignSlaAction: S.optional(AssignSlaActionDefinition),
-  EndAssociatedTasksAction: S.optional(EndAssociatedTasksActionDefinition),
-  SubmitAutoEvaluationAction: S.optional(SubmitAutoEvaluationActionDefinition),
-}) {}
+export interface CaseSlaConfiguration {
+  Name: string;
+  Type: string;
+  FieldId?: string;
+  TargetFieldValues?: SlaFieldValueUnionList;
+  TargetSlaMinutes: number;
+}
+export const CaseSlaConfiguration = S.suspend(() =>
+  S.Struct({
+    Name: S.String,
+    Type: S.String,
+    FieldId: S.optional(S.String),
+    TargetFieldValues: S.optional(SlaFieldValueUnionList),
+    TargetSlaMinutes: S.Number,
+  }),
+).annotations({
+  identifier: "CaseSlaConfiguration",
+}) as any as S.Schema<CaseSlaConfiguration>;
+export interface AssignSlaActionDefinition {
+  SlaAssignmentType: string;
+  CaseSlaConfiguration?: CaseSlaConfiguration;
+}
+export const AssignSlaActionDefinition = S.suspend(() =>
+  S.Struct({
+    SlaAssignmentType: S.String,
+    CaseSlaConfiguration: S.optional(CaseSlaConfiguration),
+  }),
+).annotations({
+  identifier: "AssignSlaActionDefinition",
+}) as any as S.Schema<AssignSlaActionDefinition>;
+export interface EndAssociatedTasksActionDefinition {}
+export const EndAssociatedTasksActionDefinition = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "EndAssociatedTasksActionDefinition",
+}) as any as S.Schema<EndAssociatedTasksActionDefinition>;
+export interface SubmitAutoEvaluationActionDefinition {
+  EvaluationFormId: string;
+}
+export const SubmitAutoEvaluationActionDefinition = S.suspend(() =>
+  S.Struct({ EvaluationFormId: S.String }),
+).annotations({
+  identifier: "SubmitAutoEvaluationActionDefinition",
+}) as any as S.Schema<SubmitAutoEvaluationActionDefinition>;
+export interface RuleAction {
+  ActionType: string;
+  TaskAction?: TaskActionDefinition;
+  EventBridgeAction?: EventBridgeActionDefinition;
+  AssignContactCategoryAction?: AssignContactCategoryActionDefinition;
+  SendNotificationAction?: SendNotificationActionDefinition;
+  CreateCaseAction?: CreateCaseActionDefinition;
+  UpdateCaseAction?: UpdateCaseActionDefinition;
+  AssignSlaAction?: AssignSlaActionDefinition;
+  EndAssociatedTasksAction?: EndAssociatedTasksActionDefinition;
+  SubmitAutoEvaluationAction?: SubmitAutoEvaluationActionDefinition;
+}
+export const RuleAction = S.suspend(() =>
+  S.Struct({
+    ActionType: S.String,
+    TaskAction: S.optional(TaskActionDefinition),
+    EventBridgeAction: S.optional(EventBridgeActionDefinition),
+    AssignContactCategoryAction: S.optional(
+      AssignContactCategoryActionDefinition,
+    ),
+    SendNotificationAction: S.optional(SendNotificationActionDefinition),
+    CreateCaseAction: S.optional(CreateCaseActionDefinition),
+    UpdateCaseAction: S.optional(UpdateCaseActionDefinition),
+    AssignSlaAction: S.optional(AssignSlaActionDefinition),
+    EndAssociatedTasksAction: S.optional(EndAssociatedTasksActionDefinition),
+    SubmitAutoEvaluationAction: S.optional(
+      SubmitAutoEvaluationActionDefinition,
+    ),
+  }),
+).annotations({ identifier: "RuleAction" }) as any as S.Schema<RuleAction>;
+export type RuleActions = RuleAction[];
 export const RuleActions = S.Array(RuleAction);
-export class UpdateRuleRequest extends S.Class<UpdateRuleRequest>(
-  "UpdateRuleRequest",
-)(
-  {
+export interface UpdateRuleRequest {
+  RuleId: string;
+  InstanceId: string;
+  Name: string;
+  Function: string;
+  Actions: RuleActions;
+  PublishStatus: string;
+}
+export const UpdateRuleRequest = S.suspend(() =>
+  S.Struct({
     RuleId: S.String.pipe(T.HttpLabel("RuleId")),
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Name: S.String,
     Function: S.String,
     Actions: RuleActions,
     PublishStatus: S.String,
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/rules/{InstanceId}/{RuleId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/rules/{InstanceId}/{RuleId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateRuleResponse extends S.Class<UpdateRuleResponse>(
-  "UpdateRuleResponse",
-)({}) {}
+).annotations({
+  identifier: "UpdateRuleRequest",
+}) as any as S.Schema<UpdateRuleRequest>;
+export interface UpdateRuleResponse {}
+export const UpdateRuleResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UpdateRuleResponse",
+}) as any as S.Schema<UpdateRuleResponse>;
+export type AllowedAccessControlTags = { [key: string]: string };
 export const AllowedAccessControlTags = S.Record({
   key: S.String,
   value: S.String,
 });
+export type ApplicationPermissions = string[];
 export const ApplicationPermissions = S.Array(S.String);
-export class Application extends S.Class<Application>("Application")({
-  Namespace: S.optional(S.String),
-  ApplicationPermissions: S.optional(ApplicationPermissions),
-  Type: S.optional(S.String),
-}) {}
+export interface Application {
+  Namespace?: string;
+  ApplicationPermissions?: ApplicationPermissions;
+  Type?: string;
+}
+export const Application = S.suspend(() =>
+  S.Struct({
+    Namespace: S.optional(S.String),
+    ApplicationPermissions: S.optional(ApplicationPermissions),
+    Type: S.optional(S.String),
+  }),
+).annotations({ identifier: "Application" }) as any as S.Schema<Application>;
+export type Applications = Application[];
 export const Applications = S.Array(Application);
-export class FlowModule extends S.Class<FlowModule>("FlowModule")({
-  Type: S.optional(S.String),
-  FlowModuleId: S.optional(S.String),
-}) {}
+export interface FlowModule {
+  Type?: string;
+  FlowModuleId?: string;
+}
+export const FlowModule = S.suspend(() =>
+  S.Struct({ Type: S.optional(S.String), FlowModuleId: S.optional(S.String) }),
+).annotations({ identifier: "FlowModule" }) as any as S.Schema<FlowModule>;
+export type AllowedFlowModules = FlowModule[];
 export const AllowedFlowModules = S.Array(FlowModule);
+export type PrimaryValueList = string[];
 export const PrimaryValueList = S.Array(S.String);
-export class PrimaryAttributeValue extends S.Class<PrimaryAttributeValue>(
-  "PrimaryAttributeValue",
-)({
-  AccessType: S.optional(S.String),
-  AttributeName: S.optional(S.String),
-  Values: S.optional(PrimaryValueList),
-}) {}
+export interface PrimaryAttributeValue {
+  AccessType?: string;
+  AttributeName?: string;
+  Values?: PrimaryValueList;
+}
+export const PrimaryAttributeValue = S.suspend(() =>
+  S.Struct({
+    AccessType: S.optional(S.String),
+    AttributeName: S.optional(S.String),
+    Values: S.optional(PrimaryValueList),
+  }),
+).annotations({
+  identifier: "PrimaryAttributeValue",
+}) as any as S.Schema<PrimaryAttributeValue>;
+export type PrimaryAttributeValuesSet = PrimaryAttributeValue[];
 export const PrimaryAttributeValuesSet = S.Array(PrimaryAttributeValue);
-export class PrimaryAttributeAccessControlConfigurationItem extends S.Class<PrimaryAttributeAccessControlConfigurationItem>(
-  "PrimaryAttributeAccessControlConfigurationItem",
-)({ PrimaryAttributeValues: S.optional(PrimaryAttributeValuesSet) }) {}
-export class DataTableAccessControlConfiguration extends S.Class<DataTableAccessControlConfiguration>(
-  "DataTableAccessControlConfiguration",
-)({
-  PrimaryAttributeAccessControlConfiguration: S.optional(
-    PrimaryAttributeAccessControlConfigurationItem,
-  ),
-}) {}
-export class GranularAccessControlConfiguration extends S.Class<GranularAccessControlConfiguration>(
-  "GranularAccessControlConfiguration",
-)({
-  DataTableAccessControlConfiguration: S.optional(
-    DataTableAccessControlConfiguration,
-  ),
-}) {}
-export class UpdateSecurityProfileRequest extends S.Class<UpdateSecurityProfileRequest>(
-  "UpdateSecurityProfileRequest",
-)(
-  {
+export interface PrimaryAttributeAccessControlConfigurationItem {
+  PrimaryAttributeValues?: PrimaryAttributeValuesSet;
+}
+export const PrimaryAttributeAccessControlConfigurationItem = S.suspend(() =>
+  S.Struct({ PrimaryAttributeValues: S.optional(PrimaryAttributeValuesSet) }),
+).annotations({
+  identifier: "PrimaryAttributeAccessControlConfigurationItem",
+}) as any as S.Schema<PrimaryAttributeAccessControlConfigurationItem>;
+export interface DataTableAccessControlConfiguration {
+  PrimaryAttributeAccessControlConfiguration?: PrimaryAttributeAccessControlConfigurationItem;
+}
+export const DataTableAccessControlConfiguration = S.suspend(() =>
+  S.Struct({
+    PrimaryAttributeAccessControlConfiguration: S.optional(
+      PrimaryAttributeAccessControlConfigurationItem,
+    ),
+  }),
+).annotations({
+  identifier: "DataTableAccessControlConfiguration",
+}) as any as S.Schema<DataTableAccessControlConfiguration>;
+export interface GranularAccessControlConfiguration {
+  DataTableAccessControlConfiguration?: DataTableAccessControlConfiguration;
+}
+export const GranularAccessControlConfiguration = S.suspend(() =>
+  S.Struct({
+    DataTableAccessControlConfiguration: S.optional(
+      DataTableAccessControlConfiguration,
+    ),
+  }),
+).annotations({
+  identifier: "GranularAccessControlConfiguration",
+}) as any as S.Schema<GranularAccessControlConfiguration>;
+export interface UpdateSecurityProfileRequest {
+  Description?: string;
+  Permissions?: PermissionsList;
+  SecurityProfileId: string;
+  InstanceId: string;
+  AllowedAccessControlTags?: AllowedAccessControlTags;
+  TagRestrictedResources?: TagRestrictedResourceList;
+  Applications?: Applications;
+  HierarchyRestrictedResources?: HierarchyRestrictedResourceList;
+  AllowedAccessControlHierarchyGroupId?: string;
+  AllowedFlowModules?: AllowedFlowModules;
+  GranularAccessControlConfiguration?: GranularAccessControlConfiguration;
+}
+export const UpdateSecurityProfileRequest = S.suspend(() =>
+  S.Struct({
     Description: S.optional(S.String),
     Permissions: S.optional(PermissionsList),
     SecurityProfileId: S.String.pipe(T.HttpLabel("SecurityProfileId")),
@@ -5759,70 +8196,140 @@ export class UpdateSecurityProfileRequest extends S.Class<UpdateSecurityProfileR
     GranularAccessControlConfiguration: S.optional(
       GranularAccessControlConfiguration,
     ),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/security-profiles/{InstanceId}/{SecurityProfileId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/security-profiles/{InstanceId}/{SecurityProfileId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateSecurityProfileResponse extends S.Class<UpdateSecurityProfileResponse>(
-  "UpdateSecurityProfileResponse",
-)({}) {}
-export class TaskTemplateFieldIdentifier extends S.Class<TaskTemplateFieldIdentifier>(
-  "TaskTemplateFieldIdentifier",
-)({ Name: S.optional(S.String) }) {}
-export class RequiredFieldInfo extends S.Class<RequiredFieldInfo>(
-  "RequiredFieldInfo",
-)({ Id: S.optional(TaskTemplateFieldIdentifier) }) {}
+).annotations({
+  identifier: "UpdateSecurityProfileRequest",
+}) as any as S.Schema<UpdateSecurityProfileRequest>;
+export interface UpdateSecurityProfileResponse {}
+export const UpdateSecurityProfileResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateSecurityProfileResponse",
+}) as any as S.Schema<UpdateSecurityProfileResponse>;
+export interface TaskTemplateFieldIdentifier {
+  Name?: string;
+}
+export const TaskTemplateFieldIdentifier = S.suspend(() =>
+  S.Struct({ Name: S.optional(S.String) }),
+).annotations({
+  identifier: "TaskTemplateFieldIdentifier",
+}) as any as S.Schema<TaskTemplateFieldIdentifier>;
+export interface RequiredFieldInfo {
+  Id?: TaskTemplateFieldIdentifier;
+}
+export const RequiredFieldInfo = S.suspend(() =>
+  S.Struct({ Id: S.optional(TaskTemplateFieldIdentifier) }),
+).annotations({
+  identifier: "RequiredFieldInfo",
+}) as any as S.Schema<RequiredFieldInfo>;
+export type RequiredTaskTemplateFields = RequiredFieldInfo[];
 export const RequiredTaskTemplateFields = S.Array(RequiredFieldInfo);
-export class ReadOnlyFieldInfo extends S.Class<ReadOnlyFieldInfo>(
-  "ReadOnlyFieldInfo",
-)({ Id: S.optional(TaskTemplateFieldIdentifier) }) {}
+export interface ReadOnlyFieldInfo {
+  Id?: TaskTemplateFieldIdentifier;
+}
+export const ReadOnlyFieldInfo = S.suspend(() =>
+  S.Struct({ Id: S.optional(TaskTemplateFieldIdentifier) }),
+).annotations({
+  identifier: "ReadOnlyFieldInfo",
+}) as any as S.Schema<ReadOnlyFieldInfo>;
+export type ReadOnlyTaskTemplateFields = ReadOnlyFieldInfo[];
 export const ReadOnlyTaskTemplateFields = S.Array(ReadOnlyFieldInfo);
-export class InvisibleFieldInfo extends S.Class<InvisibleFieldInfo>(
-  "InvisibleFieldInfo",
-)({ Id: S.optional(TaskTemplateFieldIdentifier) }) {}
+export interface InvisibleFieldInfo {
+  Id?: TaskTemplateFieldIdentifier;
+}
+export const InvisibleFieldInfo = S.suspend(() =>
+  S.Struct({ Id: S.optional(TaskTemplateFieldIdentifier) }),
+).annotations({
+  identifier: "InvisibleFieldInfo",
+}) as any as S.Schema<InvisibleFieldInfo>;
+export type InvisibleTaskTemplateFields = InvisibleFieldInfo[];
 export const InvisibleTaskTemplateFields = S.Array(InvisibleFieldInfo);
-export class TaskTemplateConstraints extends S.Class<TaskTemplateConstraints>(
-  "TaskTemplateConstraints",
-)({
-  RequiredFields: S.optional(RequiredTaskTemplateFields),
-  ReadOnlyFields: S.optional(ReadOnlyTaskTemplateFields),
-  InvisibleFields: S.optional(InvisibleTaskTemplateFields),
-}) {}
-export class TaskTemplateDefaultFieldValue extends S.Class<TaskTemplateDefaultFieldValue>(
-  "TaskTemplateDefaultFieldValue",
-)({
-  Id: S.optional(TaskTemplateFieldIdentifier),
-  DefaultValue: S.optional(S.String),
-}) {}
+export interface TaskTemplateConstraints {
+  RequiredFields?: RequiredTaskTemplateFields;
+  ReadOnlyFields?: ReadOnlyTaskTemplateFields;
+  InvisibleFields?: InvisibleTaskTemplateFields;
+}
+export const TaskTemplateConstraints = S.suspend(() =>
+  S.Struct({
+    RequiredFields: S.optional(RequiredTaskTemplateFields),
+    ReadOnlyFields: S.optional(ReadOnlyTaskTemplateFields),
+    InvisibleFields: S.optional(InvisibleTaskTemplateFields),
+  }),
+).annotations({
+  identifier: "TaskTemplateConstraints",
+}) as any as S.Schema<TaskTemplateConstraints>;
+export interface TaskTemplateDefaultFieldValue {
+  Id?: TaskTemplateFieldIdentifier;
+  DefaultValue?: string;
+}
+export const TaskTemplateDefaultFieldValue = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(TaskTemplateFieldIdentifier),
+    DefaultValue: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "TaskTemplateDefaultFieldValue",
+}) as any as S.Schema<TaskTemplateDefaultFieldValue>;
+export type TaskTemplateDefaultFieldValueList = TaskTemplateDefaultFieldValue[];
 export const TaskTemplateDefaultFieldValueList = S.Array(
   TaskTemplateDefaultFieldValue,
 );
-export class TaskTemplateDefaults extends S.Class<TaskTemplateDefaults>(
-  "TaskTemplateDefaults",
-)({ DefaultFieldValues: S.optional(TaskTemplateDefaultFieldValueList) }) {}
+export interface TaskTemplateDefaults {
+  DefaultFieldValues?: TaskTemplateDefaultFieldValueList;
+}
+export const TaskTemplateDefaults = S.suspend(() =>
+  S.Struct({
+    DefaultFieldValues: S.optional(TaskTemplateDefaultFieldValueList),
+  }),
+).annotations({
+  identifier: "TaskTemplateDefaults",
+}) as any as S.Schema<TaskTemplateDefaults>;
+export type SingleSelectOptions = string[];
 export const SingleSelectOptions = S.Array(S.String);
-export class TaskTemplateField extends S.Class<TaskTemplateField>(
-  "TaskTemplateField",
-)({
-  Id: TaskTemplateFieldIdentifier,
-  Description: S.optional(S.String),
-  Type: S.optional(S.String),
-  SingleSelectOptions: S.optional(SingleSelectOptions),
-}) {}
+export interface TaskTemplateField {
+  Id: TaskTemplateFieldIdentifier;
+  Description?: string;
+  Type?: string;
+  SingleSelectOptions?: SingleSelectOptions;
+}
+export const TaskTemplateField = S.suspend(() =>
+  S.Struct({
+    Id: TaskTemplateFieldIdentifier,
+    Description: S.optional(S.String),
+    Type: S.optional(S.String),
+    SingleSelectOptions: S.optional(SingleSelectOptions),
+  }),
+).annotations({
+  identifier: "TaskTemplateField",
+}) as any as S.Schema<TaskTemplateField>;
+export type TaskTemplateFields = TaskTemplateField[];
 export const TaskTemplateFields = S.Array(TaskTemplateField);
-export class UpdateTaskTemplateRequest extends S.Class<UpdateTaskTemplateRequest>(
-  "UpdateTaskTemplateRequest",
-)(
-  {
+export interface UpdateTaskTemplateRequest {
+  TaskTemplateId: string;
+  InstanceId: string;
+  Name?: string;
+  Description?: string;
+  ContactFlowId?: string;
+  SelfAssignFlowId?: string;
+  Constraints?: TaskTemplateConstraints;
+  Defaults?: TaskTemplateDefaults;
+  Status?: string;
+  Fields?: TaskTemplateFields;
+}
+export const UpdateTaskTemplateRequest = S.suspend(() =>
+  S.Struct({
     TaskTemplateId: S.String.pipe(T.HttpLabel("TaskTemplateId")),
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Name: S.optional(S.String),
@@ -5833,271 +8340,412 @@ export class UpdateTaskTemplateRequest extends S.Class<UpdateTaskTemplateRequest
     Defaults: S.optional(TaskTemplateDefaults),
     Status: S.optional(S.String),
     Fields: S.optional(TaskTemplateFields),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/instance/{InstanceId}/task/template/{TaskTemplateId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/instance/{InstanceId}/task/template/{TaskTemplateId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateUserHierarchyRequest extends S.Class<UpdateUserHierarchyRequest>(
-  "UpdateUserHierarchyRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateTaskTemplateRequest",
+}) as any as S.Schema<UpdateTaskTemplateRequest>;
+export interface UpdateUserHierarchyRequest {
+  HierarchyGroupId?: string;
+  UserId: string;
+  InstanceId: string;
+}
+export const UpdateUserHierarchyRequest = S.suspend(() =>
+  S.Struct({
     HierarchyGroupId: S.optional(S.String),
     UserId: S.String.pipe(T.HttpLabel("UserId")),
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/users/{InstanceId}/{UserId}/hierarchy" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/users/{InstanceId}/{UserId}/hierarchy" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateUserHierarchyResponse extends S.Class<UpdateUserHierarchyResponse>(
-  "UpdateUserHierarchyResponse",
-)({}) {}
-export class UpdateUserHierarchyGroupNameRequest extends S.Class<UpdateUserHierarchyGroupNameRequest>(
-  "UpdateUserHierarchyGroupNameRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateUserHierarchyRequest",
+}) as any as S.Schema<UpdateUserHierarchyRequest>;
+export interface UpdateUserHierarchyResponse {}
+export const UpdateUserHierarchyResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateUserHierarchyResponse",
+}) as any as S.Schema<UpdateUserHierarchyResponse>;
+export interface UpdateUserHierarchyGroupNameRequest {
+  Name: string;
+  HierarchyGroupId: string;
+  InstanceId: string;
+}
+export const UpdateUserHierarchyGroupNameRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     HierarchyGroupId: S.String.pipe(T.HttpLabel("HierarchyGroupId")),
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/user-hierarchy-groups/{InstanceId}/{HierarchyGroupId}/name",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/user-hierarchy-groups/{InstanceId}/{HierarchyGroupId}/name",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateUserHierarchyGroupNameResponse extends S.Class<UpdateUserHierarchyGroupNameResponse>(
-  "UpdateUserHierarchyGroupNameResponse",
-)({}) {}
-export class UserIdentityInfo extends S.Class<UserIdentityInfo>(
-  "UserIdentityInfo",
-)({
-  FirstName: S.optional(S.String),
-  LastName: S.optional(S.String),
-  Email: S.optional(S.String),
-  SecondaryEmail: S.optional(S.String),
-  Mobile: S.optional(S.String),
-}) {}
-export class UpdateUserIdentityInfoRequest extends S.Class<UpdateUserIdentityInfoRequest>(
-  "UpdateUserIdentityInfoRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateUserHierarchyGroupNameRequest",
+}) as any as S.Schema<UpdateUserHierarchyGroupNameRequest>;
+export interface UpdateUserHierarchyGroupNameResponse {}
+export const UpdateUserHierarchyGroupNameResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateUserHierarchyGroupNameResponse",
+}) as any as S.Schema<UpdateUserHierarchyGroupNameResponse>;
+export interface UserIdentityInfo {
+  FirstName?: string;
+  LastName?: string;
+  Email?: string;
+  SecondaryEmail?: string;
+  Mobile?: string;
+}
+export const UserIdentityInfo = S.suspend(() =>
+  S.Struct({
+    FirstName: S.optional(S.String),
+    LastName: S.optional(S.String),
+    Email: S.optional(S.String),
+    SecondaryEmail: S.optional(S.String),
+    Mobile: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "UserIdentityInfo",
+}) as any as S.Schema<UserIdentityInfo>;
+export interface UpdateUserIdentityInfoRequest {
+  IdentityInfo: UserIdentityInfo;
+  UserId: string;
+  InstanceId: string;
+}
+export const UpdateUserIdentityInfoRequest = S.suspend(() =>
+  S.Struct({
     IdentityInfo: UserIdentityInfo,
     UserId: S.String.pipe(T.HttpLabel("UserId")),
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/users/{InstanceId}/{UserId}/identity-info",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/users/{InstanceId}/{UserId}/identity-info",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateUserIdentityInfoResponse extends S.Class<UpdateUserIdentityInfoResponse>(
-  "UpdateUserIdentityInfoResponse",
-)({}) {}
-export class UserPhoneConfig extends S.Class<UserPhoneConfig>(
-  "UserPhoneConfig",
-)({
-  PhoneType: S.String,
-  AutoAccept: S.optional(S.Boolean),
-  AfterContactWorkTimeLimit: S.optional(S.Number),
-  DeskPhoneNumber: S.optional(S.String),
-  PersistentConnection: S.optional(S.Boolean),
-}) {}
-export class UpdateUserPhoneConfigRequest extends S.Class<UpdateUserPhoneConfigRequest>(
-  "UpdateUserPhoneConfigRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateUserIdentityInfoRequest",
+}) as any as S.Schema<UpdateUserIdentityInfoRequest>;
+export interface UpdateUserIdentityInfoResponse {}
+export const UpdateUserIdentityInfoResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateUserIdentityInfoResponse",
+}) as any as S.Schema<UpdateUserIdentityInfoResponse>;
+export interface UserPhoneConfig {
+  PhoneType: string;
+  AutoAccept?: boolean;
+  AfterContactWorkTimeLimit?: number;
+  DeskPhoneNumber?: string;
+  PersistentConnection?: boolean;
+}
+export const UserPhoneConfig = S.suspend(() =>
+  S.Struct({
+    PhoneType: S.String,
+    AutoAccept: S.optional(S.Boolean),
+    AfterContactWorkTimeLimit: S.optional(S.Number),
+    DeskPhoneNumber: S.optional(S.String),
+    PersistentConnection: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "UserPhoneConfig",
+}) as any as S.Schema<UserPhoneConfig>;
+export interface UpdateUserPhoneConfigRequest {
+  PhoneConfig: UserPhoneConfig;
+  UserId: string;
+  InstanceId: string;
+}
+export const UpdateUserPhoneConfigRequest = S.suspend(() =>
+  S.Struct({
     PhoneConfig: UserPhoneConfig,
     UserId: S.String.pipe(T.HttpLabel("UserId")),
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/users/{InstanceId}/{UserId}/phone-config",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/users/{InstanceId}/{UserId}/phone-config",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateUserPhoneConfigResponse extends S.Class<UpdateUserPhoneConfigResponse>(
-  "UpdateUserPhoneConfigResponse",
-)({}) {}
-export class UserProficiency extends S.Class<UserProficiency>(
-  "UserProficiency",
-)({ AttributeName: S.String, AttributeValue: S.String, Level: S.Number }) {}
+).annotations({
+  identifier: "UpdateUserPhoneConfigRequest",
+}) as any as S.Schema<UpdateUserPhoneConfigRequest>;
+export interface UpdateUserPhoneConfigResponse {}
+export const UpdateUserPhoneConfigResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateUserPhoneConfigResponse",
+}) as any as S.Schema<UpdateUserPhoneConfigResponse>;
+export interface UserProficiency {
+  AttributeName: string;
+  AttributeValue: string;
+  Level: number;
+}
+export const UserProficiency = S.suspend(() =>
+  S.Struct({
+    AttributeName: S.String,
+    AttributeValue: S.String,
+    Level: S.Number,
+  }),
+).annotations({
+  identifier: "UserProficiency",
+}) as any as S.Schema<UserProficiency>;
+export type UserProficiencyList = UserProficiency[];
 export const UserProficiencyList = S.Array(UserProficiency);
-export class UpdateUserProficienciesRequest extends S.Class<UpdateUserProficienciesRequest>(
-  "UpdateUserProficienciesRequest",
-)(
-  {
+export interface UpdateUserProficienciesRequest {
+  InstanceId: string;
+  UserId: string;
+  UserProficiencies: UserProficiencyList;
+}
+export const UpdateUserProficienciesRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     UserId: S.String.pipe(T.HttpLabel("UserId")),
     UserProficiencies: UserProficiencyList,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/users/{InstanceId}/{UserId}/proficiencies",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/users/{InstanceId}/{UserId}/proficiencies",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateUserProficienciesResponse extends S.Class<UpdateUserProficienciesResponse>(
-  "UpdateUserProficienciesResponse",
-)({}) {}
-export class UpdateUserRoutingProfileRequest extends S.Class<UpdateUserRoutingProfileRequest>(
-  "UpdateUserRoutingProfileRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateUserProficienciesRequest",
+}) as any as S.Schema<UpdateUserProficienciesRequest>;
+export interface UpdateUserProficienciesResponse {}
+export const UpdateUserProficienciesResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateUserProficienciesResponse",
+}) as any as S.Schema<UpdateUserProficienciesResponse>;
+export interface UpdateUserRoutingProfileRequest {
+  RoutingProfileId: string;
+  UserId: string;
+  InstanceId: string;
+}
+export const UpdateUserRoutingProfileRequest = S.suspend(() =>
+  S.Struct({
     RoutingProfileId: S.String,
     UserId: S.String.pipe(T.HttpLabel("UserId")),
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/users/{InstanceId}/{UserId}/routing-profile",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/users/{InstanceId}/{UserId}/routing-profile",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateUserRoutingProfileResponse extends S.Class<UpdateUserRoutingProfileResponse>(
-  "UpdateUserRoutingProfileResponse",
-)({}) {}
-export class UpdateUserSecurityProfilesRequest extends S.Class<UpdateUserSecurityProfilesRequest>(
-  "UpdateUserSecurityProfilesRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateUserRoutingProfileRequest",
+}) as any as S.Schema<UpdateUserRoutingProfileRequest>;
+export interface UpdateUserRoutingProfileResponse {}
+export const UpdateUserRoutingProfileResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateUserRoutingProfileResponse",
+}) as any as S.Schema<UpdateUserRoutingProfileResponse>;
+export interface UpdateUserSecurityProfilesRequest {
+  SecurityProfileIds: SecurityProfileIds;
+  UserId: string;
+  InstanceId: string;
+}
+export const UpdateUserSecurityProfilesRequest = S.suspend(() =>
+  S.Struct({
     SecurityProfileIds: SecurityProfileIds,
     UserId: S.String.pipe(T.HttpLabel("UserId")),
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/users/{InstanceId}/{UserId}/security-profiles",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/users/{InstanceId}/{UserId}/security-profiles",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateUserSecurityProfilesResponse extends S.Class<UpdateUserSecurityProfilesResponse>(
-  "UpdateUserSecurityProfilesResponse",
-)({}) {}
+).annotations({
+  identifier: "UpdateUserSecurityProfilesRequest",
+}) as any as S.Schema<UpdateUserSecurityProfilesRequest>;
+export interface UpdateUserSecurityProfilesResponse {}
+export const UpdateUserSecurityProfilesResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateUserSecurityProfilesResponse",
+}) as any as S.Schema<UpdateUserSecurityProfilesResponse>;
+export type ViewActions = string[];
 export const ViewActions = S.Array(S.String);
-export class ViewInputContent extends S.Class<ViewInputContent>(
-  "ViewInputContent",
-)({ Template: S.optional(S.String), Actions: S.optional(ViewActions) }) {}
-export class UpdateViewContentRequest extends S.Class<UpdateViewContentRequest>(
-  "UpdateViewContentRequest",
-)(
-  {
+export interface ViewInputContent {
+  Template?: string;
+  Actions?: ViewActions;
+}
+export const ViewInputContent = S.suspend(() =>
+  S.Struct({
+    Template: S.optional(S.String),
+    Actions: S.optional(ViewActions),
+  }),
+).annotations({
+  identifier: "ViewInputContent",
+}) as any as S.Schema<ViewInputContent>;
+export interface UpdateViewContentRequest {
+  InstanceId: string;
+  ViewId: string;
+  Status: string;
+  Content: ViewInputContent;
+}
+export const UpdateViewContentRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ViewId: S.String.pipe(T.HttpLabel("ViewId")),
     Status: S.String,
     Content: ViewInputContent,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/views/{InstanceId}/{ViewId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/views/{InstanceId}/{ViewId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateViewMetadataRequest extends S.Class<UpdateViewMetadataRequest>(
-  "UpdateViewMetadataRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateViewContentRequest",
+}) as any as S.Schema<UpdateViewContentRequest>;
+export interface UpdateViewMetadataRequest {
+  InstanceId: string;
+  ViewId: string;
+  Name?: string;
+  Description?: string;
+}
+export const UpdateViewMetadataRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ViewId: S.String.pipe(T.HttpLabel("ViewId")),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/views/{InstanceId}/{ViewId}/metadata" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/views/{InstanceId}/{ViewId}/metadata" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateViewMetadataResponse extends S.Class<UpdateViewMetadataResponse>(
-  "UpdateViewMetadataResponse",
-)({}) {}
-export class UpdateWorkspaceMetadataRequest extends S.Class<UpdateWorkspaceMetadataRequest>(
-  "UpdateWorkspaceMetadataRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateViewMetadataRequest",
+}) as any as S.Schema<UpdateViewMetadataRequest>;
+export interface UpdateViewMetadataResponse {}
+export const UpdateViewMetadataResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateViewMetadataResponse",
+}) as any as S.Schema<UpdateViewMetadataResponse>;
+export interface UpdateWorkspaceMetadataRequest {
+  InstanceId: string;
+  WorkspaceId: string;
+  Name?: string;
+  Description?: string;
+  Title?: string;
+}
+export const UpdateWorkspaceMetadataRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     WorkspaceId: S.String.pipe(T.HttpLabel("WorkspaceId")),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     Title: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/workspaces/{InstanceId}/{WorkspaceId}/metadata",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/workspaces/{InstanceId}/{WorkspaceId}/metadata",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateWorkspaceMetadataResponse extends S.Class<UpdateWorkspaceMetadataResponse>(
-  "UpdateWorkspaceMetadataResponse",
-)({}) {}
-export class UpdateWorkspacePageRequest extends S.Class<UpdateWorkspacePageRequest>(
-  "UpdateWorkspacePageRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateWorkspaceMetadataRequest",
+}) as any as S.Schema<UpdateWorkspaceMetadataRequest>;
+export interface UpdateWorkspaceMetadataResponse {}
+export const UpdateWorkspaceMetadataResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateWorkspaceMetadataResponse",
+}) as any as S.Schema<UpdateWorkspaceMetadataResponse>;
+export interface UpdateWorkspacePageRequest {
+  InstanceId: string;
+  WorkspaceId: string;
+  Page: string;
+  NewPage?: string;
+  ResourceArn?: string;
+  Slug?: string;
+  InputData?: string;
+}
+export const UpdateWorkspacePageRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     WorkspaceId: S.String.pipe(T.HttpLabel("WorkspaceId")),
     Page: S.String.pipe(T.HttpLabel("Page")),
@@ -6105,149 +8753,262 @@ export class UpdateWorkspacePageRequest extends S.Class<UpdateWorkspacePageReque
     ResourceArn: S.optional(S.String),
     Slug: S.optional(S.String),
     InputData: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/workspaces/{InstanceId}/{WorkspaceId}/pages/{Page}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/workspaces/{InstanceId}/{WorkspaceId}/pages/{Page}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateWorkspacePageResponse extends S.Class<UpdateWorkspacePageResponse>(
-  "UpdateWorkspacePageResponse",
-)({}) {}
-export class PaletteHeader extends S.Class<PaletteHeader>("PaletteHeader")({
-  Background: S.optional(S.String),
-  Text: S.optional(S.String),
-  TextHover: S.optional(S.String),
-  InvertActionsColors: S.optional(S.Boolean),
-}) {}
-export class PaletteNavigation extends S.Class<PaletteNavigation>(
-  "PaletteNavigation",
-)({
-  Background: S.optional(S.String),
-  TextBackgroundHover: S.optional(S.String),
-  TextBackgroundActive: S.optional(S.String),
-  Text: S.optional(S.String),
-  TextHover: S.optional(S.String),
-  TextActive: S.optional(S.String),
-  InvertActionsColors: S.optional(S.Boolean),
-}) {}
-export class PaletteCanvas extends S.Class<PaletteCanvas>("PaletteCanvas")({
-  ContainerBackground: S.optional(S.String),
-  PageBackground: S.optional(S.String),
-  ActiveBackground: S.optional(S.String),
-}) {}
-export class PalettePrimary extends S.Class<PalettePrimary>("PalettePrimary")({
-  Default: S.optional(S.String),
-  Active: S.optional(S.String),
-  ContrastText: S.optional(S.String),
-}) {}
-export class WorkspaceThemePalette extends S.Class<WorkspaceThemePalette>(
-  "WorkspaceThemePalette",
-)({
-  Header: S.optional(PaletteHeader),
-  Navigation: S.optional(PaletteNavigation),
-  Canvas: S.optional(PaletteCanvas),
-  Primary: S.optional(PalettePrimary),
-}) {}
-export class ImagesLogo extends S.Class<ImagesLogo>("ImagesLogo")({
-  Default: S.optional(S.String),
-  Favicon: S.optional(S.String),
-}) {}
-export class WorkspaceThemeImages extends S.Class<WorkspaceThemeImages>(
-  "WorkspaceThemeImages",
-)({ Logo: S.optional(ImagesLogo) }) {}
-export class FontFamily extends S.Class<FontFamily>("FontFamily")({
-  Default: S.optional(S.String),
-}) {}
-export class WorkspaceThemeTypography extends S.Class<WorkspaceThemeTypography>(
-  "WorkspaceThemeTypography",
-)({ FontFamily: S.optional(FontFamily) }) {}
-export class WorkspaceThemeConfig extends S.Class<WorkspaceThemeConfig>(
-  "WorkspaceThemeConfig",
-)({
-  Palette: S.optional(WorkspaceThemePalette),
-  Images: S.optional(WorkspaceThemeImages),
-  Typography: S.optional(WorkspaceThemeTypography),
-}) {}
-export class WorkspaceTheme extends S.Class<WorkspaceTheme>("WorkspaceTheme")({
-  Light: S.optional(WorkspaceThemeConfig),
-  Dark: S.optional(WorkspaceThemeConfig),
-}) {}
-export class UpdateWorkspaceThemeRequest extends S.Class<UpdateWorkspaceThemeRequest>(
-  "UpdateWorkspaceThemeRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateWorkspacePageRequest",
+}) as any as S.Schema<UpdateWorkspacePageRequest>;
+export interface UpdateWorkspacePageResponse {}
+export const UpdateWorkspacePageResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateWorkspacePageResponse",
+}) as any as S.Schema<UpdateWorkspacePageResponse>;
+export interface PaletteHeader {
+  Background?: string;
+  Text?: string;
+  TextHover?: string;
+  InvertActionsColors?: boolean;
+}
+export const PaletteHeader = S.suspend(() =>
+  S.Struct({
+    Background: S.optional(S.String),
+    Text: S.optional(S.String),
+    TextHover: S.optional(S.String),
+    InvertActionsColors: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "PaletteHeader",
+}) as any as S.Schema<PaletteHeader>;
+export interface PaletteNavigation {
+  Background?: string;
+  TextBackgroundHover?: string;
+  TextBackgroundActive?: string;
+  Text?: string;
+  TextHover?: string;
+  TextActive?: string;
+  InvertActionsColors?: boolean;
+}
+export const PaletteNavigation = S.suspend(() =>
+  S.Struct({
+    Background: S.optional(S.String),
+    TextBackgroundHover: S.optional(S.String),
+    TextBackgroundActive: S.optional(S.String),
+    Text: S.optional(S.String),
+    TextHover: S.optional(S.String),
+    TextActive: S.optional(S.String),
+    InvertActionsColors: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "PaletteNavigation",
+}) as any as S.Schema<PaletteNavigation>;
+export interface PaletteCanvas {
+  ContainerBackground?: string;
+  PageBackground?: string;
+  ActiveBackground?: string;
+}
+export const PaletteCanvas = S.suspend(() =>
+  S.Struct({
+    ContainerBackground: S.optional(S.String),
+    PageBackground: S.optional(S.String),
+    ActiveBackground: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "PaletteCanvas",
+}) as any as S.Schema<PaletteCanvas>;
+export interface PalettePrimary {
+  Default?: string;
+  Active?: string;
+  ContrastText?: string;
+}
+export const PalettePrimary = S.suspend(() =>
+  S.Struct({
+    Default: S.optional(S.String),
+    Active: S.optional(S.String),
+    ContrastText: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "PalettePrimary",
+}) as any as S.Schema<PalettePrimary>;
+export interface WorkspaceThemePalette {
+  Header?: PaletteHeader;
+  Navigation?: PaletteNavigation;
+  Canvas?: PaletteCanvas;
+  Primary?: PalettePrimary;
+}
+export const WorkspaceThemePalette = S.suspend(() =>
+  S.Struct({
+    Header: S.optional(PaletteHeader),
+    Navigation: S.optional(PaletteNavigation),
+    Canvas: S.optional(PaletteCanvas),
+    Primary: S.optional(PalettePrimary),
+  }),
+).annotations({
+  identifier: "WorkspaceThemePalette",
+}) as any as S.Schema<WorkspaceThemePalette>;
+export interface ImagesLogo {
+  Default?: string;
+  Favicon?: string;
+}
+export const ImagesLogo = S.suspend(() =>
+  S.Struct({ Default: S.optional(S.String), Favicon: S.optional(S.String) }),
+).annotations({ identifier: "ImagesLogo" }) as any as S.Schema<ImagesLogo>;
+export interface WorkspaceThemeImages {
+  Logo?: ImagesLogo;
+}
+export const WorkspaceThemeImages = S.suspend(() =>
+  S.Struct({ Logo: S.optional(ImagesLogo) }),
+).annotations({
+  identifier: "WorkspaceThemeImages",
+}) as any as S.Schema<WorkspaceThemeImages>;
+export interface FontFamily {
+  Default?: string;
+}
+export const FontFamily = S.suspend(() =>
+  S.Struct({ Default: S.optional(S.String) }),
+).annotations({ identifier: "FontFamily" }) as any as S.Schema<FontFamily>;
+export interface WorkspaceThemeTypography {
+  FontFamily?: FontFamily;
+}
+export const WorkspaceThemeTypography = S.suspend(() =>
+  S.Struct({ FontFamily: S.optional(FontFamily) }),
+).annotations({
+  identifier: "WorkspaceThemeTypography",
+}) as any as S.Schema<WorkspaceThemeTypography>;
+export interface WorkspaceThemeConfig {
+  Palette?: WorkspaceThemePalette;
+  Images?: WorkspaceThemeImages;
+  Typography?: WorkspaceThemeTypography;
+}
+export const WorkspaceThemeConfig = S.suspend(() =>
+  S.Struct({
+    Palette: S.optional(WorkspaceThemePalette),
+    Images: S.optional(WorkspaceThemeImages),
+    Typography: S.optional(WorkspaceThemeTypography),
+  }),
+).annotations({
+  identifier: "WorkspaceThemeConfig",
+}) as any as S.Schema<WorkspaceThemeConfig>;
+export interface WorkspaceTheme {
+  Light?: WorkspaceThemeConfig;
+  Dark?: WorkspaceThemeConfig;
+}
+export const WorkspaceTheme = S.suspend(() =>
+  S.Struct({
+    Light: S.optional(WorkspaceThemeConfig),
+    Dark: S.optional(WorkspaceThemeConfig),
+  }),
+).annotations({
+  identifier: "WorkspaceTheme",
+}) as any as S.Schema<WorkspaceTheme>;
+export interface UpdateWorkspaceThemeRequest {
+  InstanceId: string;
+  WorkspaceId: string;
+  Theme?: WorkspaceTheme;
+}
+export const UpdateWorkspaceThemeRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     WorkspaceId: S.String.pipe(T.HttpLabel("WorkspaceId")),
     Theme: S.optional(WorkspaceTheme),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/workspaces/{InstanceId}/{WorkspaceId}/theme",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/workspaces/{InstanceId}/{WorkspaceId}/theme",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateWorkspaceThemeResponse extends S.Class<UpdateWorkspaceThemeResponse>(
-  "UpdateWorkspaceThemeResponse",
-)({}) {}
-export class UpdateWorkspaceVisibilityRequest extends S.Class<UpdateWorkspaceVisibilityRequest>(
-  "UpdateWorkspaceVisibilityRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateWorkspaceThemeRequest",
+}) as any as S.Schema<UpdateWorkspaceThemeRequest>;
+export interface UpdateWorkspaceThemeResponse {}
+export const UpdateWorkspaceThemeResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateWorkspaceThemeResponse",
+}) as any as S.Schema<UpdateWorkspaceThemeResponse>;
+export interface UpdateWorkspaceVisibilityRequest {
+  InstanceId: string;
+  WorkspaceId: string;
+  Visibility: string;
+}
+export const UpdateWorkspaceVisibilityRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     WorkspaceId: S.String.pipe(T.HttpLabel("WorkspaceId")),
     Visibility: S.String,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/workspaces/{InstanceId}/{WorkspaceId}/visibility",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/workspaces/{InstanceId}/{WorkspaceId}/visibility",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateWorkspaceVisibilityResponse extends S.Class<UpdateWorkspaceVisibilityResponse>(
-  "UpdateWorkspaceVisibilityResponse",
-)({}) {}
+).annotations({
+  identifier: "UpdateWorkspaceVisibilityRequest",
+}) as any as S.Schema<UpdateWorkspaceVisibilityRequest>;
+export interface UpdateWorkspaceVisibilityResponse {}
+export const UpdateWorkspaceVisibilityResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateWorkspaceVisibilityResponse",
+}) as any as S.Schema<UpdateWorkspaceVisibilityResponse>;
+export type AttributeNameList = string[];
 export const AttributeNameList = S.Array(S.String);
+export type Queues = string[];
 export const Queues = S.Array(S.String);
+export type Channels = string[];
 export const Channels = S.Array(S.String);
+export type RoutingProfiles = string[];
 export const RoutingProfiles = S.Array(S.String);
+export type RoutingExpressions = string[];
 export const RoutingExpressions = S.Array(S.String);
+export type AgentStatuses = string[];
 export const AgentStatuses = S.Array(S.String);
+export type Subtypes = string[];
 export const Subtypes = S.Array(S.String);
+export type ValidationTestTypes = string[];
 export const ValidationTestTypes = S.Array(S.String);
+export type AgentsMinOneMaxHundred = string[];
 export const AgentsMinOneMaxHundred = S.Array(S.String);
+export type UserDataHierarchyGroups = string[];
 export const UserDataHierarchyGroups = S.Array(S.String);
+export type FilterValueList = string[];
 export const FilterValueList = S.Array(S.String);
 export type AgentStatusSearchConditionList = AgentStatusSearchCriteria[];
 export const AgentStatusSearchConditionList = S.Array(
   S.suspend(
     (): S.Schema<AgentStatusSearchCriteria, any> => AgentStatusSearchCriteria,
-  ),
+  ).annotations({ identifier: "AgentStatusSearchCriteria" }),
 ) as any as S.Schema<AgentStatusSearchConditionList>;
 export type EvaluationSearchConditionList = EvaluationSearchCriteria[];
 export const EvaluationSearchConditionList = S.Array(
   S.suspend(
     (): S.Schema<EvaluationSearchCriteria, any> => EvaluationSearchCriteria,
-  ),
+  ).annotations({ identifier: "EvaluationSearchCriteria" }),
 ) as any as S.Schema<EvaluationSearchConditionList>;
 export type ContactFlowModuleSearchConditionList =
   ContactFlowModuleSearchCriteria[];
@@ -6255,37 +9016,42 @@ export const ContactFlowModuleSearchConditionList = S.Array(
   S.suspend(
     (): S.Schema<ContactFlowModuleSearchCriteria, any> =>
       ContactFlowModuleSearchCriteria,
-  ),
+  ).annotations({ identifier: "ContactFlowModuleSearchCriteria" }),
 ) as any as S.Schema<ContactFlowModuleSearchConditionList>;
 export type ContactFlowSearchConditionList = ContactFlowSearchCriteria[];
 export const ContactFlowSearchConditionList = S.Array(
   S.suspend(
     (): S.Schema<ContactFlowSearchCriteria, any> => ContactFlowSearchCriteria,
-  ),
+  ).annotations({ identifier: "ContactFlowSearchCriteria" }),
 ) as any as S.Schema<ContactFlowSearchConditionList>;
+export type AgentResourceIdList = string[];
 export const AgentResourceIdList = S.Array(S.String);
+export type ChannelList = string[];
 export const ChannelList = S.Array(S.String);
+export type InitiationMethodList = string[];
 export const InitiationMethodList = S.Array(S.String);
+export type QueueIdList = string[];
 export const QueueIdList = S.Array(S.String);
+export type ActiveRegionList = string[];
 export const ActiveRegionList = S.Array(S.String);
 export type DataTableSearchConditionList = DataTableSearchCriteria[];
 export const DataTableSearchConditionList = S.Array(
   S.suspend(
     (): S.Schema<DataTableSearchCriteria, any> => DataTableSearchCriteria,
-  ),
+  ).annotations({ identifier: "DataTableSearchCriteria" }),
 ) as any as S.Schema<DataTableSearchConditionList>;
 export type EmailAddressSearchConditionList = EmailAddressSearchCriteria[];
 export const EmailAddressSearchConditionList = S.Array(
   S.suspend(
     (): S.Schema<EmailAddressSearchCriteria, any> => EmailAddressSearchCriteria,
-  ),
+  ).annotations({ identifier: "EmailAddressSearchCriteria" }),
 ) as any as S.Schema<EmailAddressSearchConditionList>;
 export type EvaluationFormSearchConditionList = EvaluationFormSearchCriteria[];
 export const EvaluationFormSearchConditionList = S.Array(
   S.suspend(
     (): S.Schema<EvaluationFormSearchCriteria, any> =>
       EvaluationFormSearchCriteria,
-  ),
+  ).annotations({ identifier: "EvaluationFormSearchCriteria" }),
 ) as any as S.Schema<EvaluationFormSearchConditionList>;
 export type HoursOfOperationOverrideSearchConditionList =
   HoursOfOperationOverrideSearchCriteria[];
@@ -6293,7 +9059,7 @@ export const HoursOfOperationOverrideSearchConditionList = S.Array(
   S.suspend(
     (): S.Schema<HoursOfOperationOverrideSearchCriteria, any> =>
       HoursOfOperationOverrideSearchCriteria,
-  ),
+  ).annotations({ identifier: "HoursOfOperationOverrideSearchCriteria" }),
 ) as any as S.Schema<HoursOfOperationOverrideSearchConditionList>;
 export type HoursOfOperationSearchConditionList =
   HoursOfOperationSearchCriteria[];
@@ -6301,7 +9067,7 @@ export const HoursOfOperationSearchConditionList = S.Array(
   S.suspend(
     (): S.Schema<HoursOfOperationSearchCriteria, any> =>
       HoursOfOperationSearchCriteria,
-  ),
+  ).annotations({ identifier: "HoursOfOperationSearchCriteria" }),
 ) as any as S.Schema<HoursOfOperationSearchConditionList>;
 export type PredefinedAttributeSearchConditionList =
   PredefinedAttributeSearchCriteria[];
@@ -6309,28 +9075,32 @@ export const PredefinedAttributeSearchConditionList = S.Array(
   S.suspend(
     (): S.Schema<PredefinedAttributeSearchCriteria, any> =>
       PredefinedAttributeSearchCriteria,
-  ),
+  ).annotations({ identifier: "PredefinedAttributeSearchCriteria" }),
 ) as any as S.Schema<PredefinedAttributeSearchConditionList>;
 export type PromptSearchConditionList = PromptSearchCriteria[];
 export const PromptSearchConditionList = S.Array(
-  S.suspend((): S.Schema<PromptSearchCriteria, any> => PromptSearchCriteria),
+  S.suspend(
+    (): S.Schema<PromptSearchCriteria, any> => PromptSearchCriteria,
+  ).annotations({ identifier: "PromptSearchCriteria" }),
 ) as any as S.Schema<PromptSearchConditionList>;
 export type QueueSearchConditionList = QueueSearchCriteria[];
 export const QueueSearchConditionList = S.Array(
-  S.suspend((): S.Schema<QueueSearchCriteria, any> => QueueSearchCriteria),
+  S.suspend(
+    (): S.Schema<QueueSearchCriteria, any> => QueueSearchCriteria,
+  ).annotations({ identifier: "QueueSearchCriteria" }),
 ) as any as S.Schema<QueueSearchConditionList>;
 export type QuickConnectSearchConditionList = QuickConnectSearchCriteria[];
 export const QuickConnectSearchConditionList = S.Array(
   S.suspend(
     (): S.Schema<QuickConnectSearchCriteria, any> => QuickConnectSearchCriteria,
-  ),
+  ).annotations({ identifier: "QuickConnectSearchCriteria" }),
 ) as any as S.Schema<QuickConnectSearchConditionList>;
 export type RoutingProfileSearchConditionList = RoutingProfileSearchCriteria[];
 export const RoutingProfileSearchConditionList = S.Array(
   S.suspend(
     (): S.Schema<RoutingProfileSearchCriteria, any> =>
       RoutingProfileSearchCriteria,
-  ),
+  ).annotations({ identifier: "RoutingProfileSearchCriteria" }),
 ) as any as S.Schema<RoutingProfileSearchConditionList>;
 export type SecurityProfileSearchConditionList =
   SecurityProfileSearchCriteria[];
@@ -6338,7 +9108,7 @@ export const SecurityProfileSearchConditionList = S.Array(
   S.suspend(
     (): S.Schema<SecurityProfileSearchCriteria, any> =>
       SecurityProfileSearchCriteria,
-  ),
+  ).annotations({ identifier: "SecurityProfileSearchCriteria" }),
 ) as any as S.Schema<SecurityProfileSearchConditionList>;
 export type UserHierarchyGroupSearchConditionList =
   UserHierarchyGroupSearchCriteria[];
@@ -6346,15 +9116,19 @@ export const UserHierarchyGroupSearchConditionList = S.Array(
   S.suspend(
     (): S.Schema<UserHierarchyGroupSearchCriteria, any> =>
       UserHierarchyGroupSearchCriteria,
-  ),
+  ).annotations({ identifier: "UserHierarchyGroupSearchCriteria" }),
 ) as any as S.Schema<UserHierarchyGroupSearchConditionList>;
 export type UserSearchConditionList = UserSearchCriteria[];
 export const UserSearchConditionList = S.Array(
-  S.suspend((): S.Schema<UserSearchCriteria, any> => UserSearchCriteria),
+  S.suspend(
+    (): S.Schema<UserSearchCriteria, any> => UserSearchCriteria,
+  ).annotations({ identifier: "UserSearchCriteria" }),
 ) as any as S.Schema<UserSearchConditionList>;
 export type ViewSearchConditionList = ViewSearchCriteria[];
 export const ViewSearchConditionList = S.Array(
-  S.suspend((): S.Schema<ViewSearchCriteria, any> => ViewSearchCriteria),
+  S.suspend(
+    (): S.Schema<ViewSearchCriteria, any> => ViewSearchCriteria,
+  ).annotations({ identifier: "ViewSearchCriteria" }),
 ) as any as S.Schema<ViewSearchConditionList>;
 export type WorkspaceAssociationSearchConditionList =
   WorkspaceAssociationSearchCriteria[];
@@ -6362,730 +9136,1498 @@ export const WorkspaceAssociationSearchConditionList = S.Array(
   S.suspend(
     (): S.Schema<WorkspaceAssociationSearchCriteria, any> =>
       WorkspaceAssociationSearchCriteria,
-  ),
+  ).annotations({ identifier: "WorkspaceAssociationSearchCriteria" }),
 ) as any as S.Schema<WorkspaceAssociationSearchConditionList>;
 export type WorkspaceSearchConditionList = WorkspaceSearchCriteria[];
 export const WorkspaceSearchConditionList = S.Array(
   S.suspend(
     (): S.Schema<WorkspaceSearchCriteria, any> => WorkspaceSearchCriteria,
-  ),
+  ).annotations({ identifier: "WorkspaceSearchCriteria" }),
 ) as any as S.Schema<WorkspaceSearchConditionList>;
-export class RoutingProfileManualAssignmentQueueConfig extends S.Class<RoutingProfileManualAssignmentQueueConfig>(
-  "RoutingProfileManualAssignmentQueueConfig",
-)({ QueueReference: RoutingProfileQueueReference }) {}
+export interface RoutingProfileManualAssignmentQueueConfig {
+  QueueReference: RoutingProfileQueueReference;
+}
+export const RoutingProfileManualAssignmentQueueConfig = S.suspend(() =>
+  S.Struct({ QueueReference: RoutingProfileQueueReference }),
+).annotations({
+  identifier: "RoutingProfileManualAssignmentQueueConfig",
+}) as any as S.Schema<RoutingProfileManualAssignmentQueueConfig>;
+export type RoutingProfileManualAssignmentQueueConfigList =
+  RoutingProfileManualAssignmentQueueConfig[];
 export const RoutingProfileManualAssignmentQueueConfigList = S.Array(
   RoutingProfileManualAssignmentQueueConfig,
 );
-export class DataTableDeleteValueIdentifier extends S.Class<DataTableDeleteValueIdentifier>(
-  "DataTableDeleteValueIdentifier",
-)({
-  PrimaryValues: S.optional(PrimaryValuesSet),
-  AttributeName: S.String,
-  LockVersion: DataTableLockVersion,
-}) {}
+export interface DataTableDeleteValueIdentifier {
+  PrimaryValues?: PrimaryValuesSet;
+  AttributeName: string;
+  LockVersion: DataTableLockVersion;
+}
+export const DataTableDeleteValueIdentifier = S.suspend(() =>
+  S.Struct({
+    PrimaryValues: S.optional(PrimaryValuesSet),
+    AttributeName: S.String,
+    LockVersion: DataTableLockVersion,
+  }),
+).annotations({
+  identifier: "DataTableDeleteValueIdentifier",
+}) as any as S.Schema<DataTableDeleteValueIdentifier>;
+export type DataTableDeleteValueIdentifierList =
+  DataTableDeleteValueIdentifier[];
 export const DataTableDeleteValueIdentifierList = S.Array(
   DataTableDeleteValueIdentifier,
 );
-export class DataTableValueIdentifier extends S.Class<DataTableValueIdentifier>(
-  "DataTableValueIdentifier",
-)({ PrimaryValues: S.optional(PrimaryValuesSet), AttributeName: S.String }) {}
+export interface DataTableValueIdentifier {
+  PrimaryValues?: PrimaryValuesSet;
+  AttributeName: string;
+}
+export const DataTableValueIdentifier = S.suspend(() =>
+  S.Struct({
+    PrimaryValues: S.optional(PrimaryValuesSet),
+    AttributeName: S.String,
+  }),
+).annotations({
+  identifier: "DataTableValueIdentifier",
+}) as any as S.Schema<DataTableValueIdentifier>;
+export type DataTableValueIdentifierList = DataTableValueIdentifier[];
 export const DataTableValueIdentifierList = S.Array(DataTableValueIdentifier);
-export class UserInfo extends S.Class<UserInfo>("UserInfo")({
-  UserId: S.optional(S.String),
-}) {}
-export class ExternalInvocationConfiguration extends S.Class<ExternalInvocationConfiguration>(
-  "ExternalInvocationConfiguration",
-)({ Enabled: S.optional(S.Boolean) }) {}
-export class ContactConfiguration extends S.Class<ContactConfiguration>(
-  "ContactConfiguration",
-)({
-  ContactId: S.String,
-  ParticipantRole: S.optional(S.String),
-  IncludeRawMessage: S.optional(S.Boolean),
-}) {}
-export class RuleTriggerEventSource extends S.Class<RuleTriggerEventSource>(
-  "RuleTriggerEventSource",
-)({
-  EventSourceName: S.String,
-  IntegrationAssociationId: S.optional(S.String),
-}) {}
+export interface UserInfo {
+  UserId?: string;
+}
+export const UserInfo = S.suspend(() =>
+  S.Struct({ UserId: S.optional(S.String) }),
+).annotations({ identifier: "UserInfo" }) as any as S.Schema<UserInfo>;
+export interface ExternalInvocationConfiguration {
+  Enabled?: boolean;
+}
+export const ExternalInvocationConfiguration = S.suspend(() =>
+  S.Struct({ Enabled: S.optional(S.Boolean) }),
+).annotations({
+  identifier: "ExternalInvocationConfiguration",
+}) as any as S.Schema<ExternalInvocationConfiguration>;
+export interface ContactConfiguration {
+  ContactId: string;
+  ParticipantRole?: string;
+  IncludeRawMessage?: boolean;
+}
+export const ContactConfiguration = S.suspend(() =>
+  S.Struct({
+    ContactId: S.String,
+    ParticipantRole: S.optional(S.String),
+    IncludeRawMessage: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "ContactConfiguration",
+}) as any as S.Schema<ContactConfiguration>;
+export interface RuleTriggerEventSource {
+  EventSourceName: string;
+  IntegrationAssociationId?: string;
+}
+export const RuleTriggerEventSource = S.suspend(() =>
+  S.Struct({
+    EventSourceName: S.String,
+    IntegrationAssociationId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RuleTriggerEventSource",
+}) as any as S.Schema<RuleTriggerEventSource>;
+export type AliasConfigurationList = AliasConfiguration[];
 export const AliasConfigurationList = S.Array(AliasConfiguration);
+export type RoutingProfileQueueReferenceList = RoutingProfileQueueReference[];
 export const RoutingProfileQueueReferenceList = S.Array(
   RoutingProfileQueueReference,
 );
-export class UserProficiencyDisassociate extends S.Class<UserProficiencyDisassociate>(
-  "UserProficiencyDisassociate",
-)({ AttributeName: S.String, AttributeValue: S.String }) {}
+export interface UserProficiencyDisassociate {
+  AttributeName: string;
+  AttributeValue: string;
+}
+export const UserProficiencyDisassociate = S.suspend(() =>
+  S.Struct({ AttributeName: S.String, AttributeValue: S.String }),
+).annotations({
+  identifier: "UserProficiencyDisassociate",
+}) as any as S.Schema<UserProficiencyDisassociate>;
+export type UserProficiencyDisassociateList = UserProficiencyDisassociate[];
 export const UserProficiencyDisassociateList = S.Array(
   UserProficiencyDisassociate,
 );
-export class DataTableValueEvaluationSet extends S.Class<DataTableValueEvaluationSet>(
-  "DataTableValueEvaluationSet",
-)({
-  PrimaryValues: S.optional(PrimaryValuesSet),
-  AttributeNames: AttributeNameList,
-}) {}
+export interface DataTableValueEvaluationSet {
+  PrimaryValues?: PrimaryValuesSet;
+  AttributeNames: AttributeNameList;
+}
+export const DataTableValueEvaluationSet = S.suspend(() =>
+  S.Struct({
+    PrimaryValues: S.optional(PrimaryValuesSet),
+    AttributeNames: AttributeNameList,
+  }),
+).annotations({
+  identifier: "DataTableValueEvaluationSet",
+}) as any as S.Schema<DataTableValueEvaluationSet>;
+export type DataTableValueEvaluationSetList = DataTableValueEvaluationSet[];
 export const DataTableValueEvaluationSetList = S.Array(
   DataTableValueEvaluationSet,
 );
-export class ContactMetricInfo extends S.Class<ContactMetricInfo>(
-  "ContactMetricInfo",
-)({ Name: S.String }) {}
+export interface ContactMetricInfo {
+  Name: string;
+}
+export const ContactMetricInfo = S.suspend(() =>
+  S.Struct({ Name: S.String }),
+).annotations({
+  identifier: "ContactMetricInfo",
+}) as any as S.Schema<ContactMetricInfo>;
+export type ContactMetrics = ContactMetricInfo[];
 export const ContactMetrics = S.Array(ContactMetricInfo);
-export class Filters extends S.Class<Filters>("Filters")({
-  Queues: S.optional(Queues),
-  Channels: S.optional(Channels),
-  RoutingProfiles: S.optional(RoutingProfiles),
-  RoutingStepExpressions: S.optional(RoutingExpressions),
-  AgentStatuses: S.optional(AgentStatuses),
-  Subtypes: S.optional(Subtypes),
-  ValidationTestTypes: S.optional(ValidationTestTypes),
-}) {}
-export class CurrentMetric extends S.Class<CurrentMetric>("CurrentMetric")({
-  Name: S.optional(S.String),
-  MetricId: S.optional(S.String),
-  Unit: S.optional(S.String),
-}) {}
+export interface Filters {
+  Queues?: Queues;
+  Channels?: Channels;
+  RoutingProfiles?: RoutingProfiles;
+  RoutingStepExpressions?: RoutingExpressions;
+  AgentStatuses?: AgentStatuses;
+  Subtypes?: Subtypes;
+  ValidationTestTypes?: ValidationTestTypes;
+}
+export const Filters = S.suspend(() =>
+  S.Struct({
+    Queues: S.optional(Queues),
+    Channels: S.optional(Channels),
+    RoutingProfiles: S.optional(RoutingProfiles),
+    RoutingStepExpressions: S.optional(RoutingExpressions),
+    AgentStatuses: S.optional(AgentStatuses),
+    Subtypes: S.optional(Subtypes),
+    ValidationTestTypes: S.optional(ValidationTestTypes),
+  }),
+).annotations({ identifier: "Filters" }) as any as S.Schema<Filters>;
+export interface CurrentMetric {
+  Name?: string;
+  MetricId?: string;
+  Unit?: string;
+}
+export const CurrentMetric = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    MetricId: S.optional(S.String),
+    Unit: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CurrentMetric",
+}) as any as S.Schema<CurrentMetric>;
+export type CurrentMetrics = CurrentMetric[];
 export const CurrentMetrics = S.Array(CurrentMetric);
-export class CurrentMetricSortCriteria extends S.Class<CurrentMetricSortCriteria>(
-  "CurrentMetricSortCriteria",
-)({ SortByMetric: S.optional(S.String), SortOrder: S.optional(S.String) }) {}
+export interface CurrentMetricSortCriteria {
+  SortByMetric?: string;
+  SortOrder?: string;
+}
+export const CurrentMetricSortCriteria = S.suspend(() =>
+  S.Struct({
+    SortByMetric: S.optional(S.String),
+    SortOrder: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CurrentMetricSortCriteria",
+}) as any as S.Schema<CurrentMetricSortCriteria>;
+export type CurrentMetricSortCriteriaMaxOne = CurrentMetricSortCriteria[];
 export const CurrentMetricSortCriteriaMaxOne = S.Array(
   CurrentMetricSortCriteria,
 );
-export class IntervalDetails extends S.Class<IntervalDetails>(
-  "IntervalDetails",
-)({ TimeZone: S.optional(S.String), IntervalPeriod: S.optional(S.String) }) {}
+export interface IntervalDetails {
+  TimeZone?: string;
+  IntervalPeriod?: string;
+}
+export const IntervalDetails = S.suspend(() =>
+  S.Struct({
+    TimeZone: S.optional(S.String),
+    IntervalPeriod: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "IntervalDetails",
+}) as any as S.Schema<IntervalDetails>;
+export type OriginsList = string[];
 export const OriginsList = S.Array(S.String);
-export class DataTableAttribute extends S.Class<DataTableAttribute>(
-  "DataTableAttribute",
-)({
-  AttributeId: S.optional(S.String),
-  Name: S.String,
-  ValueType: S.String,
-  Description: S.optional(S.String),
-  DataTableId: S.optional(S.String),
-  DataTableArn: S.optional(S.String),
-  Primary: S.optional(S.Boolean),
-  Version: S.optional(S.String),
-  LockVersion: S.optional(DataTableLockVersion),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedRegion: S.optional(S.String),
-  Validation: S.optional(Validation),
-}) {}
+export interface DataTableAttribute {
+  AttributeId?: string;
+  Name: string;
+  ValueType: string;
+  Description?: string;
+  DataTableId?: string;
+  DataTableArn?: string;
+  Primary?: boolean;
+  Version?: string;
+  LockVersion?: DataTableLockVersion;
+  LastModifiedTime?: Date;
+  LastModifiedRegion?: string;
+  Validation?: Validation;
+}
+export const DataTableAttribute = S.suspend(() =>
+  S.Struct({
+    AttributeId: S.optional(S.String),
+    Name: S.String,
+    ValueType: S.String,
+    Description: S.optional(S.String),
+    DataTableId: S.optional(S.String),
+    DataTableArn: S.optional(S.String),
+    Primary: S.optional(S.Boolean),
+    Version: S.optional(S.String),
+    LockVersion: S.optional(DataTableLockVersion),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastModifiedRegion: S.optional(S.String),
+    Validation: S.optional(Validation),
+  }),
+).annotations({
+  identifier: "DataTableAttribute",
+}) as any as S.Schema<DataTableAttribute>;
+export type AttributeList = DataTableAttribute[];
 export const AttributeList = S.Array(DataTableAttribute);
+export type SecurityProfiles100 = SecurityProfileItem[];
 export const SecurityProfiles100 = S.Array(SecurityProfileItem);
-export class HoursOfOperationOverride extends S.Class<HoursOfOperationOverride>(
-  "HoursOfOperationOverride",
-)({
-  HoursOfOperationOverrideId: S.optional(S.String),
-  HoursOfOperationId: S.optional(S.String),
-  HoursOfOperationArn: S.optional(S.String),
-  Name: S.optional(S.String),
-  Description: S.optional(S.String),
-  Config: S.optional(HoursOfOperationOverrideConfigList),
-  EffectiveFrom: S.optional(S.String),
-  EffectiveTill: S.optional(S.String),
-}) {}
+export interface HoursOfOperationOverride {
+  HoursOfOperationOverrideId?: string;
+  HoursOfOperationId?: string;
+  HoursOfOperationArn?: string;
+  Name?: string;
+  Description?: string;
+  Config?: HoursOfOperationOverrideConfigList;
+  EffectiveFrom?: string;
+  EffectiveTill?: string;
+}
+export const HoursOfOperationOverride = S.suspend(() =>
+  S.Struct({
+    HoursOfOperationOverrideId: S.optional(S.String),
+    HoursOfOperationId: S.optional(S.String),
+    HoursOfOperationArn: S.optional(S.String),
+    Name: S.optional(S.String),
+    Description: S.optional(S.String),
+    Config: S.optional(HoursOfOperationOverrideConfigList),
+    EffectiveFrom: S.optional(S.String),
+    EffectiveTill: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "HoursOfOperationOverride",
+}) as any as S.Schema<HoursOfOperationOverride>;
+export type HoursOfOperationOverrideList = HoursOfOperationOverride[];
 export const HoursOfOperationOverrideList = S.Array(HoursOfOperationOverride);
-export class Attribute extends S.Class<Attribute>("Attribute")({
-  AttributeType: S.optional(S.String),
-  Value: S.optional(S.String),
-}) {}
+export interface Attribute {
+  AttributeType?: string;
+  Value?: string;
+}
+export const Attribute = S.suspend(() =>
+  S.Struct({
+    AttributeType: S.optional(S.String),
+    Value: S.optional(S.String),
+  }),
+).annotations({ identifier: "Attribute" }) as any as S.Schema<Attribute>;
+export type AttributesList = Attribute[];
 export const AttributesList = S.Array(Attribute);
+export type InstanceStorageConfigs = InstanceStorageConfig[];
 export const InstanceStorageConfigs = S.Array(InstanceStorageConfig);
+export type FunctionArnsList = string[];
 export const FunctionArnsList = S.Array(S.String);
+export type LexBotsList = LexBot[];
 export const LexBotsList = S.Array(LexBot);
-export class TagCondition extends S.Class<TagCondition>("TagCondition")({
-  TagKey: S.optional(S.String),
-  TagValue: S.optional(S.String),
-}) {}
+export interface TagCondition {
+  TagKey?: string;
+  TagValue?: string;
+}
+export const TagCondition = S.suspend(() =>
+  S.Struct({ TagKey: S.optional(S.String), TagValue: S.optional(S.String) }),
+).annotations({ identifier: "TagCondition" }) as any as S.Schema<TagCondition>;
+export type TagAndConditionList = TagCondition[];
 export const TagAndConditionList = S.Array(TagCondition);
-export class CommonAttributeAndCondition extends S.Class<CommonAttributeAndCondition>(
-  "CommonAttributeAndCondition",
-)({ TagConditions: S.optional(TagAndConditionList) }) {}
+export interface CommonAttributeAndCondition {
+  TagConditions?: TagAndConditionList;
+}
+export const CommonAttributeAndCondition = S.suspend(() =>
+  S.Struct({ TagConditions: S.optional(TagAndConditionList) }),
+).annotations({
+  identifier: "CommonAttributeAndCondition",
+}) as any as S.Schema<CommonAttributeAndCondition>;
+export type CommonAttributeOrConditionList = CommonAttributeAndCondition[];
 export const CommonAttributeOrConditionList = S.Array(
   CommonAttributeAndCondition,
 );
-export class ControlPlaneAttributeFilter extends S.Class<ControlPlaneAttributeFilter>(
-  "ControlPlaneAttributeFilter",
-)({
-  OrConditions: S.optional(CommonAttributeOrConditionList),
-  AndCondition: S.optional(CommonAttributeAndCondition),
-  TagCondition: S.optional(TagCondition),
-}) {}
-export class EvaluationSearchFilter extends S.Class<EvaluationSearchFilter>(
-  "EvaluationSearchFilter",
-)({ AttributeFilter: S.optional(ControlPlaneAttributeFilter) }) {}
-export class StringCondition extends S.Class<StringCondition>(
-  "StringCondition",
-)({
-  FieldName: S.optional(S.String),
-  Value: S.optional(S.String),
-  ComparisonType: S.optional(S.String),
-}) {}
-export class ContactFlowModuleSearchCriteria extends S.Class<ContactFlowModuleSearchCriteria>(
-  "ContactFlowModuleSearchCriteria",
-)({
-  OrConditions: S.optional(
-    S.suspend(() => ContactFlowModuleSearchConditionList),
-  ),
-  AndConditions: S.optional(
-    S.suspend(() => ContactFlowModuleSearchConditionList),
-  ),
-  StringCondition: S.optional(StringCondition),
-  StateCondition: S.optional(S.String),
-  StatusCondition: S.optional(S.String),
-}) {}
-export class ContactFlowSearchCriteria extends S.Class<ContactFlowSearchCriteria>(
-  "ContactFlowSearchCriteria",
-)({
-  OrConditions: S.optional(S.suspend(() => ContactFlowSearchConditionList)),
-  AndConditions: S.optional(S.suspend(() => ContactFlowSearchConditionList)),
-  StringCondition: S.optional(StringCondition),
-  TypeCondition: S.optional(S.String),
-  StateCondition: S.optional(S.String),
-  StatusCondition: S.optional(S.String),
-}) {}
-export class SearchContactsTimeRange extends S.Class<SearchContactsTimeRange>(
-  "SearchContactsTimeRange",
-)({
-  Type: S.String,
-  StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-}) {}
-export class Sort extends S.Class<Sort>("Sort")({
-  FieldName: S.String,
-  Order: S.String,
-}) {}
-export class DataTableSearchFilter extends S.Class<DataTableSearchFilter>(
-  "DataTableSearchFilter",
-)({ AttributeFilter: S.optional(ControlPlaneAttributeFilter) }) {}
-export class DataTableSearchCriteria extends S.Class<DataTableSearchCriteria>(
-  "DataTableSearchCriteria",
-)({
-  OrConditions: S.optional(S.suspend(() => DataTableSearchConditionList)),
-  AndConditions: S.optional(S.suspend(() => DataTableSearchConditionList)),
-  StringCondition: S.optional(StringCondition),
-}) {}
-export class EmailAddressSearchCriteria extends S.Class<EmailAddressSearchCriteria>(
-  "EmailAddressSearchCriteria",
-)({
-  OrConditions: S.optional(S.suspend(() => EmailAddressSearchConditionList)),
-  AndConditions: S.optional(S.suspend(() => EmailAddressSearchConditionList)),
-  StringCondition: S.optional(StringCondition),
-}) {}
+export interface ControlPlaneAttributeFilter {
+  OrConditions?: CommonAttributeOrConditionList;
+  AndCondition?: CommonAttributeAndCondition;
+  TagCondition?: TagCondition;
+}
+export const ControlPlaneAttributeFilter = S.suspend(() =>
+  S.Struct({
+    OrConditions: S.optional(CommonAttributeOrConditionList),
+    AndCondition: S.optional(CommonAttributeAndCondition),
+    TagCondition: S.optional(TagCondition),
+  }),
+).annotations({
+  identifier: "ControlPlaneAttributeFilter",
+}) as any as S.Schema<ControlPlaneAttributeFilter>;
+export interface EvaluationSearchFilter {
+  AttributeFilter?: ControlPlaneAttributeFilter;
+}
+export const EvaluationSearchFilter = S.suspend(() =>
+  S.Struct({ AttributeFilter: S.optional(ControlPlaneAttributeFilter) }),
+).annotations({
+  identifier: "EvaluationSearchFilter",
+}) as any as S.Schema<EvaluationSearchFilter>;
+export interface StringCondition {
+  FieldName?: string;
+  Value?: string;
+  ComparisonType?: string;
+}
+export const StringCondition = S.suspend(() =>
+  S.Struct({
+    FieldName: S.optional(S.String),
+    Value: S.optional(S.String),
+    ComparisonType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "StringCondition",
+}) as any as S.Schema<StringCondition>;
+export interface ContactFlowModuleSearchCriteria {
+  OrConditions?: ContactFlowModuleSearchConditionList;
+  AndConditions?: ContactFlowModuleSearchConditionList;
+  StringCondition?: StringCondition;
+  StateCondition?: string;
+  StatusCondition?: string;
+}
+export const ContactFlowModuleSearchCriteria = S.suspend(() =>
+  S.Struct({
+    OrConditions: S.optional(
+      S.suspend(() => ContactFlowModuleSearchConditionList).annotations({
+        identifier: "ContactFlowModuleSearchConditionList",
+      }),
+    ),
+    AndConditions: S.optional(
+      S.suspend(() => ContactFlowModuleSearchConditionList).annotations({
+        identifier: "ContactFlowModuleSearchConditionList",
+      }),
+    ),
+    StringCondition: S.optional(StringCondition),
+    StateCondition: S.optional(S.String),
+    StatusCondition: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ContactFlowModuleSearchCriteria",
+}) as any as S.Schema<ContactFlowModuleSearchCriteria>;
+export interface ContactFlowSearchCriteria {
+  OrConditions?: ContactFlowSearchConditionList;
+  AndConditions?: ContactFlowSearchConditionList;
+  StringCondition?: StringCondition;
+  TypeCondition?: string;
+  StateCondition?: string;
+  StatusCondition?: string;
+}
+export const ContactFlowSearchCriteria = S.suspend(() =>
+  S.Struct({
+    OrConditions: S.optional(
+      S.suspend(() => ContactFlowSearchConditionList).annotations({
+        identifier: "ContactFlowSearchConditionList",
+      }),
+    ),
+    AndConditions: S.optional(
+      S.suspend(() => ContactFlowSearchConditionList).annotations({
+        identifier: "ContactFlowSearchConditionList",
+      }),
+    ),
+    StringCondition: S.optional(StringCondition),
+    TypeCondition: S.optional(S.String),
+    StateCondition: S.optional(S.String),
+    StatusCondition: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ContactFlowSearchCriteria",
+}) as any as S.Schema<ContactFlowSearchCriteria>;
+export interface SearchContactsTimeRange {
+  Type: string;
+  StartTime: Date;
+  EndTime: Date;
+}
+export const SearchContactsTimeRange = S.suspend(() =>
+  S.Struct({
+    Type: S.String,
+    StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotations({
+  identifier: "SearchContactsTimeRange",
+}) as any as S.Schema<SearchContactsTimeRange>;
+export interface Sort {
+  FieldName: string;
+  Order: string;
+}
+export const Sort = S.suspend(() =>
+  S.Struct({ FieldName: S.String, Order: S.String }),
+).annotations({ identifier: "Sort" }) as any as S.Schema<Sort>;
+export interface DataTableSearchFilter {
+  AttributeFilter?: ControlPlaneAttributeFilter;
+}
+export const DataTableSearchFilter = S.suspend(() =>
+  S.Struct({ AttributeFilter: S.optional(ControlPlaneAttributeFilter) }),
+).annotations({
+  identifier: "DataTableSearchFilter",
+}) as any as S.Schema<DataTableSearchFilter>;
+export interface DataTableSearchCriteria {
+  OrConditions?: DataTableSearchConditionList;
+  AndConditions?: DataTableSearchConditionList;
+  StringCondition?: StringCondition;
+}
+export const DataTableSearchCriteria = S.suspend(() =>
+  S.Struct({
+    OrConditions: S.optional(
+      S.suspend(() => DataTableSearchConditionList).annotations({
+        identifier: "DataTableSearchConditionList",
+      }),
+    ),
+    AndConditions: S.optional(
+      S.suspend(() => DataTableSearchConditionList).annotations({
+        identifier: "DataTableSearchConditionList",
+      }),
+    ),
+    StringCondition: S.optional(StringCondition),
+  }),
+).annotations({
+  identifier: "DataTableSearchCriteria",
+}) as any as S.Schema<DataTableSearchCriteria>;
+export interface EmailAddressSearchCriteria {
+  OrConditions?: EmailAddressSearchConditionList;
+  AndConditions?: EmailAddressSearchConditionList;
+  StringCondition?: StringCondition;
+}
+export const EmailAddressSearchCriteria = S.suspend(() =>
+  S.Struct({
+    OrConditions: S.optional(
+      S.suspend(() => EmailAddressSearchConditionList).annotations({
+        identifier: "EmailAddressSearchConditionList",
+      }),
+    ),
+    AndConditions: S.optional(
+      S.suspend(() => EmailAddressSearchConditionList).annotations({
+        identifier: "EmailAddressSearchConditionList",
+      }),
+    ),
+    StringCondition: S.optional(StringCondition),
+  }),
+).annotations({
+  identifier: "EmailAddressSearchCriteria",
+}) as any as S.Schema<EmailAddressSearchCriteria>;
+export type TagOrConditionList = TagAndConditionList[];
 export const TagOrConditionList = S.Array(TagAndConditionList);
-export class ControlPlaneTagFilter extends S.Class<ControlPlaneTagFilter>(
-  "ControlPlaneTagFilter",
-)({
-  OrConditions: S.optional(TagOrConditionList),
-  AndConditions: S.optional(TagAndConditionList),
-  TagCondition: S.optional(TagCondition),
-}) {}
-export class EmailAddressSearchFilter extends S.Class<EmailAddressSearchFilter>(
-  "EmailAddressSearchFilter",
-)({ TagFilter: S.optional(ControlPlaneTagFilter) }) {}
-export class NumberCondition extends S.Class<NumberCondition>(
-  "NumberCondition",
-)({
-  FieldName: S.optional(S.String),
-  MinValue: S.optional(S.Number),
-  MaxValue: S.optional(S.Number),
-  ComparisonType: S.optional(S.String),
-}) {}
-export class BooleanCondition extends S.Class<BooleanCondition>(
-  "BooleanCondition",
-)({ FieldName: S.optional(S.String), ComparisonType: S.optional(S.String) }) {}
-export class DateTimeCondition extends S.Class<DateTimeCondition>(
-  "DateTimeCondition",
-)({
-  FieldName: S.optional(S.String),
-  MinValue: S.optional(S.String),
-  MaxValue: S.optional(S.String),
-  ComparisonType: S.optional(S.String),
-}) {}
-export class EvaluationFormSearchCriteria extends S.Class<EvaluationFormSearchCriteria>(
-  "EvaluationFormSearchCriteria",
-)({
-  OrConditions: S.optional(S.suspend(() => EvaluationFormSearchConditionList)),
-  AndConditions: S.optional(S.suspend(() => EvaluationFormSearchConditionList)),
-  StringCondition: S.optional(StringCondition),
-  NumberCondition: S.optional(NumberCondition),
-  BooleanCondition: S.optional(BooleanCondition),
-  DateTimeCondition: S.optional(DateTimeCondition),
-}) {}
-export class EvaluationFormSearchFilter extends S.Class<EvaluationFormSearchFilter>(
-  "EvaluationFormSearchFilter",
-)({ AttributeFilter: S.optional(ControlPlaneAttributeFilter) }) {}
-export class HoursOfOperationSearchFilter extends S.Class<HoursOfOperationSearchFilter>(
-  "HoursOfOperationSearchFilter",
-)({ TagFilter: S.optional(ControlPlaneTagFilter) }) {}
-export class HoursOfOperationSearchCriteria extends S.Class<HoursOfOperationSearchCriteria>(
-  "HoursOfOperationSearchCriteria",
-)({
-  OrConditions: S.optional(
-    S.suspend(() => HoursOfOperationSearchConditionList),
-  ),
-  AndConditions: S.optional(
-    S.suspend(() => HoursOfOperationSearchConditionList),
-  ),
-  StringCondition: S.optional(StringCondition),
-}) {}
-export class PredefinedAttributeSearchCriteria extends S.Class<PredefinedAttributeSearchCriteria>(
-  "PredefinedAttributeSearchCriteria",
-)({
-  OrConditions: S.optional(
-    S.suspend(() => PredefinedAttributeSearchConditionList),
-  ),
-  AndConditions: S.optional(
-    S.suspend(() => PredefinedAttributeSearchConditionList),
-  ),
-  StringCondition: S.optional(StringCondition),
-}) {}
-export class PromptSearchFilter extends S.Class<PromptSearchFilter>(
-  "PromptSearchFilter",
-)({ TagFilter: S.optional(ControlPlaneTagFilter) }) {}
-export class PromptSearchCriteria extends S.Class<PromptSearchCriteria>(
-  "PromptSearchCriteria",
-)({
-  OrConditions: S.optional(S.suspend(() => PromptSearchConditionList)),
-  AndConditions: S.optional(S.suspend(() => PromptSearchConditionList)),
-  StringCondition: S.optional(StringCondition),
-}) {}
-export class QueueSearchFilter extends S.Class<QueueSearchFilter>(
-  "QueueSearchFilter",
-)({ TagFilter: S.optional(ControlPlaneTagFilter) }) {}
-export class QueueSearchCriteria extends S.Class<QueueSearchCriteria>(
-  "QueueSearchCriteria",
-)({
-  OrConditions: S.optional(S.suspend(() => QueueSearchConditionList)),
-  AndConditions: S.optional(S.suspend(() => QueueSearchConditionList)),
-  StringCondition: S.optional(StringCondition),
-  QueueTypeCondition: S.optional(S.String),
-}) {}
-export class QuickConnectSearchFilter extends S.Class<QuickConnectSearchFilter>(
-  "QuickConnectSearchFilter",
-)({ TagFilter: S.optional(ControlPlaneTagFilter) }) {}
-export class QuickConnectSearchCriteria extends S.Class<QuickConnectSearchCriteria>(
-  "QuickConnectSearchCriteria",
-)({
-  OrConditions: S.optional(S.suspend(() => QuickConnectSearchConditionList)),
-  AndConditions: S.optional(S.suspend(() => QuickConnectSearchConditionList)),
-  StringCondition: S.optional(StringCondition),
-}) {}
-export class RoutingProfileSearchFilter extends S.Class<RoutingProfileSearchFilter>(
-  "RoutingProfileSearchFilter",
-)({ TagFilter: S.optional(ControlPlaneTagFilter) }) {}
-export class RoutingProfileSearchCriteria extends S.Class<RoutingProfileSearchCriteria>(
-  "RoutingProfileSearchCriteria",
-)({
-  OrConditions: S.optional(S.suspend(() => RoutingProfileSearchConditionList)),
-  AndConditions: S.optional(S.suspend(() => RoutingProfileSearchConditionList)),
-  StringCondition: S.optional(StringCondition),
-}) {}
-export class SecurityProfileSearchCriteria extends S.Class<SecurityProfileSearchCriteria>(
-  "SecurityProfileSearchCriteria",
-)({
-  OrConditions: S.optional(S.suspend(() => SecurityProfileSearchConditionList)),
-  AndConditions: S.optional(
-    S.suspend(() => SecurityProfileSearchConditionList),
-  ),
-  StringCondition: S.optional(StringCondition),
-}) {}
-export class SecurityProfilesSearchFilter extends S.Class<SecurityProfilesSearchFilter>(
-  "SecurityProfilesSearchFilter",
-)({ TagFilter: S.optional(ControlPlaneTagFilter) }) {}
-export class UserHierarchyGroupSearchFilter extends S.Class<UserHierarchyGroupSearchFilter>(
-  "UserHierarchyGroupSearchFilter",
-)({ AttributeFilter: S.optional(ControlPlaneAttributeFilter) }) {}
-export class UserHierarchyGroupSearchCriteria extends S.Class<UserHierarchyGroupSearchCriteria>(
-  "UserHierarchyGroupSearchCriteria",
-)({
-  OrConditions: S.optional(
-    S.suspend(() => UserHierarchyGroupSearchConditionList),
-  ),
-  AndConditions: S.optional(
-    S.suspend(() => UserHierarchyGroupSearchConditionList),
-  ),
-  StringCondition: S.optional(StringCondition),
-}) {}
-export class ViewSearchFilter extends S.Class<ViewSearchFilter>(
-  "ViewSearchFilter",
-)({ AttributeFilter: S.optional(ControlPlaneAttributeFilter) }) {}
-export class ViewSearchCriteria extends S.Class<ViewSearchCriteria>(
-  "ViewSearchCriteria",
-)({
-  OrConditions: S.optional(S.suspend(() => ViewSearchConditionList)),
-  AndConditions: S.optional(S.suspend(() => ViewSearchConditionList)),
-  StringCondition: S.optional(StringCondition),
-  ViewTypeCondition: S.optional(S.String),
-  ViewStatusCondition: S.optional(S.String),
-}) {}
-export class WorkspaceAssociationSearchFilter extends S.Class<WorkspaceAssociationSearchFilter>(
-  "WorkspaceAssociationSearchFilter",
-)({ AttributeFilter: S.optional(ControlPlaneAttributeFilter) }) {}
-export class WorkspaceAssociationSearchCriteria extends S.Class<WorkspaceAssociationSearchCriteria>(
-  "WorkspaceAssociationSearchCriteria",
-)({
-  OrConditions: S.optional(
-    S.suspend(() => WorkspaceAssociationSearchConditionList),
-  ),
-  AndConditions: S.optional(
-    S.suspend(() => WorkspaceAssociationSearchConditionList),
-  ),
-  StringCondition: S.optional(StringCondition),
-}) {}
-export class WorkspaceSearchFilter extends S.Class<WorkspaceSearchFilter>(
-  "WorkspaceSearchFilter",
-)({ AttributeFilter: S.optional(ControlPlaneAttributeFilter) }) {}
-export class WorkspaceSearchCriteria extends S.Class<WorkspaceSearchCriteria>(
-  "WorkspaceSearchCriteria",
-)({
-  OrConditions: S.optional(S.suspend(() => WorkspaceSearchConditionList)),
-  AndConditions: S.optional(S.suspend(() => WorkspaceSearchConditionList)),
-  StringCondition: S.optional(StringCondition),
-}) {}
-export class ChatEvent extends S.Class<ChatEvent>("ChatEvent")({
-  Type: S.String,
-  ContentType: S.optional(S.String),
-  Content: S.optional(S.String),
-}) {}
-export class ParticipantDetails extends S.Class<ParticipantDetails>(
-  "ParticipantDetails",
-)({ DisplayName: S.String }) {}
-export class ChatStreamingConfiguration extends S.Class<ChatStreamingConfiguration>(
-  "ChatStreamingConfiguration",
-)({ StreamingEndpointArn: S.String }) {}
-export class NewSessionDetails extends S.Class<NewSessionDetails>(
-  "NewSessionDetails",
-)({
-  SupportedMessagingContentTypes: S.optional(SupportedMessagingContentTypes),
-  ParticipantDetails: S.optional(ParticipantDetails),
-  Attributes: S.optional(Attributes),
-  StreamingConfiguration: S.optional(ChatStreamingConfiguration),
-}) {}
-export class SourceCampaign extends S.Class<SourceCampaign>("SourceCampaign")({
-  CampaignId: S.optional(S.String),
-  OutboundRequestId: S.optional(S.String),
-}) {}
+export interface ControlPlaneTagFilter {
+  OrConditions?: TagOrConditionList;
+  AndConditions?: TagAndConditionList;
+  TagCondition?: TagCondition;
+}
+export const ControlPlaneTagFilter = S.suspend(() =>
+  S.Struct({
+    OrConditions: S.optional(TagOrConditionList),
+    AndConditions: S.optional(TagAndConditionList),
+    TagCondition: S.optional(TagCondition),
+  }),
+).annotations({
+  identifier: "ControlPlaneTagFilter",
+}) as any as S.Schema<ControlPlaneTagFilter>;
+export interface EmailAddressSearchFilter {
+  TagFilter?: ControlPlaneTagFilter;
+}
+export const EmailAddressSearchFilter = S.suspend(() =>
+  S.Struct({ TagFilter: S.optional(ControlPlaneTagFilter) }),
+).annotations({
+  identifier: "EmailAddressSearchFilter",
+}) as any as S.Schema<EmailAddressSearchFilter>;
+export interface NumberCondition {
+  FieldName?: string;
+  MinValue?: number;
+  MaxValue?: number;
+  ComparisonType?: string;
+}
+export const NumberCondition = S.suspend(() =>
+  S.Struct({
+    FieldName: S.optional(S.String),
+    MinValue: S.optional(S.Number),
+    MaxValue: S.optional(S.Number),
+    ComparisonType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "NumberCondition",
+}) as any as S.Schema<NumberCondition>;
+export interface BooleanCondition {
+  FieldName?: string;
+  ComparisonType?: string;
+}
+export const BooleanCondition = S.suspend(() =>
+  S.Struct({
+    FieldName: S.optional(S.String),
+    ComparisonType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "BooleanCondition",
+}) as any as S.Schema<BooleanCondition>;
+export interface DateTimeCondition {
+  FieldName?: string;
+  MinValue?: string;
+  MaxValue?: string;
+  ComparisonType?: string;
+}
+export const DateTimeCondition = S.suspend(() =>
+  S.Struct({
+    FieldName: S.optional(S.String),
+    MinValue: S.optional(S.String),
+    MaxValue: S.optional(S.String),
+    ComparisonType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DateTimeCondition",
+}) as any as S.Schema<DateTimeCondition>;
+export interface EvaluationFormSearchCriteria {
+  OrConditions?: EvaluationFormSearchConditionList;
+  AndConditions?: EvaluationFormSearchConditionList;
+  StringCondition?: StringCondition;
+  NumberCondition?: NumberCondition;
+  BooleanCondition?: BooleanCondition;
+  DateTimeCondition?: DateTimeCondition;
+}
+export const EvaluationFormSearchCriteria = S.suspend(() =>
+  S.Struct({
+    OrConditions: S.optional(
+      S.suspend(() => EvaluationFormSearchConditionList).annotations({
+        identifier: "EvaluationFormSearchConditionList",
+      }),
+    ),
+    AndConditions: S.optional(
+      S.suspend(() => EvaluationFormSearchConditionList).annotations({
+        identifier: "EvaluationFormSearchConditionList",
+      }),
+    ),
+    StringCondition: S.optional(StringCondition),
+    NumberCondition: S.optional(NumberCondition),
+    BooleanCondition: S.optional(BooleanCondition),
+    DateTimeCondition: S.optional(DateTimeCondition),
+  }),
+).annotations({
+  identifier: "EvaluationFormSearchCriteria",
+}) as any as S.Schema<EvaluationFormSearchCriteria>;
+export interface EvaluationFormSearchFilter {
+  AttributeFilter?: ControlPlaneAttributeFilter;
+}
+export const EvaluationFormSearchFilter = S.suspend(() =>
+  S.Struct({ AttributeFilter: S.optional(ControlPlaneAttributeFilter) }),
+).annotations({
+  identifier: "EvaluationFormSearchFilter",
+}) as any as S.Schema<EvaluationFormSearchFilter>;
+export interface HoursOfOperationSearchFilter {
+  TagFilter?: ControlPlaneTagFilter;
+}
+export const HoursOfOperationSearchFilter = S.suspend(() =>
+  S.Struct({ TagFilter: S.optional(ControlPlaneTagFilter) }),
+).annotations({
+  identifier: "HoursOfOperationSearchFilter",
+}) as any as S.Schema<HoursOfOperationSearchFilter>;
+export interface HoursOfOperationSearchCriteria {
+  OrConditions?: HoursOfOperationSearchConditionList;
+  AndConditions?: HoursOfOperationSearchConditionList;
+  StringCondition?: StringCondition;
+}
+export const HoursOfOperationSearchCriteria = S.suspend(() =>
+  S.Struct({
+    OrConditions: S.optional(
+      S.suspend(() => HoursOfOperationSearchConditionList).annotations({
+        identifier: "HoursOfOperationSearchConditionList",
+      }),
+    ),
+    AndConditions: S.optional(
+      S.suspend(() => HoursOfOperationSearchConditionList).annotations({
+        identifier: "HoursOfOperationSearchConditionList",
+      }),
+    ),
+    StringCondition: S.optional(StringCondition),
+  }),
+).annotations({
+  identifier: "HoursOfOperationSearchCriteria",
+}) as any as S.Schema<HoursOfOperationSearchCriteria>;
+export interface PredefinedAttributeSearchCriteria {
+  OrConditions?: PredefinedAttributeSearchConditionList;
+  AndConditions?: PredefinedAttributeSearchConditionList;
+  StringCondition?: StringCondition;
+}
+export const PredefinedAttributeSearchCriteria = S.suspend(() =>
+  S.Struct({
+    OrConditions: S.optional(
+      S.suspend(() => PredefinedAttributeSearchConditionList).annotations({
+        identifier: "PredefinedAttributeSearchConditionList",
+      }),
+    ),
+    AndConditions: S.optional(
+      S.suspend(() => PredefinedAttributeSearchConditionList).annotations({
+        identifier: "PredefinedAttributeSearchConditionList",
+      }),
+    ),
+    StringCondition: S.optional(StringCondition),
+  }),
+).annotations({
+  identifier: "PredefinedAttributeSearchCriteria",
+}) as any as S.Schema<PredefinedAttributeSearchCriteria>;
+export interface PromptSearchFilter {
+  TagFilter?: ControlPlaneTagFilter;
+}
+export const PromptSearchFilter = S.suspend(() =>
+  S.Struct({ TagFilter: S.optional(ControlPlaneTagFilter) }),
+).annotations({
+  identifier: "PromptSearchFilter",
+}) as any as S.Schema<PromptSearchFilter>;
+export interface PromptSearchCriteria {
+  OrConditions?: PromptSearchConditionList;
+  AndConditions?: PromptSearchConditionList;
+  StringCondition?: StringCondition;
+}
+export const PromptSearchCriteria = S.suspend(() =>
+  S.Struct({
+    OrConditions: S.optional(
+      S.suspend(() => PromptSearchConditionList).annotations({
+        identifier: "PromptSearchConditionList",
+      }),
+    ),
+    AndConditions: S.optional(
+      S.suspend(() => PromptSearchConditionList).annotations({
+        identifier: "PromptSearchConditionList",
+      }),
+    ),
+    StringCondition: S.optional(StringCondition),
+  }),
+).annotations({
+  identifier: "PromptSearchCriteria",
+}) as any as S.Schema<PromptSearchCriteria>;
+export interface QueueSearchFilter {
+  TagFilter?: ControlPlaneTagFilter;
+}
+export const QueueSearchFilter = S.suspend(() =>
+  S.Struct({ TagFilter: S.optional(ControlPlaneTagFilter) }),
+).annotations({
+  identifier: "QueueSearchFilter",
+}) as any as S.Schema<QueueSearchFilter>;
+export interface QueueSearchCriteria {
+  OrConditions?: QueueSearchConditionList;
+  AndConditions?: QueueSearchConditionList;
+  StringCondition?: StringCondition;
+  QueueTypeCondition?: string;
+}
+export const QueueSearchCriteria = S.suspend(() =>
+  S.Struct({
+    OrConditions: S.optional(
+      S.suspend(() => QueueSearchConditionList).annotations({
+        identifier: "QueueSearchConditionList",
+      }),
+    ),
+    AndConditions: S.optional(
+      S.suspend(() => QueueSearchConditionList).annotations({
+        identifier: "QueueSearchConditionList",
+      }),
+    ),
+    StringCondition: S.optional(StringCondition),
+    QueueTypeCondition: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "QueueSearchCriteria",
+}) as any as S.Schema<QueueSearchCriteria>;
+export interface QuickConnectSearchFilter {
+  TagFilter?: ControlPlaneTagFilter;
+}
+export const QuickConnectSearchFilter = S.suspend(() =>
+  S.Struct({ TagFilter: S.optional(ControlPlaneTagFilter) }),
+).annotations({
+  identifier: "QuickConnectSearchFilter",
+}) as any as S.Schema<QuickConnectSearchFilter>;
+export interface QuickConnectSearchCriteria {
+  OrConditions?: QuickConnectSearchConditionList;
+  AndConditions?: QuickConnectSearchConditionList;
+  StringCondition?: StringCondition;
+}
+export const QuickConnectSearchCriteria = S.suspend(() =>
+  S.Struct({
+    OrConditions: S.optional(
+      S.suspend(() => QuickConnectSearchConditionList).annotations({
+        identifier: "QuickConnectSearchConditionList",
+      }),
+    ),
+    AndConditions: S.optional(
+      S.suspend(() => QuickConnectSearchConditionList).annotations({
+        identifier: "QuickConnectSearchConditionList",
+      }),
+    ),
+    StringCondition: S.optional(StringCondition),
+  }),
+).annotations({
+  identifier: "QuickConnectSearchCriteria",
+}) as any as S.Schema<QuickConnectSearchCriteria>;
+export interface RoutingProfileSearchFilter {
+  TagFilter?: ControlPlaneTagFilter;
+}
+export const RoutingProfileSearchFilter = S.suspend(() =>
+  S.Struct({ TagFilter: S.optional(ControlPlaneTagFilter) }),
+).annotations({
+  identifier: "RoutingProfileSearchFilter",
+}) as any as S.Schema<RoutingProfileSearchFilter>;
+export interface RoutingProfileSearchCriteria {
+  OrConditions?: RoutingProfileSearchConditionList;
+  AndConditions?: RoutingProfileSearchConditionList;
+  StringCondition?: StringCondition;
+}
+export const RoutingProfileSearchCriteria = S.suspend(() =>
+  S.Struct({
+    OrConditions: S.optional(
+      S.suspend(() => RoutingProfileSearchConditionList).annotations({
+        identifier: "RoutingProfileSearchConditionList",
+      }),
+    ),
+    AndConditions: S.optional(
+      S.suspend(() => RoutingProfileSearchConditionList).annotations({
+        identifier: "RoutingProfileSearchConditionList",
+      }),
+    ),
+    StringCondition: S.optional(StringCondition),
+  }),
+).annotations({
+  identifier: "RoutingProfileSearchCriteria",
+}) as any as S.Schema<RoutingProfileSearchCriteria>;
+export interface SecurityProfileSearchCriteria {
+  OrConditions?: SecurityProfileSearchConditionList;
+  AndConditions?: SecurityProfileSearchConditionList;
+  StringCondition?: StringCondition;
+}
+export const SecurityProfileSearchCriteria = S.suspend(() =>
+  S.Struct({
+    OrConditions: S.optional(
+      S.suspend(() => SecurityProfileSearchConditionList).annotations({
+        identifier: "SecurityProfileSearchConditionList",
+      }),
+    ),
+    AndConditions: S.optional(
+      S.suspend(() => SecurityProfileSearchConditionList).annotations({
+        identifier: "SecurityProfileSearchConditionList",
+      }),
+    ),
+    StringCondition: S.optional(StringCondition),
+  }),
+).annotations({
+  identifier: "SecurityProfileSearchCriteria",
+}) as any as S.Schema<SecurityProfileSearchCriteria>;
+export interface SecurityProfilesSearchFilter {
+  TagFilter?: ControlPlaneTagFilter;
+}
+export const SecurityProfilesSearchFilter = S.suspend(() =>
+  S.Struct({ TagFilter: S.optional(ControlPlaneTagFilter) }),
+).annotations({
+  identifier: "SecurityProfilesSearchFilter",
+}) as any as S.Schema<SecurityProfilesSearchFilter>;
+export interface UserHierarchyGroupSearchFilter {
+  AttributeFilter?: ControlPlaneAttributeFilter;
+}
+export const UserHierarchyGroupSearchFilter = S.suspend(() =>
+  S.Struct({ AttributeFilter: S.optional(ControlPlaneAttributeFilter) }),
+).annotations({
+  identifier: "UserHierarchyGroupSearchFilter",
+}) as any as S.Schema<UserHierarchyGroupSearchFilter>;
+export interface UserHierarchyGroupSearchCriteria {
+  OrConditions?: UserHierarchyGroupSearchConditionList;
+  AndConditions?: UserHierarchyGroupSearchConditionList;
+  StringCondition?: StringCondition;
+}
+export const UserHierarchyGroupSearchCriteria = S.suspend(() =>
+  S.Struct({
+    OrConditions: S.optional(
+      S.suspend(() => UserHierarchyGroupSearchConditionList).annotations({
+        identifier: "UserHierarchyGroupSearchConditionList",
+      }),
+    ),
+    AndConditions: S.optional(
+      S.suspend(() => UserHierarchyGroupSearchConditionList).annotations({
+        identifier: "UserHierarchyGroupSearchConditionList",
+      }),
+    ),
+    StringCondition: S.optional(StringCondition),
+  }),
+).annotations({
+  identifier: "UserHierarchyGroupSearchCriteria",
+}) as any as S.Schema<UserHierarchyGroupSearchCriteria>;
+export interface ViewSearchFilter {
+  AttributeFilter?: ControlPlaneAttributeFilter;
+}
+export const ViewSearchFilter = S.suspend(() =>
+  S.Struct({ AttributeFilter: S.optional(ControlPlaneAttributeFilter) }),
+).annotations({
+  identifier: "ViewSearchFilter",
+}) as any as S.Schema<ViewSearchFilter>;
+export interface ViewSearchCriteria {
+  OrConditions?: ViewSearchConditionList;
+  AndConditions?: ViewSearchConditionList;
+  StringCondition?: StringCondition;
+  ViewTypeCondition?: string;
+  ViewStatusCondition?: string;
+}
+export const ViewSearchCriteria = S.suspend(() =>
+  S.Struct({
+    OrConditions: S.optional(
+      S.suspend(() => ViewSearchConditionList).annotations({
+        identifier: "ViewSearchConditionList",
+      }),
+    ),
+    AndConditions: S.optional(
+      S.suspend(() => ViewSearchConditionList).annotations({
+        identifier: "ViewSearchConditionList",
+      }),
+    ),
+    StringCondition: S.optional(StringCondition),
+    ViewTypeCondition: S.optional(S.String),
+    ViewStatusCondition: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ViewSearchCriteria",
+}) as any as S.Schema<ViewSearchCriteria>;
+export interface WorkspaceAssociationSearchFilter {
+  AttributeFilter?: ControlPlaneAttributeFilter;
+}
+export const WorkspaceAssociationSearchFilter = S.suspend(() =>
+  S.Struct({ AttributeFilter: S.optional(ControlPlaneAttributeFilter) }),
+).annotations({
+  identifier: "WorkspaceAssociationSearchFilter",
+}) as any as S.Schema<WorkspaceAssociationSearchFilter>;
+export interface WorkspaceAssociationSearchCriteria {
+  OrConditions?: WorkspaceAssociationSearchConditionList;
+  AndConditions?: WorkspaceAssociationSearchConditionList;
+  StringCondition?: StringCondition;
+}
+export const WorkspaceAssociationSearchCriteria = S.suspend(() =>
+  S.Struct({
+    OrConditions: S.optional(
+      S.suspend(() => WorkspaceAssociationSearchConditionList).annotations({
+        identifier: "WorkspaceAssociationSearchConditionList",
+      }),
+    ),
+    AndConditions: S.optional(
+      S.suspend(() => WorkspaceAssociationSearchConditionList).annotations({
+        identifier: "WorkspaceAssociationSearchConditionList",
+      }),
+    ),
+    StringCondition: S.optional(StringCondition),
+  }),
+).annotations({
+  identifier: "WorkspaceAssociationSearchCriteria",
+}) as any as S.Schema<WorkspaceAssociationSearchCriteria>;
+export interface WorkspaceSearchFilter {
+  AttributeFilter?: ControlPlaneAttributeFilter;
+}
+export const WorkspaceSearchFilter = S.suspend(() =>
+  S.Struct({ AttributeFilter: S.optional(ControlPlaneAttributeFilter) }),
+).annotations({
+  identifier: "WorkspaceSearchFilter",
+}) as any as S.Schema<WorkspaceSearchFilter>;
+export interface WorkspaceSearchCriteria {
+  OrConditions?: WorkspaceSearchConditionList;
+  AndConditions?: WorkspaceSearchConditionList;
+  StringCondition?: StringCondition;
+}
+export const WorkspaceSearchCriteria = S.suspend(() =>
+  S.Struct({
+    OrConditions: S.optional(
+      S.suspend(() => WorkspaceSearchConditionList).annotations({
+        identifier: "WorkspaceSearchConditionList",
+      }),
+    ),
+    AndConditions: S.optional(
+      S.suspend(() => WorkspaceSearchConditionList).annotations({
+        identifier: "WorkspaceSearchConditionList",
+      }),
+    ),
+    StringCondition: S.optional(StringCondition),
+  }),
+).annotations({
+  identifier: "WorkspaceSearchCriteria",
+}) as any as S.Schema<WorkspaceSearchCriteria>;
+export interface ChatEvent {
+  Type: string;
+  ContentType?: string;
+  Content?: string;
+}
+export const ChatEvent = S.suspend(() =>
+  S.Struct({
+    Type: S.String,
+    ContentType: S.optional(S.String),
+    Content: S.optional(S.String),
+  }),
+).annotations({ identifier: "ChatEvent" }) as any as S.Schema<ChatEvent>;
+export interface ParticipantDetails {
+  DisplayName: string;
+}
+export const ParticipantDetails = S.suspend(() =>
+  S.Struct({ DisplayName: S.String }),
+).annotations({
+  identifier: "ParticipantDetails",
+}) as any as S.Schema<ParticipantDetails>;
+export interface ChatStreamingConfiguration {
+  StreamingEndpointArn: string;
+}
+export const ChatStreamingConfiguration = S.suspend(() =>
+  S.Struct({ StreamingEndpointArn: S.String }),
+).annotations({
+  identifier: "ChatStreamingConfiguration",
+}) as any as S.Schema<ChatStreamingConfiguration>;
+export interface NewSessionDetails {
+  SupportedMessagingContentTypes?: SupportedMessagingContentTypes;
+  ParticipantDetails?: ParticipantDetails;
+  Attributes?: Attributes;
+  StreamingConfiguration?: ChatStreamingConfiguration;
+}
+export const NewSessionDetails = S.suspend(() =>
+  S.Struct({
+    SupportedMessagingContentTypes: S.optional(SupportedMessagingContentTypes),
+    ParticipantDetails: S.optional(ParticipantDetails),
+    Attributes: S.optional(Attributes),
+    StreamingConfiguration: S.optional(ChatStreamingConfiguration),
+  }),
+).annotations({
+  identifier: "NewSessionDetails",
+}) as any as S.Schema<NewSessionDetails>;
+export interface SourceCampaign {
+  CampaignId?: string;
+  OutboundRequestId?: string;
+}
+export const SourceCampaign = S.suspend(() =>
+  S.Struct({
+    CampaignId: S.optional(S.String),
+    OutboundRequestId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SourceCampaign",
+}) as any as S.Schema<SourceCampaign>;
 export const CreatedByInfo = S.Union(
   S.Struct({ ConnectUserArn: S.String }),
   S.Struct({ AWSIdentityArn: S.String }),
 );
-export class ParticipantConfiguration extends S.Class<ParticipantConfiguration>(
-  "ParticipantConfiguration",
-)({ ResponseMode: S.optional(S.String) }) {}
-export class ChatMessage extends S.Class<ChatMessage>("ChatMessage")({
-  ContentType: S.String,
-  Content: S.String,
-}) {}
-export class PersistentChat extends S.Class<PersistentChat>("PersistentChat")({
-  RehydrationType: S.optional(S.String),
-  SourceContactId: S.optional(S.String),
-}) {}
-export class AutoEvaluationConfiguration extends S.Class<AutoEvaluationConfiguration>(
-  "AutoEvaluationConfiguration",
-)({ Enabled: S.Boolean }) {}
-export class VoiceRecordingConfiguration extends S.Class<VoiceRecordingConfiguration>(
-  "VoiceRecordingConfiguration",
-)({
-  VoiceRecordingTrack: S.optional(S.String),
-  IvrRecordingTrack: S.optional(S.String),
-}) {}
-export class InboundAdditionalRecipients extends S.Class<InboundAdditionalRecipients>(
-  "InboundAdditionalRecipients",
-)({
-  ToAddresses: S.optional(EmailAddressRecipientList),
-  CcAddresses: S.optional(EmailAddressRecipientList),
-}) {}
-export class EmailAttachment extends S.Class<EmailAttachment>(
-  "EmailAttachment",
-)({ FileName: S.String, S3Url: S.String }) {}
+export interface ParticipantConfiguration {
+  ResponseMode?: string;
+}
+export const ParticipantConfiguration = S.suspend(() =>
+  S.Struct({ ResponseMode: S.optional(S.String) }),
+).annotations({
+  identifier: "ParticipantConfiguration",
+}) as any as S.Schema<ParticipantConfiguration>;
+export interface ChatMessage {
+  ContentType: string;
+  Content: string;
+}
+export const ChatMessage = S.suspend(() =>
+  S.Struct({ ContentType: S.String, Content: S.String }),
+).annotations({ identifier: "ChatMessage" }) as any as S.Schema<ChatMessage>;
+export interface PersistentChat {
+  RehydrationType?: string;
+  SourceContactId?: string;
+}
+export const PersistentChat = S.suspend(() =>
+  S.Struct({
+    RehydrationType: S.optional(S.String),
+    SourceContactId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "PersistentChat",
+}) as any as S.Schema<PersistentChat>;
+export interface AutoEvaluationConfiguration {
+  Enabled: boolean;
+}
+export const AutoEvaluationConfiguration = S.suspend(() =>
+  S.Struct({ Enabled: S.Boolean }),
+).annotations({
+  identifier: "AutoEvaluationConfiguration",
+}) as any as S.Schema<AutoEvaluationConfiguration>;
+export interface VoiceRecordingConfiguration {
+  VoiceRecordingTrack?: string;
+  IvrRecordingTrack?: string;
+}
+export const VoiceRecordingConfiguration = S.suspend(() =>
+  S.Struct({
+    VoiceRecordingTrack: S.optional(S.String),
+    IvrRecordingTrack: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "VoiceRecordingConfiguration",
+}) as any as S.Schema<VoiceRecordingConfiguration>;
+export interface InboundAdditionalRecipients {
+  ToAddresses?: EmailAddressRecipientList;
+  CcAddresses?: EmailAddressRecipientList;
+}
+export const InboundAdditionalRecipients = S.suspend(() =>
+  S.Struct({
+    ToAddresses: S.optional(EmailAddressRecipientList),
+    CcAddresses: S.optional(EmailAddressRecipientList),
+  }),
+).annotations({
+  identifier: "InboundAdditionalRecipients",
+}) as any as S.Schema<InboundAdditionalRecipients>;
+export interface EmailAttachment {
+  FileName: string;
+  S3Url: string;
+}
+export const EmailAttachment = S.suspend(() =>
+  S.Struct({ FileName: S.String, S3Url: S.String }),
+).annotations({
+  identifier: "EmailAttachment",
+}) as any as S.Schema<EmailAttachment>;
+export type EmailAttachments = EmailAttachment[];
 export const EmailAttachments = S.Array(EmailAttachment);
-export class Endpoint extends S.Class<Endpoint>("Endpoint")({
-  Type: S.optional(S.String),
-  Address: S.optional(S.String),
-}) {}
-export class AnswerMachineDetectionConfig extends S.Class<AnswerMachineDetectionConfig>(
-  "AnswerMachineDetectionConfig",
-)({
-  EnableAnswerMachineDetection: S.optional(S.Boolean),
-  AwaitAnswerMachinePrompt: S.optional(S.Boolean),
-}) {}
-export class ParticipantCapabilities extends S.Class<ParticipantCapabilities>(
-  "ParticipantCapabilities",
-)({ Video: S.optional(S.String), ScreenShare: S.optional(S.String) }) {}
-export class AllowedCapabilities extends S.Class<AllowedCapabilities>(
-  "AllowedCapabilities",
-)({
-  Customer: S.optional(ParticipantCapabilities),
-  Agent: S.optional(ParticipantCapabilities),
-}) {}
-export class DisconnectReason extends S.Class<DisconnectReason>(
-  "DisconnectReason",
-)({ Code: S.optional(S.String) }) {}
+export interface Endpoint {
+  Type?: string;
+  Address?: string;
+}
+export const Endpoint = S.suspend(() =>
+  S.Struct({ Type: S.optional(S.String), Address: S.optional(S.String) }),
+).annotations({ identifier: "Endpoint" }) as any as S.Schema<Endpoint>;
+export interface AnswerMachineDetectionConfig {
+  EnableAnswerMachineDetection?: boolean;
+  AwaitAnswerMachinePrompt?: boolean;
+}
+export const AnswerMachineDetectionConfig = S.suspend(() =>
+  S.Struct({
+    EnableAnswerMachineDetection: S.optional(S.Boolean),
+    AwaitAnswerMachinePrompt: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "AnswerMachineDetectionConfig",
+}) as any as S.Schema<AnswerMachineDetectionConfig>;
+export interface ParticipantCapabilities {
+  Video?: string;
+  ScreenShare?: string;
+}
+export const ParticipantCapabilities = S.suspend(() =>
+  S.Struct({ Video: S.optional(S.String), ScreenShare: S.optional(S.String) }),
+).annotations({
+  identifier: "ParticipantCapabilities",
+}) as any as S.Schema<ParticipantCapabilities>;
+export interface AllowedCapabilities {
+  Customer?: ParticipantCapabilities;
+  Agent?: ParticipantCapabilities;
+}
+export const AllowedCapabilities = S.suspend(() =>
+  S.Struct({
+    Customer: S.optional(ParticipantCapabilities),
+    Agent: S.optional(ParticipantCapabilities),
+  }),
+).annotations({
+  identifier: "AllowedCapabilities",
+}) as any as S.Schema<AllowedCapabilities>;
+export interface DisconnectReason {
+  Code?: string;
+}
+export const DisconnectReason = S.suspend(() =>
+  S.Struct({ Code: S.optional(S.String) }),
+).annotations({
+  identifier: "DisconnectReason",
+}) as any as S.Schema<DisconnectReason>;
+export type ContactTagMap = { [key: string]: string };
 export const ContactTagMap = S.Record({ key: S.String, value: S.String });
-export class QueueInfoInput extends S.Class<QueueInfoInput>("QueueInfoInput")({
-  Id: S.optional(S.String),
-}) {}
-export class Distribution extends S.Class<Distribution>("Distribution")({
-  Region: S.String,
-  Percentage: S.Number,
-}) {}
+export interface QueueInfoInput {
+  Id?: string;
+}
+export const QueueInfoInput = S.suspend(() =>
+  S.Struct({ Id: S.optional(S.String) }),
+).annotations({
+  identifier: "QueueInfoInput",
+}) as any as S.Schema<QueueInfoInput>;
+export interface Distribution {
+  Region: string;
+  Percentage: number;
+}
+export const Distribution = S.suspend(() =>
+  S.Struct({ Region: S.String, Percentage: S.Number }),
+).annotations({ identifier: "Distribution" }) as any as S.Schema<Distribution>;
+export type DistributionList = Distribution[];
 export const DistributionList = S.Array(Distribution);
-export class AgentConfig extends S.Class<AgentConfig>("AgentConfig")({
-  Distributions: DistributionList,
-}) {}
+export interface AgentConfig {
+  Distributions: DistributionList;
+}
+export const AgentConfig = S.suspend(() =>
+  S.Struct({ Distributions: DistributionList }),
+).annotations({ identifier: "AgentConfig" }) as any as S.Schema<AgentConfig>;
 export type SegmentAttributeValueList = SegmentAttributeValue[];
 export const SegmentAttributeValueList = S.Array(
-  S.suspend((): S.Schema<SegmentAttributeValue, any> => SegmentAttributeValue),
+  S.suspend(
+    (): S.Schema<SegmentAttributeValue, any> => SegmentAttributeValue,
+  ).annotations({ identifier: "SegmentAttributeValue" }),
 ) as any as S.Schema<SegmentAttributeValueList>;
+export type ContactStates = string[];
 export const ContactStates = S.Array(S.String);
+export type MetricFilterValueList = string[];
 export const MetricFilterValueList = S.Array(S.String);
+export type SearchTextList = string[];
 export const SearchTextList = S.Array(S.String);
+export type HierarchyGroupIdList = string[];
 export const HierarchyGroupIdList = S.Array(S.String);
-export class ActivateEvaluationFormResponse extends S.Class<ActivateEvaluationFormResponse>(
-  "ActivateEvaluationFormResponse",
-)({
-  EvaluationFormId: S.String,
-  EvaluationFormArn: S.String,
-  EvaluationFormVersion: S.Number,
-}) {}
-export class AssociateAnalyticsDataSetResponse extends S.Class<AssociateAnalyticsDataSetResponse>(
-  "AssociateAnalyticsDataSetResponse",
-)({
-  DataSetId: S.optional(S.String),
-  TargetAccountId: S.optional(S.String),
-  ResourceShareId: S.optional(S.String),
-  ResourceShareArn: S.optional(S.String),
-}) {}
-export class AssociateBotRequest extends S.Class<AssociateBotRequest>(
-  "AssociateBotRequest",
-)(
-  {
+export interface ActivateEvaluationFormResponse {
+  EvaluationFormId: string;
+  EvaluationFormArn: string;
+  EvaluationFormVersion: number;
+}
+export const ActivateEvaluationFormResponse = S.suspend(() =>
+  S.Struct({
+    EvaluationFormId: S.String,
+    EvaluationFormArn: S.String,
+    EvaluationFormVersion: S.Number,
+  }),
+).annotations({
+  identifier: "ActivateEvaluationFormResponse",
+}) as any as S.Schema<ActivateEvaluationFormResponse>;
+export interface AssociateAnalyticsDataSetResponse {
+  DataSetId?: string;
+  TargetAccountId?: string;
+  ResourceShareId?: string;
+  ResourceShareArn?: string;
+}
+export const AssociateAnalyticsDataSetResponse = S.suspend(() =>
+  S.Struct({
+    DataSetId: S.optional(S.String),
+    TargetAccountId: S.optional(S.String),
+    ResourceShareId: S.optional(S.String),
+    ResourceShareArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AssociateAnalyticsDataSetResponse",
+}) as any as S.Schema<AssociateAnalyticsDataSetResponse>;
+export interface AssociateBotRequest {
+  InstanceId: string;
+  LexBot?: LexBot;
+  LexV2Bot?: LexV2Bot;
+  ClientToken?: string;
+}
+export const AssociateBotRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     LexBot: S.optional(LexBot),
     LexV2Bot: S.optional(LexV2Bot),
     ClientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/instance/{InstanceId}/bot" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/instance/{InstanceId}/bot" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AssociateBotResponse extends S.Class<AssociateBotResponse>(
-  "AssociateBotResponse",
-)({}) {}
-export class AssociateEmailAddressAliasRequest extends S.Class<AssociateEmailAddressAliasRequest>(
-  "AssociateEmailAddressAliasRequest",
-)(
-  {
+).annotations({
+  identifier: "AssociateBotRequest",
+}) as any as S.Schema<AssociateBotRequest>;
+export interface AssociateBotResponse {}
+export const AssociateBotResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "AssociateBotResponse",
+}) as any as S.Schema<AssociateBotResponse>;
+export interface AssociateEmailAddressAliasRequest {
+  EmailAddressId: string;
+  InstanceId: string;
+  AliasConfiguration: AliasConfiguration;
+  ClientToken?: string;
+}
+export const AssociateEmailAddressAliasRequest = S.suspend(() =>
+  S.Struct({
     EmailAddressId: S.String.pipe(T.HttpLabel("EmailAddressId")),
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     AliasConfiguration: AliasConfiguration,
     ClientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/email-addresses/{InstanceId}/{EmailAddressId}/associate-alias",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/email-addresses/{InstanceId}/{EmailAddressId}/associate-alias",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AssociateEmailAddressAliasResponse extends S.Class<AssociateEmailAddressAliasResponse>(
-  "AssociateEmailAddressAliasResponse",
-)({}) {}
-export class AssociateRoutingProfileQueuesRequest extends S.Class<AssociateRoutingProfileQueuesRequest>(
-  "AssociateRoutingProfileQueuesRequest",
-)(
-  {
+).annotations({
+  identifier: "AssociateEmailAddressAliasRequest",
+}) as any as S.Schema<AssociateEmailAddressAliasRequest>;
+export interface AssociateEmailAddressAliasResponse {}
+export const AssociateEmailAddressAliasResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "AssociateEmailAddressAliasResponse",
+}) as any as S.Schema<AssociateEmailAddressAliasResponse>;
+export interface AssociateRoutingProfileQueuesRequest {
+  InstanceId: string;
+  RoutingProfileId: string;
+  QueueConfigs?: RoutingProfileQueueConfigList;
+  ManualAssignmentQueueConfigs?: RoutingProfileManualAssignmentQueueConfigList;
+}
+export const AssociateRoutingProfileQueuesRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     RoutingProfileId: S.String.pipe(T.HttpLabel("RoutingProfileId")),
     QueueConfigs: S.optional(RoutingProfileQueueConfigList),
     ManualAssignmentQueueConfigs: S.optional(
       RoutingProfileManualAssignmentQueueConfigList,
     ),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/routing-profiles/{InstanceId}/{RoutingProfileId}/associate-queues",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/routing-profiles/{InstanceId}/{RoutingProfileId}/associate-queues",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AssociateRoutingProfileQueuesResponse extends S.Class<AssociateRoutingProfileQueuesResponse>(
-  "AssociateRoutingProfileQueuesResponse",
-)({}) {}
-export class AssociateSecurityKeyResponse extends S.Class<AssociateSecurityKeyResponse>(
-  "AssociateSecurityKeyResponse",
-)({ AssociationId: S.optional(S.String) }) {}
-export class AssociateSecurityProfilesRequest extends S.Class<AssociateSecurityProfilesRequest>(
-  "AssociateSecurityProfilesRequest",
-)(
-  {
+).annotations({
+  identifier: "AssociateRoutingProfileQueuesRequest",
+}) as any as S.Schema<AssociateRoutingProfileQueuesRequest>;
+export interface AssociateRoutingProfileQueuesResponse {}
+export const AssociateRoutingProfileQueuesResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "AssociateRoutingProfileQueuesResponse",
+}) as any as S.Schema<AssociateRoutingProfileQueuesResponse>;
+export interface AssociateSecurityKeyResponse {
+  AssociationId?: string;
+}
+export const AssociateSecurityKeyResponse = S.suspend(() =>
+  S.Struct({ AssociationId: S.optional(S.String) }),
+).annotations({
+  identifier: "AssociateSecurityKeyResponse",
+}) as any as S.Schema<AssociateSecurityKeyResponse>;
+export interface AssociateSecurityProfilesRequest {
+  InstanceId: string;
+  SecurityProfiles: SecurityProfiles;
+  EntityType: string;
+  EntityArn: string;
+}
+export const AssociateSecurityProfilesRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     SecurityProfiles: SecurityProfiles,
     EntityType: S.String,
     EntityArn: S.String,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/associate-security-profiles/{InstanceId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/associate-security-profiles/{InstanceId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AssociateSecurityProfilesResponse extends S.Class<AssociateSecurityProfilesResponse>(
-  "AssociateSecurityProfilesResponse",
-)({}) {}
-export class AssociateUserProficienciesRequest extends S.Class<AssociateUserProficienciesRequest>(
-  "AssociateUserProficienciesRequest",
-)(
-  {
+).annotations({
+  identifier: "AssociateSecurityProfilesRequest",
+}) as any as S.Schema<AssociateSecurityProfilesRequest>;
+export interface AssociateSecurityProfilesResponse {}
+export const AssociateSecurityProfilesResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "AssociateSecurityProfilesResponse",
+}) as any as S.Schema<AssociateSecurityProfilesResponse>;
+export interface AssociateUserProficienciesRequest {
+  InstanceId: string;
+  UserId: string;
+  UserProficiencies: UserProficiencyList;
+}
+export const AssociateUserProficienciesRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     UserId: S.String.pipe(T.HttpLabel("UserId")),
     UserProficiencies: UserProficiencyList,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/users/{InstanceId}/{UserId}/associate-proficiencies",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/users/{InstanceId}/{UserId}/associate-proficiencies",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AssociateUserProficienciesResponse extends S.Class<AssociateUserProficienciesResponse>(
-  "AssociateUserProficienciesResponse",
-)({}) {}
-export class BatchCreateDataTableValueRequest extends S.Class<BatchCreateDataTableValueRequest>(
-  "BatchCreateDataTableValueRequest",
-)(
-  {
+).annotations({
+  identifier: "AssociateUserProficienciesRequest",
+}) as any as S.Schema<AssociateUserProficienciesRequest>;
+export interface AssociateUserProficienciesResponse {}
+export const AssociateUserProficienciesResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "AssociateUserProficienciesResponse",
+}) as any as S.Schema<AssociateUserProficienciesResponse>;
+export interface BatchCreateDataTableValueRequest {
+  InstanceId: string;
+  DataTableId: string;
+  Values: DataTableValueList;
+}
+export const BatchCreateDataTableValueRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     DataTableId: S.String.pipe(T.HttpLabel("DataTableId")),
     Values: DataTableValueList,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/data-tables/{InstanceId}/{DataTableId}/values/create",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/data-tables/{InstanceId}/{DataTableId}/values/create",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class BatchDeleteDataTableValueRequest extends S.Class<BatchDeleteDataTableValueRequest>(
-  "BatchDeleteDataTableValueRequest",
-)(
-  {
+).annotations({
+  identifier: "BatchCreateDataTableValueRequest",
+}) as any as S.Schema<BatchCreateDataTableValueRequest>;
+export interface BatchDeleteDataTableValueRequest {
+  InstanceId: string;
+  DataTableId: string;
+  Values: DataTableDeleteValueIdentifierList;
+}
+export const BatchDeleteDataTableValueRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     DataTableId: S.String.pipe(T.HttpLabel("DataTableId")),
     Values: DataTableDeleteValueIdentifierList,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/data-tables/{InstanceId}/{DataTableId}/values/delete",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/data-tables/{InstanceId}/{DataTableId}/values/delete",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class BatchDescribeDataTableValueRequest extends S.Class<BatchDescribeDataTableValueRequest>(
-  "BatchDescribeDataTableValueRequest",
-)(
-  {
+).annotations({
+  identifier: "BatchDeleteDataTableValueRequest",
+}) as any as S.Schema<BatchDeleteDataTableValueRequest>;
+export interface BatchDescribeDataTableValueRequest {
+  InstanceId: string;
+  DataTableId: string;
+  Values: DataTableValueIdentifierList;
+}
+export const BatchDescribeDataTableValueRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     DataTableId: S.String.pipe(T.HttpLabel("DataTableId")),
     Values: DataTableValueIdentifierList,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/data-tables/{InstanceId}/{DataTableId}/values/describe",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/data-tables/{InstanceId}/{DataTableId}/values/describe",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ErrorResult extends S.Class<ErrorResult>("ErrorResult")({
-  ErrorCode: S.optional(S.String),
-  ErrorMessage: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "BatchDescribeDataTableValueRequest",
+}) as any as S.Schema<BatchDescribeDataTableValueRequest>;
+export interface ErrorResult {
+  ErrorCode?: string;
+  ErrorMessage?: string;
+}
+export const ErrorResult = S.suspend(() =>
+  S.Struct({
+    ErrorCode: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
+  }),
+).annotations({ identifier: "ErrorResult" }) as any as S.Schema<ErrorResult>;
+export type ErrorResults = ErrorResult[];
 export const ErrorResults = S.Array(ErrorResult);
-export class BatchDisassociateAnalyticsDataSetResponse extends S.Class<BatchDisassociateAnalyticsDataSetResponse>(
-  "BatchDisassociateAnalyticsDataSetResponse",
-)({ Deleted: S.optional(DataSetIds), Errors: S.optional(ErrorResults) }) {}
-export class ClaimPhoneNumberRequest extends S.Class<ClaimPhoneNumberRequest>(
-  "ClaimPhoneNumberRequest",
-)(
-  {
+export interface BatchDisassociateAnalyticsDataSetResponse {
+  Deleted?: DataSetIds;
+  Errors?: ErrorResults;
+}
+export const BatchDisassociateAnalyticsDataSetResponse = S.suspend(() =>
+  S.Struct({
+    Deleted: S.optional(DataSetIds),
+    Errors: S.optional(ErrorResults),
+  }),
+).annotations({
+  identifier: "BatchDisassociateAnalyticsDataSetResponse",
+}) as any as S.Schema<BatchDisassociateAnalyticsDataSetResponse>;
+export interface ClaimPhoneNumberRequest {
+  TargetArn?: string;
+  InstanceId?: string;
+  PhoneNumber: string;
+  PhoneNumberDescription?: string;
+  Tags?: TagMap;
+  ClientToken?: string;
+}
+export const ClaimPhoneNumberRequest = S.suspend(() =>
+  S.Struct({
     TargetArn: S.optional(S.String),
     InstanceId: S.optional(S.String),
     PhoneNumber: S.String,
     PhoneNumberDescription: S.optional(S.String),
     Tags: S.optional(TagMap),
     ClientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/phone-number/claim" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/phone-number/claim" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateAgentStatusResponse extends S.Class<CreateAgentStatusResponse>(
-  "CreateAgentStatusResponse",
-)({
-  AgentStatusARN: S.optional(S.String),
-  AgentStatusId: S.optional(S.String),
-}) {}
-export class CreateContactFlowResponse extends S.Class<CreateContactFlowResponse>(
-  "CreateContactFlowResponse",
-)({
-  ContactFlowId: S.optional(S.String),
-  ContactFlowArn: S.optional(S.String),
-  FlowContentSha256: S.optional(S.String),
-}) {}
-export class CreateContactFlowModuleRequest extends S.Class<CreateContactFlowModuleRequest>(
-  "CreateContactFlowModuleRequest",
-)(
-  {
+).annotations({
+  identifier: "ClaimPhoneNumberRequest",
+}) as any as S.Schema<ClaimPhoneNumberRequest>;
+export interface CreateAgentStatusResponse {
+  AgentStatusARN?: string;
+  AgentStatusId?: string;
+}
+export const CreateAgentStatusResponse = S.suspend(() =>
+  S.Struct({
+    AgentStatusARN: S.optional(S.String),
+    AgentStatusId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CreateAgentStatusResponse",
+}) as any as S.Schema<CreateAgentStatusResponse>;
+export interface CreateContactFlowResponse {
+  ContactFlowId?: string;
+  ContactFlowArn?: string;
+  FlowContentSha256?: string;
+}
+export const CreateContactFlowResponse = S.suspend(() =>
+  S.Struct({
+    ContactFlowId: S.optional(S.String),
+    ContactFlowArn: S.optional(S.String),
+    FlowContentSha256: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CreateContactFlowResponse",
+}) as any as S.Schema<CreateContactFlowResponse>;
+export interface CreateContactFlowModuleRequest {
+  InstanceId: string;
+  Name: string;
+  Description?: string;
+  Content: string;
+  Tags?: TagMap;
+  ClientToken?: string;
+  Settings?: string;
+  ExternalInvocationConfiguration?: ExternalInvocationConfiguration;
+}
+export const CreateContactFlowModuleRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Name: S.String,
     Description: S.optional(S.String),
@@ -7096,101 +10638,193 @@ export class CreateContactFlowModuleRequest extends S.Class<CreateContactFlowMod
     ExternalInvocationConfiguration: S.optional(
       ExternalInvocationConfiguration,
     ),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/contact-flow-modules/{InstanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/contact-flow-modules/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateContactFlowModuleAliasResponse extends S.Class<CreateContactFlowModuleAliasResponse>(
-  "CreateContactFlowModuleAliasResponse",
-)({ ContactFlowModuleArn: S.optional(S.String), Id: S.optional(S.String) }) {}
-export class CreateContactFlowModuleVersionResponse extends S.Class<CreateContactFlowModuleVersionResponse>(
-  "CreateContactFlowModuleVersionResponse",
-)({
-  ContactFlowModuleArn: S.optional(S.String),
-  Version: S.optional(S.Number),
-}) {}
-export class CreateContactFlowVersionResponse extends S.Class<CreateContactFlowVersionResponse>(
-  "CreateContactFlowVersionResponse",
-)({ ContactFlowArn: S.optional(S.String), Version: S.optional(S.Number) }) {}
-export class CreateDataTableResponse extends S.Class<CreateDataTableResponse>(
-  "CreateDataTableResponse",
-)({ Id: S.String, Arn: S.String, LockVersion: DataTableLockVersion }) {}
-export class CreateEmailAddressResponse extends S.Class<CreateEmailAddressResponse>(
-  "CreateEmailAddressResponse",
-)({
-  EmailAddressId: S.optional(S.String),
-  EmailAddressArn: S.optional(S.String),
-}) {}
-export class CreateInstanceResponse extends S.Class<CreateInstanceResponse>(
-  "CreateInstanceResponse",
-)({ Id: S.optional(S.String), Arn: S.optional(S.String) }) {}
-export class CreateIntegrationAssociationResponse extends S.Class<CreateIntegrationAssociationResponse>(
-  "CreateIntegrationAssociationResponse",
-)({
-  IntegrationAssociationId: S.optional(S.String),
-  IntegrationAssociationArn: S.optional(S.String),
-}) {}
-export class CreatePersistentContactAssociationResponse extends S.Class<CreatePersistentContactAssociationResponse>(
-  "CreatePersistentContactAssociationResponse",
-)({ ContinuedFromContactId: S.optional(S.String) }) {}
-export class CreatePredefinedAttributeRequest extends S.Class<CreatePredefinedAttributeRequest>(
-  "CreatePredefinedAttributeRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateContactFlowModuleRequest",
+}) as any as S.Schema<CreateContactFlowModuleRequest>;
+export interface CreateContactFlowModuleAliasResponse {
+  ContactFlowModuleArn?: string;
+  Id?: string;
+}
+export const CreateContactFlowModuleAliasResponse = S.suspend(() =>
+  S.Struct({
+    ContactFlowModuleArn: S.optional(S.String),
+    Id: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CreateContactFlowModuleAliasResponse",
+}) as any as S.Schema<CreateContactFlowModuleAliasResponse>;
+export interface CreateContactFlowModuleVersionResponse {
+  ContactFlowModuleArn?: string;
+  Version?: number;
+}
+export const CreateContactFlowModuleVersionResponse = S.suspend(() =>
+  S.Struct({
+    ContactFlowModuleArn: S.optional(S.String),
+    Version: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "CreateContactFlowModuleVersionResponse",
+}) as any as S.Schema<CreateContactFlowModuleVersionResponse>;
+export interface CreateContactFlowVersionResponse {
+  ContactFlowArn?: string;
+  Version?: number;
+}
+export const CreateContactFlowVersionResponse = S.suspend(() =>
+  S.Struct({
+    ContactFlowArn: S.optional(S.String),
+    Version: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "CreateContactFlowVersionResponse",
+}) as any as S.Schema<CreateContactFlowVersionResponse>;
+export interface CreateDataTableResponse {
+  Id: string;
+  Arn: string;
+  LockVersion: DataTableLockVersion;
+}
+export const CreateDataTableResponse = S.suspend(() =>
+  S.Struct({ Id: S.String, Arn: S.String, LockVersion: DataTableLockVersion }),
+).annotations({
+  identifier: "CreateDataTableResponse",
+}) as any as S.Schema<CreateDataTableResponse>;
+export interface CreateEmailAddressResponse {
+  EmailAddressId?: string;
+  EmailAddressArn?: string;
+}
+export const CreateEmailAddressResponse = S.suspend(() =>
+  S.Struct({
+    EmailAddressId: S.optional(S.String),
+    EmailAddressArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CreateEmailAddressResponse",
+}) as any as S.Schema<CreateEmailAddressResponse>;
+export interface CreateInstanceResponse {
+  Id?: string;
+  Arn?: string;
+}
+export const CreateInstanceResponse = S.suspend(() =>
+  S.Struct({ Id: S.optional(S.String), Arn: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateInstanceResponse",
+}) as any as S.Schema<CreateInstanceResponse>;
+export interface CreateIntegrationAssociationResponse {
+  IntegrationAssociationId?: string;
+  IntegrationAssociationArn?: string;
+}
+export const CreateIntegrationAssociationResponse = S.suspend(() =>
+  S.Struct({
+    IntegrationAssociationId: S.optional(S.String),
+    IntegrationAssociationArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CreateIntegrationAssociationResponse",
+}) as any as S.Schema<CreateIntegrationAssociationResponse>;
+export interface CreatePersistentContactAssociationResponse {
+  ContinuedFromContactId?: string;
+}
+export const CreatePersistentContactAssociationResponse = S.suspend(() =>
+  S.Struct({ ContinuedFromContactId: S.optional(S.String) }),
+).annotations({
+  identifier: "CreatePersistentContactAssociationResponse",
+}) as any as S.Schema<CreatePersistentContactAssociationResponse>;
+export interface CreatePredefinedAttributeRequest {
+  InstanceId: string;
+  Name: string;
+  Values?: (typeof PredefinedAttributeValues)["Type"];
+  Purposes?: PredefinedAttributePurposeNameList;
+  AttributeConfiguration?: InputPredefinedAttributeConfiguration;
+}
+export const CreatePredefinedAttributeRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Name: S.String,
     Values: S.optional(PredefinedAttributeValues),
     Purposes: S.optional(PredefinedAttributePurposeNameList),
     AttributeConfiguration: S.optional(InputPredefinedAttributeConfiguration),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/predefined-attributes/{InstanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/predefined-attributes/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreatePredefinedAttributeResponse extends S.Class<CreatePredefinedAttributeResponse>(
-  "CreatePredefinedAttributeResponse",
-)({}) {}
-export class CreatePromptResponse extends S.Class<CreatePromptResponse>(
-  "CreatePromptResponse",
-)({ PromptARN: S.optional(S.String), PromptId: S.optional(S.String) }) {}
-export class CreatePushNotificationRegistrationRequest extends S.Class<CreatePushNotificationRegistrationRequest>(
-  "CreatePushNotificationRegistrationRequest",
-)(
-  {
+).annotations({
+  identifier: "CreatePredefinedAttributeRequest",
+}) as any as S.Schema<CreatePredefinedAttributeRequest>;
+export interface CreatePredefinedAttributeResponse {}
+export const CreatePredefinedAttributeResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "CreatePredefinedAttributeResponse",
+}) as any as S.Schema<CreatePredefinedAttributeResponse>;
+export interface CreatePromptResponse {
+  PromptARN?: string;
+  PromptId?: string;
+}
+export const CreatePromptResponse = S.suspend(() =>
+  S.Struct({ PromptARN: S.optional(S.String), PromptId: S.optional(S.String) }),
+).annotations({
+  identifier: "CreatePromptResponse",
+}) as any as S.Schema<CreatePromptResponse>;
+export interface CreatePushNotificationRegistrationRequest {
+  InstanceId: string;
+  ClientToken?: string;
+  PinpointAppArn: string;
+  DeviceToken: string;
+  DeviceType: string;
+  ContactConfiguration: ContactConfiguration;
+}
+export const CreatePushNotificationRegistrationRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ClientToken: S.optional(S.String),
     PinpointAppArn: S.String,
     DeviceToken: S.String,
     DeviceType: S.String,
     ContactConfiguration: ContactConfiguration,
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/push-notification/{InstanceId}/registrations",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/push-notification/{InstanceId}/registrations",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateQueueRequest extends S.Class<CreateQueueRequest>(
-  "CreateQueueRequest",
-)(
-  {
+).annotations({
+  identifier: "CreatePushNotificationRegistrationRequest",
+}) as any as S.Schema<CreatePushNotificationRegistrationRequest>;
+export interface CreateQueueRequest {
+  InstanceId: string;
+  Name: string;
+  Description?: string;
+  OutboundCallerConfig?: OutboundCallerConfig;
+  OutboundEmailConfig?: OutboundEmailConfig;
+  HoursOfOperationId: string;
+  MaxContacts?: number;
+  QuickConnectIds?: QuickConnectsList;
+  Tags?: TagMap;
+}
+export const CreateQueueRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Name: S.String,
     Description: S.optional(S.String),
@@ -7200,26 +10834,54 @@ export class CreateQueueRequest extends S.Class<CreateQueueRequest>(
     MaxContacts: S.optional(S.Number),
     QuickConnectIds: S.optional(QuickConnectsList),
     Tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/queues/{InstanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/queues/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateTrafficDistributionGroupResponse extends S.Class<CreateTrafficDistributionGroupResponse>(
-  "CreateTrafficDistributionGroupResponse",
-)({ Id: S.optional(S.String), Arn: S.optional(S.String) }) {}
-export class CreateUseCaseResponse extends S.Class<CreateUseCaseResponse>(
-  "CreateUseCaseResponse",
-)({ UseCaseId: S.optional(S.String), UseCaseArn: S.optional(S.String) }) {}
-export class CreateUserRequest extends S.Class<CreateUserRequest>(
-  "CreateUserRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateQueueRequest",
+}) as any as S.Schema<CreateQueueRequest>;
+export interface CreateTrafficDistributionGroupResponse {
+  Id?: string;
+  Arn?: string;
+}
+export const CreateTrafficDistributionGroupResponse = S.suspend(() =>
+  S.Struct({ Id: S.optional(S.String), Arn: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateTrafficDistributionGroupResponse",
+}) as any as S.Schema<CreateTrafficDistributionGroupResponse>;
+export interface CreateUseCaseResponse {
+  UseCaseId?: string;
+  UseCaseArn?: string;
+}
+export const CreateUseCaseResponse = S.suspend(() =>
+  S.Struct({
+    UseCaseId: S.optional(S.String),
+    UseCaseArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CreateUseCaseResponse",
+}) as any as S.Schema<CreateUseCaseResponse>;
+export interface CreateUserRequest {
+  Username: string;
+  Password?: string;
+  IdentityInfo?: UserIdentityInfo;
+  PhoneConfig: UserPhoneConfig;
+  DirectoryUserId?: string;
+  SecurityProfileIds: SecurityProfileIds;
+  RoutingProfileId: string;
+  HierarchyGroupId?: string;
+  InstanceId: string;
+  Tags?: TagMap;
+}
+export const CreateUserRequest = S.suspend(() =>
+  S.Struct({
     Username: S.String,
     Password: S.optional(S.String),
     IdentityInfo: S.optional(UserIdentityInfo),
@@ -7230,26 +10892,42 @@ export class CreateUserRequest extends S.Class<CreateUserRequest>(
     HierarchyGroupId: S.optional(S.String),
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/users/{InstanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/users/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateUserHierarchyGroupResponse extends S.Class<CreateUserHierarchyGroupResponse>(
-  "CreateUserHierarchyGroupResponse",
-)({
-  HierarchyGroupId: S.optional(S.String),
-  HierarchyGroupArn: S.optional(S.String),
-}) {}
-export class CreateViewRequest extends S.Class<CreateViewRequest>(
-  "CreateViewRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateUserRequest",
+}) as any as S.Schema<CreateUserRequest>;
+export interface CreateUserHierarchyGroupResponse {
+  HierarchyGroupId?: string;
+  HierarchyGroupArn?: string;
+}
+export const CreateUserHierarchyGroupResponse = S.suspend(() =>
+  S.Struct({
+    HierarchyGroupId: S.optional(S.String),
+    HierarchyGroupArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CreateUserHierarchyGroupResponse",
+}) as any as S.Schema<CreateUserHierarchyGroupResponse>;
+export interface CreateViewRequest {
+  InstanceId: string;
+  ClientToken?: string;
+  Status: string;
+  Content: ViewInputContent;
+  Description?: string;
+  Name: string;
+  Tags?: TagMap;
+}
+export const CreateViewRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ClientToken: S.optional(S.String),
     Status: S.String,
@@ -7257,185 +10935,342 @@ export class CreateViewRequest extends S.Class<CreateViewRequest>(
     Description: S.optional(S.String),
     Name: S.String,
     Tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/views/{InstanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/views/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateVocabularyResponse extends S.Class<CreateVocabularyResponse>(
-  "CreateVocabularyResponse",
-)({ VocabularyArn: S.String, VocabularyId: S.String, State: S.String }) {}
-export class DeactivateEvaluationFormResponse extends S.Class<DeactivateEvaluationFormResponse>(
-  "DeactivateEvaluationFormResponse",
-)({
-  EvaluationFormId: S.String,
-  EvaluationFormArn: S.String,
-  EvaluationFormVersion: S.Number,
-}) {}
-export class DeleteDataTableAttributeResponse extends S.Class<DeleteDataTableAttributeResponse>(
-  "DeleteDataTableAttributeResponse",
-)({ LockVersion: DataTableLockVersion }) {}
-export class DeleteVocabularyResponse extends S.Class<DeleteVocabularyResponse>(
-  "DeleteVocabularyResponse",
-)({ VocabularyArn: S.String, VocabularyId: S.String, State: S.String }) {}
-export class DescribeEmailAddressResponse extends S.Class<DescribeEmailAddressResponse>(
-  "DescribeEmailAddressResponse",
-)({
-  EmailAddressId: S.optional(S.String),
-  EmailAddressArn: S.optional(S.String),
-  EmailAddress: S.optional(S.String),
-  DisplayName: S.optional(S.String),
-  Description: S.optional(S.String),
-  CreateTimestamp: S.optional(S.String),
-  ModifiedTimestamp: S.optional(S.String),
-  AliasConfigurations: S.optional(AliasConfigurationList),
-  Tags: S.optional(TagMap),
-}) {}
-export class DescribeInstanceStorageConfigResponse extends S.Class<DescribeInstanceStorageConfigResponse>(
-  "DescribeInstanceStorageConfigResponse",
-)({ StorageConfig: S.optional(InstanceStorageConfig) }) {}
-export class ViewContent extends S.Class<ViewContent>("ViewContent")({
-  InputSchema: S.optional(S.String),
-  Template: S.optional(S.String),
-  Actions: S.optional(ViewActions),
-}) {}
-export class View extends S.Class<View>("View")({
-  Id: S.optional(S.String),
-  Arn: S.optional(S.String),
-  Name: S.optional(S.String),
-  Status: S.optional(S.String),
-  Type: S.optional(S.String),
-  Description: S.optional(S.String),
-  Version: S.optional(S.Number),
-  VersionDescription: S.optional(S.String),
-  Content: S.optional(ViewContent),
-  Tags: S.optional(TagMap),
-  CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  ViewContentSha256: S.optional(S.String),
-}) {}
-export class DescribeViewResponse extends S.Class<DescribeViewResponse>(
-  "DescribeViewResponse",
-)({ View: S.optional(View) }) {}
-export class DisassociateRoutingProfileQueuesRequest extends S.Class<DisassociateRoutingProfileQueuesRequest>(
-  "DisassociateRoutingProfileQueuesRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateViewRequest",
+}) as any as S.Schema<CreateViewRequest>;
+export interface CreateVocabularyResponse {
+  VocabularyArn: string;
+  VocabularyId: string;
+  State: string;
+}
+export const CreateVocabularyResponse = S.suspend(() =>
+  S.Struct({
+    VocabularyArn: S.String,
+    VocabularyId: S.String,
+    State: S.String,
+  }),
+).annotations({
+  identifier: "CreateVocabularyResponse",
+}) as any as S.Schema<CreateVocabularyResponse>;
+export interface DeactivateEvaluationFormResponse {
+  EvaluationFormId: string;
+  EvaluationFormArn: string;
+  EvaluationFormVersion: number;
+}
+export const DeactivateEvaluationFormResponse = S.suspend(() =>
+  S.Struct({
+    EvaluationFormId: S.String,
+    EvaluationFormArn: S.String,
+    EvaluationFormVersion: S.Number,
+  }),
+).annotations({
+  identifier: "DeactivateEvaluationFormResponse",
+}) as any as S.Schema<DeactivateEvaluationFormResponse>;
+export interface DeleteDataTableAttributeResponse {
+  LockVersion: DataTableLockVersion;
+}
+export const DeleteDataTableAttributeResponse = S.suspend(() =>
+  S.Struct({ LockVersion: DataTableLockVersion }),
+).annotations({
+  identifier: "DeleteDataTableAttributeResponse",
+}) as any as S.Schema<DeleteDataTableAttributeResponse>;
+export interface DeleteVocabularyResponse {
+  VocabularyArn: string;
+  VocabularyId: string;
+  State: string;
+}
+export const DeleteVocabularyResponse = S.suspend(() =>
+  S.Struct({
+    VocabularyArn: S.String,
+    VocabularyId: S.String,
+    State: S.String,
+  }),
+).annotations({
+  identifier: "DeleteVocabularyResponse",
+}) as any as S.Schema<DeleteVocabularyResponse>;
+export interface DescribeEmailAddressResponse {
+  EmailAddressId?: string;
+  EmailAddressArn?: string;
+  EmailAddress?: string;
+  DisplayName?: string;
+  Description?: string;
+  CreateTimestamp?: string;
+  ModifiedTimestamp?: string;
+  AliasConfigurations?: AliasConfigurationList;
+  Tags?: TagMap;
+}
+export const DescribeEmailAddressResponse = S.suspend(() =>
+  S.Struct({
+    EmailAddressId: S.optional(S.String),
+    EmailAddressArn: S.optional(S.String),
+    EmailAddress: S.optional(S.String),
+    DisplayName: S.optional(S.String),
+    Description: S.optional(S.String),
+    CreateTimestamp: S.optional(S.String),
+    ModifiedTimestamp: S.optional(S.String),
+    AliasConfigurations: S.optional(AliasConfigurationList),
+    Tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "DescribeEmailAddressResponse",
+}) as any as S.Schema<DescribeEmailAddressResponse>;
+export interface DescribeInstanceStorageConfigResponse {
+  StorageConfig?: InstanceStorageConfig;
+}
+export const DescribeInstanceStorageConfigResponse = S.suspend(() =>
+  S.Struct({ StorageConfig: S.optional(InstanceStorageConfig) }),
+).annotations({
+  identifier: "DescribeInstanceStorageConfigResponse",
+}) as any as S.Schema<DescribeInstanceStorageConfigResponse>;
+export interface ViewContent {
+  InputSchema?: string;
+  Template?: string;
+  Actions?: ViewActions;
+}
+export const ViewContent = S.suspend(() =>
+  S.Struct({
+    InputSchema: S.optional(S.String),
+    Template: S.optional(S.String),
+    Actions: S.optional(ViewActions),
+  }),
+).annotations({ identifier: "ViewContent" }) as any as S.Schema<ViewContent>;
+export interface View {
+  Id?: string;
+  Arn?: string;
+  Name?: string;
+  Status?: string;
+  Type?: string;
+  Description?: string;
+  Version?: number;
+  VersionDescription?: string;
+  Content?: ViewContent;
+  Tags?: TagMap;
+  CreatedTime?: Date;
+  LastModifiedTime?: Date;
+  ViewContentSha256?: string;
+}
+export const View = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Arn: S.optional(S.String),
+    Name: S.optional(S.String),
+    Status: S.optional(S.String),
+    Type: S.optional(S.String),
+    Description: S.optional(S.String),
+    Version: S.optional(S.Number),
+    VersionDescription: S.optional(S.String),
+    Content: S.optional(ViewContent),
+    Tags: S.optional(TagMap),
+    CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    ViewContentSha256: S.optional(S.String),
+  }),
+).annotations({ identifier: "View" }) as any as S.Schema<View>;
+export interface DescribeViewResponse {
+  View?: View;
+}
+export const DescribeViewResponse = S.suspend(() =>
+  S.Struct({ View: S.optional(View) }),
+).annotations({
+  identifier: "DescribeViewResponse",
+}) as any as S.Schema<DescribeViewResponse>;
+export interface DisassociateRoutingProfileQueuesRequest {
+  InstanceId: string;
+  RoutingProfileId: string;
+  QueueReferences?: RoutingProfileQueueReferenceList;
+  ManualAssignmentQueueReferences?: RoutingProfileQueueReferenceList;
+}
+export const DisassociateRoutingProfileQueuesRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     RoutingProfileId: S.String.pipe(T.HttpLabel("RoutingProfileId")),
     QueueReferences: S.optional(RoutingProfileQueueReferenceList),
     ManualAssignmentQueueReferences: S.optional(
       RoutingProfileQueueReferenceList,
     ),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/routing-profiles/{InstanceId}/{RoutingProfileId}/disassociate-queues",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/routing-profiles/{InstanceId}/{RoutingProfileId}/disassociate-queues",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DisassociateRoutingProfileQueuesResponse extends S.Class<DisassociateRoutingProfileQueuesResponse>(
-  "DisassociateRoutingProfileQueuesResponse",
-)({}) {}
-export class DisassociateUserProficienciesRequest extends S.Class<DisassociateUserProficienciesRequest>(
-  "DisassociateUserProficienciesRequest",
-)(
-  {
+).annotations({
+  identifier: "DisassociateRoutingProfileQueuesRequest",
+}) as any as S.Schema<DisassociateRoutingProfileQueuesRequest>;
+export interface DisassociateRoutingProfileQueuesResponse {}
+export const DisassociateRoutingProfileQueuesResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DisassociateRoutingProfileQueuesResponse",
+}) as any as S.Schema<DisassociateRoutingProfileQueuesResponse>;
+export interface DisassociateUserProficienciesRequest {
+  InstanceId: string;
+  UserId: string;
+  UserProficiencies: UserProficiencyDisassociateList;
+}
+export const DisassociateUserProficienciesRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     UserId: S.String.pipe(T.HttpLabel("UserId")),
     UserProficiencies: UserProficiencyDisassociateList,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/users/{InstanceId}/{UserId}/disassociate-proficiencies",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/users/{InstanceId}/{UserId}/disassociate-proficiencies",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DisassociateUserProficienciesResponse extends S.Class<DisassociateUserProficienciesResponse>(
-  "DisassociateUserProficienciesResponse",
-)({}) {}
-export class SuccessfulBatchAssociationSummary extends S.Class<SuccessfulBatchAssociationSummary>(
-  "SuccessfulBatchAssociationSummary",
-)({ ResourceArn: S.optional(S.String) }) {}
+).annotations({
+  identifier: "DisassociateUserProficienciesRequest",
+}) as any as S.Schema<DisassociateUserProficienciesRequest>;
+export interface DisassociateUserProficienciesResponse {}
+export const DisassociateUserProficienciesResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DisassociateUserProficienciesResponse",
+}) as any as S.Schema<DisassociateUserProficienciesResponse>;
+export interface SuccessfulBatchAssociationSummary {
+  ResourceArn?: string;
+}
+export const SuccessfulBatchAssociationSummary = S.suspend(() =>
+  S.Struct({ ResourceArn: S.optional(S.String) }),
+).annotations({
+  identifier: "SuccessfulBatchAssociationSummary",
+}) as any as S.Schema<SuccessfulBatchAssociationSummary>;
+export type SuccessfulBatchAssociationSummaryList =
+  SuccessfulBatchAssociationSummary[];
 export const SuccessfulBatchAssociationSummaryList = S.Array(
   SuccessfulBatchAssociationSummary,
 );
-export class FailedBatchAssociationSummary extends S.Class<FailedBatchAssociationSummary>(
-  "FailedBatchAssociationSummary",
-)({
-  ResourceArn: S.optional(S.String),
-  ErrorCode: S.optional(S.String),
-  ErrorMessage: S.optional(S.String),
-}) {}
+export interface FailedBatchAssociationSummary {
+  ResourceArn?: string;
+  ErrorCode?: string;
+  ErrorMessage?: string;
+}
+export const FailedBatchAssociationSummary = S.suspend(() =>
+  S.Struct({
+    ResourceArn: S.optional(S.String),
+    ErrorCode: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "FailedBatchAssociationSummary",
+}) as any as S.Schema<FailedBatchAssociationSummary>;
+export type FailedBatchAssociationSummaryList = FailedBatchAssociationSummary[];
 export const FailedBatchAssociationSummaryList = S.Array(
   FailedBatchAssociationSummary,
 );
-export class DisassociateWorkspaceResponse extends S.Class<DisassociateWorkspaceResponse>(
-  "DisassociateWorkspaceResponse",
-)({
-  SuccessfulList: S.optional(SuccessfulBatchAssociationSummaryList),
-  FailedList: S.optional(FailedBatchAssociationSummaryList),
-}) {}
-export class EvaluateDataTableValuesRequest extends S.Class<EvaluateDataTableValuesRequest>(
-  "EvaluateDataTableValuesRequest",
-)(
-  {
+export interface DisassociateWorkspaceResponse {
+  SuccessfulList?: SuccessfulBatchAssociationSummaryList;
+  FailedList?: FailedBatchAssociationSummaryList;
+}
+export const DisassociateWorkspaceResponse = S.suspend(() =>
+  S.Struct({
+    SuccessfulList: S.optional(SuccessfulBatchAssociationSummaryList),
+    FailedList: S.optional(FailedBatchAssociationSummaryList),
+  }),
+).annotations({
+  identifier: "DisassociateWorkspaceResponse",
+}) as any as S.Schema<DisassociateWorkspaceResponse>;
+export interface EvaluateDataTableValuesRequest {
+  InstanceId: string;
+  DataTableId: string;
+  Values: DataTableValueEvaluationSetList;
+  TimeZone?: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const EvaluateDataTableValuesRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     DataTableId: S.String.pipe(T.HttpLabel("DataTableId")),
     Values: DataTableValueEvaluationSetList,
     TimeZone: S.optional(S.String),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/data-tables/{InstanceId}/{DataTableId}/values/evaluate",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/data-tables/{InstanceId}/{DataTableId}/values/evaluate",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetContactAttributesResponse extends S.Class<GetContactAttributesResponse>(
-  "GetContactAttributesResponse",
-)({ Attributes: S.optional(Attributes) }) {}
-export class GetContactMetricsRequest extends S.Class<GetContactMetricsRequest>(
-  "GetContactMetricsRequest",
-)(
-  { InstanceId: S.String, ContactId: S.String, Metrics: ContactMetrics },
-  T.all(
-    T.Http({ method: "POST", uri: "/metrics/contact" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "EvaluateDataTableValuesRequest",
+}) as any as S.Schema<EvaluateDataTableValuesRequest>;
+export interface GetContactAttributesResponse {
+  Attributes?: Attributes;
+}
+export const GetContactAttributesResponse = S.suspend(() =>
+  S.Struct({ Attributes: S.optional(Attributes) }),
+).annotations({
+  identifier: "GetContactAttributesResponse",
+}) as any as S.Schema<GetContactAttributesResponse>;
+export interface GetContactMetricsRequest {
+  InstanceId: string;
+  ContactId: string;
+  Metrics: ContactMetrics;
+}
+export const GetContactMetricsRequest = S.suspend(() =>
+  S.Struct({
+    InstanceId: S.String,
+    ContactId: S.String,
+    Metrics: ContactMetrics,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/metrics/contact" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetCurrentMetricDataRequest extends S.Class<GetCurrentMetricDataRequest>(
-  "GetCurrentMetricDataRequest",
-)(
-  {
+).annotations({
+  identifier: "GetContactMetricsRequest",
+}) as any as S.Schema<GetContactMetricsRequest>;
+export interface GetCurrentMetricDataRequest {
+  InstanceId: string;
+  Filters: Filters;
+  Groupings?: Groupings;
+  CurrentMetrics: CurrentMetrics;
+  NextToken?: string;
+  MaxResults?: number;
+  SortCriteria?: CurrentMetricSortCriteriaMaxOne;
+}
+export const GetCurrentMetricDataRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Filters: Filters,
     Groupings: S.optional(Groupings),
@@ -7443,515 +11278,888 @@ export class GetCurrentMetricDataRequest extends S.Class<GetCurrentMetricDataReq
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     SortCriteria: S.optional(CurrentMetricSortCriteriaMaxOne),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/metrics/current/{InstanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/metrics/current/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetFlowAssociationResponse extends S.Class<GetFlowAssociationResponse>(
-  "GetFlowAssociationResponse",
-)({
-  ResourceId: S.optional(S.String),
-  FlowId: S.optional(S.String),
-  ResourceType: S.optional(S.String),
-}) {}
-export class GetPromptFileResponse extends S.Class<GetPromptFileResponse>(
-  "GetPromptFileResponse",
-)({
-  PromptPresignedUrl: S.optional(S.String),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedRegion: S.optional(S.String),
-}) {}
-export class GetTaskTemplateResponse extends S.Class<GetTaskTemplateResponse>(
-  "GetTaskTemplateResponse",
-)({
-  InstanceId: S.optional(S.String),
-  Id: S.String,
-  Arn: S.String,
-  Name: S.String,
-  Description: S.optional(S.String),
-  ContactFlowId: S.optional(S.String),
-  SelfAssignFlowId: S.optional(S.String),
-  Constraints: S.optional(TaskTemplateConstraints),
-  Defaults: S.optional(TaskTemplateDefaults),
-  Fields: S.optional(TaskTemplateFields),
-  Status: S.optional(S.String),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Tags: S.optional(TagMap),
-}) {}
-export class TelephonyConfig extends S.Class<TelephonyConfig>(
-  "TelephonyConfig",
-)({ Distributions: DistributionList }) {}
-export class SignInDistribution extends S.Class<SignInDistribution>(
-  "SignInDistribution",
-)({ Region: S.String, Enabled: S.Boolean }) {}
+).annotations({
+  identifier: "GetCurrentMetricDataRequest",
+}) as any as S.Schema<GetCurrentMetricDataRequest>;
+export interface GetFlowAssociationResponse {
+  ResourceId?: string;
+  FlowId?: string;
+  ResourceType?: string;
+}
+export const GetFlowAssociationResponse = S.suspend(() =>
+  S.Struct({
+    ResourceId: S.optional(S.String),
+    FlowId: S.optional(S.String),
+    ResourceType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetFlowAssociationResponse",
+}) as any as S.Schema<GetFlowAssociationResponse>;
+export interface GetPromptFileResponse {
+  PromptPresignedUrl?: string;
+  LastModifiedTime?: Date;
+  LastModifiedRegion?: string;
+}
+export const GetPromptFileResponse = S.suspend(() =>
+  S.Struct({
+    PromptPresignedUrl: S.optional(S.String),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastModifiedRegion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetPromptFileResponse",
+}) as any as S.Schema<GetPromptFileResponse>;
+export interface GetTaskTemplateResponse {
+  InstanceId?: string;
+  Id: string;
+  Arn: string;
+  Name: string;
+  Description?: string;
+  ContactFlowId?: string;
+  SelfAssignFlowId?: string;
+  Constraints?: TaskTemplateConstraints;
+  Defaults?: TaskTemplateDefaults;
+  Fields?: TaskTemplateFields;
+  Status?: string;
+  LastModifiedTime?: Date;
+  CreatedTime?: Date;
+  Tags?: TagMap;
+}
+export const GetTaskTemplateResponse = S.suspend(() =>
+  S.Struct({
+    InstanceId: S.optional(S.String),
+    Id: S.String,
+    Arn: S.String,
+    Name: S.String,
+    Description: S.optional(S.String),
+    ContactFlowId: S.optional(S.String),
+    SelfAssignFlowId: S.optional(S.String),
+    Constraints: S.optional(TaskTemplateConstraints),
+    Defaults: S.optional(TaskTemplateDefaults),
+    Fields: S.optional(TaskTemplateFields),
+    Status: S.optional(S.String),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "GetTaskTemplateResponse",
+}) as any as S.Schema<GetTaskTemplateResponse>;
+export interface TelephonyConfig {
+  Distributions: DistributionList;
+}
+export const TelephonyConfig = S.suspend(() =>
+  S.Struct({ Distributions: DistributionList }),
+).annotations({
+  identifier: "TelephonyConfig",
+}) as any as S.Schema<TelephonyConfig>;
+export interface SignInDistribution {
+  Region: string;
+  Enabled: boolean;
+}
+export const SignInDistribution = S.suspend(() =>
+  S.Struct({ Region: S.String, Enabled: S.Boolean }),
+).annotations({
+  identifier: "SignInDistribution",
+}) as any as S.Schema<SignInDistribution>;
+export type SignInDistributionList = SignInDistribution[];
 export const SignInDistributionList = S.Array(SignInDistribution);
-export class SignInConfig extends S.Class<SignInConfig>("SignInConfig")({
-  Distributions: SignInDistributionList,
-}) {}
-export class GetTrafficDistributionResponse extends S.Class<GetTrafficDistributionResponse>(
-  "GetTrafficDistributionResponse",
-)({
-  TelephonyConfig: S.optional(TelephonyConfig),
-  Id: S.optional(S.String),
-  Arn: S.optional(S.String),
-  SignInConfig: S.optional(SignInConfig),
-  AgentConfig: S.optional(AgentConfig),
-}) {}
-export class ImportPhoneNumberResponse extends S.Class<ImportPhoneNumberResponse>(
-  "ImportPhoneNumberResponse",
-)({
-  PhoneNumberId: S.optional(S.String),
-  PhoneNumberArn: S.optional(S.String),
-}) {}
-export class AnalyticsDataAssociationResult extends S.Class<AnalyticsDataAssociationResult>(
-  "AnalyticsDataAssociationResult",
-)({
-  DataSetId: S.optional(S.String),
-  TargetAccountId: S.optional(S.String),
-  ResourceShareId: S.optional(S.String),
-  ResourceShareArn: S.optional(S.String),
-  ResourceShareStatus: S.optional(S.String),
-}) {}
+export interface SignInConfig {
+  Distributions: SignInDistributionList;
+}
+export const SignInConfig = S.suspend(() =>
+  S.Struct({ Distributions: SignInDistributionList }),
+).annotations({ identifier: "SignInConfig" }) as any as S.Schema<SignInConfig>;
+export interface GetTrafficDistributionResponse {
+  TelephonyConfig?: TelephonyConfig;
+  Id?: string;
+  Arn?: string;
+  SignInConfig?: SignInConfig;
+  AgentConfig?: AgentConfig;
+}
+export const GetTrafficDistributionResponse = S.suspend(() =>
+  S.Struct({
+    TelephonyConfig: S.optional(TelephonyConfig),
+    Id: S.optional(S.String),
+    Arn: S.optional(S.String),
+    SignInConfig: S.optional(SignInConfig),
+    AgentConfig: S.optional(AgentConfig),
+  }),
+).annotations({
+  identifier: "GetTrafficDistributionResponse",
+}) as any as S.Schema<GetTrafficDistributionResponse>;
+export interface ImportPhoneNumberResponse {
+  PhoneNumberId?: string;
+  PhoneNumberArn?: string;
+}
+export const ImportPhoneNumberResponse = S.suspend(() =>
+  S.Struct({
+    PhoneNumberId: S.optional(S.String),
+    PhoneNumberArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ImportPhoneNumberResponse",
+}) as any as S.Schema<ImportPhoneNumberResponse>;
+export interface AnalyticsDataAssociationResult {
+  DataSetId?: string;
+  TargetAccountId?: string;
+  ResourceShareId?: string;
+  ResourceShareArn?: string;
+  ResourceShareStatus?: string;
+}
+export const AnalyticsDataAssociationResult = S.suspend(() =>
+  S.Struct({
+    DataSetId: S.optional(S.String),
+    TargetAccountId: S.optional(S.String),
+    ResourceShareId: S.optional(S.String),
+    ResourceShareArn: S.optional(S.String),
+    ResourceShareStatus: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AnalyticsDataAssociationResult",
+}) as any as S.Schema<AnalyticsDataAssociationResult>;
+export type AnalyticsDataAssociationResults = AnalyticsDataAssociationResult[];
 export const AnalyticsDataAssociationResults = S.Array(
   AnalyticsDataAssociationResult,
 );
-export class ListAnalyticsDataAssociationsResponse extends S.Class<ListAnalyticsDataAssociationsResponse>(
-  "ListAnalyticsDataAssociationsResponse",
-)({
-  Results: S.optional(AnalyticsDataAssociationResults),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListApprovedOriginsResponse extends S.Class<ListApprovedOriginsResponse>(
-  "ListApprovedOriginsResponse",
-)({ Origins: S.optional(OriginsList), NextToken: S.optional(S.String) }) {}
-export class ListDataTableAttributesResponse extends S.Class<ListDataTableAttributesResponse>(
-  "ListDataTableAttributesResponse",
-)({ NextToken: S.optional(S.String), Attributes: AttributeList }) {}
-export class ListDataTablePrimaryValuesRequest extends S.Class<ListDataTablePrimaryValuesRequest>(
-  "ListDataTablePrimaryValuesRequest",
-)(
-  {
+export interface ListAnalyticsDataAssociationsResponse {
+  Results?: AnalyticsDataAssociationResults;
+  NextToken?: string;
+}
+export const ListAnalyticsDataAssociationsResponse = S.suspend(() =>
+  S.Struct({
+    Results: S.optional(AnalyticsDataAssociationResults),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListAnalyticsDataAssociationsResponse",
+}) as any as S.Schema<ListAnalyticsDataAssociationsResponse>;
+export interface ListApprovedOriginsResponse {
+  Origins?: OriginsList;
+  NextToken?: string;
+}
+export const ListApprovedOriginsResponse = S.suspend(() =>
+  S.Struct({
+    Origins: S.optional(OriginsList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListApprovedOriginsResponse",
+}) as any as S.Schema<ListApprovedOriginsResponse>;
+export interface ListDataTableAttributesResponse {
+  NextToken?: string;
+  Attributes: AttributeList;
+}
+export const ListDataTableAttributesResponse = S.suspend(() =>
+  S.Struct({ NextToken: S.optional(S.String), Attributes: AttributeList }),
+).annotations({
+  identifier: "ListDataTableAttributesResponse",
+}) as any as S.Schema<ListDataTableAttributesResponse>;
+export interface ListDataTablePrimaryValuesRequest {
+  InstanceId: string;
+  DataTableId: string;
+  RecordIds?: RecordIds;
+  PrimaryAttributeValues?: PrimaryAttributeValueFilters;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListDataTablePrimaryValuesRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     DataTableId: S.String.pipe(T.HttpLabel("DataTableId")),
     RecordIds: S.optional(RecordIds),
     PrimaryAttributeValues: S.optional(PrimaryAttributeValueFilters),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/data-tables/{InstanceId}/{DataTableId}/values/list-primary",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/data-tables/{InstanceId}/{DataTableId}/values/list-primary",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListEntitySecurityProfilesResponse extends S.Class<ListEntitySecurityProfilesResponse>(
-  "ListEntitySecurityProfilesResponse",
-)({
-  SecurityProfiles: S.optional(SecurityProfiles100),
-  NextToken: S.optional(S.String),
-}) {}
-export class FlowAssociationSummary extends S.Class<FlowAssociationSummary>(
-  "FlowAssociationSummary",
-)({
-  ResourceId: S.optional(S.String),
-  FlowId: S.optional(S.String),
-  ResourceType: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "ListDataTablePrimaryValuesRequest",
+}) as any as S.Schema<ListDataTablePrimaryValuesRequest>;
+export interface ListEntitySecurityProfilesResponse {
+  SecurityProfiles?: SecurityProfiles100;
+  NextToken?: string;
+}
+export const ListEntitySecurityProfilesResponse = S.suspend(() =>
+  S.Struct({
+    SecurityProfiles: S.optional(SecurityProfiles100),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListEntitySecurityProfilesResponse",
+}) as any as S.Schema<ListEntitySecurityProfilesResponse>;
+export interface FlowAssociationSummary {
+  ResourceId?: string;
+  FlowId?: string;
+  ResourceType?: string;
+}
+export const FlowAssociationSummary = S.suspend(() =>
+  S.Struct({
+    ResourceId: S.optional(S.String),
+    FlowId: S.optional(S.String),
+    ResourceType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "FlowAssociationSummary",
+}) as any as S.Schema<FlowAssociationSummary>;
+export type FlowAssociationSummaryList = FlowAssociationSummary[];
 export const FlowAssociationSummaryList = S.Array(FlowAssociationSummary);
-export class ListFlowAssociationsResponse extends S.Class<ListFlowAssociationsResponse>(
-  "ListFlowAssociationsResponse",
-)({
-  FlowAssociationSummaryList: S.optional(FlowAssociationSummaryList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListHoursOfOperationOverridesResponse extends S.Class<ListHoursOfOperationOverridesResponse>(
-  "ListHoursOfOperationOverridesResponse",
-)({
-  NextToken: S.optional(S.String),
-  HoursOfOperationOverrideList: S.optional(HoursOfOperationOverrideList),
-  LastModifiedRegion: S.optional(S.String),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class ListInstanceAttributesResponse extends S.Class<ListInstanceAttributesResponse>(
-  "ListInstanceAttributesResponse",
-)({
-  Attributes: S.optional(AttributesList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListInstanceStorageConfigsResponse extends S.Class<ListInstanceStorageConfigsResponse>(
-  "ListInstanceStorageConfigsResponse",
-)({
-  StorageConfigs: S.optional(InstanceStorageConfigs),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListLambdaFunctionsResponse extends S.Class<ListLambdaFunctionsResponse>(
-  "ListLambdaFunctionsResponse",
-)({
-  LambdaFunctions: S.optional(FunctionArnsList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListLexBotsResponse extends S.Class<ListLexBotsResponse>(
-  "ListLexBotsResponse",
-)({ LexBots: S.optional(LexBotsList), NextToken: S.optional(S.String) }) {}
-export class QuickConnectSummary extends S.Class<QuickConnectSummary>(
-  "QuickConnectSummary",
-)({
-  Id: S.optional(S.String),
-  Arn: S.optional(S.String),
-  Name: S.optional(S.String),
-  QuickConnectType: S.optional(S.String),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedRegion: S.optional(S.String),
-}) {}
+export interface ListFlowAssociationsResponse {
+  FlowAssociationSummaryList?: FlowAssociationSummaryList;
+  NextToken?: string;
+}
+export const ListFlowAssociationsResponse = S.suspend(() =>
+  S.Struct({
+    FlowAssociationSummaryList: S.optional(FlowAssociationSummaryList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListFlowAssociationsResponse",
+}) as any as S.Schema<ListFlowAssociationsResponse>;
+export interface ListHoursOfOperationOverridesResponse {
+  NextToken?: string;
+  HoursOfOperationOverrideList?: HoursOfOperationOverrideList;
+  LastModifiedRegion?: string;
+  LastModifiedTime?: Date;
+}
+export const ListHoursOfOperationOverridesResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    HoursOfOperationOverrideList: S.optional(HoursOfOperationOverrideList),
+    LastModifiedRegion: S.optional(S.String),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "ListHoursOfOperationOverridesResponse",
+}) as any as S.Schema<ListHoursOfOperationOverridesResponse>;
+export interface ListInstanceAttributesResponse {
+  Attributes?: AttributesList;
+  NextToken?: string;
+}
+export const ListInstanceAttributesResponse = S.suspend(() =>
+  S.Struct({
+    Attributes: S.optional(AttributesList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListInstanceAttributesResponse",
+}) as any as S.Schema<ListInstanceAttributesResponse>;
+export interface ListInstanceStorageConfigsResponse {
+  StorageConfigs?: InstanceStorageConfigs;
+  NextToken?: string;
+}
+export const ListInstanceStorageConfigsResponse = S.suspend(() =>
+  S.Struct({
+    StorageConfigs: S.optional(InstanceStorageConfigs),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListInstanceStorageConfigsResponse",
+}) as any as S.Schema<ListInstanceStorageConfigsResponse>;
+export interface ListLambdaFunctionsResponse {
+  LambdaFunctions?: FunctionArnsList;
+  NextToken?: string;
+}
+export const ListLambdaFunctionsResponse = S.suspend(() =>
+  S.Struct({
+    LambdaFunctions: S.optional(FunctionArnsList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListLambdaFunctionsResponse",
+}) as any as S.Schema<ListLambdaFunctionsResponse>;
+export interface ListLexBotsResponse {
+  LexBots?: LexBotsList;
+  NextToken?: string;
+}
+export const ListLexBotsResponse = S.suspend(() =>
+  S.Struct({
+    LexBots: S.optional(LexBotsList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListLexBotsResponse",
+}) as any as S.Schema<ListLexBotsResponse>;
+export interface QuickConnectSummary {
+  Id?: string;
+  Arn?: string;
+  Name?: string;
+  QuickConnectType?: string;
+  LastModifiedTime?: Date;
+  LastModifiedRegion?: string;
+}
+export const QuickConnectSummary = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Arn: S.optional(S.String),
+    Name: S.optional(S.String),
+    QuickConnectType: S.optional(S.String),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastModifiedRegion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "QuickConnectSummary",
+}) as any as S.Schema<QuickConnectSummary>;
+export type QuickConnectSummaryList = QuickConnectSummary[];
 export const QuickConnectSummaryList = S.Array(QuickConnectSummary);
-export class ListQuickConnectsResponse extends S.Class<ListQuickConnectsResponse>(
-  "ListQuickConnectsResponse",
-)({
-  QuickConnectSummaryList: S.optional(QuickConnectSummaryList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListSecurityProfileApplicationsResponse extends S.Class<ListSecurityProfileApplicationsResponse>(
-  "ListSecurityProfileApplicationsResponse",
-)({
-  Applications: S.optional(Applications),
-  NextToken: S.optional(S.String),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedRegion: S.optional(S.String),
-}) {}
-export class ListSecurityProfileFlowModulesResponse extends S.Class<ListSecurityProfileFlowModulesResponse>(
-  "ListSecurityProfileFlowModulesResponse",
-)({
-  AllowedFlowModules: S.optional(AllowedFlowModules),
-  NextToken: S.optional(S.String),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedRegion: S.optional(S.String),
-}) {}
-export class ListSecurityProfilePermissionsResponse extends S.Class<ListSecurityProfilePermissionsResponse>(
-  "ListSecurityProfilePermissionsResponse",
-)({
-  Permissions: S.optional(PermissionsList),
-  NextToken: S.optional(S.String),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedRegion: S.optional(S.String),
-}) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ tags: S.optional(TagMap) }) {}
-export class ListUserProficienciesResponse extends S.Class<ListUserProficienciesResponse>(
-  "ListUserProficienciesResponse",
-)({
-  NextToken: S.optional(S.String),
-  UserProficiencyList: S.optional(UserProficiencyList),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedRegion: S.optional(S.String),
-}) {}
-export class MonitorContactResponse extends S.Class<MonitorContactResponse>(
-  "MonitorContactResponse",
-)({ ContactId: S.optional(S.String), ContactArn: S.optional(S.String) }) {}
-export class ReplicateInstanceResponse extends S.Class<ReplicateInstanceResponse>(
-  "ReplicateInstanceResponse",
-)({ Id: S.optional(S.String), Arn: S.optional(S.String) }) {}
-export class SearchDataTablesRequest extends S.Class<SearchDataTablesRequest>(
-  "SearchDataTablesRequest",
-)(
-  {
+export interface ListQuickConnectsResponse {
+  QuickConnectSummaryList?: QuickConnectSummaryList;
+  NextToken?: string;
+}
+export const ListQuickConnectsResponse = S.suspend(() =>
+  S.Struct({
+    QuickConnectSummaryList: S.optional(QuickConnectSummaryList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListQuickConnectsResponse",
+}) as any as S.Schema<ListQuickConnectsResponse>;
+export interface ListSecurityProfileApplicationsResponse {
+  Applications?: Applications;
+  NextToken?: string;
+  LastModifiedTime?: Date;
+  LastModifiedRegion?: string;
+}
+export const ListSecurityProfileApplicationsResponse = S.suspend(() =>
+  S.Struct({
+    Applications: S.optional(Applications),
+    NextToken: S.optional(S.String),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastModifiedRegion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListSecurityProfileApplicationsResponse",
+}) as any as S.Schema<ListSecurityProfileApplicationsResponse>;
+export interface ListSecurityProfileFlowModulesResponse {
+  AllowedFlowModules?: AllowedFlowModules;
+  NextToken?: string;
+  LastModifiedTime?: Date;
+  LastModifiedRegion?: string;
+}
+export const ListSecurityProfileFlowModulesResponse = S.suspend(() =>
+  S.Struct({
+    AllowedFlowModules: S.optional(AllowedFlowModules),
+    NextToken: S.optional(S.String),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastModifiedRegion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListSecurityProfileFlowModulesResponse",
+}) as any as S.Schema<ListSecurityProfileFlowModulesResponse>;
+export interface ListSecurityProfilePermissionsResponse {
+  Permissions?: PermissionsList;
+  NextToken?: string;
+  LastModifiedTime?: Date;
+  LastModifiedRegion?: string;
+}
+export const ListSecurityProfilePermissionsResponse = S.suspend(() =>
+  S.Struct({
+    Permissions: S.optional(PermissionsList),
+    NextToken: S.optional(S.String),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastModifiedRegion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListSecurityProfilePermissionsResponse",
+}) as any as S.Schema<ListSecurityProfilePermissionsResponse>;
+export interface ListTagsForResourceResponse {
+  tags?: TagMap;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ tags: S.optional(TagMap) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface ListUserProficienciesResponse {
+  NextToken?: string;
+  UserProficiencyList?: UserProficiencyList;
+  LastModifiedTime?: Date;
+  LastModifiedRegion?: string;
+}
+export const ListUserProficienciesResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    UserProficiencyList: S.optional(UserProficiencyList),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastModifiedRegion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListUserProficienciesResponse",
+}) as any as S.Schema<ListUserProficienciesResponse>;
+export interface MonitorContactResponse {
+  ContactId?: string;
+  ContactArn?: string;
+}
+export const MonitorContactResponse = S.suspend(() =>
+  S.Struct({
+    ContactId: S.optional(S.String),
+    ContactArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "MonitorContactResponse",
+}) as any as S.Schema<MonitorContactResponse>;
+export interface ReplicateInstanceResponse {
+  Id?: string;
+  Arn?: string;
+}
+export const ReplicateInstanceResponse = S.suspend(() =>
+  S.Struct({ Id: S.optional(S.String), Arn: S.optional(S.String) }),
+).annotations({
+  identifier: "ReplicateInstanceResponse",
+}) as any as S.Schema<ReplicateInstanceResponse>;
+export interface SearchDataTablesRequest {
+  InstanceId: string;
+  NextToken?: string;
+  MaxResults?: number;
+  SearchFilter?: DataTableSearchFilter;
+  SearchCriteria?: DataTableSearchCriteria;
+}
+export const SearchDataTablesRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     SearchFilter: S.optional(DataTableSearchFilter),
     SearchCriteria: S.optional(DataTableSearchCriteria),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/search-data-tables" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/search-data-tables" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SearchEmailAddressesRequest extends S.Class<SearchEmailAddressesRequest>(
-  "SearchEmailAddressesRequest",
-)(
-  {
+).annotations({
+  identifier: "SearchDataTablesRequest",
+}) as any as S.Schema<SearchDataTablesRequest>;
+export interface SearchEmailAddressesRequest {
+  InstanceId: string;
+  MaxResults?: number;
+  NextToken?: string;
+  SearchCriteria?: EmailAddressSearchCriteria;
+  SearchFilter?: EmailAddressSearchFilter;
+}
+export const SearchEmailAddressesRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String,
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     SearchCriteria: S.optional(EmailAddressSearchCriteria),
     SearchFilter: S.optional(EmailAddressSearchFilter),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/search-email-addresses" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/search-email-addresses" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SearchEvaluationFormsRequest extends S.Class<SearchEvaluationFormsRequest>(
-  "SearchEvaluationFormsRequest",
-)(
-  {
+).annotations({
+  identifier: "SearchEmailAddressesRequest",
+}) as any as S.Schema<SearchEmailAddressesRequest>;
+export interface SearchEvaluationFormsRequest {
+  InstanceId: string;
+  NextToken?: string;
+  MaxResults?: number;
+  SearchCriteria?: EvaluationFormSearchCriteria;
+  SearchFilter?: EvaluationFormSearchFilter;
+}
+export const SearchEvaluationFormsRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     SearchCriteria: S.optional(EvaluationFormSearchCriteria),
     SearchFilter: S.optional(EvaluationFormSearchFilter),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/search-evaluation-forms" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/search-evaluation-forms" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SearchHoursOfOperationsRequest extends S.Class<SearchHoursOfOperationsRequest>(
-  "SearchHoursOfOperationsRequest",
-)(
-  {
+).annotations({
+  identifier: "SearchEvaluationFormsRequest",
+}) as any as S.Schema<SearchEvaluationFormsRequest>;
+export interface SearchHoursOfOperationsRequest {
+  InstanceId: string;
+  NextToken?: string;
+  MaxResults?: number;
+  SearchFilter?: HoursOfOperationSearchFilter;
+  SearchCriteria?: HoursOfOperationSearchCriteria;
+}
+export const SearchHoursOfOperationsRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     SearchFilter: S.optional(HoursOfOperationSearchFilter),
     SearchCriteria: S.optional(HoursOfOperationSearchCriteria),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/search-hours-of-operations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/search-hours-of-operations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SearchPredefinedAttributesRequest extends S.Class<SearchPredefinedAttributesRequest>(
-  "SearchPredefinedAttributesRequest",
-)(
-  {
+).annotations({
+  identifier: "SearchHoursOfOperationsRequest",
+}) as any as S.Schema<SearchHoursOfOperationsRequest>;
+export interface SearchPredefinedAttributesRequest {
+  InstanceId: string;
+  NextToken?: string;
+  MaxResults?: number;
+  SearchCriteria?: PredefinedAttributeSearchCriteria;
+}
+export const SearchPredefinedAttributesRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     SearchCriteria: S.optional(PredefinedAttributeSearchCriteria),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/search-predefined-attributes" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/search-predefined-attributes" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SearchPromptsRequest extends S.Class<SearchPromptsRequest>(
-  "SearchPromptsRequest",
-)(
-  {
+).annotations({
+  identifier: "SearchPredefinedAttributesRequest",
+}) as any as S.Schema<SearchPredefinedAttributesRequest>;
+export interface SearchPromptsRequest {
+  InstanceId: string;
+  NextToken?: string;
+  MaxResults?: number;
+  SearchFilter?: PromptSearchFilter;
+  SearchCriteria?: PromptSearchCriteria;
+}
+export const SearchPromptsRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     SearchFilter: S.optional(PromptSearchFilter),
     SearchCriteria: S.optional(PromptSearchCriteria),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/search-prompts" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/search-prompts" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SearchQueuesRequest extends S.Class<SearchQueuesRequest>(
-  "SearchQueuesRequest",
-)(
-  {
+).annotations({
+  identifier: "SearchPromptsRequest",
+}) as any as S.Schema<SearchPromptsRequest>;
+export interface SearchQueuesRequest {
+  InstanceId: string;
+  NextToken?: string;
+  MaxResults?: number;
+  SearchFilter?: QueueSearchFilter;
+  SearchCriteria?: QueueSearchCriteria;
+}
+export const SearchQueuesRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     SearchFilter: S.optional(QueueSearchFilter),
     SearchCriteria: S.optional(QueueSearchCriteria),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/search-queues" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/search-queues" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SearchQuickConnectsRequest extends S.Class<SearchQuickConnectsRequest>(
-  "SearchQuickConnectsRequest",
-)(
-  {
+).annotations({
+  identifier: "SearchQueuesRequest",
+}) as any as S.Schema<SearchQueuesRequest>;
+export interface SearchQuickConnectsRequest {
+  InstanceId: string;
+  NextToken?: string;
+  MaxResults?: number;
+  SearchFilter?: QuickConnectSearchFilter;
+  SearchCriteria?: QuickConnectSearchCriteria;
+}
+export const SearchQuickConnectsRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     SearchFilter: S.optional(QuickConnectSearchFilter),
     SearchCriteria: S.optional(QuickConnectSearchCriteria),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/search-quick-connects" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/search-quick-connects" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SearchRoutingProfilesRequest extends S.Class<SearchRoutingProfilesRequest>(
-  "SearchRoutingProfilesRequest",
-)(
-  {
+).annotations({
+  identifier: "SearchQuickConnectsRequest",
+}) as any as S.Schema<SearchQuickConnectsRequest>;
+export interface SearchRoutingProfilesRequest {
+  InstanceId: string;
+  NextToken?: string;
+  MaxResults?: number;
+  SearchFilter?: RoutingProfileSearchFilter;
+  SearchCriteria?: RoutingProfileSearchCriteria;
+}
+export const SearchRoutingProfilesRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     SearchFilter: S.optional(RoutingProfileSearchFilter),
     SearchCriteria: S.optional(RoutingProfileSearchCriteria),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/search-routing-profiles" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/search-routing-profiles" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SearchSecurityProfilesRequest extends S.Class<SearchSecurityProfilesRequest>(
-  "SearchSecurityProfilesRequest",
-)(
-  {
+).annotations({
+  identifier: "SearchRoutingProfilesRequest",
+}) as any as S.Schema<SearchRoutingProfilesRequest>;
+export interface SearchSecurityProfilesRequest {
+  InstanceId: string;
+  NextToken?: string;
+  MaxResults?: number;
+  SearchCriteria?: SecurityProfileSearchCriteria;
+  SearchFilter?: SecurityProfilesSearchFilter;
+}
+export const SearchSecurityProfilesRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     SearchCriteria: S.optional(SecurityProfileSearchCriteria),
     SearchFilter: S.optional(SecurityProfilesSearchFilter),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/search-security-profiles" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/search-security-profiles" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SearchUserHierarchyGroupsRequest extends S.Class<SearchUserHierarchyGroupsRequest>(
-  "SearchUserHierarchyGroupsRequest",
-)(
-  {
+).annotations({
+  identifier: "SearchSecurityProfilesRequest",
+}) as any as S.Schema<SearchSecurityProfilesRequest>;
+export interface SearchUserHierarchyGroupsRequest {
+  InstanceId: string;
+  NextToken?: string;
+  MaxResults?: number;
+  SearchFilter?: UserHierarchyGroupSearchFilter;
+  SearchCriteria?: UserHierarchyGroupSearchCriteria;
+}
+export const SearchUserHierarchyGroupsRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     SearchFilter: S.optional(UserHierarchyGroupSearchFilter),
     SearchCriteria: S.optional(UserHierarchyGroupSearchCriteria),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/search-user-hierarchy-groups" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/search-user-hierarchy-groups" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SearchViewsRequest extends S.Class<SearchViewsRequest>(
-  "SearchViewsRequest",
-)(
-  {
+).annotations({
+  identifier: "SearchUserHierarchyGroupsRequest",
+}) as any as S.Schema<SearchUserHierarchyGroupsRequest>;
+export interface SearchViewsRequest {
+  InstanceId: string;
+  NextToken?: string;
+  MaxResults?: number;
+  SearchFilter?: ViewSearchFilter;
+  SearchCriteria?: ViewSearchCriteria;
+}
+export const SearchViewsRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     SearchFilter: S.optional(ViewSearchFilter),
     SearchCriteria: S.optional(ViewSearchCriteria),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/search-views" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/search-views" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SearchWorkspaceAssociationsRequest extends S.Class<SearchWorkspaceAssociationsRequest>(
-  "SearchWorkspaceAssociationsRequest",
-)(
-  {
+).annotations({
+  identifier: "SearchViewsRequest",
+}) as any as S.Schema<SearchViewsRequest>;
+export interface SearchWorkspaceAssociationsRequest {
+  InstanceId: string;
+  NextToken?: string;
+  MaxResults?: number;
+  SearchFilter?: WorkspaceAssociationSearchFilter;
+  SearchCriteria?: WorkspaceAssociationSearchCriteria;
+}
+export const SearchWorkspaceAssociationsRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     SearchFilter: S.optional(WorkspaceAssociationSearchFilter),
     SearchCriteria: S.optional(WorkspaceAssociationSearchCriteria),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/search-workspace-associations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/search-workspace-associations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SearchWorkspacesRequest extends S.Class<SearchWorkspacesRequest>(
-  "SearchWorkspacesRequest",
-)(
-  {
+).annotations({
+  identifier: "SearchWorkspaceAssociationsRequest",
+}) as any as S.Schema<SearchWorkspaceAssociationsRequest>;
+export interface SearchWorkspacesRequest {
+  InstanceId: string;
+  NextToken?: string;
+  MaxResults?: number;
+  SearchFilter?: WorkspaceSearchFilter;
+  SearchCriteria?: WorkspaceSearchCriteria;
+}
+export const SearchWorkspacesRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     SearchFilter: S.optional(WorkspaceSearchFilter),
     SearchCriteria: S.optional(WorkspaceSearchCriteria),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/search-workspaces" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/search-workspaces" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SendChatIntegrationEventRequest extends S.Class<SendChatIntegrationEventRequest>(
-  "SendChatIntegrationEventRequest",
-)(
-  {
+).annotations({
+  identifier: "SearchWorkspacesRequest",
+}) as any as S.Schema<SearchWorkspacesRequest>;
+export interface SendChatIntegrationEventRequest {
+  SourceId: string;
+  DestinationId: string;
+  Subtype?: string;
+  Event: ChatEvent;
+  NewSessionDetails?: NewSessionDetails;
+}
+export const SendChatIntegrationEventRequest = S.suspend(() =>
+  S.Struct({
     SourceId: S.String,
     DestinationId: S.String,
     Subtype: S.optional(S.String),
     Event: ChatEvent,
     NewSessionDetails: S.optional(NewSessionDetails),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/chat-integration-event" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/chat-integration-event" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartAttachedFileUploadRequest extends S.Class<StartAttachedFileUploadRequest>(
-  "StartAttachedFileUploadRequest",
-)(
-  {
+).annotations({
+  identifier: "SendChatIntegrationEventRequest",
+}) as any as S.Schema<SendChatIntegrationEventRequest>;
+export interface StartAttachedFileUploadRequest {
+  ClientToken?: string;
+  InstanceId: string;
+  FileName: string;
+  FileSizeInBytes: number;
+  UrlExpiryInSeconds?: number;
+  FileUseCaseType: string;
+  AssociatedResourceArn: string;
+  CreatedBy?: (typeof CreatedByInfo)["Type"];
+  Tags?: TagMap;
+}
+export const StartAttachedFileUploadRequest = S.suspend(() =>
+  S.Struct({
     ClientToken: S.optional(S.String),
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     FileName: S.String,
@@ -7961,20 +12169,37 @@ export class StartAttachedFileUploadRequest extends S.Class<StartAttachedFileUpl
     AssociatedResourceArn: S.String.pipe(T.HttpQuery("associatedResourceArn")),
     CreatedBy: S.optional(CreatedByInfo),
     Tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/attached-files/{InstanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/attached-files/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartChatContactRequest extends S.Class<StartChatContactRequest>(
-  "StartChatContactRequest",
-)(
-  {
+).annotations({
+  identifier: "StartAttachedFileUploadRequest",
+}) as any as S.Schema<StartAttachedFileUploadRequest>;
+export interface StartChatContactRequest {
+  InstanceId: string;
+  ContactFlowId: string;
+  Attributes?: Attributes;
+  ParticipantDetails: ParticipantDetails;
+  ParticipantConfiguration?: ParticipantConfiguration;
+  InitialMessage?: ChatMessage;
+  ClientToken?: string;
+  ChatDurationInMinutes?: number;
+  SupportedMessagingContentTypes?: SupportedMessagingContentTypes;
+  PersistentChat?: PersistentChat;
+  RelatedContactId?: string;
+  SegmentAttributes?: SegmentAttributes;
+  CustomerId?: string;
+  DisconnectOnCustomerExit?: DisconnectOnCustomerExit;
+}
+export const StartChatContactRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String,
     ContactFlowId: S.String,
     Attributes: S.optional(Attributes),
@@ -7989,85 +12214,133 @@ export class StartChatContactRequest extends S.Class<StartChatContactRequest>(
     SegmentAttributes: S.optional(SegmentAttributes),
     CustomerId: S.optional(S.String),
     DisconnectOnCustomerExit: S.optional(DisconnectOnCustomerExit),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/contact/chat" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/contact/chat" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartContactEvaluationRequest extends S.Class<StartContactEvaluationRequest>(
-  "StartContactEvaluationRequest",
-)(
-  {
+).annotations({
+  identifier: "StartChatContactRequest",
+}) as any as S.Schema<StartChatContactRequest>;
+export interface StartContactEvaluationRequest {
+  InstanceId: string;
+  ContactId: string;
+  EvaluationFormId: string;
+  AutoEvaluationConfiguration?: AutoEvaluationConfiguration;
+  ClientToken?: string;
+  Tags?: TagMap;
+}
+export const StartContactEvaluationRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ContactId: S.String,
     EvaluationFormId: S.String,
     AutoEvaluationConfiguration: S.optional(AutoEvaluationConfiguration),
     ClientToken: S.optional(S.String),
     Tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/contact-evaluations/{InstanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/contact-evaluations/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartContactRecordingRequest extends S.Class<StartContactRecordingRequest>(
-  "StartContactRecordingRequest",
-)(
-  {
+).annotations({
+  identifier: "StartContactEvaluationRequest",
+}) as any as S.Schema<StartContactEvaluationRequest>;
+export interface StartContactRecordingRequest {
+  InstanceId: string;
+  ContactId: string;
+  InitialContactId: string;
+  VoiceRecordingConfiguration: VoiceRecordingConfiguration;
+}
+export const StartContactRecordingRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String,
     ContactId: S.String,
     InitialContactId: S.String,
     VoiceRecordingConfiguration: VoiceRecordingConfiguration,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/contact/start-recording" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/contact/start-recording" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartContactRecordingResponse extends S.Class<StartContactRecordingResponse>(
-  "StartContactRecordingResponse",
-)({}) {}
-export class StartContactStreamingRequest extends S.Class<StartContactStreamingRequest>(
-  "StartContactStreamingRequest",
-)(
-  {
+).annotations({
+  identifier: "StartContactRecordingRequest",
+}) as any as S.Schema<StartContactRecordingRequest>;
+export interface StartContactRecordingResponse {}
+export const StartContactRecordingResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "StartContactRecordingResponse",
+}) as any as S.Schema<StartContactRecordingResponse>;
+export interface StartContactStreamingRequest {
+  InstanceId: string;
+  ContactId: string;
+  ChatStreamingConfiguration: ChatStreamingConfiguration;
+  ClientToken: string;
+}
+export const StartContactStreamingRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String,
     ContactId: S.String,
     ChatStreamingConfiguration: ChatStreamingConfiguration,
     ClientToken: S.String,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/contact/start-streaming" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/contact/start-streaming" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartOutboundEmailContactResponse extends S.Class<StartOutboundEmailContactResponse>(
-  "StartOutboundEmailContactResponse",
-)({ ContactId: S.optional(S.String) }) {}
-export class StartTaskContactResponse extends S.Class<StartTaskContactResponse>(
-  "StartTaskContactResponse",
-)({ ContactId: S.optional(S.String) }) {}
-export class StartWebRTCContactRequest extends S.Class<StartWebRTCContactRequest>(
-  "StartWebRTCContactRequest",
-)(
-  {
+).annotations({
+  identifier: "StartContactStreamingRequest",
+}) as any as S.Schema<StartContactStreamingRequest>;
+export interface StartOutboundEmailContactResponse {
+  ContactId?: string;
+}
+export const StartOutboundEmailContactResponse = S.suspend(() =>
+  S.Struct({ ContactId: S.optional(S.String) }),
+).annotations({
+  identifier: "StartOutboundEmailContactResponse",
+}) as any as S.Schema<StartOutboundEmailContactResponse>;
+export interface StartTaskContactResponse {
+  ContactId?: string;
+}
+export const StartTaskContactResponse = S.suspend(() =>
+  S.Struct({ ContactId: S.optional(S.String) }),
+).annotations({
+  identifier: "StartTaskContactResponse",
+}) as any as S.Schema<StartTaskContactResponse>;
+export interface StartWebRTCContactRequest {
+  Attributes?: Attributes;
+  ClientToken?: string;
+  ContactFlowId: string;
+  InstanceId: string;
+  AllowedCapabilities?: AllowedCapabilities;
+  ParticipantDetails: ParticipantDetails;
+  RelatedContactId?: string;
+  References?: ContactReferences;
+  Description?: string;
+}
+export const StartWebRTCContactRequest = S.suspend(() =>
+  S.Struct({
     Attributes: S.optional(Attributes),
     ClientToken: S.optional(S.String),
     ContactFlowId: S.String,
@@ -8077,59 +12350,99 @@ export class StartWebRTCContactRequest extends S.Class<StartWebRTCContactRequest
     RelatedContactId: S.optional(S.String),
     References: S.optional(ContactReferences),
     Description: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/contact/webrtc" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/contact/webrtc" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StopContactRequest extends S.Class<StopContactRequest>(
-  "StopContactRequest",
-)(
-  {
+).annotations({
+  identifier: "StartWebRTCContactRequest",
+}) as any as S.Schema<StartWebRTCContactRequest>;
+export interface StopContactRequest {
+  ContactId: string;
+  InstanceId: string;
+  DisconnectReason?: DisconnectReason;
+}
+export const StopContactRequest = S.suspend(() =>
+  S.Struct({
     ContactId: S.String,
     InstanceId: S.String,
     DisconnectReason: S.optional(DisconnectReason),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/contact/stop" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/contact/stop" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StopContactResponse extends S.Class<StopContactResponse>(
-  "StopContactResponse",
-)({}) {}
-export class TagContactRequest extends S.Class<TagContactRequest>(
-  "TagContactRequest",
-)(
-  { ContactId: S.String, InstanceId: S.String, Tags: ContactTagMap },
-  T.all(
-    T.Http({ method: "POST", uri: "/contact/tags" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "StopContactRequest",
+}) as any as S.Schema<StopContactRequest>;
+export interface StopContactResponse {}
+export const StopContactResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "StopContactResponse",
+}) as any as S.Schema<StopContactResponse>;
+export interface TagContactRequest {
+  ContactId: string;
+  InstanceId: string;
+  Tags: ContactTagMap;
+}
+export const TagContactRequest = S.suspend(() =>
+  S.Struct({
+    ContactId: S.String,
+    InstanceId: S.String,
+    Tags: ContactTagMap,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/contact/tags" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagContactResponse extends S.Class<TagContactResponse>(
-  "TagContactResponse",
-)({}) {}
-export class TransferContactResponse extends S.Class<TransferContactResponse>(
-  "TransferContactResponse",
-)({ ContactId: S.optional(S.String), ContactArn: S.optional(S.String) }) {}
-export class UpdateContactRequest extends S.Class<UpdateContactRequest>(
-  "UpdateContactRequest",
-)(
-  {
+).annotations({
+  identifier: "TagContactRequest",
+}) as any as S.Schema<TagContactRequest>;
+export interface TagContactResponse {}
+export const TagContactResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagContactResponse",
+}) as any as S.Schema<TagContactResponse>;
+export interface TransferContactResponse {
+  ContactId?: string;
+  ContactArn?: string;
+}
+export const TransferContactResponse = S.suspend(() =>
+  S.Struct({
+    ContactId: S.optional(S.String),
+    ContactArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "TransferContactResponse",
+}) as any as S.Schema<TransferContactResponse>;
+export interface UpdateContactRequest {
+  InstanceId: string;
+  ContactId: string;
+  Name?: string;
+  Description?: string;
+  References?: ContactReferences;
+  SegmentAttributes?: SegmentAttributes;
+  QueueInfo?: QueueInfoInput;
+  UserInfo?: UserInfo;
+  CustomerEndpoint?: Endpoint;
+  SystemEndpoint?: Endpoint;
+}
+export const UpdateContactRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ContactId: S.String.pipe(T.HttpLabel("ContactId")),
     Name: S.optional(S.String),
@@ -8140,1176 +12453,2478 @@ export class UpdateContactRequest extends S.Class<UpdateContactRequest>(
     UserInfo: S.optional(UserInfo),
     CustomerEndpoint: S.optional(Endpoint),
     SystemEndpoint: S.optional(Endpoint),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/contacts/{InstanceId}/{ContactId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/contacts/{InstanceId}/{ContactId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateContactResponse extends S.Class<UpdateContactResponse>(
-  "UpdateContactResponse",
-)({}) {}
-export class UpdateContactEvaluationResponse extends S.Class<UpdateContactEvaluationResponse>(
-  "UpdateContactEvaluationResponse",
-)({ EvaluationId: S.String, EvaluationArn: S.String }) {}
-export class UpdateDataTableAttributeResponse extends S.Class<UpdateDataTableAttributeResponse>(
-  "UpdateDataTableAttributeResponse",
-)({ Name: S.String, LockVersion: DataTableLockVersion }) {}
-export class UpdateDataTableMetadataResponse extends S.Class<UpdateDataTableMetadataResponse>(
-  "UpdateDataTableMetadataResponse",
-)({ LockVersion: DataTableLockVersion }) {}
-export class UpdateDataTablePrimaryValuesRequest extends S.Class<UpdateDataTablePrimaryValuesRequest>(
-  "UpdateDataTablePrimaryValuesRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateContactRequest",
+}) as any as S.Schema<UpdateContactRequest>;
+export interface UpdateContactResponse {}
+export const UpdateContactResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UpdateContactResponse",
+}) as any as S.Schema<UpdateContactResponse>;
+export interface UpdateContactEvaluationResponse {
+  EvaluationId: string;
+  EvaluationArn: string;
+}
+export const UpdateContactEvaluationResponse = S.suspend(() =>
+  S.Struct({ EvaluationId: S.String, EvaluationArn: S.String }),
+).annotations({
+  identifier: "UpdateContactEvaluationResponse",
+}) as any as S.Schema<UpdateContactEvaluationResponse>;
+export interface UpdateDataTableAttributeResponse {
+  Name: string;
+  LockVersion: DataTableLockVersion;
+}
+export const UpdateDataTableAttributeResponse = S.suspend(() =>
+  S.Struct({ Name: S.String, LockVersion: DataTableLockVersion }),
+).annotations({
+  identifier: "UpdateDataTableAttributeResponse",
+}) as any as S.Schema<UpdateDataTableAttributeResponse>;
+export interface UpdateDataTableMetadataResponse {
+  LockVersion: DataTableLockVersion;
+}
+export const UpdateDataTableMetadataResponse = S.suspend(() =>
+  S.Struct({ LockVersion: DataTableLockVersion }),
+).annotations({
+  identifier: "UpdateDataTableMetadataResponse",
+}) as any as S.Schema<UpdateDataTableMetadataResponse>;
+export interface UpdateDataTablePrimaryValuesRequest {
+  InstanceId: string;
+  DataTableId: string;
+  PrimaryValues: PrimaryValuesSet;
+  NewPrimaryValues: PrimaryValuesSet;
+  LockVersion: DataTableLockVersion;
+}
+export const UpdateDataTablePrimaryValuesRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     DataTableId: S.String.pipe(T.HttpLabel("DataTableId")),
     PrimaryValues: PrimaryValuesSet,
     NewPrimaryValues: PrimaryValuesSet,
     LockVersion: DataTableLockVersion,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/data-tables/{InstanceId}/{DataTableId}/values/update-primary",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/data-tables/{InstanceId}/{DataTableId}/values/update-primary",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateEmailAddressMetadataResponse extends S.Class<UpdateEmailAddressMetadataResponse>(
-  "UpdateEmailAddressMetadataResponse",
-)({
-  EmailAddressId: S.optional(S.String),
-  EmailAddressArn: S.optional(S.String),
-}) {}
-export class UpdateEvaluationFormResponse extends S.Class<UpdateEvaluationFormResponse>(
-  "UpdateEvaluationFormResponse",
-)({
-  EvaluationFormId: S.String,
-  EvaluationFormArn: S.String,
-  EvaluationFormVersion: S.Number,
-}) {}
-export class UpdatePhoneNumberResponse extends S.Class<UpdatePhoneNumberResponse>(
-  "UpdatePhoneNumberResponse",
-)({
-  PhoneNumberId: S.optional(S.String),
-  PhoneNumberArn: S.optional(S.String),
-}) {}
-export class UpdatePromptResponse extends S.Class<UpdatePromptResponse>(
-  "UpdatePromptResponse",
-)({ PromptARN: S.optional(S.String), PromptId: S.optional(S.String) }) {}
-export class UpdateTaskTemplateResponse extends S.Class<UpdateTaskTemplateResponse>(
-  "UpdateTaskTemplateResponse",
-)({
-  InstanceId: S.optional(S.String),
-  Id: S.optional(S.String),
-  Arn: S.optional(S.String),
-  Name: S.optional(S.String),
-  Description: S.optional(S.String),
-  ContactFlowId: S.optional(S.String),
-  SelfAssignFlowId: S.optional(S.String),
-  Constraints: S.optional(TaskTemplateConstraints),
-  Defaults: S.optional(TaskTemplateDefaults),
-  Fields: S.optional(TaskTemplateFields),
-  Status: S.optional(S.String),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class UpdateViewContentResponse extends S.Class<UpdateViewContentResponse>(
-  "UpdateViewContentResponse",
-)({ View: S.optional(View) }) {}
-export class Campaign extends S.Class<Campaign>("Campaign")({
-  CampaignId: S.optional(S.String),
-}) {}
-export class EvaluationFormSection extends S.Class<EvaluationFormSection>(
-  "EvaluationFormSection",
-)({
-  Title: S.String,
-  RefId: S.String,
-  Instructions: S.optional(S.String),
-  Items: S.suspend(() => EvaluationFormItemsList),
-  Weight: S.optional(S.Number),
-}) {}
+).annotations({
+  identifier: "UpdateDataTablePrimaryValuesRequest",
+}) as any as S.Schema<UpdateDataTablePrimaryValuesRequest>;
+export interface UpdateEmailAddressMetadataResponse {
+  EmailAddressId?: string;
+  EmailAddressArn?: string;
+}
+export const UpdateEmailAddressMetadataResponse = S.suspend(() =>
+  S.Struct({
+    EmailAddressId: S.optional(S.String),
+    EmailAddressArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "UpdateEmailAddressMetadataResponse",
+}) as any as S.Schema<UpdateEmailAddressMetadataResponse>;
+export interface UpdateEvaluationFormResponse {
+  EvaluationFormId: string;
+  EvaluationFormArn: string;
+  EvaluationFormVersion: number;
+}
+export const UpdateEvaluationFormResponse = S.suspend(() =>
+  S.Struct({
+    EvaluationFormId: S.String,
+    EvaluationFormArn: S.String,
+    EvaluationFormVersion: S.Number,
+  }),
+).annotations({
+  identifier: "UpdateEvaluationFormResponse",
+}) as any as S.Schema<UpdateEvaluationFormResponse>;
+export interface UpdatePhoneNumberResponse {
+  PhoneNumberId?: string;
+  PhoneNumberArn?: string;
+}
+export const UpdatePhoneNumberResponse = S.suspend(() =>
+  S.Struct({
+    PhoneNumberId: S.optional(S.String),
+    PhoneNumberArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "UpdatePhoneNumberResponse",
+}) as any as S.Schema<UpdatePhoneNumberResponse>;
+export interface UpdatePromptResponse {
+  PromptARN?: string;
+  PromptId?: string;
+}
+export const UpdatePromptResponse = S.suspend(() =>
+  S.Struct({ PromptARN: S.optional(S.String), PromptId: S.optional(S.String) }),
+).annotations({
+  identifier: "UpdatePromptResponse",
+}) as any as S.Schema<UpdatePromptResponse>;
+export interface UpdateTaskTemplateResponse {
+  InstanceId?: string;
+  Id?: string;
+  Arn?: string;
+  Name?: string;
+  Description?: string;
+  ContactFlowId?: string;
+  SelfAssignFlowId?: string;
+  Constraints?: TaskTemplateConstraints;
+  Defaults?: TaskTemplateDefaults;
+  Fields?: TaskTemplateFields;
+  Status?: string;
+  LastModifiedTime?: Date;
+  CreatedTime?: Date;
+}
+export const UpdateTaskTemplateResponse = S.suspend(() =>
+  S.Struct({
+    InstanceId: S.optional(S.String),
+    Id: S.optional(S.String),
+    Arn: S.optional(S.String),
+    Name: S.optional(S.String),
+    Description: S.optional(S.String),
+    ContactFlowId: S.optional(S.String),
+    SelfAssignFlowId: S.optional(S.String),
+    Constraints: S.optional(TaskTemplateConstraints),
+    Defaults: S.optional(TaskTemplateDefaults),
+    Fields: S.optional(TaskTemplateFields),
+    Status: S.optional(S.String),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "UpdateTaskTemplateResponse",
+}) as any as S.Schema<UpdateTaskTemplateResponse>;
+export interface UpdateViewContentResponse {
+  View?: View;
+}
+export const UpdateViewContentResponse = S.suspend(() =>
+  S.Struct({ View: S.optional(View) }),
+).annotations({
+  identifier: "UpdateViewContentResponse",
+}) as any as S.Schema<UpdateViewContentResponse>;
+export interface Campaign {
+  CampaignId?: string;
+}
+export const Campaign = S.suspend(() =>
+  S.Struct({ CampaignId: S.optional(S.String) }),
+).annotations({ identifier: "Campaign" }) as any as S.Schema<Campaign>;
+export interface EvaluationFormSection {
+  Title: string;
+  RefId: string;
+  Instructions?: string;
+  Items: EvaluationFormItemsList;
+  Weight?: number;
+}
+export const EvaluationFormSection = S.suspend(() =>
+  S.Struct({
+    Title: S.String,
+    RefId: S.String,
+    Instructions: S.optional(S.String),
+    Items: S.suspend(() => EvaluationFormItemsList).annotations({
+      identifier: "EvaluationFormItemsList",
+    }),
+    Weight: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "EvaluationFormSection",
+}) as any as S.Schema<EvaluationFormSection>;
+export type AssociatedQueueIdList = string[];
 export const AssociatedQueueIdList = S.Array(S.String);
-export class ContactFilter extends S.Class<ContactFilter>("ContactFilter")({
-  ContactStates: S.optional(ContactStates),
-}) {}
-export class Threshold extends S.Class<Threshold>("Threshold")({
-  Comparison: S.optional(S.String),
-  ThresholdValue: S.optional(S.Number),
-}) {}
-export class FilterV2StringCondition extends S.Class<FilterV2StringCondition>(
-  "FilterV2StringCondition",
-)({ Comparison: S.optional(S.String) }) {}
-export class ThresholdV2 extends S.Class<ThresholdV2>("ThresholdV2")({
-  Comparison: S.optional(S.String),
-  ThresholdValue: S.optional(S.Number),
-}) {}
+export interface ContactFilter {
+  ContactStates?: ContactStates;
+}
+export const ContactFilter = S.suspend(() =>
+  S.Struct({ ContactStates: S.optional(ContactStates) }),
+).annotations({
+  identifier: "ContactFilter",
+}) as any as S.Schema<ContactFilter>;
+export interface Threshold {
+  Comparison?: string;
+  ThresholdValue?: number;
+}
+export const Threshold = S.suspend(() =>
+  S.Struct({
+    Comparison: S.optional(S.String),
+    ThresholdValue: S.optional(S.Number),
+  }),
+).annotations({ identifier: "Threshold" }) as any as S.Schema<Threshold>;
+export interface FilterV2StringCondition {
+  Comparison?: string;
+}
+export const FilterV2StringCondition = S.suspend(() =>
+  S.Struct({ Comparison: S.optional(S.String) }),
+).annotations({
+  identifier: "FilterV2StringCondition",
+}) as any as S.Schema<FilterV2StringCondition>;
+export interface ThresholdV2 {
+  Comparison?: string;
+  ThresholdValue?: number;
+}
+export const ThresholdV2 = S.suspend(() =>
+  S.Struct({
+    Comparison: S.optional(S.String),
+    ThresholdValue: S.optional(S.Number),
+  }),
+).annotations({ identifier: "ThresholdV2" }) as any as S.Schema<ThresholdV2>;
+export type ThresholdCollections = ThresholdV2[];
 export const ThresholdCollections = S.Array(ThresholdV2);
-export class MetricFilterV2 extends S.Class<MetricFilterV2>("MetricFilterV2")({
-  MetricFilterKey: S.optional(S.String),
-  MetricFilterValues: S.optional(MetricFilterValueList),
-  Negate: S.optional(S.Boolean),
-}) {}
+export interface MetricFilterV2 {
+  MetricFilterKey?: string;
+  MetricFilterValues?: MetricFilterValueList;
+  Negate?: boolean;
+}
+export const MetricFilterV2 = S.suspend(() =>
+  S.Struct({
+    MetricFilterKey: S.optional(S.String),
+    MetricFilterValues: S.optional(MetricFilterValueList),
+    Negate: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "MetricFilterV2",
+}) as any as S.Schema<MetricFilterV2>;
+export type MetricFiltersV2List = MetricFilterV2[];
 export const MetricFiltersV2List = S.Array(MetricFilterV2);
-export class DecimalCondition extends S.Class<DecimalCondition>(
-  "DecimalCondition",
-)({
-  FieldName: S.optional(S.String),
-  MinValue: S.optional(S.Number),
-  MaxValue: S.optional(S.Number),
-  ComparisonType: S.optional(S.String),
-}) {}
-export class NameCriteria extends S.Class<NameCriteria>("NameCriteria")({
-  SearchText: SearchTextList,
-  MatchType: S.String,
-}) {}
-export class AgentHierarchyGroups extends S.Class<AgentHierarchyGroups>(
-  "AgentHierarchyGroups",
-)({
-  L1Ids: S.optional(HierarchyGroupIdList),
-  L2Ids: S.optional(HierarchyGroupIdList),
-  L3Ids: S.optional(HierarchyGroupIdList),
-  L4Ids: S.optional(HierarchyGroupIdList),
-  L5Ids: S.optional(HierarchyGroupIdList),
-}) {}
-export class DateCondition extends S.Class<DateCondition>("DateCondition")({
-  FieldName: S.optional(S.String),
-  Value: S.optional(S.String),
-  ComparisonType: S.optional(S.String),
-}) {}
-export class TagSearchCondition extends S.Class<TagSearchCondition>(
-  "TagSearchCondition",
-)({
-  tagKey: S.optional(S.String),
-  tagValue: S.optional(S.String),
-  tagKeyComparisonType: S.optional(S.String),
-  tagValueComparisonType: S.optional(S.String),
-}) {}
-export class HierarchyGroupCondition extends S.Class<HierarchyGroupCondition>(
-  "HierarchyGroupCondition",
-)({
-  Value: S.optional(S.String),
-  HierarchyGroupMatchType: S.optional(S.String),
-}) {}
-export class HierarchyLevelUpdate extends S.Class<HierarchyLevelUpdate>(
-  "HierarchyLevelUpdate",
-)({ Name: S.String }) {}
+export interface DecimalCondition {
+  FieldName?: string;
+  MinValue?: number;
+  MaxValue?: number;
+  ComparisonType?: string;
+}
+export const DecimalCondition = S.suspend(() =>
+  S.Struct({
+    FieldName: S.optional(S.String),
+    MinValue: S.optional(S.Number),
+    MaxValue: S.optional(S.Number),
+    ComparisonType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DecimalCondition",
+}) as any as S.Schema<DecimalCondition>;
+export interface NameCriteria {
+  SearchText: SearchTextList;
+  MatchType: string;
+}
+export const NameCriteria = S.suspend(() =>
+  S.Struct({ SearchText: SearchTextList, MatchType: S.String }),
+).annotations({ identifier: "NameCriteria" }) as any as S.Schema<NameCriteria>;
+export interface AgentHierarchyGroups {
+  L1Ids?: HierarchyGroupIdList;
+  L2Ids?: HierarchyGroupIdList;
+  L3Ids?: HierarchyGroupIdList;
+  L4Ids?: HierarchyGroupIdList;
+  L5Ids?: HierarchyGroupIdList;
+}
+export const AgentHierarchyGroups = S.suspend(() =>
+  S.Struct({
+    L1Ids: S.optional(HierarchyGroupIdList),
+    L2Ids: S.optional(HierarchyGroupIdList),
+    L3Ids: S.optional(HierarchyGroupIdList),
+    L4Ids: S.optional(HierarchyGroupIdList),
+    L5Ids: S.optional(HierarchyGroupIdList),
+  }),
+).annotations({
+  identifier: "AgentHierarchyGroups",
+}) as any as S.Schema<AgentHierarchyGroups>;
+export interface DateCondition {
+  FieldName?: string;
+  Value?: string;
+  ComparisonType?: string;
+}
+export const DateCondition = S.suspend(() =>
+  S.Struct({
+    FieldName: S.optional(S.String),
+    Value: S.optional(S.String),
+    ComparisonType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DateCondition",
+}) as any as S.Schema<DateCondition>;
+export interface TagSearchCondition {
+  tagKey?: string;
+  tagValue?: string;
+  tagKeyComparisonType?: string;
+  tagValueComparisonType?: string;
+}
+export const TagSearchCondition = S.suspend(() =>
+  S.Struct({
+    tagKey: S.optional(S.String),
+    tagValue: S.optional(S.String),
+    tagKeyComparisonType: S.optional(S.String),
+    tagValueComparisonType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "TagSearchCondition",
+}) as any as S.Schema<TagSearchCondition>;
+export interface HierarchyGroupCondition {
+  Value?: string;
+  HierarchyGroupMatchType?: string;
+}
+export const HierarchyGroupCondition = S.suspend(() =>
+  S.Struct({
+    Value: S.optional(S.String),
+    HierarchyGroupMatchType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "HierarchyGroupCondition",
+}) as any as S.Schema<HierarchyGroupCondition>;
+export interface HierarchyLevelUpdate {
+  Name: string;
+}
+export const HierarchyLevelUpdate = S.suspend(() =>
+  S.Struct({ Name: S.String }),
+).annotations({
+  identifier: "HierarchyLevelUpdate",
+}) as any as S.Schema<HierarchyLevelUpdate>;
+export type SearchableContactAttributeValueList = string[];
 export const SearchableContactAttributeValueList = S.Array(S.String);
+export type SearchableSegmentAttributeValueList = string[];
 export const SearchableSegmentAttributeValueList = S.Array(S.String);
 export type Expressions = Expression[];
 export const Expressions = S.Array(
-  S.suspend((): S.Schema<Expression, any> => Expression),
+  S.suspend((): S.Schema<Expression, any> => Expression).annotations({
+    identifier: "Expression",
+  }),
 ) as any as S.Schema<Expressions>;
-export class AttachedFile extends S.Class<AttachedFile>("AttachedFile")({
-  CreationTime: S.String,
-  FileArn: S.String,
-  FileId: S.String,
-  FileName: S.String,
-  FileSizeInBytes: S.Number,
-  FileStatus: S.String,
-  CreatedBy: S.optional(CreatedByInfo),
-  FileUseCaseType: S.optional(S.String),
-  AssociatedResourceArn: S.optional(S.String),
-  Tags: S.optional(TagMap),
-}) {}
+export interface AttachedFile {
+  CreationTime: string;
+  FileArn: string;
+  FileId: string;
+  FileName: string;
+  FileSizeInBytes: number;
+  FileStatus: string;
+  CreatedBy?: (typeof CreatedByInfo)["Type"];
+  FileUseCaseType?: string;
+  AssociatedResourceArn?: string;
+  Tags?: TagMap;
+}
+export const AttachedFile = S.suspend(() =>
+  S.Struct({
+    CreationTime: S.String,
+    FileArn: S.String,
+    FileId: S.String,
+    FileName: S.String,
+    FileSizeInBytes: S.Number,
+    FileStatus: S.String,
+    CreatedBy: S.optional(CreatedByInfo),
+    FileUseCaseType: S.optional(S.String),
+    AssociatedResourceArn: S.optional(S.String),
+    Tags: S.optional(TagMap),
+  }),
+).annotations({ identifier: "AttachedFile" }) as any as S.Schema<AttachedFile>;
+export type AttachedFilesList = AttachedFile[];
 export const AttachedFilesList = S.Array(AttachedFile);
-export class AttachedFileError extends S.Class<AttachedFileError>(
-  "AttachedFileError",
-)({
-  ErrorCode: S.optional(S.String),
-  ErrorMessage: S.optional(S.String),
-  FileId: S.optional(S.String),
-}) {}
+export interface AttachedFileError {
+  ErrorCode?: string;
+  ErrorMessage?: string;
+  FileId?: string;
+}
+export const AttachedFileError = S.suspend(() =>
+  S.Struct({
+    ErrorCode: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
+    FileId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AttachedFileError",
+}) as any as S.Schema<AttachedFileError>;
+export type AttachedFileErrorsList = AttachedFileError[];
 export const AttachedFileErrorsList = S.Array(AttachedFileError);
-export class PostAcceptTimeoutConfig extends S.Class<PostAcceptTimeoutConfig>(
-  "PostAcceptTimeoutConfig",
-)({ DurationInSeconds: S.Number }) {}
+export interface PostAcceptTimeoutConfig {
+  DurationInSeconds: number;
+}
+export const PostAcceptTimeoutConfig = S.suspend(() =>
+  S.Struct({ DurationInSeconds: S.Number }),
+).annotations({
+  identifier: "PostAcceptTimeoutConfig",
+}) as any as S.Schema<PostAcceptTimeoutConfig>;
+export type AllowedUserActions = string[];
 export const AllowedUserActions = S.Array(S.String);
-export class Preview extends S.Class<Preview>("Preview")({
-  PostAcceptTimeoutConfig: PostAcceptTimeoutConfig,
-  AllowedUserActions: AllowedUserActions,
-}) {}
-export class AgentFirst extends S.Class<AgentFirst>("AgentFirst")({
-  Preview: S.optional(Preview),
-}) {}
-export class OutboundStrategyConfig extends S.Class<OutboundStrategyConfig>(
-  "OutboundStrategyConfig",
-)({ AgentFirst: S.optional(AgentFirst) }) {}
-export class OutboundStrategy extends S.Class<OutboundStrategy>(
-  "OutboundStrategy",
-)({ Type: S.String, Config: S.optional(OutboundStrategyConfig) }) {}
-export class ContactDataRequest extends S.Class<ContactDataRequest>(
-  "ContactDataRequest",
-)({
-  SystemEndpoint: S.optional(Endpoint),
-  CustomerEndpoint: S.optional(Endpoint),
-  RequestIdentifier: S.optional(S.String),
-  QueueId: S.optional(S.String),
-  Attributes: S.optional(Attributes),
-  Campaign: S.optional(Campaign),
-  OutboundStrategy: S.optional(OutboundStrategy),
-}) {}
+export interface Preview {
+  PostAcceptTimeoutConfig: PostAcceptTimeoutConfig;
+  AllowedUserActions: AllowedUserActions;
+}
+export const Preview = S.suspend(() =>
+  S.Struct({
+    PostAcceptTimeoutConfig: PostAcceptTimeoutConfig,
+    AllowedUserActions: AllowedUserActions,
+  }),
+).annotations({ identifier: "Preview" }) as any as S.Schema<Preview>;
+export interface AgentFirst {
+  Preview?: Preview;
+}
+export const AgentFirst = S.suspend(() =>
+  S.Struct({ Preview: S.optional(Preview) }),
+).annotations({ identifier: "AgentFirst" }) as any as S.Schema<AgentFirst>;
+export interface OutboundStrategyConfig {
+  AgentFirst?: AgentFirst;
+}
+export const OutboundStrategyConfig = S.suspend(() =>
+  S.Struct({ AgentFirst: S.optional(AgentFirst) }),
+).annotations({
+  identifier: "OutboundStrategyConfig",
+}) as any as S.Schema<OutboundStrategyConfig>;
+export interface OutboundStrategy {
+  Type: string;
+  Config?: OutboundStrategyConfig;
+}
+export const OutboundStrategy = S.suspend(() =>
+  S.Struct({ Type: S.String, Config: S.optional(OutboundStrategyConfig) }),
+).annotations({
+  identifier: "OutboundStrategy",
+}) as any as S.Schema<OutboundStrategy>;
+export interface ContactDataRequest {
+  SystemEndpoint?: Endpoint;
+  CustomerEndpoint?: Endpoint;
+  RequestIdentifier?: string;
+  QueueId?: string;
+  Attributes?: Attributes;
+  Campaign?: Campaign;
+  OutboundStrategy?: OutboundStrategy;
+}
+export const ContactDataRequest = S.suspend(() =>
+  S.Struct({
+    SystemEndpoint: S.optional(Endpoint),
+    CustomerEndpoint: S.optional(Endpoint),
+    RequestIdentifier: S.optional(S.String),
+    QueueId: S.optional(S.String),
+    Attributes: S.optional(Attributes),
+    Campaign: S.optional(Campaign),
+    OutboundStrategy: S.optional(OutboundStrategy),
+  }),
+).annotations({
+  identifier: "ContactDataRequest",
+}) as any as S.Schema<ContactDataRequest>;
+export type ContactDataRequestList = ContactDataRequest[];
 export const ContactDataRequestList = S.Array(ContactDataRequest);
-export class BatchUpdateDataTableValueSuccessResult extends S.Class<BatchUpdateDataTableValueSuccessResult>(
-  "BatchUpdateDataTableValueSuccessResult",
-)({
-  PrimaryValues: PrimaryValuesSet,
-  AttributeName: S.String,
-  LockVersion: DataTableLockVersion,
-}) {}
+export interface BatchUpdateDataTableValueSuccessResult {
+  PrimaryValues: PrimaryValuesSet;
+  AttributeName: string;
+  LockVersion: DataTableLockVersion;
+}
+export const BatchUpdateDataTableValueSuccessResult = S.suspend(() =>
+  S.Struct({
+    PrimaryValues: PrimaryValuesSet,
+    AttributeName: S.String,
+    LockVersion: DataTableLockVersion,
+  }),
+).annotations({
+  identifier: "BatchUpdateDataTableValueSuccessResult",
+}) as any as S.Schema<BatchUpdateDataTableValueSuccessResult>;
+export type BatchUpdateDataTableValueSuccessResultList =
+  BatchUpdateDataTableValueSuccessResult[];
 export const BatchUpdateDataTableValueSuccessResultList = S.Array(
   BatchUpdateDataTableValueSuccessResult,
 );
-export class BatchUpdateDataTableValueFailureResult extends S.Class<BatchUpdateDataTableValueFailureResult>(
-  "BatchUpdateDataTableValueFailureResult",
-)({
-  PrimaryValues: PrimaryValuesSet,
-  AttributeName: S.String,
-  Message: S.String,
-}) {}
+export interface BatchUpdateDataTableValueFailureResult {
+  PrimaryValues: PrimaryValuesSet;
+  AttributeName: string;
+  Message: string;
+}
+export const BatchUpdateDataTableValueFailureResult = S.suspend(() =>
+  S.Struct({
+    PrimaryValues: PrimaryValuesSet,
+    AttributeName: S.String,
+    Message: S.String,
+  }),
+).annotations({
+  identifier: "BatchUpdateDataTableValueFailureResult",
+}) as any as S.Schema<BatchUpdateDataTableValueFailureResult>;
+export type BatchUpdateDataTableValueFailureResultList =
+  BatchUpdateDataTableValueFailureResult[];
 export const BatchUpdateDataTableValueFailureResultList = S.Array(
   BatchUpdateDataTableValueFailureResult,
 );
-export class ParticipantDetailsToAdd extends S.Class<ParticipantDetailsToAdd>(
-  "ParticipantDetailsToAdd",
-)({
-  ParticipantRole: S.optional(S.String),
-  DisplayName: S.optional(S.String),
-  ParticipantCapabilities: S.optional(ParticipantCapabilities),
-}) {}
-export class AgentStatus extends S.Class<AgentStatus>("AgentStatus")({
-  AgentStatusARN: S.optional(S.String),
-  AgentStatusId: S.optional(S.String),
-  Name: S.optional(S.String),
-  Description: S.optional(S.String),
-  Type: S.optional(S.String),
-  DisplayOrder: S.optional(S.Number),
-  State: S.optional(S.String),
-  Tags: S.optional(TagMap),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedRegion: S.optional(S.String),
-}) {}
-export class AuthenticationProfile extends S.Class<AuthenticationProfile>(
-  "AuthenticationProfile",
-)({
-  Id: S.optional(S.String),
-  Arn: S.optional(S.String),
-  Name: S.optional(S.String),
-  Description: S.optional(S.String),
-  AllowedIps: S.optional(IpCidrList),
-  BlockedIps: S.optional(IpCidrList),
-  IsDefault: S.optional(S.Boolean),
-  CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedRegion: S.optional(S.String),
-  PeriodicSessionDuration: S.optional(S.Number),
-  MaxSessionDuration: S.optional(S.Number),
-  SessionInactivityDuration: S.optional(S.Number),
-  SessionInactivityHandlingEnabled: S.optional(S.Boolean),
-}) {}
-export class EvaluationFormContent extends S.Class<EvaluationFormContent>(
-  "EvaluationFormContent",
-)({
-  EvaluationFormVersion: S.Number,
-  EvaluationFormId: S.String,
-  EvaluationFormArn: S.String,
-  Title: S.String,
-  Description: S.optional(S.String),
-  Items: EvaluationFormItemsList,
-  ScoringStrategy: S.optional(EvaluationFormScoringStrategy),
-  AutoEvaluationConfiguration: S.optional(
-    EvaluationFormAutoEvaluationConfiguration,
-  ),
-  TargetConfiguration: S.optional(EvaluationFormTargetConfiguration),
-  LanguageConfiguration: S.optional(EvaluationFormLanguageConfiguration),
-}) {}
-export class ContactFlow extends S.Class<ContactFlow>("ContactFlow")({
-  Arn: S.optional(S.String),
-  Id: S.optional(S.String),
-  Name: S.optional(S.String),
-  Type: S.optional(S.String),
-  State: S.optional(S.String),
-  Status: S.optional(S.String),
-  Description: S.optional(S.String),
-  Content: S.optional(S.String),
-  Tags: S.optional(TagMap),
-  FlowContentSha256: S.optional(S.String),
-  Version: S.optional(S.Number),
-  VersionDescription: S.optional(S.String),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedRegion: S.optional(S.String),
-}) {}
-export class ContactFlowModule extends S.Class<ContactFlowModule>(
-  "ContactFlowModule",
-)({
-  Arn: S.optional(S.String),
-  Id: S.optional(S.String),
-  Name: S.optional(S.String),
-  Content: S.optional(S.String),
-  Description: S.optional(S.String),
-  State: S.optional(S.String),
-  Status: S.optional(S.String),
-  Tags: S.optional(TagMap),
-  FlowModuleContentSha256: S.optional(S.String),
-  Version: S.optional(S.Number),
-  VersionDescription: S.optional(S.String),
-  Settings: S.optional(S.String),
-  ExternalInvocationConfiguration: S.optional(ExternalInvocationConfiguration),
-}) {}
-export class ContactFlowModuleAliasInfo extends S.Class<ContactFlowModuleAliasInfo>(
-  "ContactFlowModuleAliasInfo",
-)({
-  ContactFlowModuleId: S.optional(S.String),
-  ContactFlowModuleArn: S.optional(S.String),
-  AliasId: S.optional(S.String),
-  Version: S.optional(S.Number),
-  Name: S.optional(S.String),
-  Description: S.optional(S.String),
-  LastModifiedRegion: S.optional(S.String),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class DataTable extends S.Class<DataTable>("DataTable")({
-  Name: S.String,
-  Id: S.String,
-  Arn: S.String,
-  TimeZone: S.String,
-  Description: S.optional(S.String),
-  ValueLockLevel: S.optional(S.String),
-  LockVersion: S.optional(DataTableLockVersion),
-  Version: S.optional(S.String),
-  VersionDescription: S.optional(S.String),
-  Status: S.optional(S.String),
-  CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  LastModifiedRegion: S.optional(S.String),
-  Tags: S.optional(TagMap),
-}) {}
-export class EvaluationForm extends S.Class<EvaluationForm>("EvaluationForm")({
-  EvaluationFormId: S.String,
-  EvaluationFormVersion: S.Number,
-  Locked: S.Boolean,
-  EvaluationFormArn: S.String,
-  Title: S.String,
-  Description: S.optional(S.String),
-  Status: S.String,
-  Items: EvaluationFormItemsList,
-  ScoringStrategy: S.optional(EvaluationFormScoringStrategy),
-  CreatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  CreatedBy: S.String,
-  LastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  LastModifiedBy: S.String,
-  AutoEvaluationConfiguration: S.optional(
-    EvaluationFormAutoEvaluationConfiguration,
-  ),
-  Tags: S.optional(TagMap),
-  TargetConfiguration: S.optional(EvaluationFormTargetConfiguration),
-  LanguageConfiguration: S.optional(EvaluationFormLanguageConfiguration),
-}) {}
-export class HoursOfOperation extends S.Class<HoursOfOperation>(
-  "HoursOfOperation",
-)({
-  HoursOfOperationId: S.optional(S.String),
-  HoursOfOperationArn: S.optional(S.String),
-  Name: S.optional(S.String),
-  Description: S.optional(S.String),
-  TimeZone: S.optional(S.String),
-  Config: S.optional(HoursOfOperationConfigList),
-  Tags: S.optional(TagMap),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedRegion: S.optional(S.String),
-}) {}
-export class Prompt extends S.Class<Prompt>("Prompt")({
-  PromptARN: S.optional(S.String),
-  PromptId: S.optional(S.String),
-  Name: S.optional(S.String),
-  Description: S.optional(S.String),
-  Tags: S.optional(TagMap),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedRegion: S.optional(S.String),
-}) {}
-export class Queue extends S.Class<Queue>("Queue")({
-  Name: S.optional(S.String),
-  QueueArn: S.optional(S.String),
-  QueueId: S.optional(S.String),
-  Description: S.optional(S.String),
-  OutboundCallerConfig: S.optional(OutboundCallerConfig),
-  OutboundEmailConfig: S.optional(OutboundEmailConfig),
-  HoursOfOperationId: S.optional(S.String),
-  MaxContacts: S.optional(S.Number),
-  Status: S.optional(S.String),
-  Tags: S.optional(TagMap),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedRegion: S.optional(S.String),
-}) {}
-export class QuickConnect extends S.Class<QuickConnect>("QuickConnect")({
-  QuickConnectARN: S.optional(S.String),
-  QuickConnectId: S.optional(S.String),
-  Name: S.optional(S.String),
-  Description: S.optional(S.String),
-  QuickConnectConfig: S.optional(QuickConnectConfig),
-  Tags: S.optional(TagMap),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedRegion: S.optional(S.String),
-}) {}
-export class RoutingProfile extends S.Class<RoutingProfile>("RoutingProfile")({
-  InstanceId: S.optional(S.String),
-  Name: S.optional(S.String),
-  RoutingProfileArn: S.optional(S.String),
-  RoutingProfileId: S.optional(S.String),
-  Description: S.optional(S.String),
-  MediaConcurrencies: S.optional(MediaConcurrencies),
-  DefaultOutboundQueueId: S.optional(S.String),
-  Tags: S.optional(TagMap),
-  NumberOfAssociatedQueues: S.optional(S.Number),
-  NumberOfAssociatedManualAssignmentQueues: S.optional(S.Number),
-  NumberOfAssociatedUsers: S.optional(S.Number),
-  AgentAvailabilityTimer: S.optional(S.String),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedRegion: S.optional(S.String),
-  IsDefault: S.optional(S.Boolean),
-  AssociatedQueueIds: S.optional(AssociatedQueueIdList),
-  AssociatedManualAssignmentQueueIds: S.optional(AssociatedQueueIdList),
-}) {}
-export class Rule extends S.Class<Rule>("Rule")({
-  Name: S.String,
-  RuleId: S.String,
-  RuleArn: S.String,
-  TriggerEventSource: RuleTriggerEventSource,
-  Function: S.String,
-  Actions: RuleActions,
-  PublishStatus: S.String,
-  CreatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  LastUpdatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  LastUpdatedBy: S.String,
-  Tags: S.optional(TagMap),
-}) {}
-export class SecurityProfile extends S.Class<SecurityProfile>(
-  "SecurityProfile",
-)({
-  Id: S.optional(S.String),
-  OrganizationResourceId: S.optional(S.String),
-  Arn: S.optional(S.String),
-  SecurityProfileName: S.optional(S.String),
-  Description: S.optional(S.String),
-  Tags: S.optional(TagMap),
-  AllowedAccessControlTags: S.optional(AllowedAccessControlTags),
-  TagRestrictedResources: S.optional(TagRestrictedResourceList),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedRegion: S.optional(S.String),
-  HierarchyRestrictedResources: S.optional(HierarchyRestrictedResourceList),
-  AllowedAccessControlHierarchyGroupId: S.optional(S.String),
-  GranularAccessControlConfiguration: S.optional(
-    GranularAccessControlConfiguration,
-  ),
-}) {}
-export class TrafficDistributionGroup extends S.Class<TrafficDistributionGroup>(
-  "TrafficDistributionGroup",
-)({
-  Id: S.optional(S.String),
-  Arn: S.optional(S.String),
-  Name: S.optional(S.String),
-  Description: S.optional(S.String),
-  InstanceArn: S.optional(S.String),
-  Status: S.optional(S.String),
-  Tags: S.optional(TagMap),
-  IsDefault: S.optional(S.Boolean),
-}) {}
-export class User extends S.Class<User>("User")({
-  Id: S.optional(S.String),
-  Arn: S.optional(S.String),
-  Username: S.optional(S.String),
-  IdentityInfo: S.optional(UserIdentityInfo),
-  PhoneConfig: S.optional(UserPhoneConfig),
-  DirectoryUserId: S.optional(S.String),
-  SecurityProfileIds: S.optional(SecurityProfileIds),
-  RoutingProfileId: S.optional(S.String),
-  HierarchyGroupId: S.optional(S.String),
-  Tags: S.optional(TagMap),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedRegion: S.optional(S.String),
-}) {}
-export class Vocabulary extends S.Class<Vocabulary>("Vocabulary")({
-  Name: S.String,
-  Id: S.String,
-  Arn: S.String,
-  LanguageCode: S.String,
-  State: S.String,
-  LastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  FailureReason: S.optional(S.String),
-  Content: S.optional(S.String),
-  Tags: S.optional(TagMap),
-}) {}
-export class Workspace extends S.Class<Workspace>("Workspace")({
-  Visibility: S.optional(S.String),
-  Id: S.String,
-  Name: S.String,
-  Arn: S.String,
-  Description: S.optional(S.String),
-  Theme: S.optional(WorkspaceTheme),
-  Title: S.optional(S.String),
-  LastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  LastModifiedRegion: S.optional(S.String),
-  Tags: S.optional(TagMap),
-}) {}
-export class DownloadUrlMetadata extends S.Class<DownloadUrlMetadata>(
-  "DownloadUrlMetadata",
-)({ Url: S.optional(S.String), UrlExpiry: S.optional(S.String) }) {}
-export class UserDataFilters extends S.Class<UserDataFilters>(
-  "UserDataFilters",
-)({
-  Queues: S.optional(Queues),
-  ContactFilter: S.optional(ContactFilter),
-  RoutingProfiles: S.optional(RoutingProfiles),
-  Agents: S.optional(AgentsMinOneMaxHundred),
-  UserHierarchyGroups: S.optional(UserDataHierarchyGroups),
-}) {}
-export class Credentials extends S.Class<Credentials>("Credentials")({
-  AccessToken: S.optional(S.String),
-  AccessTokenExpiration: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  RefreshToken: S.optional(S.String),
-  RefreshTokenExpiration: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
-export class HistoricalMetric extends S.Class<HistoricalMetric>(
-  "HistoricalMetric",
-)({
-  Name: S.optional(S.String),
-  Threshold: S.optional(Threshold),
-  Statistic: S.optional(S.String),
-  Unit: S.optional(S.String),
-}) {}
+export interface ParticipantDetailsToAdd {
+  ParticipantRole?: string;
+  DisplayName?: string;
+  ParticipantCapabilities?: ParticipantCapabilities;
+}
+export const ParticipantDetailsToAdd = S.suspend(() =>
+  S.Struct({
+    ParticipantRole: S.optional(S.String),
+    DisplayName: S.optional(S.String),
+    ParticipantCapabilities: S.optional(ParticipantCapabilities),
+  }),
+).annotations({
+  identifier: "ParticipantDetailsToAdd",
+}) as any as S.Schema<ParticipantDetailsToAdd>;
+export interface AgentStatus {
+  AgentStatusARN?: string;
+  AgentStatusId?: string;
+  Name?: string;
+  Description?: string;
+  Type?: string;
+  DisplayOrder?: number;
+  State?: string;
+  Tags?: TagMap;
+  LastModifiedTime?: Date;
+  LastModifiedRegion?: string;
+}
+export const AgentStatus = S.suspend(() =>
+  S.Struct({
+    AgentStatusARN: S.optional(S.String),
+    AgentStatusId: S.optional(S.String),
+    Name: S.optional(S.String),
+    Description: S.optional(S.String),
+    Type: S.optional(S.String),
+    DisplayOrder: S.optional(S.Number),
+    State: S.optional(S.String),
+    Tags: S.optional(TagMap),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastModifiedRegion: S.optional(S.String),
+  }),
+).annotations({ identifier: "AgentStatus" }) as any as S.Schema<AgentStatus>;
+export interface AuthenticationProfile {
+  Id?: string;
+  Arn?: string;
+  Name?: string;
+  Description?: string;
+  AllowedIps?: IpCidrList;
+  BlockedIps?: IpCidrList;
+  IsDefault?: boolean;
+  CreatedTime?: Date;
+  LastModifiedTime?: Date;
+  LastModifiedRegion?: string;
+  PeriodicSessionDuration?: number;
+  MaxSessionDuration?: number;
+  SessionInactivityDuration?: number;
+  SessionInactivityHandlingEnabled?: boolean;
+}
+export const AuthenticationProfile = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Arn: S.optional(S.String),
+    Name: S.optional(S.String),
+    Description: S.optional(S.String),
+    AllowedIps: S.optional(IpCidrList),
+    BlockedIps: S.optional(IpCidrList),
+    IsDefault: S.optional(S.Boolean),
+    CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastModifiedRegion: S.optional(S.String),
+    PeriodicSessionDuration: S.optional(S.Number),
+    MaxSessionDuration: S.optional(S.Number),
+    SessionInactivityDuration: S.optional(S.Number),
+    SessionInactivityHandlingEnabled: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "AuthenticationProfile",
+}) as any as S.Schema<AuthenticationProfile>;
+export interface EvaluationFormContent {
+  EvaluationFormVersion: number;
+  EvaluationFormId: string;
+  EvaluationFormArn: string;
+  Title: string;
+  Description?: string;
+  Items: EvaluationFormItemsList;
+  ScoringStrategy?: EvaluationFormScoringStrategy;
+  AutoEvaluationConfiguration?: EvaluationFormAutoEvaluationConfiguration;
+  TargetConfiguration?: EvaluationFormTargetConfiguration;
+  LanguageConfiguration?: EvaluationFormLanguageConfiguration;
+}
+export const EvaluationFormContent = S.suspend(() =>
+  S.Struct({
+    EvaluationFormVersion: S.Number,
+    EvaluationFormId: S.String,
+    EvaluationFormArn: S.String,
+    Title: S.String,
+    Description: S.optional(S.String),
+    Items: EvaluationFormItemsList,
+    ScoringStrategy: S.optional(EvaluationFormScoringStrategy),
+    AutoEvaluationConfiguration: S.optional(
+      EvaluationFormAutoEvaluationConfiguration,
+    ),
+    TargetConfiguration: S.optional(EvaluationFormTargetConfiguration),
+    LanguageConfiguration: S.optional(EvaluationFormLanguageConfiguration),
+  }),
+).annotations({
+  identifier: "EvaluationFormContent",
+}) as any as S.Schema<EvaluationFormContent>;
+export interface ContactFlow {
+  Arn?: string;
+  Id?: string;
+  Name?: string;
+  Type?: string;
+  State?: string;
+  Status?: string;
+  Description?: string;
+  Content?: string;
+  Tags?: TagMap;
+  FlowContentSha256?: string;
+  Version?: number;
+  VersionDescription?: string;
+  LastModifiedTime?: Date;
+  LastModifiedRegion?: string;
+}
+export const ContactFlow = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    Id: S.optional(S.String),
+    Name: S.optional(S.String),
+    Type: S.optional(S.String),
+    State: S.optional(S.String),
+    Status: S.optional(S.String),
+    Description: S.optional(S.String),
+    Content: S.optional(S.String),
+    Tags: S.optional(TagMap),
+    FlowContentSha256: S.optional(S.String),
+    Version: S.optional(S.Number),
+    VersionDescription: S.optional(S.String),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastModifiedRegion: S.optional(S.String),
+  }),
+).annotations({ identifier: "ContactFlow" }) as any as S.Schema<ContactFlow>;
+export interface ContactFlowModule {
+  Arn?: string;
+  Id?: string;
+  Name?: string;
+  Content?: string;
+  Description?: string;
+  State?: string;
+  Status?: string;
+  Tags?: TagMap;
+  FlowModuleContentSha256?: string;
+  Version?: number;
+  VersionDescription?: string;
+  Settings?: string;
+  ExternalInvocationConfiguration?: ExternalInvocationConfiguration;
+}
+export const ContactFlowModule = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    Id: S.optional(S.String),
+    Name: S.optional(S.String),
+    Content: S.optional(S.String),
+    Description: S.optional(S.String),
+    State: S.optional(S.String),
+    Status: S.optional(S.String),
+    Tags: S.optional(TagMap),
+    FlowModuleContentSha256: S.optional(S.String),
+    Version: S.optional(S.Number),
+    VersionDescription: S.optional(S.String),
+    Settings: S.optional(S.String),
+    ExternalInvocationConfiguration: S.optional(
+      ExternalInvocationConfiguration,
+    ),
+  }),
+).annotations({
+  identifier: "ContactFlowModule",
+}) as any as S.Schema<ContactFlowModule>;
+export interface ContactFlowModuleAliasInfo {
+  ContactFlowModuleId?: string;
+  ContactFlowModuleArn?: string;
+  AliasId?: string;
+  Version?: number;
+  Name?: string;
+  Description?: string;
+  LastModifiedRegion?: string;
+  LastModifiedTime?: Date;
+}
+export const ContactFlowModuleAliasInfo = S.suspend(() =>
+  S.Struct({
+    ContactFlowModuleId: S.optional(S.String),
+    ContactFlowModuleArn: S.optional(S.String),
+    AliasId: S.optional(S.String),
+    Version: S.optional(S.Number),
+    Name: S.optional(S.String),
+    Description: S.optional(S.String),
+    LastModifiedRegion: S.optional(S.String),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "ContactFlowModuleAliasInfo",
+}) as any as S.Schema<ContactFlowModuleAliasInfo>;
+export interface DataTable {
+  Name: string;
+  Id: string;
+  Arn: string;
+  TimeZone: string;
+  Description?: string;
+  ValueLockLevel?: string;
+  LockVersion?: DataTableLockVersion;
+  Version?: string;
+  VersionDescription?: string;
+  Status?: string;
+  CreatedTime?: Date;
+  LastModifiedTime: Date;
+  LastModifiedRegion?: string;
+  Tags?: TagMap;
+}
+export const DataTable = S.suspend(() =>
+  S.Struct({
+    Name: S.String,
+    Id: S.String,
+    Arn: S.String,
+    TimeZone: S.String,
+    Description: S.optional(S.String),
+    ValueLockLevel: S.optional(S.String),
+    LockVersion: S.optional(DataTableLockVersion),
+    Version: S.optional(S.String),
+    VersionDescription: S.optional(S.String),
+    Status: S.optional(S.String),
+    CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    LastModifiedRegion: S.optional(S.String),
+    Tags: S.optional(TagMap),
+  }),
+).annotations({ identifier: "DataTable" }) as any as S.Schema<DataTable>;
+export interface EvaluationForm {
+  EvaluationFormId: string;
+  EvaluationFormVersion: number;
+  Locked: boolean;
+  EvaluationFormArn: string;
+  Title: string;
+  Description?: string;
+  Status: string;
+  Items: EvaluationFormItemsList;
+  ScoringStrategy?: EvaluationFormScoringStrategy;
+  CreatedTime: Date;
+  CreatedBy: string;
+  LastModifiedTime: Date;
+  LastModifiedBy: string;
+  AutoEvaluationConfiguration?: EvaluationFormAutoEvaluationConfiguration;
+  Tags?: TagMap;
+  TargetConfiguration?: EvaluationFormTargetConfiguration;
+  LanguageConfiguration?: EvaluationFormLanguageConfiguration;
+}
+export const EvaluationForm = S.suspend(() =>
+  S.Struct({
+    EvaluationFormId: S.String,
+    EvaluationFormVersion: S.Number,
+    Locked: S.Boolean,
+    EvaluationFormArn: S.String,
+    Title: S.String,
+    Description: S.optional(S.String),
+    Status: S.String,
+    Items: EvaluationFormItemsList,
+    ScoringStrategy: S.optional(EvaluationFormScoringStrategy),
+    CreatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    CreatedBy: S.String,
+    LastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    LastModifiedBy: S.String,
+    AutoEvaluationConfiguration: S.optional(
+      EvaluationFormAutoEvaluationConfiguration,
+    ),
+    Tags: S.optional(TagMap),
+    TargetConfiguration: S.optional(EvaluationFormTargetConfiguration),
+    LanguageConfiguration: S.optional(EvaluationFormLanguageConfiguration),
+  }),
+).annotations({
+  identifier: "EvaluationForm",
+}) as any as S.Schema<EvaluationForm>;
+export interface HoursOfOperation {
+  HoursOfOperationId?: string;
+  HoursOfOperationArn?: string;
+  Name?: string;
+  Description?: string;
+  TimeZone?: string;
+  Config?: HoursOfOperationConfigList;
+  Tags?: TagMap;
+  LastModifiedTime?: Date;
+  LastModifiedRegion?: string;
+}
+export const HoursOfOperation = S.suspend(() =>
+  S.Struct({
+    HoursOfOperationId: S.optional(S.String),
+    HoursOfOperationArn: S.optional(S.String),
+    Name: S.optional(S.String),
+    Description: S.optional(S.String),
+    TimeZone: S.optional(S.String),
+    Config: S.optional(HoursOfOperationConfigList),
+    Tags: S.optional(TagMap),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastModifiedRegion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "HoursOfOperation",
+}) as any as S.Schema<HoursOfOperation>;
+export interface Prompt {
+  PromptARN?: string;
+  PromptId?: string;
+  Name?: string;
+  Description?: string;
+  Tags?: TagMap;
+  LastModifiedTime?: Date;
+  LastModifiedRegion?: string;
+}
+export const Prompt = S.suspend(() =>
+  S.Struct({
+    PromptARN: S.optional(S.String),
+    PromptId: S.optional(S.String),
+    Name: S.optional(S.String),
+    Description: S.optional(S.String),
+    Tags: S.optional(TagMap),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastModifiedRegion: S.optional(S.String),
+  }),
+).annotations({ identifier: "Prompt" }) as any as S.Schema<Prompt>;
+export interface Queue {
+  Name?: string;
+  QueueArn?: string;
+  QueueId?: string;
+  Description?: string;
+  OutboundCallerConfig?: OutboundCallerConfig;
+  OutboundEmailConfig?: OutboundEmailConfig;
+  HoursOfOperationId?: string;
+  MaxContacts?: number;
+  Status?: string;
+  Tags?: TagMap;
+  LastModifiedTime?: Date;
+  LastModifiedRegion?: string;
+}
+export const Queue = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    QueueArn: S.optional(S.String),
+    QueueId: S.optional(S.String),
+    Description: S.optional(S.String),
+    OutboundCallerConfig: S.optional(OutboundCallerConfig),
+    OutboundEmailConfig: S.optional(OutboundEmailConfig),
+    HoursOfOperationId: S.optional(S.String),
+    MaxContacts: S.optional(S.Number),
+    Status: S.optional(S.String),
+    Tags: S.optional(TagMap),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastModifiedRegion: S.optional(S.String),
+  }),
+).annotations({ identifier: "Queue" }) as any as S.Schema<Queue>;
+export interface QuickConnect {
+  QuickConnectARN?: string;
+  QuickConnectId?: string;
+  Name?: string;
+  Description?: string;
+  QuickConnectConfig?: QuickConnectConfig;
+  Tags?: TagMap;
+  LastModifiedTime?: Date;
+  LastModifiedRegion?: string;
+}
+export const QuickConnect = S.suspend(() =>
+  S.Struct({
+    QuickConnectARN: S.optional(S.String),
+    QuickConnectId: S.optional(S.String),
+    Name: S.optional(S.String),
+    Description: S.optional(S.String),
+    QuickConnectConfig: S.optional(QuickConnectConfig),
+    Tags: S.optional(TagMap),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastModifiedRegion: S.optional(S.String),
+  }),
+).annotations({ identifier: "QuickConnect" }) as any as S.Schema<QuickConnect>;
+export interface RoutingProfile {
+  InstanceId?: string;
+  Name?: string;
+  RoutingProfileArn?: string;
+  RoutingProfileId?: string;
+  Description?: string;
+  MediaConcurrencies?: MediaConcurrencies;
+  DefaultOutboundQueueId?: string;
+  Tags?: TagMap;
+  NumberOfAssociatedQueues?: number;
+  NumberOfAssociatedManualAssignmentQueues?: number;
+  NumberOfAssociatedUsers?: number;
+  AgentAvailabilityTimer?: string;
+  LastModifiedTime?: Date;
+  LastModifiedRegion?: string;
+  IsDefault?: boolean;
+  AssociatedQueueIds?: AssociatedQueueIdList;
+  AssociatedManualAssignmentQueueIds?: AssociatedQueueIdList;
+}
+export const RoutingProfile = S.suspend(() =>
+  S.Struct({
+    InstanceId: S.optional(S.String),
+    Name: S.optional(S.String),
+    RoutingProfileArn: S.optional(S.String),
+    RoutingProfileId: S.optional(S.String),
+    Description: S.optional(S.String),
+    MediaConcurrencies: S.optional(MediaConcurrencies),
+    DefaultOutboundQueueId: S.optional(S.String),
+    Tags: S.optional(TagMap),
+    NumberOfAssociatedQueues: S.optional(S.Number),
+    NumberOfAssociatedManualAssignmentQueues: S.optional(S.Number),
+    NumberOfAssociatedUsers: S.optional(S.Number),
+    AgentAvailabilityTimer: S.optional(S.String),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastModifiedRegion: S.optional(S.String),
+    IsDefault: S.optional(S.Boolean),
+    AssociatedQueueIds: S.optional(AssociatedQueueIdList),
+    AssociatedManualAssignmentQueueIds: S.optional(AssociatedQueueIdList),
+  }),
+).annotations({
+  identifier: "RoutingProfile",
+}) as any as S.Schema<RoutingProfile>;
+export interface Rule {
+  Name: string;
+  RuleId: string;
+  RuleArn: string;
+  TriggerEventSource: RuleTriggerEventSource;
+  Function: string;
+  Actions: RuleActions;
+  PublishStatus: string;
+  CreatedTime: Date;
+  LastUpdatedTime: Date;
+  LastUpdatedBy: string;
+  Tags?: TagMap;
+}
+export const Rule = S.suspend(() =>
+  S.Struct({
+    Name: S.String,
+    RuleId: S.String,
+    RuleArn: S.String,
+    TriggerEventSource: RuleTriggerEventSource,
+    Function: S.String,
+    Actions: RuleActions,
+    PublishStatus: S.String,
+    CreatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    LastUpdatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    LastUpdatedBy: S.String,
+    Tags: S.optional(TagMap),
+  }),
+).annotations({ identifier: "Rule" }) as any as S.Schema<Rule>;
+export interface SecurityProfile {
+  Id?: string;
+  OrganizationResourceId?: string;
+  Arn?: string;
+  SecurityProfileName?: string;
+  Description?: string;
+  Tags?: TagMap;
+  AllowedAccessControlTags?: AllowedAccessControlTags;
+  TagRestrictedResources?: TagRestrictedResourceList;
+  LastModifiedTime?: Date;
+  LastModifiedRegion?: string;
+  HierarchyRestrictedResources?: HierarchyRestrictedResourceList;
+  AllowedAccessControlHierarchyGroupId?: string;
+  GranularAccessControlConfiguration?: GranularAccessControlConfiguration;
+}
+export const SecurityProfile = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    OrganizationResourceId: S.optional(S.String),
+    Arn: S.optional(S.String),
+    SecurityProfileName: S.optional(S.String),
+    Description: S.optional(S.String),
+    Tags: S.optional(TagMap),
+    AllowedAccessControlTags: S.optional(AllowedAccessControlTags),
+    TagRestrictedResources: S.optional(TagRestrictedResourceList),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastModifiedRegion: S.optional(S.String),
+    HierarchyRestrictedResources: S.optional(HierarchyRestrictedResourceList),
+    AllowedAccessControlHierarchyGroupId: S.optional(S.String),
+    GranularAccessControlConfiguration: S.optional(
+      GranularAccessControlConfiguration,
+    ),
+  }),
+).annotations({
+  identifier: "SecurityProfile",
+}) as any as S.Schema<SecurityProfile>;
+export interface TrafficDistributionGroup {
+  Id?: string;
+  Arn?: string;
+  Name?: string;
+  Description?: string;
+  InstanceArn?: string;
+  Status?: string;
+  Tags?: TagMap;
+  IsDefault?: boolean;
+}
+export const TrafficDistributionGroup = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Arn: S.optional(S.String),
+    Name: S.optional(S.String),
+    Description: S.optional(S.String),
+    InstanceArn: S.optional(S.String),
+    Status: S.optional(S.String),
+    Tags: S.optional(TagMap),
+    IsDefault: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "TrafficDistributionGroup",
+}) as any as S.Schema<TrafficDistributionGroup>;
+export interface User {
+  Id?: string;
+  Arn?: string;
+  Username?: string;
+  IdentityInfo?: UserIdentityInfo;
+  PhoneConfig?: UserPhoneConfig;
+  DirectoryUserId?: string;
+  SecurityProfileIds?: SecurityProfileIds;
+  RoutingProfileId?: string;
+  HierarchyGroupId?: string;
+  Tags?: TagMap;
+  LastModifiedTime?: Date;
+  LastModifiedRegion?: string;
+}
+export const User = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Arn: S.optional(S.String),
+    Username: S.optional(S.String),
+    IdentityInfo: S.optional(UserIdentityInfo),
+    PhoneConfig: S.optional(UserPhoneConfig),
+    DirectoryUserId: S.optional(S.String),
+    SecurityProfileIds: S.optional(SecurityProfileIds),
+    RoutingProfileId: S.optional(S.String),
+    HierarchyGroupId: S.optional(S.String),
+    Tags: S.optional(TagMap),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastModifiedRegion: S.optional(S.String),
+  }),
+).annotations({ identifier: "User" }) as any as S.Schema<User>;
+export interface Vocabulary {
+  Name: string;
+  Id: string;
+  Arn: string;
+  LanguageCode: string;
+  State: string;
+  LastModifiedTime: Date;
+  FailureReason?: string;
+  Content?: string;
+  Tags?: TagMap;
+}
+export const Vocabulary = S.suspend(() =>
+  S.Struct({
+    Name: S.String,
+    Id: S.String,
+    Arn: S.String,
+    LanguageCode: S.String,
+    State: S.String,
+    LastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    FailureReason: S.optional(S.String),
+    Content: S.optional(S.String),
+    Tags: S.optional(TagMap),
+  }),
+).annotations({ identifier: "Vocabulary" }) as any as S.Schema<Vocabulary>;
+export interface Workspace {
+  Visibility?: string;
+  Id: string;
+  Name: string;
+  Arn: string;
+  Description?: string;
+  Theme?: WorkspaceTheme;
+  Title?: string;
+  LastModifiedTime: Date;
+  LastModifiedRegion?: string;
+  Tags?: TagMap;
+}
+export const Workspace = S.suspend(() =>
+  S.Struct({
+    Visibility: S.optional(S.String),
+    Id: S.String,
+    Name: S.String,
+    Arn: S.String,
+    Description: S.optional(S.String),
+    Theme: S.optional(WorkspaceTheme),
+    Title: S.optional(S.String),
+    LastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    LastModifiedRegion: S.optional(S.String),
+    Tags: S.optional(TagMap),
+  }),
+).annotations({ identifier: "Workspace" }) as any as S.Schema<Workspace>;
+export interface DownloadUrlMetadata {
+  Url?: string;
+  UrlExpiry?: string;
+}
+export const DownloadUrlMetadata = S.suspend(() =>
+  S.Struct({ Url: S.optional(S.String), UrlExpiry: S.optional(S.String) }),
+).annotations({
+  identifier: "DownloadUrlMetadata",
+}) as any as S.Schema<DownloadUrlMetadata>;
+export interface UserDataFilters {
+  Queues?: Queues;
+  ContactFilter?: ContactFilter;
+  RoutingProfiles?: RoutingProfiles;
+  Agents?: AgentsMinOneMaxHundred;
+  UserHierarchyGroups?: UserDataHierarchyGroups;
+}
+export const UserDataFilters = S.suspend(() =>
+  S.Struct({
+    Queues: S.optional(Queues),
+    ContactFilter: S.optional(ContactFilter),
+    RoutingProfiles: S.optional(RoutingProfiles),
+    Agents: S.optional(AgentsMinOneMaxHundred),
+    UserHierarchyGroups: S.optional(UserDataHierarchyGroups),
+  }),
+).annotations({
+  identifier: "UserDataFilters",
+}) as any as S.Schema<UserDataFilters>;
+export interface Credentials {
+  AccessToken?: string;
+  AccessTokenExpiration?: Date;
+  RefreshToken?: string;
+  RefreshTokenExpiration?: Date;
+}
+export const Credentials = S.suspend(() =>
+  S.Struct({
+    AccessToken: S.optional(S.String),
+    AccessTokenExpiration: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    RefreshToken: S.optional(S.String),
+    RefreshTokenExpiration: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({ identifier: "Credentials" }) as any as S.Schema<Credentials>;
+export interface HistoricalMetric {
+  Name?: string;
+  Threshold?: Threshold;
+  Statistic?: string;
+  Unit?: string;
+}
+export const HistoricalMetric = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Threshold: S.optional(Threshold),
+    Statistic: S.optional(S.String),
+    Unit: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "HistoricalMetric",
+}) as any as S.Schema<HistoricalMetric>;
+export type HistoricalMetrics = HistoricalMetric[];
 export const HistoricalMetrics = S.Array(HistoricalMetric);
-export class FilterV2 extends S.Class<FilterV2>("FilterV2")({
-  FilterKey: S.optional(S.String),
-  FilterValues: S.optional(FilterValueList),
-  StringCondition: S.optional(FilterV2StringCondition),
-}) {}
+export interface FilterV2 {
+  FilterKey?: string;
+  FilterValues?: FilterValueList;
+  StringCondition?: FilterV2StringCondition;
+}
+export const FilterV2 = S.suspend(() =>
+  S.Struct({
+    FilterKey: S.optional(S.String),
+    FilterValues: S.optional(FilterValueList),
+    StringCondition: S.optional(FilterV2StringCondition),
+  }),
+).annotations({ identifier: "FilterV2" }) as any as S.Schema<FilterV2>;
+export type FiltersV2List = FilterV2[];
 export const FiltersV2List = S.Array(FilterV2);
-export class MetricV2 extends S.Class<MetricV2>("MetricV2")({
-  Name: S.optional(S.String),
-  Threshold: S.optional(ThresholdCollections),
-  MetricId: S.optional(S.String),
-  MetricFilters: S.optional(MetricFiltersV2List),
-}) {}
+export interface MetricV2 {
+  Name?: string;
+  Threshold?: ThresholdCollections;
+  MetricId?: string;
+  MetricFilters?: MetricFiltersV2List;
+}
+export const MetricV2 = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Threshold: S.optional(ThresholdCollections),
+    MetricId: S.optional(S.String),
+    MetricFilters: S.optional(MetricFiltersV2List),
+  }),
+).annotations({ identifier: "MetricV2" }) as any as S.Schema<MetricV2>;
+export type MetricsV2 = MetricV2[];
 export const MetricsV2 = S.Array(MetricV2);
-export class AgentStatusSummary extends S.Class<AgentStatusSummary>(
-  "AgentStatusSummary",
-)({
-  Id: S.optional(S.String),
-  Arn: S.optional(S.String),
-  Name: S.optional(S.String),
-  Type: S.optional(S.String),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedRegion: S.optional(S.String),
-}) {}
+export interface AgentStatusSummary {
+  Id?: string;
+  Arn?: string;
+  Name?: string;
+  Type?: string;
+  LastModifiedTime?: Date;
+  LastModifiedRegion?: string;
+}
+export const AgentStatusSummary = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Arn: S.optional(S.String),
+    Name: S.optional(S.String),
+    Type: S.optional(S.String),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastModifiedRegion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AgentStatusSummary",
+}) as any as S.Schema<AgentStatusSummary>;
+export type AgentStatusSummaryList = AgentStatusSummary[];
 export const AgentStatusSummaryList = S.Array(AgentStatusSummary);
-export class AnalyticsDataSetsResult extends S.Class<AnalyticsDataSetsResult>(
-  "AnalyticsDataSetsResult",
-)({ DataSetId: S.optional(S.String), DataSetName: S.optional(S.String) }) {}
+export interface AnalyticsDataSetsResult {
+  DataSetId?: string;
+  DataSetName?: string;
+}
+export const AnalyticsDataSetsResult = S.suspend(() =>
+  S.Struct({
+    DataSetId: S.optional(S.String),
+    DataSetName: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AnalyticsDataSetsResult",
+}) as any as S.Schema<AnalyticsDataSetsResult>;
+export type AnalyticsDataSetsResults = AnalyticsDataSetsResult[];
 export const AnalyticsDataSetsResults = S.Array(AnalyticsDataSetsResult);
-export class AssociatedContactSummary extends S.Class<AssociatedContactSummary>(
-  "AssociatedContactSummary",
-)({
-  ContactId: S.optional(S.String),
-  ContactArn: S.optional(S.String),
-  InitiationTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  DisconnectTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  InitialContactId: S.optional(S.String),
-  PreviousContactId: S.optional(S.String),
-  RelatedContactId: S.optional(S.String),
-  InitiationMethod: S.optional(S.String),
-  Channel: S.optional(S.String),
-}) {}
+export interface AssociatedContactSummary {
+  ContactId?: string;
+  ContactArn?: string;
+  InitiationTimestamp?: Date;
+  DisconnectTimestamp?: Date;
+  InitialContactId?: string;
+  PreviousContactId?: string;
+  RelatedContactId?: string;
+  InitiationMethod?: string;
+  Channel?: string;
+}
+export const AssociatedContactSummary = S.suspend(() =>
+  S.Struct({
+    ContactId: S.optional(S.String),
+    ContactArn: S.optional(S.String),
+    InitiationTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    DisconnectTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    InitialContactId: S.optional(S.String),
+    PreviousContactId: S.optional(S.String),
+    RelatedContactId: S.optional(S.String),
+    InitiationMethod: S.optional(S.String),
+    Channel: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AssociatedContactSummary",
+}) as any as S.Schema<AssociatedContactSummary>;
+export type AssociatedContactSummaryList = AssociatedContactSummary[];
 export const AssociatedContactSummaryList = S.Array(AssociatedContactSummary);
-export class AuthenticationProfileSummary extends S.Class<AuthenticationProfileSummary>(
-  "AuthenticationProfileSummary",
-)({
-  Id: S.optional(S.String),
-  Arn: S.optional(S.String),
-  Name: S.optional(S.String),
-  IsDefault: S.optional(S.Boolean),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedRegion: S.optional(S.String),
-}) {}
+export interface AuthenticationProfileSummary {
+  Id?: string;
+  Arn?: string;
+  Name?: string;
+  IsDefault?: boolean;
+  LastModifiedTime?: Date;
+  LastModifiedRegion?: string;
+}
+export const AuthenticationProfileSummary = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Arn: S.optional(S.String),
+    Name: S.optional(S.String),
+    IsDefault: S.optional(S.Boolean),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastModifiedRegion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AuthenticationProfileSummary",
+}) as any as S.Schema<AuthenticationProfileSummary>;
+export type AuthenticationProfileSummaryList = AuthenticationProfileSummary[];
 export const AuthenticationProfileSummaryList = S.Array(
   AuthenticationProfileSummary,
 );
-export class LexBotConfig extends S.Class<LexBotConfig>("LexBotConfig")({
-  LexBot: S.optional(LexBot),
-  LexV2Bot: S.optional(LexV2Bot),
-}) {}
+export interface LexBotConfig {
+  LexBot?: LexBot;
+  LexV2Bot?: LexV2Bot;
+}
+export const LexBotConfig = S.suspend(() =>
+  S.Struct({ LexBot: S.optional(LexBot), LexV2Bot: S.optional(LexV2Bot) }),
+).annotations({ identifier: "LexBotConfig" }) as any as S.Schema<LexBotConfig>;
+export type LexBotConfigList = LexBotConfig[];
 export const LexBotConfigList = S.Array(LexBotConfig);
-export class ContactFlowModuleAliasSummary extends S.Class<ContactFlowModuleAliasSummary>(
-  "ContactFlowModuleAliasSummary",
-)({
-  Arn: S.optional(S.String),
-  AliasId: S.optional(S.String),
-  Version: S.optional(S.Number),
-  AliasName: S.optional(S.String),
-  AliasDescription: S.optional(S.String),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface ContactFlowModuleAliasSummary {
+  Arn?: string;
+  AliasId?: string;
+  Version?: number;
+  AliasName?: string;
+  AliasDescription?: string;
+  LastModifiedTime?: Date;
+}
+export const ContactFlowModuleAliasSummary = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    AliasId: S.optional(S.String),
+    Version: S.optional(S.Number),
+    AliasName: S.optional(S.String),
+    AliasDescription: S.optional(S.String),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "ContactFlowModuleAliasSummary",
+}) as any as S.Schema<ContactFlowModuleAliasSummary>;
+export type ContactFlowModuleAliasSummaryList = ContactFlowModuleAliasSummary[];
 export const ContactFlowModuleAliasSummaryList = S.Array(
   ContactFlowModuleAliasSummary,
 );
-export class ContactFlowModuleSummary extends S.Class<ContactFlowModuleSummary>(
-  "ContactFlowModuleSummary",
-)({
-  Id: S.optional(S.String),
-  Arn: S.optional(S.String),
-  Name: S.optional(S.String),
-  State: S.optional(S.String),
-}) {}
+export interface ContactFlowModuleSummary {
+  Id?: string;
+  Arn?: string;
+  Name?: string;
+  State?: string;
+}
+export const ContactFlowModuleSummary = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Arn: S.optional(S.String),
+    Name: S.optional(S.String),
+    State: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ContactFlowModuleSummary",
+}) as any as S.Schema<ContactFlowModuleSummary>;
+export type ContactFlowModulesSummaryList = ContactFlowModuleSummary[];
 export const ContactFlowModulesSummaryList = S.Array(ContactFlowModuleSummary);
-export class ContactFlowModuleVersionSummary extends S.Class<ContactFlowModuleVersionSummary>(
-  "ContactFlowModuleVersionSummary",
-)({
-  Arn: S.optional(S.String),
-  VersionDescription: S.optional(S.String),
-  Version: S.optional(S.Number),
-}) {}
+export interface ContactFlowModuleVersionSummary {
+  Arn?: string;
+  VersionDescription?: string;
+  Version?: number;
+}
+export const ContactFlowModuleVersionSummary = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    VersionDescription: S.optional(S.String),
+    Version: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "ContactFlowModuleVersionSummary",
+}) as any as S.Schema<ContactFlowModuleVersionSummary>;
+export type ContactFlowModuleVersionSummaryList =
+  ContactFlowModuleVersionSummary[];
 export const ContactFlowModuleVersionSummaryList = S.Array(
   ContactFlowModuleVersionSummary,
 );
-export class ContactFlowSummary extends S.Class<ContactFlowSummary>(
-  "ContactFlowSummary",
-)({
-  Id: S.optional(S.String),
-  Arn: S.optional(S.String),
-  Name: S.optional(S.String),
-  ContactFlowType: S.optional(S.String),
-  ContactFlowState: S.optional(S.String),
-  ContactFlowStatus: S.optional(S.String),
-}) {}
+export interface ContactFlowSummary {
+  Id?: string;
+  Arn?: string;
+  Name?: string;
+  ContactFlowType?: string;
+  ContactFlowState?: string;
+  ContactFlowStatus?: string;
+}
+export const ContactFlowSummary = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Arn: S.optional(S.String),
+    Name: S.optional(S.String),
+    ContactFlowType: S.optional(S.String),
+    ContactFlowState: S.optional(S.String),
+    ContactFlowStatus: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ContactFlowSummary",
+}) as any as S.Schema<ContactFlowSummary>;
+export type ContactFlowSummaryList = ContactFlowSummary[];
 export const ContactFlowSummaryList = S.Array(ContactFlowSummary);
-export class ContactFlowVersionSummary extends S.Class<ContactFlowVersionSummary>(
-  "ContactFlowVersionSummary",
-)({
-  Arn: S.optional(S.String),
-  VersionDescription: S.optional(S.String),
-  Version: S.optional(S.Number),
-}) {}
+export interface ContactFlowVersionSummary {
+  Arn?: string;
+  VersionDescription?: string;
+  Version?: number;
+}
+export const ContactFlowVersionSummary = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    VersionDescription: S.optional(S.String),
+    Version: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "ContactFlowVersionSummary",
+}) as any as S.Schema<ContactFlowVersionSummary>;
+export type ContactFlowVersionSummaryList = ContactFlowVersionSummary[];
 export const ContactFlowVersionSummaryList = S.Array(ContactFlowVersionSummary);
-export class DataTableSummary extends S.Class<DataTableSummary>(
-  "DataTableSummary",
-)({
-  Name: S.optional(S.String),
-  Id: S.optional(S.String),
-  Arn: S.optional(S.String),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedRegion: S.optional(S.String),
-}) {}
+export interface DataTableSummary {
+  Name?: string;
+  Id?: string;
+  Arn?: string;
+  LastModifiedTime?: Date;
+  LastModifiedRegion?: string;
+}
+export const DataTableSummary = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Id: S.optional(S.String),
+    Arn: S.optional(S.String),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastModifiedRegion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DataTableSummary",
+}) as any as S.Schema<DataTableSummary>;
+export type DataTableSummaryList = DataTableSummary[];
 export const DataTableSummaryList = S.Array(DataTableSummary);
-export class DefaultVocabulary extends S.Class<DefaultVocabulary>(
-  "DefaultVocabulary",
-)({
-  InstanceId: S.String,
-  LanguageCode: S.String,
-  VocabularyId: S.String,
-  VocabularyName: S.String,
-}) {}
+export interface DefaultVocabulary {
+  InstanceId: string;
+  LanguageCode: string;
+  VocabularyId: string;
+  VocabularyName: string;
+}
+export const DefaultVocabulary = S.suspend(() =>
+  S.Struct({
+    InstanceId: S.String,
+    LanguageCode: S.String,
+    VocabularyId: S.String,
+    VocabularyName: S.String,
+  }),
+).annotations({
+  identifier: "DefaultVocabulary",
+}) as any as S.Schema<DefaultVocabulary>;
+export type DefaultVocabularyList = DefaultVocabulary[];
 export const DefaultVocabularyList = S.Array(DefaultVocabulary);
-export class EvaluationFormSummary extends S.Class<EvaluationFormSummary>(
-  "EvaluationFormSummary",
-)({
-  EvaluationFormId: S.String,
-  EvaluationFormArn: S.String,
-  Title: S.String,
-  CreatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  CreatedBy: S.String,
-  LastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  LastModifiedBy: S.String,
-  LastActivatedTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  LastActivatedBy: S.optional(S.String),
-  LatestVersion: S.Number,
-  ActiveVersion: S.optional(S.Number),
-}) {}
+export interface EvaluationFormSummary {
+  EvaluationFormId: string;
+  EvaluationFormArn: string;
+  Title: string;
+  CreatedTime: Date;
+  CreatedBy: string;
+  LastModifiedTime: Date;
+  LastModifiedBy: string;
+  LastActivatedTime?: Date;
+  LastActivatedBy?: string;
+  LatestVersion: number;
+  ActiveVersion?: number;
+}
+export const EvaluationFormSummary = S.suspend(() =>
+  S.Struct({
+    EvaluationFormId: S.String,
+    EvaluationFormArn: S.String,
+    Title: S.String,
+    CreatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    CreatedBy: S.String,
+    LastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    LastModifiedBy: S.String,
+    LastActivatedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastActivatedBy: S.optional(S.String),
+    LatestVersion: S.Number,
+    ActiveVersion: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "EvaluationFormSummary",
+}) as any as S.Schema<EvaluationFormSummary>;
+export type EvaluationFormSummaryList = EvaluationFormSummary[];
 export const EvaluationFormSummaryList = S.Array(EvaluationFormSummary);
-export class EvaluationFormVersionSummary extends S.Class<EvaluationFormVersionSummary>(
-  "EvaluationFormVersionSummary",
-)({
-  EvaluationFormArn: S.String,
-  EvaluationFormId: S.String,
-  EvaluationFormVersion: S.Number,
-  Locked: S.Boolean,
-  Status: S.String,
-  CreatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  CreatedBy: S.String,
-  LastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  LastModifiedBy: S.String,
-}) {}
+export interface EvaluationFormVersionSummary {
+  EvaluationFormArn: string;
+  EvaluationFormId: string;
+  EvaluationFormVersion: number;
+  Locked: boolean;
+  Status: string;
+  CreatedTime: Date;
+  CreatedBy: string;
+  LastModifiedTime: Date;
+  LastModifiedBy: string;
+}
+export const EvaluationFormVersionSummary = S.suspend(() =>
+  S.Struct({
+    EvaluationFormArn: S.String,
+    EvaluationFormId: S.String,
+    EvaluationFormVersion: S.Number,
+    Locked: S.Boolean,
+    Status: S.String,
+    CreatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    CreatedBy: S.String,
+    LastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    LastModifiedBy: S.String,
+  }),
+).annotations({
+  identifier: "EvaluationFormVersionSummary",
+}) as any as S.Schema<EvaluationFormVersionSummary>;
+export type EvaluationFormVersionSummaryList = EvaluationFormVersionSummary[];
 export const EvaluationFormVersionSummaryList = S.Array(
   EvaluationFormVersionSummary,
 );
-export class HoursOfOperationSummary extends S.Class<HoursOfOperationSummary>(
-  "HoursOfOperationSummary",
-)({
-  Id: S.optional(S.String),
-  Arn: S.optional(S.String),
-  Name: S.optional(S.String),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedRegion: S.optional(S.String),
-}) {}
+export interface HoursOfOperationSummary {
+  Id?: string;
+  Arn?: string;
+  Name?: string;
+  LastModifiedTime?: Date;
+  LastModifiedRegion?: string;
+}
+export const HoursOfOperationSummary = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Arn: S.optional(S.String),
+    Name: S.optional(S.String),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastModifiedRegion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "HoursOfOperationSummary",
+}) as any as S.Schema<HoursOfOperationSummary>;
+export type HoursOfOperationSummaryList = HoursOfOperationSummary[];
 export const HoursOfOperationSummaryList = S.Array(HoursOfOperationSummary);
-export class InstanceSummary extends S.Class<InstanceSummary>(
-  "InstanceSummary",
-)({
-  Id: S.optional(S.String),
-  Arn: S.optional(S.String),
-  IdentityManagementType: S.optional(S.String),
-  InstanceAlias: S.optional(S.String),
-  CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  ServiceRole: S.optional(S.String),
-  InstanceStatus: S.optional(S.String),
-  InboundCallsEnabled: S.optional(S.Boolean),
-  OutboundCallsEnabled: S.optional(S.Boolean),
-  InstanceAccessUrl: S.optional(S.String),
-}) {}
+export interface InstanceSummary {
+  Id?: string;
+  Arn?: string;
+  IdentityManagementType?: string;
+  InstanceAlias?: string;
+  CreatedTime?: Date;
+  ServiceRole?: string;
+  InstanceStatus?: string;
+  InboundCallsEnabled?: boolean;
+  OutboundCallsEnabled?: boolean;
+  InstanceAccessUrl?: string;
+}
+export const InstanceSummary = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Arn: S.optional(S.String),
+    IdentityManagementType: S.optional(S.String),
+    InstanceAlias: S.optional(S.String),
+    CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ServiceRole: S.optional(S.String),
+    InstanceStatus: S.optional(S.String),
+    InboundCallsEnabled: S.optional(S.Boolean),
+    OutboundCallsEnabled: S.optional(S.Boolean),
+    InstanceAccessUrl: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "InstanceSummary",
+}) as any as S.Schema<InstanceSummary>;
+export type InstanceSummaryList = InstanceSummary[];
 export const InstanceSummaryList = S.Array(InstanceSummary);
-export class IntegrationAssociationSummary extends S.Class<IntegrationAssociationSummary>(
-  "IntegrationAssociationSummary",
-)({
-  IntegrationAssociationId: S.optional(S.String),
-  IntegrationAssociationArn: S.optional(S.String),
-  InstanceId: S.optional(S.String),
-  IntegrationType: S.optional(S.String),
-  IntegrationArn: S.optional(S.String),
-  SourceApplicationUrl: S.optional(S.String),
-  SourceApplicationName: S.optional(S.String),
-  SourceType: S.optional(S.String),
-}) {}
+export interface IntegrationAssociationSummary {
+  IntegrationAssociationId?: string;
+  IntegrationAssociationArn?: string;
+  InstanceId?: string;
+  IntegrationType?: string;
+  IntegrationArn?: string;
+  SourceApplicationUrl?: string;
+  SourceApplicationName?: string;
+  SourceType?: string;
+}
+export const IntegrationAssociationSummary = S.suspend(() =>
+  S.Struct({
+    IntegrationAssociationId: S.optional(S.String),
+    IntegrationAssociationArn: S.optional(S.String),
+    InstanceId: S.optional(S.String),
+    IntegrationType: S.optional(S.String),
+    IntegrationArn: S.optional(S.String),
+    SourceApplicationUrl: S.optional(S.String),
+    SourceApplicationName: S.optional(S.String),
+    SourceType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "IntegrationAssociationSummary",
+}) as any as S.Schema<IntegrationAssociationSummary>;
+export type IntegrationAssociationSummaryList = IntegrationAssociationSummary[];
 export const IntegrationAssociationSummaryList = S.Array(
   IntegrationAssociationSummary,
 );
-export class PhoneNumberSummary extends S.Class<PhoneNumberSummary>(
-  "PhoneNumberSummary",
-)({
-  Id: S.optional(S.String),
-  Arn: S.optional(S.String),
-  PhoneNumber: S.optional(S.String),
-  PhoneNumberType: S.optional(S.String),
-  PhoneNumberCountryCode: S.optional(S.String),
-}) {}
+export interface PhoneNumberSummary {
+  Id?: string;
+  Arn?: string;
+  PhoneNumber?: string;
+  PhoneNumberType?: string;
+  PhoneNumberCountryCode?: string;
+}
+export const PhoneNumberSummary = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Arn: S.optional(S.String),
+    PhoneNumber: S.optional(S.String),
+    PhoneNumberType: S.optional(S.String),
+    PhoneNumberCountryCode: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "PhoneNumberSummary",
+}) as any as S.Schema<PhoneNumberSummary>;
+export type PhoneNumberSummaryList = PhoneNumberSummary[];
 export const PhoneNumberSummaryList = S.Array(PhoneNumberSummary);
-export class ListPhoneNumbersSummary extends S.Class<ListPhoneNumbersSummary>(
-  "ListPhoneNumbersSummary",
-)({
-  PhoneNumberId: S.optional(S.String),
-  PhoneNumberArn: S.optional(S.String),
-  PhoneNumber: S.optional(S.String),
-  PhoneNumberCountryCode: S.optional(S.String),
-  PhoneNumberType: S.optional(S.String),
-  TargetArn: S.optional(S.String),
-  InstanceId: S.optional(S.String),
-  PhoneNumberDescription: S.optional(S.String),
-  SourcePhoneNumberArn: S.optional(S.String),
-}) {}
+export interface ListPhoneNumbersSummary {
+  PhoneNumberId?: string;
+  PhoneNumberArn?: string;
+  PhoneNumber?: string;
+  PhoneNumberCountryCode?: string;
+  PhoneNumberType?: string;
+  TargetArn?: string;
+  InstanceId?: string;
+  PhoneNumberDescription?: string;
+  SourcePhoneNumberArn?: string;
+}
+export const ListPhoneNumbersSummary = S.suspend(() =>
+  S.Struct({
+    PhoneNumberId: S.optional(S.String),
+    PhoneNumberArn: S.optional(S.String),
+    PhoneNumber: S.optional(S.String),
+    PhoneNumberCountryCode: S.optional(S.String),
+    PhoneNumberType: S.optional(S.String),
+    TargetArn: S.optional(S.String),
+    InstanceId: S.optional(S.String),
+    PhoneNumberDescription: S.optional(S.String),
+    SourcePhoneNumberArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListPhoneNumbersSummary",
+}) as any as S.Schema<ListPhoneNumbersSummary>;
+export type ListPhoneNumbersSummaryList = ListPhoneNumbersSummary[];
 export const ListPhoneNumbersSummaryList = S.Array(ListPhoneNumbersSummary);
-export class PredefinedAttributeSummary extends S.Class<PredefinedAttributeSummary>(
-  "PredefinedAttributeSummary",
-)({
-  Name: S.optional(S.String),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedRegion: S.optional(S.String),
-}) {}
+export interface PredefinedAttributeSummary {
+  Name?: string;
+  LastModifiedTime?: Date;
+  LastModifiedRegion?: string;
+}
+export const PredefinedAttributeSummary = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastModifiedRegion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "PredefinedAttributeSummary",
+}) as any as S.Schema<PredefinedAttributeSummary>;
+export type PredefinedAttributeSummaryList = PredefinedAttributeSummary[];
 export const PredefinedAttributeSummaryList = S.Array(
   PredefinedAttributeSummary,
 );
-export class PromptSummary extends S.Class<PromptSummary>("PromptSummary")({
-  Id: S.optional(S.String),
-  Arn: S.optional(S.String),
-  Name: S.optional(S.String),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedRegion: S.optional(S.String),
-}) {}
+export interface PromptSummary {
+  Id?: string;
+  Arn?: string;
+  Name?: string;
+  LastModifiedTime?: Date;
+  LastModifiedRegion?: string;
+}
+export const PromptSummary = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Arn: S.optional(S.String),
+    Name: S.optional(S.String),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastModifiedRegion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "PromptSummary",
+}) as any as S.Schema<PromptSummary>;
+export type PromptSummaryList = PromptSummary[];
 export const PromptSummaryList = S.Array(PromptSummary);
-export class QueueSummary extends S.Class<QueueSummary>("QueueSummary")({
-  Id: S.optional(S.String),
-  Arn: S.optional(S.String),
-  Name: S.optional(S.String),
-  QueueType: S.optional(S.String),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedRegion: S.optional(S.String),
-}) {}
+export interface QueueSummary {
+  Id?: string;
+  Arn?: string;
+  Name?: string;
+  QueueType?: string;
+  LastModifiedTime?: Date;
+  LastModifiedRegion?: string;
+}
+export const QueueSummary = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Arn: S.optional(S.String),
+    Name: S.optional(S.String),
+    QueueType: S.optional(S.String),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastModifiedRegion: S.optional(S.String),
+  }),
+).annotations({ identifier: "QueueSummary" }) as any as S.Schema<QueueSummary>;
+export type QueueSummaryList = QueueSummary[];
 export const QueueSummaryList = S.Array(QueueSummary);
-export class RoutingProfileManualAssignmentQueueConfigSummary extends S.Class<RoutingProfileManualAssignmentQueueConfigSummary>(
-  "RoutingProfileManualAssignmentQueueConfigSummary",
-)({
-  QueueId: S.String,
-  QueueArn: S.String,
-  QueueName: S.String,
-  Channel: S.String,
-}) {}
+export interface RoutingProfileManualAssignmentQueueConfigSummary {
+  QueueId: string;
+  QueueArn: string;
+  QueueName: string;
+  Channel: string;
+}
+export const RoutingProfileManualAssignmentQueueConfigSummary = S.suspend(() =>
+  S.Struct({
+    QueueId: S.String,
+    QueueArn: S.String,
+    QueueName: S.String,
+    Channel: S.String,
+  }),
+).annotations({
+  identifier: "RoutingProfileManualAssignmentQueueConfigSummary",
+}) as any as S.Schema<RoutingProfileManualAssignmentQueueConfigSummary>;
+export type RoutingProfileManualAssignmentQueueConfigSummaryList =
+  RoutingProfileManualAssignmentQueueConfigSummary[];
 export const RoutingProfileManualAssignmentQueueConfigSummaryList = S.Array(
   RoutingProfileManualAssignmentQueueConfigSummary,
 );
-export class RoutingProfileQueueConfigSummary extends S.Class<RoutingProfileQueueConfigSummary>(
-  "RoutingProfileQueueConfigSummary",
-)({
-  QueueId: S.String,
-  QueueArn: S.String,
-  QueueName: S.String,
-  Priority: S.Number,
-  Delay: S.Number,
-  Channel: S.String,
-}) {}
+export interface RoutingProfileQueueConfigSummary {
+  QueueId: string;
+  QueueArn: string;
+  QueueName: string;
+  Priority: number;
+  Delay: number;
+  Channel: string;
+}
+export const RoutingProfileQueueConfigSummary = S.suspend(() =>
+  S.Struct({
+    QueueId: S.String,
+    QueueArn: S.String,
+    QueueName: S.String,
+    Priority: S.Number,
+    Delay: S.Number,
+    Channel: S.String,
+  }),
+).annotations({
+  identifier: "RoutingProfileQueueConfigSummary",
+}) as any as S.Schema<RoutingProfileQueueConfigSummary>;
+export type RoutingProfileQueueConfigSummaryList =
+  RoutingProfileQueueConfigSummary[];
 export const RoutingProfileQueueConfigSummaryList = S.Array(
   RoutingProfileQueueConfigSummary,
 );
-export class RoutingProfileSummary extends S.Class<RoutingProfileSummary>(
-  "RoutingProfileSummary",
-)({
-  Id: S.optional(S.String),
-  Arn: S.optional(S.String),
-  Name: S.optional(S.String),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedRegion: S.optional(S.String),
-}) {}
+export interface RoutingProfileSummary {
+  Id?: string;
+  Arn?: string;
+  Name?: string;
+  LastModifiedTime?: Date;
+  LastModifiedRegion?: string;
+}
+export const RoutingProfileSummary = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Arn: S.optional(S.String),
+    Name: S.optional(S.String),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastModifiedRegion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RoutingProfileSummary",
+}) as any as S.Schema<RoutingProfileSummary>;
+export type RoutingProfileSummaryList = RoutingProfileSummary[];
 export const RoutingProfileSummaryList = S.Array(RoutingProfileSummary);
-export class SecurityKey extends S.Class<SecurityKey>("SecurityKey")({
-  AssociationId: S.optional(S.String),
-  Key: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface SecurityKey {
+  AssociationId?: string;
+  Key?: string;
+  CreationTime?: Date;
+}
+export const SecurityKey = S.suspend(() =>
+  S.Struct({
+    AssociationId: S.optional(S.String),
+    Key: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({ identifier: "SecurityKey" }) as any as S.Schema<SecurityKey>;
+export type SecurityKeysList = SecurityKey[];
 export const SecurityKeysList = S.Array(SecurityKey);
-export class SecurityProfileSummary extends S.Class<SecurityProfileSummary>(
-  "SecurityProfileSummary",
-)({
-  Id: S.optional(S.String),
-  Arn: S.optional(S.String),
-  Name: S.optional(S.String),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedRegion: S.optional(S.String),
-}) {}
+export interface SecurityProfileSummary {
+  Id?: string;
+  Arn?: string;
+  Name?: string;
+  LastModifiedTime?: Date;
+  LastModifiedRegion?: string;
+}
+export const SecurityProfileSummary = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Arn: S.optional(S.String),
+    Name: S.optional(S.String),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastModifiedRegion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SecurityProfileSummary",
+}) as any as S.Schema<SecurityProfileSummary>;
+export type SecurityProfileSummaryList = SecurityProfileSummary[];
 export const SecurityProfileSummaryList = S.Array(SecurityProfileSummary);
-export class TaskTemplateMetadata extends S.Class<TaskTemplateMetadata>(
-  "TaskTemplateMetadata",
-)({
-  Id: S.optional(S.String),
-  Arn: S.optional(S.String),
-  Name: S.optional(S.String),
-  Description: S.optional(S.String),
-  Status: S.optional(S.String),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface TaskTemplateMetadata {
+  Id?: string;
+  Arn?: string;
+  Name?: string;
+  Description?: string;
+  Status?: string;
+  LastModifiedTime?: Date;
+  CreatedTime?: Date;
+}
+export const TaskTemplateMetadata = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Arn: S.optional(S.String),
+    Name: S.optional(S.String),
+    Description: S.optional(S.String),
+    Status: S.optional(S.String),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "TaskTemplateMetadata",
+}) as any as S.Schema<TaskTemplateMetadata>;
+export type TaskTemplateList = TaskTemplateMetadata[];
 export const TaskTemplateList = S.Array(TaskTemplateMetadata);
-export class TrafficDistributionGroupSummary extends S.Class<TrafficDistributionGroupSummary>(
-  "TrafficDistributionGroupSummary",
-)({
-  Id: S.optional(S.String),
-  Arn: S.optional(S.String),
-  Name: S.optional(S.String),
-  InstanceArn: S.optional(S.String),
-  Status: S.optional(S.String),
-  IsDefault: S.optional(S.Boolean),
-}) {}
+export interface TrafficDistributionGroupSummary {
+  Id?: string;
+  Arn?: string;
+  Name?: string;
+  InstanceArn?: string;
+  Status?: string;
+  IsDefault?: boolean;
+}
+export const TrafficDistributionGroupSummary = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Arn: S.optional(S.String),
+    Name: S.optional(S.String),
+    InstanceArn: S.optional(S.String),
+    Status: S.optional(S.String),
+    IsDefault: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "TrafficDistributionGroupSummary",
+}) as any as S.Schema<TrafficDistributionGroupSummary>;
+export type TrafficDistributionGroupSummaryList =
+  TrafficDistributionGroupSummary[];
 export const TrafficDistributionGroupSummaryList = S.Array(
   TrafficDistributionGroupSummary,
 );
-export class TrafficDistributionGroupUserSummary extends S.Class<TrafficDistributionGroupUserSummary>(
-  "TrafficDistributionGroupUserSummary",
-)({ UserId: S.optional(S.String) }) {}
+export interface TrafficDistributionGroupUserSummary {
+  UserId?: string;
+}
+export const TrafficDistributionGroupUserSummary = S.suspend(() =>
+  S.Struct({ UserId: S.optional(S.String) }),
+).annotations({
+  identifier: "TrafficDistributionGroupUserSummary",
+}) as any as S.Schema<TrafficDistributionGroupUserSummary>;
+export type TrafficDistributionGroupUserSummaryList =
+  TrafficDistributionGroupUserSummary[];
 export const TrafficDistributionGroupUserSummaryList = S.Array(
   TrafficDistributionGroupUserSummary,
 );
-export class UseCase extends S.Class<UseCase>("UseCase")({
-  UseCaseId: S.optional(S.String),
-  UseCaseArn: S.optional(S.String),
-  UseCaseType: S.optional(S.String),
-}) {}
+export interface UseCase {
+  UseCaseId?: string;
+  UseCaseArn?: string;
+  UseCaseType?: string;
+}
+export const UseCase = S.suspend(() =>
+  S.Struct({
+    UseCaseId: S.optional(S.String),
+    UseCaseArn: S.optional(S.String),
+    UseCaseType: S.optional(S.String),
+  }),
+).annotations({ identifier: "UseCase" }) as any as S.Schema<UseCase>;
+export type UseCaseSummaryList = UseCase[];
 export const UseCaseSummaryList = S.Array(UseCase);
-export class HierarchyGroupSummary extends S.Class<HierarchyGroupSummary>(
-  "HierarchyGroupSummary",
-)({
-  Id: S.optional(S.String),
-  Arn: S.optional(S.String),
-  Name: S.optional(S.String),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedRegion: S.optional(S.String),
-}) {}
+export interface HierarchyGroupSummary {
+  Id?: string;
+  Arn?: string;
+  Name?: string;
+  LastModifiedTime?: Date;
+  LastModifiedRegion?: string;
+}
+export const HierarchyGroupSummary = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Arn: S.optional(S.String),
+    Name: S.optional(S.String),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastModifiedRegion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "HierarchyGroupSummary",
+}) as any as S.Schema<HierarchyGroupSummary>;
+export type HierarchyGroupSummaryList = HierarchyGroupSummary[];
 export const HierarchyGroupSummaryList = S.Array(HierarchyGroupSummary);
-export class UserSummary extends S.Class<UserSummary>("UserSummary")({
-  Id: S.optional(S.String),
-  Arn: S.optional(S.String),
-  Username: S.optional(S.String),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedRegion: S.optional(S.String),
-}) {}
+export interface UserSummary {
+  Id?: string;
+  Arn?: string;
+  Username?: string;
+  LastModifiedTime?: Date;
+  LastModifiedRegion?: string;
+}
+export const UserSummary = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Arn: S.optional(S.String),
+    Username: S.optional(S.String),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastModifiedRegion: S.optional(S.String),
+  }),
+).annotations({ identifier: "UserSummary" }) as any as S.Schema<UserSummary>;
+export type UserSummaryList = UserSummary[];
 export const UserSummaryList = S.Array(UserSummary);
-export class ViewSummary extends S.Class<ViewSummary>("ViewSummary")({
-  Id: S.optional(S.String),
-  Arn: S.optional(S.String),
-  Name: S.optional(S.String),
-  Type: S.optional(S.String),
-  Status: S.optional(S.String),
-  Description: S.optional(S.String),
-}) {}
+export interface ViewSummary {
+  Id?: string;
+  Arn?: string;
+  Name?: string;
+  Type?: string;
+  Status?: string;
+  Description?: string;
+}
+export const ViewSummary = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Arn: S.optional(S.String),
+    Name: S.optional(S.String),
+    Type: S.optional(S.String),
+    Status: S.optional(S.String),
+    Description: S.optional(S.String),
+  }),
+).annotations({ identifier: "ViewSummary" }) as any as S.Schema<ViewSummary>;
+export type ViewsSummaryList = ViewSummary[];
 export const ViewsSummaryList = S.Array(ViewSummary);
-export class ViewVersionSummary extends S.Class<ViewVersionSummary>(
-  "ViewVersionSummary",
-)({
-  Id: S.optional(S.String),
-  Arn: S.optional(S.String),
-  Description: S.optional(S.String),
-  Name: S.optional(S.String),
-  Type: S.optional(S.String),
-  Version: S.optional(S.Number),
-  VersionDescription: S.optional(S.String),
-}) {}
+export interface ViewVersionSummary {
+  Id?: string;
+  Arn?: string;
+  Description?: string;
+  Name?: string;
+  Type?: string;
+  Version?: number;
+  VersionDescription?: string;
+}
+export const ViewVersionSummary = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Arn: S.optional(S.String),
+    Description: S.optional(S.String),
+    Name: S.optional(S.String),
+    Type: S.optional(S.String),
+    Version: S.optional(S.Number),
+    VersionDescription: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ViewVersionSummary",
+}) as any as S.Schema<ViewVersionSummary>;
+export type ViewVersionSummaryList = ViewVersionSummary[];
 export const ViewVersionSummaryList = S.Array(ViewVersionSummary);
-export class MediaItem extends S.Class<MediaItem>("MediaItem")({
-  Type: S.optional(S.String),
-  Source: S.optional(S.String),
-}) {}
+export interface MediaItem {
+  Type?: string;
+  Source?: string;
+}
+export const MediaItem = S.suspend(() =>
+  S.Struct({ Type: S.optional(S.String), Source: S.optional(S.String) }),
+).annotations({ identifier: "MediaItem" }) as any as S.Schema<MediaItem>;
+export type MediaList = MediaItem[];
 export const MediaList = S.Array(MediaItem);
-export class WorkspacePage extends S.Class<WorkspacePage>("WorkspacePage")({
-  ResourceArn: S.optional(S.String),
-  Page: S.optional(S.String),
-  Slug: S.optional(S.String),
-  InputData: S.optional(S.String),
-}) {}
+export interface WorkspacePage {
+  ResourceArn?: string;
+  Page?: string;
+  Slug?: string;
+  InputData?: string;
+}
+export const WorkspacePage = S.suspend(() =>
+  S.Struct({
+    ResourceArn: S.optional(S.String),
+    Page: S.optional(S.String),
+    Slug: S.optional(S.String),
+    InputData: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "WorkspacePage",
+}) as any as S.Schema<WorkspacePage>;
+export type WorkspacePageList = WorkspacePage[];
 export const WorkspacePageList = S.Array(WorkspacePage);
-export class WorkspaceSummary extends S.Class<WorkspaceSummary>(
-  "WorkspaceSummary",
-)({
-  Id: S.optional(S.String),
-  Name: S.optional(S.String),
-  Arn: S.optional(S.String),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedRegion: S.optional(S.String),
-}) {}
+export interface WorkspaceSummary {
+  Id?: string;
+  Name?: string;
+  Arn?: string;
+  LastModifiedTime?: Date;
+  LastModifiedRegion?: string;
+}
+export const WorkspaceSummary = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Name: S.optional(S.String),
+    Arn: S.optional(S.String),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastModifiedRegion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "WorkspaceSummary",
+}) as any as S.Schema<WorkspaceSummary>;
+export type WorkspaceSummaryList = WorkspaceSummary[];
 export const WorkspaceSummaryList = S.Array(WorkspaceSummary);
-export class AgentStatusSearchCriteria extends S.Class<AgentStatusSearchCriteria>(
-  "AgentStatusSearchCriteria",
-)({
-  OrConditions: S.optional(S.suspend(() => AgentStatusSearchConditionList)),
-  AndConditions: S.optional(S.suspend(() => AgentStatusSearchConditionList)),
-  StringCondition: S.optional(StringCondition),
-}) {}
-export class AvailableNumberSummary extends S.Class<AvailableNumberSummary>(
-  "AvailableNumberSummary",
-)({
-  PhoneNumber: S.optional(S.String),
-  PhoneNumberCountryCode: S.optional(S.String),
-  PhoneNumberType: S.optional(S.String),
-}) {}
+export interface AgentStatusSearchCriteria {
+  OrConditions?: AgentStatusSearchConditionList;
+  AndConditions?: AgentStatusSearchConditionList;
+  StringCondition?: StringCondition;
+}
+export const AgentStatusSearchCriteria = S.suspend(() =>
+  S.Struct({
+    OrConditions: S.optional(
+      S.suspend(() => AgentStatusSearchConditionList).annotations({
+        identifier: "AgentStatusSearchConditionList",
+      }),
+    ),
+    AndConditions: S.optional(
+      S.suspend(() => AgentStatusSearchConditionList).annotations({
+        identifier: "AgentStatusSearchConditionList",
+      }),
+    ),
+    StringCondition: S.optional(StringCondition),
+  }),
+).annotations({
+  identifier: "AgentStatusSearchCriteria",
+}) as any as S.Schema<AgentStatusSearchCriteria>;
+export interface AvailableNumberSummary {
+  PhoneNumber?: string;
+  PhoneNumberCountryCode?: string;
+  PhoneNumberType?: string;
+}
+export const AvailableNumberSummary = S.suspend(() =>
+  S.Struct({
+    PhoneNumber: S.optional(S.String),
+    PhoneNumberCountryCode: S.optional(S.String),
+    PhoneNumberType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AvailableNumberSummary",
+}) as any as S.Schema<AvailableNumberSummary>;
+export type AvailableNumbersList = AvailableNumberSummary[];
 export const AvailableNumbersList = S.Array(AvailableNumberSummary);
-export class EvaluationSearchCriteria extends S.Class<EvaluationSearchCriteria>(
-  "EvaluationSearchCriteria",
-)({
-  OrConditions: S.optional(S.suspend(() => EvaluationSearchConditionList)),
-  AndConditions: S.optional(S.suspend(() => EvaluationSearchConditionList)),
-  StringCondition: S.optional(StringCondition),
-  NumberCondition: S.optional(NumberCondition),
-  BooleanCondition: S.optional(BooleanCondition),
-  DateTimeCondition: S.optional(DateTimeCondition),
-  DecimalCondition: S.optional(DecimalCondition),
-}) {}
-export class ContactFlowModuleSearchFilter extends S.Class<ContactFlowModuleSearchFilter>(
-  "ContactFlowModuleSearchFilter",
-)({ TagFilter: S.optional(ControlPlaneTagFilter) }) {}
+export interface EvaluationSearchCriteria {
+  OrConditions?: EvaluationSearchConditionList;
+  AndConditions?: EvaluationSearchConditionList;
+  StringCondition?: StringCondition;
+  NumberCondition?: NumberCondition;
+  BooleanCondition?: BooleanCondition;
+  DateTimeCondition?: DateTimeCondition;
+  DecimalCondition?: DecimalCondition;
+}
+export const EvaluationSearchCriteria = S.suspend(() =>
+  S.Struct({
+    OrConditions: S.optional(
+      S.suspend(() => EvaluationSearchConditionList).annotations({
+        identifier: "EvaluationSearchConditionList",
+      }),
+    ),
+    AndConditions: S.optional(
+      S.suspend(() => EvaluationSearchConditionList).annotations({
+        identifier: "EvaluationSearchConditionList",
+      }),
+    ),
+    StringCondition: S.optional(StringCondition),
+    NumberCondition: S.optional(NumberCondition),
+    BooleanCondition: S.optional(BooleanCondition),
+    DateTimeCondition: S.optional(DateTimeCondition),
+    DecimalCondition: S.optional(DecimalCondition),
+  }),
+).annotations({
+  identifier: "EvaluationSearchCriteria",
+}) as any as S.Schema<EvaluationSearchCriteria>;
+export interface ContactFlowModuleSearchFilter {
+  TagFilter?: ControlPlaneTagFilter;
+}
+export const ContactFlowModuleSearchFilter = S.suspend(() =>
+  S.Struct({ TagFilter: S.optional(ControlPlaneTagFilter) }),
+).annotations({
+  identifier: "ContactFlowModuleSearchFilter",
+}) as any as S.Schema<ContactFlowModuleSearchFilter>;
+export type DataTableList = DataTable[];
 export const DataTableList = S.Array(DataTable);
-export class HoursOfOperationOverrideSearchCriteria extends S.Class<HoursOfOperationOverrideSearchCriteria>(
-  "HoursOfOperationOverrideSearchCriteria",
-)({
-  OrConditions: S.optional(
-    S.suspend(() => HoursOfOperationOverrideSearchConditionList),
-  ),
-  AndConditions: S.optional(
-    S.suspend(() => HoursOfOperationOverrideSearchConditionList),
-  ),
-  StringCondition: S.optional(StringCondition),
-  DateCondition: S.optional(DateCondition),
-}) {}
+export interface HoursOfOperationOverrideSearchCriteria {
+  OrConditions?: HoursOfOperationOverrideSearchConditionList;
+  AndConditions?: HoursOfOperationOverrideSearchConditionList;
+  StringCondition?: StringCondition;
+  DateCondition?: DateCondition;
+}
+export const HoursOfOperationOverrideSearchCriteria = S.suspend(() =>
+  S.Struct({
+    OrConditions: S.optional(
+      S.suspend(() => HoursOfOperationOverrideSearchConditionList).annotations({
+        identifier: "HoursOfOperationOverrideSearchConditionList",
+      }),
+    ),
+    AndConditions: S.optional(
+      S.suspend(() => HoursOfOperationOverrideSearchConditionList).annotations({
+        identifier: "HoursOfOperationOverrideSearchConditionList",
+      }),
+    ),
+    StringCondition: S.optional(StringCondition),
+    DateCondition: S.optional(DateCondition),
+  }),
+).annotations({
+  identifier: "HoursOfOperationOverrideSearchCriteria",
+}) as any as S.Schema<HoursOfOperationOverrideSearchCriteria>;
+export type HoursOfOperationList = HoursOfOperation[];
 export const HoursOfOperationList = S.Array(HoursOfOperation);
-export class PredefinedAttributeConfiguration extends S.Class<PredefinedAttributeConfiguration>(
-  "PredefinedAttributeConfiguration",
-)({
-  EnableValueValidationOnAssociation: S.optional(S.Boolean),
-  IsReadOnly: S.optional(S.Boolean),
-}) {}
-export class PredefinedAttribute extends S.Class<PredefinedAttribute>(
-  "PredefinedAttribute",
-)({
-  Name: S.optional(S.String),
-  Values: S.optional(PredefinedAttributeValues),
-  Purposes: S.optional(PredefinedAttributePurposeNameList),
-  AttributeConfiguration: S.optional(PredefinedAttributeConfiguration),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedRegion: S.optional(S.String),
-}) {}
+export interface PredefinedAttributeConfiguration {
+  EnableValueValidationOnAssociation?: boolean;
+  IsReadOnly?: boolean;
+}
+export const PredefinedAttributeConfiguration = S.suspend(() =>
+  S.Struct({
+    EnableValueValidationOnAssociation: S.optional(S.Boolean),
+    IsReadOnly: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "PredefinedAttributeConfiguration",
+}) as any as S.Schema<PredefinedAttributeConfiguration>;
+export interface PredefinedAttribute {
+  Name?: string;
+  Values?: (typeof PredefinedAttributeValues)["Type"];
+  Purposes?: PredefinedAttributePurposeNameList;
+  AttributeConfiguration?: PredefinedAttributeConfiguration;
+  LastModifiedTime?: Date;
+  LastModifiedRegion?: string;
+}
+export const PredefinedAttribute = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Values: S.optional(PredefinedAttributeValues),
+    Purposes: S.optional(PredefinedAttributePurposeNameList),
+    AttributeConfiguration: S.optional(PredefinedAttributeConfiguration),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastModifiedRegion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "PredefinedAttribute",
+}) as any as S.Schema<PredefinedAttribute>;
+export type PredefinedAttributeSearchSummaryList = PredefinedAttribute[];
 export const PredefinedAttributeSearchSummaryList =
   S.Array(PredefinedAttribute);
+export type PromptList = Prompt[];
 export const PromptList = S.Array(Prompt);
+export type QueueSearchSummaryList = Queue[];
 export const QueueSearchSummaryList = S.Array(Queue);
+export type QuickConnectSearchSummaryList = QuickConnect[];
 export const QuickConnectSearchSummaryList = S.Array(QuickConnect);
-export class ResourceTagsSearchCriteria extends S.Class<ResourceTagsSearchCriteria>(
-  "ResourceTagsSearchCriteria",
-)({ TagSearchCondition: S.optional(TagSearchCondition) }) {}
+export interface ResourceTagsSearchCriteria {
+  TagSearchCondition?: TagSearchCondition;
+}
+export const ResourceTagsSearchCriteria = S.suspend(() =>
+  S.Struct({ TagSearchCondition: S.optional(TagSearchCondition) }),
+).annotations({
+  identifier: "ResourceTagsSearchCriteria",
+}) as any as S.Schema<ResourceTagsSearchCriteria>;
+export type RoutingProfileList = RoutingProfile[];
 export const RoutingProfileList = S.Array(RoutingProfile);
-export class HierarchyPath extends S.Class<HierarchyPath>("HierarchyPath")({
-  LevelOne: S.optional(HierarchyGroupSummary),
-  LevelTwo: S.optional(HierarchyGroupSummary),
-  LevelThree: S.optional(HierarchyGroupSummary),
-  LevelFour: S.optional(HierarchyGroupSummary),
-  LevelFive: S.optional(HierarchyGroupSummary),
-}) {}
-export class HierarchyGroup extends S.Class<HierarchyGroup>("HierarchyGroup")({
-  Id: S.optional(S.String),
-  Arn: S.optional(S.String),
-  Name: S.optional(S.String),
-  LevelId: S.optional(S.String),
-  HierarchyPath: S.optional(HierarchyPath),
-  Tags: S.optional(TagMap),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedRegion: S.optional(S.String),
-}) {}
+export interface HierarchyPath {
+  LevelOne?: HierarchyGroupSummary;
+  LevelTwo?: HierarchyGroupSummary;
+  LevelThree?: HierarchyGroupSummary;
+  LevelFour?: HierarchyGroupSummary;
+  LevelFive?: HierarchyGroupSummary;
+}
+export const HierarchyPath = S.suspend(() =>
+  S.Struct({
+    LevelOne: S.optional(HierarchyGroupSummary),
+    LevelTwo: S.optional(HierarchyGroupSummary),
+    LevelThree: S.optional(HierarchyGroupSummary),
+    LevelFour: S.optional(HierarchyGroupSummary),
+    LevelFive: S.optional(HierarchyGroupSummary),
+  }),
+).annotations({
+  identifier: "HierarchyPath",
+}) as any as S.Schema<HierarchyPath>;
+export interface HierarchyGroup {
+  Id?: string;
+  Arn?: string;
+  Name?: string;
+  LevelId?: string;
+  HierarchyPath?: HierarchyPath;
+  Tags?: TagMap;
+  LastModifiedTime?: Date;
+  LastModifiedRegion?: string;
+}
+export const HierarchyGroup = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Arn: S.optional(S.String),
+    Name: S.optional(S.String),
+    LevelId: S.optional(S.String),
+    HierarchyPath: S.optional(HierarchyPath),
+    Tags: S.optional(TagMap),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastModifiedRegion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "HierarchyGroup",
+}) as any as S.Schema<HierarchyGroup>;
+export type UserHierarchyGroupList = HierarchyGroup[];
 export const UserHierarchyGroupList = S.Array(HierarchyGroup);
+export type ViewSearchSummaryList = View[];
 export const ViewSearchSummaryList = S.Array(View);
-export class VocabularySummary extends S.Class<VocabularySummary>(
-  "VocabularySummary",
-)({
-  Name: S.String,
-  Id: S.String,
-  Arn: S.String,
-  LanguageCode: S.String,
-  State: S.String,
-  LastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  FailureReason: S.optional(S.String),
-}) {}
+export interface VocabularySummary {
+  Name: string;
+  Id: string;
+  Arn: string;
+  LanguageCode: string;
+  State: string;
+  LastModifiedTime: Date;
+  FailureReason?: string;
+}
+export const VocabularySummary = S.suspend(() =>
+  S.Struct({
+    Name: S.String,
+    Id: S.String,
+    Arn: S.String,
+    LanguageCode: S.String,
+    State: S.String,
+    LastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    FailureReason: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "VocabularySummary",
+}) as any as S.Schema<VocabularySummary>;
+export type VocabularySummaryList = VocabularySummary[];
 export const VocabularySummaryList = S.Array(VocabularySummary);
-export class HierarchyStructureUpdate extends S.Class<HierarchyStructureUpdate>(
-  "HierarchyStructureUpdate",
-)({
-  LevelOne: S.optional(HierarchyLevelUpdate),
-  LevelTwo: S.optional(HierarchyLevelUpdate),
-  LevelThree: S.optional(HierarchyLevelUpdate),
-  LevelFour: S.optional(HierarchyLevelUpdate),
-  LevelFive: S.optional(HierarchyLevelUpdate),
-}) {}
+export interface HierarchyStructureUpdate {
+  LevelOne?: HierarchyLevelUpdate;
+  LevelTwo?: HierarchyLevelUpdate;
+  LevelThree?: HierarchyLevelUpdate;
+  LevelFour?: HierarchyLevelUpdate;
+  LevelFive?: HierarchyLevelUpdate;
+}
+export const HierarchyStructureUpdate = S.suspend(() =>
+  S.Struct({
+    LevelOne: S.optional(HierarchyLevelUpdate),
+    LevelTwo: S.optional(HierarchyLevelUpdate),
+    LevelThree: S.optional(HierarchyLevelUpdate),
+    LevelFour: S.optional(HierarchyLevelUpdate),
+    LevelFive: S.optional(HierarchyLevelUpdate),
+  }),
+).annotations({
+  identifier: "HierarchyStructureUpdate",
+}) as any as S.Schema<HierarchyStructureUpdate>;
 export type SegmentAttributeValueMap = { [key: string]: SegmentAttributeValue };
 export const SegmentAttributeValueMap = S.Record({
   key: S.String,
   value: S.suspend(
     (): S.Schema<SegmentAttributeValue, any> => SegmentAttributeValue,
-  ),
+  ).annotations({ identifier: "SegmentAttributeValue" }),
 }) as any as S.Schema<SegmentAttributeValueMap>;
-export class ContactFlowTypeCondition extends S.Class<ContactFlowTypeCondition>(
-  "ContactFlowTypeCondition",
-)({ ContactFlowType: S.optional(S.String) }) {}
-export class ContactFlowAttributeAndCondition extends S.Class<ContactFlowAttributeAndCondition>(
-  "ContactFlowAttributeAndCondition",
-)({
-  TagConditions: S.optional(TagAndConditionList),
-  ContactFlowTypeCondition: S.optional(ContactFlowTypeCondition),
-}) {}
+export interface ContactFlowTypeCondition {
+  ContactFlowType?: string;
+}
+export const ContactFlowTypeCondition = S.suspend(() =>
+  S.Struct({ ContactFlowType: S.optional(S.String) }),
+).annotations({
+  identifier: "ContactFlowTypeCondition",
+}) as any as S.Schema<ContactFlowTypeCondition>;
+export interface ContactFlowAttributeAndCondition {
+  TagConditions?: TagAndConditionList;
+  ContactFlowTypeCondition?: ContactFlowTypeCondition;
+}
+export const ContactFlowAttributeAndCondition = S.suspend(() =>
+  S.Struct({
+    TagConditions: S.optional(TagAndConditionList),
+    ContactFlowTypeCondition: S.optional(ContactFlowTypeCondition),
+  }),
+).annotations({
+  identifier: "ContactFlowAttributeAndCondition",
+}) as any as S.Schema<ContactFlowAttributeAndCondition>;
+export type ContactFlowAttributeOrConditionList =
+  ContactFlowAttributeAndCondition[];
 export const ContactFlowAttributeOrConditionList = S.Array(
   ContactFlowAttributeAndCondition,
 );
-export class SearchableContactAttributesCriteria extends S.Class<SearchableContactAttributesCriteria>(
-  "SearchableContactAttributesCriteria",
-)({ Key: S.String, Values: SearchableContactAttributeValueList }) {}
+export interface SearchableContactAttributesCriteria {
+  Key: string;
+  Values: SearchableContactAttributeValueList;
+}
+export const SearchableContactAttributesCriteria = S.suspend(() =>
+  S.Struct({ Key: S.String, Values: SearchableContactAttributeValueList }),
+).annotations({
+  identifier: "SearchableContactAttributesCriteria",
+}) as any as S.Schema<SearchableContactAttributesCriteria>;
+export type SearchableContactAttributesCriteriaList =
+  SearchableContactAttributesCriteria[];
 export const SearchableContactAttributesCriteriaList = S.Array(
   SearchableContactAttributesCriteria,
 );
-export class SearchableSegmentAttributesCriteria extends S.Class<SearchableSegmentAttributesCriteria>(
-  "SearchableSegmentAttributesCriteria",
-)({ Key: S.String, Values: SearchableSegmentAttributeValueList }) {}
+export interface SearchableSegmentAttributesCriteria {
+  Key: string;
+  Values: SearchableSegmentAttributeValueList;
+}
+export const SearchableSegmentAttributesCriteria = S.suspend(() =>
+  S.Struct({ Key: S.String, Values: SearchableSegmentAttributeValueList }),
+).annotations({
+  identifier: "SearchableSegmentAttributesCriteria",
+}) as any as S.Schema<SearchableSegmentAttributesCriteria>;
+export type SearchableSegmentAttributesCriteriaList =
+  SearchableSegmentAttributesCriteria[];
 export const SearchableSegmentAttributesCriteriaList = S.Array(
   SearchableSegmentAttributesCriteria,
 );
-export class AttributeAndCondition extends S.Class<AttributeAndCondition>(
-  "AttributeAndCondition",
-)({
-  TagConditions: S.optional(TagAndConditionList),
-  HierarchyGroupCondition: S.optional(HierarchyGroupCondition),
-}) {}
+export interface AttributeAndCondition {
+  TagConditions?: TagAndConditionList;
+  HierarchyGroupCondition?: HierarchyGroupCondition;
+}
+export const AttributeAndCondition = S.suspend(() =>
+  S.Struct({
+    TagConditions: S.optional(TagAndConditionList),
+    HierarchyGroupCondition: S.optional(HierarchyGroupCondition),
+  }),
+).annotations({
+  identifier: "AttributeAndCondition",
+}) as any as S.Schema<AttributeAndCondition>;
+export type AttributeOrConditionList = AttributeAndCondition[];
 export const AttributeOrConditionList = S.Array(AttributeAndCondition);
-export class Condition extends S.Class<Condition>("Condition")({
-  StringCondition: S.optional(StringCondition),
-  NumberCondition: S.optional(NumberCondition),
-}) {}
+export interface Condition {
+  StringCondition?: StringCondition;
+  NumberCondition?: NumberCondition;
+}
+export const Condition = S.suspend(() =>
+  S.Struct({
+    StringCondition: S.optional(StringCondition),
+    NumberCondition: S.optional(NumberCondition),
+  }),
+).annotations({ identifier: "Condition" }) as any as S.Schema<Condition>;
+export type Conditions = Condition[];
 export const Conditions = S.Array(Condition);
+export type EmailHeaders = { [key: string]: string };
 export const EmailHeaders = S.Record({ key: S.String, value: S.String });
-export class RoutingCriteriaInputStepExpiry extends S.Class<RoutingCriteriaInputStepExpiry>(
-  "RoutingCriteriaInputStepExpiry",
-)({ DurationInSeconds: S.optional(S.Number) }) {}
-export class AssociateWorkspaceResponse extends S.Class<AssociateWorkspaceResponse>(
-  "AssociateWorkspaceResponse",
-)({
-  SuccessfulList: S.optional(SuccessfulBatchAssociationSummaryList),
-  FailedList: S.optional(FailedBatchAssociationSummaryList),
-}) {}
-export class BatchAssociateAnalyticsDataSetResponse extends S.Class<BatchAssociateAnalyticsDataSetResponse>(
-  "BatchAssociateAnalyticsDataSetResponse",
-)({
-  Created: S.optional(AnalyticsDataAssociationResults),
-  Errors: S.optional(ErrorResults),
-}) {}
-export class BatchGetAttachedFileMetadataResponse extends S.Class<BatchGetAttachedFileMetadataResponse>(
-  "BatchGetAttachedFileMetadataResponse",
-)({
-  Files: S.optional(AttachedFilesList),
-  Errors: S.optional(AttachedFileErrorsList),
-}) {}
-export class BatchGetFlowAssociationResponse extends S.Class<BatchGetFlowAssociationResponse>(
-  "BatchGetFlowAssociationResponse",
-)({ FlowAssociationSummaryList: S.optional(FlowAssociationSummaryList) }) {}
-export class BatchPutContactRequest extends S.Class<BatchPutContactRequest>(
-  "BatchPutContactRequest",
-)(
-  {
+export interface RoutingCriteriaInputStepExpiry {
+  DurationInSeconds?: number;
+}
+export const RoutingCriteriaInputStepExpiry = S.suspend(() =>
+  S.Struct({ DurationInSeconds: S.optional(S.Number) }),
+).annotations({
+  identifier: "RoutingCriteriaInputStepExpiry",
+}) as any as S.Schema<RoutingCriteriaInputStepExpiry>;
+export interface AssociateWorkspaceResponse {
+  SuccessfulList?: SuccessfulBatchAssociationSummaryList;
+  FailedList?: FailedBatchAssociationSummaryList;
+}
+export const AssociateWorkspaceResponse = S.suspend(() =>
+  S.Struct({
+    SuccessfulList: S.optional(SuccessfulBatchAssociationSummaryList),
+    FailedList: S.optional(FailedBatchAssociationSummaryList),
+  }),
+).annotations({
+  identifier: "AssociateWorkspaceResponse",
+}) as any as S.Schema<AssociateWorkspaceResponse>;
+export interface BatchAssociateAnalyticsDataSetResponse {
+  Created?: AnalyticsDataAssociationResults;
+  Errors?: ErrorResults;
+}
+export const BatchAssociateAnalyticsDataSetResponse = S.suspend(() =>
+  S.Struct({
+    Created: S.optional(AnalyticsDataAssociationResults),
+    Errors: S.optional(ErrorResults),
+  }),
+).annotations({
+  identifier: "BatchAssociateAnalyticsDataSetResponse",
+}) as any as S.Schema<BatchAssociateAnalyticsDataSetResponse>;
+export interface BatchGetAttachedFileMetadataResponse {
+  Files?: AttachedFilesList;
+  Errors?: AttachedFileErrorsList;
+}
+export const BatchGetAttachedFileMetadataResponse = S.suspend(() =>
+  S.Struct({
+    Files: S.optional(AttachedFilesList),
+    Errors: S.optional(AttachedFileErrorsList),
+  }),
+).annotations({
+  identifier: "BatchGetAttachedFileMetadataResponse",
+}) as any as S.Schema<BatchGetAttachedFileMetadataResponse>;
+export interface BatchGetFlowAssociationResponse {
+  FlowAssociationSummaryList?: FlowAssociationSummaryList;
+}
+export const BatchGetFlowAssociationResponse = S.suspend(() =>
+  S.Struct({
+    FlowAssociationSummaryList: S.optional(FlowAssociationSummaryList),
+  }),
+).annotations({
+  identifier: "BatchGetFlowAssociationResponse",
+}) as any as S.Schema<BatchGetFlowAssociationResponse>;
+export interface BatchPutContactRequest {
+  ClientToken?: string;
+  InstanceId: string;
+  ContactDataRequestList: ContactDataRequestList;
+}
+export const BatchPutContactRequest = S.suspend(() =>
+  S.Struct({
     ClientToken: S.optional(S.String),
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ContactDataRequestList: ContactDataRequestList,
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/contact/batch/{InstanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/contact/batch/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class BatchUpdateDataTableValueResponse extends S.Class<BatchUpdateDataTableValueResponse>(
-  "BatchUpdateDataTableValueResponse",
-)({
-  Successful: BatchUpdateDataTableValueSuccessResultList,
-  Failed: BatchUpdateDataTableValueFailureResultList,
-}) {}
-export class ClaimPhoneNumberResponse extends S.Class<ClaimPhoneNumberResponse>(
-  "ClaimPhoneNumberResponse",
-)({
-  PhoneNumberId: S.optional(S.String),
-  PhoneNumberArn: S.optional(S.String),
-}) {}
-export class CreateContactFlowModuleResponse extends S.Class<CreateContactFlowModuleResponse>(
-  "CreateContactFlowModuleResponse",
-)({ Id: S.optional(S.String), Arn: S.optional(S.String) }) {}
-export class CreateDataTableAttributeRequest extends S.Class<CreateDataTableAttributeRequest>(
-  "CreateDataTableAttributeRequest",
-)(
-  {
+).annotations({
+  identifier: "BatchPutContactRequest",
+}) as any as S.Schema<BatchPutContactRequest>;
+export interface BatchUpdateDataTableValueResponse {
+  Successful: BatchUpdateDataTableValueSuccessResultList;
+  Failed: BatchUpdateDataTableValueFailureResultList;
+}
+export const BatchUpdateDataTableValueResponse = S.suspend(() =>
+  S.Struct({
+    Successful: BatchUpdateDataTableValueSuccessResultList,
+    Failed: BatchUpdateDataTableValueFailureResultList,
+  }),
+).annotations({
+  identifier: "BatchUpdateDataTableValueResponse",
+}) as any as S.Schema<BatchUpdateDataTableValueResponse>;
+export interface ClaimPhoneNumberResponse {
+  PhoneNumberId?: string;
+  PhoneNumberArn?: string;
+}
+export const ClaimPhoneNumberResponse = S.suspend(() =>
+  S.Struct({
+    PhoneNumberId: S.optional(S.String),
+    PhoneNumberArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ClaimPhoneNumberResponse",
+}) as any as S.Schema<ClaimPhoneNumberResponse>;
+export interface CreateContactFlowModuleResponse {
+  Id?: string;
+  Arn?: string;
+}
+export const CreateContactFlowModuleResponse = S.suspend(() =>
+  S.Struct({ Id: S.optional(S.String), Arn: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateContactFlowModuleResponse",
+}) as any as S.Schema<CreateContactFlowModuleResponse>;
+export interface CreateDataTableAttributeRequest {
+  InstanceId: string;
+  DataTableId: string;
+  Name: string;
+  ValueType: string;
+  Description?: string;
+  Primary?: boolean;
+  Validation?: Validation;
+}
+export const CreateDataTableAttributeRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     DataTableId: S.String.pipe(T.HttpLabel("DataTableId")),
     Name: S.String,
@@ -9317,43 +14932,62 @@ export class CreateDataTableAttributeRequest extends S.Class<CreateDataTableAttr
     Description: S.optional(S.String),
     Primary: S.optional(S.Boolean),
     Validation: S.optional(Validation),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/data-tables/{InstanceId}/{DataTableId}/attributes",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/data-tables/{InstanceId}/{DataTableId}/attributes",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateHoursOfOperationRequest extends S.Class<CreateHoursOfOperationRequest>(
-  "CreateHoursOfOperationRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateDataTableAttributeRequest",
+}) as any as S.Schema<CreateDataTableAttributeRequest>;
+export interface CreateHoursOfOperationRequest {
+  InstanceId: string;
+  Name: string;
+  Description?: string;
+  TimeZone: string;
+  Config: HoursOfOperationConfigList;
+  Tags?: TagMap;
+}
+export const CreateHoursOfOperationRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Name: S.String,
     Description: S.optional(S.String),
     TimeZone: S.String,
     Config: HoursOfOperationConfigList,
     Tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/hours-of-operations/{InstanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/hours-of-operations/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateHoursOfOperationOverrideRequest extends S.Class<CreateHoursOfOperationOverrideRequest>(
-  "CreateHoursOfOperationOverrideRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateHoursOfOperationRequest",
+}) as any as S.Schema<CreateHoursOfOperationRequest>;
+export interface CreateHoursOfOperationOverrideRequest {
+  InstanceId: string;
+  HoursOfOperationId: string;
+  Name: string;
+  Description?: string;
+  Config: HoursOfOperationOverrideConfigList;
+  EffectiveFrom: string;
+  EffectiveTill: string;
+}
+export const CreateHoursOfOperationOverrideRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     HoursOfOperationId: S.String.pipe(T.HttpLabel("HoursOfOperationId")),
     Name: S.String,
@@ -9361,66 +14995,104 @@ export class CreateHoursOfOperationOverrideRequest extends S.Class<CreateHoursOf
     Config: HoursOfOperationOverrideConfigList,
     EffectiveFrom: S.String,
     EffectiveTill: S.String,
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/hours-of-operations/{InstanceId}/{HoursOfOperationId}/overrides",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/hours-of-operations/{InstanceId}/{HoursOfOperationId}/overrides",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateParticipantRequest extends S.Class<CreateParticipantRequest>(
-  "CreateParticipantRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateHoursOfOperationOverrideRequest",
+}) as any as S.Schema<CreateHoursOfOperationOverrideRequest>;
+export interface CreateParticipantRequest {
+  InstanceId: string;
+  ContactId: string;
+  ClientToken?: string;
+  ParticipantDetails: ParticipantDetailsToAdd;
+}
+export const CreateParticipantRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String,
     ContactId: S.String,
     ClientToken: S.optional(S.String),
     ParticipantDetails: ParticipantDetailsToAdd,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/contact/create-participant" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/contact/create-participant" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreatePushNotificationRegistrationResponse extends S.Class<CreatePushNotificationRegistrationResponse>(
-  "CreatePushNotificationRegistrationResponse",
-)({ RegistrationId: S.String }) {}
-export class CreateQueueResponse extends S.Class<CreateQueueResponse>(
-  "CreateQueueResponse",
-)({ QueueArn: S.optional(S.String), QueueId: S.optional(S.String) }) {}
-export class CreateQuickConnectRequest extends S.Class<CreateQuickConnectRequest>(
-  "CreateQuickConnectRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateParticipantRequest",
+}) as any as S.Schema<CreateParticipantRequest>;
+export interface CreatePushNotificationRegistrationResponse {
+  RegistrationId: string;
+}
+export const CreatePushNotificationRegistrationResponse = S.suspend(() =>
+  S.Struct({ RegistrationId: S.String }),
+).annotations({
+  identifier: "CreatePushNotificationRegistrationResponse",
+}) as any as S.Schema<CreatePushNotificationRegistrationResponse>;
+export interface CreateQueueResponse {
+  QueueArn?: string;
+  QueueId?: string;
+}
+export const CreateQueueResponse = S.suspend(() =>
+  S.Struct({ QueueArn: S.optional(S.String), QueueId: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateQueueResponse",
+}) as any as S.Schema<CreateQueueResponse>;
+export interface CreateQuickConnectRequest {
+  InstanceId: string;
+  Name: string;
+  Description?: string;
+  QuickConnectConfig: QuickConnectConfig;
+  Tags?: TagMap;
+}
+export const CreateQuickConnectRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Name: S.String,
     Description: S.optional(S.String),
     QuickConnectConfig: QuickConnectConfig,
     Tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/quick-connects/{InstanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/quick-connects/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateRoutingProfileRequest extends S.Class<CreateRoutingProfileRequest>(
-  "CreateRoutingProfileRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateQuickConnectRequest",
+}) as any as S.Schema<CreateQuickConnectRequest>;
+export interface CreateRoutingProfileRequest {
+  InstanceId: string;
+  Name: string;
+  Description: string;
+  DefaultOutboundQueueId: string;
+  QueueConfigs?: RoutingProfileQueueConfigList;
+  ManualAssignmentQueueConfigs?: RoutingProfileManualAssignmentQueueConfigList;
+  MediaConcurrencies: MediaConcurrencies;
+  Tags?: TagMap;
+  AgentAvailabilityTimer?: string;
+}
+export const CreateRoutingProfileRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Name: S.String,
     Description: S.String,
@@ -9432,20 +15104,33 @@ export class CreateRoutingProfileRequest extends S.Class<CreateRoutingProfileReq
     MediaConcurrencies: MediaConcurrencies,
     Tags: S.optional(TagMap),
     AgentAvailabilityTimer: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/routing-profiles/{InstanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/routing-profiles/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateTaskTemplateRequest extends S.Class<CreateTaskTemplateRequest>(
-  "CreateTaskTemplateRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateRoutingProfileRequest",
+}) as any as S.Schema<CreateRoutingProfileRequest>;
+export interface CreateTaskTemplateRequest {
+  InstanceId: string;
+  Name: string;
+  Description?: string;
+  ContactFlowId?: string;
+  SelfAssignFlowId?: string;
+  Constraints?: TaskTemplateConstraints;
+  Defaults?: TaskTemplateDefaults;
+  Status?: string;
+  Fields: TaskTemplateFields;
+  ClientToken?: string;
+}
+export const CreateTaskTemplateRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Name: S.String,
     Description: S.optional(S.String),
@@ -9456,130 +15141,287 @@ export class CreateTaskTemplateRequest extends S.Class<CreateTaskTemplateRequest
     Status: S.optional(S.String),
     Fields: TaskTemplateFields,
     ClientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/instance/{InstanceId}/task/template" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/instance/{InstanceId}/task/template" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateUserResponse extends S.Class<CreateUserResponse>(
-  "CreateUserResponse",
-)({ UserId: S.optional(S.String), UserArn: S.optional(S.String) }) {}
-export class CreateViewResponse extends S.Class<CreateViewResponse>(
-  "CreateViewResponse",
-)({ View: S.optional(View) }) {}
-export class DescribeAgentStatusResponse extends S.Class<DescribeAgentStatusResponse>(
-  "DescribeAgentStatusResponse",
-)({ AgentStatus: S.optional(AgentStatus) }) {}
-export class DescribeAuthenticationProfileResponse extends S.Class<DescribeAuthenticationProfileResponse>(
-  "DescribeAuthenticationProfileResponse",
-)({ AuthenticationProfile: S.optional(AuthenticationProfile) }) {}
-export class DescribeContactFlowResponse extends S.Class<DescribeContactFlowResponse>(
-  "DescribeContactFlowResponse",
-)({ ContactFlow: S.optional(ContactFlow) }) {}
-export class DescribeContactFlowModuleResponse extends S.Class<DescribeContactFlowModuleResponse>(
-  "DescribeContactFlowModuleResponse",
-)({ ContactFlowModule: S.optional(ContactFlowModule) }) {}
-export class DescribeContactFlowModuleAliasResponse extends S.Class<DescribeContactFlowModuleAliasResponse>(
-  "DescribeContactFlowModuleAliasResponse",
-)({ ContactFlowModuleAlias: S.optional(ContactFlowModuleAliasInfo) }) {}
-export class DescribeDataTableResponse extends S.Class<DescribeDataTableResponse>(
-  "DescribeDataTableResponse",
-)({ DataTable: DataTable }) {}
-export class DescribeDataTableAttributeResponse extends S.Class<DescribeDataTableAttributeResponse>(
-  "DescribeDataTableAttributeResponse",
-)({ Attribute: DataTableAttribute }) {}
-export class DescribeEvaluationFormResponse extends S.Class<DescribeEvaluationFormResponse>(
-  "DescribeEvaluationFormResponse",
-)({ EvaluationForm: EvaluationForm }) {}
-export class DescribeHoursOfOperationResponse extends S.Class<DescribeHoursOfOperationResponse>(
-  "DescribeHoursOfOperationResponse",
-)({ HoursOfOperation: S.optional(HoursOfOperation) }) {}
-export class DescribeHoursOfOperationOverrideResponse extends S.Class<DescribeHoursOfOperationOverrideResponse>(
-  "DescribeHoursOfOperationOverrideResponse",
-)({ HoursOfOperationOverride: S.optional(HoursOfOperationOverride) }) {}
-export class DescribeInstanceAttributeResponse extends S.Class<DescribeInstanceAttributeResponse>(
-  "DescribeInstanceAttributeResponse",
-)({ Attribute: S.optional(Attribute) }) {}
-export class DescribePromptResponse extends S.Class<DescribePromptResponse>(
-  "DescribePromptResponse",
-)({ Prompt: S.optional(Prompt) }) {}
-export class DescribeQueueResponse extends S.Class<DescribeQueueResponse>(
-  "DescribeQueueResponse",
-)({ Queue: S.optional(Queue) }) {}
-export class DescribeQuickConnectResponse extends S.Class<DescribeQuickConnectResponse>(
-  "DescribeQuickConnectResponse",
-)({ QuickConnect: S.optional(QuickConnect) }) {}
-export class DescribeRoutingProfileResponse extends S.Class<DescribeRoutingProfileResponse>(
-  "DescribeRoutingProfileResponse",
-)({ RoutingProfile: S.optional(RoutingProfile) }) {}
-export class DescribeRuleResponse extends S.Class<DescribeRuleResponse>(
-  "DescribeRuleResponse",
-)({ Rule: Rule }) {}
-export class DescribeSecurityProfileResponse extends S.Class<DescribeSecurityProfileResponse>(
-  "DescribeSecurityProfileResponse",
-)({ SecurityProfile: S.optional(SecurityProfile) }) {}
-export class DescribeTrafficDistributionGroupResponse extends S.Class<DescribeTrafficDistributionGroupResponse>(
-  "DescribeTrafficDistributionGroupResponse",
-)({ TrafficDistributionGroup: S.optional(TrafficDistributionGroup) }) {}
-export class DescribeUserResponse extends S.Class<DescribeUserResponse>(
-  "DescribeUserResponse",
-)({ User: S.optional(User) }) {}
-export class DescribeVocabularyResponse extends S.Class<DescribeVocabularyResponse>(
-  "DescribeVocabularyResponse",
-)({ Vocabulary: Vocabulary }) {}
-export class DescribeWorkspaceResponse extends S.Class<DescribeWorkspaceResponse>(
-  "DescribeWorkspaceResponse",
-)({ Workspace: Workspace }) {}
-export class GetAttachedFileResponse extends S.Class<GetAttachedFileResponse>(
-  "GetAttachedFileResponse",
-)({
-  FileArn: S.optional(S.String),
-  FileId: S.optional(S.String),
-  CreationTime: S.optional(S.String),
-  FileStatus: S.optional(S.String),
-  FileName: S.optional(S.String),
-  FileSizeInBytes: S.Number,
-  AssociatedResourceArn: S.optional(S.String),
-  FileUseCaseType: S.optional(S.String),
-  CreatedBy: S.optional(CreatedByInfo),
-  DownloadUrlMetadata: S.optional(DownloadUrlMetadata),
-  Tags: S.optional(TagMap),
-}) {}
-export class GetCurrentUserDataRequest extends S.Class<GetCurrentUserDataRequest>(
-  "GetCurrentUserDataRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateTaskTemplateRequest",
+}) as any as S.Schema<CreateTaskTemplateRequest>;
+export interface CreateUserResponse {
+  UserId?: string;
+  UserArn?: string;
+}
+export const CreateUserResponse = S.suspend(() =>
+  S.Struct({ UserId: S.optional(S.String), UserArn: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateUserResponse",
+}) as any as S.Schema<CreateUserResponse>;
+export interface CreateViewResponse {
+  View?: View;
+}
+export const CreateViewResponse = S.suspend(() =>
+  S.Struct({ View: S.optional(View) }),
+).annotations({
+  identifier: "CreateViewResponse",
+}) as any as S.Schema<CreateViewResponse>;
+export interface DescribeAgentStatusResponse {
+  AgentStatus?: AgentStatus;
+}
+export const DescribeAgentStatusResponse = S.suspend(() =>
+  S.Struct({ AgentStatus: S.optional(AgentStatus) }),
+).annotations({
+  identifier: "DescribeAgentStatusResponse",
+}) as any as S.Schema<DescribeAgentStatusResponse>;
+export interface DescribeAuthenticationProfileResponse {
+  AuthenticationProfile?: AuthenticationProfile;
+}
+export const DescribeAuthenticationProfileResponse = S.suspend(() =>
+  S.Struct({ AuthenticationProfile: S.optional(AuthenticationProfile) }),
+).annotations({
+  identifier: "DescribeAuthenticationProfileResponse",
+}) as any as S.Schema<DescribeAuthenticationProfileResponse>;
+export interface DescribeContactFlowResponse {
+  ContactFlow?: ContactFlow;
+}
+export const DescribeContactFlowResponse = S.suspend(() =>
+  S.Struct({ ContactFlow: S.optional(ContactFlow) }),
+).annotations({
+  identifier: "DescribeContactFlowResponse",
+}) as any as S.Schema<DescribeContactFlowResponse>;
+export interface DescribeContactFlowModuleResponse {
+  ContactFlowModule?: ContactFlowModule;
+}
+export const DescribeContactFlowModuleResponse = S.suspend(() =>
+  S.Struct({ ContactFlowModule: S.optional(ContactFlowModule) }),
+).annotations({
+  identifier: "DescribeContactFlowModuleResponse",
+}) as any as S.Schema<DescribeContactFlowModuleResponse>;
+export interface DescribeContactFlowModuleAliasResponse {
+  ContactFlowModuleAlias?: ContactFlowModuleAliasInfo;
+}
+export const DescribeContactFlowModuleAliasResponse = S.suspend(() =>
+  S.Struct({ ContactFlowModuleAlias: S.optional(ContactFlowModuleAliasInfo) }),
+).annotations({
+  identifier: "DescribeContactFlowModuleAliasResponse",
+}) as any as S.Schema<DescribeContactFlowModuleAliasResponse>;
+export interface DescribeDataTableResponse {
+  DataTable: DataTable;
+}
+export const DescribeDataTableResponse = S.suspend(() =>
+  S.Struct({ DataTable: DataTable }),
+).annotations({
+  identifier: "DescribeDataTableResponse",
+}) as any as S.Schema<DescribeDataTableResponse>;
+export interface DescribeDataTableAttributeResponse {
+  Attribute: DataTableAttribute;
+}
+export const DescribeDataTableAttributeResponse = S.suspend(() =>
+  S.Struct({ Attribute: DataTableAttribute }),
+).annotations({
+  identifier: "DescribeDataTableAttributeResponse",
+}) as any as S.Schema<DescribeDataTableAttributeResponse>;
+export interface DescribeEvaluationFormResponse {
+  EvaluationForm: EvaluationForm;
+}
+export const DescribeEvaluationFormResponse = S.suspend(() =>
+  S.Struct({ EvaluationForm: EvaluationForm }),
+).annotations({
+  identifier: "DescribeEvaluationFormResponse",
+}) as any as S.Schema<DescribeEvaluationFormResponse>;
+export interface DescribeHoursOfOperationResponse {
+  HoursOfOperation?: HoursOfOperation;
+}
+export const DescribeHoursOfOperationResponse = S.suspend(() =>
+  S.Struct({ HoursOfOperation: S.optional(HoursOfOperation) }),
+).annotations({
+  identifier: "DescribeHoursOfOperationResponse",
+}) as any as S.Schema<DescribeHoursOfOperationResponse>;
+export interface DescribeHoursOfOperationOverrideResponse {
+  HoursOfOperationOverride?: HoursOfOperationOverride;
+}
+export const DescribeHoursOfOperationOverrideResponse = S.suspend(() =>
+  S.Struct({ HoursOfOperationOverride: S.optional(HoursOfOperationOverride) }),
+).annotations({
+  identifier: "DescribeHoursOfOperationOverrideResponse",
+}) as any as S.Schema<DescribeHoursOfOperationOverrideResponse>;
+export interface DescribeInstanceAttributeResponse {
+  Attribute?: Attribute;
+}
+export const DescribeInstanceAttributeResponse = S.suspend(() =>
+  S.Struct({ Attribute: S.optional(Attribute) }),
+).annotations({
+  identifier: "DescribeInstanceAttributeResponse",
+}) as any as S.Schema<DescribeInstanceAttributeResponse>;
+export interface DescribePromptResponse {
+  Prompt?: Prompt;
+}
+export const DescribePromptResponse = S.suspend(() =>
+  S.Struct({ Prompt: S.optional(Prompt) }),
+).annotations({
+  identifier: "DescribePromptResponse",
+}) as any as S.Schema<DescribePromptResponse>;
+export interface DescribeQueueResponse {
+  Queue?: Queue;
+}
+export const DescribeQueueResponse = S.suspend(() =>
+  S.Struct({ Queue: S.optional(Queue) }),
+).annotations({
+  identifier: "DescribeQueueResponse",
+}) as any as S.Schema<DescribeQueueResponse>;
+export interface DescribeQuickConnectResponse {
+  QuickConnect?: QuickConnect;
+}
+export const DescribeQuickConnectResponse = S.suspend(() =>
+  S.Struct({ QuickConnect: S.optional(QuickConnect) }),
+).annotations({
+  identifier: "DescribeQuickConnectResponse",
+}) as any as S.Schema<DescribeQuickConnectResponse>;
+export interface DescribeRoutingProfileResponse {
+  RoutingProfile?: RoutingProfile;
+}
+export const DescribeRoutingProfileResponse = S.suspend(() =>
+  S.Struct({ RoutingProfile: S.optional(RoutingProfile) }),
+).annotations({
+  identifier: "DescribeRoutingProfileResponse",
+}) as any as S.Schema<DescribeRoutingProfileResponse>;
+export interface DescribeRuleResponse {
+  Rule: Rule;
+}
+export const DescribeRuleResponse = S.suspend(() =>
+  S.Struct({ Rule: Rule }),
+).annotations({
+  identifier: "DescribeRuleResponse",
+}) as any as S.Schema<DescribeRuleResponse>;
+export interface DescribeSecurityProfileResponse {
+  SecurityProfile?: SecurityProfile;
+}
+export const DescribeSecurityProfileResponse = S.suspend(() =>
+  S.Struct({ SecurityProfile: S.optional(SecurityProfile) }),
+).annotations({
+  identifier: "DescribeSecurityProfileResponse",
+}) as any as S.Schema<DescribeSecurityProfileResponse>;
+export interface DescribeTrafficDistributionGroupResponse {
+  TrafficDistributionGroup?: TrafficDistributionGroup;
+}
+export const DescribeTrafficDistributionGroupResponse = S.suspend(() =>
+  S.Struct({ TrafficDistributionGroup: S.optional(TrafficDistributionGroup) }),
+).annotations({
+  identifier: "DescribeTrafficDistributionGroupResponse",
+}) as any as S.Schema<DescribeTrafficDistributionGroupResponse>;
+export interface DescribeUserResponse {
+  User?: User;
+}
+export const DescribeUserResponse = S.suspend(() =>
+  S.Struct({ User: S.optional(User) }),
+).annotations({
+  identifier: "DescribeUserResponse",
+}) as any as S.Schema<DescribeUserResponse>;
+export interface DescribeVocabularyResponse {
+  Vocabulary: Vocabulary;
+}
+export const DescribeVocabularyResponse = S.suspend(() =>
+  S.Struct({ Vocabulary: Vocabulary }),
+).annotations({
+  identifier: "DescribeVocabularyResponse",
+}) as any as S.Schema<DescribeVocabularyResponse>;
+export interface DescribeWorkspaceResponse {
+  Workspace: Workspace;
+}
+export const DescribeWorkspaceResponse = S.suspend(() =>
+  S.Struct({ Workspace: Workspace }),
+).annotations({
+  identifier: "DescribeWorkspaceResponse",
+}) as any as S.Schema<DescribeWorkspaceResponse>;
+export interface GetAttachedFileResponse {
+  FileArn?: string;
+  FileId?: string;
+  CreationTime?: string;
+  FileStatus?: string;
+  FileName?: string;
+  FileSizeInBytes: number;
+  AssociatedResourceArn?: string;
+  FileUseCaseType?: string;
+  CreatedBy?: (typeof CreatedByInfo)["Type"];
+  DownloadUrlMetadata?: DownloadUrlMetadata;
+  Tags?: TagMap;
+}
+export const GetAttachedFileResponse = S.suspend(() =>
+  S.Struct({
+    FileArn: S.optional(S.String),
+    FileId: S.optional(S.String),
+    CreationTime: S.optional(S.String),
+    FileStatus: S.optional(S.String),
+    FileName: S.optional(S.String),
+    FileSizeInBytes: S.Number,
+    AssociatedResourceArn: S.optional(S.String),
+    FileUseCaseType: S.optional(S.String),
+    CreatedBy: S.optional(CreatedByInfo),
+    DownloadUrlMetadata: S.optional(DownloadUrlMetadata),
+    Tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "GetAttachedFileResponse",
+}) as any as S.Schema<GetAttachedFileResponse>;
+export interface GetCurrentUserDataRequest {
+  InstanceId: string;
+  Filters: UserDataFilters;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const GetCurrentUserDataRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Filters: UserDataFilters,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/metrics/userdata/{InstanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/metrics/userdata/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetFederationTokenResponse extends S.Class<GetFederationTokenResponse>(
-  "GetFederationTokenResponse",
-)({
-  Credentials: S.optional(Credentials),
-  SignInUrl: S.optional(S.String),
-  UserArn: S.optional(S.String),
-  UserId: S.optional(S.String),
-}) {}
-export class GetMetricDataRequest extends S.Class<GetMetricDataRequest>(
-  "GetMetricDataRequest",
-)(
-  {
+).annotations({
+  identifier: "GetCurrentUserDataRequest",
+}) as any as S.Schema<GetCurrentUserDataRequest>;
+export interface GetFederationTokenResponse {
+  Credentials?: Credentials;
+  SignInUrl?: string;
+  UserArn?: string;
+  UserId?: string;
+}
+export const GetFederationTokenResponse = S.suspend(() =>
+  S.Struct({
+    Credentials: S.optional(Credentials),
+    SignInUrl: S.optional(S.String),
+    UserArn: S.optional(S.String),
+    UserId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetFederationTokenResponse",
+}) as any as S.Schema<GetFederationTokenResponse>;
+export interface GetMetricDataRequest {
+  InstanceId: string;
+  StartTime: Date;
+  EndTime: Date;
+  Filters: Filters;
+  Groupings?: Groupings;
+  HistoricalMetrics: HistoricalMetrics;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const GetMetricDataRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -9588,20 +15430,32 @@ export class GetMetricDataRequest extends S.Class<GetMetricDataRequest>(
     HistoricalMetrics: HistoricalMetrics,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/metrics/historical/{InstanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/metrics/historical/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetMetricDataV2Request extends S.Class<GetMetricDataV2Request>(
-  "GetMetricDataV2Request",
-)(
-  {
+).annotations({
+  identifier: "GetMetricDataRequest",
+}) as any as S.Schema<GetMetricDataRequest>;
+export interface GetMetricDataV2Request {
+  ResourceArn: string;
+  StartTime: Date;
+  EndTime: Date;
+  Interval?: IntervalDetails;
+  Filters: FiltersV2List;
+  Groupings?: GroupingsV2;
+  Metrics: MetricsV2;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const GetMetricDataV2Request = S.suspend(() =>
+  S.Struct({
     ResourceArn: S.String,
     StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -9611,424 +15465,799 @@ export class GetMetricDataV2Request extends S.Class<GetMetricDataV2Request>(
     Metrics: MetricsV2,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/metrics/data" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/metrics/data" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListAgentStatusResponse extends S.Class<ListAgentStatusResponse>(
-  "ListAgentStatusResponse",
-)({
-  NextToken: S.optional(S.String),
-  AgentStatusSummaryList: S.optional(AgentStatusSummaryList),
-}) {}
-export class ListAnalyticsDataLakeDataSetsResponse extends S.Class<ListAnalyticsDataLakeDataSetsResponse>(
-  "ListAnalyticsDataLakeDataSetsResponse",
-)({
-  Results: S.optional(AnalyticsDataSetsResults),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListAssociatedContactsResponse extends S.Class<ListAssociatedContactsResponse>(
-  "ListAssociatedContactsResponse",
-)({
-  ContactSummaryList: S.optional(AssociatedContactSummaryList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListAuthenticationProfilesResponse extends S.Class<ListAuthenticationProfilesResponse>(
-  "ListAuthenticationProfilesResponse",
-)({
-  AuthenticationProfileSummaryList: S.optional(
-    AuthenticationProfileSummaryList,
-  ),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListBotsResponse extends S.Class<ListBotsResponse>(
-  "ListBotsResponse",
-)({ LexBots: S.optional(LexBotConfigList), NextToken: S.optional(S.String) }) {}
-export class ListContactFlowModuleAliasesResponse extends S.Class<ListContactFlowModuleAliasesResponse>(
-  "ListContactFlowModuleAliasesResponse",
-)({
-  ContactFlowModuleAliasSummaryList: S.optional(
-    ContactFlowModuleAliasSummaryList,
-  ),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListContactFlowModulesResponse extends S.Class<ListContactFlowModulesResponse>(
-  "ListContactFlowModulesResponse",
-)({
-  ContactFlowModulesSummaryList: S.optional(ContactFlowModulesSummaryList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListContactFlowModuleVersionsResponse extends S.Class<ListContactFlowModuleVersionsResponse>(
-  "ListContactFlowModuleVersionsResponse",
-)({
-  ContactFlowModuleVersionSummaryList: S.optional(
-    ContactFlowModuleVersionSummaryList,
-  ),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListContactFlowsResponse extends S.Class<ListContactFlowsResponse>(
-  "ListContactFlowsResponse",
-)({
-  ContactFlowSummaryList: S.optional(ContactFlowSummaryList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListContactFlowVersionsResponse extends S.Class<ListContactFlowVersionsResponse>(
-  "ListContactFlowVersionsResponse",
-)({
-  ContactFlowVersionSummaryList: S.optional(ContactFlowVersionSummaryList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListDataTablesResponse extends S.Class<ListDataTablesResponse>(
-  "ListDataTablesResponse",
-)({
-  NextToken: S.optional(S.String),
-  DataTableSummaryList: DataTableSummaryList,
-}) {}
-export class ListDefaultVocabulariesResponse extends S.Class<ListDefaultVocabulariesResponse>(
-  "ListDefaultVocabulariesResponse",
-)({
-  DefaultVocabularyList: DefaultVocabularyList,
-  NextToken: S.optional(S.String),
-}) {}
-export class ListEvaluationFormsResponse extends S.Class<ListEvaluationFormsResponse>(
-  "ListEvaluationFormsResponse",
-)({
-  EvaluationFormSummaryList: EvaluationFormSummaryList,
-  NextToken: S.optional(S.String),
-}) {}
-export class ListEvaluationFormVersionsResponse extends S.Class<ListEvaluationFormVersionsResponse>(
-  "ListEvaluationFormVersionsResponse",
-)({
-  EvaluationFormVersionSummaryList: EvaluationFormVersionSummaryList,
-  NextToken: S.optional(S.String),
-}) {}
-export class ListHoursOfOperationsResponse extends S.Class<ListHoursOfOperationsResponse>(
-  "ListHoursOfOperationsResponse",
-)({
-  HoursOfOperationSummaryList: S.optional(HoursOfOperationSummaryList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListInstancesResponse extends S.Class<ListInstancesResponse>(
-  "ListInstancesResponse",
-)({
-  InstanceSummaryList: S.optional(InstanceSummaryList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListIntegrationAssociationsResponse extends S.Class<ListIntegrationAssociationsResponse>(
-  "ListIntegrationAssociationsResponse",
-)({
-  IntegrationAssociationSummaryList: S.optional(
-    IntegrationAssociationSummaryList,
-  ),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListPhoneNumbersResponse extends S.Class<ListPhoneNumbersResponse>(
-  "ListPhoneNumbersResponse",
-)({
-  PhoneNumberSummaryList: S.optional(PhoneNumberSummaryList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListPhoneNumbersV2Response extends S.Class<ListPhoneNumbersV2Response>(
-  "ListPhoneNumbersV2Response",
-)({
-  NextToken: S.optional(S.String),
-  ListPhoneNumbersSummaryList: S.optional(ListPhoneNumbersSummaryList),
-}) {}
-export class ListPredefinedAttributesResponse extends S.Class<ListPredefinedAttributesResponse>(
-  "ListPredefinedAttributesResponse",
-)({
-  NextToken: S.optional(S.String),
-  PredefinedAttributeSummaryList: S.optional(PredefinedAttributeSummaryList),
-}) {}
-export class ListPromptsResponse extends S.Class<ListPromptsResponse>(
-  "ListPromptsResponse",
-)({
-  PromptSummaryList: S.optional(PromptSummaryList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListQueueQuickConnectsResponse extends S.Class<ListQueueQuickConnectsResponse>(
-  "ListQueueQuickConnectsResponse",
-)({
-  NextToken: S.optional(S.String),
-  QuickConnectSummaryList: S.optional(QuickConnectSummaryList),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedRegion: S.optional(S.String),
-}) {}
-export class ListQueuesResponse extends S.Class<ListQueuesResponse>(
-  "ListQueuesResponse",
-)({
-  QueueSummaryList: S.optional(QueueSummaryList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListRoutingProfileManualAssignmentQueuesResponse extends S.Class<ListRoutingProfileManualAssignmentQueuesResponse>(
-  "ListRoutingProfileManualAssignmentQueuesResponse",
-)({
-  NextToken: S.optional(S.String),
-  RoutingProfileManualAssignmentQueueConfigSummaryList: S.optional(
-    RoutingProfileManualAssignmentQueueConfigSummaryList,
-  ),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedRegion: S.optional(S.String),
-}) {}
-export class ListRoutingProfileQueuesResponse extends S.Class<ListRoutingProfileQueuesResponse>(
-  "ListRoutingProfileQueuesResponse",
-)({
-  NextToken: S.optional(S.String),
-  RoutingProfileQueueConfigSummaryList: S.optional(
-    RoutingProfileQueueConfigSummaryList,
-  ),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedRegion: S.optional(S.String),
-}) {}
-export class ListRoutingProfilesResponse extends S.Class<ListRoutingProfilesResponse>(
-  "ListRoutingProfilesResponse",
-)({
-  RoutingProfileSummaryList: S.optional(RoutingProfileSummaryList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListSecurityKeysResponse extends S.Class<ListSecurityKeysResponse>(
-  "ListSecurityKeysResponse",
-)({
-  SecurityKeys: S.optional(SecurityKeysList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListSecurityProfilesResponse extends S.Class<ListSecurityProfilesResponse>(
-  "ListSecurityProfilesResponse",
-)({
-  SecurityProfileSummaryList: S.optional(SecurityProfileSummaryList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListTaskTemplatesResponse extends S.Class<ListTaskTemplatesResponse>(
-  "ListTaskTemplatesResponse",
-)({
-  TaskTemplates: S.optional(TaskTemplateList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListTrafficDistributionGroupsResponse extends S.Class<ListTrafficDistributionGroupsResponse>(
-  "ListTrafficDistributionGroupsResponse",
-)({
-  NextToken: S.optional(S.String),
-  TrafficDistributionGroupSummaryList: S.optional(
-    TrafficDistributionGroupSummaryList,
-  ),
-}) {}
-export class ListTrafficDistributionGroupUsersResponse extends S.Class<ListTrafficDistributionGroupUsersResponse>(
-  "ListTrafficDistributionGroupUsersResponse",
-)({
-  NextToken: S.optional(S.String),
-  TrafficDistributionGroupUserSummaryList: S.optional(
-    TrafficDistributionGroupUserSummaryList,
-  ),
-}) {}
-export class ListUseCasesResponse extends S.Class<ListUseCasesResponse>(
-  "ListUseCasesResponse",
-)({
-  UseCaseSummaryList: S.optional(UseCaseSummaryList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListUserHierarchyGroupsResponse extends S.Class<ListUserHierarchyGroupsResponse>(
-  "ListUserHierarchyGroupsResponse",
-)({
-  UserHierarchyGroupSummaryList: S.optional(HierarchyGroupSummaryList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListUsersResponse extends S.Class<ListUsersResponse>(
-  "ListUsersResponse",
-)({
-  UserSummaryList: S.optional(UserSummaryList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListViewsResponse extends S.Class<ListViewsResponse>(
-  "ListViewsResponse",
-)({
-  ViewsSummaryList: S.optional(ViewsSummaryList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListViewVersionsResponse extends S.Class<ListViewVersionsResponse>(
-  "ListViewVersionsResponse",
-)({
-  ViewVersionSummaryList: S.optional(ViewVersionSummaryList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListWorkspaceMediaResponse extends S.Class<ListWorkspaceMediaResponse>(
-  "ListWorkspaceMediaResponse",
-)({ Media: S.optional(MediaList) }) {}
-export class ListWorkspacePagesResponse extends S.Class<ListWorkspacePagesResponse>(
-  "ListWorkspacePagesResponse",
-)({ NextToken: S.optional(S.String), WorkspacePageList: WorkspacePageList }) {}
-export class ListWorkspacesResponse extends S.Class<ListWorkspacesResponse>(
-  "ListWorkspacesResponse",
-)({
-  NextToken: S.optional(S.String),
-  WorkspaceSummaryList: WorkspaceSummaryList,
-}) {}
-export class SearchAvailablePhoneNumbersResponse extends S.Class<SearchAvailablePhoneNumbersResponse>(
-  "SearchAvailablePhoneNumbersResponse",
-)({
-  NextToken: S.optional(S.String),
-  AvailableNumbersList: S.optional(AvailableNumbersList),
-}) {}
-export class SearchContactEvaluationsRequest extends S.Class<SearchContactEvaluationsRequest>(
-  "SearchContactEvaluationsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetMetricDataV2Request",
+}) as any as S.Schema<GetMetricDataV2Request>;
+export interface ListAgentStatusResponse {
+  NextToken?: string;
+  AgentStatusSummaryList?: AgentStatusSummaryList;
+}
+export const ListAgentStatusResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    AgentStatusSummaryList: S.optional(AgentStatusSummaryList),
+  }),
+).annotations({
+  identifier: "ListAgentStatusResponse",
+}) as any as S.Schema<ListAgentStatusResponse>;
+export interface ListAnalyticsDataLakeDataSetsResponse {
+  Results?: AnalyticsDataSetsResults;
+  NextToken?: string;
+}
+export const ListAnalyticsDataLakeDataSetsResponse = S.suspend(() =>
+  S.Struct({
+    Results: S.optional(AnalyticsDataSetsResults),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListAnalyticsDataLakeDataSetsResponse",
+}) as any as S.Schema<ListAnalyticsDataLakeDataSetsResponse>;
+export interface ListAssociatedContactsResponse {
+  ContactSummaryList?: AssociatedContactSummaryList;
+  NextToken?: string;
+}
+export const ListAssociatedContactsResponse = S.suspend(() =>
+  S.Struct({
+    ContactSummaryList: S.optional(AssociatedContactSummaryList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListAssociatedContactsResponse",
+}) as any as S.Schema<ListAssociatedContactsResponse>;
+export interface ListAuthenticationProfilesResponse {
+  AuthenticationProfileSummaryList?: AuthenticationProfileSummaryList;
+  NextToken?: string;
+}
+export const ListAuthenticationProfilesResponse = S.suspend(() =>
+  S.Struct({
+    AuthenticationProfileSummaryList: S.optional(
+      AuthenticationProfileSummaryList,
+    ),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListAuthenticationProfilesResponse",
+}) as any as S.Schema<ListAuthenticationProfilesResponse>;
+export interface ListBotsResponse {
+  LexBots?: LexBotConfigList;
+  NextToken?: string;
+}
+export const ListBotsResponse = S.suspend(() =>
+  S.Struct({
+    LexBots: S.optional(LexBotConfigList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListBotsResponse",
+}) as any as S.Schema<ListBotsResponse>;
+export interface ListContactFlowModuleAliasesResponse {
+  ContactFlowModuleAliasSummaryList?: ContactFlowModuleAliasSummaryList;
+  NextToken?: string;
+}
+export const ListContactFlowModuleAliasesResponse = S.suspend(() =>
+  S.Struct({
+    ContactFlowModuleAliasSummaryList: S.optional(
+      ContactFlowModuleAliasSummaryList,
+    ),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListContactFlowModuleAliasesResponse",
+}) as any as S.Schema<ListContactFlowModuleAliasesResponse>;
+export interface ListContactFlowModulesResponse {
+  ContactFlowModulesSummaryList?: ContactFlowModulesSummaryList;
+  NextToken?: string;
+}
+export const ListContactFlowModulesResponse = S.suspend(() =>
+  S.Struct({
+    ContactFlowModulesSummaryList: S.optional(ContactFlowModulesSummaryList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListContactFlowModulesResponse",
+}) as any as S.Schema<ListContactFlowModulesResponse>;
+export interface ListContactFlowModuleVersionsResponse {
+  ContactFlowModuleVersionSummaryList?: ContactFlowModuleVersionSummaryList;
+  NextToken?: string;
+}
+export const ListContactFlowModuleVersionsResponse = S.suspend(() =>
+  S.Struct({
+    ContactFlowModuleVersionSummaryList: S.optional(
+      ContactFlowModuleVersionSummaryList,
+    ),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListContactFlowModuleVersionsResponse",
+}) as any as S.Schema<ListContactFlowModuleVersionsResponse>;
+export interface ListContactFlowsResponse {
+  ContactFlowSummaryList?: ContactFlowSummaryList;
+  NextToken?: string;
+}
+export const ListContactFlowsResponse = S.suspend(() =>
+  S.Struct({
+    ContactFlowSummaryList: S.optional(ContactFlowSummaryList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListContactFlowsResponse",
+}) as any as S.Schema<ListContactFlowsResponse>;
+export interface ListContactFlowVersionsResponse {
+  ContactFlowVersionSummaryList?: ContactFlowVersionSummaryList;
+  NextToken?: string;
+}
+export const ListContactFlowVersionsResponse = S.suspend(() =>
+  S.Struct({
+    ContactFlowVersionSummaryList: S.optional(ContactFlowVersionSummaryList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListContactFlowVersionsResponse",
+}) as any as S.Schema<ListContactFlowVersionsResponse>;
+export interface ListDataTablesResponse {
+  NextToken?: string;
+  DataTableSummaryList: DataTableSummaryList;
+}
+export const ListDataTablesResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    DataTableSummaryList: DataTableSummaryList,
+  }),
+).annotations({
+  identifier: "ListDataTablesResponse",
+}) as any as S.Schema<ListDataTablesResponse>;
+export interface ListDefaultVocabulariesResponse {
+  DefaultVocabularyList: DefaultVocabularyList;
+  NextToken?: string;
+}
+export const ListDefaultVocabulariesResponse = S.suspend(() =>
+  S.Struct({
+    DefaultVocabularyList: DefaultVocabularyList,
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListDefaultVocabulariesResponse",
+}) as any as S.Schema<ListDefaultVocabulariesResponse>;
+export interface ListEvaluationFormsResponse {
+  EvaluationFormSummaryList: EvaluationFormSummaryList;
+  NextToken?: string;
+}
+export const ListEvaluationFormsResponse = S.suspend(() =>
+  S.Struct({
+    EvaluationFormSummaryList: EvaluationFormSummaryList,
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListEvaluationFormsResponse",
+}) as any as S.Schema<ListEvaluationFormsResponse>;
+export interface ListEvaluationFormVersionsResponse {
+  EvaluationFormVersionSummaryList: EvaluationFormVersionSummaryList;
+  NextToken?: string;
+}
+export const ListEvaluationFormVersionsResponse = S.suspend(() =>
+  S.Struct({
+    EvaluationFormVersionSummaryList: EvaluationFormVersionSummaryList,
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListEvaluationFormVersionsResponse",
+}) as any as S.Schema<ListEvaluationFormVersionsResponse>;
+export interface ListHoursOfOperationsResponse {
+  HoursOfOperationSummaryList?: HoursOfOperationSummaryList;
+  NextToken?: string;
+}
+export const ListHoursOfOperationsResponse = S.suspend(() =>
+  S.Struct({
+    HoursOfOperationSummaryList: S.optional(HoursOfOperationSummaryList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListHoursOfOperationsResponse",
+}) as any as S.Schema<ListHoursOfOperationsResponse>;
+export interface ListInstancesResponse {
+  InstanceSummaryList?: InstanceSummaryList;
+  NextToken?: string;
+}
+export const ListInstancesResponse = S.suspend(() =>
+  S.Struct({
+    InstanceSummaryList: S.optional(InstanceSummaryList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListInstancesResponse",
+}) as any as S.Schema<ListInstancesResponse>;
+export interface ListIntegrationAssociationsResponse {
+  IntegrationAssociationSummaryList?: IntegrationAssociationSummaryList;
+  NextToken?: string;
+}
+export const ListIntegrationAssociationsResponse = S.suspend(() =>
+  S.Struct({
+    IntegrationAssociationSummaryList: S.optional(
+      IntegrationAssociationSummaryList,
+    ),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListIntegrationAssociationsResponse",
+}) as any as S.Schema<ListIntegrationAssociationsResponse>;
+export interface ListPhoneNumbersResponse {
+  PhoneNumberSummaryList?: PhoneNumberSummaryList;
+  NextToken?: string;
+}
+export const ListPhoneNumbersResponse = S.suspend(() =>
+  S.Struct({
+    PhoneNumberSummaryList: S.optional(PhoneNumberSummaryList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListPhoneNumbersResponse",
+}) as any as S.Schema<ListPhoneNumbersResponse>;
+export interface ListPhoneNumbersV2Response {
+  NextToken?: string;
+  ListPhoneNumbersSummaryList?: ListPhoneNumbersSummaryList;
+}
+export const ListPhoneNumbersV2Response = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    ListPhoneNumbersSummaryList: S.optional(ListPhoneNumbersSummaryList),
+  }),
+).annotations({
+  identifier: "ListPhoneNumbersV2Response",
+}) as any as S.Schema<ListPhoneNumbersV2Response>;
+export interface ListPredefinedAttributesResponse {
+  NextToken?: string;
+  PredefinedAttributeSummaryList?: PredefinedAttributeSummaryList;
+}
+export const ListPredefinedAttributesResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    PredefinedAttributeSummaryList: S.optional(PredefinedAttributeSummaryList),
+  }),
+).annotations({
+  identifier: "ListPredefinedAttributesResponse",
+}) as any as S.Schema<ListPredefinedAttributesResponse>;
+export interface ListPromptsResponse {
+  PromptSummaryList?: PromptSummaryList;
+  NextToken?: string;
+}
+export const ListPromptsResponse = S.suspend(() =>
+  S.Struct({
+    PromptSummaryList: S.optional(PromptSummaryList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListPromptsResponse",
+}) as any as S.Schema<ListPromptsResponse>;
+export interface ListQueueQuickConnectsResponse {
+  NextToken?: string;
+  QuickConnectSummaryList?: QuickConnectSummaryList;
+  LastModifiedTime?: Date;
+  LastModifiedRegion?: string;
+}
+export const ListQueueQuickConnectsResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    QuickConnectSummaryList: S.optional(QuickConnectSummaryList),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastModifiedRegion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListQueueQuickConnectsResponse",
+}) as any as S.Schema<ListQueueQuickConnectsResponse>;
+export interface ListQueuesResponse {
+  QueueSummaryList?: QueueSummaryList;
+  NextToken?: string;
+}
+export const ListQueuesResponse = S.suspend(() =>
+  S.Struct({
+    QueueSummaryList: S.optional(QueueSummaryList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListQueuesResponse",
+}) as any as S.Schema<ListQueuesResponse>;
+export interface ListRoutingProfileManualAssignmentQueuesResponse {
+  NextToken?: string;
+  RoutingProfileManualAssignmentQueueConfigSummaryList?: RoutingProfileManualAssignmentQueueConfigSummaryList;
+  LastModifiedTime?: Date;
+  LastModifiedRegion?: string;
+}
+export const ListRoutingProfileManualAssignmentQueuesResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    RoutingProfileManualAssignmentQueueConfigSummaryList: S.optional(
+      RoutingProfileManualAssignmentQueueConfigSummaryList,
+    ),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastModifiedRegion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListRoutingProfileManualAssignmentQueuesResponse",
+}) as any as S.Schema<ListRoutingProfileManualAssignmentQueuesResponse>;
+export interface ListRoutingProfileQueuesResponse {
+  NextToken?: string;
+  RoutingProfileQueueConfigSummaryList?: RoutingProfileQueueConfigSummaryList;
+  LastModifiedTime?: Date;
+  LastModifiedRegion?: string;
+}
+export const ListRoutingProfileQueuesResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    RoutingProfileQueueConfigSummaryList: S.optional(
+      RoutingProfileQueueConfigSummaryList,
+    ),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastModifiedRegion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListRoutingProfileQueuesResponse",
+}) as any as S.Schema<ListRoutingProfileQueuesResponse>;
+export interface ListRoutingProfilesResponse {
+  RoutingProfileSummaryList?: RoutingProfileSummaryList;
+  NextToken?: string;
+}
+export const ListRoutingProfilesResponse = S.suspend(() =>
+  S.Struct({
+    RoutingProfileSummaryList: S.optional(RoutingProfileSummaryList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListRoutingProfilesResponse",
+}) as any as S.Schema<ListRoutingProfilesResponse>;
+export interface ListSecurityKeysResponse {
+  SecurityKeys?: SecurityKeysList;
+  NextToken?: string;
+}
+export const ListSecurityKeysResponse = S.suspend(() =>
+  S.Struct({
+    SecurityKeys: S.optional(SecurityKeysList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListSecurityKeysResponse",
+}) as any as S.Schema<ListSecurityKeysResponse>;
+export interface ListSecurityProfilesResponse {
+  SecurityProfileSummaryList?: SecurityProfileSummaryList;
+  NextToken?: string;
+}
+export const ListSecurityProfilesResponse = S.suspend(() =>
+  S.Struct({
+    SecurityProfileSummaryList: S.optional(SecurityProfileSummaryList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListSecurityProfilesResponse",
+}) as any as S.Schema<ListSecurityProfilesResponse>;
+export interface ListTaskTemplatesResponse {
+  TaskTemplates?: TaskTemplateList;
+  NextToken?: string;
+}
+export const ListTaskTemplatesResponse = S.suspend(() =>
+  S.Struct({
+    TaskTemplates: S.optional(TaskTemplateList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListTaskTemplatesResponse",
+}) as any as S.Schema<ListTaskTemplatesResponse>;
+export interface ListTrafficDistributionGroupsResponse {
+  NextToken?: string;
+  TrafficDistributionGroupSummaryList?: TrafficDistributionGroupSummaryList;
+}
+export const ListTrafficDistributionGroupsResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    TrafficDistributionGroupSummaryList: S.optional(
+      TrafficDistributionGroupSummaryList,
+    ),
+  }),
+).annotations({
+  identifier: "ListTrafficDistributionGroupsResponse",
+}) as any as S.Schema<ListTrafficDistributionGroupsResponse>;
+export interface ListTrafficDistributionGroupUsersResponse {
+  NextToken?: string;
+  TrafficDistributionGroupUserSummaryList?: TrafficDistributionGroupUserSummaryList;
+}
+export const ListTrafficDistributionGroupUsersResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    TrafficDistributionGroupUserSummaryList: S.optional(
+      TrafficDistributionGroupUserSummaryList,
+    ),
+  }),
+).annotations({
+  identifier: "ListTrafficDistributionGroupUsersResponse",
+}) as any as S.Schema<ListTrafficDistributionGroupUsersResponse>;
+export interface ListUseCasesResponse {
+  UseCaseSummaryList?: UseCaseSummaryList;
+  NextToken?: string;
+}
+export const ListUseCasesResponse = S.suspend(() =>
+  S.Struct({
+    UseCaseSummaryList: S.optional(UseCaseSummaryList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListUseCasesResponse",
+}) as any as S.Schema<ListUseCasesResponse>;
+export interface ListUserHierarchyGroupsResponse {
+  UserHierarchyGroupSummaryList?: HierarchyGroupSummaryList;
+  NextToken?: string;
+}
+export const ListUserHierarchyGroupsResponse = S.suspend(() =>
+  S.Struct({
+    UserHierarchyGroupSummaryList: S.optional(HierarchyGroupSummaryList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListUserHierarchyGroupsResponse",
+}) as any as S.Schema<ListUserHierarchyGroupsResponse>;
+export interface ListUsersResponse {
+  UserSummaryList?: UserSummaryList;
+  NextToken?: string;
+}
+export const ListUsersResponse = S.suspend(() =>
+  S.Struct({
+    UserSummaryList: S.optional(UserSummaryList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListUsersResponse",
+}) as any as S.Schema<ListUsersResponse>;
+export interface ListViewsResponse {
+  ViewsSummaryList?: ViewsSummaryList;
+  NextToken?: string;
+}
+export const ListViewsResponse = S.suspend(() =>
+  S.Struct({
+    ViewsSummaryList: S.optional(ViewsSummaryList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListViewsResponse",
+}) as any as S.Schema<ListViewsResponse>;
+export interface ListViewVersionsResponse {
+  ViewVersionSummaryList?: ViewVersionSummaryList;
+  NextToken?: string;
+}
+export const ListViewVersionsResponse = S.suspend(() =>
+  S.Struct({
+    ViewVersionSummaryList: S.optional(ViewVersionSummaryList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListViewVersionsResponse",
+}) as any as S.Schema<ListViewVersionsResponse>;
+export interface ListWorkspaceMediaResponse {
+  Media?: MediaList;
+}
+export const ListWorkspaceMediaResponse = S.suspend(() =>
+  S.Struct({ Media: S.optional(MediaList) }),
+).annotations({
+  identifier: "ListWorkspaceMediaResponse",
+}) as any as S.Schema<ListWorkspaceMediaResponse>;
+export interface ListWorkspacePagesResponse {
+  NextToken?: string;
+  WorkspacePageList: WorkspacePageList;
+}
+export const ListWorkspacePagesResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    WorkspacePageList: WorkspacePageList,
+  }),
+).annotations({
+  identifier: "ListWorkspacePagesResponse",
+}) as any as S.Schema<ListWorkspacePagesResponse>;
+export interface ListWorkspacesResponse {
+  NextToken?: string;
+  WorkspaceSummaryList: WorkspaceSummaryList;
+}
+export const ListWorkspacesResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    WorkspaceSummaryList: WorkspaceSummaryList,
+  }),
+).annotations({
+  identifier: "ListWorkspacesResponse",
+}) as any as S.Schema<ListWorkspacesResponse>;
+export interface SearchAvailablePhoneNumbersResponse {
+  NextToken?: string;
+  AvailableNumbersList?: AvailableNumbersList;
+}
+export const SearchAvailablePhoneNumbersResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    AvailableNumbersList: S.optional(AvailableNumbersList),
+  }),
+).annotations({
+  identifier: "SearchAvailablePhoneNumbersResponse",
+}) as any as S.Schema<SearchAvailablePhoneNumbersResponse>;
+export interface SearchContactEvaluationsRequest {
+  InstanceId: string;
+  NextToken?: string;
+  MaxResults?: number;
+  SearchCriteria?: EvaluationSearchCriteria;
+  SearchFilter?: EvaluationSearchFilter;
+}
+export const SearchContactEvaluationsRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     SearchCriteria: S.optional(EvaluationSearchCriteria),
     SearchFilter: S.optional(EvaluationSearchFilter),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/search-contact-evaluations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/search-contact-evaluations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SearchContactFlowModulesRequest extends S.Class<SearchContactFlowModulesRequest>(
-  "SearchContactFlowModulesRequest",
-)(
-  {
+).annotations({
+  identifier: "SearchContactEvaluationsRequest",
+}) as any as S.Schema<SearchContactEvaluationsRequest>;
+export interface SearchContactFlowModulesRequest {
+  InstanceId: string;
+  NextToken?: string;
+  MaxResults?: number;
+  SearchFilter?: ContactFlowModuleSearchFilter;
+  SearchCriteria?: ContactFlowModuleSearchCriteria;
+}
+export const SearchContactFlowModulesRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     SearchFilter: S.optional(ContactFlowModuleSearchFilter),
     SearchCriteria: S.optional(ContactFlowModuleSearchCriteria),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/search-contact-flow-modules" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/search-contact-flow-modules" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SearchDataTablesResponse extends S.Class<SearchDataTablesResponse>(
-  "SearchDataTablesResponse",
-)({
-  DataTables: S.optional(DataTableList),
-  NextToken: S.optional(S.String),
-  ApproximateTotalCount: S.optional(S.Number),
-}) {}
-export class SearchHoursOfOperationOverridesRequest extends S.Class<SearchHoursOfOperationOverridesRequest>(
-  "SearchHoursOfOperationOverridesRequest",
-)(
-  {
+).annotations({
+  identifier: "SearchContactFlowModulesRequest",
+}) as any as S.Schema<SearchContactFlowModulesRequest>;
+export interface SearchDataTablesResponse {
+  DataTables?: DataTableList;
+  NextToken?: string;
+  ApproximateTotalCount?: number;
+}
+export const SearchDataTablesResponse = S.suspend(() =>
+  S.Struct({
+    DataTables: S.optional(DataTableList),
+    NextToken: S.optional(S.String),
+    ApproximateTotalCount: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "SearchDataTablesResponse",
+}) as any as S.Schema<SearchDataTablesResponse>;
+export interface SearchHoursOfOperationOverridesRequest {
+  InstanceId: string;
+  NextToken?: string;
+  MaxResults?: number;
+  SearchFilter?: HoursOfOperationSearchFilter;
+  SearchCriteria?: HoursOfOperationOverrideSearchCriteria;
+}
+export const SearchHoursOfOperationOverridesRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     SearchFilter: S.optional(HoursOfOperationSearchFilter),
     SearchCriteria: S.optional(HoursOfOperationOverrideSearchCriteria),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/search-hours-of-operation-overrides" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/search-hours-of-operation-overrides" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SearchHoursOfOperationsResponse extends S.Class<SearchHoursOfOperationsResponse>(
-  "SearchHoursOfOperationsResponse",
-)({
-  HoursOfOperations: S.optional(HoursOfOperationList),
-  NextToken: S.optional(S.String),
-  ApproximateTotalCount: S.optional(S.Number),
-}) {}
-export class SearchPredefinedAttributesResponse extends S.Class<SearchPredefinedAttributesResponse>(
-  "SearchPredefinedAttributesResponse",
-)({
-  PredefinedAttributes: S.optional(PredefinedAttributeSearchSummaryList),
-  NextToken: S.optional(S.String),
-  ApproximateTotalCount: S.optional(S.Number),
-}) {}
-export class SearchPromptsResponse extends S.Class<SearchPromptsResponse>(
-  "SearchPromptsResponse",
-)({
-  Prompts: S.optional(PromptList),
-  NextToken: S.optional(S.String),
-  ApproximateTotalCount: S.optional(S.Number),
-}) {}
-export class SearchQueuesResponse extends S.Class<SearchQueuesResponse>(
-  "SearchQueuesResponse",
-)({
-  Queues: S.optional(QueueSearchSummaryList),
-  NextToken: S.optional(S.String),
-  ApproximateTotalCount: S.optional(S.Number),
-}) {}
-export class SearchQuickConnectsResponse extends S.Class<SearchQuickConnectsResponse>(
-  "SearchQuickConnectsResponse",
-)({
-  QuickConnects: S.optional(QuickConnectSearchSummaryList),
-  NextToken: S.optional(S.String),
-  ApproximateTotalCount: S.optional(S.Number),
-}) {}
-export class SearchResourceTagsRequest extends S.Class<SearchResourceTagsRequest>(
-  "SearchResourceTagsRequest",
-)(
-  {
+).annotations({
+  identifier: "SearchHoursOfOperationOverridesRequest",
+}) as any as S.Schema<SearchHoursOfOperationOverridesRequest>;
+export interface SearchHoursOfOperationsResponse {
+  HoursOfOperations?: HoursOfOperationList;
+  NextToken?: string;
+  ApproximateTotalCount?: number;
+}
+export const SearchHoursOfOperationsResponse = S.suspend(() =>
+  S.Struct({
+    HoursOfOperations: S.optional(HoursOfOperationList),
+    NextToken: S.optional(S.String),
+    ApproximateTotalCount: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "SearchHoursOfOperationsResponse",
+}) as any as S.Schema<SearchHoursOfOperationsResponse>;
+export interface SearchPredefinedAttributesResponse {
+  PredefinedAttributes?: PredefinedAttributeSearchSummaryList;
+  NextToken?: string;
+  ApproximateTotalCount?: number;
+}
+export const SearchPredefinedAttributesResponse = S.suspend(() =>
+  S.Struct({
+    PredefinedAttributes: S.optional(PredefinedAttributeSearchSummaryList),
+    NextToken: S.optional(S.String),
+    ApproximateTotalCount: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "SearchPredefinedAttributesResponse",
+}) as any as S.Schema<SearchPredefinedAttributesResponse>;
+export interface SearchPromptsResponse {
+  Prompts?: PromptList;
+  NextToken?: string;
+  ApproximateTotalCount?: number;
+}
+export const SearchPromptsResponse = S.suspend(() =>
+  S.Struct({
+    Prompts: S.optional(PromptList),
+    NextToken: S.optional(S.String),
+    ApproximateTotalCount: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "SearchPromptsResponse",
+}) as any as S.Schema<SearchPromptsResponse>;
+export interface SearchQueuesResponse {
+  Queues?: QueueSearchSummaryList;
+  NextToken?: string;
+  ApproximateTotalCount?: number;
+}
+export const SearchQueuesResponse = S.suspend(() =>
+  S.Struct({
+    Queues: S.optional(QueueSearchSummaryList),
+    NextToken: S.optional(S.String),
+    ApproximateTotalCount: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "SearchQueuesResponse",
+}) as any as S.Schema<SearchQueuesResponse>;
+export interface SearchQuickConnectsResponse {
+  QuickConnects?: QuickConnectSearchSummaryList;
+  NextToken?: string;
+  ApproximateTotalCount?: number;
+}
+export const SearchQuickConnectsResponse = S.suspend(() =>
+  S.Struct({
+    QuickConnects: S.optional(QuickConnectSearchSummaryList),
+    NextToken: S.optional(S.String),
+    ApproximateTotalCount: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "SearchQuickConnectsResponse",
+}) as any as S.Schema<SearchQuickConnectsResponse>;
+export interface SearchResourceTagsRequest {
+  InstanceId: string;
+  ResourceTypes?: ResourceTypeList;
+  NextToken?: string;
+  MaxResults?: number;
+  SearchCriteria?: ResourceTagsSearchCriteria;
+}
+export const SearchResourceTagsRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String,
     ResourceTypes: S.optional(ResourceTypeList),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     SearchCriteria: S.optional(ResourceTagsSearchCriteria),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/search-resource-tags" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/search-resource-tags" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SearchRoutingProfilesResponse extends S.Class<SearchRoutingProfilesResponse>(
-  "SearchRoutingProfilesResponse",
-)({
-  RoutingProfiles: S.optional(RoutingProfileList),
-  NextToken: S.optional(S.String),
-  ApproximateTotalCount: S.optional(S.Number),
-}) {}
-export class SearchUserHierarchyGroupsResponse extends S.Class<SearchUserHierarchyGroupsResponse>(
-  "SearchUserHierarchyGroupsResponse",
-)({
-  UserHierarchyGroups: S.optional(UserHierarchyGroupList),
-  NextToken: S.optional(S.String),
-  ApproximateTotalCount: S.optional(S.Number),
-}) {}
-export class SearchViewsResponse extends S.Class<SearchViewsResponse>(
-  "SearchViewsResponse",
-)({
-  Views: S.optional(ViewSearchSummaryList),
-  NextToken: S.optional(S.String),
-  ApproximateTotalCount: S.optional(S.Number),
-}) {}
-export class SearchVocabulariesResponse extends S.Class<SearchVocabulariesResponse>(
-  "SearchVocabulariesResponse",
-)({
-  VocabularySummaryList: S.optional(VocabularySummaryList),
-  NextToken: S.optional(S.String),
-}) {}
-export class SendChatIntegrationEventResponse extends S.Class<SendChatIntegrationEventResponse>(
-  "SendChatIntegrationEventResponse",
-)({
-  InitialContactId: S.optional(S.String),
-  NewChatCreated: S.optional(S.Boolean),
-}) {}
-export class SendOutboundEmailRequest extends S.Class<SendOutboundEmailRequest>(
-  "SendOutboundEmailRequest",
-)(
-  {
+).annotations({
+  identifier: "SearchResourceTagsRequest",
+}) as any as S.Schema<SearchResourceTagsRequest>;
+export interface SearchRoutingProfilesResponse {
+  RoutingProfiles?: RoutingProfileList;
+  NextToken?: string;
+  ApproximateTotalCount?: number;
+}
+export const SearchRoutingProfilesResponse = S.suspend(() =>
+  S.Struct({
+    RoutingProfiles: S.optional(RoutingProfileList),
+    NextToken: S.optional(S.String),
+    ApproximateTotalCount: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "SearchRoutingProfilesResponse",
+}) as any as S.Schema<SearchRoutingProfilesResponse>;
+export interface SearchUserHierarchyGroupsResponse {
+  UserHierarchyGroups?: UserHierarchyGroupList;
+  NextToken?: string;
+  ApproximateTotalCount?: number;
+}
+export const SearchUserHierarchyGroupsResponse = S.suspend(() =>
+  S.Struct({
+    UserHierarchyGroups: S.optional(UserHierarchyGroupList),
+    NextToken: S.optional(S.String),
+    ApproximateTotalCount: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "SearchUserHierarchyGroupsResponse",
+}) as any as S.Schema<SearchUserHierarchyGroupsResponse>;
+export interface SearchViewsResponse {
+  Views?: ViewSearchSummaryList;
+  NextToken?: string;
+  ApproximateTotalCount?: number;
+}
+export const SearchViewsResponse = S.suspend(() =>
+  S.Struct({
+    Views: S.optional(ViewSearchSummaryList),
+    NextToken: S.optional(S.String),
+    ApproximateTotalCount: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "SearchViewsResponse",
+}) as any as S.Schema<SearchViewsResponse>;
+export interface SearchVocabulariesResponse {
+  VocabularySummaryList?: VocabularySummaryList;
+  NextToken?: string;
+}
+export const SearchVocabulariesResponse = S.suspend(() =>
+  S.Struct({
+    VocabularySummaryList: S.optional(VocabularySummaryList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SearchVocabulariesResponse",
+}) as any as S.Schema<SearchVocabulariesResponse>;
+export interface SendChatIntegrationEventResponse {
+  InitialContactId?: string;
+  NewChatCreated?: boolean;
+}
+export const SendChatIntegrationEventResponse = S.suspend(() =>
+  S.Struct({
+    InitialContactId: S.optional(S.String),
+    NewChatCreated: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "SendChatIntegrationEventResponse",
+}) as any as S.Schema<SendChatIntegrationEventResponse>;
+export interface SendOutboundEmailRequest {
+  InstanceId: string;
+  FromEmailAddress: EmailAddressInfo;
+  DestinationEmailAddress: EmailAddressInfo;
+  AdditionalRecipients?: OutboundAdditionalRecipients;
+  EmailMessage: OutboundEmailContent;
+  TrafficType: string;
+  SourceCampaign?: SourceCampaign;
+  ClientToken?: string;
+}
+export const SendOutboundEmailRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     FromEmailAddress: EmailAddressInfo,
     DestinationEmailAddress: EmailAddressInfo,
@@ -10037,37 +16266,75 @@ export class SendOutboundEmailRequest extends S.Class<SendOutboundEmailRequest>(
     TrafficType: S.String,
     SourceCampaign: S.optional(SourceCampaign),
     ClientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/instance/{InstanceId}/outbound-email" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/instance/{InstanceId}/outbound-email" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SendOutboundEmailResponse extends S.Class<SendOutboundEmailResponse>(
-  "SendOutboundEmailResponse",
-)({}) {}
-export class StartChatContactResponse extends S.Class<StartChatContactResponse>(
-  "StartChatContactResponse",
-)({
-  ContactId: S.optional(S.String),
-  ParticipantId: S.optional(S.String),
-  ParticipantToken: S.optional(S.String),
-  ContinuedFromContactId: S.optional(S.String),
-}) {}
-export class StartContactEvaluationResponse extends S.Class<StartContactEvaluationResponse>(
-  "StartContactEvaluationResponse",
-)({ EvaluationId: S.String, EvaluationArn: S.String }) {}
-export class StartContactStreamingResponse extends S.Class<StartContactStreamingResponse>(
-  "StartContactStreamingResponse",
-)({ StreamingId: S.String }) {}
-export class StartOutboundChatContactRequest extends S.Class<StartOutboundChatContactRequest>(
-  "StartOutboundChatContactRequest",
-)(
-  {
+).annotations({
+  identifier: "SendOutboundEmailRequest",
+}) as any as S.Schema<SendOutboundEmailRequest>;
+export interface SendOutboundEmailResponse {}
+export const SendOutboundEmailResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "SendOutboundEmailResponse",
+}) as any as S.Schema<SendOutboundEmailResponse>;
+export interface StartChatContactResponse {
+  ContactId?: string;
+  ParticipantId?: string;
+  ParticipantToken?: string;
+  ContinuedFromContactId?: string;
+}
+export const StartChatContactResponse = S.suspend(() =>
+  S.Struct({
+    ContactId: S.optional(S.String),
+    ParticipantId: S.optional(S.String),
+    ParticipantToken: S.optional(S.String),
+    ContinuedFromContactId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "StartChatContactResponse",
+}) as any as S.Schema<StartChatContactResponse>;
+export interface StartContactEvaluationResponse {
+  EvaluationId: string;
+  EvaluationArn: string;
+}
+export const StartContactEvaluationResponse = S.suspend(() =>
+  S.Struct({ EvaluationId: S.String, EvaluationArn: S.String }),
+).annotations({
+  identifier: "StartContactEvaluationResponse",
+}) as any as S.Schema<StartContactEvaluationResponse>;
+export interface StartContactStreamingResponse {
+  StreamingId: string;
+}
+export const StartContactStreamingResponse = S.suspend(() =>
+  S.Struct({ StreamingId: S.String }),
+).annotations({
+  identifier: "StartContactStreamingResponse",
+}) as any as S.Schema<StartContactStreamingResponse>;
+export interface StartOutboundChatContactRequest {
+  SourceEndpoint: Endpoint;
+  DestinationEndpoint: Endpoint;
+  InstanceId: string;
+  SegmentAttributes: SegmentAttributes;
+  Attributes?: Attributes;
+  ContactFlowId: string;
+  ChatDurationInMinutes?: number;
+  ParticipantDetails?: ParticipantDetails;
+  InitialSystemMessage?: ChatMessage;
+  InitialTemplatedSystemMessage?: TemplatedMessageConfig;
+  RelatedContactId?: string;
+  SupportedMessagingContentTypes?: SupportedMessagingContentTypes;
+  ClientToken?: string;
+}
+export const StartOutboundChatContactRequest = S.suspend(() =>
+  S.Struct({
     SourceEndpoint: Endpoint,
     DestinationEndpoint: Endpoint,
     InstanceId: S.String,
@@ -10081,289 +16348,587 @@ export class StartOutboundChatContactRequest extends S.Class<StartOutboundChatCo
     RelatedContactId: S.optional(S.String),
     SupportedMessagingContentTypes: S.optional(SupportedMessagingContentTypes),
     ClientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/contact/outbound-chat" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/contact/outbound-chat" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateDataTablePrimaryValuesResponse extends S.Class<UpdateDataTablePrimaryValuesResponse>(
-  "UpdateDataTablePrimaryValuesResponse",
-)({ LockVersion: DataTableLockVersion }) {}
-export class UpdateTrafficDistributionRequest extends S.Class<UpdateTrafficDistributionRequest>(
-  "UpdateTrafficDistributionRequest",
-)(
-  {
+).annotations({
+  identifier: "StartOutboundChatContactRequest",
+}) as any as S.Schema<StartOutboundChatContactRequest>;
+export interface UpdateDataTablePrimaryValuesResponse {
+  LockVersion: DataTableLockVersion;
+}
+export const UpdateDataTablePrimaryValuesResponse = S.suspend(() =>
+  S.Struct({ LockVersion: DataTableLockVersion }),
+).annotations({
+  identifier: "UpdateDataTablePrimaryValuesResponse",
+}) as any as S.Schema<UpdateDataTablePrimaryValuesResponse>;
+export interface UpdateTrafficDistributionRequest {
+  Id: string;
+  TelephonyConfig?: TelephonyConfig;
+  SignInConfig?: SignInConfig;
+  AgentConfig?: AgentConfig;
+}
+export const UpdateTrafficDistributionRequest = S.suspend(() =>
+  S.Struct({
     Id: S.String.pipe(T.HttpLabel("Id")),
     TelephonyConfig: S.optional(TelephonyConfig),
     SignInConfig: S.optional(SignInConfig),
     AgentConfig: S.optional(AgentConfig),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/traffic-distribution/{Id}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/traffic-distribution/{Id}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateTrafficDistributionResponse extends S.Class<UpdateTrafficDistributionResponse>(
-  "UpdateTrafficDistributionResponse",
-)({}) {}
-export class UpdateUserHierarchyStructureRequest extends S.Class<UpdateUserHierarchyStructureRequest>(
-  "UpdateUserHierarchyStructureRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateTrafficDistributionRequest",
+}) as any as S.Schema<UpdateTrafficDistributionRequest>;
+export interface UpdateTrafficDistributionResponse {}
+export const UpdateTrafficDistributionResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateTrafficDistributionResponse",
+}) as any as S.Schema<UpdateTrafficDistributionResponse>;
+export interface UpdateUserHierarchyStructureRequest {
+  HierarchyStructure: HierarchyStructureUpdate;
+  InstanceId: string;
+}
+export const UpdateUserHierarchyStructureRequest = S.suspend(() =>
+  S.Struct({
     HierarchyStructure: HierarchyStructureUpdate,
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/user-hierarchy-structure/{InstanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/user-hierarchy-structure/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateUserHierarchyStructureResponse extends S.Class<UpdateUserHierarchyStructureResponse>(
-  "UpdateUserHierarchyStructureResponse",
-)({}) {}
-export class QueueInfo extends S.Class<QueueInfo>("QueueInfo")({
-  Id: S.optional(S.String),
-  EnqueueTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class EndpointInfo extends S.Class<EndpointInfo>("EndpointInfo")({
-  Type: S.optional(S.String),
-  Address: S.optional(S.String),
-  DisplayName: S.optional(S.String),
-}) {}
-export class DeviceInfo extends S.Class<DeviceInfo>("DeviceInfo")({
-  PlatformName: S.optional(S.String),
-  PlatformVersion: S.optional(S.String),
-  OperatingSystem: S.optional(S.String),
-}) {}
-export class Customer extends S.Class<Customer>("Customer")({
-  DeviceInfo: S.optional(DeviceInfo),
-  Capabilities: S.optional(ParticipantCapabilities),
-}) {}
-export class CustomerVoiceActivity extends S.Class<CustomerVoiceActivity>(
-  "CustomerVoiceActivity",
-)({
-  GreetingStartTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  GreetingEndTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
-export class DisconnectDetails extends S.Class<DisconnectDetails>(
-  "DisconnectDetails",
-)({ PotentialDisconnectIssue: S.optional(S.String) }) {}
-export class RecordingInfo extends S.Class<RecordingInfo>("RecordingInfo")({
-  StorageType: S.optional(S.String),
-  Location: S.optional(S.String),
-  MediaStreamType: S.optional(S.String),
-  ParticipantType: S.optional(S.String),
-  FragmentStartNumber: S.optional(S.String),
-  FragmentStopNumber: S.optional(S.String),
-  StartTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  StopTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Status: S.optional(S.String),
-  DeletionReason: S.optional(S.String),
-  UnprocessedTranscriptLocation: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "UpdateUserHierarchyStructureRequest",
+}) as any as S.Schema<UpdateUserHierarchyStructureRequest>;
+export interface UpdateUserHierarchyStructureResponse {}
+export const UpdateUserHierarchyStructureResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateUserHierarchyStructureResponse",
+}) as any as S.Schema<UpdateUserHierarchyStructureResponse>;
+export interface QueueInfo {
+  Id?: string;
+  EnqueueTimestamp?: Date;
+}
+export const QueueInfo = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    EnqueueTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({ identifier: "QueueInfo" }) as any as S.Schema<QueueInfo>;
+export interface EndpointInfo {
+  Type?: string;
+  Address?: string;
+  DisplayName?: string;
+}
+export const EndpointInfo = S.suspend(() =>
+  S.Struct({
+    Type: S.optional(S.String),
+    Address: S.optional(S.String),
+    DisplayName: S.optional(S.String),
+  }),
+).annotations({ identifier: "EndpointInfo" }) as any as S.Schema<EndpointInfo>;
+export interface DeviceInfo {
+  PlatformName?: string;
+  PlatformVersion?: string;
+  OperatingSystem?: string;
+}
+export const DeviceInfo = S.suspend(() =>
+  S.Struct({
+    PlatformName: S.optional(S.String),
+    PlatformVersion: S.optional(S.String),
+    OperatingSystem: S.optional(S.String),
+  }),
+).annotations({ identifier: "DeviceInfo" }) as any as S.Schema<DeviceInfo>;
+export interface Customer {
+  DeviceInfo?: DeviceInfo;
+  Capabilities?: ParticipantCapabilities;
+}
+export const Customer = S.suspend(() =>
+  S.Struct({
+    DeviceInfo: S.optional(DeviceInfo),
+    Capabilities: S.optional(ParticipantCapabilities),
+  }),
+).annotations({ identifier: "Customer" }) as any as S.Schema<Customer>;
+export interface CustomerVoiceActivity {
+  GreetingStartTimestamp?: Date;
+  GreetingEndTimestamp?: Date;
+}
+export const CustomerVoiceActivity = S.suspend(() =>
+  S.Struct({
+    GreetingStartTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    GreetingEndTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "CustomerVoiceActivity",
+}) as any as S.Schema<CustomerVoiceActivity>;
+export interface DisconnectDetails {
+  PotentialDisconnectIssue?: string;
+}
+export const DisconnectDetails = S.suspend(() =>
+  S.Struct({ PotentialDisconnectIssue: S.optional(S.String) }),
+).annotations({
+  identifier: "DisconnectDetails",
+}) as any as S.Schema<DisconnectDetails>;
+export interface RecordingInfo {
+  StorageType?: string;
+  Location?: string;
+  MediaStreamType?: string;
+  ParticipantType?: string;
+  FragmentStartNumber?: string;
+  FragmentStopNumber?: string;
+  StartTimestamp?: Date;
+  StopTimestamp?: Date;
+  Status?: string;
+  DeletionReason?: string;
+  UnprocessedTranscriptLocation?: string;
+}
+export const RecordingInfo = S.suspend(() =>
+  S.Struct({
+    StorageType: S.optional(S.String),
+    Location: S.optional(S.String),
+    MediaStreamType: S.optional(S.String),
+    ParticipantType: S.optional(S.String),
+    FragmentStartNumber: S.optional(S.String),
+    FragmentStopNumber: S.optional(S.String),
+    StartTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    StopTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Status: S.optional(S.String),
+    DeletionReason: S.optional(S.String),
+    UnprocessedTranscriptLocation: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RecordingInfo",
+}) as any as S.Schema<RecordingInfo>;
+export type Recordings = RecordingInfo[];
 export const Recordings = S.Array(RecordingInfo);
-export class TaskTemplateInfoV2 extends S.Class<TaskTemplateInfoV2>(
-  "TaskTemplateInfoV2",
-)({ Arn: S.optional(S.String), Name: S.optional(S.String) }) {}
-export class ContactDetails extends S.Class<ContactDetails>("ContactDetails")({
-  Name: S.optional(S.String),
-  Description: S.optional(S.String),
-}) {}
-export class GlobalResiliencyMetadata extends S.Class<GlobalResiliencyMetadata>(
-  "GlobalResiliencyMetadata",
-)({
-  ActiveRegion: S.optional(S.String),
-  OriginRegion: S.optional(S.String),
-  TrafficDistributionGroupId: S.optional(S.String),
-}) {}
-export class EvaluationScore extends S.Class<EvaluationScore>(
-  "EvaluationScore",
-)({
-  Percentage: S.optional(S.Number),
-  NotApplicable: S.optional(S.Boolean),
-  AutomaticFail: S.optional(S.Boolean),
-  AppliedWeight: S.optional(S.Number),
-}) {}
+export interface TaskTemplateInfoV2 {
+  Arn?: string;
+  Name?: string;
+}
+export const TaskTemplateInfoV2 = S.suspend(() =>
+  S.Struct({ Arn: S.optional(S.String), Name: S.optional(S.String) }),
+).annotations({
+  identifier: "TaskTemplateInfoV2",
+}) as any as S.Schema<TaskTemplateInfoV2>;
+export interface ContactDetails {
+  Name?: string;
+  Description?: string;
+}
+export const ContactDetails = S.suspend(() =>
+  S.Struct({ Name: S.optional(S.String), Description: S.optional(S.String) }),
+).annotations({
+  identifier: "ContactDetails",
+}) as any as S.Schema<ContactDetails>;
+export interface GlobalResiliencyMetadata {
+  ActiveRegion?: string;
+  OriginRegion?: string;
+  TrafficDistributionGroupId?: string;
+}
+export const GlobalResiliencyMetadata = S.suspend(() =>
+  S.Struct({
+    ActiveRegion: S.optional(S.String),
+    OriginRegion: S.optional(S.String),
+    TrafficDistributionGroupId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GlobalResiliencyMetadata",
+}) as any as S.Schema<GlobalResiliencyMetadata>;
+export interface EvaluationScore {
+  Percentage?: number;
+  NotApplicable?: boolean;
+  AutomaticFail?: boolean;
+  AppliedWeight?: number;
+}
+export const EvaluationScore = S.suspend(() =>
+  S.Struct({
+    Percentage: S.optional(S.Number),
+    NotApplicable: S.optional(S.Boolean),
+    AutomaticFail: S.optional(S.Boolean),
+    AppliedWeight: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "EvaluationScore",
+}) as any as S.Schema<EvaluationScore>;
+export type EvaluationScoresMap = { [key: string]: EvaluationScore };
 export const EvaluationScoresMap = S.Record({
   key: S.String,
   value: EvaluationScore,
 });
-export class InstanceStatusReason extends S.Class<InstanceStatusReason>(
-  "InstanceStatusReason",
-)({ Message: S.optional(S.String) }) {}
-export class ReplicationStatusSummary extends S.Class<ReplicationStatusSummary>(
-  "ReplicationStatusSummary",
-)({
-  Region: S.optional(S.String),
-  ReplicationStatus: S.optional(S.String),
-  ReplicationStatusReason: S.optional(S.String),
-}) {}
+export interface InstanceStatusReason {
+  Message?: string;
+}
+export const InstanceStatusReason = S.suspend(() =>
+  S.Struct({ Message: S.optional(S.String) }),
+).annotations({
+  identifier: "InstanceStatusReason",
+}) as any as S.Schema<InstanceStatusReason>;
+export interface ReplicationStatusSummary {
+  Region?: string;
+  ReplicationStatus?: string;
+  ReplicationStatusReason?: string;
+}
+export const ReplicationStatusSummary = S.suspend(() =>
+  S.Struct({
+    Region: S.optional(S.String),
+    ReplicationStatus: S.optional(S.String),
+    ReplicationStatusReason: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ReplicationStatusSummary",
+}) as any as S.Schema<ReplicationStatusSummary>;
+export type ReplicationStatusSummaryList = ReplicationStatusSummary[];
 export const ReplicationStatusSummaryList = S.Array(ReplicationStatusSummary);
-export class PhoneNumberStatus extends S.Class<PhoneNumberStatus>(
-  "PhoneNumberStatus",
-)({ Status: S.optional(S.String), Message: S.optional(S.String) }) {}
-export class HierarchyLevel extends S.Class<HierarchyLevel>("HierarchyLevel")({
-  Id: S.optional(S.String),
-  Arn: S.optional(S.String),
-  Name: S.optional(S.String),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedRegion: S.optional(S.String),
-}) {}
-export class OperationalHour extends S.Class<OperationalHour>(
-  "OperationalHour",
-)({
-  Start: S.optional(OverrideTimeSlice),
-  End: S.optional(OverrideTimeSlice),
-}) {}
+export interface PhoneNumberStatus {
+  Status?: string;
+  Message?: string;
+}
+export const PhoneNumberStatus = S.suspend(() =>
+  S.Struct({ Status: S.optional(S.String), Message: S.optional(S.String) }),
+).annotations({
+  identifier: "PhoneNumberStatus",
+}) as any as S.Schema<PhoneNumberStatus>;
+export interface HierarchyLevel {
+  Id?: string;
+  Arn?: string;
+  Name?: string;
+  LastModifiedTime?: Date;
+  LastModifiedRegion?: string;
+}
+export const HierarchyLevel = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Arn: S.optional(S.String),
+    Name: S.optional(S.String),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastModifiedRegion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "HierarchyLevel",
+}) as any as S.Schema<HierarchyLevel>;
+export interface OperationalHour {
+  Start?: OverrideTimeSlice;
+  End?: OverrideTimeSlice;
+}
+export const OperationalHour = S.suspend(() =>
+  S.Struct({
+    Start: S.optional(OverrideTimeSlice),
+    End: S.optional(OverrideTimeSlice),
+  }),
+).annotations({
+  identifier: "OperationalHour",
+}) as any as S.Schema<OperationalHour>;
+export type OperationalHours = OperationalHour[];
 export const OperationalHours = S.Array(OperationalHour);
-export class EvaluationAcknowledgementSummary extends S.Class<EvaluationAcknowledgementSummary>(
-  "EvaluationAcknowledgementSummary",
-)({
-  AcknowledgedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  AcknowledgedBy: S.optional(S.String),
-  AcknowledgerComment: S.optional(S.String),
-}) {}
-export class EvaluationContactParticipant extends S.Class<EvaluationContactParticipant>(
-  "EvaluationContactParticipant",
-)({
-  ContactParticipantRole: S.optional(S.String),
-  ContactParticipantId: S.optional(S.String),
-}) {}
-export class UrlReference extends S.Class<UrlReference>("UrlReference")({
-  Name: S.optional(S.String),
-  Value: S.optional(S.String),
-}) {}
-export class AttachmentReference extends S.Class<AttachmentReference>(
-  "AttachmentReference",
-)({
-  Name: S.optional(S.String),
-  Value: S.optional(S.String),
-  Status: S.optional(S.String),
-  Arn: S.optional(S.String),
-}) {}
-export class EmailMessageReference extends S.Class<EmailMessageReference>(
-  "EmailMessageReference",
-)({ Name: S.optional(S.String), Arn: S.optional(S.String) }) {}
-export class StringReference extends S.Class<StringReference>(
-  "StringReference",
-)({ Name: S.optional(S.String), Value: S.optional(S.String) }) {}
-export class NumberReference extends S.Class<NumberReference>(
-  "NumberReference",
-)({ Name: S.optional(S.String), Value: S.optional(S.String) }) {}
-export class DateReference extends S.Class<DateReference>("DateReference")({
-  Name: S.optional(S.String),
-  Value: S.optional(S.String),
-}) {}
-export class EmailReference extends S.Class<EmailReference>("EmailReference")({
-  Name: S.optional(S.String),
-  Value: S.optional(S.String),
-}) {}
-export class PrimaryValueResponse extends S.Class<PrimaryValueResponse>(
-  "PrimaryValueResponse",
-)({
-  AttributeName: S.optional(S.String),
-  AttributeId: S.optional(S.String),
-  Value: S.optional(S.String),
-}) {}
+export interface EvaluationAcknowledgementSummary {
+  AcknowledgedTime?: Date;
+  AcknowledgedBy?: string;
+  AcknowledgerComment?: string;
+}
+export const EvaluationAcknowledgementSummary = S.suspend(() =>
+  S.Struct({
+    AcknowledgedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    AcknowledgedBy: S.optional(S.String),
+    AcknowledgerComment: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "EvaluationAcknowledgementSummary",
+}) as any as S.Schema<EvaluationAcknowledgementSummary>;
+export interface EvaluationContactParticipant {
+  ContactParticipantRole?: string;
+  ContactParticipantId?: string;
+}
+export const EvaluationContactParticipant = S.suspend(() =>
+  S.Struct({
+    ContactParticipantRole: S.optional(S.String),
+    ContactParticipantId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "EvaluationContactParticipant",
+}) as any as S.Schema<EvaluationContactParticipant>;
+export interface UrlReference {
+  Name?: string;
+  Value?: string;
+}
+export const UrlReference = S.suspend(() =>
+  S.Struct({ Name: S.optional(S.String), Value: S.optional(S.String) }),
+).annotations({ identifier: "UrlReference" }) as any as S.Schema<UrlReference>;
+export interface AttachmentReference {
+  Name?: string;
+  Value?: string;
+  Status?: string;
+  Arn?: string;
+}
+export const AttachmentReference = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Value: S.optional(S.String),
+    Status: S.optional(S.String),
+    Arn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AttachmentReference",
+}) as any as S.Schema<AttachmentReference>;
+export interface EmailMessageReference {
+  Name?: string;
+  Arn?: string;
+}
+export const EmailMessageReference = S.suspend(() =>
+  S.Struct({ Name: S.optional(S.String), Arn: S.optional(S.String) }),
+).annotations({
+  identifier: "EmailMessageReference",
+}) as any as S.Schema<EmailMessageReference>;
+export interface StringReference {
+  Name?: string;
+  Value?: string;
+}
+export const StringReference = S.suspend(() =>
+  S.Struct({ Name: S.optional(S.String), Value: S.optional(S.String) }),
+).annotations({
+  identifier: "StringReference",
+}) as any as S.Schema<StringReference>;
+export interface NumberReference {
+  Name?: string;
+  Value?: string;
+}
+export const NumberReference = S.suspend(() =>
+  S.Struct({ Name: S.optional(S.String), Value: S.optional(S.String) }),
+).annotations({
+  identifier: "NumberReference",
+}) as any as S.Schema<NumberReference>;
+export interface DateReference {
+  Name?: string;
+  Value?: string;
+}
+export const DateReference = S.suspend(() =>
+  S.Struct({ Name: S.optional(S.String), Value: S.optional(S.String) }),
+).annotations({
+  identifier: "DateReference",
+}) as any as S.Schema<DateReference>;
+export interface EmailReference {
+  Name?: string;
+  Value?: string;
+}
+export const EmailReference = S.suspend(() =>
+  S.Struct({ Name: S.optional(S.String), Value: S.optional(S.String) }),
+).annotations({
+  identifier: "EmailReference",
+}) as any as S.Schema<EmailReference>;
+export interface PrimaryValueResponse {
+  AttributeName?: string;
+  AttributeId?: string;
+  Value?: string;
+}
+export const PrimaryValueResponse = S.suspend(() =>
+  S.Struct({
+    AttributeName: S.optional(S.String),
+    AttributeId: S.optional(S.String),
+    Value: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "PrimaryValueResponse",
+}) as any as S.Schema<PrimaryValueResponse>;
+export type PrimaryValuesResponseSet = PrimaryValueResponse[];
 export const PrimaryValuesResponseSet = S.Array(PrimaryValueResponse);
 export const RealTimeContactAnalysisTimeData = S.Union(
   S.Struct({ AbsoluteTime: S.Date.pipe(T.TimestampFormat("date-time")) }),
 );
-export class RealTimeContactAnalysisSegmentEvent extends S.Class<RealTimeContactAnalysisSegmentEvent>(
-  "RealTimeContactAnalysisSegmentEvent",
-)({
-  Id: S.String,
-  ParticipantId: S.optional(S.String),
-  ParticipantRole: S.optional(S.String),
-  DisplayName: S.optional(S.String),
-  EventType: S.String,
-  Time: RealTimeContactAnalysisTimeData,
-}) {}
-export class RealTimeContactAnalysisSegmentPostContactSummary extends S.Class<RealTimeContactAnalysisSegmentPostContactSummary>(
-  "RealTimeContactAnalysisSegmentPostContactSummary",
-)({
-  Content: S.optional(S.String),
-  Status: S.String,
-  FailureCode: S.optional(S.String),
-}) {}
-export class ActionSummary extends S.Class<ActionSummary>("ActionSummary")({
-  ActionType: S.String,
-}) {}
+export interface RealTimeContactAnalysisSegmentEvent {
+  Id: string;
+  ParticipantId?: string;
+  ParticipantRole?: string;
+  DisplayName?: string;
+  EventType: string;
+  Time: (typeof RealTimeContactAnalysisTimeData)["Type"];
+}
+export const RealTimeContactAnalysisSegmentEvent = S.suspend(() =>
+  S.Struct({
+    Id: S.String,
+    ParticipantId: S.optional(S.String),
+    ParticipantRole: S.optional(S.String),
+    DisplayName: S.optional(S.String),
+    EventType: S.String,
+    Time: RealTimeContactAnalysisTimeData,
+  }),
+).annotations({
+  identifier: "RealTimeContactAnalysisSegmentEvent",
+}) as any as S.Schema<RealTimeContactAnalysisSegmentEvent>;
+export interface RealTimeContactAnalysisSegmentPostContactSummary {
+  Content?: string;
+  Status: string;
+  FailureCode?: string;
+}
+export const RealTimeContactAnalysisSegmentPostContactSummary = S.suspend(() =>
+  S.Struct({
+    Content: S.optional(S.String),
+    Status: S.String,
+    FailureCode: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RealTimeContactAnalysisSegmentPostContactSummary",
+}) as any as S.Schema<RealTimeContactAnalysisSegmentPostContactSummary>;
+export interface ActionSummary {
+  ActionType: string;
+}
+export const ActionSummary = S.suspend(() =>
+  S.Struct({ ActionType: S.String }),
+).annotations({
+  identifier: "ActionSummary",
+}) as any as S.Schema<ActionSummary>;
+export type ActionSummaries = ActionSummary[];
 export const ActionSummaries = S.Array(ActionSummary);
-export class ContactFlowAttributeFilter extends S.Class<ContactFlowAttributeFilter>(
-  "ContactFlowAttributeFilter",
-)({
-  OrConditions: S.optional(ContactFlowAttributeOrConditionList),
-  AndCondition: S.optional(ContactFlowAttributeAndCondition),
-  TagCondition: S.optional(TagCondition),
-  ContactFlowTypeCondition: S.optional(ContactFlowTypeCondition),
-}) {}
-export class SearchableContactAttributes extends S.Class<SearchableContactAttributes>(
-  "SearchableContactAttributes",
-)({
-  Criteria: SearchableContactAttributesCriteriaList,
-  MatchType: S.optional(S.String),
-}) {}
-export class SearchableSegmentAttributes extends S.Class<SearchableSegmentAttributes>(
-  "SearchableSegmentAttributes",
-)({
-  Criteria: SearchableSegmentAttributesCriteriaList,
-  MatchType: S.optional(S.String),
-}) {}
-export class ControlPlaneUserAttributeFilter extends S.Class<ControlPlaneUserAttributeFilter>(
-  "ControlPlaneUserAttributeFilter",
-)({
-  OrConditions: S.optional(AttributeOrConditionList),
-  AndCondition: S.optional(AttributeAndCondition),
-  TagCondition: S.optional(TagCondition),
-  HierarchyGroupCondition: S.optional(HierarchyGroupCondition),
-}) {}
-export class ListCondition extends S.Class<ListCondition>("ListCondition")({
-  TargetListType: S.optional(S.String),
-  Conditions: S.optional(Conditions),
-}) {}
-export class InboundRawMessage extends S.Class<InboundRawMessage>(
-  "InboundRawMessage",
-)({
-  Subject: S.String,
-  Body: S.String,
-  ContentType: S.String,
-  Headers: S.optional(EmailHeaders),
-}) {}
-export class TranscriptCriteria extends S.Class<TranscriptCriteria>(
-  "TranscriptCriteria",
-)({
-  ParticipantRole: S.String,
-  SearchText: SearchTextList,
-  MatchType: S.String,
-}) {}
+export interface ContactFlowAttributeFilter {
+  OrConditions?: ContactFlowAttributeOrConditionList;
+  AndCondition?: ContactFlowAttributeAndCondition;
+  TagCondition?: TagCondition;
+  ContactFlowTypeCondition?: ContactFlowTypeCondition;
+}
+export const ContactFlowAttributeFilter = S.suspend(() =>
+  S.Struct({
+    OrConditions: S.optional(ContactFlowAttributeOrConditionList),
+    AndCondition: S.optional(ContactFlowAttributeAndCondition),
+    TagCondition: S.optional(TagCondition),
+    ContactFlowTypeCondition: S.optional(ContactFlowTypeCondition),
+  }),
+).annotations({
+  identifier: "ContactFlowAttributeFilter",
+}) as any as S.Schema<ContactFlowAttributeFilter>;
+export interface SearchableContactAttributes {
+  Criteria: SearchableContactAttributesCriteriaList;
+  MatchType?: string;
+}
+export const SearchableContactAttributes = S.suspend(() =>
+  S.Struct({
+    Criteria: SearchableContactAttributesCriteriaList,
+    MatchType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SearchableContactAttributes",
+}) as any as S.Schema<SearchableContactAttributes>;
+export interface SearchableSegmentAttributes {
+  Criteria: SearchableSegmentAttributesCriteriaList;
+  MatchType?: string;
+}
+export const SearchableSegmentAttributes = S.suspend(() =>
+  S.Struct({
+    Criteria: SearchableSegmentAttributesCriteriaList,
+    MatchType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SearchableSegmentAttributes",
+}) as any as S.Schema<SearchableSegmentAttributes>;
+export interface ControlPlaneUserAttributeFilter {
+  OrConditions?: AttributeOrConditionList;
+  AndCondition?: AttributeAndCondition;
+  TagCondition?: TagCondition;
+  HierarchyGroupCondition?: HierarchyGroupCondition;
+}
+export const ControlPlaneUserAttributeFilter = S.suspend(() =>
+  S.Struct({
+    OrConditions: S.optional(AttributeOrConditionList),
+    AndCondition: S.optional(AttributeAndCondition),
+    TagCondition: S.optional(TagCondition),
+    HierarchyGroupCondition: S.optional(HierarchyGroupCondition),
+  }),
+).annotations({
+  identifier: "ControlPlaneUserAttributeFilter",
+}) as any as S.Schema<ControlPlaneUserAttributeFilter>;
+export interface ListCondition {
+  TargetListType?: string;
+  Conditions?: Conditions;
+}
+export const ListCondition = S.suspend(() =>
+  S.Struct({
+    TargetListType: S.optional(S.String),
+    Conditions: S.optional(Conditions),
+  }),
+).annotations({
+  identifier: "ListCondition",
+}) as any as S.Schema<ListCondition>;
+export interface InboundRawMessage {
+  Subject: string;
+  Body: string;
+  ContentType: string;
+  Headers?: EmailHeaders;
+}
+export const InboundRawMessage = S.suspend(() =>
+  S.Struct({
+    Subject: S.String,
+    Body: S.String,
+    ContentType: S.String,
+    Headers: S.optional(EmailHeaders),
+  }),
+).annotations({
+  identifier: "InboundRawMessage",
+}) as any as S.Schema<InboundRawMessage>;
+export interface TranscriptCriteria {
+  ParticipantRole: string;
+  SearchText: SearchTextList;
+  MatchType: string;
+}
+export const TranscriptCriteria = S.suspend(() =>
+  S.Struct({
+    ParticipantRole: S.String,
+    SearchText: SearchTextList,
+    MatchType: S.String,
+  }),
+).annotations({
+  identifier: "TranscriptCriteria",
+}) as any as S.Schema<TranscriptCriteria>;
+export type TranscriptCriteriaList = TranscriptCriteria[];
 export const TranscriptCriteriaList = S.Array(TranscriptCriteria);
-export class SearchableAgentCriteriaStep extends S.Class<SearchableAgentCriteriaStep>(
-  "SearchableAgentCriteriaStep",
-)({
-  AgentIds: S.optional(AgentResourceIdList),
-  MatchType: S.optional(S.String),
-}) {}
-export class SearchContactsTimestampCondition extends S.Class<SearchContactsTimestampCondition>(
-  "SearchContactsTimestampCondition",
-)({ Type: S.String, ConditionType: S.String }) {}
+export interface SearchableAgentCriteriaStep {
+  AgentIds?: AgentResourceIdList;
+  MatchType?: string;
+}
+export const SearchableAgentCriteriaStep = S.suspend(() =>
+  S.Struct({
+    AgentIds: S.optional(AgentResourceIdList),
+    MatchType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SearchableAgentCriteriaStep",
+}) as any as S.Schema<SearchableAgentCriteriaStep>;
+export interface SearchContactsTimestampCondition {
+  Type: string;
+  ConditionType: string;
+}
+export const SearchContactsTimestampCondition = S.suspend(() =>
+  S.Struct({ Type: S.String, ConditionType: S.String }),
+).annotations({
+  identifier: "SearchContactsTimestampCondition",
+}) as any as S.Schema<SearchContactsTimestampCondition>;
 export const ParticipantTimerValue = S.Union(
   S.Struct({ ParticipantTimerAction: S.String }),
   S.Struct({ ParticipantTimerDurationInMinutes: S.Number }),
@@ -10371,158 +16936,307 @@ export const ParticipantTimerValue = S.Union(
 export const InvalidRequestExceptionReason = S.Union(
   S.Struct({ AttachedFileInvalidRequestExceptionReason: S.String }),
 );
-export class BatchCreateDataTableValueSuccessResult extends S.Class<BatchCreateDataTableValueSuccessResult>(
-  "BatchCreateDataTableValueSuccessResult",
-)({
-  PrimaryValues: PrimaryValuesSet,
-  AttributeName: S.String,
-  RecordId: S.String,
-  LockVersion: DataTableLockVersion,
-}) {}
+export interface BatchCreateDataTableValueSuccessResult {
+  PrimaryValues: PrimaryValuesSet;
+  AttributeName: string;
+  RecordId: string;
+  LockVersion: DataTableLockVersion;
+}
+export const BatchCreateDataTableValueSuccessResult = S.suspend(() =>
+  S.Struct({
+    PrimaryValues: PrimaryValuesSet,
+    AttributeName: S.String,
+    RecordId: S.String,
+    LockVersion: DataTableLockVersion,
+  }),
+).annotations({
+  identifier: "BatchCreateDataTableValueSuccessResult",
+}) as any as S.Schema<BatchCreateDataTableValueSuccessResult>;
+export type BatchCreateDataTableValueSuccessResultList =
+  BatchCreateDataTableValueSuccessResult[];
 export const BatchCreateDataTableValueSuccessResultList = S.Array(
   BatchCreateDataTableValueSuccessResult,
 );
-export class BatchCreateDataTableValueFailureResult extends S.Class<BatchCreateDataTableValueFailureResult>(
-  "BatchCreateDataTableValueFailureResult",
-)({
-  PrimaryValues: PrimaryValuesSet,
-  AttributeName: S.String,
-  Message: S.String,
-}) {}
+export interface BatchCreateDataTableValueFailureResult {
+  PrimaryValues: PrimaryValuesSet;
+  AttributeName: string;
+  Message: string;
+}
+export const BatchCreateDataTableValueFailureResult = S.suspend(() =>
+  S.Struct({
+    PrimaryValues: PrimaryValuesSet,
+    AttributeName: S.String,
+    Message: S.String,
+  }),
+).annotations({
+  identifier: "BatchCreateDataTableValueFailureResult",
+}) as any as S.Schema<BatchCreateDataTableValueFailureResult>;
+export type BatchCreateDataTableValueFailureResultList =
+  BatchCreateDataTableValueFailureResult[];
 export const BatchCreateDataTableValueFailureResultList = S.Array(
   BatchCreateDataTableValueFailureResult,
 );
-export class BatchDeleteDataTableValueSuccessResult extends S.Class<BatchDeleteDataTableValueSuccessResult>(
-  "BatchDeleteDataTableValueSuccessResult",
-)({
-  PrimaryValues: PrimaryValuesSet,
-  AttributeName: S.String,
-  LockVersion: DataTableLockVersion,
-}) {}
+export interface BatchDeleteDataTableValueSuccessResult {
+  PrimaryValues: PrimaryValuesSet;
+  AttributeName: string;
+  LockVersion: DataTableLockVersion;
+}
+export const BatchDeleteDataTableValueSuccessResult = S.suspend(() =>
+  S.Struct({
+    PrimaryValues: PrimaryValuesSet,
+    AttributeName: S.String,
+    LockVersion: DataTableLockVersion,
+  }),
+).annotations({
+  identifier: "BatchDeleteDataTableValueSuccessResult",
+}) as any as S.Schema<BatchDeleteDataTableValueSuccessResult>;
+export type BatchDeleteDataTableValueSuccessResultList =
+  BatchDeleteDataTableValueSuccessResult[];
 export const BatchDeleteDataTableValueSuccessResultList = S.Array(
   BatchDeleteDataTableValueSuccessResult,
 );
-export class BatchDeleteDataTableValueFailureResult extends S.Class<BatchDeleteDataTableValueFailureResult>(
-  "BatchDeleteDataTableValueFailureResult",
-)({
-  PrimaryValues: PrimaryValuesSet,
-  AttributeName: S.String,
-  Message: S.String,
-}) {}
+export interface BatchDeleteDataTableValueFailureResult {
+  PrimaryValues: PrimaryValuesSet;
+  AttributeName: string;
+  Message: string;
+}
+export const BatchDeleteDataTableValueFailureResult = S.suspend(() =>
+  S.Struct({
+    PrimaryValues: PrimaryValuesSet,
+    AttributeName: S.String,
+    Message: S.String,
+  }),
+).annotations({
+  identifier: "BatchDeleteDataTableValueFailureResult",
+}) as any as S.Schema<BatchDeleteDataTableValueFailureResult>;
+export type BatchDeleteDataTableValueFailureResultList =
+  BatchDeleteDataTableValueFailureResult[];
 export const BatchDeleteDataTableValueFailureResultList = S.Array(
   BatchDeleteDataTableValueFailureResult,
 );
-export class BatchDescribeDataTableValueSuccessResult extends S.Class<BatchDescribeDataTableValueSuccessResult>(
-  "BatchDescribeDataTableValueSuccessResult",
-)({
-  RecordId: S.String,
-  AttributeId: S.String,
-  PrimaryValues: PrimaryValuesResponseSet,
-  AttributeName: S.String,
-  Value: S.optional(S.String),
-  LockVersion: DataTableLockVersion,
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedRegion: S.optional(S.String),
-}) {}
+export interface BatchDescribeDataTableValueSuccessResult {
+  RecordId: string;
+  AttributeId: string;
+  PrimaryValues: PrimaryValuesResponseSet;
+  AttributeName: string;
+  Value?: string;
+  LockVersion: DataTableLockVersion;
+  LastModifiedTime?: Date;
+  LastModifiedRegion?: string;
+}
+export const BatchDescribeDataTableValueSuccessResult = S.suspend(() =>
+  S.Struct({
+    RecordId: S.String,
+    AttributeId: S.String,
+    PrimaryValues: PrimaryValuesResponseSet,
+    AttributeName: S.String,
+    Value: S.optional(S.String),
+    LockVersion: DataTableLockVersion,
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastModifiedRegion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "BatchDescribeDataTableValueSuccessResult",
+}) as any as S.Schema<BatchDescribeDataTableValueSuccessResult>;
+export type BatchDescribeDataTableValueSuccessResultList =
+  BatchDescribeDataTableValueSuccessResult[];
 export const BatchDescribeDataTableValueSuccessResultList = S.Array(
   BatchDescribeDataTableValueSuccessResult,
 );
-export class BatchDescribeDataTableValueFailureResult extends S.Class<BatchDescribeDataTableValueFailureResult>(
-  "BatchDescribeDataTableValueFailureResult",
-)({
-  PrimaryValues: PrimaryValuesSet,
-  AttributeName: S.String,
-  Message: S.String,
-}) {}
+export interface BatchDescribeDataTableValueFailureResult {
+  PrimaryValues: PrimaryValuesSet;
+  AttributeName: string;
+  Message: string;
+}
+export const BatchDescribeDataTableValueFailureResult = S.suspend(() =>
+  S.Struct({
+    PrimaryValues: PrimaryValuesSet,
+    AttributeName: S.String,
+    Message: S.String,
+  }),
+).annotations({
+  identifier: "BatchDescribeDataTableValueFailureResult",
+}) as any as S.Schema<BatchDescribeDataTableValueFailureResult>;
+export type BatchDescribeDataTableValueFailureResultList =
+  BatchDescribeDataTableValueFailureResult[];
 export const BatchDescribeDataTableValueFailureResultList = S.Array(
   BatchDescribeDataTableValueFailureResult,
 );
+export type ReferenceIdList = string[];
 export const ReferenceIdList = S.Array(S.String);
-export class Instance extends S.Class<Instance>("Instance")({
-  Id: S.optional(S.String),
-  Arn: S.optional(S.String),
-  IdentityManagementType: S.optional(S.String),
-  InstanceAlias: S.optional(S.String),
-  CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  ServiceRole: S.optional(S.String),
-  InstanceStatus: S.optional(S.String),
-  StatusReason: S.optional(InstanceStatusReason),
-  InboundCallsEnabled: S.optional(S.Boolean),
-  OutboundCallsEnabled: S.optional(S.Boolean),
-  InstanceAccessUrl: S.optional(S.String),
-  Tags: S.optional(TagMap),
-}) {}
-export class ReplicationConfiguration extends S.Class<ReplicationConfiguration>(
-  "ReplicationConfiguration",
-)({
-  ReplicationStatusSummaryList: S.optional(ReplicationStatusSummaryList),
-  SourceRegion: S.optional(S.String),
-  GlobalSignInEndpoint: S.optional(S.String),
-}) {}
-export class ClaimedPhoneNumberSummary extends S.Class<ClaimedPhoneNumberSummary>(
-  "ClaimedPhoneNumberSummary",
-)({
-  PhoneNumberId: S.optional(S.String),
-  PhoneNumberArn: S.optional(S.String),
-  PhoneNumber: S.optional(S.String),
-  PhoneNumberCountryCode: S.optional(S.String),
-  PhoneNumberType: S.optional(S.String),
-  PhoneNumberDescription: S.optional(S.String),
-  TargetArn: S.optional(S.String),
-  InstanceId: S.optional(S.String),
-  Tags: S.optional(TagMap),
-  PhoneNumberStatus: S.optional(PhoneNumberStatus),
-  SourcePhoneNumberArn: S.optional(S.String),
-}) {}
-export class HierarchyStructure extends S.Class<HierarchyStructure>(
-  "HierarchyStructure",
-)({
-  LevelOne: S.optional(HierarchyLevel),
-  LevelTwo: S.optional(HierarchyLevel),
-  LevelThree: S.optional(HierarchyLevel),
-  LevelFour: S.optional(HierarchyLevel),
-  LevelFive: S.optional(HierarchyLevel),
-}) {}
-export class DataTableEvaluatedValue extends S.Class<DataTableEvaluatedValue>(
-  "DataTableEvaluatedValue",
-)({
-  RecordId: S.String,
-  PrimaryValues: PrimaryValuesSet,
-  AttributeName: S.String,
-  ValueType: S.String,
-  Found: S.Boolean,
-  Error: S.Boolean,
-  EvaluatedValue: S.String,
-}) {}
+export interface Instance {
+  Id?: string;
+  Arn?: string;
+  IdentityManagementType?: string;
+  InstanceAlias?: string;
+  CreatedTime?: Date;
+  ServiceRole?: string;
+  InstanceStatus?: string;
+  StatusReason?: InstanceStatusReason;
+  InboundCallsEnabled?: boolean;
+  OutboundCallsEnabled?: boolean;
+  InstanceAccessUrl?: string;
+  Tags?: TagMap;
+}
+export const Instance = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Arn: S.optional(S.String),
+    IdentityManagementType: S.optional(S.String),
+    InstanceAlias: S.optional(S.String),
+    CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ServiceRole: S.optional(S.String),
+    InstanceStatus: S.optional(S.String),
+    StatusReason: S.optional(InstanceStatusReason),
+    InboundCallsEnabled: S.optional(S.Boolean),
+    OutboundCallsEnabled: S.optional(S.Boolean),
+    InstanceAccessUrl: S.optional(S.String),
+    Tags: S.optional(TagMap),
+  }),
+).annotations({ identifier: "Instance" }) as any as S.Schema<Instance>;
+export interface ReplicationConfiguration {
+  ReplicationStatusSummaryList?: ReplicationStatusSummaryList;
+  SourceRegion?: string;
+  GlobalSignInEndpoint?: string;
+}
+export const ReplicationConfiguration = S.suspend(() =>
+  S.Struct({
+    ReplicationStatusSummaryList: S.optional(ReplicationStatusSummaryList),
+    SourceRegion: S.optional(S.String),
+    GlobalSignInEndpoint: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ReplicationConfiguration",
+}) as any as S.Schema<ReplicationConfiguration>;
+export interface ClaimedPhoneNumberSummary {
+  PhoneNumberId?: string;
+  PhoneNumberArn?: string;
+  PhoneNumber?: string;
+  PhoneNumberCountryCode?: string;
+  PhoneNumberType?: string;
+  PhoneNumberDescription?: string;
+  TargetArn?: string;
+  InstanceId?: string;
+  Tags?: TagMap;
+  PhoneNumberStatus?: PhoneNumberStatus;
+  SourcePhoneNumberArn?: string;
+}
+export const ClaimedPhoneNumberSummary = S.suspend(() =>
+  S.Struct({
+    PhoneNumberId: S.optional(S.String),
+    PhoneNumberArn: S.optional(S.String),
+    PhoneNumber: S.optional(S.String),
+    PhoneNumberCountryCode: S.optional(S.String),
+    PhoneNumberType: S.optional(S.String),
+    PhoneNumberDescription: S.optional(S.String),
+    TargetArn: S.optional(S.String),
+    InstanceId: S.optional(S.String),
+    Tags: S.optional(TagMap),
+    PhoneNumberStatus: S.optional(PhoneNumberStatus),
+    SourcePhoneNumberArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ClaimedPhoneNumberSummary",
+}) as any as S.Schema<ClaimedPhoneNumberSummary>;
+export interface HierarchyStructure {
+  LevelOne?: HierarchyLevel;
+  LevelTwo?: HierarchyLevel;
+  LevelThree?: HierarchyLevel;
+  LevelFour?: HierarchyLevel;
+  LevelFive?: HierarchyLevel;
+}
+export const HierarchyStructure = S.suspend(() =>
+  S.Struct({
+    LevelOne: S.optional(HierarchyLevel),
+    LevelTwo: S.optional(HierarchyLevel),
+    LevelThree: S.optional(HierarchyLevel),
+    LevelFour: S.optional(HierarchyLevel),
+    LevelFive: S.optional(HierarchyLevel),
+  }),
+).annotations({
+  identifier: "HierarchyStructure",
+}) as any as S.Schema<HierarchyStructure>;
+export interface DataTableEvaluatedValue {
+  RecordId: string;
+  PrimaryValues: PrimaryValuesSet;
+  AttributeName: string;
+  ValueType: string;
+  Found: boolean;
+  Error: boolean;
+  EvaluatedValue: string;
+}
+export const DataTableEvaluatedValue = S.suspend(() =>
+  S.Struct({
+    RecordId: S.String,
+    PrimaryValues: PrimaryValuesSet,
+    AttributeName: S.String,
+    ValueType: S.String,
+    Found: S.Boolean,
+    Error: S.Boolean,
+    EvaluatedValue: S.String,
+  }),
+).annotations({
+  identifier: "DataTableEvaluatedValue",
+}) as any as S.Schema<DataTableEvaluatedValue>;
+export type DataTableEvaluatedValueList = DataTableEvaluatedValue[];
 export const DataTableEvaluatedValueList = S.Array(DataTableEvaluatedValue);
-export class EffectiveHoursOfOperations extends S.Class<EffectiveHoursOfOperations>(
-  "EffectiveHoursOfOperations",
-)({
-  Date: S.optional(S.String),
-  OperationalHours: S.optional(OperationalHours),
-}) {}
+export interface EffectiveHoursOfOperations {
+  Date?: string;
+  OperationalHours?: OperationalHours;
+}
+export const EffectiveHoursOfOperations = S.suspend(() =>
+  S.Struct({
+    Date: S.optional(S.String),
+    OperationalHours: S.optional(OperationalHours),
+  }),
+).annotations({
+  identifier: "EffectiveHoursOfOperations",
+}) as any as S.Schema<EffectiveHoursOfOperations>;
+export type EffectiveHoursOfOperationList = EffectiveHoursOfOperations[];
 export const EffectiveHoursOfOperationList = S.Array(
   EffectiveHoursOfOperations,
 );
-export class EvaluationSummary extends S.Class<EvaluationSummary>(
-  "EvaluationSummary",
-)({
-  EvaluationId: S.String,
-  EvaluationArn: S.String,
-  EvaluationFormTitle: S.String,
-  EvaluationFormId: S.String,
-  CalibrationSessionId: S.optional(S.String),
-  Status: S.String,
-  AutoEvaluationEnabled: S.optional(S.Boolean),
-  AutoEvaluationStatus: S.optional(S.String),
-  EvaluatorArn: S.String,
-  Score: S.optional(EvaluationScore),
-  Acknowledgement: S.optional(EvaluationAcknowledgementSummary),
-  EvaluationType: S.optional(S.String),
-  CreatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  LastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ContactParticipant: S.optional(EvaluationContactParticipant),
-}) {}
+export interface EvaluationSummary {
+  EvaluationId: string;
+  EvaluationArn: string;
+  EvaluationFormTitle: string;
+  EvaluationFormId: string;
+  CalibrationSessionId?: string;
+  Status: string;
+  AutoEvaluationEnabled?: boolean;
+  AutoEvaluationStatus?: string;
+  EvaluatorArn: string;
+  Score?: EvaluationScore;
+  Acknowledgement?: EvaluationAcknowledgementSummary;
+  EvaluationType?: string;
+  CreatedTime: Date;
+  LastModifiedTime: Date;
+  ContactParticipant?: EvaluationContactParticipant;
+}
+export const EvaluationSummary = S.suspend(() =>
+  S.Struct({
+    EvaluationId: S.String,
+    EvaluationArn: S.String,
+    EvaluationFormTitle: S.String,
+    EvaluationFormId: S.String,
+    CalibrationSessionId: S.optional(S.String),
+    Status: S.String,
+    AutoEvaluationEnabled: S.optional(S.Boolean),
+    AutoEvaluationStatus: S.optional(S.String),
+    EvaluatorArn: S.String,
+    Score: S.optional(EvaluationScore),
+    Acknowledgement: S.optional(EvaluationAcknowledgementSummary),
+    EvaluationType: S.optional(S.String),
+    CreatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    LastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ContactParticipant: S.optional(EvaluationContactParticipant),
+  }),
+).annotations({
+  identifier: "EvaluationSummary",
+}) as any as S.Schema<EvaluationSummary>;
+export type EvaluationSummaryList = EvaluationSummary[];
 export const EvaluationSummaryList = S.Array(EvaluationSummary);
 export const ReferenceSummary = S.Union(
   S.Struct({ Url: UrlReference }),
@@ -10534,315 +17248,640 @@ export const ReferenceSummary = S.Union(
   S.Struct({ Date: DateReference }),
   S.Struct({ Email: EmailReference }),
 );
+export type ReferenceSummaryList = (typeof ReferenceSummary)["Type"][];
 export const ReferenceSummaryList = S.Array(ReferenceSummary);
-export class RecordPrimaryValue extends S.Class<RecordPrimaryValue>(
-  "RecordPrimaryValue",
-)({
-  RecordId: S.optional(S.String),
-  PrimaryValues: S.optional(PrimaryValuesResponseSet),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedRegion: S.optional(S.String),
-}) {}
+export interface RecordPrimaryValue {
+  RecordId?: string;
+  PrimaryValues?: PrimaryValuesResponseSet;
+  LastModifiedTime?: Date;
+  LastModifiedRegion?: string;
+}
+export const RecordPrimaryValue = S.suspend(() =>
+  S.Struct({
+    RecordId: S.optional(S.String),
+    PrimaryValues: S.optional(PrimaryValuesResponseSet),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastModifiedRegion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RecordPrimaryValue",
+}) as any as S.Schema<RecordPrimaryValue>;
+export type PrimaryValuesList = RecordPrimaryValue[];
 export const PrimaryValuesList = S.Array(RecordPrimaryValue);
-export class DataTableValueSummary extends S.Class<DataTableValueSummary>(
-  "DataTableValueSummary",
-)({
-  RecordId: S.optional(S.String),
-  AttributeId: S.optional(S.String),
-  PrimaryValues: PrimaryValuesResponseSet,
-  AttributeName: S.String,
-  ValueType: S.String,
-  Value: S.String,
-  LockVersion: S.optional(DataTableLockVersion),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedRegion: S.optional(S.String),
-}) {}
+export interface DataTableValueSummary {
+  RecordId?: string;
+  AttributeId?: string;
+  PrimaryValues: PrimaryValuesResponseSet;
+  AttributeName: string;
+  ValueType: string;
+  Value: string;
+  LockVersion?: DataTableLockVersion;
+  LastModifiedTime?: Date;
+  LastModifiedRegion?: string;
+}
+export const DataTableValueSummary = S.suspend(() =>
+  S.Struct({
+    RecordId: S.optional(S.String),
+    AttributeId: S.optional(S.String),
+    PrimaryValues: PrimaryValuesResponseSet,
+    AttributeName: S.String,
+    ValueType: S.String,
+    Value: S.String,
+    LockVersion: S.optional(DataTableLockVersion),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastModifiedRegion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DataTableValueSummary",
+}) as any as S.Schema<DataTableValueSummary>;
+export type DataTableValueSummaryList = DataTableValueSummary[];
 export const DataTableValueSummaryList = S.Array(DataTableValueSummary);
-export class RuleSummary extends S.Class<RuleSummary>("RuleSummary")({
-  Name: S.String,
-  RuleId: S.String,
-  RuleArn: S.String,
-  EventSourceName: S.String,
-  PublishStatus: S.String,
-  ActionSummaries: ActionSummaries,
-  CreatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  LastUpdatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-}) {}
+export interface RuleSummary {
+  Name: string;
+  RuleId: string;
+  RuleArn: string;
+  EventSourceName: string;
+  PublishStatus: string;
+  ActionSummaries: ActionSummaries;
+  CreatedTime: Date;
+  LastUpdatedTime: Date;
+}
+export const RuleSummary = S.suspend(() =>
+  S.Struct({
+    Name: S.String,
+    RuleId: S.String,
+    RuleArn: S.String,
+    EventSourceName: S.String,
+    PublishStatus: S.String,
+    ActionSummaries: ActionSummaries,
+    CreatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    LastUpdatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotations({ identifier: "RuleSummary" }) as any as S.Schema<RuleSummary>;
+export type RuleSummaryList = RuleSummary[];
 export const RuleSummaryList = S.Array(RuleSummary);
-export class AgentStatusSearchFilter extends S.Class<AgentStatusSearchFilter>(
-  "AgentStatusSearchFilter",
-)({ AttributeFilter: S.optional(ControlPlaneAttributeFilter) }) {}
+export interface AgentStatusSearchFilter {
+  AttributeFilter?: ControlPlaneAttributeFilter;
+}
+export const AgentStatusSearchFilter = S.suspend(() =>
+  S.Struct({ AttributeFilter: S.optional(ControlPlaneAttributeFilter) }),
+).annotations({
+  identifier: "AgentStatusSearchFilter",
+}) as any as S.Schema<AgentStatusSearchFilter>;
+export type ContactFlowModuleSearchSummaryList = ContactFlowModule[];
 export const ContactFlowModuleSearchSummaryList = S.Array(ContactFlowModule);
-export class ContactFlowSearchFilter extends S.Class<ContactFlowSearchFilter>(
-  "ContactFlowSearchFilter",
-)({
-  TagFilter: S.optional(ControlPlaneTagFilter),
-  FlowAttributeFilter: S.optional(ContactFlowAttributeFilter),
-}) {}
-export class EmailAddressMetadata extends S.Class<EmailAddressMetadata>(
-  "EmailAddressMetadata",
-)({
-  EmailAddressId: S.optional(S.String),
-  EmailAddressArn: S.optional(S.String),
-  EmailAddress: S.optional(S.String),
-  Description: S.optional(S.String),
-  DisplayName: S.optional(S.String),
-  AliasConfigurations: S.optional(AliasConfigurationList),
-}) {}
+export interface ContactFlowSearchFilter {
+  TagFilter?: ControlPlaneTagFilter;
+  FlowAttributeFilter?: ContactFlowAttributeFilter;
+}
+export const ContactFlowSearchFilter = S.suspend(() =>
+  S.Struct({
+    TagFilter: S.optional(ControlPlaneTagFilter),
+    FlowAttributeFilter: S.optional(ContactFlowAttributeFilter),
+  }),
+).annotations({
+  identifier: "ContactFlowSearchFilter",
+}) as any as S.Schema<ContactFlowSearchFilter>;
+export interface EmailAddressMetadata {
+  EmailAddressId?: string;
+  EmailAddressArn?: string;
+  EmailAddress?: string;
+  Description?: string;
+  DisplayName?: string;
+  AliasConfigurations?: AliasConfigurationList;
+}
+export const EmailAddressMetadata = S.suspend(() =>
+  S.Struct({
+    EmailAddressId: S.optional(S.String),
+    EmailAddressArn: S.optional(S.String),
+    EmailAddress: S.optional(S.String),
+    Description: S.optional(S.String),
+    DisplayName: S.optional(S.String),
+    AliasConfigurations: S.optional(AliasConfigurationList),
+  }),
+).annotations({
+  identifier: "EmailAddressMetadata",
+}) as any as S.Schema<EmailAddressMetadata>;
+export type EmailAddressList = EmailAddressMetadata[];
 export const EmailAddressList = S.Array(EmailAddressMetadata);
-export class EvaluationFormSearchSummary extends S.Class<EvaluationFormSearchSummary>(
-  "EvaluationFormSearchSummary",
-)({
-  EvaluationFormId: S.String,
-  EvaluationFormArn: S.String,
-  Title: S.String,
-  Status: S.String,
-  Description: S.optional(S.String),
-  CreatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  CreatedBy: S.String,
-  LastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  LastModifiedBy: S.String,
-  LastActivatedTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  LastActivatedBy: S.optional(S.String),
-  LatestVersion: S.Number,
-  ActiveVersion: S.optional(S.Number),
-  AutoEvaluationEnabled: S.optional(S.Boolean),
-  EvaluationFormLanguage: S.optional(S.String),
-  ContactInteractionType: S.optional(S.String),
-  Tags: S.optional(TagMap),
-}) {}
+export interface EvaluationFormSearchSummary {
+  EvaluationFormId: string;
+  EvaluationFormArn: string;
+  Title: string;
+  Status: string;
+  Description?: string;
+  CreatedTime: Date;
+  CreatedBy: string;
+  LastModifiedTime: Date;
+  LastModifiedBy: string;
+  LastActivatedTime?: Date;
+  LastActivatedBy?: string;
+  LatestVersion: number;
+  ActiveVersion?: number;
+  AutoEvaluationEnabled?: boolean;
+  EvaluationFormLanguage?: string;
+  ContactInteractionType?: string;
+  Tags?: TagMap;
+}
+export const EvaluationFormSearchSummary = S.suspend(() =>
+  S.Struct({
+    EvaluationFormId: S.String,
+    EvaluationFormArn: S.String,
+    Title: S.String,
+    Status: S.String,
+    Description: S.optional(S.String),
+    CreatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    CreatedBy: S.String,
+    LastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    LastModifiedBy: S.String,
+    LastActivatedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastActivatedBy: S.optional(S.String),
+    LatestVersion: S.Number,
+    ActiveVersion: S.optional(S.Number),
+    AutoEvaluationEnabled: S.optional(S.Boolean),
+    EvaluationFormLanguage: S.optional(S.String),
+    ContactInteractionType: S.optional(S.String),
+    Tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "EvaluationFormSearchSummary",
+}) as any as S.Schema<EvaluationFormSearchSummary>;
+export type EvaluationFormSearchSummaryList = EvaluationFormSearchSummary[];
 export const EvaluationFormSearchSummaryList = S.Array(
   EvaluationFormSearchSummary,
 );
-export class SecurityProfileSearchSummary extends S.Class<SecurityProfileSearchSummary>(
-  "SecurityProfileSearchSummary",
-)({
-  Id: S.optional(S.String),
-  OrganizationResourceId: S.optional(S.String),
-  Arn: S.optional(S.String),
-  SecurityProfileName: S.optional(S.String),
-  Description: S.optional(S.String),
-  Tags: S.optional(TagMap),
-}) {}
+export interface SecurityProfileSearchSummary {
+  Id?: string;
+  OrganizationResourceId?: string;
+  Arn?: string;
+  SecurityProfileName?: string;
+  Description?: string;
+  Tags?: TagMap;
+}
+export const SecurityProfileSearchSummary = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    OrganizationResourceId: S.optional(S.String),
+    Arn: S.optional(S.String),
+    SecurityProfileName: S.optional(S.String),
+    Description: S.optional(S.String),
+    Tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "SecurityProfileSearchSummary",
+}) as any as S.Schema<SecurityProfileSearchSummary>;
+export type SecurityProfilesSearchSummaryList = SecurityProfileSearchSummary[];
 export const SecurityProfilesSearchSummaryList = S.Array(
   SecurityProfileSearchSummary,
 );
-export class UserSearchFilter extends S.Class<UserSearchFilter>(
-  "UserSearchFilter",
-)({
-  TagFilter: S.optional(ControlPlaneTagFilter),
-  UserAttributeFilter: S.optional(ControlPlaneUserAttributeFilter),
-}) {}
-export class UserSearchCriteria extends S.Class<UserSearchCriteria>(
-  "UserSearchCriteria",
-)({
-  OrConditions: S.optional(S.suspend(() => UserSearchConditionList)),
-  AndConditions: S.optional(S.suspend(() => UserSearchConditionList)),
-  StringCondition: S.optional(StringCondition),
-  ListCondition: S.optional(ListCondition),
-  HierarchyGroupCondition: S.optional(HierarchyGroupCondition),
-}) {}
-export class WorkspaceAssociationSearchSummary extends S.Class<WorkspaceAssociationSearchSummary>(
-  "WorkspaceAssociationSearchSummary",
-)({
-  WorkspaceId: S.optional(S.String),
-  WorkspaceArn: S.optional(S.String),
-  ResourceId: S.optional(S.String),
-  ResourceArn: S.optional(S.String),
-  ResourceType: S.optional(S.String),
-  ResourceName: S.optional(S.String),
-}) {}
+export interface UserSearchFilter {
+  TagFilter?: ControlPlaneTagFilter;
+  UserAttributeFilter?: ControlPlaneUserAttributeFilter;
+}
+export const UserSearchFilter = S.suspend(() =>
+  S.Struct({
+    TagFilter: S.optional(ControlPlaneTagFilter),
+    UserAttributeFilter: S.optional(ControlPlaneUserAttributeFilter),
+  }),
+).annotations({
+  identifier: "UserSearchFilter",
+}) as any as S.Schema<UserSearchFilter>;
+export interface UserSearchCriteria {
+  OrConditions?: UserSearchConditionList;
+  AndConditions?: UserSearchConditionList;
+  StringCondition?: StringCondition;
+  ListCondition?: ListCondition;
+  HierarchyGroupCondition?: HierarchyGroupCondition;
+}
+export const UserSearchCriteria = S.suspend(() =>
+  S.Struct({
+    OrConditions: S.optional(
+      S.suspend(() => UserSearchConditionList).annotations({
+        identifier: "UserSearchConditionList",
+      }),
+    ),
+    AndConditions: S.optional(
+      S.suspend(() => UserSearchConditionList).annotations({
+        identifier: "UserSearchConditionList",
+      }),
+    ),
+    StringCondition: S.optional(StringCondition),
+    ListCondition: S.optional(ListCondition),
+    HierarchyGroupCondition: S.optional(HierarchyGroupCondition),
+  }),
+).annotations({
+  identifier: "UserSearchCriteria",
+}) as any as S.Schema<UserSearchCriteria>;
+export interface WorkspaceAssociationSearchSummary {
+  WorkspaceId?: string;
+  WorkspaceArn?: string;
+  ResourceId?: string;
+  ResourceArn?: string;
+  ResourceType?: string;
+  ResourceName?: string;
+}
+export const WorkspaceAssociationSearchSummary = S.suspend(() =>
+  S.Struct({
+    WorkspaceId: S.optional(S.String),
+    WorkspaceArn: S.optional(S.String),
+    ResourceId: S.optional(S.String),
+    ResourceArn: S.optional(S.String),
+    ResourceType: S.optional(S.String),
+    ResourceName: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "WorkspaceAssociationSearchSummary",
+}) as any as S.Schema<WorkspaceAssociationSearchSummary>;
+export type WorkspaceAssociationSearchSummaryList =
+  WorkspaceAssociationSearchSummary[];
 export const WorkspaceAssociationSearchSummaryList = S.Array(
   WorkspaceAssociationSearchSummary,
 );
-export class WorkspaceSearchSummary extends S.Class<WorkspaceSearchSummary>(
-  "WorkspaceSearchSummary",
-)({
-  Id: S.optional(S.String),
-  Name: S.optional(S.String),
-  Visibility: S.optional(S.String),
-  Description: S.optional(S.String),
-  Title: S.optional(S.String),
-  Arn: S.optional(S.String),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Tags: S.optional(TagMap),
-}) {}
+export interface WorkspaceSearchSummary {
+  Id?: string;
+  Name?: string;
+  Visibility?: string;
+  Description?: string;
+  Title?: string;
+  Arn?: string;
+  CreatedAt?: Date;
+  Tags?: TagMap;
+}
+export const WorkspaceSearchSummary = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Name: S.optional(S.String),
+    Visibility: S.optional(S.String),
+    Description: S.optional(S.String),
+    Title: S.optional(S.String),
+    Arn: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "WorkspaceSearchSummary",
+}) as any as S.Schema<WorkspaceSearchSummary>;
+export type WorkspaceSearchSummaryList = WorkspaceSearchSummary[];
 export const WorkspaceSearchSummaryList = S.Array(WorkspaceSearchSummary);
-export class InboundEmailContent extends S.Class<InboundEmailContent>(
-  "InboundEmailContent",
-)({ MessageSourceType: S.String, RawMessage: S.optional(InboundRawMessage) }) {}
-export class ProblemDetail extends S.Class<ProblemDetail>("ProblemDetail")({
-  message: S.optional(S.String),
-}) {}
+export interface InboundEmailContent {
+  MessageSourceType: string;
+  RawMessage?: InboundRawMessage;
+}
+export const InboundEmailContent = S.suspend(() =>
+  S.Struct({
+    MessageSourceType: S.String,
+    RawMessage: S.optional(InboundRawMessage),
+  }),
+).annotations({
+  identifier: "InboundEmailContent",
+}) as any as S.Schema<InboundEmailContent>;
+export interface ProblemDetail {
+  message?: string;
+}
+export const ProblemDetail = S.suspend(() =>
+  S.Struct({ message: S.optional(S.String) }),
+).annotations({
+  identifier: "ProblemDetail",
+}) as any as S.Schema<ProblemDetail>;
+export type Problems = ProblemDetail[];
 export const Problems = S.Array(ProblemDetail);
-export class StateTransition extends S.Class<StateTransition>(
-  "StateTransition",
-)({
-  State: S.optional(S.String),
-  StateStartTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  StateEndTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
+export interface StateTransition {
+  State?: string;
+  StateStartTimestamp?: Date;
+  StateEndTimestamp?: Date;
+}
+export const StateTransition = S.suspend(() =>
+  S.Struct({
+    State: S.optional(S.String),
+    StateStartTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    StateEndTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "StateTransition",
+}) as any as S.Schema<StateTransition>;
+export type StateTransitions = StateTransition[];
 export const StateTransitions = S.Array(StateTransition);
-export class AiAgentInfo extends S.Class<AiAgentInfo>("AiAgentInfo")({
-  AiUseCase: S.optional(S.String),
-  AiAgentVersionId: S.optional(S.String),
-  AiAgentEscalated: S.optional(S.Boolean),
-}) {}
+export interface AiAgentInfo {
+  AiUseCase?: string;
+  AiAgentVersionId?: string;
+  AiAgentEscalated?: boolean;
+}
+export const AiAgentInfo = S.suspend(() =>
+  S.Struct({
+    AiUseCase: S.optional(S.String),
+    AiAgentVersionId: S.optional(S.String),
+    AiAgentEscalated: S.optional(S.Boolean),
+  }),
+).annotations({ identifier: "AiAgentInfo" }) as any as S.Schema<AiAgentInfo>;
+export type AiAgents = AiAgentInfo[];
 export const AiAgents = S.Array(AiAgentInfo);
+export type PotentialAudioQualityIssues = string[];
 export const PotentialAudioQualityIssues = S.Array(S.String);
-export class AudioQualityMetricsInfo extends S.Class<AudioQualityMetricsInfo>(
-  "AudioQualityMetricsInfo",
-)({
-  QualityScore: S.optional(S.Number),
-  PotentialQualityIssues: S.optional(PotentialAudioQualityIssues),
-}) {}
-export class CustomerQualityMetrics extends S.Class<CustomerQualityMetrics>(
-  "CustomerQualityMetrics",
-)({ Audio: S.optional(AudioQualityMetricsInfo) }) {}
-export class ChatContactMetrics extends S.Class<ChatContactMetrics>(
-  "ChatContactMetrics",
-)({
-  MultiParty: S.optional(S.Boolean),
-  TotalMessages: S.optional(S.Number),
-  TotalBotMessages: S.optional(S.Number),
-  TotalBotMessageLengthInChars: S.optional(S.Number),
-  ConversationCloseTimeInMillis: S.optional(S.Number),
-  ConversationTurnCount: S.optional(S.Number),
-  AgentFirstResponseTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  AgentFirstResponseTimeInMillis: S.optional(S.Number),
-}) {}
-export class ParticipantMetrics extends S.Class<ParticipantMetrics>(
-  "ParticipantMetrics",
-)({
-  ParticipantId: S.optional(S.String),
-  ParticipantType: S.optional(S.String),
-  ConversationAbandon: S.optional(S.Boolean),
-  MessagesSent: S.optional(S.Number),
-  NumResponses: S.optional(S.Number),
-  MessageLengthInChars: S.optional(S.Number),
-  TotalResponseTimeInMillis: S.optional(S.Number),
-  MaxResponseTimeInMillis: S.optional(S.Number),
-  LastMessageTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
-export class EmailRecipient extends S.Class<EmailRecipient>("EmailRecipient")({
-  Address: S.optional(S.String),
-  DisplayName: S.optional(S.String),
-}) {}
+export interface AudioQualityMetricsInfo {
+  QualityScore?: number;
+  PotentialQualityIssues?: PotentialAudioQualityIssues;
+}
+export const AudioQualityMetricsInfo = S.suspend(() =>
+  S.Struct({
+    QualityScore: S.optional(S.Number),
+    PotentialQualityIssues: S.optional(PotentialAudioQualityIssues),
+  }),
+).annotations({
+  identifier: "AudioQualityMetricsInfo",
+}) as any as S.Schema<AudioQualityMetricsInfo>;
+export interface CustomerQualityMetrics {
+  Audio?: AudioQualityMetricsInfo;
+}
+export const CustomerQualityMetrics = S.suspend(() =>
+  S.Struct({ Audio: S.optional(AudioQualityMetricsInfo) }),
+).annotations({
+  identifier: "CustomerQualityMetrics",
+}) as any as S.Schema<CustomerQualityMetrics>;
+export interface ChatContactMetrics {
+  MultiParty?: boolean;
+  TotalMessages?: number;
+  TotalBotMessages?: number;
+  TotalBotMessageLengthInChars?: number;
+  ConversationCloseTimeInMillis?: number;
+  ConversationTurnCount?: number;
+  AgentFirstResponseTimestamp?: Date;
+  AgentFirstResponseTimeInMillis?: number;
+}
+export const ChatContactMetrics = S.suspend(() =>
+  S.Struct({
+    MultiParty: S.optional(S.Boolean),
+    TotalMessages: S.optional(S.Number),
+    TotalBotMessages: S.optional(S.Number),
+    TotalBotMessageLengthInChars: S.optional(S.Number),
+    ConversationCloseTimeInMillis: S.optional(S.Number),
+    ConversationTurnCount: S.optional(S.Number),
+    AgentFirstResponseTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    AgentFirstResponseTimeInMillis: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "ChatContactMetrics",
+}) as any as S.Schema<ChatContactMetrics>;
+export interface ParticipantMetrics {
+  ParticipantId?: string;
+  ParticipantType?: string;
+  ConversationAbandon?: boolean;
+  MessagesSent?: number;
+  NumResponses?: number;
+  MessageLengthInChars?: number;
+  TotalResponseTimeInMillis?: number;
+  MaxResponseTimeInMillis?: number;
+  LastMessageTimestamp?: Date;
+}
+export const ParticipantMetrics = S.suspend(() =>
+  S.Struct({
+    ParticipantId: S.optional(S.String),
+    ParticipantType: S.optional(S.String),
+    ConversationAbandon: S.optional(S.Boolean),
+    MessagesSent: S.optional(S.Number),
+    NumResponses: S.optional(S.Number),
+    MessageLengthInChars: S.optional(S.Number),
+    TotalResponseTimeInMillis: S.optional(S.Number),
+    MaxResponseTimeInMillis: S.optional(S.Number),
+    LastMessageTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "ParticipantMetrics",
+}) as any as S.Schema<ParticipantMetrics>;
+export interface EmailRecipient {
+  Address?: string;
+  DisplayName?: string;
+}
+export const EmailRecipient = S.suspend(() =>
+  S.Struct({
+    Address: S.optional(S.String),
+    DisplayName: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "EmailRecipient",
+}) as any as S.Schema<EmailRecipient>;
+export type EmailRecipientsList = EmailRecipient[];
 export const EmailRecipientsList = S.Array(EmailRecipient);
-export class ContactEvaluation extends S.Class<ContactEvaluation>(
-  "ContactEvaluation",
-)({
-  FormId: S.optional(S.String),
-  EvaluationArn: S.optional(S.String),
-  Status: S.optional(S.String),
-  StartTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  EndTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  DeleteTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  ExportLocation: S.optional(S.String),
-}) {}
-export class AutoEvaluationDetails extends S.Class<AutoEvaluationDetails>(
-  "AutoEvaluationDetails",
-)({
-  AutoEvaluationEnabled: S.Boolean,
-  AutoEvaluationStatus: S.optional(S.String),
-}) {}
-export class EvaluationAcknowledgement extends S.Class<EvaluationAcknowledgement>(
-  "EvaluationAcknowledgement",
-)({
-  AcknowledgedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  AcknowledgedBy: S.String,
-  AcknowledgerComment: S.optional(S.String),
-}) {}
-export class RealTimeContactAnalysisAttachment extends S.Class<RealTimeContactAnalysisAttachment>(
-  "RealTimeContactAnalysisAttachment",
-)({
-  AttachmentName: S.String,
-  ContentType: S.optional(S.String),
-  AttachmentId: S.String,
-  Status: S.optional(S.String),
-}) {}
+export interface ContactEvaluation {
+  FormId?: string;
+  EvaluationArn?: string;
+  Status?: string;
+  StartTimestamp?: Date;
+  EndTimestamp?: Date;
+  DeleteTimestamp?: Date;
+  ExportLocation?: string;
+}
+export const ContactEvaluation = S.suspend(() =>
+  S.Struct({
+    FormId: S.optional(S.String),
+    EvaluationArn: S.optional(S.String),
+    Status: S.optional(S.String),
+    StartTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EndTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    DeleteTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    ExportLocation: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ContactEvaluation",
+}) as any as S.Schema<ContactEvaluation>;
+export interface AutoEvaluationDetails {
+  AutoEvaluationEnabled: boolean;
+  AutoEvaluationStatus?: string;
+}
+export const AutoEvaluationDetails = S.suspend(() =>
+  S.Struct({
+    AutoEvaluationEnabled: S.Boolean,
+    AutoEvaluationStatus: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AutoEvaluationDetails",
+}) as any as S.Schema<AutoEvaluationDetails>;
+export interface EvaluationAcknowledgement {
+  AcknowledgedTime: Date;
+  AcknowledgedBy: string;
+  AcknowledgerComment?: string;
+}
+export const EvaluationAcknowledgement = S.suspend(() =>
+  S.Struct({
+    AcknowledgedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    AcknowledgedBy: S.String,
+    AcknowledgerComment: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "EvaluationAcknowledgement",
+}) as any as S.Schema<EvaluationAcknowledgement>;
+export interface RealTimeContactAnalysisAttachment {
+  AttachmentName: string;
+  ContentType?: string;
+  AttachmentId: string;
+  Status?: string;
+}
+export const RealTimeContactAnalysisAttachment = S.suspend(() =>
+  S.Struct({
+    AttachmentName: S.String,
+    ContentType: S.optional(S.String),
+    AttachmentId: S.String,
+    Status: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RealTimeContactAnalysisAttachment",
+}) as any as S.Schema<RealTimeContactAnalysisAttachment>;
+export type RealTimeContactAnalysisAttachments =
+  RealTimeContactAnalysisAttachment[];
 export const RealTimeContactAnalysisAttachments = S.Array(
   RealTimeContactAnalysisAttachment,
 );
-export class Transcript extends S.Class<Transcript>("Transcript")({
-  Criteria: TranscriptCriteriaList,
-  MatchType: S.optional(S.String),
-}) {}
-export class SearchableRoutingCriteriaStep extends S.Class<SearchableRoutingCriteriaStep>(
-  "SearchableRoutingCriteriaStep",
-)({ AgentCriteria: S.optional(SearchableAgentCriteriaStep) }) {}
+export interface Transcript {
+  Criteria: TranscriptCriteriaList;
+  MatchType?: string;
+}
+export const Transcript = S.suspend(() =>
+  S.Struct({
+    Criteria: TranscriptCriteriaList,
+    MatchType: S.optional(S.String),
+  }),
+).annotations({ identifier: "Transcript" }) as any as S.Schema<Transcript>;
+export interface SearchableRoutingCriteriaStep {
+  AgentCriteria?: SearchableAgentCriteriaStep;
+}
+export const SearchableRoutingCriteriaStep = S.suspend(() =>
+  S.Struct({ AgentCriteria: S.optional(SearchableAgentCriteriaStep) }),
+).annotations({
+  identifier: "SearchableRoutingCriteriaStep",
+}) as any as S.Schema<SearchableRoutingCriteriaStep>;
+export type SearchableRoutingCriteriaStepList = SearchableRoutingCriteriaStep[];
 export const SearchableRoutingCriteriaStepList = S.Array(
   SearchableRoutingCriteriaStep,
 );
-export class SearchContactsAdditionalTimeRangeCriteria extends S.Class<SearchContactsAdditionalTimeRangeCriteria>(
-  "SearchContactsAdditionalTimeRangeCriteria",
-)({
-  TimeRange: S.optional(SearchContactsTimeRange),
-  TimestampCondition: S.optional(SearchContactsTimestampCondition),
-}) {}
+export interface SearchContactsAdditionalTimeRangeCriteria {
+  TimeRange?: SearchContactsTimeRange;
+  TimestampCondition?: SearchContactsTimestampCondition;
+}
+export const SearchContactsAdditionalTimeRangeCriteria = S.suspend(() =>
+  S.Struct({
+    TimeRange: S.optional(SearchContactsTimeRange),
+    TimestampCondition: S.optional(SearchContactsTimestampCondition),
+  }),
+).annotations({
+  identifier: "SearchContactsAdditionalTimeRangeCriteria",
+}) as any as S.Schema<SearchContactsAdditionalTimeRangeCriteria>;
+export type SearchContactsAdditionalTimeRangeCriteriaList =
+  SearchContactsAdditionalTimeRangeCriteria[];
 export const SearchContactsAdditionalTimeRangeCriteriaList = S.Array(
   SearchContactsAdditionalTimeRangeCriteria,
 );
-export class ParticipantTimerConfiguration extends S.Class<ParticipantTimerConfiguration>(
-  "ParticipantTimerConfiguration",
-)({
-  ParticipantRole: S.String,
-  TimerType: S.String,
-  TimerValue: ParticipantTimerValue,
-}) {}
+export interface ParticipantTimerConfiguration {
+  ParticipantRole: string;
+  TimerType: string;
+  TimerValue: (typeof ParticipantTimerValue)["Type"];
+}
+export const ParticipantTimerConfiguration = S.suspend(() =>
+  S.Struct({
+    ParticipantRole: S.String,
+    TimerType: S.String,
+    TimerValue: ParticipantTimerValue,
+  }),
+).annotations({
+  identifier: "ParticipantTimerConfiguration",
+}) as any as S.Schema<ParticipantTimerConfiguration>;
+export type ParticipantTimerConfigList = ParticipantTimerConfiguration[];
 export const ParticipantTimerConfigList = S.Array(
   ParticipantTimerConfiguration,
 );
-export class AssociateInstanceStorageConfigRequest extends S.Class<AssociateInstanceStorageConfigRequest>(
-  "AssociateInstanceStorageConfigRequest",
-)(
-  {
+export interface AssociateInstanceStorageConfigRequest {
+  InstanceId: string;
+  ResourceType: string;
+  StorageConfig: InstanceStorageConfig;
+  ClientToken?: string;
+}
+export const AssociateInstanceStorageConfigRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ResourceType: S.String,
     StorageConfig: InstanceStorageConfig,
     ClientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/instance/{InstanceId}/storage-config" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/instance/{InstanceId}/storage-config" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class BatchCreateDataTableValueResponse extends S.Class<BatchCreateDataTableValueResponse>(
-  "BatchCreateDataTableValueResponse",
-)({
-  Successful: BatchCreateDataTableValueSuccessResultList,
-  Failed: BatchCreateDataTableValueFailureResultList,
-}) {}
-export class BatchDeleteDataTableValueResponse extends S.Class<BatchDeleteDataTableValueResponse>(
-  "BatchDeleteDataTableValueResponse",
-)({
-  Successful: BatchDeleteDataTableValueSuccessResultList,
-  Failed: BatchDeleteDataTableValueFailureResultList,
-}) {}
-export class BatchDescribeDataTableValueResponse extends S.Class<BatchDescribeDataTableValueResponse>(
-  "BatchDescribeDataTableValueResponse",
-)({
-  Successful: BatchDescribeDataTableValueSuccessResultList,
-  Failed: BatchDescribeDataTableValueFailureResultList,
-}) {}
-export class CreateContactRequest extends S.Class<CreateContactRequest>(
-  "CreateContactRequest",
-)(
-  {
+).annotations({
+  identifier: "AssociateInstanceStorageConfigRequest",
+}) as any as S.Schema<AssociateInstanceStorageConfigRequest>;
+export interface BatchCreateDataTableValueResponse {
+  Successful: BatchCreateDataTableValueSuccessResultList;
+  Failed: BatchCreateDataTableValueFailureResultList;
+}
+export const BatchCreateDataTableValueResponse = S.suspend(() =>
+  S.Struct({
+    Successful: BatchCreateDataTableValueSuccessResultList,
+    Failed: BatchCreateDataTableValueFailureResultList,
+  }),
+).annotations({
+  identifier: "BatchCreateDataTableValueResponse",
+}) as any as S.Schema<BatchCreateDataTableValueResponse>;
+export interface BatchDeleteDataTableValueResponse {
+  Successful: BatchDeleteDataTableValueSuccessResultList;
+  Failed: BatchDeleteDataTableValueFailureResultList;
+}
+export const BatchDeleteDataTableValueResponse = S.suspend(() =>
+  S.Struct({
+    Successful: BatchDeleteDataTableValueSuccessResultList,
+    Failed: BatchDeleteDataTableValueFailureResultList,
+  }),
+).annotations({
+  identifier: "BatchDeleteDataTableValueResponse",
+}) as any as S.Schema<BatchDeleteDataTableValueResponse>;
+export interface BatchDescribeDataTableValueResponse {
+  Successful: BatchDescribeDataTableValueSuccessResultList;
+  Failed: BatchDescribeDataTableValueFailureResultList;
+}
+export const BatchDescribeDataTableValueResponse = S.suspend(() =>
+  S.Struct({
+    Successful: BatchDescribeDataTableValueSuccessResultList,
+    Failed: BatchDescribeDataTableValueFailureResultList,
+  }),
+).annotations({
+  identifier: "BatchDescribeDataTableValueResponse",
+}) as any as S.Schema<BatchDescribeDataTableValueResponse>;
+export interface CreateContactRequest {
+  InstanceId: string;
+  ClientToken?: string;
+  RelatedContactId?: string;
+  Attributes?: Attributes;
+  References?: ContactReferences;
+  Channel: string;
+  InitiationMethod: string;
+  ExpiryDurationInMinutes?: number;
+  UserInfo?: UserInfo;
+  InitiateAs?: string;
+  Name?: string;
+  Description?: string;
+  SegmentAttributes?: SegmentAttributes;
+  PreviousContactId?: string;
+}
+export const CreateContactRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String,
     ClientToken: S.optional(S.String),
     RelatedContactId: S.optional(S.String),
@@ -10857,235 +17896,486 @@ export class CreateContactRequest extends S.Class<CreateContactRequest>(
     Description: S.optional(S.String),
     SegmentAttributes: S.optional(SegmentAttributes),
     PreviousContactId: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/contact/create-contact" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/contact/create-contact" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateDataTableAttributeResponse extends S.Class<CreateDataTableAttributeResponse>(
-  "CreateDataTableAttributeResponse",
-)({
-  Name: S.String,
-  AttributeId: S.optional(S.String),
-  LockVersion: DataTableLockVersion,
-}) {}
-export class AutomaticFailConfiguration extends S.Class<AutomaticFailConfiguration>(
-  "AutomaticFailConfiguration",
-)({ TargetSection: S.optional(S.String) }) {}
-export class EvaluationFormSingleSelectQuestionOption extends S.Class<EvaluationFormSingleSelectQuestionOption>(
-  "EvaluationFormSingleSelectQuestionOption",
-)({
-  RefId: S.String,
-  Text: S.String,
-  Score: S.optional(S.Number),
-  AutomaticFail: S.optional(S.Boolean),
-  AutomaticFailConfiguration: S.optional(AutomaticFailConfiguration),
-}) {}
+).annotations({
+  identifier: "CreateContactRequest",
+}) as any as S.Schema<CreateContactRequest>;
+export interface CreateDataTableAttributeResponse {
+  Name: string;
+  AttributeId?: string;
+  LockVersion: DataTableLockVersion;
+}
+export const CreateDataTableAttributeResponse = S.suspend(() =>
+  S.Struct({
+    Name: S.String,
+    AttributeId: S.optional(S.String),
+    LockVersion: DataTableLockVersion,
+  }),
+).annotations({
+  identifier: "CreateDataTableAttributeResponse",
+}) as any as S.Schema<CreateDataTableAttributeResponse>;
+export interface AutomaticFailConfiguration {
+  TargetSection?: string;
+}
+export const AutomaticFailConfiguration = S.suspend(() =>
+  S.Struct({ TargetSection: S.optional(S.String) }),
+).annotations({
+  identifier: "AutomaticFailConfiguration",
+}) as any as S.Schema<AutomaticFailConfiguration>;
+export interface EvaluationFormSingleSelectQuestionOption {
+  RefId: string;
+  Text: string;
+  Score?: number;
+  AutomaticFail?: boolean;
+  AutomaticFailConfiguration?: AutomaticFailConfiguration;
+}
+export const EvaluationFormSingleSelectQuestionOption = S.suspend(() =>
+  S.Struct({
+    RefId: S.String,
+    Text: S.String,
+    Score: S.optional(S.Number),
+    AutomaticFail: S.optional(S.Boolean),
+    AutomaticFailConfiguration: S.optional(AutomaticFailConfiguration),
+  }),
+).annotations({
+  identifier: "EvaluationFormSingleSelectQuestionOption",
+}) as any as S.Schema<EvaluationFormSingleSelectQuestionOption>;
+export type EvaluationFormSingleSelectQuestionOptionList =
+  EvaluationFormSingleSelectQuestionOption[];
 export const EvaluationFormSingleSelectQuestionOptionList = S.Array(
   EvaluationFormSingleSelectQuestionOption,
 );
-export class EvaluationFormQuestionAutomationAnswerSource extends S.Class<EvaluationFormQuestionAutomationAnswerSource>(
-  "EvaluationFormQuestionAutomationAnswerSource",
-)({ SourceType: S.String }) {}
-export class EvaluationFormTextQuestionAutomation extends S.Class<EvaluationFormTextQuestionAutomation>(
-  "EvaluationFormTextQuestionAutomation",
-)({ AnswerSource: S.optional(EvaluationFormQuestionAutomationAnswerSource) }) {}
-export class EvaluationFormMultiSelectQuestionOption extends S.Class<EvaluationFormMultiSelectQuestionOption>(
-  "EvaluationFormMultiSelectQuestionOption",
-)({ RefId: S.String, Text: S.String }) {}
+export interface EvaluationFormQuestionAutomationAnswerSource {
+  SourceType: string;
+}
+export const EvaluationFormQuestionAutomationAnswerSource = S.suspend(() =>
+  S.Struct({ SourceType: S.String }),
+).annotations({
+  identifier: "EvaluationFormQuestionAutomationAnswerSource",
+}) as any as S.Schema<EvaluationFormQuestionAutomationAnswerSource>;
+export interface EvaluationFormTextQuestionAutomation {
+  AnswerSource?: EvaluationFormQuestionAutomationAnswerSource;
+}
+export const EvaluationFormTextQuestionAutomation = S.suspend(() =>
+  S.Struct({
+    AnswerSource: S.optional(EvaluationFormQuestionAutomationAnswerSource),
+  }),
+).annotations({
+  identifier: "EvaluationFormTextQuestionAutomation",
+}) as any as S.Schema<EvaluationFormTextQuestionAutomation>;
+export interface EvaluationFormMultiSelectQuestionOption {
+  RefId: string;
+  Text: string;
+}
+export const EvaluationFormMultiSelectQuestionOption = S.suspend(() =>
+  S.Struct({ RefId: S.String, Text: S.String }),
+).annotations({
+  identifier: "EvaluationFormMultiSelectQuestionOption",
+}) as any as S.Schema<EvaluationFormMultiSelectQuestionOption>;
+export type EvaluationFormMultiSelectQuestionOptionList =
+  EvaluationFormMultiSelectQuestionOption[];
 export const EvaluationFormMultiSelectQuestionOptionList = S.Array(
   EvaluationFormMultiSelectQuestionOption,
 );
-export class CreateHoursOfOperationResponse extends S.Class<CreateHoursOfOperationResponse>(
-  "CreateHoursOfOperationResponse",
-)({
-  HoursOfOperationId: S.optional(S.String),
-  HoursOfOperationArn: S.optional(S.String),
-}) {}
-export class CreateHoursOfOperationOverrideResponse extends S.Class<CreateHoursOfOperationOverrideResponse>(
-  "CreateHoursOfOperationOverrideResponse",
-)({ HoursOfOperationOverrideId: S.optional(S.String) }) {}
-export class CreateQuickConnectResponse extends S.Class<CreateQuickConnectResponse>(
-  "CreateQuickConnectResponse",
-)({
-  QuickConnectARN: S.optional(S.String),
-  QuickConnectId: S.optional(S.String),
-}) {}
-export class CreateRoutingProfileResponse extends S.Class<CreateRoutingProfileResponse>(
-  "CreateRoutingProfileResponse",
-)({
-  RoutingProfileArn: S.optional(S.String),
-  RoutingProfileId: S.optional(S.String),
-}) {}
-export class CreateTaskTemplateResponse extends S.Class<CreateTaskTemplateResponse>(
-  "CreateTaskTemplateResponse",
-)({ Id: S.String, Arn: S.String }) {}
-export class CreateViewVersionResponse extends S.Class<CreateViewVersionResponse>(
-  "CreateViewVersionResponse",
-)({ View: S.optional(View) }) {}
-export class DescribeInstanceResponse extends S.Class<DescribeInstanceResponse>(
-  "DescribeInstanceResponse",
-)({
-  Instance: S.optional(Instance),
-  ReplicationConfiguration: S.optional(ReplicationConfiguration),
-}) {}
-export class DescribePhoneNumberResponse extends S.Class<DescribePhoneNumberResponse>(
-  "DescribePhoneNumberResponse",
-)({ ClaimedPhoneNumberSummary: S.optional(ClaimedPhoneNumberSummary) }) {}
-export class DescribePredefinedAttributeResponse extends S.Class<DescribePredefinedAttributeResponse>(
-  "DescribePredefinedAttributeResponse",
-)({ PredefinedAttribute: S.optional(PredefinedAttribute) }) {}
-export class DescribeUserHierarchyGroupResponse extends S.Class<DescribeUserHierarchyGroupResponse>(
-  "DescribeUserHierarchyGroupResponse",
-)({ HierarchyGroup: S.optional(HierarchyGroup) }) {}
-export class DescribeUserHierarchyStructureResponse extends S.Class<DescribeUserHierarchyStructureResponse>(
-  "DescribeUserHierarchyStructureResponse",
-)({ HierarchyStructure: S.optional(HierarchyStructure) }) {}
-export class EvaluateDataTableValuesResponse extends S.Class<EvaluateDataTableValuesResponse>(
-  "EvaluateDataTableValuesResponse",
-)({ Values: DataTableEvaluatedValueList, NextToken: S.optional(S.String) }) {}
-export class GetEffectiveHoursOfOperationsResponse extends S.Class<GetEffectiveHoursOfOperationsResponse>(
-  "GetEffectiveHoursOfOperationsResponse",
-)({
-  EffectiveHoursOfOperationList: S.optional(EffectiveHoursOfOperationList),
-  TimeZone: S.optional(S.String),
-}) {}
-export class ListContactEvaluationsResponse extends S.Class<ListContactEvaluationsResponse>(
-  "ListContactEvaluationsResponse",
-)({
-  EvaluationSummaryList: EvaluationSummaryList,
-  NextToken: S.optional(S.String),
-}) {}
-export class ListContactReferencesResponse extends S.Class<ListContactReferencesResponse>(
-  "ListContactReferencesResponse",
-)({
-  ReferenceSummaryList: S.optional(ReferenceSummaryList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListDataTablePrimaryValuesResponse extends S.Class<ListDataTablePrimaryValuesResponse>(
-  "ListDataTablePrimaryValuesResponse",
-)({ NextToken: S.optional(S.String), PrimaryValuesList: PrimaryValuesList }) {}
-export class ListDataTableValuesResponse extends S.Class<ListDataTableValuesResponse>(
-  "ListDataTableValuesResponse",
-)({ NextToken: S.optional(S.String), Values: DataTableValueSummaryList }) {}
-export class ListRulesResponse extends S.Class<ListRulesResponse>(
-  "ListRulesResponse",
-)({ RuleSummaryList: RuleSummaryList, NextToken: S.optional(S.String) }) {}
-export class SearchAgentStatusesRequest extends S.Class<SearchAgentStatusesRequest>(
-  "SearchAgentStatusesRequest",
-)(
-  {
+export interface CreateHoursOfOperationResponse {
+  HoursOfOperationId?: string;
+  HoursOfOperationArn?: string;
+}
+export const CreateHoursOfOperationResponse = S.suspend(() =>
+  S.Struct({
+    HoursOfOperationId: S.optional(S.String),
+    HoursOfOperationArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CreateHoursOfOperationResponse",
+}) as any as S.Schema<CreateHoursOfOperationResponse>;
+export interface CreateHoursOfOperationOverrideResponse {
+  HoursOfOperationOverrideId?: string;
+}
+export const CreateHoursOfOperationOverrideResponse = S.suspend(() =>
+  S.Struct({ HoursOfOperationOverrideId: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateHoursOfOperationOverrideResponse",
+}) as any as S.Schema<CreateHoursOfOperationOverrideResponse>;
+export interface CreateQuickConnectResponse {
+  QuickConnectARN?: string;
+  QuickConnectId?: string;
+}
+export const CreateQuickConnectResponse = S.suspend(() =>
+  S.Struct({
+    QuickConnectARN: S.optional(S.String),
+    QuickConnectId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CreateQuickConnectResponse",
+}) as any as S.Schema<CreateQuickConnectResponse>;
+export interface CreateRoutingProfileResponse {
+  RoutingProfileArn?: string;
+  RoutingProfileId?: string;
+}
+export const CreateRoutingProfileResponse = S.suspend(() =>
+  S.Struct({
+    RoutingProfileArn: S.optional(S.String),
+    RoutingProfileId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CreateRoutingProfileResponse",
+}) as any as S.Schema<CreateRoutingProfileResponse>;
+export interface CreateTaskTemplateResponse {
+  Id: string;
+  Arn: string;
+}
+export const CreateTaskTemplateResponse = S.suspend(() =>
+  S.Struct({ Id: S.String, Arn: S.String }),
+).annotations({
+  identifier: "CreateTaskTemplateResponse",
+}) as any as S.Schema<CreateTaskTemplateResponse>;
+export interface CreateViewVersionResponse {
+  View?: View;
+}
+export const CreateViewVersionResponse = S.suspend(() =>
+  S.Struct({ View: S.optional(View) }),
+).annotations({
+  identifier: "CreateViewVersionResponse",
+}) as any as S.Schema<CreateViewVersionResponse>;
+export interface DescribeInstanceResponse {
+  Instance?: Instance;
+  ReplicationConfiguration?: ReplicationConfiguration;
+}
+export const DescribeInstanceResponse = S.suspend(() =>
+  S.Struct({
+    Instance: S.optional(Instance),
+    ReplicationConfiguration: S.optional(ReplicationConfiguration),
+  }),
+).annotations({
+  identifier: "DescribeInstanceResponse",
+}) as any as S.Schema<DescribeInstanceResponse>;
+export interface DescribePhoneNumberResponse {
+  ClaimedPhoneNumberSummary?: ClaimedPhoneNumberSummary;
+}
+export const DescribePhoneNumberResponse = S.suspend(() =>
+  S.Struct({
+    ClaimedPhoneNumberSummary: S.optional(ClaimedPhoneNumberSummary),
+  }),
+).annotations({
+  identifier: "DescribePhoneNumberResponse",
+}) as any as S.Schema<DescribePhoneNumberResponse>;
+export interface DescribePredefinedAttributeResponse {
+  PredefinedAttribute?: PredefinedAttribute;
+}
+export const DescribePredefinedAttributeResponse = S.suspend(() =>
+  S.Struct({ PredefinedAttribute: S.optional(PredefinedAttribute) }),
+).annotations({
+  identifier: "DescribePredefinedAttributeResponse",
+}) as any as S.Schema<DescribePredefinedAttributeResponse>;
+export interface DescribeUserHierarchyGroupResponse {
+  HierarchyGroup?: HierarchyGroup;
+}
+export const DescribeUserHierarchyGroupResponse = S.suspend(() =>
+  S.Struct({ HierarchyGroup: S.optional(HierarchyGroup) }),
+).annotations({
+  identifier: "DescribeUserHierarchyGroupResponse",
+}) as any as S.Schema<DescribeUserHierarchyGroupResponse>;
+export interface DescribeUserHierarchyStructureResponse {
+  HierarchyStructure?: HierarchyStructure;
+}
+export const DescribeUserHierarchyStructureResponse = S.suspend(() =>
+  S.Struct({ HierarchyStructure: S.optional(HierarchyStructure) }),
+).annotations({
+  identifier: "DescribeUserHierarchyStructureResponse",
+}) as any as S.Schema<DescribeUserHierarchyStructureResponse>;
+export interface EvaluateDataTableValuesResponse {
+  Values: DataTableEvaluatedValueList;
+  NextToken?: string;
+}
+export const EvaluateDataTableValuesResponse = S.suspend(() =>
+  S.Struct({
+    Values: DataTableEvaluatedValueList,
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "EvaluateDataTableValuesResponse",
+}) as any as S.Schema<EvaluateDataTableValuesResponse>;
+export interface GetEffectiveHoursOfOperationsResponse {
+  EffectiveHoursOfOperationList?: EffectiveHoursOfOperationList;
+  TimeZone?: string;
+}
+export const GetEffectiveHoursOfOperationsResponse = S.suspend(() =>
+  S.Struct({
+    EffectiveHoursOfOperationList: S.optional(EffectiveHoursOfOperationList),
+    TimeZone: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetEffectiveHoursOfOperationsResponse",
+}) as any as S.Schema<GetEffectiveHoursOfOperationsResponse>;
+export interface ListContactEvaluationsResponse {
+  EvaluationSummaryList: EvaluationSummaryList;
+  NextToken?: string;
+}
+export const ListContactEvaluationsResponse = S.suspend(() =>
+  S.Struct({
+    EvaluationSummaryList: EvaluationSummaryList,
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListContactEvaluationsResponse",
+}) as any as S.Schema<ListContactEvaluationsResponse>;
+export interface ListContactReferencesResponse {
+  ReferenceSummaryList?: ReferenceSummaryList;
+  NextToken?: string;
+}
+export const ListContactReferencesResponse = S.suspend(() =>
+  S.Struct({
+    ReferenceSummaryList: S.optional(ReferenceSummaryList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListContactReferencesResponse",
+}) as any as S.Schema<ListContactReferencesResponse>;
+export interface ListDataTablePrimaryValuesResponse {
+  NextToken?: string;
+  PrimaryValuesList: PrimaryValuesList;
+}
+export const ListDataTablePrimaryValuesResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    PrimaryValuesList: PrimaryValuesList,
+  }),
+).annotations({
+  identifier: "ListDataTablePrimaryValuesResponse",
+}) as any as S.Schema<ListDataTablePrimaryValuesResponse>;
+export interface ListDataTableValuesResponse {
+  NextToken?: string;
+  Values: DataTableValueSummaryList;
+}
+export const ListDataTableValuesResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    Values: DataTableValueSummaryList,
+  }),
+).annotations({
+  identifier: "ListDataTableValuesResponse",
+}) as any as S.Schema<ListDataTableValuesResponse>;
+export interface ListRulesResponse {
+  RuleSummaryList: RuleSummaryList;
+  NextToken?: string;
+}
+export const ListRulesResponse = S.suspend(() =>
+  S.Struct({
+    RuleSummaryList: RuleSummaryList,
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListRulesResponse",
+}) as any as S.Schema<ListRulesResponse>;
+export interface SearchAgentStatusesRequest {
+  InstanceId: string;
+  NextToken?: string;
+  MaxResults?: number;
+  SearchFilter?: AgentStatusSearchFilter;
+  SearchCriteria?: AgentStatusSearchCriteria;
+}
+export const SearchAgentStatusesRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     SearchFilter: S.optional(AgentStatusSearchFilter),
     SearchCriteria: S.optional(AgentStatusSearchCriteria),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/search-agent-statuses" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/search-agent-statuses" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SearchContactFlowModulesResponse extends S.Class<SearchContactFlowModulesResponse>(
-  "SearchContactFlowModulesResponse",
-)({
-  ContactFlowModules: S.optional(ContactFlowModuleSearchSummaryList),
-  NextToken: S.optional(S.String),
-  ApproximateTotalCount: S.optional(S.Number),
-}) {}
-export class SearchContactFlowsRequest extends S.Class<SearchContactFlowsRequest>(
-  "SearchContactFlowsRequest",
-)(
-  {
+).annotations({
+  identifier: "SearchAgentStatusesRequest",
+}) as any as S.Schema<SearchAgentStatusesRequest>;
+export interface SearchContactFlowModulesResponse {
+  ContactFlowModules?: ContactFlowModuleSearchSummaryList;
+  NextToken?: string;
+  ApproximateTotalCount?: number;
+}
+export const SearchContactFlowModulesResponse = S.suspend(() =>
+  S.Struct({
+    ContactFlowModules: S.optional(ContactFlowModuleSearchSummaryList),
+    NextToken: S.optional(S.String),
+    ApproximateTotalCount: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "SearchContactFlowModulesResponse",
+}) as any as S.Schema<SearchContactFlowModulesResponse>;
+export interface SearchContactFlowsRequest {
+  InstanceId: string;
+  NextToken?: string;
+  MaxResults?: number;
+  SearchFilter?: ContactFlowSearchFilter;
+  SearchCriteria?: ContactFlowSearchCriteria;
+}
+export const SearchContactFlowsRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     SearchFilter: S.optional(ContactFlowSearchFilter),
     SearchCriteria: S.optional(ContactFlowSearchCriteria),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/search-contact-flows" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/search-contact-flows" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SearchEmailAddressesResponse extends S.Class<SearchEmailAddressesResponse>(
-  "SearchEmailAddressesResponse",
-)({
-  NextToken: S.optional(S.String),
-  EmailAddresses: S.optional(EmailAddressList),
-  ApproximateTotalCount: S.optional(S.Number),
-}) {}
-export class SearchEvaluationFormsResponse extends S.Class<SearchEvaluationFormsResponse>(
-  "SearchEvaluationFormsResponse",
-)({
-  EvaluationFormSearchSummaryList: S.optional(EvaluationFormSearchSummaryList),
-  NextToken: S.optional(S.String),
-  ApproximateTotalCount: S.optional(S.Number),
-}) {}
-export class SearchHoursOfOperationOverridesResponse extends S.Class<SearchHoursOfOperationOverridesResponse>(
-  "SearchHoursOfOperationOverridesResponse",
-)({
-  HoursOfOperationOverrides: S.optional(HoursOfOperationOverrideList),
-  NextToken: S.optional(S.String),
-  ApproximateTotalCount: S.optional(S.Number),
-}) {}
-export class SearchSecurityProfilesResponse extends S.Class<SearchSecurityProfilesResponse>(
-  "SearchSecurityProfilesResponse",
-)({
-  SecurityProfiles: S.optional(SecurityProfilesSearchSummaryList),
-  NextToken: S.optional(S.String),
-  ApproximateTotalCount: S.optional(S.Number),
-}) {}
-export class SearchUsersRequest extends S.Class<SearchUsersRequest>(
-  "SearchUsersRequest",
-)(
-  {
+).annotations({
+  identifier: "SearchContactFlowsRequest",
+}) as any as S.Schema<SearchContactFlowsRequest>;
+export interface SearchEmailAddressesResponse {
+  NextToken?: string;
+  EmailAddresses?: EmailAddressList;
+  ApproximateTotalCount?: number;
+}
+export const SearchEmailAddressesResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    EmailAddresses: S.optional(EmailAddressList),
+    ApproximateTotalCount: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "SearchEmailAddressesResponse",
+}) as any as S.Schema<SearchEmailAddressesResponse>;
+export interface SearchEvaluationFormsResponse {
+  EvaluationFormSearchSummaryList?: EvaluationFormSearchSummaryList;
+  NextToken?: string;
+  ApproximateTotalCount?: number;
+}
+export const SearchEvaluationFormsResponse = S.suspend(() =>
+  S.Struct({
+    EvaluationFormSearchSummaryList: S.optional(
+      EvaluationFormSearchSummaryList,
+    ),
+    NextToken: S.optional(S.String),
+    ApproximateTotalCount: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "SearchEvaluationFormsResponse",
+}) as any as S.Schema<SearchEvaluationFormsResponse>;
+export interface SearchHoursOfOperationOverridesResponse {
+  HoursOfOperationOverrides?: HoursOfOperationOverrideList;
+  NextToken?: string;
+  ApproximateTotalCount?: number;
+}
+export const SearchHoursOfOperationOverridesResponse = S.suspend(() =>
+  S.Struct({
+    HoursOfOperationOverrides: S.optional(HoursOfOperationOverrideList),
+    NextToken: S.optional(S.String),
+    ApproximateTotalCount: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "SearchHoursOfOperationOverridesResponse",
+}) as any as S.Schema<SearchHoursOfOperationOverridesResponse>;
+export interface SearchSecurityProfilesResponse {
+  SecurityProfiles?: SecurityProfilesSearchSummaryList;
+  NextToken?: string;
+  ApproximateTotalCount?: number;
+}
+export const SearchSecurityProfilesResponse = S.suspend(() =>
+  S.Struct({
+    SecurityProfiles: S.optional(SecurityProfilesSearchSummaryList),
+    NextToken: S.optional(S.String),
+    ApproximateTotalCount: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "SearchSecurityProfilesResponse",
+}) as any as S.Schema<SearchSecurityProfilesResponse>;
+export interface SearchUsersRequest {
+  InstanceId: string;
+  NextToken?: string;
+  MaxResults?: number;
+  SearchFilter?: UserSearchFilter;
+  SearchCriteria?: UserSearchCriteria;
+}
+export const SearchUsersRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     SearchFilter: S.optional(UserSearchFilter),
     SearchCriteria: S.optional(UserSearchCriteria),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/search-users" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/search-users" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SearchWorkspaceAssociationsResponse extends S.Class<SearchWorkspaceAssociationsResponse>(
-  "SearchWorkspaceAssociationsResponse",
-)({
-  NextToken: S.optional(S.String),
-  WorkspaceAssociations: S.optional(WorkspaceAssociationSearchSummaryList),
-  ApproximateTotalCount: S.optional(S.Number),
-}) {}
-export class SearchWorkspacesResponse extends S.Class<SearchWorkspacesResponse>(
-  "SearchWorkspacesResponse",
-)({
-  NextToken: S.optional(S.String),
-  Workspaces: S.optional(WorkspaceSearchSummaryList),
-  ApproximateTotalCount: S.optional(S.Number),
-}) {}
-export class StartEmailContactRequest extends S.Class<StartEmailContactRequest>(
-  "StartEmailContactRequest",
-)(
-  {
+).annotations({
+  identifier: "SearchUsersRequest",
+}) as any as S.Schema<SearchUsersRequest>;
+export interface SearchWorkspaceAssociationsResponse {
+  NextToken?: string;
+  WorkspaceAssociations?: WorkspaceAssociationSearchSummaryList;
+  ApproximateTotalCount?: number;
+}
+export const SearchWorkspaceAssociationsResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    WorkspaceAssociations: S.optional(WorkspaceAssociationSearchSummaryList),
+    ApproximateTotalCount: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "SearchWorkspaceAssociationsResponse",
+}) as any as S.Schema<SearchWorkspaceAssociationsResponse>;
+export interface SearchWorkspacesResponse {
+  NextToken?: string;
+  Workspaces?: WorkspaceSearchSummaryList;
+  ApproximateTotalCount?: number;
+}
+export const SearchWorkspacesResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    Workspaces: S.optional(WorkspaceSearchSummaryList),
+    ApproximateTotalCount: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "SearchWorkspacesResponse",
+}) as any as S.Schema<SearchWorkspacesResponse>;
+export interface StartEmailContactRequest {
+  InstanceId: string;
+  FromEmailAddress: EmailAddressInfo;
+  DestinationEmailAddress: string;
+  Description?: string;
+  References?: ContactReferences;
+  Name?: string;
+  EmailMessage: InboundEmailContent;
+  AdditionalRecipients?: InboundAdditionalRecipients;
+  Attachments?: EmailAttachments;
+  ContactFlowId?: string;
+  RelatedContactId?: string;
+  Attributes?: Attributes;
+  SegmentAttributes?: SegmentAttributes;
+  ClientToken?: string;
+}
+export const StartEmailContactRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String,
     FromEmailAddress: EmailAddressInfo,
     DestinationEmailAddress: S.String,
@@ -11100,305 +18390,655 @@ export class StartEmailContactRequest extends S.Class<StartEmailContactRequest>(
     Attributes: S.optional(Attributes),
     SegmentAttributes: S.optional(SegmentAttributes),
     ClientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/contact/email" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/contact/email" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartOutboundChatContactResponse extends S.Class<StartOutboundChatContactResponse>(
-  "StartOutboundChatContactResponse",
-)({ ContactId: S.optional(S.String) }) {}
-export class SubmitContactEvaluationRequest extends S.Class<SubmitContactEvaluationRequest>(
-  "SubmitContactEvaluationRequest",
-)(
-  {
+).annotations({
+  identifier: "StartEmailContactRequest",
+}) as any as S.Schema<StartEmailContactRequest>;
+export interface StartOutboundChatContactResponse {
+  ContactId?: string;
+}
+export const StartOutboundChatContactResponse = S.suspend(() =>
+  S.Struct({ ContactId: S.optional(S.String) }),
+).annotations({
+  identifier: "StartOutboundChatContactResponse",
+}) as any as S.Schema<StartOutboundChatContactResponse>;
+export interface SubmitContactEvaluationRequest {
+  InstanceId: string;
+  EvaluationId: string;
+  Answers?: EvaluationAnswersInputMap;
+  Notes?: EvaluationNotesMap;
+  SubmittedBy?: (typeof EvaluatorUserUnion)["Type"];
+}
+export const SubmitContactEvaluationRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     EvaluationId: S.String.pipe(T.HttpLabel("EvaluationId")),
     Answers: S.optional(EvaluationAnswersInputMap),
     Notes: S.optional(EvaluationNotesMap),
     SubmittedBy: S.optional(EvaluatorUserUnion),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/contact-evaluations/{InstanceId}/{EvaluationId}/submit",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/contact-evaluations/{InstanceId}/{EvaluationId}/submit",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class Range extends S.Class<Range>("Range")({
-  MinProficiencyLevel: S.optional(S.Number),
-  MaxProficiencyLevel: S.optional(S.Number),
-}) {}
-export class WisdomInfo extends S.Class<WisdomInfo>("WisdomInfo")({
-  SessionArn: S.optional(S.String),
-  AiAgents: S.optional(AiAgents),
-}) {}
-export class ChatMetrics extends S.Class<ChatMetrics>("ChatMetrics")({
-  ChatContactMetrics: S.optional(ChatContactMetrics),
-  AgentMetrics: S.optional(ParticipantMetrics),
-  CustomerMetrics: S.optional(ParticipantMetrics),
-}) {}
-export class AdditionalEmailRecipients extends S.Class<AdditionalEmailRecipients>(
-  "AdditionalEmailRecipients",
-)({
-  ToList: S.optional(EmailRecipientsList),
-  CcList: S.optional(EmailRecipientsList),
-}) {}
+).annotations({
+  identifier: "SubmitContactEvaluationRequest",
+}) as any as S.Schema<SubmitContactEvaluationRequest>;
+export interface Range {
+  MinProficiencyLevel?: number;
+  MaxProficiencyLevel?: number;
+}
+export const Range = S.suspend(() =>
+  S.Struct({
+    MinProficiencyLevel: S.optional(S.Number),
+    MaxProficiencyLevel: S.optional(S.Number),
+  }),
+).annotations({ identifier: "Range" }) as any as S.Schema<Range>;
+export interface WisdomInfo {
+  SessionArn?: string;
+  AiAgents?: AiAgents;
+}
+export const WisdomInfo = S.suspend(() =>
+  S.Struct({
+    SessionArn: S.optional(S.String),
+    AiAgents: S.optional(AiAgents),
+  }),
+).annotations({ identifier: "WisdomInfo" }) as any as S.Schema<WisdomInfo>;
+export interface ChatMetrics {
+  ChatContactMetrics?: ChatContactMetrics;
+  AgentMetrics?: ParticipantMetrics;
+  CustomerMetrics?: ParticipantMetrics;
+}
+export const ChatMetrics = S.suspend(() =>
+  S.Struct({
+    ChatContactMetrics: S.optional(ChatContactMetrics),
+    AgentMetrics: S.optional(ParticipantMetrics),
+    CustomerMetrics: S.optional(ParticipantMetrics),
+  }),
+).annotations({ identifier: "ChatMetrics" }) as any as S.Schema<ChatMetrics>;
+export interface AdditionalEmailRecipients {
+  ToList?: EmailRecipientsList;
+  CcList?: EmailRecipientsList;
+}
+export const AdditionalEmailRecipients = S.suspend(() =>
+  S.Struct({
+    ToList: S.optional(EmailRecipientsList),
+    CcList: S.optional(EmailRecipientsList),
+  }),
+).annotations({
+  identifier: "AdditionalEmailRecipients",
+}) as any as S.Schema<AdditionalEmailRecipients>;
+export type ContactEvaluations = { [key: string]: ContactEvaluation };
 export const ContactEvaluations = S.Record({
   key: S.String,
   value: ContactEvaluation,
 });
-export class EvaluationMetadata extends S.Class<EvaluationMetadata>(
-  "EvaluationMetadata",
-)({
-  ContactId: S.String,
-  EvaluatorArn: S.String,
-  ContactAgentId: S.optional(S.String),
-  CalibrationSessionId: S.optional(S.String),
-  Score: S.optional(EvaluationScore),
-  AutoEvaluation: S.optional(AutoEvaluationDetails),
-  Acknowledgement: S.optional(EvaluationAcknowledgement),
-  ContactParticipant: S.optional(EvaluationContactParticipant),
-  SamplingJobId: S.optional(S.String),
-}) {}
+export interface EvaluationMetadata {
+  ContactId: string;
+  EvaluatorArn: string;
+  ContactAgentId?: string;
+  CalibrationSessionId?: string;
+  Score?: EvaluationScore;
+  AutoEvaluation?: AutoEvaluationDetails;
+  Acknowledgement?: EvaluationAcknowledgement;
+  ContactParticipant?: EvaluationContactParticipant;
+  SamplingJobId?: string;
+}
+export const EvaluationMetadata = S.suspend(() =>
+  S.Struct({
+    ContactId: S.String,
+    EvaluatorArn: S.String,
+    ContactAgentId: S.optional(S.String),
+    CalibrationSessionId: S.optional(S.String),
+    Score: S.optional(EvaluationScore),
+    AutoEvaluation: S.optional(AutoEvaluationDetails),
+    Acknowledgement: S.optional(EvaluationAcknowledgement),
+    ContactParticipant: S.optional(EvaluationContactParticipant),
+    SamplingJobId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "EvaluationMetadata",
+}) as any as S.Schema<EvaluationMetadata>;
 export const ContactMetricValue = S.Union(S.Struct({ Number: S.Number }));
-export class CurrentMetricData extends S.Class<CurrentMetricData>(
-  "CurrentMetricData",
-)({ Metric: S.optional(CurrentMetric), Value: S.optional(S.Number) }) {}
+export interface CurrentMetricData {
+  Metric?: CurrentMetric;
+  Value?: number;
+}
+export const CurrentMetricData = S.suspend(() =>
+  S.Struct({ Metric: S.optional(CurrentMetric), Value: S.optional(S.Number) }),
+).annotations({
+  identifier: "CurrentMetricData",
+}) as any as S.Schema<CurrentMetricData>;
+export type CurrentMetricDataCollections = CurrentMetricData[];
 export const CurrentMetricDataCollections = S.Array(CurrentMetricData);
-export class RealTimeContactAnalysisSegmentAttachments extends S.Class<RealTimeContactAnalysisSegmentAttachments>(
-  "RealTimeContactAnalysisSegmentAttachments",
-)({
-  Id: S.String,
-  ParticipantId: S.String,
-  ParticipantRole: S.String,
-  DisplayName: S.optional(S.String),
-  Attachments: RealTimeContactAnalysisAttachments,
-  Time: RealTimeContactAnalysisTimeData,
-}) {}
-export class ContactAnalysis extends S.Class<ContactAnalysis>(
-  "ContactAnalysis",
-)({ Transcript: S.optional(Transcript) }) {}
-export class SearchableRoutingCriteria extends S.Class<SearchableRoutingCriteria>(
-  "SearchableRoutingCriteria",
-)({ Steps: S.optional(SearchableRoutingCriteriaStepList) }) {}
-export class SearchContactsAdditionalTimeRange extends S.Class<SearchContactsAdditionalTimeRange>(
-  "SearchContactsAdditionalTimeRange",
-)({
-  Criteria: SearchContactsAdditionalTimeRangeCriteriaList,
-  MatchType: S.String,
-}) {}
+export interface RealTimeContactAnalysisSegmentAttachments {
+  Id: string;
+  ParticipantId: string;
+  ParticipantRole: string;
+  DisplayName?: string;
+  Attachments: RealTimeContactAnalysisAttachments;
+  Time: (typeof RealTimeContactAnalysisTimeData)["Type"];
+}
+export const RealTimeContactAnalysisSegmentAttachments = S.suspend(() =>
+  S.Struct({
+    Id: S.String,
+    ParticipantId: S.String,
+    ParticipantRole: S.String,
+    DisplayName: S.optional(S.String),
+    Attachments: RealTimeContactAnalysisAttachments,
+    Time: RealTimeContactAnalysisTimeData,
+  }),
+).annotations({
+  identifier: "RealTimeContactAnalysisSegmentAttachments",
+}) as any as S.Schema<RealTimeContactAnalysisSegmentAttachments>;
+export interface ContactAnalysis {
+  Transcript?: Transcript;
+}
+export const ContactAnalysis = S.suspend(() =>
+  S.Struct({ Transcript: S.optional(Transcript) }),
+).annotations({
+  identifier: "ContactAnalysis",
+}) as any as S.Schema<ContactAnalysis>;
+export interface SearchableRoutingCriteria {
+  Steps?: SearchableRoutingCriteriaStepList;
+}
+export const SearchableRoutingCriteria = S.suspend(() =>
+  S.Struct({ Steps: S.optional(SearchableRoutingCriteriaStepList) }),
+).annotations({
+  identifier: "SearchableRoutingCriteria",
+}) as any as S.Schema<SearchableRoutingCriteria>;
+export interface SearchContactsAdditionalTimeRange {
+  Criteria: SearchContactsAdditionalTimeRangeCriteriaList;
+  MatchType: string;
+}
+export const SearchContactsAdditionalTimeRange = S.suspend(() =>
+  S.Struct({
+    Criteria: SearchContactsAdditionalTimeRangeCriteriaList,
+    MatchType: S.String,
+  }),
+).annotations({
+  identifier: "SearchContactsAdditionalTimeRange",
+}) as any as S.Schema<SearchContactsAdditionalTimeRange>;
+export type UrlMetadataSignedHeaders = { [key: string]: string };
 export const UrlMetadataSignedHeaders = S.Record({
   key: S.String,
   value: S.String,
 });
-export class Attendee extends S.Class<Attendee>("Attendee")({
-  AttendeeId: S.optional(S.String),
-  JoinToken: S.optional(S.String),
-}) {}
+export interface Attendee {
+  AttendeeId?: string;
+  JoinToken?: string;
+}
+export const Attendee = S.suspend(() =>
+  S.Struct({
+    AttendeeId: S.optional(S.String),
+    JoinToken: S.optional(S.String),
+  }),
+).annotations({ identifier: "Attendee" }) as any as S.Schema<Attendee>;
+export type AgentIds = string[];
 export const AgentIds = S.Array(S.String);
-export class ChatParticipantRoleConfig extends S.Class<ChatParticipantRoleConfig>(
-  "ChatParticipantRoleConfig",
-)({ ParticipantTimerConfigList: ParticipantTimerConfigList }) {}
-export class EvaluationFormTextQuestionProperties extends S.Class<EvaluationFormTextQuestionProperties>(
-  "EvaluationFormTextQuestionProperties",
-)({ Automation: S.optional(EvaluationFormTextQuestionAutomation) }) {}
-export class AgentHierarchyGroup extends S.Class<AgentHierarchyGroup>(
-  "AgentHierarchyGroup",
-)({ Arn: S.optional(S.String) }) {}
-export class Expiry extends S.Class<Expiry>("Expiry")({
-  DurationInSeconds: S.optional(S.Number),
-  ExpiryTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class QuickConnectContactData extends S.Class<QuickConnectContactData>(
-  "QuickConnectContactData",
-)({
-  ContactId: S.optional(S.String),
-  InitiationTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  QuickConnectId: S.optional(S.String),
-  QuickConnectName: S.optional(S.String),
-  QuickConnectType: S.optional(S.String),
-}) {}
-export class RealTimeContactAnalysisCharacterInterval extends S.Class<RealTimeContactAnalysisCharacterInterval>(
-  "RealTimeContactAnalysisCharacterInterval",
-)({ BeginOffsetChar: S.Number, EndOffsetChar: S.Number }) {}
+export interface ChatParticipantRoleConfig {
+  ParticipantTimerConfigList: ParticipantTimerConfigList;
+}
+export const ChatParticipantRoleConfig = S.suspend(() =>
+  S.Struct({ ParticipantTimerConfigList: ParticipantTimerConfigList }),
+).annotations({
+  identifier: "ChatParticipantRoleConfig",
+}) as any as S.Schema<ChatParticipantRoleConfig>;
+export interface EvaluationFormTextQuestionProperties {
+  Automation?: EvaluationFormTextQuestionAutomation;
+}
+export const EvaluationFormTextQuestionProperties = S.suspend(() =>
+  S.Struct({ Automation: S.optional(EvaluationFormTextQuestionAutomation) }),
+).annotations({
+  identifier: "EvaluationFormTextQuestionProperties",
+}) as any as S.Schema<EvaluationFormTextQuestionProperties>;
+export interface AgentHierarchyGroup {
+  Arn?: string;
+}
+export const AgentHierarchyGroup = S.suspend(() =>
+  S.Struct({ Arn: S.optional(S.String) }),
+).annotations({
+  identifier: "AgentHierarchyGroup",
+}) as any as S.Schema<AgentHierarchyGroup>;
+export interface Expiry {
+  DurationInSeconds?: number;
+  ExpiryTimestamp?: Date;
+}
+export const Expiry = S.suspend(() =>
+  S.Struct({
+    DurationInSeconds: S.optional(S.Number),
+    ExpiryTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({ identifier: "Expiry" }) as any as S.Schema<Expiry>;
+export interface QuickConnectContactData {
+  ContactId?: string;
+  InitiationTimestamp?: Date;
+  QuickConnectId?: string;
+  QuickConnectName?: string;
+  QuickConnectType?: string;
+}
+export const QuickConnectContactData = S.suspend(() =>
+  S.Struct({
+    ContactId: S.optional(S.String),
+    InitiationTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    QuickConnectId: S.optional(S.String),
+    QuickConnectName: S.optional(S.String),
+    QuickConnectType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "QuickConnectContactData",
+}) as any as S.Schema<QuickConnectContactData>;
+export interface RealTimeContactAnalysisCharacterInterval {
+  BeginOffsetChar: number;
+  EndOffsetChar: number;
+}
+export const RealTimeContactAnalysisCharacterInterval = S.suspend(() =>
+  S.Struct({ BeginOffsetChar: S.Number, EndOffsetChar: S.Number }),
+).annotations({
+  identifier: "RealTimeContactAnalysisCharacterInterval",
+}) as any as S.Schema<RealTimeContactAnalysisCharacterInterval>;
+export type RealTimeContactAnalysisCharacterIntervals =
+  RealTimeContactAnalysisCharacterInterval[];
 export const RealTimeContactAnalysisCharacterIntervals = S.Array(
   RealTimeContactAnalysisCharacterInterval,
 );
-export class RealTimeContactAnalysisTranscriptItemWithContent extends S.Class<RealTimeContactAnalysisTranscriptItemWithContent>(
-  "RealTimeContactAnalysisTranscriptItemWithContent",
-)({
-  Content: S.optional(S.String),
-  Id: S.String,
-  CharacterOffsets: S.optional(RealTimeContactAnalysisCharacterInterval),
-}) {}
+export interface RealTimeContactAnalysisTranscriptItemWithContent {
+  Content?: string;
+  Id: string;
+  CharacterOffsets?: RealTimeContactAnalysisCharacterInterval;
+}
+export const RealTimeContactAnalysisTranscriptItemWithContent = S.suspend(() =>
+  S.Struct({
+    Content: S.optional(S.String),
+    Id: S.String,
+    CharacterOffsets: S.optional(RealTimeContactAnalysisCharacterInterval),
+  }),
+).annotations({
+  identifier: "RealTimeContactAnalysisTranscriptItemWithContent",
+}) as any as S.Schema<RealTimeContactAnalysisTranscriptItemWithContent>;
+export type RealTimeContactAnalysisTranscriptItemsWithContent =
+  RealTimeContactAnalysisTranscriptItemWithContent[];
 export const RealTimeContactAnalysisTranscriptItemsWithContent = S.Array(
   RealTimeContactAnalysisTranscriptItemWithContent,
 );
-export class SuccessfulRequest extends S.Class<SuccessfulRequest>(
-  "SuccessfulRequest",
-)({
-  RequestIdentifier: S.optional(S.String),
-  ContactId: S.optional(S.String),
-}) {}
+export interface SuccessfulRequest {
+  RequestIdentifier?: string;
+  ContactId?: string;
+}
+export const SuccessfulRequest = S.suspend(() =>
+  S.Struct({
+    RequestIdentifier: S.optional(S.String),
+    ContactId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SuccessfulRequest",
+}) as any as S.Schema<SuccessfulRequest>;
+export type SuccessfulRequestList = SuccessfulRequest[];
 export const SuccessfulRequestList = S.Array(SuccessfulRequest);
-export class FailedRequest extends S.Class<FailedRequest>("FailedRequest")({
-  RequestIdentifier: S.optional(S.String),
-  FailureReasonCode: S.optional(S.String),
-  FailureReasonMessage: S.optional(S.String),
-}) {}
+export interface FailedRequest {
+  RequestIdentifier?: string;
+  FailureReasonCode?: string;
+  FailureReasonMessage?: string;
+}
+export const FailedRequest = S.suspend(() =>
+  S.Struct({
+    RequestIdentifier: S.optional(S.String),
+    FailureReasonCode: S.optional(S.String),
+    FailureReasonMessage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "FailedRequest",
+}) as any as S.Schema<FailedRequest>;
+export type FailedRequestList = FailedRequest[];
 export const FailedRequestList = S.Array(FailedRequest);
-export class NumericQuestionPropertyValueAutomation extends S.Class<NumericQuestionPropertyValueAutomation>(
-  "NumericQuestionPropertyValueAutomation",
-)({ Label: S.String }) {}
-export class ParticipantTokenCredentials extends S.Class<ParticipantTokenCredentials>(
-  "ParticipantTokenCredentials",
-)({ ParticipantToken: S.optional(S.String), Expiry: S.optional(S.String) }) {}
-export class ContactMetricResult extends S.Class<ContactMetricResult>(
-  "ContactMetricResult",
-)({ Name: S.String, Value: ContactMetricValue }) {}
+export interface NumericQuestionPropertyValueAutomation {
+  Label: string;
+}
+export const NumericQuestionPropertyValueAutomation = S.suspend(() =>
+  S.Struct({ Label: S.String }),
+).annotations({
+  identifier: "NumericQuestionPropertyValueAutomation",
+}) as any as S.Schema<NumericQuestionPropertyValueAutomation>;
+export interface ParticipantTokenCredentials {
+  ParticipantToken?: string;
+  Expiry?: string;
+}
+export const ParticipantTokenCredentials = S.suspend(() =>
+  S.Struct({
+    ParticipantToken: S.optional(S.String),
+    Expiry: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ParticipantTokenCredentials",
+}) as any as S.Schema<ParticipantTokenCredentials>;
+export interface ContactMetricResult {
+  Name: string;
+  Value: (typeof ContactMetricValue)["Type"];
+}
+export const ContactMetricResult = S.suspend(() =>
+  S.Struct({ Name: S.String, Value: ContactMetricValue }),
+).annotations({
+  identifier: "ContactMetricResult",
+}) as any as S.Schema<ContactMetricResult>;
+export type ContactMetricResults = ContactMetricResult[];
 export const ContactMetricResults = S.Array(ContactMetricResult);
+export type AgentStatusList = AgentStatus[];
 export const AgentStatusList = S.Array(AgentStatus);
+export type ContactFlowSearchSummaryList = ContactFlow[];
 export const ContactFlowSearchSummaryList = S.Array(ContactFlow);
-export class SearchCriteria extends S.Class<SearchCriteria>("SearchCriteria")({
-  Name: S.optional(NameCriteria),
-  AgentIds: S.optional(AgentResourceIdList),
-  AgentHierarchyGroups: S.optional(AgentHierarchyGroups),
-  Channels: S.optional(ChannelList),
-  ContactAnalysis: S.optional(ContactAnalysis),
-  InitiationMethods: S.optional(InitiationMethodList),
-  QueueIds: S.optional(QueueIdList),
-  RoutingCriteria: S.optional(SearchableRoutingCriteria),
-  AdditionalTimeRange: S.optional(SearchContactsAdditionalTimeRange),
-  SearchableContactAttributes: S.optional(SearchableContactAttributes),
-  SearchableSegmentAttributes: S.optional(SearchableSegmentAttributes),
-  ActiveRegions: S.optional(ActiveRegionList),
-}) {}
-export class TagSet extends S.Class<TagSet>("TagSet")({
-  key: S.optional(S.String),
-  value: S.optional(S.String),
-}) {}
+export interface SearchCriteria {
+  Name?: NameCriteria;
+  AgentIds?: AgentResourceIdList;
+  AgentHierarchyGroups?: AgentHierarchyGroups;
+  Channels?: ChannelList;
+  ContactAnalysis?: ContactAnalysis;
+  InitiationMethods?: InitiationMethodList;
+  QueueIds?: QueueIdList;
+  RoutingCriteria?: SearchableRoutingCriteria;
+  AdditionalTimeRange?: SearchContactsAdditionalTimeRange;
+  SearchableContactAttributes?: SearchableContactAttributes;
+  SearchableSegmentAttributes?: SearchableSegmentAttributes;
+  ActiveRegions?: ActiveRegionList;
+}
+export const SearchCriteria = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(NameCriteria),
+    AgentIds: S.optional(AgentResourceIdList),
+    AgentHierarchyGroups: S.optional(AgentHierarchyGroups),
+    Channels: S.optional(ChannelList),
+    ContactAnalysis: S.optional(ContactAnalysis),
+    InitiationMethods: S.optional(InitiationMethodList),
+    QueueIds: S.optional(QueueIdList),
+    RoutingCriteria: S.optional(SearchableRoutingCriteria),
+    AdditionalTimeRange: S.optional(SearchContactsAdditionalTimeRange),
+    SearchableContactAttributes: S.optional(SearchableContactAttributes),
+    SearchableSegmentAttributes: S.optional(SearchableSegmentAttributes),
+    ActiveRegions: S.optional(ActiveRegionList),
+  }),
+).annotations({
+  identifier: "SearchCriteria",
+}) as any as S.Schema<SearchCriteria>;
+export interface TagSet {
+  key?: string;
+  value?: string;
+}
+export const TagSet = S.suspend(() =>
+  S.Struct({ key: S.optional(S.String), value: S.optional(S.String) }),
+).annotations({ identifier: "TagSet" }) as any as S.Schema<TagSet>;
+export type TagsList = TagSet[];
 export const TagsList = S.Array(TagSet);
-export class UploadUrlMetadata extends S.Class<UploadUrlMetadata>(
-  "UploadUrlMetadata",
-)({
-  Url: S.optional(S.String),
-  UrlExpiry: S.optional(S.String),
-  HeadersToInclude: S.optional(UrlMetadataSignedHeaders),
-}) {}
-export class AgentsCriteria extends S.Class<AgentsCriteria>("AgentsCriteria")({
-  AgentIds: S.optional(AgentIds),
-}) {}
+export interface UploadUrlMetadata {
+  Url?: string;
+  UrlExpiry?: string;
+  HeadersToInclude?: UrlMetadataSignedHeaders;
+}
+export const UploadUrlMetadata = S.suspend(() =>
+  S.Struct({
+    Url: S.optional(S.String),
+    UrlExpiry: S.optional(S.String),
+    HeadersToInclude: S.optional(UrlMetadataSignedHeaders),
+  }),
+).annotations({
+  identifier: "UploadUrlMetadata",
+}) as any as S.Schema<UploadUrlMetadata>;
+export interface AgentsCriteria {
+  AgentIds?: AgentIds;
+}
+export const AgentsCriteria = S.suspend(() =>
+  S.Struct({ AgentIds: S.optional(AgentIds) }),
+).annotations({
+  identifier: "AgentsCriteria",
+}) as any as S.Schema<AgentsCriteria>;
 export const UpdateParticipantRoleConfigChannelInfo = S.Union(
   S.Struct({ Chat: ChatParticipantRoleConfig }),
 );
-export class PropertyValidationExceptionProperty extends S.Class<PropertyValidationExceptionProperty>(
-  "PropertyValidationExceptionProperty",
-)({ PropertyPath: S.String, Reason: S.String, Message: S.String }) {}
+export interface PropertyValidationExceptionProperty {
+  PropertyPath: string;
+  Reason: string;
+  Message: string;
+}
+export const PropertyValidationExceptionProperty = S.suspend(() =>
+  S.Struct({ PropertyPath: S.String, Reason: S.String, Message: S.String }),
+).annotations({
+  identifier: "PropertyValidationExceptionProperty",
+}) as any as S.Schema<PropertyValidationExceptionProperty>;
+export type PropertyValidationExceptionPropertyList =
+  PropertyValidationExceptionProperty[];
 export const PropertyValidationExceptionPropertyList = S.Array(
   PropertyValidationExceptionProperty,
 );
-export class HierarchyGroups extends S.Class<HierarchyGroups>(
-  "HierarchyGroups",
-)({
-  Level1: S.optional(AgentHierarchyGroup),
-  Level2: S.optional(AgentHierarchyGroup),
-  Level3: S.optional(AgentHierarchyGroup),
-  Level4: S.optional(AgentHierarchyGroup),
-  Level5: S.optional(AgentHierarchyGroup),
-}) {}
-export class MatchCriteria extends S.Class<MatchCriteria>("MatchCriteria")({
-  AgentsCriteria: S.optional(AgentsCriteria),
-}) {}
-export class AttributeCondition extends S.Class<AttributeCondition>(
-  "AttributeCondition",
-)({
-  Name: S.optional(S.String),
-  Value: S.optional(S.String),
-  ProficiencyLevel: S.optional(S.Number),
-  Range: S.optional(Range),
-  MatchCriteria: S.optional(MatchCriteria),
-  ComparisonOperator: S.optional(S.String),
-}) {}
-export class Expression extends S.Class<Expression>("Expression")({
-  AttributeCondition: S.optional(AttributeCondition),
-  AndExpression: S.optional(S.suspend(() => Expressions)),
-  OrExpression: S.optional(S.suspend(() => Expressions)),
-  NotAttributeCondition: S.optional(AttributeCondition),
-}) {}
-export class Step extends S.Class<Step>("Step")({
-  Expiry: S.optional(Expiry),
-  Expression: S.optional(Expression),
-  Status: S.optional(S.String),
-}) {}
+export interface HierarchyGroups {
+  Level1?: AgentHierarchyGroup;
+  Level2?: AgentHierarchyGroup;
+  Level3?: AgentHierarchyGroup;
+  Level4?: AgentHierarchyGroup;
+  Level5?: AgentHierarchyGroup;
+}
+export const HierarchyGroups = S.suspend(() =>
+  S.Struct({
+    Level1: S.optional(AgentHierarchyGroup),
+    Level2: S.optional(AgentHierarchyGroup),
+    Level3: S.optional(AgentHierarchyGroup),
+    Level4: S.optional(AgentHierarchyGroup),
+    Level5: S.optional(AgentHierarchyGroup),
+  }),
+).annotations({
+  identifier: "HierarchyGroups",
+}) as any as S.Schema<HierarchyGroups>;
+export interface MatchCriteria {
+  AgentsCriteria?: AgentsCriteria;
+}
+export const MatchCriteria = S.suspend(() =>
+  S.Struct({ AgentsCriteria: S.optional(AgentsCriteria) }),
+).annotations({
+  identifier: "MatchCriteria",
+}) as any as S.Schema<MatchCriteria>;
+export interface AttributeCondition {
+  Name?: string;
+  Value?: string;
+  ProficiencyLevel?: number;
+  Range?: Range;
+  MatchCriteria?: MatchCriteria;
+  ComparisonOperator?: string;
+}
+export const AttributeCondition = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Value: S.optional(S.String),
+    ProficiencyLevel: S.optional(S.Number),
+    Range: S.optional(Range),
+    MatchCriteria: S.optional(MatchCriteria),
+    ComparisonOperator: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AttributeCondition",
+}) as any as S.Schema<AttributeCondition>;
+export interface Expression {
+  AttributeCondition?: AttributeCondition;
+  AndExpression?: Expressions;
+  OrExpression?: Expressions;
+  NotAttributeCondition?: AttributeCondition;
+}
+export const Expression = S.suspend(() =>
+  S.Struct({
+    AttributeCondition: S.optional(AttributeCondition),
+    AndExpression: S.optional(
+      S.suspend(() => Expressions).annotations({ identifier: "Expressions" }),
+    ),
+    OrExpression: S.optional(
+      S.suspend(() => Expressions).annotations({ identifier: "Expressions" }),
+    ),
+    NotAttributeCondition: S.optional(AttributeCondition),
+  }),
+).annotations({ identifier: "Expression" }) as any as S.Schema<Expression>;
+export interface Step {
+  Expiry?: Expiry;
+  Expression?: Expression;
+  Status?: string;
+}
+export const Step = S.suspend(() =>
+  S.Struct({
+    Expiry: S.optional(Expiry),
+    Expression: S.optional(Expression),
+    Status: S.optional(S.String),
+  }),
+).annotations({ identifier: "Step" }) as any as S.Schema<Step>;
+export type Steps = Step[];
 export const Steps = S.Array(Step);
-export class AgentQualityMetrics extends S.Class<AgentQualityMetrics>(
-  "AgentQualityMetrics",
-)({ Audio: S.optional(AudioQualityMetricsInfo) }) {}
+export interface AgentQualityMetrics {
+  Audio?: AudioQualityMetricsInfo;
+}
+export const AgentQualityMetrics = S.suspend(() =>
+  S.Struct({ Audio: S.optional(AudioQualityMetricsInfo) }),
+).annotations({
+  identifier: "AgentQualityMetrics",
+}) as any as S.Schema<AgentQualityMetrics>;
 export const NextContactMetadata = S.Union(
   S.Struct({ QuickConnectContactData: QuickConnectContactData }),
 );
-export class QueueReference extends S.Class<QueueReference>("QueueReference")({
-  Id: S.optional(S.String),
-  Arn: S.optional(S.String),
-}) {}
-export class RoutingProfileReference extends S.Class<RoutingProfileReference>(
-  "RoutingProfileReference",
-)({ Id: S.optional(S.String), Arn: S.optional(S.String) }) {}
-export class AgentStatusIdentifier extends S.Class<AgentStatusIdentifier>(
-  "AgentStatusIdentifier",
-)({ Arn: S.optional(S.String), Id: S.optional(S.String) }) {}
-export class RealTimeContactAnalysisTranscriptItemRedaction extends S.Class<RealTimeContactAnalysisTranscriptItemRedaction>(
-  "RealTimeContactAnalysisTranscriptItemRedaction",
-)({
-  CharacterOffsets: S.optional(RealTimeContactAnalysisCharacterIntervals),
-}) {}
-export class RealTimeContactAnalysisIssueDetected extends S.Class<RealTimeContactAnalysisIssueDetected>(
-  "RealTimeContactAnalysisIssueDetected",
-)({ TranscriptItems: RealTimeContactAnalysisTranscriptItemsWithContent }) {}
+export interface QueueReference {
+  Id?: string;
+  Arn?: string;
+}
+export const QueueReference = S.suspend(() =>
+  S.Struct({ Id: S.optional(S.String), Arn: S.optional(S.String) }),
+).annotations({
+  identifier: "QueueReference",
+}) as any as S.Schema<QueueReference>;
+export interface RoutingProfileReference {
+  Id?: string;
+  Arn?: string;
+}
+export const RoutingProfileReference = S.suspend(() =>
+  S.Struct({ Id: S.optional(S.String), Arn: S.optional(S.String) }),
+).annotations({
+  identifier: "RoutingProfileReference",
+}) as any as S.Schema<RoutingProfileReference>;
+export interface AgentStatusIdentifier {
+  Arn?: string;
+  Id?: string;
+}
+export const AgentStatusIdentifier = S.suspend(() =>
+  S.Struct({ Arn: S.optional(S.String), Id: S.optional(S.String) }),
+).annotations({
+  identifier: "AgentStatusIdentifier",
+}) as any as S.Schema<AgentStatusIdentifier>;
+export interface RealTimeContactAnalysisTranscriptItemRedaction {
+  CharacterOffsets?: RealTimeContactAnalysisCharacterIntervals;
+}
+export const RealTimeContactAnalysisTranscriptItemRedaction = S.suspend(() =>
+  S.Struct({
+    CharacterOffsets: S.optional(RealTimeContactAnalysisCharacterIntervals),
+  }),
+).annotations({
+  identifier: "RealTimeContactAnalysisTranscriptItemRedaction",
+}) as any as S.Schema<RealTimeContactAnalysisTranscriptItemRedaction>;
+export interface RealTimeContactAnalysisIssueDetected {
+  TranscriptItems: RealTimeContactAnalysisTranscriptItemsWithContent;
+}
+export const RealTimeContactAnalysisIssueDetected = S.suspend(() =>
+  S.Struct({
+    TranscriptItems: RealTimeContactAnalysisTranscriptItemsWithContent,
+  }),
+).annotations({
+  identifier: "RealTimeContactAnalysisIssueDetected",
+}) as any as S.Schema<RealTimeContactAnalysisIssueDetected>;
+export type RealTimeContactAnalysisIssuesDetected =
+  RealTimeContactAnalysisIssueDetected[];
 export const RealTimeContactAnalysisIssuesDetected = S.Array(
   RealTimeContactAnalysisIssueDetected,
 );
-export class MediaPlacement extends S.Class<MediaPlacement>("MediaPlacement")({
-  AudioHostUrl: S.optional(S.String),
-  AudioFallbackUrl: S.optional(S.String),
-  SignalingUrl: S.optional(S.String),
-  TurnControlUrl: S.optional(S.String),
-  EventIngestionUrl: S.optional(S.String),
-}) {}
-export class AssociateInstanceStorageConfigResponse extends S.Class<AssociateInstanceStorageConfigResponse>(
-  "AssociateInstanceStorageConfigResponse",
-)({ AssociationId: S.optional(S.String) }) {}
-export class BatchPutContactResponse extends S.Class<BatchPutContactResponse>(
-  "BatchPutContactResponse",
-)({
-  SuccessfulRequestList: S.optional(SuccessfulRequestList),
-  FailedRequestList: S.optional(FailedRequestList),
-}) {}
-export class CreateContactResponse extends S.Class<CreateContactResponse>(
-  "CreateContactResponse",
-)({ ContactId: S.optional(S.String), ContactArn: S.optional(S.String) }) {}
-export class EvaluationFormNumericQuestionOption extends S.Class<EvaluationFormNumericQuestionOption>(
-  "EvaluationFormNumericQuestionOption",
-)({
-  MinValue: S.Number,
-  MaxValue: S.Number,
-  Score: S.optional(S.Number),
-  AutomaticFail: S.optional(S.Boolean),
-  AutomaticFailConfiguration: S.optional(AutomaticFailConfiguration),
-}) {}
+export interface MediaPlacement {
+  AudioHostUrl?: string;
+  AudioFallbackUrl?: string;
+  SignalingUrl?: string;
+  TurnControlUrl?: string;
+  EventIngestionUrl?: string;
+}
+export const MediaPlacement = S.suspend(() =>
+  S.Struct({
+    AudioHostUrl: S.optional(S.String),
+    AudioFallbackUrl: S.optional(S.String),
+    SignalingUrl: S.optional(S.String),
+    TurnControlUrl: S.optional(S.String),
+    EventIngestionUrl: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "MediaPlacement",
+}) as any as S.Schema<MediaPlacement>;
+export interface AssociateInstanceStorageConfigResponse {
+  AssociationId?: string;
+}
+export const AssociateInstanceStorageConfigResponse = S.suspend(() =>
+  S.Struct({ AssociationId: S.optional(S.String) }),
+).annotations({
+  identifier: "AssociateInstanceStorageConfigResponse",
+}) as any as S.Schema<AssociateInstanceStorageConfigResponse>;
+export interface BatchPutContactResponse {
+  SuccessfulRequestList?: SuccessfulRequestList;
+  FailedRequestList?: FailedRequestList;
+}
+export const BatchPutContactResponse = S.suspend(() =>
+  S.Struct({
+    SuccessfulRequestList: S.optional(SuccessfulRequestList),
+    FailedRequestList: S.optional(FailedRequestList),
+  }),
+).annotations({
+  identifier: "BatchPutContactResponse",
+}) as any as S.Schema<BatchPutContactResponse>;
+export interface CreateContactResponse {
+  ContactId?: string;
+  ContactArn?: string;
+}
+export const CreateContactResponse = S.suspend(() =>
+  S.Struct({
+    ContactId: S.optional(S.String),
+    ContactArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CreateContactResponse",
+}) as any as S.Schema<CreateContactResponse>;
+export interface EvaluationFormNumericQuestionOption {
+  MinValue: number;
+  MaxValue: number;
+  Score?: number;
+  AutomaticFail?: boolean;
+  AutomaticFailConfiguration?: AutomaticFailConfiguration;
+}
+export const EvaluationFormNumericQuestionOption = S.suspend(() =>
+  S.Struct({
+    MinValue: S.Number,
+    MaxValue: S.Number,
+    Score: S.optional(S.Number),
+    AutomaticFail: S.optional(S.Boolean),
+    AutomaticFailConfiguration: S.optional(AutomaticFailConfiguration),
+  }),
+).annotations({
+  identifier: "EvaluationFormNumericQuestionOption",
+}) as any as S.Schema<EvaluationFormNumericQuestionOption>;
+export type EvaluationFormNumericQuestionOptionList =
+  EvaluationFormNumericQuestionOption[];
 export const EvaluationFormNumericQuestionOptionList = S.Array(
   EvaluationFormNumericQuestionOption,
 );
@@ -11406,16 +19046,29 @@ export const EvaluationFormNumericQuestionAutomation = S.Union(
   S.Struct({ PropertyValue: NumericQuestionPropertyValueAutomation }),
   S.Struct({ AnswerSource: EvaluationFormQuestionAutomationAnswerSource }),
 );
-export class CreateParticipantResponse extends S.Class<CreateParticipantResponse>(
-  "CreateParticipantResponse",
-)({
-  ParticipantCredentials: S.optional(ParticipantTokenCredentials),
-  ParticipantId: S.optional(S.String),
-}) {}
-export class CreateRuleRequest extends S.Class<CreateRuleRequest>(
-  "CreateRuleRequest",
-)(
-  {
+export interface CreateParticipantResponse {
+  ParticipantCredentials?: ParticipantTokenCredentials;
+  ParticipantId?: string;
+}
+export const CreateParticipantResponse = S.suspend(() =>
+  S.Struct({
+    ParticipantCredentials: S.optional(ParticipantTokenCredentials),
+    ParticipantId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CreateParticipantResponse",
+}) as any as S.Schema<CreateParticipantResponse>;
+export interface CreateRuleRequest {
+  InstanceId: string;
+  Name: string;
+  TriggerEventSource: RuleTriggerEventSource;
+  Function: string;
+  Actions: RuleActions;
+  PublishStatus: string;
+  ClientToken?: string;
+}
+export const CreateRuleRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Name: S.String,
     TriggerEventSource: RuleTriggerEventSource,
@@ -11423,20 +19076,35 @@ export class CreateRuleRequest extends S.Class<CreateRuleRequest>(
     Actions: RuleActions,
     PublishStatus: S.String,
     ClientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/rules/{InstanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/rules/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateSecurityProfileRequest extends S.Class<CreateSecurityProfileRequest>(
-  "CreateSecurityProfileRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateRuleRequest",
+}) as any as S.Schema<CreateRuleRequest>;
+export interface CreateSecurityProfileRequest {
+  SecurityProfileName: string;
+  Description?: string;
+  Permissions?: PermissionsList;
+  InstanceId: string;
+  Tags?: TagMap;
+  AllowedAccessControlTags?: AllowedAccessControlTags;
+  TagRestrictedResources?: TagRestrictedResourceList;
+  Applications?: Applications;
+  HierarchyRestrictedResources?: HierarchyRestrictedResourceList;
+  AllowedAccessControlHierarchyGroupId?: string;
+  AllowedFlowModules?: AllowedFlowModules;
+  GranularAccessControlConfiguration?: GranularAccessControlConfiguration;
+}
+export const CreateSecurityProfileRequest = S.suspend(() =>
+  S.Struct({
     SecurityProfileName: S.String,
     Description: S.optional(S.String),
     Permissions: S.optional(PermissionsList),
@@ -11451,435 +19119,839 @@ export class CreateSecurityProfileRequest extends S.Class<CreateSecurityProfileR
     GranularAccessControlConfiguration: S.optional(
       GranularAccessControlConfiguration,
     ),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/security-profiles/{InstanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/security-profiles/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateWorkspaceRequest extends S.Class<CreateWorkspaceRequest>(
-  "CreateWorkspaceRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateSecurityProfileRequest",
+}) as any as S.Schema<CreateSecurityProfileRequest>;
+export interface CreateWorkspaceRequest {
+  InstanceId: string;
+  Name: string;
+  Description?: string;
+  Theme?: WorkspaceTheme;
+  Title?: string;
+  Tags?: TagMap;
+}
+export const CreateWorkspaceRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Name: S.String,
     Description: S.optional(S.String),
     Theme: S.optional(WorkspaceTheme),
     Title: S.optional(S.String),
     Tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/workspaces/{InstanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/workspaces/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class EvaluationQuestionInputDetails extends S.Class<EvaluationQuestionInputDetails>(
-  "EvaluationQuestionInputDetails",
-)({ TranscriptType: S.optional(S.String) }) {}
-export class GetContactMetricsResponse extends S.Class<GetContactMetricsResponse>(
-  "GetContactMetricsResponse",
-)({
-  MetricResults: S.optional(ContactMetricResults),
-  Id: S.optional(S.String),
-  Arn: S.optional(S.String),
-}) {}
-export class SearchAgentStatusesResponse extends S.Class<SearchAgentStatusesResponse>(
-  "SearchAgentStatusesResponse",
-)({
-  AgentStatuses: S.optional(AgentStatusList),
-  NextToken: S.optional(S.String),
-  ApproximateTotalCount: S.optional(S.Number),
-}) {}
-export class SearchContactFlowsResponse extends S.Class<SearchContactFlowsResponse>(
-  "SearchContactFlowsResponse",
-)({
-  ContactFlows: S.optional(ContactFlowSearchSummaryList),
-  NextToken: S.optional(S.String),
-  ApproximateTotalCount: S.optional(S.Number),
-}) {}
-export class SearchContactsRequest extends S.Class<SearchContactsRequest>(
-  "SearchContactsRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateWorkspaceRequest",
+}) as any as S.Schema<CreateWorkspaceRequest>;
+export interface EvaluationQuestionInputDetails {
+  TranscriptType?: string;
+}
+export const EvaluationQuestionInputDetails = S.suspend(() =>
+  S.Struct({ TranscriptType: S.optional(S.String) }),
+).annotations({
+  identifier: "EvaluationQuestionInputDetails",
+}) as any as S.Schema<EvaluationQuestionInputDetails>;
+export interface GetContactMetricsResponse {
+  MetricResults?: ContactMetricResults;
+  Id?: string;
+  Arn?: string;
+}
+export const GetContactMetricsResponse = S.suspend(() =>
+  S.Struct({
+    MetricResults: S.optional(ContactMetricResults),
+    Id: S.optional(S.String),
+    Arn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetContactMetricsResponse",
+}) as any as S.Schema<GetContactMetricsResponse>;
+export interface SearchAgentStatusesResponse {
+  AgentStatuses?: AgentStatusList;
+  NextToken?: string;
+  ApproximateTotalCount?: number;
+}
+export const SearchAgentStatusesResponse = S.suspend(() =>
+  S.Struct({
+    AgentStatuses: S.optional(AgentStatusList),
+    NextToken: S.optional(S.String),
+    ApproximateTotalCount: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "SearchAgentStatusesResponse",
+}) as any as S.Schema<SearchAgentStatusesResponse>;
+export interface SearchContactFlowsResponse {
+  ContactFlows?: ContactFlowSearchSummaryList;
+  NextToken?: string;
+  ApproximateTotalCount?: number;
+}
+export const SearchContactFlowsResponse = S.suspend(() =>
+  S.Struct({
+    ContactFlows: S.optional(ContactFlowSearchSummaryList),
+    NextToken: S.optional(S.String),
+    ApproximateTotalCount: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "SearchContactFlowsResponse",
+}) as any as S.Schema<SearchContactFlowsResponse>;
+export interface SearchContactsRequest {
+  InstanceId: string;
+  TimeRange: SearchContactsTimeRange;
+  SearchCriteria?: SearchCriteria;
+  MaxResults?: number;
+  NextToken?: string;
+  Sort?: Sort;
+}
+export const SearchContactsRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String,
     TimeRange: SearchContactsTimeRange,
     SearchCriteria: S.optional(SearchCriteria),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     Sort: S.optional(Sort),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/search-contacts" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/search-contacts" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SearchResourceTagsResponse extends S.Class<SearchResourceTagsResponse>(
-  "SearchResourceTagsResponse",
-)({ Tags: S.optional(TagsList), NextToken: S.optional(S.String) }) {}
-export class StartAttachedFileUploadResponse extends S.Class<StartAttachedFileUploadResponse>(
-  "StartAttachedFileUploadResponse",
-)({
-  FileArn: S.optional(S.String),
-  FileId: S.optional(S.String),
-  CreationTime: S.optional(S.String),
-  FileStatus: S.optional(S.String),
-  CreatedBy: S.optional(CreatedByInfo),
-  UploadUrlMetadata: S.optional(UploadUrlMetadata),
-}) {}
-export class StartEmailContactResponse extends S.Class<StartEmailContactResponse>(
-  "StartEmailContactResponse",
-)({ ContactId: S.optional(S.String) }) {}
-export class SubmitContactEvaluationResponse extends S.Class<SubmitContactEvaluationResponse>(
-  "SubmitContactEvaluationResponse",
-)({ EvaluationId: S.String, EvaluationArn: S.String }) {}
-export class UpdateParticipantRoleConfigRequest extends S.Class<UpdateParticipantRoleConfigRequest>(
-  "UpdateParticipantRoleConfigRequest",
-)(
-  {
+).annotations({
+  identifier: "SearchContactsRequest",
+}) as any as S.Schema<SearchContactsRequest>;
+export interface SearchResourceTagsResponse {
+  Tags?: TagsList;
+  NextToken?: string;
+}
+export const SearchResourceTagsResponse = S.suspend(() =>
+  S.Struct({ Tags: S.optional(TagsList), NextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "SearchResourceTagsResponse",
+}) as any as S.Schema<SearchResourceTagsResponse>;
+export interface StartAttachedFileUploadResponse {
+  FileArn?: string;
+  FileId?: string;
+  CreationTime?: string;
+  FileStatus?: string;
+  CreatedBy?: (typeof CreatedByInfo)["Type"];
+  UploadUrlMetadata?: UploadUrlMetadata;
+}
+export const StartAttachedFileUploadResponse = S.suspend(() =>
+  S.Struct({
+    FileArn: S.optional(S.String),
+    FileId: S.optional(S.String),
+    CreationTime: S.optional(S.String),
+    FileStatus: S.optional(S.String),
+    CreatedBy: S.optional(CreatedByInfo),
+    UploadUrlMetadata: S.optional(UploadUrlMetadata),
+  }),
+).annotations({
+  identifier: "StartAttachedFileUploadResponse",
+}) as any as S.Schema<StartAttachedFileUploadResponse>;
+export interface StartEmailContactResponse {
+  ContactId?: string;
+}
+export const StartEmailContactResponse = S.suspend(() =>
+  S.Struct({ ContactId: S.optional(S.String) }),
+).annotations({
+  identifier: "StartEmailContactResponse",
+}) as any as S.Schema<StartEmailContactResponse>;
+export interface SubmitContactEvaluationResponse {
+  EvaluationId: string;
+  EvaluationArn: string;
+}
+export const SubmitContactEvaluationResponse = S.suspend(() =>
+  S.Struct({ EvaluationId: S.String, EvaluationArn: S.String }),
+).annotations({
+  identifier: "SubmitContactEvaluationResponse",
+}) as any as S.Schema<SubmitContactEvaluationResponse>;
+export interface UpdateParticipantRoleConfigRequest {
+  InstanceId: string;
+  ContactId: string;
+  ChannelConfiguration: (typeof UpdateParticipantRoleConfigChannelInfo)["Type"];
+}
+export const UpdateParticipantRoleConfigRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ContactId: S.String.pipe(T.HttpLabel("ContactId")),
     ChannelConfiguration: UpdateParticipantRoleConfigChannelInfo,
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/contact/participant-role-config/{InstanceId}/{ContactId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/contact/participant-role-config/{InstanceId}/{ContactId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateParticipantRoleConfigResponse extends S.Class<UpdateParticipantRoleConfigResponse>(
-  "UpdateParticipantRoleConfigResponse",
-)({}) {}
-export class SingleSelectQuestionRuleCategoryAutomation extends S.Class<SingleSelectQuestionRuleCategoryAutomation>(
-  "SingleSelectQuestionRuleCategoryAutomation",
-)({ Category: S.String, Condition: S.String, OptionRefId: S.String }) {}
-export class MultiSelectQuestionRuleCategoryAutomation extends S.Class<MultiSelectQuestionRuleCategoryAutomation>(
-  "MultiSelectQuestionRuleCategoryAutomation",
-)({ Category: S.String, Condition: S.String, OptionRefIds: ReferenceIdList }) {}
-export class EvaluationFormItemEnablementSource extends S.Class<EvaluationFormItemEnablementSource>(
-  "EvaluationFormItemEnablementSource",
-)({ Type: S.String, RefId: S.optional(S.String) }) {}
-export class EvaluationFormItemEnablementSourceValue extends S.Class<EvaluationFormItemEnablementSourceValue>(
-  "EvaluationFormItemEnablementSourceValue",
-)({ Type: S.String, RefId: S.optional(S.String) }) {}
+).annotations({
+  identifier: "UpdateParticipantRoleConfigRequest",
+}) as any as S.Schema<UpdateParticipantRoleConfigRequest>;
+export interface UpdateParticipantRoleConfigResponse {}
+export const UpdateParticipantRoleConfigResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateParticipantRoleConfigResponse",
+}) as any as S.Schema<UpdateParticipantRoleConfigResponse>;
+export interface SingleSelectQuestionRuleCategoryAutomation {
+  Category: string;
+  Condition: string;
+  OptionRefId: string;
+}
+export const SingleSelectQuestionRuleCategoryAutomation = S.suspend(() =>
+  S.Struct({ Category: S.String, Condition: S.String, OptionRefId: S.String }),
+).annotations({
+  identifier: "SingleSelectQuestionRuleCategoryAutomation",
+}) as any as S.Schema<SingleSelectQuestionRuleCategoryAutomation>;
+export interface MultiSelectQuestionRuleCategoryAutomation {
+  Category: string;
+  Condition: string;
+  OptionRefIds: ReferenceIdList;
+}
+export const MultiSelectQuestionRuleCategoryAutomation = S.suspend(() =>
+  S.Struct({
+    Category: S.String,
+    Condition: S.String,
+    OptionRefIds: ReferenceIdList,
+  }),
+).annotations({
+  identifier: "MultiSelectQuestionRuleCategoryAutomation",
+}) as any as S.Schema<MultiSelectQuestionRuleCategoryAutomation>;
+export interface EvaluationFormItemEnablementSource {
+  Type: string;
+  RefId?: string;
+}
+export const EvaluationFormItemEnablementSource = S.suspend(() =>
+  S.Struct({ Type: S.String, RefId: S.optional(S.String) }),
+).annotations({
+  identifier: "EvaluationFormItemEnablementSource",
+}) as any as S.Schema<EvaluationFormItemEnablementSource>;
+export interface EvaluationFormItemEnablementSourceValue {
+  Type: string;
+  RefId?: string;
+}
+export const EvaluationFormItemEnablementSourceValue = S.suspend(() =>
+  S.Struct({ Type: S.String, RefId: S.optional(S.String) }),
+).annotations({
+  identifier: "EvaluationFormItemEnablementSourceValue",
+}) as any as S.Schema<EvaluationFormItemEnablementSourceValue>;
+export type EvaluationFormItemEnablementSourceValueList =
+  EvaluationFormItemEnablementSourceValue[];
 export const EvaluationFormItemEnablementSourceValueList = S.Array(
   EvaluationFormItemEnablementSourceValue,
 );
-export class AgentInfo extends S.Class<AgentInfo>("AgentInfo")({
-  Id: S.optional(S.String),
-  AcceptedByAgentTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  PreviewEndTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  ConnectedToAgentTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  AgentPauseDurationInSeconds: S.optional(S.Number),
-  HierarchyGroups: S.optional(HierarchyGroups),
-  DeviceInfo: S.optional(DeviceInfo),
-  Capabilities: S.optional(ParticipantCapabilities),
-  AfterContactWorkDuration: S.optional(S.Number),
-  AfterContactWorkStartTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  AfterContactWorkEndTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  AgentInitiatedHoldDuration: S.optional(S.Number),
-  StateTransitions: S.optional(StateTransitions),
-}) {}
-export class RoutingCriteria extends S.Class<RoutingCriteria>(
-  "RoutingCriteria",
-)({
-  Steps: S.optional(Steps),
-  ActivationTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  Index: S.optional(S.Number),
-}) {}
-export class QualityMetrics extends S.Class<QualityMetrics>("QualityMetrics")({
-  Agent: S.optional(AgentQualityMetrics),
-  Customer: S.optional(CustomerQualityMetrics),
-}) {}
-export class NextContactEntry extends S.Class<NextContactEntry>(
-  "NextContactEntry",
-)({
-  Type: S.optional(S.String),
-  NextContactMetadata: S.optional(NextContactMetadata),
-}) {}
+export interface AgentInfo {
+  Id?: string;
+  AcceptedByAgentTimestamp?: Date;
+  PreviewEndTimestamp?: Date;
+  ConnectedToAgentTimestamp?: Date;
+  AgentPauseDurationInSeconds?: number;
+  HierarchyGroups?: HierarchyGroups;
+  DeviceInfo?: DeviceInfo;
+  Capabilities?: ParticipantCapabilities;
+  AfterContactWorkDuration?: number;
+  AfterContactWorkStartTimestamp?: Date;
+  AfterContactWorkEndTimestamp?: Date;
+  AgentInitiatedHoldDuration?: number;
+  StateTransitions?: StateTransitions;
+}
+export const AgentInfo = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    AcceptedByAgentTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    PreviewEndTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    ConnectedToAgentTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    AgentPauseDurationInSeconds: S.optional(S.Number),
+    HierarchyGroups: S.optional(HierarchyGroups),
+    DeviceInfo: S.optional(DeviceInfo),
+    Capabilities: S.optional(ParticipantCapabilities),
+    AfterContactWorkDuration: S.optional(S.Number),
+    AfterContactWorkStartTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    AfterContactWorkEndTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    AgentInitiatedHoldDuration: S.optional(S.Number),
+    StateTransitions: S.optional(StateTransitions),
+  }),
+).annotations({ identifier: "AgentInfo" }) as any as S.Schema<AgentInfo>;
+export interface RoutingCriteria {
+  Steps?: Steps;
+  ActivationTimestamp?: Date;
+  Index?: number;
+}
+export const RoutingCriteria = S.suspend(() =>
+  S.Struct({
+    Steps: S.optional(Steps),
+    ActivationTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    Index: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "RoutingCriteria",
+}) as any as S.Schema<RoutingCriteria>;
+export interface QualityMetrics {
+  Agent?: AgentQualityMetrics;
+  Customer?: CustomerQualityMetrics;
+}
+export const QualityMetrics = S.suspend(() =>
+  S.Struct({
+    Agent: S.optional(AgentQualityMetrics),
+    Customer: S.optional(CustomerQualityMetrics),
+  }),
+).annotations({
+  identifier: "QualityMetrics",
+}) as any as S.Schema<QualityMetrics>;
+export interface NextContactEntry {
+  Type?: string;
+  NextContactMetadata?: (typeof NextContactMetadata)["Type"];
+}
+export const NextContactEntry = S.suspend(() =>
+  S.Struct({
+    Type: S.optional(S.String),
+    NextContactMetadata: S.optional(NextContactMetadata),
+  }),
+).annotations({
+  identifier: "NextContactEntry",
+}) as any as S.Schema<NextContactEntry>;
+export type NextContacts = NextContactEntry[];
 export const NextContacts = S.Array(NextContactEntry);
-export class Dimensions extends S.Class<Dimensions>("Dimensions")({
-  Queue: S.optional(QueueReference),
-  Channel: S.optional(S.String),
-  RoutingProfile: S.optional(RoutingProfileReference),
-  RoutingStepExpression: S.optional(S.String),
-  AgentStatus: S.optional(AgentStatusIdentifier),
-  Subtype: S.optional(S.String),
-  ValidationTestType: S.optional(S.String),
-}) {}
-export class UserReference extends S.Class<UserReference>("UserReference")({
-  Id: S.optional(S.String),
-  Arn: S.optional(S.String),
-}) {}
-export class AgentStatusReference extends S.Class<AgentStatusReference>(
-  "AgentStatusReference",
-)({
-  StatusStartTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  StatusArn: S.optional(S.String),
-  StatusName: S.optional(S.String),
-}) {}
+export interface Dimensions {
+  Queue?: QueueReference;
+  Channel?: string;
+  RoutingProfile?: RoutingProfileReference;
+  RoutingStepExpression?: string;
+  AgentStatus?: AgentStatusIdentifier;
+  Subtype?: string;
+  ValidationTestType?: string;
+}
+export const Dimensions = S.suspend(() =>
+  S.Struct({
+    Queue: S.optional(QueueReference),
+    Channel: S.optional(S.String),
+    RoutingProfile: S.optional(RoutingProfileReference),
+    RoutingStepExpression: S.optional(S.String),
+    AgentStatus: S.optional(AgentStatusIdentifier),
+    Subtype: S.optional(S.String),
+    ValidationTestType: S.optional(S.String),
+  }),
+).annotations({ identifier: "Dimensions" }) as any as S.Schema<Dimensions>;
+export interface UserReference {
+  Id?: string;
+  Arn?: string;
+}
+export const UserReference = S.suspend(() =>
+  S.Struct({ Id: S.optional(S.String), Arn: S.optional(S.String) }),
+).annotations({
+  identifier: "UserReference",
+}) as any as S.Schema<UserReference>;
+export interface AgentStatusReference {
+  StatusStartTimestamp?: Date;
+  StatusArn?: string;
+  StatusName?: string;
+}
+export const AgentStatusReference = S.suspend(() =>
+  S.Struct({
+    StatusStartTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    StatusArn: S.optional(S.String),
+    StatusName: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AgentStatusReference",
+}) as any as S.Schema<AgentStatusReference>;
+export type ChannelToCountMap = { [key: string]: number };
 export const ChannelToCountMap = S.Record({ key: S.String, value: S.Number });
-export class AgentContactReference extends S.Class<AgentContactReference>(
-  "AgentContactReference",
-)({
-  ContactId: S.optional(S.String),
-  Channel: S.optional(S.String),
-  InitiationMethod: S.optional(S.String),
-  AgentContactState: S.optional(S.String),
-  StateStartTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  ConnectedToAgentTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  Queue: S.optional(QueueReference),
-}) {}
+export interface AgentContactReference {
+  ContactId?: string;
+  Channel?: string;
+  InitiationMethod?: string;
+  AgentContactState?: string;
+  StateStartTimestamp?: Date;
+  ConnectedToAgentTimestamp?: Date;
+  Queue?: QueueReference;
+}
+export const AgentContactReference = S.suspend(() =>
+  S.Struct({
+    ContactId: S.optional(S.String),
+    Channel: S.optional(S.String),
+    InitiationMethod: S.optional(S.String),
+    AgentContactState: S.optional(S.String),
+    StateStartTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    ConnectedToAgentTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    Queue: S.optional(QueueReference),
+  }),
+).annotations({
+  identifier: "AgentContactReference",
+}) as any as S.Schema<AgentContactReference>;
+export type AgentContactReferenceList = AgentContactReference[];
 export const AgentContactReferenceList = S.Array(AgentContactReference);
-export class HistoricalMetricData extends S.Class<HistoricalMetricData>(
-  "HistoricalMetricData",
-)({ Metric: S.optional(HistoricalMetric), Value: S.optional(S.Number) }) {}
+export interface HistoricalMetricData {
+  Metric?: HistoricalMetric;
+  Value?: number;
+}
+export const HistoricalMetricData = S.suspend(() =>
+  S.Struct({
+    Metric: S.optional(HistoricalMetric),
+    Value: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "HistoricalMetricData",
+}) as any as S.Schema<HistoricalMetricData>;
+export type HistoricalMetricDataCollections = HistoricalMetricData[];
 export const HistoricalMetricDataCollections = S.Array(HistoricalMetricData);
+export type DimensionsV2Map = { [key: string]: string };
 export const DimensionsV2Map = S.Record({ key: S.String, value: S.String });
-export class MetricInterval extends S.Class<MetricInterval>("MetricInterval")({
-  Interval: S.optional(S.String),
-  StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class MetricDataV2 extends S.Class<MetricDataV2>("MetricDataV2")({
-  Metric: S.optional(MetricV2),
-  Value: S.optional(S.Number),
-}) {}
+export interface MetricInterval {
+  Interval?: string;
+  StartTime?: Date;
+  EndTime?: Date;
+}
+export const MetricInterval = S.suspend(() =>
+  S.Struct({
+    Interval: S.optional(S.String),
+    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "MetricInterval",
+}) as any as S.Schema<MetricInterval>;
+export interface MetricDataV2 {
+  Metric?: MetricV2;
+  Value?: number;
+}
+export const MetricDataV2 = S.suspend(() =>
+  S.Struct({ Metric: S.optional(MetricV2), Value: S.optional(S.Number) }),
+).annotations({ identifier: "MetricDataV2" }) as any as S.Schema<MetricDataV2>;
+export type MetricDataCollectionsV2 = MetricDataV2[];
 export const MetricDataCollectionsV2 = S.Array(MetricDataV2);
-export class RealTimeContactAnalysisSegmentTranscript extends S.Class<RealTimeContactAnalysisSegmentTranscript>(
-  "RealTimeContactAnalysisSegmentTranscript",
-)({
-  Id: S.String,
-  ParticipantId: S.String,
-  ParticipantRole: S.String,
-  DisplayName: S.optional(S.String),
-  Content: S.String,
-  ContentType: S.optional(S.String),
-  Time: RealTimeContactAnalysisTimeData,
-  Redaction: S.optional(RealTimeContactAnalysisTranscriptItemRedaction),
-  Sentiment: S.optional(S.String),
-}) {}
-export class RealTimeContactAnalysisSegmentIssues extends S.Class<RealTimeContactAnalysisSegmentIssues>(
-  "RealTimeContactAnalysisSegmentIssues",
-)({ IssuesDetected: RealTimeContactAnalysisIssuesDetected }) {}
-export class EvaluationSearchMetadata extends S.Class<EvaluationSearchMetadata>(
-  "EvaluationSearchMetadata",
-)({
-  ContactId: S.String,
-  EvaluatorArn: S.String,
-  ContactAgentId: S.optional(S.String),
-  CalibrationSessionId: S.optional(S.String),
-  ScorePercentage: S.optional(S.Number),
-  ScoreAutomaticFail: S.optional(S.Boolean),
-  ScoreNotApplicable: S.optional(S.Boolean),
-  AutoEvaluationEnabled: S.optional(S.Boolean),
-  AutoEvaluationStatus: S.optional(S.String),
-  AcknowledgedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  AcknowledgedBy: S.optional(S.String),
-  AcknowledgerComment: S.optional(S.String),
-  SamplingJobId: S.optional(S.String),
-  ReviewId: S.optional(S.String),
-  ContactParticipantRole: S.optional(S.String),
-  ContactParticipantId: S.optional(S.String),
-}) {}
-export class EvaluationFormNumericQuestionProperties extends S.Class<EvaluationFormNumericQuestionProperties>(
-  "EvaluationFormNumericQuestionProperties",
-)({
-  MinValue: S.Number,
-  MaxValue: S.Number,
-  Options: S.optional(EvaluationFormNumericQuestionOptionList),
-  Automation: S.optional(EvaluationFormNumericQuestionAutomation),
-}) {}
-export class AudioFeatures extends S.Class<AudioFeatures>("AudioFeatures")({
-  EchoReduction: S.optional(S.String),
-}) {}
+export interface RealTimeContactAnalysisSegmentTranscript {
+  Id: string;
+  ParticipantId: string;
+  ParticipantRole: string;
+  DisplayName?: string;
+  Content: string;
+  ContentType?: string;
+  Time: (typeof RealTimeContactAnalysisTimeData)["Type"];
+  Redaction?: RealTimeContactAnalysisTranscriptItemRedaction;
+  Sentiment?: string;
+}
+export const RealTimeContactAnalysisSegmentTranscript = S.suspend(() =>
+  S.Struct({
+    Id: S.String,
+    ParticipantId: S.String,
+    ParticipantRole: S.String,
+    DisplayName: S.optional(S.String),
+    Content: S.String,
+    ContentType: S.optional(S.String),
+    Time: RealTimeContactAnalysisTimeData,
+    Redaction: S.optional(RealTimeContactAnalysisTranscriptItemRedaction),
+    Sentiment: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RealTimeContactAnalysisSegmentTranscript",
+}) as any as S.Schema<RealTimeContactAnalysisSegmentTranscript>;
+export interface RealTimeContactAnalysisSegmentIssues {
+  IssuesDetected: RealTimeContactAnalysisIssuesDetected;
+}
+export const RealTimeContactAnalysisSegmentIssues = S.suspend(() =>
+  S.Struct({ IssuesDetected: RealTimeContactAnalysisIssuesDetected }),
+).annotations({
+  identifier: "RealTimeContactAnalysisSegmentIssues",
+}) as any as S.Schema<RealTimeContactAnalysisSegmentIssues>;
+export interface EvaluationSearchMetadata {
+  ContactId: string;
+  EvaluatorArn: string;
+  ContactAgentId?: string;
+  CalibrationSessionId?: string;
+  ScorePercentage?: number;
+  ScoreAutomaticFail?: boolean;
+  ScoreNotApplicable?: boolean;
+  AutoEvaluationEnabled?: boolean;
+  AutoEvaluationStatus?: string;
+  AcknowledgedTime?: Date;
+  AcknowledgedBy?: string;
+  AcknowledgerComment?: string;
+  SamplingJobId?: string;
+  ReviewId?: string;
+  ContactParticipantRole?: string;
+  ContactParticipantId?: string;
+}
+export const EvaluationSearchMetadata = S.suspend(() =>
+  S.Struct({
+    ContactId: S.String,
+    EvaluatorArn: S.String,
+    ContactAgentId: S.optional(S.String),
+    CalibrationSessionId: S.optional(S.String),
+    ScorePercentage: S.optional(S.Number),
+    ScoreAutomaticFail: S.optional(S.Boolean),
+    ScoreNotApplicable: S.optional(S.Boolean),
+    AutoEvaluationEnabled: S.optional(S.Boolean),
+    AutoEvaluationStatus: S.optional(S.String),
+    AcknowledgedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    AcknowledgedBy: S.optional(S.String),
+    AcknowledgerComment: S.optional(S.String),
+    SamplingJobId: S.optional(S.String),
+    ReviewId: S.optional(S.String),
+    ContactParticipantRole: S.optional(S.String),
+    ContactParticipantId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "EvaluationSearchMetadata",
+}) as any as S.Schema<EvaluationSearchMetadata>;
+export interface EvaluationFormNumericQuestionProperties {
+  MinValue: number;
+  MaxValue: number;
+  Options?: EvaluationFormNumericQuestionOptionList;
+  Automation?: (typeof EvaluationFormNumericQuestionAutomation)["Type"];
+}
+export const EvaluationFormNumericQuestionProperties = S.suspend(() =>
+  S.Struct({
+    MinValue: S.Number,
+    MaxValue: S.Number,
+    Options: S.optional(EvaluationFormNumericQuestionOptionList),
+    Automation: S.optional(EvaluationFormNumericQuestionAutomation),
+  }),
+).annotations({
+  identifier: "EvaluationFormNumericQuestionProperties",
+}) as any as S.Schema<EvaluationFormNumericQuestionProperties>;
+export interface AudioFeatures {
+  EchoReduction?: string;
+}
+export const AudioFeatures = S.suspend(() =>
+  S.Struct({ EchoReduction: S.optional(S.String) }),
+).annotations({
+  identifier: "AudioFeatures",
+}) as any as S.Schema<AudioFeatures>;
 export const ServiceQuotaExceededExceptionReason = S.Union(
   S.Struct({ AttachedFileServiceQuotaExceededExceptionReason: S.String }),
 );
 export const EvaluationFormSingleSelectQuestionAutomationOption = S.Union(
   S.Struct({ RuleCategory: SingleSelectQuestionRuleCategoryAutomation }),
 );
+export type EvaluationFormSingleSelectQuestionAutomationOptionList =
+  (typeof EvaluationFormSingleSelectQuestionAutomationOption)["Type"][];
 export const EvaluationFormSingleSelectQuestionAutomationOptionList = S.Array(
   EvaluationFormSingleSelectQuestionAutomationOption,
 );
 export const EvaluationFormMultiSelectQuestionAutomationOption = S.Union(
   S.Struct({ RuleCategory: MultiSelectQuestionRuleCategoryAutomation }),
 );
+export type EvaluationFormMultiSelectQuestionAutomationOptionList =
+  (typeof EvaluationFormMultiSelectQuestionAutomationOption)["Type"][];
 export const EvaluationFormMultiSelectQuestionAutomationOptionList = S.Array(
   EvaluationFormMultiSelectQuestionAutomationOption,
 );
-export class EvaluationFormItemEnablementExpression extends S.Class<EvaluationFormItemEnablementExpression>(
-  "EvaluationFormItemEnablementExpression",
-)({
-  Source: EvaluationFormItemEnablementSource,
-  Values: EvaluationFormItemEnablementSourceValueList,
-  Comparator: S.String,
-}) {}
-export class Contact extends S.Class<Contact>("Contact")({
-  Arn: S.optional(S.String),
-  Id: S.optional(S.String),
-  InitialContactId: S.optional(S.String),
-  PreviousContactId: S.optional(S.String),
-  ContactAssociationId: S.optional(S.String),
-  InitiationMethod: S.optional(S.String),
-  Name: S.optional(S.String),
-  Description: S.optional(S.String),
-  Channel: S.optional(S.String),
-  QueueInfo: S.optional(QueueInfo),
-  AgentInfo: S.optional(AgentInfo),
-  InitiationTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  DisconnectTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  LastUpdateTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  LastPausedTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  LastResumedTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  RingStartTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  TotalPauseCount: S.optional(S.Number),
-  TotalPauseDurationInSeconds: S.optional(S.Number),
-  ScheduledTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  RelatedContactId: S.optional(S.String),
-  WisdomInfo: S.optional(WisdomInfo),
-  CustomerId: S.optional(S.String),
-  CustomerEndpoint: S.optional(EndpointInfo),
-  SystemEndpoint: S.optional(EndpointInfo),
-  QueueTimeAdjustmentSeconds: S.optional(S.Number),
-  QueuePriority: S.optional(S.Number),
-  Tags: S.optional(ContactTagMap),
-  ConnectedToSystemTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  RoutingCriteria: S.optional(RoutingCriteria),
-  Customer: S.optional(Customer),
-  Campaign: S.optional(Campaign),
-  AnsweringMachineDetectionStatus: S.optional(S.String),
-  CustomerVoiceActivity: S.optional(CustomerVoiceActivity),
-  QualityMetrics: S.optional(QualityMetrics),
-  ChatMetrics: S.optional(ChatMetrics),
-  DisconnectDetails: S.optional(DisconnectDetails),
-  AdditionalEmailRecipients: S.optional(AdditionalEmailRecipients),
-  SegmentAttributes: S.optional(SegmentAttributes),
-  Recordings: S.optional(Recordings),
-  DisconnectReason: S.optional(S.String),
-  ContactEvaluations: S.optional(ContactEvaluations),
-  TaskTemplateInfo: S.optional(TaskTemplateInfoV2),
-  ContactDetails: S.optional(ContactDetails),
-  OutboundStrategy: S.optional(OutboundStrategy),
-  Attributes: S.optional(Attributes),
-  NextContacts: S.optional(NextContacts),
-  GlobalResiliencyMetadata: S.optional(GlobalResiliencyMetadata),
-}) {}
-export class CurrentMetricResult extends S.Class<CurrentMetricResult>(
-  "CurrentMetricResult",
-)({
-  Dimensions: S.optional(Dimensions),
-  Collections: S.optional(CurrentMetricDataCollections),
-}) {}
+export interface EvaluationFormItemEnablementExpression {
+  Source: EvaluationFormItemEnablementSource;
+  Values: EvaluationFormItemEnablementSourceValueList;
+  Comparator: string;
+}
+export const EvaluationFormItemEnablementExpression = S.suspend(() =>
+  S.Struct({
+    Source: EvaluationFormItemEnablementSource,
+    Values: EvaluationFormItemEnablementSourceValueList,
+    Comparator: S.String,
+  }),
+).annotations({
+  identifier: "EvaluationFormItemEnablementExpression",
+}) as any as S.Schema<EvaluationFormItemEnablementExpression>;
+export interface Contact {
+  Arn?: string;
+  Id?: string;
+  InitialContactId?: string;
+  PreviousContactId?: string;
+  ContactAssociationId?: string;
+  InitiationMethod?: string;
+  Name?: string;
+  Description?: string;
+  Channel?: string;
+  QueueInfo?: QueueInfo;
+  AgentInfo?: AgentInfo;
+  InitiationTimestamp?: Date;
+  DisconnectTimestamp?: Date;
+  LastUpdateTimestamp?: Date;
+  LastPausedTimestamp?: Date;
+  LastResumedTimestamp?: Date;
+  RingStartTimestamp?: Date;
+  TotalPauseCount?: number;
+  TotalPauseDurationInSeconds?: number;
+  ScheduledTimestamp?: Date;
+  RelatedContactId?: string;
+  WisdomInfo?: WisdomInfo;
+  CustomerId?: string;
+  CustomerEndpoint?: EndpointInfo;
+  SystemEndpoint?: EndpointInfo;
+  QueueTimeAdjustmentSeconds?: number;
+  QueuePriority?: number;
+  Tags?: ContactTagMap;
+  ConnectedToSystemTimestamp?: Date;
+  RoutingCriteria?: RoutingCriteria;
+  Customer?: Customer;
+  Campaign?: Campaign;
+  AnsweringMachineDetectionStatus?: string;
+  CustomerVoiceActivity?: CustomerVoiceActivity;
+  QualityMetrics?: QualityMetrics;
+  ChatMetrics?: ChatMetrics;
+  DisconnectDetails?: DisconnectDetails;
+  AdditionalEmailRecipients?: AdditionalEmailRecipients;
+  SegmentAttributes?: SegmentAttributes;
+  Recordings?: Recordings;
+  DisconnectReason?: string;
+  ContactEvaluations?: ContactEvaluations;
+  TaskTemplateInfo?: TaskTemplateInfoV2;
+  ContactDetails?: ContactDetails;
+  OutboundStrategy?: OutboundStrategy;
+  Attributes?: Attributes;
+  NextContacts?: NextContacts;
+  GlobalResiliencyMetadata?: GlobalResiliencyMetadata;
+}
+export const Contact = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    Id: S.optional(S.String),
+    InitialContactId: S.optional(S.String),
+    PreviousContactId: S.optional(S.String),
+    ContactAssociationId: S.optional(S.String),
+    InitiationMethod: S.optional(S.String),
+    Name: S.optional(S.String),
+    Description: S.optional(S.String),
+    Channel: S.optional(S.String),
+    QueueInfo: S.optional(QueueInfo),
+    AgentInfo: S.optional(AgentInfo),
+    InitiationTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    DisconnectTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastUpdateTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastPausedTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastResumedTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    RingStartTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    TotalPauseCount: S.optional(S.Number),
+    TotalPauseDurationInSeconds: S.optional(S.Number),
+    ScheduledTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    RelatedContactId: S.optional(S.String),
+    WisdomInfo: S.optional(WisdomInfo),
+    CustomerId: S.optional(S.String),
+    CustomerEndpoint: S.optional(EndpointInfo),
+    SystemEndpoint: S.optional(EndpointInfo),
+    QueueTimeAdjustmentSeconds: S.optional(S.Number),
+    QueuePriority: S.optional(S.Number),
+    Tags: S.optional(ContactTagMap),
+    ConnectedToSystemTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    RoutingCriteria: S.optional(RoutingCriteria),
+    Customer: S.optional(Customer),
+    Campaign: S.optional(Campaign),
+    AnsweringMachineDetectionStatus: S.optional(S.String),
+    CustomerVoiceActivity: S.optional(CustomerVoiceActivity),
+    QualityMetrics: S.optional(QualityMetrics),
+    ChatMetrics: S.optional(ChatMetrics),
+    DisconnectDetails: S.optional(DisconnectDetails),
+    AdditionalEmailRecipients: S.optional(AdditionalEmailRecipients),
+    SegmentAttributes: S.optional(SegmentAttributes),
+    Recordings: S.optional(Recordings),
+    DisconnectReason: S.optional(S.String),
+    ContactEvaluations: S.optional(ContactEvaluations),
+    TaskTemplateInfo: S.optional(TaskTemplateInfoV2),
+    ContactDetails: S.optional(ContactDetails),
+    OutboundStrategy: S.optional(OutboundStrategy),
+    Attributes: S.optional(Attributes),
+    NextContacts: S.optional(NextContacts),
+    GlobalResiliencyMetadata: S.optional(GlobalResiliencyMetadata),
+  }),
+).annotations({ identifier: "Contact" }) as any as S.Schema<Contact>;
+export interface CurrentMetricResult {
+  Dimensions?: Dimensions;
+  Collections?: CurrentMetricDataCollections;
+}
+export const CurrentMetricResult = S.suspend(() =>
+  S.Struct({
+    Dimensions: S.optional(Dimensions),
+    Collections: S.optional(CurrentMetricDataCollections),
+  }),
+).annotations({
+  identifier: "CurrentMetricResult",
+}) as any as S.Schema<CurrentMetricResult>;
+export type CurrentMetricResults = CurrentMetricResult[];
 export const CurrentMetricResults = S.Array(CurrentMetricResult);
-export class HistoricalMetricResult extends S.Class<HistoricalMetricResult>(
-  "HistoricalMetricResult",
-)({
-  Dimensions: S.optional(Dimensions),
-  Collections: S.optional(HistoricalMetricDataCollections),
-}) {}
+export interface HistoricalMetricResult {
+  Dimensions?: Dimensions;
+  Collections?: HistoricalMetricDataCollections;
+}
+export const HistoricalMetricResult = S.suspend(() =>
+  S.Struct({
+    Dimensions: S.optional(Dimensions),
+    Collections: S.optional(HistoricalMetricDataCollections),
+  }),
+).annotations({
+  identifier: "HistoricalMetricResult",
+}) as any as S.Schema<HistoricalMetricResult>;
+export type HistoricalMetricResults = HistoricalMetricResult[];
 export const HistoricalMetricResults = S.Array(HistoricalMetricResult);
-export class MetricResultV2 extends S.Class<MetricResultV2>("MetricResultV2")({
-  Dimensions: S.optional(DimensionsV2Map),
-  MetricInterval: S.optional(MetricInterval),
-  Collections: S.optional(MetricDataCollectionsV2),
-}) {}
+export interface MetricResultV2 {
+  Dimensions?: DimensionsV2Map;
+  MetricInterval?: MetricInterval;
+  Collections?: MetricDataCollectionsV2;
+}
+export const MetricResultV2 = S.suspend(() =>
+  S.Struct({
+    Dimensions: S.optional(DimensionsV2Map),
+    MetricInterval: S.optional(MetricInterval),
+    Collections: S.optional(MetricDataCollectionsV2),
+  }),
+).annotations({
+  identifier: "MetricResultV2",
+}) as any as S.Schema<MetricResultV2>;
+export type MetricResultsV2 = MetricResultV2[];
 export const MetricResultsV2 = S.Array(MetricResultV2);
-export class RealTimeContactAnalysisTranscriptItemWithCharacterOffsets extends S.Class<RealTimeContactAnalysisTranscriptItemWithCharacterOffsets>(
-  "RealTimeContactAnalysisTranscriptItemWithCharacterOffsets",
-)({
-  Id: S.String,
-  CharacterOffsets: S.optional(RealTimeContactAnalysisCharacterInterval),
-}) {}
+export interface RealTimeContactAnalysisTranscriptItemWithCharacterOffsets {
+  Id: string;
+  CharacterOffsets?: RealTimeContactAnalysisCharacterInterval;
+}
+export const RealTimeContactAnalysisTranscriptItemWithCharacterOffsets =
+  S.suspend(() =>
+    S.Struct({
+      Id: S.String,
+      CharacterOffsets: S.optional(RealTimeContactAnalysisCharacterInterval),
+    }),
+  ).annotations({
+    identifier: "RealTimeContactAnalysisTranscriptItemWithCharacterOffsets",
+  }) as any as S.Schema<RealTimeContactAnalysisTranscriptItemWithCharacterOffsets>;
+export type RealTimeContactAnalysisTranscriptItemsWithCharacterOffsets =
+  RealTimeContactAnalysisTranscriptItemWithCharacterOffsets[];
 export const RealTimeContactAnalysisTranscriptItemsWithCharacterOffsets =
   S.Array(RealTimeContactAnalysisTranscriptItemWithCharacterOffsets);
-export class EvaluationSearchSummary extends S.Class<EvaluationSearchSummary>(
-  "EvaluationSearchSummary",
-)({
-  EvaluationId: S.String,
-  EvaluationArn: S.String,
-  EvaluationFormId: S.optional(S.String),
-  EvaluationFormVersion: S.Number,
-  EvaluationFormTitle: S.optional(S.String),
-  Metadata: EvaluationSearchMetadata,
-  Status: S.String,
-  EvaluationType: S.optional(S.String),
-  CreatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  LastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  Tags: S.optional(TagMap),
-}) {}
+export interface EvaluationSearchSummary {
+  EvaluationId: string;
+  EvaluationArn: string;
+  EvaluationFormId?: string;
+  EvaluationFormVersion: number;
+  EvaluationFormTitle?: string;
+  Metadata: EvaluationSearchMetadata;
+  Status: string;
+  EvaluationType?: string;
+  CreatedTime: Date;
+  LastModifiedTime: Date;
+  Tags?: TagMap;
+}
+export const EvaluationSearchSummary = S.suspend(() =>
+  S.Struct({
+    EvaluationId: S.String,
+    EvaluationArn: S.String,
+    EvaluationFormId: S.optional(S.String),
+    EvaluationFormVersion: S.Number,
+    EvaluationFormTitle: S.optional(S.String),
+    Metadata: EvaluationSearchMetadata,
+    Status: S.String,
+    EvaluationType: S.optional(S.String),
+    CreatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    LastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    Tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "EvaluationSearchSummary",
+}) as any as S.Schema<EvaluationSearchSummary>;
+export type EvaluationSearchSummaryList = EvaluationSearchSummary[];
 export const EvaluationSearchSummaryList = S.Array(EvaluationSearchSummary);
-export class HierarchyGroupSummaryReference extends S.Class<HierarchyGroupSummaryReference>(
-  "HierarchyGroupSummaryReference",
-)({ Id: S.optional(S.String), Arn: S.optional(S.String) }) {}
-export class MeetingFeaturesConfiguration extends S.Class<MeetingFeaturesConfiguration>(
-  "MeetingFeaturesConfiguration",
-)({ Audio: S.optional(AudioFeatures) }) {}
-export class EvaluationFormSingleSelectQuestionAutomation extends S.Class<EvaluationFormSingleSelectQuestionAutomation>(
-  "EvaluationFormSingleSelectQuestionAutomation",
-)({
-  Options: S.optional(EvaluationFormSingleSelectQuestionAutomationOptionList),
-  DefaultOptionRefId: S.optional(S.String),
-  AnswerSource: S.optional(EvaluationFormQuestionAutomationAnswerSource),
-}) {}
-export class EvaluationFormMultiSelectQuestionAutomation extends S.Class<EvaluationFormMultiSelectQuestionAutomation>(
-  "EvaluationFormMultiSelectQuestionAutomation",
-)({
-  Options: S.optional(EvaluationFormMultiSelectQuestionAutomationOptionList),
-  DefaultOptionRefIds: S.optional(ReferenceIdList),
-  AnswerSource: S.optional(EvaluationFormQuestionAutomationAnswerSource),
-}) {}
+export interface HierarchyGroupSummaryReference {
+  Id?: string;
+  Arn?: string;
+}
+export const HierarchyGroupSummaryReference = S.suspend(() =>
+  S.Struct({ Id: S.optional(S.String), Arn: S.optional(S.String) }),
+).annotations({
+  identifier: "HierarchyGroupSummaryReference",
+}) as any as S.Schema<HierarchyGroupSummaryReference>;
+export interface MeetingFeaturesConfiguration {
+  Audio?: AudioFeatures;
+}
+export const MeetingFeaturesConfiguration = S.suspend(() =>
+  S.Struct({ Audio: S.optional(AudioFeatures) }),
+).annotations({
+  identifier: "MeetingFeaturesConfiguration",
+}) as any as S.Schema<MeetingFeaturesConfiguration>;
+export interface EvaluationFormSingleSelectQuestionAutomation {
+  Options?: EvaluationFormSingleSelectQuestionAutomationOptionList;
+  DefaultOptionRefId?: string;
+  AnswerSource?: EvaluationFormQuestionAutomationAnswerSource;
+}
+export const EvaluationFormSingleSelectQuestionAutomation = S.suspend(() =>
+  S.Struct({
+    Options: S.optional(EvaluationFormSingleSelectQuestionAutomationOptionList),
+    DefaultOptionRefId: S.optional(S.String),
+    AnswerSource: S.optional(EvaluationFormQuestionAutomationAnswerSource),
+  }),
+).annotations({
+  identifier: "EvaluationFormSingleSelectQuestionAutomation",
+}) as any as S.Schema<EvaluationFormSingleSelectQuestionAutomation>;
+export interface EvaluationFormMultiSelectQuestionAutomation {
+  Options?: EvaluationFormMultiSelectQuestionAutomationOptionList;
+  DefaultOptionRefIds?: ReferenceIdList;
+  AnswerSource?: EvaluationFormQuestionAutomationAnswerSource;
+}
+export const EvaluationFormMultiSelectQuestionAutomation = S.suspend(() =>
+  S.Struct({
+    Options: S.optional(EvaluationFormMultiSelectQuestionAutomationOptionList),
+    DefaultOptionRefIds: S.optional(ReferenceIdList),
+    AnswerSource: S.optional(EvaluationFormQuestionAutomationAnswerSource),
+  }),
+).annotations({
+  identifier: "EvaluationFormMultiSelectQuestionAutomation",
+}) as any as S.Schema<EvaluationFormMultiSelectQuestionAutomation>;
 export type EvaluationFormItemEnablementConditionOperand =
   | { Expression: EvaluationFormItemEnablementExpression }
   | { Condition: EvaluationFormItemEnablementCondition };
@@ -11889,70 +19961,147 @@ export const EvaluationFormItemEnablementConditionOperand = S.Union(
     Condition: S.suspend(
       (): S.Schema<EvaluationFormItemEnablementCondition, any> =>
         EvaluationFormItemEnablementCondition,
-    ),
+    ).annotations({ identifier: "EvaluationFormItemEnablementCondition" }),
   }),
 ) as any as S.Schema<EvaluationFormItemEnablementConditionOperand>;
 export type EvaluationFormItemEnablementConditionOperandList =
   EvaluationFormItemEnablementConditionOperand[];
 export const EvaluationFormItemEnablementConditionOperandList = S.Array(
-  S.suspend(() => EvaluationFormItemEnablementConditionOperand),
+  S.suspend(() => EvaluationFormItemEnablementConditionOperand).annotations({
+    identifier: "EvaluationFormItemEnablementConditionOperand",
+  }),
 ) as any as S.Schema<EvaluationFormItemEnablementConditionOperandList>;
-export class CreateRuleResponse extends S.Class<CreateRuleResponse>(
-  "CreateRuleResponse",
-)({ RuleArn: S.String, RuleId: S.String }) {}
-export class CreateSecurityProfileResponse extends S.Class<CreateSecurityProfileResponse>(
-  "CreateSecurityProfileResponse",
-)({
-  SecurityProfileId: S.optional(S.String),
-  SecurityProfileArn: S.optional(S.String),
-}) {}
-export class CreateWorkspaceResponse extends S.Class<CreateWorkspaceResponse>(
-  "CreateWorkspaceResponse",
-)({ WorkspaceId: S.String, WorkspaceArn: S.String }) {}
-export class DescribeContactResponse extends S.Class<DescribeContactResponse>(
-  "DescribeContactResponse",
-)({ Contact: S.optional(Contact) }) {}
-export class GetCurrentMetricDataResponse extends S.Class<GetCurrentMetricDataResponse>(
-  "GetCurrentMetricDataResponse",
-)({
-  NextToken: S.optional(S.String),
-  MetricResults: S.optional(CurrentMetricResults),
-  DataSnapshotTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  ApproximateTotalCount: S.optional(S.Number),
-}) {}
-export class GetMetricDataResponse extends S.Class<GetMetricDataResponse>(
-  "GetMetricDataResponse",
-)({
-  NextToken: S.optional(S.String),
-  MetricResults: S.optional(HistoricalMetricResults),
-}) {}
-export class GetMetricDataV2Response extends S.Class<GetMetricDataV2Response>(
-  "GetMetricDataV2Response",
-)({
-  NextToken: S.optional(S.String),
-  MetricResults: S.optional(MetricResultsV2),
-}) {}
-export class RealTimeContactAnalysisPointOfInterest extends S.Class<RealTimeContactAnalysisPointOfInterest>(
-  "RealTimeContactAnalysisPointOfInterest",
-)({
-  TranscriptItems: S.optional(
-    RealTimeContactAnalysisTranscriptItemsWithCharacterOffsets,
-  ),
-}) {}
+export interface CreateRuleResponse {
+  RuleArn: string;
+  RuleId: string;
+}
+export const CreateRuleResponse = S.suspend(() =>
+  S.Struct({ RuleArn: S.String, RuleId: S.String }),
+).annotations({
+  identifier: "CreateRuleResponse",
+}) as any as S.Schema<CreateRuleResponse>;
+export interface CreateSecurityProfileResponse {
+  SecurityProfileId?: string;
+  SecurityProfileArn?: string;
+}
+export const CreateSecurityProfileResponse = S.suspend(() =>
+  S.Struct({
+    SecurityProfileId: S.optional(S.String),
+    SecurityProfileArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CreateSecurityProfileResponse",
+}) as any as S.Schema<CreateSecurityProfileResponse>;
+export interface CreateWorkspaceResponse {
+  WorkspaceId: string;
+  WorkspaceArn: string;
+}
+export const CreateWorkspaceResponse = S.suspend(() =>
+  S.Struct({ WorkspaceId: S.String, WorkspaceArn: S.String }),
+).annotations({
+  identifier: "CreateWorkspaceResponse",
+}) as any as S.Schema<CreateWorkspaceResponse>;
+export interface DescribeContactResponse {
+  Contact?: Contact;
+}
+export const DescribeContactResponse = S.suspend(() =>
+  S.Struct({ Contact: S.optional(Contact) }),
+).annotations({
+  identifier: "DescribeContactResponse",
+}) as any as S.Schema<DescribeContactResponse>;
+export interface GetCurrentMetricDataResponse {
+  NextToken?: string;
+  MetricResults?: CurrentMetricResults;
+  DataSnapshotTime?: Date;
+  ApproximateTotalCount?: number;
+}
+export const GetCurrentMetricDataResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    MetricResults: S.optional(CurrentMetricResults),
+    DataSnapshotTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    ApproximateTotalCount: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "GetCurrentMetricDataResponse",
+}) as any as S.Schema<GetCurrentMetricDataResponse>;
+export interface GetMetricDataResponse {
+  NextToken?: string;
+  MetricResults?: HistoricalMetricResults;
+}
+export const GetMetricDataResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    MetricResults: S.optional(HistoricalMetricResults),
+  }),
+).annotations({
+  identifier: "GetMetricDataResponse",
+}) as any as S.Schema<GetMetricDataResponse>;
+export interface GetMetricDataV2Response {
+  NextToken?: string;
+  MetricResults?: MetricResultsV2;
+}
+export const GetMetricDataV2Response = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    MetricResults: S.optional(MetricResultsV2),
+  }),
+).annotations({
+  identifier: "GetMetricDataV2Response",
+}) as any as S.Schema<GetMetricDataV2Response>;
+export interface RealTimeContactAnalysisPointOfInterest {
+  TranscriptItems?: RealTimeContactAnalysisTranscriptItemsWithCharacterOffsets;
+}
+export const RealTimeContactAnalysisPointOfInterest = S.suspend(() =>
+  S.Struct({
+    TranscriptItems: S.optional(
+      RealTimeContactAnalysisTranscriptItemsWithCharacterOffsets,
+    ),
+  }),
+).annotations({
+  identifier: "RealTimeContactAnalysisPointOfInterest",
+}) as any as S.Schema<RealTimeContactAnalysisPointOfInterest>;
+export type RealTimeContactAnalysisPointsOfInterest =
+  RealTimeContactAnalysisPointOfInterest[];
 export const RealTimeContactAnalysisPointsOfInterest = S.Array(
   RealTimeContactAnalysisPointOfInterest,
 );
-export class SearchContactEvaluationsResponse extends S.Class<SearchContactEvaluationsResponse>(
-  "SearchContactEvaluationsResponse",
-)({
-  EvaluationSearchSummaryList: S.optional(EvaluationSearchSummaryList),
-  NextToken: S.optional(S.String),
-  ApproximateTotalCount: S.optional(S.Number),
-}) {}
-export class StartOutboundVoiceContactRequest extends S.Class<StartOutboundVoiceContactRequest>(
-  "StartOutboundVoiceContactRequest",
-)(
-  {
+export interface SearchContactEvaluationsResponse {
+  EvaluationSearchSummaryList?: EvaluationSearchSummaryList;
+  NextToken?: string;
+  ApproximateTotalCount?: number;
+}
+export const SearchContactEvaluationsResponse = S.suspend(() =>
+  S.Struct({
+    EvaluationSearchSummaryList: S.optional(EvaluationSearchSummaryList),
+    NextToken: S.optional(S.String),
+    ApproximateTotalCount: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "SearchContactEvaluationsResponse",
+}) as any as S.Schema<SearchContactEvaluationsResponse>;
+export interface StartOutboundVoiceContactRequest {
+  Name?: string;
+  Description?: string;
+  References?: ContactReferences;
+  RelatedContactId?: string;
+  DestinationPhoneNumber: string;
+  ContactFlowId: string;
+  InstanceId: string;
+  ClientToken?: string;
+  SourcePhoneNumber?: string;
+  QueueId?: string;
+  Attributes?: Attributes;
+  AnswerMachineDetectionConfig?: AnswerMachineDetectionConfig;
+  CampaignId?: string;
+  TrafficType?: string;
+  OutboundStrategy?: OutboundStrategy;
+  RingTimeoutInSeconds?: number;
+}
+export const StartOutboundVoiceContactRequest = S.suspend(() =>
+  S.Struct({
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     References: S.optional(ContactReferences),
@@ -11969,223 +20118,430 @@ export class StartOutboundVoiceContactRequest extends S.Class<StartOutboundVoice
     TrafficType: S.optional(S.String),
     OutboundStrategy: S.optional(OutboundStrategy),
     RingTimeoutInSeconds: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/contact/outbound-voice" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/contact/outbound-voice" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class EvaluationSuggestedAnswerTranscriptMillisecondOffsets extends S.Class<EvaluationSuggestedAnswerTranscriptMillisecondOffsets>(
-  "EvaluationSuggestedAnswerTranscriptMillisecondOffsets",
-)({ BeginOffsetMillis: S.Number }) {}
-export class EvaluationTranscriptPointOfInterest extends S.Class<EvaluationTranscriptPointOfInterest>(
-  "EvaluationTranscriptPointOfInterest",
-)({
-  MillisecondOffsets: S.optional(
-    EvaluationSuggestedAnswerTranscriptMillisecondOffsets,
-  ),
-  TranscriptSegment: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "StartOutboundVoiceContactRequest",
+}) as any as S.Schema<StartOutboundVoiceContactRequest>;
+export interface EvaluationSuggestedAnswerTranscriptMillisecondOffsets {
+  BeginOffsetMillis: number;
+}
+export const EvaluationSuggestedAnswerTranscriptMillisecondOffsets = S.suspend(
+  () => S.Struct({ BeginOffsetMillis: S.Number }),
+).annotations({
+  identifier: "EvaluationSuggestedAnswerTranscriptMillisecondOffsets",
+}) as any as S.Schema<EvaluationSuggestedAnswerTranscriptMillisecondOffsets>;
+export interface EvaluationTranscriptPointOfInterest {
+  MillisecondOffsets?: EvaluationSuggestedAnswerTranscriptMillisecondOffsets;
+  TranscriptSegment?: string;
+}
+export const EvaluationTranscriptPointOfInterest = S.suspend(() =>
+  S.Struct({
+    MillisecondOffsets: S.optional(
+      EvaluationSuggestedAnswerTranscriptMillisecondOffsets,
+    ),
+    TranscriptSegment: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "EvaluationTranscriptPointOfInterest",
+}) as any as S.Schema<EvaluationTranscriptPointOfInterest>;
+export type EvaluationTranscriptPointsOfInterest =
+  EvaluationTranscriptPointOfInterest[];
 export const EvaluationTranscriptPointsOfInterest = S.Array(
   EvaluationTranscriptPointOfInterest,
 );
-export class EvaluationAutomationRuleCategory extends S.Class<EvaluationAutomationRuleCategory>(
-  "EvaluationAutomationRuleCategory",
-)({
-  Category: S.String,
-  Condition: S.String,
-  PointsOfInterest: S.optional(EvaluationTranscriptPointsOfInterest),
-}) {}
+export interface EvaluationAutomationRuleCategory {
+  Category: string;
+  Condition: string;
+  PointsOfInterest?: EvaluationTranscriptPointsOfInterest;
+}
+export const EvaluationAutomationRuleCategory = S.suspend(() =>
+  S.Struct({
+    Category: S.String,
+    Condition: S.String,
+    PointsOfInterest: S.optional(EvaluationTranscriptPointsOfInterest),
+  }),
+).annotations({
+  identifier: "EvaluationAutomationRuleCategory",
+}) as any as S.Schema<EvaluationAutomationRuleCategory>;
+export type EvaluationAutomationRuleCategoryList =
+  EvaluationAutomationRuleCategory[];
 export const EvaluationAutomationRuleCategoryList = S.Array(
   EvaluationAutomationRuleCategory,
 );
-export class HierarchyPathReference extends S.Class<HierarchyPathReference>(
-  "HierarchyPathReference",
-)({
-  LevelOne: S.optional(HierarchyGroupSummaryReference),
-  LevelTwo: S.optional(HierarchyGroupSummaryReference),
-  LevelThree: S.optional(HierarchyGroupSummaryReference),
-  LevelFour: S.optional(HierarchyGroupSummaryReference),
-  LevelFive: S.optional(HierarchyGroupSummaryReference),
-}) {}
-export class UserIdentityInfoLite extends S.Class<UserIdentityInfoLite>(
-  "UserIdentityInfoLite",
-)({ FirstName: S.optional(S.String), LastName: S.optional(S.String) }) {}
-export class Meeting extends S.Class<Meeting>("Meeting")({
-  MediaRegion: S.optional(S.String),
-  MediaPlacement: S.optional(MediaPlacement),
-  MeetingFeatures: S.optional(MeetingFeaturesConfiguration),
-  MeetingId: S.optional(S.String),
-}) {}
-export class RoutingCriteriaInputStep extends S.Class<RoutingCriteriaInputStep>(
-  "RoutingCriteriaInputStep",
-)({
-  Expiry: S.optional(RoutingCriteriaInputStepExpiry),
-  Expression: S.optional(Expression),
-}) {}
+export interface HierarchyPathReference {
+  LevelOne?: HierarchyGroupSummaryReference;
+  LevelTwo?: HierarchyGroupSummaryReference;
+  LevelThree?: HierarchyGroupSummaryReference;
+  LevelFour?: HierarchyGroupSummaryReference;
+  LevelFive?: HierarchyGroupSummaryReference;
+}
+export const HierarchyPathReference = S.suspend(() =>
+  S.Struct({
+    LevelOne: S.optional(HierarchyGroupSummaryReference),
+    LevelTwo: S.optional(HierarchyGroupSummaryReference),
+    LevelThree: S.optional(HierarchyGroupSummaryReference),
+    LevelFour: S.optional(HierarchyGroupSummaryReference),
+    LevelFive: S.optional(HierarchyGroupSummaryReference),
+  }),
+).annotations({
+  identifier: "HierarchyPathReference",
+}) as any as S.Schema<HierarchyPathReference>;
+export interface UserIdentityInfoLite {
+  FirstName?: string;
+  LastName?: string;
+}
+export const UserIdentityInfoLite = S.suspend(() =>
+  S.Struct({ FirstName: S.optional(S.String), LastName: S.optional(S.String) }),
+).annotations({
+  identifier: "UserIdentityInfoLite",
+}) as any as S.Schema<UserIdentityInfoLite>;
+export interface Meeting {
+  MediaRegion?: string;
+  MediaPlacement?: MediaPlacement;
+  MeetingFeatures?: MeetingFeaturesConfiguration;
+  MeetingId?: string;
+}
+export const Meeting = S.suspend(() =>
+  S.Struct({
+    MediaRegion: S.optional(S.String),
+    MediaPlacement: S.optional(MediaPlacement),
+    MeetingFeatures: S.optional(MeetingFeaturesConfiguration),
+    MeetingId: S.optional(S.String),
+  }),
+).annotations({ identifier: "Meeting" }) as any as S.Schema<Meeting>;
+export interface RoutingCriteriaInputStep {
+  Expiry?: RoutingCriteriaInputStepExpiry;
+  Expression?: Expression;
+}
+export const RoutingCriteriaInputStep = S.suspend(() =>
+  S.Struct({
+    Expiry: S.optional(RoutingCriteriaInputStepExpiry),
+    Expression: S.optional(Expression),
+  }),
+).annotations({
+  identifier: "RoutingCriteriaInputStep",
+}) as any as S.Schema<RoutingCriteriaInputStep>;
+export type RoutingCriteriaInputSteps = RoutingCriteriaInputStep[];
 export const RoutingCriteriaInputSteps = S.Array(RoutingCriteriaInputStep);
-export class EvaluationFormSingleSelectQuestionProperties extends S.Class<EvaluationFormSingleSelectQuestionProperties>(
-  "EvaluationFormSingleSelectQuestionProperties",
-)({
-  Options: EvaluationFormSingleSelectQuestionOptionList,
-  DisplayAs: S.optional(S.String),
-  Automation: S.optional(EvaluationFormSingleSelectQuestionAutomation),
-}) {}
-export class EvaluationFormMultiSelectQuestionProperties extends S.Class<EvaluationFormMultiSelectQuestionProperties>(
-  "EvaluationFormMultiSelectQuestionProperties",
-)({
-  Options: EvaluationFormMultiSelectQuestionOptionList,
-  DisplayAs: S.optional(S.String),
-  Automation: S.optional(EvaluationFormMultiSelectQuestionAutomation),
-}) {}
-export class EvaluationFormItemEnablementCondition extends S.Class<EvaluationFormItemEnablementCondition>(
-  "EvaluationFormItemEnablementCondition",
-)({
-  Operands: S.suspend(() => EvaluationFormItemEnablementConditionOperandList),
-  Operator: S.optional(S.String),
-}) {}
-export class RealTimeContactAnalysisCategoryDetails extends S.Class<RealTimeContactAnalysisCategoryDetails>(
-  "RealTimeContactAnalysisCategoryDetails",
-)({ PointsOfInterest: RealTimeContactAnalysisPointsOfInterest }) {}
-export class EvaluationContactLensAnswerAnalysisDetails extends S.Class<EvaluationContactLensAnswerAnalysisDetails>(
-  "EvaluationContactLensAnswerAnalysisDetails",
-)({
-  MatchedRuleCategories: S.optional(EvaluationAutomationRuleCategoryList),
-}) {}
-export class UserData extends S.Class<UserData>("UserData")({
-  User: S.optional(UserReference),
-  RoutingProfile: S.optional(RoutingProfileReference),
-  HierarchyPath: S.optional(HierarchyPathReference),
-  Status: S.optional(AgentStatusReference),
-  AvailableSlotsByChannel: S.optional(ChannelToCountMap),
-  MaxSlotsByChannel: S.optional(ChannelToCountMap),
-  ActiveSlotsByChannel: S.optional(ChannelToCountMap),
-  Contacts: S.optional(AgentContactReferenceList),
-  NextStatus: S.optional(S.String),
-}) {}
+export interface EvaluationFormSingleSelectQuestionProperties {
+  Options: EvaluationFormSingleSelectQuestionOptionList;
+  DisplayAs?: string;
+  Automation?: EvaluationFormSingleSelectQuestionAutomation;
+}
+export const EvaluationFormSingleSelectQuestionProperties = S.suspend(() =>
+  S.Struct({
+    Options: EvaluationFormSingleSelectQuestionOptionList,
+    DisplayAs: S.optional(S.String),
+    Automation: S.optional(EvaluationFormSingleSelectQuestionAutomation),
+  }),
+).annotations({
+  identifier: "EvaluationFormSingleSelectQuestionProperties",
+}) as any as S.Schema<EvaluationFormSingleSelectQuestionProperties>;
+export interface EvaluationFormMultiSelectQuestionProperties {
+  Options: EvaluationFormMultiSelectQuestionOptionList;
+  DisplayAs?: string;
+  Automation?: EvaluationFormMultiSelectQuestionAutomation;
+}
+export const EvaluationFormMultiSelectQuestionProperties = S.suspend(() =>
+  S.Struct({
+    Options: EvaluationFormMultiSelectQuestionOptionList,
+    DisplayAs: S.optional(S.String),
+    Automation: S.optional(EvaluationFormMultiSelectQuestionAutomation),
+  }),
+).annotations({
+  identifier: "EvaluationFormMultiSelectQuestionProperties",
+}) as any as S.Schema<EvaluationFormMultiSelectQuestionProperties>;
+export interface EvaluationFormItemEnablementCondition {
+  Operands: EvaluationFormItemEnablementConditionOperandList;
+  Operator?: string;
+}
+export const EvaluationFormItemEnablementCondition = S.suspend(() =>
+  S.Struct({
+    Operands: S.suspend(
+      () => EvaluationFormItemEnablementConditionOperandList,
+    ).annotations({
+      identifier: "EvaluationFormItemEnablementConditionOperandList",
+    }),
+    Operator: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "EvaluationFormItemEnablementCondition",
+}) as any as S.Schema<EvaluationFormItemEnablementCondition>;
+export interface RealTimeContactAnalysisCategoryDetails {
+  PointsOfInterest: RealTimeContactAnalysisPointsOfInterest;
+}
+export const RealTimeContactAnalysisCategoryDetails = S.suspend(() =>
+  S.Struct({ PointsOfInterest: RealTimeContactAnalysisPointsOfInterest }),
+).annotations({
+  identifier: "RealTimeContactAnalysisCategoryDetails",
+}) as any as S.Schema<RealTimeContactAnalysisCategoryDetails>;
+export interface EvaluationContactLensAnswerAnalysisDetails {
+  MatchedRuleCategories?: EvaluationAutomationRuleCategoryList;
+}
+export const EvaluationContactLensAnswerAnalysisDetails = S.suspend(() =>
+  S.Struct({
+    MatchedRuleCategories: S.optional(EvaluationAutomationRuleCategoryList),
+  }),
+).annotations({
+  identifier: "EvaluationContactLensAnswerAnalysisDetails",
+}) as any as S.Schema<EvaluationContactLensAnswerAnalysisDetails>;
+export interface UserData {
+  User?: UserReference;
+  RoutingProfile?: RoutingProfileReference;
+  HierarchyPath?: HierarchyPathReference;
+  Status?: AgentStatusReference;
+  AvailableSlotsByChannel?: ChannelToCountMap;
+  MaxSlotsByChannel?: ChannelToCountMap;
+  ActiveSlotsByChannel?: ChannelToCountMap;
+  Contacts?: AgentContactReferenceList;
+  NextStatus?: string;
+}
+export const UserData = S.suspend(() =>
+  S.Struct({
+    User: S.optional(UserReference),
+    RoutingProfile: S.optional(RoutingProfileReference),
+    HierarchyPath: S.optional(HierarchyPathReference),
+    Status: S.optional(AgentStatusReference),
+    AvailableSlotsByChannel: S.optional(ChannelToCountMap),
+    MaxSlotsByChannel: S.optional(ChannelToCountMap),
+    ActiveSlotsByChannel: S.optional(ChannelToCountMap),
+    Contacts: S.optional(AgentContactReferenceList),
+    NextStatus: S.optional(S.String),
+  }),
+).annotations({ identifier: "UserData" }) as any as S.Schema<UserData>;
+export type UserDataList = UserData[];
 export const UserDataList = S.Array(UserData);
-export class UserSearchSummary extends S.Class<UserSearchSummary>(
-  "UserSearchSummary",
-)({
-  Arn: S.optional(S.String),
-  DirectoryUserId: S.optional(S.String),
-  HierarchyGroupId: S.optional(S.String),
-  Id: S.optional(S.String),
-  IdentityInfo: S.optional(UserIdentityInfoLite),
-  PhoneConfig: S.optional(UserPhoneConfig),
-  RoutingProfileId: S.optional(S.String),
-  SecurityProfileIds: S.optional(SecurityProfileIds),
-  Tags: S.optional(TagMap),
-  Username: S.optional(S.String),
-}) {}
+export interface UserSearchSummary {
+  Arn?: string;
+  DirectoryUserId?: string;
+  HierarchyGroupId?: string;
+  Id?: string;
+  IdentityInfo?: UserIdentityInfoLite;
+  PhoneConfig?: UserPhoneConfig;
+  RoutingProfileId?: string;
+  SecurityProfileIds?: SecurityProfileIds;
+  Tags?: TagMap;
+  Username?: string;
+}
+export const UserSearchSummary = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    DirectoryUserId: S.optional(S.String),
+    HierarchyGroupId: S.optional(S.String),
+    Id: S.optional(S.String),
+    IdentityInfo: S.optional(UserIdentityInfoLite),
+    PhoneConfig: S.optional(UserPhoneConfig),
+    RoutingProfileId: S.optional(S.String),
+    SecurityProfileIds: S.optional(SecurityProfileIds),
+    Tags: S.optional(TagMap),
+    Username: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "UserSearchSummary",
+}) as any as S.Schema<UserSearchSummary>;
+export type UserSearchSummaryList = UserSearchSummary[];
 export const UserSearchSummaryList = S.Array(UserSearchSummary);
-export class ConnectionData extends S.Class<ConnectionData>("ConnectionData")({
-  Attendee: S.optional(Attendee),
-  Meeting: S.optional(Meeting),
-}) {}
-export class RoutingCriteriaInput extends S.Class<RoutingCriteriaInput>(
-  "RoutingCriteriaInput",
-)({ Steps: S.optional(RoutingCriteriaInputSteps) }) {}
+export interface ConnectionData {
+  Attendee?: Attendee;
+  Meeting?: Meeting;
+}
+export const ConnectionData = S.suspend(() =>
+  S.Struct({ Attendee: S.optional(Attendee), Meeting: S.optional(Meeting) }),
+).annotations({
+  identifier: "ConnectionData",
+}) as any as S.Schema<ConnectionData>;
+export interface RoutingCriteriaInput {
+  Steps?: RoutingCriteriaInputSteps;
+}
+export const RoutingCriteriaInput = S.suspend(() =>
+  S.Struct({ Steps: S.optional(RoutingCriteriaInputSteps) }),
+).annotations({
+  identifier: "RoutingCriteriaInput",
+}) as any as S.Schema<RoutingCriteriaInput>;
 export const EvaluationFormQuestionTypeProperties = S.Union(
   S.Struct({ Numeric: EvaluationFormNumericQuestionProperties }),
   S.Struct({ SingleSelect: EvaluationFormSingleSelectQuestionProperties }),
   S.Struct({ Text: EvaluationFormTextQuestionProperties }),
   S.Struct({ MultiSelect: EvaluationFormMultiSelectQuestionProperties }),
 );
-export class EvaluationFormItemEnablementConfiguration extends S.Class<EvaluationFormItemEnablementConfiguration>(
-  "EvaluationFormItemEnablementConfiguration",
-)({
-  Condition: EvaluationFormItemEnablementCondition,
-  Action: S.String,
-  DefaultAction: S.optional(S.String),
-}) {}
+export interface EvaluationFormItemEnablementConfiguration {
+  Condition: EvaluationFormItemEnablementCondition;
+  Action: string;
+  DefaultAction?: string;
+}
+export const EvaluationFormItemEnablementConfiguration = S.suspend(() =>
+  S.Struct({
+    Condition: EvaluationFormItemEnablementCondition,
+    Action: S.String,
+    DefaultAction: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "EvaluationFormItemEnablementConfiguration",
+}) as any as S.Schema<EvaluationFormItemEnablementConfiguration>;
+export type RealTimeContactAnalysisMatchedDetails = {
+  [key: string]: RealTimeContactAnalysisCategoryDetails;
+};
 export const RealTimeContactAnalysisMatchedDetails = S.Record({
   key: S.String,
   value: RealTimeContactAnalysisCategoryDetails,
 });
-export class GetCurrentUserDataResponse extends S.Class<GetCurrentUserDataResponse>(
-  "GetCurrentUserDataResponse",
-)({
-  NextToken: S.optional(S.String),
-  UserDataList: S.optional(UserDataList),
-  ApproximateTotalCount: S.optional(S.Number),
-}) {}
-export class SearchUsersResponse extends S.Class<SearchUsersResponse>(
-  "SearchUsersResponse",
-)({
-  Users: S.optional(UserSearchSummaryList),
-  NextToken: S.optional(S.String),
-  ApproximateTotalCount: S.optional(S.Number),
-}) {}
-export class StartOutboundVoiceContactResponse extends S.Class<StartOutboundVoiceContactResponse>(
-  "StartOutboundVoiceContactResponse",
-)({ ContactId: S.optional(S.String) }) {}
-export class StartWebRTCContactResponse extends S.Class<StartWebRTCContactResponse>(
-  "StartWebRTCContactResponse",
-)({
-  ConnectionData: S.optional(ConnectionData),
-  ContactId: S.optional(S.String),
-  ParticipantId: S.optional(S.String),
-  ParticipantToken: S.optional(S.String),
-}) {}
-export class UpdateContactRoutingDataRequest extends S.Class<UpdateContactRoutingDataRequest>(
-  "UpdateContactRoutingDataRequest",
-)(
-  {
+export interface GetCurrentUserDataResponse {
+  NextToken?: string;
+  UserDataList?: UserDataList;
+  ApproximateTotalCount?: number;
+}
+export const GetCurrentUserDataResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    UserDataList: S.optional(UserDataList),
+    ApproximateTotalCount: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "GetCurrentUserDataResponse",
+}) as any as S.Schema<GetCurrentUserDataResponse>;
+export interface SearchUsersResponse {
+  Users?: UserSearchSummaryList;
+  NextToken?: string;
+  ApproximateTotalCount?: number;
+}
+export const SearchUsersResponse = S.suspend(() =>
+  S.Struct({
+    Users: S.optional(UserSearchSummaryList),
+    NextToken: S.optional(S.String),
+    ApproximateTotalCount: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "SearchUsersResponse",
+}) as any as S.Schema<SearchUsersResponse>;
+export interface StartOutboundVoiceContactResponse {
+  ContactId?: string;
+}
+export const StartOutboundVoiceContactResponse = S.suspend(() =>
+  S.Struct({ ContactId: S.optional(S.String) }),
+).annotations({
+  identifier: "StartOutboundVoiceContactResponse",
+}) as any as S.Schema<StartOutboundVoiceContactResponse>;
+export interface StartWebRTCContactResponse {
+  ConnectionData?: ConnectionData;
+  ContactId?: string;
+  ParticipantId?: string;
+  ParticipantToken?: string;
+}
+export const StartWebRTCContactResponse = S.suspend(() =>
+  S.Struct({
+    ConnectionData: S.optional(ConnectionData),
+    ContactId: S.optional(S.String),
+    ParticipantId: S.optional(S.String),
+    ParticipantToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "StartWebRTCContactResponse",
+}) as any as S.Schema<StartWebRTCContactResponse>;
+export interface UpdateContactRoutingDataRequest {
+  InstanceId: string;
+  ContactId: string;
+  QueueTimeAdjustmentSeconds?: number;
+  QueuePriority?: number;
+  RoutingCriteria?: RoutingCriteriaInput;
+}
+export const UpdateContactRoutingDataRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ContactId: S.String.pipe(T.HttpLabel("ContactId")),
     QueueTimeAdjustmentSeconds: S.optional(S.Number),
     QueuePriority: S.optional(S.Number),
     RoutingCriteria: S.optional(RoutingCriteriaInput),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/contacts/{InstanceId}/{ContactId}/routing-data",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/contacts/{InstanceId}/{ContactId}/routing-data",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateContactRoutingDataResponse extends S.Class<UpdateContactRoutingDataResponse>(
-  "UpdateContactRoutingDataResponse",
-)({}) {}
-export class EvaluationFormQuestion extends S.Class<EvaluationFormQuestion>(
-  "EvaluationFormQuestion",
-)({
-  Title: S.String,
-  Instructions: S.optional(S.String),
-  RefId: S.String,
-  NotApplicableEnabled: S.optional(S.Boolean),
-  QuestionType: S.String,
-  QuestionTypeProperties: S.optional(EvaluationFormQuestionTypeProperties),
-  Enablement: S.optional(EvaluationFormItemEnablementConfiguration),
-  Weight: S.optional(S.Number),
-}) {}
-export class RealTimeContactAnalysisSegmentCategories extends S.Class<RealTimeContactAnalysisSegmentCategories>(
-  "RealTimeContactAnalysisSegmentCategories",
-)({ MatchedDetails: RealTimeContactAnalysisMatchedDetails }) {}
-export class ContactSearchSummaryQueueInfo extends S.Class<ContactSearchSummaryQueueInfo>(
-  "ContactSearchSummaryQueueInfo",
-)({
-  Id: S.optional(S.String),
-  EnqueueTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class ContactSearchSummaryAgentInfo extends S.Class<ContactSearchSummaryAgentInfo>(
-  "ContactSearchSummaryAgentInfo",
-)({
-  Id: S.optional(S.String),
-  ConnectedToAgentTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
+).annotations({
+  identifier: "UpdateContactRoutingDataRequest",
+}) as any as S.Schema<UpdateContactRoutingDataRequest>;
+export interface UpdateContactRoutingDataResponse {}
+export const UpdateContactRoutingDataResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateContactRoutingDataResponse",
+}) as any as S.Schema<UpdateContactRoutingDataResponse>;
+export interface EvaluationFormQuestion {
+  Title: string;
+  Instructions?: string;
+  RefId: string;
+  NotApplicableEnabled?: boolean;
+  QuestionType: string;
+  QuestionTypeProperties?: (typeof EvaluationFormQuestionTypeProperties)["Type"];
+  Enablement?: EvaluationFormItemEnablementConfiguration;
+  Weight?: number;
+}
+export const EvaluationFormQuestion = S.suspend(() =>
+  S.Struct({
+    Title: S.String,
+    Instructions: S.optional(S.String),
+    RefId: S.String,
+    NotApplicableEnabled: S.optional(S.Boolean),
+    QuestionType: S.String,
+    QuestionTypeProperties: S.optional(EvaluationFormQuestionTypeProperties),
+    Enablement: S.optional(EvaluationFormItemEnablementConfiguration),
+    Weight: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "EvaluationFormQuestion",
+}) as any as S.Schema<EvaluationFormQuestion>;
+export interface RealTimeContactAnalysisSegmentCategories {
+  MatchedDetails: RealTimeContactAnalysisMatchedDetails;
+}
+export const RealTimeContactAnalysisSegmentCategories = S.suspend(() =>
+  S.Struct({ MatchedDetails: RealTimeContactAnalysisMatchedDetails }),
+).annotations({
+  identifier: "RealTimeContactAnalysisSegmentCategories",
+}) as any as S.Schema<RealTimeContactAnalysisSegmentCategories>;
+export interface ContactSearchSummaryQueueInfo {
+  Id?: string;
+  EnqueueTimestamp?: Date;
+}
+export const ContactSearchSummaryQueueInfo = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    EnqueueTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "ContactSearchSummaryQueueInfo",
+}) as any as S.Schema<ContactSearchSummaryQueueInfo>;
+export interface ContactSearchSummaryAgentInfo {
+  Id?: string;
+  ConnectedToAgentTimestamp?: Date;
+}
+export const ContactSearchSummaryAgentInfo = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    ConnectedToAgentTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "ContactSearchSummaryAgentInfo",
+}) as any as S.Schema<ContactSearchSummaryAgentInfo>;
 export type EvaluationFormItem =
   | { Section: EvaluationFormSection }
   | { Question: EvaluationFormQuestion };
@@ -12193,16 +20549,22 @@ export const EvaluationFormItem = S.Union(
   S.Struct({
     Section: S.suspend(
       (): S.Schema<EvaluationFormSection, any> => EvaluationFormSection,
-    ),
+    ).annotations({ identifier: "EvaluationFormSection" }),
   }),
   S.Struct({ Question: EvaluationFormQuestion }),
 ) as any as S.Schema<EvaluationFormItem>;
-export class EvaluationGenAIAnswerAnalysisDetails extends S.Class<EvaluationGenAIAnswerAnalysisDetails>(
-  "EvaluationGenAIAnswerAnalysisDetails",
-)({
-  Justification: S.optional(S.String),
-  PointsOfInterest: S.optional(EvaluationTranscriptPointsOfInterest),
-}) {}
+export interface EvaluationGenAIAnswerAnalysisDetails {
+  Justification?: string;
+  PointsOfInterest?: EvaluationTranscriptPointsOfInterest;
+}
+export const EvaluationGenAIAnswerAnalysisDetails = S.suspend(() =>
+  S.Struct({
+    Justification: S.optional(S.String),
+    PointsOfInterest: S.optional(EvaluationTranscriptPointsOfInterest),
+  }),
+).annotations({
+  identifier: "EvaluationGenAIAnswerAnalysisDetails",
+}) as any as S.Schema<EvaluationGenAIAnswerAnalysisDetails>;
 export const RealtimeContactAnalysisSegment = S.Union(
   S.Struct({ Transcript: RealTimeContactAnalysisSegmentTranscript }),
   S.Struct({ Categories: RealTimeContactAnalysisSegmentCategories }),
@@ -12213,19 +20575,38 @@ export const RealtimeContactAnalysisSegment = S.Union(
     PostContactSummary: RealTimeContactAnalysisSegmentPostContactSummary,
   }),
 );
+export type RealtimeContactAnalysisSegments =
+  (typeof RealtimeContactAnalysisSegment)["Type"][];
 export const RealtimeContactAnalysisSegments = S.Array(
   RealtimeContactAnalysisSegment,
 );
-export class ContactSearchSummarySegmentAttributeValue extends S.Class<ContactSearchSummarySegmentAttributeValue>(
-  "ContactSearchSummarySegmentAttributeValue",
-)({
-  ValueString: S.optional(S.String),
-  ValueMap: S.optional(SegmentAttributeValueMap),
-}) {}
-export class CreateEvaluationFormRequest extends S.Class<CreateEvaluationFormRequest>(
-  "CreateEvaluationFormRequest",
-)(
-  {
+export interface ContactSearchSummarySegmentAttributeValue {
+  ValueString?: string;
+  ValueMap?: SegmentAttributeValueMap;
+}
+export const ContactSearchSummarySegmentAttributeValue = S.suspend(() =>
+  S.Struct({
+    ValueString: S.optional(S.String),
+    ValueMap: S.optional(SegmentAttributeValueMap),
+  }),
+).annotations({
+  identifier: "ContactSearchSummarySegmentAttributeValue",
+}) as any as S.Schema<ContactSearchSummarySegmentAttributeValue>;
+export interface CreateEvaluationFormRequest {
+  InstanceId: string;
+  Title: string;
+  Description?: string;
+  Items: EvaluationFormItemsList;
+  ScoringStrategy?: EvaluationFormScoringStrategy;
+  AutoEvaluationConfiguration?: EvaluationFormAutoEvaluationConfiguration;
+  ClientToken?: string;
+  AsDraft?: boolean;
+  Tags?: TagMap;
+  TargetConfiguration?: EvaluationFormTargetConfiguration;
+  LanguageConfiguration?: EvaluationFormLanguageConfiguration;
+}
+export const CreateEvaluationFormRequest = S.suspend(() =>
+  S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Title: S.String,
     Description: S.optional(S.String),
@@ -12239,107 +20620,195 @@ export class CreateEvaluationFormRequest extends S.Class<CreateEvaluationFormReq
     Tags: S.optional(TagMap),
     TargetConfiguration: S.optional(EvaluationFormTargetConfiguration),
     LanguageConfiguration: S.optional(EvaluationFormLanguageConfiguration),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/evaluation-forms/{InstanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/evaluation-forms/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "CreateEvaluationFormRequest",
+}) as any as S.Schema<CreateEvaluationFormRequest>;
 export const EvaluationQuestionAnswerAnalysisDetails = S.Union(
   S.Struct({ GenAI: EvaluationGenAIAnswerAnalysisDetails }),
   S.Struct({ ContactLens: EvaluationContactLensAnswerAnalysisDetails }),
 );
-export class ListRealtimeContactAnalysisSegmentsV2Response extends S.Class<ListRealtimeContactAnalysisSegmentsV2Response>(
-  "ListRealtimeContactAnalysisSegmentsV2Response",
-)({
-  Channel: S.String,
-  Status: S.String,
-  Segments: RealtimeContactAnalysisSegments,
-  NextToken: S.optional(S.String),
-}) {}
+export interface ListRealtimeContactAnalysisSegmentsV2Response {
+  Channel: string;
+  Status: string;
+  Segments: RealtimeContactAnalysisSegments;
+  NextToken?: string;
+}
+export const ListRealtimeContactAnalysisSegmentsV2Response = S.suspend(() =>
+  S.Struct({
+    Channel: S.String,
+    Status: S.String,
+    Segments: RealtimeContactAnalysisSegments,
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListRealtimeContactAnalysisSegmentsV2Response",
+}) as any as S.Schema<ListRealtimeContactAnalysisSegmentsV2Response>;
+export type ContactSearchSummarySegmentAttributes = {
+  [key: string]: ContactSearchSummarySegmentAttributeValue;
+};
 export const ContactSearchSummarySegmentAttributes = S.Record({
   key: S.String,
   value: ContactSearchSummarySegmentAttributeValue,
 });
-export class EvaluationSuggestedAnswer extends S.Class<EvaluationSuggestedAnswer>(
-  "EvaluationSuggestedAnswer",
-)({
-  Value: S.optional(EvaluationAnswerData),
-  Status: S.String,
-  Input: S.optional(EvaluationQuestionInputDetails),
-  AnalysisType: S.String,
-  AnalysisDetails: S.optional(EvaluationQuestionAnswerAnalysisDetails),
-}) {}
+export interface EvaluationSuggestedAnswer {
+  Value?: (typeof EvaluationAnswerData)["Type"];
+  Status: string;
+  Input?: EvaluationQuestionInputDetails;
+  AnalysisType: string;
+  AnalysisDetails?: (typeof EvaluationQuestionAnswerAnalysisDetails)["Type"];
+}
+export const EvaluationSuggestedAnswer = S.suspend(() =>
+  S.Struct({
+    Value: S.optional(EvaluationAnswerData),
+    Status: S.String,
+    Input: S.optional(EvaluationQuestionInputDetails),
+    AnalysisType: S.String,
+    AnalysisDetails: S.optional(EvaluationQuestionAnswerAnalysisDetails),
+  }),
+).annotations({
+  identifier: "EvaluationSuggestedAnswer",
+}) as any as S.Schema<EvaluationSuggestedAnswer>;
+export type EvaluationSuggestedAnswersList = EvaluationSuggestedAnswer[];
 export const EvaluationSuggestedAnswersList = S.Array(
   EvaluationSuggestedAnswer,
 );
-export class ContactSearchSummary extends S.Class<ContactSearchSummary>(
-  "ContactSearchSummary",
-)({
-  Arn: S.optional(S.String),
-  Id: S.optional(S.String),
-  InitialContactId: S.optional(S.String),
-  PreviousContactId: S.optional(S.String),
-  InitiationMethod: S.optional(S.String),
-  Channel: S.optional(S.String),
-  QueueInfo: S.optional(ContactSearchSummaryQueueInfo),
-  AgentInfo: S.optional(ContactSearchSummaryAgentInfo),
-  InitiationTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  DisconnectTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  ScheduledTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  SegmentAttributes: S.optional(ContactSearchSummarySegmentAttributes),
-  Name: S.optional(S.String),
-  RoutingCriteria: S.optional(RoutingCriteria),
-  GlobalResiliencyMetadata: S.optional(GlobalResiliencyMetadata),
-}) {}
+export interface ContactSearchSummary {
+  Arn?: string;
+  Id?: string;
+  InitialContactId?: string;
+  PreviousContactId?: string;
+  InitiationMethod?: string;
+  Channel?: string;
+  QueueInfo?: ContactSearchSummaryQueueInfo;
+  AgentInfo?: ContactSearchSummaryAgentInfo;
+  InitiationTimestamp?: Date;
+  DisconnectTimestamp?: Date;
+  ScheduledTimestamp?: Date;
+  SegmentAttributes?: ContactSearchSummarySegmentAttributes;
+  Name?: string;
+  RoutingCriteria?: RoutingCriteria;
+  GlobalResiliencyMetadata?: GlobalResiliencyMetadata;
+}
+export const ContactSearchSummary = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    Id: S.optional(S.String),
+    InitialContactId: S.optional(S.String),
+    PreviousContactId: S.optional(S.String),
+    InitiationMethod: S.optional(S.String),
+    Channel: S.optional(S.String),
+    QueueInfo: S.optional(ContactSearchSummaryQueueInfo),
+    AgentInfo: S.optional(ContactSearchSummaryAgentInfo),
+    InitiationTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    DisconnectTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    ScheduledTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    SegmentAttributes: S.optional(ContactSearchSummarySegmentAttributes),
+    Name: S.optional(S.String),
+    RoutingCriteria: S.optional(RoutingCriteria),
+    GlobalResiliencyMetadata: S.optional(GlobalResiliencyMetadata),
+  }),
+).annotations({
+  identifier: "ContactSearchSummary",
+}) as any as S.Schema<ContactSearchSummary>;
+export type Contacts = ContactSearchSummary[];
 export const Contacts = S.Array(ContactSearchSummary);
-export class EvaluationAnswerOutput extends S.Class<EvaluationAnswerOutput>(
-  "EvaluationAnswerOutput",
-)({
-  Value: S.optional(EvaluationAnswerData),
-  SystemSuggestedValue: S.optional(EvaluationAnswerData),
-  SuggestedAnswers: S.optional(EvaluationSuggestedAnswersList),
-}) {}
-export class CreateEvaluationFormResponse extends S.Class<CreateEvaluationFormResponse>(
-  "CreateEvaluationFormResponse",
-)({ EvaluationFormId: S.String, EvaluationFormArn: S.String }) {}
-export class SearchContactsResponse extends S.Class<SearchContactsResponse>(
-  "SearchContactsResponse",
-)({
-  Contacts: Contacts,
-  NextToken: S.optional(S.String),
-  TotalCount: S.optional(S.Number),
-}) {}
+export interface EvaluationAnswerOutput {
+  Value?: (typeof EvaluationAnswerData)["Type"];
+  SystemSuggestedValue?: (typeof EvaluationAnswerData)["Type"];
+  SuggestedAnswers?: EvaluationSuggestedAnswersList;
+}
+export const EvaluationAnswerOutput = S.suspend(() =>
+  S.Struct({
+    Value: S.optional(EvaluationAnswerData),
+    SystemSuggestedValue: S.optional(EvaluationAnswerData),
+    SuggestedAnswers: S.optional(EvaluationSuggestedAnswersList),
+  }),
+).annotations({
+  identifier: "EvaluationAnswerOutput",
+}) as any as S.Schema<EvaluationAnswerOutput>;
+export interface CreateEvaluationFormResponse {
+  EvaluationFormId: string;
+  EvaluationFormArn: string;
+}
+export const CreateEvaluationFormResponse = S.suspend(() =>
+  S.Struct({ EvaluationFormId: S.String, EvaluationFormArn: S.String }),
+).annotations({
+  identifier: "CreateEvaluationFormResponse",
+}) as any as S.Schema<CreateEvaluationFormResponse>;
+export interface SearchContactsResponse {
+  Contacts: Contacts;
+  NextToken?: string;
+  TotalCount?: number;
+}
+export const SearchContactsResponse = S.suspend(() =>
+  S.Struct({
+    Contacts: Contacts,
+    NextToken: S.optional(S.String),
+    TotalCount: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "SearchContactsResponse",
+}) as any as S.Schema<SearchContactsResponse>;
+export type EvaluationAnswersOutputMap = {
+  [key: string]: EvaluationAnswerOutput;
+};
 export const EvaluationAnswersOutputMap = S.Record({
   key: S.String,
   value: EvaluationAnswerOutput,
 });
-export class Evaluation extends S.Class<Evaluation>("Evaluation")({
-  EvaluationId: S.String,
-  EvaluationArn: S.String,
-  Metadata: EvaluationMetadata,
-  Answers: EvaluationAnswersOutputMap,
-  Notes: EvaluationNotesMap,
-  Status: S.String,
-  Scores: S.optional(EvaluationScoresMap),
-  CreatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  LastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  EvaluationType: S.optional(S.String),
-  Tags: S.optional(TagMap),
-}) {}
-export class DescribeContactEvaluationResponse extends S.Class<DescribeContactEvaluationResponse>(
-  "DescribeContactEvaluationResponse",
-)({ Evaluation: Evaluation, EvaluationForm: EvaluationFormContent }) {}
+export interface Evaluation {
+  EvaluationId: string;
+  EvaluationArn: string;
+  Metadata: EvaluationMetadata;
+  Answers: EvaluationAnswersOutputMap;
+  Notes: EvaluationNotesMap;
+  Status: string;
+  Scores?: EvaluationScoresMap;
+  CreatedTime: Date;
+  LastModifiedTime: Date;
+  EvaluationType?: string;
+  Tags?: TagMap;
+}
+export const Evaluation = S.suspend(() =>
+  S.Struct({
+    EvaluationId: S.String,
+    EvaluationArn: S.String,
+    Metadata: EvaluationMetadata,
+    Answers: EvaluationAnswersOutputMap,
+    Notes: EvaluationNotesMap,
+    Status: S.String,
+    Scores: S.optional(EvaluationScoresMap),
+    CreatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    LastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    EvaluationType: S.optional(S.String),
+    Tags: S.optional(TagMap),
+  }),
+).annotations({ identifier: "Evaluation" }) as any as S.Schema<Evaluation>;
+export interface DescribeContactEvaluationResponse {
+  Evaluation: Evaluation;
+  EvaluationForm: EvaluationFormContent;
+}
+export const DescribeContactEvaluationResponse = S.suspend(() =>
+  S.Struct({ Evaluation: Evaluation, EvaluationForm: EvaluationFormContent }),
+).annotations({
+  identifier: "DescribeContactEvaluationResponse",
+}) as any as S.Schema<DescribeContactEvaluationResponse>;
 
 //# Errors
 export class InternalServiceException extends S.TaggedError<InternalServiceException>()(

@@ -406,156 +406,271 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class DeleteKeyRequest extends S.Class<DeleteKeyRequest>(
-  "DeleteKeyRequest",
-)(
-  {
+export interface DeleteKeyRequest {
+  KvsARN: string;
+  Key: string;
+  IfMatch: string;
+}
+export const DeleteKeyRequest = S.suspend(() =>
+  S.Struct({
     KvsARN: S.String.pipe(T.HttpLabel("KvsARN"), T.ContextParam("KvsARN")),
     Key: S.String.pipe(T.HttpLabel("Key")),
     IfMatch: S.String.pipe(T.HttpHeader("If-Match")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/key-value-stores/{KvsARN}/keys/{Key}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/key-value-stores/{KvsARN}/keys/{Key}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeKeyValueStoreRequest extends S.Class<DescribeKeyValueStoreRequest>(
-  "DescribeKeyValueStoreRequest",
-)(
-  { KvsARN: S.String.pipe(T.HttpLabel("KvsARN"), T.ContextParam("KvsARN")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/key-value-stores/{KvsARN}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteKeyRequest",
+}) as any as S.Schema<DeleteKeyRequest>;
+export interface DescribeKeyValueStoreRequest {
+  KvsARN: string;
+}
+export const DescribeKeyValueStoreRequest = S.suspend(() =>
+  S.Struct({
+    KvsARN: S.String.pipe(T.HttpLabel("KvsARN"), T.ContextParam("KvsARN")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/key-value-stores/{KvsARN}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetKeyRequest extends S.Class<GetKeyRequest>("GetKeyRequest")(
-  {
+).annotations({
+  identifier: "DescribeKeyValueStoreRequest",
+}) as any as S.Schema<DescribeKeyValueStoreRequest>;
+export interface GetKeyRequest {
+  KvsARN: string;
+  Key: string;
+}
+export const GetKeyRequest = S.suspend(() =>
+  S.Struct({
     KvsARN: S.String.pipe(T.HttpLabel("KvsARN"), T.ContextParam("KvsARN")),
     Key: S.String.pipe(T.HttpLabel("Key")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/key-value-stores/{KvsARN}/keys/{Key}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/key-value-stores/{KvsARN}/keys/{Key}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListKeysRequest extends S.Class<ListKeysRequest>(
-  "ListKeysRequest",
-)(
-  {
+).annotations({
+  identifier: "GetKeyRequest",
+}) as any as S.Schema<GetKeyRequest>;
+export interface ListKeysRequest {
+  KvsARN: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListKeysRequest = S.suspend(() =>
+  S.Struct({
     KvsARN: S.String.pipe(T.HttpLabel("KvsARN"), T.ContextParam("KvsARN")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/key-value-stores/{KvsARN}/keys" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/key-value-stores/{KvsARN}/keys" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutKeyRequest extends S.Class<PutKeyRequest>("PutKeyRequest")(
-  {
+).annotations({
+  identifier: "ListKeysRequest",
+}) as any as S.Schema<ListKeysRequest>;
+export interface PutKeyRequest {
+  Key: string;
+  Value: string;
+  KvsARN: string;
+  IfMatch: string;
+}
+export const PutKeyRequest = S.suspend(() =>
+  S.Struct({
     Key: S.String.pipe(T.HttpLabel("Key")),
     Value: S.String,
     KvsARN: S.String.pipe(T.HttpLabel("KvsARN"), T.ContextParam("KvsARN")),
     IfMatch: S.String.pipe(T.HttpHeader("If-Match")),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/key-value-stores/{KvsARN}/keys/{Key}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/key-value-stores/{KvsARN}/keys/{Key}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutKeyRequestListItem extends S.Class<PutKeyRequestListItem>(
-  "PutKeyRequestListItem",
-)({ Key: S.String, Value: S.String }) {}
+).annotations({
+  identifier: "PutKeyRequest",
+}) as any as S.Schema<PutKeyRequest>;
+export interface PutKeyRequestListItem {
+  Key: string;
+  Value: string;
+}
+export const PutKeyRequestListItem = S.suspend(() =>
+  S.Struct({ Key: S.String, Value: S.String }),
+).annotations({
+  identifier: "PutKeyRequestListItem",
+}) as any as S.Schema<PutKeyRequestListItem>;
+export type PutKeyRequestsList = PutKeyRequestListItem[];
 export const PutKeyRequestsList = S.Array(PutKeyRequestListItem);
-export class DeleteKeyRequestListItem extends S.Class<DeleteKeyRequestListItem>(
-  "DeleteKeyRequestListItem",
-)({ Key: S.String }) {}
+export interface DeleteKeyRequestListItem {
+  Key: string;
+}
+export const DeleteKeyRequestListItem = S.suspend(() =>
+  S.Struct({ Key: S.String }),
+).annotations({
+  identifier: "DeleteKeyRequestListItem",
+}) as any as S.Schema<DeleteKeyRequestListItem>;
+export type DeleteKeyRequestsList = DeleteKeyRequestListItem[];
 export const DeleteKeyRequestsList = S.Array(DeleteKeyRequestListItem);
-export class DeleteKeyResponse extends S.Class<DeleteKeyResponse>(
-  "DeleteKeyResponse",
-)({
-  ItemCount: S.Number,
-  TotalSizeInBytes: S.Number,
-  ETag: S.String.pipe(T.HttpHeader("ETag")),
-}) {}
-export class DescribeKeyValueStoreResponse extends S.Class<DescribeKeyValueStoreResponse>(
-  "DescribeKeyValueStoreResponse",
-)({
-  ItemCount: S.Number,
-  TotalSizeInBytes: S.Number,
-  KvsARN: S.String,
-  Created: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ETag: S.String.pipe(T.HttpHeader("ETag")),
-  LastModified: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Status: S.optional(S.String),
-  FailureReason: S.optional(S.String),
-}) {}
-export class GetKeyResponse extends S.Class<GetKeyResponse>("GetKeyResponse")({
-  Key: S.String,
-  Value: S.String,
-  ItemCount: S.Number,
-  TotalSizeInBytes: S.Number,
-}) {}
-export class PutKeyResponse extends S.Class<PutKeyResponse>("PutKeyResponse")({
-  ItemCount: S.Number,
-  TotalSizeInBytes: S.Number,
-  ETag: S.String.pipe(T.HttpHeader("ETag")),
-}) {}
-export class UpdateKeysRequest extends S.Class<UpdateKeysRequest>(
-  "UpdateKeysRequest",
-)(
-  {
+export interface DeleteKeyResponse {
+  ItemCount: number;
+  TotalSizeInBytes: number;
+  ETag: string;
+}
+export const DeleteKeyResponse = S.suspend(() =>
+  S.Struct({
+    ItemCount: S.Number,
+    TotalSizeInBytes: S.Number,
+    ETag: S.String.pipe(T.HttpHeader("ETag")),
+  }),
+).annotations({
+  identifier: "DeleteKeyResponse",
+}) as any as S.Schema<DeleteKeyResponse>;
+export interface DescribeKeyValueStoreResponse {
+  ItemCount: number;
+  TotalSizeInBytes: number;
+  KvsARN: string;
+  Created: Date;
+  ETag: string;
+  LastModified?: Date;
+  Status?: string;
+  FailureReason?: string;
+}
+export const DescribeKeyValueStoreResponse = S.suspend(() =>
+  S.Struct({
+    ItemCount: S.Number,
+    TotalSizeInBytes: S.Number,
+    KvsARN: S.String,
+    Created: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ETag: S.String.pipe(T.HttpHeader("ETag")),
+    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Status: S.optional(S.String),
+    FailureReason: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DescribeKeyValueStoreResponse",
+}) as any as S.Schema<DescribeKeyValueStoreResponse>;
+export interface GetKeyResponse {
+  Key: string;
+  Value: string;
+  ItemCount: number;
+  TotalSizeInBytes: number;
+}
+export const GetKeyResponse = S.suspend(() =>
+  S.Struct({
+    Key: S.String,
+    Value: S.String,
+    ItemCount: S.Number,
+    TotalSizeInBytes: S.Number,
+  }),
+).annotations({
+  identifier: "GetKeyResponse",
+}) as any as S.Schema<GetKeyResponse>;
+export interface PutKeyResponse {
+  ItemCount: number;
+  TotalSizeInBytes: number;
+  ETag: string;
+}
+export const PutKeyResponse = S.suspend(() =>
+  S.Struct({
+    ItemCount: S.Number,
+    TotalSizeInBytes: S.Number,
+    ETag: S.String.pipe(T.HttpHeader("ETag")),
+  }),
+).annotations({
+  identifier: "PutKeyResponse",
+}) as any as S.Schema<PutKeyResponse>;
+export interface UpdateKeysRequest {
+  KvsARN: string;
+  IfMatch: string;
+  Puts?: PutKeyRequestsList;
+  Deletes?: DeleteKeyRequestsList;
+}
+export const UpdateKeysRequest = S.suspend(() =>
+  S.Struct({
     KvsARN: S.String.pipe(T.HttpLabel("KvsARN"), T.ContextParam("KvsARN")),
     IfMatch: S.String.pipe(T.HttpHeader("If-Match")),
     Puts: S.optional(PutKeyRequestsList),
     Deletes: S.optional(DeleteKeyRequestsList),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/key-value-stores/{KvsARN}/keys" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/key-value-stores/{KvsARN}/keys" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListKeysResponseListItem extends S.Class<ListKeysResponseListItem>(
-  "ListKeysResponseListItem",
-)({ Key: S.String, Value: S.String }) {}
+).annotations({
+  identifier: "UpdateKeysRequest",
+}) as any as S.Schema<UpdateKeysRequest>;
+export interface ListKeysResponseListItem {
+  Key: string;
+  Value: string;
+}
+export const ListKeysResponseListItem = S.suspend(() =>
+  S.Struct({ Key: S.String, Value: S.String }),
+).annotations({
+  identifier: "ListKeysResponseListItem",
+}) as any as S.Schema<ListKeysResponseListItem>;
+export type ListKeysResponseList = ListKeysResponseListItem[];
 export const ListKeysResponseList = S.Array(ListKeysResponseListItem);
-export class ListKeysResponse extends S.Class<ListKeysResponse>(
-  "ListKeysResponse",
-)({
-  NextToken: S.optional(S.String),
-  Items: S.optional(ListKeysResponseList),
-}) {}
-export class UpdateKeysResponse extends S.Class<UpdateKeysResponse>(
-  "UpdateKeysResponse",
-)({
-  ItemCount: S.Number,
-  TotalSizeInBytes: S.Number,
-  ETag: S.String.pipe(T.HttpHeader("ETag")),
-}) {}
+export interface ListKeysResponse {
+  NextToken?: string;
+  Items?: ListKeysResponseList;
+}
+export const ListKeysResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    Items: S.optional(ListKeysResponseList),
+  }),
+).annotations({
+  identifier: "ListKeysResponse",
+}) as any as S.Schema<ListKeysResponse>;
+export interface UpdateKeysResponse {
+  ItemCount: number;
+  TotalSizeInBytes: number;
+  ETag: string;
+}
+export const UpdateKeysResponse = S.suspend(() =>
+  S.Struct({
+    ItemCount: S.Number,
+    TotalSizeInBytes: S.Number,
+    ETag: S.String.pipe(T.HttpHeader("ETag")),
+  }),
+).annotations({
+  identifier: "UpdateKeysResponse",
+}) as any as S.Schema<UpdateKeysResponse>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

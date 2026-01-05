@@ -106,120 +106,165 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type Identifiers = string[];
 export const Identifiers = S.Array(S.String);
+export type LocationsList = string[];
 export const LocationsList = S.Array(S.String);
+export type LocationList = string[];
 export const LocationList = S.Array(S.String);
+export type GameLaunchArgList = string[];
 export const GameLaunchArgList = S.Array(S.String);
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
+export type FilePaths = string[];
 export const FilePaths = S.Array(S.String);
-export class AssociateApplicationsInput extends S.Class<AssociateApplicationsInput>(
-  "AssociateApplicationsInput",
-)(
-  {
+export interface AssociateApplicationsInput {
+  Identifier: string;
+  ApplicationIdentifiers: Identifiers;
+}
+export const AssociateApplicationsInput = S.suspend(() =>
+  S.Struct({
     Identifier: S.String.pipe(T.HttpLabel("Identifier")),
     ApplicationIdentifiers: Identifiers,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/streamgroups/{Identifier}/associations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/streamgroups/{Identifier}/associations",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateStreamSessionConnectionInput extends S.Class<CreateStreamSessionConnectionInput>(
-  "CreateStreamSessionConnectionInput",
-)(
-  {
+).annotations({
+  identifier: "AssociateApplicationsInput",
+}) as any as S.Schema<AssociateApplicationsInput>;
+export interface CreateStreamSessionConnectionInput {
+  ClientToken?: string;
+  Identifier: string;
+  StreamSessionIdentifier: string;
+  SignalRequest: string;
+}
+export const CreateStreamSessionConnectionInput = S.suspend(() =>
+  S.Struct({
     ClientToken: S.optional(S.String),
     Identifier: S.String.pipe(T.HttpLabel("Identifier")),
     StreamSessionIdentifier: S.String.pipe(
       T.HttpLabel("StreamSessionIdentifier"),
     ),
     SignalRequest: S.String,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/streamgroups/{Identifier}/streamsessions/{StreamSessionIdentifier}/connections",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/streamgroups/{Identifier}/streamsessions/{StreamSessionIdentifier}/connections",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DisassociateApplicationsInput extends S.Class<DisassociateApplicationsInput>(
-  "DisassociateApplicationsInput",
-)(
-  {
+).annotations({
+  identifier: "CreateStreamSessionConnectionInput",
+}) as any as S.Schema<CreateStreamSessionConnectionInput>;
+export interface DisassociateApplicationsInput {
+  Identifier: string;
+  ApplicationIdentifiers: Identifiers;
+}
+export const DisassociateApplicationsInput = S.suspend(() =>
+  S.Struct({
     Identifier: S.String.pipe(T.HttpLabel("Identifier")),
     ApplicationIdentifiers: Identifiers,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/streamgroups/{Identifier}/disassociations",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/streamgroups/{Identifier}/disassociations",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ExportStreamSessionFilesInput extends S.Class<ExportStreamSessionFilesInput>(
-  "ExportStreamSessionFilesInput",
-)(
-  {
+).annotations({
+  identifier: "DisassociateApplicationsInput",
+}) as any as S.Schema<DisassociateApplicationsInput>;
+export interface ExportStreamSessionFilesInput {
+  Identifier: string;
+  StreamSessionIdentifier: string;
+  OutputUri: string;
+}
+export const ExportStreamSessionFilesInput = S.suspend(() =>
+  S.Struct({
     Identifier: S.String.pipe(T.HttpLabel("Identifier")),
     StreamSessionIdentifier: S.String.pipe(
       T.HttpLabel("StreamSessionIdentifier"),
     ),
     OutputUri: S.String,
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/streamgroups/{Identifier}/streamsessions/{StreamSessionIdentifier}/exportfiles",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/streamgroups/{Identifier}/streamsessions/{StreamSessionIdentifier}/exportfiles",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ExportStreamSessionFilesOutput extends S.Class<ExportStreamSessionFilesOutput>(
-  "ExportStreamSessionFilesOutput",
-)({}) {}
-export class GetStreamSessionInput extends S.Class<GetStreamSessionInput>(
-  "GetStreamSessionInput",
-)(
-  {
+).annotations({
+  identifier: "ExportStreamSessionFilesInput",
+}) as any as S.Schema<ExportStreamSessionFilesInput>;
+export interface ExportStreamSessionFilesOutput {}
+export const ExportStreamSessionFilesOutput = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "ExportStreamSessionFilesOutput",
+}) as any as S.Schema<ExportStreamSessionFilesOutput>;
+export interface GetStreamSessionInput {
+  Identifier: string;
+  StreamSessionIdentifier: string;
+}
+export const GetStreamSessionInput = S.suspend(() =>
+  S.Struct({
     Identifier: S.String.pipe(T.HttpLabel("Identifier")),
     StreamSessionIdentifier: S.String.pipe(
       T.HttpLabel("StreamSessionIdentifier"),
     ),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/streamgroups/{Identifier}/streamsessions/{StreamSessionIdentifier}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/streamgroups/{Identifier}/streamsessions/{StreamSessionIdentifier}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListStreamSessionsInput extends S.Class<ListStreamSessionsInput>(
-  "ListStreamSessionsInput",
-)(
-  {
+).annotations({
+  identifier: "GetStreamSessionInput",
+}) as any as S.Schema<GetStreamSessionInput>;
+export interface ListStreamSessionsInput {
+  Status?: string;
+  ExportFilesStatus?: string;
+  NextToken?: string;
+  MaxResults?: number;
+  Identifier: string;
+}
+export const ListStreamSessionsInput = S.suspend(() =>
+  S.Struct({
     Status: S.optional(S.String).pipe(T.HttpQuery("Status")),
     ExportFilesStatus: S.optional(S.String).pipe(
       T.HttpQuery("ExportFilesStatus"),
@@ -227,339 +272,525 @@ export class ListStreamSessionsInput extends S.Class<ListStreamSessionsInput>(
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
     Identifier: S.String.pipe(T.HttpLabel("Identifier")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/streamgroups/{Identifier}/streamsessions" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/streamgroups/{Identifier}/streamsessions",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListStreamSessionsByAccountInput extends S.Class<ListStreamSessionsByAccountInput>(
-  "ListStreamSessionsByAccountInput",
-)(
-  {
+).annotations({
+  identifier: "ListStreamSessionsInput",
+}) as any as S.Schema<ListStreamSessionsInput>;
+export interface ListStreamSessionsByAccountInput {
+  Status?: string;
+  ExportFilesStatus?: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListStreamSessionsByAccountInput = S.suspend(() =>
+  S.Struct({
     Status: S.optional(S.String).pipe(T.HttpQuery("Status")),
     ExportFilesStatus: S.optional(S.String).pipe(
       T.HttpQuery("ExportFilesStatus"),
     ),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/streamsessions" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/streamsessions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListStreamSessionsByAccountInput",
+}) as any as S.Schema<ListStreamSessionsByAccountInput>;
+export interface ListTagsForResourceRequest {
+  ResourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class RemoveStreamGroupLocationsInput extends S.Class<RemoveStreamGroupLocationsInput>(
-  "RemoveStreamGroupLocationsInput",
-)(
-  {
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface RemoveStreamGroupLocationsInput {
+  Identifier: string;
+  Locations: LocationsList;
+}
+export const RemoveStreamGroupLocationsInput = S.suspend(() =>
+  S.Struct({
     Identifier: S.String.pipe(T.HttpLabel("Identifier")),
     Locations: LocationsList.pipe(T.HttpQuery("locations")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/streamgroups/{Identifier}/locations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/streamgroups/{Identifier}/locations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class RemoveStreamGroupLocationsResponse extends S.Class<RemoveStreamGroupLocationsResponse>(
-  "RemoveStreamGroupLocationsResponse",
-)({}) {}
-export class TerminateStreamSessionInput extends S.Class<TerminateStreamSessionInput>(
-  "TerminateStreamSessionInput",
-)(
-  {
+).annotations({
+  identifier: "RemoveStreamGroupLocationsInput",
+}) as any as S.Schema<RemoveStreamGroupLocationsInput>;
+export interface RemoveStreamGroupLocationsResponse {}
+export const RemoveStreamGroupLocationsResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "RemoveStreamGroupLocationsResponse",
+}) as any as S.Schema<RemoveStreamGroupLocationsResponse>;
+export interface TerminateStreamSessionInput {
+  Identifier: string;
+  StreamSessionIdentifier: string;
+}
+export const TerminateStreamSessionInput = S.suspend(() =>
+  S.Struct({
     Identifier: S.String.pipe(T.HttpLabel("Identifier")),
     StreamSessionIdentifier: S.String.pipe(
       T.HttpLabel("StreamSessionIdentifier"),
     ),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/streamgroups/{Identifier}/streamsessions/{StreamSessionIdentifier}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/streamgroups/{Identifier}/streamsessions/{StreamSessionIdentifier}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TerminateStreamSessionResponse extends S.Class<TerminateStreamSessionResponse>(
-  "TerminateStreamSessionResponse",
-)({}) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "TerminateStreamSessionInput",
+}) as any as S.Schema<TerminateStreamSessionInput>;
+export interface TerminateStreamSessionResponse {}
+export const TerminateStreamSessionResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "TerminateStreamSessionResponse",
+}) as any as S.Schema<TerminateStreamSessionResponse>;
+export interface UntagResourceRequest {
+  ResourceArn: string;
+  TagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
-export class GetApplicationInput extends S.Class<GetApplicationInput>(
-  "GetApplicationInput",
-)(
-  { Identifier: S.String.pipe(T.HttpLabel("Identifier")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/applications/{Identifier}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface GetApplicationInput {
+  Identifier: string;
+}
+export const GetApplicationInput = S.suspend(() =>
+  S.Struct({ Identifier: S.String.pipe(T.HttpLabel("Identifier")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/applications/{Identifier}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateApplicationInput extends S.Class<UpdateApplicationInput>(
-  "UpdateApplicationInput",
-)(
-  {
+).annotations({
+  identifier: "GetApplicationInput",
+}) as any as S.Schema<GetApplicationInput>;
+export interface UpdateApplicationInput {
+  Identifier: string;
+  Description?: string;
+  ApplicationLogPaths?: FilePaths;
+  ApplicationLogOutputUri?: string;
+}
+export const UpdateApplicationInput = S.suspend(() =>
+  S.Struct({
     Identifier: S.String.pipe(T.HttpLabel("Identifier")),
     Description: S.optional(S.String),
     ApplicationLogPaths: S.optional(FilePaths),
     ApplicationLogOutputUri: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "PATCH", uri: "/applications/{Identifier}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PATCH", uri: "/applications/{Identifier}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteApplicationInput extends S.Class<DeleteApplicationInput>(
-  "DeleteApplicationInput",
-)(
-  { Identifier: S.String.pipe(T.HttpLabel("Identifier")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/applications/{Identifier}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UpdateApplicationInput",
+}) as any as S.Schema<UpdateApplicationInput>;
+export interface DeleteApplicationInput {
+  Identifier: string;
+}
+export const DeleteApplicationInput = S.suspend(() =>
+  S.Struct({ Identifier: S.String.pipe(T.HttpLabel("Identifier")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/applications/{Identifier}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteApplicationResponse extends S.Class<DeleteApplicationResponse>(
-  "DeleteApplicationResponse",
-)({}) {}
-export class ListApplicationsInput extends S.Class<ListApplicationsInput>(
-  "ListApplicationsInput",
-)(
-  {
+).annotations({
+  identifier: "DeleteApplicationInput",
+}) as any as S.Schema<DeleteApplicationInput>;
+export interface DeleteApplicationResponse {}
+export const DeleteApplicationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteApplicationResponse",
+}) as any as S.Schema<DeleteApplicationResponse>;
+export interface ListApplicationsInput {
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListApplicationsInput = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/applications" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/applications" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class LocationConfiguration extends S.Class<LocationConfiguration>(
-  "LocationConfiguration",
-)({
-  LocationName: S.String,
-  AlwaysOnCapacity: S.optional(S.Number),
-  OnDemandCapacity: S.optional(S.Number),
-  TargetIdleCapacity: S.optional(S.Number),
-  MaximumCapacity: S.optional(S.Number),
-}) {}
+).annotations({
+  identifier: "ListApplicationsInput",
+}) as any as S.Schema<ListApplicationsInput>;
+export interface LocationConfiguration {
+  LocationName: string;
+  AlwaysOnCapacity?: number;
+  OnDemandCapacity?: number;
+  TargetIdleCapacity?: number;
+  MaximumCapacity?: number;
+}
+export const LocationConfiguration = S.suspend(() =>
+  S.Struct({
+    LocationName: S.String,
+    AlwaysOnCapacity: S.optional(S.Number),
+    OnDemandCapacity: S.optional(S.Number),
+    TargetIdleCapacity: S.optional(S.Number),
+    MaximumCapacity: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "LocationConfiguration",
+}) as any as S.Schema<LocationConfiguration>;
+export type LocationConfigurations = LocationConfiguration[];
 export const LocationConfigurations = S.Array(LocationConfiguration);
+export type Tags = { [key: string]: string };
 export const Tags = S.Record({ key: S.String, value: S.String });
-export class CreateStreamGroupInput extends S.Class<CreateStreamGroupInput>(
-  "CreateStreamGroupInput",
-)(
-  {
+export interface CreateStreamGroupInput {
+  Description: string;
+  StreamClass: string;
+  DefaultApplicationIdentifier?: string;
+  LocationConfigurations?: LocationConfigurations;
+  Tags?: Tags;
+  ClientToken?: string;
+}
+export const CreateStreamGroupInput = S.suspend(() =>
+  S.Struct({
     Description: S.String,
     StreamClass: S.String,
     DefaultApplicationIdentifier: S.optional(S.String),
     LocationConfigurations: S.optional(LocationConfigurations),
     Tags: S.optional(Tags),
     ClientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/streamgroups" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/streamgroups" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetStreamGroupInput extends S.Class<GetStreamGroupInput>(
-  "GetStreamGroupInput",
-)(
-  { Identifier: S.String.pipe(T.HttpLabel("Identifier")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/streamgroups/{Identifier}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CreateStreamGroupInput",
+}) as any as S.Schema<CreateStreamGroupInput>;
+export interface GetStreamGroupInput {
+  Identifier: string;
+}
+export const GetStreamGroupInput = S.suspend(() =>
+  S.Struct({ Identifier: S.String.pipe(T.HttpLabel("Identifier")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/streamgroups/{Identifier}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateStreamGroupInput extends S.Class<UpdateStreamGroupInput>(
-  "UpdateStreamGroupInput",
-)(
-  {
+).annotations({
+  identifier: "GetStreamGroupInput",
+}) as any as S.Schema<GetStreamGroupInput>;
+export interface UpdateStreamGroupInput {
+  Identifier: string;
+  LocationConfigurations?: LocationConfigurations;
+  Description?: string;
+  DefaultApplicationIdentifier?: string;
+}
+export const UpdateStreamGroupInput = S.suspend(() =>
+  S.Struct({
     Identifier: S.String.pipe(T.HttpLabel("Identifier")),
     LocationConfigurations: S.optional(LocationConfigurations),
     Description: S.optional(S.String),
     DefaultApplicationIdentifier: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "PATCH", uri: "/streamgroups/{Identifier}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PATCH", uri: "/streamgroups/{Identifier}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteStreamGroupInput extends S.Class<DeleteStreamGroupInput>(
-  "DeleteStreamGroupInput",
-)(
-  { Identifier: S.String.pipe(T.HttpLabel("Identifier")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/streamgroups/{Identifier}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UpdateStreamGroupInput",
+}) as any as S.Schema<UpdateStreamGroupInput>;
+export interface DeleteStreamGroupInput {
+  Identifier: string;
+}
+export const DeleteStreamGroupInput = S.suspend(() =>
+  S.Struct({ Identifier: S.String.pipe(T.HttpLabel("Identifier")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/streamgroups/{Identifier}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteStreamGroupResponse extends S.Class<DeleteStreamGroupResponse>(
-  "DeleteStreamGroupResponse",
-)({}) {}
-export class ListStreamGroupsInput extends S.Class<ListStreamGroupsInput>(
-  "ListStreamGroupsInput",
-)(
-  {
+).annotations({
+  identifier: "DeleteStreamGroupInput",
+}) as any as S.Schema<DeleteStreamGroupInput>;
+export interface DeleteStreamGroupResponse {}
+export const DeleteStreamGroupResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteStreamGroupResponse",
+}) as any as S.Schema<DeleteStreamGroupResponse>;
+export interface ListStreamGroupsInput {
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListStreamGroupsInput = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/streamgroups" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/streamgroups" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "ListStreamGroupsInput",
+}) as any as S.Schema<ListStreamGroupsInput>;
+export type ArnList = string[];
 export const ArnList = S.Array(S.String);
+export type EnvironmentVariables = { [key: string]: string };
 export const EnvironmentVariables = S.Record({
   key: S.String,
   value: S.String,
 });
-export class PerformanceStatsConfiguration extends S.Class<PerformanceStatsConfiguration>(
-  "PerformanceStatsConfiguration",
-)({ SharedWithClient: S.optional(S.Boolean) }) {}
-export class RuntimeEnvironment extends S.Class<RuntimeEnvironment>(
-  "RuntimeEnvironment",
-)({ Type: S.String, Version: S.String }) {}
-export class AddStreamGroupLocationsInput extends S.Class<AddStreamGroupLocationsInput>(
-  "AddStreamGroupLocationsInput",
-)(
-  {
+export interface PerformanceStatsConfiguration {
+  SharedWithClient?: boolean;
+}
+export const PerformanceStatsConfiguration = S.suspend(() =>
+  S.Struct({ SharedWithClient: S.optional(S.Boolean) }),
+).annotations({
+  identifier: "PerformanceStatsConfiguration",
+}) as any as S.Schema<PerformanceStatsConfiguration>;
+export interface RuntimeEnvironment {
+  Type: string;
+  Version: string;
+}
+export const RuntimeEnvironment = S.suspend(() =>
+  S.Struct({ Type: S.String, Version: S.String }),
+).annotations({
+  identifier: "RuntimeEnvironment",
+}) as any as S.Schema<RuntimeEnvironment>;
+export interface AddStreamGroupLocationsInput {
+  Identifier: string;
+  LocationConfigurations: LocationConfigurations;
+}
+export const AddStreamGroupLocationsInput = S.suspend(() =>
+  S.Struct({
     Identifier: S.String.pipe(T.HttpLabel("Identifier")),
     LocationConfigurations: LocationConfigurations,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/streamgroups/{Identifier}/locations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/streamgroups/{Identifier}/locations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AssociateApplicationsOutput extends S.Class<AssociateApplicationsOutput>(
-  "AssociateApplicationsOutput",
-)({ Arn: S.optional(S.String), ApplicationArns: S.optional(ArnList) }) {}
-export class CreateStreamSessionConnectionOutput extends S.Class<CreateStreamSessionConnectionOutput>(
-  "CreateStreamSessionConnectionOutput",
-)({ SignalResponse: S.optional(S.String) }) {}
-export class DisassociateApplicationsOutput extends S.Class<DisassociateApplicationsOutput>(
-  "DisassociateApplicationsOutput",
-)({ Arn: S.optional(S.String), ApplicationArns: S.optional(ArnList) }) {}
-export class ExportFilesMetadata extends S.Class<ExportFilesMetadata>(
-  "ExportFilesMetadata",
-)({
-  Status: S.optional(S.String),
-  StatusReason: S.optional(S.String),
-  OutputUri: S.optional(S.String),
-}) {}
-export class StreamSessionSummary extends S.Class<StreamSessionSummary>(
-  "StreamSessionSummary",
-)({
-  Arn: S.optional(S.String),
-  UserId: S.optional(S.String),
-  Status: S.optional(S.String),
-  StatusReason: S.optional(S.String),
-  Protocol: S.optional(S.String),
-  LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  ApplicationArn: S.optional(S.String),
-  ExportFilesMetadata: S.optional(ExportFilesMetadata),
-  Location: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "AddStreamGroupLocationsInput",
+}) as any as S.Schema<AddStreamGroupLocationsInput>;
+export interface AssociateApplicationsOutput {
+  Arn?: string;
+  ApplicationArns?: ArnList;
+}
+export const AssociateApplicationsOutput = S.suspend(() =>
+  S.Struct({ Arn: S.optional(S.String), ApplicationArns: S.optional(ArnList) }),
+).annotations({
+  identifier: "AssociateApplicationsOutput",
+}) as any as S.Schema<AssociateApplicationsOutput>;
+export interface CreateStreamSessionConnectionOutput {
+  SignalResponse?: string;
+}
+export const CreateStreamSessionConnectionOutput = S.suspend(() =>
+  S.Struct({ SignalResponse: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateStreamSessionConnectionOutput",
+}) as any as S.Schema<CreateStreamSessionConnectionOutput>;
+export interface DisassociateApplicationsOutput {
+  Arn?: string;
+  ApplicationArns?: ArnList;
+}
+export const DisassociateApplicationsOutput = S.suspend(() =>
+  S.Struct({ Arn: S.optional(S.String), ApplicationArns: S.optional(ArnList) }),
+).annotations({
+  identifier: "DisassociateApplicationsOutput",
+}) as any as S.Schema<DisassociateApplicationsOutput>;
+export interface ExportFilesMetadata {
+  Status?: string;
+  StatusReason?: string;
+  OutputUri?: string;
+}
+export const ExportFilesMetadata = S.suspend(() =>
+  S.Struct({
+    Status: S.optional(S.String),
+    StatusReason: S.optional(S.String),
+    OutputUri: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ExportFilesMetadata",
+}) as any as S.Schema<ExportFilesMetadata>;
+export interface StreamSessionSummary {
+  Arn?: string;
+  UserId?: string;
+  Status?: string;
+  StatusReason?: string;
+  Protocol?: string;
+  LastUpdatedAt?: Date;
+  CreatedAt?: Date;
+  ApplicationArn?: string;
+  ExportFilesMetadata?: ExportFilesMetadata;
+  Location?: string;
+}
+export const StreamSessionSummary = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    UserId: S.optional(S.String),
+    Status: S.optional(S.String),
+    StatusReason: S.optional(S.String),
+    Protocol: S.optional(S.String),
+    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ApplicationArn: S.optional(S.String),
+    ExportFilesMetadata: S.optional(ExportFilesMetadata),
+    Location: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "StreamSessionSummary",
+}) as any as S.Schema<StreamSessionSummary>;
+export type StreamSessionSummaryList = StreamSessionSummary[];
 export const StreamSessionSummaryList = S.Array(StreamSessionSummary);
-export class ListStreamSessionsByAccountOutput extends S.Class<ListStreamSessionsByAccountOutput>(
-  "ListStreamSessionsByAccountOutput",
-)({
-  Items: S.optional(StreamSessionSummaryList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ Tags: S.optional(Tags) }) {}
-export class StartStreamSessionInput extends S.Class<StartStreamSessionInput>(
-  "StartStreamSessionInput",
-)(
-  {
+export interface ListStreamSessionsByAccountOutput {
+  Items?: StreamSessionSummaryList;
+  NextToken?: string;
+}
+export const ListStreamSessionsByAccountOutput = S.suspend(() =>
+  S.Struct({
+    Items: S.optional(StreamSessionSummaryList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListStreamSessionsByAccountOutput",
+}) as any as S.Schema<ListStreamSessionsByAccountOutput>;
+export interface ListTagsForResourceResponse {
+  Tags?: Tags;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ Tags: S.optional(Tags) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface StartStreamSessionInput {
+  ClientToken?: string;
+  Description?: string;
+  Identifier: string;
+  Protocol: string;
+  SignalRequest: string;
+  ApplicationIdentifier: string;
+  UserId?: string;
+  Locations?: LocationList;
+  ConnectionTimeoutSeconds?: number;
+  SessionLengthSeconds?: number;
+  AdditionalLaunchArgs?: GameLaunchArgList;
+  AdditionalEnvironmentVariables?: EnvironmentVariables;
+  PerformanceStatsConfiguration?: PerformanceStatsConfiguration;
+}
+export const StartStreamSessionInput = S.suspend(() =>
+  S.Struct({
     ClientToken: S.optional(S.String),
     Description: S.optional(S.String),
     Identifier: S.String.pipe(T.HttpLabel("Identifier")),
@@ -573,39 +804,59 @@ export class StartStreamSessionInput extends S.Class<StartStreamSessionInput>(
     AdditionalLaunchArgs: S.optional(GameLaunchArgList),
     AdditionalEnvironmentVariables: S.optional(EnvironmentVariables),
     PerformanceStatsConfiguration: S.optional(PerformanceStatsConfiguration),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/streamgroups/{Identifier}/streamsessions",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/streamgroups/{Identifier}/streamsessions",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")), Tags: Tags },
-  T.all(
-    T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "StartStreamSessionInput",
+}) as any as S.Schema<StartStreamSessionInput>;
+export interface TagResourceRequest {
+  ResourceArn: string;
+  Tags: Tags;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
+    Tags: Tags,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class CreateApplicationInput extends S.Class<CreateApplicationInput>(
-  "CreateApplicationInput",
-)(
-  {
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface CreateApplicationInput {
+  Description: string;
+  RuntimeEnvironment: RuntimeEnvironment;
+  ExecutablePath: string;
+  ApplicationSourceUri: string;
+  ApplicationLogPaths?: FilePaths;
+  ApplicationLogOutputUri?: string;
+  Tags?: Tags;
+  ClientToken?: string;
+}
+export const CreateApplicationInput = S.suspend(() =>
+  S.Struct({
     Description: S.String,
     RuntimeEnvironment: RuntimeEnvironment,
     ExecutablePath: S.String,
@@ -614,234 +865,468 @@ export class CreateApplicationInput extends S.Class<CreateApplicationInput>(
     ApplicationLogOutputUri: S.optional(S.String),
     Tags: S.optional(Tags),
     ClientToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/applications" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/applications" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ReplicationStatus extends S.Class<ReplicationStatus>(
-  "ReplicationStatus",
-)({ Location: S.optional(S.String), Status: S.optional(S.String) }) {}
+).annotations({
+  identifier: "CreateApplicationInput",
+}) as any as S.Schema<CreateApplicationInput>;
+export interface ReplicationStatus {
+  Location?: string;
+  Status?: string;
+}
+export const ReplicationStatus = S.suspend(() =>
+  S.Struct({ Location: S.optional(S.String), Status: S.optional(S.String) }),
+).annotations({
+  identifier: "ReplicationStatus",
+}) as any as S.Schema<ReplicationStatus>;
+export type ReplicationStatuses = ReplicationStatus[];
 export const ReplicationStatuses = S.Array(ReplicationStatus);
-export class UpdateApplicationOutput extends S.Class<UpdateApplicationOutput>(
-  "UpdateApplicationOutput",
-)({
-  Arn: S.String,
-  Description: S.optional(S.String),
-  RuntimeEnvironment: S.optional(RuntimeEnvironment),
-  ExecutablePath: S.optional(S.String),
-  ApplicationLogPaths: S.optional(FilePaths),
-  ApplicationLogOutputUri: S.optional(S.String),
-  ApplicationSourceUri: S.optional(S.String),
-  Id: S.optional(S.String),
-  Status: S.optional(S.String),
-  StatusReason: S.optional(S.String),
-  ReplicationStatuses: S.optional(ReplicationStatuses),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  AssociatedStreamGroups: S.optional(ArnList),
-}) {}
-export class DefaultApplication extends S.Class<DefaultApplication>(
-  "DefaultApplication",
-)({ Id: S.optional(S.String), Arn: S.optional(S.String) }) {}
-export class LocationState extends S.Class<LocationState>("LocationState")({
-  LocationName: S.optional(S.String),
-  Status: S.optional(S.String),
-  AlwaysOnCapacity: S.optional(S.Number),
-  OnDemandCapacity: S.optional(S.Number),
-  TargetIdleCapacity: S.optional(S.Number),
-  MaximumCapacity: S.optional(S.Number),
-  RequestedCapacity: S.optional(S.Number),
-  AllocatedCapacity: S.optional(S.Number),
-  IdleCapacity: S.optional(S.Number),
-}) {}
+export interface UpdateApplicationOutput {
+  Arn: string;
+  Description?: string;
+  RuntimeEnvironment?: RuntimeEnvironment;
+  ExecutablePath?: string;
+  ApplicationLogPaths?: FilePaths;
+  ApplicationLogOutputUri?: string;
+  ApplicationSourceUri?: string;
+  Id?: string;
+  Status?: string;
+  StatusReason?: string;
+  ReplicationStatuses?: ReplicationStatuses;
+  CreatedAt?: Date;
+  LastUpdatedAt?: Date;
+  AssociatedStreamGroups?: ArnList;
+}
+export const UpdateApplicationOutput = S.suspend(() =>
+  S.Struct({
+    Arn: S.String,
+    Description: S.optional(S.String),
+    RuntimeEnvironment: S.optional(RuntimeEnvironment),
+    ExecutablePath: S.optional(S.String),
+    ApplicationLogPaths: S.optional(FilePaths),
+    ApplicationLogOutputUri: S.optional(S.String),
+    ApplicationSourceUri: S.optional(S.String),
+    Id: S.optional(S.String),
+    Status: S.optional(S.String),
+    StatusReason: S.optional(S.String),
+    ReplicationStatuses: S.optional(ReplicationStatuses),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    AssociatedStreamGroups: S.optional(ArnList),
+  }),
+).annotations({
+  identifier: "UpdateApplicationOutput",
+}) as any as S.Schema<UpdateApplicationOutput>;
+export interface DefaultApplication {
+  Id?: string;
+  Arn?: string;
+}
+export const DefaultApplication = S.suspend(() =>
+  S.Struct({ Id: S.optional(S.String), Arn: S.optional(S.String) }),
+).annotations({
+  identifier: "DefaultApplication",
+}) as any as S.Schema<DefaultApplication>;
+export interface LocationState {
+  LocationName?: string;
+  Status?: string;
+  AlwaysOnCapacity?: number;
+  OnDemandCapacity?: number;
+  TargetIdleCapacity?: number;
+  MaximumCapacity?: number;
+  RequestedCapacity?: number;
+  AllocatedCapacity?: number;
+  IdleCapacity?: number;
+}
+export const LocationState = S.suspend(() =>
+  S.Struct({
+    LocationName: S.optional(S.String),
+    Status: S.optional(S.String),
+    AlwaysOnCapacity: S.optional(S.Number),
+    OnDemandCapacity: S.optional(S.Number),
+    TargetIdleCapacity: S.optional(S.Number),
+    MaximumCapacity: S.optional(S.Number),
+    RequestedCapacity: S.optional(S.Number),
+    AllocatedCapacity: S.optional(S.Number),
+    IdleCapacity: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "LocationState",
+}) as any as S.Schema<LocationState>;
+export type LocationStates = LocationState[];
 export const LocationStates = S.Array(LocationState);
-export class GetStreamGroupOutput extends S.Class<GetStreamGroupOutput>(
-  "GetStreamGroupOutput",
-)({
-  Arn: S.String,
-  Description: S.optional(S.String),
-  DefaultApplication: S.optional(DefaultApplication),
-  LocationStates: S.optional(LocationStates),
-  StreamClass: S.optional(S.String),
-  Id: S.optional(S.String),
-  Status: S.optional(S.String),
-  StatusReason: S.optional(S.String),
-  LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  ExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  AssociatedApplications: S.optional(ArnList),
-}) {}
-export class UpdateStreamGroupOutput extends S.Class<UpdateStreamGroupOutput>(
-  "UpdateStreamGroupOutput",
-)({
-  Arn: S.String,
-  Description: S.optional(S.String),
-  DefaultApplication: S.optional(DefaultApplication),
-  LocationStates: S.optional(LocationStates),
-  StreamClass: S.optional(S.String),
-  Id: S.optional(S.String),
-  Status: S.optional(S.String),
-  StatusReason: S.optional(S.String),
-  LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  ExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  AssociatedApplications: S.optional(ArnList),
-}) {}
-export class ApplicationSummary extends S.Class<ApplicationSummary>(
-  "ApplicationSummary",
-)({
-  Arn: S.String,
-  Id: S.optional(S.String),
-  Description: S.optional(S.String),
-  Status: S.optional(S.String),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  RuntimeEnvironment: S.optional(RuntimeEnvironment),
-}) {}
+export interface GetStreamGroupOutput {
+  Arn: string;
+  Description?: string;
+  DefaultApplication?: DefaultApplication;
+  LocationStates?: LocationStates;
+  StreamClass?: string;
+  Id?: string;
+  Status?: string;
+  StatusReason?: string;
+  LastUpdatedAt?: Date;
+  CreatedAt?: Date;
+  ExpiresAt?: Date;
+  AssociatedApplications?: ArnList;
+}
+export const GetStreamGroupOutput = S.suspend(() =>
+  S.Struct({
+    Arn: S.String,
+    Description: S.optional(S.String),
+    DefaultApplication: S.optional(DefaultApplication),
+    LocationStates: S.optional(LocationStates),
+    StreamClass: S.optional(S.String),
+    Id: S.optional(S.String),
+    Status: S.optional(S.String),
+    StatusReason: S.optional(S.String),
+    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    AssociatedApplications: S.optional(ArnList),
+  }),
+).annotations({
+  identifier: "GetStreamGroupOutput",
+}) as any as S.Schema<GetStreamGroupOutput>;
+export interface UpdateStreamGroupOutput {
+  Arn: string;
+  Description?: string;
+  DefaultApplication?: DefaultApplication;
+  LocationStates?: LocationStates;
+  StreamClass?: string;
+  Id?: string;
+  Status?: string;
+  StatusReason?: string;
+  LastUpdatedAt?: Date;
+  CreatedAt?: Date;
+  ExpiresAt?: Date;
+  AssociatedApplications?: ArnList;
+}
+export const UpdateStreamGroupOutput = S.suspend(() =>
+  S.Struct({
+    Arn: S.String,
+    Description: S.optional(S.String),
+    DefaultApplication: S.optional(DefaultApplication),
+    LocationStates: S.optional(LocationStates),
+    StreamClass: S.optional(S.String),
+    Id: S.optional(S.String),
+    Status: S.optional(S.String),
+    StatusReason: S.optional(S.String),
+    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    AssociatedApplications: S.optional(ArnList),
+  }),
+).annotations({
+  identifier: "UpdateStreamGroupOutput",
+}) as any as S.Schema<UpdateStreamGroupOutput>;
+export interface ApplicationSummary {
+  Arn: string;
+  Id?: string;
+  Description?: string;
+  Status?: string;
+  CreatedAt?: Date;
+  LastUpdatedAt?: Date;
+  RuntimeEnvironment?: RuntimeEnvironment;
+}
+export const ApplicationSummary = S.suspend(() =>
+  S.Struct({
+    Arn: S.String,
+    Id: S.optional(S.String),
+    Description: S.optional(S.String),
+    Status: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    RuntimeEnvironment: S.optional(RuntimeEnvironment),
+  }),
+).annotations({
+  identifier: "ApplicationSummary",
+}) as any as S.Schema<ApplicationSummary>;
+export type ApplicationSummaryList = ApplicationSummary[];
 export const ApplicationSummaryList = S.Array(ApplicationSummary);
-export class StreamGroupSummary extends S.Class<StreamGroupSummary>(
-  "StreamGroupSummary",
-)({
-  Arn: S.String,
-  Id: S.optional(S.String),
-  Description: S.optional(S.String),
-  DefaultApplication: S.optional(DefaultApplication),
-  StreamClass: S.optional(S.String),
-  Status: S.optional(S.String),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  ExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface StreamGroupSummary {
+  Arn: string;
+  Id?: string;
+  Description?: string;
+  DefaultApplication?: DefaultApplication;
+  StreamClass?: string;
+  Status?: string;
+  CreatedAt?: Date;
+  LastUpdatedAt?: Date;
+  ExpiresAt?: Date;
+}
+export const StreamGroupSummary = S.suspend(() =>
+  S.Struct({
+    Arn: S.String,
+    Id: S.optional(S.String),
+    Description: S.optional(S.String),
+    DefaultApplication: S.optional(DefaultApplication),
+    StreamClass: S.optional(S.String),
+    Status: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "StreamGroupSummary",
+}) as any as S.Schema<StreamGroupSummary>;
+export type StreamGroupSummaryList = StreamGroupSummary[];
 export const StreamGroupSummaryList = S.Array(StreamGroupSummary);
-export class AddStreamGroupLocationsOutput extends S.Class<AddStreamGroupLocationsOutput>(
-  "AddStreamGroupLocationsOutput",
-)({ Identifier: S.String, Locations: LocationStates }) {}
-export class GetStreamSessionOutput extends S.Class<GetStreamSessionOutput>(
-  "GetStreamSessionOutput",
-)({
-  Arn: S.optional(S.String),
-  Description: S.optional(S.String),
-  StreamGroupId: S.optional(S.String),
-  UserId: S.optional(S.String),
-  Status: S.optional(S.String),
-  StatusReason: S.optional(S.String),
-  Protocol: S.optional(S.String),
-  Location: S.optional(S.String),
-  SignalRequest: S.optional(S.String),
-  SignalResponse: S.optional(S.String),
-  ConnectionTimeoutSeconds: S.optional(S.Number),
-  SessionLengthSeconds: S.optional(S.Number),
-  AdditionalLaunchArgs: S.optional(GameLaunchArgList),
-  AdditionalEnvironmentVariables: S.optional(EnvironmentVariables),
-  PerformanceStatsConfiguration: S.optional(PerformanceStatsConfiguration),
-  LogFileLocationUri: S.optional(S.String),
-  WebSdkProtocolUrl: S.optional(S.String),
-  LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  ApplicationArn: S.optional(S.String),
-  ExportFilesMetadata: S.optional(ExportFilesMetadata),
-}) {}
-export class ListStreamSessionsOutput extends S.Class<ListStreamSessionsOutput>(
-  "ListStreamSessionsOutput",
-)({
-  Items: S.optional(StreamSessionSummaryList),
-  NextToken: S.optional(S.String),
-}) {}
-export class StartStreamSessionOutput extends S.Class<StartStreamSessionOutput>(
-  "StartStreamSessionOutput",
-)({
-  Arn: S.optional(S.String),
-  Description: S.optional(S.String),
-  StreamGroupId: S.optional(S.String),
-  UserId: S.optional(S.String),
-  Status: S.optional(S.String),
-  StatusReason: S.optional(S.String),
-  Protocol: S.optional(S.String),
-  Location: S.optional(S.String),
-  SignalRequest: S.optional(S.String),
-  SignalResponse: S.optional(S.String),
-  ConnectionTimeoutSeconds: S.optional(S.Number),
-  SessionLengthSeconds: S.optional(S.Number),
-  AdditionalLaunchArgs: S.optional(GameLaunchArgList),
-  AdditionalEnvironmentVariables: S.optional(EnvironmentVariables),
-  PerformanceStatsConfiguration: S.optional(PerformanceStatsConfiguration),
-  LogFileLocationUri: S.optional(S.String),
-  WebSdkProtocolUrl: S.optional(S.String),
-  LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  ApplicationArn: S.optional(S.String),
-  ExportFilesMetadata: S.optional(ExportFilesMetadata),
-}) {}
-export class CreateApplicationOutput extends S.Class<CreateApplicationOutput>(
-  "CreateApplicationOutput",
-)({
-  Arn: S.String,
-  Description: S.optional(S.String),
-  RuntimeEnvironment: S.optional(RuntimeEnvironment),
-  ExecutablePath: S.optional(S.String),
-  ApplicationLogPaths: S.optional(FilePaths),
-  ApplicationLogOutputUri: S.optional(S.String),
-  ApplicationSourceUri: S.optional(S.String),
-  Id: S.optional(S.String),
-  Status: S.optional(S.String),
-  StatusReason: S.optional(S.String),
-  ReplicationStatuses: S.optional(ReplicationStatuses),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  AssociatedStreamGroups: S.optional(ArnList),
-}) {}
-export class GetApplicationOutput extends S.Class<GetApplicationOutput>(
-  "GetApplicationOutput",
-)({
-  Arn: S.String,
-  Description: S.optional(S.String),
-  RuntimeEnvironment: S.optional(RuntimeEnvironment),
-  ExecutablePath: S.optional(S.String),
-  ApplicationLogPaths: S.optional(FilePaths),
-  ApplicationLogOutputUri: S.optional(S.String),
-  ApplicationSourceUri: S.optional(S.String),
-  Id: S.optional(S.String),
-  Status: S.optional(S.String),
-  StatusReason: S.optional(S.String),
-  ReplicationStatuses: S.optional(ReplicationStatuses),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  AssociatedStreamGroups: S.optional(ArnList),
-}) {}
-export class ListApplicationsOutput extends S.Class<ListApplicationsOutput>(
-  "ListApplicationsOutput",
-)({
-  Items: S.optional(ApplicationSummaryList),
-  NextToken: S.optional(S.String),
-}) {}
-export class CreateStreamGroupOutput extends S.Class<CreateStreamGroupOutput>(
-  "CreateStreamGroupOutput",
-)({
-  Arn: S.String,
-  Description: S.optional(S.String),
-  DefaultApplication: S.optional(DefaultApplication),
-  LocationStates: S.optional(LocationStates),
-  StreamClass: S.optional(S.String),
-  Id: S.optional(S.String),
-  Status: S.optional(S.String),
-  StatusReason: S.optional(S.String),
-  LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  ExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  AssociatedApplications: S.optional(ArnList),
-}) {}
-export class ListStreamGroupsOutput extends S.Class<ListStreamGroupsOutput>(
-  "ListStreamGroupsOutput",
-)({
-  Items: S.optional(StreamGroupSummaryList),
-  NextToken: S.optional(S.String),
-}) {}
+export interface AddStreamGroupLocationsOutput {
+  Identifier: string;
+  Locations: LocationStates;
+}
+export const AddStreamGroupLocationsOutput = S.suspend(() =>
+  S.Struct({ Identifier: S.String, Locations: LocationStates }),
+).annotations({
+  identifier: "AddStreamGroupLocationsOutput",
+}) as any as S.Schema<AddStreamGroupLocationsOutput>;
+export interface GetStreamSessionOutput {
+  Arn?: string;
+  Description?: string;
+  StreamGroupId?: string;
+  UserId?: string;
+  Status?: string;
+  StatusReason?: string;
+  Protocol?: string;
+  Location?: string;
+  SignalRequest?: string;
+  SignalResponse?: string;
+  ConnectionTimeoutSeconds?: number;
+  SessionLengthSeconds?: number;
+  AdditionalLaunchArgs?: GameLaunchArgList;
+  AdditionalEnvironmentVariables?: EnvironmentVariables;
+  PerformanceStatsConfiguration?: PerformanceStatsConfiguration;
+  LogFileLocationUri?: string;
+  WebSdkProtocolUrl?: string;
+  LastUpdatedAt?: Date;
+  CreatedAt?: Date;
+  ApplicationArn?: string;
+  ExportFilesMetadata?: ExportFilesMetadata;
+}
+export const GetStreamSessionOutput = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    Description: S.optional(S.String),
+    StreamGroupId: S.optional(S.String),
+    UserId: S.optional(S.String),
+    Status: S.optional(S.String),
+    StatusReason: S.optional(S.String),
+    Protocol: S.optional(S.String),
+    Location: S.optional(S.String),
+    SignalRequest: S.optional(S.String),
+    SignalResponse: S.optional(S.String),
+    ConnectionTimeoutSeconds: S.optional(S.Number),
+    SessionLengthSeconds: S.optional(S.Number),
+    AdditionalLaunchArgs: S.optional(GameLaunchArgList),
+    AdditionalEnvironmentVariables: S.optional(EnvironmentVariables),
+    PerformanceStatsConfiguration: S.optional(PerformanceStatsConfiguration),
+    LogFileLocationUri: S.optional(S.String),
+    WebSdkProtocolUrl: S.optional(S.String),
+    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ApplicationArn: S.optional(S.String),
+    ExportFilesMetadata: S.optional(ExportFilesMetadata),
+  }),
+).annotations({
+  identifier: "GetStreamSessionOutput",
+}) as any as S.Schema<GetStreamSessionOutput>;
+export interface ListStreamSessionsOutput {
+  Items?: StreamSessionSummaryList;
+  NextToken?: string;
+}
+export const ListStreamSessionsOutput = S.suspend(() =>
+  S.Struct({
+    Items: S.optional(StreamSessionSummaryList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListStreamSessionsOutput",
+}) as any as S.Schema<ListStreamSessionsOutput>;
+export interface StartStreamSessionOutput {
+  Arn?: string;
+  Description?: string;
+  StreamGroupId?: string;
+  UserId?: string;
+  Status?: string;
+  StatusReason?: string;
+  Protocol?: string;
+  Location?: string;
+  SignalRequest?: string;
+  SignalResponse?: string;
+  ConnectionTimeoutSeconds?: number;
+  SessionLengthSeconds?: number;
+  AdditionalLaunchArgs?: GameLaunchArgList;
+  AdditionalEnvironmentVariables?: EnvironmentVariables;
+  PerformanceStatsConfiguration?: PerformanceStatsConfiguration;
+  LogFileLocationUri?: string;
+  WebSdkProtocolUrl?: string;
+  LastUpdatedAt?: Date;
+  CreatedAt?: Date;
+  ApplicationArn?: string;
+  ExportFilesMetadata?: ExportFilesMetadata;
+}
+export const StartStreamSessionOutput = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    Description: S.optional(S.String),
+    StreamGroupId: S.optional(S.String),
+    UserId: S.optional(S.String),
+    Status: S.optional(S.String),
+    StatusReason: S.optional(S.String),
+    Protocol: S.optional(S.String),
+    Location: S.optional(S.String),
+    SignalRequest: S.optional(S.String),
+    SignalResponse: S.optional(S.String),
+    ConnectionTimeoutSeconds: S.optional(S.Number),
+    SessionLengthSeconds: S.optional(S.Number),
+    AdditionalLaunchArgs: S.optional(GameLaunchArgList),
+    AdditionalEnvironmentVariables: S.optional(EnvironmentVariables),
+    PerformanceStatsConfiguration: S.optional(PerformanceStatsConfiguration),
+    LogFileLocationUri: S.optional(S.String),
+    WebSdkProtocolUrl: S.optional(S.String),
+    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ApplicationArn: S.optional(S.String),
+    ExportFilesMetadata: S.optional(ExportFilesMetadata),
+  }),
+).annotations({
+  identifier: "StartStreamSessionOutput",
+}) as any as S.Schema<StartStreamSessionOutput>;
+export interface CreateApplicationOutput {
+  Arn: string;
+  Description?: string;
+  RuntimeEnvironment?: RuntimeEnvironment;
+  ExecutablePath?: string;
+  ApplicationLogPaths?: FilePaths;
+  ApplicationLogOutputUri?: string;
+  ApplicationSourceUri?: string;
+  Id?: string;
+  Status?: string;
+  StatusReason?: string;
+  ReplicationStatuses?: ReplicationStatuses;
+  CreatedAt?: Date;
+  LastUpdatedAt?: Date;
+  AssociatedStreamGroups?: ArnList;
+}
+export const CreateApplicationOutput = S.suspend(() =>
+  S.Struct({
+    Arn: S.String,
+    Description: S.optional(S.String),
+    RuntimeEnvironment: S.optional(RuntimeEnvironment),
+    ExecutablePath: S.optional(S.String),
+    ApplicationLogPaths: S.optional(FilePaths),
+    ApplicationLogOutputUri: S.optional(S.String),
+    ApplicationSourceUri: S.optional(S.String),
+    Id: S.optional(S.String),
+    Status: S.optional(S.String),
+    StatusReason: S.optional(S.String),
+    ReplicationStatuses: S.optional(ReplicationStatuses),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    AssociatedStreamGroups: S.optional(ArnList),
+  }),
+).annotations({
+  identifier: "CreateApplicationOutput",
+}) as any as S.Schema<CreateApplicationOutput>;
+export interface GetApplicationOutput {
+  Arn: string;
+  Description?: string;
+  RuntimeEnvironment?: RuntimeEnvironment;
+  ExecutablePath?: string;
+  ApplicationLogPaths?: FilePaths;
+  ApplicationLogOutputUri?: string;
+  ApplicationSourceUri?: string;
+  Id?: string;
+  Status?: string;
+  StatusReason?: string;
+  ReplicationStatuses?: ReplicationStatuses;
+  CreatedAt?: Date;
+  LastUpdatedAt?: Date;
+  AssociatedStreamGroups?: ArnList;
+}
+export const GetApplicationOutput = S.suspend(() =>
+  S.Struct({
+    Arn: S.String,
+    Description: S.optional(S.String),
+    RuntimeEnvironment: S.optional(RuntimeEnvironment),
+    ExecutablePath: S.optional(S.String),
+    ApplicationLogPaths: S.optional(FilePaths),
+    ApplicationLogOutputUri: S.optional(S.String),
+    ApplicationSourceUri: S.optional(S.String),
+    Id: S.optional(S.String),
+    Status: S.optional(S.String),
+    StatusReason: S.optional(S.String),
+    ReplicationStatuses: S.optional(ReplicationStatuses),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    AssociatedStreamGroups: S.optional(ArnList),
+  }),
+).annotations({
+  identifier: "GetApplicationOutput",
+}) as any as S.Schema<GetApplicationOutput>;
+export interface ListApplicationsOutput {
+  Items?: ApplicationSummaryList;
+  NextToken?: string;
+}
+export const ListApplicationsOutput = S.suspend(() =>
+  S.Struct({
+    Items: S.optional(ApplicationSummaryList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListApplicationsOutput",
+}) as any as S.Schema<ListApplicationsOutput>;
+export interface CreateStreamGroupOutput {
+  Arn: string;
+  Description?: string;
+  DefaultApplication?: DefaultApplication;
+  LocationStates?: LocationStates;
+  StreamClass?: string;
+  Id?: string;
+  Status?: string;
+  StatusReason?: string;
+  LastUpdatedAt?: Date;
+  CreatedAt?: Date;
+  ExpiresAt?: Date;
+  AssociatedApplications?: ArnList;
+}
+export const CreateStreamGroupOutput = S.suspend(() =>
+  S.Struct({
+    Arn: S.String,
+    Description: S.optional(S.String),
+    DefaultApplication: S.optional(DefaultApplication),
+    LocationStates: S.optional(LocationStates),
+    StreamClass: S.optional(S.String),
+    Id: S.optional(S.String),
+    Status: S.optional(S.String),
+    StatusReason: S.optional(S.String),
+    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    AssociatedApplications: S.optional(ArnList),
+  }),
+).annotations({
+  identifier: "CreateStreamGroupOutput",
+}) as any as S.Schema<CreateStreamGroupOutput>;
+export interface ListStreamGroupsOutput {
+  Items?: StreamGroupSummaryList;
+  NextToken?: string;
+}
+export const ListStreamGroupsOutput = S.suspend(() =>
+  S.Struct({
+    Items: S.optional(StreamGroupSummaryList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListStreamGroupsOutput",
+}) as any as S.Schema<ListStreamGroupsOutput>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

@@ -294,649 +294,909 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
+export type NamespaceList = string[];
 export const NamespaceList = S.Array(S.String);
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/tag/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface ListTagsForResourceRequest {
+  resourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tag/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface UntagResourceRequest {
+  resourceArn: string;
+  tagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/tag/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tag/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
-export class CreateNamespaceRequest extends S.Class<CreateNamespaceRequest>(
-  "CreateNamespaceRequest",
-)(
-  {
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface CreateNamespaceRequest {
+  tableBucketARN: string;
+  namespace: NamespaceList;
+}
+export const CreateNamespaceRequest = S.suspend(() =>
+  S.Struct({
     tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
     namespace: NamespaceList,
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/namespaces/{tableBucketARN}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/namespaces/{tableBucketARN}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteNamespaceRequest extends S.Class<DeleteNamespaceRequest>(
-  "DeleteNamespaceRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateNamespaceRequest",
+}) as any as S.Schema<CreateNamespaceRequest>;
+export interface DeleteNamespaceRequest {
+  tableBucketARN: string;
+  namespace: string;
+}
+export const DeleteNamespaceRequest = S.suspend(() =>
+  S.Struct({
     tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
     namespace: S.String.pipe(T.HttpLabel("namespace")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/namespaces/{tableBucketARN}/{namespace}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/namespaces/{tableBucketARN}/{namespace}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteNamespaceResponse extends S.Class<DeleteNamespaceResponse>(
-  "DeleteNamespaceResponse",
-)({}) {}
-export class GetNamespaceRequest extends S.Class<GetNamespaceRequest>(
-  "GetNamespaceRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteNamespaceRequest",
+}) as any as S.Schema<DeleteNamespaceRequest>;
+export interface DeleteNamespaceResponse {}
+export const DeleteNamespaceResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteNamespaceResponse",
+}) as any as S.Schema<DeleteNamespaceResponse>;
+export interface GetNamespaceRequest {
+  tableBucketARN: string;
+  namespace: string;
+}
+export const GetNamespaceRequest = S.suspend(() =>
+  S.Struct({
     tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
     namespace: S.String.pipe(T.HttpLabel("namespace")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/namespaces/{tableBucketARN}/{namespace}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/namespaces/{tableBucketARN}/{namespace}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListNamespacesRequest extends S.Class<ListNamespacesRequest>(
-  "ListNamespacesRequest",
-)(
-  {
+).annotations({
+  identifier: "GetNamespaceRequest",
+}) as any as S.Schema<GetNamespaceRequest>;
+export interface ListNamespacesRequest {
+  tableBucketARN: string;
+  prefix?: string;
+  continuationToken?: string;
+  maxNamespaces?: number;
+}
+export const ListNamespacesRequest = S.suspend(() =>
+  S.Struct({
     tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
     prefix: S.optional(S.String).pipe(T.HttpQuery("prefix")),
     continuationToken: S.optional(S.String).pipe(
       T.HttpQuery("continuationToken"),
     ),
     maxNamespaces: S.optional(S.Number).pipe(T.HttpQuery("maxNamespaces")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/namespaces/{tableBucketARN}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/namespaces/{tableBucketARN}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteTableBucketEncryptionRequest extends S.Class<DeleteTableBucketEncryptionRequest>(
-  "DeleteTableBucketEncryptionRequest",
-)(
-  { tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/buckets/{tableBucketARN}/encryption" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListNamespacesRequest",
+}) as any as S.Schema<ListNamespacesRequest>;
+export interface DeleteTableBucketEncryptionRequest {
+  tableBucketARN: string;
+}
+export const DeleteTableBucketEncryptionRequest = S.suspend(() =>
+  S.Struct({
+    tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/buckets/{tableBucketARN}/encryption" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteTableBucketEncryptionResponse extends S.Class<DeleteTableBucketEncryptionResponse>(
-  "DeleteTableBucketEncryptionResponse",
-)({}) {}
-export class GetTableBucketEncryptionRequest extends S.Class<GetTableBucketEncryptionRequest>(
-  "GetTableBucketEncryptionRequest",
-)(
-  { tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/buckets/{tableBucketARN}/encryption" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteTableBucketEncryptionRequest",
+}) as any as S.Schema<DeleteTableBucketEncryptionRequest>;
+export interface DeleteTableBucketEncryptionResponse {}
+export const DeleteTableBucketEncryptionResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteTableBucketEncryptionResponse",
+}) as any as S.Schema<DeleteTableBucketEncryptionResponse>;
+export interface GetTableBucketEncryptionRequest {
+  tableBucketARN: string;
+}
+export const GetTableBucketEncryptionRequest = S.suspend(() =>
+  S.Struct({
+    tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/buckets/{tableBucketARN}/encryption" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteTableBucketPolicyRequest extends S.Class<DeleteTableBucketPolicyRequest>(
-  "DeleteTableBucketPolicyRequest",
-)(
-  { tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/buckets/{tableBucketARN}/policy" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetTableBucketEncryptionRequest",
+}) as any as S.Schema<GetTableBucketEncryptionRequest>;
+export interface DeleteTableBucketPolicyRequest {
+  tableBucketARN: string;
+}
+export const DeleteTableBucketPolicyRequest = S.suspend(() =>
+  S.Struct({
+    tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/buckets/{tableBucketARN}/policy" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteTableBucketPolicyResponse extends S.Class<DeleteTableBucketPolicyResponse>(
-  "DeleteTableBucketPolicyResponse",
-)({}) {}
-export class GetTableBucketPolicyRequest extends S.Class<GetTableBucketPolicyRequest>(
-  "GetTableBucketPolicyRequest",
-)(
-  { tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/buckets/{tableBucketARN}/policy" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteTableBucketPolicyRequest",
+}) as any as S.Schema<DeleteTableBucketPolicyRequest>;
+export interface DeleteTableBucketPolicyResponse {}
+export const DeleteTableBucketPolicyResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteTableBucketPolicyResponse",
+}) as any as S.Schema<DeleteTableBucketPolicyResponse>;
+export interface GetTableBucketPolicyRequest {
+  tableBucketARN: string;
+}
+export const GetTableBucketPolicyRequest = S.suspend(() =>
+  S.Struct({
+    tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/buckets/{tableBucketARN}/policy" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutTableBucketPolicyRequest extends S.Class<PutTableBucketPolicyRequest>(
-  "PutTableBucketPolicyRequest",
-)(
-  {
+).annotations({
+  identifier: "GetTableBucketPolicyRequest",
+}) as any as S.Schema<GetTableBucketPolicyRequest>;
+export interface PutTableBucketPolicyRequest {
+  tableBucketARN: string;
+  resourcePolicy: string;
+}
+export const PutTableBucketPolicyRequest = S.suspend(() =>
+  S.Struct({
     tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
     resourcePolicy: S.String,
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/buckets/{tableBucketARN}/policy" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/buckets/{tableBucketARN}/policy" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutTableBucketPolicyResponse extends S.Class<PutTableBucketPolicyResponse>(
-  "PutTableBucketPolicyResponse",
-)({}) {}
-export class DeleteTableBucketReplicationRequest extends S.Class<DeleteTableBucketReplicationRequest>(
-  "DeleteTableBucketReplicationRequest",
-)(
-  {
+).annotations({
+  identifier: "PutTableBucketPolicyRequest",
+}) as any as S.Schema<PutTableBucketPolicyRequest>;
+export interface PutTableBucketPolicyResponse {}
+export const PutTableBucketPolicyResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "PutTableBucketPolicyResponse",
+}) as any as S.Schema<PutTableBucketPolicyResponse>;
+export interface DeleteTableBucketReplicationRequest {
+  tableBucketARN: string;
+  versionToken?: string;
+}
+export const DeleteTableBucketReplicationRequest = S.suspend(() =>
+  S.Struct({
     tableBucketARN: S.String.pipe(T.HttpQuery("tableBucketARN")),
     versionToken: S.optional(S.String).pipe(T.HttpQuery("versionToken")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/table-bucket-replication" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/table-bucket-replication" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteTableBucketReplicationResponse extends S.Class<DeleteTableBucketReplicationResponse>(
-  "DeleteTableBucketReplicationResponse",
-)({}) {}
-export class GetTableBucketReplicationRequest extends S.Class<GetTableBucketReplicationRequest>(
-  "GetTableBucketReplicationRequest",
-)(
-  { tableBucketARN: S.String.pipe(T.HttpQuery("tableBucketARN")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/table-bucket-replication" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteTableBucketReplicationRequest",
+}) as any as S.Schema<DeleteTableBucketReplicationRequest>;
+export interface DeleteTableBucketReplicationResponse {}
+export const DeleteTableBucketReplicationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteTableBucketReplicationResponse",
+}) as any as S.Schema<DeleteTableBucketReplicationResponse>;
+export interface GetTableBucketReplicationRequest {
+  tableBucketARN: string;
+}
+export const GetTableBucketReplicationRequest = S.suspend(() =>
+  S.Struct({
+    tableBucketARN: S.String.pipe(T.HttpQuery("tableBucketARN")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/table-bucket-replication" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteTableBucketRequest extends S.Class<DeleteTableBucketRequest>(
-  "DeleteTableBucketRequest",
-)(
-  { tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/buckets/{tableBucketARN}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetTableBucketReplicationRequest",
+}) as any as S.Schema<GetTableBucketReplicationRequest>;
+export interface DeleteTableBucketRequest {
+  tableBucketARN: string;
+}
+export const DeleteTableBucketRequest = S.suspend(() =>
+  S.Struct({
+    tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/buckets/{tableBucketARN}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteTableBucketResponse extends S.Class<DeleteTableBucketResponse>(
-  "DeleteTableBucketResponse",
-)({}) {}
-export class DeleteTableBucketMetricsConfigurationRequest extends S.Class<DeleteTableBucketMetricsConfigurationRequest>(
-  "DeleteTableBucketMetricsConfigurationRequest",
-)(
-  { tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/buckets/{tableBucketARN}/metrics" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteTableBucketRequest",
+}) as any as S.Schema<DeleteTableBucketRequest>;
+export interface DeleteTableBucketResponse {}
+export const DeleteTableBucketResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteTableBucketResponse",
+}) as any as S.Schema<DeleteTableBucketResponse>;
+export interface DeleteTableBucketMetricsConfigurationRequest {
+  tableBucketARN: string;
+}
+export const DeleteTableBucketMetricsConfigurationRequest = S.suspend(() =>
+  S.Struct({
+    tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/buckets/{tableBucketARN}/metrics" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteTableBucketMetricsConfigurationResponse extends S.Class<DeleteTableBucketMetricsConfigurationResponse>(
-  "DeleteTableBucketMetricsConfigurationResponse",
-)({}) {}
-export class GetTableBucketRequest extends S.Class<GetTableBucketRequest>(
-  "GetTableBucketRequest",
-)(
-  { tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/buckets/{tableBucketARN}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteTableBucketMetricsConfigurationRequest",
+}) as any as S.Schema<DeleteTableBucketMetricsConfigurationRequest>;
+export interface DeleteTableBucketMetricsConfigurationResponse {}
+export const DeleteTableBucketMetricsConfigurationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteTableBucketMetricsConfigurationResponse",
+}) as any as S.Schema<DeleteTableBucketMetricsConfigurationResponse>;
+export interface GetTableBucketRequest {
+  tableBucketARN: string;
+}
+export const GetTableBucketRequest = S.suspend(() =>
+  S.Struct({
+    tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/buckets/{tableBucketARN}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetTableBucketMaintenanceConfigurationRequest extends S.Class<GetTableBucketMaintenanceConfigurationRequest>(
-  "GetTableBucketMaintenanceConfigurationRequest",
-)(
-  { tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/buckets/{tableBucketARN}/maintenance" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetTableBucketRequest",
+}) as any as S.Schema<GetTableBucketRequest>;
+export interface GetTableBucketMaintenanceConfigurationRequest {
+  tableBucketARN: string;
+}
+export const GetTableBucketMaintenanceConfigurationRequest = S.suspend(() =>
+  S.Struct({
+    tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/buckets/{tableBucketARN}/maintenance" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetTableBucketMetricsConfigurationRequest extends S.Class<GetTableBucketMetricsConfigurationRequest>(
-  "GetTableBucketMetricsConfigurationRequest",
-)(
-  { tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/buckets/{tableBucketARN}/metrics" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetTableBucketMaintenanceConfigurationRequest",
+}) as any as S.Schema<GetTableBucketMaintenanceConfigurationRequest>;
+export interface GetTableBucketMetricsConfigurationRequest {
+  tableBucketARN: string;
+}
+export const GetTableBucketMetricsConfigurationRequest = S.suspend(() =>
+  S.Struct({
+    tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/buckets/{tableBucketARN}/metrics" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetTableBucketStorageClassRequest extends S.Class<GetTableBucketStorageClassRequest>(
-  "GetTableBucketStorageClassRequest",
-)(
-  { tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/buckets/{tableBucketARN}/storage-class" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetTableBucketMetricsConfigurationRequest",
+}) as any as S.Schema<GetTableBucketMetricsConfigurationRequest>;
+export interface GetTableBucketStorageClassRequest {
+  tableBucketARN: string;
+}
+export const GetTableBucketStorageClassRequest = S.suspend(() =>
+  S.Struct({
+    tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/buckets/{tableBucketARN}/storage-class" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTableBucketsRequest extends S.Class<ListTableBucketsRequest>(
-  "ListTableBucketsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetTableBucketStorageClassRequest",
+}) as any as S.Schema<GetTableBucketStorageClassRequest>;
+export interface ListTableBucketsRequest {
+  prefix?: string;
+  continuationToken?: string;
+  maxBuckets?: number;
+  type?: string;
+}
+export const ListTableBucketsRequest = S.suspend(() =>
+  S.Struct({
     prefix: S.optional(S.String).pipe(T.HttpQuery("prefix")),
     continuationToken: S.optional(S.String).pipe(
       T.HttpQuery("continuationToken"),
     ),
     maxBuckets: S.optional(S.Number).pipe(T.HttpQuery("maxBuckets")),
     type: S.optional(S.String).pipe(T.HttpQuery("type")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/buckets" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/buckets" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutTableBucketMetricsConfigurationRequest extends S.Class<PutTableBucketMetricsConfigurationRequest>(
-  "PutTableBucketMetricsConfigurationRequest",
-)(
-  { tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")) },
-  T.all(
-    T.Http({ method: "PUT", uri: "/buckets/{tableBucketARN}/metrics" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListTableBucketsRequest",
+}) as any as S.Schema<ListTableBucketsRequest>;
+export interface PutTableBucketMetricsConfigurationRequest {
+  tableBucketARN: string;
+}
+export const PutTableBucketMetricsConfigurationRequest = S.suspend(() =>
+  S.Struct({
+    tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/buckets/{tableBucketARN}/metrics" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutTableBucketMetricsConfigurationResponse extends S.Class<PutTableBucketMetricsConfigurationResponse>(
-  "PutTableBucketMetricsConfigurationResponse",
-)({}) {}
-export class StorageClassConfiguration extends S.Class<StorageClassConfiguration>(
-  "StorageClassConfiguration",
-)({ storageClass: S.String }) {}
-export class PutTableBucketStorageClassRequest extends S.Class<PutTableBucketStorageClassRequest>(
-  "PutTableBucketStorageClassRequest",
-)(
-  {
+).annotations({
+  identifier: "PutTableBucketMetricsConfigurationRequest",
+}) as any as S.Schema<PutTableBucketMetricsConfigurationRequest>;
+export interface PutTableBucketMetricsConfigurationResponse {}
+export const PutTableBucketMetricsConfigurationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "PutTableBucketMetricsConfigurationResponse",
+}) as any as S.Schema<PutTableBucketMetricsConfigurationResponse>;
+export interface StorageClassConfiguration {
+  storageClass: string;
+}
+export const StorageClassConfiguration = S.suspend(() =>
+  S.Struct({ storageClass: S.String }),
+).annotations({
+  identifier: "StorageClassConfiguration",
+}) as any as S.Schema<StorageClassConfiguration>;
+export interface PutTableBucketStorageClassRequest {
+  tableBucketARN: string;
+  storageClassConfiguration: StorageClassConfiguration;
+}
+export const PutTableBucketStorageClassRequest = S.suspend(() =>
+  S.Struct({
     tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
     storageClassConfiguration: StorageClassConfiguration,
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/buckets/{tableBucketARN}/storage-class" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/buckets/{tableBucketARN}/storage-class" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutTableBucketStorageClassResponse extends S.Class<PutTableBucketStorageClassResponse>(
-  "PutTableBucketStorageClassResponse",
-)({}) {}
-export class GetTableEncryptionRequest extends S.Class<GetTableEncryptionRequest>(
-  "GetTableEncryptionRequest",
-)(
-  {
+).annotations({
+  identifier: "PutTableBucketStorageClassRequest",
+}) as any as S.Schema<PutTableBucketStorageClassRequest>;
+export interface PutTableBucketStorageClassResponse {}
+export const PutTableBucketStorageClassResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "PutTableBucketStorageClassResponse",
+}) as any as S.Schema<PutTableBucketStorageClassResponse>;
+export interface GetTableEncryptionRequest {
+  tableBucketARN: string;
+  namespace: string;
+  name: string;
+}
+export const GetTableEncryptionRequest = S.suspend(() =>
+  S.Struct({
     tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
     namespace: S.String.pipe(T.HttpLabel("namespace")),
     name: S.String.pipe(T.HttpLabel("name")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/tables/{tableBucketARN}/{namespace}/{name}/encryption",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/tables/{tableBucketARN}/{namespace}/{name}/encryption",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteTablePolicyRequest extends S.Class<DeleteTablePolicyRequest>(
-  "DeleteTablePolicyRequest",
-)(
-  {
+).annotations({
+  identifier: "GetTableEncryptionRequest",
+}) as any as S.Schema<GetTableEncryptionRequest>;
+export interface DeleteTablePolicyRequest {
+  tableBucketARN: string;
+  namespace: string;
+  name: string;
+}
+export const DeleteTablePolicyRequest = S.suspend(() =>
+  S.Struct({
     tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
     namespace: S.String.pipe(T.HttpLabel("namespace")),
     name: S.String.pipe(T.HttpLabel("name")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/tables/{tableBucketARN}/{namespace}/{name}/policy",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/tables/{tableBucketARN}/{namespace}/{name}/policy",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteTablePolicyResponse extends S.Class<DeleteTablePolicyResponse>(
-  "DeleteTablePolicyResponse",
-)({}) {}
-export class GetTablePolicyRequest extends S.Class<GetTablePolicyRequest>(
-  "GetTablePolicyRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteTablePolicyRequest",
+}) as any as S.Schema<DeleteTablePolicyRequest>;
+export interface DeleteTablePolicyResponse {}
+export const DeleteTablePolicyResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteTablePolicyResponse",
+}) as any as S.Schema<DeleteTablePolicyResponse>;
+export interface GetTablePolicyRequest {
+  tableBucketARN: string;
+  namespace: string;
+  name: string;
+}
+export const GetTablePolicyRequest = S.suspend(() =>
+  S.Struct({
     tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
     namespace: S.String.pipe(T.HttpLabel("namespace")),
     name: S.String.pipe(T.HttpLabel("name")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/tables/{tableBucketARN}/{namespace}/{name}/policy",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/tables/{tableBucketARN}/{namespace}/{name}/policy",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutTablePolicyRequest extends S.Class<PutTablePolicyRequest>(
-  "PutTablePolicyRequest",
-)(
-  {
+).annotations({
+  identifier: "GetTablePolicyRequest",
+}) as any as S.Schema<GetTablePolicyRequest>;
+export interface PutTablePolicyRequest {
+  tableBucketARN: string;
+  namespace: string;
+  name: string;
+  resourcePolicy: string;
+}
+export const PutTablePolicyRequest = S.suspend(() =>
+  S.Struct({
     tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
     namespace: S.String.pipe(T.HttpLabel("namespace")),
     name: S.String.pipe(T.HttpLabel("name")),
     resourcePolicy: S.String,
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/tables/{tableBucketARN}/{namespace}/{name}/policy",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/tables/{tableBucketARN}/{namespace}/{name}/policy",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutTablePolicyResponse extends S.Class<PutTablePolicyResponse>(
-  "PutTablePolicyResponse",
-)({}) {}
-export class DeleteTableReplicationRequest extends S.Class<DeleteTableReplicationRequest>(
-  "DeleteTableReplicationRequest",
-)(
-  {
+).annotations({
+  identifier: "PutTablePolicyRequest",
+}) as any as S.Schema<PutTablePolicyRequest>;
+export interface PutTablePolicyResponse {}
+export const PutTablePolicyResponse = S.suspend(() => S.Struct({})).annotations(
+  { identifier: "PutTablePolicyResponse" },
+) as any as S.Schema<PutTablePolicyResponse>;
+export interface DeleteTableReplicationRequest {
+  tableArn: string;
+  versionToken: string;
+}
+export const DeleteTableReplicationRequest = S.suspend(() =>
+  S.Struct({
     tableArn: S.String.pipe(T.HttpQuery("tableArn")),
     versionToken: S.String.pipe(T.HttpQuery("versionToken")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/table-replication" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/table-replication" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteTableReplicationResponse extends S.Class<DeleteTableReplicationResponse>(
-  "DeleteTableReplicationResponse",
-)({}) {}
-export class GetTableReplicationRequest extends S.Class<GetTableReplicationRequest>(
-  "GetTableReplicationRequest",
-)(
-  { tableArn: S.String.pipe(T.HttpQuery("tableArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/table-replication" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteTableReplicationRequest",
+}) as any as S.Schema<DeleteTableReplicationRequest>;
+export interface DeleteTableReplicationResponse {}
+export const DeleteTableReplicationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteTableReplicationResponse",
+}) as any as S.Schema<DeleteTableReplicationResponse>;
+export interface GetTableReplicationRequest {
+  tableArn: string;
+}
+export const GetTableReplicationRequest = S.suspend(() =>
+  S.Struct({ tableArn: S.String.pipe(T.HttpQuery("tableArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/table-replication" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetTableReplicationStatusRequest extends S.Class<GetTableReplicationStatusRequest>(
-  "GetTableReplicationStatusRequest",
-)(
-  { tableArn: S.String.pipe(T.HttpQuery("tableArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/replication-status" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetTableReplicationRequest",
+}) as any as S.Schema<GetTableReplicationRequest>;
+export interface GetTableReplicationStatusRequest {
+  tableArn: string;
+}
+export const GetTableReplicationStatusRequest = S.suspend(() =>
+  S.Struct({ tableArn: S.String.pipe(T.HttpQuery("tableArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/replication-status" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteTableRequest extends S.Class<DeleteTableRequest>(
-  "DeleteTableRequest",
-)(
-  {
+).annotations({
+  identifier: "GetTableReplicationStatusRequest",
+}) as any as S.Schema<GetTableReplicationStatusRequest>;
+export interface DeleteTableRequest {
+  tableBucketARN: string;
+  namespace: string;
+  name: string;
+  versionToken?: string;
+}
+export const DeleteTableRequest = S.suspend(() =>
+  S.Struct({
     tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
     namespace: S.String.pipe(T.HttpLabel("namespace")),
     name: S.String.pipe(T.HttpLabel("name")),
     versionToken: S.optional(S.String).pipe(T.HttpQuery("versionToken")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/tables/{tableBucketARN}/{namespace}/{name}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/tables/{tableBucketARN}/{namespace}/{name}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteTableResponse extends S.Class<DeleteTableResponse>(
-  "DeleteTableResponse",
-)({}) {}
-export class GetTableRequest extends S.Class<GetTableRequest>(
-  "GetTableRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteTableRequest",
+}) as any as S.Schema<DeleteTableRequest>;
+export interface DeleteTableResponse {}
+export const DeleteTableResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteTableResponse",
+}) as any as S.Schema<DeleteTableResponse>;
+export interface GetTableRequest {
+  tableBucketARN?: string;
+  namespace?: string;
+  name?: string;
+  tableArn?: string;
+}
+export const GetTableRequest = S.suspend(() =>
+  S.Struct({
     tableBucketARN: S.optional(S.String).pipe(T.HttpQuery("tableBucketARN")),
     namespace: S.optional(S.String).pipe(T.HttpQuery("namespace")),
     name: S.optional(S.String).pipe(T.HttpQuery("name")),
     tableArn: S.optional(S.String).pipe(T.HttpQuery("tableArn")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/get-table" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/get-table" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetTableMaintenanceConfigurationRequest extends S.Class<GetTableMaintenanceConfigurationRequest>(
-  "GetTableMaintenanceConfigurationRequest",
-)(
-  {
+).annotations({
+  identifier: "GetTableRequest",
+}) as any as S.Schema<GetTableRequest>;
+export interface GetTableMaintenanceConfigurationRequest {
+  tableBucketARN: string;
+  namespace: string;
+  name: string;
+}
+export const GetTableMaintenanceConfigurationRequest = S.suspend(() =>
+  S.Struct({
     tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
     namespace: S.String.pipe(T.HttpLabel("namespace")),
     name: S.String.pipe(T.HttpLabel("name")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/tables/{tableBucketARN}/{namespace}/{name}/maintenance",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/tables/{tableBucketARN}/{namespace}/{name}/maintenance",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetTableMaintenanceJobStatusRequest extends S.Class<GetTableMaintenanceJobStatusRequest>(
-  "GetTableMaintenanceJobStatusRequest",
-)(
-  {
+).annotations({
+  identifier: "GetTableMaintenanceConfigurationRequest",
+}) as any as S.Schema<GetTableMaintenanceConfigurationRequest>;
+export interface GetTableMaintenanceJobStatusRequest {
+  tableBucketARN: string;
+  namespace: string;
+  name: string;
+}
+export const GetTableMaintenanceJobStatusRequest = S.suspend(() =>
+  S.Struct({
     tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
     namespace: S.String.pipe(T.HttpLabel("namespace")),
     name: S.String.pipe(T.HttpLabel("name")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/tables/{tableBucketARN}/{namespace}/{name}/maintenance-job-status",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/tables/{tableBucketARN}/{namespace}/{name}/maintenance-job-status",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetTableMetadataLocationRequest extends S.Class<GetTableMetadataLocationRequest>(
-  "GetTableMetadataLocationRequest",
-)(
-  {
+).annotations({
+  identifier: "GetTableMaintenanceJobStatusRequest",
+}) as any as S.Schema<GetTableMaintenanceJobStatusRequest>;
+export interface GetTableMetadataLocationRequest {
+  tableBucketARN: string;
+  namespace: string;
+  name: string;
+}
+export const GetTableMetadataLocationRequest = S.suspend(() =>
+  S.Struct({
     tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
     namespace: S.String.pipe(T.HttpLabel("namespace")),
     name: S.String.pipe(T.HttpLabel("name")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/tables/{tableBucketARN}/{namespace}/{name}/metadata-location",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/tables/{tableBucketARN}/{namespace}/{name}/metadata-location",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetTableRecordExpirationConfigurationRequest extends S.Class<GetTableRecordExpirationConfigurationRequest>(
-  "GetTableRecordExpirationConfigurationRequest",
-)(
-  { tableArn: S.String.pipe(T.HttpQuery("tableArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/table-record-expiration" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetTableMetadataLocationRequest",
+}) as any as S.Schema<GetTableMetadataLocationRequest>;
+export interface GetTableRecordExpirationConfigurationRequest {
+  tableArn: string;
+}
+export const GetTableRecordExpirationConfigurationRequest = S.suspend(() =>
+  S.Struct({ tableArn: S.String.pipe(T.HttpQuery("tableArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/table-record-expiration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetTableRecordExpirationJobStatusRequest extends S.Class<GetTableRecordExpirationJobStatusRequest>(
-  "GetTableRecordExpirationJobStatusRequest",
-)(
-  { tableArn: S.String.pipe(T.HttpQuery("tableArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/table-record-expiration-job-status" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetTableRecordExpirationConfigurationRequest",
+}) as any as S.Schema<GetTableRecordExpirationConfigurationRequest>;
+export interface GetTableRecordExpirationJobStatusRequest {
+  tableArn: string;
+}
+export const GetTableRecordExpirationJobStatusRequest = S.suspend(() =>
+  S.Struct({ tableArn: S.String.pipe(T.HttpQuery("tableArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/table-record-expiration-job-status" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetTableStorageClassRequest extends S.Class<GetTableStorageClassRequest>(
-  "GetTableStorageClassRequest",
-)(
-  {
+).annotations({
+  identifier: "GetTableRecordExpirationJobStatusRequest",
+}) as any as S.Schema<GetTableRecordExpirationJobStatusRequest>;
+export interface GetTableStorageClassRequest {
+  tableBucketARN: string;
+  namespace: string;
+  name: string;
+}
+export const GetTableStorageClassRequest = S.suspend(() =>
+  S.Struct({
     tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
     namespace: S.String.pipe(T.HttpLabel("namespace")),
     name: S.String.pipe(T.HttpLabel("name")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/tables/{tableBucketARN}/{namespace}/{name}/storage-class",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/tables/{tableBucketARN}/{namespace}/{name}/storage-class",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTablesRequest extends S.Class<ListTablesRequest>(
-  "ListTablesRequest",
-)(
-  {
+).annotations({
+  identifier: "GetTableStorageClassRequest",
+}) as any as S.Schema<GetTableStorageClassRequest>;
+export interface ListTablesRequest {
+  tableBucketARN: string;
+  namespace?: string;
+  prefix?: string;
+  continuationToken?: string;
+  maxTables?: number;
+}
+export const ListTablesRequest = S.suspend(() =>
+  S.Struct({
     tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
     namespace: S.optional(S.String).pipe(T.HttpQuery("namespace")),
     prefix: S.optional(S.String).pipe(T.HttpQuery("prefix")),
@@ -944,530 +1204,1006 @@ export class ListTablesRequest extends S.Class<ListTablesRequest>(
       T.HttpQuery("continuationToken"),
     ),
     maxTables: S.optional(S.Number).pipe(T.HttpQuery("maxTables")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/tables/{tableBucketARN}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tables/{tableBucketARN}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class RenameTableRequest extends S.Class<RenameTableRequest>(
-  "RenameTableRequest",
-)(
-  {
+).annotations({
+  identifier: "ListTablesRequest",
+}) as any as S.Schema<ListTablesRequest>;
+export interface RenameTableRequest {
+  tableBucketARN: string;
+  namespace: string;
+  name: string;
+  newNamespaceName?: string;
+  newName?: string;
+  versionToken?: string;
+}
+export const RenameTableRequest = S.suspend(() =>
+  S.Struct({
     tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
     namespace: S.String.pipe(T.HttpLabel("namespace")),
     name: S.String.pipe(T.HttpLabel("name")),
     newNamespaceName: S.optional(S.String),
     newName: S.optional(S.String),
     versionToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/tables/{tableBucketARN}/{namespace}/{name}/rename",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/tables/{tableBucketARN}/{namespace}/{name}/rename",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class RenameTableResponse extends S.Class<RenameTableResponse>(
-  "RenameTableResponse",
-)({}) {}
-export class UpdateTableMetadataLocationRequest extends S.Class<UpdateTableMetadataLocationRequest>(
-  "UpdateTableMetadataLocationRequest",
-)(
-  {
+).annotations({
+  identifier: "RenameTableRequest",
+}) as any as S.Schema<RenameTableRequest>;
+export interface RenameTableResponse {}
+export const RenameTableResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "RenameTableResponse",
+}) as any as S.Schema<RenameTableResponse>;
+export interface UpdateTableMetadataLocationRequest {
+  tableBucketARN: string;
+  namespace: string;
+  name: string;
+  versionToken: string;
+  metadataLocation: string;
+}
+export const UpdateTableMetadataLocationRequest = S.suspend(() =>
+  S.Struct({
     tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
     namespace: S.String.pipe(T.HttpLabel("namespace")),
     name: S.String.pipe(T.HttpLabel("name")),
     versionToken: S.String,
     metadataLocation: S.String,
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/tables/{tableBucketARN}/{namespace}/{name}/metadata-location",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/tables/{tableBucketARN}/{namespace}/{name}/metadata-location",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "UpdateTableMetadataLocationRequest",
+}) as any as S.Schema<UpdateTableMetadataLocationRequest>;
+export type Tags = { [key: string]: string };
 export const Tags = S.Record({ key: S.String, value: S.String });
-export class EncryptionConfiguration extends S.Class<EncryptionConfiguration>(
-  "EncryptionConfiguration",
-)({ sseAlgorithm: S.String, kmsKeyArn: S.optional(S.String) }) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ tags: S.optional(Tags) }) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: Tags },
-  T.all(
-    T.Http({ method: "POST", uri: "/tag/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface EncryptionConfiguration {
+  sseAlgorithm: string;
+  kmsKeyArn?: string;
+}
+export const EncryptionConfiguration = S.suspend(() =>
+  S.Struct({ sseAlgorithm: S.String, kmsKeyArn: S.optional(S.String) }),
+).annotations({
+  identifier: "EncryptionConfiguration",
+}) as any as S.Schema<EncryptionConfiguration>;
+export interface ListTagsForResourceResponse {
+  tags?: Tags;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ tags: S.optional(Tags) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface TagResourceRequest {
+  resourceArn: string;
+  tags: Tags;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+    tags: Tags,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tag/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class CreateNamespaceResponse extends S.Class<CreateNamespaceResponse>(
-  "CreateNamespaceResponse",
-)({ tableBucketARN: S.String, namespace: NamespaceList }) {}
-export class GetNamespaceResponse extends S.Class<GetNamespaceResponse>(
-  "GetNamespaceResponse",
-)({
-  namespace: NamespaceList,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  createdBy: S.String,
-  ownerAccountId: S.String,
-  namespaceId: S.optional(S.String),
-  tableBucketId: S.optional(S.String),
-}) {}
-export class GetTableBucketEncryptionResponse extends S.Class<GetTableBucketEncryptionResponse>(
-  "GetTableBucketEncryptionResponse",
-)({ encryptionConfiguration: EncryptionConfiguration }) {}
-export class PutTableBucketEncryptionRequest extends S.Class<PutTableBucketEncryptionRequest>(
-  "PutTableBucketEncryptionRequest",
-)(
-  {
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface CreateNamespaceResponse {
+  tableBucketARN: string;
+  namespace: NamespaceList;
+}
+export const CreateNamespaceResponse = S.suspend(() =>
+  S.Struct({ tableBucketARN: S.String, namespace: NamespaceList }),
+).annotations({
+  identifier: "CreateNamespaceResponse",
+}) as any as S.Schema<CreateNamespaceResponse>;
+export interface GetNamespaceResponse {
+  namespace: NamespaceList;
+  createdAt: Date;
+  createdBy: string;
+  ownerAccountId: string;
+  namespaceId?: string;
+  tableBucketId?: string;
+}
+export const GetNamespaceResponse = S.suspend(() =>
+  S.Struct({
+    namespace: NamespaceList,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdBy: S.String,
+    ownerAccountId: S.String,
+    namespaceId: S.optional(S.String),
+    tableBucketId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetNamespaceResponse",
+}) as any as S.Schema<GetNamespaceResponse>;
+export interface GetTableBucketEncryptionResponse {
+  encryptionConfiguration: EncryptionConfiguration;
+}
+export const GetTableBucketEncryptionResponse = S.suspend(() =>
+  S.Struct({ encryptionConfiguration: EncryptionConfiguration }),
+).annotations({
+  identifier: "GetTableBucketEncryptionResponse",
+}) as any as S.Schema<GetTableBucketEncryptionResponse>;
+export interface PutTableBucketEncryptionRequest {
+  tableBucketARN: string;
+  encryptionConfiguration: EncryptionConfiguration;
+}
+export const PutTableBucketEncryptionRequest = S.suspend(() =>
+  S.Struct({
     tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
     encryptionConfiguration: EncryptionConfiguration,
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/buckets/{tableBucketARN}/encryption" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/buckets/{tableBucketARN}/encryption" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutTableBucketEncryptionResponse extends S.Class<PutTableBucketEncryptionResponse>(
-  "PutTableBucketEncryptionResponse",
-)({}) {}
-export class GetTableBucketPolicyResponse extends S.Class<GetTableBucketPolicyResponse>(
-  "GetTableBucketPolicyResponse",
-)({ resourcePolicy: S.String }) {}
-export class ReplicationDestination extends S.Class<ReplicationDestination>(
-  "ReplicationDestination",
-)({ destinationTableBucketARN: S.String }) {}
+).annotations({
+  identifier: "PutTableBucketEncryptionRequest",
+}) as any as S.Schema<PutTableBucketEncryptionRequest>;
+export interface PutTableBucketEncryptionResponse {}
+export const PutTableBucketEncryptionResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "PutTableBucketEncryptionResponse",
+}) as any as S.Schema<PutTableBucketEncryptionResponse>;
+export interface GetTableBucketPolicyResponse {
+  resourcePolicy: string;
+}
+export const GetTableBucketPolicyResponse = S.suspend(() =>
+  S.Struct({ resourcePolicy: S.String }),
+).annotations({
+  identifier: "GetTableBucketPolicyResponse",
+}) as any as S.Schema<GetTableBucketPolicyResponse>;
+export interface ReplicationDestination {
+  destinationTableBucketARN: string;
+}
+export const ReplicationDestination = S.suspend(() =>
+  S.Struct({ destinationTableBucketARN: S.String }),
+).annotations({
+  identifier: "ReplicationDestination",
+}) as any as S.Schema<ReplicationDestination>;
+export type ReplicationDestinations = ReplicationDestination[];
 export const ReplicationDestinations = S.Array(ReplicationDestination);
-export class TableBucketReplicationRule extends S.Class<TableBucketReplicationRule>(
-  "TableBucketReplicationRule",
-)({ destinations: ReplicationDestinations }) {}
+export interface TableBucketReplicationRule {
+  destinations: ReplicationDestinations;
+}
+export const TableBucketReplicationRule = S.suspend(() =>
+  S.Struct({ destinations: ReplicationDestinations }),
+).annotations({
+  identifier: "TableBucketReplicationRule",
+}) as any as S.Schema<TableBucketReplicationRule>;
+export type TableBucketReplicationRules = TableBucketReplicationRule[];
 export const TableBucketReplicationRules = S.Array(TableBucketReplicationRule);
-export class TableBucketReplicationConfiguration extends S.Class<TableBucketReplicationConfiguration>(
-  "TableBucketReplicationConfiguration",
-)({ role: S.String, rules: TableBucketReplicationRules }) {}
-export class GetTableBucketReplicationResponse extends S.Class<GetTableBucketReplicationResponse>(
-  "GetTableBucketReplicationResponse",
-)({
-  versionToken: S.String,
-  configuration: TableBucketReplicationConfiguration,
-}) {}
-export class CreateTableBucketRequest extends S.Class<CreateTableBucketRequest>(
-  "CreateTableBucketRequest",
-)(
-  {
+export interface TableBucketReplicationConfiguration {
+  role: string;
+  rules: TableBucketReplicationRules;
+}
+export const TableBucketReplicationConfiguration = S.suspend(() =>
+  S.Struct({ role: S.String, rules: TableBucketReplicationRules }),
+).annotations({
+  identifier: "TableBucketReplicationConfiguration",
+}) as any as S.Schema<TableBucketReplicationConfiguration>;
+export interface GetTableBucketReplicationResponse {
+  versionToken: string;
+  configuration: TableBucketReplicationConfiguration;
+}
+export const GetTableBucketReplicationResponse = S.suspend(() =>
+  S.Struct({
+    versionToken: S.String,
+    configuration: TableBucketReplicationConfiguration,
+  }),
+).annotations({
+  identifier: "GetTableBucketReplicationResponse",
+}) as any as S.Schema<GetTableBucketReplicationResponse>;
+export interface CreateTableBucketRequest {
+  name: string;
+  encryptionConfiguration?: EncryptionConfiguration;
+  storageClassConfiguration?: StorageClassConfiguration;
+  tags?: Tags;
+}
+export const CreateTableBucketRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     encryptionConfiguration: S.optional(EncryptionConfiguration),
     storageClassConfiguration: S.optional(StorageClassConfiguration),
     tags: S.optional(Tags),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/buckets" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/buckets" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetTableBucketResponse extends S.Class<GetTableBucketResponse>(
-  "GetTableBucketResponse",
-)({
-  arn: S.String,
-  name: S.String,
-  ownerAccountId: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  tableBucketId: S.optional(S.String),
-  type: S.optional(S.String),
-}) {}
-export class GetTableBucketMetricsConfigurationResponse extends S.Class<GetTableBucketMetricsConfigurationResponse>(
-  "GetTableBucketMetricsConfigurationResponse",
-)({ tableBucketARN: S.String, id: S.optional(S.String) }) {}
-export class GetTableBucketStorageClassResponse extends S.Class<GetTableBucketStorageClassResponse>(
-  "GetTableBucketStorageClassResponse",
-)({ storageClassConfiguration: StorageClassConfiguration }) {}
-export class GetTableEncryptionResponse extends S.Class<GetTableEncryptionResponse>(
-  "GetTableEncryptionResponse",
-)({ encryptionConfiguration: EncryptionConfiguration }) {}
-export class GetTablePolicyResponse extends S.Class<GetTablePolicyResponse>(
-  "GetTablePolicyResponse",
-)({ resourcePolicy: S.String }) {}
-export class TableReplicationRule extends S.Class<TableReplicationRule>(
-  "TableReplicationRule",
-)({ destinations: ReplicationDestinations }) {}
+).annotations({
+  identifier: "CreateTableBucketRequest",
+}) as any as S.Schema<CreateTableBucketRequest>;
+export interface GetTableBucketResponse {
+  arn: string;
+  name: string;
+  ownerAccountId: string;
+  createdAt: Date;
+  tableBucketId?: string;
+  type?: string;
+}
+export const GetTableBucketResponse = S.suspend(() =>
+  S.Struct({
+    arn: S.String,
+    name: S.String,
+    ownerAccountId: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    tableBucketId: S.optional(S.String),
+    type: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetTableBucketResponse",
+}) as any as S.Schema<GetTableBucketResponse>;
+export interface GetTableBucketMetricsConfigurationResponse {
+  tableBucketARN: string;
+  id?: string;
+}
+export const GetTableBucketMetricsConfigurationResponse = S.suspend(() =>
+  S.Struct({ tableBucketARN: S.String, id: S.optional(S.String) }),
+).annotations({
+  identifier: "GetTableBucketMetricsConfigurationResponse",
+}) as any as S.Schema<GetTableBucketMetricsConfigurationResponse>;
+export interface GetTableBucketStorageClassResponse {
+  storageClassConfiguration: StorageClassConfiguration;
+}
+export const GetTableBucketStorageClassResponse = S.suspend(() =>
+  S.Struct({ storageClassConfiguration: StorageClassConfiguration }),
+).annotations({
+  identifier: "GetTableBucketStorageClassResponse",
+}) as any as S.Schema<GetTableBucketStorageClassResponse>;
+export interface GetTableEncryptionResponse {
+  encryptionConfiguration: EncryptionConfiguration;
+}
+export const GetTableEncryptionResponse = S.suspend(() =>
+  S.Struct({ encryptionConfiguration: EncryptionConfiguration }),
+).annotations({
+  identifier: "GetTableEncryptionResponse",
+}) as any as S.Schema<GetTableEncryptionResponse>;
+export interface GetTablePolicyResponse {
+  resourcePolicy: string;
+}
+export const GetTablePolicyResponse = S.suspend(() =>
+  S.Struct({ resourcePolicy: S.String }),
+).annotations({
+  identifier: "GetTablePolicyResponse",
+}) as any as S.Schema<GetTablePolicyResponse>;
+export interface TableReplicationRule {
+  destinations: ReplicationDestinations;
+}
+export const TableReplicationRule = S.suspend(() =>
+  S.Struct({ destinations: ReplicationDestinations }),
+).annotations({
+  identifier: "TableReplicationRule",
+}) as any as S.Schema<TableReplicationRule>;
+export type TableReplicationRules = TableReplicationRule[];
 export const TableReplicationRules = S.Array(TableReplicationRule);
-export class TableReplicationConfiguration extends S.Class<TableReplicationConfiguration>(
-  "TableReplicationConfiguration",
-)({ role: S.String, rules: TableReplicationRules }) {}
-export class GetTableReplicationResponse extends S.Class<GetTableReplicationResponse>(
-  "GetTableReplicationResponse",
-)({ versionToken: S.String, configuration: TableReplicationConfiguration }) {}
-export class GetTableMetadataLocationResponse extends S.Class<GetTableMetadataLocationResponse>(
-  "GetTableMetadataLocationResponse",
-)({
-  versionToken: S.String,
-  metadataLocation: S.optional(S.String),
-  warehouseLocation: S.String,
-}) {}
-export class TableRecordExpirationSettings extends S.Class<TableRecordExpirationSettings>(
-  "TableRecordExpirationSettings",
-)({ days: S.optional(S.Number) }) {}
-export class TableRecordExpirationConfigurationValue extends S.Class<TableRecordExpirationConfigurationValue>(
-  "TableRecordExpirationConfigurationValue",
-)({
-  status: S.optional(S.String),
-  settings: S.optional(TableRecordExpirationSettings),
-}) {}
-export class GetTableRecordExpirationConfigurationResponse extends S.Class<GetTableRecordExpirationConfigurationResponse>(
-  "GetTableRecordExpirationConfigurationResponse",
-)({ configuration: TableRecordExpirationConfigurationValue }) {}
-export class GetTableStorageClassResponse extends S.Class<GetTableStorageClassResponse>(
-  "GetTableStorageClassResponse",
-)({ storageClassConfiguration: StorageClassConfiguration }) {}
-export class UpdateTableMetadataLocationResponse extends S.Class<UpdateTableMetadataLocationResponse>(
-  "UpdateTableMetadataLocationResponse",
-)({
-  name: S.String,
-  tableARN: S.String,
-  namespace: NamespaceList,
-  versionToken: S.String,
-  metadataLocation: S.String,
-}) {}
-export class NamespaceSummary extends S.Class<NamespaceSummary>(
-  "NamespaceSummary",
-)({
-  namespace: NamespaceList,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  createdBy: S.String,
-  ownerAccountId: S.String,
-  namespaceId: S.optional(S.String),
-  tableBucketId: S.optional(S.String),
-}) {}
+export interface TableReplicationConfiguration {
+  role: string;
+  rules: TableReplicationRules;
+}
+export const TableReplicationConfiguration = S.suspend(() =>
+  S.Struct({ role: S.String, rules: TableReplicationRules }),
+).annotations({
+  identifier: "TableReplicationConfiguration",
+}) as any as S.Schema<TableReplicationConfiguration>;
+export interface GetTableReplicationResponse {
+  versionToken: string;
+  configuration: TableReplicationConfiguration;
+}
+export const GetTableReplicationResponse = S.suspend(() =>
+  S.Struct({
+    versionToken: S.String,
+    configuration: TableReplicationConfiguration,
+  }),
+).annotations({
+  identifier: "GetTableReplicationResponse",
+}) as any as S.Schema<GetTableReplicationResponse>;
+export interface GetTableMetadataLocationResponse {
+  versionToken: string;
+  metadataLocation?: string;
+  warehouseLocation: string;
+}
+export const GetTableMetadataLocationResponse = S.suspend(() =>
+  S.Struct({
+    versionToken: S.String,
+    metadataLocation: S.optional(S.String),
+    warehouseLocation: S.String,
+  }),
+).annotations({
+  identifier: "GetTableMetadataLocationResponse",
+}) as any as S.Schema<GetTableMetadataLocationResponse>;
+export interface TableRecordExpirationSettings {
+  days?: number;
+}
+export const TableRecordExpirationSettings = S.suspend(() =>
+  S.Struct({ days: S.optional(S.Number) }),
+).annotations({
+  identifier: "TableRecordExpirationSettings",
+}) as any as S.Schema<TableRecordExpirationSettings>;
+export interface TableRecordExpirationConfigurationValue {
+  status?: string;
+  settings?: TableRecordExpirationSettings;
+}
+export const TableRecordExpirationConfigurationValue = S.suspend(() =>
+  S.Struct({
+    status: S.optional(S.String),
+    settings: S.optional(TableRecordExpirationSettings),
+  }),
+).annotations({
+  identifier: "TableRecordExpirationConfigurationValue",
+}) as any as S.Schema<TableRecordExpirationConfigurationValue>;
+export interface GetTableRecordExpirationConfigurationResponse {
+  configuration: TableRecordExpirationConfigurationValue;
+}
+export const GetTableRecordExpirationConfigurationResponse = S.suspend(() =>
+  S.Struct({ configuration: TableRecordExpirationConfigurationValue }),
+).annotations({
+  identifier: "GetTableRecordExpirationConfigurationResponse",
+}) as any as S.Schema<GetTableRecordExpirationConfigurationResponse>;
+export interface GetTableStorageClassResponse {
+  storageClassConfiguration: StorageClassConfiguration;
+}
+export const GetTableStorageClassResponse = S.suspend(() =>
+  S.Struct({ storageClassConfiguration: StorageClassConfiguration }),
+).annotations({
+  identifier: "GetTableStorageClassResponse",
+}) as any as S.Schema<GetTableStorageClassResponse>;
+export interface UpdateTableMetadataLocationResponse {
+  name: string;
+  tableARN: string;
+  namespace: NamespaceList;
+  versionToken: string;
+  metadataLocation: string;
+}
+export const UpdateTableMetadataLocationResponse = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    tableARN: S.String,
+    namespace: NamespaceList,
+    versionToken: S.String,
+    metadataLocation: S.String,
+  }),
+).annotations({
+  identifier: "UpdateTableMetadataLocationResponse",
+}) as any as S.Schema<UpdateTableMetadataLocationResponse>;
+export interface NamespaceSummary {
+  namespace: NamespaceList;
+  createdAt: Date;
+  createdBy: string;
+  ownerAccountId: string;
+  namespaceId?: string;
+  tableBucketId?: string;
+}
+export const NamespaceSummary = S.suspend(() =>
+  S.Struct({
+    namespace: NamespaceList,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdBy: S.String,
+    ownerAccountId: S.String,
+    namespaceId: S.optional(S.String),
+    tableBucketId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "NamespaceSummary",
+}) as any as S.Schema<NamespaceSummary>;
+export type NamespaceSummaryList = NamespaceSummary[];
 export const NamespaceSummaryList = S.Array(NamespaceSummary);
-export class IcebergUnreferencedFileRemovalSettings extends S.Class<IcebergUnreferencedFileRemovalSettings>(
-  "IcebergUnreferencedFileRemovalSettings",
-)({
-  unreferencedDays: S.optional(S.Number),
-  nonCurrentDays: S.optional(S.Number),
-}) {}
+export interface IcebergUnreferencedFileRemovalSettings {
+  unreferencedDays?: number;
+  nonCurrentDays?: number;
+}
+export const IcebergUnreferencedFileRemovalSettings = S.suspend(() =>
+  S.Struct({
+    unreferencedDays: S.optional(S.Number),
+    nonCurrentDays: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "IcebergUnreferencedFileRemovalSettings",
+}) as any as S.Schema<IcebergUnreferencedFileRemovalSettings>;
 export const TableBucketMaintenanceSettings = S.Union(
   S.Struct({
     icebergUnreferencedFileRemoval: IcebergUnreferencedFileRemovalSettings,
   }),
 );
-export class TableBucketMaintenanceConfigurationValue extends S.Class<TableBucketMaintenanceConfigurationValue>(
-  "TableBucketMaintenanceConfigurationValue",
-)({
-  status: S.optional(S.String),
-  settings: S.optional(TableBucketMaintenanceSettings),
-}) {}
+export interface TableBucketMaintenanceConfigurationValue {
+  status?: string;
+  settings?: (typeof TableBucketMaintenanceSettings)["Type"];
+}
+export const TableBucketMaintenanceConfigurationValue = S.suspend(() =>
+  S.Struct({
+    status: S.optional(S.String),
+    settings: S.optional(TableBucketMaintenanceSettings),
+  }),
+).annotations({
+  identifier: "TableBucketMaintenanceConfigurationValue",
+}) as any as S.Schema<TableBucketMaintenanceConfigurationValue>;
+export type TableBucketMaintenanceConfiguration = {
+  [key: string]: TableBucketMaintenanceConfigurationValue;
+};
 export const TableBucketMaintenanceConfiguration = S.Record({
   key: S.String,
   value: TableBucketMaintenanceConfigurationValue,
 });
-export class TableBucketSummary extends S.Class<TableBucketSummary>(
-  "TableBucketSummary",
-)({
-  arn: S.String,
-  name: S.String,
-  ownerAccountId: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  tableBucketId: S.optional(S.String),
-  type: S.optional(S.String),
-}) {}
+export interface TableBucketSummary {
+  arn: string;
+  name: string;
+  ownerAccountId: string;
+  createdAt: Date;
+  tableBucketId?: string;
+  type?: string;
+}
+export const TableBucketSummary = S.suspend(() =>
+  S.Struct({
+    arn: S.String,
+    name: S.String,
+    ownerAccountId: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    tableBucketId: S.optional(S.String),
+    type: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "TableBucketSummary",
+}) as any as S.Schema<TableBucketSummary>;
+export type TableBucketSummaryList = TableBucketSummary[];
 export const TableBucketSummaryList = S.Array(TableBucketSummary);
-export class IcebergCompactionSettings extends S.Class<IcebergCompactionSettings>(
-  "IcebergCompactionSettings",
-)({ targetFileSizeMB: S.optional(S.Number), strategy: S.optional(S.String) }) {}
-export class IcebergSnapshotManagementSettings extends S.Class<IcebergSnapshotManagementSettings>(
-  "IcebergSnapshotManagementSettings",
-)({
-  minSnapshotsToKeep: S.optional(S.Number),
-  maxSnapshotAgeHours: S.optional(S.Number),
-}) {}
+export interface IcebergCompactionSettings {
+  targetFileSizeMB?: number;
+  strategy?: string;
+}
+export const IcebergCompactionSettings = S.suspend(() =>
+  S.Struct({
+    targetFileSizeMB: S.optional(S.Number),
+    strategy: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "IcebergCompactionSettings",
+}) as any as S.Schema<IcebergCompactionSettings>;
+export interface IcebergSnapshotManagementSettings {
+  minSnapshotsToKeep?: number;
+  maxSnapshotAgeHours?: number;
+}
+export const IcebergSnapshotManagementSettings = S.suspend(() =>
+  S.Struct({
+    minSnapshotsToKeep: S.optional(S.Number),
+    maxSnapshotAgeHours: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "IcebergSnapshotManagementSettings",
+}) as any as S.Schema<IcebergSnapshotManagementSettings>;
 export const TableMaintenanceSettings = S.Union(
   S.Struct({ icebergCompaction: IcebergCompactionSettings }),
   S.Struct({ icebergSnapshotManagement: IcebergSnapshotManagementSettings }),
 );
-export class TableMaintenanceConfigurationValue extends S.Class<TableMaintenanceConfigurationValue>(
-  "TableMaintenanceConfigurationValue",
-)({
-  status: S.optional(S.String),
-  settings: S.optional(TableMaintenanceSettings),
-}) {}
+export interface TableMaintenanceConfigurationValue {
+  status?: string;
+  settings?: (typeof TableMaintenanceSettings)["Type"];
+}
+export const TableMaintenanceConfigurationValue = S.suspend(() =>
+  S.Struct({
+    status: S.optional(S.String),
+    settings: S.optional(TableMaintenanceSettings),
+  }),
+).annotations({
+  identifier: "TableMaintenanceConfigurationValue",
+}) as any as S.Schema<TableMaintenanceConfigurationValue>;
+export type TableMaintenanceConfiguration = {
+  [key: string]: TableMaintenanceConfigurationValue;
+};
 export const TableMaintenanceConfiguration = S.Record({
   key: S.String,
   value: TableMaintenanceConfigurationValue,
 });
-export class TableRecordExpirationJobMetrics extends S.Class<TableRecordExpirationJobMetrics>(
-  "TableRecordExpirationJobMetrics",
-)({
-  deletedDataFiles: S.optional(S.Number),
-  deletedRecords: S.optional(S.Number),
-  removedFilesSize: S.optional(S.Number),
-}) {}
-export class TableSummary extends S.Class<TableSummary>("TableSummary")({
-  namespace: NamespaceList,
-  name: S.String,
-  type: S.String,
-  tableARN: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  modifiedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  managedByService: S.optional(S.String),
-  namespaceId: S.optional(S.String),
-  tableBucketId: S.optional(S.String),
-}) {}
+export interface TableRecordExpirationJobMetrics {
+  deletedDataFiles?: number;
+  deletedRecords?: number;
+  removedFilesSize?: number;
+}
+export const TableRecordExpirationJobMetrics = S.suspend(() =>
+  S.Struct({
+    deletedDataFiles: S.optional(S.Number),
+    deletedRecords: S.optional(S.Number),
+    removedFilesSize: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "TableRecordExpirationJobMetrics",
+}) as any as S.Schema<TableRecordExpirationJobMetrics>;
+export interface TableSummary {
+  namespace: NamespaceList;
+  name: string;
+  type: string;
+  tableARN: string;
+  createdAt: Date;
+  modifiedAt: Date;
+  managedByService?: string;
+  namespaceId?: string;
+  tableBucketId?: string;
+}
+export const TableSummary = S.suspend(() =>
+  S.Struct({
+    namespace: NamespaceList,
+    name: S.String,
+    type: S.String,
+    tableARN: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    modifiedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    managedByService: S.optional(S.String),
+    namespaceId: S.optional(S.String),
+    tableBucketId: S.optional(S.String),
+  }),
+).annotations({ identifier: "TableSummary" }) as any as S.Schema<TableSummary>;
+export type TableSummaryList = TableSummary[];
 export const TableSummaryList = S.Array(TableSummary);
+export type TableProperties = { [key: string]: string };
 export const TableProperties = S.Record({ key: S.String, value: S.String });
-export class ListNamespacesResponse extends S.Class<ListNamespacesResponse>(
-  "ListNamespacesResponse",
-)({
-  namespaces: NamespaceSummaryList,
-  continuationToken: S.optional(S.String),
-}) {}
-export class CreateTableBucketResponse extends S.Class<CreateTableBucketResponse>(
-  "CreateTableBucketResponse",
-)({ arn: S.String }) {}
-export class GetTableBucketMaintenanceConfigurationResponse extends S.Class<GetTableBucketMaintenanceConfigurationResponse>(
-  "GetTableBucketMaintenanceConfigurationResponse",
-)({
-  tableBucketARN: S.String,
-  configuration: TableBucketMaintenanceConfiguration,
-}) {}
-export class ListTableBucketsResponse extends S.Class<ListTableBucketsResponse>(
-  "ListTableBucketsResponse",
-)({
-  tableBuckets: TableBucketSummaryList,
-  continuationToken: S.optional(S.String),
-}) {}
-export class PutTableReplicationRequest extends S.Class<PutTableReplicationRequest>(
-  "PutTableReplicationRequest",
-)(
-  {
+export interface ListNamespacesResponse {
+  namespaces: NamespaceSummaryList;
+  continuationToken?: string;
+}
+export const ListNamespacesResponse = S.suspend(() =>
+  S.Struct({
+    namespaces: NamespaceSummaryList,
+    continuationToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListNamespacesResponse",
+}) as any as S.Schema<ListNamespacesResponse>;
+export interface CreateTableBucketResponse {
+  arn: string;
+}
+export const CreateTableBucketResponse = S.suspend(() =>
+  S.Struct({ arn: S.String }),
+).annotations({
+  identifier: "CreateTableBucketResponse",
+}) as any as S.Schema<CreateTableBucketResponse>;
+export interface GetTableBucketMaintenanceConfigurationResponse {
+  tableBucketARN: string;
+  configuration: TableBucketMaintenanceConfiguration;
+}
+export const GetTableBucketMaintenanceConfigurationResponse = S.suspend(() =>
+  S.Struct({
+    tableBucketARN: S.String,
+    configuration: TableBucketMaintenanceConfiguration,
+  }),
+).annotations({
+  identifier: "GetTableBucketMaintenanceConfigurationResponse",
+}) as any as S.Schema<GetTableBucketMaintenanceConfigurationResponse>;
+export interface ListTableBucketsResponse {
+  tableBuckets: TableBucketSummaryList;
+  continuationToken?: string;
+}
+export const ListTableBucketsResponse = S.suspend(() =>
+  S.Struct({
+    tableBuckets: TableBucketSummaryList,
+    continuationToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListTableBucketsResponse",
+}) as any as S.Schema<ListTableBucketsResponse>;
+export interface PutTableReplicationRequest {
+  tableArn: string;
+  versionToken?: string;
+  configuration: TableReplicationConfiguration;
+}
+export const PutTableReplicationRequest = S.suspend(() =>
+  S.Struct({
     tableArn: S.String.pipe(T.HttpQuery("tableArn")),
     versionToken: S.optional(S.String).pipe(T.HttpQuery("versionToken")),
     configuration: TableReplicationConfiguration,
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/table-replication" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/table-replication" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetTableMaintenanceConfigurationResponse extends S.Class<GetTableMaintenanceConfigurationResponse>(
-  "GetTableMaintenanceConfigurationResponse",
-)({ tableARN: S.String, configuration: TableMaintenanceConfiguration }) {}
-export class GetTableRecordExpirationJobStatusResponse extends S.Class<GetTableRecordExpirationJobStatusResponse>(
-  "GetTableRecordExpirationJobStatusResponse",
-)({
-  status: S.String,
-  lastRunTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  failureMessage: S.optional(S.String),
-  metrics: S.optional(TableRecordExpirationJobMetrics),
-}) {}
-export class ListTablesResponse extends S.Class<ListTablesResponse>(
-  "ListTablesResponse",
-)({ tables: TableSummaryList, continuationToken: S.optional(S.String) }) {}
-export class PutTableRecordExpirationConfigurationRequest extends S.Class<PutTableRecordExpirationConfigurationRequest>(
-  "PutTableRecordExpirationConfigurationRequest",
-)(
-  {
+).annotations({
+  identifier: "PutTableReplicationRequest",
+}) as any as S.Schema<PutTableReplicationRequest>;
+export interface GetTableMaintenanceConfigurationResponse {
+  tableARN: string;
+  configuration: TableMaintenanceConfiguration;
+}
+export const GetTableMaintenanceConfigurationResponse = S.suspend(() =>
+  S.Struct({
+    tableARN: S.String,
+    configuration: TableMaintenanceConfiguration,
+  }),
+).annotations({
+  identifier: "GetTableMaintenanceConfigurationResponse",
+}) as any as S.Schema<GetTableMaintenanceConfigurationResponse>;
+export interface GetTableRecordExpirationJobStatusResponse {
+  status: string;
+  lastRunTimestamp?: Date;
+  failureMessage?: string;
+  metrics?: TableRecordExpirationJobMetrics;
+}
+export const GetTableRecordExpirationJobStatusResponse = S.suspend(() =>
+  S.Struct({
+    status: S.String,
+    lastRunTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    failureMessage: S.optional(S.String),
+    metrics: S.optional(TableRecordExpirationJobMetrics),
+  }),
+).annotations({
+  identifier: "GetTableRecordExpirationJobStatusResponse",
+}) as any as S.Schema<GetTableRecordExpirationJobStatusResponse>;
+export interface ListTablesResponse {
+  tables: TableSummaryList;
+  continuationToken?: string;
+}
+export const ListTablesResponse = S.suspend(() =>
+  S.Struct({
+    tables: TableSummaryList,
+    continuationToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListTablesResponse",
+}) as any as S.Schema<ListTablesResponse>;
+export interface PutTableRecordExpirationConfigurationRequest {
+  tableArn: string;
+  value: TableRecordExpirationConfigurationValue;
+}
+export const PutTableRecordExpirationConfigurationRequest = S.suspend(() =>
+  S.Struct({
     tableArn: S.String.pipe(T.HttpQuery("tableArn")),
     value: TableRecordExpirationConfigurationValue,
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/table-record-expiration" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/table-record-expiration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutTableRecordExpirationConfigurationResponse extends S.Class<PutTableRecordExpirationConfigurationResponse>(
-  "PutTableRecordExpirationConfigurationResponse",
-)({}) {}
-export class LastSuccessfulReplicatedUpdate extends S.Class<LastSuccessfulReplicatedUpdate>(
-  "LastSuccessfulReplicatedUpdate",
-)({
-  metadataLocation: S.String,
-  timestamp: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class ReplicationInformation extends S.Class<ReplicationInformation>(
-  "ReplicationInformation",
-)({ sourceTableARN: S.String }) {}
-export class TableMaintenanceJobStatusValue extends S.Class<TableMaintenanceJobStatusValue>(
-  "TableMaintenanceJobStatusValue",
-)({
-  status: S.String,
-  lastRunTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  failureMessage: S.optional(S.String),
-}) {}
-export class SchemaField extends S.Class<SchemaField>("SchemaField")({
-  name: S.String,
-  type: S.String,
-  required: S.optional(S.Boolean),
-}) {}
+).annotations({
+  identifier: "PutTableRecordExpirationConfigurationRequest",
+}) as any as S.Schema<PutTableRecordExpirationConfigurationRequest>;
+export interface PutTableRecordExpirationConfigurationResponse {}
+export const PutTableRecordExpirationConfigurationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "PutTableRecordExpirationConfigurationResponse",
+}) as any as S.Schema<PutTableRecordExpirationConfigurationResponse>;
+export interface LastSuccessfulReplicatedUpdate {
+  metadataLocation: string;
+  timestamp: Date;
+}
+export const LastSuccessfulReplicatedUpdate = S.suspend(() =>
+  S.Struct({
+    metadataLocation: S.String,
+    timestamp: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "LastSuccessfulReplicatedUpdate",
+}) as any as S.Schema<LastSuccessfulReplicatedUpdate>;
+export interface ReplicationInformation {
+  sourceTableARN: string;
+}
+export const ReplicationInformation = S.suspend(() =>
+  S.Struct({ sourceTableARN: S.String }),
+).annotations({
+  identifier: "ReplicationInformation",
+}) as any as S.Schema<ReplicationInformation>;
+export interface TableMaintenanceJobStatusValue {
+  status: string;
+  lastRunTimestamp?: Date;
+  failureMessage?: string;
+}
+export const TableMaintenanceJobStatusValue = S.suspend(() =>
+  S.Struct({
+    status: S.String,
+    lastRunTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    failureMessage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "TableMaintenanceJobStatusValue",
+}) as any as S.Schema<TableMaintenanceJobStatusValue>;
+export interface SchemaField {
+  name: string;
+  type: string;
+  required?: boolean;
+}
+export const SchemaField = S.suspend(() =>
+  S.Struct({ name: S.String, type: S.String, required: S.optional(S.Boolean) }),
+).annotations({ identifier: "SchemaField" }) as any as S.Schema<SchemaField>;
+export type SchemaFieldList = SchemaField[];
 export const SchemaFieldList = S.Array(SchemaField);
-export class ReplicationDestinationStatusModel extends S.Class<ReplicationDestinationStatusModel>(
-  "ReplicationDestinationStatusModel",
-)({
-  replicationStatus: S.String,
-  destinationTableBucketArn: S.String,
-  destinationTableArn: S.optional(S.String),
-  lastSuccessfulReplicatedUpdate: S.optional(LastSuccessfulReplicatedUpdate),
-  failureMessage: S.optional(S.String),
-}) {}
+export interface ReplicationDestinationStatusModel {
+  replicationStatus: string;
+  destinationTableBucketArn: string;
+  destinationTableArn?: string;
+  lastSuccessfulReplicatedUpdate?: LastSuccessfulReplicatedUpdate;
+  failureMessage?: string;
+}
+export const ReplicationDestinationStatusModel = S.suspend(() =>
+  S.Struct({
+    replicationStatus: S.String,
+    destinationTableBucketArn: S.String,
+    destinationTableArn: S.optional(S.String),
+    lastSuccessfulReplicatedUpdate: S.optional(LastSuccessfulReplicatedUpdate),
+    failureMessage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ReplicationDestinationStatusModel",
+}) as any as S.Schema<ReplicationDestinationStatusModel>;
+export type ReplicationDestinationStatuses =
+  ReplicationDestinationStatusModel[];
 export const ReplicationDestinationStatuses = S.Array(
   ReplicationDestinationStatusModel,
 );
-export class ManagedTableInformation extends S.Class<ManagedTableInformation>(
-  "ManagedTableInformation",
-)({ replicationInformation: S.optional(ReplicationInformation) }) {}
+export interface ManagedTableInformation {
+  replicationInformation?: ReplicationInformation;
+}
+export const ManagedTableInformation = S.suspend(() =>
+  S.Struct({ replicationInformation: S.optional(ReplicationInformation) }),
+).annotations({
+  identifier: "ManagedTableInformation",
+}) as any as S.Schema<ManagedTableInformation>;
+export type TableMaintenanceJobStatus = {
+  [key: string]: TableMaintenanceJobStatusValue;
+};
 export const TableMaintenanceJobStatus = S.Record({
   key: S.String,
   value: TableMaintenanceJobStatusValue,
 });
-export class IcebergSchema extends S.Class<IcebergSchema>("IcebergSchema")({
-  fields: SchemaFieldList,
-}) {}
-export class PutTableBucketReplicationRequest extends S.Class<PutTableBucketReplicationRequest>(
-  "PutTableBucketReplicationRequest",
-)(
-  {
+export interface IcebergSchema {
+  fields: SchemaFieldList;
+}
+export const IcebergSchema = S.suspend(() =>
+  S.Struct({ fields: SchemaFieldList }),
+).annotations({
+  identifier: "IcebergSchema",
+}) as any as S.Schema<IcebergSchema>;
+export interface PutTableBucketReplicationRequest {
+  tableBucketARN: string;
+  versionToken?: string;
+  configuration: TableBucketReplicationConfiguration;
+}
+export const PutTableBucketReplicationRequest = S.suspend(() =>
+  S.Struct({
     tableBucketARN: S.String.pipe(T.HttpQuery("tableBucketARN")),
     versionToken: S.optional(S.String).pipe(T.HttpQuery("versionToken")),
     configuration: TableBucketReplicationConfiguration,
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/table-bucket-replication" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/table-bucket-replication" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutTableBucketMaintenanceConfigurationRequest extends S.Class<PutTableBucketMaintenanceConfigurationRequest>(
-  "PutTableBucketMaintenanceConfigurationRequest",
-)(
-  {
+).annotations({
+  identifier: "PutTableBucketReplicationRequest",
+}) as any as S.Schema<PutTableBucketReplicationRequest>;
+export interface PutTableBucketMaintenanceConfigurationRequest {
+  tableBucketARN: string;
+  type: string;
+  value: TableBucketMaintenanceConfigurationValue;
+}
+export const PutTableBucketMaintenanceConfigurationRequest = S.suspend(() =>
+  S.Struct({
     tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
     type: S.String.pipe(T.HttpLabel("type")),
     value: TableBucketMaintenanceConfigurationValue,
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/buckets/{tableBucketARN}/maintenance/{type}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/buckets/{tableBucketARN}/maintenance/{type}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutTableBucketMaintenanceConfigurationResponse extends S.Class<PutTableBucketMaintenanceConfigurationResponse>(
-  "PutTableBucketMaintenanceConfigurationResponse",
-)({}) {}
-export class GetTableReplicationStatusResponse extends S.Class<GetTableReplicationStatusResponse>(
-  "GetTableReplicationStatusResponse",
-)({ sourceTableArn: S.String, destinations: ReplicationDestinationStatuses }) {}
-export class PutTableReplicationResponse extends S.Class<PutTableReplicationResponse>(
-  "PutTableReplicationResponse",
-)({ versionToken: S.String, status: S.String }) {}
-export class GetTableResponse extends S.Class<GetTableResponse>(
-  "GetTableResponse",
-)({
-  name: S.String,
-  type: S.String,
-  tableARN: S.String,
-  namespace: NamespaceList,
-  namespaceId: S.optional(S.String),
-  versionToken: S.String,
-  metadataLocation: S.optional(S.String),
-  warehouseLocation: S.String,
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  createdBy: S.String,
-  managedByService: S.optional(S.String),
-  modifiedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  modifiedBy: S.String,
-  ownerAccountId: S.String,
-  format: S.String,
-  tableBucketId: S.optional(S.String),
-  managedTableInformation: S.optional(ManagedTableInformation),
-}) {}
-export class GetTableMaintenanceJobStatusResponse extends S.Class<GetTableMaintenanceJobStatusResponse>(
-  "GetTableMaintenanceJobStatusResponse",
-)({ tableARN: S.String, status: TableMaintenanceJobStatus }) {}
-export class PutTableMaintenanceConfigurationRequest extends S.Class<PutTableMaintenanceConfigurationRequest>(
-  "PutTableMaintenanceConfigurationRequest",
-)(
-  {
+).annotations({
+  identifier: "PutTableBucketMaintenanceConfigurationRequest",
+}) as any as S.Schema<PutTableBucketMaintenanceConfigurationRequest>;
+export interface PutTableBucketMaintenanceConfigurationResponse {}
+export const PutTableBucketMaintenanceConfigurationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "PutTableBucketMaintenanceConfigurationResponse",
+}) as any as S.Schema<PutTableBucketMaintenanceConfigurationResponse>;
+export interface GetTableReplicationStatusResponse {
+  sourceTableArn: string;
+  destinations: ReplicationDestinationStatuses;
+}
+export const GetTableReplicationStatusResponse = S.suspend(() =>
+  S.Struct({
+    sourceTableArn: S.String,
+    destinations: ReplicationDestinationStatuses,
+  }),
+).annotations({
+  identifier: "GetTableReplicationStatusResponse",
+}) as any as S.Schema<GetTableReplicationStatusResponse>;
+export interface PutTableReplicationResponse {
+  versionToken: string;
+  status: string;
+}
+export const PutTableReplicationResponse = S.suspend(() =>
+  S.Struct({ versionToken: S.String, status: S.String }),
+).annotations({
+  identifier: "PutTableReplicationResponse",
+}) as any as S.Schema<PutTableReplicationResponse>;
+export interface GetTableResponse {
+  name: string;
+  type: string;
+  tableARN: string;
+  namespace: NamespaceList;
+  namespaceId?: string;
+  versionToken: string;
+  metadataLocation?: string;
+  warehouseLocation: string;
+  createdAt: Date;
+  createdBy: string;
+  managedByService?: string;
+  modifiedAt: Date;
+  modifiedBy: string;
+  ownerAccountId: string;
+  format: string;
+  tableBucketId?: string;
+  managedTableInformation?: ManagedTableInformation;
+}
+export const GetTableResponse = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    type: S.String,
+    tableARN: S.String,
+    namespace: NamespaceList,
+    namespaceId: S.optional(S.String),
+    versionToken: S.String,
+    metadataLocation: S.optional(S.String),
+    warehouseLocation: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdBy: S.String,
+    managedByService: S.optional(S.String),
+    modifiedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    modifiedBy: S.String,
+    ownerAccountId: S.String,
+    format: S.String,
+    tableBucketId: S.optional(S.String),
+    managedTableInformation: S.optional(ManagedTableInformation),
+  }),
+).annotations({
+  identifier: "GetTableResponse",
+}) as any as S.Schema<GetTableResponse>;
+export interface GetTableMaintenanceJobStatusResponse {
+  tableARN: string;
+  status: TableMaintenanceJobStatus;
+}
+export const GetTableMaintenanceJobStatusResponse = S.suspend(() =>
+  S.Struct({ tableARN: S.String, status: TableMaintenanceJobStatus }),
+).annotations({
+  identifier: "GetTableMaintenanceJobStatusResponse",
+}) as any as S.Schema<GetTableMaintenanceJobStatusResponse>;
+export interface PutTableMaintenanceConfigurationRequest {
+  tableBucketARN: string;
+  namespace: string;
+  name: string;
+  type: string;
+  value: TableMaintenanceConfigurationValue;
+}
+export const PutTableMaintenanceConfigurationRequest = S.suspend(() =>
+  S.Struct({
     tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
     namespace: S.String.pipe(T.HttpLabel("namespace")),
     name: S.String.pipe(T.HttpLabel("name")),
     type: S.String.pipe(T.HttpLabel("type")),
     value: TableMaintenanceConfigurationValue,
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/tables/{tableBucketARN}/{namespace}/{name}/maintenance/{type}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/tables/{tableBucketARN}/{namespace}/{name}/maintenance/{type}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutTableMaintenanceConfigurationResponse extends S.Class<PutTableMaintenanceConfigurationResponse>(
-  "PutTableMaintenanceConfigurationResponse",
-)({}) {}
-export class IcebergMetadata extends S.Class<IcebergMetadata>(
-  "IcebergMetadata",
-)({ schema: IcebergSchema, properties: S.optional(TableProperties) }) {}
+).annotations({
+  identifier: "PutTableMaintenanceConfigurationRequest",
+}) as any as S.Schema<PutTableMaintenanceConfigurationRequest>;
+export interface PutTableMaintenanceConfigurationResponse {}
+export const PutTableMaintenanceConfigurationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "PutTableMaintenanceConfigurationResponse",
+}) as any as S.Schema<PutTableMaintenanceConfigurationResponse>;
+export interface IcebergMetadata {
+  schema: IcebergSchema;
+  properties?: TableProperties;
+}
+export const IcebergMetadata = S.suspend(() =>
+  S.Struct({ schema: IcebergSchema, properties: S.optional(TableProperties) }),
+).annotations({
+  identifier: "IcebergMetadata",
+}) as any as S.Schema<IcebergMetadata>;
 export const TableMetadata = S.Union(S.Struct({ iceberg: IcebergMetadata }));
-export class PutTableBucketReplicationResponse extends S.Class<PutTableBucketReplicationResponse>(
-  "PutTableBucketReplicationResponse",
-)({ versionToken: S.String, status: S.String }) {}
-export class CreateTableRequest extends S.Class<CreateTableRequest>(
-  "CreateTableRequest",
-)(
-  {
+export interface PutTableBucketReplicationResponse {
+  versionToken: string;
+  status: string;
+}
+export const PutTableBucketReplicationResponse = S.suspend(() =>
+  S.Struct({ versionToken: S.String, status: S.String }),
+).annotations({
+  identifier: "PutTableBucketReplicationResponse",
+}) as any as S.Schema<PutTableBucketReplicationResponse>;
+export interface CreateTableRequest {
+  tableBucketARN: string;
+  namespace: string;
+  name: string;
+  format: string;
+  metadata?: (typeof TableMetadata)["Type"];
+  encryptionConfiguration?: EncryptionConfiguration;
+  storageClassConfiguration?: StorageClassConfiguration;
+  tags?: Tags;
+}
+export const CreateTableRequest = S.suspend(() =>
+  S.Struct({
     tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
     namespace: S.String.pipe(T.HttpLabel("namespace")),
     name: S.String,
@@ -1476,19 +2212,28 @@ export class CreateTableRequest extends S.Class<CreateTableRequest>(
     encryptionConfiguration: S.optional(EncryptionConfiguration),
     storageClassConfiguration: S.optional(StorageClassConfiguration),
     tags: S.optional(Tags),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/tables/{tableBucketARN}/{namespace}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/tables/{tableBucketARN}/{namespace}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateTableResponse extends S.Class<CreateTableResponse>(
-  "CreateTableResponse",
-)({ tableARN: S.String, versionToken: S.String }) {}
+).annotations({
+  identifier: "CreateTableRequest",
+}) as any as S.Schema<CreateTableRequest>;
+export interface CreateTableResponse {
+  tableARN: string;
+  versionToken: string;
+}
+export const CreateTableResponse = S.suspend(() =>
+  S.Struct({ tableARN: S.String, versionToken: S.String }),
+).annotations({
+  identifier: "CreateTableResponse",
+}) as any as S.Schema<CreateTableResponse>;
 
 //# Errors
 export class BadRequestException extends S.TaggedError<BadRequestException>()(

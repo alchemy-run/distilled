@@ -239,155 +239,239 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
+export type AppMonitorDomainList = string[];
 export const AppMonitorDomainList = S.Array(S.String);
+export type MetricDefinitionIds = string[];
 export const MetricDefinitionIds = S.Array(S.String);
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface ListTagsForResourceRequest {
+  ResourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface UntagResourceRequest {
+  ResourceArn: string;
+  TagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
-export class GetAppMonitorRequest extends S.Class<GetAppMonitorRequest>(
-  "GetAppMonitorRequest",
-)(
-  { Name: S.String.pipe(T.HttpLabel("Name")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/appmonitor/{Name}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface GetAppMonitorRequest {
+  Name: string;
+}
+export const GetAppMonitorRequest = S.suspend(() =>
+  S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/appmonitor/{Name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAppMonitorRequest extends S.Class<DeleteAppMonitorRequest>(
-  "DeleteAppMonitorRequest",
-)(
-  { Name: S.String.pipe(T.HttpLabel("Name")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/appmonitor/{Name}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetAppMonitorRequest",
+}) as any as S.Schema<GetAppMonitorRequest>;
+export interface DeleteAppMonitorRequest {
+  Name: string;
+}
+export const DeleteAppMonitorRequest = S.suspend(() =>
+  S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/appmonitor/{Name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAppMonitorResponse extends S.Class<DeleteAppMonitorResponse>(
-  "DeleteAppMonitorResponse",
-)({}) {}
-export class ListAppMonitorsRequest extends S.Class<ListAppMonitorsRequest>(
-  "ListAppMonitorsRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteAppMonitorRequest",
+}) as any as S.Schema<DeleteAppMonitorRequest>;
+export interface DeleteAppMonitorResponse {}
+export const DeleteAppMonitorResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteAppMonitorResponse",
+}) as any as S.Schema<DeleteAppMonitorResponse>;
+export interface ListAppMonitorsRequest {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListAppMonitorsRequest = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/appmonitors" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/appmonitors" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class BatchDeleteRumMetricDefinitionsRequest extends S.Class<BatchDeleteRumMetricDefinitionsRequest>(
-  "BatchDeleteRumMetricDefinitionsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListAppMonitorsRequest",
+}) as any as S.Schema<ListAppMonitorsRequest>;
+export interface BatchDeleteRumMetricDefinitionsRequest {
+  AppMonitorName: string;
+  Destination: string;
+  DestinationArn?: string;
+  MetricDefinitionIds: MetricDefinitionIds;
+}
+export const BatchDeleteRumMetricDefinitionsRequest = S.suspend(() =>
+  S.Struct({
     AppMonitorName: S.String.pipe(T.HttpLabel("AppMonitorName")),
     Destination: S.String.pipe(T.HttpQuery("destination")),
     DestinationArn: S.optional(S.String).pipe(T.HttpQuery("destinationArn")),
     MetricDefinitionIds: MetricDefinitionIds.pipe(
       T.HttpQuery("metricDefinitionIds"),
     ),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/rummetrics/{AppMonitorName}/metrics" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/rummetrics/{AppMonitorName}/metrics" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class BatchGetRumMetricDefinitionsRequest extends S.Class<BatchGetRumMetricDefinitionsRequest>(
-  "BatchGetRumMetricDefinitionsRequest",
-)(
-  {
+).annotations({
+  identifier: "BatchDeleteRumMetricDefinitionsRequest",
+}) as any as S.Schema<BatchDeleteRumMetricDefinitionsRequest>;
+export interface BatchGetRumMetricDefinitionsRequest {
+  AppMonitorName: string;
+  Destination: string;
+  DestinationArn?: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const BatchGetRumMetricDefinitionsRequest = S.suspend(() =>
+  S.Struct({
     AppMonitorName: S.String.pipe(T.HttpLabel("AppMonitorName")),
     Destination: S.String.pipe(T.HttpQuery("destination")),
     DestinationArn: S.optional(S.String).pipe(T.HttpQuery("destinationArn")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/rummetrics/{AppMonitorName}/metrics" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/rummetrics/{AppMonitorName}/metrics" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "BatchGetRumMetricDefinitionsRequest",
+}) as any as S.Schema<BatchGetRumMetricDefinitionsRequest>;
+export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
+export type Pages = string[];
 export const Pages = S.Array(S.String);
+export type FavoritePages = string[];
 export const FavoritePages = S.Array(S.String);
+export type Telemetries = string[];
 export const Telemetries = S.Array(S.String);
-export class AppMonitorConfiguration extends S.Class<AppMonitorConfiguration>(
-  "AppMonitorConfiguration",
-)({
-  IdentityPoolId: S.optional(S.String),
-  ExcludedPages: S.optional(Pages),
-  IncludedPages: S.optional(Pages),
-  FavoritePages: S.optional(FavoritePages),
-  SessionSampleRate: S.optional(S.Number),
-  GuestRoleArn: S.optional(S.String),
-  AllowCookies: S.optional(S.Boolean),
-  Telemetries: S.optional(Telemetries),
-  EnableXRay: S.optional(S.Boolean),
-}) {}
-export class CustomEvents extends S.Class<CustomEvents>("CustomEvents")({
-  Status: S.optional(S.String),
-}) {}
-export class JavaScriptSourceMaps extends S.Class<JavaScriptSourceMaps>(
-  "JavaScriptSourceMaps",
-)({ Status: S.String, S3Uri: S.optional(S.String) }) {}
-export class DeobfuscationConfiguration extends S.Class<DeobfuscationConfiguration>(
-  "DeobfuscationConfiguration",
-)({ JavaScriptSourceMaps: S.optional(JavaScriptSourceMaps) }) {}
-export class CreateAppMonitorRequest extends S.Class<CreateAppMonitorRequest>(
-  "CreateAppMonitorRequest",
-)(
-  {
+export interface AppMonitorConfiguration {
+  IdentityPoolId?: string;
+  ExcludedPages?: Pages;
+  IncludedPages?: Pages;
+  FavoritePages?: FavoritePages;
+  SessionSampleRate?: number;
+  GuestRoleArn?: string;
+  AllowCookies?: boolean;
+  Telemetries?: Telemetries;
+  EnableXRay?: boolean;
+}
+export const AppMonitorConfiguration = S.suspend(() =>
+  S.Struct({
+    IdentityPoolId: S.optional(S.String),
+    ExcludedPages: S.optional(Pages),
+    IncludedPages: S.optional(Pages),
+    FavoritePages: S.optional(FavoritePages),
+    SessionSampleRate: S.optional(S.Number),
+    GuestRoleArn: S.optional(S.String),
+    AllowCookies: S.optional(S.Boolean),
+    Telemetries: S.optional(Telemetries),
+    EnableXRay: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "AppMonitorConfiguration",
+}) as any as S.Schema<AppMonitorConfiguration>;
+export interface CustomEvents {
+  Status?: string;
+}
+export const CustomEvents = S.suspend(() =>
+  S.Struct({ Status: S.optional(S.String) }),
+).annotations({ identifier: "CustomEvents" }) as any as S.Schema<CustomEvents>;
+export interface JavaScriptSourceMaps {
+  Status: string;
+  S3Uri?: string;
+}
+export const JavaScriptSourceMaps = S.suspend(() =>
+  S.Struct({ Status: S.String, S3Uri: S.optional(S.String) }),
+).annotations({
+  identifier: "JavaScriptSourceMaps",
+}) as any as S.Schema<JavaScriptSourceMaps>;
+export interface DeobfuscationConfiguration {
+  JavaScriptSourceMaps?: JavaScriptSourceMaps;
+}
+export const DeobfuscationConfiguration = S.suspend(() =>
+  S.Struct({ JavaScriptSourceMaps: S.optional(JavaScriptSourceMaps) }),
+).annotations({
+  identifier: "DeobfuscationConfiguration",
+}) as any as S.Schema<DeobfuscationConfiguration>;
+export interface CreateAppMonitorRequest {
+  Name: string;
+  Domain?: string;
+  DomainList?: AppMonitorDomainList;
+  Tags?: TagMap;
+  AppMonitorConfiguration?: AppMonitorConfiguration;
+  CwLogEnabled?: boolean;
+  CustomEvents?: CustomEvents;
+  DeobfuscationConfiguration?: DeobfuscationConfiguration;
+  Platform?: string;
+}
+export const CreateAppMonitorRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     Domain: S.optional(S.String),
     DomainList: S.optional(AppMonitorDomainList),
@@ -397,319 +481,519 @@ export class CreateAppMonitorRequest extends S.Class<CreateAppMonitorRequest>(
     CustomEvents: S.optional(CustomEvents),
     DeobfuscationConfiguration: S.optional(DeobfuscationConfiguration),
     Platform: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/appmonitor" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/appmonitor" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteResourcePolicyRequest extends S.Class<DeleteResourcePolicyRequest>(
-  "DeleteResourcePolicyRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateAppMonitorRequest",
+}) as any as S.Schema<CreateAppMonitorRequest>;
+export interface DeleteResourcePolicyRequest {
+  Name: string;
+  PolicyRevisionId?: string;
+}
+export const DeleteResourcePolicyRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String.pipe(T.HttpLabel("Name")),
     PolicyRevisionId: S.optional(S.String).pipe(
       T.HttpQuery("policyRevisionId"),
     ),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/appmonitor/{Name}/policy" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/appmonitor/{Name}/policy" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteRumMetricsDestinationRequest extends S.Class<DeleteRumMetricsDestinationRequest>(
-  "DeleteRumMetricsDestinationRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteResourcePolicyRequest",
+}) as any as S.Schema<DeleteResourcePolicyRequest>;
+export interface DeleteRumMetricsDestinationRequest {
+  AppMonitorName: string;
+  Destination: string;
+  DestinationArn?: string;
+}
+export const DeleteRumMetricsDestinationRequest = S.suspend(() =>
+  S.Struct({
     AppMonitorName: S.String.pipe(T.HttpLabel("AppMonitorName")),
     Destination: S.String.pipe(T.HttpQuery("destination")),
     DestinationArn: S.optional(S.String).pipe(T.HttpQuery("destinationArn")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/rummetrics/{AppMonitorName}/metricsdestination",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/rummetrics/{AppMonitorName}/metricsdestination",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteRumMetricsDestinationResponse extends S.Class<DeleteRumMetricsDestinationResponse>(
-  "DeleteRumMetricsDestinationResponse",
-)({}) {}
-export class GetResourcePolicyRequest extends S.Class<GetResourcePolicyRequest>(
-  "GetResourcePolicyRequest",
-)(
-  { Name: S.String.pipe(T.HttpLabel("Name")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/appmonitor/{Name}/policy" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteRumMetricsDestinationRequest",
+}) as any as S.Schema<DeleteRumMetricsDestinationRequest>;
+export interface DeleteRumMetricsDestinationResponse {}
+export const DeleteRumMetricsDestinationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteRumMetricsDestinationResponse",
+}) as any as S.Schema<DeleteRumMetricsDestinationResponse>;
+export interface GetResourcePolicyRequest {
+  Name: string;
+}
+export const GetResourcePolicyRequest = S.suspend(() =>
+  S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/appmonitor/{Name}/policy" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListRumMetricsDestinationsRequest extends S.Class<ListRumMetricsDestinationsRequest>(
-  "ListRumMetricsDestinationsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetResourcePolicyRequest",
+}) as any as S.Schema<GetResourcePolicyRequest>;
+export interface ListRumMetricsDestinationsRequest {
+  AppMonitorName: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListRumMetricsDestinationsRequest = S.suspend(() =>
+  S.Struct({
     AppMonitorName: S.String.pipe(T.HttpLabel("AppMonitorName")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/rummetrics/{AppMonitorName}/metricsdestination",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/rummetrics/{AppMonitorName}/metricsdestination",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutResourcePolicyRequest extends S.Class<PutResourcePolicyRequest>(
-  "PutResourcePolicyRequest",
-)(
-  {
+).annotations({
+  identifier: "ListRumMetricsDestinationsRequest",
+}) as any as S.Schema<ListRumMetricsDestinationsRequest>;
+export interface PutResourcePolicyRequest {
+  Name: string;
+  PolicyDocument: string;
+  PolicyRevisionId?: string;
+}
+export const PutResourcePolicyRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String.pipe(T.HttpLabel("Name")),
     PolicyDocument: S.String,
     PolicyRevisionId: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/appmonitor/{Name}/policy" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/appmonitor/{Name}/policy" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutRumMetricsDestinationRequest extends S.Class<PutRumMetricsDestinationRequest>(
-  "PutRumMetricsDestinationRequest",
-)(
-  {
+).annotations({
+  identifier: "PutResourcePolicyRequest",
+}) as any as S.Schema<PutResourcePolicyRequest>;
+export interface PutRumMetricsDestinationRequest {
+  AppMonitorName: string;
+  Destination: string;
+  DestinationArn?: string;
+  IamRoleArn?: string;
+}
+export const PutRumMetricsDestinationRequest = S.suspend(() =>
+  S.Struct({
     AppMonitorName: S.String.pipe(T.HttpLabel("AppMonitorName")),
     Destination: S.String,
     DestinationArn: S.optional(S.String),
     IamRoleArn: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/rummetrics/{AppMonitorName}/metricsdestination",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/rummetrics/{AppMonitorName}/metricsdestination",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutRumMetricsDestinationResponse extends S.Class<PutRumMetricsDestinationResponse>(
-  "PutRumMetricsDestinationResponse",
-)({}) {}
+).annotations({
+  identifier: "PutRumMetricsDestinationRequest",
+}) as any as S.Schema<PutRumMetricsDestinationRequest>;
+export interface PutRumMetricsDestinationResponse {}
+export const PutRumMetricsDestinationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "PutRumMetricsDestinationResponse",
+}) as any as S.Schema<PutRumMetricsDestinationResponse>;
+export type DimensionKeysMap = { [key: string]: string };
 export const DimensionKeysMap = S.Record({ key: S.String, value: S.String });
-export class MetricDefinitionRequest extends S.Class<MetricDefinitionRequest>(
-  "MetricDefinitionRequest",
-)({
-  Name: S.String,
-  ValueKey: S.optional(S.String),
-  UnitLabel: S.optional(S.String),
-  DimensionKeys: S.optional(DimensionKeysMap),
-  EventPattern: S.optional(S.String),
-  Namespace: S.optional(S.String),
-}) {}
-export class UpdateRumMetricDefinitionRequest extends S.Class<UpdateRumMetricDefinitionRequest>(
-  "UpdateRumMetricDefinitionRequest",
-)(
-  {
+export interface MetricDefinitionRequest {
+  Name: string;
+  ValueKey?: string;
+  UnitLabel?: string;
+  DimensionKeys?: DimensionKeysMap;
+  EventPattern?: string;
+  Namespace?: string;
+}
+export const MetricDefinitionRequest = S.suspend(() =>
+  S.Struct({
+    Name: S.String,
+    ValueKey: S.optional(S.String),
+    UnitLabel: S.optional(S.String),
+    DimensionKeys: S.optional(DimensionKeysMap),
+    EventPattern: S.optional(S.String),
+    Namespace: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "MetricDefinitionRequest",
+}) as any as S.Schema<MetricDefinitionRequest>;
+export interface UpdateRumMetricDefinitionRequest {
+  AppMonitorName: string;
+  Destination: string;
+  DestinationArn?: string;
+  MetricDefinition: MetricDefinitionRequest;
+  MetricDefinitionId: string;
+}
+export const UpdateRumMetricDefinitionRequest = S.suspend(() =>
+  S.Struct({
     AppMonitorName: S.String.pipe(T.HttpLabel("AppMonitorName")),
     Destination: S.String,
     DestinationArn: S.optional(S.String),
     MetricDefinition: MetricDefinitionRequest,
     MetricDefinitionId: S.String,
-  },
-  T.all(
-    T.Http({ method: "PATCH", uri: "/rummetrics/{AppMonitorName}/metrics" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PATCH", uri: "/rummetrics/{AppMonitorName}/metrics" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateRumMetricDefinitionResponse extends S.Class<UpdateRumMetricDefinitionResponse>(
-  "UpdateRumMetricDefinitionResponse",
-)({}) {}
+).annotations({
+  identifier: "UpdateRumMetricDefinitionRequest",
+}) as any as S.Schema<UpdateRumMetricDefinitionRequest>;
+export interface UpdateRumMetricDefinitionResponse {}
+export const UpdateRumMetricDefinitionResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateRumMetricDefinitionResponse",
+}) as any as S.Schema<UpdateRumMetricDefinitionResponse>;
+export type QueryFilterValueList = string[];
 export const QueryFilterValueList = S.Array(S.String);
-export class AppMonitorDetails extends S.Class<AppMonitorDetails>(
-  "AppMonitorDetails",
-)({
-  name: S.optional(S.String),
-  id: S.optional(S.String),
-  version: S.optional(S.String),
-}) {}
-export class UserDetails extends S.Class<UserDetails>("UserDetails")({
-  userId: S.optional(S.String),
-  sessionId: S.optional(S.String),
-}) {}
-export class RumEvent extends S.Class<RumEvent>("RumEvent")({
-  id: S.String,
-  timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  type: S.String,
-  metadata: S.optional(S.String),
-  details: S.String,
-}) {}
+export interface AppMonitorDetails {
+  name?: string;
+  id?: string;
+  version?: string;
+}
+export const AppMonitorDetails = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    id: S.optional(S.String),
+    version: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AppMonitorDetails",
+}) as any as S.Schema<AppMonitorDetails>;
+export interface UserDetails {
+  userId?: string;
+  sessionId?: string;
+}
+export const UserDetails = S.suspend(() =>
+  S.Struct({ userId: S.optional(S.String), sessionId: S.optional(S.String) }),
+).annotations({ identifier: "UserDetails" }) as any as S.Schema<UserDetails>;
+export interface RumEvent {
+  id: string;
+  timestamp: Date;
+  type: string;
+  metadata?: string;
+  details: string;
+}
+export const RumEvent = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    type: S.String,
+    metadata: S.optional(S.String),
+    details: S.String,
+  }),
+).annotations({ identifier: "RumEvent" }) as any as S.Schema<RumEvent>;
+export type RumEventList = RumEvent[];
 export const RumEventList = S.Array(RumEvent);
-export class TimeRange extends S.Class<TimeRange>("TimeRange")({
-  After: S.Number,
-  Before: S.optional(S.Number),
-}) {}
-export class QueryFilter extends S.Class<QueryFilter>("QueryFilter")({
-  Name: S.optional(S.String),
-  Values: S.optional(QueryFilterValueList),
-}) {}
+export interface TimeRange {
+  After: number;
+  Before?: number;
+}
+export const TimeRange = S.suspend(() =>
+  S.Struct({ After: S.Number, Before: S.optional(S.Number) }),
+).annotations({ identifier: "TimeRange" }) as any as S.Schema<TimeRange>;
+export interface QueryFilter {
+  Name?: string;
+  Values?: QueryFilterValueList;
+}
+export const QueryFilter = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Values: S.optional(QueryFilterValueList),
+  }),
+).annotations({ identifier: "QueryFilter" }) as any as S.Schema<QueryFilter>;
+export type QueryFilters = QueryFilter[];
 export const QueryFilters = S.Array(QueryFilter);
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ ResourceArn: S.String, Tags: TagMap }) {}
-export class PutRumEventsRequest extends S.Class<PutRumEventsRequest>(
-  "PutRumEventsRequest",
-)(
-  {
+export interface ListTagsForResourceResponse {
+  ResourceArn: string;
+  Tags: TagMap;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String, Tags: TagMap }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface PutRumEventsRequest {
+  Id: string;
+  BatchId: string;
+  AppMonitorDetails: AppMonitorDetails;
+  UserDetails: UserDetails;
+  RumEvents: RumEventList;
+  Alias?: string;
+}
+export const PutRumEventsRequest = S.suspend(() =>
+  S.Struct({
     Id: S.String.pipe(T.HttpLabel("Id")),
     BatchId: S.String,
     AppMonitorDetails: AppMonitorDetails,
     UserDetails: UserDetails,
     RumEvents: RumEventList,
     Alias: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/appmonitors/{Id}/" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/appmonitors/{Id}/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutRumEventsResponse extends S.Class<PutRumEventsResponse>(
-  "PutRumEventsResponse",
-)({}) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")), Tags: TagMap },
-  T.all(
-    T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "PutRumEventsRequest",
+}) as any as S.Schema<PutRumEventsRequest>;
+export interface PutRumEventsResponse {}
+export const PutRumEventsResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "PutRumEventsResponse",
+}) as any as S.Schema<PutRumEventsResponse>;
+export interface TagResourceRequest {
+  ResourceArn: string;
+  Tags: TagMap;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
+    Tags: TagMap,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class CreateAppMonitorResponse extends S.Class<CreateAppMonitorResponse>(
-  "CreateAppMonitorResponse",
-)({ Id: S.optional(S.String) }) {}
-export class DeleteResourcePolicyResponse extends S.Class<DeleteResourcePolicyResponse>(
-  "DeleteResourcePolicyResponse",
-)({ PolicyRevisionId: S.optional(S.String) }) {}
-export class GetAppMonitorDataRequest extends S.Class<GetAppMonitorDataRequest>(
-  "GetAppMonitorDataRequest",
-)(
-  {
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface CreateAppMonitorResponse {
+  Id?: string;
+}
+export const CreateAppMonitorResponse = S.suspend(() =>
+  S.Struct({ Id: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateAppMonitorResponse",
+}) as any as S.Schema<CreateAppMonitorResponse>;
+export interface DeleteResourcePolicyResponse {
+  PolicyRevisionId?: string;
+}
+export const DeleteResourcePolicyResponse = S.suspend(() =>
+  S.Struct({ PolicyRevisionId: S.optional(S.String) }),
+).annotations({
+  identifier: "DeleteResourcePolicyResponse",
+}) as any as S.Schema<DeleteResourcePolicyResponse>;
+export interface GetAppMonitorDataRequest {
+  Name: string;
+  TimeRange: TimeRange;
+  Filters?: QueryFilters;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const GetAppMonitorDataRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String.pipe(T.HttpLabel("Name")),
     TimeRange: TimeRange,
     Filters: S.optional(QueryFilters),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/appmonitor/{Name}/data" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/appmonitor/{Name}/data" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetResourcePolicyResponse extends S.Class<GetResourcePolicyResponse>(
-  "GetResourcePolicyResponse",
-)({
-  PolicyDocument: S.optional(S.String),
-  PolicyRevisionId: S.optional(S.String),
-}) {}
-export class PutResourcePolicyResponse extends S.Class<PutResourcePolicyResponse>(
-  "PutResourcePolicyResponse",
-)({
-  PolicyDocument: S.optional(S.String),
-  PolicyRevisionId: S.optional(S.String),
-}) {}
-export class AppMonitorSummary extends S.Class<AppMonitorSummary>(
-  "AppMonitorSummary",
-)({
-  Name: S.optional(S.String),
-  Id: S.optional(S.String),
-  Created: S.optional(S.String),
-  LastModified: S.optional(S.String),
-  State: S.optional(S.String),
-  Platform: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "GetAppMonitorDataRequest",
+}) as any as S.Schema<GetAppMonitorDataRequest>;
+export interface GetResourcePolicyResponse {
+  PolicyDocument?: string;
+  PolicyRevisionId?: string;
+}
+export const GetResourcePolicyResponse = S.suspend(() =>
+  S.Struct({
+    PolicyDocument: S.optional(S.String),
+    PolicyRevisionId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetResourcePolicyResponse",
+}) as any as S.Schema<GetResourcePolicyResponse>;
+export interface PutResourcePolicyResponse {
+  PolicyDocument?: string;
+  PolicyRevisionId?: string;
+}
+export const PutResourcePolicyResponse = S.suspend(() =>
+  S.Struct({
+    PolicyDocument: S.optional(S.String),
+    PolicyRevisionId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "PutResourcePolicyResponse",
+}) as any as S.Schema<PutResourcePolicyResponse>;
+export interface AppMonitorSummary {
+  Name?: string;
+  Id?: string;
+  Created?: string;
+  LastModified?: string;
+  State?: string;
+  Platform?: string;
+}
+export const AppMonitorSummary = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Id: S.optional(S.String),
+    Created: S.optional(S.String),
+    LastModified: S.optional(S.String),
+    State: S.optional(S.String),
+    Platform: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AppMonitorSummary",
+}) as any as S.Schema<AppMonitorSummary>;
+export type AppMonitorSummaryList = AppMonitorSummary[];
 export const AppMonitorSummaryList = S.Array(AppMonitorSummary);
+export type MetricDefinitionsRequest = MetricDefinitionRequest[];
 export const MetricDefinitionsRequest = S.Array(MetricDefinitionRequest);
-export class BatchDeleteRumMetricDefinitionsError extends S.Class<BatchDeleteRumMetricDefinitionsError>(
-  "BatchDeleteRumMetricDefinitionsError",
-)({
-  MetricDefinitionId: S.String,
-  ErrorCode: S.String,
-  ErrorMessage: S.String,
-}) {}
+export interface BatchDeleteRumMetricDefinitionsError {
+  MetricDefinitionId: string;
+  ErrorCode: string;
+  ErrorMessage: string;
+}
+export const BatchDeleteRumMetricDefinitionsError = S.suspend(() =>
+  S.Struct({
+    MetricDefinitionId: S.String,
+    ErrorCode: S.String,
+    ErrorMessage: S.String,
+  }),
+).annotations({
+  identifier: "BatchDeleteRumMetricDefinitionsError",
+}) as any as S.Schema<BatchDeleteRumMetricDefinitionsError>;
+export type BatchDeleteRumMetricDefinitionsErrors =
+  BatchDeleteRumMetricDefinitionsError[];
 export const BatchDeleteRumMetricDefinitionsErrors = S.Array(
   BatchDeleteRumMetricDefinitionsError,
 );
-export class MetricDefinition extends S.Class<MetricDefinition>(
-  "MetricDefinition",
-)({
-  MetricDefinitionId: S.String,
-  Name: S.String,
-  ValueKey: S.optional(S.String),
-  UnitLabel: S.optional(S.String),
-  DimensionKeys: S.optional(DimensionKeysMap),
-  EventPattern: S.optional(S.String),
-  Namespace: S.optional(S.String),
-}) {}
+export interface MetricDefinition {
+  MetricDefinitionId: string;
+  Name: string;
+  ValueKey?: string;
+  UnitLabel?: string;
+  DimensionKeys?: DimensionKeysMap;
+  EventPattern?: string;
+  Namespace?: string;
+}
+export const MetricDefinition = S.suspend(() =>
+  S.Struct({
+    MetricDefinitionId: S.String,
+    Name: S.String,
+    ValueKey: S.optional(S.String),
+    UnitLabel: S.optional(S.String),
+    DimensionKeys: S.optional(DimensionKeysMap),
+    EventPattern: S.optional(S.String),
+    Namespace: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "MetricDefinition",
+}) as any as S.Schema<MetricDefinition>;
+export type MetricDefinitions = MetricDefinition[];
 export const MetricDefinitions = S.Array(MetricDefinition);
+export type EventDataList = string[];
 export const EventDataList = S.Array(S.String);
-export class MetricDestinationSummary extends S.Class<MetricDestinationSummary>(
-  "MetricDestinationSummary",
-)({
-  Destination: S.optional(S.String),
-  DestinationArn: S.optional(S.String),
-  IamRoleArn: S.optional(S.String),
-}) {}
+export interface MetricDestinationSummary {
+  Destination?: string;
+  DestinationArn?: string;
+  IamRoleArn?: string;
+}
+export const MetricDestinationSummary = S.suspend(() =>
+  S.Struct({
+    Destination: S.optional(S.String),
+    DestinationArn: S.optional(S.String),
+    IamRoleArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "MetricDestinationSummary",
+}) as any as S.Schema<MetricDestinationSummary>;
+export type MetricDestinationSummaryList = MetricDestinationSummary[];
 export const MetricDestinationSummaryList = S.Array(MetricDestinationSummary);
-export class UpdateAppMonitorRequest extends S.Class<UpdateAppMonitorRequest>(
-  "UpdateAppMonitorRequest",
-)(
-  {
+export interface UpdateAppMonitorRequest {
+  Name: string;
+  Domain?: string;
+  DomainList?: AppMonitorDomainList;
+  AppMonitorConfiguration?: AppMonitorConfiguration;
+  CwLogEnabled?: boolean;
+  CustomEvents?: CustomEvents;
+  DeobfuscationConfiguration?: DeobfuscationConfiguration;
+}
+export const UpdateAppMonitorRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String.pipe(T.HttpLabel("Name")),
     Domain: S.optional(S.String),
     DomainList: S.optional(AppMonitorDomainList),
@@ -717,105 +1001,197 @@ export class UpdateAppMonitorRequest extends S.Class<UpdateAppMonitorRequest>(
     CwLogEnabled: S.optional(S.Boolean),
     CustomEvents: S.optional(CustomEvents),
     DeobfuscationConfiguration: S.optional(DeobfuscationConfiguration),
-  },
-  T.all(
-    T.Http({ method: "PATCH", uri: "/appmonitor/{Name}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PATCH", uri: "/appmonitor/{Name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateAppMonitorResponse extends S.Class<UpdateAppMonitorResponse>(
-  "UpdateAppMonitorResponse",
-)({}) {}
-export class ListAppMonitorsResponse extends S.Class<ListAppMonitorsResponse>(
-  "ListAppMonitorsResponse",
-)({
-  NextToken: S.optional(S.String),
-  AppMonitorSummaries: S.optional(AppMonitorSummaryList),
-}) {}
-export class BatchCreateRumMetricDefinitionsRequest extends S.Class<BatchCreateRumMetricDefinitionsRequest>(
-  "BatchCreateRumMetricDefinitionsRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateAppMonitorRequest",
+}) as any as S.Schema<UpdateAppMonitorRequest>;
+export interface UpdateAppMonitorResponse {}
+export const UpdateAppMonitorResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateAppMonitorResponse",
+}) as any as S.Schema<UpdateAppMonitorResponse>;
+export interface ListAppMonitorsResponse {
+  NextToken?: string;
+  AppMonitorSummaries?: AppMonitorSummaryList;
+}
+export const ListAppMonitorsResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    AppMonitorSummaries: S.optional(AppMonitorSummaryList),
+  }),
+).annotations({
+  identifier: "ListAppMonitorsResponse",
+}) as any as S.Schema<ListAppMonitorsResponse>;
+export interface BatchCreateRumMetricDefinitionsRequest {
+  AppMonitorName: string;
+  Destination: string;
+  DestinationArn?: string;
+  MetricDefinitions: MetricDefinitionsRequest;
+}
+export const BatchCreateRumMetricDefinitionsRequest = S.suspend(() =>
+  S.Struct({
     AppMonitorName: S.String.pipe(T.HttpLabel("AppMonitorName")),
     Destination: S.String,
     DestinationArn: S.optional(S.String),
     MetricDefinitions: MetricDefinitionsRequest,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/rummetrics/{AppMonitorName}/metrics" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/rummetrics/{AppMonitorName}/metrics" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class BatchDeleteRumMetricDefinitionsResponse extends S.Class<BatchDeleteRumMetricDefinitionsResponse>(
-  "BatchDeleteRumMetricDefinitionsResponse",
-)({
-  Errors: BatchDeleteRumMetricDefinitionsErrors,
-  MetricDefinitionIds: S.optional(MetricDefinitionIds),
-}) {}
-export class BatchGetRumMetricDefinitionsResponse extends S.Class<BatchGetRumMetricDefinitionsResponse>(
-  "BatchGetRumMetricDefinitionsResponse",
-)({
-  MetricDefinitions: S.optional(MetricDefinitions),
-  NextToken: S.optional(S.String),
-}) {}
-export class GetAppMonitorDataResponse extends S.Class<GetAppMonitorDataResponse>(
-  "GetAppMonitorDataResponse",
-)({ Events: S.optional(EventDataList), NextToken: S.optional(S.String) }) {}
-export class ListRumMetricsDestinationsResponse extends S.Class<ListRumMetricsDestinationsResponse>(
-  "ListRumMetricsDestinationsResponse",
-)({
-  Destinations: S.optional(MetricDestinationSummaryList),
-  NextToken: S.optional(S.String),
-}) {}
-export class CwLog extends S.Class<CwLog>("CwLog")({
-  CwLogEnabled: S.optional(S.Boolean),
-  CwLogGroup: S.optional(S.String),
-}) {}
-export class DataStorage extends S.Class<DataStorage>("DataStorage")({
-  CwLog: S.optional(CwLog),
-}) {}
-export class AppMonitor extends S.Class<AppMonitor>("AppMonitor")({
-  Name: S.optional(S.String),
-  Domain: S.optional(S.String),
-  DomainList: S.optional(AppMonitorDomainList),
-  Id: S.optional(S.String),
-  Created: S.optional(S.String),
-  LastModified: S.optional(S.String),
-  Tags: S.optional(TagMap),
-  State: S.optional(S.String),
-  AppMonitorConfiguration: S.optional(AppMonitorConfiguration),
-  DataStorage: S.optional(DataStorage),
-  CustomEvents: S.optional(CustomEvents),
-  DeobfuscationConfiguration: S.optional(DeobfuscationConfiguration),
-  Platform: S.optional(S.String),
-}) {}
-export class BatchCreateRumMetricDefinitionsError extends S.Class<BatchCreateRumMetricDefinitionsError>(
-  "BatchCreateRumMetricDefinitionsError",
-)({
-  MetricDefinition: MetricDefinitionRequest,
-  ErrorCode: S.String,
-  ErrorMessage: S.String,
-}) {}
+).annotations({
+  identifier: "BatchCreateRumMetricDefinitionsRequest",
+}) as any as S.Schema<BatchCreateRumMetricDefinitionsRequest>;
+export interface BatchDeleteRumMetricDefinitionsResponse {
+  Errors: BatchDeleteRumMetricDefinitionsErrors;
+  MetricDefinitionIds?: MetricDefinitionIds;
+}
+export const BatchDeleteRumMetricDefinitionsResponse = S.suspend(() =>
+  S.Struct({
+    Errors: BatchDeleteRumMetricDefinitionsErrors,
+    MetricDefinitionIds: S.optional(MetricDefinitionIds),
+  }),
+).annotations({
+  identifier: "BatchDeleteRumMetricDefinitionsResponse",
+}) as any as S.Schema<BatchDeleteRumMetricDefinitionsResponse>;
+export interface BatchGetRumMetricDefinitionsResponse {
+  MetricDefinitions?: MetricDefinitions;
+  NextToken?: string;
+}
+export const BatchGetRumMetricDefinitionsResponse = S.suspend(() =>
+  S.Struct({
+    MetricDefinitions: S.optional(MetricDefinitions),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "BatchGetRumMetricDefinitionsResponse",
+}) as any as S.Schema<BatchGetRumMetricDefinitionsResponse>;
+export interface GetAppMonitorDataResponse {
+  Events?: EventDataList;
+  NextToken?: string;
+}
+export const GetAppMonitorDataResponse = S.suspend(() =>
+  S.Struct({
+    Events: S.optional(EventDataList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetAppMonitorDataResponse",
+}) as any as S.Schema<GetAppMonitorDataResponse>;
+export interface ListRumMetricsDestinationsResponse {
+  Destinations?: MetricDestinationSummaryList;
+  NextToken?: string;
+}
+export const ListRumMetricsDestinationsResponse = S.suspend(() =>
+  S.Struct({
+    Destinations: S.optional(MetricDestinationSummaryList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListRumMetricsDestinationsResponse",
+}) as any as S.Schema<ListRumMetricsDestinationsResponse>;
+export interface CwLog {
+  CwLogEnabled?: boolean;
+  CwLogGroup?: string;
+}
+export const CwLog = S.suspend(() =>
+  S.Struct({
+    CwLogEnabled: S.optional(S.Boolean),
+    CwLogGroup: S.optional(S.String),
+  }),
+).annotations({ identifier: "CwLog" }) as any as S.Schema<CwLog>;
+export interface DataStorage {
+  CwLog?: CwLog;
+}
+export const DataStorage = S.suspend(() =>
+  S.Struct({ CwLog: S.optional(CwLog) }),
+).annotations({ identifier: "DataStorage" }) as any as S.Schema<DataStorage>;
+export interface AppMonitor {
+  Name?: string;
+  Domain?: string;
+  DomainList?: AppMonitorDomainList;
+  Id?: string;
+  Created?: string;
+  LastModified?: string;
+  Tags?: TagMap;
+  State?: string;
+  AppMonitorConfiguration?: AppMonitorConfiguration;
+  DataStorage?: DataStorage;
+  CustomEvents?: CustomEvents;
+  DeobfuscationConfiguration?: DeobfuscationConfiguration;
+  Platform?: string;
+}
+export const AppMonitor = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Domain: S.optional(S.String),
+    DomainList: S.optional(AppMonitorDomainList),
+    Id: S.optional(S.String),
+    Created: S.optional(S.String),
+    LastModified: S.optional(S.String),
+    Tags: S.optional(TagMap),
+    State: S.optional(S.String),
+    AppMonitorConfiguration: S.optional(AppMonitorConfiguration),
+    DataStorage: S.optional(DataStorage),
+    CustomEvents: S.optional(CustomEvents),
+    DeobfuscationConfiguration: S.optional(DeobfuscationConfiguration),
+    Platform: S.optional(S.String),
+  }),
+).annotations({ identifier: "AppMonitor" }) as any as S.Schema<AppMonitor>;
+export interface BatchCreateRumMetricDefinitionsError {
+  MetricDefinition: MetricDefinitionRequest;
+  ErrorCode: string;
+  ErrorMessage: string;
+}
+export const BatchCreateRumMetricDefinitionsError = S.suspend(() =>
+  S.Struct({
+    MetricDefinition: MetricDefinitionRequest,
+    ErrorCode: S.String,
+    ErrorMessage: S.String,
+  }),
+).annotations({
+  identifier: "BatchCreateRumMetricDefinitionsError",
+}) as any as S.Schema<BatchCreateRumMetricDefinitionsError>;
+export type BatchCreateRumMetricDefinitionsErrors =
+  BatchCreateRumMetricDefinitionsError[];
 export const BatchCreateRumMetricDefinitionsErrors = S.Array(
   BatchCreateRumMetricDefinitionsError,
 );
-export class GetAppMonitorResponse extends S.Class<GetAppMonitorResponse>(
-  "GetAppMonitorResponse",
-)({ AppMonitor: S.optional(AppMonitor) }) {}
-export class BatchCreateRumMetricDefinitionsResponse extends S.Class<BatchCreateRumMetricDefinitionsResponse>(
-  "BatchCreateRumMetricDefinitionsResponse",
-)({
-  Errors: BatchCreateRumMetricDefinitionsErrors,
-  MetricDefinitions: S.optional(MetricDefinitions),
-}) {}
+export interface GetAppMonitorResponse {
+  AppMonitor?: AppMonitor;
+}
+export const GetAppMonitorResponse = S.suspend(() =>
+  S.Struct({ AppMonitor: S.optional(AppMonitor) }),
+).annotations({
+  identifier: "GetAppMonitorResponse",
+}) as any as S.Schema<GetAppMonitorResponse>;
+export interface BatchCreateRumMetricDefinitionsResponse {
+  Errors: BatchCreateRumMetricDefinitionsErrors;
+  MetricDefinitions?: MetricDefinitions;
+}
+export const BatchCreateRumMetricDefinitionsResponse = S.suspend(() =>
+  S.Struct({
+    Errors: BatchCreateRumMetricDefinitionsErrors,
+    MetricDefinitions: S.optional(MetricDefinitions),
+  }),
+).annotations({
+  identifier: "BatchCreateRumMetricDefinitionsResponse",
+}) as any as S.Schema<BatchCreateRumMetricDefinitionsResponse>;
 
 //# Errors
 export class InternalServerException extends S.TaggedError<InternalServerException>()(

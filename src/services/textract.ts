@@ -242,116 +242,195 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type FeatureTypes = string[];
 export const FeatureTypes = S.Array(S.String);
-export class S3Object extends S.Class<S3Object>("S3Object")({
-  Bucket: S.optional(S.String),
-  Name: S.optional(S.String),
-  Version: S.optional(S.String),
-}) {}
-export class Document extends S.Class<Document>("Document")({
-  Bytes: S.optional(T.Blob),
-  S3Object: S.optional(S3Object),
-}) {}
+export interface S3Object {
+  Bucket?: string;
+  Name?: string;
+  Version?: string;
+}
+export const S3Object = S.suspend(() =>
+  S.Struct({
+    Bucket: S.optional(S.String),
+    Name: S.optional(S.String),
+    Version: S.optional(S.String),
+  }),
+).annotations({ identifier: "S3Object" }) as any as S.Schema<S3Object>;
+export interface Document {
+  Bytes?: Uint8Array;
+  S3Object?: S3Object;
+}
+export const Document = S.suspend(() =>
+  S.Struct({ Bytes: S.optional(T.Blob), S3Object: S.optional(S3Object) }),
+).annotations({ identifier: "Document" }) as any as S.Schema<Document>;
+export type DocumentPages = Document[];
 export const DocumentPages = S.Array(Document);
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class AnalyzeExpenseRequest extends S.Class<AnalyzeExpenseRequest>(
-  "AnalyzeExpenseRequest",
-)(
-  { Document: Document },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class AnalyzeIDRequest extends S.Class<AnalyzeIDRequest>(
-  "AnalyzeIDRequest",
-)(
-  { DocumentPages: DocumentPages },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteAdapterRequest extends S.Class<DeleteAdapterRequest>(
-  "DeleteAdapterRequest",
-)(
-  { AdapterId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteAdapterResponse extends S.Class<DeleteAdapterResponse>(
-  "DeleteAdapterResponse",
-)({}) {}
-export class DeleteAdapterVersionRequest extends S.Class<DeleteAdapterVersionRequest>(
-  "DeleteAdapterVersionRequest",
-)(
-  { AdapterId: S.String, AdapterVersion: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteAdapterVersionResponse extends S.Class<DeleteAdapterVersionResponse>(
-  "DeleteAdapterVersionResponse",
-)({}) {}
-export class DetectDocumentTextRequest extends S.Class<DetectDocumentTextRequest>(
-  "DetectDocumentTextRequest",
-)(
-  { Document: Document },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetAdapterRequest extends S.Class<GetAdapterRequest>(
-  "GetAdapterRequest",
-)(
-  { AdapterId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetAdapterVersionRequest extends S.Class<GetAdapterVersionRequest>(
-  "GetAdapterVersionRequest",
-)(
-  { AdapterId: S.String, AdapterVersion: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetDocumentAnalysisRequest extends S.Class<GetDocumentAnalysisRequest>(
-  "GetDocumentAnalysisRequest",
-)(
-  {
+export interface AnalyzeExpenseRequest {
+  Document: Document;
+}
+export const AnalyzeExpenseRequest = S.suspend(() =>
+  S.Struct({ Document: Document }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "AnalyzeExpenseRequest",
+}) as any as S.Schema<AnalyzeExpenseRequest>;
+export interface AnalyzeIDRequest {
+  DocumentPages: DocumentPages;
+}
+export const AnalyzeIDRequest = S.suspend(() =>
+  S.Struct({ DocumentPages: DocumentPages }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "AnalyzeIDRequest",
+}) as any as S.Schema<AnalyzeIDRequest>;
+export interface DeleteAdapterRequest {
+  AdapterId: string;
+}
+export const DeleteAdapterRequest = S.suspend(() =>
+  S.Struct({ AdapterId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteAdapterRequest",
+}) as any as S.Schema<DeleteAdapterRequest>;
+export interface DeleteAdapterResponse {}
+export const DeleteAdapterResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteAdapterResponse",
+}) as any as S.Schema<DeleteAdapterResponse>;
+export interface DeleteAdapterVersionRequest {
+  AdapterId: string;
+  AdapterVersion: string;
+}
+export const DeleteAdapterVersionRequest = S.suspend(() =>
+  S.Struct({ AdapterId: S.String, AdapterVersion: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteAdapterVersionRequest",
+}) as any as S.Schema<DeleteAdapterVersionRequest>;
+export interface DeleteAdapterVersionResponse {}
+export const DeleteAdapterVersionResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteAdapterVersionResponse",
+}) as any as S.Schema<DeleteAdapterVersionResponse>;
+export interface DetectDocumentTextRequest {
+  Document: Document;
+}
+export const DetectDocumentTextRequest = S.suspend(() =>
+  S.Struct({ Document: Document }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DetectDocumentTextRequest",
+}) as any as S.Schema<DetectDocumentTextRequest>;
+export interface GetAdapterRequest {
+  AdapterId: string;
+}
+export const GetAdapterRequest = S.suspend(() =>
+  S.Struct({ AdapterId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetAdapterRequest",
+}) as any as S.Schema<GetAdapterRequest>;
+export interface GetAdapterVersionRequest {
+  AdapterId: string;
+  AdapterVersion: string;
+}
+export const GetAdapterVersionRequest = S.suspend(() =>
+  S.Struct({ AdapterId: S.String, AdapterVersion: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetAdapterVersionRequest",
+}) as any as S.Schema<GetAdapterVersionRequest>;
+export interface GetDocumentAnalysisRequest {
+  JobId: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const GetDocumentAnalysisRequest = S.suspend(() =>
+  S.Struct({
     JobId: S.String,
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetDocumentTextDetectionRequest extends S.Class<GetDocumentTextDetectionRequest>(
-  "GetDocumentTextDetectionRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetDocumentAnalysisRequest",
+}) as any as S.Schema<GetDocumentAnalysisRequest>;
+export interface GetDocumentTextDetectionRequest {
+  JobId: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const GetDocumentTextDetectionRequest = S.suspend(() =>
+  S.Struct({
     JobId: S.String,
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetExpenseAnalysisRequest extends S.Class<GetExpenseAnalysisRequest>(
-  "GetExpenseAnalysisRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetDocumentTextDetectionRequest",
+}) as any as S.Schema<GetDocumentTextDetectionRequest>;
+export interface GetExpenseAnalysisRequest {
+  JobId: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const GetExpenseAnalysisRequest = S.suspend(() =>
+  S.Struct({
     JobId: S.String,
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetLendingAnalysisRequest extends S.Class<GetLendingAnalysisRequest>(
-  "GetLendingAnalysisRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetExpenseAnalysisRequest",
+}) as any as S.Schema<GetExpenseAnalysisRequest>;
+export interface GetLendingAnalysisRequest {
+  JobId: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const GetLendingAnalysisRequest = S.suspend(() =>
+  S.Struct({
     JobId: S.String,
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetLendingAnalysisSummaryRequest extends S.Class<GetLendingAnalysisSummaryRequest>(
-  "GetLendingAnalysisSummaryRequest",
-)(
-  { JobId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListAdaptersRequest extends S.Class<ListAdaptersRequest>(
-  "ListAdaptersRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetLendingAnalysisRequest",
+}) as any as S.Schema<GetLendingAnalysisRequest>;
+export interface GetLendingAnalysisSummaryRequest {
+  JobId: string;
+}
+export const GetLendingAnalysisSummaryRequest = S.suspend(() =>
+  S.Struct({ JobId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetLendingAnalysisSummaryRequest",
+}) as any as S.Schema<GetLendingAnalysisSummaryRequest>;
+export interface ListAdaptersRequest {
+  AfterCreationTime?: Date;
+  BeforeCreationTime?: Date;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListAdaptersRequest = S.suspend(() =>
+  S.Struct({
     AfterCreationTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -360,13 +439,21 @@ export class ListAdaptersRequest extends S.Class<ListAdaptersRequest>(
     ),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListAdapterVersionsRequest extends S.Class<ListAdapterVersionsRequest>(
-  "ListAdapterVersionsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListAdaptersRequest",
+}) as any as S.Schema<ListAdaptersRequest>;
+export interface ListAdapterVersionsRequest {
+  AdapterId?: string;
+  AfterCreationTime?: Date;
+  BeforeCreationTime?: Date;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListAdapterVersionsRequest = S.suspend(() =>
+  S.Struct({
     AdapterId: S.optional(S.String),
     AfterCreationTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -376,280 +463,561 @@ export class ListAdapterVersionsRequest extends S.Class<ListAdapterVersionsReque
     ),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { ResourceARN: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DocumentLocation extends S.Class<DocumentLocation>(
-  "DocumentLocation",
-)({ S3Object: S.optional(S3Object) }) {}
-export class NotificationChannel extends S.Class<NotificationChannel>(
-  "NotificationChannel",
-)({ SNSTopicArn: S.String, RoleArn: S.String }) {}
-export class OutputConfig extends S.Class<OutputConfig>("OutputConfig")({
-  S3Bucket: S.String,
-  S3Prefix: S.optional(S.String),
-}) {}
-export class StartDocumentTextDetectionRequest extends S.Class<StartDocumentTextDetectionRequest>(
-  "StartDocumentTextDetectionRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListAdapterVersionsRequest",
+}) as any as S.Schema<ListAdapterVersionsRequest>;
+export interface ListTagsForResourceRequest {
+  ResourceARN: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceARN: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface DocumentLocation {
+  S3Object?: S3Object;
+}
+export const DocumentLocation = S.suspend(() =>
+  S.Struct({ S3Object: S.optional(S3Object) }),
+).annotations({
+  identifier: "DocumentLocation",
+}) as any as S.Schema<DocumentLocation>;
+export interface NotificationChannel {
+  SNSTopicArn: string;
+  RoleArn: string;
+}
+export const NotificationChannel = S.suspend(() =>
+  S.Struct({ SNSTopicArn: S.String, RoleArn: S.String }),
+).annotations({
+  identifier: "NotificationChannel",
+}) as any as S.Schema<NotificationChannel>;
+export interface OutputConfig {
+  S3Bucket: string;
+  S3Prefix?: string;
+}
+export const OutputConfig = S.suspend(() =>
+  S.Struct({ S3Bucket: S.String, S3Prefix: S.optional(S.String) }),
+).annotations({ identifier: "OutputConfig" }) as any as S.Schema<OutputConfig>;
+export interface StartDocumentTextDetectionRequest {
+  DocumentLocation: DocumentLocation;
+  ClientRequestToken?: string;
+  JobTag?: string;
+  NotificationChannel?: NotificationChannel;
+  OutputConfig?: OutputConfig;
+  KMSKeyId?: string;
+}
+export const StartDocumentTextDetectionRequest = S.suspend(() =>
+  S.Struct({
     DocumentLocation: DocumentLocation,
     ClientRequestToken: S.optional(S.String),
     JobTag: S.optional(S.String),
     NotificationChannel: S.optional(NotificationChannel),
     OutputConfig: S.optional(OutputConfig),
     KMSKeyId: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StartExpenseAnalysisRequest extends S.Class<StartExpenseAnalysisRequest>(
-  "StartExpenseAnalysisRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StartDocumentTextDetectionRequest",
+}) as any as S.Schema<StartDocumentTextDetectionRequest>;
+export interface StartExpenseAnalysisRequest {
+  DocumentLocation: DocumentLocation;
+  ClientRequestToken?: string;
+  JobTag?: string;
+  NotificationChannel?: NotificationChannel;
+  OutputConfig?: OutputConfig;
+  KMSKeyId?: string;
+}
+export const StartExpenseAnalysisRequest = S.suspend(() =>
+  S.Struct({
     DocumentLocation: DocumentLocation,
     ClientRequestToken: S.optional(S.String),
     JobTag: S.optional(S.String),
     NotificationChannel: S.optional(NotificationChannel),
     OutputConfig: S.optional(OutputConfig),
     KMSKeyId: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StartLendingAnalysisRequest extends S.Class<StartLendingAnalysisRequest>(
-  "StartLendingAnalysisRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StartExpenseAnalysisRequest",
+}) as any as S.Schema<StartExpenseAnalysisRequest>;
+export interface StartLendingAnalysisRequest {
+  DocumentLocation: DocumentLocation;
+  ClientRequestToken?: string;
+  JobTag?: string;
+  NotificationChannel?: NotificationChannel;
+  OutputConfig?: OutputConfig;
+  KMSKeyId?: string;
+}
+export const StartLendingAnalysisRequest = S.suspend(() =>
+  S.Struct({
     DocumentLocation: DocumentLocation,
     ClientRequestToken: S.optional(S.String),
     JobTag: S.optional(S.String),
     NotificationChannel: S.optional(NotificationChannel),
     OutputConfig: S.optional(OutputConfig),
     KMSKeyId: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StartLendingAnalysisRequest",
+}) as any as S.Schema<StartLendingAnalysisRequest>;
+export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { ResourceARN: S.String, Tags: TagMap },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  { ResourceARN: S.String, TagKeys: TagKeyList },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
-export class UpdateAdapterRequest extends S.Class<UpdateAdapterRequest>(
-  "UpdateAdapterRequest",
-)(
-  {
+export interface TagResourceRequest {
+  ResourceARN: string;
+  Tags: TagMap;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceARN: S.String, Tags: TagMap }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UntagResourceRequest {
+  ResourceARN: string;
+  TagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceARN: S.String, TagKeys: TagKeyList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface UpdateAdapterRequest {
+  AdapterId: string;
+  Description?: string;
+  AdapterName?: string;
+  AutoUpdate?: string;
+}
+export const UpdateAdapterRequest = S.suspend(() =>
+  S.Struct({
     AdapterId: S.String,
     Description: S.optional(S.String),
     AdapterName: S.optional(S.String),
     AutoUpdate: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class AdapterVersionDatasetConfig extends S.Class<AdapterVersionDatasetConfig>(
-  "AdapterVersionDatasetConfig",
-)({ ManifestS3Object: S.optional(S3Object) }) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateAdapterRequest",
+}) as any as S.Schema<UpdateAdapterRequest>;
+export interface AdapterVersionDatasetConfig {
+  ManifestS3Object?: S3Object;
+}
+export const AdapterVersionDatasetConfig = S.suspend(() =>
+  S.Struct({ ManifestS3Object: S.optional(S3Object) }),
+).annotations({
+  identifier: "AdapterVersionDatasetConfig",
+}) as any as S.Schema<AdapterVersionDatasetConfig>;
+export type ContentClassifiers = string[];
 export const ContentClassifiers = S.Array(S.String);
+export type QueryPages = string[];
 export const QueryPages = S.Array(S.String);
+export type AdapterPages = string[];
 export const AdapterPages = S.Array(S.String);
-export class CreateAdapterRequest extends S.Class<CreateAdapterRequest>(
-  "CreateAdapterRequest",
-)(
-  {
+export interface CreateAdapterRequest {
+  AdapterName: string;
+  ClientRequestToken?: string;
+  Description?: string;
+  FeatureTypes: FeatureTypes;
+  AutoUpdate?: string;
+  Tags?: TagMap;
+}
+export const CreateAdapterRequest = S.suspend(() =>
+  S.Struct({
     AdapterName: S.String,
     ClientRequestToken: S.optional(S.String),
     Description: S.optional(S.String),
     FeatureTypes: FeatureTypes,
     AutoUpdate: S.optional(S.String),
     Tags: S.optional(TagMap),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateAdapterVersionRequest extends S.Class<CreateAdapterVersionRequest>(
-  "CreateAdapterVersionRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateAdapterRequest",
+}) as any as S.Schema<CreateAdapterRequest>;
+export interface CreateAdapterVersionRequest {
+  AdapterId: string;
+  ClientRequestToken?: string;
+  DatasetConfig: AdapterVersionDatasetConfig;
+  KMSKeyId?: string;
+  OutputConfig: OutputConfig;
+  Tags?: TagMap;
+}
+export const CreateAdapterVersionRequest = S.suspend(() =>
+  S.Struct({
     AdapterId: S.String,
     ClientRequestToken: S.optional(S.String),
     DatasetConfig: AdapterVersionDatasetConfig,
     KMSKeyId: S.optional(S.String),
     OutputConfig: OutputConfig,
     Tags: S.optional(TagMap),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetAdapterResponse extends S.Class<GetAdapterResponse>(
-  "GetAdapterResponse",
-)({
-  AdapterId: S.optional(S.String),
-  AdapterName: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Description: S.optional(S.String),
-  FeatureTypes: S.optional(FeatureTypes),
-  AutoUpdate: S.optional(S.String),
-  Tags: S.optional(TagMap),
-}) {}
-export class DocumentMetadata extends S.Class<DocumentMetadata>(
-  "DocumentMetadata",
-)({ Pages: S.optional(S.Number) }) {}
-export class BoundingBox extends S.Class<BoundingBox>("BoundingBox")({
-  Width: S.optional(S.Number),
-  Height: S.optional(S.Number),
-  Left: S.optional(S.Number),
-  Top: S.optional(S.Number),
-}) {}
-export class Point extends S.Class<Point>("Point")({
-  X: S.optional(S.Number),
-  Y: S.optional(S.Number),
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateAdapterVersionRequest",
+}) as any as S.Schema<CreateAdapterVersionRequest>;
+export interface GetAdapterResponse {
+  AdapterId?: string;
+  AdapterName?: string;
+  CreationTime?: Date;
+  Description?: string;
+  FeatureTypes?: FeatureTypes;
+  AutoUpdate?: string;
+  Tags?: TagMap;
+}
+export const GetAdapterResponse = S.suspend(() =>
+  S.Struct({
+    AdapterId: S.optional(S.String),
+    AdapterName: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Description: S.optional(S.String),
+    FeatureTypes: S.optional(FeatureTypes),
+    AutoUpdate: S.optional(S.String),
+    Tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "GetAdapterResponse",
+}) as any as S.Schema<GetAdapterResponse>;
+export interface DocumentMetadata {
+  Pages?: number;
+}
+export const DocumentMetadata = S.suspend(() =>
+  S.Struct({ Pages: S.optional(S.Number) }),
+).annotations({
+  identifier: "DocumentMetadata",
+}) as any as S.Schema<DocumentMetadata>;
+export interface BoundingBox {
+  Width?: number;
+  Height?: number;
+  Left?: number;
+  Top?: number;
+}
+export const BoundingBox = S.suspend(() =>
+  S.Struct({
+    Width: S.optional(S.Number),
+    Height: S.optional(S.Number),
+    Left: S.optional(S.Number),
+    Top: S.optional(S.Number),
+  }),
+).annotations({ identifier: "BoundingBox" }) as any as S.Schema<BoundingBox>;
+export interface Point {
+  X?: number;
+  Y?: number;
+}
+export const Point = S.suspend(() =>
+  S.Struct({ X: S.optional(S.Number), Y: S.optional(S.Number) }),
+).annotations({ identifier: "Point" }) as any as S.Schema<Point>;
+export type Polygon = Point[];
 export const Polygon = S.Array(Point);
-export class Geometry extends S.Class<Geometry>("Geometry")({
-  BoundingBox: S.optional(BoundingBox),
-  Polygon: S.optional(Polygon),
-  RotationAngle: S.optional(S.Number),
-}) {}
+export interface Geometry {
+  BoundingBox?: BoundingBox;
+  Polygon?: Polygon;
+  RotationAngle?: number;
+}
+export const Geometry = S.suspend(() =>
+  S.Struct({
+    BoundingBox: S.optional(BoundingBox),
+    Polygon: S.optional(Polygon),
+    RotationAngle: S.optional(S.Number),
+  }),
+).annotations({ identifier: "Geometry" }) as any as S.Schema<Geometry>;
+export type IdList = string[];
 export const IdList = S.Array(S.String);
-export class Relationship extends S.Class<Relationship>("Relationship")({
-  Type: S.optional(S.String),
-  Ids: S.optional(IdList),
-}) {}
+export interface Relationship {
+  Type?: string;
+  Ids?: IdList;
+}
+export const Relationship = S.suspend(() =>
+  S.Struct({ Type: S.optional(S.String), Ids: S.optional(IdList) }),
+).annotations({ identifier: "Relationship" }) as any as S.Schema<Relationship>;
+export type RelationshipList = Relationship[];
 export const RelationshipList = S.Array(Relationship);
+export type EntityTypes = string[];
 export const EntityTypes = S.Array(S.String);
-export class Query extends S.Class<Query>("Query")({
-  Text: S.String,
-  Alias: S.optional(S.String),
-  Pages: S.optional(QueryPages),
-}) {}
-export class Block extends S.Class<Block>("Block")({
-  BlockType: S.optional(S.String),
-  Confidence: S.optional(S.Number),
-  Text: S.optional(S.String),
-  TextType: S.optional(S.String),
-  RowIndex: S.optional(S.Number),
-  ColumnIndex: S.optional(S.Number),
-  RowSpan: S.optional(S.Number),
-  ColumnSpan: S.optional(S.Number),
-  Geometry: S.optional(Geometry),
-  Id: S.optional(S.String),
-  Relationships: S.optional(RelationshipList),
-  EntityTypes: S.optional(EntityTypes),
-  SelectionStatus: S.optional(S.String),
-  Page: S.optional(S.Number),
-  Query: S.optional(Query),
-}) {}
+export interface Query {
+  Text: string;
+  Alias?: string;
+  Pages?: QueryPages;
+}
+export const Query = S.suspend(() =>
+  S.Struct({
+    Text: S.String,
+    Alias: S.optional(S.String),
+    Pages: S.optional(QueryPages),
+  }),
+).annotations({ identifier: "Query" }) as any as S.Schema<Query>;
+export interface Block {
+  BlockType?: string;
+  Confidence?: number;
+  Text?: string;
+  TextType?: string;
+  RowIndex?: number;
+  ColumnIndex?: number;
+  RowSpan?: number;
+  ColumnSpan?: number;
+  Geometry?: Geometry;
+  Id?: string;
+  Relationships?: RelationshipList;
+  EntityTypes?: EntityTypes;
+  SelectionStatus?: string;
+  Page?: number;
+  Query?: Query;
+}
+export const Block = S.suspend(() =>
+  S.Struct({
+    BlockType: S.optional(S.String),
+    Confidence: S.optional(S.Number),
+    Text: S.optional(S.String),
+    TextType: S.optional(S.String),
+    RowIndex: S.optional(S.Number),
+    ColumnIndex: S.optional(S.Number),
+    RowSpan: S.optional(S.Number),
+    ColumnSpan: S.optional(S.Number),
+    Geometry: S.optional(Geometry),
+    Id: S.optional(S.String),
+    Relationships: S.optional(RelationshipList),
+    EntityTypes: S.optional(EntityTypes),
+    SelectionStatus: S.optional(S.String),
+    Page: S.optional(S.Number),
+    Query: S.optional(Query),
+  }),
+).annotations({ identifier: "Block" }) as any as S.Schema<Block>;
+export type BlockList = Block[];
 export const BlockList = S.Array(Block);
+export type Pages = number[];
 export const Pages = S.Array(S.Number);
-export class Warning extends S.Class<Warning>("Warning")({
-  ErrorCode: S.optional(S.String),
-  Pages: S.optional(Pages),
-}) {}
+export interface Warning {
+  ErrorCode?: string;
+  Pages?: Pages;
+}
+export const Warning = S.suspend(() =>
+  S.Struct({ ErrorCode: S.optional(S.String), Pages: S.optional(Pages) }),
+).annotations({ identifier: "Warning" }) as any as S.Schema<Warning>;
+export type Warnings = Warning[];
 export const Warnings = S.Array(Warning);
-export class GetDocumentTextDetectionResponse extends S.Class<GetDocumentTextDetectionResponse>(
-  "GetDocumentTextDetectionResponse",
-)({
-  DocumentMetadata: S.optional(DocumentMetadata),
-  JobStatus: S.optional(S.String),
-  NextToken: S.optional(S.String),
-  Blocks: S.optional(BlockList),
-  Warnings: S.optional(Warnings),
-  StatusMessage: S.optional(S.String),
-  DetectDocumentTextModelVersion: S.optional(S.String),
-}) {}
-export class ExpenseType extends S.Class<ExpenseType>("ExpenseType")({
-  Text: S.optional(S.String),
-  Confidence: S.optional(S.Number),
-}) {}
-export class ExpenseDetection extends S.Class<ExpenseDetection>(
-  "ExpenseDetection",
-)({
-  Text: S.optional(S.String),
-  Geometry: S.optional(Geometry),
-  Confidence: S.optional(S.Number),
-}) {}
-export class ExpenseCurrency extends S.Class<ExpenseCurrency>(
-  "ExpenseCurrency",
-)({ Code: S.optional(S.String), Confidence: S.optional(S.Number) }) {}
+export interface GetDocumentTextDetectionResponse {
+  DocumentMetadata?: DocumentMetadata;
+  JobStatus?: string;
+  NextToken?: string;
+  Blocks?: BlockList;
+  Warnings?: Warnings;
+  StatusMessage?: string;
+  DetectDocumentTextModelVersion?: string;
+}
+export const GetDocumentTextDetectionResponse = S.suspend(() =>
+  S.Struct({
+    DocumentMetadata: S.optional(DocumentMetadata),
+    JobStatus: S.optional(S.String),
+    NextToken: S.optional(S.String),
+    Blocks: S.optional(BlockList),
+    Warnings: S.optional(Warnings),
+    StatusMessage: S.optional(S.String),
+    DetectDocumentTextModelVersion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetDocumentTextDetectionResponse",
+}) as any as S.Schema<GetDocumentTextDetectionResponse>;
+export interface ExpenseType {
+  Text?: string;
+  Confidence?: number;
+}
+export const ExpenseType = S.suspend(() =>
+  S.Struct({ Text: S.optional(S.String), Confidence: S.optional(S.Number) }),
+).annotations({ identifier: "ExpenseType" }) as any as S.Schema<ExpenseType>;
+export interface ExpenseDetection {
+  Text?: string;
+  Geometry?: Geometry;
+  Confidence?: number;
+}
+export const ExpenseDetection = S.suspend(() =>
+  S.Struct({
+    Text: S.optional(S.String),
+    Geometry: S.optional(Geometry),
+    Confidence: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "ExpenseDetection",
+}) as any as S.Schema<ExpenseDetection>;
+export interface ExpenseCurrency {
+  Code?: string;
+  Confidence?: number;
+}
+export const ExpenseCurrency = S.suspend(() =>
+  S.Struct({ Code: S.optional(S.String), Confidence: S.optional(S.Number) }),
+).annotations({
+  identifier: "ExpenseCurrency",
+}) as any as S.Schema<ExpenseCurrency>;
+export type StringList = string[];
 export const StringList = S.Array(S.String);
-export class ExpenseGroupProperty extends S.Class<ExpenseGroupProperty>(
-  "ExpenseGroupProperty",
-)({ Types: S.optional(StringList), Id: S.optional(S.String) }) {}
+export interface ExpenseGroupProperty {
+  Types?: StringList;
+  Id?: string;
+}
+export const ExpenseGroupProperty = S.suspend(() =>
+  S.Struct({ Types: S.optional(StringList), Id: S.optional(S.String) }),
+).annotations({
+  identifier: "ExpenseGroupProperty",
+}) as any as S.Schema<ExpenseGroupProperty>;
+export type ExpenseGroupPropertyList = ExpenseGroupProperty[];
 export const ExpenseGroupPropertyList = S.Array(ExpenseGroupProperty);
-export class ExpenseField extends S.Class<ExpenseField>("ExpenseField")({
-  Type: S.optional(ExpenseType),
-  LabelDetection: S.optional(ExpenseDetection),
-  ValueDetection: S.optional(ExpenseDetection),
-  PageNumber: S.optional(S.Number),
-  Currency: S.optional(ExpenseCurrency),
-  GroupProperties: S.optional(ExpenseGroupPropertyList),
-}) {}
+export interface ExpenseField {
+  Type?: ExpenseType;
+  LabelDetection?: ExpenseDetection;
+  ValueDetection?: ExpenseDetection;
+  PageNumber?: number;
+  Currency?: ExpenseCurrency;
+  GroupProperties?: ExpenseGroupPropertyList;
+}
+export const ExpenseField = S.suspend(() =>
+  S.Struct({
+    Type: S.optional(ExpenseType),
+    LabelDetection: S.optional(ExpenseDetection),
+    ValueDetection: S.optional(ExpenseDetection),
+    PageNumber: S.optional(S.Number),
+    Currency: S.optional(ExpenseCurrency),
+    GroupProperties: S.optional(ExpenseGroupPropertyList),
+  }),
+).annotations({ identifier: "ExpenseField" }) as any as S.Schema<ExpenseField>;
+export type ExpenseFieldList = ExpenseField[];
 export const ExpenseFieldList = S.Array(ExpenseField);
-export class LineItemFields extends S.Class<LineItemFields>("LineItemFields")({
-  LineItemExpenseFields: S.optional(ExpenseFieldList),
-}) {}
+export interface LineItemFields {
+  LineItemExpenseFields?: ExpenseFieldList;
+}
+export const LineItemFields = S.suspend(() =>
+  S.Struct({ LineItemExpenseFields: S.optional(ExpenseFieldList) }),
+).annotations({
+  identifier: "LineItemFields",
+}) as any as S.Schema<LineItemFields>;
+export type LineItemList = LineItemFields[];
 export const LineItemList = S.Array(LineItemFields);
-export class LineItemGroup extends S.Class<LineItemGroup>("LineItemGroup")({
-  LineItemGroupIndex: S.optional(S.Number),
-  LineItems: S.optional(LineItemList),
-}) {}
+export interface LineItemGroup {
+  LineItemGroupIndex?: number;
+  LineItems?: LineItemList;
+}
+export const LineItemGroup = S.suspend(() =>
+  S.Struct({
+    LineItemGroupIndex: S.optional(S.Number),
+    LineItems: S.optional(LineItemList),
+  }),
+).annotations({
+  identifier: "LineItemGroup",
+}) as any as S.Schema<LineItemGroup>;
+export type LineItemGroupList = LineItemGroup[];
 export const LineItemGroupList = S.Array(LineItemGroup);
-export class ExpenseDocument extends S.Class<ExpenseDocument>(
-  "ExpenseDocument",
-)({
-  ExpenseIndex: S.optional(S.Number),
-  SummaryFields: S.optional(ExpenseFieldList),
-  LineItemGroups: S.optional(LineItemGroupList),
-  Blocks: S.optional(BlockList),
-}) {}
+export interface ExpenseDocument {
+  ExpenseIndex?: number;
+  SummaryFields?: ExpenseFieldList;
+  LineItemGroups?: LineItemGroupList;
+  Blocks?: BlockList;
+}
+export const ExpenseDocument = S.suspend(() =>
+  S.Struct({
+    ExpenseIndex: S.optional(S.Number),
+    SummaryFields: S.optional(ExpenseFieldList),
+    LineItemGroups: S.optional(LineItemGroupList),
+    Blocks: S.optional(BlockList),
+  }),
+).annotations({
+  identifier: "ExpenseDocument",
+}) as any as S.Schema<ExpenseDocument>;
+export type ExpenseDocumentList = ExpenseDocument[];
 export const ExpenseDocumentList = S.Array(ExpenseDocument);
-export class GetExpenseAnalysisResponse extends S.Class<GetExpenseAnalysisResponse>(
-  "GetExpenseAnalysisResponse",
-)({
-  DocumentMetadata: S.optional(DocumentMetadata),
-  JobStatus: S.optional(S.String),
-  NextToken: S.optional(S.String),
-  ExpenseDocuments: S.optional(ExpenseDocumentList),
-  Warnings: S.optional(Warnings),
-  StatusMessage: S.optional(S.String),
-  AnalyzeExpenseModelVersion: S.optional(S.String),
-}) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ Tags: S.optional(TagMap) }) {}
+export interface GetExpenseAnalysisResponse {
+  DocumentMetadata?: DocumentMetadata;
+  JobStatus?: string;
+  NextToken?: string;
+  ExpenseDocuments?: ExpenseDocumentList;
+  Warnings?: Warnings;
+  StatusMessage?: string;
+  AnalyzeExpenseModelVersion?: string;
+}
+export const GetExpenseAnalysisResponse = S.suspend(() =>
+  S.Struct({
+    DocumentMetadata: S.optional(DocumentMetadata),
+    JobStatus: S.optional(S.String),
+    NextToken: S.optional(S.String),
+    ExpenseDocuments: S.optional(ExpenseDocumentList),
+    Warnings: S.optional(Warnings),
+    StatusMessage: S.optional(S.String),
+    AnalyzeExpenseModelVersion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetExpenseAnalysisResponse",
+}) as any as S.Schema<GetExpenseAnalysisResponse>;
+export interface ListTagsForResourceResponse {
+  Tags?: TagMap;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ Tags: S.optional(TagMap) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export type Queries = Query[];
 export const Queries = S.Array(Query);
-export class QueriesConfig extends S.Class<QueriesConfig>("QueriesConfig")({
-  Queries: Queries,
-}) {}
-export class Adapter extends S.Class<Adapter>("Adapter")({
-  AdapterId: S.String,
-  Pages: S.optional(AdapterPages),
-  Version: S.String,
-}) {}
+export interface QueriesConfig {
+  Queries: Queries;
+}
+export const QueriesConfig = S.suspend(() =>
+  S.Struct({ Queries: Queries }),
+).annotations({
+  identifier: "QueriesConfig",
+}) as any as S.Schema<QueriesConfig>;
+export interface Adapter {
+  AdapterId: string;
+  Pages?: AdapterPages;
+  Version: string;
+}
+export const Adapter = S.suspend(() =>
+  S.Struct({
+    AdapterId: S.String,
+    Pages: S.optional(AdapterPages),
+    Version: S.String,
+  }),
+).annotations({ identifier: "Adapter" }) as any as S.Schema<Adapter>;
+export type Adapters = Adapter[];
 export const Adapters = S.Array(Adapter);
-export class AdaptersConfig extends S.Class<AdaptersConfig>("AdaptersConfig")({
-  Adapters: Adapters,
-}) {}
-export class StartDocumentAnalysisRequest extends S.Class<StartDocumentAnalysisRequest>(
-  "StartDocumentAnalysisRequest",
-)(
-  {
+export interface AdaptersConfig {
+  Adapters: Adapters;
+}
+export const AdaptersConfig = S.suspend(() =>
+  S.Struct({ Adapters: Adapters }),
+).annotations({
+  identifier: "AdaptersConfig",
+}) as any as S.Schema<AdaptersConfig>;
+export interface StartDocumentAnalysisRequest {
+  DocumentLocation: DocumentLocation;
+  FeatureTypes: FeatureTypes;
+  ClientRequestToken?: string;
+  JobTag?: string;
+  NotificationChannel?: NotificationChannel;
+  OutputConfig?: OutputConfig;
+  KMSKeyId?: string;
+  QueriesConfig?: QueriesConfig;
+  AdaptersConfig?: AdaptersConfig;
+}
+export const StartDocumentAnalysisRequest = S.suspend(() =>
+  S.Struct({
     DocumentLocation: DocumentLocation,
     FeatureTypes: FeatureTypes,
     ClientRequestToken: S.optional(S.String),
@@ -659,284 +1027,612 @@ export class StartDocumentAnalysisRequest extends S.Class<StartDocumentAnalysisR
     KMSKeyId: S.optional(S.String),
     QueriesConfig: S.optional(QueriesConfig),
     AdaptersConfig: S.optional(AdaptersConfig),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StartDocumentTextDetectionResponse extends S.Class<StartDocumentTextDetectionResponse>(
-  "StartDocumentTextDetectionResponse",
-)({ JobId: S.optional(S.String) }) {}
-export class StartExpenseAnalysisResponse extends S.Class<StartExpenseAnalysisResponse>(
-  "StartExpenseAnalysisResponse",
-)({ JobId: S.optional(S.String) }) {}
-export class StartLendingAnalysisResponse extends S.Class<StartLendingAnalysisResponse>(
-  "StartLendingAnalysisResponse",
-)({ JobId: S.optional(S.String) }) {}
-export class UpdateAdapterResponse extends S.Class<UpdateAdapterResponse>(
-  "UpdateAdapterResponse",
-)({
-  AdapterId: S.optional(S.String),
-  AdapterName: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Description: S.optional(S.String),
-  FeatureTypes: S.optional(FeatureTypes),
-  AutoUpdate: S.optional(S.String),
-}) {}
-export class HumanLoopDataAttributes extends S.Class<HumanLoopDataAttributes>(
-  "HumanLoopDataAttributes",
-)({ ContentClassifiers: S.optional(ContentClassifiers) }) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StartDocumentAnalysisRequest",
+}) as any as S.Schema<StartDocumentAnalysisRequest>;
+export interface StartDocumentTextDetectionResponse {
+  JobId?: string;
+}
+export const StartDocumentTextDetectionResponse = S.suspend(() =>
+  S.Struct({ JobId: S.optional(S.String) }),
+).annotations({
+  identifier: "StartDocumentTextDetectionResponse",
+}) as any as S.Schema<StartDocumentTextDetectionResponse>;
+export interface StartExpenseAnalysisResponse {
+  JobId?: string;
+}
+export const StartExpenseAnalysisResponse = S.suspend(() =>
+  S.Struct({ JobId: S.optional(S.String) }),
+).annotations({
+  identifier: "StartExpenseAnalysisResponse",
+}) as any as S.Schema<StartExpenseAnalysisResponse>;
+export interface StartLendingAnalysisResponse {
+  JobId?: string;
+}
+export const StartLendingAnalysisResponse = S.suspend(() =>
+  S.Struct({ JobId: S.optional(S.String) }),
+).annotations({
+  identifier: "StartLendingAnalysisResponse",
+}) as any as S.Schema<StartLendingAnalysisResponse>;
+export interface UpdateAdapterResponse {
+  AdapterId?: string;
+  AdapterName?: string;
+  CreationTime?: Date;
+  Description?: string;
+  FeatureTypes?: FeatureTypes;
+  AutoUpdate?: string;
+}
+export const UpdateAdapterResponse = S.suspend(() =>
+  S.Struct({
+    AdapterId: S.optional(S.String),
+    AdapterName: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Description: S.optional(S.String),
+    FeatureTypes: S.optional(FeatureTypes),
+    AutoUpdate: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "UpdateAdapterResponse",
+}) as any as S.Schema<UpdateAdapterResponse>;
+export interface HumanLoopDataAttributes {
+  ContentClassifiers?: ContentClassifiers;
+}
+export const HumanLoopDataAttributes = S.suspend(() =>
+  S.Struct({ ContentClassifiers: S.optional(ContentClassifiers) }),
+).annotations({
+  identifier: "HumanLoopDataAttributes",
+}) as any as S.Schema<HumanLoopDataAttributes>;
+export type UndetectedDocumentTypeList = string[];
 export const UndetectedDocumentTypeList = S.Array(S.String);
-export class HumanLoopConfig extends S.Class<HumanLoopConfig>(
-  "HumanLoopConfig",
-)({
-  HumanLoopName: S.String,
-  FlowDefinitionArn: S.String,
-  DataAttributes: S.optional(HumanLoopDataAttributes),
-}) {}
-export class AdapterOverview extends S.Class<AdapterOverview>(
-  "AdapterOverview",
-)({
-  AdapterId: S.optional(S.String),
-  AdapterName: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  FeatureTypes: S.optional(FeatureTypes),
-}) {}
+export interface HumanLoopConfig {
+  HumanLoopName: string;
+  FlowDefinitionArn: string;
+  DataAttributes?: HumanLoopDataAttributes;
+}
+export const HumanLoopConfig = S.suspend(() =>
+  S.Struct({
+    HumanLoopName: S.String,
+    FlowDefinitionArn: S.String,
+    DataAttributes: S.optional(HumanLoopDataAttributes),
+  }),
+).annotations({
+  identifier: "HumanLoopConfig",
+}) as any as S.Schema<HumanLoopConfig>;
+export interface AdapterOverview {
+  AdapterId?: string;
+  AdapterName?: string;
+  CreationTime?: Date;
+  FeatureTypes?: FeatureTypes;
+}
+export const AdapterOverview = S.suspend(() =>
+  S.Struct({
+    AdapterId: S.optional(S.String),
+    AdapterName: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    FeatureTypes: S.optional(FeatureTypes),
+  }),
+).annotations({
+  identifier: "AdapterOverview",
+}) as any as S.Schema<AdapterOverview>;
+export type AdapterList = AdapterOverview[];
 export const AdapterList = S.Array(AdapterOverview);
-export class AdapterVersionOverview extends S.Class<AdapterVersionOverview>(
-  "AdapterVersionOverview",
-)({
-  AdapterId: S.optional(S.String),
-  AdapterVersion: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  FeatureTypes: S.optional(FeatureTypes),
-  Status: S.optional(S.String),
-  StatusMessage: S.optional(S.String),
-}) {}
+export interface AdapterVersionOverview {
+  AdapterId?: string;
+  AdapterVersion?: string;
+  CreationTime?: Date;
+  FeatureTypes?: FeatureTypes;
+  Status?: string;
+  StatusMessage?: string;
+}
+export const AdapterVersionOverview = S.suspend(() =>
+  S.Struct({
+    AdapterId: S.optional(S.String),
+    AdapterVersion: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    FeatureTypes: S.optional(FeatureTypes),
+    Status: S.optional(S.String),
+    StatusMessage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AdapterVersionOverview",
+}) as any as S.Schema<AdapterVersionOverview>;
+export type AdapterVersionList = AdapterVersionOverview[];
 export const AdapterVersionList = S.Array(AdapterVersionOverview);
-export class AnalyzeDocumentRequest extends S.Class<AnalyzeDocumentRequest>(
-  "AnalyzeDocumentRequest",
-)(
-  {
+export interface AnalyzeDocumentRequest {
+  Document: Document;
+  FeatureTypes: FeatureTypes;
+  HumanLoopConfig?: HumanLoopConfig;
+  QueriesConfig?: QueriesConfig;
+  AdaptersConfig?: AdaptersConfig;
+}
+export const AnalyzeDocumentRequest = S.suspend(() =>
+  S.Struct({
     Document: Document,
     FeatureTypes: FeatureTypes,
     HumanLoopConfig: S.optional(HumanLoopConfig),
     QueriesConfig: S.optional(QueriesConfig),
     AdaptersConfig: S.optional(AdaptersConfig),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateAdapterResponse extends S.Class<CreateAdapterResponse>(
-  "CreateAdapterResponse",
-)({ AdapterId: S.optional(S.String) }) {}
-export class CreateAdapterVersionResponse extends S.Class<CreateAdapterVersionResponse>(
-  "CreateAdapterVersionResponse",
-)({ AdapterId: S.optional(S.String), AdapterVersion: S.optional(S.String) }) {}
-export class GetDocumentAnalysisResponse extends S.Class<GetDocumentAnalysisResponse>(
-  "GetDocumentAnalysisResponse",
-)({
-  DocumentMetadata: S.optional(DocumentMetadata),
-  JobStatus: S.optional(S.String),
-  NextToken: S.optional(S.String),
-  Blocks: S.optional(BlockList),
-  Warnings: S.optional(Warnings),
-  StatusMessage: S.optional(S.String),
-  AnalyzeDocumentModelVersion: S.optional(S.String),
-}) {}
-export class ListAdaptersResponse extends S.Class<ListAdaptersResponse>(
-  "ListAdaptersResponse",
-)({ Adapters: S.optional(AdapterList), NextToken: S.optional(S.String) }) {}
-export class ListAdapterVersionsResponse extends S.Class<ListAdapterVersionsResponse>(
-  "ListAdapterVersionsResponse",
-)({
-  AdapterVersions: S.optional(AdapterVersionList),
-  NextToken: S.optional(S.String),
-}) {}
-export class StartDocumentAnalysisResponse extends S.Class<StartDocumentAnalysisResponse>(
-  "StartDocumentAnalysisResponse",
-)({ JobId: S.optional(S.String) }) {}
-export class EvaluationMetric extends S.Class<EvaluationMetric>(
-  "EvaluationMetric",
-)({
-  F1Score: S.optional(S.Number),
-  Precision: S.optional(S.Number),
-  Recall: S.optional(S.Number),
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "AnalyzeDocumentRequest",
+}) as any as S.Schema<AnalyzeDocumentRequest>;
+export interface CreateAdapterResponse {
+  AdapterId?: string;
+}
+export const CreateAdapterResponse = S.suspend(() =>
+  S.Struct({ AdapterId: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateAdapterResponse",
+}) as any as S.Schema<CreateAdapterResponse>;
+export interface CreateAdapterVersionResponse {
+  AdapterId?: string;
+  AdapterVersion?: string;
+}
+export const CreateAdapterVersionResponse = S.suspend(() =>
+  S.Struct({
+    AdapterId: S.optional(S.String),
+    AdapterVersion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CreateAdapterVersionResponse",
+}) as any as S.Schema<CreateAdapterVersionResponse>;
+export interface GetDocumentAnalysisResponse {
+  DocumentMetadata?: DocumentMetadata;
+  JobStatus?: string;
+  NextToken?: string;
+  Blocks?: BlockList;
+  Warnings?: Warnings;
+  StatusMessage?: string;
+  AnalyzeDocumentModelVersion?: string;
+}
+export const GetDocumentAnalysisResponse = S.suspend(() =>
+  S.Struct({
+    DocumentMetadata: S.optional(DocumentMetadata),
+    JobStatus: S.optional(S.String),
+    NextToken: S.optional(S.String),
+    Blocks: S.optional(BlockList),
+    Warnings: S.optional(Warnings),
+    StatusMessage: S.optional(S.String),
+    AnalyzeDocumentModelVersion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetDocumentAnalysisResponse",
+}) as any as S.Schema<GetDocumentAnalysisResponse>;
+export interface ListAdaptersResponse {
+  Adapters?: AdapterList;
+  NextToken?: string;
+}
+export const ListAdaptersResponse = S.suspend(() =>
+  S.Struct({
+    Adapters: S.optional(AdapterList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListAdaptersResponse",
+}) as any as S.Schema<ListAdaptersResponse>;
+export interface ListAdapterVersionsResponse {
+  AdapterVersions?: AdapterVersionList;
+  NextToken?: string;
+}
+export const ListAdapterVersionsResponse = S.suspend(() =>
+  S.Struct({
+    AdapterVersions: S.optional(AdapterVersionList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListAdapterVersionsResponse",
+}) as any as S.Schema<ListAdapterVersionsResponse>;
+export interface StartDocumentAnalysisResponse {
+  JobId?: string;
+}
+export const StartDocumentAnalysisResponse = S.suspend(() =>
+  S.Struct({ JobId: S.optional(S.String) }),
+).annotations({
+  identifier: "StartDocumentAnalysisResponse",
+}) as any as S.Schema<StartDocumentAnalysisResponse>;
+export interface EvaluationMetric {
+  F1Score?: number;
+  Precision?: number;
+  Recall?: number;
+}
+export const EvaluationMetric = S.suspend(() =>
+  S.Struct({
+    F1Score: S.optional(S.Number),
+    Precision: S.optional(S.Number),
+    Recall: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "EvaluationMetric",
+}) as any as S.Schema<EvaluationMetric>;
+export type PageList = number[];
 export const PageList = S.Array(S.Number);
-export class AdapterVersionEvaluationMetric extends S.Class<AdapterVersionEvaluationMetric>(
-  "AdapterVersionEvaluationMetric",
-)({
-  Baseline: S.optional(EvaluationMetric),
-  AdapterVersion: S.optional(EvaluationMetric),
-  FeatureType: S.optional(S.String),
-}) {}
+export interface AdapterVersionEvaluationMetric {
+  Baseline?: EvaluationMetric;
+  AdapterVersion?: EvaluationMetric;
+  FeatureType?: string;
+}
+export const AdapterVersionEvaluationMetric = S.suspend(() =>
+  S.Struct({
+    Baseline: S.optional(EvaluationMetric),
+    AdapterVersion: S.optional(EvaluationMetric),
+    FeatureType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AdapterVersionEvaluationMetric",
+}) as any as S.Schema<AdapterVersionEvaluationMetric>;
+export type AdapterVersionEvaluationMetrics = AdapterVersionEvaluationMetric[];
 export const AdapterVersionEvaluationMetrics = S.Array(
   AdapterVersionEvaluationMetric,
 );
-export class Prediction extends S.Class<Prediction>("Prediction")({
-  Value: S.optional(S.String),
-  Confidence: S.optional(S.Number),
-}) {}
+export interface Prediction {
+  Value?: string;
+  Confidence?: number;
+}
+export const Prediction = S.suspend(() =>
+  S.Struct({ Value: S.optional(S.String), Confidence: S.optional(S.Number) }),
+).annotations({ identifier: "Prediction" }) as any as S.Schema<Prediction>;
+export type PredictionList = Prediction[];
 export const PredictionList = S.Array(Prediction);
-export class SplitDocument extends S.Class<SplitDocument>("SplitDocument")({
-  Index: S.optional(S.Number),
-  Pages: S.optional(PageList),
-}) {}
+export interface SplitDocument {
+  Index?: number;
+  Pages?: PageList;
+}
+export const SplitDocument = S.suspend(() =>
+  S.Struct({ Index: S.optional(S.Number), Pages: S.optional(PageList) }),
+).annotations({
+  identifier: "SplitDocument",
+}) as any as S.Schema<SplitDocument>;
+export type SplitDocumentList = SplitDocument[];
 export const SplitDocumentList = S.Array(SplitDocument);
-export class DetectedSignature extends S.Class<DetectedSignature>(
-  "DetectedSignature",
-)({ Page: S.optional(S.Number) }) {}
+export interface DetectedSignature {
+  Page?: number;
+}
+export const DetectedSignature = S.suspend(() =>
+  S.Struct({ Page: S.optional(S.Number) }),
+).annotations({
+  identifier: "DetectedSignature",
+}) as any as S.Schema<DetectedSignature>;
+export type DetectedSignatureList = DetectedSignature[];
 export const DetectedSignatureList = S.Array(DetectedSignature);
-export class UndetectedSignature extends S.Class<UndetectedSignature>(
-  "UndetectedSignature",
-)({ Page: S.optional(S.Number) }) {}
+export interface UndetectedSignature {
+  Page?: number;
+}
+export const UndetectedSignature = S.suspend(() =>
+  S.Struct({ Page: S.optional(S.Number) }),
+).annotations({
+  identifier: "UndetectedSignature",
+}) as any as S.Schema<UndetectedSignature>;
+export type UndetectedSignatureList = UndetectedSignature[];
 export const UndetectedSignatureList = S.Array(UndetectedSignature);
-export class GetAdapterVersionResponse extends S.Class<GetAdapterVersionResponse>(
-  "GetAdapterVersionResponse",
-)({
-  AdapterId: S.optional(S.String),
-  AdapterVersion: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  FeatureTypes: S.optional(FeatureTypes),
-  Status: S.optional(S.String),
-  StatusMessage: S.optional(S.String),
-  DatasetConfig: S.optional(AdapterVersionDatasetConfig),
-  KMSKeyId: S.optional(S.String),
-  OutputConfig: S.optional(OutputConfig),
-  EvaluationMetrics: S.optional(AdapterVersionEvaluationMetrics),
-  Tags: S.optional(TagMap),
-}) {}
-export class LendingDetection extends S.Class<LendingDetection>(
-  "LendingDetection",
-)({
-  Text: S.optional(S.String),
-  SelectionStatus: S.optional(S.String),
-  Geometry: S.optional(Geometry),
-  Confidence: S.optional(S.Number),
-}) {}
+export interface GetAdapterVersionResponse {
+  AdapterId?: string;
+  AdapterVersion?: string;
+  CreationTime?: Date;
+  FeatureTypes?: FeatureTypes;
+  Status?: string;
+  StatusMessage?: string;
+  DatasetConfig?: AdapterVersionDatasetConfig;
+  KMSKeyId?: string;
+  OutputConfig?: OutputConfig;
+  EvaluationMetrics?: AdapterVersionEvaluationMetrics;
+  Tags?: TagMap;
+}
+export const GetAdapterVersionResponse = S.suspend(() =>
+  S.Struct({
+    AdapterId: S.optional(S.String),
+    AdapterVersion: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    FeatureTypes: S.optional(FeatureTypes),
+    Status: S.optional(S.String),
+    StatusMessage: S.optional(S.String),
+    DatasetConfig: S.optional(AdapterVersionDatasetConfig),
+    KMSKeyId: S.optional(S.String),
+    OutputConfig: S.optional(OutputConfig),
+    EvaluationMetrics: S.optional(AdapterVersionEvaluationMetrics),
+    Tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "GetAdapterVersionResponse",
+}) as any as S.Schema<GetAdapterVersionResponse>;
+export interface LendingDetection {
+  Text?: string;
+  SelectionStatus?: string;
+  Geometry?: Geometry;
+  Confidence?: number;
+}
+export const LendingDetection = S.suspend(() =>
+  S.Struct({
+    Text: S.optional(S.String),
+    SelectionStatus: S.optional(S.String),
+    Geometry: S.optional(Geometry),
+    Confidence: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "LendingDetection",
+}) as any as S.Schema<LendingDetection>;
+export type LendingDetectionList = LendingDetection[];
 export const LendingDetectionList = S.Array(LendingDetection);
+export type HumanLoopActivationReasons = string[];
 export const HumanLoopActivationReasons = S.Array(S.String);
-export class PageClassification extends S.Class<PageClassification>(
-  "PageClassification",
-)({ PageType: PredictionList, PageNumber: PredictionList }) {}
-export class DocumentGroup extends S.Class<DocumentGroup>("DocumentGroup")({
-  Type: S.optional(S.String),
-  SplitDocuments: S.optional(SplitDocumentList),
-  DetectedSignatures: S.optional(DetectedSignatureList),
-  UndetectedSignatures: S.optional(UndetectedSignatureList),
-}) {}
+export interface PageClassification {
+  PageType: PredictionList;
+  PageNumber: PredictionList;
+}
+export const PageClassification = S.suspend(() =>
+  S.Struct({ PageType: PredictionList, PageNumber: PredictionList }),
+).annotations({
+  identifier: "PageClassification",
+}) as any as S.Schema<PageClassification>;
+export interface DocumentGroup {
+  Type?: string;
+  SplitDocuments?: SplitDocumentList;
+  DetectedSignatures?: DetectedSignatureList;
+  UndetectedSignatures?: UndetectedSignatureList;
+}
+export const DocumentGroup = S.suspend(() =>
+  S.Struct({
+    Type: S.optional(S.String),
+    SplitDocuments: S.optional(SplitDocumentList),
+    DetectedSignatures: S.optional(DetectedSignatureList),
+    UndetectedSignatures: S.optional(UndetectedSignatureList),
+  }),
+).annotations({
+  identifier: "DocumentGroup",
+}) as any as S.Schema<DocumentGroup>;
+export type DocumentGroupList = DocumentGroup[];
 export const DocumentGroupList = S.Array(DocumentGroup);
-export class NormalizedValue extends S.Class<NormalizedValue>(
-  "NormalizedValue",
-)({ Value: S.optional(S.String), ValueType: S.optional(S.String) }) {}
-export class SignatureDetection extends S.Class<SignatureDetection>(
-  "SignatureDetection",
-)({ Confidence: S.optional(S.Number), Geometry: S.optional(Geometry) }) {}
+export interface NormalizedValue {
+  Value?: string;
+  ValueType?: string;
+}
+export const NormalizedValue = S.suspend(() =>
+  S.Struct({ Value: S.optional(S.String), ValueType: S.optional(S.String) }),
+).annotations({
+  identifier: "NormalizedValue",
+}) as any as S.Schema<NormalizedValue>;
+export interface SignatureDetection {
+  Confidence?: number;
+  Geometry?: Geometry;
+}
+export const SignatureDetection = S.suspend(() =>
+  S.Struct({
+    Confidence: S.optional(S.Number),
+    Geometry: S.optional(Geometry),
+  }),
+).annotations({
+  identifier: "SignatureDetection",
+}) as any as S.Schema<SignatureDetection>;
+export type SignatureDetectionList = SignatureDetection[];
 export const SignatureDetectionList = S.Array(SignatureDetection);
-export class HumanLoopActivationOutput extends S.Class<HumanLoopActivationOutput>(
-  "HumanLoopActivationOutput",
-)({
-  HumanLoopArn: S.optional(S.String),
-  HumanLoopActivationReasons: S.optional(HumanLoopActivationReasons),
-  HumanLoopActivationConditionsEvaluationResults: S.optional(S.String),
-}) {}
-export class LendingSummary extends S.Class<LendingSummary>("LendingSummary")({
-  DocumentGroups: S.optional(DocumentGroupList),
-  UndetectedDocumentTypes: S.optional(UndetectedDocumentTypeList),
-}) {}
-export class AnalyzeIDDetections extends S.Class<AnalyzeIDDetections>(
-  "AnalyzeIDDetections",
-)({
-  Text: S.String,
-  NormalizedValue: S.optional(NormalizedValue),
-  Confidence: S.optional(S.Number),
-}) {}
-export class AnalyzeDocumentResponse extends S.Class<AnalyzeDocumentResponse>(
-  "AnalyzeDocumentResponse",
-)({
-  DocumentMetadata: S.optional(DocumentMetadata),
-  Blocks: S.optional(BlockList),
-  HumanLoopActivationOutput: S.optional(HumanLoopActivationOutput),
-  AnalyzeDocumentModelVersion: S.optional(S.String),
-}) {}
-export class AnalyzeExpenseResponse extends S.Class<AnalyzeExpenseResponse>(
-  "AnalyzeExpenseResponse",
-)({
-  DocumentMetadata: S.optional(DocumentMetadata),
-  ExpenseDocuments: S.optional(ExpenseDocumentList),
-}) {}
-export class DetectDocumentTextResponse extends S.Class<DetectDocumentTextResponse>(
-  "DetectDocumentTextResponse",
-)({
-  DocumentMetadata: S.optional(DocumentMetadata),
-  Blocks: S.optional(BlockList),
-  DetectDocumentTextModelVersion: S.optional(S.String),
-}) {}
-export class GetLendingAnalysisSummaryResponse extends S.Class<GetLendingAnalysisSummaryResponse>(
-  "GetLendingAnalysisSummaryResponse",
-)({
-  DocumentMetadata: S.optional(DocumentMetadata),
-  JobStatus: S.optional(S.String),
-  Summary: S.optional(LendingSummary),
-  Warnings: S.optional(Warnings),
-  StatusMessage: S.optional(S.String),
-  AnalyzeLendingModelVersion: S.optional(S.String),
-}) {}
-export class IdentityDocumentField extends S.Class<IdentityDocumentField>(
-  "IdentityDocumentField",
-)({
-  Type: S.optional(AnalyzeIDDetections),
-  ValueDetection: S.optional(AnalyzeIDDetections),
-}) {}
+export interface HumanLoopActivationOutput {
+  HumanLoopArn?: string;
+  HumanLoopActivationReasons?: HumanLoopActivationReasons;
+  HumanLoopActivationConditionsEvaluationResults?: string;
+}
+export const HumanLoopActivationOutput = S.suspend(() =>
+  S.Struct({
+    HumanLoopArn: S.optional(S.String),
+    HumanLoopActivationReasons: S.optional(HumanLoopActivationReasons),
+    HumanLoopActivationConditionsEvaluationResults: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "HumanLoopActivationOutput",
+}) as any as S.Schema<HumanLoopActivationOutput>;
+export interface LendingSummary {
+  DocumentGroups?: DocumentGroupList;
+  UndetectedDocumentTypes?: UndetectedDocumentTypeList;
+}
+export const LendingSummary = S.suspend(() =>
+  S.Struct({
+    DocumentGroups: S.optional(DocumentGroupList),
+    UndetectedDocumentTypes: S.optional(UndetectedDocumentTypeList),
+  }),
+).annotations({
+  identifier: "LendingSummary",
+}) as any as S.Schema<LendingSummary>;
+export interface AnalyzeIDDetections {
+  Text: string;
+  NormalizedValue?: NormalizedValue;
+  Confidence?: number;
+}
+export const AnalyzeIDDetections = S.suspend(() =>
+  S.Struct({
+    Text: S.String,
+    NormalizedValue: S.optional(NormalizedValue),
+    Confidence: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "AnalyzeIDDetections",
+}) as any as S.Schema<AnalyzeIDDetections>;
+export interface AnalyzeDocumentResponse {
+  DocumentMetadata?: DocumentMetadata;
+  Blocks?: BlockList;
+  HumanLoopActivationOutput?: HumanLoopActivationOutput;
+  AnalyzeDocumentModelVersion?: string;
+}
+export const AnalyzeDocumentResponse = S.suspend(() =>
+  S.Struct({
+    DocumentMetadata: S.optional(DocumentMetadata),
+    Blocks: S.optional(BlockList),
+    HumanLoopActivationOutput: S.optional(HumanLoopActivationOutput),
+    AnalyzeDocumentModelVersion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AnalyzeDocumentResponse",
+}) as any as S.Schema<AnalyzeDocumentResponse>;
+export interface AnalyzeExpenseResponse {
+  DocumentMetadata?: DocumentMetadata;
+  ExpenseDocuments?: ExpenseDocumentList;
+}
+export const AnalyzeExpenseResponse = S.suspend(() =>
+  S.Struct({
+    DocumentMetadata: S.optional(DocumentMetadata),
+    ExpenseDocuments: S.optional(ExpenseDocumentList),
+  }),
+).annotations({
+  identifier: "AnalyzeExpenseResponse",
+}) as any as S.Schema<AnalyzeExpenseResponse>;
+export interface DetectDocumentTextResponse {
+  DocumentMetadata?: DocumentMetadata;
+  Blocks?: BlockList;
+  DetectDocumentTextModelVersion?: string;
+}
+export const DetectDocumentTextResponse = S.suspend(() =>
+  S.Struct({
+    DocumentMetadata: S.optional(DocumentMetadata),
+    Blocks: S.optional(BlockList),
+    DetectDocumentTextModelVersion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DetectDocumentTextResponse",
+}) as any as S.Schema<DetectDocumentTextResponse>;
+export interface GetLendingAnalysisSummaryResponse {
+  DocumentMetadata?: DocumentMetadata;
+  JobStatus?: string;
+  Summary?: LendingSummary;
+  Warnings?: Warnings;
+  StatusMessage?: string;
+  AnalyzeLendingModelVersion?: string;
+}
+export const GetLendingAnalysisSummaryResponse = S.suspend(() =>
+  S.Struct({
+    DocumentMetadata: S.optional(DocumentMetadata),
+    JobStatus: S.optional(S.String),
+    Summary: S.optional(LendingSummary),
+    Warnings: S.optional(Warnings),
+    StatusMessage: S.optional(S.String),
+    AnalyzeLendingModelVersion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetLendingAnalysisSummaryResponse",
+}) as any as S.Schema<GetLendingAnalysisSummaryResponse>;
+export interface IdentityDocumentField {
+  Type?: AnalyzeIDDetections;
+  ValueDetection?: AnalyzeIDDetections;
+}
+export const IdentityDocumentField = S.suspend(() =>
+  S.Struct({
+    Type: S.optional(AnalyzeIDDetections),
+    ValueDetection: S.optional(AnalyzeIDDetections),
+  }),
+).annotations({
+  identifier: "IdentityDocumentField",
+}) as any as S.Schema<IdentityDocumentField>;
+export type IdentityDocumentFieldList = IdentityDocumentField[];
 export const IdentityDocumentFieldList = S.Array(IdentityDocumentField);
-export class LendingField extends S.Class<LendingField>("LendingField")({
-  Type: S.optional(S.String),
-  KeyDetection: S.optional(LendingDetection),
-  ValueDetections: S.optional(LendingDetectionList),
-}) {}
+export interface LendingField {
+  Type?: string;
+  KeyDetection?: LendingDetection;
+  ValueDetections?: LendingDetectionList;
+}
+export const LendingField = S.suspend(() =>
+  S.Struct({
+    Type: S.optional(S.String),
+    KeyDetection: S.optional(LendingDetection),
+    ValueDetections: S.optional(LendingDetectionList),
+  }),
+).annotations({ identifier: "LendingField" }) as any as S.Schema<LendingField>;
+export type LendingFieldList = LendingField[];
 export const LendingFieldList = S.Array(LendingField);
-export class IdentityDocument extends S.Class<IdentityDocument>(
-  "IdentityDocument",
-)({
-  DocumentIndex: S.optional(S.Number),
-  IdentityDocumentFields: S.optional(IdentityDocumentFieldList),
-  Blocks: S.optional(BlockList),
-}) {}
+export interface IdentityDocument {
+  DocumentIndex?: number;
+  IdentityDocumentFields?: IdentityDocumentFieldList;
+  Blocks?: BlockList;
+}
+export const IdentityDocument = S.suspend(() =>
+  S.Struct({
+    DocumentIndex: S.optional(S.Number),
+    IdentityDocumentFields: S.optional(IdentityDocumentFieldList),
+    Blocks: S.optional(BlockList),
+  }),
+).annotations({
+  identifier: "IdentityDocument",
+}) as any as S.Schema<IdentityDocument>;
+export type IdentityDocumentList = IdentityDocument[];
 export const IdentityDocumentList = S.Array(IdentityDocument);
-export class LendingDocument extends S.Class<LendingDocument>(
-  "LendingDocument",
-)({
-  LendingFields: S.optional(LendingFieldList),
-  SignatureDetections: S.optional(SignatureDetectionList),
-}) {}
-export class AnalyzeIDResponse extends S.Class<AnalyzeIDResponse>(
-  "AnalyzeIDResponse",
-)({
-  IdentityDocuments: S.optional(IdentityDocumentList),
-  DocumentMetadata: S.optional(DocumentMetadata),
-  AnalyzeIDModelVersion: S.optional(S.String),
-}) {}
-export class Extraction extends S.Class<Extraction>("Extraction")({
-  LendingDocument: S.optional(LendingDocument),
-  ExpenseDocument: S.optional(ExpenseDocument),
-  IdentityDocument: S.optional(IdentityDocument),
-}) {}
+export interface LendingDocument {
+  LendingFields?: LendingFieldList;
+  SignatureDetections?: SignatureDetectionList;
+}
+export const LendingDocument = S.suspend(() =>
+  S.Struct({
+    LendingFields: S.optional(LendingFieldList),
+    SignatureDetections: S.optional(SignatureDetectionList),
+  }),
+).annotations({
+  identifier: "LendingDocument",
+}) as any as S.Schema<LendingDocument>;
+export interface AnalyzeIDResponse {
+  IdentityDocuments?: IdentityDocumentList;
+  DocumentMetadata?: DocumentMetadata;
+  AnalyzeIDModelVersion?: string;
+}
+export const AnalyzeIDResponse = S.suspend(() =>
+  S.Struct({
+    IdentityDocuments: S.optional(IdentityDocumentList),
+    DocumentMetadata: S.optional(DocumentMetadata),
+    AnalyzeIDModelVersion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AnalyzeIDResponse",
+}) as any as S.Schema<AnalyzeIDResponse>;
+export interface Extraction {
+  LendingDocument?: LendingDocument;
+  ExpenseDocument?: ExpenseDocument;
+  IdentityDocument?: IdentityDocument;
+}
+export const Extraction = S.suspend(() =>
+  S.Struct({
+    LendingDocument: S.optional(LendingDocument),
+    ExpenseDocument: S.optional(ExpenseDocument),
+    IdentityDocument: S.optional(IdentityDocument),
+  }),
+).annotations({ identifier: "Extraction" }) as any as S.Schema<Extraction>;
+export type ExtractionList = Extraction[];
 export const ExtractionList = S.Array(Extraction);
-export class LendingResult extends S.Class<LendingResult>("LendingResult")({
-  Page: S.optional(S.Number),
-  PageClassification: S.optional(PageClassification),
-  Extractions: S.optional(ExtractionList),
-}) {}
+export interface LendingResult {
+  Page?: number;
+  PageClassification?: PageClassification;
+  Extractions?: ExtractionList;
+}
+export const LendingResult = S.suspend(() =>
+  S.Struct({
+    Page: S.optional(S.Number),
+    PageClassification: S.optional(PageClassification),
+    Extractions: S.optional(ExtractionList),
+  }),
+).annotations({
+  identifier: "LendingResult",
+}) as any as S.Schema<LendingResult>;
+export type LendingResultList = LendingResult[];
 export const LendingResultList = S.Array(LendingResult);
-export class GetLendingAnalysisResponse extends S.Class<GetLendingAnalysisResponse>(
-  "GetLendingAnalysisResponse",
-)({
-  DocumentMetadata: S.optional(DocumentMetadata),
-  JobStatus: S.optional(S.String),
-  NextToken: S.optional(S.String),
-  Results: S.optional(LendingResultList),
-  Warnings: S.optional(Warnings),
-  StatusMessage: S.optional(S.String),
-  AnalyzeLendingModelVersion: S.optional(S.String),
-}) {}
+export interface GetLendingAnalysisResponse {
+  DocumentMetadata?: DocumentMetadata;
+  JobStatus?: string;
+  NextToken?: string;
+  Results?: LendingResultList;
+  Warnings?: Warnings;
+  StatusMessage?: string;
+  AnalyzeLendingModelVersion?: string;
+}
+export const GetLendingAnalysisResponse = S.suspend(() =>
+  S.Struct({
+    DocumentMetadata: S.optional(DocumentMetadata),
+    JobStatus: S.optional(S.String),
+    NextToken: S.optional(S.String),
+    Results: S.optional(LendingResultList),
+    Warnings: S.optional(Warnings),
+    StatusMessage: S.optional(S.String),
+    AnalyzeLendingModelVersion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetLendingAnalysisResponse",
+}) as any as S.Schema<GetLendingAnalysisResponse>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

@@ -242,102 +242,196 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class DeleteReportDefinitionRequest extends S.Class<DeleteReportDefinitionRequest>(
-  "DeleteReportDefinitionRequest",
-)(
-  { ReportName: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeReportDefinitionsRequest extends S.Class<DescribeReportDefinitionsRequest>(
-  "DescribeReportDefinitionsRequest",
-)(
-  { MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { ReportName: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class Tag extends S.Class<Tag>("Tag")({
-  Key: S.String,
-  Value: S.String,
-}) {}
+export interface DeleteReportDefinitionRequest {
+  ReportName: string;
+}
+export const DeleteReportDefinitionRequest = S.suspend(() =>
+  S.Struct({ ReportName: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteReportDefinitionRequest",
+}) as any as S.Schema<DeleteReportDefinitionRequest>;
+export interface DescribeReportDefinitionsRequest {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const DescribeReportDefinitionsRequest = S.suspend(() =>
+  S.Struct({
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeReportDefinitionsRequest",
+}) as any as S.Schema<DescribeReportDefinitionsRequest>;
+export interface ListTagsForResourceRequest {
+  ReportName: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ ReportName: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface Tag {
+  Key: string;
+  Value: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ Key: S.String, Value: S.String }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagList = Tag[];
 export const TagList = S.Array(Tag);
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { ReportName: S.String, Tags: TagList },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  { ReportName: S.String, TagKeys: TagKeyList },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
+export interface TagResourceRequest {
+  ReportName: string;
+  Tags: TagList;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ ReportName: S.String, Tags: TagList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UntagResourceRequest {
+  ReportName: string;
+  TagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({ ReportName: S.String, TagKeys: TagKeyList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export type SchemaElementList = string[];
 export const SchemaElementList = S.Array(S.String);
+export type AdditionalArtifactList = string[];
 export const AdditionalArtifactList = S.Array(S.String);
-export class ReportStatus extends S.Class<ReportStatus>("ReportStatus")({
-  lastDelivery: S.optional(S.String),
-  lastStatus: S.optional(S.String),
-}) {}
-export class ReportDefinition extends S.Class<ReportDefinition>(
-  "ReportDefinition",
-)({
-  ReportName: S.String,
-  TimeUnit: S.String,
-  Format: S.String,
-  Compression: S.String,
-  AdditionalSchemaElements: SchemaElementList,
-  S3Bucket: S.String,
-  S3Prefix: S.String,
-  S3Region: S.String,
-  AdditionalArtifacts: S.optional(AdditionalArtifactList),
-  RefreshClosedReports: S.optional(S.Boolean),
-  ReportVersioning: S.optional(S.String),
-  BillingViewArn: S.optional(S.String),
-  ReportStatus: S.optional(ReportStatus),
-}) {}
+export interface ReportStatus {
+  lastDelivery?: string;
+  lastStatus?: string;
+}
+export const ReportStatus = S.suspend(() =>
+  S.Struct({
+    lastDelivery: S.optional(S.String),
+    lastStatus: S.optional(S.String),
+  }),
+).annotations({ identifier: "ReportStatus" }) as any as S.Schema<ReportStatus>;
+export interface ReportDefinition {
+  ReportName: string;
+  TimeUnit: string;
+  Format: string;
+  Compression: string;
+  AdditionalSchemaElements: SchemaElementList;
+  S3Bucket: string;
+  S3Prefix: string;
+  S3Region: string;
+  AdditionalArtifacts?: AdditionalArtifactList;
+  RefreshClosedReports?: boolean;
+  ReportVersioning?: string;
+  BillingViewArn?: string;
+  ReportStatus?: ReportStatus;
+}
+export const ReportDefinition = S.suspend(() =>
+  S.Struct({
+    ReportName: S.String,
+    TimeUnit: S.String,
+    Format: S.String,
+    Compression: S.String,
+    AdditionalSchemaElements: SchemaElementList,
+    S3Bucket: S.String,
+    S3Prefix: S.String,
+    S3Region: S.String,
+    AdditionalArtifacts: S.optional(AdditionalArtifactList),
+    RefreshClosedReports: S.optional(S.Boolean),
+    ReportVersioning: S.optional(S.String),
+    BillingViewArn: S.optional(S.String),
+    ReportStatus: S.optional(ReportStatus),
+  }),
+).annotations({
+  identifier: "ReportDefinition",
+}) as any as S.Schema<ReportDefinition>;
+export type ReportDefinitionList = ReportDefinition[];
 export const ReportDefinitionList = S.Array(ReportDefinition);
-export class DeleteReportDefinitionResponse extends S.Class<DeleteReportDefinitionResponse>(
-  "DeleteReportDefinitionResponse",
-)({ ResponseMessage: S.optional(S.String) }) {}
-export class DescribeReportDefinitionsResponse extends S.Class<DescribeReportDefinitionsResponse>(
-  "DescribeReportDefinitionsResponse",
-)({
-  ReportDefinitions: S.optional(ReportDefinitionList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ Tags: S.optional(TagList) }) {}
-export class PutReportDefinitionRequest extends S.Class<PutReportDefinitionRequest>(
-  "PutReportDefinitionRequest",
-)(
-  { ReportDefinition: ReportDefinition, Tags: S.optional(TagList) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutReportDefinitionResponse extends S.Class<PutReportDefinitionResponse>(
-  "PutReportDefinitionResponse",
-)({}) {}
-export class ModifyReportDefinitionRequest extends S.Class<ModifyReportDefinitionRequest>(
-  "ModifyReportDefinitionRequest",
-)(
-  { ReportName: S.String, ReportDefinition: ReportDefinition },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ModifyReportDefinitionResponse extends S.Class<ModifyReportDefinitionResponse>(
-  "ModifyReportDefinitionResponse",
-)({}) {}
+export interface DeleteReportDefinitionResponse {
+  ResponseMessage?: string;
+}
+export const DeleteReportDefinitionResponse = S.suspend(() =>
+  S.Struct({ ResponseMessage: S.optional(S.String) }),
+).annotations({
+  identifier: "DeleteReportDefinitionResponse",
+}) as any as S.Schema<DeleteReportDefinitionResponse>;
+export interface DescribeReportDefinitionsResponse {
+  ReportDefinitions?: ReportDefinitionList;
+  NextToken?: string;
+}
+export const DescribeReportDefinitionsResponse = S.suspend(() =>
+  S.Struct({
+    ReportDefinitions: S.optional(ReportDefinitionList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DescribeReportDefinitionsResponse",
+}) as any as S.Schema<DescribeReportDefinitionsResponse>;
+export interface ListTagsForResourceResponse {
+  Tags?: TagList;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ Tags: S.optional(TagList) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface PutReportDefinitionRequest {
+  ReportDefinition: ReportDefinition;
+  Tags?: TagList;
+}
+export const PutReportDefinitionRequest = S.suspend(() =>
+  S.Struct({
+    ReportDefinition: ReportDefinition,
+    Tags: S.optional(TagList),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "PutReportDefinitionRequest",
+}) as any as S.Schema<PutReportDefinitionRequest>;
+export interface PutReportDefinitionResponse {}
+export const PutReportDefinitionResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "PutReportDefinitionResponse",
+}) as any as S.Schema<PutReportDefinitionResponse>;
+export interface ModifyReportDefinitionRequest {
+  ReportName: string;
+  ReportDefinition: ReportDefinition;
+}
+export const ModifyReportDefinitionRequest = S.suspend(() =>
+  S.Struct({ ReportName: S.String, ReportDefinition: ReportDefinition }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ModifyReportDefinitionRequest",
+}) as any as S.Schema<ModifyReportDefinitionRequest>;
+export interface ModifyReportDefinitionResponse {}
+export const ModifyReportDefinitionResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "ModifyReportDefinitionResponse",
+}) as any as S.Schema<ModifyReportDefinitionResponse>;
 
 //# Errors
 export class InternalErrorException extends S.TaggedError<InternalErrorException>()(

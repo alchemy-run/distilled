@@ -291,336 +291,574 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type ResourceTypesInput = string[];
 export const ResourceTypesInput = S.Array(S.String);
+export type TagKeys = string[];
 export const TagKeys = S.Array(S.String);
+export type TagMapInput = { [key: string]: string };
 export const TagMapInput = S.Record({ key: S.String, value: S.String });
-export class CreateSinkInput extends S.Class<CreateSinkInput>(
-  "CreateSinkInput",
-)(
-  { Name: S.String, Tags: S.optional(TagMapInput) },
-  T.all(
-    T.Http({ method: "POST", uri: "/CreateSink" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface CreateSinkInput {
+  Name: string;
+  Tags?: TagMapInput;
+}
+export const CreateSinkInput = S.suspend(() =>
+  S.Struct({ Name: S.String, Tags: S.optional(TagMapInput) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/CreateSink" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteLinkInput extends S.Class<DeleteLinkInput>(
-  "DeleteLinkInput",
-)(
-  { Identifier: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/DeleteLink" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CreateSinkInput",
+}) as any as S.Schema<CreateSinkInput>;
+export interface DeleteLinkInput {
+  Identifier: string;
+}
+export const DeleteLinkInput = S.suspend(() =>
+  S.Struct({ Identifier: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/DeleteLink" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteLinkOutput extends S.Class<DeleteLinkOutput>(
-  "DeleteLinkOutput",
-)({}) {}
-export class DeleteSinkInput extends S.Class<DeleteSinkInput>(
-  "DeleteSinkInput",
-)(
-  { Identifier: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/DeleteSink" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteLinkInput",
+}) as any as S.Schema<DeleteLinkInput>;
+export interface DeleteLinkOutput {}
+export const DeleteLinkOutput = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteLinkOutput",
+}) as any as S.Schema<DeleteLinkOutput>;
+export interface DeleteSinkInput {
+  Identifier: string;
+}
+export const DeleteSinkInput = S.suspend(() =>
+  S.Struct({ Identifier: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/DeleteSink" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteSinkOutput extends S.Class<DeleteSinkOutput>(
-  "DeleteSinkOutput",
-)({}) {}
-export class GetLinkInput extends S.Class<GetLinkInput>("GetLinkInput")(
-  { Identifier: S.String, IncludeTags: S.optional(S.Boolean) },
-  T.all(
-    T.Http({ method: "POST", uri: "/GetLink" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteSinkInput",
+}) as any as S.Schema<DeleteSinkInput>;
+export interface DeleteSinkOutput {}
+export const DeleteSinkOutput = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteSinkOutput",
+}) as any as S.Schema<DeleteSinkOutput>;
+export interface GetLinkInput {
+  Identifier: string;
+  IncludeTags?: boolean;
+}
+export const GetLinkInput = S.suspend(() =>
+  S.Struct({ Identifier: S.String, IncludeTags: S.optional(S.Boolean) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/GetLink" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetSinkInput extends S.Class<GetSinkInput>("GetSinkInput")(
-  { Identifier: S.String, IncludeTags: S.optional(S.Boolean) },
-  T.all(
-    T.Http({ method: "POST", uri: "/GetSink" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({ identifier: "GetLinkInput" }) as any as S.Schema<GetLinkInput>;
+export interface GetSinkInput {
+  Identifier: string;
+  IncludeTags?: boolean;
+}
+export const GetSinkInput = S.suspend(() =>
+  S.Struct({ Identifier: S.String, IncludeTags: S.optional(S.Boolean) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/GetSink" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetSinkPolicyInput extends S.Class<GetSinkPolicyInput>(
-  "GetSinkPolicyInput",
-)(
-  { SinkIdentifier: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/GetSinkPolicy" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({ identifier: "GetSinkInput" }) as any as S.Schema<GetSinkInput>;
+export interface GetSinkPolicyInput {
+  SinkIdentifier: string;
+}
+export const GetSinkPolicyInput = S.suspend(() =>
+  S.Struct({ SinkIdentifier: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/GetSinkPolicy" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListAttachedLinksInput extends S.Class<ListAttachedLinksInput>(
-  "ListAttachedLinksInput",
-)(
-  {
+).annotations({
+  identifier: "GetSinkPolicyInput",
+}) as any as S.Schema<GetSinkPolicyInput>;
+export interface ListAttachedLinksInput {
+  MaxResults?: number;
+  NextToken?: string;
+  SinkIdentifier: string;
+}
+export const ListAttachedLinksInput = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     SinkIdentifier: S.String,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/ListAttachedLinks" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ListAttachedLinks" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListLinksInput extends S.Class<ListLinksInput>("ListLinksInput")(
-  { MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/ListLinks" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListAttachedLinksInput",
+}) as any as S.Schema<ListAttachedLinksInput>;
+export interface ListLinksInput {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListLinksInput = S.suspend(() =>
+  S.Struct({
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ListLinks" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListSinksInput extends S.Class<ListSinksInput>("ListSinksInput")(
-  { MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/ListSinks" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListLinksInput",
+}) as any as S.Schema<ListLinksInput>;
+export interface ListSinksInput {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListSinksInput = S.suspend(() =>
+  S.Struct({
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ListSinks" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTagsForResourceInput extends S.Class<ListTagsForResourceInput>(
-  "ListTagsForResourceInput",
-)(
-  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListSinksInput",
+}) as any as S.Schema<ListSinksInput>;
+export interface ListTagsForResourceInput {
+  ResourceArn: string;
+}
+export const ListTagsForResourceInput = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutSinkPolicyInput extends S.Class<PutSinkPolicyInput>(
-  "PutSinkPolicyInput",
-)(
-  { SinkIdentifier: S.String, Policy: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/PutSinkPolicy" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListTagsForResourceInput",
+}) as any as S.Schema<ListTagsForResourceInput>;
+export interface PutSinkPolicyInput {
+  SinkIdentifier: string;
+  Policy: string;
+}
+export const PutSinkPolicyInput = S.suspend(() =>
+  S.Struct({ SinkIdentifier: S.String, Policy: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/PutSinkPolicy" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceInput extends S.Class<TagResourceInput>(
-  "TagResourceInput",
-)(
-  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")), Tags: TagMapInput },
-  T.all(
-    T.Http({ method: "PUT", uri: "/tags/{ResourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "PutSinkPolicyInput",
+}) as any as S.Schema<PutSinkPolicyInput>;
+export interface TagResourceInput {
+  ResourceArn: string;
+  Tags: TagMapInput;
+}
+export const TagResourceInput = S.suspend(() =>
+  S.Struct({
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
+    Tags: TagMapInput,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceOutput extends S.Class<TagResourceOutput>(
-  "TagResourceOutput",
-)({}) {}
-export class UntagResourceInput extends S.Class<UntagResourceInput>(
-  "UntagResourceInput",
-)(
-  {
+).annotations({
+  identifier: "TagResourceInput",
+}) as any as S.Schema<TagResourceInput>;
+export interface TagResourceOutput {}
+export const TagResourceOutput = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceOutput",
+}) as any as S.Schema<TagResourceOutput>;
+export interface UntagResourceInput {
+  ResourceArn: string;
+  TagKeys: TagKeys;
+}
+export const UntagResourceInput = S.suspend(() =>
+  S.Struct({
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceOutput extends S.Class<UntagResourceOutput>(
-  "UntagResourceOutput",
-)({}) {}
-export class LogGroupConfiguration extends S.Class<LogGroupConfiguration>(
-  "LogGroupConfiguration",
-)({ Filter: S.String }) {}
-export class MetricConfiguration extends S.Class<MetricConfiguration>(
-  "MetricConfiguration",
-)({ Filter: S.String }) {}
-export class LinkConfiguration extends S.Class<LinkConfiguration>(
-  "LinkConfiguration",
-)({
-  LogGroupConfiguration: S.optional(LogGroupConfiguration),
-  MetricConfiguration: S.optional(MetricConfiguration),
-}) {}
-export class UpdateLinkInput extends S.Class<UpdateLinkInput>(
-  "UpdateLinkInput",
-)(
-  {
+).annotations({
+  identifier: "UntagResourceInput",
+}) as any as S.Schema<UntagResourceInput>;
+export interface UntagResourceOutput {}
+export const UntagResourceOutput = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceOutput",
+}) as any as S.Schema<UntagResourceOutput>;
+export interface LogGroupConfiguration {
+  Filter: string;
+}
+export const LogGroupConfiguration = S.suspend(() =>
+  S.Struct({ Filter: S.String }),
+).annotations({
+  identifier: "LogGroupConfiguration",
+}) as any as S.Schema<LogGroupConfiguration>;
+export interface MetricConfiguration {
+  Filter: string;
+}
+export const MetricConfiguration = S.suspend(() =>
+  S.Struct({ Filter: S.String }),
+).annotations({
+  identifier: "MetricConfiguration",
+}) as any as S.Schema<MetricConfiguration>;
+export interface LinkConfiguration {
+  LogGroupConfiguration?: LogGroupConfiguration;
+  MetricConfiguration?: MetricConfiguration;
+}
+export const LinkConfiguration = S.suspend(() =>
+  S.Struct({
+    LogGroupConfiguration: S.optional(LogGroupConfiguration),
+    MetricConfiguration: S.optional(MetricConfiguration),
+  }),
+).annotations({
+  identifier: "LinkConfiguration",
+}) as any as S.Schema<LinkConfiguration>;
+export interface UpdateLinkInput {
+  Identifier: string;
+  ResourceTypes: ResourceTypesInput;
+  LinkConfiguration?: LinkConfiguration;
+  IncludeTags?: boolean;
+}
+export const UpdateLinkInput = S.suspend(() =>
+  S.Struct({
     Identifier: S.String,
     ResourceTypes: ResourceTypesInput,
     LinkConfiguration: S.optional(LinkConfiguration),
     IncludeTags: S.optional(S.Boolean),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/UpdateLink" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/UpdateLink" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "UpdateLinkInput",
+}) as any as S.Schema<UpdateLinkInput>;
+export type ResourceTypesOutput = string[];
 export const ResourceTypesOutput = S.Array(S.String);
+export type TagMapOutput = { [key: string]: string };
 export const TagMapOutput = S.Record({ key: S.String, value: S.String });
-export class GetLinkOutput extends S.Class<GetLinkOutput>("GetLinkOutput")({
-  Arn: S.optional(S.String),
-  Id: S.optional(S.String),
-  Label: S.optional(S.String),
-  LabelTemplate: S.optional(S.String),
-  ResourceTypes: S.optional(ResourceTypesOutput),
-  SinkArn: S.optional(S.String),
-  Tags: S.optional(TagMapOutput),
-  LinkConfiguration: S.optional(LinkConfiguration),
-}) {}
-export class GetSinkOutput extends S.Class<GetSinkOutput>("GetSinkOutput")({
-  Arn: S.optional(S.String),
-  Id: S.optional(S.String),
-  Name: S.optional(S.String),
-  Tags: S.optional(TagMapOutput),
-}) {}
-export class GetSinkPolicyOutput extends S.Class<GetSinkPolicyOutput>(
-  "GetSinkPolicyOutput",
-)({
-  SinkArn: S.optional(S.String),
-  SinkId: S.optional(S.String),
-  Policy: S.optional(S.String),
-}) {}
-export class ListTagsForResourceOutput extends S.Class<ListTagsForResourceOutput>(
-  "ListTagsForResourceOutput",
-)({ Tags: S.optional(TagMapOutput) }) {}
-export class PutSinkPolicyOutput extends S.Class<PutSinkPolicyOutput>(
-  "PutSinkPolicyOutput",
-)({
-  SinkArn: S.optional(S.String),
-  SinkId: S.optional(S.String),
-  Policy: S.optional(S.String),
-}) {}
-export class UpdateLinkOutput extends S.Class<UpdateLinkOutput>(
-  "UpdateLinkOutput",
-)({
-  Arn: S.optional(S.String),
-  Id: S.optional(S.String),
-  Label: S.optional(S.String),
-  LabelTemplate: S.optional(S.String),
-  ResourceTypes: S.optional(ResourceTypesOutput),
-  SinkArn: S.optional(S.String),
-  Tags: S.optional(TagMapOutput),
-  LinkConfiguration: S.optional(LinkConfiguration),
-}) {}
-export class ListAttachedLinksItem extends S.Class<ListAttachedLinksItem>(
-  "ListAttachedLinksItem",
-)({
-  Label: S.optional(S.String),
-  LinkArn: S.optional(S.String),
-  ResourceTypes: S.optional(ResourceTypesOutput),
-}) {}
+export interface GetLinkOutput {
+  Arn?: string;
+  Id?: string;
+  Label?: string;
+  LabelTemplate?: string;
+  ResourceTypes?: ResourceTypesOutput;
+  SinkArn?: string;
+  Tags?: TagMapOutput;
+  LinkConfiguration?: LinkConfiguration;
+}
+export const GetLinkOutput = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    Id: S.optional(S.String),
+    Label: S.optional(S.String),
+    LabelTemplate: S.optional(S.String),
+    ResourceTypes: S.optional(ResourceTypesOutput),
+    SinkArn: S.optional(S.String),
+    Tags: S.optional(TagMapOutput),
+    LinkConfiguration: S.optional(LinkConfiguration),
+  }),
+).annotations({
+  identifier: "GetLinkOutput",
+}) as any as S.Schema<GetLinkOutput>;
+export interface GetSinkOutput {
+  Arn?: string;
+  Id?: string;
+  Name?: string;
+  Tags?: TagMapOutput;
+}
+export const GetSinkOutput = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    Id: S.optional(S.String),
+    Name: S.optional(S.String),
+    Tags: S.optional(TagMapOutput),
+  }),
+).annotations({
+  identifier: "GetSinkOutput",
+}) as any as S.Schema<GetSinkOutput>;
+export interface GetSinkPolicyOutput {
+  SinkArn?: string;
+  SinkId?: string;
+  Policy?: string;
+}
+export const GetSinkPolicyOutput = S.suspend(() =>
+  S.Struct({
+    SinkArn: S.optional(S.String),
+    SinkId: S.optional(S.String),
+    Policy: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetSinkPolicyOutput",
+}) as any as S.Schema<GetSinkPolicyOutput>;
+export interface ListTagsForResourceOutput {
+  Tags?: TagMapOutput;
+}
+export const ListTagsForResourceOutput = S.suspend(() =>
+  S.Struct({ Tags: S.optional(TagMapOutput) }),
+).annotations({
+  identifier: "ListTagsForResourceOutput",
+}) as any as S.Schema<ListTagsForResourceOutput>;
+export interface PutSinkPolicyOutput {
+  SinkArn?: string;
+  SinkId?: string;
+  Policy?: string;
+}
+export const PutSinkPolicyOutput = S.suspend(() =>
+  S.Struct({
+    SinkArn: S.optional(S.String),
+    SinkId: S.optional(S.String),
+    Policy: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "PutSinkPolicyOutput",
+}) as any as S.Schema<PutSinkPolicyOutput>;
+export interface UpdateLinkOutput {
+  Arn?: string;
+  Id?: string;
+  Label?: string;
+  LabelTemplate?: string;
+  ResourceTypes?: ResourceTypesOutput;
+  SinkArn?: string;
+  Tags?: TagMapOutput;
+  LinkConfiguration?: LinkConfiguration;
+}
+export const UpdateLinkOutput = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    Id: S.optional(S.String),
+    Label: S.optional(S.String),
+    LabelTemplate: S.optional(S.String),
+    ResourceTypes: S.optional(ResourceTypesOutput),
+    SinkArn: S.optional(S.String),
+    Tags: S.optional(TagMapOutput),
+    LinkConfiguration: S.optional(LinkConfiguration),
+  }),
+).annotations({
+  identifier: "UpdateLinkOutput",
+}) as any as S.Schema<UpdateLinkOutput>;
+export interface ListAttachedLinksItem {
+  Label?: string;
+  LinkArn?: string;
+  ResourceTypes?: ResourceTypesOutput;
+}
+export const ListAttachedLinksItem = S.suspend(() =>
+  S.Struct({
+    Label: S.optional(S.String),
+    LinkArn: S.optional(S.String),
+    ResourceTypes: S.optional(ResourceTypesOutput),
+  }),
+).annotations({
+  identifier: "ListAttachedLinksItem",
+}) as any as S.Schema<ListAttachedLinksItem>;
+export type ListAttachedLinksItems = ListAttachedLinksItem[];
 export const ListAttachedLinksItems = S.Array(ListAttachedLinksItem);
-export class ListLinksItem extends S.Class<ListLinksItem>("ListLinksItem")({
-  Arn: S.optional(S.String),
-  Id: S.optional(S.String),
-  Label: S.optional(S.String),
-  ResourceTypes: S.optional(ResourceTypesOutput),
-  SinkArn: S.optional(S.String),
-}) {}
+export interface ListLinksItem {
+  Arn?: string;
+  Id?: string;
+  Label?: string;
+  ResourceTypes?: ResourceTypesOutput;
+  SinkArn?: string;
+}
+export const ListLinksItem = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    Id: S.optional(S.String),
+    Label: S.optional(S.String),
+    ResourceTypes: S.optional(ResourceTypesOutput),
+    SinkArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListLinksItem",
+}) as any as S.Schema<ListLinksItem>;
+export type ListLinksItems = ListLinksItem[];
 export const ListLinksItems = S.Array(ListLinksItem);
-export class ListSinksItem extends S.Class<ListSinksItem>("ListSinksItem")({
-  Arn: S.optional(S.String),
-  Id: S.optional(S.String),
-  Name: S.optional(S.String),
-}) {}
+export interface ListSinksItem {
+  Arn?: string;
+  Id?: string;
+  Name?: string;
+}
+export const ListSinksItem = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    Id: S.optional(S.String),
+    Name: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListSinksItem",
+}) as any as S.Schema<ListSinksItem>;
+export type ListSinksItems = ListSinksItem[];
 export const ListSinksItems = S.Array(ListSinksItem);
-export class CreateLinkInput extends S.Class<CreateLinkInput>(
-  "CreateLinkInput",
-)(
-  {
+export interface CreateLinkInput {
+  LabelTemplate: string;
+  ResourceTypes: ResourceTypesInput;
+  SinkIdentifier: string;
+  Tags?: TagMapInput;
+  LinkConfiguration?: LinkConfiguration;
+}
+export const CreateLinkInput = S.suspend(() =>
+  S.Struct({
     LabelTemplate: S.String,
     ResourceTypes: ResourceTypesInput,
     SinkIdentifier: S.String,
     Tags: S.optional(TagMapInput),
     LinkConfiguration: S.optional(LinkConfiguration),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/CreateLink" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/CreateLink" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateSinkOutput extends S.Class<CreateSinkOutput>(
-  "CreateSinkOutput",
-)({
-  Arn: S.optional(S.String),
-  Id: S.optional(S.String),
-  Name: S.optional(S.String),
-  Tags: S.optional(TagMapOutput),
-}) {}
-export class ListAttachedLinksOutput extends S.Class<ListAttachedLinksOutput>(
-  "ListAttachedLinksOutput",
-)({ Items: ListAttachedLinksItems, NextToken: S.optional(S.String) }) {}
-export class ListLinksOutput extends S.Class<ListLinksOutput>(
-  "ListLinksOutput",
-)({ Items: ListLinksItems, NextToken: S.optional(S.String) }) {}
-export class ListSinksOutput extends S.Class<ListSinksOutput>(
-  "ListSinksOutput",
-)({ Items: ListSinksItems, NextToken: S.optional(S.String) }) {}
-export class CreateLinkOutput extends S.Class<CreateLinkOutput>(
-  "CreateLinkOutput",
-)({
-  Arn: S.optional(S.String),
-  Id: S.optional(S.String),
-  Label: S.optional(S.String),
-  LabelTemplate: S.optional(S.String),
-  ResourceTypes: S.optional(ResourceTypesOutput),
-  SinkArn: S.optional(S.String),
-  Tags: S.optional(TagMapOutput),
-  LinkConfiguration: S.optional(LinkConfiguration),
-}) {}
+).annotations({
+  identifier: "CreateLinkInput",
+}) as any as S.Schema<CreateLinkInput>;
+export interface CreateSinkOutput {
+  Arn?: string;
+  Id?: string;
+  Name?: string;
+  Tags?: TagMapOutput;
+}
+export const CreateSinkOutput = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    Id: S.optional(S.String),
+    Name: S.optional(S.String),
+    Tags: S.optional(TagMapOutput),
+  }),
+).annotations({
+  identifier: "CreateSinkOutput",
+}) as any as S.Schema<CreateSinkOutput>;
+export interface ListAttachedLinksOutput {
+  Items: ListAttachedLinksItems;
+  NextToken?: string;
+}
+export const ListAttachedLinksOutput = S.suspend(() =>
+  S.Struct({ Items: ListAttachedLinksItems, NextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListAttachedLinksOutput",
+}) as any as S.Schema<ListAttachedLinksOutput>;
+export interface ListLinksOutput {
+  Items: ListLinksItems;
+  NextToken?: string;
+}
+export const ListLinksOutput = S.suspend(() =>
+  S.Struct({ Items: ListLinksItems, NextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListLinksOutput",
+}) as any as S.Schema<ListLinksOutput>;
+export interface ListSinksOutput {
+  Items: ListSinksItems;
+  NextToken?: string;
+}
+export const ListSinksOutput = S.suspend(() =>
+  S.Struct({ Items: ListSinksItems, NextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListSinksOutput",
+}) as any as S.Schema<ListSinksOutput>;
+export interface CreateLinkOutput {
+  Arn?: string;
+  Id?: string;
+  Label?: string;
+  LabelTemplate?: string;
+  ResourceTypes?: ResourceTypesOutput;
+  SinkArn?: string;
+  Tags?: TagMapOutput;
+  LinkConfiguration?: LinkConfiguration;
+}
+export const CreateLinkOutput = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    Id: S.optional(S.String),
+    Label: S.optional(S.String),
+    LabelTemplate: S.optional(S.String),
+    ResourceTypes: S.optional(ResourceTypesOutput),
+    SinkArn: S.optional(S.String),
+    Tags: S.optional(TagMapOutput),
+    LinkConfiguration: S.optional(LinkConfiguration),
+  }),
+).annotations({
+  identifier: "CreateLinkOutput",
+}) as any as S.Schema<CreateLinkOutput>;
 
 //# Errors
 export class InternalServiceFault extends S.TaggedError<InternalServiceFault>()(

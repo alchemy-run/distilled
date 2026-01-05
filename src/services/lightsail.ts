@@ -242,317 +242,454 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class CreateContainerServiceRegistryLoginRequest extends S.Class<CreateContainerServiceRegistryLoginRequest>(
-  "CreateContainerServiceRegistryLoginRequest",
-)(
-  {},
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/container-registry-login",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface CreateContainerServiceRegistryLoginRequest {}
+export const CreateContainerServiceRegistryLoginRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/container-registry-login",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DownloadDefaultKeyPairRequest extends S.Class<DownloadDefaultKeyPairRequest>(
-  "DownloadDefaultKeyPairRequest",
-)(
-  {},
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/DownloadDefaultKeyPair",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CreateContainerServiceRegistryLoginRequest",
+}) as any as S.Schema<CreateContainerServiceRegistryLoginRequest>;
+export interface DownloadDefaultKeyPairRequest {}
+export const DownloadDefaultKeyPairRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/DownloadDefaultKeyPair",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetContainerAPIMetadataRequest extends S.Class<GetContainerAPIMetadataRequest>(
-  "GetContainerAPIMetadataRequest",
-)(
-  {},
-  T.all(
-    T.Http({ method: "GET", uri: "/ls/api/2016-11-28/container-api-metadata" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DownloadDefaultKeyPairRequest",
+}) as any as S.Schema<DownloadDefaultKeyPairRequest>;
+export interface GetContainerAPIMetadataRequest {}
+export const GetContainerAPIMetadataRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/ls/api/2016-11-28/container-api-metadata",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetContainerServicePowersRequest extends S.Class<GetContainerServicePowersRequest>(
-  "GetContainerServicePowersRequest",
-)(
-  {},
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/ls/api/2016-11-28/container-service-powers",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetContainerAPIMetadataRequest",
+}) as any as S.Schema<GetContainerAPIMetadataRequest>;
+export interface GetContainerServicePowersRequest {}
+export const GetContainerServicePowersRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/ls/api/2016-11-28/container-service-powers",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetDistributionBundlesRequest extends S.Class<GetDistributionBundlesRequest>(
-  "GetDistributionBundlesRequest",
-)(
-  {},
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/GetDistributionBundles",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetContainerServicePowersRequest",
+}) as any as S.Schema<GetContainerServicePowersRequest>;
+export interface GetDistributionBundlesRequest {}
+export const GetDistributionBundlesRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/GetDistributionBundles",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class IsVpcPeeredRequest extends S.Class<IsVpcPeeredRequest>(
-  "IsVpcPeeredRequest",
-)(
-  {},
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/IsVpcPeered" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetDistributionBundlesRequest",
+}) as any as S.Schema<GetDistributionBundlesRequest>;
+export interface IsVpcPeeredRequest {}
+export const IsVpcPeeredRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/IsVpcPeered" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PeerVpcRequest extends S.Class<PeerVpcRequest>("PeerVpcRequest")(
-  {},
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/PeerVpc" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "IsVpcPeeredRequest",
+}) as any as S.Schema<IsVpcPeeredRequest>;
+export interface PeerVpcRequest {}
+export const PeerVpcRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/PeerVpc" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UnpeerVpcRequest extends S.Class<UnpeerVpcRequest>(
-  "UnpeerVpcRequest",
-)(
-  {},
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/UnpeerVpc" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "PeerVpcRequest",
+}) as any as S.Schema<PeerVpcRequest>;
+export interface UnpeerVpcRequest {}
+export const UnpeerVpcRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/UnpeerVpc" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "UnpeerVpcRequest",
+}) as any as S.Schema<UnpeerVpcRequest>;
+export type ResourceNameList = string[];
 export const ResourceNameList = S.Array(S.String);
+export type SubjectAlternativeNameList = string[];
 export const SubjectAlternativeNameList = S.Array(S.String);
+export type StringList = string[];
 export const StringList = S.Array(S.String);
+export type DomainNameList = string[];
 export const DomainNameList = S.Array(S.String);
+export type MetricStatisticList = string[];
 export const MetricStatisticList = S.Array(S.String);
+export type CertificateStatusList = string[];
 export const CertificateStatusList = S.Array(S.String);
+export type ContactProtocolsList = string[];
 export const ContactProtocolsList = S.Array(S.String);
+export type NotificationTriggerList = string[];
 export const NotificationTriggerList = S.Array(S.String);
-export class PortInfo extends S.Class<PortInfo>("PortInfo")({
-  fromPort: S.optional(S.Number),
-  toPort: S.optional(S.Number),
-  protocol: S.optional(S.String),
-  cidrs: S.optional(StringList),
-  ipv6Cidrs: S.optional(StringList),
-  cidrListAliases: S.optional(StringList),
-}) {}
+export interface PortInfo {
+  fromPort?: number;
+  toPort?: number;
+  protocol?: string;
+  cidrs?: StringList;
+  ipv6Cidrs?: StringList;
+  cidrListAliases?: StringList;
+}
+export const PortInfo = S.suspend(() =>
+  S.Struct({
+    fromPort: S.optional(S.Number),
+    toPort: S.optional(S.Number),
+    protocol: S.optional(S.String),
+    cidrs: S.optional(StringList),
+    ipv6Cidrs: S.optional(StringList),
+    cidrListAliases: S.optional(StringList),
+  }),
+).annotations({ identifier: "PortInfo" }) as any as S.Schema<PortInfo>;
+export type PortInfoList = PortInfo[];
 export const PortInfoList = S.Array(PortInfo);
+export type SetupDomainNameList = string[];
 export const SetupDomainNameList = S.Array(S.String);
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
+export type PartnerIdList = string[];
 export const PartnerIdList = S.Array(S.String);
-export class AllocateStaticIpRequest extends S.Class<AllocateStaticIpRequest>(
-  "AllocateStaticIpRequest",
-)(
-  { staticIpName: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/AllocateStaticIp" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface AllocateStaticIpRequest {
+  staticIpName: string;
+}
+export const AllocateStaticIpRequest = S.suspend(() =>
+  S.Struct({ staticIpName: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/AllocateStaticIp" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AttachCertificateToDistributionRequest extends S.Class<AttachCertificateToDistributionRequest>(
-  "AttachCertificateToDistributionRequest",
-)(
-  { distributionName: S.String, certificateName: S.String },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/AttachCertificateToDistribution",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "AllocateStaticIpRequest",
+}) as any as S.Schema<AllocateStaticIpRequest>;
+export interface AttachCertificateToDistributionRequest {
+  distributionName: string;
+  certificateName: string;
+}
+export const AttachCertificateToDistributionRequest = S.suspend(() =>
+  S.Struct({ distributionName: S.String, certificateName: S.String }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/AttachCertificateToDistribution",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AttachDiskRequest extends S.Class<AttachDiskRequest>(
-  "AttachDiskRequest",
-)(
-  {
+).annotations({
+  identifier: "AttachCertificateToDistributionRequest",
+}) as any as S.Schema<AttachCertificateToDistributionRequest>;
+export interface AttachDiskRequest {
+  diskName: string;
+  instanceName: string;
+  diskPath: string;
+  autoMounting?: boolean;
+}
+export const AttachDiskRequest = S.suspend(() =>
+  S.Struct({
     diskName: S.String,
     instanceName: S.String,
     diskPath: S.String,
     autoMounting: S.optional(S.Boolean),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/AttachDisk" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/AttachDisk" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AttachInstancesToLoadBalancerRequest extends S.Class<AttachInstancesToLoadBalancerRequest>(
-  "AttachInstancesToLoadBalancerRequest",
-)(
-  { loadBalancerName: S.String, instanceNames: ResourceNameList },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/AttachInstancesToLoadBalancer",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "AttachDiskRequest",
+}) as any as S.Schema<AttachDiskRequest>;
+export interface AttachInstancesToLoadBalancerRequest {
+  loadBalancerName: string;
+  instanceNames: ResourceNameList;
+}
+export const AttachInstancesToLoadBalancerRequest = S.suspend(() =>
+  S.Struct({
+    loadBalancerName: S.String,
+    instanceNames: ResourceNameList,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/AttachInstancesToLoadBalancer",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AttachLoadBalancerTlsCertificateRequest extends S.Class<AttachLoadBalancerTlsCertificateRequest>(
-  "AttachLoadBalancerTlsCertificateRequest",
-)(
-  { loadBalancerName: S.String, certificateName: S.String },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/AttachLoadBalancerTlsCertificate",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "AttachInstancesToLoadBalancerRequest",
+}) as any as S.Schema<AttachInstancesToLoadBalancerRequest>;
+export interface AttachLoadBalancerTlsCertificateRequest {
+  loadBalancerName: string;
+  certificateName: string;
+}
+export const AttachLoadBalancerTlsCertificateRequest = S.suspend(() =>
+  S.Struct({ loadBalancerName: S.String, certificateName: S.String }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/AttachLoadBalancerTlsCertificate",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AttachStaticIpRequest extends S.Class<AttachStaticIpRequest>(
-  "AttachStaticIpRequest",
-)(
-  { staticIpName: S.String, instanceName: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/AttachStaticIp" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "AttachLoadBalancerTlsCertificateRequest",
+}) as any as S.Schema<AttachLoadBalancerTlsCertificateRequest>;
+export interface AttachStaticIpRequest {
+  staticIpName: string;
+  instanceName: string;
+}
+export const AttachStaticIpRequest = S.suspend(() =>
+  S.Struct({ staticIpName: S.String, instanceName: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/AttachStaticIp" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CopySnapshotRequest extends S.Class<CopySnapshotRequest>(
-  "CopySnapshotRequest",
-)(
-  {
+).annotations({
+  identifier: "AttachStaticIpRequest",
+}) as any as S.Schema<AttachStaticIpRequest>;
+export interface CopySnapshotRequest {
+  sourceSnapshotName?: string;
+  sourceResourceName?: string;
+  restoreDate?: string;
+  useLatestRestorableAutoSnapshot?: boolean;
+  targetSnapshotName: string;
+  sourceRegion: string;
+}
+export const CopySnapshotRequest = S.suspend(() =>
+  S.Struct({
     sourceSnapshotName: S.optional(S.String),
     sourceResourceName: S.optional(S.String),
     restoreDate: S.optional(S.String),
     useLatestRestorableAutoSnapshot: S.optional(S.Boolean),
     targetSnapshotName: S.String,
     sourceRegion: S.String,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/CopySnapshot" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/CopySnapshot" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateBucketAccessKeyRequest extends S.Class<CreateBucketAccessKeyRequest>(
-  "CreateBucketAccessKeyRequest",
-)(
-  { bucketName: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/CreateBucketAccessKey" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CopySnapshotRequest",
+}) as any as S.Schema<CopySnapshotRequest>;
+export interface CreateBucketAccessKeyRequest {
+  bucketName: string;
+}
+export const CreateBucketAccessKeyRequest = S.suspend(() =>
+  S.Struct({ bucketName: S.String }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/CreateBucketAccessKey",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class Tag extends S.Class<Tag>("Tag")({
-  key: S.optional(S.String),
-  value: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "CreateBucketAccessKeyRequest",
+}) as any as S.Schema<CreateBucketAccessKeyRequest>;
+export interface Tag {
+  key?: string;
+  value?: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ key: S.optional(S.String), value: S.optional(S.String) }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagList = Tag[];
 export const TagList = S.Array(Tag);
-export class CreateCertificateRequest extends S.Class<CreateCertificateRequest>(
-  "CreateCertificateRequest",
-)(
-  {
+export interface CreateCertificateRequest {
+  certificateName: string;
+  domainName: string;
+  subjectAlternativeNames?: SubjectAlternativeNameList;
+  tags?: TagList;
+}
+export const CreateCertificateRequest = S.suspend(() =>
+  S.Struct({
     certificateName: S.String,
     domainName: S.String,
     subjectAlternativeNames: S.optional(SubjectAlternativeNameList),
     tags: S.optional(TagList),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/CreateCertificate" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/CreateCertificate" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateContactMethodRequest extends S.Class<CreateContactMethodRequest>(
-  "CreateContactMethodRequest",
-)(
-  { protocol: S.String, contactEndpoint: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/CreateContactMethod" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CreateCertificateRequest",
+}) as any as S.Schema<CreateCertificateRequest>;
+export interface CreateContactMethodRequest {
+  protocol: string;
+  contactEndpoint: string;
+}
+export const CreateContactMethodRequest = S.suspend(() =>
+  S.Struct({ protocol: S.String, contactEndpoint: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/CreateContactMethod" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AutoSnapshotAddOnRequest extends S.Class<AutoSnapshotAddOnRequest>(
-  "AutoSnapshotAddOnRequest",
-)({ snapshotTimeOfDay: S.optional(S.String) }) {}
-export class StopInstanceOnIdleRequest extends S.Class<StopInstanceOnIdleRequest>(
-  "StopInstanceOnIdleRequest",
-)({ threshold: S.optional(S.String), duration: S.optional(S.String) }) {}
-export class AddOnRequest extends S.Class<AddOnRequest>("AddOnRequest")({
-  addOnType: S.String,
-  autoSnapshotAddOnRequest: S.optional(AutoSnapshotAddOnRequest),
-  stopInstanceOnIdleRequest: S.optional(StopInstanceOnIdleRequest),
-}) {}
+).annotations({
+  identifier: "CreateContactMethodRequest",
+}) as any as S.Schema<CreateContactMethodRequest>;
+export interface AutoSnapshotAddOnRequest {
+  snapshotTimeOfDay?: string;
+}
+export const AutoSnapshotAddOnRequest = S.suspend(() =>
+  S.Struct({ snapshotTimeOfDay: S.optional(S.String) }),
+).annotations({
+  identifier: "AutoSnapshotAddOnRequest",
+}) as any as S.Schema<AutoSnapshotAddOnRequest>;
+export interface StopInstanceOnIdleRequest {
+  threshold?: string;
+  duration?: string;
+}
+export const StopInstanceOnIdleRequest = S.suspend(() =>
+  S.Struct({ threshold: S.optional(S.String), duration: S.optional(S.String) }),
+).annotations({
+  identifier: "StopInstanceOnIdleRequest",
+}) as any as S.Schema<StopInstanceOnIdleRequest>;
+export interface AddOnRequest {
+  addOnType: string;
+  autoSnapshotAddOnRequest?: AutoSnapshotAddOnRequest;
+  stopInstanceOnIdleRequest?: StopInstanceOnIdleRequest;
+}
+export const AddOnRequest = S.suspend(() =>
+  S.Struct({
+    addOnType: S.String,
+    autoSnapshotAddOnRequest: S.optional(AutoSnapshotAddOnRequest),
+    stopInstanceOnIdleRequest: S.optional(StopInstanceOnIdleRequest),
+  }),
+).annotations({ identifier: "AddOnRequest" }) as any as S.Schema<AddOnRequest>;
+export type AddOnRequestList = AddOnRequest[];
 export const AddOnRequestList = S.Array(AddOnRequest);
-export class CreateDiskFromSnapshotRequest extends S.Class<CreateDiskFromSnapshotRequest>(
-  "CreateDiskFromSnapshotRequest",
-)(
-  {
+export interface CreateDiskFromSnapshotRequest {
+  diskName: string;
+  diskSnapshotName?: string;
+  availabilityZone: string;
+  sizeInGb: number;
+  tags?: TagList;
+  addOns?: AddOnRequestList;
+  sourceDiskName?: string;
+  restoreDate?: string;
+  useLatestRestorableAutoSnapshot?: boolean;
+}
+export const CreateDiskFromSnapshotRequest = S.suspend(() =>
+  S.Struct({
     diskName: S.String,
     diskSnapshotName: S.optional(S.String),
     availabilityZone: S.String,
@@ -562,70 +699,99 @@ export class CreateDiskFromSnapshotRequest extends S.Class<CreateDiskFromSnapsho
     sourceDiskName: S.optional(S.String),
     restoreDate: S.optional(S.String),
     useLatestRestorableAutoSnapshot: S.optional(S.Boolean),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/CreateDiskFromSnapshot",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/CreateDiskFromSnapshot",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateDiskSnapshotRequest extends S.Class<CreateDiskSnapshotRequest>(
-  "CreateDiskSnapshotRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateDiskFromSnapshotRequest",
+}) as any as S.Schema<CreateDiskFromSnapshotRequest>;
+export interface CreateDiskSnapshotRequest {
+  diskName?: string;
+  diskSnapshotName: string;
+  instanceName?: string;
+  tags?: TagList;
+}
+export const CreateDiskSnapshotRequest = S.suspend(() =>
+  S.Struct({
     diskName: S.optional(S.String),
     diskSnapshotName: S.String,
     instanceName: S.optional(S.String),
     tags: S.optional(TagList),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/CreateDiskSnapshot" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/CreateDiskSnapshot" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateDomainRequest extends S.Class<CreateDomainRequest>(
-  "CreateDomainRequest",
-)(
-  { domainName: S.String, tags: S.optional(TagList) },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/CreateDomain" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CreateDiskSnapshotRequest",
+}) as any as S.Schema<CreateDiskSnapshotRequest>;
+export interface CreateDomainRequest {
+  domainName: string;
+  tags?: TagList;
+}
+export const CreateDomainRequest = S.suspend(() =>
+  S.Struct({ domainName: S.String, tags: S.optional(TagList) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/CreateDomain" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateGUISessionAccessDetailsRequest extends S.Class<CreateGUISessionAccessDetailsRequest>(
-  "CreateGUISessionAccessDetailsRequest",
-)(
-  { resourceName: S.String },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/create-gui-session-access-details",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CreateDomainRequest",
+}) as any as S.Schema<CreateDomainRequest>;
+export interface CreateGUISessionAccessDetailsRequest {
+  resourceName: string;
+}
+export const CreateGUISessionAccessDetailsRequest = S.suspend(() =>
+  S.Struct({ resourceName: S.String }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/create-gui-session-access-details",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateInstancesRequest extends S.Class<CreateInstancesRequest>(
-  "CreateInstancesRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateGUISessionAccessDetailsRequest",
+}) as any as S.Schema<CreateGUISessionAccessDetailsRequest>;
+export interface CreateInstancesRequest {
+  instanceNames: StringList;
+  availabilityZone: string;
+  customImageName?: string;
+  blueprintId: string;
+  bundleId: string;
+  userData?: string;
+  keyPairName?: string;
+  tags?: TagList;
+  addOns?: AddOnRequestList;
+  ipAddressType?: string;
+}
+export const CreateInstancesRequest = S.suspend(() =>
+  S.Struct({
     instanceNames: StringList,
     availabilityZone: S.String,
     customImageName: S.optional(S.String),
@@ -636,53 +802,76 @@ export class CreateInstancesRequest extends S.Class<CreateInstancesRequest>(
     tags: S.optional(TagList),
     addOns: S.optional(AddOnRequestList),
     ipAddressType: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/CreateInstances" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/CreateInstances" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateInstanceSnapshotRequest extends S.Class<CreateInstanceSnapshotRequest>(
-  "CreateInstanceSnapshotRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateInstancesRequest",
+}) as any as S.Schema<CreateInstancesRequest>;
+export interface CreateInstanceSnapshotRequest {
+  instanceSnapshotName: string;
+  instanceName: string;
+  tags?: TagList;
+}
+export const CreateInstanceSnapshotRequest = S.suspend(() =>
+  S.Struct({
     instanceSnapshotName: S.String,
     instanceName: S.String,
     tags: S.optional(TagList),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/CreateInstanceSnapshot",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/CreateInstanceSnapshot",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateKeyPairRequest extends S.Class<CreateKeyPairRequest>(
-  "CreateKeyPairRequest",
-)(
-  { keyPairName: S.String, tags: S.optional(TagList) },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/CreateKeyPair" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CreateInstanceSnapshotRequest",
+}) as any as S.Schema<CreateInstanceSnapshotRequest>;
+export interface CreateKeyPairRequest {
+  keyPairName: string;
+  tags?: TagList;
+}
+export const CreateKeyPairRequest = S.suspend(() =>
+  S.Struct({ keyPairName: S.String, tags: S.optional(TagList) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/CreateKeyPair" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateLoadBalancerRequest extends S.Class<CreateLoadBalancerRequest>(
-  "CreateLoadBalancerRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateKeyPairRequest",
+}) as any as S.Schema<CreateKeyPairRequest>;
+export interface CreateLoadBalancerRequest {
+  loadBalancerName: string;
+  instancePort: number;
+  healthCheckPath?: string;
+  certificateName?: string;
+  certificateDomainName?: string;
+  certificateAlternativeNames?: DomainNameList;
+  tags?: TagList;
+  ipAddressType?: string;
+  tlsPolicyName?: string;
+}
+export const CreateLoadBalancerRequest = S.suspend(() =>
+  S.Struct({
     loadBalancerName: S.String,
     instancePort: S.Number,
     healthCheckPath: S.optional(S.String),
@@ -692,42 +881,64 @@ export class CreateLoadBalancerRequest extends S.Class<CreateLoadBalancerRequest
     tags: S.optional(TagList),
     ipAddressType: S.optional(S.String),
     tlsPolicyName: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/CreateLoadBalancer" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/CreateLoadBalancer" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateLoadBalancerTlsCertificateRequest extends S.Class<CreateLoadBalancerTlsCertificateRequest>(
-  "CreateLoadBalancerTlsCertificateRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateLoadBalancerRequest",
+}) as any as S.Schema<CreateLoadBalancerRequest>;
+export interface CreateLoadBalancerTlsCertificateRequest {
+  loadBalancerName: string;
+  certificateName: string;
+  certificateDomainName: string;
+  certificateAlternativeNames?: DomainNameList;
+  tags?: TagList;
+}
+export const CreateLoadBalancerTlsCertificateRequest = S.suspend(() =>
+  S.Struct({
     loadBalancerName: S.String,
     certificateName: S.String,
     certificateDomainName: S.String,
     certificateAlternativeNames: S.optional(DomainNameList),
     tags: S.optional(TagList),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/CreateLoadBalancerTlsCertificate",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/CreateLoadBalancerTlsCertificate",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateRelationalDatabaseRequest extends S.Class<CreateRelationalDatabaseRequest>(
-  "CreateRelationalDatabaseRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateLoadBalancerTlsCertificateRequest",
+}) as any as S.Schema<CreateLoadBalancerTlsCertificateRequest>;
+export interface CreateRelationalDatabaseRequest {
+  relationalDatabaseName: string;
+  availabilityZone?: string;
+  relationalDatabaseBlueprintId: string;
+  relationalDatabaseBundleId: string;
+  masterDatabaseName: string;
+  masterUsername: string;
+  masterUserPassword?: string;
+  preferredBackupWindow?: string;
+  preferredMaintenanceWindow?: string;
+  publiclyAccessible?: boolean;
+  tags?: TagList;
+}
+export const CreateRelationalDatabaseRequest = S.suspend(() =>
+  S.Struct({
     relationalDatabaseName: S.String,
     availabilityZone: S.optional(S.String),
     relationalDatabaseBlueprintId: S.String,
@@ -739,23 +950,35 @@ export class CreateRelationalDatabaseRequest extends S.Class<CreateRelationalDat
     preferredMaintenanceWindow: S.optional(S.String),
     publiclyAccessible: S.optional(S.Boolean),
     tags: S.optional(TagList),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/CreateRelationalDatabase",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/CreateRelationalDatabase",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateRelationalDatabaseFromSnapshotRequest extends S.Class<CreateRelationalDatabaseFromSnapshotRequest>(
-  "CreateRelationalDatabaseFromSnapshotRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateRelationalDatabaseRequest",
+}) as any as S.Schema<CreateRelationalDatabaseRequest>;
+export interface CreateRelationalDatabaseFromSnapshotRequest {
+  relationalDatabaseName: string;
+  availabilityZone?: string;
+  publiclyAccessible?: boolean;
+  relationalDatabaseSnapshotName?: string;
+  relationalDatabaseBundleId?: string;
+  sourceRelationalDatabaseName?: string;
+  restoreTime?: Date;
+  useLatestRestorableTime?: boolean;
+  tags?: TagList;
+}
+export const CreateRelationalDatabaseFromSnapshotRequest = S.suspend(() =>
+  S.Struct({
     relationalDatabaseName: S.String,
     availabilityZone: S.optional(S.String),
     publiclyAccessible: S.optional(S.Boolean),
@@ -765,555 +988,765 @@ export class CreateRelationalDatabaseFromSnapshotRequest extends S.Class<CreateR
     restoreTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     useLatestRestorableTime: S.optional(S.Boolean),
     tags: S.optional(TagList),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/CreateRelationalDatabaseFromSnapshot",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/CreateRelationalDatabaseFromSnapshot",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateRelationalDatabaseSnapshotRequest extends S.Class<CreateRelationalDatabaseSnapshotRequest>(
-  "CreateRelationalDatabaseSnapshotRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateRelationalDatabaseFromSnapshotRequest",
+}) as any as S.Schema<CreateRelationalDatabaseFromSnapshotRequest>;
+export interface CreateRelationalDatabaseSnapshotRequest {
+  relationalDatabaseName: string;
+  relationalDatabaseSnapshotName: string;
+  tags?: TagList;
+}
+export const CreateRelationalDatabaseSnapshotRequest = S.suspend(() =>
+  S.Struct({
     relationalDatabaseName: S.String,
     relationalDatabaseSnapshotName: S.String,
     tags: S.optional(TagList),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/CreateRelationalDatabaseSnapshot",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/CreateRelationalDatabaseSnapshot",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAlarmRequest extends S.Class<DeleteAlarmRequest>(
-  "DeleteAlarmRequest",
-)(
-  { alarmName: S.String.pipe(T.HttpLabel("alarmName")) },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/ls/api/2016-11-28/DeleteAlarm/{alarmName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CreateRelationalDatabaseSnapshotRequest",
+}) as any as S.Schema<CreateRelationalDatabaseSnapshotRequest>;
+export interface DeleteAlarmRequest {
+  alarmName: string;
+}
+export const DeleteAlarmRequest = S.suspend(() =>
+  S.Struct({ alarmName: S.String.pipe(T.HttpLabel("alarmName")) }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/ls/api/2016-11-28/DeleteAlarm/{alarmName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAutoSnapshotRequest extends S.Class<DeleteAutoSnapshotRequest>(
-  "DeleteAutoSnapshotRequest",
-)(
-  { resourceName: S.String, date: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/DeleteAutoSnapshot" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteAlarmRequest",
+}) as any as S.Schema<DeleteAlarmRequest>;
+export interface DeleteAutoSnapshotRequest {
+  resourceName: string;
+  date: string;
+}
+export const DeleteAutoSnapshotRequest = S.suspend(() =>
+  S.Struct({ resourceName: S.String, date: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/DeleteAutoSnapshot" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteBucketRequest extends S.Class<DeleteBucketRequest>(
-  "DeleteBucketRequest",
-)(
-  { bucketName: S.String, forceDelete: S.optional(S.Boolean) },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/DeleteBucket" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteAutoSnapshotRequest",
+}) as any as S.Schema<DeleteAutoSnapshotRequest>;
+export interface DeleteBucketRequest {
+  bucketName: string;
+  forceDelete?: boolean;
+}
+export const DeleteBucketRequest = S.suspend(() =>
+  S.Struct({ bucketName: S.String, forceDelete: S.optional(S.Boolean) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/DeleteBucket" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteBucketAccessKeyRequest extends S.Class<DeleteBucketAccessKeyRequest>(
-  "DeleteBucketAccessKeyRequest",
-)(
-  { bucketName: S.String, accessKeyId: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/DeleteBucketAccessKey" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteBucketRequest",
+}) as any as S.Schema<DeleteBucketRequest>;
+export interface DeleteBucketAccessKeyRequest {
+  bucketName: string;
+  accessKeyId: string;
+}
+export const DeleteBucketAccessKeyRequest = S.suspend(() =>
+  S.Struct({ bucketName: S.String, accessKeyId: S.String }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/DeleteBucketAccessKey",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteCertificateRequest extends S.Class<DeleteCertificateRequest>(
-  "DeleteCertificateRequest",
-)(
-  { certificateName: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/DeleteCertificate" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteBucketAccessKeyRequest",
+}) as any as S.Schema<DeleteBucketAccessKeyRequest>;
+export interface DeleteCertificateRequest {
+  certificateName: string;
+}
+export const DeleteCertificateRequest = S.suspend(() =>
+  S.Struct({ certificateName: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/DeleteCertificate" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteContactMethodRequest extends S.Class<DeleteContactMethodRequest>(
-  "DeleteContactMethodRequest",
-)(
-  { protocol: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/DeleteContactMethod" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteCertificateRequest",
+}) as any as S.Schema<DeleteCertificateRequest>;
+export interface DeleteContactMethodRequest {
+  protocol: string;
+}
+export const DeleteContactMethodRequest = S.suspend(() =>
+  S.Struct({ protocol: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/DeleteContactMethod" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteContainerImageRequest extends S.Class<DeleteContainerImageRequest>(
-  "DeleteContainerImageRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteContactMethodRequest",
+}) as any as S.Schema<DeleteContactMethodRequest>;
+export interface DeleteContainerImageRequest {
+  serviceName: string;
+  image: string;
+}
+export const DeleteContainerImageRequest = S.suspend(() =>
+  S.Struct({
     serviceName: S.String.pipe(T.HttpLabel("serviceName")),
     image: S.String.pipe(T.HttpLabel("image")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/ls/api/2016-11-28/container-services/{serviceName}/images/{image}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/ls/api/2016-11-28/container-services/{serviceName}/images/{image}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteContainerImageResult extends S.Class<DeleteContainerImageResult>(
-  "DeleteContainerImageResult",
-)({}) {}
-export class DeleteContainerServiceRequest extends S.Class<DeleteContainerServiceRequest>(
-  "DeleteContainerServiceRequest",
-)(
-  { serviceName: S.String.pipe(T.HttpLabel("serviceName")) },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/ls/api/2016-11-28/container-services/{serviceName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteContainerImageRequest",
+}) as any as S.Schema<DeleteContainerImageRequest>;
+export interface DeleteContainerImageResult {}
+export const DeleteContainerImageResult = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteContainerImageResult",
+}) as any as S.Schema<DeleteContainerImageResult>;
+export interface DeleteContainerServiceRequest {
+  serviceName: string;
+}
+export const DeleteContainerServiceRequest = S.suspend(() =>
+  S.Struct({ serviceName: S.String.pipe(T.HttpLabel("serviceName")) }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/ls/api/2016-11-28/container-services/{serviceName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteContainerServiceResult extends S.Class<DeleteContainerServiceResult>(
-  "DeleteContainerServiceResult",
-)({}) {}
-export class DeleteDiskRequest extends S.Class<DeleteDiskRequest>(
-  "DeleteDiskRequest",
-)(
-  { diskName: S.String, forceDeleteAddOns: S.optional(S.Boolean) },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/DeleteDisk" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteContainerServiceRequest",
+}) as any as S.Schema<DeleteContainerServiceRequest>;
+export interface DeleteContainerServiceResult {}
+export const DeleteContainerServiceResult = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteContainerServiceResult",
+}) as any as S.Schema<DeleteContainerServiceResult>;
+export interface DeleteDiskRequest {
+  diskName: string;
+  forceDeleteAddOns?: boolean;
+}
+export const DeleteDiskRequest = S.suspend(() =>
+  S.Struct({
+    diskName: S.String,
+    forceDeleteAddOns: S.optional(S.Boolean),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/DeleteDisk" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteDiskSnapshotRequest extends S.Class<DeleteDiskSnapshotRequest>(
-  "DeleteDiskSnapshotRequest",
-)(
-  { diskSnapshotName: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/DeleteDiskSnapshot" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteDiskRequest",
+}) as any as S.Schema<DeleteDiskRequest>;
+export interface DeleteDiskSnapshotRequest {
+  diskSnapshotName: string;
+}
+export const DeleteDiskSnapshotRequest = S.suspend(() =>
+  S.Struct({ diskSnapshotName: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/DeleteDiskSnapshot" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteDistributionRequest extends S.Class<DeleteDistributionRequest>(
-  "DeleteDistributionRequest",
-)(
-  { distributionName: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/DeleteDistribution" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteDiskSnapshotRequest",
+}) as any as S.Schema<DeleteDiskSnapshotRequest>;
+export interface DeleteDistributionRequest {
+  distributionName?: string;
+}
+export const DeleteDistributionRequest = S.suspend(() =>
+  S.Struct({ distributionName: S.optional(S.String) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/DeleteDistribution" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteDomainRequest extends S.Class<DeleteDomainRequest>(
-  "DeleteDomainRequest",
-)(
-  { domainName: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/DeleteDomain" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteDistributionRequest",
+}) as any as S.Schema<DeleteDistributionRequest>;
+export interface DeleteDomainRequest {
+  domainName: string;
+}
+export const DeleteDomainRequest = S.suspend(() =>
+  S.Struct({ domainName: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/DeleteDomain" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "DeleteDomainRequest",
+}) as any as S.Schema<DeleteDomainRequest>;
+export type DomainEntryOptions = { [key: string]: string };
 export const DomainEntryOptions = S.Record({ key: S.String, value: S.String });
-export class DomainEntry extends S.Class<DomainEntry>("DomainEntry")({
-  id: S.optional(S.String),
-  name: S.optional(S.String),
-  target: S.optional(S.String),
-  isAlias: S.optional(S.Boolean),
-  type: S.optional(S.String),
-  options: S.optional(DomainEntryOptions),
-}) {}
-export class DeleteDomainEntryRequest extends S.Class<DeleteDomainEntryRequest>(
-  "DeleteDomainEntryRequest",
-)(
-  { domainName: S.String, domainEntry: DomainEntry },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/DeleteDomainEntry" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface DomainEntry {
+  id?: string;
+  name?: string;
+  target?: string;
+  isAlias?: boolean;
+  type?: string;
+  options?: DomainEntryOptions;
+}
+export const DomainEntry = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    target: S.optional(S.String),
+    isAlias: S.optional(S.Boolean),
+    type: S.optional(S.String),
+    options: S.optional(DomainEntryOptions),
+  }),
+).annotations({ identifier: "DomainEntry" }) as any as S.Schema<DomainEntry>;
+export interface DeleteDomainEntryRequest {
+  domainName: string;
+  domainEntry: DomainEntry;
+}
+export const DeleteDomainEntryRequest = S.suspend(() =>
+  S.Struct({ domainName: S.String, domainEntry: DomainEntry }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/DeleteDomainEntry" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteInstanceRequest extends S.Class<DeleteInstanceRequest>(
-  "DeleteInstanceRequest",
-)(
-  { instanceName: S.String, forceDeleteAddOns: S.optional(S.Boolean) },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/DeleteInstance" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteDomainEntryRequest",
+}) as any as S.Schema<DeleteDomainEntryRequest>;
+export interface DeleteInstanceRequest {
+  instanceName: string;
+  forceDeleteAddOns?: boolean;
+}
+export const DeleteInstanceRequest = S.suspend(() =>
+  S.Struct({
+    instanceName: S.String,
+    forceDeleteAddOns: S.optional(S.Boolean),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/DeleteInstance" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteInstanceSnapshotRequest extends S.Class<DeleteInstanceSnapshotRequest>(
-  "DeleteInstanceSnapshotRequest",
-)(
-  { instanceSnapshotName: S.String },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/DeleteInstanceSnapshot",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteInstanceRequest",
+}) as any as S.Schema<DeleteInstanceRequest>;
+export interface DeleteInstanceSnapshotRequest {
+  instanceSnapshotName: string;
+}
+export const DeleteInstanceSnapshotRequest = S.suspend(() =>
+  S.Struct({ instanceSnapshotName: S.String }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/DeleteInstanceSnapshot",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteKeyPairRequest extends S.Class<DeleteKeyPairRequest>(
-  "DeleteKeyPairRequest",
-)(
-  { keyPairName: S.String, expectedFingerprint: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/DeleteKeyPair" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteInstanceSnapshotRequest",
+}) as any as S.Schema<DeleteInstanceSnapshotRequest>;
+export interface DeleteKeyPairRequest {
+  keyPairName: string;
+  expectedFingerprint?: string;
+}
+export const DeleteKeyPairRequest = S.suspend(() =>
+  S.Struct({
+    keyPairName: S.String,
+    expectedFingerprint: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/DeleteKeyPair" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteKnownHostKeysRequest extends S.Class<DeleteKnownHostKeysRequest>(
-  "DeleteKnownHostKeysRequest",
-)(
-  { instanceName: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/DeleteKnownHostKeys" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteKeyPairRequest",
+}) as any as S.Schema<DeleteKeyPairRequest>;
+export interface DeleteKnownHostKeysRequest {
+  instanceName: string;
+}
+export const DeleteKnownHostKeysRequest = S.suspend(() =>
+  S.Struct({ instanceName: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/DeleteKnownHostKeys" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteLoadBalancerRequest extends S.Class<DeleteLoadBalancerRequest>(
-  "DeleteLoadBalancerRequest",
-)(
-  { loadBalancerName: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/DeleteLoadBalancer" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteKnownHostKeysRequest",
+}) as any as S.Schema<DeleteKnownHostKeysRequest>;
+export interface DeleteLoadBalancerRequest {
+  loadBalancerName: string;
+}
+export const DeleteLoadBalancerRequest = S.suspend(() =>
+  S.Struct({ loadBalancerName: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/DeleteLoadBalancer" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteLoadBalancerTlsCertificateRequest extends S.Class<DeleteLoadBalancerTlsCertificateRequest>(
-  "DeleteLoadBalancerTlsCertificateRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteLoadBalancerRequest",
+}) as any as S.Schema<DeleteLoadBalancerRequest>;
+export interface DeleteLoadBalancerTlsCertificateRequest {
+  loadBalancerName: string;
+  certificateName: string;
+  force?: boolean;
+}
+export const DeleteLoadBalancerTlsCertificateRequest = S.suspend(() =>
+  S.Struct({
     loadBalancerName: S.String,
     certificateName: S.String,
     force: S.optional(S.Boolean),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/DeleteLoadBalancerTlsCertificate",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/DeleteLoadBalancerTlsCertificate",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteRelationalDatabaseRequest extends S.Class<DeleteRelationalDatabaseRequest>(
-  "DeleteRelationalDatabaseRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteLoadBalancerTlsCertificateRequest",
+}) as any as S.Schema<DeleteLoadBalancerTlsCertificateRequest>;
+export interface DeleteRelationalDatabaseRequest {
+  relationalDatabaseName: string;
+  skipFinalSnapshot?: boolean;
+  finalRelationalDatabaseSnapshotName?: string;
+}
+export const DeleteRelationalDatabaseRequest = S.suspend(() =>
+  S.Struct({
     relationalDatabaseName: S.String,
     skipFinalSnapshot: S.optional(S.Boolean),
     finalRelationalDatabaseSnapshotName: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/DeleteRelationalDatabase",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/DeleteRelationalDatabase",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteRelationalDatabaseSnapshotRequest extends S.Class<DeleteRelationalDatabaseSnapshotRequest>(
-  "DeleteRelationalDatabaseSnapshotRequest",
-)(
-  { relationalDatabaseSnapshotName: S.String },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/DeleteRelationalDatabaseSnapshot",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteRelationalDatabaseRequest",
+}) as any as S.Schema<DeleteRelationalDatabaseRequest>;
+export interface DeleteRelationalDatabaseSnapshotRequest {
+  relationalDatabaseSnapshotName: string;
+}
+export const DeleteRelationalDatabaseSnapshotRequest = S.suspend(() =>
+  S.Struct({ relationalDatabaseSnapshotName: S.String }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/DeleteRelationalDatabaseSnapshot",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DetachCertificateFromDistributionRequest extends S.Class<DetachCertificateFromDistributionRequest>(
-  "DetachCertificateFromDistributionRequest",
-)(
-  { distributionName: S.String },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/DetachCertificateFromDistribution",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteRelationalDatabaseSnapshotRequest",
+}) as any as S.Schema<DeleteRelationalDatabaseSnapshotRequest>;
+export interface DetachCertificateFromDistributionRequest {
+  distributionName: string;
+}
+export const DetachCertificateFromDistributionRequest = S.suspend(() =>
+  S.Struct({ distributionName: S.String }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/DetachCertificateFromDistribution",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DetachDiskRequest extends S.Class<DetachDiskRequest>(
-  "DetachDiskRequest",
-)(
-  { diskName: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/DetachDisk" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DetachCertificateFromDistributionRequest",
+}) as any as S.Schema<DetachCertificateFromDistributionRequest>;
+export interface DetachDiskRequest {
+  diskName: string;
+}
+export const DetachDiskRequest = S.suspend(() =>
+  S.Struct({ diskName: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/DetachDisk" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DetachInstancesFromLoadBalancerRequest extends S.Class<DetachInstancesFromLoadBalancerRequest>(
-  "DetachInstancesFromLoadBalancerRequest",
-)(
-  { loadBalancerName: S.String, instanceNames: ResourceNameList },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/DetachInstancesFromLoadBalancer",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DetachDiskRequest",
+}) as any as S.Schema<DetachDiskRequest>;
+export interface DetachInstancesFromLoadBalancerRequest {
+  loadBalancerName: string;
+  instanceNames: ResourceNameList;
+}
+export const DetachInstancesFromLoadBalancerRequest = S.suspend(() =>
+  S.Struct({
+    loadBalancerName: S.String,
+    instanceNames: ResourceNameList,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/DetachInstancesFromLoadBalancer",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DetachStaticIpRequest extends S.Class<DetachStaticIpRequest>(
-  "DetachStaticIpRequest",
-)(
-  { staticIpName: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/DetachStaticIp" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DetachInstancesFromLoadBalancerRequest",
+}) as any as S.Schema<DetachInstancesFromLoadBalancerRequest>;
+export interface DetachStaticIpRequest {
+  staticIpName: string;
+}
+export const DetachStaticIpRequest = S.suspend(() =>
+  S.Struct({ staticIpName: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/DetachStaticIp" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DisableAddOnRequest extends S.Class<DisableAddOnRequest>(
-  "DisableAddOnRequest",
-)(
-  { addOnType: S.String, resourceName: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/DisableAddOn" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DetachStaticIpRequest",
+}) as any as S.Schema<DetachStaticIpRequest>;
+export interface DisableAddOnRequest {
+  addOnType: string;
+  resourceName: string;
+}
+export const DisableAddOnRequest = S.suspend(() =>
+  S.Struct({ addOnType: S.String, resourceName: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/DisableAddOn" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DownloadDefaultKeyPairResult extends S.Class<DownloadDefaultKeyPairResult>(
-  "DownloadDefaultKeyPairResult",
-)({
-  publicKeyBase64: S.optional(S.String),
-  privateKeyBase64: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class EnableAddOnRequest extends S.Class<EnableAddOnRequest>(
-  "EnableAddOnRequest",
-)(
-  { resourceName: S.String, addOnRequest: AddOnRequest },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/EnableAddOn" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DisableAddOnRequest",
+}) as any as S.Schema<DisableAddOnRequest>;
+export interface DownloadDefaultKeyPairResult {
+  publicKeyBase64?: string;
+  privateKeyBase64?: string;
+  createdAt?: Date;
+}
+export const DownloadDefaultKeyPairResult = S.suspend(() =>
+  S.Struct({
+    publicKeyBase64: S.optional(S.String),
+    privateKeyBase64: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "DownloadDefaultKeyPairResult",
+}) as any as S.Schema<DownloadDefaultKeyPairResult>;
+export interface EnableAddOnRequest {
+  resourceName: string;
+  addOnRequest: AddOnRequest;
+}
+export const EnableAddOnRequest = S.suspend(() =>
+  S.Struct({ resourceName: S.String, addOnRequest: AddOnRequest }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/EnableAddOn" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ExportSnapshotRequest extends S.Class<ExportSnapshotRequest>(
-  "ExportSnapshotRequest",
-)(
-  { sourceSnapshotName: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/ExportSnapshot" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "EnableAddOnRequest",
+}) as any as S.Schema<EnableAddOnRequest>;
+export interface ExportSnapshotRequest {
+  sourceSnapshotName: string;
+}
+export const ExportSnapshotRequest = S.suspend(() =>
+  S.Struct({ sourceSnapshotName: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/ExportSnapshot" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetActiveNamesRequest extends S.Class<GetActiveNamesRequest>(
-  "GetActiveNamesRequest",
-)(
-  { pageToken: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetActiveNames" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ExportSnapshotRequest",
+}) as any as S.Schema<ExportSnapshotRequest>;
+export interface GetActiveNamesRequest {
+  pageToken?: string;
+}
+export const GetActiveNamesRequest = S.suspend(() =>
+  S.Struct({ pageToken: S.optional(S.String) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetActiveNames" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetAlarmsRequest extends S.Class<GetAlarmsRequest>(
-  "GetAlarmsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetActiveNamesRequest",
+}) as any as S.Schema<GetActiveNamesRequest>;
+export interface GetAlarmsRequest {
+  alarmName?: string;
+  pageToken?: string;
+  monitoredResourceName?: string;
+}
+export const GetAlarmsRequest = S.suspend(() =>
+  S.Struct({
     alarmName: S.optional(S.String).pipe(T.HttpQuery("alarmName")),
     pageToken: S.optional(S.String).pipe(T.HttpQuery("pageToken")),
     monitoredResourceName: S.optional(S.String).pipe(
       T.HttpQuery("monitoredResourceName"),
     ),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/ls/api/2016-11-28/GetAlarms" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/ls/api/2016-11-28/GetAlarms" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetAutoSnapshotsRequest extends S.Class<GetAutoSnapshotsRequest>(
-  "GetAutoSnapshotsRequest",
-)(
-  { resourceName: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetAutoSnapshots" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetAlarmsRequest",
+}) as any as S.Schema<GetAlarmsRequest>;
+export interface GetAutoSnapshotsRequest {
+  resourceName: string;
+}
+export const GetAutoSnapshotsRequest = S.suspend(() =>
+  S.Struct({ resourceName: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetAutoSnapshots" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetBlueprintsRequest extends S.Class<GetBlueprintsRequest>(
-  "GetBlueprintsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetAutoSnapshotsRequest",
+}) as any as S.Schema<GetAutoSnapshotsRequest>;
+export interface GetBlueprintsRequest {
+  includeInactive?: boolean;
+  pageToken?: string;
+  appCategory?: string;
+}
+export const GetBlueprintsRequest = S.suspend(() =>
+  S.Struct({
     includeInactive: S.optional(S.Boolean),
     pageToken: S.optional(S.String),
     appCategory: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetBlueprints" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetBlueprints" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetBucketAccessKeysRequest extends S.Class<GetBucketAccessKeysRequest>(
-  "GetBucketAccessKeysRequest",
-)(
-  { bucketName: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetBucketAccessKeys" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetBlueprintsRequest",
+}) as any as S.Schema<GetBlueprintsRequest>;
+export interface GetBucketAccessKeysRequest {
+  bucketName: string;
+}
+export const GetBucketAccessKeysRequest = S.suspend(() =>
+  S.Struct({ bucketName: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetBucketAccessKeys" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetBucketBundlesRequest extends S.Class<GetBucketBundlesRequest>(
-  "GetBucketBundlesRequest",
-)(
-  { includeInactive: S.optional(S.Boolean) },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetBucketBundles" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetBucketAccessKeysRequest",
+}) as any as S.Schema<GetBucketAccessKeysRequest>;
+export interface GetBucketBundlesRequest {
+  includeInactive?: boolean;
+}
+export const GetBucketBundlesRequest = S.suspend(() =>
+  S.Struct({ includeInactive: S.optional(S.Boolean) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetBucketBundles" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetBucketMetricDataRequest extends S.Class<GetBucketMetricDataRequest>(
-  "GetBucketMetricDataRequest",
-)(
-  {
+).annotations({
+  identifier: "GetBucketBundlesRequest",
+}) as any as S.Schema<GetBucketBundlesRequest>;
+export interface GetBucketMetricDataRequest {
+  bucketName: string;
+  metricName: string;
+  startTime: Date;
+  endTime: Date;
+  period: number;
+  statistics: MetricStatisticList;
+  unit: string;
+}
+export const GetBucketMetricDataRequest = S.suspend(() =>
+  S.Struct({
     bucketName: S.String,
     metricName: S.String,
     startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -1321,120 +1754,161 @@ export class GetBucketMetricDataRequest extends S.Class<GetBucketMetricDataReque
     period: S.Number,
     statistics: MetricStatisticList,
     unit: S.String,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetBucketMetricData" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetBucketMetricData" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetBucketsRequest extends S.Class<GetBucketsRequest>(
-  "GetBucketsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetBucketMetricDataRequest",
+}) as any as S.Schema<GetBucketMetricDataRequest>;
+export interface GetBucketsRequest {
+  bucketName?: string;
+  pageToken?: string;
+  includeConnectedResources?: boolean;
+  includeCors?: boolean;
+}
+export const GetBucketsRequest = S.suspend(() =>
+  S.Struct({
     bucketName: S.optional(S.String),
     pageToken: S.optional(S.String),
     includeConnectedResources: S.optional(S.Boolean),
     includeCors: S.optional(S.Boolean),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetBuckets" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetBuckets" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetBundlesRequest extends S.Class<GetBundlesRequest>(
-  "GetBundlesRequest",
-)(
-  {
+).annotations({
+  identifier: "GetBucketsRequest",
+}) as any as S.Schema<GetBucketsRequest>;
+export interface GetBundlesRequest {
+  includeInactive?: boolean;
+  pageToken?: string;
+  appCategory?: string;
+}
+export const GetBundlesRequest = S.suspend(() =>
+  S.Struct({
     includeInactive: S.optional(S.Boolean),
     pageToken: S.optional(S.String),
     appCategory: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetBundles" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetBundles" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetCertificatesRequest extends S.Class<GetCertificatesRequest>(
-  "GetCertificatesRequest",
-)(
-  {
+).annotations({
+  identifier: "GetBundlesRequest",
+}) as any as S.Schema<GetBundlesRequest>;
+export interface GetCertificatesRequest {
+  certificateStatuses?: CertificateStatusList;
+  includeCertificateDetails?: boolean;
+  certificateName?: string;
+  pageToken?: string;
+}
+export const GetCertificatesRequest = S.suspend(() =>
+  S.Struct({
     certificateStatuses: S.optional(CertificateStatusList),
     includeCertificateDetails: S.optional(S.Boolean),
     certificateName: S.optional(S.String),
     pageToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetCertificates" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetCertificates" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetCloudFormationStackRecordsRequest extends S.Class<GetCloudFormationStackRecordsRequest>(
-  "GetCloudFormationStackRecordsRequest",
-)(
-  { pageToken: S.optional(S.String) },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/GetCloudFormationStackRecords",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetCertificatesRequest",
+}) as any as S.Schema<GetCertificatesRequest>;
+export interface GetCloudFormationStackRecordsRequest {
+  pageToken?: string;
+}
+export const GetCloudFormationStackRecordsRequest = S.suspend(() =>
+  S.Struct({ pageToken: S.optional(S.String) }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/GetCloudFormationStackRecords",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetContactMethodsRequest extends S.Class<GetContactMethodsRequest>(
-  "GetContactMethodsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetCloudFormationStackRecordsRequest",
+}) as any as S.Schema<GetCloudFormationStackRecordsRequest>;
+export interface GetContactMethodsRequest {
+  protocols?: ContactProtocolsList;
+}
+export const GetContactMethodsRequest = S.suspend(() =>
+  S.Struct({
     protocols: S.optional(ContactProtocolsList).pipe(T.HttpQuery("protocols")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/ls/api/2016-11-28/GetContactMethods" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/ls/api/2016-11-28/GetContactMethods" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetContainerImagesRequest extends S.Class<GetContainerImagesRequest>(
-  "GetContainerImagesRequest",
-)(
-  { serviceName: S.String.pipe(T.HttpLabel("serviceName")) },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/ls/api/2016-11-28/container-services/{serviceName}/images",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetContactMethodsRequest",
+}) as any as S.Schema<GetContactMethodsRequest>;
+export interface GetContainerImagesRequest {
+  serviceName: string;
+}
+export const GetContainerImagesRequest = S.suspend(() =>
+  S.Struct({ serviceName: S.String.pipe(T.HttpLabel("serviceName")) }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/ls/api/2016-11-28/container-services/{serviceName}/images",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetContainerLogRequest extends S.Class<GetContainerLogRequest>(
-  "GetContainerLogRequest",
-)(
-  {
+).annotations({
+  identifier: "GetContainerImagesRequest",
+}) as any as S.Schema<GetContainerImagesRequest>;
+export interface GetContainerLogRequest {
+  serviceName: string;
+  containerName: string;
+  startTime?: Date;
+  endTime?: Date;
+  filterPattern?: string;
+  pageToken?: string;
+}
+export const GetContainerLogRequest = S.suspend(() =>
+  S.Struct({
     serviceName: S.String.pipe(T.HttpLabel("serviceName")),
     containerName: S.String.pipe(T.HttpLabel("containerName")),
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
@@ -1445,39 +1919,52 @@ export class GetContainerLogRequest extends S.Class<GetContainerLogRequest>(
     ),
     filterPattern: S.optional(S.String).pipe(T.HttpQuery("filterPattern")),
     pageToken: S.optional(S.String).pipe(T.HttpQuery("pageToken")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/ls/api/2016-11-28/container-services/{serviceName}/containers/{containerName}/log",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/ls/api/2016-11-28/container-services/{serviceName}/containers/{containerName}/log",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetContainerServiceDeploymentsRequest extends S.Class<GetContainerServiceDeploymentsRequest>(
-  "GetContainerServiceDeploymentsRequest",
-)(
-  { serviceName: S.String.pipe(T.HttpLabel("serviceName")) },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/ls/api/2016-11-28/container-services/{serviceName}/deployments",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetContainerLogRequest",
+}) as any as S.Schema<GetContainerLogRequest>;
+export interface GetContainerServiceDeploymentsRequest {
+  serviceName: string;
+}
+export const GetContainerServiceDeploymentsRequest = S.suspend(() =>
+  S.Struct({ serviceName: S.String.pipe(T.HttpLabel("serviceName")) }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/ls/api/2016-11-28/container-services/{serviceName}/deployments",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetContainerServiceMetricDataRequest extends S.Class<GetContainerServiceMetricDataRequest>(
-  "GetContainerServiceMetricDataRequest",
-)(
-  {
+).annotations({
+  identifier: "GetContainerServiceDeploymentsRequest",
+}) as any as S.Schema<GetContainerServiceDeploymentsRequest>;
+export interface GetContainerServiceMetricDataRequest {
+  serviceName: string;
+  metricName: string;
+  startTime: Date;
+  endTime: Date;
+  period: number;
+  statistics: MetricStatisticList;
+}
+export const GetContainerServiceMetricDataRequest = S.suspend(() =>
+  S.Struct({
     serviceName: S.String.pipe(T.HttpLabel("serviceName")),
     metricName: S.String.pipe(T.HttpQuery("metricName")),
     startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(
@@ -1488,119 +1975,163 @@ export class GetContainerServiceMetricDataRequest extends S.Class<GetContainerSe
     ),
     period: S.Number.pipe(T.HttpQuery("period")),
     statistics: MetricStatisticList.pipe(T.HttpQuery("statistics")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/ls/api/2016-11-28/container-services/{serviceName}/metrics",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/ls/api/2016-11-28/container-services/{serviceName}/metrics",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetContainerServicesRequest extends S.Class<GetContainerServicesRequest>(
-  "GetContainerServicesRequest",
-)(
-  { serviceName: S.optional(S.String).pipe(T.HttpQuery("serviceName")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/ls/api/2016-11-28/container-services" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetContainerServiceMetricDataRequest",
+}) as any as S.Schema<GetContainerServiceMetricDataRequest>;
+export interface GetContainerServicesRequest {
+  serviceName?: string;
+}
+export const GetContainerServicesRequest = S.suspend(() =>
+  S.Struct({
+    serviceName: S.optional(S.String).pipe(T.HttpQuery("serviceName")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/ls/api/2016-11-28/container-services" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetCostEstimateRequest extends S.Class<GetCostEstimateRequest>(
-  "GetCostEstimateRequest",
-)(
-  {
+).annotations({
+  identifier: "GetContainerServicesRequest",
+}) as any as S.Schema<GetContainerServicesRequest>;
+export interface GetCostEstimateRequest {
+  resourceName: string;
+  startTime: Date;
+  endTime: Date;
+}
+export const GetCostEstimateRequest = S.suspend(() =>
+  S.Struct({
     resourceName: S.String,
     startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     endTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/budgettracker/getCostEstimate" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/budgettracker/getCostEstimate" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetDiskRequest extends S.Class<GetDiskRequest>("GetDiskRequest")(
-  { diskName: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetDisk" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetCostEstimateRequest",
+}) as any as S.Schema<GetCostEstimateRequest>;
+export interface GetDiskRequest {
+  diskName: string;
+}
+export const GetDiskRequest = S.suspend(() =>
+  S.Struct({ diskName: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetDisk" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetDisksRequest extends S.Class<GetDisksRequest>(
-  "GetDisksRequest",
-)(
-  { pageToken: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetDisks" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetDiskRequest",
+}) as any as S.Schema<GetDiskRequest>;
+export interface GetDisksRequest {
+  pageToken?: string;
+}
+export const GetDisksRequest = S.suspend(() =>
+  S.Struct({ pageToken: S.optional(S.String) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetDisks" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetDiskSnapshotRequest extends S.Class<GetDiskSnapshotRequest>(
-  "GetDiskSnapshotRequest",
-)(
-  { diskSnapshotName: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetDiskSnapshot" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetDisksRequest",
+}) as any as S.Schema<GetDisksRequest>;
+export interface GetDiskSnapshotRequest {
+  diskSnapshotName: string;
+}
+export const GetDiskSnapshotRequest = S.suspend(() =>
+  S.Struct({ diskSnapshotName: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetDiskSnapshot" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetDiskSnapshotsRequest extends S.Class<GetDiskSnapshotsRequest>(
-  "GetDiskSnapshotsRequest",
-)(
-  { pageToken: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetDiskSnapshots" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetDiskSnapshotRequest",
+}) as any as S.Schema<GetDiskSnapshotRequest>;
+export interface GetDiskSnapshotsRequest {
+  pageToken?: string;
+}
+export const GetDiskSnapshotsRequest = S.suspend(() =>
+  S.Struct({ pageToken: S.optional(S.String) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetDiskSnapshots" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetDistributionLatestCacheResetRequest extends S.Class<GetDistributionLatestCacheResetRequest>(
-  "GetDistributionLatestCacheResetRequest",
-)(
-  { distributionName: S.optional(S.String) },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/GetDistributionLatestCacheReset",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetDiskSnapshotsRequest",
+}) as any as S.Schema<GetDiskSnapshotsRequest>;
+export interface GetDistributionLatestCacheResetRequest {
+  distributionName?: string;
+}
+export const GetDistributionLatestCacheResetRequest = S.suspend(() =>
+  S.Struct({ distributionName: S.optional(S.String) }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/GetDistributionLatestCacheReset",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetDistributionMetricDataRequest extends S.Class<GetDistributionMetricDataRequest>(
-  "GetDistributionMetricDataRequest",
-)(
-  {
+).annotations({
+  identifier: "GetDistributionLatestCacheResetRequest",
+}) as any as S.Schema<GetDistributionLatestCacheResetRequest>;
+export interface GetDistributionMetricDataRequest {
+  distributionName: string;
+  metricName: string;
+  startTime: Date;
+  endTime: Date;
+  period: number;
+  unit: string;
+  statistics: MetricStatisticList;
+}
+export const GetDistributionMetricDataRequest = S.suspend(() =>
+  S.Struct({
     distributionName: S.String,
     metricName: S.String,
     startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -1608,107 +2139,146 @@ export class GetDistributionMetricDataRequest extends S.Class<GetDistributionMet
     period: S.Number,
     unit: S.String,
     statistics: MetricStatisticList,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/GetDistributionMetricData",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/GetDistributionMetricData",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetDistributionsRequest extends S.Class<GetDistributionsRequest>(
-  "GetDistributionsRequest",
-)(
-  { distributionName: S.optional(S.String), pageToken: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetDistributions" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetDistributionMetricDataRequest",
+}) as any as S.Schema<GetDistributionMetricDataRequest>;
+export interface GetDistributionsRequest {
+  distributionName?: string;
+  pageToken?: string;
+}
+export const GetDistributionsRequest = S.suspend(() =>
+  S.Struct({
+    distributionName: S.optional(S.String),
+    pageToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetDistributions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetDomainRequest extends S.Class<GetDomainRequest>(
-  "GetDomainRequest",
-)(
-  { domainName: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetDomain" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetDistributionsRequest",
+}) as any as S.Schema<GetDistributionsRequest>;
+export interface GetDomainRequest {
+  domainName: string;
+}
+export const GetDomainRequest = S.suspend(() =>
+  S.Struct({ domainName: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetDomain" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetDomainsRequest extends S.Class<GetDomainsRequest>(
-  "GetDomainsRequest",
-)(
-  { pageToken: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetDomains" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetDomainRequest",
+}) as any as S.Schema<GetDomainRequest>;
+export interface GetDomainsRequest {
+  pageToken?: string;
+}
+export const GetDomainsRequest = S.suspend(() =>
+  S.Struct({ pageToken: S.optional(S.String) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetDomains" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetExportSnapshotRecordsRequest extends S.Class<GetExportSnapshotRecordsRequest>(
-  "GetExportSnapshotRecordsRequest",
-)(
-  { pageToken: S.optional(S.String) },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/GetExportSnapshotRecords",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetDomainsRequest",
+}) as any as S.Schema<GetDomainsRequest>;
+export interface GetExportSnapshotRecordsRequest {
+  pageToken?: string;
+}
+export const GetExportSnapshotRecordsRequest = S.suspend(() =>
+  S.Struct({ pageToken: S.optional(S.String) }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/GetExportSnapshotRecords",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetInstanceRequest extends S.Class<GetInstanceRequest>(
-  "GetInstanceRequest",
-)(
-  { instanceName: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetInstance" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetExportSnapshotRecordsRequest",
+}) as any as S.Schema<GetExportSnapshotRecordsRequest>;
+export interface GetInstanceRequest {
+  instanceName: string;
+}
+export const GetInstanceRequest = S.suspend(() =>
+  S.Struct({ instanceName: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetInstance" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetInstanceAccessDetailsRequest extends S.Class<GetInstanceAccessDetailsRequest>(
-  "GetInstanceAccessDetailsRequest",
-)(
-  { instanceName: S.String, protocol: S.optional(S.String) },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/GetInstanceAccessDetails",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetInstanceRequest",
+}) as any as S.Schema<GetInstanceRequest>;
+export interface GetInstanceAccessDetailsRequest {
+  instanceName: string;
+  protocol?: string;
+}
+export const GetInstanceAccessDetailsRequest = S.suspend(() =>
+  S.Struct({ instanceName: S.String, protocol: S.optional(S.String) }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/GetInstanceAccessDetails",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetInstanceMetricDataRequest extends S.Class<GetInstanceMetricDataRequest>(
-  "GetInstanceMetricDataRequest",
-)(
-  {
+).annotations({
+  identifier: "GetInstanceAccessDetailsRequest",
+}) as any as S.Schema<GetInstanceAccessDetailsRequest>;
+export interface GetInstanceMetricDataRequest {
+  instanceName: string;
+  metricName: string;
+  period: number;
+  startTime: Date;
+  endTime: Date;
+  unit: string;
+  statistics: MetricStatisticList;
+}
+export const GetInstanceMetricDataRequest = S.suspend(() =>
+  S.Struct({
     instanceName: S.String,
     metricName: S.String,
     period: S.Number,
@@ -1716,127 +2286,179 @@ export class GetInstanceMetricDataRequest extends S.Class<GetInstanceMetricDataR
     endTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     unit: S.String,
     statistics: MetricStatisticList,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetInstanceMetricData" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/GetInstanceMetricData",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetInstancePortStatesRequest extends S.Class<GetInstancePortStatesRequest>(
-  "GetInstancePortStatesRequest",
-)(
-  { instanceName: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetInstancePortStates" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetInstanceMetricDataRequest",
+}) as any as S.Schema<GetInstanceMetricDataRequest>;
+export interface GetInstancePortStatesRequest {
+  instanceName: string;
+}
+export const GetInstancePortStatesRequest = S.suspend(() =>
+  S.Struct({ instanceName: S.String }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/GetInstancePortStates",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetInstancesRequest extends S.Class<GetInstancesRequest>(
-  "GetInstancesRequest",
-)(
-  { pageToken: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetInstances" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetInstancePortStatesRequest",
+}) as any as S.Schema<GetInstancePortStatesRequest>;
+export interface GetInstancesRequest {
+  pageToken?: string;
+}
+export const GetInstancesRequest = S.suspend(() =>
+  S.Struct({ pageToken: S.optional(S.String) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetInstances" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetInstanceSnapshotRequest extends S.Class<GetInstanceSnapshotRequest>(
-  "GetInstanceSnapshotRequest",
-)(
-  { instanceSnapshotName: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetInstanceSnapshot" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetInstancesRequest",
+}) as any as S.Schema<GetInstancesRequest>;
+export interface GetInstanceSnapshotRequest {
+  instanceSnapshotName: string;
+}
+export const GetInstanceSnapshotRequest = S.suspend(() =>
+  S.Struct({ instanceSnapshotName: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetInstanceSnapshot" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetInstanceSnapshotsRequest extends S.Class<GetInstanceSnapshotsRequest>(
-  "GetInstanceSnapshotsRequest",
-)(
-  { pageToken: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetInstanceSnapshots" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetInstanceSnapshotRequest",
+}) as any as S.Schema<GetInstanceSnapshotRequest>;
+export interface GetInstanceSnapshotsRequest {
+  pageToken?: string;
+}
+export const GetInstanceSnapshotsRequest = S.suspend(() =>
+  S.Struct({ pageToken: S.optional(S.String) }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/GetInstanceSnapshots",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetInstanceStateRequest extends S.Class<GetInstanceStateRequest>(
-  "GetInstanceStateRequest",
-)(
-  { instanceName: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetInstanceState" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetInstanceSnapshotsRequest",
+}) as any as S.Schema<GetInstanceSnapshotsRequest>;
+export interface GetInstanceStateRequest {
+  instanceName: string;
+}
+export const GetInstanceStateRequest = S.suspend(() =>
+  S.Struct({ instanceName: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetInstanceState" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetKeyPairRequest extends S.Class<GetKeyPairRequest>(
-  "GetKeyPairRequest",
-)(
-  { keyPairName: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetKeyPair" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetInstanceStateRequest",
+}) as any as S.Schema<GetInstanceStateRequest>;
+export interface GetKeyPairRequest {
+  keyPairName: string;
+}
+export const GetKeyPairRequest = S.suspend(() =>
+  S.Struct({ keyPairName: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetKeyPair" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetKeyPairsRequest extends S.Class<GetKeyPairsRequest>(
-  "GetKeyPairsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetKeyPairRequest",
+}) as any as S.Schema<GetKeyPairRequest>;
+export interface GetKeyPairsRequest {
+  pageToken?: string;
+  includeDefaultKeyPair?: boolean;
+}
+export const GetKeyPairsRequest = S.suspend(() =>
+  S.Struct({
     pageToken: S.optional(S.String),
     includeDefaultKeyPair: S.optional(S.Boolean),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetKeyPairs" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetKeyPairs" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetLoadBalancerRequest extends S.Class<GetLoadBalancerRequest>(
-  "GetLoadBalancerRequest",
-)(
-  { loadBalancerName: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetLoadBalancer" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetKeyPairsRequest",
+}) as any as S.Schema<GetKeyPairsRequest>;
+export interface GetLoadBalancerRequest {
+  loadBalancerName: string;
+}
+export const GetLoadBalancerRequest = S.suspend(() =>
+  S.Struct({ loadBalancerName: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetLoadBalancer" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetLoadBalancerMetricDataRequest extends S.Class<GetLoadBalancerMetricDataRequest>(
-  "GetLoadBalancerMetricDataRequest",
-)(
-  {
+).annotations({
+  identifier: "GetLoadBalancerRequest",
+}) as any as S.Schema<GetLoadBalancerRequest>;
+export interface GetLoadBalancerMetricDataRequest {
+  loadBalancerName: string;
+  metricName: string;
+  period: number;
+  startTime: Date;
+  endTime: Date;
+  unit: string;
+  statistics: MetricStatisticList;
+}
+export const GetLoadBalancerMetricDataRequest = S.suspend(() =>
+  S.Struct({
     loadBalancerName: S.String,
     metricName: S.String,
     period: S.Number,
@@ -1844,246 +2466,332 @@ export class GetLoadBalancerMetricDataRequest extends S.Class<GetLoadBalancerMet
     endTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     unit: S.String,
     statistics: MetricStatisticList,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/GetLoadBalancerMetricData",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/GetLoadBalancerMetricData",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetLoadBalancersRequest extends S.Class<GetLoadBalancersRequest>(
-  "GetLoadBalancersRequest",
-)(
-  { pageToken: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetLoadBalancers" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetLoadBalancerMetricDataRequest",
+}) as any as S.Schema<GetLoadBalancerMetricDataRequest>;
+export interface GetLoadBalancersRequest {
+  pageToken?: string;
+}
+export const GetLoadBalancersRequest = S.suspend(() =>
+  S.Struct({ pageToken: S.optional(S.String) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetLoadBalancers" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetLoadBalancerTlsCertificatesRequest extends S.Class<GetLoadBalancerTlsCertificatesRequest>(
-  "GetLoadBalancerTlsCertificatesRequest",
-)(
-  { loadBalancerName: S.String },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/GetLoadBalancerTlsCertificates",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetLoadBalancersRequest",
+}) as any as S.Schema<GetLoadBalancersRequest>;
+export interface GetLoadBalancerTlsCertificatesRequest {
+  loadBalancerName: string;
+}
+export const GetLoadBalancerTlsCertificatesRequest = S.suspend(() =>
+  S.Struct({ loadBalancerName: S.String }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/GetLoadBalancerTlsCertificates",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetLoadBalancerTlsPoliciesRequest extends S.Class<GetLoadBalancerTlsPoliciesRequest>(
-  "GetLoadBalancerTlsPoliciesRequest",
-)(
-  { pageToken: S.optional(S.String) },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/GetLoadBalancerTlsPolicies",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetLoadBalancerTlsCertificatesRequest",
+}) as any as S.Schema<GetLoadBalancerTlsCertificatesRequest>;
+export interface GetLoadBalancerTlsPoliciesRequest {
+  pageToken?: string;
+}
+export const GetLoadBalancerTlsPoliciesRequest = S.suspend(() =>
+  S.Struct({ pageToken: S.optional(S.String) }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/GetLoadBalancerTlsPolicies",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetOperationRequest extends S.Class<GetOperationRequest>(
-  "GetOperationRequest",
-)(
-  { operationId: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetOperation" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetLoadBalancerTlsPoliciesRequest",
+}) as any as S.Schema<GetLoadBalancerTlsPoliciesRequest>;
+export interface GetOperationRequest {
+  operationId: string;
+}
+export const GetOperationRequest = S.suspend(() =>
+  S.Struct({ operationId: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetOperation" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetOperationsRequest extends S.Class<GetOperationsRequest>(
-  "GetOperationsRequest",
-)(
-  { pageToken: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetOperations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetOperationRequest",
+}) as any as S.Schema<GetOperationRequest>;
+export interface GetOperationsRequest {
+  pageToken?: string;
+}
+export const GetOperationsRequest = S.suspend(() =>
+  S.Struct({ pageToken: S.optional(S.String) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetOperations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetOperationsForResourceRequest extends S.Class<GetOperationsForResourceRequest>(
-  "GetOperationsForResourceRequest",
-)(
-  { resourceName: S.String, pageToken: S.optional(S.String) },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/GetOperationsForResource",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetOperationsRequest",
+}) as any as S.Schema<GetOperationsRequest>;
+export interface GetOperationsForResourceRequest {
+  resourceName: string;
+  pageToken?: string;
+}
+export const GetOperationsForResourceRequest = S.suspend(() =>
+  S.Struct({ resourceName: S.String, pageToken: S.optional(S.String) }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/GetOperationsForResource",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetRegionsRequest extends S.Class<GetRegionsRequest>(
-  "GetRegionsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetOperationsForResourceRequest",
+}) as any as S.Schema<GetOperationsForResourceRequest>;
+export interface GetRegionsRequest {
+  includeAvailabilityZones?: boolean;
+  includeRelationalDatabaseAvailabilityZones?: boolean;
+}
+export const GetRegionsRequest = S.suspend(() =>
+  S.Struct({
     includeAvailabilityZones: S.optional(S.Boolean),
     includeRelationalDatabaseAvailabilityZones: S.optional(S.Boolean),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetRegions" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetRegions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetRelationalDatabaseRequest extends S.Class<GetRelationalDatabaseRequest>(
-  "GetRelationalDatabaseRequest",
-)(
-  { relationalDatabaseName: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetRelationalDatabase" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetRegionsRequest",
+}) as any as S.Schema<GetRegionsRequest>;
+export interface GetRelationalDatabaseRequest {
+  relationalDatabaseName: string;
+}
+export const GetRelationalDatabaseRequest = S.suspend(() =>
+  S.Struct({ relationalDatabaseName: S.String }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/GetRelationalDatabase",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetRelationalDatabaseBlueprintsRequest extends S.Class<GetRelationalDatabaseBlueprintsRequest>(
-  "GetRelationalDatabaseBlueprintsRequest",
-)(
-  { pageToken: S.optional(S.String) },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/GetRelationalDatabaseBlueprints",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetRelationalDatabaseRequest",
+}) as any as S.Schema<GetRelationalDatabaseRequest>;
+export interface GetRelationalDatabaseBlueprintsRequest {
+  pageToken?: string;
+}
+export const GetRelationalDatabaseBlueprintsRequest = S.suspend(() =>
+  S.Struct({ pageToken: S.optional(S.String) }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/GetRelationalDatabaseBlueprints",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetRelationalDatabaseBundlesRequest extends S.Class<GetRelationalDatabaseBundlesRequest>(
-  "GetRelationalDatabaseBundlesRequest",
-)(
-  { pageToken: S.optional(S.String), includeInactive: S.optional(S.Boolean) },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/GetRelationalDatabaseBundles",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetRelationalDatabaseBlueprintsRequest",
+}) as any as S.Schema<GetRelationalDatabaseBlueprintsRequest>;
+export interface GetRelationalDatabaseBundlesRequest {
+  pageToken?: string;
+  includeInactive?: boolean;
+}
+export const GetRelationalDatabaseBundlesRequest = S.suspend(() =>
+  S.Struct({
+    pageToken: S.optional(S.String),
+    includeInactive: S.optional(S.Boolean),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/GetRelationalDatabaseBundles",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetRelationalDatabaseEventsRequest extends S.Class<GetRelationalDatabaseEventsRequest>(
-  "GetRelationalDatabaseEventsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetRelationalDatabaseBundlesRequest",
+}) as any as S.Schema<GetRelationalDatabaseBundlesRequest>;
+export interface GetRelationalDatabaseEventsRequest {
+  relationalDatabaseName: string;
+  durationInMinutes?: number;
+  pageToken?: string;
+}
+export const GetRelationalDatabaseEventsRequest = S.suspend(() =>
+  S.Struct({
     relationalDatabaseName: S.String,
     durationInMinutes: S.optional(S.Number),
     pageToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/GetRelationalDatabaseEvents",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/GetRelationalDatabaseEvents",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetRelationalDatabaseLogEventsRequest extends S.Class<GetRelationalDatabaseLogEventsRequest>(
-  "GetRelationalDatabaseLogEventsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetRelationalDatabaseEventsRequest",
+}) as any as S.Schema<GetRelationalDatabaseEventsRequest>;
+export interface GetRelationalDatabaseLogEventsRequest {
+  relationalDatabaseName: string;
+  logStreamName: string;
+  startTime?: Date;
+  endTime?: Date;
+  startFromHead?: boolean;
+  pageToken?: string;
+}
+export const GetRelationalDatabaseLogEventsRequest = S.suspend(() =>
+  S.Struct({
     relationalDatabaseName: S.String,
     logStreamName: S.String,
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     startFromHead: S.optional(S.Boolean),
     pageToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/GetRelationalDatabaseLogEvents",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/GetRelationalDatabaseLogEvents",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetRelationalDatabaseLogStreamsRequest extends S.Class<GetRelationalDatabaseLogStreamsRequest>(
-  "GetRelationalDatabaseLogStreamsRequest",
-)(
-  { relationalDatabaseName: S.String },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/GetRelationalDatabaseLogStreams",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetRelationalDatabaseLogEventsRequest",
+}) as any as S.Schema<GetRelationalDatabaseLogEventsRequest>;
+export interface GetRelationalDatabaseLogStreamsRequest {
+  relationalDatabaseName: string;
+}
+export const GetRelationalDatabaseLogStreamsRequest = S.suspend(() =>
+  S.Struct({ relationalDatabaseName: S.String }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/GetRelationalDatabaseLogStreams",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetRelationalDatabaseMasterUserPasswordRequest extends S.Class<GetRelationalDatabaseMasterUserPasswordRequest>(
-  "GetRelationalDatabaseMasterUserPasswordRequest",
-)(
-  { relationalDatabaseName: S.String, passwordVersion: S.optional(S.String) },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/GetRelationalDatabaseMasterUserPassword",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetRelationalDatabaseLogStreamsRequest",
+}) as any as S.Schema<GetRelationalDatabaseLogStreamsRequest>;
+export interface GetRelationalDatabaseMasterUserPasswordRequest {
+  relationalDatabaseName: string;
+  passwordVersion?: string;
+}
+export const GetRelationalDatabaseMasterUserPasswordRequest = S.suspend(() =>
+  S.Struct({
+    relationalDatabaseName: S.String,
+    passwordVersion: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/GetRelationalDatabaseMasterUserPassword",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetRelationalDatabaseMetricDataRequest extends S.Class<GetRelationalDatabaseMetricDataRequest>(
-  "GetRelationalDatabaseMetricDataRequest",
-)(
-  {
+).annotations({
+  identifier: "GetRelationalDatabaseMasterUserPasswordRequest",
+}) as any as S.Schema<GetRelationalDatabaseMasterUserPasswordRequest>;
+export interface GetRelationalDatabaseMetricDataRequest {
+  relationalDatabaseName: string;
+  metricName: string;
+  period: number;
+  startTime: Date;
+  endTime: Date;
+  unit: string;
+  statistics: MetricStatisticList;
+}
+export const GetRelationalDatabaseMetricDataRequest = S.suspend(() =>
+  S.Struct({
     relationalDatabaseName: S.String,
     metricName: S.String,
     period: S.Number,
@@ -2091,158 +2799,220 @@ export class GetRelationalDatabaseMetricDataRequest extends S.Class<GetRelationa
     endTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     unit: S.String,
     statistics: MetricStatisticList,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/GetRelationalDatabaseMetricData",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/GetRelationalDatabaseMetricData",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetRelationalDatabaseParametersRequest extends S.Class<GetRelationalDatabaseParametersRequest>(
-  "GetRelationalDatabaseParametersRequest",
-)(
-  { relationalDatabaseName: S.String, pageToken: S.optional(S.String) },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/GetRelationalDatabaseParameters",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetRelationalDatabaseMetricDataRequest",
+}) as any as S.Schema<GetRelationalDatabaseMetricDataRequest>;
+export interface GetRelationalDatabaseParametersRequest {
+  relationalDatabaseName: string;
+  pageToken?: string;
+}
+export const GetRelationalDatabaseParametersRequest = S.suspend(() =>
+  S.Struct({
+    relationalDatabaseName: S.String,
+    pageToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/GetRelationalDatabaseParameters",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetRelationalDatabasesRequest extends S.Class<GetRelationalDatabasesRequest>(
-  "GetRelationalDatabasesRequest",
-)(
-  { pageToken: S.optional(S.String) },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/GetRelationalDatabases",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetRelationalDatabaseParametersRequest",
+}) as any as S.Schema<GetRelationalDatabaseParametersRequest>;
+export interface GetRelationalDatabasesRequest {
+  pageToken?: string;
+}
+export const GetRelationalDatabasesRequest = S.suspend(() =>
+  S.Struct({ pageToken: S.optional(S.String) }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/GetRelationalDatabases",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetRelationalDatabaseSnapshotRequest extends S.Class<GetRelationalDatabaseSnapshotRequest>(
-  "GetRelationalDatabaseSnapshotRequest",
-)(
-  { relationalDatabaseSnapshotName: S.String },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/GetRelationalDatabaseSnapshot",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetRelationalDatabasesRequest",
+}) as any as S.Schema<GetRelationalDatabasesRequest>;
+export interface GetRelationalDatabaseSnapshotRequest {
+  relationalDatabaseSnapshotName: string;
+}
+export const GetRelationalDatabaseSnapshotRequest = S.suspend(() =>
+  S.Struct({ relationalDatabaseSnapshotName: S.String }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/GetRelationalDatabaseSnapshot",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetRelationalDatabaseSnapshotsRequest extends S.Class<GetRelationalDatabaseSnapshotsRequest>(
-  "GetRelationalDatabaseSnapshotsRequest",
-)(
-  { pageToken: S.optional(S.String) },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/GetRelationalDatabaseSnapshots",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetRelationalDatabaseSnapshotRequest",
+}) as any as S.Schema<GetRelationalDatabaseSnapshotRequest>;
+export interface GetRelationalDatabaseSnapshotsRequest {
+  pageToken?: string;
+}
+export const GetRelationalDatabaseSnapshotsRequest = S.suspend(() =>
+  S.Struct({ pageToken: S.optional(S.String) }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/GetRelationalDatabaseSnapshots",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetSetupHistoryRequest extends S.Class<GetSetupHistoryRequest>(
-  "GetSetupHistoryRequest",
-)(
-  { resourceName: S.String, pageToken: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/get-setup-history" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetRelationalDatabaseSnapshotsRequest",
+}) as any as S.Schema<GetRelationalDatabaseSnapshotsRequest>;
+export interface GetSetupHistoryRequest {
+  resourceName: string;
+  pageToken?: string;
+}
+export const GetSetupHistoryRequest = S.suspend(() =>
+  S.Struct({ resourceName: S.String, pageToken: S.optional(S.String) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/get-setup-history" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetStaticIpRequest extends S.Class<GetStaticIpRequest>(
-  "GetStaticIpRequest",
-)(
-  { staticIpName: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetStaticIp" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetSetupHistoryRequest",
+}) as any as S.Schema<GetSetupHistoryRequest>;
+export interface GetStaticIpRequest {
+  staticIpName: string;
+}
+export const GetStaticIpRequest = S.suspend(() =>
+  S.Struct({ staticIpName: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetStaticIp" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetStaticIpsRequest extends S.Class<GetStaticIpsRequest>(
-  "GetStaticIpsRequest",
-)(
-  { pageToken: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetStaticIps" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetStaticIpRequest",
+}) as any as S.Schema<GetStaticIpRequest>;
+export interface GetStaticIpsRequest {
+  pageToken?: string;
+}
+export const GetStaticIpsRequest = S.suspend(() =>
+  S.Struct({ pageToken: S.optional(S.String) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/GetStaticIps" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ImportKeyPairRequest extends S.Class<ImportKeyPairRequest>(
-  "ImportKeyPairRequest",
-)(
-  { keyPairName: S.String, publicKeyBase64: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/ImportKeyPair" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetStaticIpsRequest",
+}) as any as S.Schema<GetStaticIpsRequest>;
+export interface ImportKeyPairRequest {
+  keyPairName: string;
+  publicKeyBase64: string;
+}
+export const ImportKeyPairRequest = S.suspend(() =>
+  S.Struct({ keyPairName: S.String, publicKeyBase64: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/ImportKeyPair" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class IsVpcPeeredResult extends S.Class<IsVpcPeeredResult>(
-  "IsVpcPeeredResult",
-)({ isPeered: S.optional(S.Boolean) }) {}
-export class OpenInstancePublicPortsRequest extends S.Class<OpenInstancePublicPortsRequest>(
-  "OpenInstancePublicPortsRequest",
-)(
-  { portInfo: PortInfo, instanceName: S.String },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/OpenInstancePublicPorts",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ImportKeyPairRequest",
+}) as any as S.Schema<ImportKeyPairRequest>;
+export interface IsVpcPeeredResult {
+  isPeered?: boolean;
+}
+export const IsVpcPeeredResult = S.suspend(() =>
+  S.Struct({ isPeered: S.optional(S.Boolean) }),
+).annotations({
+  identifier: "IsVpcPeeredResult",
+}) as any as S.Schema<IsVpcPeeredResult>;
+export interface OpenInstancePublicPortsRequest {
+  portInfo: PortInfo;
+  instanceName: string;
+}
+export const OpenInstancePublicPortsRequest = S.suspend(() =>
+  S.Struct({ portInfo: PortInfo, instanceName: S.String }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/OpenInstancePublicPorts",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutAlarmRequest extends S.Class<PutAlarmRequest>(
-  "PutAlarmRequest",
-)(
-  {
+).annotations({
+  identifier: "OpenInstancePublicPortsRequest",
+}) as any as S.Schema<OpenInstancePublicPortsRequest>;
+export interface PutAlarmRequest {
+  alarmName: string;
+  metricName: string;
+  monitoredResourceName: string;
+  comparisonOperator: string;
+  threshold: number;
+  evaluationPeriods: number;
+  datapointsToAlarm?: number;
+  treatMissingData?: string;
+  contactProtocols?: ContactProtocolsList;
+  notificationTriggers?: NotificationTriggerList;
+  notificationEnabled?: boolean;
+}
+export const PutAlarmRequest = S.suspend(() =>
+  S.Struct({
     alarmName: S.String,
     metricName: S.String,
     monitoredResourceName: S.String,
@@ -2254,425 +3024,655 @@ export class PutAlarmRequest extends S.Class<PutAlarmRequest>(
     contactProtocols: S.optional(ContactProtocolsList),
     notificationTriggers: S.optional(NotificationTriggerList),
     notificationEnabled: S.optional(S.Boolean),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/PutAlarm" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/PutAlarm" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutInstancePublicPortsRequest extends S.Class<PutInstancePublicPortsRequest>(
-  "PutInstancePublicPortsRequest",
-)(
-  { portInfos: PortInfoList, instanceName: S.String },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/PutInstancePublicPorts",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "PutAlarmRequest",
+}) as any as S.Schema<PutAlarmRequest>;
+export interface PutInstancePublicPortsRequest {
+  portInfos: PortInfoList;
+  instanceName: string;
+}
+export const PutInstancePublicPortsRequest = S.suspend(() =>
+  S.Struct({ portInfos: PortInfoList, instanceName: S.String }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/PutInstancePublicPorts",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class RebootInstanceRequest extends S.Class<RebootInstanceRequest>(
-  "RebootInstanceRequest",
-)(
-  { instanceName: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/RebootInstance" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "PutInstancePublicPortsRequest",
+}) as any as S.Schema<PutInstancePublicPortsRequest>;
+export interface RebootInstanceRequest {
+  instanceName: string;
+}
+export const RebootInstanceRequest = S.suspend(() =>
+  S.Struct({ instanceName: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/RebootInstance" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class RebootRelationalDatabaseRequest extends S.Class<RebootRelationalDatabaseRequest>(
-  "RebootRelationalDatabaseRequest",
-)(
-  { relationalDatabaseName: S.String },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/RebootRelationalDatabase",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "RebootInstanceRequest",
+}) as any as S.Schema<RebootInstanceRequest>;
+export interface RebootRelationalDatabaseRequest {
+  relationalDatabaseName: string;
+}
+export const RebootRelationalDatabaseRequest = S.suspend(() =>
+  S.Struct({ relationalDatabaseName: S.String }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/RebootRelationalDatabase",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class RegisterContainerImageRequest extends S.Class<RegisterContainerImageRequest>(
-  "RegisterContainerImageRequest",
-)(
-  {
+).annotations({
+  identifier: "RebootRelationalDatabaseRequest",
+}) as any as S.Schema<RebootRelationalDatabaseRequest>;
+export interface RegisterContainerImageRequest {
+  serviceName: string;
+  label: string;
+  digest: string;
+}
+export const RegisterContainerImageRequest = S.suspend(() =>
+  S.Struct({
     serviceName: S.String.pipe(T.HttpLabel("serviceName")),
     label: S.String,
     digest: S.String,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/container-services/{serviceName}/images",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/container-services/{serviceName}/images",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ReleaseStaticIpRequest extends S.Class<ReleaseStaticIpRequest>(
-  "ReleaseStaticIpRequest",
-)(
-  { staticIpName: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/ReleaseStaticIp" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "RegisterContainerImageRequest",
+}) as any as S.Schema<RegisterContainerImageRequest>;
+export interface ReleaseStaticIpRequest {
+  staticIpName: string;
+}
+export const ReleaseStaticIpRequest = S.suspend(() =>
+  S.Struct({ staticIpName: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/ReleaseStaticIp" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ResetDistributionCacheRequest extends S.Class<ResetDistributionCacheRequest>(
-  "ResetDistributionCacheRequest",
-)(
-  { distributionName: S.optional(S.String) },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/ResetDistributionCache",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ReleaseStaticIpRequest",
+}) as any as S.Schema<ReleaseStaticIpRequest>;
+export interface ResetDistributionCacheRequest {
+  distributionName?: string;
+}
+export const ResetDistributionCacheRequest = S.suspend(() =>
+  S.Struct({ distributionName: S.optional(S.String) }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/ResetDistributionCache",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SendContactMethodVerificationRequest extends S.Class<SendContactMethodVerificationRequest>(
-  "SendContactMethodVerificationRequest",
-)(
-  { protocol: S.String },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/SendContactMethodVerification",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ResetDistributionCacheRequest",
+}) as any as S.Schema<ResetDistributionCacheRequest>;
+export interface SendContactMethodVerificationRequest {
+  protocol: string;
+}
+export const SendContactMethodVerificationRequest = S.suspend(() =>
+  S.Struct({ protocol: S.String }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/SendContactMethodVerification",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SetIpAddressTypeRequest extends S.Class<SetIpAddressTypeRequest>(
-  "SetIpAddressTypeRequest",
-)(
-  {
+).annotations({
+  identifier: "SendContactMethodVerificationRequest",
+}) as any as S.Schema<SendContactMethodVerificationRequest>;
+export interface SetIpAddressTypeRequest {
+  resourceType: string;
+  resourceName: string;
+  ipAddressType: string;
+  acceptBundleUpdate?: boolean;
+}
+export const SetIpAddressTypeRequest = S.suspend(() =>
+  S.Struct({
     resourceType: S.String,
     resourceName: S.String,
     ipAddressType: S.String,
     acceptBundleUpdate: S.optional(S.Boolean),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/SetIpAddressType" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/SetIpAddressType" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SetResourceAccessForBucketRequest extends S.Class<SetResourceAccessForBucketRequest>(
-  "SetResourceAccessForBucketRequest",
-)(
-  { resourceName: S.String, bucketName: S.String, access: S.String },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/SetResourceAccessForBucket",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "SetIpAddressTypeRequest",
+}) as any as S.Schema<SetIpAddressTypeRequest>;
+export interface SetResourceAccessForBucketRequest {
+  resourceName: string;
+  bucketName: string;
+  access: string;
+}
+export const SetResourceAccessForBucketRequest = S.suspend(() =>
+  S.Struct({
+    resourceName: S.String,
+    bucketName: S.String,
+    access: S.String,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/SetResourceAccessForBucket",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SetupInstanceHttpsRequest extends S.Class<SetupInstanceHttpsRequest>(
-  "SetupInstanceHttpsRequest",
-)(
-  {
+).annotations({
+  identifier: "SetResourceAccessForBucketRequest",
+}) as any as S.Schema<SetResourceAccessForBucketRequest>;
+export interface SetupInstanceHttpsRequest {
+  instanceName: string;
+  emailAddress: string;
+  domainNames: SetupDomainNameList;
+  certificateProvider: string;
+}
+export const SetupInstanceHttpsRequest = S.suspend(() =>
+  S.Struct({
     instanceName: S.String,
     emailAddress: S.String,
     domainNames: SetupDomainNameList,
     certificateProvider: S.String,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/setup-instance-https" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/setup-instance-https",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartGUISessionRequest extends S.Class<StartGUISessionRequest>(
-  "StartGUISessionRequest",
-)(
-  { resourceName: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/start-gui-session" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "SetupInstanceHttpsRequest",
+}) as any as S.Schema<SetupInstanceHttpsRequest>;
+export interface StartGUISessionRequest {
+  resourceName: string;
+}
+export const StartGUISessionRequest = S.suspend(() =>
+  S.Struct({ resourceName: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/start-gui-session" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartInstanceRequest extends S.Class<StartInstanceRequest>(
-  "StartInstanceRequest",
-)(
-  { instanceName: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/StartInstance" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "StartGUISessionRequest",
+}) as any as S.Schema<StartGUISessionRequest>;
+export interface StartInstanceRequest {
+  instanceName: string;
+}
+export const StartInstanceRequest = S.suspend(() =>
+  S.Struct({ instanceName: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/StartInstance" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartRelationalDatabaseRequest extends S.Class<StartRelationalDatabaseRequest>(
-  "StartRelationalDatabaseRequest",
-)(
-  { relationalDatabaseName: S.String },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/StartRelationalDatabase",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "StartInstanceRequest",
+}) as any as S.Schema<StartInstanceRequest>;
+export interface StartRelationalDatabaseRequest {
+  relationalDatabaseName: string;
+}
+export const StartRelationalDatabaseRequest = S.suspend(() =>
+  S.Struct({ relationalDatabaseName: S.String }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/StartRelationalDatabase",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StopGUISessionRequest extends S.Class<StopGUISessionRequest>(
-  "StopGUISessionRequest",
-)(
-  { resourceName: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/stop-gui-session" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "StartRelationalDatabaseRequest",
+}) as any as S.Schema<StartRelationalDatabaseRequest>;
+export interface StopGUISessionRequest {
+  resourceName: string;
+}
+export const StopGUISessionRequest = S.suspend(() =>
+  S.Struct({ resourceName: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/stop-gui-session" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StopInstanceRequest extends S.Class<StopInstanceRequest>(
-  "StopInstanceRequest",
-)(
-  { instanceName: S.String, force: S.optional(S.Boolean) },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/StopInstance" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "StopGUISessionRequest",
+}) as any as S.Schema<StopGUISessionRequest>;
+export interface StopInstanceRequest {
+  instanceName: string;
+  force?: boolean;
+}
+export const StopInstanceRequest = S.suspend(() =>
+  S.Struct({ instanceName: S.String, force: S.optional(S.Boolean) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/StopInstance" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StopRelationalDatabaseRequest extends S.Class<StopRelationalDatabaseRequest>(
-  "StopRelationalDatabaseRequest",
-)(
-  {
+).annotations({
+  identifier: "StopInstanceRequest",
+}) as any as S.Schema<StopInstanceRequest>;
+export interface StopRelationalDatabaseRequest {
+  relationalDatabaseName: string;
+  relationalDatabaseSnapshotName?: string;
+}
+export const StopRelationalDatabaseRequest = S.suspend(() =>
+  S.Struct({
     relationalDatabaseName: S.String,
     relationalDatabaseSnapshotName: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/StopRelationalDatabase",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/StopRelationalDatabase",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { resourceName: S.String, resourceArn: S.optional(S.String), tags: TagList },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/TagResource" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "StopRelationalDatabaseRequest",
+}) as any as S.Schema<StopRelationalDatabaseRequest>;
+export interface TagResourceRequest {
+  resourceName: string;
+  resourceArn?: string;
+  tags: TagList;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({
+    resourceName: S.String,
+    resourceArn: S.optional(S.String),
+    tags: TagList,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/TagResource" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TestAlarmRequest extends S.Class<TestAlarmRequest>(
-  "TestAlarmRequest",
-)(
-  {
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TestAlarmRequest {
+  alarmName: string;
+  state: string;
+}
+export const TestAlarmRequest = S.suspend(() =>
+  S.Struct({
     alarmName: S.String.pipe(T.HttpLabel("alarmName")),
     state: S.String.pipe(T.HttpQuery("state")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/ls/api/2016-11-28/TestAlarm/{alarmName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/ls/api/2016-11-28/TestAlarm/{alarmName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ResourceLocation extends S.Class<ResourceLocation>(
-  "ResourceLocation",
-)({
-  availabilityZone: S.optional(S.String),
-  regionName: S.optional(S.String),
-}) {}
-export class Operation extends S.Class<Operation>("Operation")({
-  id: S.optional(S.String),
-  resourceName: S.optional(S.String),
-  resourceType: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  location: S.optional(ResourceLocation),
-  isTerminal: S.optional(S.Boolean),
-  operationDetails: S.optional(S.String),
-  operationType: S.optional(S.String),
-  status: S.optional(S.String),
-  statusChangedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  errorCode: S.optional(S.String),
-  errorDetails: S.optional(S.String),
-}) {}
-export class UnpeerVpcResult extends S.Class<UnpeerVpcResult>(
-  "UnpeerVpcResult",
-)({ operation: S.optional(Operation) }) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "TestAlarmRequest",
+}) as any as S.Schema<TestAlarmRequest>;
+export interface ResourceLocation {
+  availabilityZone?: string;
+  regionName?: string;
+}
+export const ResourceLocation = S.suspend(() =>
+  S.Struct({
+    availabilityZone: S.optional(S.String),
+    regionName: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ResourceLocation",
+}) as any as S.Schema<ResourceLocation>;
+export interface Operation {
+  id?: string;
+  resourceName?: string;
+  resourceType?: string;
+  createdAt?: Date;
+  location?: ResourceLocation;
+  isTerminal?: boolean;
+  operationDetails?: string;
+  operationType?: string;
+  status?: string;
+  statusChangedAt?: Date;
+  errorCode?: string;
+  errorDetails?: string;
+}
+export const Operation = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    resourceName: S.optional(S.String),
+    resourceType: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    location: S.optional(ResourceLocation),
+    isTerminal: S.optional(S.Boolean),
+    operationDetails: S.optional(S.String),
+    operationType: S.optional(S.String),
+    status: S.optional(S.String),
+    statusChangedAt: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    errorCode: S.optional(S.String),
+    errorDetails: S.optional(S.String),
+  }),
+).annotations({ identifier: "Operation" }) as any as S.Schema<Operation>;
+export interface UnpeerVpcResult {
+  operation?: Operation;
+}
+export const UnpeerVpcResult = S.suspend(() =>
+  S.Struct({ operation: S.optional(Operation) }),
+).annotations({
+  identifier: "UnpeerVpcResult",
+}) as any as S.Schema<UnpeerVpcResult>;
+export interface UntagResourceRequest {
+  resourceName: string;
+  resourceArn?: string;
+  tagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
     resourceName: S.String,
     resourceArn: S.optional(S.String),
     tagKeys: TagKeyList,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/UntagResource" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/UntagResource" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateBucketBundleRequest extends S.Class<UpdateBucketBundleRequest>(
-  "UpdateBucketBundleRequest",
-)(
-  { bucketName: S.String, bundleId: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/UpdateBucketBundle" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UpdateBucketBundleRequest {
+  bucketName: string;
+  bundleId: string;
+}
+export const UpdateBucketBundleRequest = S.suspend(() =>
+  S.Struct({ bucketName: S.String, bundleId: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/UpdateBucketBundle" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "UpdateBucketBundleRequest",
+}) as any as S.Schema<UpdateBucketBundleRequest>;
+export type ContainerServicePublicDomainsList = string[];
 export const ContainerServicePublicDomainsList = S.Array(S.String);
+export type ContainerServicePublicDomains = {
+  [key: string]: ContainerServicePublicDomainsList;
+};
 export const ContainerServicePublicDomains = S.Record({
   key: S.String,
   value: ContainerServicePublicDomainsList,
 });
-export class ContainerServiceECRImagePullerRoleRequest extends S.Class<ContainerServiceECRImagePullerRoleRequest>(
-  "ContainerServiceECRImagePullerRoleRequest",
-)({ isActive: S.optional(S.Boolean) }) {}
-export class PrivateRegistryAccessRequest extends S.Class<PrivateRegistryAccessRequest>(
-  "PrivateRegistryAccessRequest",
-)({
-  ecrImagePullerRole: S.optional(ContainerServiceECRImagePullerRoleRequest),
-}) {}
-export class UpdateContainerServiceRequest extends S.Class<UpdateContainerServiceRequest>(
-  "UpdateContainerServiceRequest",
-)(
-  {
+export interface ContainerServiceECRImagePullerRoleRequest {
+  isActive?: boolean;
+}
+export const ContainerServiceECRImagePullerRoleRequest = S.suspend(() =>
+  S.Struct({ isActive: S.optional(S.Boolean) }),
+).annotations({
+  identifier: "ContainerServiceECRImagePullerRoleRequest",
+}) as any as S.Schema<ContainerServiceECRImagePullerRoleRequest>;
+export interface PrivateRegistryAccessRequest {
+  ecrImagePullerRole?: ContainerServiceECRImagePullerRoleRequest;
+}
+export const PrivateRegistryAccessRequest = S.suspend(() =>
+  S.Struct({
+    ecrImagePullerRole: S.optional(ContainerServiceECRImagePullerRoleRequest),
+  }),
+).annotations({
+  identifier: "PrivateRegistryAccessRequest",
+}) as any as S.Schema<PrivateRegistryAccessRequest>;
+export interface UpdateContainerServiceRequest {
+  serviceName: string;
+  power?: string;
+  scale?: number;
+  isDisabled?: boolean;
+  publicDomainNames?: ContainerServicePublicDomains;
+  privateRegistryAccess?: PrivateRegistryAccessRequest;
+}
+export const UpdateContainerServiceRequest = S.suspend(() =>
+  S.Struct({
     serviceName: S.String.pipe(T.HttpLabel("serviceName")),
     power: S.optional(S.String),
     scale: S.optional(S.Number),
     isDisabled: S.optional(S.Boolean),
     publicDomainNames: S.optional(ContainerServicePublicDomains),
     privateRegistryAccess: S.optional(PrivateRegistryAccessRequest),
-  },
-  T.all(
-    T.Http({
-      method: "PATCH",
-      uri: "/ls/api/2016-11-28/container-services/{serviceName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/ls/api/2016-11-28/container-services/{serviceName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class InputOrigin extends S.Class<InputOrigin>("InputOrigin")({
-  name: S.optional(S.String),
-  regionName: S.optional(S.String),
-  protocolPolicy: S.optional(S.String),
-  responseTimeout: S.optional(S.Number),
-}) {}
-export class CacheBehavior extends S.Class<CacheBehavior>("CacheBehavior")({
-  behavior: S.optional(S.String),
-}) {}
-export class CookieObject extends S.Class<CookieObject>("CookieObject")({
-  option: S.optional(S.String),
-  cookiesAllowList: S.optional(StringList),
-}) {}
+).annotations({
+  identifier: "UpdateContainerServiceRequest",
+}) as any as S.Schema<UpdateContainerServiceRequest>;
+export interface InputOrigin {
+  name?: string;
+  regionName?: string;
+  protocolPolicy?: string;
+  responseTimeout?: number;
+}
+export const InputOrigin = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    regionName: S.optional(S.String),
+    protocolPolicy: S.optional(S.String),
+    responseTimeout: S.optional(S.Number),
+  }),
+).annotations({ identifier: "InputOrigin" }) as any as S.Schema<InputOrigin>;
+export interface CacheBehavior {
+  behavior?: string;
+}
+export const CacheBehavior = S.suspend(() =>
+  S.Struct({ behavior: S.optional(S.String) }),
+).annotations({
+  identifier: "CacheBehavior",
+}) as any as S.Schema<CacheBehavior>;
+export interface CookieObject {
+  option?: string;
+  cookiesAllowList?: StringList;
+}
+export const CookieObject = S.suspend(() =>
+  S.Struct({
+    option: S.optional(S.String),
+    cookiesAllowList: S.optional(StringList),
+  }),
+).annotations({ identifier: "CookieObject" }) as any as S.Schema<CookieObject>;
+export type HeaderForwardList = string[];
 export const HeaderForwardList = S.Array(S.String);
-export class HeaderObject extends S.Class<HeaderObject>("HeaderObject")({
-  option: S.optional(S.String),
-  headersAllowList: S.optional(HeaderForwardList),
-}) {}
-export class QueryStringObject extends S.Class<QueryStringObject>(
-  "QueryStringObject",
-)({
-  option: S.optional(S.Boolean),
-  queryStringsAllowList: S.optional(StringList),
-}) {}
-export class CacheSettings extends S.Class<CacheSettings>("CacheSettings")({
-  defaultTTL: S.optional(S.Number),
-  minimumTTL: S.optional(S.Number),
-  maximumTTL: S.optional(S.Number),
-  allowedHTTPMethods: S.optional(S.String),
-  cachedHTTPMethods: S.optional(S.String),
-  forwardedCookies: S.optional(CookieObject),
-  forwardedHeaders: S.optional(HeaderObject),
-  forwardedQueryStrings: S.optional(QueryStringObject),
-}) {}
-export class CacheBehaviorPerPath extends S.Class<CacheBehaviorPerPath>(
-  "CacheBehaviorPerPath",
-)({ path: S.optional(S.String), behavior: S.optional(S.String) }) {}
+export interface HeaderObject {
+  option?: string;
+  headersAllowList?: HeaderForwardList;
+}
+export const HeaderObject = S.suspend(() =>
+  S.Struct({
+    option: S.optional(S.String),
+    headersAllowList: S.optional(HeaderForwardList),
+  }),
+).annotations({ identifier: "HeaderObject" }) as any as S.Schema<HeaderObject>;
+export interface QueryStringObject {
+  option?: boolean;
+  queryStringsAllowList?: StringList;
+}
+export const QueryStringObject = S.suspend(() =>
+  S.Struct({
+    option: S.optional(S.Boolean),
+    queryStringsAllowList: S.optional(StringList),
+  }),
+).annotations({
+  identifier: "QueryStringObject",
+}) as any as S.Schema<QueryStringObject>;
+export interface CacheSettings {
+  defaultTTL?: number;
+  minimumTTL?: number;
+  maximumTTL?: number;
+  allowedHTTPMethods?: string;
+  cachedHTTPMethods?: string;
+  forwardedCookies?: CookieObject;
+  forwardedHeaders?: HeaderObject;
+  forwardedQueryStrings?: QueryStringObject;
+}
+export const CacheSettings = S.suspend(() =>
+  S.Struct({
+    defaultTTL: S.optional(S.Number),
+    minimumTTL: S.optional(S.Number),
+    maximumTTL: S.optional(S.Number),
+    allowedHTTPMethods: S.optional(S.String),
+    cachedHTTPMethods: S.optional(S.String),
+    forwardedCookies: S.optional(CookieObject),
+    forwardedHeaders: S.optional(HeaderObject),
+    forwardedQueryStrings: S.optional(QueryStringObject),
+  }),
+).annotations({
+  identifier: "CacheSettings",
+}) as any as S.Schema<CacheSettings>;
+export interface CacheBehaviorPerPath {
+  path?: string;
+  behavior?: string;
+}
+export const CacheBehaviorPerPath = S.suspend(() =>
+  S.Struct({ path: S.optional(S.String), behavior: S.optional(S.String) }),
+).annotations({
+  identifier: "CacheBehaviorPerPath",
+}) as any as S.Schema<CacheBehaviorPerPath>;
+export type CacheBehaviorList = CacheBehaviorPerPath[];
 export const CacheBehaviorList = S.Array(CacheBehaviorPerPath);
-export class UpdateDistributionRequest extends S.Class<UpdateDistributionRequest>(
-  "UpdateDistributionRequest",
-)(
-  {
+export interface UpdateDistributionRequest {
+  distributionName: string;
+  origin?: InputOrigin;
+  defaultCacheBehavior?: CacheBehavior;
+  cacheBehaviorSettings?: CacheSettings;
+  cacheBehaviors?: CacheBehaviorList;
+  isEnabled?: boolean;
+  viewerMinimumTlsProtocolVersion?: string;
+  certificateName?: string;
+  useDefaultCertificate?: boolean;
+}
+export const UpdateDistributionRequest = S.suspend(() =>
+  S.Struct({
     distributionName: S.String,
     origin: S.optional(InputOrigin),
     defaultCacheBehavior: S.optional(CacheBehavior),
@@ -2682,91 +3682,132 @@ export class UpdateDistributionRequest extends S.Class<UpdateDistributionRequest
     viewerMinimumTlsProtocolVersion: S.optional(S.String),
     certificateName: S.optional(S.String),
     useDefaultCertificate: S.optional(S.Boolean),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/UpdateDistribution" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/UpdateDistribution" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateDistributionBundleRequest extends S.Class<UpdateDistributionBundleRequest>(
-  "UpdateDistributionBundleRequest",
-)(
-  { distributionName: S.optional(S.String), bundleId: S.optional(S.String) },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/UpdateDistributionBundle",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UpdateDistributionRequest",
+}) as any as S.Schema<UpdateDistributionRequest>;
+export interface UpdateDistributionBundleRequest {
+  distributionName?: string;
+  bundleId?: string;
+}
+export const UpdateDistributionBundleRequest = S.suspend(() =>
+  S.Struct({
+    distributionName: S.optional(S.String),
+    bundleId: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/UpdateDistributionBundle",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateDomainEntryRequest extends S.Class<UpdateDomainEntryRequest>(
-  "UpdateDomainEntryRequest",
-)(
-  { domainName: S.String, domainEntry: DomainEntry },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/UpdateDomainEntry" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UpdateDistributionBundleRequest",
+}) as any as S.Schema<UpdateDistributionBundleRequest>;
+export interface UpdateDomainEntryRequest {
+  domainName: string;
+  domainEntry: DomainEntry;
+}
+export const UpdateDomainEntryRequest = S.suspend(() =>
+  S.Struct({ domainName: S.String, domainEntry: DomainEntry }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/UpdateDomainEntry" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateInstanceMetadataOptionsRequest extends S.Class<UpdateInstanceMetadataOptionsRequest>(
-  "UpdateInstanceMetadataOptionsRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateDomainEntryRequest",
+}) as any as S.Schema<UpdateDomainEntryRequest>;
+export interface UpdateInstanceMetadataOptionsRequest {
+  instanceName: string;
+  httpTokens?: string;
+  httpEndpoint?: string;
+  httpPutResponseHopLimit?: number;
+  httpProtocolIpv6?: string;
+}
+export const UpdateInstanceMetadataOptionsRequest = S.suspend(() =>
+  S.Struct({
     instanceName: S.String,
     httpTokens: S.optional(S.String),
     httpEndpoint: S.optional(S.String),
     httpPutResponseHopLimit: S.optional(S.Number),
     httpProtocolIpv6: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/UpdateInstanceMetadataOptions",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/UpdateInstanceMetadataOptions",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateLoadBalancerAttributeRequest extends S.Class<UpdateLoadBalancerAttributeRequest>(
-  "UpdateLoadBalancerAttributeRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateInstanceMetadataOptionsRequest",
+}) as any as S.Schema<UpdateInstanceMetadataOptionsRequest>;
+export interface UpdateLoadBalancerAttributeRequest {
+  loadBalancerName: string;
+  attributeName: string;
+  attributeValue: string;
+}
+export const UpdateLoadBalancerAttributeRequest = S.suspend(() =>
+  S.Struct({
     loadBalancerName: S.String,
     attributeName: S.String,
     attributeValue: S.String,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/UpdateLoadBalancerAttribute",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/UpdateLoadBalancerAttribute",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateRelationalDatabaseRequest extends S.Class<UpdateRelationalDatabaseRequest>(
-  "UpdateRelationalDatabaseRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateLoadBalancerAttributeRequest",
+}) as any as S.Schema<UpdateLoadBalancerAttributeRequest>;
+export interface UpdateRelationalDatabaseRequest {
+  relationalDatabaseName: string;
+  masterUserPassword?: string;
+  rotateMasterUserPassword?: boolean;
+  preferredBackupWindow?: string;
+  preferredMaintenanceWindow?: string;
+  enableBackupRetention?: boolean;
+  disableBackupRetention?: boolean;
+  publiclyAccessible?: boolean;
+  applyImmediately?: boolean;
+  caCertificateIdentifier?: string;
+  relationalDatabaseBlueprintId?: string;
+}
+export const UpdateRelationalDatabaseRequest = S.suspend(() =>
+  S.Struct({
     relationalDatabaseName: S.String,
     masterUserPassword: S.optional(S.String),
     rotateMasterUserPassword: S.optional(S.Boolean),
@@ -2778,1212 +3819,2633 @@ export class UpdateRelationalDatabaseRequest extends S.Class<UpdateRelationalDat
     applyImmediately: S.optional(S.Boolean),
     caCertificateIdentifier: S.optional(S.String),
     relationalDatabaseBlueprintId: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/UpdateRelationalDatabase",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/UpdateRelationalDatabase",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "UpdateRelationalDatabaseRequest",
+}) as any as S.Schema<UpdateRelationalDatabaseRequest>;
+export type OperationList = Operation[];
 export const OperationList = S.Array(Operation);
-export class InstanceEntry extends S.Class<InstanceEntry>("InstanceEntry")({
-  sourceName: S.String,
-  instanceType: S.String,
-  portInfoSource: S.String,
-  userData: S.optional(S.String),
-  availabilityZone: S.String,
-}) {}
+export interface InstanceEntry {
+  sourceName: string;
+  instanceType: string;
+  portInfoSource: string;
+  userData?: string;
+  availabilityZone: string;
+}
+export const InstanceEntry = S.suspend(() =>
+  S.Struct({
+    sourceName: S.String,
+    instanceType: S.String,
+    portInfoSource: S.String,
+    userData: S.optional(S.String),
+    availabilityZone: S.String,
+  }),
+).annotations({
+  identifier: "InstanceEntry",
+}) as any as S.Schema<InstanceEntry>;
+export type InstanceEntryList = InstanceEntry[];
 export const InstanceEntryList = S.Array(InstanceEntry);
+export type Environment = { [key: string]: string };
 export const Environment = S.Record({ key: S.String, value: S.String });
+export type PortMap = { [key: string]: string };
 export const PortMap = S.Record({ key: S.String, value: S.String });
-export class Container extends S.Class<Container>("Container")({
-  image: S.optional(S.String),
-  command: S.optional(StringList),
-  environment: S.optional(Environment),
-  ports: S.optional(PortMap),
-}) {}
+export interface Container {
+  image?: string;
+  command?: StringList;
+  environment?: Environment;
+  ports?: PortMap;
+}
+export const Container = S.suspend(() =>
+  S.Struct({
+    image: S.optional(S.String),
+    command: S.optional(StringList),
+    environment: S.optional(Environment),
+    ports: S.optional(PortMap),
+  }),
+).annotations({ identifier: "Container" }) as any as S.Schema<Container>;
+export type ContainerMap = { [key: string]: Container };
 export const ContainerMap = S.Record({ key: S.String, value: Container });
-export class ContainerServiceHealthCheckConfig extends S.Class<ContainerServiceHealthCheckConfig>(
-  "ContainerServiceHealthCheckConfig",
-)({
-  healthyThreshold: S.optional(S.Number),
-  unhealthyThreshold: S.optional(S.Number),
-  timeoutSeconds: S.optional(S.Number),
-  intervalSeconds: S.optional(S.Number),
-  path: S.optional(S.String),
-  successCodes: S.optional(S.String),
-}) {}
-export class EndpointRequest extends S.Class<EndpointRequest>(
-  "EndpointRequest",
-)({
-  containerName: S.String,
-  containerPort: S.Number,
-  healthCheck: S.optional(ContainerServiceHealthCheckConfig),
-}) {}
-export class ContainerServiceDeploymentRequest extends S.Class<ContainerServiceDeploymentRequest>(
-  "ContainerServiceDeploymentRequest",
-)({
-  containers: S.optional(ContainerMap),
-  publicEndpoint: S.optional(EndpointRequest),
-}) {}
-export class ContainerServiceRegistryLogin extends S.Class<ContainerServiceRegistryLogin>(
-  "ContainerServiceRegistryLogin",
-)({
-  username: S.optional(S.String),
-  password: S.optional(S.String),
-  expiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  registry: S.optional(S.String),
-}) {}
-export class AccessKeyLastUsed extends S.Class<AccessKeyLastUsed>(
-  "AccessKeyLastUsed",
-)({
-  lastUsedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  region: S.optional(S.String),
-  serviceName: S.optional(S.String),
-}) {}
-export class AccessKey extends S.Class<AccessKey>("AccessKey")({
-  accessKeyId: S.optional(S.String),
-  secretAccessKey: S.optional(S.String),
-  status: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUsed: S.optional(AccessKeyLastUsed),
-}) {}
+export interface ContainerServiceHealthCheckConfig {
+  healthyThreshold?: number;
+  unhealthyThreshold?: number;
+  timeoutSeconds?: number;
+  intervalSeconds?: number;
+  path?: string;
+  successCodes?: string;
+}
+export const ContainerServiceHealthCheckConfig = S.suspend(() =>
+  S.Struct({
+    healthyThreshold: S.optional(S.Number),
+    unhealthyThreshold: S.optional(S.Number),
+    timeoutSeconds: S.optional(S.Number),
+    intervalSeconds: S.optional(S.Number),
+    path: S.optional(S.String),
+    successCodes: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ContainerServiceHealthCheckConfig",
+}) as any as S.Schema<ContainerServiceHealthCheckConfig>;
+export interface EndpointRequest {
+  containerName: string;
+  containerPort: number;
+  healthCheck?: ContainerServiceHealthCheckConfig;
+}
+export const EndpointRequest = S.suspend(() =>
+  S.Struct({
+    containerName: S.String,
+    containerPort: S.Number,
+    healthCheck: S.optional(ContainerServiceHealthCheckConfig),
+  }),
+).annotations({
+  identifier: "EndpointRequest",
+}) as any as S.Schema<EndpointRequest>;
+export interface ContainerServiceDeploymentRequest {
+  containers?: ContainerMap;
+  publicEndpoint?: EndpointRequest;
+}
+export const ContainerServiceDeploymentRequest = S.suspend(() =>
+  S.Struct({
+    containers: S.optional(ContainerMap),
+    publicEndpoint: S.optional(EndpointRequest),
+  }),
+).annotations({
+  identifier: "ContainerServiceDeploymentRequest",
+}) as any as S.Schema<ContainerServiceDeploymentRequest>;
+export interface ContainerServiceRegistryLogin {
+  username?: string;
+  password?: string;
+  expiresAt?: Date;
+  registry?: string;
+}
+export const ContainerServiceRegistryLogin = S.suspend(() =>
+  S.Struct({
+    username: S.optional(S.String),
+    password: S.optional(S.String),
+    expiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    registry: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ContainerServiceRegistryLogin",
+}) as any as S.Schema<ContainerServiceRegistryLogin>;
+export interface AccessKeyLastUsed {
+  lastUsedDate?: Date;
+  region?: string;
+  serviceName?: string;
+}
+export const AccessKeyLastUsed = S.suspend(() =>
+  S.Struct({
+    lastUsedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    region: S.optional(S.String),
+    serviceName: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AccessKeyLastUsed",
+}) as any as S.Schema<AccessKeyLastUsed>;
+export interface AccessKey {
+  accessKeyId?: string;
+  secretAccessKey?: string;
+  status?: string;
+  createdAt?: Date;
+  lastUsed?: AccessKeyLastUsed;
+}
+export const AccessKey = S.suspend(() =>
+  S.Struct({
+    accessKeyId: S.optional(S.String),
+    secretAccessKey: S.optional(S.String),
+    status: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUsed: S.optional(AccessKeyLastUsed),
+  }),
+).annotations({ identifier: "AccessKey" }) as any as S.Schema<AccessKey>;
+export type AccessKeyList = AccessKey[];
 export const AccessKeyList = S.Array(AccessKey);
-export class ResourceRecord extends S.Class<ResourceRecord>("ResourceRecord")({
-  name: S.optional(S.String),
-  type: S.optional(S.String),
-  value: S.optional(S.String),
-}) {}
-export class DnsRecordCreationState extends S.Class<DnsRecordCreationState>(
-  "DnsRecordCreationState",
-)({ code: S.optional(S.String), message: S.optional(S.String) }) {}
-export class DomainValidationRecord extends S.Class<DomainValidationRecord>(
-  "DomainValidationRecord",
-)({
-  domainName: S.optional(S.String),
-  resourceRecord: S.optional(ResourceRecord),
-  dnsRecordCreationState: S.optional(DnsRecordCreationState),
-  validationStatus: S.optional(S.String),
-}) {}
+export interface ResourceRecord {
+  name?: string;
+  type?: string;
+  value?: string;
+}
+export const ResourceRecord = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    value: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ResourceRecord",
+}) as any as S.Schema<ResourceRecord>;
+export interface DnsRecordCreationState {
+  code?: string;
+  message?: string;
+}
+export const DnsRecordCreationState = S.suspend(() =>
+  S.Struct({ code: S.optional(S.String), message: S.optional(S.String) }),
+).annotations({
+  identifier: "DnsRecordCreationState",
+}) as any as S.Schema<DnsRecordCreationState>;
+export interface DomainValidationRecord {
+  domainName?: string;
+  resourceRecord?: ResourceRecord;
+  dnsRecordCreationState?: DnsRecordCreationState;
+  validationStatus?: string;
+}
+export const DomainValidationRecord = S.suspend(() =>
+  S.Struct({
+    domainName: S.optional(S.String),
+    resourceRecord: S.optional(ResourceRecord),
+    dnsRecordCreationState: S.optional(DnsRecordCreationState),
+    validationStatus: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DomainValidationRecord",
+}) as any as S.Schema<DomainValidationRecord>;
+export type DomainValidationRecordList = DomainValidationRecord[];
 export const DomainValidationRecordList = S.Array(DomainValidationRecord);
-export class RenewalSummary extends S.Class<RenewalSummary>("RenewalSummary")({
-  domainValidationRecords: S.optional(DomainValidationRecordList),
-  renewalStatus: S.optional(S.String),
-  renewalStatusReason: S.optional(S.String),
-  updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class Certificate extends S.Class<Certificate>("Certificate")({
-  arn: S.optional(S.String),
-  name: S.optional(S.String),
-  domainName: S.optional(S.String),
-  status: S.optional(S.String),
-  serialNumber: S.optional(S.String),
-  subjectAlternativeNames: S.optional(SubjectAlternativeNameList),
-  domainValidationRecords: S.optional(DomainValidationRecordList),
-  requestFailureReason: S.optional(S.String),
-  inUseResourceCount: S.optional(S.Number),
-  keyAlgorithm: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  issuedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  issuerCA: S.optional(S.String),
-  notBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  notAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  eligibleToRenew: S.optional(S.String),
-  renewalSummary: S.optional(RenewalSummary),
-  revokedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  revocationReason: S.optional(S.String),
-  tags: S.optional(TagList),
-  supportCode: S.optional(S.String),
-}) {}
-export class CertificateSummary extends S.Class<CertificateSummary>(
-  "CertificateSummary",
-)({
-  certificateArn: S.optional(S.String),
-  certificateName: S.optional(S.String),
-  domainName: S.optional(S.String),
-  certificateDetail: S.optional(Certificate),
-  tags: S.optional(TagList),
-}) {}
+export interface RenewalSummary {
+  domainValidationRecords?: DomainValidationRecordList;
+  renewalStatus?: string;
+  renewalStatusReason?: string;
+  updatedAt?: Date;
+}
+export const RenewalSummary = S.suspend(() =>
+  S.Struct({
+    domainValidationRecords: S.optional(DomainValidationRecordList),
+    renewalStatus: S.optional(S.String),
+    renewalStatusReason: S.optional(S.String),
+    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "RenewalSummary",
+}) as any as S.Schema<RenewalSummary>;
+export interface Certificate {
+  arn?: string;
+  name?: string;
+  domainName?: string;
+  status?: string;
+  serialNumber?: string;
+  subjectAlternativeNames?: SubjectAlternativeNameList;
+  domainValidationRecords?: DomainValidationRecordList;
+  requestFailureReason?: string;
+  inUseResourceCount?: number;
+  keyAlgorithm?: string;
+  createdAt?: Date;
+  issuedAt?: Date;
+  issuerCA?: string;
+  notBefore?: Date;
+  notAfter?: Date;
+  eligibleToRenew?: string;
+  renewalSummary?: RenewalSummary;
+  revokedAt?: Date;
+  revocationReason?: string;
+  tags?: TagList;
+  supportCode?: string;
+}
+export const Certificate = S.suspend(() =>
+  S.Struct({
+    arn: S.optional(S.String),
+    name: S.optional(S.String),
+    domainName: S.optional(S.String),
+    status: S.optional(S.String),
+    serialNumber: S.optional(S.String),
+    subjectAlternativeNames: S.optional(SubjectAlternativeNameList),
+    domainValidationRecords: S.optional(DomainValidationRecordList),
+    requestFailureReason: S.optional(S.String),
+    inUseResourceCount: S.optional(S.Number),
+    keyAlgorithm: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    issuedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    issuerCA: S.optional(S.String),
+    notBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    notAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    eligibleToRenew: S.optional(S.String),
+    renewalSummary: S.optional(RenewalSummary),
+    revokedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    revocationReason: S.optional(S.String),
+    tags: S.optional(TagList),
+    supportCode: S.optional(S.String),
+  }),
+).annotations({ identifier: "Certificate" }) as any as S.Schema<Certificate>;
+export interface CertificateSummary {
+  certificateArn?: string;
+  certificateName?: string;
+  domainName?: string;
+  certificateDetail?: Certificate;
+  tags?: TagList;
+}
+export const CertificateSummary = S.suspend(() =>
+  S.Struct({
+    certificateArn: S.optional(S.String),
+    certificateName: S.optional(S.String),
+    domainName: S.optional(S.String),
+    certificateDetail: S.optional(Certificate),
+    tags: S.optional(TagList),
+  }),
+).annotations({
+  identifier: "CertificateSummary",
+}) as any as S.Schema<CertificateSummary>;
+export type CertificateSummaryList = CertificateSummary[];
 export const CertificateSummaryList = S.Array(CertificateSummary);
+export type ContainerServiceMetadataEntry = { [key: string]: string };
 export const ContainerServiceMetadataEntry = S.Record({
   key: S.String,
   value: S.String,
 });
+export type ContainerServiceMetadataEntryList = ContainerServiceMetadataEntry[];
 export const ContainerServiceMetadataEntryList = S.Array(
   ContainerServiceMetadataEntry,
 );
-export class ContainerServicePower extends S.Class<ContainerServicePower>(
-  "ContainerServicePower",
-)({
-  powerId: S.optional(S.String),
-  price: S.optional(S.Number),
-  cpuCount: S.optional(S.Number),
-  ramSizeInGb: S.optional(S.Number),
-  name: S.optional(S.String),
-  isActive: S.optional(S.Boolean),
-}) {}
+export interface ContainerServicePower {
+  powerId?: string;
+  price?: number;
+  cpuCount?: number;
+  ramSizeInGb?: number;
+  name?: string;
+  isActive?: boolean;
+}
+export const ContainerServicePower = S.suspend(() =>
+  S.Struct({
+    powerId: S.optional(S.String),
+    price: S.optional(S.Number),
+    cpuCount: S.optional(S.Number),
+    ramSizeInGb: S.optional(S.Number),
+    name: S.optional(S.String),
+    isActive: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "ContainerServicePower",
+}) as any as S.Schema<ContainerServicePower>;
+export type ContainerServicePowerList = ContainerServicePower[];
 export const ContainerServicePowerList = S.Array(ContainerServicePower);
-export class AddOn extends S.Class<AddOn>("AddOn")({
-  name: S.optional(S.String),
-  status: S.optional(S.String),
-  snapshotTimeOfDay: S.optional(S.String),
-  nextSnapshotTimeOfDay: S.optional(S.String),
-  threshold: S.optional(S.String),
-  duration: S.optional(S.String),
-}) {}
+export interface AddOn {
+  name?: string;
+  status?: string;
+  snapshotTimeOfDay?: string;
+  nextSnapshotTimeOfDay?: string;
+  threshold?: string;
+  duration?: string;
+}
+export const AddOn = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    status: S.optional(S.String),
+    snapshotTimeOfDay: S.optional(S.String),
+    nextSnapshotTimeOfDay: S.optional(S.String),
+    threshold: S.optional(S.String),
+    duration: S.optional(S.String),
+  }),
+).annotations({ identifier: "AddOn" }) as any as S.Schema<AddOn>;
+export type AddOnList = AddOn[];
 export const AddOnList = S.Array(AddOn);
-export class Disk extends S.Class<Disk>("Disk")({
-  name: S.optional(S.String),
-  arn: S.optional(S.String),
-  supportCode: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  location: S.optional(ResourceLocation),
-  resourceType: S.optional(S.String),
-  tags: S.optional(TagList),
-  addOns: S.optional(AddOnList),
-  sizeInGb: S.optional(S.Number),
-  isSystemDisk: S.optional(S.Boolean),
-  iops: S.optional(S.Number),
-  path: S.optional(S.String),
-  state: S.optional(S.String),
-  attachedTo: S.optional(S.String),
-  isAttached: S.optional(S.Boolean),
-  attachmentState: S.optional(S.String),
-  gbInUse: S.optional(S.Number),
-  autoMountStatus: S.optional(S.String),
-}) {}
+export interface Disk {
+  name?: string;
+  arn?: string;
+  supportCode?: string;
+  createdAt?: Date;
+  location?: ResourceLocation;
+  resourceType?: string;
+  tags?: TagList;
+  addOns?: AddOnList;
+  sizeInGb?: number;
+  isSystemDisk?: boolean;
+  iops?: number;
+  path?: string;
+  state?: string;
+  attachedTo?: string;
+  isAttached?: boolean;
+  attachmentState?: string;
+  gbInUse?: number;
+  autoMountStatus?: string;
+}
+export const Disk = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    arn: S.optional(S.String),
+    supportCode: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    location: S.optional(ResourceLocation),
+    resourceType: S.optional(S.String),
+    tags: S.optional(TagList),
+    addOns: S.optional(AddOnList),
+    sizeInGb: S.optional(S.Number),
+    isSystemDisk: S.optional(S.Boolean),
+    iops: S.optional(S.Number),
+    path: S.optional(S.String),
+    state: S.optional(S.String),
+    attachedTo: S.optional(S.String),
+    isAttached: S.optional(S.Boolean),
+    attachmentState: S.optional(S.String),
+    gbInUse: S.optional(S.Number),
+    autoMountStatus: S.optional(S.String),
+  }),
+).annotations({ identifier: "Disk" }) as any as S.Schema<Disk>;
+export type DiskList = Disk[];
 export const DiskList = S.Array(Disk);
-export class DiskSnapshot extends S.Class<DiskSnapshot>("DiskSnapshot")({
-  name: S.optional(S.String),
-  arn: S.optional(S.String),
-  supportCode: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  location: S.optional(ResourceLocation),
-  resourceType: S.optional(S.String),
-  tags: S.optional(TagList),
-  sizeInGb: S.optional(S.Number),
-  state: S.optional(S.String),
-  progress: S.optional(S.String),
-  fromDiskName: S.optional(S.String),
-  fromDiskArn: S.optional(S.String),
-  fromInstanceName: S.optional(S.String),
-  fromInstanceArn: S.optional(S.String),
-  isFromAutoSnapshot: S.optional(S.Boolean),
-}) {}
+export interface DiskSnapshot {
+  name?: string;
+  arn?: string;
+  supportCode?: string;
+  createdAt?: Date;
+  location?: ResourceLocation;
+  resourceType?: string;
+  tags?: TagList;
+  sizeInGb?: number;
+  state?: string;
+  progress?: string;
+  fromDiskName?: string;
+  fromDiskArn?: string;
+  fromInstanceName?: string;
+  fromInstanceArn?: string;
+  isFromAutoSnapshot?: boolean;
+}
+export const DiskSnapshot = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    arn: S.optional(S.String),
+    supportCode: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    location: S.optional(ResourceLocation),
+    resourceType: S.optional(S.String),
+    tags: S.optional(TagList),
+    sizeInGb: S.optional(S.Number),
+    state: S.optional(S.String),
+    progress: S.optional(S.String),
+    fromDiskName: S.optional(S.String),
+    fromDiskArn: S.optional(S.String),
+    fromInstanceName: S.optional(S.String),
+    fromInstanceArn: S.optional(S.String),
+    isFromAutoSnapshot: S.optional(S.Boolean),
+  }),
+).annotations({ identifier: "DiskSnapshot" }) as any as S.Schema<DiskSnapshot>;
+export type DiskSnapshotList = DiskSnapshot[];
 export const DiskSnapshotList = S.Array(DiskSnapshot);
-export class DistributionBundle extends S.Class<DistributionBundle>(
-  "DistributionBundle",
-)({
-  bundleId: S.optional(S.String),
-  name: S.optional(S.String),
-  price: S.optional(S.Number),
-  transferPerMonthInGb: S.optional(S.Number),
-  isActive: S.optional(S.Boolean),
-}) {}
+export interface DistributionBundle {
+  bundleId?: string;
+  name?: string;
+  price?: number;
+  transferPerMonthInGb?: number;
+  isActive?: boolean;
+}
+export const DistributionBundle = S.suspend(() =>
+  S.Struct({
+    bundleId: S.optional(S.String),
+    name: S.optional(S.String),
+    price: S.optional(S.Number),
+    transferPerMonthInGb: S.optional(S.Number),
+    isActive: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "DistributionBundle",
+}) as any as S.Schema<DistributionBundle>;
+export type DistributionBundleList = DistributionBundle[];
 export const DistributionBundleList = S.Array(DistributionBundle);
+export type DomainEntryList = DomainEntry[];
 export const DomainEntryList = S.Array(DomainEntry);
-export class NameServersUpdateState extends S.Class<NameServersUpdateState>(
-  "NameServersUpdateState",
-)({ code: S.optional(S.String), message: S.optional(S.String) }) {}
-export class R53HostedZoneDeletionState extends S.Class<R53HostedZoneDeletionState>(
-  "R53HostedZoneDeletionState",
-)({ code: S.optional(S.String), message: S.optional(S.String) }) {}
-export class RegisteredDomainDelegationInfo extends S.Class<RegisteredDomainDelegationInfo>(
-  "RegisteredDomainDelegationInfo",
-)({
-  nameServersUpdateState: S.optional(NameServersUpdateState),
-  r53HostedZoneDeletionState: S.optional(R53HostedZoneDeletionState),
-}) {}
-export class Domain extends S.Class<Domain>("Domain")({
-  name: S.optional(S.String),
-  arn: S.optional(S.String),
-  supportCode: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  location: S.optional(ResourceLocation),
-  resourceType: S.optional(S.String),
-  tags: S.optional(TagList),
-  domainEntries: S.optional(DomainEntryList),
-  registeredDomainDelegationInfo: S.optional(RegisteredDomainDelegationInfo),
-}) {}
+export interface NameServersUpdateState {
+  code?: string;
+  message?: string;
+}
+export const NameServersUpdateState = S.suspend(() =>
+  S.Struct({ code: S.optional(S.String), message: S.optional(S.String) }),
+).annotations({
+  identifier: "NameServersUpdateState",
+}) as any as S.Schema<NameServersUpdateState>;
+export interface R53HostedZoneDeletionState {
+  code?: string;
+  message?: string;
+}
+export const R53HostedZoneDeletionState = S.suspend(() =>
+  S.Struct({ code: S.optional(S.String), message: S.optional(S.String) }),
+).annotations({
+  identifier: "R53HostedZoneDeletionState",
+}) as any as S.Schema<R53HostedZoneDeletionState>;
+export interface RegisteredDomainDelegationInfo {
+  nameServersUpdateState?: NameServersUpdateState;
+  r53HostedZoneDeletionState?: R53HostedZoneDeletionState;
+}
+export const RegisteredDomainDelegationInfo = S.suspend(() =>
+  S.Struct({
+    nameServersUpdateState: S.optional(NameServersUpdateState),
+    r53HostedZoneDeletionState: S.optional(R53HostedZoneDeletionState),
+  }),
+).annotations({
+  identifier: "RegisteredDomainDelegationInfo",
+}) as any as S.Schema<RegisteredDomainDelegationInfo>;
+export interface Domain {
+  name?: string;
+  arn?: string;
+  supportCode?: string;
+  createdAt?: Date;
+  location?: ResourceLocation;
+  resourceType?: string;
+  tags?: TagList;
+  domainEntries?: DomainEntryList;
+  registeredDomainDelegationInfo?: RegisteredDomainDelegationInfo;
+}
+export const Domain = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    arn: S.optional(S.String),
+    supportCode: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    location: S.optional(ResourceLocation),
+    resourceType: S.optional(S.String),
+    tags: S.optional(TagList),
+    domainEntries: S.optional(DomainEntryList),
+    registeredDomainDelegationInfo: S.optional(RegisteredDomainDelegationInfo),
+  }),
+).annotations({ identifier: "Domain" }) as any as S.Schema<Domain>;
+export type DomainList = Domain[];
 export const DomainList = S.Array(Domain);
+export type Ipv6AddressList = string[];
 export const Ipv6AddressList = S.Array(S.String);
-export class InstanceHardware extends S.Class<InstanceHardware>(
-  "InstanceHardware",
-)({
-  cpuCount: S.optional(S.Number),
-  disks: S.optional(DiskList),
-  ramSizeInGb: S.optional(S.Number),
-}) {}
-export class MonthlyTransfer extends S.Class<MonthlyTransfer>(
-  "MonthlyTransfer",
-)({ gbPerMonthAllocated: S.optional(S.Number) }) {}
-export class InstancePortInfo extends S.Class<InstancePortInfo>(
-  "InstancePortInfo",
-)({
-  fromPort: S.optional(S.Number),
-  toPort: S.optional(S.Number),
-  protocol: S.optional(S.String),
-  accessFrom: S.optional(S.String),
-  accessType: S.optional(S.String),
-  commonName: S.optional(S.String),
-  accessDirection: S.optional(S.String),
-  cidrs: S.optional(StringList),
-  ipv6Cidrs: S.optional(StringList),
-  cidrListAliases: S.optional(StringList),
-}) {}
+export interface InstanceHardware {
+  cpuCount?: number;
+  disks?: DiskList;
+  ramSizeInGb?: number;
+}
+export const InstanceHardware = S.suspend(() =>
+  S.Struct({
+    cpuCount: S.optional(S.Number),
+    disks: S.optional(DiskList),
+    ramSizeInGb: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "InstanceHardware",
+}) as any as S.Schema<InstanceHardware>;
+export interface MonthlyTransfer {
+  gbPerMonthAllocated?: number;
+}
+export const MonthlyTransfer = S.suspend(() =>
+  S.Struct({ gbPerMonthAllocated: S.optional(S.Number) }),
+).annotations({
+  identifier: "MonthlyTransfer",
+}) as any as S.Schema<MonthlyTransfer>;
+export interface InstancePortInfo {
+  fromPort?: number;
+  toPort?: number;
+  protocol?: string;
+  accessFrom?: string;
+  accessType?: string;
+  commonName?: string;
+  accessDirection?: string;
+  cidrs?: StringList;
+  ipv6Cidrs?: StringList;
+  cidrListAliases?: StringList;
+}
+export const InstancePortInfo = S.suspend(() =>
+  S.Struct({
+    fromPort: S.optional(S.Number),
+    toPort: S.optional(S.Number),
+    protocol: S.optional(S.String),
+    accessFrom: S.optional(S.String),
+    accessType: S.optional(S.String),
+    commonName: S.optional(S.String),
+    accessDirection: S.optional(S.String),
+    cidrs: S.optional(StringList),
+    ipv6Cidrs: S.optional(StringList),
+    cidrListAliases: S.optional(StringList),
+  }),
+).annotations({
+  identifier: "InstancePortInfo",
+}) as any as S.Schema<InstancePortInfo>;
+export type InstancePortInfoList = InstancePortInfo[];
 export const InstancePortInfoList = S.Array(InstancePortInfo);
-export class InstanceNetworking extends S.Class<InstanceNetworking>(
-  "InstanceNetworking",
-)({
-  monthlyTransfer: S.optional(MonthlyTransfer),
-  ports: S.optional(InstancePortInfoList),
-}) {}
-export class InstanceState extends S.Class<InstanceState>("InstanceState")({
-  code: S.optional(S.Number),
-  name: S.optional(S.String),
-}) {}
-export class InstanceMetadataOptions extends S.Class<InstanceMetadataOptions>(
-  "InstanceMetadataOptions",
-)({
-  state: S.optional(S.String),
-  httpTokens: S.optional(S.String),
-  httpEndpoint: S.optional(S.String),
-  httpPutResponseHopLimit: S.optional(S.Number),
-  httpProtocolIpv6: S.optional(S.String),
-}) {}
-export class Instance extends S.Class<Instance>("Instance")({
-  name: S.optional(S.String),
-  arn: S.optional(S.String),
-  supportCode: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  location: S.optional(ResourceLocation),
-  resourceType: S.optional(S.String),
-  tags: S.optional(TagList),
-  blueprintId: S.optional(S.String),
-  blueprintName: S.optional(S.String),
-  bundleId: S.optional(S.String),
-  addOns: S.optional(AddOnList),
-  isStaticIp: S.optional(S.Boolean),
-  privateIpAddress: S.optional(S.String),
-  publicIpAddress: S.optional(S.String),
-  ipv6Addresses: S.optional(Ipv6AddressList),
-  ipAddressType: S.optional(S.String),
-  hardware: S.optional(InstanceHardware),
-  networking: S.optional(InstanceNetworking),
-  state: S.optional(InstanceState),
-  username: S.optional(S.String),
-  sshKeyName: S.optional(S.String),
-  metadataOptions: S.optional(InstanceMetadataOptions),
-}) {}
+export interface InstanceNetworking {
+  monthlyTransfer?: MonthlyTransfer;
+  ports?: InstancePortInfoList;
+}
+export const InstanceNetworking = S.suspend(() =>
+  S.Struct({
+    monthlyTransfer: S.optional(MonthlyTransfer),
+    ports: S.optional(InstancePortInfoList),
+  }),
+).annotations({
+  identifier: "InstanceNetworking",
+}) as any as S.Schema<InstanceNetworking>;
+export interface InstanceState {
+  code?: number;
+  name?: string;
+}
+export const InstanceState = S.suspend(() =>
+  S.Struct({ code: S.optional(S.Number), name: S.optional(S.String) }),
+).annotations({
+  identifier: "InstanceState",
+}) as any as S.Schema<InstanceState>;
+export interface InstanceMetadataOptions {
+  state?: string;
+  httpTokens?: string;
+  httpEndpoint?: string;
+  httpPutResponseHopLimit?: number;
+  httpProtocolIpv6?: string;
+}
+export const InstanceMetadataOptions = S.suspend(() =>
+  S.Struct({
+    state: S.optional(S.String),
+    httpTokens: S.optional(S.String),
+    httpEndpoint: S.optional(S.String),
+    httpPutResponseHopLimit: S.optional(S.Number),
+    httpProtocolIpv6: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "InstanceMetadataOptions",
+}) as any as S.Schema<InstanceMetadataOptions>;
+export interface Instance {
+  name?: string;
+  arn?: string;
+  supportCode?: string;
+  createdAt?: Date;
+  location?: ResourceLocation;
+  resourceType?: string;
+  tags?: TagList;
+  blueprintId?: string;
+  blueprintName?: string;
+  bundleId?: string;
+  addOns?: AddOnList;
+  isStaticIp?: boolean;
+  privateIpAddress?: string;
+  publicIpAddress?: string;
+  ipv6Addresses?: Ipv6AddressList;
+  ipAddressType?: string;
+  hardware?: InstanceHardware;
+  networking?: InstanceNetworking;
+  state?: InstanceState;
+  username?: string;
+  sshKeyName?: string;
+  metadataOptions?: InstanceMetadataOptions;
+}
+export const Instance = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    arn: S.optional(S.String),
+    supportCode: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    location: S.optional(ResourceLocation),
+    resourceType: S.optional(S.String),
+    tags: S.optional(TagList),
+    blueprintId: S.optional(S.String),
+    blueprintName: S.optional(S.String),
+    bundleId: S.optional(S.String),
+    addOns: S.optional(AddOnList),
+    isStaticIp: S.optional(S.Boolean),
+    privateIpAddress: S.optional(S.String),
+    publicIpAddress: S.optional(S.String),
+    ipv6Addresses: S.optional(Ipv6AddressList),
+    ipAddressType: S.optional(S.String),
+    hardware: S.optional(InstanceHardware),
+    networking: S.optional(InstanceNetworking),
+    state: S.optional(InstanceState),
+    username: S.optional(S.String),
+    sshKeyName: S.optional(S.String),
+    metadataOptions: S.optional(InstanceMetadataOptions),
+  }),
+).annotations({ identifier: "Instance" }) as any as S.Schema<Instance>;
+export type InstanceList = Instance[];
 export const InstanceList = S.Array(Instance);
-export class InstanceSnapshot extends S.Class<InstanceSnapshot>(
-  "InstanceSnapshot",
-)({
-  name: S.optional(S.String),
-  arn: S.optional(S.String),
-  supportCode: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  location: S.optional(ResourceLocation),
-  resourceType: S.optional(S.String),
-  tags: S.optional(TagList),
-  state: S.optional(S.String),
-  progress: S.optional(S.String),
-  fromAttachedDisks: S.optional(DiskList),
-  fromInstanceName: S.optional(S.String),
-  fromInstanceArn: S.optional(S.String),
-  fromBlueprintId: S.optional(S.String),
-  fromBundleId: S.optional(S.String),
-  isFromAutoSnapshot: S.optional(S.Boolean),
-  sizeInGb: S.optional(S.Number),
-}) {}
+export interface InstanceSnapshot {
+  name?: string;
+  arn?: string;
+  supportCode?: string;
+  createdAt?: Date;
+  location?: ResourceLocation;
+  resourceType?: string;
+  tags?: TagList;
+  state?: string;
+  progress?: string;
+  fromAttachedDisks?: DiskList;
+  fromInstanceName?: string;
+  fromInstanceArn?: string;
+  fromBlueprintId?: string;
+  fromBundleId?: string;
+  isFromAutoSnapshot?: boolean;
+  sizeInGb?: number;
+}
+export const InstanceSnapshot = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    arn: S.optional(S.String),
+    supportCode: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    location: S.optional(ResourceLocation),
+    resourceType: S.optional(S.String),
+    tags: S.optional(TagList),
+    state: S.optional(S.String),
+    progress: S.optional(S.String),
+    fromAttachedDisks: S.optional(DiskList),
+    fromInstanceName: S.optional(S.String),
+    fromInstanceArn: S.optional(S.String),
+    fromBlueprintId: S.optional(S.String),
+    fromBundleId: S.optional(S.String),
+    isFromAutoSnapshot: S.optional(S.Boolean),
+    sizeInGb: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "InstanceSnapshot",
+}) as any as S.Schema<InstanceSnapshot>;
+export type InstanceSnapshotList = InstanceSnapshot[];
 export const InstanceSnapshotList = S.Array(InstanceSnapshot);
-export class KeyPair extends S.Class<KeyPair>("KeyPair")({
-  name: S.optional(S.String),
-  arn: S.optional(S.String),
-  supportCode: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  location: S.optional(ResourceLocation),
-  resourceType: S.optional(S.String),
-  tags: S.optional(TagList),
-  fingerprint: S.optional(S.String),
-}) {}
+export interface KeyPair {
+  name?: string;
+  arn?: string;
+  supportCode?: string;
+  createdAt?: Date;
+  location?: ResourceLocation;
+  resourceType?: string;
+  tags?: TagList;
+  fingerprint?: string;
+}
+export const KeyPair = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    arn: S.optional(S.String),
+    supportCode: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    location: S.optional(ResourceLocation),
+    resourceType: S.optional(S.String),
+    tags: S.optional(TagList),
+    fingerprint: S.optional(S.String),
+  }),
+).annotations({ identifier: "KeyPair" }) as any as S.Schema<KeyPair>;
+export type KeyPairList = KeyPair[];
 export const KeyPairList = S.Array(KeyPair);
+export type PortList = number[];
 export const PortList = S.Array(S.Number);
-export class InstanceHealthSummary extends S.Class<InstanceHealthSummary>(
-  "InstanceHealthSummary",
-)({
-  instanceName: S.optional(S.String),
-  instanceHealth: S.optional(S.String),
-  instanceHealthReason: S.optional(S.String),
-}) {}
+export interface InstanceHealthSummary {
+  instanceName?: string;
+  instanceHealth?: string;
+  instanceHealthReason?: string;
+}
+export const InstanceHealthSummary = S.suspend(() =>
+  S.Struct({
+    instanceName: S.optional(S.String),
+    instanceHealth: S.optional(S.String),
+    instanceHealthReason: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "InstanceHealthSummary",
+}) as any as S.Schema<InstanceHealthSummary>;
+export type InstanceHealthSummaryList = InstanceHealthSummary[];
 export const InstanceHealthSummaryList = S.Array(InstanceHealthSummary);
-export class LoadBalancerTlsCertificateSummary extends S.Class<LoadBalancerTlsCertificateSummary>(
-  "LoadBalancerTlsCertificateSummary",
-)({ name: S.optional(S.String), isAttached: S.optional(S.Boolean) }) {}
+export interface LoadBalancerTlsCertificateSummary {
+  name?: string;
+  isAttached?: boolean;
+}
+export const LoadBalancerTlsCertificateSummary = S.suspend(() =>
+  S.Struct({ name: S.optional(S.String), isAttached: S.optional(S.Boolean) }),
+).annotations({
+  identifier: "LoadBalancerTlsCertificateSummary",
+}) as any as S.Schema<LoadBalancerTlsCertificateSummary>;
+export type LoadBalancerTlsCertificateSummaryList =
+  LoadBalancerTlsCertificateSummary[];
 export const LoadBalancerTlsCertificateSummaryList = S.Array(
   LoadBalancerTlsCertificateSummary,
 );
+export type LoadBalancerConfigurationOptions = { [key: string]: string };
 export const LoadBalancerConfigurationOptions = S.Record({
   key: S.String,
   value: S.String,
 });
-export class LoadBalancer extends S.Class<LoadBalancer>("LoadBalancer")({
-  name: S.optional(S.String),
-  arn: S.optional(S.String),
-  supportCode: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  location: S.optional(ResourceLocation),
-  resourceType: S.optional(S.String),
-  tags: S.optional(TagList),
-  dnsName: S.optional(S.String),
-  state: S.optional(S.String),
-  protocol: S.optional(S.String),
-  publicPorts: S.optional(PortList),
-  healthCheckPath: S.optional(S.String),
-  instancePort: S.optional(S.Number),
-  instanceHealthSummary: S.optional(InstanceHealthSummaryList),
-  tlsCertificateSummaries: S.optional(LoadBalancerTlsCertificateSummaryList),
-  configurationOptions: S.optional(LoadBalancerConfigurationOptions),
-  ipAddressType: S.optional(S.String),
-  httpsRedirectionEnabled: S.optional(S.Boolean),
-  tlsPolicyName: S.optional(S.String),
-}) {}
+export interface LoadBalancer {
+  name?: string;
+  arn?: string;
+  supportCode?: string;
+  createdAt?: Date;
+  location?: ResourceLocation;
+  resourceType?: string;
+  tags?: TagList;
+  dnsName?: string;
+  state?: string;
+  protocol?: string;
+  publicPorts?: PortList;
+  healthCheckPath?: string;
+  instancePort?: number;
+  instanceHealthSummary?: InstanceHealthSummaryList;
+  tlsCertificateSummaries?: LoadBalancerTlsCertificateSummaryList;
+  configurationOptions?: LoadBalancerConfigurationOptions;
+  ipAddressType?: string;
+  httpsRedirectionEnabled?: boolean;
+  tlsPolicyName?: string;
+}
+export const LoadBalancer = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    arn: S.optional(S.String),
+    supportCode: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    location: S.optional(ResourceLocation),
+    resourceType: S.optional(S.String),
+    tags: S.optional(TagList),
+    dnsName: S.optional(S.String),
+    state: S.optional(S.String),
+    protocol: S.optional(S.String),
+    publicPorts: S.optional(PortList),
+    healthCheckPath: S.optional(S.String),
+    instancePort: S.optional(S.Number),
+    instanceHealthSummary: S.optional(InstanceHealthSummaryList),
+    tlsCertificateSummaries: S.optional(LoadBalancerTlsCertificateSummaryList),
+    configurationOptions: S.optional(LoadBalancerConfigurationOptions),
+    ipAddressType: S.optional(S.String),
+    httpsRedirectionEnabled: S.optional(S.Boolean),
+    tlsPolicyName: S.optional(S.String),
+  }),
+).annotations({ identifier: "LoadBalancer" }) as any as S.Schema<LoadBalancer>;
+export type LoadBalancerList = LoadBalancer[];
 export const LoadBalancerList = S.Array(LoadBalancer);
-export class RelationalDatabaseHardware extends S.Class<RelationalDatabaseHardware>(
-  "RelationalDatabaseHardware",
-)({
-  cpuCount: S.optional(S.Number),
-  diskSizeInGb: S.optional(S.Number),
-  ramSizeInGb: S.optional(S.Number),
-}) {}
-export class PendingModifiedRelationalDatabaseValues extends S.Class<PendingModifiedRelationalDatabaseValues>(
-  "PendingModifiedRelationalDatabaseValues",
-)({
-  masterUserPassword: S.optional(S.String),
-  engineVersion: S.optional(S.String),
-  backupRetentionEnabled: S.optional(S.Boolean),
-}) {}
-export class RelationalDatabaseEndpoint extends S.Class<RelationalDatabaseEndpoint>(
-  "RelationalDatabaseEndpoint",
-)({ port: S.optional(S.Number), address: S.optional(S.String) }) {}
-export class PendingMaintenanceAction extends S.Class<PendingMaintenanceAction>(
-  "PendingMaintenanceAction",
-)({
-  action: S.optional(S.String),
-  description: S.optional(S.String),
-  currentApplyDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface RelationalDatabaseHardware {
+  cpuCount?: number;
+  diskSizeInGb?: number;
+  ramSizeInGb?: number;
+}
+export const RelationalDatabaseHardware = S.suspend(() =>
+  S.Struct({
+    cpuCount: S.optional(S.Number),
+    diskSizeInGb: S.optional(S.Number),
+    ramSizeInGb: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "RelationalDatabaseHardware",
+}) as any as S.Schema<RelationalDatabaseHardware>;
+export interface PendingModifiedRelationalDatabaseValues {
+  masterUserPassword?: string;
+  engineVersion?: string;
+  backupRetentionEnabled?: boolean;
+}
+export const PendingModifiedRelationalDatabaseValues = S.suspend(() =>
+  S.Struct({
+    masterUserPassword: S.optional(S.String),
+    engineVersion: S.optional(S.String),
+    backupRetentionEnabled: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "PendingModifiedRelationalDatabaseValues",
+}) as any as S.Schema<PendingModifiedRelationalDatabaseValues>;
+export interface RelationalDatabaseEndpoint {
+  port?: number;
+  address?: string;
+}
+export const RelationalDatabaseEndpoint = S.suspend(() =>
+  S.Struct({ port: S.optional(S.Number), address: S.optional(S.String) }),
+).annotations({
+  identifier: "RelationalDatabaseEndpoint",
+}) as any as S.Schema<RelationalDatabaseEndpoint>;
+export interface PendingMaintenanceAction {
+  action?: string;
+  description?: string;
+  currentApplyDate?: Date;
+}
+export const PendingMaintenanceAction = S.suspend(() =>
+  S.Struct({
+    action: S.optional(S.String),
+    description: S.optional(S.String),
+    currentApplyDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "PendingMaintenanceAction",
+}) as any as S.Schema<PendingMaintenanceAction>;
+export type PendingMaintenanceActionList = PendingMaintenanceAction[];
 export const PendingMaintenanceActionList = S.Array(PendingMaintenanceAction);
-export class RelationalDatabase extends S.Class<RelationalDatabase>(
-  "RelationalDatabase",
-)({
-  name: S.optional(S.String),
-  arn: S.optional(S.String),
-  supportCode: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  location: S.optional(ResourceLocation),
-  resourceType: S.optional(S.String),
-  tags: S.optional(TagList),
-  relationalDatabaseBlueprintId: S.optional(S.String),
-  relationalDatabaseBundleId: S.optional(S.String),
-  masterDatabaseName: S.optional(S.String),
-  hardware: S.optional(RelationalDatabaseHardware),
-  state: S.optional(S.String),
-  secondaryAvailabilityZone: S.optional(S.String),
-  backupRetentionEnabled: S.optional(S.Boolean),
-  pendingModifiedValues: S.optional(PendingModifiedRelationalDatabaseValues),
-  engine: S.optional(S.String),
-  engineVersion: S.optional(S.String),
-  latestRestorableTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  masterUsername: S.optional(S.String),
-  parameterApplyStatus: S.optional(S.String),
-  preferredBackupWindow: S.optional(S.String),
-  preferredMaintenanceWindow: S.optional(S.String),
-  publiclyAccessible: S.optional(S.Boolean),
-  masterEndpoint: S.optional(RelationalDatabaseEndpoint),
-  pendingMaintenanceActions: S.optional(PendingMaintenanceActionList),
-  caCertificateIdentifier: S.optional(S.String),
-}) {}
+export interface RelationalDatabase {
+  name?: string;
+  arn?: string;
+  supportCode?: string;
+  createdAt?: Date;
+  location?: ResourceLocation;
+  resourceType?: string;
+  tags?: TagList;
+  relationalDatabaseBlueprintId?: string;
+  relationalDatabaseBundleId?: string;
+  masterDatabaseName?: string;
+  hardware?: RelationalDatabaseHardware;
+  state?: string;
+  secondaryAvailabilityZone?: string;
+  backupRetentionEnabled?: boolean;
+  pendingModifiedValues?: PendingModifiedRelationalDatabaseValues;
+  engine?: string;
+  engineVersion?: string;
+  latestRestorableTime?: Date;
+  masterUsername?: string;
+  parameterApplyStatus?: string;
+  preferredBackupWindow?: string;
+  preferredMaintenanceWindow?: string;
+  publiclyAccessible?: boolean;
+  masterEndpoint?: RelationalDatabaseEndpoint;
+  pendingMaintenanceActions?: PendingMaintenanceActionList;
+  caCertificateIdentifier?: string;
+}
+export const RelationalDatabase = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    arn: S.optional(S.String),
+    supportCode: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    location: S.optional(ResourceLocation),
+    resourceType: S.optional(S.String),
+    tags: S.optional(TagList),
+    relationalDatabaseBlueprintId: S.optional(S.String),
+    relationalDatabaseBundleId: S.optional(S.String),
+    masterDatabaseName: S.optional(S.String),
+    hardware: S.optional(RelationalDatabaseHardware),
+    state: S.optional(S.String),
+    secondaryAvailabilityZone: S.optional(S.String),
+    backupRetentionEnabled: S.optional(S.Boolean),
+    pendingModifiedValues: S.optional(PendingModifiedRelationalDatabaseValues),
+    engine: S.optional(S.String),
+    engineVersion: S.optional(S.String),
+    latestRestorableTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    masterUsername: S.optional(S.String),
+    parameterApplyStatus: S.optional(S.String),
+    preferredBackupWindow: S.optional(S.String),
+    preferredMaintenanceWindow: S.optional(S.String),
+    publiclyAccessible: S.optional(S.Boolean),
+    masterEndpoint: S.optional(RelationalDatabaseEndpoint),
+    pendingMaintenanceActions: S.optional(PendingMaintenanceActionList),
+    caCertificateIdentifier: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RelationalDatabase",
+}) as any as S.Schema<RelationalDatabase>;
+export type RelationalDatabaseList = RelationalDatabase[];
 export const RelationalDatabaseList = S.Array(RelationalDatabase);
-export class RelationalDatabaseSnapshot extends S.Class<RelationalDatabaseSnapshot>(
-  "RelationalDatabaseSnapshot",
-)({
-  name: S.optional(S.String),
-  arn: S.optional(S.String),
-  supportCode: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  location: S.optional(ResourceLocation),
-  resourceType: S.optional(S.String),
-  tags: S.optional(TagList),
-  engine: S.optional(S.String),
-  engineVersion: S.optional(S.String),
-  sizeInGb: S.optional(S.Number),
-  state: S.optional(S.String),
-  fromRelationalDatabaseName: S.optional(S.String),
-  fromRelationalDatabaseArn: S.optional(S.String),
-  fromRelationalDatabaseBundleId: S.optional(S.String),
-  fromRelationalDatabaseBlueprintId: S.optional(S.String),
-}) {}
+export interface RelationalDatabaseSnapshot {
+  name?: string;
+  arn?: string;
+  supportCode?: string;
+  createdAt?: Date;
+  location?: ResourceLocation;
+  resourceType?: string;
+  tags?: TagList;
+  engine?: string;
+  engineVersion?: string;
+  sizeInGb?: number;
+  state?: string;
+  fromRelationalDatabaseName?: string;
+  fromRelationalDatabaseArn?: string;
+  fromRelationalDatabaseBundleId?: string;
+  fromRelationalDatabaseBlueprintId?: string;
+}
+export const RelationalDatabaseSnapshot = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    arn: S.optional(S.String),
+    supportCode: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    location: S.optional(ResourceLocation),
+    resourceType: S.optional(S.String),
+    tags: S.optional(TagList),
+    engine: S.optional(S.String),
+    engineVersion: S.optional(S.String),
+    sizeInGb: S.optional(S.Number),
+    state: S.optional(S.String),
+    fromRelationalDatabaseName: S.optional(S.String),
+    fromRelationalDatabaseArn: S.optional(S.String),
+    fromRelationalDatabaseBundleId: S.optional(S.String),
+    fromRelationalDatabaseBlueprintId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RelationalDatabaseSnapshot",
+}) as any as S.Schema<RelationalDatabaseSnapshot>;
+export type RelationalDatabaseSnapshotList = RelationalDatabaseSnapshot[];
 export const RelationalDatabaseSnapshotList = S.Array(
   RelationalDatabaseSnapshot,
 );
-export class StaticIp extends S.Class<StaticIp>("StaticIp")({
-  name: S.optional(S.String),
-  arn: S.optional(S.String),
-  supportCode: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  location: S.optional(ResourceLocation),
-  resourceType: S.optional(S.String),
-  ipAddress: S.optional(S.String),
-  attachedTo: S.optional(S.String),
-  isAttached: S.optional(S.Boolean),
-}) {}
+export interface StaticIp {
+  name?: string;
+  arn?: string;
+  supportCode?: string;
+  createdAt?: Date;
+  location?: ResourceLocation;
+  resourceType?: string;
+  ipAddress?: string;
+  attachedTo?: string;
+  isAttached?: boolean;
+}
+export const StaticIp = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    arn: S.optional(S.String),
+    supportCode: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    location: S.optional(ResourceLocation),
+    resourceType: S.optional(S.String),
+    ipAddress: S.optional(S.String),
+    attachedTo: S.optional(S.String),
+    isAttached: S.optional(S.Boolean),
+  }),
+).annotations({ identifier: "StaticIp" }) as any as S.Schema<StaticIp>;
+export type StaticIpList = StaticIp[];
 export const StaticIpList = S.Array(StaticIp);
-export class AccessRules extends S.Class<AccessRules>("AccessRules")({
-  getObject: S.optional(S.String),
-  allowPublicOverrides: S.optional(S.Boolean),
-}) {}
-export class BucketAccessLogConfig extends S.Class<BucketAccessLogConfig>(
-  "BucketAccessLogConfig",
-)({
-  enabled: S.Boolean,
-  destination: S.optional(S.String),
-  prefix: S.optional(S.String),
-}) {}
-export class RelationalDatabaseParameter extends S.Class<RelationalDatabaseParameter>(
-  "RelationalDatabaseParameter",
-)({
-  allowedValues: S.optional(S.String),
-  applyMethod: S.optional(S.String),
-  applyType: S.optional(S.String),
-  dataType: S.optional(S.String),
-  description: S.optional(S.String),
-  isModifiable: S.optional(S.Boolean),
-  parameterName: S.optional(S.String),
-  parameterValue: S.optional(S.String),
-}) {}
+export interface AccessRules {
+  getObject?: string;
+  allowPublicOverrides?: boolean;
+}
+export const AccessRules = S.suspend(() =>
+  S.Struct({
+    getObject: S.optional(S.String),
+    allowPublicOverrides: S.optional(S.Boolean),
+  }),
+).annotations({ identifier: "AccessRules" }) as any as S.Schema<AccessRules>;
+export interface BucketAccessLogConfig {
+  enabled: boolean;
+  destination?: string;
+  prefix?: string;
+}
+export const BucketAccessLogConfig = S.suspend(() =>
+  S.Struct({
+    enabled: S.Boolean,
+    destination: S.optional(S.String),
+    prefix: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "BucketAccessLogConfig",
+}) as any as S.Schema<BucketAccessLogConfig>;
+export interface RelationalDatabaseParameter {
+  allowedValues?: string;
+  applyMethod?: string;
+  applyType?: string;
+  dataType?: string;
+  description?: string;
+  isModifiable?: boolean;
+  parameterName?: string;
+  parameterValue?: string;
+}
+export const RelationalDatabaseParameter = S.suspend(() =>
+  S.Struct({
+    allowedValues: S.optional(S.String),
+    applyMethod: S.optional(S.String),
+    applyType: S.optional(S.String),
+    dataType: S.optional(S.String),
+    description: S.optional(S.String),
+    isModifiable: S.optional(S.Boolean),
+    parameterName: S.optional(S.String),
+    parameterValue: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RelationalDatabaseParameter",
+}) as any as S.Schema<RelationalDatabaseParameter>;
+export type RelationalDatabaseParameterList = RelationalDatabaseParameter[];
 export const RelationalDatabaseParameterList = S.Array(
   RelationalDatabaseParameter,
 );
+export type BucketCorsAllowedMethods = string[];
 export const BucketCorsAllowedMethods = S.Array(S.String);
+export type BucketCorsAllowedOrigins = string[];
 export const BucketCorsAllowedOrigins = S.Array(S.String);
+export type BucketCorsAllowedHeaders = string[];
 export const BucketCorsAllowedHeaders = S.Array(S.String);
+export type BucketCorsExposeHeaders = string[];
 export const BucketCorsExposeHeaders = S.Array(S.String);
-export class AllocateStaticIpResult extends S.Class<AllocateStaticIpResult>(
-  "AllocateStaticIpResult",
-)({ operations: S.optional(OperationList) }) {}
-export class AttachCertificateToDistributionResult extends S.Class<AttachCertificateToDistributionResult>(
-  "AttachCertificateToDistributionResult",
-)({ operation: S.optional(Operation) }) {}
-export class AttachDiskResult extends S.Class<AttachDiskResult>(
-  "AttachDiskResult",
-)({ operations: S.optional(OperationList) }) {}
-export class AttachInstancesToLoadBalancerResult extends S.Class<AttachInstancesToLoadBalancerResult>(
-  "AttachInstancesToLoadBalancerResult",
-)({ operations: S.optional(OperationList) }) {}
-export class AttachLoadBalancerTlsCertificateResult extends S.Class<AttachLoadBalancerTlsCertificateResult>(
-  "AttachLoadBalancerTlsCertificateResult",
-)({ operations: S.optional(OperationList) }) {}
-export class AttachStaticIpResult extends S.Class<AttachStaticIpResult>(
-  "AttachStaticIpResult",
-)({ operations: S.optional(OperationList) }) {}
-export class CloseInstancePublicPortsRequest extends S.Class<CloseInstancePublicPortsRequest>(
-  "CloseInstancePublicPortsRequest",
-)(
-  { portInfo: PortInfo, instanceName: S.String },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/CloseInstancePublicPorts",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface AllocateStaticIpResult {
+  operations?: OperationList;
+}
+export const AllocateStaticIpResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "AllocateStaticIpResult",
+}) as any as S.Schema<AllocateStaticIpResult>;
+export interface AttachCertificateToDistributionResult {
+  operation?: Operation;
+}
+export const AttachCertificateToDistributionResult = S.suspend(() =>
+  S.Struct({ operation: S.optional(Operation) }),
+).annotations({
+  identifier: "AttachCertificateToDistributionResult",
+}) as any as S.Schema<AttachCertificateToDistributionResult>;
+export interface AttachDiskResult {
+  operations?: OperationList;
+}
+export const AttachDiskResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "AttachDiskResult",
+}) as any as S.Schema<AttachDiskResult>;
+export interface AttachInstancesToLoadBalancerResult {
+  operations?: OperationList;
+}
+export const AttachInstancesToLoadBalancerResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "AttachInstancesToLoadBalancerResult",
+}) as any as S.Schema<AttachInstancesToLoadBalancerResult>;
+export interface AttachLoadBalancerTlsCertificateResult {
+  operations?: OperationList;
+}
+export const AttachLoadBalancerTlsCertificateResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "AttachLoadBalancerTlsCertificateResult",
+}) as any as S.Schema<AttachLoadBalancerTlsCertificateResult>;
+export interface AttachStaticIpResult {
+  operations?: OperationList;
+}
+export const AttachStaticIpResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "AttachStaticIpResult",
+}) as any as S.Schema<AttachStaticIpResult>;
+export interface CloseInstancePublicPortsRequest {
+  portInfo: PortInfo;
+  instanceName: string;
+}
+export const CloseInstancePublicPortsRequest = S.suspend(() =>
+  S.Struct({ portInfo: PortInfo, instanceName: S.String }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/CloseInstancePublicPorts",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CopySnapshotResult extends S.Class<CopySnapshotResult>(
-  "CopySnapshotResult",
-)({ operations: S.optional(OperationList) }) {}
-export class CreateBucketRequest extends S.Class<CreateBucketRequest>(
-  "CreateBucketRequest",
-)(
-  {
+).annotations({
+  identifier: "CloseInstancePublicPortsRequest",
+}) as any as S.Schema<CloseInstancePublicPortsRequest>;
+export interface CopySnapshotResult {
+  operations?: OperationList;
+}
+export const CopySnapshotResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "CopySnapshotResult",
+}) as any as S.Schema<CopySnapshotResult>;
+export interface CreateBucketRequest {
+  bucketName: string;
+  bundleId: string;
+  tags?: TagList;
+  enableObjectVersioning?: boolean;
+}
+export const CreateBucketRequest = S.suspend(() =>
+  S.Struct({
     bucketName: S.String,
     bundleId: S.String,
     tags: S.optional(TagList),
     enableObjectVersioning: S.optional(S.Boolean),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/CreateBucket" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/CreateBucket" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateCloudFormationStackRequest extends S.Class<CreateCloudFormationStackRequest>(
-  "CreateCloudFormationStackRequest",
-)(
-  { instances: InstanceEntryList },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/CreateCloudFormationStack",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CreateBucketRequest",
+}) as any as S.Schema<CreateBucketRequest>;
+export interface CreateCloudFormationStackRequest {
+  instances: InstanceEntryList;
+}
+export const CreateCloudFormationStackRequest = S.suspend(() =>
+  S.Struct({ instances: InstanceEntryList }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/CreateCloudFormationStack",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateContactMethodResult extends S.Class<CreateContactMethodResult>(
-  "CreateContactMethodResult",
-)({ operations: S.optional(OperationList) }) {}
-export class CreateContainerServiceRegistryLoginResult extends S.Class<CreateContainerServiceRegistryLoginResult>(
-  "CreateContainerServiceRegistryLoginResult",
-)({ registryLogin: S.optional(ContainerServiceRegistryLogin) }) {}
-export class CreateDiskFromSnapshotResult extends S.Class<CreateDiskFromSnapshotResult>(
-  "CreateDiskFromSnapshotResult",
-)({ operations: S.optional(OperationList) }) {}
-export class CreateDiskSnapshotResult extends S.Class<CreateDiskSnapshotResult>(
-  "CreateDiskSnapshotResult",
-)({ operations: S.optional(OperationList) }) {}
-export class CreateDomainResult extends S.Class<CreateDomainResult>(
-  "CreateDomainResult",
-)({ operation: S.optional(Operation) }) {}
-export class CreateInstancesResult extends S.Class<CreateInstancesResult>(
-  "CreateInstancesResult",
-)({ operations: S.optional(OperationList) }) {}
-export class CreateInstanceSnapshotResult extends S.Class<CreateInstanceSnapshotResult>(
-  "CreateInstanceSnapshotResult",
-)({ operations: S.optional(OperationList) }) {}
-export class CreateLoadBalancerResult extends S.Class<CreateLoadBalancerResult>(
-  "CreateLoadBalancerResult",
-)({ operations: S.optional(OperationList) }) {}
-export class CreateLoadBalancerTlsCertificateResult extends S.Class<CreateLoadBalancerTlsCertificateResult>(
-  "CreateLoadBalancerTlsCertificateResult",
-)({ operations: S.optional(OperationList) }) {}
-export class CreateRelationalDatabaseResult extends S.Class<CreateRelationalDatabaseResult>(
-  "CreateRelationalDatabaseResult",
-)({ operations: S.optional(OperationList) }) {}
-export class CreateRelationalDatabaseFromSnapshotResult extends S.Class<CreateRelationalDatabaseFromSnapshotResult>(
-  "CreateRelationalDatabaseFromSnapshotResult",
-)({ operations: S.optional(OperationList) }) {}
-export class CreateRelationalDatabaseSnapshotResult extends S.Class<CreateRelationalDatabaseSnapshotResult>(
-  "CreateRelationalDatabaseSnapshotResult",
-)({ operations: S.optional(OperationList) }) {}
-export class DeleteAlarmResult extends S.Class<DeleteAlarmResult>(
-  "DeleteAlarmResult",
-)({ operations: S.optional(OperationList) }) {}
-export class DeleteAutoSnapshotResult extends S.Class<DeleteAutoSnapshotResult>(
-  "DeleteAutoSnapshotResult",
-)({ operations: S.optional(OperationList) }) {}
-export class DeleteBucketResult extends S.Class<DeleteBucketResult>(
-  "DeleteBucketResult",
-)({ operations: S.optional(OperationList) }) {}
-export class DeleteBucketAccessKeyResult extends S.Class<DeleteBucketAccessKeyResult>(
-  "DeleteBucketAccessKeyResult",
-)({ operations: S.optional(OperationList) }) {}
-export class DeleteCertificateResult extends S.Class<DeleteCertificateResult>(
-  "DeleteCertificateResult",
-)({ operations: S.optional(OperationList) }) {}
-export class DeleteContactMethodResult extends S.Class<DeleteContactMethodResult>(
-  "DeleteContactMethodResult",
-)({ operations: S.optional(OperationList) }) {}
-export class DeleteDiskResult extends S.Class<DeleteDiskResult>(
-  "DeleteDiskResult",
-)({ operations: S.optional(OperationList) }) {}
-export class DeleteDiskSnapshotResult extends S.Class<DeleteDiskSnapshotResult>(
-  "DeleteDiskSnapshotResult",
-)({ operations: S.optional(OperationList) }) {}
-export class DeleteDistributionResult extends S.Class<DeleteDistributionResult>(
-  "DeleteDistributionResult",
-)({ operation: S.optional(Operation) }) {}
-export class DeleteDomainResult extends S.Class<DeleteDomainResult>(
-  "DeleteDomainResult",
-)({ operation: S.optional(Operation) }) {}
-export class DeleteDomainEntryResult extends S.Class<DeleteDomainEntryResult>(
-  "DeleteDomainEntryResult",
-)({ operation: S.optional(Operation) }) {}
-export class DeleteInstanceResult extends S.Class<DeleteInstanceResult>(
-  "DeleteInstanceResult",
-)({ operations: S.optional(OperationList) }) {}
-export class DeleteInstanceSnapshotResult extends S.Class<DeleteInstanceSnapshotResult>(
-  "DeleteInstanceSnapshotResult",
-)({ operations: S.optional(OperationList) }) {}
-export class DeleteKeyPairResult extends S.Class<DeleteKeyPairResult>(
-  "DeleteKeyPairResult",
-)({ operation: S.optional(Operation) }) {}
-export class DeleteKnownHostKeysResult extends S.Class<DeleteKnownHostKeysResult>(
-  "DeleteKnownHostKeysResult",
-)({ operations: S.optional(OperationList) }) {}
-export class DeleteLoadBalancerResult extends S.Class<DeleteLoadBalancerResult>(
-  "DeleteLoadBalancerResult",
-)({ operations: S.optional(OperationList) }) {}
-export class DeleteLoadBalancerTlsCertificateResult extends S.Class<DeleteLoadBalancerTlsCertificateResult>(
-  "DeleteLoadBalancerTlsCertificateResult",
-)({ operations: S.optional(OperationList) }) {}
-export class DeleteRelationalDatabaseResult extends S.Class<DeleteRelationalDatabaseResult>(
-  "DeleteRelationalDatabaseResult",
-)({ operations: S.optional(OperationList) }) {}
-export class DeleteRelationalDatabaseSnapshotResult extends S.Class<DeleteRelationalDatabaseSnapshotResult>(
-  "DeleteRelationalDatabaseSnapshotResult",
-)({ operations: S.optional(OperationList) }) {}
-export class DetachCertificateFromDistributionResult extends S.Class<DetachCertificateFromDistributionResult>(
-  "DetachCertificateFromDistributionResult",
-)({ operation: S.optional(Operation) }) {}
-export class DetachDiskResult extends S.Class<DetachDiskResult>(
-  "DetachDiskResult",
-)({ operations: S.optional(OperationList) }) {}
-export class DetachInstancesFromLoadBalancerResult extends S.Class<DetachInstancesFromLoadBalancerResult>(
-  "DetachInstancesFromLoadBalancerResult",
-)({ operations: S.optional(OperationList) }) {}
-export class DetachStaticIpResult extends S.Class<DetachStaticIpResult>(
-  "DetachStaticIpResult",
-)({ operations: S.optional(OperationList) }) {}
-export class DisableAddOnResult extends S.Class<DisableAddOnResult>(
-  "DisableAddOnResult",
-)({ operations: S.optional(OperationList) }) {}
-export class EnableAddOnResult extends S.Class<EnableAddOnResult>(
-  "EnableAddOnResult",
-)({ operations: S.optional(OperationList) }) {}
-export class ExportSnapshotResult extends S.Class<ExportSnapshotResult>(
-  "ExportSnapshotResult",
-)({ operations: S.optional(OperationList) }) {}
-export class GetActiveNamesResult extends S.Class<GetActiveNamesResult>(
-  "GetActiveNamesResult",
-)({
-  activeNames: S.optional(StringList),
-  nextPageToken: S.optional(S.String),
-}) {}
-export class GetBucketAccessKeysResult extends S.Class<GetBucketAccessKeysResult>(
-  "GetBucketAccessKeysResult",
-)({ accessKeys: S.optional(AccessKeyList) }) {}
-export class GetCertificatesResult extends S.Class<GetCertificatesResult>(
-  "GetCertificatesResult",
-)({
-  certificates: S.optional(CertificateSummaryList),
-  nextPageToken: S.optional(S.String),
-}) {}
-export class GetContainerAPIMetadataResult extends S.Class<GetContainerAPIMetadataResult>(
-  "GetContainerAPIMetadataResult",
-)({ metadata: S.optional(ContainerServiceMetadataEntryList) }) {}
-export class MetricDatapoint extends S.Class<MetricDatapoint>(
-  "MetricDatapoint",
-)({
-  average: S.optional(S.Number),
-  maximum: S.optional(S.Number),
-  minimum: S.optional(S.Number),
-  sampleCount: S.optional(S.Number),
-  sum: S.optional(S.Number),
-  timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  unit: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "CreateCloudFormationStackRequest",
+}) as any as S.Schema<CreateCloudFormationStackRequest>;
+export interface CreateContactMethodResult {
+  operations?: OperationList;
+}
+export const CreateContactMethodResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "CreateContactMethodResult",
+}) as any as S.Schema<CreateContactMethodResult>;
+export interface CreateContainerServiceRegistryLoginResult {
+  registryLogin?: ContainerServiceRegistryLogin;
+}
+export const CreateContainerServiceRegistryLoginResult = S.suspend(() =>
+  S.Struct({ registryLogin: S.optional(ContainerServiceRegistryLogin) }),
+).annotations({
+  identifier: "CreateContainerServiceRegistryLoginResult",
+}) as any as S.Schema<CreateContainerServiceRegistryLoginResult>;
+export interface CreateDiskFromSnapshotResult {
+  operations?: OperationList;
+}
+export const CreateDiskFromSnapshotResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "CreateDiskFromSnapshotResult",
+}) as any as S.Schema<CreateDiskFromSnapshotResult>;
+export interface CreateDiskSnapshotResult {
+  operations?: OperationList;
+}
+export const CreateDiskSnapshotResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "CreateDiskSnapshotResult",
+}) as any as S.Schema<CreateDiskSnapshotResult>;
+export interface CreateDomainResult {
+  operation?: Operation;
+}
+export const CreateDomainResult = S.suspend(() =>
+  S.Struct({ operation: S.optional(Operation) }),
+).annotations({
+  identifier: "CreateDomainResult",
+}) as any as S.Schema<CreateDomainResult>;
+export interface CreateInstancesResult {
+  operations?: OperationList;
+}
+export const CreateInstancesResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "CreateInstancesResult",
+}) as any as S.Schema<CreateInstancesResult>;
+export interface CreateInstanceSnapshotResult {
+  operations?: OperationList;
+}
+export const CreateInstanceSnapshotResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "CreateInstanceSnapshotResult",
+}) as any as S.Schema<CreateInstanceSnapshotResult>;
+export interface CreateLoadBalancerResult {
+  operations?: OperationList;
+}
+export const CreateLoadBalancerResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "CreateLoadBalancerResult",
+}) as any as S.Schema<CreateLoadBalancerResult>;
+export interface CreateLoadBalancerTlsCertificateResult {
+  operations?: OperationList;
+}
+export const CreateLoadBalancerTlsCertificateResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "CreateLoadBalancerTlsCertificateResult",
+}) as any as S.Schema<CreateLoadBalancerTlsCertificateResult>;
+export interface CreateRelationalDatabaseResult {
+  operations?: OperationList;
+}
+export const CreateRelationalDatabaseResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "CreateRelationalDatabaseResult",
+}) as any as S.Schema<CreateRelationalDatabaseResult>;
+export interface CreateRelationalDatabaseFromSnapshotResult {
+  operations?: OperationList;
+}
+export const CreateRelationalDatabaseFromSnapshotResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "CreateRelationalDatabaseFromSnapshotResult",
+}) as any as S.Schema<CreateRelationalDatabaseFromSnapshotResult>;
+export interface CreateRelationalDatabaseSnapshotResult {
+  operations?: OperationList;
+}
+export const CreateRelationalDatabaseSnapshotResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "CreateRelationalDatabaseSnapshotResult",
+}) as any as S.Schema<CreateRelationalDatabaseSnapshotResult>;
+export interface DeleteAlarmResult {
+  operations?: OperationList;
+}
+export const DeleteAlarmResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "DeleteAlarmResult",
+}) as any as S.Schema<DeleteAlarmResult>;
+export interface DeleteAutoSnapshotResult {
+  operations?: OperationList;
+}
+export const DeleteAutoSnapshotResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "DeleteAutoSnapshotResult",
+}) as any as S.Schema<DeleteAutoSnapshotResult>;
+export interface DeleteBucketResult {
+  operations?: OperationList;
+}
+export const DeleteBucketResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "DeleteBucketResult",
+}) as any as S.Schema<DeleteBucketResult>;
+export interface DeleteBucketAccessKeyResult {
+  operations?: OperationList;
+}
+export const DeleteBucketAccessKeyResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "DeleteBucketAccessKeyResult",
+}) as any as S.Schema<DeleteBucketAccessKeyResult>;
+export interface DeleteCertificateResult {
+  operations?: OperationList;
+}
+export const DeleteCertificateResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "DeleteCertificateResult",
+}) as any as S.Schema<DeleteCertificateResult>;
+export interface DeleteContactMethodResult {
+  operations?: OperationList;
+}
+export const DeleteContactMethodResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "DeleteContactMethodResult",
+}) as any as S.Schema<DeleteContactMethodResult>;
+export interface DeleteDiskResult {
+  operations?: OperationList;
+}
+export const DeleteDiskResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "DeleteDiskResult",
+}) as any as S.Schema<DeleteDiskResult>;
+export interface DeleteDiskSnapshotResult {
+  operations?: OperationList;
+}
+export const DeleteDiskSnapshotResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "DeleteDiskSnapshotResult",
+}) as any as S.Schema<DeleteDiskSnapshotResult>;
+export interface DeleteDistributionResult {
+  operation?: Operation;
+}
+export const DeleteDistributionResult = S.suspend(() =>
+  S.Struct({ operation: S.optional(Operation) }),
+).annotations({
+  identifier: "DeleteDistributionResult",
+}) as any as S.Schema<DeleteDistributionResult>;
+export interface DeleteDomainResult {
+  operation?: Operation;
+}
+export const DeleteDomainResult = S.suspend(() =>
+  S.Struct({ operation: S.optional(Operation) }),
+).annotations({
+  identifier: "DeleteDomainResult",
+}) as any as S.Schema<DeleteDomainResult>;
+export interface DeleteDomainEntryResult {
+  operation?: Operation;
+}
+export const DeleteDomainEntryResult = S.suspend(() =>
+  S.Struct({ operation: S.optional(Operation) }),
+).annotations({
+  identifier: "DeleteDomainEntryResult",
+}) as any as S.Schema<DeleteDomainEntryResult>;
+export interface DeleteInstanceResult {
+  operations?: OperationList;
+}
+export const DeleteInstanceResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "DeleteInstanceResult",
+}) as any as S.Schema<DeleteInstanceResult>;
+export interface DeleteInstanceSnapshotResult {
+  operations?: OperationList;
+}
+export const DeleteInstanceSnapshotResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "DeleteInstanceSnapshotResult",
+}) as any as S.Schema<DeleteInstanceSnapshotResult>;
+export interface DeleteKeyPairResult {
+  operation?: Operation;
+}
+export const DeleteKeyPairResult = S.suspend(() =>
+  S.Struct({ operation: S.optional(Operation) }),
+).annotations({
+  identifier: "DeleteKeyPairResult",
+}) as any as S.Schema<DeleteKeyPairResult>;
+export interface DeleteKnownHostKeysResult {
+  operations?: OperationList;
+}
+export const DeleteKnownHostKeysResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "DeleteKnownHostKeysResult",
+}) as any as S.Schema<DeleteKnownHostKeysResult>;
+export interface DeleteLoadBalancerResult {
+  operations?: OperationList;
+}
+export const DeleteLoadBalancerResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "DeleteLoadBalancerResult",
+}) as any as S.Schema<DeleteLoadBalancerResult>;
+export interface DeleteLoadBalancerTlsCertificateResult {
+  operations?: OperationList;
+}
+export const DeleteLoadBalancerTlsCertificateResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "DeleteLoadBalancerTlsCertificateResult",
+}) as any as S.Schema<DeleteLoadBalancerTlsCertificateResult>;
+export interface DeleteRelationalDatabaseResult {
+  operations?: OperationList;
+}
+export const DeleteRelationalDatabaseResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "DeleteRelationalDatabaseResult",
+}) as any as S.Schema<DeleteRelationalDatabaseResult>;
+export interface DeleteRelationalDatabaseSnapshotResult {
+  operations?: OperationList;
+}
+export const DeleteRelationalDatabaseSnapshotResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "DeleteRelationalDatabaseSnapshotResult",
+}) as any as S.Schema<DeleteRelationalDatabaseSnapshotResult>;
+export interface DetachCertificateFromDistributionResult {
+  operation?: Operation;
+}
+export const DetachCertificateFromDistributionResult = S.suspend(() =>
+  S.Struct({ operation: S.optional(Operation) }),
+).annotations({
+  identifier: "DetachCertificateFromDistributionResult",
+}) as any as S.Schema<DetachCertificateFromDistributionResult>;
+export interface DetachDiskResult {
+  operations?: OperationList;
+}
+export const DetachDiskResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "DetachDiskResult",
+}) as any as S.Schema<DetachDiskResult>;
+export interface DetachInstancesFromLoadBalancerResult {
+  operations?: OperationList;
+}
+export const DetachInstancesFromLoadBalancerResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "DetachInstancesFromLoadBalancerResult",
+}) as any as S.Schema<DetachInstancesFromLoadBalancerResult>;
+export interface DetachStaticIpResult {
+  operations?: OperationList;
+}
+export const DetachStaticIpResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "DetachStaticIpResult",
+}) as any as S.Schema<DetachStaticIpResult>;
+export interface DisableAddOnResult {
+  operations?: OperationList;
+}
+export const DisableAddOnResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "DisableAddOnResult",
+}) as any as S.Schema<DisableAddOnResult>;
+export interface EnableAddOnResult {
+  operations?: OperationList;
+}
+export const EnableAddOnResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "EnableAddOnResult",
+}) as any as S.Schema<EnableAddOnResult>;
+export interface ExportSnapshotResult {
+  operations?: OperationList;
+}
+export const ExportSnapshotResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "ExportSnapshotResult",
+}) as any as S.Schema<ExportSnapshotResult>;
+export interface GetActiveNamesResult {
+  activeNames?: StringList;
+  nextPageToken?: string;
+}
+export const GetActiveNamesResult = S.suspend(() =>
+  S.Struct({
+    activeNames: S.optional(StringList),
+    nextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetActiveNamesResult",
+}) as any as S.Schema<GetActiveNamesResult>;
+export interface GetBucketAccessKeysResult {
+  accessKeys?: AccessKeyList;
+}
+export const GetBucketAccessKeysResult = S.suspend(() =>
+  S.Struct({ accessKeys: S.optional(AccessKeyList) }),
+).annotations({
+  identifier: "GetBucketAccessKeysResult",
+}) as any as S.Schema<GetBucketAccessKeysResult>;
+export interface GetCertificatesResult {
+  certificates?: CertificateSummaryList;
+  nextPageToken?: string;
+}
+export const GetCertificatesResult = S.suspend(() =>
+  S.Struct({
+    certificates: S.optional(CertificateSummaryList),
+    nextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetCertificatesResult",
+}) as any as S.Schema<GetCertificatesResult>;
+export interface GetContainerAPIMetadataResult {
+  metadata?: ContainerServiceMetadataEntryList;
+}
+export const GetContainerAPIMetadataResult = S.suspend(() =>
+  S.Struct({ metadata: S.optional(ContainerServiceMetadataEntryList) }),
+).annotations({
+  identifier: "GetContainerAPIMetadataResult",
+}) as any as S.Schema<GetContainerAPIMetadataResult>;
+export interface MetricDatapoint {
+  average?: number;
+  maximum?: number;
+  minimum?: number;
+  sampleCount?: number;
+  sum?: number;
+  timestamp?: Date;
+  unit?: string;
+}
+export const MetricDatapoint = S.suspend(() =>
+  S.Struct({
+    average: S.optional(S.Number),
+    maximum: S.optional(S.Number),
+    minimum: S.optional(S.Number),
+    sampleCount: S.optional(S.Number),
+    sum: S.optional(S.Number),
+    timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    unit: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "MetricDatapoint",
+}) as any as S.Schema<MetricDatapoint>;
+export type MetricDatapointList = MetricDatapoint[];
 export const MetricDatapointList = S.Array(MetricDatapoint);
-export class GetContainerServiceMetricDataResult extends S.Class<GetContainerServiceMetricDataResult>(
-  "GetContainerServiceMetricDataResult",
-)({
-  metricName: S.optional(S.String),
-  metricData: S.optional(MetricDatapointList),
-}) {}
-export class GetContainerServicePowersResult extends S.Class<GetContainerServicePowersResult>(
-  "GetContainerServicePowersResult",
-)({ powers: S.optional(ContainerServicePowerList) }) {}
-export class GetDisksResult extends S.Class<GetDisksResult>("GetDisksResult")({
-  disks: S.optional(DiskList),
-  nextPageToken: S.optional(S.String),
-}) {}
-export class GetDiskSnapshotsResult extends S.Class<GetDiskSnapshotsResult>(
-  "GetDiskSnapshotsResult",
-)({
-  diskSnapshots: S.optional(DiskSnapshotList),
-  nextPageToken: S.optional(S.String),
-}) {}
-export class GetDistributionBundlesResult extends S.Class<GetDistributionBundlesResult>(
-  "GetDistributionBundlesResult",
-)({ bundles: S.optional(DistributionBundleList) }) {}
-export class GetDistributionLatestCacheResetResult extends S.Class<GetDistributionLatestCacheResetResult>(
-  "GetDistributionLatestCacheResetResult",
-)({
-  status: S.optional(S.String),
-  createTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class GetDistributionMetricDataResult extends S.Class<GetDistributionMetricDataResult>(
-  "GetDistributionMetricDataResult",
-)({
-  metricName: S.optional(S.String),
-  metricData: S.optional(MetricDatapointList),
-}) {}
-export class GetDomainsResult extends S.Class<GetDomainsResult>(
-  "GetDomainsResult",
-)({ domains: S.optional(DomainList), nextPageToken: S.optional(S.String) }) {}
-export class GetInstanceMetricDataResult extends S.Class<GetInstanceMetricDataResult>(
-  "GetInstanceMetricDataResult",
-)({
-  metricName: S.optional(S.String),
-  metricData: S.optional(MetricDatapointList),
-}) {}
-export class GetInstancesResult extends S.Class<GetInstancesResult>(
-  "GetInstancesResult",
-)({
-  instances: S.optional(InstanceList),
-  nextPageToken: S.optional(S.String),
-}) {}
-export class GetInstanceSnapshotsResult extends S.Class<GetInstanceSnapshotsResult>(
-  "GetInstanceSnapshotsResult",
-)({
-  instanceSnapshots: S.optional(InstanceSnapshotList),
-  nextPageToken: S.optional(S.String),
-}) {}
-export class GetKeyPairResult extends S.Class<GetKeyPairResult>(
-  "GetKeyPairResult",
-)({ keyPair: S.optional(KeyPair) }) {}
-export class GetKeyPairsResult extends S.Class<GetKeyPairsResult>(
-  "GetKeyPairsResult",
-)({ keyPairs: S.optional(KeyPairList), nextPageToken: S.optional(S.String) }) {}
-export class GetLoadBalancerMetricDataResult extends S.Class<GetLoadBalancerMetricDataResult>(
-  "GetLoadBalancerMetricDataResult",
-)({
-  metricName: S.optional(S.String),
-  metricData: S.optional(MetricDatapointList),
-}) {}
-export class GetLoadBalancersResult extends S.Class<GetLoadBalancersResult>(
-  "GetLoadBalancersResult",
-)({
-  loadBalancers: S.optional(LoadBalancerList),
-  nextPageToken: S.optional(S.String),
-}) {}
-export class GetOperationResult extends S.Class<GetOperationResult>(
-  "GetOperationResult",
-)({ operation: S.optional(Operation) }) {}
-export class GetOperationsResult extends S.Class<GetOperationsResult>(
-  "GetOperationsResult",
-)({
-  operations: S.optional(OperationList),
-  nextPageToken: S.optional(S.String),
-}) {}
-export class GetOperationsForResourceResult extends S.Class<GetOperationsForResourceResult>(
-  "GetOperationsForResourceResult",
-)({
-  operations: S.optional(OperationList),
-  nextPageCount: S.optional(S.String),
-  nextPageToken: S.optional(S.String),
-}) {}
-export class GetRelationalDatabaseLogStreamsResult extends S.Class<GetRelationalDatabaseLogStreamsResult>(
-  "GetRelationalDatabaseLogStreamsResult",
-)({ logStreams: S.optional(StringList) }) {}
-export class GetRelationalDatabaseMasterUserPasswordResult extends S.Class<GetRelationalDatabaseMasterUserPasswordResult>(
-  "GetRelationalDatabaseMasterUserPasswordResult",
-)({
-  masterUserPassword: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class GetRelationalDatabaseMetricDataResult extends S.Class<GetRelationalDatabaseMetricDataResult>(
-  "GetRelationalDatabaseMetricDataResult",
-)({
-  metricName: S.optional(S.String),
-  metricData: S.optional(MetricDatapointList),
-}) {}
-export class GetRelationalDatabaseParametersResult extends S.Class<GetRelationalDatabaseParametersResult>(
-  "GetRelationalDatabaseParametersResult",
-)({
-  parameters: S.optional(RelationalDatabaseParameterList),
-  nextPageToken: S.optional(S.String),
-}) {}
-export class GetRelationalDatabasesResult extends S.Class<GetRelationalDatabasesResult>(
-  "GetRelationalDatabasesResult",
-)({
-  relationalDatabases: S.optional(RelationalDatabaseList),
-  nextPageToken: S.optional(S.String),
-}) {}
-export class GetRelationalDatabaseSnapshotsResult extends S.Class<GetRelationalDatabaseSnapshotsResult>(
-  "GetRelationalDatabaseSnapshotsResult",
-)({
-  relationalDatabaseSnapshots: S.optional(RelationalDatabaseSnapshotList),
-  nextPageToken: S.optional(S.String),
-}) {}
-export class GetStaticIpsResult extends S.Class<GetStaticIpsResult>(
-  "GetStaticIpsResult",
-)({
-  staticIps: S.optional(StaticIpList),
-  nextPageToken: S.optional(S.String),
-}) {}
-export class ImportKeyPairResult extends S.Class<ImportKeyPairResult>(
-  "ImportKeyPairResult",
-)({ operation: S.optional(Operation) }) {}
-export class OpenInstancePublicPortsResult extends S.Class<OpenInstancePublicPortsResult>(
-  "OpenInstancePublicPortsResult",
-)({ operation: S.optional(Operation) }) {}
-export class PutAlarmResult extends S.Class<PutAlarmResult>("PutAlarmResult")({
-  operations: S.optional(OperationList),
-}) {}
-export class PutInstancePublicPortsResult extends S.Class<PutInstancePublicPortsResult>(
-  "PutInstancePublicPortsResult",
-)({ operation: S.optional(Operation) }) {}
-export class RebootInstanceResult extends S.Class<RebootInstanceResult>(
-  "RebootInstanceResult",
-)({ operations: S.optional(OperationList) }) {}
-export class RebootRelationalDatabaseResult extends S.Class<RebootRelationalDatabaseResult>(
-  "RebootRelationalDatabaseResult",
-)({ operations: S.optional(OperationList) }) {}
-export class ContainerImage extends S.Class<ContainerImage>("ContainerImage")({
-  image: S.optional(S.String),
-  digest: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class RegisterContainerImageResult extends S.Class<RegisterContainerImageResult>(
-  "RegisterContainerImageResult",
-)({ containerImage: S.optional(ContainerImage) }) {}
-export class ReleaseStaticIpResult extends S.Class<ReleaseStaticIpResult>(
-  "ReleaseStaticIpResult",
-)({ operations: S.optional(OperationList) }) {}
-export class ResetDistributionCacheResult extends S.Class<ResetDistributionCacheResult>(
-  "ResetDistributionCacheResult",
-)({
-  status: S.optional(S.String),
-  createTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  operation: S.optional(Operation),
-}) {}
-export class SendContactMethodVerificationResult extends S.Class<SendContactMethodVerificationResult>(
-  "SendContactMethodVerificationResult",
-)({ operations: S.optional(OperationList) }) {}
-export class SetIpAddressTypeResult extends S.Class<SetIpAddressTypeResult>(
-  "SetIpAddressTypeResult",
-)({ operations: S.optional(OperationList) }) {}
-export class SetResourceAccessForBucketResult extends S.Class<SetResourceAccessForBucketResult>(
-  "SetResourceAccessForBucketResult",
-)({ operations: S.optional(OperationList) }) {}
-export class SetupInstanceHttpsResult extends S.Class<SetupInstanceHttpsResult>(
-  "SetupInstanceHttpsResult",
-)({ operations: S.optional(OperationList) }) {}
-export class StartGUISessionResult extends S.Class<StartGUISessionResult>(
-  "StartGUISessionResult",
-)({ operations: S.optional(OperationList) }) {}
-export class StartInstanceResult extends S.Class<StartInstanceResult>(
-  "StartInstanceResult",
-)({ operations: S.optional(OperationList) }) {}
-export class StartRelationalDatabaseResult extends S.Class<StartRelationalDatabaseResult>(
-  "StartRelationalDatabaseResult",
-)({ operations: S.optional(OperationList) }) {}
-export class StopGUISessionResult extends S.Class<StopGUISessionResult>(
-  "StopGUISessionResult",
-)({ operations: S.optional(OperationList) }) {}
-export class StopInstanceResult extends S.Class<StopInstanceResult>(
-  "StopInstanceResult",
-)({ operations: S.optional(OperationList) }) {}
-export class StopRelationalDatabaseResult extends S.Class<StopRelationalDatabaseResult>(
-  "StopRelationalDatabaseResult",
-)({ operations: S.optional(OperationList) }) {}
-export class TagResourceResult extends S.Class<TagResourceResult>(
-  "TagResourceResult",
-)({ operations: S.optional(OperationList) }) {}
-export class TestAlarmResult extends S.Class<TestAlarmResult>(
-  "TestAlarmResult",
-)({ operations: S.optional(OperationList) }) {}
-export class UntagResourceResult extends S.Class<UntagResourceResult>(
-  "UntagResourceResult",
-)({ operations: S.optional(OperationList) }) {}
-export class UpdateBucketBundleResult extends S.Class<UpdateBucketBundleResult>(
-  "UpdateBucketBundleResult",
-)({ operations: S.optional(OperationList) }) {}
-export class ContainerServiceStateDetail extends S.Class<ContainerServiceStateDetail>(
-  "ContainerServiceStateDetail",
-)({ code: S.optional(S.String), message: S.optional(S.String) }) {}
-export class ContainerServiceEndpoint extends S.Class<ContainerServiceEndpoint>(
-  "ContainerServiceEndpoint",
-)({
-  containerName: S.optional(S.String),
-  containerPort: S.optional(S.Number),
-  healthCheck: S.optional(ContainerServiceHealthCheckConfig),
-}) {}
-export class ContainerServiceDeployment extends S.Class<ContainerServiceDeployment>(
-  "ContainerServiceDeployment",
-)({
-  version: S.optional(S.Number),
-  state: S.optional(S.String),
-  containers: S.optional(ContainerMap),
-  publicEndpoint: S.optional(ContainerServiceEndpoint),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class ContainerServiceECRImagePullerRole extends S.Class<ContainerServiceECRImagePullerRole>(
-  "ContainerServiceECRImagePullerRole",
-)({ isActive: S.optional(S.Boolean), principalArn: S.optional(S.String) }) {}
-export class PrivateRegistryAccess extends S.Class<PrivateRegistryAccess>(
-  "PrivateRegistryAccess",
-)({ ecrImagePullerRole: S.optional(ContainerServiceECRImagePullerRole) }) {}
-export class ContainerService extends S.Class<ContainerService>(
-  "ContainerService",
-)({
-  containerServiceName: S.optional(S.String),
-  arn: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  location: S.optional(ResourceLocation),
-  resourceType: S.optional(S.String),
-  tags: S.optional(TagList),
-  power: S.optional(S.String),
-  powerId: S.optional(S.String),
-  state: S.optional(S.String),
-  stateDetail: S.optional(ContainerServiceStateDetail),
-  scale: S.optional(S.Number),
-  currentDeployment: S.optional(ContainerServiceDeployment),
-  nextDeployment: S.optional(ContainerServiceDeployment),
-  isDisabled: S.optional(S.Boolean),
-  principalArn: S.optional(S.String),
-  privateDomainName: S.optional(S.String),
-  publicDomainNames: S.optional(ContainerServicePublicDomains),
-  url: S.optional(S.String),
-  privateRegistryAccess: S.optional(PrivateRegistryAccess),
-}) {}
-export class UpdateContainerServiceResult extends S.Class<UpdateContainerServiceResult>(
-  "UpdateContainerServiceResult",
-)({ containerService: S.optional(ContainerService) }) {}
-export class UpdateDistributionResult extends S.Class<UpdateDistributionResult>(
-  "UpdateDistributionResult",
-)({ operation: S.optional(Operation) }) {}
-export class UpdateDistributionBundleResult extends S.Class<UpdateDistributionBundleResult>(
-  "UpdateDistributionBundleResult",
-)({ operation: S.optional(Operation) }) {}
-export class UpdateDomainEntryResult extends S.Class<UpdateDomainEntryResult>(
-  "UpdateDomainEntryResult",
-)({ operations: S.optional(OperationList) }) {}
-export class UpdateInstanceMetadataOptionsResult extends S.Class<UpdateInstanceMetadataOptionsResult>(
-  "UpdateInstanceMetadataOptionsResult",
-)({ operation: S.optional(Operation) }) {}
-export class UpdateLoadBalancerAttributeResult extends S.Class<UpdateLoadBalancerAttributeResult>(
-  "UpdateLoadBalancerAttributeResult",
-)({ operations: S.optional(OperationList) }) {}
-export class UpdateRelationalDatabaseResult extends S.Class<UpdateRelationalDatabaseResult>(
-  "UpdateRelationalDatabaseResult",
-)({ operations: S.optional(OperationList) }) {}
-export class UpdateRelationalDatabaseParametersRequest extends S.Class<UpdateRelationalDatabaseParametersRequest>(
-  "UpdateRelationalDatabaseParametersRequest",
-)(
-  {
+export interface GetContainerServiceMetricDataResult {
+  metricName?: string;
+  metricData?: MetricDatapointList;
+}
+export const GetContainerServiceMetricDataResult = S.suspend(() =>
+  S.Struct({
+    metricName: S.optional(S.String),
+    metricData: S.optional(MetricDatapointList),
+  }),
+).annotations({
+  identifier: "GetContainerServiceMetricDataResult",
+}) as any as S.Schema<GetContainerServiceMetricDataResult>;
+export interface GetContainerServicePowersResult {
+  powers?: ContainerServicePowerList;
+}
+export const GetContainerServicePowersResult = S.suspend(() =>
+  S.Struct({ powers: S.optional(ContainerServicePowerList) }),
+).annotations({
+  identifier: "GetContainerServicePowersResult",
+}) as any as S.Schema<GetContainerServicePowersResult>;
+export interface GetDisksResult {
+  disks?: DiskList;
+  nextPageToken?: string;
+}
+export const GetDisksResult = S.suspend(() =>
+  S.Struct({
+    disks: S.optional(DiskList),
+    nextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetDisksResult",
+}) as any as S.Schema<GetDisksResult>;
+export interface GetDiskSnapshotsResult {
+  diskSnapshots?: DiskSnapshotList;
+  nextPageToken?: string;
+}
+export const GetDiskSnapshotsResult = S.suspend(() =>
+  S.Struct({
+    diskSnapshots: S.optional(DiskSnapshotList),
+    nextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetDiskSnapshotsResult",
+}) as any as S.Schema<GetDiskSnapshotsResult>;
+export interface GetDistributionBundlesResult {
+  bundles?: DistributionBundleList;
+}
+export const GetDistributionBundlesResult = S.suspend(() =>
+  S.Struct({ bundles: S.optional(DistributionBundleList) }),
+).annotations({
+  identifier: "GetDistributionBundlesResult",
+}) as any as S.Schema<GetDistributionBundlesResult>;
+export interface GetDistributionLatestCacheResetResult {
+  status?: string;
+  createTime?: Date;
+}
+export const GetDistributionLatestCacheResetResult = S.suspend(() =>
+  S.Struct({
+    status: S.optional(S.String),
+    createTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "GetDistributionLatestCacheResetResult",
+}) as any as S.Schema<GetDistributionLatestCacheResetResult>;
+export interface GetDistributionMetricDataResult {
+  metricName?: string;
+  metricData?: MetricDatapointList;
+}
+export const GetDistributionMetricDataResult = S.suspend(() =>
+  S.Struct({
+    metricName: S.optional(S.String),
+    metricData: S.optional(MetricDatapointList),
+  }),
+).annotations({
+  identifier: "GetDistributionMetricDataResult",
+}) as any as S.Schema<GetDistributionMetricDataResult>;
+export interface GetDomainsResult {
+  domains?: DomainList;
+  nextPageToken?: string;
+}
+export const GetDomainsResult = S.suspend(() =>
+  S.Struct({
+    domains: S.optional(DomainList),
+    nextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetDomainsResult",
+}) as any as S.Schema<GetDomainsResult>;
+export interface GetInstanceMetricDataResult {
+  metricName?: string;
+  metricData?: MetricDatapointList;
+}
+export const GetInstanceMetricDataResult = S.suspend(() =>
+  S.Struct({
+    metricName: S.optional(S.String),
+    metricData: S.optional(MetricDatapointList),
+  }),
+).annotations({
+  identifier: "GetInstanceMetricDataResult",
+}) as any as S.Schema<GetInstanceMetricDataResult>;
+export interface GetInstancesResult {
+  instances?: InstanceList;
+  nextPageToken?: string;
+}
+export const GetInstancesResult = S.suspend(() =>
+  S.Struct({
+    instances: S.optional(InstanceList),
+    nextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetInstancesResult",
+}) as any as S.Schema<GetInstancesResult>;
+export interface GetInstanceSnapshotsResult {
+  instanceSnapshots?: InstanceSnapshotList;
+  nextPageToken?: string;
+}
+export const GetInstanceSnapshotsResult = S.suspend(() =>
+  S.Struct({
+    instanceSnapshots: S.optional(InstanceSnapshotList),
+    nextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetInstanceSnapshotsResult",
+}) as any as S.Schema<GetInstanceSnapshotsResult>;
+export interface GetKeyPairResult {
+  keyPair?: KeyPair;
+}
+export const GetKeyPairResult = S.suspend(() =>
+  S.Struct({ keyPair: S.optional(KeyPair) }),
+).annotations({
+  identifier: "GetKeyPairResult",
+}) as any as S.Schema<GetKeyPairResult>;
+export interface GetKeyPairsResult {
+  keyPairs?: KeyPairList;
+  nextPageToken?: string;
+}
+export const GetKeyPairsResult = S.suspend(() =>
+  S.Struct({
+    keyPairs: S.optional(KeyPairList),
+    nextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetKeyPairsResult",
+}) as any as S.Schema<GetKeyPairsResult>;
+export interface GetLoadBalancerMetricDataResult {
+  metricName?: string;
+  metricData?: MetricDatapointList;
+}
+export const GetLoadBalancerMetricDataResult = S.suspend(() =>
+  S.Struct({
+    metricName: S.optional(S.String),
+    metricData: S.optional(MetricDatapointList),
+  }),
+).annotations({
+  identifier: "GetLoadBalancerMetricDataResult",
+}) as any as S.Schema<GetLoadBalancerMetricDataResult>;
+export interface GetLoadBalancersResult {
+  loadBalancers?: LoadBalancerList;
+  nextPageToken?: string;
+}
+export const GetLoadBalancersResult = S.suspend(() =>
+  S.Struct({
+    loadBalancers: S.optional(LoadBalancerList),
+    nextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetLoadBalancersResult",
+}) as any as S.Schema<GetLoadBalancersResult>;
+export interface GetOperationResult {
+  operation?: Operation;
+}
+export const GetOperationResult = S.suspend(() =>
+  S.Struct({ operation: S.optional(Operation) }),
+).annotations({
+  identifier: "GetOperationResult",
+}) as any as S.Schema<GetOperationResult>;
+export interface GetOperationsResult {
+  operations?: OperationList;
+  nextPageToken?: string;
+}
+export const GetOperationsResult = S.suspend(() =>
+  S.Struct({
+    operations: S.optional(OperationList),
+    nextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetOperationsResult",
+}) as any as S.Schema<GetOperationsResult>;
+export interface GetOperationsForResourceResult {
+  operations?: OperationList;
+  nextPageCount?: string;
+  nextPageToken?: string;
+}
+export const GetOperationsForResourceResult = S.suspend(() =>
+  S.Struct({
+    operations: S.optional(OperationList),
+    nextPageCount: S.optional(S.String),
+    nextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetOperationsForResourceResult",
+}) as any as S.Schema<GetOperationsForResourceResult>;
+export interface GetRelationalDatabaseLogStreamsResult {
+  logStreams?: StringList;
+}
+export const GetRelationalDatabaseLogStreamsResult = S.suspend(() =>
+  S.Struct({ logStreams: S.optional(StringList) }),
+).annotations({
+  identifier: "GetRelationalDatabaseLogStreamsResult",
+}) as any as S.Schema<GetRelationalDatabaseLogStreamsResult>;
+export interface GetRelationalDatabaseMasterUserPasswordResult {
+  masterUserPassword?: string;
+  createdAt?: Date;
+}
+export const GetRelationalDatabaseMasterUserPasswordResult = S.suspend(() =>
+  S.Struct({
+    masterUserPassword: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "GetRelationalDatabaseMasterUserPasswordResult",
+}) as any as S.Schema<GetRelationalDatabaseMasterUserPasswordResult>;
+export interface GetRelationalDatabaseMetricDataResult {
+  metricName?: string;
+  metricData?: MetricDatapointList;
+}
+export const GetRelationalDatabaseMetricDataResult = S.suspend(() =>
+  S.Struct({
+    metricName: S.optional(S.String),
+    metricData: S.optional(MetricDatapointList),
+  }),
+).annotations({
+  identifier: "GetRelationalDatabaseMetricDataResult",
+}) as any as S.Schema<GetRelationalDatabaseMetricDataResult>;
+export interface GetRelationalDatabaseParametersResult {
+  parameters?: RelationalDatabaseParameterList;
+  nextPageToken?: string;
+}
+export const GetRelationalDatabaseParametersResult = S.suspend(() =>
+  S.Struct({
+    parameters: S.optional(RelationalDatabaseParameterList),
+    nextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetRelationalDatabaseParametersResult",
+}) as any as S.Schema<GetRelationalDatabaseParametersResult>;
+export interface GetRelationalDatabasesResult {
+  relationalDatabases?: RelationalDatabaseList;
+  nextPageToken?: string;
+}
+export const GetRelationalDatabasesResult = S.suspend(() =>
+  S.Struct({
+    relationalDatabases: S.optional(RelationalDatabaseList),
+    nextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetRelationalDatabasesResult",
+}) as any as S.Schema<GetRelationalDatabasesResult>;
+export interface GetRelationalDatabaseSnapshotsResult {
+  relationalDatabaseSnapshots?: RelationalDatabaseSnapshotList;
+  nextPageToken?: string;
+}
+export const GetRelationalDatabaseSnapshotsResult = S.suspend(() =>
+  S.Struct({
+    relationalDatabaseSnapshots: S.optional(RelationalDatabaseSnapshotList),
+    nextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetRelationalDatabaseSnapshotsResult",
+}) as any as S.Schema<GetRelationalDatabaseSnapshotsResult>;
+export interface GetStaticIpsResult {
+  staticIps?: StaticIpList;
+  nextPageToken?: string;
+}
+export const GetStaticIpsResult = S.suspend(() =>
+  S.Struct({
+    staticIps: S.optional(StaticIpList),
+    nextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetStaticIpsResult",
+}) as any as S.Schema<GetStaticIpsResult>;
+export interface ImportKeyPairResult {
+  operation?: Operation;
+}
+export const ImportKeyPairResult = S.suspend(() =>
+  S.Struct({ operation: S.optional(Operation) }),
+).annotations({
+  identifier: "ImportKeyPairResult",
+}) as any as S.Schema<ImportKeyPairResult>;
+export interface OpenInstancePublicPortsResult {
+  operation?: Operation;
+}
+export const OpenInstancePublicPortsResult = S.suspend(() =>
+  S.Struct({ operation: S.optional(Operation) }),
+).annotations({
+  identifier: "OpenInstancePublicPortsResult",
+}) as any as S.Schema<OpenInstancePublicPortsResult>;
+export interface PutAlarmResult {
+  operations?: OperationList;
+}
+export const PutAlarmResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "PutAlarmResult",
+}) as any as S.Schema<PutAlarmResult>;
+export interface PutInstancePublicPortsResult {
+  operation?: Operation;
+}
+export const PutInstancePublicPortsResult = S.suspend(() =>
+  S.Struct({ operation: S.optional(Operation) }),
+).annotations({
+  identifier: "PutInstancePublicPortsResult",
+}) as any as S.Schema<PutInstancePublicPortsResult>;
+export interface RebootInstanceResult {
+  operations?: OperationList;
+}
+export const RebootInstanceResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "RebootInstanceResult",
+}) as any as S.Schema<RebootInstanceResult>;
+export interface RebootRelationalDatabaseResult {
+  operations?: OperationList;
+}
+export const RebootRelationalDatabaseResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "RebootRelationalDatabaseResult",
+}) as any as S.Schema<RebootRelationalDatabaseResult>;
+export interface ContainerImage {
+  image?: string;
+  digest?: string;
+  createdAt?: Date;
+}
+export const ContainerImage = S.suspend(() =>
+  S.Struct({
+    image: S.optional(S.String),
+    digest: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "ContainerImage",
+}) as any as S.Schema<ContainerImage>;
+export interface RegisterContainerImageResult {
+  containerImage?: ContainerImage;
+}
+export const RegisterContainerImageResult = S.suspend(() =>
+  S.Struct({ containerImage: S.optional(ContainerImage) }),
+).annotations({
+  identifier: "RegisterContainerImageResult",
+}) as any as S.Schema<RegisterContainerImageResult>;
+export interface ReleaseStaticIpResult {
+  operations?: OperationList;
+}
+export const ReleaseStaticIpResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "ReleaseStaticIpResult",
+}) as any as S.Schema<ReleaseStaticIpResult>;
+export interface ResetDistributionCacheResult {
+  status?: string;
+  createTime?: Date;
+  operation?: Operation;
+}
+export const ResetDistributionCacheResult = S.suspend(() =>
+  S.Struct({
+    status: S.optional(S.String),
+    createTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    operation: S.optional(Operation),
+  }),
+).annotations({
+  identifier: "ResetDistributionCacheResult",
+}) as any as S.Schema<ResetDistributionCacheResult>;
+export interface SendContactMethodVerificationResult {
+  operations?: OperationList;
+}
+export const SendContactMethodVerificationResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "SendContactMethodVerificationResult",
+}) as any as S.Schema<SendContactMethodVerificationResult>;
+export interface SetIpAddressTypeResult {
+  operations?: OperationList;
+}
+export const SetIpAddressTypeResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "SetIpAddressTypeResult",
+}) as any as S.Schema<SetIpAddressTypeResult>;
+export interface SetResourceAccessForBucketResult {
+  operations?: OperationList;
+}
+export const SetResourceAccessForBucketResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "SetResourceAccessForBucketResult",
+}) as any as S.Schema<SetResourceAccessForBucketResult>;
+export interface SetupInstanceHttpsResult {
+  operations?: OperationList;
+}
+export const SetupInstanceHttpsResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "SetupInstanceHttpsResult",
+}) as any as S.Schema<SetupInstanceHttpsResult>;
+export interface StartGUISessionResult {
+  operations?: OperationList;
+}
+export const StartGUISessionResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "StartGUISessionResult",
+}) as any as S.Schema<StartGUISessionResult>;
+export interface StartInstanceResult {
+  operations?: OperationList;
+}
+export const StartInstanceResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "StartInstanceResult",
+}) as any as S.Schema<StartInstanceResult>;
+export interface StartRelationalDatabaseResult {
+  operations?: OperationList;
+}
+export const StartRelationalDatabaseResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "StartRelationalDatabaseResult",
+}) as any as S.Schema<StartRelationalDatabaseResult>;
+export interface StopGUISessionResult {
+  operations?: OperationList;
+}
+export const StopGUISessionResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "StopGUISessionResult",
+}) as any as S.Schema<StopGUISessionResult>;
+export interface StopInstanceResult {
+  operations?: OperationList;
+}
+export const StopInstanceResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "StopInstanceResult",
+}) as any as S.Schema<StopInstanceResult>;
+export interface StopRelationalDatabaseResult {
+  operations?: OperationList;
+}
+export const StopRelationalDatabaseResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "StopRelationalDatabaseResult",
+}) as any as S.Schema<StopRelationalDatabaseResult>;
+export interface TagResourceResult {
+  operations?: OperationList;
+}
+export const TagResourceResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "TagResourceResult",
+}) as any as S.Schema<TagResourceResult>;
+export interface TestAlarmResult {
+  operations?: OperationList;
+}
+export const TestAlarmResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "TestAlarmResult",
+}) as any as S.Schema<TestAlarmResult>;
+export interface UntagResourceResult {
+  operations?: OperationList;
+}
+export const UntagResourceResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "UntagResourceResult",
+}) as any as S.Schema<UntagResourceResult>;
+export interface UpdateBucketBundleResult {
+  operations?: OperationList;
+}
+export const UpdateBucketBundleResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "UpdateBucketBundleResult",
+}) as any as S.Schema<UpdateBucketBundleResult>;
+export interface ContainerServiceStateDetail {
+  code?: string;
+  message?: string;
+}
+export const ContainerServiceStateDetail = S.suspend(() =>
+  S.Struct({ code: S.optional(S.String), message: S.optional(S.String) }),
+).annotations({
+  identifier: "ContainerServiceStateDetail",
+}) as any as S.Schema<ContainerServiceStateDetail>;
+export interface ContainerServiceEndpoint {
+  containerName?: string;
+  containerPort?: number;
+  healthCheck?: ContainerServiceHealthCheckConfig;
+}
+export const ContainerServiceEndpoint = S.suspend(() =>
+  S.Struct({
+    containerName: S.optional(S.String),
+    containerPort: S.optional(S.Number),
+    healthCheck: S.optional(ContainerServiceHealthCheckConfig),
+  }),
+).annotations({
+  identifier: "ContainerServiceEndpoint",
+}) as any as S.Schema<ContainerServiceEndpoint>;
+export interface ContainerServiceDeployment {
+  version?: number;
+  state?: string;
+  containers?: ContainerMap;
+  publicEndpoint?: ContainerServiceEndpoint;
+  createdAt?: Date;
+}
+export const ContainerServiceDeployment = S.suspend(() =>
+  S.Struct({
+    version: S.optional(S.Number),
+    state: S.optional(S.String),
+    containers: S.optional(ContainerMap),
+    publicEndpoint: S.optional(ContainerServiceEndpoint),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "ContainerServiceDeployment",
+}) as any as S.Schema<ContainerServiceDeployment>;
+export interface ContainerServiceECRImagePullerRole {
+  isActive?: boolean;
+  principalArn?: string;
+}
+export const ContainerServiceECRImagePullerRole = S.suspend(() =>
+  S.Struct({
+    isActive: S.optional(S.Boolean),
+    principalArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ContainerServiceECRImagePullerRole",
+}) as any as S.Schema<ContainerServiceECRImagePullerRole>;
+export interface PrivateRegistryAccess {
+  ecrImagePullerRole?: ContainerServiceECRImagePullerRole;
+}
+export const PrivateRegistryAccess = S.suspend(() =>
+  S.Struct({
+    ecrImagePullerRole: S.optional(ContainerServiceECRImagePullerRole),
+  }),
+).annotations({
+  identifier: "PrivateRegistryAccess",
+}) as any as S.Schema<PrivateRegistryAccess>;
+export interface ContainerService {
+  containerServiceName?: string;
+  arn?: string;
+  createdAt?: Date;
+  location?: ResourceLocation;
+  resourceType?: string;
+  tags?: TagList;
+  power?: string;
+  powerId?: string;
+  state?: string;
+  stateDetail?: ContainerServiceStateDetail;
+  scale?: number;
+  currentDeployment?: ContainerServiceDeployment;
+  nextDeployment?: ContainerServiceDeployment;
+  isDisabled?: boolean;
+  principalArn?: string;
+  privateDomainName?: string;
+  publicDomainNames?: ContainerServicePublicDomains;
+  url?: string;
+  privateRegistryAccess?: PrivateRegistryAccess;
+}
+export const ContainerService = S.suspend(() =>
+  S.Struct({
+    containerServiceName: S.optional(S.String),
+    arn: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    location: S.optional(ResourceLocation),
+    resourceType: S.optional(S.String),
+    tags: S.optional(TagList),
+    power: S.optional(S.String),
+    powerId: S.optional(S.String),
+    state: S.optional(S.String),
+    stateDetail: S.optional(ContainerServiceStateDetail),
+    scale: S.optional(S.Number),
+    currentDeployment: S.optional(ContainerServiceDeployment),
+    nextDeployment: S.optional(ContainerServiceDeployment),
+    isDisabled: S.optional(S.Boolean),
+    principalArn: S.optional(S.String),
+    privateDomainName: S.optional(S.String),
+    publicDomainNames: S.optional(ContainerServicePublicDomains),
+    url: S.optional(S.String),
+    privateRegistryAccess: S.optional(PrivateRegistryAccess),
+  }),
+).annotations({
+  identifier: "ContainerService",
+}) as any as S.Schema<ContainerService>;
+export interface UpdateContainerServiceResult {
+  containerService?: ContainerService;
+}
+export const UpdateContainerServiceResult = S.suspend(() =>
+  S.Struct({ containerService: S.optional(ContainerService) }),
+).annotations({
+  identifier: "UpdateContainerServiceResult",
+}) as any as S.Schema<UpdateContainerServiceResult>;
+export interface UpdateDistributionResult {
+  operation?: Operation;
+}
+export const UpdateDistributionResult = S.suspend(() =>
+  S.Struct({ operation: S.optional(Operation) }),
+).annotations({
+  identifier: "UpdateDistributionResult",
+}) as any as S.Schema<UpdateDistributionResult>;
+export interface UpdateDistributionBundleResult {
+  operation?: Operation;
+}
+export const UpdateDistributionBundleResult = S.suspend(() =>
+  S.Struct({ operation: S.optional(Operation) }),
+).annotations({
+  identifier: "UpdateDistributionBundleResult",
+}) as any as S.Schema<UpdateDistributionBundleResult>;
+export interface UpdateDomainEntryResult {
+  operations?: OperationList;
+}
+export const UpdateDomainEntryResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "UpdateDomainEntryResult",
+}) as any as S.Schema<UpdateDomainEntryResult>;
+export interface UpdateInstanceMetadataOptionsResult {
+  operation?: Operation;
+}
+export const UpdateInstanceMetadataOptionsResult = S.suspend(() =>
+  S.Struct({ operation: S.optional(Operation) }),
+).annotations({
+  identifier: "UpdateInstanceMetadataOptionsResult",
+}) as any as S.Schema<UpdateInstanceMetadataOptionsResult>;
+export interface UpdateLoadBalancerAttributeResult {
+  operations?: OperationList;
+}
+export const UpdateLoadBalancerAttributeResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "UpdateLoadBalancerAttributeResult",
+}) as any as S.Schema<UpdateLoadBalancerAttributeResult>;
+export interface UpdateRelationalDatabaseResult {
+  operations?: OperationList;
+}
+export const UpdateRelationalDatabaseResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "UpdateRelationalDatabaseResult",
+}) as any as S.Schema<UpdateRelationalDatabaseResult>;
+export interface UpdateRelationalDatabaseParametersRequest {
+  relationalDatabaseName: string;
+  parameters: RelationalDatabaseParameterList;
+}
+export const UpdateRelationalDatabaseParametersRequest = S.suspend(() =>
+  S.Struct({
     relationalDatabaseName: S.String,
     parameters: RelationalDatabaseParameterList,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/UpdateRelationalDatabaseParameters",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/UpdateRelationalDatabaseParameters",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DiskMap extends S.Class<DiskMap>("DiskMap")({
-  originalDiskPath: S.optional(S.String),
-  newDiskName: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "UpdateRelationalDatabaseParametersRequest",
+}) as any as S.Schema<UpdateRelationalDatabaseParametersRequest>;
+export interface DiskMap {
+  originalDiskPath?: string;
+  newDiskName?: string;
+}
+export const DiskMap = S.suspend(() =>
+  S.Struct({
+    originalDiskPath: S.optional(S.String),
+    newDiskName: S.optional(S.String),
+  }),
+).annotations({ identifier: "DiskMap" }) as any as S.Schema<DiskMap>;
+export type DiskMapList = DiskMap[];
 export const DiskMapList = S.Array(DiskMap);
+export type InstancePlatformList = string[];
 export const InstancePlatformList = S.Array(S.String);
+export type AppCategoryList = string[];
 export const AppCategoryList = S.Array(S.String);
-export class BucketCorsRule extends S.Class<BucketCorsRule>("BucketCorsRule")({
-  id: S.optional(S.String),
-  allowedMethods: BucketCorsAllowedMethods,
-  allowedOrigins: BucketCorsAllowedOrigins,
-  allowedHeaders: S.optional(BucketCorsAllowedHeaders),
-  exposeHeaders: S.optional(BucketCorsExposeHeaders),
-  maxAgeSeconds: S.optional(S.Number),
-}) {}
+export interface BucketCorsRule {
+  id?: string;
+  allowedMethods: BucketCorsAllowedMethods;
+  allowedOrigins: BucketCorsAllowedOrigins;
+  allowedHeaders?: BucketCorsAllowedHeaders;
+  exposeHeaders?: BucketCorsExposeHeaders;
+  maxAgeSeconds?: number;
+}
+export const BucketCorsRule = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    allowedMethods: BucketCorsAllowedMethods,
+    allowedOrigins: BucketCorsAllowedOrigins,
+    allowedHeaders: S.optional(BucketCorsAllowedHeaders),
+    exposeHeaders: S.optional(BucketCorsExposeHeaders),
+    maxAgeSeconds: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "BucketCorsRule",
+}) as any as S.Schema<BucketCorsRule>;
+export type BucketCorsRules = BucketCorsRule[];
 export const BucketCorsRules = S.Array(BucketCorsRule);
-export class Session extends S.Class<Session>("Session")({
-  name: S.optional(S.String),
-  url: S.optional(S.String),
-  isPrimary: S.optional(S.Boolean),
-}) {}
+export interface Session {
+  name?: string;
+  url?: string;
+  isPrimary?: boolean;
+}
+export const Session = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    url: S.optional(S.String),
+    isPrimary: S.optional(S.Boolean),
+  }),
+).annotations({ identifier: "Session" }) as any as S.Schema<Session>;
+export type Sessions = Session[];
 export const Sessions = S.Array(Session);
+export type AttachedDiskMap = { [key: string]: DiskMapList };
 export const AttachedDiskMap = S.Record({ key: S.String, value: DiskMapList });
-export class Blueprint extends S.Class<Blueprint>("Blueprint")({
-  blueprintId: S.optional(S.String),
-  name: S.optional(S.String),
-  group: S.optional(S.String),
-  type: S.optional(S.String),
-  description: S.optional(S.String),
-  isActive: S.optional(S.Boolean),
-  minPower: S.optional(S.Number),
-  version: S.optional(S.String),
-  versionCode: S.optional(S.String),
-  productUrl: S.optional(S.String),
-  licenseUrl: S.optional(S.String),
-  platform: S.optional(S.String),
-  appCategory: S.optional(S.String),
-}) {}
+export interface Blueprint {
+  blueprintId?: string;
+  name?: string;
+  group?: string;
+  type?: string;
+  description?: string;
+  isActive?: boolean;
+  minPower?: number;
+  version?: string;
+  versionCode?: string;
+  productUrl?: string;
+  licenseUrl?: string;
+  platform?: string;
+  appCategory?: string;
+}
+export const Blueprint = S.suspend(() =>
+  S.Struct({
+    blueprintId: S.optional(S.String),
+    name: S.optional(S.String),
+    group: S.optional(S.String),
+    type: S.optional(S.String),
+    description: S.optional(S.String),
+    isActive: S.optional(S.Boolean),
+    minPower: S.optional(S.Number),
+    version: S.optional(S.String),
+    versionCode: S.optional(S.String),
+    productUrl: S.optional(S.String),
+    licenseUrl: S.optional(S.String),
+    platform: S.optional(S.String),
+    appCategory: S.optional(S.String),
+  }),
+).annotations({ identifier: "Blueprint" }) as any as S.Schema<Blueprint>;
+export type BlueprintList = Blueprint[];
 export const BlueprintList = S.Array(Blueprint);
-export class BucketBundle extends S.Class<BucketBundle>("BucketBundle")({
-  bundleId: S.optional(S.String),
-  name: S.optional(S.String),
-  price: S.optional(S.Number),
-  storagePerMonthInGb: S.optional(S.Number),
-  transferPerMonthInGb: S.optional(S.Number),
-  isActive: S.optional(S.Boolean),
-}) {}
+export interface BucketBundle {
+  bundleId?: string;
+  name?: string;
+  price?: number;
+  storagePerMonthInGb?: number;
+  transferPerMonthInGb?: number;
+  isActive?: boolean;
+}
+export const BucketBundle = S.suspend(() =>
+  S.Struct({
+    bundleId: S.optional(S.String),
+    name: S.optional(S.String),
+    price: S.optional(S.Number),
+    storagePerMonthInGb: S.optional(S.Number),
+    transferPerMonthInGb: S.optional(S.Number),
+    isActive: S.optional(S.Boolean),
+  }),
+).annotations({ identifier: "BucketBundle" }) as any as S.Schema<BucketBundle>;
+export type BucketBundleList = BucketBundle[];
 export const BucketBundleList = S.Array(BucketBundle);
-export class AccountLevelBpaSync extends S.Class<AccountLevelBpaSync>(
-  "AccountLevelBpaSync",
-)({
-  status: S.optional(S.String),
-  lastSyncedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  message: S.optional(S.String),
-  bpaImpactsLightsail: S.optional(S.Boolean),
-}) {}
-export class Bundle extends S.Class<Bundle>("Bundle")({
-  price: S.optional(S.Number),
-  cpuCount: S.optional(S.Number),
-  diskSizeInGb: S.optional(S.Number),
-  bundleId: S.optional(S.String),
-  instanceType: S.optional(S.String),
-  isActive: S.optional(S.Boolean),
-  name: S.optional(S.String),
-  power: S.optional(S.Number),
-  ramSizeInGb: S.optional(S.Number),
-  transferPerMonthInGb: S.optional(S.Number),
-  supportedPlatforms: S.optional(InstancePlatformList),
-  supportedAppCategories: S.optional(AppCategoryList),
-  publicIpv4AddressCount: S.optional(S.Number),
-}) {}
+export interface AccountLevelBpaSync {
+  status?: string;
+  lastSyncedAt?: Date;
+  message?: string;
+  bpaImpactsLightsail?: boolean;
+}
+export const AccountLevelBpaSync = S.suspend(() =>
+  S.Struct({
+    status: S.optional(S.String),
+    lastSyncedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    message: S.optional(S.String),
+    bpaImpactsLightsail: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "AccountLevelBpaSync",
+}) as any as S.Schema<AccountLevelBpaSync>;
+export interface Bundle {
+  price?: number;
+  cpuCount?: number;
+  diskSizeInGb?: number;
+  bundleId?: string;
+  instanceType?: string;
+  isActive?: boolean;
+  name?: string;
+  power?: number;
+  ramSizeInGb?: number;
+  transferPerMonthInGb?: number;
+  supportedPlatforms?: InstancePlatformList;
+  supportedAppCategories?: AppCategoryList;
+  publicIpv4AddressCount?: number;
+}
+export const Bundle = S.suspend(() =>
+  S.Struct({
+    price: S.optional(S.Number),
+    cpuCount: S.optional(S.Number),
+    diskSizeInGb: S.optional(S.Number),
+    bundleId: S.optional(S.String),
+    instanceType: S.optional(S.String),
+    isActive: S.optional(S.Boolean),
+    name: S.optional(S.String),
+    power: S.optional(S.Number),
+    ramSizeInGb: S.optional(S.Number),
+    transferPerMonthInGb: S.optional(S.Number),
+    supportedPlatforms: S.optional(InstancePlatformList),
+    supportedAppCategories: S.optional(AppCategoryList),
+    publicIpv4AddressCount: S.optional(S.Number),
+  }),
+).annotations({ identifier: "Bundle" }) as any as S.Schema<Bundle>;
+export type BundleList = Bundle[];
 export const BundleList = S.Array(Bundle);
-export class ContactMethod extends S.Class<ContactMethod>("ContactMethod")({
-  contactEndpoint: S.optional(S.String),
-  status: S.optional(S.String),
-  protocol: S.optional(S.String),
-  name: S.optional(S.String),
-  arn: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  location: S.optional(ResourceLocation),
-  resourceType: S.optional(S.String),
-  supportCode: S.optional(S.String),
-}) {}
+export interface ContactMethod {
+  contactEndpoint?: string;
+  status?: string;
+  protocol?: string;
+  name?: string;
+  arn?: string;
+  createdAt?: Date;
+  location?: ResourceLocation;
+  resourceType?: string;
+  supportCode?: string;
+}
+export const ContactMethod = S.suspend(() =>
+  S.Struct({
+    contactEndpoint: S.optional(S.String),
+    status: S.optional(S.String),
+    protocol: S.optional(S.String),
+    name: S.optional(S.String),
+    arn: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    location: S.optional(ResourceLocation),
+    resourceType: S.optional(S.String),
+    supportCode: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ContactMethod",
+}) as any as S.Schema<ContactMethod>;
+export type ContactMethodsList = ContactMethod[];
 export const ContactMethodsList = S.Array(ContactMethod);
+export type ContainerImageList = ContainerImage[];
 export const ContainerImageList = S.Array(ContainerImage);
-export class ContainerServiceLogEvent extends S.Class<ContainerServiceLogEvent>(
-  "ContainerServiceLogEvent",
-)({
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  message: S.optional(S.String),
-}) {}
+export interface ContainerServiceLogEvent {
+  createdAt?: Date;
+  message?: string;
+}
+export const ContainerServiceLogEvent = S.suspend(() =>
+  S.Struct({
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    message: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ContainerServiceLogEvent",
+}) as any as S.Schema<ContainerServiceLogEvent>;
+export type ContainerServiceLogEventList = ContainerServiceLogEvent[];
 export const ContainerServiceLogEventList = S.Array(ContainerServiceLogEvent);
-export class InstancePortState extends S.Class<InstancePortState>(
-  "InstancePortState",
-)({
-  fromPort: S.optional(S.Number),
-  toPort: S.optional(S.Number),
-  protocol: S.optional(S.String),
-  state: S.optional(S.String),
-  cidrs: S.optional(StringList),
-  ipv6Cidrs: S.optional(StringList),
-  cidrListAliases: S.optional(StringList),
-}) {}
+export interface InstancePortState {
+  fromPort?: number;
+  toPort?: number;
+  protocol?: string;
+  state?: string;
+  cidrs?: StringList;
+  ipv6Cidrs?: StringList;
+  cidrListAliases?: StringList;
+}
+export const InstancePortState = S.suspend(() =>
+  S.Struct({
+    fromPort: S.optional(S.Number),
+    toPort: S.optional(S.Number),
+    protocol: S.optional(S.String),
+    state: S.optional(S.String),
+    cidrs: S.optional(StringList),
+    ipv6Cidrs: S.optional(StringList),
+    cidrListAliases: S.optional(StringList),
+  }),
+).annotations({
+  identifier: "InstancePortState",
+}) as any as S.Schema<InstancePortState>;
+export type InstancePortStateList = InstancePortState[];
 export const InstancePortStateList = S.Array(InstancePortState);
-export class LoadBalancerTlsPolicy extends S.Class<LoadBalancerTlsPolicy>(
-  "LoadBalancerTlsPolicy",
-)({
-  name: S.optional(S.String),
-  isDefault: S.optional(S.Boolean),
-  description: S.optional(S.String),
-  protocols: S.optional(StringList),
-  ciphers: S.optional(StringList),
-}) {}
+export interface LoadBalancerTlsPolicy {
+  name?: string;
+  isDefault?: boolean;
+  description?: string;
+  protocols?: StringList;
+  ciphers?: StringList;
+}
+export const LoadBalancerTlsPolicy = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    isDefault: S.optional(S.Boolean),
+    description: S.optional(S.String),
+    protocols: S.optional(StringList),
+    ciphers: S.optional(StringList),
+  }),
+).annotations({
+  identifier: "LoadBalancerTlsPolicy",
+}) as any as S.Schema<LoadBalancerTlsPolicy>;
+export type LoadBalancerTlsPolicyList = LoadBalancerTlsPolicy[];
 export const LoadBalancerTlsPolicyList = S.Array(LoadBalancerTlsPolicy);
-export class RelationalDatabaseBlueprint extends S.Class<RelationalDatabaseBlueprint>(
-  "RelationalDatabaseBlueprint",
-)({
-  blueprintId: S.optional(S.String),
-  engine: S.optional(S.String),
-  engineVersion: S.optional(S.String),
-  engineDescription: S.optional(S.String),
-  engineVersionDescription: S.optional(S.String),
-  isEngineDefault: S.optional(S.Boolean),
-}) {}
+export interface RelationalDatabaseBlueprint {
+  blueprintId?: string;
+  engine?: string;
+  engineVersion?: string;
+  engineDescription?: string;
+  engineVersionDescription?: string;
+  isEngineDefault?: boolean;
+}
+export const RelationalDatabaseBlueprint = S.suspend(() =>
+  S.Struct({
+    blueprintId: S.optional(S.String),
+    engine: S.optional(S.String),
+    engineVersion: S.optional(S.String),
+    engineDescription: S.optional(S.String),
+    engineVersionDescription: S.optional(S.String),
+    isEngineDefault: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "RelationalDatabaseBlueprint",
+}) as any as S.Schema<RelationalDatabaseBlueprint>;
+export type RelationalDatabaseBlueprintList = RelationalDatabaseBlueprint[];
 export const RelationalDatabaseBlueprintList = S.Array(
   RelationalDatabaseBlueprint,
 );
-export class RelationalDatabaseBundle extends S.Class<RelationalDatabaseBundle>(
-  "RelationalDatabaseBundle",
-)({
-  bundleId: S.optional(S.String),
-  name: S.optional(S.String),
-  price: S.optional(S.Number),
-  ramSizeInGb: S.optional(S.Number),
-  diskSizeInGb: S.optional(S.Number),
-  transferPerMonthInGb: S.optional(S.Number),
-  cpuCount: S.optional(S.Number),
-  isEncrypted: S.optional(S.Boolean),
-  isActive: S.optional(S.Boolean),
-}) {}
+export interface RelationalDatabaseBundle {
+  bundleId?: string;
+  name?: string;
+  price?: number;
+  ramSizeInGb?: number;
+  diskSizeInGb?: number;
+  transferPerMonthInGb?: number;
+  cpuCount?: number;
+  isEncrypted?: boolean;
+  isActive?: boolean;
+}
+export const RelationalDatabaseBundle = S.suspend(() =>
+  S.Struct({
+    bundleId: S.optional(S.String),
+    name: S.optional(S.String),
+    price: S.optional(S.Number),
+    ramSizeInGb: S.optional(S.Number),
+    diskSizeInGb: S.optional(S.Number),
+    transferPerMonthInGb: S.optional(S.Number),
+    cpuCount: S.optional(S.Number),
+    isEncrypted: S.optional(S.Boolean),
+    isActive: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "RelationalDatabaseBundle",
+}) as any as S.Schema<RelationalDatabaseBundle>;
+export type RelationalDatabaseBundleList = RelationalDatabaseBundle[];
 export const RelationalDatabaseBundleList = S.Array(RelationalDatabaseBundle);
-export class RelationalDatabaseEvent extends S.Class<RelationalDatabaseEvent>(
-  "RelationalDatabaseEvent",
-)({
-  resource: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  message: S.optional(S.String),
-  eventCategories: S.optional(StringList),
-}) {}
+export interface RelationalDatabaseEvent {
+  resource?: string;
+  createdAt?: Date;
+  message?: string;
+  eventCategories?: StringList;
+}
+export const RelationalDatabaseEvent = S.suspend(() =>
+  S.Struct({
+    resource: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    message: S.optional(S.String),
+    eventCategories: S.optional(StringList),
+  }),
+).annotations({
+  identifier: "RelationalDatabaseEvent",
+}) as any as S.Schema<RelationalDatabaseEvent>;
+export type RelationalDatabaseEventList = RelationalDatabaseEvent[];
 export const RelationalDatabaseEventList = S.Array(RelationalDatabaseEvent);
-export class LogEvent extends S.Class<LogEvent>("LogEvent")({
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  message: S.optional(S.String),
-}) {}
+export interface LogEvent {
+  createdAt?: Date;
+  message?: string;
+}
+export const LogEvent = S.suspend(() =>
+  S.Struct({
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    message: S.optional(S.String),
+  }),
+).annotations({ identifier: "LogEvent" }) as any as S.Schema<LogEvent>;
+export type LogEventList = LogEvent[];
 export const LogEventList = S.Array(LogEvent);
-export class BucketCorsConfig extends S.Class<BucketCorsConfig>(
-  "BucketCorsConfig",
-)({ rules: S.optional(BucketCorsRules) }) {}
-export class CloseInstancePublicPortsResult extends S.Class<CloseInstancePublicPortsResult>(
-  "CloseInstancePublicPortsResult",
-)({ operation: S.optional(Operation) }) {}
-export class ResourceReceivingAccess extends S.Class<ResourceReceivingAccess>(
-  "ResourceReceivingAccess",
-)({ name: S.optional(S.String), resourceType: S.optional(S.String) }) {}
+export interface BucketCorsConfig {
+  rules?: BucketCorsRules;
+}
+export const BucketCorsConfig = S.suspend(() =>
+  S.Struct({ rules: S.optional(BucketCorsRules) }),
+).annotations({
+  identifier: "BucketCorsConfig",
+}) as any as S.Schema<BucketCorsConfig>;
+export interface CloseInstancePublicPortsResult {
+  operation?: Operation;
+}
+export const CloseInstancePublicPortsResult = S.suspend(() =>
+  S.Struct({ operation: S.optional(Operation) }),
+).annotations({
+  identifier: "CloseInstancePublicPortsResult",
+}) as any as S.Schema<CloseInstancePublicPortsResult>;
+export interface ResourceReceivingAccess {
+  name?: string;
+  resourceType?: string;
+}
+export const ResourceReceivingAccess = S.suspend(() =>
+  S.Struct({ name: S.optional(S.String), resourceType: S.optional(S.String) }),
+).annotations({
+  identifier: "ResourceReceivingAccess",
+}) as any as S.Schema<ResourceReceivingAccess>;
+export type AccessReceiverList = ResourceReceivingAccess[];
 export const AccessReceiverList = S.Array(ResourceReceivingAccess);
-export class BucketState extends S.Class<BucketState>("BucketState")({
-  code: S.optional(S.String),
-  message: S.optional(S.String),
-}) {}
-export class Bucket extends S.Class<Bucket>("Bucket")({
-  resourceType: S.optional(S.String),
-  accessRules: S.optional(AccessRules),
-  arn: S.optional(S.String),
-  bundleId: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  url: S.optional(S.String),
-  location: S.optional(ResourceLocation),
-  name: S.optional(S.String),
-  supportCode: S.optional(S.String),
-  tags: S.optional(TagList),
-  objectVersioning: S.optional(S.String),
-  ableToUpdateBundle: S.optional(S.Boolean),
-  readonlyAccessAccounts: S.optional(PartnerIdList),
-  resourcesReceivingAccess: S.optional(AccessReceiverList),
-  state: S.optional(BucketState),
-  accessLogConfig: S.optional(BucketAccessLogConfig),
-  cors: S.optional(BucketCorsConfig),
-}) {}
-export class CreateBucketResult extends S.Class<CreateBucketResult>(
-  "CreateBucketResult",
-)({ bucket: S.optional(Bucket), operations: S.optional(OperationList) }) {}
-export class CreateCloudFormationStackResult extends S.Class<CreateCloudFormationStackResult>(
-  "CreateCloudFormationStackResult",
-)({ operations: S.optional(OperationList) }) {}
-export class CreateContainerServiceRequest extends S.Class<CreateContainerServiceRequest>(
-  "CreateContainerServiceRequest",
-)(
-  {
+export interface BucketState {
+  code?: string;
+  message?: string;
+}
+export const BucketState = S.suspend(() =>
+  S.Struct({ code: S.optional(S.String), message: S.optional(S.String) }),
+).annotations({ identifier: "BucketState" }) as any as S.Schema<BucketState>;
+export interface Bucket {
+  resourceType?: string;
+  accessRules?: AccessRules;
+  arn?: string;
+  bundleId?: string;
+  createdAt?: Date;
+  url?: string;
+  location?: ResourceLocation;
+  name?: string;
+  supportCode?: string;
+  tags?: TagList;
+  objectVersioning?: string;
+  ableToUpdateBundle?: boolean;
+  readonlyAccessAccounts?: PartnerIdList;
+  resourcesReceivingAccess?: AccessReceiverList;
+  state?: BucketState;
+  accessLogConfig?: BucketAccessLogConfig;
+  cors?: BucketCorsConfig;
+}
+export const Bucket = S.suspend(() =>
+  S.Struct({
+    resourceType: S.optional(S.String),
+    accessRules: S.optional(AccessRules),
+    arn: S.optional(S.String),
+    bundleId: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    url: S.optional(S.String),
+    location: S.optional(ResourceLocation),
+    name: S.optional(S.String),
+    supportCode: S.optional(S.String),
+    tags: S.optional(TagList),
+    objectVersioning: S.optional(S.String),
+    ableToUpdateBundle: S.optional(S.Boolean),
+    readonlyAccessAccounts: S.optional(PartnerIdList),
+    resourcesReceivingAccess: S.optional(AccessReceiverList),
+    state: S.optional(BucketState),
+    accessLogConfig: S.optional(BucketAccessLogConfig),
+    cors: S.optional(BucketCorsConfig),
+  }),
+).annotations({ identifier: "Bucket" }) as any as S.Schema<Bucket>;
+export interface CreateBucketResult {
+  bucket?: Bucket;
+  operations?: OperationList;
+}
+export const CreateBucketResult = S.suspend(() =>
+  S.Struct({
+    bucket: S.optional(Bucket),
+    operations: S.optional(OperationList),
+  }),
+).annotations({
+  identifier: "CreateBucketResult",
+}) as any as S.Schema<CreateBucketResult>;
+export interface CreateCloudFormationStackResult {
+  operations?: OperationList;
+}
+export const CreateCloudFormationStackResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "CreateCloudFormationStackResult",
+}) as any as S.Schema<CreateCloudFormationStackResult>;
+export interface CreateContainerServiceRequest {
+  serviceName: string;
+  power: string;
+  scale: number;
+  tags?: TagList;
+  publicDomainNames?: ContainerServicePublicDomains;
+  deployment?: ContainerServiceDeploymentRequest;
+  privateRegistryAccess?: PrivateRegistryAccessRequest;
+}
+export const CreateContainerServiceRequest = S.suspend(() =>
+  S.Struct({
     serviceName: S.String,
     power: S.String,
     scale: S.Number,
@@ -3991,39 +6453,60 @@ export class CreateContainerServiceRequest extends S.Class<CreateContainerServic
     publicDomainNames: S.optional(ContainerServicePublicDomains),
     deployment: S.optional(ContainerServiceDeploymentRequest),
     privateRegistryAccess: S.optional(PrivateRegistryAccessRequest),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/container-services" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/container-services" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateDiskRequest extends S.Class<CreateDiskRequest>(
-  "CreateDiskRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateContainerServiceRequest",
+}) as any as S.Schema<CreateContainerServiceRequest>;
+export interface CreateDiskRequest {
+  diskName: string;
+  availabilityZone: string;
+  sizeInGb: number;
+  tags?: TagList;
+  addOns?: AddOnRequestList;
+}
+export const CreateDiskRequest = S.suspend(() =>
+  S.Struct({
     diskName: S.String,
     availabilityZone: S.String,
     sizeInGb: S.Number,
     tags: S.optional(TagList),
     addOns: S.optional(AddOnRequestList),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/CreateDisk" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/CreateDisk" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateDistributionRequest extends S.Class<CreateDistributionRequest>(
-  "CreateDistributionRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateDiskRequest",
+}) as any as S.Schema<CreateDiskRequest>;
+export interface CreateDistributionRequest {
+  distributionName: string;
+  origin: InputOrigin;
+  defaultCacheBehavior: CacheBehavior;
+  cacheBehaviorSettings?: CacheSettings;
+  cacheBehaviors?: CacheBehaviorList;
+  bundleId: string;
+  ipAddressType?: string;
+  tags?: TagList;
+  certificateName?: string;
+  viewerMinimumTlsProtocolVersion?: string;
+}
+export const CreateDistributionRequest = S.suspend(() =>
+  S.Struct({
     distributionName: S.String,
     origin: InputOrigin,
     defaultCacheBehavior: CacheBehavior,
@@ -4034,42 +6517,72 @@ export class CreateDistributionRequest extends S.Class<CreateDistributionRequest
     tags: S.optional(TagList),
     certificateName: S.optional(S.String),
     viewerMinimumTlsProtocolVersion: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/CreateDistribution" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/CreateDistribution" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateDomainEntryRequest extends S.Class<CreateDomainEntryRequest>(
-  "CreateDomainEntryRequest",
-)(
-  { domainName: S.String, domainEntry: DomainEntry },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/CreateDomainEntry" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CreateDistributionRequest",
+}) as any as S.Schema<CreateDistributionRequest>;
+export interface CreateDomainEntryRequest {
+  domainName: string;
+  domainEntry: DomainEntry;
+}
+export const CreateDomainEntryRequest = S.suspend(() =>
+  S.Struct({ domainName: S.String, domainEntry: DomainEntry }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/CreateDomainEntry" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateGUISessionAccessDetailsResult extends S.Class<CreateGUISessionAccessDetailsResult>(
-  "CreateGUISessionAccessDetailsResult",
-)({
-  resourceName: S.optional(S.String),
-  status: S.optional(S.String),
-  percentageComplete: S.optional(S.Number),
-  failureReason: S.optional(S.String),
-  sessions: S.optional(Sessions),
-}) {}
-export class CreateInstancesFromSnapshotRequest extends S.Class<CreateInstancesFromSnapshotRequest>(
-  "CreateInstancesFromSnapshotRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateDomainEntryRequest",
+}) as any as S.Schema<CreateDomainEntryRequest>;
+export interface CreateGUISessionAccessDetailsResult {
+  resourceName?: string;
+  status?: string;
+  percentageComplete?: number;
+  failureReason?: string;
+  sessions?: Sessions;
+}
+export const CreateGUISessionAccessDetailsResult = S.suspend(() =>
+  S.Struct({
+    resourceName: S.optional(S.String),
+    status: S.optional(S.String),
+    percentageComplete: S.optional(S.Number),
+    failureReason: S.optional(S.String),
+    sessions: S.optional(Sessions),
+  }),
+).annotations({
+  identifier: "CreateGUISessionAccessDetailsResult",
+}) as any as S.Schema<CreateGUISessionAccessDetailsResult>;
+export interface CreateInstancesFromSnapshotRequest {
+  instanceNames: StringList;
+  attachedDiskMapping?: AttachedDiskMap;
+  availabilityZone: string;
+  instanceSnapshotName?: string;
+  bundleId: string;
+  userData?: string;
+  keyPairName?: string;
+  tags?: TagList;
+  addOns?: AddOnRequestList;
+  ipAddressType?: string;
+  sourceInstanceName?: string;
+  restoreDate?: string;
+  useLatestRestorableAutoSnapshot?: boolean;
+}
+export const CreateInstancesFromSnapshotRequest = S.suspend(() =>
+  S.Struct({
     instanceNames: StringList,
     attachedDiskMapping: S.optional(AttachedDiskMap),
     availabilityZone: S.String,
@@ -4083,586 +6596,1224 @@ export class CreateInstancesFromSnapshotRequest extends S.Class<CreateInstancesF
     sourceInstanceName: S.optional(S.String),
     restoreDate: S.optional(S.String),
     useLatestRestorableAutoSnapshot: S.optional(S.Boolean),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/CreateInstancesFromSnapshot",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/CreateInstancesFromSnapshot",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateKeyPairResult extends S.Class<CreateKeyPairResult>(
-  "CreateKeyPairResult",
-)({
-  keyPair: S.optional(KeyPair),
-  publicKeyBase64: S.optional(S.String),
-  privateKeyBase64: S.optional(S.String),
-  operation: S.optional(Operation),
-}) {}
-export class GetBlueprintsResult extends S.Class<GetBlueprintsResult>(
-  "GetBlueprintsResult",
-)({
-  blueprints: S.optional(BlueprintList),
-  nextPageToken: S.optional(S.String),
-}) {}
-export class GetBucketBundlesResult extends S.Class<GetBucketBundlesResult>(
-  "GetBucketBundlesResult",
-)({ bundles: S.optional(BucketBundleList) }) {}
-export class GetBucketMetricDataResult extends S.Class<GetBucketMetricDataResult>(
-  "GetBucketMetricDataResult",
-)({
-  metricName: S.optional(S.String),
-  metricData: S.optional(MetricDatapointList),
-}) {}
-export class GetBundlesResult extends S.Class<GetBundlesResult>(
-  "GetBundlesResult",
-)({ bundles: S.optional(BundleList), nextPageToken: S.optional(S.String) }) {}
-export class GetContactMethodsResult extends S.Class<GetContactMethodsResult>(
-  "GetContactMethodsResult",
-)({ contactMethods: S.optional(ContactMethodsList) }) {}
-export class GetContainerImagesResult extends S.Class<GetContainerImagesResult>(
-  "GetContainerImagesResult",
-)({ containerImages: S.optional(ContainerImageList) }) {}
-export class GetContainerLogResult extends S.Class<GetContainerLogResult>(
-  "GetContainerLogResult",
-)({
-  logEvents: S.optional(ContainerServiceLogEventList),
-  nextPageToken: S.optional(S.String),
-}) {}
-export class GetDiskSnapshotResult extends S.Class<GetDiskSnapshotResult>(
-  "GetDiskSnapshotResult",
-)({ diskSnapshot: S.optional(DiskSnapshot) }) {}
-export class GetInstancePortStatesResult extends S.Class<GetInstancePortStatesResult>(
-  "GetInstancePortStatesResult",
-)({ portStates: S.optional(InstancePortStateList) }) {}
-export class GetInstanceSnapshotResult extends S.Class<GetInstanceSnapshotResult>(
-  "GetInstanceSnapshotResult",
-)({ instanceSnapshot: S.optional(InstanceSnapshot) }) {}
-export class GetInstanceStateResult extends S.Class<GetInstanceStateResult>(
-  "GetInstanceStateResult",
-)({ state: S.optional(InstanceState) }) {}
-export class GetLoadBalancerTlsPoliciesResult extends S.Class<GetLoadBalancerTlsPoliciesResult>(
-  "GetLoadBalancerTlsPoliciesResult",
-)({
-  tlsPolicies: S.optional(LoadBalancerTlsPolicyList),
-  nextPageToken: S.optional(S.String),
-}) {}
-export class GetRelationalDatabaseBlueprintsResult extends S.Class<GetRelationalDatabaseBlueprintsResult>(
-  "GetRelationalDatabaseBlueprintsResult",
-)({
-  blueprints: S.optional(RelationalDatabaseBlueprintList),
-  nextPageToken: S.optional(S.String),
-}) {}
-export class GetRelationalDatabaseBundlesResult extends S.Class<GetRelationalDatabaseBundlesResult>(
-  "GetRelationalDatabaseBundlesResult",
-)({
-  bundles: S.optional(RelationalDatabaseBundleList),
-  nextPageToken: S.optional(S.String),
-}) {}
-export class GetRelationalDatabaseEventsResult extends S.Class<GetRelationalDatabaseEventsResult>(
-  "GetRelationalDatabaseEventsResult",
-)({
-  relationalDatabaseEvents: S.optional(RelationalDatabaseEventList),
-  nextPageToken: S.optional(S.String),
-}) {}
-export class GetRelationalDatabaseLogEventsResult extends S.Class<GetRelationalDatabaseLogEventsResult>(
-  "GetRelationalDatabaseLogEventsResult",
-)({
-  resourceLogEvents: S.optional(LogEventList),
-  nextBackwardToken: S.optional(S.String),
-  nextForwardToken: S.optional(S.String),
-}) {}
-export class GetRelationalDatabaseSnapshotResult extends S.Class<GetRelationalDatabaseSnapshotResult>(
-  "GetRelationalDatabaseSnapshotResult",
-)({ relationalDatabaseSnapshot: S.optional(RelationalDatabaseSnapshot) }) {}
-export class GetStaticIpResult extends S.Class<GetStaticIpResult>(
-  "GetStaticIpResult",
-)({ staticIp: S.optional(StaticIp) }) {}
-export class PeerVpcResult extends S.Class<PeerVpcResult>("PeerVpcResult")({
-  operation: S.optional(Operation),
-}) {}
-export class UpdateBucketRequest extends S.Class<UpdateBucketRequest>(
-  "UpdateBucketRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateInstancesFromSnapshotRequest",
+}) as any as S.Schema<CreateInstancesFromSnapshotRequest>;
+export interface CreateKeyPairResult {
+  keyPair?: KeyPair;
+  publicKeyBase64?: string;
+  privateKeyBase64?: string;
+  operation?: Operation;
+}
+export const CreateKeyPairResult = S.suspend(() =>
+  S.Struct({
+    keyPair: S.optional(KeyPair),
+    publicKeyBase64: S.optional(S.String),
+    privateKeyBase64: S.optional(S.String),
+    operation: S.optional(Operation),
+  }),
+).annotations({
+  identifier: "CreateKeyPairResult",
+}) as any as S.Schema<CreateKeyPairResult>;
+export interface GetBlueprintsResult {
+  blueprints?: BlueprintList;
+  nextPageToken?: string;
+}
+export const GetBlueprintsResult = S.suspend(() =>
+  S.Struct({
+    blueprints: S.optional(BlueprintList),
+    nextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetBlueprintsResult",
+}) as any as S.Schema<GetBlueprintsResult>;
+export interface GetBucketBundlesResult {
+  bundles?: BucketBundleList;
+}
+export const GetBucketBundlesResult = S.suspend(() =>
+  S.Struct({ bundles: S.optional(BucketBundleList) }),
+).annotations({
+  identifier: "GetBucketBundlesResult",
+}) as any as S.Schema<GetBucketBundlesResult>;
+export interface GetBucketMetricDataResult {
+  metricName?: string;
+  metricData?: MetricDatapointList;
+}
+export const GetBucketMetricDataResult = S.suspend(() =>
+  S.Struct({
+    metricName: S.optional(S.String),
+    metricData: S.optional(MetricDatapointList),
+  }),
+).annotations({
+  identifier: "GetBucketMetricDataResult",
+}) as any as S.Schema<GetBucketMetricDataResult>;
+export interface GetBundlesResult {
+  bundles?: BundleList;
+  nextPageToken?: string;
+}
+export const GetBundlesResult = S.suspend(() =>
+  S.Struct({
+    bundles: S.optional(BundleList),
+    nextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetBundlesResult",
+}) as any as S.Schema<GetBundlesResult>;
+export interface GetContactMethodsResult {
+  contactMethods?: ContactMethodsList;
+}
+export const GetContactMethodsResult = S.suspend(() =>
+  S.Struct({ contactMethods: S.optional(ContactMethodsList) }),
+).annotations({
+  identifier: "GetContactMethodsResult",
+}) as any as S.Schema<GetContactMethodsResult>;
+export interface GetContainerImagesResult {
+  containerImages?: ContainerImageList;
+}
+export const GetContainerImagesResult = S.suspend(() =>
+  S.Struct({ containerImages: S.optional(ContainerImageList) }),
+).annotations({
+  identifier: "GetContainerImagesResult",
+}) as any as S.Schema<GetContainerImagesResult>;
+export interface GetContainerLogResult {
+  logEvents?: ContainerServiceLogEventList;
+  nextPageToken?: string;
+}
+export const GetContainerLogResult = S.suspend(() =>
+  S.Struct({
+    logEvents: S.optional(ContainerServiceLogEventList),
+    nextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetContainerLogResult",
+}) as any as S.Schema<GetContainerLogResult>;
+export interface GetDiskSnapshotResult {
+  diskSnapshot?: DiskSnapshot;
+}
+export const GetDiskSnapshotResult = S.suspend(() =>
+  S.Struct({ diskSnapshot: S.optional(DiskSnapshot) }),
+).annotations({
+  identifier: "GetDiskSnapshotResult",
+}) as any as S.Schema<GetDiskSnapshotResult>;
+export interface GetInstancePortStatesResult {
+  portStates?: InstancePortStateList;
+}
+export const GetInstancePortStatesResult = S.suspend(() =>
+  S.Struct({ portStates: S.optional(InstancePortStateList) }),
+).annotations({
+  identifier: "GetInstancePortStatesResult",
+}) as any as S.Schema<GetInstancePortStatesResult>;
+export interface GetInstanceSnapshotResult {
+  instanceSnapshot?: InstanceSnapshot;
+}
+export const GetInstanceSnapshotResult = S.suspend(() =>
+  S.Struct({ instanceSnapshot: S.optional(InstanceSnapshot) }),
+).annotations({
+  identifier: "GetInstanceSnapshotResult",
+}) as any as S.Schema<GetInstanceSnapshotResult>;
+export interface GetInstanceStateResult {
+  state?: InstanceState;
+}
+export const GetInstanceStateResult = S.suspend(() =>
+  S.Struct({ state: S.optional(InstanceState) }),
+).annotations({
+  identifier: "GetInstanceStateResult",
+}) as any as S.Schema<GetInstanceStateResult>;
+export interface GetLoadBalancerTlsPoliciesResult {
+  tlsPolicies?: LoadBalancerTlsPolicyList;
+  nextPageToken?: string;
+}
+export const GetLoadBalancerTlsPoliciesResult = S.suspend(() =>
+  S.Struct({
+    tlsPolicies: S.optional(LoadBalancerTlsPolicyList),
+    nextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetLoadBalancerTlsPoliciesResult",
+}) as any as S.Schema<GetLoadBalancerTlsPoliciesResult>;
+export interface GetRelationalDatabaseBlueprintsResult {
+  blueprints?: RelationalDatabaseBlueprintList;
+  nextPageToken?: string;
+}
+export const GetRelationalDatabaseBlueprintsResult = S.suspend(() =>
+  S.Struct({
+    blueprints: S.optional(RelationalDatabaseBlueprintList),
+    nextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetRelationalDatabaseBlueprintsResult",
+}) as any as S.Schema<GetRelationalDatabaseBlueprintsResult>;
+export interface GetRelationalDatabaseBundlesResult {
+  bundles?: RelationalDatabaseBundleList;
+  nextPageToken?: string;
+}
+export const GetRelationalDatabaseBundlesResult = S.suspend(() =>
+  S.Struct({
+    bundles: S.optional(RelationalDatabaseBundleList),
+    nextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetRelationalDatabaseBundlesResult",
+}) as any as S.Schema<GetRelationalDatabaseBundlesResult>;
+export interface GetRelationalDatabaseEventsResult {
+  relationalDatabaseEvents?: RelationalDatabaseEventList;
+  nextPageToken?: string;
+}
+export const GetRelationalDatabaseEventsResult = S.suspend(() =>
+  S.Struct({
+    relationalDatabaseEvents: S.optional(RelationalDatabaseEventList),
+    nextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetRelationalDatabaseEventsResult",
+}) as any as S.Schema<GetRelationalDatabaseEventsResult>;
+export interface GetRelationalDatabaseLogEventsResult {
+  resourceLogEvents?: LogEventList;
+  nextBackwardToken?: string;
+  nextForwardToken?: string;
+}
+export const GetRelationalDatabaseLogEventsResult = S.suspend(() =>
+  S.Struct({
+    resourceLogEvents: S.optional(LogEventList),
+    nextBackwardToken: S.optional(S.String),
+    nextForwardToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetRelationalDatabaseLogEventsResult",
+}) as any as S.Schema<GetRelationalDatabaseLogEventsResult>;
+export interface GetRelationalDatabaseSnapshotResult {
+  relationalDatabaseSnapshot?: RelationalDatabaseSnapshot;
+}
+export const GetRelationalDatabaseSnapshotResult = S.suspend(() =>
+  S.Struct({
+    relationalDatabaseSnapshot: S.optional(RelationalDatabaseSnapshot),
+  }),
+).annotations({
+  identifier: "GetRelationalDatabaseSnapshotResult",
+}) as any as S.Schema<GetRelationalDatabaseSnapshotResult>;
+export interface GetStaticIpResult {
+  staticIp?: StaticIp;
+}
+export const GetStaticIpResult = S.suspend(() =>
+  S.Struct({ staticIp: S.optional(StaticIp) }),
+).annotations({
+  identifier: "GetStaticIpResult",
+}) as any as S.Schema<GetStaticIpResult>;
+export interface PeerVpcResult {
+  operation?: Operation;
+}
+export const PeerVpcResult = S.suspend(() =>
+  S.Struct({ operation: S.optional(Operation) }),
+).annotations({
+  identifier: "PeerVpcResult",
+}) as any as S.Schema<PeerVpcResult>;
+export interface UpdateBucketRequest {
+  bucketName: string;
+  accessRules?: AccessRules;
+  versioning?: string;
+  readonlyAccessAccounts?: PartnerIdList;
+  accessLogConfig?: BucketAccessLogConfig;
+  cors?: BucketCorsConfig;
+}
+export const UpdateBucketRequest = S.suspend(() =>
+  S.Struct({
     bucketName: S.String,
     accessRules: S.optional(AccessRules),
     versioning: S.optional(S.String),
     readonlyAccessAccounts: S.optional(PartnerIdList),
     accessLogConfig: S.optional(BucketAccessLogConfig),
     cors: S.optional(BucketCorsConfig),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/ls/api/2016-11-28/UpdateBucket" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ls/api/2016-11-28/UpdateBucket" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateRelationalDatabaseParametersResult extends S.Class<UpdateRelationalDatabaseParametersResult>(
-  "UpdateRelationalDatabaseParametersResult",
-)({ operations: S.optional(OperationList) }) {}
-export class MonitoredResourceInfo extends S.Class<MonitoredResourceInfo>(
-  "MonitoredResourceInfo",
-)({
-  arn: S.optional(S.String),
-  name: S.optional(S.String),
-  resourceType: S.optional(S.String),
-}) {}
-export class AttachedDisk extends S.Class<AttachedDisk>("AttachedDisk")({
-  path: S.optional(S.String),
-  sizeInGb: S.optional(S.Number),
-}) {}
+).annotations({
+  identifier: "UpdateBucketRequest",
+}) as any as S.Schema<UpdateBucketRequest>;
+export interface UpdateRelationalDatabaseParametersResult {
+  operations?: OperationList;
+}
+export const UpdateRelationalDatabaseParametersResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "UpdateRelationalDatabaseParametersResult",
+}) as any as S.Schema<UpdateRelationalDatabaseParametersResult>;
+export interface MonitoredResourceInfo {
+  arn?: string;
+  name?: string;
+  resourceType?: string;
+}
+export const MonitoredResourceInfo = S.suspend(() =>
+  S.Struct({
+    arn: S.optional(S.String),
+    name: S.optional(S.String),
+    resourceType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "MonitoredResourceInfo",
+}) as any as S.Schema<MonitoredResourceInfo>;
+export interface AttachedDisk {
+  path?: string;
+  sizeInGb?: number;
+}
+export const AttachedDisk = S.suspend(() =>
+  S.Struct({ path: S.optional(S.String), sizeInGb: S.optional(S.Number) }),
+).annotations({ identifier: "AttachedDisk" }) as any as S.Schema<AttachedDisk>;
+export type AttachedDiskList = AttachedDisk[];
 export const AttachedDiskList = S.Array(AttachedDisk);
-export class CloudFormationStackRecordSourceInfo extends S.Class<CloudFormationStackRecordSourceInfo>(
-  "CloudFormationStackRecordSourceInfo",
-)({
-  resourceType: S.optional(S.String),
-  name: S.optional(S.String),
-  arn: S.optional(S.String),
-}) {}
+export interface CloudFormationStackRecordSourceInfo {
+  resourceType?: string;
+  name?: string;
+  arn?: string;
+}
+export const CloudFormationStackRecordSourceInfo = S.suspend(() =>
+  S.Struct({
+    resourceType: S.optional(S.String),
+    name: S.optional(S.String),
+    arn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CloudFormationStackRecordSourceInfo",
+}) as any as S.Schema<CloudFormationStackRecordSourceInfo>;
+export type CloudFormationStackRecordSourceInfoList =
+  CloudFormationStackRecordSourceInfo[];
 export const CloudFormationStackRecordSourceInfoList = S.Array(
   CloudFormationStackRecordSourceInfo,
 );
-export class DestinationInfo extends S.Class<DestinationInfo>(
-  "DestinationInfo",
-)({ id: S.optional(S.String), service: S.optional(S.String) }) {}
-export class Origin extends S.Class<Origin>("Origin")({
-  name: S.optional(S.String),
-  resourceType: S.optional(S.String),
-  regionName: S.optional(S.String),
-  protocolPolicy: S.optional(S.String),
-  responseTimeout: S.optional(S.Number),
-}) {}
-export class PasswordData extends S.Class<PasswordData>("PasswordData")({
-  ciphertext: S.optional(S.String),
-  keyPairName: S.optional(S.String),
-}) {}
-export class HostKeyAttributes extends S.Class<HostKeyAttributes>(
-  "HostKeyAttributes",
-)({
-  algorithm: S.optional(S.String),
-  publicKey: S.optional(S.String),
-  witnessedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  fingerprintSHA1: S.optional(S.String),
-  fingerprintSHA256: S.optional(S.String),
-  notValidBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  notValidAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface DestinationInfo {
+  id?: string;
+  service?: string;
+}
+export const DestinationInfo = S.suspend(() =>
+  S.Struct({ id: S.optional(S.String), service: S.optional(S.String) }),
+).annotations({
+  identifier: "DestinationInfo",
+}) as any as S.Schema<DestinationInfo>;
+export interface Origin {
+  name?: string;
+  resourceType?: string;
+  regionName?: string;
+  protocolPolicy?: string;
+  responseTimeout?: number;
+}
+export const Origin = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    resourceType: S.optional(S.String),
+    regionName: S.optional(S.String),
+    protocolPolicy: S.optional(S.String),
+    responseTimeout: S.optional(S.Number),
+  }),
+).annotations({ identifier: "Origin" }) as any as S.Schema<Origin>;
+export interface PasswordData {
+  ciphertext?: string;
+  keyPairName?: string;
+}
+export const PasswordData = S.suspend(() =>
+  S.Struct({
+    ciphertext: S.optional(S.String),
+    keyPairName: S.optional(S.String),
+  }),
+).annotations({ identifier: "PasswordData" }) as any as S.Schema<PasswordData>;
+export interface HostKeyAttributes {
+  algorithm?: string;
+  publicKey?: string;
+  witnessedAt?: Date;
+  fingerprintSHA1?: string;
+  fingerprintSHA256?: string;
+  notValidBefore?: Date;
+  notValidAfter?: Date;
+}
+export const HostKeyAttributes = S.suspend(() =>
+  S.Struct({
+    algorithm: S.optional(S.String),
+    publicKey: S.optional(S.String),
+    witnessedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    fingerprintSHA1: S.optional(S.String),
+    fingerprintSHA256: S.optional(S.String),
+    notValidBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    notValidAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "HostKeyAttributes",
+}) as any as S.Schema<HostKeyAttributes>;
+export type HostKeysList = HostKeyAttributes[];
 export const HostKeysList = S.Array(HostKeyAttributes);
-export class AvailabilityZone extends S.Class<AvailabilityZone>(
-  "AvailabilityZone",
-)({ zoneName: S.optional(S.String), state: S.optional(S.String) }) {}
+export interface AvailabilityZone {
+  zoneName?: string;
+  state?: string;
+}
+export const AvailabilityZone = S.suspend(() =>
+  S.Struct({ zoneName: S.optional(S.String), state: S.optional(S.String) }),
+).annotations({
+  identifier: "AvailabilityZone",
+}) as any as S.Schema<AvailabilityZone>;
+export type AvailabilityZoneList = AvailabilityZone[];
 export const AvailabilityZoneList = S.Array(AvailabilityZone);
-export class SetupRequest extends S.Class<SetupRequest>("SetupRequest")({
-  instanceName: S.optional(S.String),
-  domainNames: S.optional(SetupDomainNameList),
-  certificateProvider: S.optional(S.String),
-}) {}
-export class SetupHistoryResource extends S.Class<SetupHistoryResource>(
-  "SetupHistoryResource",
-)({
-  name: S.optional(S.String),
-  arn: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  location: S.optional(ResourceLocation),
-  resourceType: S.optional(S.String),
-}) {}
-export class SetupExecutionDetails extends S.Class<SetupExecutionDetails>(
-  "SetupExecutionDetails",
-)({
-  command: S.optional(S.String),
-  dateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  name: S.optional(S.String),
-  status: S.optional(S.String),
-  standardError: S.optional(S.String),
-  standardOutput: S.optional(S.String),
-  version: S.optional(S.String),
-}) {}
+export interface SetupRequest {
+  instanceName?: string;
+  domainNames?: SetupDomainNameList;
+  certificateProvider?: string;
+}
+export const SetupRequest = S.suspend(() =>
+  S.Struct({
+    instanceName: S.optional(S.String),
+    domainNames: S.optional(SetupDomainNameList),
+    certificateProvider: S.optional(S.String),
+  }),
+).annotations({ identifier: "SetupRequest" }) as any as S.Schema<SetupRequest>;
+export interface SetupHistoryResource {
+  name?: string;
+  arn?: string;
+  createdAt?: Date;
+  location?: ResourceLocation;
+  resourceType?: string;
+}
+export const SetupHistoryResource = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    arn: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    location: S.optional(ResourceLocation),
+    resourceType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SetupHistoryResource",
+}) as any as S.Schema<SetupHistoryResource>;
+export interface SetupExecutionDetails {
+  command?: string;
+  dateTime?: Date;
+  name?: string;
+  status?: string;
+  standardError?: string;
+  standardOutput?: string;
+  version?: string;
+}
+export const SetupExecutionDetails = S.suspend(() =>
+  S.Struct({
+    command: S.optional(S.String),
+    dateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    name: S.optional(S.String),
+    status: S.optional(S.String),
+    standardError: S.optional(S.String),
+    standardOutput: S.optional(S.String),
+    version: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SetupExecutionDetails",
+}) as any as S.Schema<SetupExecutionDetails>;
+export type SetupExecutionDetailsList = SetupExecutionDetails[];
 export const SetupExecutionDetailsList = S.Array(SetupExecutionDetails);
-export class Alarm extends S.Class<Alarm>("Alarm")({
-  name: S.optional(S.String),
-  arn: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  location: S.optional(ResourceLocation),
-  resourceType: S.optional(S.String),
-  supportCode: S.optional(S.String),
-  monitoredResourceInfo: S.optional(MonitoredResourceInfo),
-  comparisonOperator: S.optional(S.String),
-  evaluationPeriods: S.optional(S.Number),
-  period: S.optional(S.Number),
-  threshold: S.optional(S.Number),
-  datapointsToAlarm: S.optional(S.Number),
-  treatMissingData: S.optional(S.String),
-  statistic: S.optional(S.String),
-  metricName: S.optional(S.String),
-  state: S.optional(S.String),
-  unit: S.optional(S.String),
-  contactProtocols: S.optional(ContactProtocolsList),
-  notificationTriggers: S.optional(NotificationTriggerList),
-  notificationEnabled: S.optional(S.Boolean),
-}) {}
+export interface Alarm {
+  name?: string;
+  arn?: string;
+  createdAt?: Date;
+  location?: ResourceLocation;
+  resourceType?: string;
+  supportCode?: string;
+  monitoredResourceInfo?: MonitoredResourceInfo;
+  comparisonOperator?: string;
+  evaluationPeriods?: number;
+  period?: number;
+  threshold?: number;
+  datapointsToAlarm?: number;
+  treatMissingData?: string;
+  statistic?: string;
+  metricName?: string;
+  state?: string;
+  unit?: string;
+  contactProtocols?: ContactProtocolsList;
+  notificationTriggers?: NotificationTriggerList;
+  notificationEnabled?: boolean;
+}
+export const Alarm = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    arn: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    location: S.optional(ResourceLocation),
+    resourceType: S.optional(S.String),
+    supportCode: S.optional(S.String),
+    monitoredResourceInfo: S.optional(MonitoredResourceInfo),
+    comparisonOperator: S.optional(S.String),
+    evaluationPeriods: S.optional(S.Number),
+    period: S.optional(S.Number),
+    threshold: S.optional(S.Number),
+    datapointsToAlarm: S.optional(S.Number),
+    treatMissingData: S.optional(S.String),
+    statistic: S.optional(S.String),
+    metricName: S.optional(S.String),
+    state: S.optional(S.String),
+    unit: S.optional(S.String),
+    contactProtocols: S.optional(ContactProtocolsList),
+    notificationTriggers: S.optional(NotificationTriggerList),
+    notificationEnabled: S.optional(S.Boolean),
+  }),
+).annotations({ identifier: "Alarm" }) as any as S.Schema<Alarm>;
+export type AlarmsList = Alarm[];
 export const AlarmsList = S.Array(Alarm);
-export class AutoSnapshotDetails extends S.Class<AutoSnapshotDetails>(
-  "AutoSnapshotDetails",
-)({
-  date: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  status: S.optional(S.String),
-  fromAttachedDisks: S.optional(AttachedDiskList),
-}) {}
+export interface AutoSnapshotDetails {
+  date?: string;
+  createdAt?: Date;
+  status?: string;
+  fromAttachedDisks?: AttachedDiskList;
+}
+export const AutoSnapshotDetails = S.suspend(() =>
+  S.Struct({
+    date: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    status: S.optional(S.String),
+    fromAttachedDisks: S.optional(AttachedDiskList),
+  }),
+).annotations({
+  identifier: "AutoSnapshotDetails",
+}) as any as S.Schema<AutoSnapshotDetails>;
+export type AutoSnapshotDetailsList = AutoSnapshotDetails[];
 export const AutoSnapshotDetailsList = S.Array(AutoSnapshotDetails);
+export type BucketList = Bucket[];
 export const BucketList = S.Array(Bucket);
-export class CloudFormationStackRecord extends S.Class<CloudFormationStackRecord>(
-  "CloudFormationStackRecord",
-)({
-  name: S.optional(S.String),
-  arn: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  location: S.optional(ResourceLocation),
-  resourceType: S.optional(S.String),
-  state: S.optional(S.String),
-  sourceInfo: S.optional(CloudFormationStackRecordSourceInfoList),
-  destinationInfo: S.optional(DestinationInfo),
-}) {}
+export interface CloudFormationStackRecord {
+  name?: string;
+  arn?: string;
+  createdAt?: Date;
+  location?: ResourceLocation;
+  resourceType?: string;
+  state?: string;
+  sourceInfo?: CloudFormationStackRecordSourceInfoList;
+  destinationInfo?: DestinationInfo;
+}
+export const CloudFormationStackRecord = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    arn: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    location: S.optional(ResourceLocation),
+    resourceType: S.optional(S.String),
+    state: S.optional(S.String),
+    sourceInfo: S.optional(CloudFormationStackRecordSourceInfoList),
+    destinationInfo: S.optional(DestinationInfo),
+  }),
+).annotations({
+  identifier: "CloudFormationStackRecord",
+}) as any as S.Schema<CloudFormationStackRecord>;
+export type CloudFormationStackRecordList = CloudFormationStackRecord[];
 export const CloudFormationStackRecordList = S.Array(CloudFormationStackRecord);
+export type ContainerServiceDeploymentList = ContainerServiceDeployment[];
 export const ContainerServiceDeploymentList = S.Array(
   ContainerServiceDeployment,
 );
-export class LightsailDistribution extends S.Class<LightsailDistribution>(
-  "LightsailDistribution",
-)({
-  name: S.optional(S.String),
-  arn: S.optional(S.String),
-  supportCode: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  location: S.optional(ResourceLocation),
-  resourceType: S.optional(S.String),
-  alternativeDomainNames: S.optional(StringList),
-  status: S.optional(S.String),
-  isEnabled: S.optional(S.Boolean),
-  domainName: S.optional(S.String),
-  bundleId: S.optional(S.String),
-  certificateName: S.optional(S.String),
-  origin: S.optional(Origin),
-  originPublicDNS: S.optional(S.String),
-  defaultCacheBehavior: S.optional(CacheBehavior),
-  cacheBehaviorSettings: S.optional(CacheSettings),
-  cacheBehaviors: S.optional(CacheBehaviorList),
-  ableToUpdateBundle: S.optional(S.Boolean),
-  ipAddressType: S.optional(S.String),
-  tags: S.optional(TagList),
-  viewerMinimumTlsProtocolVersion: S.optional(S.String),
-}) {}
+export interface LightsailDistribution {
+  name?: string;
+  arn?: string;
+  supportCode?: string;
+  createdAt?: Date;
+  location?: ResourceLocation;
+  resourceType?: string;
+  alternativeDomainNames?: StringList;
+  status?: string;
+  isEnabled?: boolean;
+  domainName?: string;
+  bundleId?: string;
+  certificateName?: string;
+  origin?: Origin;
+  originPublicDNS?: string;
+  defaultCacheBehavior?: CacheBehavior;
+  cacheBehaviorSettings?: CacheSettings;
+  cacheBehaviors?: CacheBehaviorList;
+  ableToUpdateBundle?: boolean;
+  ipAddressType?: string;
+  tags?: TagList;
+  viewerMinimumTlsProtocolVersion?: string;
+}
+export const LightsailDistribution = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    arn: S.optional(S.String),
+    supportCode: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    location: S.optional(ResourceLocation),
+    resourceType: S.optional(S.String),
+    alternativeDomainNames: S.optional(StringList),
+    status: S.optional(S.String),
+    isEnabled: S.optional(S.Boolean),
+    domainName: S.optional(S.String),
+    bundleId: S.optional(S.String),
+    certificateName: S.optional(S.String),
+    origin: S.optional(Origin),
+    originPublicDNS: S.optional(S.String),
+    defaultCacheBehavior: S.optional(CacheBehavior),
+    cacheBehaviorSettings: S.optional(CacheSettings),
+    cacheBehaviors: S.optional(CacheBehaviorList),
+    ableToUpdateBundle: S.optional(S.Boolean),
+    ipAddressType: S.optional(S.String),
+    tags: S.optional(TagList),
+    viewerMinimumTlsProtocolVersion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "LightsailDistribution",
+}) as any as S.Schema<LightsailDistribution>;
+export type DistributionList = LightsailDistribution[];
 export const DistributionList = S.Array(LightsailDistribution);
-export class InstanceAccessDetails extends S.Class<InstanceAccessDetails>(
-  "InstanceAccessDetails",
-)({
-  certKey: S.optional(S.String),
-  expiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  ipAddress: S.optional(S.String),
-  ipv6Addresses: S.optional(Ipv6AddressList),
-  password: S.optional(S.String),
-  passwordData: S.optional(PasswordData),
-  privateKey: S.optional(S.String),
-  protocol: S.optional(S.String),
-  instanceName: S.optional(S.String),
-  username: S.optional(S.String),
-  hostKeys: S.optional(HostKeysList),
-}) {}
-export class Region extends S.Class<Region>("Region")({
-  continentCode: S.optional(S.String),
-  description: S.optional(S.String),
-  displayName: S.optional(S.String),
-  name: S.optional(S.String),
-  availabilityZones: S.optional(AvailabilityZoneList),
-  relationalDatabaseAvailabilityZones: S.optional(AvailabilityZoneList),
-}) {}
+export interface InstanceAccessDetails {
+  certKey?: string;
+  expiresAt?: Date;
+  ipAddress?: string;
+  ipv6Addresses?: Ipv6AddressList;
+  password?: string;
+  passwordData?: PasswordData;
+  privateKey?: string;
+  protocol?: string;
+  instanceName?: string;
+  username?: string;
+  hostKeys?: HostKeysList;
+}
+export const InstanceAccessDetails = S.suspend(() =>
+  S.Struct({
+    certKey: S.optional(S.String),
+    expiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ipAddress: S.optional(S.String),
+    ipv6Addresses: S.optional(Ipv6AddressList),
+    password: S.optional(S.String),
+    passwordData: S.optional(PasswordData),
+    privateKey: S.optional(S.String),
+    protocol: S.optional(S.String),
+    instanceName: S.optional(S.String),
+    username: S.optional(S.String),
+    hostKeys: S.optional(HostKeysList),
+  }),
+).annotations({
+  identifier: "InstanceAccessDetails",
+}) as any as S.Schema<InstanceAccessDetails>;
+export interface Region {
+  continentCode?: string;
+  description?: string;
+  displayName?: string;
+  name?: string;
+  availabilityZones?: AvailabilityZoneList;
+  relationalDatabaseAvailabilityZones?: AvailabilityZoneList;
+}
+export const Region = S.suspend(() =>
+  S.Struct({
+    continentCode: S.optional(S.String),
+    description: S.optional(S.String),
+    displayName: S.optional(S.String),
+    name: S.optional(S.String),
+    availabilityZones: S.optional(AvailabilityZoneList),
+    relationalDatabaseAvailabilityZones: S.optional(AvailabilityZoneList),
+  }),
+).annotations({ identifier: "Region" }) as any as S.Schema<Region>;
+export type RegionList = Region[];
 export const RegionList = S.Array(Region);
-export class SetupHistory extends S.Class<SetupHistory>("SetupHistory")({
-  operationId: S.optional(S.String),
-  request: S.optional(SetupRequest),
-  resource: S.optional(SetupHistoryResource),
-  executionDetails: S.optional(SetupExecutionDetailsList),
-  status: S.optional(S.String),
-}) {}
+export interface SetupHistory {
+  operationId?: string;
+  request?: SetupRequest;
+  resource?: SetupHistoryResource;
+  executionDetails?: SetupExecutionDetailsList;
+  status?: string;
+}
+export const SetupHistory = S.suspend(() =>
+  S.Struct({
+    operationId: S.optional(S.String),
+    request: S.optional(SetupRequest),
+    resource: S.optional(SetupHistoryResource),
+    executionDetails: S.optional(SetupExecutionDetailsList),
+    status: S.optional(S.String),
+  }),
+).annotations({ identifier: "SetupHistory" }) as any as S.Schema<SetupHistory>;
+export type setupHistoryList = SetupHistory[];
 export const setupHistoryList = S.Array(SetupHistory);
-export class DiskSnapshotInfo extends S.Class<DiskSnapshotInfo>(
-  "DiskSnapshotInfo",
-)({ sizeInGb: S.optional(S.Number) }) {}
-export class LoadBalancerTlsCertificateDnsRecordCreationState extends S.Class<LoadBalancerTlsCertificateDnsRecordCreationState>(
-  "LoadBalancerTlsCertificateDnsRecordCreationState",
-)({ code: S.optional(S.String), message: S.optional(S.String) }) {}
-export class LoadBalancerTlsCertificateDomainValidationOption extends S.Class<LoadBalancerTlsCertificateDomainValidationOption>(
-  "LoadBalancerTlsCertificateDomainValidationOption",
-)({
-  domainName: S.optional(S.String),
-  validationStatus: S.optional(S.String),
-}) {}
+export interface DiskSnapshotInfo {
+  sizeInGb?: number;
+}
+export const DiskSnapshotInfo = S.suspend(() =>
+  S.Struct({ sizeInGb: S.optional(S.Number) }),
+).annotations({
+  identifier: "DiskSnapshotInfo",
+}) as any as S.Schema<DiskSnapshotInfo>;
+export interface LoadBalancerTlsCertificateDnsRecordCreationState {
+  code?: string;
+  message?: string;
+}
+export const LoadBalancerTlsCertificateDnsRecordCreationState = S.suspend(() =>
+  S.Struct({ code: S.optional(S.String), message: S.optional(S.String) }),
+).annotations({
+  identifier: "LoadBalancerTlsCertificateDnsRecordCreationState",
+}) as any as S.Schema<LoadBalancerTlsCertificateDnsRecordCreationState>;
+export interface LoadBalancerTlsCertificateDomainValidationOption {
+  domainName?: string;
+  validationStatus?: string;
+}
+export const LoadBalancerTlsCertificateDomainValidationOption = S.suspend(() =>
+  S.Struct({
+    domainName: S.optional(S.String),
+    validationStatus: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "LoadBalancerTlsCertificateDomainValidationOption",
+}) as any as S.Schema<LoadBalancerTlsCertificateDomainValidationOption>;
+export type LoadBalancerTlsCertificateDomainValidationOptionList =
+  LoadBalancerTlsCertificateDomainValidationOption[];
 export const LoadBalancerTlsCertificateDomainValidationOptionList = S.Array(
   LoadBalancerTlsCertificateDomainValidationOption,
 );
-export class CreateBucketAccessKeyResult extends S.Class<CreateBucketAccessKeyResult>(
-  "CreateBucketAccessKeyResult",
-)({
-  accessKey: S.optional(AccessKey),
-  operations: S.optional(OperationList),
-}) {}
-export class CreateContainerServiceResult extends S.Class<CreateContainerServiceResult>(
-  "CreateContainerServiceResult",
-)({ containerService: S.optional(ContainerService) }) {}
-export class CreateContainerServiceDeploymentRequest extends S.Class<CreateContainerServiceDeploymentRequest>(
-  "CreateContainerServiceDeploymentRequest",
-)(
-  {
+export interface CreateBucketAccessKeyResult {
+  accessKey?: AccessKey;
+  operations?: OperationList;
+}
+export const CreateBucketAccessKeyResult = S.suspend(() =>
+  S.Struct({
+    accessKey: S.optional(AccessKey),
+    operations: S.optional(OperationList),
+  }),
+).annotations({
+  identifier: "CreateBucketAccessKeyResult",
+}) as any as S.Schema<CreateBucketAccessKeyResult>;
+export interface CreateContainerServiceResult {
+  containerService?: ContainerService;
+}
+export const CreateContainerServiceResult = S.suspend(() =>
+  S.Struct({ containerService: S.optional(ContainerService) }),
+).annotations({
+  identifier: "CreateContainerServiceResult",
+}) as any as S.Schema<CreateContainerServiceResult>;
+export interface CreateContainerServiceDeploymentRequest {
+  serviceName: string;
+  containers?: ContainerMap;
+  publicEndpoint?: EndpointRequest;
+}
+export const CreateContainerServiceDeploymentRequest = S.suspend(() =>
+  S.Struct({
     serviceName: S.String.pipe(T.HttpLabel("serviceName")),
     containers: S.optional(ContainerMap),
     publicEndpoint: S.optional(EndpointRequest),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/ls/api/2016-11-28/container-services/{serviceName}/deployments",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/ls/api/2016-11-28/container-services/{serviceName}/deployments",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateDiskResult extends S.Class<CreateDiskResult>(
-  "CreateDiskResult",
-)({ operations: S.optional(OperationList) }) {}
-export class CreateDistributionResult extends S.Class<CreateDistributionResult>(
-  "CreateDistributionResult",
-)({
-  distribution: S.optional(LightsailDistribution),
-  operation: S.optional(Operation),
-}) {}
-export class CreateDomainEntryResult extends S.Class<CreateDomainEntryResult>(
-  "CreateDomainEntryResult",
-)({ operation: S.optional(Operation) }) {}
-export class CreateInstancesFromSnapshotResult extends S.Class<CreateInstancesFromSnapshotResult>(
-  "CreateInstancesFromSnapshotResult",
-)({ operations: S.optional(OperationList) }) {}
-export class GetAlarmsResult extends S.Class<GetAlarmsResult>(
-  "GetAlarmsResult",
-)({ alarms: S.optional(AlarmsList), nextPageToken: S.optional(S.String) }) {}
-export class GetAutoSnapshotsResult extends S.Class<GetAutoSnapshotsResult>(
-  "GetAutoSnapshotsResult",
-)({
-  resourceName: S.optional(S.String),
-  resourceType: S.optional(S.String),
-  autoSnapshots: S.optional(AutoSnapshotDetailsList),
-}) {}
-export class GetBucketsResult extends S.Class<GetBucketsResult>(
-  "GetBucketsResult",
-)({
-  buckets: S.optional(BucketList),
-  nextPageToken: S.optional(S.String),
-  accountLevelBpaSync: S.optional(AccountLevelBpaSync),
-}) {}
-export class GetCloudFormationStackRecordsResult extends S.Class<GetCloudFormationStackRecordsResult>(
-  "GetCloudFormationStackRecordsResult",
-)({
-  cloudFormationStackRecords: S.optional(CloudFormationStackRecordList),
-  nextPageToken: S.optional(S.String),
-}) {}
-export class GetContainerServiceDeploymentsResult extends S.Class<GetContainerServiceDeploymentsResult>(
-  "GetContainerServiceDeploymentsResult",
-)({ deployments: S.optional(ContainerServiceDeploymentList) }) {}
-export class GetDiskResult extends S.Class<GetDiskResult>("GetDiskResult")({
-  disk: S.optional(Disk),
-}) {}
-export class GetDistributionsResult extends S.Class<GetDistributionsResult>(
-  "GetDistributionsResult",
-)({
-  distributions: S.optional(DistributionList),
-  nextPageToken: S.optional(S.String),
-}) {}
-export class GetInstanceAccessDetailsResult extends S.Class<GetInstanceAccessDetailsResult>(
-  "GetInstanceAccessDetailsResult",
-)({ accessDetails: S.optional(InstanceAccessDetails) }) {}
-export class GetLoadBalancerResult extends S.Class<GetLoadBalancerResult>(
-  "GetLoadBalancerResult",
-)({ loadBalancer: S.optional(LoadBalancer) }) {}
-export class GetRegionsResult extends S.Class<GetRegionsResult>(
-  "GetRegionsResult",
-)({ regions: S.optional(RegionList) }) {}
-export class GetRelationalDatabaseResult extends S.Class<GetRelationalDatabaseResult>(
-  "GetRelationalDatabaseResult",
-)({ relationalDatabase: S.optional(RelationalDatabase) }) {}
-export class GetSetupHistoryResult extends S.Class<GetSetupHistoryResult>(
-  "GetSetupHistoryResult",
-)({
-  setupHistory: S.optional(setupHistoryList),
-  nextPageToken: S.optional(S.String),
-}) {}
-export class UpdateBucketResult extends S.Class<UpdateBucketResult>(
-  "UpdateBucketResult",
-)({ bucket: S.optional(Bucket), operations: S.optional(OperationList) }) {}
-export class LoadBalancerTlsCertificateDomainValidationRecord extends S.Class<LoadBalancerTlsCertificateDomainValidationRecord>(
-  "LoadBalancerTlsCertificateDomainValidationRecord",
-)({
-  name: S.optional(S.String),
-  type: S.optional(S.String),
-  value: S.optional(S.String),
-  validationStatus: S.optional(S.String),
-  domainName: S.optional(S.String),
-  dnsRecordCreationState: S.optional(
-    LoadBalancerTlsCertificateDnsRecordCreationState,
-  ),
-}) {}
+).annotations({
+  identifier: "CreateContainerServiceDeploymentRequest",
+}) as any as S.Schema<CreateContainerServiceDeploymentRequest>;
+export interface CreateDiskResult {
+  operations?: OperationList;
+}
+export const CreateDiskResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "CreateDiskResult",
+}) as any as S.Schema<CreateDiskResult>;
+export interface CreateDistributionResult {
+  distribution?: LightsailDistribution;
+  operation?: Operation;
+}
+export const CreateDistributionResult = S.suspend(() =>
+  S.Struct({
+    distribution: S.optional(LightsailDistribution),
+    operation: S.optional(Operation),
+  }),
+).annotations({
+  identifier: "CreateDistributionResult",
+}) as any as S.Schema<CreateDistributionResult>;
+export interface CreateDomainEntryResult {
+  operation?: Operation;
+}
+export const CreateDomainEntryResult = S.suspend(() =>
+  S.Struct({ operation: S.optional(Operation) }),
+).annotations({
+  identifier: "CreateDomainEntryResult",
+}) as any as S.Schema<CreateDomainEntryResult>;
+export interface CreateInstancesFromSnapshotResult {
+  operations?: OperationList;
+}
+export const CreateInstancesFromSnapshotResult = S.suspend(() =>
+  S.Struct({ operations: S.optional(OperationList) }),
+).annotations({
+  identifier: "CreateInstancesFromSnapshotResult",
+}) as any as S.Schema<CreateInstancesFromSnapshotResult>;
+export interface GetAlarmsResult {
+  alarms?: AlarmsList;
+  nextPageToken?: string;
+}
+export const GetAlarmsResult = S.suspend(() =>
+  S.Struct({
+    alarms: S.optional(AlarmsList),
+    nextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetAlarmsResult",
+}) as any as S.Schema<GetAlarmsResult>;
+export interface GetAutoSnapshotsResult {
+  resourceName?: string;
+  resourceType?: string;
+  autoSnapshots?: AutoSnapshotDetailsList;
+}
+export const GetAutoSnapshotsResult = S.suspend(() =>
+  S.Struct({
+    resourceName: S.optional(S.String),
+    resourceType: S.optional(S.String),
+    autoSnapshots: S.optional(AutoSnapshotDetailsList),
+  }),
+).annotations({
+  identifier: "GetAutoSnapshotsResult",
+}) as any as S.Schema<GetAutoSnapshotsResult>;
+export interface GetBucketsResult {
+  buckets?: BucketList;
+  nextPageToken?: string;
+  accountLevelBpaSync?: AccountLevelBpaSync;
+}
+export const GetBucketsResult = S.suspend(() =>
+  S.Struct({
+    buckets: S.optional(BucketList),
+    nextPageToken: S.optional(S.String),
+    accountLevelBpaSync: S.optional(AccountLevelBpaSync),
+  }),
+).annotations({
+  identifier: "GetBucketsResult",
+}) as any as S.Schema<GetBucketsResult>;
+export interface GetCloudFormationStackRecordsResult {
+  cloudFormationStackRecords?: CloudFormationStackRecordList;
+  nextPageToken?: string;
+}
+export const GetCloudFormationStackRecordsResult = S.suspend(() =>
+  S.Struct({
+    cloudFormationStackRecords: S.optional(CloudFormationStackRecordList),
+    nextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetCloudFormationStackRecordsResult",
+}) as any as S.Schema<GetCloudFormationStackRecordsResult>;
+export interface GetContainerServiceDeploymentsResult {
+  deployments?: ContainerServiceDeploymentList;
+}
+export const GetContainerServiceDeploymentsResult = S.suspend(() =>
+  S.Struct({ deployments: S.optional(ContainerServiceDeploymentList) }),
+).annotations({
+  identifier: "GetContainerServiceDeploymentsResult",
+}) as any as S.Schema<GetContainerServiceDeploymentsResult>;
+export interface GetDiskResult {
+  disk?: Disk;
+}
+export const GetDiskResult = S.suspend(() =>
+  S.Struct({ disk: S.optional(Disk) }),
+).annotations({
+  identifier: "GetDiskResult",
+}) as any as S.Schema<GetDiskResult>;
+export interface GetDistributionsResult {
+  distributions?: DistributionList;
+  nextPageToken?: string;
+}
+export const GetDistributionsResult = S.suspend(() =>
+  S.Struct({
+    distributions: S.optional(DistributionList),
+    nextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetDistributionsResult",
+}) as any as S.Schema<GetDistributionsResult>;
+export interface GetInstanceAccessDetailsResult {
+  accessDetails?: InstanceAccessDetails;
+}
+export const GetInstanceAccessDetailsResult = S.suspend(() =>
+  S.Struct({ accessDetails: S.optional(InstanceAccessDetails) }),
+).annotations({
+  identifier: "GetInstanceAccessDetailsResult",
+}) as any as S.Schema<GetInstanceAccessDetailsResult>;
+export interface GetLoadBalancerResult {
+  loadBalancer?: LoadBalancer;
+}
+export const GetLoadBalancerResult = S.suspend(() =>
+  S.Struct({ loadBalancer: S.optional(LoadBalancer) }),
+).annotations({
+  identifier: "GetLoadBalancerResult",
+}) as any as S.Schema<GetLoadBalancerResult>;
+export interface GetRegionsResult {
+  regions?: RegionList;
+}
+export const GetRegionsResult = S.suspend(() =>
+  S.Struct({ regions: S.optional(RegionList) }),
+).annotations({
+  identifier: "GetRegionsResult",
+}) as any as S.Schema<GetRegionsResult>;
+export interface GetRelationalDatabaseResult {
+  relationalDatabase?: RelationalDatabase;
+}
+export const GetRelationalDatabaseResult = S.suspend(() =>
+  S.Struct({ relationalDatabase: S.optional(RelationalDatabase) }),
+).annotations({
+  identifier: "GetRelationalDatabaseResult",
+}) as any as S.Schema<GetRelationalDatabaseResult>;
+export interface GetSetupHistoryResult {
+  setupHistory?: setupHistoryList;
+  nextPageToken?: string;
+}
+export const GetSetupHistoryResult = S.suspend(() =>
+  S.Struct({
+    setupHistory: S.optional(setupHistoryList),
+    nextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetSetupHistoryResult",
+}) as any as S.Schema<GetSetupHistoryResult>;
+export interface UpdateBucketResult {
+  bucket?: Bucket;
+  operations?: OperationList;
+}
+export const UpdateBucketResult = S.suspend(() =>
+  S.Struct({
+    bucket: S.optional(Bucket),
+    operations: S.optional(OperationList),
+  }),
+).annotations({
+  identifier: "UpdateBucketResult",
+}) as any as S.Schema<UpdateBucketResult>;
+export interface LoadBalancerTlsCertificateDomainValidationRecord {
+  name?: string;
+  type?: string;
+  value?: string;
+  validationStatus?: string;
+  domainName?: string;
+  dnsRecordCreationState?: LoadBalancerTlsCertificateDnsRecordCreationState;
+}
+export const LoadBalancerTlsCertificateDomainValidationRecord = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    value: S.optional(S.String),
+    validationStatus: S.optional(S.String),
+    domainName: S.optional(S.String),
+    dnsRecordCreationState: S.optional(
+      LoadBalancerTlsCertificateDnsRecordCreationState,
+    ),
+  }),
+).annotations({
+  identifier: "LoadBalancerTlsCertificateDomainValidationRecord",
+}) as any as S.Schema<LoadBalancerTlsCertificateDomainValidationRecord>;
+export type LoadBalancerTlsCertificateDomainValidationRecordList =
+  LoadBalancerTlsCertificateDomainValidationRecord[];
 export const LoadBalancerTlsCertificateDomainValidationRecordList = S.Array(
   LoadBalancerTlsCertificateDomainValidationRecord,
 );
-export class LoadBalancerTlsCertificateRenewalSummary extends S.Class<LoadBalancerTlsCertificateRenewalSummary>(
-  "LoadBalancerTlsCertificateRenewalSummary",
-)({
-  renewalStatus: S.optional(S.String),
-  domainValidationOptions: S.optional(
-    LoadBalancerTlsCertificateDomainValidationOptionList,
-  ),
-}) {}
-export class TimePeriod extends S.Class<TimePeriod>("TimePeriod")({
-  start: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  end: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class DiskInfo extends S.Class<DiskInfo>("DiskInfo")({
-  name: S.optional(S.String),
-  path: S.optional(S.String),
-  sizeInGb: S.optional(S.Number),
-  isSystemDisk: S.optional(S.Boolean),
-}) {}
+export interface LoadBalancerTlsCertificateRenewalSummary {
+  renewalStatus?: string;
+  domainValidationOptions?: LoadBalancerTlsCertificateDomainValidationOptionList;
+}
+export const LoadBalancerTlsCertificateRenewalSummary = S.suspend(() =>
+  S.Struct({
+    renewalStatus: S.optional(S.String),
+    domainValidationOptions: S.optional(
+      LoadBalancerTlsCertificateDomainValidationOptionList,
+    ),
+  }),
+).annotations({
+  identifier: "LoadBalancerTlsCertificateRenewalSummary",
+}) as any as S.Schema<LoadBalancerTlsCertificateRenewalSummary>;
+export interface TimePeriod {
+  start?: Date;
+  end?: Date;
+}
+export const TimePeriod = S.suspend(() =>
+  S.Struct({
+    start: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    end: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({ identifier: "TimePeriod" }) as any as S.Schema<TimePeriod>;
+export interface DiskInfo {
+  name?: string;
+  path?: string;
+  sizeInGb?: number;
+  isSystemDisk?: boolean;
+}
+export const DiskInfo = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    path: S.optional(S.String),
+    sizeInGb: S.optional(S.Number),
+    isSystemDisk: S.optional(S.Boolean),
+  }),
+).annotations({ identifier: "DiskInfo" }) as any as S.Schema<DiskInfo>;
+export type DiskInfoList = DiskInfo[];
 export const DiskInfoList = S.Array(DiskInfo);
+export type ContainerServiceList = ContainerService[];
 export const ContainerServiceList = S.Array(ContainerService);
-export class LoadBalancerTlsCertificate extends S.Class<LoadBalancerTlsCertificate>(
-  "LoadBalancerTlsCertificate",
-)({
-  name: S.optional(S.String),
-  arn: S.optional(S.String),
-  supportCode: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  location: S.optional(ResourceLocation),
-  resourceType: S.optional(S.String),
-  tags: S.optional(TagList),
-  loadBalancerName: S.optional(S.String),
-  isAttached: S.optional(S.Boolean),
-  status: S.optional(S.String),
-  domainName: S.optional(S.String),
-  domainValidationRecords: S.optional(
-    LoadBalancerTlsCertificateDomainValidationRecordList,
-  ),
-  failureReason: S.optional(S.String),
-  issuedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  issuer: S.optional(S.String),
-  keyAlgorithm: S.optional(S.String),
-  notAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  notBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  renewalSummary: S.optional(LoadBalancerTlsCertificateRenewalSummary),
-  revocationReason: S.optional(S.String),
-  revokedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  serial: S.optional(S.String),
-  signatureAlgorithm: S.optional(S.String),
-  subject: S.optional(S.String),
-  subjectAlternativeNames: S.optional(StringList),
-}) {}
+export interface LoadBalancerTlsCertificate {
+  name?: string;
+  arn?: string;
+  supportCode?: string;
+  createdAt?: Date;
+  location?: ResourceLocation;
+  resourceType?: string;
+  tags?: TagList;
+  loadBalancerName?: string;
+  isAttached?: boolean;
+  status?: string;
+  domainName?: string;
+  domainValidationRecords?: LoadBalancerTlsCertificateDomainValidationRecordList;
+  failureReason?: string;
+  issuedAt?: Date;
+  issuer?: string;
+  keyAlgorithm?: string;
+  notAfter?: Date;
+  notBefore?: Date;
+  renewalSummary?: LoadBalancerTlsCertificateRenewalSummary;
+  revocationReason?: string;
+  revokedAt?: Date;
+  serial?: string;
+  signatureAlgorithm?: string;
+  subject?: string;
+  subjectAlternativeNames?: StringList;
+}
+export const LoadBalancerTlsCertificate = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    arn: S.optional(S.String),
+    supportCode: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    location: S.optional(ResourceLocation),
+    resourceType: S.optional(S.String),
+    tags: S.optional(TagList),
+    loadBalancerName: S.optional(S.String),
+    isAttached: S.optional(S.Boolean),
+    status: S.optional(S.String),
+    domainName: S.optional(S.String),
+    domainValidationRecords: S.optional(
+      LoadBalancerTlsCertificateDomainValidationRecordList,
+    ),
+    failureReason: S.optional(S.String),
+    issuedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    issuer: S.optional(S.String),
+    keyAlgorithm: S.optional(S.String),
+    notAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    notBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    renewalSummary: S.optional(LoadBalancerTlsCertificateRenewalSummary),
+    revocationReason: S.optional(S.String),
+    revokedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    serial: S.optional(S.String),
+    signatureAlgorithm: S.optional(S.String),
+    subject: S.optional(S.String),
+    subjectAlternativeNames: S.optional(StringList),
+  }),
+).annotations({
+  identifier: "LoadBalancerTlsCertificate",
+}) as any as S.Schema<LoadBalancerTlsCertificate>;
+export type LoadBalancerTlsCertificateList = LoadBalancerTlsCertificate[];
 export const LoadBalancerTlsCertificateList = S.Array(
   LoadBalancerTlsCertificate,
 );
-export class EstimateByTime extends S.Class<EstimateByTime>("EstimateByTime")({
-  usageCost: S.optional(S.Number),
-  pricingUnit: S.optional(S.String),
-  unit: S.optional(S.Number),
-  currency: S.optional(S.String),
-  timePeriod: S.optional(TimePeriod),
-}) {}
+export interface EstimateByTime {
+  usageCost?: number;
+  pricingUnit?: string;
+  unit?: number;
+  currency?: string;
+  timePeriod?: TimePeriod;
+}
+export const EstimateByTime = S.suspend(() =>
+  S.Struct({
+    usageCost: S.optional(S.Number),
+    pricingUnit: S.optional(S.String),
+    unit: S.optional(S.Number),
+    currency: S.optional(S.String),
+    timePeriod: S.optional(TimePeriod),
+  }),
+).annotations({
+  identifier: "EstimateByTime",
+}) as any as S.Schema<EstimateByTime>;
+export type EstimatesByTime = EstimateByTime[];
 export const EstimatesByTime = S.Array(EstimateByTime);
-export class InstanceSnapshotInfo extends S.Class<InstanceSnapshotInfo>(
-  "InstanceSnapshotInfo",
-)({
-  fromBundleId: S.optional(S.String),
-  fromBlueprintId: S.optional(S.String),
-  fromDiskInfo: S.optional(DiskInfoList),
-}) {}
-export class CreateContainerServiceDeploymentResult extends S.Class<CreateContainerServiceDeploymentResult>(
-  "CreateContainerServiceDeploymentResult",
-)({ containerService: S.optional(ContainerService) }) {}
-export class ContainerServicesListResult extends S.Class<ContainerServicesListResult>(
-  "ContainerServicesListResult",
-)({ containerServices: S.optional(ContainerServiceList) }) {}
-export class GetDomainResult extends S.Class<GetDomainResult>(
-  "GetDomainResult",
-)({ domain: S.optional(Domain) }) {}
-export class GetInstanceResult extends S.Class<GetInstanceResult>(
-  "GetInstanceResult",
-)({ instance: S.optional(Instance) }) {}
-export class GetLoadBalancerTlsCertificatesResult extends S.Class<GetLoadBalancerTlsCertificatesResult>(
-  "GetLoadBalancerTlsCertificatesResult",
-)({ tlsCertificates: S.optional(LoadBalancerTlsCertificateList) }) {}
-export class CostEstimate extends S.Class<CostEstimate>("CostEstimate")({
-  usageType: S.optional(S.String),
-  resultsByTime: S.optional(EstimatesByTime),
-}) {}
+export interface InstanceSnapshotInfo {
+  fromBundleId?: string;
+  fromBlueprintId?: string;
+  fromDiskInfo?: DiskInfoList;
+}
+export const InstanceSnapshotInfo = S.suspend(() =>
+  S.Struct({
+    fromBundleId: S.optional(S.String),
+    fromBlueprintId: S.optional(S.String),
+    fromDiskInfo: S.optional(DiskInfoList),
+  }),
+).annotations({
+  identifier: "InstanceSnapshotInfo",
+}) as any as S.Schema<InstanceSnapshotInfo>;
+export interface CreateContainerServiceDeploymentResult {
+  containerService?: ContainerService;
+}
+export const CreateContainerServiceDeploymentResult = S.suspend(() =>
+  S.Struct({ containerService: S.optional(ContainerService) }),
+).annotations({
+  identifier: "CreateContainerServiceDeploymentResult",
+}) as any as S.Schema<CreateContainerServiceDeploymentResult>;
+export interface ContainerServicesListResult {
+  containerServices?: ContainerServiceList;
+}
+export const ContainerServicesListResult = S.suspend(() =>
+  S.Struct({ containerServices: S.optional(ContainerServiceList) }),
+).annotations({
+  identifier: "ContainerServicesListResult",
+}) as any as S.Schema<ContainerServicesListResult>;
+export interface GetDomainResult {
+  domain?: Domain;
+}
+export const GetDomainResult = S.suspend(() =>
+  S.Struct({ domain: S.optional(Domain) }),
+).annotations({
+  identifier: "GetDomainResult",
+}) as any as S.Schema<GetDomainResult>;
+export interface GetInstanceResult {
+  instance?: Instance;
+}
+export const GetInstanceResult = S.suspend(() =>
+  S.Struct({ instance: S.optional(Instance) }),
+).annotations({
+  identifier: "GetInstanceResult",
+}) as any as S.Schema<GetInstanceResult>;
+export interface GetLoadBalancerTlsCertificatesResult {
+  tlsCertificates?: LoadBalancerTlsCertificateList;
+}
+export const GetLoadBalancerTlsCertificatesResult = S.suspend(() =>
+  S.Struct({ tlsCertificates: S.optional(LoadBalancerTlsCertificateList) }),
+).annotations({
+  identifier: "GetLoadBalancerTlsCertificatesResult",
+}) as any as S.Schema<GetLoadBalancerTlsCertificatesResult>;
+export interface CostEstimate {
+  usageType?: string;
+  resultsByTime?: EstimatesByTime;
+}
+export const CostEstimate = S.suspend(() =>
+  S.Struct({
+    usageType: S.optional(S.String),
+    resultsByTime: S.optional(EstimatesByTime),
+  }),
+).annotations({ identifier: "CostEstimate" }) as any as S.Schema<CostEstimate>;
+export type CostEstimates = CostEstimate[];
 export const CostEstimates = S.Array(CostEstimate);
-export class ExportSnapshotRecordSourceInfo extends S.Class<ExportSnapshotRecordSourceInfo>(
-  "ExportSnapshotRecordSourceInfo",
-)({
-  resourceType: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  name: S.optional(S.String),
-  arn: S.optional(S.String),
-  fromResourceName: S.optional(S.String),
-  fromResourceArn: S.optional(S.String),
-  instanceSnapshotInfo: S.optional(InstanceSnapshotInfo),
-  diskSnapshotInfo: S.optional(DiskSnapshotInfo),
-}) {}
-export class ResourceBudgetEstimate extends S.Class<ResourceBudgetEstimate>(
-  "ResourceBudgetEstimate",
-)({
-  resourceName: S.optional(S.String),
-  resourceType: S.optional(S.String),
-  costEstimates: S.optional(CostEstimates),
-  startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface ExportSnapshotRecordSourceInfo {
+  resourceType?: string;
+  createdAt?: Date;
+  name?: string;
+  arn?: string;
+  fromResourceName?: string;
+  fromResourceArn?: string;
+  instanceSnapshotInfo?: InstanceSnapshotInfo;
+  diskSnapshotInfo?: DiskSnapshotInfo;
+}
+export const ExportSnapshotRecordSourceInfo = S.suspend(() =>
+  S.Struct({
+    resourceType: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    name: S.optional(S.String),
+    arn: S.optional(S.String),
+    fromResourceName: S.optional(S.String),
+    fromResourceArn: S.optional(S.String),
+    instanceSnapshotInfo: S.optional(InstanceSnapshotInfo),
+    diskSnapshotInfo: S.optional(DiskSnapshotInfo),
+  }),
+).annotations({
+  identifier: "ExportSnapshotRecordSourceInfo",
+}) as any as S.Schema<ExportSnapshotRecordSourceInfo>;
+export interface ResourceBudgetEstimate {
+  resourceName?: string;
+  resourceType?: string;
+  costEstimates?: CostEstimates;
+  startTime?: Date;
+  endTime?: Date;
+}
+export const ResourceBudgetEstimate = S.suspend(() =>
+  S.Struct({
+    resourceName: S.optional(S.String),
+    resourceType: S.optional(S.String),
+    costEstimates: S.optional(CostEstimates),
+    startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "ResourceBudgetEstimate",
+}) as any as S.Schema<ResourceBudgetEstimate>;
+export type ResourcesBudgetEstimate = ResourceBudgetEstimate[];
 export const ResourcesBudgetEstimate = S.Array(ResourceBudgetEstimate);
-export class ExportSnapshotRecord extends S.Class<ExportSnapshotRecord>(
-  "ExportSnapshotRecord",
-)({
-  name: S.optional(S.String),
-  arn: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  location: S.optional(ResourceLocation),
-  resourceType: S.optional(S.String),
-  state: S.optional(S.String),
-  sourceInfo: S.optional(ExportSnapshotRecordSourceInfo),
-  destinationInfo: S.optional(DestinationInfo),
-}) {}
+export interface ExportSnapshotRecord {
+  name?: string;
+  arn?: string;
+  createdAt?: Date;
+  location?: ResourceLocation;
+  resourceType?: string;
+  state?: string;
+  sourceInfo?: ExportSnapshotRecordSourceInfo;
+  destinationInfo?: DestinationInfo;
+}
+export const ExportSnapshotRecord = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    arn: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    location: S.optional(ResourceLocation),
+    resourceType: S.optional(S.String),
+    state: S.optional(S.String),
+    sourceInfo: S.optional(ExportSnapshotRecordSourceInfo),
+    destinationInfo: S.optional(DestinationInfo),
+  }),
+).annotations({
+  identifier: "ExportSnapshotRecord",
+}) as any as S.Schema<ExportSnapshotRecord>;
+export type ExportSnapshotRecordList = ExportSnapshotRecord[];
 export const ExportSnapshotRecordList = S.Array(ExportSnapshotRecord);
-export class CreateCertificateResult extends S.Class<CreateCertificateResult>(
-  "CreateCertificateResult",
-)({
-  certificate: S.optional(CertificateSummary),
-  operations: S.optional(OperationList),
-}) {}
-export class GetCostEstimateResult extends S.Class<GetCostEstimateResult>(
-  "GetCostEstimateResult",
-)({ resourcesBudgetEstimate: S.optional(ResourcesBudgetEstimate) }) {}
-export class GetExportSnapshotRecordsResult extends S.Class<GetExportSnapshotRecordsResult>(
-  "GetExportSnapshotRecordsResult",
-)({
-  exportSnapshotRecords: S.optional(ExportSnapshotRecordList),
-  nextPageToken: S.optional(S.String),
-}) {}
+export interface CreateCertificateResult {
+  certificate?: CertificateSummary;
+  operations?: OperationList;
+}
+export const CreateCertificateResult = S.suspend(() =>
+  S.Struct({
+    certificate: S.optional(CertificateSummary),
+    operations: S.optional(OperationList),
+  }),
+).annotations({
+  identifier: "CreateCertificateResult",
+}) as any as S.Schema<CreateCertificateResult>;
+export interface GetCostEstimateResult {
+  resourcesBudgetEstimate?: ResourcesBudgetEstimate;
+}
+export const GetCostEstimateResult = S.suspend(() =>
+  S.Struct({ resourcesBudgetEstimate: S.optional(ResourcesBudgetEstimate) }),
+).annotations({
+  identifier: "GetCostEstimateResult",
+}) as any as S.Schema<GetCostEstimateResult>;
+export interface GetExportSnapshotRecordsResult {
+  exportSnapshotRecords?: ExportSnapshotRecordList;
+  nextPageToken?: string;
+}
+export const GetExportSnapshotRecordsResult = S.suspend(() =>
+  S.Struct({
+    exportSnapshotRecords: S.optional(ExportSnapshotRecordList),
+    nextPageToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetExportSnapshotRecordsResult",
+}) as any as S.Schema<GetExportSnapshotRecordsResult>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

@@ -242,12 +242,22 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type FaultCodes = string[];
 export const FaultCodes = S.Array(S.String);
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class CreateLabelRequest extends S.Class<CreateLabelRequest>(
-  "CreateLabelRequest",
-)(
-  {
+export interface CreateLabelRequest {
+  LabelGroupName: string;
+  StartTime: Date;
+  EndTime: Date;
+  Rating: string;
+  FaultCode?: string;
+  Notes?: string;
+  Equipment?: string;
+  ClientToken: string;
+}
+export const CreateLabelRequest = S.suspend(() =>
+  S.Struct({
     LabelGroupName: S.String,
     StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -256,29 +266,49 @@ export class CreateLabelRequest extends S.Class<CreateLabelRequest>(
     Notes: S.optional(S.String),
     Equipment: S.optional(S.String),
     ClientToken: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class Tag extends S.Class<Tag>("Tag")({
-  Key: S.String,
-  Value: S.String,
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateLabelRequest",
+}) as any as S.Schema<CreateLabelRequest>;
+export interface Tag {
+  Key: string;
+  Value: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ Key: S.String, Value: S.String }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagList = Tag[];
 export const TagList = S.Array(Tag);
-export class CreateLabelGroupRequest extends S.Class<CreateLabelGroupRequest>(
-  "CreateLabelGroupRequest",
-)(
-  {
+export interface CreateLabelGroupRequest {
+  LabelGroupName: string;
+  FaultCodes?: FaultCodes;
+  ClientToken: string;
+  Tags?: TagList;
+}
+export const CreateLabelGroupRequest = S.suspend(() =>
+  S.Struct({
     LabelGroupName: S.String,
     FaultCodes: S.optional(FaultCodes),
     ClientToken: S.String,
     Tags: S.optional(TagList),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateRetrainingSchedulerRequest extends S.Class<CreateRetrainingSchedulerRequest>(
-  "CreateRetrainingSchedulerRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateLabelGroupRequest",
+}) as any as S.Schema<CreateLabelGroupRequest>;
+export interface CreateRetrainingSchedulerRequest {
+  ModelName: string;
+  RetrainingStartDate?: Date;
+  RetrainingFrequency: string;
+  LookbackWindow: string;
+  PromoteMode?: string;
+  ClientToken: string;
+}
+export const CreateRetrainingSchedulerRequest = S.suspend(() =>
+  S.Struct({
     ModelName: S.String,
     RetrainingStartDate: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -287,151 +317,265 @@ export class CreateRetrainingSchedulerRequest extends S.Class<CreateRetrainingSc
     LookbackWindow: S.String,
     PromoteMode: S.optional(S.String),
     ClientToken: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteDatasetRequest extends S.Class<DeleteDatasetRequest>(
-  "DeleteDatasetRequest",
-)(
-  { DatasetName: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteDatasetResponse extends S.Class<DeleteDatasetResponse>(
-  "DeleteDatasetResponse",
-)({}) {}
-export class DeleteInferenceSchedulerRequest extends S.Class<DeleteInferenceSchedulerRequest>(
-  "DeleteInferenceSchedulerRequest",
-)(
-  { InferenceSchedulerName: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteInferenceSchedulerResponse extends S.Class<DeleteInferenceSchedulerResponse>(
-  "DeleteInferenceSchedulerResponse",
-)({}) {}
-export class DeleteLabelRequest extends S.Class<DeleteLabelRequest>(
-  "DeleteLabelRequest",
-)(
-  { LabelGroupName: S.String, LabelId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteLabelResponse extends S.Class<DeleteLabelResponse>(
-  "DeleteLabelResponse",
-)({}) {}
-export class DeleteLabelGroupRequest extends S.Class<DeleteLabelGroupRequest>(
-  "DeleteLabelGroupRequest",
-)(
-  { LabelGroupName: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteLabelGroupResponse extends S.Class<DeleteLabelGroupResponse>(
-  "DeleteLabelGroupResponse",
-)({}) {}
-export class DeleteModelRequest extends S.Class<DeleteModelRequest>(
-  "DeleteModelRequest",
-)(
-  { ModelName: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteModelResponse extends S.Class<DeleteModelResponse>(
-  "DeleteModelResponse",
-)({}) {}
-export class DeleteResourcePolicyRequest extends S.Class<DeleteResourcePolicyRequest>(
-  "DeleteResourcePolicyRequest",
-)(
-  { ResourceArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteResourcePolicyResponse extends S.Class<DeleteResourcePolicyResponse>(
-  "DeleteResourcePolicyResponse",
-)({}) {}
-export class DeleteRetrainingSchedulerRequest extends S.Class<DeleteRetrainingSchedulerRequest>(
-  "DeleteRetrainingSchedulerRequest",
-)(
-  { ModelName: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteRetrainingSchedulerResponse extends S.Class<DeleteRetrainingSchedulerResponse>(
-  "DeleteRetrainingSchedulerResponse",
-)({}) {}
-export class DescribeDataIngestionJobRequest extends S.Class<DescribeDataIngestionJobRequest>(
-  "DescribeDataIngestionJobRequest",
-)(
-  { JobId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeDatasetRequest extends S.Class<DescribeDatasetRequest>(
-  "DescribeDatasetRequest",
-)(
-  { DatasetName: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeInferenceSchedulerRequest extends S.Class<DescribeInferenceSchedulerRequest>(
-  "DescribeInferenceSchedulerRequest",
-)(
-  { InferenceSchedulerName: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeLabelRequest extends S.Class<DescribeLabelRequest>(
-  "DescribeLabelRequest",
-)(
-  { LabelGroupName: S.String, LabelId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeLabelGroupRequest extends S.Class<DescribeLabelGroupRequest>(
-  "DescribeLabelGroupRequest",
-)(
-  { LabelGroupName: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeModelRequest extends S.Class<DescribeModelRequest>(
-  "DescribeModelRequest",
-)(
-  { ModelName: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeModelVersionRequest extends S.Class<DescribeModelVersionRequest>(
-  "DescribeModelVersionRequest",
-)(
-  { ModelName: S.String, ModelVersion: S.Number },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeResourcePolicyRequest extends S.Class<DescribeResourcePolicyRequest>(
-  "DescribeResourcePolicyRequest",
-)(
-  { ResourceArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeRetrainingSchedulerRequest extends S.Class<DescribeRetrainingSchedulerRequest>(
-  "DescribeRetrainingSchedulerRequest",
-)(
-  { ModelName: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ImportDatasetRequest extends S.Class<ImportDatasetRequest>(
-  "ImportDatasetRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateRetrainingSchedulerRequest",
+}) as any as S.Schema<CreateRetrainingSchedulerRequest>;
+export interface DeleteDatasetRequest {
+  DatasetName: string;
+}
+export const DeleteDatasetRequest = S.suspend(() =>
+  S.Struct({ DatasetName: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteDatasetRequest",
+}) as any as S.Schema<DeleteDatasetRequest>;
+export interface DeleteDatasetResponse {}
+export const DeleteDatasetResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteDatasetResponse",
+}) as any as S.Schema<DeleteDatasetResponse>;
+export interface DeleteInferenceSchedulerRequest {
+  InferenceSchedulerName: string;
+}
+export const DeleteInferenceSchedulerRequest = S.suspend(() =>
+  S.Struct({ InferenceSchedulerName: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteInferenceSchedulerRequest",
+}) as any as S.Schema<DeleteInferenceSchedulerRequest>;
+export interface DeleteInferenceSchedulerResponse {}
+export const DeleteInferenceSchedulerResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteInferenceSchedulerResponse",
+}) as any as S.Schema<DeleteInferenceSchedulerResponse>;
+export interface DeleteLabelRequest {
+  LabelGroupName: string;
+  LabelId: string;
+}
+export const DeleteLabelRequest = S.suspend(() =>
+  S.Struct({ LabelGroupName: S.String, LabelId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteLabelRequest",
+}) as any as S.Schema<DeleteLabelRequest>;
+export interface DeleteLabelResponse {}
+export const DeleteLabelResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteLabelResponse",
+}) as any as S.Schema<DeleteLabelResponse>;
+export interface DeleteLabelGroupRequest {
+  LabelGroupName: string;
+}
+export const DeleteLabelGroupRequest = S.suspend(() =>
+  S.Struct({ LabelGroupName: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteLabelGroupRequest",
+}) as any as S.Schema<DeleteLabelGroupRequest>;
+export interface DeleteLabelGroupResponse {}
+export const DeleteLabelGroupResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteLabelGroupResponse",
+}) as any as S.Schema<DeleteLabelGroupResponse>;
+export interface DeleteModelRequest {
+  ModelName: string;
+}
+export const DeleteModelRequest = S.suspend(() =>
+  S.Struct({ ModelName: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteModelRequest",
+}) as any as S.Schema<DeleteModelRequest>;
+export interface DeleteModelResponse {}
+export const DeleteModelResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteModelResponse",
+}) as any as S.Schema<DeleteModelResponse>;
+export interface DeleteResourcePolicyRequest {
+  ResourceArn: string;
+}
+export const DeleteResourcePolicyRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteResourcePolicyRequest",
+}) as any as S.Schema<DeleteResourcePolicyRequest>;
+export interface DeleteResourcePolicyResponse {}
+export const DeleteResourcePolicyResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteResourcePolicyResponse",
+}) as any as S.Schema<DeleteResourcePolicyResponse>;
+export interface DeleteRetrainingSchedulerRequest {
+  ModelName: string;
+}
+export const DeleteRetrainingSchedulerRequest = S.suspend(() =>
+  S.Struct({ ModelName: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteRetrainingSchedulerRequest",
+}) as any as S.Schema<DeleteRetrainingSchedulerRequest>;
+export interface DeleteRetrainingSchedulerResponse {}
+export const DeleteRetrainingSchedulerResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteRetrainingSchedulerResponse",
+}) as any as S.Schema<DeleteRetrainingSchedulerResponse>;
+export interface DescribeDataIngestionJobRequest {
+  JobId: string;
+}
+export const DescribeDataIngestionJobRequest = S.suspend(() =>
+  S.Struct({ JobId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeDataIngestionJobRequest",
+}) as any as S.Schema<DescribeDataIngestionJobRequest>;
+export interface DescribeDatasetRequest {
+  DatasetName: string;
+}
+export const DescribeDatasetRequest = S.suspend(() =>
+  S.Struct({ DatasetName: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeDatasetRequest",
+}) as any as S.Schema<DescribeDatasetRequest>;
+export interface DescribeInferenceSchedulerRequest {
+  InferenceSchedulerName: string;
+}
+export const DescribeInferenceSchedulerRequest = S.suspend(() =>
+  S.Struct({ InferenceSchedulerName: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeInferenceSchedulerRequest",
+}) as any as S.Schema<DescribeInferenceSchedulerRequest>;
+export interface DescribeLabelRequest {
+  LabelGroupName: string;
+  LabelId: string;
+}
+export const DescribeLabelRequest = S.suspend(() =>
+  S.Struct({ LabelGroupName: S.String, LabelId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeLabelRequest",
+}) as any as S.Schema<DescribeLabelRequest>;
+export interface DescribeLabelGroupRequest {
+  LabelGroupName: string;
+}
+export const DescribeLabelGroupRequest = S.suspend(() =>
+  S.Struct({ LabelGroupName: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeLabelGroupRequest",
+}) as any as S.Schema<DescribeLabelGroupRequest>;
+export interface DescribeModelRequest {
+  ModelName: string;
+}
+export const DescribeModelRequest = S.suspend(() =>
+  S.Struct({ ModelName: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeModelRequest",
+}) as any as S.Schema<DescribeModelRequest>;
+export interface DescribeModelVersionRequest {
+  ModelName: string;
+  ModelVersion: number;
+}
+export const DescribeModelVersionRequest = S.suspend(() =>
+  S.Struct({ ModelName: S.String, ModelVersion: S.Number }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeModelVersionRequest",
+}) as any as S.Schema<DescribeModelVersionRequest>;
+export interface DescribeResourcePolicyRequest {
+  ResourceArn: string;
+}
+export const DescribeResourcePolicyRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeResourcePolicyRequest",
+}) as any as S.Schema<DescribeResourcePolicyRequest>;
+export interface DescribeRetrainingSchedulerRequest {
+  ModelName: string;
+}
+export const DescribeRetrainingSchedulerRequest = S.suspend(() =>
+  S.Struct({ ModelName: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeRetrainingSchedulerRequest",
+}) as any as S.Schema<DescribeRetrainingSchedulerRequest>;
+export interface ImportDatasetRequest {
+  SourceDatasetArn: string;
+  DatasetName?: string;
+  ClientToken: string;
+  ServerSideKmsKeyId?: string;
+  Tags?: TagList;
+}
+export const ImportDatasetRequest = S.suspend(() =>
+  S.Struct({
     SourceDatasetArn: S.String,
     DatasetName: S.optional(S.String),
     ClientToken: S.String,
     ServerSideKmsKeyId: S.optional(S.String),
     Tags: S.optional(TagList),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class LabelsS3InputConfiguration extends S.Class<LabelsS3InputConfiguration>(
-  "LabelsS3InputConfiguration",
-)({ Bucket: S.String, Prefix: S.optional(S.String) }) {}
-export class LabelsInputConfiguration extends S.Class<LabelsInputConfiguration>(
-  "LabelsInputConfiguration",
-)({
-  S3InputConfiguration: S.optional(LabelsS3InputConfiguration),
-  LabelGroupName: S.optional(S.String),
-}) {}
-export class ImportModelVersionRequest extends S.Class<ImportModelVersionRequest>(
-  "ImportModelVersionRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ImportDatasetRequest",
+}) as any as S.Schema<ImportDatasetRequest>;
+export interface LabelsS3InputConfiguration {
+  Bucket: string;
+  Prefix?: string;
+}
+export const LabelsS3InputConfiguration = S.suspend(() =>
+  S.Struct({ Bucket: S.String, Prefix: S.optional(S.String) }),
+).annotations({
+  identifier: "LabelsS3InputConfiguration",
+}) as any as S.Schema<LabelsS3InputConfiguration>;
+export interface LabelsInputConfiguration {
+  S3InputConfiguration?: LabelsS3InputConfiguration;
+  LabelGroupName?: string;
+}
+export const LabelsInputConfiguration = S.suspend(() =>
+  S.Struct({
+    S3InputConfiguration: S.optional(LabelsS3InputConfiguration),
+    LabelGroupName: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "LabelsInputConfiguration",
+}) as any as S.Schema<LabelsInputConfiguration>;
+export interface ImportModelVersionRequest {
+  SourceModelVersionArn: string;
+  ModelName?: string;
+  DatasetName: string;
+  LabelsInputConfiguration?: LabelsInputConfiguration;
+  ClientToken: string;
+  RoleArn?: string;
+  ServerSideKmsKeyId?: string;
+  Tags?: TagList;
+  InferenceDataImportStrategy?: string;
+}
+export const ImportModelVersionRequest = S.suspend(() =>
+  S.Struct({
     SourceModelVersionArn: S.String,
     ModelName: S.optional(S.String),
     DatasetName: S.String,
@@ -441,46 +585,76 @@ export class ImportModelVersionRequest extends S.Class<ImportModelVersionRequest
     ServerSideKmsKeyId: S.optional(S.String),
     Tags: S.optional(TagList),
     InferenceDataImportStrategy: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListDataIngestionJobsRequest extends S.Class<ListDataIngestionJobsRequest>(
-  "ListDataIngestionJobsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ImportModelVersionRequest",
+}) as any as S.Schema<ImportModelVersionRequest>;
+export interface ListDataIngestionJobsRequest {
+  DatasetName?: string;
+  NextToken?: string;
+  MaxResults?: number;
+  Status?: string;
+}
+export const ListDataIngestionJobsRequest = S.suspend(() =>
+  S.Struct({
     DatasetName: S.optional(S.String),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     Status: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListDatasetsRequest extends S.Class<ListDatasetsRequest>(
-  "ListDatasetsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListDataIngestionJobsRequest",
+}) as any as S.Schema<ListDataIngestionJobsRequest>;
+export interface ListDatasetsRequest {
+  NextToken?: string;
+  MaxResults?: number;
+  DatasetNameBeginsWith?: string;
+}
+export const ListDatasetsRequest = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     DatasetNameBeginsWith: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListInferenceEventsRequest extends S.Class<ListInferenceEventsRequest>(
-  "ListInferenceEventsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListDatasetsRequest",
+}) as any as S.Schema<ListDatasetsRequest>;
+export interface ListInferenceEventsRequest {
+  NextToken?: string;
+  MaxResults?: number;
+  InferenceSchedulerName: string;
+  IntervalStartTime: Date;
+  IntervalEndTime: Date;
+}
+export const ListInferenceEventsRequest = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     InferenceSchedulerName: S.String,
     IntervalStartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     IntervalEndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListInferenceExecutionsRequest extends S.Class<ListInferenceExecutionsRequest>(
-  "ListInferenceExecutionsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListInferenceEventsRequest",
+}) as any as S.Schema<ListInferenceEventsRequest>;
+export interface ListInferenceExecutionsRequest {
+  NextToken?: string;
+  MaxResults?: number;
+  InferenceSchedulerName: string;
+  DataStartTimeAfter?: Date;
+  DataEndTimeBefore?: Date;
+  Status?: string;
+}
+export const ListInferenceExecutionsRequest = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     InferenceSchedulerName: S.String,
@@ -491,35 +665,59 @@ export class ListInferenceExecutionsRequest extends S.Class<ListInferenceExecuti
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     Status: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListInferenceSchedulersRequest extends S.Class<ListInferenceSchedulersRequest>(
-  "ListInferenceSchedulersRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListInferenceExecutionsRequest",
+}) as any as S.Schema<ListInferenceExecutionsRequest>;
+export interface ListInferenceSchedulersRequest {
+  NextToken?: string;
+  MaxResults?: number;
+  InferenceSchedulerNameBeginsWith?: string;
+  ModelName?: string;
+  Status?: string;
+}
+export const ListInferenceSchedulersRequest = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     InferenceSchedulerNameBeginsWith: S.optional(S.String),
     ModelName: S.optional(S.String),
     Status: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListLabelGroupsRequest extends S.Class<ListLabelGroupsRequest>(
-  "ListLabelGroupsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListInferenceSchedulersRequest",
+}) as any as S.Schema<ListInferenceSchedulersRequest>;
+export interface ListLabelGroupsRequest {
+  LabelGroupNameBeginsWith?: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListLabelGroupsRequest = S.suspend(() =>
+  S.Struct({
     LabelGroupNameBeginsWith: S.optional(S.String),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListLabelsRequest extends S.Class<ListLabelsRequest>(
-  "ListLabelsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListLabelGroupsRequest",
+}) as any as S.Schema<ListLabelGroupsRequest>;
+export interface ListLabelsRequest {
+  LabelGroupName: string;
+  IntervalStartTime?: Date;
+  IntervalEndTime?: Date;
+  FaultCode?: string;
+  Equipment?: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListLabelsRequest = S.suspend(() =>
+  S.Struct({
     LabelGroupName: S.String,
     IntervalStartTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -531,25 +729,45 @@ export class ListLabelsRequest extends S.Class<ListLabelsRequest>(
     Equipment: S.optional(S.String),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListModelsRequest extends S.Class<ListModelsRequest>(
-  "ListModelsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListLabelsRequest",
+}) as any as S.Schema<ListLabelsRequest>;
+export interface ListModelsRequest {
+  NextToken?: string;
+  MaxResults?: number;
+  Status?: string;
+  ModelNameBeginsWith?: string;
+  DatasetNameBeginsWith?: string;
+}
+export const ListModelsRequest = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     Status: S.optional(S.String),
     ModelNameBeginsWith: S.optional(S.String),
     DatasetNameBeginsWith: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListModelVersionsRequest extends S.Class<ListModelVersionsRequest>(
-  "ListModelVersionsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListModelsRequest",
+}) as any as S.Schema<ListModelsRequest>;
+export interface ListModelVersionsRequest {
+  ModelName: string;
+  NextToken?: string;
+  MaxResults?: number;
+  Status?: string;
+  SourceType?: string;
+  CreatedAtEndTime?: Date;
+  CreatedAtStartTime?: Date;
+  MaxModelVersion?: number;
+  MinModelVersion?: number;
+}
+export const ListModelVersionsRequest = S.suspend(() =>
+  S.Struct({
     ModelName: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
@@ -563,175 +781,317 @@ export class ListModelVersionsRequest extends S.Class<ListModelVersionsRequest>(
     ),
     MaxModelVersion: S.optional(S.Number),
     MinModelVersion: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListRetrainingSchedulersRequest extends S.Class<ListRetrainingSchedulersRequest>(
-  "ListRetrainingSchedulersRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListModelVersionsRequest",
+}) as any as S.Schema<ListModelVersionsRequest>;
+export interface ListRetrainingSchedulersRequest {
+  ModelNameBeginsWith?: string;
+  Status?: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListRetrainingSchedulersRequest = S.suspend(() =>
+  S.Struct({
     ModelNameBeginsWith: S.optional(S.String),
     Status: S.optional(S.String),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListSensorStatisticsRequest extends S.Class<ListSensorStatisticsRequest>(
-  "ListSensorStatisticsRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListRetrainingSchedulersRequest",
+}) as any as S.Schema<ListRetrainingSchedulersRequest>;
+export interface ListSensorStatisticsRequest {
+  DatasetName: string;
+  IngestionJobId?: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListSensorStatisticsRequest = S.suspend(() =>
+  S.Struct({
     DatasetName: S.String,
     IngestionJobId: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { ResourceArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutResourcePolicyRequest extends S.Class<PutResourcePolicyRequest>(
-  "PutResourcePolicyRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListSensorStatisticsRequest",
+}) as any as S.Schema<ListSensorStatisticsRequest>;
+export interface ListTagsForResourceRequest {
+  ResourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface PutResourcePolicyRequest {
+  ResourceArn: string;
+  ResourcePolicy: string;
+  PolicyRevisionId?: string;
+  ClientToken: string;
+}
+export const PutResourcePolicyRequest = S.suspend(() =>
+  S.Struct({
     ResourceArn: S.String,
     ResourcePolicy: S.String,
     PolicyRevisionId: S.optional(S.String),
     ClientToken: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StartInferenceSchedulerRequest extends S.Class<StartInferenceSchedulerRequest>(
-  "StartInferenceSchedulerRequest",
-)(
-  { InferenceSchedulerName: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StartRetrainingSchedulerRequest extends S.Class<StartRetrainingSchedulerRequest>(
-  "StartRetrainingSchedulerRequest",
-)(
-  { ModelName: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StopInferenceSchedulerRequest extends S.Class<StopInferenceSchedulerRequest>(
-  "StopInferenceSchedulerRequest",
-)(
-  { InferenceSchedulerName: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StopRetrainingSchedulerRequest extends S.Class<StopRetrainingSchedulerRequest>(
-  "StopRetrainingSchedulerRequest",
-)(
-  { ModelName: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { ResourceArn: S.String, Tags: TagList },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  { ResourceArn: S.String, TagKeys: TagKeyList },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
-export class UpdateActiveModelVersionRequest extends S.Class<UpdateActiveModelVersionRequest>(
-  "UpdateActiveModelVersionRequest",
-)(
-  { ModelName: S.String, ModelVersion: S.Number },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class InferenceS3InputConfiguration extends S.Class<InferenceS3InputConfiguration>(
-  "InferenceS3InputConfiguration",
-)({ Bucket: S.String, Prefix: S.optional(S.String) }) {}
-export class InferenceInputNameConfiguration extends S.Class<InferenceInputNameConfiguration>(
-  "InferenceInputNameConfiguration",
-)({
-  TimestampFormat: S.optional(S.String),
-  ComponentTimestampDelimiter: S.optional(S.String),
-}) {}
-export class InferenceInputConfiguration extends S.Class<InferenceInputConfiguration>(
-  "InferenceInputConfiguration",
-)({
-  S3InputConfiguration: S.optional(InferenceS3InputConfiguration),
-  InputTimeZoneOffset: S.optional(S.String),
-  InferenceInputNameConfiguration: S.optional(InferenceInputNameConfiguration),
-}) {}
-export class InferenceS3OutputConfiguration extends S.Class<InferenceS3OutputConfiguration>(
-  "InferenceS3OutputConfiguration",
-)({ Bucket: S.String, Prefix: S.optional(S.String) }) {}
-export class InferenceOutputConfiguration extends S.Class<InferenceOutputConfiguration>(
-  "InferenceOutputConfiguration",
-)({
-  S3OutputConfiguration: InferenceS3OutputConfiguration,
-  KmsKeyId: S.optional(S.String),
-}) {}
-export class UpdateInferenceSchedulerRequest extends S.Class<UpdateInferenceSchedulerRequest>(
-  "UpdateInferenceSchedulerRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "PutResourcePolicyRequest",
+}) as any as S.Schema<PutResourcePolicyRequest>;
+export interface StartInferenceSchedulerRequest {
+  InferenceSchedulerName: string;
+}
+export const StartInferenceSchedulerRequest = S.suspend(() =>
+  S.Struct({ InferenceSchedulerName: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StartInferenceSchedulerRequest",
+}) as any as S.Schema<StartInferenceSchedulerRequest>;
+export interface StartRetrainingSchedulerRequest {
+  ModelName: string;
+}
+export const StartRetrainingSchedulerRequest = S.suspend(() =>
+  S.Struct({ ModelName: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StartRetrainingSchedulerRequest",
+}) as any as S.Schema<StartRetrainingSchedulerRequest>;
+export interface StopInferenceSchedulerRequest {
+  InferenceSchedulerName: string;
+}
+export const StopInferenceSchedulerRequest = S.suspend(() =>
+  S.Struct({ InferenceSchedulerName: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StopInferenceSchedulerRequest",
+}) as any as S.Schema<StopInferenceSchedulerRequest>;
+export interface StopRetrainingSchedulerRequest {
+  ModelName: string;
+}
+export const StopRetrainingSchedulerRequest = S.suspend(() =>
+  S.Struct({ ModelName: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StopRetrainingSchedulerRequest",
+}) as any as S.Schema<StopRetrainingSchedulerRequest>;
+export interface TagResourceRequest {
+  ResourceArn: string;
+  Tags: TagList;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String, Tags: TagList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UntagResourceRequest {
+  ResourceArn: string;
+  TagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String, TagKeys: TagKeyList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface UpdateActiveModelVersionRequest {
+  ModelName: string;
+  ModelVersion: number;
+}
+export const UpdateActiveModelVersionRequest = S.suspend(() =>
+  S.Struct({ ModelName: S.String, ModelVersion: S.Number }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateActiveModelVersionRequest",
+}) as any as S.Schema<UpdateActiveModelVersionRequest>;
+export interface InferenceS3InputConfiguration {
+  Bucket: string;
+  Prefix?: string;
+}
+export const InferenceS3InputConfiguration = S.suspend(() =>
+  S.Struct({ Bucket: S.String, Prefix: S.optional(S.String) }),
+).annotations({
+  identifier: "InferenceS3InputConfiguration",
+}) as any as S.Schema<InferenceS3InputConfiguration>;
+export interface InferenceInputNameConfiguration {
+  TimestampFormat?: string;
+  ComponentTimestampDelimiter?: string;
+}
+export const InferenceInputNameConfiguration = S.suspend(() =>
+  S.Struct({
+    TimestampFormat: S.optional(S.String),
+    ComponentTimestampDelimiter: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "InferenceInputNameConfiguration",
+}) as any as S.Schema<InferenceInputNameConfiguration>;
+export interface InferenceInputConfiguration {
+  S3InputConfiguration?: InferenceS3InputConfiguration;
+  InputTimeZoneOffset?: string;
+  InferenceInputNameConfiguration?: InferenceInputNameConfiguration;
+}
+export const InferenceInputConfiguration = S.suspend(() =>
+  S.Struct({
+    S3InputConfiguration: S.optional(InferenceS3InputConfiguration),
+    InputTimeZoneOffset: S.optional(S.String),
+    InferenceInputNameConfiguration: S.optional(
+      InferenceInputNameConfiguration,
+    ),
+  }),
+).annotations({
+  identifier: "InferenceInputConfiguration",
+}) as any as S.Schema<InferenceInputConfiguration>;
+export interface InferenceS3OutputConfiguration {
+  Bucket: string;
+  Prefix?: string;
+}
+export const InferenceS3OutputConfiguration = S.suspend(() =>
+  S.Struct({ Bucket: S.String, Prefix: S.optional(S.String) }),
+).annotations({
+  identifier: "InferenceS3OutputConfiguration",
+}) as any as S.Schema<InferenceS3OutputConfiguration>;
+export interface InferenceOutputConfiguration {
+  S3OutputConfiguration: InferenceS3OutputConfiguration;
+  KmsKeyId?: string;
+}
+export const InferenceOutputConfiguration = S.suspend(() =>
+  S.Struct({
+    S3OutputConfiguration: InferenceS3OutputConfiguration,
+    KmsKeyId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "InferenceOutputConfiguration",
+}) as any as S.Schema<InferenceOutputConfiguration>;
+export interface UpdateInferenceSchedulerRequest {
+  InferenceSchedulerName: string;
+  DataDelayOffsetInMinutes?: number;
+  DataUploadFrequency?: string;
+  DataInputConfiguration?: InferenceInputConfiguration;
+  DataOutputConfiguration?: InferenceOutputConfiguration;
+  RoleArn?: string;
+}
+export const UpdateInferenceSchedulerRequest = S.suspend(() =>
+  S.Struct({
     InferenceSchedulerName: S.String,
     DataDelayOffsetInMinutes: S.optional(S.Number),
     DataUploadFrequency: S.optional(S.String),
     DataInputConfiguration: S.optional(InferenceInputConfiguration),
     DataOutputConfiguration: S.optional(InferenceOutputConfiguration),
     RoleArn: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateInferenceSchedulerResponse extends S.Class<UpdateInferenceSchedulerResponse>(
-  "UpdateInferenceSchedulerResponse",
-)({}) {}
-export class UpdateLabelGroupRequest extends S.Class<UpdateLabelGroupRequest>(
-  "UpdateLabelGroupRequest",
-)(
-  { LabelGroupName: S.String, FaultCodes: S.optional(FaultCodes) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateLabelGroupResponse extends S.Class<UpdateLabelGroupResponse>(
-  "UpdateLabelGroupResponse",
-)({}) {}
-export class ModelDiagnosticsS3OutputConfiguration extends S.Class<ModelDiagnosticsS3OutputConfiguration>(
-  "ModelDiagnosticsS3OutputConfiguration",
-)({ Bucket: S.String, Prefix: S.optional(S.String) }) {}
-export class ModelDiagnosticsOutputConfiguration extends S.Class<ModelDiagnosticsOutputConfiguration>(
-  "ModelDiagnosticsOutputConfiguration",
-)({
-  S3OutputConfiguration: ModelDiagnosticsS3OutputConfiguration,
-  KmsKeyId: S.optional(S.String),
-}) {}
-export class UpdateModelRequest extends S.Class<UpdateModelRequest>(
-  "UpdateModelRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateInferenceSchedulerRequest",
+}) as any as S.Schema<UpdateInferenceSchedulerRequest>;
+export interface UpdateInferenceSchedulerResponse {}
+export const UpdateInferenceSchedulerResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateInferenceSchedulerResponse",
+}) as any as S.Schema<UpdateInferenceSchedulerResponse>;
+export interface UpdateLabelGroupRequest {
+  LabelGroupName: string;
+  FaultCodes?: FaultCodes;
+}
+export const UpdateLabelGroupRequest = S.suspend(() =>
+  S.Struct({
+    LabelGroupName: S.String,
+    FaultCodes: S.optional(FaultCodes),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateLabelGroupRequest",
+}) as any as S.Schema<UpdateLabelGroupRequest>;
+export interface UpdateLabelGroupResponse {}
+export const UpdateLabelGroupResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateLabelGroupResponse",
+}) as any as S.Schema<UpdateLabelGroupResponse>;
+export interface ModelDiagnosticsS3OutputConfiguration {
+  Bucket: string;
+  Prefix?: string;
+}
+export const ModelDiagnosticsS3OutputConfiguration = S.suspend(() =>
+  S.Struct({ Bucket: S.String, Prefix: S.optional(S.String) }),
+).annotations({
+  identifier: "ModelDiagnosticsS3OutputConfiguration",
+}) as any as S.Schema<ModelDiagnosticsS3OutputConfiguration>;
+export interface ModelDiagnosticsOutputConfiguration {
+  S3OutputConfiguration: ModelDiagnosticsS3OutputConfiguration;
+  KmsKeyId?: string;
+}
+export const ModelDiagnosticsOutputConfiguration = S.suspend(() =>
+  S.Struct({
+    S3OutputConfiguration: ModelDiagnosticsS3OutputConfiguration,
+    KmsKeyId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ModelDiagnosticsOutputConfiguration",
+}) as any as S.Schema<ModelDiagnosticsOutputConfiguration>;
+export interface UpdateModelRequest {
+  ModelName: string;
+  LabelsInputConfiguration?: LabelsInputConfiguration;
+  RoleArn?: string;
+  ModelDiagnosticsOutputConfiguration?: ModelDiagnosticsOutputConfiguration;
+}
+export const UpdateModelRequest = S.suspend(() =>
+  S.Struct({
     ModelName: S.String,
     LabelsInputConfiguration: S.optional(LabelsInputConfiguration),
     RoleArn: S.optional(S.String),
     ModelDiagnosticsOutputConfiguration: S.optional(
       ModelDiagnosticsOutputConfiguration,
     ),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateModelResponse extends S.Class<UpdateModelResponse>(
-  "UpdateModelResponse",
-)({}) {}
-export class UpdateRetrainingSchedulerRequest extends S.Class<UpdateRetrainingSchedulerRequest>(
-  "UpdateRetrainingSchedulerRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateModelRequest",
+}) as any as S.Schema<UpdateModelRequest>;
+export interface UpdateModelResponse {}
+export const UpdateModelResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UpdateModelResponse",
+}) as any as S.Schema<UpdateModelResponse>;
+export interface UpdateRetrainingSchedulerRequest {
+  ModelName: string;
+  RetrainingStartDate?: Date;
+  RetrainingFrequency?: string;
+  LookbackWindow?: string;
+  PromoteMode?: string;
+}
+export const UpdateRetrainingSchedulerRequest = S.suspend(() =>
+  S.Struct({
     ModelName: S.String,
     RetrainingStartDate: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -739,469 +1099,937 @@ export class UpdateRetrainingSchedulerRequest extends S.Class<UpdateRetrainingSc
     RetrainingFrequency: S.optional(S.String),
     LookbackWindow: S.optional(S.String),
     PromoteMode: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateRetrainingSchedulerResponse extends S.Class<UpdateRetrainingSchedulerResponse>(
-  "UpdateRetrainingSchedulerResponse",
-)({}) {}
-export class DatasetSchema extends S.Class<DatasetSchema>("DatasetSchema")({
-  InlineDataSchema: S.optional(S.String),
-}) {}
-export class DataPreProcessingConfiguration extends S.Class<DataPreProcessingConfiguration>(
-  "DataPreProcessingConfiguration",
-)({ TargetSamplingRate: S.optional(S.String) }) {}
-export class CreateDatasetRequest extends S.Class<CreateDatasetRequest>(
-  "CreateDatasetRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateRetrainingSchedulerRequest",
+}) as any as S.Schema<UpdateRetrainingSchedulerRequest>;
+export interface UpdateRetrainingSchedulerResponse {}
+export const UpdateRetrainingSchedulerResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateRetrainingSchedulerResponse",
+}) as any as S.Schema<UpdateRetrainingSchedulerResponse>;
+export interface DatasetSchema {
+  InlineDataSchema?: string;
+}
+export const DatasetSchema = S.suspend(() =>
+  S.Struct({ InlineDataSchema: S.optional(S.String) }),
+).annotations({
+  identifier: "DatasetSchema",
+}) as any as S.Schema<DatasetSchema>;
+export interface DataPreProcessingConfiguration {
+  TargetSamplingRate?: string;
+}
+export const DataPreProcessingConfiguration = S.suspend(() =>
+  S.Struct({ TargetSamplingRate: S.optional(S.String) }),
+).annotations({
+  identifier: "DataPreProcessingConfiguration",
+}) as any as S.Schema<DataPreProcessingConfiguration>;
+export interface CreateDatasetRequest {
+  DatasetName: string;
+  DatasetSchema?: DatasetSchema;
+  ServerSideKmsKeyId?: string;
+  ClientToken: string;
+  Tags?: TagList;
+}
+export const CreateDatasetRequest = S.suspend(() =>
+  S.Struct({
     DatasetName: S.String,
     DatasetSchema: S.optional(DatasetSchema),
     ServerSideKmsKeyId: S.optional(S.String),
     ClientToken: S.String,
     Tags: S.optional(TagList),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateLabelResponse extends S.Class<CreateLabelResponse>(
-  "CreateLabelResponse",
-)({ LabelId: S.optional(S.String) }) {}
-export class CreateLabelGroupResponse extends S.Class<CreateLabelGroupResponse>(
-  "CreateLabelGroupResponse",
-)({
-  LabelGroupName: S.optional(S.String),
-  LabelGroupArn: S.optional(S.String),
-}) {}
-export class CreateRetrainingSchedulerResponse extends S.Class<CreateRetrainingSchedulerResponse>(
-  "CreateRetrainingSchedulerResponse",
-)({
-  ModelName: S.optional(S.String),
-  ModelArn: S.optional(S.String),
-  Status: S.optional(S.String),
-}) {}
-export class IngestionS3InputConfiguration extends S.Class<IngestionS3InputConfiguration>(
-  "IngestionS3InputConfiguration",
-)({
-  Bucket: S.String,
-  Prefix: S.optional(S.String),
-  KeyPattern: S.optional(S.String),
-}) {}
-export class IngestionInputConfiguration extends S.Class<IngestionInputConfiguration>(
-  "IngestionInputConfiguration",
-)({ S3InputConfiguration: IngestionS3InputConfiguration }) {}
-export class MissingCompleteSensorData extends S.Class<MissingCompleteSensorData>(
-  "MissingCompleteSensorData",
-)({ AffectedSensorCount: S.Number }) {}
-export class SensorsWithShortDateRange extends S.Class<SensorsWithShortDateRange>(
-  "SensorsWithShortDateRange",
-)({ AffectedSensorCount: S.Number }) {}
-export class InsufficientSensorData extends S.Class<InsufficientSensorData>(
-  "InsufficientSensorData",
-)({
-  MissingCompleteSensorData: MissingCompleteSensorData,
-  SensorsWithShortDateRange: SensorsWithShortDateRange,
-}) {}
-export class MissingSensorData extends S.Class<MissingSensorData>(
-  "MissingSensorData",
-)({ AffectedSensorCount: S.Number, TotalNumberOfMissingValues: S.Number }) {}
-export class InvalidSensorData extends S.Class<InvalidSensorData>(
-  "InvalidSensorData",
-)({ AffectedSensorCount: S.Number, TotalNumberOfInvalidValues: S.Number }) {}
-export class UnsupportedTimestamps extends S.Class<UnsupportedTimestamps>(
-  "UnsupportedTimestamps",
-)({ TotalNumberOfUnsupportedTimestamps: S.Number }) {}
-export class DuplicateTimestamps extends S.Class<DuplicateTimestamps>(
-  "DuplicateTimestamps",
-)({ TotalNumberOfDuplicateTimestamps: S.Number }) {}
-export class DataQualitySummary extends S.Class<DataQualitySummary>(
-  "DataQualitySummary",
-)({
-  InsufficientSensorData: InsufficientSensorData,
-  MissingSensorData: MissingSensorData,
-  InvalidSensorData: InvalidSensorData,
-  UnsupportedTimestamps: UnsupportedTimestamps,
-  DuplicateTimestamps: DuplicateTimestamps,
-}) {}
-export class S3Object extends S.Class<S3Object>("S3Object")({
-  Bucket: S.String,
-  Key: S.String,
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateDatasetRequest",
+}) as any as S.Schema<CreateDatasetRequest>;
+export interface CreateLabelResponse {
+  LabelId?: string;
+}
+export const CreateLabelResponse = S.suspend(() =>
+  S.Struct({ LabelId: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateLabelResponse",
+}) as any as S.Schema<CreateLabelResponse>;
+export interface CreateLabelGroupResponse {
+  LabelGroupName?: string;
+  LabelGroupArn?: string;
+}
+export const CreateLabelGroupResponse = S.suspend(() =>
+  S.Struct({
+    LabelGroupName: S.optional(S.String),
+    LabelGroupArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CreateLabelGroupResponse",
+}) as any as S.Schema<CreateLabelGroupResponse>;
+export interface CreateRetrainingSchedulerResponse {
+  ModelName?: string;
+  ModelArn?: string;
+  Status?: string;
+}
+export const CreateRetrainingSchedulerResponse = S.suspend(() =>
+  S.Struct({
+    ModelName: S.optional(S.String),
+    ModelArn: S.optional(S.String),
+    Status: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CreateRetrainingSchedulerResponse",
+}) as any as S.Schema<CreateRetrainingSchedulerResponse>;
+export interface IngestionS3InputConfiguration {
+  Bucket: string;
+  Prefix?: string;
+  KeyPattern?: string;
+}
+export const IngestionS3InputConfiguration = S.suspend(() =>
+  S.Struct({
+    Bucket: S.String,
+    Prefix: S.optional(S.String),
+    KeyPattern: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "IngestionS3InputConfiguration",
+}) as any as S.Schema<IngestionS3InputConfiguration>;
+export interface IngestionInputConfiguration {
+  S3InputConfiguration: IngestionS3InputConfiguration;
+}
+export const IngestionInputConfiguration = S.suspend(() =>
+  S.Struct({ S3InputConfiguration: IngestionS3InputConfiguration }),
+).annotations({
+  identifier: "IngestionInputConfiguration",
+}) as any as S.Schema<IngestionInputConfiguration>;
+export interface MissingCompleteSensorData {
+  AffectedSensorCount: number;
+}
+export const MissingCompleteSensorData = S.suspend(() =>
+  S.Struct({ AffectedSensorCount: S.Number }),
+).annotations({
+  identifier: "MissingCompleteSensorData",
+}) as any as S.Schema<MissingCompleteSensorData>;
+export interface SensorsWithShortDateRange {
+  AffectedSensorCount: number;
+}
+export const SensorsWithShortDateRange = S.suspend(() =>
+  S.Struct({ AffectedSensorCount: S.Number }),
+).annotations({
+  identifier: "SensorsWithShortDateRange",
+}) as any as S.Schema<SensorsWithShortDateRange>;
+export interface InsufficientSensorData {
+  MissingCompleteSensorData: MissingCompleteSensorData;
+  SensorsWithShortDateRange: SensorsWithShortDateRange;
+}
+export const InsufficientSensorData = S.suspend(() =>
+  S.Struct({
+    MissingCompleteSensorData: MissingCompleteSensorData,
+    SensorsWithShortDateRange: SensorsWithShortDateRange,
+  }),
+).annotations({
+  identifier: "InsufficientSensorData",
+}) as any as S.Schema<InsufficientSensorData>;
+export interface MissingSensorData {
+  AffectedSensorCount: number;
+  TotalNumberOfMissingValues: number;
+}
+export const MissingSensorData = S.suspend(() =>
+  S.Struct({
+    AffectedSensorCount: S.Number,
+    TotalNumberOfMissingValues: S.Number,
+  }),
+).annotations({
+  identifier: "MissingSensorData",
+}) as any as S.Schema<MissingSensorData>;
+export interface InvalidSensorData {
+  AffectedSensorCount: number;
+  TotalNumberOfInvalidValues: number;
+}
+export const InvalidSensorData = S.suspend(() =>
+  S.Struct({
+    AffectedSensorCount: S.Number,
+    TotalNumberOfInvalidValues: S.Number,
+  }),
+).annotations({
+  identifier: "InvalidSensorData",
+}) as any as S.Schema<InvalidSensorData>;
+export interface UnsupportedTimestamps {
+  TotalNumberOfUnsupportedTimestamps: number;
+}
+export const UnsupportedTimestamps = S.suspend(() =>
+  S.Struct({ TotalNumberOfUnsupportedTimestamps: S.Number }),
+).annotations({
+  identifier: "UnsupportedTimestamps",
+}) as any as S.Schema<UnsupportedTimestamps>;
+export interface DuplicateTimestamps {
+  TotalNumberOfDuplicateTimestamps: number;
+}
+export const DuplicateTimestamps = S.suspend(() =>
+  S.Struct({ TotalNumberOfDuplicateTimestamps: S.Number }),
+).annotations({
+  identifier: "DuplicateTimestamps",
+}) as any as S.Schema<DuplicateTimestamps>;
+export interface DataQualitySummary {
+  InsufficientSensorData: InsufficientSensorData;
+  MissingSensorData: MissingSensorData;
+  InvalidSensorData: InvalidSensorData;
+  UnsupportedTimestamps: UnsupportedTimestamps;
+  DuplicateTimestamps: DuplicateTimestamps;
+}
+export const DataQualitySummary = S.suspend(() =>
+  S.Struct({
+    InsufficientSensorData: InsufficientSensorData,
+    MissingSensorData: MissingSensorData,
+    InvalidSensorData: InvalidSensorData,
+    UnsupportedTimestamps: UnsupportedTimestamps,
+    DuplicateTimestamps: DuplicateTimestamps,
+  }),
+).annotations({
+  identifier: "DataQualitySummary",
+}) as any as S.Schema<DataQualitySummary>;
+export interface S3Object {
+  Bucket: string;
+  Key: string;
+}
+export const S3Object = S.suspend(() =>
+  S.Struct({ Bucket: S.String, Key: S.String }),
+).annotations({ identifier: "S3Object" }) as any as S.Schema<S3Object>;
+export type ListOfDiscardedFiles = S3Object[];
 export const ListOfDiscardedFiles = S.Array(S3Object);
-export class IngestedFilesSummary extends S.Class<IngestedFilesSummary>(
-  "IngestedFilesSummary",
-)({
-  TotalNumberOfFiles: S.Number,
-  IngestedNumberOfFiles: S.Number,
-  DiscardedFiles: S.optional(ListOfDiscardedFiles),
-}) {}
-export class DescribeDatasetResponse extends S.Class<DescribeDatasetResponse>(
-  "DescribeDatasetResponse",
-)({
-  DatasetName: S.optional(S.String),
-  DatasetArn: S.optional(S.String),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Status: S.optional(S.String),
-  Schema: S.optional(S.String),
-  ServerSideKmsKeyId: S.optional(S.String),
-  IngestionInputConfiguration: S.optional(IngestionInputConfiguration),
-  DataQualitySummary: S.optional(DataQualitySummary),
-  IngestedFilesSummary: S.optional(IngestedFilesSummary),
-  RoleArn: S.optional(S.String),
-  DataStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  DataEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  SourceDatasetArn: S.optional(S.String),
-}) {}
-export class DescribeInferenceSchedulerResponse extends S.Class<DescribeInferenceSchedulerResponse>(
-  "DescribeInferenceSchedulerResponse",
-)({
-  ModelArn: S.optional(S.String),
-  ModelName: S.optional(S.String),
-  InferenceSchedulerName: S.optional(S.String),
-  InferenceSchedulerArn: S.optional(S.String),
-  Status: S.optional(S.String),
-  DataDelayOffsetInMinutes: S.optional(S.Number),
-  DataUploadFrequency: S.optional(S.String),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  DataInputConfiguration: S.optional(InferenceInputConfiguration),
-  DataOutputConfiguration: S.optional(InferenceOutputConfiguration),
-  RoleArn: S.optional(S.String),
-  ServerSideKmsKeyId: S.optional(S.String),
-  LatestInferenceResult: S.optional(S.String),
-}) {}
-export class DescribeLabelResponse extends S.Class<DescribeLabelResponse>(
-  "DescribeLabelResponse",
-)({
-  LabelGroupName: S.optional(S.String),
-  LabelGroupArn: S.optional(S.String),
-  LabelId: S.optional(S.String),
-  StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Rating: S.optional(S.String),
-  FaultCode: S.optional(S.String),
-  Notes: S.optional(S.String),
-  Equipment: S.optional(S.String),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class DescribeLabelGroupResponse extends S.Class<DescribeLabelGroupResponse>(
-  "DescribeLabelGroupResponse",
-)({
-  LabelGroupName: S.optional(S.String),
-  LabelGroupArn: S.optional(S.String),
-  FaultCodes: S.optional(FaultCodes),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class DescribeModelResponse extends S.Class<DescribeModelResponse>(
-  "DescribeModelResponse",
-)({
-  ModelName: S.optional(S.String),
-  ModelArn: S.optional(S.String),
-  DatasetName: S.optional(S.String),
-  DatasetArn: S.optional(S.String),
-  Schema: S.optional(S.String),
-  LabelsInputConfiguration: S.optional(LabelsInputConfiguration),
-  TrainingDataStartTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  TrainingDataEndTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  EvaluationDataStartTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  EvaluationDataEndTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  RoleArn: S.optional(S.String),
-  DataPreProcessingConfiguration: S.optional(DataPreProcessingConfiguration),
-  Status: S.optional(S.String),
-  TrainingExecutionStartTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  TrainingExecutionEndTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  FailedReason: S.optional(S.String),
-  ModelMetrics: S.optional(S.String),
-  LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  ServerSideKmsKeyId: S.optional(S.String),
-  OffCondition: S.optional(S.String),
-  SourceModelVersionArn: S.optional(S.String),
-  ImportJobStartTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  ImportJobEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  ActiveModelVersion: S.optional(S.Number),
-  ActiveModelVersionArn: S.optional(S.String),
-  ModelVersionActivatedAt: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  PreviousActiveModelVersion: S.optional(S.Number),
-  PreviousActiveModelVersionArn: S.optional(S.String),
-  PreviousModelVersionActivatedAt: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  PriorModelMetrics: S.optional(S.String),
-  LatestScheduledRetrainingFailedReason: S.optional(S.String),
-  LatestScheduledRetrainingStatus: S.optional(S.String),
-  LatestScheduledRetrainingModelVersion: S.optional(S.Number),
-  LatestScheduledRetrainingStartTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  LatestScheduledRetrainingAvailableDataInDays: S.optional(S.Number),
-  NextScheduledRetrainingStartDate: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  AccumulatedInferenceDataStartTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  AccumulatedInferenceDataEndTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  RetrainingSchedulerStatus: S.optional(S.String),
-  ModelDiagnosticsOutputConfiguration: S.optional(
-    ModelDiagnosticsOutputConfiguration,
-  ),
-  ModelQuality: S.optional(S.String),
-}) {}
-export class DescribeResourcePolicyResponse extends S.Class<DescribeResourcePolicyResponse>(
-  "DescribeResourcePolicyResponse",
-)({
-  PolicyRevisionId: S.optional(S.String),
-  ResourcePolicy: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class DescribeRetrainingSchedulerResponse extends S.Class<DescribeRetrainingSchedulerResponse>(
-  "DescribeRetrainingSchedulerResponse",
-)({
-  ModelName: S.optional(S.String),
-  ModelArn: S.optional(S.String),
-  RetrainingStartDate: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  RetrainingFrequency: S.optional(S.String),
-  LookbackWindow: S.optional(S.String),
-  Status: S.optional(S.String),
-  PromoteMode: S.optional(S.String),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class ImportDatasetResponse extends S.Class<ImportDatasetResponse>(
-  "ImportDatasetResponse",
-)({
-  DatasetName: S.optional(S.String),
-  DatasetArn: S.optional(S.String),
-  Status: S.optional(S.String),
-  JobId: S.optional(S.String),
-}) {}
-export class ImportModelVersionResponse extends S.Class<ImportModelVersionResponse>(
-  "ImportModelVersionResponse",
-)({
-  ModelName: S.optional(S.String),
-  ModelArn: S.optional(S.String),
-  ModelVersionArn: S.optional(S.String),
-  ModelVersion: S.optional(S.Number),
-  Status: S.optional(S.String),
-}) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ Tags: S.optional(TagList) }) {}
-export class PutResourcePolicyResponse extends S.Class<PutResourcePolicyResponse>(
-  "PutResourcePolicyResponse",
-)({
-  ResourceArn: S.optional(S.String),
-  PolicyRevisionId: S.optional(S.String),
-}) {}
-export class StartInferenceSchedulerResponse extends S.Class<StartInferenceSchedulerResponse>(
-  "StartInferenceSchedulerResponse",
-)({
-  ModelArn: S.optional(S.String),
-  ModelName: S.optional(S.String),
-  InferenceSchedulerName: S.optional(S.String),
-  InferenceSchedulerArn: S.optional(S.String),
-  Status: S.optional(S.String),
-}) {}
-export class StartRetrainingSchedulerResponse extends S.Class<StartRetrainingSchedulerResponse>(
-  "StartRetrainingSchedulerResponse",
-)({
-  ModelName: S.optional(S.String),
-  ModelArn: S.optional(S.String),
-  Status: S.optional(S.String),
-}) {}
-export class StopInferenceSchedulerResponse extends S.Class<StopInferenceSchedulerResponse>(
-  "StopInferenceSchedulerResponse",
-)({
-  ModelArn: S.optional(S.String),
-  ModelName: S.optional(S.String),
-  InferenceSchedulerName: S.optional(S.String),
-  InferenceSchedulerArn: S.optional(S.String),
-  Status: S.optional(S.String),
-}) {}
-export class StopRetrainingSchedulerResponse extends S.Class<StopRetrainingSchedulerResponse>(
-  "StopRetrainingSchedulerResponse",
-)({
-  ModelName: S.optional(S.String),
-  ModelArn: S.optional(S.String),
-  Status: S.optional(S.String),
-}) {}
-export class UpdateActiveModelVersionResponse extends S.Class<UpdateActiveModelVersionResponse>(
-  "UpdateActiveModelVersionResponse",
-)({
-  ModelName: S.optional(S.String),
-  ModelArn: S.optional(S.String),
-  CurrentActiveVersion: S.optional(S.Number),
-  PreviousActiveVersion: S.optional(S.Number),
-  CurrentActiveVersionArn: S.optional(S.String),
-  PreviousActiveVersionArn: S.optional(S.String),
-}) {}
-export class DataIngestionJobSummary extends S.Class<DataIngestionJobSummary>(
-  "DataIngestionJobSummary",
-)({
-  JobId: S.optional(S.String),
-  DatasetName: S.optional(S.String),
-  DatasetArn: S.optional(S.String),
-  IngestionInputConfiguration: S.optional(IngestionInputConfiguration),
-  Status: S.optional(S.String),
-}) {}
+export interface IngestedFilesSummary {
+  TotalNumberOfFiles: number;
+  IngestedNumberOfFiles: number;
+  DiscardedFiles?: ListOfDiscardedFiles;
+}
+export const IngestedFilesSummary = S.suspend(() =>
+  S.Struct({
+    TotalNumberOfFiles: S.Number,
+    IngestedNumberOfFiles: S.Number,
+    DiscardedFiles: S.optional(ListOfDiscardedFiles),
+  }),
+).annotations({
+  identifier: "IngestedFilesSummary",
+}) as any as S.Schema<IngestedFilesSummary>;
+export interface DescribeDatasetResponse {
+  DatasetName?: string;
+  DatasetArn?: string;
+  CreatedAt?: Date;
+  LastUpdatedAt?: Date;
+  Status?: string;
+  Schema?: string;
+  ServerSideKmsKeyId?: string;
+  IngestionInputConfiguration?: IngestionInputConfiguration;
+  DataQualitySummary?: DataQualitySummary;
+  IngestedFilesSummary?: IngestedFilesSummary;
+  RoleArn?: string;
+  DataStartTime?: Date;
+  DataEndTime?: Date;
+  SourceDatasetArn?: string;
+}
+export const DescribeDatasetResponse = S.suspend(() =>
+  S.Struct({
+    DatasetName: S.optional(S.String),
+    DatasetArn: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Status: S.optional(S.String),
+    Schema: S.optional(S.String),
+    ServerSideKmsKeyId: S.optional(S.String),
+    IngestionInputConfiguration: S.optional(IngestionInputConfiguration),
+    DataQualitySummary: S.optional(DataQualitySummary),
+    IngestedFilesSummary: S.optional(IngestedFilesSummary),
+    RoleArn: S.optional(S.String),
+    DataStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    DataEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    SourceDatasetArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DescribeDatasetResponse",
+}) as any as S.Schema<DescribeDatasetResponse>;
+export interface DescribeInferenceSchedulerResponse {
+  ModelArn?: string;
+  ModelName?: string;
+  InferenceSchedulerName?: string;
+  InferenceSchedulerArn?: string;
+  Status?: string;
+  DataDelayOffsetInMinutes?: number;
+  DataUploadFrequency?: string;
+  CreatedAt?: Date;
+  UpdatedAt?: Date;
+  DataInputConfiguration?: InferenceInputConfiguration;
+  DataOutputConfiguration?: InferenceOutputConfiguration;
+  RoleArn?: string;
+  ServerSideKmsKeyId?: string;
+  LatestInferenceResult?: string;
+}
+export const DescribeInferenceSchedulerResponse = S.suspend(() =>
+  S.Struct({
+    ModelArn: S.optional(S.String),
+    ModelName: S.optional(S.String),
+    InferenceSchedulerName: S.optional(S.String),
+    InferenceSchedulerArn: S.optional(S.String),
+    Status: S.optional(S.String),
+    DataDelayOffsetInMinutes: S.optional(S.Number),
+    DataUploadFrequency: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    DataInputConfiguration: S.optional(InferenceInputConfiguration),
+    DataOutputConfiguration: S.optional(InferenceOutputConfiguration),
+    RoleArn: S.optional(S.String),
+    ServerSideKmsKeyId: S.optional(S.String),
+    LatestInferenceResult: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DescribeInferenceSchedulerResponse",
+}) as any as S.Schema<DescribeInferenceSchedulerResponse>;
+export interface DescribeLabelResponse {
+  LabelGroupName?: string;
+  LabelGroupArn?: string;
+  LabelId?: string;
+  StartTime?: Date;
+  EndTime?: Date;
+  Rating?: string;
+  FaultCode?: string;
+  Notes?: string;
+  Equipment?: string;
+  CreatedAt?: Date;
+}
+export const DescribeLabelResponse = S.suspend(() =>
+  S.Struct({
+    LabelGroupName: S.optional(S.String),
+    LabelGroupArn: S.optional(S.String),
+    LabelId: S.optional(S.String),
+    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Rating: S.optional(S.String),
+    FaultCode: S.optional(S.String),
+    Notes: S.optional(S.String),
+    Equipment: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "DescribeLabelResponse",
+}) as any as S.Schema<DescribeLabelResponse>;
+export interface DescribeLabelGroupResponse {
+  LabelGroupName?: string;
+  LabelGroupArn?: string;
+  FaultCodes?: FaultCodes;
+  CreatedAt?: Date;
+  UpdatedAt?: Date;
+}
+export const DescribeLabelGroupResponse = S.suspend(() =>
+  S.Struct({
+    LabelGroupName: S.optional(S.String),
+    LabelGroupArn: S.optional(S.String),
+    FaultCodes: S.optional(FaultCodes),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "DescribeLabelGroupResponse",
+}) as any as S.Schema<DescribeLabelGroupResponse>;
+export interface DescribeModelResponse {
+  ModelName?: string;
+  ModelArn?: string;
+  DatasetName?: string;
+  DatasetArn?: string;
+  Schema?: string;
+  LabelsInputConfiguration?: LabelsInputConfiguration;
+  TrainingDataStartTime?: Date;
+  TrainingDataEndTime?: Date;
+  EvaluationDataStartTime?: Date;
+  EvaluationDataEndTime?: Date;
+  RoleArn?: string;
+  DataPreProcessingConfiguration?: DataPreProcessingConfiguration;
+  Status?: string;
+  TrainingExecutionStartTime?: Date;
+  TrainingExecutionEndTime?: Date;
+  FailedReason?: string;
+  ModelMetrics?: string;
+  LastUpdatedTime?: Date;
+  CreatedAt?: Date;
+  ServerSideKmsKeyId?: string;
+  OffCondition?: string;
+  SourceModelVersionArn?: string;
+  ImportJobStartTime?: Date;
+  ImportJobEndTime?: Date;
+  ActiveModelVersion?: number;
+  ActiveModelVersionArn?: string;
+  ModelVersionActivatedAt?: Date;
+  PreviousActiveModelVersion?: number;
+  PreviousActiveModelVersionArn?: string;
+  PreviousModelVersionActivatedAt?: Date;
+  PriorModelMetrics?: string;
+  LatestScheduledRetrainingFailedReason?: string;
+  LatestScheduledRetrainingStatus?: string;
+  LatestScheduledRetrainingModelVersion?: number;
+  LatestScheduledRetrainingStartTime?: Date;
+  LatestScheduledRetrainingAvailableDataInDays?: number;
+  NextScheduledRetrainingStartDate?: Date;
+  AccumulatedInferenceDataStartTime?: Date;
+  AccumulatedInferenceDataEndTime?: Date;
+  RetrainingSchedulerStatus?: string;
+  ModelDiagnosticsOutputConfiguration?: ModelDiagnosticsOutputConfiguration;
+  ModelQuality?: string;
+}
+export const DescribeModelResponse = S.suspend(() =>
+  S.Struct({
+    ModelName: S.optional(S.String),
+    ModelArn: S.optional(S.String),
+    DatasetName: S.optional(S.String),
+    DatasetArn: S.optional(S.String),
+    Schema: S.optional(S.String),
+    LabelsInputConfiguration: S.optional(LabelsInputConfiguration),
+    TrainingDataStartTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    TrainingDataEndTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    EvaluationDataStartTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    EvaluationDataEndTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    RoleArn: S.optional(S.String),
+    DataPreProcessingConfiguration: S.optional(DataPreProcessingConfiguration),
+    Status: S.optional(S.String),
+    TrainingExecutionStartTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    TrainingExecutionEndTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    FailedReason: S.optional(S.String),
+    ModelMetrics: S.optional(S.String),
+    LastUpdatedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ServerSideKmsKeyId: S.optional(S.String),
+    OffCondition: S.optional(S.String),
+    SourceModelVersionArn: S.optional(S.String),
+    ImportJobStartTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    ImportJobEndTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    ActiveModelVersion: S.optional(S.Number),
+    ActiveModelVersionArn: S.optional(S.String),
+    ModelVersionActivatedAt: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    PreviousActiveModelVersion: S.optional(S.Number),
+    PreviousActiveModelVersionArn: S.optional(S.String),
+    PreviousModelVersionActivatedAt: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    PriorModelMetrics: S.optional(S.String),
+    LatestScheduledRetrainingFailedReason: S.optional(S.String),
+    LatestScheduledRetrainingStatus: S.optional(S.String),
+    LatestScheduledRetrainingModelVersion: S.optional(S.Number),
+    LatestScheduledRetrainingStartTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LatestScheduledRetrainingAvailableDataInDays: S.optional(S.Number),
+    NextScheduledRetrainingStartDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    AccumulatedInferenceDataStartTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    AccumulatedInferenceDataEndTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    RetrainingSchedulerStatus: S.optional(S.String),
+    ModelDiagnosticsOutputConfiguration: S.optional(
+      ModelDiagnosticsOutputConfiguration,
+    ),
+    ModelQuality: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DescribeModelResponse",
+}) as any as S.Schema<DescribeModelResponse>;
+export interface DescribeResourcePolicyResponse {
+  PolicyRevisionId?: string;
+  ResourcePolicy?: string;
+  CreationTime?: Date;
+  LastModifiedTime?: Date;
+}
+export const DescribeResourcePolicyResponse = S.suspend(() =>
+  S.Struct({
+    PolicyRevisionId: S.optional(S.String),
+    ResourcePolicy: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "DescribeResourcePolicyResponse",
+}) as any as S.Schema<DescribeResourcePolicyResponse>;
+export interface DescribeRetrainingSchedulerResponse {
+  ModelName?: string;
+  ModelArn?: string;
+  RetrainingStartDate?: Date;
+  RetrainingFrequency?: string;
+  LookbackWindow?: string;
+  Status?: string;
+  PromoteMode?: string;
+  CreatedAt?: Date;
+  UpdatedAt?: Date;
+}
+export const DescribeRetrainingSchedulerResponse = S.suspend(() =>
+  S.Struct({
+    ModelName: S.optional(S.String),
+    ModelArn: S.optional(S.String),
+    RetrainingStartDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    RetrainingFrequency: S.optional(S.String),
+    LookbackWindow: S.optional(S.String),
+    Status: S.optional(S.String),
+    PromoteMode: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "DescribeRetrainingSchedulerResponse",
+}) as any as S.Schema<DescribeRetrainingSchedulerResponse>;
+export interface ImportDatasetResponse {
+  DatasetName?: string;
+  DatasetArn?: string;
+  Status?: string;
+  JobId?: string;
+}
+export const ImportDatasetResponse = S.suspend(() =>
+  S.Struct({
+    DatasetName: S.optional(S.String),
+    DatasetArn: S.optional(S.String),
+    Status: S.optional(S.String),
+    JobId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ImportDatasetResponse",
+}) as any as S.Schema<ImportDatasetResponse>;
+export interface ImportModelVersionResponse {
+  ModelName?: string;
+  ModelArn?: string;
+  ModelVersionArn?: string;
+  ModelVersion?: number;
+  Status?: string;
+}
+export const ImportModelVersionResponse = S.suspend(() =>
+  S.Struct({
+    ModelName: S.optional(S.String),
+    ModelArn: S.optional(S.String),
+    ModelVersionArn: S.optional(S.String),
+    ModelVersion: S.optional(S.Number),
+    Status: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ImportModelVersionResponse",
+}) as any as S.Schema<ImportModelVersionResponse>;
+export interface ListTagsForResourceResponse {
+  Tags?: TagList;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ Tags: S.optional(TagList) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface PutResourcePolicyResponse {
+  ResourceArn?: string;
+  PolicyRevisionId?: string;
+}
+export const PutResourcePolicyResponse = S.suspend(() =>
+  S.Struct({
+    ResourceArn: S.optional(S.String),
+    PolicyRevisionId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "PutResourcePolicyResponse",
+}) as any as S.Schema<PutResourcePolicyResponse>;
+export interface StartInferenceSchedulerResponse {
+  ModelArn?: string;
+  ModelName?: string;
+  InferenceSchedulerName?: string;
+  InferenceSchedulerArn?: string;
+  Status?: string;
+}
+export const StartInferenceSchedulerResponse = S.suspend(() =>
+  S.Struct({
+    ModelArn: S.optional(S.String),
+    ModelName: S.optional(S.String),
+    InferenceSchedulerName: S.optional(S.String),
+    InferenceSchedulerArn: S.optional(S.String),
+    Status: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "StartInferenceSchedulerResponse",
+}) as any as S.Schema<StartInferenceSchedulerResponse>;
+export interface StartRetrainingSchedulerResponse {
+  ModelName?: string;
+  ModelArn?: string;
+  Status?: string;
+}
+export const StartRetrainingSchedulerResponse = S.suspend(() =>
+  S.Struct({
+    ModelName: S.optional(S.String),
+    ModelArn: S.optional(S.String),
+    Status: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "StartRetrainingSchedulerResponse",
+}) as any as S.Schema<StartRetrainingSchedulerResponse>;
+export interface StopInferenceSchedulerResponse {
+  ModelArn?: string;
+  ModelName?: string;
+  InferenceSchedulerName?: string;
+  InferenceSchedulerArn?: string;
+  Status?: string;
+}
+export const StopInferenceSchedulerResponse = S.suspend(() =>
+  S.Struct({
+    ModelArn: S.optional(S.String),
+    ModelName: S.optional(S.String),
+    InferenceSchedulerName: S.optional(S.String),
+    InferenceSchedulerArn: S.optional(S.String),
+    Status: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "StopInferenceSchedulerResponse",
+}) as any as S.Schema<StopInferenceSchedulerResponse>;
+export interface StopRetrainingSchedulerResponse {
+  ModelName?: string;
+  ModelArn?: string;
+  Status?: string;
+}
+export const StopRetrainingSchedulerResponse = S.suspend(() =>
+  S.Struct({
+    ModelName: S.optional(S.String),
+    ModelArn: S.optional(S.String),
+    Status: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "StopRetrainingSchedulerResponse",
+}) as any as S.Schema<StopRetrainingSchedulerResponse>;
+export interface UpdateActiveModelVersionResponse {
+  ModelName?: string;
+  ModelArn?: string;
+  CurrentActiveVersion?: number;
+  PreviousActiveVersion?: number;
+  CurrentActiveVersionArn?: string;
+  PreviousActiveVersionArn?: string;
+}
+export const UpdateActiveModelVersionResponse = S.suspend(() =>
+  S.Struct({
+    ModelName: S.optional(S.String),
+    ModelArn: S.optional(S.String),
+    CurrentActiveVersion: S.optional(S.Number),
+    PreviousActiveVersion: S.optional(S.Number),
+    CurrentActiveVersionArn: S.optional(S.String),
+    PreviousActiveVersionArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "UpdateActiveModelVersionResponse",
+}) as any as S.Schema<UpdateActiveModelVersionResponse>;
+export interface DataIngestionJobSummary {
+  JobId?: string;
+  DatasetName?: string;
+  DatasetArn?: string;
+  IngestionInputConfiguration?: IngestionInputConfiguration;
+  Status?: string;
+}
+export const DataIngestionJobSummary = S.suspend(() =>
+  S.Struct({
+    JobId: S.optional(S.String),
+    DatasetName: S.optional(S.String),
+    DatasetArn: S.optional(S.String),
+    IngestionInputConfiguration: S.optional(IngestionInputConfiguration),
+    Status: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DataIngestionJobSummary",
+}) as any as S.Schema<DataIngestionJobSummary>;
+export type DataIngestionJobSummaries = DataIngestionJobSummary[];
 export const DataIngestionJobSummaries = S.Array(DataIngestionJobSummary);
-export class DatasetSummary extends S.Class<DatasetSummary>("DatasetSummary")({
-  DatasetName: S.optional(S.String),
-  DatasetArn: S.optional(S.String),
-  Status: S.optional(S.String),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface DatasetSummary {
+  DatasetName?: string;
+  DatasetArn?: string;
+  Status?: string;
+  CreatedAt?: Date;
+}
+export const DatasetSummary = S.suspend(() =>
+  S.Struct({
+    DatasetName: S.optional(S.String),
+    DatasetArn: S.optional(S.String),
+    Status: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "DatasetSummary",
+}) as any as S.Schema<DatasetSummary>;
+export type DatasetSummaries = DatasetSummary[];
 export const DatasetSummaries = S.Array(DatasetSummary);
-export class InferenceEventSummary extends S.Class<InferenceEventSummary>(
-  "InferenceEventSummary",
-)({
-  InferenceSchedulerArn: S.optional(S.String),
-  InferenceSchedulerName: S.optional(S.String),
-  EventStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  EventEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Diagnostics: S.optional(S.String),
-  EventDurationInSeconds: S.optional(S.Number),
-}) {}
+export interface InferenceEventSummary {
+  InferenceSchedulerArn?: string;
+  InferenceSchedulerName?: string;
+  EventStartTime?: Date;
+  EventEndTime?: Date;
+  Diagnostics?: string;
+  EventDurationInSeconds?: number;
+}
+export const InferenceEventSummary = S.suspend(() =>
+  S.Struct({
+    InferenceSchedulerArn: S.optional(S.String),
+    InferenceSchedulerName: S.optional(S.String),
+    EventStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EventEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Diagnostics: S.optional(S.String),
+    EventDurationInSeconds: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "InferenceEventSummary",
+}) as any as S.Schema<InferenceEventSummary>;
+export type InferenceEventSummaries = InferenceEventSummary[];
 export const InferenceEventSummaries = S.Array(InferenceEventSummary);
-export class InferenceExecutionSummary extends S.Class<InferenceExecutionSummary>(
-  "InferenceExecutionSummary",
-)({
-  ModelName: S.optional(S.String),
-  ModelArn: S.optional(S.String),
-  InferenceSchedulerName: S.optional(S.String),
-  InferenceSchedulerArn: S.optional(S.String),
-  ScheduledStartTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  DataStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  DataEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  DataInputConfiguration: S.optional(InferenceInputConfiguration),
-  DataOutputConfiguration: S.optional(InferenceOutputConfiguration),
-  CustomerResultObject: S.optional(S3Object),
-  Status: S.optional(S.String),
-  FailedReason: S.optional(S.String),
-  ModelVersion: S.optional(S.Number),
-  ModelVersionArn: S.optional(S.String),
-}) {}
+export interface InferenceExecutionSummary {
+  ModelName?: string;
+  ModelArn?: string;
+  InferenceSchedulerName?: string;
+  InferenceSchedulerArn?: string;
+  ScheduledStartTime?: Date;
+  DataStartTime?: Date;
+  DataEndTime?: Date;
+  DataInputConfiguration?: InferenceInputConfiguration;
+  DataOutputConfiguration?: InferenceOutputConfiguration;
+  CustomerResultObject?: S3Object;
+  Status?: string;
+  FailedReason?: string;
+  ModelVersion?: number;
+  ModelVersionArn?: string;
+}
+export const InferenceExecutionSummary = S.suspend(() =>
+  S.Struct({
+    ModelName: S.optional(S.String),
+    ModelArn: S.optional(S.String),
+    InferenceSchedulerName: S.optional(S.String),
+    InferenceSchedulerArn: S.optional(S.String),
+    ScheduledStartTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    DataStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    DataEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    DataInputConfiguration: S.optional(InferenceInputConfiguration),
+    DataOutputConfiguration: S.optional(InferenceOutputConfiguration),
+    CustomerResultObject: S.optional(S3Object),
+    Status: S.optional(S.String),
+    FailedReason: S.optional(S.String),
+    ModelVersion: S.optional(S.Number),
+    ModelVersionArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "InferenceExecutionSummary",
+}) as any as S.Schema<InferenceExecutionSummary>;
+export type InferenceExecutionSummaries = InferenceExecutionSummary[];
 export const InferenceExecutionSummaries = S.Array(InferenceExecutionSummary);
-export class InferenceSchedulerSummary extends S.Class<InferenceSchedulerSummary>(
-  "InferenceSchedulerSummary",
-)({
-  ModelName: S.optional(S.String),
-  ModelArn: S.optional(S.String),
-  InferenceSchedulerName: S.optional(S.String),
-  InferenceSchedulerArn: S.optional(S.String),
-  Status: S.optional(S.String),
-  DataDelayOffsetInMinutes: S.optional(S.Number),
-  DataUploadFrequency: S.optional(S.String),
-  LatestInferenceResult: S.optional(S.String),
-}) {}
+export interface InferenceSchedulerSummary {
+  ModelName?: string;
+  ModelArn?: string;
+  InferenceSchedulerName?: string;
+  InferenceSchedulerArn?: string;
+  Status?: string;
+  DataDelayOffsetInMinutes?: number;
+  DataUploadFrequency?: string;
+  LatestInferenceResult?: string;
+}
+export const InferenceSchedulerSummary = S.suspend(() =>
+  S.Struct({
+    ModelName: S.optional(S.String),
+    ModelArn: S.optional(S.String),
+    InferenceSchedulerName: S.optional(S.String),
+    InferenceSchedulerArn: S.optional(S.String),
+    Status: S.optional(S.String),
+    DataDelayOffsetInMinutes: S.optional(S.Number),
+    DataUploadFrequency: S.optional(S.String),
+    LatestInferenceResult: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "InferenceSchedulerSummary",
+}) as any as S.Schema<InferenceSchedulerSummary>;
+export type InferenceSchedulerSummaries = InferenceSchedulerSummary[];
 export const InferenceSchedulerSummaries = S.Array(InferenceSchedulerSummary);
-export class LabelGroupSummary extends S.Class<LabelGroupSummary>(
-  "LabelGroupSummary",
-)({
-  LabelGroupName: S.optional(S.String),
-  LabelGroupArn: S.optional(S.String),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface LabelGroupSummary {
+  LabelGroupName?: string;
+  LabelGroupArn?: string;
+  CreatedAt?: Date;
+  UpdatedAt?: Date;
+}
+export const LabelGroupSummary = S.suspend(() =>
+  S.Struct({
+    LabelGroupName: S.optional(S.String),
+    LabelGroupArn: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "LabelGroupSummary",
+}) as any as S.Schema<LabelGroupSummary>;
+export type LabelGroupSummaries = LabelGroupSummary[];
 export const LabelGroupSummaries = S.Array(LabelGroupSummary);
-export class LabelSummary extends S.Class<LabelSummary>("LabelSummary")({
-  LabelGroupName: S.optional(S.String),
-  LabelId: S.optional(S.String),
-  LabelGroupArn: S.optional(S.String),
-  StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Rating: S.optional(S.String),
-  FaultCode: S.optional(S.String),
-  Equipment: S.optional(S.String),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface LabelSummary {
+  LabelGroupName?: string;
+  LabelId?: string;
+  LabelGroupArn?: string;
+  StartTime?: Date;
+  EndTime?: Date;
+  Rating?: string;
+  FaultCode?: string;
+  Equipment?: string;
+  CreatedAt?: Date;
+}
+export const LabelSummary = S.suspend(() =>
+  S.Struct({
+    LabelGroupName: S.optional(S.String),
+    LabelId: S.optional(S.String),
+    LabelGroupArn: S.optional(S.String),
+    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Rating: S.optional(S.String),
+    FaultCode: S.optional(S.String),
+    Equipment: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({ identifier: "LabelSummary" }) as any as S.Schema<LabelSummary>;
+export type LabelSummaries = LabelSummary[];
 export const LabelSummaries = S.Array(LabelSummary);
-export class ModelSummary extends S.Class<ModelSummary>("ModelSummary")({
-  ModelName: S.optional(S.String),
-  ModelArn: S.optional(S.String),
-  DatasetName: S.optional(S.String),
-  DatasetArn: S.optional(S.String),
-  Status: S.optional(S.String),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  ActiveModelVersion: S.optional(S.Number),
-  ActiveModelVersionArn: S.optional(S.String),
-  LatestScheduledRetrainingStatus: S.optional(S.String),
-  LatestScheduledRetrainingModelVersion: S.optional(S.Number),
-  LatestScheduledRetrainingStartTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  NextScheduledRetrainingStartDate: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  RetrainingSchedulerStatus: S.optional(S.String),
-  ModelDiagnosticsOutputConfiguration: S.optional(
-    ModelDiagnosticsOutputConfiguration,
-  ),
-  ModelQuality: S.optional(S.String),
-}) {}
+export interface ModelSummary {
+  ModelName?: string;
+  ModelArn?: string;
+  DatasetName?: string;
+  DatasetArn?: string;
+  Status?: string;
+  CreatedAt?: Date;
+  ActiveModelVersion?: number;
+  ActiveModelVersionArn?: string;
+  LatestScheduledRetrainingStatus?: string;
+  LatestScheduledRetrainingModelVersion?: number;
+  LatestScheduledRetrainingStartTime?: Date;
+  NextScheduledRetrainingStartDate?: Date;
+  RetrainingSchedulerStatus?: string;
+  ModelDiagnosticsOutputConfiguration?: ModelDiagnosticsOutputConfiguration;
+  ModelQuality?: string;
+}
+export const ModelSummary = S.suspend(() =>
+  S.Struct({
+    ModelName: S.optional(S.String),
+    ModelArn: S.optional(S.String),
+    DatasetName: S.optional(S.String),
+    DatasetArn: S.optional(S.String),
+    Status: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ActiveModelVersion: S.optional(S.Number),
+    ActiveModelVersionArn: S.optional(S.String),
+    LatestScheduledRetrainingStatus: S.optional(S.String),
+    LatestScheduledRetrainingModelVersion: S.optional(S.Number),
+    LatestScheduledRetrainingStartTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    NextScheduledRetrainingStartDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    RetrainingSchedulerStatus: S.optional(S.String),
+    ModelDiagnosticsOutputConfiguration: S.optional(
+      ModelDiagnosticsOutputConfiguration,
+    ),
+    ModelQuality: S.optional(S.String),
+  }),
+).annotations({ identifier: "ModelSummary" }) as any as S.Schema<ModelSummary>;
+export type ModelSummaries = ModelSummary[];
 export const ModelSummaries = S.Array(ModelSummary);
-export class ModelVersionSummary extends S.Class<ModelVersionSummary>(
-  "ModelVersionSummary",
-)({
-  ModelName: S.optional(S.String),
-  ModelArn: S.optional(S.String),
-  ModelVersion: S.optional(S.Number),
-  ModelVersionArn: S.optional(S.String),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Status: S.optional(S.String),
-  SourceType: S.optional(S.String),
-  ModelQuality: S.optional(S.String),
-}) {}
+export interface ModelVersionSummary {
+  ModelName?: string;
+  ModelArn?: string;
+  ModelVersion?: number;
+  ModelVersionArn?: string;
+  CreatedAt?: Date;
+  Status?: string;
+  SourceType?: string;
+  ModelQuality?: string;
+}
+export const ModelVersionSummary = S.suspend(() =>
+  S.Struct({
+    ModelName: S.optional(S.String),
+    ModelArn: S.optional(S.String),
+    ModelVersion: S.optional(S.Number),
+    ModelVersionArn: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Status: S.optional(S.String),
+    SourceType: S.optional(S.String),
+    ModelQuality: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ModelVersionSummary",
+}) as any as S.Schema<ModelVersionSummary>;
+export type ModelVersionSummaries = ModelVersionSummary[];
 export const ModelVersionSummaries = S.Array(ModelVersionSummary);
-export class RetrainingSchedulerSummary extends S.Class<RetrainingSchedulerSummary>(
-  "RetrainingSchedulerSummary",
-)({
-  ModelName: S.optional(S.String),
-  ModelArn: S.optional(S.String),
-  Status: S.optional(S.String),
-  RetrainingStartDate: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  RetrainingFrequency: S.optional(S.String),
-  LookbackWindow: S.optional(S.String),
-}) {}
+export interface RetrainingSchedulerSummary {
+  ModelName?: string;
+  ModelArn?: string;
+  Status?: string;
+  RetrainingStartDate?: Date;
+  RetrainingFrequency?: string;
+  LookbackWindow?: string;
+}
+export const RetrainingSchedulerSummary = S.suspend(() =>
+  S.Struct({
+    ModelName: S.optional(S.String),
+    ModelArn: S.optional(S.String),
+    Status: S.optional(S.String),
+    RetrainingStartDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    RetrainingFrequency: S.optional(S.String),
+    LookbackWindow: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RetrainingSchedulerSummary",
+}) as any as S.Schema<RetrainingSchedulerSummary>;
+export type RetrainingSchedulerSummaries = RetrainingSchedulerSummary[];
 export const RetrainingSchedulerSummaries = S.Array(RetrainingSchedulerSummary);
-export class CreateDatasetResponse extends S.Class<CreateDatasetResponse>(
-  "CreateDatasetResponse",
-)({
-  DatasetName: S.optional(S.String),
-  DatasetArn: S.optional(S.String),
-  Status: S.optional(S.String),
-}) {}
-export class CreateInferenceSchedulerRequest extends S.Class<CreateInferenceSchedulerRequest>(
-  "CreateInferenceSchedulerRequest",
-)(
-  {
+export interface CreateDatasetResponse {
+  DatasetName?: string;
+  DatasetArn?: string;
+  Status?: string;
+}
+export const CreateDatasetResponse = S.suspend(() =>
+  S.Struct({
+    DatasetName: S.optional(S.String),
+    DatasetArn: S.optional(S.String),
+    Status: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CreateDatasetResponse",
+}) as any as S.Schema<CreateDatasetResponse>;
+export interface CreateInferenceSchedulerRequest {
+  ModelName: string;
+  InferenceSchedulerName: string;
+  DataDelayOffsetInMinutes?: number;
+  DataUploadFrequency: string;
+  DataInputConfiguration: InferenceInputConfiguration;
+  DataOutputConfiguration: InferenceOutputConfiguration;
+  RoleArn: string;
+  ServerSideKmsKeyId?: string;
+  ClientToken: string;
+  Tags?: TagList;
+}
+export const CreateInferenceSchedulerRequest = S.suspend(() =>
+  S.Struct({
     ModelName: S.String,
     InferenceSchedulerName: S.String,
     DataDelayOffsetInMinutes: S.optional(S.Number),
@@ -1212,13 +2040,31 @@ export class CreateInferenceSchedulerRequest extends S.Class<CreateInferenceSche
     ServerSideKmsKeyId: S.optional(S.String),
     ClientToken: S.String,
     Tags: S.optional(TagList),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateModelRequest extends S.Class<CreateModelRequest>(
-  "CreateModelRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateInferenceSchedulerRequest",
+}) as any as S.Schema<CreateInferenceSchedulerRequest>;
+export interface CreateModelRequest {
+  ModelName: string;
+  DatasetName: string;
+  DatasetSchema?: DatasetSchema;
+  LabelsInputConfiguration?: LabelsInputConfiguration;
+  ClientToken: string;
+  TrainingDataStartTime?: Date;
+  TrainingDataEndTime?: Date;
+  EvaluationDataStartTime?: Date;
+  EvaluationDataEndTime?: Date;
+  RoleArn?: string;
+  DataPreProcessingConfiguration?: DataPreProcessingConfiguration;
+  ServerSideKmsKeyId?: string;
+  Tags?: TagList;
+  OffCondition?: string;
+  ModelDiagnosticsOutputConfiguration?: ModelDiagnosticsOutputConfiguration;
+}
+export const CreateModelRequest = S.suspend(() =>
+  S.Struct({
     ModelName: S.String,
     DatasetName: S.String,
     DatasetSchema: S.optional(DatasetSchema),
@@ -1244,211 +2090,413 @@ export class CreateModelRequest extends S.Class<CreateModelRequest>(
     ModelDiagnosticsOutputConfiguration: S.optional(
       ModelDiagnosticsOutputConfiguration,
     ),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeModelVersionResponse extends S.Class<DescribeModelVersionResponse>(
-  "DescribeModelVersionResponse",
-)({
-  ModelName: S.optional(S.String),
-  ModelArn: S.optional(S.String),
-  ModelVersion: S.optional(S.Number),
-  ModelVersionArn: S.optional(S.String),
-  Status: S.optional(S.String),
-  SourceType: S.optional(S.String),
-  DatasetName: S.optional(S.String),
-  DatasetArn: S.optional(S.String),
-  Schema: S.optional(S.String),
-  LabelsInputConfiguration: S.optional(LabelsInputConfiguration),
-  TrainingDataStartTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-  TrainingDataEndTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  EvaluationDataStartTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  EvaluationDataEndTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  RoleArn: S.optional(S.String),
-  DataPreProcessingConfiguration: S.optional(DataPreProcessingConfiguration),
-  TrainingExecutionStartTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  TrainingExecutionEndTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  FailedReason: S.optional(S.String),
-  ModelMetrics: S.optional(S.String),
-  LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  ServerSideKmsKeyId: S.optional(S.String),
-  OffCondition: S.optional(S.String),
-  SourceModelVersionArn: S.optional(S.String),
-  ImportJobStartTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  ImportJobEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  ImportedDataSizeInBytes: S.optional(S.Number),
-  PriorModelMetrics: S.optional(S.String),
-  RetrainingAvailableDataInDays: S.optional(S.Number),
-  AutoPromotionResult: S.optional(S.String),
-  AutoPromotionResultReason: S.optional(S.String),
-  ModelDiagnosticsOutputConfiguration: S.optional(
-    ModelDiagnosticsOutputConfiguration,
-  ),
-  ModelDiagnosticsResultsObject: S.optional(S3Object),
-  ModelQuality: S.optional(S.String),
-}) {}
-export class ListDataIngestionJobsResponse extends S.Class<ListDataIngestionJobsResponse>(
-  "ListDataIngestionJobsResponse",
-)({
-  NextToken: S.optional(S.String),
-  DataIngestionJobSummaries: S.optional(DataIngestionJobSummaries),
-}) {}
-export class ListDatasetsResponse extends S.Class<ListDatasetsResponse>(
-  "ListDatasetsResponse",
-)({
-  NextToken: S.optional(S.String),
-  DatasetSummaries: S.optional(DatasetSummaries),
-}) {}
-export class ListInferenceEventsResponse extends S.Class<ListInferenceEventsResponse>(
-  "ListInferenceEventsResponse",
-)({
-  NextToken: S.optional(S.String),
-  InferenceEventSummaries: S.optional(InferenceEventSummaries),
-}) {}
-export class ListInferenceExecutionsResponse extends S.Class<ListInferenceExecutionsResponse>(
-  "ListInferenceExecutionsResponse",
-)({
-  NextToken: S.optional(S.String),
-  InferenceExecutionSummaries: S.optional(InferenceExecutionSummaries),
-}) {}
-export class ListInferenceSchedulersResponse extends S.Class<ListInferenceSchedulersResponse>(
-  "ListInferenceSchedulersResponse",
-)({
-  NextToken: S.optional(S.String),
-  InferenceSchedulerSummaries: S.optional(InferenceSchedulerSummaries),
-}) {}
-export class ListLabelGroupsResponse extends S.Class<ListLabelGroupsResponse>(
-  "ListLabelGroupsResponse",
-)({
-  NextToken: S.optional(S.String),
-  LabelGroupSummaries: S.optional(LabelGroupSummaries),
-}) {}
-export class ListLabelsResponse extends S.Class<ListLabelsResponse>(
-  "ListLabelsResponse",
-)({
-  NextToken: S.optional(S.String),
-  LabelSummaries: S.optional(LabelSummaries),
-}) {}
-export class ListModelsResponse extends S.Class<ListModelsResponse>(
-  "ListModelsResponse",
-)({
-  NextToken: S.optional(S.String),
-  ModelSummaries: S.optional(ModelSummaries),
-}) {}
-export class ListModelVersionsResponse extends S.Class<ListModelVersionsResponse>(
-  "ListModelVersionsResponse",
-)({
-  NextToken: S.optional(S.String),
-  ModelVersionSummaries: S.optional(ModelVersionSummaries),
-}) {}
-export class ListRetrainingSchedulersResponse extends S.Class<ListRetrainingSchedulersResponse>(
-  "ListRetrainingSchedulersResponse",
-)({
-  RetrainingSchedulerSummaries: S.optional(RetrainingSchedulerSummaries),
-  NextToken: S.optional(S.String),
-}) {}
-export class StartDataIngestionJobRequest extends S.Class<StartDataIngestionJobRequest>(
-  "StartDataIngestionJobRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateModelRequest",
+}) as any as S.Schema<CreateModelRequest>;
+export interface DescribeModelVersionResponse {
+  ModelName?: string;
+  ModelArn?: string;
+  ModelVersion?: number;
+  ModelVersionArn?: string;
+  Status?: string;
+  SourceType?: string;
+  DatasetName?: string;
+  DatasetArn?: string;
+  Schema?: string;
+  LabelsInputConfiguration?: LabelsInputConfiguration;
+  TrainingDataStartTime?: Date;
+  TrainingDataEndTime?: Date;
+  EvaluationDataStartTime?: Date;
+  EvaluationDataEndTime?: Date;
+  RoleArn?: string;
+  DataPreProcessingConfiguration?: DataPreProcessingConfiguration;
+  TrainingExecutionStartTime?: Date;
+  TrainingExecutionEndTime?: Date;
+  FailedReason?: string;
+  ModelMetrics?: string;
+  LastUpdatedTime?: Date;
+  CreatedAt?: Date;
+  ServerSideKmsKeyId?: string;
+  OffCondition?: string;
+  SourceModelVersionArn?: string;
+  ImportJobStartTime?: Date;
+  ImportJobEndTime?: Date;
+  ImportedDataSizeInBytes?: number;
+  PriorModelMetrics?: string;
+  RetrainingAvailableDataInDays?: number;
+  AutoPromotionResult?: string;
+  AutoPromotionResultReason?: string;
+  ModelDiagnosticsOutputConfiguration?: ModelDiagnosticsOutputConfiguration;
+  ModelDiagnosticsResultsObject?: S3Object;
+  ModelQuality?: string;
+}
+export const DescribeModelVersionResponse = S.suspend(() =>
+  S.Struct({
+    ModelName: S.optional(S.String),
+    ModelArn: S.optional(S.String),
+    ModelVersion: S.optional(S.Number),
+    ModelVersionArn: S.optional(S.String),
+    Status: S.optional(S.String),
+    SourceType: S.optional(S.String),
+    DatasetName: S.optional(S.String),
+    DatasetArn: S.optional(S.String),
+    Schema: S.optional(S.String),
+    LabelsInputConfiguration: S.optional(LabelsInputConfiguration),
+    TrainingDataStartTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    TrainingDataEndTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    EvaluationDataStartTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    EvaluationDataEndTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    RoleArn: S.optional(S.String),
+    DataPreProcessingConfiguration: S.optional(DataPreProcessingConfiguration),
+    TrainingExecutionStartTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    TrainingExecutionEndTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    FailedReason: S.optional(S.String),
+    ModelMetrics: S.optional(S.String),
+    LastUpdatedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ServerSideKmsKeyId: S.optional(S.String),
+    OffCondition: S.optional(S.String),
+    SourceModelVersionArn: S.optional(S.String),
+    ImportJobStartTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    ImportJobEndTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    ImportedDataSizeInBytes: S.optional(S.Number),
+    PriorModelMetrics: S.optional(S.String),
+    RetrainingAvailableDataInDays: S.optional(S.Number),
+    AutoPromotionResult: S.optional(S.String),
+    AutoPromotionResultReason: S.optional(S.String),
+    ModelDiagnosticsOutputConfiguration: S.optional(
+      ModelDiagnosticsOutputConfiguration,
+    ),
+    ModelDiagnosticsResultsObject: S.optional(S3Object),
+    ModelQuality: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DescribeModelVersionResponse",
+}) as any as S.Schema<DescribeModelVersionResponse>;
+export interface ListDataIngestionJobsResponse {
+  NextToken?: string;
+  DataIngestionJobSummaries?: DataIngestionJobSummaries;
+}
+export const ListDataIngestionJobsResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    DataIngestionJobSummaries: S.optional(DataIngestionJobSummaries),
+  }),
+).annotations({
+  identifier: "ListDataIngestionJobsResponse",
+}) as any as S.Schema<ListDataIngestionJobsResponse>;
+export interface ListDatasetsResponse {
+  NextToken?: string;
+  DatasetSummaries?: DatasetSummaries;
+}
+export const ListDatasetsResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    DatasetSummaries: S.optional(DatasetSummaries),
+  }),
+).annotations({
+  identifier: "ListDatasetsResponse",
+}) as any as S.Schema<ListDatasetsResponse>;
+export interface ListInferenceEventsResponse {
+  NextToken?: string;
+  InferenceEventSummaries?: InferenceEventSummaries;
+}
+export const ListInferenceEventsResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    InferenceEventSummaries: S.optional(InferenceEventSummaries),
+  }),
+).annotations({
+  identifier: "ListInferenceEventsResponse",
+}) as any as S.Schema<ListInferenceEventsResponse>;
+export interface ListInferenceExecutionsResponse {
+  NextToken?: string;
+  InferenceExecutionSummaries?: InferenceExecutionSummaries;
+}
+export const ListInferenceExecutionsResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    InferenceExecutionSummaries: S.optional(InferenceExecutionSummaries),
+  }),
+).annotations({
+  identifier: "ListInferenceExecutionsResponse",
+}) as any as S.Schema<ListInferenceExecutionsResponse>;
+export interface ListInferenceSchedulersResponse {
+  NextToken?: string;
+  InferenceSchedulerSummaries?: InferenceSchedulerSummaries;
+}
+export const ListInferenceSchedulersResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    InferenceSchedulerSummaries: S.optional(InferenceSchedulerSummaries),
+  }),
+).annotations({
+  identifier: "ListInferenceSchedulersResponse",
+}) as any as S.Schema<ListInferenceSchedulersResponse>;
+export interface ListLabelGroupsResponse {
+  NextToken?: string;
+  LabelGroupSummaries?: LabelGroupSummaries;
+}
+export const ListLabelGroupsResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    LabelGroupSummaries: S.optional(LabelGroupSummaries),
+  }),
+).annotations({
+  identifier: "ListLabelGroupsResponse",
+}) as any as S.Schema<ListLabelGroupsResponse>;
+export interface ListLabelsResponse {
+  NextToken?: string;
+  LabelSummaries?: LabelSummaries;
+}
+export const ListLabelsResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    LabelSummaries: S.optional(LabelSummaries),
+  }),
+).annotations({
+  identifier: "ListLabelsResponse",
+}) as any as S.Schema<ListLabelsResponse>;
+export interface ListModelsResponse {
+  NextToken?: string;
+  ModelSummaries?: ModelSummaries;
+}
+export const ListModelsResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    ModelSummaries: S.optional(ModelSummaries),
+  }),
+).annotations({
+  identifier: "ListModelsResponse",
+}) as any as S.Schema<ListModelsResponse>;
+export interface ListModelVersionsResponse {
+  NextToken?: string;
+  ModelVersionSummaries?: ModelVersionSummaries;
+}
+export const ListModelVersionsResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    ModelVersionSummaries: S.optional(ModelVersionSummaries),
+  }),
+).annotations({
+  identifier: "ListModelVersionsResponse",
+}) as any as S.Schema<ListModelVersionsResponse>;
+export interface ListRetrainingSchedulersResponse {
+  RetrainingSchedulerSummaries?: RetrainingSchedulerSummaries;
+  NextToken?: string;
+}
+export const ListRetrainingSchedulersResponse = S.suspend(() =>
+  S.Struct({
+    RetrainingSchedulerSummaries: S.optional(RetrainingSchedulerSummaries),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListRetrainingSchedulersResponse",
+}) as any as S.Schema<ListRetrainingSchedulersResponse>;
+export interface StartDataIngestionJobRequest {
+  DatasetName: string;
+  IngestionInputConfiguration: IngestionInputConfiguration;
+  RoleArn: string;
+  ClientToken: string;
+}
+export const StartDataIngestionJobRequest = S.suspend(() =>
+  S.Struct({
     DatasetName: S.String,
     IngestionInputConfiguration: IngestionInputConfiguration,
     RoleArn: S.String,
     ClientToken: S.String,
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CountPercent extends S.Class<CountPercent>("CountPercent")({
-  Count: S.Number,
-  Percentage: S.Number,
-}) {}
-export class CategoricalValues extends S.Class<CategoricalValues>(
-  "CategoricalValues",
-)({ Status: S.String, NumberOfCategory: S.optional(S.Number) }) {}
-export class MultipleOperatingModes extends S.Class<MultipleOperatingModes>(
-  "MultipleOperatingModes",
-)({ Status: S.String }) {}
-export class LargeTimestampGaps extends S.Class<LargeTimestampGaps>(
-  "LargeTimestampGaps",
-)({
-  Status: S.String,
-  NumberOfLargeTimestampGaps: S.optional(S.Number),
-  MaxTimestampGapInDays: S.optional(S.Number),
-}) {}
-export class MonotonicValues extends S.Class<MonotonicValues>(
-  "MonotonicValues",
-)({ Status: S.String, Monotonicity: S.optional(S.String) }) {}
-export class SensorStatisticsSummary extends S.Class<SensorStatisticsSummary>(
-  "SensorStatisticsSummary",
-)({
-  ComponentName: S.optional(S.String),
-  SensorName: S.optional(S.String),
-  DataExists: S.optional(S.Boolean),
-  MissingValues: S.optional(CountPercent),
-  InvalidValues: S.optional(CountPercent),
-  InvalidDateEntries: S.optional(CountPercent),
-  DuplicateTimestamps: S.optional(CountPercent),
-  CategoricalValues: S.optional(CategoricalValues),
-  MultipleOperatingModes: S.optional(MultipleOperatingModes),
-  LargeTimestampGaps: S.optional(LargeTimestampGaps),
-  MonotonicValues: S.optional(MonotonicValues),
-  DataStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  DataEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StartDataIngestionJobRequest",
+}) as any as S.Schema<StartDataIngestionJobRequest>;
+export interface CountPercent {
+  Count: number;
+  Percentage: number;
+}
+export const CountPercent = S.suspend(() =>
+  S.Struct({ Count: S.Number, Percentage: S.Number }),
+).annotations({ identifier: "CountPercent" }) as any as S.Schema<CountPercent>;
+export interface CategoricalValues {
+  Status: string;
+  NumberOfCategory?: number;
+}
+export const CategoricalValues = S.suspend(() =>
+  S.Struct({ Status: S.String, NumberOfCategory: S.optional(S.Number) }),
+).annotations({
+  identifier: "CategoricalValues",
+}) as any as S.Schema<CategoricalValues>;
+export interface MultipleOperatingModes {
+  Status: string;
+}
+export const MultipleOperatingModes = S.suspend(() =>
+  S.Struct({ Status: S.String }),
+).annotations({
+  identifier: "MultipleOperatingModes",
+}) as any as S.Schema<MultipleOperatingModes>;
+export interface LargeTimestampGaps {
+  Status: string;
+  NumberOfLargeTimestampGaps?: number;
+  MaxTimestampGapInDays?: number;
+}
+export const LargeTimestampGaps = S.suspend(() =>
+  S.Struct({
+    Status: S.String,
+    NumberOfLargeTimestampGaps: S.optional(S.Number),
+    MaxTimestampGapInDays: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "LargeTimestampGaps",
+}) as any as S.Schema<LargeTimestampGaps>;
+export interface MonotonicValues {
+  Status: string;
+  Monotonicity?: string;
+}
+export const MonotonicValues = S.suspend(() =>
+  S.Struct({ Status: S.String, Monotonicity: S.optional(S.String) }),
+).annotations({
+  identifier: "MonotonicValues",
+}) as any as S.Schema<MonotonicValues>;
+export interface SensorStatisticsSummary {
+  ComponentName?: string;
+  SensorName?: string;
+  DataExists?: boolean;
+  MissingValues?: CountPercent;
+  InvalidValues?: CountPercent;
+  InvalidDateEntries?: CountPercent;
+  DuplicateTimestamps?: CountPercent;
+  CategoricalValues?: CategoricalValues;
+  MultipleOperatingModes?: MultipleOperatingModes;
+  LargeTimestampGaps?: LargeTimestampGaps;
+  MonotonicValues?: MonotonicValues;
+  DataStartTime?: Date;
+  DataEndTime?: Date;
+}
+export const SensorStatisticsSummary = S.suspend(() =>
+  S.Struct({
+    ComponentName: S.optional(S.String),
+    SensorName: S.optional(S.String),
+    DataExists: S.optional(S.Boolean),
+    MissingValues: S.optional(CountPercent),
+    InvalidValues: S.optional(CountPercent),
+    InvalidDateEntries: S.optional(CountPercent),
+    DuplicateTimestamps: S.optional(CountPercent),
+    CategoricalValues: S.optional(CategoricalValues),
+    MultipleOperatingModes: S.optional(MultipleOperatingModes),
+    LargeTimestampGaps: S.optional(LargeTimestampGaps),
+    MonotonicValues: S.optional(MonotonicValues),
+    DataStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    DataEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "SensorStatisticsSummary",
+}) as any as S.Schema<SensorStatisticsSummary>;
+export type SensorStatisticsSummaries = SensorStatisticsSummary[];
 export const SensorStatisticsSummaries = S.Array(SensorStatisticsSummary);
-export class CreateInferenceSchedulerResponse extends S.Class<CreateInferenceSchedulerResponse>(
-  "CreateInferenceSchedulerResponse",
-)({
-  InferenceSchedulerArn: S.optional(S.String),
-  InferenceSchedulerName: S.optional(S.String),
-  Status: S.optional(S.String),
-  ModelQuality: S.optional(S.String),
-}) {}
-export class CreateModelResponse extends S.Class<CreateModelResponse>(
-  "CreateModelResponse",
-)({ ModelArn: S.optional(S.String), Status: S.optional(S.String) }) {}
-export class ListSensorStatisticsResponse extends S.Class<ListSensorStatisticsResponse>(
-  "ListSensorStatisticsResponse",
-)({
-  SensorStatisticsSummaries: S.optional(SensorStatisticsSummaries),
-  NextToken: S.optional(S.String),
-}) {}
-export class StartDataIngestionJobResponse extends S.Class<StartDataIngestionJobResponse>(
-  "StartDataIngestionJobResponse",
-)({ JobId: S.optional(S.String), Status: S.optional(S.String) }) {}
-export class DescribeDataIngestionJobResponse extends S.Class<DescribeDataIngestionJobResponse>(
-  "DescribeDataIngestionJobResponse",
-)({
-  JobId: S.optional(S.String),
-  DatasetArn: S.optional(S.String),
-  IngestionInputConfiguration: S.optional(IngestionInputConfiguration),
-  RoleArn: S.optional(S.String),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Status: S.optional(S.String),
-  FailedReason: S.optional(S.String),
-  DataQualitySummary: S.optional(DataQualitySummary),
-  IngestedFilesSummary: S.optional(IngestedFilesSummary),
-  StatusDetail: S.optional(S.String),
-  IngestedDataSize: S.optional(S.Number),
-  DataStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  DataEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  SourceDatasetArn: S.optional(S.String),
-}) {}
+export interface CreateInferenceSchedulerResponse {
+  InferenceSchedulerArn?: string;
+  InferenceSchedulerName?: string;
+  Status?: string;
+  ModelQuality?: string;
+}
+export const CreateInferenceSchedulerResponse = S.suspend(() =>
+  S.Struct({
+    InferenceSchedulerArn: S.optional(S.String),
+    InferenceSchedulerName: S.optional(S.String),
+    Status: S.optional(S.String),
+    ModelQuality: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CreateInferenceSchedulerResponse",
+}) as any as S.Schema<CreateInferenceSchedulerResponse>;
+export interface CreateModelResponse {
+  ModelArn?: string;
+  Status?: string;
+}
+export const CreateModelResponse = S.suspend(() =>
+  S.Struct({ ModelArn: S.optional(S.String), Status: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateModelResponse",
+}) as any as S.Schema<CreateModelResponse>;
+export interface ListSensorStatisticsResponse {
+  SensorStatisticsSummaries?: SensorStatisticsSummaries;
+  NextToken?: string;
+}
+export const ListSensorStatisticsResponse = S.suspend(() =>
+  S.Struct({
+    SensorStatisticsSummaries: S.optional(SensorStatisticsSummaries),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListSensorStatisticsResponse",
+}) as any as S.Schema<ListSensorStatisticsResponse>;
+export interface StartDataIngestionJobResponse {
+  JobId?: string;
+  Status?: string;
+}
+export const StartDataIngestionJobResponse = S.suspend(() =>
+  S.Struct({ JobId: S.optional(S.String), Status: S.optional(S.String) }),
+).annotations({
+  identifier: "StartDataIngestionJobResponse",
+}) as any as S.Schema<StartDataIngestionJobResponse>;
+export interface DescribeDataIngestionJobResponse {
+  JobId?: string;
+  DatasetArn?: string;
+  IngestionInputConfiguration?: IngestionInputConfiguration;
+  RoleArn?: string;
+  CreatedAt?: Date;
+  Status?: string;
+  FailedReason?: string;
+  DataQualitySummary?: DataQualitySummary;
+  IngestedFilesSummary?: IngestedFilesSummary;
+  StatusDetail?: string;
+  IngestedDataSize?: number;
+  DataStartTime?: Date;
+  DataEndTime?: Date;
+  SourceDatasetArn?: string;
+}
+export const DescribeDataIngestionJobResponse = S.suspend(() =>
+  S.Struct({
+    JobId: S.optional(S.String),
+    DatasetArn: S.optional(S.String),
+    IngestionInputConfiguration: S.optional(IngestionInputConfiguration),
+    RoleArn: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Status: S.optional(S.String),
+    FailedReason: S.optional(S.String),
+    DataQualitySummary: S.optional(DataQualitySummary),
+    IngestedFilesSummary: S.optional(IngestedFilesSummary),
+    StatusDetail: S.optional(S.String),
+    IngestedDataSize: S.optional(S.Number),
+    DataStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    DataEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    SourceDatasetArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DescribeDataIngestionJobResponse",
+}) as any as S.Schema<DescribeDataIngestionJobResponse>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

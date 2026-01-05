@@ -242,694 +242,1212 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class DisassociateDefaultViewRequest extends S.Class<DisassociateDefaultViewRequest>(
-  "DisassociateDefaultViewRequest",
-)(
-  {},
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DisassociateDefaultViewResponse extends S.Class<DisassociateDefaultViewResponse>(
-  "DisassociateDefaultViewResponse",
-)({}) {}
-export class GetAccountLevelServiceConfigurationRequest extends S.Class<GetAccountLevelServiceConfigurationRequest>(
-  "GetAccountLevelServiceConfigurationRequest",
-)(
-  {},
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetDefaultViewRequest extends S.Class<GetDefaultViewRequest>(
-  "GetDefaultViewRequest",
-)(
-  {},
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetIndexRequest extends S.Class<GetIndexRequest>(
-  "GetIndexRequest",
-)(
-  {},
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetServiceIndexRequest extends S.Class<GetServiceIndexRequest>(
-  "GetServiceIndexRequest",
-)(
-  {},
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export const ViewArnList = S.Array(S.String);
-export const RegionList = S.Array(S.String);
-export const AccountIdList = S.Array(S.String);
-export const StringList = S.Array(S.String);
-export class BatchGetViewInput extends S.Class<BatchGetViewInput>(
-  "BatchGetViewInput",
-)(
-  { ViewArns: S.optional(ViewArnList) },
-  T.all(
-    T.Http({ method: "POST", uri: "/BatchGetView" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface DisassociateDefaultViewRequest {}
+export const DisassociateDefaultViewRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-) {}
-export class CreateResourceExplorerSetupInput extends S.Class<CreateResourceExplorerSetupInput>(
-  "CreateResourceExplorerSetupInput",
-)(
-  {
+).annotations({
+  identifier: "DisassociateDefaultViewRequest",
+}) as any as S.Schema<DisassociateDefaultViewRequest>;
+export interface DisassociateDefaultViewResponse {}
+export const DisassociateDefaultViewResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DisassociateDefaultViewResponse",
+}) as any as S.Schema<DisassociateDefaultViewResponse>;
+export interface GetAccountLevelServiceConfigurationRequest {}
+export const GetAccountLevelServiceConfigurationRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetAccountLevelServiceConfigurationRequest",
+}) as any as S.Schema<GetAccountLevelServiceConfigurationRequest>;
+export interface GetDefaultViewRequest {}
+export const GetDefaultViewRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetDefaultViewRequest",
+}) as any as S.Schema<GetDefaultViewRequest>;
+export interface GetIndexRequest {}
+export const GetIndexRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetIndexRequest",
+}) as any as S.Schema<GetIndexRequest>;
+export interface GetServiceIndexRequest {}
+export const GetServiceIndexRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetServiceIndexRequest",
+}) as any as S.Schema<GetServiceIndexRequest>;
+export type ViewArnList = string[];
+export const ViewArnList = S.Array(S.String);
+export type RegionList = string[];
+export const RegionList = S.Array(S.String);
+export type AccountIdList = string[];
+export const AccountIdList = S.Array(S.String);
+export type StringList = string[];
+export const StringList = S.Array(S.String);
+export interface BatchGetViewInput {
+  ViewArns?: ViewArnList;
+}
+export const BatchGetViewInput = S.suspend(() =>
+  S.Struct({ ViewArns: S.optional(ViewArnList) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/BatchGetView" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "BatchGetViewInput",
+}) as any as S.Schema<BatchGetViewInput>;
+export interface CreateResourceExplorerSetupInput {
+  RegionList: RegionList;
+  AggregatorRegions?: RegionList;
+  ViewName: string;
+}
+export const CreateResourceExplorerSetupInput = S.suspend(() =>
+  S.Struct({
     RegionList: RegionList,
     AggregatorRegions: S.optional(RegionList),
     ViewName: S.String,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/CreateResourceExplorerSetup" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/CreateResourceExplorerSetup" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteResourceExplorerSetupInput extends S.Class<DeleteResourceExplorerSetupInput>(
-  "DeleteResourceExplorerSetupInput",
-)(
-  {
+).annotations({
+  identifier: "CreateResourceExplorerSetupInput",
+}) as any as S.Schema<CreateResourceExplorerSetupInput>;
+export interface DeleteResourceExplorerSetupInput {
+  RegionList?: RegionList;
+  DeleteInAllRegions?: boolean;
+}
+export const DeleteResourceExplorerSetupInput = S.suspend(() =>
+  S.Struct({
     RegionList: S.optional(RegionList),
     DeleteInAllRegions: S.optional(S.Boolean),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/DeleteResourceExplorerSetup" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/DeleteResourceExplorerSetup" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetDefaultViewOutput extends S.Class<GetDefaultViewOutput>(
-  "GetDefaultViewOutput",
-)({ ViewArn: S.optional(S.String) }) {}
-export class GetManagedViewInput extends S.Class<GetManagedViewInput>(
-  "GetManagedViewInput",
-)(
-  { ManagedViewArn: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/GetManagedView" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteResourceExplorerSetupInput",
+}) as any as S.Schema<DeleteResourceExplorerSetupInput>;
+export interface GetDefaultViewOutput {
+  ViewArn?: string;
+}
+export const GetDefaultViewOutput = S.suspend(() =>
+  S.Struct({ ViewArn: S.optional(S.String) }),
+).annotations({
+  identifier: "GetDefaultViewOutput",
+}) as any as S.Schema<GetDefaultViewOutput>;
+export interface GetManagedViewInput {
+  ManagedViewArn: string;
+}
+export const GetManagedViewInput = S.suspend(() =>
+  S.Struct({ ManagedViewArn: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/GetManagedView" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetResourceExplorerSetupInput extends S.Class<GetResourceExplorerSetupInput>(
-  "GetResourceExplorerSetupInput",
-)(
-  {
+).annotations({
+  identifier: "GetManagedViewInput",
+}) as any as S.Schema<GetManagedViewInput>;
+export interface GetResourceExplorerSetupInput {
+  TaskId: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const GetResourceExplorerSetupInput = S.suspend(() =>
+  S.Struct({
     TaskId: S.String,
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/GetResourceExplorerSetup" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/GetResourceExplorerSetup" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetServiceIndexOutput extends S.Class<GetServiceIndexOutput>(
-  "GetServiceIndexOutput",
-)({ Arn: S.optional(S.String), Type: S.optional(S.String) }) {}
-export class GetServiceViewInput extends S.Class<GetServiceViewInput>(
-  "GetServiceViewInput",
-)(
-  { ServiceViewArn: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/GetServiceView" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetResourceExplorerSetupInput",
+}) as any as S.Schema<GetResourceExplorerSetupInput>;
+export interface GetServiceIndexOutput {
+  Arn?: string;
+  Type?: string;
+}
+export const GetServiceIndexOutput = S.suspend(() =>
+  S.Struct({ Arn: S.optional(S.String), Type: S.optional(S.String) }),
+).annotations({
+  identifier: "GetServiceIndexOutput",
+}) as any as S.Schema<GetServiceIndexOutput>;
+export interface GetServiceViewInput {
+  ServiceViewArn: string;
+}
+export const GetServiceViewInput = S.suspend(() =>
+  S.Struct({ ServiceViewArn: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/GetServiceView" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListIndexesForMembersInput extends S.Class<ListIndexesForMembersInput>(
-  "ListIndexesForMembersInput",
-)(
-  {
+).annotations({
+  identifier: "GetServiceViewInput",
+}) as any as S.Schema<GetServiceViewInput>;
+export interface ListIndexesForMembersInput {
+  AccountIdList: AccountIdList;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListIndexesForMembersInput = S.suspend(() =>
+  S.Struct({
     AccountIdList: AccountIdList,
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/ListIndexesForMembers" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ListIndexesForMembers" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListManagedViewsInput extends S.Class<ListManagedViewsInput>(
-  "ListManagedViewsInput",
-)(
-  {
+).annotations({
+  identifier: "ListIndexesForMembersInput",
+}) as any as S.Schema<ListIndexesForMembersInput>;
+export interface ListManagedViewsInput {
+  MaxResults?: number;
+  NextToken?: string;
+  ServicePrincipal?: string;
+}
+export const ListManagedViewsInput = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     ServicePrincipal: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/ListManagedViews" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ListManagedViews" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListServiceIndexesInput extends S.Class<ListServiceIndexesInput>(
-  "ListServiceIndexesInput",
-)(
-  {
+).annotations({
+  identifier: "ListManagedViewsInput",
+}) as any as S.Schema<ListManagedViewsInput>;
+export interface ListServiceIndexesInput {
+  Regions?: RegionList;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListServiceIndexesInput = S.suspend(() =>
+  S.Struct({
     Regions: S.optional(RegionList),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/ListServiceIndexes" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ListServiceIndexes" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListServiceViewsInput extends S.Class<ListServiceViewsInput>(
-  "ListServiceViewsInput",
-)(
-  { MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/ListServiceViews" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListServiceIndexesInput",
+}) as any as S.Schema<ListServiceIndexesInput>;
+export interface ListServiceViewsInput {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListServiceViewsInput = S.suspend(() =>
+  S.Struct({
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ListServiceViews" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListStreamingAccessForServicesInput extends S.Class<ListStreamingAccessForServicesInput>(
-  "ListStreamingAccessForServicesInput",
-)(
-  { MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/ListStreamingAccessForServices" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListServiceViewsInput",
+}) as any as S.Schema<ListServiceViewsInput>;
+export interface ListStreamingAccessForServicesInput {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListStreamingAccessForServicesInput = S.suspend(() =>
+  S.Struct({
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ListStreamingAccessForServices" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListSupportedResourceTypesInput extends S.Class<ListSupportedResourceTypesInput>(
-  "ListSupportedResourceTypesInput",
-)(
-  { NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) },
-  T.all(
-    T.Http({ method: "POST", uri: "/ListSupportedResourceTypes" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListStreamingAccessForServicesInput",
+}) as any as S.Schema<ListStreamingAccessForServicesInput>;
+export interface ListSupportedResourceTypesInput {
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListSupportedResourceTypesInput = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ListSupportedResourceTypes" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTagsForResourceInput extends S.Class<ListTagsForResourceInput>(
-  "ListTagsForResourceInput",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListSupportedResourceTypesInput",
+}) as any as S.Schema<ListSupportedResourceTypesInput>;
+export interface ListTagsForResourceInput {
+  resourceArn: string;
+}
+export const ListTagsForResourceInput = S.suspend(() =>
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SearchInput extends S.Class<SearchInput>("SearchInput")(
-  {
+).annotations({
+  identifier: "ListTagsForResourceInput",
+}) as any as S.Schema<ListTagsForResourceInput>;
+export interface SearchInput {
+  QueryString: string;
+  MaxResults?: number;
+  ViewArn?: string;
+  NextToken?: string;
+}
+export const SearchInput = S.suspend(() =>
+  S.Struct({
     QueryString: S.String,
     MaxResults: S.optional(S.Number),
     ViewArn: S.optional(S.String),
     NextToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/Search" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/Search" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({ identifier: "SearchInput" }) as any as S.Schema<SearchInput>;
+export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
-export class TagResourceInput extends S.Class<TagResourceInput>(
-  "TagResourceInput",
-)(
-  {
+export interface TagResourceInput {
+  resourceArn: string;
+  Tags?: TagMap;
+}
+export const TagResourceInput = S.suspend(() =>
+  S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     Tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceOutput extends S.Class<TagResourceOutput>(
-  "TagResourceOutput",
-)({}) {}
-export class UntagResourceInput extends S.Class<UntagResourceInput>(
-  "UntagResourceInput",
-)(
-  {
+).annotations({
+  identifier: "TagResourceInput",
+}) as any as S.Schema<TagResourceInput>;
+export interface TagResourceOutput {}
+export const TagResourceOutput = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceOutput",
+}) as any as S.Schema<TagResourceOutput>;
+export interface UntagResourceInput {
+  resourceArn: string;
+  tagKeys: StringList;
+}
+export const UntagResourceInput = S.suspend(() =>
+  S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: StringList.pipe(T.HttpQuery("tagKeys")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceOutput extends S.Class<UntagResourceOutput>(
-  "UntagResourceOutput",
-)({}) {}
-export class CreateIndexInput extends S.Class<CreateIndexInput>(
-  "CreateIndexInput",
-)(
-  { ClientToken: S.optional(S.String), Tags: S.optional(TagMap) },
-  T.all(
-    T.Http({ method: "POST", uri: "/CreateIndex" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UntagResourceInput",
+}) as any as S.Schema<UntagResourceInput>;
+export interface UntagResourceOutput {}
+export const UntagResourceOutput = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceOutput",
+}) as any as S.Schema<UntagResourceOutput>;
+export interface CreateIndexInput {
+  ClientToken?: string;
+  Tags?: TagMap;
+}
+export const CreateIndexInput = S.suspend(() =>
+  S.Struct({
+    ClientToken: S.optional(S.String),
+    Tags: S.optional(TagMap),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/CreateIndex" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateIndexTypeInput extends S.Class<UpdateIndexTypeInput>(
-  "UpdateIndexTypeInput",
-)(
-  { Arn: S.String, Type: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/UpdateIndexType" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CreateIndexInput",
+}) as any as S.Schema<CreateIndexInput>;
+export interface UpdateIndexTypeInput {
+  Arn: string;
+  Type: string;
+}
+export const UpdateIndexTypeInput = S.suspend(() =>
+  S.Struct({ Arn: S.String, Type: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/UpdateIndexType" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteIndexInput extends S.Class<DeleteIndexInput>(
-  "DeleteIndexInput",
-)(
-  { Arn: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/DeleteIndex" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UpdateIndexTypeInput",
+}) as any as S.Schema<UpdateIndexTypeInput>;
+export interface DeleteIndexInput {
+  Arn: string;
+}
+export const DeleteIndexInput = S.suspend(() =>
+  S.Struct({ Arn: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/DeleteIndex" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListIndexesInput extends S.Class<ListIndexesInput>(
-  "ListIndexesInput",
-)(
-  {
+).annotations({
+  identifier: "DeleteIndexInput",
+}) as any as S.Schema<DeleteIndexInput>;
+export interface ListIndexesInput {
+  Type?: string;
+  Regions?: RegionList;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListIndexesInput = S.suspend(() =>
+  S.Struct({
     Type: S.optional(S.String),
     Regions: S.optional(RegionList),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/ListIndexes" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ListIndexes" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetViewInput extends S.Class<GetViewInput>("GetViewInput")(
-  { ViewArn: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/GetView" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListIndexesInput",
+}) as any as S.Schema<ListIndexesInput>;
+export interface GetViewInput {
+  ViewArn: string;
+}
+export const GetViewInput = S.suspend(() =>
+  S.Struct({ ViewArn: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/GetView" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class IncludedProperty extends S.Class<IncludedProperty>(
-  "IncludedProperty",
-)({ Name: S.String }) {}
+).annotations({ identifier: "GetViewInput" }) as any as S.Schema<GetViewInput>;
+export interface IncludedProperty {
+  Name: string;
+}
+export const IncludedProperty = S.suspend(() =>
+  S.Struct({ Name: S.String }),
+).annotations({
+  identifier: "IncludedProperty",
+}) as any as S.Schema<IncludedProperty>;
+export type IncludedPropertyList = IncludedProperty[];
 export const IncludedPropertyList = S.Array(IncludedProperty);
-export class SearchFilter extends S.Class<SearchFilter>("SearchFilter")({
-  FilterString: S.String,
-}) {}
-export class UpdateViewInput extends S.Class<UpdateViewInput>(
-  "UpdateViewInput",
-)(
-  {
+export interface SearchFilter {
+  FilterString: string;
+}
+export const SearchFilter = S.suspend(() =>
+  S.Struct({ FilterString: S.String }),
+).annotations({ identifier: "SearchFilter" }) as any as S.Schema<SearchFilter>;
+export interface UpdateViewInput {
+  ViewArn: string;
+  IncludedProperties?: IncludedPropertyList;
+  Filters?: SearchFilter;
+}
+export const UpdateViewInput = S.suspend(() =>
+  S.Struct({
     ViewArn: S.String,
     IncludedProperties: S.optional(IncludedPropertyList),
     Filters: S.optional(SearchFilter),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/UpdateView" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/UpdateView" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteViewInput extends S.Class<DeleteViewInput>(
-  "DeleteViewInput",
-)(
-  { ViewArn: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/DeleteView" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UpdateViewInput",
+}) as any as S.Schema<UpdateViewInput>;
+export interface DeleteViewInput {
+  ViewArn: string;
+}
+export const DeleteViewInput = S.suspend(() =>
+  S.Struct({ ViewArn: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/DeleteView" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListViewsInput extends S.Class<ListViewsInput>("ListViewsInput")(
-  { NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) },
-  T.all(
-    T.Http({ method: "POST", uri: "/ListViews" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteViewInput",
+}) as any as S.Schema<DeleteViewInput>;
+export interface ListViewsInput {
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListViewsInput = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ListViews" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AssociateDefaultViewInput extends S.Class<AssociateDefaultViewInput>(
-  "AssociateDefaultViewInput",
-)(
-  { ViewArn: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/AssociateDefaultView" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListViewsInput",
+}) as any as S.Schema<ListViewsInput>;
+export interface AssociateDefaultViewInput {
+  ViewArn: string;
+}
+export const AssociateDefaultViewInput = S.suspend(() =>
+  S.Struct({ ViewArn: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/AssociateDefaultView" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class OrgConfiguration extends S.Class<OrgConfiguration>(
-  "OrgConfiguration",
-)({
-  AWSServiceAccessStatus: S.String,
-  ServiceLinkedRole: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "AssociateDefaultViewInput",
+}) as any as S.Schema<AssociateDefaultViewInput>;
+export interface OrgConfiguration {
+  AWSServiceAccessStatus: string;
+  ServiceLinkedRole?: string;
+}
+export const OrgConfiguration = S.suspend(() =>
+  S.Struct({
+    AWSServiceAccessStatus: S.String,
+    ServiceLinkedRole: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "OrgConfiguration",
+}) as any as S.Schema<OrgConfiguration>;
+export type ManagedViewArnList = string[];
 export const ManagedViewArnList = S.Array(S.String);
+export type ServiceViewArnList = string[];
 export const ServiceViewArnList = S.Array(S.String);
-export class CreateResourceExplorerSetupOutput extends S.Class<CreateResourceExplorerSetupOutput>(
-  "CreateResourceExplorerSetupOutput",
-)({ TaskId: S.String }) {}
-export class DeleteResourceExplorerSetupOutput extends S.Class<DeleteResourceExplorerSetupOutput>(
-  "DeleteResourceExplorerSetupOutput",
-)({ TaskId: S.String }) {}
-export class GetAccountLevelServiceConfigurationOutput extends S.Class<GetAccountLevelServiceConfigurationOutput>(
-  "GetAccountLevelServiceConfigurationOutput",
-)({ OrgConfiguration: S.optional(OrgConfiguration) }) {}
-export class GetIndexOutput extends S.Class<GetIndexOutput>("GetIndexOutput")({
-  Arn: S.optional(S.String),
-  Type: S.optional(S.String),
-  State: S.optional(S.String),
-  ReplicatingFrom: S.optional(RegionList),
-  ReplicatingTo: S.optional(RegionList),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  Tags: S.optional(TagMap),
-}) {}
-export class ListManagedViewsOutput extends S.Class<ListManagedViewsOutput>(
-  "ListManagedViewsOutput",
-)({
-  NextToken: S.optional(S.String),
-  ManagedViews: S.optional(ManagedViewArnList),
-}) {}
-export class ListResourcesInput extends S.Class<ListResourcesInput>(
-  "ListResourcesInput",
-)(
-  {
+export interface CreateResourceExplorerSetupOutput {
+  TaskId: string;
+}
+export const CreateResourceExplorerSetupOutput = S.suspend(() =>
+  S.Struct({ TaskId: S.String }),
+).annotations({
+  identifier: "CreateResourceExplorerSetupOutput",
+}) as any as S.Schema<CreateResourceExplorerSetupOutput>;
+export interface DeleteResourceExplorerSetupOutput {
+  TaskId: string;
+}
+export const DeleteResourceExplorerSetupOutput = S.suspend(() =>
+  S.Struct({ TaskId: S.String }),
+).annotations({
+  identifier: "DeleteResourceExplorerSetupOutput",
+}) as any as S.Schema<DeleteResourceExplorerSetupOutput>;
+export interface GetAccountLevelServiceConfigurationOutput {
+  OrgConfiguration?: OrgConfiguration;
+}
+export const GetAccountLevelServiceConfigurationOutput = S.suspend(() =>
+  S.Struct({ OrgConfiguration: S.optional(OrgConfiguration) }),
+).annotations({
+  identifier: "GetAccountLevelServiceConfigurationOutput",
+}) as any as S.Schema<GetAccountLevelServiceConfigurationOutput>;
+export interface GetIndexOutput {
+  Arn?: string;
+  Type?: string;
+  State?: string;
+  ReplicatingFrom?: RegionList;
+  ReplicatingTo?: RegionList;
+  CreatedAt?: Date;
+  LastUpdatedAt?: Date;
+  Tags?: TagMap;
+}
+export const GetIndexOutput = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    Type: S.optional(S.String),
+    State: S.optional(S.String),
+    ReplicatingFrom: S.optional(RegionList),
+    ReplicatingTo: S.optional(RegionList),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    Tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "GetIndexOutput",
+}) as any as S.Schema<GetIndexOutput>;
+export interface ListManagedViewsOutput {
+  NextToken?: string;
+  ManagedViews?: ManagedViewArnList;
+}
+export const ListManagedViewsOutput = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    ManagedViews: S.optional(ManagedViewArnList),
+  }),
+).annotations({
+  identifier: "ListManagedViewsOutput",
+}) as any as S.Schema<ListManagedViewsOutput>;
+export interface ListResourcesInput {
+  Filters?: SearchFilter;
+  MaxResults?: number;
+  ViewArn?: string;
+  NextToken?: string;
+}
+export const ListResourcesInput = S.suspend(() =>
+  S.Struct({
     Filters: S.optional(SearchFilter),
     MaxResults: S.optional(S.Number),
     ViewArn: S.optional(S.String),
     NextToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/ListResources" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ListResources" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListServiceViewsOutput extends S.Class<ListServiceViewsOutput>(
-  "ListServiceViewsOutput",
-)({
-  NextToken: S.optional(S.String),
-  ServiceViews: S.optional(ServiceViewArnList),
-}) {}
-export class ListTagsForResourceOutput extends S.Class<ListTagsForResourceOutput>(
-  "ListTagsForResourceOutput",
-)({ Tags: S.optional(TagMap) }) {}
-export class CreateIndexOutput extends S.Class<CreateIndexOutput>(
-  "CreateIndexOutput",
-)({
-  Arn: S.optional(S.String),
-  State: S.optional(S.String),
-  CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-}) {}
-export class UpdateIndexTypeOutput extends S.Class<UpdateIndexTypeOutput>(
-  "UpdateIndexTypeOutput",
-)({
-  Arn: S.optional(S.String),
-  Type: S.optional(S.String),
-  State: S.optional(S.String),
-  LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-}) {}
-export class DeleteIndexOutput extends S.Class<DeleteIndexOutput>(
-  "DeleteIndexOutput",
-)({
-  Arn: S.optional(S.String),
-  State: S.optional(S.String),
-  LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-}) {}
-export class Index extends S.Class<Index>("Index")({
-  Region: S.optional(S.String),
-  Arn: S.optional(S.String),
-  Type: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "ListResourcesInput",
+}) as any as S.Schema<ListResourcesInput>;
+export interface ListServiceViewsOutput {
+  NextToken?: string;
+  ServiceViews?: ServiceViewArnList;
+}
+export const ListServiceViewsOutput = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    ServiceViews: S.optional(ServiceViewArnList),
+  }),
+).annotations({
+  identifier: "ListServiceViewsOutput",
+}) as any as S.Schema<ListServiceViewsOutput>;
+export interface ListTagsForResourceOutput {
+  Tags?: TagMap;
+}
+export const ListTagsForResourceOutput = S.suspend(() =>
+  S.Struct({ Tags: S.optional(TagMap) }),
+).annotations({
+  identifier: "ListTagsForResourceOutput",
+}) as any as S.Schema<ListTagsForResourceOutput>;
+export interface CreateIndexOutput {
+  Arn?: string;
+  State?: string;
+  CreatedAt?: Date;
+}
+export const CreateIndexOutput = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    State: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotations({
+  identifier: "CreateIndexOutput",
+}) as any as S.Schema<CreateIndexOutput>;
+export interface UpdateIndexTypeOutput {
+  Arn?: string;
+  Type?: string;
+  State?: string;
+  LastUpdatedAt?: Date;
+}
+export const UpdateIndexTypeOutput = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    Type: S.optional(S.String),
+    State: S.optional(S.String),
+    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotations({
+  identifier: "UpdateIndexTypeOutput",
+}) as any as S.Schema<UpdateIndexTypeOutput>;
+export interface DeleteIndexOutput {
+  Arn?: string;
+  State?: string;
+  LastUpdatedAt?: Date;
+}
+export const DeleteIndexOutput = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    State: S.optional(S.String),
+    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotations({
+  identifier: "DeleteIndexOutput",
+}) as any as S.Schema<DeleteIndexOutput>;
+export interface Index {
+  Region?: string;
+  Arn?: string;
+  Type?: string;
+}
+export const Index = S.suspend(() =>
+  S.Struct({
+    Region: S.optional(S.String),
+    Arn: S.optional(S.String),
+    Type: S.optional(S.String),
+  }),
+).annotations({ identifier: "Index" }) as any as S.Schema<Index>;
+export type IndexList = Index[];
 export const IndexList = S.Array(Index);
-export class ListIndexesOutput extends S.Class<ListIndexesOutput>(
-  "ListIndexesOutput",
-)({ Indexes: S.optional(IndexList), NextToken: S.optional(S.String) }) {}
-export class CreateViewInput extends S.Class<CreateViewInput>(
-  "CreateViewInput",
-)(
-  {
+export interface ListIndexesOutput {
+  Indexes?: IndexList;
+  NextToken?: string;
+}
+export const ListIndexesOutput = S.suspend(() =>
+  S.Struct({ Indexes: S.optional(IndexList), NextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListIndexesOutput",
+}) as any as S.Schema<ListIndexesOutput>;
+export interface CreateViewInput {
+  ClientToken?: string;
+  ViewName: string;
+  IncludedProperties?: IncludedPropertyList;
+  Scope?: string;
+  Filters?: SearchFilter;
+  Tags?: TagMap;
+}
+export const CreateViewInput = S.suspend(() =>
+  S.Struct({
     ClientToken: S.optional(S.String),
     ViewName: S.String,
     IncludedProperties: S.optional(IncludedPropertyList),
     Scope: S.optional(S.String),
     Filters: S.optional(SearchFilter),
     Tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/CreateView" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/CreateView" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class View extends S.Class<View>("View")({
-  ViewArn: S.optional(S.String),
-  Owner: S.optional(S.String),
-  LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  Scope: S.optional(S.String),
-  IncludedProperties: S.optional(IncludedPropertyList),
-  Filters: S.optional(SearchFilter),
-}) {}
-export class GetViewOutput extends S.Class<GetViewOutput>("GetViewOutput")({
-  View: S.optional(View),
-  Tags: S.optional(TagMap),
-}) {}
-export class UpdateViewOutput extends S.Class<UpdateViewOutput>(
-  "UpdateViewOutput",
-)({ View: S.optional(View) }) {}
-export class DeleteViewOutput extends S.Class<DeleteViewOutput>(
-  "DeleteViewOutput",
-)({ ViewArn: S.optional(S.String) }) {}
-export class ListViewsOutput extends S.Class<ListViewsOutput>(
-  "ListViewsOutput",
-)({ Views: S.optional(ViewArnList), NextToken: S.optional(S.String) }) {}
-export class AssociateDefaultViewOutput extends S.Class<AssociateDefaultViewOutput>(
-  "AssociateDefaultViewOutput",
-)({ ViewArn: S.optional(S.String) }) {}
+).annotations({
+  identifier: "CreateViewInput",
+}) as any as S.Schema<CreateViewInput>;
+export interface View {
+  ViewArn?: string;
+  Owner?: string;
+  LastUpdatedAt?: Date;
+  Scope?: string;
+  IncludedProperties?: IncludedPropertyList;
+  Filters?: SearchFilter;
+}
+export const View = S.suspend(() =>
+  S.Struct({
+    ViewArn: S.optional(S.String),
+    Owner: S.optional(S.String),
+    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    Scope: S.optional(S.String),
+    IncludedProperties: S.optional(IncludedPropertyList),
+    Filters: S.optional(SearchFilter),
+  }),
+).annotations({ identifier: "View" }) as any as S.Schema<View>;
+export interface GetViewOutput {
+  View?: View;
+  Tags?: TagMap;
+}
+export const GetViewOutput = S.suspend(() =>
+  S.Struct({ View: S.optional(View), Tags: S.optional(TagMap) }),
+).annotations({
+  identifier: "GetViewOutput",
+}) as any as S.Schema<GetViewOutput>;
+export interface UpdateViewOutput {
+  View?: View;
+}
+export const UpdateViewOutput = S.suspend(() =>
+  S.Struct({ View: S.optional(View) }),
+).annotations({
+  identifier: "UpdateViewOutput",
+}) as any as S.Schema<UpdateViewOutput>;
+export interface DeleteViewOutput {
+  ViewArn?: string;
+}
+export const DeleteViewOutput = S.suspend(() =>
+  S.Struct({ ViewArn: S.optional(S.String) }),
+).annotations({
+  identifier: "DeleteViewOutput",
+}) as any as S.Schema<DeleteViewOutput>;
+export interface ListViewsOutput {
+  Views?: ViewArnList;
+  NextToken?: string;
+}
+export const ListViewsOutput = S.suspend(() =>
+  S.Struct({ Views: S.optional(ViewArnList), NextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListViewsOutput",
+}) as any as S.Schema<ListViewsOutput>;
+export interface AssociateDefaultViewOutput {
+  ViewArn?: string;
+}
+export const AssociateDefaultViewOutput = S.suspend(() =>
+  S.Struct({ ViewArn: S.optional(S.String) }),
+).annotations({
+  identifier: "AssociateDefaultViewOutput",
+}) as any as S.Schema<AssociateDefaultViewOutput>;
+export type ViewList = View[];
 export const ViewList = S.Array(View);
-export class BatchGetViewError extends S.Class<BatchGetViewError>(
-  "BatchGetViewError",
-)({ ViewArn: S.String, ErrorMessage: S.String }) {}
+export interface BatchGetViewError {
+  ViewArn: string;
+  ErrorMessage: string;
+}
+export const BatchGetViewError = S.suspend(() =>
+  S.Struct({ ViewArn: S.String, ErrorMessage: S.String }),
+).annotations({
+  identifier: "BatchGetViewError",
+}) as any as S.Schema<BatchGetViewError>;
+export type BatchGetViewErrors = BatchGetViewError[];
 export const BatchGetViewErrors = S.Array(BatchGetViewError);
-export class ManagedView extends S.Class<ManagedView>("ManagedView")({
-  ManagedViewArn: S.optional(S.String),
-  ManagedViewName: S.optional(S.String),
-  TrustedService: S.optional(S.String),
-  LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  Owner: S.optional(S.String),
-  Scope: S.optional(S.String),
-  IncludedProperties: S.optional(IncludedPropertyList),
-  Filters: S.optional(SearchFilter),
-  ResourcePolicy: S.optional(S.String),
-  Version: S.optional(S.String),
-}) {}
-export class ServiceView extends S.Class<ServiceView>("ServiceView")({
-  ServiceViewArn: S.String,
-  Filters: S.optional(SearchFilter),
-  IncludedProperties: S.optional(IncludedPropertyList),
-  StreamingAccessForService: S.optional(S.String),
-  ScopeType: S.optional(S.String),
-}) {}
-export class MemberIndex extends S.Class<MemberIndex>("MemberIndex")({
-  AccountId: S.optional(S.String),
-  Region: S.optional(S.String),
-  Arn: S.optional(S.String),
-  Type: S.optional(S.String),
-}) {}
+export interface ManagedView {
+  ManagedViewArn?: string;
+  ManagedViewName?: string;
+  TrustedService?: string;
+  LastUpdatedAt?: Date;
+  Owner?: string;
+  Scope?: string;
+  IncludedProperties?: IncludedPropertyList;
+  Filters?: SearchFilter;
+  ResourcePolicy?: string;
+  Version?: string;
+}
+export const ManagedView = S.suspend(() =>
+  S.Struct({
+    ManagedViewArn: S.optional(S.String),
+    ManagedViewName: S.optional(S.String),
+    TrustedService: S.optional(S.String),
+    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    Owner: S.optional(S.String),
+    Scope: S.optional(S.String),
+    IncludedProperties: S.optional(IncludedPropertyList),
+    Filters: S.optional(SearchFilter),
+    ResourcePolicy: S.optional(S.String),
+    Version: S.optional(S.String),
+  }),
+).annotations({ identifier: "ManagedView" }) as any as S.Schema<ManagedView>;
+export interface ServiceView {
+  ServiceViewArn: string;
+  Filters?: SearchFilter;
+  IncludedProperties?: IncludedPropertyList;
+  StreamingAccessForService?: string;
+  ScopeType?: string;
+}
+export const ServiceView = S.suspend(() =>
+  S.Struct({
+    ServiceViewArn: S.String,
+    Filters: S.optional(SearchFilter),
+    IncludedProperties: S.optional(IncludedPropertyList),
+    StreamingAccessForService: S.optional(S.String),
+    ScopeType: S.optional(S.String),
+  }),
+).annotations({ identifier: "ServiceView" }) as any as S.Schema<ServiceView>;
+export interface MemberIndex {
+  AccountId?: string;
+  Region?: string;
+  Arn?: string;
+  Type?: string;
+}
+export const MemberIndex = S.suspend(() =>
+  S.Struct({
+    AccountId: S.optional(S.String),
+    Region: S.optional(S.String),
+    Arn: S.optional(S.String),
+    Type: S.optional(S.String),
+  }),
+).annotations({ identifier: "MemberIndex" }) as any as S.Schema<MemberIndex>;
+export type MemberIndexList = MemberIndex[];
 export const MemberIndexList = S.Array(MemberIndex);
-export class StreamingAccessDetails extends S.Class<StreamingAccessDetails>(
-  "StreamingAccessDetails",
-)({
-  ServicePrincipal: S.String,
-  CreatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
+export interface StreamingAccessDetails {
+  ServicePrincipal: string;
+  CreatedAt: Date;
+}
+export const StreamingAccessDetails = S.suspend(() =>
+  S.Struct({
+    ServicePrincipal: S.String,
+    CreatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "StreamingAccessDetails",
+}) as any as S.Schema<StreamingAccessDetails>;
+export type StreamingAccessDetailsList = StreamingAccessDetails[];
 export const StreamingAccessDetailsList = S.Array(StreamingAccessDetails);
-export class SupportedResourceType extends S.Class<SupportedResourceType>(
-  "SupportedResourceType",
-)({ Service: S.optional(S.String), ResourceType: S.optional(S.String) }) {}
+export interface SupportedResourceType {
+  Service?: string;
+  ResourceType?: string;
+}
+export const SupportedResourceType = S.suspend(() =>
+  S.Struct({
+    Service: S.optional(S.String),
+    ResourceType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SupportedResourceType",
+}) as any as S.Schema<SupportedResourceType>;
+export type ResourceTypeList = SupportedResourceType[];
 export const ResourceTypeList = S.Array(SupportedResourceType);
-export class ResourceCount extends S.Class<ResourceCount>("ResourceCount")({
-  TotalResources: S.optional(S.Number),
-  Complete: S.optional(S.Boolean),
-}) {}
-export class BatchGetViewOutput extends S.Class<BatchGetViewOutput>(
-  "BatchGetViewOutput",
-)({ Views: S.optional(ViewList), Errors: S.optional(BatchGetViewErrors) }) {}
-export class GetManagedViewOutput extends S.Class<GetManagedViewOutput>(
-  "GetManagedViewOutput",
-)({ ManagedView: S.optional(ManagedView) }) {}
-export class GetServiceViewOutput extends S.Class<GetServiceViewOutput>(
-  "GetServiceViewOutput",
-)({ View: ServiceView }) {}
-export class ListIndexesForMembersOutput extends S.Class<ListIndexesForMembersOutput>(
-  "ListIndexesForMembersOutput",
-)({ Indexes: S.optional(MemberIndexList), NextToken: S.optional(S.String) }) {}
-export class ResourceProperty extends S.Class<ResourceProperty>(
-  "ResourceProperty",
-)({
-  Name: S.optional(S.String),
-  LastReportedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  Data: S.optional(S.Any),
-}) {}
+export interface ResourceCount {
+  TotalResources?: number;
+  Complete?: boolean;
+}
+export const ResourceCount = S.suspend(() =>
+  S.Struct({
+    TotalResources: S.optional(S.Number),
+    Complete: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "ResourceCount",
+}) as any as S.Schema<ResourceCount>;
+export interface BatchGetViewOutput {
+  Views?: ViewList;
+  Errors?: BatchGetViewErrors;
+}
+export const BatchGetViewOutput = S.suspend(() =>
+  S.Struct({
+    Views: S.optional(ViewList),
+    Errors: S.optional(BatchGetViewErrors),
+  }),
+).annotations({
+  identifier: "BatchGetViewOutput",
+}) as any as S.Schema<BatchGetViewOutput>;
+export interface GetManagedViewOutput {
+  ManagedView?: ManagedView;
+}
+export const GetManagedViewOutput = S.suspend(() =>
+  S.Struct({ ManagedView: S.optional(ManagedView) }),
+).annotations({
+  identifier: "GetManagedViewOutput",
+}) as any as S.Schema<GetManagedViewOutput>;
+export interface GetServiceViewOutput {
+  View: ServiceView;
+}
+export const GetServiceViewOutput = S.suspend(() =>
+  S.Struct({ View: ServiceView }),
+).annotations({
+  identifier: "GetServiceViewOutput",
+}) as any as S.Schema<GetServiceViewOutput>;
+export interface ListIndexesForMembersOutput {
+  Indexes?: MemberIndexList;
+  NextToken?: string;
+}
+export const ListIndexesForMembersOutput = S.suspend(() =>
+  S.Struct({
+    Indexes: S.optional(MemberIndexList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListIndexesForMembersOutput",
+}) as any as S.Schema<ListIndexesForMembersOutput>;
+export interface ResourceProperty {
+  Name?: string;
+  LastReportedAt?: Date;
+  Data?: any;
+}
+export const ResourceProperty = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    LastReportedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    Data: S.optional(S.Any),
+  }),
+).annotations({
+  identifier: "ResourceProperty",
+}) as any as S.Schema<ResourceProperty>;
+export type ResourcePropertyList = ResourceProperty[];
 export const ResourcePropertyList = S.Array(ResourceProperty);
-export class Resource extends S.Class<Resource>("Resource")({
-  Arn: S.optional(S.String),
-  OwningAccountId: S.optional(S.String),
-  Region: S.optional(S.String),
-  ResourceType: S.optional(S.String),
-  Service: S.optional(S.String),
-  LastReportedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  Properties: S.optional(ResourcePropertyList),
-}) {}
+export interface Resource {
+  Arn?: string;
+  OwningAccountId?: string;
+  Region?: string;
+  ResourceType?: string;
+  Service?: string;
+  LastReportedAt?: Date;
+  Properties?: ResourcePropertyList;
+}
+export const Resource = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    OwningAccountId: S.optional(S.String),
+    Region: S.optional(S.String),
+    ResourceType: S.optional(S.String),
+    Service: S.optional(S.String),
+    LastReportedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    Properties: S.optional(ResourcePropertyList),
+  }),
+).annotations({ identifier: "Resource" }) as any as S.Schema<Resource>;
+export type ResourceList = Resource[];
 export const ResourceList = S.Array(Resource);
-export class ListResourcesOutput extends S.Class<ListResourcesOutput>(
-  "ListResourcesOutput",
-)({
-  Resources: S.optional(ResourceList),
-  NextToken: S.optional(S.String),
-  ViewArn: S.optional(S.String),
-}) {}
-export class ListServiceIndexesOutput extends S.Class<ListServiceIndexesOutput>(
-  "ListServiceIndexesOutput",
-)({ Indexes: S.optional(IndexList), NextToken: S.optional(S.String) }) {}
-export class ListStreamingAccessForServicesOutput extends S.Class<ListStreamingAccessForServicesOutput>(
-  "ListStreamingAccessForServicesOutput",
-)({
-  StreamingAccessForServices: StreamingAccessDetailsList,
-  NextToken: S.optional(S.String),
-}) {}
-export class ListSupportedResourceTypesOutput extends S.Class<ListSupportedResourceTypesOutput>(
-  "ListSupportedResourceTypesOutput",
-)({
-  ResourceTypes: S.optional(ResourceTypeList),
-  NextToken: S.optional(S.String),
-}) {}
-export class CreateViewOutput extends S.Class<CreateViewOutput>(
-  "CreateViewOutput",
-)({ View: S.optional(View) }) {}
-export class ErrorDetails extends S.Class<ErrorDetails>("ErrorDetails")({
-  Code: S.optional(S.String),
-  Message: S.optional(S.String),
-}) {}
-export class ViewStatus extends S.Class<ViewStatus>("ViewStatus")({
-  Status: S.optional(S.String),
-  View: S.optional(View),
-  ErrorDetails: S.optional(ErrorDetails),
-}) {}
-export class SearchOutput extends S.Class<SearchOutput>("SearchOutput")({
-  Resources: S.optional(ResourceList),
-  NextToken: S.optional(S.String),
-  ViewArn: S.optional(S.String),
-  Count: S.optional(ResourceCount),
-}) {}
-export class IndexStatus extends S.Class<IndexStatus>("IndexStatus")({
-  Status: S.optional(S.String),
-  Index: S.optional(Index),
-  ErrorDetails: S.optional(ErrorDetails),
-}) {}
-export class RegionStatus extends S.Class<RegionStatus>("RegionStatus")({
-  Region: S.optional(S.String),
-  Index: S.optional(IndexStatus),
-  View: S.optional(ViewStatus),
-}) {}
+export interface ListResourcesOutput {
+  Resources?: ResourceList;
+  NextToken?: string;
+  ViewArn?: string;
+}
+export const ListResourcesOutput = S.suspend(() =>
+  S.Struct({
+    Resources: S.optional(ResourceList),
+    NextToken: S.optional(S.String),
+    ViewArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListResourcesOutput",
+}) as any as S.Schema<ListResourcesOutput>;
+export interface ListServiceIndexesOutput {
+  Indexes?: IndexList;
+  NextToken?: string;
+}
+export const ListServiceIndexesOutput = S.suspend(() =>
+  S.Struct({ Indexes: S.optional(IndexList), NextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListServiceIndexesOutput",
+}) as any as S.Schema<ListServiceIndexesOutput>;
+export interface ListStreamingAccessForServicesOutput {
+  StreamingAccessForServices: StreamingAccessDetailsList;
+  NextToken?: string;
+}
+export const ListStreamingAccessForServicesOutput = S.suspend(() =>
+  S.Struct({
+    StreamingAccessForServices: StreamingAccessDetailsList,
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListStreamingAccessForServicesOutput",
+}) as any as S.Schema<ListStreamingAccessForServicesOutput>;
+export interface ListSupportedResourceTypesOutput {
+  ResourceTypes?: ResourceTypeList;
+  NextToken?: string;
+}
+export const ListSupportedResourceTypesOutput = S.suspend(() =>
+  S.Struct({
+    ResourceTypes: S.optional(ResourceTypeList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListSupportedResourceTypesOutput",
+}) as any as S.Schema<ListSupportedResourceTypesOutput>;
+export interface CreateViewOutput {
+  View?: View;
+}
+export const CreateViewOutput = S.suspend(() =>
+  S.Struct({ View: S.optional(View) }),
+).annotations({
+  identifier: "CreateViewOutput",
+}) as any as S.Schema<CreateViewOutput>;
+export interface ErrorDetails {
+  Code?: string;
+  Message?: string;
+}
+export const ErrorDetails = S.suspend(() =>
+  S.Struct({ Code: S.optional(S.String), Message: S.optional(S.String) }),
+).annotations({ identifier: "ErrorDetails" }) as any as S.Schema<ErrorDetails>;
+export interface ViewStatus {
+  Status?: string;
+  View?: View;
+  ErrorDetails?: ErrorDetails;
+}
+export const ViewStatus = S.suspend(() =>
+  S.Struct({
+    Status: S.optional(S.String),
+    View: S.optional(View),
+    ErrorDetails: S.optional(ErrorDetails),
+  }),
+).annotations({ identifier: "ViewStatus" }) as any as S.Schema<ViewStatus>;
+export interface SearchOutput {
+  Resources?: ResourceList;
+  NextToken?: string;
+  ViewArn?: string;
+  Count?: ResourceCount;
+}
+export const SearchOutput = S.suspend(() =>
+  S.Struct({
+    Resources: S.optional(ResourceList),
+    NextToken: S.optional(S.String),
+    ViewArn: S.optional(S.String),
+    Count: S.optional(ResourceCount),
+  }),
+).annotations({ identifier: "SearchOutput" }) as any as S.Schema<SearchOutput>;
+export interface IndexStatus {
+  Status?: string;
+  Index?: Index;
+  ErrorDetails?: ErrorDetails;
+}
+export const IndexStatus = S.suspend(() =>
+  S.Struct({
+    Status: S.optional(S.String),
+    Index: S.optional(Index),
+    ErrorDetails: S.optional(ErrorDetails),
+  }),
+).annotations({ identifier: "IndexStatus" }) as any as S.Schema<IndexStatus>;
+export interface RegionStatus {
+  Region?: string;
+  Index?: IndexStatus;
+  View?: ViewStatus;
+}
+export const RegionStatus = S.suspend(() =>
+  S.Struct({
+    Region: S.optional(S.String),
+    Index: S.optional(IndexStatus),
+    View: S.optional(ViewStatus),
+  }),
+).annotations({ identifier: "RegionStatus" }) as any as S.Schema<RegionStatus>;
+export type RegionStatusList = RegionStatus[];
 export const RegionStatusList = S.Array(RegionStatus);
-export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
-  "ValidationExceptionField",
-)({ Name: S.String, ValidationIssue: S.String }) {}
+export interface ValidationExceptionField {
+  Name: string;
+  ValidationIssue: string;
+}
+export const ValidationExceptionField = S.suspend(() =>
+  S.Struct({ Name: S.String, ValidationIssue: S.String }),
+).annotations({
+  identifier: "ValidationExceptionField",
+}) as any as S.Schema<ValidationExceptionField>;
+export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
-export class GetResourceExplorerSetupOutput extends S.Class<GetResourceExplorerSetupOutput>(
-  "GetResourceExplorerSetupOutput",
-)({ Regions: S.optional(RegionStatusList), NextToken: S.optional(S.String) }) {}
+export interface GetResourceExplorerSetupOutput {
+  Regions?: RegionStatusList;
+  NextToken?: string;
+}
+export const GetResourceExplorerSetupOutput = S.suspend(() =>
+  S.Struct({
+    Regions: S.optional(RegionStatusList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetResourceExplorerSetupOutput",
+}) as any as S.Schema<GetResourceExplorerSetupOutput>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

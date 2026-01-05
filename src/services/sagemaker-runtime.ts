@@ -282,10 +282,22 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class InvokeEndpointInput extends S.Class<InvokeEndpointInput>(
-  "InvokeEndpointInput",
-)(
-  {
+export interface InvokeEndpointInput {
+  EndpointName: string;
+  Body: T.StreamingInputBody;
+  ContentType?: string;
+  Accept?: string;
+  CustomAttributes?: string;
+  TargetModel?: string;
+  TargetVariant?: string;
+  TargetContainerHostname?: string;
+  InferenceId?: string;
+  EnableExplanations?: string;
+  InferenceComponentName?: string;
+  SessionId?: string;
+}
+export const InvokeEndpointInput = S.suspend(() =>
+  S.Struct({
     EndpointName: S.String.pipe(T.HttpLabel("EndpointName")),
     Body: T.StreamingInput.pipe(T.HttpPayload()),
     ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
@@ -314,20 +326,31 @@ export class InvokeEndpointInput extends S.Class<InvokeEndpointInput>(
     SessionId: S.optional(S.String).pipe(
       T.HttpHeader("X-Amzn-SageMaker-Session-Id"),
     ),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/endpoints/{EndpointName}/invocations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/endpoints/{EndpointName}/invocations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class InvokeEndpointAsyncInput extends S.Class<InvokeEndpointAsyncInput>(
-  "InvokeEndpointAsyncInput",
-)(
-  {
+).annotations({
+  identifier: "InvokeEndpointInput",
+}) as any as S.Schema<InvokeEndpointInput>;
+export interface InvokeEndpointAsyncInput {
+  EndpointName: string;
+  ContentType?: string;
+  Accept?: string;
+  CustomAttributes?: string;
+  InferenceId?: string;
+  InputLocation: string;
+  RequestTTLSeconds?: number;
+  InvocationTimeoutSeconds?: number;
+}
+export const InvokeEndpointAsyncInput = S.suspend(() =>
+  S.Struct({
     EndpointName: S.String.pipe(T.HttpLabel("EndpointName")),
     ContentType: S.optional(S.String).pipe(
       T.HttpHeader("X-Amzn-SageMaker-Content-Type"),
@@ -348,23 +371,36 @@ export class InvokeEndpointAsyncInput extends S.Class<InvokeEndpointAsyncInput>(
     InvocationTimeoutSeconds: S.optional(S.Number).pipe(
       T.HttpHeader("X-Amzn-SageMaker-InvocationTimeoutSeconds"),
     ),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/endpoints/{EndpointName}/async-invocations",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/endpoints/{EndpointName}/async-invocations",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class InvokeEndpointWithResponseStreamInput extends S.Class<InvokeEndpointWithResponseStreamInput>(
-  "InvokeEndpointWithResponseStreamInput",
-)(
-  {
+).annotations({
+  identifier: "InvokeEndpointAsyncInput",
+}) as any as S.Schema<InvokeEndpointAsyncInput>;
+export interface InvokeEndpointWithResponseStreamInput {
+  EndpointName: string;
+  Body: T.StreamingInputBody;
+  ContentType?: string;
+  Accept?: string;
+  CustomAttributes?: string;
+  TargetVariant?: string;
+  TargetContainerHostname?: string;
+  InferenceId?: string;
+  InferenceComponentName?: string;
+  SessionId?: string;
+}
+export const InvokeEndpointWithResponseStreamInput = S.suspend(() =>
+  S.Struct({
     EndpointName: S.String.pipe(T.HttpLabel("EndpointName")),
     Body: T.StreamingInput.pipe(T.HttpPayload()),
     ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
@@ -387,72 +423,111 @@ export class InvokeEndpointWithResponseStreamInput extends S.Class<InvokeEndpoin
     SessionId: S.optional(S.String).pipe(
       T.HttpHeader("X-Amzn-SageMaker-Session-Id"),
     ),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/endpoints/{EndpointName}/invocations-response-stream",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/endpoints/{EndpointName}/invocations-response-stream",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class InvokeEndpointOutput extends S.Class<InvokeEndpointOutput>(
-  "InvokeEndpointOutput",
-)({
-  Body: T.StreamingOutput.pipe(T.HttpPayload()),
-  ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-  InvokedProductionVariant: S.optional(S.String).pipe(
-    T.HttpHeader("x-Amzn-Invoked-Production-Variant"),
-  ),
-  CustomAttributes: S.optional(S.String).pipe(
-    T.HttpHeader("X-Amzn-SageMaker-Custom-Attributes"),
-  ),
-  NewSessionId: S.optional(S.String).pipe(
-    T.HttpHeader("X-Amzn-SageMaker-New-Session-Id"),
-  ),
-  ClosedSessionId: S.optional(S.String).pipe(
-    T.HttpHeader("X-Amzn-SageMaker-Closed-Session-Id"),
-  ),
-}) {}
-export class InvokeEndpointAsyncOutput extends S.Class<InvokeEndpointAsyncOutput>(
-  "InvokeEndpointAsyncOutput",
-)({
-  InferenceId: S.optional(S.String),
-  OutputLocation: S.optional(S.String).pipe(
-    T.HttpHeader("X-Amzn-SageMaker-OutputLocation"),
-  ),
-  FailureLocation: S.optional(S.String).pipe(
-    T.HttpHeader("X-Amzn-SageMaker-FailureLocation"),
-  ),
-}) {}
-export class PayloadPart extends S.Class<PayloadPart>("PayloadPart")({
-  Bytes: S.optional(T.Blob).pipe(T.EventPayload()),
-}) {}
+).annotations({
+  identifier: "InvokeEndpointWithResponseStreamInput",
+}) as any as S.Schema<InvokeEndpointWithResponseStreamInput>;
+export interface InvokeEndpointOutput {
+  Body: T.StreamingOutputBody;
+  ContentType?: string;
+  InvokedProductionVariant?: string;
+  CustomAttributes?: string;
+  NewSessionId?: string;
+  ClosedSessionId?: string;
+}
+export const InvokeEndpointOutput = S.suspend(() =>
+  S.Struct({
+    Body: T.StreamingOutput.pipe(T.HttpPayload()),
+    ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
+    InvokedProductionVariant: S.optional(S.String).pipe(
+      T.HttpHeader("x-Amzn-Invoked-Production-Variant"),
+    ),
+    CustomAttributes: S.optional(S.String).pipe(
+      T.HttpHeader("X-Amzn-SageMaker-Custom-Attributes"),
+    ),
+    NewSessionId: S.optional(S.String).pipe(
+      T.HttpHeader("X-Amzn-SageMaker-New-Session-Id"),
+    ),
+    ClosedSessionId: S.optional(S.String).pipe(
+      T.HttpHeader("X-Amzn-SageMaker-Closed-Session-Id"),
+    ),
+  }),
+).annotations({
+  identifier: "InvokeEndpointOutput",
+}) as any as S.Schema<InvokeEndpointOutput>;
+export interface InvokeEndpointAsyncOutput {
+  InferenceId?: string;
+  OutputLocation?: string;
+  FailureLocation?: string;
+}
+export const InvokeEndpointAsyncOutput = S.suspend(() =>
+  S.Struct({
+    InferenceId: S.optional(S.String),
+    OutputLocation: S.optional(S.String).pipe(
+      T.HttpHeader("X-Amzn-SageMaker-OutputLocation"),
+    ),
+    FailureLocation: S.optional(S.String).pipe(
+      T.HttpHeader("X-Amzn-SageMaker-FailureLocation"),
+    ),
+  }),
+).annotations({
+  identifier: "InvokeEndpointAsyncOutput",
+}) as any as S.Schema<InvokeEndpointAsyncOutput>;
+export interface PayloadPart {
+  Bytes?: Uint8Array;
+}
+export const PayloadPart = S.suspend(() =>
+  S.Struct({ Bytes: S.optional(T.Blob).pipe(T.EventPayload()) }),
+).annotations({ identifier: "PayloadPart" }) as any as S.Schema<PayloadPart>;
 export const ResponseStream = T.EventStream(
   S.Union(
     S.Struct({ PayloadPart: PayloadPart }),
-    S.Struct({ ModelStreamError: S.suspend(() => ModelStreamError) }),
-    S.Struct({ InternalStreamFailure: S.suspend(() => InternalStreamFailure) }),
+    S.Struct({
+      ModelStreamError: S.suspend(() => ModelStreamError).annotations({
+        identifier: "ModelStreamError",
+      }),
+    }),
+    S.Struct({
+      InternalStreamFailure: S.suspend(() => InternalStreamFailure).annotations(
+        { identifier: "InternalStreamFailure" },
+      ),
+    }),
   ),
 );
-export class InvokeEndpointWithResponseStreamOutput extends S.Class<InvokeEndpointWithResponseStreamOutput>(
-  "InvokeEndpointWithResponseStreamOutput",
-)({
-  Body: ResponseStream.pipe(T.HttpPayload()),
-  ContentType: S.optional(S.String).pipe(
-    T.HttpHeader("X-Amzn-SageMaker-Content-Type"),
-  ),
-  InvokedProductionVariant: S.optional(S.String).pipe(
-    T.HttpHeader("x-Amzn-Invoked-Production-Variant"),
-  ),
-  CustomAttributes: S.optional(S.String).pipe(
-    T.HttpHeader("X-Amzn-SageMaker-Custom-Attributes"),
-  ),
-}) {}
+export interface InvokeEndpointWithResponseStreamOutput {
+  Body: (typeof ResponseStream)["Type"];
+  ContentType?: string;
+  InvokedProductionVariant?: string;
+  CustomAttributes?: string;
+}
+export const InvokeEndpointWithResponseStreamOutput = S.suspend(() =>
+  S.Struct({
+    Body: ResponseStream.pipe(T.HttpPayload()),
+    ContentType: S.optional(S.String).pipe(
+      T.HttpHeader("X-Amzn-SageMaker-Content-Type"),
+    ),
+    InvokedProductionVariant: S.optional(S.String).pipe(
+      T.HttpHeader("x-Amzn-Invoked-Production-Variant"),
+    ),
+    CustomAttributes: S.optional(S.String).pipe(
+      T.HttpHeader("X-Amzn-SageMaker-Custom-Attributes"),
+    ),
+  }),
+).annotations({
+  identifier: "InvokeEndpointWithResponseStreamOutput",
+}) as any as S.Schema<InvokeEndpointWithResponseStreamOutput>;
 
 //# Errors
 export class InternalDependencyException extends S.TaggedError<InternalDependencyException>()(

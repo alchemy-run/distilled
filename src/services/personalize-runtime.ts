@@ -242,44 +242,73 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type InputList = string[];
 export const InputList = S.Array(S.String);
+export type ColumnNamesList = string[];
 export const ColumnNamesList = S.Array(S.String);
+export type FilterValues = { [key: string]: string };
 export const FilterValues = S.Record({ key: S.String, value: S.String });
+export type Context = { [key: string]: string };
 export const Context = S.Record({ key: S.String, value: S.String });
+export type MetadataColumns = { [key: string]: ColumnNamesList };
 export const MetadataColumns = S.Record({
   key: S.String,
   value: ColumnNamesList,
 });
-export class Promotion extends S.Class<Promotion>("Promotion")({
-  name: S.optional(S.String),
-  percentPromotedItems: S.optional(S.Number),
-  filterArn: S.optional(S.String),
-  filterValues: S.optional(FilterValues),
-}) {}
+export interface Promotion {
+  name?: string;
+  percentPromotedItems?: number;
+  filterArn?: string;
+  filterValues?: FilterValues;
+}
+export const Promotion = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    percentPromotedItems: S.optional(S.Number),
+    filterArn: S.optional(S.String),
+    filterValues: S.optional(FilterValues),
+  }),
+).annotations({ identifier: "Promotion" }) as any as S.Schema<Promotion>;
+export type PromotionList = Promotion[];
 export const PromotionList = S.Array(Promotion);
-export class GetActionRecommendationsRequest extends S.Class<GetActionRecommendationsRequest>(
-  "GetActionRecommendationsRequest",
-)(
-  {
+export interface GetActionRecommendationsRequest {
+  campaignArn?: string;
+  userId?: string;
+  numResults?: number;
+  filterArn?: string;
+  filterValues?: FilterValues;
+}
+export const GetActionRecommendationsRequest = S.suspend(() =>
+  S.Struct({
     campaignArn: S.optional(S.String),
     userId: S.optional(S.String),
     numResults: S.optional(S.Number),
     filterArn: S.optional(S.String),
     filterValues: S.optional(FilterValues),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/action-recommendations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/action-recommendations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetPersonalizedRankingRequest extends S.Class<GetPersonalizedRankingRequest>(
-  "GetPersonalizedRankingRequest",
-)(
-  {
+).annotations({
+  identifier: "GetActionRecommendationsRequest",
+}) as any as S.Schema<GetActionRecommendationsRequest>;
+export interface GetPersonalizedRankingRequest {
+  campaignArn: string;
+  inputList: InputList;
+  userId: string;
+  context?: Context;
+  filterArn?: string;
+  filterValues?: FilterValues;
+  metadataColumns?: MetadataColumns;
+}
+export const GetPersonalizedRankingRequest = S.suspend(() =>
+  S.Struct({
     campaignArn: S.String,
     inputList: InputList,
     userId: S.String,
@@ -287,20 +316,33 @@ export class GetPersonalizedRankingRequest extends S.Class<GetPersonalizedRankin
     filterArn: S.optional(S.String),
     filterValues: S.optional(FilterValues),
     metadataColumns: S.optional(MetadataColumns),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/personalize-ranking" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/personalize-ranking" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetRecommendationsRequest extends S.Class<GetRecommendationsRequest>(
-  "GetRecommendationsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetPersonalizedRankingRequest",
+}) as any as S.Schema<GetPersonalizedRankingRequest>;
+export interface GetRecommendationsRequest {
+  campaignArn?: string;
+  itemId?: string;
+  userId?: string;
+  numResults?: number;
+  context?: Context;
+  filterArn?: string;
+  filterValues?: FilterValues;
+  recommenderArn?: string;
+  promotions?: PromotionList;
+  metadataColumns?: MetadataColumns;
+}
+export const GetRecommendationsRequest = S.suspend(() =>
+  S.Struct({
     campaignArn: S.optional(S.String),
     itemId: S.optional(S.String),
     userId: S.optional(S.String),
@@ -311,45 +353,90 @@ export class GetRecommendationsRequest extends S.Class<GetRecommendationsRequest
     recommenderArn: S.optional(S.String),
     promotions: S.optional(PromotionList),
     metadataColumns: S.optional(MetadataColumns),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/recommendations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/recommendations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "GetRecommendationsRequest",
+}) as any as S.Schema<GetRecommendationsRequest>;
+export type Metadata = { [key: string]: string };
 export const Metadata = S.Record({ key: S.String, value: S.String });
+export type ReasonList = string[];
 export const ReasonList = S.Array(S.String);
-export class PredictedItem extends S.Class<PredictedItem>("PredictedItem")({
-  itemId: S.optional(S.String),
-  score: S.optional(S.Number),
-  promotionName: S.optional(S.String),
-  metadata: S.optional(Metadata),
-  reason: S.optional(ReasonList),
-}) {}
+export interface PredictedItem {
+  itemId?: string;
+  score?: number;
+  promotionName?: string;
+  metadata?: Metadata;
+  reason?: ReasonList;
+}
+export const PredictedItem = S.suspend(() =>
+  S.Struct({
+    itemId: S.optional(S.String),
+    score: S.optional(S.Number),
+    promotionName: S.optional(S.String),
+    metadata: S.optional(Metadata),
+    reason: S.optional(ReasonList),
+  }),
+).annotations({
+  identifier: "PredictedItem",
+}) as any as S.Schema<PredictedItem>;
+export type ItemList = PredictedItem[];
 export const ItemList = S.Array(PredictedItem);
-export class GetRecommendationsResponse extends S.Class<GetRecommendationsResponse>(
-  "GetRecommendationsResponse",
-)({ itemList: S.optional(ItemList), recommendationId: S.optional(S.String) }) {}
-export class PredictedAction extends S.Class<PredictedAction>(
-  "PredictedAction",
-)({ actionId: S.optional(S.String), score: S.optional(S.Number) }) {}
+export interface GetRecommendationsResponse {
+  itemList?: ItemList;
+  recommendationId?: string;
+}
+export const GetRecommendationsResponse = S.suspend(() =>
+  S.Struct({
+    itemList: S.optional(ItemList),
+    recommendationId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetRecommendationsResponse",
+}) as any as S.Schema<GetRecommendationsResponse>;
+export interface PredictedAction {
+  actionId?: string;
+  score?: number;
+}
+export const PredictedAction = S.suspend(() =>
+  S.Struct({ actionId: S.optional(S.String), score: S.optional(S.Number) }),
+).annotations({
+  identifier: "PredictedAction",
+}) as any as S.Schema<PredictedAction>;
+export type ActionList = PredictedAction[];
 export const ActionList = S.Array(PredictedAction);
-export class GetActionRecommendationsResponse extends S.Class<GetActionRecommendationsResponse>(
-  "GetActionRecommendationsResponse",
-)({
-  actionList: S.optional(ActionList),
-  recommendationId: S.optional(S.String),
-}) {}
-export class GetPersonalizedRankingResponse extends S.Class<GetPersonalizedRankingResponse>(
-  "GetPersonalizedRankingResponse",
-)({
-  personalizedRanking: S.optional(ItemList),
-  recommendationId: S.optional(S.String),
-}) {}
+export interface GetActionRecommendationsResponse {
+  actionList?: ActionList;
+  recommendationId?: string;
+}
+export const GetActionRecommendationsResponse = S.suspend(() =>
+  S.Struct({
+    actionList: S.optional(ActionList),
+    recommendationId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetActionRecommendationsResponse",
+}) as any as S.Schema<GetActionRecommendationsResponse>;
+export interface GetPersonalizedRankingResponse {
+  personalizedRanking?: ItemList;
+  recommendationId?: string;
+}
+export const GetPersonalizedRankingResponse = S.suspend(() =>
+  S.Struct({
+    personalizedRanking: S.optional(ItemList),
+    recommendationId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetPersonalizedRankingResponse",
+}) as any as S.Schema<GetPersonalizedRankingResponse>;
 
 //# Errors
 export class InvalidInputException extends S.TaggedError<InvalidInputException>()(

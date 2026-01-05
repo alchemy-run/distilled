@@ -243,550 +243,1348 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class AcknowledgeJobInput extends S.Class<AcknowledgeJobInput>(
-  "AcknowledgeJobInput",
-)(
-  { jobId: S.String, nonce: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class AcknowledgeThirdPartyJobInput extends S.Class<AcknowledgeThirdPartyJobInput>(
-  "AcknowledgeThirdPartyJobInput",
-)(
-  { jobId: S.String, nonce: S.String, clientToken: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteCustomActionTypeInput extends S.Class<DeleteCustomActionTypeInput>(
-  "DeleteCustomActionTypeInput",
-)(
-  { category: S.String, provider: S.String, version: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteCustomActionTypeResponse extends S.Class<DeleteCustomActionTypeResponse>(
-  "DeleteCustomActionTypeResponse",
-)({}, ns) {}
-export class DeletePipelineInput extends S.Class<DeletePipelineInput>(
-  "DeletePipelineInput",
-)(
-  { name: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeletePipelineResponse extends S.Class<DeletePipelineResponse>(
-  "DeletePipelineResponse",
-)({}, ns) {}
-export class DeleteWebhookInput extends S.Class<DeleteWebhookInput>(
-  "DeleteWebhookInput",
-)(
-  { name: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteWebhookOutput extends S.Class<DeleteWebhookOutput>(
-  "DeleteWebhookOutput",
-)({}, ns) {}
-export class DeregisterWebhookWithThirdPartyInput extends S.Class<DeregisterWebhookWithThirdPartyInput>(
-  "DeregisterWebhookWithThirdPartyInput",
-)(
-  { webhookName: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeregisterWebhookWithThirdPartyOutput extends S.Class<DeregisterWebhookWithThirdPartyOutput>(
-  "DeregisterWebhookWithThirdPartyOutput",
-)({}, ns) {}
-export class DisableStageTransitionInput extends S.Class<DisableStageTransitionInput>(
-  "DisableStageTransitionInput",
-)(
-  {
+export interface AcknowledgeJobInput {
+  jobId: string;
+  nonce: string;
+}
+export const AcknowledgeJobInput = S.suspend(() =>
+  S.Struct({ jobId: S.String, nonce: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "AcknowledgeJobInput",
+}) as any as S.Schema<AcknowledgeJobInput>;
+export interface AcknowledgeThirdPartyJobInput {
+  jobId: string;
+  nonce: string;
+  clientToken: string;
+}
+export const AcknowledgeThirdPartyJobInput = S.suspend(() =>
+  S.Struct({ jobId: S.String, nonce: S.String, clientToken: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "AcknowledgeThirdPartyJobInput",
+}) as any as S.Schema<AcknowledgeThirdPartyJobInput>;
+export interface DeleteCustomActionTypeInput {
+  category: string;
+  provider: string;
+  version: string;
+}
+export const DeleteCustomActionTypeInput = S.suspend(() =>
+  S.Struct({ category: S.String, provider: S.String, version: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteCustomActionTypeInput",
+}) as any as S.Schema<DeleteCustomActionTypeInput>;
+export interface DeleteCustomActionTypeResponse {}
+export const DeleteCustomActionTypeResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteCustomActionTypeResponse",
+}) as any as S.Schema<DeleteCustomActionTypeResponse>;
+export interface DeletePipelineInput {
+  name: string;
+}
+export const DeletePipelineInput = S.suspend(() =>
+  S.Struct({ name: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeletePipelineInput",
+}) as any as S.Schema<DeletePipelineInput>;
+export interface DeletePipelineResponse {}
+export const DeletePipelineResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeletePipelineResponse",
+}) as any as S.Schema<DeletePipelineResponse>;
+export interface DeleteWebhookInput {
+  name: string;
+}
+export const DeleteWebhookInput = S.suspend(() =>
+  S.Struct({ name: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteWebhookInput",
+}) as any as S.Schema<DeleteWebhookInput>;
+export interface DeleteWebhookOutput {}
+export const DeleteWebhookOutput = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteWebhookOutput",
+}) as any as S.Schema<DeleteWebhookOutput>;
+export interface DeregisterWebhookWithThirdPartyInput {
+  webhookName?: string;
+}
+export const DeregisterWebhookWithThirdPartyInput = S.suspend(() =>
+  S.Struct({ webhookName: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeregisterWebhookWithThirdPartyInput",
+}) as any as S.Schema<DeregisterWebhookWithThirdPartyInput>;
+export interface DeregisterWebhookWithThirdPartyOutput {}
+export const DeregisterWebhookWithThirdPartyOutput = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeregisterWebhookWithThirdPartyOutput",
+}) as any as S.Schema<DeregisterWebhookWithThirdPartyOutput>;
+export interface DisableStageTransitionInput {
+  pipelineName: string;
+  stageName: string;
+  transitionType: string;
+  reason: string;
+}
+export const DisableStageTransitionInput = S.suspend(() =>
+  S.Struct({
     pipelineName: S.String,
     stageName: S.String,
     transitionType: S.String,
     reason: S.String,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DisableStageTransitionResponse extends S.Class<DisableStageTransitionResponse>(
-  "DisableStageTransitionResponse",
-)({}, ns) {}
-export class EnableStageTransitionInput extends S.Class<EnableStageTransitionInput>(
-  "EnableStageTransitionInput",
-)(
-  { pipelineName: S.String, stageName: S.String, transitionType: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class EnableStageTransitionResponse extends S.Class<EnableStageTransitionResponse>(
-  "EnableStageTransitionResponse",
-)({}, ns) {}
-export class GetActionTypeInput extends S.Class<GetActionTypeInput>(
-  "GetActionTypeInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DisableStageTransitionInput",
+}) as any as S.Schema<DisableStageTransitionInput>;
+export interface DisableStageTransitionResponse {}
+export const DisableStageTransitionResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DisableStageTransitionResponse",
+}) as any as S.Schema<DisableStageTransitionResponse>;
+export interface EnableStageTransitionInput {
+  pipelineName: string;
+  stageName: string;
+  transitionType: string;
+}
+export const EnableStageTransitionInput = S.suspend(() =>
+  S.Struct({
+    pipelineName: S.String,
+    stageName: S.String,
+    transitionType: S.String,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "EnableStageTransitionInput",
+}) as any as S.Schema<EnableStageTransitionInput>;
+export interface EnableStageTransitionResponse {}
+export const EnableStageTransitionResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "EnableStageTransitionResponse",
+}) as any as S.Schema<EnableStageTransitionResponse>;
+export interface GetActionTypeInput {
+  category: string;
+  owner: string;
+  provider: string;
+  version: string;
+}
+export const GetActionTypeInput = S.suspend(() =>
+  S.Struct({
     category: S.String,
     owner: S.String,
     provider: S.String,
     version: S.String,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetJobDetailsInput extends S.Class<GetJobDetailsInput>(
-  "GetJobDetailsInput",
-)(
-  { jobId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetPipelineInput extends S.Class<GetPipelineInput>(
-  "GetPipelineInput",
-)(
-  { name: S.String, version: S.optional(S.Number) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetPipelineExecutionInput extends S.Class<GetPipelineExecutionInput>(
-  "GetPipelineExecutionInput",
-)(
-  { pipelineName: S.String, pipelineExecutionId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetPipelineStateInput extends S.Class<GetPipelineStateInput>(
-  "GetPipelineStateInput",
-)(
-  { name: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetThirdPartyJobDetailsInput extends S.Class<GetThirdPartyJobDetailsInput>(
-  "GetThirdPartyJobDetailsInput",
-)(
-  { jobId: S.String, clientToken: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListActionTypesInput extends S.Class<ListActionTypesInput>(
-  "ListActionTypesInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetActionTypeInput",
+}) as any as S.Schema<GetActionTypeInput>;
+export interface GetJobDetailsInput {
+  jobId: string;
+}
+export const GetJobDetailsInput = S.suspend(() =>
+  S.Struct({ jobId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetJobDetailsInput",
+}) as any as S.Schema<GetJobDetailsInput>;
+export interface GetPipelineInput {
+  name: string;
+  version?: number;
+}
+export const GetPipelineInput = S.suspend(() =>
+  S.Struct({ name: S.String, version: S.optional(S.Number) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetPipelineInput",
+}) as any as S.Schema<GetPipelineInput>;
+export interface GetPipelineExecutionInput {
+  pipelineName: string;
+  pipelineExecutionId: string;
+}
+export const GetPipelineExecutionInput = S.suspend(() =>
+  S.Struct({ pipelineName: S.String, pipelineExecutionId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetPipelineExecutionInput",
+}) as any as S.Schema<GetPipelineExecutionInput>;
+export interface GetPipelineStateInput {
+  name: string;
+}
+export const GetPipelineStateInput = S.suspend(() =>
+  S.Struct({ name: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetPipelineStateInput",
+}) as any as S.Schema<GetPipelineStateInput>;
+export interface GetThirdPartyJobDetailsInput {
+  jobId: string;
+  clientToken: string;
+}
+export const GetThirdPartyJobDetailsInput = S.suspend(() =>
+  S.Struct({ jobId: S.String, clientToken: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetThirdPartyJobDetailsInput",
+}) as any as S.Schema<GetThirdPartyJobDetailsInput>;
+export interface ListActionTypesInput {
+  actionOwnerFilter?: string;
+  nextToken?: string;
+  regionFilter?: string;
+}
+export const ListActionTypesInput = S.suspend(() =>
+  S.Struct({
     actionOwnerFilter: S.optional(S.String),
     nextToken: S.optional(S.String),
     regionFilter: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListPipelinesInput extends S.Class<ListPipelinesInput>(
-  "ListPipelinesInput",
-)(
-  { nextToken: S.optional(S.String), maxResults: S.optional(S.Number) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListRuleTypesInput extends S.Class<ListRuleTypesInput>(
-  "ListRuleTypesInput",
-)(
-  { ruleOwnerFilter: S.optional(S.String), regionFilter: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTagsForResourceInput extends S.Class<ListTagsForResourceInput>(
-  "ListTagsForResourceInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListActionTypesInput",
+}) as any as S.Schema<ListActionTypesInput>;
+export interface ListPipelinesInput {
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListPipelinesInput = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    maxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListPipelinesInput",
+}) as any as S.Schema<ListPipelinesInput>;
+export interface ListRuleTypesInput {
+  ruleOwnerFilter?: string;
+  regionFilter?: string;
+}
+export const ListRuleTypesInput = S.suspend(() =>
+  S.Struct({
+    ruleOwnerFilter: S.optional(S.String),
+    regionFilter: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListRuleTypesInput",
+}) as any as S.Schema<ListRuleTypesInput>;
+export interface ListTagsForResourceInput {
+  resourceArn: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListTagsForResourceInput = S.suspend(() =>
+  S.Struct({
     resourceArn: S.String,
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListWebhooksInput extends S.Class<ListWebhooksInput>(
-  "ListWebhooksInput",
-)(
-  { NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class OverrideStageConditionInput extends S.Class<OverrideStageConditionInput>(
-  "OverrideStageConditionInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListTagsForResourceInput",
+}) as any as S.Schema<ListTagsForResourceInput>;
+export interface ListWebhooksInput {
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListWebhooksInput = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListWebhooksInput",
+}) as any as S.Schema<ListWebhooksInput>;
+export interface OverrideStageConditionInput {
+  pipelineName: string;
+  stageName: string;
+  pipelineExecutionId: string;
+  conditionType: string;
+}
+export const OverrideStageConditionInput = S.suspend(() =>
+  S.Struct({
     pipelineName: S.String,
     stageName: S.String,
     pipelineExecutionId: S.String,
     conditionType: S.String,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class OverrideStageConditionResponse extends S.Class<OverrideStageConditionResponse>(
-  "OverrideStageConditionResponse",
-)({}, ns) {}
-export class ActionTypeId extends S.Class<ActionTypeId>("ActionTypeId")({
-  category: S.String,
-  owner: S.String,
-  provider: S.String,
-  version: S.String,
-}) {}
-export class PollForThirdPartyJobsInput extends S.Class<PollForThirdPartyJobsInput>(
-  "PollForThirdPartyJobsInput",
-)(
-  { actionTypeId: ActionTypeId, maxBatchSize: S.optional(S.Number) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class FailureDetails extends S.Class<FailureDetails>("FailureDetails")({
-  type: S.String,
-  message: S.String,
-  externalExecutionId: S.optional(S.String),
-}) {}
-export class PutThirdPartyJobFailureResultInput extends S.Class<PutThirdPartyJobFailureResultInput>(
-  "PutThirdPartyJobFailureResultInput",
-)(
-  { jobId: S.String, clientToken: S.String, failureDetails: FailureDetails },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutThirdPartyJobFailureResultResponse extends S.Class<PutThirdPartyJobFailureResultResponse>(
-  "PutThirdPartyJobFailureResultResponse",
-)({}, ns) {}
-export class CurrentRevision extends S.Class<CurrentRevision>(
-  "CurrentRevision",
-)({
-  revision: S.String,
-  changeIdentifier: S.String,
-  created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  revisionSummary: S.optional(S.String),
-}) {}
-export class ExecutionDetails extends S.Class<ExecutionDetails>(
-  "ExecutionDetails",
-)({
-  summary: S.optional(S.String),
-  externalExecutionId: S.optional(S.String),
-  percentComplete: S.optional(S.Number),
-}) {}
-export class PutThirdPartyJobSuccessResultInput extends S.Class<PutThirdPartyJobSuccessResultInput>(
-  "PutThirdPartyJobSuccessResultInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "OverrideStageConditionInput",
+}) as any as S.Schema<OverrideStageConditionInput>;
+export interface OverrideStageConditionResponse {}
+export const OverrideStageConditionResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "OverrideStageConditionResponse",
+}) as any as S.Schema<OverrideStageConditionResponse>;
+export interface ActionTypeId {
+  category: string;
+  owner: string;
+  provider: string;
+  version: string;
+}
+export const ActionTypeId = S.suspend(() =>
+  S.Struct({
+    category: S.String,
+    owner: S.String,
+    provider: S.String,
+    version: S.String,
+  }),
+).annotations({ identifier: "ActionTypeId" }) as any as S.Schema<ActionTypeId>;
+export interface PollForThirdPartyJobsInput {
+  actionTypeId: ActionTypeId;
+  maxBatchSize?: number;
+}
+export const PollForThirdPartyJobsInput = S.suspend(() =>
+  S.Struct({
+    actionTypeId: ActionTypeId,
+    maxBatchSize: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PollForThirdPartyJobsInput",
+}) as any as S.Schema<PollForThirdPartyJobsInput>;
+export interface FailureDetails {
+  type: string;
+  message: string;
+  externalExecutionId?: string;
+}
+export const FailureDetails = S.suspend(() =>
+  S.Struct({
+    type: S.String,
+    message: S.String,
+    externalExecutionId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "FailureDetails",
+}) as any as S.Schema<FailureDetails>;
+export interface PutThirdPartyJobFailureResultInput {
+  jobId: string;
+  clientToken: string;
+  failureDetails: FailureDetails;
+}
+export const PutThirdPartyJobFailureResultInput = S.suspend(() =>
+  S.Struct({
+    jobId: S.String,
+    clientToken: S.String,
+    failureDetails: FailureDetails,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutThirdPartyJobFailureResultInput",
+}) as any as S.Schema<PutThirdPartyJobFailureResultInput>;
+export interface PutThirdPartyJobFailureResultResponse {}
+export const PutThirdPartyJobFailureResultResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "PutThirdPartyJobFailureResultResponse",
+}) as any as S.Schema<PutThirdPartyJobFailureResultResponse>;
+export interface CurrentRevision {
+  revision: string;
+  changeIdentifier: string;
+  created?: Date;
+  revisionSummary?: string;
+}
+export const CurrentRevision = S.suspend(() =>
+  S.Struct({
+    revision: S.String,
+    changeIdentifier: S.String,
+    created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    revisionSummary: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CurrentRevision",
+}) as any as S.Schema<CurrentRevision>;
+export interface ExecutionDetails {
+  summary?: string;
+  externalExecutionId?: string;
+  percentComplete?: number;
+}
+export const ExecutionDetails = S.suspend(() =>
+  S.Struct({
+    summary: S.optional(S.String),
+    externalExecutionId: S.optional(S.String),
+    percentComplete: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "ExecutionDetails",
+}) as any as S.Schema<ExecutionDetails>;
+export interface PutThirdPartyJobSuccessResultInput {
+  jobId: string;
+  clientToken: string;
+  currentRevision?: CurrentRevision;
+  continuationToken?: string;
+  executionDetails?: ExecutionDetails;
+}
+export const PutThirdPartyJobSuccessResultInput = S.suspend(() =>
+  S.Struct({
     jobId: S.String,
     clientToken: S.String,
     currentRevision: S.optional(CurrentRevision),
     continuationToken: S.optional(S.String),
     executionDetails: S.optional(ExecutionDetails),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutThirdPartyJobSuccessResultResponse extends S.Class<PutThirdPartyJobSuccessResultResponse>(
-  "PutThirdPartyJobSuccessResultResponse",
-)({}, ns) {}
-export class RegisterWebhookWithThirdPartyInput extends S.Class<RegisterWebhookWithThirdPartyInput>(
-  "RegisterWebhookWithThirdPartyInput",
-)(
-  { webhookName: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class RegisterWebhookWithThirdPartyOutput extends S.Class<RegisterWebhookWithThirdPartyOutput>(
-  "RegisterWebhookWithThirdPartyOutput",
-)({}, ns) {}
-export class RetryStageExecutionInput extends S.Class<RetryStageExecutionInput>(
-  "RetryStageExecutionInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutThirdPartyJobSuccessResultInput",
+}) as any as S.Schema<PutThirdPartyJobSuccessResultInput>;
+export interface PutThirdPartyJobSuccessResultResponse {}
+export const PutThirdPartyJobSuccessResultResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "PutThirdPartyJobSuccessResultResponse",
+}) as any as S.Schema<PutThirdPartyJobSuccessResultResponse>;
+export interface RegisterWebhookWithThirdPartyInput {
+  webhookName?: string;
+}
+export const RegisterWebhookWithThirdPartyInput = S.suspend(() =>
+  S.Struct({ webhookName: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "RegisterWebhookWithThirdPartyInput",
+}) as any as S.Schema<RegisterWebhookWithThirdPartyInput>;
+export interface RegisterWebhookWithThirdPartyOutput {}
+export const RegisterWebhookWithThirdPartyOutput = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "RegisterWebhookWithThirdPartyOutput",
+}) as any as S.Schema<RegisterWebhookWithThirdPartyOutput>;
+export interface RetryStageExecutionInput {
+  pipelineName: string;
+  stageName: string;
+  pipelineExecutionId: string;
+  retryMode: string;
+}
+export const RetryStageExecutionInput = S.suspend(() =>
+  S.Struct({
     pipelineName: S.String,
     stageName: S.String,
     pipelineExecutionId: S.String,
     retryMode: S.String,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class RollbackStageInput extends S.Class<RollbackStageInput>(
-  "RollbackStageInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "RetryStageExecutionInput",
+}) as any as S.Schema<RetryStageExecutionInput>;
+export interface RollbackStageInput {
+  pipelineName: string;
+  stageName: string;
+  targetPipelineExecutionId: string;
+}
+export const RollbackStageInput = S.suspend(() =>
+  S.Struct({
     pipelineName: S.String,
     stageName: S.String,
     targetPipelineExecutionId: S.String,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StopPipelineExecutionInput extends S.Class<StopPipelineExecutionInput>(
-  "StopPipelineExecutionInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "RollbackStageInput",
+}) as any as S.Schema<RollbackStageInput>;
+export interface StopPipelineExecutionInput {
+  pipelineName: string;
+  pipelineExecutionId: string;
+  abandon?: boolean;
+  reason?: string;
+}
+export const StopPipelineExecutionInput = S.suspend(() =>
+  S.Struct({
     pipelineName: S.String,
     pipelineExecutionId: S.String,
     abandon: S.optional(S.Boolean),
     reason: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class Tag extends S.Class<Tag>("Tag")({
-  key: S.String,
-  value: S.String,
-}) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "StopPipelineExecutionInput",
+}) as any as S.Schema<StopPipelineExecutionInput>;
+export interface Tag {
+  key: string;
+  value: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ key: S.String, value: S.String }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagList = Tag[];
 export const TagList = S.Array(Tag);
-export class TagResourceInput extends S.Class<TagResourceInput>(
-  "TagResourceInput",
-)(
-  { resourceArn: S.String, tags: TagList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TagResourceOutput extends S.Class<TagResourceOutput>(
-  "TagResourceOutput",
-)({}, ns) {}
-export class UntagResourceInput extends S.Class<UntagResourceInput>(
-  "UntagResourceInput",
-)(
-  { resourceArn: S.String, tagKeys: TagKeyList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UntagResourceOutput extends S.Class<UntagResourceOutput>(
-  "UntagResourceOutput",
-)({}, ns) {}
-export class EncryptionKey extends S.Class<EncryptionKey>("EncryptionKey")({
-  id: S.String,
-  type: S.String,
-}) {}
-export class ArtifactStore extends S.Class<ArtifactStore>("ArtifactStore")({
-  type: S.String,
-  location: S.String,
-  encryptionKey: S.optional(EncryptionKey),
-}) {}
+export interface TagResourceInput {
+  resourceArn: string;
+  tags: TagList;
+}
+export const TagResourceInput = S.suspend(() =>
+  S.Struct({ resourceArn: S.String, tags: TagList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "TagResourceInput",
+}) as any as S.Schema<TagResourceInput>;
+export interface TagResourceOutput {}
+export const TagResourceOutput = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "TagResourceOutput",
+}) as any as S.Schema<TagResourceOutput>;
+export interface UntagResourceInput {
+  resourceArn: string;
+  tagKeys: TagKeyList;
+}
+export const UntagResourceInput = S.suspend(() =>
+  S.Struct({ resourceArn: S.String, tagKeys: TagKeyList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UntagResourceInput",
+}) as any as S.Schema<UntagResourceInput>;
+export interface UntagResourceOutput {}
+export const UntagResourceOutput = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "UntagResourceOutput",
+}) as any as S.Schema<UntagResourceOutput>;
+export interface EncryptionKey {
+  id: string;
+  type: string;
+}
+export const EncryptionKey = S.suspend(() =>
+  S.Struct({ id: S.String, type: S.String }),
+).annotations({
+  identifier: "EncryptionKey",
+}) as any as S.Schema<EncryptionKey>;
+export interface ArtifactStore {
+  type: string;
+  location: string;
+  encryptionKey?: EncryptionKey;
+}
+export const ArtifactStore = S.suspend(() =>
+  S.Struct({
+    type: S.String,
+    location: S.String,
+    encryptionKey: S.optional(EncryptionKey),
+  }),
+).annotations({
+  identifier: "ArtifactStore",
+}) as any as S.Schema<ArtifactStore>;
+export type ArtifactStoreMap = { [key: string]: ArtifactStore };
 export const ArtifactStoreMap = S.Record({
   key: S.String,
   value: ArtifactStore,
 });
-export class BlockerDeclaration extends S.Class<BlockerDeclaration>(
-  "BlockerDeclaration",
-)({ name: S.String, type: S.String }) {}
+export interface BlockerDeclaration {
+  name: string;
+  type: string;
+}
+export const BlockerDeclaration = S.suspend(() =>
+  S.Struct({ name: S.String, type: S.String }),
+).annotations({
+  identifier: "BlockerDeclaration",
+}) as any as S.Schema<BlockerDeclaration>;
+export type StageBlockerDeclarationList = BlockerDeclaration[];
 export const StageBlockerDeclarationList = S.Array(BlockerDeclaration);
+export type ActionConfigurationMap = { [key: string]: string };
 export const ActionConfigurationMap = S.Record({
   key: S.String,
   value: S.String,
 });
+export type CommandList = string[];
 export const CommandList = S.Array(S.String);
+export type FilePathList = string[];
 export const FilePathList = S.Array(S.String);
-export class OutputArtifact extends S.Class<OutputArtifact>("OutputArtifact")({
-  name: S.String,
-  files: S.optional(FilePathList),
-}) {}
+export interface OutputArtifact {
+  name: string;
+  files?: FilePathList;
+}
+export const OutputArtifact = S.suspend(() =>
+  S.Struct({ name: S.String, files: S.optional(FilePathList) }),
+).annotations({
+  identifier: "OutputArtifact",
+}) as any as S.Schema<OutputArtifact>;
+export type OutputArtifactList = OutputArtifact[];
 export const OutputArtifactList = S.Array(OutputArtifact);
-export class InputArtifact extends S.Class<InputArtifact>("InputArtifact")({
-  name: S.String,
-}) {}
+export interface InputArtifact {
+  name: string;
+}
+export const InputArtifact = S.suspend(() =>
+  S.Struct({ name: S.String }),
+).annotations({
+  identifier: "InputArtifact",
+}) as any as S.Schema<InputArtifact>;
+export type InputArtifactList = InputArtifact[];
 export const InputArtifactList = S.Array(InputArtifact);
+export type OutputVariableList = string[];
 export const OutputVariableList = S.Array(S.String);
-export class EnvironmentVariable extends S.Class<EnvironmentVariable>(
-  "EnvironmentVariable",
-)({ name: S.String, value: S.String, type: S.optional(S.String) }) {}
+export interface EnvironmentVariable {
+  name: string;
+  value: string;
+  type?: string;
+}
+export const EnvironmentVariable = S.suspend(() =>
+  S.Struct({ name: S.String, value: S.String, type: S.optional(S.String) }),
+).annotations({
+  identifier: "EnvironmentVariable",
+}) as any as S.Schema<EnvironmentVariable>;
+export type EnvironmentVariableList = EnvironmentVariable[];
 export const EnvironmentVariableList = S.Array(EnvironmentVariable);
-export class ActionDeclaration extends S.Class<ActionDeclaration>(
-  "ActionDeclaration",
-)({
-  name: S.String,
-  actionTypeId: ActionTypeId,
-  runOrder: S.optional(S.Number),
-  configuration: S.optional(ActionConfigurationMap),
-  commands: S.optional(CommandList),
-  outputArtifacts: S.optional(OutputArtifactList),
-  inputArtifacts: S.optional(InputArtifactList),
-  outputVariables: S.optional(OutputVariableList),
-  roleArn: S.optional(S.String),
-  region: S.optional(S.String),
-  namespace: S.optional(S.String),
-  timeoutInMinutes: S.optional(S.Number),
-  environmentVariables: S.optional(EnvironmentVariableList),
-}) {}
+export interface ActionDeclaration {
+  name: string;
+  actionTypeId: ActionTypeId;
+  runOrder?: number;
+  configuration?: ActionConfigurationMap;
+  commands?: CommandList;
+  outputArtifacts?: OutputArtifactList;
+  inputArtifacts?: InputArtifactList;
+  outputVariables?: OutputVariableList;
+  roleArn?: string;
+  region?: string;
+  namespace?: string;
+  timeoutInMinutes?: number;
+  environmentVariables?: EnvironmentVariableList;
+}
+export const ActionDeclaration = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    actionTypeId: ActionTypeId,
+    runOrder: S.optional(S.Number),
+    configuration: S.optional(ActionConfigurationMap),
+    commands: S.optional(CommandList),
+    outputArtifacts: S.optional(OutputArtifactList),
+    inputArtifacts: S.optional(InputArtifactList),
+    outputVariables: S.optional(OutputVariableList),
+    roleArn: S.optional(S.String),
+    region: S.optional(S.String),
+    namespace: S.optional(S.String),
+    timeoutInMinutes: S.optional(S.Number),
+    environmentVariables: S.optional(EnvironmentVariableList),
+  }),
+).annotations({
+  identifier: "ActionDeclaration",
+}) as any as S.Schema<ActionDeclaration>;
+export type StageActionDeclarationList = ActionDeclaration[];
 export const StageActionDeclarationList = S.Array(ActionDeclaration);
-export class RetryConfiguration extends S.Class<RetryConfiguration>(
-  "RetryConfiguration",
-)({ retryMode: S.optional(S.String) }) {}
-export class RuleTypeId extends S.Class<RuleTypeId>("RuleTypeId")({
-  category: S.String,
-  owner: S.optional(S.String),
-  provider: S.String,
-  version: S.optional(S.String),
-}) {}
+export interface RetryConfiguration {
+  retryMode?: string;
+}
+export const RetryConfiguration = S.suspend(() =>
+  S.Struct({ retryMode: S.optional(S.String) }),
+).annotations({
+  identifier: "RetryConfiguration",
+}) as any as S.Schema<RetryConfiguration>;
+export interface RuleTypeId {
+  category: string;
+  owner?: string;
+  provider: string;
+  version?: string;
+}
+export const RuleTypeId = S.suspend(() =>
+  S.Struct({
+    category: S.String,
+    owner: S.optional(S.String),
+    provider: S.String,
+    version: S.optional(S.String),
+  }),
+).annotations({ identifier: "RuleTypeId" }) as any as S.Schema<RuleTypeId>;
+export type RuleConfigurationMap = { [key: string]: string };
 export const RuleConfigurationMap = S.Record({
   key: S.String,
   value: S.String,
 });
-export class RuleDeclaration extends S.Class<RuleDeclaration>(
-  "RuleDeclaration",
-)({
-  name: S.String,
-  ruleTypeId: RuleTypeId,
-  configuration: S.optional(RuleConfigurationMap),
-  commands: S.optional(CommandList),
-  inputArtifacts: S.optional(InputArtifactList),
-  roleArn: S.optional(S.String),
-  region: S.optional(S.String),
-  timeoutInMinutes: S.optional(S.Number),
-}) {}
+export interface RuleDeclaration {
+  name: string;
+  ruleTypeId: RuleTypeId;
+  configuration?: RuleConfigurationMap;
+  commands?: CommandList;
+  inputArtifacts?: InputArtifactList;
+  roleArn?: string;
+  region?: string;
+  timeoutInMinutes?: number;
+}
+export const RuleDeclaration = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    ruleTypeId: RuleTypeId,
+    configuration: S.optional(RuleConfigurationMap),
+    commands: S.optional(CommandList),
+    inputArtifacts: S.optional(InputArtifactList),
+    roleArn: S.optional(S.String),
+    region: S.optional(S.String),
+    timeoutInMinutes: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "RuleDeclaration",
+}) as any as S.Schema<RuleDeclaration>;
+export type RuleDeclarationList = RuleDeclaration[];
 export const RuleDeclarationList = S.Array(RuleDeclaration);
-export class Condition extends S.Class<Condition>("Condition")({
-  result: S.optional(S.String),
-  rules: S.optional(RuleDeclarationList),
-}) {}
+export interface Condition {
+  result?: string;
+  rules?: RuleDeclarationList;
+}
+export const Condition = S.suspend(() =>
+  S.Struct({
+    result: S.optional(S.String),
+    rules: S.optional(RuleDeclarationList),
+  }),
+).annotations({ identifier: "Condition" }) as any as S.Schema<Condition>;
+export type ConditionList = Condition[];
 export const ConditionList = S.Array(Condition);
-export class FailureConditions extends S.Class<FailureConditions>(
-  "FailureConditions",
-)({
-  result: S.optional(S.String),
-  retryConfiguration: S.optional(RetryConfiguration),
-  conditions: S.optional(ConditionList),
-}) {}
-export class SuccessConditions extends S.Class<SuccessConditions>(
-  "SuccessConditions",
-)({ conditions: ConditionList }) {}
-export class BeforeEntryConditions extends S.Class<BeforeEntryConditions>(
-  "BeforeEntryConditions",
-)({ conditions: ConditionList }) {}
-export class StageDeclaration extends S.Class<StageDeclaration>(
-  "StageDeclaration",
-)({
-  name: S.String,
-  blockers: S.optional(StageBlockerDeclarationList),
-  actions: StageActionDeclarationList,
-  onFailure: S.optional(FailureConditions),
-  onSuccess: S.optional(SuccessConditions),
-  beforeEntry: S.optional(BeforeEntryConditions),
-}) {}
+export interface FailureConditions {
+  result?: string;
+  retryConfiguration?: RetryConfiguration;
+  conditions?: ConditionList;
+}
+export const FailureConditions = S.suspend(() =>
+  S.Struct({
+    result: S.optional(S.String),
+    retryConfiguration: S.optional(RetryConfiguration),
+    conditions: S.optional(ConditionList),
+  }),
+).annotations({
+  identifier: "FailureConditions",
+}) as any as S.Schema<FailureConditions>;
+export interface SuccessConditions {
+  conditions: ConditionList;
+}
+export const SuccessConditions = S.suspend(() =>
+  S.Struct({ conditions: ConditionList }),
+).annotations({
+  identifier: "SuccessConditions",
+}) as any as S.Schema<SuccessConditions>;
+export interface BeforeEntryConditions {
+  conditions: ConditionList;
+}
+export const BeforeEntryConditions = S.suspend(() =>
+  S.Struct({ conditions: ConditionList }),
+).annotations({
+  identifier: "BeforeEntryConditions",
+}) as any as S.Schema<BeforeEntryConditions>;
+export interface StageDeclaration {
+  name: string;
+  blockers?: StageBlockerDeclarationList;
+  actions: StageActionDeclarationList;
+  onFailure?: FailureConditions;
+  onSuccess?: SuccessConditions;
+  beforeEntry?: BeforeEntryConditions;
+}
+export const StageDeclaration = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    blockers: S.optional(StageBlockerDeclarationList),
+    actions: StageActionDeclarationList,
+    onFailure: S.optional(FailureConditions),
+    onSuccess: S.optional(SuccessConditions),
+    beforeEntry: S.optional(BeforeEntryConditions),
+  }),
+).annotations({
+  identifier: "StageDeclaration",
+}) as any as S.Schema<StageDeclaration>;
+export type PipelineStageDeclarationList = StageDeclaration[];
 export const PipelineStageDeclarationList = S.Array(StageDeclaration);
-export class PipelineVariableDeclaration extends S.Class<PipelineVariableDeclaration>(
-  "PipelineVariableDeclaration",
-)({
-  name: S.String,
-  defaultValue: S.optional(S.String),
-  description: S.optional(S.String),
-}) {}
+export interface PipelineVariableDeclaration {
+  name: string;
+  defaultValue?: string;
+  description?: string;
+}
+export const PipelineVariableDeclaration = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    defaultValue: S.optional(S.String),
+    description: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "PipelineVariableDeclaration",
+}) as any as S.Schema<PipelineVariableDeclaration>;
+export type PipelineVariableDeclarationList = PipelineVariableDeclaration[];
 export const PipelineVariableDeclarationList = S.Array(
   PipelineVariableDeclaration,
 );
+export type GitTagPatternList = string[];
 export const GitTagPatternList = S.Array(S.String);
-export class GitTagFilterCriteria extends S.Class<GitTagFilterCriteria>(
-  "GitTagFilterCriteria",
-)({
-  includes: S.optional(GitTagPatternList),
-  excludes: S.optional(GitTagPatternList),
-}) {}
+export interface GitTagFilterCriteria {
+  includes?: GitTagPatternList;
+  excludes?: GitTagPatternList;
+}
+export const GitTagFilterCriteria = S.suspend(() =>
+  S.Struct({
+    includes: S.optional(GitTagPatternList),
+    excludes: S.optional(GitTagPatternList),
+  }),
+).annotations({
+  identifier: "GitTagFilterCriteria",
+}) as any as S.Schema<GitTagFilterCriteria>;
+export type GitBranchPatternList = string[];
 export const GitBranchPatternList = S.Array(S.String);
-export class GitBranchFilterCriteria extends S.Class<GitBranchFilterCriteria>(
-  "GitBranchFilterCriteria",
-)({
-  includes: S.optional(GitBranchPatternList),
-  excludes: S.optional(GitBranchPatternList),
-}) {}
+export interface GitBranchFilterCriteria {
+  includes?: GitBranchPatternList;
+  excludes?: GitBranchPatternList;
+}
+export const GitBranchFilterCriteria = S.suspend(() =>
+  S.Struct({
+    includes: S.optional(GitBranchPatternList),
+    excludes: S.optional(GitBranchPatternList),
+  }),
+).annotations({
+  identifier: "GitBranchFilterCriteria",
+}) as any as S.Schema<GitBranchFilterCriteria>;
+export type GitFilePathPatternList = string[];
 export const GitFilePathPatternList = S.Array(S.String);
-export class GitFilePathFilterCriteria extends S.Class<GitFilePathFilterCriteria>(
-  "GitFilePathFilterCriteria",
-)({
-  includes: S.optional(GitFilePathPatternList),
-  excludes: S.optional(GitFilePathPatternList),
-}) {}
-export class GitPushFilter extends S.Class<GitPushFilter>("GitPushFilter")({
-  tags: S.optional(GitTagFilterCriteria),
-  branches: S.optional(GitBranchFilterCriteria),
-  filePaths: S.optional(GitFilePathFilterCriteria),
-}) {}
+export interface GitFilePathFilterCriteria {
+  includes?: GitFilePathPatternList;
+  excludes?: GitFilePathPatternList;
+}
+export const GitFilePathFilterCriteria = S.suspend(() =>
+  S.Struct({
+    includes: S.optional(GitFilePathPatternList),
+    excludes: S.optional(GitFilePathPatternList),
+  }),
+).annotations({
+  identifier: "GitFilePathFilterCriteria",
+}) as any as S.Schema<GitFilePathFilterCriteria>;
+export interface GitPushFilter {
+  tags?: GitTagFilterCriteria;
+  branches?: GitBranchFilterCriteria;
+  filePaths?: GitFilePathFilterCriteria;
+}
+export const GitPushFilter = S.suspend(() =>
+  S.Struct({
+    tags: S.optional(GitTagFilterCriteria),
+    branches: S.optional(GitBranchFilterCriteria),
+    filePaths: S.optional(GitFilePathFilterCriteria),
+  }),
+).annotations({
+  identifier: "GitPushFilter",
+}) as any as S.Schema<GitPushFilter>;
+export type GitPushFilterList = GitPushFilter[];
 export const GitPushFilterList = S.Array(GitPushFilter);
+export type GitPullRequestEventTypeList = string[];
 export const GitPullRequestEventTypeList = S.Array(S.String);
-export class GitPullRequestFilter extends S.Class<GitPullRequestFilter>(
-  "GitPullRequestFilter",
-)({
-  events: S.optional(GitPullRequestEventTypeList),
-  branches: S.optional(GitBranchFilterCriteria),
-  filePaths: S.optional(GitFilePathFilterCriteria),
-}) {}
+export interface GitPullRequestFilter {
+  events?: GitPullRequestEventTypeList;
+  branches?: GitBranchFilterCriteria;
+  filePaths?: GitFilePathFilterCriteria;
+}
+export const GitPullRequestFilter = S.suspend(() =>
+  S.Struct({
+    events: S.optional(GitPullRequestEventTypeList),
+    branches: S.optional(GitBranchFilterCriteria),
+    filePaths: S.optional(GitFilePathFilterCriteria),
+  }),
+).annotations({
+  identifier: "GitPullRequestFilter",
+}) as any as S.Schema<GitPullRequestFilter>;
+export type GitPullRequestFilterList = GitPullRequestFilter[];
 export const GitPullRequestFilterList = S.Array(GitPullRequestFilter);
-export class GitConfiguration extends S.Class<GitConfiguration>(
-  "GitConfiguration",
-)({
-  sourceActionName: S.String,
-  push: S.optional(GitPushFilterList),
-  pullRequest: S.optional(GitPullRequestFilterList),
-}) {}
-export class PipelineTriggerDeclaration extends S.Class<PipelineTriggerDeclaration>(
-  "PipelineTriggerDeclaration",
-)({ providerType: S.String, gitConfiguration: GitConfiguration }) {}
+export interface GitConfiguration {
+  sourceActionName: string;
+  push?: GitPushFilterList;
+  pullRequest?: GitPullRequestFilterList;
+}
+export const GitConfiguration = S.suspend(() =>
+  S.Struct({
+    sourceActionName: S.String,
+    push: S.optional(GitPushFilterList),
+    pullRequest: S.optional(GitPullRequestFilterList),
+  }),
+).annotations({
+  identifier: "GitConfiguration",
+}) as any as S.Schema<GitConfiguration>;
+export interface PipelineTriggerDeclaration {
+  providerType: string;
+  gitConfiguration: GitConfiguration;
+}
+export const PipelineTriggerDeclaration = S.suspend(() =>
+  S.Struct({ providerType: S.String, gitConfiguration: GitConfiguration }),
+).annotations({
+  identifier: "PipelineTriggerDeclaration",
+}) as any as S.Schema<PipelineTriggerDeclaration>;
+export type PipelineTriggerDeclarationList = PipelineTriggerDeclaration[];
 export const PipelineTriggerDeclarationList = S.Array(
   PipelineTriggerDeclaration,
 );
-export class PipelineDeclaration extends S.Class<PipelineDeclaration>(
-  "PipelineDeclaration",
-)({
-  name: S.String,
-  roleArn: S.String,
-  artifactStore: S.optional(ArtifactStore),
-  artifactStores: S.optional(ArtifactStoreMap),
-  stages: PipelineStageDeclarationList,
-  version: S.optional(S.Number),
-  executionMode: S.optional(S.String),
-  pipelineType: S.optional(S.String),
-  variables: S.optional(PipelineVariableDeclarationList),
-  triggers: S.optional(PipelineTriggerDeclarationList),
-}) {}
-export class UpdatePipelineInput extends S.Class<UpdatePipelineInput>(
-  "UpdatePipelineInput",
-)(
-  { pipeline: PipelineDeclaration },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+export interface PipelineDeclaration {
+  name: string;
+  roleArn: string;
+  artifactStore?: ArtifactStore;
+  artifactStores?: ArtifactStoreMap;
+  stages: PipelineStageDeclarationList;
+  version?: number;
+  executionMode?: string;
+  pipelineType?: string;
+  variables?: PipelineVariableDeclarationList;
+  triggers?: PipelineTriggerDeclarationList;
+}
+export const PipelineDeclaration = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    roleArn: S.String,
+    artifactStore: S.optional(ArtifactStore),
+    artifactStores: S.optional(ArtifactStoreMap),
+    stages: PipelineStageDeclarationList,
+    version: S.optional(S.Number),
+    executionMode: S.optional(S.String),
+    pipelineType: S.optional(S.String),
+    variables: S.optional(PipelineVariableDeclarationList),
+    triggers: S.optional(PipelineTriggerDeclarationList),
+  }),
+).annotations({
+  identifier: "PipelineDeclaration",
+}) as any as S.Schema<PipelineDeclaration>;
+export interface UpdatePipelineInput {
+  pipeline: PipelineDeclaration;
+}
+export const UpdatePipelineInput = S.suspend(() =>
+  S.Struct({ pipeline: PipelineDeclaration }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdatePipelineInput",
+}) as any as S.Schema<UpdatePipelineInput>;
+export type TargetFilterValueList = string[];
 export const TargetFilterValueList = S.Array(S.String);
-export class ActionTypeSettings extends S.Class<ActionTypeSettings>(
-  "ActionTypeSettings",
-)({
-  thirdPartyConfigurationUrl: S.optional(S.String),
-  entityUrlTemplate: S.optional(S.String),
-  executionUrlTemplate: S.optional(S.String),
-  revisionUrlTemplate: S.optional(S.String),
-}) {}
-export class ActionConfigurationProperty extends S.Class<ActionConfigurationProperty>(
-  "ActionConfigurationProperty",
-)({
-  name: S.String,
-  required: S.Boolean,
-  key: S.Boolean,
-  secret: S.Boolean,
-  queryable: S.optional(S.Boolean),
-  description: S.optional(S.String),
-  type: S.optional(S.String),
-}) {}
+export interface ActionTypeSettings {
+  thirdPartyConfigurationUrl?: string;
+  entityUrlTemplate?: string;
+  executionUrlTemplate?: string;
+  revisionUrlTemplate?: string;
+}
+export const ActionTypeSettings = S.suspend(() =>
+  S.Struct({
+    thirdPartyConfigurationUrl: S.optional(S.String),
+    entityUrlTemplate: S.optional(S.String),
+    executionUrlTemplate: S.optional(S.String),
+    revisionUrlTemplate: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ActionTypeSettings",
+}) as any as S.Schema<ActionTypeSettings>;
+export interface ActionConfigurationProperty {
+  name: string;
+  required: boolean;
+  key: boolean;
+  secret: boolean;
+  queryable?: boolean;
+  description?: string;
+  type?: string;
+}
+export const ActionConfigurationProperty = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    required: S.Boolean,
+    key: S.Boolean,
+    secret: S.Boolean,
+    queryable: S.optional(S.Boolean),
+    description: S.optional(S.String),
+    type: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ActionConfigurationProperty",
+}) as any as S.Schema<ActionConfigurationProperty>;
+export type ActionConfigurationPropertyList = ActionConfigurationProperty[];
 export const ActionConfigurationPropertyList = S.Array(
   ActionConfigurationProperty,
 );
-export class ArtifactDetails extends S.Class<ArtifactDetails>(
-  "ArtifactDetails",
-)({ minimumCount: S.Number, maximumCount: S.Number }) {}
-export class TargetFilter extends S.Class<TargetFilter>("TargetFilter")({
-  name: S.optional(S.String),
-  values: S.optional(TargetFilterValueList),
-}) {}
+export interface ArtifactDetails {
+  minimumCount: number;
+  maximumCount: number;
+}
+export const ArtifactDetails = S.suspend(() =>
+  S.Struct({ minimumCount: S.Number, maximumCount: S.Number }),
+).annotations({
+  identifier: "ArtifactDetails",
+}) as any as S.Schema<ArtifactDetails>;
+export interface TargetFilter {
+  name?: string;
+  values?: TargetFilterValueList;
+}
+export const TargetFilter = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    values: S.optional(TargetFilterValueList),
+  }),
+).annotations({ identifier: "TargetFilter" }) as any as S.Schema<TargetFilter>;
+export type TargetFilterList = TargetFilter[];
 export const TargetFilterList = S.Array(TargetFilter);
-export class LatestInPipelineExecutionFilter extends S.Class<LatestInPipelineExecutionFilter>(
-  "LatestInPipelineExecutionFilter",
-)({ pipelineExecutionId: S.String, startTimeRange: S.String }) {}
-export class RuleExecutionFilter extends S.Class<RuleExecutionFilter>(
-  "RuleExecutionFilter",
-)({
-  pipelineExecutionId: S.optional(S.String),
-  latestInPipelineExecution: S.optional(LatestInPipelineExecutionFilter),
-}) {}
+export interface LatestInPipelineExecutionFilter {
+  pipelineExecutionId: string;
+  startTimeRange: string;
+}
+export const LatestInPipelineExecutionFilter = S.suspend(() =>
+  S.Struct({ pipelineExecutionId: S.String, startTimeRange: S.String }),
+).annotations({
+  identifier: "LatestInPipelineExecutionFilter",
+}) as any as S.Schema<LatestInPipelineExecutionFilter>;
+export interface RuleExecutionFilter {
+  pipelineExecutionId?: string;
+  latestInPipelineExecution?: LatestInPipelineExecutionFilter;
+}
+export const RuleExecutionFilter = S.suspend(() =>
+  S.Struct({
+    pipelineExecutionId: S.optional(S.String),
+    latestInPipelineExecution: S.optional(LatestInPipelineExecutionFilter),
+  }),
+).annotations({
+  identifier: "RuleExecutionFilter",
+}) as any as S.Schema<RuleExecutionFilter>;
+export type QueryParamMap = { [key: string]: string };
 export const QueryParamMap = S.Record({ key: S.String, value: S.String });
-export class ActionRevision extends S.Class<ActionRevision>("ActionRevision")({
-  revisionId: S.String,
-  revisionChangeId: S.String,
-  created: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-}) {}
-export class ApprovalResult extends S.Class<ApprovalResult>("ApprovalResult")({
-  summary: S.String,
-  status: S.String,
-}) {}
+export interface ActionRevision {
+  revisionId: string;
+  revisionChangeId: string;
+  created: Date;
+}
+export const ActionRevision = S.suspend(() =>
+  S.Struct({
+    revisionId: S.String,
+    revisionChangeId: S.String,
+    created: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotations({
+  identifier: "ActionRevision",
+}) as any as S.Schema<ActionRevision>;
+export interface ApprovalResult {
+  summary: string;
+  status: string;
+}
+export const ApprovalResult = S.suspend(() =>
+  S.Struct({ summary: S.String, status: S.String }),
+).annotations({
+  identifier: "ApprovalResult",
+}) as any as S.Schema<ApprovalResult>;
+export type OutputVariablesMap = { [key: string]: string };
 export const OutputVariablesMap = S.Record({ key: S.String, value: S.String });
-export class PipelineVariable extends S.Class<PipelineVariable>(
-  "PipelineVariable",
-)({ name: S.String, value: S.String }) {}
+export interface PipelineVariable {
+  name: string;
+  value: string;
+}
+export const PipelineVariable = S.suspend(() =>
+  S.Struct({ name: S.String, value: S.String }),
+).annotations({
+  identifier: "PipelineVariable",
+}) as any as S.Schema<PipelineVariable>;
+export type PipelineVariableList = PipelineVariable[];
 export const PipelineVariableList = S.Array(PipelineVariable);
-export class SourceRevisionOverride extends S.Class<SourceRevisionOverride>(
-  "SourceRevisionOverride",
-)({ actionName: S.String, revisionType: S.String, revisionValue: S.String }) {}
+export interface SourceRevisionOverride {
+  actionName: string;
+  revisionType: string;
+  revisionValue: string;
+}
+export const SourceRevisionOverride = S.suspend(() =>
+  S.Struct({
+    actionName: S.String,
+    revisionType: S.String,
+    revisionValue: S.String,
+  }),
+).annotations({
+  identifier: "SourceRevisionOverride",
+}) as any as S.Schema<SourceRevisionOverride>;
+export type SourceRevisionOverrideList = SourceRevisionOverride[];
 export const SourceRevisionOverrideList = S.Array(SourceRevisionOverride);
+export type AllowedAccounts = string[];
 export const AllowedAccounts = S.Array(S.String);
-export class AcknowledgeJobOutput extends S.Class<AcknowledgeJobOutput>(
-  "AcknowledgeJobOutput",
-)({ status: S.optional(S.String) }, ns) {}
-export class AcknowledgeThirdPartyJobOutput extends S.Class<AcknowledgeThirdPartyJobOutput>(
-  "AcknowledgeThirdPartyJobOutput",
-)({ status: S.optional(S.String) }, ns) {}
-export class CreateCustomActionTypeInput extends S.Class<CreateCustomActionTypeInput>(
-  "CreateCustomActionTypeInput",
-)(
-  {
+export interface AcknowledgeJobOutput {
+  status?: string;
+}
+export const AcknowledgeJobOutput = S.suspend(() =>
+  S.Struct({ status: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "AcknowledgeJobOutput",
+}) as any as S.Schema<AcknowledgeJobOutput>;
+export interface AcknowledgeThirdPartyJobOutput {
+  status?: string;
+}
+export const AcknowledgeThirdPartyJobOutput = S.suspend(() =>
+  S.Struct({ status: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "AcknowledgeThirdPartyJobOutput",
+}) as any as S.Schema<AcknowledgeThirdPartyJobOutput>;
+export interface CreateCustomActionTypeInput {
+  category: string;
+  provider: string;
+  version: string;
+  settings?: ActionTypeSettings;
+  configurationProperties?: ActionConfigurationPropertyList;
+  inputArtifactDetails: ArtifactDetails;
+  outputArtifactDetails: ArtifactDetails;
+  tags?: TagList;
+}
+export const CreateCustomActionTypeInput = S.suspend(() =>
+  S.Struct({
     category: S.String,
     provider: S.String,
     version: S.String,
@@ -795,821 +1593,1798 @@ export class CreateCustomActionTypeInput extends S.Class<CreateCustomActionTypeI
     inputArtifactDetails: ArtifactDetails,
     outputArtifactDetails: ArtifactDetails,
     tags: S.optional(TagList),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class LambdaExecutorConfiguration extends S.Class<LambdaExecutorConfiguration>(
-  "LambdaExecutorConfiguration",
-)({ lambdaFunctionArn: S.String }) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateCustomActionTypeInput",
+}) as any as S.Schema<CreateCustomActionTypeInput>;
+export interface LambdaExecutorConfiguration {
+  lambdaFunctionArn: string;
+}
+export const LambdaExecutorConfiguration = S.suspend(() =>
+  S.Struct({ lambdaFunctionArn: S.String }),
+).annotations({
+  identifier: "LambdaExecutorConfiguration",
+}) as any as S.Schema<LambdaExecutorConfiguration>;
+export type PollingAccountList = string[];
 export const PollingAccountList = S.Array(S.String);
+export type PollingServicePrincipalList = string[];
 export const PollingServicePrincipalList = S.Array(S.String);
-export class JobWorkerExecutorConfiguration extends S.Class<JobWorkerExecutorConfiguration>(
-  "JobWorkerExecutorConfiguration",
-)({
-  pollingAccounts: S.optional(PollingAccountList),
-  pollingServicePrincipals: S.optional(PollingServicePrincipalList),
-}) {}
-export class ExecutorConfiguration extends S.Class<ExecutorConfiguration>(
-  "ExecutorConfiguration",
-)({
-  lambdaExecutorConfiguration: S.optional(LambdaExecutorConfiguration),
-  jobWorkerExecutorConfiguration: S.optional(JobWorkerExecutorConfiguration),
-}) {}
-export class ActionTypeExecutor extends S.Class<ActionTypeExecutor>(
-  "ActionTypeExecutor",
-)({
-  configuration: ExecutorConfiguration,
-  type: S.String,
-  policyStatementsTemplate: S.optional(S.String),
-  jobTimeout: S.optional(S.Number),
-}) {}
-export class ActionTypeIdentifier extends S.Class<ActionTypeIdentifier>(
-  "ActionTypeIdentifier",
-)({
-  category: S.String,
-  owner: S.String,
-  provider: S.String,
-  version: S.String,
-}) {}
-export class ActionTypeArtifactDetails extends S.Class<ActionTypeArtifactDetails>(
-  "ActionTypeArtifactDetails",
-)({ minimumCount: S.Number, maximumCount: S.Number }) {}
-export class ActionTypePermissions extends S.Class<ActionTypePermissions>(
-  "ActionTypePermissions",
-)({ allowedAccounts: AllowedAccounts }) {}
-export class ActionTypeProperty extends S.Class<ActionTypeProperty>(
-  "ActionTypeProperty",
-)({
-  name: S.String,
-  optional: S.Boolean,
-  key: S.Boolean,
-  noEcho: S.Boolean,
-  queryable: S.optional(S.Boolean),
-  description: S.optional(S.String),
-}) {}
+export interface JobWorkerExecutorConfiguration {
+  pollingAccounts?: PollingAccountList;
+  pollingServicePrincipals?: PollingServicePrincipalList;
+}
+export const JobWorkerExecutorConfiguration = S.suspend(() =>
+  S.Struct({
+    pollingAccounts: S.optional(PollingAccountList),
+    pollingServicePrincipals: S.optional(PollingServicePrincipalList),
+  }),
+).annotations({
+  identifier: "JobWorkerExecutorConfiguration",
+}) as any as S.Schema<JobWorkerExecutorConfiguration>;
+export interface ExecutorConfiguration {
+  lambdaExecutorConfiguration?: LambdaExecutorConfiguration;
+  jobWorkerExecutorConfiguration?: JobWorkerExecutorConfiguration;
+}
+export const ExecutorConfiguration = S.suspend(() =>
+  S.Struct({
+    lambdaExecutorConfiguration: S.optional(LambdaExecutorConfiguration),
+    jobWorkerExecutorConfiguration: S.optional(JobWorkerExecutorConfiguration),
+  }),
+).annotations({
+  identifier: "ExecutorConfiguration",
+}) as any as S.Schema<ExecutorConfiguration>;
+export interface ActionTypeExecutor {
+  configuration: ExecutorConfiguration;
+  type: string;
+  policyStatementsTemplate?: string;
+  jobTimeout?: number;
+}
+export const ActionTypeExecutor = S.suspend(() =>
+  S.Struct({
+    configuration: ExecutorConfiguration,
+    type: S.String,
+    policyStatementsTemplate: S.optional(S.String),
+    jobTimeout: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "ActionTypeExecutor",
+}) as any as S.Schema<ActionTypeExecutor>;
+export interface ActionTypeIdentifier {
+  category: string;
+  owner: string;
+  provider: string;
+  version: string;
+}
+export const ActionTypeIdentifier = S.suspend(() =>
+  S.Struct({
+    category: S.String,
+    owner: S.String,
+    provider: S.String,
+    version: S.String,
+  }),
+).annotations({
+  identifier: "ActionTypeIdentifier",
+}) as any as S.Schema<ActionTypeIdentifier>;
+export interface ActionTypeArtifactDetails {
+  minimumCount: number;
+  maximumCount: number;
+}
+export const ActionTypeArtifactDetails = S.suspend(() =>
+  S.Struct({ minimumCount: S.Number, maximumCount: S.Number }),
+).annotations({
+  identifier: "ActionTypeArtifactDetails",
+}) as any as S.Schema<ActionTypeArtifactDetails>;
+export interface ActionTypePermissions {
+  allowedAccounts: AllowedAccounts;
+}
+export const ActionTypePermissions = S.suspend(() =>
+  S.Struct({ allowedAccounts: AllowedAccounts }),
+).annotations({
+  identifier: "ActionTypePermissions",
+}) as any as S.Schema<ActionTypePermissions>;
+export interface ActionTypeProperty {
+  name: string;
+  optional: boolean;
+  key: boolean;
+  noEcho: boolean;
+  queryable?: boolean;
+  description?: string;
+}
+export const ActionTypeProperty = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    optional: S.Boolean,
+    key: S.Boolean,
+    noEcho: S.Boolean,
+    queryable: S.optional(S.Boolean),
+    description: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ActionTypeProperty",
+}) as any as S.Schema<ActionTypeProperty>;
+export type ActionTypeProperties = ActionTypeProperty[];
 export const ActionTypeProperties = S.Array(ActionTypeProperty);
-export class ActionTypeUrls extends S.Class<ActionTypeUrls>("ActionTypeUrls")({
-  configurationUrl: S.optional(S.String),
-  entityUrlTemplate: S.optional(S.String),
-  executionUrlTemplate: S.optional(S.String),
-  revisionUrlTemplate: S.optional(S.String),
-}) {}
-export class ActionTypeDeclaration extends S.Class<ActionTypeDeclaration>(
-  "ActionTypeDeclaration",
-)({
-  description: S.optional(S.String),
-  executor: ActionTypeExecutor,
-  id: ActionTypeIdentifier,
-  inputArtifactDetails: ActionTypeArtifactDetails,
-  outputArtifactDetails: ActionTypeArtifactDetails,
-  permissions: S.optional(ActionTypePermissions),
-  properties: S.optional(ActionTypeProperties),
-  urls: S.optional(ActionTypeUrls),
-}) {}
-export class GetActionTypeOutput extends S.Class<GetActionTypeOutput>(
-  "GetActionTypeOutput",
-)({ actionType: S.optional(ActionTypeDeclaration) }, ns) {}
-export class ListDeployActionExecutionTargetsInput extends S.Class<ListDeployActionExecutionTargetsInput>(
-  "ListDeployActionExecutionTargetsInput",
-)(
-  {
+export interface ActionTypeUrls {
+  configurationUrl?: string;
+  entityUrlTemplate?: string;
+  executionUrlTemplate?: string;
+  revisionUrlTemplate?: string;
+}
+export const ActionTypeUrls = S.suspend(() =>
+  S.Struct({
+    configurationUrl: S.optional(S.String),
+    entityUrlTemplate: S.optional(S.String),
+    executionUrlTemplate: S.optional(S.String),
+    revisionUrlTemplate: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ActionTypeUrls",
+}) as any as S.Schema<ActionTypeUrls>;
+export interface ActionTypeDeclaration {
+  description?: string;
+  executor: ActionTypeExecutor;
+  id: ActionTypeIdentifier;
+  inputArtifactDetails: ActionTypeArtifactDetails;
+  outputArtifactDetails: ActionTypeArtifactDetails;
+  permissions?: ActionTypePermissions;
+  properties?: ActionTypeProperties;
+  urls?: ActionTypeUrls;
+}
+export const ActionTypeDeclaration = S.suspend(() =>
+  S.Struct({
+    description: S.optional(S.String),
+    executor: ActionTypeExecutor,
+    id: ActionTypeIdentifier,
+    inputArtifactDetails: ActionTypeArtifactDetails,
+    outputArtifactDetails: ActionTypeArtifactDetails,
+    permissions: S.optional(ActionTypePermissions),
+    properties: S.optional(ActionTypeProperties),
+    urls: S.optional(ActionTypeUrls),
+  }),
+).annotations({
+  identifier: "ActionTypeDeclaration",
+}) as any as S.Schema<ActionTypeDeclaration>;
+export interface GetActionTypeOutput {
+  actionType?: ActionTypeDeclaration;
+}
+export const GetActionTypeOutput = S.suspend(() =>
+  S.Struct({ actionType: S.optional(ActionTypeDeclaration) }).pipe(ns),
+).annotations({
+  identifier: "GetActionTypeOutput",
+}) as any as S.Schema<GetActionTypeOutput>;
+export interface ListDeployActionExecutionTargetsInput {
+  pipelineName?: string;
+  actionExecutionId: string;
+  filters?: TargetFilterList;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListDeployActionExecutionTargetsInput = S.suspend(() =>
+  S.Struct({
     pipelineName: S.optional(S.String),
     actionExecutionId: S.String,
     filters: S.optional(TargetFilterList),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListRuleExecutionsInput extends S.Class<ListRuleExecutionsInput>(
-  "ListRuleExecutionsInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListDeployActionExecutionTargetsInput",
+}) as any as S.Schema<ListDeployActionExecutionTargetsInput>;
+export interface ListRuleExecutionsInput {
+  pipelineName: string;
+  filter?: RuleExecutionFilter;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListRuleExecutionsInput = S.suspend(() =>
+  S.Struct({
     pipelineName: S.String,
     filter: S.optional(RuleExecutionFilter),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTagsForResourceOutput extends S.Class<ListTagsForResourceOutput>(
-  "ListTagsForResourceOutput",
-)({ tags: S.optional(TagList), nextToken: S.optional(S.String) }, ns) {}
-export class PollForJobsInput extends S.Class<PollForJobsInput>(
-  "PollForJobsInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListRuleExecutionsInput",
+}) as any as S.Schema<ListRuleExecutionsInput>;
+export interface ListTagsForResourceOutput {
+  tags?: TagList;
+  nextToken?: string;
+}
+export const ListTagsForResourceOutput = S.suspend(() =>
+  S.Struct({ tags: S.optional(TagList), nextToken: S.optional(S.String) }).pipe(
+    ns,
+  ),
+).annotations({
+  identifier: "ListTagsForResourceOutput",
+}) as any as S.Schema<ListTagsForResourceOutput>;
+export interface PollForJobsInput {
+  actionTypeId: ActionTypeId;
+  maxBatchSize?: number;
+  queryParam?: QueryParamMap;
+}
+export const PollForJobsInput = S.suspend(() =>
+  S.Struct({
     actionTypeId: ActionTypeId,
     maxBatchSize: S.optional(S.Number),
     queryParam: S.optional(QueryParamMap),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutActionRevisionInput extends S.Class<PutActionRevisionInput>(
-  "PutActionRevisionInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PollForJobsInput",
+}) as any as S.Schema<PollForJobsInput>;
+export interface PutActionRevisionInput {
+  pipelineName: string;
+  stageName: string;
+  actionName: string;
+  actionRevision: ActionRevision;
+}
+export const PutActionRevisionInput = S.suspend(() =>
+  S.Struct({
     pipelineName: S.String,
     stageName: S.String,
     actionName: S.String,
     actionRevision: ActionRevision,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutApprovalResultInput extends S.Class<PutApprovalResultInput>(
-  "PutApprovalResultInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutActionRevisionInput",
+}) as any as S.Schema<PutActionRevisionInput>;
+export interface PutApprovalResultInput {
+  pipelineName: string;
+  stageName: string;
+  actionName: string;
+  result: ApprovalResult;
+  token: string;
+}
+export const PutApprovalResultInput = S.suspend(() =>
+  S.Struct({
     pipelineName: S.String,
     stageName: S.String,
     actionName: S.String,
     result: ApprovalResult,
     token: S.String,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutJobFailureResultInput extends S.Class<PutJobFailureResultInput>(
-  "PutJobFailureResultInput",
-)(
-  { jobId: S.String, failureDetails: FailureDetails },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutJobFailureResultResponse extends S.Class<PutJobFailureResultResponse>(
-  "PutJobFailureResultResponse",
-)({}, ns) {}
-export class PutJobSuccessResultInput extends S.Class<PutJobSuccessResultInput>(
-  "PutJobSuccessResultInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutApprovalResultInput",
+}) as any as S.Schema<PutApprovalResultInput>;
+export interface PutJobFailureResultInput {
+  jobId: string;
+  failureDetails: FailureDetails;
+}
+export const PutJobFailureResultInput = S.suspend(() =>
+  S.Struct({ jobId: S.String, failureDetails: FailureDetails }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutJobFailureResultInput",
+}) as any as S.Schema<PutJobFailureResultInput>;
+export interface PutJobFailureResultResponse {}
+export const PutJobFailureResultResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "PutJobFailureResultResponse",
+}) as any as S.Schema<PutJobFailureResultResponse>;
+export interface PutJobSuccessResultInput {
+  jobId: string;
+  currentRevision?: CurrentRevision;
+  continuationToken?: string;
+  executionDetails?: ExecutionDetails;
+  outputVariables?: OutputVariablesMap;
+}
+export const PutJobSuccessResultInput = S.suspend(() =>
+  S.Struct({
     jobId: S.String,
     currentRevision: S.optional(CurrentRevision),
     continuationToken: S.optional(S.String),
     executionDetails: S.optional(ExecutionDetails),
     outputVariables: S.optional(OutputVariablesMap),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutJobSuccessResultResponse extends S.Class<PutJobSuccessResultResponse>(
-  "PutJobSuccessResultResponse",
-)({}, ns) {}
-export class RetryStageExecutionOutput extends S.Class<RetryStageExecutionOutput>(
-  "RetryStageExecutionOutput",
-)({ pipelineExecutionId: S.optional(S.String) }, ns) {}
-export class RollbackStageOutput extends S.Class<RollbackStageOutput>(
-  "RollbackStageOutput",
-)({ pipelineExecutionId: S.String }, ns) {}
-export class StartPipelineExecutionInput extends S.Class<StartPipelineExecutionInput>(
-  "StartPipelineExecutionInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutJobSuccessResultInput",
+}) as any as S.Schema<PutJobSuccessResultInput>;
+export interface PutJobSuccessResultResponse {}
+export const PutJobSuccessResultResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "PutJobSuccessResultResponse",
+}) as any as S.Schema<PutJobSuccessResultResponse>;
+export interface RetryStageExecutionOutput {
+  pipelineExecutionId?: string;
+}
+export const RetryStageExecutionOutput = S.suspend(() =>
+  S.Struct({ pipelineExecutionId: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "RetryStageExecutionOutput",
+}) as any as S.Schema<RetryStageExecutionOutput>;
+export interface RollbackStageOutput {
+  pipelineExecutionId: string;
+}
+export const RollbackStageOutput = S.suspend(() =>
+  S.Struct({ pipelineExecutionId: S.String }).pipe(ns),
+).annotations({
+  identifier: "RollbackStageOutput",
+}) as any as S.Schema<RollbackStageOutput>;
+export interface StartPipelineExecutionInput {
+  name: string;
+  variables?: PipelineVariableList;
+  clientRequestToken?: string;
+  sourceRevisions?: SourceRevisionOverrideList;
+}
+export const StartPipelineExecutionInput = S.suspend(() =>
+  S.Struct({
     name: S.String,
     variables: S.optional(PipelineVariableList),
     clientRequestToken: S.optional(S.String),
     sourceRevisions: S.optional(SourceRevisionOverrideList),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StopPipelineExecutionOutput extends S.Class<StopPipelineExecutionOutput>(
-  "StopPipelineExecutionOutput",
-)({ pipelineExecutionId: S.optional(S.String) }, ns) {}
-export class UpdatePipelineOutput extends S.Class<UpdatePipelineOutput>(
-  "UpdatePipelineOutput",
-)({ pipeline: S.optional(PipelineDeclaration) }, ns) {}
-export class StageExecution extends S.Class<StageExecution>("StageExecution")({
-  pipelineExecutionId: S.String,
-  status: S.String,
-  type: S.optional(S.String),
-}) {}
-export const StageExecutionList = S.Array(StageExecution);
-export class SucceededInStageFilter extends S.Class<SucceededInStageFilter>(
-  "SucceededInStageFilter",
-)({ stageName: S.optional(S.String) }) {}
-export class WebhookFilterRule extends S.Class<WebhookFilterRule>(
-  "WebhookFilterRule",
-)({ jsonPath: S.String, matchEquals: S.optional(S.String) }) {}
-export const WebhookFilters = S.Array(WebhookFilterRule);
-export class WebhookAuthConfiguration extends S.Class<WebhookAuthConfiguration>(
-  "WebhookAuthConfiguration",
-)({
-  AllowedIPRange: S.optional(S.String),
-  SecretToken: S.optional(S.String),
-}) {}
-export class PipelineMetadata extends S.Class<PipelineMetadata>(
-  "PipelineMetadata",
-)({
-  pipelineArn: S.optional(S.String),
-  created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  updated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  pollingDisabledAt: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-}) {}
-export class ActionExecutionFilter extends S.Class<ActionExecutionFilter>(
-  "ActionExecutionFilter",
-)({
-  pipelineExecutionId: S.optional(S.String),
-  latestInPipelineExecution: S.optional(LatestInPipelineExecutionFilter),
-}) {}
-export class ActionType extends S.Class<ActionType>("ActionType")({
-  id: ActionTypeId,
-  settings: S.optional(ActionTypeSettings),
-  actionConfigurationProperties: S.optional(ActionConfigurationPropertyList),
-  inputArtifactDetails: ArtifactDetails,
-  outputArtifactDetails: ArtifactDetails,
-}) {}
+).annotations({
+  identifier: "StartPipelineExecutionInput",
+}) as any as S.Schema<StartPipelineExecutionInput>;
+export interface StopPipelineExecutionOutput {
+  pipelineExecutionId?: string;
+}
+export const StopPipelineExecutionOutput = S.suspend(() =>
+  S.Struct({ pipelineExecutionId: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "StopPipelineExecutionOutput",
+}) as any as S.Schema<StopPipelineExecutionOutput>;
+export interface UpdatePipelineOutput {
+  pipeline?: PipelineDeclaration;
+}
+export const UpdatePipelineOutput = S.suspend(() =>
+  S.Struct({ pipeline: S.optional(PipelineDeclaration) }).pipe(ns),
+).annotations({
+  identifier: "UpdatePipelineOutput",
+}) as any as S.Schema<UpdatePipelineOutput>;
+export interface StageExecution {
+  pipelineExecutionId: string;
+  status: string;
+  type?: string;
+}
+export const StageExecution = S.suspend(() =>
+  S.Struct({
+    pipelineExecutionId: S.String,
+    status: S.String,
+    type: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "StageExecution",
+}) as any as S.Schema<StageExecution>;
+export type StageExecutionList = StageExecution[];
+export const StageExecutionList = S.Array(StageExecution);
+export interface SucceededInStageFilter {
+  stageName?: string;
+}
+export const SucceededInStageFilter = S.suspend(() =>
+  S.Struct({ stageName: S.optional(S.String) }),
+).annotations({
+  identifier: "SucceededInStageFilter",
+}) as any as S.Schema<SucceededInStageFilter>;
+export interface WebhookFilterRule {
+  jsonPath: string;
+  matchEquals?: string;
+}
+export const WebhookFilterRule = S.suspend(() =>
+  S.Struct({ jsonPath: S.String, matchEquals: S.optional(S.String) }),
+).annotations({
+  identifier: "WebhookFilterRule",
+}) as any as S.Schema<WebhookFilterRule>;
+export type WebhookFilters = WebhookFilterRule[];
+export const WebhookFilters = S.Array(WebhookFilterRule);
+export interface WebhookAuthConfiguration {
+  AllowedIPRange?: string;
+  SecretToken?: string;
+}
+export const WebhookAuthConfiguration = S.suspend(() =>
+  S.Struct({
+    AllowedIPRange: S.optional(S.String),
+    SecretToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "WebhookAuthConfiguration",
+}) as any as S.Schema<WebhookAuthConfiguration>;
+export interface PipelineMetadata {
+  pipelineArn?: string;
+  created?: Date;
+  updated?: Date;
+  pollingDisabledAt?: Date;
+}
+export const PipelineMetadata = S.suspend(() =>
+  S.Struct({
+    pipelineArn: S.optional(S.String),
+    created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    updated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    pollingDisabledAt: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "PipelineMetadata",
+}) as any as S.Schema<PipelineMetadata>;
+export interface ActionExecutionFilter {
+  pipelineExecutionId?: string;
+  latestInPipelineExecution?: LatestInPipelineExecutionFilter;
+}
+export const ActionExecutionFilter = S.suspend(() =>
+  S.Struct({
+    pipelineExecutionId: S.optional(S.String),
+    latestInPipelineExecution: S.optional(LatestInPipelineExecutionFilter),
+  }),
+).annotations({
+  identifier: "ActionExecutionFilter",
+}) as any as S.Schema<ActionExecutionFilter>;
+export interface ActionType {
+  id: ActionTypeId;
+  settings?: ActionTypeSettings;
+  actionConfigurationProperties?: ActionConfigurationPropertyList;
+  inputArtifactDetails: ArtifactDetails;
+  outputArtifactDetails: ArtifactDetails;
+}
+export const ActionType = S.suspend(() =>
+  S.Struct({
+    id: ActionTypeId,
+    settings: S.optional(ActionTypeSettings),
+    actionConfigurationProperties: S.optional(ActionConfigurationPropertyList),
+    inputArtifactDetails: ArtifactDetails,
+    outputArtifactDetails: ArtifactDetails,
+  }),
+).annotations({ identifier: "ActionType" }) as any as S.Schema<ActionType>;
+export type ActionTypeList = ActionType[];
 export const ActionTypeList = S.Array(ActionType);
-export class PipelineExecutionFilter extends S.Class<PipelineExecutionFilter>(
-  "PipelineExecutionFilter",
-)({ succeededInStage: S.optional(SucceededInStageFilter) }) {}
-export class PipelineSummary extends S.Class<PipelineSummary>(
-  "PipelineSummary",
-)({
-  name: S.optional(S.String),
-  version: S.optional(S.Number),
-  pipelineType: S.optional(S.String),
-  executionMode: S.optional(S.String),
-  created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  updated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface PipelineExecutionFilter {
+  succeededInStage?: SucceededInStageFilter;
+}
+export const PipelineExecutionFilter = S.suspend(() =>
+  S.Struct({ succeededInStage: S.optional(SucceededInStageFilter) }),
+).annotations({
+  identifier: "PipelineExecutionFilter",
+}) as any as S.Schema<PipelineExecutionFilter>;
+export interface PipelineSummary {
+  name?: string;
+  version?: number;
+  pipelineType?: string;
+  executionMode?: string;
+  created?: Date;
+  updated?: Date;
+}
+export const PipelineSummary = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    version: S.optional(S.Number),
+    pipelineType: S.optional(S.String),
+    executionMode: S.optional(S.String),
+    created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    updated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "PipelineSummary",
+}) as any as S.Schema<PipelineSummary>;
+export type PipelineList = PipelineSummary[];
 export const PipelineList = S.Array(PipelineSummary);
-export class WebhookDefinition extends S.Class<WebhookDefinition>(
-  "WebhookDefinition",
-)({
-  name: S.String,
-  targetPipeline: S.String,
-  targetAction: S.String,
-  filters: WebhookFilters,
-  authentication: S.String,
-  authenticationConfiguration: WebhookAuthConfiguration,
-}) {}
-export class ListWebhookItem extends S.Class<ListWebhookItem>(
-  "ListWebhookItem",
-)({
-  definition: WebhookDefinition,
-  url: S.String,
-  errorMessage: S.optional(S.String),
-  errorCode: S.optional(S.String),
-  lastTriggered: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  arn: S.optional(S.String),
-  tags: S.optional(TagList),
-}) {}
+export interface WebhookDefinition {
+  name: string;
+  targetPipeline: string;
+  targetAction: string;
+  filters: WebhookFilters;
+  authentication: string;
+  authenticationConfiguration: WebhookAuthConfiguration;
+}
+export const WebhookDefinition = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    targetPipeline: S.String,
+    targetAction: S.String,
+    filters: WebhookFilters,
+    authentication: S.String,
+    authenticationConfiguration: WebhookAuthConfiguration,
+  }),
+).annotations({
+  identifier: "WebhookDefinition",
+}) as any as S.Schema<WebhookDefinition>;
+export interface ListWebhookItem {
+  definition: WebhookDefinition;
+  url: string;
+  errorMessage?: string;
+  errorCode?: string;
+  lastTriggered?: Date;
+  arn?: string;
+  tags?: TagList;
+}
+export const ListWebhookItem = S.suspend(() =>
+  S.Struct({
+    definition: WebhookDefinition,
+    url: S.String,
+    errorMessage: S.optional(S.String),
+    errorCode: S.optional(S.String),
+    lastTriggered: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    arn: S.optional(S.String),
+    tags: S.optional(TagList),
+  }),
+).annotations({
+  identifier: "ListWebhookItem",
+}) as any as S.Schema<ListWebhookItem>;
+export type WebhookList = ListWebhookItem[];
 export const WebhookList = S.Array(ListWebhookItem);
-export class ThirdPartyJob extends S.Class<ThirdPartyJob>("ThirdPartyJob")({
-  clientId: S.optional(S.String),
-  jobId: S.optional(S.String),
-}) {}
+export interface ThirdPartyJob {
+  clientId?: string;
+  jobId?: string;
+}
+export const ThirdPartyJob = S.suspend(() =>
+  S.Struct({ clientId: S.optional(S.String), jobId: S.optional(S.String) }),
+).annotations({
+  identifier: "ThirdPartyJob",
+}) as any as S.Schema<ThirdPartyJob>;
+export type ThirdPartyJobList = ThirdPartyJob[];
 export const ThirdPartyJobList = S.Array(ThirdPartyJob);
-export class CreateCustomActionTypeOutput extends S.Class<CreateCustomActionTypeOutput>(
-  "CreateCustomActionTypeOutput",
-)({ actionType: ActionType, tags: S.optional(TagList) }, ns) {}
-export class GetPipelineOutput extends S.Class<GetPipelineOutput>(
-  "GetPipelineOutput",
-)(
-  {
+export interface CreateCustomActionTypeOutput {
+  actionType: ActionType;
+  tags?: TagList;
+}
+export const CreateCustomActionTypeOutput = S.suspend(() =>
+  S.Struct({ actionType: ActionType, tags: S.optional(TagList) }).pipe(ns),
+).annotations({
+  identifier: "CreateCustomActionTypeOutput",
+}) as any as S.Schema<CreateCustomActionTypeOutput>;
+export interface GetPipelineOutput {
+  pipeline?: PipelineDeclaration;
+  metadata?: PipelineMetadata;
+}
+export const GetPipelineOutput = S.suspend(() =>
+  S.Struct({
     pipeline: S.optional(PipelineDeclaration),
     metadata: S.optional(PipelineMetadata),
-  },
-  ns,
-) {}
-export class ListActionExecutionsInput extends S.Class<ListActionExecutionsInput>(
-  "ListActionExecutionsInput",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetPipelineOutput",
+}) as any as S.Schema<GetPipelineOutput>;
+export interface ListActionExecutionsInput {
+  pipelineName: string;
+  filter?: ActionExecutionFilter;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListActionExecutionsInput = S.suspend(() =>
+  S.Struct({
     pipelineName: S.String,
     filter: S.optional(ActionExecutionFilter),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListActionTypesOutput extends S.Class<ListActionTypesOutput>(
-  "ListActionTypesOutput",
-)({ actionTypes: ActionTypeList, nextToken: S.optional(S.String) }, ns) {}
-export class ListPipelineExecutionsInput extends S.Class<ListPipelineExecutionsInput>(
-  "ListPipelineExecutionsInput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListActionExecutionsInput",
+}) as any as S.Schema<ListActionExecutionsInput>;
+export interface ListActionTypesOutput {
+  actionTypes: ActionTypeList;
+  nextToken?: string;
+}
+export const ListActionTypesOutput = S.suspend(() =>
+  S.Struct({
+    actionTypes: ActionTypeList,
+    nextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListActionTypesOutput",
+}) as any as S.Schema<ListActionTypesOutput>;
+export interface ListPipelineExecutionsInput {
+  pipelineName: string;
+  maxResults?: number;
+  filter?: PipelineExecutionFilter;
+  nextToken?: string;
+}
+export const ListPipelineExecutionsInput = S.suspend(() =>
+  S.Struct({
     pipelineName: S.String,
     maxResults: S.optional(S.Number),
     filter: S.optional(PipelineExecutionFilter),
     nextToken: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListPipelinesOutput extends S.Class<ListPipelinesOutput>(
-  "ListPipelinesOutput",
-)(
-  { pipelines: S.optional(PipelineList), nextToken: S.optional(S.String) },
-  ns,
-) {}
-export class ListWebhooksOutput extends S.Class<ListWebhooksOutput>(
-  "ListWebhooksOutput",
-)({ webhooks: S.optional(WebhookList), NextToken: S.optional(S.String) }, ns) {}
-export class PollForThirdPartyJobsOutput extends S.Class<PollForThirdPartyJobsOutput>(
-  "PollForThirdPartyJobsOutput",
-)({ jobs: S.optional(ThirdPartyJobList) }, ns) {}
-export class PutActionRevisionOutput extends S.Class<PutActionRevisionOutput>(
-  "PutActionRevisionOutput",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListPipelineExecutionsInput",
+}) as any as S.Schema<ListPipelineExecutionsInput>;
+export interface ListPipelinesOutput {
+  pipelines?: PipelineList;
+  nextToken?: string;
+}
+export const ListPipelinesOutput = S.suspend(() =>
+  S.Struct({
+    pipelines: S.optional(PipelineList),
+    nextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListPipelinesOutput",
+}) as any as S.Schema<ListPipelinesOutput>;
+export interface ListWebhooksOutput {
+  webhooks?: WebhookList;
+  NextToken?: string;
+}
+export const ListWebhooksOutput = S.suspend(() =>
+  S.Struct({
+    webhooks: S.optional(WebhookList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListWebhooksOutput",
+}) as any as S.Schema<ListWebhooksOutput>;
+export interface PollForThirdPartyJobsOutput {
+  jobs?: ThirdPartyJobList;
+}
+export const PollForThirdPartyJobsOutput = S.suspend(() =>
+  S.Struct({ jobs: S.optional(ThirdPartyJobList) }).pipe(ns),
+).annotations({
+  identifier: "PollForThirdPartyJobsOutput",
+}) as any as S.Schema<PollForThirdPartyJobsOutput>;
+export interface PutActionRevisionOutput {
+  newRevision?: boolean;
+  pipelineExecutionId?: string;
+}
+export const PutActionRevisionOutput = S.suspend(() =>
+  S.Struct({
     newRevision: S.optional(S.Boolean),
     pipelineExecutionId: S.optional(S.String),
-  },
-  ns,
-) {}
-export class PutApprovalResultOutput extends S.Class<PutApprovalResultOutput>(
-  "PutApprovalResultOutput",
-)(
-  { approvedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))) },
-  ns,
-) {}
-export class PutWebhookInput extends S.Class<PutWebhookInput>(
-  "PutWebhookInput",
-)(
-  { webhook: WebhookDefinition, tags: S.optional(TagList) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StartPipelineExecutionOutput extends S.Class<StartPipelineExecutionOutput>(
-  "StartPipelineExecutionOutput",
-)({ pipelineExecutionId: S.optional(S.String) }, ns) {}
-export class ArtifactRevision extends S.Class<ArtifactRevision>(
-  "ArtifactRevision",
-)({
-  name: S.optional(S.String),
-  revisionId: S.optional(S.String),
-  revisionChangeIdentifier: S.optional(S.String),
-  revisionSummary: S.optional(S.String),
-  created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  revisionUrl: S.optional(S.String),
-}) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "PutActionRevisionOutput",
+}) as any as S.Schema<PutActionRevisionOutput>;
+export interface PutApprovalResultOutput {
+  approvedAt?: Date;
+}
+export const PutApprovalResultOutput = S.suspend(() =>
+  S.Struct({
+    approvedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }).pipe(ns),
+).annotations({
+  identifier: "PutApprovalResultOutput",
+}) as any as S.Schema<PutApprovalResultOutput>;
+export interface PutWebhookInput {
+  webhook: WebhookDefinition;
+  tags?: TagList;
+}
+export const PutWebhookInput = S.suspend(() =>
+  S.Struct({ webhook: WebhookDefinition, tags: S.optional(TagList) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutWebhookInput",
+}) as any as S.Schema<PutWebhookInput>;
+export interface StartPipelineExecutionOutput {
+  pipelineExecutionId?: string;
+}
+export const StartPipelineExecutionOutput = S.suspend(() =>
+  S.Struct({ pipelineExecutionId: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "StartPipelineExecutionOutput",
+}) as any as S.Schema<StartPipelineExecutionOutput>;
+export interface ArtifactRevision {
+  name?: string;
+  revisionId?: string;
+  revisionChangeIdentifier?: string;
+  revisionSummary?: string;
+  created?: Date;
+  revisionUrl?: string;
+}
+export const ArtifactRevision = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    revisionId: S.optional(S.String),
+    revisionChangeIdentifier: S.optional(S.String),
+    revisionSummary: S.optional(S.String),
+    created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    revisionUrl: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ArtifactRevision",
+}) as any as S.Schema<ArtifactRevision>;
+export type ArtifactRevisionList = ArtifactRevision[];
 export const ArtifactRevisionList = S.Array(ArtifactRevision);
-export class ResolvedPipelineVariable extends S.Class<ResolvedPipelineVariable>(
-  "ResolvedPipelineVariable",
-)({ name: S.optional(S.String), resolvedValue: S.optional(S.String) }) {}
+export interface ResolvedPipelineVariable {
+  name?: string;
+  resolvedValue?: string;
+}
+export const ResolvedPipelineVariable = S.suspend(() =>
+  S.Struct({ name: S.optional(S.String), resolvedValue: S.optional(S.String) }),
+).annotations({
+  identifier: "ResolvedPipelineVariable",
+}) as any as S.Schema<ResolvedPipelineVariable>;
+export type ResolvedPipelineVariableList = ResolvedPipelineVariable[];
 export const ResolvedPipelineVariableList = S.Array(ResolvedPipelineVariable);
-export class ExecutionTrigger extends S.Class<ExecutionTrigger>(
-  "ExecutionTrigger",
-)({ triggerType: S.optional(S.String), triggerDetail: S.optional(S.String) }) {}
-export class PipelineRollbackMetadata extends S.Class<PipelineRollbackMetadata>(
-  "PipelineRollbackMetadata",
-)({ rollbackTargetPipelineExecutionId: S.optional(S.String) }) {}
-export class TransitionState extends S.Class<TransitionState>(
-  "TransitionState",
-)({
-  enabled: S.optional(S.Boolean),
-  lastChangedBy: S.optional(S.String),
-  lastChangedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  disabledReason: S.optional(S.String),
-}) {}
-export class RetryStageMetadata extends S.Class<RetryStageMetadata>(
-  "RetryStageMetadata",
-)({
-  autoStageRetryAttempt: S.optional(S.Number),
-  manualStageRetryAttempt: S.optional(S.Number),
-  latestRetryTrigger: S.optional(S.String),
-}) {}
-export class ActionConfiguration extends S.Class<ActionConfiguration>(
-  "ActionConfiguration",
-)({ configuration: S.optional(ActionConfigurationMap) }) {}
-export class StageContext extends S.Class<StageContext>("StageContext")({
-  name: S.optional(S.String),
-}) {}
-export class ActionContext extends S.Class<ActionContext>("ActionContext")({
-  name: S.optional(S.String),
-  actionExecutionId: S.optional(S.String),
-}) {}
-export class PipelineContext extends S.Class<PipelineContext>(
-  "PipelineContext",
-)({
-  pipelineName: S.optional(S.String),
-  stage: S.optional(StageContext),
-  action: S.optional(ActionContext),
-  pipelineArn: S.optional(S.String),
-  pipelineExecutionId: S.optional(S.String),
-}) {}
-export class S3ArtifactLocation extends S.Class<S3ArtifactLocation>(
-  "S3ArtifactLocation",
-)({ bucketName: S.String, objectKey: S.String }) {}
-export class ArtifactLocation extends S.Class<ArtifactLocation>(
-  "ArtifactLocation",
-)({ type: S.optional(S.String), s3Location: S.optional(S3ArtifactLocation) }) {}
-export class Artifact extends S.Class<Artifact>("Artifact")({
-  name: S.optional(S.String),
-  revision: S.optional(S.String),
-  location: S.optional(ArtifactLocation),
-}) {}
+export interface ExecutionTrigger {
+  triggerType?: string;
+  triggerDetail?: string;
+}
+export const ExecutionTrigger = S.suspend(() =>
+  S.Struct({
+    triggerType: S.optional(S.String),
+    triggerDetail: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ExecutionTrigger",
+}) as any as S.Schema<ExecutionTrigger>;
+export interface PipelineRollbackMetadata {
+  rollbackTargetPipelineExecutionId?: string;
+}
+export const PipelineRollbackMetadata = S.suspend(() =>
+  S.Struct({ rollbackTargetPipelineExecutionId: S.optional(S.String) }),
+).annotations({
+  identifier: "PipelineRollbackMetadata",
+}) as any as S.Schema<PipelineRollbackMetadata>;
+export interface TransitionState {
+  enabled?: boolean;
+  lastChangedBy?: string;
+  lastChangedAt?: Date;
+  disabledReason?: string;
+}
+export const TransitionState = S.suspend(() =>
+  S.Struct({
+    enabled: S.optional(S.Boolean),
+    lastChangedBy: S.optional(S.String),
+    lastChangedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    disabledReason: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "TransitionState",
+}) as any as S.Schema<TransitionState>;
+export interface RetryStageMetadata {
+  autoStageRetryAttempt?: number;
+  manualStageRetryAttempt?: number;
+  latestRetryTrigger?: string;
+}
+export const RetryStageMetadata = S.suspend(() =>
+  S.Struct({
+    autoStageRetryAttempt: S.optional(S.Number),
+    manualStageRetryAttempt: S.optional(S.Number),
+    latestRetryTrigger: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RetryStageMetadata",
+}) as any as S.Schema<RetryStageMetadata>;
+export interface ActionConfiguration {
+  configuration?: ActionConfigurationMap;
+}
+export const ActionConfiguration = S.suspend(() =>
+  S.Struct({ configuration: S.optional(ActionConfigurationMap) }),
+).annotations({
+  identifier: "ActionConfiguration",
+}) as any as S.Schema<ActionConfiguration>;
+export interface StageContext {
+  name?: string;
+}
+export const StageContext = S.suspend(() =>
+  S.Struct({ name: S.optional(S.String) }),
+).annotations({ identifier: "StageContext" }) as any as S.Schema<StageContext>;
+export interface ActionContext {
+  name?: string;
+  actionExecutionId?: string;
+}
+export const ActionContext = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    actionExecutionId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ActionContext",
+}) as any as S.Schema<ActionContext>;
+export interface PipelineContext {
+  pipelineName?: string;
+  stage?: StageContext;
+  action?: ActionContext;
+  pipelineArn?: string;
+  pipelineExecutionId?: string;
+}
+export const PipelineContext = S.suspend(() =>
+  S.Struct({
+    pipelineName: S.optional(S.String),
+    stage: S.optional(StageContext),
+    action: S.optional(ActionContext),
+    pipelineArn: S.optional(S.String),
+    pipelineExecutionId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "PipelineContext",
+}) as any as S.Schema<PipelineContext>;
+export interface S3ArtifactLocation {
+  bucketName: string;
+  objectKey: string;
+}
+export const S3ArtifactLocation = S.suspend(() =>
+  S.Struct({ bucketName: S.String, objectKey: S.String }),
+).annotations({
+  identifier: "S3ArtifactLocation",
+}) as any as S.Schema<S3ArtifactLocation>;
+export interface ArtifactLocation {
+  type?: string;
+  s3Location?: S3ArtifactLocation;
+}
+export const ArtifactLocation = S.suspend(() =>
+  S.Struct({
+    type: S.optional(S.String),
+    s3Location: S.optional(S3ArtifactLocation),
+  }),
+).annotations({
+  identifier: "ArtifactLocation",
+}) as any as S.Schema<ArtifactLocation>;
+export interface Artifact {
+  name?: string;
+  revision?: string;
+  location?: ArtifactLocation;
+}
+export const Artifact = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    revision: S.optional(S.String),
+    location: S.optional(ArtifactLocation),
+  }),
+).annotations({ identifier: "Artifact" }) as any as S.Schema<Artifact>;
+export type ArtifactList = Artifact[];
 export const ArtifactList = S.Array(Artifact);
-export class AWSSessionCredentials extends S.Class<AWSSessionCredentials>(
-  "AWSSessionCredentials",
-)({
-  accessKeyId: S.String,
-  secretAccessKey: S.String,
-  sessionToken: S.String,
-}) {}
-export class ThirdPartyJobData extends S.Class<ThirdPartyJobData>(
-  "ThirdPartyJobData",
-)({
-  actionTypeId: S.optional(ActionTypeId),
-  actionConfiguration: S.optional(ActionConfiguration),
-  pipelineContext: S.optional(PipelineContext),
-  inputArtifacts: S.optional(ArtifactList),
-  outputArtifacts: S.optional(ArtifactList),
-  artifactCredentials: S.optional(AWSSessionCredentials),
-  continuationToken: S.optional(S.String),
-  encryptionKey: S.optional(EncryptionKey),
-}) {}
-export class RuleTypeSettings extends S.Class<RuleTypeSettings>(
-  "RuleTypeSettings",
-)({
-  thirdPartyConfigurationUrl: S.optional(S.String),
-  entityUrlTemplate: S.optional(S.String),
-  executionUrlTemplate: S.optional(S.String),
-  revisionUrlTemplate: S.optional(S.String),
-}) {}
-export class RuleConfigurationProperty extends S.Class<RuleConfigurationProperty>(
-  "RuleConfigurationProperty",
-)({
-  name: S.String,
-  required: S.Boolean,
-  key: S.Boolean,
-  secret: S.Boolean,
-  queryable: S.optional(S.Boolean),
-  description: S.optional(S.String),
-  type: S.optional(S.String),
-}) {}
+export interface AWSSessionCredentials {
+  accessKeyId: string;
+  secretAccessKey: string;
+  sessionToken: string;
+}
+export const AWSSessionCredentials = S.suspend(() =>
+  S.Struct({
+    accessKeyId: S.String,
+    secretAccessKey: S.String,
+    sessionToken: S.String,
+  }),
+).annotations({
+  identifier: "AWSSessionCredentials",
+}) as any as S.Schema<AWSSessionCredentials>;
+export interface ThirdPartyJobData {
+  actionTypeId?: ActionTypeId;
+  actionConfiguration?: ActionConfiguration;
+  pipelineContext?: PipelineContext;
+  inputArtifacts?: ArtifactList;
+  outputArtifacts?: ArtifactList;
+  artifactCredentials?: AWSSessionCredentials;
+  continuationToken?: string;
+  encryptionKey?: EncryptionKey;
+}
+export const ThirdPartyJobData = S.suspend(() =>
+  S.Struct({
+    actionTypeId: S.optional(ActionTypeId),
+    actionConfiguration: S.optional(ActionConfiguration),
+    pipelineContext: S.optional(PipelineContext),
+    inputArtifacts: S.optional(ArtifactList),
+    outputArtifacts: S.optional(ArtifactList),
+    artifactCredentials: S.optional(AWSSessionCredentials),
+    continuationToken: S.optional(S.String),
+    encryptionKey: S.optional(EncryptionKey),
+  }),
+).annotations({
+  identifier: "ThirdPartyJobData",
+}) as any as S.Schema<ThirdPartyJobData>;
+export interface RuleTypeSettings {
+  thirdPartyConfigurationUrl?: string;
+  entityUrlTemplate?: string;
+  executionUrlTemplate?: string;
+  revisionUrlTemplate?: string;
+}
+export const RuleTypeSettings = S.suspend(() =>
+  S.Struct({
+    thirdPartyConfigurationUrl: S.optional(S.String),
+    entityUrlTemplate: S.optional(S.String),
+    executionUrlTemplate: S.optional(S.String),
+    revisionUrlTemplate: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RuleTypeSettings",
+}) as any as S.Schema<RuleTypeSettings>;
+export interface RuleConfigurationProperty {
+  name: string;
+  required: boolean;
+  key: boolean;
+  secret: boolean;
+  queryable?: boolean;
+  description?: string;
+  type?: string;
+}
+export const RuleConfigurationProperty = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    required: S.Boolean,
+    key: S.Boolean,
+    secret: S.Boolean,
+    queryable: S.optional(S.Boolean),
+    description: S.optional(S.String),
+    type: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RuleConfigurationProperty",
+}) as any as S.Schema<RuleConfigurationProperty>;
+export type RuleConfigurationPropertyList = RuleConfigurationProperty[];
 export const RuleConfigurationPropertyList = S.Array(RuleConfigurationProperty);
-export class PipelineExecution extends S.Class<PipelineExecution>(
-  "PipelineExecution",
-)({
-  pipelineName: S.optional(S.String),
-  pipelineVersion: S.optional(S.Number),
-  pipelineExecutionId: S.optional(S.String),
-  status: S.optional(S.String),
-  statusSummary: S.optional(S.String),
-  artifactRevisions: S.optional(ArtifactRevisionList),
-  variables: S.optional(ResolvedPipelineVariableList),
-  trigger: S.optional(ExecutionTrigger),
-  executionMode: S.optional(S.String),
-  executionType: S.optional(S.String),
-  rollbackMetadata: S.optional(PipelineRollbackMetadata),
-}) {}
-export class ThirdPartyJobDetails extends S.Class<ThirdPartyJobDetails>(
-  "ThirdPartyJobDetails",
-)({
-  id: S.optional(S.String),
-  data: S.optional(ThirdPartyJobData),
-  nonce: S.optional(S.String),
-}) {}
-export class RuleType extends S.Class<RuleType>("RuleType")({
-  id: RuleTypeId,
-  settings: S.optional(RuleTypeSettings),
-  ruleConfigurationProperties: S.optional(RuleConfigurationPropertyList),
-  inputArtifactDetails: ArtifactDetails,
-}) {}
+export interface PipelineExecution {
+  pipelineName?: string;
+  pipelineVersion?: number;
+  pipelineExecutionId?: string;
+  status?: string;
+  statusSummary?: string;
+  artifactRevisions?: ArtifactRevisionList;
+  variables?: ResolvedPipelineVariableList;
+  trigger?: ExecutionTrigger;
+  executionMode?: string;
+  executionType?: string;
+  rollbackMetadata?: PipelineRollbackMetadata;
+}
+export const PipelineExecution = S.suspend(() =>
+  S.Struct({
+    pipelineName: S.optional(S.String),
+    pipelineVersion: S.optional(S.Number),
+    pipelineExecutionId: S.optional(S.String),
+    status: S.optional(S.String),
+    statusSummary: S.optional(S.String),
+    artifactRevisions: S.optional(ArtifactRevisionList),
+    variables: S.optional(ResolvedPipelineVariableList),
+    trigger: S.optional(ExecutionTrigger),
+    executionMode: S.optional(S.String),
+    executionType: S.optional(S.String),
+    rollbackMetadata: S.optional(PipelineRollbackMetadata),
+  }),
+).annotations({
+  identifier: "PipelineExecution",
+}) as any as S.Schema<PipelineExecution>;
+export interface ThirdPartyJobDetails {
+  id?: string;
+  data?: ThirdPartyJobData;
+  nonce?: string;
+}
+export const ThirdPartyJobDetails = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    data: S.optional(ThirdPartyJobData),
+    nonce: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ThirdPartyJobDetails",
+}) as any as S.Schema<ThirdPartyJobDetails>;
+export interface RuleType {
+  id: RuleTypeId;
+  settings?: RuleTypeSettings;
+  ruleConfigurationProperties?: RuleConfigurationPropertyList;
+  inputArtifactDetails: ArtifactDetails;
+}
+export const RuleType = S.suspend(() =>
+  S.Struct({
+    id: RuleTypeId,
+    settings: S.optional(RuleTypeSettings),
+    ruleConfigurationProperties: S.optional(RuleConfigurationPropertyList),
+    inputArtifactDetails: ArtifactDetails,
+  }),
+).annotations({ identifier: "RuleType" }) as any as S.Schema<RuleType>;
+export type RuleTypeList = RuleType[];
 export const RuleTypeList = S.Array(RuleType);
-export class JobData extends S.Class<JobData>("JobData")({
-  actionTypeId: S.optional(ActionTypeId),
-  actionConfiguration: S.optional(ActionConfiguration),
-  pipelineContext: S.optional(PipelineContext),
-  inputArtifacts: S.optional(ArtifactList),
-  outputArtifacts: S.optional(ArtifactList),
-  artifactCredentials: S.optional(AWSSessionCredentials),
-  continuationToken: S.optional(S.String),
-  encryptionKey: S.optional(EncryptionKey),
-}) {}
-export class Job extends S.Class<Job>("Job")({
-  id: S.optional(S.String),
-  data: S.optional(JobData),
-  nonce: S.optional(S.String),
-  accountId: S.optional(S.String),
-}) {}
+export interface JobData {
+  actionTypeId?: ActionTypeId;
+  actionConfiguration?: ActionConfiguration;
+  pipelineContext?: PipelineContext;
+  inputArtifacts?: ArtifactList;
+  outputArtifacts?: ArtifactList;
+  artifactCredentials?: AWSSessionCredentials;
+  continuationToken?: string;
+  encryptionKey?: EncryptionKey;
+}
+export const JobData = S.suspend(() =>
+  S.Struct({
+    actionTypeId: S.optional(ActionTypeId),
+    actionConfiguration: S.optional(ActionConfiguration),
+    pipelineContext: S.optional(PipelineContext),
+    inputArtifacts: S.optional(ArtifactList),
+    outputArtifacts: S.optional(ArtifactList),
+    artifactCredentials: S.optional(AWSSessionCredentials),
+    continuationToken: S.optional(S.String),
+    encryptionKey: S.optional(EncryptionKey),
+  }),
+).annotations({ identifier: "JobData" }) as any as S.Schema<JobData>;
+export interface Job {
+  id?: string;
+  data?: JobData;
+  nonce?: string;
+  accountId?: string;
+}
+export const Job = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    data: S.optional(JobData),
+    nonce: S.optional(S.String),
+    accountId: S.optional(S.String),
+  }),
+).annotations({ identifier: "Job" }) as any as S.Schema<Job>;
+export type JobList = Job[];
 export const JobList = S.Array(Job);
-export class StageConditionsExecution extends S.Class<StageConditionsExecution>(
-  "StageConditionsExecution",
-)({ status: S.optional(S.String), summary: S.optional(S.String) }) {}
-export class GetPipelineExecutionOutput extends S.Class<GetPipelineExecutionOutput>(
-  "GetPipelineExecutionOutput",
-)({ pipelineExecution: S.optional(PipelineExecution) }, ns) {}
-export class GetThirdPartyJobDetailsOutput extends S.Class<GetThirdPartyJobDetailsOutput>(
-  "GetThirdPartyJobDetailsOutput",
-)({ jobDetails: S.optional(ThirdPartyJobDetails) }, ns) {}
-export class ListRuleTypesOutput extends S.Class<ListRuleTypesOutput>(
-  "ListRuleTypesOutput",
-)({ ruleTypes: RuleTypeList }, ns) {}
-export class PollForJobsOutput extends S.Class<PollForJobsOutput>(
-  "PollForJobsOutput",
-)({ jobs: S.optional(JobList) }, ns) {}
-export class PutWebhookOutput extends S.Class<PutWebhookOutput>(
-  "PutWebhookOutput",
-)({ webhook: S.optional(ListWebhookItem) }, ns) {}
-export class ErrorDetails extends S.Class<ErrorDetails>("ErrorDetails")({
-  code: S.optional(S.String),
-  message: S.optional(S.String),
-}) {}
-export class ConditionExecution extends S.Class<ConditionExecution>(
-  "ConditionExecution",
-)({
-  status: S.optional(S.String),
-  summary: S.optional(S.String),
-  lastStatusChange: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class ActionExecution extends S.Class<ActionExecution>(
-  "ActionExecution",
-)({
-  actionExecutionId: S.optional(S.String),
-  status: S.optional(S.String),
-  summary: S.optional(S.String),
-  lastStatusChange: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  token: S.optional(S.String),
-  lastUpdatedBy: S.optional(S.String),
-  externalExecutionId: S.optional(S.String),
-  externalExecutionUrl: S.optional(S.String),
-  percentComplete: S.optional(S.Number),
-  errorDetails: S.optional(ErrorDetails),
-  logStreamARN: S.optional(S.String),
-}) {}
-export class DeployTargetEventContext extends S.Class<DeployTargetEventContext>(
-  "DeployTargetEventContext",
-)({ ssmCommandId: S.optional(S.String), message: S.optional(S.String) }) {}
+export interface StageConditionsExecution {
+  status?: string;
+  summary?: string;
+}
+export const StageConditionsExecution = S.suspend(() =>
+  S.Struct({ status: S.optional(S.String), summary: S.optional(S.String) }),
+).annotations({
+  identifier: "StageConditionsExecution",
+}) as any as S.Schema<StageConditionsExecution>;
+export interface GetPipelineExecutionOutput {
+  pipelineExecution?: PipelineExecution;
+}
+export const GetPipelineExecutionOutput = S.suspend(() =>
+  S.Struct({ pipelineExecution: S.optional(PipelineExecution) }).pipe(ns),
+).annotations({
+  identifier: "GetPipelineExecutionOutput",
+}) as any as S.Schema<GetPipelineExecutionOutput>;
+export interface GetThirdPartyJobDetailsOutput {
+  jobDetails?: ThirdPartyJobDetails;
+}
+export const GetThirdPartyJobDetailsOutput = S.suspend(() =>
+  S.Struct({ jobDetails: S.optional(ThirdPartyJobDetails) }).pipe(ns),
+).annotations({
+  identifier: "GetThirdPartyJobDetailsOutput",
+}) as any as S.Schema<GetThirdPartyJobDetailsOutput>;
+export interface ListRuleTypesOutput {
+  ruleTypes: RuleTypeList;
+}
+export const ListRuleTypesOutput = S.suspend(() =>
+  S.Struct({ ruleTypes: RuleTypeList }).pipe(ns),
+).annotations({
+  identifier: "ListRuleTypesOutput",
+}) as any as S.Schema<ListRuleTypesOutput>;
+export interface PollForJobsOutput {
+  jobs?: JobList;
+}
+export const PollForJobsOutput = S.suspend(() =>
+  S.Struct({ jobs: S.optional(JobList) }).pipe(ns),
+).annotations({
+  identifier: "PollForJobsOutput",
+}) as any as S.Schema<PollForJobsOutput>;
+export interface PutWebhookOutput {
+  webhook?: ListWebhookItem;
+}
+export const PutWebhookOutput = S.suspend(() =>
+  S.Struct({ webhook: S.optional(ListWebhookItem) }).pipe(ns),
+).annotations({
+  identifier: "PutWebhookOutput",
+}) as any as S.Schema<PutWebhookOutput>;
+export interface ErrorDetails {
+  code?: string;
+  message?: string;
+}
+export const ErrorDetails = S.suspend(() =>
+  S.Struct({ code: S.optional(S.String), message: S.optional(S.String) }),
+).annotations({ identifier: "ErrorDetails" }) as any as S.Schema<ErrorDetails>;
+export interface ConditionExecution {
+  status?: string;
+  summary?: string;
+  lastStatusChange?: Date;
+}
+export const ConditionExecution = S.suspend(() =>
+  S.Struct({
+    status: S.optional(S.String),
+    summary: S.optional(S.String),
+    lastStatusChange: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "ConditionExecution",
+}) as any as S.Schema<ConditionExecution>;
+export interface ActionExecution {
+  actionExecutionId?: string;
+  status?: string;
+  summary?: string;
+  lastStatusChange?: Date;
+  token?: string;
+  lastUpdatedBy?: string;
+  externalExecutionId?: string;
+  externalExecutionUrl?: string;
+  percentComplete?: number;
+  errorDetails?: ErrorDetails;
+  logStreamARN?: string;
+}
+export const ActionExecution = S.suspend(() =>
+  S.Struct({
+    actionExecutionId: S.optional(S.String),
+    status: S.optional(S.String),
+    summary: S.optional(S.String),
+    lastStatusChange: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    token: S.optional(S.String),
+    lastUpdatedBy: S.optional(S.String),
+    externalExecutionId: S.optional(S.String),
+    externalExecutionUrl: S.optional(S.String),
+    percentComplete: S.optional(S.Number),
+    errorDetails: S.optional(ErrorDetails),
+    logStreamARN: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ActionExecution",
+}) as any as S.Schema<ActionExecution>;
+export interface DeployTargetEventContext {
+  ssmCommandId?: string;
+  message?: string;
+}
+export const DeployTargetEventContext = S.suspend(() =>
+  S.Struct({
+    ssmCommandId: S.optional(S.String),
+    message: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DeployTargetEventContext",
+}) as any as S.Schema<DeployTargetEventContext>;
+export type ResolvedRuleConfigurationMap = { [key: string]: string };
 export const ResolvedRuleConfigurationMap = S.Record({
   key: S.String,
   value: S.String,
 });
-export class RuleExecutionResult extends S.Class<RuleExecutionResult>(
-  "RuleExecutionResult",
-)({
-  externalExecutionId: S.optional(S.String),
-  externalExecutionSummary: S.optional(S.String),
-  externalExecutionUrl: S.optional(S.String),
-  errorDetails: S.optional(ErrorDetails),
-}) {}
-export class RuleRevision extends S.Class<RuleRevision>("RuleRevision")({
-  revisionId: S.String,
-  revisionChangeId: S.String,
-  created: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-}) {}
-export class RuleExecution extends S.Class<RuleExecution>("RuleExecution")({
-  ruleExecutionId: S.optional(S.String),
-  status: S.optional(S.String),
-  summary: S.optional(S.String),
-  lastStatusChange: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  token: S.optional(S.String),
-  lastUpdatedBy: S.optional(S.String),
-  externalExecutionId: S.optional(S.String),
-  externalExecutionUrl: S.optional(S.String),
-  errorDetails: S.optional(ErrorDetails),
-}) {}
-export class UpdateActionTypeInput extends S.Class<UpdateActionTypeInput>(
-  "UpdateActionTypeInput",
-)(
-  { actionType: ActionTypeDeclaration },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateActionTypeResponse extends S.Class<UpdateActionTypeResponse>(
-  "UpdateActionTypeResponse",
-)({}, ns) {}
-export class ActionState extends S.Class<ActionState>("ActionState")({
-  actionName: S.optional(S.String),
-  currentRevision: S.optional(ActionRevision),
-  latestExecution: S.optional(ActionExecution),
-  entityUrl: S.optional(S.String),
-  revisionUrl: S.optional(S.String),
-}) {}
+export interface RuleExecutionResult {
+  externalExecutionId?: string;
+  externalExecutionSummary?: string;
+  externalExecutionUrl?: string;
+  errorDetails?: ErrorDetails;
+}
+export const RuleExecutionResult = S.suspend(() =>
+  S.Struct({
+    externalExecutionId: S.optional(S.String),
+    externalExecutionSummary: S.optional(S.String),
+    externalExecutionUrl: S.optional(S.String),
+    errorDetails: S.optional(ErrorDetails),
+  }),
+).annotations({
+  identifier: "RuleExecutionResult",
+}) as any as S.Schema<RuleExecutionResult>;
+export interface RuleRevision {
+  revisionId: string;
+  revisionChangeId: string;
+  created: Date;
+}
+export const RuleRevision = S.suspend(() =>
+  S.Struct({
+    revisionId: S.String,
+    revisionChangeId: S.String,
+    created: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotations({ identifier: "RuleRevision" }) as any as S.Schema<RuleRevision>;
+export interface RuleExecution {
+  ruleExecutionId?: string;
+  status?: string;
+  summary?: string;
+  lastStatusChange?: Date;
+  token?: string;
+  lastUpdatedBy?: string;
+  externalExecutionId?: string;
+  externalExecutionUrl?: string;
+  errorDetails?: ErrorDetails;
+}
+export const RuleExecution = S.suspend(() =>
+  S.Struct({
+    ruleExecutionId: S.optional(S.String),
+    status: S.optional(S.String),
+    summary: S.optional(S.String),
+    lastStatusChange: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    token: S.optional(S.String),
+    lastUpdatedBy: S.optional(S.String),
+    externalExecutionId: S.optional(S.String),
+    externalExecutionUrl: S.optional(S.String),
+    errorDetails: S.optional(ErrorDetails),
+  }),
+).annotations({
+  identifier: "RuleExecution",
+}) as any as S.Schema<RuleExecution>;
+export interface UpdateActionTypeInput {
+  actionType: ActionTypeDeclaration;
+}
+export const UpdateActionTypeInput = S.suspend(() =>
+  S.Struct({ actionType: ActionTypeDeclaration }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateActionTypeInput",
+}) as any as S.Schema<UpdateActionTypeInput>;
+export interface UpdateActionTypeResponse {}
+export const UpdateActionTypeResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "UpdateActionTypeResponse",
+}) as any as S.Schema<UpdateActionTypeResponse>;
+export interface ActionState {
+  actionName?: string;
+  currentRevision?: ActionRevision;
+  latestExecution?: ActionExecution;
+  entityUrl?: string;
+  revisionUrl?: string;
+}
+export const ActionState = S.suspend(() =>
+  S.Struct({
+    actionName: S.optional(S.String),
+    currentRevision: S.optional(ActionRevision),
+    latestExecution: S.optional(ActionExecution),
+    entityUrl: S.optional(S.String),
+    revisionUrl: S.optional(S.String),
+  }),
+).annotations({ identifier: "ActionState" }) as any as S.Schema<ActionState>;
+export type ActionStateList = ActionState[];
 export const ActionStateList = S.Array(ActionState);
-export class DeployTargetEvent extends S.Class<DeployTargetEvent>(
-  "DeployTargetEvent",
-)({
-  name: S.optional(S.String),
-  status: S.optional(S.String),
-  startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  context: S.optional(DeployTargetEventContext),
-}) {}
+export interface DeployTargetEvent {
+  name?: string;
+  status?: string;
+  startTime?: Date;
+  endTime?: Date;
+  context?: DeployTargetEventContext;
+}
+export const DeployTargetEvent = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    status: S.optional(S.String),
+    startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    context: S.optional(DeployTargetEventContext),
+  }),
+).annotations({
+  identifier: "DeployTargetEvent",
+}) as any as S.Schema<DeployTargetEvent>;
+export type DeployTargetEventList = DeployTargetEvent[];
 export const DeployTargetEventList = S.Array(DeployTargetEvent);
-export class SourceRevision extends S.Class<SourceRevision>("SourceRevision")({
-  actionName: S.String,
-  revisionId: S.optional(S.String),
-  revisionSummary: S.optional(S.String),
-  revisionUrl: S.optional(S.String),
-}) {}
+export interface SourceRevision {
+  actionName: string;
+  revisionId?: string;
+  revisionSummary?: string;
+  revisionUrl?: string;
+}
+export const SourceRevision = S.suspend(() =>
+  S.Struct({
+    actionName: S.String,
+    revisionId: S.optional(S.String),
+    revisionSummary: S.optional(S.String),
+    revisionUrl: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SourceRevision",
+}) as any as S.Schema<SourceRevision>;
+export type SourceRevisionList = SourceRevision[];
 export const SourceRevisionList = S.Array(SourceRevision);
-export class StopExecutionTrigger extends S.Class<StopExecutionTrigger>(
-  "StopExecutionTrigger",
-)({ reason: S.optional(S.String) }) {}
-export class RuleExecutionOutput extends S.Class<RuleExecutionOutput>(
-  "RuleExecutionOutput",
-)({ executionResult: S.optional(RuleExecutionResult) }) {}
-export class RuleState extends S.Class<RuleState>("RuleState")({
-  ruleName: S.optional(S.String),
-  currentRevision: S.optional(RuleRevision),
-  latestExecution: S.optional(RuleExecution),
-  entityUrl: S.optional(S.String),
-  revisionUrl: S.optional(S.String),
-}) {}
+export interface StopExecutionTrigger {
+  reason?: string;
+}
+export const StopExecutionTrigger = S.suspend(() =>
+  S.Struct({ reason: S.optional(S.String) }),
+).annotations({
+  identifier: "StopExecutionTrigger",
+}) as any as S.Schema<StopExecutionTrigger>;
+export interface RuleExecutionOutput {
+  executionResult?: RuleExecutionResult;
+}
+export const RuleExecutionOutput = S.suspend(() =>
+  S.Struct({ executionResult: S.optional(RuleExecutionResult) }),
+).annotations({
+  identifier: "RuleExecutionOutput",
+}) as any as S.Schema<RuleExecutionOutput>;
+export interface RuleState {
+  ruleName?: string;
+  currentRevision?: RuleRevision;
+  latestExecution?: RuleExecution;
+  entityUrl?: string;
+  revisionUrl?: string;
+}
+export const RuleState = S.suspend(() =>
+  S.Struct({
+    ruleName: S.optional(S.String),
+    currentRevision: S.optional(RuleRevision),
+    latestExecution: S.optional(RuleExecution),
+    entityUrl: S.optional(S.String),
+    revisionUrl: S.optional(S.String),
+  }),
+).annotations({ identifier: "RuleState" }) as any as S.Schema<RuleState>;
+export type RuleStateList = RuleState[];
 export const RuleStateList = S.Array(RuleState);
-export class S3Location extends S.Class<S3Location>("S3Location")({
-  bucket: S.optional(S.String),
-  key: S.optional(S.String),
-}) {}
-export class DeployActionExecutionTarget extends S.Class<DeployActionExecutionTarget>(
-  "DeployActionExecutionTarget",
-)({
-  targetId: S.optional(S.String),
-  targetType: S.optional(S.String),
-  status: S.optional(S.String),
-  startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  events: S.optional(DeployTargetEventList),
-}) {}
+export interface S3Location {
+  bucket?: string;
+  key?: string;
+}
+export const S3Location = S.suspend(() =>
+  S.Struct({ bucket: S.optional(S.String), key: S.optional(S.String) }),
+).annotations({ identifier: "S3Location" }) as any as S.Schema<S3Location>;
+export interface DeployActionExecutionTarget {
+  targetId?: string;
+  targetType?: string;
+  status?: string;
+  startTime?: Date;
+  endTime?: Date;
+  events?: DeployTargetEventList;
+}
+export const DeployActionExecutionTarget = S.suspend(() =>
+  S.Struct({
+    targetId: S.optional(S.String),
+    targetType: S.optional(S.String),
+    status: S.optional(S.String),
+    startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    events: S.optional(DeployTargetEventList),
+  }),
+).annotations({
+  identifier: "DeployActionExecutionTarget",
+}) as any as S.Schema<DeployActionExecutionTarget>;
+export type DeployActionExecutionTargetList = DeployActionExecutionTarget[];
 export const DeployActionExecutionTargetList = S.Array(
   DeployActionExecutionTarget,
 );
-export class PipelineExecutionSummary extends S.Class<PipelineExecutionSummary>(
-  "PipelineExecutionSummary",
-)({
-  pipelineExecutionId: S.optional(S.String),
-  status: S.optional(S.String),
-  statusSummary: S.optional(S.String),
-  startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  sourceRevisions: S.optional(SourceRevisionList),
-  trigger: S.optional(ExecutionTrigger),
-  stopTrigger: S.optional(StopExecutionTrigger),
-  executionMode: S.optional(S.String),
-  executionType: S.optional(S.String),
-  rollbackMetadata: S.optional(PipelineRollbackMetadata),
-}) {}
+export interface PipelineExecutionSummary {
+  pipelineExecutionId?: string;
+  status?: string;
+  statusSummary?: string;
+  startTime?: Date;
+  lastUpdateTime?: Date;
+  sourceRevisions?: SourceRevisionList;
+  trigger?: ExecutionTrigger;
+  stopTrigger?: StopExecutionTrigger;
+  executionMode?: string;
+  executionType?: string;
+  rollbackMetadata?: PipelineRollbackMetadata;
+}
+export const PipelineExecutionSummary = S.suspend(() =>
+  S.Struct({
+    pipelineExecutionId: S.optional(S.String),
+    status: S.optional(S.String),
+    statusSummary: S.optional(S.String),
+    startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    sourceRevisions: S.optional(SourceRevisionList),
+    trigger: S.optional(ExecutionTrigger),
+    stopTrigger: S.optional(StopExecutionTrigger),
+    executionMode: S.optional(S.String),
+    executionType: S.optional(S.String),
+    rollbackMetadata: S.optional(PipelineRollbackMetadata),
+  }),
+).annotations({
+  identifier: "PipelineExecutionSummary",
+}) as any as S.Schema<PipelineExecutionSummary>;
+export type PipelineExecutionSummaryList = PipelineExecutionSummary[];
 export const PipelineExecutionSummaryList = S.Array(PipelineExecutionSummary);
-export class ConditionState extends S.Class<ConditionState>("ConditionState")({
-  latestExecution: S.optional(ConditionExecution),
-  ruleStates: S.optional(RuleStateList),
-}) {}
+export interface ConditionState {
+  latestExecution?: ConditionExecution;
+  ruleStates?: RuleStateList;
+}
+export const ConditionState = S.suspend(() =>
+  S.Struct({
+    latestExecution: S.optional(ConditionExecution),
+    ruleStates: S.optional(RuleStateList),
+  }),
+).annotations({
+  identifier: "ConditionState",
+}) as any as S.Schema<ConditionState>;
+export type ConditionStateList = ConditionState[];
 export const ConditionStateList = S.Array(ConditionState);
+export type ResolvedActionConfigurationMap = { [key: string]: string };
 export const ResolvedActionConfigurationMap = S.Record({
   key: S.String,
   value: S.String,
 });
-export class ActionExecutionResult extends S.Class<ActionExecutionResult>(
-  "ActionExecutionResult",
-)({
-  externalExecutionId: S.optional(S.String),
-  externalExecutionSummary: S.optional(S.String),
-  externalExecutionUrl: S.optional(S.String),
-  errorDetails: S.optional(ErrorDetails),
-  logStreamARN: S.optional(S.String),
-}) {}
-export class ArtifactDetail extends S.Class<ArtifactDetail>("ArtifactDetail")({
-  name: S.optional(S.String),
-  s3location: S.optional(S3Location),
-}) {}
+export interface ActionExecutionResult {
+  externalExecutionId?: string;
+  externalExecutionSummary?: string;
+  externalExecutionUrl?: string;
+  errorDetails?: ErrorDetails;
+  logStreamARN?: string;
+}
+export const ActionExecutionResult = S.suspend(() =>
+  S.Struct({
+    externalExecutionId: S.optional(S.String),
+    externalExecutionSummary: S.optional(S.String),
+    externalExecutionUrl: S.optional(S.String),
+    errorDetails: S.optional(ErrorDetails),
+    logStreamARN: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ActionExecutionResult",
+}) as any as S.Schema<ActionExecutionResult>;
+export interface ArtifactDetail {
+  name?: string;
+  s3location?: S3Location;
+}
+export const ArtifactDetail = S.suspend(() =>
+  S.Struct({ name: S.optional(S.String), s3location: S.optional(S3Location) }),
+).annotations({
+  identifier: "ArtifactDetail",
+}) as any as S.Schema<ArtifactDetail>;
+export type ArtifactDetailList = ArtifactDetail[];
 export const ArtifactDetailList = S.Array(ArtifactDetail);
-export class ListDeployActionExecutionTargetsOutput extends S.Class<ListDeployActionExecutionTargetsOutput>(
-  "ListDeployActionExecutionTargetsOutput",
-)(
-  {
+export interface ListDeployActionExecutionTargetsOutput {
+  targets?: DeployActionExecutionTargetList;
+  nextToken?: string;
+}
+export const ListDeployActionExecutionTargetsOutput = S.suspend(() =>
+  S.Struct({
     targets: S.optional(DeployActionExecutionTargetList),
     nextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListPipelineExecutionsOutput extends S.Class<ListPipelineExecutionsOutput>(
-  "ListPipelineExecutionsOutput",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListDeployActionExecutionTargetsOutput",
+}) as any as S.Schema<ListDeployActionExecutionTargetsOutput>;
+export interface ListPipelineExecutionsOutput {
+  pipelineExecutionSummaries?: PipelineExecutionSummaryList;
+  nextToken?: string;
+}
+export const ListPipelineExecutionsOutput = S.suspend(() =>
+  S.Struct({
     pipelineExecutionSummaries: S.optional(PipelineExecutionSummaryList),
     nextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class StageConditionState extends S.Class<StageConditionState>(
-  "StageConditionState",
-)({
-  latestExecution: S.optional(StageConditionsExecution),
-  conditionStates: S.optional(ConditionStateList),
-}) {}
-export class ActionExecutionInput extends S.Class<ActionExecutionInput>(
-  "ActionExecutionInput",
-)({
-  actionTypeId: S.optional(ActionTypeId),
-  configuration: S.optional(ActionConfigurationMap),
-  resolvedConfiguration: S.optional(ResolvedActionConfigurationMap),
-  roleArn: S.optional(S.String),
-  region: S.optional(S.String),
-  inputArtifacts: S.optional(ArtifactDetailList),
-  namespace: S.optional(S.String),
-}) {}
-export class ActionExecutionOutput extends S.Class<ActionExecutionOutput>(
-  "ActionExecutionOutput",
-)({
-  outputArtifacts: S.optional(ArtifactDetailList),
-  executionResult: S.optional(ActionExecutionResult),
-  outputVariables: S.optional(OutputVariablesMap),
-}) {}
-export class RuleExecutionInput extends S.Class<RuleExecutionInput>(
-  "RuleExecutionInput",
-)({
-  ruleTypeId: S.optional(RuleTypeId),
-  configuration: S.optional(RuleConfigurationMap),
-  resolvedConfiguration: S.optional(ResolvedRuleConfigurationMap),
-  roleArn: S.optional(S.String),
-  region: S.optional(S.String),
-  inputArtifacts: S.optional(ArtifactDetailList),
-}) {}
-export class JobDetails extends S.Class<JobDetails>("JobDetails")({
-  id: S.optional(S.String),
-  data: S.optional(JobData),
-  accountId: S.optional(S.String),
-}) {}
-export class StageState extends S.Class<StageState>("StageState")({
-  stageName: S.optional(S.String),
-  inboundExecution: S.optional(StageExecution),
-  inboundExecutions: S.optional(StageExecutionList),
-  inboundTransitionState: S.optional(TransitionState),
-  actionStates: S.optional(ActionStateList),
-  latestExecution: S.optional(StageExecution),
-  beforeEntryConditionState: S.optional(StageConditionState),
-  onSuccessConditionState: S.optional(StageConditionState),
-  onFailureConditionState: S.optional(StageConditionState),
-  retryStageMetadata: S.optional(RetryStageMetadata),
-}) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "ListPipelineExecutionsOutput",
+}) as any as S.Schema<ListPipelineExecutionsOutput>;
+export interface StageConditionState {
+  latestExecution?: StageConditionsExecution;
+  conditionStates?: ConditionStateList;
+}
+export const StageConditionState = S.suspend(() =>
+  S.Struct({
+    latestExecution: S.optional(StageConditionsExecution),
+    conditionStates: S.optional(ConditionStateList),
+  }),
+).annotations({
+  identifier: "StageConditionState",
+}) as any as S.Schema<StageConditionState>;
+export interface ActionExecutionInput {
+  actionTypeId?: ActionTypeId;
+  configuration?: ActionConfigurationMap;
+  resolvedConfiguration?: ResolvedActionConfigurationMap;
+  roleArn?: string;
+  region?: string;
+  inputArtifacts?: ArtifactDetailList;
+  namespace?: string;
+}
+export const ActionExecutionInput = S.suspend(() =>
+  S.Struct({
+    actionTypeId: S.optional(ActionTypeId),
+    configuration: S.optional(ActionConfigurationMap),
+    resolvedConfiguration: S.optional(ResolvedActionConfigurationMap),
+    roleArn: S.optional(S.String),
+    region: S.optional(S.String),
+    inputArtifacts: S.optional(ArtifactDetailList),
+    namespace: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ActionExecutionInput",
+}) as any as S.Schema<ActionExecutionInput>;
+export interface ActionExecutionOutput {
+  outputArtifacts?: ArtifactDetailList;
+  executionResult?: ActionExecutionResult;
+  outputVariables?: OutputVariablesMap;
+}
+export const ActionExecutionOutput = S.suspend(() =>
+  S.Struct({
+    outputArtifacts: S.optional(ArtifactDetailList),
+    executionResult: S.optional(ActionExecutionResult),
+    outputVariables: S.optional(OutputVariablesMap),
+  }),
+).annotations({
+  identifier: "ActionExecutionOutput",
+}) as any as S.Schema<ActionExecutionOutput>;
+export interface RuleExecutionInput {
+  ruleTypeId?: RuleTypeId;
+  configuration?: RuleConfigurationMap;
+  resolvedConfiguration?: ResolvedRuleConfigurationMap;
+  roleArn?: string;
+  region?: string;
+  inputArtifacts?: ArtifactDetailList;
+}
+export const RuleExecutionInput = S.suspend(() =>
+  S.Struct({
+    ruleTypeId: S.optional(RuleTypeId),
+    configuration: S.optional(RuleConfigurationMap),
+    resolvedConfiguration: S.optional(ResolvedRuleConfigurationMap),
+    roleArn: S.optional(S.String),
+    region: S.optional(S.String),
+    inputArtifacts: S.optional(ArtifactDetailList),
+  }),
+).annotations({
+  identifier: "RuleExecutionInput",
+}) as any as S.Schema<RuleExecutionInput>;
+export interface JobDetails {
+  id?: string;
+  data?: JobData;
+  accountId?: string;
+}
+export const JobDetails = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    data: S.optional(JobData),
+    accountId: S.optional(S.String),
+  }),
+).annotations({ identifier: "JobDetails" }) as any as S.Schema<JobDetails>;
+export interface StageState {
+  stageName?: string;
+  inboundExecution?: StageExecution;
+  inboundExecutions?: StageExecutionList;
+  inboundTransitionState?: TransitionState;
+  actionStates?: ActionStateList;
+  latestExecution?: StageExecution;
+  beforeEntryConditionState?: StageConditionState;
+  onSuccessConditionState?: StageConditionState;
+  onFailureConditionState?: StageConditionState;
+  retryStageMetadata?: RetryStageMetadata;
+}
+export const StageState = S.suspend(() =>
+  S.Struct({
+    stageName: S.optional(S.String),
+    inboundExecution: S.optional(StageExecution),
+    inboundExecutions: S.optional(StageExecutionList),
+    inboundTransitionState: S.optional(TransitionState),
+    actionStates: S.optional(ActionStateList),
+    latestExecution: S.optional(StageExecution),
+    beforeEntryConditionState: S.optional(StageConditionState),
+    onSuccessConditionState: S.optional(StageConditionState),
+    onFailureConditionState: S.optional(StageConditionState),
+    retryStageMetadata: S.optional(RetryStageMetadata),
+  }),
+).annotations({ identifier: "StageState" }) as any as S.Schema<StageState>;
+export type StageStateList = StageState[];
 export const StageStateList = S.Array(StageState);
-export class ActionExecutionDetail extends S.Class<ActionExecutionDetail>(
-  "ActionExecutionDetail",
-)({
-  pipelineExecutionId: S.optional(S.String),
-  actionExecutionId: S.optional(S.String),
-  pipelineVersion: S.optional(S.Number),
-  stageName: S.optional(S.String),
-  actionName: S.optional(S.String),
-  startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  updatedBy: S.optional(S.String),
-  status: S.optional(S.String),
-  input: S.optional(ActionExecutionInput),
-  output: S.optional(ActionExecutionOutput),
-}) {}
+export interface ActionExecutionDetail {
+  pipelineExecutionId?: string;
+  actionExecutionId?: string;
+  pipelineVersion?: number;
+  stageName?: string;
+  actionName?: string;
+  startTime?: Date;
+  lastUpdateTime?: Date;
+  updatedBy?: string;
+  status?: string;
+  input?: ActionExecutionInput;
+  output?: ActionExecutionOutput;
+}
+export const ActionExecutionDetail = S.suspend(() =>
+  S.Struct({
+    pipelineExecutionId: S.optional(S.String),
+    actionExecutionId: S.optional(S.String),
+    pipelineVersion: S.optional(S.Number),
+    stageName: S.optional(S.String),
+    actionName: S.optional(S.String),
+    startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    updatedBy: S.optional(S.String),
+    status: S.optional(S.String),
+    input: S.optional(ActionExecutionInput),
+    output: S.optional(ActionExecutionOutput),
+  }),
+).annotations({
+  identifier: "ActionExecutionDetail",
+}) as any as S.Schema<ActionExecutionDetail>;
+export type ActionExecutionDetailList = ActionExecutionDetail[];
 export const ActionExecutionDetailList = S.Array(ActionExecutionDetail);
-export class RuleExecutionDetail extends S.Class<RuleExecutionDetail>(
-  "RuleExecutionDetail",
-)({
-  pipelineExecutionId: S.optional(S.String),
-  ruleExecutionId: S.optional(S.String),
-  pipelineVersion: S.optional(S.Number),
-  stageName: S.optional(S.String),
-  ruleName: S.optional(S.String),
-  startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  updatedBy: S.optional(S.String),
-  status: S.optional(S.String),
-  input: S.optional(RuleExecutionInput),
-  output: S.optional(RuleExecutionOutput),
-}) {}
+export interface RuleExecutionDetail {
+  pipelineExecutionId?: string;
+  ruleExecutionId?: string;
+  pipelineVersion?: number;
+  stageName?: string;
+  ruleName?: string;
+  startTime?: Date;
+  lastUpdateTime?: Date;
+  updatedBy?: string;
+  status?: string;
+  input?: RuleExecutionInput;
+  output?: RuleExecutionOutput;
+}
+export const RuleExecutionDetail = S.suspend(() =>
+  S.Struct({
+    pipelineExecutionId: S.optional(S.String),
+    ruleExecutionId: S.optional(S.String),
+    pipelineVersion: S.optional(S.Number),
+    stageName: S.optional(S.String),
+    ruleName: S.optional(S.String),
+    startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    updatedBy: S.optional(S.String),
+    status: S.optional(S.String),
+    input: S.optional(RuleExecutionInput),
+    output: S.optional(RuleExecutionOutput),
+  }),
+).annotations({
+  identifier: "RuleExecutionDetail",
+}) as any as S.Schema<RuleExecutionDetail>;
+export type RuleExecutionDetailList = RuleExecutionDetail[];
 export const RuleExecutionDetailList = S.Array(RuleExecutionDetail);
-export class CreatePipelineInput extends S.Class<CreatePipelineInput>(
-  "CreatePipelineInput",
-)(
-  { pipeline: PipelineDeclaration, tags: S.optional(TagList) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetJobDetailsOutput extends S.Class<GetJobDetailsOutput>(
-  "GetJobDetailsOutput",
-)({ jobDetails: S.optional(JobDetails) }, ns) {}
-export class GetPipelineStateOutput extends S.Class<GetPipelineStateOutput>(
-  "GetPipelineStateOutput",
-)(
-  {
+export interface CreatePipelineInput {
+  pipeline: PipelineDeclaration;
+  tags?: TagList;
+}
+export const CreatePipelineInput = S.suspend(() =>
+  S.Struct({ pipeline: PipelineDeclaration, tags: S.optional(TagList) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreatePipelineInput",
+}) as any as S.Schema<CreatePipelineInput>;
+export interface GetJobDetailsOutput {
+  jobDetails?: JobDetails;
+}
+export const GetJobDetailsOutput = S.suspend(() =>
+  S.Struct({ jobDetails: S.optional(JobDetails) }).pipe(ns),
+).annotations({
+  identifier: "GetJobDetailsOutput",
+}) as any as S.Schema<GetJobDetailsOutput>;
+export interface GetPipelineStateOutput {
+  pipelineName?: string;
+  pipelineVersion?: number;
+  stageStates?: StageStateList;
+  created?: Date;
+  updated?: Date;
+}
+export const GetPipelineStateOutput = S.suspend(() =>
+  S.Struct({
     pipelineName: S.optional(S.String),
     pipelineVersion: S.optional(S.Number),
     stageStates: S.optional(StageStateList),
     created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     updated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  },
-  ns,
-) {}
-export class ListActionExecutionsOutput extends S.Class<ListActionExecutionsOutput>(
-  "ListActionExecutionsOutput",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetPipelineStateOutput",
+}) as any as S.Schema<GetPipelineStateOutput>;
+export interface ListActionExecutionsOutput {
+  actionExecutionDetails?: ActionExecutionDetailList;
+  nextToken?: string;
+}
+export const ListActionExecutionsOutput = S.suspend(() =>
+  S.Struct({
     actionExecutionDetails: S.optional(ActionExecutionDetailList),
     nextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListRuleExecutionsOutput extends S.Class<ListRuleExecutionsOutput>(
-  "ListRuleExecutionsOutput",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListActionExecutionsOutput",
+}) as any as S.Schema<ListActionExecutionsOutput>;
+export interface ListRuleExecutionsOutput {
+  ruleExecutionDetails?: RuleExecutionDetailList;
+  nextToken?: string;
+}
+export const ListRuleExecutionsOutput = S.suspend(() =>
+  S.Struct({
     ruleExecutionDetails: S.optional(RuleExecutionDetailList),
     nextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class CreatePipelineOutput extends S.Class<CreatePipelineOutput>(
-  "CreatePipelineOutput",
-)(
-  { pipeline: S.optional(PipelineDeclaration), tags: S.optional(TagList) },
-  ns,
-) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "ListRuleExecutionsOutput",
+}) as any as S.Schema<ListRuleExecutionsOutput>;
+export interface CreatePipelineOutput {
+  pipeline?: PipelineDeclaration;
+  tags?: TagList;
+}
+export const CreatePipelineOutput = S.suspend(() =>
+  S.Struct({
+    pipeline: S.optional(PipelineDeclaration),
+    tags: S.optional(TagList),
+  }).pipe(ns),
+).annotations({
+  identifier: "CreatePipelineOutput",
+}) as any as S.Schema<CreatePipelineOutput>;
 
 //# Errors
 export class ConcurrentModificationException extends S.TaggedError<ConcurrentModificationException>()(

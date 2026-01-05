@@ -431,349 +431,903 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type TargetIdList = string[];
 export const TargetIdList = S.Array(S.String);
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class ActivateEventSourceRequest extends S.Class<ActivateEventSourceRequest>(
-  "ActivateEventSourceRequest",
-)(
-  { Name: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ActivateEventSourceResponse extends S.Class<ActivateEventSourceResponse>(
-  "ActivateEventSourceResponse",
-)({}, ns) {}
-export class CancelReplayRequest extends S.Class<CancelReplayRequest>(
-  "CancelReplayRequest",
-)(
-  { ReplayName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateApiDestinationRequest extends S.Class<CreateApiDestinationRequest>(
-  "CreateApiDestinationRequest",
-)(
-  {
+export interface ActivateEventSourceRequest {
+  Name: string;
+}
+export const ActivateEventSourceRequest = S.suspend(() =>
+  S.Struct({ Name: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ActivateEventSourceRequest",
+}) as any as S.Schema<ActivateEventSourceRequest>;
+export interface ActivateEventSourceResponse {}
+export const ActivateEventSourceResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "ActivateEventSourceResponse",
+}) as any as S.Schema<ActivateEventSourceResponse>;
+export interface CancelReplayRequest {
+  ReplayName: string;
+}
+export const CancelReplayRequest = S.suspend(() =>
+  S.Struct({ ReplayName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CancelReplayRequest",
+}) as any as S.Schema<CancelReplayRequest>;
+export interface CreateApiDestinationRequest {
+  Name: string;
+  Description?: string;
+  ConnectionArn: string;
+  InvocationEndpoint: string;
+  HttpMethod: string;
+  InvocationRateLimitPerSecond?: number;
+}
+export const CreateApiDestinationRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     Description: S.optional(S.String),
     ConnectionArn: S.String,
     InvocationEndpoint: S.String,
     HttpMethod: S.String,
     InvocationRateLimitPerSecond: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateArchiveRequest extends S.Class<CreateArchiveRequest>(
-  "CreateArchiveRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateApiDestinationRequest",
+}) as any as S.Schema<CreateApiDestinationRequest>;
+export interface CreateArchiveRequest {
+  ArchiveName: string;
+  EventSourceArn: string;
+  Description?: string;
+  EventPattern?: string;
+  RetentionDays?: number;
+  KmsKeyIdentifier?: string;
+}
+export const CreateArchiveRequest = S.suspend(() =>
+  S.Struct({
     ArchiveName: S.String,
     EventSourceArn: S.String,
     Description: S.optional(S.String),
     EventPattern: S.optional(S.String),
     RetentionDays: S.optional(S.Number),
     KmsKeyIdentifier: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreatePartnerEventSourceRequest extends S.Class<CreatePartnerEventSourceRequest>(
-  "CreatePartnerEventSourceRequest",
-)(
-  { Name: S.String, Account: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeactivateEventSourceRequest extends S.Class<DeactivateEventSourceRequest>(
-  "DeactivateEventSourceRequest",
-)(
-  { Name: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeactivateEventSourceResponse extends S.Class<DeactivateEventSourceResponse>(
-  "DeactivateEventSourceResponse",
-)({}, ns) {}
-export class DeauthorizeConnectionRequest extends S.Class<DeauthorizeConnectionRequest>(
-  "DeauthorizeConnectionRequest",
-)(
-  { Name: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteApiDestinationRequest extends S.Class<DeleteApiDestinationRequest>(
-  "DeleteApiDestinationRequest",
-)(
-  { Name: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteApiDestinationResponse extends S.Class<DeleteApiDestinationResponse>(
-  "DeleteApiDestinationResponse",
-)({}, ns) {}
-export class DeleteArchiveRequest extends S.Class<DeleteArchiveRequest>(
-  "DeleteArchiveRequest",
-)(
-  { ArchiveName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteArchiveResponse extends S.Class<DeleteArchiveResponse>(
-  "DeleteArchiveResponse",
-)({}, ns) {}
-export class DeleteConnectionRequest extends S.Class<DeleteConnectionRequest>(
-  "DeleteConnectionRequest",
-)(
-  { Name: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteEndpointRequest extends S.Class<DeleteEndpointRequest>(
-  "DeleteEndpointRequest",
-)(
-  { Name: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteEndpointResponse extends S.Class<DeleteEndpointResponse>(
-  "DeleteEndpointResponse",
-)({}, ns) {}
-export class DeleteEventBusRequest extends S.Class<DeleteEventBusRequest>(
-  "DeleteEventBusRequest",
-)(
-  { Name: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteEventBusResponse extends S.Class<DeleteEventBusResponse>(
-  "DeleteEventBusResponse",
-)({}, ns) {}
-export class DeletePartnerEventSourceRequest extends S.Class<DeletePartnerEventSourceRequest>(
-  "DeletePartnerEventSourceRequest",
-)(
-  { Name: S.String, Account: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeletePartnerEventSourceResponse extends S.Class<DeletePartnerEventSourceResponse>(
-  "DeletePartnerEventSourceResponse",
-)({}, ns) {}
-export class DeleteRuleRequest extends S.Class<DeleteRuleRequest>(
-  "DeleteRuleRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateArchiveRequest",
+}) as any as S.Schema<CreateArchiveRequest>;
+export interface CreatePartnerEventSourceRequest {
+  Name: string;
+  Account: string;
+}
+export const CreatePartnerEventSourceRequest = S.suspend(() =>
+  S.Struct({ Name: S.String, Account: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreatePartnerEventSourceRequest",
+}) as any as S.Schema<CreatePartnerEventSourceRequest>;
+export interface DeactivateEventSourceRequest {
+  Name: string;
+}
+export const DeactivateEventSourceRequest = S.suspend(() =>
+  S.Struct({ Name: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeactivateEventSourceRequest",
+}) as any as S.Schema<DeactivateEventSourceRequest>;
+export interface DeactivateEventSourceResponse {}
+export const DeactivateEventSourceResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeactivateEventSourceResponse",
+}) as any as S.Schema<DeactivateEventSourceResponse>;
+export interface DeauthorizeConnectionRequest {
+  Name: string;
+}
+export const DeauthorizeConnectionRequest = S.suspend(() =>
+  S.Struct({ Name: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeauthorizeConnectionRequest",
+}) as any as S.Schema<DeauthorizeConnectionRequest>;
+export interface DeleteApiDestinationRequest {
+  Name: string;
+}
+export const DeleteApiDestinationRequest = S.suspend(() =>
+  S.Struct({ Name: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteApiDestinationRequest",
+}) as any as S.Schema<DeleteApiDestinationRequest>;
+export interface DeleteApiDestinationResponse {}
+export const DeleteApiDestinationResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteApiDestinationResponse",
+}) as any as S.Schema<DeleteApiDestinationResponse>;
+export interface DeleteArchiveRequest {
+  ArchiveName: string;
+}
+export const DeleteArchiveRequest = S.suspend(() =>
+  S.Struct({ ArchiveName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteArchiveRequest",
+}) as any as S.Schema<DeleteArchiveRequest>;
+export interface DeleteArchiveResponse {}
+export const DeleteArchiveResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteArchiveResponse",
+}) as any as S.Schema<DeleteArchiveResponse>;
+export interface DeleteConnectionRequest {
+  Name: string;
+}
+export const DeleteConnectionRequest = S.suspend(() =>
+  S.Struct({ Name: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteConnectionRequest",
+}) as any as S.Schema<DeleteConnectionRequest>;
+export interface DeleteEndpointRequest {
+  Name: string;
+}
+export const DeleteEndpointRequest = S.suspend(() =>
+  S.Struct({ Name: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteEndpointRequest",
+}) as any as S.Schema<DeleteEndpointRequest>;
+export interface DeleteEndpointResponse {}
+export const DeleteEndpointResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteEndpointResponse",
+}) as any as S.Schema<DeleteEndpointResponse>;
+export interface DeleteEventBusRequest {
+  Name: string;
+}
+export const DeleteEventBusRequest = S.suspend(() =>
+  S.Struct({ Name: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteEventBusRequest",
+}) as any as S.Schema<DeleteEventBusRequest>;
+export interface DeleteEventBusResponse {}
+export const DeleteEventBusResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteEventBusResponse",
+}) as any as S.Schema<DeleteEventBusResponse>;
+export interface DeletePartnerEventSourceRequest {
+  Name: string;
+  Account: string;
+}
+export const DeletePartnerEventSourceRequest = S.suspend(() =>
+  S.Struct({ Name: S.String, Account: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeletePartnerEventSourceRequest",
+}) as any as S.Schema<DeletePartnerEventSourceRequest>;
+export interface DeletePartnerEventSourceResponse {}
+export const DeletePartnerEventSourceResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeletePartnerEventSourceResponse",
+}) as any as S.Schema<DeletePartnerEventSourceResponse>;
+export interface DeleteRuleRequest {
+  Name: string;
+  EventBusName?: string;
+  Force?: boolean;
+}
+export const DeleteRuleRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     EventBusName: S.optional(S.String),
     Force: S.optional(S.Boolean),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteRuleResponse extends S.Class<DeleteRuleResponse>(
-  "DeleteRuleResponse",
-)({}, ns) {}
-export class DescribeApiDestinationRequest extends S.Class<DescribeApiDestinationRequest>(
-  "DescribeApiDestinationRequest",
-)(
-  { Name: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeArchiveRequest extends S.Class<DescribeArchiveRequest>(
-  "DescribeArchiveRequest",
-)(
-  { ArchiveName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeConnectionRequest extends S.Class<DescribeConnectionRequest>(
-  "DescribeConnectionRequest",
-)(
-  { Name: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeEndpointRequest extends S.Class<DescribeEndpointRequest>(
-  "DescribeEndpointRequest",
-)(
-  { Name: S.String, HomeRegion: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeEventBusRequest extends S.Class<DescribeEventBusRequest>(
-  "DescribeEventBusRequest",
-)(
-  { Name: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeEventSourceRequest extends S.Class<DescribeEventSourceRequest>(
-  "DescribeEventSourceRequest",
-)(
-  { Name: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribePartnerEventSourceRequest extends S.Class<DescribePartnerEventSourceRequest>(
-  "DescribePartnerEventSourceRequest",
-)(
-  { Name: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeReplayRequest extends S.Class<DescribeReplayRequest>(
-  "DescribeReplayRequest",
-)(
-  { ReplayName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeRuleRequest extends S.Class<DescribeRuleRequest>(
-  "DescribeRuleRequest",
-)(
-  { Name: S.String, EventBusName: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DisableRuleRequest extends S.Class<DisableRuleRequest>(
-  "DisableRuleRequest",
-)(
-  { Name: S.String, EventBusName: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DisableRuleResponse extends S.Class<DisableRuleResponse>(
-  "DisableRuleResponse",
-)({}, ns) {}
-export class EnableRuleRequest extends S.Class<EnableRuleRequest>(
-  "EnableRuleRequest",
-)(
-  { Name: S.String, EventBusName: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class EnableRuleResponse extends S.Class<EnableRuleResponse>(
-  "EnableRuleResponse",
-)({}, ns) {}
-export class ListApiDestinationsRequest extends S.Class<ListApiDestinationsRequest>(
-  "ListApiDestinationsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteRuleRequest",
+}) as any as S.Schema<DeleteRuleRequest>;
+export interface DeleteRuleResponse {}
+export const DeleteRuleResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteRuleResponse",
+}) as any as S.Schema<DeleteRuleResponse>;
+export interface DescribeApiDestinationRequest {
+  Name: string;
+}
+export const DescribeApiDestinationRequest = S.suspend(() =>
+  S.Struct({ Name: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeApiDestinationRequest",
+}) as any as S.Schema<DescribeApiDestinationRequest>;
+export interface DescribeArchiveRequest {
+  ArchiveName: string;
+}
+export const DescribeArchiveRequest = S.suspend(() =>
+  S.Struct({ ArchiveName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeArchiveRequest",
+}) as any as S.Schema<DescribeArchiveRequest>;
+export interface DescribeConnectionRequest {
+  Name: string;
+}
+export const DescribeConnectionRequest = S.suspend(() =>
+  S.Struct({ Name: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeConnectionRequest",
+}) as any as S.Schema<DescribeConnectionRequest>;
+export interface DescribeEndpointRequest {
+  Name: string;
+  HomeRegion?: string;
+}
+export const DescribeEndpointRequest = S.suspend(() =>
+  S.Struct({ Name: S.String, HomeRegion: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeEndpointRequest",
+}) as any as S.Schema<DescribeEndpointRequest>;
+export interface DescribeEventBusRequest {
+  Name?: string;
+}
+export const DescribeEventBusRequest = S.suspend(() =>
+  S.Struct({ Name: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeEventBusRequest",
+}) as any as S.Schema<DescribeEventBusRequest>;
+export interface DescribeEventSourceRequest {
+  Name: string;
+}
+export const DescribeEventSourceRequest = S.suspend(() =>
+  S.Struct({ Name: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeEventSourceRequest",
+}) as any as S.Schema<DescribeEventSourceRequest>;
+export interface DescribePartnerEventSourceRequest {
+  Name: string;
+}
+export const DescribePartnerEventSourceRequest = S.suspend(() =>
+  S.Struct({ Name: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribePartnerEventSourceRequest",
+}) as any as S.Schema<DescribePartnerEventSourceRequest>;
+export interface DescribeReplayRequest {
+  ReplayName: string;
+}
+export const DescribeReplayRequest = S.suspend(() =>
+  S.Struct({ ReplayName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeReplayRequest",
+}) as any as S.Schema<DescribeReplayRequest>;
+export interface DescribeRuleRequest {
+  Name: string;
+  EventBusName?: string;
+}
+export const DescribeRuleRequest = S.suspend(() =>
+  S.Struct({ Name: S.String, EventBusName: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DescribeRuleRequest",
+}) as any as S.Schema<DescribeRuleRequest>;
+export interface DisableRuleRequest {
+  Name: string;
+  EventBusName?: string;
+}
+export const DisableRuleRequest = S.suspend(() =>
+  S.Struct({ Name: S.String, EventBusName: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DisableRuleRequest",
+}) as any as S.Schema<DisableRuleRequest>;
+export interface DisableRuleResponse {}
+export const DisableRuleResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DisableRuleResponse",
+}) as any as S.Schema<DisableRuleResponse>;
+export interface EnableRuleRequest {
+  Name: string;
+  EventBusName?: string;
+}
+export const EnableRuleRequest = S.suspend(() =>
+  S.Struct({ Name: S.String, EventBusName: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "EnableRuleRequest",
+}) as any as S.Schema<EnableRuleRequest>;
+export interface EnableRuleResponse {}
+export const EnableRuleResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "EnableRuleResponse",
+}) as any as S.Schema<EnableRuleResponse>;
+export interface ListApiDestinationsRequest {
+  NamePrefix?: string;
+  ConnectionArn?: string;
+  NextToken?: string;
+  Limit?: number;
+}
+export const ListApiDestinationsRequest = S.suspend(() =>
+  S.Struct({
     NamePrefix: S.optional(S.String),
     ConnectionArn: S.optional(S.String),
     NextToken: S.optional(S.String),
     Limit: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListArchivesRequest extends S.Class<ListArchivesRequest>(
-  "ListArchivesRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListApiDestinationsRequest",
+}) as any as S.Schema<ListApiDestinationsRequest>;
+export interface ListArchivesRequest {
+  NamePrefix?: string;
+  EventSourceArn?: string;
+  State?: string;
+  NextToken?: string;
+  Limit?: number;
+}
+export const ListArchivesRequest = S.suspend(() =>
+  S.Struct({
     NamePrefix: S.optional(S.String),
     EventSourceArn: S.optional(S.String),
     State: S.optional(S.String),
     NextToken: S.optional(S.String),
     Limit: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListConnectionsRequest extends S.Class<ListConnectionsRequest>(
-  "ListConnectionsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListArchivesRequest",
+}) as any as S.Schema<ListArchivesRequest>;
+export interface ListConnectionsRequest {
+  NamePrefix?: string;
+  ConnectionState?: string;
+  NextToken?: string;
+  Limit?: number;
+}
+export const ListConnectionsRequest = S.suspend(() =>
+  S.Struct({
     NamePrefix: S.optional(S.String),
     ConnectionState: S.optional(S.String),
     NextToken: S.optional(S.String),
     Limit: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListEndpointsRequest extends S.Class<ListEndpointsRequest>(
-  "ListEndpointsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListConnectionsRequest",
+}) as any as S.Schema<ListConnectionsRequest>;
+export interface ListEndpointsRequest {
+  NamePrefix?: string;
+  HomeRegion?: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListEndpointsRequest = S.suspend(() =>
+  S.Struct({
     NamePrefix: S.optional(S.String),
     HomeRegion: S.optional(S.String),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListEventBusesRequest extends S.Class<ListEventBusesRequest>(
-  "ListEventBusesRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListEndpointsRequest",
+}) as any as S.Schema<ListEndpointsRequest>;
+export interface ListEventBusesRequest {
+  NamePrefix?: string;
+  NextToken?: string;
+  Limit?: number;
+}
+export const ListEventBusesRequest = S.suspend(() =>
+  S.Struct({
     NamePrefix: S.optional(S.String),
     NextToken: S.optional(S.String),
     Limit: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListEventSourcesRequest extends S.Class<ListEventSourcesRequest>(
-  "ListEventSourcesRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListEventBusesRequest",
+}) as any as S.Schema<ListEventBusesRequest>;
+export interface ListEventSourcesRequest {
+  NamePrefix?: string;
+  NextToken?: string;
+  Limit?: number;
+}
+export const ListEventSourcesRequest = S.suspend(() =>
+  S.Struct({
     NamePrefix: S.optional(S.String),
     NextToken: S.optional(S.String),
     Limit: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListPartnerEventSourceAccountsRequest extends S.Class<ListPartnerEventSourceAccountsRequest>(
-  "ListPartnerEventSourceAccountsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListEventSourcesRequest",
+}) as any as S.Schema<ListEventSourcesRequest>;
+export interface ListPartnerEventSourceAccountsRequest {
+  EventSourceName: string;
+  NextToken?: string;
+  Limit?: number;
+}
+export const ListPartnerEventSourceAccountsRequest = S.suspend(() =>
+  S.Struct({
     EventSourceName: S.String,
     NextToken: S.optional(S.String),
     Limit: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListPartnerEventSourcesRequest extends S.Class<ListPartnerEventSourcesRequest>(
-  "ListPartnerEventSourcesRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListPartnerEventSourceAccountsRequest",
+}) as any as S.Schema<ListPartnerEventSourceAccountsRequest>;
+export interface ListPartnerEventSourcesRequest {
+  NamePrefix: string;
+  NextToken?: string;
+  Limit?: number;
+}
+export const ListPartnerEventSourcesRequest = S.suspend(() =>
+  S.Struct({
     NamePrefix: S.String,
     NextToken: S.optional(S.String),
     Limit: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListReplaysRequest extends S.Class<ListReplaysRequest>(
-  "ListReplaysRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListPartnerEventSourcesRequest",
+}) as any as S.Schema<ListPartnerEventSourcesRequest>;
+export interface ListReplaysRequest {
+  NamePrefix?: string;
+  State?: string;
+  EventSourceArn?: string;
+  NextToken?: string;
+  Limit?: number;
+}
+export const ListReplaysRequest = S.suspend(() =>
+  S.Struct({
     NamePrefix: S.optional(S.String),
     State: S.optional(S.String),
     EventSourceArn: S.optional(S.String),
     NextToken: S.optional(S.String),
     Limit: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListRuleNamesByTargetRequest extends S.Class<ListRuleNamesByTargetRequest>(
-  "ListRuleNamesByTargetRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListReplaysRequest",
+}) as any as S.Schema<ListReplaysRequest>;
+export interface ListRuleNamesByTargetRequest {
+  TargetArn: string;
+  EventBusName?: string;
+  NextToken?: string;
+  Limit?: number;
+}
+export const ListRuleNamesByTargetRequest = S.suspend(() =>
+  S.Struct({
     TargetArn: S.String,
     EventBusName: S.optional(S.String),
     NextToken: S.optional(S.String),
     Limit: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListRulesRequest extends S.Class<ListRulesRequest>(
-  "ListRulesRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListRuleNamesByTargetRequest",
+}) as any as S.Schema<ListRuleNamesByTargetRequest>;
+export interface ListRulesRequest {
+  NamePrefix?: string;
+  EventBusName?: string;
+  NextToken?: string;
+  Limit?: number;
+}
+export const ListRulesRequest = S.suspend(() =>
+  S.Struct({
     NamePrefix: S.optional(S.String),
     EventBusName: S.optional(S.String),
     NextToken: S.optional(S.String),
     Limit: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { ResourceARN: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTargetsByRuleRequest extends S.Class<ListTargetsByRuleRequest>(
-  "ListTargetsByRuleRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListRulesRequest",
+}) as any as S.Schema<ListRulesRequest>;
+export interface ListTagsForResourceRequest {
+  ResourceARN: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceARN: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface ListTargetsByRuleRequest {
+  Rule: string;
+  EventBusName?: string;
+  NextToken?: string;
+  Limit?: number;
+}
+export const ListTargetsByRuleRequest = S.suspend(() =>
+  S.Struct({
     Rule: S.String,
     EventBusName: S.optional(S.String),
     NextToken: S.optional(S.String),
     Limit: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class Tag extends S.Class<Tag>("Tag")({
-  Key: S.String,
-  Value: S.String,
-}) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListTargetsByRuleRequest",
+}) as any as S.Schema<ListTargetsByRuleRequest>;
+export interface Tag {
+  Key: string;
+  Value: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ Key: S.String, Value: S.String }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagList = Tag[];
 export const TagList = S.Array(Tag);
-export class PutRuleRequest extends S.Class<PutRuleRequest>("PutRuleRequest")(
-  {
+export interface PutRuleRequest {
+  Name: string;
+  ScheduleExpression?: string;
+  EventPattern?: string;
+  State?: string;
+  Description?: string;
+  RoleArn?: string;
+  Tags?: TagList;
+  EventBusName?: string;
+}
+export const PutRuleRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     ScheduleExpression: S.optional(S.String),
     EventPattern: S.optional(S.String),
@@ -782,209 +1336,458 @@ export class PutRuleRequest extends S.Class<PutRuleRequest>("PutRuleRequest")(
     RoleArn: S.optional(S.String),
     Tags: S.optional(TagList),
     EventBusName: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class RemovePermissionRequest extends S.Class<RemovePermissionRequest>(
-  "RemovePermissionRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutRuleRequest",
+}) as any as S.Schema<PutRuleRequest>;
+export interface RemovePermissionRequest {
+  StatementId?: string;
+  RemoveAllPermissions?: boolean;
+  EventBusName?: string;
+}
+export const RemovePermissionRequest = S.suspend(() =>
+  S.Struct({
     StatementId: S.optional(S.String),
     RemoveAllPermissions: S.optional(S.Boolean),
     EventBusName: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class RemovePermissionResponse extends S.Class<RemovePermissionResponse>(
-  "RemovePermissionResponse",
-)({}, ns) {}
-export class RemoveTargetsRequest extends S.Class<RemoveTargetsRequest>(
-  "RemoveTargetsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "RemovePermissionRequest",
+}) as any as S.Schema<RemovePermissionRequest>;
+export interface RemovePermissionResponse {}
+export const RemovePermissionResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "RemovePermissionResponse",
+}) as any as S.Schema<RemovePermissionResponse>;
+export interface RemoveTargetsRequest {
+  Rule: string;
+  EventBusName?: string;
+  Ids: TargetIdList;
+  Force?: boolean;
+}
+export const RemoveTargetsRequest = S.suspend(() =>
+  S.Struct({
     Rule: S.String,
     EventBusName: S.optional(S.String),
     Ids: TargetIdList,
     Force: S.optional(S.Boolean),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { ResourceARN: S.String, Tags: TagList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}, ns) {}
-export class TestEventPatternRequest extends S.Class<TestEventPatternRequest>(
-  "TestEventPatternRequest",
-)(
-  { EventPattern: S.String, Event: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  { ResourceARN: S.String, TagKeys: TagKeyList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}, ns) {}
-export class UpdateApiDestinationRequest extends S.Class<UpdateApiDestinationRequest>(
-  "UpdateApiDestinationRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "RemoveTargetsRequest",
+}) as any as S.Schema<RemoveTargetsRequest>;
+export interface TagResourceRequest {
+  ResourceARN: string;
+  Tags: TagList;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceARN: S.String, Tags: TagList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface TestEventPatternRequest {
+  EventPattern: string;
+  Event: string;
+}
+export const TestEventPatternRequest = S.suspend(() =>
+  S.Struct({ EventPattern: S.String, Event: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "TestEventPatternRequest",
+}) as any as S.Schema<TestEventPatternRequest>;
+export interface UntagResourceRequest {
+  ResourceARN: string;
+  TagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceARN: S.String, TagKeys: TagKeyList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface UpdateApiDestinationRequest {
+  Name: string;
+  Description?: string;
+  ConnectionArn?: string;
+  InvocationEndpoint?: string;
+  HttpMethod?: string;
+  InvocationRateLimitPerSecond?: number;
+}
+export const UpdateApiDestinationRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     Description: S.optional(S.String),
     ConnectionArn: S.optional(S.String),
     InvocationEndpoint: S.optional(S.String),
     HttpMethod: S.optional(S.String),
     InvocationRateLimitPerSecond: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateArchiveRequest extends S.Class<UpdateArchiveRequest>(
-  "UpdateArchiveRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateApiDestinationRequest",
+}) as any as S.Schema<UpdateApiDestinationRequest>;
+export interface UpdateArchiveRequest {
+  ArchiveName: string;
+  Description?: string;
+  EventPattern?: string;
+  RetentionDays?: number;
+  KmsKeyIdentifier?: string;
+}
+export const UpdateArchiveRequest = S.suspend(() =>
+  S.Struct({
     ArchiveName: S.String,
     Description: S.optional(S.String),
     EventPattern: S.optional(S.String),
     RetentionDays: S.optional(S.Number),
     KmsKeyIdentifier: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class Primary extends S.Class<Primary>("Primary")({
-  HealthCheck: S.String,
-}) {}
-export class Secondary extends S.Class<Secondary>("Secondary")({
-  Route: S.String,
-}) {}
-export class FailoverConfig extends S.Class<FailoverConfig>("FailoverConfig")({
-  Primary: Primary,
-  Secondary: Secondary,
-}) {}
-export class RoutingConfig extends S.Class<RoutingConfig>("RoutingConfig")({
-  FailoverConfig: FailoverConfig,
-}) {}
-export class ReplicationConfig extends S.Class<ReplicationConfig>(
-  "ReplicationConfig",
-)({ State: S.optional(S.String) }) {}
-export class EndpointEventBus extends S.Class<EndpointEventBus>(
-  "EndpointEventBus",
-)({ EventBusArn: S.String }) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateArchiveRequest",
+}) as any as S.Schema<UpdateArchiveRequest>;
+export interface Primary {
+  HealthCheck: string;
+}
+export const Primary = S.suspend(() =>
+  S.Struct({ HealthCheck: S.String }),
+).annotations({ identifier: "Primary" }) as any as S.Schema<Primary>;
+export interface Secondary {
+  Route: string;
+}
+export const Secondary = S.suspend(() =>
+  S.Struct({ Route: S.String }),
+).annotations({ identifier: "Secondary" }) as any as S.Schema<Secondary>;
+export interface FailoverConfig {
+  Primary: Primary;
+  Secondary: Secondary;
+}
+export const FailoverConfig = S.suspend(() =>
+  S.Struct({ Primary: Primary, Secondary: Secondary }),
+).annotations({
+  identifier: "FailoverConfig",
+}) as any as S.Schema<FailoverConfig>;
+export interface RoutingConfig {
+  FailoverConfig: FailoverConfig;
+}
+export const RoutingConfig = S.suspend(() =>
+  S.Struct({ FailoverConfig: FailoverConfig }),
+).annotations({
+  identifier: "RoutingConfig",
+}) as any as S.Schema<RoutingConfig>;
+export interface ReplicationConfig {
+  State?: string;
+}
+export const ReplicationConfig = S.suspend(() =>
+  S.Struct({ State: S.optional(S.String) }),
+).annotations({
+  identifier: "ReplicationConfig",
+}) as any as S.Schema<ReplicationConfig>;
+export interface EndpointEventBus {
+  EventBusArn: string;
+}
+export const EndpointEventBus = S.suspend(() =>
+  S.Struct({ EventBusArn: S.String }),
+).annotations({
+  identifier: "EndpointEventBus",
+}) as any as S.Schema<EndpointEventBus>;
+export type EndpointEventBusList = EndpointEventBus[];
 export const EndpointEventBusList = S.Array(EndpointEventBus);
-export class UpdateEndpointRequest extends S.Class<UpdateEndpointRequest>(
-  "UpdateEndpointRequest",
-)(
-  {
+export interface UpdateEndpointRequest {
+  Name: string;
+  Description?: string;
+  RoutingConfig?: RoutingConfig;
+  ReplicationConfig?: ReplicationConfig;
+  EventBuses?: EndpointEventBusList;
+  RoleArn?: string;
+}
+export const UpdateEndpointRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     Description: S.optional(S.String),
     RoutingConfig: S.optional(RoutingConfig),
     ReplicationConfig: S.optional(ReplicationConfig),
     EventBuses: S.optional(EndpointEventBusList),
     RoleArn: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeadLetterConfig extends S.Class<DeadLetterConfig>(
-  "DeadLetterConfig",
-)({ Arn: S.optional(S.String) }) {}
-export class LogConfig extends S.Class<LogConfig>("LogConfig")({
-  IncludeDetail: S.optional(S.String),
-  Level: S.optional(S.String),
-}) {}
-export class UpdateEventBusRequest extends S.Class<UpdateEventBusRequest>(
-  "UpdateEventBusRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateEndpointRequest",
+}) as any as S.Schema<UpdateEndpointRequest>;
+export interface DeadLetterConfig {
+  Arn?: string;
+}
+export const DeadLetterConfig = S.suspend(() =>
+  S.Struct({ Arn: S.optional(S.String) }),
+).annotations({
+  identifier: "DeadLetterConfig",
+}) as any as S.Schema<DeadLetterConfig>;
+export interface LogConfig {
+  IncludeDetail?: string;
+  Level?: string;
+}
+export const LogConfig = S.suspend(() =>
+  S.Struct({
+    IncludeDetail: S.optional(S.String),
+    Level: S.optional(S.String),
+  }),
+).annotations({ identifier: "LogConfig" }) as any as S.Schema<LogConfig>;
+export interface UpdateEventBusRequest {
+  Name?: string;
+  KmsKeyIdentifier?: string;
+  Description?: string;
+  DeadLetterConfig?: DeadLetterConfig;
+  LogConfig?: LogConfig;
+}
+export const UpdateEventBusRequest = S.suspend(() =>
+  S.Struct({
     Name: S.optional(S.String),
     KmsKeyIdentifier: S.optional(S.String),
     Description: S.optional(S.String),
     DeadLetterConfig: S.optional(DeadLetterConfig),
     LogConfig: S.optional(LogConfig),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateEventBusRequest",
+}) as any as S.Schema<UpdateEventBusRequest>;
+export type EventResourceList = string[];
 export const EventResourceList = S.Array(S.String);
+export type ReplayDestinationFilters = string[];
 export const ReplayDestinationFilters = S.Array(S.String);
+export type RuleNameList = string[];
 export const RuleNameList = S.Array(S.String);
-export class PutEventsRequestEntry extends S.Class<PutEventsRequestEntry>(
-  "PutEventsRequestEntry",
-)({
-  Time: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Source: S.optional(S.String),
-  Resources: S.optional(EventResourceList),
-  DetailType: S.optional(S.String),
-  Detail: S.optional(S.String),
-  EventBusName: S.optional(S.String),
-  TraceHeader: S.optional(S.String),
-}) {}
+export interface PutEventsRequestEntry {
+  Time?: Date;
+  Source?: string;
+  Resources?: EventResourceList;
+  DetailType?: string;
+  Detail?: string;
+  EventBusName?: string;
+  TraceHeader?: string;
+}
+export const PutEventsRequestEntry = S.suspend(() =>
+  S.Struct({
+    Time: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Source: S.optional(S.String),
+    Resources: S.optional(EventResourceList),
+    DetailType: S.optional(S.String),
+    Detail: S.optional(S.String),
+    EventBusName: S.optional(S.String),
+    TraceHeader: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "PutEventsRequestEntry",
+}) as any as S.Schema<PutEventsRequestEntry>;
+export type PutEventsRequestEntryList = PutEventsRequestEntry[];
 export const PutEventsRequestEntryList = S.Array(PutEventsRequestEntry);
-export class PutPartnerEventsRequestEntry extends S.Class<PutPartnerEventsRequestEntry>(
-  "PutPartnerEventsRequestEntry",
-)({
-  Time: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Source: S.optional(S.String),
-  Resources: S.optional(EventResourceList),
-  DetailType: S.optional(S.String),
-  Detail: S.optional(S.String),
-}) {}
+export interface PutPartnerEventsRequestEntry {
+  Time?: Date;
+  Source?: string;
+  Resources?: EventResourceList;
+  DetailType?: string;
+  Detail?: string;
+}
+export const PutPartnerEventsRequestEntry = S.suspend(() =>
+  S.Struct({
+    Time: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Source: S.optional(S.String),
+    Resources: S.optional(EventResourceList),
+    DetailType: S.optional(S.String),
+    Detail: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "PutPartnerEventsRequestEntry",
+}) as any as S.Schema<PutPartnerEventsRequestEntry>;
+export type PutPartnerEventsRequestEntryList = PutPartnerEventsRequestEntry[];
 export const PutPartnerEventsRequestEntryList = S.Array(
   PutPartnerEventsRequestEntry,
 );
-export class Condition extends S.Class<Condition>("Condition")({
-  Type: S.String,
-  Key: S.String,
-  Value: S.String,
-}) {}
-export class ReplayDestination extends S.Class<ReplayDestination>(
-  "ReplayDestination",
-)({ Arn: S.String, FilterArns: S.optional(ReplayDestinationFilters) }) {}
+export interface Condition {
+  Type: string;
+  Key: string;
+  Value: string;
+}
+export const Condition = S.suspend(() =>
+  S.Struct({ Type: S.String, Key: S.String, Value: S.String }),
+).annotations({ identifier: "Condition" }) as any as S.Schema<Condition>;
+export interface ReplayDestination {
+  Arn: string;
+  FilterArns?: ReplayDestinationFilters;
+}
+export const ReplayDestination = S.suspend(() =>
+  S.Struct({ Arn: S.String, FilterArns: S.optional(ReplayDestinationFilters) }),
+).annotations({
+  identifier: "ReplayDestination",
+}) as any as S.Schema<ReplayDestination>;
+export type PathParameterList = string[];
 export const PathParameterList = S.Array(S.String);
+export type Sqls = string[];
 export const Sqls = S.Array(S.String);
-export class CancelReplayResponse extends S.Class<CancelReplayResponse>(
-  "CancelReplayResponse",
-)(
-  {
+export interface CancelReplayResponse {
+  ReplayArn?: string;
+  State?: string;
+  StateReason?: string;
+}
+export const CancelReplayResponse = S.suspend(() =>
+  S.Struct({
     ReplayArn: S.optional(S.String),
     State: S.optional(S.String),
     StateReason: S.optional(S.String),
-  },
-  ns,
-) {}
-export class CreateApiDestinationResponse extends S.Class<CreateApiDestinationResponse>(
-  "CreateApiDestinationResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "CancelReplayResponse",
+}) as any as S.Schema<CancelReplayResponse>;
+export interface CreateApiDestinationResponse {
+  ApiDestinationArn?: string;
+  ApiDestinationState?: string;
+  CreationTime?: Date;
+  LastModifiedTime?: Date;
+}
+export const CreateApiDestinationResponse = S.suspend(() =>
+  S.Struct({
     ApiDestinationArn: S.optional(S.String),
     ApiDestinationState: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastModifiedTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-  },
-  ns,
-) {}
-export class CreateArchiveResponse extends S.Class<CreateArchiveResponse>(
-  "CreateArchiveResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "CreateApiDestinationResponse",
+}) as any as S.Schema<CreateApiDestinationResponse>;
+export interface CreateArchiveResponse {
+  ArchiveArn?: string;
+  State?: string;
+  StateReason?: string;
+  CreationTime?: Date;
+}
+export const CreateArchiveResponse = S.suspend(() =>
+  S.Struct({
     ArchiveArn: S.optional(S.String),
     State: S.optional(S.String),
     StateReason: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  },
-  ns,
-) {}
-export class CreateEventBusRequest extends S.Class<CreateEventBusRequest>(
-  "CreateEventBusRequest",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "CreateArchiveResponse",
+}) as any as S.Schema<CreateArchiveResponse>;
+export interface CreateEventBusRequest {
+  Name: string;
+  EventSourceName?: string;
+  Description?: string;
+  KmsKeyIdentifier?: string;
+  DeadLetterConfig?: DeadLetterConfig;
+  LogConfig?: LogConfig;
+  Tags?: TagList;
+}
+export const CreateEventBusRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     EventSourceName: S.optional(S.String),
     Description: S.optional(S.String),
@@ -992,16 +1795,37 @@ export class CreateEventBusRequest extends S.Class<CreateEventBusRequest>(
     DeadLetterConfig: S.optional(DeadLetterConfig),
     LogConfig: S.optional(LogConfig),
     Tags: S.optional(TagList),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreatePartnerEventSourceResponse extends S.Class<CreatePartnerEventSourceResponse>(
-  "CreatePartnerEventSourceResponse",
-)({ EventSourceArn: S.optional(S.String) }, ns) {}
-export class DeauthorizeConnectionResponse extends S.Class<DeauthorizeConnectionResponse>(
-  "DeauthorizeConnectionResponse",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateEventBusRequest",
+}) as any as S.Schema<CreateEventBusRequest>;
+export interface CreatePartnerEventSourceResponse {
+  EventSourceArn?: string;
+}
+export const CreatePartnerEventSourceResponse = S.suspend(() =>
+  S.Struct({ EventSourceArn: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "CreatePartnerEventSourceResponse",
+}) as any as S.Schema<CreatePartnerEventSourceResponse>;
+export interface DeauthorizeConnectionResponse {
+  ConnectionArn?: string;
+  ConnectionState?: string;
+  CreationTime?: Date;
+  LastModifiedTime?: Date;
+  LastAuthorizedTime?: Date;
+}
+export const DeauthorizeConnectionResponse = S.suspend(() =>
+  S.Struct({
     ConnectionArn: S.optional(S.String),
     ConnectionState: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -1011,13 +1835,19 @@ export class DeauthorizeConnectionResponse extends S.Class<DeauthorizeConnection
     LastAuthorizedTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-  },
-  ns,
-) {}
-export class DeleteConnectionResponse extends S.Class<DeleteConnectionResponse>(
-  "DeleteConnectionResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DeauthorizeConnectionResponse",
+}) as any as S.Schema<DeauthorizeConnectionResponse>;
+export interface DeleteConnectionResponse {
+  ConnectionArn?: string;
+  ConnectionState?: string;
+  CreationTime?: Date;
+  LastModifiedTime?: Date;
+  LastAuthorizedTime?: Date;
+}
+export const DeleteConnectionResponse = S.suspend(() =>
+  S.Struct({
     ConnectionArn: S.optional(S.String),
     ConnectionState: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -1027,13 +1857,24 @@ export class DeleteConnectionResponse extends S.Class<DeleteConnectionResponse>(
     LastAuthorizedTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-  },
-  ns,
-) {}
-export class DescribeApiDestinationResponse extends S.Class<DescribeApiDestinationResponse>(
-  "DescribeApiDestinationResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DeleteConnectionResponse",
+}) as any as S.Schema<DeleteConnectionResponse>;
+export interface DescribeApiDestinationResponse {
+  ApiDestinationArn?: string;
+  Name?: string;
+  Description?: string;
+  ApiDestinationState?: string;
+  ConnectionArn?: string;
+  InvocationEndpoint?: string;
+  HttpMethod?: string;
+  InvocationRateLimitPerSecond?: number;
+  CreationTime?: Date;
+  LastModifiedTime?: Date;
+}
+export const DescribeApiDestinationResponse = S.suspend(() =>
+  S.Struct({
     ApiDestinationArn: S.optional(S.String),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
@@ -1046,13 +1887,26 @@ export class DescribeApiDestinationResponse extends S.Class<DescribeApiDestinati
     LastModifiedTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-  },
-  ns,
-) {}
-export class DescribeArchiveResponse extends S.Class<DescribeArchiveResponse>(
-  "DescribeArchiveResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeApiDestinationResponse",
+}) as any as S.Schema<DescribeApiDestinationResponse>;
+export interface DescribeArchiveResponse {
+  ArchiveArn?: string;
+  ArchiveName?: string;
+  EventSourceArn?: string;
+  Description?: string;
+  EventPattern?: string;
+  State?: string;
+  StateReason?: string;
+  KmsKeyIdentifier?: string;
+  RetentionDays?: number;
+  SizeBytes?: number;
+  EventCount?: number;
+  CreationTime?: Date;
+}
+export const DescribeArchiveResponse = S.suspend(() =>
+  S.Struct({
     ArchiveArn: S.optional(S.String),
     ArchiveName: S.optional(S.String),
     EventSourceArn: S.optional(S.String),
@@ -1065,13 +1919,27 @@ export class DescribeArchiveResponse extends S.Class<DescribeArchiveResponse>(
     SizeBytes: S.optional(S.Number),
     EventCount: S.optional(S.Number),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  },
-  ns,
-) {}
-export class DescribeEndpointResponse extends S.Class<DescribeEndpointResponse>(
-  "DescribeEndpointResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeArchiveResponse",
+}) as any as S.Schema<DescribeArchiveResponse>;
+export interface DescribeEndpointResponse {
+  Name?: string;
+  Description?: string;
+  Arn?: string;
+  RoutingConfig?: RoutingConfig;
+  ReplicationConfig?: ReplicationConfig;
+  EventBuses?: EndpointEventBusList;
+  RoleArn?: string;
+  EndpointId?: string;
+  EndpointUrl?: string;
+  State?: string;
+  StateReason?: string;
+  CreationTime?: Date;
+  LastModifiedTime?: Date;
+}
+export const DescribeEndpointResponse = S.suspend(() =>
+  S.Struct({
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     Arn: S.optional(S.String),
@@ -1087,13 +1955,23 @@ export class DescribeEndpointResponse extends S.Class<DescribeEndpointResponse>(
     LastModifiedTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-  },
-  ns,
-) {}
-export class DescribeEventBusResponse extends S.Class<DescribeEventBusResponse>(
-  "DescribeEventBusResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeEndpointResponse",
+}) as any as S.Schema<DescribeEndpointResponse>;
+export interface DescribeEventBusResponse {
+  Name?: string;
+  Arn?: string;
+  Description?: string;
+  KmsKeyIdentifier?: string;
+  DeadLetterConfig?: DeadLetterConfig;
+  Policy?: string;
+  LogConfig?: LogConfig;
+  CreationTime?: Date;
+  LastModifiedTime?: Date;
+}
+export const DescribeEventBusResponse = S.suspend(() =>
+  S.Struct({
     Name: S.optional(S.String),
     Arn: S.optional(S.String),
     Description: S.optional(S.String),
@@ -1105,29 +1983,55 @@ export class DescribeEventBusResponse extends S.Class<DescribeEventBusResponse>(
     LastModifiedTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-  },
-  ns,
-) {}
-export class DescribeEventSourceResponse extends S.Class<DescribeEventSourceResponse>(
-  "DescribeEventSourceResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeEventBusResponse",
+}) as any as S.Schema<DescribeEventBusResponse>;
+export interface DescribeEventSourceResponse {
+  Arn?: string;
+  CreatedBy?: string;
+  CreationTime?: Date;
+  ExpirationTime?: Date;
+  Name?: string;
+  State?: string;
+}
+export const DescribeEventSourceResponse = S.suspend(() =>
+  S.Struct({
     Arn: S.optional(S.String),
     CreatedBy: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ExpirationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Name: S.optional(S.String),
     State: S.optional(S.String),
-  },
-  ns,
-) {}
-export class DescribePartnerEventSourceResponse extends S.Class<DescribePartnerEventSourceResponse>(
-  "DescribePartnerEventSourceResponse",
-)({ Arn: S.optional(S.String), Name: S.optional(S.String) }, ns) {}
-export class DescribeReplayResponse extends S.Class<DescribeReplayResponse>(
-  "DescribeReplayResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeEventSourceResponse",
+}) as any as S.Schema<DescribeEventSourceResponse>;
+export interface DescribePartnerEventSourceResponse {
+  Arn?: string;
+  Name?: string;
+}
+export const DescribePartnerEventSourceResponse = S.suspend(() =>
+  S.Struct({ Arn: S.optional(S.String), Name: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "DescribePartnerEventSourceResponse",
+}) as any as S.Schema<DescribePartnerEventSourceResponse>;
+export interface DescribeReplayResponse {
+  ReplayName?: string;
+  ReplayArn?: string;
+  Description?: string;
+  State?: string;
+  StateReason?: string;
+  EventSourceArn?: string;
+  Destination?: ReplayDestination;
+  EventStartTime?: Date;
+  EventEndTime?: Date;
+  EventLastReplayedTime?: Date;
+  ReplayStartTime?: Date;
+  ReplayEndTime?: Date;
+}
+export const DescribeReplayResponse = S.suspend(() =>
+  S.Struct({
     ReplayName: S.optional(S.String),
     ReplayArn: S.optional(S.String),
     Description: S.optional(S.String),
@@ -1144,13 +2048,24 @@ export class DescribeReplayResponse extends S.Class<DescribeReplayResponse>(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     ReplayEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  },
-  ns,
-) {}
-export class DescribeRuleResponse extends S.Class<DescribeRuleResponse>(
-  "DescribeRuleResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeReplayResponse",
+}) as any as S.Schema<DescribeReplayResponse>;
+export interface DescribeRuleResponse {
+  Name?: string;
+  Arn?: string;
+  EventPattern?: string;
+  ScheduleExpression?: string;
+  State?: string;
+  Description?: string;
+  RoleArn?: string;
+  ManagedBy?: string;
+  EventBusName?: string;
+  CreatedBy?: string;
+}
+export const DescribeRuleResponse = S.suspend(() =>
+  S.Struct({
     Name: S.optional(S.String),
     Arn: S.optional(S.String),
     EventPattern: S.optional(S.String),
@@ -1161,231 +2076,518 @@ export class DescribeRuleResponse extends S.Class<DescribeRuleResponse>(
     ManagedBy: S.optional(S.String),
     EventBusName: S.optional(S.String),
     CreatedBy: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListRuleNamesByTargetResponse extends S.Class<ListRuleNamesByTargetResponse>(
-  "ListRuleNamesByTargetResponse",
-)(
-  { RuleNames: S.optional(RuleNameList), NextToken: S.optional(S.String) },
-  ns,
-) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ Tags: S.optional(TagList) }, ns) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeRuleResponse",
+}) as any as S.Schema<DescribeRuleResponse>;
+export interface ListRuleNamesByTargetResponse {
+  RuleNames?: RuleNameList;
+  NextToken?: string;
+}
+export const ListRuleNamesByTargetResponse = S.suspend(() =>
+  S.Struct({
+    RuleNames: S.optional(RuleNameList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListRuleNamesByTargetResponse",
+}) as any as S.Schema<ListRuleNamesByTargetResponse>;
+export interface ListTagsForResourceResponse {
+  Tags?: TagList;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ Tags: S.optional(TagList) }).pipe(ns),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export type TransformerPaths = { [key: string]: string };
 export const TransformerPaths = S.Record({ key: S.String, value: S.String });
-export class InputTransformer extends S.Class<InputTransformer>(
-  "InputTransformer",
-)({ InputPathsMap: S.optional(TransformerPaths), InputTemplate: S.String }) {}
-export class KinesisParameters extends S.Class<KinesisParameters>(
-  "KinesisParameters",
-)({ PartitionKeyPath: S.String }) {}
+export interface InputTransformer {
+  InputPathsMap?: TransformerPaths;
+  InputTemplate: string;
+}
+export const InputTransformer = S.suspend(() =>
+  S.Struct({
+    InputPathsMap: S.optional(TransformerPaths),
+    InputTemplate: S.String,
+  }),
+).annotations({
+  identifier: "InputTransformer",
+}) as any as S.Schema<InputTransformer>;
+export interface KinesisParameters {
+  PartitionKeyPath: string;
+}
+export const KinesisParameters = S.suspend(() =>
+  S.Struct({ PartitionKeyPath: S.String }),
+).annotations({
+  identifier: "KinesisParameters",
+}) as any as S.Schema<KinesisParameters>;
+export type RunCommandTargetValues = string[];
 export const RunCommandTargetValues = S.Array(S.String);
-export class RunCommandTarget extends S.Class<RunCommandTarget>(
-  "RunCommandTarget",
-)({ Key: S.String, Values: RunCommandTargetValues }) {}
+export interface RunCommandTarget {
+  Key: string;
+  Values: RunCommandTargetValues;
+}
+export const RunCommandTarget = S.suspend(() =>
+  S.Struct({ Key: S.String, Values: RunCommandTargetValues }),
+).annotations({
+  identifier: "RunCommandTarget",
+}) as any as S.Schema<RunCommandTarget>;
+export type RunCommandTargets = RunCommandTarget[];
 export const RunCommandTargets = S.Array(RunCommandTarget);
-export class RunCommandParameters extends S.Class<RunCommandParameters>(
-  "RunCommandParameters",
-)({ RunCommandTargets: RunCommandTargets }) {}
+export interface RunCommandParameters {
+  RunCommandTargets: RunCommandTargets;
+}
+export const RunCommandParameters = S.suspend(() =>
+  S.Struct({ RunCommandTargets: RunCommandTargets }),
+).annotations({
+  identifier: "RunCommandParameters",
+}) as any as S.Schema<RunCommandParameters>;
+export type StringList = string[];
 export const StringList = S.Array(S.String);
-export class AwsVpcConfiguration extends S.Class<AwsVpcConfiguration>(
-  "AwsVpcConfiguration",
-)({
-  Subnets: StringList,
-  SecurityGroups: S.optional(StringList),
-  AssignPublicIp: S.optional(S.String),
-}) {}
-export class NetworkConfiguration extends S.Class<NetworkConfiguration>(
-  "NetworkConfiguration",
-)({ awsvpcConfiguration: S.optional(AwsVpcConfiguration) }) {}
-export class CapacityProviderStrategyItem extends S.Class<CapacityProviderStrategyItem>(
-  "CapacityProviderStrategyItem",
-)({
-  capacityProvider: S.String,
-  weight: S.optional(S.Number),
-  base: S.optional(S.Number),
-}) {}
+export interface AwsVpcConfiguration {
+  Subnets: StringList;
+  SecurityGroups?: StringList;
+  AssignPublicIp?: string;
+}
+export const AwsVpcConfiguration = S.suspend(() =>
+  S.Struct({
+    Subnets: StringList,
+    SecurityGroups: S.optional(StringList),
+    AssignPublicIp: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AwsVpcConfiguration",
+}) as any as S.Schema<AwsVpcConfiguration>;
+export interface NetworkConfiguration {
+  awsvpcConfiguration?: AwsVpcConfiguration;
+}
+export const NetworkConfiguration = S.suspend(() =>
+  S.Struct({ awsvpcConfiguration: S.optional(AwsVpcConfiguration) }),
+).annotations({
+  identifier: "NetworkConfiguration",
+}) as any as S.Schema<NetworkConfiguration>;
+export interface CapacityProviderStrategyItem {
+  capacityProvider: string;
+  weight?: number;
+  base?: number;
+}
+export const CapacityProviderStrategyItem = S.suspend(() =>
+  S.Struct({
+    capacityProvider: S.String,
+    weight: S.optional(S.Number),
+    base: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "CapacityProviderStrategyItem",
+}) as any as S.Schema<CapacityProviderStrategyItem>;
+export type CapacityProviderStrategy = CapacityProviderStrategyItem[];
 export const CapacityProviderStrategy = S.Array(CapacityProviderStrategyItem);
-export class PlacementConstraint extends S.Class<PlacementConstraint>(
-  "PlacementConstraint",
-)({ type: S.optional(S.String), expression: S.optional(S.String) }) {}
+export interface PlacementConstraint {
+  type?: string;
+  expression?: string;
+}
+export const PlacementConstraint = S.suspend(() =>
+  S.Struct({ type: S.optional(S.String), expression: S.optional(S.String) }),
+).annotations({
+  identifier: "PlacementConstraint",
+}) as any as S.Schema<PlacementConstraint>;
+export type PlacementConstraints = PlacementConstraint[];
 export const PlacementConstraints = S.Array(PlacementConstraint);
-export class PlacementStrategy extends S.Class<PlacementStrategy>(
-  "PlacementStrategy",
-)({ type: S.optional(S.String), field: S.optional(S.String) }) {}
+export interface PlacementStrategy {
+  type?: string;
+  field?: string;
+}
+export const PlacementStrategy = S.suspend(() =>
+  S.Struct({ type: S.optional(S.String), field: S.optional(S.String) }),
+).annotations({
+  identifier: "PlacementStrategy",
+}) as any as S.Schema<PlacementStrategy>;
+export type PlacementStrategies = PlacementStrategy[];
 export const PlacementStrategies = S.Array(PlacementStrategy);
-export class EcsParameters extends S.Class<EcsParameters>("EcsParameters")({
-  TaskDefinitionArn: S.String,
-  TaskCount: S.optional(S.Number),
-  LaunchType: S.optional(S.String),
-  NetworkConfiguration: S.optional(NetworkConfiguration),
-  PlatformVersion: S.optional(S.String),
-  Group: S.optional(S.String),
-  CapacityProviderStrategy: S.optional(CapacityProviderStrategy),
-  EnableECSManagedTags: S.optional(S.Boolean),
-  EnableExecuteCommand: S.optional(S.Boolean),
-  PlacementConstraints: S.optional(PlacementConstraints),
-  PlacementStrategy: S.optional(PlacementStrategies),
-  PropagateTags: S.optional(S.String),
-  ReferenceId: S.optional(S.String),
-  Tags: S.optional(TagList),
-}) {}
-export class BatchArrayProperties extends S.Class<BatchArrayProperties>(
-  "BatchArrayProperties",
-)({ Size: S.optional(S.Number) }) {}
-export class BatchRetryStrategy extends S.Class<BatchRetryStrategy>(
-  "BatchRetryStrategy",
-)({ Attempts: S.optional(S.Number) }) {}
-export class BatchParameters extends S.Class<BatchParameters>(
-  "BatchParameters",
-)({
-  JobDefinition: S.String,
-  JobName: S.String,
-  ArrayProperties: S.optional(BatchArrayProperties),
-  RetryStrategy: S.optional(BatchRetryStrategy),
-}) {}
-export class SqsParameters extends S.Class<SqsParameters>("SqsParameters")({
-  MessageGroupId: S.optional(S.String),
-}) {}
+export interface EcsParameters {
+  TaskDefinitionArn: string;
+  TaskCount?: number;
+  LaunchType?: string;
+  NetworkConfiguration?: NetworkConfiguration;
+  PlatformVersion?: string;
+  Group?: string;
+  CapacityProviderStrategy?: CapacityProviderStrategy;
+  EnableECSManagedTags?: boolean;
+  EnableExecuteCommand?: boolean;
+  PlacementConstraints?: PlacementConstraints;
+  PlacementStrategy?: PlacementStrategies;
+  PropagateTags?: string;
+  ReferenceId?: string;
+  Tags?: TagList;
+}
+export const EcsParameters = S.suspend(() =>
+  S.Struct({
+    TaskDefinitionArn: S.String,
+    TaskCount: S.optional(S.Number),
+    LaunchType: S.optional(S.String),
+    NetworkConfiguration: S.optional(NetworkConfiguration),
+    PlatformVersion: S.optional(S.String),
+    Group: S.optional(S.String),
+    CapacityProviderStrategy: S.optional(CapacityProviderStrategy),
+    EnableECSManagedTags: S.optional(S.Boolean),
+    EnableExecuteCommand: S.optional(S.Boolean),
+    PlacementConstraints: S.optional(PlacementConstraints),
+    PlacementStrategy: S.optional(PlacementStrategies),
+    PropagateTags: S.optional(S.String),
+    ReferenceId: S.optional(S.String),
+    Tags: S.optional(TagList),
+  }),
+).annotations({
+  identifier: "EcsParameters",
+}) as any as S.Schema<EcsParameters>;
+export interface BatchArrayProperties {
+  Size?: number;
+}
+export const BatchArrayProperties = S.suspend(() =>
+  S.Struct({ Size: S.optional(S.Number) }),
+).annotations({
+  identifier: "BatchArrayProperties",
+}) as any as S.Schema<BatchArrayProperties>;
+export interface BatchRetryStrategy {
+  Attempts?: number;
+}
+export const BatchRetryStrategy = S.suspend(() =>
+  S.Struct({ Attempts: S.optional(S.Number) }),
+).annotations({
+  identifier: "BatchRetryStrategy",
+}) as any as S.Schema<BatchRetryStrategy>;
+export interface BatchParameters {
+  JobDefinition: string;
+  JobName: string;
+  ArrayProperties?: BatchArrayProperties;
+  RetryStrategy?: BatchRetryStrategy;
+}
+export const BatchParameters = S.suspend(() =>
+  S.Struct({
+    JobDefinition: S.String,
+    JobName: S.String,
+    ArrayProperties: S.optional(BatchArrayProperties),
+    RetryStrategy: S.optional(BatchRetryStrategy),
+  }),
+).annotations({
+  identifier: "BatchParameters",
+}) as any as S.Schema<BatchParameters>;
+export interface SqsParameters {
+  MessageGroupId?: string;
+}
+export const SqsParameters = S.suspend(() =>
+  S.Struct({ MessageGroupId: S.optional(S.String) }),
+).annotations({
+  identifier: "SqsParameters",
+}) as any as S.Schema<SqsParameters>;
+export type HeaderParametersMap = { [key: string]: string };
 export const HeaderParametersMap = S.Record({ key: S.String, value: S.String });
+export type QueryStringParametersMap = { [key: string]: string };
 export const QueryStringParametersMap = S.Record({
   key: S.String,
   value: S.String,
 });
-export class HttpParameters extends S.Class<HttpParameters>("HttpParameters")({
-  PathParameterValues: S.optional(PathParameterList),
-  HeaderParameters: S.optional(HeaderParametersMap),
-  QueryStringParameters: S.optional(QueryStringParametersMap),
-}) {}
-export class RedshiftDataParameters extends S.Class<RedshiftDataParameters>(
-  "RedshiftDataParameters",
-)({
-  SecretManagerArn: S.optional(S.String),
-  Database: S.String,
-  DbUser: S.optional(S.String),
-  Sql: S.optional(S.String),
-  StatementName: S.optional(S.String),
-  WithEvent: S.optional(S.Boolean),
-  Sqls: S.optional(Sqls),
-}) {}
-export class SageMakerPipelineParameter extends S.Class<SageMakerPipelineParameter>(
-  "SageMakerPipelineParameter",
-)({ Name: S.String, Value: S.String }) {}
+export interface HttpParameters {
+  PathParameterValues?: PathParameterList;
+  HeaderParameters?: HeaderParametersMap;
+  QueryStringParameters?: QueryStringParametersMap;
+}
+export const HttpParameters = S.suspend(() =>
+  S.Struct({
+    PathParameterValues: S.optional(PathParameterList),
+    HeaderParameters: S.optional(HeaderParametersMap),
+    QueryStringParameters: S.optional(QueryStringParametersMap),
+  }),
+).annotations({
+  identifier: "HttpParameters",
+}) as any as S.Schema<HttpParameters>;
+export interface RedshiftDataParameters {
+  SecretManagerArn?: string;
+  Database: string;
+  DbUser?: string;
+  Sql?: string;
+  StatementName?: string;
+  WithEvent?: boolean;
+  Sqls?: Sqls;
+}
+export const RedshiftDataParameters = S.suspend(() =>
+  S.Struct({
+    SecretManagerArn: S.optional(S.String),
+    Database: S.String,
+    DbUser: S.optional(S.String),
+    Sql: S.optional(S.String),
+    StatementName: S.optional(S.String),
+    WithEvent: S.optional(S.Boolean),
+    Sqls: S.optional(Sqls),
+  }),
+).annotations({
+  identifier: "RedshiftDataParameters",
+}) as any as S.Schema<RedshiftDataParameters>;
+export interface SageMakerPipelineParameter {
+  Name: string;
+  Value: string;
+}
+export const SageMakerPipelineParameter = S.suspend(() =>
+  S.Struct({ Name: S.String, Value: S.String }),
+).annotations({
+  identifier: "SageMakerPipelineParameter",
+}) as any as S.Schema<SageMakerPipelineParameter>;
+export type SageMakerPipelineParameterList = SageMakerPipelineParameter[];
 export const SageMakerPipelineParameterList = S.Array(
   SageMakerPipelineParameter,
 );
-export class SageMakerPipelineParameters extends S.Class<SageMakerPipelineParameters>(
-  "SageMakerPipelineParameters",
-)({ PipelineParameterList: S.optional(SageMakerPipelineParameterList) }) {}
-export class RetryPolicy extends S.Class<RetryPolicy>("RetryPolicy")({
-  MaximumRetryAttempts: S.optional(S.Number),
-  MaximumEventAgeInSeconds: S.optional(S.Number),
-}) {}
-export class AppSyncParameters extends S.Class<AppSyncParameters>(
-  "AppSyncParameters",
-)({ GraphQLOperation: S.optional(S.String) }) {}
-export class Target extends S.Class<Target>("Target")({
-  Id: S.String,
-  Arn: S.String,
-  RoleArn: S.optional(S.String),
-  Input: S.optional(S.String),
-  InputPath: S.optional(S.String),
-  InputTransformer: S.optional(InputTransformer),
-  KinesisParameters: S.optional(KinesisParameters),
-  RunCommandParameters: S.optional(RunCommandParameters),
-  EcsParameters: S.optional(EcsParameters),
-  BatchParameters: S.optional(BatchParameters),
-  SqsParameters: S.optional(SqsParameters),
-  HttpParameters: S.optional(HttpParameters),
-  RedshiftDataParameters: S.optional(RedshiftDataParameters),
-  SageMakerPipelineParameters: S.optional(SageMakerPipelineParameters),
-  DeadLetterConfig: S.optional(DeadLetterConfig),
-  RetryPolicy: S.optional(RetryPolicy),
-  AppSyncParameters: S.optional(AppSyncParameters),
-}) {}
+export interface SageMakerPipelineParameters {
+  PipelineParameterList?: SageMakerPipelineParameterList;
+}
+export const SageMakerPipelineParameters = S.suspend(() =>
+  S.Struct({
+    PipelineParameterList: S.optional(SageMakerPipelineParameterList),
+  }),
+).annotations({
+  identifier: "SageMakerPipelineParameters",
+}) as any as S.Schema<SageMakerPipelineParameters>;
+export interface RetryPolicy {
+  MaximumRetryAttempts?: number;
+  MaximumEventAgeInSeconds?: number;
+}
+export const RetryPolicy = S.suspend(() =>
+  S.Struct({
+    MaximumRetryAttempts: S.optional(S.Number),
+    MaximumEventAgeInSeconds: S.optional(S.Number),
+  }),
+).annotations({ identifier: "RetryPolicy" }) as any as S.Schema<RetryPolicy>;
+export interface AppSyncParameters {
+  GraphQLOperation?: string;
+}
+export const AppSyncParameters = S.suspend(() =>
+  S.Struct({ GraphQLOperation: S.optional(S.String) }),
+).annotations({
+  identifier: "AppSyncParameters",
+}) as any as S.Schema<AppSyncParameters>;
+export interface Target {
+  Id: string;
+  Arn: string;
+  RoleArn?: string;
+  Input?: string;
+  InputPath?: string;
+  InputTransformer?: InputTransformer;
+  KinesisParameters?: KinesisParameters;
+  RunCommandParameters?: RunCommandParameters;
+  EcsParameters?: EcsParameters;
+  BatchParameters?: BatchParameters;
+  SqsParameters?: SqsParameters;
+  HttpParameters?: HttpParameters;
+  RedshiftDataParameters?: RedshiftDataParameters;
+  SageMakerPipelineParameters?: SageMakerPipelineParameters;
+  DeadLetterConfig?: DeadLetterConfig;
+  RetryPolicy?: RetryPolicy;
+  AppSyncParameters?: AppSyncParameters;
+}
+export const Target = S.suspend(() =>
+  S.Struct({
+    Id: S.String,
+    Arn: S.String,
+    RoleArn: S.optional(S.String),
+    Input: S.optional(S.String),
+    InputPath: S.optional(S.String),
+    InputTransformer: S.optional(InputTransformer),
+    KinesisParameters: S.optional(KinesisParameters),
+    RunCommandParameters: S.optional(RunCommandParameters),
+    EcsParameters: S.optional(EcsParameters),
+    BatchParameters: S.optional(BatchParameters),
+    SqsParameters: S.optional(SqsParameters),
+    HttpParameters: S.optional(HttpParameters),
+    RedshiftDataParameters: S.optional(RedshiftDataParameters),
+    SageMakerPipelineParameters: S.optional(SageMakerPipelineParameters),
+    DeadLetterConfig: S.optional(DeadLetterConfig),
+    RetryPolicy: S.optional(RetryPolicy),
+    AppSyncParameters: S.optional(AppSyncParameters),
+  }),
+).annotations({ identifier: "Target" }) as any as S.Schema<Target>;
+export type TargetList = Target[];
 export const TargetList = S.Array(Target);
-export class ListTargetsByRuleResponse extends S.Class<ListTargetsByRuleResponse>(
-  "ListTargetsByRuleResponse",
-)({ Targets: S.optional(TargetList), NextToken: S.optional(S.String) }, ns) {}
-export class PutEventsRequest extends S.Class<PutEventsRequest>(
-  "PutEventsRequest",
-)(
-  {
+export interface ListTargetsByRuleResponse {
+  Targets?: TargetList;
+  NextToken?: string;
+}
+export const ListTargetsByRuleResponse = S.suspend(() =>
+  S.Struct({
+    Targets: S.optional(TargetList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListTargetsByRuleResponse",
+}) as any as S.Schema<ListTargetsByRuleResponse>;
+export interface PutEventsRequest {
+  Entries: PutEventsRequestEntryList;
+  EndpointId?: string;
+}
+export const PutEventsRequest = S.suspend(() =>
+  S.Struct({
     Entries: PutEventsRequestEntryList,
     EndpointId: S.optional(S.String).pipe(T.ContextParam("EndpointId")),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutPartnerEventsRequest extends S.Class<PutPartnerEventsRequest>(
-  "PutPartnerEventsRequest",
-)(
-  { Entries: PutPartnerEventsRequestEntryList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutPermissionRequest extends S.Class<PutPermissionRequest>(
-  "PutPermissionRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutEventsRequest",
+}) as any as S.Schema<PutEventsRequest>;
+export interface PutPartnerEventsRequest {
+  Entries: PutPartnerEventsRequestEntryList;
+}
+export const PutPartnerEventsRequest = S.suspend(() =>
+  S.Struct({ Entries: PutPartnerEventsRequestEntryList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutPartnerEventsRequest",
+}) as any as S.Schema<PutPartnerEventsRequest>;
+export interface PutPermissionRequest {
+  EventBusName?: string;
+  Action?: string;
+  Principal?: string;
+  StatementId?: string;
+  Condition?: Condition;
+  Policy?: string;
+}
+export const PutPermissionRequest = S.suspend(() =>
+  S.Struct({
     EventBusName: S.optional(S.String),
     Action: S.optional(S.String),
     Principal: S.optional(S.String),
     StatementId: S.optional(S.String),
     Condition: S.optional(Condition),
     Policy: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutPermissionResponse extends S.Class<PutPermissionResponse>(
-  "PutPermissionResponse",
-)({}, ns) {}
-export class PutRuleResponse extends S.Class<PutRuleResponse>(
-  "PutRuleResponse",
-)({ RuleArn: S.optional(S.String) }, ns) {}
-export class StartReplayRequest extends S.Class<StartReplayRequest>(
-  "StartReplayRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutPermissionRequest",
+}) as any as S.Schema<PutPermissionRequest>;
+export interface PutPermissionResponse {}
+export const PutPermissionResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "PutPermissionResponse",
+}) as any as S.Schema<PutPermissionResponse>;
+export interface PutRuleResponse {
+  RuleArn?: string;
+}
+export const PutRuleResponse = S.suspend(() =>
+  S.Struct({ RuleArn: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "PutRuleResponse",
+}) as any as S.Schema<PutRuleResponse>;
+export interface StartReplayRequest {
+  ReplayName: string;
+  Description?: string;
+  EventSourceArn: string;
+  EventStartTime: Date;
+  EventEndTime: Date;
+  Destination: ReplayDestination;
+}
+export const StartReplayRequest = S.suspend(() =>
+  S.Struct({
     ReplayName: S.String,
     Description: S.optional(S.String),
     EventSourceArn: S.String,
     EventStartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     EventEndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     Destination: ReplayDestination,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TestEventPatternResponse extends S.Class<TestEventPatternResponse>(
-  "TestEventPatternResponse",
-)({ Result: S.optional(S.Boolean) }, ns) {}
-export class UpdateApiDestinationResponse extends S.Class<UpdateApiDestinationResponse>(
-  "UpdateApiDestinationResponse",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "StartReplayRequest",
+}) as any as S.Schema<StartReplayRequest>;
+export interface TestEventPatternResponse {
+  Result?: boolean;
+}
+export const TestEventPatternResponse = S.suspend(() =>
+  S.Struct({ Result: S.optional(S.Boolean) }).pipe(ns),
+).annotations({
+  identifier: "TestEventPatternResponse",
+}) as any as S.Schema<TestEventPatternResponse>;
+export interface UpdateApiDestinationResponse {
+  ApiDestinationArn?: string;
+  ApiDestinationState?: string;
+  CreationTime?: Date;
+  LastModifiedTime?: Date;
+}
+export const UpdateApiDestinationResponse = S.suspend(() =>
+  S.Struct({
     ApiDestinationArn: S.optional(S.String),
     ApiDestinationState: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastModifiedTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-  },
-  ns,
-) {}
-export class UpdateArchiveResponse extends S.Class<UpdateArchiveResponse>(
-  "UpdateArchiveResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "UpdateApiDestinationResponse",
+}) as any as S.Schema<UpdateApiDestinationResponse>;
+export interface UpdateArchiveResponse {
+  ArchiveArn?: string;
+  State?: string;
+  StateReason?: string;
+  CreationTime?: Date;
+}
+export const UpdateArchiveResponse = S.suspend(() =>
+  S.Struct({
     ArchiveArn: S.optional(S.String),
     State: S.optional(S.String),
     StateReason: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  },
-  ns,
-) {}
-export class UpdateEndpointResponse extends S.Class<UpdateEndpointResponse>(
-  "UpdateEndpointResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "UpdateArchiveResponse",
+}) as any as S.Schema<UpdateArchiveResponse>;
+export interface UpdateEndpointResponse {
+  Name?: string;
+  Arn?: string;
+  RoutingConfig?: RoutingConfig;
+  ReplicationConfig?: ReplicationConfig;
+  EventBuses?: EndpointEventBusList;
+  RoleArn?: string;
+  EndpointId?: string;
+  EndpointUrl?: string;
+  State?: string;
+}
+export const UpdateEndpointResponse = S.suspend(() =>
+  S.Struct({
     Name: S.optional(S.String),
     Arn: S.optional(S.String),
     RoutingConfig: S.optional(RoutingConfig),
@@ -1395,378 +2597,762 @@ export class UpdateEndpointResponse extends S.Class<UpdateEndpointResponse>(
     EndpointId: S.optional(S.String),
     EndpointUrl: S.optional(S.String),
     State: S.optional(S.String),
-  },
-  ns,
-) {}
-export class UpdateEventBusResponse extends S.Class<UpdateEventBusResponse>(
-  "UpdateEventBusResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "UpdateEndpointResponse",
+}) as any as S.Schema<UpdateEndpointResponse>;
+export interface UpdateEventBusResponse {
+  Arn?: string;
+  Name?: string;
+  KmsKeyIdentifier?: string;
+  Description?: string;
+  DeadLetterConfig?: DeadLetterConfig;
+  LogConfig?: LogConfig;
+}
+export const UpdateEventBusResponse = S.suspend(() =>
+  S.Struct({
     Arn: S.optional(S.String),
     Name: S.optional(S.String),
     KmsKeyIdentifier: S.optional(S.String),
     Description: S.optional(S.String),
     DeadLetterConfig: S.optional(DeadLetterConfig),
     LogConfig: S.optional(LogConfig),
-  },
-  ns,
-) {}
-export class CreateConnectionBasicAuthRequestParameters extends S.Class<CreateConnectionBasicAuthRequestParameters>(
-  "CreateConnectionBasicAuthRequestParameters",
-)({ Username: S.String, Password: S.String }) {}
-export class CreateConnectionApiKeyAuthRequestParameters extends S.Class<CreateConnectionApiKeyAuthRequestParameters>(
-  "CreateConnectionApiKeyAuthRequestParameters",
-)({ ApiKeyName: S.String, ApiKeyValue: S.String }) {}
-export class ConnectivityResourceConfigurationArn extends S.Class<ConnectivityResourceConfigurationArn>(
-  "ConnectivityResourceConfigurationArn",
-)({ ResourceConfigurationArn: S.String }) {}
-export class UpdateConnectionBasicAuthRequestParameters extends S.Class<UpdateConnectionBasicAuthRequestParameters>(
-  "UpdateConnectionBasicAuthRequestParameters",
-)({ Username: S.optional(S.String), Password: S.optional(S.String) }) {}
-export class UpdateConnectionApiKeyAuthRequestParameters extends S.Class<UpdateConnectionApiKeyAuthRequestParameters>(
-  "UpdateConnectionApiKeyAuthRequestParameters",
-)({ ApiKeyName: S.optional(S.String), ApiKeyValue: S.optional(S.String) }) {}
-export class ConnectivityResourceParameters extends S.Class<ConnectivityResourceParameters>(
-  "ConnectivityResourceParameters",
-)({ ResourceParameters: ConnectivityResourceConfigurationArn }) {}
-export class ApiDestination extends S.Class<ApiDestination>("ApiDestination")({
-  ApiDestinationArn: S.optional(S.String),
-  Name: S.optional(S.String),
-  ApiDestinationState: S.optional(S.String),
-  ConnectionArn: S.optional(S.String),
-  InvocationEndpoint: S.optional(S.String),
-  HttpMethod: S.optional(S.String),
-  InvocationRateLimitPerSecond: S.optional(S.Number),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "UpdateEventBusResponse",
+}) as any as S.Schema<UpdateEventBusResponse>;
+export interface CreateConnectionBasicAuthRequestParameters {
+  Username: string;
+  Password: string;
+}
+export const CreateConnectionBasicAuthRequestParameters = S.suspend(() =>
+  S.Struct({ Username: S.String, Password: S.String }),
+).annotations({
+  identifier: "CreateConnectionBasicAuthRequestParameters",
+}) as any as S.Schema<CreateConnectionBasicAuthRequestParameters>;
+export interface CreateConnectionApiKeyAuthRequestParameters {
+  ApiKeyName: string;
+  ApiKeyValue: string;
+}
+export const CreateConnectionApiKeyAuthRequestParameters = S.suspend(() =>
+  S.Struct({ ApiKeyName: S.String, ApiKeyValue: S.String }),
+).annotations({
+  identifier: "CreateConnectionApiKeyAuthRequestParameters",
+}) as any as S.Schema<CreateConnectionApiKeyAuthRequestParameters>;
+export interface ConnectivityResourceConfigurationArn {
+  ResourceConfigurationArn: string;
+}
+export const ConnectivityResourceConfigurationArn = S.suspend(() =>
+  S.Struct({ ResourceConfigurationArn: S.String }),
+).annotations({
+  identifier: "ConnectivityResourceConfigurationArn",
+}) as any as S.Schema<ConnectivityResourceConfigurationArn>;
+export interface UpdateConnectionBasicAuthRequestParameters {
+  Username?: string;
+  Password?: string;
+}
+export const UpdateConnectionBasicAuthRequestParameters = S.suspend(() =>
+  S.Struct({ Username: S.optional(S.String), Password: S.optional(S.String) }),
+).annotations({
+  identifier: "UpdateConnectionBasicAuthRequestParameters",
+}) as any as S.Schema<UpdateConnectionBasicAuthRequestParameters>;
+export interface UpdateConnectionApiKeyAuthRequestParameters {
+  ApiKeyName?: string;
+  ApiKeyValue?: string;
+}
+export const UpdateConnectionApiKeyAuthRequestParameters = S.suspend(() =>
+  S.Struct({
+    ApiKeyName: S.optional(S.String),
+    ApiKeyValue: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "UpdateConnectionApiKeyAuthRequestParameters",
+}) as any as S.Schema<UpdateConnectionApiKeyAuthRequestParameters>;
+export interface ConnectivityResourceParameters {
+  ResourceParameters: ConnectivityResourceConfigurationArn;
+}
+export const ConnectivityResourceParameters = S.suspend(() =>
+  S.Struct({ ResourceParameters: ConnectivityResourceConfigurationArn }),
+).annotations({
+  identifier: "ConnectivityResourceParameters",
+}) as any as S.Schema<ConnectivityResourceParameters>;
+export interface ApiDestination {
+  ApiDestinationArn?: string;
+  Name?: string;
+  ApiDestinationState?: string;
+  ConnectionArn?: string;
+  InvocationEndpoint?: string;
+  HttpMethod?: string;
+  InvocationRateLimitPerSecond?: number;
+  CreationTime?: Date;
+  LastModifiedTime?: Date;
+}
+export const ApiDestination = S.suspend(() =>
+  S.Struct({
+    ApiDestinationArn: S.optional(S.String),
+    Name: S.optional(S.String),
+    ApiDestinationState: S.optional(S.String),
+    ConnectionArn: S.optional(S.String),
+    InvocationEndpoint: S.optional(S.String),
+    HttpMethod: S.optional(S.String),
+    InvocationRateLimitPerSecond: S.optional(S.Number),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "ApiDestination",
+}) as any as S.Schema<ApiDestination>;
+export type ApiDestinationResponseList = ApiDestination[];
 export const ApiDestinationResponseList = S.Array(ApiDestination);
-export class Archive extends S.Class<Archive>("Archive")({
-  ArchiveName: S.optional(S.String),
-  EventSourceArn: S.optional(S.String),
-  State: S.optional(S.String),
-  StateReason: S.optional(S.String),
-  RetentionDays: S.optional(S.Number),
-  SizeBytes: S.optional(S.Number),
-  EventCount: S.optional(S.Number),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface Archive {
+  ArchiveName?: string;
+  EventSourceArn?: string;
+  State?: string;
+  StateReason?: string;
+  RetentionDays?: number;
+  SizeBytes?: number;
+  EventCount?: number;
+  CreationTime?: Date;
+}
+export const Archive = S.suspend(() =>
+  S.Struct({
+    ArchiveName: S.optional(S.String),
+    EventSourceArn: S.optional(S.String),
+    State: S.optional(S.String),
+    StateReason: S.optional(S.String),
+    RetentionDays: S.optional(S.Number),
+    SizeBytes: S.optional(S.Number),
+    EventCount: S.optional(S.Number),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({ identifier: "Archive" }) as any as S.Schema<Archive>;
+export type ArchiveResponseList = Archive[];
 export const ArchiveResponseList = S.Array(Archive);
-export class Connection extends S.Class<Connection>("Connection")({
-  ConnectionArn: S.optional(S.String),
-  Name: S.optional(S.String),
-  ConnectionState: S.optional(S.String),
-  StateReason: S.optional(S.String),
-  AuthorizationType: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastAuthorizedTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
+export interface Connection {
+  ConnectionArn?: string;
+  Name?: string;
+  ConnectionState?: string;
+  StateReason?: string;
+  AuthorizationType?: string;
+  CreationTime?: Date;
+  LastModifiedTime?: Date;
+  LastAuthorizedTime?: Date;
+}
+export const Connection = S.suspend(() =>
+  S.Struct({
+    ConnectionArn: S.optional(S.String),
+    Name: S.optional(S.String),
+    ConnectionState: S.optional(S.String),
+    StateReason: S.optional(S.String),
+    AuthorizationType: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastAuthorizedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({ identifier: "Connection" }) as any as S.Schema<Connection>;
+export type ConnectionResponseList = Connection[];
 export const ConnectionResponseList = S.Array(Connection);
-export class Endpoint extends S.Class<Endpoint>("Endpoint")({
-  Name: S.optional(S.String),
-  Description: S.optional(S.String),
-  Arn: S.optional(S.String),
-  RoutingConfig: S.optional(RoutingConfig),
-  ReplicationConfig: S.optional(ReplicationConfig),
-  EventBuses: S.optional(EndpointEventBusList),
-  RoleArn: S.optional(S.String),
-  EndpointId: S.optional(S.String),
-  EndpointUrl: S.optional(S.String),
-  State: S.optional(S.String),
-  StateReason: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface Endpoint {
+  Name?: string;
+  Description?: string;
+  Arn?: string;
+  RoutingConfig?: RoutingConfig;
+  ReplicationConfig?: ReplicationConfig;
+  EventBuses?: EndpointEventBusList;
+  RoleArn?: string;
+  EndpointId?: string;
+  EndpointUrl?: string;
+  State?: string;
+  StateReason?: string;
+  CreationTime?: Date;
+  LastModifiedTime?: Date;
+}
+export const Endpoint = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Description: S.optional(S.String),
+    Arn: S.optional(S.String),
+    RoutingConfig: S.optional(RoutingConfig),
+    ReplicationConfig: S.optional(ReplicationConfig),
+    EventBuses: S.optional(EndpointEventBusList),
+    RoleArn: S.optional(S.String),
+    EndpointId: S.optional(S.String),
+    EndpointUrl: S.optional(S.String),
+    State: S.optional(S.String),
+    StateReason: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({ identifier: "Endpoint" }) as any as S.Schema<Endpoint>;
+export type EndpointList = Endpoint[];
 export const EndpointList = S.Array(Endpoint);
-export class EventBus extends S.Class<EventBus>("EventBus")({
-  Name: S.optional(S.String),
-  Arn: S.optional(S.String),
-  Description: S.optional(S.String),
-  Policy: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface EventBus {
+  Name?: string;
+  Arn?: string;
+  Description?: string;
+  Policy?: string;
+  CreationTime?: Date;
+  LastModifiedTime?: Date;
+}
+export const EventBus = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Arn: S.optional(S.String),
+    Description: S.optional(S.String),
+    Policy: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({ identifier: "EventBus" }) as any as S.Schema<EventBus>;
+export type EventBusList = EventBus[];
 export const EventBusList = S.Array(EventBus);
-export class EventSource extends S.Class<EventSource>("EventSource")({
-  Arn: S.optional(S.String),
-  CreatedBy: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  ExpirationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Name: S.optional(S.String),
-  State: S.optional(S.String),
-}) {}
+export interface EventSource {
+  Arn?: string;
+  CreatedBy?: string;
+  CreationTime?: Date;
+  ExpirationTime?: Date;
+  Name?: string;
+  State?: string;
+}
+export const EventSource = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    CreatedBy: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ExpirationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Name: S.optional(S.String),
+    State: S.optional(S.String),
+  }),
+).annotations({ identifier: "EventSource" }) as any as S.Schema<EventSource>;
+export type EventSourceList = EventSource[];
 export const EventSourceList = S.Array(EventSource);
-export class PartnerEventSourceAccount extends S.Class<PartnerEventSourceAccount>(
-  "PartnerEventSourceAccount",
-)({
-  Account: S.optional(S.String),
-  CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  ExpirationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  State: S.optional(S.String),
-}) {}
+export interface PartnerEventSourceAccount {
+  Account?: string;
+  CreationTime?: Date;
+  ExpirationTime?: Date;
+  State?: string;
+}
+export const PartnerEventSourceAccount = S.suspend(() =>
+  S.Struct({
+    Account: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ExpirationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    State: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "PartnerEventSourceAccount",
+}) as any as S.Schema<PartnerEventSourceAccount>;
+export type PartnerEventSourceAccountList = PartnerEventSourceAccount[];
 export const PartnerEventSourceAccountList = S.Array(PartnerEventSourceAccount);
-export class PartnerEventSource extends S.Class<PartnerEventSource>(
-  "PartnerEventSource",
-)({ Arn: S.optional(S.String), Name: S.optional(S.String) }) {}
+export interface PartnerEventSource {
+  Arn?: string;
+  Name?: string;
+}
+export const PartnerEventSource = S.suspend(() =>
+  S.Struct({ Arn: S.optional(S.String), Name: S.optional(S.String) }),
+).annotations({
+  identifier: "PartnerEventSource",
+}) as any as S.Schema<PartnerEventSource>;
+export type PartnerEventSourceList = PartnerEventSource[];
 export const PartnerEventSourceList = S.Array(PartnerEventSource);
-export class Replay extends S.Class<Replay>("Replay")({
-  ReplayName: S.optional(S.String),
-  EventSourceArn: S.optional(S.String),
-  State: S.optional(S.String),
-  StateReason: S.optional(S.String),
-  EventStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  EventEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  EventLastReplayedTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  ReplayStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  ReplayEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface Replay {
+  ReplayName?: string;
+  EventSourceArn?: string;
+  State?: string;
+  StateReason?: string;
+  EventStartTime?: Date;
+  EventEndTime?: Date;
+  EventLastReplayedTime?: Date;
+  ReplayStartTime?: Date;
+  ReplayEndTime?: Date;
+}
+export const Replay = S.suspend(() =>
+  S.Struct({
+    ReplayName: S.optional(S.String),
+    EventSourceArn: S.optional(S.String),
+    State: S.optional(S.String),
+    StateReason: S.optional(S.String),
+    EventStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EventEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EventLastReplayedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    ReplayStartTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    ReplayEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({ identifier: "Replay" }) as any as S.Schema<Replay>;
+export type ReplayList = Replay[];
 export const ReplayList = S.Array(Replay);
-export class Rule extends S.Class<Rule>("Rule")({
-  Name: S.optional(S.String),
-  Arn: S.optional(S.String),
-  EventPattern: S.optional(S.String),
-  State: S.optional(S.String),
-  Description: S.optional(S.String),
-  ScheduleExpression: S.optional(S.String),
-  RoleArn: S.optional(S.String),
-  ManagedBy: S.optional(S.String),
-  EventBusName: S.optional(S.String),
-}) {}
+export interface Rule {
+  Name?: string;
+  Arn?: string;
+  EventPattern?: string;
+  State?: string;
+  Description?: string;
+  ScheduleExpression?: string;
+  RoleArn?: string;
+  ManagedBy?: string;
+  EventBusName?: string;
+}
+export const Rule = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Arn: S.optional(S.String),
+    EventPattern: S.optional(S.String),
+    State: S.optional(S.String),
+    Description: S.optional(S.String),
+    ScheduleExpression: S.optional(S.String),
+    RoleArn: S.optional(S.String),
+    ManagedBy: S.optional(S.String),
+    EventBusName: S.optional(S.String),
+  }),
+).annotations({ identifier: "Rule" }) as any as S.Schema<Rule>;
+export type RuleResponseList = Rule[];
 export const RuleResponseList = S.Array(Rule);
-export class RemoveTargetsResultEntry extends S.Class<RemoveTargetsResultEntry>(
-  "RemoveTargetsResultEntry",
-)({
-  TargetId: S.optional(S.String),
-  ErrorCode: S.optional(S.String),
-  ErrorMessage: S.optional(S.String),
-}) {}
+export interface RemoveTargetsResultEntry {
+  TargetId?: string;
+  ErrorCode?: string;
+  ErrorMessage?: string;
+}
+export const RemoveTargetsResultEntry = S.suspend(() =>
+  S.Struct({
+    TargetId: S.optional(S.String),
+    ErrorCode: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RemoveTargetsResultEntry",
+}) as any as S.Schema<RemoveTargetsResultEntry>;
+export type RemoveTargetsResultEntryList = RemoveTargetsResultEntry[];
 export const RemoveTargetsResultEntryList = S.Array(RemoveTargetsResultEntry);
-export class CreateConnectionOAuthClientRequestParameters extends S.Class<CreateConnectionOAuthClientRequestParameters>(
-  "CreateConnectionOAuthClientRequestParameters",
-)({ ClientID: S.String, ClientSecret: S.String }) {}
-export class ConnectionHeaderParameter extends S.Class<ConnectionHeaderParameter>(
-  "ConnectionHeaderParameter",
-)({
-  Key: S.optional(S.String),
-  Value: S.optional(S.String),
-  IsValueSecret: S.optional(S.Boolean),
-}) {}
+export interface CreateConnectionOAuthClientRequestParameters {
+  ClientID: string;
+  ClientSecret: string;
+}
+export const CreateConnectionOAuthClientRequestParameters = S.suspend(() =>
+  S.Struct({ ClientID: S.String, ClientSecret: S.String }),
+).annotations({
+  identifier: "CreateConnectionOAuthClientRequestParameters",
+}) as any as S.Schema<CreateConnectionOAuthClientRequestParameters>;
+export interface ConnectionHeaderParameter {
+  Key?: string;
+  Value?: string;
+  IsValueSecret?: boolean;
+}
+export const ConnectionHeaderParameter = S.suspend(() =>
+  S.Struct({
+    Key: S.optional(S.String),
+    Value: S.optional(S.String),
+    IsValueSecret: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "ConnectionHeaderParameter",
+}) as any as S.Schema<ConnectionHeaderParameter>;
+export type ConnectionHeaderParametersList = ConnectionHeaderParameter[];
 export const ConnectionHeaderParametersList = S.Array(
   ConnectionHeaderParameter,
 );
-export class ConnectionQueryStringParameter extends S.Class<ConnectionQueryStringParameter>(
-  "ConnectionQueryStringParameter",
-)({
-  Key: S.optional(S.String),
-  Value: S.optional(S.String),
-  IsValueSecret: S.optional(S.Boolean),
-}) {}
+export interface ConnectionQueryStringParameter {
+  Key?: string;
+  Value?: string;
+  IsValueSecret?: boolean;
+}
+export const ConnectionQueryStringParameter = S.suspend(() =>
+  S.Struct({
+    Key: S.optional(S.String),
+    Value: S.optional(S.String),
+    IsValueSecret: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "ConnectionQueryStringParameter",
+}) as any as S.Schema<ConnectionQueryStringParameter>;
+export type ConnectionQueryStringParametersList =
+  ConnectionQueryStringParameter[];
 export const ConnectionQueryStringParametersList = S.Array(
   ConnectionQueryStringParameter,
 );
-export class ConnectionBodyParameter extends S.Class<ConnectionBodyParameter>(
-  "ConnectionBodyParameter",
-)({
-  Key: S.optional(S.String),
-  Value: S.optional(S.String),
-  IsValueSecret: S.optional(S.Boolean),
-}) {}
+export interface ConnectionBodyParameter {
+  Key?: string;
+  Value?: string;
+  IsValueSecret?: boolean;
+}
+export const ConnectionBodyParameter = S.suspend(() =>
+  S.Struct({
+    Key: S.optional(S.String),
+    Value: S.optional(S.String),
+    IsValueSecret: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "ConnectionBodyParameter",
+}) as any as S.Schema<ConnectionBodyParameter>;
+export type ConnectionBodyParametersList = ConnectionBodyParameter[];
 export const ConnectionBodyParametersList = S.Array(ConnectionBodyParameter);
-export class UpdateConnectionOAuthClientRequestParameters extends S.Class<UpdateConnectionOAuthClientRequestParameters>(
-  "UpdateConnectionOAuthClientRequestParameters",
-)({ ClientID: S.optional(S.String), ClientSecret: S.optional(S.String) }) {}
-export class CreateEventBusResponse extends S.Class<CreateEventBusResponse>(
-  "CreateEventBusResponse",
-)(
-  {
+export interface UpdateConnectionOAuthClientRequestParameters {
+  ClientID?: string;
+  ClientSecret?: string;
+}
+export const UpdateConnectionOAuthClientRequestParameters = S.suspend(() =>
+  S.Struct({
+    ClientID: S.optional(S.String),
+    ClientSecret: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "UpdateConnectionOAuthClientRequestParameters",
+}) as any as S.Schema<UpdateConnectionOAuthClientRequestParameters>;
+export interface CreateEventBusResponse {
+  EventBusArn?: string;
+  Description?: string;
+  KmsKeyIdentifier?: string;
+  DeadLetterConfig?: DeadLetterConfig;
+  LogConfig?: LogConfig;
+}
+export const CreateEventBusResponse = S.suspend(() =>
+  S.Struct({
     EventBusArn: S.optional(S.String),
     Description: S.optional(S.String),
     KmsKeyIdentifier: S.optional(S.String),
     DeadLetterConfig: S.optional(DeadLetterConfig),
     LogConfig: S.optional(LogConfig),
-  },
-  ns,
-) {}
-export class ListApiDestinationsResponse extends S.Class<ListApiDestinationsResponse>(
-  "ListApiDestinationsResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "CreateEventBusResponse",
+}) as any as S.Schema<CreateEventBusResponse>;
+export interface ListApiDestinationsResponse {
+  ApiDestinations?: ApiDestinationResponseList;
+  NextToken?: string;
+}
+export const ListApiDestinationsResponse = S.suspend(() =>
+  S.Struct({
     ApiDestinations: S.optional(ApiDestinationResponseList),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListArchivesResponse extends S.Class<ListArchivesResponse>(
-  "ListArchivesResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListApiDestinationsResponse",
+}) as any as S.Schema<ListApiDestinationsResponse>;
+export interface ListArchivesResponse {
+  Archives?: ArchiveResponseList;
+  NextToken?: string;
+}
+export const ListArchivesResponse = S.suspend(() =>
+  S.Struct({
     Archives: S.optional(ArchiveResponseList),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListConnectionsResponse extends S.Class<ListConnectionsResponse>(
-  "ListConnectionsResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListArchivesResponse",
+}) as any as S.Schema<ListArchivesResponse>;
+export interface ListConnectionsResponse {
+  Connections?: ConnectionResponseList;
+  NextToken?: string;
+}
+export const ListConnectionsResponse = S.suspend(() =>
+  S.Struct({
     Connections: S.optional(ConnectionResponseList),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListEndpointsResponse extends S.Class<ListEndpointsResponse>(
-  "ListEndpointsResponse",
-)(
-  { Endpoints: S.optional(EndpointList), NextToken: S.optional(S.String) },
-  ns,
-) {}
-export class ListEventBusesResponse extends S.Class<ListEventBusesResponse>(
-  "ListEventBusesResponse",
-)(
-  { EventBuses: S.optional(EventBusList), NextToken: S.optional(S.String) },
-  ns,
-) {}
-export class ListEventSourcesResponse extends S.Class<ListEventSourcesResponse>(
-  "ListEventSourcesResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListConnectionsResponse",
+}) as any as S.Schema<ListConnectionsResponse>;
+export interface ListEndpointsResponse {
+  Endpoints?: EndpointList;
+  NextToken?: string;
+}
+export const ListEndpointsResponse = S.suspend(() =>
+  S.Struct({
+    Endpoints: S.optional(EndpointList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListEndpointsResponse",
+}) as any as S.Schema<ListEndpointsResponse>;
+export interface ListEventBusesResponse {
+  EventBuses?: EventBusList;
+  NextToken?: string;
+}
+export const ListEventBusesResponse = S.suspend(() =>
+  S.Struct({
+    EventBuses: S.optional(EventBusList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListEventBusesResponse",
+}) as any as S.Schema<ListEventBusesResponse>;
+export interface ListEventSourcesResponse {
+  EventSources?: EventSourceList;
+  NextToken?: string;
+}
+export const ListEventSourcesResponse = S.suspend(() =>
+  S.Struct({
     EventSources: S.optional(EventSourceList),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListPartnerEventSourceAccountsResponse extends S.Class<ListPartnerEventSourceAccountsResponse>(
-  "ListPartnerEventSourceAccountsResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListEventSourcesResponse",
+}) as any as S.Schema<ListEventSourcesResponse>;
+export interface ListPartnerEventSourceAccountsResponse {
+  PartnerEventSourceAccounts?: PartnerEventSourceAccountList;
+  NextToken?: string;
+}
+export const ListPartnerEventSourceAccountsResponse = S.suspend(() =>
+  S.Struct({
     PartnerEventSourceAccounts: S.optional(PartnerEventSourceAccountList),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListPartnerEventSourcesResponse extends S.Class<ListPartnerEventSourcesResponse>(
-  "ListPartnerEventSourcesResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListPartnerEventSourceAccountsResponse",
+}) as any as S.Schema<ListPartnerEventSourceAccountsResponse>;
+export interface ListPartnerEventSourcesResponse {
+  PartnerEventSources?: PartnerEventSourceList;
+  NextToken?: string;
+}
+export const ListPartnerEventSourcesResponse = S.suspend(() =>
+  S.Struct({
     PartnerEventSources: S.optional(PartnerEventSourceList),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListReplaysResponse extends S.Class<ListReplaysResponse>(
-  "ListReplaysResponse",
-)({ Replays: S.optional(ReplayList), NextToken: S.optional(S.String) }, ns) {}
-export class ListRulesResponse extends S.Class<ListRulesResponse>(
-  "ListRulesResponse",
-)(
-  { Rules: S.optional(RuleResponseList), NextToken: S.optional(S.String) },
-  ns,
-) {}
-export class RemoveTargetsResponse extends S.Class<RemoveTargetsResponse>(
-  "RemoveTargetsResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListPartnerEventSourcesResponse",
+}) as any as S.Schema<ListPartnerEventSourcesResponse>;
+export interface ListReplaysResponse {
+  Replays?: ReplayList;
+  NextToken?: string;
+}
+export const ListReplaysResponse = S.suspend(() =>
+  S.Struct({
+    Replays: S.optional(ReplayList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListReplaysResponse",
+}) as any as S.Schema<ListReplaysResponse>;
+export interface ListRulesResponse {
+  Rules?: RuleResponseList;
+  NextToken?: string;
+}
+export const ListRulesResponse = S.suspend(() =>
+  S.Struct({
+    Rules: S.optional(RuleResponseList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListRulesResponse",
+}) as any as S.Schema<ListRulesResponse>;
+export interface RemoveTargetsResponse {
+  FailedEntryCount?: number;
+  FailedEntries?: RemoveTargetsResultEntryList;
+}
+export const RemoveTargetsResponse = S.suspend(() =>
+  S.Struct({
     FailedEntryCount: S.optional(S.Number),
     FailedEntries: S.optional(RemoveTargetsResultEntryList),
-  },
-  ns,
-) {}
-export class StartReplayResponse extends S.Class<StartReplayResponse>(
-  "StartReplayResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "RemoveTargetsResponse",
+}) as any as S.Schema<RemoveTargetsResponse>;
+export interface StartReplayResponse {
+  ReplayArn?: string;
+  State?: string;
+  StateReason?: string;
+  ReplayStartTime?: Date;
+}
+export const StartReplayResponse = S.suspend(() =>
+  S.Struct({
     ReplayArn: S.optional(S.String),
     State: S.optional(S.String),
     StateReason: S.optional(S.String),
     ReplayStartTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-  },
-  ns,
-) {}
-export class ConnectionHttpParameters extends S.Class<ConnectionHttpParameters>(
-  "ConnectionHttpParameters",
-)({
-  HeaderParameters: S.optional(ConnectionHeaderParametersList),
-  QueryStringParameters: S.optional(ConnectionQueryStringParametersList),
-  BodyParameters: S.optional(ConnectionBodyParametersList),
-}) {}
-export class CreateConnectionOAuthRequestParameters extends S.Class<CreateConnectionOAuthRequestParameters>(
-  "CreateConnectionOAuthRequestParameters",
-)({
-  ClientParameters: CreateConnectionOAuthClientRequestParameters,
-  AuthorizationEndpoint: S.String,
-  HttpMethod: S.String,
-  OAuthHttpParameters: S.optional(ConnectionHttpParameters),
-}) {}
-export class DescribeConnectionResourceParameters extends S.Class<DescribeConnectionResourceParameters>(
-  "DescribeConnectionResourceParameters",
-)({ ResourceConfigurationArn: S.String, ResourceAssociationArn: S.String }) {}
-export class ConnectionBasicAuthResponseParameters extends S.Class<ConnectionBasicAuthResponseParameters>(
-  "ConnectionBasicAuthResponseParameters",
-)({ Username: S.optional(S.String) }) {}
-export class ConnectionApiKeyAuthResponseParameters extends S.Class<ConnectionApiKeyAuthResponseParameters>(
-  "ConnectionApiKeyAuthResponseParameters",
-)({ ApiKeyName: S.optional(S.String) }) {}
-export class UpdateConnectionOAuthRequestParameters extends S.Class<UpdateConnectionOAuthRequestParameters>(
-  "UpdateConnectionOAuthRequestParameters",
-)({
-  ClientParameters: S.optional(UpdateConnectionOAuthClientRequestParameters),
-  AuthorizationEndpoint: S.optional(S.String),
-  HttpMethod: S.optional(S.String),
-  OAuthHttpParameters: S.optional(ConnectionHttpParameters),
-}) {}
-export class CreateConnectionAuthRequestParameters extends S.Class<CreateConnectionAuthRequestParameters>(
-  "CreateConnectionAuthRequestParameters",
-)({
-  BasicAuthParameters: S.optional(CreateConnectionBasicAuthRequestParameters),
-  OAuthParameters: S.optional(CreateConnectionOAuthRequestParameters),
-  ApiKeyAuthParameters: S.optional(CreateConnectionApiKeyAuthRequestParameters),
-  InvocationHttpParameters: S.optional(ConnectionHttpParameters),
-  ConnectivityParameters: S.optional(ConnectivityResourceParameters),
-}) {}
-export class DescribeConnectionConnectivityParameters extends S.Class<DescribeConnectionConnectivityParameters>(
-  "DescribeConnectionConnectivityParameters",
-)({ ResourceParameters: DescribeConnectionResourceParameters }) {}
-export class PutEventsResultEntry extends S.Class<PutEventsResultEntry>(
-  "PutEventsResultEntry",
-)({
-  EventId: S.optional(S.String),
-  ErrorCode: S.optional(S.String),
-  ErrorMessage: S.optional(S.String),
-}) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "StartReplayResponse",
+}) as any as S.Schema<StartReplayResponse>;
+export interface ConnectionHttpParameters {
+  HeaderParameters?: ConnectionHeaderParametersList;
+  QueryStringParameters?: ConnectionQueryStringParametersList;
+  BodyParameters?: ConnectionBodyParametersList;
+}
+export const ConnectionHttpParameters = S.suspend(() =>
+  S.Struct({
+    HeaderParameters: S.optional(ConnectionHeaderParametersList),
+    QueryStringParameters: S.optional(ConnectionQueryStringParametersList),
+    BodyParameters: S.optional(ConnectionBodyParametersList),
+  }),
+).annotations({
+  identifier: "ConnectionHttpParameters",
+}) as any as S.Schema<ConnectionHttpParameters>;
+export interface CreateConnectionOAuthRequestParameters {
+  ClientParameters: CreateConnectionOAuthClientRequestParameters;
+  AuthorizationEndpoint: string;
+  HttpMethod: string;
+  OAuthHttpParameters?: ConnectionHttpParameters;
+}
+export const CreateConnectionOAuthRequestParameters = S.suspend(() =>
+  S.Struct({
+    ClientParameters: CreateConnectionOAuthClientRequestParameters,
+    AuthorizationEndpoint: S.String,
+    HttpMethod: S.String,
+    OAuthHttpParameters: S.optional(ConnectionHttpParameters),
+  }),
+).annotations({
+  identifier: "CreateConnectionOAuthRequestParameters",
+}) as any as S.Schema<CreateConnectionOAuthRequestParameters>;
+export interface DescribeConnectionResourceParameters {
+  ResourceConfigurationArn: string;
+  ResourceAssociationArn: string;
+}
+export const DescribeConnectionResourceParameters = S.suspend(() =>
+  S.Struct({
+    ResourceConfigurationArn: S.String,
+    ResourceAssociationArn: S.String,
+  }),
+).annotations({
+  identifier: "DescribeConnectionResourceParameters",
+}) as any as S.Schema<DescribeConnectionResourceParameters>;
+export interface ConnectionBasicAuthResponseParameters {
+  Username?: string;
+}
+export const ConnectionBasicAuthResponseParameters = S.suspend(() =>
+  S.Struct({ Username: S.optional(S.String) }),
+).annotations({
+  identifier: "ConnectionBasicAuthResponseParameters",
+}) as any as S.Schema<ConnectionBasicAuthResponseParameters>;
+export interface ConnectionApiKeyAuthResponseParameters {
+  ApiKeyName?: string;
+}
+export const ConnectionApiKeyAuthResponseParameters = S.suspend(() =>
+  S.Struct({ ApiKeyName: S.optional(S.String) }),
+).annotations({
+  identifier: "ConnectionApiKeyAuthResponseParameters",
+}) as any as S.Schema<ConnectionApiKeyAuthResponseParameters>;
+export interface UpdateConnectionOAuthRequestParameters {
+  ClientParameters?: UpdateConnectionOAuthClientRequestParameters;
+  AuthorizationEndpoint?: string;
+  HttpMethod?: string;
+  OAuthHttpParameters?: ConnectionHttpParameters;
+}
+export const UpdateConnectionOAuthRequestParameters = S.suspend(() =>
+  S.Struct({
+    ClientParameters: S.optional(UpdateConnectionOAuthClientRequestParameters),
+    AuthorizationEndpoint: S.optional(S.String),
+    HttpMethod: S.optional(S.String),
+    OAuthHttpParameters: S.optional(ConnectionHttpParameters),
+  }),
+).annotations({
+  identifier: "UpdateConnectionOAuthRequestParameters",
+}) as any as S.Schema<UpdateConnectionOAuthRequestParameters>;
+export interface CreateConnectionAuthRequestParameters {
+  BasicAuthParameters?: CreateConnectionBasicAuthRequestParameters;
+  OAuthParameters?: CreateConnectionOAuthRequestParameters;
+  ApiKeyAuthParameters?: CreateConnectionApiKeyAuthRequestParameters;
+  InvocationHttpParameters?: ConnectionHttpParameters;
+  ConnectivityParameters?: ConnectivityResourceParameters;
+}
+export const CreateConnectionAuthRequestParameters = S.suspend(() =>
+  S.Struct({
+    BasicAuthParameters: S.optional(CreateConnectionBasicAuthRequestParameters),
+    OAuthParameters: S.optional(CreateConnectionOAuthRequestParameters),
+    ApiKeyAuthParameters: S.optional(
+      CreateConnectionApiKeyAuthRequestParameters,
+    ),
+    InvocationHttpParameters: S.optional(ConnectionHttpParameters),
+    ConnectivityParameters: S.optional(ConnectivityResourceParameters),
+  }),
+).annotations({
+  identifier: "CreateConnectionAuthRequestParameters",
+}) as any as S.Schema<CreateConnectionAuthRequestParameters>;
+export interface DescribeConnectionConnectivityParameters {
+  ResourceParameters: DescribeConnectionResourceParameters;
+}
+export const DescribeConnectionConnectivityParameters = S.suspend(() =>
+  S.Struct({ ResourceParameters: DescribeConnectionResourceParameters }),
+).annotations({
+  identifier: "DescribeConnectionConnectivityParameters",
+}) as any as S.Schema<DescribeConnectionConnectivityParameters>;
+export interface PutEventsResultEntry {
+  EventId?: string;
+  ErrorCode?: string;
+  ErrorMessage?: string;
+}
+export const PutEventsResultEntry = S.suspend(() =>
+  S.Struct({
+    EventId: S.optional(S.String),
+    ErrorCode: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "PutEventsResultEntry",
+}) as any as S.Schema<PutEventsResultEntry>;
+export type PutEventsResultEntryList = PutEventsResultEntry[];
 export const PutEventsResultEntryList = S.Array(PutEventsResultEntry);
-export class PutPartnerEventsResultEntry extends S.Class<PutPartnerEventsResultEntry>(
-  "PutPartnerEventsResultEntry",
-)({
-  EventId: S.optional(S.String),
-  ErrorCode: S.optional(S.String),
-  ErrorMessage: S.optional(S.String),
-}) {}
+export interface PutPartnerEventsResultEntry {
+  EventId?: string;
+  ErrorCode?: string;
+  ErrorMessage?: string;
+}
+export const PutPartnerEventsResultEntry = S.suspend(() =>
+  S.Struct({
+    EventId: S.optional(S.String),
+    ErrorCode: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "PutPartnerEventsResultEntry",
+}) as any as S.Schema<PutPartnerEventsResultEntry>;
+export type PutPartnerEventsResultEntryList = PutPartnerEventsResultEntry[];
 export const PutPartnerEventsResultEntryList = S.Array(
   PutPartnerEventsResultEntry,
 );
-export class UpdateConnectionAuthRequestParameters extends S.Class<UpdateConnectionAuthRequestParameters>(
-  "UpdateConnectionAuthRequestParameters",
-)({
-  BasicAuthParameters: S.optional(UpdateConnectionBasicAuthRequestParameters),
-  OAuthParameters: S.optional(UpdateConnectionOAuthRequestParameters),
-  ApiKeyAuthParameters: S.optional(UpdateConnectionApiKeyAuthRequestParameters),
-  InvocationHttpParameters: S.optional(ConnectionHttpParameters),
-  ConnectivityParameters: S.optional(ConnectivityResourceParameters),
-}) {}
-export class ConnectionOAuthClientResponseParameters extends S.Class<ConnectionOAuthClientResponseParameters>(
-  "ConnectionOAuthClientResponseParameters",
-)({ ClientID: S.optional(S.String) }) {}
-export class CreateConnectionRequest extends S.Class<CreateConnectionRequest>(
-  "CreateConnectionRequest",
-)(
-  {
+export interface UpdateConnectionAuthRequestParameters {
+  BasicAuthParameters?: UpdateConnectionBasicAuthRequestParameters;
+  OAuthParameters?: UpdateConnectionOAuthRequestParameters;
+  ApiKeyAuthParameters?: UpdateConnectionApiKeyAuthRequestParameters;
+  InvocationHttpParameters?: ConnectionHttpParameters;
+  ConnectivityParameters?: ConnectivityResourceParameters;
+}
+export const UpdateConnectionAuthRequestParameters = S.suspend(() =>
+  S.Struct({
+    BasicAuthParameters: S.optional(UpdateConnectionBasicAuthRequestParameters),
+    OAuthParameters: S.optional(UpdateConnectionOAuthRequestParameters),
+    ApiKeyAuthParameters: S.optional(
+      UpdateConnectionApiKeyAuthRequestParameters,
+    ),
+    InvocationHttpParameters: S.optional(ConnectionHttpParameters),
+    ConnectivityParameters: S.optional(ConnectivityResourceParameters),
+  }),
+).annotations({
+  identifier: "UpdateConnectionAuthRequestParameters",
+}) as any as S.Schema<UpdateConnectionAuthRequestParameters>;
+export interface ConnectionOAuthClientResponseParameters {
+  ClientID?: string;
+}
+export const ConnectionOAuthClientResponseParameters = S.suspend(() =>
+  S.Struct({ ClientID: S.optional(S.String) }),
+).annotations({
+  identifier: "ConnectionOAuthClientResponseParameters",
+}) as any as S.Schema<ConnectionOAuthClientResponseParameters>;
+export interface CreateConnectionRequest {
+  Name: string;
+  Description?: string;
+  AuthorizationType: string;
+  AuthParameters: CreateConnectionAuthRequestParameters;
+  InvocationConnectivityParameters?: ConnectivityResourceParameters;
+  KmsKeyIdentifier?: string;
+}
+export const CreateConnectionRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     Description: S.optional(S.String),
     AuthorizationType: S.String,
@@ -1775,44 +3361,84 @@ export class CreateConnectionRequest extends S.Class<CreateConnectionRequest>(
       ConnectivityResourceParameters,
     ),
     KmsKeyIdentifier: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateEndpointRequest extends S.Class<CreateEndpointRequest>(
-  "CreateEndpointRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateConnectionRequest",
+}) as any as S.Schema<CreateConnectionRequest>;
+export interface CreateEndpointRequest {
+  Name: string;
+  Description?: string;
+  RoutingConfig: RoutingConfig;
+  ReplicationConfig?: ReplicationConfig;
+  EventBuses: EndpointEventBusList;
+  RoleArn?: string;
+}
+export const CreateEndpointRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     Description: S.optional(S.String),
     RoutingConfig: RoutingConfig,
     ReplicationConfig: S.optional(ReplicationConfig),
     EventBuses: EndpointEventBusList,
     RoleArn: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PutEventsResponse extends S.Class<PutEventsResponse>(
-  "PutEventsResponse",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateEndpointRequest",
+}) as any as S.Schema<CreateEndpointRequest>;
+export interface PutEventsResponse {
+  FailedEntryCount?: number;
+  Entries?: PutEventsResultEntryList;
+}
+export const PutEventsResponse = S.suspend(() =>
+  S.Struct({
     FailedEntryCount: S.optional(S.Number),
     Entries: S.optional(PutEventsResultEntryList),
-  },
-  ns,
-) {}
-export class PutPartnerEventsResponse extends S.Class<PutPartnerEventsResponse>(
-  "PutPartnerEventsResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "PutEventsResponse",
+}) as any as S.Schema<PutEventsResponse>;
+export interface PutPartnerEventsResponse {
+  FailedEntryCount?: number;
+  Entries?: PutPartnerEventsResultEntryList;
+}
+export const PutPartnerEventsResponse = S.suspend(() =>
+  S.Struct({
     FailedEntryCount: S.optional(S.Number),
     Entries: S.optional(PutPartnerEventsResultEntryList),
-  },
-  ns,
-) {}
-export class UpdateConnectionRequest extends S.Class<UpdateConnectionRequest>(
-  "UpdateConnectionRequest",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "PutPartnerEventsResponse",
+}) as any as S.Schema<PutPartnerEventsResponse>;
+export interface UpdateConnectionRequest {
+  Name: string;
+  Description?: string;
+  AuthorizationType?: string;
+  AuthParameters?: UpdateConnectionAuthRequestParameters;
+  InvocationConnectivityParameters?: ConnectivityResourceParameters;
+  KmsKeyIdentifier?: string;
+}
+export const UpdateConnectionRequest = S.suspend(() =>
+  S.Struct({
     Name: S.String,
     Description: S.optional(S.String),
     AuthorizationType: S.optional(S.String),
@@ -1821,43 +3447,85 @@ export class UpdateConnectionRequest extends S.Class<UpdateConnectionRequest>(
       ConnectivityResourceParameters,
     ),
     KmsKeyIdentifier: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ConnectionOAuthResponseParameters extends S.Class<ConnectionOAuthResponseParameters>(
-  "ConnectionOAuthResponseParameters",
-)({
-  ClientParameters: S.optional(ConnectionOAuthClientResponseParameters),
-  AuthorizationEndpoint: S.optional(S.String),
-  HttpMethod: S.optional(S.String),
-  OAuthHttpParameters: S.optional(ConnectionHttpParameters),
-}) {}
-export class ConnectionAuthResponseParameters extends S.Class<ConnectionAuthResponseParameters>(
-  "ConnectionAuthResponseParameters",
-)({
-  BasicAuthParameters: S.optional(ConnectionBasicAuthResponseParameters),
-  OAuthParameters: S.optional(ConnectionOAuthResponseParameters),
-  ApiKeyAuthParameters: S.optional(ConnectionApiKeyAuthResponseParameters),
-  InvocationHttpParameters: S.optional(ConnectionHttpParameters),
-  ConnectivityParameters: S.optional(DescribeConnectionConnectivityParameters),
-}) {}
-export class CreateConnectionResponse extends S.Class<CreateConnectionResponse>(
-  "CreateConnectionResponse",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateConnectionRequest",
+}) as any as S.Schema<UpdateConnectionRequest>;
+export interface ConnectionOAuthResponseParameters {
+  ClientParameters?: ConnectionOAuthClientResponseParameters;
+  AuthorizationEndpoint?: string;
+  HttpMethod?: string;
+  OAuthHttpParameters?: ConnectionHttpParameters;
+}
+export const ConnectionOAuthResponseParameters = S.suspend(() =>
+  S.Struct({
+    ClientParameters: S.optional(ConnectionOAuthClientResponseParameters),
+    AuthorizationEndpoint: S.optional(S.String),
+    HttpMethod: S.optional(S.String),
+    OAuthHttpParameters: S.optional(ConnectionHttpParameters),
+  }),
+).annotations({
+  identifier: "ConnectionOAuthResponseParameters",
+}) as any as S.Schema<ConnectionOAuthResponseParameters>;
+export interface ConnectionAuthResponseParameters {
+  BasicAuthParameters?: ConnectionBasicAuthResponseParameters;
+  OAuthParameters?: ConnectionOAuthResponseParameters;
+  ApiKeyAuthParameters?: ConnectionApiKeyAuthResponseParameters;
+  InvocationHttpParameters?: ConnectionHttpParameters;
+  ConnectivityParameters?: DescribeConnectionConnectivityParameters;
+}
+export const ConnectionAuthResponseParameters = S.suspend(() =>
+  S.Struct({
+    BasicAuthParameters: S.optional(ConnectionBasicAuthResponseParameters),
+    OAuthParameters: S.optional(ConnectionOAuthResponseParameters),
+    ApiKeyAuthParameters: S.optional(ConnectionApiKeyAuthResponseParameters),
+    InvocationHttpParameters: S.optional(ConnectionHttpParameters),
+    ConnectivityParameters: S.optional(
+      DescribeConnectionConnectivityParameters,
+    ),
+  }),
+).annotations({
+  identifier: "ConnectionAuthResponseParameters",
+}) as any as S.Schema<ConnectionAuthResponseParameters>;
+export interface CreateConnectionResponse {
+  ConnectionArn?: string;
+  ConnectionState?: string;
+  CreationTime?: Date;
+  LastModifiedTime?: Date;
+}
+export const CreateConnectionResponse = S.suspend(() =>
+  S.Struct({
     ConnectionArn: S.optional(S.String),
     ConnectionState: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastModifiedTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-  },
-  ns,
-) {}
-export class CreateEndpointResponse extends S.Class<CreateEndpointResponse>(
-  "CreateEndpointResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "CreateConnectionResponse",
+}) as any as S.Schema<CreateConnectionResponse>;
+export interface CreateEndpointResponse {
+  Name?: string;
+  Arn?: string;
+  RoutingConfig?: RoutingConfig;
+  ReplicationConfig?: ReplicationConfig;
+  EventBuses?: EndpointEventBusList;
+  RoleArn?: string;
+  State?: string;
+}
+export const CreateEndpointResponse = S.suspend(() =>
+  S.Struct({
     Name: S.optional(S.String),
     Arn: S.optional(S.String),
     RoutingConfig: S.optional(RoutingConfig),
@@ -1865,13 +3533,27 @@ export class CreateEndpointResponse extends S.Class<CreateEndpointResponse>(
     EventBuses: S.optional(EndpointEventBusList),
     RoleArn: S.optional(S.String),
     State: S.optional(S.String),
-  },
-  ns,
-) {}
-export class DescribeConnectionResponse extends S.Class<DescribeConnectionResponse>(
-  "DescribeConnectionResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "CreateEndpointResponse",
+}) as any as S.Schema<CreateEndpointResponse>;
+export interface DescribeConnectionResponse {
+  ConnectionArn?: string;
+  Name?: string;
+  Description?: string;
+  InvocationConnectivityParameters?: DescribeConnectionConnectivityParameters;
+  ConnectionState?: string;
+  StateReason?: string;
+  AuthorizationType?: string;
+  SecretArn?: string;
+  KmsKeyIdentifier?: string;
+  AuthParameters?: ConnectionAuthResponseParameters;
+  CreationTime?: Date;
+  LastModifiedTime?: Date;
+  LastAuthorizedTime?: Date;
+}
+export const DescribeConnectionResponse = S.suspend(() =>
+  S.Struct({
     ConnectionArn: S.optional(S.String),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
@@ -1891,19 +3573,43 @@ export class DescribeConnectionResponse extends S.Class<DescribeConnectionRespon
     LastAuthorizedTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-  },
-  ns,
-) {}
-export class PutTargetsRequest extends S.Class<PutTargetsRequest>(
-  "PutTargetsRequest",
-)(
-  { Rule: S.String, EventBusName: S.optional(S.String), Targets: TargetList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateConnectionResponse extends S.Class<UpdateConnectionResponse>(
-  "UpdateConnectionResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeConnectionResponse",
+}) as any as S.Schema<DescribeConnectionResponse>;
+export interface PutTargetsRequest {
+  Rule: string;
+  EventBusName?: string;
+  Targets: TargetList;
+}
+export const PutTargetsRequest = S.suspend(() =>
+  S.Struct({
+    Rule: S.String,
+    EventBusName: S.optional(S.String),
+    Targets: TargetList,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutTargetsRequest",
+}) as any as S.Schema<PutTargetsRequest>;
+export interface UpdateConnectionResponse {
+  ConnectionArn?: string;
+  ConnectionState?: string;
+  CreationTime?: Date;
+  LastModifiedTime?: Date;
+  LastAuthorizedTime?: Date;
+}
+export const UpdateConnectionResponse = S.suspend(() =>
+  S.Struct({
     ConnectionArn: S.optional(S.String),
     ConnectionState: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -1913,26 +3619,38 @@ export class UpdateConnectionResponse extends S.Class<UpdateConnectionResponse>(
     LastAuthorizedTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-  },
-  ns,
-) {}
-export class PutTargetsResultEntry extends S.Class<PutTargetsResultEntry>(
-  "PutTargetsResultEntry",
-)({
-  TargetId: S.optional(S.String),
-  ErrorCode: S.optional(S.String),
-  ErrorMessage: S.optional(S.String),
-}) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "UpdateConnectionResponse",
+}) as any as S.Schema<UpdateConnectionResponse>;
+export interface PutTargetsResultEntry {
+  TargetId?: string;
+  ErrorCode?: string;
+  ErrorMessage?: string;
+}
+export const PutTargetsResultEntry = S.suspend(() =>
+  S.Struct({
+    TargetId: S.optional(S.String),
+    ErrorCode: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "PutTargetsResultEntry",
+}) as any as S.Schema<PutTargetsResultEntry>;
+export type PutTargetsResultEntryList = PutTargetsResultEntry[];
 export const PutTargetsResultEntryList = S.Array(PutTargetsResultEntry);
-export class PutTargetsResponse extends S.Class<PutTargetsResponse>(
-  "PutTargetsResponse",
-)(
-  {
+export interface PutTargetsResponse {
+  FailedEntryCount?: number;
+  FailedEntries?: PutTargetsResultEntryList;
+}
+export const PutTargetsResponse = S.suspend(() =>
+  S.Struct({
     FailedEntryCount: S.optional(S.Number),
     FailedEntries: S.optional(PutTargetsResultEntryList),
-  },
-  ns,
-) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "PutTargetsResponse",
+}) as any as S.Schema<PutTargetsResponse>;
 
 //# Errors
 export class ConcurrentModificationException extends S.TaggedError<ConcurrentModificationException>()(

@@ -362,189 +362,330 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class CloseTunnelRequest extends S.Class<CloseTunnelRequest>(
-  "CloseTunnelRequest",
-)(
-  {
+export interface CloseTunnelRequest {
+  tunnelId: string;
+  delete?: boolean;
+}
+export const CloseTunnelRequest = S.suspend(() =>
+  S.Struct({
     tunnelId: S.String.pipe(T.HttpLabel("tunnelId")),
     delete: S.optional(S.Boolean).pipe(T.HttpQuery("delete")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/tunnels/{tunnelId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tunnels/{tunnelId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CloseTunnelResponse extends S.Class<CloseTunnelResponse>(
-  "CloseTunnelResponse",
-)({}) {}
-export class DescribeTunnelRequest extends S.Class<DescribeTunnelRequest>(
-  "DescribeTunnelRequest",
-)(
-  { tunnelId: S.String.pipe(T.HttpLabel("tunnelId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/tunnels/{tunnelId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CloseTunnelRequest",
+}) as any as S.Schema<CloseTunnelRequest>;
+export interface CloseTunnelResponse {}
+export const CloseTunnelResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "CloseTunnelResponse",
+}) as any as S.Schema<CloseTunnelResponse>;
+export interface DescribeTunnelRequest {
+  tunnelId: string;
+}
+export const DescribeTunnelRequest = S.suspend(() =>
+  S.Struct({ tunnelId: S.String.pipe(T.HttpLabel("tunnelId")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tunnels/{tunnelId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { resourceArn: S.String.pipe(T.HttpQuery("resourceArn")) },
-  T.all(T.Http({ method: "GET", uri: "/tags" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTunnelsRequest extends S.Class<ListTunnelsRequest>(
-  "ListTunnelsRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeTunnelRequest",
+}) as any as S.Schema<DescribeTunnelRequest>;
+export interface ListTagsForResourceRequest {
+  resourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String.pipe(T.HttpQuery("resourceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tags" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface ListTunnelsRequest {
+  thingName?: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListTunnelsRequest = S.suspend(() =>
+  S.Struct({
     thingName: S.optional(S.String).pipe(T.HttpQuery("thingName")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/tunnels" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tunnels" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "ListTunnelsRequest",
+}) as any as S.Schema<ListTunnelsRequest>;
+export type ServiceList = string[];
 export const ServiceList = S.Array(S.String);
-export class DestinationConfig extends S.Class<DestinationConfig>(
-  "DestinationConfig",
-)({ thingName: S.optional(S.String), services: ServiceList }) {}
-export class RotateTunnelAccessTokenRequest extends S.Class<RotateTunnelAccessTokenRequest>(
-  "RotateTunnelAccessTokenRequest",
-)(
-  {
+export interface DestinationConfig {
+  thingName?: string;
+  services: ServiceList;
+}
+export const DestinationConfig = S.suspend(() =>
+  S.Struct({ thingName: S.optional(S.String), services: ServiceList }),
+).annotations({
+  identifier: "DestinationConfig",
+}) as any as S.Schema<DestinationConfig>;
+export interface RotateTunnelAccessTokenRequest {
+  tunnelId: string;
+  clientMode: string;
+  destinationConfig?: DestinationConfig;
+}
+export const RotateTunnelAccessTokenRequest = S.suspend(() =>
+  S.Struct({
     tunnelId: S.String.pipe(T.HttpLabel("tunnelId")),
     clientMode: S.String,
     destinationConfig: S.optional(DestinationConfig),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/tunnel/{tunnelId}/rotate" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tunnel/{tunnelId}/rotate" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class Tag extends S.Class<Tag>("Tag")({
-  key: S.String,
-  value: S.String,
-}) {}
+).annotations({
+  identifier: "RotateTunnelAccessTokenRequest",
+}) as any as S.Schema<RotateTunnelAccessTokenRequest>;
+export interface Tag {
+  key: string;
+  value: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ key: S.String, value: S.String }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagList = Tag[];
 export const TagList = S.Array(Tag);
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { resourceArn: S.String, tags: TagList },
-  T.all(T.Http({ method: "POST", uri: "/tags" }), svc, auth, proto, ver, rules),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  { resourceArn: S.String, tagKeys: TagKeyList },
-  T.all(
-    T.Http({ method: "POST", uri: "/untag" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface TagResourceRequest {
+  resourceArn: string;
+  tags: TagList;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String, tags: TagList }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tags" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
-export class TimeoutConfig extends S.Class<TimeoutConfig>("TimeoutConfig")({
-  maxLifetimeTimeoutMinutes: S.optional(S.Number),
-}) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ tags: S.optional(TagList) }) {}
-export class OpenTunnelRequest extends S.Class<OpenTunnelRequest>(
-  "OpenTunnelRequest",
-)(
-  {
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UntagResourceRequest {
+  resourceArn: string;
+  tagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String, tagKeys: TagKeyList }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/untag" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface TimeoutConfig {
+  maxLifetimeTimeoutMinutes?: number;
+}
+export const TimeoutConfig = S.suspend(() =>
+  S.Struct({ maxLifetimeTimeoutMinutes: S.optional(S.Number) }),
+).annotations({
+  identifier: "TimeoutConfig",
+}) as any as S.Schema<TimeoutConfig>;
+export interface ListTagsForResourceResponse {
+  tags?: TagList;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ tags: S.optional(TagList) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface OpenTunnelRequest {
+  description?: string;
+  tags?: TagList;
+  destinationConfig?: DestinationConfig;
+  timeoutConfig?: TimeoutConfig;
+}
+export const OpenTunnelRequest = S.suspend(() =>
+  S.Struct({
     description: S.optional(S.String),
     tags: S.optional(TagList),
     destinationConfig: S.optional(DestinationConfig),
     timeoutConfig: S.optional(TimeoutConfig),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/tunnels" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tunnels" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class RotateTunnelAccessTokenResponse extends S.Class<RotateTunnelAccessTokenResponse>(
-  "RotateTunnelAccessTokenResponse",
-)({
-  tunnelArn: S.optional(S.String),
-  sourceAccessToken: S.optional(S.String),
-  destinationAccessToken: S.optional(S.String),
-}) {}
-export class TunnelSummary extends S.Class<TunnelSummary>("TunnelSummary")({
-  tunnelId: S.optional(S.String),
-  tunnelArn: S.optional(S.String),
-  status: S.optional(S.String),
-  description: S.optional(S.String),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+).annotations({
+  identifier: "OpenTunnelRequest",
+}) as any as S.Schema<OpenTunnelRequest>;
+export interface RotateTunnelAccessTokenResponse {
+  tunnelArn?: string;
+  sourceAccessToken?: string;
+  destinationAccessToken?: string;
+}
+export const RotateTunnelAccessTokenResponse = S.suspend(() =>
+  S.Struct({
+    tunnelArn: S.optional(S.String),
+    sourceAccessToken: S.optional(S.String),
+    destinationAccessToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "RotateTunnelAccessTokenResponse",
+}) as any as S.Schema<RotateTunnelAccessTokenResponse>;
+export interface TunnelSummary {
+  tunnelId?: string;
+  tunnelArn?: string;
+  status?: string;
+  description?: string;
+  createdAt?: Date;
+  lastUpdatedAt?: Date;
+}
+export const TunnelSummary = S.suspend(() =>
+  S.Struct({
+    tunnelId: S.optional(S.String),
+    tunnelArn: S.optional(S.String),
+    status: S.optional(S.String),
+    description: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "TunnelSummary",
+}) as any as S.Schema<TunnelSummary>;
+export type TunnelSummaryList = TunnelSummary[];
 export const TunnelSummaryList = S.Array(TunnelSummary);
-export class ListTunnelsResponse extends S.Class<ListTunnelsResponse>(
-  "ListTunnelsResponse",
-)({
-  tunnelSummaries: S.optional(TunnelSummaryList),
-  nextToken: S.optional(S.String),
-}) {}
-export class OpenTunnelResponse extends S.Class<OpenTunnelResponse>(
-  "OpenTunnelResponse",
-)({
-  tunnelId: S.optional(S.String),
-  tunnelArn: S.optional(S.String),
-  sourceAccessToken: S.optional(S.String),
-  destinationAccessToken: S.optional(S.String),
-}) {}
-export class ConnectionState extends S.Class<ConnectionState>(
-  "ConnectionState",
-)({
-  status: S.optional(S.String),
-  lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class Tunnel extends S.Class<Tunnel>("Tunnel")({
-  tunnelId: S.optional(S.String),
-  tunnelArn: S.optional(S.String),
-  status: S.optional(S.String),
-  sourceConnectionState: S.optional(ConnectionState),
-  destinationConnectionState: S.optional(ConnectionState),
-  description: S.optional(S.String),
-  destinationConfig: S.optional(DestinationConfig),
-  timeoutConfig: S.optional(TimeoutConfig),
-  tags: S.optional(TagList),
-  createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class DescribeTunnelResponse extends S.Class<DescribeTunnelResponse>(
-  "DescribeTunnelResponse",
-)({ tunnel: S.optional(Tunnel) }) {}
+export interface ListTunnelsResponse {
+  tunnelSummaries?: TunnelSummaryList;
+  nextToken?: string;
+}
+export const ListTunnelsResponse = S.suspend(() =>
+  S.Struct({
+    tunnelSummaries: S.optional(TunnelSummaryList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListTunnelsResponse",
+}) as any as S.Schema<ListTunnelsResponse>;
+export interface OpenTunnelResponse {
+  tunnelId?: string;
+  tunnelArn?: string;
+  sourceAccessToken?: string;
+  destinationAccessToken?: string;
+}
+export const OpenTunnelResponse = S.suspend(() =>
+  S.Struct({
+    tunnelId: S.optional(S.String),
+    tunnelArn: S.optional(S.String),
+    sourceAccessToken: S.optional(S.String),
+    destinationAccessToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "OpenTunnelResponse",
+}) as any as S.Schema<OpenTunnelResponse>;
+export interface ConnectionState {
+  status?: string;
+  lastUpdatedAt?: Date;
+}
+export const ConnectionState = S.suspend(() =>
+  S.Struct({
+    status: S.optional(S.String),
+    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "ConnectionState",
+}) as any as S.Schema<ConnectionState>;
+export interface Tunnel {
+  tunnelId?: string;
+  tunnelArn?: string;
+  status?: string;
+  sourceConnectionState?: ConnectionState;
+  destinationConnectionState?: ConnectionState;
+  description?: string;
+  destinationConfig?: DestinationConfig;
+  timeoutConfig?: TimeoutConfig;
+  tags?: TagList;
+  createdAt?: Date;
+  lastUpdatedAt?: Date;
+}
+export const Tunnel = S.suspend(() =>
+  S.Struct({
+    tunnelId: S.optional(S.String),
+    tunnelArn: S.optional(S.String),
+    status: S.optional(S.String),
+    sourceConnectionState: S.optional(ConnectionState),
+    destinationConnectionState: S.optional(ConnectionState),
+    description: S.optional(S.String),
+    destinationConfig: S.optional(DestinationConfig),
+    timeoutConfig: S.optional(TimeoutConfig),
+    tags: S.optional(TagList),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({ identifier: "Tunnel" }) as any as S.Schema<Tunnel>;
+export interface DescribeTunnelResponse {
+  tunnel?: Tunnel;
+}
+export const DescribeTunnelResponse = S.suspend(() =>
+  S.Struct({ tunnel: S.optional(Tunnel) }),
+).annotations({
+  identifier: "DescribeTunnelResponse",
+}) as any as S.Schema<DescribeTunnelResponse>;
 
 //# Errors
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(

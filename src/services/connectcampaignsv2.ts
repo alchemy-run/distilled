@@ -294,1006 +294,1199 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type CampaignIdList = string[];
 export const CampaignIdList = S.Array(S.String);
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class DeleteCampaignRequest extends S.Class<DeleteCampaignRequest>(
-  "DeleteCampaignRequest",
-)(
-  { id: S.String.pipe(T.HttpLabel("id")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/v2/campaigns/{id}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface DeleteCampaignRequest {
+  id: string;
+}
+export const DeleteCampaignRequest = S.suspend(() =>
+  S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/v2/campaigns/{id}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteCampaignResponse extends S.Class<DeleteCampaignResponse>(
-  "DeleteCampaignResponse",
-)({}) {}
-export class DeleteCampaignChannelSubtypeConfigRequest extends S.Class<DeleteCampaignChannelSubtypeConfigRequest>(
-  "DeleteCampaignChannelSubtypeConfigRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteCampaignRequest",
+}) as any as S.Schema<DeleteCampaignRequest>;
+export interface DeleteCampaignResponse {}
+export const DeleteCampaignResponse = S.suspend(() => S.Struct({})).annotations(
+  { identifier: "DeleteCampaignResponse" },
+) as any as S.Schema<DeleteCampaignResponse>;
+export interface DeleteCampaignChannelSubtypeConfigRequest {
+  id: string;
+  channelSubtype: string;
+}
+export const DeleteCampaignChannelSubtypeConfigRequest = S.suspend(() =>
+  S.Struct({
     id: S.String.pipe(T.HttpLabel("id")),
     channelSubtype: S.String.pipe(T.HttpQuery("channelSubtype")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/campaigns/{id}/channel-subtype-config",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/v2/campaigns/{id}/channel-subtype-config",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteCampaignChannelSubtypeConfigResponse extends S.Class<DeleteCampaignChannelSubtypeConfigResponse>(
-  "DeleteCampaignChannelSubtypeConfigResponse",
-)({}) {}
-export class DeleteCampaignCommunicationLimitsRequest extends S.Class<DeleteCampaignCommunicationLimitsRequest>(
-  "DeleteCampaignCommunicationLimitsRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteCampaignChannelSubtypeConfigRequest",
+}) as any as S.Schema<DeleteCampaignChannelSubtypeConfigRequest>;
+export interface DeleteCampaignChannelSubtypeConfigResponse {}
+export const DeleteCampaignChannelSubtypeConfigResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteCampaignChannelSubtypeConfigResponse",
+}) as any as S.Schema<DeleteCampaignChannelSubtypeConfigResponse>;
+export interface DeleteCampaignCommunicationLimitsRequest {
+  id: string;
+  config: string;
+}
+export const DeleteCampaignCommunicationLimitsRequest = S.suspend(() =>
+  S.Struct({
     id: S.String.pipe(T.HttpLabel("id")),
     config: S.String.pipe(T.HttpQuery("config")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/campaigns/{id}/communication-limits",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/v2/campaigns/{id}/communication-limits",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteCampaignCommunicationLimitsResponse extends S.Class<DeleteCampaignCommunicationLimitsResponse>(
-  "DeleteCampaignCommunicationLimitsResponse",
-)({}) {}
-export class DeleteCampaignCommunicationTimeRequest extends S.Class<DeleteCampaignCommunicationTimeRequest>(
-  "DeleteCampaignCommunicationTimeRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteCampaignCommunicationLimitsRequest",
+}) as any as S.Schema<DeleteCampaignCommunicationLimitsRequest>;
+export interface DeleteCampaignCommunicationLimitsResponse {}
+export const DeleteCampaignCommunicationLimitsResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteCampaignCommunicationLimitsResponse",
+}) as any as S.Schema<DeleteCampaignCommunicationLimitsResponse>;
+export interface DeleteCampaignCommunicationTimeRequest {
+  id: string;
+  config: string;
+}
+export const DeleteCampaignCommunicationTimeRequest = S.suspend(() =>
+  S.Struct({
     id: S.String.pipe(T.HttpLabel("id")),
     config: S.String.pipe(T.HttpQuery("config")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/v2/campaigns/{id}/communication-time" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/v2/campaigns/{id}/communication-time",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteCampaignCommunicationTimeResponse extends S.Class<DeleteCampaignCommunicationTimeResponse>(
-  "DeleteCampaignCommunicationTimeResponse",
-)({}) {}
-export class DeleteConnectInstanceConfigRequest extends S.Class<DeleteConnectInstanceConfigRequest>(
-  "DeleteConnectInstanceConfigRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteCampaignCommunicationTimeRequest",
+}) as any as S.Schema<DeleteCampaignCommunicationTimeRequest>;
+export interface DeleteCampaignCommunicationTimeResponse {}
+export const DeleteCampaignCommunicationTimeResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteCampaignCommunicationTimeResponse",
+}) as any as S.Schema<DeleteCampaignCommunicationTimeResponse>;
+export interface DeleteConnectInstanceConfigRequest {
+  connectInstanceId: string;
+  campaignDeletionPolicy?: string;
+}
+export const DeleteConnectInstanceConfigRequest = S.suspend(() =>
+  S.Struct({
     connectInstanceId: S.String.pipe(T.HttpLabel("connectInstanceId")),
     campaignDeletionPolicy: S.optional(S.String).pipe(
       T.HttpQuery("campaignDeletionPolicy"),
     ),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/connect-instance/{connectInstanceId}/config",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/v2/connect-instance/{connectInstanceId}/config",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteConnectInstanceConfigResponse extends S.Class<DeleteConnectInstanceConfigResponse>(
-  "DeleteConnectInstanceConfigResponse",
-)({}) {}
-export class DeleteInstanceOnboardingJobRequest extends S.Class<DeleteInstanceOnboardingJobRequest>(
-  "DeleteInstanceOnboardingJobRequest",
-)(
-  { connectInstanceId: S.String.pipe(T.HttpLabel("connectInstanceId")) },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/connect-instance/{connectInstanceId}/onboarding",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteConnectInstanceConfigRequest",
+}) as any as S.Schema<DeleteConnectInstanceConfigRequest>;
+export interface DeleteConnectInstanceConfigResponse {}
+export const DeleteConnectInstanceConfigResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteConnectInstanceConfigResponse",
+}) as any as S.Schema<DeleteConnectInstanceConfigResponse>;
+export interface DeleteInstanceOnboardingJobRequest {
+  connectInstanceId: string;
+}
+export const DeleteInstanceOnboardingJobRequest = S.suspend(() =>
+  S.Struct({
+    connectInstanceId: S.String.pipe(T.HttpLabel("connectInstanceId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/v2/connect-instance/{connectInstanceId}/onboarding",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteInstanceOnboardingJobResponse extends S.Class<DeleteInstanceOnboardingJobResponse>(
-  "DeleteInstanceOnboardingJobResponse",
-)({}) {}
-export class DescribeCampaignRequest extends S.Class<DescribeCampaignRequest>(
-  "DescribeCampaignRequest",
-)(
-  { id: S.String.pipe(T.HttpLabel("id")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/v2/campaigns/{id}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteInstanceOnboardingJobRequest",
+}) as any as S.Schema<DeleteInstanceOnboardingJobRequest>;
+export interface DeleteInstanceOnboardingJobResponse {}
+export const DeleteInstanceOnboardingJobResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteInstanceOnboardingJobResponse",
+}) as any as S.Schema<DeleteInstanceOnboardingJobResponse>;
+export interface DescribeCampaignRequest {
+  id: string;
+}
+export const DescribeCampaignRequest = S.suspend(() =>
+  S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v2/campaigns/{id}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetCampaignStateRequest extends S.Class<GetCampaignStateRequest>(
-  "GetCampaignStateRequest",
-)(
-  { id: S.String.pipe(T.HttpLabel("id")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/v2/campaigns/{id}/state" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DescribeCampaignRequest",
+}) as any as S.Schema<DescribeCampaignRequest>;
+export interface GetCampaignStateRequest {
+  id: string;
+}
+export const GetCampaignStateRequest = S.suspend(() =>
+  S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v2/campaigns/{id}/state" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetCampaignStateBatchRequest extends S.Class<GetCampaignStateBatchRequest>(
-  "GetCampaignStateBatchRequest",
-)(
-  { campaignIds: CampaignIdList },
-  T.all(
-    T.Http({ method: "POST", uri: "/v2/campaigns-state" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetCampaignStateRequest",
+}) as any as S.Schema<GetCampaignStateRequest>;
+export interface GetCampaignStateBatchRequest {
+  campaignIds: CampaignIdList;
+}
+export const GetCampaignStateBatchRequest = S.suspend(() =>
+  S.Struct({ campaignIds: CampaignIdList }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v2/campaigns-state" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetConnectInstanceConfigRequest extends S.Class<GetConnectInstanceConfigRequest>(
-  "GetConnectInstanceConfigRequest",
-)(
-  { connectInstanceId: S.String.pipe(T.HttpLabel("connectInstanceId")) },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/v2/connect-instance/{connectInstanceId}/config",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetCampaignStateBatchRequest",
+}) as any as S.Schema<GetCampaignStateBatchRequest>;
+export interface GetConnectInstanceConfigRequest {
+  connectInstanceId: string;
+}
+export const GetConnectInstanceConfigRequest = S.suspend(() =>
+  S.Struct({
+    connectInstanceId: S.String.pipe(T.HttpLabel("connectInstanceId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/v2/connect-instance/{connectInstanceId}/config",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetInstanceCommunicationLimitsRequest extends S.Class<GetInstanceCommunicationLimitsRequest>(
-  "GetInstanceCommunicationLimitsRequest",
-)(
-  { connectInstanceId: S.String.pipe(T.HttpLabel("connectInstanceId")) },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/v2/connect-instance/{connectInstanceId}/communication-limits",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetConnectInstanceConfigRequest",
+}) as any as S.Schema<GetConnectInstanceConfigRequest>;
+export interface GetInstanceCommunicationLimitsRequest {
+  connectInstanceId: string;
+}
+export const GetInstanceCommunicationLimitsRequest = S.suspend(() =>
+  S.Struct({
+    connectInstanceId: S.String.pipe(T.HttpLabel("connectInstanceId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/v2/connect-instance/{connectInstanceId}/communication-limits",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetInstanceOnboardingJobStatusRequest extends S.Class<GetInstanceOnboardingJobStatusRequest>(
-  "GetInstanceOnboardingJobStatusRequest",
-)(
-  { connectInstanceId: S.String.pipe(T.HttpLabel("connectInstanceId")) },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/v2/connect-instance/{connectInstanceId}/onboarding",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetInstanceCommunicationLimitsRequest",
+}) as any as S.Schema<GetInstanceCommunicationLimitsRequest>;
+export interface GetInstanceOnboardingJobStatusRequest {
+  connectInstanceId: string;
+}
+export const GetInstanceOnboardingJobStatusRequest = S.suspend(() =>
+  S.Struct({
+    connectInstanceId: S.String.pipe(T.HttpLabel("connectInstanceId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/v2/connect-instance/{connectInstanceId}/onboarding",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListConnectInstanceIntegrationsRequest extends S.Class<ListConnectInstanceIntegrationsRequest>(
-  "ListConnectInstanceIntegrationsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetInstanceOnboardingJobStatusRequest",
+}) as any as S.Schema<GetInstanceOnboardingJobStatusRequest>;
+export interface ListConnectInstanceIntegrationsRequest {
+  connectInstanceId: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListConnectInstanceIntegrationsRequest = S.suspend(() =>
+  S.Struct({
     connectInstanceId: S.String.pipe(T.HttpLabel("connectInstanceId")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/v2/connect-instance/{connectInstanceId}/integrations",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/v2/connect-instance/{connectInstanceId}/integrations",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { arn: S.String.pipe(T.HttpLabel("arn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/v2/tags/{arn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListConnectInstanceIntegrationsRequest",
+}) as any as S.Schema<ListConnectInstanceIntegrationsRequest>;
+export interface ListTagsForResourceRequest {
+  arn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ arn: S.String.pipe(T.HttpLabel("arn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v2/tags/{arn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PauseCampaignRequest extends S.Class<PauseCampaignRequest>(
-  "PauseCampaignRequest",
-)(
-  { id: S.String.pipe(T.HttpLabel("id")) },
-  T.all(
-    T.Http({ method: "POST", uri: "/v2/campaigns/{id}/pause" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface PauseCampaignRequest {
+  id: string;
+}
+export const PauseCampaignRequest = S.suspend(() =>
+  S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v2/campaigns/{id}/pause" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PauseCampaignResponse extends S.Class<PauseCampaignResponse>(
-  "PauseCampaignResponse",
-)({}) {}
-export class ResumeCampaignRequest extends S.Class<ResumeCampaignRequest>(
-  "ResumeCampaignRequest",
-)(
-  { id: S.String.pipe(T.HttpLabel("id")) },
-  T.all(
-    T.Http({ method: "POST", uri: "/v2/campaigns/{id}/resume" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "PauseCampaignRequest",
+}) as any as S.Schema<PauseCampaignRequest>;
+export interface PauseCampaignResponse {}
+export const PauseCampaignResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "PauseCampaignResponse",
+}) as any as S.Schema<PauseCampaignResponse>;
+export interface ResumeCampaignRequest {
+  id: string;
+}
+export const ResumeCampaignRequest = S.suspend(() =>
+  S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v2/campaigns/{id}/resume" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ResumeCampaignResponse extends S.Class<ResumeCampaignResponse>(
-  "ResumeCampaignResponse",
-)({}) {}
-export class StartCampaignRequest extends S.Class<StartCampaignRequest>(
-  "StartCampaignRequest",
-)(
-  { id: S.String.pipe(T.HttpLabel("id")) },
-  T.all(
-    T.Http({ method: "POST", uri: "/v2/campaigns/{id}/start" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ResumeCampaignRequest",
+}) as any as S.Schema<ResumeCampaignRequest>;
+export interface ResumeCampaignResponse {}
+export const ResumeCampaignResponse = S.suspend(() => S.Struct({})).annotations(
+  { identifier: "ResumeCampaignResponse" },
+) as any as S.Schema<ResumeCampaignResponse>;
+export interface StartCampaignRequest {
+  id: string;
+}
+export const StartCampaignRequest = S.suspend(() =>
+  S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v2/campaigns/{id}/start" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartCampaignResponse extends S.Class<StartCampaignResponse>(
-  "StartCampaignResponse",
-)({}) {}
-export class StopCampaignRequest extends S.Class<StopCampaignRequest>(
-  "StopCampaignRequest",
-)(
-  { id: S.String.pipe(T.HttpLabel("id")) },
-  T.all(
-    T.Http({ method: "POST", uri: "/v2/campaigns/{id}/stop" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "StartCampaignRequest",
+}) as any as S.Schema<StartCampaignRequest>;
+export interface StartCampaignResponse {}
+export const StartCampaignResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "StartCampaignResponse",
+}) as any as S.Schema<StartCampaignResponse>;
+export interface StopCampaignRequest {
+  id: string;
+}
+export const StopCampaignRequest = S.suspend(() =>
+  S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v2/campaigns/{id}/stop" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StopCampaignResponse extends S.Class<StopCampaignResponse>(
-  "StopCampaignResponse",
-)({}) {}
+).annotations({
+  identifier: "StopCampaignRequest",
+}) as any as S.Schema<StopCampaignRequest>;
+export interface StopCampaignResponse {}
+export const StopCampaignResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "StopCampaignResponse",
+}) as any as S.Schema<StopCampaignResponse>;
+export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { arn: S.String.pipe(T.HttpLabel("arn")), tags: TagMap },
-  T.all(
-    T.Http({ method: "POST", uri: "/v2/tags/{arn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface TagResourceRequest {
+  arn: string;
+  tags: TagMap;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ arn: S.String.pipe(T.HttpLabel("arn")), tags: TagMap }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v2/tags/{arn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UntagResourceRequest {
+  arn: string;
+  tagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
     arn: S.String.pipe(T.HttpLabel("arn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/v2/tags/{arn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/v2/tags/{arn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
-export class ProgressiveConfig extends S.Class<ProgressiveConfig>(
-  "ProgressiveConfig",
-)({ bandwidthAllocation: S.Number }) {}
-export class PredictiveConfig extends S.Class<PredictiveConfig>(
-  "PredictiveConfig",
-)({ bandwidthAllocation: S.Number }) {}
-export class AgentlessConfig extends S.Class<AgentlessConfig>(
-  "AgentlessConfig",
-)({}) {}
-export class TimeoutConfig extends S.Class<TimeoutConfig>("TimeoutConfig")({
-  durationInSeconds: S.Number,
-}) {}
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface ProgressiveConfig {
+  bandwidthAllocation: number;
+}
+export const ProgressiveConfig = S.suspend(() =>
+  S.Struct({ bandwidthAllocation: S.Number }),
+).annotations({
+  identifier: "ProgressiveConfig",
+}) as any as S.Schema<ProgressiveConfig>;
+export interface PredictiveConfig {
+  bandwidthAllocation: number;
+}
+export const PredictiveConfig = S.suspend(() =>
+  S.Struct({ bandwidthAllocation: S.Number }),
+).annotations({
+  identifier: "PredictiveConfig",
+}) as any as S.Schema<PredictiveConfig>;
+export interface AgentlessConfig {}
+export const AgentlessConfig = S.suspend(() => S.Struct({})).annotations({
+  identifier: "AgentlessConfig",
+}) as any as S.Schema<AgentlessConfig>;
+export interface TimeoutConfig {
+  durationInSeconds: number;
+}
+export const TimeoutConfig = S.suspend(() =>
+  S.Struct({ durationInSeconds: S.Number }),
+).annotations({
+  identifier: "TimeoutConfig",
+}) as any as S.Schema<TimeoutConfig>;
+export type AgentActions = string[];
 export const AgentActions = S.Array(S.String);
-export class PreviewConfig extends S.Class<PreviewConfig>("PreviewConfig")({
-  bandwidthAllocation: S.Number,
-  timeoutConfig: TimeoutConfig,
-  agentActions: S.optional(AgentActions),
-}) {}
+export interface PreviewConfig {
+  bandwidthAllocation: number;
+  timeoutConfig: TimeoutConfig;
+  agentActions?: AgentActions;
+}
+export const PreviewConfig = S.suspend(() =>
+  S.Struct({
+    bandwidthAllocation: S.Number,
+    timeoutConfig: TimeoutConfig,
+    agentActions: S.optional(AgentActions),
+  }),
+).annotations({
+  identifier: "PreviewConfig",
+}) as any as S.Schema<PreviewConfig>;
 export const TelephonyOutboundMode = S.Union(
   S.Struct({ progressive: ProgressiveConfig }),
   S.Struct({ predictive: PredictiveConfig }),
   S.Struct({ agentless: AgentlessConfig }),
   S.Struct({ preview: PreviewConfig }),
 );
-export class AnswerMachineDetectionConfig extends S.Class<AnswerMachineDetectionConfig>(
-  "AnswerMachineDetectionConfig",
-)({
-  enableAnswerMachineDetection: S.Boolean,
-  awaitAnswerMachinePrompt: S.optional(S.Boolean),
-}) {}
-export class TelephonyOutboundConfig extends S.Class<TelephonyOutboundConfig>(
-  "TelephonyOutboundConfig",
-)({
-  connectContactFlowId: S.String,
-  connectSourcePhoneNumber: S.optional(S.String),
-  answerMachineDetectionConfig: S.optional(AnswerMachineDetectionConfig),
-  ringTimeout: S.optional(S.Number),
-}) {}
-export class TelephonyChannelSubtypeConfig extends S.Class<TelephonyChannelSubtypeConfig>(
-  "TelephonyChannelSubtypeConfig",
-)({
-  capacity: S.optional(S.Number),
-  connectQueueId: S.optional(S.String),
-  outboundMode: TelephonyOutboundMode,
-  defaultOutboundConfig: TelephonyOutboundConfig,
-}) {}
+export interface AnswerMachineDetectionConfig {
+  enableAnswerMachineDetection: boolean;
+  awaitAnswerMachinePrompt?: boolean;
+}
+export const AnswerMachineDetectionConfig = S.suspend(() =>
+  S.Struct({
+    enableAnswerMachineDetection: S.Boolean,
+    awaitAnswerMachinePrompt: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "AnswerMachineDetectionConfig",
+}) as any as S.Schema<AnswerMachineDetectionConfig>;
+export interface TelephonyOutboundConfig {
+  connectContactFlowId: string;
+  connectSourcePhoneNumber?: string;
+  answerMachineDetectionConfig?: AnswerMachineDetectionConfig;
+  ringTimeout?: number;
+}
+export const TelephonyOutboundConfig = S.suspend(() =>
+  S.Struct({
+    connectContactFlowId: S.String,
+    connectSourcePhoneNumber: S.optional(S.String),
+    answerMachineDetectionConfig: S.optional(AnswerMachineDetectionConfig),
+    ringTimeout: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "TelephonyOutboundConfig",
+}) as any as S.Schema<TelephonyOutboundConfig>;
+export interface TelephonyChannelSubtypeConfig {
+  capacity?: number;
+  connectQueueId?: string;
+  outboundMode: (typeof TelephonyOutboundMode)["Type"];
+  defaultOutboundConfig: TelephonyOutboundConfig;
+}
+export const TelephonyChannelSubtypeConfig = S.suspend(() =>
+  S.Struct({
+    capacity: S.optional(S.Number),
+    connectQueueId: S.optional(S.String),
+    outboundMode: TelephonyOutboundMode,
+    defaultOutboundConfig: TelephonyOutboundConfig,
+  }),
+).annotations({
+  identifier: "TelephonyChannelSubtypeConfig",
+}) as any as S.Schema<TelephonyChannelSubtypeConfig>;
 export const SmsOutboundMode = S.Union(
   S.Struct({ agentless: AgentlessConfig }),
 );
-export class SmsOutboundConfig extends S.Class<SmsOutboundConfig>(
-  "SmsOutboundConfig",
-)({ connectSourcePhoneNumberArn: S.String, wisdomTemplateArn: S.String }) {}
-export class SmsChannelSubtypeConfig extends S.Class<SmsChannelSubtypeConfig>(
-  "SmsChannelSubtypeConfig",
-)({
-  capacity: S.optional(S.Number),
-  outboundMode: SmsOutboundMode,
-  defaultOutboundConfig: SmsOutboundConfig,
-}) {}
+export interface SmsOutboundConfig {
+  connectSourcePhoneNumberArn: string;
+  wisdomTemplateArn: string;
+}
+export const SmsOutboundConfig = S.suspend(() =>
+  S.Struct({
+    connectSourcePhoneNumberArn: S.String,
+    wisdomTemplateArn: S.String,
+  }),
+).annotations({
+  identifier: "SmsOutboundConfig",
+}) as any as S.Schema<SmsOutboundConfig>;
+export interface SmsChannelSubtypeConfig {
+  capacity?: number;
+  outboundMode: (typeof SmsOutboundMode)["Type"];
+  defaultOutboundConfig: SmsOutboundConfig;
+}
+export const SmsChannelSubtypeConfig = S.suspend(() =>
+  S.Struct({
+    capacity: S.optional(S.Number),
+    outboundMode: SmsOutboundMode,
+    defaultOutboundConfig: SmsOutboundConfig,
+  }),
+).annotations({
+  identifier: "SmsChannelSubtypeConfig",
+}) as any as S.Schema<SmsChannelSubtypeConfig>;
 export const EmailOutboundMode = S.Union(
   S.Struct({ agentless: AgentlessConfig }),
 );
-export class EmailOutboundConfig extends S.Class<EmailOutboundConfig>(
-  "EmailOutboundConfig",
-)({
-  connectSourceEmailAddress: S.String,
-  sourceEmailAddressDisplayName: S.optional(S.String),
-  wisdomTemplateArn: S.String,
-}) {}
-export class EmailChannelSubtypeConfig extends S.Class<EmailChannelSubtypeConfig>(
-  "EmailChannelSubtypeConfig",
-)({
-  capacity: S.optional(S.Number),
-  outboundMode: EmailOutboundMode,
-  defaultOutboundConfig: EmailOutboundConfig,
-}) {}
+export interface EmailOutboundConfig {
+  connectSourceEmailAddress: string;
+  sourceEmailAddressDisplayName?: string;
+  wisdomTemplateArn: string;
+}
+export const EmailOutboundConfig = S.suspend(() =>
+  S.Struct({
+    connectSourceEmailAddress: S.String,
+    sourceEmailAddressDisplayName: S.optional(S.String),
+    wisdomTemplateArn: S.String,
+  }),
+).annotations({
+  identifier: "EmailOutboundConfig",
+}) as any as S.Schema<EmailOutboundConfig>;
+export interface EmailChannelSubtypeConfig {
+  capacity?: number;
+  outboundMode: (typeof EmailOutboundMode)["Type"];
+  defaultOutboundConfig: EmailOutboundConfig;
+}
+export const EmailChannelSubtypeConfig = S.suspend(() =>
+  S.Struct({
+    capacity: S.optional(S.Number),
+    outboundMode: EmailOutboundMode,
+    defaultOutboundConfig: EmailOutboundConfig,
+  }),
+).annotations({
+  identifier: "EmailChannelSubtypeConfig",
+}) as any as S.Schema<EmailChannelSubtypeConfig>;
 export const WhatsAppOutboundMode = S.Union(
   S.Struct({ agentless: AgentlessConfig }),
 );
-export class WhatsAppOutboundConfig extends S.Class<WhatsAppOutboundConfig>(
-  "WhatsAppOutboundConfig",
-)({ connectSourcePhoneNumberArn: S.String, wisdomTemplateArn: S.String }) {}
-export class WhatsAppChannelSubtypeConfig extends S.Class<WhatsAppChannelSubtypeConfig>(
-  "WhatsAppChannelSubtypeConfig",
-)({
-  capacity: S.optional(S.Number),
-  outboundMode: WhatsAppOutboundMode,
-  defaultOutboundConfig: WhatsAppOutboundConfig,
-}) {}
-export class ChannelSubtypeConfig extends S.Class<ChannelSubtypeConfig>(
-  "ChannelSubtypeConfig",
-)({
-  telephony: S.optional(TelephonyChannelSubtypeConfig),
-  sms: S.optional(SmsChannelSubtypeConfig),
-  email: S.optional(EmailChannelSubtypeConfig),
-  whatsApp: S.optional(WhatsAppChannelSubtypeConfig),
-}) {}
-export class UpdateCampaignChannelSubtypeConfigRequest extends S.Class<UpdateCampaignChannelSubtypeConfigRequest>(
-  "UpdateCampaignChannelSubtypeConfigRequest",
-)(
-  {
+export interface WhatsAppOutboundConfig {
+  connectSourcePhoneNumberArn: string;
+  wisdomTemplateArn: string;
+}
+export const WhatsAppOutboundConfig = S.suspend(() =>
+  S.Struct({
+    connectSourcePhoneNumberArn: S.String,
+    wisdomTemplateArn: S.String,
+  }),
+).annotations({
+  identifier: "WhatsAppOutboundConfig",
+}) as any as S.Schema<WhatsAppOutboundConfig>;
+export interface WhatsAppChannelSubtypeConfig {
+  capacity?: number;
+  outboundMode: (typeof WhatsAppOutboundMode)["Type"];
+  defaultOutboundConfig: WhatsAppOutboundConfig;
+}
+export const WhatsAppChannelSubtypeConfig = S.suspend(() =>
+  S.Struct({
+    capacity: S.optional(S.Number),
+    outboundMode: WhatsAppOutboundMode,
+    defaultOutboundConfig: WhatsAppOutboundConfig,
+  }),
+).annotations({
+  identifier: "WhatsAppChannelSubtypeConfig",
+}) as any as S.Schema<WhatsAppChannelSubtypeConfig>;
+export interface ChannelSubtypeConfig {
+  telephony?: TelephonyChannelSubtypeConfig;
+  sms?: SmsChannelSubtypeConfig;
+  email?: EmailChannelSubtypeConfig;
+  whatsApp?: WhatsAppChannelSubtypeConfig;
+}
+export const ChannelSubtypeConfig = S.suspend(() =>
+  S.Struct({
+    telephony: S.optional(TelephonyChannelSubtypeConfig),
+    sms: S.optional(SmsChannelSubtypeConfig),
+    email: S.optional(EmailChannelSubtypeConfig),
+    whatsApp: S.optional(WhatsAppChannelSubtypeConfig),
+  }),
+).annotations({
+  identifier: "ChannelSubtypeConfig",
+}) as any as S.Schema<ChannelSubtypeConfig>;
+export interface UpdateCampaignChannelSubtypeConfigRequest {
+  id: string;
+  channelSubtypeConfig: ChannelSubtypeConfig;
+}
+export const UpdateCampaignChannelSubtypeConfigRequest = S.suspend(() =>
+  S.Struct({
     id: S.String.pipe(T.HttpLabel("id")),
     channelSubtypeConfig: ChannelSubtypeConfig,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/v2/campaigns/{id}/channel-subtype-config",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/v2/campaigns/{id}/channel-subtype-config",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateCampaignChannelSubtypeConfigResponse extends S.Class<UpdateCampaignChannelSubtypeConfigResponse>(
-  "UpdateCampaignChannelSubtypeConfigResponse",
-)({}) {}
-export class CommunicationLimit extends S.Class<CommunicationLimit>(
-  "CommunicationLimit",
-)({ maxCountPerRecipient: S.Number, frequency: S.Number, unit: S.String }) {}
+).annotations({
+  identifier: "UpdateCampaignChannelSubtypeConfigRequest",
+}) as any as S.Schema<UpdateCampaignChannelSubtypeConfigRequest>;
+export interface UpdateCampaignChannelSubtypeConfigResponse {}
+export const UpdateCampaignChannelSubtypeConfigResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateCampaignChannelSubtypeConfigResponse",
+}) as any as S.Schema<UpdateCampaignChannelSubtypeConfigResponse>;
+export interface CommunicationLimit {
+  maxCountPerRecipient: number;
+  frequency: number;
+  unit: string;
+}
+export const CommunicationLimit = S.suspend(() =>
+  S.Struct({
+    maxCountPerRecipient: S.Number,
+    frequency: S.Number,
+    unit: S.String,
+  }),
+).annotations({
+  identifier: "CommunicationLimit",
+}) as any as S.Schema<CommunicationLimit>;
+export type CommunicationLimitList = CommunicationLimit[];
 export const CommunicationLimitList = S.Array(CommunicationLimit);
 export const CommunicationLimits = S.Union(
   S.Struct({ communicationLimitsList: CommunicationLimitList }),
 );
-export class CommunicationLimitsConfig extends S.Class<CommunicationLimitsConfig>(
-  "CommunicationLimitsConfig",
-)({
-  allChannelSubtypes: S.optional(CommunicationLimits),
-  instanceLimitsHandling: S.optional(S.String),
-}) {}
-export class UpdateCampaignCommunicationLimitsRequest extends S.Class<UpdateCampaignCommunicationLimitsRequest>(
-  "UpdateCampaignCommunicationLimitsRequest",
-)(
-  {
+export interface CommunicationLimitsConfig {
+  allChannelSubtypes?: (typeof CommunicationLimits)["Type"];
+  instanceLimitsHandling?: string;
+}
+export const CommunicationLimitsConfig = S.suspend(() =>
+  S.Struct({
+    allChannelSubtypes: S.optional(CommunicationLimits),
+    instanceLimitsHandling: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CommunicationLimitsConfig",
+}) as any as S.Schema<CommunicationLimitsConfig>;
+export interface UpdateCampaignCommunicationLimitsRequest {
+  id: string;
+  communicationLimitsOverride: CommunicationLimitsConfig;
+}
+export const UpdateCampaignCommunicationLimitsRequest = S.suspend(() =>
+  S.Struct({
     id: S.String.pipe(T.HttpLabel("id")),
     communicationLimitsOverride: CommunicationLimitsConfig,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/v2/campaigns/{id}/communication-limits" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/v2/campaigns/{id}/communication-limits",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateCampaignCommunicationLimitsResponse extends S.Class<UpdateCampaignCommunicationLimitsResponse>(
-  "UpdateCampaignCommunicationLimitsResponse",
-)({}) {}
+).annotations({
+  identifier: "UpdateCampaignCommunicationLimitsRequest",
+}) as any as S.Schema<UpdateCampaignCommunicationLimitsRequest>;
+export interface UpdateCampaignCommunicationLimitsResponse {}
+export const UpdateCampaignCommunicationLimitsResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateCampaignCommunicationLimitsResponse",
+}) as any as S.Schema<UpdateCampaignCommunicationLimitsResponse>;
+export type LocalTimeZoneDetection = string[];
 export const LocalTimeZoneDetection = S.Array(S.String);
-export class LocalTimeZoneConfig extends S.Class<LocalTimeZoneConfig>(
-  "LocalTimeZoneConfig",
-)({
-  defaultTimeZone: S.optional(S.String),
-  localTimeZoneDetection: S.optional(LocalTimeZoneDetection),
-}) {}
-export class TimeRange extends S.Class<TimeRange>("TimeRange")({
-  startTime: S.String,
-  endTime: S.String,
-}) {}
+export interface LocalTimeZoneConfig {
+  defaultTimeZone?: string;
+  localTimeZoneDetection?: LocalTimeZoneDetection;
+}
+export const LocalTimeZoneConfig = S.suspend(() =>
+  S.Struct({
+    defaultTimeZone: S.optional(S.String),
+    localTimeZoneDetection: S.optional(LocalTimeZoneDetection),
+  }),
+).annotations({
+  identifier: "LocalTimeZoneConfig",
+}) as any as S.Schema<LocalTimeZoneConfig>;
+export interface TimeRange {
+  startTime: string;
+  endTime: string;
+}
+export const TimeRange = S.suspend(() =>
+  S.Struct({ startTime: S.String, endTime: S.String }),
+).annotations({ identifier: "TimeRange" }) as any as S.Schema<TimeRange>;
+export type TimeRangeList = TimeRange[];
 export const TimeRangeList = S.Array(TimeRange);
+export type DailyHours = { [key: string]: TimeRangeList };
 export const DailyHours = S.Record({ key: S.String, value: TimeRangeList });
 export const OpenHours = S.Union(S.Struct({ dailyHours: DailyHours }));
-export class RestrictedPeriod extends S.Class<RestrictedPeriod>(
-  "RestrictedPeriod",
-)({ name: S.optional(S.String), startDate: S.String, endDate: S.String }) {}
+export interface RestrictedPeriod {
+  name?: string;
+  startDate: string;
+  endDate: string;
+}
+export const RestrictedPeriod = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    startDate: S.String,
+    endDate: S.String,
+  }),
+).annotations({
+  identifier: "RestrictedPeriod",
+}) as any as S.Schema<RestrictedPeriod>;
+export type RestrictedPeriodList = RestrictedPeriod[];
 export const RestrictedPeriodList = S.Array(RestrictedPeriod);
 export const RestrictedPeriods = S.Union(
   S.Struct({ restrictedPeriodList: RestrictedPeriodList }),
 );
-export class TimeWindow extends S.Class<TimeWindow>("TimeWindow")({
-  openHours: OpenHours,
-  restrictedPeriods: S.optional(RestrictedPeriods),
-}) {}
-export class CommunicationTimeConfig extends S.Class<CommunicationTimeConfig>(
-  "CommunicationTimeConfig",
-)({
-  localTimeZoneConfig: LocalTimeZoneConfig,
-  telephony: S.optional(TimeWindow),
-  sms: S.optional(TimeWindow),
-  email: S.optional(TimeWindow),
-  whatsApp: S.optional(TimeWindow),
-}) {}
-export class UpdateCampaignCommunicationTimeRequest extends S.Class<UpdateCampaignCommunicationTimeRequest>(
-  "UpdateCampaignCommunicationTimeRequest",
-)(
-  {
+export interface TimeWindow {
+  openHours: (typeof OpenHours)["Type"];
+  restrictedPeriods?: (typeof RestrictedPeriods)["Type"];
+}
+export const TimeWindow = S.suspend(() =>
+  S.Struct({
+    openHours: OpenHours,
+    restrictedPeriods: S.optional(RestrictedPeriods),
+  }),
+).annotations({ identifier: "TimeWindow" }) as any as S.Schema<TimeWindow>;
+export interface CommunicationTimeConfig {
+  localTimeZoneConfig: LocalTimeZoneConfig;
+  telephony?: TimeWindow;
+  sms?: TimeWindow;
+  email?: TimeWindow;
+  whatsApp?: TimeWindow;
+}
+export const CommunicationTimeConfig = S.suspend(() =>
+  S.Struct({
+    localTimeZoneConfig: LocalTimeZoneConfig,
+    telephony: S.optional(TimeWindow),
+    sms: S.optional(TimeWindow),
+    email: S.optional(TimeWindow),
+    whatsApp: S.optional(TimeWindow),
+  }),
+).annotations({
+  identifier: "CommunicationTimeConfig",
+}) as any as S.Schema<CommunicationTimeConfig>;
+export interface UpdateCampaignCommunicationTimeRequest {
+  id: string;
+  communicationTimeConfig: CommunicationTimeConfig;
+}
+export const UpdateCampaignCommunicationTimeRequest = S.suspend(() =>
+  S.Struct({
     id: S.String.pipe(T.HttpLabel("id")),
     communicationTimeConfig: CommunicationTimeConfig,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/v2/campaigns/{id}/communication-time" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v2/campaigns/{id}/communication-time" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateCampaignCommunicationTimeResponse extends S.Class<UpdateCampaignCommunicationTimeResponse>(
-  "UpdateCampaignCommunicationTimeResponse",
-)({}) {}
-export class UpdateCampaignFlowAssociationRequest extends S.Class<UpdateCampaignFlowAssociationRequest>(
-  "UpdateCampaignFlowAssociationRequest",
-)(
-  { id: S.String.pipe(T.HttpLabel("id")), connectCampaignFlowArn: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/v2/campaigns/{id}/flow" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UpdateCampaignCommunicationTimeRequest",
+}) as any as S.Schema<UpdateCampaignCommunicationTimeRequest>;
+export interface UpdateCampaignCommunicationTimeResponse {}
+export const UpdateCampaignCommunicationTimeResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateCampaignCommunicationTimeResponse",
+}) as any as S.Schema<UpdateCampaignCommunicationTimeResponse>;
+export interface UpdateCampaignFlowAssociationRequest {
+  id: string;
+  connectCampaignFlowArn: string;
+}
+export const UpdateCampaignFlowAssociationRequest = S.suspend(() =>
+  S.Struct({
+    id: S.String.pipe(T.HttpLabel("id")),
+    connectCampaignFlowArn: S.String,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v2/campaigns/{id}/flow" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateCampaignFlowAssociationResponse extends S.Class<UpdateCampaignFlowAssociationResponse>(
-  "UpdateCampaignFlowAssociationResponse",
-)({}) {}
-export class UpdateCampaignNameRequest extends S.Class<UpdateCampaignNameRequest>(
-  "UpdateCampaignNameRequest",
-)(
-  { id: S.String.pipe(T.HttpLabel("id")), name: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/v2/campaigns/{id}/name" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UpdateCampaignFlowAssociationRequest",
+}) as any as S.Schema<UpdateCampaignFlowAssociationRequest>;
+export interface UpdateCampaignFlowAssociationResponse {}
+export const UpdateCampaignFlowAssociationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateCampaignFlowAssociationResponse",
+}) as any as S.Schema<UpdateCampaignFlowAssociationResponse>;
+export interface UpdateCampaignNameRequest {
+  id: string;
+  name: string;
+}
+export const UpdateCampaignNameRequest = S.suspend(() =>
+  S.Struct({ id: S.String.pipe(T.HttpLabel("id")), name: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v2/campaigns/{id}/name" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateCampaignNameResponse extends S.Class<UpdateCampaignNameResponse>(
-  "UpdateCampaignNameResponse",
-)({}) {}
-export class Schedule extends S.Class<Schedule>("Schedule")({
-  startTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  endTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  refreshFrequency: S.optional(S.String),
-}) {}
-export class UpdateCampaignScheduleRequest extends S.Class<UpdateCampaignScheduleRequest>(
-  "UpdateCampaignScheduleRequest",
-)(
-  { id: S.String.pipe(T.HttpLabel("id")), schedule: Schedule },
-  T.all(
-    T.Http({ method: "POST", uri: "/v2/campaigns/{id}/schedule" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UpdateCampaignNameRequest",
+}) as any as S.Schema<UpdateCampaignNameRequest>;
+export interface UpdateCampaignNameResponse {}
+export const UpdateCampaignNameResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateCampaignNameResponse",
+}) as any as S.Schema<UpdateCampaignNameResponse>;
+export interface Schedule {
+  startTime: Date;
+  endTime: Date;
+  refreshFrequency?: string;
+}
+export const Schedule = S.suspend(() =>
+  S.Struct({
+    startTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    endTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    refreshFrequency: S.optional(S.String),
+  }),
+).annotations({ identifier: "Schedule" }) as any as S.Schema<Schedule>;
+export interface UpdateCampaignScheduleRequest {
+  id: string;
+  schedule: Schedule;
+}
+export const UpdateCampaignScheduleRequest = S.suspend(() =>
+  S.Struct({ id: S.String.pipe(T.HttpLabel("id")), schedule: Schedule }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v2/campaigns/{id}/schedule" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateCampaignScheduleResponse extends S.Class<UpdateCampaignScheduleResponse>(
-  "UpdateCampaignScheduleResponse",
-)({}) {}
-export class EventTrigger extends S.Class<EventTrigger>("EventTrigger")({
-  customerProfilesDomainArn: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "UpdateCampaignScheduleRequest",
+}) as any as S.Schema<UpdateCampaignScheduleRequest>;
+export interface UpdateCampaignScheduleResponse {}
+export const UpdateCampaignScheduleResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateCampaignScheduleResponse",
+}) as any as S.Schema<UpdateCampaignScheduleResponse>;
+export interface EventTrigger {
+  customerProfilesDomainArn?: string;
+}
+export const EventTrigger = S.suspend(() =>
+  S.Struct({ customerProfilesDomainArn: S.optional(S.String) }),
+).annotations({ identifier: "EventTrigger" }) as any as S.Schema<EventTrigger>;
 export const Source = S.Union(
   S.Struct({ customerProfilesSegmentArn: S.String }),
   S.Struct({ eventTrigger: EventTrigger }),
 );
-export class UpdateCampaignSourceRequest extends S.Class<UpdateCampaignSourceRequest>(
-  "UpdateCampaignSourceRequest",
-)(
-  { id: S.String.pipe(T.HttpLabel("id")), source: Source },
-  T.all(
-    T.Http({ method: "POST", uri: "/v2/campaigns/{id}/source" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface UpdateCampaignSourceRequest {
+  id: string;
+  source: (typeof Source)["Type"];
+}
+export const UpdateCampaignSourceRequest = S.suspend(() =>
+  S.Struct({ id: S.String.pipe(T.HttpLabel("id")), source: Source }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v2/campaigns/{id}/source" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateCampaignSourceResponse extends S.Class<UpdateCampaignSourceResponse>(
-  "UpdateCampaignSourceResponse",
-)({}) {}
-export class InstanceCommunicationLimitsConfig extends S.Class<InstanceCommunicationLimitsConfig>(
-  "InstanceCommunicationLimitsConfig",
-)({ allChannelSubtypes: S.optional(CommunicationLimits) }) {}
-export class ProfileOutboundRequest extends S.Class<ProfileOutboundRequest>(
-  "ProfileOutboundRequest",
-)({
-  clientToken: S.String,
-  profileId: S.String,
-  expirationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-}) {}
+).annotations({
+  identifier: "UpdateCampaignSourceRequest",
+}) as any as S.Schema<UpdateCampaignSourceRequest>;
+export interface UpdateCampaignSourceResponse {}
+export const UpdateCampaignSourceResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateCampaignSourceResponse",
+}) as any as S.Schema<UpdateCampaignSourceResponse>;
+export interface InstanceCommunicationLimitsConfig {
+  allChannelSubtypes?: (typeof CommunicationLimits)["Type"];
+}
+export const InstanceCommunicationLimitsConfig = S.suspend(() =>
+  S.Struct({ allChannelSubtypes: S.optional(CommunicationLimits) }),
+).annotations({
+  identifier: "InstanceCommunicationLimitsConfig",
+}) as any as S.Schema<InstanceCommunicationLimitsConfig>;
+export interface ProfileOutboundRequest {
+  clientToken: string;
+  profileId: string;
+  expirationTime?: Date;
+}
+export const ProfileOutboundRequest = S.suspend(() =>
+  S.Struct({
+    clientToken: S.String,
+    profileId: S.String,
+    expirationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotations({
+  identifier: "ProfileOutboundRequest",
+}) as any as S.Schema<ProfileOutboundRequest>;
+export type ProfileOutboundRequestList = ProfileOutboundRequest[];
 export const ProfileOutboundRequestList = S.Array(ProfileOutboundRequest);
-export class EncryptionConfig extends S.Class<EncryptionConfig>(
-  "EncryptionConfig",
-)({
-  enabled: S.Boolean,
-  encryptionType: S.optional(S.String),
-  keyArn: S.optional(S.String),
-}) {}
-export class GetCampaignStateResponse extends S.Class<GetCampaignStateResponse>(
-  "GetCampaignStateResponse",
-)({ state: S.optional(S.String) }) {}
-export class GetInstanceCommunicationLimitsResponse extends S.Class<GetInstanceCommunicationLimitsResponse>(
-  "GetInstanceCommunicationLimitsResponse",
-)({
-  communicationLimitsConfig: S.optional(InstanceCommunicationLimitsConfig),
-}) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ tags: S.optional(TagMap) }) {}
-export class PutInstanceCommunicationLimitsRequest extends S.Class<PutInstanceCommunicationLimitsRequest>(
-  "PutInstanceCommunicationLimitsRequest",
-)(
-  {
+export interface EncryptionConfig {
+  enabled: boolean;
+  encryptionType?: string;
+  keyArn?: string;
+}
+export const EncryptionConfig = S.suspend(() =>
+  S.Struct({
+    enabled: S.Boolean,
+    encryptionType: S.optional(S.String),
+    keyArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "EncryptionConfig",
+}) as any as S.Schema<EncryptionConfig>;
+export interface GetCampaignStateResponse {
+  state?: string;
+}
+export const GetCampaignStateResponse = S.suspend(() =>
+  S.Struct({ state: S.optional(S.String) }),
+).annotations({
+  identifier: "GetCampaignStateResponse",
+}) as any as S.Schema<GetCampaignStateResponse>;
+export interface GetInstanceCommunicationLimitsResponse {
+  communicationLimitsConfig?: InstanceCommunicationLimitsConfig;
+}
+export const GetInstanceCommunicationLimitsResponse = S.suspend(() =>
+  S.Struct({
+    communicationLimitsConfig: S.optional(InstanceCommunicationLimitsConfig),
+  }),
+).annotations({
+  identifier: "GetInstanceCommunicationLimitsResponse",
+}) as any as S.Schema<GetInstanceCommunicationLimitsResponse>;
+export interface ListTagsForResourceResponse {
+  tags?: TagMap;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ tags: S.optional(TagMap) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface PutInstanceCommunicationLimitsRequest {
+  connectInstanceId: string;
+  communicationLimitsConfig: InstanceCommunicationLimitsConfig;
+}
+export const PutInstanceCommunicationLimitsRequest = S.suspend(() =>
+  S.Struct({
     connectInstanceId: S.String.pipe(T.HttpLabel("connectInstanceId")),
     communicationLimitsConfig: InstanceCommunicationLimitsConfig,
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/v2/connect-instance/{connectInstanceId}/communication-limits",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/v2/connect-instance/{connectInstanceId}/communication-limits",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutInstanceCommunicationLimitsResponse extends S.Class<PutInstanceCommunicationLimitsResponse>(
-  "PutInstanceCommunicationLimitsResponse",
-)({}) {}
-export class PutProfileOutboundRequestBatchRequest extends S.Class<PutProfileOutboundRequestBatchRequest>(
-  "PutProfileOutboundRequestBatchRequest",
-)(
-  {
+).annotations({
+  identifier: "PutInstanceCommunicationLimitsRequest",
+}) as any as S.Schema<PutInstanceCommunicationLimitsRequest>;
+export interface PutInstanceCommunicationLimitsResponse {}
+export const PutInstanceCommunicationLimitsResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "PutInstanceCommunicationLimitsResponse",
+}) as any as S.Schema<PutInstanceCommunicationLimitsResponse>;
+export interface PutProfileOutboundRequestBatchRequest {
+  id: string;
+  profileOutboundRequests: ProfileOutboundRequestList;
+}
+export const PutProfileOutboundRequestBatchRequest = S.suspend(() =>
+  S.Struct({
     id: S.String.pipe(T.HttpLabel("id")),
     profileOutboundRequests: ProfileOutboundRequestList,
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/v2/campaigns/{id}/profile-outbound-requests",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/v2/campaigns/{id}/profile-outbound-requests",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartInstanceOnboardingJobRequest extends S.Class<StartInstanceOnboardingJobRequest>(
-  "StartInstanceOnboardingJobRequest",
-)(
-  {
+).annotations({
+  identifier: "PutProfileOutboundRequestBatchRequest",
+}) as any as S.Schema<PutProfileOutboundRequestBatchRequest>;
+export interface StartInstanceOnboardingJobRequest {
+  connectInstanceId: string;
+  encryptionConfig: EncryptionConfig;
+}
+export const StartInstanceOnboardingJobRequest = S.suspend(() =>
+  S.Struct({
     connectInstanceId: S.String.pipe(T.HttpLabel("connectInstanceId")),
     encryptionConfig: EncryptionConfig,
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/v2/connect-instance/{connectInstanceId}/onboarding",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/v2/connect-instance/{connectInstanceId}/onboarding",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CustomerProfilesIntegrationIdentifier extends S.Class<CustomerProfilesIntegrationIdentifier>(
-  "CustomerProfilesIntegrationIdentifier",
-)({ domainArn: S.String }) {}
-export class QConnectIntegrationIdentifier extends S.Class<QConnectIntegrationIdentifier>(
-  "QConnectIntegrationIdentifier",
-)({ knowledgeBaseArn: S.String }) {}
-export class LambdaIntegrationIdentifier extends S.Class<LambdaIntegrationIdentifier>(
-  "LambdaIntegrationIdentifier",
-)({ functionArn: S.String }) {}
-export class InstanceIdFilter extends S.Class<InstanceIdFilter>(
-  "InstanceIdFilter",
-)({ value: S.String, operator: S.String }) {}
-export class QConnectIntegrationConfig extends S.Class<QConnectIntegrationConfig>(
-  "QConnectIntegrationConfig",
-)({ knowledgeBaseArn: S.String }) {}
-export class LambdaIntegrationConfig extends S.Class<LambdaIntegrationConfig>(
-  "LambdaIntegrationConfig",
-)({ functionArn: S.String }) {}
+).annotations({
+  identifier: "StartInstanceOnboardingJobRequest",
+}) as any as S.Schema<StartInstanceOnboardingJobRequest>;
+export interface CustomerProfilesIntegrationIdentifier {
+  domainArn: string;
+}
+export const CustomerProfilesIntegrationIdentifier = S.suspend(() =>
+  S.Struct({ domainArn: S.String }),
+).annotations({
+  identifier: "CustomerProfilesIntegrationIdentifier",
+}) as any as S.Schema<CustomerProfilesIntegrationIdentifier>;
+export interface QConnectIntegrationIdentifier {
+  knowledgeBaseArn: string;
+}
+export const QConnectIntegrationIdentifier = S.suspend(() =>
+  S.Struct({ knowledgeBaseArn: S.String }),
+).annotations({
+  identifier: "QConnectIntegrationIdentifier",
+}) as any as S.Schema<QConnectIntegrationIdentifier>;
+export interface LambdaIntegrationIdentifier {
+  functionArn: string;
+}
+export const LambdaIntegrationIdentifier = S.suspend(() =>
+  S.Struct({ functionArn: S.String }),
+).annotations({
+  identifier: "LambdaIntegrationIdentifier",
+}) as any as S.Schema<LambdaIntegrationIdentifier>;
+export interface InstanceIdFilter {
+  value: string;
+  operator: string;
+}
+export const InstanceIdFilter = S.suspend(() =>
+  S.Struct({ value: S.String, operator: S.String }),
+).annotations({
+  identifier: "InstanceIdFilter",
+}) as any as S.Schema<InstanceIdFilter>;
+export interface QConnectIntegrationConfig {
+  knowledgeBaseArn: string;
+}
+export const QConnectIntegrationConfig = S.suspend(() =>
+  S.Struct({ knowledgeBaseArn: S.String }),
+).annotations({
+  identifier: "QConnectIntegrationConfig",
+}) as any as S.Schema<QConnectIntegrationConfig>;
+export interface LambdaIntegrationConfig {
+  functionArn: string;
+}
+export const LambdaIntegrationConfig = S.suspend(() =>
+  S.Struct({ functionArn: S.String }),
+).annotations({
+  identifier: "LambdaIntegrationConfig",
+}) as any as S.Schema<LambdaIntegrationConfig>;
 export const IntegrationIdentifier = S.Union(
   S.Struct({ customerProfiles: CustomerProfilesIntegrationIdentifier }),
   S.Struct({ qConnect: QConnectIntegrationIdentifier }),
   S.Struct({ lambda: LambdaIntegrationIdentifier }),
 );
-export class Campaign extends S.Class<Campaign>("Campaign")({
-  id: S.String,
-  arn: S.String,
-  name: S.String,
-  connectInstanceId: S.String,
-  channelSubtypeConfig: S.optional(ChannelSubtypeConfig),
-  type: S.optional(S.String),
-  source: S.optional(Source),
-  connectCampaignFlowArn: S.optional(S.String),
-  schedule: S.optional(Schedule),
-  communicationTimeConfig: S.optional(CommunicationTimeConfig),
-  communicationLimitsOverride: S.optional(CommunicationLimitsConfig),
-  tags: S.optional(TagMap),
-}) {}
-export class SuccessfulCampaignStateResponse extends S.Class<SuccessfulCampaignStateResponse>(
-  "SuccessfulCampaignStateResponse",
-)({ campaignId: S.optional(S.String), state: S.optional(S.String) }) {}
-export const SuccessfulCampaignStateResponseList = S.Array(
-  SuccessfulCampaignStateResponse,
-);
-export class FailedCampaignStateResponse extends S.Class<FailedCampaignStateResponse>(
-  "FailedCampaignStateResponse",
-)({ campaignId: S.optional(S.String), failureCode: S.optional(S.String) }) {}
-export const FailedCampaignStateResponseList = S.Array(
-  FailedCampaignStateResponse,
-);
-export class InstanceConfig extends S.Class<InstanceConfig>("InstanceConfig")({
-  connectInstanceId: S.String,
-  serviceLinkedRoleArn: S.String,
-  encryptionConfig: EncryptionConfig,
-}) {}
-export class InstanceOnboardingJobStatus extends S.Class<InstanceOnboardingJobStatus>(
-  "InstanceOnboardingJobStatus",
-)({
-  connectInstanceId: S.String,
-  status: S.String,
-  failureCode: S.optional(S.String),
-}) {}
-export class CampaignFilters extends S.Class<CampaignFilters>(
-  "CampaignFilters",
-)({ instanceIdFilter: S.optional(InstanceIdFilter) }) {}
-export const ObjectTypeNamesMap = S.Record({ key: S.String, value: S.String });
-export const Attributes = S.Record({ key: S.String, value: S.String });
-export class SmsChannelSubtypeParameters extends S.Class<SmsChannelSubtypeParameters>(
-  "SmsChannelSubtypeParameters",
-)({
-  destinationPhoneNumber: S.String,
-  connectSourcePhoneNumberArn: S.optional(S.String),
-  templateArn: S.optional(S.String),
-  templateParameters: Attributes,
-}) {}
-export class EmailChannelSubtypeParameters extends S.Class<EmailChannelSubtypeParameters>(
-  "EmailChannelSubtypeParameters",
-)({
-  destinationEmailAddress: S.String,
-  connectSourceEmailAddress: S.optional(S.String),
-  templateArn: S.optional(S.String),
-  templateParameters: Attributes,
-}) {}
-export class WhatsAppChannelSubtypeParameters extends S.Class<WhatsAppChannelSubtypeParameters>(
-  "WhatsAppChannelSubtypeParameters",
-)({
-  destinationPhoneNumber: S.String,
-  connectSourcePhoneNumberArn: S.optional(S.String),
-  templateArn: S.optional(S.String),
-  templateParameters: Attributes,
-}) {}
-export class DeleteConnectInstanceIntegrationRequest extends S.Class<DeleteConnectInstanceIntegrationRequest>(
-  "DeleteConnectInstanceIntegrationRequest",
-)(
-  {
-    connectInstanceId: S.String.pipe(T.HttpLabel("connectInstanceId")),
-    integrationIdentifier: IntegrationIdentifier,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/v2/connect-instance/{connectInstanceId}/integrations/delete",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-  ),
-) {}
-export class DeleteConnectInstanceIntegrationResponse extends S.Class<DeleteConnectInstanceIntegrationResponse>(
-  "DeleteConnectInstanceIntegrationResponse",
-)({}) {}
-export class DescribeCampaignResponse extends S.Class<DescribeCampaignResponse>(
-  "DescribeCampaignResponse",
-)({ campaign: S.optional(Campaign) }) {}
-export class GetCampaignStateBatchResponse extends S.Class<GetCampaignStateBatchResponse>(
-  "GetCampaignStateBatchResponse",
-)({
-  successfulRequests: S.optional(SuccessfulCampaignStateResponseList),
-  failedRequests: S.optional(FailedCampaignStateResponseList),
-}) {}
-export class GetConnectInstanceConfigResponse extends S.Class<GetConnectInstanceConfigResponse>(
-  "GetConnectInstanceConfigResponse",
-)({ connectInstanceConfig: S.optional(InstanceConfig) }) {}
-export class GetInstanceOnboardingJobStatusResponse extends S.Class<GetInstanceOnboardingJobStatusResponse>(
-  "GetInstanceOnboardingJobStatusResponse",
-)({
-  connectInstanceOnboardingJobStatus: S.optional(InstanceOnboardingJobStatus),
-}) {}
-export class ListCampaignsRequest extends S.Class<ListCampaignsRequest>(
-  "ListCampaignsRequest",
-)(
-  {
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-    filters: S.optional(CampaignFilters),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/v2/campaigns-summary" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-  ),
-) {}
-export class StartInstanceOnboardingJobResponse extends S.Class<StartInstanceOnboardingJobResponse>(
-  "StartInstanceOnboardingJobResponse",
-)({
-  connectInstanceOnboardingJobStatus: S.optional(InstanceOnboardingJobStatus),
-}) {}
-export class CustomerProfilesIntegrationSummary extends S.Class<CustomerProfilesIntegrationSummary>(
-  "CustomerProfilesIntegrationSummary",
-)({ domainArn: S.String, objectTypeNames: ObjectTypeNamesMap }) {}
-export class QConnectIntegrationSummary extends S.Class<QConnectIntegrationSummary>(
-  "QConnectIntegrationSummary",
-)({ knowledgeBaseArn: S.String }) {}
-export class LambdaIntegrationSummary extends S.Class<LambdaIntegrationSummary>(
-  "LambdaIntegrationSummary",
-)({ functionArn: S.String }) {}
-export class CustomerProfilesIntegrationConfig extends S.Class<CustomerProfilesIntegrationConfig>(
-  "CustomerProfilesIntegrationConfig",
-)({ domainArn: S.String, objectTypeNames: ObjectTypeNamesMap }) {}
-export const IntegrationSummary = S.Union(
-  S.Struct({ customerProfiles: CustomerProfilesIntegrationSummary }),
-  S.Struct({ qConnect: QConnectIntegrationSummary }),
-  S.Struct({ lambda: LambdaIntegrationSummary }),
-);
-export const IntegrationSummaryList = S.Array(IntegrationSummary);
-export const IntegrationConfig = S.Union(
-  S.Struct({ customerProfiles: CustomerProfilesIntegrationConfig }),
-  S.Struct({ qConnect: QConnectIntegrationConfig }),
-  S.Struct({ lambda: LambdaIntegrationConfig }),
-);
-export class SuccessfulProfileOutboundRequest extends S.Class<SuccessfulProfileOutboundRequest>(
-  "SuccessfulProfileOutboundRequest",
-)({ clientToken: S.optional(S.String), id: S.optional(S.String) }) {}
-export const SuccessfulProfileOutboundRequestList = S.Array(
-  SuccessfulProfileOutboundRequest,
-);
-export class FailedProfileOutboundRequest extends S.Class<FailedProfileOutboundRequest>(
-  "FailedProfileOutboundRequest",
-)({
-  clientToken: S.optional(S.String),
-  id: S.optional(S.String),
-  failureCode: S.optional(S.String),
-}) {}
-export const FailedProfileOutboundRequestList = S.Array(
-  FailedProfileOutboundRequest,
-);
-export class TelephonyChannelSubtypeParameters extends S.Class<TelephonyChannelSubtypeParameters>(
-  "TelephonyChannelSubtypeParameters",
-)({
-  destinationPhoneNumber: S.String,
-  attributes: Attributes,
-  connectSourcePhoneNumber: S.optional(S.String),
-  answerMachineDetectionConfig: S.optional(AnswerMachineDetectionConfig),
-  ringTimeout: S.optional(S.Number),
-}) {}
-export class ListConnectInstanceIntegrationsResponse extends S.Class<ListConnectInstanceIntegrationsResponse>(
-  "ListConnectInstanceIntegrationsResponse",
-)({
-  nextToken: S.optional(S.String),
-  integrationSummaryList: S.optional(IntegrationSummaryList),
-}) {}
-export class PutConnectInstanceIntegrationRequest extends S.Class<PutConnectInstanceIntegrationRequest>(
-  "PutConnectInstanceIntegrationRequest",
-)(
-  {
-    connectInstanceId: S.String.pipe(T.HttpLabel("connectInstanceId")),
-    integrationConfig: IntegrationConfig,
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/v2/connect-instance/{connectInstanceId}/integrations",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-  ),
-) {}
-export class PutConnectInstanceIntegrationResponse extends S.Class<PutConnectInstanceIntegrationResponse>(
-  "PutConnectInstanceIntegrationResponse",
-)({}) {}
-export class PutProfileOutboundRequestBatchResponse extends S.Class<PutProfileOutboundRequestBatchResponse>(
-  "PutProfileOutboundRequestBatchResponse",
-)({
-  successfulRequests: S.optional(SuccessfulProfileOutboundRequestList),
-  failedRequests: S.optional(FailedProfileOutboundRequestList),
-}) {}
-export const ChannelSubtypeList = S.Array(S.String);
-export const ChannelSubtypeParameters = S.Union(
-  S.Struct({ telephony: TelephonyChannelSubtypeParameters }),
-  S.Struct({ sms: SmsChannelSubtypeParameters }),
-  S.Struct({ email: EmailChannelSubtypeParameters }),
-  S.Struct({ whatsApp: WhatsAppChannelSubtypeParameters }),
-);
-export class CampaignSummary extends S.Class<CampaignSummary>(
-  "CampaignSummary",
-)({
-  id: S.String,
-  arn: S.String,
-  name: S.String,
-  connectInstanceId: S.String,
-  channelSubtypes: ChannelSubtypeList,
-  type: S.optional(S.String),
-  schedule: S.optional(Schedule),
-  connectCampaignFlowArn: S.optional(S.String),
-}) {}
-export const CampaignSummaryList = S.Array(CampaignSummary);
-export class OutboundRequest extends S.Class<OutboundRequest>(
-  "OutboundRequest",
-)({
-  clientToken: S.String,
-  expirationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  channelSubtypeParameters: ChannelSubtypeParameters,
-}) {}
-export const OutboundRequestList = S.Array(OutboundRequest);
-export class ListCampaignsResponse extends S.Class<ListCampaignsResponse>(
-  "ListCampaignsResponse",
-)({
-  nextToken: S.optional(S.String),
-  campaignSummaryList: S.optional(CampaignSummaryList),
-}) {}
-export class PutOutboundRequestBatchRequest extends S.Class<PutOutboundRequestBatchRequest>(
-  "PutOutboundRequestBatchRequest",
-)(
-  {
-    id: S.String.pipe(T.HttpLabel("id")),
-    outboundRequests: OutboundRequestList,
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/v2/campaigns/{id}/outbound-requests" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-  ),
-) {}
-export class CreateCampaignRequest extends S.Class<CreateCampaignRequest>(
-  "CreateCampaignRequest",
-)(
-  {
+export interface Campaign {
+  id: string;
+  arn: string;
+  name: string;
+  connectInstanceId: string;
+  channelSubtypeConfig?: ChannelSubtypeConfig;
+  type?: string;
+  source?: (typeof Source)["Type"];
+  connectCampaignFlowArn?: string;
+  schedule?: Schedule;
+  communicationTimeConfig?: CommunicationTimeConfig;
+  communicationLimitsOverride?: CommunicationLimitsConfig;
+  tags?: TagMap;
+}
+export const Campaign = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    arn: S.String,
     name: S.String,
     connectInstanceId: S.String,
     channelSubtypeConfig: S.optional(ChannelSubtypeConfig),
@@ -1304,39 +1497,550 @@ export class CreateCampaignRequest extends S.Class<CreateCampaignRequest>(
     communicationTimeConfig: S.optional(CommunicationTimeConfig),
     communicationLimitsOverride: S.optional(CommunicationLimitsConfig),
     tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/v2/campaigns" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }),
+).annotations({ identifier: "Campaign" }) as any as S.Schema<Campaign>;
+export interface SuccessfulCampaignStateResponse {
+  campaignId?: string;
+  state?: string;
+}
+export const SuccessfulCampaignStateResponse = S.suspend(() =>
+  S.Struct({ campaignId: S.optional(S.String), state: S.optional(S.String) }),
+).annotations({
+  identifier: "SuccessfulCampaignStateResponse",
+}) as any as S.Schema<SuccessfulCampaignStateResponse>;
+export type SuccessfulCampaignStateResponseList =
+  SuccessfulCampaignStateResponse[];
+export const SuccessfulCampaignStateResponseList = S.Array(
+  SuccessfulCampaignStateResponse,
+);
+export interface FailedCampaignStateResponse {
+  campaignId?: string;
+  failureCode?: string;
+}
+export const FailedCampaignStateResponse = S.suspend(() =>
+  S.Struct({
+    campaignId: S.optional(S.String),
+    failureCode: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "FailedCampaignStateResponse",
+}) as any as S.Schema<FailedCampaignStateResponse>;
+export type FailedCampaignStateResponseList = FailedCampaignStateResponse[];
+export const FailedCampaignStateResponseList = S.Array(
+  FailedCampaignStateResponse,
+);
+export interface InstanceConfig {
+  connectInstanceId: string;
+  serviceLinkedRoleArn: string;
+  encryptionConfig: EncryptionConfig;
+}
+export const InstanceConfig = S.suspend(() =>
+  S.Struct({
+    connectInstanceId: S.String,
+    serviceLinkedRoleArn: S.String,
+    encryptionConfig: EncryptionConfig,
+  }),
+).annotations({
+  identifier: "InstanceConfig",
+}) as any as S.Schema<InstanceConfig>;
+export interface InstanceOnboardingJobStatus {
+  connectInstanceId: string;
+  status: string;
+  failureCode?: string;
+}
+export const InstanceOnboardingJobStatus = S.suspend(() =>
+  S.Struct({
+    connectInstanceId: S.String,
+    status: S.String,
+    failureCode: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "InstanceOnboardingJobStatus",
+}) as any as S.Schema<InstanceOnboardingJobStatus>;
+export interface CampaignFilters {
+  instanceIdFilter?: InstanceIdFilter;
+}
+export const CampaignFilters = S.suspend(() =>
+  S.Struct({ instanceIdFilter: S.optional(InstanceIdFilter) }),
+).annotations({
+  identifier: "CampaignFilters",
+}) as any as S.Schema<CampaignFilters>;
+export type ObjectTypeNamesMap = { [key: string]: string };
+export const ObjectTypeNamesMap = S.Record({ key: S.String, value: S.String });
+export type Attributes = { [key: string]: string };
+export const Attributes = S.Record({ key: S.String, value: S.String });
+export interface SmsChannelSubtypeParameters {
+  destinationPhoneNumber: string;
+  connectSourcePhoneNumberArn?: string;
+  templateArn?: string;
+  templateParameters: Attributes;
+}
+export const SmsChannelSubtypeParameters = S.suspend(() =>
+  S.Struct({
+    destinationPhoneNumber: S.String,
+    connectSourcePhoneNumberArn: S.optional(S.String),
+    templateArn: S.optional(S.String),
+    templateParameters: Attributes,
+  }),
+).annotations({
+  identifier: "SmsChannelSubtypeParameters",
+}) as any as S.Schema<SmsChannelSubtypeParameters>;
+export interface EmailChannelSubtypeParameters {
+  destinationEmailAddress: string;
+  connectSourceEmailAddress?: string;
+  templateArn?: string;
+  templateParameters: Attributes;
+}
+export const EmailChannelSubtypeParameters = S.suspend(() =>
+  S.Struct({
+    destinationEmailAddress: S.String,
+    connectSourceEmailAddress: S.optional(S.String),
+    templateArn: S.optional(S.String),
+    templateParameters: Attributes,
+  }),
+).annotations({
+  identifier: "EmailChannelSubtypeParameters",
+}) as any as S.Schema<EmailChannelSubtypeParameters>;
+export interface WhatsAppChannelSubtypeParameters {
+  destinationPhoneNumber: string;
+  connectSourcePhoneNumberArn?: string;
+  templateArn?: string;
+  templateParameters: Attributes;
+}
+export const WhatsAppChannelSubtypeParameters = S.suspend(() =>
+  S.Struct({
+    destinationPhoneNumber: S.String,
+    connectSourcePhoneNumberArn: S.optional(S.String),
+    templateArn: S.optional(S.String),
+    templateParameters: Attributes,
+  }),
+).annotations({
+  identifier: "WhatsAppChannelSubtypeParameters",
+}) as any as S.Schema<WhatsAppChannelSubtypeParameters>;
+export interface DeleteConnectInstanceIntegrationRequest {
+  connectInstanceId: string;
+  integrationIdentifier: (typeof IntegrationIdentifier)["Type"];
+}
+export const DeleteConnectInstanceIntegrationRequest = S.suspend(() =>
+  S.Struct({
+    connectInstanceId: S.String.pipe(T.HttpLabel("connectInstanceId")),
+    integrationIdentifier: IntegrationIdentifier,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/v2/connect-instance/{connectInstanceId}/integrations/delete",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SuccessfulRequest extends S.Class<SuccessfulRequest>(
-  "SuccessfulRequest",
-)({ clientToken: S.optional(S.String), id: S.optional(S.String) }) {}
+).annotations({
+  identifier: "DeleteConnectInstanceIntegrationRequest",
+}) as any as S.Schema<DeleteConnectInstanceIntegrationRequest>;
+export interface DeleteConnectInstanceIntegrationResponse {}
+export const DeleteConnectInstanceIntegrationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteConnectInstanceIntegrationResponse",
+}) as any as S.Schema<DeleteConnectInstanceIntegrationResponse>;
+export interface DescribeCampaignResponse {
+  campaign?: Campaign;
+}
+export const DescribeCampaignResponse = S.suspend(() =>
+  S.Struct({ campaign: S.optional(Campaign) }),
+).annotations({
+  identifier: "DescribeCampaignResponse",
+}) as any as S.Schema<DescribeCampaignResponse>;
+export interface GetCampaignStateBatchResponse {
+  successfulRequests?: SuccessfulCampaignStateResponseList;
+  failedRequests?: FailedCampaignStateResponseList;
+}
+export const GetCampaignStateBatchResponse = S.suspend(() =>
+  S.Struct({
+    successfulRequests: S.optional(SuccessfulCampaignStateResponseList),
+    failedRequests: S.optional(FailedCampaignStateResponseList),
+  }),
+).annotations({
+  identifier: "GetCampaignStateBatchResponse",
+}) as any as S.Schema<GetCampaignStateBatchResponse>;
+export interface GetConnectInstanceConfigResponse {
+  connectInstanceConfig?: InstanceConfig;
+}
+export const GetConnectInstanceConfigResponse = S.suspend(() =>
+  S.Struct({ connectInstanceConfig: S.optional(InstanceConfig) }),
+).annotations({
+  identifier: "GetConnectInstanceConfigResponse",
+}) as any as S.Schema<GetConnectInstanceConfigResponse>;
+export interface GetInstanceOnboardingJobStatusResponse {
+  connectInstanceOnboardingJobStatus?: InstanceOnboardingJobStatus;
+}
+export const GetInstanceOnboardingJobStatusResponse = S.suspend(() =>
+  S.Struct({
+    connectInstanceOnboardingJobStatus: S.optional(InstanceOnboardingJobStatus),
+  }),
+).annotations({
+  identifier: "GetInstanceOnboardingJobStatusResponse",
+}) as any as S.Schema<GetInstanceOnboardingJobStatusResponse>;
+export interface ListCampaignsRequest {
+  maxResults?: number;
+  nextToken?: string;
+  filters?: CampaignFilters;
+}
+export const ListCampaignsRequest = S.suspend(() =>
+  S.Struct({
+    maxResults: S.optional(S.Number),
+    nextToken: S.optional(S.String),
+    filters: S.optional(CampaignFilters),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v2/campaigns-summary" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListCampaignsRequest",
+}) as any as S.Schema<ListCampaignsRequest>;
+export interface StartInstanceOnboardingJobResponse {
+  connectInstanceOnboardingJobStatus?: InstanceOnboardingJobStatus;
+}
+export const StartInstanceOnboardingJobResponse = S.suspend(() =>
+  S.Struct({
+    connectInstanceOnboardingJobStatus: S.optional(InstanceOnboardingJobStatus),
+  }),
+).annotations({
+  identifier: "StartInstanceOnboardingJobResponse",
+}) as any as S.Schema<StartInstanceOnboardingJobResponse>;
+export interface CustomerProfilesIntegrationSummary {
+  domainArn: string;
+  objectTypeNames: ObjectTypeNamesMap;
+}
+export const CustomerProfilesIntegrationSummary = S.suspend(() =>
+  S.Struct({ domainArn: S.String, objectTypeNames: ObjectTypeNamesMap }),
+).annotations({
+  identifier: "CustomerProfilesIntegrationSummary",
+}) as any as S.Schema<CustomerProfilesIntegrationSummary>;
+export interface QConnectIntegrationSummary {
+  knowledgeBaseArn: string;
+}
+export const QConnectIntegrationSummary = S.suspend(() =>
+  S.Struct({ knowledgeBaseArn: S.String }),
+).annotations({
+  identifier: "QConnectIntegrationSummary",
+}) as any as S.Schema<QConnectIntegrationSummary>;
+export interface LambdaIntegrationSummary {
+  functionArn: string;
+}
+export const LambdaIntegrationSummary = S.suspend(() =>
+  S.Struct({ functionArn: S.String }),
+).annotations({
+  identifier: "LambdaIntegrationSummary",
+}) as any as S.Schema<LambdaIntegrationSummary>;
+export interface CustomerProfilesIntegrationConfig {
+  domainArn: string;
+  objectTypeNames: ObjectTypeNamesMap;
+}
+export const CustomerProfilesIntegrationConfig = S.suspend(() =>
+  S.Struct({ domainArn: S.String, objectTypeNames: ObjectTypeNamesMap }),
+).annotations({
+  identifier: "CustomerProfilesIntegrationConfig",
+}) as any as S.Schema<CustomerProfilesIntegrationConfig>;
+export const IntegrationSummary = S.Union(
+  S.Struct({ customerProfiles: CustomerProfilesIntegrationSummary }),
+  S.Struct({ qConnect: QConnectIntegrationSummary }),
+  S.Struct({ lambda: LambdaIntegrationSummary }),
+);
+export type IntegrationSummaryList = (typeof IntegrationSummary)["Type"][];
+export const IntegrationSummaryList = S.Array(IntegrationSummary);
+export const IntegrationConfig = S.Union(
+  S.Struct({ customerProfiles: CustomerProfilesIntegrationConfig }),
+  S.Struct({ qConnect: QConnectIntegrationConfig }),
+  S.Struct({ lambda: LambdaIntegrationConfig }),
+);
+export interface SuccessfulProfileOutboundRequest {
+  clientToken?: string;
+  id?: string;
+}
+export const SuccessfulProfileOutboundRequest = S.suspend(() =>
+  S.Struct({ clientToken: S.optional(S.String), id: S.optional(S.String) }),
+).annotations({
+  identifier: "SuccessfulProfileOutboundRequest",
+}) as any as S.Schema<SuccessfulProfileOutboundRequest>;
+export type SuccessfulProfileOutboundRequestList =
+  SuccessfulProfileOutboundRequest[];
+export const SuccessfulProfileOutboundRequestList = S.Array(
+  SuccessfulProfileOutboundRequest,
+);
+export interface FailedProfileOutboundRequest {
+  clientToken?: string;
+  id?: string;
+  failureCode?: string;
+}
+export const FailedProfileOutboundRequest = S.suspend(() =>
+  S.Struct({
+    clientToken: S.optional(S.String),
+    id: S.optional(S.String),
+    failureCode: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "FailedProfileOutboundRequest",
+}) as any as S.Schema<FailedProfileOutboundRequest>;
+export type FailedProfileOutboundRequestList = FailedProfileOutboundRequest[];
+export const FailedProfileOutboundRequestList = S.Array(
+  FailedProfileOutboundRequest,
+);
+export interface TelephonyChannelSubtypeParameters {
+  destinationPhoneNumber: string;
+  attributes: Attributes;
+  connectSourcePhoneNumber?: string;
+  answerMachineDetectionConfig?: AnswerMachineDetectionConfig;
+  ringTimeout?: number;
+}
+export const TelephonyChannelSubtypeParameters = S.suspend(() =>
+  S.Struct({
+    destinationPhoneNumber: S.String,
+    attributes: Attributes,
+    connectSourcePhoneNumber: S.optional(S.String),
+    answerMachineDetectionConfig: S.optional(AnswerMachineDetectionConfig),
+    ringTimeout: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "TelephonyChannelSubtypeParameters",
+}) as any as S.Schema<TelephonyChannelSubtypeParameters>;
+export interface ListConnectInstanceIntegrationsResponse {
+  nextToken?: string;
+  integrationSummaryList?: IntegrationSummaryList;
+}
+export const ListConnectInstanceIntegrationsResponse = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    integrationSummaryList: S.optional(IntegrationSummaryList),
+  }),
+).annotations({
+  identifier: "ListConnectInstanceIntegrationsResponse",
+}) as any as S.Schema<ListConnectInstanceIntegrationsResponse>;
+export interface PutConnectInstanceIntegrationRequest {
+  connectInstanceId: string;
+  integrationConfig: (typeof IntegrationConfig)["Type"];
+}
+export const PutConnectInstanceIntegrationRequest = S.suspend(() =>
+  S.Struct({
+    connectInstanceId: S.String.pipe(T.HttpLabel("connectInstanceId")),
+    integrationConfig: IntegrationConfig,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/v2/connect-instance/{connectInstanceId}/integrations",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutConnectInstanceIntegrationRequest",
+}) as any as S.Schema<PutConnectInstanceIntegrationRequest>;
+export interface PutConnectInstanceIntegrationResponse {}
+export const PutConnectInstanceIntegrationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "PutConnectInstanceIntegrationResponse",
+}) as any as S.Schema<PutConnectInstanceIntegrationResponse>;
+export interface PutProfileOutboundRequestBatchResponse {
+  successfulRequests?: SuccessfulProfileOutboundRequestList;
+  failedRequests?: FailedProfileOutboundRequestList;
+}
+export const PutProfileOutboundRequestBatchResponse = S.suspend(() =>
+  S.Struct({
+    successfulRequests: S.optional(SuccessfulProfileOutboundRequestList),
+    failedRequests: S.optional(FailedProfileOutboundRequestList),
+  }),
+).annotations({
+  identifier: "PutProfileOutboundRequestBatchResponse",
+}) as any as S.Schema<PutProfileOutboundRequestBatchResponse>;
+export type ChannelSubtypeList = string[];
+export const ChannelSubtypeList = S.Array(S.String);
+export const ChannelSubtypeParameters = S.Union(
+  S.Struct({ telephony: TelephonyChannelSubtypeParameters }),
+  S.Struct({ sms: SmsChannelSubtypeParameters }),
+  S.Struct({ email: EmailChannelSubtypeParameters }),
+  S.Struct({ whatsApp: WhatsAppChannelSubtypeParameters }),
+);
+export interface CampaignSummary {
+  id: string;
+  arn: string;
+  name: string;
+  connectInstanceId: string;
+  channelSubtypes: ChannelSubtypeList;
+  type?: string;
+  schedule?: Schedule;
+  connectCampaignFlowArn?: string;
+}
+export const CampaignSummary = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    arn: S.String,
+    name: S.String,
+    connectInstanceId: S.String,
+    channelSubtypes: ChannelSubtypeList,
+    type: S.optional(S.String),
+    schedule: S.optional(Schedule),
+    connectCampaignFlowArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CampaignSummary",
+}) as any as S.Schema<CampaignSummary>;
+export type CampaignSummaryList = CampaignSummary[];
+export const CampaignSummaryList = S.Array(CampaignSummary);
+export interface OutboundRequest {
+  clientToken: string;
+  expirationTime: Date;
+  channelSubtypeParameters: (typeof ChannelSubtypeParameters)["Type"];
+}
+export const OutboundRequest = S.suspend(() =>
+  S.Struct({
+    clientToken: S.String,
+    expirationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    channelSubtypeParameters: ChannelSubtypeParameters,
+  }),
+).annotations({
+  identifier: "OutboundRequest",
+}) as any as S.Schema<OutboundRequest>;
+export type OutboundRequestList = OutboundRequest[];
+export const OutboundRequestList = S.Array(OutboundRequest);
+export interface ListCampaignsResponse {
+  nextToken?: string;
+  campaignSummaryList?: CampaignSummaryList;
+}
+export const ListCampaignsResponse = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    campaignSummaryList: S.optional(CampaignSummaryList),
+  }),
+).annotations({
+  identifier: "ListCampaignsResponse",
+}) as any as S.Schema<ListCampaignsResponse>;
+export interface PutOutboundRequestBatchRequest {
+  id: string;
+  outboundRequests: OutboundRequestList;
+}
+export const PutOutboundRequestBatchRequest = S.suspend(() =>
+  S.Struct({
+    id: S.String.pipe(T.HttpLabel("id")),
+    outboundRequests: OutboundRequestList,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/v2/campaigns/{id}/outbound-requests" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PutOutboundRequestBatchRequest",
+}) as any as S.Schema<PutOutboundRequestBatchRequest>;
+export interface CreateCampaignRequest {
+  name: string;
+  connectInstanceId: string;
+  channelSubtypeConfig?: ChannelSubtypeConfig;
+  type?: string;
+  source?: (typeof Source)["Type"];
+  connectCampaignFlowArn?: string;
+  schedule?: Schedule;
+  communicationTimeConfig?: CommunicationTimeConfig;
+  communicationLimitsOverride?: CommunicationLimitsConfig;
+  tags?: TagMap;
+}
+export const CreateCampaignRequest = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    connectInstanceId: S.String,
+    channelSubtypeConfig: S.optional(ChannelSubtypeConfig),
+    type: S.optional(S.String),
+    source: S.optional(Source),
+    connectCampaignFlowArn: S.optional(S.String),
+    schedule: S.optional(Schedule),
+    communicationTimeConfig: S.optional(CommunicationTimeConfig),
+    communicationLimitsOverride: S.optional(CommunicationLimitsConfig),
+    tags: S.optional(TagMap),
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/v2/campaigns" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CreateCampaignRequest",
+}) as any as S.Schema<CreateCampaignRequest>;
+export interface SuccessfulRequest {
+  clientToken?: string;
+  id?: string;
+}
+export const SuccessfulRequest = S.suspend(() =>
+  S.Struct({ clientToken: S.optional(S.String), id: S.optional(S.String) }),
+).annotations({
+  identifier: "SuccessfulRequest",
+}) as any as S.Schema<SuccessfulRequest>;
+export type SuccessfulRequestList = SuccessfulRequest[];
 export const SuccessfulRequestList = S.Array(SuccessfulRequest);
-export class FailedRequest extends S.Class<FailedRequest>("FailedRequest")({
-  clientToken: S.optional(S.String),
-  id: S.optional(S.String),
-  failureCode: S.optional(S.String),
-}) {}
+export interface FailedRequest {
+  clientToken?: string;
+  id?: string;
+  failureCode?: string;
+}
+export const FailedRequest = S.suspend(() =>
+  S.Struct({
+    clientToken: S.optional(S.String),
+    id: S.optional(S.String),
+    failureCode: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "FailedRequest",
+}) as any as S.Schema<FailedRequest>;
+export type FailedRequestList = FailedRequest[];
 export const FailedRequestList = S.Array(FailedRequest);
-export class CreateCampaignResponse extends S.Class<CreateCampaignResponse>(
-  "CreateCampaignResponse",
-)({
-  id: S.optional(S.String),
-  arn: S.optional(S.String),
-  tags: S.optional(TagMap),
-}) {}
-export class PutOutboundRequestBatchResponse extends S.Class<PutOutboundRequestBatchResponse>(
-  "PutOutboundRequestBatchResponse",
-)({
-  successfulRequests: S.optional(SuccessfulRequestList),
-  failedRequests: S.optional(FailedRequestList),
-}) {}
+export interface CreateCampaignResponse {
+  id?: string;
+  arn?: string;
+  tags?: TagMap;
+}
+export const CreateCampaignResponse = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    arn: S.optional(S.String),
+    tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "CreateCampaignResponse",
+}) as any as S.Schema<CreateCampaignResponse>;
+export interface PutOutboundRequestBatchResponse {
+  successfulRequests?: SuccessfulRequestList;
+  failedRequests?: FailedRequestList;
+}
+export const PutOutboundRequestBatchResponse = S.suspend(() =>
+  S.Struct({
+    successfulRequests: S.optional(SuccessfulRequestList),
+    failedRequests: S.optional(FailedRequestList),
+  }),
+).annotations({
+  identifier: "PutOutboundRequestBatchResponse",
+}) as any as S.Schema<PutOutboundRequestBatchResponse>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

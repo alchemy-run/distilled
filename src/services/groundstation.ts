@@ -242,158 +242,274 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type TagKeys = string[];
 export const TagKeys = S.Array(S.String);
+export type StatusList = string[];
 export const StatusList = S.Array(S.String);
+export type EphemerisStatusList = string[];
 export const EphemerisStatusList = S.Array(S.String);
+export type DataflowEdge = string[];
 export const DataflowEdge = S.Array(S.String);
+export type DataflowEdgeList = DataflowEdge[];
 export const DataflowEdgeList = S.Array(DataflowEdge);
-export class GetAgentTaskResponseUrlRequest extends S.Class<GetAgentTaskResponseUrlRequest>(
-  "GetAgentTaskResponseUrlRequest",
-)(
-  {
+export interface GetAgentTaskResponseUrlRequest {
+  agentId: string;
+  taskId: string;
+}
+export const GetAgentTaskResponseUrlRequest = S.suspend(() =>
+  S.Struct({
     agentId: S.String.pipe(T.HttpLabel("agentId")),
     taskId: S.String.pipe(T.HttpLabel("taskId")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/agentResponseUrl/{agentId}/{taskId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/agentResponseUrl/{agentId}/{taskId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetMinuteUsageRequest extends S.Class<GetMinuteUsageRequest>(
-  "GetMinuteUsageRequest",
-)(
-  { month: S.Number, year: S.Number },
-  T.all(
-    T.Http({ method: "POST", uri: "/minute-usage" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetAgentTaskResponseUrlRequest",
+}) as any as S.Schema<GetAgentTaskResponseUrlRequest>;
+export interface GetMinuteUsageRequest {
+  month: number;
+  year: number;
+}
+export const GetMinuteUsageRequest = S.suspend(() =>
+  S.Struct({ month: S.Number, year: S.Number }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/minute-usage" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetMinuteUsageRequest",
+}) as any as S.Schema<GetMinuteUsageRequest>;
+export interface ListTagsForResourceRequest {
+  resourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface UntagResourceRequest {
+  resourceArn: string;
+  tagKeys: TagKeys;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
-export class GetAgentConfigurationRequest extends S.Class<GetAgentConfigurationRequest>(
-  "GetAgentConfigurationRequest",
-)(
-  { agentId: S.String.pipe(T.HttpLabel("agentId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/agent/{agentId}/configuration" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface GetAgentConfigurationRequest {
+  agentId: string;
+}
+export const GetAgentConfigurationRequest = S.suspend(() =>
+  S.Struct({ agentId: S.String.pipe(T.HttpLabel("agentId")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/agent/{agentId}/configuration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetConfigRequest extends S.Class<GetConfigRequest>(
-  "GetConfigRequest",
-)(
-  {
+).annotations({
+  identifier: "GetAgentConfigurationRequest",
+}) as any as S.Schema<GetAgentConfigurationRequest>;
+export interface GetConfigRequest {
+  configId: string;
+  configType: string;
+}
+export const GetConfigRequest = S.suspend(() =>
+  S.Struct({
     configId: S.String.pipe(T.HttpLabel("configId")),
     configType: S.String.pipe(T.HttpLabel("configType")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/config/{configType}/{configId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/config/{configType}/{configId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class Frequency extends S.Class<Frequency>("Frequency")({
-  value: S.Number,
-  units: S.String,
-}) {}
-export class FrequencyBandwidth extends S.Class<FrequencyBandwidth>(
-  "FrequencyBandwidth",
-)({ value: S.Number, units: S.String }) {}
-export class SpectrumConfig extends S.Class<SpectrumConfig>("SpectrumConfig")({
-  centerFrequency: Frequency,
-  bandwidth: FrequencyBandwidth,
-  polarization: S.optional(S.String),
-}) {}
-export class AntennaDownlinkConfig extends S.Class<AntennaDownlinkConfig>(
-  "AntennaDownlinkConfig",
-)({ spectrumConfig: SpectrumConfig }) {}
-export class TrackingConfig extends S.Class<TrackingConfig>("TrackingConfig")({
-  autotrack: S.String,
-}) {}
-export class DataflowEndpointConfig extends S.Class<DataflowEndpointConfig>(
-  "DataflowEndpointConfig",
-)({
-  dataflowEndpointName: S.String,
-  dataflowEndpointRegion: S.optional(S.String),
-}) {}
-export class DemodulationConfig extends S.Class<DemodulationConfig>(
-  "DemodulationConfig",
-)({ unvalidatedJSON: S.String }) {}
-export class DecodeConfig extends S.Class<DecodeConfig>("DecodeConfig")({
-  unvalidatedJSON: S.String,
-}) {}
-export class AntennaDownlinkDemodDecodeConfig extends S.Class<AntennaDownlinkDemodDecodeConfig>(
-  "AntennaDownlinkDemodDecodeConfig",
-)({
-  spectrumConfig: SpectrumConfig,
-  demodulationConfig: DemodulationConfig,
-  decodeConfig: DecodeConfig,
-}) {}
-export class UplinkSpectrumConfig extends S.Class<UplinkSpectrumConfig>(
-  "UplinkSpectrumConfig",
-)({ centerFrequency: Frequency, polarization: S.optional(S.String) }) {}
-export class Eirp extends S.Class<Eirp>("Eirp")({
-  value: S.Number,
-  units: S.String,
-}) {}
-export class AntennaUplinkConfig extends S.Class<AntennaUplinkConfig>(
-  "AntennaUplinkConfig",
-)({
-  transmitDisabled: S.optional(S.Boolean),
-  spectrumConfig: UplinkSpectrumConfig,
-  targetEirp: Eirp,
-}) {}
-export class UplinkEchoConfig extends S.Class<UplinkEchoConfig>(
-  "UplinkEchoConfig",
-)({ enabled: S.Boolean, antennaUplinkConfigArn: S.String }) {}
-export class S3RecordingConfig extends S.Class<S3RecordingConfig>(
-  "S3RecordingConfig",
-)({ bucketArn: S.String, roleArn: S.String, prefix: S.optional(S.String) }) {}
+).annotations({
+  identifier: "GetConfigRequest",
+}) as any as S.Schema<GetConfigRequest>;
+export interface Frequency {
+  value: number;
+  units: string;
+}
+export const Frequency = S.suspend(() =>
+  S.Struct({ value: S.Number, units: S.String }),
+).annotations({ identifier: "Frequency" }) as any as S.Schema<Frequency>;
+export interface FrequencyBandwidth {
+  value: number;
+  units: string;
+}
+export const FrequencyBandwidth = S.suspend(() =>
+  S.Struct({ value: S.Number, units: S.String }),
+).annotations({
+  identifier: "FrequencyBandwidth",
+}) as any as S.Schema<FrequencyBandwidth>;
+export interface SpectrumConfig {
+  centerFrequency: Frequency;
+  bandwidth: FrequencyBandwidth;
+  polarization?: string;
+}
+export const SpectrumConfig = S.suspend(() =>
+  S.Struct({
+    centerFrequency: Frequency,
+    bandwidth: FrequencyBandwidth,
+    polarization: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SpectrumConfig",
+}) as any as S.Schema<SpectrumConfig>;
+export interface AntennaDownlinkConfig {
+  spectrumConfig: SpectrumConfig;
+}
+export const AntennaDownlinkConfig = S.suspend(() =>
+  S.Struct({ spectrumConfig: SpectrumConfig }),
+).annotations({
+  identifier: "AntennaDownlinkConfig",
+}) as any as S.Schema<AntennaDownlinkConfig>;
+export interface TrackingConfig {
+  autotrack: string;
+}
+export const TrackingConfig = S.suspend(() =>
+  S.Struct({ autotrack: S.String }),
+).annotations({
+  identifier: "TrackingConfig",
+}) as any as S.Schema<TrackingConfig>;
+export interface DataflowEndpointConfig {
+  dataflowEndpointName: string;
+  dataflowEndpointRegion?: string;
+}
+export const DataflowEndpointConfig = S.suspend(() =>
+  S.Struct({
+    dataflowEndpointName: S.String,
+    dataflowEndpointRegion: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DataflowEndpointConfig",
+}) as any as S.Schema<DataflowEndpointConfig>;
+export interface DemodulationConfig {
+  unvalidatedJSON: string;
+}
+export const DemodulationConfig = S.suspend(() =>
+  S.Struct({ unvalidatedJSON: S.String }),
+).annotations({
+  identifier: "DemodulationConfig",
+}) as any as S.Schema<DemodulationConfig>;
+export interface DecodeConfig {
+  unvalidatedJSON: string;
+}
+export const DecodeConfig = S.suspend(() =>
+  S.Struct({ unvalidatedJSON: S.String }),
+).annotations({ identifier: "DecodeConfig" }) as any as S.Schema<DecodeConfig>;
+export interface AntennaDownlinkDemodDecodeConfig {
+  spectrumConfig: SpectrumConfig;
+  demodulationConfig: DemodulationConfig;
+  decodeConfig: DecodeConfig;
+}
+export const AntennaDownlinkDemodDecodeConfig = S.suspend(() =>
+  S.Struct({
+    spectrumConfig: SpectrumConfig,
+    demodulationConfig: DemodulationConfig,
+    decodeConfig: DecodeConfig,
+  }),
+).annotations({
+  identifier: "AntennaDownlinkDemodDecodeConfig",
+}) as any as S.Schema<AntennaDownlinkDemodDecodeConfig>;
+export interface UplinkSpectrumConfig {
+  centerFrequency: Frequency;
+  polarization?: string;
+}
+export const UplinkSpectrumConfig = S.suspend(() =>
+  S.Struct({ centerFrequency: Frequency, polarization: S.optional(S.String) }),
+).annotations({
+  identifier: "UplinkSpectrumConfig",
+}) as any as S.Schema<UplinkSpectrumConfig>;
+export interface Eirp {
+  value: number;
+  units: string;
+}
+export const Eirp = S.suspend(() =>
+  S.Struct({ value: S.Number, units: S.String }),
+).annotations({ identifier: "Eirp" }) as any as S.Schema<Eirp>;
+export interface AntennaUplinkConfig {
+  transmitDisabled?: boolean;
+  spectrumConfig: UplinkSpectrumConfig;
+  targetEirp: Eirp;
+}
+export const AntennaUplinkConfig = S.suspend(() =>
+  S.Struct({
+    transmitDisabled: S.optional(S.Boolean),
+    spectrumConfig: UplinkSpectrumConfig,
+    targetEirp: Eirp,
+  }),
+).annotations({
+  identifier: "AntennaUplinkConfig",
+}) as any as S.Schema<AntennaUplinkConfig>;
+export interface UplinkEchoConfig {
+  enabled: boolean;
+  antennaUplinkConfigArn: string;
+}
+export const UplinkEchoConfig = S.suspend(() =>
+  S.Struct({ enabled: S.Boolean, antennaUplinkConfigArn: S.String }),
+).annotations({
+  identifier: "UplinkEchoConfig",
+}) as any as S.Schema<UplinkEchoConfig>;
+export interface S3RecordingConfig {
+  bucketArn: string;
+  roleArn: string;
+  prefix?: string;
+}
+export const S3RecordingConfig = S.suspend(() =>
+  S.Struct({
+    bucketArn: S.String,
+    roleArn: S.String,
+    prefix: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "S3RecordingConfig",
+}) as any as S.Schema<S3RecordingConfig>;
 export const ConfigTypeData = S.Union(
   S.Struct({ antennaDownlinkConfig: AntennaDownlinkConfig }),
   S.Struct({ trackingConfig: TrackingConfig }),
@@ -405,186 +521,246 @@ export const ConfigTypeData = S.Union(
   S.Struct({ uplinkEchoConfig: UplinkEchoConfig }),
   S.Struct({ s3RecordingConfig: S3RecordingConfig }),
 );
-export class UpdateConfigRequest extends S.Class<UpdateConfigRequest>(
-  "UpdateConfigRequest",
-)(
-  {
+export interface UpdateConfigRequest {
+  configId: string;
+  name: string;
+  configType: string;
+  configData: (typeof ConfigTypeData)["Type"];
+}
+export const UpdateConfigRequest = S.suspend(() =>
+  S.Struct({
     configId: S.String.pipe(T.HttpLabel("configId")),
     name: S.String,
     configType: S.String.pipe(T.HttpLabel("configType")),
     configData: ConfigTypeData,
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/config/{configType}/{configId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/config/{configType}/{configId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteConfigRequest extends S.Class<DeleteConfigRequest>(
-  "DeleteConfigRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateConfigRequest",
+}) as any as S.Schema<UpdateConfigRequest>;
+export interface DeleteConfigRequest {
+  configId: string;
+  configType: string;
+}
+export const DeleteConfigRequest = S.suspend(() =>
+  S.Struct({
     configId: S.String.pipe(T.HttpLabel("configId")),
     configType: S.String.pipe(T.HttpLabel("configType")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/config/{configType}/{configId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/config/{configType}/{configId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListConfigsRequest extends S.Class<ListConfigsRequest>(
-  "ListConfigsRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteConfigRequest",
+}) as any as S.Schema<DeleteConfigRequest>;
+export interface ListConfigsRequest {
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListConfigsRequest = S.suspend(() =>
+  S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/config" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/config" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeContactRequest extends S.Class<DescribeContactRequest>(
-  "DescribeContactRequest",
-)(
-  { contactId: S.String.pipe(T.HttpLabel("contactId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/contact/{contactId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListConfigsRequest",
+}) as any as S.Schema<ListConfigsRequest>;
+export interface DescribeContactRequest {
+  contactId: string;
+}
+export const DescribeContactRequest = S.suspend(() =>
+  S.Struct({ contactId: S.String.pipe(T.HttpLabel("contactId")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/contact/{contactId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CancelContactRequest extends S.Class<CancelContactRequest>(
-  "CancelContactRequest",
-)(
-  { contactId: S.String.pipe(T.HttpLabel("contactId")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/contact/{contactId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DescribeContactRequest",
+}) as any as S.Schema<DescribeContactRequest>;
+export interface CancelContactRequest {
+  contactId: string;
+}
+export const CancelContactRequest = S.suspend(() =>
+  S.Struct({ contactId: S.String.pipe(T.HttpLabel("contactId")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/contact/{contactId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetDataflowEndpointGroupRequest extends S.Class<GetDataflowEndpointGroupRequest>(
-  "GetDataflowEndpointGroupRequest",
-)(
-  {
+).annotations({
+  identifier: "CancelContactRequest",
+}) as any as S.Schema<CancelContactRequest>;
+export interface GetDataflowEndpointGroupRequest {
+  dataflowEndpointGroupId: string;
+}
+export const GetDataflowEndpointGroupRequest = S.suspend(() =>
+  S.Struct({
     dataflowEndpointGroupId: S.String.pipe(
       T.HttpLabel("dataflowEndpointGroupId"),
     ),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/dataflowEndpointGroup/{dataflowEndpointGroupId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/dataflowEndpointGroup/{dataflowEndpointGroupId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteDataflowEndpointGroupRequest extends S.Class<DeleteDataflowEndpointGroupRequest>(
-  "DeleteDataflowEndpointGroupRequest",
-)(
-  {
+).annotations({
+  identifier: "GetDataflowEndpointGroupRequest",
+}) as any as S.Schema<GetDataflowEndpointGroupRequest>;
+export interface DeleteDataflowEndpointGroupRequest {
+  dataflowEndpointGroupId: string;
+}
+export const DeleteDataflowEndpointGroupRequest = S.suspend(() =>
+  S.Struct({
     dataflowEndpointGroupId: S.String.pipe(
       T.HttpLabel("dataflowEndpointGroupId"),
     ),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/dataflowEndpointGroup/{dataflowEndpointGroupId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/dataflowEndpointGroup/{dataflowEndpointGroupId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListDataflowEndpointGroupsRequest extends S.Class<ListDataflowEndpointGroupsRequest>(
-  "ListDataflowEndpointGroupsRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteDataflowEndpointGroupRequest",
+}) as any as S.Schema<DeleteDataflowEndpointGroupRequest>;
+export interface ListDataflowEndpointGroupsRequest {
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListDataflowEndpointGroupsRequest = S.suspend(() =>
+  S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/dataflowEndpointGroup" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/dataflowEndpointGroup" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeEphemerisRequest extends S.Class<DescribeEphemerisRequest>(
-  "DescribeEphemerisRequest",
-)(
-  { ephemerisId: S.String.pipe(T.HttpLabel("ephemerisId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/ephemeris/{ephemerisId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListDataflowEndpointGroupsRequest",
+}) as any as S.Schema<ListDataflowEndpointGroupsRequest>;
+export interface DescribeEphemerisRequest {
+  ephemerisId: string;
+}
+export const DescribeEphemerisRequest = S.suspend(() =>
+  S.Struct({ ephemerisId: S.String.pipe(T.HttpLabel("ephemerisId")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/ephemeris/{ephemerisId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateEphemerisRequest extends S.Class<UpdateEphemerisRequest>(
-  "UpdateEphemerisRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeEphemerisRequest",
+}) as any as S.Schema<DescribeEphemerisRequest>;
+export interface UpdateEphemerisRequest {
+  ephemerisId: string;
+  enabled: boolean;
+  name?: string;
+  priority?: number;
+}
+export const UpdateEphemerisRequest = S.suspend(() =>
+  S.Struct({
     ephemerisId: S.String.pipe(T.HttpLabel("ephemerisId")),
     enabled: S.Boolean,
     name: S.optional(S.String),
     priority: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/ephemeris/{ephemerisId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/ephemeris/{ephemerisId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteEphemerisRequest extends S.Class<DeleteEphemerisRequest>(
-  "DeleteEphemerisRequest",
-)(
-  { ephemerisId: S.String.pipe(T.HttpLabel("ephemerisId")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/ephemeris/{ephemerisId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UpdateEphemerisRequest",
+}) as any as S.Schema<UpdateEphemerisRequest>;
+export interface DeleteEphemerisRequest {
+  ephemerisId: string;
+}
+export const DeleteEphemerisRequest = S.suspend(() =>
+  S.Struct({ ephemerisId: S.String.pipe(T.HttpLabel("ephemerisId")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/ephemeris/{ephemerisId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListEphemeridesRequest extends S.Class<ListEphemeridesRequest>(
-  "ListEphemeridesRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteEphemerisRequest",
+}) as any as S.Schema<DeleteEphemerisRequest>;
+export interface ListEphemeridesRequest {
+  satelliteId?: string;
+  ephemerisType?: string;
+  startTime: Date;
+  endTime: Date;
+  statusList?: EphemerisStatusList;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListEphemeridesRequest = S.suspend(() =>
+  S.Struct({
     satelliteId: S.optional(S.String),
     ephemerisType: S.optional(S.String),
     startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -592,55 +768,79 @@ export class ListEphemeridesRequest extends S.Class<ListEphemeridesRequest>(
     statusList: S.optional(EphemerisStatusList),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/ephemerides" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ephemerides" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListGroundStationsRequest extends S.Class<ListGroundStationsRequest>(
-  "ListGroundStationsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListEphemeridesRequest",
+}) as any as S.Schema<ListEphemeridesRequest>;
+export interface ListGroundStationsRequest {
+  satelliteId?: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListGroundStationsRequest = S.suspend(() =>
+  S.Struct({
     satelliteId: S.optional(S.String).pipe(T.HttpQuery("satelliteId")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/groundstation" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/groundstation" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetMissionProfileRequest extends S.Class<GetMissionProfileRequest>(
-  "GetMissionProfileRequest",
-)(
-  { missionProfileId: S.String.pipe(T.HttpLabel("missionProfileId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/missionprofile/{missionProfileId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListGroundStationsRequest",
+}) as any as S.Schema<ListGroundStationsRequest>;
+export interface GetMissionProfileRequest {
+  missionProfileId: string;
+}
+export const GetMissionProfileRequest = S.suspend(() =>
+  S.Struct({
+    missionProfileId: S.String.pipe(T.HttpLabel("missionProfileId")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/missionprofile/{missionProfileId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "GetMissionProfileRequest",
+}) as any as S.Schema<GetMissionProfileRequest>;
 export const KmsKey = S.Union(
   S.Struct({ kmsKeyArn: S.String }),
   S.Struct({ kmsAliasArn: S.String }),
   S.Struct({ kmsAliasName: S.String }),
 );
-export class UpdateMissionProfileRequest extends S.Class<UpdateMissionProfileRequest>(
-  "UpdateMissionProfileRequest",
-)(
-  {
+export interface UpdateMissionProfileRequest {
+  missionProfileId: string;
+  name?: string;
+  contactPrePassDurationSeconds?: number;
+  contactPostPassDurationSeconds?: number;
+  minimumViableContactDurationSeconds?: number;
+  dataflowEdges?: DataflowEdgeList;
+  trackingConfigArn?: string;
+  streamsKmsKey?: (typeof KmsKey)["Type"];
+  streamsKmsRole?: string;
+}
+export const UpdateMissionProfileRequest = S.suspend(() =>
+  S.Struct({
     missionProfileId: S.String.pipe(T.HttpLabel("missionProfileId")),
     name: S.optional(S.String),
     contactPrePassDurationSeconds: S.optional(S.Number),
@@ -650,265 +850,498 @@ export class UpdateMissionProfileRequest extends S.Class<UpdateMissionProfileReq
     trackingConfigArn: S.optional(S.String),
     streamsKmsKey: S.optional(KmsKey),
     streamsKmsRole: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/missionprofile/{missionProfileId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/missionprofile/{missionProfileId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteMissionProfileRequest extends S.Class<DeleteMissionProfileRequest>(
-  "DeleteMissionProfileRequest",
-)(
-  { missionProfileId: S.String.pipe(T.HttpLabel("missionProfileId")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/missionprofile/{missionProfileId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UpdateMissionProfileRequest",
+}) as any as S.Schema<UpdateMissionProfileRequest>;
+export interface DeleteMissionProfileRequest {
+  missionProfileId: string;
+}
+export const DeleteMissionProfileRequest = S.suspend(() =>
+  S.Struct({
+    missionProfileId: S.String.pipe(T.HttpLabel("missionProfileId")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/missionprofile/{missionProfileId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListMissionProfilesRequest extends S.Class<ListMissionProfilesRequest>(
-  "ListMissionProfilesRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteMissionProfileRequest",
+}) as any as S.Schema<DeleteMissionProfileRequest>;
+export interface ListMissionProfilesRequest {
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListMissionProfilesRequest = S.suspend(() =>
+  S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/missionprofile" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/missionprofile" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetSatelliteRequest extends S.Class<GetSatelliteRequest>(
-  "GetSatelliteRequest",
-)(
-  { satelliteId: S.String.pipe(T.HttpLabel("satelliteId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/satellite/{satelliteId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListMissionProfilesRequest",
+}) as any as S.Schema<ListMissionProfilesRequest>;
+export interface GetSatelliteRequest {
+  satelliteId: string;
+}
+export const GetSatelliteRequest = S.suspend(() =>
+  S.Struct({ satelliteId: S.String.pipe(T.HttpLabel("satelliteId")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/satellite/{satelliteId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListSatellitesRequest extends S.Class<ListSatellitesRequest>(
-  "ListSatellitesRequest",
-)(
-  {
+).annotations({
+  identifier: "GetSatelliteRequest",
+}) as any as S.Schema<GetSatelliteRequest>;
+export interface ListSatellitesRequest {
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListSatellitesRequest = S.suspend(() =>
+  S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/satellite" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/satellite" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "ListSatellitesRequest",
+}) as any as S.Schema<ListSatellitesRequest>;
+export type IpAddressList = string[];
 export const IpAddressList = S.Array(S.String);
+export type CapabilityArnList = string[];
 export const CapabilityArnList = S.Array(S.String);
+export type AgentCpuCoresList = number[];
 export const AgentCpuCoresList = S.Array(S.Number);
+export type CapabilityHealthReasonList = string[];
 export const CapabilityHealthReasonList = S.Array(S.String);
+export type TagsMap = { [key: string]: string };
 export const TagsMap = S.Record({ key: S.String, value: S.String });
-export class DiscoveryData extends S.Class<DiscoveryData>("DiscoveryData")({
-  publicIpAddresses: IpAddressList,
-  privateIpAddresses: IpAddressList,
-  capabilityArns: CapabilityArnList,
-}) {}
-export class ComponentStatusData extends S.Class<ComponentStatusData>(
-  "ComponentStatusData",
-)({
-  componentType: S.String,
-  capabilityArn: S.String,
-  status: S.String,
-  bytesSent: S.optional(S.Number),
-  bytesReceived: S.optional(S.Number),
-  packetsDropped: S.optional(S.Number),
-  dataflowId: S.String,
-}) {}
+export interface DiscoveryData {
+  publicIpAddresses: IpAddressList;
+  privateIpAddresses: IpAddressList;
+  capabilityArns: CapabilityArnList;
+}
+export const DiscoveryData = S.suspend(() =>
+  S.Struct({
+    publicIpAddresses: IpAddressList,
+    privateIpAddresses: IpAddressList,
+    capabilityArns: CapabilityArnList,
+  }),
+).annotations({
+  identifier: "DiscoveryData",
+}) as any as S.Schema<DiscoveryData>;
+export interface ComponentStatusData {
+  componentType: string;
+  capabilityArn: string;
+  status: string;
+  bytesSent?: number;
+  bytesReceived?: number;
+  packetsDropped?: number;
+  dataflowId: string;
+}
+export const ComponentStatusData = S.suspend(() =>
+  S.Struct({
+    componentType: S.String,
+    capabilityArn: S.String,
+    status: S.String,
+    bytesSent: S.optional(S.Number),
+    bytesReceived: S.optional(S.Number),
+    packetsDropped: S.optional(S.Number),
+    dataflowId: S.String,
+  }),
+).annotations({
+  identifier: "ComponentStatusData",
+}) as any as S.Schema<ComponentStatusData>;
+export type ComponentStatusList = ComponentStatusData[];
 export const ComponentStatusList = S.Array(ComponentStatusData);
+export type GroundStationIdList = string[];
 export const GroundStationIdList = S.Array(S.String);
+export type VersionStringList = string[];
 export const VersionStringList = S.Array(S.String);
+export type SubnetList = string[];
 export const SubnetList = S.Array(S.String);
+export type SecurityGroupIdList = string[];
 export const SecurityGroupIdList = S.Array(S.String);
-export class GetAgentTaskResponseUrlResponse extends S.Class<GetAgentTaskResponseUrlResponse>(
-  "GetAgentTaskResponseUrlResponse",
-)({ agentId: S.String, taskId: S.String, presignedLogUrl: S.String }) {}
-export class GetMinuteUsageResponse extends S.Class<GetMinuteUsageResponse>(
-  "GetMinuteUsageResponse",
-)({
-  isReservedMinutesCustomer: S.optional(S.Boolean),
-  totalReservedMinuteAllocation: S.optional(S.Number),
-  upcomingMinutesScheduled: S.optional(S.Number),
-  totalScheduledMinutes: S.optional(S.Number),
-  estimatedMinutesRemaining: S.optional(S.Number),
-}) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ tags: S.optional(TagsMap) }) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagsMap },
-  T.all(
-    T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface GetAgentTaskResponseUrlResponse {
+  agentId: string;
+  taskId: string;
+  presignedLogUrl: string;
+}
+export const GetAgentTaskResponseUrlResponse = S.suspend(() =>
+  S.Struct({ agentId: S.String, taskId: S.String, presignedLogUrl: S.String }),
+).annotations({
+  identifier: "GetAgentTaskResponseUrlResponse",
+}) as any as S.Schema<GetAgentTaskResponseUrlResponse>;
+export interface GetMinuteUsageResponse {
+  isReservedMinutesCustomer?: boolean;
+  totalReservedMinuteAllocation?: number;
+  upcomingMinutesScheduled?: number;
+  totalScheduledMinutes?: number;
+  estimatedMinutesRemaining?: number;
+}
+export const GetMinuteUsageResponse = S.suspend(() =>
+  S.Struct({
+    isReservedMinutesCustomer: S.optional(S.Boolean),
+    totalReservedMinuteAllocation: S.optional(S.Number),
+    upcomingMinutesScheduled: S.optional(S.Number),
+    totalScheduledMinutes: S.optional(S.Number),
+    estimatedMinutesRemaining: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "GetMinuteUsageResponse",
+}) as any as S.Schema<GetMinuteUsageResponse>;
+export interface ListTagsForResourceResponse {
+  tags?: TagsMap;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ tags: S.optional(TagsMap) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface TagResourceRequest {
+  resourceArn: string;
+  tags: TagsMap;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+    tags: TagsMap,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class GetAgentConfigurationResponse extends S.Class<GetAgentConfigurationResponse>(
-  "GetAgentConfigurationResponse",
-)({ agentId: S.optional(S.String), taskingDocument: S.optional(S.String) }) {}
-export class GetConfigResponse extends S.Class<GetConfigResponse>(
-  "GetConfigResponse",
-)({
-  configId: S.String,
-  configArn: S.String,
-  name: S.String,
-  configType: S.optional(S.String),
-  configData: ConfigTypeData,
-  tags: S.optional(TagsMap),
-}) {}
-export class ConfigIdResponse extends S.Class<ConfigIdResponse>(
-  "ConfigIdResponse",
-)({
-  configId: S.optional(S.String),
-  configType: S.optional(S.String),
-  configArn: S.optional(S.String),
-}) {}
-export class ContactIdResponse extends S.Class<ContactIdResponse>(
-  "ContactIdResponse",
-)({ contactId: S.optional(S.String) }) {}
-export class SecurityDetails extends S.Class<SecurityDetails>(
-  "SecurityDetails",
-)({
-  subnetIds: SubnetList,
-  securityGroupIds: SecurityGroupIdList,
-  roleArn: S.String,
-}) {}
-export class SocketAddress extends S.Class<SocketAddress>("SocketAddress")({
-  name: S.String,
-  port: S.Number,
-}) {}
-export class DataflowEndpoint extends S.Class<DataflowEndpoint>(
-  "DataflowEndpoint",
-)({
-  name: S.optional(S.String),
-  address: S.optional(SocketAddress),
-  status: S.optional(S.String),
-  mtu: S.optional(S.Number),
-}) {}
-export class ConnectionDetails extends S.Class<ConnectionDetails>(
-  "ConnectionDetails",
-)({ socketAddress: SocketAddress, mtu: S.optional(S.Number) }) {}
-export class IntegerRange extends S.Class<IntegerRange>("IntegerRange")({
-  minimum: S.Number,
-  maximum: S.Number,
-}) {}
-export class RangedSocketAddress extends S.Class<RangedSocketAddress>(
-  "RangedSocketAddress",
-)({ name: S.String, portRange: IntegerRange }) {}
-export class RangedConnectionDetails extends S.Class<RangedConnectionDetails>(
-  "RangedConnectionDetails",
-)({ socketAddress: RangedSocketAddress, mtu: S.optional(S.Number) }) {}
-export class AwsGroundStationAgentEndpoint extends S.Class<AwsGroundStationAgentEndpoint>(
-  "AwsGroundStationAgentEndpoint",
-)({
-  name: S.String,
-  egressAddress: ConnectionDetails,
-  ingressAddress: RangedConnectionDetails,
-  agentStatus: S.optional(S.String),
-  auditResults: S.optional(S.String),
-}) {}
-export class UplinkConnectionDetails extends S.Class<UplinkConnectionDetails>(
-  "UplinkConnectionDetails",
-)({
-  ingressAddressAndPort: ConnectionDetails,
-  agentIpAndPortAddress: RangedConnectionDetails,
-}) {}
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface GetAgentConfigurationResponse {
+  agentId?: string;
+  taskingDocument?: string;
+}
+export const GetAgentConfigurationResponse = S.suspend(() =>
+  S.Struct({
+    agentId: S.optional(S.String),
+    taskingDocument: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetAgentConfigurationResponse",
+}) as any as S.Schema<GetAgentConfigurationResponse>;
+export interface GetConfigResponse {
+  configId: string;
+  configArn: string;
+  name: string;
+  configType?: string;
+  configData: (typeof ConfigTypeData)["Type"];
+  tags?: TagsMap;
+}
+export const GetConfigResponse = S.suspend(() =>
+  S.Struct({
+    configId: S.String,
+    configArn: S.String,
+    name: S.String,
+    configType: S.optional(S.String),
+    configData: ConfigTypeData,
+    tags: S.optional(TagsMap),
+  }),
+).annotations({
+  identifier: "GetConfigResponse",
+}) as any as S.Schema<GetConfigResponse>;
+export interface ConfigIdResponse {
+  configId?: string;
+  configType?: string;
+  configArn?: string;
+}
+export const ConfigIdResponse = S.suspend(() =>
+  S.Struct({
+    configId: S.optional(S.String),
+    configType: S.optional(S.String),
+    configArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ConfigIdResponse",
+}) as any as S.Schema<ConfigIdResponse>;
+export interface ContactIdResponse {
+  contactId?: string;
+}
+export const ContactIdResponse = S.suspend(() =>
+  S.Struct({ contactId: S.optional(S.String) }),
+).annotations({
+  identifier: "ContactIdResponse",
+}) as any as S.Schema<ContactIdResponse>;
+export interface SecurityDetails {
+  subnetIds: SubnetList;
+  securityGroupIds: SecurityGroupIdList;
+  roleArn: string;
+}
+export const SecurityDetails = S.suspend(() =>
+  S.Struct({
+    subnetIds: SubnetList,
+    securityGroupIds: SecurityGroupIdList,
+    roleArn: S.String,
+  }),
+).annotations({
+  identifier: "SecurityDetails",
+}) as any as S.Schema<SecurityDetails>;
+export interface SocketAddress {
+  name: string;
+  port: number;
+}
+export const SocketAddress = S.suspend(() =>
+  S.Struct({ name: S.String, port: S.Number }),
+).annotations({
+  identifier: "SocketAddress",
+}) as any as S.Schema<SocketAddress>;
+export interface DataflowEndpoint {
+  name?: string;
+  address?: SocketAddress;
+  status?: string;
+  mtu?: number;
+}
+export const DataflowEndpoint = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    address: S.optional(SocketAddress),
+    status: S.optional(S.String),
+    mtu: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "DataflowEndpoint",
+}) as any as S.Schema<DataflowEndpoint>;
+export interface ConnectionDetails {
+  socketAddress: SocketAddress;
+  mtu?: number;
+}
+export const ConnectionDetails = S.suspend(() =>
+  S.Struct({ socketAddress: SocketAddress, mtu: S.optional(S.Number) }),
+).annotations({
+  identifier: "ConnectionDetails",
+}) as any as S.Schema<ConnectionDetails>;
+export interface IntegerRange {
+  minimum: number;
+  maximum: number;
+}
+export const IntegerRange = S.suspend(() =>
+  S.Struct({ minimum: S.Number, maximum: S.Number }),
+).annotations({ identifier: "IntegerRange" }) as any as S.Schema<IntegerRange>;
+export interface RangedSocketAddress {
+  name: string;
+  portRange: IntegerRange;
+}
+export const RangedSocketAddress = S.suspend(() =>
+  S.Struct({ name: S.String, portRange: IntegerRange }),
+).annotations({
+  identifier: "RangedSocketAddress",
+}) as any as S.Schema<RangedSocketAddress>;
+export interface RangedConnectionDetails {
+  socketAddress: RangedSocketAddress;
+  mtu?: number;
+}
+export const RangedConnectionDetails = S.suspend(() =>
+  S.Struct({ socketAddress: RangedSocketAddress, mtu: S.optional(S.Number) }),
+).annotations({
+  identifier: "RangedConnectionDetails",
+}) as any as S.Schema<RangedConnectionDetails>;
+export interface AwsGroundStationAgentEndpoint {
+  name: string;
+  egressAddress: ConnectionDetails;
+  ingressAddress: RangedConnectionDetails;
+  agentStatus?: string;
+  auditResults?: string;
+}
+export const AwsGroundStationAgentEndpoint = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    egressAddress: ConnectionDetails,
+    ingressAddress: RangedConnectionDetails,
+    agentStatus: S.optional(S.String),
+    auditResults: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AwsGroundStationAgentEndpoint",
+}) as any as S.Schema<AwsGroundStationAgentEndpoint>;
+export interface UplinkConnectionDetails {
+  ingressAddressAndPort: ConnectionDetails;
+  agentIpAndPortAddress: RangedConnectionDetails;
+}
+export const UplinkConnectionDetails = S.suspend(() =>
+  S.Struct({
+    ingressAddressAndPort: ConnectionDetails,
+    agentIpAndPortAddress: RangedConnectionDetails,
+  }),
+).annotations({
+  identifier: "UplinkConnectionDetails",
+}) as any as S.Schema<UplinkConnectionDetails>;
 export const UplinkDataflowDetails = S.Union(
   S.Struct({ agentConnectionDetails: UplinkConnectionDetails }),
 );
-export class UplinkAwsGroundStationAgentEndpointDetails extends S.Class<UplinkAwsGroundStationAgentEndpointDetails>(
-  "UplinkAwsGroundStationAgentEndpointDetails",
-)({
-  name: S.String,
-  dataflowDetails: UplinkDataflowDetails,
-  agentStatus: S.optional(S.String),
-  auditResults: S.optional(S.String),
-}) {}
-export class DownlinkConnectionDetails extends S.Class<DownlinkConnectionDetails>(
-  "DownlinkConnectionDetails",
-)({
-  agentIpAndPortAddress: RangedConnectionDetails,
-  egressAddressAndPort: ConnectionDetails,
-}) {}
+export interface UplinkAwsGroundStationAgentEndpointDetails {
+  name: string;
+  dataflowDetails: (typeof UplinkDataflowDetails)["Type"];
+  agentStatus?: string;
+  auditResults?: string;
+}
+export const UplinkAwsGroundStationAgentEndpointDetails = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    dataflowDetails: UplinkDataflowDetails,
+    agentStatus: S.optional(S.String),
+    auditResults: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "UplinkAwsGroundStationAgentEndpointDetails",
+}) as any as S.Schema<UplinkAwsGroundStationAgentEndpointDetails>;
+export interface DownlinkConnectionDetails {
+  agentIpAndPortAddress: RangedConnectionDetails;
+  egressAddressAndPort: ConnectionDetails;
+}
+export const DownlinkConnectionDetails = S.suspend(() =>
+  S.Struct({
+    agentIpAndPortAddress: RangedConnectionDetails,
+    egressAddressAndPort: ConnectionDetails,
+  }),
+).annotations({
+  identifier: "DownlinkConnectionDetails",
+}) as any as S.Schema<DownlinkConnectionDetails>;
 export const DownlinkDataflowDetails = S.Union(
   S.Struct({ agentConnectionDetails: DownlinkConnectionDetails }),
 );
-export class DownlinkAwsGroundStationAgentEndpointDetails extends S.Class<DownlinkAwsGroundStationAgentEndpointDetails>(
-  "DownlinkAwsGroundStationAgentEndpointDetails",
-)({
-  name: S.String,
-  dataflowDetails: DownlinkDataflowDetails,
-  agentStatus: S.optional(S.String),
-  auditResults: S.optional(S.String),
-}) {}
-export class EndpointDetails extends S.Class<EndpointDetails>(
-  "EndpointDetails",
-)({
-  securityDetails: S.optional(SecurityDetails),
-  endpoint: S.optional(DataflowEndpoint),
-  awsGroundStationAgentEndpoint: S.optional(AwsGroundStationAgentEndpoint),
-  uplinkAwsGroundStationAgentEndpoint: S.optional(
-    UplinkAwsGroundStationAgentEndpointDetails,
-  ),
-  downlinkAwsGroundStationAgentEndpoint: S.optional(
-    DownlinkAwsGroundStationAgentEndpointDetails,
-  ),
-  healthStatus: S.optional(S.String),
-  healthReasons: S.optional(CapabilityHealthReasonList),
-}) {}
+export interface DownlinkAwsGroundStationAgentEndpointDetails {
+  name: string;
+  dataflowDetails: (typeof DownlinkDataflowDetails)["Type"];
+  agentStatus?: string;
+  auditResults?: string;
+}
+export const DownlinkAwsGroundStationAgentEndpointDetails = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    dataflowDetails: DownlinkDataflowDetails,
+    agentStatus: S.optional(S.String),
+    auditResults: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DownlinkAwsGroundStationAgentEndpointDetails",
+}) as any as S.Schema<DownlinkAwsGroundStationAgentEndpointDetails>;
+export interface EndpointDetails {
+  securityDetails?: SecurityDetails;
+  endpoint?: DataflowEndpoint;
+  awsGroundStationAgentEndpoint?: AwsGroundStationAgentEndpoint;
+  uplinkAwsGroundStationAgentEndpoint?: UplinkAwsGroundStationAgentEndpointDetails;
+  downlinkAwsGroundStationAgentEndpoint?: DownlinkAwsGroundStationAgentEndpointDetails;
+  healthStatus?: string;
+  healthReasons?: CapabilityHealthReasonList;
+}
+export const EndpointDetails = S.suspend(() =>
+  S.Struct({
+    securityDetails: S.optional(SecurityDetails),
+    endpoint: S.optional(DataflowEndpoint),
+    awsGroundStationAgentEndpoint: S.optional(AwsGroundStationAgentEndpoint),
+    uplinkAwsGroundStationAgentEndpoint: S.optional(
+      UplinkAwsGroundStationAgentEndpointDetails,
+    ),
+    downlinkAwsGroundStationAgentEndpoint: S.optional(
+      DownlinkAwsGroundStationAgentEndpointDetails,
+    ),
+    healthStatus: S.optional(S.String),
+    healthReasons: S.optional(CapabilityHealthReasonList),
+  }),
+).annotations({
+  identifier: "EndpointDetails",
+}) as any as S.Schema<EndpointDetails>;
+export type EndpointDetailsList = EndpointDetails[];
 export const EndpointDetailsList = S.Array(EndpointDetails);
-export class GetDataflowEndpointGroupResponse extends S.Class<GetDataflowEndpointGroupResponse>(
-  "GetDataflowEndpointGroupResponse",
-)({
-  dataflowEndpointGroupId: S.optional(S.String),
-  dataflowEndpointGroupArn: S.optional(S.String),
-  endpointsDetails: S.optional(EndpointDetailsList),
-  tags: S.optional(TagsMap),
-  contactPrePassDurationSeconds: S.optional(S.Number),
-  contactPostPassDurationSeconds: S.optional(S.Number),
-}) {}
-export class DataflowEndpointGroupIdResponse extends S.Class<DataflowEndpointGroupIdResponse>(
-  "DataflowEndpointGroupIdResponse",
-)({ dataflowEndpointGroupId: S.optional(S.String) }) {}
-export class EphemerisIdResponse extends S.Class<EphemerisIdResponse>(
-  "EphemerisIdResponse",
-)({ ephemerisId: S.optional(S.String) }) {}
-export class CreateMissionProfileRequest extends S.Class<CreateMissionProfileRequest>(
-  "CreateMissionProfileRequest",
-)(
-  {
+export interface GetDataflowEndpointGroupResponse {
+  dataflowEndpointGroupId?: string;
+  dataflowEndpointGroupArn?: string;
+  endpointsDetails?: EndpointDetailsList;
+  tags?: TagsMap;
+  contactPrePassDurationSeconds?: number;
+  contactPostPassDurationSeconds?: number;
+}
+export const GetDataflowEndpointGroupResponse = S.suspend(() =>
+  S.Struct({
+    dataflowEndpointGroupId: S.optional(S.String),
+    dataflowEndpointGroupArn: S.optional(S.String),
+    endpointsDetails: S.optional(EndpointDetailsList),
+    tags: S.optional(TagsMap),
+    contactPrePassDurationSeconds: S.optional(S.Number),
+    contactPostPassDurationSeconds: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "GetDataflowEndpointGroupResponse",
+}) as any as S.Schema<GetDataflowEndpointGroupResponse>;
+export interface DataflowEndpointGroupIdResponse {
+  dataflowEndpointGroupId?: string;
+}
+export const DataflowEndpointGroupIdResponse = S.suspend(() =>
+  S.Struct({ dataflowEndpointGroupId: S.optional(S.String) }),
+).annotations({
+  identifier: "DataflowEndpointGroupIdResponse",
+}) as any as S.Schema<DataflowEndpointGroupIdResponse>;
+export interface EphemerisIdResponse {
+  ephemerisId?: string;
+}
+export const EphemerisIdResponse = S.suspend(() =>
+  S.Struct({ ephemerisId: S.optional(S.String) }),
+).annotations({
+  identifier: "EphemerisIdResponse",
+}) as any as S.Schema<EphemerisIdResponse>;
+export interface CreateMissionProfileRequest {
+  name: string;
+  contactPrePassDurationSeconds?: number;
+  contactPostPassDurationSeconds?: number;
+  minimumViableContactDurationSeconds: number;
+  dataflowEdges: DataflowEdgeList;
+  trackingConfigArn: string;
+  tags?: TagsMap;
+  streamsKmsKey?: (typeof KmsKey)["Type"];
+  streamsKmsRole?: string;
+}
+export const CreateMissionProfileRequest = S.suspend(() =>
+  S.Struct({
     name: S.String,
     contactPrePassDurationSeconds: S.optional(S.Number),
     contactPostPassDurationSeconds: S.optional(S.Number),
@@ -918,90 +1351,192 @@ export class CreateMissionProfileRequest extends S.Class<CreateMissionProfileReq
     tags: S.optional(TagsMap),
     streamsKmsKey: S.optional(KmsKey),
     streamsKmsRole: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/missionprofile" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/missionprofile" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetMissionProfileResponse extends S.Class<GetMissionProfileResponse>(
-  "GetMissionProfileResponse",
-)({
-  missionProfileId: S.optional(S.String),
-  missionProfileArn: S.optional(S.String),
-  name: S.optional(S.String),
-  region: S.optional(S.String),
-  contactPrePassDurationSeconds: S.optional(S.Number),
-  contactPostPassDurationSeconds: S.optional(S.Number),
-  minimumViableContactDurationSeconds: S.optional(S.Number),
-  dataflowEdges: S.optional(DataflowEdgeList),
-  trackingConfigArn: S.optional(S.String),
-  tags: S.optional(TagsMap),
-  streamsKmsKey: S.optional(KmsKey),
-  streamsKmsRole: S.optional(S.String),
-}) {}
-export class MissionProfileIdResponse extends S.Class<MissionProfileIdResponse>(
-  "MissionProfileIdResponse",
-)({ missionProfileId: S.optional(S.String) }) {}
-export class ComponentVersion extends S.Class<ComponentVersion>(
-  "ComponentVersion",
-)({ componentType: S.String, versions: VersionStringList }) {}
+).annotations({
+  identifier: "CreateMissionProfileRequest",
+}) as any as S.Schema<CreateMissionProfileRequest>;
+export interface GetMissionProfileResponse {
+  missionProfileId?: string;
+  missionProfileArn?: string;
+  name?: string;
+  region?: string;
+  contactPrePassDurationSeconds?: number;
+  contactPostPassDurationSeconds?: number;
+  minimumViableContactDurationSeconds?: number;
+  dataflowEdges?: DataflowEdgeList;
+  trackingConfigArn?: string;
+  tags?: TagsMap;
+  streamsKmsKey?: (typeof KmsKey)["Type"];
+  streamsKmsRole?: string;
+}
+export const GetMissionProfileResponse = S.suspend(() =>
+  S.Struct({
+    missionProfileId: S.optional(S.String),
+    missionProfileArn: S.optional(S.String),
+    name: S.optional(S.String),
+    region: S.optional(S.String),
+    contactPrePassDurationSeconds: S.optional(S.Number),
+    contactPostPassDurationSeconds: S.optional(S.Number),
+    minimumViableContactDurationSeconds: S.optional(S.Number),
+    dataflowEdges: S.optional(DataflowEdgeList),
+    trackingConfigArn: S.optional(S.String),
+    tags: S.optional(TagsMap),
+    streamsKmsKey: S.optional(KmsKey),
+    streamsKmsRole: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetMissionProfileResponse",
+}) as any as S.Schema<GetMissionProfileResponse>;
+export interface MissionProfileIdResponse {
+  missionProfileId?: string;
+}
+export const MissionProfileIdResponse = S.suspend(() =>
+  S.Struct({ missionProfileId: S.optional(S.String) }),
+).annotations({
+  identifier: "MissionProfileIdResponse",
+}) as any as S.Schema<MissionProfileIdResponse>;
+export interface ComponentVersion {
+  componentType: string;
+  versions: VersionStringList;
+}
+export const ComponentVersion = S.suspend(() =>
+  S.Struct({ componentType: S.String, versions: VersionStringList }),
+).annotations({
+  identifier: "ComponentVersion",
+}) as any as S.Schema<ComponentVersion>;
+export type ComponentVersionList = ComponentVersion[];
 export const ComponentVersionList = S.Array(ComponentVersion);
+export type SignatureMap = { [key: string]: boolean };
 export const SignatureMap = S.Record({ key: S.String, value: S.Boolean });
-export class AzElEphemerisFilter extends S.Class<AzElEphemerisFilter>(
-  "AzElEphemerisFilter",
-)({ id: S.String }) {}
-export class UplinkAwsGroundStationAgentEndpoint extends S.Class<UplinkAwsGroundStationAgentEndpoint>(
-  "UplinkAwsGroundStationAgentEndpoint",
-)({ name: S.String, dataflowDetails: UplinkDataflowDetails }) {}
-export class DownlinkAwsGroundStationAgentEndpoint extends S.Class<DownlinkAwsGroundStationAgentEndpoint>(
-  "DownlinkAwsGroundStationAgentEndpoint",
-)({ name: S.String, dataflowDetails: DownlinkDataflowDetails }) {}
-export class S3Object extends S.Class<S3Object>("S3Object")({
-  bucket: S.optional(S.String),
-  key: S.optional(S.String),
-  version: S.optional(S.String),
-}) {}
-export class OEMEphemeris extends S.Class<OEMEphemeris>("OEMEphemeris")({
-  s3Object: S.optional(S3Object),
-  oemData: S.optional(S.String),
-}) {}
-export class AgentDetails extends S.Class<AgentDetails>("AgentDetails")({
-  agentVersion: S.String,
-  instanceId: S.String,
-  instanceType: S.String,
-  reservedCpuCores: S.optional(AgentCpuCoresList),
-  agentCpuCores: S.optional(AgentCpuCoresList),
-  componentVersions: ComponentVersionList,
-}) {}
-export class AggregateStatus extends S.Class<AggregateStatus>(
-  "AggregateStatus",
-)({ status: S.String, signatureMap: S.optional(SignatureMap) }) {}
-export class ConfigListItem extends S.Class<ConfigListItem>("ConfigListItem")({
-  configId: S.optional(S.String),
-  configType: S.optional(S.String),
-  configArn: S.optional(S.String),
-  name: S.optional(S.String),
-}) {}
+export interface AzElEphemerisFilter {
+  id: string;
+}
+export const AzElEphemerisFilter = S.suspend(() =>
+  S.Struct({ id: S.String }),
+).annotations({
+  identifier: "AzElEphemerisFilter",
+}) as any as S.Schema<AzElEphemerisFilter>;
+export interface UplinkAwsGroundStationAgentEndpoint {
+  name: string;
+  dataflowDetails: (typeof UplinkDataflowDetails)["Type"];
+}
+export const UplinkAwsGroundStationAgentEndpoint = S.suspend(() =>
+  S.Struct({ name: S.String, dataflowDetails: UplinkDataflowDetails }),
+).annotations({
+  identifier: "UplinkAwsGroundStationAgentEndpoint",
+}) as any as S.Schema<UplinkAwsGroundStationAgentEndpoint>;
+export interface DownlinkAwsGroundStationAgentEndpoint {
+  name: string;
+  dataflowDetails: (typeof DownlinkDataflowDetails)["Type"];
+}
+export const DownlinkAwsGroundStationAgentEndpoint = S.suspend(() =>
+  S.Struct({ name: S.String, dataflowDetails: DownlinkDataflowDetails }),
+).annotations({
+  identifier: "DownlinkAwsGroundStationAgentEndpoint",
+}) as any as S.Schema<DownlinkAwsGroundStationAgentEndpoint>;
+export interface S3Object {
+  bucket?: string;
+  key?: string;
+  version?: string;
+}
+export const S3Object = S.suspend(() =>
+  S.Struct({
+    bucket: S.optional(S.String),
+    key: S.optional(S.String),
+    version: S.optional(S.String),
+  }),
+).annotations({ identifier: "S3Object" }) as any as S.Schema<S3Object>;
+export interface OEMEphemeris {
+  s3Object?: S3Object;
+  oemData?: string;
+}
+export const OEMEphemeris = S.suspend(() =>
+  S.Struct({ s3Object: S.optional(S3Object), oemData: S.optional(S.String) }),
+).annotations({ identifier: "OEMEphemeris" }) as any as S.Schema<OEMEphemeris>;
+export interface AgentDetails {
+  agentVersion: string;
+  instanceId: string;
+  instanceType: string;
+  reservedCpuCores?: AgentCpuCoresList;
+  agentCpuCores?: AgentCpuCoresList;
+  componentVersions: ComponentVersionList;
+}
+export const AgentDetails = S.suspend(() =>
+  S.Struct({
+    agentVersion: S.String,
+    instanceId: S.String,
+    instanceType: S.String,
+    reservedCpuCores: S.optional(AgentCpuCoresList),
+    agentCpuCores: S.optional(AgentCpuCoresList),
+    componentVersions: ComponentVersionList,
+  }),
+).annotations({ identifier: "AgentDetails" }) as any as S.Schema<AgentDetails>;
+export interface AggregateStatus {
+  status: string;
+  signatureMap?: SignatureMap;
+}
+export const AggregateStatus = S.suspend(() =>
+  S.Struct({ status: S.String, signatureMap: S.optional(SignatureMap) }),
+).annotations({
+  identifier: "AggregateStatus",
+}) as any as S.Schema<AggregateStatus>;
+export interface ConfigListItem {
+  configId?: string;
+  configType?: string;
+  configArn?: string;
+  name?: string;
+}
+export const ConfigListItem = S.suspend(() =>
+  S.Struct({
+    configId: S.optional(S.String),
+    configType: S.optional(S.String),
+    configArn: S.optional(S.String),
+    name: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ConfigListItem",
+}) as any as S.Schema<ConfigListItem>;
+export type ConfigList = ConfigListItem[];
 export const ConfigList = S.Array(ConfigListItem);
-export class Elevation extends S.Class<Elevation>("Elevation")({
-  value: S.Number,
-  unit: S.String,
-}) {}
-export class EphemerisResponseData extends S.Class<EphemerisResponseData>(
-  "EphemerisResponseData",
-)({ ephemerisId: S.optional(S.String), ephemerisType: S.String }) {}
+export interface Elevation {
+  value: number;
+  unit: string;
+}
+export const Elevation = S.suspend(() =>
+  S.Struct({ value: S.Number, unit: S.String }),
+).annotations({ identifier: "Elevation" }) as any as S.Schema<Elevation>;
+export interface EphemerisResponseData {
+  ephemerisId?: string;
+  ephemerisType: string;
+}
+export const EphemerisResponseData = S.suspend(() =>
+  S.Struct({ ephemerisId: S.optional(S.String), ephemerisType: S.String }),
+).annotations({
+  identifier: "EphemerisResponseData",
+}) as any as S.Schema<EphemerisResponseData>;
 export const EphemerisFilter = S.Union(S.Struct({ azEl: AzElEphemerisFilter }));
-export class DataflowEndpointListItem extends S.Class<DataflowEndpointListItem>(
-  "DataflowEndpointListItem",
-)({
-  dataflowEndpointGroupId: S.optional(S.String),
-  dataflowEndpointGroupArn: S.optional(S.String),
-}) {}
+export interface DataflowEndpointListItem {
+  dataflowEndpointGroupId?: string;
+  dataflowEndpointGroupArn?: string;
+}
+export const DataflowEndpointListItem = S.suspend(() =>
+  S.Struct({
+    dataflowEndpointGroupId: S.optional(S.String),
+    dataflowEndpointGroupArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DataflowEndpointListItem",
+}) as any as S.Schema<DataflowEndpointListItem>;
+export type DataflowEndpointGroupList = DataflowEndpointListItem[];
 export const DataflowEndpointGroupList = S.Array(DataflowEndpointListItem);
 export const CreateEndpointDetails = S.Union(
   S.Struct({
@@ -1012,102 +1547,197 @@ export const CreateEndpointDetails = S.Union(
       DownlinkAwsGroundStationAgentEndpoint,
   }),
 );
+export type CreateEndpointDetailsList =
+  (typeof CreateEndpointDetails)["Type"][];
 export const CreateEndpointDetailsList = S.Array(CreateEndpointDetails);
-export class EphemerisErrorReason extends S.Class<EphemerisErrorReason>(
-  "EphemerisErrorReason",
-)({ errorCode: S.String, errorMessage: S.String }) {}
+export interface EphemerisErrorReason {
+  errorCode: string;
+  errorMessage: string;
+}
+export const EphemerisErrorReason = S.suspend(() =>
+  S.Struct({ errorCode: S.String, errorMessage: S.String }),
+).annotations({
+  identifier: "EphemerisErrorReason",
+}) as any as S.Schema<EphemerisErrorReason>;
+export type EphemerisErrorReasonList = EphemerisErrorReason[];
 export const EphemerisErrorReasonList = S.Array(EphemerisErrorReason);
-export class EphemerisItem extends S.Class<EphemerisItem>("EphemerisItem")({
-  ephemerisId: S.optional(S.String),
-  ephemerisType: S.optional(S.String),
-  status: S.optional(S.String),
-  priority: S.optional(S.Number),
-  enabled: S.optional(S.Boolean),
-  creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  name: S.optional(S.String),
-  sourceS3Object: S.optional(S3Object),
-}) {}
+export interface EphemerisItem {
+  ephemerisId?: string;
+  ephemerisType?: string;
+  status?: string;
+  priority?: number;
+  enabled?: boolean;
+  creationTime?: Date;
+  name?: string;
+  sourceS3Object?: S3Object;
+}
+export const EphemerisItem = S.suspend(() =>
+  S.Struct({
+    ephemerisId: S.optional(S.String),
+    ephemerisType: S.optional(S.String),
+    status: S.optional(S.String),
+    priority: S.optional(S.Number),
+    enabled: S.optional(S.Boolean),
+    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    name: S.optional(S.String),
+    sourceS3Object: S.optional(S3Object),
+  }),
+).annotations({
+  identifier: "EphemerisItem",
+}) as any as S.Schema<EphemerisItem>;
+export type EphemeridesList = EphemerisItem[];
 export const EphemeridesList = S.Array(EphemerisItem);
-export class GroundStationData extends S.Class<GroundStationData>(
-  "GroundStationData",
-)({
-  groundStationId: S.optional(S.String),
-  groundStationName: S.optional(S.String),
-  region: S.optional(S.String),
-}) {}
+export interface GroundStationData {
+  groundStationId?: string;
+  groundStationName?: string;
+  region?: string;
+}
+export const GroundStationData = S.suspend(() =>
+  S.Struct({
+    groundStationId: S.optional(S.String),
+    groundStationName: S.optional(S.String),
+    region: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GroundStationData",
+}) as any as S.Schema<GroundStationData>;
+export type GroundStationList = GroundStationData[];
 export const GroundStationList = S.Array(GroundStationData);
-export class MissionProfileListItem extends S.Class<MissionProfileListItem>(
-  "MissionProfileListItem",
-)({
-  missionProfileId: S.optional(S.String),
-  missionProfileArn: S.optional(S.String),
-  region: S.optional(S.String),
-  name: S.optional(S.String),
-}) {}
+export interface MissionProfileListItem {
+  missionProfileId?: string;
+  missionProfileArn?: string;
+  region?: string;
+  name?: string;
+}
+export const MissionProfileListItem = S.suspend(() =>
+  S.Struct({
+    missionProfileId: S.optional(S.String),
+    missionProfileArn: S.optional(S.String),
+    region: S.optional(S.String),
+    name: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "MissionProfileListItem",
+}) as any as S.Schema<MissionProfileListItem>;
+export type MissionProfileList = MissionProfileListItem[];
 export const MissionProfileList = S.Array(MissionProfileListItem);
-export class EphemerisMetaData extends S.Class<EphemerisMetaData>(
-  "EphemerisMetaData",
-)({
-  source: S.String,
-  ephemerisId: S.optional(S.String),
-  epoch: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  name: S.optional(S.String),
-}) {}
-export class SatelliteListItem extends S.Class<SatelliteListItem>(
-  "SatelliteListItem",
-)({
-  satelliteId: S.optional(S.String),
-  satelliteArn: S.optional(S.String),
-  noradSatelliteID: S.optional(S.Number),
-  groundStations: S.optional(GroundStationIdList),
-  currentEphemeris: S.optional(EphemerisMetaData),
-}) {}
+export interface EphemerisMetaData {
+  source: string;
+  ephemerisId?: string;
+  epoch?: Date;
+  name?: string;
+}
+export const EphemerisMetaData = S.suspend(() =>
+  S.Struct({
+    source: S.String,
+    ephemerisId: S.optional(S.String),
+    epoch: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    name: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "EphemerisMetaData",
+}) as any as S.Schema<EphemerisMetaData>;
+export interface SatelliteListItem {
+  satelliteId?: string;
+  satelliteArn?: string;
+  noradSatelliteID?: number;
+  groundStations?: GroundStationIdList;
+  currentEphemeris?: EphemerisMetaData;
+}
+export const SatelliteListItem = S.suspend(() =>
+  S.Struct({
+    satelliteId: S.optional(S.String),
+    satelliteArn: S.optional(S.String),
+    noradSatelliteID: S.optional(S.Number),
+    groundStations: S.optional(GroundStationIdList),
+    currentEphemeris: S.optional(EphemerisMetaData),
+  }),
+).annotations({
+  identifier: "SatelliteListItem",
+}) as any as S.Schema<SatelliteListItem>;
+export type SatelliteList = SatelliteListItem[];
 export const SatelliteList = S.Array(SatelliteListItem);
-export class AzElProgramTrackSettings extends S.Class<AzElProgramTrackSettings>(
-  "AzElProgramTrackSettings",
-)({ ephemerisId: S.String }) {}
-export class RegisterAgentRequest extends S.Class<RegisterAgentRequest>(
-  "RegisterAgentRequest",
-)(
-  {
+export interface AzElProgramTrackSettings {
+  ephemerisId: string;
+}
+export const AzElProgramTrackSettings = S.suspend(() =>
+  S.Struct({ ephemerisId: S.String }),
+).annotations({
+  identifier: "AzElProgramTrackSettings",
+}) as any as S.Schema<AzElProgramTrackSettings>;
+export interface RegisterAgentRequest {
+  discoveryData: DiscoveryData;
+  agentDetails: AgentDetails;
+  tags?: TagsMap;
+}
+export const RegisterAgentRequest = S.suspend(() =>
+  S.Struct({
     discoveryData: DiscoveryData,
     agentDetails: AgentDetails,
     tags: S.optional(TagsMap),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/agent" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/agent" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateAgentStatusRequest extends S.Class<UpdateAgentStatusRequest>(
-  "UpdateAgentStatusRequest",
-)(
-  {
+).annotations({
+  identifier: "RegisterAgentRequest",
+}) as any as S.Schema<RegisterAgentRequest>;
+export interface UpdateAgentStatusRequest {
+  agentId: string;
+  taskId: string;
+  aggregateStatus: AggregateStatus;
+  componentStatuses: ComponentStatusList;
+}
+export const UpdateAgentStatusRequest = S.suspend(() =>
+  S.Struct({
     agentId: S.String.pipe(T.HttpLabel("agentId")),
     taskId: S.String,
     aggregateStatus: AggregateStatus,
     componentStatuses: ComponentStatusList,
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/agent/{agentId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/agent/{agentId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListConfigsResponse extends S.Class<ListConfigsResponse>(
-  "ListConfigsResponse",
-)({ nextToken: S.optional(S.String), configList: S.optional(ConfigList) }) {}
-export class ListContactsRequest extends S.Class<ListContactsRequest>(
-  "ListContactsRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateAgentStatusRequest",
+}) as any as S.Schema<UpdateAgentStatusRequest>;
+export interface ListConfigsResponse {
+  nextToken?: string;
+  configList?: ConfigList;
+}
+export const ListConfigsResponse = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    configList: S.optional(ConfigList),
+  }),
+).annotations({
+  identifier: "ListConfigsResponse",
+}) as any as S.Schema<ListConfigsResponse>;
+export interface ListContactsRequest {
+  maxResults?: number;
+  nextToken?: string;
+  statusList: StatusList;
+  startTime: Date;
+  endTime: Date;
+  groundStation?: string;
+  satelliteArn?: string;
+  missionProfileArn?: string;
+  ephemeris?: (typeof EphemerisFilter)["Type"];
+}
+export const ListContactsRequest = S.suspend(() =>
+  S.Struct({
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
     statusList: StatusList,
@@ -1117,124 +1747,240 @@ export class ListContactsRequest extends S.Class<ListContactsRequest>(
     satelliteArn: S.optional(S.String),
     missionProfileArn: S.optional(S.String),
     ephemeris: S.optional(EphemerisFilter),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/contacts" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/contacts" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListDataflowEndpointGroupsResponse extends S.Class<ListDataflowEndpointGroupsResponse>(
-  "ListDataflowEndpointGroupsResponse",
-)({
-  nextToken: S.optional(S.String),
-  dataflowEndpointGroupList: S.optional(DataflowEndpointGroupList),
-}) {}
-export class CreateDataflowEndpointGroupV2Request extends S.Class<CreateDataflowEndpointGroupV2Request>(
-  "CreateDataflowEndpointGroupV2Request",
-)(
-  {
+).annotations({
+  identifier: "ListContactsRequest",
+}) as any as S.Schema<ListContactsRequest>;
+export interface ListDataflowEndpointGroupsResponse {
+  nextToken?: string;
+  dataflowEndpointGroupList?: DataflowEndpointGroupList;
+}
+export const ListDataflowEndpointGroupsResponse = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    dataflowEndpointGroupList: S.optional(DataflowEndpointGroupList),
+  }),
+).annotations({
+  identifier: "ListDataflowEndpointGroupsResponse",
+}) as any as S.Schema<ListDataflowEndpointGroupsResponse>;
+export interface CreateDataflowEndpointGroupV2Request {
+  endpoints: CreateEndpointDetailsList;
+  contactPrePassDurationSeconds?: number;
+  contactPostPassDurationSeconds?: number;
+  tags?: TagsMap;
+}
+export const CreateDataflowEndpointGroupV2Request = S.suspend(() =>
+  S.Struct({
     endpoints: CreateEndpointDetailsList,
     contactPrePassDurationSeconds: S.optional(S.Number),
     contactPostPassDurationSeconds: S.optional(S.Number),
     tags: S.optional(TagsMap),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/dataflowEndpointGroupV2" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/dataflowEndpointGroupV2" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListEphemeridesResponse extends S.Class<ListEphemeridesResponse>(
-  "ListEphemeridesResponse",
-)({
-  nextToken: S.optional(S.String),
-  ephemerides: S.optional(EphemeridesList),
-}) {}
-export class ListGroundStationsResponse extends S.Class<ListGroundStationsResponse>(
-  "ListGroundStationsResponse",
-)({
-  nextToken: S.optional(S.String),
-  groundStationList: S.optional(GroundStationList),
-}) {}
-export class ListMissionProfilesResponse extends S.Class<ListMissionProfilesResponse>(
-  "ListMissionProfilesResponse",
-)({
-  nextToken: S.optional(S.String),
-  missionProfileList: S.optional(MissionProfileList),
-}) {}
-export class GetSatelliteResponse extends S.Class<GetSatelliteResponse>(
-  "GetSatelliteResponse",
-)({
-  satelliteId: S.optional(S.String),
-  satelliteArn: S.optional(S.String),
-  noradSatelliteID: S.optional(S.Number),
-  groundStations: S.optional(GroundStationIdList),
-  currentEphemeris: S.optional(EphemerisMetaData),
-}) {}
-export class ListSatellitesResponse extends S.Class<ListSatellitesResponse>(
-  "ListSatellitesResponse",
-)({ nextToken: S.optional(S.String), satellites: S.optional(SatelliteList) }) {}
+).annotations({
+  identifier: "CreateDataflowEndpointGroupV2Request",
+}) as any as S.Schema<CreateDataflowEndpointGroupV2Request>;
+export interface ListEphemeridesResponse {
+  nextToken?: string;
+  ephemerides?: EphemeridesList;
+}
+export const ListEphemeridesResponse = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    ephemerides: S.optional(EphemeridesList),
+  }),
+).annotations({
+  identifier: "ListEphemeridesResponse",
+}) as any as S.Schema<ListEphemeridesResponse>;
+export interface ListGroundStationsResponse {
+  nextToken?: string;
+  groundStationList?: GroundStationList;
+}
+export const ListGroundStationsResponse = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    groundStationList: S.optional(GroundStationList),
+  }),
+).annotations({
+  identifier: "ListGroundStationsResponse",
+}) as any as S.Schema<ListGroundStationsResponse>;
+export interface ListMissionProfilesResponse {
+  nextToken?: string;
+  missionProfileList?: MissionProfileList;
+}
+export const ListMissionProfilesResponse = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    missionProfileList: S.optional(MissionProfileList),
+  }),
+).annotations({
+  identifier: "ListMissionProfilesResponse",
+}) as any as S.Schema<ListMissionProfilesResponse>;
+export interface GetSatelliteResponse {
+  satelliteId?: string;
+  satelliteArn?: string;
+  noradSatelliteID?: number;
+  groundStations?: GroundStationIdList;
+  currentEphemeris?: EphemerisMetaData;
+}
+export const GetSatelliteResponse = S.suspend(() =>
+  S.Struct({
+    satelliteId: S.optional(S.String),
+    satelliteArn: S.optional(S.String),
+    noradSatelliteID: S.optional(S.Number),
+    groundStations: S.optional(GroundStationIdList),
+    currentEphemeris: S.optional(EphemerisMetaData),
+  }),
+).annotations({
+  identifier: "GetSatelliteResponse",
+}) as any as S.Schema<GetSatelliteResponse>;
+export interface ListSatellitesResponse {
+  nextToken?: string;
+  satellites?: SatelliteList;
+}
+export const ListSatellitesResponse = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    satellites: S.optional(SatelliteList),
+  }),
+).annotations({
+  identifier: "ListSatellitesResponse",
+}) as any as S.Schema<ListSatellitesResponse>;
 export const ProgramTrackSettings = S.Union(
   S.Struct({ azEl: AzElProgramTrackSettings }),
 );
-export class AntennaDemodDecodeDetails extends S.Class<AntennaDemodDecodeDetails>(
-  "AntennaDemodDecodeDetails",
-)({ outputNode: S.optional(S.String) }) {}
-export class S3RecordingDetails extends S.Class<S3RecordingDetails>(
-  "S3RecordingDetails",
-)({ bucketArn: S.optional(S.String), keyTemplate: S.optional(S.String) }) {}
+export interface AntennaDemodDecodeDetails {
+  outputNode?: string;
+}
+export const AntennaDemodDecodeDetails = S.suspend(() =>
+  S.Struct({ outputNode: S.optional(S.String) }),
+).annotations({
+  identifier: "AntennaDemodDecodeDetails",
+}) as any as S.Schema<AntennaDemodDecodeDetails>;
+export interface S3RecordingDetails {
+  bucketArn?: string;
+  keyTemplate?: string;
+}
+export const S3RecordingDetails = S.suspend(() =>
+  S.Struct({
+    bucketArn: S.optional(S.String),
+    keyTemplate: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "S3RecordingDetails",
+}) as any as S.Schema<S3RecordingDetails>;
 export const ConfigDetails = S.Union(
   S.Struct({ endpointDetails: EndpointDetails }),
   S.Struct({ antennaDemodDecodeDetails: AntennaDemodDecodeDetails }),
   S.Struct({ s3RecordingDetails: S3RecordingDetails }),
 );
-export class Destination extends S.Class<Destination>("Destination")({
-  configType: S.optional(S.String),
-  configId: S.optional(S.String),
-  configDetails: S.optional(ConfigDetails),
-  dataflowDestinationRegion: S.optional(S.String),
-}) {}
-export class EphemerisDescription extends S.Class<EphemerisDescription>(
-  "EphemerisDescription",
-)({
-  sourceS3Object: S.optional(S3Object),
-  ephemerisData: S.optional(S.String),
-}) {}
-export class TimeRange extends S.Class<TimeRange>("TimeRange")({
-  startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  endTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-}) {}
-export class TrackingOverrides extends S.Class<TrackingOverrides>(
-  "TrackingOverrides",
-)({ programTrackSettings: ProgramTrackSettings }) {}
+export interface Destination {
+  configType?: string;
+  configId?: string;
+  configDetails?: (typeof ConfigDetails)["Type"];
+  dataflowDestinationRegion?: string;
+}
+export const Destination = S.suspend(() =>
+  S.Struct({
+    configType: S.optional(S.String),
+    configId: S.optional(S.String),
+    configDetails: S.optional(ConfigDetails),
+    dataflowDestinationRegion: S.optional(S.String),
+  }),
+).annotations({ identifier: "Destination" }) as any as S.Schema<Destination>;
+export interface EphemerisDescription {
+  sourceS3Object?: S3Object;
+  ephemerisData?: string;
+}
+export const EphemerisDescription = S.suspend(() =>
+  S.Struct({
+    sourceS3Object: S.optional(S3Object),
+    ephemerisData: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "EphemerisDescription",
+}) as any as S.Schema<EphemerisDescription>;
+export interface TimeRange {
+  startTime: Date;
+  endTime: Date;
+}
+export const TimeRange = S.suspend(() =>
+  S.Struct({
+    startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    endTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotations({ identifier: "TimeRange" }) as any as S.Schema<TimeRange>;
+export interface TrackingOverrides {
+  programTrackSettings: (typeof ProgramTrackSettings)["Type"];
+}
+export const TrackingOverrides = S.suspend(() =>
+  S.Struct({ programTrackSettings: ProgramTrackSettings }),
+).annotations({
+  identifier: "TrackingOverrides",
+}) as any as S.Schema<TrackingOverrides>;
 export const EphemerisTypeDescription = S.Union(
   S.Struct({ tle: EphemerisDescription }),
   S.Struct({ oem: EphemerisDescription }),
   S.Struct({ azEl: EphemerisDescription }),
 );
-export class TLEData extends S.Class<TLEData>("TLEData")({
-  tleLine1: S.String,
-  tleLine2: S.String,
-  validTimeRange: TimeRange,
-}) {}
+export interface TLEData {
+  tleLine1: string;
+  tleLine2: string;
+  validTimeRange: TimeRange;
+}
+export const TLEData = S.suspend(() =>
+  S.Struct({
+    tleLine1: S.String,
+    tleLine2: S.String,
+    validTimeRange: TimeRange,
+  }),
+).annotations({ identifier: "TLEData" }) as any as S.Schema<TLEData>;
+export type TLEDataList = TLEData[];
 export const TLEDataList = S.Array(TLEData);
-export class RegisterAgentResponse extends S.Class<RegisterAgentResponse>(
-  "RegisterAgentResponse",
-)({ agentId: S.optional(S.String) }) {}
-export class UpdateAgentStatusResponse extends S.Class<UpdateAgentStatusResponse>(
-  "UpdateAgentStatusResponse",
-)({ agentId: S.String }) {}
-export class ReserveContactRequest extends S.Class<ReserveContactRequest>(
-  "ReserveContactRequest",
-)(
-  {
+export interface RegisterAgentResponse {
+  agentId?: string;
+}
+export const RegisterAgentResponse = S.suspend(() =>
+  S.Struct({ agentId: S.optional(S.String) }),
+).annotations({
+  identifier: "RegisterAgentResponse",
+}) as any as S.Schema<RegisterAgentResponse>;
+export interface UpdateAgentStatusResponse {
+  agentId: string;
+}
+export const UpdateAgentStatusResponse = S.suspend(() =>
+  S.Struct({ agentId: S.String }),
+).annotations({
+  identifier: "UpdateAgentStatusResponse",
+}) as any as S.Schema<UpdateAgentStatusResponse>;
+export interface ReserveContactRequest {
+  missionProfileArn: string;
+  satelliteArn?: string;
+  startTime: Date;
+  endTime: Date;
+  groundStation: string;
+  tags?: TagsMap;
+  trackingOverrides?: TrackingOverrides;
+}
+export const ReserveContactRequest = S.suspend(() =>
+  S.Struct({
     missionProfileArn: S.String,
     satelliteArn: S.optional(S.String),
     startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -1242,172 +1988,330 @@ export class ReserveContactRequest extends S.Class<ReserveContactRequest>(
     groundStation: S.String,
     tags: S.optional(TagsMap),
     trackingOverrides: S.optional(TrackingOverrides),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/contact" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/contact" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateDataflowEndpointGroupV2Response extends S.Class<CreateDataflowEndpointGroupV2Response>(
-  "CreateDataflowEndpointGroupV2Response",
-)({ dataflowEndpointGroupId: S.optional(S.String) }) {}
-export class DescribeEphemerisResponse extends S.Class<DescribeEphemerisResponse>(
-  "DescribeEphemerisResponse",
-)({
-  ephemerisId: S.optional(S.String),
-  satelliteId: S.optional(S.String),
-  status: S.optional(S.String),
-  priority: S.optional(S.Number),
-  creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  enabled: S.optional(S.Boolean),
-  name: S.optional(S.String),
-  tags: S.optional(TagsMap),
-  suppliedData: S.optional(EphemerisTypeDescription),
-  invalidReason: S.optional(S.String),
-  errorReasons: S.optional(EphemerisErrorReasonList),
-}) {}
-export class TLEEphemeris extends S.Class<TLEEphemeris>("TLEEphemeris")({
-  s3Object: S.optional(S3Object),
-  tleData: S.optional(TLEDataList),
-}) {}
-export class ContactData extends S.Class<ContactData>("ContactData")({
-  contactId: S.optional(S.String),
-  missionProfileArn: S.optional(S.String),
-  satelliteArn: S.optional(S.String),
-  startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  prePassStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  postPassEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  groundStation: S.optional(S.String),
-  contactStatus: S.optional(S.String),
-  errorMessage: S.optional(S.String),
-  maximumElevation: S.optional(Elevation),
-  region: S.optional(S.String),
-  tags: S.optional(TagsMap),
-  visibilityStartTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  visibilityEndTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  ephemeris: S.optional(EphemerisResponseData),
-}) {}
+).annotations({
+  identifier: "ReserveContactRequest",
+}) as any as S.Schema<ReserveContactRequest>;
+export interface CreateDataflowEndpointGroupV2Response {
+  dataflowEndpointGroupId?: string;
+}
+export const CreateDataflowEndpointGroupV2Response = S.suspend(() =>
+  S.Struct({ dataflowEndpointGroupId: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateDataflowEndpointGroupV2Response",
+}) as any as S.Schema<CreateDataflowEndpointGroupV2Response>;
+export interface DescribeEphemerisResponse {
+  ephemerisId?: string;
+  satelliteId?: string;
+  status?: string;
+  priority?: number;
+  creationTime?: Date;
+  enabled?: boolean;
+  name?: string;
+  tags?: TagsMap;
+  suppliedData?: (typeof EphemerisTypeDescription)["Type"];
+  invalidReason?: string;
+  errorReasons?: EphemerisErrorReasonList;
+}
+export const DescribeEphemerisResponse = S.suspend(() =>
+  S.Struct({
+    ephemerisId: S.optional(S.String),
+    satelliteId: S.optional(S.String),
+    status: S.optional(S.String),
+    priority: S.optional(S.Number),
+    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    enabled: S.optional(S.Boolean),
+    name: S.optional(S.String),
+    tags: S.optional(TagsMap),
+    suppliedData: S.optional(EphemerisTypeDescription),
+    invalidReason: S.optional(S.String),
+    errorReasons: S.optional(EphemerisErrorReasonList),
+  }),
+).annotations({
+  identifier: "DescribeEphemerisResponse",
+}) as any as S.Schema<DescribeEphemerisResponse>;
+export interface TLEEphemeris {
+  s3Object?: S3Object;
+  tleData?: TLEDataList;
+}
+export const TLEEphemeris = S.suspend(() =>
+  S.Struct({
+    s3Object: S.optional(S3Object),
+    tleData: S.optional(TLEDataList),
+  }),
+).annotations({ identifier: "TLEEphemeris" }) as any as S.Schema<TLEEphemeris>;
+export interface ContactData {
+  contactId?: string;
+  missionProfileArn?: string;
+  satelliteArn?: string;
+  startTime?: Date;
+  endTime?: Date;
+  prePassStartTime?: Date;
+  postPassEndTime?: Date;
+  groundStation?: string;
+  contactStatus?: string;
+  errorMessage?: string;
+  maximumElevation?: Elevation;
+  region?: string;
+  tags?: TagsMap;
+  visibilityStartTime?: Date;
+  visibilityEndTime?: Date;
+  ephemeris?: EphemerisResponseData;
+}
+export const ContactData = S.suspend(() =>
+  S.Struct({
+    contactId: S.optional(S.String),
+    missionProfileArn: S.optional(S.String),
+    satelliteArn: S.optional(S.String),
+    startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    prePassStartTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    postPassEndTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    groundStation: S.optional(S.String),
+    contactStatus: S.optional(S.String),
+    errorMessage: S.optional(S.String),
+    maximumElevation: S.optional(Elevation),
+    region: S.optional(S.String),
+    tags: S.optional(TagsMap),
+    visibilityStartTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    visibilityEndTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    ephemeris: S.optional(EphemerisResponseData),
+  }),
+).annotations({ identifier: "ContactData" }) as any as S.Schema<ContactData>;
+export type ContactList = ContactData[];
 export const ContactList = S.Array(ContactData);
-export class ISO8601TimeRange extends S.Class<ISO8601TimeRange>(
-  "ISO8601TimeRange",
-)({
-  startTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  endTime: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class TimeAzEl extends S.Class<TimeAzEl>("TimeAzEl")({
-  dt: S.Number,
-  az: S.Number,
-  el: S.Number,
-}) {}
+export interface ISO8601TimeRange {
+  startTime: Date;
+  endTime: Date;
+}
+export const ISO8601TimeRange = S.suspend(() =>
+  S.Struct({
+    startTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    endTime: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "ISO8601TimeRange",
+}) as any as S.Schema<ISO8601TimeRange>;
+export interface TimeAzEl {
+  dt: number;
+  az: number;
+  el: number;
+}
+export const TimeAzEl = S.suspend(() =>
+  S.Struct({ dt: S.Number, az: S.Number, el: S.Number }),
+).annotations({ identifier: "TimeAzEl" }) as any as S.Schema<TimeAzEl>;
+export type TimeAzElList = TimeAzEl[];
 export const TimeAzElList = S.Array(TimeAzEl);
-export class CreateConfigRequest extends S.Class<CreateConfigRequest>(
-  "CreateConfigRequest",
-)(
-  { name: S.String, configData: ConfigTypeData, tags: S.optional(TagsMap) },
-  T.all(
-    T.Http({ method: "POST", uri: "/config" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface CreateConfigRequest {
+  name: string;
+  configData: (typeof ConfigTypeData)["Type"];
+  tags?: TagsMap;
+}
+export const CreateConfigRequest = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    configData: ConfigTypeData,
+    tags: S.optional(TagsMap),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/config" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListContactsResponse extends S.Class<ListContactsResponse>(
-  "ListContactsResponse",
-)({ nextToken: S.optional(S.String), contactList: S.optional(ContactList) }) {}
-export class AzElSegment extends S.Class<AzElSegment>("AzElSegment")({
-  referenceEpoch: S.Date.pipe(T.TimestampFormat("date-time")),
-  validTimeRange: ISO8601TimeRange,
-  azElList: TimeAzElList,
-}) {}
+).annotations({
+  identifier: "CreateConfigRequest",
+}) as any as S.Schema<CreateConfigRequest>;
+export interface ListContactsResponse {
+  nextToken?: string;
+  contactList?: ContactList;
+}
+export const ListContactsResponse = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    contactList: S.optional(ContactList),
+  }),
+).annotations({
+  identifier: "ListContactsResponse",
+}) as any as S.Schema<ListContactsResponse>;
+export interface AzElSegment {
+  referenceEpoch: Date;
+  validTimeRange: ISO8601TimeRange;
+  azElList: TimeAzElList;
+}
+export const AzElSegment = S.suspend(() =>
+  S.Struct({
+    referenceEpoch: S.Date.pipe(T.TimestampFormat("date-time")),
+    validTimeRange: ISO8601TimeRange,
+    azElList: TimeAzElList,
+  }),
+).annotations({ identifier: "AzElSegment" }) as any as S.Schema<AzElSegment>;
+export type AzElSegmentList = AzElSegment[];
 export const AzElSegmentList = S.Array(AzElSegment);
-export class Source extends S.Class<Source>("Source")({
-  configType: S.optional(S.String),
-  configId: S.optional(S.String),
-  configDetails: S.optional(ConfigDetails),
-  dataflowSourceRegion: S.optional(S.String),
-}) {}
-export class AzElSegments extends S.Class<AzElSegments>("AzElSegments")({
-  angleUnit: S.String,
-  azElSegmentList: AzElSegmentList,
-}) {}
-export class DataflowDetail extends S.Class<DataflowDetail>("DataflowDetail")({
-  source: S.optional(Source),
-  destination: S.optional(Destination),
-  errorMessage: S.optional(S.String),
-}) {}
+export interface Source {
+  configType?: string;
+  configId?: string;
+  configDetails?: (typeof ConfigDetails)["Type"];
+  dataflowSourceRegion?: string;
+}
+export const Source = S.suspend(() =>
+  S.Struct({
+    configType: S.optional(S.String),
+    configId: S.optional(S.String),
+    configDetails: S.optional(ConfigDetails),
+    dataflowSourceRegion: S.optional(S.String),
+  }),
+).annotations({ identifier: "Source" }) as any as S.Schema<Source>;
+export interface AzElSegments {
+  angleUnit: string;
+  azElSegmentList: AzElSegmentList;
+}
+export const AzElSegments = S.suspend(() =>
+  S.Struct({ angleUnit: S.String, azElSegmentList: AzElSegmentList }),
+).annotations({ identifier: "AzElSegments" }) as any as S.Schema<AzElSegments>;
+export interface DataflowDetail {
+  source?: Source;
+  destination?: Destination;
+  errorMessage?: string;
+}
+export const DataflowDetail = S.suspend(() =>
+  S.Struct({
+    source: S.optional(Source),
+    destination: S.optional(Destination),
+    errorMessage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DataflowDetail",
+}) as any as S.Schema<DataflowDetail>;
+export type DataflowList = DataflowDetail[];
 export const DataflowList = S.Array(DataflowDetail);
 export const AzElSegmentsData = S.Union(
   S.Struct({ s3Object: S3Object }),
   S.Struct({ azElData: AzElSegments }),
 );
-export class DescribeContactResponse extends S.Class<DescribeContactResponse>(
-  "DescribeContactResponse",
-)({
-  contactId: S.optional(S.String),
-  missionProfileArn: S.optional(S.String),
-  satelliteArn: S.optional(S.String),
-  startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  prePassStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  postPassEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  groundStation: S.optional(S.String),
-  contactStatus: S.optional(S.String),
-  errorMessage: S.optional(S.String),
-  maximumElevation: S.optional(Elevation),
-  tags: S.optional(TagsMap),
-  region: S.optional(S.String),
-  dataflowList: S.optional(DataflowList),
-  visibilityStartTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  visibilityEndTime: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  trackingOverrides: S.optional(TrackingOverrides),
-  ephemeris: S.optional(EphemerisResponseData),
-}) {}
-export class CreateDataflowEndpointGroupRequest extends S.Class<CreateDataflowEndpointGroupRequest>(
-  "CreateDataflowEndpointGroupRequest",
-)(
-  {
+export interface DescribeContactResponse {
+  contactId?: string;
+  missionProfileArn?: string;
+  satelliteArn?: string;
+  startTime?: Date;
+  endTime?: Date;
+  prePassStartTime?: Date;
+  postPassEndTime?: Date;
+  groundStation?: string;
+  contactStatus?: string;
+  errorMessage?: string;
+  maximumElevation?: Elevation;
+  tags?: TagsMap;
+  region?: string;
+  dataflowList?: DataflowList;
+  visibilityStartTime?: Date;
+  visibilityEndTime?: Date;
+  trackingOverrides?: TrackingOverrides;
+  ephemeris?: EphemerisResponseData;
+}
+export const DescribeContactResponse = S.suspend(() =>
+  S.Struct({
+    contactId: S.optional(S.String),
+    missionProfileArn: S.optional(S.String),
+    satelliteArn: S.optional(S.String),
+    startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    prePassStartTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    postPassEndTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    groundStation: S.optional(S.String),
+    contactStatus: S.optional(S.String),
+    errorMessage: S.optional(S.String),
+    maximumElevation: S.optional(Elevation),
+    tags: S.optional(TagsMap),
+    region: S.optional(S.String),
+    dataflowList: S.optional(DataflowList),
+    visibilityStartTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    visibilityEndTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    trackingOverrides: S.optional(TrackingOverrides),
+    ephemeris: S.optional(EphemerisResponseData),
+  }),
+).annotations({
+  identifier: "DescribeContactResponse",
+}) as any as S.Schema<DescribeContactResponse>;
+export interface CreateDataflowEndpointGroupRequest {
+  endpointDetails: EndpointDetailsList;
+  tags?: TagsMap;
+  contactPrePassDurationSeconds?: number;
+  contactPostPassDurationSeconds?: number;
+}
+export const CreateDataflowEndpointGroupRequest = S.suspend(() =>
+  S.Struct({
     endpointDetails: EndpointDetailsList,
     tags: S.optional(TagsMap),
     contactPrePassDurationSeconds: S.optional(S.Number),
     contactPostPassDurationSeconds: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/dataflowEndpointGroup" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/dataflowEndpointGroup" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AzElEphemeris extends S.Class<AzElEphemeris>("AzElEphemeris")({
-  groundStation: S.String,
-  data: AzElSegmentsData,
-}) {}
+).annotations({
+  identifier: "CreateDataflowEndpointGroupRequest",
+}) as any as S.Schema<CreateDataflowEndpointGroupRequest>;
+export interface AzElEphemeris {
+  groundStation: string;
+  data: (typeof AzElSegmentsData)["Type"];
+}
+export const AzElEphemeris = S.suspend(() =>
+  S.Struct({ groundStation: S.String, data: AzElSegmentsData }),
+).annotations({
+  identifier: "AzElEphemeris",
+}) as any as S.Schema<AzElEphemeris>;
 export const EphemerisData = S.Union(
   S.Struct({ tle: TLEEphemeris }),
   S.Struct({ oem: OEMEphemeris }),
   S.Struct({ azEl: AzElEphemeris }),
 );
-export class CreateEphemerisRequest extends S.Class<CreateEphemerisRequest>(
-  "CreateEphemerisRequest",
-)(
-  {
+export interface CreateEphemerisRequest {
+  satelliteId?: string;
+  enabled?: boolean;
+  priority?: number;
+  expirationTime?: Date;
+  name: string;
+  kmsKeyArn?: string;
+  ephemeris?: (typeof EphemerisData)["Type"];
+  tags?: TagsMap;
+}
+export const CreateEphemerisRequest = S.suspend(() =>
+  S.Struct({
     satelliteId: S.optional(S.String),
     enabled: S.optional(S.Boolean),
     priority: S.optional(S.Number),
@@ -1416,16 +2320,19 @@ export class CreateEphemerisRequest extends S.Class<CreateEphemerisRequest>(
     kmsKeyArn: S.optional(S.String),
     ephemeris: S.optional(EphemerisData),
     tags: S.optional(TagsMap),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/ephemeris" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ephemeris" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "CreateEphemerisRequest",
+}) as any as S.Schema<CreateEphemerisRequest>;
 
 //# Errors
 export class DependencyException extends S.TaggedError<DependencyException>()(

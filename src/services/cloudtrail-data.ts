@@ -294,40 +294,75 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class AuditEvent extends S.Class<AuditEvent>("AuditEvent")({
-  id: S.String,
-  eventData: S.String,
-  eventDataChecksum: S.optional(S.String),
-}) {}
+export interface AuditEvent {
+  id: string;
+  eventData: string;
+  eventDataChecksum?: string;
+}
+export const AuditEvent = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    eventData: S.String,
+    eventDataChecksum: S.optional(S.String),
+  }),
+).annotations({ identifier: "AuditEvent" }) as any as S.Schema<AuditEvent>;
+export type AuditEvents = AuditEvent[];
 export const AuditEvents = S.Array(AuditEvent);
-export class PutAuditEventsRequest extends S.Class<PutAuditEventsRequest>(
-  "PutAuditEventsRequest",
-)(
-  {
+export interface PutAuditEventsRequest {
+  auditEvents: AuditEvents;
+  channelArn: string;
+  externalId?: string;
+}
+export const PutAuditEventsRequest = S.suspend(() =>
+  S.Struct({
     auditEvents: AuditEvents,
     channelArn: S.String.pipe(T.HttpQuery("channelArn")),
     externalId: S.optional(S.String).pipe(T.HttpQuery("externalId")),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/PutAuditEvents" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/PutAuditEvents" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AuditEventResultEntry extends S.Class<AuditEventResultEntry>(
-  "AuditEventResultEntry",
-)({ id: S.String, eventID: S.String }) {}
+).annotations({
+  identifier: "PutAuditEventsRequest",
+}) as any as S.Schema<PutAuditEventsRequest>;
+export interface AuditEventResultEntry {
+  id: string;
+  eventID: string;
+}
+export const AuditEventResultEntry = S.suspend(() =>
+  S.Struct({ id: S.String, eventID: S.String }),
+).annotations({
+  identifier: "AuditEventResultEntry",
+}) as any as S.Schema<AuditEventResultEntry>;
+export type AuditEventResultEntries = AuditEventResultEntry[];
 export const AuditEventResultEntries = S.Array(AuditEventResultEntry);
-export class ResultErrorEntry extends S.Class<ResultErrorEntry>(
-  "ResultErrorEntry",
-)({ id: S.String, errorCode: S.String, errorMessage: S.String }) {}
+export interface ResultErrorEntry {
+  id: string;
+  errorCode: string;
+  errorMessage: string;
+}
+export const ResultErrorEntry = S.suspend(() =>
+  S.Struct({ id: S.String, errorCode: S.String, errorMessage: S.String }),
+).annotations({
+  identifier: "ResultErrorEntry",
+}) as any as S.Schema<ResultErrorEntry>;
+export type ResultErrorEntries = ResultErrorEntry[];
 export const ResultErrorEntries = S.Array(ResultErrorEntry);
-export class PutAuditEventsResponse extends S.Class<PutAuditEventsResponse>(
-  "PutAuditEventsResponse",
-)({ successful: AuditEventResultEntries, failed: ResultErrorEntries }) {}
+export interface PutAuditEventsResponse {
+  successful: AuditEventResultEntries;
+  failed: ResultErrorEntries;
+}
+export const PutAuditEventsResponse = S.suspend(() =>
+  S.Struct({ successful: AuditEventResultEntries, failed: ResultErrorEntries }),
+).annotations({
+  identifier: "PutAuditEventsResponse",
+}) as any as S.Schema<PutAuditEventsResponse>;
 
 //# Errors
 export class ChannelInsufficientPermission extends S.TaggedError<ChannelInsufficientPermission>()(

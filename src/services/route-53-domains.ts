@@ -245,112 +245,322 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
+export type OperationStatusList = string[];
 export const OperationStatusList = S.Array(S.String);
+export type OperationTypeList = string[];
 export const OperationTypeList = S.Array(S.String);
-export class AcceptDomainTransferFromAnotherAwsAccountRequest extends S.Class<AcceptDomainTransferFromAnotherAwsAccountRequest>(
-  "AcceptDomainTransferFromAnotherAwsAccountRequest",
-)(
-  { DomainName: S.String, Password: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CancelDomainTransferToAnotherAwsAccountRequest extends S.Class<CancelDomainTransferToAnotherAwsAccountRequest>(
-  "CancelDomainTransferToAnotherAwsAccountRequest",
-)(
-  { DomainName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CheckDomainAvailabilityRequest extends S.Class<CheckDomainAvailabilityRequest>(
-  "CheckDomainAvailabilityRequest",
-)(
-  { DomainName: S.String, IdnLangCode: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CheckDomainTransferabilityRequest extends S.Class<CheckDomainTransferabilityRequest>(
-  "CheckDomainTransferabilityRequest",
-)(
-  { DomainName: S.String, AuthCode: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteDomainRequest extends S.Class<DeleteDomainRequest>(
-  "DeleteDomainRequest",
-)(
-  { DomainName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteTagsForDomainRequest extends S.Class<DeleteTagsForDomainRequest>(
-  "DeleteTagsForDomainRequest",
-)(
-  { DomainName: S.String, TagsToDelete: TagKeyList },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteTagsForDomainResponse extends S.Class<DeleteTagsForDomainResponse>(
-  "DeleteTagsForDomainResponse",
-)({}, ns) {}
-export class DisableDomainAutoRenewRequest extends S.Class<DisableDomainAutoRenewRequest>(
-  "DisableDomainAutoRenewRequest",
-)(
-  { DomainName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DisableDomainAutoRenewResponse extends S.Class<DisableDomainAutoRenewResponse>(
-  "DisableDomainAutoRenewResponse",
-)({}, ns) {}
-export class DisableDomainTransferLockRequest extends S.Class<DisableDomainTransferLockRequest>(
-  "DisableDomainTransferLockRequest",
-)(
-  { DomainName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DisassociateDelegationSignerFromDomainRequest extends S.Class<DisassociateDelegationSignerFromDomainRequest>(
-  "DisassociateDelegationSignerFromDomainRequest",
-)(
-  { DomainName: S.String, Id: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class EnableDomainAutoRenewRequest extends S.Class<EnableDomainAutoRenewRequest>(
-  "EnableDomainAutoRenewRequest",
-)(
-  { DomainName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class EnableDomainAutoRenewResponse extends S.Class<EnableDomainAutoRenewResponse>(
-  "EnableDomainAutoRenewResponse",
-)({}, ns) {}
-export class EnableDomainTransferLockRequest extends S.Class<EnableDomainTransferLockRequest>(
-  "EnableDomainTransferLockRequest",
-)(
-  { DomainName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetContactReachabilityStatusRequest extends S.Class<GetContactReachabilityStatusRequest>(
-  "GetContactReachabilityStatusRequest",
-)(
-  { domainName: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetDomainDetailRequest extends S.Class<GetDomainDetailRequest>(
-  "GetDomainDetailRequest",
-)(
-  { DomainName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetDomainSuggestionsRequest extends S.Class<GetDomainSuggestionsRequest>(
-  "GetDomainSuggestionsRequest",
-)(
-  { DomainName: S.String, SuggestionCount: S.Number, OnlyAvailable: S.Boolean },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetOperationDetailRequest extends S.Class<GetOperationDetailRequest>(
-  "GetOperationDetailRequest",
-)(
-  { OperationId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListOperationsRequest extends S.Class<ListOperationsRequest>(
-  "ListOperationsRequest",
-)(
-  {
+export interface AcceptDomainTransferFromAnotherAwsAccountRequest {
+  DomainName: string;
+  Password: string;
+}
+export const AcceptDomainTransferFromAnotherAwsAccountRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String, Password: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "AcceptDomainTransferFromAnotherAwsAccountRequest",
+}) as any as S.Schema<AcceptDomainTransferFromAnotherAwsAccountRequest>;
+export interface CancelDomainTransferToAnotherAwsAccountRequest {
+  DomainName: string;
+}
+export const CancelDomainTransferToAnotherAwsAccountRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CancelDomainTransferToAnotherAwsAccountRequest",
+}) as any as S.Schema<CancelDomainTransferToAnotherAwsAccountRequest>;
+export interface CheckDomainAvailabilityRequest {
+  DomainName: string;
+  IdnLangCode?: string;
+}
+export const CheckDomainAvailabilityRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String, IdnLangCode: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CheckDomainAvailabilityRequest",
+}) as any as S.Schema<CheckDomainAvailabilityRequest>;
+export interface CheckDomainTransferabilityRequest {
+  DomainName: string;
+  AuthCode?: string;
+}
+export const CheckDomainTransferabilityRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String, AuthCode: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "CheckDomainTransferabilityRequest",
+}) as any as S.Schema<CheckDomainTransferabilityRequest>;
+export interface DeleteDomainRequest {
+  DomainName: string;
+}
+export const DeleteDomainRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteDomainRequest",
+}) as any as S.Schema<DeleteDomainRequest>;
+export interface DeleteTagsForDomainRequest {
+  DomainName: string;
+  TagsToDelete: TagKeyList;
+}
+export const DeleteTagsForDomainRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String, TagsToDelete: TagKeyList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DeleteTagsForDomainRequest",
+}) as any as S.Schema<DeleteTagsForDomainRequest>;
+export interface DeleteTagsForDomainResponse {}
+export const DeleteTagsForDomainResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteTagsForDomainResponse",
+}) as any as S.Schema<DeleteTagsForDomainResponse>;
+export interface DisableDomainAutoRenewRequest {
+  DomainName: string;
+}
+export const DisableDomainAutoRenewRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DisableDomainAutoRenewRequest",
+}) as any as S.Schema<DisableDomainAutoRenewRequest>;
+export interface DisableDomainAutoRenewResponse {}
+export const DisableDomainAutoRenewResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DisableDomainAutoRenewResponse",
+}) as any as S.Schema<DisableDomainAutoRenewResponse>;
+export interface DisableDomainTransferLockRequest {
+  DomainName: string;
+}
+export const DisableDomainTransferLockRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DisableDomainTransferLockRequest",
+}) as any as S.Schema<DisableDomainTransferLockRequest>;
+export interface DisassociateDelegationSignerFromDomainRequest {
+  DomainName: string;
+  Id: string;
+}
+export const DisassociateDelegationSignerFromDomainRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String, Id: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "DisassociateDelegationSignerFromDomainRequest",
+}) as any as S.Schema<DisassociateDelegationSignerFromDomainRequest>;
+export interface EnableDomainAutoRenewRequest {
+  DomainName: string;
+}
+export const EnableDomainAutoRenewRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "EnableDomainAutoRenewRequest",
+}) as any as S.Schema<EnableDomainAutoRenewRequest>;
+export interface EnableDomainAutoRenewResponse {}
+export const EnableDomainAutoRenewResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "EnableDomainAutoRenewResponse",
+}) as any as S.Schema<EnableDomainAutoRenewResponse>;
+export interface EnableDomainTransferLockRequest {
+  DomainName: string;
+}
+export const EnableDomainTransferLockRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "EnableDomainTransferLockRequest",
+}) as any as S.Schema<EnableDomainTransferLockRequest>;
+export interface GetContactReachabilityStatusRequest {
+  domainName?: string;
+}
+export const GetContactReachabilityStatusRequest = S.suspend(() =>
+  S.Struct({ domainName: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetContactReachabilityStatusRequest",
+}) as any as S.Schema<GetContactReachabilityStatusRequest>;
+export interface GetDomainDetailRequest {
+  DomainName: string;
+}
+export const GetDomainDetailRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetDomainDetailRequest",
+}) as any as S.Schema<GetDomainDetailRequest>;
+export interface GetDomainSuggestionsRequest {
+  DomainName: string;
+  SuggestionCount: number;
+  OnlyAvailable: boolean;
+}
+export const GetDomainSuggestionsRequest = S.suspend(() =>
+  S.Struct({
+    DomainName: S.String,
+    SuggestionCount: S.Number,
+    OnlyAvailable: S.Boolean,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetDomainSuggestionsRequest",
+}) as any as S.Schema<GetDomainSuggestionsRequest>;
+export interface GetOperationDetailRequest {
+  OperationId: string;
+}
+export const GetOperationDetailRequest = S.suspend(() =>
+  S.Struct({ OperationId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetOperationDetailRequest",
+}) as any as S.Schema<GetOperationDetailRequest>;
+export interface ListOperationsRequest {
+  SubmittedSince?: Date;
+  Marker?: string;
+  MaxItems?: number;
+  Status?: OperationStatusList;
+  Type?: OperationTypeList;
+  SortBy?: string;
+  SortOrder?: string;
+}
+export const ListOperationsRequest = S.suspend(() =>
+  S.Struct({
     SubmittedSince: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Marker: S.optional(S.String),
     MaxItems: S.optional(S.Number),
@@ -358,176 +568,454 @@ export class ListOperationsRequest extends S.Class<ListOperationsRequest>(
     Type: S.optional(OperationTypeList),
     SortBy: S.optional(S.String),
     SortOrder: S.optional(S.String),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListPricesRequest extends S.Class<ListPricesRequest>(
-  "ListPricesRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListOperationsRequest",
+}) as any as S.Schema<ListOperationsRequest>;
+export interface ListPricesRequest {
+  Tld?: string;
+  Marker?: string;
+  MaxItems?: number;
+}
+export const ListPricesRequest = S.suspend(() =>
+  S.Struct({
     Tld: S.optional(S.String),
     Marker: S.optional(S.String),
     MaxItems: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTagsForDomainRequest extends S.Class<ListTagsForDomainRequest>(
-  "ListTagsForDomainRequest",
-)(
-  { DomainName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PushDomainRequest extends S.Class<PushDomainRequest>(
-  "PushDomainRequest",
-)(
-  { DomainName: S.String, Target: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PushDomainResponse extends S.Class<PushDomainResponse>(
-  "PushDomainResponse",
-)({}, ns) {}
-export class RejectDomainTransferFromAnotherAwsAccountRequest extends S.Class<RejectDomainTransferFromAnotherAwsAccountRequest>(
-  "RejectDomainTransferFromAnotherAwsAccountRequest",
-)(
-  { DomainName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class RenewDomainRequest extends S.Class<RenewDomainRequest>(
-  "RenewDomainRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListPricesRequest",
+}) as any as S.Schema<ListPricesRequest>;
+export interface ListTagsForDomainRequest {
+  DomainName: string;
+}
+export const ListTagsForDomainRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListTagsForDomainRequest",
+}) as any as S.Schema<ListTagsForDomainRequest>;
+export interface PushDomainRequest {
+  DomainName: string;
+  Target: string;
+}
+export const PushDomainRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String, Target: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "PushDomainRequest",
+}) as any as S.Schema<PushDomainRequest>;
+export interface PushDomainResponse {}
+export const PushDomainResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "PushDomainResponse",
+}) as any as S.Schema<PushDomainResponse>;
+export interface RejectDomainTransferFromAnotherAwsAccountRequest {
+  DomainName: string;
+}
+export const RejectDomainTransferFromAnotherAwsAccountRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "RejectDomainTransferFromAnotherAwsAccountRequest",
+}) as any as S.Schema<RejectDomainTransferFromAnotherAwsAccountRequest>;
+export interface RenewDomainRequest {
+  DomainName: string;
+  DurationInYears?: number;
+  CurrentExpiryYear: number;
+}
+export const RenewDomainRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String,
     DurationInYears: S.optional(S.Number),
     CurrentExpiryYear: S.Number,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ResendContactReachabilityEmailRequest extends S.Class<ResendContactReachabilityEmailRequest>(
-  "ResendContactReachabilityEmailRequest",
-)(
-  { domainName: S.optional(S.String) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ResendOperationAuthorizationRequest extends S.Class<ResendOperationAuthorizationRequest>(
-  "ResendOperationAuthorizationRequest",
-)(
-  { OperationId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ResendOperationAuthorizationResponse extends S.Class<ResendOperationAuthorizationResponse>(
-  "ResendOperationAuthorizationResponse",
-)({}, ns) {}
-export class RetrieveDomainAuthCodeRequest extends S.Class<RetrieveDomainAuthCodeRequest>(
-  "RetrieveDomainAuthCodeRequest",
-)(
-  { DomainName: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TransferDomainToAnotherAwsAccountRequest extends S.Class<TransferDomainToAnotherAwsAccountRequest>(
-  "TransferDomainToAnotherAwsAccountRequest",
-)(
-  { DomainName: S.String, AccountId: S.String },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateDomainContactPrivacyRequest extends S.Class<UpdateDomainContactPrivacyRequest>(
-  "UpdateDomainContactPrivacyRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "RenewDomainRequest",
+}) as any as S.Schema<RenewDomainRequest>;
+export interface ResendContactReachabilityEmailRequest {
+  domainName?: string;
+}
+export const ResendContactReachabilityEmailRequest = S.suspend(() =>
+  S.Struct({ domainName: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ResendContactReachabilityEmailRequest",
+}) as any as S.Schema<ResendContactReachabilityEmailRequest>;
+export interface ResendOperationAuthorizationRequest {
+  OperationId: string;
+}
+export const ResendOperationAuthorizationRequest = S.suspend(() =>
+  S.Struct({ OperationId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ResendOperationAuthorizationRequest",
+}) as any as S.Schema<ResendOperationAuthorizationRequest>;
+export interface ResendOperationAuthorizationResponse {}
+export const ResendOperationAuthorizationResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "ResendOperationAuthorizationResponse",
+}) as any as S.Schema<ResendOperationAuthorizationResponse>;
+export interface RetrieveDomainAuthCodeRequest {
+  DomainName: string;
+}
+export const RetrieveDomainAuthCodeRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "RetrieveDomainAuthCodeRequest",
+}) as any as S.Schema<RetrieveDomainAuthCodeRequest>;
+export interface TransferDomainToAnotherAwsAccountRequest {
+  DomainName: string;
+  AccountId: string;
+}
+export const TransferDomainToAnotherAwsAccountRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String, AccountId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "TransferDomainToAnotherAwsAccountRequest",
+}) as any as S.Schema<TransferDomainToAnotherAwsAccountRequest>;
+export interface UpdateDomainContactPrivacyRequest {
+  DomainName: string;
+  AdminPrivacy?: boolean;
+  RegistrantPrivacy?: boolean;
+  TechPrivacy?: boolean;
+  BillingPrivacy?: boolean;
+}
+export const UpdateDomainContactPrivacyRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String,
     AdminPrivacy: S.optional(S.Boolean),
     RegistrantPrivacy: S.optional(S.Boolean),
     TechPrivacy: S.optional(S.Boolean),
     BillingPrivacy: S.optional(S.Boolean),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateDomainContactPrivacyRequest",
+}) as any as S.Schema<UpdateDomainContactPrivacyRequest>;
+export type GlueIpList = string[];
 export const GlueIpList = S.Array(S.String);
-export class Nameserver extends S.Class<Nameserver>("Nameserver")({
-  Name: S.String,
-  GlueIps: S.optional(GlueIpList),
-}) {}
+export interface Nameserver {
+  Name: string;
+  GlueIps?: GlueIpList;
+}
+export const Nameserver = S.suspend(() =>
+  S.Struct({ Name: S.String, GlueIps: S.optional(GlueIpList) }),
+).annotations({ identifier: "Nameserver" }) as any as S.Schema<Nameserver>;
+export type NameserverList = Nameserver[];
 export const NameserverList = S.Array(Nameserver);
-export class UpdateDomainNameserversRequest extends S.Class<UpdateDomainNameserversRequest>(
-  "UpdateDomainNameserversRequest",
-)(
-  {
+export interface UpdateDomainNameserversRequest {
+  DomainName: string;
+  FIAuthKey?: string;
+  Nameservers: NameserverList;
+}
+export const UpdateDomainNameserversRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String,
     FIAuthKey: S.optional(S.String),
     Nameservers: NameserverList,
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ViewBillingRequest extends S.Class<ViewBillingRequest>(
-  "ViewBillingRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateDomainNameserversRequest",
+}) as any as S.Schema<UpdateDomainNameserversRequest>;
+export interface ViewBillingRequest {
+  Start?: Date;
+  End?: Date;
+  Marker?: string;
+  MaxItems?: number;
+}
+export const ViewBillingRequest = S.suspend(() =>
+  S.Struct({
     Start: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     End: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Marker: S.optional(S.String),
     MaxItems: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ViewBillingRequest",
+}) as any as S.Schema<ViewBillingRequest>;
+export type Values = string[];
 export const Values = S.Array(S.String);
-export class DnssecSigningAttributes extends S.Class<DnssecSigningAttributes>(
-  "DnssecSigningAttributes",
-)({
-  Algorithm: S.optional(S.Number),
-  Flags: S.optional(S.Number),
-  PublicKey: S.optional(S.String),
-}) {}
+export interface DnssecSigningAttributes {
+  Algorithm?: number;
+  Flags?: number;
+  PublicKey?: string;
+}
+export const DnssecSigningAttributes = S.suspend(() =>
+  S.Struct({
+    Algorithm: S.optional(S.Number),
+    Flags: S.optional(S.Number),
+    PublicKey: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DnssecSigningAttributes",
+}) as any as S.Schema<DnssecSigningAttributes>;
+export type DomainStatusList = string[];
 export const DomainStatusList = S.Array(S.String);
-export class FilterCondition extends S.Class<FilterCondition>(
-  "FilterCondition",
-)({ Name: S.String, Operator: S.String, Values: Values }) {}
+export interface FilterCondition {
+  Name: string;
+  Operator: string;
+  Values: Values;
+}
+export const FilterCondition = S.suspend(() =>
+  S.Struct({ Name: S.String, Operator: S.String, Values: Values }),
+).annotations({
+  identifier: "FilterCondition",
+}) as any as S.Schema<FilterCondition>;
+export type FilterConditions = FilterCondition[];
 export const FilterConditions = S.Array(FilterCondition);
-export class SortCondition extends S.Class<SortCondition>("SortCondition")({
-  Name: S.String,
-  SortOrder: S.String,
-}) {}
-export class Consent extends S.Class<Consent>("Consent")({
-  MaxPrice: S.Number,
-  Currency: S.String,
-}) {}
-export class Tag extends S.Class<Tag>("Tag")({
-  Key: S.optional(S.String),
-  Value: S.optional(S.String),
-}) {}
+export interface SortCondition {
+  Name: string;
+  SortOrder: string;
+}
+export const SortCondition = S.suspend(() =>
+  S.Struct({ Name: S.String, SortOrder: S.String }),
+).annotations({
+  identifier: "SortCondition",
+}) as any as S.Schema<SortCondition>;
+export interface Consent {
+  MaxPrice: number;
+  Currency: string;
+}
+export const Consent = S.suspend(() =>
+  S.Struct({ MaxPrice: S.Number, Currency: S.String }),
+).annotations({ identifier: "Consent" }) as any as S.Schema<Consent>;
+export interface Tag {
+  Key?: string;
+  Value?: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ Key: S.optional(S.String), Value: S.optional(S.String) }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagList = Tag[];
 export const TagList = S.Array(Tag);
-export class AcceptDomainTransferFromAnotherAwsAccountResponse extends S.Class<AcceptDomainTransferFromAnotherAwsAccountResponse>(
-  "AcceptDomainTransferFromAnotherAwsAccountResponse",
-)({ OperationId: S.optional(S.String) }, ns) {}
-export class AssociateDelegationSignerToDomainRequest extends S.Class<AssociateDelegationSignerToDomainRequest>(
-  "AssociateDelegationSignerToDomainRequest",
-)(
-  { DomainName: S.String, SigningAttributes: DnssecSigningAttributes },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CancelDomainTransferToAnotherAwsAccountResponse extends S.Class<CancelDomainTransferToAnotherAwsAccountResponse>(
-  "CancelDomainTransferToAnotherAwsAccountResponse",
-)({ OperationId: S.optional(S.String) }, ns) {}
-export class CheckDomainAvailabilityResponse extends S.Class<CheckDomainAvailabilityResponse>(
-  "CheckDomainAvailabilityResponse",
-)({ Availability: S.optional(S.String) }, ns) {}
-export class DeleteDomainResponse extends S.Class<DeleteDomainResponse>(
-  "DeleteDomainResponse",
-)({ OperationId: S.optional(S.String) }, ns) {}
-export class DisableDomainTransferLockResponse extends S.Class<DisableDomainTransferLockResponse>(
-  "DisableDomainTransferLockResponse",
-)({ OperationId: S.optional(S.String) }, ns) {}
-export class DisassociateDelegationSignerFromDomainResponse extends S.Class<DisassociateDelegationSignerFromDomainResponse>(
-  "DisassociateDelegationSignerFromDomainResponse",
-)({ OperationId: S.optional(S.String) }, ns) {}
-export class EnableDomainTransferLockResponse extends S.Class<EnableDomainTransferLockResponse>(
-  "EnableDomainTransferLockResponse",
-)({ OperationId: S.optional(S.String) }, ns) {}
-export class GetContactReachabilityStatusResponse extends S.Class<GetContactReachabilityStatusResponse>(
-  "GetContactReachabilityStatusResponse",
-)({ domainName: S.optional(S.String), status: S.optional(S.String) }, ns) {}
-export class GetOperationDetailResponse extends S.Class<GetOperationDetailResponse>(
-  "GetOperationDetailResponse",
-)(
-  {
+export interface AcceptDomainTransferFromAnotherAwsAccountResponse {
+  OperationId?: string;
+}
+export const AcceptDomainTransferFromAnotherAwsAccountResponse = S.suspend(() =>
+  S.Struct({ OperationId: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "AcceptDomainTransferFromAnotherAwsAccountResponse",
+}) as any as S.Schema<AcceptDomainTransferFromAnotherAwsAccountResponse>;
+export interface AssociateDelegationSignerToDomainRequest {
+  DomainName: string;
+  SigningAttributes: DnssecSigningAttributes;
+}
+export const AssociateDelegationSignerToDomainRequest = S.suspend(() =>
+  S.Struct({
+    DomainName: S.String,
+    SigningAttributes: DnssecSigningAttributes,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "AssociateDelegationSignerToDomainRequest",
+}) as any as S.Schema<AssociateDelegationSignerToDomainRequest>;
+export interface CancelDomainTransferToAnotherAwsAccountResponse {
+  OperationId?: string;
+}
+export const CancelDomainTransferToAnotherAwsAccountResponse = S.suspend(() =>
+  S.Struct({ OperationId: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "CancelDomainTransferToAnotherAwsAccountResponse",
+}) as any as S.Schema<CancelDomainTransferToAnotherAwsAccountResponse>;
+export interface CheckDomainAvailabilityResponse {
+  Availability?: string;
+}
+export const CheckDomainAvailabilityResponse = S.suspend(() =>
+  S.Struct({ Availability: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "CheckDomainAvailabilityResponse",
+}) as any as S.Schema<CheckDomainAvailabilityResponse>;
+export interface DeleteDomainResponse {
+  OperationId?: string;
+}
+export const DeleteDomainResponse = S.suspend(() =>
+  S.Struct({ OperationId: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "DeleteDomainResponse",
+}) as any as S.Schema<DeleteDomainResponse>;
+export interface DisableDomainTransferLockResponse {
+  OperationId?: string;
+}
+export const DisableDomainTransferLockResponse = S.suspend(() =>
+  S.Struct({ OperationId: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "DisableDomainTransferLockResponse",
+}) as any as S.Schema<DisableDomainTransferLockResponse>;
+export interface DisassociateDelegationSignerFromDomainResponse {
+  OperationId?: string;
+}
+export const DisassociateDelegationSignerFromDomainResponse = S.suspend(() =>
+  S.Struct({ OperationId: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "DisassociateDelegationSignerFromDomainResponse",
+}) as any as S.Schema<DisassociateDelegationSignerFromDomainResponse>;
+export interface EnableDomainTransferLockResponse {
+  OperationId?: string;
+}
+export const EnableDomainTransferLockResponse = S.suspend(() =>
+  S.Struct({ OperationId: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "EnableDomainTransferLockResponse",
+}) as any as S.Schema<EnableDomainTransferLockResponse>;
+export interface GetContactReachabilityStatusResponse {
+  domainName?: string;
+  status?: string;
+}
+export const GetContactReachabilityStatusResponse = S.suspend(() =>
+  S.Struct({
+    domainName: S.optional(S.String),
+    status: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "GetContactReachabilityStatusResponse",
+}) as any as S.Schema<GetContactReachabilityStatusResponse>;
+export interface GetOperationDetailResponse {
+  OperationId?: string;
+  Status?: string;
+  Message?: string;
+  DomainName?: string;
+  Type?: string;
+  SubmittedDate?: Date;
+  LastUpdatedDate?: Date;
+  StatusFlag?: string;
+}
+export const GetOperationDetailResponse = S.suspend(() =>
+  S.Struct({
     OperationId: S.optional(S.String),
     Status: S.optional(S.String),
     Message: S.optional(S.String),
@@ -538,67 +1026,145 @@ export class GetOperationDetailResponse extends S.Class<GetOperationDetailRespon
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     StatusFlag: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListDomainsRequest extends S.Class<ListDomainsRequest>(
-  "ListDomainsRequest",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetOperationDetailResponse",
+}) as any as S.Schema<GetOperationDetailResponse>;
+export interface ListDomainsRequest {
+  FilterConditions?: FilterConditions;
+  SortCondition?: SortCondition;
+  Marker?: string;
+  MaxItems?: number;
+}
+export const ListDomainsRequest = S.suspend(() =>
+  S.Struct({
     FilterConditions: S.optional(FilterConditions),
     SortCondition: S.optional(SortCondition),
     Marker: S.optional(S.String),
     MaxItems: S.optional(S.Number),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTagsForDomainResponse extends S.Class<ListTagsForDomainResponse>(
-  "ListTagsForDomainResponse",
-)({ TagList: S.optional(TagList) }, ns) {}
-export class RejectDomainTransferFromAnotherAwsAccountResponse extends S.Class<RejectDomainTransferFromAnotherAwsAccountResponse>(
-  "RejectDomainTransferFromAnotherAwsAccountResponse",
-)({ OperationId: S.optional(S.String) }, ns) {}
-export class RenewDomainResponse extends S.Class<RenewDomainResponse>(
-  "RenewDomainResponse",
-)({ OperationId: S.optional(S.String) }, ns) {}
-export class ResendContactReachabilityEmailResponse extends S.Class<ResendContactReachabilityEmailResponse>(
-  "ResendContactReachabilityEmailResponse",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "ListDomainsRequest",
+}) as any as S.Schema<ListDomainsRequest>;
+export interface ListTagsForDomainResponse {
+  TagList?: TagList;
+}
+export const ListTagsForDomainResponse = S.suspend(() =>
+  S.Struct({ TagList: S.optional(TagList) }).pipe(ns),
+).annotations({
+  identifier: "ListTagsForDomainResponse",
+}) as any as S.Schema<ListTagsForDomainResponse>;
+export interface RejectDomainTransferFromAnotherAwsAccountResponse {
+  OperationId?: string;
+}
+export const RejectDomainTransferFromAnotherAwsAccountResponse = S.suspend(() =>
+  S.Struct({ OperationId: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "RejectDomainTransferFromAnotherAwsAccountResponse",
+}) as any as S.Schema<RejectDomainTransferFromAnotherAwsAccountResponse>;
+export interface RenewDomainResponse {
+  OperationId?: string;
+}
+export const RenewDomainResponse = S.suspend(() =>
+  S.Struct({ OperationId: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "RenewDomainResponse",
+}) as any as S.Schema<RenewDomainResponse>;
+export interface ResendContactReachabilityEmailResponse {
+  domainName?: string;
+  emailAddress?: string;
+  isAlreadyVerified?: boolean;
+}
+export const ResendContactReachabilityEmailResponse = S.suspend(() =>
+  S.Struct({
     domainName: S.optional(S.String),
     emailAddress: S.optional(S.String),
     isAlreadyVerified: S.optional(S.Boolean),
-  },
-  ns,
-) {}
-export class RetrieveDomainAuthCodeResponse extends S.Class<RetrieveDomainAuthCodeResponse>(
-  "RetrieveDomainAuthCodeResponse",
-)({ AuthCode: S.optional(S.String) }, ns) {}
-export class ExtraParam extends S.Class<ExtraParam>("ExtraParam")({
-  Name: S.String,
-  Value: S.String,
-}) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "ResendContactReachabilityEmailResponse",
+}) as any as S.Schema<ResendContactReachabilityEmailResponse>;
+export interface RetrieveDomainAuthCodeResponse {
+  AuthCode?: string;
+}
+export const RetrieveDomainAuthCodeResponse = S.suspend(() =>
+  S.Struct({ AuthCode: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "RetrieveDomainAuthCodeResponse",
+}) as any as S.Schema<RetrieveDomainAuthCodeResponse>;
+export interface ExtraParam {
+  Name: string;
+  Value: string;
+}
+export const ExtraParam = S.suspend(() =>
+  S.Struct({ Name: S.String, Value: S.String }),
+).annotations({ identifier: "ExtraParam" }) as any as S.Schema<ExtraParam>;
+export type ExtraParamList = ExtraParam[];
 export const ExtraParamList = S.Array(ExtraParam);
-export class ContactDetail extends S.Class<ContactDetail>("ContactDetail")({
-  FirstName: S.optional(S.String),
-  LastName: S.optional(S.String),
-  ContactType: S.optional(S.String),
-  OrganizationName: S.optional(S.String),
-  AddressLine1: S.optional(S.String),
-  AddressLine2: S.optional(S.String),
-  City: S.optional(S.String),
-  State: S.optional(S.String),
-  CountryCode: S.optional(S.String),
-  ZipCode: S.optional(S.String),
-  PhoneNumber: S.optional(S.String),
-  Email: S.optional(S.String),
-  Fax: S.optional(S.String),
-  ExtraParams: S.optional(ExtraParamList),
-}) {}
-export class TransferDomainRequest extends S.Class<TransferDomainRequest>(
-  "TransferDomainRequest",
-)(
-  {
+export interface ContactDetail {
+  FirstName?: string;
+  LastName?: string;
+  ContactType?: string;
+  OrganizationName?: string;
+  AddressLine1?: string;
+  AddressLine2?: string;
+  City?: string;
+  State?: string;
+  CountryCode?: string;
+  ZipCode?: string;
+  PhoneNumber?: string;
+  Email?: string;
+  Fax?: string;
+  ExtraParams?: ExtraParamList;
+}
+export const ContactDetail = S.suspend(() =>
+  S.Struct({
+    FirstName: S.optional(S.String),
+    LastName: S.optional(S.String),
+    ContactType: S.optional(S.String),
+    OrganizationName: S.optional(S.String),
+    AddressLine1: S.optional(S.String),
+    AddressLine2: S.optional(S.String),
+    City: S.optional(S.String),
+    State: S.optional(S.String),
+    CountryCode: S.optional(S.String),
+    ZipCode: S.optional(S.String),
+    PhoneNumber: S.optional(S.String),
+    Email: S.optional(S.String),
+    Fax: S.optional(S.String),
+    ExtraParams: S.optional(ExtraParamList),
+  }),
+).annotations({
+  identifier: "ContactDetail",
+}) as any as S.Schema<ContactDetail>;
+export interface TransferDomainRequest {
+  DomainName: string;
+  IdnLangCode?: string;
+  DurationInYears: number;
+  Nameservers?: NameserverList;
+  AuthCode?: string;
+  AutoRenew?: boolean;
+  AdminContact: ContactDetail;
+  RegistrantContact: ContactDetail;
+  TechContact: ContactDetail;
+  PrivacyProtectAdminContact?: boolean;
+  PrivacyProtectRegistrantContact?: boolean;
+  PrivacyProtectTechContact?: boolean;
+  BillingContact?: ContactDetail;
+  PrivacyProtectBillingContact?: boolean;
+}
+export const TransferDomainRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String,
     IdnLangCode: S.optional(S.String),
     DurationInYears: S.Number,
@@ -613,94 +1179,243 @@ export class TransferDomainRequest extends S.Class<TransferDomainRequest>(
     PrivacyProtectTechContact: S.optional(S.Boolean),
     BillingContact: S.optional(ContactDetail),
     PrivacyProtectBillingContact: S.optional(S.Boolean),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TransferDomainToAnotherAwsAccountResponse extends S.Class<TransferDomainToAnotherAwsAccountResponse>(
-  "TransferDomainToAnotherAwsAccountResponse",
-)({ OperationId: S.optional(S.String), Password: S.optional(S.String) }, ns) {}
-export class UpdateDomainContactRequest extends S.Class<UpdateDomainContactRequest>(
-  "UpdateDomainContactRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "TransferDomainRequest",
+}) as any as S.Schema<TransferDomainRequest>;
+export interface TransferDomainToAnotherAwsAccountResponse {
+  OperationId?: string;
+  Password?: string;
+}
+export const TransferDomainToAnotherAwsAccountResponse = S.suspend(() =>
+  S.Struct({
+    OperationId: S.optional(S.String),
+    Password: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "TransferDomainToAnotherAwsAccountResponse",
+}) as any as S.Schema<TransferDomainToAnotherAwsAccountResponse>;
+export interface UpdateDomainContactRequest {
+  DomainName: string;
+  AdminContact?: ContactDetail;
+  RegistrantContact?: ContactDetail;
+  TechContact?: ContactDetail;
+  Consent?: Consent;
+  BillingContact?: ContactDetail;
+}
+export const UpdateDomainContactRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String,
     AdminContact: S.optional(ContactDetail),
     RegistrantContact: S.optional(ContactDetail),
     TechContact: S.optional(ContactDetail),
     Consent: S.optional(Consent),
     BillingContact: S.optional(ContactDetail),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateDomainContactPrivacyResponse extends S.Class<UpdateDomainContactPrivacyResponse>(
-  "UpdateDomainContactPrivacyResponse",
-)({ OperationId: S.optional(S.String) }, ns) {}
-export class UpdateDomainNameserversResponse extends S.Class<UpdateDomainNameserversResponse>(
-  "UpdateDomainNameserversResponse",
-)({ OperationId: S.optional(S.String) }, ns) {}
-export class UpdateTagsForDomainRequest extends S.Class<UpdateTagsForDomainRequest>(
-  "UpdateTagsForDomainRequest",
-)(
-  { DomainName: S.String, TagsToUpdate: S.optional(TagList) },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateTagsForDomainResponse extends S.Class<UpdateTagsForDomainResponse>(
-  "UpdateTagsForDomainResponse",
-)({}, ns) {}
-export class DomainTransferability extends S.Class<DomainTransferability>(
-  "DomainTransferability",
-)({ Transferable: S.optional(S.String) }) {}
-export class DnssecKey extends S.Class<DnssecKey>("DnssecKey")({
-  Algorithm: S.optional(S.Number),
-  Flags: S.optional(S.Number),
-  PublicKey: S.optional(S.String),
-  DigestType: S.optional(S.Number),
-  Digest: S.optional(S.String),
-  KeyTag: S.optional(S.Number),
-  Id: S.optional(S.String),
-}) {}
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateDomainContactRequest",
+}) as any as S.Schema<UpdateDomainContactRequest>;
+export interface UpdateDomainContactPrivacyResponse {
+  OperationId?: string;
+}
+export const UpdateDomainContactPrivacyResponse = S.suspend(() =>
+  S.Struct({ OperationId: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "UpdateDomainContactPrivacyResponse",
+}) as any as S.Schema<UpdateDomainContactPrivacyResponse>;
+export interface UpdateDomainNameserversResponse {
+  OperationId?: string;
+}
+export const UpdateDomainNameserversResponse = S.suspend(() =>
+  S.Struct({ OperationId: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "UpdateDomainNameserversResponse",
+}) as any as S.Schema<UpdateDomainNameserversResponse>;
+export interface UpdateTagsForDomainRequest {
+  DomainName: string;
+  TagsToUpdate?: TagList;
+}
+export const UpdateTagsForDomainRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String, TagsToUpdate: S.optional(TagList) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "UpdateTagsForDomainRequest",
+}) as any as S.Schema<UpdateTagsForDomainRequest>;
+export interface UpdateTagsForDomainResponse {}
+export const UpdateTagsForDomainResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "UpdateTagsForDomainResponse",
+}) as any as S.Schema<UpdateTagsForDomainResponse>;
+export interface DomainTransferability {
+  Transferable?: string;
+}
+export const DomainTransferability = S.suspend(() =>
+  S.Struct({ Transferable: S.optional(S.String) }),
+).annotations({
+  identifier: "DomainTransferability",
+}) as any as S.Schema<DomainTransferability>;
+export interface DnssecKey {
+  Algorithm?: number;
+  Flags?: number;
+  PublicKey?: string;
+  DigestType?: number;
+  Digest?: string;
+  KeyTag?: number;
+  Id?: string;
+}
+export const DnssecKey = S.suspend(() =>
+  S.Struct({
+    Algorithm: S.optional(S.Number),
+    Flags: S.optional(S.Number),
+    PublicKey: S.optional(S.String),
+    DigestType: S.optional(S.Number),
+    Digest: S.optional(S.String),
+    KeyTag: S.optional(S.Number),
+    Id: S.optional(S.String),
+  }),
+).annotations({ identifier: "DnssecKey" }) as any as S.Schema<DnssecKey>;
+export type DnssecKeyList = DnssecKey[];
 export const DnssecKeyList = S.Array(DnssecKey);
-export class DomainSuggestion extends S.Class<DomainSuggestion>(
-  "DomainSuggestion",
-)({ DomainName: S.optional(S.String), Availability: S.optional(S.String) }) {}
+export interface DomainSuggestion {
+  DomainName?: string;
+  Availability?: string;
+}
+export const DomainSuggestion = S.suspend(() =>
+  S.Struct({
+    DomainName: S.optional(S.String),
+    Availability: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DomainSuggestion",
+}) as any as S.Schema<DomainSuggestion>;
+export type DomainSuggestionsList = DomainSuggestion[];
 export const DomainSuggestionsList = S.Array(DomainSuggestion);
-export class OperationSummary extends S.Class<OperationSummary>(
-  "OperationSummary",
-)({
-  OperationId: S.optional(S.String),
-  Status: S.optional(S.String),
-  Type: S.optional(S.String),
-  SubmittedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  DomainName: S.optional(S.String),
-  Message: S.optional(S.String),
-  StatusFlag: S.optional(S.String),
-  LastUpdatedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+export interface OperationSummary {
+  OperationId?: string;
+  Status?: string;
+  Type?: string;
+  SubmittedDate?: Date;
+  DomainName?: string;
+  Message?: string;
+  StatusFlag?: string;
+  LastUpdatedDate?: Date;
+}
+export const OperationSummary = S.suspend(() =>
+  S.Struct({
+    OperationId: S.optional(S.String),
+    Status: S.optional(S.String),
+    Type: S.optional(S.String),
+    SubmittedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    DomainName: S.optional(S.String),
+    Message: S.optional(S.String),
+    StatusFlag: S.optional(S.String),
+    LastUpdatedDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "OperationSummary",
+}) as any as S.Schema<OperationSummary>;
+export type OperationSummaryList = OperationSummary[];
 export const OperationSummaryList = S.Array(OperationSummary);
-export class BillingRecord extends S.Class<BillingRecord>("BillingRecord")({
-  DomainName: S.optional(S.String),
-  Operation: S.optional(S.String),
-  InvoiceId: S.optional(S.String),
-  BillDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  Price: S.optional(S.Number),
-}) {}
+export interface BillingRecord {
+  DomainName?: string;
+  Operation?: string;
+  InvoiceId?: string;
+  BillDate?: Date;
+  Price?: number;
+}
+export const BillingRecord = S.suspend(() =>
+  S.Struct({
+    DomainName: S.optional(S.String),
+    Operation: S.optional(S.String),
+    InvoiceId: S.optional(S.String),
+    BillDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Price: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "BillingRecord",
+}) as any as S.Schema<BillingRecord>;
+export type BillingRecords = BillingRecord[];
 export const BillingRecords = S.Array(BillingRecord);
-export class AssociateDelegationSignerToDomainResponse extends S.Class<AssociateDelegationSignerToDomainResponse>(
-  "AssociateDelegationSignerToDomainResponse",
-)({ OperationId: S.optional(S.String) }, ns) {}
-export class CheckDomainTransferabilityResponse extends S.Class<CheckDomainTransferabilityResponse>(
-  "CheckDomainTransferabilityResponse",
-)(
-  {
+export interface AssociateDelegationSignerToDomainResponse {
+  OperationId?: string;
+}
+export const AssociateDelegationSignerToDomainResponse = S.suspend(() =>
+  S.Struct({ OperationId: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "AssociateDelegationSignerToDomainResponse",
+}) as any as S.Schema<AssociateDelegationSignerToDomainResponse>;
+export interface CheckDomainTransferabilityResponse {
+  Transferability?: DomainTransferability;
+  Message?: string;
+}
+export const CheckDomainTransferabilityResponse = S.suspend(() =>
+  S.Struct({
     Transferability: S.optional(DomainTransferability),
     Message: S.optional(S.String),
-  },
-  ns,
-) {}
-export class GetDomainDetailResponse extends S.Class<GetDomainDetailResponse>(
-  "GetDomainDetailResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "CheckDomainTransferabilityResponse",
+}) as any as S.Schema<CheckDomainTransferabilityResponse>;
+export interface GetDomainDetailResponse {
+  DomainName?: string;
+  Nameservers?: NameserverList;
+  AutoRenew?: boolean;
+  AdminContact?: ContactDetail;
+  RegistrantContact?: ContactDetail;
+  TechContact?: ContactDetail;
+  AdminPrivacy?: boolean;
+  RegistrantPrivacy?: boolean;
+  TechPrivacy?: boolean;
+  RegistrarName?: string;
+  WhoIsServer?: string;
+  RegistrarUrl?: string;
+  AbuseContactEmail?: string;
+  AbuseContactPhone?: string;
+  RegistryDomainId?: string;
+  CreationDate?: Date;
+  UpdatedDate?: Date;
+  ExpirationDate?: Date;
+  Reseller?: string;
+  DnsSec?: string;
+  StatusList?: DomainStatusList;
+  DnssecKeys?: DnssecKeyList;
+  BillingContact?: ContactDetail;
+  BillingPrivacy?: boolean;
+}
+export const GetDomainDetailResponse = S.suspend(() =>
+  S.Struct({
     DomainName: S.optional(S.String),
     Nameservers: S.optional(NameserverList),
     AutoRenew: S.optional(S.Boolean),
@@ -725,25 +1440,46 @@ export class GetDomainDetailResponse extends S.Class<GetDomainDetailResponse>(
     DnssecKeys: S.optional(DnssecKeyList),
     BillingContact: S.optional(ContactDetail),
     BillingPrivacy: S.optional(S.Boolean),
-  },
-  ns,
-) {}
-export class GetDomainSuggestionsResponse extends S.Class<GetDomainSuggestionsResponse>(
-  "GetDomainSuggestionsResponse",
-)({ SuggestionsList: S.optional(DomainSuggestionsList) }, ns) {}
-export class ListOperationsResponse extends S.Class<ListOperationsResponse>(
-  "ListOperationsResponse",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "GetDomainDetailResponse",
+}) as any as S.Schema<GetDomainDetailResponse>;
+export interface GetDomainSuggestionsResponse {
+  SuggestionsList?: DomainSuggestionsList;
+}
+export const GetDomainSuggestionsResponse = S.suspend(() =>
+  S.Struct({ SuggestionsList: S.optional(DomainSuggestionsList) }).pipe(ns),
+).annotations({
+  identifier: "GetDomainSuggestionsResponse",
+}) as any as S.Schema<GetDomainSuggestionsResponse>;
+export interface ListOperationsResponse {
+  Operations?: OperationSummaryList;
+  NextPageMarker?: string;
+}
+export const ListOperationsResponse = S.suspend(() =>
+  S.Struct({
     Operations: S.optional(OperationSummaryList),
     NextPageMarker: S.optional(S.String),
-  },
-  ns,
-) {}
-export class RegisterDomainRequest extends S.Class<RegisterDomainRequest>(
-  "RegisterDomainRequest",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListOperationsResponse",
+}) as any as S.Schema<ListOperationsResponse>;
+export interface RegisterDomainRequest {
+  DomainName: string;
+  IdnLangCode?: string;
+  DurationInYears: number;
+  AutoRenew?: boolean;
+  AdminContact: ContactDetail;
+  RegistrantContact: ContactDetail;
+  TechContact: ContactDetail;
+  PrivacyProtectAdminContact?: boolean;
+  PrivacyProtectRegistrantContact?: boolean;
+  PrivacyProtectTechContact?: boolean;
+  BillingContact?: ContactDetail;
+  PrivacyProtectBillingContact?: boolean;
+}
+export const RegisterDomainRequest = S.suspend(() =>
+  S.Struct({
     DomainName: S.String,
     IdnLangCode: S.optional(S.String),
     DurationInYears: S.Number,
@@ -756,61 +1492,127 @@ export class RegisterDomainRequest extends S.Class<RegisterDomainRequest>(
     PrivacyProtectTechContact: S.optional(S.Boolean),
     BillingContact: S.optional(ContactDetail),
     PrivacyProtectBillingContact: S.optional(S.Boolean),
-  },
-  T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TransferDomainResponse extends S.Class<TransferDomainResponse>(
-  "TransferDomainResponse",
-)({ OperationId: S.optional(S.String) }, ns) {}
-export class UpdateDomainContactResponse extends S.Class<UpdateDomainContactResponse>(
-  "UpdateDomainContactResponse",
-)({ OperationId: S.optional(S.String) }, ns) {}
-export class ViewBillingResponse extends S.Class<ViewBillingResponse>(
-  "ViewBillingResponse",
-)(
-  {
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "RegisterDomainRequest",
+}) as any as S.Schema<RegisterDomainRequest>;
+export interface TransferDomainResponse {
+  OperationId?: string;
+}
+export const TransferDomainResponse = S.suspend(() =>
+  S.Struct({ OperationId: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "TransferDomainResponse",
+}) as any as S.Schema<TransferDomainResponse>;
+export interface UpdateDomainContactResponse {
+  OperationId?: string;
+}
+export const UpdateDomainContactResponse = S.suspend(() =>
+  S.Struct({ OperationId: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "UpdateDomainContactResponse",
+}) as any as S.Schema<UpdateDomainContactResponse>;
+export interface ViewBillingResponse {
+  NextPageMarker?: string;
+  BillingRecords?: BillingRecords;
+}
+export const ViewBillingResponse = S.suspend(() =>
+  S.Struct({
     NextPageMarker: S.optional(S.String),
     BillingRecords: S.optional(BillingRecords),
-  },
-  ns,
-) {}
-export class PriceWithCurrency extends S.Class<PriceWithCurrency>(
-  "PriceWithCurrency",
-)({ Price: S.Number, Currency: S.String }) {}
-export class DomainSummary extends S.Class<DomainSummary>("DomainSummary")({
-  DomainName: S.optional(S.String),
-  AutoRenew: S.optional(S.Boolean),
-  TransferLock: S.optional(S.Boolean),
-  Expiry: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "ViewBillingResponse",
+}) as any as S.Schema<ViewBillingResponse>;
+export interface PriceWithCurrency {
+  Price: number;
+  Currency: string;
+}
+export const PriceWithCurrency = S.suspend(() =>
+  S.Struct({ Price: S.Number, Currency: S.String }),
+).annotations({
+  identifier: "PriceWithCurrency",
+}) as any as S.Schema<PriceWithCurrency>;
+export interface DomainSummary {
+  DomainName?: string;
+  AutoRenew?: boolean;
+  TransferLock?: boolean;
+  Expiry?: Date;
+}
+export const DomainSummary = S.suspend(() =>
+  S.Struct({
+    DomainName: S.optional(S.String),
+    AutoRenew: S.optional(S.Boolean),
+    TransferLock: S.optional(S.Boolean),
+    Expiry: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "DomainSummary",
+}) as any as S.Schema<DomainSummary>;
+export type DomainSummaryList = DomainSummary[];
 export const DomainSummaryList = S.Array(DomainSummary);
-export class DomainPrice extends S.Class<DomainPrice>("DomainPrice")({
-  Name: S.optional(S.String),
-  RegistrationPrice: S.optional(PriceWithCurrency),
-  TransferPrice: S.optional(PriceWithCurrency),
-  RenewalPrice: S.optional(PriceWithCurrency),
-  ChangeOwnershipPrice: S.optional(PriceWithCurrency),
-  RestorationPrice: S.optional(PriceWithCurrency),
-}) {}
+export interface DomainPrice {
+  Name?: string;
+  RegistrationPrice?: PriceWithCurrency;
+  TransferPrice?: PriceWithCurrency;
+  RenewalPrice?: PriceWithCurrency;
+  ChangeOwnershipPrice?: PriceWithCurrency;
+  RestorationPrice?: PriceWithCurrency;
+}
+export const DomainPrice = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    RegistrationPrice: S.optional(PriceWithCurrency),
+    TransferPrice: S.optional(PriceWithCurrency),
+    RenewalPrice: S.optional(PriceWithCurrency),
+    ChangeOwnershipPrice: S.optional(PriceWithCurrency),
+    RestorationPrice: S.optional(PriceWithCurrency),
+  }),
+).annotations({ identifier: "DomainPrice" }) as any as S.Schema<DomainPrice>;
+export type DomainPriceList = DomainPrice[];
 export const DomainPriceList = S.Array(DomainPrice);
-export class ListDomainsResponse extends S.Class<ListDomainsResponse>(
-  "ListDomainsResponse",
-)(
-  {
+export interface ListDomainsResponse {
+  Domains?: DomainSummaryList;
+  NextPageMarker?: string;
+}
+export const ListDomainsResponse = S.suspend(() =>
+  S.Struct({
     Domains: S.optional(DomainSummaryList),
     NextPageMarker: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListPricesResponse extends S.Class<ListPricesResponse>(
-  "ListPricesResponse",
-)(
-  { Prices: S.optional(DomainPriceList), NextPageMarker: S.optional(S.String) },
-  ns,
-) {}
-export class RegisterDomainResponse extends S.Class<RegisterDomainResponse>(
-  "RegisterDomainResponse",
-)({ OperationId: S.optional(S.String) }, ns) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "ListDomainsResponse",
+}) as any as S.Schema<ListDomainsResponse>;
+export interface ListPricesResponse {
+  Prices?: DomainPriceList;
+  NextPageMarker?: string;
+}
+export const ListPricesResponse = S.suspend(() =>
+  S.Struct({
+    Prices: S.optional(DomainPriceList),
+    NextPageMarker: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListPricesResponse",
+}) as any as S.Schema<ListPricesResponse>;
+export interface RegisterDomainResponse {
+  OperationId?: string;
+}
+export const RegisterDomainResponse = S.suspend(() =>
+  S.Struct({ OperationId: S.optional(S.String) }).pipe(ns),
+).annotations({
+  identifier: "RegisterDomainResponse",
+}) as any as S.Schema<RegisterDomainResponse>;
 
 //# Errors
 export class InvalidInput extends S.TaggedError<InvalidInput>()(

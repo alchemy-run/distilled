@@ -272,818 +272,1123 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class GetGlobalSettingsRequest extends S.Class<GetGlobalSettingsRequest>(
-  "GetGlobalSettingsRequest",
-)(
-  {},
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetPhoneNumberSettingsRequest extends S.Class<GetPhoneNumberSettingsRequest>(
-  "GetPhoneNumberSettingsRequest",
-)(
-  {},
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+export interface GetGlobalSettingsRequest {}
+export const GetGlobalSettingsRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetGlobalSettingsRequest",
+}) as any as S.Schema<GetGlobalSettingsRequest>;
+export interface GetPhoneNumberSettingsRequest {}
+export const GetPhoneNumberSettingsRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetPhoneNumberSettingsRequest",
+}) as any as S.Schema<GetPhoneNumberSettingsRequest>;
+export type NonEmptyStringList = string[];
 export const NonEmptyStringList = S.Array(S.String);
+export type UserIdList = string[];
 export const UserIdList = S.Array(S.String);
+export type E164PhoneNumberList = string[];
 export const E164PhoneNumberList = S.Array(S.String);
+export type UserEmailList = string[];
 export const UserEmailList = S.Array(S.String);
-export class AssociatePhoneNumberWithUserRequest extends S.Class<AssociatePhoneNumberWithUserRequest>(
-  "AssociatePhoneNumberWithUserRequest",
-)(
-  {
+export interface AssociatePhoneNumberWithUserRequest {
+  AccountId: string;
+  UserId: string;
+  E164PhoneNumber: string;
+}
+export const AssociatePhoneNumberWithUserRequest = S.suspend(() =>
+  S.Struct({
     AccountId: S.String.pipe(T.HttpLabel("AccountId")),
     UserId: S.String.pipe(T.HttpLabel("UserId")),
     E164PhoneNumber: S.String,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/accounts/{AccountId}/users/{UserId}?operation=associate-phone-number",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/accounts/{AccountId}/users/{UserId}?operation=associate-phone-number",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AssociatePhoneNumberWithUserResponse extends S.Class<AssociatePhoneNumberWithUserResponse>(
-  "AssociatePhoneNumberWithUserResponse",
-)({}) {}
-export class BatchDeletePhoneNumberRequest extends S.Class<BatchDeletePhoneNumberRequest>(
-  "BatchDeletePhoneNumberRequest",
-)(
-  { PhoneNumberIds: NonEmptyStringList },
-  T.all(
-    T.Http({ method: "POST", uri: "/phone-numbers?operation=batch-delete" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "AssociatePhoneNumberWithUserRequest",
+}) as any as S.Schema<AssociatePhoneNumberWithUserRequest>;
+export interface AssociatePhoneNumberWithUserResponse {}
+export const AssociatePhoneNumberWithUserResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "AssociatePhoneNumberWithUserResponse",
+}) as any as S.Schema<AssociatePhoneNumberWithUserResponse>;
+export interface BatchDeletePhoneNumberRequest {
+  PhoneNumberIds: NonEmptyStringList;
+}
+export const BatchDeletePhoneNumberRequest = S.suspend(() =>
+  S.Struct({ PhoneNumberIds: NonEmptyStringList }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/phone-numbers?operation=batch-delete" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class BatchSuspendUserRequest extends S.Class<BatchSuspendUserRequest>(
-  "BatchSuspendUserRequest",
-)(
-  {
+).annotations({
+  identifier: "BatchDeletePhoneNumberRequest",
+}) as any as S.Schema<BatchDeletePhoneNumberRequest>;
+export interface BatchSuspendUserRequest {
+  AccountId: string;
+  UserIdList: UserIdList;
+}
+export const BatchSuspendUserRequest = S.suspend(() =>
+  S.Struct({
     AccountId: S.String.pipe(T.HttpLabel("AccountId")),
     UserIdList: UserIdList,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/accounts/{AccountId}/users?operation=suspend",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/accounts/{AccountId}/users?operation=suspend",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class BatchUnsuspendUserRequest extends S.Class<BatchUnsuspendUserRequest>(
-  "BatchUnsuspendUserRequest",
-)(
-  {
+).annotations({
+  identifier: "BatchSuspendUserRequest",
+}) as any as S.Schema<BatchSuspendUserRequest>;
+export interface BatchUnsuspendUserRequest {
+  AccountId: string;
+  UserIdList: UserIdList;
+}
+export const BatchUnsuspendUserRequest = S.suspend(() =>
+  S.Struct({
     AccountId: S.String.pipe(T.HttpLabel("AccountId")),
     UserIdList: UserIdList,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/accounts/{AccountId}/users?operation=unsuspend",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/accounts/{AccountId}/users?operation=unsuspend",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateAccountRequest extends S.Class<CreateAccountRequest>(
-  "CreateAccountRequest",
-)(
-  { Name: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/accounts" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "BatchUnsuspendUserRequest",
+}) as any as S.Schema<BatchUnsuspendUserRequest>;
+export interface CreateAccountRequest {
+  Name: string;
+}
+export const CreateAccountRequest = S.suspend(() =>
+  S.Struct({ Name: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/accounts" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateBotRequest extends S.Class<CreateBotRequest>(
-  "CreateBotRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateAccountRequest",
+}) as any as S.Schema<CreateAccountRequest>;
+export interface CreateBotRequest {
+  AccountId: string;
+  DisplayName: string;
+  Domain?: string;
+}
+export const CreateBotRequest = S.suspend(() =>
+  S.Struct({
     AccountId: S.String.pipe(T.HttpLabel("AccountId")),
     DisplayName: S.String,
     Domain: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/accounts/{AccountId}/bots" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/accounts/{AccountId}/bots" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateMeetingDialOutRequest extends S.Class<CreateMeetingDialOutRequest>(
-  "CreateMeetingDialOutRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateBotRequest",
+}) as any as S.Schema<CreateBotRequest>;
+export interface CreateMeetingDialOutRequest {
+  MeetingId: string;
+  FromPhoneNumber: string;
+  ToPhoneNumber: string;
+  JoinToken: string;
+}
+export const CreateMeetingDialOutRequest = S.suspend(() =>
+  S.Struct({
     MeetingId: S.String.pipe(T.HttpLabel("MeetingId")),
     FromPhoneNumber: S.String,
     ToPhoneNumber: S.String,
     JoinToken: S.String,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/meetings/{MeetingId}/dial-outs" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/meetings/{MeetingId}/dial-outs" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreatePhoneNumberOrderRequest extends S.Class<CreatePhoneNumberOrderRequest>(
-  "CreatePhoneNumberOrderRequest",
-)(
-  { ProductType: S.String, E164PhoneNumbers: E164PhoneNumberList },
-  T.all(
-    T.Http({ method: "POST", uri: "/phone-number-orders" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CreateMeetingDialOutRequest",
+}) as any as S.Schema<CreateMeetingDialOutRequest>;
+export interface CreatePhoneNumberOrderRequest {
+  ProductType: string;
+  E164PhoneNumbers: E164PhoneNumberList;
+}
+export const CreatePhoneNumberOrderRequest = S.suspend(() =>
+  S.Struct({
+    ProductType: S.String,
+    E164PhoneNumbers: E164PhoneNumberList,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/phone-number-orders" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateRoomRequest extends S.Class<CreateRoomRequest>(
-  "CreateRoomRequest",
-)(
-  {
+).annotations({
+  identifier: "CreatePhoneNumberOrderRequest",
+}) as any as S.Schema<CreatePhoneNumberOrderRequest>;
+export interface CreateRoomRequest {
+  AccountId: string;
+  Name: string;
+  ClientRequestToken?: string;
+}
+export const CreateRoomRequest = S.suspend(() =>
+  S.Struct({
     AccountId: S.String.pipe(T.HttpLabel("AccountId")),
     Name: S.String,
     ClientRequestToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/accounts/{AccountId}/rooms" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/accounts/{AccountId}/rooms" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateRoomMembershipRequest extends S.Class<CreateRoomMembershipRequest>(
-  "CreateRoomMembershipRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateRoomRequest",
+}) as any as S.Schema<CreateRoomRequest>;
+export interface CreateRoomMembershipRequest {
+  AccountId: string;
+  RoomId: string;
+  MemberId: string;
+  Role?: string;
+}
+export const CreateRoomMembershipRequest = S.suspend(() =>
+  S.Struct({
     AccountId: S.String.pipe(T.HttpLabel("AccountId")),
     RoomId: S.String.pipe(T.HttpLabel("RoomId")),
     MemberId: S.String,
     Role: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/accounts/{AccountId}/rooms/{RoomId}/memberships",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/accounts/{AccountId}/rooms/{RoomId}/memberships",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateUserRequest extends S.Class<CreateUserRequest>(
-  "CreateUserRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateRoomMembershipRequest",
+}) as any as S.Schema<CreateRoomMembershipRequest>;
+export interface CreateUserRequest {
+  AccountId: string;
+  Username?: string;
+  Email?: string;
+  UserType?: string;
+}
+export const CreateUserRequest = S.suspend(() =>
+  S.Struct({
     AccountId: S.String.pipe(T.HttpLabel("AccountId")),
     Username: S.optional(S.String),
     Email: S.optional(S.String),
     UserType: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/accounts/{AccountId}/users?operation=create",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/accounts/{AccountId}/users?operation=create",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAccountRequest extends S.Class<DeleteAccountRequest>(
-  "DeleteAccountRequest",
-)(
-  { AccountId: S.String.pipe(T.HttpLabel("AccountId")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/accounts/{AccountId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CreateUserRequest",
+}) as any as S.Schema<CreateUserRequest>;
+export interface DeleteAccountRequest {
+  AccountId: string;
+}
+export const DeleteAccountRequest = S.suspend(() =>
+  S.Struct({ AccountId: S.String.pipe(T.HttpLabel("AccountId")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/accounts/{AccountId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteAccountResponse extends S.Class<DeleteAccountResponse>(
-  "DeleteAccountResponse",
-)({}) {}
-export class DeleteEventsConfigurationRequest extends S.Class<DeleteEventsConfigurationRequest>(
-  "DeleteEventsConfigurationRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteAccountRequest",
+}) as any as S.Schema<DeleteAccountRequest>;
+export interface DeleteAccountResponse {}
+export const DeleteAccountResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteAccountResponse",
+}) as any as S.Schema<DeleteAccountResponse>;
+export interface DeleteEventsConfigurationRequest {
+  AccountId: string;
+  BotId: string;
+}
+export const DeleteEventsConfigurationRequest = S.suspend(() =>
+  S.Struct({
     AccountId: S.String.pipe(T.HttpLabel("AccountId")),
     BotId: S.String.pipe(T.HttpLabel("BotId")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/accounts/{AccountId}/bots/{BotId}/events-configuration",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/accounts/{AccountId}/bots/{BotId}/events-configuration",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteEventsConfigurationResponse extends S.Class<DeleteEventsConfigurationResponse>(
-  "DeleteEventsConfigurationResponse",
-)({}) {}
-export class DeletePhoneNumberRequest extends S.Class<DeletePhoneNumberRequest>(
-  "DeletePhoneNumberRequest",
-)(
-  { PhoneNumberId: S.String.pipe(T.HttpLabel("PhoneNumberId")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/phone-numbers/{PhoneNumberId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteEventsConfigurationRequest",
+}) as any as S.Schema<DeleteEventsConfigurationRequest>;
+export interface DeleteEventsConfigurationResponse {}
+export const DeleteEventsConfigurationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteEventsConfigurationResponse",
+}) as any as S.Schema<DeleteEventsConfigurationResponse>;
+export interface DeletePhoneNumberRequest {
+  PhoneNumberId: string;
+}
+export const DeletePhoneNumberRequest = S.suspend(() =>
+  S.Struct({ PhoneNumberId: S.String.pipe(T.HttpLabel("PhoneNumberId")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/phone-numbers/{PhoneNumberId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeletePhoneNumberResponse extends S.Class<DeletePhoneNumberResponse>(
-  "DeletePhoneNumberResponse",
-)({}) {}
-export class DeleteRoomRequest extends S.Class<DeleteRoomRequest>(
-  "DeleteRoomRequest",
-)(
-  {
+).annotations({
+  identifier: "DeletePhoneNumberRequest",
+}) as any as S.Schema<DeletePhoneNumberRequest>;
+export interface DeletePhoneNumberResponse {}
+export const DeletePhoneNumberResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeletePhoneNumberResponse",
+}) as any as S.Schema<DeletePhoneNumberResponse>;
+export interface DeleteRoomRequest {
+  AccountId: string;
+  RoomId: string;
+}
+export const DeleteRoomRequest = S.suspend(() =>
+  S.Struct({
     AccountId: S.String.pipe(T.HttpLabel("AccountId")),
     RoomId: S.String.pipe(T.HttpLabel("RoomId")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/accounts/{AccountId}/rooms/{RoomId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/accounts/{AccountId}/rooms/{RoomId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteRoomResponse extends S.Class<DeleteRoomResponse>(
-  "DeleteRoomResponse",
-)({}) {}
-export class DeleteRoomMembershipRequest extends S.Class<DeleteRoomMembershipRequest>(
-  "DeleteRoomMembershipRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteRoomRequest",
+}) as any as S.Schema<DeleteRoomRequest>;
+export interface DeleteRoomResponse {}
+export const DeleteRoomResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteRoomResponse",
+}) as any as S.Schema<DeleteRoomResponse>;
+export interface DeleteRoomMembershipRequest {
+  AccountId: string;
+  RoomId: string;
+  MemberId: string;
+}
+export const DeleteRoomMembershipRequest = S.suspend(() =>
+  S.Struct({
     AccountId: S.String.pipe(T.HttpLabel("AccountId")),
     RoomId: S.String.pipe(T.HttpLabel("RoomId")),
     MemberId: S.String.pipe(T.HttpLabel("MemberId")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/accounts/{AccountId}/rooms/{RoomId}/memberships/{MemberId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/accounts/{AccountId}/rooms/{RoomId}/memberships/{MemberId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteRoomMembershipResponse extends S.Class<DeleteRoomMembershipResponse>(
-  "DeleteRoomMembershipResponse",
-)({}) {}
-export class DisassociatePhoneNumberFromUserRequest extends S.Class<DisassociatePhoneNumberFromUserRequest>(
-  "DisassociatePhoneNumberFromUserRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteRoomMembershipRequest",
+}) as any as S.Schema<DeleteRoomMembershipRequest>;
+export interface DeleteRoomMembershipResponse {}
+export const DeleteRoomMembershipResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteRoomMembershipResponse",
+}) as any as S.Schema<DeleteRoomMembershipResponse>;
+export interface DisassociatePhoneNumberFromUserRequest {
+  AccountId: string;
+  UserId: string;
+}
+export const DisassociatePhoneNumberFromUserRequest = S.suspend(() =>
+  S.Struct({
     AccountId: S.String.pipe(T.HttpLabel("AccountId")),
     UserId: S.String.pipe(T.HttpLabel("UserId")),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/accounts/{AccountId}/users/{UserId}?operation=disassociate-phone-number",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/accounts/{AccountId}/users/{UserId}?operation=disassociate-phone-number",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DisassociatePhoneNumberFromUserResponse extends S.Class<DisassociatePhoneNumberFromUserResponse>(
-  "DisassociatePhoneNumberFromUserResponse",
-)({}) {}
-export class DisassociateSigninDelegateGroupsFromAccountRequest extends S.Class<DisassociateSigninDelegateGroupsFromAccountRequest>(
-  "DisassociateSigninDelegateGroupsFromAccountRequest",
-)(
-  {
-    AccountId: S.String.pipe(T.HttpLabel("AccountId")),
-    GroupNames: NonEmptyStringList,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/accounts/{AccountId}?operation=disassociate-signin-delegate-groups",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DisassociatePhoneNumberFromUserRequest",
+}) as any as S.Schema<DisassociatePhoneNumberFromUserRequest>;
+export interface DisassociatePhoneNumberFromUserResponse {}
+export const DisassociatePhoneNumberFromUserResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DisassociatePhoneNumberFromUserResponse",
+}) as any as S.Schema<DisassociatePhoneNumberFromUserResponse>;
+export interface DisassociateSigninDelegateGroupsFromAccountRequest {
+  AccountId: string;
+  GroupNames: NonEmptyStringList;
+}
+export const DisassociateSigninDelegateGroupsFromAccountRequest = S.suspend(
+  () =>
+    S.Struct({
+      AccountId: S.String.pipe(T.HttpLabel("AccountId")),
+      GroupNames: NonEmptyStringList,
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/accounts/{AccountId}?operation=disassociate-signin-delegate-groups",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+).annotations({
+  identifier: "DisassociateSigninDelegateGroupsFromAccountRequest",
+}) as any as S.Schema<DisassociateSigninDelegateGroupsFromAccountRequest>;
+export interface DisassociateSigninDelegateGroupsFromAccountResponse {}
+export const DisassociateSigninDelegateGroupsFromAccountResponse = S.suspend(
+  () => S.Struct({}),
+).annotations({
+  identifier: "DisassociateSigninDelegateGroupsFromAccountResponse",
+}) as any as S.Schema<DisassociateSigninDelegateGroupsFromAccountResponse>;
+export interface GetAccountRequest {
+  AccountId: string;
+}
+export const GetAccountRequest = S.suspend(() =>
+  S.Struct({ AccountId: S.String.pipe(T.HttpLabel("AccountId")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/accounts/{AccountId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DisassociateSigninDelegateGroupsFromAccountResponse extends S.Class<DisassociateSigninDelegateGroupsFromAccountResponse>(
-  "DisassociateSigninDelegateGroupsFromAccountResponse",
-)({}) {}
-export class GetAccountRequest extends S.Class<GetAccountRequest>(
-  "GetAccountRequest",
-)(
-  { AccountId: S.String.pipe(T.HttpLabel("AccountId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/accounts/{AccountId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetAccountRequest",
+}) as any as S.Schema<GetAccountRequest>;
+export interface GetAccountSettingsRequest {
+  AccountId: string;
+}
+export const GetAccountSettingsRequest = S.suspend(() =>
+  S.Struct({ AccountId: S.String.pipe(T.HttpLabel("AccountId")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/accounts/{AccountId}/settings" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetAccountSettingsRequest extends S.Class<GetAccountSettingsRequest>(
-  "GetAccountSettingsRequest",
-)(
-  { AccountId: S.String.pipe(T.HttpLabel("AccountId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/accounts/{AccountId}/settings" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-  ),
-) {}
-export class GetBotRequest extends S.Class<GetBotRequest>("GetBotRequest")(
-  {
+).annotations({
+  identifier: "GetAccountSettingsRequest",
+}) as any as S.Schema<GetAccountSettingsRequest>;
+export interface GetBotRequest {
+  AccountId: string;
+  BotId: string;
+}
+export const GetBotRequest = S.suspend(() =>
+  S.Struct({
     AccountId: S.String.pipe(T.HttpLabel("AccountId")),
     BotId: S.String.pipe(T.HttpLabel("BotId")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/accounts/{AccountId}/bots/{BotId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/accounts/{AccountId}/bots/{BotId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetEventsConfigurationRequest extends S.Class<GetEventsConfigurationRequest>(
-  "GetEventsConfigurationRequest",
-)(
-  {
+).annotations({
+  identifier: "GetBotRequest",
+}) as any as S.Schema<GetBotRequest>;
+export interface GetEventsConfigurationRequest {
+  AccountId: string;
+  BotId: string;
+}
+export const GetEventsConfigurationRequest = S.suspend(() =>
+  S.Struct({
     AccountId: S.String.pipe(T.HttpLabel("AccountId")),
     BotId: S.String.pipe(T.HttpLabel("BotId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/accounts/{AccountId}/bots/{BotId}/events-configuration",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/accounts/{AccountId}/bots/{BotId}/events-configuration",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetPhoneNumberRequest extends S.Class<GetPhoneNumberRequest>(
-  "GetPhoneNumberRequest",
-)(
-  { PhoneNumberId: S.String.pipe(T.HttpLabel("PhoneNumberId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/phone-numbers/{PhoneNumberId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetEventsConfigurationRequest",
+}) as any as S.Schema<GetEventsConfigurationRequest>;
+export interface GetPhoneNumberRequest {
+  PhoneNumberId: string;
+}
+export const GetPhoneNumberRequest = S.suspend(() =>
+  S.Struct({ PhoneNumberId: S.String.pipe(T.HttpLabel("PhoneNumberId")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/phone-numbers/{PhoneNumberId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetPhoneNumberOrderRequest extends S.Class<GetPhoneNumberOrderRequest>(
-  "GetPhoneNumberOrderRequest",
-)(
-  { PhoneNumberOrderId: S.String.pipe(T.HttpLabel("PhoneNumberOrderId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/phone-number-orders/{PhoneNumberOrderId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetPhoneNumberRequest",
+}) as any as S.Schema<GetPhoneNumberRequest>;
+export interface GetPhoneNumberOrderRequest {
+  PhoneNumberOrderId: string;
+}
+export const GetPhoneNumberOrderRequest = S.suspend(() =>
+  S.Struct({
+    PhoneNumberOrderId: S.String.pipe(T.HttpLabel("PhoneNumberOrderId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/phone-number-orders/{PhoneNumberOrderId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetPhoneNumberSettingsResponse extends S.Class<GetPhoneNumberSettingsResponse>(
-  "GetPhoneNumberSettingsResponse",
-)({
-  CallingName: S.optional(S.String),
-  CallingNameUpdatedTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("date-time")),
+).annotations({
+  identifier: "GetPhoneNumberOrderRequest",
+}) as any as S.Schema<GetPhoneNumberOrderRequest>;
+export interface GetPhoneNumberSettingsResponse {
+  CallingName?: string;
+  CallingNameUpdatedTimestamp?: Date;
+}
+export const GetPhoneNumberSettingsResponse = S.suspend(() =>
+  S.Struct({
+    CallingName: S.optional(S.String),
+    CallingNameUpdatedTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("date-time")),
+    ),
+  }),
+).annotations({
+  identifier: "GetPhoneNumberSettingsResponse",
+}) as any as S.Schema<GetPhoneNumberSettingsResponse>;
+export interface GetRetentionSettingsRequest {
+  AccountId: string;
+}
+export const GetRetentionSettingsRequest = S.suspend(() =>
+  S.Struct({ AccountId: S.String.pipe(T.HttpLabel("AccountId")) }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/accounts/{AccountId}/retention-settings",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-}) {}
-export class GetRetentionSettingsRequest extends S.Class<GetRetentionSettingsRequest>(
-  "GetRetentionSettingsRequest",
-)(
-  { AccountId: S.String.pipe(T.HttpLabel("AccountId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/accounts/{AccountId}/retention-settings" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
-  ),
-) {}
-export class GetRoomRequest extends S.Class<GetRoomRequest>("GetRoomRequest")(
-  {
+).annotations({
+  identifier: "GetRetentionSettingsRequest",
+}) as any as S.Schema<GetRetentionSettingsRequest>;
+export interface GetRoomRequest {
+  AccountId: string;
+  RoomId: string;
+}
+export const GetRoomRequest = S.suspend(() =>
+  S.Struct({
     AccountId: S.String.pipe(T.HttpLabel("AccountId")),
     RoomId: S.String.pipe(T.HttpLabel("RoomId")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/accounts/{AccountId}/rooms/{RoomId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/accounts/{AccountId}/rooms/{RoomId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetUserRequest extends S.Class<GetUserRequest>("GetUserRequest")(
-  {
+).annotations({
+  identifier: "GetRoomRequest",
+}) as any as S.Schema<GetRoomRequest>;
+export interface GetUserRequest {
+  AccountId: string;
+  UserId: string;
+}
+export const GetUserRequest = S.suspend(() =>
+  S.Struct({
     AccountId: S.String.pipe(T.HttpLabel("AccountId")),
     UserId: S.String.pipe(T.HttpLabel("UserId")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/accounts/{AccountId}/users/{UserId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/accounts/{AccountId}/users/{UserId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetUserSettingsRequest extends S.Class<GetUserSettingsRequest>(
-  "GetUserSettingsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetUserRequest",
+}) as any as S.Schema<GetUserRequest>;
+export interface GetUserSettingsRequest {
+  AccountId: string;
+  UserId: string;
+}
+export const GetUserSettingsRequest = S.suspend(() =>
+  S.Struct({
     AccountId: S.String.pipe(T.HttpLabel("AccountId")),
     UserId: S.String.pipe(T.HttpLabel("UserId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/accounts/{AccountId}/users/{UserId}/settings",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/accounts/{AccountId}/users/{UserId}/settings",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class InviteUsersRequest extends S.Class<InviteUsersRequest>(
-  "InviteUsersRequest",
-)(
-  {
+).annotations({
+  identifier: "GetUserSettingsRequest",
+}) as any as S.Schema<GetUserSettingsRequest>;
+export interface InviteUsersRequest {
+  AccountId: string;
+  UserEmailList: UserEmailList;
+  UserType?: string;
+}
+export const InviteUsersRequest = S.suspend(() =>
+  S.Struct({
     AccountId: S.String.pipe(T.HttpLabel("AccountId")),
     UserEmailList: UserEmailList,
     UserType: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/accounts/{AccountId}/users?operation=add",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/accounts/{AccountId}/users?operation=add",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListAccountsRequest extends S.Class<ListAccountsRequest>(
-  "ListAccountsRequest",
-)(
-  {
+).annotations({
+  identifier: "InviteUsersRequest",
+}) as any as S.Schema<InviteUsersRequest>;
+export interface ListAccountsRequest {
+  Name?: string;
+  UserEmail?: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListAccountsRequest = S.suspend(() =>
+  S.Struct({
     Name: S.optional(S.String).pipe(T.HttpQuery("name")),
     UserEmail: S.optional(S.String).pipe(T.HttpQuery("user-email")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/accounts" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/accounts" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListBotsRequest extends S.Class<ListBotsRequest>(
-  "ListBotsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListAccountsRequest",
+}) as any as S.Schema<ListAccountsRequest>;
+export interface ListBotsRequest {
+  AccountId: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListBotsRequest = S.suspend(() =>
+  S.Struct({
     AccountId: S.String.pipe(T.HttpLabel("AccountId")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/accounts/{AccountId}/bots" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/accounts/{AccountId}/bots" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListPhoneNumberOrdersRequest extends S.Class<ListPhoneNumberOrdersRequest>(
-  "ListPhoneNumberOrdersRequest",
-)(
-  {
+).annotations({
+  identifier: "ListBotsRequest",
+}) as any as S.Schema<ListBotsRequest>;
+export interface ListPhoneNumberOrdersRequest {
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListPhoneNumberOrdersRequest = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/phone-number-orders" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/phone-number-orders" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListPhoneNumbersRequest extends S.Class<ListPhoneNumbersRequest>(
-  "ListPhoneNumbersRequest",
-)(
-  {
+).annotations({
+  identifier: "ListPhoneNumberOrdersRequest",
+}) as any as S.Schema<ListPhoneNumberOrdersRequest>;
+export interface ListPhoneNumbersRequest {
+  Status?: string;
+  ProductType?: string;
+  FilterName?: string;
+  FilterValue?: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListPhoneNumbersRequest = S.suspend(() =>
+  S.Struct({
     Status: S.optional(S.String).pipe(T.HttpQuery("status")),
     ProductType: S.optional(S.String).pipe(T.HttpQuery("product-type")),
     FilterName: S.optional(S.String).pipe(T.HttpQuery("filter-name")),
     FilterValue: S.optional(S.String).pipe(T.HttpQuery("filter-value")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/phone-numbers" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/phone-numbers" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListRoomMembershipsRequest extends S.Class<ListRoomMembershipsRequest>(
-  "ListRoomMembershipsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListPhoneNumbersRequest",
+}) as any as S.Schema<ListPhoneNumbersRequest>;
+export interface ListRoomMembershipsRequest {
+  AccountId: string;
+  RoomId: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListRoomMembershipsRequest = S.suspend(() =>
+  S.Struct({
     AccountId: S.String.pipe(T.HttpLabel("AccountId")),
     RoomId: S.String.pipe(T.HttpLabel("RoomId")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/accounts/{AccountId}/rooms/{RoomId}/memberships",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/accounts/{AccountId}/rooms/{RoomId}/memberships",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListRoomsRequest extends S.Class<ListRoomsRequest>(
-  "ListRoomsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListRoomMembershipsRequest",
+}) as any as S.Schema<ListRoomMembershipsRequest>;
+export interface ListRoomsRequest {
+  AccountId: string;
+  MemberId?: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListRoomsRequest = S.suspend(() =>
+  S.Struct({
     AccountId: S.String.pipe(T.HttpLabel("AccountId")),
     MemberId: S.optional(S.String).pipe(T.HttpQuery("member-id")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/accounts/{AccountId}/rooms" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/accounts/{AccountId}/rooms" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListSupportedPhoneNumberCountriesRequest extends S.Class<ListSupportedPhoneNumberCountriesRequest>(
-  "ListSupportedPhoneNumberCountriesRequest",
-)(
-  { ProductType: S.String.pipe(T.HttpQuery("product-type")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/phone-number-countries" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListRoomsRequest",
+}) as any as S.Schema<ListRoomsRequest>;
+export interface ListSupportedPhoneNumberCountriesRequest {
+  ProductType: string;
+}
+export const ListSupportedPhoneNumberCountriesRequest = S.suspend(() =>
+  S.Struct({ ProductType: S.String.pipe(T.HttpQuery("product-type")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/phone-number-countries" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListUsersRequest extends S.Class<ListUsersRequest>(
-  "ListUsersRequest",
-)(
-  {
+).annotations({
+  identifier: "ListSupportedPhoneNumberCountriesRequest",
+}) as any as S.Schema<ListSupportedPhoneNumberCountriesRequest>;
+export interface ListUsersRequest {
+  AccountId: string;
+  UserEmail?: string;
+  UserType?: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListUsersRequest = S.suspend(() =>
+  S.Struct({
     AccountId: S.String.pipe(T.HttpLabel("AccountId")),
     UserEmail: S.optional(S.String).pipe(T.HttpQuery("user-email")),
     UserType: S.optional(S.String).pipe(T.HttpQuery("user-type")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/accounts/{AccountId}/users" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/accounts/{AccountId}/users" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class LogoutUserRequest extends S.Class<LogoutUserRequest>(
-  "LogoutUserRequest",
-)(
-  {
+).annotations({
+  identifier: "ListUsersRequest",
+}) as any as S.Schema<ListUsersRequest>;
+export interface LogoutUserRequest {
+  AccountId: string;
+  UserId: string;
+}
+export const LogoutUserRequest = S.suspend(() =>
+  S.Struct({
     AccountId: S.String.pipe(T.HttpLabel("AccountId")),
     UserId: S.String.pipe(T.HttpLabel("UserId")),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/accounts/{AccountId}/users/{UserId}?operation=logout",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/accounts/{AccountId}/users/{UserId}?operation=logout",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class LogoutUserResponse extends S.Class<LogoutUserResponse>(
-  "LogoutUserResponse",
-)({}) {}
-export class PutEventsConfigurationRequest extends S.Class<PutEventsConfigurationRequest>(
-  "PutEventsConfigurationRequest",
-)(
-  {
+).annotations({
+  identifier: "LogoutUserRequest",
+}) as any as S.Schema<LogoutUserRequest>;
+export interface LogoutUserResponse {}
+export const LogoutUserResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "LogoutUserResponse",
+}) as any as S.Schema<LogoutUserResponse>;
+export interface PutEventsConfigurationRequest {
+  AccountId: string;
+  BotId: string;
+  OutboundEventsHTTPSEndpoint?: string;
+  LambdaFunctionArn?: string;
+}
+export const PutEventsConfigurationRequest = S.suspend(() =>
+  S.Struct({
     AccountId: S.String.pipe(T.HttpLabel("AccountId")),
     BotId: S.String.pipe(T.HttpLabel("BotId")),
     OutboundEventsHTTPSEndpoint: S.optional(S.String),
     LambdaFunctionArn: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/accounts/{AccountId}/bots/{BotId}/events-configuration",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/accounts/{AccountId}/bots/{BotId}/events-configuration",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class RedactConversationMessageRequest extends S.Class<RedactConversationMessageRequest>(
-  "RedactConversationMessageRequest",
-)(
-  {
+).annotations({
+  identifier: "PutEventsConfigurationRequest",
+}) as any as S.Schema<PutEventsConfigurationRequest>;
+export interface RedactConversationMessageRequest {
+  AccountId: string;
+  ConversationId: string;
+  MessageId: string;
+}
+export const RedactConversationMessageRequest = S.suspend(() =>
+  S.Struct({
     AccountId: S.String.pipe(T.HttpLabel("AccountId")),
     ConversationId: S.String.pipe(T.HttpLabel("ConversationId")),
     MessageId: S.String.pipe(T.HttpLabel("MessageId")),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/accounts/{AccountId}/conversations/{ConversationId}/messages/{MessageId}?operation=redact",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/accounts/{AccountId}/conversations/{ConversationId}/messages/{MessageId}?operation=redact",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class RedactConversationMessageResponse extends S.Class<RedactConversationMessageResponse>(
-  "RedactConversationMessageResponse",
-)({}) {}
-export class RedactRoomMessageRequest extends S.Class<RedactRoomMessageRequest>(
-  "RedactRoomMessageRequest",
-)(
-  {
+).annotations({
+  identifier: "RedactConversationMessageRequest",
+}) as any as S.Schema<RedactConversationMessageRequest>;
+export interface RedactConversationMessageResponse {}
+export const RedactConversationMessageResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "RedactConversationMessageResponse",
+}) as any as S.Schema<RedactConversationMessageResponse>;
+export interface RedactRoomMessageRequest {
+  AccountId: string;
+  RoomId: string;
+  MessageId: string;
+}
+export const RedactRoomMessageRequest = S.suspend(() =>
+  S.Struct({
     AccountId: S.String.pipe(T.HttpLabel("AccountId")),
     RoomId: S.String.pipe(T.HttpLabel("RoomId")),
     MessageId: S.String.pipe(T.HttpLabel("MessageId")),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/accounts/{AccountId}/rooms/{RoomId}/messages/{MessageId}?operation=redact",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/accounts/{AccountId}/rooms/{RoomId}/messages/{MessageId}?operation=redact",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class RedactRoomMessageResponse extends S.Class<RedactRoomMessageResponse>(
-  "RedactRoomMessageResponse",
-)({}) {}
-export class RegenerateSecurityTokenRequest extends S.Class<RegenerateSecurityTokenRequest>(
-  "RegenerateSecurityTokenRequest",
-)(
-  {
+).annotations({
+  identifier: "RedactRoomMessageRequest",
+}) as any as S.Schema<RedactRoomMessageRequest>;
+export interface RedactRoomMessageResponse {}
+export const RedactRoomMessageResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "RedactRoomMessageResponse",
+}) as any as S.Schema<RedactRoomMessageResponse>;
+export interface RegenerateSecurityTokenRequest {
+  AccountId: string;
+  BotId: string;
+}
+export const RegenerateSecurityTokenRequest = S.suspend(() =>
+  S.Struct({
     AccountId: S.String.pipe(T.HttpLabel("AccountId")),
     BotId: S.String.pipe(T.HttpLabel("BotId")),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/accounts/{AccountId}/bots/{BotId}?operation=regenerate-security-token",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/accounts/{AccountId}/bots/{BotId}?operation=regenerate-security-token",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ResetPersonalPINRequest extends S.Class<ResetPersonalPINRequest>(
-  "ResetPersonalPINRequest",
-)(
-  {
+).annotations({
+  identifier: "RegenerateSecurityTokenRequest",
+}) as any as S.Schema<RegenerateSecurityTokenRequest>;
+export interface ResetPersonalPINRequest {
+  AccountId: string;
+  UserId: string;
+}
+export const ResetPersonalPINRequest = S.suspend(() =>
+  S.Struct({
     AccountId: S.String.pipe(T.HttpLabel("AccountId")),
     UserId: S.String.pipe(T.HttpLabel("UserId")),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/accounts/{AccountId}/users/{UserId}?operation=reset-personal-pin",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/accounts/{AccountId}/users/{UserId}?operation=reset-personal-pin",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class RestorePhoneNumberRequest extends S.Class<RestorePhoneNumberRequest>(
-  "RestorePhoneNumberRequest",
-)(
-  { PhoneNumberId: S.String.pipe(T.HttpLabel("PhoneNumberId")) },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/phone-numbers/{PhoneNumberId}?operation=restore",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ResetPersonalPINRequest",
+}) as any as S.Schema<ResetPersonalPINRequest>;
+export interface RestorePhoneNumberRequest {
+  PhoneNumberId: string;
+}
+export const RestorePhoneNumberRequest = S.suspend(() =>
+  S.Struct({ PhoneNumberId: S.String.pipe(T.HttpLabel("PhoneNumberId")) }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/phone-numbers/{PhoneNumberId}?operation=restore",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SearchAvailablePhoneNumbersRequest extends S.Class<SearchAvailablePhoneNumbersRequest>(
-  "SearchAvailablePhoneNumbersRequest",
-)(
-  {
+).annotations({
+  identifier: "RestorePhoneNumberRequest",
+}) as any as S.Schema<RestorePhoneNumberRequest>;
+export interface SearchAvailablePhoneNumbersRequest {
+  AreaCode?: string;
+  City?: string;
+  Country?: string;
+  State?: string;
+  TollFreePrefix?: string;
+  PhoneNumberType?: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const SearchAvailablePhoneNumbersRequest = S.suspend(() =>
+  S.Struct({
     AreaCode: S.optional(S.String).pipe(T.HttpQuery("area-code")),
     City: S.optional(S.String).pipe(T.HttpQuery("city")),
     Country: S.optional(S.String).pipe(T.HttpQuery("country")),
@@ -1094,668 +1399,1281 @@ export class SearchAvailablePhoneNumbersRequest extends S.Class<SearchAvailableP
     ),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/search?type=phone-numbers" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/search?type=phone-numbers" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateAccountRequest extends S.Class<UpdateAccountRequest>(
-  "UpdateAccountRequest",
-)(
-  {
+).annotations({
+  identifier: "SearchAvailablePhoneNumbersRequest",
+}) as any as S.Schema<SearchAvailablePhoneNumbersRequest>;
+export interface UpdateAccountRequest {
+  AccountId: string;
+  Name?: string;
+  DefaultLicense?: string;
+}
+export const UpdateAccountRequest = S.suspend(() =>
+  S.Struct({
     AccountId: S.String.pipe(T.HttpLabel("AccountId")),
     Name: S.optional(S.String),
     DefaultLicense: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/accounts/{AccountId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/accounts/{AccountId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateBotRequest extends S.Class<UpdateBotRequest>(
-  "UpdateBotRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateAccountRequest",
+}) as any as S.Schema<UpdateAccountRequest>;
+export interface UpdateBotRequest {
+  AccountId: string;
+  BotId: string;
+  Disabled?: boolean;
+}
+export const UpdateBotRequest = S.suspend(() =>
+  S.Struct({
     AccountId: S.String.pipe(T.HttpLabel("AccountId")),
     BotId: S.String.pipe(T.HttpLabel("BotId")),
     Disabled: S.optional(S.Boolean),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/accounts/{AccountId}/bots/{BotId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/accounts/{AccountId}/bots/{BotId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class BusinessCallingSettings extends S.Class<BusinessCallingSettings>(
-  "BusinessCallingSettings",
-)({ CdrBucket: S.optional(S.String) }) {}
-export class VoiceConnectorSettings extends S.Class<VoiceConnectorSettings>(
-  "VoiceConnectorSettings",
-)({ CdrBucket: S.optional(S.String) }) {}
-export class UpdateGlobalSettingsRequest extends S.Class<UpdateGlobalSettingsRequest>(
-  "UpdateGlobalSettingsRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateBotRequest",
+}) as any as S.Schema<UpdateBotRequest>;
+export interface BusinessCallingSettings {
+  CdrBucket?: string;
+}
+export const BusinessCallingSettings = S.suspend(() =>
+  S.Struct({ CdrBucket: S.optional(S.String) }),
+).annotations({
+  identifier: "BusinessCallingSettings",
+}) as any as S.Schema<BusinessCallingSettings>;
+export interface VoiceConnectorSettings {
+  CdrBucket?: string;
+}
+export const VoiceConnectorSettings = S.suspend(() =>
+  S.Struct({ CdrBucket: S.optional(S.String) }),
+).annotations({
+  identifier: "VoiceConnectorSettings",
+}) as any as S.Schema<VoiceConnectorSettings>;
+export interface UpdateGlobalSettingsRequest {
+  BusinessCalling?: BusinessCallingSettings;
+  VoiceConnector?: VoiceConnectorSettings;
+}
+export const UpdateGlobalSettingsRequest = S.suspend(() =>
+  S.Struct({
     BusinessCalling: S.optional(BusinessCallingSettings),
     VoiceConnector: S.optional(VoiceConnectorSettings),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/settings" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/settings" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateGlobalSettingsResponse extends S.Class<UpdateGlobalSettingsResponse>(
-  "UpdateGlobalSettingsResponse",
-)({}) {}
-export class UpdatePhoneNumberRequest extends S.Class<UpdatePhoneNumberRequest>(
-  "UpdatePhoneNumberRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateGlobalSettingsRequest",
+}) as any as S.Schema<UpdateGlobalSettingsRequest>;
+export interface UpdateGlobalSettingsResponse {}
+export const UpdateGlobalSettingsResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateGlobalSettingsResponse",
+}) as any as S.Schema<UpdateGlobalSettingsResponse>;
+export interface UpdatePhoneNumberRequest {
+  PhoneNumberId: string;
+  ProductType?: string;
+  CallingName?: string;
+}
+export const UpdatePhoneNumberRequest = S.suspend(() =>
+  S.Struct({
     PhoneNumberId: S.String.pipe(T.HttpLabel("PhoneNumberId")),
     ProductType: S.optional(S.String),
     CallingName: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/phone-numbers/{PhoneNumberId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/phone-numbers/{PhoneNumberId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdatePhoneNumberSettingsRequest extends S.Class<UpdatePhoneNumberSettingsRequest>(
-  "UpdatePhoneNumberSettingsRequest",
-)(
-  { CallingName: S.String },
-  T.all(
-    T.Http({ method: "PUT", uri: "/settings/phone-number" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UpdatePhoneNumberRequest",
+}) as any as S.Schema<UpdatePhoneNumberRequest>;
+export interface UpdatePhoneNumberSettingsRequest {
+  CallingName: string;
+}
+export const UpdatePhoneNumberSettingsRequest = S.suspend(() =>
+  S.Struct({ CallingName: S.String }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/settings/phone-number" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdatePhoneNumberSettingsResponse extends S.Class<UpdatePhoneNumberSettingsResponse>(
-  "UpdatePhoneNumberSettingsResponse",
-)({}) {}
-export class UpdateRoomRequest extends S.Class<UpdateRoomRequest>(
-  "UpdateRoomRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdatePhoneNumberSettingsRequest",
+}) as any as S.Schema<UpdatePhoneNumberSettingsRequest>;
+export interface UpdatePhoneNumberSettingsResponse {}
+export const UpdatePhoneNumberSettingsResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdatePhoneNumberSettingsResponse",
+}) as any as S.Schema<UpdatePhoneNumberSettingsResponse>;
+export interface UpdateRoomRequest {
+  AccountId: string;
+  RoomId: string;
+  Name?: string;
+}
+export const UpdateRoomRequest = S.suspend(() =>
+  S.Struct({
     AccountId: S.String.pipe(T.HttpLabel("AccountId")),
     RoomId: S.String.pipe(T.HttpLabel("RoomId")),
     Name: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/accounts/{AccountId}/rooms/{RoomId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/accounts/{AccountId}/rooms/{RoomId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateRoomMembershipRequest extends S.Class<UpdateRoomMembershipRequest>(
-  "UpdateRoomMembershipRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateRoomRequest",
+}) as any as S.Schema<UpdateRoomRequest>;
+export interface UpdateRoomMembershipRequest {
+  AccountId: string;
+  RoomId: string;
+  MemberId: string;
+  Role?: string;
+}
+export const UpdateRoomMembershipRequest = S.suspend(() =>
+  S.Struct({
     AccountId: S.String.pipe(T.HttpLabel("AccountId")),
     RoomId: S.String.pipe(T.HttpLabel("RoomId")),
     MemberId: S.String.pipe(T.HttpLabel("MemberId")),
     Role: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/accounts/{AccountId}/rooms/{RoomId}/memberships/{MemberId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/accounts/{AccountId}/rooms/{RoomId}/memberships/{MemberId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SigninDelegateGroup extends S.Class<SigninDelegateGroup>(
-  "SigninDelegateGroup",
-)({ GroupName: S.optional(S.String) }) {}
+).annotations({
+  identifier: "UpdateRoomMembershipRequest",
+}) as any as S.Schema<UpdateRoomMembershipRequest>;
+export interface SigninDelegateGroup {
+  GroupName?: string;
+}
+export const SigninDelegateGroup = S.suspend(() =>
+  S.Struct({ GroupName: S.optional(S.String) }),
+).annotations({
+  identifier: "SigninDelegateGroup",
+}) as any as S.Schema<SigninDelegateGroup>;
+export type SigninDelegateGroupList = SigninDelegateGroup[];
 export const SigninDelegateGroupList = S.Array(SigninDelegateGroup);
-export class MembershipItem extends S.Class<MembershipItem>("MembershipItem")({
-  MemberId: S.optional(S.String),
-  Role: S.optional(S.String),
-}) {}
+export interface MembershipItem {
+  MemberId?: string;
+  Role?: string;
+}
+export const MembershipItem = S.suspend(() =>
+  S.Struct({ MemberId: S.optional(S.String), Role: S.optional(S.String) }),
+).annotations({
+  identifier: "MembershipItem",
+}) as any as S.Schema<MembershipItem>;
+export type MembershipItemList = MembershipItem[];
 export const MembershipItemList = S.Array(MembershipItem);
-export class UpdatePhoneNumberRequestItem extends S.Class<UpdatePhoneNumberRequestItem>(
-  "UpdatePhoneNumberRequestItem",
-)({
-  PhoneNumberId: S.String,
-  ProductType: S.optional(S.String),
-  CallingName: S.optional(S.String),
-}) {}
+export interface UpdatePhoneNumberRequestItem {
+  PhoneNumberId: string;
+  ProductType?: string;
+  CallingName?: string;
+}
+export const UpdatePhoneNumberRequestItem = S.suspend(() =>
+  S.Struct({
+    PhoneNumberId: S.String,
+    ProductType: S.optional(S.String),
+    CallingName: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "UpdatePhoneNumberRequestItem",
+}) as any as S.Schema<UpdatePhoneNumberRequestItem>;
+export type UpdatePhoneNumberRequestItemList = UpdatePhoneNumberRequestItem[];
 export const UpdatePhoneNumberRequestItemList = S.Array(
   UpdatePhoneNumberRequestItem,
 );
-export class AlexaForBusinessMetadata extends S.Class<AlexaForBusinessMetadata>(
-  "AlexaForBusinessMetadata",
-)({
-  IsAlexaForBusinessEnabled: S.optional(S.Boolean),
-  AlexaForBusinessRoomArn: S.optional(S.String),
-}) {}
-export class UpdateUserRequestItem extends S.Class<UpdateUserRequestItem>(
-  "UpdateUserRequestItem",
-)({
-  UserId: S.String,
-  LicenseType: S.optional(S.String),
-  UserType: S.optional(S.String),
-  AlexaForBusinessMetadata: S.optional(AlexaForBusinessMetadata),
-}) {}
+export interface AlexaForBusinessMetadata {
+  IsAlexaForBusinessEnabled?: boolean;
+  AlexaForBusinessRoomArn?: string;
+}
+export const AlexaForBusinessMetadata = S.suspend(() =>
+  S.Struct({
+    IsAlexaForBusinessEnabled: S.optional(S.Boolean),
+    AlexaForBusinessRoomArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "AlexaForBusinessMetadata",
+}) as any as S.Schema<AlexaForBusinessMetadata>;
+export interface UpdateUserRequestItem {
+  UserId: string;
+  LicenseType?: string;
+  UserType?: string;
+  AlexaForBusinessMetadata?: AlexaForBusinessMetadata;
+}
+export const UpdateUserRequestItem = S.suspend(() =>
+  S.Struct({
+    UserId: S.String,
+    LicenseType: S.optional(S.String),
+    UserType: S.optional(S.String),
+    AlexaForBusinessMetadata: S.optional(AlexaForBusinessMetadata),
+  }),
+).annotations({
+  identifier: "UpdateUserRequestItem",
+}) as any as S.Schema<UpdateUserRequestItem>;
+export type UpdateUserRequestItemList = UpdateUserRequestItem[];
 export const UpdateUserRequestItemList = S.Array(UpdateUserRequestItem);
+export type LicenseList = string[];
 export const LicenseList = S.Array(S.String);
-export class Account extends S.Class<Account>("Account")({
-  AwsAccountId: S.String,
-  AccountId: S.String,
-  Name: S.String,
-  AccountType: S.optional(S.String),
-  CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  DefaultLicense: S.optional(S.String),
-  SupportedLicenses: S.optional(LicenseList),
-  AccountStatus: S.optional(S.String),
-  SigninDelegateGroups: S.optional(SigninDelegateGroupList),
-}) {}
+export interface Account {
+  AwsAccountId: string;
+  AccountId: string;
+  Name: string;
+  AccountType?: string;
+  CreatedTimestamp?: Date;
+  DefaultLicense?: string;
+  SupportedLicenses?: LicenseList;
+  AccountStatus?: string;
+  SigninDelegateGroups?: SigninDelegateGroupList;
+}
+export const Account = S.suspend(() =>
+  S.Struct({
+    AwsAccountId: S.String,
+    AccountId: S.String,
+    Name: S.String,
+    AccountType: S.optional(S.String),
+    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    DefaultLicense: S.optional(S.String),
+    SupportedLicenses: S.optional(LicenseList),
+    AccountStatus: S.optional(S.String),
+    SigninDelegateGroups: S.optional(SigninDelegateGroupList),
+  }),
+).annotations({ identifier: "Account" }) as any as S.Schema<Account>;
+export type AccountList = Account[];
 export const AccountList = S.Array(Account);
-export class Bot extends S.Class<Bot>("Bot")({
-  BotId: S.optional(S.String),
-  UserId: S.optional(S.String),
-  DisplayName: S.optional(S.String),
-  BotType: S.optional(S.String),
-  Disabled: S.optional(S.Boolean),
-  CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  BotEmail: S.optional(S.String),
-  SecurityToken: S.optional(S.String),
-}) {}
+export interface Bot {
+  BotId?: string;
+  UserId?: string;
+  DisplayName?: string;
+  BotType?: string;
+  Disabled?: boolean;
+  CreatedTimestamp?: Date;
+  UpdatedTimestamp?: Date;
+  BotEmail?: string;
+  SecurityToken?: string;
+}
+export const Bot = S.suspend(() =>
+  S.Struct({
+    BotId: S.optional(S.String),
+    UserId: S.optional(S.String),
+    DisplayName: S.optional(S.String),
+    BotType: S.optional(S.String),
+    Disabled: S.optional(S.Boolean),
+    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    BotEmail: S.optional(S.String),
+    SecurityToken: S.optional(S.String),
+  }),
+).annotations({ identifier: "Bot" }) as any as S.Schema<Bot>;
+export type BotList = Bot[];
 export const BotList = S.Array(Bot);
-export class OrderedPhoneNumber extends S.Class<OrderedPhoneNumber>(
-  "OrderedPhoneNumber",
-)({ E164PhoneNumber: S.optional(S.String), Status: S.optional(S.String) }) {}
+export interface OrderedPhoneNumber {
+  E164PhoneNumber?: string;
+  Status?: string;
+}
+export const OrderedPhoneNumber = S.suspend(() =>
+  S.Struct({
+    E164PhoneNumber: S.optional(S.String),
+    Status: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "OrderedPhoneNumber",
+}) as any as S.Schema<OrderedPhoneNumber>;
+export type OrderedPhoneNumberList = OrderedPhoneNumber[];
 export const OrderedPhoneNumberList = S.Array(OrderedPhoneNumber);
-export class PhoneNumberOrder extends S.Class<PhoneNumberOrder>(
-  "PhoneNumberOrder",
-)({
-  PhoneNumberOrderId: S.optional(S.String),
-  ProductType: S.optional(S.String),
-  Status: S.optional(S.String),
-  OrderedPhoneNumbers: S.optional(OrderedPhoneNumberList),
-  CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-}) {}
+export interface PhoneNumberOrder {
+  PhoneNumberOrderId?: string;
+  ProductType?: string;
+  Status?: string;
+  OrderedPhoneNumbers?: OrderedPhoneNumberList;
+  CreatedTimestamp?: Date;
+  UpdatedTimestamp?: Date;
+}
+export const PhoneNumberOrder = S.suspend(() =>
+  S.Struct({
+    PhoneNumberOrderId: S.optional(S.String),
+    ProductType: S.optional(S.String),
+    Status: S.optional(S.String),
+    OrderedPhoneNumbers: S.optional(OrderedPhoneNumberList),
+    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotations({
+  identifier: "PhoneNumberOrder",
+}) as any as S.Schema<PhoneNumberOrder>;
+export type PhoneNumberOrderList = PhoneNumberOrder[];
 export const PhoneNumberOrderList = S.Array(PhoneNumberOrder);
-export class PhoneNumberCapabilities extends S.Class<PhoneNumberCapabilities>(
-  "PhoneNumberCapabilities",
-)({
-  InboundCall: S.optional(S.Boolean),
-  OutboundCall: S.optional(S.Boolean),
-  InboundSMS: S.optional(S.Boolean),
-  OutboundSMS: S.optional(S.Boolean),
-  InboundMMS: S.optional(S.Boolean),
-  OutboundMMS: S.optional(S.Boolean),
-}) {}
-export class PhoneNumberAssociation extends S.Class<PhoneNumberAssociation>(
-  "PhoneNumberAssociation",
-)({
-  Value: S.optional(S.String),
-  Name: S.optional(S.String),
-  AssociatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-}) {}
+export interface PhoneNumberCapabilities {
+  InboundCall?: boolean;
+  OutboundCall?: boolean;
+  InboundSMS?: boolean;
+  OutboundSMS?: boolean;
+  InboundMMS?: boolean;
+  OutboundMMS?: boolean;
+}
+export const PhoneNumberCapabilities = S.suspend(() =>
+  S.Struct({
+    InboundCall: S.optional(S.Boolean),
+    OutboundCall: S.optional(S.Boolean),
+    InboundSMS: S.optional(S.Boolean),
+    OutboundSMS: S.optional(S.Boolean),
+    InboundMMS: S.optional(S.Boolean),
+    OutboundMMS: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "PhoneNumberCapabilities",
+}) as any as S.Schema<PhoneNumberCapabilities>;
+export interface PhoneNumberAssociation {
+  Value?: string;
+  Name?: string;
+  AssociatedTimestamp?: Date;
+}
+export const PhoneNumberAssociation = S.suspend(() =>
+  S.Struct({
+    Value: S.optional(S.String),
+    Name: S.optional(S.String),
+    AssociatedTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("date-time")),
+    ),
+  }),
+).annotations({
+  identifier: "PhoneNumberAssociation",
+}) as any as S.Schema<PhoneNumberAssociation>;
+export type PhoneNumberAssociationList = PhoneNumberAssociation[];
 export const PhoneNumberAssociationList = S.Array(PhoneNumberAssociation);
-export class PhoneNumber extends S.Class<PhoneNumber>("PhoneNumber")({
-  PhoneNumberId: S.optional(S.String),
-  E164PhoneNumber: S.optional(S.String),
-  Country: S.optional(S.String),
-  Type: S.optional(S.String),
-  ProductType: S.optional(S.String),
-  Status: S.optional(S.String),
-  Capabilities: S.optional(PhoneNumberCapabilities),
-  Associations: S.optional(PhoneNumberAssociationList),
-  CallingName: S.optional(S.String),
-  CallingNameStatus: S.optional(S.String),
-  CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  DeletionTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-}) {}
+export interface PhoneNumber {
+  PhoneNumberId?: string;
+  E164PhoneNumber?: string;
+  Country?: string;
+  Type?: string;
+  ProductType?: string;
+  Status?: string;
+  Capabilities?: PhoneNumberCapabilities;
+  Associations?: PhoneNumberAssociationList;
+  CallingName?: string;
+  CallingNameStatus?: string;
+  CreatedTimestamp?: Date;
+  UpdatedTimestamp?: Date;
+  DeletionTimestamp?: Date;
+}
+export const PhoneNumber = S.suspend(() =>
+  S.Struct({
+    PhoneNumberId: S.optional(S.String),
+    E164PhoneNumber: S.optional(S.String),
+    Country: S.optional(S.String),
+    Type: S.optional(S.String),
+    ProductType: S.optional(S.String),
+    Status: S.optional(S.String),
+    Capabilities: S.optional(PhoneNumberCapabilities),
+    Associations: S.optional(PhoneNumberAssociationList),
+    CallingName: S.optional(S.String),
+    CallingNameStatus: S.optional(S.String),
+    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    DeletionTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotations({ identifier: "PhoneNumber" }) as any as S.Schema<PhoneNumber>;
+export type PhoneNumberList = PhoneNumber[];
 export const PhoneNumberList = S.Array(PhoneNumber);
-export class Member extends S.Class<Member>("Member")({
-  MemberId: S.optional(S.String),
-  MemberType: S.optional(S.String),
-  Email: S.optional(S.String),
-  FullName: S.optional(S.String),
-  AccountId: S.optional(S.String),
-}) {}
-export class RoomMembership extends S.Class<RoomMembership>("RoomMembership")({
-  RoomId: S.optional(S.String),
-  Member: S.optional(Member),
-  Role: S.optional(S.String),
-  InvitedBy: S.optional(S.String),
-  UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-}) {}
+export interface Member {
+  MemberId?: string;
+  MemberType?: string;
+  Email?: string;
+  FullName?: string;
+  AccountId?: string;
+}
+export const Member = S.suspend(() =>
+  S.Struct({
+    MemberId: S.optional(S.String),
+    MemberType: S.optional(S.String),
+    Email: S.optional(S.String),
+    FullName: S.optional(S.String),
+    AccountId: S.optional(S.String),
+  }),
+).annotations({ identifier: "Member" }) as any as S.Schema<Member>;
+export interface RoomMembership {
+  RoomId?: string;
+  Member?: Member;
+  Role?: string;
+  InvitedBy?: string;
+  UpdatedTimestamp?: Date;
+}
+export const RoomMembership = S.suspend(() =>
+  S.Struct({
+    RoomId: S.optional(S.String),
+    Member: S.optional(Member),
+    Role: S.optional(S.String),
+    InvitedBy: S.optional(S.String),
+    UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotations({
+  identifier: "RoomMembership",
+}) as any as S.Schema<RoomMembership>;
+export type RoomMembershipList = RoomMembership[];
 export const RoomMembershipList = S.Array(RoomMembership);
-export class Room extends S.Class<Room>("Room")({
-  RoomId: S.optional(S.String),
-  Name: S.optional(S.String),
-  AccountId: S.optional(S.String),
-  CreatedBy: S.optional(S.String),
-  CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-}) {}
+export interface Room {
+  RoomId?: string;
+  Name?: string;
+  AccountId?: string;
+  CreatedBy?: string;
+  CreatedTimestamp?: Date;
+  UpdatedTimestamp?: Date;
+}
+export const Room = S.suspend(() =>
+  S.Struct({
+    RoomId: S.optional(S.String),
+    Name: S.optional(S.String),
+    AccountId: S.optional(S.String),
+    CreatedBy: S.optional(S.String),
+    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotations({ identifier: "Room" }) as any as S.Schema<Room>;
+export type RoomList = Room[];
 export const RoomList = S.Array(Room);
-export class User extends S.Class<User>("User")({
-  UserId: S.String,
-  AccountId: S.optional(S.String),
-  PrimaryEmail: S.optional(S.String),
-  PrimaryProvisionedNumber: S.optional(S.String),
-  DisplayName: S.optional(S.String),
-  LicenseType: S.optional(S.String),
-  UserType: S.optional(S.String),
-  UserRegistrationStatus: S.optional(S.String),
-  UserInvitationStatus: S.optional(S.String),
-  RegisteredOn: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  InvitedOn: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  AlexaForBusinessMetadata: S.optional(AlexaForBusinessMetadata),
-  PersonalPIN: S.optional(S.String),
-}) {}
+export interface User {
+  UserId: string;
+  AccountId?: string;
+  PrimaryEmail?: string;
+  PrimaryProvisionedNumber?: string;
+  DisplayName?: string;
+  LicenseType?: string;
+  UserType?: string;
+  UserRegistrationStatus?: string;
+  UserInvitationStatus?: string;
+  RegisteredOn?: Date;
+  InvitedOn?: Date;
+  AlexaForBusinessMetadata?: AlexaForBusinessMetadata;
+  PersonalPIN?: string;
+}
+export const User = S.suspend(() =>
+  S.Struct({
+    UserId: S.String,
+    AccountId: S.optional(S.String),
+    PrimaryEmail: S.optional(S.String),
+    PrimaryProvisionedNumber: S.optional(S.String),
+    DisplayName: S.optional(S.String),
+    LicenseType: S.optional(S.String),
+    UserType: S.optional(S.String),
+    UserRegistrationStatus: S.optional(S.String),
+    UserInvitationStatus: S.optional(S.String),
+    RegisteredOn: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    InvitedOn: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    AlexaForBusinessMetadata: S.optional(AlexaForBusinessMetadata),
+    PersonalPIN: S.optional(S.String),
+  }),
+).annotations({ identifier: "User" }) as any as S.Schema<User>;
+export type UserList = User[];
 export const UserList = S.Array(User);
-export class AccountSettings extends S.Class<AccountSettings>(
-  "AccountSettings",
-)({
-  DisableRemoteControl: S.optional(S.Boolean),
-  EnableDialOut: S.optional(S.Boolean),
-}) {}
-export class AssociateSigninDelegateGroupsWithAccountRequest extends S.Class<AssociateSigninDelegateGroupsWithAccountRequest>(
-  "AssociateSigninDelegateGroupsWithAccountRequest",
-)(
-  {
+export interface AccountSettings {
+  DisableRemoteControl?: boolean;
+  EnableDialOut?: boolean;
+}
+export const AccountSettings = S.suspend(() =>
+  S.Struct({
+    DisableRemoteControl: S.optional(S.Boolean),
+    EnableDialOut: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "AccountSettings",
+}) as any as S.Schema<AccountSettings>;
+export interface AssociateSigninDelegateGroupsWithAccountRequest {
+  AccountId: string;
+  SigninDelegateGroups: SigninDelegateGroupList;
+}
+export const AssociateSigninDelegateGroupsWithAccountRequest = S.suspend(() =>
+  S.Struct({
     AccountId: S.String.pipe(T.HttpLabel("AccountId")),
     SigninDelegateGroups: SigninDelegateGroupList,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/accounts/{AccountId}?operation=associate-signin-delegate-groups",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/accounts/{AccountId}?operation=associate-signin-delegate-groups",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AssociateSigninDelegateGroupsWithAccountResponse extends S.Class<AssociateSigninDelegateGroupsWithAccountResponse>(
-  "AssociateSigninDelegateGroupsWithAccountResponse",
-)({}) {}
-export class BatchCreateRoomMembershipRequest extends S.Class<BatchCreateRoomMembershipRequest>(
-  "BatchCreateRoomMembershipRequest",
-)(
-  {
+).annotations({
+  identifier: "AssociateSigninDelegateGroupsWithAccountRequest",
+}) as any as S.Schema<AssociateSigninDelegateGroupsWithAccountRequest>;
+export interface AssociateSigninDelegateGroupsWithAccountResponse {}
+export const AssociateSigninDelegateGroupsWithAccountResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "AssociateSigninDelegateGroupsWithAccountResponse",
+}) as any as S.Schema<AssociateSigninDelegateGroupsWithAccountResponse>;
+export interface BatchCreateRoomMembershipRequest {
+  AccountId: string;
+  RoomId: string;
+  MembershipItemList: MembershipItemList;
+}
+export const BatchCreateRoomMembershipRequest = S.suspend(() =>
+  S.Struct({
     AccountId: S.String.pipe(T.HttpLabel("AccountId")),
     RoomId: S.String.pipe(T.HttpLabel("RoomId")),
     MembershipItemList: MembershipItemList,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/accounts/{AccountId}/rooms/{RoomId}/memberships?operation=batch-create",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/accounts/{AccountId}/rooms/{RoomId}/memberships?operation=batch-create",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UserError extends S.Class<UserError>("UserError")({
-  UserId: S.optional(S.String),
-  ErrorCode: S.optional(S.String),
-  ErrorMessage: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "BatchCreateRoomMembershipRequest",
+}) as any as S.Schema<BatchCreateRoomMembershipRequest>;
+export interface UserError {
+  UserId?: string;
+  ErrorCode?: string;
+  ErrorMessage?: string;
+}
+export const UserError = S.suspend(() =>
+  S.Struct({
+    UserId: S.optional(S.String),
+    ErrorCode: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
+  }),
+).annotations({ identifier: "UserError" }) as any as S.Schema<UserError>;
+export type UserErrorList = UserError[];
 export const UserErrorList = S.Array(UserError);
-export class BatchUnsuspendUserResponse extends S.Class<BatchUnsuspendUserResponse>(
-  "BatchUnsuspendUserResponse",
-)({ UserErrors: S.optional(UserErrorList) }) {}
-export class BatchUpdatePhoneNumberRequest extends S.Class<BatchUpdatePhoneNumberRequest>(
-  "BatchUpdatePhoneNumberRequest",
-)(
-  { UpdatePhoneNumberRequestItems: UpdatePhoneNumberRequestItemList },
-  T.all(
-    T.Http({ method: "POST", uri: "/phone-numbers?operation=batch-update" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface BatchUnsuspendUserResponse {
+  UserErrors?: UserErrorList;
+}
+export const BatchUnsuspendUserResponse = S.suspend(() =>
+  S.Struct({ UserErrors: S.optional(UserErrorList) }),
+).annotations({
+  identifier: "BatchUnsuspendUserResponse",
+}) as any as S.Schema<BatchUnsuspendUserResponse>;
+export interface BatchUpdatePhoneNumberRequest {
+  UpdatePhoneNumberRequestItems: UpdatePhoneNumberRequestItemList;
+}
+export const BatchUpdatePhoneNumberRequest = S.suspend(() =>
+  S.Struct({
+    UpdatePhoneNumberRequestItems: UpdatePhoneNumberRequestItemList,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/phone-numbers?operation=batch-update" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class BatchUpdateUserRequest extends S.Class<BatchUpdateUserRequest>(
-  "BatchUpdateUserRequest",
-)(
-  {
+).annotations({
+  identifier: "BatchUpdatePhoneNumberRequest",
+}) as any as S.Schema<BatchUpdatePhoneNumberRequest>;
+export interface BatchUpdateUserRequest {
+  AccountId: string;
+  UpdateUserRequestItems: UpdateUserRequestItemList;
+}
+export const BatchUpdateUserRequest = S.suspend(() =>
+  S.Struct({
     AccountId: S.String.pipe(T.HttpLabel("AccountId")),
     UpdateUserRequestItems: UpdateUserRequestItemList,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/accounts/{AccountId}/users" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/accounts/{AccountId}/users" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateMeetingDialOutResponse extends S.Class<CreateMeetingDialOutResponse>(
-  "CreateMeetingDialOutResponse",
-)({ TransactionId: S.optional(S.String) }) {}
-export class GetAccountResponse extends S.Class<GetAccountResponse>(
-  "GetAccountResponse",
-)({ Account: S.optional(Account) }) {}
-export class GetAccountSettingsResponse extends S.Class<GetAccountSettingsResponse>(
-  "GetAccountSettingsResponse",
-)({ AccountSettings: S.optional(AccountSettings) }) {}
-export class GetBotResponse extends S.Class<GetBotResponse>("GetBotResponse")({
-  Bot: S.optional(Bot),
-}) {}
-export class GetGlobalSettingsResponse extends S.Class<GetGlobalSettingsResponse>(
-  "GetGlobalSettingsResponse",
-)({
-  BusinessCalling: S.optional(BusinessCallingSettings),
-  VoiceConnector: S.optional(VoiceConnectorSettings),
-}) {}
-export class GetPhoneNumberOrderResponse extends S.Class<GetPhoneNumberOrderResponse>(
-  "GetPhoneNumberOrderResponse",
-)({ PhoneNumberOrder: S.optional(PhoneNumberOrder) }) {}
-export class RoomRetentionSettings extends S.Class<RoomRetentionSettings>(
-  "RoomRetentionSettings",
-)({ RetentionDays: S.optional(S.Number) }) {}
-export class ConversationRetentionSettings extends S.Class<ConversationRetentionSettings>(
-  "ConversationRetentionSettings",
-)({ RetentionDays: S.optional(S.Number) }) {}
-export class RetentionSettings extends S.Class<RetentionSettings>(
-  "RetentionSettings",
-)({
-  RoomRetentionSettings: S.optional(RoomRetentionSettings),
-  ConversationRetentionSettings: S.optional(ConversationRetentionSettings),
-}) {}
-export class GetRetentionSettingsResponse extends S.Class<GetRetentionSettingsResponse>(
-  "GetRetentionSettingsResponse",
-)({
-  RetentionSettings: S.optional(RetentionSettings),
-  InitiateDeletionTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("date-time")),
-  ),
-}) {}
-export class GetRoomResponse extends S.Class<GetRoomResponse>(
-  "GetRoomResponse",
-)({ Room: S.optional(Room) }) {}
-export class GetUserResponse extends S.Class<GetUserResponse>(
-  "GetUserResponse",
-)({ User: S.optional(User) }) {}
-export class TelephonySettings extends S.Class<TelephonySettings>(
-  "TelephonySettings",
-)({ InboundCalling: S.Boolean, OutboundCalling: S.Boolean, SMS: S.Boolean }) {}
-export class UserSettings extends S.Class<UserSettings>("UserSettings")({
-  Telephony: TelephonySettings,
-}) {}
-export class GetUserSettingsResponse extends S.Class<GetUserSettingsResponse>(
-  "GetUserSettingsResponse",
-)({ UserSettings: S.optional(UserSettings) }) {}
-export class ListAccountsResponse extends S.Class<ListAccountsResponse>(
-  "ListAccountsResponse",
-)({ Accounts: S.optional(AccountList), NextToken: S.optional(S.String) }) {}
-export class ListBotsResponse extends S.Class<ListBotsResponse>(
-  "ListBotsResponse",
-)({ Bots: S.optional(BotList), NextToken: S.optional(S.String) }) {}
-export class ListPhoneNumberOrdersResponse extends S.Class<ListPhoneNumberOrdersResponse>(
-  "ListPhoneNumberOrdersResponse",
-)({
-  PhoneNumberOrders: S.optional(PhoneNumberOrderList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListPhoneNumbersResponse extends S.Class<ListPhoneNumbersResponse>(
-  "ListPhoneNumbersResponse",
-)({
-  PhoneNumbers: S.optional(PhoneNumberList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListRoomMembershipsResponse extends S.Class<ListRoomMembershipsResponse>(
-  "ListRoomMembershipsResponse",
-)({
-  RoomMemberships: S.optional(RoomMembershipList),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListRoomsResponse extends S.Class<ListRoomsResponse>(
-  "ListRoomsResponse",
-)({ Rooms: S.optional(RoomList), NextToken: S.optional(S.String) }) {}
-export class ListUsersResponse extends S.Class<ListUsersResponse>(
-  "ListUsersResponse",
-)({ Users: S.optional(UserList), NextToken: S.optional(S.String) }) {}
-export class EventsConfiguration extends S.Class<EventsConfiguration>(
-  "EventsConfiguration",
-)({
-  BotId: S.optional(S.String),
-  OutboundEventsHTTPSEndpoint: S.optional(S.String),
-  LambdaFunctionArn: S.optional(S.String),
-}) {}
-export class PutEventsConfigurationResponse extends S.Class<PutEventsConfigurationResponse>(
-  "PutEventsConfigurationResponse",
-)({ EventsConfiguration: S.optional(EventsConfiguration) }) {}
-export class RegenerateSecurityTokenResponse extends S.Class<RegenerateSecurityTokenResponse>(
-  "RegenerateSecurityTokenResponse",
-)({ Bot: S.optional(Bot) }) {}
-export class ResetPersonalPINResponse extends S.Class<ResetPersonalPINResponse>(
-  "ResetPersonalPINResponse",
-)({ User: S.optional(User) }) {}
-export class RestorePhoneNumberResponse extends S.Class<RestorePhoneNumberResponse>(
-  "RestorePhoneNumberResponse",
-)({ PhoneNumber: S.optional(PhoneNumber) }) {}
-export class SearchAvailablePhoneNumbersResponse extends S.Class<SearchAvailablePhoneNumbersResponse>(
-  "SearchAvailablePhoneNumbersResponse",
-)({
-  E164PhoneNumbers: S.optional(E164PhoneNumberList),
-  NextToken: S.optional(S.String),
-}) {}
-export class UpdateAccountResponse extends S.Class<UpdateAccountResponse>(
-  "UpdateAccountResponse",
-)({ Account: S.optional(Account) }) {}
-export class UpdateAccountSettingsRequest extends S.Class<UpdateAccountSettingsRequest>(
-  "UpdateAccountSettingsRequest",
-)(
-  {
+).annotations({
+  identifier: "BatchUpdateUserRequest",
+}) as any as S.Schema<BatchUpdateUserRequest>;
+export interface CreateMeetingDialOutResponse {
+  TransactionId?: string;
+}
+export const CreateMeetingDialOutResponse = S.suspend(() =>
+  S.Struct({ TransactionId: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateMeetingDialOutResponse",
+}) as any as S.Schema<CreateMeetingDialOutResponse>;
+export interface GetAccountResponse {
+  Account?: Account;
+}
+export const GetAccountResponse = S.suspend(() =>
+  S.Struct({ Account: S.optional(Account) }),
+).annotations({
+  identifier: "GetAccountResponse",
+}) as any as S.Schema<GetAccountResponse>;
+export interface GetAccountSettingsResponse {
+  AccountSettings?: AccountSettings;
+}
+export const GetAccountSettingsResponse = S.suspend(() =>
+  S.Struct({ AccountSettings: S.optional(AccountSettings) }),
+).annotations({
+  identifier: "GetAccountSettingsResponse",
+}) as any as S.Schema<GetAccountSettingsResponse>;
+export interface GetBotResponse {
+  Bot?: Bot;
+}
+export const GetBotResponse = S.suspend(() =>
+  S.Struct({ Bot: S.optional(Bot) }),
+).annotations({
+  identifier: "GetBotResponse",
+}) as any as S.Schema<GetBotResponse>;
+export interface GetGlobalSettingsResponse {
+  BusinessCalling?: BusinessCallingSettings;
+  VoiceConnector?: VoiceConnectorSettings;
+}
+export const GetGlobalSettingsResponse = S.suspend(() =>
+  S.Struct({
+    BusinessCalling: S.optional(BusinessCallingSettings),
+    VoiceConnector: S.optional(VoiceConnectorSettings),
+  }),
+).annotations({
+  identifier: "GetGlobalSettingsResponse",
+}) as any as S.Schema<GetGlobalSettingsResponse>;
+export interface GetPhoneNumberOrderResponse {
+  PhoneNumberOrder?: PhoneNumberOrder;
+}
+export const GetPhoneNumberOrderResponse = S.suspend(() =>
+  S.Struct({ PhoneNumberOrder: S.optional(PhoneNumberOrder) }),
+).annotations({
+  identifier: "GetPhoneNumberOrderResponse",
+}) as any as S.Schema<GetPhoneNumberOrderResponse>;
+export interface RoomRetentionSettings {
+  RetentionDays?: number;
+}
+export const RoomRetentionSettings = S.suspend(() =>
+  S.Struct({ RetentionDays: S.optional(S.Number) }),
+).annotations({
+  identifier: "RoomRetentionSettings",
+}) as any as S.Schema<RoomRetentionSettings>;
+export interface ConversationRetentionSettings {
+  RetentionDays?: number;
+}
+export const ConversationRetentionSettings = S.suspend(() =>
+  S.Struct({ RetentionDays: S.optional(S.Number) }),
+).annotations({
+  identifier: "ConversationRetentionSettings",
+}) as any as S.Schema<ConversationRetentionSettings>;
+export interface RetentionSettings {
+  RoomRetentionSettings?: RoomRetentionSettings;
+  ConversationRetentionSettings?: ConversationRetentionSettings;
+}
+export const RetentionSettings = S.suspend(() =>
+  S.Struct({
+    RoomRetentionSettings: S.optional(RoomRetentionSettings),
+    ConversationRetentionSettings: S.optional(ConversationRetentionSettings),
+  }),
+).annotations({
+  identifier: "RetentionSettings",
+}) as any as S.Schema<RetentionSettings>;
+export interface GetRetentionSettingsResponse {
+  RetentionSettings?: RetentionSettings;
+  InitiateDeletionTimestamp?: Date;
+}
+export const GetRetentionSettingsResponse = S.suspend(() =>
+  S.Struct({
+    RetentionSettings: S.optional(RetentionSettings),
+    InitiateDeletionTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("date-time")),
+    ),
+  }),
+).annotations({
+  identifier: "GetRetentionSettingsResponse",
+}) as any as S.Schema<GetRetentionSettingsResponse>;
+export interface GetRoomResponse {
+  Room?: Room;
+}
+export const GetRoomResponse = S.suspend(() =>
+  S.Struct({ Room: S.optional(Room) }),
+).annotations({
+  identifier: "GetRoomResponse",
+}) as any as S.Schema<GetRoomResponse>;
+export interface GetUserResponse {
+  User?: User;
+}
+export const GetUserResponse = S.suspend(() =>
+  S.Struct({ User: S.optional(User) }),
+).annotations({
+  identifier: "GetUserResponse",
+}) as any as S.Schema<GetUserResponse>;
+export interface TelephonySettings {
+  InboundCalling: boolean;
+  OutboundCalling: boolean;
+  SMS: boolean;
+}
+export const TelephonySettings = S.suspend(() =>
+  S.Struct({
+    InboundCalling: S.Boolean,
+    OutboundCalling: S.Boolean,
+    SMS: S.Boolean,
+  }),
+).annotations({
+  identifier: "TelephonySettings",
+}) as any as S.Schema<TelephonySettings>;
+export interface UserSettings {
+  Telephony: TelephonySettings;
+}
+export const UserSettings = S.suspend(() =>
+  S.Struct({ Telephony: TelephonySettings }),
+).annotations({ identifier: "UserSettings" }) as any as S.Schema<UserSettings>;
+export interface GetUserSettingsResponse {
+  UserSettings?: UserSettings;
+}
+export const GetUserSettingsResponse = S.suspend(() =>
+  S.Struct({ UserSettings: S.optional(UserSettings) }),
+).annotations({
+  identifier: "GetUserSettingsResponse",
+}) as any as S.Schema<GetUserSettingsResponse>;
+export interface ListAccountsResponse {
+  Accounts?: AccountList;
+  NextToken?: string;
+}
+export const ListAccountsResponse = S.suspend(() =>
+  S.Struct({
+    Accounts: S.optional(AccountList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListAccountsResponse",
+}) as any as S.Schema<ListAccountsResponse>;
+export interface ListBotsResponse {
+  Bots?: BotList;
+  NextToken?: string;
+}
+export const ListBotsResponse = S.suspend(() =>
+  S.Struct({ Bots: S.optional(BotList), NextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListBotsResponse",
+}) as any as S.Schema<ListBotsResponse>;
+export interface ListPhoneNumberOrdersResponse {
+  PhoneNumberOrders?: PhoneNumberOrderList;
+  NextToken?: string;
+}
+export const ListPhoneNumberOrdersResponse = S.suspend(() =>
+  S.Struct({
+    PhoneNumberOrders: S.optional(PhoneNumberOrderList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListPhoneNumberOrdersResponse",
+}) as any as S.Schema<ListPhoneNumberOrdersResponse>;
+export interface ListPhoneNumbersResponse {
+  PhoneNumbers?: PhoneNumberList;
+  NextToken?: string;
+}
+export const ListPhoneNumbersResponse = S.suspend(() =>
+  S.Struct({
+    PhoneNumbers: S.optional(PhoneNumberList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListPhoneNumbersResponse",
+}) as any as S.Schema<ListPhoneNumbersResponse>;
+export interface ListRoomMembershipsResponse {
+  RoomMemberships?: RoomMembershipList;
+  NextToken?: string;
+}
+export const ListRoomMembershipsResponse = S.suspend(() =>
+  S.Struct({
+    RoomMemberships: S.optional(RoomMembershipList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListRoomMembershipsResponse",
+}) as any as S.Schema<ListRoomMembershipsResponse>;
+export interface ListRoomsResponse {
+  Rooms?: RoomList;
+  NextToken?: string;
+}
+export const ListRoomsResponse = S.suspend(() =>
+  S.Struct({ Rooms: S.optional(RoomList), NextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListRoomsResponse",
+}) as any as S.Schema<ListRoomsResponse>;
+export interface ListUsersResponse {
+  Users?: UserList;
+  NextToken?: string;
+}
+export const ListUsersResponse = S.suspend(() =>
+  S.Struct({ Users: S.optional(UserList), NextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListUsersResponse",
+}) as any as S.Schema<ListUsersResponse>;
+export interface EventsConfiguration {
+  BotId?: string;
+  OutboundEventsHTTPSEndpoint?: string;
+  LambdaFunctionArn?: string;
+}
+export const EventsConfiguration = S.suspend(() =>
+  S.Struct({
+    BotId: S.optional(S.String),
+    OutboundEventsHTTPSEndpoint: S.optional(S.String),
+    LambdaFunctionArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "EventsConfiguration",
+}) as any as S.Schema<EventsConfiguration>;
+export interface PutEventsConfigurationResponse {
+  EventsConfiguration?: EventsConfiguration;
+}
+export const PutEventsConfigurationResponse = S.suspend(() =>
+  S.Struct({ EventsConfiguration: S.optional(EventsConfiguration) }),
+).annotations({
+  identifier: "PutEventsConfigurationResponse",
+}) as any as S.Schema<PutEventsConfigurationResponse>;
+export interface RegenerateSecurityTokenResponse {
+  Bot?: Bot;
+}
+export const RegenerateSecurityTokenResponse = S.suspend(() =>
+  S.Struct({ Bot: S.optional(Bot) }),
+).annotations({
+  identifier: "RegenerateSecurityTokenResponse",
+}) as any as S.Schema<RegenerateSecurityTokenResponse>;
+export interface ResetPersonalPINResponse {
+  User?: User;
+}
+export const ResetPersonalPINResponse = S.suspend(() =>
+  S.Struct({ User: S.optional(User) }),
+).annotations({
+  identifier: "ResetPersonalPINResponse",
+}) as any as S.Schema<ResetPersonalPINResponse>;
+export interface RestorePhoneNumberResponse {
+  PhoneNumber?: PhoneNumber;
+}
+export const RestorePhoneNumberResponse = S.suspend(() =>
+  S.Struct({ PhoneNumber: S.optional(PhoneNumber) }),
+).annotations({
+  identifier: "RestorePhoneNumberResponse",
+}) as any as S.Schema<RestorePhoneNumberResponse>;
+export interface SearchAvailablePhoneNumbersResponse {
+  E164PhoneNumbers?: E164PhoneNumberList;
+  NextToken?: string;
+}
+export const SearchAvailablePhoneNumbersResponse = S.suspend(() =>
+  S.Struct({
+    E164PhoneNumbers: S.optional(E164PhoneNumberList),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SearchAvailablePhoneNumbersResponse",
+}) as any as S.Schema<SearchAvailablePhoneNumbersResponse>;
+export interface UpdateAccountResponse {
+  Account?: Account;
+}
+export const UpdateAccountResponse = S.suspend(() =>
+  S.Struct({ Account: S.optional(Account) }),
+).annotations({
+  identifier: "UpdateAccountResponse",
+}) as any as S.Schema<UpdateAccountResponse>;
+export interface UpdateAccountSettingsRequest {
+  AccountId: string;
+  AccountSettings: AccountSettings;
+}
+export const UpdateAccountSettingsRequest = S.suspend(() =>
+  S.Struct({
     AccountId: S.String.pipe(T.HttpLabel("AccountId")),
     AccountSettings: AccountSettings,
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/accounts/{AccountId}/settings" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/accounts/{AccountId}/settings" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateAccountSettingsResponse extends S.Class<UpdateAccountSettingsResponse>(
-  "UpdateAccountSettingsResponse",
-)({}) {}
-export class UpdateBotResponse extends S.Class<UpdateBotResponse>(
-  "UpdateBotResponse",
-)({ Bot: S.optional(Bot) }) {}
-export class UpdatePhoneNumberResponse extends S.Class<UpdatePhoneNumberResponse>(
-  "UpdatePhoneNumberResponse",
-)({ PhoneNumber: S.optional(PhoneNumber) }) {}
-export class UpdateRoomResponse extends S.Class<UpdateRoomResponse>(
-  "UpdateRoomResponse",
-)({ Room: S.optional(Room) }) {}
-export class UpdateRoomMembershipResponse extends S.Class<UpdateRoomMembershipResponse>(
-  "UpdateRoomMembershipResponse",
-)({ RoomMembership: S.optional(RoomMembership) }) {}
-export class UpdateUserRequest extends S.Class<UpdateUserRequest>(
-  "UpdateUserRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateAccountSettingsRequest",
+}) as any as S.Schema<UpdateAccountSettingsRequest>;
+export interface UpdateAccountSettingsResponse {}
+export const UpdateAccountSettingsResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateAccountSettingsResponse",
+}) as any as S.Schema<UpdateAccountSettingsResponse>;
+export interface UpdateBotResponse {
+  Bot?: Bot;
+}
+export const UpdateBotResponse = S.suspend(() =>
+  S.Struct({ Bot: S.optional(Bot) }),
+).annotations({
+  identifier: "UpdateBotResponse",
+}) as any as S.Schema<UpdateBotResponse>;
+export interface UpdatePhoneNumberResponse {
+  PhoneNumber?: PhoneNumber;
+}
+export const UpdatePhoneNumberResponse = S.suspend(() =>
+  S.Struct({ PhoneNumber: S.optional(PhoneNumber) }),
+).annotations({
+  identifier: "UpdatePhoneNumberResponse",
+}) as any as S.Schema<UpdatePhoneNumberResponse>;
+export interface UpdateRoomResponse {
+  Room?: Room;
+}
+export const UpdateRoomResponse = S.suspend(() =>
+  S.Struct({ Room: S.optional(Room) }),
+).annotations({
+  identifier: "UpdateRoomResponse",
+}) as any as S.Schema<UpdateRoomResponse>;
+export interface UpdateRoomMembershipResponse {
+  RoomMembership?: RoomMembership;
+}
+export const UpdateRoomMembershipResponse = S.suspend(() =>
+  S.Struct({ RoomMembership: S.optional(RoomMembership) }),
+).annotations({
+  identifier: "UpdateRoomMembershipResponse",
+}) as any as S.Schema<UpdateRoomMembershipResponse>;
+export interface UpdateUserRequest {
+  AccountId: string;
+  UserId: string;
+  LicenseType?: string;
+  UserType?: string;
+  AlexaForBusinessMetadata?: AlexaForBusinessMetadata;
+}
+export const UpdateUserRequest = S.suspend(() =>
+  S.Struct({
     AccountId: S.String.pipe(T.HttpLabel("AccountId")),
     UserId: S.String.pipe(T.HttpLabel("UserId")),
     LicenseType: S.optional(S.String),
     UserType: S.optional(S.String),
     AlexaForBusinessMetadata: S.optional(AlexaForBusinessMetadata),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/accounts/{AccountId}/users/{UserId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/accounts/{AccountId}/users/{UserId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "UpdateUserRequest",
+}) as any as S.Schema<UpdateUserRequest>;
+export type PhoneNumberTypeList = string[];
 export const PhoneNumberTypeList = S.Array(S.String);
-export class PhoneNumberError extends S.Class<PhoneNumberError>(
-  "PhoneNumberError",
-)({
-  PhoneNumberId: S.optional(S.String),
-  ErrorCode: S.optional(S.String),
-  ErrorMessage: S.optional(S.String),
-}) {}
+export interface PhoneNumberError {
+  PhoneNumberId?: string;
+  ErrorCode?: string;
+  ErrorMessage?: string;
+}
+export const PhoneNumberError = S.suspend(() =>
+  S.Struct({
+    PhoneNumberId: S.optional(S.String),
+    ErrorCode: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "PhoneNumberError",
+}) as any as S.Schema<PhoneNumberError>;
+export type PhoneNumberErrorList = PhoneNumberError[];
 export const PhoneNumberErrorList = S.Array(PhoneNumberError);
-export class Invite extends S.Class<Invite>("Invite")({
-  InviteId: S.optional(S.String),
-  Status: S.optional(S.String),
-  EmailAddress: S.optional(S.String),
-  EmailStatus: S.optional(S.String),
-}) {}
+export interface Invite {
+  InviteId?: string;
+  Status?: string;
+  EmailAddress?: string;
+  EmailStatus?: string;
+}
+export const Invite = S.suspend(() =>
+  S.Struct({
+    InviteId: S.optional(S.String),
+    Status: S.optional(S.String),
+    EmailAddress: S.optional(S.String),
+    EmailStatus: S.optional(S.String),
+  }),
+).annotations({ identifier: "Invite" }) as any as S.Schema<Invite>;
+export type InviteList = Invite[];
 export const InviteList = S.Array(Invite);
-export class PhoneNumberCountry extends S.Class<PhoneNumberCountry>(
-  "PhoneNumberCountry",
-)({
-  CountryCode: S.optional(S.String),
-  SupportedPhoneNumberTypes: S.optional(PhoneNumberTypeList),
-}) {}
+export interface PhoneNumberCountry {
+  CountryCode?: string;
+  SupportedPhoneNumberTypes?: PhoneNumberTypeList;
+}
+export const PhoneNumberCountry = S.suspend(() =>
+  S.Struct({
+    CountryCode: S.optional(S.String),
+    SupportedPhoneNumberTypes: S.optional(PhoneNumberTypeList),
+  }),
+).annotations({
+  identifier: "PhoneNumberCountry",
+}) as any as S.Schema<PhoneNumberCountry>;
+export type PhoneNumberCountriesList = PhoneNumberCountry[];
 export const PhoneNumberCountriesList = S.Array(PhoneNumberCountry);
-export class BatchDeletePhoneNumberResponse extends S.Class<BatchDeletePhoneNumberResponse>(
-  "BatchDeletePhoneNumberResponse",
-)({ PhoneNumberErrors: S.optional(PhoneNumberErrorList) }) {}
-export class BatchSuspendUserResponse extends S.Class<BatchSuspendUserResponse>(
-  "BatchSuspendUserResponse",
-)({ UserErrors: S.optional(UserErrorList) }) {}
-export class BatchUpdatePhoneNumberResponse extends S.Class<BatchUpdatePhoneNumberResponse>(
-  "BatchUpdatePhoneNumberResponse",
-)({ PhoneNumberErrors: S.optional(PhoneNumberErrorList) }) {}
-export class BatchUpdateUserResponse extends S.Class<BatchUpdateUserResponse>(
-  "BatchUpdateUserResponse",
-)({ UserErrors: S.optional(UserErrorList) }) {}
-export class CreateAccountResponse extends S.Class<CreateAccountResponse>(
-  "CreateAccountResponse",
-)({ Account: S.optional(Account) }) {}
-export class CreateBotResponse extends S.Class<CreateBotResponse>(
-  "CreateBotResponse",
-)({ Bot: S.optional(Bot) }) {}
-export class CreateRoomResponse extends S.Class<CreateRoomResponse>(
-  "CreateRoomResponse",
-)({ Room: S.optional(Room) }) {}
-export class CreateUserResponse extends S.Class<CreateUserResponse>(
-  "CreateUserResponse",
-)({ User: S.optional(User) }) {}
-export class GetEventsConfigurationResponse extends S.Class<GetEventsConfigurationResponse>(
-  "GetEventsConfigurationResponse",
-)({ EventsConfiguration: S.optional(EventsConfiguration) }) {}
-export class InviteUsersResponse extends S.Class<InviteUsersResponse>(
-  "InviteUsersResponse",
-)({ Invites: S.optional(InviteList) }) {}
-export class ListSupportedPhoneNumberCountriesResponse extends S.Class<ListSupportedPhoneNumberCountriesResponse>(
-  "ListSupportedPhoneNumberCountriesResponse",
-)({ PhoneNumberCountries: S.optional(PhoneNumberCountriesList) }) {}
-export class PutRetentionSettingsRequest extends S.Class<PutRetentionSettingsRequest>(
-  "PutRetentionSettingsRequest",
-)(
-  {
+export interface BatchDeletePhoneNumberResponse {
+  PhoneNumberErrors?: PhoneNumberErrorList;
+}
+export const BatchDeletePhoneNumberResponse = S.suspend(() =>
+  S.Struct({ PhoneNumberErrors: S.optional(PhoneNumberErrorList) }),
+).annotations({
+  identifier: "BatchDeletePhoneNumberResponse",
+}) as any as S.Schema<BatchDeletePhoneNumberResponse>;
+export interface BatchSuspendUserResponse {
+  UserErrors?: UserErrorList;
+}
+export const BatchSuspendUserResponse = S.suspend(() =>
+  S.Struct({ UserErrors: S.optional(UserErrorList) }),
+).annotations({
+  identifier: "BatchSuspendUserResponse",
+}) as any as S.Schema<BatchSuspendUserResponse>;
+export interface BatchUpdatePhoneNumberResponse {
+  PhoneNumberErrors?: PhoneNumberErrorList;
+}
+export const BatchUpdatePhoneNumberResponse = S.suspend(() =>
+  S.Struct({ PhoneNumberErrors: S.optional(PhoneNumberErrorList) }),
+).annotations({
+  identifier: "BatchUpdatePhoneNumberResponse",
+}) as any as S.Schema<BatchUpdatePhoneNumberResponse>;
+export interface BatchUpdateUserResponse {
+  UserErrors?: UserErrorList;
+}
+export const BatchUpdateUserResponse = S.suspend(() =>
+  S.Struct({ UserErrors: S.optional(UserErrorList) }),
+).annotations({
+  identifier: "BatchUpdateUserResponse",
+}) as any as S.Schema<BatchUpdateUserResponse>;
+export interface CreateAccountResponse {
+  Account?: Account;
+}
+export const CreateAccountResponse = S.suspend(() =>
+  S.Struct({ Account: S.optional(Account) }),
+).annotations({
+  identifier: "CreateAccountResponse",
+}) as any as S.Schema<CreateAccountResponse>;
+export interface CreateBotResponse {
+  Bot?: Bot;
+}
+export const CreateBotResponse = S.suspend(() =>
+  S.Struct({ Bot: S.optional(Bot) }),
+).annotations({
+  identifier: "CreateBotResponse",
+}) as any as S.Schema<CreateBotResponse>;
+export interface CreateRoomResponse {
+  Room?: Room;
+}
+export const CreateRoomResponse = S.suspend(() =>
+  S.Struct({ Room: S.optional(Room) }),
+).annotations({
+  identifier: "CreateRoomResponse",
+}) as any as S.Schema<CreateRoomResponse>;
+export interface CreateUserResponse {
+  User?: User;
+}
+export const CreateUserResponse = S.suspend(() =>
+  S.Struct({ User: S.optional(User) }),
+).annotations({
+  identifier: "CreateUserResponse",
+}) as any as S.Schema<CreateUserResponse>;
+export interface GetEventsConfigurationResponse {
+  EventsConfiguration?: EventsConfiguration;
+}
+export const GetEventsConfigurationResponse = S.suspend(() =>
+  S.Struct({ EventsConfiguration: S.optional(EventsConfiguration) }),
+).annotations({
+  identifier: "GetEventsConfigurationResponse",
+}) as any as S.Schema<GetEventsConfigurationResponse>;
+export interface InviteUsersResponse {
+  Invites?: InviteList;
+}
+export const InviteUsersResponse = S.suspend(() =>
+  S.Struct({ Invites: S.optional(InviteList) }),
+).annotations({
+  identifier: "InviteUsersResponse",
+}) as any as S.Schema<InviteUsersResponse>;
+export interface ListSupportedPhoneNumberCountriesResponse {
+  PhoneNumberCountries?: PhoneNumberCountriesList;
+}
+export const ListSupportedPhoneNumberCountriesResponse = S.suspend(() =>
+  S.Struct({ PhoneNumberCountries: S.optional(PhoneNumberCountriesList) }),
+).annotations({
+  identifier: "ListSupportedPhoneNumberCountriesResponse",
+}) as any as S.Schema<ListSupportedPhoneNumberCountriesResponse>;
+export interface PutRetentionSettingsRequest {
+  AccountId: string;
+  RetentionSettings: RetentionSettings;
+}
+export const PutRetentionSettingsRequest = S.suspend(() =>
+  S.Struct({
     AccountId: S.String.pipe(T.HttpLabel("AccountId")),
     RetentionSettings: RetentionSettings,
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/accounts/{AccountId}/retention-settings" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/accounts/{AccountId}/retention-settings",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateUserResponse extends S.Class<UpdateUserResponse>(
-  "UpdateUserResponse",
-)({ User: S.optional(User) }) {}
-export class UpdateUserSettingsRequest extends S.Class<UpdateUserSettingsRequest>(
-  "UpdateUserSettingsRequest",
-)(
-  {
+).annotations({
+  identifier: "PutRetentionSettingsRequest",
+}) as any as S.Schema<PutRetentionSettingsRequest>;
+export interface UpdateUserResponse {
+  User?: User;
+}
+export const UpdateUserResponse = S.suspend(() =>
+  S.Struct({ User: S.optional(User) }),
+).annotations({
+  identifier: "UpdateUserResponse",
+}) as any as S.Schema<UpdateUserResponse>;
+export interface UpdateUserSettingsRequest {
+  AccountId: string;
+  UserId: string;
+  UserSettings: UserSettings;
+}
+export const UpdateUserSettingsRequest = S.suspend(() =>
+  S.Struct({
     AccountId: S.String.pipe(T.HttpLabel("AccountId")),
     UserId: S.String.pipe(T.HttpLabel("UserId")),
     UserSettings: UserSettings,
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/accounts/{AccountId}/users/{UserId}/settings",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/accounts/{AccountId}/users/{UserId}/settings",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateUserSettingsResponse extends S.Class<UpdateUserSettingsResponse>(
-  "UpdateUserSettingsResponse",
-)({}) {}
-export class MemberError extends S.Class<MemberError>("MemberError")({
-  MemberId: S.optional(S.String),
-  ErrorCode: S.optional(S.String),
-  ErrorMessage: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "UpdateUserSettingsRequest",
+}) as any as S.Schema<UpdateUserSettingsRequest>;
+export interface UpdateUserSettingsResponse {}
+export const UpdateUserSettingsResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateUserSettingsResponse",
+}) as any as S.Schema<UpdateUserSettingsResponse>;
+export interface MemberError {
+  MemberId?: string;
+  ErrorCode?: string;
+  ErrorMessage?: string;
+}
+export const MemberError = S.suspend(() =>
+  S.Struct({
+    MemberId: S.optional(S.String),
+    ErrorCode: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
+  }),
+).annotations({ identifier: "MemberError" }) as any as S.Schema<MemberError>;
+export type MemberErrorList = MemberError[];
 export const MemberErrorList = S.Array(MemberError);
-export class BatchCreateRoomMembershipResponse extends S.Class<BatchCreateRoomMembershipResponse>(
-  "BatchCreateRoomMembershipResponse",
-)({ Errors: S.optional(MemberErrorList) }) {}
-export class CreatePhoneNumberOrderResponse extends S.Class<CreatePhoneNumberOrderResponse>(
-  "CreatePhoneNumberOrderResponse",
-)({ PhoneNumberOrder: S.optional(PhoneNumberOrder) }) {}
-export class CreateRoomMembershipResponse extends S.Class<CreateRoomMembershipResponse>(
-  "CreateRoomMembershipResponse",
-)({ RoomMembership: S.optional(RoomMembership) }) {}
-export class GetPhoneNumberResponse extends S.Class<GetPhoneNumberResponse>(
-  "GetPhoneNumberResponse",
-)({ PhoneNumber: S.optional(PhoneNumber) }) {}
-export class PutRetentionSettingsResponse extends S.Class<PutRetentionSettingsResponse>(
-  "PutRetentionSettingsResponse",
-)({
-  RetentionSettings: S.optional(RetentionSettings),
-  InitiateDeletionTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("date-time")),
-  ),
-}) {}
+export interface BatchCreateRoomMembershipResponse {
+  Errors?: MemberErrorList;
+}
+export const BatchCreateRoomMembershipResponse = S.suspend(() =>
+  S.Struct({ Errors: S.optional(MemberErrorList) }),
+).annotations({
+  identifier: "BatchCreateRoomMembershipResponse",
+}) as any as S.Schema<BatchCreateRoomMembershipResponse>;
+export interface CreatePhoneNumberOrderResponse {
+  PhoneNumberOrder?: PhoneNumberOrder;
+}
+export const CreatePhoneNumberOrderResponse = S.suspend(() =>
+  S.Struct({ PhoneNumberOrder: S.optional(PhoneNumberOrder) }),
+).annotations({
+  identifier: "CreatePhoneNumberOrderResponse",
+}) as any as S.Schema<CreatePhoneNumberOrderResponse>;
+export interface CreateRoomMembershipResponse {
+  RoomMembership?: RoomMembership;
+}
+export const CreateRoomMembershipResponse = S.suspend(() =>
+  S.Struct({ RoomMembership: S.optional(RoomMembership) }),
+).annotations({
+  identifier: "CreateRoomMembershipResponse",
+}) as any as S.Schema<CreateRoomMembershipResponse>;
+export interface GetPhoneNumberResponse {
+  PhoneNumber?: PhoneNumber;
+}
+export const GetPhoneNumberResponse = S.suspend(() =>
+  S.Struct({ PhoneNumber: S.optional(PhoneNumber) }),
+).annotations({
+  identifier: "GetPhoneNumberResponse",
+}) as any as S.Schema<GetPhoneNumberResponse>;
+export interface PutRetentionSettingsResponse {
+  RetentionSettings?: RetentionSettings;
+  InitiateDeletionTimestamp?: Date;
+}
+export const PutRetentionSettingsResponse = S.suspend(() =>
+  S.Struct({
+    RetentionSettings: S.optional(RetentionSettings),
+    InitiateDeletionTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("date-time")),
+    ),
+  }),
+).annotations({
+  identifier: "PutRetentionSettingsResponse",
+}) as any as S.Schema<PutRetentionSettingsResponse>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

@@ -322,480 +322,679 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type BotVersions = string[];
 export const BotVersions = S.Array(S.String);
+export type IntentUtteranceList = string[];
 export const IntentUtteranceList = S.Array(S.String);
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class CreateBotVersionRequest extends S.Class<CreateBotVersionRequest>(
-  "CreateBotVersionRequest",
-)(
-  { name: S.String.pipe(T.HttpLabel("name")), checksum: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/bots/{name}/versions" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface CreateBotVersionRequest {
+  name: string;
+  checksum?: string;
+}
+export const CreateBotVersionRequest = S.suspend(() =>
+  S.Struct({
+    name: S.String.pipe(T.HttpLabel("name")),
+    checksum: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/bots/{name}/versions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateIntentVersionRequest extends S.Class<CreateIntentVersionRequest>(
-  "CreateIntentVersionRequest",
-)(
-  { name: S.String.pipe(T.HttpLabel("name")), checksum: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/intents/{name}/versions" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CreateBotVersionRequest",
+}) as any as S.Schema<CreateBotVersionRequest>;
+export interface CreateIntentVersionRequest {
+  name: string;
+  checksum?: string;
+}
+export const CreateIntentVersionRequest = S.suspend(() =>
+  S.Struct({
+    name: S.String.pipe(T.HttpLabel("name")),
+    checksum: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/intents/{name}/versions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateSlotTypeVersionRequest extends S.Class<CreateSlotTypeVersionRequest>(
-  "CreateSlotTypeVersionRequest",
-)(
-  { name: S.String.pipe(T.HttpLabel("name")), checksum: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/slottypes/{name}/versions" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CreateIntentVersionRequest",
+}) as any as S.Schema<CreateIntentVersionRequest>;
+export interface CreateSlotTypeVersionRequest {
+  name: string;
+  checksum?: string;
+}
+export const CreateSlotTypeVersionRequest = S.suspend(() =>
+  S.Struct({
+    name: S.String.pipe(T.HttpLabel("name")),
+    checksum: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/slottypes/{name}/versions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteBotRequest extends S.Class<DeleteBotRequest>(
-  "DeleteBotRequest",
-)(
-  { name: S.String.pipe(T.HttpLabel("name")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/bots/{name}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CreateSlotTypeVersionRequest",
+}) as any as S.Schema<CreateSlotTypeVersionRequest>;
+export interface DeleteBotRequest {
+  name: string;
+}
+export const DeleteBotRequest = S.suspend(() =>
+  S.Struct({ name: S.String.pipe(T.HttpLabel("name")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/bots/{name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteBotResponse extends S.Class<DeleteBotResponse>(
-  "DeleteBotResponse",
-)({}) {}
-export class DeleteBotAliasRequest extends S.Class<DeleteBotAliasRequest>(
-  "DeleteBotAliasRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteBotRequest",
+}) as any as S.Schema<DeleteBotRequest>;
+export interface DeleteBotResponse {}
+export const DeleteBotResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteBotResponse",
+}) as any as S.Schema<DeleteBotResponse>;
+export interface DeleteBotAliasRequest {
+  name: string;
+  botName: string;
+}
+export const DeleteBotAliasRequest = S.suspend(() =>
+  S.Struct({
     name: S.String.pipe(T.HttpLabel("name")),
     botName: S.String.pipe(T.HttpLabel("botName")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/bots/{botName}/aliases/{name}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/bots/{botName}/aliases/{name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteBotAliasResponse extends S.Class<DeleteBotAliasResponse>(
-  "DeleteBotAliasResponse",
-)({}) {}
-export class DeleteBotChannelAssociationRequest extends S.Class<DeleteBotChannelAssociationRequest>(
-  "DeleteBotChannelAssociationRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteBotAliasRequest",
+}) as any as S.Schema<DeleteBotAliasRequest>;
+export interface DeleteBotAliasResponse {}
+export const DeleteBotAliasResponse = S.suspend(() => S.Struct({})).annotations(
+  { identifier: "DeleteBotAliasResponse" },
+) as any as S.Schema<DeleteBotAliasResponse>;
+export interface DeleteBotChannelAssociationRequest {
+  name: string;
+  botName: string;
+  botAlias: string;
+}
+export const DeleteBotChannelAssociationRequest = S.suspend(() =>
+  S.Struct({
     name: S.String.pipe(T.HttpLabel("name")),
     botName: S.String.pipe(T.HttpLabel("botName")),
     botAlias: S.String.pipe(T.HttpLabel("botAlias")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/bots/{botName}/aliases/{botAlias}/channels/{name}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/bots/{botName}/aliases/{botAlias}/channels/{name}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteBotChannelAssociationResponse extends S.Class<DeleteBotChannelAssociationResponse>(
-  "DeleteBotChannelAssociationResponse",
-)({}) {}
-export class DeleteBotVersionRequest extends S.Class<DeleteBotVersionRequest>(
-  "DeleteBotVersionRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteBotChannelAssociationRequest",
+}) as any as S.Schema<DeleteBotChannelAssociationRequest>;
+export interface DeleteBotChannelAssociationResponse {}
+export const DeleteBotChannelAssociationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteBotChannelAssociationResponse",
+}) as any as S.Schema<DeleteBotChannelAssociationResponse>;
+export interface DeleteBotVersionRequest {
+  name: string;
+  version: string;
+}
+export const DeleteBotVersionRequest = S.suspend(() =>
+  S.Struct({
     name: S.String.pipe(T.HttpLabel("name")),
     version: S.String.pipe(T.HttpLabel("version")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/bots/{name}/versions/{version}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/bots/{name}/versions/{version}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteBotVersionResponse extends S.Class<DeleteBotVersionResponse>(
-  "DeleteBotVersionResponse",
-)({}) {}
-export class DeleteIntentRequest extends S.Class<DeleteIntentRequest>(
-  "DeleteIntentRequest",
-)(
-  { name: S.String.pipe(T.HttpLabel("name")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/intents/{name}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteBotVersionRequest",
+}) as any as S.Schema<DeleteBotVersionRequest>;
+export interface DeleteBotVersionResponse {}
+export const DeleteBotVersionResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteBotVersionResponse",
+}) as any as S.Schema<DeleteBotVersionResponse>;
+export interface DeleteIntentRequest {
+  name: string;
+}
+export const DeleteIntentRequest = S.suspend(() =>
+  S.Struct({ name: S.String.pipe(T.HttpLabel("name")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/intents/{name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteIntentResponse extends S.Class<DeleteIntentResponse>(
-  "DeleteIntentResponse",
-)({}) {}
-export class DeleteIntentVersionRequest extends S.Class<DeleteIntentVersionRequest>(
-  "DeleteIntentVersionRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteIntentRequest",
+}) as any as S.Schema<DeleteIntentRequest>;
+export interface DeleteIntentResponse {}
+export const DeleteIntentResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteIntentResponse",
+}) as any as S.Schema<DeleteIntentResponse>;
+export interface DeleteIntentVersionRequest {
+  name: string;
+  version: string;
+}
+export const DeleteIntentVersionRequest = S.suspend(() =>
+  S.Struct({
     name: S.String.pipe(T.HttpLabel("name")),
     version: S.String.pipe(T.HttpLabel("version")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/intents/{name}/versions/{version}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/intents/{name}/versions/{version}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteIntentVersionResponse extends S.Class<DeleteIntentVersionResponse>(
-  "DeleteIntentVersionResponse",
-)({}) {}
-export class DeleteSlotTypeRequest extends S.Class<DeleteSlotTypeRequest>(
-  "DeleteSlotTypeRequest",
-)(
-  { name: S.String.pipe(T.HttpLabel("name")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/slottypes/{name}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteIntentVersionRequest",
+}) as any as S.Schema<DeleteIntentVersionRequest>;
+export interface DeleteIntentVersionResponse {}
+export const DeleteIntentVersionResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteIntentVersionResponse",
+}) as any as S.Schema<DeleteIntentVersionResponse>;
+export interface DeleteSlotTypeRequest {
+  name: string;
+}
+export const DeleteSlotTypeRequest = S.suspend(() =>
+  S.Struct({ name: S.String.pipe(T.HttpLabel("name")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/slottypes/{name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteSlotTypeResponse extends S.Class<DeleteSlotTypeResponse>(
-  "DeleteSlotTypeResponse",
-)({}) {}
-export class DeleteSlotTypeVersionRequest extends S.Class<DeleteSlotTypeVersionRequest>(
-  "DeleteSlotTypeVersionRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteSlotTypeRequest",
+}) as any as S.Schema<DeleteSlotTypeRequest>;
+export interface DeleteSlotTypeResponse {}
+export const DeleteSlotTypeResponse = S.suspend(() => S.Struct({})).annotations(
+  { identifier: "DeleteSlotTypeResponse" },
+) as any as S.Schema<DeleteSlotTypeResponse>;
+export interface DeleteSlotTypeVersionRequest {
+  name: string;
+  version: string;
+}
+export const DeleteSlotTypeVersionRequest = S.suspend(() =>
+  S.Struct({
     name: S.String.pipe(T.HttpLabel("name")),
     version: S.String.pipe(T.HttpLabel("version")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/slottypes/{name}/version/{version}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/slottypes/{name}/version/{version}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteSlotTypeVersionResponse extends S.Class<DeleteSlotTypeVersionResponse>(
-  "DeleteSlotTypeVersionResponse",
-)({}) {}
-export class DeleteUtterancesRequest extends S.Class<DeleteUtterancesRequest>(
-  "DeleteUtterancesRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteSlotTypeVersionRequest",
+}) as any as S.Schema<DeleteSlotTypeVersionRequest>;
+export interface DeleteSlotTypeVersionResponse {}
+export const DeleteSlotTypeVersionResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteSlotTypeVersionResponse",
+}) as any as S.Schema<DeleteSlotTypeVersionResponse>;
+export interface DeleteUtterancesRequest {
+  botName: string;
+  userId: string;
+}
+export const DeleteUtterancesRequest = S.suspend(() =>
+  S.Struct({
     botName: S.String.pipe(T.HttpLabel("botName")),
     userId: S.String.pipe(T.HttpLabel("userId")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/bots/{botName}/utterances/{userId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/bots/{botName}/utterances/{userId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteUtterancesResponse extends S.Class<DeleteUtterancesResponse>(
-  "DeleteUtterancesResponse",
-)({}) {}
-export class GetBotRequest extends S.Class<GetBotRequest>("GetBotRequest")(
-  {
+).annotations({
+  identifier: "DeleteUtterancesRequest",
+}) as any as S.Schema<DeleteUtterancesRequest>;
+export interface DeleteUtterancesResponse {}
+export const DeleteUtterancesResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteUtterancesResponse",
+}) as any as S.Schema<DeleteUtterancesResponse>;
+export interface GetBotRequest {
+  name: string;
+  versionOrAlias: string;
+}
+export const GetBotRequest = S.suspend(() =>
+  S.Struct({
     name: S.String.pipe(T.HttpLabel("name")),
     versionOrAlias: S.String.pipe(T.HttpLabel("versionOrAlias")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/bots/{name}/versions/{versionOrAlias}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/bots/{name}/versions/{versionOrAlias}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetBotAliasRequest extends S.Class<GetBotAliasRequest>(
-  "GetBotAliasRequest",
-)(
-  {
+).annotations({
+  identifier: "GetBotRequest",
+}) as any as S.Schema<GetBotRequest>;
+export interface GetBotAliasRequest {
+  name: string;
+  botName: string;
+}
+export const GetBotAliasRequest = S.suspend(() =>
+  S.Struct({
     name: S.String.pipe(T.HttpLabel("name")),
     botName: S.String.pipe(T.HttpLabel("botName")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/bots/{botName}/aliases/{name}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/bots/{botName}/aliases/{name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetBotAliasesRequest extends S.Class<GetBotAliasesRequest>(
-  "GetBotAliasesRequest",
-)(
-  {
+).annotations({
+  identifier: "GetBotAliasRequest",
+}) as any as S.Schema<GetBotAliasRequest>;
+export interface GetBotAliasesRequest {
+  botName: string;
+  nextToken?: string;
+  maxResults?: number;
+  nameContains?: string;
+}
+export const GetBotAliasesRequest = S.suspend(() =>
+  S.Struct({
     botName: S.String.pipe(T.HttpLabel("botName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nameContains: S.optional(S.String).pipe(T.HttpQuery("nameContains")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/bots/{botName}/aliases" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/bots/{botName}/aliases" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetBotChannelAssociationRequest extends S.Class<GetBotChannelAssociationRequest>(
-  "GetBotChannelAssociationRequest",
-)(
-  {
+).annotations({
+  identifier: "GetBotAliasesRequest",
+}) as any as S.Schema<GetBotAliasesRequest>;
+export interface GetBotChannelAssociationRequest {
+  name: string;
+  botName: string;
+  botAlias: string;
+}
+export const GetBotChannelAssociationRequest = S.suspend(() =>
+  S.Struct({
     name: S.String.pipe(T.HttpLabel("name")),
     botName: S.String.pipe(T.HttpLabel("botName")),
     botAlias: S.String.pipe(T.HttpLabel("botAlias")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/bots/{botName}/aliases/{botAlias}/channels/{name}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/bots/{botName}/aliases/{botAlias}/channels/{name}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetBotChannelAssociationsRequest extends S.Class<GetBotChannelAssociationsRequest>(
-  "GetBotChannelAssociationsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetBotChannelAssociationRequest",
+}) as any as S.Schema<GetBotChannelAssociationRequest>;
+export interface GetBotChannelAssociationsRequest {
+  botName: string;
+  botAlias: string;
+  nextToken?: string;
+  maxResults?: number;
+  nameContains?: string;
+}
+export const GetBotChannelAssociationsRequest = S.suspend(() =>
+  S.Struct({
     botName: S.String.pipe(T.HttpLabel("botName")),
     botAlias: S.String.pipe(T.HttpLabel("botAlias")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nameContains: S.optional(S.String).pipe(T.HttpQuery("nameContains")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/bots/{botName}/aliases/{botAlias}/channels",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/bots/{botName}/aliases/{botAlias}/channels",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetBotsRequest extends S.Class<GetBotsRequest>("GetBotsRequest")(
-  {
+).annotations({
+  identifier: "GetBotChannelAssociationsRequest",
+}) as any as S.Schema<GetBotChannelAssociationsRequest>;
+export interface GetBotsRequest {
+  nextToken?: string;
+  maxResults?: number;
+  nameContains?: string;
+}
+export const GetBotsRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nameContains: S.optional(S.String).pipe(T.HttpQuery("nameContains")),
-  },
-  T.all(T.Http({ method: "GET", uri: "/bots" }), svc, auth, proto, ver, rules),
-) {}
-export class GetBotVersionsRequest extends S.Class<GetBotVersionsRequest>(
-  "GetBotVersionsRequest",
-)(
-  {
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/bots" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotations({
+  identifier: "GetBotsRequest",
+}) as any as S.Schema<GetBotsRequest>;
+export interface GetBotVersionsRequest {
+  name: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const GetBotVersionsRequest = S.suspend(() =>
+  S.Struct({
     name: S.String.pipe(T.HttpLabel("name")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/bots/{name}/versions" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/bots/{name}/versions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetBuiltinIntentRequest extends S.Class<GetBuiltinIntentRequest>(
-  "GetBuiltinIntentRequest",
-)(
-  { signature: S.String.pipe(T.HttpLabel("signature")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/builtins/intents/{signature}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetBotVersionsRequest",
+}) as any as S.Schema<GetBotVersionsRequest>;
+export interface GetBuiltinIntentRequest {
+  signature: string;
+}
+export const GetBuiltinIntentRequest = S.suspend(() =>
+  S.Struct({ signature: S.String.pipe(T.HttpLabel("signature")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/builtins/intents/{signature}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetBuiltinIntentsRequest extends S.Class<GetBuiltinIntentsRequest>(
-  "GetBuiltinIntentsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetBuiltinIntentRequest",
+}) as any as S.Schema<GetBuiltinIntentRequest>;
+export interface GetBuiltinIntentsRequest {
+  locale?: string;
+  signatureContains?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const GetBuiltinIntentsRequest = S.suspend(() =>
+  S.Struct({
     locale: S.optional(S.String).pipe(T.HttpQuery("locale")),
     signatureContains: S.optional(S.String).pipe(
       T.HttpQuery("signatureContains"),
     ),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/builtins/intents" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/builtins/intents" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetBuiltinSlotTypesRequest extends S.Class<GetBuiltinSlotTypesRequest>(
-  "GetBuiltinSlotTypesRequest",
-)(
-  {
+).annotations({
+  identifier: "GetBuiltinIntentsRequest",
+}) as any as S.Schema<GetBuiltinIntentsRequest>;
+export interface GetBuiltinSlotTypesRequest {
+  locale?: string;
+  signatureContains?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const GetBuiltinSlotTypesRequest = S.suspend(() =>
+  S.Struct({
     locale: S.optional(S.String).pipe(T.HttpQuery("locale")),
     signatureContains: S.optional(S.String).pipe(
       T.HttpQuery("signatureContains"),
     ),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/builtins/slottypes" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/builtins/slottypes" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetExportRequest extends S.Class<GetExportRequest>(
-  "GetExportRequest",
-)(
-  {
+).annotations({
+  identifier: "GetBuiltinSlotTypesRequest",
+}) as any as S.Schema<GetBuiltinSlotTypesRequest>;
+export interface GetExportRequest {
+  name: string;
+  version: string;
+  resourceType: string;
+  exportType: string;
+}
+export const GetExportRequest = S.suspend(() =>
+  S.Struct({
     name: S.String.pipe(T.HttpQuery("name")),
     version: S.String.pipe(T.HttpQuery("version")),
     resourceType: S.String.pipe(T.HttpQuery("resourceType")),
     exportType: S.String.pipe(T.HttpQuery("exportType")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/exports" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/exports" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetImportRequest extends S.Class<GetImportRequest>(
-  "GetImportRequest",
-)(
-  { importId: S.String.pipe(T.HttpLabel("importId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/imports/{importId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetExportRequest",
+}) as any as S.Schema<GetExportRequest>;
+export interface GetImportRequest {
+  importId: string;
+}
+export const GetImportRequest = S.suspend(() =>
+  S.Struct({ importId: S.String.pipe(T.HttpLabel("importId")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/imports/{importId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetIntentRequest extends S.Class<GetIntentRequest>(
-  "GetIntentRequest",
-)(
-  {
+).annotations({
+  identifier: "GetImportRequest",
+}) as any as S.Schema<GetImportRequest>;
+export interface GetIntentRequest {
+  name: string;
+  version: string;
+}
+export const GetIntentRequest = S.suspend(() =>
+  S.Struct({
     name: S.String.pipe(T.HttpLabel("name")),
     version: S.String.pipe(T.HttpLabel("version")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/intents/{name}/versions/{version}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/intents/{name}/versions/{version}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetIntentsRequest extends S.Class<GetIntentsRequest>(
-  "GetIntentsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetIntentRequest",
+}) as any as S.Schema<GetIntentRequest>;
+export interface GetIntentsRequest {
+  nextToken?: string;
+  maxResults?: number;
+  nameContains?: string;
+}
+export const GetIntentsRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nameContains: S.optional(S.String).pipe(T.HttpQuery("nameContains")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/intents" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/intents" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetIntentVersionsRequest extends S.Class<GetIntentVersionsRequest>(
-  "GetIntentVersionsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetIntentsRequest",
+}) as any as S.Schema<GetIntentsRequest>;
+export interface GetIntentVersionsRequest {
+  name: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const GetIntentVersionsRequest = S.suspend(() =>
+  S.Struct({
     name: S.String.pipe(T.HttpLabel("name")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/intents/{name}/versions" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/intents/{name}/versions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetMigrationRequest extends S.Class<GetMigrationRequest>(
-  "GetMigrationRequest",
-)(
-  { migrationId: S.String.pipe(T.HttpLabel("migrationId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/migrations/{migrationId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetIntentVersionsRequest",
+}) as any as S.Schema<GetIntentVersionsRequest>;
+export interface GetMigrationRequest {
+  migrationId: string;
+}
+export const GetMigrationRequest = S.suspend(() =>
+  S.Struct({ migrationId: S.String.pipe(T.HttpLabel("migrationId")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/migrations/{migrationId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetMigrationsRequest extends S.Class<GetMigrationsRequest>(
-  "GetMigrationsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetMigrationRequest",
+}) as any as S.Schema<GetMigrationRequest>;
+export interface GetMigrationsRequest {
+  sortByAttribute?: string;
+  sortByOrder?: string;
+  v1BotNameContains?: string;
+  migrationStatusEquals?: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const GetMigrationsRequest = S.suspend(() =>
+  S.Struct({
     sortByAttribute: S.optional(S.String).pipe(T.HttpQuery("sortByAttribute")),
     sortByOrder: S.optional(S.String).pipe(T.HttpQuery("sortByOrder")),
     v1BotNameContains: S.optional(S.String).pipe(
@@ -806,650 +1005,1270 @@ export class GetMigrationsRequest extends S.Class<GetMigrationsRequest>(
     ),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/migrations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/migrations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetSlotTypeRequest extends S.Class<GetSlotTypeRequest>(
-  "GetSlotTypeRequest",
-)(
-  {
+).annotations({
+  identifier: "GetMigrationsRequest",
+}) as any as S.Schema<GetMigrationsRequest>;
+export interface GetSlotTypeRequest {
+  name: string;
+  version: string;
+}
+export const GetSlotTypeRequest = S.suspend(() =>
+  S.Struct({
     name: S.String.pipe(T.HttpLabel("name")),
     version: S.String.pipe(T.HttpLabel("version")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/slottypes/{name}/versions/{version}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/slottypes/{name}/versions/{version}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetSlotTypesRequest extends S.Class<GetSlotTypesRequest>(
-  "GetSlotTypesRequest",
-)(
-  {
+).annotations({
+  identifier: "GetSlotTypeRequest",
+}) as any as S.Schema<GetSlotTypeRequest>;
+export interface GetSlotTypesRequest {
+  nextToken?: string;
+  maxResults?: number;
+  nameContains?: string;
+}
+export const GetSlotTypesRequest = S.suspend(() =>
+  S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nameContains: S.optional(S.String).pipe(T.HttpQuery("nameContains")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/slottypes" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/slottypes" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetSlotTypeVersionsRequest extends S.Class<GetSlotTypeVersionsRequest>(
-  "GetSlotTypeVersionsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetSlotTypesRequest",
+}) as any as S.Schema<GetSlotTypesRequest>;
+export interface GetSlotTypeVersionsRequest {
+  name: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const GetSlotTypeVersionsRequest = S.suspend(() =>
+  S.Struct({
     name: S.String.pipe(T.HttpLabel("name")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/slottypes/{name}/versions" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/slottypes/{name}/versions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetUtterancesViewRequest extends S.Class<GetUtterancesViewRequest>(
-  "GetUtterancesViewRequest",
-)(
-  {
+).annotations({
+  identifier: "GetSlotTypeVersionsRequest",
+}) as any as S.Schema<GetSlotTypeVersionsRequest>;
+export interface GetUtterancesViewRequest {
+  botName: string;
+  botVersions: BotVersions;
+  statusType: string;
+}
+export const GetUtterancesViewRequest = S.suspend(() =>
+  S.Struct({
     botName: S.String.pipe(T.HttpLabel("botName")),
     botVersions: BotVersions.pipe(T.HttpQuery("bot_versions")),
     statusType: S.String.pipe(T.HttpQuery("status_type")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/bots/{botName}/utterances?view=aggregation",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/bots/{botName}/utterances?view=aggregation",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetUtterancesViewRequest",
+}) as any as S.Schema<GetUtterancesViewRequest>;
+export interface ListTagsForResourceRequest {
+  resourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class Tag extends S.Class<Tag>("Tag")({
-  key: S.String,
-  value: S.String,
-}) {}
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface Tag {
+  key: string;
+  value: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ key: S.String, value: S.String }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagList = Tag[];
 export const TagList = S.Array(Tag);
-export class StartImportRequest extends S.Class<StartImportRequest>(
-  "StartImportRequest",
-)(
-  {
+export interface StartImportRequest {
+  payload: Uint8Array;
+  resourceType: string;
+  mergeStrategy: string;
+  tags?: TagList;
+}
+export const StartImportRequest = S.suspend(() =>
+  S.Struct({
     payload: T.Blob,
     resourceType: S.String,
     mergeStrategy: S.String,
     tags: S.optional(TagList),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/imports" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/imports" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class StartMigrationRequest extends S.Class<StartMigrationRequest>(
-  "StartMigrationRequest",
-)(
-  {
+).annotations({
+  identifier: "StartImportRequest",
+}) as any as S.Schema<StartImportRequest>;
+export interface StartMigrationRequest {
+  v1BotName: string;
+  v1BotVersion: string;
+  v2BotName: string;
+  v2BotRole: string;
+  migrationStrategy: string;
+}
+export const StartMigrationRequest = S.suspend(() =>
+  S.Struct({
     v1BotName: S.String,
     v1BotVersion: S.String,
     v2BotName: S.String,
     v2BotRole: S.String,
     migrationStrategy: S.String,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/migrations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/migrations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagList },
-  T.all(
-    T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "StartMigrationRequest",
+}) as any as S.Schema<StartMigrationRequest>;
+export interface TagResourceRequest {
+  resourceArn: string;
+  tags: TagList;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+    tags: TagList,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UntagResourceRequest {
+  resourceArn: string;
+  tagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export type SlotUtteranceList = string[];
 export const SlotUtteranceList = S.Array(S.String);
+export type SynonymList = string[];
 export const SynonymList = S.Array(S.String);
+export type LocaleList = string[];
 export const LocaleList = S.Array(S.String);
+export type StringList = string[];
 export const StringList = S.Array(S.String);
-export class Intent extends S.Class<Intent>("Intent")({
-  intentName: S.String,
-  intentVersion: S.String,
-}) {}
+export interface Intent {
+  intentName: string;
+  intentVersion: string;
+}
+export const Intent = S.suspend(() =>
+  S.Struct({ intentName: S.String, intentVersion: S.String }),
+).annotations({ identifier: "Intent" }) as any as S.Schema<Intent>;
+export type IntentList = Intent[];
 export const IntentList = S.Array(Intent);
-export class Message extends S.Class<Message>("Message")({
-  contentType: S.String,
-  content: S.String,
-  groupNumber: S.optional(S.Number),
-}) {}
+export interface Message {
+  contentType: string;
+  content: string;
+  groupNumber?: number;
+}
+export const Message = S.suspend(() =>
+  S.Struct({
+    contentType: S.String,
+    content: S.String,
+    groupNumber: S.optional(S.Number),
+  }),
+).annotations({ identifier: "Message" }) as any as S.Schema<Message>;
+export type MessageList = Message[];
 export const MessageList = S.Array(Message);
-export class Statement extends S.Class<Statement>("Statement")({
-  messages: MessageList,
-  responseCard: S.optional(S.String),
-}) {}
-export class Prompt extends S.Class<Prompt>("Prompt")({
-  messages: MessageList,
-  maxAttempts: S.Number,
-  responseCard: S.optional(S.String),
-}) {}
-export class FollowUpPrompt extends S.Class<FollowUpPrompt>("FollowUpPrompt")({
-  prompt: Prompt,
-  rejectionStatement: Statement,
-}) {}
-export class CodeHook extends S.Class<CodeHook>("CodeHook")({
-  uri: S.String,
-  messageVersion: S.String,
-}) {}
-export class FulfillmentActivity extends S.Class<FulfillmentActivity>(
-  "FulfillmentActivity",
-)({ type: S.String, codeHook: S.optional(CodeHook) }) {}
-export class KendraConfiguration extends S.Class<KendraConfiguration>(
-  "KendraConfiguration",
-)({
-  kendraIndex: S.String,
-  queryFilterString: S.optional(S.String),
-  role: S.String,
-}) {}
-export class InputContext extends S.Class<InputContext>("InputContext")({
-  name: S.String,
-}) {}
+export interface Statement {
+  messages: MessageList;
+  responseCard?: string;
+}
+export const Statement = S.suspend(() =>
+  S.Struct({ messages: MessageList, responseCard: S.optional(S.String) }),
+).annotations({ identifier: "Statement" }) as any as S.Schema<Statement>;
+export interface Prompt {
+  messages: MessageList;
+  maxAttempts: number;
+  responseCard?: string;
+}
+export const Prompt = S.suspend(() =>
+  S.Struct({
+    messages: MessageList,
+    maxAttempts: S.Number,
+    responseCard: S.optional(S.String),
+  }),
+).annotations({ identifier: "Prompt" }) as any as S.Schema<Prompt>;
+export interface FollowUpPrompt {
+  prompt: Prompt;
+  rejectionStatement: Statement;
+}
+export const FollowUpPrompt = S.suspend(() =>
+  S.Struct({ prompt: Prompt, rejectionStatement: Statement }),
+).annotations({
+  identifier: "FollowUpPrompt",
+}) as any as S.Schema<FollowUpPrompt>;
+export interface CodeHook {
+  uri: string;
+  messageVersion: string;
+}
+export const CodeHook = S.suspend(() =>
+  S.Struct({ uri: S.String, messageVersion: S.String }),
+).annotations({ identifier: "CodeHook" }) as any as S.Schema<CodeHook>;
+export interface FulfillmentActivity {
+  type: string;
+  codeHook?: CodeHook;
+}
+export const FulfillmentActivity = S.suspend(() =>
+  S.Struct({ type: S.String, codeHook: S.optional(CodeHook) }),
+).annotations({
+  identifier: "FulfillmentActivity",
+}) as any as S.Schema<FulfillmentActivity>;
+export interface KendraConfiguration {
+  kendraIndex: string;
+  queryFilterString?: string;
+  role: string;
+}
+export const KendraConfiguration = S.suspend(() =>
+  S.Struct({
+    kendraIndex: S.String,
+    queryFilterString: S.optional(S.String),
+    role: S.String,
+  }),
+).annotations({
+  identifier: "KendraConfiguration",
+}) as any as S.Schema<KendraConfiguration>;
+export interface InputContext {
+  name: string;
+}
+export const InputContext = S.suspend(() =>
+  S.Struct({ name: S.String }),
+).annotations({ identifier: "InputContext" }) as any as S.Schema<InputContext>;
+export type InputContextList = InputContext[];
 export const InputContextList = S.Array(InputContext);
-export class OutputContext extends S.Class<OutputContext>("OutputContext")({
-  name: S.String,
-  timeToLiveInSeconds: S.Number,
-  turnsToLive: S.Number,
-}) {}
+export interface OutputContext {
+  name: string;
+  timeToLiveInSeconds: number;
+  turnsToLive: number;
+}
+export const OutputContext = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    timeToLiveInSeconds: S.Number,
+    turnsToLive: S.Number,
+  }),
+).annotations({
+  identifier: "OutputContext",
+}) as any as S.Schema<OutputContext>;
+export type OutputContextList = OutputContext[];
 export const OutputContextList = S.Array(OutputContext);
-export class EnumerationValue extends S.Class<EnumerationValue>(
-  "EnumerationValue",
-)({ value: S.String, synonyms: S.optional(SynonymList) }) {}
+export interface EnumerationValue {
+  value: string;
+  synonyms?: SynonymList;
+}
+export const EnumerationValue = S.suspend(() =>
+  S.Struct({ value: S.String, synonyms: S.optional(SynonymList) }),
+).annotations({
+  identifier: "EnumerationValue",
+}) as any as S.Schema<EnumerationValue>;
+export type EnumerationValues = EnumerationValue[];
 export const EnumerationValues = S.Array(EnumerationValue);
-export class CreateBotVersionResponse extends S.Class<CreateBotVersionResponse>(
-  "CreateBotVersionResponse",
-)({
-  name: S.optional(S.String),
-  description: S.optional(S.String),
-  intents: S.optional(IntentList),
-  clarificationPrompt: S.optional(Prompt),
-  abortStatement: S.optional(Statement),
-  status: S.optional(S.String),
-  failureReason: S.optional(S.String),
-  lastUpdatedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  idleSessionTTLInSeconds: S.optional(S.Number),
-  voiceId: S.optional(S.String),
-  checksum: S.optional(S.String),
-  version: S.optional(S.String),
-  locale: S.optional(S.String),
-  childDirected: S.optional(S.Boolean),
-  enableModelImprovements: S.optional(S.Boolean),
-  detectSentiment: S.optional(S.Boolean),
-}) {}
-export class SlotDefaultValue extends S.Class<SlotDefaultValue>(
-  "SlotDefaultValue",
-)({ defaultValue: S.String }) {}
+export interface CreateBotVersionResponse {
+  name?: string;
+  description?: string;
+  intents?: IntentList;
+  clarificationPrompt?: Prompt;
+  abortStatement?: Statement;
+  status?: string;
+  failureReason?: string;
+  lastUpdatedDate?: Date;
+  createdDate?: Date;
+  idleSessionTTLInSeconds?: number;
+  voiceId?: string;
+  checksum?: string;
+  version?: string;
+  locale?: string;
+  childDirected?: boolean;
+  enableModelImprovements?: boolean;
+  detectSentiment?: boolean;
+}
+export const CreateBotVersionResponse = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    intents: S.optional(IntentList),
+    clarificationPrompt: S.optional(Prompt),
+    abortStatement: S.optional(Statement),
+    status: S.optional(S.String),
+    failureReason: S.optional(S.String),
+    lastUpdatedDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    idleSessionTTLInSeconds: S.optional(S.Number),
+    voiceId: S.optional(S.String),
+    checksum: S.optional(S.String),
+    version: S.optional(S.String),
+    locale: S.optional(S.String),
+    childDirected: S.optional(S.Boolean),
+    enableModelImprovements: S.optional(S.Boolean),
+    detectSentiment: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "CreateBotVersionResponse",
+}) as any as S.Schema<CreateBotVersionResponse>;
+export interface SlotDefaultValue {
+  defaultValue: string;
+}
+export const SlotDefaultValue = S.suspend(() =>
+  S.Struct({ defaultValue: S.String }),
+).annotations({
+  identifier: "SlotDefaultValue",
+}) as any as S.Schema<SlotDefaultValue>;
+export type SlotDefaultValueList = SlotDefaultValue[];
 export const SlotDefaultValueList = S.Array(SlotDefaultValue);
-export class SlotDefaultValueSpec extends S.Class<SlotDefaultValueSpec>(
-  "SlotDefaultValueSpec",
-)({ defaultValueList: SlotDefaultValueList }) {}
-export class Slot extends S.Class<Slot>("Slot")({
-  name: S.String,
-  description: S.optional(S.String),
-  slotConstraint: S.String,
-  slotType: S.optional(S.String),
-  slotTypeVersion: S.optional(S.String),
-  valueElicitationPrompt: S.optional(Prompt),
-  priority: S.optional(S.Number),
-  sampleUtterances: S.optional(SlotUtteranceList),
-  responseCard: S.optional(S.String),
-  obfuscationSetting: S.optional(S.String),
-  defaultValueSpec: S.optional(SlotDefaultValueSpec),
-}) {}
+export interface SlotDefaultValueSpec {
+  defaultValueList: SlotDefaultValueList;
+}
+export const SlotDefaultValueSpec = S.suspend(() =>
+  S.Struct({ defaultValueList: SlotDefaultValueList }),
+).annotations({
+  identifier: "SlotDefaultValueSpec",
+}) as any as S.Schema<SlotDefaultValueSpec>;
+export interface Slot {
+  name: string;
+  description?: string;
+  slotConstraint: string;
+  slotType?: string;
+  slotTypeVersion?: string;
+  valueElicitationPrompt?: Prompt;
+  priority?: number;
+  sampleUtterances?: SlotUtteranceList;
+  responseCard?: string;
+  obfuscationSetting?: string;
+  defaultValueSpec?: SlotDefaultValueSpec;
+}
+export const Slot = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    description: S.optional(S.String),
+    slotConstraint: S.String,
+    slotType: S.optional(S.String),
+    slotTypeVersion: S.optional(S.String),
+    valueElicitationPrompt: S.optional(Prompt),
+    priority: S.optional(S.Number),
+    sampleUtterances: S.optional(SlotUtteranceList),
+    responseCard: S.optional(S.String),
+    obfuscationSetting: S.optional(S.String),
+    defaultValueSpec: S.optional(SlotDefaultValueSpec),
+  }),
+).annotations({ identifier: "Slot" }) as any as S.Schema<Slot>;
+export type SlotList = Slot[];
 export const SlotList = S.Array(Slot);
-export class CreateIntentVersionResponse extends S.Class<CreateIntentVersionResponse>(
-  "CreateIntentVersionResponse",
-)({
-  name: S.optional(S.String),
-  description: S.optional(S.String),
-  slots: S.optional(SlotList),
-  sampleUtterances: S.optional(IntentUtteranceList),
-  confirmationPrompt: S.optional(Prompt),
-  rejectionStatement: S.optional(Statement),
-  followUpPrompt: S.optional(FollowUpPrompt),
-  conclusionStatement: S.optional(Statement),
-  dialogCodeHook: S.optional(CodeHook),
-  fulfillmentActivity: S.optional(FulfillmentActivity),
-  parentIntentSignature: S.optional(S.String),
-  lastUpdatedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  version: S.optional(S.String),
-  checksum: S.optional(S.String),
-  kendraConfiguration: S.optional(KendraConfiguration),
-  inputContexts: S.optional(InputContextList),
-  outputContexts: S.optional(OutputContextList),
-}) {}
-export class SlotTypeRegexConfiguration extends S.Class<SlotTypeRegexConfiguration>(
-  "SlotTypeRegexConfiguration",
-)({ pattern: S.String }) {}
-export class SlotTypeConfiguration extends S.Class<SlotTypeConfiguration>(
-  "SlotTypeConfiguration",
-)({ regexConfiguration: S.optional(SlotTypeRegexConfiguration) }) {}
+export interface CreateIntentVersionResponse {
+  name?: string;
+  description?: string;
+  slots?: SlotList;
+  sampleUtterances?: IntentUtteranceList;
+  confirmationPrompt?: Prompt;
+  rejectionStatement?: Statement;
+  followUpPrompt?: FollowUpPrompt;
+  conclusionStatement?: Statement;
+  dialogCodeHook?: CodeHook;
+  fulfillmentActivity?: FulfillmentActivity;
+  parentIntentSignature?: string;
+  lastUpdatedDate?: Date;
+  createdDate?: Date;
+  version?: string;
+  checksum?: string;
+  kendraConfiguration?: KendraConfiguration;
+  inputContexts?: InputContextList;
+  outputContexts?: OutputContextList;
+}
+export const CreateIntentVersionResponse = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    slots: S.optional(SlotList),
+    sampleUtterances: S.optional(IntentUtteranceList),
+    confirmationPrompt: S.optional(Prompt),
+    rejectionStatement: S.optional(Statement),
+    followUpPrompt: S.optional(FollowUpPrompt),
+    conclusionStatement: S.optional(Statement),
+    dialogCodeHook: S.optional(CodeHook),
+    fulfillmentActivity: S.optional(FulfillmentActivity),
+    parentIntentSignature: S.optional(S.String),
+    lastUpdatedDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    version: S.optional(S.String),
+    checksum: S.optional(S.String),
+    kendraConfiguration: S.optional(KendraConfiguration),
+    inputContexts: S.optional(InputContextList),
+    outputContexts: S.optional(OutputContextList),
+  }),
+).annotations({
+  identifier: "CreateIntentVersionResponse",
+}) as any as S.Schema<CreateIntentVersionResponse>;
+export interface SlotTypeRegexConfiguration {
+  pattern: string;
+}
+export const SlotTypeRegexConfiguration = S.suspend(() =>
+  S.Struct({ pattern: S.String }),
+).annotations({
+  identifier: "SlotTypeRegexConfiguration",
+}) as any as S.Schema<SlotTypeRegexConfiguration>;
+export interface SlotTypeConfiguration {
+  regexConfiguration?: SlotTypeRegexConfiguration;
+}
+export const SlotTypeConfiguration = S.suspend(() =>
+  S.Struct({ regexConfiguration: S.optional(SlotTypeRegexConfiguration) }),
+).annotations({
+  identifier: "SlotTypeConfiguration",
+}) as any as S.Schema<SlotTypeConfiguration>;
+export type SlotTypeConfigurations = SlotTypeConfiguration[];
 export const SlotTypeConfigurations = S.Array(SlotTypeConfiguration);
-export class CreateSlotTypeVersionResponse extends S.Class<CreateSlotTypeVersionResponse>(
-  "CreateSlotTypeVersionResponse",
-)({
-  name: S.optional(S.String),
-  description: S.optional(S.String),
-  enumerationValues: S.optional(EnumerationValues),
-  lastUpdatedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  version: S.optional(S.String),
-  checksum: S.optional(S.String),
-  valueSelectionStrategy: S.optional(S.String),
-  parentSlotTypeSignature: S.optional(S.String),
-  slotTypeConfigurations: S.optional(SlotTypeConfigurations),
-}) {}
-export class GetBotResponse extends S.Class<GetBotResponse>("GetBotResponse")({
-  name: S.optional(S.String),
-  description: S.optional(S.String),
-  intents: S.optional(IntentList),
-  enableModelImprovements: S.optional(S.Boolean),
-  nluIntentConfidenceThreshold: S.optional(S.Number),
-  clarificationPrompt: S.optional(Prompt),
-  abortStatement: S.optional(Statement),
-  status: S.optional(S.String),
-  failureReason: S.optional(S.String),
-  lastUpdatedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  idleSessionTTLInSeconds: S.optional(S.Number),
-  voiceId: S.optional(S.String),
-  checksum: S.optional(S.String),
-  version: S.optional(S.String),
-  locale: S.optional(S.String),
-  childDirected: S.optional(S.Boolean),
-  detectSentiment: S.optional(S.Boolean),
-}) {}
-export class BotMetadata extends S.Class<BotMetadata>("BotMetadata")({
-  name: S.optional(S.String),
-  description: S.optional(S.String),
-  status: S.optional(S.String),
-  lastUpdatedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  version: S.optional(S.String),
-}) {}
+export interface CreateSlotTypeVersionResponse {
+  name?: string;
+  description?: string;
+  enumerationValues?: EnumerationValues;
+  lastUpdatedDate?: Date;
+  createdDate?: Date;
+  version?: string;
+  checksum?: string;
+  valueSelectionStrategy?: string;
+  parentSlotTypeSignature?: string;
+  slotTypeConfigurations?: SlotTypeConfigurations;
+}
+export const CreateSlotTypeVersionResponse = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    enumerationValues: S.optional(EnumerationValues),
+    lastUpdatedDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    version: S.optional(S.String),
+    checksum: S.optional(S.String),
+    valueSelectionStrategy: S.optional(S.String),
+    parentSlotTypeSignature: S.optional(S.String),
+    slotTypeConfigurations: S.optional(SlotTypeConfigurations),
+  }),
+).annotations({
+  identifier: "CreateSlotTypeVersionResponse",
+}) as any as S.Schema<CreateSlotTypeVersionResponse>;
+export interface GetBotResponse {
+  name?: string;
+  description?: string;
+  intents?: IntentList;
+  enableModelImprovements?: boolean;
+  nluIntentConfidenceThreshold?: number;
+  clarificationPrompt?: Prompt;
+  abortStatement?: Statement;
+  status?: string;
+  failureReason?: string;
+  lastUpdatedDate?: Date;
+  createdDate?: Date;
+  idleSessionTTLInSeconds?: number;
+  voiceId?: string;
+  checksum?: string;
+  version?: string;
+  locale?: string;
+  childDirected?: boolean;
+  detectSentiment?: boolean;
+}
+export const GetBotResponse = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    intents: S.optional(IntentList),
+    enableModelImprovements: S.optional(S.Boolean),
+    nluIntentConfidenceThreshold: S.optional(S.Number),
+    clarificationPrompt: S.optional(Prompt),
+    abortStatement: S.optional(Statement),
+    status: S.optional(S.String),
+    failureReason: S.optional(S.String),
+    lastUpdatedDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    idleSessionTTLInSeconds: S.optional(S.Number),
+    voiceId: S.optional(S.String),
+    checksum: S.optional(S.String),
+    version: S.optional(S.String),
+    locale: S.optional(S.String),
+    childDirected: S.optional(S.Boolean),
+    detectSentiment: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "GetBotResponse",
+}) as any as S.Schema<GetBotResponse>;
+export interface BotMetadata {
+  name?: string;
+  description?: string;
+  status?: string;
+  lastUpdatedDate?: Date;
+  createdDate?: Date;
+  version?: string;
+}
+export const BotMetadata = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    status: S.optional(S.String),
+    lastUpdatedDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    version: S.optional(S.String),
+  }),
+).annotations({ identifier: "BotMetadata" }) as any as S.Schema<BotMetadata>;
+export type BotMetadataList = BotMetadata[];
 export const BotMetadataList = S.Array(BotMetadata);
-export class GetBotVersionsResponse extends S.Class<GetBotVersionsResponse>(
-  "GetBotVersionsResponse",
-)({ bots: S.optional(BotMetadataList), nextToken: S.optional(S.String) }) {}
-export class GetExportResponse extends S.Class<GetExportResponse>(
-  "GetExportResponse",
-)({
-  name: S.optional(S.String),
-  version: S.optional(S.String),
-  resourceType: S.optional(S.String),
-  exportType: S.optional(S.String),
-  exportStatus: S.optional(S.String),
-  failureReason: S.optional(S.String),
-  url: S.optional(S.String),
-}) {}
-export class GetImportResponse extends S.Class<GetImportResponse>(
-  "GetImportResponse",
-)({
-  name: S.optional(S.String),
-  resourceType: S.optional(S.String),
-  mergeStrategy: S.optional(S.String),
-  importId: S.optional(S.String),
-  importStatus: S.optional(S.String),
-  failureReason: S.optional(StringList),
-  createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class GetIntentResponse extends S.Class<GetIntentResponse>(
-  "GetIntentResponse",
-)({
-  name: S.optional(S.String),
-  description: S.optional(S.String),
-  slots: S.optional(SlotList),
-  sampleUtterances: S.optional(IntentUtteranceList),
-  confirmationPrompt: S.optional(Prompt),
-  rejectionStatement: S.optional(Statement),
-  followUpPrompt: S.optional(FollowUpPrompt),
-  conclusionStatement: S.optional(Statement),
-  dialogCodeHook: S.optional(CodeHook),
-  fulfillmentActivity: S.optional(FulfillmentActivity),
-  parentIntentSignature: S.optional(S.String),
-  lastUpdatedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  version: S.optional(S.String),
-  checksum: S.optional(S.String),
-  kendraConfiguration: S.optional(KendraConfiguration),
-  inputContexts: S.optional(InputContextList),
-  outputContexts: S.optional(OutputContextList),
-}) {}
-export class IntentMetadata extends S.Class<IntentMetadata>("IntentMetadata")({
-  name: S.optional(S.String),
-  description: S.optional(S.String),
-  lastUpdatedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  version: S.optional(S.String),
-}) {}
+export interface GetBotVersionsResponse {
+  bots?: BotMetadataList;
+  nextToken?: string;
+}
+export const GetBotVersionsResponse = S.suspend(() =>
+  S.Struct({
+    bots: S.optional(BotMetadataList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetBotVersionsResponse",
+}) as any as S.Schema<GetBotVersionsResponse>;
+export interface GetExportResponse {
+  name?: string;
+  version?: string;
+  resourceType?: string;
+  exportType?: string;
+  exportStatus?: string;
+  failureReason?: string;
+  url?: string;
+}
+export const GetExportResponse = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    version: S.optional(S.String),
+    resourceType: S.optional(S.String),
+    exportType: S.optional(S.String),
+    exportStatus: S.optional(S.String),
+    failureReason: S.optional(S.String),
+    url: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetExportResponse",
+}) as any as S.Schema<GetExportResponse>;
+export interface GetImportResponse {
+  name?: string;
+  resourceType?: string;
+  mergeStrategy?: string;
+  importId?: string;
+  importStatus?: string;
+  failureReason?: StringList;
+  createdDate?: Date;
+}
+export const GetImportResponse = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    resourceType: S.optional(S.String),
+    mergeStrategy: S.optional(S.String),
+    importId: S.optional(S.String),
+    importStatus: S.optional(S.String),
+    failureReason: S.optional(StringList),
+    createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "GetImportResponse",
+}) as any as S.Schema<GetImportResponse>;
+export interface GetIntentResponse {
+  name?: string;
+  description?: string;
+  slots?: SlotList;
+  sampleUtterances?: IntentUtteranceList;
+  confirmationPrompt?: Prompt;
+  rejectionStatement?: Statement;
+  followUpPrompt?: FollowUpPrompt;
+  conclusionStatement?: Statement;
+  dialogCodeHook?: CodeHook;
+  fulfillmentActivity?: FulfillmentActivity;
+  parentIntentSignature?: string;
+  lastUpdatedDate?: Date;
+  createdDate?: Date;
+  version?: string;
+  checksum?: string;
+  kendraConfiguration?: KendraConfiguration;
+  inputContexts?: InputContextList;
+  outputContexts?: OutputContextList;
+}
+export const GetIntentResponse = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    slots: S.optional(SlotList),
+    sampleUtterances: S.optional(IntentUtteranceList),
+    confirmationPrompt: S.optional(Prompt),
+    rejectionStatement: S.optional(Statement),
+    followUpPrompt: S.optional(FollowUpPrompt),
+    conclusionStatement: S.optional(Statement),
+    dialogCodeHook: S.optional(CodeHook),
+    fulfillmentActivity: S.optional(FulfillmentActivity),
+    parentIntentSignature: S.optional(S.String),
+    lastUpdatedDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    version: S.optional(S.String),
+    checksum: S.optional(S.String),
+    kendraConfiguration: S.optional(KendraConfiguration),
+    inputContexts: S.optional(InputContextList),
+    outputContexts: S.optional(OutputContextList),
+  }),
+).annotations({
+  identifier: "GetIntentResponse",
+}) as any as S.Schema<GetIntentResponse>;
+export interface IntentMetadata {
+  name?: string;
+  description?: string;
+  lastUpdatedDate?: Date;
+  createdDate?: Date;
+  version?: string;
+}
+export const IntentMetadata = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    lastUpdatedDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    version: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "IntentMetadata",
+}) as any as S.Schema<IntentMetadata>;
+export type IntentMetadataList = IntentMetadata[];
 export const IntentMetadataList = S.Array(IntentMetadata);
-export class GetIntentVersionsResponse extends S.Class<GetIntentVersionsResponse>(
-  "GetIntentVersionsResponse",
-)({
-  intents: S.optional(IntentMetadataList),
-  nextToken: S.optional(S.String),
-}) {}
-export class GetSlotTypeResponse extends S.Class<GetSlotTypeResponse>(
-  "GetSlotTypeResponse",
-)({
-  name: S.optional(S.String),
-  description: S.optional(S.String),
-  enumerationValues: S.optional(EnumerationValues),
-  lastUpdatedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  version: S.optional(S.String),
-  checksum: S.optional(S.String),
-  valueSelectionStrategy: S.optional(S.String),
-  parentSlotTypeSignature: S.optional(S.String),
-  slotTypeConfigurations: S.optional(SlotTypeConfigurations),
-}) {}
-export class SlotTypeMetadata extends S.Class<SlotTypeMetadata>(
-  "SlotTypeMetadata",
-)({
-  name: S.optional(S.String),
-  description: S.optional(S.String),
-  lastUpdatedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  version: S.optional(S.String),
-}) {}
+export interface GetIntentVersionsResponse {
+  intents?: IntentMetadataList;
+  nextToken?: string;
+}
+export const GetIntentVersionsResponse = S.suspend(() =>
+  S.Struct({
+    intents: S.optional(IntentMetadataList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetIntentVersionsResponse",
+}) as any as S.Schema<GetIntentVersionsResponse>;
+export interface GetSlotTypeResponse {
+  name?: string;
+  description?: string;
+  enumerationValues?: EnumerationValues;
+  lastUpdatedDate?: Date;
+  createdDate?: Date;
+  version?: string;
+  checksum?: string;
+  valueSelectionStrategy?: string;
+  parentSlotTypeSignature?: string;
+  slotTypeConfigurations?: SlotTypeConfigurations;
+}
+export const GetSlotTypeResponse = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    enumerationValues: S.optional(EnumerationValues),
+    lastUpdatedDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    version: S.optional(S.String),
+    checksum: S.optional(S.String),
+    valueSelectionStrategy: S.optional(S.String),
+    parentSlotTypeSignature: S.optional(S.String),
+    slotTypeConfigurations: S.optional(SlotTypeConfigurations),
+  }),
+).annotations({
+  identifier: "GetSlotTypeResponse",
+}) as any as S.Schema<GetSlotTypeResponse>;
+export interface SlotTypeMetadata {
+  name?: string;
+  description?: string;
+  lastUpdatedDate?: Date;
+  createdDate?: Date;
+  version?: string;
+}
+export const SlotTypeMetadata = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    lastUpdatedDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    version: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SlotTypeMetadata",
+}) as any as S.Schema<SlotTypeMetadata>;
+export type SlotTypeMetadataList = SlotTypeMetadata[];
 export const SlotTypeMetadataList = S.Array(SlotTypeMetadata);
-export class GetSlotTypeVersionsResponse extends S.Class<GetSlotTypeVersionsResponse>(
-  "GetSlotTypeVersionsResponse",
-)({
-  slotTypes: S.optional(SlotTypeMetadataList),
-  nextToken: S.optional(S.String),
-}) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ tags: S.optional(TagList) }) {}
-export class StartImportResponse extends S.Class<StartImportResponse>(
-  "StartImportResponse",
-)({
-  name: S.optional(S.String),
-  resourceType: S.optional(S.String),
-  mergeStrategy: S.optional(S.String),
-  importId: S.optional(S.String),
-  importStatus: S.optional(S.String),
-  tags: S.optional(TagList),
-  createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
-export class StartMigrationResponse extends S.Class<StartMigrationResponse>(
-  "StartMigrationResponse",
-)({
-  v1BotName: S.optional(S.String),
-  v1BotVersion: S.optional(S.String),
-  v1BotLocale: S.optional(S.String),
-  v2BotId: S.optional(S.String),
-  v2BotRole: S.optional(S.String),
-  migrationId: S.optional(S.String),
-  migrationStrategy: S.optional(S.String),
-  migrationTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
+export interface GetSlotTypeVersionsResponse {
+  slotTypes?: SlotTypeMetadataList;
+  nextToken?: string;
+}
+export const GetSlotTypeVersionsResponse = S.suspend(() =>
+  S.Struct({
+    slotTypes: S.optional(SlotTypeMetadataList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetSlotTypeVersionsResponse",
+}) as any as S.Schema<GetSlotTypeVersionsResponse>;
+export interface ListTagsForResourceResponse {
+  tags?: TagList;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ tags: S.optional(TagList) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface StartImportResponse {
+  name?: string;
+  resourceType?: string;
+  mergeStrategy?: string;
+  importId?: string;
+  importStatus?: string;
+  tags?: TagList;
+  createdDate?: Date;
+}
+export const StartImportResponse = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    resourceType: S.optional(S.String),
+    mergeStrategy: S.optional(S.String),
+    importId: S.optional(S.String),
+    importStatus: S.optional(S.String),
+    tags: S.optional(TagList),
+    createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "StartImportResponse",
+}) as any as S.Schema<StartImportResponse>;
+export interface StartMigrationResponse {
+  v1BotName?: string;
+  v1BotVersion?: string;
+  v1BotLocale?: string;
+  v2BotId?: string;
+  v2BotRole?: string;
+  migrationId?: string;
+  migrationStrategy?: string;
+  migrationTimestamp?: Date;
+}
+export const StartMigrationResponse = S.suspend(() =>
+  S.Struct({
+    v1BotName: S.optional(S.String),
+    v1BotVersion: S.optional(S.String),
+    v1BotLocale: S.optional(S.String),
+    v2BotId: S.optional(S.String),
+    v2BotRole: S.optional(S.String),
+    migrationId: S.optional(S.String),
+    migrationStrategy: S.optional(S.String),
+    migrationTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "StartMigrationResponse",
+}) as any as S.Schema<StartMigrationResponse>;
+export type MigrationAlertDetails = string[];
 export const MigrationAlertDetails = S.Array(S.String);
+export type MigrationAlertReferenceURLs = string[];
 export const MigrationAlertReferenceURLs = S.Array(S.String);
-export class LogSettingsRequest extends S.Class<LogSettingsRequest>(
-  "LogSettingsRequest",
-)({
-  logType: S.String,
-  destination: S.String,
-  kmsKeyArn: S.optional(S.String),
-  resourceArn: S.String,
-}) {}
+export interface LogSettingsRequest {
+  logType: string;
+  destination: string;
+  kmsKeyArn?: string;
+  resourceArn: string;
+}
+export const LogSettingsRequest = S.suspend(() =>
+  S.Struct({
+    logType: S.String,
+    destination: S.String,
+    kmsKeyArn: S.optional(S.String),
+    resourceArn: S.String,
+  }),
+).annotations({
+  identifier: "LogSettingsRequest",
+}) as any as S.Schema<LogSettingsRequest>;
+export type LogSettingsRequestList = LogSettingsRequest[];
 export const LogSettingsRequestList = S.Array(LogSettingsRequest);
-export class LogSettingsResponse extends S.Class<LogSettingsResponse>(
-  "LogSettingsResponse",
-)({
-  logType: S.optional(S.String),
-  destination: S.optional(S.String),
-  kmsKeyArn: S.optional(S.String),
-  resourceArn: S.optional(S.String),
-  resourcePrefix: S.optional(S.String),
-}) {}
+export interface LogSettingsResponse {
+  logType?: string;
+  destination?: string;
+  kmsKeyArn?: string;
+  resourceArn?: string;
+  resourcePrefix?: string;
+}
+export const LogSettingsResponse = S.suspend(() =>
+  S.Struct({
+    logType: S.optional(S.String),
+    destination: S.optional(S.String),
+    kmsKeyArn: S.optional(S.String),
+    resourceArn: S.optional(S.String),
+    resourcePrefix: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "LogSettingsResponse",
+}) as any as S.Schema<LogSettingsResponse>;
+export type LogSettingsResponseList = LogSettingsResponse[];
 export const LogSettingsResponseList = S.Array(LogSettingsResponse);
-export class ConversationLogsResponse extends S.Class<ConversationLogsResponse>(
-  "ConversationLogsResponse",
-)({
-  logSettings: S.optional(LogSettingsResponseList),
-  iamRoleArn: S.optional(S.String),
-}) {}
-export class BotAliasMetadata extends S.Class<BotAliasMetadata>(
-  "BotAliasMetadata",
-)({
-  name: S.optional(S.String),
-  description: S.optional(S.String),
-  botVersion: S.optional(S.String),
-  botName: S.optional(S.String),
-  lastUpdatedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  checksum: S.optional(S.String),
-  conversationLogs: S.optional(ConversationLogsResponse),
-}) {}
+export interface ConversationLogsResponse {
+  logSettings?: LogSettingsResponseList;
+  iamRoleArn?: string;
+}
+export const ConversationLogsResponse = S.suspend(() =>
+  S.Struct({
+    logSettings: S.optional(LogSettingsResponseList),
+    iamRoleArn: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ConversationLogsResponse",
+}) as any as S.Schema<ConversationLogsResponse>;
+export interface BotAliasMetadata {
+  name?: string;
+  description?: string;
+  botVersion?: string;
+  botName?: string;
+  lastUpdatedDate?: Date;
+  createdDate?: Date;
+  checksum?: string;
+  conversationLogs?: ConversationLogsResponse;
+}
+export const BotAliasMetadata = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    botVersion: S.optional(S.String),
+    botName: S.optional(S.String),
+    lastUpdatedDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    checksum: S.optional(S.String),
+    conversationLogs: S.optional(ConversationLogsResponse),
+  }),
+).annotations({
+  identifier: "BotAliasMetadata",
+}) as any as S.Schema<BotAliasMetadata>;
+export type BotAliasMetadataList = BotAliasMetadata[];
 export const BotAliasMetadataList = S.Array(BotAliasMetadata);
+export type ChannelConfigurationMap = { [key: string]: string };
 export const ChannelConfigurationMap = S.Record({
   key: S.String,
   value: S.String,
 });
-export class BotChannelAssociation extends S.Class<BotChannelAssociation>(
-  "BotChannelAssociation",
-)({
-  name: S.optional(S.String),
-  description: S.optional(S.String),
-  botAlias: S.optional(S.String),
-  botName: S.optional(S.String),
-  createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  type: S.optional(S.String),
-  botConfiguration: S.optional(ChannelConfigurationMap),
-  status: S.optional(S.String),
-  failureReason: S.optional(S.String),
-}) {}
+export interface BotChannelAssociation {
+  name?: string;
+  description?: string;
+  botAlias?: string;
+  botName?: string;
+  createdDate?: Date;
+  type?: string;
+  botConfiguration?: ChannelConfigurationMap;
+  status?: string;
+  failureReason?: string;
+}
+export const BotChannelAssociation = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    botAlias: S.optional(S.String),
+    botName: S.optional(S.String),
+    createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    type: S.optional(S.String),
+    botConfiguration: S.optional(ChannelConfigurationMap),
+    status: S.optional(S.String),
+    failureReason: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "BotChannelAssociation",
+}) as any as S.Schema<BotChannelAssociation>;
+export type BotChannelAssociationList = BotChannelAssociation[];
 export const BotChannelAssociationList = S.Array(BotChannelAssociation);
-export class BuiltinIntentSlot extends S.Class<BuiltinIntentSlot>(
-  "BuiltinIntentSlot",
-)({ name: S.optional(S.String) }) {}
+export interface BuiltinIntentSlot {
+  name?: string;
+}
+export const BuiltinIntentSlot = S.suspend(() =>
+  S.Struct({ name: S.optional(S.String) }),
+).annotations({
+  identifier: "BuiltinIntentSlot",
+}) as any as S.Schema<BuiltinIntentSlot>;
+export type BuiltinIntentSlotList = BuiltinIntentSlot[];
 export const BuiltinIntentSlotList = S.Array(BuiltinIntentSlot);
-export class BuiltinIntentMetadata extends S.Class<BuiltinIntentMetadata>(
-  "BuiltinIntentMetadata",
-)({
-  signature: S.optional(S.String),
-  supportedLocales: S.optional(LocaleList),
-}) {}
+export interface BuiltinIntentMetadata {
+  signature?: string;
+  supportedLocales?: LocaleList;
+}
+export const BuiltinIntentMetadata = S.suspend(() =>
+  S.Struct({
+    signature: S.optional(S.String),
+    supportedLocales: S.optional(LocaleList),
+  }),
+).annotations({
+  identifier: "BuiltinIntentMetadata",
+}) as any as S.Schema<BuiltinIntentMetadata>;
+export type BuiltinIntentMetadataList = BuiltinIntentMetadata[];
 export const BuiltinIntentMetadataList = S.Array(BuiltinIntentMetadata);
-export class BuiltinSlotTypeMetadata extends S.Class<BuiltinSlotTypeMetadata>(
-  "BuiltinSlotTypeMetadata",
-)({
-  signature: S.optional(S.String),
-  supportedLocales: S.optional(LocaleList),
-}) {}
+export interface BuiltinSlotTypeMetadata {
+  signature?: string;
+  supportedLocales?: LocaleList;
+}
+export const BuiltinSlotTypeMetadata = S.suspend(() =>
+  S.Struct({
+    signature: S.optional(S.String),
+    supportedLocales: S.optional(LocaleList),
+  }),
+).annotations({
+  identifier: "BuiltinSlotTypeMetadata",
+}) as any as S.Schema<BuiltinSlotTypeMetadata>;
+export type BuiltinSlotTypeMetadataList = BuiltinSlotTypeMetadata[];
 export const BuiltinSlotTypeMetadataList = S.Array(BuiltinSlotTypeMetadata);
-export class MigrationAlert extends S.Class<MigrationAlert>("MigrationAlert")({
-  type: S.optional(S.String),
-  message: S.optional(S.String),
-  details: S.optional(MigrationAlertDetails),
-  referenceURLs: S.optional(MigrationAlertReferenceURLs),
-}) {}
+export interface MigrationAlert {
+  type?: string;
+  message?: string;
+  details?: MigrationAlertDetails;
+  referenceURLs?: MigrationAlertReferenceURLs;
+}
+export const MigrationAlert = S.suspend(() =>
+  S.Struct({
+    type: S.optional(S.String),
+    message: S.optional(S.String),
+    details: S.optional(MigrationAlertDetails),
+    referenceURLs: S.optional(MigrationAlertReferenceURLs),
+  }),
+).annotations({
+  identifier: "MigrationAlert",
+}) as any as S.Schema<MigrationAlert>;
+export type MigrationAlerts = MigrationAlert[];
 export const MigrationAlerts = S.Array(MigrationAlert);
-export class MigrationSummary extends S.Class<MigrationSummary>(
-  "MigrationSummary",
-)({
-  migrationId: S.optional(S.String),
-  v1BotName: S.optional(S.String),
-  v1BotVersion: S.optional(S.String),
-  v1BotLocale: S.optional(S.String),
-  v2BotId: S.optional(S.String),
-  v2BotRole: S.optional(S.String),
-  migrationStatus: S.optional(S.String),
-  migrationStrategy: S.optional(S.String),
-  migrationTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-}) {}
+export interface MigrationSummary {
+  migrationId?: string;
+  v1BotName?: string;
+  v1BotVersion?: string;
+  v1BotLocale?: string;
+  v2BotId?: string;
+  v2BotRole?: string;
+  migrationStatus?: string;
+  migrationStrategy?: string;
+  migrationTimestamp?: Date;
+}
+export const MigrationSummary = S.suspend(() =>
+  S.Struct({
+    migrationId: S.optional(S.String),
+    v1BotName: S.optional(S.String),
+    v1BotVersion: S.optional(S.String),
+    v1BotLocale: S.optional(S.String),
+    v2BotId: S.optional(S.String),
+    v2BotRole: S.optional(S.String),
+    migrationStatus: S.optional(S.String),
+    migrationStrategy: S.optional(S.String),
+    migrationTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "MigrationSummary",
+}) as any as S.Schema<MigrationSummary>;
+export type MigrationSummaryList = MigrationSummary[];
 export const MigrationSummaryList = S.Array(MigrationSummary);
-export class ConversationLogsRequest extends S.Class<ConversationLogsRequest>(
-  "ConversationLogsRequest",
-)({ logSettings: LogSettingsRequestList, iamRoleArn: S.String }) {}
-export class GetBotAliasesResponse extends S.Class<GetBotAliasesResponse>(
-  "GetBotAliasesResponse",
-)({
-  BotAliases: S.optional(BotAliasMetadataList),
-  nextToken: S.optional(S.String),
-}) {}
-export class GetBotChannelAssociationResponse extends S.Class<GetBotChannelAssociationResponse>(
-  "GetBotChannelAssociationResponse",
-)({
-  name: S.optional(S.String),
-  description: S.optional(S.String),
-  botAlias: S.optional(S.String),
-  botName: S.optional(S.String),
-  createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  type: S.optional(S.String),
-  botConfiguration: S.optional(ChannelConfigurationMap),
-  status: S.optional(S.String),
-  failureReason: S.optional(S.String),
-}) {}
-export class GetBotChannelAssociationsResponse extends S.Class<GetBotChannelAssociationsResponse>(
-  "GetBotChannelAssociationsResponse",
-)({
-  botChannelAssociations: S.optional(BotChannelAssociationList),
-  nextToken: S.optional(S.String),
-}) {}
-export class GetBotsResponse extends S.Class<GetBotsResponse>(
-  "GetBotsResponse",
-)({ bots: S.optional(BotMetadataList), nextToken: S.optional(S.String) }) {}
-export class GetBuiltinIntentResponse extends S.Class<GetBuiltinIntentResponse>(
-  "GetBuiltinIntentResponse",
-)({
-  signature: S.optional(S.String),
-  supportedLocales: S.optional(LocaleList),
-  slots: S.optional(BuiltinIntentSlotList),
-}) {}
-export class GetBuiltinIntentsResponse extends S.Class<GetBuiltinIntentsResponse>(
-  "GetBuiltinIntentsResponse",
-)({
-  intents: S.optional(BuiltinIntentMetadataList),
-  nextToken: S.optional(S.String),
-}) {}
-export class GetBuiltinSlotTypesResponse extends S.Class<GetBuiltinSlotTypesResponse>(
-  "GetBuiltinSlotTypesResponse",
-)({
-  slotTypes: S.optional(BuiltinSlotTypeMetadataList),
-  nextToken: S.optional(S.String),
-}) {}
-export class GetIntentsResponse extends S.Class<GetIntentsResponse>(
-  "GetIntentsResponse",
-)({
-  intents: S.optional(IntentMetadataList),
-  nextToken: S.optional(S.String),
-}) {}
-export class GetMigrationResponse extends S.Class<GetMigrationResponse>(
-  "GetMigrationResponse",
-)({
-  migrationId: S.optional(S.String),
-  v1BotName: S.optional(S.String),
-  v1BotVersion: S.optional(S.String),
-  v1BotLocale: S.optional(S.String),
-  v2BotId: S.optional(S.String),
-  v2BotRole: S.optional(S.String),
-  migrationStatus: S.optional(S.String),
-  migrationStrategy: S.optional(S.String),
-  migrationTimestamp: S.optional(
-    S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  ),
-  alerts: S.optional(MigrationAlerts),
-}) {}
-export class GetMigrationsResponse extends S.Class<GetMigrationsResponse>(
-  "GetMigrationsResponse",
-)({
-  migrationSummaries: S.optional(MigrationSummaryList),
-  nextToken: S.optional(S.String),
-}) {}
-export class GetSlotTypesResponse extends S.Class<GetSlotTypesResponse>(
-  "GetSlotTypesResponse",
-)({
-  slotTypes: S.optional(SlotTypeMetadataList),
-  nextToken: S.optional(S.String),
-}) {}
-export class PutBotRequest extends S.Class<PutBotRequest>("PutBotRequest")(
-  {
+export interface ConversationLogsRequest {
+  logSettings: LogSettingsRequestList;
+  iamRoleArn: string;
+}
+export const ConversationLogsRequest = S.suspend(() =>
+  S.Struct({ logSettings: LogSettingsRequestList, iamRoleArn: S.String }),
+).annotations({
+  identifier: "ConversationLogsRequest",
+}) as any as S.Schema<ConversationLogsRequest>;
+export interface GetBotAliasesResponse {
+  BotAliases?: BotAliasMetadataList;
+  nextToken?: string;
+}
+export const GetBotAliasesResponse = S.suspend(() =>
+  S.Struct({
+    BotAliases: S.optional(BotAliasMetadataList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetBotAliasesResponse",
+}) as any as S.Schema<GetBotAliasesResponse>;
+export interface GetBotChannelAssociationResponse {
+  name?: string;
+  description?: string;
+  botAlias?: string;
+  botName?: string;
+  createdDate?: Date;
+  type?: string;
+  botConfiguration?: ChannelConfigurationMap;
+  status?: string;
+  failureReason?: string;
+}
+export const GetBotChannelAssociationResponse = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    botAlias: S.optional(S.String),
+    botName: S.optional(S.String),
+    createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    type: S.optional(S.String),
+    botConfiguration: S.optional(ChannelConfigurationMap),
+    status: S.optional(S.String),
+    failureReason: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetBotChannelAssociationResponse",
+}) as any as S.Schema<GetBotChannelAssociationResponse>;
+export interface GetBotChannelAssociationsResponse {
+  botChannelAssociations?: BotChannelAssociationList;
+  nextToken?: string;
+}
+export const GetBotChannelAssociationsResponse = S.suspend(() =>
+  S.Struct({
+    botChannelAssociations: S.optional(BotChannelAssociationList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetBotChannelAssociationsResponse",
+}) as any as S.Schema<GetBotChannelAssociationsResponse>;
+export interface GetBotsResponse {
+  bots?: BotMetadataList;
+  nextToken?: string;
+}
+export const GetBotsResponse = S.suspend(() =>
+  S.Struct({
+    bots: S.optional(BotMetadataList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetBotsResponse",
+}) as any as S.Schema<GetBotsResponse>;
+export interface GetBuiltinIntentResponse {
+  signature?: string;
+  supportedLocales?: LocaleList;
+  slots?: BuiltinIntentSlotList;
+}
+export const GetBuiltinIntentResponse = S.suspend(() =>
+  S.Struct({
+    signature: S.optional(S.String),
+    supportedLocales: S.optional(LocaleList),
+    slots: S.optional(BuiltinIntentSlotList),
+  }),
+).annotations({
+  identifier: "GetBuiltinIntentResponse",
+}) as any as S.Schema<GetBuiltinIntentResponse>;
+export interface GetBuiltinIntentsResponse {
+  intents?: BuiltinIntentMetadataList;
+  nextToken?: string;
+}
+export const GetBuiltinIntentsResponse = S.suspend(() =>
+  S.Struct({
+    intents: S.optional(BuiltinIntentMetadataList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetBuiltinIntentsResponse",
+}) as any as S.Schema<GetBuiltinIntentsResponse>;
+export interface GetBuiltinSlotTypesResponse {
+  slotTypes?: BuiltinSlotTypeMetadataList;
+  nextToken?: string;
+}
+export const GetBuiltinSlotTypesResponse = S.suspend(() =>
+  S.Struct({
+    slotTypes: S.optional(BuiltinSlotTypeMetadataList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetBuiltinSlotTypesResponse",
+}) as any as S.Schema<GetBuiltinSlotTypesResponse>;
+export interface GetIntentsResponse {
+  intents?: IntentMetadataList;
+  nextToken?: string;
+}
+export const GetIntentsResponse = S.suspend(() =>
+  S.Struct({
+    intents: S.optional(IntentMetadataList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetIntentsResponse",
+}) as any as S.Schema<GetIntentsResponse>;
+export interface GetMigrationResponse {
+  migrationId?: string;
+  v1BotName?: string;
+  v1BotVersion?: string;
+  v1BotLocale?: string;
+  v2BotId?: string;
+  v2BotRole?: string;
+  migrationStatus?: string;
+  migrationStrategy?: string;
+  migrationTimestamp?: Date;
+  alerts?: MigrationAlerts;
+}
+export const GetMigrationResponse = S.suspend(() =>
+  S.Struct({
+    migrationId: S.optional(S.String),
+    v1BotName: S.optional(S.String),
+    v1BotVersion: S.optional(S.String),
+    v1BotLocale: S.optional(S.String),
+    v2BotId: S.optional(S.String),
+    v2BotRole: S.optional(S.String),
+    migrationStatus: S.optional(S.String),
+    migrationStrategy: S.optional(S.String),
+    migrationTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    alerts: S.optional(MigrationAlerts),
+  }),
+).annotations({
+  identifier: "GetMigrationResponse",
+}) as any as S.Schema<GetMigrationResponse>;
+export interface GetMigrationsResponse {
+  migrationSummaries?: MigrationSummaryList;
+  nextToken?: string;
+}
+export const GetMigrationsResponse = S.suspend(() =>
+  S.Struct({
+    migrationSummaries: S.optional(MigrationSummaryList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetMigrationsResponse",
+}) as any as S.Schema<GetMigrationsResponse>;
+export interface GetSlotTypesResponse {
+  slotTypes?: SlotTypeMetadataList;
+  nextToken?: string;
+}
+export const GetSlotTypesResponse = S.suspend(() =>
+  S.Struct({
+    slotTypes: S.optional(SlotTypeMetadataList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetSlotTypesResponse",
+}) as any as S.Schema<GetSlotTypesResponse>;
+export interface PutBotRequest {
+  name: string;
+  description?: string;
+  intents?: IntentList;
+  enableModelImprovements?: boolean;
+  nluIntentConfidenceThreshold?: number;
+  clarificationPrompt?: Prompt;
+  abortStatement?: Statement;
+  idleSessionTTLInSeconds?: number;
+  voiceId?: string;
+  checksum?: string;
+  processBehavior?: string;
+  locale: string;
+  childDirected: boolean;
+  detectSentiment?: boolean;
+  createVersion?: boolean;
+  tags?: TagList;
+}
+export const PutBotRequest = S.suspend(() =>
+  S.Struct({
     name: S.String.pipe(T.HttpLabel("name")),
     description: S.optional(S.String),
     intents: S.optional(IntentList),
@@ -1466,20 +2285,30 @@ export class PutBotRequest extends S.Class<PutBotRequest>("PutBotRequest")(
     detectSentiment: S.optional(S.Boolean),
     createVersion: S.optional(S.Boolean),
     tags: S.optional(TagList),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/bots/{name}/versions/$LATEST" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/bots/{name}/versions/$LATEST" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutBotAliasRequest extends S.Class<PutBotAliasRequest>(
-  "PutBotAliasRequest",
-)(
-  {
+).annotations({
+  identifier: "PutBotRequest",
+}) as any as S.Schema<PutBotRequest>;
+export interface PutBotAliasRequest {
+  name: string;
+  description?: string;
+  botVersion: string;
+  botName: string;
+  checksum?: string;
+  conversationLogs?: ConversationLogsRequest;
+  tags?: TagList;
+}
+export const PutBotAliasRequest = S.suspend(() =>
+  S.Struct({
     name: S.String.pipe(T.HttpLabel("name")),
     description: S.optional(S.String),
     botVersion: S.String,
@@ -1487,20 +2316,31 @@ export class PutBotAliasRequest extends S.Class<PutBotAliasRequest>(
     checksum: S.optional(S.String),
     conversationLogs: S.optional(ConversationLogsRequest),
     tags: S.optional(TagList),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/bots/{botName}/aliases/{name}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/bots/{botName}/aliases/{name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutSlotTypeRequest extends S.Class<PutSlotTypeRequest>(
-  "PutSlotTypeRequest",
-)(
-  {
+).annotations({
+  identifier: "PutBotAliasRequest",
+}) as any as S.Schema<PutBotAliasRequest>;
+export interface PutSlotTypeRequest {
+  name: string;
+  description?: string;
+  enumerationValues?: EnumerationValues;
+  checksum?: string;
+  valueSelectionStrategy?: string;
+  createVersion?: boolean;
+  parentSlotTypeSignature?: string;
+  slotTypeConfigurations?: SlotTypeConfigurations;
+}
+export const PutSlotTypeRequest = S.suspend(() =>
+  S.Struct({
     name: S.String.pipe(T.HttpLabel("name")),
     description: S.optional(S.String),
     enumerationValues: S.optional(EnumerationValues),
@@ -1509,86 +2349,193 @@ export class PutSlotTypeRequest extends S.Class<PutSlotTypeRequest>(
     createVersion: S.optional(S.Boolean),
     parentSlotTypeSignature: S.optional(S.String),
     slotTypeConfigurations: S.optional(SlotTypeConfigurations),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/slottypes/{name}/versions/$LATEST" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/slottypes/{name}/versions/$LATEST" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UtteranceData extends S.Class<UtteranceData>("UtteranceData")({
-  utteranceString: S.optional(S.String),
-  count: S.optional(S.Number),
-  distinctUsers: S.optional(S.Number),
-  firstUtteredDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  lastUtteredDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+).annotations({
+  identifier: "PutSlotTypeRequest",
+}) as any as S.Schema<PutSlotTypeRequest>;
+export interface UtteranceData {
+  utteranceString?: string;
+  count?: number;
+  distinctUsers?: number;
+  firstUtteredDate?: Date;
+  lastUtteredDate?: Date;
+}
+export const UtteranceData = S.suspend(() =>
+  S.Struct({
+    utteranceString: S.optional(S.String),
+    count: S.optional(S.Number),
+    distinctUsers: S.optional(S.Number),
+    firstUtteredDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    lastUtteredDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotations({
+  identifier: "UtteranceData",
+}) as any as S.Schema<UtteranceData>;
+export type ListOfUtterance = UtteranceData[];
 export const ListOfUtterance = S.Array(UtteranceData);
-export class UtteranceList extends S.Class<UtteranceList>("UtteranceList")({
-  botVersion: S.optional(S.String),
-  utterances: S.optional(ListOfUtterance),
-}) {}
+export interface UtteranceList {
+  botVersion?: string;
+  utterances?: ListOfUtterance;
+}
+export const UtteranceList = S.suspend(() =>
+  S.Struct({
+    botVersion: S.optional(S.String),
+    utterances: S.optional(ListOfUtterance),
+  }),
+).annotations({
+  identifier: "UtteranceList",
+}) as any as S.Schema<UtteranceList>;
+export type ListsOfUtterances = UtteranceList[];
 export const ListsOfUtterances = S.Array(UtteranceList);
-export class GetBotAliasResponse extends S.Class<GetBotAliasResponse>(
-  "GetBotAliasResponse",
-)({
-  name: S.optional(S.String),
-  description: S.optional(S.String),
-  botVersion: S.optional(S.String),
-  botName: S.optional(S.String),
-  lastUpdatedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  checksum: S.optional(S.String),
-  conversationLogs: S.optional(ConversationLogsResponse),
-}) {}
-export class GetUtterancesViewResponse extends S.Class<GetUtterancesViewResponse>(
-  "GetUtterancesViewResponse",
-)({
-  botName: S.optional(S.String),
-  utterances: S.optional(ListsOfUtterances),
-}) {}
-export class PutBotResponse extends S.Class<PutBotResponse>("PutBotResponse")({
-  name: S.optional(S.String),
-  description: S.optional(S.String),
-  intents: S.optional(IntentList),
-  enableModelImprovements: S.optional(S.Boolean),
-  nluIntentConfidenceThreshold: S.optional(S.Number),
-  clarificationPrompt: S.optional(Prompt),
-  abortStatement: S.optional(Statement),
-  status: S.optional(S.String),
-  failureReason: S.optional(S.String),
-  lastUpdatedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  idleSessionTTLInSeconds: S.optional(S.Number),
-  voiceId: S.optional(S.String),
-  checksum: S.optional(S.String),
-  version: S.optional(S.String),
-  locale: S.optional(S.String),
-  childDirected: S.optional(S.Boolean),
-  createVersion: S.optional(S.Boolean),
-  detectSentiment: S.optional(S.Boolean),
-  tags: S.optional(TagList),
-}) {}
-export class PutBotAliasResponse extends S.Class<PutBotAliasResponse>(
-  "PutBotAliasResponse",
-)({
-  name: S.optional(S.String),
-  description: S.optional(S.String),
-  botVersion: S.optional(S.String),
-  botName: S.optional(S.String),
-  lastUpdatedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  checksum: S.optional(S.String),
-  conversationLogs: S.optional(ConversationLogsResponse),
-  tags: S.optional(TagList),
-}) {}
-export class PutIntentRequest extends S.Class<PutIntentRequest>(
-  "PutIntentRequest",
-)(
-  {
+export interface GetBotAliasResponse {
+  name?: string;
+  description?: string;
+  botVersion?: string;
+  botName?: string;
+  lastUpdatedDate?: Date;
+  createdDate?: Date;
+  checksum?: string;
+  conversationLogs?: ConversationLogsResponse;
+}
+export const GetBotAliasResponse = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    botVersion: S.optional(S.String),
+    botName: S.optional(S.String),
+    lastUpdatedDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    checksum: S.optional(S.String),
+    conversationLogs: S.optional(ConversationLogsResponse),
+  }),
+).annotations({
+  identifier: "GetBotAliasResponse",
+}) as any as S.Schema<GetBotAliasResponse>;
+export interface GetUtterancesViewResponse {
+  botName?: string;
+  utterances?: ListsOfUtterances;
+}
+export const GetUtterancesViewResponse = S.suspend(() =>
+  S.Struct({
+    botName: S.optional(S.String),
+    utterances: S.optional(ListsOfUtterances),
+  }),
+).annotations({
+  identifier: "GetUtterancesViewResponse",
+}) as any as S.Schema<GetUtterancesViewResponse>;
+export interface PutBotResponse {
+  name?: string;
+  description?: string;
+  intents?: IntentList;
+  enableModelImprovements?: boolean;
+  nluIntentConfidenceThreshold?: number;
+  clarificationPrompt?: Prompt;
+  abortStatement?: Statement;
+  status?: string;
+  failureReason?: string;
+  lastUpdatedDate?: Date;
+  createdDate?: Date;
+  idleSessionTTLInSeconds?: number;
+  voiceId?: string;
+  checksum?: string;
+  version?: string;
+  locale?: string;
+  childDirected?: boolean;
+  createVersion?: boolean;
+  detectSentiment?: boolean;
+  tags?: TagList;
+}
+export const PutBotResponse = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    intents: S.optional(IntentList),
+    enableModelImprovements: S.optional(S.Boolean),
+    nluIntentConfidenceThreshold: S.optional(S.Number),
+    clarificationPrompt: S.optional(Prompt),
+    abortStatement: S.optional(Statement),
+    status: S.optional(S.String),
+    failureReason: S.optional(S.String),
+    lastUpdatedDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    idleSessionTTLInSeconds: S.optional(S.Number),
+    voiceId: S.optional(S.String),
+    checksum: S.optional(S.String),
+    version: S.optional(S.String),
+    locale: S.optional(S.String),
+    childDirected: S.optional(S.Boolean),
+    createVersion: S.optional(S.Boolean),
+    detectSentiment: S.optional(S.Boolean),
+    tags: S.optional(TagList),
+  }),
+).annotations({
+  identifier: "PutBotResponse",
+}) as any as S.Schema<PutBotResponse>;
+export interface PutBotAliasResponse {
+  name?: string;
+  description?: string;
+  botVersion?: string;
+  botName?: string;
+  lastUpdatedDate?: Date;
+  createdDate?: Date;
+  checksum?: string;
+  conversationLogs?: ConversationLogsResponse;
+  tags?: TagList;
+}
+export const PutBotAliasResponse = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    botVersion: S.optional(S.String),
+    botName: S.optional(S.String),
+    lastUpdatedDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    checksum: S.optional(S.String),
+    conversationLogs: S.optional(ConversationLogsResponse),
+    tags: S.optional(TagList),
+  }),
+).annotations({
+  identifier: "PutBotAliasResponse",
+}) as any as S.Schema<PutBotAliasResponse>;
+export interface PutIntentRequest {
+  name: string;
+  description?: string;
+  slots?: SlotList;
+  sampleUtterances?: IntentUtteranceList;
+  confirmationPrompt?: Prompt;
+  rejectionStatement?: Statement;
+  followUpPrompt?: FollowUpPrompt;
+  conclusionStatement?: Statement;
+  dialogCodeHook?: CodeHook;
+  fulfillmentActivity?: FulfillmentActivity;
+  parentIntentSignature?: string;
+  checksum?: string;
+  createVersion?: boolean;
+  kendraConfiguration?: KendraConfiguration;
+  inputContexts?: InputContextList;
+  outputContexts?: OutputContextList;
+}
+export const PutIntentRequest = S.suspend(() =>
+  S.Struct({
     name: S.String.pipe(T.HttpLabel("name")),
     description: S.optional(S.String),
     slots: S.optional(SlotList),
@@ -1605,57 +2552,108 @@ export class PutIntentRequest extends S.Class<PutIntentRequest>(
     kendraConfiguration: S.optional(KendraConfiguration),
     inputContexts: S.optional(InputContextList),
     outputContexts: S.optional(OutputContextList),
-  },
-  T.all(
-    T.Http({ method: "PUT", uri: "/intents/{name}/versions/$LATEST" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/intents/{name}/versions/$LATEST" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutSlotTypeResponse extends S.Class<PutSlotTypeResponse>(
-  "PutSlotTypeResponse",
-)({
-  name: S.optional(S.String),
-  description: S.optional(S.String),
-  enumerationValues: S.optional(EnumerationValues),
-  lastUpdatedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  version: S.optional(S.String),
-  checksum: S.optional(S.String),
-  valueSelectionStrategy: S.optional(S.String),
-  createVersion: S.optional(S.Boolean),
-  parentSlotTypeSignature: S.optional(S.String),
-  slotTypeConfigurations: S.optional(SlotTypeConfigurations),
-}) {}
-export class PutIntentResponse extends S.Class<PutIntentResponse>(
-  "PutIntentResponse",
-)({
-  name: S.optional(S.String),
-  description: S.optional(S.String),
-  slots: S.optional(SlotList),
-  sampleUtterances: S.optional(IntentUtteranceList),
-  confirmationPrompt: S.optional(Prompt),
-  rejectionStatement: S.optional(Statement),
-  followUpPrompt: S.optional(FollowUpPrompt),
-  conclusionStatement: S.optional(Statement),
-  dialogCodeHook: S.optional(CodeHook),
-  fulfillmentActivity: S.optional(FulfillmentActivity),
-  parentIntentSignature: S.optional(S.String),
-  lastUpdatedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  version: S.optional(S.String),
-  checksum: S.optional(S.String),
-  createVersion: S.optional(S.Boolean),
-  kendraConfiguration: S.optional(KendraConfiguration),
-  inputContexts: S.optional(InputContextList),
-  outputContexts: S.optional(OutputContextList),
-}) {}
-export class ResourceReference extends S.Class<ResourceReference>(
-  "ResourceReference",
-)({ name: S.optional(S.String), version: S.optional(S.String) }) {}
+).annotations({
+  identifier: "PutIntentRequest",
+}) as any as S.Schema<PutIntentRequest>;
+export interface PutSlotTypeResponse {
+  name?: string;
+  description?: string;
+  enumerationValues?: EnumerationValues;
+  lastUpdatedDate?: Date;
+  createdDate?: Date;
+  version?: string;
+  checksum?: string;
+  valueSelectionStrategy?: string;
+  createVersion?: boolean;
+  parentSlotTypeSignature?: string;
+  slotTypeConfigurations?: SlotTypeConfigurations;
+}
+export const PutSlotTypeResponse = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    enumerationValues: S.optional(EnumerationValues),
+    lastUpdatedDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    version: S.optional(S.String),
+    checksum: S.optional(S.String),
+    valueSelectionStrategy: S.optional(S.String),
+    createVersion: S.optional(S.Boolean),
+    parentSlotTypeSignature: S.optional(S.String),
+    slotTypeConfigurations: S.optional(SlotTypeConfigurations),
+  }),
+).annotations({
+  identifier: "PutSlotTypeResponse",
+}) as any as S.Schema<PutSlotTypeResponse>;
+export interface PutIntentResponse {
+  name?: string;
+  description?: string;
+  slots?: SlotList;
+  sampleUtterances?: IntentUtteranceList;
+  confirmationPrompt?: Prompt;
+  rejectionStatement?: Statement;
+  followUpPrompt?: FollowUpPrompt;
+  conclusionStatement?: Statement;
+  dialogCodeHook?: CodeHook;
+  fulfillmentActivity?: FulfillmentActivity;
+  parentIntentSignature?: string;
+  lastUpdatedDate?: Date;
+  createdDate?: Date;
+  version?: string;
+  checksum?: string;
+  createVersion?: boolean;
+  kendraConfiguration?: KendraConfiguration;
+  inputContexts?: InputContextList;
+  outputContexts?: OutputContextList;
+}
+export const PutIntentResponse = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    slots: S.optional(SlotList),
+    sampleUtterances: S.optional(IntentUtteranceList),
+    confirmationPrompt: S.optional(Prompt),
+    rejectionStatement: S.optional(Statement),
+    followUpPrompt: S.optional(FollowUpPrompt),
+    conclusionStatement: S.optional(Statement),
+    dialogCodeHook: S.optional(CodeHook),
+    fulfillmentActivity: S.optional(FulfillmentActivity),
+    parentIntentSignature: S.optional(S.String),
+    lastUpdatedDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    version: S.optional(S.String),
+    checksum: S.optional(S.String),
+    createVersion: S.optional(S.Boolean),
+    kendraConfiguration: S.optional(KendraConfiguration),
+    inputContexts: S.optional(InputContextList),
+    outputContexts: S.optional(OutputContextList),
+  }),
+).annotations({
+  identifier: "PutIntentResponse",
+}) as any as S.Schema<PutIntentResponse>;
+export interface ResourceReference {
+  name?: string;
+  version?: string;
+}
+export const ResourceReference = S.suspend(() =>
+  S.Struct({ name: S.optional(S.String), version: S.optional(S.String) }),
+).annotations({
+  identifier: "ResourceReference",
+}) as any as S.Schema<ResourceReference>;
 
 //# Errors
 export class BadRequestException extends S.TaggedError<BadRequestException>()(

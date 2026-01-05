@@ -319,126 +319,251 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class GetAccountPlanStateRequest extends S.Class<GetAccountPlanStateRequest>(
-  "GetAccountPlanStateRequest",
-)(
-  {},
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+export interface GetAccountPlanStateRequest {}
+export const GetAccountPlanStateRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetAccountPlanStateRequest",
+}) as any as S.Schema<GetAccountPlanStateRequest>;
+export type FilterActivityStatuses = string[];
 export const FilterActivityStatuses = S.Array(S.String);
-export class GetAccountActivityRequest extends S.Class<GetAccountActivityRequest>(
-  "GetAccountActivityRequest",
-)(
-  { activityId: S.String, languageCode: S.optional(S.String) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListAccountActivitiesRequest extends S.Class<ListAccountActivitiesRequest>(
-  "ListAccountActivitiesRequest",
-)(
-  {
+export interface GetAccountActivityRequest {
+  activityId: string;
+  languageCode?: string;
+}
+export const GetAccountActivityRequest = S.suspend(() =>
+  S.Struct({ activityId: S.String, languageCode: S.optional(S.String) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetAccountActivityRequest",
+}) as any as S.Schema<GetAccountActivityRequest>;
+export interface ListAccountActivitiesRequest {
+  filterActivityStatuses?: FilterActivityStatuses;
+  nextToken?: string;
+  maxResults?: number;
+  languageCode?: string;
+}
+export const ListAccountActivitiesRequest = S.suspend(() =>
+  S.Struct({
     filterActivityStatuses: S.optional(FilterActivityStatuses),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
     languageCode: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpgradeAccountPlanRequest extends S.Class<UpgradeAccountPlanRequest>(
-  "UpgradeAccountPlanRequest",
-)(
-  { accountPlanType: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListAccountActivitiesRequest",
+}) as any as S.Schema<ListAccountActivitiesRequest>;
+export interface UpgradeAccountPlanRequest {
+  accountPlanType: string;
+}
+export const UpgradeAccountPlanRequest = S.suspend(() =>
+  S.Struct({ accountPlanType: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpgradeAccountPlanRequest",
+}) as any as S.Schema<UpgradeAccountPlanRequest>;
 export type Expressions = Expression[];
 export const Expressions = S.Array(
-  S.suspend((): S.Schema<Expression, any> => Expression),
+  S.suspend((): S.Schema<Expression, any> => Expression).annotations({
+    identifier: "Expression",
+  }),
 ) as any as S.Schema<Expressions>;
-export class MonetaryAmount extends S.Class<MonetaryAmount>("MonetaryAmount")({
-  amount: S.Number,
-  unit: S.String,
-}) {}
+export interface MonetaryAmount {
+  amount: number;
+  unit: string;
+}
+export const MonetaryAmount = S.suspend(() =>
+  S.Struct({ amount: S.Number, unit: S.String }),
+).annotations({
+  identifier: "MonetaryAmount",
+}) as any as S.Schema<MonetaryAmount>;
+export type Values = string[];
 export const Values = S.Array(S.String);
+export type MatchOptions = string[];
 export const MatchOptions = S.Array(S.String);
-export class GetAccountPlanStateResponse extends S.Class<GetAccountPlanStateResponse>(
-  "GetAccountPlanStateResponse",
-)({
-  accountId: S.String,
-  accountPlanType: S.String,
-  accountPlanStatus: S.String,
-  accountPlanRemainingCredits: S.optional(MonetaryAmount),
-  accountPlanExpirationDate: S.optional(
-    S.Date.pipe(T.TimestampFormat("date-time")),
-  ),
-}) {}
-export class UpgradeAccountPlanResponse extends S.Class<UpgradeAccountPlanResponse>(
-  "UpgradeAccountPlanResponse",
-)({
-  accountId: S.String,
-  accountPlanType: S.String,
-  accountPlanStatus: S.String,
-}) {}
-export class DimensionValues extends S.Class<DimensionValues>(
-  "DimensionValues",
-)({ Key: S.String, Values: Values, MatchOptions: MatchOptions }) {}
+export interface GetAccountPlanStateResponse {
+  accountId: string;
+  accountPlanType: string;
+  accountPlanStatus: string;
+  accountPlanRemainingCredits?: MonetaryAmount;
+  accountPlanExpirationDate?: Date;
+}
+export const GetAccountPlanStateResponse = S.suspend(() =>
+  S.Struct({
+    accountId: S.String,
+    accountPlanType: S.String,
+    accountPlanStatus: S.String,
+    accountPlanRemainingCredits: S.optional(MonetaryAmount),
+    accountPlanExpirationDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("date-time")),
+    ),
+  }),
+).annotations({
+  identifier: "GetAccountPlanStateResponse",
+}) as any as S.Schema<GetAccountPlanStateResponse>;
+export interface UpgradeAccountPlanResponse {
+  accountId: string;
+  accountPlanType: string;
+  accountPlanStatus: string;
+}
+export const UpgradeAccountPlanResponse = S.suspend(() =>
+  S.Struct({
+    accountId: S.String,
+    accountPlanType: S.String,
+    accountPlanStatus: S.String,
+  }),
+).annotations({
+  identifier: "UpgradeAccountPlanResponse",
+}) as any as S.Schema<UpgradeAccountPlanResponse>;
+export interface DimensionValues {
+  Key: string;
+  Values: Values;
+  MatchOptions: MatchOptions;
+}
+export const DimensionValues = S.suspend(() =>
+  S.Struct({ Key: S.String, Values: Values, MatchOptions: MatchOptions }),
+).annotations({
+  identifier: "DimensionValues",
+}) as any as S.Schema<DimensionValues>;
 export const ActivityReward = S.Union(S.Struct({ credit: MonetaryAmount }));
-export class Expression extends S.Class<Expression>("Expression")({
-  Or: S.optional(S.suspend(() => Expressions)),
-  And: S.optional(S.suspend(() => Expressions)),
-  Not: S.optional(S.suspend((): S.Schema<Expression, any> => Expression)),
-  Dimensions: S.optional(DimensionValues),
-}) {}
-export class ActivitySummary extends S.Class<ActivitySummary>(
-  "ActivitySummary",
-)({
-  activityId: S.String,
-  title: S.String,
-  reward: ActivityReward,
-  status: S.String,
-}) {}
+export interface Expression {
+  Or?: Expressions;
+  And?: Expressions;
+  Not?: Expression;
+  Dimensions?: DimensionValues;
+}
+export const Expression = S.suspend(() =>
+  S.Struct({
+    Or: S.optional(
+      S.suspend(() => Expressions).annotations({ identifier: "Expressions" }),
+    ),
+    And: S.optional(
+      S.suspend(() => Expressions).annotations({ identifier: "Expressions" }),
+    ),
+    Not: S.optional(
+      S.suspend((): S.Schema<Expression, any> => Expression).annotations({
+        identifier: "Expression",
+      }),
+    ),
+    Dimensions: S.optional(DimensionValues),
+  }),
+).annotations({ identifier: "Expression" }) as any as S.Schema<Expression>;
+export interface ActivitySummary {
+  activityId: string;
+  title: string;
+  reward: (typeof ActivityReward)["Type"];
+  status: string;
+}
+export const ActivitySummary = S.suspend(() =>
+  S.Struct({
+    activityId: S.String,
+    title: S.String,
+    reward: ActivityReward,
+    status: S.String,
+  }),
+).annotations({
+  identifier: "ActivitySummary",
+}) as any as S.Schema<ActivitySummary>;
+export type Activities = ActivitySummary[];
 export const Activities = S.Array(ActivitySummary);
-export class GetAccountActivityResponse extends S.Class<GetAccountActivityResponse>(
-  "GetAccountActivityResponse",
-)({
-  activityId: S.String,
-  title: S.String,
-  description: S.String,
-  status: S.String,
-  instructionsUrl: S.String,
-  reward: ActivityReward,
-  estimatedTimeToCompleteInMinutes: S.optional(S.Number),
-  expiresAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  startedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  completedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-}) {}
-export class GetFreeTierUsageRequest extends S.Class<GetFreeTierUsageRequest>(
-  "GetFreeTierUsageRequest",
-)(
-  {
+export interface GetAccountActivityResponse {
+  activityId: string;
+  title: string;
+  description: string;
+  status: string;
+  instructionsUrl: string;
+  reward: (typeof ActivityReward)["Type"];
+  estimatedTimeToCompleteInMinutes?: number;
+  expiresAt?: Date;
+  startedAt?: Date;
+  completedAt?: Date;
+}
+export const GetAccountActivityResponse = S.suspend(() =>
+  S.Struct({
+    activityId: S.String,
+    title: S.String,
+    description: S.String,
+    status: S.String,
+    instructionsUrl: S.String,
+    reward: ActivityReward,
+    estimatedTimeToCompleteInMinutes: S.optional(S.Number),
+    expiresAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    startedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    completedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotations({
+  identifier: "GetAccountActivityResponse",
+}) as any as S.Schema<GetAccountActivityResponse>;
+export interface GetFreeTierUsageRequest {
+  filter?: Expression;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const GetFreeTierUsageRequest = S.suspend(() =>
+  S.Struct({
     filter: S.optional(Expression),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListAccountActivitiesResponse extends S.Class<ListAccountActivitiesResponse>(
-  "ListAccountActivitiesResponse",
-)({ activities: Activities, nextToken: S.optional(S.String) }) {}
-export class FreeTierUsage extends S.Class<FreeTierUsage>("FreeTierUsage")({
-  service: S.optional(S.String),
-  operation: S.optional(S.String),
-  usageType: S.optional(S.String),
-  region: S.optional(S.String),
-  actualUsageAmount: S.optional(S.Number),
-  forecastedUsageAmount: S.optional(S.Number),
-  limit: S.optional(S.Number),
-  unit: S.optional(S.String),
-  description: S.optional(S.String),
-  freeTierType: S.optional(S.String),
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetFreeTierUsageRequest",
+}) as any as S.Schema<GetFreeTierUsageRequest>;
+export interface ListAccountActivitiesResponse {
+  activities: Activities;
+  nextToken?: string;
+}
+export const ListAccountActivitiesResponse = S.suspend(() =>
+  S.Struct({ activities: Activities, nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListAccountActivitiesResponse",
+}) as any as S.Schema<ListAccountActivitiesResponse>;
+export interface FreeTierUsage {
+  service?: string;
+  operation?: string;
+  usageType?: string;
+  region?: string;
+  actualUsageAmount?: number;
+  forecastedUsageAmount?: number;
+  limit?: number;
+  unit?: string;
+  description?: string;
+  freeTierType?: string;
+}
+export const FreeTierUsage = S.suspend(() =>
+  S.Struct({
+    service: S.optional(S.String),
+    operation: S.optional(S.String),
+    usageType: S.optional(S.String),
+    region: S.optional(S.String),
+    actualUsageAmount: S.optional(S.Number),
+    forecastedUsageAmount: S.optional(S.Number),
+    limit: S.optional(S.Number),
+    unit: S.optional(S.String),
+    description: S.optional(S.String),
+    freeTierType: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "FreeTierUsage",
+}) as any as S.Schema<FreeTierUsage>;
+export type FreeTierUsages = FreeTierUsage[];
 export const FreeTierUsages = S.Array(FreeTierUsage);
-export class GetFreeTierUsageResponse extends S.Class<GetFreeTierUsageResponse>(
-  "GetFreeTierUsageResponse",
-)({ freeTierUsages: FreeTierUsages, nextToken: S.optional(S.String) }) {}
+export interface GetFreeTierUsageResponse {
+  freeTierUsages: FreeTierUsages;
+  nextToken?: string;
+}
+export const GetFreeTierUsageResponse = S.suspend(() =>
+  S.Struct({ freeTierUsages: FreeTierUsages, nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "GetFreeTierUsageResponse",
+}) as any as S.Schema<GetFreeTierUsageResponse>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

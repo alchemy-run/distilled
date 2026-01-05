@@ -297,50 +297,80 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
-export class GetAccountPreferencesRequest extends S.Class<GetAccountPreferencesRequest>(
-  "GetAccountPreferencesRequest",
-)(
-  {},
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/get-account-preferences" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface GetAccountPreferencesRequest {}
+export const GetAccountPreferencesRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/get-account-preferences" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "GetAccountPreferencesRequest",
+}) as any as S.Schema<GetAccountPreferencesRequest>;
+export type SnsTopicArnList = string[];
 export const SnsTopicArnList = S.Array(S.String);
+export type GuardrailPolicyArnList = string[];
 export const GuardrailPolicyArnList = S.Array(S.String);
-export class Tag extends S.Class<Tag>("Tag")({
-  TagKey: S.String,
-  TagValue: S.String,
-}) {}
+export interface Tag {
+  TagKey: string;
+  TagValue: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ TagKey: S.String, TagValue: S.String }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagList = Tag[];
 export const TagList = S.Array(Tag);
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class AssociateToConfigurationRequest extends S.Class<AssociateToConfigurationRequest>(
-  "AssociateToConfigurationRequest",
-)(
-  { Resource: S.String, ChatConfiguration: S.String },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/associate-to-configuration" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface AssociateToConfigurationRequest {
+  Resource: string;
+  ChatConfiguration: string;
+}
+export const AssociateToConfigurationRequest = S.suspend(() =>
+  S.Struct({ Resource: S.String, ChatConfiguration: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/associate-to-configuration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AssociateToConfigurationResult extends S.Class<AssociateToConfigurationResult>(
-  "AssociateToConfigurationResult",
-)({}, ns) {}
+).annotations({
+  identifier: "AssociateToConfigurationRequest",
+}) as any as S.Schema<AssociateToConfigurationRequest>;
+export interface AssociateToConfigurationResult {}
+export const AssociateToConfigurationResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "AssociateToConfigurationResult",
+}) as any as S.Schema<AssociateToConfigurationResult>;
+export type Tags = Tag[];
 export const Tags = S.Array(Tag);
-export class CreateTeamsChannelConfigurationRequest extends S.Class<CreateTeamsChannelConfigurationRequest>(
-  "CreateTeamsChannelConfigurationRequest",
-)(
-  {
+export interface CreateTeamsChannelConfigurationRequest {
+  ChannelId: string;
+  ChannelName?: string;
+  TeamId: string;
+  TeamName?: string;
+  TenantId: string;
+  SnsTopicArns?: SnsTopicArnList;
+  IamRoleArn: string;
+  ConfigurationName: string;
+  LoggingLevel?: string;
+  GuardrailPolicyArns?: GuardrailPolicyArnList;
+  UserAuthorizationRequired?: boolean;
+  Tags?: Tags;
+}
+export const CreateTeamsChannelConfigurationRequest = S.suspend(() =>
+  S.Struct({
     ChannelId: S.String,
     ChannelName: S.optional(S.String),
     TeamId: S.String,
@@ -353,21 +383,34 @@ export class CreateTeamsChannelConfigurationRequest extends S.Class<CreateTeamsC
     GuardrailPolicyArns: S.optional(GuardrailPolicyArnList),
     UserAuthorizationRequired: S.optional(S.Boolean),
     Tags: S.optional(Tags),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/create-ms-teams-channel-configuration" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/create-ms-teams-channel-configuration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateSlackChannelConfigurationRequest extends S.Class<CreateSlackChannelConfigurationRequest>(
-  "CreateSlackChannelConfigurationRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateTeamsChannelConfigurationRequest",
+}) as any as S.Schema<CreateTeamsChannelConfigurationRequest>;
+export interface CreateSlackChannelConfigurationRequest {
+  SlackTeamId: string;
+  SlackChannelId: string;
+  SlackChannelName?: string;
+  SnsTopicArns?: SnsTopicArnList;
+  IamRoleArn: string;
+  ConfigurationName: string;
+  LoggingLevel?: string;
+  GuardrailPolicyArns?: GuardrailPolicyArnList;
+  UserAuthorizationRequired?: boolean;
+  Tags?: Tags;
+}
+export const CreateSlackChannelConfigurationRequest = S.suspend(() =>
+  S.Struct({
     SlackTeamId: S.String,
     SlackChannelId: S.String,
     SlackChannelName: S.optional(S.String),
@@ -378,397 +421,558 @@ export class CreateSlackChannelConfigurationRequest extends S.Class<CreateSlackC
     GuardrailPolicyArns: S.optional(GuardrailPolicyArnList),
     UserAuthorizationRequired: S.optional(S.Boolean),
     Tags: S.optional(Tags),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/create-slack-channel-configuration" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/create-slack-channel-configuration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteChimeWebhookConfigurationRequest extends S.Class<DeleteChimeWebhookConfigurationRequest>(
-  "DeleteChimeWebhookConfigurationRequest",
-)(
-  { ChatConfigurationArn: S.String },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/delete-chime-webhook-configuration" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CreateSlackChannelConfigurationRequest",
+}) as any as S.Schema<CreateSlackChannelConfigurationRequest>;
+export interface DeleteChimeWebhookConfigurationRequest {
+  ChatConfigurationArn: string;
+}
+export const DeleteChimeWebhookConfigurationRequest = S.suspend(() =>
+  S.Struct({ ChatConfigurationArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/delete-chime-webhook-configuration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteChimeWebhookConfigurationResult extends S.Class<DeleteChimeWebhookConfigurationResult>(
-  "DeleteChimeWebhookConfigurationResult",
-)({}, ns) {}
-export class DeleteTeamsChannelConfigurationRequest extends S.Class<DeleteTeamsChannelConfigurationRequest>(
-  "DeleteTeamsChannelConfigurationRequest",
-)(
-  { ChatConfigurationArn: S.String },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/delete-ms-teams-channel-configuration" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteChimeWebhookConfigurationRequest",
+}) as any as S.Schema<DeleteChimeWebhookConfigurationRequest>;
+export interface DeleteChimeWebhookConfigurationResult {}
+export const DeleteChimeWebhookConfigurationResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteChimeWebhookConfigurationResult",
+}) as any as S.Schema<DeleteChimeWebhookConfigurationResult>;
+export interface DeleteTeamsChannelConfigurationRequest {
+  ChatConfigurationArn: string;
+}
+export const DeleteTeamsChannelConfigurationRequest = S.suspend(() =>
+  S.Struct({ ChatConfigurationArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/delete-ms-teams-channel-configuration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteTeamsChannelConfigurationResult extends S.Class<DeleteTeamsChannelConfigurationResult>(
-  "DeleteTeamsChannelConfigurationResult",
-)({}, ns) {}
-export class DeleteTeamsConfiguredTeamRequest extends S.Class<DeleteTeamsConfiguredTeamRequest>(
-  "DeleteTeamsConfiguredTeamRequest",
-)(
-  { TeamId: S.String },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/delete-ms-teams-configured-teams" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteTeamsChannelConfigurationRequest",
+}) as any as S.Schema<DeleteTeamsChannelConfigurationRequest>;
+export interface DeleteTeamsChannelConfigurationResult {}
+export const DeleteTeamsChannelConfigurationResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteTeamsChannelConfigurationResult",
+}) as any as S.Schema<DeleteTeamsChannelConfigurationResult>;
+export interface DeleteTeamsConfiguredTeamRequest {
+  TeamId: string;
+}
+export const DeleteTeamsConfiguredTeamRequest = S.suspend(() =>
+  S.Struct({ TeamId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/delete-ms-teams-configured-teams" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteTeamsConfiguredTeamResult extends S.Class<DeleteTeamsConfiguredTeamResult>(
-  "DeleteTeamsConfiguredTeamResult",
-)({}, ns) {}
-export class DeleteMicrosoftTeamsUserIdentityRequest extends S.Class<DeleteMicrosoftTeamsUserIdentityRequest>(
-  "DeleteMicrosoftTeamsUserIdentityRequest",
-)(
-  { ChatConfigurationArn: S.String, UserId: S.String },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/delete-ms-teams-user-identity" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteTeamsConfiguredTeamRequest",
+}) as any as S.Schema<DeleteTeamsConfiguredTeamRequest>;
+export interface DeleteTeamsConfiguredTeamResult {}
+export const DeleteTeamsConfiguredTeamResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteTeamsConfiguredTeamResult",
+}) as any as S.Schema<DeleteTeamsConfiguredTeamResult>;
+export interface DeleteMicrosoftTeamsUserIdentityRequest {
+  ChatConfigurationArn: string;
+  UserId: string;
+}
+export const DeleteMicrosoftTeamsUserIdentityRequest = S.suspend(() =>
+  S.Struct({ ChatConfigurationArn: S.String, UserId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/delete-ms-teams-user-identity" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteMicrosoftTeamsUserIdentityResult extends S.Class<DeleteMicrosoftTeamsUserIdentityResult>(
-  "DeleteMicrosoftTeamsUserIdentityResult",
-)({}, ns) {}
-export class DeleteSlackChannelConfigurationRequest extends S.Class<DeleteSlackChannelConfigurationRequest>(
-  "DeleteSlackChannelConfigurationRequest",
-)(
-  { ChatConfigurationArn: S.String },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/delete-slack-channel-configuration" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteMicrosoftTeamsUserIdentityRequest",
+}) as any as S.Schema<DeleteMicrosoftTeamsUserIdentityRequest>;
+export interface DeleteMicrosoftTeamsUserIdentityResult {}
+export const DeleteMicrosoftTeamsUserIdentityResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteMicrosoftTeamsUserIdentityResult",
+}) as any as S.Schema<DeleteMicrosoftTeamsUserIdentityResult>;
+export interface DeleteSlackChannelConfigurationRequest {
+  ChatConfigurationArn: string;
+}
+export const DeleteSlackChannelConfigurationRequest = S.suspend(() =>
+  S.Struct({ ChatConfigurationArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/delete-slack-channel-configuration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteSlackChannelConfigurationResult extends S.Class<DeleteSlackChannelConfigurationResult>(
-  "DeleteSlackChannelConfigurationResult",
-)({}, ns) {}
-export class DeleteSlackUserIdentityRequest extends S.Class<DeleteSlackUserIdentityRequest>(
-  "DeleteSlackUserIdentityRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteSlackChannelConfigurationRequest",
+}) as any as S.Schema<DeleteSlackChannelConfigurationRequest>;
+export interface DeleteSlackChannelConfigurationResult {}
+export const DeleteSlackChannelConfigurationResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteSlackChannelConfigurationResult",
+}) as any as S.Schema<DeleteSlackChannelConfigurationResult>;
+export interface DeleteSlackUserIdentityRequest {
+  ChatConfigurationArn: string;
+  SlackTeamId: string;
+  SlackUserId: string;
+}
+export const DeleteSlackUserIdentityRequest = S.suspend(() =>
+  S.Struct({
     ChatConfigurationArn: S.String,
     SlackTeamId: S.String,
     SlackUserId: S.String,
-  },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/delete-slack-user-identity" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/delete-slack-user-identity" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteSlackUserIdentityResult extends S.Class<DeleteSlackUserIdentityResult>(
-  "DeleteSlackUserIdentityResult",
-)({}, ns) {}
-export class DeleteSlackWorkspaceAuthorizationRequest extends S.Class<DeleteSlackWorkspaceAuthorizationRequest>(
-  "DeleteSlackWorkspaceAuthorizationRequest",
-)(
-  { SlackTeamId: S.String },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/delete-slack-workspace-authorization" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteSlackUserIdentityRequest",
+}) as any as S.Schema<DeleteSlackUserIdentityRequest>;
+export interface DeleteSlackUserIdentityResult {}
+export const DeleteSlackUserIdentityResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteSlackUserIdentityResult",
+}) as any as S.Schema<DeleteSlackUserIdentityResult>;
+export interface DeleteSlackWorkspaceAuthorizationRequest {
+  SlackTeamId: string;
+}
+export const DeleteSlackWorkspaceAuthorizationRequest = S.suspend(() =>
+  S.Struct({ SlackTeamId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/delete-slack-workspace-authorization" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteSlackWorkspaceAuthorizationResult extends S.Class<DeleteSlackWorkspaceAuthorizationResult>(
-  "DeleteSlackWorkspaceAuthorizationResult",
-)({}, ns) {}
-export class DescribeChimeWebhookConfigurationsRequest extends S.Class<DescribeChimeWebhookConfigurationsRequest>(
-  "DescribeChimeWebhookConfigurationsRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteSlackWorkspaceAuthorizationRequest",
+}) as any as S.Schema<DeleteSlackWorkspaceAuthorizationRequest>;
+export interface DeleteSlackWorkspaceAuthorizationResult {}
+export const DeleteSlackWorkspaceAuthorizationResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteSlackWorkspaceAuthorizationResult",
+}) as any as S.Schema<DeleteSlackWorkspaceAuthorizationResult>;
+export interface DescribeChimeWebhookConfigurationsRequest {
+  MaxResults?: number;
+  NextToken?: string;
+  ChatConfigurationArn?: string;
+}
+export const DescribeChimeWebhookConfigurationsRequest = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     ChatConfigurationArn: S.optional(S.String),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/describe-chime-webhook-configurations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/describe-chime-webhook-configurations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeSlackChannelConfigurationsRequest extends S.Class<DescribeSlackChannelConfigurationsRequest>(
-  "DescribeSlackChannelConfigurationsRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeChimeWebhookConfigurationsRequest",
+}) as any as S.Schema<DescribeChimeWebhookConfigurationsRequest>;
+export interface DescribeSlackChannelConfigurationsRequest {
+  MaxResults?: number;
+  NextToken?: string;
+  ChatConfigurationArn?: string;
+}
+export const DescribeSlackChannelConfigurationsRequest = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     ChatConfigurationArn: S.optional(S.String),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/describe-slack-channel-configurations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/describe-slack-channel-configurations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeSlackUserIdentitiesRequest extends S.Class<DescribeSlackUserIdentitiesRequest>(
-  "DescribeSlackUserIdentitiesRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeSlackChannelConfigurationsRequest",
+}) as any as S.Schema<DescribeSlackChannelConfigurationsRequest>;
+export interface DescribeSlackUserIdentitiesRequest {
+  ChatConfigurationArn?: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const DescribeSlackUserIdentitiesRequest = S.suspend(() =>
+  S.Struct({
     ChatConfigurationArn: S.optional(S.String),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/describe-slack-user-identities" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/describe-slack-user-identities" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeSlackWorkspacesRequest extends S.Class<DescribeSlackWorkspacesRequest>(
-  "DescribeSlackWorkspacesRequest",
-)(
-  { MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/describe-slack-workspaces" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DescribeSlackUserIdentitiesRequest",
+}) as any as S.Schema<DescribeSlackUserIdentitiesRequest>;
+export interface DescribeSlackWorkspacesRequest {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const DescribeSlackWorkspacesRequest = S.suspend(() =>
+  S.Struct({
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/describe-slack-workspaces" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DisassociateFromConfigurationRequest extends S.Class<DisassociateFromConfigurationRequest>(
-  "DisassociateFromConfigurationRequest",
-)(
-  { Resource: S.String, ChatConfiguration: S.String },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/disassociate-from-configuration" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DescribeSlackWorkspacesRequest",
+}) as any as S.Schema<DescribeSlackWorkspacesRequest>;
+export interface DisassociateFromConfigurationRequest {
+  Resource: string;
+  ChatConfiguration: string;
+}
+export const DisassociateFromConfigurationRequest = S.suspend(() =>
+  S.Struct({ Resource: S.String, ChatConfiguration: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/disassociate-from-configuration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DisassociateFromConfigurationResult extends S.Class<DisassociateFromConfigurationResult>(
-  "DisassociateFromConfigurationResult",
-)({}, ns) {}
-export class GetTeamsChannelConfigurationRequest extends S.Class<GetTeamsChannelConfigurationRequest>(
-  "GetTeamsChannelConfigurationRequest",
-)(
-  { ChatConfigurationArn: S.String },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/get-ms-teams-channel-configuration" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DisassociateFromConfigurationRequest",
+}) as any as S.Schema<DisassociateFromConfigurationRequest>;
+export interface DisassociateFromConfigurationResult {}
+export const DisassociateFromConfigurationResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DisassociateFromConfigurationResult",
+}) as any as S.Schema<DisassociateFromConfigurationResult>;
+export interface GetTeamsChannelConfigurationRequest {
+  ChatConfigurationArn: string;
+}
+export const GetTeamsChannelConfigurationRequest = S.suspend(() =>
+  S.Struct({ ChatConfigurationArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/get-ms-teams-channel-configuration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListAssociationsRequest extends S.Class<ListAssociationsRequest>(
-  "ListAssociationsRequest",
-)(
-  {
+).annotations({
+  identifier: "GetTeamsChannelConfigurationRequest",
+}) as any as S.Schema<GetTeamsChannelConfigurationRequest>;
+export interface ListAssociationsRequest {
+  ChatConfiguration: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListAssociationsRequest = S.suspend(() =>
+  S.Struct({
     ChatConfiguration: S.String,
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/list-associations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/list-associations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTeamsChannelConfigurationsRequest extends S.Class<ListTeamsChannelConfigurationsRequest>(
-  "ListTeamsChannelConfigurationsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListAssociationsRequest",
+}) as any as S.Schema<ListAssociationsRequest>;
+export interface ListTeamsChannelConfigurationsRequest {
+  MaxResults?: number;
+  NextToken?: string;
+  TeamId?: string;
+}
+export const ListTeamsChannelConfigurationsRequest = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     TeamId: S.optional(S.String),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/list-ms-teams-channel-configurations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/list-ms-teams-channel-configurations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListMicrosoftTeamsConfiguredTeamsRequest extends S.Class<ListMicrosoftTeamsConfiguredTeamsRequest>(
-  "ListMicrosoftTeamsConfiguredTeamsRequest",
-)(
-  { MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/list-ms-teams-configured-teams" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListTeamsChannelConfigurationsRequest",
+}) as any as S.Schema<ListTeamsChannelConfigurationsRequest>;
+export interface ListMicrosoftTeamsConfiguredTeamsRequest {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListMicrosoftTeamsConfiguredTeamsRequest = S.suspend(() =>
+  S.Struct({
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/list-ms-teams-configured-teams" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListMicrosoftTeamsUserIdentitiesRequest extends S.Class<ListMicrosoftTeamsUserIdentitiesRequest>(
-  "ListMicrosoftTeamsUserIdentitiesRequest",
-)(
-  {
+).annotations({
+  identifier: "ListMicrosoftTeamsConfiguredTeamsRequest",
+}) as any as S.Schema<ListMicrosoftTeamsConfiguredTeamsRequest>;
+export interface ListMicrosoftTeamsUserIdentitiesRequest {
+  ChatConfigurationArn?: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListMicrosoftTeamsUserIdentitiesRequest = S.suspend(() =>
+  S.Struct({
     ChatConfigurationArn: S.optional(S.String),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/list-ms-teams-user-identities" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/list-ms-teams-user-identities" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { ResourceARN: S.String },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/list-tags-for-resource" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListMicrosoftTeamsUserIdentitiesRequest",
+}) as any as S.Schema<ListMicrosoftTeamsUserIdentitiesRequest>;
+export interface ListTagsForResourceRequest {
+  ResourceARN: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceARN: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/list-tags-for-resource" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { ResourceARN: S.String, Tags: TagList },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/tag-resource" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface TagResourceRequest {
+  ResourceARN: string;
+  Tags: TagList;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceARN: S.String, Tags: TagList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/tag-resource" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}, ns) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  { ResourceARN: S.String, TagKeys: TagKeyList },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/untag-resource" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UntagResourceRequest {
+  ResourceARN: string;
+  TagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceARN: S.String, TagKeys: TagKeyList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/untag-resource" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}, ns) {}
-export class UpdateAccountPreferencesRequest extends S.Class<UpdateAccountPreferencesRequest>(
-  "UpdateAccountPreferencesRequest",
-)(
-  {
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface UpdateAccountPreferencesRequest {
+  UserAuthorizationRequired?: boolean;
+  TrainingDataCollectionEnabled?: boolean;
+}
+export const UpdateAccountPreferencesRequest = S.suspend(() =>
+  S.Struct({
     UserAuthorizationRequired: S.optional(S.Boolean),
     TrainingDataCollectionEnabled: S.optional(S.Boolean),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/update-account-preferences" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/update-account-preferences" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateChimeWebhookConfigurationRequest extends S.Class<UpdateChimeWebhookConfigurationRequest>(
-  "UpdateChimeWebhookConfigurationRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateAccountPreferencesRequest",
+}) as any as S.Schema<UpdateAccountPreferencesRequest>;
+export interface UpdateChimeWebhookConfigurationRequest {
+  ChatConfigurationArn: string;
+  WebhookDescription?: string;
+  WebhookUrl?: string;
+  SnsTopicArns?: SnsTopicArnList;
+  IamRoleArn?: string;
+  LoggingLevel?: string;
+}
+export const UpdateChimeWebhookConfigurationRequest = S.suspend(() =>
+  S.Struct({
     ChatConfigurationArn: S.String,
     WebhookDescription: S.optional(S.String),
     WebhookUrl: S.optional(S.String),
     SnsTopicArns: S.optional(SnsTopicArnList),
     IamRoleArn: S.optional(S.String),
     LoggingLevel: S.optional(S.String),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/update-chime-webhook-configuration" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/update-chime-webhook-configuration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateTeamsChannelConfigurationRequest extends S.Class<UpdateTeamsChannelConfigurationRequest>(
-  "UpdateTeamsChannelConfigurationRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateChimeWebhookConfigurationRequest",
+}) as any as S.Schema<UpdateChimeWebhookConfigurationRequest>;
+export interface UpdateTeamsChannelConfigurationRequest {
+  ChatConfigurationArn: string;
+  ChannelId: string;
+  ChannelName?: string;
+  SnsTopicArns?: SnsTopicArnList;
+  IamRoleArn?: string;
+  LoggingLevel?: string;
+  GuardrailPolicyArns?: GuardrailPolicyArnList;
+  UserAuthorizationRequired?: boolean;
+}
+export const UpdateTeamsChannelConfigurationRequest = S.suspend(() =>
+  S.Struct({
     ChatConfigurationArn: S.String,
     ChannelId: S.String,
     ChannelName: S.optional(S.String),
@@ -777,21 +981,32 @@ export class UpdateTeamsChannelConfigurationRequest extends S.Class<UpdateTeamsC
     LoggingLevel: S.optional(S.String),
     GuardrailPolicyArns: S.optional(GuardrailPolicyArnList),
     UserAuthorizationRequired: S.optional(S.Boolean),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/update-ms-teams-channel-configuration" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/update-ms-teams-channel-configuration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateSlackChannelConfigurationRequest extends S.Class<UpdateSlackChannelConfigurationRequest>(
-  "UpdateSlackChannelConfigurationRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateTeamsChannelConfigurationRequest",
+}) as any as S.Schema<UpdateTeamsChannelConfigurationRequest>;
+export interface UpdateSlackChannelConfigurationRequest {
+  ChatConfigurationArn: string;
+  SlackChannelId: string;
+  SlackChannelName?: string;
+  SnsTopicArns?: SnsTopicArnList;
+  IamRoleArn?: string;
+  LoggingLevel?: string;
+  GuardrailPolicyArns?: GuardrailPolicyArnList;
+  UserAuthorizationRequired?: boolean;
+}
+export const UpdateSlackChannelConfigurationRequest = S.suspend(() =>
+  S.Struct({
     ChatConfigurationArn: S.String,
     SlackChannelId: S.String,
     SlackChannelName: S.optional(S.String),
@@ -800,157 +1015,263 @@ export class UpdateSlackChannelConfigurationRequest extends S.Class<UpdateSlackC
     LoggingLevel: S.optional(S.String),
     GuardrailPolicyArns: S.optional(GuardrailPolicyArnList),
     UserAuthorizationRequired: S.optional(S.Boolean),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/update-slack-channel-configuration" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/update-slack-channel-configuration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetCustomActionRequest extends S.Class<GetCustomActionRequest>(
-  "GetCustomActionRequest",
-)(
-  { CustomActionArn: S.String },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/get-custom-action" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UpdateSlackChannelConfigurationRequest",
+}) as any as S.Schema<UpdateSlackChannelConfigurationRequest>;
+export interface GetCustomActionRequest {
+  CustomActionArn: string;
+}
+export const GetCustomActionRequest = S.suspend(() =>
+  S.Struct({ CustomActionArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/get-custom-action" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CustomActionDefinition extends S.Class<CustomActionDefinition>(
-  "CustomActionDefinition",
-)({ CommandText: S.String }) {}
-export class CustomActionAttachmentCriteria extends S.Class<CustomActionAttachmentCriteria>(
-  "CustomActionAttachmentCriteria",
-)({
-  Operator: S.String,
-  VariableName: S.String,
-  Value: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "GetCustomActionRequest",
+}) as any as S.Schema<GetCustomActionRequest>;
+export interface CustomActionDefinition {
+  CommandText: string;
+}
+export const CustomActionDefinition = S.suspend(() =>
+  S.Struct({ CommandText: S.String }),
+).annotations({
+  identifier: "CustomActionDefinition",
+}) as any as S.Schema<CustomActionDefinition>;
+export interface CustomActionAttachmentCriteria {
+  Operator: string;
+  VariableName: string;
+  Value?: string;
+}
+export const CustomActionAttachmentCriteria = S.suspend(() =>
+  S.Struct({
+    Operator: S.String,
+    VariableName: S.String,
+    Value: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "CustomActionAttachmentCriteria",
+}) as any as S.Schema<CustomActionAttachmentCriteria>;
+export type CustomActionAttachmentCriteriaList =
+  CustomActionAttachmentCriteria[];
 export const CustomActionAttachmentCriteriaList = S.Array(
   CustomActionAttachmentCriteria,
 );
+export type CustomActionAttachmentVariables = { [key: string]: string };
 export const CustomActionAttachmentVariables = S.Record({
   key: S.String,
   value: S.String,
 });
-export class CustomActionAttachment extends S.Class<CustomActionAttachment>(
-  "CustomActionAttachment",
-)({
-  NotificationType: S.optional(S.String),
-  ButtonText: S.optional(S.String),
-  Criteria: S.optional(CustomActionAttachmentCriteriaList),
-  Variables: S.optional(CustomActionAttachmentVariables),
-}) {}
+export interface CustomActionAttachment {
+  NotificationType?: string;
+  ButtonText?: string;
+  Criteria?: CustomActionAttachmentCriteriaList;
+  Variables?: CustomActionAttachmentVariables;
+}
+export const CustomActionAttachment = S.suspend(() =>
+  S.Struct({
+    NotificationType: S.optional(S.String),
+    ButtonText: S.optional(S.String),
+    Criteria: S.optional(CustomActionAttachmentCriteriaList),
+    Variables: S.optional(CustomActionAttachmentVariables),
+  }),
+).annotations({
+  identifier: "CustomActionAttachment",
+}) as any as S.Schema<CustomActionAttachment>;
+export type CustomActionAttachmentList = CustomActionAttachment[];
 export const CustomActionAttachmentList = S.Array(CustomActionAttachment);
-export class UpdateCustomActionRequest extends S.Class<UpdateCustomActionRequest>(
-  "UpdateCustomActionRequest",
-)(
-  {
+export interface UpdateCustomActionRequest {
+  CustomActionArn: string;
+  Definition: CustomActionDefinition;
+  AliasName?: string;
+  Attachments?: CustomActionAttachmentList;
+}
+export const UpdateCustomActionRequest = S.suspend(() =>
+  S.Struct({
     CustomActionArn: S.String,
     Definition: CustomActionDefinition,
     AliasName: S.optional(S.String),
     Attachments: S.optional(CustomActionAttachmentList),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/update-custom-action" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/update-custom-action" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteCustomActionRequest extends S.Class<DeleteCustomActionRequest>(
-  "DeleteCustomActionRequest",
-)(
-  { CustomActionArn: S.String },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/delete-custom-action" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UpdateCustomActionRequest",
+}) as any as S.Schema<UpdateCustomActionRequest>;
+export interface DeleteCustomActionRequest {
+  CustomActionArn: string;
+}
+export const DeleteCustomActionRequest = S.suspend(() =>
+  S.Struct({ CustomActionArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/delete-custom-action" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteCustomActionResult extends S.Class<DeleteCustomActionResult>(
-  "DeleteCustomActionResult",
-)({}, ns) {}
-export class ListCustomActionsRequest extends S.Class<ListCustomActionsRequest>(
-  "ListCustomActionsRequest",
-)(
-  { MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/list-custom-actions" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteCustomActionRequest",
+}) as any as S.Schema<DeleteCustomActionRequest>;
+export interface DeleteCustomActionResult {}
+export const DeleteCustomActionResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotations({
+  identifier: "DeleteCustomActionResult",
+}) as any as S.Schema<DeleteCustomActionResult>;
+export interface ListCustomActionsRequest {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListCustomActionsRequest = S.suspend(() =>
+  S.Struct({
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/list-custom-actions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SlackChannelConfiguration extends S.Class<SlackChannelConfiguration>(
-  "SlackChannelConfiguration",
-)({
-  SlackTeamName: S.String,
-  SlackTeamId: S.String,
-  SlackChannelId: S.String,
-  SlackChannelName: S.String,
-  ChatConfigurationArn: S.String,
-  IamRoleArn: S.String,
-  SnsTopicArns: SnsTopicArnList,
-  ConfigurationName: S.optional(S.String),
-  LoggingLevel: S.optional(S.String),
-  GuardrailPolicyArns: S.optional(GuardrailPolicyArnList),
-  UserAuthorizationRequired: S.optional(S.Boolean),
-  Tags: S.optional(Tags),
-  State: S.optional(S.String),
-  StateReason: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "ListCustomActionsRequest",
+}) as any as S.Schema<ListCustomActionsRequest>;
+export interface SlackChannelConfiguration {
+  SlackTeamName: string;
+  SlackTeamId: string;
+  SlackChannelId: string;
+  SlackChannelName: string;
+  ChatConfigurationArn: string;
+  IamRoleArn: string;
+  SnsTopicArns: SnsTopicArnList;
+  ConfigurationName?: string;
+  LoggingLevel?: string;
+  GuardrailPolicyArns?: GuardrailPolicyArnList;
+  UserAuthorizationRequired?: boolean;
+  Tags?: Tags;
+  State?: string;
+  StateReason?: string;
+}
+export const SlackChannelConfiguration = S.suspend(() =>
+  S.Struct({
+    SlackTeamName: S.String,
+    SlackTeamId: S.String,
+    SlackChannelId: S.String,
+    SlackChannelName: S.String,
+    ChatConfigurationArn: S.String,
+    IamRoleArn: S.String,
+    SnsTopicArns: SnsTopicArnList,
+    ConfigurationName: S.optional(S.String),
+    LoggingLevel: S.optional(S.String),
+    GuardrailPolicyArns: S.optional(GuardrailPolicyArnList),
+    UserAuthorizationRequired: S.optional(S.Boolean),
+    Tags: S.optional(Tags),
+    State: S.optional(S.String),
+    StateReason: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SlackChannelConfiguration",
+}) as any as S.Schema<SlackChannelConfiguration>;
+export type SlackChannelConfigurationList = SlackChannelConfiguration[];
 export const SlackChannelConfigurationList = S.Array(SlackChannelConfiguration);
-export class AccountPreferences extends S.Class<AccountPreferences>(
-  "AccountPreferences",
-)({
-  UserAuthorizationRequired: S.optional(S.Boolean),
-  TrainingDataCollectionEnabled: S.optional(S.Boolean),
-}) {}
-export class TeamsChannelConfiguration extends S.Class<TeamsChannelConfiguration>(
-  "TeamsChannelConfiguration",
-)({
-  ChannelId: S.String,
-  ChannelName: S.optional(S.String),
-  TeamId: S.String,
-  TeamName: S.optional(S.String),
-  TenantId: S.String,
-  ChatConfigurationArn: S.String,
-  IamRoleArn: S.String,
-  SnsTopicArns: SnsTopicArnList,
-  ConfigurationName: S.optional(S.String),
-  LoggingLevel: S.optional(S.String),
-  GuardrailPolicyArns: S.optional(GuardrailPolicyArnList),
-  UserAuthorizationRequired: S.optional(S.Boolean),
-  Tags: S.optional(Tags),
-  State: S.optional(S.String),
-  StateReason: S.optional(S.String),
-}) {}
+export interface AccountPreferences {
+  UserAuthorizationRequired?: boolean;
+  TrainingDataCollectionEnabled?: boolean;
+}
+export const AccountPreferences = S.suspend(() =>
+  S.Struct({
+    UserAuthorizationRequired: S.optional(S.Boolean),
+    TrainingDataCollectionEnabled: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "AccountPreferences",
+}) as any as S.Schema<AccountPreferences>;
+export interface TeamsChannelConfiguration {
+  ChannelId: string;
+  ChannelName?: string;
+  TeamId: string;
+  TeamName?: string;
+  TenantId: string;
+  ChatConfigurationArn: string;
+  IamRoleArn: string;
+  SnsTopicArns: SnsTopicArnList;
+  ConfigurationName?: string;
+  LoggingLevel?: string;
+  GuardrailPolicyArns?: GuardrailPolicyArnList;
+  UserAuthorizationRequired?: boolean;
+  Tags?: Tags;
+  State?: string;
+  StateReason?: string;
+}
+export const TeamsChannelConfiguration = S.suspend(() =>
+  S.Struct({
+    ChannelId: S.String,
+    ChannelName: S.optional(S.String),
+    TeamId: S.String,
+    TeamName: S.optional(S.String),
+    TenantId: S.String,
+    ChatConfigurationArn: S.String,
+    IamRoleArn: S.String,
+    SnsTopicArns: SnsTopicArnList,
+    ConfigurationName: S.optional(S.String),
+    LoggingLevel: S.optional(S.String),
+    GuardrailPolicyArns: S.optional(GuardrailPolicyArnList),
+    UserAuthorizationRequired: S.optional(S.Boolean),
+    Tags: S.optional(Tags),
+    State: S.optional(S.String),
+    StateReason: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "TeamsChannelConfiguration",
+}) as any as S.Schema<TeamsChannelConfiguration>;
+export type TeamChannelConfigurationsList = TeamsChannelConfiguration[];
 export const TeamChannelConfigurationsList = S.Array(TeamsChannelConfiguration);
+export type CustomActionArnList = string[];
 export const CustomActionArnList = S.Array(S.String);
-export class CreateChimeWebhookConfigurationRequest extends S.Class<CreateChimeWebhookConfigurationRequest>(
-  "CreateChimeWebhookConfigurationRequest",
-)(
-  {
+export interface CreateChimeWebhookConfigurationRequest {
+  WebhookDescription: string;
+  WebhookUrl: string;
+  SnsTopicArns: SnsTopicArnList;
+  IamRoleArn: string;
+  ConfigurationName: string;
+  LoggingLevel?: string;
+  Tags?: Tags;
+}
+export const CreateChimeWebhookConfigurationRequest = S.suspend(() =>
+  S.Struct({
     WebhookDescription: S.String,
     WebhookUrl: S.String,
     SnsTopicArns: SnsTopicArnList,
@@ -958,211 +1279,412 @@ export class CreateChimeWebhookConfigurationRequest extends S.Class<CreateChimeW
     ConfigurationName: S.String,
     LoggingLevel: S.optional(S.String),
     Tags: S.optional(Tags),
-  },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/create-chime-webhook-configuration" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/create-chime-webhook-configuration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeSlackChannelConfigurationsResult extends S.Class<DescribeSlackChannelConfigurationsResult>(
-  "DescribeSlackChannelConfigurationsResult",
-)(
-  {
+).annotations({
+  identifier: "CreateChimeWebhookConfigurationRequest",
+}) as any as S.Schema<CreateChimeWebhookConfigurationRequest>;
+export interface DescribeSlackChannelConfigurationsResult {
+  NextToken?: string;
+  SlackChannelConfigurations?: SlackChannelConfigurationList;
+}
+export const DescribeSlackChannelConfigurationsResult = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String),
     SlackChannelConfigurations: S.optional(SlackChannelConfigurationList),
-  },
-  ns,
-) {}
-export class GetAccountPreferencesResult extends S.Class<GetAccountPreferencesResult>(
-  "GetAccountPreferencesResult",
-)({ AccountPreferences: S.optional(AccountPreferences) }, ns) {}
-export class GetTeamsChannelConfigurationResult extends S.Class<GetTeamsChannelConfigurationResult>(
-  "GetTeamsChannelConfigurationResult",
-)({ ChannelConfiguration: S.optional(TeamsChannelConfiguration) }, ns) {}
-export class ListTeamsChannelConfigurationsResult extends S.Class<ListTeamsChannelConfigurationsResult>(
-  "ListTeamsChannelConfigurationsResult",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeSlackChannelConfigurationsResult",
+}) as any as S.Schema<DescribeSlackChannelConfigurationsResult>;
+export interface GetAccountPreferencesResult {
+  AccountPreferences?: AccountPreferences;
+}
+export const GetAccountPreferencesResult = S.suspend(() =>
+  S.Struct({ AccountPreferences: S.optional(AccountPreferences) }).pipe(ns),
+).annotations({
+  identifier: "GetAccountPreferencesResult",
+}) as any as S.Schema<GetAccountPreferencesResult>;
+export interface GetTeamsChannelConfigurationResult {
+  ChannelConfiguration?: TeamsChannelConfiguration;
+}
+export const GetTeamsChannelConfigurationResult = S.suspend(() =>
+  S.Struct({
+    ChannelConfiguration: S.optional(TeamsChannelConfiguration),
+  }).pipe(ns),
+).annotations({
+  identifier: "GetTeamsChannelConfigurationResult",
+}) as any as S.Schema<GetTeamsChannelConfigurationResult>;
+export interface ListTeamsChannelConfigurationsResult {
+  NextToken?: string;
+  TeamChannelConfigurations?: TeamChannelConfigurationsList;
+}
+export const ListTeamsChannelConfigurationsResult = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String),
     TeamChannelConfigurations: S.optional(TeamChannelConfigurationsList),
-  },
-  ns,
-) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ Tags: S.optional(TagList) }, ns) {}
-export class UpdateAccountPreferencesResult extends S.Class<UpdateAccountPreferencesResult>(
-  "UpdateAccountPreferencesResult",
-)({ AccountPreferences: S.optional(AccountPreferences) }, ns) {}
-export class ChimeWebhookConfiguration extends S.Class<ChimeWebhookConfiguration>(
-  "ChimeWebhookConfiguration",
-)({
-  WebhookDescription: S.String,
-  ChatConfigurationArn: S.String,
-  IamRoleArn: S.String,
-  SnsTopicArns: SnsTopicArnList,
-  ConfigurationName: S.optional(S.String),
-  LoggingLevel: S.optional(S.String),
-  Tags: S.optional(Tags),
-  State: S.optional(S.String),
-  StateReason: S.optional(S.String),
-}) {}
-export class UpdateChimeWebhookConfigurationResult extends S.Class<UpdateChimeWebhookConfigurationResult>(
-  "UpdateChimeWebhookConfigurationResult",
-)({ WebhookConfiguration: S.optional(ChimeWebhookConfiguration) }, ns) {}
-export class UpdateTeamsChannelConfigurationResult extends S.Class<UpdateTeamsChannelConfigurationResult>(
-  "UpdateTeamsChannelConfigurationResult",
-)({ ChannelConfiguration: S.optional(TeamsChannelConfiguration) }, ns) {}
-export class UpdateSlackChannelConfigurationResult extends S.Class<UpdateSlackChannelConfigurationResult>(
-  "UpdateSlackChannelConfigurationResult",
-)({ ChannelConfiguration: S.optional(SlackChannelConfiguration) }, ns) {}
-export class UpdateCustomActionResult extends S.Class<UpdateCustomActionResult>(
-  "UpdateCustomActionResult",
-)({ CustomActionArn: S.String }, ns) {}
-export class ListCustomActionsResult extends S.Class<ListCustomActionsResult>(
-  "ListCustomActionsResult",
-)(
-  { CustomActions: CustomActionArnList, NextToken: S.optional(S.String) },
-  ns,
-) {}
+  }).pipe(ns),
+).annotations({
+  identifier: "ListTeamsChannelConfigurationsResult",
+}) as any as S.Schema<ListTeamsChannelConfigurationsResult>;
+export interface ListTagsForResourceResponse {
+  Tags?: TagList;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ Tags: S.optional(TagList) }).pipe(ns),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface UpdateAccountPreferencesResult {
+  AccountPreferences?: AccountPreferences;
+}
+export const UpdateAccountPreferencesResult = S.suspend(() =>
+  S.Struct({ AccountPreferences: S.optional(AccountPreferences) }).pipe(ns),
+).annotations({
+  identifier: "UpdateAccountPreferencesResult",
+}) as any as S.Schema<UpdateAccountPreferencesResult>;
+export interface ChimeWebhookConfiguration {
+  WebhookDescription: string;
+  ChatConfigurationArn: string;
+  IamRoleArn: string;
+  SnsTopicArns: SnsTopicArnList;
+  ConfigurationName?: string;
+  LoggingLevel?: string;
+  Tags?: Tags;
+  State?: string;
+  StateReason?: string;
+}
+export const ChimeWebhookConfiguration = S.suspend(() =>
+  S.Struct({
+    WebhookDescription: S.String,
+    ChatConfigurationArn: S.String,
+    IamRoleArn: S.String,
+    SnsTopicArns: SnsTopicArnList,
+    ConfigurationName: S.optional(S.String),
+    LoggingLevel: S.optional(S.String),
+    Tags: S.optional(Tags),
+    State: S.optional(S.String),
+    StateReason: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ChimeWebhookConfiguration",
+}) as any as S.Schema<ChimeWebhookConfiguration>;
+export interface UpdateChimeWebhookConfigurationResult {
+  WebhookConfiguration?: ChimeWebhookConfiguration;
+}
+export const UpdateChimeWebhookConfigurationResult = S.suspend(() =>
+  S.Struct({
+    WebhookConfiguration: S.optional(ChimeWebhookConfiguration),
+  }).pipe(ns),
+).annotations({
+  identifier: "UpdateChimeWebhookConfigurationResult",
+}) as any as S.Schema<UpdateChimeWebhookConfigurationResult>;
+export interface UpdateTeamsChannelConfigurationResult {
+  ChannelConfiguration?: TeamsChannelConfiguration;
+}
+export const UpdateTeamsChannelConfigurationResult = S.suspend(() =>
+  S.Struct({
+    ChannelConfiguration: S.optional(TeamsChannelConfiguration),
+  }).pipe(ns),
+).annotations({
+  identifier: "UpdateTeamsChannelConfigurationResult",
+}) as any as S.Schema<UpdateTeamsChannelConfigurationResult>;
+export interface UpdateSlackChannelConfigurationResult {
+  ChannelConfiguration?: SlackChannelConfiguration;
+}
+export const UpdateSlackChannelConfigurationResult = S.suspend(() =>
+  S.Struct({
+    ChannelConfiguration: S.optional(SlackChannelConfiguration),
+  }).pipe(ns),
+).annotations({
+  identifier: "UpdateSlackChannelConfigurationResult",
+}) as any as S.Schema<UpdateSlackChannelConfigurationResult>;
+export interface UpdateCustomActionResult {
+  CustomActionArn: string;
+}
+export const UpdateCustomActionResult = S.suspend(() =>
+  S.Struct({ CustomActionArn: S.String }).pipe(ns),
+).annotations({
+  identifier: "UpdateCustomActionResult",
+}) as any as S.Schema<UpdateCustomActionResult>;
+export interface ListCustomActionsResult {
+  CustomActions: CustomActionArnList;
+  NextToken?: string;
+}
+export const ListCustomActionsResult = S.suspend(() =>
+  S.Struct({
+    CustomActions: CustomActionArnList,
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListCustomActionsResult",
+}) as any as S.Schema<ListCustomActionsResult>;
+export type ChimeWebhookConfigurationList = ChimeWebhookConfiguration[];
 export const ChimeWebhookConfigurationList = S.Array(ChimeWebhookConfiguration);
-export class SlackUserIdentity extends S.Class<SlackUserIdentity>(
-  "SlackUserIdentity",
-)({
-  IamRoleArn: S.String,
-  ChatConfigurationArn: S.String,
-  SlackTeamId: S.String,
-  SlackUserId: S.String,
-  AwsUserIdentity: S.optional(S.String),
-}) {}
+export interface SlackUserIdentity {
+  IamRoleArn: string;
+  ChatConfigurationArn: string;
+  SlackTeamId: string;
+  SlackUserId: string;
+  AwsUserIdentity?: string;
+}
+export const SlackUserIdentity = S.suspend(() =>
+  S.Struct({
+    IamRoleArn: S.String,
+    ChatConfigurationArn: S.String,
+    SlackTeamId: S.String,
+    SlackUserId: S.String,
+    AwsUserIdentity: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SlackUserIdentity",
+}) as any as S.Schema<SlackUserIdentity>;
+export type SlackUserIdentitiesList = SlackUserIdentity[];
 export const SlackUserIdentitiesList = S.Array(SlackUserIdentity);
-export class SlackWorkspace extends S.Class<SlackWorkspace>("SlackWorkspace")({
-  SlackTeamId: S.String,
-  SlackTeamName: S.String,
-  State: S.optional(S.String),
-  StateReason: S.optional(S.String),
-}) {}
+export interface SlackWorkspace {
+  SlackTeamId: string;
+  SlackTeamName: string;
+  State?: string;
+  StateReason?: string;
+}
+export const SlackWorkspace = S.suspend(() =>
+  S.Struct({
+    SlackTeamId: S.String,
+    SlackTeamName: S.String,
+    State: S.optional(S.String),
+    StateReason: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SlackWorkspace",
+}) as any as S.Schema<SlackWorkspace>;
+export type SlackWorkspacesList = SlackWorkspace[];
 export const SlackWorkspacesList = S.Array(SlackWorkspace);
-export class AssociationListing extends S.Class<AssociationListing>(
-  "AssociationListing",
-)({ Resource: S.String }) {}
+export interface AssociationListing {
+  Resource: string;
+}
+export const AssociationListing = S.suspend(() =>
+  S.Struct({ Resource: S.String }),
+).annotations({
+  identifier: "AssociationListing",
+}) as any as S.Schema<AssociationListing>;
+export type AssociationList = AssociationListing[];
 export const AssociationList = S.Array(AssociationListing);
-export class ConfiguredTeam extends S.Class<ConfiguredTeam>("ConfiguredTeam")({
-  TenantId: S.String,
-  TeamId: S.String,
-  TeamName: S.optional(S.String),
-  State: S.optional(S.String),
-  StateReason: S.optional(S.String),
-}) {}
+export interface ConfiguredTeam {
+  TenantId: string;
+  TeamId: string;
+  TeamName?: string;
+  State?: string;
+  StateReason?: string;
+}
+export const ConfiguredTeam = S.suspend(() =>
+  S.Struct({
+    TenantId: S.String,
+    TeamId: S.String,
+    TeamName: S.optional(S.String),
+    State: S.optional(S.String),
+    StateReason: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ConfiguredTeam",
+}) as any as S.Schema<ConfiguredTeam>;
+export type ConfiguredTeamsList = ConfiguredTeam[];
 export const ConfiguredTeamsList = S.Array(ConfiguredTeam);
-export class TeamsUserIdentity extends S.Class<TeamsUserIdentity>(
-  "TeamsUserIdentity",
-)({
-  IamRoleArn: S.String,
-  ChatConfigurationArn: S.String,
-  TeamId: S.String,
-  UserId: S.optional(S.String),
-  AwsUserIdentity: S.optional(S.String),
-  TeamsChannelId: S.optional(S.String),
-  TeamsTenantId: S.optional(S.String),
-}) {}
+export interface TeamsUserIdentity {
+  IamRoleArn: string;
+  ChatConfigurationArn: string;
+  TeamId: string;
+  UserId?: string;
+  AwsUserIdentity?: string;
+  TeamsChannelId?: string;
+  TeamsTenantId?: string;
+}
+export const TeamsUserIdentity = S.suspend(() =>
+  S.Struct({
+    IamRoleArn: S.String,
+    ChatConfigurationArn: S.String,
+    TeamId: S.String,
+    UserId: S.optional(S.String),
+    AwsUserIdentity: S.optional(S.String),
+    TeamsChannelId: S.optional(S.String),
+    TeamsTenantId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "TeamsUserIdentity",
+}) as any as S.Schema<TeamsUserIdentity>;
+export type TeamsUserIdentitiesList = TeamsUserIdentity[];
 export const TeamsUserIdentitiesList = S.Array(TeamsUserIdentity);
-export class CustomAction extends S.Class<CustomAction>("CustomAction")({
-  CustomActionArn: S.String,
-  Definition: CustomActionDefinition,
-  AliasName: S.optional(S.String),
-  Attachments: S.optional(CustomActionAttachmentList),
-  ActionName: S.optional(S.String),
-}) {}
-export class CreateChimeWebhookConfigurationResult extends S.Class<CreateChimeWebhookConfigurationResult>(
-  "CreateChimeWebhookConfigurationResult",
-)({ WebhookConfiguration: S.optional(ChimeWebhookConfiguration) }, ns) {}
-export class CreateTeamsChannelConfigurationResult extends S.Class<CreateTeamsChannelConfigurationResult>(
-  "CreateTeamsChannelConfigurationResult",
-)({ ChannelConfiguration: S.optional(TeamsChannelConfiguration) }, ns) {}
-export class CreateSlackChannelConfigurationResult extends S.Class<CreateSlackChannelConfigurationResult>(
-  "CreateSlackChannelConfigurationResult",
-)({ ChannelConfiguration: S.optional(SlackChannelConfiguration) }, ns) {}
-export class DescribeChimeWebhookConfigurationsResult extends S.Class<DescribeChimeWebhookConfigurationsResult>(
-  "DescribeChimeWebhookConfigurationsResult",
-)(
-  {
+export interface CustomAction {
+  CustomActionArn: string;
+  Definition: CustomActionDefinition;
+  AliasName?: string;
+  Attachments?: CustomActionAttachmentList;
+  ActionName?: string;
+}
+export const CustomAction = S.suspend(() =>
+  S.Struct({
+    CustomActionArn: S.String,
+    Definition: CustomActionDefinition,
+    AliasName: S.optional(S.String),
+    Attachments: S.optional(CustomActionAttachmentList),
+    ActionName: S.optional(S.String),
+  }),
+).annotations({ identifier: "CustomAction" }) as any as S.Schema<CustomAction>;
+export interface CreateChimeWebhookConfigurationResult {
+  WebhookConfiguration?: ChimeWebhookConfiguration;
+}
+export const CreateChimeWebhookConfigurationResult = S.suspend(() =>
+  S.Struct({
+    WebhookConfiguration: S.optional(ChimeWebhookConfiguration),
+  }).pipe(ns),
+).annotations({
+  identifier: "CreateChimeWebhookConfigurationResult",
+}) as any as S.Schema<CreateChimeWebhookConfigurationResult>;
+export interface CreateTeamsChannelConfigurationResult {
+  ChannelConfiguration?: TeamsChannelConfiguration;
+}
+export const CreateTeamsChannelConfigurationResult = S.suspend(() =>
+  S.Struct({
+    ChannelConfiguration: S.optional(TeamsChannelConfiguration),
+  }).pipe(ns),
+).annotations({
+  identifier: "CreateTeamsChannelConfigurationResult",
+}) as any as S.Schema<CreateTeamsChannelConfigurationResult>;
+export interface CreateSlackChannelConfigurationResult {
+  ChannelConfiguration?: SlackChannelConfiguration;
+}
+export const CreateSlackChannelConfigurationResult = S.suspend(() =>
+  S.Struct({
+    ChannelConfiguration: S.optional(SlackChannelConfiguration),
+  }).pipe(ns),
+).annotations({
+  identifier: "CreateSlackChannelConfigurationResult",
+}) as any as S.Schema<CreateSlackChannelConfigurationResult>;
+export interface DescribeChimeWebhookConfigurationsResult {
+  NextToken?: string;
+  WebhookConfigurations?: ChimeWebhookConfigurationList;
+}
+export const DescribeChimeWebhookConfigurationsResult = S.suspend(() =>
+  S.Struct({
     NextToken: S.optional(S.String),
     WebhookConfigurations: S.optional(ChimeWebhookConfigurationList),
-  },
-  ns,
-) {}
-export class DescribeSlackUserIdentitiesResult extends S.Class<DescribeSlackUserIdentitiesResult>(
-  "DescribeSlackUserIdentitiesResult",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeChimeWebhookConfigurationsResult",
+}) as any as S.Schema<DescribeChimeWebhookConfigurationsResult>;
+export interface DescribeSlackUserIdentitiesResult {
+  SlackUserIdentities?: SlackUserIdentitiesList;
+  NextToken?: string;
+}
+export const DescribeSlackUserIdentitiesResult = S.suspend(() =>
+  S.Struct({
     SlackUserIdentities: S.optional(SlackUserIdentitiesList),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class DescribeSlackWorkspacesResult extends S.Class<DescribeSlackWorkspacesResult>(
-  "DescribeSlackWorkspacesResult",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeSlackUserIdentitiesResult",
+}) as any as S.Schema<DescribeSlackUserIdentitiesResult>;
+export interface DescribeSlackWorkspacesResult {
+  SlackWorkspaces?: SlackWorkspacesList;
+  NextToken?: string;
+}
+export const DescribeSlackWorkspacesResult = S.suspend(() =>
+  S.Struct({
     SlackWorkspaces: S.optional(SlackWorkspacesList),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListAssociationsResult extends S.Class<ListAssociationsResult>(
-  "ListAssociationsResult",
-)({ Associations: AssociationList, NextToken: S.optional(S.String) }, ns) {}
-export class ListMicrosoftTeamsConfiguredTeamsResult extends S.Class<ListMicrosoftTeamsConfiguredTeamsResult>(
-  "ListMicrosoftTeamsConfiguredTeamsResult",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "DescribeSlackWorkspacesResult",
+}) as any as S.Schema<DescribeSlackWorkspacesResult>;
+export interface ListAssociationsResult {
+  Associations: AssociationList;
+  NextToken?: string;
+}
+export const ListAssociationsResult = S.suspend(() =>
+  S.Struct({
+    Associations: AssociationList,
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotations({
+  identifier: "ListAssociationsResult",
+}) as any as S.Schema<ListAssociationsResult>;
+export interface ListMicrosoftTeamsConfiguredTeamsResult {
+  ConfiguredTeams?: ConfiguredTeamsList;
+  NextToken?: string;
+}
+export const ListMicrosoftTeamsConfiguredTeamsResult = S.suspend(() =>
+  S.Struct({
     ConfiguredTeams: S.optional(ConfiguredTeamsList),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class ListMicrosoftTeamsUserIdentitiesResult extends S.Class<ListMicrosoftTeamsUserIdentitiesResult>(
-  "ListMicrosoftTeamsUserIdentitiesResult",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListMicrosoftTeamsConfiguredTeamsResult",
+}) as any as S.Schema<ListMicrosoftTeamsConfiguredTeamsResult>;
+export interface ListMicrosoftTeamsUserIdentitiesResult {
+  TeamsUserIdentities?: TeamsUserIdentitiesList;
+  NextToken?: string;
+}
+export const ListMicrosoftTeamsUserIdentitiesResult = S.suspend(() =>
+  S.Struct({
     TeamsUserIdentities: S.optional(TeamsUserIdentitiesList),
     NextToken: S.optional(S.String),
-  },
-  ns,
-) {}
-export class CreateCustomActionRequest extends S.Class<CreateCustomActionRequest>(
-  "CreateCustomActionRequest",
-)(
-  {
+  }).pipe(ns),
+).annotations({
+  identifier: "ListMicrosoftTeamsUserIdentitiesResult",
+}) as any as S.Schema<ListMicrosoftTeamsUserIdentitiesResult>;
+export interface CreateCustomActionRequest {
+  Definition: CustomActionDefinition;
+  AliasName?: string;
+  Attachments?: CustomActionAttachmentList;
+  Tags?: TagList;
+  ClientToken?: string;
+  ActionName: string;
+}
+export const CreateCustomActionRequest = S.suspend(() =>
+  S.Struct({
     Definition: CustomActionDefinition,
     AliasName: S.optional(S.String),
     Attachments: S.optional(CustomActionAttachmentList),
     Tags: S.optional(TagList),
     ClientToken: S.optional(S.String),
     ActionName: S.String,
-  },
-  T.all(
-    ns,
-    T.Http({ method: "POST", uri: "/create-custom-action" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/create-custom-action" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetCustomActionResult extends S.Class<GetCustomActionResult>(
-  "GetCustomActionResult",
-)({ CustomAction: S.optional(CustomAction) }, ns) {}
-export class CreateCustomActionResult extends S.Class<CreateCustomActionResult>(
-  "CreateCustomActionResult",
-)({ CustomActionArn: S.String }, ns) {}
+).annotations({
+  identifier: "CreateCustomActionRequest",
+}) as any as S.Schema<CreateCustomActionRequest>;
+export interface GetCustomActionResult {
+  CustomAction?: CustomAction;
+}
+export const GetCustomActionResult = S.suspend(() =>
+  S.Struct({ CustomAction: S.optional(CustomAction) }).pipe(ns),
+).annotations({
+  identifier: "GetCustomActionResult",
+}) as any as S.Schema<GetCustomActionResult>;
+export interface CreateCustomActionResult {
+  CustomActionArn: string;
+}
+export const CreateCustomActionResult = S.suspend(() =>
+  S.Struct({ CustomActionArn: S.String }).pipe(ns),
+).annotations({
+  identifier: "CreateCustomActionResult",
+}) as any as S.Schema<CreateCustomActionResult>;
 
 //# Errors
 export class InternalServiceError extends S.TaggedError<InternalServiceError>()(

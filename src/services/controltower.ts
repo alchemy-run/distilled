@@ -242,741 +242,1321 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type RemediationTypes = string[];
 export const RemediationTypes = S.Array(S.String);
+export type TagKeys = string[];
 export const TagKeys = S.Array(S.String);
-export class DisableControlInput extends S.Class<DisableControlInput>(
-  "DisableControlInput",
-)(
-  {
+export interface DisableControlInput {
+  controlIdentifier?: string;
+  targetIdentifier?: string;
+  enabledControlIdentifier?: string;
+}
+export const DisableControlInput = S.suspend(() =>
+  S.Struct({
     controlIdentifier: S.optional(S.String),
     targetIdentifier: S.optional(S.String),
     enabledControlIdentifier: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/disable-control" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/disable-control" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetBaselineOperationInput extends S.Class<GetBaselineOperationInput>(
-  "GetBaselineOperationInput",
-)(
-  { operationIdentifier: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/get-baseline-operation" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DisableControlInput",
+}) as any as S.Schema<DisableControlInput>;
+export interface GetBaselineOperationInput {
+  operationIdentifier: string;
+}
+export const GetBaselineOperationInput = S.suspend(() =>
+  S.Struct({ operationIdentifier: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/get-baseline-operation" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetBaselineInput extends S.Class<GetBaselineInput>(
-  "GetBaselineInput",
-)(
-  { baselineIdentifier: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/get-baseline" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetBaselineOperationInput",
+}) as any as S.Schema<GetBaselineOperationInput>;
+export interface GetBaselineInput {
+  baselineIdentifier: string;
+}
+export const GetBaselineInput = S.suspend(() =>
+  S.Struct({ baselineIdentifier: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/get-baseline" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListBaselinesInput extends S.Class<ListBaselinesInput>(
-  "ListBaselinesInput",
-)(
-  { nextToken: S.optional(S.String), maxResults: S.optional(S.Number) },
-  T.all(
-    T.Http({ method: "POST", uri: "/list-baselines" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetBaselineInput",
+}) as any as S.Schema<GetBaselineInput>;
+export interface ListBaselinesInput {
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListBaselinesInput = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    maxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/list-baselines" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetControlOperationInput extends S.Class<GetControlOperationInput>(
-  "GetControlOperationInput",
-)(
-  { operationIdentifier: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/get-control-operation" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListBaselinesInput",
+}) as any as S.Schema<ListBaselinesInput>;
+export interface GetControlOperationInput {
+  operationIdentifier: string;
+}
+export const GetControlOperationInput = S.suspend(() =>
+  S.Struct({ operationIdentifier: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/get-control-operation" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetEnabledBaselineInput extends S.Class<GetEnabledBaselineInput>(
-  "GetEnabledBaselineInput",
-)(
-  { enabledBaselineIdentifier: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/get-enabled-baseline" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetControlOperationInput",
+}) as any as S.Schema<GetControlOperationInput>;
+export interface GetEnabledBaselineInput {
+  enabledBaselineIdentifier: string;
+}
+export const GetEnabledBaselineInput = S.suspend(() =>
+  S.Struct({ enabledBaselineIdentifier: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/get-enabled-baseline" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class EnabledBaselineParameter extends S.Class<EnabledBaselineParameter>(
-  "EnabledBaselineParameter",
-)({ key: S.String, value: S.Any }) {}
+).annotations({
+  identifier: "GetEnabledBaselineInput",
+}) as any as S.Schema<GetEnabledBaselineInput>;
+export interface EnabledBaselineParameter {
+  key: string;
+  value: any;
+}
+export const EnabledBaselineParameter = S.suspend(() =>
+  S.Struct({ key: S.String, value: S.Any }),
+).annotations({
+  identifier: "EnabledBaselineParameter",
+}) as any as S.Schema<EnabledBaselineParameter>;
+export type EnabledBaselineParameters = EnabledBaselineParameter[];
 export const EnabledBaselineParameters = S.Array(EnabledBaselineParameter);
-export class UpdateEnabledBaselineInput extends S.Class<UpdateEnabledBaselineInput>(
-  "UpdateEnabledBaselineInput",
-)(
-  {
+export interface UpdateEnabledBaselineInput {
+  baselineVersion: string;
+  parameters?: EnabledBaselineParameters;
+  enabledBaselineIdentifier: string;
+}
+export const UpdateEnabledBaselineInput = S.suspend(() =>
+  S.Struct({
     baselineVersion: S.String,
     parameters: S.optional(EnabledBaselineParameters),
     enabledBaselineIdentifier: S.String,
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/update-enabled-baseline" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/update-enabled-baseline" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DisableBaselineInput extends S.Class<DisableBaselineInput>(
-  "DisableBaselineInput",
-)(
-  { enabledBaselineIdentifier: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/disable-baseline" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UpdateEnabledBaselineInput",
+}) as any as S.Schema<UpdateEnabledBaselineInput>;
+export interface DisableBaselineInput {
+  enabledBaselineIdentifier: string;
+}
+export const DisableBaselineInput = S.suspend(() =>
+  S.Struct({ enabledBaselineIdentifier: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/disable-baseline" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ResetEnabledBaselineInput extends S.Class<ResetEnabledBaselineInput>(
-  "ResetEnabledBaselineInput",
-)(
-  { enabledBaselineIdentifier: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/reset-enabled-baseline" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DisableBaselineInput",
+}) as any as S.Schema<DisableBaselineInput>;
+export interface ResetEnabledBaselineInput {
+  enabledBaselineIdentifier: string;
+}
+export const ResetEnabledBaselineInput = S.suspend(() =>
+  S.Struct({ enabledBaselineIdentifier: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/reset-enabled-baseline" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetEnabledControlInput extends S.Class<GetEnabledControlInput>(
-  "GetEnabledControlInput",
-)(
-  { enabledControlIdentifier: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/get-enabled-control" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ResetEnabledBaselineInput",
+}) as any as S.Schema<ResetEnabledBaselineInput>;
+export interface GetEnabledControlInput {
+  enabledControlIdentifier: string;
+}
+export const GetEnabledControlInput = S.suspend(() =>
+  S.Struct({ enabledControlIdentifier: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/get-enabled-control" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class EnabledControlParameter extends S.Class<EnabledControlParameter>(
-  "EnabledControlParameter",
-)({ key: S.String, value: S.Any }) {}
+).annotations({
+  identifier: "GetEnabledControlInput",
+}) as any as S.Schema<GetEnabledControlInput>;
+export interface EnabledControlParameter {
+  key: string;
+  value: any;
+}
+export const EnabledControlParameter = S.suspend(() =>
+  S.Struct({ key: S.String, value: S.Any }),
+).annotations({
+  identifier: "EnabledControlParameter",
+}) as any as S.Schema<EnabledControlParameter>;
+export type EnabledControlParameters = EnabledControlParameter[];
 export const EnabledControlParameters = S.Array(EnabledControlParameter);
-export class UpdateEnabledControlInput extends S.Class<UpdateEnabledControlInput>(
-  "UpdateEnabledControlInput",
-)(
-  { parameters: EnabledControlParameters, enabledControlIdentifier: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/update-enabled-control" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface UpdateEnabledControlInput {
+  parameters: EnabledControlParameters;
+  enabledControlIdentifier: string;
+}
+export const UpdateEnabledControlInput = S.suspend(() =>
+  S.Struct({
+    parameters: EnabledControlParameters,
+    enabledControlIdentifier: S.String,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/update-enabled-control" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ResetEnabledControlInput extends S.Class<ResetEnabledControlInput>(
-  "ResetEnabledControlInput",
-)(
-  { enabledControlIdentifier: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/reset-enabled-control" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UpdateEnabledControlInput",
+}) as any as S.Schema<UpdateEnabledControlInput>;
+export interface ResetEnabledControlInput {
+  enabledControlIdentifier: string;
+}
+export const ResetEnabledControlInput = S.suspend(() =>
+  S.Struct({ enabledControlIdentifier: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/reset-enabled-control" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetLandingZoneOperationInput extends S.Class<GetLandingZoneOperationInput>(
-  "GetLandingZoneOperationInput",
-)(
-  { operationIdentifier: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/get-landingzone-operation" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ResetEnabledControlInput",
+}) as any as S.Schema<ResetEnabledControlInput>;
+export interface GetLandingZoneOperationInput {
+  operationIdentifier: string;
+}
+export const GetLandingZoneOperationInput = S.suspend(() =>
+  S.Struct({ operationIdentifier: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/get-landingzone-operation" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "GetLandingZoneOperationInput",
+}) as any as S.Schema<GetLandingZoneOperationInput>;
+export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
-export class CreateLandingZoneInput extends S.Class<CreateLandingZoneInput>(
-  "CreateLandingZoneInput",
-)(
-  {
+export interface CreateLandingZoneInput {
+  version: string;
+  remediationTypes?: RemediationTypes;
+  tags?: TagMap;
+  manifest?: any;
+}
+export const CreateLandingZoneInput = S.suspend(() =>
+  S.Struct({
     version: S.String,
     remediationTypes: S.optional(RemediationTypes),
     tags: S.optional(TagMap),
     manifest: S.optional(S.Any),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/create-landingzone" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/create-landingzone" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetLandingZoneInput extends S.Class<GetLandingZoneInput>(
-  "GetLandingZoneInput",
-)(
-  { landingZoneIdentifier: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/get-landingzone" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CreateLandingZoneInput",
+}) as any as S.Schema<CreateLandingZoneInput>;
+export interface GetLandingZoneInput {
+  landingZoneIdentifier: string;
+}
+export const GetLandingZoneInput = S.suspend(() =>
+  S.Struct({ landingZoneIdentifier: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/get-landingzone" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateLandingZoneInput extends S.Class<UpdateLandingZoneInput>(
-  "UpdateLandingZoneInput",
-)(
-  {
+).annotations({
+  identifier: "GetLandingZoneInput",
+}) as any as S.Schema<GetLandingZoneInput>;
+export interface UpdateLandingZoneInput {
+  version: string;
+  remediationTypes?: RemediationTypes;
+  landingZoneIdentifier: string;
+  manifest?: any;
+}
+export const UpdateLandingZoneInput = S.suspend(() =>
+  S.Struct({
     version: S.String,
     remediationTypes: S.optional(RemediationTypes),
     landingZoneIdentifier: S.String,
     manifest: S.optional(S.Any),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/update-landingzone" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/update-landingzone" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteLandingZoneInput extends S.Class<DeleteLandingZoneInput>(
-  "DeleteLandingZoneInput",
-)(
-  { landingZoneIdentifier: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/delete-landingzone" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UpdateLandingZoneInput",
+}) as any as S.Schema<UpdateLandingZoneInput>;
+export interface DeleteLandingZoneInput {
+  landingZoneIdentifier: string;
+}
+export const DeleteLandingZoneInput = S.suspend(() =>
+  S.Struct({ landingZoneIdentifier: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/delete-landingzone" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListLandingZonesInput extends S.Class<ListLandingZonesInput>(
-  "ListLandingZonesInput",
-)(
-  { nextToken: S.optional(S.String), maxResults: S.optional(S.Number) },
-  T.all(
-    T.Http({ method: "POST", uri: "/list-landingzones" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteLandingZoneInput",
+}) as any as S.Schema<DeleteLandingZoneInput>;
+export interface ListLandingZonesInput {
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListLandingZonesInput = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    maxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/list-landingzones" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ResetLandingZoneInput extends S.Class<ResetLandingZoneInput>(
-  "ResetLandingZoneInput",
-)(
-  { landingZoneIdentifier: S.String },
-  T.all(
-    T.Http({ method: "POST", uri: "/reset-landingzone" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListLandingZonesInput",
+}) as any as S.Schema<ListLandingZonesInput>;
+export interface ResetLandingZoneInput {
+  landingZoneIdentifier: string;
+}
+export const ResetLandingZoneInput = S.suspend(() =>
+  S.Struct({ landingZoneIdentifier: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/reset-landingzone" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTagsForResourceInput extends S.Class<ListTagsForResourceInput>(
-  "ListTagsForResourceInput",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ResetLandingZoneInput",
+}) as any as S.Schema<ResetLandingZoneInput>;
+export interface ListTagsForResourceInput {
+  resourceArn: string;
+}
+export const ListTagsForResourceInput = S.suspend(() =>
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceInput extends S.Class<TagResourceInput>(
-  "TagResourceInput",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap },
-  T.all(
-    T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListTagsForResourceInput",
+}) as any as S.Schema<ListTagsForResourceInput>;
+export interface TagResourceInput {
+  resourceArn: string;
+  tags: TagMap;
+}
+export const TagResourceInput = S.suspend(() =>
+  S.Struct({
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+    tags: TagMap,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceOutput extends S.Class<TagResourceOutput>(
-  "TagResourceOutput",
-)({}) {}
-export class UntagResourceInput extends S.Class<UntagResourceInput>(
-  "UntagResourceInput",
-)(
-  {
+).annotations({
+  identifier: "TagResourceInput",
+}) as any as S.Schema<TagResourceInput>;
+export interface TagResourceOutput {}
+export const TagResourceOutput = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceOutput",
+}) as any as S.Schema<TagResourceOutput>;
+export interface UntagResourceInput {
+  resourceArn: string;
+  tagKeys: TagKeys;
+}
+export const UntagResourceInput = S.suspend(() =>
+  S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceOutput extends S.Class<UntagResourceOutput>(
-  "UntagResourceOutput",
-)({}) {}
+).annotations({
+  identifier: "UntagResourceInput",
+}) as any as S.Schema<UntagResourceInput>;
+export interface UntagResourceOutput {}
+export const UntagResourceOutput = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceOutput",
+}) as any as S.Schema<UntagResourceOutput>;
+export type ControlIdentifiers = string[];
 export const ControlIdentifiers = S.Array(S.String);
+export type TargetIdentifiers = string[];
 export const TargetIdentifiers = S.Array(S.String);
+export type EnabledControlIdentifiers = string[];
 export const EnabledControlIdentifiers = S.Array(S.String);
+export type ControlOperationStatuses = string[];
 export const ControlOperationStatuses = S.Array(S.String);
+export type ControlOperationTypes = string[];
 export const ControlOperationTypes = S.Array(S.String);
+export type EnabledBaselineTargetIdentifiers = string[];
 export const EnabledBaselineTargetIdentifiers = S.Array(S.String);
+export type EnabledBaselineBaselineIdentifiers = string[];
 export const EnabledBaselineBaselineIdentifiers = S.Array(S.String);
+export type EnabledBaselineParentIdentifiers = string[];
 export const EnabledBaselineParentIdentifiers = S.Array(S.String);
+export type EnabledBaselineEnablementStatuses = string[];
 export const EnabledBaselineEnablementStatuses = S.Array(S.String);
+export type EnabledBaselineDriftStatuses = string[];
 export const EnabledBaselineDriftStatuses = S.Array(S.String);
+export type EnablementStatuses = string[];
 export const EnablementStatuses = S.Array(S.String);
+export type DriftStatuses = string[];
 export const DriftStatuses = S.Array(S.String);
+export type ParentIdentifiers = string[];
 export const ParentIdentifiers = S.Array(S.String);
+export type LandingZoneOperationTypes = string[];
 export const LandingZoneOperationTypes = S.Array(S.String);
+export type LandingZoneOperationStatuses = string[];
 export const LandingZoneOperationStatuses = S.Array(S.String);
-export class ControlOperationFilter extends S.Class<ControlOperationFilter>(
-  "ControlOperationFilter",
-)({
-  controlIdentifiers: S.optional(ControlIdentifiers),
-  targetIdentifiers: S.optional(TargetIdentifiers),
-  enabledControlIdentifiers: S.optional(EnabledControlIdentifiers),
-  statuses: S.optional(ControlOperationStatuses),
-  controlOperationTypes: S.optional(ControlOperationTypes),
-}) {}
-export class EnabledBaselineFilter extends S.Class<EnabledBaselineFilter>(
-  "EnabledBaselineFilter",
-)({
-  targetIdentifiers: S.optional(EnabledBaselineTargetIdentifiers),
-  baselineIdentifiers: S.optional(EnabledBaselineBaselineIdentifiers),
-  parentIdentifiers: S.optional(EnabledBaselineParentIdentifiers),
-  statuses: S.optional(EnabledBaselineEnablementStatuses),
-  inheritanceDriftStatuses: S.optional(EnabledBaselineDriftStatuses),
-}) {}
-export class EnabledControlFilter extends S.Class<EnabledControlFilter>(
-  "EnabledControlFilter",
-)({
-  controlIdentifiers: S.optional(ControlIdentifiers),
-  statuses: S.optional(EnablementStatuses),
-  driftStatuses: S.optional(DriftStatuses),
-  parentIdentifiers: S.optional(ParentIdentifiers),
-  inheritanceDriftStatuses: S.optional(DriftStatuses),
-  resourceDriftStatuses: S.optional(DriftStatuses),
-}) {}
-export class LandingZoneOperationFilter extends S.Class<LandingZoneOperationFilter>(
-  "LandingZoneOperationFilter",
-)({
-  types: S.optional(LandingZoneOperationTypes),
-  statuses: S.optional(LandingZoneOperationStatuses),
-}) {}
-export class DisableControlOutput extends S.Class<DisableControlOutput>(
-  "DisableControlOutput",
-)({ operationIdentifier: S.String }) {}
-export class GetBaselineOutput extends S.Class<GetBaselineOutput>(
-  "GetBaselineOutput",
-)({ arn: S.String, name: S.String, description: S.optional(S.String) }) {}
-export class ListControlOperationsInput extends S.Class<ListControlOperationsInput>(
-  "ListControlOperationsInput",
-)(
-  {
+export interface ControlOperationFilter {
+  controlIdentifiers?: ControlIdentifiers;
+  targetIdentifiers?: TargetIdentifiers;
+  enabledControlIdentifiers?: EnabledControlIdentifiers;
+  statuses?: ControlOperationStatuses;
+  controlOperationTypes?: ControlOperationTypes;
+}
+export const ControlOperationFilter = S.suspend(() =>
+  S.Struct({
+    controlIdentifiers: S.optional(ControlIdentifiers),
+    targetIdentifiers: S.optional(TargetIdentifiers),
+    enabledControlIdentifiers: S.optional(EnabledControlIdentifiers),
+    statuses: S.optional(ControlOperationStatuses),
+    controlOperationTypes: S.optional(ControlOperationTypes),
+  }),
+).annotations({
+  identifier: "ControlOperationFilter",
+}) as any as S.Schema<ControlOperationFilter>;
+export interface EnabledBaselineFilter {
+  targetIdentifiers?: EnabledBaselineTargetIdentifiers;
+  baselineIdentifiers?: EnabledBaselineBaselineIdentifiers;
+  parentIdentifiers?: EnabledBaselineParentIdentifiers;
+  statuses?: EnabledBaselineEnablementStatuses;
+  inheritanceDriftStatuses?: EnabledBaselineDriftStatuses;
+}
+export const EnabledBaselineFilter = S.suspend(() =>
+  S.Struct({
+    targetIdentifiers: S.optional(EnabledBaselineTargetIdentifiers),
+    baselineIdentifiers: S.optional(EnabledBaselineBaselineIdentifiers),
+    parentIdentifiers: S.optional(EnabledBaselineParentIdentifiers),
+    statuses: S.optional(EnabledBaselineEnablementStatuses),
+    inheritanceDriftStatuses: S.optional(EnabledBaselineDriftStatuses),
+  }),
+).annotations({
+  identifier: "EnabledBaselineFilter",
+}) as any as S.Schema<EnabledBaselineFilter>;
+export interface EnabledControlFilter {
+  controlIdentifiers?: ControlIdentifiers;
+  statuses?: EnablementStatuses;
+  driftStatuses?: DriftStatuses;
+  parentIdentifiers?: ParentIdentifiers;
+  inheritanceDriftStatuses?: DriftStatuses;
+  resourceDriftStatuses?: DriftStatuses;
+}
+export const EnabledControlFilter = S.suspend(() =>
+  S.Struct({
+    controlIdentifiers: S.optional(ControlIdentifiers),
+    statuses: S.optional(EnablementStatuses),
+    driftStatuses: S.optional(DriftStatuses),
+    parentIdentifiers: S.optional(ParentIdentifiers),
+    inheritanceDriftStatuses: S.optional(DriftStatuses),
+    resourceDriftStatuses: S.optional(DriftStatuses),
+  }),
+).annotations({
+  identifier: "EnabledControlFilter",
+}) as any as S.Schema<EnabledControlFilter>;
+export interface LandingZoneOperationFilter {
+  types?: LandingZoneOperationTypes;
+  statuses?: LandingZoneOperationStatuses;
+}
+export const LandingZoneOperationFilter = S.suspend(() =>
+  S.Struct({
+    types: S.optional(LandingZoneOperationTypes),
+    statuses: S.optional(LandingZoneOperationStatuses),
+  }),
+).annotations({
+  identifier: "LandingZoneOperationFilter",
+}) as any as S.Schema<LandingZoneOperationFilter>;
+export interface DisableControlOutput {
+  operationIdentifier: string;
+}
+export const DisableControlOutput = S.suspend(() =>
+  S.Struct({ operationIdentifier: S.String }),
+).annotations({
+  identifier: "DisableControlOutput",
+}) as any as S.Schema<DisableControlOutput>;
+export interface GetBaselineOutput {
+  arn: string;
+  name: string;
+  description?: string;
+}
+export const GetBaselineOutput = S.suspend(() =>
+  S.Struct({
+    arn: S.String,
+    name: S.String,
+    description: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetBaselineOutput",
+}) as any as S.Schema<GetBaselineOutput>;
+export interface ListControlOperationsInput {
+  filter?: ControlOperationFilter;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListControlOperationsInput = S.suspend(() =>
+  S.Struct({
     filter: S.optional(ControlOperationFilter),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/list-control-operations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/list-control-operations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class EnableBaselineInput extends S.Class<EnableBaselineInput>(
-  "EnableBaselineInput",
-)(
-  {
+).annotations({
+  identifier: "ListControlOperationsInput",
+}) as any as S.Schema<ListControlOperationsInput>;
+export interface EnableBaselineInput {
+  baselineVersion: string;
+  parameters?: EnabledBaselineParameters;
+  baselineIdentifier: string;
+  targetIdentifier: string;
+  tags?: TagMap;
+}
+export const EnableBaselineInput = S.suspend(() =>
+  S.Struct({
     baselineVersion: S.String,
     parameters: S.optional(EnabledBaselineParameters),
     baselineIdentifier: S.String,
     targetIdentifier: S.String,
     tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/enable-baseline" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/enable-baseline" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateEnabledBaselineOutput extends S.Class<UpdateEnabledBaselineOutput>(
-  "UpdateEnabledBaselineOutput",
-)({ operationIdentifier: S.String }) {}
-export class DisableBaselineOutput extends S.Class<DisableBaselineOutput>(
-  "DisableBaselineOutput",
-)({ operationIdentifier: S.String }) {}
-export class ListEnabledBaselinesInput extends S.Class<ListEnabledBaselinesInput>(
-  "ListEnabledBaselinesInput",
-)(
-  {
+).annotations({
+  identifier: "EnableBaselineInput",
+}) as any as S.Schema<EnableBaselineInput>;
+export interface UpdateEnabledBaselineOutput {
+  operationIdentifier: string;
+}
+export const UpdateEnabledBaselineOutput = S.suspend(() =>
+  S.Struct({ operationIdentifier: S.String }),
+).annotations({
+  identifier: "UpdateEnabledBaselineOutput",
+}) as any as S.Schema<UpdateEnabledBaselineOutput>;
+export interface DisableBaselineOutput {
+  operationIdentifier: string;
+}
+export const DisableBaselineOutput = S.suspend(() =>
+  S.Struct({ operationIdentifier: S.String }),
+).annotations({
+  identifier: "DisableBaselineOutput",
+}) as any as S.Schema<DisableBaselineOutput>;
+export interface ListEnabledBaselinesInput {
+  filter?: EnabledBaselineFilter;
+  nextToken?: string;
+  maxResults?: number;
+  includeChildren?: boolean;
+}
+export const ListEnabledBaselinesInput = S.suspend(() =>
+  S.Struct({
     filter: S.optional(EnabledBaselineFilter),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
     includeChildren: S.optional(S.Boolean),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/list-enabled-baselines" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/list-enabled-baselines" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ResetEnabledBaselineOutput extends S.Class<ResetEnabledBaselineOutput>(
-  "ResetEnabledBaselineOutput",
-)({ operationIdentifier: S.String }) {}
-export class EnableControlInput extends S.Class<EnableControlInput>(
-  "EnableControlInput",
-)(
-  {
+).annotations({
+  identifier: "ListEnabledBaselinesInput",
+}) as any as S.Schema<ListEnabledBaselinesInput>;
+export interface ResetEnabledBaselineOutput {
+  operationIdentifier: string;
+}
+export const ResetEnabledBaselineOutput = S.suspend(() =>
+  S.Struct({ operationIdentifier: S.String }),
+).annotations({
+  identifier: "ResetEnabledBaselineOutput",
+}) as any as S.Schema<ResetEnabledBaselineOutput>;
+export interface EnableControlInput {
+  controlIdentifier: string;
+  targetIdentifier: string;
+  tags?: TagMap;
+  parameters?: EnabledControlParameters;
+}
+export const EnableControlInput = S.suspend(() =>
+  S.Struct({
     controlIdentifier: S.String,
     targetIdentifier: S.String,
     tags: S.optional(TagMap),
     parameters: S.optional(EnabledControlParameters),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/enable-control" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/enable-control" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateEnabledControlOutput extends S.Class<UpdateEnabledControlOutput>(
-  "UpdateEnabledControlOutput",
-)({ operationIdentifier: S.String }) {}
-export class ListEnabledControlsInput extends S.Class<ListEnabledControlsInput>(
-  "ListEnabledControlsInput",
-)(
-  {
+).annotations({
+  identifier: "EnableControlInput",
+}) as any as S.Schema<EnableControlInput>;
+export interface UpdateEnabledControlOutput {
+  operationIdentifier: string;
+}
+export const UpdateEnabledControlOutput = S.suspend(() =>
+  S.Struct({ operationIdentifier: S.String }),
+).annotations({
+  identifier: "UpdateEnabledControlOutput",
+}) as any as S.Schema<UpdateEnabledControlOutput>;
+export interface ListEnabledControlsInput {
+  targetIdentifier?: string;
+  nextToken?: string;
+  maxResults?: number;
+  filter?: EnabledControlFilter;
+  includeChildren?: boolean;
+}
+export const ListEnabledControlsInput = S.suspend(() =>
+  S.Struct({
     targetIdentifier: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
     filter: S.optional(EnabledControlFilter),
     includeChildren: S.optional(S.Boolean),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/list-enabled-controls" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/list-enabled-controls" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ResetEnabledControlOutput extends S.Class<ResetEnabledControlOutput>(
-  "ResetEnabledControlOutput",
-)({ operationIdentifier: S.String }) {}
-export class ListLandingZoneOperationsInput extends S.Class<ListLandingZoneOperationsInput>(
-  "ListLandingZoneOperationsInput",
-)(
-  {
+).annotations({
+  identifier: "ListEnabledControlsInput",
+}) as any as S.Schema<ListEnabledControlsInput>;
+export interface ResetEnabledControlOutput {
+  operationIdentifier: string;
+}
+export const ResetEnabledControlOutput = S.suspend(() =>
+  S.Struct({ operationIdentifier: S.String }),
+).annotations({
+  identifier: "ResetEnabledControlOutput",
+}) as any as S.Schema<ResetEnabledControlOutput>;
+export interface ListLandingZoneOperationsInput {
+  filter?: LandingZoneOperationFilter;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListLandingZoneOperationsInput = S.suspend(() =>
+  S.Struct({
     filter: S.optional(LandingZoneOperationFilter),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/list-landingzone-operations" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/list-landingzone-operations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateLandingZoneOutput extends S.Class<CreateLandingZoneOutput>(
-  "CreateLandingZoneOutput",
-)({ arn: S.String, operationIdentifier: S.String }) {}
-export class UpdateLandingZoneOutput extends S.Class<UpdateLandingZoneOutput>(
-  "UpdateLandingZoneOutput",
-)({ operationIdentifier: S.String }) {}
-export class DeleteLandingZoneOutput extends S.Class<DeleteLandingZoneOutput>(
-  "DeleteLandingZoneOutput",
-)({ operationIdentifier: S.String }) {}
-export class ResetLandingZoneOutput extends S.Class<ResetLandingZoneOutput>(
-  "ResetLandingZoneOutput",
-)({ operationIdentifier: S.String }) {}
-export class ListTagsForResourceOutput extends S.Class<ListTagsForResourceOutput>(
-  "ListTagsForResourceOutput",
-)({ tags: TagMap }) {}
-export class BaselineOperation extends S.Class<BaselineOperation>(
-  "BaselineOperation",
-)({
-  operationIdentifier: S.optional(S.String),
-  operationType: S.optional(S.String),
-  status: S.optional(S.String),
-  startTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  statusMessage: S.optional(S.String),
-}) {}
-export class BaselineSummary extends S.Class<BaselineSummary>(
-  "BaselineSummary",
-)({ arn: S.String, name: S.String, description: S.optional(S.String) }) {}
+).annotations({
+  identifier: "ListLandingZoneOperationsInput",
+}) as any as S.Schema<ListLandingZoneOperationsInput>;
+export interface CreateLandingZoneOutput {
+  arn: string;
+  operationIdentifier: string;
+}
+export const CreateLandingZoneOutput = S.suspend(() =>
+  S.Struct({ arn: S.String, operationIdentifier: S.String }),
+).annotations({
+  identifier: "CreateLandingZoneOutput",
+}) as any as S.Schema<CreateLandingZoneOutput>;
+export interface UpdateLandingZoneOutput {
+  operationIdentifier: string;
+}
+export const UpdateLandingZoneOutput = S.suspend(() =>
+  S.Struct({ operationIdentifier: S.String }),
+).annotations({
+  identifier: "UpdateLandingZoneOutput",
+}) as any as S.Schema<UpdateLandingZoneOutput>;
+export interface DeleteLandingZoneOutput {
+  operationIdentifier: string;
+}
+export const DeleteLandingZoneOutput = S.suspend(() =>
+  S.Struct({ operationIdentifier: S.String }),
+).annotations({
+  identifier: "DeleteLandingZoneOutput",
+}) as any as S.Schema<DeleteLandingZoneOutput>;
+export interface ResetLandingZoneOutput {
+  operationIdentifier: string;
+}
+export const ResetLandingZoneOutput = S.suspend(() =>
+  S.Struct({ operationIdentifier: S.String }),
+).annotations({
+  identifier: "ResetLandingZoneOutput",
+}) as any as S.Schema<ResetLandingZoneOutput>;
+export interface ListTagsForResourceOutput {
+  tags: TagMap;
+}
+export const ListTagsForResourceOutput = S.suspend(() =>
+  S.Struct({ tags: TagMap }),
+).annotations({
+  identifier: "ListTagsForResourceOutput",
+}) as any as S.Schema<ListTagsForResourceOutput>;
+export interface BaselineOperation {
+  operationIdentifier?: string;
+  operationType?: string;
+  status?: string;
+  startTime?: Date;
+  endTime?: Date;
+  statusMessage?: string;
+}
+export const BaselineOperation = S.suspend(() =>
+  S.Struct({
+    operationIdentifier: S.optional(S.String),
+    operationType: S.optional(S.String),
+    status: S.optional(S.String),
+    startTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    statusMessage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "BaselineOperation",
+}) as any as S.Schema<BaselineOperation>;
+export interface BaselineSummary {
+  arn: string;
+  name: string;
+  description?: string;
+}
+export const BaselineSummary = S.suspend(() =>
+  S.Struct({
+    arn: S.String,
+    name: S.String,
+    description: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "BaselineSummary",
+}) as any as S.Schema<BaselineSummary>;
+export type Baselines = BaselineSummary[];
 export const Baselines = S.Array(BaselineSummary);
-export class ControlOperation extends S.Class<ControlOperation>(
-  "ControlOperation",
-)({
-  operationType: S.optional(S.String),
-  startTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  status: S.optional(S.String),
-  statusMessage: S.optional(S.String),
-  operationIdentifier: S.optional(S.String),
-  controlIdentifier: S.optional(S.String),
-  targetIdentifier: S.optional(S.String),
-  enabledControlIdentifier: S.optional(S.String),
-}) {}
-export class LandingZoneOperationDetail extends S.Class<LandingZoneOperationDetail>(
-  "LandingZoneOperationDetail",
-)({
-  operationType: S.optional(S.String),
-  operationIdentifier: S.optional(S.String),
-  status: S.optional(S.String),
-  startTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  statusMessage: S.optional(S.String),
-}) {}
-export class LandingZoneSummary extends S.Class<LandingZoneSummary>(
-  "LandingZoneSummary",
-)({ arn: S.optional(S.String) }) {}
+export interface ControlOperation {
+  operationType?: string;
+  startTime?: Date;
+  endTime?: Date;
+  status?: string;
+  statusMessage?: string;
+  operationIdentifier?: string;
+  controlIdentifier?: string;
+  targetIdentifier?: string;
+  enabledControlIdentifier?: string;
+}
+export const ControlOperation = S.suspend(() =>
+  S.Struct({
+    operationType: S.optional(S.String),
+    startTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    status: S.optional(S.String),
+    statusMessage: S.optional(S.String),
+    operationIdentifier: S.optional(S.String),
+    controlIdentifier: S.optional(S.String),
+    targetIdentifier: S.optional(S.String),
+    enabledControlIdentifier: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ControlOperation",
+}) as any as S.Schema<ControlOperation>;
+export interface LandingZoneOperationDetail {
+  operationType?: string;
+  operationIdentifier?: string;
+  status?: string;
+  startTime?: Date;
+  endTime?: Date;
+  statusMessage?: string;
+}
+export const LandingZoneOperationDetail = S.suspend(() =>
+  S.Struct({
+    operationType: S.optional(S.String),
+    operationIdentifier: S.optional(S.String),
+    status: S.optional(S.String),
+    startTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    statusMessage: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "LandingZoneOperationDetail",
+}) as any as S.Schema<LandingZoneOperationDetail>;
+export interface LandingZoneSummary {
+  arn?: string;
+}
+export const LandingZoneSummary = S.suspend(() =>
+  S.Struct({ arn: S.optional(S.String) }),
+).annotations({
+  identifier: "LandingZoneSummary",
+}) as any as S.Schema<LandingZoneSummary>;
+export type LandingZoneSummaries = LandingZoneSummary[];
 export const LandingZoneSummaries = S.Array(LandingZoneSummary);
-export class GetBaselineOperationOutput extends S.Class<GetBaselineOperationOutput>(
-  "GetBaselineOperationOutput",
-)({ baselineOperation: BaselineOperation }) {}
-export class ListBaselinesOutput extends S.Class<ListBaselinesOutput>(
-  "ListBaselinesOutput",
-)({ baselines: Baselines, nextToken: S.optional(S.String) }) {}
-export class GetControlOperationOutput extends S.Class<GetControlOperationOutput>(
-  "GetControlOperationOutput",
-)({ controlOperation: ControlOperation }) {}
-export class EnableBaselineOutput extends S.Class<EnableBaselineOutput>(
-  "EnableBaselineOutput",
-)({ operationIdentifier: S.String, arn: S.String }) {}
-export class EnableControlOutput extends S.Class<EnableControlOutput>(
-  "EnableControlOutput",
-)({ operationIdentifier: S.String, arn: S.optional(S.String) }) {}
-export class GetLandingZoneOperationOutput extends S.Class<GetLandingZoneOperationOutput>(
-  "GetLandingZoneOperationOutput",
-)({ operationDetails: LandingZoneOperationDetail }) {}
-export class ListLandingZonesOutput extends S.Class<ListLandingZonesOutput>(
-  "ListLandingZonesOutput",
-)({ landingZones: LandingZoneSummaries, nextToken: S.optional(S.String) }) {}
-export class EnablementStatusSummary extends S.Class<EnablementStatusSummary>(
-  "EnablementStatusSummary",
-)({
-  status: S.optional(S.String),
-  lastOperationIdentifier: S.optional(S.String),
-}) {}
-export class EnabledBaselineParameterSummary extends S.Class<EnabledBaselineParameterSummary>(
-  "EnabledBaselineParameterSummary",
-)({ key: S.String, value: S.Any }) {}
+export interface GetBaselineOperationOutput {
+  baselineOperation: BaselineOperation;
+}
+export const GetBaselineOperationOutput = S.suspend(() =>
+  S.Struct({ baselineOperation: BaselineOperation }),
+).annotations({
+  identifier: "GetBaselineOperationOutput",
+}) as any as S.Schema<GetBaselineOperationOutput>;
+export interface ListBaselinesOutput {
+  baselines: Baselines;
+  nextToken?: string;
+}
+export const ListBaselinesOutput = S.suspend(() =>
+  S.Struct({ baselines: Baselines, nextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListBaselinesOutput",
+}) as any as S.Schema<ListBaselinesOutput>;
+export interface GetControlOperationOutput {
+  controlOperation: ControlOperation;
+}
+export const GetControlOperationOutput = S.suspend(() =>
+  S.Struct({ controlOperation: ControlOperation }),
+).annotations({
+  identifier: "GetControlOperationOutput",
+}) as any as S.Schema<GetControlOperationOutput>;
+export interface EnableBaselineOutput {
+  operationIdentifier: string;
+  arn: string;
+}
+export const EnableBaselineOutput = S.suspend(() =>
+  S.Struct({ operationIdentifier: S.String, arn: S.String }),
+).annotations({
+  identifier: "EnableBaselineOutput",
+}) as any as S.Schema<EnableBaselineOutput>;
+export interface EnableControlOutput {
+  operationIdentifier: string;
+  arn?: string;
+}
+export const EnableControlOutput = S.suspend(() =>
+  S.Struct({ operationIdentifier: S.String, arn: S.optional(S.String) }),
+).annotations({
+  identifier: "EnableControlOutput",
+}) as any as S.Schema<EnableControlOutput>;
+export interface GetLandingZoneOperationOutput {
+  operationDetails: LandingZoneOperationDetail;
+}
+export const GetLandingZoneOperationOutput = S.suspend(() =>
+  S.Struct({ operationDetails: LandingZoneOperationDetail }),
+).annotations({
+  identifier: "GetLandingZoneOperationOutput",
+}) as any as S.Schema<GetLandingZoneOperationOutput>;
+export interface ListLandingZonesOutput {
+  landingZones: LandingZoneSummaries;
+  nextToken?: string;
+}
+export const ListLandingZonesOutput = S.suspend(() =>
+  S.Struct({
+    landingZones: LandingZoneSummaries,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListLandingZonesOutput",
+}) as any as S.Schema<ListLandingZonesOutput>;
+export interface EnablementStatusSummary {
+  status?: string;
+  lastOperationIdentifier?: string;
+}
+export const EnablementStatusSummary = S.suspend(() =>
+  S.Struct({
+    status: S.optional(S.String),
+    lastOperationIdentifier: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "EnablementStatusSummary",
+}) as any as S.Schema<EnablementStatusSummary>;
+export interface EnabledBaselineParameterSummary {
+  key: string;
+  value: any;
+}
+export const EnabledBaselineParameterSummary = S.suspend(() =>
+  S.Struct({ key: S.String, value: S.Any }),
+).annotations({
+  identifier: "EnabledBaselineParameterSummary",
+}) as any as S.Schema<EnabledBaselineParameterSummary>;
+export type EnabledBaselineParameterSummaries =
+  EnabledBaselineParameterSummary[];
 export const EnabledBaselineParameterSummaries = S.Array(
   EnabledBaselineParameterSummary,
 );
-export class Region extends S.Class<Region>("Region")({
-  name: S.optional(S.String),
-}) {}
+export interface Region {
+  name?: string;
+}
+export const Region = S.suspend(() =>
+  S.Struct({ name: S.optional(S.String) }),
+).annotations({ identifier: "Region" }) as any as S.Schema<Region>;
+export type TargetRegions = Region[];
 export const TargetRegions = S.Array(Region);
-export class EnabledControlParameterSummary extends S.Class<EnabledControlParameterSummary>(
-  "EnabledControlParameterSummary",
-)({ key: S.String, value: S.Any }) {}
+export interface EnabledControlParameterSummary {
+  key: string;
+  value: any;
+}
+export const EnabledControlParameterSummary = S.suspend(() =>
+  S.Struct({ key: S.String, value: S.Any }),
+).annotations({
+  identifier: "EnabledControlParameterSummary",
+}) as any as S.Schema<EnabledControlParameterSummary>;
+export type EnabledControlParameterSummaries = EnabledControlParameterSummary[];
 export const EnabledControlParameterSummaries = S.Array(
   EnabledControlParameterSummary,
 );
-export class LandingZoneDriftStatusSummary extends S.Class<LandingZoneDriftStatusSummary>(
-  "LandingZoneDriftStatusSummary",
-)({ status: S.optional(S.String) }) {}
-export class ControlOperationSummary extends S.Class<ControlOperationSummary>(
-  "ControlOperationSummary",
-)({
-  operationType: S.optional(S.String),
-  startTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  status: S.optional(S.String),
-  statusMessage: S.optional(S.String),
-  operationIdentifier: S.optional(S.String),
-  controlIdentifier: S.optional(S.String),
-  targetIdentifier: S.optional(S.String),
-  enabledControlIdentifier: S.optional(S.String),
-}) {}
+export interface LandingZoneDriftStatusSummary {
+  status?: string;
+}
+export const LandingZoneDriftStatusSummary = S.suspend(() =>
+  S.Struct({ status: S.optional(S.String) }),
+).annotations({
+  identifier: "LandingZoneDriftStatusSummary",
+}) as any as S.Schema<LandingZoneDriftStatusSummary>;
+export interface ControlOperationSummary {
+  operationType?: string;
+  startTime?: Date;
+  endTime?: Date;
+  status?: string;
+  statusMessage?: string;
+  operationIdentifier?: string;
+  controlIdentifier?: string;
+  targetIdentifier?: string;
+  enabledControlIdentifier?: string;
+}
+export const ControlOperationSummary = S.suspend(() =>
+  S.Struct({
+    operationType: S.optional(S.String),
+    startTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    status: S.optional(S.String),
+    statusMessage: S.optional(S.String),
+    operationIdentifier: S.optional(S.String),
+    controlIdentifier: S.optional(S.String),
+    targetIdentifier: S.optional(S.String),
+    enabledControlIdentifier: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ControlOperationSummary",
+}) as any as S.Schema<ControlOperationSummary>;
+export type ControlOperations = ControlOperationSummary[];
 export const ControlOperations = S.Array(ControlOperationSummary);
-export class EnabledBaselineInheritanceDrift extends S.Class<EnabledBaselineInheritanceDrift>(
-  "EnabledBaselineInheritanceDrift",
-)({ status: S.optional(S.String) }) {}
-export class EnabledBaselineDriftTypes extends S.Class<EnabledBaselineDriftTypes>(
-  "EnabledBaselineDriftTypes",
-)({ inheritance: S.optional(EnabledBaselineInheritanceDrift) }) {}
-export class EnabledBaselineDriftStatusSummary extends S.Class<EnabledBaselineDriftStatusSummary>(
-  "EnabledBaselineDriftStatusSummary",
-)({ types: S.optional(EnabledBaselineDriftTypes) }) {}
-export class EnabledBaselineSummary extends S.Class<EnabledBaselineSummary>(
-  "EnabledBaselineSummary",
-)({
-  arn: S.String,
-  baselineIdentifier: S.String,
-  baselineVersion: S.optional(S.String),
-  driftStatusSummary: S.optional(EnabledBaselineDriftStatusSummary),
-  targetIdentifier: S.String,
-  parentIdentifier: S.optional(S.String),
-  statusSummary: EnablementStatusSummary,
-}) {}
+export interface EnabledBaselineInheritanceDrift {
+  status?: string;
+}
+export const EnabledBaselineInheritanceDrift = S.suspend(() =>
+  S.Struct({ status: S.optional(S.String) }),
+).annotations({
+  identifier: "EnabledBaselineInheritanceDrift",
+}) as any as S.Schema<EnabledBaselineInheritanceDrift>;
+export interface EnabledBaselineDriftTypes {
+  inheritance?: EnabledBaselineInheritanceDrift;
+}
+export const EnabledBaselineDriftTypes = S.suspend(() =>
+  S.Struct({ inheritance: S.optional(EnabledBaselineInheritanceDrift) }),
+).annotations({
+  identifier: "EnabledBaselineDriftTypes",
+}) as any as S.Schema<EnabledBaselineDriftTypes>;
+export interface EnabledBaselineDriftStatusSummary {
+  types?: EnabledBaselineDriftTypes;
+}
+export const EnabledBaselineDriftStatusSummary = S.suspend(() =>
+  S.Struct({ types: S.optional(EnabledBaselineDriftTypes) }),
+).annotations({
+  identifier: "EnabledBaselineDriftStatusSummary",
+}) as any as S.Schema<EnabledBaselineDriftStatusSummary>;
+export interface EnabledBaselineSummary {
+  arn: string;
+  baselineIdentifier: string;
+  baselineVersion?: string;
+  driftStatusSummary?: EnabledBaselineDriftStatusSummary;
+  targetIdentifier: string;
+  parentIdentifier?: string;
+  statusSummary: EnablementStatusSummary;
+}
+export const EnabledBaselineSummary = S.suspend(() =>
+  S.Struct({
+    arn: S.String,
+    baselineIdentifier: S.String,
+    baselineVersion: S.optional(S.String),
+    driftStatusSummary: S.optional(EnabledBaselineDriftStatusSummary),
+    targetIdentifier: S.String,
+    parentIdentifier: S.optional(S.String),
+    statusSummary: EnablementStatusSummary,
+  }),
+).annotations({
+  identifier: "EnabledBaselineSummary",
+}) as any as S.Schema<EnabledBaselineSummary>;
+export type EnabledBaselines = EnabledBaselineSummary[];
 export const EnabledBaselines = S.Array(EnabledBaselineSummary);
-export class EnabledControlInheritanceDrift extends S.Class<EnabledControlInheritanceDrift>(
-  "EnabledControlInheritanceDrift",
-)({ status: S.optional(S.String) }) {}
-export class EnabledControlResourceDrift extends S.Class<EnabledControlResourceDrift>(
-  "EnabledControlResourceDrift",
-)({ status: S.optional(S.String) }) {}
-export class EnabledControlDriftTypes extends S.Class<EnabledControlDriftTypes>(
-  "EnabledControlDriftTypes",
-)({
-  inheritance: S.optional(EnabledControlInheritanceDrift),
-  resource: S.optional(EnabledControlResourceDrift),
-}) {}
-export class DriftStatusSummary extends S.Class<DriftStatusSummary>(
-  "DriftStatusSummary",
-)({
-  driftStatus: S.optional(S.String),
-  types: S.optional(EnabledControlDriftTypes),
-}) {}
-export class EnabledControlSummary extends S.Class<EnabledControlSummary>(
-  "EnabledControlSummary",
-)({
-  arn: S.optional(S.String),
-  controlIdentifier: S.optional(S.String),
-  targetIdentifier: S.optional(S.String),
-  statusSummary: S.optional(EnablementStatusSummary),
-  driftStatusSummary: S.optional(DriftStatusSummary),
-  parentIdentifier: S.optional(S.String),
-}) {}
+export interface EnabledControlInheritanceDrift {
+  status?: string;
+}
+export const EnabledControlInheritanceDrift = S.suspend(() =>
+  S.Struct({ status: S.optional(S.String) }),
+).annotations({
+  identifier: "EnabledControlInheritanceDrift",
+}) as any as S.Schema<EnabledControlInheritanceDrift>;
+export interface EnabledControlResourceDrift {
+  status?: string;
+}
+export const EnabledControlResourceDrift = S.suspend(() =>
+  S.Struct({ status: S.optional(S.String) }),
+).annotations({
+  identifier: "EnabledControlResourceDrift",
+}) as any as S.Schema<EnabledControlResourceDrift>;
+export interface EnabledControlDriftTypes {
+  inheritance?: EnabledControlInheritanceDrift;
+  resource?: EnabledControlResourceDrift;
+}
+export const EnabledControlDriftTypes = S.suspend(() =>
+  S.Struct({
+    inheritance: S.optional(EnabledControlInheritanceDrift),
+    resource: S.optional(EnabledControlResourceDrift),
+  }),
+).annotations({
+  identifier: "EnabledControlDriftTypes",
+}) as any as S.Schema<EnabledControlDriftTypes>;
+export interface DriftStatusSummary {
+  driftStatus?: string;
+  types?: EnabledControlDriftTypes;
+}
+export const DriftStatusSummary = S.suspend(() =>
+  S.Struct({
+    driftStatus: S.optional(S.String),
+    types: S.optional(EnabledControlDriftTypes),
+  }),
+).annotations({
+  identifier: "DriftStatusSummary",
+}) as any as S.Schema<DriftStatusSummary>;
+export interface EnabledControlSummary {
+  arn?: string;
+  controlIdentifier?: string;
+  targetIdentifier?: string;
+  statusSummary?: EnablementStatusSummary;
+  driftStatusSummary?: DriftStatusSummary;
+  parentIdentifier?: string;
+}
+export const EnabledControlSummary = S.suspend(() =>
+  S.Struct({
+    arn: S.optional(S.String),
+    controlIdentifier: S.optional(S.String),
+    targetIdentifier: S.optional(S.String),
+    statusSummary: S.optional(EnablementStatusSummary),
+    driftStatusSummary: S.optional(DriftStatusSummary),
+    parentIdentifier: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "EnabledControlSummary",
+}) as any as S.Schema<EnabledControlSummary>;
+export type EnabledControls = EnabledControlSummary[];
 export const EnabledControls = S.Array(EnabledControlSummary);
-export class LandingZoneOperationSummary extends S.Class<LandingZoneOperationSummary>(
-  "LandingZoneOperationSummary",
-)({
-  operationType: S.optional(S.String),
-  operationIdentifier: S.optional(S.String),
-  status: S.optional(S.String),
-}) {}
+export interface LandingZoneOperationSummary {
+  operationType?: string;
+  operationIdentifier?: string;
+  status?: string;
+}
+export const LandingZoneOperationSummary = S.suspend(() =>
+  S.Struct({
+    operationType: S.optional(S.String),
+    operationIdentifier: S.optional(S.String),
+    status: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "LandingZoneOperationSummary",
+}) as any as S.Schema<LandingZoneOperationSummary>;
+export type LandingZoneOperations = LandingZoneOperationSummary[];
 export const LandingZoneOperations = S.Array(LandingZoneOperationSummary);
-export class LandingZoneDetail extends S.Class<LandingZoneDetail>(
-  "LandingZoneDetail",
-)({
-  version: S.String,
-  remediationTypes: S.optional(RemediationTypes),
-  arn: S.optional(S.String),
-  status: S.optional(S.String),
-  latestAvailableVersion: S.optional(S.String),
-  driftStatus: S.optional(LandingZoneDriftStatusSummary),
-  manifest: S.Any,
-}) {}
-export class ListControlOperationsOutput extends S.Class<ListControlOperationsOutput>(
-  "ListControlOperationsOutput",
-)({ controlOperations: ControlOperations, nextToken: S.optional(S.String) }) {}
-export class ListEnabledBaselinesOutput extends S.Class<ListEnabledBaselinesOutput>(
-  "ListEnabledBaselinesOutput",
-)({ enabledBaselines: EnabledBaselines, nextToken: S.optional(S.String) }) {}
-export class ListEnabledControlsOutput extends S.Class<ListEnabledControlsOutput>(
-  "ListEnabledControlsOutput",
-)({ enabledControls: EnabledControls, nextToken: S.optional(S.String) }) {}
-export class ListLandingZoneOperationsOutput extends S.Class<ListLandingZoneOperationsOutput>(
-  "ListLandingZoneOperationsOutput",
-)({
-  landingZoneOperations: LandingZoneOperations,
-  nextToken: S.optional(S.String),
-}) {}
-export class GetLandingZoneOutput extends S.Class<GetLandingZoneOutput>(
-  "GetLandingZoneOutput",
-)({ landingZone: LandingZoneDetail }) {}
-export class EnabledBaselineDetails extends S.Class<EnabledBaselineDetails>(
-  "EnabledBaselineDetails",
-)({
-  arn: S.String,
-  baselineIdentifier: S.String,
-  baselineVersion: S.optional(S.String),
-  driftStatusSummary: S.optional(EnabledBaselineDriftStatusSummary),
-  targetIdentifier: S.String,
-  parentIdentifier: S.optional(S.String),
-  statusSummary: EnablementStatusSummary,
-  parameters: S.optional(EnabledBaselineParameterSummaries),
-}) {}
-export class EnabledControlDetails extends S.Class<EnabledControlDetails>(
-  "EnabledControlDetails",
-)({
-  arn: S.optional(S.String),
-  controlIdentifier: S.optional(S.String),
-  targetIdentifier: S.optional(S.String),
-  statusSummary: S.optional(EnablementStatusSummary),
-  driftStatusSummary: S.optional(DriftStatusSummary),
-  parentIdentifier: S.optional(S.String),
-  targetRegions: S.optional(TargetRegions),
-  parameters: S.optional(EnabledControlParameterSummaries),
-}) {}
-export class GetEnabledBaselineOutput extends S.Class<GetEnabledBaselineOutput>(
-  "GetEnabledBaselineOutput",
-)({ enabledBaselineDetails: S.optional(EnabledBaselineDetails) }) {}
-export class GetEnabledControlOutput extends S.Class<GetEnabledControlOutput>(
-  "GetEnabledControlOutput",
-)({ enabledControlDetails: EnabledControlDetails }) {}
+export interface LandingZoneDetail {
+  version: string;
+  remediationTypes?: RemediationTypes;
+  arn?: string;
+  status?: string;
+  latestAvailableVersion?: string;
+  driftStatus?: LandingZoneDriftStatusSummary;
+  manifest: any;
+}
+export const LandingZoneDetail = S.suspend(() =>
+  S.Struct({
+    version: S.String,
+    remediationTypes: S.optional(RemediationTypes),
+    arn: S.optional(S.String),
+    status: S.optional(S.String),
+    latestAvailableVersion: S.optional(S.String),
+    driftStatus: S.optional(LandingZoneDriftStatusSummary),
+    manifest: S.Any,
+  }),
+).annotations({
+  identifier: "LandingZoneDetail",
+}) as any as S.Schema<LandingZoneDetail>;
+export interface ListControlOperationsOutput {
+  controlOperations: ControlOperations;
+  nextToken?: string;
+}
+export const ListControlOperationsOutput = S.suspend(() =>
+  S.Struct({
+    controlOperations: ControlOperations,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListControlOperationsOutput",
+}) as any as S.Schema<ListControlOperationsOutput>;
+export interface ListEnabledBaselinesOutput {
+  enabledBaselines: EnabledBaselines;
+  nextToken?: string;
+}
+export const ListEnabledBaselinesOutput = S.suspend(() =>
+  S.Struct({
+    enabledBaselines: EnabledBaselines,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListEnabledBaselinesOutput",
+}) as any as S.Schema<ListEnabledBaselinesOutput>;
+export interface ListEnabledControlsOutput {
+  enabledControls: EnabledControls;
+  nextToken?: string;
+}
+export const ListEnabledControlsOutput = S.suspend(() =>
+  S.Struct({
+    enabledControls: EnabledControls,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListEnabledControlsOutput",
+}) as any as S.Schema<ListEnabledControlsOutput>;
+export interface ListLandingZoneOperationsOutput {
+  landingZoneOperations: LandingZoneOperations;
+  nextToken?: string;
+}
+export const ListLandingZoneOperationsOutput = S.suspend(() =>
+  S.Struct({
+    landingZoneOperations: LandingZoneOperations,
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListLandingZoneOperationsOutput",
+}) as any as S.Schema<ListLandingZoneOperationsOutput>;
+export interface GetLandingZoneOutput {
+  landingZone: LandingZoneDetail;
+}
+export const GetLandingZoneOutput = S.suspend(() =>
+  S.Struct({ landingZone: LandingZoneDetail }),
+).annotations({
+  identifier: "GetLandingZoneOutput",
+}) as any as S.Schema<GetLandingZoneOutput>;
+export interface EnabledBaselineDetails {
+  arn: string;
+  baselineIdentifier: string;
+  baselineVersion?: string;
+  driftStatusSummary?: EnabledBaselineDriftStatusSummary;
+  targetIdentifier: string;
+  parentIdentifier?: string;
+  statusSummary: EnablementStatusSummary;
+  parameters?: EnabledBaselineParameterSummaries;
+}
+export const EnabledBaselineDetails = S.suspend(() =>
+  S.Struct({
+    arn: S.String,
+    baselineIdentifier: S.String,
+    baselineVersion: S.optional(S.String),
+    driftStatusSummary: S.optional(EnabledBaselineDriftStatusSummary),
+    targetIdentifier: S.String,
+    parentIdentifier: S.optional(S.String),
+    statusSummary: EnablementStatusSummary,
+    parameters: S.optional(EnabledBaselineParameterSummaries),
+  }),
+).annotations({
+  identifier: "EnabledBaselineDetails",
+}) as any as S.Schema<EnabledBaselineDetails>;
+export interface EnabledControlDetails {
+  arn?: string;
+  controlIdentifier?: string;
+  targetIdentifier?: string;
+  statusSummary?: EnablementStatusSummary;
+  driftStatusSummary?: DriftStatusSummary;
+  parentIdentifier?: string;
+  targetRegions?: TargetRegions;
+  parameters?: EnabledControlParameterSummaries;
+}
+export const EnabledControlDetails = S.suspend(() =>
+  S.Struct({
+    arn: S.optional(S.String),
+    controlIdentifier: S.optional(S.String),
+    targetIdentifier: S.optional(S.String),
+    statusSummary: S.optional(EnablementStatusSummary),
+    driftStatusSummary: S.optional(DriftStatusSummary),
+    parentIdentifier: S.optional(S.String),
+    targetRegions: S.optional(TargetRegions),
+    parameters: S.optional(EnabledControlParameterSummaries),
+  }),
+).annotations({
+  identifier: "EnabledControlDetails",
+}) as any as S.Schema<EnabledControlDetails>;
+export interface GetEnabledBaselineOutput {
+  enabledBaselineDetails?: EnabledBaselineDetails;
+}
+export const GetEnabledBaselineOutput = S.suspend(() =>
+  S.Struct({ enabledBaselineDetails: S.optional(EnabledBaselineDetails) }),
+).annotations({
+  identifier: "GetEnabledBaselineOutput",
+}) as any as S.Schema<GetEnabledBaselineOutput>;
+export interface GetEnabledControlOutput {
+  enabledControlDetails: EnabledControlDetails;
+}
+export const GetEnabledControlOutput = S.suspend(() =>
+  S.Struct({ enabledControlDetails: EnabledControlDetails }),
+).annotations({
+  identifier: "GetEnabledControlOutput",
+}) as any as S.Schema<GetEnabledControlOutput>;
 
 //# Errors
 export class InternalServerException extends S.TaggedError<InternalServerException>()(

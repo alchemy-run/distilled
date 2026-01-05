@@ -259,16 +259,26 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type AWSAccountIdList = string[];
 export const AWSAccountIdList = S.Array(S.String);
+export type ActionNameList = string[];
 export const ActionNameList = S.Array(S.String);
+export type AttributeNameList = string[];
 export const AttributeNameList = S.Array(S.String);
+export type MessageSystemAttributeList = string[];
 export const MessageSystemAttributeList = S.Array(S.String);
+export type MessageAttributeNameList = string[];
 export const MessageAttributeNameList = S.Array(S.String);
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class AddPermissionRequest extends S.Class<AddPermissionRequest>(
-  "AddPermissionRequest",
-)(
-  {
+export interface AddPermissionRequest {
+  QueueUrl: string;
+  Label: string;
+  AWSAccountIds: AWSAccountIdList;
+  Actions: ActionNameList;
+}
+export const AddPermissionRequest = S.suspend(() =>
+  S.Struct({
     QueueUrl: S.String,
     Label: S.String,
     AWSAccountIds: AWSAccountIdList.pipe(
@@ -276,108 +286,187 @@ export class AddPermissionRequest extends S.Class<AddPermissionRequest>(
       T.XmlFlattened(),
     ),
     Actions: ActionNameList.pipe(T.XmlName("ActionName"), T.XmlFlattened()),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class AddPermissionResponse extends S.Class<AddPermissionResponse>(
-  "AddPermissionResponse",
-)({}) {}
-export class CancelMessageMoveTaskRequest extends S.Class<CancelMessageMoveTaskRequest>(
-  "CancelMessageMoveTaskRequest",
-)(
-  { TaskHandle: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ChangeMessageVisibilityRequest extends S.Class<ChangeMessageVisibilityRequest>(
-  "ChangeMessageVisibilityRequest",
-)(
-  { QueueUrl: S.String, ReceiptHandle: S.String, VisibilityTimeout: S.Number },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ChangeMessageVisibilityResponse extends S.Class<ChangeMessageVisibilityResponse>(
-  "ChangeMessageVisibilityResponse",
-)({}) {}
-export class DeleteMessageRequest extends S.Class<DeleteMessageRequest>(
-  "DeleteMessageRequest",
-)(
-  { QueueUrl: S.String, ReceiptHandle: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteMessageResponse extends S.Class<DeleteMessageResponse>(
-  "DeleteMessageResponse",
-)({}) {}
-export class DeleteQueueRequest extends S.Class<DeleteQueueRequest>(
-  "DeleteQueueRequest",
-)(
-  { QueueUrl: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteQueueResponse extends S.Class<DeleteQueueResponse>(
-  "DeleteQueueResponse",
-)({}) {}
-export class GetQueueAttributesRequest extends S.Class<GetQueueAttributesRequest>(
-  "GetQueueAttributesRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "AddPermissionRequest",
+}) as any as S.Schema<AddPermissionRequest>;
+export interface AddPermissionResponse {}
+export const AddPermissionResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "AddPermissionResponse",
+}) as any as S.Schema<AddPermissionResponse>;
+export interface CancelMessageMoveTaskRequest {
+  TaskHandle: string;
+}
+export const CancelMessageMoveTaskRequest = S.suspend(() =>
+  S.Struct({ TaskHandle: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CancelMessageMoveTaskRequest",
+}) as any as S.Schema<CancelMessageMoveTaskRequest>;
+export interface ChangeMessageVisibilityRequest {
+  QueueUrl: string;
+  ReceiptHandle: string;
+  VisibilityTimeout: number;
+}
+export const ChangeMessageVisibilityRequest = S.suspend(() =>
+  S.Struct({
+    QueueUrl: S.String,
+    ReceiptHandle: S.String,
+    VisibilityTimeout: S.Number,
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ChangeMessageVisibilityRequest",
+}) as any as S.Schema<ChangeMessageVisibilityRequest>;
+export interface ChangeMessageVisibilityResponse {}
+export const ChangeMessageVisibilityResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "ChangeMessageVisibilityResponse",
+}) as any as S.Schema<ChangeMessageVisibilityResponse>;
+export interface DeleteMessageRequest {
+  QueueUrl: string;
+  ReceiptHandle: string;
+}
+export const DeleteMessageRequest = S.suspend(() =>
+  S.Struct({ QueueUrl: S.String, ReceiptHandle: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteMessageRequest",
+}) as any as S.Schema<DeleteMessageRequest>;
+export interface DeleteMessageResponse {}
+export const DeleteMessageResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteMessageResponse",
+}) as any as S.Schema<DeleteMessageResponse>;
+export interface DeleteQueueRequest {
+  QueueUrl: string;
+}
+export const DeleteQueueRequest = S.suspend(() =>
+  S.Struct({ QueueUrl: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteQueueRequest",
+}) as any as S.Schema<DeleteQueueRequest>;
+export interface DeleteQueueResponse {}
+export const DeleteQueueResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteQueueResponse",
+}) as any as S.Schema<DeleteQueueResponse>;
+export interface GetQueueAttributesRequest {
+  QueueUrl: string;
+  AttributeNames?: AttributeNameList;
+}
+export const GetQueueAttributesRequest = S.suspend(() =>
+  S.Struct({
     QueueUrl: S.String,
     AttributeNames: S.optional(AttributeNameList).pipe(
       T.XmlName("AttributeName"),
       T.XmlFlattened(),
     ),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetQueueUrlRequest extends S.Class<GetQueueUrlRequest>(
-  "GetQueueUrlRequest",
-)(
-  { QueueName: S.String, QueueOwnerAWSAccountId: S.optional(S.String) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListDeadLetterSourceQueuesRequest extends S.Class<ListDeadLetterSourceQueuesRequest>(
-  "ListDeadLetterSourceQueuesRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetQueueAttributesRequest",
+}) as any as S.Schema<GetQueueAttributesRequest>;
+export interface GetQueueUrlRequest {
+  QueueName: string;
+  QueueOwnerAWSAccountId?: string;
+}
+export const GetQueueUrlRequest = S.suspend(() =>
+  S.Struct({
+    QueueName: S.String,
+    QueueOwnerAWSAccountId: S.optional(S.String),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "GetQueueUrlRequest",
+}) as any as S.Schema<GetQueueUrlRequest>;
+export interface ListDeadLetterSourceQueuesRequest {
+  QueueUrl: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListDeadLetterSourceQueuesRequest = S.suspend(() =>
+  S.Struct({
     QueueUrl: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListMessageMoveTasksRequest extends S.Class<ListMessageMoveTasksRequest>(
-  "ListMessageMoveTasksRequest",
-)(
-  { SourceArn: S.String, MaxResults: S.optional(S.Number) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListQueuesRequest extends S.Class<ListQueuesRequest>(
-  "ListQueuesRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListDeadLetterSourceQueuesRequest",
+}) as any as S.Schema<ListDeadLetterSourceQueuesRequest>;
+export interface ListMessageMoveTasksRequest {
+  SourceArn: string;
+  MaxResults?: number;
+}
+export const ListMessageMoveTasksRequest = S.suspend(() =>
+  S.Struct({ SourceArn: S.String, MaxResults: S.optional(S.Number) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListMessageMoveTasksRequest",
+}) as any as S.Schema<ListMessageMoveTasksRequest>;
+export interface ListQueuesRequest {
+  QueueNamePrefix?: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListQueuesRequest = S.suspend(() =>
+  S.Struct({
     QueueNamePrefix: S.optional(S.String),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListQueueTagsRequest extends S.Class<ListQueueTagsRequest>(
-  "ListQueueTagsRequest",
-)(
-  { QueueUrl: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PurgeQueueRequest extends S.Class<PurgeQueueRequest>(
-  "PurgeQueueRequest",
-)(
-  { QueueUrl: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class PurgeQueueResponse extends S.Class<PurgeQueueResponse>(
-  "PurgeQueueResponse",
-)({}) {}
-export class ReceiveMessageRequest extends S.Class<ReceiveMessageRequest>(
-  "ReceiveMessageRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListQueuesRequest",
+}) as any as S.Schema<ListQueuesRequest>;
+export interface ListQueueTagsRequest {
+  QueueUrl: string;
+}
+export const ListQueueTagsRequest = S.suspend(() =>
+  S.Struct({ QueueUrl: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListQueueTagsRequest",
+}) as any as S.Schema<ListQueueTagsRequest>;
+export interface PurgeQueueRequest {
+  QueueUrl: string;
+}
+export const PurgeQueueRequest = S.suspend(() =>
+  S.Struct({ QueueUrl: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "PurgeQueueRequest",
+}) as any as S.Schema<PurgeQueueRequest>;
+export interface PurgeQueueResponse {}
+export const PurgeQueueResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "PurgeQueueResponse",
+}) as any as S.Schema<PurgeQueueResponse>;
+export interface ReceiveMessageRequest {
+  QueueUrl: string;
+  AttributeNames?: AttributeNameList;
+  MessageSystemAttributeNames?: MessageSystemAttributeList;
+  MessageAttributeNames?: MessageAttributeNameList;
+  MaxNumberOfMessages?: number;
+  VisibilityTimeout?: number;
+  WaitTimeSeconds?: number;
+  ReceiveRequestAttemptId?: string;
+}
+export const ReceiveMessageRequest = S.suspend(() =>
+  S.Struct({
     QueueUrl: S.String,
     AttributeNames: S.optional(AttributeNameList).pipe(
       T.XmlName("AttributeName"),
@@ -395,267 +484,456 @@ export class ReceiveMessageRequest extends S.Class<ReceiveMessageRequest>(
     VisibilityTimeout: S.optional(S.Number),
     WaitTimeSeconds: S.optional(S.Number),
     ReceiveRequestAttemptId: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class RemovePermissionRequest extends S.Class<RemovePermissionRequest>(
-  "RemovePermissionRequest",
-)(
-  { QueueUrl: S.String, Label: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class RemovePermissionResponse extends S.Class<RemovePermissionResponse>(
-  "RemovePermissionResponse",
-)({}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ReceiveMessageRequest",
+}) as any as S.Schema<ReceiveMessageRequest>;
+export interface RemovePermissionRequest {
+  QueueUrl: string;
+  Label: string;
+}
+export const RemovePermissionRequest = S.suspend(() =>
+  S.Struct({ QueueUrl: S.String, Label: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "RemovePermissionRequest",
+}) as any as S.Schema<RemovePermissionRequest>;
+export interface RemovePermissionResponse {}
+export const RemovePermissionResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "RemovePermissionResponse",
+}) as any as S.Schema<RemovePermissionResponse>;
+export type QueueAttributeMap = { [key: string]: string };
 export const QueueAttributeMap = S.Record({
   key: S.String.pipe(T.XmlName("Name")),
   value: S.String.pipe(T.XmlName("Value")),
 });
-export class SetQueueAttributesRequest extends S.Class<SetQueueAttributesRequest>(
-  "SetQueueAttributesRequest",
-)(
-  {
+export interface SetQueueAttributesRequest {
+  QueueUrl: string;
+  Attributes: QueueAttributeMap;
+}
+export const SetQueueAttributesRequest = S.suspend(() =>
+  S.Struct({
     QueueUrl: S.String,
     Attributes: QueueAttributeMap.pipe(
       T.XmlName("Attribute"),
       T.XmlFlattened(),
     ),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class SetQueueAttributesResponse extends S.Class<SetQueueAttributesResponse>(
-  "SetQueueAttributesResponse",
-)({}) {}
-export class StartMessageMoveTaskRequest extends S.Class<StartMessageMoveTaskRequest>(
-  "StartMessageMoveTaskRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "SetQueueAttributesRequest",
+}) as any as S.Schema<SetQueueAttributesRequest>;
+export interface SetQueueAttributesResponse {}
+export const SetQueueAttributesResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "SetQueueAttributesResponse",
+}) as any as S.Schema<SetQueueAttributesResponse>;
+export interface StartMessageMoveTaskRequest {
+  SourceArn: string;
+  DestinationArn?: string;
+  MaxNumberOfMessagesPerSecond?: number;
+}
+export const StartMessageMoveTaskRequest = S.suspend(() =>
+  S.Struct({
     SourceArn: S.String,
     DestinationArn: S.optional(S.String),
     MaxNumberOfMessagesPerSecond: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "StartMessageMoveTaskRequest",
+}) as any as S.Schema<StartMessageMoveTaskRequest>;
+export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({
   key: S.String.pipe(T.XmlName("Key")),
   value: S.String.pipe(T.XmlName("Value")),
 });
-export class TagQueueRequest extends S.Class<TagQueueRequest>(
-  "TagQueueRequest",
-)(
-  { QueueUrl: S.String, Tags: TagMap.pipe(T.XmlName("Tag"), T.XmlFlattened()) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TagQueueResponse extends S.Class<TagQueueResponse>(
-  "TagQueueResponse",
-)({}) {}
-export class UntagQueueRequest extends S.Class<UntagQueueRequest>(
-  "UntagQueueRequest",
-)(
-  {
+export interface TagQueueRequest {
+  QueueUrl: string;
+  Tags: TagMap;
+}
+export const TagQueueRequest = S.suspend(() =>
+  S.Struct({
+    QueueUrl: S.String,
+    Tags: TagMap.pipe(T.XmlName("Tag"), T.XmlFlattened()),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "TagQueueRequest",
+}) as any as S.Schema<TagQueueRequest>;
+export interface TagQueueResponse {}
+export const TagQueueResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagQueueResponse",
+}) as any as S.Schema<TagQueueResponse>;
+export interface UntagQueueRequest {
+  QueueUrl: string;
+  TagKeys: TagKeyList;
+}
+export const UntagQueueRequest = S.suspend(() =>
+  S.Struct({
     QueueUrl: S.String,
     TagKeys: TagKeyList.pipe(T.XmlName("TagKey"), T.XmlFlattened()),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UntagQueueResponse extends S.Class<UntagQueueResponse>(
-  "UntagQueueResponse",
-)({}) {}
-export class ChangeMessageVisibilityBatchRequestEntry extends S.Class<ChangeMessageVisibilityBatchRequestEntry>(
-  "ChangeMessageVisibilityBatchRequestEntry",
-)({
-  Id: S.String,
-  ReceiptHandle: S.String,
-  VisibilityTimeout: S.optional(S.Number),
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UntagQueueRequest",
+}) as any as S.Schema<UntagQueueRequest>;
+export interface UntagQueueResponse {}
+export const UntagQueueResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagQueueResponse",
+}) as any as S.Schema<UntagQueueResponse>;
+export interface ChangeMessageVisibilityBatchRequestEntry {
+  Id: string;
+  ReceiptHandle: string;
+  VisibilityTimeout?: number;
+}
+export const ChangeMessageVisibilityBatchRequestEntry = S.suspend(() =>
+  S.Struct({
+    Id: S.String,
+    ReceiptHandle: S.String,
+    VisibilityTimeout: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "ChangeMessageVisibilityBatchRequestEntry",
+}) as any as S.Schema<ChangeMessageVisibilityBatchRequestEntry>;
+export type ChangeMessageVisibilityBatchRequestEntryList =
+  ChangeMessageVisibilityBatchRequestEntry[];
 export const ChangeMessageVisibilityBatchRequestEntryList = S.Array(
   ChangeMessageVisibilityBatchRequestEntry,
 );
-export class DeleteMessageBatchRequestEntry extends S.Class<DeleteMessageBatchRequestEntry>(
-  "DeleteMessageBatchRequestEntry",
-)({ Id: S.String, ReceiptHandle: S.String }) {}
+export interface DeleteMessageBatchRequestEntry {
+  Id: string;
+  ReceiptHandle: string;
+}
+export const DeleteMessageBatchRequestEntry = S.suspend(() =>
+  S.Struct({ Id: S.String, ReceiptHandle: S.String }),
+).annotations({
+  identifier: "DeleteMessageBatchRequestEntry",
+}) as any as S.Schema<DeleteMessageBatchRequestEntry>;
+export type DeleteMessageBatchRequestEntryList =
+  DeleteMessageBatchRequestEntry[];
 export const DeleteMessageBatchRequestEntryList = S.Array(
   DeleteMessageBatchRequestEntry,
 );
+export type QueueUrlList = string[];
 export const QueueUrlList = S.Array(S.String);
+export type StringList = string[];
 export const StringList = S.Array(S.String.pipe(T.XmlName("StringListValue")));
+export type BinaryList = Uint8Array[];
 export const BinaryList = S.Array(T.Blob.pipe(T.XmlName("BinaryListValue")));
-export class MessageAttributeValue extends S.Class<MessageAttributeValue>(
-  "MessageAttributeValue",
-)({
-  StringValue: S.optional(S.String),
-  BinaryValue: S.optional(T.Blob),
-  StringListValues: S.optional(StringList).pipe(
-    T.XmlName("StringListValue"),
-    T.XmlFlattened(),
-  ),
-  BinaryListValues: S.optional(BinaryList).pipe(
-    T.XmlName("BinaryListValue"),
-    T.XmlFlattened(),
-  ),
-  DataType: S.String,
-}) {}
+export interface MessageAttributeValue {
+  StringValue?: string;
+  BinaryValue?: Uint8Array;
+  StringListValues?: StringList;
+  BinaryListValues?: BinaryList;
+  DataType: string;
+}
+export const MessageAttributeValue = S.suspend(() =>
+  S.Struct({
+    StringValue: S.optional(S.String),
+    BinaryValue: S.optional(T.Blob),
+    StringListValues: S.optional(StringList).pipe(
+      T.XmlName("StringListValue"),
+      T.XmlFlattened(),
+    ),
+    BinaryListValues: S.optional(BinaryList).pipe(
+      T.XmlName("BinaryListValue"),
+      T.XmlFlattened(),
+    ),
+    DataType: S.String,
+  }),
+).annotations({
+  identifier: "MessageAttributeValue",
+}) as any as S.Schema<MessageAttributeValue>;
+export type MessageBodyAttributeMap = { [key: string]: MessageAttributeValue };
 export const MessageBodyAttributeMap = S.Record({
   key: S.String.pipe(T.XmlName("Name")),
-  value: MessageAttributeValue.pipe(T.XmlName("Value")),
+  value: MessageAttributeValue.pipe(T.XmlName("Value")).annotations({
+    identifier: "MessageAttributeValue",
+  }),
 });
-export class MessageSystemAttributeValue extends S.Class<MessageSystemAttributeValue>(
-  "MessageSystemAttributeValue",
-)({
-  StringValue: S.optional(S.String),
-  BinaryValue: S.optional(T.Blob),
-  StringListValues: S.optional(StringList).pipe(
-    T.XmlName("StringListValue"),
-    T.XmlFlattened(),
-  ),
-  BinaryListValues: S.optional(BinaryList).pipe(
-    T.XmlName("BinaryListValue"),
-    T.XmlFlattened(),
-  ),
-  DataType: S.String,
-}) {}
+export interface MessageSystemAttributeValue {
+  StringValue?: string;
+  BinaryValue?: Uint8Array;
+  StringListValues?: StringList;
+  BinaryListValues?: BinaryList;
+  DataType: string;
+}
+export const MessageSystemAttributeValue = S.suspend(() =>
+  S.Struct({
+    StringValue: S.optional(S.String),
+    BinaryValue: S.optional(T.Blob),
+    StringListValues: S.optional(StringList).pipe(
+      T.XmlName("StringListValue"),
+      T.XmlFlattened(),
+    ),
+    BinaryListValues: S.optional(BinaryList).pipe(
+      T.XmlName("BinaryListValue"),
+      T.XmlFlattened(),
+    ),
+    DataType: S.String,
+  }),
+).annotations({
+  identifier: "MessageSystemAttributeValue",
+}) as any as S.Schema<MessageSystemAttributeValue>;
+export type MessageBodySystemAttributeMap = {
+  [key: string]: MessageSystemAttributeValue;
+};
 export const MessageBodySystemAttributeMap = S.Record({
   key: S.String.pipe(T.XmlName("Name")),
-  value: MessageSystemAttributeValue.pipe(T.XmlName("Value")),
+  value: MessageSystemAttributeValue.pipe(T.XmlName("Value")).annotations({
+    identifier: "MessageSystemAttributeValue",
+  }),
 });
-export class SendMessageBatchRequestEntry extends S.Class<SendMessageBatchRequestEntry>(
-  "SendMessageBatchRequestEntry",
-)({
-  Id: S.String,
-  MessageBody: S.String,
-  DelaySeconds: S.optional(S.Number),
-  MessageAttributes: S.optional(MessageBodyAttributeMap).pipe(
-    T.XmlName("MessageAttribute"),
-    T.XmlFlattened(),
-  ),
-  MessageSystemAttributes: S.optional(MessageBodySystemAttributeMap).pipe(
-    T.XmlName("MessageSystemAttribute"),
-    T.XmlFlattened(),
-  ),
-  MessageDeduplicationId: S.optional(S.String),
-  MessageGroupId: S.optional(S.String),
-}) {}
+export interface SendMessageBatchRequestEntry {
+  Id: string;
+  MessageBody: string;
+  DelaySeconds?: number;
+  MessageAttributes?: MessageBodyAttributeMap;
+  MessageSystemAttributes?: MessageBodySystemAttributeMap;
+  MessageDeduplicationId?: string;
+  MessageGroupId?: string;
+}
+export const SendMessageBatchRequestEntry = S.suspend(() =>
+  S.Struct({
+    Id: S.String,
+    MessageBody: S.String,
+    DelaySeconds: S.optional(S.Number),
+    MessageAttributes: S.optional(MessageBodyAttributeMap).pipe(
+      T.XmlName("MessageAttribute"),
+      T.XmlFlattened(),
+    ),
+    MessageSystemAttributes: S.optional(MessageBodySystemAttributeMap).pipe(
+      T.XmlName("MessageSystemAttribute"),
+      T.XmlFlattened(),
+    ),
+    MessageDeduplicationId: S.optional(S.String),
+    MessageGroupId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SendMessageBatchRequestEntry",
+}) as any as S.Schema<SendMessageBatchRequestEntry>;
+export type SendMessageBatchRequestEntryList = SendMessageBatchRequestEntry[];
 export const SendMessageBatchRequestEntryList = S.Array(
   SendMessageBatchRequestEntry,
 );
-export class CancelMessageMoveTaskResult extends S.Class<CancelMessageMoveTaskResult>(
-  "CancelMessageMoveTaskResult",
-)({ ApproximateNumberOfMessagesMoved: S.optional(S.Number) }) {}
-export class ChangeMessageVisibilityBatchRequest extends S.Class<ChangeMessageVisibilityBatchRequest>(
-  "ChangeMessageVisibilityBatchRequest",
-)(
-  {
+export interface CancelMessageMoveTaskResult {
+  ApproximateNumberOfMessagesMoved?: number;
+}
+export const CancelMessageMoveTaskResult = S.suspend(() =>
+  S.Struct({ ApproximateNumberOfMessagesMoved: S.optional(S.Number) }),
+).annotations({
+  identifier: "CancelMessageMoveTaskResult",
+}) as any as S.Schema<CancelMessageMoveTaskResult>;
+export interface ChangeMessageVisibilityBatchRequest {
+  QueueUrl: string;
+  Entries: ChangeMessageVisibilityBatchRequestEntryList;
+}
+export const ChangeMessageVisibilityBatchRequest = S.suspend(() =>
+  S.Struct({
     QueueUrl: S.String,
     Entries: ChangeMessageVisibilityBatchRequestEntryList.pipe(
       T.XmlName("ChangeMessageVisibilityBatchRequestEntry"),
       T.XmlFlattened(),
     ),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class CreateQueueRequest extends S.Class<CreateQueueRequest>(
-  "CreateQueueRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ChangeMessageVisibilityBatchRequest",
+}) as any as S.Schema<ChangeMessageVisibilityBatchRequest>;
+export interface CreateQueueRequest {
+  QueueName: string;
+  Attributes?: QueueAttributeMap;
+  tags?: TagMap;
+}
+export const CreateQueueRequest = S.suspend(() =>
+  S.Struct({
     QueueName: S.String,
     Attributes: S.optional(QueueAttributeMap).pipe(
       T.XmlName("Attribute"),
       T.XmlFlattened(),
     ),
     tags: S.optional(TagMap).pipe(T.XmlName("Tag"), T.XmlFlattened()),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteMessageBatchRequest extends S.Class<DeleteMessageBatchRequest>(
-  "DeleteMessageBatchRequest",
-)(
-  {
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateQueueRequest",
+}) as any as S.Schema<CreateQueueRequest>;
+export interface DeleteMessageBatchRequest {
+  QueueUrl: string;
+  Entries: DeleteMessageBatchRequestEntryList;
+}
+export const DeleteMessageBatchRequest = S.suspend(() =>
+  S.Struct({
     QueueUrl: S.String,
     Entries: DeleteMessageBatchRequestEntryList.pipe(
       T.XmlName("DeleteMessageBatchRequestEntry"),
       T.XmlFlattened(),
     ),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class GetQueueAttributesResult extends S.Class<GetQueueAttributesResult>(
-  "GetQueueAttributesResult",
-)({
-  Attributes: S.optional(QueueAttributeMap).pipe(
-    T.XmlName("Attribute"),
-    T.XmlFlattened(),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-}) {}
-export class GetQueueUrlResult extends S.Class<GetQueueUrlResult>(
-  "GetQueueUrlResult",
-)({ QueueUrl: S.optional(S.String) }) {}
-export class ListDeadLetterSourceQueuesResult extends S.Class<ListDeadLetterSourceQueuesResult>(
-  "ListDeadLetterSourceQueuesResult",
-)({
-  queueUrls: QueueUrlList.pipe(T.XmlName("QueueUrl"), T.XmlFlattened()),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListQueuesResult extends S.Class<ListQueuesResult>(
-  "ListQueuesResult",
-)({
-  QueueUrls: S.optional(QueueUrlList).pipe(
-    T.XmlName("QueueUrl"),
-    T.XmlFlattened(),
-  ),
-  NextToken: S.optional(S.String),
-}) {}
-export class ListQueueTagsResult extends S.Class<ListQueueTagsResult>(
-  "ListQueueTagsResult",
-)({ Tags: S.optional(TagMap).pipe(T.XmlName("Tag"), T.XmlFlattened()) }) {}
-export class SendMessageBatchRequest extends S.Class<SendMessageBatchRequest>(
-  "SendMessageBatchRequest",
-)(
-  {
+).annotations({
+  identifier: "DeleteMessageBatchRequest",
+}) as any as S.Schema<DeleteMessageBatchRequest>;
+export interface GetQueueAttributesResult {
+  Attributes?: QueueAttributeMap;
+}
+export const GetQueueAttributesResult = S.suspend(() =>
+  S.Struct({
+    Attributes: S.optional(QueueAttributeMap).pipe(
+      T.XmlName("Attribute"),
+      T.XmlFlattened(),
+    ),
+  }),
+).annotations({
+  identifier: "GetQueueAttributesResult",
+}) as any as S.Schema<GetQueueAttributesResult>;
+export interface GetQueueUrlResult {
+  QueueUrl?: string;
+}
+export const GetQueueUrlResult = S.suspend(() =>
+  S.Struct({ QueueUrl: S.optional(S.String) }),
+).annotations({
+  identifier: "GetQueueUrlResult",
+}) as any as S.Schema<GetQueueUrlResult>;
+export interface ListDeadLetterSourceQueuesResult {
+  queueUrls: QueueUrlList;
+  NextToken?: string;
+}
+export const ListDeadLetterSourceQueuesResult = S.suspend(() =>
+  S.Struct({
+    queueUrls: QueueUrlList.pipe(T.XmlName("QueueUrl"), T.XmlFlattened()),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListDeadLetterSourceQueuesResult",
+}) as any as S.Schema<ListDeadLetterSourceQueuesResult>;
+export interface ListQueuesResult {
+  QueueUrls?: QueueUrlList;
+  NextToken?: string;
+}
+export const ListQueuesResult = S.suspend(() =>
+  S.Struct({
+    QueueUrls: S.optional(QueueUrlList).pipe(
+      T.XmlName("QueueUrl"),
+      T.XmlFlattened(),
+    ),
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListQueuesResult",
+}) as any as S.Schema<ListQueuesResult>;
+export interface ListQueueTagsResult {
+  Tags?: TagMap;
+}
+export const ListQueueTagsResult = S.suspend(() =>
+  S.Struct({
+    Tags: S.optional(TagMap).pipe(T.XmlName("Tag"), T.XmlFlattened()),
+  }),
+).annotations({
+  identifier: "ListQueueTagsResult",
+}) as any as S.Schema<ListQueueTagsResult>;
+export interface SendMessageBatchRequest {
+  QueueUrl: string;
+  Entries: SendMessageBatchRequestEntryList;
+}
+export const SendMessageBatchRequest = S.suspend(() =>
+  S.Struct({
     QueueUrl: S.String,
     Entries: SendMessageBatchRequestEntryList.pipe(
       T.XmlName("SendMessageBatchRequestEntry"),
       T.XmlFlattened(),
     ),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class StartMessageMoveTaskResult extends S.Class<StartMessageMoveTaskResult>(
-  "StartMessageMoveTaskResult",
-)({ TaskHandle: S.optional(S.String) }) {}
-export class ListMessageMoveTasksResultEntry extends S.Class<ListMessageMoveTasksResultEntry>(
-  "ListMessageMoveTasksResultEntry",
-)({
-  TaskHandle: S.optional(S.String),
-  Status: S.optional(S.String),
-  SourceArn: S.optional(S.String),
-  DestinationArn: S.optional(S.String),
-  MaxNumberOfMessagesPerSecond: S.optional(S.Number),
-  ApproximateNumberOfMessagesMoved: S.optional(S.Number),
-  ApproximateNumberOfMessagesToMove: S.optional(S.Number),
-  FailureReason: S.optional(S.String),
-  StartedTimestamp: S.optional(S.Number),
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "SendMessageBatchRequest",
+}) as any as S.Schema<SendMessageBatchRequest>;
+export interface StartMessageMoveTaskResult {
+  TaskHandle?: string;
+}
+export const StartMessageMoveTaskResult = S.suspend(() =>
+  S.Struct({ TaskHandle: S.optional(S.String) }),
+).annotations({
+  identifier: "StartMessageMoveTaskResult",
+}) as any as S.Schema<StartMessageMoveTaskResult>;
+export interface ListMessageMoveTasksResultEntry {
+  TaskHandle?: string;
+  Status?: string;
+  SourceArn?: string;
+  DestinationArn?: string;
+  MaxNumberOfMessagesPerSecond?: number;
+  ApproximateNumberOfMessagesMoved?: number;
+  ApproximateNumberOfMessagesToMove?: number;
+  FailureReason?: string;
+  StartedTimestamp?: number;
+}
+export const ListMessageMoveTasksResultEntry = S.suspend(() =>
+  S.Struct({
+    TaskHandle: S.optional(S.String),
+    Status: S.optional(S.String),
+    SourceArn: S.optional(S.String),
+    DestinationArn: S.optional(S.String),
+    MaxNumberOfMessagesPerSecond: S.optional(S.Number),
+    ApproximateNumberOfMessagesMoved: S.optional(S.Number),
+    ApproximateNumberOfMessagesToMove: S.optional(S.Number),
+    FailureReason: S.optional(S.String),
+    StartedTimestamp: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "ListMessageMoveTasksResultEntry",
+}) as any as S.Schema<ListMessageMoveTasksResultEntry>;
+export type ListMessageMoveTasksResultEntryList =
+  ListMessageMoveTasksResultEntry[];
 export const ListMessageMoveTasksResultEntryList = S.Array(
   ListMessageMoveTasksResultEntry,
 );
-export class CreateQueueResult extends S.Class<CreateQueueResult>(
-  "CreateQueueResult",
-)({ QueueUrl: S.optional(S.String) }) {}
-export class ListMessageMoveTasksResult extends S.Class<ListMessageMoveTasksResult>(
-  "ListMessageMoveTasksResult",
-)(
-  {
+export interface CreateQueueResult {
+  QueueUrl?: string;
+}
+export const CreateQueueResult = S.suspend(() =>
+  S.Struct({ QueueUrl: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateQueueResult",
+}) as any as S.Schema<CreateQueueResult>;
+export interface ListMessageMoveTasksResult {
+  Results?: ListMessageMoveTasksResultEntryList;
+}
+export const ListMessageMoveTasksResult = S.suspend(() =>
+  S.Struct({
     Results: S.optional(ListMessageMoveTasksResultEntryList).pipe(
       T.XmlName("ListMessageMoveTasksResultEntry"),
       T.XmlFlattened(),
     ),
-  },
-  T.XmlName("ListMessageMoveTasksResult"),
-) {}
-export class SendMessageRequest extends S.Class<SendMessageRequest>(
-  "SendMessageRequest",
-)(
-  {
+  }).pipe(T.XmlName("ListMessageMoveTasksResult")),
+).annotations({
+  identifier: "ListMessageMoveTasksResult",
+}) as any as S.Schema<ListMessageMoveTasksResult>;
+export interface SendMessageRequest {
+  QueueUrl: string;
+  MessageBody: string;
+  DelaySeconds?: number;
+  MessageAttributes?: MessageBodyAttributeMap;
+  MessageSystemAttributes?: MessageBodySystemAttributeMap;
+  MessageDeduplicationId?: string;
+  MessageGroupId?: string;
+}
+export const SendMessageRequest = S.suspend(() =>
+  S.Struct({
     QueueUrl: S.String,
     MessageBody: S.String,
     DelaySeconds: S.optional(S.Number),
@@ -669,116 +947,197 @@ export class SendMessageRequest extends S.Class<SendMessageRequest>(
     ),
     MessageDeduplicationId: S.optional(S.String),
     MessageGroupId: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "SendMessageRequest",
+}) as any as S.Schema<SendMessageRequest>;
+export type MessageSystemAttributeMap = { [key: string]: string };
 export const MessageSystemAttributeMap = S.Record({
   key: S.String.pipe(T.XmlName("Name")),
   value: S.String.pipe(T.XmlName("Value")),
 });
-export class ChangeMessageVisibilityBatchResultEntry extends S.Class<ChangeMessageVisibilityBatchResultEntry>(
-  "ChangeMessageVisibilityBatchResultEntry",
-)({ Id: S.String }) {}
+export interface ChangeMessageVisibilityBatchResultEntry {
+  Id: string;
+}
+export const ChangeMessageVisibilityBatchResultEntry = S.suspend(() =>
+  S.Struct({ Id: S.String }),
+).annotations({
+  identifier: "ChangeMessageVisibilityBatchResultEntry",
+}) as any as S.Schema<ChangeMessageVisibilityBatchResultEntry>;
+export type ChangeMessageVisibilityBatchResultEntryList =
+  ChangeMessageVisibilityBatchResultEntry[];
 export const ChangeMessageVisibilityBatchResultEntryList = S.Array(
   ChangeMessageVisibilityBatchResultEntry,
 );
-export class BatchResultErrorEntry extends S.Class<BatchResultErrorEntry>(
-  "BatchResultErrorEntry",
-)({
-  Id: S.String,
-  SenderFault: S.Boolean,
-  Code: S.String,
-  Message: S.optional(S.String),
-}) {}
+export interface BatchResultErrorEntry {
+  Id: string;
+  SenderFault: boolean;
+  Code: string;
+  Message?: string;
+}
+export const BatchResultErrorEntry = S.suspend(() =>
+  S.Struct({
+    Id: S.String,
+    SenderFault: S.Boolean,
+    Code: S.String,
+    Message: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "BatchResultErrorEntry",
+}) as any as S.Schema<BatchResultErrorEntry>;
+export type BatchResultErrorEntryList = BatchResultErrorEntry[];
 export const BatchResultErrorEntryList = S.Array(BatchResultErrorEntry);
-export class DeleteMessageBatchResultEntry extends S.Class<DeleteMessageBatchResultEntry>(
-  "DeleteMessageBatchResultEntry",
-)({ Id: S.String }) {}
+export interface DeleteMessageBatchResultEntry {
+  Id: string;
+}
+export const DeleteMessageBatchResultEntry = S.suspend(() =>
+  S.Struct({ Id: S.String }),
+).annotations({
+  identifier: "DeleteMessageBatchResultEntry",
+}) as any as S.Schema<DeleteMessageBatchResultEntry>;
+export type DeleteMessageBatchResultEntryList = DeleteMessageBatchResultEntry[];
 export const DeleteMessageBatchResultEntryList = S.Array(
   DeleteMessageBatchResultEntry,
 );
-export class Message extends S.Class<Message>("Message")({
-  MessageId: S.optional(S.String),
-  ReceiptHandle: S.optional(S.String),
-  MD5OfBody: S.optional(S.String),
-  Body: S.optional(S.String),
-  Attributes: S.optional(MessageSystemAttributeMap).pipe(
-    T.XmlName("Attribute"),
-    T.XmlFlattened(),
-  ),
-  MD5OfMessageAttributes: S.optional(S.String),
-  MessageAttributes: S.optional(MessageBodyAttributeMap).pipe(
-    T.XmlName("MessageAttribute"),
-    T.XmlFlattened(),
-  ),
-}) {}
+export interface Message {
+  MessageId?: string;
+  ReceiptHandle?: string;
+  MD5OfBody?: string;
+  Body?: string;
+  Attributes?: MessageSystemAttributeMap;
+  MD5OfMessageAttributes?: string;
+  MessageAttributes?: MessageBodyAttributeMap;
+}
+export const Message = S.suspend(() =>
+  S.Struct({
+    MessageId: S.optional(S.String),
+    ReceiptHandle: S.optional(S.String),
+    MD5OfBody: S.optional(S.String),
+    Body: S.optional(S.String),
+    Attributes: S.optional(MessageSystemAttributeMap).pipe(
+      T.XmlName("Attribute"),
+      T.XmlFlattened(),
+    ),
+    MD5OfMessageAttributes: S.optional(S.String),
+    MessageAttributes: S.optional(MessageBodyAttributeMap).pipe(
+      T.XmlName("MessageAttribute"),
+      T.XmlFlattened(),
+    ),
+  }),
+).annotations({ identifier: "Message" }) as any as S.Schema<Message>;
+export type MessageList = Message[];
 export const MessageList = S.Array(Message);
-export class SendMessageBatchResultEntry extends S.Class<SendMessageBatchResultEntry>(
-  "SendMessageBatchResultEntry",
-)({
-  Id: S.String,
-  MessageId: S.String,
-  MD5OfMessageBody: S.String,
-  MD5OfMessageAttributes: S.optional(S.String),
-  MD5OfMessageSystemAttributes: S.optional(S.String),
-  SequenceNumber: S.optional(S.String),
-}) {}
+export interface SendMessageBatchResultEntry {
+  Id: string;
+  MessageId: string;
+  MD5OfMessageBody: string;
+  MD5OfMessageAttributes?: string;
+  MD5OfMessageSystemAttributes?: string;
+  SequenceNumber?: string;
+}
+export const SendMessageBatchResultEntry = S.suspend(() =>
+  S.Struct({
+    Id: S.String,
+    MessageId: S.String,
+    MD5OfMessageBody: S.String,
+    MD5OfMessageAttributes: S.optional(S.String),
+    MD5OfMessageSystemAttributes: S.optional(S.String),
+    SequenceNumber: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SendMessageBatchResultEntry",
+}) as any as S.Schema<SendMessageBatchResultEntry>;
+export type SendMessageBatchResultEntryList = SendMessageBatchResultEntry[];
 export const SendMessageBatchResultEntryList = S.Array(
   SendMessageBatchResultEntry,
 );
-export class ChangeMessageVisibilityBatchResult extends S.Class<ChangeMessageVisibilityBatchResult>(
-  "ChangeMessageVisibilityBatchResult",
-)({
-  Successful: ChangeMessageVisibilityBatchResultEntryList.pipe(
-    T.XmlName("ChangeMessageVisibilityBatchResultEntry"),
-    T.XmlFlattened(),
-  ),
-  Failed: BatchResultErrorEntryList.pipe(
-    T.XmlName("BatchResultErrorEntry"),
-    T.XmlFlattened(),
-  ),
-}) {}
-export class DeleteMessageBatchResult extends S.Class<DeleteMessageBatchResult>(
-  "DeleteMessageBatchResult",
-)({
-  Successful: DeleteMessageBatchResultEntryList.pipe(
-    T.XmlName("DeleteMessageBatchResultEntry"),
-    T.XmlFlattened(),
-  ),
-  Failed: BatchResultErrorEntryList.pipe(
-    T.XmlName("BatchResultErrorEntry"),
-    T.XmlFlattened(),
-  ),
-}) {}
-export class ReceiveMessageResult extends S.Class<ReceiveMessageResult>(
-  "ReceiveMessageResult",
-)({
-  Messages: S.optional(MessageList).pipe(
-    T.XmlName("Message"),
-    T.XmlFlattened(),
-  ),
-}) {}
-export class SendMessageResult extends S.Class<SendMessageResult>(
-  "SendMessageResult",
-)({
-  MD5OfMessageBody: S.optional(S.String),
-  MD5OfMessageAttributes: S.optional(S.String),
-  MD5OfMessageSystemAttributes: S.optional(S.String),
-  MessageId: S.optional(S.String),
-  SequenceNumber: S.optional(S.String),
-}) {}
-export class SendMessageBatchResult extends S.Class<SendMessageBatchResult>(
-  "SendMessageBatchResult",
-)({
-  Successful: SendMessageBatchResultEntryList.pipe(
-    T.XmlName("SendMessageBatchResultEntry"),
-    T.XmlFlattened(),
-  ),
-  Failed: BatchResultErrorEntryList.pipe(
-    T.XmlName("BatchResultErrorEntry"),
-    T.XmlFlattened(),
-  ),
-}) {}
+export interface ChangeMessageVisibilityBatchResult {
+  Successful: ChangeMessageVisibilityBatchResultEntryList;
+  Failed: BatchResultErrorEntryList;
+}
+export const ChangeMessageVisibilityBatchResult = S.suspend(() =>
+  S.Struct({
+    Successful: ChangeMessageVisibilityBatchResultEntryList.pipe(
+      T.XmlName("ChangeMessageVisibilityBatchResultEntry"),
+      T.XmlFlattened(),
+    ),
+    Failed: BatchResultErrorEntryList.pipe(
+      T.XmlName("BatchResultErrorEntry"),
+      T.XmlFlattened(),
+    ),
+  }),
+).annotations({
+  identifier: "ChangeMessageVisibilityBatchResult",
+}) as any as S.Schema<ChangeMessageVisibilityBatchResult>;
+export interface DeleteMessageBatchResult {
+  Successful: DeleteMessageBatchResultEntryList;
+  Failed: BatchResultErrorEntryList;
+}
+export const DeleteMessageBatchResult = S.suspend(() =>
+  S.Struct({
+    Successful: DeleteMessageBatchResultEntryList.pipe(
+      T.XmlName("DeleteMessageBatchResultEntry"),
+      T.XmlFlattened(),
+    ),
+    Failed: BatchResultErrorEntryList.pipe(
+      T.XmlName("BatchResultErrorEntry"),
+      T.XmlFlattened(),
+    ),
+  }),
+).annotations({
+  identifier: "DeleteMessageBatchResult",
+}) as any as S.Schema<DeleteMessageBatchResult>;
+export interface ReceiveMessageResult {
+  Messages?: MessageList;
+}
+export const ReceiveMessageResult = S.suspend(() =>
+  S.Struct({
+    Messages: S.optional(MessageList).pipe(
+      T.XmlName("Message"),
+      T.XmlFlattened(),
+    ),
+  }),
+).annotations({
+  identifier: "ReceiveMessageResult",
+}) as any as S.Schema<ReceiveMessageResult>;
+export interface SendMessageResult {
+  MD5OfMessageBody?: string;
+  MD5OfMessageAttributes?: string;
+  MD5OfMessageSystemAttributes?: string;
+  MessageId?: string;
+  SequenceNumber?: string;
+}
+export const SendMessageResult = S.suspend(() =>
+  S.Struct({
+    MD5OfMessageBody: S.optional(S.String),
+    MD5OfMessageAttributes: S.optional(S.String),
+    MD5OfMessageSystemAttributes: S.optional(S.String),
+    MessageId: S.optional(S.String),
+    SequenceNumber: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SendMessageResult",
+}) as any as S.Schema<SendMessageResult>;
+export interface SendMessageBatchResult {
+  Successful: SendMessageBatchResultEntryList;
+  Failed: BatchResultErrorEntryList;
+}
+export const SendMessageBatchResult = S.suspend(() =>
+  S.Struct({
+    Successful: SendMessageBatchResultEntryList.pipe(
+      T.XmlName("SendMessageBatchResultEntry"),
+      T.XmlFlattened(),
+    ),
+    Failed: BatchResultErrorEntryList.pipe(
+      T.XmlName("BatchResultErrorEntry"),
+      T.XmlFlattened(),
+    ),
+  }),
+).annotations({
+  identifier: "SendMessageBatchResult",
+}) as any as S.Schema<SendMessageBatchResult>;
 
 //# Errors
 export class InvalidAddress extends S.TaggedError<InvalidAddress>()(

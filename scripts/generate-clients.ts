@@ -41,8 +41,12 @@ class SdkFile extends Context.Tag("SdkFile")<
     cyclicSchemas: Set<string>;
     // Set of schema names that are cyclic AND are structs (will become classes)
     cyclicClasses: Set<string>;
-    // Set of ALL struct names (classes can be used directly as types)
+    // Set of ALL struct names (interfaces can be used directly as types)
     allStructNames: Set<string>;
+    // Set of ALL array names (type aliases can be used directly as types)
+    allArrayNames: Set<string>;
+    // Set of ALL map names (type aliases can be used directly as types)
+    allMapNames: Set<string>;
     // Map of error shape IDs to their error traits (for TaggedError generation)
     errorShapeIds: Map<string, ErrorShapeTraits>;
     // Map of error shape names to their inline fields definition
@@ -248,15 +252,25 @@ function collectSerializationTraits(
  * @param traits - The Smithy traits object
  * @param memberName - Optional. The original Smithy member name. Passed through to
  *                     collectSerializationTraits for httpLabel+jsonName handling.
+ * @param identifier - Optional. If provided and traits are applied via .pipe(),
+ *                     re-adds the identifier annotation. This is needed because
+ *                     .pipe() creates a wrapper schema that doesn't preserve the
+ *                     identifier from the inner suspended schema.
  */
 function applyTraitsToSchema(
   schema: string,
   traits: SmithyTraits,
   memberName?: string,
+  identifier?: string,
 ): string {
   const pipes = collectSerializationTraits(traits, memberName);
   if (pipes.length > 0) {
-    return `${schema}.pipe(${pipes.join(", ")})`;
+    let result = `${schema}.pipe(${pipes.join(", ")})`;
+    // Re-apply identifier after .pipe() for suspended schemas (needed for JSONSchema)
+    if (identifier) {
+      result = `${result}.annotations({ identifier: "${identifier}" })`;
+    }
+    return result;
   }
   return schema;
 }
@@ -327,16 +341,23 @@ function sanitizeErrorName(name: string): string {
   return name.replace(/\./g, "");
 }
 
-// Helper to convert schema expression to TypeScript type for type aliases
-// - allStructNames: set of all struct (class) names that can be used directly as types
+// Helper to convert schema expression to TypeScript type for interface generation
+// - allStructNames: set of all struct names that have explicit interfaces
+// - allArrayNames: set of all array names that have explicit type aliases
+// - allMapNames: set of all map names that have explicit type aliases
 // - cyclicSchemas: set of cyclic schemas that have explicit type aliases
 function schemaExprToTsType(
   schemaExpr: string,
   allStructNames: Set<string>,
+  allArrayNames: Set<string>,
+  allMapNames: Set<string>,
   cyclicSchemas: Set<string>,
 ): string {
-  //todo(pear): move this to an effect matcher
-  switch (schemaExpr) {
+  // Strip .pipe(...) suffix to get base schema
+  const baseExpr = schemaExpr.replace(/\.pipe\([^)]+\)$/, "");
+
+  // Handle base primitive types
+  switch (baseExpr) {
     case "S.String":
       return "string";
     case "S.Boolean":
@@ -357,16 +378,43 @@ function schemaExprToTsType(
       return "Uint8Array";
     case "S.Struct({})":
       return "Record<string, never>";
-    default:
-      // Named schemas:
-      // - Structs (classes) can be used directly as types
-      // - Cyclic arrays/unions have explicit type aliases, so can be used directly
-      // - Non-cyclic arrays/unions/maps are just const, so need typeof extraction
-      if (allStructNames.has(schemaExpr) || cyclicSchemas.has(schemaExpr)) {
-        return schemaExpr;
-      }
-      return `typeof ${schemaExpr}["Type"]`;
   }
+
+  // Handle S.Date.pipe(...) patterns - still a Date
+  if (baseExpr.startsWith("S.Date")) {
+    return "Date";
+  }
+
+  // Handle T.StreamingInput.pipe(...) patterns
+  if (baseExpr.startsWith("T.StreamingInput")) {
+    return "T.StreamingInputBody";
+  }
+
+  // Handle T.StreamingOutput.pipe(...) patterns
+  if (baseExpr.startsWith("T.StreamingOutput")) {
+    return "T.StreamingOutputBody";
+  }
+
+  // Handle T.StreamBody().pipe(...) patterns
+  if (baseExpr.startsWith("T.StreamBody")) {
+    return "T.StreamBody";
+  }
+
+  // Named schemas with explicit type aliases can be used directly:
+  // - Structs have interfaces
+  // - Arrays and maps have type aliases
+  // - Cyclic schemas have type aliases
+  if (
+    allStructNames.has(baseExpr) ||
+    allArrayNames.has(baseExpr) ||
+    allMapNames.has(baseExpr) ||
+    cyclicSchemas.has(baseExpr)
+  ) {
+    return baseExpr;
+  }
+
+  // For other named schemas (unions), extract type
+  return `typeof ${baseExpr}["Type"]`;
 }
 
 // Topological sort for schema definitions to ensure dependencies come before dependents
@@ -457,6 +505,8 @@ function findCyclicSchemasFromDeps(
   cyclicSchemas: Set<string>;
   cyclicClasses: Set<string>;
   allStructNames: Set<string>;
+  allArrayNames: Set<string>;
+  allMapNames: Set<string>;
 } {
   const cyclicSchemas = new Set<string>();
 
@@ -525,18 +575,31 @@ function findCyclicSchemasFromDeps(
 
   // Determine which cyclic schemas will become classes (structs only)
   const cyclicClasses = new Set<string>();
-  // Collect ALL struct names (classes can be used directly as types)
+  // Collect ALL struct names (interfaces can be used directly as types)
   const allStructNames = new Set<string>();
+  // Collect ALL array and map names (type aliases can be used directly as types)
+  const allArrayNames = new Set<string>();
+  const allMapNames = new Set<string>();
   for (const [name, info] of shapeDeps) {
     if (info.type === "structure") {
       allStructNames.add(name);
       if (cyclicSchemas.has(name)) {
         cyclicClasses.add(name);
       }
+    } else if (info.type === "list") {
+      allArrayNames.add(name);
+    } else if (info.type === "map") {
+      allMapNames.add(name);
     }
   }
 
-  return { cyclicSchemas, cyclicClasses, allStructNames };
+  return {
+    cyclicSchemas,
+    cyclicClasses,
+    allStructNames,
+    allArrayNames,
+    allMapNames,
+  };
 }
 
 // Error shape traits collected from the model
@@ -907,35 +970,46 @@ const convertShapeToSchema: (
                   Effect.map((type) => {
                     //todo(pear): rewrite this in a more effectful way
                     // Wrap error shape references in S.suspend (they're defined after schemas)
+                    // Add identifier annotation for JSONSchema generation
                     let innerType = type;
                     if (isMemberErrorShape) {
-                      innerType = `S.suspend(() => ${type})`;
+                      innerType = `S.suspend(() => ${type}).annotations({ identifier: "${type}" })`;
                     }
-                    // Wrap cyclic references in S.suspend
+                    // Wrap cyclic references in S.suspend with identifier for JSONSchema
                     else if (sdkFile.cyclicSchemas.has(memberName)) {
                       innerType = sdkFile.cyclicClasses.has(memberName)
                         ? // TODO(sam): I had to add the any here because encoded type was creting circular errors. hopefully OK since we don't really need it
-                          `S.suspend((): S.Schema<${type}, any> => ${type})`
-                        : `S.suspend(() => ${type})`;
+                          `S.suspend((): S.Schema<${type}, any> => ${type}).annotations({ identifier: "${type}" })`
+                        : `S.suspend(() => ${type}).annotations({ identifier: "${type}" })`;
                     }
 
                     // Apply serialization traits (xmlName, timestampFormat, etc.) using unified function
-                    innerType = applyTraitsToSchema(innerType, s.member.traits);
+                    // Pass identifier for struct schemas so it's preserved after .pipe()
+                    innerType = applyTraitsToSchema(
+                      innerType,
+                      s.member.traits,
+                      undefined,
+                      sdkFile.allStructNames.has(memberName)
+                        ? memberName
+                        : undefined,
+                    );
 
                     // Build the array schema with optional sparse annotation
                     const sparsePipe = isSparse ? ".pipe(T.Sparse())" : "";
 
-                    if (isCyclic) {
-                      // For cyclic arrays, generate explicit type alias to help TypeScript inference
-                      const memberTsType = schemaExprToTsType(
-                        type,
-                        sdkFile.allStructNames,
-                        sdkFile.cyclicSchemas,
-                      );
-                      return `export type ${schemaName} = ${memberTsType}[];\nexport const ${schemaName} = S.Array(${innerType})${sparsePipe} as any as S.Schema<${schemaName}>;`;
-                    }
-
-                    return `export const ${schemaName} = S.Array(${innerType})${sparsePipe};`;
+                    // Always generate explicit type alias for arrays
+                    const memberTsType = schemaExprToTsType(
+                      type,
+                      sdkFile.allStructNames,
+                      sdkFile.allArrayNames,
+                      sdkFile.allMapNames,
+                      sdkFile.cyclicSchemas,
+                    );
+                    const typeAlias = `export type ${schemaName} = ${memberTsType}[];`;
+                    const schemaDef = isCyclic
+                      ? `export const ${schemaName} = S.Array(${innerType})${sparsePipe} as any as S.Schema<${schemaName}>;`
+                      : `export const ${schemaName} = S.Array(${innerType})${sparsePipe};`;
+                    return `${typeAlias}\n${schemaDef}`;
                   }),
                 ),
                 [memberName],
@@ -960,6 +1034,14 @@ const convertShapeToSchema: (
               const opOutputTraits =
                 sdkFile.operationOutputTraits.get(currentSchemaName);
               const isOperationOutput = opOutputTraits !== undefined;
+
+              // Member info type for generating both interface and schema
+              interface MemberInfo {
+                name: string;
+                schemaExpr: string;
+                tsType: string;
+                isOptional: boolean;
+              }
 
               const membersEffect = Effect.all(
                 Object.entries(s.members).map(([memberName, member]) =>
@@ -1003,21 +1085,25 @@ const convertShapeToSchema: (
                         null;
 
                     let baseSchema: string;
+                    let baseTsType: string;
                     if (isStreamingBlob || isBlobPayload) {
                       // Use different schema based on input vs output context
                       // Both streaming blobs and httpPayload blobs need raw bytes (not base64)
                       if (isOperationOutput) {
                         baseSchema = "T.StreamingOutput";
+                        baseTsType = "T.StreamingOutputBody";
                       } else if (isOperationInput) {
                         // Add RequiresLength trait if present on the target shape
                         baseSchema = hasRequiresLength
                           ? "T.StreamingInput.pipe(T.RequiresLength())"
                           : "T.StreamingInput";
+                        baseTsType = "T.StreamingInputBody";
                       } else {
                         // Nested structure - fallback to general StreamBody
                         baseSchema = hasRequiresLength
                           ? "T.StreamBody().pipe(T.RequiresLength())"
                           : "T.StreamBody()";
+                        baseTsType = "T.StreamBody";
                       }
                     } else if (isEventStream) {
                       // Event stream member - get the union schema and note it's a stream
@@ -1026,6 +1112,13 @@ const convertShapeToSchema: (
                       baseSchema = yield* convertShapeToSchema(
                         member.target,
                       ).pipe(Effect.flatMap(Deferred.await));
+                      baseTsType = schemaExprToTsType(
+                        baseSchema,
+                        sdkFile.allStructNames,
+                        sdkFile.allArrayNames,
+                        sdkFile.allMapNames,
+                        sdkFile.cyclicSchemas,
+                      );
                       // Add httpPayload annotation since event streams are the body
                       if (!hasHttpPayload) {
                         // Event stream members implicitly act as httpPayload
@@ -1034,9 +1127,17 @@ const convertShapeToSchema: (
                       baseSchema = yield* convertShapeToSchema(
                         member.target,
                       ).pipe(Effect.flatMap(Deferred.await));
+                      baseTsType = schemaExprToTsType(
+                        baseSchema,
+                        sdkFile.allStructNames,
+                        sdkFile.allArrayNames,
+                        sdkFile.allMapNames,
+                        sdkFile.cyclicSchemas,
+                      );
                     }
 
                     let schema = baseSchema;
+                    let tsType = baseTsType;
 
                     // Check if base schema is a timestamp (contains S.Date or TimestampFormat)
                     const isTimestampSchema =
@@ -1048,30 +1149,32 @@ const convertShapeToSchema: (
                     if (isTimestampSchema && hasHttpHeader && !explicitFormat) {
                       // HTTP headers default to http-date format
                       schema = `S.Date.pipe(T.TimestampFormat("http-date"))`;
+                      tsType = "Date";
                     } else if (isTimestampSchema && explicitFormat) {
                       // Explicit format on member overrides target
                       schema = `S.Date.pipe(T.TimestampFormat("${explicitFormat}"))`;
+                      tsType = "Date";
                     }
 
                     // Wrap error shape references in S.suspend (they're defined after schemas)
+                    // Add identifier annotation for JSONSchema generation
                     if (isMemberErrorShape) {
-                      schema = `S.suspend(() => ${schema})`;
+                      schema = `S.suspend(() => ${schema}).annotations({ identifier: "${schema}" })`;
                     }
-                    // Wrap cyclic references in S.suspend (only if current schema is also cyclic)
+                    // Wrap cyclic references in S.suspend with identifier for JSONSchema (only if current schema is also cyclic)
                     else if (
                       isCurrentCyclic &&
                       sdkFile.cyclicSchemas.has(memberTargetName)
                     ) {
                       if (sdkFile.cyclicClasses.has(memberTargetName)) {
                         // TODO(sam): I had to add the any here because encoded type was creting circular errors. hopefully OK since we don't really need it
-                        schema = `S.suspend((): S.Schema<${schema}, any> => ${schema})`;
+                        schema = `S.suspend((): S.Schema<${schema}, any> => ${schema}).annotations({ identifier: "${schema}" })`;
                       } else {
-                        schema = `S.suspend(() => ${schema})`;
+                        schema = `S.suspend(() => ${schema}).annotations({ identifier: "${schema}" })`;
                       }
                     }
 
-                    // Wrap in S.optional first (if not required)
-                    // Check for member override from spec patches first
+                    // Determine if optional - Check for member override from spec patches first
                     const structureOverride =
                       sdkFile.serviceSpec.structures?.[currentSchemaName];
                     const memberOverride =
@@ -1086,13 +1189,22 @@ const convertShapeToSchema: (
 
                     // Apply serialization traits using unified function
                     // Pass memberName so httpLabel can use it for path substitution when jsonName differs
+                    // Pass identifier for struct schemas so it's preserved after .pipe()
                     schema = applyTraitsToSchema(
                       schema,
                       member.traits,
                       memberName,
+                      sdkFile.allStructNames.has(memberTargetName)
+                        ? memberTargetName
+                        : undefined,
                     );
 
-                    return `${memberName}: ${schema}`;
+                    return {
+                      name: memberName,
+                      schemaExpr: schema,
+                      tsType,
+                      isOptional,
+                    };
                   }),
                 ),
                 { concurrency: "unbounded" },
@@ -1103,7 +1215,11 @@ const convertShapeToSchema: (
                 return Effect.gen(function* () {
                   const tsName = currentSchemaName;
                   const members = yield* membersEffect;
-                  const fields = `{${members.join(", ")}}`;
+                  // Build schema fields from member info
+                  const schemaFields = members
+                    .map((m) => `${m.name}: ${m.schemaExpr}`)
+                    .join(", ");
+                  const fields = `{${schemaFields}}`;
                   // Store the fields for later use in TaggedError generation
                   yield* Ref.update(sdkFile.errorFields, (map) => {
                     map.set(tsName, fields);
@@ -1135,8 +1251,20 @@ const convertShapeToSchema: (
               return addAlias(
                 membersEffect.pipe(
                   Effect.map((members) => {
-                    const fields = `{${members.join(", ")}}`;
-                    // Build class-level annotations array
+                    // Build interface fields: name?: Type
+                    const interfaceFields = members
+                      .map(
+                        (m) =>
+                          `${m.name}${m.isOptional ? "?" : ""}: ${m.tsType}`,
+                      )
+                      .join("; ");
+
+                    // Build schema struct fields: name: schemaExpr
+                    const schemaFields = members
+                      .map((m) => `${m.name}: ${m.schemaExpr}`)
+                      .join(", ");
+
+                    // Build annotations array
                     const classAnnotations: string[] = [];
                     if (xmlName) {
                       classAnnotations.push(`T.XmlName("${xmlName}")`);
@@ -1193,14 +1321,24 @@ const convertShapeToSchema: (
                         classAnnotations.push("T.S3UnwrappedXmlOutput()");
                       }
                     }
-                    // Only use T.all() when there are multiple annotations
-                    let annotations = "";
+
+                    // Build annotation pipe for schema - trait annotations go inside the suspend closure,
+                    // but identifier goes OUTSIDE on the suspend itself for JSON Schema generation
+                    let innerPipe = "";
                     if (classAnnotations.length === 1) {
-                      annotations = `, ${classAnnotations[0]}`;
+                      innerPipe = `.pipe(${classAnnotations[0]})`;
                     } else if (classAnnotations.length > 1) {
-                      annotations = `, T.all(${classAnnotations.join(", ")})`;
+                      innerPipe = `.pipe(T.all(${classAnnotations.join(", ")}))`;
                     }
-                    return `export class ${currentSchemaName} extends S.Class<${currentSchemaName}>("${currentSchemaName}")(${fields}${annotations}) {}`;
+                    // identifier annotation must be on the suspend, not inside it, for JSONSchema.make() to work
+                    const outerAnnotation = `.annotations({ identifier: "${currentSchemaName}" })`;
+
+                    // Generate interface + suspend(struct) pattern
+                    // Trait annotations inside suspend, identifier outside
+                    const interfaceDef = `export interface ${currentSchemaName} { ${interfaceFields} }`;
+                    const schemaDef = `export const ${currentSchemaName} = S.suspend(() => S.Struct({${schemaFields}})${innerPipe})${outerAnnotation} as any as S.Schema<${currentSchemaName}>;`;
+
+                    return `${interfaceDef}\n${schemaDef}`;
                   }),
                 ),
                 memberTargets,
@@ -1231,26 +1369,32 @@ const convertShapeToSchema: (
                         // Track both raw schema (for type alias) and wrapped schema (for schema definition)
                         let wrappedSchema = schema;
                         // Wrap error shape references in S.suspend (they're defined after schemas)
+                        // Add identifier annotation for JSONSchema generation
                         if (isMemberErrorShape) {
-                          wrappedSchema = `S.suspend(() => ${schema})`;
+                          wrappedSchema = `S.suspend(() => ${schema}).annotations({ identifier: "${schema}" })`;
                         }
-                        // Wrap cyclic references in S.suspend
+                        // Wrap cyclic references in S.suspend with identifier for JSONSchema
                         else if (
                           isCurrentCyclic &&
                           sdkFile.cyclicSchemas.has(memberTargetName)
                         ) {
                           if (sdkFile.cyclicClasses.has(memberTargetName)) {
                             // TODO(sam): I had to add the any here because encoded type was creting circular errors. hopefully OK since we don't really need it
-                            wrappedSchema = `S.suspend((): S.Schema<${schema}, any> => ${schema})`;
+                            wrappedSchema = `S.suspend((): S.Schema<${schema}, any> => ${schema}).annotations({ identifier: "${schema}" })`;
                           } else {
-                            wrappedSchema = `S.suspend(() => ${schema})`;
+                            wrappedSchema = `S.suspend(() => ${schema}).annotations({ identifier: "${schema}" })`;
                           }
                         }
 
                         // Apply serialization traits (jsonName, xmlName, etc.) to the inner schema
+                        // Pass identifier for struct schemas so it's preserved after .pipe()
                         wrappedSchema = applyTraitsToSchema(
                           wrappedSchema,
                           member.traits,
+                          undefined,
+                          sdkFile.allStructNames.has(memberTargetName)
+                            ? memberTargetName
+                            : undefined,
                         );
 
                         // Wrap in a struct with the member name as the key (Smithy unions are tagged)
@@ -1290,6 +1434,8 @@ const convertShapeToSchema: (
                           const innerType = schemaExprToTsType(
                             m.raw,
                             sdkFile.allStructNames,
+                            sdkFile.allArrayNames,
+                            sdkFile.allMapNames,
                             sdkFile.cyclicSchemas,
                           );
                           return `{ ${m.name}: ${innerType} }`;
@@ -1332,52 +1478,62 @@ const convertShapeToSchema: (
                   { concurrency: "unbounded" },
                 ).pipe(
                   Effect.map(([keySchema, valueSchema]) => {
-                    // Wrap error shape or cyclic references in S.suspend
+                    // Wrap error shape or cyclic references in S.suspend with identifier for JSONSchema
                     let wrappedKey = keySchema;
                     let wrappedValue = valueSchema;
 
                     if (isKeyErrorShape) {
-                      wrappedKey = `S.suspend(() => ${keySchema})`;
+                      wrappedKey = `S.suspend(() => ${keySchema}).annotations({ identifier: "${keySchema}" })`;
                     } else if (sdkFile.cyclicSchemas.has(keyTargetName)) {
                       wrappedKey = sdkFile.cyclicClasses.has(keyTargetName)
-                        ? `S.suspend((): S.Schema<${keySchema}, any> => ${keySchema})`
-                        : `S.suspend(() => ${keySchema})`;
+                        ? `S.suspend((): S.Schema<${keySchema}, any> => ${keySchema}).annotations({ identifier: "${keySchema}" })`
+                        : `S.suspend(() => ${keySchema}).annotations({ identifier: "${keySchema}" })`;
                     }
 
                     if (isValueErrorShape) {
-                      wrappedValue = `S.suspend(() => ${valueSchema})`;
+                      wrappedValue = `S.suspend(() => ${valueSchema}).annotations({ identifier: "${valueSchema}" })`;
                     } else if (sdkFile.cyclicSchemas.has(valueTargetName)) {
                       wrappedValue = sdkFile.cyclicClasses.has(valueTargetName)
-                        ? `S.suspend((): S.Schema<${valueSchema}, any> => ${valueSchema})`
-                        : `S.suspend(() => ${valueSchema})`;
+                        ? `S.suspend((): S.Schema<${valueSchema}, any> => ${valueSchema}).annotations({ identifier: "${valueSchema}" })`
+                        : `S.suspend(() => ${valueSchema}).annotations({ identifier: "${valueSchema}" })`;
                     }
 
                     // Apply serialization traits (xmlName, etc.) using unified function
-                    wrappedKey = applyTraitsToSchema(wrappedKey, s.key.traits);
+                    // Pass identifier for struct schemas so it's preserved after .pipe()
+                    wrappedKey = applyTraitsToSchema(
+                      wrappedKey,
+                      s.key.traits,
+                      undefined,
+                      sdkFile.allStructNames.has(keyTargetName)
+                        ? keyTargetName
+                        : undefined,
+                    );
                     wrappedValue = applyTraitsToSchema(
                       wrappedValue,
                       s.value.traits,
+                      undefined,
+                      sdkFile.allStructNames.has(valueTargetName)
+                        ? valueTargetName
+                        : undefined,
                     );
 
                     // Build the record schema with optional sparse annotation
                     const sparsePipe = isSparse ? ".pipe(T.Sparse())" : "";
 
-                    if (isCyclic) {
-                      // For cyclic maps, generate explicit type alias to help TypeScript inference
-                      const keyTsType = schemaExprToTsType(
-                        keySchema,
-                        sdkFile.allStructNames,
-                        sdkFile.cyclicSchemas,
-                      );
-                      const valueTsType = schemaExprToTsType(
-                        valueSchema,
-                        sdkFile.allStructNames,
-                        sdkFile.cyclicSchemas,
-                      );
-                      return `export type ${schemaName} = { [key: ${keyTsType}]: ${valueTsType} };\nexport const ${schemaName} = S.Record({key: ${wrappedKey}, value: ${wrappedValue}})${sparsePipe} as any as S.Schema<${schemaName}>;`;
-                    }
-
-                    return `export const ${schemaName} = S.Record({key: ${wrappedKey}, value: ${wrappedValue}})${sparsePipe};`;
+                    // Always generate explicit type alias for records/maps
+                    // Use index signature syntax to avoid conflicts with local Record schema
+                    const valueTsType = schemaExprToTsType(
+                      valueSchema,
+                      sdkFile.allStructNames,
+                      sdkFile.allArrayNames,
+                      sdkFile.allMapNames,
+                      sdkFile.cyclicSchemas,
+                    );
+                    const typeAlias = `export type ${schemaName} = { [key: string]: ${valueTsType} };`;
+                    const schemaDef = isCyclic
+                      ? `export const ${schemaName} = S.Record({key: ${wrappedKey}, value: ${wrappedValue}})${sparsePipe} as any as S.Schema<${schemaName}>;`
+                      : `export const ${schemaName} = S.Record({key: ${wrappedKey}, value: ${wrappedValue}})${sparsePipe};`;
+                    return `${typeAlias}\n${schemaDef}`;
                   }),
                 ),
                 [keyTargetName, valueTargetName],
@@ -1556,10 +1712,10 @@ const generateClient = Effect.fn(function* (
         // Get operation name for generating Unit type class names
         const opName = operationShapeName.split("#")[1];
 
-        // Handle smithy.api#Unit specially - generate a proper class with protocol annotations
+        // Handle smithy.api#Unit specially - generate interface + suspend(struct) with protocol annotations
         const input = yield* Effect.gen(function* () {
           if (operationShape.input.target === "smithy.api#Unit") {
-            // Generate a Request class for Unit inputs with proper annotations
+            // Generate an interface + schema for Unit inputs with proper annotations
             const className = `${opName}Request`;
             const opTraits = sdkFile.operationInputTraits.get(className);
             const classAnnotations: string[] = [];
@@ -1583,11 +1739,20 @@ const generateClient = Effect.fn(function* (
               classAnnotations.push("rules");
             }
 
-            const annotations =
-              classAnnotations.length === 1
-                ? `, ${classAnnotations[0]}`
-                : `, T.all(${classAnnotations.join(", ")})`;
-            const definition = `export class ${className} extends S.Class<${className}>("${className}")({}${annotations}) {}`;
+            // Build annotation pipe - trait annotations go inside the suspend closure,
+            // but identifier goes OUTSIDE on the suspend itself for JSON Schema generation
+            let innerPipe = "";
+            if (classAnnotations.length === 1) {
+              innerPipe = `.pipe(${classAnnotations[0]})`;
+            } else if (classAnnotations.length > 1) {
+              innerPipe = `.pipe(T.all(${classAnnotations.join(", ")}))`;
+            }
+            // identifier annotation must be on the suspend, not inside it, for JSONSchema.make() to work
+            const outerAnnotation = `.annotations({ identifier: "${className}" })`;
+
+            const interfaceDef = `export interface ${className} {}`;
+            const schemaDef = `export const ${className} = S.suspend(() => S.Struct({})${innerPipe})${outerAnnotation} as any as S.Schema<${className}>;`;
+            const definition = `${interfaceDef}\n${schemaDef}`;
             yield* Ref.update(sdkFile.schemas, (arr) => [
               ...arr,
               { name: className, definition, deps: [] },
@@ -1601,19 +1766,27 @@ const generateClient = Effect.fn(function* (
 
         const output = yield* Effect.gen(function* () {
           if (operationShape.output.target === "smithy.api#Unit") {
-            // Generate a Response class for Unit outputs
+            // Generate an interface + schema for Unit outputs
             const className = `${opName}Response`;
             const classAnnotations: string[] = [];
             if (sdkFile.serviceXmlNamespace) {
               classAnnotations.push("ns");
             }
-            const annotations =
-              classAnnotations.length === 1
-                ? `, ${classAnnotations[0]}`
-                : classAnnotations.length > 0
-                  ? `, T.all(${classAnnotations.join(", ")})`
-                  : "";
-            const definition = `export class ${className} extends S.Class<${className}>("${className}")({}${annotations}) {}`;
+
+            // Build annotation pipe - trait annotations go inside the suspend closure,
+            // but identifier goes OUTSIDE on the suspend itself for JSON Schema generation
+            let innerPipe = "";
+            if (classAnnotations.length === 1) {
+              innerPipe = `.pipe(${classAnnotations[0]})`;
+            } else if (classAnnotations.length > 1) {
+              innerPipe = `.pipe(T.all(${classAnnotations.join(", ")}))`;
+            }
+            // identifier annotation must be on the suspend, not inside it, for JSONSchema.make() to work
+            const outerAnnotation = `.annotations({ identifier: "${className}" })`;
+
+            const interfaceDef = `export interface ${className} {}`;
+            const schemaDef = `export const ${className} = S.suspend(() => S.Struct({})${innerPipe})${outerAnnotation} as any as S.Schema<${className}>;`;
+            const definition = `${interfaceDef}\n${schemaDef}`;
             yield* Ref.update(sdkFile.schemas, (arr) => [
               ...arr,
               { name: className, definition, deps: [] },
@@ -1820,8 +1993,13 @@ const generateClient = Effect.fn(function* (
 
   // Pre-compute cyclic schemas from the model before generation
   const shapeDeps = collectShapeDependencies(model);
-  const { cyclicSchemas, cyclicClasses, allStructNames } =
-    findCyclicSchemasFromDeps(shapeDeps);
+  const {
+    cyclicSchemas,
+    cyclicClasses,
+    allStructNames,
+    allArrayNames,
+    allMapNames,
+  } = findCyclicSchemasFromDeps(shapeDeps);
 
   // Pre-collect error shape IDs so we can inline their fields in TaggedError
   const errorShapeIds = collectErrorShapeIds(model);
@@ -1885,6 +2063,8 @@ const generateClient = Effect.fn(function* (
       cyclicSchemas,
       cyclicClasses,
       allStructNames,
+      allArrayNames,
+      allMapNames,
       errorShapeIds,
       errorFields: yield* Ref.make<Map<string, string>>(new Map()),
       usesMiddleware: yield* Ref.make<boolean>(false),

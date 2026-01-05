@@ -291,1019 +291,1703 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type TagKeys = string[];
 export const TagKeys = S.Array(S.String);
-export class CancelSolNetworkOperationInput extends S.Class<CancelSolNetworkOperationInput>(
-  "CancelSolNetworkOperationInput",
-)(
-  { nsLcmOpOccId: S.String.pipe(T.HttpLabel("nsLcmOpOccId")) },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/sol/nslcm/v1/ns_lcm_op_occs/{nsLcmOpOccId}/cancel",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface CancelSolNetworkOperationInput {
+  nsLcmOpOccId: string;
+}
+export const CancelSolNetworkOperationInput = S.suspend(() =>
+  S.Struct({ nsLcmOpOccId: S.String.pipe(T.HttpLabel("nsLcmOpOccId")) }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/sol/nslcm/v1/ns_lcm_op_occs/{nsLcmOpOccId}/cancel",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CancelSolNetworkOperationResponse extends S.Class<CancelSolNetworkOperationResponse>(
-  "CancelSolNetworkOperationResponse",
-)({}) {}
+).annotations({
+  identifier: "CancelSolNetworkOperationInput",
+}) as any as S.Schema<CancelSolNetworkOperationInput>;
+export interface CancelSolNetworkOperationResponse {}
+export const CancelSolNetworkOperationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "CancelSolNetworkOperationResponse",
+}) as any as S.Schema<CancelSolNetworkOperationResponse>;
+export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
-export class CreateSolNetworkInstanceInput extends S.Class<CreateSolNetworkInstanceInput>(
-  "CreateSolNetworkInstanceInput",
-)(
-  {
+export interface CreateSolNetworkInstanceInput {
+  nsdInfoId: string;
+  nsName: string;
+  nsDescription?: string;
+  tags?: TagMap;
+}
+export const CreateSolNetworkInstanceInput = S.suspend(() =>
+  S.Struct({
     nsdInfoId: S.String,
     nsName: S.String,
     nsDescription: S.optional(S.String),
     tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/sol/nslcm/v1/ns_instances" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/sol/nslcm/v1/ns_instances" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateSolNetworkPackageInput extends S.Class<CreateSolNetworkPackageInput>(
-  "CreateSolNetworkPackageInput",
-)(
-  { tags: S.optional(TagMap) },
-  T.all(
-    T.Http({ method: "POST", uri: "/sol/nsd/v1/ns_descriptors" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CreateSolNetworkInstanceInput",
+}) as any as S.Schema<CreateSolNetworkInstanceInput>;
+export interface CreateSolNetworkPackageInput {
+  tags?: TagMap;
+}
+export const CreateSolNetworkPackageInput = S.suspend(() =>
+  S.Struct({ tags: S.optional(TagMap) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/sol/nsd/v1/ns_descriptors" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteSolFunctionPackageInput extends S.Class<DeleteSolFunctionPackageInput>(
-  "DeleteSolFunctionPackageInput",
-)(
-  { vnfPkgId: S.String.pipe(T.HttpLabel("vnfPkgId")) },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/sol/vnfpkgm/v1/vnf_packages/{vnfPkgId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CreateSolNetworkPackageInput",
+}) as any as S.Schema<CreateSolNetworkPackageInput>;
+export interface DeleteSolFunctionPackageInput {
+  vnfPkgId: string;
+}
+export const DeleteSolFunctionPackageInput = S.suspend(() =>
+  S.Struct({ vnfPkgId: S.String.pipe(T.HttpLabel("vnfPkgId")) }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/sol/vnfpkgm/v1/vnf_packages/{vnfPkgId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteSolFunctionPackageResponse extends S.Class<DeleteSolFunctionPackageResponse>(
-  "DeleteSolFunctionPackageResponse",
-)({}) {}
-export class DeleteSolNetworkInstanceInput extends S.Class<DeleteSolNetworkInstanceInput>(
-  "DeleteSolNetworkInstanceInput",
-)(
-  { nsInstanceId: S.String.pipe(T.HttpLabel("nsInstanceId")) },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/sol/nslcm/v1/ns_instances/{nsInstanceId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteSolFunctionPackageInput",
+}) as any as S.Schema<DeleteSolFunctionPackageInput>;
+export interface DeleteSolFunctionPackageResponse {}
+export const DeleteSolFunctionPackageResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteSolFunctionPackageResponse",
+}) as any as S.Schema<DeleteSolFunctionPackageResponse>;
+export interface DeleteSolNetworkInstanceInput {
+  nsInstanceId: string;
+}
+export const DeleteSolNetworkInstanceInput = S.suspend(() =>
+  S.Struct({ nsInstanceId: S.String.pipe(T.HttpLabel("nsInstanceId")) }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/sol/nslcm/v1/ns_instances/{nsInstanceId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteSolNetworkInstanceResponse extends S.Class<DeleteSolNetworkInstanceResponse>(
-  "DeleteSolNetworkInstanceResponse",
-)({}) {}
-export class DeleteSolNetworkPackageInput extends S.Class<DeleteSolNetworkPackageInput>(
-  "DeleteSolNetworkPackageInput",
-)(
-  { nsdInfoId: S.String.pipe(T.HttpLabel("nsdInfoId")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/sol/nsd/v1/ns_descriptors/{nsdInfoId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteSolNetworkInstanceInput",
+}) as any as S.Schema<DeleteSolNetworkInstanceInput>;
+export interface DeleteSolNetworkInstanceResponse {}
+export const DeleteSolNetworkInstanceResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteSolNetworkInstanceResponse",
+}) as any as S.Schema<DeleteSolNetworkInstanceResponse>;
+export interface DeleteSolNetworkPackageInput {
+  nsdInfoId: string;
+}
+export const DeleteSolNetworkPackageInput = S.suspend(() =>
+  S.Struct({ nsdInfoId: S.String.pipe(T.HttpLabel("nsdInfoId")) }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/sol/nsd/v1/ns_descriptors/{nsdInfoId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteSolNetworkPackageResponse extends S.Class<DeleteSolNetworkPackageResponse>(
-  "DeleteSolNetworkPackageResponse",
-)({}) {}
-export class GetSolFunctionInstanceInput extends S.Class<GetSolFunctionInstanceInput>(
-  "GetSolFunctionInstanceInput",
-)(
-  { vnfInstanceId: S.String.pipe(T.HttpLabel("vnfInstanceId")) },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/sol/vnflcm/v1/vnf_instances/{vnfInstanceId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteSolNetworkPackageInput",
+}) as any as S.Schema<DeleteSolNetworkPackageInput>;
+export interface DeleteSolNetworkPackageResponse {}
+export const DeleteSolNetworkPackageResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteSolNetworkPackageResponse",
+}) as any as S.Schema<DeleteSolNetworkPackageResponse>;
+export interface GetSolFunctionInstanceInput {
+  vnfInstanceId: string;
+}
+export const GetSolFunctionInstanceInput = S.suspend(() =>
+  S.Struct({ vnfInstanceId: S.String.pipe(T.HttpLabel("vnfInstanceId")) }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/sol/vnflcm/v1/vnf_instances/{vnfInstanceId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetSolFunctionPackageInput extends S.Class<GetSolFunctionPackageInput>(
-  "GetSolFunctionPackageInput",
-)(
-  { vnfPkgId: S.String.pipe(T.HttpLabel("vnfPkgId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/sol/vnfpkgm/v1/vnf_packages/{vnfPkgId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetSolFunctionInstanceInput",
+}) as any as S.Schema<GetSolFunctionInstanceInput>;
+export interface GetSolFunctionPackageInput {
+  vnfPkgId: string;
+}
+export const GetSolFunctionPackageInput = S.suspend(() =>
+  S.Struct({ vnfPkgId: S.String.pipe(T.HttpLabel("vnfPkgId")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/sol/vnfpkgm/v1/vnf_packages/{vnfPkgId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetSolFunctionPackageContentInput extends S.Class<GetSolFunctionPackageContentInput>(
-  "GetSolFunctionPackageContentInput",
-)(
-  {
+).annotations({
+  identifier: "GetSolFunctionPackageInput",
+}) as any as S.Schema<GetSolFunctionPackageInput>;
+export interface GetSolFunctionPackageContentInput {
+  vnfPkgId: string;
+  accept: string;
+}
+export const GetSolFunctionPackageContentInput = S.suspend(() =>
+  S.Struct({
     vnfPkgId: S.String.pipe(T.HttpLabel("vnfPkgId")),
     accept: S.String.pipe(T.HttpHeader("Accept")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/sol/vnfpkgm/v1/vnf_packages/{vnfPkgId}/package_content",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/sol/vnfpkgm/v1/vnf_packages/{vnfPkgId}/package_content",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetSolFunctionPackageDescriptorInput extends S.Class<GetSolFunctionPackageDescriptorInput>(
-  "GetSolFunctionPackageDescriptorInput",
-)(
-  {
+).annotations({
+  identifier: "GetSolFunctionPackageContentInput",
+}) as any as S.Schema<GetSolFunctionPackageContentInput>;
+export interface GetSolFunctionPackageDescriptorInput {
+  vnfPkgId: string;
+  accept: string;
+}
+export const GetSolFunctionPackageDescriptorInput = S.suspend(() =>
+  S.Struct({
     vnfPkgId: S.String.pipe(T.HttpLabel("vnfPkgId")),
     accept: S.String.pipe(T.HttpHeader("Accept")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/sol/vnfpkgm/v1/vnf_packages/{vnfPkgId}/vnfd",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/sol/vnfpkgm/v1/vnf_packages/{vnfPkgId}/vnfd",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetSolNetworkInstanceInput extends S.Class<GetSolNetworkInstanceInput>(
-  "GetSolNetworkInstanceInput",
-)(
-  { nsInstanceId: S.String.pipe(T.HttpLabel("nsInstanceId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/sol/nslcm/v1/ns_instances/{nsInstanceId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetSolFunctionPackageDescriptorInput",
+}) as any as S.Schema<GetSolFunctionPackageDescriptorInput>;
+export interface GetSolNetworkInstanceInput {
+  nsInstanceId: string;
+}
+export const GetSolNetworkInstanceInput = S.suspend(() =>
+  S.Struct({ nsInstanceId: S.String.pipe(T.HttpLabel("nsInstanceId")) }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/sol/nslcm/v1/ns_instances/{nsInstanceId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetSolNetworkOperationInput extends S.Class<GetSolNetworkOperationInput>(
-  "GetSolNetworkOperationInput",
-)(
-  { nsLcmOpOccId: S.String.pipe(T.HttpLabel("nsLcmOpOccId")) },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/sol/nslcm/v1/ns_lcm_op_occs/{nsLcmOpOccId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetSolNetworkInstanceInput",
+}) as any as S.Schema<GetSolNetworkInstanceInput>;
+export interface GetSolNetworkOperationInput {
+  nsLcmOpOccId: string;
+}
+export const GetSolNetworkOperationInput = S.suspend(() =>
+  S.Struct({ nsLcmOpOccId: S.String.pipe(T.HttpLabel("nsLcmOpOccId")) }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/sol/nslcm/v1/ns_lcm_op_occs/{nsLcmOpOccId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetSolNetworkPackageInput extends S.Class<GetSolNetworkPackageInput>(
-  "GetSolNetworkPackageInput",
-)(
-  { nsdInfoId: S.String.pipe(T.HttpLabel("nsdInfoId")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/sol/nsd/v1/ns_descriptors/{nsdInfoId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetSolNetworkOperationInput",
+}) as any as S.Schema<GetSolNetworkOperationInput>;
+export interface GetSolNetworkPackageInput {
+  nsdInfoId: string;
+}
+export const GetSolNetworkPackageInput = S.suspend(() =>
+  S.Struct({ nsdInfoId: S.String.pipe(T.HttpLabel("nsdInfoId")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/sol/nsd/v1/ns_descriptors/{nsdInfoId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetSolNetworkPackageContentInput extends S.Class<GetSolNetworkPackageContentInput>(
-  "GetSolNetworkPackageContentInput",
-)(
-  {
+).annotations({
+  identifier: "GetSolNetworkPackageInput",
+}) as any as S.Schema<GetSolNetworkPackageInput>;
+export interface GetSolNetworkPackageContentInput {
+  nsdInfoId: string;
+  accept: string;
+}
+export const GetSolNetworkPackageContentInput = S.suspend(() =>
+  S.Struct({
     nsdInfoId: S.String.pipe(T.HttpLabel("nsdInfoId")),
     accept: S.String.pipe(T.HttpHeader("Accept")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/sol/nsd/v1/ns_descriptors/{nsdInfoId}/nsd_content",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/sol/nsd/v1/ns_descriptors/{nsdInfoId}/nsd_content",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetSolNetworkPackageDescriptorInput extends S.Class<GetSolNetworkPackageDescriptorInput>(
-  "GetSolNetworkPackageDescriptorInput",
-)(
-  { nsdInfoId: S.String.pipe(T.HttpLabel("nsdInfoId")) },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/sol/nsd/v1/ns_descriptors/{nsdInfoId}/nsd",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetSolNetworkPackageContentInput",
+}) as any as S.Schema<GetSolNetworkPackageContentInput>;
+export interface GetSolNetworkPackageDescriptorInput {
+  nsdInfoId: string;
+}
+export const GetSolNetworkPackageDescriptorInput = S.suspend(() =>
+  S.Struct({ nsdInfoId: S.String.pipe(T.HttpLabel("nsdInfoId")) }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/sol/nsd/v1/ns_descriptors/{nsdInfoId}/nsd",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class InstantiateSolNetworkInstanceInput extends S.Class<InstantiateSolNetworkInstanceInput>(
-  "InstantiateSolNetworkInstanceInput",
-)(
-  {
+).annotations({
+  identifier: "GetSolNetworkPackageDescriptorInput",
+}) as any as S.Schema<GetSolNetworkPackageDescriptorInput>;
+export interface InstantiateSolNetworkInstanceInput {
+  nsInstanceId: string;
+  dryRun?: boolean;
+  additionalParamsForNs?: any;
+  tags?: TagMap;
+}
+export const InstantiateSolNetworkInstanceInput = S.suspend(() =>
+  S.Struct({
     nsInstanceId: S.String.pipe(T.HttpLabel("nsInstanceId")),
     dryRun: S.optional(S.Boolean).pipe(T.HttpQuery("dry_run")),
     additionalParamsForNs: S.optional(S.Any),
     tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/sol/nslcm/v1/ns_instances/{nsInstanceId}/instantiate",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/sol/nslcm/v1/ns_instances/{nsInstanceId}/instantiate",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListSolFunctionInstancesInput extends S.Class<ListSolFunctionInstancesInput>(
-  "ListSolFunctionInstancesInput",
-)(
-  {
+).annotations({
+  identifier: "InstantiateSolNetworkInstanceInput",
+}) as any as S.Schema<InstantiateSolNetworkInstanceInput>;
+export interface ListSolFunctionInstancesInput {
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListSolFunctionInstancesInput = S.suspend(() =>
+  S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("max_results")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextpage_opaque_marker")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/sol/vnflcm/v1/vnf_instances" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/sol/vnflcm/v1/vnf_instances" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListSolFunctionPackagesInput extends S.Class<ListSolFunctionPackagesInput>(
-  "ListSolFunctionPackagesInput",
-)(
-  {
+).annotations({
+  identifier: "ListSolFunctionInstancesInput",
+}) as any as S.Schema<ListSolFunctionInstancesInput>;
+export interface ListSolFunctionPackagesInput {
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListSolFunctionPackagesInput = S.suspend(() =>
+  S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("max_results")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextpage_opaque_marker")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/sol/vnfpkgm/v1/vnf_packages" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/sol/vnfpkgm/v1/vnf_packages" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListSolNetworkInstancesInput extends S.Class<ListSolNetworkInstancesInput>(
-  "ListSolNetworkInstancesInput",
-)(
-  {
+).annotations({
+  identifier: "ListSolFunctionPackagesInput",
+}) as any as S.Schema<ListSolFunctionPackagesInput>;
+export interface ListSolNetworkInstancesInput {
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListSolNetworkInstancesInput = S.suspend(() =>
+  S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("max_results")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextpage_opaque_marker")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/sol/nslcm/v1/ns_instances" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/sol/nslcm/v1/ns_instances" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListSolNetworkOperationsInput extends S.Class<ListSolNetworkOperationsInput>(
-  "ListSolNetworkOperationsInput",
-)(
-  {
+).annotations({
+  identifier: "ListSolNetworkInstancesInput",
+}) as any as S.Schema<ListSolNetworkInstancesInput>;
+export interface ListSolNetworkOperationsInput {
+  nsInstanceId?: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListSolNetworkOperationsInput = S.suspend(() =>
+  S.Struct({
     nsInstanceId: S.optional(S.String).pipe(T.HttpQuery("nsInstanceId")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("max_results")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextpage_opaque_marker")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/sol/nslcm/v1/ns_lcm_op_occs" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/sol/nslcm/v1/ns_lcm_op_occs" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListSolNetworkPackagesInput extends S.Class<ListSolNetworkPackagesInput>(
-  "ListSolNetworkPackagesInput",
-)(
-  {
+).annotations({
+  identifier: "ListSolNetworkOperationsInput",
+}) as any as S.Schema<ListSolNetworkOperationsInput>;
+export interface ListSolNetworkPackagesInput {
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListSolNetworkPackagesInput = S.suspend(() =>
+  S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("max_results")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextpage_opaque_marker")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/sol/nsd/v1/ns_descriptors" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/sol/nsd/v1/ns_descriptors" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTagsForResourceInput extends S.Class<ListTagsForResourceInput>(
-  "ListTagsForResourceInput",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListSolNetworkPackagesInput",
+}) as any as S.Schema<ListSolNetworkPackagesInput>;
+export interface ListTagsForResourceInput {
+  resourceArn: string;
+}
+export const ListTagsForResourceInput = S.suspend(() =>
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutSolFunctionPackageContentInput extends S.Class<PutSolFunctionPackageContentInput>(
-  "PutSolFunctionPackageContentInput",
-)(
-  {
+).annotations({
+  identifier: "ListTagsForResourceInput",
+}) as any as S.Schema<ListTagsForResourceInput>;
+export interface PutSolFunctionPackageContentInput {
+  vnfPkgId: string;
+  contentType?: string;
+  file: T.StreamingInputBody;
+}
+export const PutSolFunctionPackageContentInput = S.suspend(() =>
+  S.Struct({
     vnfPkgId: S.String.pipe(T.HttpLabel("vnfPkgId")),
     contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
     file: T.StreamingInput.pipe(T.HttpPayload()),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/sol/vnfpkgm/v1/vnf_packages/{vnfPkgId}/package_content",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/sol/vnfpkgm/v1/vnf_packages/{vnfPkgId}/package_content",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PutSolNetworkPackageContentInput extends S.Class<PutSolNetworkPackageContentInput>(
-  "PutSolNetworkPackageContentInput",
-)(
-  {
+).annotations({
+  identifier: "PutSolFunctionPackageContentInput",
+}) as any as S.Schema<PutSolFunctionPackageContentInput>;
+export interface PutSolNetworkPackageContentInput {
+  nsdInfoId: string;
+  contentType?: string;
+  file: T.StreamingInputBody;
+}
+export const PutSolNetworkPackageContentInput = S.suspend(() =>
+  S.Struct({
     nsdInfoId: S.String.pipe(T.HttpLabel("nsdInfoId")),
     contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
     file: T.StreamingInput.pipe(T.HttpPayload()),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/sol/nsd/v1/ns_descriptors/{nsdInfoId}/nsd_content",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/sol/nsd/v1/ns_descriptors/{nsdInfoId}/nsd_content",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceInput extends S.Class<TagResourceInput>(
-  "TagResourceInput",
-)(
-  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap },
-  T.all(
-    T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "PutSolNetworkPackageContentInput",
+}) as any as S.Schema<PutSolNetworkPackageContentInput>;
+export interface TagResourceInput {
+  resourceArn: string;
+  tags: TagMap;
+}
+export const TagResourceInput = S.suspend(() =>
+  S.Struct({
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+    tags: TagMap,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceOutput extends S.Class<TagResourceOutput>(
-  "TagResourceOutput",
-)({}) {}
-export class TerminateSolNetworkInstanceInput extends S.Class<TerminateSolNetworkInstanceInput>(
-  "TerminateSolNetworkInstanceInput",
-)(
-  {
+).annotations({
+  identifier: "TagResourceInput",
+}) as any as S.Schema<TagResourceInput>;
+export interface TagResourceOutput {}
+export const TagResourceOutput = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceOutput",
+}) as any as S.Schema<TagResourceOutput>;
+export interface TerminateSolNetworkInstanceInput {
+  nsInstanceId: string;
+  tags?: TagMap;
+}
+export const TerminateSolNetworkInstanceInput = S.suspend(() =>
+  S.Struct({
     nsInstanceId: S.String.pipe(T.HttpLabel("nsInstanceId")),
     tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/sol/nslcm/v1/ns_instances/{nsInstanceId}/terminate",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/sol/nslcm/v1/ns_instances/{nsInstanceId}/terminate",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceInput extends S.Class<UntagResourceInput>(
-  "UntagResourceInput",
-)(
-  {
+).annotations({
+  identifier: "TerminateSolNetworkInstanceInput",
+}) as any as S.Schema<TerminateSolNetworkInstanceInput>;
+export interface UntagResourceInput {
+  resourceArn: string;
+  tagKeys: TagKeys;
+}
+export const UntagResourceInput = S.suspend(() =>
+  S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceOutput extends S.Class<UntagResourceOutput>(
-  "UntagResourceOutput",
-)({}) {}
-export class UpdateSolFunctionPackageInput extends S.Class<UpdateSolFunctionPackageInput>(
-  "UpdateSolFunctionPackageInput",
-)(
-  {
+).annotations({
+  identifier: "UntagResourceInput",
+}) as any as S.Schema<UntagResourceInput>;
+export interface UntagResourceOutput {}
+export const UntagResourceOutput = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceOutput",
+}) as any as S.Schema<UntagResourceOutput>;
+export interface UpdateSolFunctionPackageInput {
+  vnfPkgId: string;
+  operationalState: string;
+}
+export const UpdateSolFunctionPackageInput = S.suspend(() =>
+  S.Struct({
     vnfPkgId: S.String.pipe(T.HttpLabel("vnfPkgId")),
     operationalState: S.String,
-  },
-  T.all(
-    T.Http({ method: "PATCH", uri: "/sol/vnfpkgm/v1/vnf_packages/{vnfPkgId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/sol/vnfpkgm/v1/vnf_packages/{vnfPkgId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateSolNetworkPackageInput extends S.Class<UpdateSolNetworkPackageInput>(
-  "UpdateSolNetworkPackageInput",
-)(
-  {
+).annotations({
+  identifier: "UpdateSolFunctionPackageInput",
+}) as any as S.Schema<UpdateSolFunctionPackageInput>;
+export interface UpdateSolNetworkPackageInput {
+  nsdInfoId: string;
+  nsdOperationalState: string;
+}
+export const UpdateSolNetworkPackageInput = S.suspend(() =>
+  S.Struct({
     nsdInfoId: S.String.pipe(T.HttpLabel("nsdInfoId")),
     nsdOperationalState: S.String,
-  },
-  T.all(
-    T.Http({ method: "PATCH", uri: "/sol/nsd/v1/ns_descriptors/{nsdInfoId}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/sol/nsd/v1/ns_descriptors/{nsdInfoId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ValidateSolFunctionPackageContentInput extends S.Class<ValidateSolFunctionPackageContentInput>(
-  "ValidateSolFunctionPackageContentInput",
-)(
-  {
+).annotations({
+  identifier: "UpdateSolNetworkPackageInput",
+}) as any as S.Schema<UpdateSolNetworkPackageInput>;
+export interface ValidateSolFunctionPackageContentInput {
+  vnfPkgId: string;
+  contentType?: string;
+  file: T.StreamingInputBody;
+}
+export const ValidateSolFunctionPackageContentInput = S.suspend(() =>
+  S.Struct({
     vnfPkgId: S.String.pipe(T.HttpLabel("vnfPkgId")),
     contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
     file: T.StreamingInput.pipe(T.HttpPayload()),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/sol/vnfpkgm/v1/vnf_packages/{vnfPkgId}/package_content/validate",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/sol/vnfpkgm/v1/vnf_packages/{vnfPkgId}/package_content/validate",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ValidateSolNetworkPackageContentInput extends S.Class<ValidateSolNetworkPackageContentInput>(
-  "ValidateSolNetworkPackageContentInput",
-)(
-  {
+).annotations({
+  identifier: "ValidateSolFunctionPackageContentInput",
+}) as any as S.Schema<ValidateSolFunctionPackageContentInput>;
+export interface ValidateSolNetworkPackageContentInput {
+  nsdInfoId: string;
+  contentType?: string;
+  file: T.StreamingInputBody;
+}
+export const ValidateSolNetworkPackageContentInput = S.suspend(() =>
+  S.Struct({
     nsdInfoId: S.String.pipe(T.HttpLabel("nsdInfoId")),
     contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
     file: T.StreamingInput.pipe(T.HttpPayload()),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/sol/nsd/v1/ns_descriptors/{nsdInfoId}/nsd_content/validate",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/sol/nsd/v1/ns_descriptors/{nsdInfoId}/nsd_content/validate",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "ValidateSolNetworkPackageContentInput",
+}) as any as S.Schema<ValidateSolNetworkPackageContentInput>;
+export type VnfPkgIdList = string[];
 export const VnfPkgIdList = S.Array(S.String);
-export class UpdateSolNetworkModify extends S.Class<UpdateSolNetworkModify>(
-  "UpdateSolNetworkModify",
-)({ vnfInstanceId: S.String, vnfConfigurableProperties: S.Any }) {}
-export class UpdateSolNetworkServiceData extends S.Class<UpdateSolNetworkServiceData>(
-  "UpdateSolNetworkServiceData",
-)({ nsdInfoId: S.String, additionalParamsForNs: S.optional(S.Any) }) {}
-export class CreateSolFunctionPackageInput extends S.Class<CreateSolFunctionPackageInput>(
-  "CreateSolFunctionPackageInput",
-)(
-  { tags: S.optional(TagMap) },
-  T.all(
-    T.Http({ method: "POST", uri: "/sol/vnfpkgm/v1/vnf_packages" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface UpdateSolNetworkModify {
+  vnfInstanceId: string;
+  vnfConfigurableProperties: any;
+}
+export const UpdateSolNetworkModify = S.suspend(() =>
+  S.Struct({ vnfInstanceId: S.String, vnfConfigurableProperties: S.Any }),
+).annotations({
+  identifier: "UpdateSolNetworkModify",
+}) as any as S.Schema<UpdateSolNetworkModify>;
+export interface UpdateSolNetworkServiceData {
+  nsdInfoId: string;
+  additionalParamsForNs?: any;
+}
+export const UpdateSolNetworkServiceData = S.suspend(() =>
+  S.Struct({ nsdInfoId: S.String, additionalParamsForNs: S.optional(S.Any) }),
+).annotations({
+  identifier: "UpdateSolNetworkServiceData",
+}) as any as S.Schema<UpdateSolNetworkServiceData>;
+export interface CreateSolFunctionPackageInput {
+  tags?: TagMap;
+}
+export const CreateSolFunctionPackageInput = S.suspend(() =>
+  S.Struct({ tags: S.optional(TagMap) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/sol/vnfpkgm/v1/vnf_packages" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateSolNetworkInstanceOutput extends S.Class<CreateSolNetworkInstanceOutput>(
-  "CreateSolNetworkInstanceOutput",
-)({
-  id: S.String,
-  arn: S.String,
-  nsdInfoId: S.String,
-  nsInstanceName: S.String,
-  tags: S.optional(TagMap),
-}) {}
-export class CreateSolNetworkPackageOutput extends S.Class<CreateSolNetworkPackageOutput>(
-  "CreateSolNetworkPackageOutput",
-)({
-  id: S.String,
-  arn: S.String,
-  nsdOnboardingState: S.String,
-  nsdOperationalState: S.String,
-  nsdUsageState: S.String,
-  tags: S.optional(TagMap),
-}) {}
-export class GetSolFunctionPackageContentOutput extends S.Class<GetSolFunctionPackageContentOutput>(
-  "GetSolFunctionPackageContentOutput",
-)({
-  contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-  packageContent: S.optional(T.Blob).pipe(T.HttpPayload()),
-}) {}
-export class GetSolFunctionPackageDescriptorOutput extends S.Class<GetSolFunctionPackageDescriptorOutput>(
-  "GetSolFunctionPackageDescriptorOutput",
-)({
-  contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-  vnfd: S.optional(T.Blob).pipe(T.HttpPayload()),
-}) {}
-export class GetSolNetworkPackageContentOutput extends S.Class<GetSolNetworkPackageContentOutput>(
-  "GetSolNetworkPackageContentOutput",
-)({
-  contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-  nsdContent: S.optional(T.Blob).pipe(T.HttpPayload()),
-}) {}
-export class GetSolNetworkPackageDescriptorOutput extends S.Class<GetSolNetworkPackageDescriptorOutput>(
-  "GetSolNetworkPackageDescriptorOutput",
-)({
-  contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-  nsd: S.optional(T.Blob).pipe(T.HttpPayload()),
-}) {}
-export class InstantiateSolNetworkInstanceOutput extends S.Class<InstantiateSolNetworkInstanceOutput>(
-  "InstantiateSolNetworkInstanceOutput",
-)({ nsLcmOpOccId: S.String, tags: S.optional(TagMap) }) {}
-export class ListTagsForResourceOutput extends S.Class<ListTagsForResourceOutput>(
-  "ListTagsForResourceOutput",
-)({ tags: TagMap }) {}
-export class TerminateSolNetworkInstanceOutput extends S.Class<TerminateSolNetworkInstanceOutput>(
-  "TerminateSolNetworkInstanceOutput",
-)({ nsLcmOpOccId: S.optional(S.String), tags: S.optional(TagMap) }) {}
-export class UpdateSolFunctionPackageOutput extends S.Class<UpdateSolFunctionPackageOutput>(
-  "UpdateSolFunctionPackageOutput",
-)({ operationalState: S.String }) {}
-export class UpdateSolNetworkInstanceInput extends S.Class<UpdateSolNetworkInstanceInput>(
-  "UpdateSolNetworkInstanceInput",
-)(
-  {
+).annotations({
+  identifier: "CreateSolFunctionPackageInput",
+}) as any as S.Schema<CreateSolFunctionPackageInput>;
+export interface CreateSolNetworkInstanceOutput {
+  id: string;
+  arn: string;
+  nsdInfoId: string;
+  nsInstanceName: string;
+  tags?: TagMap;
+}
+export const CreateSolNetworkInstanceOutput = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    arn: S.String,
+    nsdInfoId: S.String,
+    nsInstanceName: S.String,
+    tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "CreateSolNetworkInstanceOutput",
+}) as any as S.Schema<CreateSolNetworkInstanceOutput>;
+export interface CreateSolNetworkPackageOutput {
+  id: string;
+  arn: string;
+  nsdOnboardingState: string;
+  nsdOperationalState: string;
+  nsdUsageState: string;
+  tags?: TagMap;
+}
+export const CreateSolNetworkPackageOutput = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    arn: S.String,
+    nsdOnboardingState: S.String,
+    nsdOperationalState: S.String,
+    nsdUsageState: S.String,
+    tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "CreateSolNetworkPackageOutput",
+}) as any as S.Schema<CreateSolNetworkPackageOutput>;
+export interface GetSolFunctionPackageContentOutput {
+  contentType?: string;
+  packageContent?: Uint8Array;
+}
+export const GetSolFunctionPackageContentOutput = S.suspend(() =>
+  S.Struct({
+    contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
+    packageContent: S.optional(T.Blob).pipe(T.HttpPayload()),
+  }),
+).annotations({
+  identifier: "GetSolFunctionPackageContentOutput",
+}) as any as S.Schema<GetSolFunctionPackageContentOutput>;
+export interface GetSolFunctionPackageDescriptorOutput {
+  contentType?: string;
+  vnfd?: Uint8Array;
+}
+export const GetSolFunctionPackageDescriptorOutput = S.suspend(() =>
+  S.Struct({
+    contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
+    vnfd: S.optional(T.Blob).pipe(T.HttpPayload()),
+  }),
+).annotations({
+  identifier: "GetSolFunctionPackageDescriptorOutput",
+}) as any as S.Schema<GetSolFunctionPackageDescriptorOutput>;
+export interface GetSolNetworkPackageContentOutput {
+  contentType?: string;
+  nsdContent?: Uint8Array;
+}
+export const GetSolNetworkPackageContentOutput = S.suspend(() =>
+  S.Struct({
+    contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
+    nsdContent: S.optional(T.Blob).pipe(T.HttpPayload()),
+  }),
+).annotations({
+  identifier: "GetSolNetworkPackageContentOutput",
+}) as any as S.Schema<GetSolNetworkPackageContentOutput>;
+export interface GetSolNetworkPackageDescriptorOutput {
+  contentType?: string;
+  nsd?: Uint8Array;
+}
+export const GetSolNetworkPackageDescriptorOutput = S.suspend(() =>
+  S.Struct({
+    contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
+    nsd: S.optional(T.Blob).pipe(T.HttpPayload()),
+  }),
+).annotations({
+  identifier: "GetSolNetworkPackageDescriptorOutput",
+}) as any as S.Schema<GetSolNetworkPackageDescriptorOutput>;
+export interface InstantiateSolNetworkInstanceOutput {
+  nsLcmOpOccId: string;
+  tags?: TagMap;
+}
+export const InstantiateSolNetworkInstanceOutput = S.suspend(() =>
+  S.Struct({ nsLcmOpOccId: S.String, tags: S.optional(TagMap) }),
+).annotations({
+  identifier: "InstantiateSolNetworkInstanceOutput",
+}) as any as S.Schema<InstantiateSolNetworkInstanceOutput>;
+export interface ListTagsForResourceOutput {
+  tags: TagMap;
+}
+export const ListTagsForResourceOutput = S.suspend(() =>
+  S.Struct({ tags: TagMap }),
+).annotations({
+  identifier: "ListTagsForResourceOutput",
+}) as any as S.Schema<ListTagsForResourceOutput>;
+export interface TerminateSolNetworkInstanceOutput {
+  nsLcmOpOccId?: string;
+  tags?: TagMap;
+}
+export const TerminateSolNetworkInstanceOutput = S.suspend(() =>
+  S.Struct({ nsLcmOpOccId: S.optional(S.String), tags: S.optional(TagMap) }),
+).annotations({
+  identifier: "TerminateSolNetworkInstanceOutput",
+}) as any as S.Schema<TerminateSolNetworkInstanceOutput>;
+export interface UpdateSolFunctionPackageOutput {
+  operationalState: string;
+}
+export const UpdateSolFunctionPackageOutput = S.suspend(() =>
+  S.Struct({ operationalState: S.String }),
+).annotations({
+  identifier: "UpdateSolFunctionPackageOutput",
+}) as any as S.Schema<UpdateSolFunctionPackageOutput>;
+export interface UpdateSolNetworkInstanceInput {
+  nsInstanceId: string;
+  updateType: string;
+  modifyVnfInfoData?: UpdateSolNetworkModify;
+  updateNs?: UpdateSolNetworkServiceData;
+  tags?: TagMap;
+}
+export const UpdateSolNetworkInstanceInput = S.suspend(() =>
+  S.Struct({
     nsInstanceId: S.String.pipe(T.HttpLabel("nsInstanceId")),
     updateType: S.String,
     modifyVnfInfoData: S.optional(UpdateSolNetworkModify),
     updateNs: S.optional(UpdateSolNetworkServiceData),
     tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/sol/nslcm/v1/ns_instances/{nsInstanceId}/update",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/sol/nslcm/v1/ns_instances/{nsInstanceId}/update",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateSolNetworkPackageOutput extends S.Class<UpdateSolNetworkPackageOutput>(
-  "UpdateSolNetworkPackageOutput",
-)({ nsdOperationalState: S.String }) {}
-export class GetSolFunctionInstanceMetadata extends S.Class<GetSolFunctionInstanceMetadata>(
-  "GetSolFunctionInstanceMetadata",
-)({
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  lastModified: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class LcmOperationInfo extends S.Class<LcmOperationInfo>(
-  "LcmOperationInfo",
-)({ nsLcmOpOccId: S.String }) {}
-export class GetSolNetworkInstanceMetadata extends S.Class<GetSolNetworkInstanceMetadata>(
-  "GetSolNetworkInstanceMetadata",
-)({
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  lastModified: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class ProblemDetails extends S.Class<ProblemDetails>("ProblemDetails")({
-  detail: S.String,
-  title: S.optional(S.String),
-}) {}
-export class ToscaOverride extends S.Class<ToscaOverride>("ToscaOverride")({
-  name: S.optional(S.String),
-  defaultValue: S.optional(S.String),
-}) {}
+).annotations({
+  identifier: "UpdateSolNetworkInstanceInput",
+}) as any as S.Schema<UpdateSolNetworkInstanceInput>;
+export interface UpdateSolNetworkPackageOutput {
+  nsdOperationalState: string;
+}
+export const UpdateSolNetworkPackageOutput = S.suspend(() =>
+  S.Struct({ nsdOperationalState: S.String }),
+).annotations({
+  identifier: "UpdateSolNetworkPackageOutput",
+}) as any as S.Schema<UpdateSolNetworkPackageOutput>;
+export interface GetSolFunctionInstanceMetadata {
+  createdAt: Date;
+  lastModified: Date;
+}
+export const GetSolFunctionInstanceMetadata = S.suspend(() =>
+  S.Struct({
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastModified: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "GetSolFunctionInstanceMetadata",
+}) as any as S.Schema<GetSolFunctionInstanceMetadata>;
+export interface LcmOperationInfo {
+  nsLcmOpOccId: string;
+}
+export const LcmOperationInfo = S.suspend(() =>
+  S.Struct({ nsLcmOpOccId: S.String }),
+).annotations({
+  identifier: "LcmOperationInfo",
+}) as any as S.Schema<LcmOperationInfo>;
+export interface GetSolNetworkInstanceMetadata {
+  createdAt: Date;
+  lastModified: Date;
+}
+export const GetSolNetworkInstanceMetadata = S.suspend(() =>
+  S.Struct({
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastModified: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "GetSolNetworkInstanceMetadata",
+}) as any as S.Schema<GetSolNetworkInstanceMetadata>;
+export interface ProblemDetails {
+  detail: string;
+  title?: string;
+}
+export const ProblemDetails = S.suspend(() =>
+  S.Struct({ detail: S.String, title: S.optional(S.String) }),
+).annotations({
+  identifier: "ProblemDetails",
+}) as any as S.Schema<ProblemDetails>;
+export interface ToscaOverride {
+  name?: string;
+  defaultValue?: string;
+}
+export const ToscaOverride = S.suspend(() =>
+  S.Struct({ name: S.optional(S.String), defaultValue: S.optional(S.String) }),
+).annotations({
+  identifier: "ToscaOverride",
+}) as any as S.Schema<ToscaOverride>;
+export type OverrideList = ToscaOverride[];
 export const OverrideList = S.Array(ToscaOverride);
-export class FunctionArtifactMeta extends S.Class<FunctionArtifactMeta>(
-  "FunctionArtifactMeta",
-)({ overrides: S.optional(OverrideList) }) {}
-export class PutSolFunctionPackageContentMetadata extends S.Class<PutSolFunctionPackageContentMetadata>(
-  "PutSolFunctionPackageContentMetadata",
-)({ vnfd: S.optional(FunctionArtifactMeta) }) {}
-export class NetworkArtifactMeta extends S.Class<NetworkArtifactMeta>(
-  "NetworkArtifactMeta",
-)({ overrides: S.optional(OverrideList) }) {}
-export class PutSolNetworkPackageContentMetadata extends S.Class<PutSolNetworkPackageContentMetadata>(
-  "PutSolNetworkPackageContentMetadata",
-)({ nsd: S.optional(NetworkArtifactMeta) }) {}
-export class ValidateSolFunctionPackageContentMetadata extends S.Class<ValidateSolFunctionPackageContentMetadata>(
-  "ValidateSolFunctionPackageContentMetadata",
-)({ vnfd: S.optional(FunctionArtifactMeta) }) {}
-export class ValidateSolNetworkPackageContentMetadata extends S.Class<ValidateSolNetworkPackageContentMetadata>(
-  "ValidateSolNetworkPackageContentMetadata",
-)({ nsd: S.optional(NetworkArtifactMeta) }) {}
-export class CreateSolFunctionPackageOutput extends S.Class<CreateSolFunctionPackageOutput>(
-  "CreateSolFunctionPackageOutput",
-)({
-  id: S.String,
-  arn: S.String,
-  onboardingState: S.String,
-  operationalState: S.String,
-  usageState: S.String,
-  tags: S.optional(TagMap),
-}) {}
-export class GetSolNetworkInstanceOutput extends S.Class<GetSolNetworkInstanceOutput>(
-  "GetSolNetworkInstanceOutput",
-)({
-  id: S.String,
-  arn: S.String,
-  nsInstanceName: S.String,
-  nsInstanceDescription: S.String,
-  nsdId: S.String,
-  nsdInfoId: S.String,
-  nsState: S.optional(S.String),
-  lcmOpInfo: S.optional(LcmOperationInfo),
-  metadata: GetSolNetworkInstanceMetadata,
-  tags: S.optional(TagMap),
-}) {}
-export class PutSolFunctionPackageContentOutput extends S.Class<PutSolFunctionPackageContentOutput>(
-  "PutSolFunctionPackageContentOutput",
-)({
-  id: S.String,
-  vnfdId: S.String,
-  vnfProductName: S.String,
-  vnfProvider: S.String,
-  vnfdVersion: S.String,
-  metadata: PutSolFunctionPackageContentMetadata,
-}) {}
-export class PutSolNetworkPackageContentOutput extends S.Class<PutSolNetworkPackageContentOutput>(
-  "PutSolNetworkPackageContentOutput",
-)({
-  id: S.String,
-  arn: S.String,
-  nsdId: S.String,
-  nsdName: S.String,
-  nsdVersion: S.String,
-  vnfPkgIds: VnfPkgIdList,
-  metadata: PutSolNetworkPackageContentMetadata,
-}) {}
-export class UpdateSolNetworkInstanceOutput extends S.Class<UpdateSolNetworkInstanceOutput>(
-  "UpdateSolNetworkInstanceOutput",
-)({ nsLcmOpOccId: S.optional(S.String), tags: S.optional(TagMap) }) {}
-export class ValidateSolFunctionPackageContentOutput extends S.Class<ValidateSolFunctionPackageContentOutput>(
-  "ValidateSolFunctionPackageContentOutput",
-)({
-  id: S.String,
-  vnfdId: S.String,
-  vnfProductName: S.String,
-  vnfProvider: S.String,
-  vnfdVersion: S.String,
-  metadata: ValidateSolFunctionPackageContentMetadata,
-}) {}
-export class ValidateSolNetworkPackageContentOutput extends S.Class<ValidateSolNetworkPackageContentOutput>(
-  "ValidateSolNetworkPackageContentOutput",
-)({
-  id: S.String,
-  arn: S.String,
-  nsdId: S.String,
-  nsdName: S.String,
-  nsdVersion: S.String,
-  vnfPkgIds: VnfPkgIdList,
-  metadata: ValidateSolNetworkPackageContentMetadata,
-}) {}
-export class UpdateNsMetadata extends S.Class<UpdateNsMetadata>(
-  "UpdateNsMetadata",
-)({ nsdInfoId: S.String, additionalParamsForNs: S.optional(S.Any) }) {}
-export class ModifyVnfInfoMetadata extends S.Class<ModifyVnfInfoMetadata>(
-  "ModifyVnfInfoMetadata",
-)({ vnfInstanceId: S.String, vnfConfigurableProperties: S.Any }) {}
-export class InstantiateMetadata extends S.Class<InstantiateMetadata>(
-  "InstantiateMetadata",
-)({ nsdInfoId: S.String, additionalParamsForNs: S.optional(S.Any) }) {}
+export interface FunctionArtifactMeta {
+  overrides?: OverrideList;
+}
+export const FunctionArtifactMeta = S.suspend(() =>
+  S.Struct({ overrides: S.optional(OverrideList) }),
+).annotations({
+  identifier: "FunctionArtifactMeta",
+}) as any as S.Schema<FunctionArtifactMeta>;
+export interface PutSolFunctionPackageContentMetadata {
+  vnfd?: FunctionArtifactMeta;
+}
+export const PutSolFunctionPackageContentMetadata = S.suspend(() =>
+  S.Struct({ vnfd: S.optional(FunctionArtifactMeta) }),
+).annotations({
+  identifier: "PutSolFunctionPackageContentMetadata",
+}) as any as S.Schema<PutSolFunctionPackageContentMetadata>;
+export interface NetworkArtifactMeta {
+  overrides?: OverrideList;
+}
+export const NetworkArtifactMeta = S.suspend(() =>
+  S.Struct({ overrides: S.optional(OverrideList) }),
+).annotations({
+  identifier: "NetworkArtifactMeta",
+}) as any as S.Schema<NetworkArtifactMeta>;
+export interface PutSolNetworkPackageContentMetadata {
+  nsd?: NetworkArtifactMeta;
+}
+export const PutSolNetworkPackageContentMetadata = S.suspend(() =>
+  S.Struct({ nsd: S.optional(NetworkArtifactMeta) }),
+).annotations({
+  identifier: "PutSolNetworkPackageContentMetadata",
+}) as any as S.Schema<PutSolNetworkPackageContentMetadata>;
+export interface ValidateSolFunctionPackageContentMetadata {
+  vnfd?: FunctionArtifactMeta;
+}
+export const ValidateSolFunctionPackageContentMetadata = S.suspend(() =>
+  S.Struct({ vnfd: S.optional(FunctionArtifactMeta) }),
+).annotations({
+  identifier: "ValidateSolFunctionPackageContentMetadata",
+}) as any as S.Schema<ValidateSolFunctionPackageContentMetadata>;
+export interface ValidateSolNetworkPackageContentMetadata {
+  nsd?: NetworkArtifactMeta;
+}
+export const ValidateSolNetworkPackageContentMetadata = S.suspend(() =>
+  S.Struct({ nsd: S.optional(NetworkArtifactMeta) }),
+).annotations({
+  identifier: "ValidateSolNetworkPackageContentMetadata",
+}) as any as S.Schema<ValidateSolNetworkPackageContentMetadata>;
+export interface CreateSolFunctionPackageOutput {
+  id: string;
+  arn: string;
+  onboardingState: string;
+  operationalState: string;
+  usageState: string;
+  tags?: TagMap;
+}
+export const CreateSolFunctionPackageOutput = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    arn: S.String,
+    onboardingState: S.String,
+    operationalState: S.String,
+    usageState: S.String,
+    tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "CreateSolFunctionPackageOutput",
+}) as any as S.Schema<CreateSolFunctionPackageOutput>;
+export interface GetSolNetworkInstanceOutput {
+  id: string;
+  arn: string;
+  nsInstanceName: string;
+  nsInstanceDescription: string;
+  nsdId: string;
+  nsdInfoId: string;
+  nsState?: string;
+  lcmOpInfo?: LcmOperationInfo;
+  metadata: GetSolNetworkInstanceMetadata;
+  tags?: TagMap;
+}
+export const GetSolNetworkInstanceOutput = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    arn: S.String,
+    nsInstanceName: S.String,
+    nsInstanceDescription: S.String,
+    nsdId: S.String,
+    nsdInfoId: S.String,
+    nsState: S.optional(S.String),
+    lcmOpInfo: S.optional(LcmOperationInfo),
+    metadata: GetSolNetworkInstanceMetadata,
+    tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "GetSolNetworkInstanceOutput",
+}) as any as S.Schema<GetSolNetworkInstanceOutput>;
+export interface PutSolFunctionPackageContentOutput {
+  id: string;
+  vnfdId: string;
+  vnfProductName: string;
+  vnfProvider: string;
+  vnfdVersion: string;
+  metadata: PutSolFunctionPackageContentMetadata;
+}
+export const PutSolFunctionPackageContentOutput = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    vnfdId: S.String,
+    vnfProductName: S.String,
+    vnfProvider: S.String,
+    vnfdVersion: S.String,
+    metadata: PutSolFunctionPackageContentMetadata,
+  }),
+).annotations({
+  identifier: "PutSolFunctionPackageContentOutput",
+}) as any as S.Schema<PutSolFunctionPackageContentOutput>;
+export interface PutSolNetworkPackageContentOutput {
+  id: string;
+  arn: string;
+  nsdId: string;
+  nsdName: string;
+  nsdVersion: string;
+  vnfPkgIds: VnfPkgIdList;
+  metadata: PutSolNetworkPackageContentMetadata;
+}
+export const PutSolNetworkPackageContentOutput = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    arn: S.String,
+    nsdId: S.String,
+    nsdName: S.String,
+    nsdVersion: S.String,
+    vnfPkgIds: VnfPkgIdList,
+    metadata: PutSolNetworkPackageContentMetadata,
+  }),
+).annotations({
+  identifier: "PutSolNetworkPackageContentOutput",
+}) as any as S.Schema<PutSolNetworkPackageContentOutput>;
+export interface UpdateSolNetworkInstanceOutput {
+  nsLcmOpOccId?: string;
+  tags?: TagMap;
+}
+export const UpdateSolNetworkInstanceOutput = S.suspend(() =>
+  S.Struct({ nsLcmOpOccId: S.optional(S.String), tags: S.optional(TagMap) }),
+).annotations({
+  identifier: "UpdateSolNetworkInstanceOutput",
+}) as any as S.Schema<UpdateSolNetworkInstanceOutput>;
+export interface ValidateSolFunctionPackageContentOutput {
+  id: string;
+  vnfdId: string;
+  vnfProductName: string;
+  vnfProvider: string;
+  vnfdVersion: string;
+  metadata: ValidateSolFunctionPackageContentMetadata;
+}
+export const ValidateSolFunctionPackageContentOutput = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    vnfdId: S.String,
+    vnfProductName: S.String,
+    vnfProvider: S.String,
+    vnfdVersion: S.String,
+    metadata: ValidateSolFunctionPackageContentMetadata,
+  }),
+).annotations({
+  identifier: "ValidateSolFunctionPackageContentOutput",
+}) as any as S.Schema<ValidateSolFunctionPackageContentOutput>;
+export interface ValidateSolNetworkPackageContentOutput {
+  id: string;
+  arn: string;
+  nsdId: string;
+  nsdName: string;
+  nsdVersion: string;
+  vnfPkgIds: VnfPkgIdList;
+  metadata: ValidateSolNetworkPackageContentMetadata;
+}
+export const ValidateSolNetworkPackageContentOutput = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    arn: S.String,
+    nsdId: S.String,
+    nsdName: S.String,
+    nsdVersion: S.String,
+    vnfPkgIds: VnfPkgIdList,
+    metadata: ValidateSolNetworkPackageContentMetadata,
+  }),
+).annotations({
+  identifier: "ValidateSolNetworkPackageContentOutput",
+}) as any as S.Schema<ValidateSolNetworkPackageContentOutput>;
+export interface UpdateNsMetadata {
+  nsdInfoId: string;
+  additionalParamsForNs?: any;
+}
+export const UpdateNsMetadata = S.suspend(() =>
+  S.Struct({ nsdInfoId: S.String, additionalParamsForNs: S.optional(S.Any) }),
+).annotations({
+  identifier: "UpdateNsMetadata",
+}) as any as S.Schema<UpdateNsMetadata>;
+export interface ModifyVnfInfoMetadata {
+  vnfInstanceId: string;
+  vnfConfigurableProperties: any;
+}
+export const ModifyVnfInfoMetadata = S.suspend(() =>
+  S.Struct({ vnfInstanceId: S.String, vnfConfigurableProperties: S.Any }),
+).annotations({
+  identifier: "ModifyVnfInfoMetadata",
+}) as any as S.Schema<ModifyVnfInfoMetadata>;
+export interface InstantiateMetadata {
+  nsdInfoId: string;
+  additionalParamsForNs?: any;
+}
+export const InstantiateMetadata = S.suspend(() =>
+  S.Struct({ nsdInfoId: S.String, additionalParamsForNs: S.optional(S.Any) }),
+).annotations({
+  identifier: "InstantiateMetadata",
+}) as any as S.Schema<InstantiateMetadata>;
+export type StringMap = { [key: string]: string };
 export const StringMap = S.Record({ key: S.String, value: S.String });
-export class ErrorInfo extends S.Class<ErrorInfo>("ErrorInfo")({
-  cause: S.optional(S.String),
-  details: S.optional(S.String),
-}) {}
-export class GetSolInstantiatedVnfInfo extends S.Class<GetSolInstantiatedVnfInfo>(
-  "GetSolInstantiatedVnfInfo",
-)({ vnfState: S.optional(S.String) }) {}
-export class ListSolFunctionInstanceMetadata extends S.Class<ListSolFunctionInstanceMetadata>(
-  "ListSolFunctionInstanceMetadata",
-)({
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  lastModified: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class ListSolFunctionPackageMetadata extends S.Class<ListSolFunctionPackageMetadata>(
-  "ListSolFunctionPackageMetadata",
-)({
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  lastModified: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class ListSolNetworkInstanceMetadata extends S.Class<ListSolNetworkInstanceMetadata>(
-  "ListSolNetworkInstanceMetadata",
-)({
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  lastModified: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class ListSolNetworkOperationsMetadata extends S.Class<ListSolNetworkOperationsMetadata>(
-  "ListSolNetworkOperationsMetadata",
-)({
-  nsdInfoId: S.optional(S.String),
-  vnfInstanceId: S.optional(S.String),
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  lastModified: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class ListSolNetworkPackageMetadata extends S.Class<ListSolNetworkPackageMetadata>(
-  "ListSolNetworkPackageMetadata",
-)({
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  lastModified: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class GetSolNetworkOperationMetadata extends S.Class<GetSolNetworkOperationMetadata>(
-  "GetSolNetworkOperationMetadata",
-)({
-  updateNsMetadata: S.optional(UpdateNsMetadata),
-  modifyVnfInfoMetadata: S.optional(ModifyVnfInfoMetadata),
-  instantiateMetadata: S.optional(InstantiateMetadata),
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  lastModified: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class GetSolNetworkOperationTaskDetails extends S.Class<GetSolNetworkOperationTaskDetails>(
-  "GetSolNetworkOperationTaskDetails",
-)({
-  taskName: S.optional(S.String),
-  taskContext: S.optional(StringMap),
-  taskErrorDetails: S.optional(ErrorInfo),
-  taskStatus: S.optional(S.String),
-  taskStartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  taskEndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-}) {}
+export interface ErrorInfo {
+  cause?: string;
+  details?: string;
+}
+export const ErrorInfo = S.suspend(() =>
+  S.Struct({ cause: S.optional(S.String), details: S.optional(S.String) }),
+).annotations({ identifier: "ErrorInfo" }) as any as S.Schema<ErrorInfo>;
+export interface GetSolInstantiatedVnfInfo {
+  vnfState?: string;
+}
+export const GetSolInstantiatedVnfInfo = S.suspend(() =>
+  S.Struct({ vnfState: S.optional(S.String) }),
+).annotations({
+  identifier: "GetSolInstantiatedVnfInfo",
+}) as any as S.Schema<GetSolInstantiatedVnfInfo>;
+export interface ListSolFunctionInstanceMetadata {
+  createdAt: Date;
+  lastModified: Date;
+}
+export const ListSolFunctionInstanceMetadata = S.suspend(() =>
+  S.Struct({
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastModified: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "ListSolFunctionInstanceMetadata",
+}) as any as S.Schema<ListSolFunctionInstanceMetadata>;
+export interface ListSolFunctionPackageMetadata {
+  createdAt: Date;
+  lastModified: Date;
+}
+export const ListSolFunctionPackageMetadata = S.suspend(() =>
+  S.Struct({
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastModified: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "ListSolFunctionPackageMetadata",
+}) as any as S.Schema<ListSolFunctionPackageMetadata>;
+export interface ListSolNetworkInstanceMetadata {
+  createdAt: Date;
+  lastModified: Date;
+}
+export const ListSolNetworkInstanceMetadata = S.suspend(() =>
+  S.Struct({
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastModified: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "ListSolNetworkInstanceMetadata",
+}) as any as S.Schema<ListSolNetworkInstanceMetadata>;
+export interface ListSolNetworkOperationsMetadata {
+  nsdInfoId?: string;
+  vnfInstanceId?: string;
+  createdAt: Date;
+  lastModified: Date;
+}
+export const ListSolNetworkOperationsMetadata = S.suspend(() =>
+  S.Struct({
+    nsdInfoId: S.optional(S.String),
+    vnfInstanceId: S.optional(S.String),
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastModified: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "ListSolNetworkOperationsMetadata",
+}) as any as S.Schema<ListSolNetworkOperationsMetadata>;
+export interface ListSolNetworkPackageMetadata {
+  createdAt: Date;
+  lastModified: Date;
+}
+export const ListSolNetworkPackageMetadata = S.suspend(() =>
+  S.Struct({
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastModified: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "ListSolNetworkPackageMetadata",
+}) as any as S.Schema<ListSolNetworkPackageMetadata>;
+export interface GetSolNetworkOperationMetadata {
+  updateNsMetadata?: UpdateNsMetadata;
+  modifyVnfInfoMetadata?: ModifyVnfInfoMetadata;
+  instantiateMetadata?: InstantiateMetadata;
+  createdAt: Date;
+  lastModified: Date;
+}
+export const GetSolNetworkOperationMetadata = S.suspend(() =>
+  S.Struct({
+    updateNsMetadata: S.optional(UpdateNsMetadata),
+    modifyVnfInfoMetadata: S.optional(ModifyVnfInfoMetadata),
+    instantiateMetadata: S.optional(InstantiateMetadata),
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastModified: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "GetSolNetworkOperationMetadata",
+}) as any as S.Schema<GetSolNetworkOperationMetadata>;
+export interface GetSolNetworkOperationTaskDetails {
+  taskName?: string;
+  taskContext?: StringMap;
+  taskErrorDetails?: ErrorInfo;
+  taskStatus?: string;
+  taskStartTime?: Date;
+  taskEndTime?: Date;
+}
+export const GetSolNetworkOperationTaskDetails = S.suspend(() =>
+  S.Struct({
+    taskName: S.optional(S.String),
+    taskContext: S.optional(StringMap),
+    taskErrorDetails: S.optional(ErrorInfo),
+    taskStatus: S.optional(S.String),
+    taskStartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    taskEndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotations({
+  identifier: "GetSolNetworkOperationTaskDetails",
+}) as any as S.Schema<GetSolNetworkOperationTaskDetails>;
+export type GetSolNetworkOperationTasksList =
+  GetSolNetworkOperationTaskDetails[];
 export const GetSolNetworkOperationTasksList = S.Array(
   GetSolNetworkOperationTaskDetails,
 );
-export class GetSolNetworkPackageMetadata extends S.Class<GetSolNetworkPackageMetadata>(
-  "GetSolNetworkPackageMetadata",
-)({
-  nsd: S.optional(NetworkArtifactMeta),
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  lastModified: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class ListSolFunctionInstanceInfo extends S.Class<ListSolFunctionInstanceInfo>(
-  "ListSolFunctionInstanceInfo",
-)({
-  id: S.String,
-  arn: S.String,
-  nsInstanceId: S.String,
-  vnfPkgId: S.String,
-  vnfPkgName: S.optional(S.String),
-  instantiationState: S.String,
-  instantiatedVnfInfo: S.optional(GetSolInstantiatedVnfInfo),
-  metadata: ListSolFunctionInstanceMetadata,
-}) {}
+export interface GetSolNetworkPackageMetadata {
+  nsd?: NetworkArtifactMeta;
+  createdAt: Date;
+  lastModified: Date;
+}
+export const GetSolNetworkPackageMetadata = S.suspend(() =>
+  S.Struct({
+    nsd: S.optional(NetworkArtifactMeta),
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastModified: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "GetSolNetworkPackageMetadata",
+}) as any as S.Schema<GetSolNetworkPackageMetadata>;
+export interface ListSolFunctionInstanceInfo {
+  id: string;
+  arn: string;
+  nsInstanceId: string;
+  vnfPkgId: string;
+  vnfPkgName?: string;
+  instantiationState: string;
+  instantiatedVnfInfo?: GetSolInstantiatedVnfInfo;
+  metadata: ListSolFunctionInstanceMetadata;
+}
+export const ListSolFunctionInstanceInfo = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    arn: S.String,
+    nsInstanceId: S.String,
+    vnfPkgId: S.String,
+    vnfPkgName: S.optional(S.String),
+    instantiationState: S.String,
+    instantiatedVnfInfo: S.optional(GetSolInstantiatedVnfInfo),
+    metadata: ListSolFunctionInstanceMetadata,
+  }),
+).annotations({
+  identifier: "ListSolFunctionInstanceInfo",
+}) as any as S.Schema<ListSolFunctionInstanceInfo>;
+export type ListSolFunctionInstanceResources = ListSolFunctionInstanceInfo[];
 export const ListSolFunctionInstanceResources = S.Array(
   ListSolFunctionInstanceInfo,
 );
-export class ListSolFunctionPackageInfo extends S.Class<ListSolFunctionPackageInfo>(
-  "ListSolFunctionPackageInfo",
-)({
-  id: S.String,
-  arn: S.String,
-  onboardingState: S.String,
-  operationalState: S.String,
-  usageState: S.String,
-  vnfdId: S.optional(S.String),
-  vnfProvider: S.optional(S.String),
-  vnfProductName: S.optional(S.String),
-  vnfdVersion: S.optional(S.String),
-  metadata: S.optional(ListSolFunctionPackageMetadata),
-}) {}
+export interface ListSolFunctionPackageInfo {
+  id: string;
+  arn: string;
+  onboardingState: string;
+  operationalState: string;
+  usageState: string;
+  vnfdId?: string;
+  vnfProvider?: string;
+  vnfProductName?: string;
+  vnfdVersion?: string;
+  metadata?: ListSolFunctionPackageMetadata;
+}
+export const ListSolFunctionPackageInfo = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    arn: S.String,
+    onboardingState: S.String,
+    operationalState: S.String,
+    usageState: S.String,
+    vnfdId: S.optional(S.String),
+    vnfProvider: S.optional(S.String),
+    vnfProductName: S.optional(S.String),
+    vnfdVersion: S.optional(S.String),
+    metadata: S.optional(ListSolFunctionPackageMetadata),
+  }),
+).annotations({
+  identifier: "ListSolFunctionPackageInfo",
+}) as any as S.Schema<ListSolFunctionPackageInfo>;
+export type ListSolFunctionPackageResources = ListSolFunctionPackageInfo[];
 export const ListSolFunctionPackageResources = S.Array(
   ListSolFunctionPackageInfo,
 );
-export class ListSolNetworkInstanceInfo extends S.Class<ListSolNetworkInstanceInfo>(
-  "ListSolNetworkInstanceInfo",
-)({
-  id: S.String,
-  arn: S.String,
-  nsInstanceName: S.String,
-  nsInstanceDescription: S.String,
-  nsdId: S.String,
-  nsdInfoId: S.String,
-  nsState: S.String,
-  metadata: ListSolNetworkInstanceMetadata,
-}) {}
+export interface ListSolNetworkInstanceInfo {
+  id: string;
+  arn: string;
+  nsInstanceName: string;
+  nsInstanceDescription: string;
+  nsdId: string;
+  nsdInfoId: string;
+  nsState: string;
+  metadata: ListSolNetworkInstanceMetadata;
+}
+export const ListSolNetworkInstanceInfo = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    arn: S.String,
+    nsInstanceName: S.String,
+    nsInstanceDescription: S.String,
+    nsdId: S.String,
+    nsdInfoId: S.String,
+    nsState: S.String,
+    metadata: ListSolNetworkInstanceMetadata,
+  }),
+).annotations({
+  identifier: "ListSolNetworkInstanceInfo",
+}) as any as S.Schema<ListSolNetworkInstanceInfo>;
+export type ListSolNetworkInstanceResources = ListSolNetworkInstanceInfo[];
 export const ListSolNetworkInstanceResources = S.Array(
   ListSolNetworkInstanceInfo,
 );
-export class ListSolNetworkOperationsInfo extends S.Class<ListSolNetworkOperationsInfo>(
-  "ListSolNetworkOperationsInfo",
-)({
-  id: S.String,
-  arn: S.String,
-  operationState: S.String,
-  nsInstanceId: S.String,
-  lcmOperationType: S.String,
-  updateType: S.optional(S.String),
-  error: S.optional(ProblemDetails),
-  metadata: S.optional(ListSolNetworkOperationsMetadata),
-}) {}
+export interface ListSolNetworkOperationsInfo {
+  id: string;
+  arn: string;
+  operationState: string;
+  nsInstanceId: string;
+  lcmOperationType: string;
+  updateType?: string;
+  error?: ProblemDetails;
+  metadata?: ListSolNetworkOperationsMetadata;
+}
+export const ListSolNetworkOperationsInfo = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    arn: S.String,
+    operationState: S.String,
+    nsInstanceId: S.String,
+    lcmOperationType: S.String,
+    updateType: S.optional(S.String),
+    error: S.optional(ProblemDetails),
+    metadata: S.optional(ListSolNetworkOperationsMetadata),
+  }),
+).annotations({
+  identifier: "ListSolNetworkOperationsInfo",
+}) as any as S.Schema<ListSolNetworkOperationsInfo>;
+export type ListSolNetworkOperationsResources = ListSolNetworkOperationsInfo[];
 export const ListSolNetworkOperationsResources = S.Array(
   ListSolNetworkOperationsInfo,
 );
-export class ListSolNetworkPackageInfo extends S.Class<ListSolNetworkPackageInfo>(
-  "ListSolNetworkPackageInfo",
-)({
-  id: S.String,
-  arn: S.String,
-  nsdOnboardingState: S.String,
-  nsdOperationalState: S.String,
-  nsdUsageState: S.String,
-  nsdId: S.optional(S.String),
-  nsdName: S.optional(S.String),
-  nsdVersion: S.optional(S.String),
-  nsdDesigner: S.optional(S.String),
-  nsdInvariantId: S.optional(S.String),
-  vnfPkgIds: S.optional(VnfPkgIdList),
-  metadata: ListSolNetworkPackageMetadata,
-}) {}
+export interface ListSolNetworkPackageInfo {
+  id: string;
+  arn: string;
+  nsdOnboardingState: string;
+  nsdOperationalState: string;
+  nsdUsageState: string;
+  nsdId?: string;
+  nsdName?: string;
+  nsdVersion?: string;
+  nsdDesigner?: string;
+  nsdInvariantId?: string;
+  vnfPkgIds?: VnfPkgIdList;
+  metadata: ListSolNetworkPackageMetadata;
+}
+export const ListSolNetworkPackageInfo = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    arn: S.String,
+    nsdOnboardingState: S.String,
+    nsdOperationalState: S.String,
+    nsdUsageState: S.String,
+    nsdId: S.optional(S.String),
+    nsdName: S.optional(S.String),
+    nsdVersion: S.optional(S.String),
+    nsdDesigner: S.optional(S.String),
+    nsdInvariantId: S.optional(S.String),
+    vnfPkgIds: S.optional(VnfPkgIdList),
+    metadata: ListSolNetworkPackageMetadata,
+  }),
+).annotations({
+  identifier: "ListSolNetworkPackageInfo",
+}) as any as S.Schema<ListSolNetworkPackageInfo>;
+export type ListSolNetworkPackageResources = ListSolNetworkPackageInfo[];
 export const ListSolNetworkPackageResources = S.Array(
   ListSolNetworkPackageInfo,
 );
-export class GetSolVnfcResourceInfoMetadata extends S.Class<GetSolVnfcResourceInfoMetadata>(
-  "GetSolVnfcResourceInfoMetadata",
-)({
-  nodeGroup: S.optional(S.String),
-  cluster: S.optional(S.String),
-  helmChart: S.optional(S.String),
-}) {}
-export class GetSolNetworkOperationOutput extends S.Class<GetSolNetworkOperationOutput>(
-  "GetSolNetworkOperationOutput",
-)({
-  id: S.optional(S.String),
-  arn: S.String,
-  operationState: S.optional(S.String),
-  nsInstanceId: S.optional(S.String),
-  lcmOperationType: S.optional(S.String),
-  updateType: S.optional(S.String),
-  error: S.optional(ProblemDetails),
-  metadata: S.optional(GetSolNetworkOperationMetadata),
-  tasks: S.optional(GetSolNetworkOperationTasksList),
-  tags: S.optional(TagMap),
-}) {}
-export class GetSolNetworkPackageOutput extends S.Class<GetSolNetworkPackageOutput>(
-  "GetSolNetworkPackageOutput",
-)({
-  id: S.String,
-  arn: S.String,
-  nsdOnboardingState: S.String,
-  nsdOperationalState: S.String,
-  nsdUsageState: S.String,
-  nsdId: S.String,
-  nsdName: S.String,
-  nsdVersion: S.String,
-  vnfPkgIds: VnfPkgIdList,
-  metadata: GetSolNetworkPackageMetadata,
-  tags: S.optional(TagMap),
-}) {}
-export class ListSolFunctionInstancesOutput extends S.Class<ListSolFunctionInstancesOutput>(
-  "ListSolFunctionInstancesOutput",
-)({
-  nextToken: S.optional(S.String),
-  functionInstances: S.optional(ListSolFunctionInstanceResources),
-}) {}
-export class ListSolFunctionPackagesOutput extends S.Class<ListSolFunctionPackagesOutput>(
-  "ListSolFunctionPackagesOutput",
-)({
-  nextToken: S.optional(S.String),
-  functionPackages: ListSolFunctionPackageResources,
-}) {}
-export class ListSolNetworkInstancesOutput extends S.Class<ListSolNetworkInstancesOutput>(
-  "ListSolNetworkInstancesOutput",
-)({
-  nextToken: S.optional(S.String),
-  networkInstances: S.optional(ListSolNetworkInstanceResources),
-}) {}
-export class ListSolNetworkOperationsOutput extends S.Class<ListSolNetworkOperationsOutput>(
-  "ListSolNetworkOperationsOutput",
-)({
-  nextToken: S.optional(S.String),
-  networkOperations: S.optional(ListSolNetworkOperationsResources),
-}) {}
-export class ListSolNetworkPackagesOutput extends S.Class<ListSolNetworkPackagesOutput>(
-  "ListSolNetworkPackagesOutput",
-)({
-  nextToken: S.optional(S.String),
-  networkPackages: ListSolNetworkPackageResources,
-}) {}
-export class GetSolVnfcResourceInfo extends S.Class<GetSolVnfcResourceInfo>(
-  "GetSolVnfcResourceInfo",
-)({ metadata: S.optional(GetSolVnfcResourceInfoMetadata) }) {}
+export interface GetSolVnfcResourceInfoMetadata {
+  nodeGroup?: string;
+  cluster?: string;
+  helmChart?: string;
+}
+export const GetSolVnfcResourceInfoMetadata = S.suspend(() =>
+  S.Struct({
+    nodeGroup: S.optional(S.String),
+    cluster: S.optional(S.String),
+    helmChart: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetSolVnfcResourceInfoMetadata",
+}) as any as S.Schema<GetSolVnfcResourceInfoMetadata>;
+export interface GetSolNetworkOperationOutput {
+  id?: string;
+  arn: string;
+  operationState?: string;
+  nsInstanceId?: string;
+  lcmOperationType?: string;
+  updateType?: string;
+  error?: ProblemDetails;
+  metadata?: GetSolNetworkOperationMetadata;
+  tasks?: GetSolNetworkOperationTasksList;
+  tags?: TagMap;
+}
+export const GetSolNetworkOperationOutput = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    arn: S.String,
+    operationState: S.optional(S.String),
+    nsInstanceId: S.optional(S.String),
+    lcmOperationType: S.optional(S.String),
+    updateType: S.optional(S.String),
+    error: S.optional(ProblemDetails),
+    metadata: S.optional(GetSolNetworkOperationMetadata),
+    tasks: S.optional(GetSolNetworkOperationTasksList),
+    tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "GetSolNetworkOperationOutput",
+}) as any as S.Schema<GetSolNetworkOperationOutput>;
+export interface GetSolNetworkPackageOutput {
+  id: string;
+  arn: string;
+  nsdOnboardingState: string;
+  nsdOperationalState: string;
+  nsdUsageState: string;
+  nsdId: string;
+  nsdName: string;
+  nsdVersion: string;
+  vnfPkgIds: VnfPkgIdList;
+  metadata: GetSolNetworkPackageMetadata;
+  tags?: TagMap;
+}
+export const GetSolNetworkPackageOutput = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    arn: S.String,
+    nsdOnboardingState: S.String,
+    nsdOperationalState: S.String,
+    nsdUsageState: S.String,
+    nsdId: S.String,
+    nsdName: S.String,
+    nsdVersion: S.String,
+    vnfPkgIds: VnfPkgIdList,
+    metadata: GetSolNetworkPackageMetadata,
+    tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "GetSolNetworkPackageOutput",
+}) as any as S.Schema<GetSolNetworkPackageOutput>;
+export interface ListSolFunctionInstancesOutput {
+  nextToken?: string;
+  functionInstances?: ListSolFunctionInstanceResources;
+}
+export const ListSolFunctionInstancesOutput = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    functionInstances: S.optional(ListSolFunctionInstanceResources),
+  }),
+).annotations({
+  identifier: "ListSolFunctionInstancesOutput",
+}) as any as S.Schema<ListSolFunctionInstancesOutput>;
+export interface ListSolFunctionPackagesOutput {
+  nextToken?: string;
+  functionPackages: ListSolFunctionPackageResources;
+}
+export const ListSolFunctionPackagesOutput = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    functionPackages: ListSolFunctionPackageResources,
+  }),
+).annotations({
+  identifier: "ListSolFunctionPackagesOutput",
+}) as any as S.Schema<ListSolFunctionPackagesOutput>;
+export interface ListSolNetworkInstancesOutput {
+  nextToken?: string;
+  networkInstances?: ListSolNetworkInstanceResources;
+}
+export const ListSolNetworkInstancesOutput = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    networkInstances: S.optional(ListSolNetworkInstanceResources),
+  }),
+).annotations({
+  identifier: "ListSolNetworkInstancesOutput",
+}) as any as S.Schema<ListSolNetworkInstancesOutput>;
+export interface ListSolNetworkOperationsOutput {
+  nextToken?: string;
+  networkOperations?: ListSolNetworkOperationsResources;
+}
+export const ListSolNetworkOperationsOutput = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    networkOperations: S.optional(ListSolNetworkOperationsResources),
+  }),
+).annotations({
+  identifier: "ListSolNetworkOperationsOutput",
+}) as any as S.Schema<ListSolNetworkOperationsOutput>;
+export interface ListSolNetworkPackagesOutput {
+  nextToken?: string;
+  networkPackages: ListSolNetworkPackageResources;
+}
+export const ListSolNetworkPackagesOutput = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    networkPackages: ListSolNetworkPackageResources,
+  }),
+).annotations({
+  identifier: "ListSolNetworkPackagesOutput",
+}) as any as S.Schema<ListSolNetworkPackagesOutput>;
+export interface GetSolVnfcResourceInfo {
+  metadata?: GetSolVnfcResourceInfoMetadata;
+}
+export const GetSolVnfcResourceInfo = S.suspend(() =>
+  S.Struct({ metadata: S.optional(GetSolVnfcResourceInfoMetadata) }),
+).annotations({
+  identifier: "GetSolVnfcResourceInfo",
+}) as any as S.Schema<GetSolVnfcResourceInfo>;
+export type GetSolVnfcResourceInfoList = GetSolVnfcResourceInfo[];
 export const GetSolVnfcResourceInfoList = S.Array(GetSolVnfcResourceInfo);
-export class GetSolVnfInfo extends S.Class<GetSolVnfInfo>("GetSolVnfInfo")({
-  vnfState: S.optional(S.String),
-  vnfcResourceInfo: S.optional(GetSolVnfcResourceInfoList),
-}) {}
-export class GetSolFunctionPackageMetadata extends S.Class<GetSolFunctionPackageMetadata>(
-  "GetSolFunctionPackageMetadata",
-)({
-  vnfd: S.optional(FunctionArtifactMeta),
-  createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  lastModified: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class GetSolFunctionInstanceOutput extends S.Class<GetSolFunctionInstanceOutput>(
-  "GetSolFunctionInstanceOutput",
-)({
-  id: S.String,
-  arn: S.String,
-  nsInstanceId: S.String,
-  vnfPkgId: S.String,
-  vnfdId: S.String,
-  vnfProvider: S.optional(S.String),
-  vnfProductName: S.optional(S.String),
-  vnfdVersion: S.optional(S.String),
-  instantiationState: S.String,
-  instantiatedVnfInfo: S.optional(GetSolVnfInfo),
-  metadata: GetSolFunctionInstanceMetadata,
-  tags: S.optional(TagMap),
-}) {}
-export class GetSolFunctionPackageOutput extends S.Class<GetSolFunctionPackageOutput>(
-  "GetSolFunctionPackageOutput",
-)({
-  id: S.String,
-  arn: S.String,
-  onboardingState: S.String,
-  operationalState: S.String,
-  usageState: S.String,
-  vnfdId: S.optional(S.String),
-  vnfProvider: S.optional(S.String),
-  vnfProductName: S.optional(S.String),
-  vnfdVersion: S.optional(S.String),
-  metadata: S.optional(GetSolFunctionPackageMetadata),
-  tags: S.optional(TagMap),
-}) {}
+export interface GetSolVnfInfo {
+  vnfState?: string;
+  vnfcResourceInfo?: GetSolVnfcResourceInfoList;
+}
+export const GetSolVnfInfo = S.suspend(() =>
+  S.Struct({
+    vnfState: S.optional(S.String),
+    vnfcResourceInfo: S.optional(GetSolVnfcResourceInfoList),
+  }),
+).annotations({
+  identifier: "GetSolVnfInfo",
+}) as any as S.Schema<GetSolVnfInfo>;
+export interface GetSolFunctionPackageMetadata {
+  vnfd?: FunctionArtifactMeta;
+  createdAt: Date;
+  lastModified: Date;
+}
+export const GetSolFunctionPackageMetadata = S.suspend(() =>
+  S.Struct({
+    vnfd: S.optional(FunctionArtifactMeta),
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastModified: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "GetSolFunctionPackageMetadata",
+}) as any as S.Schema<GetSolFunctionPackageMetadata>;
+export interface GetSolFunctionInstanceOutput {
+  id: string;
+  arn: string;
+  nsInstanceId: string;
+  vnfPkgId: string;
+  vnfdId: string;
+  vnfProvider?: string;
+  vnfProductName?: string;
+  vnfdVersion?: string;
+  instantiationState: string;
+  instantiatedVnfInfo?: GetSolVnfInfo;
+  metadata: GetSolFunctionInstanceMetadata;
+  tags?: TagMap;
+}
+export const GetSolFunctionInstanceOutput = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    arn: S.String,
+    nsInstanceId: S.String,
+    vnfPkgId: S.String,
+    vnfdId: S.String,
+    vnfProvider: S.optional(S.String),
+    vnfProductName: S.optional(S.String),
+    vnfdVersion: S.optional(S.String),
+    instantiationState: S.String,
+    instantiatedVnfInfo: S.optional(GetSolVnfInfo),
+    metadata: GetSolFunctionInstanceMetadata,
+    tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "GetSolFunctionInstanceOutput",
+}) as any as S.Schema<GetSolFunctionInstanceOutput>;
+export interface GetSolFunctionPackageOutput {
+  id: string;
+  arn: string;
+  onboardingState: string;
+  operationalState: string;
+  usageState: string;
+  vnfdId?: string;
+  vnfProvider?: string;
+  vnfProductName?: string;
+  vnfdVersion?: string;
+  metadata?: GetSolFunctionPackageMetadata;
+  tags?: TagMap;
+}
+export const GetSolFunctionPackageOutput = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    arn: S.String,
+    onboardingState: S.String,
+    operationalState: S.String,
+    usageState: S.String,
+    vnfdId: S.optional(S.String),
+    vnfProvider: S.optional(S.String),
+    vnfProductName: S.optional(S.String),
+    vnfdVersion: S.optional(S.String),
+    metadata: S.optional(GetSolFunctionPackageMetadata),
+    tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "GetSolFunctionPackageOutput",
+}) as any as S.Schema<GetSolFunctionPackageOutput>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(

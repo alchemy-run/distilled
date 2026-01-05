@@ -242,127 +242,241 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type PermissionsList = string[];
 export const PermissionsList = S.Array(S.String);
+export type BoundedEnvironmentIdList = string[];
 export const BoundedEnvironmentIdList = S.Array(S.String);
+export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export class CreateEnvironmentMembershipRequest extends S.Class<CreateEnvironmentMembershipRequest>(
-  "CreateEnvironmentMembershipRequest",
-)(
-  { environmentId: S.String, userArn: S.String, permissions: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteEnvironmentRequest extends S.Class<DeleteEnvironmentRequest>(
-  "DeleteEnvironmentRequest",
-)(
-  { environmentId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteEnvironmentResult extends S.Class<DeleteEnvironmentResult>(
-  "DeleteEnvironmentResult",
-)({}) {}
-export class DeleteEnvironmentMembershipRequest extends S.Class<DeleteEnvironmentMembershipRequest>(
-  "DeleteEnvironmentMembershipRequest",
-)(
-  { environmentId: S.String, userArn: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DeleteEnvironmentMembershipResult extends S.Class<DeleteEnvironmentMembershipResult>(
-  "DeleteEnvironmentMembershipResult",
-)({}) {}
-export class DescribeEnvironmentMembershipsRequest extends S.Class<DescribeEnvironmentMembershipsRequest>(
-  "DescribeEnvironmentMembershipsRequest",
-)(
-  {
+export interface CreateEnvironmentMembershipRequest {
+  environmentId: string;
+  userArn: string;
+  permissions: string;
+}
+export const CreateEnvironmentMembershipRequest = S.suspend(() =>
+  S.Struct({
+    environmentId: S.String,
+    userArn: S.String,
+    permissions: S.String,
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateEnvironmentMembershipRequest",
+}) as any as S.Schema<CreateEnvironmentMembershipRequest>;
+export interface DeleteEnvironmentRequest {
+  environmentId: string;
+}
+export const DeleteEnvironmentRequest = S.suspend(() =>
+  S.Struct({ environmentId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteEnvironmentRequest",
+}) as any as S.Schema<DeleteEnvironmentRequest>;
+export interface DeleteEnvironmentResult {}
+export const DeleteEnvironmentResult = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteEnvironmentResult",
+}) as any as S.Schema<DeleteEnvironmentResult>;
+export interface DeleteEnvironmentMembershipRequest {
+  environmentId: string;
+  userArn: string;
+}
+export const DeleteEnvironmentMembershipRequest = S.suspend(() =>
+  S.Struct({ environmentId: S.String, userArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DeleteEnvironmentMembershipRequest",
+}) as any as S.Schema<DeleteEnvironmentMembershipRequest>;
+export interface DeleteEnvironmentMembershipResult {}
+export const DeleteEnvironmentMembershipResult = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteEnvironmentMembershipResult",
+}) as any as S.Schema<DeleteEnvironmentMembershipResult>;
+export interface DescribeEnvironmentMembershipsRequest {
+  userArn?: string;
+  environmentId?: string;
+  permissions?: PermissionsList;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const DescribeEnvironmentMembershipsRequest = S.suspend(() =>
+  S.Struct({
     userArn: S.optional(S.String),
     environmentId: S.optional(S.String),
     permissions: S.optional(PermissionsList),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeEnvironmentsRequest extends S.Class<DescribeEnvironmentsRequest>(
-  "DescribeEnvironmentsRequest",
-)(
-  { environmentIds: BoundedEnvironmentIdList },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeEnvironmentStatusRequest extends S.Class<DescribeEnvironmentStatusRequest>(
-  "DescribeEnvironmentStatusRequest",
-)(
-  { environmentId: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListEnvironmentsRequest extends S.Class<ListEnvironmentsRequest>(
-  "ListEnvironmentsRequest",
-)(
-  { nextToken: S.optional(S.String), maxResults: S.optional(S.Number) },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { ResourceARN: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class Tag extends S.Class<Tag>("Tag")({
-  Key: S.String,
-  Value: S.String,
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeEnvironmentMembershipsRequest",
+}) as any as S.Schema<DescribeEnvironmentMembershipsRequest>;
+export interface DescribeEnvironmentsRequest {
+  environmentIds: BoundedEnvironmentIdList;
+}
+export const DescribeEnvironmentsRequest = S.suspend(() =>
+  S.Struct({ environmentIds: BoundedEnvironmentIdList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeEnvironmentsRequest",
+}) as any as S.Schema<DescribeEnvironmentsRequest>;
+export interface DescribeEnvironmentStatusRequest {
+  environmentId: string;
+}
+export const DescribeEnvironmentStatusRequest = S.suspend(() =>
+  S.Struct({ environmentId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "DescribeEnvironmentStatusRequest",
+}) as any as S.Schema<DescribeEnvironmentStatusRequest>;
+export interface ListEnvironmentsRequest {
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListEnvironmentsRequest = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    maxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListEnvironmentsRequest",
+}) as any as S.Schema<ListEnvironmentsRequest>;
+export interface ListTagsForResourceRequest {
+  ResourceARN: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceARN: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface Tag {
+  Key: string;
+  Value: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ Key: S.String, Value: S.String }),
+).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagList = Tag[];
 export const TagList = S.Array(Tag);
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { ResourceARN: S.String, Tags: TagList },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  { ResourceARN: S.String, TagKeys: TagKeyList },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
-export class UpdateEnvironmentRequest extends S.Class<UpdateEnvironmentRequest>(
-  "UpdateEnvironmentRequest",
-)(
-  {
+export interface TagResourceRequest {
+  ResourceARN: string;
+  Tags: TagList;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceARN: S.String, Tags: TagList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UntagResourceRequest {
+  ResourceARN: string;
+  TagKeys: TagKeyList;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceARN: S.String, TagKeys: TagKeyList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface UpdateEnvironmentRequest {
+  environmentId: string;
+  name?: string;
+  description?: string;
+  managedCredentialsAction?: string;
+}
+export const UpdateEnvironmentRequest = S.suspend(() =>
+  S.Struct({
     environmentId: S.String,
     name: S.optional(S.String),
     description: S.optional(S.String),
     managedCredentialsAction: S.optional(S.String),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class UpdateEnvironmentResult extends S.Class<UpdateEnvironmentResult>(
-  "UpdateEnvironmentResult",
-)({}) {}
-export class UpdateEnvironmentMembershipRequest extends S.Class<UpdateEnvironmentMembershipRequest>(
-  "UpdateEnvironmentMembershipRequest",
-)(
-  { environmentId: S.String, userArn: S.String, permissions: S.String },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class EnvironmentMember extends S.Class<EnvironmentMember>(
-  "EnvironmentMember",
-)({
-  permissions: S.String,
-  userId: S.String,
-  userArn: S.String,
-  environmentId: S.String,
-  lastAccess: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateEnvironmentRequest",
+}) as any as S.Schema<UpdateEnvironmentRequest>;
+export interface UpdateEnvironmentResult {}
+export const UpdateEnvironmentResult = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "UpdateEnvironmentResult",
+}) as any as S.Schema<UpdateEnvironmentResult>;
+export interface UpdateEnvironmentMembershipRequest {
+  environmentId: string;
+  userArn: string;
+  permissions: string;
+}
+export const UpdateEnvironmentMembershipRequest = S.suspend(() =>
+  S.Struct({
+    environmentId: S.String,
+    userArn: S.String,
+    permissions: S.String,
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "UpdateEnvironmentMembershipRequest",
+}) as any as S.Schema<UpdateEnvironmentMembershipRequest>;
+export interface EnvironmentMember {
+  permissions: string;
+  userId: string;
+  userArn: string;
+  environmentId: string;
+  lastAccess?: Date;
+}
+export const EnvironmentMember = S.suspend(() =>
+  S.Struct({
+    permissions: S.String,
+    userId: S.String,
+    userArn: S.String,
+    environmentId: S.String,
+    lastAccess: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotations({
+  identifier: "EnvironmentMember",
+}) as any as S.Schema<EnvironmentMember>;
+export type EnvironmentMembersList = EnvironmentMember[];
 export const EnvironmentMembersList = S.Array(EnvironmentMember);
+export type EnvironmentIdList = string[];
 export const EnvironmentIdList = S.Array(S.String);
-export class CreateEnvironmentEC2Request extends S.Class<CreateEnvironmentEC2Request>(
-  "CreateEnvironmentEC2Request",
-)(
-  {
+export interface CreateEnvironmentEC2Request {
+  name: string;
+  description?: string;
+  clientRequestToken?: string;
+  instanceType: string;
+  subnetId?: string;
+  imageId: string;
+  automaticStopTimeMinutes?: number;
+  ownerArn?: string;
+  tags?: TagList;
+  connectionType?: string;
+  dryRun?: boolean;
+}
+export const CreateEnvironmentEC2Request = S.suspend(() =>
+  S.Struct({
     name: S.String,
     description: S.optional(S.String),
     clientRequestToken: S.optional(S.String),
@@ -374,58 +488,125 @@ export class CreateEnvironmentEC2Request extends S.Class<CreateEnvironmentEC2Req
     tags: S.optional(TagList),
     connectionType: S.optional(S.String),
     dryRun: S.optional(S.Boolean),
-  },
-  T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-) {}
-export class DescribeEnvironmentMembershipsResult extends S.Class<DescribeEnvironmentMembershipsResult>(
-  "DescribeEnvironmentMembershipsResult",
-)({
-  memberships: S.optional(EnvironmentMembersList),
-  nextToken: S.optional(S.String),
-}) {}
-export class DescribeEnvironmentStatusResult extends S.Class<DescribeEnvironmentStatusResult>(
-  "DescribeEnvironmentStatusResult",
-)({ status: S.String, message: S.String }) {}
-export class ListEnvironmentsResult extends S.Class<ListEnvironmentsResult>(
-  "ListEnvironmentsResult",
-)({
-  nextToken: S.optional(S.String),
-  environmentIds: S.optional(EnvironmentIdList),
-}) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ Tags: S.optional(TagList) }) {}
-export class UpdateEnvironmentMembershipResult extends S.Class<UpdateEnvironmentMembershipResult>(
-  "UpdateEnvironmentMembershipResult",
-)({ membership: S.optional(EnvironmentMember) }) {}
-export class CreateEnvironmentEC2Result extends S.Class<CreateEnvironmentEC2Result>(
-  "CreateEnvironmentEC2Result",
-)({ environmentId: S.optional(S.String) }) {}
-export class CreateEnvironmentMembershipResult extends S.Class<CreateEnvironmentMembershipResult>(
-  "CreateEnvironmentMembershipResult",
-)({ membership: EnvironmentMember }) {}
-export class EnvironmentLifecycle extends S.Class<EnvironmentLifecycle>(
-  "EnvironmentLifecycle",
-)({
-  status: S.optional(S.String),
-  reason: S.optional(S.String),
-  failureResource: S.optional(S.String),
-}) {}
-export class Environment extends S.Class<Environment>("Environment")({
-  id: S.optional(S.String),
-  name: S.optional(S.String),
-  description: S.optional(S.String),
-  type: S.String,
-  connectionType: S.optional(S.String),
-  arn: S.String,
-  ownerArn: S.String,
-  lifecycle: S.optional(EnvironmentLifecycle),
-  managedCredentialsStatus: S.optional(S.String),
-}) {}
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotations({
+  identifier: "CreateEnvironmentEC2Request",
+}) as any as S.Schema<CreateEnvironmentEC2Request>;
+export interface DescribeEnvironmentMembershipsResult {
+  memberships?: EnvironmentMembersList;
+  nextToken?: string;
+}
+export const DescribeEnvironmentMembershipsResult = S.suspend(() =>
+  S.Struct({
+    memberships: S.optional(EnvironmentMembersList),
+    nextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "DescribeEnvironmentMembershipsResult",
+}) as any as S.Schema<DescribeEnvironmentMembershipsResult>;
+export interface DescribeEnvironmentStatusResult {
+  status: string;
+  message: string;
+}
+export const DescribeEnvironmentStatusResult = S.suspend(() =>
+  S.Struct({ status: S.String, message: S.String }),
+).annotations({
+  identifier: "DescribeEnvironmentStatusResult",
+}) as any as S.Schema<DescribeEnvironmentStatusResult>;
+export interface ListEnvironmentsResult {
+  nextToken?: string;
+  environmentIds?: EnvironmentIdList;
+}
+export const ListEnvironmentsResult = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    environmentIds: S.optional(EnvironmentIdList),
+  }),
+).annotations({
+  identifier: "ListEnvironmentsResult",
+}) as any as S.Schema<ListEnvironmentsResult>;
+export interface ListTagsForResourceResponse {
+  Tags?: TagList;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ Tags: S.optional(TagList) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface UpdateEnvironmentMembershipResult {
+  membership?: EnvironmentMember;
+}
+export const UpdateEnvironmentMembershipResult = S.suspend(() =>
+  S.Struct({ membership: S.optional(EnvironmentMember) }),
+).annotations({
+  identifier: "UpdateEnvironmentMembershipResult",
+}) as any as S.Schema<UpdateEnvironmentMembershipResult>;
+export interface CreateEnvironmentEC2Result {
+  environmentId?: string;
+}
+export const CreateEnvironmentEC2Result = S.suspend(() =>
+  S.Struct({ environmentId: S.optional(S.String) }),
+).annotations({
+  identifier: "CreateEnvironmentEC2Result",
+}) as any as S.Schema<CreateEnvironmentEC2Result>;
+export interface CreateEnvironmentMembershipResult {
+  membership: EnvironmentMember;
+}
+export const CreateEnvironmentMembershipResult = S.suspend(() =>
+  S.Struct({ membership: EnvironmentMember }),
+).annotations({
+  identifier: "CreateEnvironmentMembershipResult",
+}) as any as S.Schema<CreateEnvironmentMembershipResult>;
+export interface EnvironmentLifecycle {
+  status?: string;
+  reason?: string;
+  failureResource?: string;
+}
+export const EnvironmentLifecycle = S.suspend(() =>
+  S.Struct({
+    status: S.optional(S.String),
+    reason: S.optional(S.String),
+    failureResource: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "EnvironmentLifecycle",
+}) as any as S.Schema<EnvironmentLifecycle>;
+export interface Environment {
+  id?: string;
+  name?: string;
+  description?: string;
+  type: string;
+  connectionType?: string;
+  arn: string;
+  ownerArn: string;
+  lifecycle?: EnvironmentLifecycle;
+  managedCredentialsStatus?: string;
+}
+export const Environment = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    type: S.String,
+    connectionType: S.optional(S.String),
+    arn: S.String,
+    ownerArn: S.String,
+    lifecycle: S.optional(EnvironmentLifecycle),
+    managedCredentialsStatus: S.optional(S.String),
+  }),
+).annotations({ identifier: "Environment" }) as any as S.Schema<Environment>;
+export type EnvironmentList = Environment[];
 export const EnvironmentList = S.Array(Environment);
-export class DescribeEnvironmentsResult extends S.Class<DescribeEnvironmentsResult>(
-  "DescribeEnvironmentsResult",
-)({ environments: S.optional(EnvironmentList) }) {}
+export interface DescribeEnvironmentsResult {
+  environments?: EnvironmentList;
+}
+export const DescribeEnvironmentsResult = S.suspend(() =>
+  S.Struct({ environments: S.optional(EnvironmentList) }),
+).annotations({
+  identifier: "DescribeEnvironmentsResult",
+}) as any as S.Schema<DescribeEnvironmentsResult>;
 
 //# Errors
 export class BadRequestException extends S.TaggedError<BadRequestException>()(

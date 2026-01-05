@@ -475,49 +475,83 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type TravelModeList = string[];
 export const TravelModeList = S.Array(S.String);
+export type TileAdditionalFeatureList = string[];
 export const TileAdditionalFeatureList = S.Array(S.String);
-export class GetGlyphsRequest extends S.Class<GetGlyphsRequest>(
-  "GetGlyphsRequest",
-)(
-  {
+export interface GetGlyphsRequest {
+  FontStack: string;
+  FontUnicodeRange: string;
+}
+export const GetGlyphsRequest = S.suspend(() =>
+  S.Struct({
     FontStack: S.String.pipe(T.HttpLabel("FontStack")),
     FontUnicodeRange: S.String.pipe(T.HttpLabel("FontUnicodeRange")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/glyphs/{FontStack}/{FontUnicodeRange}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/glyphs/{FontStack}/{FontUnicodeRange}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetSpritesRequest extends S.Class<GetSpritesRequest>(
-  "GetSpritesRequest",
-)(
-  {
+).annotations({
+  identifier: "GetGlyphsRequest",
+}) as any as S.Schema<GetGlyphsRequest>;
+export interface GetSpritesRequest {
+  FileName: string;
+  Style: string;
+  ColorScheme: string;
+  Variant: string;
+}
+export const GetSpritesRequest = S.suspend(() =>
+  S.Struct({
     FileName: S.String.pipe(T.HttpLabel("FileName")),
     Style: S.String.pipe(T.HttpLabel("Style")),
     ColorScheme: S.String.pipe(T.HttpLabel("ColorScheme")),
     Variant: S.String.pipe(T.HttpLabel("Variant")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/styles/{Style}/{ColorScheme}/{Variant}/sprites/{FileName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/styles/{Style}/{ColorScheme}/{Variant}/sprites/{FileName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetStaticMapRequest extends S.Class<GetStaticMapRequest>(
-  "GetStaticMapRequest",
-)(
-  {
+).annotations({
+  identifier: "GetSpritesRequest",
+}) as any as S.Schema<GetSpritesRequest>;
+export interface GetStaticMapRequest {
+  BoundingBox?: string;
+  BoundedPositions?: string;
+  Center?: string;
+  ColorScheme?: string;
+  CompactOverlay?: string;
+  CropLabels?: boolean;
+  GeoJsonOverlay?: string;
+  Height: number;
+  Key?: string;
+  LabelSize?: string;
+  Language?: string;
+  Padding?: number;
+  PoliticalView?: string;
+  PointsOfInterests?: string;
+  Radius?: number;
+  FileName: string;
+  ScaleBarUnit?: string;
+  Style?: string;
+  Width: number;
+  Zoom?: number;
+}
+export const GetStaticMapRequest = S.suspend(() =>
+  S.Struct({
     BoundingBox: S.optional(S.String).pipe(T.HttpQuery("bounding-box")),
     BoundedPositions: S.optional(S.String).pipe(
       T.HttpQuery("bounded-positions"),
@@ -540,20 +574,31 @@ export class GetStaticMapRequest extends S.Class<GetStaticMapRequest>(
     Style: S.optional(S.String).pipe(T.HttpQuery("style")),
     Width: S.Number.pipe(T.HttpQuery("width")),
     Zoom: S.optional(S.Number).pipe(T.HttpQuery("zoom")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/static/{FileName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/static/{FileName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetStyleDescriptorRequest extends S.Class<GetStyleDescriptorRequest>(
-  "GetStyleDescriptorRequest",
-)(
-  {
+).annotations({
+  identifier: "GetStaticMapRequest",
+}) as any as S.Schema<GetStaticMapRequest>;
+export interface GetStyleDescriptorRequest {
+  Style: string;
+  ColorScheme?: string;
+  PoliticalView?: string;
+  Terrain?: string;
+  ContourDensity?: string;
+  Traffic?: string;
+  TravelModes?: TravelModeList;
+  Key?: string;
+}
+export const GetStyleDescriptorRequest = S.suspend(() =>
+  S.Struct({
     Style: S.String.pipe(T.HttpLabel("Style")),
     ColorScheme: S.optional(S.String).pipe(T.HttpQuery("color-scheme")),
     PoliticalView: S.optional(S.String).pipe(T.HttpQuery("political-view")),
@@ -562,18 +607,29 @@ export class GetStyleDescriptorRequest extends S.Class<GetStyleDescriptorRequest
     Traffic: S.optional(S.String).pipe(T.HttpQuery("traffic")),
     TravelModes: S.optional(TravelModeList).pipe(T.HttpQuery("travel-modes")),
     Key: S.optional(S.String).pipe(T.HttpQuery("key")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/styles/{Style}/descriptor" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/styles/{Style}/descriptor" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetTileRequest extends S.Class<GetTileRequest>("GetTileRequest")(
-  {
+).annotations({
+  identifier: "GetStyleDescriptorRequest",
+}) as any as S.Schema<GetStyleDescriptorRequest>;
+export interface GetTileRequest {
+  AdditionalFeatures?: TileAdditionalFeatureList;
+  Tileset: string;
+  Z: string;
+  X: string;
+  Y: string;
+  Key?: string;
+}
+export const GetTileRequest = S.suspend(() =>
+  S.Struct({
     AdditionalFeatures: S.optional(TileAdditionalFeatureList).pipe(
       T.HttpQuery("additional-features"),
     ),
@@ -582,64 +638,116 @@ export class GetTileRequest extends S.Class<GetTileRequest>("GetTileRequest")(
     X: S.String.pipe(T.HttpLabel("X")),
     Y: S.String.pipe(T.HttpLabel("Y")),
     Key: S.optional(S.String).pipe(T.HttpQuery("key")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/tiles/{Tileset}/{Z}/{X}/{Y}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tiles/{Tileset}/{Z}/{X}/{Y}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetGlyphsResponse extends S.Class<GetGlyphsResponse>(
-  "GetGlyphsResponse",
-)({
-  Blob: S.optional(T.Blob).pipe(T.HttpPayload()),
-  ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-  CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-  ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-}) {}
-export class GetSpritesResponse extends S.Class<GetSpritesResponse>(
-  "GetSpritesResponse",
-)({
-  Blob: S.optional(T.Blob).pipe(T.HttpPayload()),
-  ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-  CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-  ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-}) {}
-export class GetStaticMapResponse extends S.Class<GetStaticMapResponse>(
-  "GetStaticMapResponse",
-)({
-  Blob: S.optional(T.Blob).pipe(T.HttpPayload()),
-  ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-  CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-  ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  PricingBucket: S.String.pipe(T.HttpHeader("x-amz-geo-pricing-bucket")),
-}) {}
-export class GetStyleDescriptorResponse extends S.Class<GetStyleDescriptorResponse>(
-  "GetStyleDescriptorResponse",
-)({
-  Blob: S.optional(T.Blob).pipe(T.HttpPayload()),
-  ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-  CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-  ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-}) {}
-export class GetTileResponse extends S.Class<GetTileResponse>(
-  "GetTileResponse",
-)({
-  Blob: S.optional(T.Blob).pipe(T.HttpPayload()),
-  ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-  CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-  ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  PricingBucket: S.String.pipe(T.HttpHeader("x-amz-geo-pricing-bucket")),
-}) {}
-export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
-  "ValidationExceptionField",
-)({
-  Name: S.String.pipe(T.JsonName("name")),
-  Message: S.String.pipe(T.JsonName("message")),
-}) {}
+).annotations({
+  identifier: "GetTileRequest",
+}) as any as S.Schema<GetTileRequest>;
+export interface GetGlyphsResponse {
+  Blob?: Uint8Array;
+  ContentType?: string;
+  CacheControl?: string;
+  ETag?: string;
+}
+export const GetGlyphsResponse = S.suspend(() =>
+  S.Struct({
+    Blob: S.optional(T.Blob).pipe(T.HttpPayload()),
+    ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
+    CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
+    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
+  }),
+).annotations({
+  identifier: "GetGlyphsResponse",
+}) as any as S.Schema<GetGlyphsResponse>;
+export interface GetSpritesResponse {
+  Blob?: Uint8Array;
+  ContentType?: string;
+  CacheControl?: string;
+  ETag?: string;
+}
+export const GetSpritesResponse = S.suspend(() =>
+  S.Struct({
+    Blob: S.optional(T.Blob).pipe(T.HttpPayload()),
+    ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
+    CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
+    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
+  }),
+).annotations({
+  identifier: "GetSpritesResponse",
+}) as any as S.Schema<GetSpritesResponse>;
+export interface GetStaticMapResponse {
+  Blob?: Uint8Array;
+  ContentType?: string;
+  CacheControl?: string;
+  ETag?: string;
+  PricingBucket: string;
+}
+export const GetStaticMapResponse = S.suspend(() =>
+  S.Struct({
+    Blob: S.optional(T.Blob).pipe(T.HttpPayload()),
+    ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
+    CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
+    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
+    PricingBucket: S.String.pipe(T.HttpHeader("x-amz-geo-pricing-bucket")),
+  }),
+).annotations({
+  identifier: "GetStaticMapResponse",
+}) as any as S.Schema<GetStaticMapResponse>;
+export interface GetStyleDescriptorResponse {
+  Blob?: Uint8Array;
+  ContentType?: string;
+  CacheControl?: string;
+  ETag?: string;
+}
+export const GetStyleDescriptorResponse = S.suspend(() =>
+  S.Struct({
+    Blob: S.optional(T.Blob).pipe(T.HttpPayload()),
+    ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
+    CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
+    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
+  }),
+).annotations({
+  identifier: "GetStyleDescriptorResponse",
+}) as any as S.Schema<GetStyleDescriptorResponse>;
+export interface GetTileResponse {
+  Blob?: Uint8Array;
+  ContentType?: string;
+  CacheControl?: string;
+  ETag?: string;
+  PricingBucket: string;
+}
+export const GetTileResponse = S.suspend(() =>
+  S.Struct({
+    Blob: S.optional(T.Blob).pipe(T.HttpPayload()),
+    ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
+    CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
+    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
+    PricingBucket: S.String.pipe(T.HttpHeader("x-amz-geo-pricing-bucket")),
+  }),
+).annotations({
+  identifier: "GetTileResponse",
+}) as any as S.Schema<GetTileResponse>;
+export interface ValidationExceptionField {
+  Name: string;
+  Message: string;
+}
+export const ValidationExceptionField = S.suspend(() =>
+  S.Struct({
+    Name: S.String.pipe(T.JsonName("name")),
+    Message: S.String.pipe(T.JsonName("message")),
+  }),
+).annotations({
+  identifier: "ValidationExceptionField",
+}) as any as S.Schema<ValidationExceptionField>;
+export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 
 //# Errors

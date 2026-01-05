@@ -242,512 +242,739 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Schemas
+export type TagKeys = string[];
 export const TagKeys = S.Array(S.String);
+export type IdList = string[];
 export const IdList = S.Array(S.String);
+export type Position = number[];
 export const Position = S.Array(S.Number);
+export type BoundingBox = number[];
 export const BoundingBox = S.Array(S.Number);
+export type CountryCodeList = string[];
 export const CountryCodeList = S.Array(S.String);
+export type FilterPlaceCategoryList = string[];
 export const FilterPlaceCategoryList = S.Array(S.String);
+export type WaypointPositionList = Position[];
 export const WaypointPositionList = S.Array(Position);
+export type PositionList = Position[];
 export const PositionList = S.Array(Position);
+export type DeviceIdsList = string[];
 export const DeviceIdsList = S.Array(S.String);
-export class DescribeKeyRequest extends S.Class<DescribeKeyRequest>(
-  "DescribeKeyRequest",
-)(
-  { KeyName: S.String.pipe(T.HttpLabel("KeyName")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/metadata/v0/keys/{KeyName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface DescribeKeyRequest {
+  KeyName: string;
+}
+export const DescribeKeyRequest = S.suspend(() =>
+  S.Struct({ KeyName: S.String.pipe(T.HttpLabel("KeyName")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/metadata/v0/keys/{KeyName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "DescribeKeyRequest",
+}) as any as S.Schema<DescribeKeyRequest>;
+export type ApiKeyActionList = string[];
 export const ApiKeyActionList = S.Array(S.String);
+export type GeoArnList = string[];
 export const GeoArnList = S.Array(S.String);
+export type RefererPatternList = string[];
 export const RefererPatternList = S.Array(S.String);
-export class AndroidApp extends S.Class<AndroidApp>("AndroidApp")({
-  Package: S.String,
-  CertificateFingerprint: S.String,
-}) {}
+export interface AndroidApp {
+  Package: string;
+  CertificateFingerprint: string;
+}
+export const AndroidApp = S.suspend(() =>
+  S.Struct({ Package: S.String, CertificateFingerprint: S.String }),
+).annotations({ identifier: "AndroidApp" }) as any as S.Schema<AndroidApp>;
+export type AndroidAppList = AndroidApp[];
 export const AndroidAppList = S.Array(AndroidApp);
-export class AppleApp extends S.Class<AppleApp>("AppleApp")({
-  BundleId: S.String,
-}) {}
+export interface AppleApp {
+  BundleId: string;
+}
+export const AppleApp = S.suspend(() =>
+  S.Struct({ BundleId: S.String }),
+).annotations({ identifier: "AppleApp" }) as any as S.Schema<AppleApp>;
+export type AppleAppList = AppleApp[];
 export const AppleAppList = S.Array(AppleApp);
-export class ApiKeyRestrictions extends S.Class<ApiKeyRestrictions>(
-  "ApiKeyRestrictions",
-)({
-  AllowActions: ApiKeyActionList,
-  AllowResources: GeoArnList,
-  AllowReferers: S.optional(RefererPatternList),
-  AllowAndroidApps: S.optional(AndroidAppList),
-  AllowAppleApps: S.optional(AppleAppList),
-}) {}
-export class UpdateKeyRequest extends S.Class<UpdateKeyRequest>(
-  "UpdateKeyRequest",
-)(
-  {
+export interface ApiKeyRestrictions {
+  AllowActions: ApiKeyActionList;
+  AllowResources: GeoArnList;
+  AllowReferers?: RefererPatternList;
+  AllowAndroidApps?: AndroidAppList;
+  AllowAppleApps?: AppleAppList;
+}
+export const ApiKeyRestrictions = S.suspend(() =>
+  S.Struct({
+    AllowActions: ApiKeyActionList,
+    AllowResources: GeoArnList,
+    AllowReferers: S.optional(RefererPatternList),
+    AllowAndroidApps: S.optional(AndroidAppList),
+    AllowAppleApps: S.optional(AppleAppList),
+  }),
+).annotations({
+  identifier: "ApiKeyRestrictions",
+}) as any as S.Schema<ApiKeyRestrictions>;
+export interface UpdateKeyRequest {
+  KeyName: string;
+  Description?: string;
+  ExpireTime?: Date;
+  NoExpiry?: boolean;
+  ForceUpdate?: boolean;
+  Restrictions?: ApiKeyRestrictions;
+}
+export const UpdateKeyRequest = S.suspend(() =>
+  S.Struct({
     KeyName: S.String.pipe(T.HttpLabel("KeyName")),
     Description: S.optional(S.String),
     ExpireTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     NoExpiry: S.optional(S.Boolean),
     ForceUpdate: S.optional(S.Boolean),
     Restrictions: S.optional(ApiKeyRestrictions),
-  },
-  T.all(
-    T.Http({ method: "PATCH", uri: "/metadata/v0/keys/{KeyName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PATCH", uri: "/metadata/v0/keys/{KeyName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteKeyRequest extends S.Class<DeleteKeyRequest>(
-  "DeleteKeyRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateKeyRequest",
+}) as any as S.Schema<UpdateKeyRequest>;
+export interface DeleteKeyRequest {
+  KeyName: string;
+  ForceDelete?: boolean;
+}
+export const DeleteKeyRequest = S.suspend(() =>
+  S.Struct({
     KeyName: S.String.pipe(T.HttpLabel("KeyName")),
     ForceDelete: S.optional(S.Boolean).pipe(T.HttpQuery("forceDelete")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/metadata/v0/keys/{KeyName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/metadata/v0/keys/{KeyName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteKeyResponse extends S.Class<DeleteKeyResponse>(
-  "DeleteKeyResponse",
-)({}) {}
-export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
-  "ListTagsForResourceRequest",
-)(
-  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteKeyRequest",
+}) as any as S.Schema<DeleteKeyRequest>;
+export interface DeleteKeyResponse {}
+export const DeleteKeyResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteKeyResponse",
+}) as any as S.Schema<DeleteKeyResponse>;
+export interface ListTagsForResourceRequest {
+  ResourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
-export class TagResourceRequest extends S.Class<TagResourceRequest>(
-  "TagResourceRequest",
-)(
-  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")), Tags: TagMap },
-  T.all(
-    T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+export interface TagResourceRequest {
+  ResourceArn: string;
+  Tags: TagMap;
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
+    Tags: TagMap,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class TagResourceResponse extends S.Class<TagResourceResponse>(
-  "TagResourceResponse",
-)({}) {}
-export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
-  "UntagResourceRequest",
-)(
-  {
+).annotations({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UntagResourceRequest {
+  ResourceArn: string;
+  TagKeys: TagKeys;
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
-  },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
-  "UntagResourceResponse",
-)({}) {}
-export class CreateGeofenceCollectionRequest extends S.Class<CreateGeofenceCollectionRequest>(
-  "CreateGeofenceCollectionRequest",
-)(
-  {
+).annotations({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface CreateGeofenceCollectionRequest {
+  CollectionName: string;
+  PricingPlan?: string;
+  PricingPlanDataSource?: string;
+  Description?: string;
+  Tags?: TagMap;
+  KmsKeyId?: string;
+}
+export const CreateGeofenceCollectionRequest = S.suspend(() =>
+  S.Struct({
     CollectionName: S.String,
     PricingPlan: S.optional(S.String),
     PricingPlanDataSource: S.optional(S.String),
     Description: S.optional(S.String),
     Tags: S.optional(TagMap),
     KmsKeyId: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/geofencing/v0/collections" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/geofencing/v0/collections" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeGeofenceCollectionRequest extends S.Class<DescribeGeofenceCollectionRequest>(
-  "DescribeGeofenceCollectionRequest",
-)(
-  { CollectionName: S.String.pipe(T.HttpLabel("CollectionName")) },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/geofencing/v0/collections/{CollectionName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CreateGeofenceCollectionRequest",
+}) as any as S.Schema<CreateGeofenceCollectionRequest>;
+export interface DescribeGeofenceCollectionRequest {
+  CollectionName: string;
+}
+export const DescribeGeofenceCollectionRequest = S.suspend(() =>
+  S.Struct({
+    CollectionName: S.String.pipe(T.HttpLabel("CollectionName")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/geofencing/v0/collections/{CollectionName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateGeofenceCollectionRequest extends S.Class<UpdateGeofenceCollectionRequest>(
-  "UpdateGeofenceCollectionRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeGeofenceCollectionRequest",
+}) as any as S.Schema<DescribeGeofenceCollectionRequest>;
+export interface UpdateGeofenceCollectionRequest {
+  CollectionName: string;
+  PricingPlan?: string;
+  PricingPlanDataSource?: string;
+  Description?: string;
+}
+export const UpdateGeofenceCollectionRequest = S.suspend(() =>
+  S.Struct({
     CollectionName: S.String.pipe(T.HttpLabel("CollectionName")),
     PricingPlan: S.optional(S.String),
     PricingPlanDataSource: S.optional(S.String),
     Description: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "PATCH",
-      uri: "/geofencing/v0/collections/{CollectionName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/geofencing/v0/collections/{CollectionName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteGeofenceCollectionRequest extends S.Class<DeleteGeofenceCollectionRequest>(
-  "DeleteGeofenceCollectionRequest",
-)(
-  { CollectionName: S.String.pipe(T.HttpLabel("CollectionName")) },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/geofencing/v0/collections/{CollectionName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UpdateGeofenceCollectionRequest",
+}) as any as S.Schema<UpdateGeofenceCollectionRequest>;
+export interface DeleteGeofenceCollectionRequest {
+  CollectionName: string;
+}
+export const DeleteGeofenceCollectionRequest = S.suspend(() =>
+  S.Struct({
+    CollectionName: S.String.pipe(T.HttpLabel("CollectionName")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/geofencing/v0/collections/{CollectionName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteGeofenceCollectionResponse extends S.Class<DeleteGeofenceCollectionResponse>(
-  "DeleteGeofenceCollectionResponse",
-)({}) {}
-export class ListGeofenceCollectionsRequest extends S.Class<ListGeofenceCollectionsRequest>(
-  "ListGeofenceCollectionsRequest",
-)(
-  { MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/geofencing/v0/list-collections" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteGeofenceCollectionRequest",
+}) as any as S.Schema<DeleteGeofenceCollectionRequest>;
+export interface DeleteGeofenceCollectionResponse {}
+export const DeleteGeofenceCollectionResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteGeofenceCollectionResponse",
+}) as any as S.Schema<DeleteGeofenceCollectionResponse>;
+export interface ListGeofenceCollectionsRequest {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListGeofenceCollectionsRequest = S.suspend(() =>
+  S.Struct({
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/geofencing/v0/list-collections" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class BatchDeleteGeofenceRequest extends S.Class<BatchDeleteGeofenceRequest>(
-  "BatchDeleteGeofenceRequest",
-)(
-  {
+).annotations({
+  identifier: "ListGeofenceCollectionsRequest",
+}) as any as S.Schema<ListGeofenceCollectionsRequest>;
+export interface BatchDeleteGeofenceRequest {
+  CollectionName: string;
+  GeofenceIds: IdList;
+}
+export const BatchDeleteGeofenceRequest = S.suspend(() =>
+  S.Struct({
     CollectionName: S.String.pipe(T.HttpLabel("CollectionName")),
     GeofenceIds: IdList,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/geofencing/v0/collections/{CollectionName}/delete-geofences",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/geofencing/v0/collections/{CollectionName}/delete-geofences",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetGeofenceRequest extends S.Class<GetGeofenceRequest>(
-  "GetGeofenceRequest",
-)(
-  {
+).annotations({
+  identifier: "BatchDeleteGeofenceRequest",
+}) as any as S.Schema<BatchDeleteGeofenceRequest>;
+export interface GetGeofenceRequest {
+  CollectionName: string;
+  GeofenceId: string;
+}
+export const GetGeofenceRequest = S.suspend(() =>
+  S.Struct({
     CollectionName: S.String.pipe(T.HttpLabel("CollectionName")),
     GeofenceId: S.String.pipe(T.HttpLabel("GeofenceId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/geofencing/v0/collections/{CollectionName}/geofences/{GeofenceId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/geofencing/v0/collections/{CollectionName}/geofences/{GeofenceId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListGeofencesRequest extends S.Class<ListGeofencesRequest>(
-  "ListGeofencesRequest",
-)(
-  {
+).annotations({
+  identifier: "GetGeofenceRequest",
+}) as any as S.Schema<GetGeofenceRequest>;
+export interface ListGeofencesRequest {
+  CollectionName: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListGeofencesRequest = S.suspend(() =>
+  S.Struct({
     CollectionName: S.String.pipe(T.HttpLabel("CollectionName")),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/geofencing/v0/collections/{CollectionName}/list-geofences",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/geofencing/v0/collections/{CollectionName}/list-geofences",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeMapRequest extends S.Class<DescribeMapRequest>(
-  "DescribeMapRequest",
-)(
-  { MapName: S.String.pipe(T.HttpLabel("MapName")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/maps/v0/maps/{MapName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "ListGeofencesRequest",
+}) as any as S.Schema<ListGeofencesRequest>;
+export interface DescribeMapRequest {
+  MapName: string;
+}
+export const DescribeMapRequest = S.suspend(() =>
+  S.Struct({ MapName: S.String.pipe(T.HttpLabel("MapName")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/maps/v0/maps/{MapName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteMapRequest extends S.Class<DeleteMapRequest>(
-  "DeleteMapRequest",
-)(
-  { MapName: S.String.pipe(T.HttpLabel("MapName")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/maps/v0/maps/{MapName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DescribeMapRequest",
+}) as any as S.Schema<DescribeMapRequest>;
+export interface DeleteMapRequest {
+  MapName: string;
+}
+export const DeleteMapRequest = S.suspend(() =>
+  S.Struct({ MapName: S.String.pipe(T.HttpLabel("MapName")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/maps/v0/maps/{MapName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteMapResponse extends S.Class<DeleteMapResponse>(
-  "DeleteMapResponse",
-)({}) {}
-export class ListMapsRequest extends S.Class<ListMapsRequest>(
-  "ListMapsRequest",
-)(
-  { MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/maps/v0/list-maps" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteMapRequest",
+}) as any as S.Schema<DeleteMapRequest>;
+export interface DeleteMapResponse {}
+export const DeleteMapResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteMapResponse",
+}) as any as S.Schema<DeleteMapResponse>;
+export interface ListMapsRequest {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListMapsRequest = S.suspend(() =>
+  S.Struct({
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/maps/v0/list-maps" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetMapGlyphsRequest extends S.Class<GetMapGlyphsRequest>(
-  "GetMapGlyphsRequest",
-)(
-  {
+).annotations({
+  identifier: "ListMapsRequest",
+}) as any as S.Schema<ListMapsRequest>;
+export interface GetMapGlyphsRequest {
+  MapName: string;
+  FontStack: string;
+  FontUnicodeRange: string;
+  Key?: string;
+}
+export const GetMapGlyphsRequest = S.suspend(() =>
+  S.Struct({
     MapName: S.String.pipe(T.HttpLabel("MapName")),
     FontStack: S.String.pipe(T.HttpLabel("FontStack")),
     FontUnicodeRange: S.String.pipe(T.HttpLabel("FontUnicodeRange")),
     Key: S.optional(S.String).pipe(T.HttpQuery("key")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/maps/v0/maps/{MapName}/glyphs/{FontStack}/{FontUnicodeRange}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/maps/v0/maps/{MapName}/glyphs/{FontStack}/{FontUnicodeRange}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetMapSpritesRequest extends S.Class<GetMapSpritesRequest>(
-  "GetMapSpritesRequest",
-)(
-  {
+).annotations({
+  identifier: "GetMapGlyphsRequest",
+}) as any as S.Schema<GetMapGlyphsRequest>;
+export interface GetMapSpritesRequest {
+  MapName: string;
+  FileName: string;
+  Key?: string;
+}
+export const GetMapSpritesRequest = S.suspend(() =>
+  S.Struct({
     MapName: S.String.pipe(T.HttpLabel("MapName")),
     FileName: S.String.pipe(T.HttpLabel("FileName")),
     Key: S.optional(S.String).pipe(T.HttpQuery("key")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/maps/v0/maps/{MapName}/sprites/{FileName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/maps/v0/maps/{MapName}/sprites/{FileName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetMapStyleDescriptorRequest extends S.Class<GetMapStyleDescriptorRequest>(
-  "GetMapStyleDescriptorRequest",
-)(
-  {
+).annotations({
+  identifier: "GetMapSpritesRequest",
+}) as any as S.Schema<GetMapSpritesRequest>;
+export interface GetMapStyleDescriptorRequest {
+  MapName: string;
+  Key?: string;
+}
+export const GetMapStyleDescriptorRequest = S.suspend(() =>
+  S.Struct({
     MapName: S.String.pipe(T.HttpLabel("MapName")),
     Key: S.optional(S.String).pipe(T.HttpQuery("key")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/maps/v0/maps/{MapName}/style-descriptor" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/maps/v0/maps/{MapName}/style-descriptor",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetMapTileRequest extends S.Class<GetMapTileRequest>(
-  "GetMapTileRequest",
-)(
-  {
+).annotations({
+  identifier: "GetMapStyleDescriptorRequest",
+}) as any as S.Schema<GetMapStyleDescriptorRequest>;
+export interface GetMapTileRequest {
+  MapName: string;
+  Z: string;
+  X: string;
+  Y: string;
+  Key?: string;
+}
+export const GetMapTileRequest = S.suspend(() =>
+  S.Struct({
     MapName: S.String.pipe(T.HttpLabel("MapName")),
     Z: S.String.pipe(T.HttpLabel("Z")),
     X: S.String.pipe(T.HttpLabel("X")),
     Y: S.String.pipe(T.HttpLabel("Y")),
     Key: S.optional(S.String).pipe(T.HttpQuery("key")),
-  },
-  T.all(
-    T.Http({ method: "GET", uri: "/maps/v0/maps/{MapName}/tiles/{Z}/{X}/{Y}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/maps/v0/maps/{MapName}/tiles/{Z}/{X}/{Y}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribePlaceIndexRequest extends S.Class<DescribePlaceIndexRequest>(
-  "DescribePlaceIndexRequest",
-)(
-  { IndexName: S.String.pipe(T.HttpLabel("IndexName")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/places/v0/indexes/{IndexName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "GetMapTileRequest",
+}) as any as S.Schema<GetMapTileRequest>;
+export interface DescribePlaceIndexRequest {
+  IndexName: string;
+}
+export const DescribePlaceIndexRequest = S.suspend(() =>
+  S.Struct({ IndexName: S.String.pipe(T.HttpLabel("IndexName")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/places/v0/indexes/{IndexName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DataSourceConfiguration extends S.Class<DataSourceConfiguration>(
-  "DataSourceConfiguration",
-)({ IntendedUse: S.optional(S.String) }) {}
-export class UpdatePlaceIndexRequest extends S.Class<UpdatePlaceIndexRequest>(
-  "UpdatePlaceIndexRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribePlaceIndexRequest",
+}) as any as S.Schema<DescribePlaceIndexRequest>;
+export interface DataSourceConfiguration {
+  IntendedUse?: string;
+}
+export const DataSourceConfiguration = S.suspend(() =>
+  S.Struct({ IntendedUse: S.optional(S.String) }),
+).annotations({
+  identifier: "DataSourceConfiguration",
+}) as any as S.Schema<DataSourceConfiguration>;
+export interface UpdatePlaceIndexRequest {
+  IndexName: string;
+  PricingPlan?: string;
+  Description?: string;
+  DataSourceConfiguration?: DataSourceConfiguration;
+}
+export const UpdatePlaceIndexRequest = S.suspend(() =>
+  S.Struct({
     IndexName: S.String.pipe(T.HttpLabel("IndexName")),
     PricingPlan: S.optional(S.String),
     Description: S.optional(S.String),
     DataSourceConfiguration: S.optional(DataSourceConfiguration),
-  },
-  T.all(
-    T.Http({ method: "PATCH", uri: "/places/v0/indexes/{IndexName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PATCH", uri: "/places/v0/indexes/{IndexName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeletePlaceIndexRequest extends S.Class<DeletePlaceIndexRequest>(
-  "DeletePlaceIndexRequest",
-)(
-  { IndexName: S.String.pipe(T.HttpLabel("IndexName")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/places/v0/indexes/{IndexName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UpdatePlaceIndexRequest",
+}) as any as S.Schema<UpdatePlaceIndexRequest>;
+export interface DeletePlaceIndexRequest {
+  IndexName: string;
+}
+export const DeletePlaceIndexRequest = S.suspend(() =>
+  S.Struct({ IndexName: S.String.pipe(T.HttpLabel("IndexName")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/places/v0/indexes/{IndexName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeletePlaceIndexResponse extends S.Class<DeletePlaceIndexResponse>(
-  "DeletePlaceIndexResponse",
-)({}) {}
-export class ListPlaceIndexesRequest extends S.Class<ListPlaceIndexesRequest>(
-  "ListPlaceIndexesRequest",
-)(
-  { MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/places/v0/list-indexes" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeletePlaceIndexRequest",
+}) as any as S.Schema<DeletePlaceIndexRequest>;
+export interface DeletePlaceIndexResponse {}
+export const DeletePlaceIndexResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeletePlaceIndexResponse",
+}) as any as S.Schema<DeletePlaceIndexResponse>;
+export interface ListPlaceIndexesRequest {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListPlaceIndexesRequest = S.suspend(() =>
+  S.Struct({
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/places/v0/list-indexes" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetPlaceRequest extends S.Class<GetPlaceRequest>(
-  "GetPlaceRequest",
-)(
-  {
+).annotations({
+  identifier: "ListPlaceIndexesRequest",
+}) as any as S.Schema<ListPlaceIndexesRequest>;
+export interface GetPlaceRequest {
+  IndexName: string;
+  PlaceId: string;
+  Language?: string;
+  Key?: string;
+}
+export const GetPlaceRequest = S.suspend(() =>
+  S.Struct({
     IndexName: S.String.pipe(T.HttpLabel("IndexName")),
     PlaceId: S.String.pipe(T.HttpLabel("PlaceId")),
     Language: S.optional(S.String).pipe(T.HttpQuery("language")),
     Key: S.optional(S.String).pipe(T.HttpQuery("key")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/places/v0/indexes/{IndexName}/places/{PlaceId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/places/v0/indexes/{IndexName}/places/{PlaceId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SearchPlaceIndexForPositionRequest extends S.Class<SearchPlaceIndexForPositionRequest>(
-  "SearchPlaceIndexForPositionRequest",
-)(
-  {
+).annotations({
+  identifier: "GetPlaceRequest",
+}) as any as S.Schema<GetPlaceRequest>;
+export interface SearchPlaceIndexForPositionRequest {
+  IndexName: string;
+  Position: Position;
+  MaxResults?: number;
+  Language?: string;
+  Key?: string;
+}
+export const SearchPlaceIndexForPositionRequest = S.suspend(() =>
+  S.Struct({
     IndexName: S.String.pipe(T.HttpLabel("IndexName")),
     Position: Position,
     MaxResults: S.optional(S.Number),
     Language: S.optional(S.String),
     Key: S.optional(S.String).pipe(T.HttpQuery("key")),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/places/v0/indexes/{IndexName}/search/position",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/places/v0/indexes/{IndexName}/search/position",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SearchPlaceIndexForSuggestionsRequest extends S.Class<SearchPlaceIndexForSuggestionsRequest>(
-  "SearchPlaceIndexForSuggestionsRequest",
-)(
-  {
+).annotations({
+  identifier: "SearchPlaceIndexForPositionRequest",
+}) as any as S.Schema<SearchPlaceIndexForPositionRequest>;
+export interface SearchPlaceIndexForSuggestionsRequest {
+  IndexName: string;
+  Text: string;
+  BiasPosition?: Position;
+  FilterBBox?: BoundingBox;
+  FilterCountries?: CountryCodeList;
+  MaxResults?: number;
+  Language?: string;
+  FilterCategories?: FilterPlaceCategoryList;
+  Key?: string;
+}
+export const SearchPlaceIndexForSuggestionsRequest = S.suspend(() =>
+  S.Struct({
     IndexName: S.String.pipe(T.HttpLabel("IndexName")),
     Text: S.String,
     BiasPosition: S.optional(Position),
@@ -757,23 +984,35 @@ export class SearchPlaceIndexForSuggestionsRequest extends S.Class<SearchPlaceIn
     Language: S.optional(S.String),
     FilterCategories: S.optional(FilterPlaceCategoryList),
     Key: S.optional(S.String).pipe(T.HttpQuery("key")),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/places/v0/indexes/{IndexName}/search/suggestions",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/places/v0/indexes/{IndexName}/search/suggestions",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class SearchPlaceIndexForTextRequest extends S.Class<SearchPlaceIndexForTextRequest>(
-  "SearchPlaceIndexForTextRequest",
-)(
-  {
+).annotations({
+  identifier: "SearchPlaceIndexForSuggestionsRequest",
+}) as any as S.Schema<SearchPlaceIndexForSuggestionsRequest>;
+export interface SearchPlaceIndexForTextRequest {
+  IndexName: string;
+  Text: string;
+  BiasPosition?: Position;
+  FilterBBox?: BoundingBox;
+  FilterCountries?: CountryCodeList;
+  MaxResults?: number;
+  Language?: string;
+  FilterCategories?: FilterPlaceCategoryList;
+  Key?: string;
+}
+export const SearchPlaceIndexForTextRequest = S.suspend(() =>
+  S.Struct({
     IndexName: S.String.pipe(T.HttpLabel("IndexName")),
     Text: S.String,
     BiasPosition: S.optional(Position),
@@ -783,127 +1022,208 @@ export class SearchPlaceIndexForTextRequest extends S.Class<SearchPlaceIndexForT
     Language: S.optional(S.String),
     FilterCategories: S.optional(FilterPlaceCategoryList),
     Key: S.optional(S.String).pipe(T.HttpQuery("key")),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/places/v0/indexes/{IndexName}/search/text",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/places/v0/indexes/{IndexName}/search/text",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateRouteCalculatorRequest extends S.Class<CreateRouteCalculatorRequest>(
-  "CreateRouteCalculatorRequest",
-)(
-  {
+).annotations({
+  identifier: "SearchPlaceIndexForTextRequest",
+}) as any as S.Schema<SearchPlaceIndexForTextRequest>;
+export interface CreateRouteCalculatorRequest {
+  CalculatorName: string;
+  DataSource: string;
+  PricingPlan?: string;
+  Description?: string;
+  Tags?: TagMap;
+}
+export const CreateRouteCalculatorRequest = S.suspend(() =>
+  S.Struct({
     CalculatorName: S.String,
     DataSource: S.String,
     PricingPlan: S.optional(S.String),
     Description: S.optional(S.String),
     Tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/routes/v0/calculators" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/routes/v0/calculators" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeRouteCalculatorRequest extends S.Class<DescribeRouteCalculatorRequest>(
-  "DescribeRouteCalculatorRequest",
-)(
-  { CalculatorName: S.String.pipe(T.HttpLabel("CalculatorName")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/routes/v0/calculators/{CalculatorName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CreateRouteCalculatorRequest",
+}) as any as S.Schema<CreateRouteCalculatorRequest>;
+export interface DescribeRouteCalculatorRequest {
+  CalculatorName: string;
+}
+export const DescribeRouteCalculatorRequest = S.suspend(() =>
+  S.Struct({
+    CalculatorName: S.String.pipe(T.HttpLabel("CalculatorName")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/routes/v0/calculators/{CalculatorName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateRouteCalculatorRequest extends S.Class<UpdateRouteCalculatorRequest>(
-  "UpdateRouteCalculatorRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeRouteCalculatorRequest",
+}) as any as S.Schema<DescribeRouteCalculatorRequest>;
+export interface UpdateRouteCalculatorRequest {
+  CalculatorName: string;
+  PricingPlan?: string;
+  Description?: string;
+}
+export const UpdateRouteCalculatorRequest = S.suspend(() =>
+  S.Struct({
     CalculatorName: S.String.pipe(T.HttpLabel("CalculatorName")),
     PricingPlan: S.optional(S.String),
     Description: S.optional(S.String),
-  },
-  T.all(
-    T.Http({ method: "PATCH", uri: "/routes/v0/calculators/{CalculatorName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/routes/v0/calculators/{CalculatorName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteRouteCalculatorRequest extends S.Class<DeleteRouteCalculatorRequest>(
-  "DeleteRouteCalculatorRequest",
-)(
-  { CalculatorName: S.String.pipe(T.HttpLabel("CalculatorName")) },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/routes/v0/calculators/{CalculatorName}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UpdateRouteCalculatorRequest",
+}) as any as S.Schema<UpdateRouteCalculatorRequest>;
+export interface DeleteRouteCalculatorRequest {
+  CalculatorName: string;
+}
+export const DeleteRouteCalculatorRequest = S.suspend(() =>
+  S.Struct({
+    CalculatorName: S.String.pipe(T.HttpLabel("CalculatorName")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/routes/v0/calculators/{CalculatorName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteRouteCalculatorResponse extends S.Class<DeleteRouteCalculatorResponse>(
-  "DeleteRouteCalculatorResponse",
-)({}) {}
-export class ListRouteCalculatorsRequest extends S.Class<ListRouteCalculatorsRequest>(
-  "ListRouteCalculatorsRequest",
-)(
-  { MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/routes/v0/list-calculators" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteRouteCalculatorRequest",
+}) as any as S.Schema<DeleteRouteCalculatorRequest>;
+export interface DeleteRouteCalculatorResponse {}
+export const DeleteRouteCalculatorResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DeleteRouteCalculatorResponse",
+}) as any as S.Schema<DeleteRouteCalculatorResponse>;
+export interface ListRouteCalculatorsRequest {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListRouteCalculatorsRequest = S.suspend(() =>
+  S.Struct({
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/routes/v0/list-calculators" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CalculateRouteCarModeOptions extends S.Class<CalculateRouteCarModeOptions>(
-  "CalculateRouteCarModeOptions",
-)({ AvoidFerries: S.optional(S.Boolean), AvoidTolls: S.optional(S.Boolean) }) {}
-export class TruckDimensions extends S.Class<TruckDimensions>(
-  "TruckDimensions",
-)({
-  Length: S.optional(S.Number),
-  Height: S.optional(S.Number),
-  Width: S.optional(S.Number),
-  Unit: S.optional(S.String),
-}) {}
-export class TruckWeight extends S.Class<TruckWeight>("TruckWeight")({
-  Total: S.optional(S.Number),
-  Unit: S.optional(S.String),
-}) {}
-export class CalculateRouteTruckModeOptions extends S.Class<CalculateRouteTruckModeOptions>(
-  "CalculateRouteTruckModeOptions",
-)({
-  AvoidFerries: S.optional(S.Boolean),
-  AvoidTolls: S.optional(S.Boolean),
-  Dimensions: S.optional(TruckDimensions),
-  Weight: S.optional(TruckWeight),
-}) {}
-export class CalculateRouteMatrixRequest extends S.Class<CalculateRouteMatrixRequest>(
-  "CalculateRouteMatrixRequest",
-)(
-  {
+).annotations({
+  identifier: "ListRouteCalculatorsRequest",
+}) as any as S.Schema<ListRouteCalculatorsRequest>;
+export interface CalculateRouteCarModeOptions {
+  AvoidFerries?: boolean;
+  AvoidTolls?: boolean;
+}
+export const CalculateRouteCarModeOptions = S.suspend(() =>
+  S.Struct({
+    AvoidFerries: S.optional(S.Boolean),
+    AvoidTolls: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "CalculateRouteCarModeOptions",
+}) as any as S.Schema<CalculateRouteCarModeOptions>;
+export interface TruckDimensions {
+  Length?: number;
+  Height?: number;
+  Width?: number;
+  Unit?: string;
+}
+export const TruckDimensions = S.suspend(() =>
+  S.Struct({
+    Length: S.optional(S.Number),
+    Height: S.optional(S.Number),
+    Width: S.optional(S.Number),
+    Unit: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "TruckDimensions",
+}) as any as S.Schema<TruckDimensions>;
+export interface TruckWeight {
+  Total?: number;
+  Unit?: string;
+}
+export const TruckWeight = S.suspend(() =>
+  S.Struct({ Total: S.optional(S.Number), Unit: S.optional(S.String) }),
+).annotations({ identifier: "TruckWeight" }) as any as S.Schema<TruckWeight>;
+export interface CalculateRouteTruckModeOptions {
+  AvoidFerries?: boolean;
+  AvoidTolls?: boolean;
+  Dimensions?: TruckDimensions;
+  Weight?: TruckWeight;
+}
+export const CalculateRouteTruckModeOptions = S.suspend(() =>
+  S.Struct({
+    AvoidFerries: S.optional(S.Boolean),
+    AvoidTolls: S.optional(S.Boolean),
+    Dimensions: S.optional(TruckDimensions),
+    Weight: S.optional(TruckWeight),
+  }),
+).annotations({
+  identifier: "CalculateRouteTruckModeOptions",
+}) as any as S.Schema<CalculateRouteTruckModeOptions>;
+export interface CalculateRouteMatrixRequest {
+  CalculatorName: string;
+  DeparturePositions: PositionList;
+  DestinationPositions: PositionList;
+  TravelMode?: string;
+  DepartureTime?: Date;
+  DepartNow?: boolean;
+  DistanceUnit?: string;
+  CarModeOptions?: CalculateRouteCarModeOptions;
+  TruckModeOptions?: CalculateRouteTruckModeOptions;
+  Key?: string;
+}
+export const CalculateRouteMatrixRequest = S.suspend(() =>
+  S.Struct({
     CalculatorName: S.String.pipe(T.HttpLabel("CalculatorName")),
     DeparturePositions: PositionList,
     DestinationPositions: PositionList,
@@ -914,23 +1234,35 @@ export class CalculateRouteMatrixRequest extends S.Class<CalculateRouteMatrixReq
     CarModeOptions: S.optional(CalculateRouteCarModeOptions),
     TruckModeOptions: S.optional(CalculateRouteTruckModeOptions),
     Key: S.optional(S.String).pipe(T.HttpQuery("key")),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/routes/v0/calculators/{CalculatorName}/calculate/route-matrix",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/routes/v0/calculators/{CalculatorName}/calculate/route-matrix",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateTrackerRequest extends S.Class<CreateTrackerRequest>(
-  "CreateTrackerRequest",
-)(
-  {
+).annotations({
+  identifier: "CalculateRouteMatrixRequest",
+}) as any as S.Schema<CalculateRouteMatrixRequest>;
+export interface CreateTrackerRequest {
+  TrackerName: string;
+  PricingPlan?: string;
+  KmsKeyId?: string;
+  PricingPlanDataSource?: string;
+  Description?: string;
+  Tags?: TagMap;
+  PositionFiltering?: string;
+  EventBridgeEnabled?: boolean;
+  KmsKeyEnableGeospatialQueries?: boolean;
+}
+export const CreateTrackerRequest = S.suspend(() =>
+  S.Struct({
     TrackerName: S.String,
     PricingPlan: S.optional(S.String),
     KmsKeyId: S.optional(S.String),
@@ -940,33 +1272,47 @@ export class CreateTrackerRequest extends S.Class<CreateTrackerRequest>(
     PositionFiltering: S.optional(S.String),
     EventBridgeEnabled: S.optional(S.Boolean),
     KmsKeyEnableGeospatialQueries: S.optional(S.Boolean),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/tracking/v0/trackers" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tracking/v0/trackers" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeTrackerRequest extends S.Class<DescribeTrackerRequest>(
-  "DescribeTrackerRequest",
-)(
-  { TrackerName: S.String.pipe(T.HttpLabel("TrackerName")) },
-  T.all(
-    T.Http({ method: "GET", uri: "/tracking/v0/trackers/{TrackerName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "CreateTrackerRequest",
+}) as any as S.Schema<CreateTrackerRequest>;
+export interface DescribeTrackerRequest {
+  TrackerName: string;
+}
+export const DescribeTrackerRequest = S.suspend(() =>
+  S.Struct({ TrackerName: S.String.pipe(T.HttpLabel("TrackerName")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tracking/v0/trackers/{TrackerName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class UpdateTrackerRequest extends S.Class<UpdateTrackerRequest>(
-  "UpdateTrackerRequest",
-)(
-  {
+).annotations({
+  identifier: "DescribeTrackerRequest",
+}) as any as S.Schema<DescribeTrackerRequest>;
+export interface UpdateTrackerRequest {
+  TrackerName: string;
+  PricingPlan?: string;
+  PricingPlanDataSource?: string;
+  Description?: string;
+  PositionFiltering?: string;
+  EventBridgeEnabled?: boolean;
+  KmsKeyEnableGeospatialQueries?: boolean;
+}
+export const UpdateTrackerRequest = S.suspend(() =>
+  S.Struct({
     TrackerName: S.String.pipe(T.HttpLabel("TrackerName")),
     PricingPlan: S.optional(S.String),
     PricingPlanDataSource: S.optional(S.String),
@@ -974,360 +1320,569 @@ export class UpdateTrackerRequest extends S.Class<UpdateTrackerRequest>(
     PositionFiltering: S.optional(S.String),
     EventBridgeEnabled: S.optional(S.Boolean),
     KmsKeyEnableGeospatialQueries: S.optional(S.Boolean),
-  },
-  T.all(
-    T.Http({ method: "PATCH", uri: "/tracking/v0/trackers/{TrackerName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PATCH", uri: "/tracking/v0/trackers/{TrackerName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteTrackerRequest extends S.Class<DeleteTrackerRequest>(
-  "DeleteTrackerRequest",
-)(
-  { TrackerName: S.String.pipe(T.HttpLabel("TrackerName")) },
-  T.all(
-    T.Http({ method: "DELETE", uri: "/tracking/v0/trackers/{TrackerName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "UpdateTrackerRequest",
+}) as any as S.Schema<UpdateTrackerRequest>;
+export interface DeleteTrackerRequest {
+  TrackerName: string;
+}
+export const DeleteTrackerRequest = S.suspend(() =>
+  S.Struct({ TrackerName: S.String.pipe(T.HttpLabel("TrackerName")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tracking/v0/trackers/{TrackerName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DeleteTrackerResponse extends S.Class<DeleteTrackerResponse>(
-  "DeleteTrackerResponse",
-)({}) {}
-export class ListTrackersRequest extends S.Class<ListTrackersRequest>(
-  "ListTrackersRequest",
-)(
-  { MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) },
-  T.all(
-    T.Http({ method: "POST", uri: "/tracking/v0/list-trackers" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "DeleteTrackerRequest",
+}) as any as S.Schema<DeleteTrackerRequest>;
+export interface DeleteTrackerResponse {}
+export const DeleteTrackerResponse = S.suspend(() => S.Struct({})).annotations({
+  identifier: "DeleteTrackerResponse",
+}) as any as S.Schema<DeleteTrackerResponse>;
+export interface ListTrackersRequest {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListTrackersRequest = S.suspend(() =>
+  S.Struct({
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tracking/v0/list-trackers" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AssociateTrackerConsumerRequest extends S.Class<AssociateTrackerConsumerRequest>(
-  "AssociateTrackerConsumerRequest",
-)(
-  {
+).annotations({
+  identifier: "ListTrackersRequest",
+}) as any as S.Schema<ListTrackersRequest>;
+export interface AssociateTrackerConsumerRequest {
+  TrackerName: string;
+  ConsumerArn: string;
+}
+export const AssociateTrackerConsumerRequest = S.suspend(() =>
+  S.Struct({
     TrackerName: S.String.pipe(T.HttpLabel("TrackerName")),
     ConsumerArn: S.String,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/tracking/v0/trackers/{TrackerName}/consumers",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/tracking/v0/trackers/{TrackerName}/consumers",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class AssociateTrackerConsumerResponse extends S.Class<AssociateTrackerConsumerResponse>(
-  "AssociateTrackerConsumerResponse",
-)({}) {}
-export class BatchDeleteDevicePositionHistoryRequest extends S.Class<BatchDeleteDevicePositionHistoryRequest>(
-  "BatchDeleteDevicePositionHistoryRequest",
-)(
-  {
+).annotations({
+  identifier: "AssociateTrackerConsumerRequest",
+}) as any as S.Schema<AssociateTrackerConsumerRequest>;
+export interface AssociateTrackerConsumerResponse {}
+export const AssociateTrackerConsumerResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "AssociateTrackerConsumerResponse",
+}) as any as S.Schema<AssociateTrackerConsumerResponse>;
+export interface BatchDeleteDevicePositionHistoryRequest {
+  TrackerName: string;
+  DeviceIds: DeviceIdsList;
+}
+export const BatchDeleteDevicePositionHistoryRequest = S.suspend(() =>
+  S.Struct({
     TrackerName: S.String.pipe(T.HttpLabel("TrackerName")),
     DeviceIds: DeviceIdsList,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/tracking/v0/trackers/{TrackerName}/delete-positions",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/tracking/v0/trackers/{TrackerName}/delete-positions",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class BatchGetDevicePositionRequest extends S.Class<BatchGetDevicePositionRequest>(
-  "BatchGetDevicePositionRequest",
-)(
-  { TrackerName: S.String.pipe(T.HttpLabel("TrackerName")), DeviceIds: IdList },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/tracking/v0/trackers/{TrackerName}/get-positions",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+).annotations({
+  identifier: "BatchDeleteDevicePositionHistoryRequest",
+}) as any as S.Schema<BatchDeleteDevicePositionHistoryRequest>;
+export interface BatchGetDevicePositionRequest {
+  TrackerName: string;
+  DeviceIds: IdList;
+}
+export const BatchGetDevicePositionRequest = S.suspend(() =>
+  S.Struct({
+    TrackerName: S.String.pipe(T.HttpLabel("TrackerName")),
+    DeviceIds: IdList,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/tracking/v0/trackers/{TrackerName}/get-positions",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class PositionalAccuracy extends S.Class<PositionalAccuracy>(
-  "PositionalAccuracy",
-)({ Horizontal: S.Number }) {}
+).annotations({
+  identifier: "BatchGetDevicePositionRequest",
+}) as any as S.Schema<BatchGetDevicePositionRequest>;
+export interface PositionalAccuracy {
+  Horizontal: number;
+}
+export const PositionalAccuracy = S.suspend(() =>
+  S.Struct({ Horizontal: S.Number }),
+).annotations({
+  identifier: "PositionalAccuracy",
+}) as any as S.Schema<PositionalAccuracy>;
+export type PositionPropertyMap = { [key: string]: string };
 export const PositionPropertyMap = S.Record({ key: S.String, value: S.String });
-export class DevicePositionUpdate extends S.Class<DevicePositionUpdate>(
-  "DevicePositionUpdate",
-)({
-  DeviceId: S.String,
-  SampleTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  Position: Position,
-  Accuracy: S.optional(PositionalAccuracy),
-  PositionProperties: S.optional(PositionPropertyMap),
-}) {}
+export interface DevicePositionUpdate {
+  DeviceId: string;
+  SampleTime: Date;
+  Position: Position;
+  Accuracy?: PositionalAccuracy;
+  PositionProperties?: PositionPropertyMap;
+}
+export const DevicePositionUpdate = S.suspend(() =>
+  S.Struct({
+    DeviceId: S.String,
+    SampleTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    Position: Position,
+    Accuracy: S.optional(PositionalAccuracy),
+    PositionProperties: S.optional(PositionPropertyMap),
+  }),
+).annotations({
+  identifier: "DevicePositionUpdate",
+}) as any as S.Schema<DevicePositionUpdate>;
+export type DevicePositionUpdateList = DevicePositionUpdate[];
 export const DevicePositionUpdateList = S.Array(DevicePositionUpdate);
-export class BatchUpdateDevicePositionRequest extends S.Class<BatchUpdateDevicePositionRequest>(
-  "BatchUpdateDevicePositionRequest",
-)(
-  {
+export interface BatchUpdateDevicePositionRequest {
+  TrackerName: string;
+  Updates: DevicePositionUpdateList;
+}
+export const BatchUpdateDevicePositionRequest = S.suspend(() =>
+  S.Struct({
     TrackerName: S.String.pipe(T.HttpLabel("TrackerName")),
     Updates: DevicePositionUpdateList,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/tracking/v0/trackers/{TrackerName}/positions",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/tracking/v0/trackers/{TrackerName}/positions",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DisassociateTrackerConsumerRequest extends S.Class<DisassociateTrackerConsumerRequest>(
-  "DisassociateTrackerConsumerRequest",
-)(
-  {
+).annotations({
+  identifier: "BatchUpdateDevicePositionRequest",
+}) as any as S.Schema<BatchUpdateDevicePositionRequest>;
+export interface DisassociateTrackerConsumerRequest {
+  TrackerName: string;
+  ConsumerArn: string;
+}
+export const DisassociateTrackerConsumerRequest = S.suspend(() =>
+  S.Struct({
     TrackerName: S.String.pipe(T.HttpLabel("TrackerName")),
     ConsumerArn: S.String.pipe(T.HttpLabel("ConsumerArn")),
-  },
-  T.all(
-    T.Http({
-      method: "DELETE",
-      uri: "/tracking/v0/trackers/{TrackerName}/consumers/{ConsumerArn}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/tracking/v0/trackers/{TrackerName}/consumers/{ConsumerArn}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DisassociateTrackerConsumerResponse extends S.Class<DisassociateTrackerConsumerResponse>(
-  "DisassociateTrackerConsumerResponse",
-)({}) {}
-export class GetDevicePositionRequest extends S.Class<GetDevicePositionRequest>(
-  "GetDevicePositionRequest",
-)(
-  {
+).annotations({
+  identifier: "DisassociateTrackerConsumerRequest",
+}) as any as S.Schema<DisassociateTrackerConsumerRequest>;
+export interface DisassociateTrackerConsumerResponse {}
+export const DisassociateTrackerConsumerResponse = S.suspend(() =>
+  S.Struct({}),
+).annotations({
+  identifier: "DisassociateTrackerConsumerResponse",
+}) as any as S.Schema<DisassociateTrackerConsumerResponse>;
+export interface GetDevicePositionRequest {
+  TrackerName: string;
+  DeviceId: string;
+}
+export const GetDevicePositionRequest = S.suspend(() =>
+  S.Struct({
     TrackerName: S.String.pipe(T.HttpLabel("TrackerName")),
     DeviceId: S.String.pipe(T.HttpLabel("DeviceId")),
-  },
-  T.all(
-    T.Http({
-      method: "GET",
-      uri: "/tracking/v0/trackers/{TrackerName}/devices/{DeviceId}/positions/latest",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/tracking/v0/trackers/{TrackerName}/devices/{DeviceId}/positions/latest",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetDevicePositionHistoryRequest extends S.Class<GetDevicePositionHistoryRequest>(
-  "GetDevicePositionHistoryRequest",
-)(
-  {
+).annotations({
+  identifier: "GetDevicePositionRequest",
+}) as any as S.Schema<GetDevicePositionRequest>;
+export interface GetDevicePositionHistoryRequest {
+  TrackerName: string;
+  DeviceId: string;
+  NextToken?: string;
+  StartTimeInclusive?: Date;
+  EndTimeExclusive?: Date;
+  MaxResults?: number;
+}
+export const GetDevicePositionHistoryRequest = S.suspend(() =>
+  S.Struct({
     TrackerName: S.String.pipe(T.HttpLabel("TrackerName")),
     DeviceId: S.String.pipe(T.HttpLabel("DeviceId")),
     NextToken: S.optional(S.String),
     StartTimeInclusive: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     EndTimeExclusive: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/tracking/v0/trackers/{TrackerName}/devices/{DeviceId}/list-positions",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/tracking/v0/trackers/{TrackerName}/devices/{DeviceId}/list-positions",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTrackerConsumersRequest extends S.Class<ListTrackerConsumersRequest>(
-  "ListTrackerConsumersRequest",
-)(
-  {
+).annotations({
+  identifier: "GetDevicePositionHistoryRequest",
+}) as any as S.Schema<GetDevicePositionHistoryRequest>;
+export interface ListTrackerConsumersRequest {
+  TrackerName: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListTrackerConsumersRequest = S.suspend(() =>
+  S.Struct({
     TrackerName: S.String.pipe(T.HttpLabel("TrackerName")),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/tracking/v0/trackers/{TrackerName}/list-consumers",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/tracking/v0/trackers/{TrackerName}/list-consumers",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
+).annotations({
+  identifier: "ListTrackerConsumersRequest",
+}) as any as S.Schema<ListTrackerConsumersRequest>;
+export type LinearRing = Position[];
 export const LinearRing = S.Array(Position);
+export type LinearRings = LinearRing[];
 export const LinearRings = S.Array(LinearRing);
+export type MultiLinearRings = LinearRings[];
 export const MultiLinearRings = S.Array(LinearRings);
+export type CustomLayerList = string[];
 export const CustomLayerList = S.Array(S.String);
-export class ApiKeyFilter extends S.Class<ApiKeyFilter>("ApiKeyFilter")({
-  KeyStatus: S.optional(S.String),
-}) {}
-export class Circle extends S.Class<Circle>("Circle")({
-  Center: Position,
-  Radius: S.Number,
-}) {}
-export class GeofenceGeometry extends S.Class<GeofenceGeometry>(
-  "GeofenceGeometry",
-)({
-  Polygon: S.optional(LinearRings),
-  Circle: S.optional(Circle),
-  Geobuf: S.optional(T.Blob),
-  MultiPolygon: S.optional(MultiLinearRings),
-}) {}
+export interface ApiKeyFilter {
+  KeyStatus?: string;
+}
+export const ApiKeyFilter = S.suspend(() =>
+  S.Struct({ KeyStatus: S.optional(S.String) }),
+).annotations({ identifier: "ApiKeyFilter" }) as any as S.Schema<ApiKeyFilter>;
+export interface Circle {
+  Center: Position;
+  Radius: number;
+}
+export const Circle = S.suspend(() =>
+  S.Struct({ Center: Position, Radius: S.Number }),
+).annotations({ identifier: "Circle" }) as any as S.Schema<Circle>;
+export interface GeofenceGeometry {
+  Polygon?: LinearRings;
+  Circle?: Circle;
+  Geobuf?: Uint8Array;
+  MultiPolygon?: MultiLinearRings;
+}
+export const GeofenceGeometry = S.suspend(() =>
+  S.Struct({
+    Polygon: S.optional(LinearRings),
+    Circle: S.optional(Circle),
+    Geobuf: S.optional(T.Blob),
+    MultiPolygon: S.optional(MultiLinearRings),
+  }),
+).annotations({
+  identifier: "GeofenceGeometry",
+}) as any as S.Schema<GeofenceGeometry>;
+export type PropertyMap = { [key: string]: string };
 export const PropertyMap = S.Record({ key: S.String, value: S.String });
-export class BatchPutGeofenceRequestEntry extends S.Class<BatchPutGeofenceRequestEntry>(
-  "BatchPutGeofenceRequestEntry",
-)({
-  GeofenceId: S.String,
-  Geometry: GeofenceGeometry,
-  GeofenceProperties: S.optional(PropertyMap),
-}) {}
+export interface BatchPutGeofenceRequestEntry {
+  GeofenceId: string;
+  Geometry: GeofenceGeometry;
+  GeofenceProperties?: PropertyMap;
+}
+export const BatchPutGeofenceRequestEntry = S.suspend(() =>
+  S.Struct({
+    GeofenceId: S.String,
+    Geometry: GeofenceGeometry,
+    GeofenceProperties: S.optional(PropertyMap),
+  }),
+).annotations({
+  identifier: "BatchPutGeofenceRequestEntry",
+}) as any as S.Schema<BatchPutGeofenceRequestEntry>;
+export type BatchPutGeofenceRequestEntryList = BatchPutGeofenceRequestEntry[];
 export const BatchPutGeofenceRequestEntryList = S.Array(
   BatchPutGeofenceRequestEntry,
 );
-export class ForecastGeofenceEventsDeviceState extends S.Class<ForecastGeofenceEventsDeviceState>(
-  "ForecastGeofenceEventsDeviceState",
-)({ Position: Position, Speed: S.optional(S.Number) }) {}
-export class MapConfiguration extends S.Class<MapConfiguration>(
-  "MapConfiguration",
-)({
-  Style: S.String,
-  PoliticalView: S.optional(S.String),
-  CustomLayers: S.optional(CustomLayerList),
-}) {}
-export class MapConfigurationUpdate extends S.Class<MapConfigurationUpdate>(
-  "MapConfigurationUpdate",
-)({
-  PoliticalView: S.optional(S.String),
-  CustomLayers: S.optional(CustomLayerList),
-}) {}
-export class TrackingFilterGeometry extends S.Class<TrackingFilterGeometry>(
-  "TrackingFilterGeometry",
-)({ Polygon: S.optional(LinearRings) }) {}
+export interface ForecastGeofenceEventsDeviceState {
+  Position: Position;
+  Speed?: number;
+}
+export const ForecastGeofenceEventsDeviceState = S.suspend(() =>
+  S.Struct({ Position: Position, Speed: S.optional(S.Number) }),
+).annotations({
+  identifier: "ForecastGeofenceEventsDeviceState",
+}) as any as S.Schema<ForecastGeofenceEventsDeviceState>;
+export interface MapConfiguration {
+  Style: string;
+  PoliticalView?: string;
+  CustomLayers?: CustomLayerList;
+}
+export const MapConfiguration = S.suspend(() =>
+  S.Struct({
+    Style: S.String,
+    PoliticalView: S.optional(S.String),
+    CustomLayers: S.optional(CustomLayerList),
+  }),
+).annotations({
+  identifier: "MapConfiguration",
+}) as any as S.Schema<MapConfiguration>;
+export interface MapConfigurationUpdate {
+  PoliticalView?: string;
+  CustomLayers?: CustomLayerList;
+}
+export const MapConfigurationUpdate = S.suspend(() =>
+  S.Struct({
+    PoliticalView: S.optional(S.String),
+    CustomLayers: S.optional(CustomLayerList),
+  }),
+).annotations({
+  identifier: "MapConfigurationUpdate",
+}) as any as S.Schema<MapConfigurationUpdate>;
+export interface TrackingFilterGeometry {
+  Polygon?: LinearRings;
+}
+export const TrackingFilterGeometry = S.suspend(() =>
+  S.Struct({ Polygon: S.optional(LinearRings) }),
+).annotations({
+  identifier: "TrackingFilterGeometry",
+}) as any as S.Schema<TrackingFilterGeometry>;
+export type ArnList = string[];
 export const ArnList = S.Array(S.String);
-export class DescribeKeyResponse extends S.Class<DescribeKeyResponse>(
-  "DescribeKeyResponse",
-)({
-  Key: S.String,
-  KeyArn: S.String,
-  KeyName: S.String,
-  Restrictions: ApiKeyRestrictions,
-  CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  ExpireTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  Description: S.optional(S.String),
-  Tags: S.optional(TagMap),
-}) {}
-export class UpdateKeyResponse extends S.Class<UpdateKeyResponse>(
-  "UpdateKeyResponse",
-)({
-  KeyArn: S.String,
-  KeyName: S.String,
-  UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class ListKeysRequest extends S.Class<ListKeysRequest>(
-  "ListKeysRequest",
-)(
-  {
+export interface DescribeKeyResponse {
+  Key: string;
+  KeyArn: string;
+  KeyName: string;
+  Restrictions: ApiKeyRestrictions;
+  CreateTime: Date;
+  ExpireTime: Date;
+  UpdateTime: Date;
+  Description?: string;
+  Tags?: TagMap;
+}
+export const DescribeKeyResponse = S.suspend(() =>
+  S.Struct({
+    Key: S.String,
+    KeyArn: S.String,
+    KeyName: S.String,
+    Restrictions: ApiKeyRestrictions,
+    CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    ExpireTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    Description: S.optional(S.String),
+    Tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "DescribeKeyResponse",
+}) as any as S.Schema<DescribeKeyResponse>;
+export interface UpdateKeyResponse {
+  KeyArn: string;
+  KeyName: string;
+  UpdateTime: Date;
+}
+export const UpdateKeyResponse = S.suspend(() =>
+  S.Struct({
+    KeyArn: S.String,
+    KeyName: S.String,
+    UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "UpdateKeyResponse",
+}) as any as S.Schema<UpdateKeyResponse>;
+export interface ListKeysRequest {
+  MaxResults?: number;
+  NextToken?: string;
+  Filter?: ApiKeyFilter;
+}
+export const ListKeysRequest = S.suspend(() =>
+  S.Struct({
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     Filter: S.optional(ApiKeyFilter),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/metadata/v0/list-keys" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/metadata/v0/list-keys" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResponse>(
-  "ListTagsForResourceResponse",
-)({ Tags: S.optional(TagMap) }) {}
-export class CreateGeofenceCollectionResponse extends S.Class<CreateGeofenceCollectionResponse>(
-  "CreateGeofenceCollectionResponse",
-)({
-  CollectionName: S.String,
-  CollectionArn: S.String,
-  CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class DescribeGeofenceCollectionResponse extends S.Class<DescribeGeofenceCollectionResponse>(
-  "DescribeGeofenceCollectionResponse",
-)({
-  CollectionName: S.String,
-  CollectionArn: S.String,
-  Description: S.String,
-  PricingPlan: S.optional(S.String),
-  PricingPlanDataSource: S.optional(S.String),
-  KmsKeyId: S.optional(S.String),
-  Tags: S.optional(TagMap),
-  CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  GeofenceCount: S.optional(S.Number),
-}) {}
-export class UpdateGeofenceCollectionResponse extends S.Class<UpdateGeofenceCollectionResponse>(
-  "UpdateGeofenceCollectionResponse",
-)({
-  CollectionName: S.String,
-  CollectionArn: S.String,
-  UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class BatchPutGeofenceRequest extends S.Class<BatchPutGeofenceRequest>(
-  "BatchPutGeofenceRequest",
-)(
-  {
+).annotations({
+  identifier: "ListKeysRequest",
+}) as any as S.Schema<ListKeysRequest>;
+export interface ListTagsForResourceResponse {
+  Tags?: TagMap;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ Tags: S.optional(TagMap) }),
+).annotations({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface CreateGeofenceCollectionResponse {
+  CollectionName: string;
+  CollectionArn: string;
+  CreateTime: Date;
+}
+export const CreateGeofenceCollectionResponse = S.suspend(() =>
+  S.Struct({
+    CollectionName: S.String,
+    CollectionArn: S.String,
+    CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "CreateGeofenceCollectionResponse",
+}) as any as S.Schema<CreateGeofenceCollectionResponse>;
+export interface DescribeGeofenceCollectionResponse {
+  CollectionName: string;
+  CollectionArn: string;
+  Description: string;
+  PricingPlan?: string;
+  PricingPlanDataSource?: string;
+  KmsKeyId?: string;
+  Tags?: TagMap;
+  CreateTime: Date;
+  UpdateTime: Date;
+  GeofenceCount?: number;
+}
+export const DescribeGeofenceCollectionResponse = S.suspend(() =>
+  S.Struct({
+    CollectionName: S.String,
+    CollectionArn: S.String,
+    Description: S.String,
+    PricingPlan: S.optional(S.String),
+    PricingPlanDataSource: S.optional(S.String),
+    KmsKeyId: S.optional(S.String),
+    Tags: S.optional(TagMap),
+    CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    GeofenceCount: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "DescribeGeofenceCollectionResponse",
+}) as any as S.Schema<DescribeGeofenceCollectionResponse>;
+export interface UpdateGeofenceCollectionResponse {
+  CollectionName: string;
+  CollectionArn: string;
+  UpdateTime: Date;
+}
+export const UpdateGeofenceCollectionResponse = S.suspend(() =>
+  S.Struct({
+    CollectionName: S.String,
+    CollectionArn: S.String,
+    UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "UpdateGeofenceCollectionResponse",
+}) as any as S.Schema<UpdateGeofenceCollectionResponse>;
+export interface BatchPutGeofenceRequest {
+  CollectionName: string;
+  Entries: BatchPutGeofenceRequestEntryList;
+}
+export const BatchPutGeofenceRequest = S.suspend(() =>
+  S.Struct({
     CollectionName: S.String.pipe(T.HttpLabel("CollectionName")),
     Entries: BatchPutGeofenceRequestEntryList,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/geofencing/v0/collections/{CollectionName}/put-geofences",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/geofencing/v0/collections/{CollectionName}/put-geofences",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ForecastGeofenceEventsRequest extends S.Class<ForecastGeofenceEventsRequest>(
-  "ForecastGeofenceEventsRequest",
-)(
-  {
+).annotations({
+  identifier: "BatchPutGeofenceRequest",
+}) as any as S.Schema<BatchPutGeofenceRequest>;
+export interface ForecastGeofenceEventsRequest {
+  CollectionName: string;
+  DeviceState: ForecastGeofenceEventsDeviceState;
+  TimeHorizonMinutes?: number;
+  DistanceUnit?: string;
+  SpeedUnit?: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ForecastGeofenceEventsRequest = S.suspend(() =>
+  S.Struct({
     CollectionName: S.String.pipe(T.HttpLabel("CollectionName")),
     DeviceState: ForecastGeofenceEventsDeviceState,
     TimeHorizonMinutes: S.optional(S.Number),
@@ -1335,574 +1890,1082 @@ export class ForecastGeofenceEventsRequest extends S.Class<ForecastGeofenceEvent
     SpeedUnit: S.optional(S.String),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/geofencing/v0/collections/{CollectionName}/forecast-geofence-events",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/geofencing/v0/collections/{CollectionName}/forecast-geofence-events",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetGeofenceResponse extends S.Class<GetGeofenceResponse>(
-  "GetGeofenceResponse",
-)({
-  GeofenceId: S.String,
-  Geometry: GeofenceGeometry,
-  Status: S.String,
-  CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  GeofenceProperties: S.optional(PropertyMap),
-}) {}
-export class CreateMapRequest extends S.Class<CreateMapRequest>(
-  "CreateMapRequest",
-)(
-  {
+).annotations({
+  identifier: "ForecastGeofenceEventsRequest",
+}) as any as S.Schema<ForecastGeofenceEventsRequest>;
+export interface GetGeofenceResponse {
+  GeofenceId: string;
+  Geometry: GeofenceGeometry;
+  Status: string;
+  CreateTime: Date;
+  UpdateTime: Date;
+  GeofenceProperties?: PropertyMap;
+}
+export const GetGeofenceResponse = S.suspend(() =>
+  S.Struct({
+    GeofenceId: S.String,
+    Geometry: GeofenceGeometry,
+    Status: S.String,
+    CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    GeofenceProperties: S.optional(PropertyMap),
+  }),
+).annotations({
+  identifier: "GetGeofenceResponse",
+}) as any as S.Schema<GetGeofenceResponse>;
+export interface CreateMapRequest {
+  MapName: string;
+  Configuration: MapConfiguration;
+  PricingPlan?: string;
+  Description?: string;
+  Tags?: TagMap;
+}
+export const CreateMapRequest = S.suspend(() =>
+  S.Struct({
     MapName: S.String,
     Configuration: MapConfiguration,
     PricingPlan: S.optional(S.String),
     Description: S.optional(S.String),
     Tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/maps/v0/maps" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/maps/v0/maps" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribeMapResponse extends S.Class<DescribeMapResponse>(
-  "DescribeMapResponse",
-)({
-  MapName: S.String,
-  MapArn: S.String,
-  PricingPlan: S.optional(S.String),
-  DataSource: S.String,
-  Configuration: MapConfiguration,
-  Description: S.String,
-  Tags: S.optional(TagMap),
-  CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class UpdateMapRequest extends S.Class<UpdateMapRequest>(
-  "UpdateMapRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateMapRequest",
+}) as any as S.Schema<CreateMapRequest>;
+export interface DescribeMapResponse {
+  MapName: string;
+  MapArn: string;
+  PricingPlan?: string;
+  DataSource: string;
+  Configuration: MapConfiguration;
+  Description: string;
+  Tags?: TagMap;
+  CreateTime: Date;
+  UpdateTime: Date;
+}
+export const DescribeMapResponse = S.suspend(() =>
+  S.Struct({
+    MapName: S.String,
+    MapArn: S.String,
+    PricingPlan: S.optional(S.String),
+    DataSource: S.String,
+    Configuration: MapConfiguration,
+    Description: S.String,
+    Tags: S.optional(TagMap),
+    CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "DescribeMapResponse",
+}) as any as S.Schema<DescribeMapResponse>;
+export interface UpdateMapRequest {
+  MapName: string;
+  PricingPlan?: string;
+  Description?: string;
+  ConfigurationUpdate?: MapConfigurationUpdate;
+}
+export const UpdateMapRequest = S.suspend(() =>
+  S.Struct({
     MapName: S.String.pipe(T.HttpLabel("MapName")),
     PricingPlan: S.optional(S.String),
     Description: S.optional(S.String),
     ConfigurationUpdate: S.optional(MapConfigurationUpdate),
-  },
-  T.all(
-    T.Http({ method: "PATCH", uri: "/maps/v0/maps/{MapName}" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PATCH", uri: "/maps/v0/maps/{MapName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class GetMapGlyphsResponse extends S.Class<GetMapGlyphsResponse>(
-  "GetMapGlyphsResponse",
-)({
-  Blob: S.optional(T.Blob).pipe(T.HttpPayload()),
-  ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-  CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-}) {}
-export class GetMapSpritesResponse extends S.Class<GetMapSpritesResponse>(
-  "GetMapSpritesResponse",
-)({
-  Blob: S.optional(T.Blob).pipe(T.HttpPayload()),
-  ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-  CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-}) {}
-export class GetMapStyleDescriptorResponse extends S.Class<GetMapStyleDescriptorResponse>(
-  "GetMapStyleDescriptorResponse",
-)({
-  Blob: S.optional(T.Blob).pipe(T.HttpPayload()),
-  ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-  CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-}) {}
-export class GetMapTileResponse extends S.Class<GetMapTileResponse>(
-  "GetMapTileResponse",
-)({
-  Blob: S.optional(T.Blob).pipe(T.HttpPayload()),
-  ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-  CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-}) {}
-export class CreatePlaceIndexRequest extends S.Class<CreatePlaceIndexRequest>(
-  "CreatePlaceIndexRequest",
-)(
-  {
+).annotations({
+  identifier: "UpdateMapRequest",
+}) as any as S.Schema<UpdateMapRequest>;
+export interface GetMapGlyphsResponse {
+  Blob?: Uint8Array;
+  ContentType?: string;
+  CacheControl?: string;
+}
+export const GetMapGlyphsResponse = S.suspend(() =>
+  S.Struct({
+    Blob: S.optional(T.Blob).pipe(T.HttpPayload()),
+    ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
+    CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
+  }),
+).annotations({
+  identifier: "GetMapGlyphsResponse",
+}) as any as S.Schema<GetMapGlyphsResponse>;
+export interface GetMapSpritesResponse {
+  Blob?: Uint8Array;
+  ContentType?: string;
+  CacheControl?: string;
+}
+export const GetMapSpritesResponse = S.suspend(() =>
+  S.Struct({
+    Blob: S.optional(T.Blob).pipe(T.HttpPayload()),
+    ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
+    CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
+  }),
+).annotations({
+  identifier: "GetMapSpritesResponse",
+}) as any as S.Schema<GetMapSpritesResponse>;
+export interface GetMapStyleDescriptorResponse {
+  Blob?: Uint8Array;
+  ContentType?: string;
+  CacheControl?: string;
+}
+export const GetMapStyleDescriptorResponse = S.suspend(() =>
+  S.Struct({
+    Blob: S.optional(T.Blob).pipe(T.HttpPayload()),
+    ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
+    CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
+  }),
+).annotations({
+  identifier: "GetMapStyleDescriptorResponse",
+}) as any as S.Schema<GetMapStyleDescriptorResponse>;
+export interface GetMapTileResponse {
+  Blob?: Uint8Array;
+  ContentType?: string;
+  CacheControl?: string;
+}
+export const GetMapTileResponse = S.suspend(() =>
+  S.Struct({
+    Blob: S.optional(T.Blob).pipe(T.HttpPayload()),
+    ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
+    CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
+  }),
+).annotations({
+  identifier: "GetMapTileResponse",
+}) as any as S.Schema<GetMapTileResponse>;
+export interface CreatePlaceIndexRequest {
+  IndexName: string;
+  DataSource: string;
+  PricingPlan?: string;
+  Description?: string;
+  DataSourceConfiguration?: DataSourceConfiguration;
+  Tags?: TagMap;
+}
+export const CreatePlaceIndexRequest = S.suspend(() =>
+  S.Struct({
     IndexName: S.String,
     DataSource: S.String,
     PricingPlan: S.optional(S.String),
     Description: S.optional(S.String),
     DataSourceConfiguration: S.optional(DataSourceConfiguration),
     Tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/places/v0/indexes" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/places/v0/indexes" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class DescribePlaceIndexResponse extends S.Class<DescribePlaceIndexResponse>(
-  "DescribePlaceIndexResponse",
-)({
-  IndexName: S.String,
-  IndexArn: S.String,
-  PricingPlan: S.optional(S.String),
-  Description: S.String,
-  CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  DataSource: S.String,
-  DataSourceConfiguration: DataSourceConfiguration,
-  Tags: S.optional(TagMap),
-}) {}
-export class UpdatePlaceIndexResponse extends S.Class<UpdatePlaceIndexResponse>(
-  "UpdatePlaceIndexResponse",
-)({
-  IndexName: S.String,
-  IndexArn: S.String,
-  UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class CreateRouteCalculatorResponse extends S.Class<CreateRouteCalculatorResponse>(
-  "CreateRouteCalculatorResponse",
-)({
-  CalculatorName: S.String,
-  CalculatorArn: S.String,
-  CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class DescribeRouteCalculatorResponse extends S.Class<DescribeRouteCalculatorResponse>(
-  "DescribeRouteCalculatorResponse",
-)({
-  CalculatorName: S.String,
-  CalculatorArn: S.String,
-  PricingPlan: S.optional(S.String),
-  Description: S.String,
-  CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  DataSource: S.String,
-  Tags: S.optional(TagMap),
-}) {}
-export class UpdateRouteCalculatorResponse extends S.Class<UpdateRouteCalculatorResponse>(
-  "UpdateRouteCalculatorResponse",
-)({
-  CalculatorName: S.String,
-  CalculatorArn: S.String,
-  UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class CreateTrackerResponse extends S.Class<CreateTrackerResponse>(
-  "CreateTrackerResponse",
-)({
-  TrackerName: S.String,
-  TrackerArn: S.String,
-  CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class DescribeTrackerResponse extends S.Class<DescribeTrackerResponse>(
-  "DescribeTrackerResponse",
-)({
-  TrackerName: S.String,
-  TrackerArn: S.String,
-  Description: S.String,
-  PricingPlan: S.optional(S.String),
-  PricingPlanDataSource: S.optional(S.String),
-  Tags: S.optional(TagMap),
-  CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  KmsKeyId: S.optional(S.String),
-  PositionFiltering: S.optional(S.String),
-  EventBridgeEnabled: S.optional(S.Boolean),
-  KmsKeyEnableGeospatialQueries: S.optional(S.Boolean),
-}) {}
-export class UpdateTrackerResponse extends S.Class<UpdateTrackerResponse>(
-  "UpdateTrackerResponse",
-)({
-  TrackerName: S.String,
-  TrackerArn: S.String,
-  UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class GetDevicePositionResponse extends S.Class<GetDevicePositionResponse>(
-  "GetDevicePositionResponse",
-)({
-  DeviceId: S.optional(S.String),
-  SampleTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  ReceivedTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  Position: Position,
-  Accuracy: S.optional(PositionalAccuracy),
-  PositionProperties: S.optional(PositionPropertyMap),
-}) {}
-export class DevicePosition extends S.Class<DevicePosition>("DevicePosition")({
-  DeviceId: S.optional(S.String),
-  SampleTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  ReceivedTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  Position: Position,
-  Accuracy: S.optional(PositionalAccuracy),
-  PositionProperties: S.optional(PositionPropertyMap),
-}) {}
+).annotations({
+  identifier: "CreatePlaceIndexRequest",
+}) as any as S.Schema<CreatePlaceIndexRequest>;
+export interface DescribePlaceIndexResponse {
+  IndexName: string;
+  IndexArn: string;
+  PricingPlan?: string;
+  Description: string;
+  CreateTime: Date;
+  UpdateTime: Date;
+  DataSource: string;
+  DataSourceConfiguration: DataSourceConfiguration;
+  Tags?: TagMap;
+}
+export const DescribePlaceIndexResponse = S.suspend(() =>
+  S.Struct({
+    IndexName: S.String,
+    IndexArn: S.String,
+    PricingPlan: S.optional(S.String),
+    Description: S.String,
+    CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    DataSource: S.String,
+    DataSourceConfiguration: DataSourceConfiguration,
+    Tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "DescribePlaceIndexResponse",
+}) as any as S.Schema<DescribePlaceIndexResponse>;
+export interface UpdatePlaceIndexResponse {
+  IndexName: string;
+  IndexArn: string;
+  UpdateTime: Date;
+}
+export const UpdatePlaceIndexResponse = S.suspend(() =>
+  S.Struct({
+    IndexName: S.String,
+    IndexArn: S.String,
+    UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "UpdatePlaceIndexResponse",
+}) as any as S.Schema<UpdatePlaceIndexResponse>;
+export interface CreateRouteCalculatorResponse {
+  CalculatorName: string;
+  CalculatorArn: string;
+  CreateTime: Date;
+}
+export const CreateRouteCalculatorResponse = S.suspend(() =>
+  S.Struct({
+    CalculatorName: S.String,
+    CalculatorArn: S.String,
+    CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "CreateRouteCalculatorResponse",
+}) as any as S.Schema<CreateRouteCalculatorResponse>;
+export interface DescribeRouteCalculatorResponse {
+  CalculatorName: string;
+  CalculatorArn: string;
+  PricingPlan?: string;
+  Description: string;
+  CreateTime: Date;
+  UpdateTime: Date;
+  DataSource: string;
+  Tags?: TagMap;
+}
+export const DescribeRouteCalculatorResponse = S.suspend(() =>
+  S.Struct({
+    CalculatorName: S.String,
+    CalculatorArn: S.String,
+    PricingPlan: S.optional(S.String),
+    Description: S.String,
+    CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    DataSource: S.String,
+    Tags: S.optional(TagMap),
+  }),
+).annotations({
+  identifier: "DescribeRouteCalculatorResponse",
+}) as any as S.Schema<DescribeRouteCalculatorResponse>;
+export interface UpdateRouteCalculatorResponse {
+  CalculatorName: string;
+  CalculatorArn: string;
+  UpdateTime: Date;
+}
+export const UpdateRouteCalculatorResponse = S.suspend(() =>
+  S.Struct({
+    CalculatorName: S.String,
+    CalculatorArn: S.String,
+    UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "UpdateRouteCalculatorResponse",
+}) as any as S.Schema<UpdateRouteCalculatorResponse>;
+export interface CreateTrackerResponse {
+  TrackerName: string;
+  TrackerArn: string;
+  CreateTime: Date;
+}
+export const CreateTrackerResponse = S.suspend(() =>
+  S.Struct({
+    TrackerName: S.String,
+    TrackerArn: S.String,
+    CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "CreateTrackerResponse",
+}) as any as S.Schema<CreateTrackerResponse>;
+export interface DescribeTrackerResponse {
+  TrackerName: string;
+  TrackerArn: string;
+  Description: string;
+  PricingPlan?: string;
+  PricingPlanDataSource?: string;
+  Tags?: TagMap;
+  CreateTime: Date;
+  UpdateTime: Date;
+  KmsKeyId?: string;
+  PositionFiltering?: string;
+  EventBridgeEnabled?: boolean;
+  KmsKeyEnableGeospatialQueries?: boolean;
+}
+export const DescribeTrackerResponse = S.suspend(() =>
+  S.Struct({
+    TrackerName: S.String,
+    TrackerArn: S.String,
+    Description: S.String,
+    PricingPlan: S.optional(S.String),
+    PricingPlanDataSource: S.optional(S.String),
+    Tags: S.optional(TagMap),
+    CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    KmsKeyId: S.optional(S.String),
+    PositionFiltering: S.optional(S.String),
+    EventBridgeEnabled: S.optional(S.Boolean),
+    KmsKeyEnableGeospatialQueries: S.optional(S.Boolean),
+  }),
+).annotations({
+  identifier: "DescribeTrackerResponse",
+}) as any as S.Schema<DescribeTrackerResponse>;
+export interface UpdateTrackerResponse {
+  TrackerName: string;
+  TrackerArn: string;
+  UpdateTime: Date;
+}
+export const UpdateTrackerResponse = S.suspend(() =>
+  S.Struct({
+    TrackerName: S.String,
+    TrackerArn: S.String,
+    UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "UpdateTrackerResponse",
+}) as any as S.Schema<UpdateTrackerResponse>;
+export interface GetDevicePositionResponse {
+  DeviceId?: string;
+  SampleTime: Date;
+  ReceivedTime: Date;
+  Position: Position;
+  Accuracy?: PositionalAccuracy;
+  PositionProperties?: PositionPropertyMap;
+}
+export const GetDevicePositionResponse = S.suspend(() =>
+  S.Struct({
+    DeviceId: S.optional(S.String),
+    SampleTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    ReceivedTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    Position: Position,
+    Accuracy: S.optional(PositionalAccuracy),
+    PositionProperties: S.optional(PositionPropertyMap),
+  }),
+).annotations({
+  identifier: "GetDevicePositionResponse",
+}) as any as S.Schema<GetDevicePositionResponse>;
+export interface DevicePosition {
+  DeviceId?: string;
+  SampleTime: Date;
+  ReceivedTime: Date;
+  Position: Position;
+  Accuracy?: PositionalAccuracy;
+  PositionProperties?: PositionPropertyMap;
+}
+export const DevicePosition = S.suspend(() =>
+  S.Struct({
+    DeviceId: S.optional(S.String),
+    SampleTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    ReceivedTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    Position: Position,
+    Accuracy: S.optional(PositionalAccuracy),
+    PositionProperties: S.optional(PositionPropertyMap),
+  }),
+).annotations({
+  identifier: "DevicePosition",
+}) as any as S.Schema<DevicePosition>;
+export type DevicePositionList = DevicePosition[];
 export const DevicePositionList = S.Array(DevicePosition);
-export class GetDevicePositionHistoryResponse extends S.Class<GetDevicePositionHistoryResponse>(
-  "GetDevicePositionHistoryResponse",
-)({ DevicePositions: DevicePositionList, NextToken: S.optional(S.String) }) {}
-export class ListDevicePositionsRequest extends S.Class<ListDevicePositionsRequest>(
-  "ListDevicePositionsRequest",
-)(
-  {
+export interface GetDevicePositionHistoryResponse {
+  DevicePositions: DevicePositionList;
+  NextToken?: string;
+}
+export const GetDevicePositionHistoryResponse = S.suspend(() =>
+  S.Struct({
+    DevicePositions: DevicePositionList,
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "GetDevicePositionHistoryResponse",
+}) as any as S.Schema<GetDevicePositionHistoryResponse>;
+export interface ListDevicePositionsRequest {
+  TrackerName: string;
+  MaxResults?: number;
+  NextToken?: string;
+  FilterGeometry?: TrackingFilterGeometry;
+}
+export const ListDevicePositionsRequest = S.suspend(() =>
+  S.Struct({
     TrackerName: S.String.pipe(T.HttpLabel("TrackerName")),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     FilterGeometry: S.optional(TrackingFilterGeometry),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/tracking/v0/trackers/{TrackerName}/list-positions",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/tracking/v0/trackers/{TrackerName}/list-positions",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTrackerConsumersResponse extends S.Class<ListTrackerConsumersResponse>(
-  "ListTrackerConsumersResponse",
-)({ ConsumerArns: ArnList, NextToken: S.optional(S.String) }) {}
+).annotations({
+  identifier: "ListDevicePositionsRequest",
+}) as any as S.Schema<ListDevicePositionsRequest>;
+export interface ListTrackerConsumersResponse {
+  ConsumerArns: ArnList;
+  NextToken?: string;
+}
+export const ListTrackerConsumersResponse = S.suspend(() =>
+  S.Struct({ ConsumerArns: ArnList, NextToken: S.optional(S.String) }),
+).annotations({
+  identifier: "ListTrackerConsumersResponse",
+}) as any as S.Schema<ListTrackerConsumersResponse>;
+export type PlaceCategoryList = string[];
 export const PlaceCategoryList = S.Array(S.String);
+export type PlaceSupplementalCategoryList = string[];
 export const PlaceSupplementalCategoryList = S.Array(S.String);
-export class WiFiAccessPoint extends S.Class<WiFiAccessPoint>(
-  "WiFiAccessPoint",
-)({ MacAddress: S.String, Rss: S.Number }) {}
+export interface WiFiAccessPoint {
+  MacAddress: string;
+  Rss: number;
+}
+export const WiFiAccessPoint = S.suspend(() =>
+  S.Struct({ MacAddress: S.String, Rss: S.Number }),
+).annotations({
+  identifier: "WiFiAccessPoint",
+}) as any as S.Schema<WiFiAccessPoint>;
+export type WiFiAccessPointList = WiFiAccessPoint[];
 export const WiFiAccessPointList = S.Array(WiFiAccessPoint);
-export class ListGeofenceCollectionsResponseEntry extends S.Class<ListGeofenceCollectionsResponseEntry>(
-  "ListGeofenceCollectionsResponseEntry",
-)({
-  CollectionName: S.String,
-  Description: S.String,
-  PricingPlan: S.optional(S.String),
-  PricingPlanDataSource: S.optional(S.String),
-  CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
+export interface ListGeofenceCollectionsResponseEntry {
+  CollectionName: string;
+  Description: string;
+  PricingPlan?: string;
+  PricingPlanDataSource?: string;
+  CreateTime: Date;
+  UpdateTime: Date;
+}
+export const ListGeofenceCollectionsResponseEntry = S.suspend(() =>
+  S.Struct({
+    CollectionName: S.String,
+    Description: S.String,
+    PricingPlan: S.optional(S.String),
+    PricingPlanDataSource: S.optional(S.String),
+    CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "ListGeofenceCollectionsResponseEntry",
+}) as any as S.Schema<ListGeofenceCollectionsResponseEntry>;
+export type ListGeofenceCollectionsResponseEntryList =
+  ListGeofenceCollectionsResponseEntry[];
 export const ListGeofenceCollectionsResponseEntryList = S.Array(
   ListGeofenceCollectionsResponseEntry,
 );
-export class ListGeofenceResponseEntry extends S.Class<ListGeofenceResponseEntry>(
-  "ListGeofenceResponseEntry",
-)({
-  GeofenceId: S.String,
-  Geometry: GeofenceGeometry,
-  Status: S.String,
-  CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  GeofenceProperties: S.optional(PropertyMap),
-}) {}
+export interface ListGeofenceResponseEntry {
+  GeofenceId: string;
+  Geometry: GeofenceGeometry;
+  Status: string;
+  CreateTime: Date;
+  UpdateTime: Date;
+  GeofenceProperties?: PropertyMap;
+}
+export const ListGeofenceResponseEntry = S.suspend(() =>
+  S.Struct({
+    GeofenceId: S.String,
+    Geometry: GeofenceGeometry,
+    Status: S.String,
+    CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    GeofenceProperties: S.optional(PropertyMap),
+  }),
+).annotations({
+  identifier: "ListGeofenceResponseEntry",
+}) as any as S.Schema<ListGeofenceResponseEntry>;
+export type ListGeofenceResponseEntryList = ListGeofenceResponseEntry[];
 export const ListGeofenceResponseEntryList = S.Array(ListGeofenceResponseEntry);
-export class ListMapsResponseEntry extends S.Class<ListMapsResponseEntry>(
-  "ListMapsResponseEntry",
-)({
-  MapName: S.String,
-  Description: S.String,
-  DataSource: S.String,
-  PricingPlan: S.optional(S.String),
-  CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
+export interface ListMapsResponseEntry {
+  MapName: string;
+  Description: string;
+  DataSource: string;
+  PricingPlan?: string;
+  CreateTime: Date;
+  UpdateTime: Date;
+}
+export const ListMapsResponseEntry = S.suspend(() =>
+  S.Struct({
+    MapName: S.String,
+    Description: S.String,
+    DataSource: S.String,
+    PricingPlan: S.optional(S.String),
+    CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "ListMapsResponseEntry",
+}) as any as S.Schema<ListMapsResponseEntry>;
+export type ListMapsResponseEntryList = ListMapsResponseEntry[];
 export const ListMapsResponseEntryList = S.Array(ListMapsResponseEntry);
-export class ListPlaceIndexesResponseEntry extends S.Class<ListPlaceIndexesResponseEntry>(
-  "ListPlaceIndexesResponseEntry",
-)({
-  IndexName: S.String,
-  Description: S.String,
-  DataSource: S.String,
-  PricingPlan: S.optional(S.String),
-  CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
+export interface ListPlaceIndexesResponseEntry {
+  IndexName: string;
+  Description: string;
+  DataSource: string;
+  PricingPlan?: string;
+  CreateTime: Date;
+  UpdateTime: Date;
+}
+export const ListPlaceIndexesResponseEntry = S.suspend(() =>
+  S.Struct({
+    IndexName: S.String,
+    Description: S.String,
+    DataSource: S.String,
+    PricingPlan: S.optional(S.String),
+    CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "ListPlaceIndexesResponseEntry",
+}) as any as S.Schema<ListPlaceIndexesResponseEntry>;
+export type ListPlaceIndexesResponseEntryList = ListPlaceIndexesResponseEntry[];
 export const ListPlaceIndexesResponseEntryList = S.Array(
   ListPlaceIndexesResponseEntry,
 );
-export class SearchPlaceIndexForPositionSummary extends S.Class<SearchPlaceIndexForPositionSummary>(
-  "SearchPlaceIndexForPositionSummary",
-)({
-  Position: Position,
-  MaxResults: S.optional(S.Number),
-  DataSource: S.String,
-  Language: S.optional(S.String),
-}) {}
-export class PlaceGeometry extends S.Class<PlaceGeometry>("PlaceGeometry")({
-  Point: S.optional(Position),
-}) {}
-export class TimeZone extends S.Class<TimeZone>("TimeZone")({
-  Name: S.String,
-  Offset: S.optional(S.Number),
-}) {}
-export class Place extends S.Class<Place>("Place")({
-  Label: S.optional(S.String),
-  Geometry: PlaceGeometry,
-  AddressNumber: S.optional(S.String),
-  Street: S.optional(S.String),
-  Neighborhood: S.optional(S.String),
-  Municipality: S.optional(S.String),
-  SubRegion: S.optional(S.String),
-  Region: S.optional(S.String),
-  Country: S.optional(S.String),
-  PostalCode: S.optional(S.String),
-  Interpolated: S.optional(S.Boolean),
-  TimeZone: S.optional(TimeZone),
-  UnitType: S.optional(S.String),
-  UnitNumber: S.optional(S.String),
-  Categories: S.optional(PlaceCategoryList),
-  SupplementalCategories: S.optional(PlaceSupplementalCategoryList),
-  SubMunicipality: S.optional(S.String),
-}) {}
-export class SearchForPositionResult extends S.Class<SearchForPositionResult>(
-  "SearchForPositionResult",
-)({ Place: Place, Distance: S.Number, PlaceId: S.optional(S.String) }) {}
+export interface SearchPlaceIndexForPositionSummary {
+  Position: Position;
+  MaxResults?: number;
+  DataSource: string;
+  Language?: string;
+}
+export const SearchPlaceIndexForPositionSummary = S.suspend(() =>
+  S.Struct({
+    Position: Position,
+    MaxResults: S.optional(S.Number),
+    DataSource: S.String,
+    Language: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SearchPlaceIndexForPositionSummary",
+}) as any as S.Schema<SearchPlaceIndexForPositionSummary>;
+export interface PlaceGeometry {
+  Point?: Position;
+}
+export const PlaceGeometry = S.suspend(() =>
+  S.Struct({ Point: S.optional(Position) }),
+).annotations({
+  identifier: "PlaceGeometry",
+}) as any as S.Schema<PlaceGeometry>;
+export interface TimeZone {
+  Name: string;
+  Offset?: number;
+}
+export const TimeZone = S.suspend(() =>
+  S.Struct({ Name: S.String, Offset: S.optional(S.Number) }),
+).annotations({ identifier: "TimeZone" }) as any as S.Schema<TimeZone>;
+export interface Place {
+  Label?: string;
+  Geometry: PlaceGeometry;
+  AddressNumber?: string;
+  Street?: string;
+  Neighborhood?: string;
+  Municipality?: string;
+  SubRegion?: string;
+  Region?: string;
+  Country?: string;
+  PostalCode?: string;
+  Interpolated?: boolean;
+  TimeZone?: TimeZone;
+  UnitType?: string;
+  UnitNumber?: string;
+  Categories?: PlaceCategoryList;
+  SupplementalCategories?: PlaceSupplementalCategoryList;
+  SubMunicipality?: string;
+}
+export const Place = S.suspend(() =>
+  S.Struct({
+    Label: S.optional(S.String),
+    Geometry: PlaceGeometry,
+    AddressNumber: S.optional(S.String),
+    Street: S.optional(S.String),
+    Neighborhood: S.optional(S.String),
+    Municipality: S.optional(S.String),
+    SubRegion: S.optional(S.String),
+    Region: S.optional(S.String),
+    Country: S.optional(S.String),
+    PostalCode: S.optional(S.String),
+    Interpolated: S.optional(S.Boolean),
+    TimeZone: S.optional(TimeZone),
+    UnitType: S.optional(S.String),
+    UnitNumber: S.optional(S.String),
+    Categories: S.optional(PlaceCategoryList),
+    SupplementalCategories: S.optional(PlaceSupplementalCategoryList),
+    SubMunicipality: S.optional(S.String),
+  }),
+).annotations({ identifier: "Place" }) as any as S.Schema<Place>;
+export interface SearchForPositionResult {
+  Place: Place;
+  Distance: number;
+  PlaceId?: string;
+}
+export const SearchForPositionResult = S.suspend(() =>
+  S.Struct({ Place: Place, Distance: S.Number, PlaceId: S.optional(S.String) }),
+).annotations({
+  identifier: "SearchForPositionResult",
+}) as any as S.Schema<SearchForPositionResult>;
+export type SearchForPositionResultList = SearchForPositionResult[];
 export const SearchForPositionResultList = S.Array(SearchForPositionResult);
-export class SearchPlaceIndexForSuggestionsSummary extends S.Class<SearchPlaceIndexForSuggestionsSummary>(
-  "SearchPlaceIndexForSuggestionsSummary",
-)({
-  Text: S.String,
-  BiasPosition: S.optional(Position),
-  FilterBBox: S.optional(BoundingBox),
-  FilterCountries: S.optional(CountryCodeList),
-  MaxResults: S.optional(S.Number),
-  DataSource: S.String,
-  Language: S.optional(S.String),
-  FilterCategories: S.optional(FilterPlaceCategoryList),
-}) {}
-export class SearchForSuggestionsResult extends S.Class<SearchForSuggestionsResult>(
-  "SearchForSuggestionsResult",
-)({
-  Text: S.String,
-  PlaceId: S.optional(S.String),
-  Categories: S.optional(PlaceCategoryList),
-  SupplementalCategories: S.optional(PlaceSupplementalCategoryList),
-}) {}
+export interface SearchPlaceIndexForSuggestionsSummary {
+  Text: string;
+  BiasPosition?: Position;
+  FilterBBox?: BoundingBox;
+  FilterCountries?: CountryCodeList;
+  MaxResults?: number;
+  DataSource: string;
+  Language?: string;
+  FilterCategories?: FilterPlaceCategoryList;
+}
+export const SearchPlaceIndexForSuggestionsSummary = S.suspend(() =>
+  S.Struct({
+    Text: S.String,
+    BiasPosition: S.optional(Position),
+    FilterBBox: S.optional(BoundingBox),
+    FilterCountries: S.optional(CountryCodeList),
+    MaxResults: S.optional(S.Number),
+    DataSource: S.String,
+    Language: S.optional(S.String),
+    FilterCategories: S.optional(FilterPlaceCategoryList),
+  }),
+).annotations({
+  identifier: "SearchPlaceIndexForSuggestionsSummary",
+}) as any as S.Schema<SearchPlaceIndexForSuggestionsSummary>;
+export interface SearchForSuggestionsResult {
+  Text: string;
+  PlaceId?: string;
+  Categories?: PlaceCategoryList;
+  SupplementalCategories?: PlaceSupplementalCategoryList;
+}
+export const SearchForSuggestionsResult = S.suspend(() =>
+  S.Struct({
+    Text: S.String,
+    PlaceId: S.optional(S.String),
+    Categories: S.optional(PlaceCategoryList),
+    SupplementalCategories: S.optional(PlaceSupplementalCategoryList),
+  }),
+).annotations({
+  identifier: "SearchForSuggestionsResult",
+}) as any as S.Schema<SearchForSuggestionsResult>;
+export type SearchForSuggestionsResultList = SearchForSuggestionsResult[];
 export const SearchForSuggestionsResultList = S.Array(
   SearchForSuggestionsResult,
 );
-export class SearchPlaceIndexForTextSummary extends S.Class<SearchPlaceIndexForTextSummary>(
-  "SearchPlaceIndexForTextSummary",
-)({
-  Text: S.String,
-  BiasPosition: S.optional(Position),
-  FilterBBox: S.optional(BoundingBox),
-  FilterCountries: S.optional(CountryCodeList),
-  MaxResults: S.optional(S.Number),
-  ResultBBox: S.optional(BoundingBox),
-  DataSource: S.String,
-  Language: S.optional(S.String),
-  FilterCategories: S.optional(FilterPlaceCategoryList),
-}) {}
-export class SearchForTextResult extends S.Class<SearchForTextResult>(
-  "SearchForTextResult",
-)({
-  Place: Place,
-  Distance: S.optional(S.Number),
-  Relevance: S.optional(S.Number),
-  PlaceId: S.optional(S.String),
-}) {}
+export interface SearchPlaceIndexForTextSummary {
+  Text: string;
+  BiasPosition?: Position;
+  FilterBBox?: BoundingBox;
+  FilterCountries?: CountryCodeList;
+  MaxResults?: number;
+  ResultBBox?: BoundingBox;
+  DataSource: string;
+  Language?: string;
+  FilterCategories?: FilterPlaceCategoryList;
+}
+export const SearchPlaceIndexForTextSummary = S.suspend(() =>
+  S.Struct({
+    Text: S.String,
+    BiasPosition: S.optional(Position),
+    FilterBBox: S.optional(BoundingBox),
+    FilterCountries: S.optional(CountryCodeList),
+    MaxResults: S.optional(S.Number),
+    ResultBBox: S.optional(BoundingBox),
+    DataSource: S.String,
+    Language: S.optional(S.String),
+    FilterCategories: S.optional(FilterPlaceCategoryList),
+  }),
+).annotations({
+  identifier: "SearchPlaceIndexForTextSummary",
+}) as any as S.Schema<SearchPlaceIndexForTextSummary>;
+export interface SearchForTextResult {
+  Place: Place;
+  Distance?: number;
+  Relevance?: number;
+  PlaceId?: string;
+}
+export const SearchForTextResult = S.suspend(() =>
+  S.Struct({
+    Place: Place,
+    Distance: S.optional(S.Number),
+    Relevance: S.optional(S.Number),
+    PlaceId: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "SearchForTextResult",
+}) as any as S.Schema<SearchForTextResult>;
+export type SearchForTextResultList = SearchForTextResult[];
 export const SearchForTextResultList = S.Array(SearchForTextResult);
-export class ListRouteCalculatorsResponseEntry extends S.Class<ListRouteCalculatorsResponseEntry>(
-  "ListRouteCalculatorsResponseEntry",
-)({
-  CalculatorName: S.String,
-  Description: S.String,
-  DataSource: S.String,
-  PricingPlan: S.optional(S.String),
-  CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
+export interface ListRouteCalculatorsResponseEntry {
+  CalculatorName: string;
+  Description: string;
+  DataSource: string;
+  PricingPlan?: string;
+  CreateTime: Date;
+  UpdateTime: Date;
+}
+export const ListRouteCalculatorsResponseEntry = S.suspend(() =>
+  S.Struct({
+    CalculatorName: S.String,
+    Description: S.String,
+    DataSource: S.String,
+    PricingPlan: S.optional(S.String),
+    CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "ListRouteCalculatorsResponseEntry",
+}) as any as S.Schema<ListRouteCalculatorsResponseEntry>;
+export type ListRouteCalculatorsResponseEntryList =
+  ListRouteCalculatorsResponseEntry[];
 export const ListRouteCalculatorsResponseEntryList = S.Array(
   ListRouteCalculatorsResponseEntry,
 );
-export class CalculateRouteMatrixSummary extends S.Class<CalculateRouteMatrixSummary>(
-  "CalculateRouteMatrixSummary",
-)({
-  DataSource: S.String,
-  RouteCount: S.Number,
-  ErrorCount: S.Number,
-  DistanceUnit: S.String,
-}) {}
-export class ListTrackersResponseEntry extends S.Class<ListTrackersResponseEntry>(
-  "ListTrackersResponseEntry",
-)({
-  TrackerName: S.String,
-  Description: S.String,
-  PricingPlan: S.optional(S.String),
-  PricingPlanDataSource: S.optional(S.String),
-  CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
+export interface CalculateRouteMatrixSummary {
+  DataSource: string;
+  RouteCount: number;
+  ErrorCount: number;
+  DistanceUnit: string;
+}
+export const CalculateRouteMatrixSummary = S.suspend(() =>
+  S.Struct({
+    DataSource: S.String,
+    RouteCount: S.Number,
+    ErrorCount: S.Number,
+    DistanceUnit: S.String,
+  }),
+).annotations({
+  identifier: "CalculateRouteMatrixSummary",
+}) as any as S.Schema<CalculateRouteMatrixSummary>;
+export interface ListTrackersResponseEntry {
+  TrackerName: string;
+  Description: string;
+  PricingPlan?: string;
+  PricingPlanDataSource?: string;
+  CreateTime: Date;
+  UpdateTime: Date;
+}
+export const ListTrackersResponseEntry = S.suspend(() =>
+  S.Struct({
+    TrackerName: S.String,
+    Description: S.String,
+    PricingPlan: S.optional(S.String),
+    PricingPlanDataSource: S.optional(S.String),
+    CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "ListTrackersResponseEntry",
+}) as any as S.Schema<ListTrackersResponseEntry>;
+export type ListTrackersResponseEntryList = ListTrackersResponseEntry[];
 export const ListTrackersResponseEntryList = S.Array(ListTrackersResponseEntry);
-export class BatchItemError extends S.Class<BatchItemError>("BatchItemError")({
-  Code: S.optional(S.String),
-  Message: S.optional(S.String),
-}) {}
-export class BatchDeleteDevicePositionHistoryError extends S.Class<BatchDeleteDevicePositionHistoryError>(
-  "BatchDeleteDevicePositionHistoryError",
-)({ DeviceId: S.String, Error: BatchItemError }) {}
+export interface BatchItemError {
+  Code?: string;
+  Message?: string;
+}
+export const BatchItemError = S.suspend(() =>
+  S.Struct({ Code: S.optional(S.String), Message: S.optional(S.String) }),
+).annotations({
+  identifier: "BatchItemError",
+}) as any as S.Schema<BatchItemError>;
+export interface BatchDeleteDevicePositionHistoryError {
+  DeviceId: string;
+  Error: BatchItemError;
+}
+export const BatchDeleteDevicePositionHistoryError = S.suspend(() =>
+  S.Struct({ DeviceId: S.String, Error: BatchItemError }),
+).annotations({
+  identifier: "BatchDeleteDevicePositionHistoryError",
+}) as any as S.Schema<BatchDeleteDevicePositionHistoryError>;
+export type BatchDeleteDevicePositionHistoryErrorList =
+  BatchDeleteDevicePositionHistoryError[];
 export const BatchDeleteDevicePositionHistoryErrorList = S.Array(
   BatchDeleteDevicePositionHistoryError,
 );
-export class BatchGetDevicePositionError extends S.Class<BatchGetDevicePositionError>(
-  "BatchGetDevicePositionError",
-)({ DeviceId: S.String, Error: BatchItemError }) {}
+export interface BatchGetDevicePositionError {
+  DeviceId: string;
+  Error: BatchItemError;
+}
+export const BatchGetDevicePositionError = S.suspend(() =>
+  S.Struct({ DeviceId: S.String, Error: BatchItemError }),
+).annotations({
+  identifier: "BatchGetDevicePositionError",
+}) as any as S.Schema<BatchGetDevicePositionError>;
+export type BatchGetDevicePositionErrorList = BatchGetDevicePositionError[];
 export const BatchGetDevicePositionErrorList = S.Array(
   BatchGetDevicePositionError,
 );
-export class BatchUpdateDevicePositionError extends S.Class<BatchUpdateDevicePositionError>(
-  "BatchUpdateDevicePositionError",
-)({
-  DeviceId: S.String,
-  SampleTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  Error: BatchItemError,
-}) {}
+export interface BatchUpdateDevicePositionError {
+  DeviceId: string;
+  SampleTime: Date;
+  Error: BatchItemError;
+}
+export const BatchUpdateDevicePositionError = S.suspend(() =>
+  S.Struct({
+    DeviceId: S.String,
+    SampleTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    Error: BatchItemError,
+  }),
+).annotations({
+  identifier: "BatchUpdateDevicePositionError",
+}) as any as S.Schema<BatchUpdateDevicePositionError>;
+export type BatchUpdateDevicePositionErrorList =
+  BatchUpdateDevicePositionError[];
 export const BatchUpdateDevicePositionErrorList = S.Array(
   BatchUpdateDevicePositionError,
 );
-export class CreateKeyRequest extends S.Class<CreateKeyRequest>(
-  "CreateKeyRequest",
-)(
-  {
+export interface CreateKeyRequest {
+  KeyName: string;
+  Restrictions: ApiKeyRestrictions;
+  Description?: string;
+  ExpireTime?: Date;
+  NoExpiry?: boolean;
+  Tags?: TagMap;
+}
+export const CreateKeyRequest = S.suspend(() =>
+  S.Struct({
     KeyName: S.String,
     Restrictions: ApiKeyRestrictions,
     Description: S.optional(S.String),
     ExpireTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     NoExpiry: S.optional(S.Boolean),
     Tags: S.optional(TagMap),
-  },
-  T.all(
-    T.Http({ method: "POST", uri: "/metadata/v0/keys" }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/metadata/v0/keys" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListGeofenceCollectionsResponse extends S.Class<ListGeofenceCollectionsResponse>(
-  "ListGeofenceCollectionsResponse",
-)({
-  Entries: ListGeofenceCollectionsResponseEntryList,
-  NextToken: S.optional(S.String),
-}) {}
-export class BatchEvaluateGeofencesRequest extends S.Class<BatchEvaluateGeofencesRequest>(
-  "BatchEvaluateGeofencesRequest",
-)(
-  {
+).annotations({
+  identifier: "CreateKeyRequest",
+}) as any as S.Schema<CreateKeyRequest>;
+export interface ListGeofenceCollectionsResponse {
+  Entries: ListGeofenceCollectionsResponseEntryList;
+  NextToken?: string;
+}
+export const ListGeofenceCollectionsResponse = S.suspend(() =>
+  S.Struct({
+    Entries: ListGeofenceCollectionsResponseEntryList,
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListGeofenceCollectionsResponse",
+}) as any as S.Schema<ListGeofenceCollectionsResponse>;
+export interface BatchEvaluateGeofencesRequest {
+  CollectionName: string;
+  DevicePositionUpdates: DevicePositionUpdateList;
+}
+export const BatchEvaluateGeofencesRequest = S.suspend(() =>
+  S.Struct({
     CollectionName: S.String.pipe(T.HttpLabel("CollectionName")),
     DevicePositionUpdates: DevicePositionUpdateList,
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/geofencing/v0/collections/{CollectionName}/positions",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/geofencing/v0/collections/{CollectionName}/positions",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListGeofencesResponse extends S.Class<ListGeofencesResponse>(
-  "ListGeofencesResponse",
-)({
-  Entries: ListGeofenceResponseEntryList,
-  NextToken: S.optional(S.String),
-}) {}
-export class PutGeofenceRequest extends S.Class<PutGeofenceRequest>(
-  "PutGeofenceRequest",
-)(
-  {
+).annotations({
+  identifier: "BatchEvaluateGeofencesRequest",
+}) as any as S.Schema<BatchEvaluateGeofencesRequest>;
+export interface ListGeofencesResponse {
+  Entries: ListGeofenceResponseEntryList;
+  NextToken?: string;
+}
+export const ListGeofencesResponse = S.suspend(() =>
+  S.Struct({
+    Entries: ListGeofenceResponseEntryList,
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListGeofencesResponse",
+}) as any as S.Schema<ListGeofencesResponse>;
+export interface PutGeofenceRequest {
+  CollectionName: string;
+  GeofenceId: string;
+  Geometry: GeofenceGeometry;
+  GeofenceProperties?: PropertyMap;
+}
+export const PutGeofenceRequest = S.suspend(() =>
+  S.Struct({
     CollectionName: S.String.pipe(T.HttpLabel("CollectionName")),
     GeofenceId: S.String.pipe(T.HttpLabel("GeofenceId")),
     Geometry: GeofenceGeometry,
     GeofenceProperties: S.optional(PropertyMap),
-  },
-  T.all(
-    T.Http({
-      method: "PUT",
-      uri: "/geofencing/v0/collections/{CollectionName}/geofences/{GeofenceId}",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/geofencing/v0/collections/{CollectionName}/geofences/{GeofenceId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class CreateMapResponse extends S.Class<CreateMapResponse>(
-  "CreateMapResponse",
-)({
-  MapName: S.String,
-  MapArn: S.String,
-  CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class UpdateMapResponse extends S.Class<UpdateMapResponse>(
-  "UpdateMapResponse",
-)({
-  MapName: S.String,
-  MapArn: S.String,
-  UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class ListMapsResponse extends S.Class<ListMapsResponse>(
-  "ListMapsResponse",
-)({ Entries: ListMapsResponseEntryList, NextToken: S.optional(S.String) }) {}
-export class CreatePlaceIndexResponse extends S.Class<CreatePlaceIndexResponse>(
-  "CreatePlaceIndexResponse",
-)({
-  IndexName: S.String,
-  IndexArn: S.String,
-  CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class ListPlaceIndexesResponse extends S.Class<ListPlaceIndexesResponse>(
-  "ListPlaceIndexesResponse",
-)({
-  Entries: ListPlaceIndexesResponseEntryList,
-  NextToken: S.optional(S.String),
-}) {}
-export class SearchPlaceIndexForPositionResponse extends S.Class<SearchPlaceIndexForPositionResponse>(
-  "SearchPlaceIndexForPositionResponse",
-)({
-  Summary: SearchPlaceIndexForPositionSummary,
-  Results: SearchForPositionResultList,
-}) {}
-export class SearchPlaceIndexForSuggestionsResponse extends S.Class<SearchPlaceIndexForSuggestionsResponse>(
-  "SearchPlaceIndexForSuggestionsResponse",
-)({
-  Summary: SearchPlaceIndexForSuggestionsSummary,
-  Results: SearchForSuggestionsResultList,
-}) {}
-export class SearchPlaceIndexForTextResponse extends S.Class<SearchPlaceIndexForTextResponse>(
-  "SearchPlaceIndexForTextResponse",
-)({
-  Summary: SearchPlaceIndexForTextSummary,
-  Results: SearchForTextResultList,
-}) {}
-export class ListRouteCalculatorsResponse extends S.Class<ListRouteCalculatorsResponse>(
-  "ListRouteCalculatorsResponse",
-)({
-  Entries: ListRouteCalculatorsResponseEntryList,
-  NextToken: S.optional(S.String),
-}) {}
-export class CalculateRouteRequest extends S.Class<CalculateRouteRequest>(
-  "CalculateRouteRequest",
-)(
-  {
+).annotations({
+  identifier: "PutGeofenceRequest",
+}) as any as S.Schema<PutGeofenceRequest>;
+export interface CreateMapResponse {
+  MapName: string;
+  MapArn: string;
+  CreateTime: Date;
+}
+export const CreateMapResponse = S.suspend(() =>
+  S.Struct({
+    MapName: S.String,
+    MapArn: S.String,
+    CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "CreateMapResponse",
+}) as any as S.Schema<CreateMapResponse>;
+export interface UpdateMapResponse {
+  MapName: string;
+  MapArn: string;
+  UpdateTime: Date;
+}
+export const UpdateMapResponse = S.suspend(() =>
+  S.Struct({
+    MapName: S.String,
+    MapArn: S.String,
+    UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "UpdateMapResponse",
+}) as any as S.Schema<UpdateMapResponse>;
+export interface ListMapsResponse {
+  Entries: ListMapsResponseEntryList;
+  NextToken?: string;
+}
+export const ListMapsResponse = S.suspend(() =>
+  S.Struct({
+    Entries: ListMapsResponseEntryList,
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListMapsResponse",
+}) as any as S.Schema<ListMapsResponse>;
+export interface CreatePlaceIndexResponse {
+  IndexName: string;
+  IndexArn: string;
+  CreateTime: Date;
+}
+export const CreatePlaceIndexResponse = S.suspend(() =>
+  S.Struct({
+    IndexName: S.String,
+    IndexArn: S.String,
+    CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "CreatePlaceIndexResponse",
+}) as any as S.Schema<CreatePlaceIndexResponse>;
+export interface ListPlaceIndexesResponse {
+  Entries: ListPlaceIndexesResponseEntryList;
+  NextToken?: string;
+}
+export const ListPlaceIndexesResponse = S.suspend(() =>
+  S.Struct({
+    Entries: ListPlaceIndexesResponseEntryList,
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListPlaceIndexesResponse",
+}) as any as S.Schema<ListPlaceIndexesResponse>;
+export interface SearchPlaceIndexForPositionResponse {
+  Summary: SearchPlaceIndexForPositionSummary;
+  Results: SearchForPositionResultList;
+}
+export const SearchPlaceIndexForPositionResponse = S.suspend(() =>
+  S.Struct({
+    Summary: SearchPlaceIndexForPositionSummary,
+    Results: SearchForPositionResultList,
+  }),
+).annotations({
+  identifier: "SearchPlaceIndexForPositionResponse",
+}) as any as S.Schema<SearchPlaceIndexForPositionResponse>;
+export interface SearchPlaceIndexForSuggestionsResponse {
+  Summary: SearchPlaceIndexForSuggestionsSummary;
+  Results: SearchForSuggestionsResultList;
+}
+export const SearchPlaceIndexForSuggestionsResponse = S.suspend(() =>
+  S.Struct({
+    Summary: SearchPlaceIndexForSuggestionsSummary,
+    Results: SearchForSuggestionsResultList,
+  }),
+).annotations({
+  identifier: "SearchPlaceIndexForSuggestionsResponse",
+}) as any as S.Schema<SearchPlaceIndexForSuggestionsResponse>;
+export interface SearchPlaceIndexForTextResponse {
+  Summary: SearchPlaceIndexForTextSummary;
+  Results: SearchForTextResultList;
+}
+export const SearchPlaceIndexForTextResponse = S.suspend(() =>
+  S.Struct({
+    Summary: SearchPlaceIndexForTextSummary,
+    Results: SearchForTextResultList,
+  }),
+).annotations({
+  identifier: "SearchPlaceIndexForTextResponse",
+}) as any as S.Schema<SearchPlaceIndexForTextResponse>;
+export interface ListRouteCalculatorsResponse {
+  Entries: ListRouteCalculatorsResponseEntryList;
+  NextToken?: string;
+}
+export const ListRouteCalculatorsResponse = S.suspend(() =>
+  S.Struct({
+    Entries: ListRouteCalculatorsResponseEntryList,
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListRouteCalculatorsResponse",
+}) as any as S.Schema<ListRouteCalculatorsResponse>;
+export interface CalculateRouteRequest {
+  CalculatorName: string;
+  DeparturePosition: Position;
+  DestinationPosition: Position;
+  WaypointPositions?: WaypointPositionList;
+  TravelMode?: string;
+  DepartureTime?: Date;
+  DepartNow?: boolean;
+  DistanceUnit?: string;
+  IncludeLegGeometry?: boolean;
+  CarModeOptions?: CalculateRouteCarModeOptions;
+  TruckModeOptions?: CalculateRouteTruckModeOptions;
+  ArrivalTime?: Date;
+  OptimizeFor?: string;
+  Key?: string;
+}
+export const CalculateRouteRequest = S.suspend(() =>
+  S.Struct({
     CalculatorName: S.String.pipe(T.HttpLabel("CalculatorName")),
     DeparturePosition: Position,
     DestinationPosition: Position,
@@ -1917,279 +2980,568 @@ export class CalculateRouteRequest extends S.Class<CalculateRouteRequest>(
     ArrivalTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     OptimizeFor: S.optional(S.String),
     Key: S.optional(S.String).pipe(T.HttpQuery("key")),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/routes/v0/calculators/{CalculatorName}/calculate/route",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/routes/v0/calculators/{CalculatorName}/calculate/route",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class ListTrackersResponse extends S.Class<ListTrackersResponse>(
-  "ListTrackersResponse",
-)({
-  Entries: ListTrackersResponseEntryList,
-  NextToken: S.optional(S.String),
-}) {}
-export class BatchDeleteDevicePositionHistoryResponse extends S.Class<BatchDeleteDevicePositionHistoryResponse>(
-  "BatchDeleteDevicePositionHistoryResponse",
-)({ Errors: BatchDeleteDevicePositionHistoryErrorList }) {}
-export class BatchGetDevicePositionResponse extends S.Class<BatchGetDevicePositionResponse>(
-  "BatchGetDevicePositionResponse",
-)({
-  Errors: BatchGetDevicePositionErrorList,
-  DevicePositions: DevicePositionList,
-}) {}
-export class BatchUpdateDevicePositionResponse extends S.Class<BatchUpdateDevicePositionResponse>(
-  "BatchUpdateDevicePositionResponse",
-)({ Errors: BatchUpdateDevicePositionErrorList }) {}
-export class RouteMatrixEntryError extends S.Class<RouteMatrixEntryError>(
-  "RouteMatrixEntryError",
-)({ Code: S.String, Message: S.optional(S.String) }) {}
-export class LteLocalId extends S.Class<LteLocalId>("LteLocalId")({
-  Earfcn: S.Number,
-  Pci: S.Number,
-}) {}
-export class LteNetworkMeasurements extends S.Class<LteNetworkMeasurements>(
-  "LteNetworkMeasurements",
-)({
-  Earfcn: S.Number,
-  CellId: S.Number,
-  Pci: S.Number,
-  Rsrp: S.optional(S.Number),
-  Rsrq: S.optional(S.Number),
-}) {}
+).annotations({
+  identifier: "CalculateRouteRequest",
+}) as any as S.Schema<CalculateRouteRequest>;
+export interface ListTrackersResponse {
+  Entries: ListTrackersResponseEntryList;
+  NextToken?: string;
+}
+export const ListTrackersResponse = S.suspend(() =>
+  S.Struct({
+    Entries: ListTrackersResponseEntryList,
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListTrackersResponse",
+}) as any as S.Schema<ListTrackersResponse>;
+export interface BatchDeleteDevicePositionHistoryResponse {
+  Errors: BatchDeleteDevicePositionHistoryErrorList;
+}
+export const BatchDeleteDevicePositionHistoryResponse = S.suspend(() =>
+  S.Struct({ Errors: BatchDeleteDevicePositionHistoryErrorList }),
+).annotations({
+  identifier: "BatchDeleteDevicePositionHistoryResponse",
+}) as any as S.Schema<BatchDeleteDevicePositionHistoryResponse>;
+export interface BatchGetDevicePositionResponse {
+  Errors: BatchGetDevicePositionErrorList;
+  DevicePositions: DevicePositionList;
+}
+export const BatchGetDevicePositionResponse = S.suspend(() =>
+  S.Struct({
+    Errors: BatchGetDevicePositionErrorList,
+    DevicePositions: DevicePositionList,
+  }),
+).annotations({
+  identifier: "BatchGetDevicePositionResponse",
+}) as any as S.Schema<BatchGetDevicePositionResponse>;
+export interface BatchUpdateDevicePositionResponse {
+  Errors: BatchUpdateDevicePositionErrorList;
+}
+export const BatchUpdateDevicePositionResponse = S.suspend(() =>
+  S.Struct({ Errors: BatchUpdateDevicePositionErrorList }),
+).annotations({
+  identifier: "BatchUpdateDevicePositionResponse",
+}) as any as S.Schema<BatchUpdateDevicePositionResponse>;
+export interface RouteMatrixEntryError {
+  Code: string;
+  Message?: string;
+}
+export const RouteMatrixEntryError = S.suspend(() =>
+  S.Struct({ Code: S.String, Message: S.optional(S.String) }),
+).annotations({
+  identifier: "RouteMatrixEntryError",
+}) as any as S.Schema<RouteMatrixEntryError>;
+export interface LteLocalId {
+  Earfcn: number;
+  Pci: number;
+}
+export const LteLocalId = S.suspend(() =>
+  S.Struct({ Earfcn: S.Number, Pci: S.Number }),
+).annotations({ identifier: "LteLocalId" }) as any as S.Schema<LteLocalId>;
+export interface LteNetworkMeasurements {
+  Earfcn: number;
+  CellId: number;
+  Pci: number;
+  Rsrp?: number;
+  Rsrq?: number;
+}
+export const LteNetworkMeasurements = S.suspend(() =>
+  S.Struct({
+    Earfcn: S.Number,
+    CellId: S.Number,
+    Pci: S.Number,
+    Rsrp: S.optional(S.Number),
+    Rsrq: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "LteNetworkMeasurements",
+}) as any as S.Schema<LteNetworkMeasurements>;
+export type LteNetworkMeasurementsList = LteNetworkMeasurements[];
 export const LteNetworkMeasurementsList = S.Array(LteNetworkMeasurements);
-export class ListKeysResponseEntry extends S.Class<ListKeysResponseEntry>(
-  "ListKeysResponseEntry",
-)({
-  KeyName: S.String,
-  ExpireTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  Description: S.optional(S.String),
-  Restrictions: ApiKeyRestrictions,
-  CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
+export interface ListKeysResponseEntry {
+  KeyName: string;
+  ExpireTime: Date;
+  Description?: string;
+  Restrictions: ApiKeyRestrictions;
+  CreateTime: Date;
+  UpdateTime: Date;
+}
+export const ListKeysResponseEntry = S.suspend(() =>
+  S.Struct({
+    KeyName: S.String,
+    ExpireTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    Description: S.optional(S.String),
+    Restrictions: ApiKeyRestrictions,
+    CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "ListKeysResponseEntry",
+}) as any as S.Schema<ListKeysResponseEntry>;
+export type ListKeysResponseEntryList = ListKeysResponseEntry[];
 export const ListKeysResponseEntryList = S.Array(ListKeysResponseEntry);
-export class BatchDeleteGeofenceError extends S.Class<BatchDeleteGeofenceError>(
-  "BatchDeleteGeofenceError",
-)({ GeofenceId: S.String, Error: BatchItemError }) {}
+export interface BatchDeleteGeofenceError {
+  GeofenceId: string;
+  Error: BatchItemError;
+}
+export const BatchDeleteGeofenceError = S.suspend(() =>
+  S.Struct({ GeofenceId: S.String, Error: BatchItemError }),
+).annotations({
+  identifier: "BatchDeleteGeofenceError",
+}) as any as S.Schema<BatchDeleteGeofenceError>;
+export type BatchDeleteGeofenceErrorList = BatchDeleteGeofenceError[];
 export const BatchDeleteGeofenceErrorList = S.Array(BatchDeleteGeofenceError);
-export class BatchPutGeofenceSuccess extends S.Class<BatchPutGeofenceSuccess>(
-  "BatchPutGeofenceSuccess",
-)({
-  GeofenceId: S.String,
-  CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
+export interface BatchPutGeofenceSuccess {
+  GeofenceId: string;
+  CreateTime: Date;
+  UpdateTime: Date;
+}
+export const BatchPutGeofenceSuccess = S.suspend(() =>
+  S.Struct({
+    GeofenceId: S.String,
+    CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "BatchPutGeofenceSuccess",
+}) as any as S.Schema<BatchPutGeofenceSuccess>;
+export type BatchPutGeofenceSuccessList = BatchPutGeofenceSuccess[];
 export const BatchPutGeofenceSuccessList = S.Array(BatchPutGeofenceSuccess);
-export class BatchPutGeofenceError extends S.Class<BatchPutGeofenceError>(
-  "BatchPutGeofenceError",
-)({ GeofenceId: S.String, Error: BatchItemError }) {}
+export interface BatchPutGeofenceError {
+  GeofenceId: string;
+  Error: BatchItemError;
+}
+export const BatchPutGeofenceError = S.suspend(() =>
+  S.Struct({ GeofenceId: S.String, Error: BatchItemError }),
+).annotations({
+  identifier: "BatchPutGeofenceError",
+}) as any as S.Schema<BatchPutGeofenceError>;
+export type BatchPutGeofenceErrorList = BatchPutGeofenceError[];
 export const BatchPutGeofenceErrorList = S.Array(BatchPutGeofenceError);
-export class ForecastedEvent extends S.Class<ForecastedEvent>(
-  "ForecastedEvent",
-)({
-  EventId: S.String,
-  GeofenceId: S.String,
-  IsDeviceInGeofence: S.Boolean,
-  NearestDistance: S.Number,
-  EventType: S.String,
-  ForecastedBreachTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  GeofenceProperties: S.optional(PropertyMap),
-}) {}
+export interface ForecastedEvent {
+  EventId: string;
+  GeofenceId: string;
+  IsDeviceInGeofence: boolean;
+  NearestDistance: number;
+  EventType: string;
+  ForecastedBreachTime?: Date;
+  GeofenceProperties?: PropertyMap;
+}
+export const ForecastedEvent = S.suspend(() =>
+  S.Struct({
+    EventId: S.String,
+    GeofenceId: S.String,
+    IsDeviceInGeofence: S.Boolean,
+    NearestDistance: S.Number,
+    EventType: S.String,
+    ForecastedBreachTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("date-time")),
+    ),
+    GeofenceProperties: S.optional(PropertyMap),
+  }),
+).annotations({
+  identifier: "ForecastedEvent",
+}) as any as S.Schema<ForecastedEvent>;
+export type ForecastedEventsList = ForecastedEvent[];
 export const ForecastedEventsList = S.Array(ForecastedEvent);
-export class RouteMatrixEntry extends S.Class<RouteMatrixEntry>(
-  "RouteMatrixEntry",
-)({
-  Distance: S.optional(S.Number),
-  DurationSeconds: S.optional(S.Number),
-  Error: S.optional(RouteMatrixEntryError),
-}) {}
+export interface RouteMatrixEntry {
+  Distance?: number;
+  DurationSeconds?: number;
+  Error?: RouteMatrixEntryError;
+}
+export const RouteMatrixEntry = S.suspend(() =>
+  S.Struct({
+    Distance: S.optional(S.Number),
+    DurationSeconds: S.optional(S.Number),
+    Error: S.optional(RouteMatrixEntryError),
+  }),
+).annotations({
+  identifier: "RouteMatrixEntry",
+}) as any as S.Schema<RouteMatrixEntry>;
+export type RouteMatrixRow = RouteMatrixEntry[];
 export const RouteMatrixRow = S.Array(RouteMatrixEntry);
+export type RouteMatrix = RouteMatrixRow[];
 export const RouteMatrix = S.Array(RouteMatrixRow);
-export class ListDevicePositionsResponseEntry extends S.Class<ListDevicePositionsResponseEntry>(
-  "ListDevicePositionsResponseEntry",
-)({
-  DeviceId: S.String,
-  SampleTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  Position: Position,
-  Accuracy: S.optional(PositionalAccuracy),
-  PositionProperties: S.optional(PositionPropertyMap),
-}) {}
+export interface ListDevicePositionsResponseEntry {
+  DeviceId: string;
+  SampleTime: Date;
+  Position: Position;
+  Accuracy?: PositionalAccuracy;
+  PositionProperties?: PositionPropertyMap;
+}
+export const ListDevicePositionsResponseEntry = S.suspend(() =>
+  S.Struct({
+    DeviceId: S.String,
+    SampleTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    Position: Position,
+    Accuracy: S.optional(PositionalAccuracy),
+    PositionProperties: S.optional(PositionPropertyMap),
+  }),
+).annotations({
+  identifier: "ListDevicePositionsResponseEntry",
+}) as any as S.Schema<ListDevicePositionsResponseEntry>;
+export type ListDevicePositionsResponseEntryList =
+  ListDevicePositionsResponseEntry[];
 export const ListDevicePositionsResponseEntryList = S.Array(
   ListDevicePositionsResponseEntry,
 );
-export class LteCellDetails extends S.Class<LteCellDetails>("LteCellDetails")({
-  CellId: S.Number,
-  Mcc: S.Number,
-  Mnc: S.Number,
-  LocalId: S.optional(LteLocalId),
-  NetworkMeasurements: S.optional(LteNetworkMeasurementsList),
-  TimingAdvance: S.optional(S.Number),
-  NrCapable: S.optional(S.Boolean),
-  Rsrp: S.optional(S.Number),
-  Rsrq: S.optional(S.Number),
-  Tac: S.optional(S.Number),
-}) {}
+export interface LteCellDetails {
+  CellId: number;
+  Mcc: number;
+  Mnc: number;
+  LocalId?: LteLocalId;
+  NetworkMeasurements?: LteNetworkMeasurementsList;
+  TimingAdvance?: number;
+  NrCapable?: boolean;
+  Rsrp?: number;
+  Rsrq?: number;
+  Tac?: number;
+}
+export const LteCellDetails = S.suspend(() =>
+  S.Struct({
+    CellId: S.Number,
+    Mcc: S.Number,
+    Mnc: S.Number,
+    LocalId: S.optional(LteLocalId),
+    NetworkMeasurements: S.optional(LteNetworkMeasurementsList),
+    TimingAdvance: S.optional(S.Number),
+    NrCapable: S.optional(S.Boolean),
+    Rsrp: S.optional(S.Number),
+    Rsrq: S.optional(S.Number),
+    Tac: S.optional(S.Number),
+  }),
+).annotations({
+  identifier: "LteCellDetails",
+}) as any as S.Schema<LteCellDetails>;
+export type LteCellDetailsList = LteCellDetails[];
 export const LteCellDetailsList = S.Array(LteCellDetails);
-export class CreateKeyResponse extends S.Class<CreateKeyResponse>(
-  "CreateKeyResponse",
-)({
-  Key: S.String,
-  KeyArn: S.String,
-  KeyName: S.String,
-  CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class ListKeysResponse extends S.Class<ListKeysResponse>(
-  "ListKeysResponse",
-)({ Entries: ListKeysResponseEntryList, NextToken: S.optional(S.String) }) {}
-export class BatchDeleteGeofenceResponse extends S.Class<BatchDeleteGeofenceResponse>(
-  "BatchDeleteGeofenceResponse",
-)({ Errors: BatchDeleteGeofenceErrorList }) {}
-export class BatchPutGeofenceResponse extends S.Class<BatchPutGeofenceResponse>(
-  "BatchPutGeofenceResponse",
-)({
-  Successes: BatchPutGeofenceSuccessList,
-  Errors: BatchPutGeofenceErrorList,
-}) {}
-export class ForecastGeofenceEventsResponse extends S.Class<ForecastGeofenceEventsResponse>(
-  "ForecastGeofenceEventsResponse",
-)({
-  ForecastedEvents: ForecastedEventsList,
-  NextToken: S.optional(S.String),
-  DistanceUnit: S.String,
-  SpeedUnit: S.String,
-}) {}
-export class PutGeofenceResponse extends S.Class<PutGeofenceResponse>(
-  "PutGeofenceResponse",
-)({
-  GeofenceId: S.String,
-  CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-}) {}
-export class GetPlaceResponse extends S.Class<GetPlaceResponse>(
-  "GetPlaceResponse",
-)({ Place: Place }) {}
-export class CalculateRouteMatrixResponse extends S.Class<CalculateRouteMatrixResponse>(
-  "CalculateRouteMatrixResponse",
-)({
-  RouteMatrix: RouteMatrix,
-  SnappedDeparturePositions: S.optional(PositionList),
-  SnappedDestinationPositions: S.optional(PositionList),
-  Summary: CalculateRouteMatrixSummary,
-}) {}
-export class ListDevicePositionsResponse extends S.Class<ListDevicePositionsResponse>(
-  "ListDevicePositionsResponse",
-)({
-  Entries: ListDevicePositionsResponseEntryList,
-  NextToken: S.optional(S.String),
-}) {}
-export class CellSignals extends S.Class<CellSignals>("CellSignals")({
-  LteCellDetails: LteCellDetailsList,
-}) {}
-export class BatchEvaluateGeofencesError extends S.Class<BatchEvaluateGeofencesError>(
-  "BatchEvaluateGeofencesError",
-)({
-  DeviceId: S.String,
-  SampleTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  Error: BatchItemError,
-}) {}
+export interface CreateKeyResponse {
+  Key: string;
+  KeyArn: string;
+  KeyName: string;
+  CreateTime: Date;
+}
+export const CreateKeyResponse = S.suspend(() =>
+  S.Struct({
+    Key: S.String,
+    KeyArn: S.String,
+    KeyName: S.String,
+    CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "CreateKeyResponse",
+}) as any as S.Schema<CreateKeyResponse>;
+export interface ListKeysResponse {
+  Entries: ListKeysResponseEntryList;
+  NextToken?: string;
+}
+export const ListKeysResponse = S.suspend(() =>
+  S.Struct({
+    Entries: ListKeysResponseEntryList,
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListKeysResponse",
+}) as any as S.Schema<ListKeysResponse>;
+export interface BatchDeleteGeofenceResponse {
+  Errors: BatchDeleteGeofenceErrorList;
+}
+export const BatchDeleteGeofenceResponse = S.suspend(() =>
+  S.Struct({ Errors: BatchDeleteGeofenceErrorList }),
+).annotations({
+  identifier: "BatchDeleteGeofenceResponse",
+}) as any as S.Schema<BatchDeleteGeofenceResponse>;
+export interface BatchPutGeofenceResponse {
+  Successes: BatchPutGeofenceSuccessList;
+  Errors: BatchPutGeofenceErrorList;
+}
+export const BatchPutGeofenceResponse = S.suspend(() =>
+  S.Struct({
+    Successes: BatchPutGeofenceSuccessList,
+    Errors: BatchPutGeofenceErrorList,
+  }),
+).annotations({
+  identifier: "BatchPutGeofenceResponse",
+}) as any as S.Schema<BatchPutGeofenceResponse>;
+export interface ForecastGeofenceEventsResponse {
+  ForecastedEvents: ForecastedEventsList;
+  NextToken?: string;
+  DistanceUnit: string;
+  SpeedUnit: string;
+}
+export const ForecastGeofenceEventsResponse = S.suspend(() =>
+  S.Struct({
+    ForecastedEvents: ForecastedEventsList,
+    NextToken: S.optional(S.String),
+    DistanceUnit: S.String,
+    SpeedUnit: S.String,
+  }),
+).annotations({
+  identifier: "ForecastGeofenceEventsResponse",
+}) as any as S.Schema<ForecastGeofenceEventsResponse>;
+export interface PutGeofenceResponse {
+  GeofenceId: string;
+  CreateTime: Date;
+  UpdateTime: Date;
+}
+export const PutGeofenceResponse = S.suspend(() =>
+  S.Struct({
+    GeofenceId: S.String,
+    CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotations({
+  identifier: "PutGeofenceResponse",
+}) as any as S.Schema<PutGeofenceResponse>;
+export interface GetPlaceResponse {
+  Place: Place;
+}
+export const GetPlaceResponse = S.suspend(() =>
+  S.Struct({ Place: Place }),
+).annotations({
+  identifier: "GetPlaceResponse",
+}) as any as S.Schema<GetPlaceResponse>;
+export interface CalculateRouteMatrixResponse {
+  RouteMatrix: RouteMatrix;
+  SnappedDeparturePositions?: PositionList;
+  SnappedDestinationPositions?: PositionList;
+  Summary: CalculateRouteMatrixSummary;
+}
+export const CalculateRouteMatrixResponse = S.suspend(() =>
+  S.Struct({
+    RouteMatrix: RouteMatrix,
+    SnappedDeparturePositions: S.optional(PositionList),
+    SnappedDestinationPositions: S.optional(PositionList),
+    Summary: CalculateRouteMatrixSummary,
+  }),
+).annotations({
+  identifier: "CalculateRouteMatrixResponse",
+}) as any as S.Schema<CalculateRouteMatrixResponse>;
+export interface ListDevicePositionsResponse {
+  Entries: ListDevicePositionsResponseEntryList;
+  NextToken?: string;
+}
+export const ListDevicePositionsResponse = S.suspend(() =>
+  S.Struct({
+    Entries: ListDevicePositionsResponseEntryList,
+    NextToken: S.optional(S.String),
+  }),
+).annotations({
+  identifier: "ListDevicePositionsResponse",
+}) as any as S.Schema<ListDevicePositionsResponse>;
+export interface CellSignals {
+  LteCellDetails: LteCellDetailsList;
+}
+export const CellSignals = S.suspend(() =>
+  S.Struct({ LteCellDetails: LteCellDetailsList }),
+).annotations({ identifier: "CellSignals" }) as any as S.Schema<CellSignals>;
+export interface BatchEvaluateGeofencesError {
+  DeviceId: string;
+  SampleTime: Date;
+  Error: BatchItemError;
+}
+export const BatchEvaluateGeofencesError = S.suspend(() =>
+  S.Struct({
+    DeviceId: S.String,
+    SampleTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    Error: BatchItemError,
+  }),
+).annotations({
+  identifier: "BatchEvaluateGeofencesError",
+}) as any as S.Schema<BatchEvaluateGeofencesError>;
+export type BatchEvaluateGeofencesErrorList = BatchEvaluateGeofencesError[];
 export const BatchEvaluateGeofencesErrorList = S.Array(
   BatchEvaluateGeofencesError,
 );
-export class CalculateRouteSummary extends S.Class<CalculateRouteSummary>(
-  "CalculateRouteSummary",
-)({
-  RouteBBox: BoundingBox,
-  DataSource: S.String,
-  Distance: S.Number,
-  DurationSeconds: S.Number,
-  DistanceUnit: S.String,
-}) {}
-export class DeviceState extends S.Class<DeviceState>("DeviceState")({
-  DeviceId: S.String,
-  SampleTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  Position: Position,
-  Accuracy: S.optional(PositionalAccuracy),
-  Ipv4Address: S.optional(S.String),
-  WiFiAccessPoints: S.optional(WiFiAccessPointList),
-  CellSignals: S.optional(CellSignals),
-}) {}
+export interface CalculateRouteSummary {
+  RouteBBox: BoundingBox;
+  DataSource: string;
+  Distance: number;
+  DurationSeconds: number;
+  DistanceUnit: string;
+}
+export const CalculateRouteSummary = S.suspend(() =>
+  S.Struct({
+    RouteBBox: BoundingBox,
+    DataSource: S.String,
+    Distance: S.Number,
+    DurationSeconds: S.Number,
+    DistanceUnit: S.String,
+  }),
+).annotations({
+  identifier: "CalculateRouteSummary",
+}) as any as S.Schema<CalculateRouteSummary>;
+export interface DeviceState {
+  DeviceId: string;
+  SampleTime: Date;
+  Position: Position;
+  Accuracy?: PositionalAccuracy;
+  Ipv4Address?: string;
+  WiFiAccessPoints?: WiFiAccessPointList;
+  CellSignals?: CellSignals;
+}
+export const DeviceState = S.suspend(() =>
+  S.Struct({
+    DeviceId: S.String,
+    SampleTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    Position: Position,
+    Accuracy: S.optional(PositionalAccuracy),
+    Ipv4Address: S.optional(S.String),
+    WiFiAccessPoints: S.optional(WiFiAccessPointList),
+    CellSignals: S.optional(CellSignals),
+  }),
+).annotations({ identifier: "DeviceState" }) as any as S.Schema<DeviceState>;
+export type LineString = Position[];
 export const LineString = S.Array(Position);
-export class BatchEvaluateGeofencesResponse extends S.Class<BatchEvaluateGeofencesResponse>(
-  "BatchEvaluateGeofencesResponse",
-)({ Errors: BatchEvaluateGeofencesErrorList }) {}
-export class VerifyDevicePositionRequest extends S.Class<VerifyDevicePositionRequest>(
-  "VerifyDevicePositionRequest",
-)(
-  {
+export interface BatchEvaluateGeofencesResponse {
+  Errors: BatchEvaluateGeofencesErrorList;
+}
+export const BatchEvaluateGeofencesResponse = S.suspend(() =>
+  S.Struct({ Errors: BatchEvaluateGeofencesErrorList }),
+).annotations({
+  identifier: "BatchEvaluateGeofencesResponse",
+}) as any as S.Schema<BatchEvaluateGeofencesResponse>;
+export interface VerifyDevicePositionRequest {
+  TrackerName: string;
+  DeviceState: DeviceState;
+  DistanceUnit?: string;
+}
+export const VerifyDevicePositionRequest = S.suspend(() =>
+  S.Struct({
     TrackerName: S.String.pipe(T.HttpLabel("TrackerName")),
     DeviceState: DeviceState,
     DistanceUnit: S.optional(S.String),
-  },
-  T.all(
-    T.Http({
-      method: "POST",
-      uri: "/tracking/v0/trackers/{TrackerName}/positions/verify",
-    }),
-    svc,
-    auth,
-    proto,
-    ver,
-    rules,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/tracking/v0/trackers/{TrackerName}/positions/verify",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
   ),
-) {}
-export class LegGeometry extends S.Class<LegGeometry>("LegGeometry")({
-  LineString: S.optional(LineString),
-}) {}
-export class Step extends S.Class<Step>("Step")({
-  StartPosition: Position,
-  EndPosition: Position,
-  Distance: S.Number,
-  DurationSeconds: S.Number,
-  GeometryOffset: S.optional(S.Number),
-}) {}
+).annotations({
+  identifier: "VerifyDevicePositionRequest",
+}) as any as S.Schema<VerifyDevicePositionRequest>;
+export interface LegGeometry {
+  LineString?: LineString;
+}
+export const LegGeometry = S.suspend(() =>
+  S.Struct({ LineString: S.optional(LineString) }),
+).annotations({ identifier: "LegGeometry" }) as any as S.Schema<LegGeometry>;
+export interface Step {
+  StartPosition: Position;
+  EndPosition: Position;
+  Distance: number;
+  DurationSeconds: number;
+  GeometryOffset?: number;
+}
+export const Step = S.suspend(() =>
+  S.Struct({
+    StartPosition: Position,
+    EndPosition: Position,
+    Distance: S.Number,
+    DurationSeconds: S.Number,
+    GeometryOffset: S.optional(S.Number),
+  }),
+).annotations({ identifier: "Step" }) as any as S.Schema<Step>;
+export type StepList = Step[];
 export const StepList = S.Array(Step);
-export class ValidationExceptionField extends S.Class<ValidationExceptionField>(
-  "ValidationExceptionField",
-)({
-  Name: S.String.pipe(T.JsonName("name")),
-  Message: S.String.pipe(T.JsonName("message")),
-}) {}
+export interface ValidationExceptionField {
+  Name: string;
+  Message: string;
+}
+export const ValidationExceptionField = S.suspend(() =>
+  S.Struct({
+    Name: S.String.pipe(T.JsonName("name")),
+    Message: S.String.pipe(T.JsonName("message")),
+  }),
+).annotations({
+  identifier: "ValidationExceptionField",
+}) as any as S.Schema<ValidationExceptionField>;
+export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
-export class Leg extends S.Class<Leg>("Leg")({
-  StartPosition: Position,
-  EndPosition: Position,
-  Distance: S.Number,
-  DurationSeconds: S.Number,
-  Geometry: S.optional(LegGeometry),
-  Steps: StepList,
-}) {}
+export interface Leg {
+  StartPosition: Position;
+  EndPosition: Position;
+  Distance: number;
+  DurationSeconds: number;
+  Geometry?: LegGeometry;
+  Steps: StepList;
+}
+export const Leg = S.suspend(() =>
+  S.Struct({
+    StartPosition: Position,
+    EndPosition: Position,
+    Distance: S.Number,
+    DurationSeconds: S.Number,
+    Geometry: S.optional(LegGeometry),
+    Steps: StepList,
+  }),
+).annotations({ identifier: "Leg" }) as any as S.Schema<Leg>;
+export type LegList = Leg[];
 export const LegList = S.Array(Leg);
-export class CalculateRouteResponse extends S.Class<CalculateRouteResponse>(
-  "CalculateRouteResponse",
-)({ Legs: LegList, Summary: CalculateRouteSummary }) {}
-export class InferredState extends S.Class<InferredState>("InferredState")({
-  Position: S.optional(Position),
-  Accuracy: S.optional(PositionalAccuracy),
-  DeviationDistance: S.optional(S.Number),
-  ProxyDetected: S.Boolean,
-}) {}
-export class VerifyDevicePositionResponse extends S.Class<VerifyDevicePositionResponse>(
-  "VerifyDevicePositionResponse",
-)({
-  InferredState: InferredState,
-  DeviceId: S.String,
-  SampleTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  ReceivedTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  DistanceUnit: S.String,
-}) {}
+export interface CalculateRouteResponse {
+  Legs: LegList;
+  Summary: CalculateRouteSummary;
+}
+export const CalculateRouteResponse = S.suspend(() =>
+  S.Struct({ Legs: LegList, Summary: CalculateRouteSummary }),
+).annotations({
+  identifier: "CalculateRouteResponse",
+}) as any as S.Schema<CalculateRouteResponse>;
+export interface InferredState {
+  Position?: Position;
+  Accuracy?: PositionalAccuracy;
+  DeviationDistance?: number;
+  ProxyDetected: boolean;
+}
+export const InferredState = S.suspend(() =>
+  S.Struct({
+    Position: S.optional(Position),
+    Accuracy: S.optional(PositionalAccuracy),
+    DeviationDistance: S.optional(S.Number),
+    ProxyDetected: S.Boolean,
+  }),
+).annotations({
+  identifier: "InferredState",
+}) as any as S.Schema<InferredState>;
+export interface VerifyDevicePositionResponse {
+  InferredState: InferredState;
+  DeviceId: string;
+  SampleTime: Date;
+  ReceivedTime: Date;
+  DistanceUnit: string;
+}
+export const VerifyDevicePositionResponse = S.suspend(() =>
+  S.Struct({
+    InferredState: InferredState,
+    DeviceId: S.String,
+    SampleTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    ReceivedTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    DistanceUnit: S.String,
+  }),
+).annotations({
+  identifier: "VerifyDevicePositionResponse",
+}) as any as S.Schema<VerifyDevicePositionResponse>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
